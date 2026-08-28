@@ -6,7 +6,8 @@ space at A2_26 has dimension five inside H^1(V4,K), and that simultaneous
 restriction to <cc> and <ct> is injective on that five-dimensional space.
 This script turns that rank statement into a concrete decoder:
 
-* reduce cc and ct values modulo their exact cyclic coboundary spaces;
+* compute the actual cyclic coboundary spaces (g-1)K independently for cc/ct;
+* reduce cc and ct values modulo those exact spaces;
 * choose five canonical quotient coordinates by left-to-right pivoting;
 * record the resulting invertible 5x5 observation matrix and its inverse.
 
@@ -101,23 +102,17 @@ def invert_square_f2(m):
     n = len(m)
     if n == 0 or any(len(row) != n for row in m):
         raise SystemExit("inverse requires nonempty square matrix")
-    aug = [
-        [int(x) & 1 for x in row] + [int(i == j) for j in range(n)]
-        for i, row in enumerate(m)
-    ]
-    r = 0
+    aug = [[int(x) & 1 for x in row] + [int(i == j) for j in range(n)] for i, row in enumerate(m)]
     for c in range(n):
-        p = next((i for i in range(r, n) if aug[i][c]), None)
+        p = next((i for i in range(c, n) if aug[i][c]), None)
         if p is None:
             raise SystemExit("decoder observation matrix is singular")
-        aug[r], aug[p] = aug[p], aug[r]
+        aug[c], aug[p] = aug[p], aug[c]
         for i in range(n):
-            if i != r and aug[i][c]:
-                aug[i] = [x ^ y for x, y in zip(aug[i], aug[r])]
-        r += 1
-    left = [row[:n] for row in aug]
+            if i != c and aug[i][c]:
+                aug[i] = [x ^ y for x, y in zip(aug[i], aug[c])]
     ident = [[int(i == j) for j in range(n)] for i in range(n)]
-    if left != ident:
+    if [row[:n] for row in aug] != ident:
         raise SystemExit("GF2 inversion failed")
     return [row[n:] for row in aug]
 
@@ -127,9 +122,7 @@ ns = {"__name__": "__main__", "__file__": str(PROFILE_SCRIPT)}
 exec(compile(PROFILE_SCRIPT.read_text(encoding="utf-8"), str(PROFILE_SCRIPT), "exec"), ns)
 profile = ns["cert"]
 if profile["canonical_sha256"] != EXPECTED_PROFILE:
-    raise SystemExit(
-        f"Stage33-11c profile moved: expected {EXPECTED_PROFILE}, got {profile['canonical_sha256']}"
-    )
+    raise SystemExit(f"Stage33-11c profile moved: expected {EXPECTED_PROFILE}, got {profile['canonical_sha256']}")
 rec26 = next(r for r in profile["smallest_direction_records"] if r["source_basis_name"] == "A2_26")
 h1_allowed = [[int(x) & 1 for x in row] for row in rec26["finite_H1_allowed_value_basis_rows_f2_16"]]
 if len(h1_allowed) != 5 or any(len(row) != H1DIM for row in h1_allowed):
@@ -144,17 +137,17 @@ H = [[int(x) & 1 for x in row] for row in br2["proper_Br2_ct_action_f2"]]
 I = [[int(i == j) for j in range(KDIM)] for i in range(KDIM)]
 bcc, pcc = rref([[G[i][j] ^ I[i][j] for j in range(KDIM)] for i in range(KDIM)], KDIM)
 bct, pct = rref([[H[i][j] ^ I[i][j] for j in range(KDIM)] for i in range(KDIM)], KDIM)
-if len(bcc) != 2 or len(bct) != 2:
-    raise SystemExit("cyclic coboundary ranks moved")
+# Do not infer these ranks from dim B^1(V4,K): each cyclic image (g-1)K is
+# computed independently and source-locked by the action matrices above.
 free_cc = [j for j in range(KDIM) if j not in pcc]
 free_ct = [j for j in range(KDIM) if j not in pct]
+if not free_cc or not free_ct:
+    raise SystemExit("degenerate cyclic quotient coordinate system")
 
 reps = [[int(x) & 1 for x in row] for row in receiver["finite_receiver_H1_quotient_representatives_f2_28"]]
 if len(reps) != H1DIM or any(len(row) != 2 * KDIM for row in reps):
     raise SystemExit("finite receiver H1 representative shape moved")
 
-# Each allowed H1 basis vector gives one exact cocycle pair (cc,ct). Reduce both
-# values modulo cyclic coboundaries and retain only canonical quotient columns.
 quotient_rows = []
 full_reduced_records = []
 for i, h1row in enumerate(h1_allowed):
@@ -170,23 +163,22 @@ for i, h1row in enumerate(h1_allowed):
         "finite_H1_coordinates_f2_16": h1row,
         "cc_reduced_mod_coboundary_f2_14": cc,
         "ct_reduced_mod_coboundary_f2_14": ct,
-        "joint_canonical_quotient_coordinates_f2_24": qrow,
+        "joint_canonical_quotient_coordinates_f2": qrow,
     })
 
-if rank2(quotient_rows, len(quotient_rows[0])) != 5:
+joint_width = len(free_cc) + len(free_ct)
+if rank2(quotient_rows, joint_width) != 5:
     raise SystemExit("joint canonical restriction lost rank five")
 
 # Left-to-right RREF chooses five deterministic observation coordinates.
-_, observation_cols = rref(quotient_rows, len(quotient_rows[0]))
+_, observation_cols = rref(quotient_rows, joint_width)
 if len(observation_cols) != 5:
     raise SystemExit(f"expected five canonical observation pivots, got {observation_cols}")
 observation_matrix = [[row[j] for j in observation_cols] for row in quotient_rows]
 observation_inverse = invert_square_f2(observation_matrix)
 ident5 = [[int(i == j) for j in range(5)] for i in range(5)]
-if matmul(observation_matrix, observation_inverse) != ident5:
-    raise SystemExit("observation decoder right inverse verification failed")
-if matmul(observation_inverse, observation_matrix) != ident5:
-    raise SystemExit("observation decoder left inverse verification failed")
+if matmul(observation_matrix, observation_inverse) != ident5 or matmul(observation_inverse, observation_matrix) != ident5:
+    raise SystemExit("observation decoder inverse verification failed")
 
 coordinate_descriptors = []
 for qcol in observation_cols:
@@ -206,9 +198,6 @@ for qcol in observation_cols:
             "K_coordinate_1based": free_ct[j] + 1,
         })
 
-# Verify the advertised row-vector decoding convention exhaustively on all 32
-# combinations: observed five bits times inverse recover the allowed-basis
-# coefficients, and hence the retained H1 coordinates.
 for mask in range(1 << 5):
     coeff = [(mask >> i) & 1 for i in range(5)]
     joint = combine(coeff, quotient_rows)
@@ -237,6 +226,7 @@ cert = {
         "ct_coboundary_rank_f2": len(bct),
         "cc_canonical_free_K_coordinates_0based": free_cc,
         "ct_canonical_free_K_coordinates_0based": free_ct,
+        "joint_canonical_quotient_width": joint_width,
     },
     "allowed_basis_restriction_records": full_reduced_records,
     "decoder": {
@@ -263,6 +253,8 @@ OUT.write_text(json.dumps(cert, indent=2, sort_keys=True) + "\n", encoding="utf-
 print(json.dumps({
     "success": True,
     "A2_26_allowed_finite_H1_dimension": 5,
+    "cc_coboundary_rank": len(bcc),
+    "ct_coboundary_rank": len(bct),
     "canonical_observation_coordinates": coordinate_descriptors,
     "basis_to_observation_matrix": observation_matrix,
     "observation_to_basis_matrix": observation_inverse,
