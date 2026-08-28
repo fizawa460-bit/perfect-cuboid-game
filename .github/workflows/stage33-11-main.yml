@@ -32,12 +32,13 @@ jobs:
           python certify_order2_quotient_raw_order4_bockstein.py
           python materialize_mixed_order_side_ambient_function_lifts.py
           python materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py
-      - name: Profile intrinsic naturality and materialize smallest MAIN working columns
+      - name: Profile intrinsic naturality and materialize MAIN working package
         run: |
           python -u stages/stage33/33-11/materialize_stage33_11_a2_26_restriction_decoder.py
           python -u stages/stage33/33-11/certify_stage33_11_a2_26_ambient_boundary_galois.py
           python -u stages/stage33/33-11/materialize_stage33_11_a2_26_main_working_column.py
           python -u stages/stage33/33-11/materialize_stage33_11_smallest_main_working_columns.py
+          python -u stages/stage33/33-11/profile_stage33_11_remaining_block_representatives.py
           cat stages/stage33/33-11/stage33-11-intrinsic-at2-naturality.json
           cat stages/stage33/33-11/stage33-11-equivariant-forced-zero-blocks.json
           cat stages/stage33/33-11/stage33-11-smallest-block-target-images.json
@@ -45,6 +46,7 @@ jobs:
           cat stages/stage33/33-11/stage33-11-a2-26-ambient-boundary-galois.json
           cat stages/stage33/33-11/stage33-11-a2-26-main-working-column.json
           cat stages/stage33/33-11/stage33-11-smallest-main-working-columns.json
+          cat stages/stage33/33-11/stage33-11-remaining-block-representatives.json
       - name: Upload compact exact certificates
         if: always()
         uses: actions/upload-artifact@v4
@@ -60,6 +62,7 @@ jobs:
             stages/stage33/33-11/stage33-11-a2-26-ambient-boundary-galois.json
             stages/stage33/33-11/stage33-11-a2-26-main-working-column.json
             stages/stage33/33-11/stage33-11-smallest-main-working-columns.json
+            stages/stage33/33-11/stage33-11-remaining-block-representatives.json
           if-no-files-found: ignore
           retention-days: 1
       - name: Synchronize Stage33 controller checkpoint
