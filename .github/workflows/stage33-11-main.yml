@@ -45,14 +45,20 @@ jobs:
       - name: Materialize A2_26 MAIN-working five-bit certificate
         run: |
           python -u stages/stage33/33-11/materialize_stage33_11_a2_26_main_working_column.py
-          cat stages/stage33/33-11/stage33-11-a2-26-direct-exceptional-valuations.json
-          cat stages/stage33/33-11/stage33-11-a2-26-main-working-column.json
 
-      - name: Upload compact A2_26 repair certificates
+      - name: Materialize exact exceptional valuations for all smallest directions
+        run: |
+          python -u stages/stage33/33-11/profile_stage33_11_smallest_block_target_images.py
+          python -u stages/stage33/33-11/materialize_stage33_11_smallest_direct_exceptional_valuations.py
+          python -u stages/stage33/33-11/materialize_stage33_11_smallest_main_working_columns.py
+          cat stages/stage33/33-11/stage33-11-smallest-direct-exceptional-valuations.json
+          cat stages/stage33/33-11/stage33-11-smallest-main-working-columns.json
+
+      - name: Upload compact smallest-block localization evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage33-11-a2-26-localization-working-evidence
+          name: stage33-11-smallest-localization-working-evidence
           path: |
             stages/stage33/33-11/stage33-11-smallest-block-target-images.json
             stages/stage33/33-11/stage33-11-a2-26-restriction-decoder.json
@@ -60,6 +66,8 @@ jobs:
             stages/stage33/33-11/stage33-11-a2-26-explicit-gersten-difference-preimage.json
             stages/stage33/33-11/stage33-11-a2-26-direct-exceptional-valuations.json
             stages/stage33/33-11/stage33-11-a2-26-main-working-column.json
+            stages/stage33/33-11/stage33-11-smallest-direct-exceptional-valuations.json
+            stages/stage33/33-11/stage33-11-smallest-main-working-columns.json
           if-no-files-found: ignore
           retention-days: 1
 
@@ -75,10 +83,11 @@ jobs:
           python -u stages/stage33/33-11/sync_stage33_controller_checkpoint.py
           python -u stages/stage33/33-11/apply_stage33_11_hostile_audit.py
           python -u stages/stage33/33-11/sync_stage33_11_a2_26_main_working_evidence.py
+          python -u stages/stage33/33-11/sync_stage33_11_smallest_local_valuation_evidence.py
           git add stages/stage33/controller.json
           if git diff --cached --quiet; then
             echo "Controller already synchronized."
           else
-            git commit -m "Stage33-11: synchronize A2_26 MAIN working evidence"
+            git commit -m "Stage33-11: synchronize smallest local valuation evidence"
             git push origin "HEAD:$HEAD_REF"
           fi
