@@ -1,10 +1,10 @@
 {
-  "schema":"STAGE32_LOWGENUS_PICARD_CONTROLLER_V29_B16_SIX_WALL_MONSTER_ISOLATION",
+  "schema":"STAGE32_LOWGENUS_PICARD_CONTROLLER_V30_B16_MONSTER_SUBFRONTIER_DESIGN",
   "stage":"32",
   "kernel":"K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "execution_class":2,
   "parent_route":"G10-LOWGENUS-PICARD",
-  "status":"D16_B12_AUDITED_B16_ACTIVE_SIX_WALL_MONSTERS_ISOLATED_POST_B16_LITERATURE_PRIORITY_D8_ROUTE_PAUSED",
+  "status":"D16_B12_AUDITED_B16_ACTIVE_172_MONSTERS_ISOLATED_SELECTIVE_SUBFRONTIER_DESIGNED_D8_ROUTE_PAUSED",
   "roadmap":"stages/stage32/POST_B16_LITERATURE_RECEIVER_ROADMAP.md",
   "goal_stop_contract":"stages/stage32/GOAL_AND_STOP_CONTRACT.md",
   "repo_absolute_rule_read_policy":{"mandatory_every_main_batch_reads":["AGENTS.md","stages/stage32/controller.json"],"conditional_mandatory_policy_reads":{"before_actions_artifacts_or_heavy_compute":"docs/research-os/policies/actions-storage-and-evidence-safety.md","before_claim_promotion_closure_or_downstream_release":"docs/research-os/policies/research-credit-and-promotion-firewalls.md","before_parking_route_or_claiming_exhaustion":"docs/research-os/policies/cycle-exploration-safety-protocol.md"}},
@@ -28,13 +28,14 @@
       {"wall":"p922/s13","frontier":4095,"tier3_input":145,"tier3_completed":123,"monster_count":22,"total_resolved":4073,"run":33146382765,"artifact":9676529538,"artifact_sha256":"053ed7833d6804961f4c788303d5e11d0b9b3ff1d4a7d15de320f0bf16cb7aed"},
       {"wall":"p922/s38","frontier":4203,"tier3_input":132,"tier3_completed":113,"monster_count":19,"total_resolved":4184,"run":33146382765,"artifact":9676480018,"artifact_sha256":"d78182a2ca1e617b2a3c528d435aac0b749891c781f5b31ef650b518d4fdabd9"}
     ]},
-    "structural_cost_observation":"ALL_SIX_WALLS HAVE A CONSISTENT THIN MONSTER TAIL AFTER 262144-NODE TIER3; COUNTS 36,34,31,30,22,19; TOTAL 172. STOP BLIND WHOLE-WALL PROFILING AND DESIGN A MONSTER-SPECIFIC EXACT EXECUTION PATH.",
-    "resume_rule":"OPERATE ONLY ON THE 172 EXPLICIT MONSTER FRONTIER IDS; DO NOT RERUN THE RESOLVED FRONTIER; DO NOT AUTOMATICALLY ESCALATE TO B18; NEXT STEP MUST BE MONSTER-SPECIFIC EXACT ISOLATION/WEIGHTED PRODUCTION DESIGN.",
+    "monster_subfrontier_design":{"unit":"32-18AY","status":"DESIGN_COMPLETE_READY_FOR_IMPLEMENTATION","roadmap":"stages/stage32/32-18AY/README.md","selected_parent_count":172,"parent_cut":39,"preferred_first_child_cut":31,"fallback_child_cut":35,"first_scout_wall":"p436/s5","first_scout_parent_count":36,"whole_wall_cut31_forbidden":true,"blind_tier4_forbidden":true,"raw_subfrontier_persistence_forbidden":true},
+    "structural_cost_observation":"ALL_SIX_WALLS HAVE A CONSISTENT THIN MONSTER TAIL AFTER 262144-NODE TIER3; COUNTS 36,34,31,30,22,19; TOTAL 172. SELECTIVE PARENT-LOCAL SUBDIVISION IS NOW PREFERRED OVER BLIND TIER4.",
+    "resume_rule":"IMPLEMENT SELECTIVE CUT39-PARENT TO CUT31-CHILD SUBFRONTIER MODE AND SCOUT ONLY THE 36 P436/S5 MONSTERS FIRST; IF FANOUT CAP IS UNSAFE FALL BACK TO CUT35; DO NOT RERUN RESOLVED PARENTS OR ARM B18.",
     "mathematical_credit_changed":false
   },
-  "current_item":"32-18AY_D16_B16_172_MONSTER_EXACT_ISOLATION_DESIGN",
-  "current_item_execution_constraint":"DESIGN AGAINST ONLY 172 EXPLICIT MONSTER IDS; NO BLIND TIER4 ARM UNTIL SPLIT/WEIGHTED COST MODEL IS CHOSEN; NO AUTOMATIC B18",
-  "immediate_predecessor_interface":{"id":"32-18AX_B16_REMAINING_WALLS_TIER3_COST_PLANNER","run":33146382765,"result":"5_OF_5_SUCCESS_PLUS_18AT_P436S5_SUCCESS","monster_counts":[36,34,31,30,22,19],"monster_total":172,"next":"32-18AY-D16-B16-172-MONSTER-EXACT-ISOLATION-DESIGN"},
+  "current_item":"32-18AZ_D16_B16_P436S5_36_MONSTER_SELECTIVE_SUBFRONTIER_SCOUT",
+  "current_item_execution_constraint":"IMPLEMENT SELECTIVE PARENT SUBFRONTIER MODE; FIRST SCOUT ONLY P436/S5 36 MONSTER PARENTS; PARENT CUT39; CHILD CUT31 WITH CUT35 FALLBACK; NO WHOLE-WALL CUT31; NO BLIND TIER4; NO AUTOMATIC B18",
+  "immediate_predecessor_interface":{"id":"32-18AY_B16_172_MONSTER_EXACT_ISOLATION_DESIGN","result":"DESIGN_COMPLETE","monster_total":172,"first_scout":"P436/S5_36_MONSTERS_SELECTIVE_SUBFRONTIER","next":"32-18AZ-D16-B16-P436S5-36-MONSTER-SELECTIVE-SUBFRONTIER-SCOUT"},
   "FULL_D8_G0_ROW_COMPLETE":false,
   "FULL_D16_G0_ROW_COMPLETE":false,
   "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS":false,
@@ -53,6 +54,6 @@
   "repair_required":false,
   "merge_allowed":true,
   "advance_allowed":true,
-  "next_item":"DESIGN_32-18AY_MONSTER_EXACT_PATH",
+  "next_item":"IMPLEMENT_32-18AZ_SELECTIVE_SUBFRONTIER_SCOUT",
   "next_expected_command":"Stage32-main-batch"
 }
