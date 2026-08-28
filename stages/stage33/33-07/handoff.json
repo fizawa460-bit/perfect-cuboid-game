@@ -63,8 +63,26 @@
   },
   "br2a": "BLOCKED_NEW_KERNEL",
   "brauer_manin_set_empty_proved": false,
+  "ci_policy_decision": {
+    "public_magma_on_pull_request_hot_path": false,
+    "public_magma_role": "manual source-locked evidence producer only",
+    "pull_request_ci_role": "local deterministic verifier over retained source-locked evidence",
+    "remote_failure_must_not_be_promoted_as_mathematical_failure": true,
+    "retain_existing_firewalls_until_local_certificate_passes": true
+  },
   "closure_criteria_satisfied_conservative": 4,
   "closure_criteria_total": 14,
+  "current_head_audit": {
+    "audit_verdict": "BLOCK_CURRENT_HEAD",
+    "audited_head_sha": "599f17f33b4d03a1a35b0995a916d85efe39e189",
+    "failure_class": "INFRASTRUCTURE_PUBLIC_MAGMA_HTTP_500",
+    "marked_picard_bridge_certificate_promoted": false,
+    "marked_picard_bridge_firewall_checks_executed": false,
+    "marked_picard_bridge_workflow_name": "Stage33-07 marked Picard basis bridge",
+    "marked_picard_bridge_workflow_run": 33130384070,
+    "public_magma_http_500_attempts": 4,
+    "stage33_progress_unchanged": "6/11"
+  },
   "downstream_released": false,
   "endpoint_credit": false,
   "exceptional_p1_tangent_coordinate_evidence": {
@@ -104,17 +122,6 @@
     "finite_gersten_splitting_over_q": false
   },
   "hostile_audit": "REAUDIT_BLOCKED_NEW_KERNEL",
-  "retained_stage32_picard_marking_evidence": {
-    "actual_integral_picard_swap_identified": false,
-    "artifact_id": 9588229672,
-    "artifact_zip_sha256": "6e4e6e5350717296f0e76e5c972e945b72a61d32e039718a535e245826b5b159",
-    "automorphism_packet_sha256": "50515608f546b85b19bf828103f9cfbfdf4ef4df490ed7fab19f2cdcb43d602d",
-    "historical_picard_core_canonical_sha256": "de84f4511ea2ea747fd712e2f5f09c7f8d94ae3633e55678b81cfe63f6ed2870",
-    "producer": "retain_stage32_picard_marking.py",
-    "retained_bundle_canonical_sha256": "e06291dddfc529fca2c0b0fe58dd43151faccd3d7997d9aa5797e1978227bb7c",
-    "source_head_sha": "96a17a8f42480f58652a023c31ea4705c5d5c973",
-    "workflow_run": 32915934318
-  },
   "integral_picard_swap_linear_envelope_evidence": {
     "actions_validation": "PASS",
     "actual_integral_picard_swap_identified": false,
@@ -137,7 +144,7 @@
   },
   "new_kernel_id": "R33-BR0G-BR2A-GLOBAL-RESIDUE-LIFT-ARITHMETIC-HS-DESCENT",
   "next_expected_command": "Stage33-main-batch",
-  "next_item": "L33-07-DERIVE-ACTUAL-SWAP-AND-V4-H1-ACTIONS-FROM-RETAINED-STAGE32-PICARD-MARKING",
+  "next_item": "L33-07-MARKED-PICARD-BASIS-BRIDGE-MANUAL-PRODUCER-THEN-LOCAL-VERIFY",
   "order2_first_residue_liftability_evidence": {
     "actions_validation": "PASS",
     "artifact_id": 9637010913,
@@ -230,7 +237,7 @@
     "workflow_name": "Stage33-07 post-purity Gersten torsor ambiguity",
     "workflow_run": 33073824503
   },
-  "pr": 1370,
+  "pr": 1430,
   "reaudit_source": "Stage33-audit #1375",
   "repair_exact_reduction": {
     "absolute_h1_identified_with_finite_v4_h1": false,
@@ -327,7 +334,18 @@
     "stage33_04_boundary_residue_presentation_retained": true,
     "two_primary_residue_invariant_basis_exact": true
   },
-  "schema": "STAGE33_07_REAUDIT_BLOCKED_HANDOFF_V16_RETAINED_STAGE32_PICARD_MARKING",
+  "retained_stage32_picard_marking_evidence": {
+    "actual_integral_picard_swap_identified": false,
+    "artifact_id": 9588229672,
+    "artifact_zip_sha256": "6e4e6e5350717296f0e76e5c972e945b72a61d32e039718a535e245826b5b159",
+    "automorphism_packet_sha256": "50515608f546b85b19bf828103f9cfbfdf4ef4df490ed7fab19f2cdcb43d602d",
+    "historical_picard_core_canonical_sha256": "de84f4511ea2ea747fd712e2f5f09c7f8d94ae3633e55678b81cfe63f6ed2870",
+    "producer": "retain_stage32_picard_marking.py",
+    "retained_bundle_canonical_sha256": "e06291dddfc529fca2c0b0fe58dd43151faccd3d7997d9aa5797e1978227bb7c",
+    "source_head_sha": "96a17a8f42480f58652a023c31ea4705c5d5c973",
+    "workflow_run": 32915934318
+  },
+  "schema": "STAGE33_07_REAUDIT_BLOCKED_HANDOFF_V17_MARKED_PICARD_BRIDGE_PENDING",
   "smallest_current_exact_kernel": "R33-BR2A-GENUINE-GALOIS-EQUIVARIANT-MIDDLE-GERSTEN-EXTENSION-CLASS-WITH-SOURCE-AND-KERNEL-ACTIONS-FIXED",
   "stage33_08_prefix_work_retained": true,
   "stage33_08_released": false,
