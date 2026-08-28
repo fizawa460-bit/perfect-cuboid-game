@@ -8,19 +8,18 @@ import json
 import pathlib
 import time
 
-from pairing_prefix_engine import (
-    EXCEPTIONAL_BASIS_POSITIONS,
-    RETAINED_BUNDLE_SHA256,
-    RetainedBasisPairingTransform,
-    PrefixMembershipOracle,
+from aut_equivariant_pairing_adapter import (
+    AutEquivariantPairingAdapter,
+    AutEquivariantPrefixCanonicalAugmentation,
+    EquivariantPrefixMembershipOracle,
+    NORMAL_LABEL_MAX,
 )
-from prefix_aut1536 import PrefixAut1536CanonicalAugmentation
+from pairing_prefix_engine import RETAINED_BUNDLE_SHA256, RetainedBasisPairingTransform
 
-SCHEMA = "STAGE32_RESIDUAL32_01_PREFIX_AUT1536_CALIBRATION_V3"
-COORDINATE_MODEL = "DISCRIMINANT_ACTIVE_RAW_PAIRING_COORDINATES_HNF_SELECTED"
-AUT_MODE = "EXACT_AUT1536_SELECTED64_BUDGET_CLASS_COMPATIBLE_PREFIX_STABILIZER_LEX_MIN"
-EXCEPTIONAL_BASIS_COUNT = len(EXCEPTIONAL_BASIS_POSITIONS)
-ASSIGNMENT_ORDER = [0, 1, 2, 3, 61, 4, 5, 6, 7, 8, 9]
+SCHEMA = "STAGE32_RESIDUAL32_01_AUT_EQUIVARIANT_ALL140_CALIBRATION_V4"
+COORDINATE_MODEL = "AUT_EQUIVARIANT_ALL140_KNOWN_CURVE_PAIRINGS_TO_PICARD64_HNF"
+AUT_MODE = "EXACT_AUT1536_ALL140_GLOBAL_BUDGET_CLASS_PREFIX_STABILIZER_LEX_MIN"
+SELECTED_ASSIGNMENT_ORDER = [0, 1, 2, 3, 61, 4, 5, 6, 7, 8, 9]
 REPRESENTATIVES = [
     {"m": 1, "genus": 0, "degree": 16, "exceptional_mass": 8},
     {"m": 2, "genus": 0, "degree": 8, "exceptional_mass": 8},
@@ -45,8 +44,9 @@ def load_module_payload(path: pathlib.Path, module_name: str) -> dict:
 
 
 def run_probe(
-    oracle: PrefixMembershipOracle,
-    aut: PrefixAut1536CanonicalAugmentation,
+    oracle: EquivariantPrefixMembershipOracle,
+    aut: AutEquivariantPrefixCanonicalAugmentation,
+    known_labels_1based: list[int],
     rep: dict,
     node_limit: int,
 ) -> dict:
@@ -68,12 +68,12 @@ def run_probe(
         if exhausted:
             return
         max_depth_reached = max(max_depth_reached, depth)
-        if depth == len(ASSIGNMENT_ORDER):
+        if depth == len(known_labels_1based):
             terminal_prefixes += 1
             terminal_hash.update(json.dumps(values, separators=(",", ":")).encode() + b"\n")
             return
-        idx = ASSIGNMENT_ORDER[depth]
-        is_exceptional = idx < EXCEPTIONAL_BASIS_COUNT
+        label = known_labels_1based[depth]
+        is_exceptional = label > NORMAL_LABEL_MAX
         upper = e - exceptional_used if is_exceptional else normal_mass - normal_used
         for value in range(upper + 1):
             nodes += 1
@@ -98,8 +98,7 @@ def run_probe(
     return {
         **rep,
         "normal_mass": normal_mass,
-        "assignment_order": ASSIGNMENT_ORDER,
-        "exceptional_basis_coordinate_count": EXCEPTIONAL_BASIS_COUNT,
+        "known_label_order_1based": known_labels_1based,
         "node_limit": node_limit,
         "nodes_visited": min(nodes, node_limit),
         "membership_prunes": membership_prunes,
@@ -111,7 +110,7 @@ def run_probe(
         "node_budget_exhausted": exhausted,
         "probe_complete": not exhausted,
         "elapsed_seconds": round(time.perf_counter() - started, 6),
-        "credit_scope": "PAIRING_LATTICE_AND_PREFIX_AUT_COST_PROFILE_ONLY",
+        "credit_scope": "ALL140_PAIRING_LATTICE_AND_PREFIX_AUT_COST_PROFILE_ONLY",
     }
 
 
@@ -126,41 +125,51 @@ def main() -> None:
     bundle = load_module_payload(args.retained, "stage32_picard_retained")
     assert bundle["canonical_sha256"] == RETAINED_BUNDLE_SHA256
     transform = RetainedBasisPairingTransform.from_bundle(bundle)
-
-    oracle_started = time.perf_counter()
-    oracle = PrefixMembershipOracle(transform, ASSIGNMENT_ORDER)
-    oracle_seconds = time.perf_counter() - oracle_started
+    selected_known = transform.certificate["selected_known_indices_1based"]
+    known_labels = [selected_known[i] for i in SELECTED_ASSIGNMENT_ORDER]
+    assert known_labels == [93, 94, 95, 96, 49, 97, 98, 99, 101, 102, 103]
 
     marking = load_module_payload(args.marking, "stage32_marking_retained")
+    adapter_started = time.perf_counter()
+    adapter = AutEquivariantPairingAdapter.from_retained(marking, bundle)
+    adapter_seconds = time.perf_counter() - adapter_started
+
+    oracle_started = time.perf_counter()
+    oracle = EquivariantPrefixMembershipOracle(adapter, known_labels)
+    oracle_seconds = time.perf_counter() - oracle_started
+
     aut_payload = marking["aut_action"]
     aut_started = time.perf_counter()
-    aut = PrefixAut1536CanonicalAugmentation(
+    aut = AutEquivariantPrefixCanonicalAugmentation(
         aut_payload["permutations_1based"],
-        transform.certificate["selected_known_indices_1based"],
-        EXCEPTIONAL_BASIS_COUNT,
-        ASSIGNMENT_ORDER,
+        known_labels,
         aut_payload["canonical_sha256_without_this_field"],
     )
     aut_seconds = time.perf_counter() - aut_started
 
-    profiles = [run_probe(oracle, aut, rep, args.node_limit) for rep in REPRESENTATIVES]
-    active_by_depth = [
-        c["active_congruence_rows"] for c in oracle.certificate()["checks"]
-    ]
+    profiles = [run_probe(oracle, aut, known_labels, rep, args.node_limit) for rep in REPRESENTATIVES]
+    oracle_certificate = oracle.certificate()
+    active_by_depth = [c["active_congruence_rows"] for c in oracle_certificate["checks"]]
     aut_certificate = aut.certificate()
+    prefix_actions = [c["distinct_prefix_actions"] for c in aut_certificate["checks"]]
+
     payload = {
         "schema": SCHEMA,
-        "engine": "LOCAL_OFFLINE_EXACT_HNF_PLUS_PREFIX_AUT1536_CANONICAL_AUGMENTATION_V3",
+        "engine": "LOCAL_OFFLINE_EXACT_ALL140_PAIRING_IMAGE_HNF_PLUS_PREFIX_AUT1536_V4",
         "coordinate_model": COORDINATE_MODEL,
-        "assignment_order_source": "LOCKED_FROM_GENERATION6_DISCRIMINANT_ACTIVE_SELECTION",
-        "assignment_order": ASSIGNMENT_ORDER,
+        "selected_assignment_order_source": "LOCKED_FROM_GENERATION6_DISCRIMINANT_ACTIVE_SELECTION",
+        "selected_assignment_order": SELECTED_ASSIGNMENT_ORDER,
+        "known_label_order_1based": known_labels,
+        "gen6_depth5_active_known_label_1based": 49,
         "active_congruence_rows_by_depth": active_by_depth,
         "first_active_depth": next((i + 1 for i, n in enumerate(active_by_depth) if n > 0), None),
         "retained_picard_bundle_sha256": RETAINED_BUNDLE_SHA256,
         "retained_marking_sha256": marking["canonical_sha256"],
         "retained_aut_action_sha256": marking["stage32_aut_action_sha256"],
-        "transform_certificate": transform.certificate,
-        "oracle_certificate": oracle.certificate(),
+        "selected64_transform_certificate": transform.certificate,
+        "adapter_certificate": adapter.certificate,
+        "adapter_build_seconds": round(adapter_seconds, 6),
+        "oracle_certificate": oracle_certificate,
         "oracle_build_seconds": round(oracle_seconds, 6),
         "aut_mode": AUT_MODE,
         "aut_certificate": aut_certificate,
@@ -168,9 +177,9 @@ def main() -> None:
         "aut_used_in_probe": True,
         "prefix_aut_canonical_augmentation_implemented": True,
         "full_aut_group_order": aut.group_order,
-        "selected_coordinate_compatible_subgroup_size": aut.compatible_subgroup_size,
-        "exceptional_basis_coordinate_count": EXCEPTIONAL_BASIS_COUNT,
-        "curve_basis_coordinate_count": 64 - EXCEPTIONAL_BASIS_COUNT,
+        "global_budget_class_preserving_subgroup_size": aut.global_budget_subgroup_size,
+        "distinct_prefix_actions_by_depth": prefix_actions,
+        "selected64_setwise_preservation_required": False,
         "representatives": profiles,
         "representative_m_classes": [1, 2, 4, 8],
         "full_178_row_sweep_authorized": False,
@@ -180,22 +189,25 @@ def main() -> None:
         "R29_LG2": "NOT_DISCHARGED",
         "THEOREM_CREDIT": False,
         "RECEIVER_CREDIT": False,
-        "next_engineering_gate": "PREFIX_AUT1536_REPRESENTATIVE_COST_RESULT_REVIEW",
+        "next_engineering_gate": "AUT_EQUIVARIANT_ALL140_REPRESENTATIVE_COST_RESULT_REVIEW",
     }
     payload["canonical_sha256_without_this_field"] = csha(payload)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
     print(json.dumps({
         "schema": SCHEMA,
-        "assignment_order": ASSIGNMENT_ORDER,
+        "known_labels": known_labels,
+        "adapter_paths": list(adapter.discovery_paths),
+        "adapter_modes": list(adapter.discovery_modes),
         "active_rows": active_by_depth,
         "full_aut_group_order": aut.group_order,
-        "compatible_subgroup_size": aut.compatible_subgroup_size,
-        "prefix_actions": [c["distinct_prefix_actions"] for c in aut_certificate["checks"]],
+        "global_budget_subgroup_size": aut.global_budget_subgroup_size,
+        "prefix_actions": prefix_actions,
         "nodes": {str(p["m"]): p["nodes_visited"] for p in profiles},
         "membership_prunes": {str(p["m"]): p["membership_prunes"] for p in profiles},
         "symmetry_prunes": {str(p["m"]): p["symmetry_prunes"] for p in profiles},
         "terminals": {str(p["m"]): p["terminal_prefixes_before_stop"] for p in profiles},
+        "adapter_build_seconds": payload["adapter_build_seconds"],
         "oracle_build_seconds": payload["oracle_build_seconds"],
         "aut_build_seconds": payload["aut_build_seconds"],
         "sha256": payload["canonical_sha256_without_this_field"],
