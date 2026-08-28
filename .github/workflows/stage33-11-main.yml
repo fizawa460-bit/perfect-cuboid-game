@@ -17,7 +17,7 @@ concurrency:
 jobs:
   exact-global-naturality:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -28,17 +28,15 @@ jobs:
       - name: Rebuild retained order2 localization receiver
         working-directory: stages/stage33/33-07
         run: python materialize_order2_localization_receiver.py
-      - name: Run Stage33-11 direct Smith scout with preflight and live stacks
+      - name: Run Stage33-11 direct naturality with pinned Magma Smith backend
         run: |
-          python -u stages/stage33/33-11/run_stage33_11_direct_smith_diagnostic.py
+          python -u stages/stage33/33-11/run_stage33_11_magma_smith_naturality.py
           cat stages/stage33/33-11/stage33-11-direct-smith-naturality.json
-      - name: Upload compact scout diagnostics and certificate
+      - name: Upload compact exact certificate
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: stage33-11-direct-smith-naturality
-          path: |
-            stages/stage33/33-11/stage33-11-direct-smith-preflight.json
-            stages/stage33/33-11/stage33-11-direct-smith-naturality.json
+          path: stages/stage33/33-11/stage33-11-direct-smith-naturality.json
           if-no-files-found: ignore
           retention-days: 1
