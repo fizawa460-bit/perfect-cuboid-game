@@ -1,11 +1,15 @@
 # Stage33-00 — unit closure and downstream-release contract
 
 ```text
-CONTRACT_SCHEMA=STAGE33_UNIT_CLOSURE_V3
-APPLIES_TO=Stage33-01..Stage33-11
-BRAUER_SCOPE=FROZEN_STAGE29_PHYSICAL_OPEN_BRAUER_KERNEL
+CONTRACT_SCHEMA=STAGE33_UNIT_CLOSURE_V4_REPAIR_RENUMBERED
+BIG_TASKS=Stage33-01,Stage33-02,Stage33-03,Stage33-04,Stage33-05,Stage33-06,Stage33-07,Stage33-08,Stage33-40,Stage33-41,Stage33-42
 BIG_TASK_COUNT=11
 PROGRESS_DENOMINATOR=11
+REPAIR_CHILDREN=Stage33-09,Stage33-10,Stage33-11,Stage33-12
+REPAIR_RESERVED_RANGE=Stage33-13..Stage33-39
+REPAIR_CHILDREN_COUNT_TOWARD_PROGRESS=false
+REPAIR_RESERVED_RANGE_COUNTS_TOWARD_PROGRESS=false
+BRAUER_SCOPE=FROZEN_STAGE29_PHYSICAL_OPEN_BRAUER_KERNEL
 PARTIAL_COUNTS_AS_COMPLETE=false
 BLOCKED_COUNTS_AS_COMPLETE=false
 AUDIT_REQUIRED_COUNTS_AS_COMPLETE=false
@@ -18,19 +22,21 @@ STAGE33_SCOPE_EMPTY_IMPLIES_NO_RATIONAL_ENDPOINT=true
 
 Stage33 is a dependency DAG, not a strict linear chain. Independent units may run concurrently, but a downstream unit must never consume a merely partial predecessor as if that predecessor were complete.
 
-The frozen Stage29 Brauer scope carried by this contract includes the `BR0B` open-algebraic absolute-Galois contribution at all primary orders still permitted by Stage29, `BR0G` physical-boundary residue classes, and the `BR2` two-primary geometric/transcendental branch. Stage29 closed proper odd-primary transcendental Brauer, but it explicitly did **not** close possible odd-primary open-algebraic unit/character terms in `BR0B`. Any such survivor must therefore flow through Stage33-07, 08, 09, 10, and 11.
+The eleven big tasks counted in Stage33 progress are exactly `33-01..33-08,33-40..33-42`. The identifiers `33-09..33-12` are repair children of reopened parent big task Stage33-07, and `33-13..33-39` are reserved repair address space only. Neither the repair children nor the reserved range belong to the eleven-big-task denominator.
+
+The frozen Stage29 Brauer scope carried by this contract includes the `BR0B` open-algebraic absolute-Galois contribution at all primary orders still permitted by Stage29, `BR0G` physical-boundary residue classes, and the `BR2` two-primary geometric/transcendental branch. Stage29 closed proper odd-primary transcendental Brauer, but it explicitly did **not** close possible odd-primary open-algebraic unit/character terms in `BR0B`. Any such survivor must therefore flow through Stage33-07, Stage33-08, Stage33-40, Stage33-41, and Stage33-42.
 
 The progress counter is intentionally strict:
 
 ```text
-STAGE33_PROGRESS = number of units with UNIT_STATUS=CLOSED / 11
+STAGE33_PROGRESS = number of BIG_TASKS with UNIT_STATUS=CLOSED / 11
 ```
 
-No fractional credit is used. A unit that is 90% complete still contributes zero to the numerator until its closure contract is satisfied and audited.
+No fractional credit is used. A big task that is 90% complete still contributes zero to the numerator until its closure contract is satisfied and audited. Repair-child progress may be reported separately but never changes this denominator.
 
-## Universal unit state machine
+## Big-task universal state machine
 
-Every big unit must use exactly one of:
+Every big task (`33-01..08,33-40..42`) must use exactly one of:
 
 ```text
 OPEN
@@ -67,7 +73,7 @@ BLOCKED_RESOURCE
   The unit is not CLOSED and dependent downstream units remain locked.
 ```
 
-Universal release law:
+Universal big-task release law:
 
 ```text
 DOWNSTREAM_RELEASED=true  iff  UNIT_STATUS=CLOSED
@@ -75,9 +81,26 @@ DOWNSTREAM_RELEASED=true  iff  UNIT_STATUS=CLOSED
 
 No `PARTIAL`, preview, heuristic, numerical sample, timeout result, or optimistic interpretation may satisfy a prerequisite edge.
 
+## Repair-child state and release semantics
+
+Repair children `33-09..33-12` exist only to close reopened parent big task Stage33-07. They are governed by `stages/stage33/ROADMAP-33-07-REPAIR-BAND.md` and `stages/stage33/controller.json`.
+
+```text
+REPAIR_CHILD_COUNTS_AS_BIG_TASK=false
+REPAIR_CHILD_CLOSED_IMPLIES_PARENT_33_07_CLOSED=false
+REPAIR_CHILD_EXIT_CONDITION_REQUIRED_BEFORE_NEXT_REPAIR_CHILD=true
+FAILED_OR_EXHAUSTED_MINIMAP_WITH_OPEN_EXIT_DOES_NOT_ADVANCE=true
+SAFE_INDEPENDENT_MINIMAP_BRANCHES_MAY_RUN_CONCURRENTLY=true
+FIRST_EXACT_CLOSURE_MAY_SKIP_UNUSED_FALLBACK_BRANCHES=true
+```
+
+Stage33-09 must close its marked Picard/equivariant transport exit gate before Stage33-10 is released. Stage33-10 must certify the exact absolute H1 receiver before Stage33-11 is released. Stage33-11 must certify the arithmetic localization connecting map with exact coverage of all 26 source directions before Stage33-12 is released. Stage33-12 must close the arithmetic HS/global-Q repair and hostile-recertify parent Stage33-07. Only that parent hostile recertification may change Stage33-07 to `CLOSED` and move Stage33 progress from 6/11 to 7/11.
+
+Reserved identifiers `33-13..33-39` have no default unit semantics and do not enter either the big-task state machine or progress denominator unless an audited roadmap/controller repair explicitly activates one as a repair child.
+
 ## Dependency-release DAG
 
-The execution DAG is conservatively frozen as:
+The eleven-big-task execution DAG is conservatively frozen as:
 
 ```text
 33-01 -> 33-02
@@ -90,14 +113,22 @@ The execution DAG is conservatively frozen as:
 
 33-03 + 33-04 + 33-05 + 33-06 -> 33-07
 33-07 -> 33-08
-33-08 -> 33-09
-33-09 -> 33-10
-33-07 + 33-08 + 33-09 + 33-10 -> 33-11
+33-08 -> 33-40
+33-40 -> 33-41
+33-07 + 33-08 + 33-40 + 33-41 -> 33-42
 ```
 
-Independent branches may run concurrently after all their own prerequisites are CLOSED. In particular, after Stage33-01 closes, Stage33-02 and Stage33-05 may run in parallel.
+The reopened Stage33-07 repair-child sub-DAG is:
 
-A later unit may tighten these prerequisites only by an audited roadmap/controller repair. It may not silently weaken them.
+```text
+33-09 -> 33-10 -> 33-11 -> 33-12 -> hostile recertification of parent 33-07
+```
+
+That line describes coarse child release gates, not necessarily serial execution of every mini-map branch. Within an active repair child, safe independent branches may run concurrently under MAIN-batch semantics, and unused fallback branches may be skipped once the child's exact exit condition is satisfied.
+
+Independent big-task branches may run concurrently after all their own prerequisites are CLOSED. In particular, after Stage33-01 closes, Stage33-02 and Stage33-05 may run in parallel.
+
+A later unit may tighten these prerequisites only by an audited roadmap/controller/contract repair. It may not silently weaken them.
 
 ## Unit-specific closure gates
 
@@ -227,6 +258,8 @@ UNRESOLVED_UNKNOWN_IN_SCOPE=0
 HOSTILE_AUDIT=PASS
 ```
 
+Because Stage33-07 has been reopened by Stage33-08 re-audit, its current closure additionally requires successful completion of the repair-child chain defined in `ROADMAP-33-07-REPAIR-BAND.md`, including arithmetic HS/global-Q closure and hostile recertification. Completion of any repair child by itself is insufficient.
+
 The complete class list may be empty. It must include every surviving open-algebraic `BR0B` class even when its primary order is odd; Creutz--Viray/two-primary machinery is not a license to discard those classes.
 
 ### Stage33-08 — BR2B explicit endpoint representatives
@@ -248,7 +281,9 @@ HOSTILE_AUDIT=PASS
 
 If the Stage33-07 complete class list is empty, an exact empty-representative inventory satisfies this unit only after audit verifies the inheritance.
 
-### Stage33-09 — relevant places and physical local loci
+### Stage33-40 — relevant places and physical local loci
+
+This is the original Stage33-09 big-task objective, renumbered without changing its mathematical acceptance criteria.
 
 `CLOSED` requires all of:
 
@@ -263,7 +298,9 @@ UNRESOLVED_UNKNOWN_IN_SCOPE=0
 HOSTILE_AUDIT=PASS
 ```
 
-### Stage33-10 — exact local evaluations
+### Stage33-41 — exact local evaluations
+
+This is the original Stage33-10 big-task objective, renumbered without changing its mathematical acceptance criteria.
 
 `CLOSED` requires all of:
 
@@ -278,7 +315,9 @@ UNRESOLVED_UNKNOWN_IN_SCOPE=0
 HOSTILE_AUDIT=PASS
 ```
 
-### Stage33-11 — adelic compatibility / final Brauer verdict
+### Stage33-42 — adelic compatibility / final Brauer verdict
+
+This is the original Stage33-11 big-task objective, renumbered without changing its mathematical acceptance criteria.
 
 `CLOSED` requires all prerequisite units CLOSED and all of:
 
@@ -300,6 +339,26 @@ FINAL_HOSTILE_AUDIT=PASS
 Scope semantics are asymmetric and mandatory. Emptiness of the physical adelic set orthogonal to the complete Stage33 class inventory is enough to exclude rational endpoint points. Nonemptiness for the Stage33 scope closes this frozen mechanism negatively but does **not** certify nonemptiness of the full Brauer--Manin set unless `FULL_RELEVANT_BRAUER_GROUP_COVERAGE_CERTIFIED=true` has itself been independently proved and audited.
 
 `NEW_KERNEL_EXPOSED` is not a CLOSED final disposition; it leaves Stage33 progress below 11/11 and freezes the exact residual instead.
+
+## Repair-child exit gates
+
+These are not big-task closure gates and do not contribute to `STAGE33_PROGRESS`.
+
+### Stage33-09 — PICARD-EQUIVARIANT-TRANSPORT repair child
+
+Exit requires the source-locked historical retained Picard marking bridge and exact transport of the already-established named actions, as defined in `ROADMAP-33-07-REPAIR-BAND.md`.
+
+### Stage33-10 — ABSOLUTE-H1-AND-GALOIS-DESCENT-ADAPTER repair child
+
+Exit requires an exact absolute H1 receiver with all relevant kernel-Galois contribution accounted for and Stage33-11 domain/codomain well-defined. Mini-map branches may run concurrently when independent; not every fallback branch must execute.
+
+### Stage33-11 — ARITHMETIC-LOCALIZATION-CONNECTING-MAP repair child
+
+Exit requires `ARITHMETIC_LOCALIZATION_CONNECTING_MAP_COMPUTED=true` and exact coverage of all 26 source directions. Global, orbit/block, and individual fallback routes may run concurrently when safe; the prescribed result is 26/26 coverage, not a prescribed method.
+
+### Stage33-12 — ARITHMETIC-HS-CLOSURE-AND-33-07-RECERTIFICATION repair child
+
+Exit requires arithmetic HS d2, global-Q residue-lift completion, complete relevant Q-defined class inventory for the frozen Stage33 Brauer scope, and hostile recertification of parent Stage33-07. Failure to satisfy that exit gate does not release Stage33-08.
 
 ## Machine handoff requirement
 
@@ -327,7 +386,7 @@ AUDIT_VERDICT=
 NEXT_RELEASED_UNITS=[]
 ```
 
-Invariant checker:
+Invariant checker for big tasks:
 
 ```text
 if UNIT_STATUS != CLOSED:
@@ -341,12 +400,16 @@ if UNIT_STATUS == CLOSED:
     DOWNSTREAM_RELEASED=true
 ```
 
+Repair-child handoffs must instead report their child exit condition, unresolved exact subkernel, and any active/closed mini-map branches; they must not claim `UNIT_STATUS=CLOSED` credit in the eleven-big-task denominator merely because a child exit gate is satisfied.
+
 ## Progress reporting
 
-Human-readable progress must always use only audited CLOSED units:
+Human-readable Stage33 progress must always use only audited CLOSED big tasks:
 
 ```text
-STAGE33_PROGRESS=<CLOSED_COUNT>/11
+STAGE33_PROGRESS=<CLOSED_BIG_TASK_COUNT>/11
+BIG_TASK_IDS=33-01,33-02,33-03,33-04,33-05,33-06,33-07,33-08,33-40,33-41,33-42
+REPAIR_CHILD_IDS=33-09,33-10,33-11,33-12
 ```
 
 Examples:
@@ -355,6 +418,7 @@ Examples:
 33-02 CLOSED, 33-03 RUNNING, 33-05 CLOSED  -> 2/11
 33-06 AUDIT_REQUIRED                       -> still not counted
 33-07 BLOCKED_NEW_KERNEL                   -> not counted
+33-09 repair child exit PASS               -> does not change /11 progress
 ```
 
 This contract deliberately prefers undercounting to accidental downstream theorem credit.
