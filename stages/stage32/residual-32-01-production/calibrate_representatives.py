@@ -9,11 +9,11 @@ import pathlib
 import time
 
 from aut_equivariant_pairing_adapter import (
-    AutEquivariantPairingAdapter,
     AutEquivariantPrefixCanonicalAugmentation,
     EquivariantPrefixMembershipOracle,
     NORMAL_LABEL_MAX,
 )
+from hperp_integral_adapter import HperpIntegralPairingAdapter
 from pairing_prefix_engine import RETAINED_BUNDLE_SHA256, RetainedBasisPairingTransform
 
 SCHEMA = "STAGE32_RESIDUAL32_01_AUT_EQUIVARIANT_ALL140_CALIBRATION_V4"
@@ -131,7 +131,7 @@ def main() -> None:
 
     marking = load_module_payload(args.marking, "stage32_marking_retained")
     adapter_started = time.perf_counter()
-    adapter = AutEquivariantPairingAdapter.from_retained(marking, bundle)
+    adapter = HperpIntegralPairingAdapter.from_retained(marking, bundle)
     adapter_seconds = time.perf_counter() - adapter_started
 
     oracle_started = time.perf_counter()
@@ -152,6 +152,7 @@ def main() -> None:
     active_by_depth = [c["active_congruence_rows"] for c in oracle_certificate["checks"]]
     aut_certificate = aut.certificate()
     prefix_actions = [c["distinct_prefix_actions"] for c in aut_certificate["checks"]]
+    gen6_regression = adapter.certificate["generation6_hnf_regression"]
 
     payload = {
         "schema": SCHEMA,
@@ -161,6 +162,8 @@ def main() -> None:
         "selected_assignment_order": SELECTED_ASSIGNMENT_ORDER,
         "known_label_order_1based": known_labels,
         "gen6_depth5_active_known_label_1based": 49,
+        "generation6_hnf_regression": gen6_regression,
+        "saturated_picard64_integral_adapter_validated": adapter.certificate["saturated_picard64_integral_adapter_validated"],
         "active_congruence_rows_by_depth": active_by_depth,
         "first_active_depth": next((i + 1 for i, n in enumerate(active_by_depth) if n > 0), None),
         "retained_picard_bundle_sha256": RETAINED_BUNDLE_SHA256,
@@ -199,6 +202,8 @@ def main() -> None:
         "known_labels": known_labels,
         "adapter_paths": list(adapter.discovery_paths),
         "adapter_modes": list(adapter.discovery_modes),
+        "saturated_adapter_validated": payload["saturated_picard64_integral_adapter_validated"],
+        "gen6_hnf_exact": gen6_regression["exact_match"],
         "active_rows": active_by_depth,
         "full_aut_group_order": aut.group_order,
         "global_budget_subgroup_size": aut.global_budget_subgroup_size,
