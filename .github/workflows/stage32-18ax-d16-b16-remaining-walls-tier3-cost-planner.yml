@@ -1,0 +1,126 @@
+name: Stage32-18AX d16 b16 remaining walls tier3 cost planner
+
+on:
+  push:
+    branches: [stage32-18ax-b16-remaining-walls-tier3-planner]
+    paths: ['stages/stage32/runkeys/18ax-b16-remaining-walls-tier3-cost-planner.json']
+
+permissions: {contents: read, actions: read}
+concurrency: {group: stage32-18ax-b16-remaining-walls-tier3-cost-planner, cancel-in-progress: true}
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 2}
+      - id: gate
+        name: Require dedicated ARM commit
+        run: |
+          set -euo pipefail
+          KEY=stages/stage32/runkeys/18ax-b16-remaining-walls-tier3-cost-planner.json
+          authorized=false
+          if git cat-file -e HEAD^ 2>/dev/null && [ "$(git diff --name-only HEAD^ HEAD | wc -l)" -eq 1 ] && git diff --name-only HEAD^ HEAD | grep -Fxq "$KEY" && [ "$(git log -1 --pretty=%s)" = 'Stage32-18AX: ARM B16 REMAINING WALLS TIER3 COST PLANNER' ]; then
+            python - <<'PY'
+          import json,pathlib
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18ax-b16-remaining-walls-tier3-cost-planner.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1' and d['generation']==1 and d['armed'] and d['bound']==16
+          assert d['source_exact_artifact_id']==9574308138 and d['source_tier2_run_id']==33144044755
+          assert d['tier3_probe_budget']==262144 and d['max_parallel']==5 and d['allow_finer_split'] is False
+          assert d['shard_count']==1024 and d['secondary_split_coordinate']==48 and d['block_cut']==39
+          assert len(d['targets'])==5 and sum(x['tier3_input'] for x in d['targets'])==814
+          PY
+            authorized=true
+          fi
+          echo "authorized=$authorized" >> "$GITHUB_OUTPUT"
+
+  planner:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        include:
+          - {name: p436-s362, primary: 436, shard: 362, frontier: 3897, tier3: 186, artifact: 9675368550, digest: 034d689ee112b94a50968ff838a8388e63dbcd8e837528703652aaaa7bd53acd}
+          - {name: p503-s118, primary: 503, shard: 118, frontier: 3596, tier3: 169, artifact: 9675252704, digest: d3b7b6fde17089c4d820b970816afd13b2caf998cb8717bf9fdf88da122cbcc3}
+          - {name: p503-s665, primary: 503, shard: 665, frontier: 3761, tier3: 182, artifact: 9675337338, digest: 517df79cdec79d55c6ade486345a968130c1a730bffb095c99cf3c25d6302d08}
+          - {name: p922-s13, primary: 922, shard: 13, frontier: 4095, tier3: 145, artifact: 9675341103, digest: 7671a52130ab2bb416540e2f32e4eec24dbed7f2072be501e8ec0f3fa1e029c8}
+          - {name: p922-s38, primary: 922, shard: 38, frontier: 4203, tier3: 132, artifact: 9675299534, digest: 148583ef158dc4ca9910f3ee6b5ee7b1434fb3cd3270613f948cbf9f0feceec8}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    env:
+      WALL_NAME: ${{ matrix.name }}
+      PRIMARY_ID: ${{ matrix.primary }}
+      SHARD_ID: ${{ matrix.shard }}
+      EXPECTED_FRONTIER: ${{ matrix.frontier }}
+      EXPECTED_TIER3: ${{ matrix.tier3 }}
+      TIER2_ARTIFACT: ${{ matrix.artifact }}
+      TIER2_DIGEST: ${{ matrix.digest }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch locked source and tier2 artifact
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends g++ libboost-dev
+          mkdir -p "$RUNNER_TEMP/src" "$RUNNER_TEMP/tier2" "$RUNNER_TEMP/work" "$RUNNER_TEMP/out"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$RUNNER_TEMP/source.zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9574308138/zip"
+          echo '0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4  '"$RUNNER_TEMP/source.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/source.zip" -d "$RUNNER_TEMP/src"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$RUNNER_TEMP/tier2.zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${TIER2_ARTIFACT}/zip"
+          echo "${TIER2_DIGEST}  $RUNNER_TEMP/tier2.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/tier2.zip" -d "$RUNNER_TEMP/tier2"
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])
+          p=json.loads((root/'tier2'/f"stage32-18aw-{os.environ['WALL_NAME']}-tier2.json").read_text())
+          assert p['schema']=='STAGE32_18AW_B16_REMAINING_WALL_TIER2_COST_PLAN_V1'
+          assert p['target_wall']==[int(os.environ['PRIMARY_ID']),int(os.environ['SHARD_ID'])]
+          ids=p['tier3_frontier_ids']; assert len(ids)==len(set(ids))==int(os.environ['EXPECTED_TIER3'])
+          (root/'work'/'tier3-ids.txt').write_text(''.join(f'{x}\n' for x in ids))
+          PY
+      - name: Build exact selective planner
+        run: |
+          set -euo pipefail
+          python stages/stage32/32-18X/build_two_stage_certifier.py --source "$RUNNER_TEMP/src/d16-exact-symmetry-sharded.cpp" --output "$RUNNER_TEMP/work/cert.cpp" --primary-id "$PRIMARY_ID"
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AF/patch_symmetry_schedule.py
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AO/patch_block_frontier.py
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AP/patch_lower_block_replay.py
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AR/patch_frontier_cost_planner.py
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AS/patch_selective_frontier_planner.py
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic "$RUNNER_TEMP/work/cert.cpp" -o "$RUNNER_TEMP/work/cert"
+          cp "$RUNNER_TEMP/src/d16-hperp.txt" "$RUNNER_TEMP/work/"
+          cp "$RUNNER_TEMP/src/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/work/"
+      - name: Probe tier2-capped frontier states at 262144 nodes
+        run: |
+          set -euo pipefail
+          /usr/bin/time -q -f '%e' -o "$RUNNER_TEMP/out/runtime.txt" timeout --signal=TERM --kill-after=20s 45m "$RUNNER_TEMP/work/cert" --input "$RUNNER_TEMP/work/d16-hperp.txt" --bundle "$RUNNER_TEMP/work/d16-aut-prefix256-bundle.txt" --output "$RUNNER_TEMP/out/cert.json" --dump-canonical "$RUNNER_TEMP/out/dump.bin" --bound 16 --shard-id "$SHARD_ID" --shard-count 1024 --split-coordinate 48 --block-cut 39 --frontier-cap 50000 --replay-limit 0 --planner-probe-budget 262144 --planner-output "$RUNNER_TEMP/out/tier3-costs.csv" --planner-id-file "$RUNNER_TEMP/work/tier3-ids.txt" --node-cap 2000000 >"$RUNNER_TEMP/out/stdout.txt" 2>"$RUNNER_TEMP/out/stderr.txt"
+      - name: Build compact tier3 certificate
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv,json,os,pathlib,math
+          root=pathlib.Path(os.environ['RUNNER_TEMP']); out=root/'out'
+          cert=json.loads((out/'cert.json').read_text())
+          ids=[int(x) for x in (root/'work'/'tier3-ids.txt').read_text().split()]
+          with (out/'tier3-costs.csv').open() as f:
+              rows=[{'frontier_id':int(r['frontier_id']),'probe_nodes':int(r['probe_nodes']),'complete':r['complete']=='1'} for r in csv.DictReader(f)]
+          assert cert['status']=='FRONTIER_COMPLETE' and cert['frontier_states']==int(os.environ['EXPECTED_FRONTIER'])
+          assert cert['planner_selected_ids']==len(ids)==int(os.environ['EXPECTED_TIER3']) and [r['frontier_id'] for r in rows]==ids
+          done=[r for r in rows if r['complete']]; monsters=[r for r in rows if not r['complete']]; costs=sorted(r['probe_nodes'] for r in done)
+          def pct(p): return costs[min(len(costs)-1,max(0,math.ceil(p*len(costs))-1))] if costs else None
+          runtime=float((out/'runtime.txt').read_text().strip())
+          result={'schema':'STAGE32_18AX_B16_REMAINING_WALL_TIER3_COST_PLAN_V1','verdict':'TIER3_HEAVY_DISTRIBUTION_MEASURED','target_wall':[int(os.environ['PRIMARY_ID']),int(os.environ['SHARD_ID'])],'frontier_states':int(os.environ['EXPECTED_FRONTIER']),'tier3_input_count':len(ids),'tier3_probe_budget':262144,'tier3_completed_count':len(done),'monster_count':len(monsters),'monster_frontier_ids':[r['frontier_id'] for r in monsters],'tier3_completed_quantiles':{'p50':pct(.50),'p90':pct(.90),'p95':pct(.95),'p99':pct(.99),'max':max(costs) if costs else None},'total_resolved_frontier_count_after_tier3':int(os.environ['EXPECTED_FRONTIER'])-len(monsters),'runtime_seconds':runtime,'D16_B16_NUMERICAL_CREDIT':False,'GLOBAL_B16_AGGREGATION_COMPLETE':False,'FULL_D16_G0_ROW_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
+          (out/f"stage32-18ax-{os.environ['WALL_NAME']}-tier3.json").write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({'wall':result['target_wall'],'tier3_input':len(ids),'completed':len(done),'monsters':len(monsters),'total_resolved':result['total_resolved_frontier_count_after_tier3']},sort_keys=True))
+          for x in ['dump.bin','cert.json','tier3-costs.csv']:(out/x).unlink(missing_ok=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18ax-${{ matrix.name }}-tier3-cost-g1
+          path: '${{ runner.temp }}/out/'
+          retention-days: 7
+          if-no-files-found: error
