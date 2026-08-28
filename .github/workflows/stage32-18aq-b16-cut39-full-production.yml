@@ -1,0 +1,127 @@
+name: Stage32-18AQ d16 b16 cut39 full production
+
+on:
+  push:
+    branches: [stage32-18aq-b16-cut39-full-production]
+    paths: ['stages/stage32/runkeys/18aq-b16-cut39-full-production.json']
+
+permissions: {contents: read, actions: read}
+concurrency: {group: stage32-18aq-b16-cut39-full-production, cancel-in-progress: true}
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    outputs: {matrix: '${{ steps.k.outputs.matrix }}'}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 2}
+      - name: Require dedicated ARM commit
+        run: |
+          set -euo pipefail
+          KEY=stages/stage32/runkeys/18aq-b16-cut39-full-production.json
+          mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
+          test "${#changed[@]}" -eq 1 && test "${changed[0]}" = "$KEY"
+          test "$(git log -1 --pretty=%s)" = 'Stage32-18AQ: ARM B16 CUT39 FULL PRODUCTION'
+      - id: k
+        run: |
+          python - <<'PY'
+          import json,pathlib,os
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18aq-b16-cut39-full-production.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1' and d['armed'] and d['bound']==16
+          assert d['target_wall']==[436,5] and d['allow_finer_split'] is False
+          assert d['source_exact_artifact_id']==9574308138 and d['shard_count']==1024 and d['secondary_split_coordinate']==48
+          assert d['block_cut']==39 and d['expected_frontier_states']==4103 and d['replay_limit']>=4103
+          assert d['node_cap']==18000000 and d['wallclock_minutes']==60 and d['max_parallel']==2
+          inc=[{'replica':r,'tag':f'replica-{r.lower()}'} for r in d['replicas']]
+          assert len(inc)==2
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('matrix='+json.dumps({'include':inc},separators=(',',':'))+'\n')
+          PY
+
+  produce:
+    needs: validate
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix: ${{ fromJSON(needs.validate.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build exact full-block certifier
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends g++ libboost-dev
+          mkdir -p "$RUNNER_TEMP/src" "$RUNNER_TEMP/work" "$RUNNER_TEMP/out"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$RUNNER_TEMP/source.zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9574308138/zip"
+          echo '0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4  '"$RUNNER_TEMP/source.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/source.zip" -d "$RUNNER_TEMP/src"
+          python stages/stage32/32-18X/build_two_stage_certifier.py --source "$RUNNER_TEMP/src/d16-exact-symmetry-sharded.cpp" --output "$RUNNER_TEMP/work/cert.cpp" --primary-id 436
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AF/patch_symmetry_schedule.py
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AO/patch_block_frontier.py
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AP/patch_lower_block_replay.py
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AQ/patch_full_block_production.py
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic "$RUNNER_TEMP/work/cert.cpp" -o "$RUNNER_TEMP/work/cert"
+          cp "$RUNNER_TEMP/src/d16-hperp.txt" "$RUNNER_TEMP/work/"
+          cp "$RUNNER_TEMP/src/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/work/"
+      - name: Exhaust cut39 exact frontier
+        run: |
+          set -euo pipefail; set +e
+          /usr/bin/time -q -f '%e' -o "$RUNNER_TEMP/out/runtime.txt" timeout --signal=TERM --kill-after=20s 60m "$RUNNER_TEMP/work/cert" --input "$RUNNER_TEMP/work/d16-hperp.txt" --bundle "$RUNNER_TEMP/work/d16-aut-prefix256-bundle.txt" --output "$RUNNER_TEMP/out/cert.json" --dump-canonical "$RUNNER_TEMP/out/dump.bin" --bound 16 --shard-id 5 --shard-count 1024 --split-coordinate 48 --block-cut 39 --frontier-cap 5000 --replay-limit 5000 --node-cap 18000000 >"$RUNNER_TEMP/out/stdout.txt" 2>"$RUNNER_TEMP/out/stderr.txt"
+          rc=$?; set -e
+          STATUS=COMPLETE
+          if [ "$rc" -ne 0 ]; then
+            if grep -q 'block frontier cap exceeded' "$RUNNER_TEMP/out/stderr.txt"; then STATUS=FRONTIER_MISMATCH
+            elif grep -q 'exact traversal node cap exceeded' "$RUNNER_TEMP/out/stderr.txt"; then STATUS=RESOURCE_WALL_NODE_CAP
+            elif [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ] || [ "$rc" -eq 143 ]; then STATUS=RESOURCE_WALL_WALLCLOCK
+            else STATUS=UNEXPECTED_FAILURE; fi
+          fi
+          export STATUS REPLICA='${{ matrix.replica }}'
+          python - <<'PY'
+          import json,os,pathlib,re,hashlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          cert={}
+          if (root/'cert.json').exists(): cert=json.loads((root/'cert.json').read_text())
+          err=(root/'stderr.txt').read_text() if (root/'stderr.txt').exists() else ''
+          def grab(name):
+              m=re.search(rf'{name}=(\d+)',err); return int(m.group(1)) if m else None
+          frontier=cert.get('frontier_states',grab('frontier'))
+          started=cert.get('replay_started',grab('replay_started'))
+          completed=cert.get('replay_completed',grab('replay_completed'))
+          nodes=cert.get('nodes',grab('nodes'))
+          replay_nodes=cert.get('replay_nodes',grab('replay_nodes'))
+          survivors=cert.get('survivors')
+          runtime=None
+          try: runtime=float((root/'runtime.txt').read_text().strip())
+          except Exception: pass
+          status=os.environ['STATUS']
+          exact_complete=bool(status=='COMPLETE' and cert.get('status')=='COMPLETE' and frontier==4103 and started==4103 and completed==4103)
+          transcript={'frontier_states':frontier,'replay_started':started,'replay_completed':completed,'nodes':nodes,'replay_nodes':replay_nodes,'survivors':survivors,'owned_prefixes':cert.get('owned_prefixes'),'split_prefixes':cert.get('split_prefixes')}
+          digest=hashlib.sha256(json.dumps(transcript,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          out={'schema':'STAGE32_18AQ_B16_CUT39_FULL_RESULT_V1','replica':os.environ['REPLICA'],'target_wall':[436,5],'status':status,'exact_complete':exact_complete,'runtime_seconds':runtime,'transcript':transcript,'transcript_sha256':digest,'D16_B16_SINGLE_WALL_NUMERICAL_CREDIT':exact_complete,'GLOBAL_B16_AGGREGATION_COMPLETE':False,'FULL_D16_G0_ROW_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
+          (root/'compact.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n'); print(json.dumps(out,sort_keys=True))
+          PY
+          test "$STATUS" != UNEXPECTED_FAILURE
+      - uses: actions/upload-artifact@v4
+        with: {name: 'stage32-18aq-p436-s5-${{ matrix.tag }}-g1', path: '${{ runner.temp }}/out/', retention-days: 14, if-no-files-found: error}
+
+  verify:
+    needs: produce
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with: {pattern: 'stage32-18aq-p436-s5-replica-*-g1', path: '${{ runner.temp }}/runs'}
+      - run: |
+          python - <<'PY'
+          import json,os,pathlib
+          docs=[json.loads(p.read_text()) for p in (pathlib.Path(os.environ['RUNNER_TEMP'])/'runs').rglob('compact.json')]
+          assert len(docs)==2
+          both=all(d['exact_complete'] for d in docs)
+          same=docs[0]['transcript']==docs[1]['transcript'] and docs[0]['transcript_sha256']==docs[1]['transcript_sha256']
+          verdict='PASS_P436_S5_EXACT_BLOCK_COMPLETE' if both and same else 'FAIL_OR_INCOMPLETE'
+          out={'schema':'STAGE32_18AQ_B16_CUT39_FULL_SUMMARY_V1','verdict':verdict,'target_wall':[436,5],'replicas':sorted(docs,key=lambda d:d['replica']),'dual_exact_match':same,'D16_B16_SINGLE_WALL_NUMERICAL_CREDIT':bool(both and same),'GLOBAL_B16_AGGREGATION_COMPLETE':False,'FULL_D16_G0_ROW_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,'CONTROLLER_MODIFIED':False}
+          o=pathlib.Path(os.environ['RUNNER_TEMP'])/'summary';o.mkdir();(o/'stage32-18aq-summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n');print(json.dumps({'verdict':verdict,'dual_exact_match':same,'credit':out['D16_B16_SINGLE_WALL_NUMERICAL_CREDIT']}))
+          PY
+      - uses: actions/upload-artifact@v4
+        with: {name: stage32-18aq-b16-cut39-full-summary-g1, path: '${{ runner.temp }}/summary/', retention-days: 21, if-no-files-found: error}
