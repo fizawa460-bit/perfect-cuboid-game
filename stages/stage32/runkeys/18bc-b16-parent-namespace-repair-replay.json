@@ -1,24 +1,40 @@
 {
   "schema":"STAGE32_HEAVY_RUN_KEY_V1",
-  "generation":5,
+  "generation":6,
   "armed":true,
   "bound":16,
   "algorithm":"pairwise6_strict_below_cut39",
-  "mode":"timeout_recovery_chunks",
+  "mode":"timeout_recovery_retry_chunks",
   "parent_cut":39,
   "planner_probe_budget":262144,
-  "max_parallel":6,
+  "max_parallel":1,
   "chunk_size":8,
   "source_exact_artifact_id":9574308138,
   "require_parent_stream_byte_identity":true,
   "parent_stream_gate_run_id":33155002856,
   "parent_stream_gate_artifacts":[9679254386,9679252521,9679251297,9679250924,9679251414,9679249050],
   "successful_replay_artifacts":{"p503-s665":9680367318,"p922-s13":9680561371,"p922-s38":9680338221},
+  "g5_run_id":33159012262,
+  "g5_successful_chunk_count":13,
+  "g5_failed_chunks":[{"wall":"p436-s5","chunk":2,"job_id":98808699417,"cause":"MICROSOFT_APT_REPOSITORY_403_LEFT_BOOST_UNAVAILABLE"}],
+  "retry_chunks":[
+    {"wall":"p436-s5","primary":436,"shard":5,"frontier":4103,"monster_count":36,"artifact":9675439606,"chunk":2}
+  ],
+  "carry_chunk_artifacts":[
+    {"wall":"p436-s5","chunk":0,"artifact":9681264224},
+    {"wall":"p436-s5","chunk":1,"artifact":9681243149},
+    {"wall":"p436-s5","chunk":3,"artifact":9681101041},
+    {"wall":"p436-s5","chunk":4,"artifact":9681055739},
+    {"wall":"p436-s362","chunk":0,"artifact":9681223791},
+    {"wall":"p436-s362","chunk":1,"artifact":9681075362},
+    {"wall":"p436-s362","chunk":2,"artifact":9681391222},
+    {"wall":"p436-s362","chunk":3,"artifact":9681491667},
+    {"wall":"p436-s362","chunk":4,"artifact":9681218134},
+    {"wall":"p503-s118","chunk":0,"artifact":9681713118},
+    {"wall":"p503-s118","chunk":1,"artifact":9681654186},
+    {"wall":"p503-s118","chunk":2,"artifact":9681654909},
+    {"wall":"p503-s118","chunk":3,"artifact":9681644962}
+  ],
   "storage_preflight":{"operating_budget_mb":500,"projected_new_peak_mb_lt":2,"persist_compact_only":true,"transient_retention_days":2},
-  "concurrency_preflight":{"planned_effective_heavy_concurrency":6,"stage_cap":18},
-  "recovery_walls":[
-    {"wall":"p436-s5","primary":436,"shard":5,"frontier":4103,"monster_count":36,"artifact":9675439606,"chunks":5},
-    {"wall":"p436-s362","primary":436,"shard":362,"frontier":3897,"monster_count":34,"artifact":9676696013,"chunks":5},
-    {"wall":"p503-s118","primary":503,"shard":118,"frontier":3596,"monster_count":31,"artifact":9676719989,"chunks":4}
-  ]
+  "concurrency_preflight":{"planned_effective_heavy_concurrency":1,"stage_cap":18}
 }
