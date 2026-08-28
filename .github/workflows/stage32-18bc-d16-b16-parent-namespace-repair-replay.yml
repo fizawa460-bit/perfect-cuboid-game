@@ -1,0 +1,215 @@
+name: Stage32-18BC d16 b16 parent namespace repair replay
+
+on:
+  push:
+    branches: [stage32-18ax-b16-remaining-walls-tier3-planner]
+    paths: ['stages/stage32/runkeys/18bc-b16-parent-namespace-repair-replay.json']
+
+permissions: {contents: read, actions: read}
+concurrency: {group: stage32-18bc-b16-parent-namespace-repair-replay, cancel-in-progress: true}
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      matrix: ${{ steps.gate.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 2}
+      - id: gate
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          KEY=stages/stage32/runkeys/18bc-b16-parent-namespace-repair-replay.json
+          authorized=false
+          if [ -n "$BEFORE" ] && git fetch --no-tags --depth=1 origin "$BEFORE" && git cat-file -e "$BEFORE^{commit}" && git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY"; then
+            python - <<'PY'
+          import json,os,pathlib,subprocess
+          key='stages/stage32/runkeys/18bc-b16-parent-namespace-repair-replay.json'
+          d=json.loads(pathlib.Path(key).read_text())
+          old=json.loads(subprocess.check_output(['git','show',os.environ['BEFORE']+':'+key],text=True))
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1' and d['generation']==old['generation']+1==2 and d['armed'] and not old['armed']
+          assert d['bound']==16 and d['algorithm']=='pairwise6_strict_below_cut39'
+          assert d['source_exact_artifact_id']==9574308138 and d['planner_probe_budget']==262144
+          assert d['max_parallel']==6 and d['parent_cut']==39 and d['require_parent_stream_byte_identity'] is True
+          walls=d['walls']; assert len(walls)==6 and sum(x['monster_count'] for x in walls)==172
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('matrix='+json.dumps({'include':walls},separators=(',',':'))+'\n')
+          PY
+            authorized=true
+          fi
+          echo "authorized=$authorized" >> "$GITHUB_OUTPUT"
+
+  validate-parent-stream:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix: ${{ fromJSON(needs.authorize.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch locked exact source
+        env: {GH_TOKEN: ${{ github.token }}}
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends g++ libboost-dev
+          mkdir -p "$RUNNER_TEMP/src" "$RUNNER_TEMP/work" "$RUNNER_TEMP/out"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$RUNNER_TEMP/source.zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9574308138/zip"
+          echo '0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4  '"$RUNNER_TEMP/source.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/source.zip" -d "$RUNNER_TEMP/src"
+      - name: Build baseline and repaired certifiers
+        env: {PRIMARY: '${{ matrix.primary }}'}
+        run: |
+          set -euo pipefail
+          for mode in baseline repaired; do
+            SRC="$RUNNER_TEMP/work/$mode.cpp"
+            python stages/stage32/32-18X/build_two_stage_certifier.py --source "$RUNNER_TEMP/src/d16-exact-symmetry-sharded.cpp" --output "$SRC" --primary-id "$PRIMARY"
+            SRC="$SRC" python stages/stage32/32-18AF/patch_symmetry_schedule.py
+            if [ "$mode" = repaired ]; then SRC="$SRC" PAIR_LIMIT=6 python stages/stage32/32-18AY/patch_pairwise_symmetry.py; fi
+            SRC="$SRC" python stages/stage32/32-18AO/patch_block_frontier.py
+            SRC="$SRC" python stages/stage32/32-18AP/patch_lower_block_replay.py
+            SRC="$SRC" python stages/stage32/32-18AR/patch_frontier_cost_planner.py
+            SRC="$SRC" python stages/stage32/32-18AS/patch_selective_frontier_planner.py
+            SRC="$SRC" python stages/stage32/32-18BC/patch_frontier_parent_stream.py
+            g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic "$SRC" -o "$RUNNER_TEMP/work/$mode"
+          done
+          cp "$RUNNER_TEMP/src/d16-hperp.txt" "$RUNNER_TEMP/work/"
+          cp "$RUNNER_TEMP/src/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/work/"
+      - name: Prove cut39 parent stream identity
+        env:
+          SHARD: ${{ matrix.shard }}
+          EXPECTED_FRONTIER: ${{ matrix.frontier }}
+          WALL: ${{ matrix.wall }}
+        run: |
+          set -euo pipefail
+          for mode in baseline repaired; do
+            "$RUNNER_TEMP/work/$mode" --input "$RUNNER_TEMP/work/d16-hperp.txt" --bundle "$RUNNER_TEMP/work/d16-aut-prefix256-bundle.txt" --output "$RUNNER_TEMP/out/$mode.json" --dump-canonical "$RUNNER_TEMP/out/$mode.bin" --bound 16 --shard-id "$SHARD" --shard-count 1024 --split-coordinate 48 --block-cut 39 --frontier-cap 50000 --replay-limit 0 --frontier-stream-output "$RUNNER_TEMP/out/$mode.parents" --node-cap 3000000 >/dev/null
+          done
+          python - <<'PY'
+          import hashlib,json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'; expected=int(os.environ['EXPECTED_FRONTIER'])
+          b=json.loads((root/'baseline.json').read_text()); r=json.loads((root/'repaired.json').read_text())
+          assert b['frontier_states']==r['frontier_states']==expected
+          bp=(root/'baseline.parents').read_bytes(); rp=(root/'repaired.parents').read_bytes(); assert bp==rp
+          assert bp.count(b'\n')==expected
+          digest=hashlib.sha256(bp).hexdigest()
+          out={'schema':'STAGE32_18BC_PARENT_STREAM_IDENTITY_V1','wall':os.environ['WALL'],'frontier_states':expected,'stream_sha256':digest,'byte_identical':True,'pairwise_strictly_below_cut39':True,'D16_B16_NUMERICAL_CREDIT':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
+          (root/'compact.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          for p in root.iterdir():
+              if p.name!='compact.json': p.unlink()
+          print(json.dumps(out,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18bc-parent-stream-${{ matrix.wall }}
+          path: ${{ runner.temp }}/out/compact.json
+          retention-days: 7
+          if-no-files-found: error
+
+  solve-original-172:
+    needs: [authorize,validate-parent-stream]
+    if: needs.authorize.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix: ${{ fromJSON(needs.authorize.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch locked source and original baseline monster IDs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT: ${{ matrix.artifact }}
+          MONSTER_COUNT: ${{ matrix.monster_count }}
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends g++ libboost-dev
+          mkdir -p "$RUNNER_TEMP/src" "$RUNNER_TEMP/monster" "$RUNNER_TEMP/work" "$RUNNER_TEMP/out"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$RUNNER_TEMP/source.zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9574308138/zip"
+          echo '0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4  '"$RUNNER_TEMP/source.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/source.zip" -d "$RUNNER_TEMP/src"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$RUNNER_TEMP/monster.zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${ARTIFACT}/zip"
+          unzip -q "$RUNNER_TEMP/monster.zip" -d "$RUNNER_TEMP/monster"
+          python - <<'PY'
+          import json,os,pathlib
+          ids=None
+          for p in (pathlib.Path(os.environ['RUNNER_TEMP'])/'monster').rglob('*.json'):
+              try:
+                  d=json.loads(p.read_text())
+                  if 'monster_frontier_ids' in d: ids=d['monster_frontier_ids']; break
+                  if 'tier4_frontier_ids' in d: ids=d['tier4_frontier_ids']; break
+              except Exception: pass
+          assert ids is not None and len(ids)==int(os.environ['MONSTER_COUNT'])
+          (pathlib.Path(os.environ['RUNNER_TEMP'])/'work'/'monster-ids.txt').write_text(''.join(f'{x}\n' for x in ids))
+          PY
+      - name: Build repaired pairwise6 certifier
+        env: {PRIMARY: '${{ matrix.primary }}'}
+        run: |
+          set -euo pipefail
+          SRC="$RUNNER_TEMP/work/cert.cpp"
+          python stages/stage32/32-18X/build_two_stage_certifier.py --source "$RUNNER_TEMP/src/d16-exact-symmetry-sharded.cpp" --output "$SRC" --primary-id "$PRIMARY"
+          SRC="$SRC" python stages/stage32/32-18AF/patch_symmetry_schedule.py
+          SRC="$SRC" PAIR_LIMIT=6 python stages/stage32/32-18AY/patch_pairwise_symmetry.py
+          SRC="$SRC" python stages/stage32/32-18AO/patch_block_frontier.py
+          SRC="$SRC" python stages/stage32/32-18AP/patch_lower_block_replay.py
+          SRC="$SRC" python stages/stage32/32-18AR/patch_frontier_cost_planner.py
+          SRC="$SRC" python stages/stage32/32-18AS/patch_selective_frontier_planner.py
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic "$SRC" -o "$RUNNER_TEMP/work/cert"
+          cp "$RUNNER_TEMP/src/d16-hperp.txt" "$RUNNER_TEMP/work/"
+          cp "$RUNNER_TEMP/src/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/work/"
+      - name: Replay original baseline monster parents
+        env:
+          SHARD: ${{ matrix.shard }}
+          WALL: ${{ matrix.wall }}
+          MONSTER_COUNT: ${{ matrix.monster_count }}
+          EXPECTED_FRONTIER: ${{ matrix.frontier }}
+        run: |
+          set -euo pipefail
+          /usr/bin/time -q -f '%e' -o "$RUNNER_TEMP/out/runtime.txt" timeout --signal=TERM --kill-after=20s 50m "$RUNNER_TEMP/work/cert" --input "$RUNNER_TEMP/work/d16-hperp.txt" --bundle "$RUNNER_TEMP/work/d16-aut-prefix256-bundle.txt" --output "$RUNNER_TEMP/out/cert.json" --dump-canonical "$RUNNER_TEMP/out/dump.bin" --bound 16 --shard-id "$SHARD" --shard-count 1024 --split-coordinate 48 --block-cut 39 --frontier-cap 50000 --replay-limit 0 --planner-probe-budget 262144 --planner-output "$RUNNER_TEMP/out/costs.csv" --planner-id-file "$RUNNER_TEMP/work/monster-ids.txt" --node-cap 12000000 >/dev/null 2>"$RUNNER_TEMP/out/stderr.txt"
+          python - <<'PY'
+          import csv,json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP']); rows=list(csv.DictReader((root/'out'/'costs.csv').open())); n=int(os.environ['MONSTER_COUNT'])
+          cert=json.loads((root/'out'/'cert.json').read_text()); assert cert['frontier_states']==int(os.environ['EXPECTED_FRONTIER'])
+          assert len(rows)==n; expected=[int(x) for x in (root/'work'/'monster-ids.txt').read_text().split()]; assert [int(r['frontier_id']) for r in rows]==expected
+          done=sum(r['complete']=='1' for r in rows); unresolved=[int(r['frontier_id']) for r in rows if r['complete']!='1']
+          out={'schema':'STAGE32_18BC_REPAIRED_ORIGINAL_MONSTER_RESULT_V1','algorithm':'pairwise6_strict_below_cut39','wall':os.environ['WALL'],'monster_count':n,'completed_count':done,'unresolved_count':len(unresolved),'unresolved_frontier_ids':unresolved,'total_probe_nodes':sum(int(r['probe_nodes']) for r in rows),'probe_budget_per_state':262144,'runtime_seconds':float((root/'out'/'runtime.txt').read_text().strip()),'parent_cut':39,'parent_partition_stable':True,'D16_B16_NUMERICAL_CREDIT':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
+          (root/'out'/'compact.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          for x in ['cert.json','dump.bin','costs.csv','stderr.txt']:(root/'out'/x).unlink(missing_ok=True)
+          print(json.dumps(out,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18bc-repaired-${{ matrix.wall }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 3
+          if-no-files-found: error
+
+  summarize:
+    needs: [authorize,validate-parent-stream,solve-original-172]
+    if: always() && needs.authorize.outputs.authorized == 'true' && needs.validate-parent-stream.result == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18bc-repaired-*
+          path: ${{ runner.temp }}/runs
+      - run: |
+          python - <<'PY'
+          import json,os,pathlib
+          docs=[json.loads(p.read_text()) for p in (pathlib.Path(os.environ['RUNNER_TEMP'])/'runs').rglob('compact.json')]; assert len(docs)==6,len(docs)
+          total=sum(d['monster_count'] for d in docs); done=sum(d['completed_count'] for d in docs); unresolved=sum(d['unresolved_count'] for d in docs)
+          out={'schema':'STAGE32_18BC_REPAIRED_ORIGINAL_172_SUMMARY_V1','monster_total':total,'completed_total':done,'unresolved_total':unresolved,'walls':sorted(docs,key=lambda d:d['wall']),'parent_stream_identity_gate':'PASSED_6_OF_6','verdict':'ALL_ORIGINAL_172_RESOLVED' if unresolved==0 else 'REPAIRED_NAMESPACE_RESIDUALS_REQUIRE_DEEP_REPLAY','next_item':'32-18BD_D16_B16_CLOSE_EVIDENCE_REBUILD' if unresolved==0 else '32-18BD_REPAIRED_RESIDUAL_DEEP_REPLAY','D16_B16_NUMERICAL_CREDIT':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
+          outdir=pathlib.Path(os.environ['RUNNER_TEMP'])/'summary'; outdir.mkdir(); (outdir/'summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n'); print(json.dumps(out,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18bc-repaired-original-172-summary
+          path: ${{ runner.temp }}/summary/
+          retention-days: 7
+          if-no-files-found: error
