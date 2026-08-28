@@ -47,7 +47,8 @@ jobs:
           assert int(new['generation']) == int(old['generation']) + 1
           assert new['armed'] is True
           assert int(new['node_limit']) == 250000
-          assert new['assignment_order'] == list(range(10)) + [29]
+          assert new['selection_mode'] == 'EXACT_GREEDY_HNF_DISCRIMINANT_ACTIVE_RAW_COORDINATES'
+          assert int(new['selection_depth']) == 11
           assert new['representatives'] == [
               {'m':1,'genus':0,'degree':16,'exceptional_mass':8},
               {'m':2,'genus':0,'degree':8,'exceptional_mass':8},
@@ -64,43 +65,21 @@ jobs:
       - name: Inspect nonexpiring retained exact Stage32 marking
         run: |
           python - <<'PY'
-          import importlib.util, json, re
+          import importlib.util, json
           path='stages/stage33/33-07/stage32_picard_marking_retained.py'
           spec=importlib.util.spec_from_file_location('retained_stage32_marking',path)
           mod=importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
-          x=mod.load()
-          a=x['aut_action']; t=x['hperp_text']
+          x=mod.load(); a=x['aut_action']
           print('MARKING_META='+json.dumps({
               'schema':x['schema'], 'canonical_sha256':x['canonical_sha256'],
               'stage32_picard_core_sha256':x['stage32_picard_core_sha256'],
               'stage32_aut_action_sha256':x['stage32_aut_action_sha256'],
-              'hperp_text_sha256':x['hperp_text_sha256'], 'hperp_text_len':len(t),
+              'hperp_text_sha256':x['hperp_text_sha256'],
               'source_artifact':x['source_artifact']},sort_keys=True))
           print('AUT_META='+json.dumps({
               'schema':a['schema'],'permutation_count':a['permutation_count'],
               'stored_permutations':len(a['permutations_1based']),
-              'permutation_length':len(a['permutations_1based'][0]),
-              'first_permutation':a['permutations_1based'][0],
               'canonical_sha256':a['canonical_sha256_without_this_field']},sort_keys=True))
-          try:
-              j=json.loads(t)
-              print('HPERP_JSON='+json.dumps({'ok':True,'type':type(j).__name__,'keys':sorted(j) if isinstance(j,dict) else None},sort_keys=True))
-              if isinstance(j,dict):
-                  for k,v in j.items():
-                      if isinstance(v,list):
-                          sh=[len(v)] + ([len(v[0])] if v and isinstance(v[0],list) else [])
-                          print('HPERP_KEY='+json.dumps({'key':k,'shape':sh},sort_keys=True))
-                      elif k in ('schema','canonical_sha256','selected_determinant','inverse_denominator'):
-                          print('HPERP_KEY='+json.dumps({'key':k,'value':v},sort_keys=True))
-          except Exception as e:
-              print('HPERP_JSON='+json.dumps({'ok':False,'error':type(e).__name__},sort_keys=True))
-              lines=t.splitlines()
-              print('HPERP_TEXT='+json.dumps({'line_count':len(lines),'head':lines[:12],'tail':lines[-12:]},sort_keys=True))
-              pats=['STAGE32_PICARD_CORE','INDLIST','raw_cross_pairings','selected','SNF','Smith','Hperp','rank','known']
-              hits=[]
-              for i,line in enumerate(lines,1):
-                  if any(p.lower() in line.lower() for p in pats): hits.append([i,line[:500]])
-              print('HPERP_HITS='+json.dumps(hits[:100],sort_keys=True))
           PY
 
   calibrate:
@@ -116,22 +95,28 @@ jobs:
       - name: Install exact local algebra dependency
         run: |
           python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Run exact offline representative pairing-prefix calibration
+      - name: Run exact offline discriminant-active representative calibration
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/stage32-residual32-01"
           python stages/stage32/residual-32-01-production/calibrate_representatives.py \
             --retained stages/stage33/33-07/picard_base_rows_retained.py \
             --output "$RUNNER_TEMP/stage32-residual32-01/calibration.json" \
-            --node-limit 250000
+            --node-limit 250000 \
+            --selection-depth 11
       - name: Enforce scoped calibration contract
         run: |
           python - <<'PY'
           import json, os, pathlib
           p=pathlib.Path(os.environ['RUNNER_TEMP'])/'stage32-residual32-01'/'calibration.json'
           x=json.loads(p.read_text())
-          assert x['schema']=='STAGE32_RESIDUAL32_01_RETAINED_BASIS_PREFIX_CALIBRATION_V1'
-          assert x['coordinate_model']=='RETAINED_PRIMITIVE_BASIS_PAIRINGS_EXCEPTIONALS_FIRST'
+          assert x['schema']=='STAGE32_RESIDUAL32_01_DISCRIMINANT_ACTIVE_PREFIX_CALIBRATION_V2'
+          assert x['coordinate_model']=='DISCRIMINANT_ACTIVE_RAW_PAIRING_COORDINATES_HNF_SELECTED'
+          assert x['selection_mode']=='EXACT_GREEDY_HNF_DISCRIMINANT_ACTIVE_RAW_COORDINATES'
+          assert x['selection_depth']==11
+          assert len(x['assignment_order'])==11 and len(set(x['assignment_order']))==11
+          assert all(0 <= i < 64 for i in x['assignment_order'])
+          assert len(x['selection_trace'])==11
           assert x['retained_picard_bundle_sha256']=='d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c'
           assert x['exceptional_basis_coordinate_count']==29
           assert x['curve_basis_coordinate_count']==35
@@ -148,10 +133,13 @@ jobs:
           assert x['R29_LG2']=='NOT_DISCHARGED'
           assert x['THEOREM_CREDIT'] is False and x['RECEIVER_CREDIT'] is False
           print(json.dumps({
+              'assignment_order':x['assignment_order'],
+              'first_active_depth':x['first_active_depth'],
+              'active_rows':x['active_congruence_rows_by_depth'],
               'nodes': {str(r['m']):r['nodes_visited'] for r in x['representatives']},
               'prunes': {str(r['m']):r['membership_prunes'] for r in x['representatives']},
+              'selector_seconds':x['selector_seconds'],
               'oracle_build_seconds':x['oracle_build_seconds'],
-              'transform_denominator':x['transform_certificate']['inverse_denominator'],
               'certificate_sha256':x['canonical_sha256_without_this_field'],
           },sort_keys=True))
           PY
