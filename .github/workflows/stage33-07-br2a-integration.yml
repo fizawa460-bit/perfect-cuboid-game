@@ -14,44 +14,100 @@ permissions:
 
 jobs:
   gate:
-    name: Cheap latest-commit gate
+    name: Cheap explicit run-key gate
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
-      run: ${{ steps.changed.outputs.run }}
+      authorized: ${{ steps.auth.outputs.authorized }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - id: changed
+      - id: auth
         shell: bash
         env:
           ACTION: ${{ github.event.action }}
           BEFORE: ${{ github.event.before }}
-          HEAD: ${{ github.event.pull_request.head.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          KEY: stages/stage33/33-07/runkey-br2a-integration.json
         run: |
           set -euo pipefail
-          echo 'run=false' >> "$GITHUB_OUTPUT"
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+
+          # workflow_dispatch is itself an explicit human authorization path.
           if [[ "${{ github.event_name }}" == workflow_dispatch ]]; then
-            echo 'run=true' >> "$GITHUB_OUTPUT"
+            echo 'authorized=true' >> "$GITHUB_OUTPUT"
             exit 0
           fi
+
           [[ "${{ github.event_name }}" == pull_request ]] || exit 0
+          # Open/reopen is deliberately cold. Heavy rerun authorization must be
+          # a later synchronize commit that advances the dedicated run key.
           [[ "$ACTION" == synchronize ]] || exit 0
-          [[ -n "$BEFORE" && -n "$HEAD" ]] || exit 0
+          [[ -n "$BEFORE" && -n "$HEAD_SHA" ]] || exit 0
+
           git fetch --no-tags --depth=1 origin "$BEFORE" || true
           git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
-          files="$(git diff --name-only "$BEFORE" "$HEAD")"
+          git cat-file -e "$HEAD_SHA^{commit}" 2>/dev/null || exit 0
+
+          files="$(git diff --name-only "$BEFORE" "$HEAD_SHA")"
           printf '%s\n' "$files"
-          relevant="$(printf '%s\n' "$files" | grep -Ev \
-            '^stages/stage33/33-07/(handoff\.json|result\.md)$|^\.github/workflows/stage33-07-br2a-integration\.yml$' || true)"
-          if grep -Eq '^(stages/stage33/33-07/|stages/stage33/controller\.json$)' <<<"$relevant"; then
-            echo 'run=true' >> "$GITHUB_OUTPUT"
+          grep -Fxq "$KEY" <<<"$files" || exit 0
+
+          git show "$HEAD_SHA:$KEY" > /tmp/new-runkey.json
+          if git cat-file -e "$BEFORE:$KEY" 2>/dev/null; then
+            git show "$BEFORE:$KEY" > /tmp/old-runkey.json
+          else
+            : > /tmp/old-runkey.json
+          fi
+
+          decision="$(python - <<'PY'
+          import json
+          from pathlib import Path
+
+          try:
+              new = json.loads(Path('/tmp/new-runkey.json').read_text())
+              required = {
+                  'schema': 'STAGE33_07_BR2A_INTEGRATION_RUNKEY_V1',
+                  'stage_unit': '33-07',
+                  'workflow': '.github/workflows/stage33-07-br2a-integration.yml',
+              }
+              if any(new.get(k) != v for k, v in required.items()):
+                  print('false')
+                  raise SystemExit(0)
+              generation = new.get('generation')
+              if not isinstance(generation, int) or isinstance(generation, bool) or generation <= 0:
+                  print('false')
+                  raise SystemExit(0)
+              if new.get('armed') is not True:
+                  print('false')
+                  raise SystemExit(0)
+
+              old_text = Path('/tmp/old-runkey.json').read_text().strip()
+              if old_text:
+                  old = json.loads(old_text)
+                  old_generation = old.get('generation')
+                  if not isinstance(old_generation, int) or isinstance(old_generation, bool):
+                      print('false')
+                      raise SystemExit(0)
+                  if generation <= old_generation:
+                      print('false')
+                      raise SystemExit(0)
+              print('true')
+          except Exception as exc:
+              print(f'RUNKEY_DENIED={type(exc).__name__}', file=__import__('sys').stderr)
+              print('false')
+          PY
+          )"
+          if [[ "$decision" == true ]]; then
+            echo 'authorized=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'RUNKEY_AUTHORIZATION=COLD_OR_INVALID'
           fi
 
   br2a-integration:
     needs: gate
-    if: needs.gate.outputs.run == 'true'
+    if: needs.gate.outputs.authorized == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -221,7 +277,9 @@ jobs:
           assert ctl['stage33_07']['repair_reduced_to_two_primary']
           assert ctl['stage33_07']['two_primary_residue_invariant_factor_generator_count']==26
           assert not ctl['stage33_07']['arithmetic_hs_d2_computed']
-          assert not ctl['stage33_08_released'] and not ctl['stage33_09_released']
+          assert not ctl['stage33_08_released'] and not ctl['stage33_40_released']
+          repair={x['id']:x for x in ctl['repair_children']}
+          assert repair['33-09']['status']=='CLOSED_EXACT'
           print('STAGE33_07_RETAINED_MATH=PASS')
           print('HS_FINITE_UNKNOWN=(Z/2)^23+(Z/4)^3')
           print('HS_FINITE_UNKNOWN_GENERATORS=26')
