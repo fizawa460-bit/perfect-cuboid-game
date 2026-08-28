@@ -1,0 +1,72 @@
+import os
+from pathlib import Path
+p=Path(os.environ['SRC'])
+s=p.read_text()
+
+old='''    uint64_t exact_prune_checks_=0,constraint_prunes_=0,exact_symmetry_prune_checks_=0,symmetry_prunes_=0;\n'''
+new='''    uint64_t exact_prune_checks_=0,constraint_prunes_=0,exact_symmetry_prune_checks_=0,symmetry_prunes_=0;\n    uint64_t cap_sym_active_checks_=0,cap_sym_active_prunes_=0;\n'''
+assert s.count(old)==1
+s=s.replace(old,new,1)
+
+anchor='''    bool is_canonical(const std::array<unsigned char,140>& pairing)const{\n'''
+fn=r'''    bool cap_sym_active_possible(int last_remaining,const cpp_rational& budget) {
+        if(last_remaining<0 || budget<=0 || last_remaining>18) return true;
+        const long double bf=std::max<long double>(0,budget.convert_to<long double>());
+        struct CapCand{ int r; int sign; long double severity; };
+        struct SymCand{ int r; long double severity; };
+        std::vector<CapCand> caps; std::vector<SymCand> syms;
+        for(int r=0;r<m_;r++){
+            long double center=static_cast<long double>(p_.p0[r])+cap_assignedf_[r];
+            long double dist=0; int sign=0;
+            if(center<0){ dist=-center; sign=1; }
+            else if(center>static_cast<long double>(p_.cap[r])){ dist=center-static_cast<long double>(p_.cap[r]); sign=-1; }
+            else continue;
+            long double dual=cap_dualf_[r][last_remaining];
+            if(dual<=0) continue;
+            long double reach=std::sqrt(std::max<long double>(0,bf*dual));
+            if(reach<=0) continue;
+            long double sev=dist/reach;
+            if(sev>0.65L) caps.push_back({r,sign,sev});
+        }
+        for(int r=0;r<s_.k;r++){
+            long double center=static_cast<long double>(s_.c0[r])+sym_assignedf_[r];
+            if(center>=0) continue;
+            long double dual=sym_dualf_[r][last_remaining];
+            if(dual<=0) continue;
+            long double reach=std::sqrt(std::max<long double>(0,bf*dual));
+            if(reach<=0) continue;
+            long double sev=(-center)/reach;
+            if(sev>0.65L) syms.push_back({r,sev});
+        }
+        std::sort(caps.begin(),caps.end(),[](const CapCand&a,const CapCand&b){ return a.severity==b.severity?a.r<b.r:a.severity>b.severity; });
+        std::sort(syms.begin(),syms.end(),[](const SymCand&a,const SymCand&b){ return a.severity==b.severity?a.r<b.r:a.severity>b.severity; });
+        if(caps.size()>2) caps.resize(2); if(syms.size()>3) syms.resize(3);
+        for(const auto& c:caps) for(const auto& y:syms){
+            ++cap_sym_active_checks_;
+            cpp_rational cc=exact_center(p_.p0[c.r],cap_a_[c.r],last_remaining);
+            cpp_rational hc=(c.sign>0)?cc:(cpp_rational(p_.cap[c.r])-cc);
+            cpp_rational hs=exact_center(s_.c0[y.r],sym_a_[y.r],last_remaining);
+            if(hc>=0 || hs>=0) continue;
+            cpp_rational d1=-hc,d2=-hs;
+            cpp_rational g11=cap_dual_[c.r][last_remaining],g22=sym_dual_[y.r][last_remaining],g12=0;
+            for(int j=0;j<=last_remaining;j++) g12+=cpp_rational(c.sign)*cap_a_[c.r][j]*sym_a_[y.r][j]/D_[j];
+            cpp_rational det=g11*g22-g12*g12;
+            if(det<=0) continue;
+            cpp_rational lam1=(d1*g22-d2*g12)/det,lam2=(d2*g11-d1*g12)/det;
+            if(lam1<=0 || lam2<=0) continue;
+            cpp_rational need=d1*lam1+d2*lam2;
+            if(need>budget){ ++cap_sym_active_prunes_; return false; }
+        }
+        return true;
+    }
+
+'''
+assert s.count(anchor)==1
+s=s.replace(anchor,fn+anchor,1)
+s=s.replace('''if(caps_possible(n_-1,cpp_rational(bound_)) && symmetry_possible(n_-1,cpp_rational(bound_))) dfs(n_-1,cpp_rational(0));''','''if(caps_possible(n_-1,cpp_rational(bound_)) && symmetry_possible(n_-1,cpp_rational(bound_)) && cap_sym_active_possible(n_-1,cpp_rational(bound_))) dfs(n_-1,cpp_rational(0));''',1)
+s=s.replace('''if(caps_possible(i-1,newrem) && symmetry_possible(i-1,newrem)){''','''if(caps_possible(i-1,newrem) && symmetry_possible(i-1,newrem) && cap_sym_active_possible(i-1,newrem)){''',1)
+meta='''        f<<"  \\\"exact_symmetry_prunes\\\": "<<symmetry_prunes_<<",\\n";\n'''
+add=meta+'''        f<<"  \\\"cap_sym_active_set_deep_only\\\": true,\\n";\n        f<<"  \\\"cap_sym_active_checks\\\": "<<cap_sym_active_checks_<<",\\n";\n        f<<"  \\\"cap_sym_active_prunes\\\": "<<cap_sym_active_prunes_<<",\\n";\n'''
+assert s.count(meta)==1
+s=s.replace(meta,add,1)
+p.write_text(s)
