@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Run the Stage33-11 direct naturality proof with an exact Magma Smith backend.
 
-Only the implementation of the 64x64 integer Smith decomposition is replaced.
-The proof script itself still verifies D = U*G*V, the discriminant invariant
-factors, every transported action, the V4 cohomology regressions, and the final
-H-equivariant Hom spaces.  The Smith calculation is made from the same pinned
-Testa--Stoll source already source-locked by Stage33-09/33-07.
+Only the implementation of the 64x64 integer Picard Smith decomposition is
+replaced. Any other Smith decomposition used by legacy source-side quotient
+code is delegated unchanged to SymPy. The proof script itself still verifies
+D = U*G*V, the discriminant invariant factors, every transported action, the
+V4 cohomology regressions, and the final H-equivariant Hom spaces. The Picard
+Smith calculation is made from the same pinned Testa--Stoll source already
+source-locked by Stage33-09/33-07.
 """
 from __future__ import annotations
 
@@ -25,15 +27,16 @@ import stoll_cuboid_source as stoll  # noqa: E402
 
 PINNED_BLOB = "0422b69847f2afb97cb7b3ed02ebef91279f61b1"
 _called = False
+original = normalforms.smith_normal_decomp
 
 
 def magma_smith_normal_decomp(M: sp.Matrix, domain=None):
     global _called
-    if _called:
-        raise SystemExit("Stage33-11 Magma Smith backend unexpectedly called twice")
-    _called = True
     if M.rows != 64 or M.cols != 64:
-        raise SystemExit(f"Stage33-11 Magma Smith backend expected 64x64, got {M.rows}x{M.cols}")
+        return original(M, domain=domain)
+    if _called:
+        raise SystemExit("Stage33-11 64x64 Picard Magma Smith backend unexpectedly called twice")
+    _called = True
 
     _, core, blob, source_attempt = stoll.load_pinned_source()
     if blob != PINNED_BLOB:
@@ -52,7 +55,7 @@ printf "STAGE33_11_MAGMA_SMITH_DONE\n";
         code,
         240,
         "Stage33-11 pinned Picard Smith",
-        "perfect-cuboid-stage33-11/1.0",
+        "perfect-cuboid-stage33-11/1.1",
     )
     if "STAGE33_11_MAGMA_SMITH_DONE" not in stdout:
         print(stdout)
@@ -88,7 +91,6 @@ printf "STAGE33_11_MAGMA_SMITH_DONE\n";
     return D, U, V
 
 
-original = normalforms.smith_normal_decomp
 normalforms.smith_normal_decomp = magma_smith_normal_decomp
 try:
     runpy.run_path(str(TARGET), run_name="__main__")
@@ -96,4 +98,4 @@ finally:
     normalforms.smith_normal_decomp = original
 
 if not _called:
-    raise SystemExit("Stage33-11 direct proof never requested its Smith decomposition")
+    raise SystemExit("Stage33-11 direct proof never requested its 64x64 Picard Smith decomposition")
