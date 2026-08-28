@@ -29,38 +29,101 @@ def matrix_list(m: Matrix) -> list[list[int]]:
     return [[int(m[i, j]) for j in range(m.cols)] for i in range(m.rows)]
 
 
-def _is_intlike(value: object) -> bool:
-    return isinstance(value, int) and not isinstance(value, bool)
+def _to_int(value: object) -> int | None:
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, int):
+        return int(value)
+    if isinstance(value, str):
+        try:
+            q = sympy.Rational(value)
+        except Exception:
+            return None
+        if q.q == 1:
+            return int(q)
+    return None
 
 
-def _matrix_candidates(obj: object, path: str = "$") -> Iterable[tuple[str, Matrix]]:
-    """Find exact integer 140x64 or 64x140 arrays inside retained marking.
+def _coerce_rectangular(obj: list) -> Matrix | None:
+    if not obj or not all(isinstance(r, list) for r in obj):
+        return None
+    widths = {len(r) for r in obj}
+    if len(widths) != 1:
+        return None
+    rows = len(obj)
+    cols = next(iter(widths))
+    if (rows, cols) not in (
+        (KNOWN_CURVE_COUNT, PICARD_RANK),
+        (PICARD_RANK, KNOWN_CURVE_COUNT),
+        (KNOWN_CURVE_COUNT, KNOWN_CURVE_COUNT),
+    ):
+        return None
+    vals: list[list[int]] = []
+    for row in obj:
+        out: list[int] = []
+        for value in row:
+            iv = _to_int(value)
+            if iv is None:
+                return None
+            out.append(iv)
+        vals.append(out)
+    return Matrix(vals)
 
-    The retained payload is source-locked but intentionally compressed.  We do
-    not hard-code one private field name: candidate arrays are accepted only
-    after an exact Picard-basis regression below.
+
+def _dict_label_matrix(obj: dict) -> Matrix | None:
+    """Accept {"1": [..64..], ..., "140": [..64..]} encodings."""
+    expected = {str(i) for i in range(1, KNOWN_CURVE_COUNT + 1)}
+    if set(obj) != expected:
+        return None
+    rows: list[list[int]] = []
+    for i in range(1, KNOWN_CURVE_COUNT + 1):
+        row = obj[str(i)]
+        if not isinstance(row, list) or len(row) != PICARD_RANK:
+            return None
+        vals: list[int] = []
+        for value in row:
+            iv = _to_int(value)
+            if iv is None:
+                return None
+            vals.append(iv)
+        rows.append(vals)
+    return Matrix(rows)
+
+
+def _pairing_matrix_candidates(obj: object, path: str = "$") -> Iterable[tuple[str, str, Matrix]]:
+    """Discover exact all-140 data without depending on a private field name.
+
+    Supported retained encodings:
+      * 140x64 direct pairings or curve coordinates;
+      * 64x140 transpose of the above;
+      * 140x140 full known-curve intersection matrix, restricted to the 64
+        retained primitive-basis columns;
+      * dict keyed by labels "1".."140" with 64-vectors.
+    Every candidate is still subjected to all 64 exact basis-row regressions.
     """
     if isinstance(obj, dict):
+        keyed = _dict_label_matrix(obj)
+        if keyed is not None:
+            yield path, "LABEL_DICT_140x64", keyed
         for key, value in obj.items():
-            yield from _matrix_candidates(value, f"{path}.{key}")
+            yield from _pairing_matrix_candidates(value, f"{path}.{key}")
         return
     if not isinstance(obj, list) or not obj:
         return
 
-    rows = len(obj)
-    if rows in (KNOWN_CURVE_COUNT, PICARD_RANK) and all(isinstance(r, list) for r in obj):
-        widths = {len(r) for r in obj}
-        if len(widths) == 1:
-            cols = next(iter(widths))
-            if (rows, cols) in ((KNOWN_CURVE_COUNT, PICARD_RANK), (PICARD_RANK, KNOWN_CURVE_COUNT)):
-                if all(_is_intlike(v) for r in obj for v in r):
-                    m = Matrix(obj)
-                    if m.shape == (PICARD_RANK, KNOWN_CURVE_COUNT):
-                        m = m.T
-                    yield path, m
+    raw = _coerce_rectangular(obj)
+    if raw is not None:
+        if raw.shape == (KNOWN_CURVE_COUNT, PICARD_RANK):
+            yield path, "ARRAY_140x64", raw
+        elif raw.shape == (PICARD_RANK, KNOWN_CURVE_COUNT):
+            yield path, "ARRAY_64x140_TRANSPOSED", raw.T
+        elif raw.shape == (KNOWN_CURVE_COUNT, KNOWN_CURVE_COUNT):
+            cols = [i - 1 for i in INDLIST]
+            yield path, "FULL_INTERSECTION_140x140_BASIS_COLUMNS", raw[:, cols]
+
     for i, value in enumerate(obj):
         if isinstance(value, (dict, list)):
-            yield from _matrix_candidates(value, f"{path}[{i}]")
+            yield from _pairing_matrix_candidates(value, f"{path}[{i}]")
 
 
 @dataclass(frozen=True)
@@ -86,9 +149,11 @@ class AutEquivariantPairingAdapter:
 
         valid: dict[str, dict[str, set[str]]] = {}
         matrices: dict[str, Matrix] = {}
-        for path, candidate in _matrix_candidates(marking):
-            for mode in ("DIRECT_PAIRING_MATRIX", "CURVE_COORDINATES_TIMES_GRAM"):
-                m = candidate if mode == "DIRECT_PAIRING_MATRIX" else candidate * gram
+        discovered_shapes: list[tuple[str, str, tuple[int, int]]] = []
+        for path, source_mode, candidate in _pairing_matrix_candidates(marking):
+            discovered_shapes.append((path, source_mode, candidate.shape))
+            for algebra_mode in ("DIRECT_PAIRING_MATRIX", "CURVE_COORDINATES_TIMES_GRAM"):
+                m = candidate if algebra_mode == "DIRECT_PAIRING_MATRIX" else candidate * gram
                 ok = True
                 for basis_pos, known_label in enumerate(INDLIST):
                     expected = [int(gram[basis_pos, j]) for j in range(PICARD_RANK)]
@@ -102,14 +167,17 @@ class AutEquivariantPairingAdapter:
                 matrices[digest] = m
                 entry = valid.setdefault(digest, {"paths": set(), "modes": set()})
                 entry["paths"].add(path)
-                entry["modes"].add(mode)
+                entry["modes"].add(f"{source_mode}:{algebra_mode}")
 
         if len(valid) != 1:
             summary = {
                 k: {"paths": sorted(v["paths"]), "modes": sorted(v["modes"])}
                 for k, v in valid.items()
             }
-            raise ValueError(f"expected one exact all-140 pairing matrix, found {len(valid)}: {summary}")
+            raise ValueError(
+                "expected one exact all-140 pairing matrix, "
+                f"found {len(valid)}: {summary}; discovered={discovered_shapes[:40]}"
+            )
 
         digest = next(iter(valid))
         meta = valid[digest]
