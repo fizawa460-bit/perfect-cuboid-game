@@ -3,11 +3,10 @@
 
 Only the implementation of the 64x64 integer Picard Smith decomposition is
 replaced. Any other Smith decomposition used by legacy source-side quotient
-code is delegated unchanged to SymPy. The proof script itself still verifies
-D = U*G*V, the discriminant invariant factors, every transported action, the
-V4 cohomology regressions, and the final H-equivariant Hom spaces. The Picard
-Smith calculation is made from the same pinned Testa--Stoll source already
-source-locked by Stage33-09/33-07.
+code is delegated unchanged to SymPy. Magma returns only the Smith diagonal
+and right transform V, matching the already-stable Stage33-07 split pattern;
+the left transform U is reconstructed exactly over Q and required to be
+integral/unimodular before D = U*G*V is accepted.
 """
 from __future__ import annotations
 
@@ -43,10 +42,9 @@ def magma_smith_normal_decomp(M: sp.Matrix, domain=None):
         raise SystemExit(f"pinned Testa--Stoll source lock moved: {blob}")
 
     code = core + r'''
-D33, U33, V33 := SmithForm(pmPic);
+D33, _, V33 := SmithForm(pmPic);
 printf "STAGE33_11_SMITH_DIAG=%o\n", [Integers()!D33[j,j] : j in [1..64]];
 for r in [1..64] do
-  printf "STAGE33_11_SMITH_U_ROW_%o=%o\n", r, Eltseq(U33[r]);
   printf "STAGE33_11_SMITH_V_ROW_%o=%o\n", r, Eltseq(V33[r]);
 end for;
 printf "STAGE33_11_MAGMA_SMITH_DONE\n";
@@ -55,7 +53,7 @@ printf "STAGE33_11_MAGMA_SMITH_DONE\n";
         code,
         240,
         "Stage33-11 pinned Picard Smith",
-        "perfect-cuboid-stage33-11/1.1",
+        "perfect-cuboid-stage33-11/1.2",
     )
     if "STAGE33_11_MAGMA_SMITH_DONE" not in stdout:
         print(stdout)
@@ -64,21 +62,29 @@ printf "STAGE33_11_MAGMA_SMITH_DONE\n";
     diag = [int(x) for x in stoll._grab_magma_literal(stdout, "STAGE33_11_SMITH_DIAG")]
     if len(diag) != 64:
         raise SystemExit("Stage33-11 Magma Smith diagonal width regression")
+    vrows = []
+    for r in range(1, 65):
+        row = [int(x) for x in stoll._grab_magma_literal(stdout, f"STAGE33_11_SMITH_V_ROW_{r}")]
+        if len(row) != 64:
+            raise SystemExit(f"Stage33-11 Smith V row {r}: width regression")
+        vrows.append(row)
 
-    def rows(prefix: str) -> list[list[int]]:
-        out = []
-        for r in range(1, 65):
-            row = [int(x) for x in stoll._grab_magma_literal(stdout, f"{prefix}_{r}")]
-            if len(row) != 64:
-                raise SystemExit(f"{prefix}_{r}: width regression")
-            out.append(row)
-        return out
-
-    U = sp.Matrix(rows("STAGE33_11_SMITH_U_ROW"))
-    V = sp.Matrix(rows("STAGE33_11_SMITH_V_ROW"))
+    V = sp.Matrix(vrows)
     D = sp.diag(*diag)
+    Vin = V.inv()
+    if any(sp.Rational(x).q != 1 for x in Vin):
+        raise SystemExit("Stage33-11 Magma Smith V is not unimodular")
+
+    # D=U*M*V => U=D*(M*V)^-1. This is exact rational algebra, then we
+    # require U to be integral and unimodular before accepting the certificate.
+    U = D * (M * V).inv()
+    if any(sp.Rational(x).q != 1 for x in U):
+        raise SystemExit("Stage33-11 reconstructed Smith U is not integral")
+    if abs(int(U.det())) != 1:
+        raise SystemExit("Stage33-11 reconstructed Smith U is not unimodular")
     if D != U * M * V:
         raise SystemExit("Stage33-11 Magma Smith identity D=U*G*V failed locally")
+
     mods = [abs(x) for x in diag if abs(x) > 1]
     if mods != [2] * 4 + [4] * 6 + [8] * 4:
         raise SystemExit(f"Stage33-11 Magma Smith invariant-factor regression: {mods}")
