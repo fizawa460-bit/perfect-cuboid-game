@@ -1,0 +1,71 @@
+name: Stage33-07 intrinsic A2 divisibility filtration transport
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/certify_intrinsic_at2_divisibility_filtration.py'
+      - 'stages/stage33/33-07/certify_intrinsic_to_retained_at2_swap_transport_filtration.py'
+      - 'stages/stage33/33-07/certify_intrinsic_to_retained_at2_swap_transport.py'
+      - 'stages/stage33/33-07/certify_actual_coordinate_swap_at2_actions.py'
+      - 'stages/stage33/33-07/certify_actual_galois_at2_actions.py'
+      - 'stages/stage33/33-07/retained-q256-geometric-sign-quadratic.json'
+      - '.github/workflows/stage33-07-intrinsic-at2-divisibility-filtration.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact finite algebra dependencies
+        run: python -m pip install --disable-pip-version-check --no-input 'sympy==1.14.0' 'z3-solver==4.15.3.0'
+      - name: Certify intrinsic mixed-order divisibility filtration
+        run: python certify_intrinsic_at2_divisibility_filtration.py
+      - name: Retest intrinsic-to-retained swap transport with filtration marking
+        run: python certify_intrinsic_to_retained_at2_swap_transport_filtration.py
+      - name: Enforce exact filtration result and firewalls
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          f=json.load(open('intrinsic-at2-divisibility-filtration.json')); fh=f.pop('canonical_sha256')
+          assert fh==hashlib.sha256(json.dumps(f,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert f['schema']=='STAGE33_07_INTRINSIC_AT2_DIVISIBILITY_FILTRATION_V1'
+          q=f['filtration']; assert q['A2_dimension_f2']==14 and q['two_A4_dimension_f2']==10 and q['four_A8_dimension_f2']==4
+          assert f['hensel_certificate']['mod4_liftable_element_count']==1024
+          assert f['hensel_certificate']['mod8_liftable_element_count']==16
+          assert f['invariance']['all_nine_geometric_actions_preserve_filtration'] and f['invariance']['named_cc_ct_preserve_filtration']
+          assert not f['execution']['smith_form_used'] and not f['execution']['remote_cas_used']
+          x=json.load(open('intrinsic-to-retained-at2-swap-transport-filtration.json')); h=x.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert x['schema']=='STAGE33_07_INTRINSIC_TO_RETAINED_AT2_SWAP_TRANSPORT_FILTRATION_V1'
+          t=x['transport']; assert t['seven_named_sign_actions_intertwined'] and t['named_cc_ct_actions_intertwined'] and t['quadratic_form_isometry']
+          assert t['two_A4_filtration_preserved'] and t['four_A8_filtration_preserved']
+          a=x['actual_swaps_in_retained_at2_basis']; assert a['s3_relations_exact'] and a['both_commute_with_retained_cc_ct']
+          e=x['exact_consequence']; assert e['basis_independent_mixed_order_marking_used'] and e['connecting_matrix_columns_explicitly_materialized']==0
+          assert not e['middle_gersten_module_action_materialized'] and not e['absolute_delta_loc_computed'] and not e['arithmetic_hs_closed']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released'] and not x['theorem_credit'] and not x['endpoint_credit']
+          print('STAGE33_07_INTRINSIC_AT2_DIVISIBILITY_FILTRATION=PASS_EXACT')
+          print('TWO_A4_DIM=10')
+          print('FOUR_A8_DIM=4')
+          print('ACTUAL_PAIR_UNIQUE='+str(a['pair_unique_after_mixed_order_filtration']).lower())
+          print('CERTIFICATE_SHA256='+h)
+          print('NEXT='+x['next_exact_leaf'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-intrinsic-at2-divisibility-filtration
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            stages/stage33/33-07/intrinsic-at2-divisibility-filtration.json
+            stages/stage33/33-07/intrinsic-to-retained-at2-swap-transport-filtration.json
