@@ -1,10 +1,10 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V57_RESIDUAL_FEASIBILITY_PENDING_HOSTILE_AUDIT",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V58_RESIDUAL_FEASIBILITY_HOSTILE_AUDIT_PASS",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "execution_class": 2,
   "parent_route": "G10-LOWGENUS-PICARD",
-  "status": "D16_B12_AUDITED_B16_REPAIRED_BOUNDED_CLOSE_AUDITED_POST_B16_LITERATURE_RECEIVER_RECONCILIATION_AUDITED_RESIDUAL_FEASIBILITY_MAIN_EVIDENCE_COMPLETE_PENDING_HOSTILE_AUDIT_D8_ROUTE_PAUSED",
+  "status": "D16_B12_AUDITED_B16_REPAIRED_BOUNDED_CLOSE_AUDITED_POST_B16_LITERATURE_RECEIVER_RECONCILIATION_AUDITED_RESIDUAL_FEASIBILITY_HOSTILE_AUDIT_PASS_RESIDUAL_32_01_IMPLEMENTATION_CALIBRATION_RELEASED_D8_ROUTE_PAUSED",
   "post_b16_release_contract": "stages/stage32/POST_B16_RELEASE_CONTRACT.md",
   "stale_reference_resolution": {
     "resolved": true,
@@ -27,6 +27,11 @@
       "before_parking_route_or_claiming_exhaustion": "docs/research-os/policies/cycle-exploration-safety-protocol.md"
     }
   },
+  "research_credit_firewalls": {
+    "policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
+    "inherited": true,
+    "stage_local_overrides_may_weaken": false
+  },
   "controller_writeback_policy": {
     "controller_writeback_required_for_every_main_batch_with_repository_write": true,
     "controller_must_reflect_current_state_before_batch_end": true,
@@ -38,10 +43,11 @@
     "automatic_b18_or_higher_forbidden": true,
     "post_b16_literature_receiver_gate_mandatory": true,
     "post_b16_downstream_release_blocked_until_goal_stop_metadata_resolved": false,
-    "post_b16_release_scope": "RESIDUAL_FEASIBILITY_GATE_PENDING_HOSTILE_AUDIT_ONLY",
+    "post_b16_release_scope": "RESIDUAL_32_01_PRODUCTION_IMPLEMENTATION_AND_REPRESENTATIVE_CALIBRATION_ONLY",
     "heavy_compute_armed_by_controller_sync": false,
     "mathematical_credit_changed_this_batch": false,
-    "receiver_credit_changed": false
+    "receiver_credit_changed": false,
+    "full_178_row_sweep_authorized": false
   },
   "accepted_current_facts": {
     "d8_route_state": "PAUSED_RESTARTABLE",
@@ -82,10 +88,11 @@
       "RESIDUAL_32_01_PRODUCTION"
     ],
     "literature_receiver_exact_audit": "AUDITED_PASS",
-    "residual_feasibility_gate": "MAIN_EVIDENCE_COMPLETE_PENDING_HOSTILE_AUDIT",
-    "current_release": "RESIDUAL_FEASIBILITY_GATE",
+    "residual_feasibility_gate": "HOSTILE_AUDIT_PASS",
+    "current_release": "RESIDUAL_32_01_PRODUCTION_IMPLEMENTATION_AND_REPRESENTATIVE_CALIBRATION_ONLY",
     "later_items_released": false,
-    "b18_release_authorized": false
+    "b18_release_authorized": false,
+    "full_178_row_sweep_authorized": false
   },
   "literature_receiver_checkpoint": {
     "evidence": "stages/stage32/post-b16-literature-receiver-exact-audit/EVIDENCE.md",
@@ -105,13 +112,22 @@
   "residual_feasibility_checkpoint": {
     "evidence": "stages/stage32/post-b16-residual-feasibility/EVIDENCE.md",
     "state": "stages/stage32/post-b16-residual-feasibility/state.json",
+    "audit": "stages/stage32/post-b16-residual-feasibility/AUDIT.md",
     "analyzer": "stages/stage32/post-b16-residual-feasibility/analyze_full_window_feasibility.py",
     "expected_analyzer_payload_sha256": "e787c75b845b691c934fcba5a09a1a76c3c95a82a2deb6563bb7e8fbcd636897",
     "main_verdict": "PASS_RESIDUAL_FEASIBILITY_EXACT_ARCHITECTURE_IDENTIFIED_IMPLEMENTATION_AND_CALIBRATION_REQUIRED",
+    "status": "HOSTILE_AUDIT_PASS_POST_MERGE_WRITEBACK",
+    "audit_verdict": "PASS_RESIDUAL_FEASIBILITY_GATE_SCOPE_LOCKED",
+    "audit_review_id": 5055351647,
+    "audited_pr": 1452,
+    "audited_head_sha": "0b2d98e52ebf817c4c8fa41575bd6d55909a7e41",
+    "merged_before_audit": true,
+    "merge_commit_sha": "eeba046fa54917d86af7a76955bda7e22f3e829b",
     "audited_window_row_count": 183,
     "d16_g0_full_norm_bound": 34,
     "audited_d16_g0_bound": 16,
     "rows_with_norm_bound_gt_34": 181,
+    "rows_with_norm_bound_gt_10000": 92,
     "maximum_full_window_norm_bound": 156560,
     "raw_exceptional_mass_strata": 65249,
     "residual_rows_after_degree_le_6_catalogue": 178,
@@ -121,13 +137,14 @@
     "selected_driver": "LOCAL_OFFLINE_EXACT_INTERSECTION_COORDINATE_BRANCH_AND_BOUND",
     "lattice_membership_pruning": "EXACT_SMITH_OR_HERMITE_CONGRUENCES",
     "symmetry_pruning": "EXACT_AUT1536_CANONICAL_AUGMENTATION",
-    "first_downstream_scope_if_audit_passes": "IMPLEMENTATION_AND_REPRESENTATIVE_COST_CALIBRATION_ONLY",
+    "released_downstream_scope": "IMPLEMENTATION_AND_REPRESENTATIVE_COST_CALIBRATION_ONLY",
+    "representative_m_classes": [1, 2, 4, 8],
     "full_178_row_sweep_authorized": false,
-    "heavy_compute_armed": false,
-    "status": "PENDING_FRESH_HOSTILE_AUDIT"
+    "b18_release_authorized": false,
+    "heavy_compute_armed": false
   },
-  "current_item": "RESIDUAL_FEASIBILITY_GATE_PENDING_HOSTILE_AUDIT",
-  "current_item_execution_constraint": "HOSTILE AUDIT OF STATIC FEASIBILITY COUNTS, REUSED EXACT ASSETS, AND SELECTED PRODUCTION ARCHITECTURE ONLY; NO HEAVY RUN; NO B18; NO RESIDUAL_32_01_PRODUCTION RELEASE BEFORE AUDIT PASS; NO FULL_D16_ROW, RECEIVER, THEOREM, ROUTE, OR ENDPOINT PROMOTION",
+  "current_item": "RESIDUAL_32_01_PRODUCTION_IMPLEMENTATION_AND_REPRESENTATIVE_CALIBRATION",
+  "current_item_execution_constraint": "IMPLEMENT THE LOCAL/OFFLINE EXACT INTERSECTION-COORDINATE ENGINE AND CALIBRATE REPRESENTATIVE AUDITED ROWS ACROSS M=1,2,4,8. DO NOT ARM B18. DO NOT START THE FULL 178-ROW SWEEP. ANY ACTIONS CALIBRATION REQUIRES ITS OWN FRESH RUN KEY AND STORAGE/CONCURRENCY PREFLIGHT. NO FULL_D16_ROW, RECEIVER, THEOREM, ROUTE, OR ENDPOINT PROMOTION.",
   "FULL_D8_G0_ROW_COMPLETE": false,
   "FULL_D16_G0_ROW_COMPLETE": false,
   "D16_B16_NUMERICAL_CREDIT": true,
@@ -142,11 +159,10 @@
   "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false,
   "stage32_closed": false,
-  "audit_required": true,
+  "audit_required": false,
   "repair_required": false,
-  "merge_allowed": false,
-  "advance_allowed": false,
-  "next_item": "HOSTILE_AUDIT_RESIDUAL_FEASIBILITY_GATE",
-  "proposed_next_item_after_audit_pass": "RESIDUAL_32_01_PRODUCTION",
-  "next_expected_command": "Stage32-audit"
+  "merge_allowed": true,
+  "advance_allowed": true,
+  "next_item": "RESIDUAL_32_01_PRODUCTION_IMPLEMENTATION_AND_REPRESENTATIVE_CALIBRATION",
+  "next_expected_command": "Stage32-main-batch"
 }

@@ -1,9 +1,22 @@
 {
-  "schema": "STAGE32_POST_B16_RESIDUAL_FEASIBILITY_STATE_V1",
+  "schema": "STAGE32_POST_B16_RESIDUAL_FEASIBILITY_STATE_V2_HOSTILE_AUDIT_PASS",
   "stage": "32",
   "gate": "RESIDUAL_FEASIBILITY_GATE",
-  "status": "MAIN_EVIDENCE_COMPLETE_PENDING_FRESH_HOSTILE_AUDIT",
+  "status": "HOSTILE_AUDIT_PASS_POST_MERGE_WRITEBACK",
   "base_main_sha": "babfc120f738f5a1ca7ae9a20996314bf923300c",
+  "audited_pr": 1452,
+  "audited_head_sha": "0b2d98e52ebf817c4c8fa41575bd6d55909a7e41",
+  "merged_before_audit": true,
+  "merge_commit_sha": "eeba046fa54917d86af7a76955bda7e22f3e829b",
+  "hostile_audit": {
+    "review_id": 5055351647,
+    "submitted_at": "2026-08-28T21:49:46Z",
+    "verdict": "PASS_RESIDUAL_FEASIBILITY_GATE_SCOPE_LOCKED",
+    "repair_required": false,
+    "mathematical_credit_changed": false,
+    "post_merge_writeback_required": true,
+    "post_merge_writeback_record": "stages/stage32/post-b16-residual-feasibility/AUDIT.md"
+  },
   "verdict": "PASS_RESIDUAL_FEASIBILITY_EXACT_ARCHITECTURE_IDENTIFIED_IMPLEMENTATION_AND_CALIBRATION_REQUIRED",
   "static_analyzer": {
     "path": "stages/stage32/post-b16-residual-feasibility/analyze_full_window_feasibility.py",
@@ -49,8 +62,18 @@
       "EXACT_AFFINE_COSET_QTAIL_ENUMERATOR",
       "EXACT_HPERP_CERTIFIER"
     ],
-    "first_production_phase": "IMPLEMENTATION_PLUS_REPRESENTATIVE_COST_CALIBRATION_ACROSS_M_1_2_4_8",
+    "released_first_production_phase": "IMPLEMENTATION_PLUS_REPRESENTATIVE_COST_CALIBRATION_ACROSS_M_1_2_4_8",
     "full_window_sweep_authorized": false
+  },
+  "release": {
+    "released_item": "RESIDUAL_32_01_PRODUCTION_IMPLEMENTATION_AND_REPRESENTATIVE_CALIBRATION",
+    "implementation_authorized": true,
+    "representative_cost_calibration_authorized": true,
+    "representative_m_classes": [1, 2, 4, 8],
+    "full_178_row_sweep_authorized": false,
+    "b18_release_authorized": false,
+    "heavy_compute_armed_by_writeback": false,
+    "fresh_run_key_required_for_any_actions_calibration": true
   },
   "credit": {
     "D16_B16_NUMERICAL_CREDIT": true,
@@ -69,10 +92,10 @@
     "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
     "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false
   },
-  "audit_required": true,
+  "audit_required": false,
   "repair_required": false,
-  "merge_allowed": false,
-  "advance_allowed": false,
-  "proposed_next_item_after_audit_pass": "RESIDUAL_32_01_PRODUCTION",
-  "next_expected_command": "Stage32-audit"
+  "merge_allowed": true,
+  "advance_allowed": true,
+  "next_item": "RESIDUAL_32_01_PRODUCTION_IMPLEMENTATION_AND_REPRESENTATIVE_CALIBRATION",
+  "next_expected_command": "Stage32-main-batch"
 }
