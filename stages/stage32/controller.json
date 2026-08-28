@@ -1,10 +1,10 @@
 {
-  "schema":"STAGE32_LOWGENUS_PICARD_CONTROLLER_V46_B16_REPAIRED_RESIDUAL150_DEEP_REPLAY_RUNNING",
+  "schema":"STAGE32_LOWGENUS_PICARD_CONTROLLER_V47_B16_REPAIRED_RESIDUAL6_CHILD_SPLIT_READY",
   "stage":"32",
   "kernel":"K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "execution_class":2,
   "parent_route":"G10-LOWGENUS-PICARD",
-  "status":"D16_B12_AUDITED_B16_REPAIR_PARENT_STREAM_PASSED_6_OF_6_REPAIRED_ORIGINAL172_22_COMPLETE_150_RESIDUAL_18BD_DEEP_REPLAY_RUNNING_D8_ROUTE_PAUSED",
+  "status":"D16_B12_AUDITED_B16_REPAIR_PARENT_STREAM_PASSED_6_OF_6_REPAIRED_ORIGINAL172_22_COMPLETE_DEEP150_144_COMPLETE_6_RESIDUAL_18BE_CHILD_SPLIT_READY_D8_ROUTE_PAUSED",
   "roadmap":"stages/stage32/POST_B16_LITERATURE_RECEIVER_ROADMAP.md",
   "goal_stop_contract":"stages/stage32/GOAL_AND_STOP_CONTRACT.md",
   "repo_absolute_rule_read_policy":{"mandatory_every_main_batch_reads":["AGENTS.md","stages/stage32/controller.json"],"conditional_mandatory_policy_reads":{"before_actions_artifacts_or_heavy_compute":"docs/research-os/policies/actions-storage-and-evidence-safety.md","before_claim_promotion_closure_or_downstream_release":"docs/research-os/policies/research-credit-and-promotion-firewalls.md","before_parking_route_or_claiming_exhaustion":"docs/research-os/policies/cycle-exploration-safety-protocol.md"}},
@@ -16,13 +16,13 @@
     "source_exact_artifact_id":9574308138,
     "source_exact_artifact_sha256":"0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4",
     "hostile_audit":{"pr":1450,"review":5049175475,"verdict":"FAIL_PARENT_PARTITION_DRIFT","baseline_frontier_states":4103,"invalid_pairwise_frontier_states":3893,"lost_parents":210,"pairwise_exact_gram_kkt_prune_mathematically_safe":true},
-    "repair":{"unit":"32-18BD","status":"RUNNING_REPAIRED_RESIDUAL150_DEEP_REPLAY","pairwise_activation_rule":"ONLY_WHEN_LAST_REMAINING_LT_BLOCK_CUT","require_parent_stream_byte_identity":true,"parent_stream_gate_run_id":33155002856,"parent_stream_gate_result":"PASSED_6_OF_6","g6":{"run_id":33161746999,"status":"SUCCESS","summary_artifact_id":9682227148,"summary_artifact_sha256":"2a5e24b16d6a4be83de7081f9f4bf009e9d2ff3bbf753fc2b0d1ec27ebfa0493","summary_result":{"monster_total":172,"completed_total":22,"unresolved_total":150,"verdict":"REPAIRED_NAMESPACE_RESIDUALS_REQUIRE_DEEP_REPLAY"}},"deep_replay":{"unit":"32-18BD","run_id":33163638379,"head_sha":"c2a2e9c9c0bbb1cca882db92acb09243c3c93035","generation":2,"planner_probe_budget":2000000,"source_residual_total":150,"chunk_size":3,"chunk_jobs":52,"max_parallel":6,"projected_new_peak_storage_mb_lt":2,"persist_compact_only":true,"status":"RUNNING"}},
+    "repair":{"unit":"32-18BE","status":"READY_REPAIRED_RESIDUAL6_CHILD_SPLIT","pairwise_activation_rule":"ONLY_WHEN_LAST_REMAINING_LT_BLOCK_CUT","require_parent_stream_byte_identity":true,"parent_stream_gate_run_id":33155002856,"parent_stream_gate_result":"PASSED_6_OF_6","g6":{"run_id":33161746999,"summary_artifact_id":9682227148,"summary_result":{"monster_total":172,"completed_total":22,"unresolved_total":150}},"deep_replay":{"unit":"32-18BD","run_id":33163638379,"status":"SUCCESS","summary_artifact_id":9685982339,"summary_artifact_sha256":"096446e8d7b5d945d5f01194363b9c476c213d01976b7d3ce3c63965eeb35670","summary_result":{"residual_input_total":150,"completed_total":144,"unresolved_total":6,"verdict":"TRUE_SELECTIVE_CHILD_SPLIT_REQUIRED"},"residual_parent_ids":{"p436-s5":[1914,1919],"p436-s362":[886],"p503-s665":[846],"p922-s13":[1200],"p922-s38":[1861]}},"child_split":{"unit":"32-18BE","generation":1,"armed":false,"child_coordinate":39,"child_probe_budget":2000000,"parent_input_total":6,"max_parallel":5,"projected_new_peak_storage_mb_lt":2,"persist_compact_only":true,"status":"READY_TO_ARM"}},
     "invalidated_prior_runs":{"32-18AY":"NO_CLOSURE_CREDIT","32-18AZ":"NO_CLOSURE_CREDIT","32-18BA":"NO_CLOSURE_CREDIT","32-18BB":"HOSTILE_AUDIT_FAIL"},
-    "resume_rule":"READ 18BD RUN 33163638379 TO COMPLETION. DO NOT RERUN THE 22 COMPLETED REPAIRED PARENTS OR ANY 18BD CHUNK THAT HAS ALREADY PERSISTED VALID COMPACT EVIDENCE. IF ALL 150 RESOLVE, REBUILD D16/B16 CLOSE EVIDENCE; OTHERWISE SPLIT ONLY THE REMAINING REPAIRED PARENTS. DO NOT ARM B18 OR RELEASE POST-B16 WORK.",
+    "resume_rule":"ARM 18BE GENERATION2 FOR ONLY THE SIX REPAIRED RESIDUAL PARENTS. SPLIT EACH PARENT AT COORDINATE39 AND PROBE EACH VIABLE CHILD INDEPENDENTLY. DO NOT RERUN THE 166 REPAIRED PARENTS ALREADY COMPLETE. IF ALL SIX PARENTS CLOSE, REBUILD D16/B16 CLOSE EVIDENCE; OTHERWISE SPLIT ONLY UNRESOLVED CHILDREN. DO NOT ARM B18 OR RELEASE POST-B16 WORK.",
     "mathematical_credit_changed":false
   },
-  "current_item":"32-18BD_D16_B16_REPAIRED_RESIDUAL_DEEP_REPLAY",
-  "current_item_execution_constraint":"RUN 33163638379; SOURCE SUMMARY 9682227148; REPAIRED RESIDUAL150 ONLY; PAIRWISE STRICTLY BELOW CUT39; 2M PROBE; CHUNK3; MAX_PARALLEL6; COMPACT ARTIFACTS; NO B18",
+  "current_item":"32-18BE_D16_B16_REPAIRED_RESIDUAL_CHILD_SPLIT",
+  "current_item_execution_constraint":"RESIDUAL6 ONLY; CHILD SPLIT AT COORDINATE39; PAIRWISE STRICTLY BELOW CUT39; 2M PER CHILD; MAX_PARALLEL5; COMPACT ARTIFACTS; NO B18",
   "FULL_D8_G0_ROW_COMPLETE":false,
   "FULL_D16_G0_ROW_COMPLETE":false,
   "D16_B16_NUMERICAL_CREDIT":false,
@@ -40,6 +40,6 @@
   "repair_required":true,
   "merge_allowed":false,
   "advance_allowed":true,
-  "next_item":"READ_32-18BD_REPAIRED_RESIDUAL150_DEEP_REPLAY",
+  "next_item":"ARM_32-18BE_GENERATION2_REPAIRED_RESIDUAL6_CHILD_SPLIT",
   "next_expected_command":"Stage32-main-batch"
 }
