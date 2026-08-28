@@ -61,34 +61,49 @@ jobs:
             : > /tmp/old-runkey.json
           fi
 
-          python - <<'PY'
+          decision="$(python - <<'PY'
           import json
           from pathlib import Path
 
-          key_path = Path('/tmp/new-runkey.json')
-          new = json.loads(key_path.read_text())
-          required = {
-              'schema': 'STAGE33_07_BR2A_INTEGRATION_RUNKEY_V1',
-              'stage_unit': '33-07',
-              'workflow': '.github/workflows/stage33-07-br2a-integration.yml',
-          }
-          for k, v in required.items():
-              assert new.get(k) == v, (k, new.get(k), v)
-          generation = new.get('generation')
-          assert isinstance(generation, int) and not isinstance(generation, bool) and generation > 0
-          assert new.get('armed') is True
+          try:
+              new = json.loads(Path('/tmp/new-runkey.json').read_text())
+              required = {
+                  'schema': 'STAGE33_07_BR2A_INTEGRATION_RUNKEY_V1',
+                  'stage_unit': '33-07',
+                  'workflow': '.github/workflows/stage33-07-br2a-integration.yml',
+              }
+              if any(new.get(k) != v for k, v in required.items()):
+                  print('false')
+                  raise SystemExit(0)
+              generation = new.get('generation')
+              if not isinstance(generation, int) or isinstance(generation, bool) or generation <= 0:
+                  print('false')
+                  raise SystemExit(0)
+              if new.get('armed') is not True:
+                  print('false')
+                  raise SystemExit(0)
 
-          old_path = Path('/tmp/old-runkey.json')
-          old_text = old_path.read_text().strip()
-          if old_text:
-              old = json.loads(old_text)
-              old_generation = old.get('generation')
-              assert isinstance(old_generation, int) and not isinstance(old_generation, bool)
-              assert generation > old_generation, (old_generation, generation)
-          print(f'RUNKEY_AUTHORIZED_GENERATION={generation}')
+              old_text = Path('/tmp/old-runkey.json').read_text().strip()
+              if old_text:
+                  old = json.loads(old_text)
+                  old_generation = old.get('generation')
+                  if not isinstance(old_generation, int) or isinstance(old_generation, bool):
+                      print('false')
+                      raise SystemExit(0)
+                  if generation <= old_generation:
+                      print('false')
+                      raise SystemExit(0)
+              print('true')
+          except Exception as exc:
+              print(f'RUNKEY_DENIED={type(exc).__name__}', file=__import__('sys').stderr)
+              print('false')
           PY
-
-          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+          )"
+          if [[ "$decision" == true ]]; then
+            echo 'authorized=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'RUNKEY_AUTHORIZATION=COLD_OR_INVALID'
+          fi
 
   br2a-integration:
     needs: gate
