@@ -2,6 +2,18 @@
 
 Status: roadmap-only planning document. This file does not promote exact credit, change controller state, close Stage33-11, release Stage33-08/33-12, or make theorem/endpoint claims.
 
+## Namespace note for AI agents
+
+**Do not interpret `33-11a -> 33-11b -> 33-11c -> 33-11d` as one mathematical dependency chain.**
+
+The existing `33-11a / 33-11b / 33-11c` labels are the earlier Stage33-11 attack-mode/fallback classification. The new `33-11d / 33-11e / 33-11f / 33-11g` labels below are a separate continuation sequence beginning only after the #1449 MAIN/audit handoff. The letter sequence is retained solely to avoid introducing a second namespace.
+
+For planning and dependency purposes, read the continuation as:
+
+`#1449 audited handoff -> 33-11d -> 33-11e -> 33-11f -> 33-11g -> Stage33-11 exact exit`
+
+Do **not** infer that 33-11d consumes the output of 33-11c specifically, and do not reopen or replay 33-11a/b/c merely because the continuation starts at the letter `d`. Only the audited #1449 handoff and explicitly source-locked evidence are inputs to 33-11d.
+
 ## Goal
 
 Finish Stage33-11 = `ARITHMETIC-LOCALIZATION-CONNECTING-MAP` without continuing to grow one oversized PR/workflow. The target is unchanged: materialize and hostile-audit the genuine arithmetic localization connecting map on all 26 source directions, with exact accounting and no working-convention pins left in the promoted proof path.
