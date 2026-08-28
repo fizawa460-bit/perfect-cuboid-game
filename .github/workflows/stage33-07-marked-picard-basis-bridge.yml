@@ -4,14 +4,13 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - 'stages/stage33/33-07/extract_indlist_to_magma_picard_basis.py'
+      - 'stages/stage33/33-07/indlist-to-magma-picard-basis.json'
       - 'stages/stage33/33-07/certify_marked_picard_basis_bridge.py'
       - 'stages/stage33/33-07/certify_actual_galois_at2_actions.py'
       - 'stages/stage33/33-07/certify_actual_coordinate_swap_at2_actions.py'
       - 'stages/stage33/33-07/certify_two_coordinate_swap_picard_rows.py'
       - 'stages/stage33/33-07/picard_base_rows_retained.py'
       - 'stages/stage33/33-07/picard_coordinate_sign_rows_retained.py'
-      - 'stages/stage33/33-07/stoll_cuboid_source.py'
       - '.github/workflows/stage33-07-marked-picard-basis-bridge.yml'
   workflow_dispatch:
 
@@ -29,9 +28,14 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
-      - name: Extract exact INDLIST to historical Magma Picard basis marking
-        run: python extract_indlist_to_magma_picard_basis.py
-      - name: Certify Gram and nine named-action transport and actual swaps
+      - name: Require retained source-locked Magma producer evidence
+        run: |
+          if [ ! -f indlist-to-magma-picard-basis.json ]; then
+            echo 'BLOCKED: retained indlist-to-magma-picard-basis.json is absent.' >&2
+            echo 'Run the manual Stage33-07 marked Picard basis bridge producer, audit its source locks, then retain the compact bridge before this PR verifier can pass.' >&2
+            exit 1
+          fi
+      - name: Certify Gram and nine named-action transport and actual swaps locally
         run: python certify_marked_picard_basis_bridge.py
       - name: Enforce exact marked bridge and firewalls
         run: |
@@ -58,14 +62,14 @@ jobs:
           assert not x['execution']['generic_lattice_isometry_search_used'] and x['execution']['bridge_obtained_from_pinned_upstream_qPic_marking']
           assert not x['execution']['smith_form_used']
           assert x['stage33_progress']=='6/11' and not x['stage33_08_released'] and not x['theorem_credit'] and not x['endpoint_credit']
-          print('STAGE33_07_MARKED_PICARD_BASIS_BRIDGE=PASS_EXACT')
+          print('STAGE33_07_MARKED_PICARD_BASIS_BRIDGE=PASS_EXACT_LOCAL_REVERIFY')
           print('BRIDGE_DET='+str(b['determinant']))
           print('CERTIFICATE_SHA256='+h)
           print('NEXT='+x['next_exact_leaf'])
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: stage33-07-marked-picard-basis-bridge
+          name: stage33-07-marked-picard-basis-bridge-local-reverify
           retention-days: 7
           if-no-files-found: error
           path: |
