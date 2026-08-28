@@ -69,6 +69,7 @@ jobs:
           git fetch origin "$HEAD_REF"
           git checkout -B "$HEAD_REF" "origin/$HEAD_REF"
           python -u stages/stage33/33-11/sync_stage33_controller_checkpoint.py
+          python -u stages/stage33/33-11/sync_stage33_11_main_progress.py
           git add stages/stage33/controller.json
           if git diff --cached --quiet; then
             echo "Controller already synchronized."
