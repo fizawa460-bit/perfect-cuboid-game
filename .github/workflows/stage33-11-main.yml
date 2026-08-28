@@ -29,7 +29,7 @@ jobs:
         working-directory: stages/stage33/33-07
         run: python materialize_order2_localization_receiver.py
       - name: Replay pinned historical Magma Smith basis and Stage33-09 actual swaps
-        run: python -u stages/stage33/33-11/materialize_stage33_11_pinned_retained_smith_transport.py
+        run: python -u stages/stage33/33-11/run_stage33_11_pinned_retained_smith_transport.py
       - name: Run Stage33-11 retained-Smith 14d naturality proof
         run: |
           python -u stages/stage33/33-11/certify_stage33_11_retained_smith_naturality.py
