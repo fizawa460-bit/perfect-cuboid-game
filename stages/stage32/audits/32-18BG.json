@@ -1,0 +1,139 @@
+{
+  "schema": "STAGE32_18BG_D16_B16_REPAIRED_CLOSE_HOSTILE_AUDIT_STATE_V1",
+  "stage": "32",
+  "unit": "32-18BG",
+  "pr": 1450,
+  "audited_functional_head": "9f0cab5aa290648094cfff5da55c1e32f29381f1",
+  "audit_verdict": "PASS_REPAIRED_BYTE_IDENTICAL_CUT39_NAMESPACE_EXACT_RESIDUAL_PARTITIONS_ZERO_UNRESOLVED",
+  "supersedes_failed_review": 5049175475,
+  "scope": {
+    "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
+    "bound": 16,
+    "parent_cut": 39,
+    "split_coordinate": 48,
+    "shard_count": 1024,
+    "bounded_computation_only": true
+  },
+  "source_lock": {
+    "exact_artifact_id": 9574308138,
+    "exact_artifact_sha256": "0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4"
+  },
+  "repair": {
+    "pairwise_activation_rule": "ONLY_WHEN_LAST_REMAINING_LT_BLOCK_CUT",
+    "pairwise_exact_gram_kkt_prune_mathematically_safe": true,
+    "cut39_parent_namespace_pruned_before_recording": false
+  },
+  "parent_stream_identity": {
+    "run_id": 33155002856,
+    "result": "PASSED_6_OF_6",
+    "comparison": "BYTE_IDENTICAL_BASELINE_VS_REPAIRED",
+    "walls": {
+      "p436-s5": 4103,
+      "p436-s362": 3897,
+      "p503-s118": 3596,
+      "p503-s665": 3761,
+      "p922-s13": 4095,
+      "p922-s38": 4203
+    }
+  },
+  "original_172_replay": {
+    "unit": "32-18BC",
+    "final_recovery_run_id": 33161746999,
+    "summary_artifact_id": 9682227148,
+    "summary_artifact_sha256": "2a5e24b16d6a4be83de7081f9f4bf009e9d2ff3bbf753fc2b0d1ec27ebfa0493",
+    "monster_total": 172,
+    "completed_total": 22,
+    "unresolved_total": 150,
+    "selected_ids_duplicate_free": true,
+    "timeout_chunks": 0
+  },
+  "residual_150_deep_replay": {
+    "unit": "32-18BD",
+    "run_id": 33163638379,
+    "summary_artifact_id": 9685982339,
+    "summary_artifact_sha256": "096446e8d7b5d945d5f01194363b9c476c213d01976b7d3ce3c63965eeb35670",
+    "input_total": 150,
+    "completed_total": 144,
+    "unresolved_total": 6,
+    "selected_ids_exactly_equal_18bc_residual_ids": true,
+    "selected_ids_duplicate_free": true,
+    "timeout_chunks": 0,
+    "unresolved_parent_ids_by_wall": {
+      "p436-s362": [886],
+      "p436-s5": [1914, 1919],
+      "p503-s118": [],
+      "p503-s665": [846],
+      "p922-s13": [1200],
+      "p922-s38": [1861]
+    }
+  },
+  "residual_six_child_split": {
+    "unit": "32-18BE",
+    "run_id": 33174535334,
+    "summary_artifact_id": 9687893070,
+    "summary_artifact_sha256": "eb1a85f4a2e7e751c6b7de9aa30235f5083d94dba20849fc1bb11295bb393233",
+    "parent_input_total": 6,
+    "completed_parent_total": 4,
+    "unresolved_parent_total": 2,
+    "unresolved_child_total": 2,
+    "child_coordinate": 39,
+    "partition_is_actual_dfs_child_enumeration": true,
+    "unresolved_children": [
+      {"wall": "p436-s362", "parent_id": 886, "z39": 0},
+      {"wall": "p922-s13", "parent_id": 1200, "z39": 0}
+    ]
+  },
+  "final_two_child_deeper_split": {
+    "unit": "32-18BF",
+    "run_id": 33179349822,
+    "summary_artifact_id": 9689626245,
+    "summary_artifact_sha256": "d8620591648f04b9c11e39bbcc772f483309b831ba243c1defcad2b71bae5ae1",
+    "input_child_total": 2,
+    "resolved_child_total": 2,
+    "grandchild_coordinate": 38,
+    "parent_886_grandchildren": 5,
+    "parent_1200_grandchildren": 6,
+    "completed_grandchildren": 11,
+    "unresolved_grandchild_total": 0,
+    "partition_is_actual_dfs_grandchild_enumeration": true
+  },
+  "exact_completion_semantics": {
+    "planner_complete_means_dfs_returned_without_probe_cap": true,
+    "planner_probe_cap_sets_complete_false": true,
+    "planner_mode_uses_local_probe_budget_not_global_node_cap": true,
+    "global_timeout_can_promote_complete": false,
+    "unknown_or_missing_row_can_promote_complete": false,
+    "all_successful_18bd_timeout_chunks": 0,
+    "all_18be_jobs_successful": true,
+    "all_18bf_jobs_successful": true
+  },
+  "goal_stop_contract_metadata_resolution": {
+    "controller_reference": "stages/stage32/GOAL_AND_STOP_CONTRACT.md",
+    "file_exists_on_pr_head": false,
+    "file_exists_on_pr_base": false,
+    "preexisting_before_pr_1450": true,
+    "repo_wide_promotion_policy_requires_this_named_file": false,
+    "classification": "STALE_PREEXISTING_CONTROLLER_METADATA_NONBLOCKING_FOR_D16_B16_BOUNDED_NUMERICAL_AUDIT",
+    "downstream_release_blocked_until_reference_is_resolved": true
+  },
+  "credit": {
+    "D16_B16_NUMERICAL_CREDIT": true,
+    "FULL_D16_G0_ROW_COMPLETE": false,
+    "R29_LG2": "NOT_DISCHARGED",
+    "R29_LG2_EFF": "NOT_DISCHARGED",
+    "R29_LG2_MB": "NOT_DISCHARGED",
+    "G10_LOWGENUS_PICARD": "AMBER",
+    "THEOREM_CREDIT": false,
+    "RECEIVER_CREDIT": false,
+    "ROUTE_COLOR_CHANGE_AUTHORIZED": false,
+    "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
+    "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false,
+    "B18_RELEASE_AUTHORIZED": false,
+    "POST_B16_DOWNSTREAM_RELEASE_AUTHORIZED": false,
+    "STAGE32_CLOSED": false
+  },
+  "merge_allowed": true,
+  "advance_allowed": false,
+  "next_item": "RESOLVE_STAGE32_GOAL_STOP_CONTRACT_REFERENCE_BEFORE_POST_B16_RELEASE",
+  "next_expected_command": "Stage32-main-batch"
+}
