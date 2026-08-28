@@ -18,24 +18,22 @@ jobs:
       - uses: actions/checkout@v4
         with: {fetch-depth: 2}
       - id: gate
-        env: {GH_TOKEN: '${{ github.token }}'}
         run: |
           set -euo pipefail
           KEY=stages/stage32/runkeys/18ay-b16-monster-algorithm-tournament.json
           authorized=false
-          if git cat-file -e HEAD^\^{commit} 2>/dev/null && [ "$(git diff --name-only HEAD^ HEAD | wc -l)" -eq 1 ] && git diff --name-only HEAD^ HEAD | grep -Fxq "$KEY" && [ "$(git log -1 --pretty=%s)" = 'Stage32-18AY: ARM B16 MONSTER ALGORITHM TOURNAMENT' ]; then
+          if git cat-file -e HEAD^\^{commit} 2>/dev/null && [ "$(git diff --name-only HEAD^ HEAD | wc -l)" -eq 1 ] && git diff --name-only HEAD^ HEAD | grep -Fxq "$KEY" && [ "$(git log -1 --pretty=%s)" = 'Stage32-18AY: ARM B16 MONSTER ALGORITHM TOURNAMENT G2' ]; then
             python - <<'PY'
           import json,pathlib,os
           d=json.loads(pathlib.Path('stages/stage32/runkeys/18ay-b16-monster-algorithm-tournament.json').read_text())
-          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1' and d['generation']==1 and d['armed'] and d['bound']==16
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1' and d['generation']==2 and d['armed'] and d['bound']==16
           assert d['source_exact_artifact_id']==9574308138 and d['planner_probe_budget']==262144
           assert d['sample_per_wall']==4 and d['max_parallel']==6 and d['allow_finer_split'] is False
           assert d['algorithms']==['lower48','pairwise']
           walls=d['walls']; assert len(walls)==6 and sum(x['monster_count'] for x in walls)==172
           inc=[]
           for w in walls:
-              for a in d['algorithms']:
-                  inc.append({'algo':a,**w})
+              for a in d['algorithms']: inc.append({'algo':a,**w})
           assert len(inc)==12
           with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('matrix='+json.dumps({'include':inc},separators=(',',':'))+'\n')
           PY
@@ -58,6 +56,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           ARTIFACT: ${{ matrix.artifact }}
+          MONSTER_COUNT: ${{ matrix.monster_count }}
         run: |
           set -euo pipefail
           sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends g++ libboost-dev
@@ -69,8 +68,7 @@ jobs:
           unzip -q "$RUNNER_TEMP/monster.zip" -d "$RUNNER_TEMP/monster"
           python - <<'PY'
           import json,os,pathlib
-          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'monster'
-          docs=[]
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'monster'; docs=[]
           for p in root.rglob('*.json'):
               try:
                   d=json.loads(p.read_text())
@@ -83,8 +81,6 @@ jobs:
           (pathlib.Path(os.environ['RUNNER_TEMP'])/'work'/'sample-ids.txt').write_text(''.join(f'{x}\n' for x in picked))
           (pathlib.Path(os.environ['RUNNER_TEMP'])/'work'/'sample.json').write_text(json.dumps({'picked':picked},sort_keys=True))
           PY
-        env:
-          MONSTER_COUNT: ${{ matrix.monster_count }}
       - name: Build exact tournament certifier
         env:
           PRIMARY: ${{ matrix.primary }}
@@ -105,7 +101,6 @@ jobs:
           cp "$RUNNER_TEMP/src/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/work/"
       - name: Probe representative monsters
         env:
-          PRIMARY: ${{ matrix.primary }}
           SHARD: ${{ matrix.shard }}
           ALGO: ${{ matrix.algo }}
           WALL: ${{ matrix.wall }}
@@ -115,8 +110,7 @@ jobs:
           python - <<'PY'
           import csv,json,os,pathlib,hashlib
           root=pathlib.Path(os.environ['RUNNER_TEMP']); rows=list(csv.DictReader((root/'out'/'costs.csv').open())); assert len(rows)==4
-          done=sum(r['complete']=='1' for r in rows); nodes=sum(int(r['probe_nodes']) for r in rows)
-          picked=json.loads((root/'work'/'sample.json').read_text())['picked']
+          done=sum(r['complete']=='1' for r in rows); nodes=sum(int(r['probe_nodes']) for r in rows); picked=json.loads((root/'work'/'sample.json').read_text())['picked']
           out={'schema':'STAGE32_18AY_MONSTER_ALGORITHM_TOURNAMENT_RESULT_V1','algorithm':os.environ['ALGO'],'wall':os.environ['WALL'],'sample_ids':picked,'sample_count':4,'completed_count':done,'unresolved_count':4-done,'total_probe_nodes':nodes,'probe_budget_per_state':262144,'runtime_seconds':float((root/'out'/'runtime.txt').read_text().strip()),'sample_stream_sha256':hashlib.sha256(('\n'.join(map(str,picked))+'\n').encode()).hexdigest(),'D16_B16_NUMERICAL_CREDIT':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
           (root/'out'/'compact.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
           for x in ['cert.json','dump.bin','costs.csv','stderr.txt']:(root/'out'/x).unlink(missing_ok=True)
@@ -124,7 +118,7 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: stage32-18ay-${{ matrix.algo }}-${{ matrix.wall }}-g1
+          name: stage32-18ay-${{ matrix.algo }}-${{ matrix.wall }}-g2
           path: ${{ runner.temp }}/out/
           retention-days: 2
           if-no-files-found: error
@@ -136,7 +130,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          pattern: stage32-18ay-*-g1
+          pattern: stage32-18ay-*-g2
           path: ${{ runner.temp }}/runs
       - run: |
           python - <<'PY'
@@ -146,16 +140,15 @@ jobs:
           for a in ('lower48','pairwise'):
               xs=[d for d in docs if d['algorithm']==a]; assert len(xs)==6
               agg[a]={'completed':sum(x['completed_count'] for x in xs),'sample':24,'nodes':sum(x['total_probe_nodes'] for x in xs),'runtime_seconds':sum(x['runtime_seconds'] for x in xs)}
-          best=max(agg,key=lambda a:(agg[a]['completed'],-agg[a]['nodes']))
-          b=agg[best]
-          clear=b['completed']>=6 and b['completed']>=2*max(1,agg[[a for a in agg if a!=best][0]]['completed'])
+          best=max(agg,key=lambda a:(agg[a]['completed'],-agg[a]['nodes'])); other=[a for a in agg if a!=best][0]; b=agg[best]
+          clear=b['completed']>=6 and b['completed']>=2*max(1,agg[other]['completed'])
           verdict='CLEAR_WINNER' if clear else 'NO_CLEAR_WINNER_SPLIT_NEXT'
           out={'schema':'STAGE32_18AY_MONSTER_ALGORITHM_TOURNAMENT_SUMMARY_V1','known_baseline_completed':0,'algorithms':agg,'verdict':verdict,'winner':best if clear else None,'next_item':'32-18AZ_D16_B16_172_MONSTER_WINNER_FULL_RUN' if clear else '32-18AZ_D16_B16_172_MONSTER_SELECTIVE_SPLIT','D16_B16_NUMERICAL_CREDIT':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
           outdir=pathlib.Path(os.environ['RUNNER_TEMP'])/'summary'; outdir.mkdir(); (outdir/'summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n'); print(json.dumps(out,sort_keys=True))
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: stage32-18ay-monster-algorithm-tournament-summary-g1
+          name: stage32-18ay-monster-algorithm-tournament-summary-g2
           path: ${{ runner.temp }}/summary/
           retention-days: 7
           if-no-files-found: error
