@@ -47,8 +47,9 @@ jobs:
           assert int(new['generation']) == int(old['generation']) + 1
           assert new['armed'] is True
           assert int(new['node_limit']) == 250000
-          assert new['selection_mode'] == 'EXACT_GREEDY_HNF_DISCRIMINANT_ACTIVE_RAW_COORDINATES'
-          assert int(new['selection_depth']) == 11
+          assert new['selection_mode'] == 'LOCKED_GENERATION6_DISCRIMINANT_ACTIVE_ORDER'
+          assert new['assignment_order'] == [0,1,2,3,61,4,5,6,7,8,9]
+          assert new['aut_mode'] == 'EXACT_AUT1536_SELECTED64_BUDGET_CLASS_COMPATIBLE_PREFIX_STABILIZER_LEX_MIN'
           assert new['representatives'] == [
               {'m':1,'genus':0,'degree':16,'exceptional_mass':8},
               {'m':2,'genus':0,'degree':8,'exceptional_mass':8},
@@ -59,6 +60,8 @@ jobs:
           assert float(new['projected_peak_artifact_mb']) < 1.0
           assert new['B18_RELEASE_AUTHORIZED'] is False
           assert new['FULL_178_ROW_SWEEP_AUTHORIZED'] is False
+          assert new['THEOREM_CREDIT'] is False
+          assert new['RECEIVER_CREDIT'] is False
           PY
           sed -i '$d' "$GITHUB_OUTPUT"
           echo 'authorized=true' >> "$GITHUB_OUTPUT"
@@ -79,6 +82,7 @@ jobs:
           print('AUT_META='+json.dumps({
               'schema':a['schema'],'permutation_count':a['permutation_count'],
               'stored_permutations':len(a['permutations_1based']),
+              'permutation_degree':len(a['permutations_1based'][0]),
               'canonical_sha256':a['canonical_sha256_without_this_field']},sort_keys=True))
           PY
 
@@ -95,37 +99,38 @@ jobs:
       - name: Install exact local algebra dependency
         run: |
           python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Run exact offline discriminant-active representative calibration
+      - name: Run exact offline HNF plus prefix Aut1536 representative calibration
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/stage32-residual32-01"
           python stages/stage32/residual-32-01-production/calibrate_representatives.py \
             --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
             --output "$RUNNER_TEMP/stage32-residual32-01/calibration.json" \
-            --node-limit 250000 \
-            --selection-depth 11
+            --node-limit 250000
       - name: Enforce scoped calibration contract
         run: |
           python - <<'PY'
           import json, os, pathlib
           p=pathlib.Path(os.environ['RUNNER_TEMP'])/'stage32-residual32-01'/'calibration.json'
           x=json.loads(p.read_text())
-          assert x['schema']=='STAGE32_RESIDUAL32_01_DISCRIMINANT_ACTIVE_PREFIX_CALIBRATION_V2'
+          assert x['schema']=='STAGE32_RESIDUAL32_01_PREFIX_AUT1536_CALIBRATION_V3'
           assert x['coordinate_model']=='DISCRIMINANT_ACTIVE_RAW_PAIRING_COORDINATES_HNF_SELECTED'
-          assert x['selection_mode']=='EXACT_GREEDY_HNF_DISCRIMINANT_ACTIVE_RAW_COORDINATES'
-          assert x['selection_depth']==11
-          assert len(x['assignment_order'])==11 and len(set(x['assignment_order']))==11
-          assert all(0 <= i < 64 for i in x['assignment_order'])
-          assert len(x['selection_trace'])==11
+          assert x['assignment_order_source']=='LOCKED_FROM_GENERATION6_DISCRIMINANT_ACTIVE_SELECTION'
+          assert x['assignment_order']==[0,1,2,3,61,4,5,6,7,8,9]
+          assert x['first_active_depth']==5
+          assert x['active_congruence_rows_by_depth']==[0,0,0,0,16,16,16,16,16,16,16]
           assert x['retained_picard_bundle_sha256']=='d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c'
-          assert x['exceptional_basis_coordinate_count']==29
-          assert x['curve_basis_coordinate_count']==35
-          assert x['aut_used_in_probe'] is False
-          assert x['leaf_aut_canonicalization_regressed_in_this_probe'] is False
-          assert x['prefix_aut_canonical_augmentation_implemented'] is False
+          assert x['aut_mode']=='EXACT_AUT1536_SELECTED64_BUDGET_CLASS_COMPATIBLE_PREFIX_STABILIZER_LEX_MIN'
+          assert x['aut_used_in_probe'] is True
+          assert x['prefix_aut_canonical_augmentation_implemented'] is True
+          assert x['full_aut_group_order']==1536
+          assert x['selected_coordinate_compatible_subgroup_size'] >= 1
+          assert len(x['aut_certificate']['checks'])==11
           assert x['representative_m_classes']==[1,2,4,8]
           assert len(x['representatives'])==4
-          assert all(r['credit_scope']=='PAIRING_LATTICE_PREFIX_COST_PROFILE_ONLY' for r in x['representatives'])
+          assert all(r['credit_scope']=='PAIRING_LATTICE_AND_PREFIX_AUT_COST_PROFILE_ONLY' for r in x['representatives'])
+          assert all(r['total_exact_prunes']==r['membership_prunes']+r['symmetry_prunes'] for r in x['representatives'])
           assert x['full_178_row_sweep_authorized'] is False
           assert x['B18_RELEASE_AUTHORIZED'] is False
           assert x['FULL_D16_G0_ROW_COMPLETE'] is False
@@ -134,12 +139,15 @@ jobs:
           assert x['THEOREM_CREDIT'] is False and x['RECEIVER_CREDIT'] is False
           print(json.dumps({
               'assignment_order':x['assignment_order'],
-              'first_active_depth':x['first_active_depth'],
-              'active_rows':x['active_congruence_rows_by_depth'],
-              'nodes': {str(r['m']):r['nodes_visited'] for r in x['representatives']},
-              'prunes': {str(r['m']):r['membership_prunes'] for r in x['representatives']},
-              'selector_seconds':x['selector_seconds'],
+              'full_aut_group_order':x['full_aut_group_order'],
+              'compatible_subgroup_size':x['selected_coordinate_compatible_subgroup_size'],
+              'prefix_actions':[c['distinct_prefix_actions'] for c in x['aut_certificate']['checks']],
+              'nodes':{str(r['m']):r['nodes_visited'] for r in x['representatives']},
+              'membership_prunes':{str(r['m']):r['membership_prunes'] for r in x['representatives']},
+              'symmetry_prunes':{str(r['m']):r['symmetry_prunes'] for r in x['representatives']},
+              'terminals':{str(r['m']):r['terminal_prefixes_before_stop'] for r in x['representatives']},
               'oracle_build_seconds':x['oracle_build_seconds'],
+              'aut_build_seconds':x['aut_build_seconds'],
               'certificate_sha256':x['canonical_sha256_without_this_field'],
           },sort_keys=True))
           PY
