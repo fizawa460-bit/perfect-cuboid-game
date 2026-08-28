@@ -59,12 +59,15 @@ jobs:
       - name: Materialize finite strict-transform carriers for all working generators
         run: |
           python -u stages/stage33/33-11/materialize_stage33_11_all_generator_strict_transform_carriers.py
-          cat stages/stage33/33-11/stage33-11-all-generator-strict-transform-carriers.json
 
       - name: Scout finite carrier prime refinements
         run: |
           python -u stages/stage33/33-11/materialize_stage33_11_carrier_prime_refinement_scout.py
-          cat stages/stage33/33-11/stage33-11-carrier-prime-refinement-scout.json
+
+      - name: Reduce carrier refinements by certified geometric symmetry
+        run: |
+          python -u stages/stage33/33-11/materialize_stage33_11_carrier_geometric_orbit_reduction.py
+          cat stages/stage33/33-11/stage33-11-carrier-geometric-orbit-reduction.json
 
       - name: Upload compact localization evidence
         if: always()
@@ -84,6 +87,7 @@ jobs:
             stages/stage33/33-11/stage33-11-remaining-representative-direct-exceptional-valuations.json
             stages/stage33/33-11/stage33-11-all-generator-strict-transform-carriers.json
             stages/stage33/33-11/stage33-11-carrier-prime-refinement-scout.json
+            stages/stage33/33-11/stage33-11-carrier-geometric-orbit-reduction.json
           if-no-files-found: ignore
           retention-days: 1
 
@@ -103,10 +107,11 @@ jobs:
           python -u stages/stage33/33-11/sync_stage33_11_remaining_representative_local_valuation_evidence.py
           python -u stages/stage33/33-11/sync_stage33_11_strict_transform_carrier_evidence.py
           python -u stages/stage33/33-11/sync_stage33_11_carrier_prime_refinement_scout.py
+          python -u stages/stage33/33-11/sync_stage33_11_carrier_geometric_orbit_reduction.py
           git add stages/stage33/controller.json
           if git diff --cached --quiet; then
             echo "Controller already synchronized."
           else
-            git commit -m "Stage33-11: synchronize carrier prime-refinement scout"
+            git commit -m "Stage33-11: synchronize carrier geometric orbit reduction"
             git push origin "HEAD:$HEAD_REF"
           fi
