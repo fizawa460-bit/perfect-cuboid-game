@@ -44,11 +44,14 @@ FAILED_OR_BLOCKED_BRANCH_DOES_NOT_AUTHORIZE_NEXT_COARSE_STAGE=true
 MINIMAP_EXHAUSTED_WITHOUT_EXIT_CONDITION_DOES_NOT_ADVANCE=true
 IF_CURRENT_COARSE_STAGE_DOES_NOT_CLOSE=EXTEND_OR_SPLIT_CURRENT_STAGE
 NEXT_COARSE_STAGE_ALLOWED_ONLY_AFTER_CURRENT_EXIT_CONDITION=true
+CROSS_COARSE_STAGE_SPECULATION_MAY_BE_RECORDED_BUT_NOT_PROMOTED_AS_CERTIFIED_PROGRESS=true
 ```
 
 `Stage33-main-batch` may advance several independent live branches of the current coarse stage in parallel until each branch either closes, reaches a justified block, or produces an exact stage-level closure. Branch ordering below is preference/dependency guidance, not a requirement to wait for one branch to fail before starting every other branch. A branch that logically depends on output from another branch remains gated by that dependency.
 
 Once any branch or combination of branches proves the coarse-stage exit condition exactly, unused sibling/fallback branches need not run. Conversely, if all currently planned branches block or fail while the exit condition remains open, extend the mini-map inside the same coarse stage; do not advance merely because the written map was exhausted.
+
+Parallelism is primarily inside the current coarse stage. Later-stage ideas may be noted or explored diagnostically, but 33-11 cannot count certified connecting-map progress until the 33-10 receiver is exact, and 33-12 cannot close before 33-11 reaches complete exact coverage.
 
 ## 4. Stage33-09 — PICARD-EQUIVARIANT-TRANSPORT
 
@@ -260,6 +263,7 @@ MAIN_BATCH_IS_SINGLE_BRANCH_ONLY=false
 UNUSED_FALLBACK_BRANCHES_MUST_RUN=false
 MINIMAP_EXHAUSTED_WITHOUT_EXIT_CONDITION_DOES_NOT_ADVANCE=true
 PARTIAL_PROGRESS_IS_RETAINED=true
+CROSS_COARSE_STAGE_CERTIFIED_PROGRESS_BEFORE_PREREQUISITE=false
 REPAIR_CHILD_CLOSED_IMPLIES_PARENT_33_07_CLOSED=false
 REPAIR_CHILD_COUNT_CHANGES_BIG_TASK_COUNT=false
 OLD_33_09_10_11_SEMANTICS_DROPPED=false
