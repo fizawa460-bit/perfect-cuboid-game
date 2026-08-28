@@ -1,0 +1,74 @@
+name: Stage33-09 Picard equivariant transport
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+    paths:
+      - 'stages/stage33/33-09/**'
+      - '.github/workflows/stage33-09-main.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage33-09-picard-equivariant-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  marked-bridge-bootstrap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Produce the source-locked qPic INDLIST bridge with bounded retries
+        working-directory: stages/stage33/33-07
+        run: |
+          rm -f indlist-to-magma-picard-basis.json marked-picard-basis-bridge-certified.json
+          ok=0
+          for n in 1 2 3 4; do
+            echo "STAGE33_09_MARKED_BRIDGE_ATTEMPT=$n"
+            if python extract_indlist_to_magma_picard_basis.py; then
+              ok=1
+              break
+            fi
+            sleep 15
+          done
+          test "$ok" = 1
+      - name: Verify exact marked bridge against retained historical geometry
+        working-directory: stages/stage33/33-07
+        run: python certify_marked_picard_basis_bridge.py
+      - name: Retain only the source bridge and certified transport in Stage33-09 workspace
+        run: |
+          cp stages/stage33/33-07/indlist-to-magma-picard-basis.json stages/stage33/33-09/marked-picard-basis-source.json
+          cp stages/stage33/33-07/marked-picard-basis-bridge-certified.json stages/stage33/33-09/marked-picard-basis-bridge-certified.json
+          python stages/stage33/33-09/certify_stage33_09_exit.py
+      - name: Enforce Stage33-09 closure and downstream firewalls
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          p='stages/stage33/33-09/stage33-09-closure.json'; x=json.load(open(p)); h=x.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert x['schema']=='STAGE33_09_PICARD_EQUIVARIANT_TRANSPORT_CLOSURE_V1'
+          e=x['exit_condition']; assert all(e.values())
+          assert x['historical_q256_basis_marking_exact'] and x['stage33_10_released']
+          assert x['stage33_progress']=='6/11' and not x['stage33_07_closed'] and not x['stage33_08_released']
+          assert x['connecting_matrix_columns_explicitly_materialized']==0
+          assert not x['absolute_h1_receiver_exact'] and not x['arithmetic_localization_connecting_map_computed'] and not x['arithmetic_hs_closed']
+          assert not x['theorem_credit'] and not x['endpoint_credit']
+          print('STAGE33_09_EXIT_FIREWALL=PASS_EXACT')
+          print('CERTIFICATE_SHA256='+h)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-09-marked-picard-bridge
+          retention-days: 5
+          if-no-files-found: error
+          path: |
+            stages/stage33/33-09/marked-picard-basis-source.json
+            stages/stage33/33-09/marked-picard-basis-bridge-certified.json
+            stages/stage33/33-09/stage33-09-closure.json
