@@ -1,0 +1,78 @@
+{
+  "schema": "STAGE32_POST_B16_RESIDUAL_FEASIBILITY_STATE_V1",
+  "stage": "32",
+  "gate": "RESIDUAL_FEASIBILITY_GATE",
+  "status": "MAIN_EVIDENCE_COMPLETE_PENDING_FRESH_HOSTILE_AUDIT",
+  "base_main_sha": "babfc120f738f5a1ca7ae9a20996314bf923300c",
+  "verdict": "PASS_RESIDUAL_FEASIBILITY_EXACT_ARCHITECTURE_IDENTIFIED_IMPLEMENTATION_AND_CALIBRATION_REQUIRED",
+  "static_analyzer": {
+    "path": "stages/stage32/post-b16-residual-feasibility/analyze_full_window_feasibility.py",
+    "expected_payload_sha256": "e787c75b845b691c934fcba5a09a1a76c3c95a82a2deb6563bb7e8fbcd636897",
+    "row_count": 183,
+    "g0_rows": 88,
+    "g1_rows": 95,
+    "d16_g0_full_norm_bound": 34,
+    "audited_d16_g0_bound": 16,
+    "rows_with_norm_bound_gt_34": 181,
+    "rows_with_norm_bound_gt_10000": 92,
+    "maximum_norm_bound": {
+      "genus": 1,
+      "degree": 190,
+      "m": 8,
+      "bound": 156560
+    }
+  },
+  "coarse_partition": {
+    "raw_exceptional_mass_strata": 65249,
+    "known_degree_le_6_rows_consumed": 5,
+    "residual_rows": 178,
+    "filtered_exceptional_mass_strata": 64111,
+    "g0_residual_rows": 85,
+    "g1_residual_rows": 93,
+    "g0_exceptional_mass_lower_bound": 8,
+    "g1_exceptional_mass_lower_bound": 4
+  },
+  "rejected_drivers": {
+    "direct_norm_shell_continuation": true,
+    "automatic_b18": true,
+    "one_actions_job_per_exceptional_mass_stratum": true,
+    "remote_magma_calculator_as_production_engine": true
+  },
+  "selected_production_architecture": {
+    "driver": "LOCAL_OFFLINE_EXACT_INTERSECTION_COORDINATE_BRANCH_AND_BOUND",
+    "full_rank_pairing_subsystem": 64,
+    "known_pairing_rows": 140,
+    "lattice_membership": "EXACT_SMITH_OR_HERMITE_CONGRUENCE_PRUNING",
+    "symmetry": "EXACT_AUT1536_CANONICAL_AUGMENTATION",
+    "coarse_checkpoint": "GENUS_DEGREE_EXCEPTIONAL_MASS_AND_CONTENT_DERIVED_BRANCH_ID",
+    "leaf_engines": [
+      "EXACT_AFFINE_COSET_QTAIL_ENUMERATOR",
+      "EXACT_HPERP_CERTIFIER"
+    ],
+    "first_production_phase": "IMPLEMENTATION_PLUS_REPRESENTATIVE_COST_CALIBRATION_ACROSS_M_1_2_4_8",
+    "full_window_sweep_authorized": false
+  },
+  "credit": {
+    "D16_B16_NUMERICAL_CREDIT": true,
+    "FULL_D16_G0_ROW_COMPLETE": false,
+    "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
+    "R29_LG2": "NOT_DISCHARGED",
+    "R29_LG2_EFF": "NOT_DISCHARGED",
+    "R29_LG2_MB": "NOT_DISCHARGED",
+    "G10_LOWGENUS_PICARD": "AMBER",
+    "THEOREM_CREDIT": false,
+    "RECEIVER_CREDIT": false,
+    "ROUTE_COLOR_CHANGE_AUTHORIZED": false,
+    "ENDPOINT_CREDIT": false,
+    "B18_RELEASE_AUTHORIZED": false,
+    "HEAVY_COMPUTE_ARMED": false,
+    "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
+    "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false
+  },
+  "audit_required": true,
+  "repair_required": false,
+  "merge_allowed": false,
+  "advance_allowed": false,
+  "proposed_next_item_after_audit_pass": "RESIDUAL_32_01_PRODUCTION",
+  "next_expected_command": "Stage32-audit"
+}
