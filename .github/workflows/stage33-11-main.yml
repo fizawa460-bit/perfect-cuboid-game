@@ -28,15 +28,15 @@ jobs:
       - name: Rebuild retained order2 localization receiver
         working-directory: stages/stage33/33-07
         run: python materialize_order2_localization_receiver.py
-      - name: Run Stage33-11 absolute naturality scout
+      - name: Run Stage33-11 direct Smith absolute naturality scout
         run: |
-          python stages/stage33/33-11/certify_stage33_11_global_naturality.py
-          cat stages/stage33/33-11/stage33-11-global-naturality-scout.json
+          python stages/stage33/33-11/certify_stage33_11_direct_smith_naturality.py
+          cat stages/stage33/33-11/stage33-11-direct-smith-naturality.json
       - name: Upload compact scout certificate
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage33-11-global-naturality-scout
-          path: stages/stage33/33-11/stage33-11-global-naturality-scout.json
+          name: stage33-11-direct-smith-naturality
+          path: stages/stage33/33-11/stage33-11-direct-smith-naturality.json
           if-no-files-found: ignore
           retention-days: 1
