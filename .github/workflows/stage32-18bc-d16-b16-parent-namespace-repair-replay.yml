@@ -13,7 +13,6 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       authorized: ${{ steps.gate.outputs.authorized }}
-      matrix: ${{ steps.gate.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4
         with: {fetch-depth: 2}
@@ -25,21 +24,23 @@ jobs:
           set -euo pipefail
           KEY=stages/stage32/runkeys/18bc-b16-parent-namespace-repair-replay.json
           authorized=false
-          if [ -n "$BEFORE" ] && git fetch --no-tags --depth=1 origin "$BEFORE" && git cat-file -e "$BEFORE^{commit}" && git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY"; then
-            python - <<'PY'
+          if [ -n "$BEFORE" ]; then
+            git fetch --no-tags --depth=1 origin "$BEFORE" || true
+            if git cat-file -e "$BEFORE^{commit}" 2>/dev/null && git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY"; then
+              python - <<'PY'
           import json,os,pathlib,subprocess
           key='stages/stage32/runkeys/18bc-b16-parent-namespace-repair-replay.json'
           d=json.loads(pathlib.Path(key).read_text())
           old=json.loads(subprocess.check_output(['git','show',os.environ['BEFORE']+':'+key],text=True))
           assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
-          assert d['generation']==old['generation']+1 and d['generation']>=3 and d['armed']
+          assert d['generation']==old['generation']+1 and d['generation']>=4 and d['armed']
           assert d['bound']==16 and d['algorithm']=='pairwise6_strict_below_cut39'
           assert d['source_exact_artifact_id']==9574308138 and d['planner_probe_budget']==262144
           assert d['max_parallel']==6 and d['parent_cut']==39 and d['require_parent_stream_byte_identity'] is True
-          walls=d['walls']; assert len(walls)==6 and sum(x['monster_count'] for x in walls)==172
-          with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('matrix='+json.dumps({'include':walls},separators=(',',':'))+'\n')
+          assert len(d['walls'])==6 and sum(x['monster_count'] for x in d['walls'])==172
           PY
-            authorized=true
+              authorized=true
+            fi
           fi
           echo "authorized=$authorized" >> "$GITHUB_OUTPUT"
 
@@ -49,13 +50,20 @@ jobs:
     strategy:
       fail-fast: false
       max-parallel: 6
-      matrix: ${{ fromJSON(needs.authorize.outputs.matrix) }}
+      matrix:
+        include:
+          - {wall: p436-s5, primary: 436, shard: 5, frontier: 4103}
+          - {wall: p436-s362, primary: 436, shard: 362, frontier: 3897}
+          - {wall: p503-s118, primary: 503, shard: 118, frontier: 3596}
+          - {wall: p503-s665, primary: 503, shard: 665, frontier: 3761}
+          - {wall: p922-s13, primary: 922, shard: 13, frontier: 4095}
+          - {wall: p922-s38, primary: 922, shard: 38, frontier: 4203}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - name: Fetch locked exact source
-        env: {GH_TOKEN: ${{ github.token }}}
+        env: {GH_TOKEN: '${{ github.token }}'}
         run: |
           set -euo pipefail
           sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends g++ libboost-dev
@@ -83,9 +91,9 @@ jobs:
           cp "$RUNNER_TEMP/src/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/work/"
       - name: Prove cut39 parent stream identity
         env:
-          SHARD: ${{ matrix.shard }}
-          EXPECTED_FRONTIER: ${{ matrix.frontier }}
-          WALL: ${{ matrix.wall }}
+          SHARD: '${{ matrix.shard }}'
+          EXPECTED_FRONTIER: '${{ matrix.frontier }}'
+          WALL: '${{ matrix.wall }}'
         run: |
           set -euo pipefail
           for mode in baseline repaired; do
@@ -96,12 +104,11 @@ jobs:
           root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'; expected=int(os.environ['EXPECTED_FRONTIER'])
           b=json.loads((root/'baseline.json').read_text()); r=json.loads((root/'repaired.json').read_text())
           assert b['frontier_states']==r['frontier_states']==expected
-          bp=(root/'baseline.parents').read_bytes(); rp=(root/'repaired.parents').read_bytes(); assert bp==rp
-          assert bp.count(b'\n')==expected
-          digest=hashlib.sha256(bp).hexdigest()
-          out={'schema':'STAGE32_18BC_PARENT_STREAM_IDENTITY_V1','wall':os.environ['WALL'],'frontier_states':expected,'stream_sha256':digest,'byte_identical':True,'pairwise_strictly_below_cut39':True,'D16_B16_NUMERICAL_CREDIT':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
+          bp=(root/'baseline.parents').read_bytes(); rp=(root/'repaired.parents').read_bytes()
+          assert bp==rp and bp.count(b'\n')==expected
+          out={'schema':'STAGE32_18BC_PARENT_STREAM_IDENTITY_V1','wall':os.environ['WALL'],'frontier_states':expected,'stream_sha256':hashlib.sha256(bp).hexdigest(),'byte_identical':True,'pairwise_strictly_below_cut39':True,'D16_B16_NUMERICAL_CREDIT':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
           (root/'compact.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
-          for p in root.iterdir():
+          for p in list(root.iterdir()):
               if p.name!='compact.json': p.unlink()
           print(json.dumps(out,sort_keys=True))
           PY
@@ -113,21 +120,28 @@ jobs:
           if-no-files-found: error
 
   solve_original_172:
-    needs: [authorize,validate_parent_stream]
+    needs: [authorize, validate_parent_stream]
     if: needs.authorize.outputs.authorized == 'true'
     strategy:
       fail-fast: false
       max-parallel: 6
-      matrix: ${{ fromJSON(needs.authorize.outputs.matrix) }}
+      matrix:
+        include:
+          - {wall: p436-s5, primary: 436, shard: 5, frontier: 4103, monster_count: 36, artifact: 9675439606}
+          - {wall: p436-s362, primary: 436, shard: 362, frontier: 3897, monster_count: 34, artifact: 9676696013}
+          - {wall: p503-s118, primary: 503, shard: 118, frontier: 3596, monster_count: 31, artifact: 9676719989}
+          - {wall: p503-s665, primary: 503, shard: 665, frontier: 3761, monster_count: 30, artifact: 9676736931}
+          - {wall: p922-s13, primary: 922, shard: 13, frontier: 4095, monster_count: 22, artifact: 9676529538}
+          - {wall: p922-s38, primary: 922, shard: 38, frontier: 4203, monster_count: 19, artifact: 9676480018}
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     steps:
       - uses: actions/checkout@v4
       - name: Fetch locked source and original baseline monster IDs
         env:
-          GH_TOKEN: ${{ github.token }}
-          ARTIFACT: ${{ matrix.artifact }}
-          MONSTER_COUNT: ${{ matrix.monster_count }}
+          GH_TOKEN: '${{ github.token }}'
+          ARTIFACT: '${{ matrix.artifact }}'
+          MONSTER_COUNT: '${{ matrix.monster_count }}'
         run: |
           set -euo pipefail
           sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends g++ libboost-dev
@@ -166,10 +180,10 @@ jobs:
           cp "$RUNNER_TEMP/src/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/work/"
       - name: Replay original baseline monster parents
         env:
-          SHARD: ${{ matrix.shard }}
-          WALL: ${{ matrix.wall }}
-          MONSTER_COUNT: ${{ matrix.monster_count }}
-          EXPECTED_FRONTIER: ${{ matrix.frontier }}
+          SHARD: '${{ matrix.shard }}'
+          WALL: '${{ matrix.wall }}'
+          MONSTER_COUNT: '${{ matrix.monster_count }}'
+          EXPECTED_FRONTIER: '${{ matrix.frontier }}'
         run: |
           set -euo pipefail
           /usr/bin/time -q -f '%e' -o "$RUNNER_TEMP/out/runtime.txt" timeout --signal=TERM --kill-after=20s 50m "$RUNNER_TEMP/work/cert" --input "$RUNNER_TEMP/work/d16-hperp.txt" --bundle "$RUNNER_TEMP/work/d16-aut-prefix256-bundle.txt" --output "$RUNNER_TEMP/out/cert.json" --dump-canonical "$RUNNER_TEMP/out/dump.bin" --bound 16 --shard-id "$SHARD" --shard-count 1024 --split-coordinate 48 --block-cut 39 --frontier-cap 50000 --replay-limit 0 --planner-probe-budget 262144 --planner-output "$RUNNER_TEMP/out/costs.csv" --planner-id-file "$RUNNER_TEMP/work/monster-ids.txt" --node-cap 12000000 >/dev/null 2>"$RUNNER_TEMP/out/stderr.txt"
@@ -177,7 +191,8 @@ jobs:
           import csv,json,os,pathlib
           root=pathlib.Path(os.environ['RUNNER_TEMP']); rows=list(csv.DictReader((root/'out'/'costs.csv').open())); n=int(os.environ['MONSTER_COUNT'])
           cert=json.loads((root/'out'/'cert.json').read_text()); assert cert['frontier_states']==int(os.environ['EXPECTED_FRONTIER'])
-          assert len(rows)==n; expected=[int(x) for x in (root/'work'/'monster-ids.txt').read_text().split()]; assert [int(r['frontier_id']) for r in rows]==expected
+          expected=[int(x) for x in (root/'work'/'monster-ids.txt').read_text().split()]
+          assert len(rows)==n and [int(r['frontier_id']) for r in rows]==expected
           done=sum(r['complete']=='1' for r in rows); unresolved=[int(r['frontier_id']) for r in rows if r['complete']!='1']
           out={'schema':'STAGE32_18BC_REPAIRED_ORIGINAL_MONSTER_RESULT_V1','algorithm':'pairwise6_strict_below_cut39','wall':os.environ['WALL'],'monster_count':n,'completed_count':done,'unresolved_count':len(unresolved),'unresolved_frontier_ids':unresolved,'total_probe_nodes':sum(int(r['probe_nodes']) for r in rows),'probe_budget_per_state':262144,'runtime_seconds':float((root/'out'/'runtime.txt').read_text().strip()),'parent_cut':39,'parent_partition_stable':True,'D16_B16_NUMERICAL_CREDIT':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
           (root/'out'/'compact.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
@@ -192,8 +207,7 @@ jobs:
           if-no-files-found: error
 
   summarize:
-    needs: [authorize,validate_parent_stream,solve_original_172]
-    if: always() && needs.authorize.outputs.authorized == 'true' && needs.validate_parent_stream.result == 'success'
+    needs: [authorize, validate_parent_stream, solve_original_172]
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/download-artifact@v4
