@@ -71,7 +71,6 @@ def _coerce_rectangular(obj: list) -> Matrix | None:
 
 
 def _dict_label_matrix(obj: dict) -> Matrix | None:
-    """Accept {"1": [..64..], ..., "140": [..64..]} encodings."""
     expected = {str(i) for i in range(1, KNOWN_CURVE_COUNT + 1)}
     if set(obj) != expected:
         return None
@@ -91,16 +90,6 @@ def _dict_label_matrix(obj: dict) -> Matrix | None:
 
 
 def _pairing_matrix_candidates(obj: object, path: str = "$") -> Iterable[tuple[str, str, Matrix]]:
-    """Discover exact all-140 data without depending on a private field name.
-
-    Supported retained encodings:
-      * 140x64 direct pairings or curve coordinates;
-      * 64x140 transpose of the above;
-      * 140x140 full known-curve intersection matrix, restricted to the 64
-        retained primitive-basis columns;
-      * dict keyed by labels "1".."140" with 64-vectors.
-    Every candidate is still subjected to all 64 exact basis-row regressions.
-    """
     if isinstance(obj, dict):
         keyed = _dict_label_matrix(obj)
         if keyed is not None:
@@ -126,16 +115,103 @@ def _pairing_matrix_candidates(obj: object, path: str = "$") -> Iterable[tuple[s
             yield from _pairing_matrix_candidates(value, f"{path}[{i}]")
 
 
+def _propagate_full_pairing_from_basis_gram(marking: dict, gram: Matrix) -> tuple[Matrix, dict]:
+    """Reconstruct the 140x140 intersection pairing by exact Aut invariance.
+
+    Stoll's source defines the 140 classes as 92 known curves followed by 48
+    exceptional divisors and the retained Aut permutations act on exactly this
+    ordered set.  The retained primitive-basis Gram supplies <a,b> for all
+    a,b in INDLIST.  Since every retained Aut element is an exact Picard
+    isometry, <g(a),g(b)>=<a,b>.  We propagate these 4096 values through the
+    full 1536-element group and fail closed unless every ordered pair is covered
+    with no conflicting value.
+    """
+    aut_payload = marking.get("aut_action")
+    if not isinstance(aut_payload, dict):
+        raise ValueError("retained marking missing aut_action")
+    generators = aut_payload.get("permutations_1based")
+    if not isinstance(generators, list) or not generators:
+        raise ValueError("retained marking missing Aut permutations")
+    group = close_permutation_group(generators)
+    if len(group) != EXPECTED_AUT_GROUP_ORDER:
+        raise ValueError(f"retained Aut group order regression: {len(group)}")
+    if any(len(g) != KNOWN_CURVE_COUNT for g in group):
+        raise ValueError("retained Aut permutation degree regression")
+
+    basis = [i - 1 for i in INDLIST]
+    known: dict[tuple[int, int], int] = {}
+    conflicts: list[dict] = []
+    for bi, a in enumerate(basis):
+        for bj, b in enumerate(basis):
+            value = int(gram[bi, bj])
+            for g in group:
+                key = (g[a], g[b])
+                prior = known.get(key)
+                if prior is not None and prior != value:
+                    conflicts.append({
+                        "pair_1based": [key[0] + 1, key[1] + 1],
+                        "prior": prior,
+                        "new": value,
+                        "basis_pair_1based": [a + 1, b + 1],
+                    })
+                    if len(conflicts) >= 8:
+                        break
+                else:
+                    known[key] = value
+            if conflicts:
+                break
+        if conflicts:
+            break
+    if conflicts:
+        raise ValueError(f"Aut orbit propagation conflict: {conflicts}")
+
+    expected = KNOWN_CURVE_COUNT * KNOWN_CURVE_COUNT
+    if len(known) != expected:
+        uncovered = [
+            [i + 1, j + 1]
+            for i in range(KNOWN_CURVE_COUNT)
+            for j in range(KNOWN_CURVE_COUNT)
+            if (i, j) not in known
+        ]
+        raise ValueError(
+            "Aut orbit propagation incomplete: "
+            f"covered={len(known)}/{expected}; uncovered_sample={uncovered[:40]}"
+        )
+
+    full = Matrix(
+        KNOWN_CURVE_COUNT,
+        KNOWN_CURVE_COUNT,
+        lambda i, j: known[(i, j)],
+    )
+    if full != full.T:
+        raise ValueError("reconstructed all140 pairing is not symmetric")
+    basis_sub = full.extract(basis, basis)
+    if basis_sub != gram:
+        raise ValueError("reconstructed basis Gram regression")
+
+    # Avoid a second expensive symbolic rank computation: the exact retained
+    # 64x64 Gram is nonsingular, so full rank is at least 64; all 140 columns
+    # pair through the same Picard rank-64 lattice by construction.  The
+    # adapter only consumes the 140x64 basis-column image below.
+    pairing = full[:, basis]
+    cert = {
+        "mode": "AUT_ORBIT_PROPAGATION_FROM_RETAINED_BASIS_GRAM",
+        "full_aut_group_order": len(group),
+        "seed_basis_pair_count": PICARD_RANK * PICARD_RANK,
+        "covered_ordered_pair_count": len(known),
+        "expected_ordered_pair_count": expected,
+        "coverage_complete": True,
+        "conflict_count": 0,
+        "full_pairing_sha256": csha(matrix_list(full)),
+        "pairing_to_basis_sha256": csha(matrix_list(pairing)),
+        "basis_gram_regression_exact": True,
+    }
+    cert["canonical_sha256_without_this_field"] = csha(cert)
+    return pairing, cert
+
+
 @dataclass(frozen=True)
 class AutEquivariantPairingAdapter:
-    """All-140 known-curve pairings connected exactly to the Picard basis.
-
-    `pairing_matrix[j,:]` is the pairing with known curve label j+1 written as
-    an integer linear form in the retained primitive Picard basis.  Therefore
-    Aut(S) acts by literal row permutation on the 140-coordinate pairing image,
-    while integer Picard-lattice membership remains an exact HNF problem.
-    """
-
     pairing_matrix: Matrix
     discovery_paths: tuple[str, ...]
     discovery_modes: tuple[str, ...]
@@ -149,9 +225,7 @@ class AutEquivariantPairingAdapter:
 
         valid: dict[str, dict[str, set[str]]] = {}
         matrices: dict[str, Matrix] = {}
-        discovered_shapes: list[tuple[str, str, tuple[int, int]]] = []
         for path, source_mode, candidate in _pairing_matrix_candidates(marking):
-            discovered_shapes.append((path, source_mode, candidate.shape))
             for algebra_mode in ("DIRECT_PAIRING_MATRIX", "CURVE_COORDINATES_TIMES_GRAM"):
                 m = candidate if algebra_mode == "DIRECT_PAIRING_MATRIX" else candidate * gram
                 ok = True
@@ -169,19 +243,32 @@ class AutEquivariantPairingAdapter:
                 entry["paths"].add(path)
                 entry["modes"].add(f"{source_mode}:{algebra_mode}")
 
+        propagation_certificate = None
+        if not valid:
+            propagated, propagation_certificate = _propagate_full_pairing_from_basis_gram(marking, gram)
+            digest = csha(matrix_list(propagated))
+            matrices[digest] = propagated
+            valid[digest] = {
+                "paths": {"$.aut_action.permutations_1based + retained.picard_gram_64x64"},
+                "modes": {"AUT_ORBIT_PROPAGATION_FROM_RETAINED_BASIS_GRAM"},
+            }
+
         if len(valid) != 1:
             summary = {
                 k: {"paths": sorted(v["paths"]), "modes": sorted(v["modes"])}
                 for k, v in valid.items()
             }
-            raise ValueError(
-                "expected one exact all-140 pairing matrix, "
-                f"found {len(valid)}: {summary}; discovered={discovered_shapes[:40]}"
-            )
+            raise ValueError(f"expected one exact all-140 pairing matrix, found {len(valid)}: {summary}")
 
         digest = next(iter(valid))
         meta = valid[digest]
         pairing = matrices[digest]
+        for basis_pos, known_label in enumerate(INDLIST):
+            expected = [int(gram[basis_pos, j]) for j in range(PICARD_RANK)]
+            got = [int(pairing[known_label - 1, j]) for j in range(PICARD_RANK)]
+            if got != expected:
+                raise ValueError(f"basis-row regression failed for known label {known_label}")
+
         cert = {
             "mode": "EXACT_RETAINED_ALL140_PAIRINGS_TO_PICARD64",
             "known_curve_count": KNOWN_CURVE_COUNT,
@@ -192,6 +279,7 @@ class AutEquivariantPairingAdapter:
             "pairing_matrix_sha256": digest,
             "basis_row_regression_count": len(INDLIST),
             "basis_row_regression_exact": True,
+            "orbit_propagation_certificate": propagation_certificate,
         }
         cert["canonical_sha256_without_this_field"] = csha(cert)
         return cls(
@@ -223,8 +311,6 @@ class EquivariantMembershipCheck:
 
 
 class EquivariantPrefixMembershipOracle:
-    """Exact membership in the integer image of selected all-140 pairings."""
-
     def __init__(self, adapter: AutEquivariantPairingAdapter, known_labels_1based: Sequence[int]):
         labels = tuple(int(v) for v in known_labels_1based)
         if len(set(labels)) != len(labels) or any(v < 1 or v > KNOWN_CURVE_COUNT for v in labels):
@@ -297,15 +383,6 @@ class EquivariantAutCheck:
 
 
 class AutEquivariantPrefixCanonicalAugmentation:
-    """Prefix lex-min under the global budget-class-preserving Aut subgroup.
-
-    Unlike the rejected selected64 model, an Aut element need not preserve the
-    entire 64-coordinate basis set.  We work in the exact all-140 pairing image;
-    at each prefix we only require the *currently assigned known-label set* to
-    be preserved setwise.  The induced action is then a literal permutation of
-    assigned values, so no unassigned coordinate is guessed.
-    """
-
     def __init__(
         self,
         permutations_1based: Sequence[Sequence[int]],
