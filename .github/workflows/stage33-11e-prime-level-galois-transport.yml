@@ -1,0 +1,70 @@
+name: Stage33-11e prime level Galois transport
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-11e/run-key.json'
+      - '.github/workflows/stage33-11e-prime-level-galois-transport.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.authorize.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: authorize
+        env:
+          EVENT: '${{ github.event_name }}'
+          ACTION: '${{ github.event.action }}'
+          BEFORE: '${{ github.event.before }}'
+          HEAD: '${{ github.event.pull_request.head.sha }}'
+        run: python stages/stage33/33-11e/authorize_stage33_11e_run.py
+
+  verify-prime-galois-transport:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned exact local algebra
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Verify prime-level cc and ct transport
+        run: python stages/stage33/33-11e/verify_stage33_11e_prime_galois_transport.py
+      - name: Enforce 33-11e no-promotion boundary
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage33/33-11e/stage33-11e-prime-galois-transport-certificate.json'
+          x=json.load(open(p, encoding='utf-8'))
+          s=x['summary']
+          assert s['working_generator_coverage']=='14/14'
+          assert s['component_packages_checked']==134
+          assert s['unresolved_prime_transports']==0
+          assert s['generator_prime_level_galois_difference']=='ZERO_EXACT_ALL_14'
+          assert s['stage33_11e_status']=='MAIN_COMPLETE_PENDING_AUDIT'
+          assert s['stage33_11_exact_connecting_progress']=='0/26'
+          assert s['exact_connecting_columns_promoted']==0
+          assert not any([
+              x['firewalls']['stage33_11_closed_exact'],
+              x['firewalls']['stage33_12_released'],
+              x['firewalls']['stage33_08_released'],
+              x['firewalls']['stage33_07_closed'],
+              x['firewalls']['theorem_credit'],
+              x['firewalls']['endpoint_credit'],
+          ])
+          assert x['actions_preflight']['planned_effective_heavy_concurrency']==0
+          assert x['actions_preflight']['projected_new_artifact_storage_bytes']==0
+          print('STAGE33_11E_NO_PROMOTION_FIREWALL=PASS')
+          PY
