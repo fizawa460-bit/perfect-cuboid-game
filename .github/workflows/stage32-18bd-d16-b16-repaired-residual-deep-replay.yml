@@ -1,0 +1,226 @@
+name: Stage32-18BD d16 b16 repaired residual deep replay
+
+on:
+  push:
+    branches: [stage32-18ax-b16-remaining-walls-tier3-planner]
+    paths: ['stages/stage32/runkeys/18bd-b16-repaired-residual-deep-replay.json']
+
+permissions: {contents: read, actions: read}
+concurrency: {group: stage32-18bd-b16-repaired-residual-deep-replay, cancel-in-progress: true}
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      matrix: ${{ steps.gate.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 2}
+      - id: gate
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          KEY=stages/stage32/runkeys/18bd-b16-repaired-residual-deep-replay.json
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          echo 'matrix={"include":[]}' >> "$GITHUB_OUTPUT"
+          [ -n "$BEFORE" ] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          [ "$(git diff --name-only "$BEFORE" "$HEAD_SHA" | wc -l)" -eq 1 ] || exit 0
+          git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY" || exit 0
+          [ "$(git log -1 --pretty=%s)" = 'Stage32-18BD: ARM REPAIRED RESIDUAL150 DEEP REPLAY' ] || exit 0
+          python - <<'PY'
+          import json,os,pathlib,subprocess,math
+          key='stages/stage32/runkeys/18bd-b16-repaired-residual-deep-replay.json'
+          d=json.loads(pathlib.Path(key).read_text())
+          old=json.loads(subprocess.check_output(['git','show',os.environ['BEFORE']+':'+key],text=True))
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert old['generation']==1 and old['armed'] is False
+          assert d['generation']==2 and d['armed'] is True
+          assert d['bound']==16 and d['algorithm']=='pairwise6_strict_below_cut39_deep_replay'
+          assert d['parent_cut']==39 and d['planner_probe_budget']==2000000 and d['chunk_size']==3
+          assert d['max_parallel']==6 and d['source_exact_artifact_id']==9574308138
+          assert d['source_summary_artifact_id']==9682227148
+          assert d['source_summary_artifact_sha256']=='2a5e24b16d6a4be83de7081f9f4bf009e9d2ff3bbf753fc2b0d1ec27ebfa0493'
+          assert d['parent_stream_gate_run_id']==33155002856 and d['source_residual_total']==150
+          assert d['require_parent_stream_byte_identity'] is True
+          walls=d['walls']; assert len(walls)==6 and sum(x['residual_count'] for x in walls)==150
+          matrix=[]
+          for w in walls:
+              expected=math.ceil(w['residual_count']/d['chunk_size'])
+              assert w['chunks']==expected
+              for c in range(expected):
+                  matrix.append({**w,'chunk':c})
+          assert len(matrix)==52
+          assert d['storage_preflight']['operating_budget_mb']==500
+          assert d['storage_preflight']['projected_new_peak_mb_lt']<=2
+          assert d['concurrency_preflight']['planned_effective_heavy_concurrency']==6
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('authorized=true\n')
+              f.write('matrix='+json.dumps({'include':matrix},separators=(',',':'))+'\n')
+          PY
+
+  deep_replay:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix: ${{ fromJSON(needs.authorize.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch locked source and repaired residual summary
+        env:
+          GH_TOKEN: '${{ github.token }}'
+          WALL: '${{ matrix.wall }}'
+          CHUNK: '${{ matrix.chunk }}'
+          RESIDUAL_COUNT: '${{ matrix.residual_count }}'
+        run: |
+          set -euo pipefail
+          for f in /etc/apt/sources.list.d/*; do
+            [ -f "$f" ] || continue
+            if grep -q 'packages.microsoft.com' "$f"; then sudo rm -f "$f"; fi
+          done
+          sudo apt-get update -qq -o Acquire::Retries=3
+          sudo apt-get install -y --no-install-recommends libboost-dev
+          command -v g++ >/dev/null
+          mkdir -p "$RUNNER_TEMP/src" "$RUNNER_TEMP/summary" "$RUNNER_TEMP/work" "$RUNNER_TEMP/out"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$RUNNER_TEMP/source.zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9574308138/zip"
+          echo '0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4  '"$RUNNER_TEMP/source.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/source.zip" -d "$RUNNER_TEMP/src"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$RUNNER_TEMP/summary.zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9682227148/zip"
+          echo '2a5e24b16d6a4be83de7081f9f4bf009e9d2ff3bbf753fc2b0d1ec27ebfa0493  '"$RUNNER_TEMP/summary.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/summary.zip" -d "$RUNNER_TEMP/summary"
+          python - <<'PY'
+          import json,os,pathlib,hashlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])
+          d=json.loads(next((root/'summary').rglob('summary.json')).read_text())
+          assert d['schema']=='STAGE32_18BC_REPAIRED_ORIGINAL_172_SUMMARY_V2'
+          assert d['source_g4_run_id']==33155002856 and d['parent_stream_identity_gate']=='PASSED_6_OF_6'
+          assert d['monster_total']==172 and d['completed_total']==22 and d['unresolved_total']==150
+          assert d['verdict']=='REPAIRED_NAMESPACE_RESIDUALS_REQUIRE_DEEP_REPLAY'
+          wall=os.environ['WALL']; ids=d['residual_frontier_ids_by_wall'][wall]
+          assert len(ids)==int(os.environ['RESIDUAL_COUNT']) and len(ids)==len(set(ids))
+          chunk=int(os.environ['CHUNK']); size=3; selected=ids[chunk*size:(chunk+1)*size]
+          assert selected
+          work=root/'work'
+          work.joinpath('ids.txt').write_text(''.join(f'{x}\n' for x in selected))
+          work.joinpath('wall-residual.sha256').write_text(hashlib.sha256((''.join(f'{x}\n' for x in ids)).encode()).hexdigest()+'\n')
+          PY
+      - name: Build strict-below-cut39 pairwise6 certifier
+        env: {PRIMARY: '${{ matrix.primary }}'}
+        run: |
+          set -euo pipefail
+          SRC="$RUNNER_TEMP/work/cert.cpp"
+          python stages/stage32/32-18X/build_two_stage_certifier.py --source "$RUNNER_TEMP/src/d16-exact-symmetry-sharded.cpp" --output "$SRC" --primary-id "$PRIMARY"
+          SRC="$SRC" python stages/stage32/32-18AF/patch_symmetry_schedule.py
+          SRC="$SRC" PAIR_LIMIT=6 python stages/stage32/32-18AY/patch_pairwise_symmetry.py
+          SRC="$SRC" python stages/stage32/32-18AO/patch_block_frontier.py
+          SRC="$SRC" python stages/stage32/32-18AP/patch_lower_block_replay.py
+          SRC="$SRC" python stages/stage32/32-18AR/patch_frontier_cost_planner.py
+          SRC="$SRC" python stages/stage32/32-18AS/patch_selective_frontier_planner.py
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic "$SRC" -o "$RUNNER_TEMP/work/cert"
+          cp "$RUNNER_TEMP/src/d16-hperp.txt" "$RUNNER_TEMP/work/"
+          cp "$RUNNER_TEMP/src/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/work/"
+      - name: Deep replay repaired residual parents only
+        env:
+          SHARD: '${{ matrix.shard }}'
+          WALL: '${{ matrix.wall }}'
+          CHUNK: '${{ matrix.chunk }}'
+          EXPECTED_FRONTIER: '${{ matrix.frontier }}'
+        run: |
+          set -euo pipefail
+          set +e
+          /usr/bin/time -q -f '%e' -o "$RUNNER_TEMP/out/runtime.txt" timeout --signal=TERM --kill-after=20s 40m "$RUNNER_TEMP/work/cert" --input "$RUNNER_TEMP/work/d16-hperp.txt" --bundle "$RUNNER_TEMP/work/d16-aut-prefix256-bundle.txt" --output "$RUNNER_TEMP/out/cert.json" --dump-canonical "$RUNNER_TEMP/out/dump.bin" --bound 16 --shard-id "$SHARD" --shard-count 1024 --split-coordinate 48 --block-cut 39 --frontier-cap 50000 --replay-limit 0 --planner-probe-budget 2000000 --planner-output "$RUNNER_TEMP/out/costs.csv" --planner-id-file "$RUNNER_TEMP/work/ids.txt" --node-cap 12000000 >/dev/null 2>"$RUNNER_TEMP/out/stderr.txt"
+          rc=$?
+          set -e
+          if [ "$rc" -ne 0 ] && [ "$rc" -ne 124 ]; then cat "$RUNNER_TEMP/out/stderr.txt" >&2; exit "$rc"; fi
+          RC="$rc" python - <<'PY'
+          import csv,json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP']); outdir=root/'out'
+          selected=[int(x) for x in (root/'work'/'ids.txt').read_text().split()]
+          rows=list(csv.DictReader((outdir/'costs.csv').open())) if (outdir/'costs.csv').exists() else []
+          processed=[int(r['frontier_id']) for r in rows]
+          assert processed==selected[:len(processed)]
+          rc=int(os.environ['RC'])
+          if rc==0:
+              assert len(rows)==len(selected)
+              cert=json.loads((outdir/'cert.json').read_text())
+              assert cert['frontier_states']==int(os.environ['EXPECTED_FRONTIER'])
+              assert cert['pairwise_parent_partition_stable'] is True
+              assert cert['pairwise_strictly_below_block_cut'] is True
+          else:
+              assert rc==124 and len(rows)<=len(selected)
+          complete_ids=[int(r['frontier_id']) for r in rows if r['complete']=='1']
+          complete_set=set(complete_ids)
+          unresolved=[x for x in selected if x not in complete_set]
+          result={'schema':'STAGE32_18BD_REPAIRED_RESIDUAL_DEEP_REPLAY_CHUNK_V1','algorithm':'pairwise6_strict_below_cut39_deep_replay','wall':os.environ['WALL'],'chunk_index':int(os.environ['CHUNK']),'selected_count':len(selected),'selected_frontier_ids':selected,'processed_count':len(rows),'completed_count':len(complete_ids),'completed_frontier_ids':complete_ids,'unresolved_count':len(unresolved),'unresolved_frontier_ids':unresolved,'timeout_exit_124':rc==124,'probe_budget_per_state':2000000,'total_probe_nodes':sum(int(r['probe_nodes']) for r in rows),'runtime_seconds':float((outdir/'runtime.txt').read_text().strip()) if (outdir/'runtime.txt').exists() else None,'wall_residual_sha256':(root/'work'/'wall-residual.sha256').read_text().strip(),'parent_cut':39,'parent_partition_stable_from_g4':True,'pairwise_strictly_below_cut39':True,'D16_B16_NUMERICAL_CREDIT':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
+          (outdir/'compact.json').write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
+          for x in ['cert.json','dump.bin','costs.csv','stderr.txt']:(outdir/x).unlink(missing_ok=True)
+          print(json.dumps(result,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18bd-deep-${{ matrix.wall }}-c${{ matrix.chunk }}
+          path: ${{ runner.temp }}/out/compact.json
+          retention-days: 2
+          if-no-files-found: error
+
+  summarize:
+    needs: [authorize, deep_replay]
+    if: always() && needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18bd-deep-*
+          path: ${{ runner.temp }}/runs
+      - name: Fetch repaired 18BC summary
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/source-summary"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$RUNNER_TEMP/summary.zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9682227148/zip"
+          echo '2a5e24b16d6a4be83de7081f9f4bf009e9d2ff3bbf753fc2b0d1ec27ebfa0493  '"$RUNNER_TEMP/summary.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/summary.zip" -d "$RUNNER_TEMP/source-summary"
+      - name: Build residual deep replay summary
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os,pathlib,math
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])
+          src=json.loads(next((root/'source-summary').rglob('summary.json')).read_text())
+          assert src['schema']=='STAGE32_18BC_REPAIRED_ORIGINAL_172_SUMMARY_V2' and src['unresolved_total']==150
+          docs=[json.loads(p.read_text()) for p in (root/'runs').rglob('compact.json')]
+          assert len(docs)==52,len(docs)
+          key=json.loads(pathlib.Path('stages/stage32/runkeys/18bd-b16-repaired-residual-deep-replay.json').read_text())
+          walls=[]; completed_total=0; unresolved_total=0
+          for w in key['walls']:
+              wall=w['wall']; ids=src['residual_frontier_ids_by_wall'][wall]
+              ds=sorted((d for d in docs if d['wall']==wall),key=lambda d:d['chunk_index'])
+              assert len(ds)==w['chunks']==math.ceil(len(ids)/key['chunk_size'])
+              assert [d['chunk_index'] for d in ds]==list(range(w['chunks']))
+              selected=[x for d in ds for x in d['selected_frontier_ids']]
+              assert selected==ids and len(selected)==len(set(selected))==w['residual_count']
+              assert len({d['wall_residual_sha256'] for d in ds})==1
+              completed=sum(d['completed_count'] for d in ds)
+              residual=[x for d in ds for x in d['unresolved_frontier_ids']]
+              assert len(residual)==len(set(residual))==len(ids)-completed
+              completed_total+=completed; unresolved_total+=len(residual)
+              walls.append({'wall':wall,'residual_input_count':len(ids),'completed_count':completed,'unresolved_count':len(residual),'unresolved_frontier_ids':residual,'chunk_count':len(ds),'timeout_chunks':sum(d['timeout_exit_124'] for d in ds),'wall_residual_sha256':ds[0]['wall_residual_sha256']})
+          assert completed_total+unresolved_total==150
+          out={'schema':'STAGE32_18BD_REPAIRED_RESIDUAL_DEEP_REPLAY_SUMMARY_V1','source_18bc_summary_artifact_id':9682227148,'source_g4_run_id':33155002856,'parent_stream_identity_gate':'PASSED_6_OF_6','residual_input_total':150,'completed_total':completed_total,'unresolved_total':unresolved_total,'walls':sorted(walls,key=lambda d:d['wall']),'verdict':'ALL_REPAIRED_RESIDUAL150_RESOLVED' if unresolved_total==0 else 'TRUE_SELECTIVE_CHILD_SPLIT_REQUIRED','next_item':'32-18BE_D16_B16_CLOSE_EVIDENCE_REBUILD' if unresolved_total==0 else '32-18BE_D16_B16_REPAIRED_RESIDUAL_CHILD_SPLIT','D16_B16_NUMERICAL_CREDIT':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
+          outdir=root/'summary'; outdir.mkdir(); (outdir/'summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n'); print(json.dumps(out,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18bd-repaired-residual-deep-summary
+          path: ${{ runner.temp }}/summary/
+          retention-days: 7
+          if-no-files-found: error
