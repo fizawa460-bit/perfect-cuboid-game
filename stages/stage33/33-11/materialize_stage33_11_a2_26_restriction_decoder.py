@@ -27,7 +27,7 @@ BR2 = STAGE07 / "proper-brauer2-from-discriminant.json"
 RECEIVER = STAGE07 / "order2-localization-receiver.json"
 OUT = HERE / "stage33-11-a2-26-restriction-decoder.json"
 
-EXPECTED_PROFILE = "cdc8eade5526147a576c1d86260f9b4722f64f0e718d0702c1868db54dc812e5"
+EXPECTED_PROFILE = "45e42d6f3577654df7a4126cad5e2eee651c38fdce3c5cf8289b5f96707f2edc"
 EXPECTED_BR2 = "c86f6e838d072816426e4a2b0eb738f44e8632dd1ab4f3e6fdccd161ec41b5bf"
 EXPECTED_RECEIVER = "9280846c6e7ae8a043e36c7b5498f11476901567b229b94e953b79afab891bda"
 KDIM, H1DIM = 14, 16
