@@ -28,11 +28,12 @@ jobs:
       - name: Rebuild retained order2 localization receiver
         working-directory: stages/stage33/33-07
         run: python materialize_order2_localization_receiver.py
-      - name: Profile intrinsic A2 naturality and forced-zero blocks
+      - name: Profile intrinsic naturality, forced-zero blocks and smallest target images
         run: |
-          python -u stages/stage33/33-11/profile_stage33_11_equivariant_forced_zero_blocks.py
+          python -u stages/stage33/33-11/profile_stage33_11_smallest_block_target_images.py
           cat stages/stage33/33-11/stage33-11-intrinsic-at2-naturality.json
           cat stages/stage33/33-11/stage33-11-equivariant-forced-zero-blocks.json
+          cat stages/stage33/33-11/stage33-11-smallest-block-target-images.json
       - name: Upload compact exact certificates
         if: always()
         uses: actions/upload-artifact@v4
@@ -43,6 +44,7 @@ jobs:
             stages/stage33/33-07/actual-galois-at2-actions.json
             stages/stage33/33-11/stage33-11-intrinsic-at2-naturality.json
             stages/stage33/33-11/stage33-11-equivariant-forced-zero-blocks.json
+            stages/stage33/33-11/stage33-11-smallest-block-target-images.json
           if-no-files-found: ignore
           retention-days: 1
       - name: Synchronize Stage33 controller checkpoint
