@@ -86,31 +86,13 @@ jobs:
               'stored_permutations':len(a['permutations_1based']),
               'permutation_degree':len(a['permutations_1based'][0]),
               'canonical_sha256':a['canonical_sha256_without_this_field']},sort_keys=True))
-          def describe(obj, path='$', depth=0):
-              if depth > 3:
-                  return []
-              out=[]
-              if isinstance(obj, dict):
-                  out.append({'path':path,'type':'dict','keys':sorted(obj.keys())[:80],'key_count':len(obj)})
-                  for k,v in obj.items():
-                      if depth < 2:
-                          out.extend(describe(v, path+'.'+str(k), depth+1))
-              elif isinstance(obj, list):
-                  item_types=sorted({type(v).__name__ for v in obj[:20]})
-                  row_lengths=[]
-                  for v in obj[:20]:
-                      if isinstance(v,(list,tuple,dict,str)):
-                          try: row_lengths.append(len(v))
-                          except Exception: pass
-                  out.append({'path':path,'type':'list','len':len(obj),'item_types':item_types,'sample_lengths':row_lengths[:20]})
-                  if obj and depth < 2:
-                      out.extend(describe(obj[0], path+'[0]', depth+1))
-              elif isinstance(obj, str):
-                  out.append({'path':path,'type':'str','len':len(obj),'prefix':obj[:120]})
-              else:
-                  out.append({'path':path,'type':type(obj).__name__,'value':obj if isinstance(obj,(int,float,bool,type(None))) else None})
-              return out
-          print('MARKING_STRUCTURE='+json.dumps(describe(x),sort_keys=True))
+          print('AUT_SOURCE='+json.dumps(a['source'],sort_keys=True))
+          print('AUT_SPLICE='+json.dumps(a['source_splice'],sort_keys=True))
+          lines=x['hperp_text'].splitlines()
+          print('HPERP_SUMMARY='+json.dumps({'line_count':len(lines),'char_count':len(x['hperp_text'])},sort_keys=True))
+          for i,line in enumerate(lines):
+              if i < 40 or i >= max(0,len(lines)-20):
+                  print(f'HPERP_LINE[{i}]={line[:500]}')
           PY
 
   calibrate:
