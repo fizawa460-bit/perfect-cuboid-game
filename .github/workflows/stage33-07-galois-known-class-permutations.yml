@@ -1,0 +1,50 @@
+name: Stage33-07 Galois known-class permutations
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/extract_galois_known_class_permutations.py'
+      - 'stages/stage33/33-07/stoll_cuboid_source.py'
+      - '.github/workflows/stage33-07-galois-known-class-permutations.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Extract cc and ct on the 140 known classes from geometry only
+        working-directory: stages/stage33/33-07
+        run: python extract_galois_known_class_permutations.py
+      - name: Enforce source lock, V4 relations and firewalls
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          p='galois-known-class-permutations.json'; x=json.load(open(p)); h=x.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert x['schema']=='STAGE33_07_GALOIS_KNOWN_CLASS_PERMUTATIONS_V1'
+          assert x['source']['git_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
+          assert (x['known_curve_count'],x['exceptional_count'],x['known_class_count'])==(92,48,140)
+          assert sorted(x['cc_permutation_1based'])==list(range(1,141))
+          assert sorted(x['ct_permutation_1based'])==list(range(1,141))
+          assert all(x['relations'].values())
+          e=x['execution']
+          assert not e['picard_pairing_constructed'] and not e['picard_quotient_constructed'] and not e['smith_form_constructed']
+          assert not x['theorem_credit'] and not x['endpoint_credit']
+          print('STAGE33_07_GALOIS_KNOWN_CLASS_PERMUTATIONS=PASS_EXACT')
+          print('CERT_SHA256='+h)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-galois-known-class-permutations
+          retention-days: 5
+          if-no-files-found: error
+          path: stages/stage33/33-07/galois-known-class-permutations.json
