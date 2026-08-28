@@ -24,9 +24,10 @@ jobs:
           authorized=false
           if git cat-file -e HEAD^\^{commit} 2>/dev/null && [ "$(git diff --name-only HEAD^ HEAD | wc -l)" -eq 1 ] && git diff --name-only HEAD^ HEAD | grep -Fxq "$KEY" && [ "$(git log -1 --pretty=%s)" = 'Stage32-18BA: ARM RESIDUAL5 DEEP REPLAY' ]; then
             python - <<'PY'
-          import json,pathlib,os
-          d=json.loads(pathlib.Path('stages/stage32/runkeys/18ba-b16-residual-monster-deep-replay.json').read_text())
-          old=json.loads(__import__('subprocess').check_output(['git','show','HEAD^:'+ 'stages/stage32/runkeys/18ba-b16-residual-monster-deep-replay.json'],text=True))
+          import json,pathlib,os,subprocess
+          key='stages/stage32/runkeys/18ba-b16-residual-monster-deep-replay.json'
+          d=json.loads(pathlib.Path(key).read_text())
+          old=json.loads(subprocess.check_output(['git','show','HEAD^:'+key],text=True))
           assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1' and d['generation']==old['generation']+1==2 and d['armed'] and not old['armed']
           assert d['bound']==16 and d['algorithm']=='pairwise6_parent_stable_deep_replay'
           assert d['planner_probe_budget']==2000000 and d['max_parallel']==4
@@ -92,7 +93,6 @@ jobs:
         env:
           SHARD: ${{ matrix.shard }}
           WALL: ${{ matrix.wall }}
-          RESIDUAL_COUNT: ${{ length(matrix.residual_ids) }}
         run: |
           set -euo pipefail
           /usr/bin/time -q -f '%e' -o "$RUNNER_TEMP/out/runtime.txt" timeout --signal=TERM --kill-after=20s 45m "$RUNNER_TEMP/work/cert" --input "$RUNNER_TEMP/work/d16-hperp.txt" --bundle "$RUNNER_TEMP/work/d16-aut-prefix256-bundle.txt" --output "$RUNNER_TEMP/out/cert.json" --dump-canonical "$RUNNER_TEMP/out/dump.bin" --bound 16 --shard-id "$SHARD" --shard-count 1024 --split-coordinate 48 --block-cut 39 --frontier-cap 50000 --replay-limit 0 --planner-probe-budget 2000000 --planner-output "$RUNNER_TEMP/out/costs.csv" --planner-id-file "$RUNNER_TEMP/work/ids.txt" --node-cap 12000000 >/dev/null 2>"$RUNNER_TEMP/out/stderr.txt"
