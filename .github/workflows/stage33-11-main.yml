@@ -32,15 +32,17 @@ jobs:
           python certify_order2_quotient_raw_order4_bockstein.py
           python materialize_mixed_order_side_ambient_function_lifts.py
           python materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py
-      - name: Profile intrinsic naturality and materialize A2_26 five-bit decoder
+      - name: Profile intrinsic naturality and materialize A2_26 MAIN working column
         run: |
           python -u stages/stage33/33-11/materialize_stage33_11_a2_26_restriction_decoder.py
           python -u stages/stage33/33-11/certify_stage33_11_a2_26_ambient_boundary_galois.py
+          python -u stages/stage33/33-11/materialize_stage33_11_a2_26_main_working_column.py
           cat stages/stage33/33-11/stage33-11-intrinsic-at2-naturality.json
           cat stages/stage33/33-11/stage33-11-equivariant-forced-zero-blocks.json
           cat stages/stage33/33-11/stage33-11-smallest-block-target-images.json
           cat stages/stage33/33-11/stage33-11-a2-26-restriction-decoder.json
           cat stages/stage33/33-11/stage33-11-a2-26-ambient-boundary-galois.json
+          cat stages/stage33/33-11/stage33-11-a2-26-main-working-column.json
       - name: Upload compact exact certificates
         if: always()
         uses: actions/upload-artifact@v4
@@ -54,6 +56,7 @@ jobs:
             stages/stage33/33-11/stage33-11-smallest-block-target-images.json
             stages/stage33/33-11/stage33-11-a2-26-restriction-decoder.json
             stages/stage33/33-11/stage33-11-a2-26-ambient-boundary-galois.json
+            stages/stage33/33-11/stage33-11-a2-26-main-working-column.json
           if-no-files-found: ignore
           retention-days: 1
       - name: Synchronize Stage33 controller checkpoint
