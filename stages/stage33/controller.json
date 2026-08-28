@@ -21,27 +21,8 @@
   "predecessor_reaudit_targets": ["33-07"],
   "predecessor_reaudit_reason": "Stage33-08 found that Stage33-07 used geometric/semi-local Gersten lifting beyond its justified global-Q arithmetic scope; repair is split into parallel-capable adaptive coarse child stages instead of continuing indefinite 33-07 growth.",
   "adaptive_repair_policy": {"all_minimap_branches_must_run":false,"safe_independent_branches_may_run_in_parallel":true,"main_batch_advances_multiple_live_branches_until_blocked_or_closed":true,"first_exact_closure_wins":true,"sibling_branches_may_stop_after_exact_closure":true,"partial_exact_progress_is_retained":true,"failed_route_authorizes_next_coarse_stage":false,"minimap_exhausted_without_exit_condition_authorizes_advance":false,"if_exit_condition_open":"EXTEND_OR_SPLIT_CURRENT_COARSE_STAGE","next_coarse_stage_requires_current_exit_condition":true},
-  "repo_absolute_rule_read_policy": {
-    "mandatory_every_main_batch_reads": ["AGENTS.md","stages/stage33/controller.json"],
-    "docs_readme_role": "NAVIGATION_INDEX_ONLY_NOT_DEFAULT_BATCH_INPUT",
-    "research_os_readme_role": "NAVIGATION_INDEX_ONLY_NOT_DEFAULT_BATCH_INPUT",
-    "repo_wide_rules_override_stage_local_controller": true,
-    "conditional_mandatory_policy_reads": {
-      "before_actions_artifacts_or_heavy_compute": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
-      "before_claim_promotion_closure_or_downstream_release": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
-      "before_parking_route_or_claiming_exhaustion": "docs/research-os/policies/cycle-exploration-safety-protocol.md"
-    },
-    "policy_read_rule": "READ_DIRECT_POLICY_ON_TRIGGER_DO_NOT_WALK_DOCS_INDEX_TREE"
-  },
-  "controller_writeback_policy": {
-    "controller_writeback_required_for_every_main_batch_with_repository_write": true,
-    "controller_must_reflect_current_state_before_batch_end": true,
-    "controller_update_required_in_same_pr_as_state_transition_or_checkpoint_write": true,
-    "controller_update_may_not_be_omitted_to_avoid_workflow_retrigger": true,
-    "controller_only_or_docs_only_change_must_not_authorize_heavy_rerun": true,
-    "if_controller_edit_would_retrigger_heavy": "FIX_OR_GATE_WORKFLOW_DO_NOT_LEAVE_CONTROLLER_STALE",
-    "read_only_or_blocked_batch_without_repository_write": "VERIFY_CONTROLLER_CURRENT_NO_NOOP_TOUCH_REQUIRED"
-  },
+  "repo_absolute_rule_read_policy": {"mandatory_every_main_batch_reads":["AGENTS.md","stages/stage33/controller.json"],"docs_readme_role":"NAVIGATION_INDEX_ONLY_NOT_DEFAULT_BATCH_INPUT","research_os_readme_role":"NAVIGATION_INDEX_ONLY_NOT_DEFAULT_BATCH_INPUT","repo_wide_rules_override_stage_local_controller":true,"conditional_mandatory_policy_reads":{"before_actions_artifacts_or_heavy_compute":"docs/research-os/policies/actions-storage-and-evidence-safety.md","before_claim_promotion_closure_or_downstream_release":"docs/research-os/policies/research-credit-and-promotion-firewalls.md","before_parking_route_or_claiming_exhaustion":"docs/research-os/policies/cycle-exploration-safety-protocol.md"},"policy_read_rule":"READ_DIRECT_POLICY_ON_TRIGGER_DO_NOT_WALK_DOCS_INDEX_TREE"},
+  "controller_writeback_policy": {"controller_writeback_required_for_every_main_batch_with_repository_write":true,"controller_must_reflect_current_state_before_batch_end":true,"controller_update_required_in_same_pr_as_state_transition_or_checkpoint_write":true,"controller_update_may_not_be_omitted_to_avoid_workflow_retrigger":true,"controller_only_or_docs_only_change_must_not_authorize_heavy_rerun":true,"if_controller_edit_would_retrigger_heavy":"FIX_OR_GATE_WORKFLOW_DO_NOT_LEAVE_CONTROLLER_STALE","read_only_or_blocked_batch_without_repository_write":"VERIFY_CONTROLLER_CURRENT_NO_NOOP_TOUCH_REQUIRED"},
   "main_batch_bootstrap_read_policy": {"scope":"MAIN_BATCH_NOT_HOSTILE_AUDIT","purpose":"BOUND_CONTEXT_GROWTH_AND_AVOID_RECONSTRUCTING_AUDITED_HISTORY","current_repair_child":"33-10","bootstrap_read_order":["AGENTS.md","stages/stage33/controller.json","CURRENT_REPAIR_CHILD_ROADMAP_SECTION_ONLY","IMMEDIATE_PREDECESSOR_REPAIR_CHILD_HANDOFF_ONLY","CURRENT_CHILD_REQUIRED_INPUT_CERTIFICATES_ONLY"],"current_roadmap_file":"stages/stage33/ROADMAP-33-07-REPAIR-BAND.md","current_roadmap_section":"Stage33-10 — ABSOLUTE-H1-AND-GALOIS-DESCENT-ADAPTER","immediate_predecessor_handoff":"stages/stage33/33-09/handoff.json","immediate_predecessor_required_status":"CLOSED_EXACT","audited_predecessor_handoff_is_interface_contract":true,"ancestor_evidence_policy":"AUDITED_OPAQUE_BY_DEFAULT","do_not_reconstruct_history_by_default":true,"do_not_read_full_prior_pr_diff_by_default":true,"do_not_read_prior_workflow_logs_by_default":true,"do_not_read_prior_result_or_certificate_body_by_default":true,"main_batch_bootstrap_must_not_expand_to_full_ancestor_history_without_named_reason":true,"current_child_required_input_certificate_ids":["PROPER_GEOMETRIC_BR2_V4_MODULE_ACTION_CERTIFICATE","FINITE_V4_H1_PROPER_BR2_CERTIFICATE_DIM16"],"resolve_required_input_path_lazily":true,"required_input_resolution_policy":"SEARCH_ONLY_FOR_NAMED_CURRENT_INPUT_DO_NOT_RECONSTRUCT_ANCESTOR_HISTORY","expand_ancestor_only_if":["CURRENT_PROOF_REQUIRES_INTERNAL_REPRESENTATIVE_OR_MATRIX_NOT_EXPOSED_BY_HANDOFF","SOURCE_LOCK_MISMATCH","CERTIFICATE_CONTRADICTION_OR_MISSING_INVARIANT","HOSTILE_AUDIT_MODE"],"hostile_audit_may_expand_history":true,"main_and_audit_read_scopes_are_distinct":true},
   "stage33_01":{"unit_status":"CLOSED","audit_verdict":"PASS_AFTER_SOURCE_LOCK_HARDENING"},
   "stage33_02":{"unit_status":"CLOSED","br0a":"DISCHARGED","audit_verdict":"PASS_AFTER_DIRECT_BOUNDARY_SOURCE_LOCK_AND_HANDOFF_REPAIR"},
