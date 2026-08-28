@@ -27,15 +27,18 @@ jobs:
           python-version: '3.12'
       - name: Construct and certify exact absolute H1 receiver
         run: python stages/stage33/33-10/certify_stage33_10_absolute_receiver.py
-      - name: Enforce Stage33-10 exit and parent firewalls
+      - name: Enforce Stage33-10 exit, handoff and parent firewalls
         run: |
           python - <<'PY'
           import hashlib,json
-          p='stages/stage33/33-10/absolute-h1-receiver-certified.json'
-          x=json.load(open(p))
-          b=dict(x); claimed=b.pop('canonical_sha256')
-          got=hashlib.sha256(json.dumps(b,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-          assert claimed==got
+          def locked(path):
+              x=json.load(open(path))
+              b=dict(x); claimed=b.pop('canonical_sha256')
+              got=hashlib.sha256(json.dumps(b,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+              assert claimed==got, (path,claimed,got)
+              return x,claimed
+          x,cert_hash=locked('stages/stage33/33-10/absolute-h1-receiver-certified.json')
+          hd,hand_hash=locked('stages/stage33/33-10/handoff.json')
           assert x['schema']=='STAGE33_10_ABSOLUTE_H1_RECEIVER_V1'
           assert all(x['exit_condition'].values())
           assert x['finite_shortcut']['status']=='EXPLICITLY_REPLACED'
@@ -49,8 +52,14 @@ jobs:
           assert f['stage33_progress']=='6/11'
           assert not f['theorem_credit'] and not f['endpoint_credit']
           assert not f['perfect_cuboid_existence_claim'] and not f['perfect_cuboid_nonexistence_claim']
+          assert hd['status']=='CLOSED_EXACT' and all(hd['exit_condition'].values())
+          assert hd['next_item']=='Stage33-11_ARITHMETIC_LOCALIZATION_CONNECTING_MAP'
+          assert hd['firewalls']['connecting_matrix_columns_materialized']=='0/26'
+          assert hd['firewalls']['stage33_progress']=='6/11'
+          assert not hd['firewalls']['stage33_07_closed'] and not hd['firewalls']['stage33_08_released']
           print('STAGE33_10_EXIT=PASS_EXACT')
-          print('ABSOLUTE_RECEIVER_SHA256='+claimed)
+          print('ABSOLUTE_RECEIVER_SHA256='+cert_hash)
+          print('HANDOFF_SHA256='+hand_hash)
           print('NEXT='+x['next_item'])
           PY
       - name: Remove generated certificate and verify tracked tree unchanged
