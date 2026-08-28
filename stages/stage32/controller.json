@@ -1,10 +1,10 @@
 {
-  "schema":"STAGE32_LOWGENUS_PICARD_CONTROLLER_V49_B16_REPAIRED_RESIDUAL6_CHILD_SPLIT_G3_RUNNING",
+  "schema":"STAGE32_LOWGENUS_PICARD_CONTROLLER_V50_B16_REPAIRED_RESIDUAL2_CHILDREN_18BF_READY",
   "stage":"32",
   "kernel":"K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "execution_class":2,
   "parent_route":"G10-LOWGENUS-PICARD",
-  "status":"D16_B12_AUDITED_B16_REPAIR_PARENT_STREAM_PASSED_6_OF_6_REPAIRED_ORIGINAL172_22_COMPLETE_DEEP150_144_COMPLETE_6_RESIDUAL_18BE_G3_CHILD_SPLIT_RUNNING_D8_ROUTE_PAUSED",
+  "status":"D16_B12_AUDITED_B16_REPAIR_PARENT_STREAM_PASSED_6_OF_6_REPAIRED_ORIGINAL172_22_COMPLETE_DEEP150_144_COMPLETE_CHILD6_4_COMPLETE_2_CHILDREN_RESIDUAL_18BF_READY_D8_ROUTE_PAUSED",
   "roadmap":"stages/stage32/POST_B16_LITERATURE_RECEIVER_ROADMAP.md",
   "goal_stop_contract":"stages/stage32/GOAL_AND_STOP_CONTRACT.md",
   "repo_absolute_rule_read_policy":{"mandatory_every_main_batch_reads":["AGENTS.md","stages/stage32/controller.json"],"conditional_mandatory_policy_reads":{"before_actions_artifacts_or_heavy_compute":"docs/research-os/policies/actions-storage-and-evidence-safety.md","before_claim_promotion_closure_or_downstream_release":"docs/research-os/policies/research-credit-and-promotion-firewalls.md","before_parking_route_or_claiming_exhaustion":"docs/research-os/policies/cycle-exploration-safety-protocol.md"}},
@@ -16,13 +16,23 @@
     "source_exact_artifact_id":9574308138,
     "source_exact_artifact_sha256":"0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4",
     "hostile_audit":{"pr":1450,"review":5049175475,"verdict":"FAIL_PARENT_PARTITION_DRIFT","baseline_frontier_states":4103,"invalid_pairwise_frontier_states":3893,"lost_parents":210,"pairwise_exact_gram_kkt_prune_mathematically_safe":true},
-    "repair":{"unit":"32-18BE","status":"G3_CHILD_SPLIT_RUNNING","pairwise_activation_rule":"ONLY_WHEN_LAST_REMAINING_LT_BLOCK_CUT","require_parent_stream_byte_identity":true,"parent_stream_gate_run_id":33155002856,"parent_stream_gate_result":"PASSED_6_OF_6","deep_replay":{"unit":"32-18BD","run_id":33163638379,"status":"SUCCESS","summary_artifact_id":9685982339,"summary_artifact_sha256":"096446e8d7b5d945d5f01194363b9c476c213d01976b7d3ce3c63965eeb35670","summary_result":{"residual_input_total":150,"completed_total":144,"unresolved_total":6,"verdict":"TRUE_SELECTIVE_CHILD_SPLIT_REQUIRED"},"residual_parent_ids":{"p436-s5":[1914,1919],"p436-s362":[886],"p503-s665":[846],"p922-s13":[1200],"p922-s38":[1861]}},"child_split":{"unit":"32-18BE","g2_run_id":33174406570,"g2_status":"WORKFLOW_YAML_PARSE_FAILURE_NO_JOBS","g3_run_id":33174535334,"g3_head_sha":"5b141fd1b1e7a6a8cb1aac7c76f910f7784328b9","generation":3,"authorize":"SUCCESS","child_coordinate":39,"child_probe_budget":2000000,"parent_input_total":6,"max_parallel":5,"projected_new_peak_storage_mb_lt":2,"persist_compact_only":true,"status":"RUNNING_5_WALL_JOBS"}},
+    "repair":{
+      "unit":"32-18BF",
+      "status":"READY_DEEPER_CHILD2_SPLIT38",
+      "pairwise_activation_rule":"ONLY_WHEN_LAST_REMAINING_LT_BLOCK_CUT",
+      "require_parent_stream_byte_identity":true,
+      "parent_stream_gate_run_id":33155002856,
+      "parent_stream_gate_result":"PASSED_6_OF_6",
+      "deep_replay":{"unit":"32-18BD","run_id":33163638379,"status":"SUCCESS","summary_artifact_id":9685982339,"summary_artifact_sha256":"096446e8d7b5d945d5f01194363b9c476c213d01976b7d3ce3c63965eeb35670","summary_result":{"residual_input_total":150,"completed_total":144,"unresolved_total":6,"verdict":"TRUE_SELECTIVE_CHILD_SPLIT_REQUIRED"}},
+      "child_split":{"unit":"32-18BE","g3_run_id":33174535334,"status":"SUCCESS","summary_artifact_id":9687893070,"summary_artifact_sha256":"eb1a85f4a2e7e751c6b7de9aa30235f5083d94dba20849fc1bb11295bb393233","summary_result":{"parent_input_total":6,"completed_parent_total":4,"unresolved_parent_total":2,"unresolved_child_total":2,"verdict":"DEEPER_CHILD_SPLIT_REQUIRED"},"residual_children":[{"wall":"p436-s362","parent_id":886,"z39":0},{"wall":"p922-s13","parent_id":1200,"z39":0}]},
+      "deeper_child_split":{"unit":"32-18BF","generation":1,"armed":false,"fixed_z39":0,"grandchild_coordinate":38,"grandchild_probe_budget":2000000,"target_child_total":2,"max_parallel":2,"projected_new_peak_storage_mb_lt":1,"persist_compact_only":true,"status":"READY_TO_ARM"}
+    },
     "invalidated_prior_runs":{"32-18AY":"NO_CLOSURE_CREDIT","32-18AZ":"NO_CLOSURE_CREDIT","32-18BA":"NO_CLOSURE_CREDIT","32-18BB":"HOSTILE_AUDIT_FAIL"},
-    "resume_rule":"READ 18BE G3 RUN 33174535334 TO COMPLETION. DO NOT RERUN THE 166 REPAIRED PARENTS ALREADY COMPLETE. IF ALL SIX RESIDUAL PARENTS CLOSE, REBUILD D16/B16 CLOSE EVIDENCE; OTHERWISE SPLIT ONLY THE UNRESOLVED CHILDREN. DO NOT ARM B18 OR RELEASE POST-B16 WORK.",
+    "resume_rule":"ARM 18BF ONLY BY ITS DEDICATED RUNKEY. TARGET ONLY P436-S362/PARENT886/Z39=0 AND P922-S13/PARENT1200/Z39=0. SPLIT AT COORDINATE38 WITH 2M PER GRANDCHILD. DO NOT RERUN THE 170 ALREADY RESOLVED REPAIRED PARENT/CHILD UNITS. IF BOTH TARGET CHILDREN CLOSE, REBUILD D16/B16 CLOSE EVIDENCE; OTHERWISE SPLIT ONLY THE REMAINING GRANDCHILDREN. DO NOT ARM B18 OR RELEASE POST-B16 WORK.",
     "mathematical_credit_changed":false
   },
-  "current_item":"32-18BE_D16_B16_REPAIRED_RESIDUAL_CHILD_SPLIT",
-  "current_item_execution_constraint":"G3 RUN 33174535334; RESIDUAL6 ONLY; CHILD SPLIT AT COORDINATE39; PAIRWISE STRICTLY BELOW CUT39; 2M PER CHILD; MAX_PARALLEL5; COMPACT ARTIFACTS; NO B18",
+  "current_item":"32-18BF_D16_B16_DEEPER_CHILD_SPLIT",
+  "current_item_execution_constraint":"RESIDUAL CHILD2 ONLY; FIXED Z39=0; SPLIT AT COORDINATE38; PAIRWISE STRICTLY BELOW CUT39; 2M PER GRANDCHILD; MAX_PARALLEL2; COMPACT ARTIFACTS; NO B18",
   "FULL_D8_G0_ROW_COMPLETE":false,
   "FULL_D16_G0_ROW_COMPLETE":false,
   "D16_B16_NUMERICAL_CREDIT":false,
@@ -40,6 +50,6 @@
   "repair_required":true,
   "merge_allowed":false,
   "advance_allowed":true,
-  "next_item":"READ_32-18BE_G3_CHILD_SPLIT",
+  "next_item":"ARM_32-18BF_DEEPER_CHILD2_SPLIT38",
   "next_expected_command":"Stage32-main-batch"
 }
