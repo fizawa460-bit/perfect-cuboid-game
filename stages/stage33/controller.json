@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V23_33_10_BOOTSTRAP_READ_POLICY",
+  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V24_BOOTSTRAP_ABSOLUTE_RULES_WRITEBACK",
   "stage": "33",
   "kernel": "K16-C2-BRAUER-EXPLICIT-CHAIN",
   "execution_class": 2,
@@ -38,11 +38,36 @@
     "if_exit_condition_open": "EXTEND_OR_SPLIT_CURRENT_COARSE_STAGE",
     "next_coarse_stage_requires_current_exit_condition": true
   },
+  "repo_absolute_rule_read_policy": {
+    "mandatory_every_main_batch_reads": [
+      "AGENTS.md",
+      "stages/stage33/controller.json"
+    ],
+    "docs_readme_role": "NAVIGATION_INDEX_ONLY_NOT_DEFAULT_BATCH_INPUT",
+    "research_os_readme_role": "NAVIGATION_INDEX_ONLY_NOT_DEFAULT_BATCH_INPUT",
+    "repo_wide_rules_override_stage_local_controller": true,
+    "conditional_mandatory_policy_reads": {
+      "before_actions_artifacts_or_heavy_compute": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
+      "before_claim_promotion_closure_or_downstream_release": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
+      "before_parking_route_or_claiming_exhaustion": "docs/research-os/policies/cycle-exploration-safety-protocol.md"
+    },
+    "policy_read_rule": "READ_DIRECT_POLICY_ON_TRIGGER_DO_NOT_WALK_DOCS_INDEX_TREE"
+  },
+  "controller_writeback_policy": {
+    "controller_writeback_required_for_every_main_batch_with_repository_write": true,
+    "controller_must_reflect_current_state_before_batch_end": true,
+    "controller_update_required_in_same_pr_as_state_transition_or_checkpoint_write": true,
+    "controller_update_may_not_be_omitted_to_avoid_workflow_retrigger": true,
+    "controller_only_or_docs_only_change_must_not_authorize_heavy_rerun": true,
+    "if_controller_edit_would_retrigger_heavy": "FIX_OR_GATE_WORKFLOW_DO_NOT_LEAVE_CONTROLLER_STALE",
+    "read_only_or_blocked_batch_without_repository_write": "VERIFY_CONTROLLER_CURRENT_NO_NOOP_TOUCH_REQUIRED"
+  },
   "main_batch_bootstrap_read_policy": {
     "scope": "MAIN_BATCH_NOT_HOSTILE_AUDIT",
     "purpose": "BOUND_CONTEXT_GROWTH_AND_AVOID_RECONSTRUCTING_AUDITED_HISTORY",
     "current_repair_child": "33-10",
     "bootstrap_read_order": [
+      "AGENTS.md",
       "stages/stage33/controller.json",
       "CURRENT_REPAIR_CHILD_ROADMAP_SECTION_ONLY",
       "IMMEDIATE_PREDECESSOR_REPAIR_CHILD_HANDOFF_ONLY",
@@ -388,11 +413,10 @@
   "stage33_40_lock_reason": "STAGE33_08_NOT_CLOSED",
   "current_item": "Stage33-10_ABSOLUTE_H1_AND_GALOIS_DESCENT_ADAPTER",
   "audit_required": false,
-  "repair_required": true,
   "merge_allowed": true,
   "advance_allowed": true,
   "advance_scope": "CURRENT_REPAIR_CHILD_33_10_ONLY_MAY_ADVANCE_MULTIPLE_SAFE_LIVE_MINIMAP_BRANCHES_IN_PARALLEL_NOT_33_11_CERTIFIED_PROGRESS_NOT_33_08_OR_33_40_PLUS",
-  "main_batch_semantics": "BOOTSTRAP_FROM_CONTROLLER_CURRENT_ROADMAP_SECTION_PREDECESSOR_HANDOFF_AND_NAMED_CURRENT_CERTIFICATES_ONLY_THEN_ADVANCE_MULTIPLE_AUTHORIZED_LIVE_BRANCHES_UNTIL_BLOCKED_OR_CLOSED",
+  "main_batch_semantics": "READ_AGENTS_AND_CONTROLLER_THEN_CURRENT_ROADMAP_SECTION_PREDECESSOR_HANDOFF_AND_NAMED_CURRENT_CERTIFICATES_ONLY_ADVANCE_AUTHORIZED_BRANCHES_AND_WRITE_BACK_CONTROLLER_IN_SAME_PR_FOR_EVERY_REPOSITORY_WRITE",
   "next_item": "Stage33-10_ABSOLUTE_H1_AND_GALOIS_DESCENT_ADAPTER",
   "next_expected_command": "Stage33-main-batch",
   "theorem_credit": false,
