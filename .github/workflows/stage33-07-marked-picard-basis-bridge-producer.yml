@@ -1,0 +1,61 @@
+name: Stage33-07 marked Picard basis bridge producer
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  produce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Produce exact INDLIST to historical Magma Picard basis marking
+        run: python extract_indlist_to_magma_picard_basis.py
+      - name: Certify produced bridge before retention
+        run: python certify_marked_picard_basis_bridge.py
+      - name: Enforce producer source locks and Stage33 firewalls
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          raw=json.load(open('indlist-to-magma-picard-basis.json'))
+          raw_body=dict(raw); raw_hash=raw_body.pop('canonical_sha256')
+          assert raw_hash==hashlib.sha256(json.dumps(raw_body,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert raw['schema']=='STAGE33_07_INDLIST_TO_MAGMA_PICARD_BASIS_V1'
+          assert raw['source']['git_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
+          assert raw['upstream_asserts_indlist_maps_onto_pic']
+          assert not raw['execution']['automorphism_computed']
+          assert not raw['execution']['smith_form_computed']
+          assert not raw['execution']['gersten_data_computed']
+          assert raw['stage33_progress']=='6/11' and not raw['stage33_08_released']
+          assert not raw['theorem_credit'] and not raw['endpoint_credit']
+
+          x=json.load(open('marked-picard-basis-bridge-certified.json'))
+          h=x.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          e=x['exact_consequence']
+          assert e['connecting_matrix_columns_explicitly_materialized']==0
+          assert not e['middle_gersten_module_action_materialized']
+          assert not e['absolute_delta_loc_computed'] and not e['arithmetic_hs_closed']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released']
+          assert not x['theorem_credit'] and not x['endpoint_credit']
+          print('STAGE33_07_MARKED_PICARD_BASIS_BRIDGE_PRODUCER=PASS_SOURCE_LOCKED')
+          print('RAW_BRIDGE_SHA256='+raw_hash)
+          print('CERTIFIED_BRIDGE_SHA256='+h)
+          print('RETENTION_ACTION=download_audit_then_commit_compact_raw_bridge_only')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-marked-picard-basis-bridge-producer
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            stages/stage33/33-07/indlist-to-magma-picard-basis.json
+            stages/stage33/33-07/marked-picard-basis-bridge-certified.json
