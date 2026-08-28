@@ -61,25 +61,46 @@ jobs:
           PY
           sed -i '$d' "$GITHUB_OUTPUT"
           echo 'authorized=true' >> "$GITHUB_OUTPUT"
-      - name: Inspect nonexpiring retained Picard bundle
+      - name: Inspect nonexpiring retained exact Stage32 marking
         run: |
           python - <<'PY'
-          import importlib.util, json
-          def load(path, name):
-              spec=importlib.util.spec_from_file_location(name,path)
-              mod=importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
-              return mod.load()
-          def shape(v):
-              if isinstance(v,list):
-                  if v and isinstance(v[0],list): return [len(v),len(v[0])]
-                  return [len(v)]
-              if isinstance(v,dict): return {'dict_keys':sorted(v)}
-              return type(v).__name__
-          base=load('stages/stage33/33-07/picard_base_rows_retained.py','retained_picard')
-          print('PICARD_BASE='+json.dumps({'keys':sorted(base), 'shapes':{k:shape(base[k]) for k in sorted(base)}},sort_keys=True))
-          marking_path='stages/stage33/33-07/stage32_picard_marking_retained.py'
-          marking=load(marking_path,'retained_stage32_marking')
-          print('STAGE32_MARKING='+json.dumps({'keys':sorted(marking), 'shapes':{k:shape(marking[k]) for k in sorted(marking)}},sort_keys=True))
+          import importlib.util, json, re
+          path='stages/stage33/33-07/stage32_picard_marking_retained.py'
+          spec=importlib.util.spec_from_file_location('retained_stage32_marking',path)
+          mod=importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+          x=mod.load()
+          a=x['aut_action']; t=x['hperp_text']
+          print('MARKING_META='+json.dumps({
+              'schema':x['schema'], 'canonical_sha256':x['canonical_sha256'],
+              'stage32_picard_core_sha256':x['stage32_picard_core_sha256'],
+              'stage32_aut_action_sha256':x['stage32_aut_action_sha256'],
+              'hperp_text_sha256':x['hperp_text_sha256'], 'hperp_text_len':len(t),
+              'source_artifact':x['source_artifact']},sort_keys=True))
+          print('AUT_META='+json.dumps({
+              'schema':a['schema'],'permutation_count':a['permutation_count'],
+              'stored_permutations':len(a['permutations_1based']),
+              'permutation_length':len(a['permutations_1based'][0]),
+              'first_permutation':a['permutations_1based'][0],
+              'canonical_sha256':a['canonical_sha256_without_this_field']},sort_keys=True))
+          try:
+              j=json.loads(t)
+              print('HPERP_JSON='+json.dumps({'ok':True,'type':type(j).__name__,'keys':sorted(j) if isinstance(j,dict) else None},sort_keys=True))
+              if isinstance(j,dict):
+                  for k,v in j.items():
+                      if isinstance(v,list):
+                          sh=[len(v)] + ([len(v[0])] if v and isinstance(v[0],list) else [])
+                          print('HPERP_KEY='+json.dumps({'key':k,'shape':sh},sort_keys=True))
+                      elif k in ('schema','canonical_sha256','selected_determinant','inverse_denominator'):
+                          print('HPERP_KEY='+json.dumps({'key':k,'value':v},sort_keys=True))
+          except Exception as e:
+              print('HPERP_JSON='+json.dumps({'ok':False,'error':type(e).__name__},sort_keys=True))
+              lines=t.splitlines()
+              print('HPERP_TEXT='+json.dumps({'line_count':len(lines),'head':lines[:12],'tail':lines[-12:]},sort_keys=True))
+              pats=['STAGE32_PICARD_CORE','INDLIST','raw_cross_pairings','selected','SNF','Smith','Hperp','rank','known']
+              hits=[]
+              for i,line in enumerate(lines,1):
+                  if any(p.lower() in line.lower() for p in pats): hits.append([i,line[:500]])
+              print('HPERP_HITS='+json.dumps(hits[:100],sort_keys=True))
           PY
 
   calibrate:
