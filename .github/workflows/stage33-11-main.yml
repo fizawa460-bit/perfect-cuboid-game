@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: stage33-11-global-naturality-${{ github.event.pull_request.number || github.ref }}
@@ -45,3 +45,20 @@ jobs:
             stages/stage33/33-11/stage33-11-equivariant-forced-zero-blocks.json
           if-no-files-found: ignore
           retention-days: 1
+      - name: Synchronize Stage33 controller checkpoint
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git fetch origin "$HEAD_REF"
+          git checkout -B "$HEAD_REF" "origin/$HEAD_REF"
+          python -u stages/stage33/33-11/sync_stage33_controller_checkpoint.py
+          git add stages/stage33/controller.json
+          if git diff --cached --quiet; then
+            echo "Controller already synchronized."
+          else
+            git commit -m "Stage33-11: synchronize running controller checkpoint"
+            git push origin "HEAD:$HEAD_REF"
+          fi
