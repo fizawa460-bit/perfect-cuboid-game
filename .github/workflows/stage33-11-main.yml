@@ -28,11 +28,12 @@ jobs:
       - name: Rebuild retained order2 localization receiver
         working-directory: stages/stage33/33-07
         run: python materialize_order2_localization_receiver.py
-      - name: Run local intrinsic A2 naturality proof
+      - name: Profile intrinsic A2 naturality and forced-zero blocks
         run: |
-          python -u stages/stage33/33-11/certify_stage33_11_intrinsic_at2_naturality.py
+          python -u stages/stage33/33-11/profile_stage33_11_equivariant_forced_zero_blocks.py
           cat stages/stage33/33-11/stage33-11-intrinsic-at2-naturality.json
-      - name: Upload compact exact certificate
+          cat stages/stage33/33-11/stage33-11-equivariant-forced-zero-blocks.json
+      - name: Upload compact exact certificates
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -41,5 +42,6 @@ jobs:
             stages/stage33/33-07/actual-coordinate-swap-at2-actions.json
             stages/stage33/33-07/actual-galois-at2-actions.json
             stages/stage33/33-11/stage33-11-intrinsic-at2-naturality.json
+            stages/stage33/33-11/stage33-11-equivariant-forced-zero-blocks.json
           if-no-files-found: ignore
           retention-days: 1
