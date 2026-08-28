@@ -1,0 +1,129 @@
+name: Stage32-18AS d16 b16 heavy tier2 cost planner
+
+on:
+  push:
+    branches: [stage32-18as-b16-heavy-tier2-cost-planner]
+    paths: ['stages/stage32/runkeys/18as-b16-heavy-tier2-cost-planner.json']
+
+permissions: {contents: read, actions: read}
+concurrency: {group: stage32-18as-b16-heavy-tier2-cost-planner, cancel-in-progress: true}
+
+jobs:
+  planner:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 2}
+      - name: Require dedicated ARM commit
+        run: |
+          set -euo pipefail
+          KEY=stages/stage32/runkeys/18as-b16-heavy-tier2-cost-planner.json
+          mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
+          test "${#changed[@]}" -eq 1 && test "${changed[0]}" = "$KEY"
+          test "$(git log -1 --pretty=%s)" = 'Stage32-18AS: ARM B16 HEAVY TIER2 COST PLANNER'
+          python - <<'PY'
+          import json,pathlib
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18as-b16-heavy-tier2-cost-planner.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1' and d['armed'] and d['bound']==16
+          assert d['target_wall']==[436,5] and d['allow_finer_split'] is False
+          assert d['source_exact_artifact_id']==9574308138
+          assert d['source_tier1_run_id']==33140252216 and d['source_tier1_artifact_id']==9673711597
+          assert d['expected_frontier_states']==4103 and d['expected_tier1_heavy']==682
+          assert d['tier2_probe_budget']==32768 and d['recommended_resolved_bins']==12
+          assert d['shard_count']==1024 and d['secondary_split_coordinate']==48 and d['block_cut']==39
+          assert d['upper_node_cap']==2000000 and d['wallclock_minutes']==45 and d['max_parallel']==1
+          PY
+      - name: Fetch locked source and tier1 plan
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends g++ libboost-dev
+          mkdir -p "$RUNNER_TEMP/src" "$RUNNER_TEMP/tier1" "$RUNNER_TEMP/work" "$RUNNER_TEMP/out"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$RUNNER_TEMP/source.zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9574308138/zip"
+          echo '0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4  '"$RUNNER_TEMP/source.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/source.zip" -d "$RUNNER_TEMP/src"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$RUNNER_TEMP/tier1.zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9673711597/zip"
+          echo 'c384122c04cbd2536e215cf6c8786c9f16be3dd4ce7976fb7747331da3933ac2  '"$RUNNER_TEMP/tier1.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/tier1.zip" -d "$RUNNER_TEMP/tier1"
+          python - <<'PY'
+          import json,os,pathlib,shutil
+          t=pathlib.Path(os.environ['RUNNER_TEMP'])/'tier1'
+          plan=json.loads((t/'stage32-18ar-plan.json').read_text())
+          assert plan['schema']=='STAGE32_18AR_B16_FRONTIER_COST_PLAN_V1'
+          assert plan['verdict']=='FULL_FRONTIER_COST_DISTRIBUTION_MEASURED'
+          assert plan['frontier_states']==4103 and plan['probe_budget']==2048
+          ids=plan['heavy_frontier_ids']; assert len(ids)==682 and len(set(ids))==682
+          w=pathlib.Path(os.environ['RUNNER_TEMP'])/'work'
+          (w/'heavy-ids.txt').write_text(''.join(f'{x}\n' for x in ids))
+          shutil.copy2(t/'frontier-costs.csv',w/'tier1-costs.csv')
+          shutil.copy2(t/'stage32-18ar-plan.json',w/'tier1-plan.json')
+          PY
+      - name: Build exact selective planner
+        run: |
+          set -euo pipefail
+          python stages/stage32/32-18X/build_two_stage_certifier.py --source "$RUNNER_TEMP/src/d16-exact-symmetry-sharded.cpp" --output "$RUNNER_TEMP/work/cert.cpp" --primary-id 436
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AF/patch_symmetry_schedule.py
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AO/patch_block_frontier.py
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AP/patch_lower_block_replay.py
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AR/patch_frontier_cost_planner.py
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AS/patch_selective_frontier_planner.py
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic "$RUNNER_TEMP/work/cert.cpp" -o "$RUNNER_TEMP/work/cert"
+          cp "$RUNNER_TEMP/src/d16-hperp.txt" "$RUNNER_TEMP/work/"
+          cp "$RUNNER_TEMP/src/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/work/"
+      - name: Probe only 682 tier1-heavy frontier states
+        run: |
+          set -euo pipefail
+          /usr/bin/time -q -f '%e' -o "$RUNNER_TEMP/out/runtime.txt" timeout --signal=TERM --kill-after=20s 45m "$RUNNER_TEMP/work/cert" --input "$RUNNER_TEMP/work/d16-hperp.txt" --bundle "$RUNNER_TEMP/work/d16-aut-prefix256-bundle.txt" --output "$RUNNER_TEMP/out/cert.json" --dump-canonical "$RUNNER_TEMP/out/dump.bin" --bound 16 --shard-id 5 --shard-count 1024 --split-coordinate 48 --block-cut 39 --frontier-cap 5000 --replay-limit 0 --planner-probe-budget 32768 --planner-output "$RUNNER_TEMP/out/tier2-costs.csv" --planner-id-file "$RUNNER_TEMP/work/heavy-ids.txt" --node-cap 2000000 >"$RUNNER_TEMP/out/stdout.txt" 2>"$RUNNER_TEMP/out/stderr.txt"
+      - name: Build tier2 distribution and merged weighted plan
+        run: |
+          python - <<'PY'
+          import csv,json,os,pathlib,math,shutil
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])
+          outdir=root/'out'; work=root/'work'
+          cert=json.loads((outdir/'cert.json').read_text())
+          tier1_plan=json.loads((work/'tier1-plan.json').read_text())
+          with (work/'tier1-costs.csv').open() as f:
+              tier1=[{'frontier_id':int(r['frontier_id']),'probe_nodes':int(r['probe_nodes']),'complete':r['complete']=='1'} for r in csv.DictReader(f)]
+          with (outdir/'tier2-costs.csv').open() as f:
+              tier2=[{'frontier_id':int(r['frontier_id']),'probe_nodes':int(r['probe_nodes']),'complete':r['complete']=='1'} for r in csv.DictReader(f)]
+          heavy1=tier1_plan['heavy_frontier_ids']
+          assert cert['status']=='FRONTIER_COMPLETE' and cert['frontier_states']==4103
+          assert cert['planner_selected_ids']==682 and cert['planner_completed']+cert['planner_capped']==682
+          assert len(tier1)==4103 and len(tier2)==682
+          assert [r['frontier_id'] for r in tier2]==heavy1
+          assert sum(r['complete'] for r in tier2)==cert['planner_completed']
+          exact={r['frontier_id']:r['probe_nodes'] for r in tier1 if r['complete']}
+          for r in tier2:
+              if r['complete']: exact[r['frontier_id']]=r['probe_nodes']
+          unresolved=[r['frontier_id'] for r in tier2 if not r['complete']]
+          t2costs=sorted(r['probe_nodes'] for r in tier2 if r['complete'])
+          allcosts=sorted(exact.values())
+          def pct(xs,p):
+              if not xs:return None
+              return xs[min(len(xs)-1,max(0,math.ceil(p*len(xs))-1))]
+          bins=[{'bin':i,'estimated_nodes':0,'frontier_ids':[]} for i in range(12)]
+          for fid,cost in sorted(exact.items(),key=lambda kv:(-kv[1],kv[0])):
+              b=min(bins,key=lambda x:(x['estimated_nodes'],x['bin']))
+              b['frontier_ids'].append(fid); b['estimated_nodes']+=cost
+          for b in bins:b['frontier_ids'].sort()
+          if len(unresolved)<=24:
+              next_item='32-18AT-D16-B16-WEIGHTED-PRODUCTION-WITH-MONSTER-ISOLATION'
+          else:
+              next_item='32-18AT-D16-B16-HEAVY-TIER3-COST-PLANNER'
+          runtime=None
+          try:runtime=float((outdir/'runtime.txt').read_text().strip())
+          except Exception:pass
+          merged_exact_total=sum(exact.values())
+          result={'schema':'STAGE32_18AS_B16_HEAVY_TIER2_COST_PLAN_V1','verdict':'TIER2_HEAVY_DISTRIBUTION_MEASURED','target_wall':[436,5],'frontier_states':4103,'tier1_heavy_count':682,'tier2_probe_budget':32768,'tier2_completed_count':len(t2costs),'tier2_capped_count':len(unresolved),'tier3_frontier_ids':unresolved,'tier2_completed_quantiles':{'p50':pct(t2costs,.50),'p90':pct(t2costs,.90),'p95':pct(t2costs,.95),'p99':pct(t2costs,.99),'max':max(t2costs) if t2costs else None},'resolved_frontier_count':len(exact),'resolved_exact_total_nodes':merged_exact_total,'resolved_cost_quantiles':{'p50':pct(allcosts,.50),'p90':pct(allcosts,.90),'p95':pct(allcosts,.95),'p99':pct(allcosts,.99),'max':max(allcosts) if allcosts else None},'minimum_total_lower_nodes_given_tier3_floor':merged_exact_total+len(unresolved)*32768,'recommended_resolved_bins':bins,'max_estimated_resolved_bin_nodes':max(b['estimated_nodes'] for b in bins),'runtime_seconds':runtime,'next_item':next_item,'D16_B16_NUMERICAL_CREDIT':False,'GLOBAL_B16_AGGREGATION_COMPLETE':False,'FULL_D16_G0_ROW_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,'CONTROLLER_MODIFIED':False}
+          (outdir/'stage32-18as-plan.json').write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
+          shutil.copy2(work/'heavy-ids.txt',outdir/'tier1-heavy-ids.txt')
+          shutil.copy2(work/'tier1-plan.json',outdir/'source-tier1-plan.json')
+          print(json.dumps({'verdict':result['verdict'],'tier2_completed':len(t2costs),'tier3':len(unresolved),'resolved':len(exact),'max_bin':result['max_estimated_resolved_bin_nodes'],'next_item':next_item},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18as-b16-heavy-tier2-cost-plan-g1
+          path: '${{ runner.temp }}/out/'
+          retention-days: 21
+          if-no-files-found: error
