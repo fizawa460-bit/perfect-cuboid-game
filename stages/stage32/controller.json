@@ -1,10 +1,10 @@
 {
-  "schema":"STAGE32_LOWGENUS_PICARD_CONTROLLER_V32_B16_MONSTER_ALGORITHM_TOURNAMENT_G2",
+  "schema":"STAGE32_LOWGENUS_PICARD_CONTROLLER_V33_B16_PARENT_STABLE_MONSTER_TOURNAMENT_G3",
   "stage":"32",
   "kernel":"K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "execution_class":2,
   "parent_route":"G10-LOWGENUS-PICARD",
-  "status":"D16_B12_AUDITED_B16_ACTIVE_172_MONSTERS_ALGORITHM_TOURNAMENT_G2_READY_D8_ROUTE_PAUSED",
+  "status":"D16_B12_AUDITED_B16_ACTIVE_172_MONSTERS_PARENT_STABLE_ALGORITHM_TOURNAMENT_G3_READY_D8_ROUTE_PAUSED",
   "roadmap":"stages/stage32/POST_B16_LITERATURE_RECEIVER_ROADMAP.md",
   "goal_stop_contract":"stages/stage32/GOAL_AND_STOP_CONTRACT.md",
   "repo_absolute_rule_read_policy":{"mandatory_every_main_batch_reads":["AGENTS.md","stages/stage32/controller.json"],"conditional_mandatory_policy_reads":{"before_actions_artifacts_or_heavy_compute":"docs/research-os/policies/actions-storage-and-evidence-safety.md","before_claim_promotion_closure_or_downstream_release":"docs/research-os/policies/research-credit-and-promotion-firewalls.md","before_parking_route_or_claiming_exhaustion":"docs/research-os/policies/cycle-exploration-safety-protocol.md"}},
@@ -17,12 +17,12 @@
     "source_exact_artifact_id":9574308138,
     "source_exact_artifact_sha256":"0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4",
     "six_wall_tier3":{"probe_budget":262144,"status":"SUCCESS_6_OF_6","monster_total":172,"monster_counts":[36,34,31,30,22,19]},
-    "monster_algorithm_tournament":{"unit":"32-18AY","status":"G2_READY_TO_ARM","known_baseline_completed_at_262144":0,"sample_total":24,"sample_per_wall":4,"algorithms":["lower48","pairwise"],"planner_probe_budget":262144,"planned_jobs":12,"max_parallel":6,"planned_effective_stage32_heavy_concurrency":6,"projected_compact_artifact_storage":"WELL_BELOW_1_MB_TOTAL","g1_run":33149699849,"g1_result":"WORKFLOW_DEFINITION_FAILURE_NO_HEAVY_JOBS_STARTED","g2_repairs":"REMOVE_DUPLICATE_STEP_ENV_AND_ADVANCE_RUNKEY_GENERATION","winner_then_full_172":true,"no_winner_then_selective_split":true},
-    "resume_rule":"ARM G2 TOURNAMENT. CLEAR WINNER => APPLY TO ALL 172. NO CLEAR WINNER => SELECTIVELY SPLIT ONLY 172 MONSTER PARENTS. DO NOT RERUN RESOLVED PARENTS OR ARM B18.",
+    "monster_algorithm_tournament":{"unit":"32-18AY","status":"G3_READY_TO_ARM","known_baseline_completed_at_262144":0,"sample_total":24,"sample_per_wall":4,"algorithms":["pairwise6","pairwise12"],"parent_cut":39,"parent_partition_stable":true,"planner_probe_budget":262144,"planned_jobs":12,"max_parallel":6,"planned_effective_stage32_heavy_concurrency":6,"projected_compact_artifact_storage":"WELL_BELOW_1_MB_TOTAL","g1_run":33149699849,"g1_result":"WORKFLOW_DEFINITION_FAILURE_NO_HEAVY_JOBS_STARTED","g2_run":33149771511,"g2_result":"INVALID_FOR_SAME_PARENT_ALGORITHM_COMPARISON__ALGORITHM_CHANGED_FRONTIER_NUMBERING_ABOVE_CUT39","g2_noncredit_observation":"PAIRWISE_SCOUT_APPEARED_STRONG_ON_FIVE_WALLS_BUT IS NOT COMPARABLE EVIDENCE","g3_repair":"FREEZE BASELINE CUT39 PARENT NUMBERING; ACTIVATE EXACT PAIRWISE PRUNING ONLY BELOW CUT39; ACCEPT LEGACY TIER4_FRONTIER_IDS FOR P436_S5","winner_then_full_172":true,"no_winner_then_selective_split":true},
+    "resume_rule":"ARM G3 PARENT-STABLE TOURNAMENT. CLEAR WINNER => APPLY TO ALL 172 BASELINE MONSTER PARENTS. NO CLEAR WINNER => SELECTIVELY SPLIT ONLY THE 172 MONSTER PARENTS. DO NOT RERUN RESOLVED PARENTS OR ARM B18.",
     "mathematical_credit_changed":false
   },
-  "current_item":"32-18AY_D16_B16_24_MONSTER_ALGORITHM_TOURNAMENT_G2",
-  "current_item_execution_constraint":"24 REPRESENTATIVE MONSTERS; LOWER48 VS PAIRWISE; 262144 NODES PER STATE; MAX_PARALLEL 6; NO BLIND TIER4; NO AUTOMATIC B18",
+  "current_item":"32-18AY_D16_B16_24_MONSTER_PARENT_STABLE_ALGORITHM_TOURNAMENT_G3",
+  "current_item_execution_constraint":"24 REPRESENTATIVE BASELINE MONSTERS; PAIRWISE6 VS PAIRWISE12 ONLY BELOW FROZEN CUT39; 262144 NODES PER STATE; MAX_PARALLEL 6; NO BLIND TIER4; NO AUTOMATIC B18",
   "FULL_D8_G0_ROW_COMPLETE":false,
   "FULL_D16_G0_ROW_COMPLETE":false,
   "R29_LG2":"NOT_DISCHARGED",
@@ -39,6 +39,6 @@
   "repair_required":false,
   "merge_allowed":true,
   "advance_allowed":true,
-  "next_item":"ARM_32-18AY_MONSTER_ALGORITHM_TOURNAMENT_G2",
+  "next_item":"ARM_32-18AY_PARENT_STABLE_MONSTER_TOURNAMENT_G3",
   "next_expected_command":"Stage32-main-batch"
 }
