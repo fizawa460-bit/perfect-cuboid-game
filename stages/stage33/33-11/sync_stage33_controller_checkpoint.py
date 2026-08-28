@@ -18,10 +18,13 @@ CTRL = ROOT / "stages" / "stage33" / "controller.json"
 HERE = ROOT / "stages" / "stage33" / "33-11"
 PROFILE = HERE / "stage33-11-smallest-block-target-images.json"
 DECODER = HERE / "stage33-11-a2-26-restriction-decoder.json"
+AMBIENT = HERE / "stage33-11-a2-26-ambient-boundary-galois.json"
 EXPECTED_PROFILE_SHA = "45e42d6f3577654df7a4126cad5e2eee651c38fdce3c5cf8289b5f96707f2edc"
+EXPECTED_AMBIENT_SHA = "e3d779e68d878234d5574ce71cee33ca83f6918f808a7e35c460dd5e56021a35"
 
 profile = json.loads(PROFILE.read_text(encoding="utf-8"))
 decoder = json.loads(DECODER.read_text(encoding="utf-8"))
+ambient = json.loads(AMBIENT.read_text(encoding="utf-8"))
 if profile.get("canonical_sha256") != EXPECTED_PROFILE_SHA:
     raise SystemExit("Stage33-11c target-image profile source lock moved")
 if decoder.get("schema") != "STAGE33_11_A2_26_CC_CT_RESTRICTION_DECODER_V1":
@@ -34,6 +37,12 @@ if decoder["decoder"].get("joint_restriction_rank_on_allowed_space_f2") != 5:
     raise SystemExit("Stage33-11c A2_26 joint restriction rank moved")
 if decoder["exact_consequence"].get("a2_26_connecting_column_materialized"):
     raise SystemExit("controller sync refuses an unreviewed A2_26 closure promotion")
+if ambient.get("canonical_sha256") != EXPECTED_AMBIENT_SHA:
+    raise SystemExit("Stage33-11c ambient boundary Galois certificate moved")
+if not ambient["exact_checks"].get("explicit_ambient_boundary_package_v4_fixed"):
+    raise SystemExit("A2_26 visible boundary package is not certified V4-fixed")
+if ambient["exact_consequence"].get("a2_26_connecting_column_materialized"):
+    raise SystemExit("ambient boundary checkpoint cannot promote A2_26 closure")
 
 c = json.loads(CTRL.read_text(encoding="utf-8"))
 
@@ -97,7 +106,7 @@ s11["stage33_11b_symmetry_block_profile"] = {
     "workflow_run": 33155495938,
 }
 s11["stage33_11c_a2_26_reduction"] = {
-    "status": "RUNNING_EXACT_FIVE_BIT_RESTRICTION_DECODER_READY",
+    "status": "RUNNING_EXACT_VISIBLE_BOUNDARY_PACKAGE_V4_FIXED_CORRECTION_TORSOR_OPEN",
     "smallest_cyclic_blocks_1based": [[2], [3], [24, 25, 26]],
     "raw_order2_liftable_smallest_directions_1based": [2, 3, 24, 25, 26],
     "target_image_profile_sha256": EXPECTED_PROFILE_SHA,
@@ -113,8 +122,11 @@ s11["stage33_11c_a2_26_reduction"] = {
     "decoder_certificate_sha256": decoder["canonical_sha256"],
     "decoder_observation_coordinates": decoder["decoder"]["canonical_observation_coordinates"],
     "all_32_decoder_roundtrips_verified": True,
+    "ambient_boundary_galois_certificate_sha256": ambient["canonical_sha256"],
+    "visible_ambient_boundary_package_v4_fixed": True,
+    "remaining_five_bits_entirely_offboundary_purity_correction_data": True,
     "connecting_column_materialized": False,
-    "next_exact_task": "A2_26_EXPLICIT_CC_CT_GERSTEN_GALOIS_DIFFERENCE_BITS",
+    "next_exact_task": "A2_26_SELECT_OR_CLASSIFY_V4_ACTION_ON_OFFBOUNDARY_PURITY_CORRECTION",
 }
 for b in s11["branches"]:
     if b["id"] == "33-11a":
@@ -122,7 +134,7 @@ for b in s11["branches"]:
     elif b["id"] == "33-11b":
         b["main_status"] = "CLOSED_EXACT_PROFILE_COMMON_KERNEL_DIM10_NO_NAMED_COLUMN_FORCED"
     elif b["id"] == "33-11c":
-        b["main_status"] = "RUNNING_A2_26_FIVE_BIT_RESTRICTION_DECODER_READY"
+        b["main_status"] = "RUNNING_A2_26_VISIBLE_BOUNDARY_V4_FIXED_CORRECTION_TORSOR_OPEN"
         b["smallest_cyclic_blocks_1based"] = [[2], [3], [24, 25, 26]]
         b["preferred_next_pointer"] = "component-A2_26"
 
@@ -135,8 +147,8 @@ c["current_item"] = "Stage33-11_ARITHMETIC_LOCALIZATION_CONNECTING_MAP_RUNNING"
 c["audit_required"] = False
 c["merge_allowed"] = False
 c["advance_allowed"] = True
-c["advance_scope"] = "STAGE33_11_ONLY_ADVANCE_A2_26_EXPLICIT_CC_CT_BITS_KEEP_33_12_33_08_33_40_BLOCKED"
-c["next_item"] = "Stage33-11c_A2_26_EXPLICIT_CC_CT_GERSTEN_DIFFERENCE_BITS"
+c["advance_scope"] = "STAGE33_11_ONLY_ADVANCE_A2_26_OFFBOUNDARY_PURITY_CORRECTION_V4_ACTION_KEEP_33_12_33_08_33_40_BLOCKED"
+c["next_item"] = "Stage33-11c_A2_26_OFFBOUNDARY_PURITY_CORRECTION_V4_ACTION"
 c["next_expected_command"] = "Stage33-main-batch"
 
 c["controller_writeback_checkpoint"] = {
@@ -153,8 +165,11 @@ c["controller_writeback_checkpoint"] = {
     "stage33_11c_a2_26_joint_cc_ct_restriction_kernel_dimension_f2": 0,
     "stage33_11c_a2_26_decoder_sha256": decoder["canonical_sha256"],
     "stage33_11c_a2_26_five_bit_decoder_ready": True,
+    "stage33_11c_a2_26_ambient_boundary_galois_sha256": ambient["canonical_sha256"],
+    "stage33_11c_visible_boundary_package_v4_fixed": True,
+    "stage33_11c_remaining_bits_source": "OFFBOUNDARY_PURITY_CORRECTION_ONLY",
     "stage33_11_certified_named_connecting_progress": "0/26",
-    "stage33_11_next_branch": "33-11c_A2_26_EXPLICIT_CC_CT_GERSTEN_DIFFERENCE_BITS",
+    "stage33_11_next_branch": "33-11c_A2_26_OFFBOUNDARY_PURITY_CORRECTION_V4_ACTION",
     "stage33_11_current_hot_path_remote_cas": False,
     "stage33_progress": "6/11",
     "stage33_08_released": False,
@@ -178,5 +193,5 @@ CTRL.write_text(json.dumps(c, indent=2, sort_keys=False) + "\n", encoding="utf-8
 print("STAGE33_CONTROLLER_SYNC=PASS")
 print("CURRENT_ITEM=" + c["current_item"])
 print("NEXT_ITEM=" + c["next_item"])
-print("A2_26_FIVE_BIT_DECODER=READY")
+print("A2_26_VISIBLE_BOUNDARY_PACKAGE=V4_FIXED")
 print("STAGE33_11_PROGRESS=0/26")
