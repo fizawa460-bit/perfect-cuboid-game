@@ -1,4 +1,4 @@
-name: Stage33-11 audit handoff
+name: Stage33-11 global arithmetic-localization naturality
 
 on:
   pull_request:
@@ -11,36 +11,87 @@ permissions:
   contents: write
 
 concurrency:
-  group: stage33-11-audit-handoff-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-11-global-naturality-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  freeze-for-audit:
+  exact-global-naturality:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Install exact local dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' z3-solver
 
-      - name: Validate audit handoff marker
+      - name: Rebuild retained order2 localization receiver
+        working-directory: stages/stage33/33-07
         run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          p=Path('stages/stage33/33-11/audit-handoff-current-pr.json')
-          x=json.loads(p.read_text())
-          assert x['schema']=='STAGE33_11_AUDIT_HANDOFF_CURRENT_PR_V1'
-          assert x['mode']=='AUDIT_HANDOFF'
-          assert x['main_progression_frozen_in_this_pr'] is True
-          assert x['next_expected_command']=='Stage33-audit'
-          assert x['exact_audited_progress']=='0/26'
-          assert x['firewalls']['stage33_12_released'] is False
-          print('STAGE33_11_AUDIT_HANDOFF_MARKER=PASS')
-          PY
+          python materialize_order2_localization_receiver.py
+          python certify_order2_quotient_raw_order4_bockstein.py
+          python materialize_mixed_order_side_ambient_function_lifts.py
+          python materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py
 
-      - name: Synchronize controller to audit mode only
+      - name: Materialize exact A2_26 local repair frontier
+        run: |
+          python -u stages/stage33/33-11/materialize_stage33_11_a2_26_restriction_decoder.py
+          python -u stages/stage33/33-11/certify_stage33_11_a2_26_ambient_boundary_galois.py
+          python -u stages/stage33/33-11/materialize_stage33_11_a2_26_explicit_gersten_difference_preimage.py
+          python -u stages/stage33/33-11/verify_stage33_11_a2_26_explicit_gersten_difference_preimage.py
+          python -u stages/stage33/33-11/materialize_stage33_11_a2_26_direct_exceptional_valuations.py
+
+      - name: Materialize A2_26 MAIN-working five-bit certificate
+        run: python -u stages/stage33/33-11/materialize_stage33_11_a2_26_main_working_column.py
+
+      - name: Materialize exact exceptional valuations for all smallest directions
+        run: |
+          python -u stages/stage33/33-11/profile_stage33_11_smallest_block_target_images.py
+          python -u stages/stage33/33-11/materialize_stage33_11_smallest_direct_exceptional_valuations.py
+          python -u stages/stage33/33-11/materialize_stage33_11_smallest_main_working_columns.py
+
+      - name: Materialize exact exceptional valuations for remaining block representatives
+        run: |
+          python -u stages/stage33/33-11/profile_stage33_11_remaining_block_representatives.py
+          python -u stages/stage33/33-11/materialize_stage33_11_remaining_representative_direct_exceptional_valuations.py
+
+      - name: Materialize finite strict-transform carriers for all working generators
+        run: |
+          python -u stages/stage33/33-11/materialize_stage33_11_all_generator_strict_transform_carriers.py
+
+      - name: Scout finite carrier prime refinements
+        run: |
+          python -u stages/stage33/33-11/materialize_stage33_11_carrier_prime_refinement_scout.py
+
+      - name: Reduce carrier refinements by certified geometric symmetry
+        run: |
+          python -u stages/stage33/33-11/materialize_stage33_11_carrier_geometric_orbit_reduction.py
+          cat stages/stage33/33-11/stage33-11-carrier-geometric-orbit-reduction.json
+
+      - name: Upload compact localization evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-11-localization-working-evidence
+          path: |
+            stages/stage33/33-11/stage33-11-smallest-block-target-images.json
+            stages/stage33/33-11/stage33-11-a2-26-restriction-decoder.json
+            stages/stage33/33-11/stage33-11-a2-26-ambient-boundary-galois.json
+            stages/stage33/33-11/stage33-11-a2-26-explicit-gersten-difference-preimage.json
+            stages/stage33/33-11/stage33-11-a2-26-direct-exceptional-valuations.json
+            stages/stage33/33-11/stage33-11-a2-26-main-working-column.json
+            stages/stage33/33-11/stage33-11-smallest-direct-exceptional-valuations.json
+            stages/stage33/33-11/stage33-11-smallest-main-working-columns.json
+            stages/stage33/33-11/stage33-11-remaining-block-representatives.json
+            stages/stage33/33-11/stage33-11-remaining-representative-direct-exceptional-valuations.json
+            stages/stage33/33-11/stage33-11-all-generator-strict-transform-carriers.json
+            stages/stage33/33-11/stage33-11-carrier-prime-refinement-scout.json
+            stages/stage33/33-11/stage33-11-carrier-geometric-orbit-reduction.json
+          if-no-files-found: ignore
+          retention-days: 1
+
+      - name: Synchronize Stage33 checkpoint without promoting exact closure
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         env:
           HEAD_REF: ${{ github.head_ref }}
@@ -49,11 +100,18 @@ jobs:
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git fetch origin "$HEAD_REF"
           git checkout -B "$HEAD_REF" "origin/$HEAD_REF"
-          python -u stages/stage33/33-11/sync_stage33_11_audit_handoff.py
+          python -u stages/stage33/33-11/sync_stage33_controller_checkpoint.py
+          python -u stages/stage33/33-11/apply_stage33_11_hostile_audit.py
+          python -u stages/stage33/33-11/sync_stage33_11_a2_26_main_working_evidence.py
+          python -u stages/stage33/33-11/sync_stage33_11_smallest_local_valuation_evidence.py
+          python -u stages/stage33/33-11/sync_stage33_11_remaining_representative_local_valuation_evidence.py
+          python -u stages/stage33/33-11/sync_stage33_11_strict_transform_carrier_evidence.py
+          python -u stages/stage33/33-11/sync_stage33_11_carrier_prime_refinement_scout.py
+          python -u stages/stage33/33-11/sync_stage33_11_carrier_geometric_orbit_reduction.py
           git add stages/stage33/controller.json
           if git diff --cached --quiet; then
-            echo "Controller already in audit handoff mode."
+            echo "Controller already synchronized."
           else
-            git commit -m "Stage33-11: switch PR1449 controller to audit handoff"
+            git commit -m "Stage33-11: synchronize carrier geometric orbit reduction"
             git push origin "HEAD:$HEAD_REF"
           fi
