@@ -1,0 +1,85 @@
+name: Stage33-11g hostile audit exact exit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-11g/run-key.json'
+      - '.github/workflows/stage33-11g-hostile-audit-exact-exit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.authorize.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: authorize
+        env:
+          EVENT: '${{ github.event_name }}'
+          ACTION: '${{ github.event.action }}'
+          BEFORE: '${{ github.event.before }}'
+          HEAD: '${{ github.event.pull_request.head.sha }}'
+        run: python stages/stage33/33-11g/authorize_stage33_11g_run.py
+
+  hostile-audit-exact-exit:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned exact local algebra
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Replay 33-11d prime refinement
+        run: python stages/stage33/33-11d/verify_stage33_11d_prime_refinement.py
+      - name: Replay 33-11e prime-level Galois transport
+        run: python stages/stage33/33-11e/verify_stage33_11e_prime_galois_transport.py
+      - name: Replay 33-11f 26-column closure
+        run: python stages/stage33/33-11f/verify_stage33_11f_26_column_exact_closure.py
+      - name: Verify 33-11g frozen audit handoff
+        run: python stages/stage33/33-11g/freeze_stage33_11g_handoff.py
+      - name: Independently audit exact Stage33-11 exit
+        run: python stages/stage33/33-11g/verify_stage33_11g_hostile_audit_exact_exit.py
+      - name: Enforce controller promotion and downstream firewalls
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          c=json.load(open('stages/stage33/controller.json', encoding='utf-8'))
+          cert=json.load(open('stages/stage33/33-11g/stage33-11g-hostile-audit-exact-exit-certificate.json', encoding='utf-8'))
+          s=next(x for x in c['repair_children'] if x['id']=='33-11')
+          s12=next(x for x in c['repair_children'] if x['id']=='33-12')
+          assert cert['exact_result']['connecting_columns_exact_audited']=='26/26'
+          assert cert['exact_result']['unresolved_connecting_columns']==0
+          assert cert['exact_result']['stage33_11_closed_exact'] is True
+          assert s['status']=='CLOSED_EXACT_HOSTILE_AUDIT_PASS'
+          assert s['connecting_columns_exact_main']==26
+          assert s['connecting_columns_exact_audited']==26
+          assert s['exact_exit_progress']=='26/26'
+          assert s['audit_required'] is True and s['audit_passed'] is True
+          assert s['repair_required'] is False and s['unit_closed'] is True
+          assert c['stage33_07']['arithmetic_localization_connecting_map_computed'] is True
+          assert s12['prerequisites_satisfied'] is True
+          assert s12['status']=='AVAILABLE_NOT_RELEASED_PENDING_SEPARATE_STAGE33_12_DECISION'
+          assert c['advance_allowed'] is False
+          assert not any([
+              c['stage33_08_released'],
+              cert['firewalls']['stage33_12_released'],
+              cert['firewalls']['stage33_07_closed'],
+              c['theorem_credit'],
+              c['endpoint_credit'],
+              cert['firewalls']['perfect_cuboid_credit'],
+          ])
+          assert cert['actions_safety']['artifact_uploads']==0
+          assert cert['actions_safety']['effective_heavy_concurrency']==0
+          print('STAGE33_11G_CONTROLLER_AND_FIREWALLS=PASS')
+          PY
