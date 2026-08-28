@@ -1,10 +1,10 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V58_RESIDUAL_FEASIBILITY_HOSTILE_AUDIT_PASS",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V59_RESIDUAL_32_01_CALIBRATION_COORDINATE_WALL",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "execution_class": 2,
   "parent_route": "G10-LOWGENUS-PICARD",
-  "status": "D16_B12_AUDITED_B16_REPAIRED_BOUNDED_CLOSE_AUDITED_POST_B16_LITERATURE_RECEIVER_RECONCILIATION_AUDITED_RESIDUAL_FEASIBILITY_HOSTILE_AUDIT_PASS_RESIDUAL_32_01_IMPLEMENTATION_CALIBRATION_RELEASED_D8_ROUTE_PAUSED",
+  "status": "D16_B12_AUDITED_B16_REPAIRED_BOUNDED_CLOSE_AUDITED_POST_B16_LITERATURE_RECEIVER_RECONCILIATION_AUDITED_RESIDUAL_FEASIBILITY_HOSTILE_AUDIT_PASS_RESIDUAL_32_01_OFFLINE_CALIBRATION_PASS_ZERO_PREFIX_PRUNING_COORDINATE_WALL_D8_ROUTE_PAUSED",
   "post_b16_release_contract": "stages/stage32/POST_B16_RELEASE_CONTRACT.md",
   "stale_reference_resolution": {
     "resolved": true,
@@ -43,7 +43,7 @@
     "automatic_b18_or_higher_forbidden": true,
     "post_b16_literature_receiver_gate_mandatory": true,
     "post_b16_downstream_release_blocked_until_goal_stop_metadata_resolved": false,
-    "post_b16_release_scope": "RESIDUAL_32_01_PRODUCTION_IMPLEMENTATION_AND_REPRESENTATIVE_CALIBRATION_ONLY",
+    "post_b16_release_scope": "RESIDUAL_32_01_PRODUCTION_DISCRIMINANT_ACTIVE_COORDINATE_SELECTION_AND_RECALIBRATION_ONLY",
     "heavy_compute_armed_by_controller_sync": false,
     "mathematical_credit_changed_this_batch": false,
     "receiver_credit_changed": false,
@@ -55,7 +55,10 @@
     "b12_traversal_certified": true,
     "b12_numerical_credit": true,
     "b16_repaired_bounded_closure_audited": true,
-    "b16_numerical_credit": true
+    "b16_numerical_credit": true,
+    "residual32_01_offline_engine_validated": true,
+    "residual32_01_external_magma_dependency_removed": true,
+    "residual32_01_primitive_basis_prefix_useful": false
   },
   "current_b16_execution_interface": {
     "block_frontier_cut": 39,
@@ -89,7 +92,7 @@
     ],
     "literature_receiver_exact_audit": "AUDITED_PASS",
     "residual_feasibility_gate": "HOSTILE_AUDIT_PASS",
-    "current_release": "RESIDUAL_32_01_PRODUCTION_IMPLEMENTATION_AND_REPRESENTATIVE_CALIBRATION_ONLY",
+    "current_release": "RESIDUAL_32_01_PRODUCTION_DISCRIMINANT_ACTIVE_COORDINATE_SELECTION_AND_RECALIBRATION_ONLY",
     "later_items_released": false,
     "b18_release_authorized": false,
     "full_178_row_sweep_authorized": false
@@ -143,8 +146,29 @@
     "b18_release_authorized": false,
     "heavy_compute_armed": false
   },
-  "current_item": "RESIDUAL_32_01_PRODUCTION_IMPLEMENTATION_AND_REPRESENTATIVE_CALIBRATION",
-  "current_item_execution_constraint": "IMPLEMENT THE LOCAL/OFFLINE EXACT INTERSECTION-COORDINATE ENGINE AND CALIBRATE REPRESENTATIVE AUDITED ROWS ACROSS M=1,2,4,8. DO NOT ARM B18. DO NOT START THE FULL 178-ROW SWEEP. ANY ACTIONS CALIBRATION REQUIRES ITS OWN FRESH RUN KEY AND STORAGE/CONCURRENCY PREFLIGHT. NO FULL_D16_ROW, RECEIVER, THEOREM, ROUTE, OR ENDPOINT PROMOTION.",
+  "residual32_01_calibration_checkpoint": {
+    "state": "stages/stage32/residual-32-01-production/state.json",
+    "engine": "stages/stage32/residual-32-01-production/pairing_prefix_engine.py",
+    "calibration": "stages/stage32/residual-32-01-production/calibrate_representatives.py",
+    "workflow": ".github/workflows/stage32-residual32-01-pairing-prefix-calibration.yml",
+    "run_id": 33218323543,
+    "artifact_id": 9704223938,
+    "artifact_zip_sha256": "56849f3170ebf3e0f9c7fa048d787d1d18b414d59af3ab3231bf862466ce07ca",
+    "certificate_sha256": "23077a6f0b28349518ec0d4fa4833f5bbaf011231cd07d0ae31ff1f327180537",
+    "coordinate_model": "RETAINED_PRIMITIVE_BASIS_PAIRINGS_EXCEPTIONALS_FIRST",
+    "retained_bundle_sha256": "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c",
+    "inverse_denominator": 8,
+    "assignment_order": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 29],
+    "active_congruence_rows_by_depth": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "nodes_visited_all_representatives": 250000,
+    "membership_prunes_all_representatives": 0,
+    "oracle_build_seconds": 3.952455,
+    "main_verdict": "PASS_EXACT_OFFLINE_ENGINE_REJECT_PRIMITIVE_BASIS_PREFIX_COORDINATE_CHOICE",
+    "audit_state": "PENDING_SEPARATE_AUDIT",
+    "next_gate": "DISCRIMINANT_ACTIVE_PAIRING_COORDINATE_SELECTION_AND_RECALIBRATION"
+  },
+  "current_item": "RESIDUAL_32_01_PRODUCTION_DISCRIMINANT_ACTIVE_COORDINATE_SELECTION",
+  "current_item_execution_constraint": "KEEP THE VALIDATED LOCAL/OFFLINE EXACT HNF ENGINE, BUT REPLACE THE ZERO-PRUNING PRIMITIVE-BASIS PREFIX WITH DISCRIMINANT-ACTIVE PAIRING COORDINATES OR QUOTIENT CHARACTERS THAT EXPOSE NONTRIVIAL MOD-2/4/8 CONDITIONS EARLY. RECALIBRATE ONLY REPRESENTATIVE M=1,2,4,8 ROWS. DO NOT ARM B18. DO NOT START THE FULL 178-ROW SWEEP. NO FULL_D16_ROW, RECEIVER, THEOREM, ROUTE, OR ENDPOINT PROMOTION.",
   "FULL_D8_G0_ROW_COMPLETE": false,
   "FULL_D16_G0_ROW_COMPLETE": false,
   "D16_B16_NUMERICAL_CREDIT": true,
@@ -159,10 +183,10 @@
   "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false,
   "stage32_closed": false,
-  "audit_required": false,
+  "audit_required": true,
   "repair_required": false,
-  "merge_allowed": true,
+  "merge_allowed": false,
   "advance_allowed": true,
-  "next_item": "RESIDUAL_32_01_PRODUCTION_IMPLEMENTATION_AND_REPRESENTATIVE_CALIBRATION",
+  "next_item": "DISCRIMINANT_ACTIVE_PAIRING_COORDINATE_SELECTION_AND_RECALIBRATION",
   "next_expected_command": "Stage32-main-batch"
 }
