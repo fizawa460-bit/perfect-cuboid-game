@@ -2,28 +2,47 @@
   "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V1",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "PAIRING_PREFIX_ENGINE_IMPLEMENTED_CALIBRATION_COLD",
+  "status": "OFFLINE_RETAINED_BASIS_CALIBRATION_PASS_ZERO_PREFIX_PRUNING_COORDINATE_WALL",
   "implementation": {
     "engine": "stages/stage32/residual-32-01-production/pairing_prefix_engine.py",
     "calibration": "stages/stage32/residual-32-01-production/calibrate_representatives.py",
+    "coordinate_model": "RETAINED_PRIMITIVE_BASIS_PAIRINGS_EXCEPTIONALS_FIRST",
     "selected_pairing_rank": 64,
-    "selected_pairing_determinant_abs": 274877906944,
+    "selected_pairing_determinant_abs": 268435456,
     "inverse_denominator": 8,
-    "snf_invariants": {"1": 40, "2": 14, "4": 6, "8": 4},
+    "retained_picard_bundle_sha256": "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c",
     "partial_membership": "EXACT_HNF_EXTENSION_TEST",
-    "leaf_aut_canonicalization": "IMPLEMENTED_REQUIRES_CI_REGRESSION",
-    "prefix_aut_canonical_augmentation": "NOT_IMPLEMENTED_EXPLICIT_NEXT_GATE"
+    "online_magma_dependency": false,
+    "aut_used_in_probe": false,
+    "prefix_aut_canonical_augmentation": "NOT_IMPLEMENTED_EXPLICIT_LATER_GATE"
   },
   "calibration": {
     "runkey": "stages/stage32/runkeys/residual32-01-pairing-prefix-calibration.json",
     "workflow": ".github/workflows/stage32-residual32-01-pairing-prefix-calibration.yml",
-    "generation": 1,
-    "armed": false,
+    "generation": 5,
+    "run_id": 33218323543,
+    "artifact_id": 9704223938,
+    "artifact_zip_sha256": "56849f3170ebf3e0f9c7fa048d787d1d18b414d59af3ab3231bf862466ce07ca",
+    "certificate_sha256": "23077a6f0b28349518ec0d4fa4833f5bbaf011231cd07d0ae31ff1f327180537",
     "node_limit": 250000,
     "representative_m_classes": [1, 2, 4, 8],
     "effective_heavy_concurrency": 1,
     "projected_peak_artifact_mb": 0.5,
-    "status": "COLD_NOT_RUN"
+    "oracle_build_seconds": 3.952455,
+    "assignment_order": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 29],
+    "active_congruence_rows_by_depth": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "nodes_visited": {"1": 250000, "2": 250000, "4": 250000, "8": 250000},
+    "membership_prunes": {"1": 0, "2": 0, "4": 0, "8": 0},
+    "node_budget_exhausted": {"1": true, "2": true, "4": true, "8": true},
+    "status": "PASS_EXACT_ENGINE_ZERO_PRUNING_COORDINATE_CHOICE_REJECTED"
+  },
+  "diagnosis": {
+    "engine_validated": true,
+    "retained_offline_reconstruction_validated": true,
+    "external_magma_http_wall_removed": true,
+    "primitive_basis_prefix_useful": false,
+    "reason": "THE_CHOSEN_11_RETAINED_PRIMITIVE_BASIS_PAIRING_COORDINATES_PROJECT_SURJECTIVELY_AT_EVERY_TESTED_PREFIX_DEPTH_SO_THE_EXACT_EXTENSION_CONGRUENCE_ORACLE_HAS_NO_ACTIVE_ROWS",
+    "next_required_capability": "SELECT_DISCRIMINANT_ACTIVE_PAIRING_COORDINATES_OR_QUOTIENT_CHARACTERS_THAT_EXPOSE_NONTRIVIAL_MOD_2_4_8_CONGRUENCES_EARLY"
   },
   "FULL_178_ROW_SWEEP_AUTHORIZED": false,
   "B18_RELEASE_AUTHORIZED": false,
@@ -34,8 +53,8 @@
   "R29_LG2_MB": "NOT_DISCHARGED",
   "THEOREM_CREDIT": false,
   "RECEIVER_CREDIT": false,
-  "audit_required": false,
+  "audit_required": true,
   "merge_allowed": false,
   "advance_allowed": true,
-  "next_item": "ARM_REPRESENTATIVE_PAIRING_PREFIX_CALIBRATION"
+  "next_item": "DISCRIMINANT_ACTIVE_PAIRING_COORDINATE_SELECTION_AND_RECALIBRATION"
 }
