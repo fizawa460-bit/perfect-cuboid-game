@@ -1,0 +1,53 @@
+name: Stage33-09 Picard equivariant transport
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+    paths:
+      - 'stages/stage33/33-09/**'
+      - '.github/workflows/stage33-09-main.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage33-09-picard-equivariant-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Reverify retained source-locked Stage33-09 closure
+        run: python stages/stage33/33-09/certify_stage33_09_exit.py
+      - name: Enforce closure, handoff and parent firewalls
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          def locked(path):
+              x=json.load(open(path)); b=dict(x); h=b.pop('canonical_sha256')
+              assert h==hashlib.sha256(json.dumps(b,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+              return x,h
+          x,h=locked('stages/stage33/33-09/stage33-09-closure.json')
+          hd,hh=locked('stages/stage33/33-09/handoff.json')
+          assert all(x['exit_condition'].values()) and x['stage33_10_released']
+          assert x['stage33_progress']=='6/11' and not x['stage33_07_closed'] and not x['stage33_08_released']
+          assert x['connecting_matrix_columns_explicitly_materialized']==0
+          assert not x['absolute_h1_receiver_exact'] and not x['arithmetic_localization_connecting_map_computed'] and not x['arithmetic_hs_closed']
+          assert not x['theorem_credit'] and not x['endpoint_credit']
+          assert hd['status']=='CLOSED_EXACT' and hd['source_locks']['stage33_09_closure_sha256']==h
+          assert hd['next_item']=='Stage33-10_ABSOLUTE_H1_AND_GALOIS_DESCENT_ADAPTER'
+          print('STAGE33_09_LOCAL_REVERIFY=PASS_EXACT')
+          print('CLOSURE_SHA256='+h)
+          print('HANDOFF_SHA256='+hh)
+          print('NEXT='+hd['next_item'])
+          PY
+      - name: Determinism check
+        run: git diff --exit-code -- stages/stage33/33-09/stage33-09-closure.json
