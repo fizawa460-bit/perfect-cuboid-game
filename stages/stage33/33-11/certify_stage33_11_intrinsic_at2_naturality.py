@@ -3,9 +3,11 @@
 
 This is the local-only replacement for the historical retained-Smith replay.
 For the Picard lattice (L,G), A_L[2] is canonically ker(G mod 2), represented
-by y/2 mod L.  Stage33-07 already reconstructs cc, ct, the two actual
-coordinate swaps and all seven coordinate signs on this 14-dimensional model
-from source-locked Picard geometry.  No Smith form or remote CAS is needed.
+by y/2 mod L. Stage33-07 already reconstructs cc, ct, the two actual
+coordinate swaps and all seven coordinate signs on this 14-dimensional model.
+The proper geometric Br[2] receiver is its F2 dual, so target actions are the
+transposes of these involutive discriminant actions. No Smith form or remote
+CAS is needed.
 """
 from __future__ import annotations
 
@@ -33,6 +35,7 @@ EXPECTED_09_BRIDGE = "039e3792e950ac5bf94adf6538c229640da231000a5e1b159a80e2323a
 EXPECTED_10 = "4dbbfa8d208026e8ccb47915e66eb4bedef327ccf5b6f8c6c9caa7e74a64028f"
 EXPECTED_BR2 = "c86f6e838d072816426e4a2b0eb738f44e8632dd1ab4f3e6fdccd161ec41b5bf"
 EXPECTED_SEVEN_SIGN_H1_HOM_DIM = 146
+EXPECTED_PROPER_BR2_JOINT_FIXED_DIM = 10
 QDIM, KDIM, H1DIM = 26, 14, 16
 ORDER = ["a1", "a2", "a3", "b1", "b2", "b3", "c"]
 
@@ -48,6 +51,10 @@ def load_locked(path, expected, label):
     if claimed != expected or actual != expected:
         raise SystemExit(f"{label} source lock moved: claimed={claimed} actual={actual} expected={expected}")
     return obj
+
+
+def transpose(m):
+    return [list(r) for r in zip(*m)]
 
 
 def hom_dimension(source_actions, target_actions, sdim, tdim, rank_bitmasks):
@@ -89,7 +96,9 @@ if prev10.get("exact_receiver", {}).get("finite_v4_shortcut_status") != "EXPLICI
 if br2["finite_v4_H1_proper_Br2"]["H1_dimension_f2"] != H1DIM:
     raise SystemExit("finite diagnostic H1 dimension moved")
 
-# Reconstruct the canonical intrinsic A[2] actions entirely locally.
+# Reconstruct canonical discriminant A[2] actions entirely locally, then pass
+# to the proper geometric Br[2] dual. Since every generator is involutive,
+# the dual action is simply transpose(matrix).
 intrinsic = runpy.run_path(str(INTRINSIC_SCRIPT))
 intrinsic_cert = intrinsic["out"]
 expected_intrinsic = bridge09.get("source_locks", {}).get("actual_galois_at2_certificate_sha256")
@@ -98,10 +107,10 @@ if expected_intrinsic and intrinsic_cert.get("canonical_sha256") != expected_int
         "Stage33-09 actual Galois A2 source lock moved: "
         f"got={intrinsic_cert.get('canonical_sha256')} expected={expected_intrinsic}"
     )
-B_cc = intrinsic["A_cc"]
-B_ct = intrinsic["A_ct"]
-B_signs = intrinsic["signs7"]
-B_swaps = [intrinsic["A12"], intrinsic["A13"]]
+B_cc = transpose(intrinsic["A_cc"])
+B_ct = transpose(intrinsic["A_ct"])
+B_signs = [transpose(M) for M in intrinsic["signs7"]]
+B_swaps = [transpose(intrinsic["A12"]), transpose(intrinsic["A13"])]
 
 sign = runpy.run_path(str(SIGN_SCRIPT))
 rank2 = sign["rank2"]; row_basis = sign["row_basis"]; nullspace2 = sign["nullspace2"]
@@ -114,18 +123,18 @@ if len(source_sign_actions) != 7:
 
 I14 = eye(KDIM)
 if matmul2(B_cc, B_cc) != I14 or matmul2(B_ct, B_ct) != I14 or matmul2(B_cc, B_ct) != matmul2(B_ct, B_cc):
-    raise SystemExit("intrinsic K V4 relations failed")
+    raise SystemExit("proper Br2 V4 relations failed")
 for name, B in [(f"sign_{n}", M) for n, M in zip(ORDER, B_signs)] + [("swap12", B_swaps[0]), ("swap13", B_swaps[1])]:
     if matmul2(B, B) != I14 or matmul2(B, B_cc) != matmul2(B_cc, B) or matmul2(B, B_ct) != matmul2(B_ct, B):
-        raise SystemExit(f"{name}: intrinsic K action regression")
+        raise SystemExit(f"{name}: proper Br2 action regression")
 if matmul2(matmul2(B_swaps[0], B_swaps[1]), B_swaps[0]) != matmul2(matmul2(B_swaps[1], B_swaps[0]), B_swaps[1]):
-    raise SystemExit("intrinsic K swap S3 relation failed")
+    raise SystemExit("proper Br2 swap S3 relation failed")
 
 Ng = sub2(B_cc, I14); Nh = sub2(B_ct, I14)
 fixed_eq = [[Ng[i][j] for i in range(KDIM)] for j in range(KDIM)] + [[Nh[i][j] for i in range(KDIM)] for j in range(KDIM)]
 joint_fixed_dim = KDIM - rank2(fixed_eq, KDIM)
-if joint_fixed_dim != int(br2["proper_Br2_joint_V4_fixed_dimension_f2"]):
-    raise SystemExit(f"intrinsic K joint-fixed mismatch: {joint_fixed_dim}")
+if joint_fixed_dim != EXPECTED_PROPER_BR2_JOINT_FIXED_DIM:
+    raise SystemExit(f"proper Br2 joint-fixed mismatch: {joint_fixed_dim}")
 eq = []
 for j in range(KDIM): eq.append([Ng[i][j] for i in range(KDIM)] + [0] * KDIM)
 for j in range(KDIM): eq.append([0] * KDIM + [Nh[i][j] for i in range(KDIM)])
@@ -133,13 +142,13 @@ for j in range(KDIM): eq.append([Nh[i][j] for i in range(KDIM)] + [Ng[i][j] for 
 z1 = nullspace2(eq, 2 * KDIM)
 b1, _ = row_basis([Ng[i] + Nh[i] for i in range(KDIM)], 2 * KDIM)
 if (len(z1), len(b1)) != (20, 4):
-    raise SystemExit(f"intrinsic finite V4 receiver mismatch: Z1={len(z1)} B1={len(b1)}")
+    raise SystemExit(f"proper Br2 finite V4 receiver mismatch: Z1={len(z1)} B1={len(b1)}")
 frame = list(b1); h1 = []
 for z in z1:
     if rank2(frame + [z], 2 * KDIM) > len(frame):
         frame.append(z); h1.append(z)
 if len(h1) != H1DIM:
-    raise SystemExit("intrinsic finite H1 quotient complement regression")
+    raise SystemExit("proper Br2 finite H1 quotient complement regression")
 solve_h1 = build_solver(frame)
 
 
@@ -158,7 +167,7 @@ H1_signs = [induce_h1(f"sign_{n}", B) for n, B in zip(ORDER, B_signs)]
 H1_swaps = [induce_h1("swap12", B_swaps[0]), induce_h1("swap13", B_swaps[1])]
 seven_hom_dim, seven_hom_rank = hom_dimension(source_sign_actions, H1_signs, QDIM, H1DIM, rank_bitmasks)
 if seven_hom_dim != EXPECTED_SEVEN_SIGN_H1_HOM_DIM:
-    raise SystemExit(f"intrinsic seven-sign Hom regression: got {seven_hom_dim}, expected {EXPECTED_SEVEN_SIGN_H1_HOM_DIM}")
+    raise SystemExit(f"proper Br2 seven-sign Hom regression: got {seven_hom_dim}, expected {EXPECTED_SEVEN_SIGN_H1_HOM_DIM}")
 
 # Reconstruct the source A[2] actual swaps exactly from the 72 boundary action.
 pic = runpy.run_path(str(SWAP_PICARD_SCRIPT))
@@ -250,7 +259,7 @@ cert = {
         "actual_galois_at2_certificate_sha256": intrinsic_cert["canonical_sha256"],
     },
     "transport": {
-        "model": "canonical ker(Picard_Gram mod 2) = discriminant A_L[2]",
+        "model": "proper Br[2] dual of canonical ker(Picard_Gram mod 2)",
         "remote_cas_used": False,
         "smith_form_used": False,
         "target_dimension": KDIM,
