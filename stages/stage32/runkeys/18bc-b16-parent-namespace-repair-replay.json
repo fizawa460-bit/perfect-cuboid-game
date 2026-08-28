@@ -1,22 +1,24 @@
 {
   "schema":"STAGE32_HEAVY_RUN_KEY_V1",
-  "generation":4,
+  "generation":5,
   "armed":true,
   "bound":16,
   "algorithm":"pairwise6_strict_below_cut39",
+  "mode":"timeout_recovery_chunks",
   "parent_cut":39,
   "planner_probe_budget":262144,
   "max_parallel":6,
+  "chunk_size":8,
   "source_exact_artifact_id":9574308138,
   "require_parent_stream_byte_identity":true,
-  "storage_preflight":{"operating_budget_mb":500,"projected_new_peak_mb_lt":1,"persist_compact_only":true},
+  "parent_stream_gate_run_id":33155002856,
+  "parent_stream_gate_artifacts":[9679254386,9679252521,9679251297,9679250924,9679251414,9679249050],
+  "successful_replay_artifacts":{"p503-s665":9680367318,"p922-s13":9680561371,"p922-s38":9680338221},
+  "storage_preflight":{"operating_budget_mb":500,"projected_new_peak_mb_lt":2,"persist_compact_only":true,"transient_retention_days":2},
   "concurrency_preflight":{"planned_effective_heavy_concurrency":6,"stage_cap":18},
-  "walls":[
-    {"wall":"p436-s5","primary":436,"shard":5,"frontier":4103,"monster_count":36,"artifact":9675439606},
-    {"wall":"p436-s362","primary":436,"shard":362,"frontier":3897,"monster_count":34,"artifact":9676696013},
-    {"wall":"p503-s118","primary":503,"shard":118,"frontier":3596,"monster_count":31,"artifact":9676719989},
-    {"wall":"p503-s665","primary":503,"shard":665,"frontier":3761,"monster_count":30,"artifact":9676736931},
-    {"wall":"p922-s13","primary":922,"shard":13,"frontier":4095,"monster_count":22,"artifact":9676529538},
-    {"wall":"p922-s38","primary":922,"shard":38,"frontier":4203,"monster_count":19,"artifact":9676480018}
+  "recovery_walls":[
+    {"wall":"p436-s5","primary":436,"shard":5,"frontier":4103,"monster_count":36,"artifact":9675439606,"chunks":5},
+    {"wall":"p436-s362","primary":436,"shard":362,"frontier":3897,"monster_count":34,"artifact":9676696013,"chunks":5},
+    {"wall":"p503-s118","primary":503,"shard":118,"frontier":3596,"monster_count":31,"artifact":9676719989,"chunks":4}
   ]
 }
