@@ -1,4 +1,4 @@
-name: Stage32-18BC d16 b16 timeout recovery chunks
+name: Stage32-18BC d16 b16 timeout recovery retry chunks
 
 on:
   push:
@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       authorized: ${{ steps.gate.outputs.authorized }}
+      matrix: ${{ steps.gate.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4
         with: {fetch-depth: 2}
@@ -23,7 +24,8 @@ jobs:
         run: |
           set -euo pipefail
           KEY=stages/stage32/runkeys/18bc-b16-parent-namespace-repair-replay.json
-          authorized=false
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          echo 'matrix={"include":[]}' >> "$GITHUB_OUTPUT"
           if [ -n "$BEFORE" ]; then
             git fetch --no-tags --depth=1 origin "$BEFORE" || true
             if git cat-file -e "$BEFORE^{commit}" 2>/dev/null && git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY"; then
@@ -33,43 +35,39 @@ jobs:
           d=json.loads(pathlib.Path(key).read_text())
           old=json.loads(subprocess.check_output(['git','show',os.environ['BEFORE']+':'+key],text=True))
           assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
-          assert old['generation']==4 and d['generation']==5 and d['generation']==old['generation']+1 and d['armed']
+          assert d['generation']==old['generation']+1 and d['generation']>=6 and d['armed']
           assert d['bound']==16 and d['algorithm']=='pairwise6_strict_below_cut39'
-          assert d['mode']=='timeout_recovery_chunks' and d['chunk_size']==8
+          assert d['mode']=='timeout_recovery_retry_chunks' and d['chunk_size']==8
           assert d['source_exact_artifact_id']==9574308138 and d['planner_probe_budget']==262144
-          assert d['max_parallel']==6 and d['parent_cut']==39 and d['require_parent_stream_byte_identity'] is True
+          assert d['max_parallel']<=6 and d['parent_cut']==39 and d['require_parent_stream_byte_identity'] is True
           assert d['parent_stream_gate_run_id']==33155002856 and len(d['parent_stream_gate_artifacts'])==6
           assert set(d['successful_replay_artifacts'])=={'p503-s665','p922-s13','p922-s38'}
-          assert [(x['wall'],x['monster_count']) for x in d['recovery_walls']]==[('p436-s5',36),('p436-s362',34),('p503-s118',31)]
-          assert d['storage_preflight']['projected_new_peak_mb_lt']<=2 and d['concurrency_preflight']['planned_effective_heavy_concurrency']==6
+          expected={(w,c) for w,nc in [('p436-s5',5),('p436-s362',5),('p503-s118',4)] for c in range(nc)}
+          retry={(x['wall'],int(x['chunk'])) for x in d['retry_chunks']}
+          carry={(x['wall'],int(x['chunk'])) for x in d['carry_chunk_artifacts']}
+          assert retry and retry.isdisjoint(carry) and retry|carry==expected
+          assert len(retry)==len(d['retry_chunks']) and len(carry)==len(d['carry_chunk_artifacts'])
+          for x in d['retry_chunks']:
+              assert x['wall'] in {'p436-s5','p436-s362','p503-s118'} and int(x['artifact'])>0
+          for x in d['carry_chunk_artifacts']:
+              assert int(x['artifact'])>0
+          assert d['storage_preflight']['projected_new_peak_mb_lt']<=2
+          assert d['concurrency_preflight']['planned_effective_heavy_concurrency']<=6
+          out=pathlib.Path(os.environ['GITHUB_OUTPUT'])
+          with out.open('a') as f:
+              f.write('authorized=true\n')
+              f.write('matrix='+json.dumps({'include':d['retry_chunks']},separators=(',',':'))+'\n')
           PY
-              authorized=true
             fi
           fi
-          echo "authorized=$authorized" >> "$GITHUB_OUTPUT"
 
-  recover_timeout_chunks:
+  recover_retry_chunks:
     needs: authorize
     if: needs.authorize.outputs.authorized == 'true'
     strategy:
       fail-fast: false
       max-parallel: 6
-      matrix:
-        include:
-          - {wall: p436-s5, primary: 436, shard: 5, frontier: 4103, monster_count: 36, artifact: 9675439606, chunk: 0}
-          - {wall: p436-s5, primary: 436, shard: 5, frontier: 4103, monster_count: 36, artifact: 9675439606, chunk: 1}
-          - {wall: p436-s5, primary: 436, shard: 5, frontier: 4103, monster_count: 36, artifact: 9675439606, chunk: 2}
-          - {wall: p436-s5, primary: 436, shard: 5, frontier: 4103, monster_count: 36, artifact: 9675439606, chunk: 3}
-          - {wall: p436-s5, primary: 436, shard: 5, frontier: 4103, monster_count: 36, artifact: 9675439606, chunk: 4}
-          - {wall: p436-s362, primary: 436, shard: 362, frontier: 3897, monster_count: 34, artifact: 9676696013, chunk: 0}
-          - {wall: p436-s362, primary: 436, shard: 362, frontier: 3897, monster_count: 34, artifact: 9676696013, chunk: 1}
-          - {wall: p436-s362, primary: 436, shard: 362, frontier: 3897, monster_count: 34, artifact: 9676696013, chunk: 2}
-          - {wall: p436-s362, primary: 436, shard: 362, frontier: 3897, monster_count: 34, artifact: 9676696013, chunk: 3}
-          - {wall: p436-s362, primary: 436, shard: 362, frontier: 3897, monster_count: 34, artifact: 9676696013, chunk: 4}
-          - {wall: p503-s118, primary: 503, shard: 118, frontier: 3596, monster_count: 31, artifact: 9676719989, chunk: 0}
-          - {wall: p503-s118, primary: 503, shard: 118, frontier: 3596, monster_count: 31, artifact: 9676719989, chunk: 1}
-          - {wall: p503-s118, primary: 503, shard: 118, frontier: 3596, monster_count: 31, artifact: 9676719989, chunk: 2}
-          - {wall: p503-s118, primary: 503, shard: 118, frontier: 3596, monster_count: 31, artifact: 9676719989, chunk: 3}
+      matrix: ${{ fromJSON(needs.authorize.outputs.matrix) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
@@ -82,7 +80,13 @@ jobs:
           CHUNK: '${{ matrix.chunk }}'
         run: |
           set -euo pipefail
-          sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends g++ libboost-dev
+          for f in /etc/apt/sources.list.d/*; do
+            [ -f "$f" ] || continue
+            if grep -q 'packages.microsoft.com' "$f"; then sudo rm -f "$f"; fi
+          done
+          sudo apt-get update -qq -o Acquire::Retries=3
+          sudo apt-get install -y --no-install-recommends libboost-dev
+          command -v g++ >/dev/null
           mkdir -p "$RUNNER_TEMP/src" "$RUNNER_TEMP/monster" "$RUNNER_TEMP/work" "$RUNNER_TEMP/out"
           curl -L --fail --silent --show-error --retry 6 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$RUNNER_TEMP/source.zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9574308138/zip"
           echo '0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4  '"$RUNNER_TEMP/source.zip" | sha256sum -c -
@@ -103,10 +107,7 @@ jobs:
           selected=ids[chunk*size:(chunk+1)*size]
           last=(len(ids)-1)//size
           assert 0 <= chunk <= last and selected
-          if chunk < last:
-              assert len(selected)==size
-          else:
-              assert len(selected)==len(ids)-last*size
+          assert len(selected)==(size if chunk<last else len(ids)-last*size)
           root=pathlib.Path(os.environ['RUNNER_TEMP'])/'work'
           root.joinpath('monster-ids.txt').write_text(''.join(f'{x}\n' for x in selected))
           root.joinpath('source-ids.sha256').write_text(hashlib.sha256((''.join(f'{x}\n' for x in ids)).encode()).hexdigest()+'\n')
@@ -145,9 +146,7 @@ jobs:
           import csv,json,os,pathlib
           root=pathlib.Path(os.environ['RUNNER_TEMP']); outdir=root/'out'
           selected=[int(x) for x in (root/'work'/'monster-ids.txt').read_text().split()]
-          rows=[]
-          if (outdir/'costs.csv').exists():
-              rows=list(csv.DictReader((outdir/'costs.csv').open()))
+          rows=list(csv.DictReader((outdir/'costs.csv').open())) if (outdir/'costs.csv').exists() else []
           processed=[int(r['frontier_id']) for r in rows]
           assert processed==selected[:len(processed)]
           rc=int(os.environ['RC'])
@@ -157,7 +156,7 @@ jobs:
           else:
               assert rc==124 and len(rows)<=len(selected)
           completed=[int(r['frontier_id']) for r in rows if r['complete']=='1']
-          unresolved=[x for x in selected if x not in set(completed)]
+          completed_set=set(completed); unresolved=[x for x in selected if x not in completed_set]
           runtime=float((outdir/'runtime.txt').read_text().strip()) if (outdir/'runtime.txt').exists() else None
           result={'schema':'STAGE32_18BC_TIMEOUT_RECOVERY_CHUNK_V1','algorithm':'pairwise6_strict_below_cut39','wall':os.environ['WALL'],'chunk_index':int(os.environ['CHUNK']),'source_monster_artifact_id':int(os.environ['SOURCE_ARTIFACT']),'source_ids_sha256':(root/'work'/'source-ids.sha256').read_text().strip(),'original_wall_monster_count':int(os.environ['MONSTER_COUNT']),'selected_count':len(selected),'selected_frontier_ids':selected,'processed_count':len(rows),'completed_count':len(completed),'completed_frontier_ids':completed,'unresolved_count':len(unresolved),'unresolved_frontier_ids':unresolved,'timeout_exit_124':rc==124,'probe_budget_per_state':262144,'runtime_seconds':runtime,'parent_cut':39,'parent_partition_stable_from_g4':True,'D16_B16_NUMERICAL_CREDIT':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
           (outdir/'compact.json').write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
@@ -166,24 +165,36 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: stage32-18bc-g5-${{ matrix.wall }}-c${{ matrix.chunk }}
+          name: stage32-18bc-retry-${{ matrix.wall }}-c${{ matrix.chunk }}
           path: ${{ runner.temp }}/out/
           retention-days: 2
           if-no-files-found: error
 
   summarize:
-    needs: [authorize, recover_timeout_chunks]
+    needs: [authorize, recover_retry_chunks]
     runs-on: ubuntu-24.04
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          pattern: stage32-18bc-g5-*
-          path: ${{ runner.temp }}/chunks
-      - name: Fetch successful G4 wall certificates
+          pattern: stage32-18bc-retry-*
+          path: ${{ runner.temp }}/retry
+      - name: Fetch carried G5 chunks and successful G4 wall certificates
         env: {GH_TOKEN: '${{ github.token }}'}
         run: |
           set -euo pipefail
-          mkdir -p "$RUNNER_TEMP/prior"
+          mkdir -p "$RUNNER_TEMP/carry" "$RUNNER_TEMP/prior"
+          python - <<'PY' > "$RUNNER_TEMP/carry.tsv"
+          import json,pathlib
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18bc-b16-parent-namespace-repair-replay.json').read_text())
+          for x in d['carry_chunk_artifacts']:
+              print(x['wall'],x['chunk'],x['artifact'],sep='\t')
+          PY
+          while IFS=$'\t' read -r wall chunk aid; do
+            mkdir -p "$RUNNER_TEMP/carry/${wall}-c${chunk}"
+            curl -L --fail --silent --show-error --retry 6 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$RUNNER_TEMP/carry-${wall}-c${chunk}.zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${aid}/zip"
+            unzip -q "$RUNNER_TEMP/carry-${wall}-c${chunk}.zip" -d "$RUNNER_TEMP/carry/${wall}-c${chunk}"
+          done < "$RUNNER_TEMP/carry.tsv"
           for spec in p503-s665:9680367318 p922-s13:9680561371 p922-s38:9680338221; do
             wall=${spec%%:*}; aid=${spec##*:}; mkdir -p "$RUNNER_TEMP/prior/$wall"
             curl -L --fail --silent --show-error --retry 6 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$RUNNER_TEMP/$wall.zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${aid}/zip"
@@ -195,7 +206,7 @@ jobs:
           python - <<'PY'
           import json,os,pathlib
           root=pathlib.Path(os.environ['RUNNER_TEMP'])
-          chunks=[json.loads(p.read_text()) for p in (root/'chunks').rglob('compact.json')]
+          chunks=[json.loads(p.read_text()) for p in (root/'retry').rglob('compact.json')]+[json.loads(p.read_text()) for p in (root/'carry').rglob('compact.json')]
           assert len(chunks)==14,len(chunks)
           expected={'p436-s5':(36,5),'p436-s362':(34,5),'p503-s118':(31,4)}
           wall_docs=[]; all_residual={}
@@ -213,19 +224,20 @@ jobs:
           prior=[]
           for wall in ['p503-s665','p922-s13','p922-s38']:
               docs=[json.loads(p.read_text()) for p in (root/'prior'/wall).rglob('compact.json')]
-              assert len(docs)==1, (wall,len(docs)); d=docs[0]
+              assert len(docs)==1,(wall,len(docs)); d=docs[0]
               assert d['wall']==wall and d['schema']=='STAGE32_18BC_REPAIRED_ORIGINAL_MONSTER_RESULT_V1' and d['parent_partition_stable'] is True
               prior.append(d); all_residual[wall]=d['unresolved_frontier_ids']
           monster_total=sum(d['monster_count'] for d in wall_docs)+sum(d['monster_count'] for d in prior)
           completed_total=sum(d['completed_count'] for d in wall_docs)+sum(d['completed_count'] for d in prior)
           unresolved_total=sum(d['unresolved_count'] for d in wall_docs)+sum(d['unresolved_count'] for d in prior)
           assert monster_total==172 and completed_total+unresolved_total==172
-          out={'schema':'STAGE32_18BC_REPAIRED_ORIGINAL_172_SUMMARY_V2','source_g4_run_id':33155002856,'parent_stream_identity_gate':'PASSED_6_OF_6','monster_total':172,'completed_total':completed_total,'unresolved_total':unresolved_total,'walls':sorted(wall_docs+[{'wall':d['wall'],'monster_count':d['monster_count'],'completed_count':d['completed_count'],'unresolved_count':d['unresolved_count'],'unresolved_frontier_ids':d['unresolved_frontier_ids'],'source_g4_artifact':{'p503-s665':9680367318,'p922-s13':9680561371,'p922-s38':9680338221}[d['wall']]} for d in prior],key=lambda d:d['wall']),'residual_frontier_ids_by_wall':all_residual,'verdict':'ALL_ORIGINAL_172_RESOLVED' if unresolved_total==0 else 'REPAIRED_NAMESPACE_RESIDUALS_REQUIRE_DEEP_REPLAY','next_item':'32-18BD_D16_B16_CLOSE_EVIDENCE_REBUILD' if unresolved_total==0 else '32-18BD_REPAIRED_RESIDUAL_DEEP_REPLAY','D16_B16_NUMERICAL_CREDIT':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
+          key=json.loads(pathlib.Path('stages/stage32/runkeys/18bc-b16-parent-namespace-repair-replay.json').read_text())
+          out={'schema':'STAGE32_18BC_REPAIRED_ORIGINAL_172_SUMMARY_V2','source_g4_run_id':33155002856,'recovery_generation':key['generation'],'parent_stream_identity_gate':'PASSED_6_OF_6','monster_total':172,'completed_total':completed_total,'unresolved_total':unresolved_total,'walls':sorted(wall_docs+[{'wall':d['wall'],'monster_count':d['monster_count'],'completed_count':d['completed_count'],'unresolved_count':d['unresolved_count'],'unresolved_frontier_ids':d['unresolved_frontier_ids'],'source_g4_artifact':{'p503-s665':9680367318,'p922-s13':9680561371,'p922-s38':9680338221}[d['wall']]} for d in prior],key=lambda d:d['wall']),'residual_frontier_ids_by_wall':all_residual,'verdict':'ALL_ORIGINAL_172_RESOLVED' if unresolved_total==0 else 'REPAIRED_NAMESPACE_RESIDUALS_REQUIRE_DEEP_REPLAY','next_item':'32-18BD_D16_B16_CLOSE_EVIDENCE_REBUILD' if unresolved_total==0 else '32-18BD_REPAIRED_RESIDUAL_DEEP_REPLAY','D16_B16_NUMERICAL_CREDIT':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
           outdir=root/'summary'; outdir.mkdir(); (outdir/'summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n'); print(json.dumps(out,sort_keys=True))
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: stage32-18bc-g5-repaired-original-172-summary
+          name: stage32-18bc-repaired-original-172-summary-g${{ github.run_number }}
           path: ${{ runner.temp }}/summary/
           retention-days: 7
           if-no-files-found: error
