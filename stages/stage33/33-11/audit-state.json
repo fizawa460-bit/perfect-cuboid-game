@@ -1,0 +1,60 @@
+{
+  "schema": "STAGE33_11_HOSTILE_AUDIT_STATE_V1",
+  "stage": "33-11",
+  "pr": 1449,
+  "audited_head": "a406e7a898b5a50fe800fbf1e0720eb6ba852593",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "audit_mode": "HOSTILE",
+  "exact_progress_after_audit": "0/26",
+  "main_working_progress_after_audit": "NON_AUTHORITATIVE_ONLY",
+  "retained_exact_results": {
+    "stage33_11a_global_naturality": {
+      "Hom_H_A_to_K_dimension_f2": 24,
+      "Hom_H_A_to_finite_H1_dimension_f2": 33,
+      "global_naturality_alone_forces_zero": false
+    },
+    "stage33_11b_symmetry_profile": {
+      "common_universal_kernel_dimension_f2": 10,
+      "named_basis_directions_forced_zero": []
+    },
+    "a2_26_receiver_reduction": {
+      "shape": "K2,2_FOUR_CYCLE",
+      "edges": ["X_0125", "X_0126", "X_0131", "X_0132"],
+      "finite_H1_allowed_dimension_f2": 5,
+      "joint_cc_ct_restriction_rank_f2": 5,
+      "joint_cc_ct_restriction_kernel_dimension_f2": 0,
+      "five_bits_determine_finite_H1_value": true,
+      "decoder_certificate_sha256": "949387f9469bed0cc307cade718cc8c27d0a45344116e43f13e347c67b17a3f0",
+      "decoder_roundtrips_verified": 32,
+      "visible_ambient_boundary_package_v4_fixed": true,
+      "ambient_boundary_galois_certificate_sha256": "e3d779e68d878234d5574ce71cee33ca83f6918f808a7e35c460dd5e56021a35"
+    }
+  },
+  "rejected_as_exact_evidence": {
+    "a2_26_working_zero_pin": "PIN_OFFBOUNDARY_PURITY_CORRECTION_Q_DEFINED_V4_FIXED_PENDING_AUDIT",
+    "remaining_block_working_zero_pin": "PIN_Q_DEFINED_GLOBAL_GERSTEN_REPRESENTATIVE_PENDING_AUDIT",
+    "working_zero_map_coverage": "26/26",
+    "reason": "Visible-boundary V4-fixity does not imply the existence of a V4-fixed global Gersten representative or a V4-fixed off-boundary purity correction. The connecting obstruction is precisely the failure of such an equivariant lift. Assuming such a representative forces the obstruction to zero by construction and therefore cannot certify the connecting map.",
+    "mathematical_nonzero_claim": false
+  },
+  "required_repair": {
+    "current_leaf": "A2_26",
+    "first_exact_target": "COMPUTE_EXPLICIT_CC_CT_GERSTEN_GALOIS_DIFFERENCE_BITS_WITHOUT_FIXED_LIFT_ASSUMPTION",
+    "edge_inputs": ["X_0125", "X_0126", "X_0131", "X_0132"],
+    "finite_receiver_observations": ["cc:K6", "cc:K8", "cc:K9", "ct:K1", "ct:K8"],
+    "then": "DECODE_FINITE_H1_COMPONENT_AND_CLOSE_THE_REMAINING_ABSOLUTE_H1_RECEIVER_COMPONENT_USING_STAGE33_10_WITHOUT_FINITE_V4_SHORTCUT",
+    "promotion_rule": "DO_NOT_INCREMENT_EXACT_PROGRESS_UNTIL_AN_ACTUAL_CONNECTING_COLUMN_IS_CERTIFIED"
+  },
+  "firewalls": {
+    "stage33_11_closed_exact": false,
+    "stage33_12_released": false,
+    "stage33_08_released": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "merge_allowed": false,
+  "advance_allowed": false,
+  "repair_required": true
+}
