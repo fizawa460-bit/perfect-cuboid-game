@@ -1,0 +1,101 @@
+name: Stage32-18AR d16 b16 frontier cost planner
+
+on:
+  push:
+    branches: [stage32-18ar-b16-frontier-cost-planner]
+    paths: ['stages/stage32/runkeys/18ar-b16-frontier-cost-planner.json']
+
+permissions: {contents: read, actions: read}
+concurrency: {group: stage32-18ar-b16-frontier-cost-planner, cancel-in-progress: true}
+
+jobs:
+  planner:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 2}
+      - name: Require dedicated ARM commit
+        run: |
+          set -euo pipefail
+          KEY=stages/stage32/runkeys/18ar-b16-frontier-cost-planner.json
+          mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
+          test "${#changed[@]}" -eq 1 && test "${changed[0]}" = "$KEY"
+          test "$(git log -1 --pretty=%s)" = 'Stage32-18AR: ARM B16 FRONTIER COST PLANNER'
+          python - <<'PY'
+          import json,pathlib
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18ar-b16-frontier-cost-planner.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1' and d['armed'] and d['bound']==16
+          assert d['target_wall']==[436,5] and d['allow_finer_split'] is False
+          assert d['source_exact_artifact_id']==9574308138 and d['shard_count']==1024 and d['secondary_split_coordinate']==48
+          assert d['block_cut']==39 and d['expected_frontier_states']==4103
+          assert d['planner_probe_budget']==2048 and d['recommended_light_bins']==12
+          assert d['upper_node_cap']==2000000 and d['wallclock_minutes']==30 and d['max_parallel']==1
+          PY
+      - name: Build exact bounded-cost planner
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends g++ libboost-dev
+          mkdir -p "$RUNNER_TEMP/src" "$RUNNER_TEMP/work" "$RUNNER_TEMP/out"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$RUNNER_TEMP/source.zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9574308138/zip"
+          echo '0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4  '"$RUNNER_TEMP/source.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/source.zip" -d "$RUNNER_TEMP/src"
+          python stages/stage32/32-18X/build_two_stage_certifier.py --source "$RUNNER_TEMP/src/d16-exact-symmetry-sharded.cpp" --output "$RUNNER_TEMP/work/cert.cpp" --primary-id 436
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AF/patch_symmetry_schedule.py
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AO/patch_block_frontier.py
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AP/patch_lower_block_replay.py
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AR/patch_frontier_cost_planner.py
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic "$RUNNER_TEMP/work/cert.cpp" -o "$RUNNER_TEMP/work/cert"
+          cp "$RUNNER_TEMP/src/d16-hperp.txt" "$RUNNER_TEMP/work/"
+          cp "$RUNNER_TEMP/src/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/work/"
+      - name: Probe all 4103 exact frontier states
+        run: |
+          set -euo pipefail
+          /usr/bin/time -q -f '%e' -o "$RUNNER_TEMP/out/runtime.txt" timeout --signal=TERM --kill-after=20s 30m "$RUNNER_TEMP/work/cert" --input "$RUNNER_TEMP/work/d16-hperp.txt" --bundle "$RUNNER_TEMP/work/d16-aut-prefix256-bundle.txt" --output "$RUNNER_TEMP/out/cert.json" --dump-canonical "$RUNNER_TEMP/out/dump.bin" --bound 16 --shard-id 5 --shard-count 1024 --split-coordinate 48 --block-cut 39 --frontier-cap 5000 --replay-limit 0 --planner-probe-budget 2048 --planner-output "$RUNNER_TEMP/out/frontier-costs.csv" --node-cap 2000000 >"$RUNNER_TEMP/out/stdout.txt" 2>"$RUNNER_TEMP/out/stderr.txt"
+      - name: Build cost histogram and weighted partition plan
+        run: |
+          python - <<'PY'
+          import csv,json,os,pathlib,math
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          cert=json.loads((root/'cert.json').read_text())
+          rows=[]
+          with (root/'frontier-costs.csv').open() as f:
+              for r in csv.DictReader(f): rows.append({'frontier_id':int(r['frontier_id']),'probe_nodes':int(r['probe_nodes']),'complete':r['complete']=='1'})
+          assert cert['status']=='FRONTIER_COMPLETE'
+          assert cert['frontier_states']==4103
+          assert cert['planner_completed']+cert['planner_capped']==4103
+          assert len(rows)==4103 and sorted(r['frontier_id'] for r in rows)==list(range(4103))
+          assert sum(r['complete'] for r in rows)==cert['planner_completed']
+          light=[r for r in rows if r['complete']]
+          heavy=[r for r in rows if not r['complete']]
+          costs=sorted(r['probe_nodes'] for r in light)
+          def pct(p):
+              if not costs:return None
+              return costs[min(len(costs)-1,max(0,math.ceil(p*len(costs))-1))]
+          thresholds=[16,64,256,512,1024,2048]
+          hist={str(t):sum(1 for x in costs if x<=t) for t in thresholds}
+          bins=[{'bin':i,'estimated_nodes':0,'frontier_ids':[]} for i in range(12)]
+          for r in sorted(light,key=lambda x:(-x['probe_nodes'],x['frontier_id'])):
+              b=min(bins,key=lambda x:(x['estimated_nodes'],x['bin']))
+              b['frontier_ids'].append(r['frontier_id']); b['estimated_nodes']+=r['probe_nodes']
+          for b in bins:b['frontier_ids'].sort()
+          light_total=sum(costs); budget=2048
+          minimum_total=light_total+len(heavy)*budget
+          if len(heavy)<=24:
+              next_item='32-18AS-D16-B16-WEIGHTED-PRODUCTION-WITH-HEAVY-ISOLATION'
+          else:
+              next_item='32-18AS-D16-B16-HEAVY-TIER2-COST-PLANNER'
+          runtime=None
+          try:runtime=float((root/'runtime.txt').read_text().strip())
+          except Exception:pass
+          out={'schema':'STAGE32_18AR_B16_FRONTIER_COST_PLAN_V1','verdict':'FULL_FRONTIER_COST_DISTRIBUTION_MEASURED','target_wall':[436,5],'frontier_states':4103,'probe_budget':budget,'probe_total_nodes':cert['planner_total_nodes'],'complete_probe_count':len(light),'capped_heavy_count':len(heavy),'heavy_frontier_ids':[r['frontier_id'] for r in heavy],'completed_cost_quantiles':{'p50':pct(.50),'p90':pct(.90),'p95':pct(.95),'p99':pct(.99),'max':max(costs) if costs else None},'completed_cumulative_histogram':hist,'exact_light_total_nodes':light_total,'minimum_total_lower_nodes_given_capped_floor':minimum_total,'recommended_light_bins':bins,'max_estimated_light_bin_nodes':max(b['estimated_nodes'] for b in bins),'runtime_seconds':runtime,'next_item':next_item,'D16_B16_NUMERICAL_CREDIT':False,'GLOBAL_B16_AGGREGATION_COMPLETE':False,'FULL_D16_G0_ROW_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,'CONTROLLER_MODIFIED':False}
+          (root/'stage32-18ar-plan.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({'verdict':out['verdict'],'complete':len(light),'heavy':len(heavy),'quantiles':out['completed_cost_quantiles'],'max_light_bin':out['max_estimated_light_bin_nodes'],'next_item':next_item},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18ar-b16-frontier-cost-plan-g1
+          path: '${{ runner.temp }}/out/'
+          retention-days: 21
+          if-no-files-found: error

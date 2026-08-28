@@ -1,0 +1,125 @@
+name: Stage32-18AP d16 b16 lower-block replay scout
+
+on:
+  push:
+    branches: [stage32-18ap-b16-lower-block-replay-scout]
+    paths: ['stages/stage32/runkeys/18ap-b16-lower-block-replay-scout.json']
+
+permissions: {contents: read, actions: read}
+concurrency: {group: stage32-18ap-b16-lower-block-replay-scout, cancel-in-progress: true}
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    outputs: {matrix: '${{ steps.k.outputs.matrix }}'}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 2}
+      - name: Require dedicated ARM commit
+        run: |
+          set -euo pipefail
+          KEY=stages/stage32/runkeys/18ap-b16-lower-block-replay-scout.json
+          mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
+          test "${#changed[@]}" -eq 1 && test "${changed[0]}" = "$KEY"
+          test "$(git log -1 --pretty=%s)" = 'Stage32-18AP: ARM B16 LOWER BLOCK REPLAY SCOUT'
+      - id: k
+        run: |
+          python - <<'PY'
+          import json,pathlib,os
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18ap-b16-lower-block-replay-scout.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1' and d['armed'] and d['bound']==16
+          assert d['target_wall']==[436,5] and d['allow_finer_split'] is False
+          assert d['source_exact_artifact_id']==9574308138 and d['shard_count']==1024 and d['secondary_split_coordinate']==48
+          assert d['source_frontier_run_id']==33136583942 and d['source_frontier_summary_artifact_id']==9672390035
+          assert d['node_cap']==12000000 and d['wallclock_minutes']==30 and d['max_parallel']==6
+          inc=d['matrix']; assert len(inc)==6
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('matrix='+json.dumps({'include':inc},separators=(',',':'))+'\n')
+          PY
+
+  scout:
+    needs: validate
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix: ${{ fromJSON(needs.validate.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build exact replay certifier
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends g++ libboost-dev
+          mkdir -p "$RUNNER_TEMP/src" "$RUNNER_TEMP/work" "$RUNNER_TEMP/out"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$RUNNER_TEMP/source.zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9574308138/zip"
+          echo '0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4  '"$RUNNER_TEMP/source.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/source.zip" -d "$RUNNER_TEMP/src"
+          python stages/stage32/32-18X/build_two_stage_certifier.py --source "$RUNNER_TEMP/src/d16-exact-symmetry-sharded.cpp" --output "$RUNNER_TEMP/work/cert.cpp" --primary-id 436
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AF/patch_symmetry_schedule.py
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AO/patch_block_frontier.py
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AP/patch_lower_block_replay.py
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic "$RUNNER_TEMP/work/cert.cpp" -o "$RUNNER_TEMP/work/cert"
+          cp "$RUNNER_TEMP/src/d16-hperp.txt" "$RUNNER_TEMP/work/"
+          cp "$RUNNER_TEMP/src/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/work/"
+      - name: Replay exact lower blocks
+        env:
+          CUT: '${{ matrix.cut }}'
+          REPLAY_LIMIT: '${{ matrix.replay_limit }}'
+        run: |
+          set -euo pipefail; set +e
+          /usr/bin/time -q -f '%e' -o "$RUNNER_TEMP/out/runtime.txt" timeout --signal=TERM --kill-after=20s 30m "$RUNNER_TEMP/work/cert" --input "$RUNNER_TEMP/work/d16-hperp.txt" --bundle "$RUNNER_TEMP/work/d16-aut-prefix256-bundle.txt" --output "$RUNNER_TEMP/out/cert.json" --dump-canonical "$RUNNER_TEMP/out/dump.bin" --bound 16 --shard-id 5 --shard-count 1024 --split-coordinate 48 --block-cut "$CUT" --frontier-cap 2000000 --replay-limit "$REPLAY_LIMIT" --node-cap 12000000 >"$RUNNER_TEMP/out/stdout.txt" 2>"$RUNNER_TEMP/out/stderr.txt"
+          rc=$?; set -e
+          STATUS=FRONTIER_REPLAY_COMPLETE
+          if [ "$rc" -ne 0 ]; then
+            if grep -q 'block frontier cap exceeded' "$RUNNER_TEMP/out/stderr.txt"; then STATUS=FRONTIER_TOO_WIDE
+            elif grep -q 'exact traversal node cap exceeded' "$RUNNER_TEMP/out/stderr.txt"; then STATUS=RESOURCE_WALL_NODE_CAP
+            elif [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ] || [ "$rc" -eq 143 ]; then STATUS=RESOURCE_WALL_WALLCLOCK
+            else STATUS=UNEXPECTED_FAILURE; fi
+          fi
+          export STATUS
+          python - <<'PY'
+          import json,os,pathlib,re
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'; cert={}
+          if (root/'cert.json').exists(): cert=json.loads((root/'cert.json').read_text())
+          err=(root/'stderr.txt').read_text() if (root/'stderr.txt').exists() else ''
+          def grab(name):
+              m=re.search(rf'{name}=(\d+)',err); return int(m.group(1)) if m else None
+          cut=int(os.environ['CUT']); limit=int(os.environ['REPLAY_LIMIT'])
+          nodes=cert.get('nodes',grab('nodes')); frontier=cert.get('frontier_states',grab('frontier'))
+          started=cert.get('replay_started',grab('replay_started')); completed=cert.get('replay_completed',grab('replay_completed')); replay_nodes=cert.get('replay_nodes',grab('replay_nodes'))
+          runtime=None
+          try: runtime=float((root/'runtime.txt').read_text().strip())
+          except Exception: pass
+          avg=None if not completed else replay_nodes/completed
+          projected=None
+          source_frontier={39:4103,31:1492567}[cut]
+          if avg is not None: projected=avg*source_frontier
+          status=os.environ['STATUS']
+          structural=bool(status=='FRONTIER_REPLAY_COMPLETE' and completed==limit and limit>=16)
+          out={'schema':'STAGE32_18AP_B16_LOWER_BLOCK_REPLAY_RESULT_V1','target_wall':[436,5],'block_cut':cut,'replay_limit':limit,'status':status,'nodes':nodes,'frontier_states_seen':frontier,'replay_started':started,'replay_completed':completed,'replay_nodes':replay_nodes,'avg_replay_nodes':avg,'source_frontier_states':source_frontier,'projected_full_replay_nodes':projected,'runtime_seconds':runtime,'structural_replay_signal':structural,'MITM_JOIN_IMPLEMENTED':False,'D16_B16_NUMERICAL_CREDIT':False,'GLOBAL_B16_AGGREGATION_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
+          (root/'compact.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n'); print(json.dumps(out,sort_keys=True))
+          PY
+          test "$STATUS" != UNEXPECTED_FAILURE
+      - uses: actions/upload-artifact@v4
+        with: {name: 'stage32-18ap-p436-s5-${{ matrix.tag }}-g1', path: '${{ runner.temp }}/out/', retention-days: 7, if-no-files-found: error}
+
+  summarize:
+    needs: scout
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with: {pattern: 'stage32-18ap-p436-s5-*-g1', path: '${{ runner.temp }}/runs'}
+      - run: |
+          python - <<'PY'
+          import json,os,pathlib
+          docs=[json.loads(p.read_text()) for p in (pathlib.Path(os.environ['RUNNER_TEMP'])/'runs').rglob('compact.json')]
+          assert len(docs)==6
+          signals=[d for d in docs if d['structural_replay_signal']]
+          verdict='PROMISING_LOWER_BLOCK_REPLAY' if signals else 'NO_LOWER_BLOCK_REPLAY_SIGNAL'
+          out={'schema':'STAGE32_18AP_B16_LOWER_BLOCK_REPLAY_SUMMARY_V1','verdict':verdict,'target_wall':[436,5],'signals':[{'block_cut':d['block_cut'],'replay_limit':d['replay_limit'],'avg_replay_nodes':d['avg_replay_nodes'],'projected_full_replay_nodes':d['projected_full_replay_nodes']} for d in signals],'results':sorted(docs,key=lambda d:(-d['block_cut'],d['replay_limit'])),'next_item':'32-18AQ-D16-B16-RESUMABLE-BLOCK-PRODUCTION' if signals else '32-18AQ-D16-B16-MITM-SIGNATURE-SCOUT','D16_B16_NUMERICAL_CREDIT':False,'GLOBAL_B16_AGGREGATION_COMPLETE':False,'FULL_D16_G0_ROW_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,'CONTROLLER_MODIFIED':False}
+          o=pathlib.Path(os.environ['RUNNER_TEMP'])/'summary';o.mkdir();(o/'stage32-18ap-summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n');print(json.dumps({'verdict':verdict,'signals':out['signals']}))
+          PY
+      - uses: actions/upload-artifact@v4
+        with: {name: stage32-18ap-b16-lower-block-replay-summary-g1, path: '${{ runner.temp }}/summary/', retention-days: 14, if-no-files-found: error}
