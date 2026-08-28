@@ -28,19 +28,18 @@ jobs:
       - name: Rebuild retained order2 localization receiver
         working-directory: stages/stage33/33-07
         run: python materialize_order2_localization_receiver.py
-      - name: Replay pinned historical Magma Smith basis and Stage33-09 actual swaps
-        run: python -u stages/stage33/33-11/run_stage33_11_pinned_retained_smith_transport.py
-      - name: Run Stage33-11 retained-Smith 14d naturality proof
+      - name: Run local intrinsic A2 naturality proof
         run: |
-          python -u stages/stage33/33-11/certify_stage33_11_retained_smith_naturality.py
-          cat stages/stage33/33-11/stage33-11-retained-smith-naturality.json
+          python -u stages/stage33/33-11/certify_stage33_11_intrinsic_at2_naturality.py
+          cat stages/stage33/33-11/stage33-11-intrinsic-at2-naturality.json
       - name: Upload compact exact certificate
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage33-11-retained-smith-naturality
+          name: stage33-11-intrinsic-at2-naturality
           path: |
-            stages/stage33/33-07/retained-common-smith-transport-actual-swaps.json
-            stages/stage33/33-11/stage33-11-retained-smith-naturality.json
+            stages/stage33/33-07/actual-coordinate-swap-at2-actions.json
+            stages/stage33/33-07/actual-galois-at2-actions.json
+            stages/stage33/33-11/stage33-11-intrinsic-at2-naturality.json
           if-no-files-found: ignore
           retention-days: 1
