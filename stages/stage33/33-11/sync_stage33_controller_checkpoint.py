@@ -18,7 +18,7 @@ CTRL = ROOT / "stages" / "stage33" / "controller.json"
 HERE = ROOT / "stages" / "stage33" / "33-11"
 PROFILE = HERE / "stage33-11-smallest-block-target-images.json"
 DECODER = HERE / "stage33-11-a2-26-restriction-decoder.json"
-EXPECTED_PROFILE_SHA = "cdc8eade5526147a576c1d86260f9b4722f64f0e718d0702c1868db54dc812e5"
+EXPECTED_PROFILE_SHA = "45e42d6f3577654df7a4126cad5e2eee651c38fdce3c5cf8289b5f96707f2edc"
 
 profile = json.loads(PROFILE.read_text(encoding="utf-8"))
 decoder = json.loads(DECODER.read_text(encoding="utf-8"))
@@ -93,7 +93,7 @@ s11["stage33_11b_symmetry_block_profile"] = {
     "common_universal_kernel_dimension_f2": 10,
     "named_basis_directions_forced_zero": [],
     "distinct_named_cyclic_source_submodules": 12,
-    "certificate_sha256": "54d407a4f373665d5142890518e21135e9fc4a8411a6fd591df67c3e90213a4e",
+    "certificate_sha256": "6856ec7defea97732ea443d351d9283ef19e386e13c4c8b90a0d1545bd135390",
     "workflow_run": 33155495938,
 }
 s11["stage33_11c_a2_26_reduction"] = {
