@@ -97,12 +97,36 @@ jobs:
           docs=[json.loads(p.read_text()) for p in (pathlib.Path(os.environ['RUNNER_TEMP'])/'runs').rglob('compact.json')]; assert len(docs)==6
           by={}
           for d in docs: by.setdefault(d['algorithm'],[]).append(d)
+          assert set(by)=={'baseline','pairwise-deep','lower48-reverse'}
+          def metrics(xs):
+              complete=sum(x['status']=='COMPLETE' for x in xs)
+              nodes=sum((x['nodes'] or 6000000) for x in xs)
+              runtime=sum((x['runtime_seconds'] or 900) for x in xs)
+              return {'complete':complete,'nodes':nodes,'runtime_seconds':runtime}
           def score(xs):
-              complete=sum(x['status']=='COMPLETE' for x in xs); nodes=sum((x['nodes'] or 6000000) for x in xs); runtime=sum((x['runtime_seconds'] or 900) for x in xs)
-              return (-complete,nodes,runtime)
-          ranking=sorted(by,key=lambda a:(score(by[a]),a)); winner=ranking[0]
-          out={'schema':'STAGE32_18AI_B16_PARALLEL_ALGORITHM_SCOUT_SUMMARY_V1','verdict':'PARALLEL_SCOUT_COMPLETE','winner':winner,'ranking':ranking,'results':sorted(docs,key=lambda d:(d['algorithm'],d['primary_residue'])),'next_item':'32-18AJ-D16-B16-PROMOTE-SCOUT-WINNER','D16_B16_NUMERICAL_CREDIT':False,'GLOBAL_B16_AGGREGATION_COMPLETE':False,'FULL_D16_G0_ROW_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,'CONTROLLER_MODIFIED':False}
-          o=pathlib.Path(os.environ['RUNNER_TEMP'])/'summary'; o.mkdir(); (o/'stage32-18ai-summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n'); print(json.dumps({'winner':winner,'ranking':ranking}))
+              m=metrics(xs)
+              return (-m['complete'],m['nodes'],m['runtime_seconds'])
+          ranking=sorted(by,key=lambda a:(score(by[a]),a))
+          best_observed=ranking[0]
+          baseline=metrics(by['baseline'])
+          def beats_baseline_for_promotion(algo):
+              if algo=='baseline':
+                  return False
+              m=metrics(by[algo])
+              progress_better=m['complete']>baseline['complete']
+              resource_no_worse=m['nodes']<=baseline['nodes'] and m['runtime_seconds']<=baseline['runtime_seconds']
+              resource_strictly_better=m['nodes']<baseline['nodes'] or m['runtime_seconds']<baseline['runtime_seconds']
+              return progress_better and resource_no_worse and resource_strictly_better
+          promotable=[a for a in ranking if beats_baseline_for_promotion(a)]
+          promotable_winner=promotable[0] if promotable else 'NONE'
+          if promotable_winner=='NONE':
+              verdict='NO_PROMOTABLE_CHALLENGER_REDIRECT'
+              next_item='32-18AJ-D16-B16-ALGORITHM-REDIRECTION'
+          else:
+              verdict='PROMOTABLE_CHALLENGER_FOUND'
+              next_item='32-18AJ-D16-B16-PROMOTE-SCOUT-WINNER'
+          out={'schema':'STAGE32_18AI_B16_PARALLEL_ALGORITHM_SCOUT_SUMMARY_V2','verdict':verdict,'best_observed_algorithm':best_observed,'promotable_winner':promotable_winner,'promotion_criterion':'non-baseline challenger must improve exact completion progress and use no more nodes/runtime than baseline, with a strict resource improvement','metrics':{a:metrics(by[a]) for a in sorted(by)},'ranking':ranking,'results':sorted(docs,key=lambda d:(d['algorithm'],d['primary_residue'])),'next_item':next_item,'D16_B16_NUMERICAL_CREDIT':False,'GLOBAL_B16_AGGREGATION_COMPLETE':False,'FULL_D16_G0_ROW_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,'CONTROLLER_MODIFIED':False}
+          o=pathlib.Path(os.environ['RUNNER_TEMP'])/'summary'; o.mkdir(); (o/'stage32-18ai-summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n'); print(json.dumps({'best_observed_algorithm':best_observed,'promotable_winner':promotable_winner,'ranking':ranking,'next_item':next_item}))
           PY
       - uses: actions/upload-artifact@v4
-        with: {name: stage32-18ai-parallel-algorithm-scout-summary-g1, path: '${{ runner.temp }}/summary/', retention-days: 14, if-no-files-found: error}
+        with: {name: stage32-18ai-parallel-algorithm-scout-summary-g2, path: '${{ runner.temp }}/summary/', retention-days: 14, if-no-files-found: error}
