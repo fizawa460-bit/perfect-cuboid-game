@@ -1,0 +1,117 @@
+name: Stage32-18AN d16 b16 progressive active-set scout
+
+on:
+  push:
+    branches: [stage32-18an-b16-progressive-active-set-scout]
+    paths: ['stages/stage32/runkeys/18an-b16-progressive-active-set-scout.json']
+
+permissions: {contents: read, actions: read}
+concurrency: {group: stage32-18an-b16-progressive-active-set-scout, cancel-in-progress: true}
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    outputs: {matrix: '${{ steps.k.outputs.matrix }}'}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 2}
+      - name: Require dedicated ARM commit
+        run: |
+          set -euo pipefail
+          KEY=stages/stage32/runkeys/18an-b16-progressive-active-set-scout.json
+          mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
+          test "${#changed[@]}" -eq 1 && test "${changed[0]}" = "$KEY"
+          test "$(git log -1 --pretty=%s)" = 'Stage32-18AN: ARM B16 PROGRESSIVE ACTIVE SET SCOUT'
+      - id: k
+        run: |
+          python - <<'PY'
+          import json,pathlib,os
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18an-b16-progressive-active-set-scout.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1' and d['armed'] and d['bound']==16
+          assert d['target_wall']==[436,5] and d['max_parallel']==15 and d['allow_finer_split'] is False
+          assert d['source_exact_artifact_id']==9574308138 and d['shard_count']==1024 and d['secondary_split_coordinate']==48
+          modes=d['modes']; caps=d['node_checkpoints']; assert modes==['baseline','pair-capcap','triple-cap','triple-sym','triple-mixed'] and caps==[1000000,3000000,6000000]
+          inc=[{'mode':m,'node_cap':n,'tag':f'{m}-{n//1000000}m'} for m in modes for n in caps]
+          assert len(inc)==15
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('matrix='+json.dumps({'include':inc},separators=(',',':'))+'\n')
+          PY
+
+  scout:
+    needs: validate
+    strategy:
+      fail-fast: false
+      max-parallel: 15
+      matrix: ${{ fromJSON(needs.validate.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build exact progressive weapon
+        env: {GH_TOKEN: '${{ github.token }}', MODE: '${{ matrix.mode }}'}
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends g++ libboost-dev
+          mkdir -p "$RUNNER_TEMP/src" "$RUNNER_TEMP/work" "$RUNNER_TEMP/out"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$RUNNER_TEMP/source.zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9574308138/zip"
+          echo '0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4  '"$RUNNER_TEMP/source.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/source.zip" -d "$RUNNER_TEMP/src"
+          python stages/stage32/32-18X/build_two_stage_certifier.py --source "$RUNNER_TEMP/src/d16-exact-symmetry-sharded.cpp" --output "$RUNNER_TEMP/work/cert.cpp" --primary-id 436
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AF/patch_symmetry_schedule.py
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AN/patch_partial_telemetry.py
+          if [ "$MODE" != baseline ]; then SRC="$RUNNER_TEMP/work/cert.cpp" MODE="$MODE" python stages/stage32/32-18AN/patch_higher_order_active.py; fi
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic "$RUNNER_TEMP/work/cert.cpp" -o "$RUNNER_TEMP/work/cert"
+          cp "$RUNNER_TEMP/src/d16-hperp.txt" "$RUNNER_TEMP/work/"
+          cp "$RUNNER_TEMP/src/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/work/"
+      - name: Run progressive checkpoint
+        env: {MODE: '${{ matrix.mode }}', NODE_CAP: '${{ matrix.node_cap }}'}
+        run: |
+          set -euo pipefail; set +e
+          /usr/bin/time -q -f '%e' -o "$RUNNER_TEMP/out/runtime.txt" timeout --signal=TERM --kill-after=20s 20m "$RUNNER_TEMP/work/cert" --input "$RUNNER_TEMP/work/d16-hperp.txt" --bundle "$RUNNER_TEMP/work/d16-aut-prefix256-bundle.txt" --output "$RUNNER_TEMP/out/cert.json" --dump-canonical "$RUNNER_TEMP/out/dump.bin" --bound 16 --shard-id 5 --shard-count 1024 --split-coordinate 48 --node-cap "$NODE_CAP" >"$RUNNER_TEMP/out/stdout.txt" 2>"$RUNNER_TEMP/out/stderr.txt"
+          rc=$?; set -e
+          STATUS=COMPLETE
+          if [ "$rc" -ne 0 ]; then if grep -q 'exact traversal node cap exceeded' "$RUNNER_TEMP/out/stderr.txt"; then STATUS=RESOURCE_WALL_NODE_CAP; elif [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ] || [ "$rc" -eq 143 ]; then STATUS=RESOURCE_WALL_WALLCLOCK; else STATUS=UNEXPECTED_FAILURE; fi; fi
+          export STATUS
+          python - <<'PY'
+          import json,os,pathlib
+          r=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'; cert={}
+          if (r/'cert.json').exists(): cert=json.loads((r/'cert.json').read_text())
+          rt=float((r/'runtime.txt').read_text().strip().splitlines()[-1]) if (r/'runtime.txt').exists() and (r/'runtime.txt').read_text().strip() else None
+          keys=['nodes','split_prefixes_seen','owned_prefixes','constraint_prunes','exact_prune_checks','exact_symmetry_prune_checks','exact_symmetry_prunes','higher_active_checks','higher_active_prunes','canonical_survivors_including_zero']
+          out={'schema':'STAGE32_18AN_B16_PROGRESSIVE_RESULT_V1','mode':os.environ['MODE'],'node_cap':int(os.environ['NODE_CAP']),'target_wall':[436,5],'status':os.environ['STATUS'],'runtime_seconds':rt,'D16_B16_NUMERICAL_CREDIT':False}
+          out.update({k:cert.get(k) for k in keys})
+          n=out.get('nodes') or 0; sp=out.get('split_prefixes_seen') or 0; out['split_prefixes_per_node']=sp/n if n else None
+          (r/'compact.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          PY
+          test "$STATUS" != UNEXPECTED_FAILURE
+      - uses: actions/upload-artifact@v4
+        with: {name: 'stage32-18an-p436-s5-${{ matrix.tag }}-g1', path: '${{ runner.temp }}/out/', retention-days: 7, if-no-files-found: error}
+
+  summarize:
+    needs: scout
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with: {pattern: 'stage32-18an-p436-s5-*-g1', path: '${{ runner.temp }}/runs'}
+      - run: |
+          python - <<'PY'
+          import json,os,pathlib
+          docs=[json.loads(p.read_text()) for p in (pathlib.Path(os.environ['RUNNER_TEMP'])/'runs').rglob('compact.json')]; assert len(docs)==15
+          by={(d['mode'],d['node_cap']):d for d in docs}; caps=[1000000,3000000,6000000]; modes=['pair-capcap','triple-cap','triple-sym','triple-mixed']
+          classified={}; detail={}
+          for m in modes:
+              if any(by[m,n]['status']=='COMPLETE' for n in caps): classified[m]='BREAKTHROUGH'; continue
+              ratios=[]
+              for n in caps:
+                  x=by[m,n].get('split_prefixes_per_node'); b=by['baseline',n].get('split_prefixes_per_node')
+                  ratios.append((x/b) if x is not None and b not in (None,0) else None)
+              signal=sum(r is not None and r>=1.10 for r in ratios)
+              classified[m]='PROMISING' if signal>=2 else 'NO_SIGNAL'; detail[m]={'progress_per_node_ratio_vs_baseline':ratios,'signal_checkpoints':signal}
+          complete=sorted({d['mode'] for d in docs if d['status']=='COMPLETE'})
+          promising=sorted(m for m,v in classified.items() if v=='PROMISING')
+          verdict='PASS_BREAKTHROUGH_SIGNAL' if complete else ('PROMISING_WEAPON_SIGNAL' if promising else 'NO_PROGRESSIVE_SIGNAL')
+          out={'schema':'STAGE32_18AN_B16_PROGRESSIVE_SUMMARY_V1','verdict':verdict,'target_wall':[436,5],'classification':classified,'detail':detail,'complete_modes':complete,'promising_modes':promising,'results':sorted(docs,key=lambda d:(d['mode'],d['node_cap'])),'next_item':'32-18AO-D16-B16-FULL-CONFIRMATION' if (complete or promising) else '32-18AO-D16-B16-MITM-BLOCK-REDIRECTION','D16_B16_NUMERICAL_CREDIT':False,'GLOBAL_B16_AGGREGATION_COMPLETE':False,'FULL_D16_G0_ROW_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,'CONTROLLER_MODIFIED':False}
+          o=pathlib.Path(os.environ['RUNNER_TEMP'])/'summary';o.mkdir();(o/'stage32-18an-summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n');print(json.dumps({'verdict':verdict,'classification':classified}))
+          PY
+      - uses: actions/upload-artifact@v4
+        with: {name: stage32-18an-b16-progressive-summary-g1, path: '${{ runner.temp }}/summary/', retention-days: 14, if-no-files-found: error}
