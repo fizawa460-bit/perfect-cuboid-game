@@ -1,0 +1,58 @@
+{
+  "schema": "STAGE32_POST_B16_LITERATURE_RECEIVER_EXACT_RECONCILIATION_V2_HOSTILE_AUDIT_PASS",
+  "status": "HOSTILE_AUDIT_PASS",
+  "pr": 1450,
+  "audited_submission_head": "54269d6a795f9256f5465521923b70a4d96b63e2",
+  "audit_record": "stages/stage32/post-b16-literature-receiver-exact-audit/AUDIT.md",
+  "audited_b16_head": "d1f888978481eb93e240c1369d1436df251ee9b2",
+  "audited_b16_review": 5055088574,
+  "inputs": {
+    "b16_audit_state": "stages/stage32/audits/32-18BG.json",
+    "b16_close_evidence": "stages/stage32/32-18BG/D16_B16_REPAIRED_CLOSE_EVIDENCE.md",
+    "stage29_lg2_route_contract": "stages/stage29/29-02c-LG2/route-contract.json",
+    "stage29_lg2_finite_search_contract": "stages/stage29/29-02c-LG2/finite-search-contract.md",
+    "stage29_lg2_audit": "stages/stage29/29-02c-LG2/audit.md"
+  },
+  "literature": {
+    "FSM16": {"usable_statement": "BIJECTIVE_NORMALIZATION_IMPLIES_DEGREE_LE_176_PLUS_16G", "scope": "UNIBRANCH_ONLY", "audit": "PASS"},
+    "GFU20": {"usable_statement": "LOW_GENUS_NODE_CONSTRAINTS_AND_SMOOTH_AT_NODES_DEGREE_BOUND", "scope": "HYPOTHESIS_SENSITIVE_FILTER_ONLY", "audit": "PASS"},
+    "BTVA22": {"usable_statement": "RATIONAL_AND_GENUS1_NODE_CONSTRAINTS", "scope": "NECESSARY_FILTER_ONLY", "audit": "PASS"},
+    "TESTA_STOLL_2026": {"usable_statement": "FULL_PICARD_DATA_DEGREE_LE_6_CLASSIFICATION_AND_EXCEPTIONAL_DIVISOR_INCIDENCE", "scope": "NO_FULL_176_192_CLASSIFICATION", "audit": "PASS"}
+  },
+  "reconciliation": {
+    "fsm16_g0_degree_max": 176,
+    "fsm16_g1_degree_max": 192,
+    "fsm16_requires_bijective_normalization": true,
+    "d16_b16_bounded_numerical_credit": true,
+    "full_d16_g0_row_complete": false,
+    "full_176_192_numerical_orbit_census_complete": false,
+    "all_survivor_effectivity_resolved": false,
+    "multibranch_ledger_complete": false,
+    "literature_directly_discharges_r29_lg2": false,
+    "literature_directly_discharges_r29_lg2_eff": false,
+    "literature_directly_discharges_r29_lg2_mb": false,
+    "admissible_filter_strengthening_available": true
+  },
+  "audit_verdict": "PASS_SCOPE_LOCKED_NO_RECEIVER_DISCHARGE_FILTER_STRENGTHENING_ONLY",
+  "main_verdict": "PASS_LITERATURE_RECONCILIATION_NO_RECEIVER_DISCHARGE_FILTER_STRENGTHENING_ONLY",
+  "credit": {
+    "D16_B16_NUMERICAL_CREDIT": true,
+    "FULL_D16_G0_ROW_COMPLETE": false,
+    "R29_LG2": "NOT_DISCHARGED",
+    "R29_LG2_EFF": "NOT_DISCHARGED",
+    "R29_LG2_MB": "NOT_DISCHARGED",
+    "G10_LOWGENUS_PICARD": "AMBER",
+    "THEOREM_CREDIT": false,
+    "RECEIVER_CREDIT": false,
+    "ROUTE_COLOR_CHANGE_AUTHORIZED": false,
+    "B18_RELEASE_AUTHORIZED": false,
+    "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
+    "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false
+  },
+  "audit_required": false,
+  "repair_required": false,
+  "merge_allowed": true,
+  "advance_allowed": true,
+  "next_item": "RESIDUAL_FEASIBILITY_GATE",
+  "next_expected_command": "Stage32-main-batch"
+}
