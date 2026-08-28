@@ -39,10 +39,13 @@ jobs:
               return x,claimed
           x,cert_hash=locked('stages/stage33/33-10/absolute-h1-receiver-certified.json')
           hd,hand_hash=locked('stages/stage33/33-10/handoff.json')
-          assert x['schema']=='STAGE33_10_ABSOLUTE_H1_RECEIVER_V1'
+          assert x['schema']=='STAGE33_10_ABSOLUTE_H1_RECEIVER_V3_NONSPLIT_QL'
           assert all(x['exit_condition'].values())
           assert x['finite_shortcut']['status']=='EXPLICITLY_REPLACED'
           assert x['branches']['33-10e']=='CLOSED_EXACT'
+          assert x['coefficient_module']['false_four_index_two_block_split_rejected']
+          assert x['absolute_h1_receiver']['E_L_splitting_claimed'] is False
+          assert x['absolute_h1_receiver']['kernel_galois_contribution_accounted'] is True
           assert x['stage33_11_interface']['source_invariant_factor_directions']==26
           assert x['stage33_11_interface']['connecting_source_directions_computed']=='0/26'
           f=x['firewalls']
@@ -52,8 +55,10 @@ jobs:
           assert f['stage33_progress']=='6/11'
           assert not f['theorem_credit'] and not f['endpoint_credit']
           assert not f['perfect_cuboid_existence_claim'] and not f['perfect_cuboid_nonexistence_claim']
+          assert hd['schema']=='STAGE33_10_HANDOFF_V2_NONSPLIT_QL'
           assert hd['status']=='CLOSED_EXACT' and all(hd['exit_condition'].values())
           assert hd['next_item']=='Stage33-11_ARITHMETIC_LOCALIZATION_CONNECTING_MAP'
+          assert hd['exact_receiver']['E_L_splitting_claimed'] is False
           assert hd['firewalls']['connecting_matrix_columns_materialized']=='0/26'
           assert hd['firewalls']['stage33_progress']=='6/11'
           assert not hd['firewalls']['stage33_07_closed'] and not hd['firewalls']['stage33_08_released']
