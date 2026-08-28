@@ -3,19 +3,21 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import pathlib
 import time
 
 from pairing_prefix_engine import (
-    PairingTransform,
+    EXCEPTIONAL_BASIS_POSITIONS,
+    RETAINED_BUNDLE_SHA256,
+    RetainedBasisPairingTransform,
     PrefixMembershipOracle,
-    canonical_pairing_key,
-    close_permutation_group,
 )
 
-SCHEMA = "STAGE32_RESIDUAL32_01_PAIRING_PREFIX_CALIBRATION_V1"
-ASSIGNMENT_ORDER = list(range(10)) + [48]
+SCHEMA = "STAGE32_RESIDUAL32_01_RETAINED_BASIS_PREFIX_CALIBRATION_V1"
+EXCEPTIONAL_BASIS_COUNT = len(EXCEPTIONAL_BASIS_POSITIONS)
+ASSIGNMENT_ORDER = list(range(10)) + [EXCEPTIONAL_BASIS_COUNT]
 REPRESENTATIVES = [
     {"m": 1, "genus": 0, "degree": 16, "exceptional_mass": 8},
     {"m": 2, "genus": 0, "degree": 8, "exceptional_mass": 8},
@@ -25,7 +27,20 @@ REPRESENTATIVES = [
 
 
 def csha(value: object) -> str:
-    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    return hashlib.sha256(
+        json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+
+
+def load_retained(path: pathlib.Path) -> dict:
+    spec = importlib.util.spec_from_file_location("stage32_picard_retained", path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"cannot import retained bundle: {path}")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    payload = mod.load()
+    assert payload["canonical_sha256"] == RETAINED_BUNDLE_SHA256
+    return payload
 
 
 def run_probe(oracle: PrefixMembershipOracle, rep: dict, node_limit: int) -> dict:
@@ -51,7 +66,8 @@ def run_probe(oracle: PrefixMembershipOracle, rep: dict, node_limit: int) -> dic
             terminal_hash.update(json.dumps(values, separators=(",", ":")).encode() + b"\n")
             return
         idx = ASSIGNMENT_ORDER[depth]
-        upper = e - exceptional_used if idx < 48 else normal_mass - normal_used
+        is_exceptional = idx < EXCEPTIONAL_BASIS_COUNT
+        upper = e - exceptional_used if is_exceptional else normal_mass - normal_used
         for value in range(upper + 1):
             nodes += 1
             if nodes > node_limit:
@@ -59,7 +75,7 @@ def run_probe(oracle: PrefixMembershipOracle, rep: dict, node_limit: int) -> dic
                 return
             values.append(value)
             if oracle.feasible(values):
-                if idx < 48:
+                if is_exceptional:
                     dfs(depth + 1, exceptional_used + value, normal_used)
                 else:
                     dfs(depth + 1, exceptional_used, normal_used + value)
@@ -74,6 +90,7 @@ def run_probe(oracle: PrefixMembershipOracle, rep: dict, node_limit: int) -> dic
         **rep,
         "normal_mass": normal_mass,
         "assignment_order": ASSIGNMENT_ORDER,
+        "exceptional_basis_coordinate_count": EXCEPTIONAL_BASIS_COUNT,
         "node_limit": node_limit,
         "nodes_visited": min(nodes, node_limit),
         "membership_prunes": membership_prunes,
@@ -89,41 +106,30 @@ def run_probe(oracle: PrefixMembershipOracle, rep: dict, node_limit: int) -> dic
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--core", type=pathlib.Path, required=True)
-    ap.add_argument("--aut", type=pathlib.Path, required=True)
+    ap.add_argument("--retained", type=pathlib.Path, required=True)
     ap.add_argument("--output", type=pathlib.Path, required=True)
     ap.add_argument("--node-limit", type=int, default=250000)
     args = ap.parse_args()
 
-    core = json.loads(args.core.read_text())
-    transform = PairingTransform.from_core(core)
+    bundle = load_retained(args.retained)
+    transform = RetainedBasisPairingTransform.from_bundle(bundle)
     t0 = time.perf_counter()
     oracle = PrefixMembershipOracle(transform, ASSIGNMENT_ORDER)
     oracle_seconds = time.perf_counter() - t0
 
-    aut = json.loads(args.aut.read_text())
-    group = close_permutation_group(aut["permutations_1based"])
-    assert len(group) == 1536
-
-    gram = core["basis_gram"]
-    h = core["hyperplane"]
-    known = core["known_classes"]
-
-    def pairing(u, v):
-        return sum(int(u[i]) * int(gram[i][j]) * int(v[j]) for i in range(64) for j in range(64))
-
-    hp = tuple(pairing(cls, h) for cls in known)
-    assert canonical_pairing_key(hp, group) == hp
-
     profiles = [run_probe(oracle, rep, args.node_limit) for rep in REPRESENTATIVES]
     payload = {
         "schema": SCHEMA,
-        "engine": "LOCAL_OFFLINE_EXACT_SELECTED_PAIRING_PREFIX_HNF_MEMBERSHIP_V1",
+        "engine": "LOCAL_OFFLINE_EXACT_RETAINED_BASIS_PAIRING_PREFIX_HNF_MEMBERSHIP_V1",
+        "coordinate_model": "RETAINED_PRIMITIVE_BASIS_PAIRINGS_EXCEPTIONALS_FIRST",
+        "retained_picard_bundle_sha256": RETAINED_BUNDLE_SHA256,
         "transform_certificate": transform.certificate,
         "oracle_certificate": oracle.certificate(),
         "oracle_build_seconds": round(oracle_seconds, 6),
-        "aut_group_order": len(group),
-        "leaf_aut_canonicalization_exact": True,
+        "exceptional_basis_coordinate_count": EXCEPTIONAL_BASIS_COUNT,
+        "curve_basis_coordinate_count": 64 - EXCEPTIONAL_BASIS_COUNT,
+        "aut_used_in_probe": False,
+        "leaf_aut_canonicalization_regressed_in_this_probe": False,
         "prefix_aut_canonical_augmentation_implemented": False,
         "representatives": profiles,
         "representative_m_classes": [1, 2, 4, 8],
@@ -134,19 +140,24 @@ def main() -> None:
         "R29_LG2": "NOT_DISCHARGED",
         "THEOREM_CREDIT": False,
         "RECEIVER_CREDIT": False,
-        "next_engineering_gate": "EXACT_PREFIX_AUT_CANONICAL_AUGMENTATION_AND_LEAF_COST_ADAPTER",
+        "next_engineering_gate": "OFFLINE_AUT_PERMUTATION_RETENTION_AND_PREFIX_CANONICAL_AUGMENTATION",
     }
     payload["canonical_sha256_without_this_field"] = csha(payload)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
-    print(json.dumps({
-        "schema": SCHEMA,
-        "aut_group_order": len(group),
-        "m_classes": payload["representative_m_classes"],
-        "nodes": {str(p["m"]): p["nodes_visited"] for p in profiles},
-        "prunes": {str(p["m"]): p["membership_prunes"] for p in profiles},
-        "sha256": payload["canonical_sha256_without_this_field"],
-    }, sort_keys=True))
+    print(
+        json.dumps(
+            {
+                "schema": SCHEMA,
+                "m_classes": payload["representative_m_classes"],
+                "nodes": {str(p["m"]): p["nodes_visited"] for p in profiles},
+                "prunes": {str(p["m"]): p["membership_prunes"] for p in profiles},
+                "transform_denominator": transform.den,
+                "sha256": payload["canonical_sha256_without_this_field"],
+            },
+            sort_keys=True,
+        )
+    )
 
 
 if __name__ == "__main__":

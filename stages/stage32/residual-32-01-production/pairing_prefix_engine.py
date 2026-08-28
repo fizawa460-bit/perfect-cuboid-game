@@ -9,80 +9,85 @@ from typing import Iterable, Sequence
 
 import sympy
 from sympy import Matrix
-from sympy.matrices.normalforms import hermite_normal_form, smith_normal_form
+from sympy.matrices.normalforms import hermite_normal_form
 
-SELECTED_ROWS = list(range(92, 140)) + [0, 1, 2, 3, 4, 8, 9, 12, 16, 17, 24, 32, 44, 48, 52, 68]
-EXPECTED_DET = 274877906944
-EXPECTED_DEN = 8
-EXPECTED_SNF = [1] * 40 + [2] * 14 + [4] * 6 + [8] * 4
-EXPECTED_CORE_SHA = "de84f4511ea2ea747fd712e2f5f09c7f8d94ae3633e55678b81cfe63f6ed2870"
+INDLIST = [
+    1,2,3,4,5,6,7,9,10,11,12,13,14,15,17,18,19,20,21,22,23,25,26,27,29,
+    33,34,35,37,38,41,45,49,53,69,
+    93,94,95,96,97,98,99,101,102,103,104,105,106,107,109,110,111,113,
+    117,118,119,120,121,125,126,127,129,133,135,
+]
+assert len(INDLIST) == 64 and len(set(INDLIST)) == 64
+EXCEPTIONAL_BASIS_POSITIONS = [i for i, j in enumerate(INDLIST) if j > 92]
+CURVE_BASIS_POSITIONS = [i for i, j in enumerate(INDLIST) if j <= 92]
+assert len(EXCEPTIONAL_BASIS_POSITIONS) == 29
+assert len(CURVE_BASIS_POSITIONS) == 35
+RETAINED_BUNDLE_SHA256 = "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c"
 EXPECTED_SOURCE_BLOB = "0422b69847f2afb97cb7b3ed02ebef91279f61b1"
 
 
 def csha(value: object) -> str:
-    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    return hashlib.sha256(
+        json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
 
 
 def matrix_list(m: Matrix) -> list[list[int]]:
     return [[int(m[i, j]) for j in range(m.cols)] for i in range(m.rows)]
 
 
-def verify_core(core: dict) -> None:
-    unsigned = dict(core)
-    claimed = unsigned.pop("canonical_sha256_without_this_field")
-    assert claimed == EXPECTED_CORE_SHA == csha(unsigned)
-    assert core["source"]["git_blob_sha1"] == EXPECTED_SOURCE_BLOB
-    assert int(core["rank"]) == 64 and int(core["known_class_count"]) == 140
-
-
 @dataclass(frozen=True)
-class PairingTransform:
+class RetainedBasisPairingTransform:
+    """Exact pairing-image coordinates from the retained primitive Picard basis.
+
+    Rows are only permuted: the 29 exceptional basis classes come first,
+    followed by the 35 curve basis classes. Hence selected=P*Gram is
+    nonsingular and y=selected*x is an exact full-rank pairing coordinate
+    system for Pic(S). No online Magma computation is needed.
+    """
     den: int
     selected: Matrix
     inverse_integer: Matrix
-    transformed_pairings: Matrix
-    transformed_gram: Matrix
-    hform: Matrix
     certificate: dict
 
     @classmethod
-    def from_core(cls, core: dict) -> "PairingTransform":
-        verify_core(core)
-        rows = Matrix(core["raw_cross_pairings_with_basis"])
-        gram = Matrix(core["basis_gram"])
-        selected = Matrix([core["raw_cross_pairings_with_basis"][i] for i in SELECTED_ROWS])
+    def from_bundle(cls, bundle: dict) -> "RetainedBasisPairingTransform":
+        assert bundle["canonical_sha256"] == RETAINED_BUNDLE_SHA256
+        assert bundle["upstream_git_blob_sha1"] == EXPECTED_SOURCE_BLOB
+        gram = Matrix(bundle["picard_gram_64x64"])
+        assert gram.shape == (64, 64)
+        assert gram == gram.T
+        order = EXCEPTIONAL_BASIS_POSITIONS + CURVE_BASIS_POSITIONS
+        selected = Matrix([[int(gram[i, j]) for j in range(64)] for i in order])
         det = int(selected.det())
-        assert abs(det) == EXPECTED_DET
+        assert det != 0
+
         inv = selected.inv()
         den = 1
         for value in inv:
             den = math.lcm(den, int(sympy.denom(value)))
-        assert den == EXPECTED_DEN
         inv_int = inv * den
         assert all(sympy.denom(v) == 1 for v in inv_int)
-        inv_int = Matrix([[int(inv_int[i, j]) for j in range(64)] for i in range(64)])
+        inv_int = Matrix(
+            [[int(inv_int[i, j]) for j in range(64)] for i in range(64)]
+        )
         assert selected * inv_int == den * Matrix.eye(64)
-        pair = rows * inv_int
-        assert all(sympy.denom(v) == 1 for v in pair)
-        pair = Matrix([[int(pair[i, j]) for j in range(64)] for i in range(140)])
-        h = Matrix(core["hyperplane"]).T * gram * inv_int
-        h = Matrix([[int(h[0, j]) for j in range(64)]])
-        tgram = inv_int.T * gram * inv_int
-        tgram = Matrix([[int(tgram[i, j]) for j in range(64)] for i in range(64)])
-        diagonal = smith_normal_form(selected, domain=sympy.ZZ)
-        snf = sorted(abs(int(diagonal[i, i])) for i in range(64))
-        assert snf == EXPECTED_SNF
+
         cert = {
-            "selected_rows_0based": SELECTED_ROWS,
+            "coordinate_model": "RETAINED_PRIMITIVE_BASIS_PAIRINGS_EXCEPTIONALS_FIRST",
+            "retained_bundle_sha256": RETAINED_BUNDLE_SHA256,
+            "upstream_git_blob_sha1": EXPECTED_SOURCE_BLOB,
+            "basis_known_indices_1based": INDLIST,
+            "selected_basis_positions_0based": order,
+            "selected_known_indices_1based": [INDLIST[i] for i in order],
+            "exceptional_basis_coordinate_count": len(EXCEPTIONAL_BASIS_POSITIONS),
+            "curve_basis_coordinate_count": len(CURVE_BASIS_POSITIONS),
             "selected_matrix_determinant": det,
             "inverse_denominator": den,
-            "snf_invariants": snf,
             "selected_matrix_sha256": csha(matrix_list(selected)),
             "inverse_integer_sha256": csha(matrix_list(inv_int)),
-            "transformed_pairings_sha256": csha(matrix_list(pair)),
-            "transformed_gram_sha256": csha(matrix_list(tgram)),
         }
-        return cls(den, selected, inv_int, pair, tgram, h, cert)
+        return cls(den, selected, inv_int, cert)
 
     def full_membership(self, selected_pairings: Sequence[int]) -> bool:
         assert len(selected_pairings) == 64
@@ -94,13 +99,6 @@ class PairingTransform:
         num = self.inverse_integer * y
         if any(int(v) % self.den for v in num):
             raise ValueError("selected pairing vector is outside the Picard image lattice")
-        return [int(v) // self.den for v in num]
-
-    def full_pairings(self, selected_pairings: Sequence[int]) -> list[int]:
-        y = Matrix([int(v) for v in selected_pairings])
-        num = self.transformed_pairings * y
-        if any(int(v) % self.den for v in num):
-            raise ValueError("nonintegral full pairing vector")
         return [int(v) // self.den for v in num]
 
 
@@ -125,15 +123,13 @@ class MembershipCheck:
 
 
 class PrefixMembershipOracle:
-    """Exact extendability of partial selected-pairing assignments.
+    """Exact extendability of partial pairing assignments.
 
-    For assigned selected coordinates A and unassigned U, a partial vector y_A
-    extends to y=Sx with x integral iff -B_A y_A lies in the column lattice
-    generated by B_U and 8I, where B=8*S^{-1}. HNF makes this an exact finite
-    congruence test. No floating arithmetic participates.
+    For assigned coordinates A and unassigned U, a partial vector y_A extends
+    to y=Sx with x integral iff -B_A y_A lies in the column lattice generated
+    by B_U and den*I, where B=den*S^{-1}. HNF gives an exact congruence test.
     """
-
-    def __init__(self, transform: PairingTransform, assignment_order: Sequence[int]):
+    def __init__(self, transform: RetainedBasisPairingTransform, assignment_order: Sequence[int]):
         order = tuple(int(i) for i in assignment_order)
         if len(set(order)) != len(order) or any(i < 0 or i >= 64 for i in order):
             raise ValueError("assignment_order must contain distinct selected-coordinate indices")
@@ -156,12 +152,15 @@ class PrefixMembershipOracle:
             modulus = math.lcm(modulus, int(sympy.denom(value)))
         inv_int = inv * modulus
         assert all(sympy.denom(v) == 1 for v in inv_int)
-        inv_int = Matrix([[int(inv_int[i, j]) for j in range(64)] for i in range(64)])
+        inv_int = Matrix(
+            [[int(inv_int[i, j]) for j in range(64)] for i in range(64)]
+        )
         coeff = inv_int * B[:, list(assigned)]
         coeff_rows = tuple(
             tuple(int(coeff[i, j]) % modulus for j in range(depth))
             for i in range(64)
-            if modulus != 1 and any(int(coeff[i, j]) % modulus for j in range(depth))
+            if modulus != 1
+            and any(int(coeff[i, j]) % modulus for j in range(depth))
         )
         qindex = abs(int(hnf.det()))
         return MembershipCheck(

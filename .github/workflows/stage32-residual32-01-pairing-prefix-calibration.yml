@@ -47,7 +47,7 @@ jobs:
           assert int(new['generation']) == int(old['generation']) + 1
           assert new['armed'] is True
           assert int(new['node_limit']) == 250000
-          assert new['assignment_order'] == list(range(10)) + [48]
+          assert new['assignment_order'] == list(range(10)) + [29]
           assert new['representatives'] == [
               {'m':1,'genus':0,'degree':16,'exceptional_mass':8},
               {'m':2,'genus':0,'degree':8,'exceptional_mass':8},
@@ -90,39 +90,12 @@ jobs:
       - name: Install exact local algebra dependency
         run: |
           python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Rebuild source-locked Picard core runner-local
+      - name: Run exact offline representative pairing-prefix calibration
         run: |
           set -euo pipefail
-          ok=0
-          for attempt in 1 2 3; do
-            rm -f stages/stage32/32-01/picard-core.json
-            if python stages/stage32/32-01/run_sparse_picard_export.py && test -s stages/stage32/32-01/picard-core.json; then
-              ok=1
-              break
-            fi
-            sleep 5
-          done
-          test "$ok" -eq 1
           mkdir -p "$RUNNER_TEMP/stage32-residual32-01"
-          cp stages/stage32/32-01/picard-core.json "$RUNNER_TEMP/stage32-residual32-01/picard-core.json"
-      - name: Rebuild source-locked geometric Aut generators runner-local
-        run: |
-          set -euo pipefail
-          ok=0
-          for attempt in 1 2 3; do
-            if python stages/stage32/32-07/export_aut_action_locked.py --output "$RUNNER_TEMP/stage32-residual32-01/aut.json"; then
-              ok=1
-              break
-            fi
-            sleep 5
-          done
-          test "$ok" -eq 1
-      - name: Run exact representative pairing-prefix calibration
-        run: |
-          set -euo pipefail
           python stages/stage32/residual-32-01-production/calibrate_representatives.py \
-            --core "$RUNNER_TEMP/stage32-residual32-01/picard-core.json" \
-            --aut "$RUNNER_TEMP/stage32-residual32-01/aut.json" \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
             --output "$RUNNER_TEMP/stage32-residual32-01/calibration.json" \
             --node-limit 250000
       - name: Enforce scoped calibration contract
@@ -131,9 +104,13 @@ jobs:
           import json, os, pathlib
           p=pathlib.Path(os.environ['RUNNER_TEMP'])/'stage32-residual32-01'/'calibration.json'
           x=json.loads(p.read_text())
-          assert x['schema']=='STAGE32_RESIDUAL32_01_PAIRING_PREFIX_CALIBRATION_V1'
-          assert x['aut_group_order']==1536
-          assert x['leaf_aut_canonicalization_exact'] is True
+          assert x['schema']=='STAGE32_RESIDUAL32_01_RETAINED_BASIS_PREFIX_CALIBRATION_V1'
+          assert x['coordinate_model']=='RETAINED_PRIMITIVE_BASIS_PAIRINGS_EXCEPTIONALS_FIRST'
+          assert x['retained_picard_bundle_sha256']=='d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c'
+          assert x['exceptional_basis_coordinate_count']==29
+          assert x['curve_basis_coordinate_count']==35
+          assert x['aut_used_in_probe'] is False
+          assert x['leaf_aut_canonicalization_regressed_in_this_probe'] is False
           assert x['prefix_aut_canonical_augmentation_implemented'] is False
           assert x['representative_m_classes']==[1,2,4,8]
           assert len(x['representatives'])==4
@@ -148,6 +125,7 @@ jobs:
               'nodes': {str(r['m']):r['nodes_visited'] for r in x['representatives']},
               'prunes': {str(r['m']):r['membership_prunes'] for r in x['representatives']},
               'oracle_build_seconds':x['oracle_build_seconds'],
+              'transform_denominator':x['transform_certificate']['inverse_denominator'],
               'certificate_sha256':x['canonical_sha256_without_this_field'],
           },sort_keys=True))
           PY
