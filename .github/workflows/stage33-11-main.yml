@@ -25,6 +25,7 @@ jobs:
           python-version: '3.12'
       - name: Install exact local dependencies
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' z3-solver
+
       - name: Rebuild retained order2 localization receiver
         working-directory: stages/stage33/33-07
         run: |
@@ -32,28 +33,37 @@ jobs:
           python certify_order2_quotient_raw_order4_bockstein.py
           python materialize_mixed_order_side_ambient_function_lifts.py
           python materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py
-      - name: Materialize exact A2_26 hostile-audit repair frontier
+
+      - name: Materialize exact A2_26 local repair frontier
         run: |
           python -u stages/stage33/33-11/materialize_stage33_11_a2_26_restriction_decoder.py
           python -u stages/stage33/33-11/certify_stage33_11_a2_26_ambient_boundary_galois.py
           python -u stages/stage33/33-11/materialize_stage33_11_a2_26_explicit_gersten_difference_preimage.py
           python -u stages/stage33/33-11/verify_stage33_11_a2_26_explicit_gersten_difference_preimage.py
-          cat stages/stage33/33-11/stage33-11-a2-26-restriction-decoder.json
-          cat stages/stage33/33-11/stage33-11-a2-26-ambient-boundary-galois.json
-          cat stages/stage33/33-11/stage33-11-a2-26-explicit-gersten-difference-preimage.json
+          python -u stages/stage33/33-11/materialize_stage33_11_a2_26_direct_exceptional_valuations.py
+
+      - name: Materialize A2_26 MAIN-working five-bit certificate
+        run: |
+          python -u stages/stage33/33-11/materialize_stage33_11_a2_26_main_working_column.py
+          cat stages/stage33/33-11/stage33-11-a2-26-direct-exceptional-valuations.json
+          cat stages/stage33/33-11/stage33-11-a2-26-main-working-column.json
+
       - name: Upload compact A2_26 repair certificates
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage33-11-a2-26-hostile-audit-repair
+          name: stage33-11-a2-26-localization-working-evidence
           path: |
             stages/stage33/33-11/stage33-11-smallest-block-target-images.json
             stages/stage33/33-11/stage33-11-a2-26-restriction-decoder.json
             stages/stage33/33-11/stage33-11-a2-26-ambient-boundary-galois.json
             stages/stage33/33-11/stage33-11-a2-26-explicit-gersten-difference-preimage.json
+            stages/stage33/33-11/stage33-11-a2-26-direct-exceptional-valuations.json
+            stages/stage33/33-11/stage33-11-a2-26-main-working-column.json
           if-no-files-found: ignore
           retention-days: 1
-      - name: Synchronize Stage33 hostile-audit checkpoint
+
+      - name: Synchronize Stage33 checkpoint without promoting exact closure
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         env:
           HEAD_REF: ${{ github.head_ref }}
@@ -64,10 +74,11 @@ jobs:
           git checkout -B "$HEAD_REF" "origin/$HEAD_REF"
           python -u stages/stage33/33-11/sync_stage33_controller_checkpoint.py
           python -u stages/stage33/33-11/apply_stage33_11_hostile_audit.py
+          python -u stages/stage33/33-11/sync_stage33_11_a2_26_main_working_evidence.py
           git add stages/stage33/controller.json
           if git diff --cached --quiet; then
             echo "Controller already synchronized."
           else
-            git commit -m "Stage33-11: synchronize hostile-audit checkpoint"
+            git commit -m "Stage33-11: synchronize A2_26 MAIN working evidence"
             git push origin "HEAD:$HEAD_REF"
           fi
