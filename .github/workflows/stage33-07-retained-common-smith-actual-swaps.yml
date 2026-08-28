@@ -1,0 +1,63 @@
+name: Stage33-07 retained common Smith actual swaps diagnostic
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Replay historical common Smith basis and descend actual swaps
+        run: python materialize_retained_common_smith_transport_actual_swaps.py
+      - name: Enforce literal retained-basis identification and firewalls
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          p='retained-common-smith-transport-actual-swaps.json'
+          x=json.load(open(p)); h=x.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert x['schema']=='STAGE33_07_RETAINED_COMMON_SMITH_TRANSPORT_ACTUAL_SWAPS_V1'
+          r=x['common_smith_replay']
+          assert r['discriminant_moduli']==[2]*4+[4]*6+[8]*4
+          assert len(r['vin_nontrivial_rows_mod8_14x64'])==14
+          assert len(r['v_nontrivial_columns_mod8_64x14'])==64
+          assert r['submitted_code_byte_identical_to_historical_producer']
+          assert r['all_retained_cc_ct_and_seven_sign_actions_reproduced_literally']
+          assert r['retained_quadratic_form_reproduced_literally']
+          a=x['actual_coordinate_swaps_mixed_discriminant']
+          assert a['basis']=='literal retained q256 common-Smith basis'
+          assert len(a['swap12_action_mixed_moduli_14x14'])==14
+          assert len(a['swap13_action_mixed_moduli_14x14'])==14
+          assert a['both_well_defined_q_isometric_involutions']
+          assert a['s3_relations_exact'] and a['commute_with_named_cc_ct']
+          assert a['seven_coordinate_sign_conjugations_exact']
+          assert a['identified_without_sat_basis_choice']
+          e=x['exact_consequence']
+          assert e['actual_geometric_swap_pair_uniquely_materialized_in_retained_mixed_basis']
+          assert e['sat_intrinsic_to_retained_basis_ambiguity_bypassed']
+          assert e['connecting_matrix_columns_explicitly_materialized']==0
+          assert not e['middle_gersten_module_action_materialized']
+          assert not e['absolute_delta_loc_computed'] and not e['arithmetic_hs_closed']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released']
+          assert not x['theorem_credit'] and not x['endpoint_credit']
+          print('STAGE33_07_RETAINED_COMMON_SMITH_ACTUAL_SWAPS=PASS_EXACT')
+          print('ACTUAL_RETAINED_SWAP_PAIR_UNIQUE=true')
+          print('CERTIFICATE_SHA256='+h)
+          print('NEXT='+x['next_exact_leaf'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-retained-common-smith-actual-swaps
+          retention-days: 7
+          if-no-files-found: error
+          path: stages/stage33/33-07/retained-common-smith-transport-actual-swaps.json

@@ -1,0 +1,50 @@
+name: Stage33-07 Picard coordinate swap rows
+
+on:
+  # Manual diagnostic only: preserve the extractor without blind HTTP-500 reruns.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  extract:
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [swap12, swap13]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Extract one Smith-free Q coordinate-swap Picard action
+        run: python extract_picard_coordinate_swap_rows.py '${{ matrix.mode }}'
+      - name: Enforce extraction firewall
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          python - <<'PY'
+          import hashlib,json,os
+          p=f"picard-action-{os.environ['MODE']}.json";x=json.load(open(p));h=x.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert x['schema']=='STAGE33_07_PICARD_COORDINATE_SWAP_ROWS_V1'
+          assert x['action']==os.environ['MODE'] and len(x['picard_action_64x64'])==64
+          assert all(len(r)==64 for r in x['picard_action_64x64'])
+          assert sorted(x['boundary_side_permutation_1based'])==list(range(1,25))
+          assert sorted(x['boundary_exceptional_permutation_1based'])==list(range(1,49))
+          assert x['smith_form_used'] is False and x['stage33_progress']=='6/11' and not x['stage33_08_released']
+          print('STAGE33_07_PICARD_SWAP_ROWS=PASS_EXACT')
+          print('MODE='+x['action']);print('CERT_SHA256='+h)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-picard-action-${{ matrix.mode }}
+          retention-days: 5
+          if-no-files-found: error
+          path: stages/stage33/33-07/picard-action-${{ matrix.mode }}.json

@@ -306,17 +306,9 @@ raw-order-two directions remain retained and reusable.
 
 ## PR #1419 raw-order4 Bockstein normal form
 
-The nine quotient-order-two directions that failed the raw order-two test in
-PR #1414 have now been retained at their correct raw order four rather than
-being forced into Kummer squareclasses. Exact mod-4 divisor checks on all 72
-boundary P1 components produce deterministic order-four first-residue function
-models for all nine directions. Together with the 17 retained raw-order-two
-models, all 26 boundary first-residue directions are therefore materialized in
-mixed order `17 x order2 + 9 x order4` form.
+The nine quotient-order-two directions that failed the raw order-two test in PR #1414 have now been retained at their correct raw order four rather than being forced into Kummer squareclasses. Exact mod-4 divisor checks on all 72 boundary P1 components produce deterministic order-four first-residue function models for all nine directions. Together with the 17 retained raw-order-two models, all 26 boundary first-residue directions are therefore materialized in mixed order `17 x order2 + 9 x order4` form.
 
-The nine nonzero doubles are independent in the 44-dimensional U44 kernel.
-Taking those doubles as the first nine vectors of a new U44 basis gives the
-exact raw extension normal form
+The nine nonzero doubles are independent in the 44-dimensional U44 kernel. Taking those doubles as the first nine vectors of a new U44 basis gives the exact raw extension normal form
 
 ```text
 RAW_EXTENSION_GROUP=(Z/4)^9 direct_sum (Z/2)^52
@@ -337,11 +329,7 @@ STAGE33_PROGRESS_EFFECTIVE=6/11
 STAGE33_08_RELEASED=false
 ```
 
-This closes the finite quotient-to-raw Bockstein structure itself. It does not
-close the global residue-lift problem: the 17 order-two boundary packages and
-the 9 order-four boundary packages all still need genuine global geometric
-Gersten lifts before their Galois differences can be computed. The corrected
-smallest exact kernel is therefore
+This closes the finite quotient-to-raw Bockstein structure itself. It does not close the global residue-lift problem: the 17 order-two boundary packages and the 9 order-four boundary packages all still need genuine global geometric Gersten lifts before their Galois differences can be computed. The corrected smallest exact kernel is therefore
 
 ```text
 R33-BR2A-26-MIXED-ORDER-FIRST-RESIDUE-GLOBAL-GERSTEN-LIFT-GALOIS-DIFFERENCE-COCYCLE
@@ -351,9 +339,9 @@ No finite boundary calculation is promoted to a global Q-defined lift here.
 <!-- STAGE33_07_ALL72_AMBIENT_BOUNDARY_PROGRESS -->
 ## All-72 ambient boundary-function milestone
 
-The mixed-order first-residue packages now have explicit ambient rational-function lifts on **all 72 boundary components**.  The 24 physical side conics contribute 120 nontrivial source/component functions with 240 selected crossing factors (`2f137842fffbabe7fa9f91879f379e0662803204d6753c342fc31f6dfe12fa6d`); the 48 exceptional tangent conics contribute another 120 nontrivial functions with 240 factors (`a9d5ceb66625dfa561db61a3afc95388bf5a8371fb81905988991514a765d397`).  The exceptional constructor reproduces all 48 frozen tangent-conic commitments before forming deterministic ambient projection pairs.
+The mixed-order first-residue packages now have explicit ambient rational-function lifts on **all 72 boundary components**. The 24 physical side conics contribute 120 nontrivial source/component functions with 240 selected crossing factors (`2f137842fffbabe7fa9f91879f379e0662803204d6753c342fc31f6dfe12fa6d`); the 48 exceptional tangent conics contribute another 120 nontrivial functions with 240 factors (`a9d5ceb66625dfa561db61a3afc95388bf5a8371fb81905988991514a765d397`). The exceptional constructor reproduces all 48 frozen tangent-conic commitments before forming deterministic ambient projection pairs.
 
-This does **not** promote any source to a global geometric Gersten/Brauer lift.  The remaining exact kernel is `R33-BR2A-26-AMBIENT-BOUNDARY-FUNCTION-PACKAGES-GLOBAL-GERSTEN-OFF-BOUNDARY-RESIDUES`: assemble the 26 ambient boundary packages and certify every off-boundary codimension-one residue (or an exact cancellation) before global-lift credit.
+This does **not** promote any source to a global geometric Gersten/Brauer lift. The remaining exact kernel is `R33-BR2A-26-AMBIENT-BOUNDARY-FUNCTION-PACKAGES-GLOBAL-GERSTEN-OFF-BOUNDARY-RESIDUES`: assemble the 26 ambient boundary packages and certify every off-boundary codimension-one residue (or an exact cancellation) before global-lift credit.
 
 ```text
 ALL_72_BOUNDARY_COMPONENT_PACKAGES_AMBIENTIZED=true
@@ -367,9 +355,9 @@ STAGE33_PROGRESS_EFFECTIVE=6/11
 <!-- STAGE33_07_GERSTEN_EXISTENCE_26_V11 -->
 ## Gersten lift existence 26/26; explicit representative choice still open
 
-The mixed-order boundary tuples now pass the **full codimension-two localization/Gersten kernel check** over `L=Q(i,sqrt(2))`: all 17 order-two sources cancel at every crossing mod 2 with even infinity poles, and all 9 order-four sources cancel as `-r + r = 0 mod 4` with denominator exponent divisible by 4.  Extending each boundary tuple by zero on every other codimension-one divisor and applying the retained localization exact sequence certifies abstract global geometric open-Brauer/Gersten lift existence for all 26 sources (`c97cf3df4c69bc859765b6844dc12e1ad24bdf0da0457446f1e5e11846c6660a`).
+The mixed-order boundary tuples now pass the **full codimension-two localization/Gersten kernel check** over `L=Q(i,sqrt(2))`: all 17 order-two sources cancel at every crossing mod 2 with even infinity poles, and all 9 order-four sources cancel as `-r + r = 0 mod 4` with denominator exponent divisible by 4. Extending each boundary tuple by zero on every other codimension-one divisor and applying the retained localization exact sequence certifies abstract global geometric open-Brauer/Gersten lift existence for all 26 sources (`c97cf3df4c69bc859765b6844dc12e1ad24bdf0da0457446f1e5e11846c6660a`).
 
-This promotion is deliberately separated from a choice of explicit rational-symbol representatives.  No `cc`/`ct` difference cocycle in the proper 14-dimensional `Br(Sbar)[2]` basis has been materialized, so the finite localization connecting map remains the exact kernel.
+This promotion is deliberately separated from a choice of explicit rational-symbol representatives. No `cc`/`ct` difference cocycle in the proper 14-dimensional `Br(Sbar)[2]` basis has been materialized, so the finite localization connecting map remains the exact kernel.
 
 ```text
 GLOBAL_GEOMETRIC_GERSTEN_LIFT_EXISTENCE_CERTIFIED=26/26
@@ -390,15 +378,7 @@ Next leaf: `L33-07-COMPUTE-GALOIS-EXTENSION-CLASS-OF-26-GERSTEN-LIFT-TORSOR-WITH
 <!-- STAGE33_07_POST_PURITY_GERSTEN_TORSOR_V12 -->
 ## Post-purity Gersten torsor ambiguity remains 416 bits
 
-Actions run `33073824503` independently reproduced the 26/26 abstract
-Gersten-existence prefix and all 416 elementary endpoint-compatible V4
-extensions, then locked their exact information boundary in `3e9f189a2d94a7a3640e7e44504e60a8c2199b30d9e395651abf243d02af3a32`.
-Purity proves every lift fibre is nonempty, but supplies neither a chosen
-representative nor a Galois-equivariant section or `cc`/`ct` lift-difference
-cocycle.  Therefore the retained inputs determine none of the `16 x 26`
-connecting-matrix entries.  This is an information-boundary result; it does
-**not** claim that all `2^416` abstract endpoint-compatible extensions are
-geometrically realised.
+Actions run `33073824503` independently reproduced the 26/26 abstract Gersten-existence prefix and all 416 elementary endpoint-compatible V4 extensions, then locked their exact information boundary in `3e9f189a2d94a7a3640e7e44504e60a8c2199b30d9e395651abf243d02af3a32`. Purity proves every lift fibre is nonempty, but supplies neither a chosen representative nor a Galois-equivariant section or `cc`/`ct` lift-difference cocycle. Therefore the retained inputs determine none of the `16 x 26` connecting-matrix entries. This is an information-boundary result; it does **not** claim that all `2^416` abstract endpoint-compatible extensions are geometrically realised.
 
 ```text
 GLOBAL_GEOMETRIC_GERSTEN_LIFT_EXISTENCE_CERTIFIED=26/26
@@ -413,9 +393,7 @@ STAGE33_PROGRESS_EFFECTIVE=6/11
 STAGE33_08_RELEASED=false
 ```
 
-Actions evidence: workflow `Stage33-07 post-purity Gersten torsor ambiguity`,
-run `33073824503`, artifact `9647000457`, digest
-`sha256:21841cffd1ee3d36a1086c5a5e956cc2f6ffa5fa8d2e778de6b7266410b303f6`.
+Actions evidence: workflow `Stage33-07 post-purity Gersten torsor ambiguity`, run `33073824503`, artifact `9647000457`, digest `sha256:21841cffd1ee3d36a1086c5a5e956cc2f6ffa5fa8d2e778de6b7266410b303f6`.
 
 Next exact kernel: `R33-BR2A-GENUINE-GALOIS-EQUIVARIANT-GERSTEN-MIDDLE-MODULE-OR-26-LIFT-DIFFERENCE-COCYCLES`.
 Next leaf: `L33-07-MATERIALIZE-GALOIS-EQUIVARIANT-GERSTEN-MIDDLE-MODULE-OR-26-CC-CT-LIFT-DIFFERENCES`.
@@ -423,13 +401,7 @@ Next leaf: `L33-07-MATERIALIZE-GALOIS-EQUIVARIANT-GERSTEN-MIDDLE-MODULE-OR-26-CC
 <!-- STAGE33_07_BOUNDARY_SOURCE_V4_ACTION_V13 -->
 ## Boundary-source V4 action closed; middle extension still open
 
-Actions run `33075304812` reconstructed complex conjugation on every chosen
-raw boundary representative.  All 17 raw-order-two sources are fixed; the
-nine raw-order-four sources are inverted with defect equal to their locked
-U44 double/Bockstein class.  After passage to `A[2] ~= F2^26`, both `cc` and
-`ct` act trivially.  Thus the source action is no longer missing.  This does
-not choose or act on any genuine middle Gersten lift, and the `16 x 26`
-connecting matrix remains wholly unmaterialized.
+Actions run `33075304812` reconstructed complex conjugation on every chosen raw boundary representative. All 17 raw-order-two sources are fixed; the nine raw-order-four sources are inverted with defect equal to their locked U44 double/Bockstein class. After passage to `A[2] ~= F2^26`, both `cc` and `ct` act trivially. Thus the source action is no longer missing. This does not choose or act on any genuine middle Gersten lift, and the `16 x 26` connecting matrix remains wholly unmaterialized.
 
 ```text
 RAW_SOURCE_ACTION=17_CC_FIXED_ORDER2_PLUS_9_CC_INVERTED_ORDER4
@@ -445,9 +417,127 @@ STAGE33_PROGRESS_EFFECTIVE=6/11
 STAGE33_08_RELEASED=false
 ```
 
-Actions evidence: workflow `Stage33-07 boundary source V4 action adapter`,
-run `33075304812`, artifact `9647609431`, digest
-`sha256:3f252012ea0c71487e4d2750936289d3953794b4fbf9be1fc11544b0658bd44f`.
+Actions evidence: workflow `Stage33-07 boundary source V4 action adapter`, run `33075304812`, artifact `9647609431`, digest `sha256:3f252012ea0c71487e4d2750936289d3953794b4fbf9be1fc11544b0658bd44f`.
 
 Next exact kernel: `R33-BR2A-GENUINE-GALOIS-EQUIVARIANT-MIDDLE-GERSTEN-EXTENSION-CLASS-WITH-SOURCE-AND-KERNEL-ACTIONS-FIXED`.
 Next leaf: `L33-07-MATERIALIZE-MIDDLE-GERSTEN-CC-CT-ACTIONS-OR-26-CHOSEN-LIFT-DIFFERENCE-COCYCLES`.
+
+<!-- STAGE33_07_FINITE_SWAP_NONZERO_WITNESS_V14 -->
+## Finite swap envelope cannot force the localization class to zero
+
+The retained finite conditions on the two coordinate swaps do not determine the actual integral Picard actions, and they are not strong enough to force the unknown finite localization map to vanish. An exact Boolean certificate materialized one admissible finite swap pair satisfying the `cc`/`ct` centralizer conditions, all seven sign-conjugacy equations, the retained two-torsion quadratic form, both involution equations, and the `S3` braid relation. For this candidate, the seven-sign plus two-swap naturality system has rank `386` in the ambient `26 x 16 = 416` matrix space, leaving dimension `30`, together with an explicit nonzero kernel vector.
+
+This candidate is deliberately **not** identified with the actual integral Picard swap pair. Its role is only to refute the proposed universal statement that every admissible finite candidate forces zero. Therefore no value of the actual connecting map is inferred and no column is materialized.
+
+```text
+EXPLICIT_ADMISSIBLE_FINITE_COUNTEREXAMPLES=1
+AMBIENT_CONNECTING_MAP_DIMENSION_F2=416
+COUNTEREXAMPLE_CONSTRAINT_RANK_F2=386
+COUNTEREXAMPLE_REMAINING_DIMENSION_F2=30
+ROBUST_ZERO_OVER_ALL_ADMISSIBLE_FINITE_CANDIDATES=false
+ACTUAL_INTEGRAL_PICARD_SWAP_IDENTIFIED=false
+MIDDLE_GERSTEN_MODULE_ACTION_MATERIALIZED=false
+CONNECTING_MATRIX_COLUMNS_MATERIALIZED=0/26
+PROJECT_14x26_L_SQUARECLASS_TENSOR_COMPUTED=false
+ABSOLUTE_DELTA_LOC_COMPUTED=false
+ACTUAL_INDEX512_GLUE_IDENTIFIED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+STAGE33_08_RELEASED=false
+```
+
+Actions evidence: workflow `Stage33-07 finite swap naturality nonzero witness`, run `33120565761`, certificate `2db42b3f5cc7a166d891efe4850e1008c92622dfd4b5ef83f9ab9b2ce386943b`, artifact `9666283654`, digest `sha256:5474ade2beb8cbd64b457534b2361e9bd8aed1c2a6dfa90c2c9f916c9f5f8832`.
+
+The repeated public-Magma swap workflows remain available only as manual diagnostics; their PR-synchronization triggers are disabled after repeated HTTP 500 failures. The next exact leaf is `L33-07-MATERIALIZE-MIDDLE-GERSTEN-EXTENSION-DATA-OR-AN-INTEGRAL-SWAP-DISTINGUISHER`.
+
+<!-- STAGE33_07_INTEGRAL_PICARD_SWAP_LINEAR_ENVELOPE_V15 -->
+## Exact retained-Picard swap linear envelope
+
+`certify_integral_picard_swap_linear_envelope.py` uses the nonexpiring exact 64-dimensional Picard Gram, cc/ct actions, and all seven integral coordinate-sign actions. It makes no remote CAS request. The nine commuting involutions split `Pic(S)_Q` into 40 exact joint-character blocks with multiplicity histogram `1:21, 2:18, 7:1`; distinct blocks are pairwise Gram-orthogonal and nondegenerate.
+
+For each desired coordinate swap, the required cc/ct commutation and sign-label conjugacy leave a 142-dimensional rational linear intertwiner space. This is a necessary-condition envelope only: the unknown swaps have not been required to be integral Gram isometries, involutions, or an S3 pair. Therefore this leaf does not identify either actual geometric Picard swap. It instead isolates the missing input as an exact integral curve-class/ample-cone marking (or equivalent Picard quotient transport), unless genuine middle-Gersten lift data is supplied directly.
+
+```text
+JOINT_CHARACTER_COUNT=40
+JOINT_CHARACTER_MULTIPLICITIES=1:21,2:18,7:1
+SWAP12_RATIONAL_LINEAR_INTERTWINER_DIMENSION=142
+SWAP13_RATIONAL_LINEAR_INTERTWINER_DIMENSION=142
+ACTUAL_INTEGRAL_PICARD_SWAP_IDENTIFIED=false
+CONNECTING_MATRIX_COLUMNS_MATERIALIZED=0/26
+MIDDLE_GERSTEN_MODULE_ACTION_MATERIALIZED=false
+PROJECT_14x26_L_SQUARECLASS_TENSOR_MATERIALIZED=false
+ABSOLUTE_DELTA_LOC_COMPUTED=false
+ACTUAL_INDEX512_GLUE_IDENTIFIED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+STAGE33_08_RELEASED=false
+THEOREM_CREDIT=false
+ENDPOINT_CREDIT=false
+```
+
+Actions evidence: workflow `Stage33-07 integral Picard swap linear envelope`, run `33121552448`, certificate `571559b47c3cb54a950b0551d615672bb5373d0fd1a34eb4ace5b90e95d708b2`, artifact `9666647588` (`1663` bytes), digest `sha256:23554096cbd266a2cf8ed145abab1ac238b32b1b2243bc3b0f3439795ef33d77`.
+
+Next leaf: `L33-07-MATERIALIZE-INTEGRAL-CURVE-CLASS-OR-AMPLE-CONE-SWAP-DISTINGUISHER-OR-GENUINE-MIDDLE-GERSTEN-LIFT-DATA`.
+
+<!-- STAGE33_07_RETAINED_STAGE32_PICARD_MARKING_V16 -->
+## Stage32 Picard marking recovered before storage expiry
+
+The still-live immutable Stage32 prepared artifact `9588229672` was downloaded with its locked zip digest and reduced to the two exact inputs needed by this Stage33 route: the saturated rank-63 `H^perp` packet and the nine geometric 140-class permutations. The compact nonexpiring retained bundle has canonical SHA256 `e06291dddfc529fca2c0b0fe58dd43151faccd3d7997d9aa5797e1978227bb7c`.
+
+An independent local rational reconstruction from this packet reproduced the historical `picard-core.json` canonical SHA256 `de84f4511ea2ea747fd712e2f5f09c7f8d94ae3633e55678b81cfe63f6ed2870` literally. It also checked all 140 known classes and the hyperplane were integral in the selected 64-class basis, the Gram determinant was `-2^28`, and `H^2=16`. This recovers the missing integral marking input without using the currently failing public Magma service.
+
+The subsequent actual-swap/H1 naturality certificate was not completed in this run and is not claimed here.
+
+```text
+RETAINED_STAGE32_PICARD_MARKING=true
+HISTORICAL_PICARD_CORE_CANONICAL_SHA_REPRODUCED=true
+KNOWN_CLASSES_RECOVERED=140
+PICARD_RANK=64
+PICARD_GRAM_DETERMINANT=-268435456
+HYPERPLANE_SQUARE=16
+ACTUAL_INTEGRAL_PICARD_SWAP_IDENTIFIED=false
+CONNECTING_MATRIX_COLUMNS_MATERIALIZED=0/26
+MIDDLE_GERSTEN_MODULE_ACTION_MATERIALIZED=false
+ABSOLUTE_DELTA_LOC_COMPUTED=false
+ACTUAL_INDEX512_GLUE_IDENTIFIED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+STAGE33_08_RELEASED=false
+```
+
+Next leaf: `L33-07-DERIVE-ACTUAL-SWAP-AND-V4-H1-ACTIONS-FROM-RETAINED-STAGE32-PICARD-MARKING`.
+
+<!-- STAGE33_07_PR1430_CHECKPOINT_V18 -->
+## PR #1430 checkpoint: intrinsic A2 prefix retained; marked historical-basis bridge carried forward
+
+The later PR #1430 leaves separate the intrinsic discriminant-two-torsion geometry from the unresolved historical-q256 basis marking. The exact intrinsic route identifies the coordinate-swap pair on the 14-dimensional intrinsic `A[2]` module and the named `cc/ct` action; the mixed-order divisibility filtration recheck completed through its firewall in Actions run `33130988210`. No connecting-map column is obtained from this.
+
+The attempted direct replay into the literal historical common-Smith basis is an exact **negative route result**, not a new arithmetic conclusion: all 140 classes transport integrally, both coordinate swaps have determinant one, the intrinsic swap pair satisfies the exact `S3` and seven-sign relations, and `cc/ct` satisfies the exact V4/commutation relations, but the locally reconstructed Picard Gram differs from the historical q256 Gram. Therefore that replay does not certify an identification with the retained historical q256 basis and is retained only as a manual diagnostic.
+
+The required missing adapter is the marked Picard basis bridge from the pinned upstream qPic/INDLIST marking. Public Magma is not on the pull-request hot path. `Stage33-07 marked Picard basis bridge producer` is manual-only; the pull-request verifier performs only deterministic local revalidation when `indlist-to-magma-picard-basis.json` has been source-locked and retained. If that retained input is absent, the verifier reports `PENDING` and promotes no certificate rather than treating remote availability as a mathematical failure.
+
+```text
+INTRINSIC_A2_DIMENSION_F2=14
+ACTUAL_INTRINSIC_COORDINATE_SWAP_PAIR_IDENTIFIED=true
+INTRINSIC_A2_DIVISIBILITY_FILTRATION_RUN=33130988210
+INTRINSIC_A2_DIVISIBILITY_FILTRATION=PASS_EXACT
+COMMON_SMITH_LITERAL_HISTORICAL_Q256_IDENTIFICATION_CERTIFIED=false
+COMMON_SMITH_DIAGNOSTIC_FAILURE=LOCAL_PICARD_GRAM_DIFFERS_FROM_HISTORICAL_Q256_GRAM
+MARKED_PICARD_BASIS_BRIDGE_CERTIFICATE_PROMOTED=false
+PUBLIC_MAGMA_ON_PULL_REQUEST_HOT_PATH=false
+CONNECTING_MATRIX_COLUMNS_MATERIALIZED=0/26
+MIDDLE_GERSTEN_MODULE_ACTION_MATERIALIZED=false
+PROJECT_14x26_L_SQUARECLASS_TENSOR_MATERIALIZED=false
+ABSOLUTE_DELTA_LOC_COMPUTED=false
+ACTUAL_INDEX512_GLUE_IDENTIFIED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+STAGE33_08_RELEASED=false
+THEOREM_CREDIT=false
+ENDPOINT_CREDIT=false
+```
+
+This is a valid checkpoint boundary for PR #1430. The unresolved marked-basis bridge is carried to the fresh continuation PR; it is not promoted or silently discarded.
+
+Next leaf: `L33-07-MARKED-PICARD-BASIS-BRIDGE-MANUAL-PRODUCER-THEN-LOCAL-VERIFY`.
+Next expected command: `Stage33-main-batch`.

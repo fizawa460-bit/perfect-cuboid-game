@@ -1,0 +1,77 @@
+name: Stage33-07 order4 first residue Bockstein
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/materialize_order4_first_residue_bockstein.py'
+      - 'stages/stage33/33-07/materialize_order2_first_residue_functions.py'
+      - 'stages/stage33/33-07/br0b-boundary-raw-residue-map.json'
+      - 'stages/stage33/33-07/br0g-finite-ramified-residue-presentation.json'
+      - 'stages/stage33/33-07/two-primary-residue-invariant-basis.json'
+      - 'stages/stage33/33-07/exceptional-p1-tangent-coordinates.json'
+      - '.github/workflows/stage33-07-order4-first-residue-bockstein.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact integer algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Materialize rank-9 U44 Bockstein and all 26 order4 residue functions
+        working-directory: stages/stage33/33-07
+        run: python materialize_order4_first_residue_bockstein.py
+      - name: Validate exact Bockstein profile and firewalls
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          p='order4-first-residue-bockstein.json'
+          x=json.load(open(p)); h=x.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          b=x['bockstein_map']
+          assert x['a2_dimension_f2']==26
+          assert b['matrix_shape_f2']==[26,44]
+          assert b['rank_f2']==9
+          assert b['kernel_dimension_f2']==17
+          assert b['image_dimension_f2']==9
+          assert b['zero_basis_image_count']==17
+          assert b['nonzero_basis_image_count']==9
+          assert b['nine_nonzero_basis_images_independent']
+          assert b['quotient_only_span_maps_isomorphically_to_image']
+          assert b['raw_order2_liftable_subspace_is_maximal_dimension_17']
+          m=x['order4_function_materialization']
+          assert m['all_26_sources_materialized']
+          assert m['genuine_order4_source_count']==9
+          assert m['every_component_denominator_exponent_divisible_by_4']
+          assert m['doubling_every_model_matches_exact_u44_bockstein']
+          c=x['constructive_progress']
+          assert c['raw_order2_first_residue_functions_materialized']==17
+          assert c['genuine_order4_first_residue_functions_materialized']==9
+          assert c['all_26_first_residue_functions_materialized_at_order_dividing_4']
+          assert c['connecting_matrix_columns_explicitly_materialized']==0
+          assert not c['middle_gersten_module_action_materialized']
+          assert not c['project_14x26_L_squareclass_tensor_materialized']
+          assert not c['absolute_delta_loc_computed']
+          assert not c['arithmetic_hs_closed']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released']
+          print('STAGE33_07_ORDER4_FIRST_RESIDUE_BOCKSTEIN=PASS')
+          print('CERTIFICATE_SHA256='+h)
+          print('RAW_ORDER2_KERNEL_DIM_F2=17')
+          print('U44_BOCKSTEIN_RANK_F2=9')
+          print('GENUINE_ORDER4_SOURCE_COUNT=9')
+          print('NEXT='+x['next_exact_leaf'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-order4-first-residue-bockstein
+          retention-days: 3
+          path: stages/stage33/33-07/order4-first-residue-bockstein.json

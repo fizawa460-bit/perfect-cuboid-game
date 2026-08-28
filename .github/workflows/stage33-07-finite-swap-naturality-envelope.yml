@@ -1,0 +1,65 @@
+name: Stage33-07 finite swap naturality nonzero witness
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/certify_finite_swap_candidate_naturality_envelope.py'
+      - 'stages/stage33/33-07/run_finite_swap_candidate_naturality_envelope_z3_compat.py'
+      - 'stages/stage33/33-07/certify_retained_geometric_sign_intertwiner_space.py'
+      - 'stages/stage33/33-07/retained-q256-geometric-sign-endpoint.json'
+      - 'stages/stage33/33-07/retained-q256-geometric-sign-quadratic.json'
+      - 'stages/stage33/33-07/exceptional-p1-tangent-coordinates.json'
+      - 'stages/stage33/33-07/materialize_order2_first_residue_functions.py'
+      - 'stages/stage33/33-07/materialize_order2_localization_receiver.py'
+      - 'stages/stage33/33-07/two-primary-residue-invariant-basis.json'
+      - '.github/workflows/stage33-07-finite-swap-naturality-envelope.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact algebra and Boolean solver
+        run: python -m pip install --disable-pip-version-check --no-input 'sympy==1.14.0' 'z3-solver==4.15.3.0'
+      - name: Reproduce finite localization receiver
+        run: python materialize_order2_localization_receiver.py
+      - name: Produce one exact admissible finite-swap nonzero witness
+        env:
+          STAGE33_FINITE_SWAP_MODE: counterexample
+        run: python run_finite_swap_candidate_naturality_envelope_z3_compat.py
+      - name: Enforce exact conservative counterexample and firewalls
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          p='finite-swap-naturality-nonzero-witness.json';x=json.load(open(p));h=x.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert x['schema']=='STAGE33_07_FINITE_SWAP_NATURALITY_NONZERO_WITNESS_V1'
+          ex=x['execution'];assert ex['remote_cas_used'] is False and ex['z3_exact_boolean_solver_used'] and not ex['full_candidate_enumeration_attempted'] and ex['one_counterexample_suffices_to_refute_robust_zero']
+          c=x['admissible_finite_swap_candidate'];assert not c['identified_with_actual_integral_picard_swap'] and len(c['swap12_A_T2_action_rows_as_bitints'])==14 and len(c['swap13_A_T2_action_rows_as_bitints'])==14
+          n=x['nonzero_naturality_witness'];assert n['ambient_matrix_shape']==[26,16] and n['ambient_matrix_space_dimension_f2']==416 and n['remaining_dimension_f2']>0 and n['nonzero'] and n['annihilated_by_all_seven_sign_and_two_swap_naturality_rows']
+          e=x['exact_consequence'];assert not e['robust_zero_over_every_admissible_finite_swap_candidate'] and e['finite_candidate_envelope_alone_cannot_force_actual_delta_loc_zero'] and not e['actual_geometric_swap_pair_identified'] and e['all_26_source_columns_treated_uniformly']
+          assert e['connecting_matrix_columns_explicitly_materialized']==0 and not e['middle_gersten_module_action_materialized'] and not e['absolute_delta_loc_computed'] and not e['project_14x26_L_squareclass_tensor_materialized'] and not e['arithmetic_HS_closed']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released'] and not x['theorem_credit'] and not x['endpoint_credit']
+          print('STAGE33_07_FINITE_SWAP_NATURALITY_NONZERO_WITNESS=PASS_EXACT')
+          print('EXPLICIT_ADMISSIBLE_COUNTEREXAMPLES=1')
+          print('REMAINING_DIMENSION='+str(n['remaining_dimension_f2']))
+          print('ROBUST_ZERO=false')
+          print('CERT_SHA256='+h);print('NEXT='+x['next_exact_leaf'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-finite-swap-naturality-nonzero-witness
+          retention-days: 3
+          if-no-files-found: error
+          path: stages/stage33/33-07/finite-swap-naturality-nonzero-witness.json
