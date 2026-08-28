@@ -17,7 +17,7 @@ concurrency:
 jobs:
   exact-global-naturality:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -28,15 +28,20 @@ jobs:
       - name: Rebuild retained order2 localization receiver
         working-directory: stages/stage33/33-07
         run: python materialize_order2_localization_receiver.py
-      - name: Run Stage33-11 exact proper-Br2 dual-kernel naturality
+      - name: Replay literal retained Magma Smith basis and actual swaps
+        working-directory: stages/stage33/33-07
+        run: python -u materialize_retained_common_smith_transport_actual_swaps.py
+      - name: Run Stage33-11 retained-Smith 14d naturality proof
         run: |
-          python -u stages/stage33/33-11/run_stage33_11_kernel_mod2_dual_naturality.py
-          cat stages/stage33/33-11/stage33-11-kernel-mod2-naturality.json
+          python -u stages/stage33/33-11/certify_stage33_11_retained_smith_naturality.py
+          cat stages/stage33/33-11/stage33-11-retained-smith-naturality.json
       - name: Upload compact exact certificate
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage33-11-kernel-mod2-naturality
-          path: stages/stage33/33-11/stage33-11-kernel-mod2-naturality.json
+          name: stage33-11-retained-smith-naturality
+          path: |
+            stages/stage33/33-07/retained-common-smith-transport-actual-swaps.json
+            stages/stage33/33-11/stage33-11-retained-smith-naturality.json
           if-no-files-found: ignore
           retention-days: 1
