@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Synchronize the Stage33 controller to the exact Stage33-11 MAIN checkpoint.
 
-This is intentionally deterministic and conservative: Stage33-11 remains open,
-0/26 named connecting columns are certified, and all parent/downstream firewalls
-remain closed. The only predecessor promotion recorded here is the already
-hostile-audited Stage33-10 PASS on merged PR #1444.
+Stage33-11 remains open with 0/26 named connecting columns materialized.  The
+current exact checkpoint is the A2_26 smallest-block reduction: its finite-H1
+value lies in a five-dimensional naturality envelope, and simultaneous cc/ct
+restriction is injective there.  A deterministic five-bit quotient decoder is
+materialized before this controller sync.  Parent/downstream firewalls remain
+closed.
 """
 from __future__ import annotations
 
@@ -13,6 +15,25 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 CTRL = ROOT / "stages" / "stage33" / "controller.json"
+HERE = ROOT / "stages" / "stage33" / "33-11"
+PROFILE = HERE / "stage33-11-smallest-block-target-images.json"
+DECODER = HERE / "stage33-11-a2-26-restriction-decoder.json"
+EXPECTED_PROFILE_SHA = "cdc8eade5526147a576c1d86260f9b4722f64f0e718d0702c1868db54dc812e5"
+
+profile = json.loads(PROFILE.read_text(encoding="utf-8"))
+decoder = json.loads(DECODER.read_text(encoding="utf-8"))
+if profile.get("canonical_sha256") != EXPECTED_PROFILE_SHA:
+    raise SystemExit("Stage33-11c target-image profile source lock moved")
+if decoder.get("schema") != "STAGE33_11_A2_26_CC_CT_RESTRICTION_DECODER_V1":
+    raise SystemExit("Stage33-11c decoder schema moved")
+if decoder["source_locks"].get("stage33_11_smallest_block_target_profile_sha256") != EXPECTED_PROFILE_SHA:
+    raise SystemExit("Stage33-11c decoder no longer locks the target-image profile")
+if not decoder["decoder"].get("all_32_coefficient_vectors_roundtrip_verified"):
+    raise SystemExit("Stage33-11c decoder exhaustive roundtrip check missing")
+if decoder["decoder"].get("joint_restriction_rank_on_allowed_space_f2") != 5:
+    raise SystemExit("Stage33-11c A2_26 joint restriction rank moved")
+if decoder["exact_consequence"].get("a2_26_connecting_column_materialized"):
+    raise SystemExit("controller sync refuses an unreviewed A2_26 closure promotion")
 
 c = json.loads(CTRL.read_text(encoding="utf-8"))
 
@@ -75,14 +96,35 @@ s11["stage33_11b_symmetry_block_profile"] = {
     "certificate_sha256": "54d407a4f373665d5142890518e21135e9fc4a8411a6fd591df67c3e90213a4e",
     "workflow_run": 33155495938,
 }
+s11["stage33_11c_a2_26_reduction"] = {
+    "status": "RUNNING_EXACT_FIVE_BIT_RESTRICTION_DECODER_READY",
+    "smallest_cyclic_blocks_1based": [[2], [3], [24, 25, 26]],
+    "raw_order2_liftable_smallest_directions_1based": [2, 3, 24, 25, 26],
+    "target_image_profile_sha256": EXPECTED_PROFILE_SHA,
+    "a2_26_shape": "K2,2_FOUR_CYCLE",
+    "a2_26_edges": ["X_0125", "X_0126", "X_0131", "X_0132"],
+    "a2_26_K_allowed_value_dimension_f2": 3,
+    "a2_26_finite_H1_allowed_value_dimension_f2": 5,
+    "a2_26_cc_restriction_rank_f2": 3,
+    "a2_26_ct_restriction_rank_f2": 2,
+    "a2_26_joint_cc_ct_restriction_rank_f2": 5,
+    "a2_26_joint_cc_ct_restriction_kernel_dimension_f2": 0,
+    "a2_26_five_quotient_bits_determine_finite_H1_value": True,
+    "decoder_certificate_sha256": decoder["canonical_sha256"],
+    "decoder_observation_coordinates": decoder["decoder"]["canonical_observation_coordinates"],
+    "all_32_decoder_roundtrips_verified": True,
+    "connecting_column_materialized": False,
+    "next_exact_task": "A2_26_EXPLICIT_CC_CT_GERSTEN_GALOIS_DIFFERENCE_BITS",
+}
 for b in s11["branches"]:
     if b["id"] == "33-11a":
         b["main_status"] = "CLOSED_EXACT_NEGATIVE_ROUTE_RESULT_HOM_DIMS_24_33"
     elif b["id"] == "33-11b":
         b["main_status"] = "CLOSED_EXACT_PROFILE_COMMON_KERNEL_DIM10_NO_NAMED_COLUMN_FORCED"
     elif b["id"] == "33-11c":
-        b["main_status"] = "RUNNING_NEXT_SMALLEST_BLOCK_FALLBACK"
+        b["main_status"] = "RUNNING_A2_26_FIVE_BIT_RESTRICTION_DECODER_READY"
         b["smallest_cyclic_blocks_1based"] = [[2], [3], [24, 25, 26]]
+        b["preferred_next_pointer"] = "component-A2_26"
 
 s12 = children["33-12"]
 s12["status"] = "BLOCKED_PENDING_33_11_COMPLETE_EXACT_COVERAGE"
@@ -93,21 +135,26 @@ c["current_item"] = "Stage33-11_ARITHMETIC_LOCALIZATION_CONNECTING_MAP_RUNNING"
 c["audit_required"] = False
 c["merge_allowed"] = False
 c["advance_allowed"] = True
-c["advance_scope"] = "STAGE33_11_ONLY_ADVANCE_11C_SMALLEST_BLOCK_OR_EQUIVALENT_EXACT_ROUTE_KEEP_33_12_33_08_33_40_BLOCKED"
-c["next_item"] = "Stage33-11c_INDIVIDUAL_OR_SMALLEST_BLOCK_FALLBACK"
+c["advance_scope"] = "STAGE33_11_ONLY_ADVANCE_A2_26_EXPLICIT_CC_CT_BITS_KEEP_33_12_33_08_33_40_BLOCKED"
+c["next_item"] = "Stage33-11c_A2_26_EXPLICIT_CC_CT_GERSTEN_DIFFERENCE_BITS"
 c["next_expected_command"] = "Stage33-main-batch"
 
 c["controller_writeback_checkpoint"] = {
     "pr": 1449,
-    "head_before_controller_sync": "eb6dcf635b340b86d70e1e6caf8c9872af46b456",
     "stage33_10_hostile_audit_pass": True,
     "stage33_11_status": "RUNNING",
     "stage33_11a_Hom_A_K_dimension_f2": 24,
     "stage33_11a_Hom_A_finite_H1_dimension_f2": 33,
     "stage33_11b_common_universal_kernel_dimension_f2": 10,
     "stage33_11b_named_directions_forced_zero": [],
+    "stage33_11c_target_profile_sha256": EXPECTED_PROFILE_SHA,
+    "stage33_11c_a2_26_K_allowed_dimension_f2": 3,
+    "stage33_11c_a2_26_finite_H1_allowed_dimension_f2": 5,
+    "stage33_11c_a2_26_joint_cc_ct_restriction_kernel_dimension_f2": 0,
+    "stage33_11c_a2_26_decoder_sha256": decoder["canonical_sha256"],
+    "stage33_11c_a2_26_five_bit_decoder_ready": True,
     "stage33_11_certified_named_connecting_progress": "0/26",
-    "stage33_11_next_branch": "33-11c",
+    "stage33_11_next_branch": "33-11c_A2_26_EXPLICIT_CC_CT_GERSTEN_DIFFERENCE_BITS",
     "stage33_11_current_hot_path_remote_cas": False,
     "stage33_progress": "6/11",
     "stage33_08_released": False,
@@ -131,4 +178,5 @@ CTRL.write_text(json.dumps(c, indent=2, sort_keys=False) + "\n", encoding="utf-8
 print("STAGE33_CONTROLLER_SYNC=PASS")
 print("CURRENT_ITEM=" + c["current_item"])
 print("NEXT_ITEM=" + c["next_item"])
+print("A2_26_FIVE_BIT_DECODER=READY")
 print("STAGE33_11_PROGRESS=0/26")
