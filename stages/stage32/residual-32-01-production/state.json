@@ -15,10 +15,10 @@
     "full_aut1536_reconstructed_exactly": true,
     "hperp_degree_augmented_rank64": true,
     "hperp_exact_140_class_bridge_recovered": true,
-    "integral_saturation_adapter_validated": false,
-    "next_required_capability": "HPERP_TO_SATURATED_PICARD64_INTEGRAL_CHANGE_OF_BASIS_ADAPTER_WITH_GENERATION6_HNF_REGRESSION",
+    "integral_saturation_adapter_validated": true,
+    "next_required_capability": "AUT_EQUIVARIANT_ALL140_REPRESENTATIVE_RECALIBRATION_GENERATION11",
     "production_cost_ready": false,
-    "reason": "THE_SOURCE_ARTIFACT_EXPOSES_AN_EXACT_AUT_EQUIVARIANT_140_CLASS_HPERP_REPRESENTATION_OF_RANK64_AFTER_ADDING_THE_DEGREE_LIKE_COLUMN, BUT_ITS_PREFIX_HNF_HAS_ONLY_A_DEPTH8_MOD2_CONGRUENCE_AND_DOES_NOT_REPRODUCE_THE_VALIDATED_GENERATION6_DEPTH5_MOD8_INTEGRAL_STRUCTURE; THEREFORE_IT_MUST_NOT_BE_IDENTIFIED_WITH_THE_SATURATED_PICARD_LATTICE_WITHOUT_AN_EXACT_SATURATION_CHANGE_OF_BASIS_ADAPTER",
+    "reason": "THE_EXACT_HPERP_DEGREE_AUGMENTATION_RECOVERS_THE_INTEGRAL_ALL140_INTERSECTION_FORM;_AN_EXACT_ORDERED_64_CLASS_REALIZATION_OF_THE_RETAINED_MAGMA_PICARD_BASIS_REPRODUCES_THE_RETAINED_GRAM_ENTRY_FOR_ENTRY;_ALL140_CLASS_COORDINATES_IN_THAT_BASIS_ARE_INTEGRAL;THE_STOLL_SELECTED64_TO_RETAINED_CHANGE_OF_BASIS_IS_UNIMODULAR_WITH_DETERMINANT_PLUS_ONE;AND_THE_LEGACY_GENERATION6_PREFIX_HNF_REGRESSES_EXACTLY_TO_DEPTH5_MOD8_WITH_16_ACTIVE_ROWS. THE_ACTUAL_ALL140_KNOWN_LABEL_PREFIX_HAS_A_DIFFERENT_DEPTH8_MOD2_PROFILE_BECAUSE_IT_IS_A_DIFFERENT_PAIRING_COORDINATE_SET, NOT_BECAUSE_THE_SATURATION_BRIDGE_IS_MISSING.",
     "selected64_coordinate_wall_confirmed": true
   },
   "engineering_runs_no_credit": {
@@ -48,6 +48,28 @@
       "run_id": 33219916513
     }
   },
+  "hperp_integral_adapter_checkpoint": {
+    "adapter_certificate_sha256": "fc695b9405ec4becfbcf19866c0c70fceed9372186a5aa4974879f302ee8ffe9",
+    "all140_class_coordinates_integral": true,
+    "all140_retained_coordinates_sha256": "ba5aa10e67f1237c5fe6e79d7db5168d2041353ffa60b2801c7cde09222d7f9a",
+    "aut_generator_isometry_count": 9,
+    "full_aut_group_order": 1536,
+    "full_intersection_sha256": "3e967406344d7b13027a25bafa832701f76f028a77f4a1dfa7bd0ebc0cdf1f4e",
+    "generation6_hnf_regression_certificate_sha256": "355978ac293e3c3079eeffcb14a0369aea6d7d509f12f695e7ebf431c783c242",
+    "generation6_hnf_regression_exact": true,
+    "generation6_regression_active_rows_by_depth": [0, 0, 0, 0, 16, 16, 16, 16, 16, 16, 16],
+    "generation6_regression_first_active_depth": 5,
+    "generation6_regression_modulus_by_depth": [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+    "pairing_matrix_sha256": "9a3a40960edd4e25a71b183aa7b657b31ddd5012c67ed5a2375c8fcc63d4d654",
+    "retained_basis_gram_exact": true,
+    "retained_basis_gram_sha256": "bfaeff6efd59945da50ce59ffec13d15bc1229e04da7f2727480d4dc7542ed1a",
+    "selected64_change_of_basis_determinant": 1,
+    "selected64_change_of_basis_sha256": "2676d5b530b3e6037e07f2cd78164e9d1e99a2820181f3411ae577c79a39d0e1",
+    "selected64_change_of_basis_unimodular": true,
+    "selected64_geometric_gram_sha256": "39e7af1a4b83e0a78ff80235879e6298d9555a80ebcf091e67128f0494d1dba7",
+    "source": "COLD_EXACT_REPLAY_FROM_RETAINED_HPERP_AND_RETAINED_PICARD_BUNDLE",
+    "validated": true
+  },
   "hperp_checkpoint": {
     "both_metadata_plus_hperp_rank": 65,
     "candidate_degree_plus_hperp_hnf_active_rows_by_depth": [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
@@ -62,9 +84,9 @@
     "degree_plus_hperp_rank": 64,
     "dimensions_header": [63, 140],
     "format_magic": "S32_D16_AUT_CANON_HPERP_V1",
-    "gen6_regression_matches": false,
+    "gen6_regression_matches": true,
     "hperp_coordinate_rank": 63,
-    "interpretation": "AUT_EQUIVARIANT_RANK64_RATIONAL_OR_COARSE_INTEGRAL_REPRESENTATION_FOUND_BUT_NOT_THE_VALIDATED_SATURATED_PICARD_INTEGRAL_LATTICE",
+    "interpretation": "THE_HPERP_PLUS_DEGREE_DATA_NOW_HAS_AN_EXACT_INTEGRAL_SATURATION_ADAPTER_INTO_THE_RETAINED_PICARD64_LATTICE. THE_RAW_ALL140_KNOWN_LABEL_PREFIX_REMAINS_DEPTH8_MOD2, WHILE_THE_LEGACY_SELECTED64_RETAINED_PAIRING_COORDINATES_INDEPENDENTLY_REGRESS_TO_GENERATION6_DEPTH5_MOD8.",
     "known_record_count": 140,
     "known_record_layout_observed": "TWO_INTEGER_METADATA_FIELDS_PLUS_63_EXACT_COORDINATES",
     "known_record_width": 65,
@@ -78,6 +100,7 @@
     "aut_equivariant_adapter": "stages/stage32/residual-32-01-production/aut_equivariant_pairing_adapter.py",
     "calibration": "stages/stage32/residual-32-01-production/calibrate_representatives.py",
     "engine": "stages/stage32/residual-32-01-production/pairing_prefix_engine.py",
+    "hperp_integral_adapter": "stages/stage32/residual-32-01-production/hperp_integral_adapter.py",
     "hperp_text_sha256": "af373f16d6ab2bb8aed6ca09e0a15c8b28d565cbec6f242a8b76c590df81bb4f",
     "online_magma_dependency": false,
     "retained_aut_action_sha256": "50515608f546b85b19bf828103f9cfbfdf4ef4df490ed7fab19f2cdcb43d602d",
@@ -103,9 +126,9 @@
     "artifact_id": 9704608415
   },
   "merge_allowed": false,
-  "next_item": "HPERP_TO_SATURATED_PICARD64_INTEGRAL_CHANGE_OF_BASIS_ADAPTER",
+  "next_item": "AUT_EQUIVARIANT_ALL140_REPRESENTATIVE_RECALIBRATION_GENERATION11",
   "repair_required": false,
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V4",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V5_HPERP_INTEGRAL_ADAPTER_VALIDATED",
   "source_lock_recovery": {
     "source_artifact_head": "96a17a8f42480f58652a023c31ea4705c5d5c973",
     "source_artifact_id": 9588229672,
@@ -119,5 +142,5 @@
     "upstream_repository": "MichaelStollBayreuth/Verification"
   },
   "stage": "32",
-  "status": "AUT_EQUIVARIANT_HPERP_ADAPTER_RECOVERY_CHECKPOINT_INTEGRAL_SATURATION_BRIDGE_REQUIRED"
+  "status": "AUT_EQUIVARIANT_HPERP_INTEGRAL_SATURATION_ADAPTER_COLD_PASS_GENERATION11_RECALIBRATION_NEXT"
 }
