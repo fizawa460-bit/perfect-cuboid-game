@@ -28,9 +28,9 @@ jobs:
       - name: Rebuild retained order2 localization receiver
         working-directory: stages/stage33/33-07
         run: python materialize_order2_localization_receiver.py
-      - name: Run Stage33-11 exact discriminant-2 kernel naturality
+      - name: Run Stage33-11 exact proper-Br2 dual-kernel naturality
         run: |
-          python -u stages/stage33/33-11/certify_stage33_11_kernel_mod2_naturality.py
+          python -u stages/stage33/33-11/run_stage33_11_kernel_mod2_dual_naturality.py
           cat stages/stage33/33-11/stage33-11-kernel-mod2-naturality.json
       - name: Upload compact exact certificate
         if: always()
