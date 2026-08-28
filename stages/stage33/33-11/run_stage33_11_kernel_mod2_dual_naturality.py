@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Fail-closed runner correcting the kernel model to the proper Br2 dual.
 
-The base kernel-mod2 scout computes A_T[2] exactly as ker(G mod 2).  Proper
+The base kernel-mod2 scout computes A_T[2] exactly as ker(G mod 2). Proper
 geometric Br[2] is its F2 dual, so every target action must be transposed.
 This runner applies that mathematically explicit correction while preserving
 all source locks and all downstream regressions in the base scout.
@@ -23,7 +23,7 @@ AT_ct = induce_kernel("ct", A_ct_z)
 AT_signs = [induce_kernel(f"sign_{n}", A) for n, A in zip(order, A_signs_z)]
 AT_swaps = [induce_kernel("swap12", A_swap12_z), induce_kernel("swap13", A_swap13_z)]
 
-# A_T[2] is the Gram-kernel module.  Proper Br[2] is Hom(A_T[2],F2), so the
+# A_T[2] is the Gram-kernel module. Proper Br[2] is Hom(A_T[2],F2), so the
 # row-action matrices on the proper receiver are the dual transposes.
 def _joint_fixed_dim(A, B):
     I = eye(KDIM)
@@ -67,12 +67,6 @@ new_conv = '"row_action_convention": "A_T[2]: z -> z*A; proper_Br2: dual row act
 if src.count(old_conv) != 1:
     raise SystemExit("Stage33-11 certificate convention anchor moved")
 src = src.replace(old_conv, new_conv)
-
-old_dim = '"kernel_dimension_f2": len(kernel_basis),'
-new_dim = '"kernel_dimension_f2": len(kernel_basis),\n        "A_T_joint_V4_fixed_dimension_f2": at_joint_fixed_dim,'
-if src.count(old_dim) != 1:
-    raise SystemExit("Stage33-11 certificate kernel-dimension anchor moved")
-src = src.replace(old_dim, new_dim)
 
 g = {"__name__": "__main__", "__file__": str(TARGET)}
 exec(compile(src, str(TARGET), "exec"), g, g)
