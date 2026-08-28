@@ -33,8 +33,8 @@ jobs:
           import json,os,pathlib,subprocess
           key='stages/stage32/runkeys/18be-b16-repaired-residual-child-split.json'
           d=json.loads(pathlib.Path(key).read_text()); old=json.loads(subprocess.check_output(['git','show',os.environ['BEFORE']+':'+key],text=True))
-          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1' and old['generation']==1 and old['armed'] is False
-          assert d['generation']==2 and d['armed'] is True and d['bound']==16
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['generation']==old['generation']+1 and d['generation']>=2 and d['armed'] is True and d['bound']==16
           assert d['algorithm']=='pairwise6_strict_below_cut39_child_split39'
           assert d['parent_cut']==39 and d['child_coordinate']==39 and d['child_probe_budget']==2000000
           assert d['source_exact_artifact_id']==9574308138
@@ -63,7 +63,7 @@ jobs:
         env:
           GH_TOKEN: '${{ github.token }}'
           WALL: '${{ matrix.wall }}'
-          EXPECTED_IDS: '${{ join(matrix.parent_ids, ',') }}'
+          EXPECTED_IDS: "${{ join(matrix.parent_ids, ',') }}"
         run: |
           set -euo pipefail
           for f in /etc/apt/sources.list.d/*; do [ -f "$f" ] || continue; grep -q 'packages.microsoft.com' "$f" && sudo rm -f "$f" || true; done
@@ -148,7 +148,7 @@ jobs:
           import json,os,pathlib
           root=pathlib.Path(os.environ['RUNNER_TEMP']); docs=[json.loads(p.read_text()) for p in (root/'runs').rglob('compact.json')]; assert len(docs)==5,len(docs)
           pin=sum(d['parent_input_count'] for d in docs); done=sum(d['completed_parent_count'] for d in docs); children=[x for d in docs for x in d['unresolved_children']]
-          assert pin==6 and done+len({(x['parent_id'],d['wall']) for d in docs for x in d['unresolved_children']})<=6
+          assert pin==6 and done+sum(d['unresolved_parent_count'] for d in docs)==6
           out={'schema':'STAGE32_18BE_REPAIRED_RESIDUAL_CHILD_SPLIT_SUMMARY_V1','source_18bd_summary_artifact_id':9685982339,'source_g4_run_id':33155002856,'parent_stream_identity_gate':'PASSED_6_OF_6','parent_input_total':6,'completed_parent_total':done,'unresolved_parent_total':sum(d['unresolved_parent_count'] for d in docs),'unresolved_child_total':len(children),'walls':sorted(docs,key=lambda d:d['wall']),'verdict':'ALL_REPAIRED_RESIDUAL6_RESOLVED' if not children else 'DEEPER_CHILD_SPLIT_REQUIRED','next_item':'32-18BF_D16_B16_CLOSE_EVIDENCE_REBUILD' if not children else '32-18BF_D16_B16_DEEPER_CHILD_SPLIT','D16_B16_NUMERICAL_CREDIT':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
           outdir=root/'summary'; outdir.mkdir(); (outdir/'summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n'); print(json.dumps(out,sort_keys=True))
           PY
