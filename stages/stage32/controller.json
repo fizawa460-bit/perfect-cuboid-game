@@ -1,10 +1,10 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V54_POST_B16_RELEASE_CONTRACT_ACTIVE",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V55_LITERATURE_RECEIVER_RECONCILIATION_PENDING_AUDIT",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "execution_class": 2,
   "parent_route": "G10-LOWGENUS-PICARD",
-  "status": "D16_B12_AUDITED_B16_REPAIRED_CLOSE_HOSTILE_AUDIT_PASS_D16_B16_NUMERICAL_CREDIT_CERTIFIED_STALE_POST_B16_REFERENCES_RESOLVED_LITERATURE_RECEIVER_EXACT_AUDIT_RELEASED_D8_ROUTE_PAUSED",
+  "status": "D16_B12_AUDITED_B16_REPAIRED_CLOSE_HOSTILE_AUDIT_PASS_D16_B16_NUMERICAL_CREDIT_CERTIFIED_STALE_POST_B16_REFERENCES_RESOLVED_LITERATURE_RECEIVER_EXACT_RECONCILIATION_MAIN_COMPLETE_PENDING_HOSTILE_AUDIT_D8_ROUTE_PAUSED",
   "post_b16_release_contract": "stages/stage32/POST_B16_RELEASE_CONTRACT.md",
   "stale_reference_resolution": {
     "resolved": true,
@@ -150,7 +150,7 @@
       "32-18BA": "NO_CLOSURE_CREDIT",
       "32-18BB": "HOSTILE_AUDIT_FAIL"
     },
-    "resume_rule": "D16_B16 BOUNDED NUMERICAL CREDIT IS HOSTILE-AUDITED. POST-B16 RELEASE CONTRACT IS NOW CANONICAL. PROCEED ONLY TO LITERATURE_RECEIVER_EXACT_AUDIT. DO NOT PROMOTE FULL_D16_G0_ROW_COMPLETE, RECEIVER, THEOREM, ROUTE COLOR, ENDPOINT, OR ARM B18.",
+    "resume_rule": "D16_B16 BOUNDED NUMERICAL CREDIT REMAINS HOSTILE-AUDITED. THE POST-B16 LITERATURE/RECEIVER RECONCILIATION NOW REQUIRES A FRESH HOSTILE AUDIT BEFORE RESIDUAL_FEASIBILITY_GATE CAN RELEASE. DO NOT PROMOTE FULL_D16_G0_ROW_COMPLETE, RECEIVER, THEOREM, ROUTE COLOR, ENDPOINT, OR ARM B18.",
     "mathematical_credit_changed": true
   },
   "post_b16_progression": {
@@ -163,8 +163,20 @@
     "later_items_released": false,
     "b18_release_authorized": false
   },
-  "current_item": "LITERATURE_RECEIVER_EXACT_AUDIT",
-  "current_item_execution_constraint": "EXACT LITERATURE/RECEIVER RECONCILIATION ONLY; NO HEAVY RERUN; NO B18; NO FULL_D16_ROW, RECEIVER, THEOREM, ROUTE, OR ENDPOINT PROMOTION WITHOUT ITS OWN AUDITED CLOSURE",
+  "literature_receiver_checkpoint": {
+    "evidence": "stages/stage32/post-b16-literature-receiver-exact-audit/EVIDENCE.md",
+    "state": "stages/stage32/post-b16-literature-receiver-exact-audit/state.json",
+    "status": "MAIN_EVIDENCE_COMPLETE_PENDING_FRESH_HOSTILE_AUDIT",
+    "main_verdict": "PASS_LITERATURE_RECONCILIATION_NO_RECEIVER_DISCHARGE_FILTER_STRENGTHENING_ONLY",
+    "fsm16_unibranch_degree_windows": {"g0_max": 176, "g1_max": 192},
+    "full_176_192_numerical_orbit_census_complete": false,
+    "all_survivor_effectivity_resolved": false,
+    "multibranch_ledger_complete": false,
+    "receiver_discharge_promoted": false,
+    "next_item_if_audit_passes": "RESIDUAL_FEASIBILITY_GATE"
+  },
+  "current_item": "LITERATURE_RECEIVER_EXACT_RECONCILIATION_HOSTILE_AUDIT",
+  "current_item_execution_constraint": "FRESH HOSTILE AUDIT OF LITERATURE SCOPE/ASSUMPTIONS/RECEIVER TRANSFER ONLY; NO HEAVY RERUN; NO B18; NO FULL_D16_ROW, RECEIVER, THEOREM, ROUTE, OR ENDPOINT PROMOTION",
   "FULL_D8_G0_ROW_COMPLETE": false,
   "FULL_D16_G0_ROW_COMPLETE": false,
   "D16_B16_NUMERICAL_CREDIT": true,
@@ -178,10 +190,10 @@
   "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false,
   "stage32_closed": false,
-  "audit_required": false,
+  "audit_required": true,
   "repair_required": false,
-  "merge_allowed": true,
-  "advance_allowed": true,
-  "next_item": "LITERATURE_RECEIVER_EXACT_AUDIT",
-  "next_expected_command": "Stage32-main-batch"
+  "merge_allowed": false,
+  "advance_allowed": false,
+  "next_item": "HOSTILE_AUDIT_LITERATURE_RECEIVER_EXACT_RECONCILIATION",
+  "next_expected_command": "Stage32-audit"
 }
