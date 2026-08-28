@@ -14,9 +14,9 @@ This ledger prevents equivalent failed ideas from being re-run under new names.
 - 18AK cap-sym-active: 0/6 at 18M.
 - 18AK combined-active: 0/6 at 18M.
 - 18AM constraint-directed lower48 basis variants (12 modes): 0 COMPLETE at 6M on p436/s5. This COMPLETE-only scout is retained as one-hit-breakthrough evidence only, not proof that all variants are useless at larger budgets.
+- 18AL lower48 integer unimodular basis reduction, seven full-budget p436/s5 weapons: 0/7 COMPLETE at 18M. All seven ended RESOURCE_WALL_NODE_CAP. Run 33133446912; summary artifact 9672002328; digest sha256:ab3d2f12c0e66d4c64a4ffd60356597f1549a4fa9b393fc186553459883055. Frozen: do not retry forward/reverse/alternating2 basis shears or their pairwise-cached/cap-sym-active combinations under renamed variants.
 
 ## In flight / current
-- 18AL lower48 integer unimodular basis reduction, seven full-budget p436/s5 weapons. `basis-reverse` already reached a resource wall; remaining jobs were still running when 18AN was opened.
 - 18AN progressive higher-order active-set scout: baseline control plus pair-capcap, triple-cap, triple-sym, triple-mixed at 1M/3M/6M.
 
 ## Important non-new route
