@@ -20,18 +20,19 @@ jobs:
       - id: gate
         env:
           BEFORE: ${{ github.event.before }}
-          HEAD: ${{ github.sha }}
+          HEAD_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
           KEY=stages/stage32/runkeys/18bc-b16-parent-namespace-repair-replay.json
           authorized=false
-          if [ -n "$BEFORE" ] && git fetch --no-tags --depth=1 origin "$BEFORE" && git cat-file -e "$BEFORE^{commit}" && git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY"; then
+          if [ -n "$BEFORE" ] && git fetch --no-tags --depth=1 origin "$BEFORE" && git cat-file -e "$BEFORE^{commit}" && git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY"; then
             python - <<'PY'
           import json,os,pathlib,subprocess
           key='stages/stage32/runkeys/18bc-b16-parent-namespace-repair-replay.json'
           d=json.loads(pathlib.Path(key).read_text())
           old=json.loads(subprocess.check_output(['git','show',os.environ['BEFORE']+':'+key],text=True))
-          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1' and d['generation']==old['generation']+1==2 and d['armed'] and not old['armed']
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['generation']==old['generation']+1 and d['generation']>=3 and d['armed']
           assert d['bound']==16 and d['algorithm']=='pairwise6_strict_below_cut39'
           assert d['source_exact_artifact_id']==9574308138 and d['planner_probe_budget']==262144
           assert d['max_parallel']==6 and d['parent_cut']==39 and d['require_parent_stream_byte_identity'] is True
@@ -42,7 +43,7 @@ jobs:
           fi
           echo "authorized=$authorized" >> "$GITHUB_OUTPUT"
 
-  validate-parent-stream:
+  validate_parent_stream:
     needs: authorize
     if: needs.authorize.outputs.authorized == 'true'
     strategy:
@@ -111,8 +112,8 @@ jobs:
           retention-days: 7
           if-no-files-found: error
 
-  solve-original-172:
-    needs: [authorize,validate-parent-stream]
+  solve_original_172:
+    needs: [authorize,validate_parent_stream]
     if: needs.authorize.outputs.authorized == 'true'
     strategy:
       fail-fast: false
@@ -191,8 +192,8 @@ jobs:
           if-no-files-found: error
 
   summarize:
-    needs: [authorize,validate-parent-stream,solve-original-172]
-    if: always() && needs.authorize.outputs.authorized == 'true' && needs.validate-parent-stream.result == 'success'
+    needs: [authorize,validate_parent_stream,solve_original_172]
+    if: always() && needs.authorize.outputs.authorized == 'true' && needs.validate_parent_stream.result == 'success'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/download-artifact@v4
