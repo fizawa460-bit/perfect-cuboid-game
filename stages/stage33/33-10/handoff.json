@@ -1,13 +1,18 @@
 {
   "authoritative_roadmap": "stages/stage33/ROADMAP-33-07-REPAIR-BAND.md",
-  "canonical_sha256": "12b0362114f406cf86eaa43943c18b6a92c2ed7e52e0fee7603892e0acefb242",
+  "canonical_sha256": "4dbbfa8d208026e8ccb47915e66eb4bedef327ccf5b6f8c6c9caa7e74a64028f",
   "closure_authority": "stages/stage33/33-10/certify_stage33_10_absolute_receiver.py",
   "exact_receiver": {
-    "absolute_H1": "Hom_cont(G_Q,F2)^6 direct_sum Hom_cont(G_Q(i),F2)^3 direct_sum Hom_cont(G_Q(sqrt(-2)),F2)",
+    "E_L": "H^1(G_Q,Q_L)",
+    "E_L_exact_filtration": "0 -> coker(res^1: X_Q -> X_L) -> E_L -> ker(res^2: H^2(G_Q,F2) -> H^2(G_L,F2)) -> 0",
+    "E_L_splitting_claimed": false,
+    "Q_L": "Ind_{G_L}^{G_Q}(F2)/F2_diag, L=Q(i,sqrt(2)), dim_F2=3",
+    "absolute_H1": "X_Q^5 direct_sum X_Q(i)^3 direct_sum E_L",
+    "character_notation": "X_F=Hom_cont(G_F,F2)",
     "coefficient_module": "K=Br(Sbar)[2], dim_F2=14",
     "finite_v4_H1_dimension_f2": 16,
     "finite_v4_shortcut_status": "EXPLICITLY_REPLACED",
-    "module_decomposition": "F2^6 direct_sum Ind_{G_Q(i)}^{G_Q}(F2)^3 direct_sum Ind_{G_Q(sqrt(-2))}^{G_Q}(F2)"
+    "module_decomposition": "F2^5 direct_sum Ind_{G_Q(i)}^{G_Q}(F2)^3 direct_sum Q_L"
   },
   "exit_condition": {
     "absolute_h1_receiver_exact": true,
@@ -31,7 +36,7 @@
   "next_expected_command": "Stage33-main-batch",
   "next_item": "Stage33-11_ARITHMETIC_LOCALIZATION_CONNECTING_MAP",
   "parent_big_task": "33-07",
-  "schema": "STAGE33_10_HANDOFF_V1",
+  "schema": "STAGE33_10_HANDOFF_V2_NONSPLIT_QL",
   "source_locks": {
     "arithmetic_hs_descent_problem_sha256": "5304ef5372eae904b75ea9e261516117a7386fab44ede6c28b9ad437371a50e2",
     "proper_brauer2_from_discriminant_sha256": "c86f6e838d072816426e4a2b0eb738f44e8632dd1ab4f3e6fdccd161ec41b5bf",
