@@ -8,6 +8,7 @@ import json
 import pathlib
 import time
 
+from discriminant_active_selector import select_discriminant_active_order
 from pairing_prefix_engine import (
     EXCEPTIONAL_BASIS_POSITIONS,
     RETAINED_BUNDLE_SHA256,
@@ -15,9 +16,9 @@ from pairing_prefix_engine import (
     PrefixMembershipOracle,
 )
 
-SCHEMA = "STAGE32_RESIDUAL32_01_RETAINED_BASIS_PREFIX_CALIBRATION_V1"
+SCHEMA = "STAGE32_RESIDUAL32_01_DISCRIMINANT_ACTIVE_PREFIX_CALIBRATION_V2"
+COORDINATE_MODEL = "DISCRIMINANT_ACTIVE_RAW_PAIRING_COORDINATES_HNF_SELECTED"
 EXCEPTIONAL_BASIS_COUNT = len(EXCEPTIONAL_BASIS_POSITIONS)
-ASSIGNMENT_ORDER = list(range(10)) + [EXCEPTIONAL_BASIS_COUNT]
 REPRESENTATIVES = [
     {"m": 1, "genus": 0, "degree": 16, "exceptional_mass": 8},
     {"m": 2, "genus": 0, "degree": 8, "exceptional_mass": 8},
@@ -43,7 +44,12 @@ def load_retained(path: pathlib.Path) -> dict:
     return payload
 
 
-def run_probe(oracle: PrefixMembershipOracle, rep: dict, node_limit: int) -> dict:
+def run_probe(
+    oracle: PrefixMembershipOracle,
+    assignment_order: list[int],
+    rep: dict,
+    node_limit: int,
+) -> dict:
     e = int(rep["exceptional_mass"])
     d = int(rep["degree"])
     normal_mass = 19 * d - 5 * e
@@ -61,11 +67,11 @@ def run_probe(oracle: PrefixMembershipOracle, rep: dict, node_limit: int) -> dic
         if exhausted:
             return
         max_depth_reached = max(max_depth_reached, depth)
-        if depth == len(ASSIGNMENT_ORDER):
+        if depth == len(assignment_order):
             terminal_prefixes += 1
             terminal_hash.update(json.dumps(values, separators=(",", ":")).encode() + b"\n")
             return
-        idx = ASSIGNMENT_ORDER[depth]
+        idx = assignment_order[depth]
         is_exceptional = idx < EXCEPTIONAL_BASIS_COUNT
         upper = e - exceptional_used if is_exceptional else normal_mass - normal_used
         for value in range(upper + 1):
@@ -89,7 +95,7 @@ def run_probe(oracle: PrefixMembershipOracle, rep: dict, node_limit: int) -> dic
     return {
         **rep,
         "normal_mass": normal_mass,
-        "assignment_order": ASSIGNMENT_ORDER,
+        "assignment_order": assignment_order,
         "exceptional_basis_coordinate_count": EXCEPTIONAL_BASIS_COUNT,
         "node_limit": node_limit,
         "nodes_visited": min(nodes, node_limit),
@@ -109,19 +115,42 @@ def main() -> None:
     ap.add_argument("--retained", type=pathlib.Path, required=True)
     ap.add_argument("--output", type=pathlib.Path, required=True)
     ap.add_argument("--node-limit", type=int, default=250000)
+    ap.add_argument("--selection-depth", type=int, default=11)
     args = ap.parse_args()
 
     bundle = load_retained(args.retained)
     transform = RetainedBasisPairingTransform.from_bundle(bundle)
-    t0 = time.perf_counter()
-    oracle = PrefixMembershipOracle(transform, ASSIGNMENT_ORDER)
-    oracle_seconds = time.perf_counter() - t0
 
-    profiles = [run_probe(oracle, rep, args.node_limit) for rep in REPRESENTATIVES]
+    selector_started = time.perf_counter()
+    assignment_order, selection_trace = select_discriminant_active_order(
+        transform, args.selection_depth
+    )
+    selector_seconds = time.perf_counter() - selector_started
+
+    oracle_started = time.perf_counter()
+    oracle = PrefixMembershipOracle(transform, assignment_order)
+    oracle_seconds = time.perf_counter() - oracle_started
+
+    profiles = [
+        run_probe(oracle, assignment_order, rep, args.node_limit)
+        for rep in REPRESENTATIVES
+    ]
+    active_by_depth = [
+        c["active_congruence_rows"] for c in oracle.certificate()["checks"]
+    ]
     payload = {
         "schema": SCHEMA,
-        "engine": "LOCAL_OFFLINE_EXACT_RETAINED_BASIS_PAIRING_PREFIX_HNF_MEMBERSHIP_V1",
-        "coordinate_model": "RETAINED_PRIMITIVE_BASIS_PAIRINGS_EXCEPTIONALS_FIRST",
+        "engine": "LOCAL_OFFLINE_EXACT_RETAINED_BASIS_PAIRING_PREFIX_HNF_MEMBERSHIP_V2",
+        "coordinate_model": COORDINATE_MODEL,
+        "selection_mode": "EXACT_GREEDY_HNF_DISCRIMINANT_ACTIVE_RAW_COORDINATES",
+        "selection_depth": args.selection_depth,
+        "selection_trace": selection_trace,
+        "selector_seconds": round(selector_seconds, 6),
+        "assignment_order": assignment_order,
+        "active_congruence_rows_by_depth": active_by_depth,
+        "first_active_depth": next(
+            (i + 1 for i, n in enumerate(active_by_depth) if n > 0), None
+        ),
         "retained_picard_bundle_sha256": RETAINED_BUNDLE_SHA256,
         "transform_certificate": transform.certificate,
         "oracle_certificate": oracle.certificate(),
@@ -140,7 +169,7 @@ def main() -> None:
         "R29_LG2": "NOT_DISCHARGED",
         "THEOREM_CREDIT": False,
         "RECEIVER_CREDIT": False,
-        "next_engineering_gate": "OFFLINE_AUT_PERMUTATION_RETENTION_AND_PREFIX_CANONICAL_AUGMENTATION",
+        "next_engineering_gate": "DISCRIMINANT_ACTIVE_SELECTION_RESULT_REVIEW",
     }
     payload["canonical_sha256_without_this_field"] = csha(payload)
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -149,9 +178,13 @@ def main() -> None:
         json.dumps(
             {
                 "schema": SCHEMA,
+                "assignment_order": assignment_order,
+                "first_active_depth": payload["first_active_depth"],
+                "active_rows": active_by_depth,
                 "m_classes": payload["representative_m_classes"],
                 "nodes": {str(p["m"]): p["nodes_visited"] for p in profiles},
                 "prunes": {str(p["m"]): p["membership_prunes"] for p in profiles},
+                "selector_seconds": payload["selector_seconds"],
                 "transform_denominator": transform.den,
                 "sha256": payload["canonical_sha256_without_this_field"],
             },
