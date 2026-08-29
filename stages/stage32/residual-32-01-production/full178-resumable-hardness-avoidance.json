@@ -1,0 +1,94 @@
+{
+  "schema": "STAGE32_RESIDUAL32_01_RESUMABLE_HARDNESS_AVOIDANCE_V1",
+  "scope": "COMPUTATIONAL_FRONTIER_CONTROL_ONLY",
+  "source_generations": [31, 32, 33],
+  "node_ceiling": 64000000,
+  "observed": {
+    "generation31": {
+      "inputs": 128,
+      "ceiling_hits": 43,
+      "hit_rate": 0.3359375,
+      "children": 88,
+      "children_per_input": 0.6875,
+      "children_per_ceiling_hit": 2.0465116279069766
+    },
+    "generation32": {
+      "inputs": 128,
+      "ceiling_hits": 43,
+      "hit_rate": 0.3359375,
+      "children": 88,
+      "children_per_input": 0.6875,
+      "children_per_ceiling_hit": 2.0465116279069766
+    },
+    "generation33": {
+      "inputs": 128,
+      "ceiling_hits": 52,
+      "hit_rate": 0.40625,
+      "children": 110,
+      "children_per_input": 0.859375,
+      "children_per_ceiling_hit": 2.1153846153846154
+    }
+  },
+  "diagnosis": {
+    "primary_shift": "MORE_WORK_UNITS_REACH_64M_CEILING",
+    "secondary_shift": "SMALL_INCREASE_IN_CHILDREN_PER_CEILING_HIT",
+    "sequential_decomposition_gen31_to_gen33": {
+      "total_reproduction_increase": 0.171875,
+      "increase_explained_by_hit_rate_at_gen31_children_per_hit": 0.1438953488372093,
+      "residual_increase_explained_by_children_per_hit": 0.0279796511627907,
+      "hit_rate_share_of_increase": 0.8372093023255814
+    },
+    "interpretation": "The old split policy converts a ceiling hit into about two children. Selection into later passes raises the ceiling-hit rate, so reproduction approaches or can exceed one even if per-hit branching stays nearly stationary."
+  },
+  "implemented_avoidance": {
+    "engine": "stages/stage32/residual-32-01-production/resumable_prefix_engine.py",
+    "runner": "stages/stage32/residual-32-01-production/run_full178_resumable_work_unit.py",
+    "policy": "SERIALIZE_EXACT_DFS_CURSOR_INSTEAD_OF_BISECTING_UNFINISHED_SEARCH_REGION",
+    "row_tail_policy": "CURRENT_E_CONTINUATION_AND_ALL_REMAINING_E_VALUES_STAY_INSIDE_ONE_CURSOR",
+    "max_unresolved_children_per_input": 1,
+    "structural_reproduction_upper_bound": 1.0,
+    "unknown_is_unsat": false,
+    "numerical_row_complete": false
+  },
+  "counterfactual_generation33_if_resumable_cursor_used": {
+    "ceiling_hits": 52,
+    "new_children": 52,
+    "children_per_input": 0.40625,
+    "preexisting_carry": 108,
+    "projected_frontier_after_ingest": 160,
+    "projected_net_change_from_236": -76,
+    "note": "Counterfactual frontier arithmetic only; no retroactive computation or mathematical credit. It assumes each observed ceiling-hit input is represented by one exact cursor, as implemented."
+  },
+  "tests": {
+    "workflow_run_id": 33258040823,
+    "synthetic_segmented_vs_one_shot": "PASS",
+    "real_stage32_resume_equivalence": {
+      "verdict": "PASS_REAL_STAGE32_RESUME_EQUIVALENCE",
+      "nodes": 50000,
+      "membership_prunes": 11102,
+      "symmetry_prunes": 8488,
+      "terminal_count": 11143,
+      "terminal_stream_exact_match": true,
+      "continuation_children": 1
+    },
+    "real_row_tail_branching_collapse": {
+      "verdict": "PASS_REAL_ROW_TAIL_BRANCHING_COLLAPSE",
+      "row_id": "g0-d008",
+      "node_budget_each_call": 50000,
+      "old_children_after_first_call": 3,
+      "resumable_children_after_first_call": 1,
+      "resumable_children_after_second_call": 1,
+      "first_call_old_vs_new_telemetry_exact_match": true
+    }
+  },
+  "production_release": {
+    "generation34_old_split_arm_authorized": false,
+    "resumable_production_arm_authorized": false,
+    "next_step": "BOUNDED_CURRENT_FRONTIER_RESUMABLE_CALIBRATION_BEFORE_PRODUCTION_SWITCH"
+  },
+  "B18_RELEASE_AUTHORIZED": false,
+  "THEOREM_CREDIT": false,
+  "RECEIVER_CREDIT": false,
+  "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
+  "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false
+}
