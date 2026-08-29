@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V47_GEN25_PASS_GEN26_WIDE128_CARRY62_COLD_READY",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V48_GEN26_PASS_GEN27_WIDE128_CARRY98_COLD_READY",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "FULL178_GENERATION25_PASS_GENERATION26_WIDE128_CARRY62_COLD_READY",
+  "status": "FULL178_GENERATION26_PASS_GENERATION27_WIDE128_CARRY98_COLD_READY",
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": false,
@@ -17,14 +17,6 @@
   "RECEIVER_CREDIT": false,
   "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
   "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false,
-  "generation24": {
-    "run_id": 33246665404,
-    "result": "FAIL_CLOSED_AUTHORIZATION_NO_COMPUTE",
-    "produce_result": "SKIPPED",
-    "aggregate_result": "SKIPPED",
-    "failure_class": "RUNKEY_WORK_UNIT_ID_INTEGRITY_TRANSCRIPTION_MISMATCH",
-    "mathematical_credit": false
-  },
   "generation25": {
     "run_id": 33246815808,
     "result": "PASS_ONE_HUNDRED_TWENTY_EIGHT_WORK_UNITS_V2_EXACT_FRONTIER",
@@ -41,13 +33,32 @@
     "manifest_sha_independently_recomputed": true
   },
   "generation26": {
+    "run_id": 33247563024,
+    "authorize_job_id": 99087582150,
+    "result": "PASS_ONE_HUNDRED_TWENTY_EIGHT_WORK_UNITS_V2_EXACT_FRONTIER",
+    "input_work_unit_count": 128,
+    "total_nodes_used": 1534870135,
+    "completed_prefix_partition_count": 49,
+    "unknown_count_total": 164,
+    "node_ceiling_hit_work_unit_count": 79,
+    "next_exact_work_unit_count": 164,
+    "checkpoint": "stages/stage32/residual-32-01-production/full178-generation26-main-checkpoint.json",
+    "wave_manifest_artifact_id": 9713465969,
+    "wave_manifest_artifact_zip_sha256": "3da88d84f75521df1013a5eef196de331775b7e7cea18d3c131998152921e64c",
+    "wave_manifest_canonical_sha256": "b4269c05193dd71ad1e7303d68155d2c80cd0df2e1623ca16f17ca15d2effd27",
+    "manifest_sha_independently_recomputed": true,
+    "work_unit_id_integrity_recomputed": true,
+    "preexisting_carry_before_new_children": 62,
+    "global_frontier_after_ingest": 226
+  },
+  "generation27": {
     "released": true,
     "armed": false,
-    "queue_policy": "FIFO_GLOBAL_FRONTIER_CARRY34_THEN_GENERATION25_CHILDREN",
+    "queue_policy": "FIFO_GLOBAL_FRONTIER_CARRY62_THEN_GENERATION26_CHILDREN",
     "planned_work_unit_count": 128,
-    "pending_frontier_before_dispatch": 190,
-    "pending_frontier_after_dispatch_before_new_children": 62,
-    "carry_count_before_new_children": 62,
+    "pending_frontier_before_dispatch": 226,
+    "pending_frontier_after_dispatch_before_new_children": 98,
+    "carry_count_before_new_children": 98,
     "node_ceiling_per_work_unit": 16000000,
     "max_work_units_per_wave": 128,
     "effective_heavy_concurrency": 17,
@@ -56,5 +67,5 @@
     "required_arm_diff": "DEDICATED_RUNKEY_ONLY",
     "no_repository_writes_after_arm_until_run_complete": true
   },
-  "next_item": "ARM_GENERATION26_WIDE128_GLOBAL_FIFO_THEN_INGEST_WITH_CARRY62"
+  "next_item": "ARM_GENERATION27_WIDE128_GLOBAL_FIFO_THEN_INGEST_WITH_CARRY98"
 }
