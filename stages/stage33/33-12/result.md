@@ -36,6 +36,8 @@ The function-level scalar adapter has now also been computed. The 14 exact Stage
 
 The full-surface Stage-B receiver is now stated exactly. For a finite residue direction `r`, Stage33-11 gives an invariant geometric lift fibre which is a torsor under `P=Br(Sbar)[2]^{G_Q}`, with `dim_F2(P)=10`. Hence the lift-independent obstruction is the coset `omega(r)=[d2(beta)]` in `coker(d2_S|P)`, not the literal `d2` value of an arbitrary chosen lift. The audited `q1` nonzero obstruction belongs to the coordinate K3 `K_c`; no retained adapter certifies a nonzero `q1` pullback into the full 14-dimensional surface module, so it is not promoted here. The 26 obstruction cosets remain `0/26` materialized.
 
+The finite-V4 restriction of the full-surface Kummer-defect receiver is now completely linearized from the retained integral 64-dimensional Picard actions. Exact row reduction gives `dim_F2 Pic(Sbar)/2^{V4}=46` and `dim_F2 H^1(V4,Pic(Sbar)/2)=75`. A literal 75-element quotient basis is retained as `cc/ct` cocycle pairs in the original Picard coordinates, while the ten invariant proper `Br[2]` directions are retained in the original 14 coordinates. Thus the missing finite restriction is exactly a `75 x 10` matrix. No column is filled without a full-surface `mu_2` lift or equivalent unimodular glue datum, and finite-V4 `H1` is not identified with absolute `G_Q` cohomology.
+
 The machine-readable certificate is `stage33-12-exact-obstruction-inventory.json`, generated and independently replayable by `assemble_exact_obstruction_inventory.py`.
 
 ## Current exit state
@@ -48,6 +50,6 @@ STAGE33_07_HOSTILE_REAUDIT=NOT_RUN
 STAGE33_12_CLOSED=false
 ```
 
-The next exact leaf is to materialize the full-surface proper Kummer `d2_S|P` adjustment map and one finite obstruction coset (then transport only through certified actions). Equivalently, a direct Q-defined lift may discharge a coset. The known Q-defined prefix and the zero boundary scalar adapter must not be recomputed.
+The next exact leaf is to materialize one 75-coordinate finite-V4 Kummer-defect column from a full-surface `mu_2` lift or an equivalent unimodular Picard/transcendental glue datum. After applying the integral Bockstein and the proper adjustment quotient, the same data can supply the first finite obstruction coset. The known Q-defined prefix and zero boundary scalar adapter must not be recomputed.
 
 All Stage33-07/08/40, theorem, endpoint, and perfect-cuboid firewalls remain closed.

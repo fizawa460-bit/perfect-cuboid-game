@@ -51,6 +51,7 @@ finite = load("stages/stage33/33-07/br0g-finite-ramified-residue-presentation.js
 explicit = load("stages/stage33/33-08/audit-state.json")
 boundary_scalars = load("stages/stage33/33-12/boundary-function-scalar-descent-certificate.json")
 hs_adjustment = load("stages/stage33/33-12/full-surface-hs-adjustment-contract.json")
+pic2_target = load("stages/stage33/33-12/full-surface-pic2-kummer-target.json")
 controller = load("stages/stage33/controller.json")
 
 locks = {
@@ -65,6 +66,7 @@ locks = {
     "stage33_08_audit_state_content_sha256": canonical_sha256(explicit),
     "boundary_function_scalar_descent_sha256": canonical_sha256(boundary_scalars),
     "full_surface_hs_adjustment_contract_sha256": canonical_sha256(hs_adjustment),
+    "full_surface_pic2_kummer_target_sha256": canonical_sha256(pic2_target),
 }
 
 require(
@@ -143,6 +145,14 @@ require(
     "full-surface HS adjustment contract regression",
 )
 require(
+    pic2_target["finite_v4_pic2_cohomology"]["H1_dimension_f2"] == 75
+    and pic2_target["proper_invariant_domain"]["dimension_f2"] == 10
+    and pic2_target["kummer_defect_map_contract"]["matrix_shape_target_by_source"]
+    == [75, 10]
+    and pic2_target["kummer_defect_map_contract"]["columns_materialized"] == 0,
+    "full-surface Pic/2 Kummer target regression",
+)
+require(
     controller["stage33_progress"] == "6/11"
     and controller["stage33_07"]["unit_closed"] is False
     and controller["stage33_08_released"] is False
@@ -204,6 +214,10 @@ certificate = {
         "finite_obstruction_cosets_materialized": 0,
         "q1_nonzero_d2_on_Kc_promoted_to_full_surface_S": False,
         "full_surface_proper_d2_adjustment_map_materialized": False,
+        "finite_v4_pic2_h1_dimension_f2": 75,
+        "finite_v4_kummer_defect_matrix_shape": [75, 10],
+        "finite_v4_kummer_defect_columns_materialized": 0,
+        "absolute_h1_identified_with_finite_v4_h1": False,
     },
     "remaining_two_primary_obstruction_blocks": [
         {
@@ -244,7 +258,7 @@ certificate = {
         "unresolved_parametric_blocks": ["C2_CONSTANT_COKERNEL"],
         "unresolved_finite_named_directions": finite_direction_ids,
         "unresolved_finite_named_direction_count": 26,
-        "next_leaf": "MATERIALIZE_FULL_SURFACE_PROPER_KUMMER_D2_ADJUSTMENT_MAP_AND_THE_FIRST_FINITE_OBSTRUCTION_COSET",
+        "next_leaf": "MATERIALIZE_ONE_75_COORDINATE_FINITE_V4_KUMMER_DEFECT_COLUMN_FROM_A_FULL_SURFACE_MU2_LIFT_OR_EQUIVALENT_UNIMODULAR_GLUE_DATUM",
     },
     "stage33_12_exit": {
         "arithmetic_hs_d2_computed": False,
