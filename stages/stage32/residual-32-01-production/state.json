@@ -1,12 +1,12 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V20_FULL178_HEAVY_WAVE1_RELEASED_COLD",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V21_FULL178_WAVE1_GENERATION1_RUNNING",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "FULL178_HEAVY_PRODUCTION_WAVE1_RELEASED_COLD_AWAIT_DEDICATED_RUNKEY_ARM",
+  "status": "FULL178_HEAVY_PRODUCTION_WAVE1_GENERATION1_RUNNING_PREFIX_ONLY",
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": false,
-  "advance_allowed": true,
+  "advance_allowed": false,
   "B18_RELEASE_AUTHORIZED": false,
   "FULL_178_ROW_SWEEP_AUTHORIZED": true,
   "FULL_D16_G0_ROW_COMPLETE": false,
@@ -19,11 +19,11 @@
   "diagnosis": {
     "full178_static_preflight_hostile_reaudit_pass": true,
     "full178_heavy_campaign_released": true,
-    "wave1_released": true,
+    "wave1_generation1_armed": true,
+    "wave1_generation1_authorization_passed": true,
     "wave1_prefix_stage_only": true,
     "production_cost_ready": true,
-    "production_cost_ready_scope": "BOUNDED_FAIL_CLOSED_PRODUCTION_POLICY_ONLY_NOT_WORST_CASE_CERTIFICATE",
-    "reason": "MAIN RELEASES THE AUDITED FULL178 CAMPAIGN AS BOUNDED RESUMABLE WAVES. WAVE 1 USES EIGHT ROW-TAIL WORK UNITS, 16M NODES EACH, EFFECTIVE CONCURRENCY 8, COMPACT CERTIFICATES ONLY, AND EXACT DISJOINT CHILD WORK UNITS ON RESOURCE WALLS. PREFIX COMPLETION IS NOT NUMERICAL ROW COMPLETION."
+    "reason": "DEDICATED RUN KEY GENERATION 1 WAS ARMED BY A KEY-ONLY SYNCHRONIZATION AND AUTHORIZATION PASSED. EIGHT HEAVY ROW-TAIL JOBS ARE RUNNING UNDER THE AUDITED 16M FAIL-CLOSED POLICY. PREFIX COMPLETION IS NOT NUMERICAL ROW COMPLETION."
   },
   "hostile_preflight": {
     "preflight_pr": 1461,
@@ -39,8 +39,11 @@
     "runner": "stages/stage32/residual-32-01-production/run_full178_prefix_work_unit.py",
     "workflow": ".github/workflows/stage32-residual32-01-full178-production.yml",
     "runkey": "stages/stage32/runkeys/residual32-01-full178-production.json",
-    "runkey_generation": 0,
-    "runkey_armed": false,
+    "runkey_generation": 1,
+    "runkey_armed": true,
+    "run_id": 33238836983,
+    "authorize_job_id": 99064525215,
+    "authorization_passed": true,
     "row_ids": ["g0-d008","g0-d010","g0-d012","g0-d014","g0-d016","g0-d018","g0-d020","g0-d022"],
     "work_unit_count": 8,
     "node_ceiling_per_work_unit": 16000000,
@@ -51,7 +54,7 @@
     "prefix_stage_only": true,
     "unknown_is_unsat": false,
     "node_ceiling_action": "EMIT_EXACT_DISJOINT_CHILD_WORK_UNITS_WITH_NO_PARENT_COMPLETION_CREDIT",
-    "heavy_compute_armed": false
+    "heavy_compute_armed": true
   },
-  "next_item": "ARM_FULL178_WAVE1_BY_DEDICATED_RUNKEY_ONLY_SYNC"
+  "next_item": "INGEST_FULL178_WAVE1_GENERATION1_RESULT"
 }
