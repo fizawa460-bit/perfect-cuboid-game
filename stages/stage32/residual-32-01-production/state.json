@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V62_RESUMABLE_GEN35_COLD_PREFLIGHT_PASS",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V63_RESUMABLE_GEN35_INGESTED",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "RESUMABLE_GEN35_COLD_PREFLIGHT_PASS_FRESH_ARM_NEXT",
+  "status": "RESUMABLE_GEN35_PASS_FRONTIER_124_PREPARE_GEN36",
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": false,
@@ -67,6 +67,23 @@
       "arm_authorized": true,
       "arm_requires_fresh_runkey_only_sync": true
     },
+    "generation35": {
+      "checkpoint": "stages/stage32/residual-32-01-production/full178-resumable-generation35-main-checkpoint.json",
+      "workflow_run_id": 33273365713,
+      "aggregate_job_id": 99160568596,
+      "frontier_artifact_id": 9721275950,
+      "frontier_artifact_zip_sha256": "5a0e615853c68b150a1786e774588239f32af757362c5adca61a6157004d4934",
+      "frontier_manifest_canonical_sha256": "dddb6975869f6565c7810a4daceb415840fdbaadf522479b1651cd5b07b144dd",
+      "input_frontier_count": 169,
+      "dispatch_count": 128,
+      "carry_count": 41,
+      "completed_input_count": 45,
+      "continuation_count": 83,
+      "continuations_per_input": 0.6484375,
+      "frontier_after_ingest_count": 124,
+      "frontier_net_change": -45,
+      "result": "PASS_RESUMABLE_GEN35_EXACT_FIFO_FRONTIER_169_TO_124"
+    },
     "production_switch_supported": true,
     "production_switched": true
   },
@@ -74,5 +91,5 @@
     "armed": false,
     "preferred": false
   },
-  "next_item": "ARM_RESUMABLE_GEN35_WITH_FRESH_RUNKEY_ONLY_SYNC"
+  "next_item": "COLD_PREFLIGHT_GEN36_FROM_GEN35_FRONTIER_ARTIFACT"
 }
