@@ -49,7 +49,7 @@ jobs:
           [ "${#changed[@]}" -eq 1 ] || exit 0
           [ "${changed[0]}" = "$KEY" ] || exit 0
           python - "$BEFORE" "$KEY" "$GITHUB_OUTPUT" <<'PY'
-          import json, subprocess, sys
+          import hashlib, json, math, subprocess, sys
           before, key, output = sys.argv[1:]
           old = json.loads(subprocess.check_output(['git','show',f'{before}:{key}'], text=True))
           new = json.load(open(key))
@@ -69,10 +69,52 @@ jobs:
           assert new['B18_RELEASE_AUTHORIZED'] is False
           assert new['THEOREM_CREDIT'] is False
           assert new['RECEIVER_CREDIT'] is False
-          units = new['work_units']
+
+          manifest = json.load(open('stages/stage32/residual-32-01-production/full178-manifest.json'))
+          row_ids = {row for rows in manifest['m_class_rows'].values() for row in rows}
+          labels = [95,99,103,102,49,97,94,101,93,98,96]
+
+          def digest(v):
+              return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+
+          def parse_row(row_id):
+              assert row_id in row_ids
+              g,d = row_id.split('-')
+              return int(g[1:]), int(d[1:])
+
+          def verify_unit(u):
+              assert isinstance(u, dict)
+              kind = u['kind']; row_id = u['row_id']
+              genus, degree = parse_row(row_id)
+              emin = 8 if genus == 0 else 4
+              emax = (19 * degree) // 5
+              if kind == 'ROW_TAIL':
+                  base = {'kind':kind,'row_id':row_id,'e_start':int(u['e_start'])}
+                  assert emin <= base['e_start'] <= emax
+              elif kind == 'STRATUM_PARTITION':
+                  e = int(u['e']); prefix = [int(v) for v in u.get('prefix',[])]
+                  lo = int(u['next_min']); hi = int(u['next_max'])
+                  assert emin <= e <= emax
+                  assert len(prefix) < len(labels)
+                  assert all(v >= 0 for v in prefix)
+                  exceptional = sum(v for label,v in zip(labels,prefix) if label > 92)
+                  normal = sum(v for label,v in zip(labels,prefix) if label <= 92)
+                  assert exceptional <= e
+                  normal_mass = 19 * degree - 5 * e
+                  assert normal <= normal_mass
+                  next_label = labels[len(prefix)]
+                  upper = e - exceptional if next_label > 92 else normal_mass - normal
+                  assert 0 <= lo <= hi <= upper
+                  base = {'kind':kind,'row_id':row_id,'e':e,'prefix':prefix,'next_min':lo,'next_max':hi}
+              else:
+                  raise AssertionError(kind)
+              expected = 'wu-' + digest(base)[:20]
+              assert u.get('work_unit_id') == expected
+              return base | {'work_unit_id': expected}
+
+          units = [verify_unit(u) for u in new['work_units']]
           assert len(units) == 8
-          assert len({u['row_id'] for u in units}) == 8
-          assert all(u['kind'] == 'ROW_TAIL' for u in units)
+          assert len({u['work_unit_id'] for u in units}) == 8
           matrix = json.dumps({'work_unit': units}, separators=(',', ':'))
           with open(output, 'a') as f:
               f.write('authorized=true\n')
@@ -102,8 +144,8 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/stage32-full178"
-          ROW_ID=$(python -c 'import json,os; print(json.loads(os.environ["WORK_UNIT_JSON"])["row_id"])')
-          OUT="$RUNNER_TEMP/stage32-full178/${ROW_ID}.json"
+          UNIT_ID=$(python -c 'import json,os; print(json.loads(os.environ["WORK_UNIT_JSON"])["work_unit_id"])')
+          OUT="$RUNNER_TEMP/stage32-full178/${UNIT_ID}.json"
           python stages/stage32/residual-32-01-production/run_full178_prefix_work_unit.py \
             --retained stages/stage33/33-07/picard_base_rows_retained.py \
             --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
@@ -111,7 +153,7 @@ jobs:
             --node-limit 16000000 \
             --output "$OUT"
           python - "$OUT" <<'PY'
-          import json, os, pathlib, sys
+          import json, pathlib, sys
           p=pathlib.Path(sys.argv[1]); x=json.loads(p.read_text())
           assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V1'
           assert x['prefix_stage_only'] is True
@@ -122,14 +164,15 @@ jobs:
           assert x['B18_RELEASE_AUTHORIZED'] is False
           assert x['THEOREM_CREDIT'] is False and x['RECEIVER_CREDIT'] is False
           assert p.stat().st_size <= 16*1024, p.stat().st_size
-          print(json.dumps({'row_id':x['row_id'],'nodes_used':x['nodes_used'],
+          print(json.dumps({'work_unit_id':x['input_work_unit']['work_unit_id'],'row_id':x['row_id'],
+                            'nodes_used':x['nodes_used'],
                             'completed_prefix_partitions':len(x['completed_prefix_partitions']),
                             'unknown_child_work_units':x['unknown_count'],
                             'certificate_sha256':x['canonical_sha256_without_this_field']},sort_keys=True))
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: stage32-full178-wave-${{ needs.authorize.outputs.generation }}-${{ matrix.work_unit.row_id }}
+          name: stage32-full178-wave-${{ needs.authorize.outputs.generation }}-${{ matrix.work_unit.work_unit_id }}
           path: ${{ runner.temp }}/stage32-full178/*.json
           retention-days: 3
           if-no-files-found: error
@@ -141,7 +184,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          pattern: stage32-full178-wave-${{ needs.authorize.outputs.generation }}-*
+          pattern: stage32-full178-wave-${{ needs.authorize.outputs.generation }}-wu-*
           path: ${{ runner.temp }}/stage32-full178-aggregate
           merge-multiple: true
       - name: Build compact wave manifest
@@ -153,17 +196,19 @@ jobs:
           root=pathlib.Path(os.environ['RUNNER_TEMP'])/'stage32-full178-aggregate'
           files=sorted(root.glob('*.json'))
           assert len(files)==8, len(files)
-          rows=[]; children=[]
+          work=[]; children=[]
           for p in files:
               x=json.loads(p.read_text())
-              rows.append({'row_id':x['row_id'],'nodes_used':x['nodes_used'],
+              work.append({'work_unit_id':x['input_work_unit']['work_unit_id'],'row_id':x['row_id'],
+                           'nodes_used':x['nodes_used'],
                            'completed_prefix_partitions':len(x['completed_prefix_partitions']),
                            'unknown_count':x['unknown_count'],
                            'certificate_sha256':x['canonical_sha256_without_this_field']})
               children.extend(x['unresolved_exact_child_work_units'])
-          payload={'schema':'STAGE32_RESIDUAL32_01_FULL178_PREFIX_WAVE_MANIFEST_V1',
+          payload={'schema':'STAGE32_RESIDUAL32_01_FULL178_PREFIX_WAVE_MANIFEST_V2',
                    'generation':int(os.environ['GENERATION']),'input_work_unit_count':8,
-                   'rows':rows,'next_exact_work_units':children,
+                   'work_units':sorted(work,key=lambda v:v['work_unit_id']),
+                   'next_exact_work_units':children,
                    'prefix_stage_only':True,'unknown_is_unsat':False,
                    'FULL_D176_D192_NUMERICAL_ORBIT_CENSUS':False,
                    'R29_LG2':'NOT_DISCHARGED','THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
