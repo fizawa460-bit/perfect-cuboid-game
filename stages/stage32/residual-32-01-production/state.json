@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V35_GEN13_PASS_GEN14_16WAY_COLD_READY",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V36_GEN14_PASS_GEN15_16WAY_COLD_READY",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "FULL178_GENERATION13_V2_PASS_GENERATION14_16WAY_COLD_READY",
+  "status": "FULL178_GENERATION14_V2_PASS_GENERATION15_16WAY_COLD_READY",
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": false,
@@ -17,31 +17,33 @@
   "RECEIVER_CREDIT": false,
   "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
   "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false,
-  "generation11": {"run_id":33241199451,"result":"PASS_EIGHT_WORK_UNITS_V2_EXACT_FRONTIER","total_nodes_used":80485283,"completed_prefix_partition_count":3,"next_exact_work_unit_count":12,"checkpoint":"stages/stage32/residual-32-01-production/full178-generation11-main-checkpoint.json"},
-  "generation12": {"run_id":33241491462,"result":"PASS_EIGHT_WORK_UNITS_V2_EXACT_FRONTIER","total_nodes_used":81695166,"completed_prefix_partition_count":3,"unknown_count_total":11,"next_exact_work_unit_count":11,"checkpoint":"stages/stage32/residual-32-01-production/full178-generation12-main-checkpoint.json"},
-  "generation13": {
-    "run_id": 33241685766,
-    "authorize_job_id": 99072005832,
-    "result": "PASS_EIGHT_WORK_UNITS_V2_EXACT_FRONTIER",
+  "generation13": {"run_id":33241685766,"result":"PASS_EIGHT_WORK_UNITS_V2_EXACT_FRONTIER","total_nodes_used":66280008,"completed_prefix_partition_count":4,"unknown_count_total":8,"next_exact_work_unit_count":8,"checkpoint":"stages/stage32/residual-32-01-production/full178-generation13-main-checkpoint.json"},
+  "generation14": {
+    "run_id": 33241985734,
+    "authorize_job_id": 99072775711,
+    "result": "PASS_SIXTEEN_WORK_UNITS_V2_EXACT_FRONTIER",
     "runner_schema": "STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2",
     "nodes_used_accounting": "SUM_TELEMETRY_NODES_V2",
-    "total_nodes_used": 66280008,
-    "completed_prefix_partition_count": 4,
-    "unknown_count_total": 8,
-    "next_exact_work_unit_count": 8,
-    "checkpoint": "stages/stage32/residual-32-01-production/full178-generation13-main-checkpoint.json",
-    "wave_manifest_artifact_id": 9711561954,
-    "wave_manifest_canonical_sha256": "44c15b34b81ff60c81fd7d7294bbf021e1b00013437f337bc8935831b9144e50",
-    "manifest_sha_independently_recomputed": true
+    "total_nodes_used": 160230998,
+    "completed_prefix_partition_count": 6,
+    "unknown_count_total": 25,
+    "node_ceiling_hit_work_unit_count": 10,
+    "next_exact_work_unit_count": 25,
+    "checkpoint": "stages/stage32/residual-32-01-production/full178-generation14-main-checkpoint.json",
+    "wave_manifest_artifact_id": 9711649685,
+    "wave_manifest_canonical_sha256": "19f3d4a3bda5587cb6d1f91580ead9bc7f9852db18a3598d4ec491f4dc5ece4b",
+    "manifest_sha_independently_recomputed": true,
+    "effective_heavy_concurrency": 16,
+    "maximum_effective_stage32_heavy_overlap": 17,
+    "cold_preflight_failure": "STALE_8WAY_RUNKEY_VALIDATOR_ONLY_REPAIRED_BEFORE_NEXT_ARM"
   },
-  "generation14": {
+  "generation15": {
     "released": true,
     "armed": false,
     "queue_policy": "FIFO_GLOBAL_FRONTIER",
-    "planned_work_unit_count": 16,
-    "planned_work_unit_ids": ["wu-a9187563e129afd0fe3b","wu-e25ceeb781bfa2eadf9b","wu-d546f0831ba2bde1a2d9","wu-02424def4084387ad7ab","wu-4a5856b848174eaf8eb8","wu-5354597b62b07be7b0a2","wu-f91d29e571896f351bba","wu-1d2d516e26ea943064a7","wu-051162c78a4c4c498b3b","wu-e814b0c2c1124a5dee4c","wu-14fd5f0b91fe6bf11e0e","wu-73cf6567d742cbf2b5e4","wu-62b2d448b966823a5db7","wu-1512fcaa32294fecd447","wu-3f23c11f02bd7732e92e","wu-60df31d755f6a706ec6a"],
-    "pending_frontier_before_dispatch": 59,
-    "pending_frontier_after_dispatch_before_new_children": 43,
+    "planned_work_unit_ids": ["wu-ee456a1436882bb4ab42","wu-f99abafc7e63e4bf8c4a","wu-aa12bc729e8bb7c1b68a","wu-f53c6dc6fb4f020ef7b6","wu-8d47dd195d543221c8d5","wu-89360913815d4da24549","wu-0afcbb5ed19c1a9ef598","wu-494713807a4de86f7f63","wu-afebafb1e4b49e256070","wu-5a5285e48199ad600cf5","wu-64efd0539ff5b838474e","wu-d47292e28f38fdfc012f","wu-954be83836a1ad4e13f9","wu-aa13dbb6fc43adc58c49","wu-4b6c60186afc3952faaa","wu-a00de188db1a059f4134"],
+    "pending_frontier_before_dispatch": 68,
+    "pending_frontier_after_dispatch_before_new_children": 52,
     "node_ceiling_per_work_unit": 16000000,
     "effective_heavy_concurrency": 16,
     "maximum_effective_stage32_heavy_overlap": 17,
@@ -51,5 +53,5 @@
     "required_arm_diff": "DEDICATED_RUNKEY_ONLY",
     "no_repository_writes_after_arm_until_run_complete": true
   },
-  "next_item": "ARM_GENERATION14_16WAY_THEN_INGEST_WITH_NO_INTERVENING_WRITES"
+  "next_item": "ARM_GENERATION15_16WAY_THEN_INGEST_WITH_NO_INTERVENING_WRITES"
 }
