@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V120_GEN33_HARDNESS_SHIFT",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V121_RESUMABLE_FRONTIER_POLICY",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
   "G10_LOWGENUS_PICARD": "AMBER",
   "stage32_closed": false,
-  "status": "RESIDUAL32_01_FULL178_GEN33_64M_PASS_FRONTIER_218_HARDNESS_CLASSIFICATION_NEXT",
+  "status": "RESIDUAL32_01_GEN33_HARDNESS_DIAGNOSED_RESUMABLE_CURSOR_EXACT_TEST_PASS_CALIBRATION_NEXT",
   "audit_required": false,
   "repair_required": false,
   "repair_allowed": false,
@@ -39,6 +39,20 @@
     "residual32_01_generation33_manifest_canonical_sha256": "86923e2fa3065410a40b50bf56b9ee51027ce1d98956029c314675aec5d26d50",
     "residual32_01_gen33_stationarity_break_observed": true,
     "residual32_01_gen33_row_local_reproduction_above_one": ["g0-d012", "g0-d022"],
+    "residual32_01_generation31_ceiling_hit_rate": 0.3359375,
+    "residual32_01_generation32_ceiling_hit_rate": 0.3359375,
+    "residual32_01_generation33_ceiling_hit_rate": 0.40625,
+    "residual32_01_generation31_children_per_ceiling_hit": 2.0465116279069766,
+    "residual32_01_generation33_children_per_ceiling_hit": 2.1153846153846154,
+    "residual32_01_hardness_primary_shift": "MORE_WORK_UNITS_REACH_64M_CEILING",
+    "residual32_01_resumable_exact_selftest_run_id": 33258040823,
+    "residual32_01_resumable_real_oracle_equivalence_pass": true,
+    "residual32_01_resumable_real_row_tail_old_children_50k": 3,
+    "residual32_01_resumable_real_row_tail_new_children_50k": 1,
+    "residual32_01_resumable_structural_max_children_per_input": 1,
+    "residual32_01_resumable_structural_reproduction_upper_bound": 1.0,
+    "residual32_01_generation33_resumable_counterfactual_children_per_input": 0.40625,
+    "residual32_01_generation33_resumable_counterfactual_frontier_after_ingest": 160,
     "residual32_01_generation34_fifo128_canonical_sha256_if_later_armed": "2d96ebc0ed716d319e554c1ff6ac05dc9ad0bde9dbacc20490c9027c33f210a9",
     "residual32_01_generation34_carry_before_new_children_if_later_armed": 90,
     "residual32_01_target_node_ceiling_per_work_unit": 64000000,
@@ -60,18 +74,19 @@
     "campaign_preflight_does_not_authorize_heavy_compute": true,
     "mathematical_credit_changed_this_batch": false,
     "receiver_credit_changed": false,
-    "blind_generation34_arm_authorized": false
+    "blind_generation34_arm_authorized": false,
+    "resumable_production_arm_authorized": false
   },
-  "current_item": "CLASSIFY_GEN31_33_HARDNESS_TRANSITION",
-  "current_item_execution_constraint": "GEN33 STILL CONTRACTS 236->218 BUT CHILDREN/INPUT ROSE 0.6875->0.859375 AND ROW-LOCAL REPRODUCTION EXCEEDED 1 IN g0-d012 AND g0-d022. DO NOT BLINDLY ARM GEN34. CLASSIFY HARD PREFIX SHAPES AND TEST TARGETED CEILING/SPLIT POLICY FIRST. UNKNOWN!=UNSAT; PREFIX COMPLETION!=NUMERICAL ROW CLOSURE; ALL CLAIM FIREWALLS REMAIN CLOSED.",
+  "current_item": "CALIBRATE_RESUMABLE_CURSOR_ON_CURRENT_HARD_FRONTIER",
+  "current_item_execution_constraint": "OLD BISECTING SPLIT IS NO LONGER THE PREFERRED HARDNESS RESPONSE. GEN31/32 HAD 43/128 CEILING HITS AND 88 CHILDREN; GEN33 HAD 52/128 HITS AND 110 CHILDREN, SO MOST REPRODUCTION INCREASE CAME FROM MORE CEILING HITS WHILE EACH HIT STILL SPAWNED ABOUT TWO CHILDREN. EXACT RESUMABLE DFS TESTS PASS AND COLLAPSE A REAL ROW_TAIL FROM 3 CHILDREN TO 1 CURSOR. DO NOT ARM OLD-SPLIT GEN34. NEXT RUN, IF ANY, MUST BE A BOUNDED RESUMABLE CURRENT-FRONTIER CALIBRATION WITH FRESH DEDICATED RUNKEY. UNKNOWN!=UNSAT; PREFIX COMPLETION!=NUMERICAL ROW CLOSURE; ALL CLAIM FIREWALLS REMAIN CLOSED.",
   "execution_class": 1,
   "next_expected_command": "Stage32-main-batch",
-  "next_item": "HARD_PREFIX_SHAPE_CLASSIFICATION_AND_TARGETED_POLICY_DESIGN",
+  "next_item": "BOUNDED_RESUMABLE_CURRENT_FRONTIER_CALIBRATION_THEN_PRODUCTION_SWITCH_DECISION",
   "post_b16_progression": {
     "b18_release_authorized": false,
     "full_178_row_sweep_authorized": true,
     "later_items_released": false,
-    "current_release": "RESIDUAL32_01_FULL178_GEN33_HARDNESS_CLASSIFICATION",
+    "current_release": "RESIDUAL32_01_FULL178_RESUMABLE_HARDNESS_AVOIDANCE",
     "residual_feasibility_gate": "HOSTILE_AUDIT_PASS_SCOPE_LOCKED"
   },
   "residual32_01_checkpoint": {
@@ -84,6 +99,13 @@
       "global_frontier_after_ingest": 218,
       "wave_manifest_artifact_id": 9715848672,
       "wave_manifest_canonical_sha256": "86923e2fa3065410a40b50bf56b9ee51027ce1d98956029c314675aec5d26d50"
+    },
+    "resumable_hardness_avoidance": {
+      "evidence": "stages/stage32/residual-32-01-production/full178-resumable-hardness-avoidance.json",
+      "selftest_run_id": 33258040823,
+      "real_oracle_equivalence": "PASS_REAL_STAGE32_RESUME_EQUIVALENCE",
+      "real_row_tail_branching": "3_TO_1_AND_REMAINS_1_ON_RESUME",
+      "production_switched": false
     }
   },
   "repo_absolute_rule_read_policy": {
