@@ -76,7 +76,7 @@ jobs:
           [ "${#changed[@]}" -eq 1 ] || exit 0
           [ "${changed[0]}" = "$KEY" ] || exit 0
           python - "$BEFORE" "$KEY" "$GITHUB_OUTPUT" <<'PY'
-          import hashlib, json, subprocess, sys
+          import base64, gzip, hashlib, json, subprocess, sys
           before, key, output = sys.argv[1:]
           old = json.loads(subprocess.check_output(['git','show',f'{before}:{key}'], text=True))
           new = json.load(open(key))
@@ -139,8 +139,13 @@ jobs:
               assert u.get('work_unit_id') == expected
               return base | {'work_unit_id': expected}
 
-          units = [verify_unit(u) for u in new['work_units']]
-          assert 1 <= len(units) <= 128
+          assert new['work_units_encoding'] == 'GZIP_BASE64_CANONICAL_JSON_V1'
+          raw_units = gzip.decompress(base64.b64decode(new['work_units_gzip_base64']))
+          assert hashlib.sha256(raw_units).hexdigest() == new['work_units_canonical_sha256']
+          decoded = json.loads(raw_units)
+          assert isinstance(decoded, list)
+          assert len(decoded) == int(new['work_units_count']) == 128
+          units = [verify_unit(u) for u in decoded]
           assert len({u['work_unit_id'] for u in units}) == len(units)
           matrix = json.dumps({'work_unit': units}, separators=(',', ':'))
           with open(output, 'a') as f:
