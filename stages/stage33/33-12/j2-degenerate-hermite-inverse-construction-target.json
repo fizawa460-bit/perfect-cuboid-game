@@ -1,0 +1,69 @@
+{
+  "schema": "STAGE33_12_J2_DEGENERATE_HERMITE_INVERSE_CONSTRUCTION_TARGET_V1",
+  "status": "PASS_EXACT_CONSTRUCTION_ROUTE_REDUCTION_NOT_YET_MODEL",
+  "source_lock": {
+    "reference": "Bert van Geemen, Some remarks on Brauer groups of K3 surfaces, arXiv:math/0408006v2",
+    "locations": [
+      "Section 1.2: Br(X)=Sha(X), nonzero order n gives a genus-one fibration without section and minimal multisection degree n",
+      "Sections 8.1-8.3: Hermite binary-quartic Jacobian and symmetric 3x3 determinantal conic-bundle construction",
+      "Section 8.7: even Clifford Azumaya algebra; explicit note that Wittenberg's three-component branch case is a degenerate instance"
+    ]
+  },
+  "fixed_kc_fibration": {
+    "generic_fiber": "Y^2=X*(X-r1)*(X-r2)",
+    "r1": "(t^2-1)^2",
+    "r2": "q=t^4-6*t^2+1",
+    "full_rational_2_torsion": true,
+    "affine_weierstrass_branch_cubic": "X*(X-r1)*(X-r2)=0",
+    "branch_components": ["X=0", "X=r1", "X=r2"],
+    "branch_component_count": 3,
+    "branch_cubic_reducible": true,
+    "generic_three_sections_distinct": true,
+    "reason_distinct": "r1-r2=4*t^2 is not the zero function; r1 and r2 are nonzero functions"
+  },
+  "hermite_binary_quartic_target": {
+    "model": "w^2=a0*v^4+4*a1*v^3+6*a2*v^2+4*a3*v+a4",
+    "symmetric_matrix_template": [
+      ["a0", "a1", "a2+2*x"],
+      ["a1", "a2-x", "a3"],
+      ["a2+2*x", "a3", "a4"]
+    ],
+    "displayed_source_role": "det(M) is the cubic branch of the Hermite Jacobian, up to the source's Weierstrass sign/coordinate normalization",
+    "conic_bundle_role": "M defines the conic bundle; its splitting double cover of the cubic branch encodes the order-2 Brauer class",
+    "azumaya_role": "after pullback to the Jacobian K3, the even Clifford bundle is the Brauer/Azumaya representative"
+  },
+  "degenerate_case_firewall": {
+    "general_smooth_trigonal_theorem_7_6_direct_application_allowed": false,
+    "reason": "Kc has full rational 2-torsion, so its Weierstrass cubic branch is reducible into three sections; moreover the rank-two Picard hypothesis of Theorem 7.6 is not the present singular-K3 situation.",
+    "source_support_for_degenerate_route": "Section 8.7 explicitly identifies Wittenberg's case where the cubic branch has three irreducible components as a degenerate case of the conic-bundle construction.",
+    "recillas_general_case_not_required": true
+  },
+  "named_J2_inverse_problem": {
+    "unknown": "a Hermite-form symmetric matrix M_J2 (equivalently binary-quartic coefficients a0,...,a4 over the base) representing the named CV J2 class",
+    "required_conditions": [
+      "det(M_J2) equals the Kc Weierstrass branch cubic after an explicitly certified admissible Weierstrass coordinate/scaling change",
+      "the even-Clifford/conic-bundle Brauer class of M_J2 is identified with the named CV J2 CSA, not merely with an unspecified nonzero Brauer class",
+      "the recovered binary-quartic surface X_J2 is a genus-one K3 with relative Jacobian Kc",
+      "X_J2 has a degree-2 multisection",
+      "X_J2 has no section"
+    ],
+    "candidate_compactification_families_from_source": ["double-quadric (4,4) branch", "nodal-sextic / F1 branch"],
+    "compactification_family_selected": false
+  },
+  "exact_conclusion": {
+    "abstract_relative_picard_search_replaced_by_explicit_inverse_determinantal_problem": true,
+    "weierstrass_branch_is_exactly_the_three_component_degenerate_case": true,
+    "explicit_X_J2_materialized": false,
+    "next_exact_leaf": "SOLVE_THE_DEGENERATE_HERMITE_SYMMETRIC_DETERMINANTAL_REPRESENTATION_FOR_THE_NAMED_CV_J2_CLASS_AND_RECOVER_THE_BINARY_QUARTIC_GENUS_ONE_K3_X_J2"
+  },
+  "j2_marked_brauer_coordinate_selected": false,
+  "j2_twisted_transcendental_kernel_identified": false,
+  "stage33_12_closed_exact": false,
+  "stage33_13_released": false,
+  "heavy_actions_authorized": false,
+  "theorem_credit": false,
+  "receiver_credit": false,
+  "endpoint_credit": false,
+  "perfect_cuboid_existence_claim": false,
+  "perfect_cuboid_nonexistence_claim": false
+}
