@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V128_RESUMABLE_GEN37_COLD_PREFLIGHT_PASS",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V129_RESUMABLE_GEN37_EXACT_FRONTIER_73",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
   "G10_LOWGENUS_PICARD": "AMBER",
   "stage32_closed": false,
-  "status": "RESUMABLE_GEN37_COLD_PREFLIGHT_PASS_FRESH_ARM_NEXT",
+  "status": "RESUMABLE_GEN37_EXACT_FRONTIER_73_ADAPTIVE_GEN38_NEXT",
   "audit_required": false,
   "repair_required": false,
   "repair_allowed": false,
@@ -27,19 +27,17 @@
     "residual32_01_resumable_structural_reproduction_upper_bound": 1.0,
     "residual32_01_resumable_generation34_frontier_after_ingest": 169,
     "residual32_01_resumable_generation35_frontier_after_ingest": 124,
-    "residual32_01_resumable_generation36_run_id": 33276475360,
     "residual32_01_resumable_generation36_frontier_after_ingest": 92,
-    "residual32_01_resumable_generation36_frontier_net_change": -32,
-    "residual32_01_resumable_generation36_manifest_sha256": "5d27617cd9ea9f85dc871a387e149e7a2b075803de86ac03a879f3894d7cc6a4",
-    "residual32_01_resumable_generation37_cold_preflight_run_id": 33278505848,
-    "residual32_01_resumable_generation37_source_frontier": 92,
-    "residual32_01_resumable_generation37_dispatch": 92,
-    "residual32_01_resumable_generation37_carry": 0,
-    "residual32_01_resumable_generation37_dispatch_sha256": "a9137606deff7f3651548214308974f64649d6468ad623a34443321df453c7dd",
-    "residual32_01_resumable_generation37_exact_fifo_source_preflight": true,
-    "residual32_01_resumable_generation37_structural_preflight": true,
-    "residual32_01_resumable_generation37_cursor_roundtrip_exact": true,
-    "residual32_01_resumable_generation37_cold_heavy_started": false,
+    "residual32_01_resumable_generation36_continuation_rate": 0.7419354838709677,
+    "residual32_01_resumable_generation37_run_id": 33278651741,
+    "residual32_01_resumable_generation37_run_attempt": 2,
+    "residual32_01_resumable_generation37_frontier_after_ingest": 73,
+    "residual32_01_resumable_generation37_frontier_net_change": -19,
+    "residual32_01_resumable_generation37_completed_input_count": 19,
+    "residual32_01_resumable_generation37_continuation_count": 73,
+    "residual32_01_resumable_generation37_continuation_rate": 0.7934782608695652,
+    "residual32_01_resumable_generation37_manifest_sha256": "19617b2e04a9c61508eaa408e85f98167217b5f96d36371763f12d1841685bc1",
+    "residual32_01_resumable_generation37_transient_runner_recovery_complete": true,
     "residual32_01_resumable_production_switched": true
   },
   "active_execution_guardrail": {
@@ -58,13 +56,13 @@
     "receiver_credit_changed": false,
     "old_split_production_preferred": false,
     "resumable_production_arm_must_be_runkey_only_sync": true,
-    "next_heavy_arm_authorized": true
+    "next_heavy_arm_authorized": false
   },
-  "current_item": "ARM_RESUMABLE_GEN37_WITH_FRESH_RUNKEY_ONLY_SYNC",
-  "current_item_execution_constraint": "GEN37 COLD PREFLIGHT PASSED AGAINST THE EXACT GEN36 FRONTIER ARTIFACT: 92 SOURCE UNITS = 92 FIFO DISPATCH + 0 CARRY, DISPATCH SHA256 a9137606..., CURSOR ROUNDTRIP EXACT, LEGACY/CALIBRATION HEAVY JOBS VERIFIED SKIPPED, PROJECTED ARTIFACT PEAK 2 MB <500 MB, EFFECTIVE STAGE32 HEAVY OVERLAP <=18. ARM ONLY THE DEDICATED RESUMABLE RUNKEY IN A SINGLE-FILE SYNC; THEN DO NOT WRITE REPOSITORY STATE UNTIL THE HEAVY RUN FINISHES. UNKNOWN!=UNSAT; PREFIX COMPLETION!=NUMERICAL ROW CLOSURE; ALL CLAIM FIREWALLS REMAIN CLOSED.",
+  "current_item": "PREPARE_RESUMABLE_GEN38_FROM_EXACT_FRONTIER_73_WITH_ADAPTIVE_CEILING_DECISION",
+  "current_item_execution_constraint": "GEN37 IS EXACT: 92 SOURCE = 92 DISPATCH + 0 CARRY, 19 COMPLETED, 73 CONTINUATIONS, FRONTIER 92->73, CONTINUATION RATE 0.7934782608695652. THE SINGLE INITIAL FAILURE OCCURRED BEFORE WORK-UNIT EXECUTION DURING DEPENDENCY INSTALL AND WAS RECOVERED BY A SINGLE-JOB ACTIONS RERUN; AGGREGATE THEN VERIFIED ALL 92 ARTIFACTS. BEFORE GEN38, SOURCE-LOCK THE GEN37 FRONTIER AND MAKE AN EXPLICIT CEILING DECISION; DO NOT BLINDLY PROMOTE COMPUTATIONAL PROGRESS TO NUMERICAL/THEOREM/RECEIVER CREDIT.",
   "execution_class": 1,
   "next_expected_command": "Stage32-main-batch",
-  "next_item": "RUN_RESUMABLE_GEN37_THEN_INGEST_EXACT_FRONTIER_MANIFEST",
+  "next_item": "GEN38_COLD_PREFLIGHT_AFTER_CEILING_DECISION",
   "post_b16_progression": {
     "b18_release_authorized": false,
     "full_178_row_sweep_authorized": true,
@@ -81,13 +79,15 @@
       "manifest_canonical_sha256": "5d27617cd9ea9f85dc871a387e149e7a2b075803de86ac03a879f3894d7cc6a4",
       "frontier_after_ingest": 92
     },
-    "generation37_cold_preflight": {
-      "checkpoint": "stages/stage32/residual-32-01-production/full178-resumable-generation37-cold-preflight-main-checkpoint.json",
-      "run_id": 33278505848,
-      "authorize_job_id": 99169444220,
-      "result": "PASS_RESUMABLE_GEN37_COLD_PREFLIGHT_EXACT_FRONTIER_92_DISPATCH_92_CARRY_0",
-      "dispatch_canonical_sha256": "a9137606deff7f3651548214308974f64649d6468ad623a34443321df453c7dd",
-      "production_armed": false
+    "generation37": {
+      "checkpoint": "stages/stage32/residual-32-01-production/full178-resumable-generation37-main-checkpoint.json",
+      "run_id": 33278651741,
+      "run_attempt": 2,
+      "aggregate_job_id": 99174589357,
+      "artifact_id": 9722817296,
+      "artifact_zip_sha256": "4a786b5e8e9816f855294c04cc2352818fbb84e6d1de4dc0dcb54e60bc181e6a",
+      "manifest_canonical_sha256": "19617b2e04a9c61508eaa408e85f98167217b5f96d36371763f12d1841685bc1",
+      "frontier_after_ingest": 73
     }
   },
   "repo_absolute_rule_read_policy": {
