@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V71_RESIDUAL32_01_GENERATION17_M2_4M_PASS_M2_16M_NEXT",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V72_RESIDUAL32_01_GENERATION18_M2_COMPLETED_REMAINING_16M_AUTHORIZED",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
   "G10_LOWGENUS_PICARD": "AMBER",
   "stage32_closed": false,
-  "status": "GENERATION16_1M_BOUNDED_PASS_GENERATION17_M2_4M_BOUNDED_PASS_M2_16M_SCOUT_NEXT",
+  "status": "GENERATION18_M2_COMPLETED_AT_6194539_REMAINING_M1_M4_M8_16M_SCOUT_NEXT",
   "audit_required": true,
   "repair_required": false,
   "repair_allowed": false,
@@ -23,9 +23,10 @@
   "R29_LG2": "NOT_DISCHARGED",
   "accepted_current_facts": {
     "residual32_01_generation16_fixed_contract_actions_pass": true,
-    "residual32_01_generation16_all_representatives_1m_budget_exhausted": true,
     "residual32_01_generation17_m2_4m_actions_pass": true,
-    "residual32_01_generation17_m2_budget_exhausted": true,
+    "residual32_01_generation18_m2_actions_pass": true,
+    "residual32_01_generation18_m2_probe_complete": true,
+    "residual32_01_generation18_m2_completion_nodes": 6194539,
     "residual32_01_production_cost_ready": false
   },
   "active_execution_guardrail": {
@@ -37,10 +38,10 @@
     "post_b16_release_scope": "RESIDUAL_32_01_COST_AWARE_WINNER_BOUNDED_NODE_LIMIT_COMPLETION_CURVE_ONLY"
   },
   "current_item": "RESIDUAL_32_01_COST_AWARE_WINNER_BOUNDED_NODE_LIMIT_COMPLETION_CURVE",
-  "current_item_execution_constraint": "M2_REMAINS_INCOMPLETE_AT_4M_NODES. THE_NEXT_BOUNDED_CURVE_POINT_IS_16M_ON_M2_ONLY, SAME_EXACT_ORDER_AND_AUT1536/HNF_SEMANTICS, CONCURRENCY1, COMPACT_ARTIFACT_ONLY. DO_NOT_ARM_B18_OR_FULL178. NO_RECEIVER_THEOREM_ROUTE_OR_ENDPOINT_PROMOTION.",
+  "current_item_execution_constraint": "M2_COMPLETED_EXACTLY_AT_6194539_NODES_BELOW_16M. NEXT_MEASURE_THE_REMAINING_LOCKED_REPRESENTATIVES_M1_M4_M8_AT_A_16M_BOUND_USING_THE_SAME_EXACT_ORDER_HNF_AND_AUT1536_SEMANTICS, CONCURRENCY1, COMPACT_ARTIFACT_ONLY. DO_NOT_ARM_B18_OR_FULL178. NO_RECEIVER_THEOREM_ROUTE_OR_ENDPOINT_PROMOTION.",
   "execution_class": 2,
   "next_expected_command": "Stage32-main-batch",
-  "next_item": "GENERATION18_M2_16M_BOUNDED_COMPLETION_SCOUT",
+  "next_item": "GENERATION19_REMAINING_M1_M4_M8_16M_BOUNDED_COMPLETION_SCOUT",
   "post_b16_progression": {
     "b18_release_authorized": false,
     "full_178_row_sweep_authorized": false,
@@ -51,24 +52,27 @@
   "residual32_01_checkpoint": {
     "audit_state": "PENDING_SEPARATE_AUDIT",
     "state": "stages/stage32/residual-32-01-production/state.json",
-    "generation16_checkpoint": "stages/stage32/residual-32-01-production/generation16-main-checkpoint.json",
-    "generation17_checkpoint": "stages/stage32/residual-32-01-production/generation17-main-checkpoint.json",
+    "generation18_checkpoint": "stages/stage32/residual-32-01-production/generation18-main-checkpoint.json",
     "workflow": ".github/workflows/stage32-residual32-01-pairing-prefix-calibration.yml",
     "runkey": "stages/stage32/runkeys/residual32-01-pairing-prefix-calibration.json",
-    "runkey_generation": 17,
-    "best_actions_cost_profile_generation": 17,
-    "generation17_run_id": 33228006185,
-    "generation17_artifact_id": 9707527112,
-    "generation17_artifact_zip_sha256": "56f318e5636acf4e1b7878ea701840abd12a9d4a58ffc2182d22a2b6cc510462",
-    "generation17_certificate_sha256": "6c25c9cc51ae631d65409f775687b88e2dca1851446d013978bca4d2c8dd2c13",
-    "generation17_nodes": 4000000,
-    "generation17_m2_budget_exhausted": true,
-    "generation18_authorized_representatives": [{"m":2,"genus":0,"degree":8,"exceptional_mass":8}],
-    "generation18_authorized_node_limit": 16000000,
-    "generation18_effective_heavy_concurrency": 1,
-    "generation18_projected_peak_artifact_mb": 0.5,
-    "main_verdict": "PASS_GENERATION17_M2_4M_CURVE_POINT_GENERATION18_M2_16M_AUTHORIZED",
-    "next_gate": "GENERATION18_M2_16M_BOUNDED_COMPLETION_SCOUT"
+    "runkey_generation": 18,
+    "best_actions_cost_profile_generation": 18,
+    "generation18_run_id": 33228109574,
+    "generation18_artifact_id": 9707560153,
+    "generation18_artifact_zip_sha256": "c2c57ef608243002da2078f792042da66e09ad8317cfed060efd26f9080d2027",
+    "generation18_certificate_sha256": "10fd522322d65de1ebfb2b03985848678fc2b33ded1a2aa1c22ae8d7be514fb5",
+    "generation18_m2_completion_nodes": 6194539,
+    "generation18_m2_probe_complete": true,
+    "generation19_authorized_representatives": [
+      {"m":1,"genus":0,"degree":16,"exceptional_mass":8},
+      {"m":4,"genus":0,"degree":12,"exceptional_mass":8},
+      {"m":8,"genus":0,"degree":10,"exceptional_mass":8}
+    ],
+    "generation19_authorized_node_limit": 16000000,
+    "generation19_effective_heavy_concurrency": 1,
+    "generation19_projected_peak_artifact_mb": 0.5,
+    "main_verdict": "PASS_GENERATION18_M2_EXACT_COMPLETION_GENERATION19_REMAINING_16M_AUTHORIZED",
+    "next_gate": "GENERATION19_REMAINING_M1_M4_M8_16M_BOUNDED_COMPLETION_SCOUT"
   },
   "controller_writeback_policy": {
     "controller_must_reflect_current_state_before_batch_end": true,
