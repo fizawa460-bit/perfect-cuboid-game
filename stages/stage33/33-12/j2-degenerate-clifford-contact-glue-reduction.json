@@ -1,0 +1,98 @@
+{
+  "schema": "STAGE33_12_J2_DEGENERATE_CLIFFORD_CONTACT_GLUE_REDUCTION_V1",
+  "status": "PASS_EXACT_CONTACT_COMBINATORICS_REDUCTION",
+  "stage": "33-12",
+  "purpose": "Reduce the remaining global admissible-cover/theta-glue problem for the split determinantal conic to explicit sheet-pairing data at the even-contact points, while proving that the transverse q-root nodes are forced and therefore cannot by themselves select the named J2 theta class.",
+  "definitions": {
+    "r": "(t^2-1)^2",
+    "q": "t^4-6*t^2+1",
+    "C0": "X=0",
+    "Cr": "X=r",
+    "Cq": "X=q",
+    "branch_cubic": "C0 union Cr union Cq"
+  },
+  "pairwise_contact_divisors": {
+    "C0_Cr": {
+      "difference": "r=(t^2-1)^2",
+      "finite_contacts": ["t=1", "t=-1"],
+      "contact_order_each": 2,
+      "type": "EVEN_TANGENCY"
+    },
+    "C0_Cq": {
+      "difference": "q=t^4-6*t^2+1",
+      "contacts": "four simple roots of q",
+      "contact_order_each": 1,
+      "type": "TRANSVERSE",
+      "q_squarefree": true
+    },
+    "Cr_Cq": {
+      "affine_difference": "r-q=4*t^2",
+      "contact_at_t0_order": 2,
+      "infinity_chart": "u=1/t, x=X/t^4",
+      "infinity_difference": "r/t^4-q/t^4=4*u^2",
+      "contact_at_infinity_order": 2,
+      "type": "EVEN_TANGENCY"
+    }
+  },
+  "normalized_ruling_covers_over_geometric_constants": {
+    "C0": {
+      "cover": "z0^2=q",
+      "line_family": "(t^2-1)*V + i*z0*W = 0"
+    },
+    "Cr": {
+      "cover": "epsilon^2=1",
+      "line_family": "(t^2-1)*U + 2*i*t*epsilon*W = 0",
+      "split": true
+    },
+    "Cq": {
+      "cover": "zq^2=q",
+      "line_family": "zq*U + 2*t*V = 0"
+    }
+  },
+  "transverse_q_root_glue": {
+    "node_set": "C0 intersect Cq = {q=0}",
+    "count": 4,
+    "q_roots_disjoint_from_even_contacts": true,
+    "q_at_t0": 1,
+    "q_at_t1": -4,
+    "q_at_tminus1": -4,
+    "C0_cover_ramifies": true,
+    "Cq_cover_ramifies": true,
+    "specialized_line_on_both_components": "V=0",
+    "sheet_pairing_choice": "FORCED",
+    "consequence": "The four transverse q-root nodes do not carry the remaining binary sheet-glue ambiguity."
+  },
+  "remaining_even_contact_glue": {
+    "points": ["t=1 on C0/Cr", "t=-1 on C0/Cr", "t=0 on Cr/Cq", "t=infinity on Cr/Cq"],
+    "count": 4,
+    "normalized_covers_unramified_at_these_contacts": true,
+    "original_degenerate_line_coalesces_at_contact": true,
+    "missing_data": "PAIR_THE_TWO_NORMALIZED_SHEETS_ACROSS_EACH_EVEN_TANGENCY_AFTER_LOCAL_RESOLUTION_AND_IMPOSE_GLOBAL_COMPATIBILITY",
+    "global_theta_characteristic_identified": false
+  },
+  "named_j2_halfdivisor_interpretation": {
+    "Dplus": "t^2-2*t-1",
+    "Dminus": "t^2+2*t-1",
+    "q_factorization": "q=Dplus*Dminus",
+    "Dplus_support": "two of the four transverse q-roots",
+    "exact_limit": "Because transverse q-root gluing is forced, the Dplus support subset alone cannot select the remaining even-contact sheet pairing or prove equality of the split Clifford class with named CV J2."
+  },
+  "exact_conclusion": "The global theta-glue problem has been reduced from all branch intersections to four even-contact sheet-pairing decisions at t=1,-1,0,infinity. The q-root intersections are exact forced-glue points. A local blow-up/resolution calculation at the four even contacts is the next exact leaf.",
+  "semantic_firewalls": {
+    "global_admissible_double_cover_identified": false,
+    "global_theta_characteristic_identified": false,
+    "named_cv_j2_equals_split_clifford_class_certified": false,
+    "Dplus_selects_theta_glue": false,
+    "j2_explicit_torsor_surface_materialized": false,
+    "j2_marked_brauer_coordinate_selected": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_release": false,
+    "heavy_actions_authorized": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "next_exact_leaf": "RESOLVE_THE_FOUR_EVEN_TANGENCIES_LOCALLY_AND_COMPUTE_THE_CANONICAL_SHEET_PAIRING_MONODROMY_FOR_M_SPLIT_THEN_COMPARE_WITH_NAMED_CV_J2"
+}
