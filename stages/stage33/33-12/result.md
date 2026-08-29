@@ -1,197 +1,128 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_CLASS2_GO_NO_GO_FAILED_PENDING_BATCH4_CLASS3_ESCALATION_AUDIT_4_OF_5`
+Status: `MAIN_BATCH4_HOSTILE_AUDIT_REVOKED_CLASS2_NO_GO_UPSTREAM_J2_REPRESENTATIVE_REPAIR_REQUIRED_4_OF_5`
 
-Stage33-12 remains open. Stage33-07 remains open. Stage33-13 is not released.
+Stage33-12 remains open. Stage33-13 is not released. Class-3 promotion is **not** authorized.
 
-## Class-2 decision budget
+## Batch 4 / 4 hostile-audit verdict
 
-This is MAIN **batch 3 / 4** under the committed common-standard-form go/no-go contract.
+The committed four-batch class-2 audit budget is exhausted, but the Batch3 `NO_GO_AFTER_BATCH3` verdict does **not** survive hostile audit. The reason is upstream: the Stage33-05 Q-defined function currently called the named geometric `J2` representative is geometrically trivial in the exact Creutz--Viray function quotient.
 
-The fixed marked receiver remains
-
-```text
-T(Kc) ~= <4> direct_sum <8>
-Br(Kc)[2] = Hom(T,Z/2)
-[1,0] -> kernel minimum norm 8
-[0,1] -> kernel minimum norm 4
-[1,1] -> kernel minimum norm 12.
-```
-
-Batch 1 exhausted the four-contact pairing space. Batch 2 selected the named branch/admissible-cover orbit `(L,R)=(1,0)`. Batch 3 asks whether that named orbit can actually be promoted to the nontrivial genus-one K3 torsor `X_J2` or its index-two transcendental kernel using retained class-2 data.
-
-## Scope correction: branch orbit is not yet the K3 special-Brauer lift
-
-The batch-2 Weil/Kummer computation exactly selects the branch/admissible-cover orbit
+The Stage33-05 source is
 
 ```text
-J2 -> (L,R)=(1,0).
+stages/stage33/33-05/j2_arithmetic_descent.py
+blob a63be5592c793c3812da99275478f14dd0d2687b
 ```
 
-It did **not** materialize any of the following:
+with
 
 ```text
-H^2(Kc,mu_2) special-Brauer lift,
-PGL2 splitting modules and transition matrices,
-relative-Picard local trivializations,
-overlap divisor cocycle D_ij,
-Brauer -> Sha Leray/Ogg-Shafarevich coordinate.
+F=t^2(1-a^2)^2+a^2(1-t^2)^2,
+q=t^4-6t^2+1,
+z=(2t^2(1-a^2)-(1-t^2)^2)/(1-t^2),
+ell_Q=4(a^2t^2+t^4-4t^2+2)/((t^2-1)(t^2-2t-1)).
 ```
 
-Those firewalls were already false in the controller and remain false. Therefore `(L,R)=(1,0)` cannot be promoted to the fixed marked `[1,0]` merely because the bit strings agree.
-
-## Kc side is fully lattice-ready
-
-Write
+The new dependency-free exact verifier proves, after clearing denominators,
 
 ```text
-r=(t^2-1)^2,
-q=t^4-6*t^2+1=r-4t^2,
-Kc: Y^2=X(X-r)(X-q).
+znum^2-q*zden^2 = 4*t^2*F.
 ```
 
-Over `Q(i)(t)`, the change
+Hence the normalization coordinate `z` really is an element of the full branch algebra `Lbar=Qbar(t)[a]/(F)`.
+
+The same verifier then substitutes the retained Hilbert-90 identity
 
 ```text
-x=r-X,
-y=iY
+ell_z = f2*g90^2,
+f2=(t+1+sqrt(2))/(t-1+sqrt(2)) in Qbar(t)^*,
 ```
 
-identifies the geometric fibration with Naskrecki's
+and proves the corresponding cleared identity in `Q(sqrt(2))[t,a]` is a multiple of `F`. Therefore
 
 ```text
-E2: y^2=x(x-r)(x-4t^2).
+ell_Q = f2*g^2 in Lbar^*.
 ```
 
-The exact discriminant is
+Creutz--Viray define the relevant geometric function quotient by scalars and squares,
 
 ```text
-Delta=256*t^4*r^2*q^2.
+Lbar^*/(Kbar^* Lbar^{*2}),  Kbar=Qbar(t),
 ```
 
-The geometric fiber configuration is
+so the currently promoted representative satisfies
 
 ```text
-I4 at t=0,+1,-1,infinity,
-I2 at the four simple roots of q.
+[ell_Q]=0.
 ```
 
-Naskrecki's Table 2 / Lemmas 3.8 and 6.5 give geometric MW rank 2, height Gram `diag(1/2,1)`, and torsion `Z/2 + Z/4`. Hence
+The surfaces paper explicitly places the finite presentation in the quotient by `K^*L^{*2}` and Corollary 5.4 maps the resulting `L_{c,E}` to `Br X[2]`. The curves paper Lemma 4.6 gives an explicit `E[2]` cocycle `d(ell)`, and Proposition 5.1 identifies this explicit descent map with the Brauer image modulo constants. Thus the generic-fiber explicit-cocycle route is not a missing new theorem.
 
-```text
-root lattice = A3^4 + A1^4,
-|disc(root)| = 4^4*2^4 = 4096,
-|disc(NS)| = 4096*(1/2)/8^2 = 32,
-rho = 20,
-```
+Certificate: `j2-cv-lclass-zero-regression.json`.
+Verifier: `certify_j2_cv_lclass_zero_regression.py`.
 
-exactly matching the retained semantic PicK discriminant and `T(Kc)=<4>+<8>`. This is only a geometric lattice cross-check over the extension field; it grants no Q-marked coordinate. It does show that missing Kc singular-fiber/MW information is not the obstruction.
+## Consequences
 
-## Exact finite Hermite test: the obvious inverse family is Sha-trivial
-
-Depress the cubic by `x=X-(r+q)/3`. For an even quartic
-
-```text
-w^2=a0*v^4+6*a2*v^2+a4
-```
-
-Hermite gives
-
-```text
-M=[[a0,0,a2+2x],
-   [0,a2-x,0],
-   [a2+2x,0,a4]].
-```
-
-There are three canonical choices of `a2`, one for each cubic branch component. Imposing both
-
-```text
-det(M)=4*X(X-r)(X-q)
-```
-
-and the retained component-cover fingerprint `[q,1,q]` forces the following squareclasses:
-
-```text
-middle C0: a0 squareclass 1
-middle Cr: a0 squareclass q
-middle Cq: a0 squareclass 1.
-```
-
-All three canonical even inverses are Sha-trivial:
-
-- `C0` case: choose `a0=1`, so there is a rational point at infinity.
-- `Cq` case: choose `a0=1`, so there is a rational point at infinity.
-- `Cr` case: the forced canonical quartic is
-
-```text
-w^2=q*(v^4+1)+2*(t^2+1)^2*v^2,
-```
-
-and it has the explicit rational point
-
-```text
-v=1,
-w=2*(t^2-1).
-```
-
-Thus the retained `[q,1,q]` component fingerprint, even after exact Hermite inversion in the canonical even subfamily, produces only zero Sha classes. This does not prove every non-even symmetric representation is trivial. It proves that a nontrivial named J2 requires exactly the missing global gluing/special-Brauer realization rather than another component-fingerprint refinement.
-
-Certificate: `j2-class2-batch3-go-no-go.json`.
-Verifier: `certify_j2_class2_batch3_go_no_go.py`.
-
-## Post-orbit breadth audit
-
-A fresh exhaustive/blind audit was run after the material receiver change in batch 2.
-
-```text
-PGL2/mu2 globalization       -> same missing global K3 lift
-non-even Hermite/Recillas    -> same missing named lift
-Wittenberg generic Kummer pair -> same Brauer-to-Sha coordinate gap
-Twisted Mukai                -> needs the same named B-field lift
-Pic/2 / q1 shortcut          -> Kummer extension class still missing
-K3-level Shioda-Inose        -> class-3-level integral marked transport
-```
-
-No class-2 route remains that is both distinct and executable from retained finite data. This is **not** a mathematical impossibility claim.
-
-## Batch-3 go/no-go verdict
+The following Batch3 statements are revoked:
 
 ```text
 CLASS2_GO_NO_GO = NO_GO_AFTER_BATCH3
-class-2 budget used = 3/4
-class-3 promoted now = false
-class-3 escalation audit pending = true
+live_class2_routes_after_audit = 0
+class3 escalation from the named-J2 marking gap
 ```
 
-The exact missing interface is now frozen as:
+This does **not** prove that the abstract geometric basis element called `J2` in the Stage33-05 finite F2 presentation is zero. It proves that the specific promoted Q-defined branch-algebra function `ell_Q` cannot represent a nonzero geometric class under the stated CV quotient. The inconsistency must be resolved upstream before any marked coordinate can receive credit.
+
+Possible repair outcomes are deliberately left open:
+
+1. the Hilbert-90 identity was applied to only a normalization component and the branch-algebra dictionary was overstated;
+2. `ell_Q` was incorrectly identified with the abstract quotient-basis element `J2`;
+3. the Stage33-05 named representative itself must be replaced;
+4. another ruling/branch-algebra dictionary was silently substituted.
+
+## Restored executable class-2 route
+
+After a corrected nonzero `ell` is fixed, Creutz--Viray Lemma 4.6 gives an explicit finite route
 
 ```text
-FUNCTORIAL INTEGRAL MARKED REALIZATION OF THE NAMED CV AZUMAYA/GERBE CLASS,
-COMPATIBLE WITH Q-DESCENT,
-INTO EITHER
-  (1/2 T*)/T*
-OR
-  AN EXPLICIT TWISTED RELATIVE-PICARD K3 X_J2
-WITH T(X_J2)=ker(J2) IN THE FIXED Kc MARKING.
+corrected named ell
+  -> d(ell) in H^1(Qbar(t),E[2])
+  -> explicit 2-cover / genus-one torsor
+  -> compactify and resolve
+  -> T(X_J2)
+  -> minimum norm 4 / 8 / 12
+  -> marked [0,1] / [1,0] / [1,1].
 ```
 
-Batch 4 is **not** another class-2 bridge search. It is a hostile audit of this no-go and the committed class-3 escalation conditions. If the no-go survives, Stage33-12 is promoted to class 3 under the user's four-batch contract.
+No identification of branch orbit `(1,0)` with the marked Brauer coordinate is made.
+
+## Batch-budget interpretation
+
+The four MAIN batches have been used. Batch4 did what it was supposed to do: hostile-audit the class-2 NO-GO. Since that audit found a concrete contradiction and an explicit literature-backed class-2 map, the contractual class-3 escalation condition is **not satisfied**. The correct state is upstream repair, not class-3 promotion.
 
 ## Firewalls
 
 ```text
-Stage33-12 visible progress = 4/5
-named branch orbit = (1,0)
-branch orbit bits = marked Brauer bits = false
-K3 mu2 special-Brauer lift materialized = false
-J2 explicit torsor surface materialized = false
+class-2 budget used = 4/4
+Batch3 class-2 NO-GO = REVOKED_BY_HOSTILE_AUDIT
+Stage33-05 named ell geometric nontriviality = REVOKED_PENDING_REPAIR
+explicit CV E[2] cocycle route = LIVE_AFTER_REPRESENTATIVE_REPAIR
 J2 marked Brauer functional materialized = false
 J2 twisted transcendental kernel identified = false
 Stage33-12 exact closure = false
 Stage33-13 released = false
+class3 promoted = false
 heavy actions authorized = false
 theorem credit = false
 receiver credit = false
 endpoint credit = false
 perfect cuboid existence/nonexistence claim = false
+```
+
+Next exact leaf:
+
+```text
+REPAIR_OR_REPLACE_THE_STAGE33_05_NAMED_J2_CV_REPRESENTATIVE,
+THEN COMPUTE_THE_CREUTZ_VIRAY_LEMMA_4_6_E2_COCYCLE.
 ```
