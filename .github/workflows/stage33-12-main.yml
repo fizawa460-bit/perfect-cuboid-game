@@ -1,4 +1,4 @@
-name: Stage33-12 exact assembly
+name: Stage33-12 exact checkpoint replay
 
 on:
   pull_request:
@@ -9,10 +9,10 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: stage33-12-exact-assembly-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-12-exact-checkpoint-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -46,19 +46,3 @@ jobs:
           cp stages/stage33/33-12/stage33-12-exact-obstruction-inventory.json /tmp/expected.json
           python stages/stage33/33-12/assemble_exact_obstruction_inventory.py
           cmp /tmp/expected.json stages/stage33/33-12/stage33-12-exact-obstruction-inventory.json
-      - name: Materialize J2 carrier and infinity exceptional in marked PicK
-        run: python stages/stage33/33-12/materialize_j2_stoll_marked_picard_input.py
-      - name: Write Stage33-12 result and controller checkpoint
-        run: python stages/stage33/33-12/finalize_j2_stoll_marked_picard_checkpoint.py
-      - name: Commit compact exact checkpoint to the same PR branch
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-        run: |
-          if git diff --quiet -- stages/stage33/33-12/j2-stoll-marked-picard-input.json stages/stage33/33-12/result.md stages/stage33/controller.json; then
-            echo 'No checkpoint changes to commit.'
-            exit 0
-          fi
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add stages/stage33/33-12/j2-stoll-marked-picard-input.json stages/stage33/33-12/result.md stages/stage33/controller.json
-          git commit -m 'Stage33-12: materialize J2 marked Kc Picard input'
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
