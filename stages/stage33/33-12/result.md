@@ -1,6 +1,6 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_IN_PROGRESS_J2_LOOP_GUARD_ACTIVE_BRANCH_COHOMOLOGY_PREFERRED_4_OF_5`
+Status: `MAIN_IN_PROGRESS_J2_LOOP_GUARD_ACTIVE_DIRECT_BFIELD_EVALUATION_PREFERRED_4_OF_5`
 
 Stage33-12 remains open. Stage33-07 remains open. Stage33-13 is not released.
 
@@ -16,157 +16,74 @@ Stage33-12 remains open. Stage33-07 remains open. Stage33-13 is not released.
 `E_J2 = 2*infinity_minus - P_plus - P_minus`, with `div(ell_J2)=2E_J2`.
 The named Stoll branch is exactly `CsK[22]`; `P_inf_K=[1:0:0:0:-1:-1]` is the attached A1 exceptional point.
 
-The order-independent semantic PicK basis has determinant `-32`, index one, with `[CsK[22]]=e8` and the infinity exceptional `e18`. The semantic discriminant target is exact:
+The order-independent semantic PicK basis has determinant `-32`, index one, with `[CsK[22]]=e8` and the infinity exceptional `e18`.
+
+The exact transcendental lattice and geometric 2-torsion Brauer target remain
 
 ```text
-A_PicK[2] = (F2)^2
-J2 candidate set = {u1/2, u2/2, (u1+u2)/2}
+T(Kc) = <4> direct_sum <8>
+Br(Kc)[2] = Hom(T,Z/2) = (1/2 T*)/T*
+beta1 = t1/8 -> [1,0]
+beta2 = t2/16 -> [0,1]
 ```
 
-No named J2 candidate is selected yet.
+The named nonzero J2 class is still one of `[1,0]`, `[0,1]`, `[1,1]` in this marked half-dual basis.
 
-## Exact CV/discriminant interface reduction
+## New exact route reduction: branch cohomology is not a new marking adapter
 
-The Creutz--Viray ruled-surface presentation supplies an exact two-dimensional quotient with named basis `[J2,q1]`, while the semantic Picard computation supplies the two-dimensional discriminant 2-torsion target. The retained data still do not canonically identify those two marked F2 spaces; the adapter remains a `GL(2,F2)` torsor before additional transcendental marking data are used.
-
-Certificate: `j2-cv-to-discriminant-marking-obstruction.json`, canonical SHA256 `1366726812db7828e14a6f5c40d862e16b08856ba8278c9c1781f0a3d40eb5dd`.
-
-## Transcendental lattice fixed up to isometry
-
-The exact semantic discriminant form fixes
+The loop-guard preferred route was tested against the double-cover cohomological description of the Brauer group. Skorobogatov's natural map
 
 ```text
-T(Kc) ~= <4> direct_sum <8>.
+Phi : Pic(C)[2] -> Br(X)[2]
 ```
 
-The retained certificate also gives an explicit discriminant anti-isometry witness from `t1/4,t2/8` to the semantic NS discriminant, generating all 32 discriminant classes.
+with its exact sequence through the branch curve canonically constructs branch-origin 2-torsion Brauer classes. This confirms that the branch/Jacobian viewpoint is mathematically legitimate.
 
-Certificate: `j2-kc-transcendental-lattice-isometry.json`.
-Canonical SHA256: `b7f2bcfa29c01731ea2f10d22db898ad57317f140b547f91e3d3a27a0faf1010`.
+However, for the current receiver it does not add the missing marked coordinate: Creutz--Viray's retained `gamma` / CSA presentation already materializes the same named branch-origin J2 Brauer class abstractly. The unresolved step is still the comparison of that named Brauer class with the fixed basis of `Hom(T(Kc),Z/2)`.
 
-## Exact marked Brauer half-dual target
-
-The correct target for direct evaluation of the named CV class is now materialized. For the fixed marked lattice
+Therefore the route is classified
 
 ```text
-T(Kc) = <t1,t2>,   Gram(T)=diag(4,8),
+BRANCH_COHOMOLOGICAL_MAP=EQUIVALENT_FOR_CURRENT_MARKED_RECEIVER
 ```
 
-the geometric 2-torsion Brauer group is
+and is archived rather than retried.
 
-```text
-Br(Kc)[2] = Hom(T,Z/2) = (1/2 T*)/T*.
-```
-
-A deterministic marked basis is therefore
-
-```text
-beta1 = t1/8   -> [1,0] on [t1,t2]
-beta2 = t2/16  -> [0,1] on [t1,t2].
-```
-
-Hence the named nonzero J2 class, once directly evaluated, is exactly one of
-
-```text
-[1,0], [0,1], [1,1].
-```
-
-This is deliberately distinguished from the discriminant 2-torsion quotient
-
-```text
-A_T[2] = (T*/T)[2].
-```
-
-The two groups have the same cardinality here but are not the same quotient. In particular the discriminant quadratic values `1,0,1` on the three nonzero `A_T[2]` representatives do not canonically select a class of `Br(Kc)[2]`. The former unique-isotropic shortcut is therefore rejected for an exact structural reason, not merely left unproved.
-
-Certificate: `j2-kc-bfield-halfdual-target.json`.
-Canonical SHA256: `28180fae13a24e4d06018703aff574db801486fa6130e83c6b6db215c32b1fdb`.
-Network-free verifier: `certify_j2_kc_bfield_halfdual_target.py`.
-
-## Automorphism signatures cannot mark J2
-
-Stoll's `substsK[6]` is `B1 -> -B1`, while the named J2 branch has `B1=0` and all three named support points also have `B1=0`; hence this involution fixes the named J2 carrier/support pointwise.
-
-However this cannot select the J2 functional. For `T(Kc)=diag(4,8)`, the complete integral isometry group is exactly `diag(+/-1,+/-1)`, four elements, and every one reduces to the identity modulo `2`. Therefore every geometric automorphism acts trivially on `Hom(T(Kc),Z/2)=Br(Kc)[2]`.
-
-Certificate: `j2-kc-automorphism-mod2-marking-rejection.json`.
-Canonical SHA256: `dfbd85c56c3c9c29238e1da633baec2ed2bd8cc58021c8137e95fb1cf9cd74fb`.
-
-## Full Galois fixedness also cannot mark J2
-
-The previous Galois rejection used only `ct: sqrt(2)->-sqrt(2)`. The remaining generator `cc: i->-i` can be evaluated directly in the semantic PicK frame.
-
-In Stoll's final `C3sK` genus-one block,
-
-```text
-[i*B2+e2*B3, i*sqrt(2)*A1+e3*B1],  e3,e2 in [1,-1],
-```
-
-complex conjugation permutes the four slots by
-
-```text
-CsK[51] <-> CsK[54]
-CsK[52] <-> CsK[53].
-```
-
-Direct exact evaluation of Stoll's `intersectionK` formula against the 17 semantic curve slots gives
-
-```text
-CsK51 : [1,1,1,1,1,1,1,2,2,1,1,1,2,2,0,4,0]
-CsK53 : [1,1,1,1,1,1,1,2,2,1,1,1,0,0,2,0,4].
-```
-
-Neither curve meets any of the 12 A1 nodes. These are exactly the semantic Gram rows of `CsK[54]` and `CsK[52]`, respectively. Since the semantic 20 classes form an index-one PicK basis with nondegenerate Gram determinant `-32`, this proves
-
-```text
-[CsK51]=[CsK54] in PicK
-[CsK53]=[CsK52] in PicK.
-```
-
-Thus `cc` fixes `u2=[CsK52]+[CsK54]` as a Picard-discriminant class; it also fixes `u1`. Together with the prior exact `ct` result, the full Galois group generated by `cc,ct` fixes all of `A_PicK[2]`. Hence Q-definedness of J2 does not select one of the three nonzero candidates.
-
-Certificate: `j2-full-galois-discriminant-fixedness-rejection.json`.
-Canonical SHA256: `c351988141e0d75da27727931b1c6167eeb9e07bb58c240bd5e57a5ad6e26d54`.
-Network-free verifier: `certify_j2_full_galois_discriminant_fixedness_rejection.py`.
+Certificate: `j2-branch-cohomology-route-reduction.json`.
+Canonical SHA256: `c3f16d2712888b853e40ca8aaef69a3ed8e6f6409d13ffc47e83e33217ae6b41`.
+Network-free verifier: `certify_j2_branch_cohomology_route_reduction.py`.
 
 ## Anti-loop / wrong-weapon guard
-
-The 2026-08-29 loop audit found no exact cycle returning to an identical state, but it did find local route churn around the same missing semantic bridge. Stage33 now enforces `stages/stage33/LOOP-GUARD.md`.
-
-Current state vector:
 
 ```text
 LOOP_GUARD_ACTIVE=true
 LOOP_STAGNATION_COUNT=0
 LOOP_ACTIVE_RECEIVER=named CV J2 -> Br(Kc)[2]=Hom(T(Kc),Z/2)
-LOOP_ACTIVE_MISSING_INTERFACE=branch-normalization J2[2] -> K3 H^2(mu_2)/Brauer map in the fixed T=diag(4,8) marking
-LOOP_NEW_EXACT_INFORMATION=Brauer target corrected from A_T[2] to the half-dual quotient plus route-family audit
-LOOP_CANDIDATES_REMOVED_THIS_BATCH=0
+LOOP_ACTIVE_MISSING_INTERFACE=compare named J2 Brauer class with fixed marked t1/t2 half-dual basis
+LOOP_NEW_EXACT_INFORMATION=branch-cohomology route classified equivalent and archived
+LOOP_CANDIDATES_REMOVED_THIS_BATCH=1
 LOOP_EXHAUSTIVE_VIEW_AUDIT_REQUIRED=false
 LOOP_BLIND_REDISCOVERY_REQUIRED=false
 ```
 
-A third ordinary same-route MAIN batch is forbidden if two consecutive batches leave the receiver, missing interface, live-candidate count, and load-bearing invariants unchanged. Renamed Galois/automorphism/Smith/discriminant selectors do not count as new routes after their route families have been exactly rejected.
-
-The current candidate ledger deliberately tests whether the previous weapon family was wrong:
+The candidate ledger is now
 
 ```text
-BRANCH_COHOMOLOGICAL_MAP                 LIVE / PREFERRED
-DIRECT_TOPOLOGICAL_OR_BFIELD_EVALUATION LIVE / FALLBACK
+BRANCH_COHOMOLOGICAL_MAP                 EQUIVALENT / ARCHIVED
+DIRECT_TOPOLOGICAL_OR_BFIELD_EVALUATION LIVE / PREFERRED
 SHIODA_INOSE_OR_CM_MODEL_MARKING         UNTESTED
 GOOD_REDUCTION_ETALE_SPECIALIZATION      UNTESTED
 ```
 
-The preferred next route attacks the actual semantic connection one level earlier than direct transcendental-cycle integration: construct the branch-normalization 2-torsion to K3 `H^2(mu_2)`/Brauer map, then evaluate its image in the already fixed half-dual target. Direct CSA evaluation on `t1,t2` remains live and is not discarded.
+Because the live candidate count decreased, this batch is not a stagnation batch under `LOOP-GUARD.md`.
 
-## Rejected shortcuts retained
+## Retained rejected shortcut families
 
-- HS-d2 parity as a direct orientation bit: `REJECTED_EXACTLY`.
+- HS-d2 parity as a Picard-discriminant orientation bit: `REJECTED_EXACTLY`.
 - Unsupported classical Kummer `(16_6)` transfer: `REJECTED_EXACTLY`.
 - Historical Smith frame alone: `INSUFFICIENT_EXACTLY`.
-- Bare Picard-discriminant `ct` connecting signature: `REJECTED_EXACTLY`.
-- Full Picard-discriminant Galois fixed-line signature: `REJECTED_EXACTLY`.
-- Kc automorphism/sign/swap fixed-line signature: `REJECTED_EXACTLY`.
+- Picard-discriminant Galois fixedness selector: `REJECTED_EXACTLY`.
+- Kc automorphism/signature selector: `REJECTED_EXACTLY`.
 - Unique-isotropic discriminant-vector guess as a Brauer selector: `REJECTED_EXACTLY_WRONG_QUOTIENT`.
 
 ## Visible progress
@@ -177,51 +94,27 @@ The preferred next route attacks the actual semantic connection one level earlie
 3/5 infinity exceptional geometric attachment                             DONE
 4/5 explicit marked PicK coordinate for J2 carrier + infinity exceptional DONE
 5/5 branch-Jacobian 2-torsion -> Kc discriminant Kummer glue              IN_PROGRESS
-    semantic Kc discriminant 2-torsion target                              DONE
-    exact CV quotient presentation                                         DONE
-    GL2(F2) marking obstruction isolated                                   DONE
-    transcendental lattice isometry T(Kc)=diag(4,8)                        DONE
-    explicit NS/T discriminant anti-isometry witness                       DONE
-    marked Br(Kc)[2] half-dual target beta1=t1/8,beta2=t2/16              DONE
-    automorphism-signature marking shortcut                                EXACTLY_REJECTED
-    full Galois fixed-line marking shortcut                                EXACTLY_REJECTED
-    anti-loop / wrong-weapon guard                                          ACTIVE
-    branch J2[2] -> K3 H^2(mu_2)/Brauer cohomological adapter              OPEN / PREFERRED
-    direct named CV J2 CSA evaluation on marked t1/t2 cycle                OPEN / FALLBACK
+    semantic PicK / discriminant data                                      DONE
+    T(Kc)=diag(4,8) and NS/T anti-isometry                                 DONE
+    marked Br(Kc)[2] half-dual target                                      DONE
+    branch cohomology alternative                                          EQUIVALENT / ARCHIVED
+    direct named CV J2 CSA/B-field evaluation on marked t1/t2              OPEN / PREFERRED
 ```
 
 ## Current exit state
 
 ```text
-J2_PTSK_ORDER_DEPENDENCY=ELIMINATED
-J2_SEMANTIC_PICARD_BASIS_MATERIALIZED=true
-J2_CSK22_PICARD_COORDINATE=e8
-J2_INFINITY_EXCEPTIONAL_PICARD_COORDINATE=e18
-J2_SEMANTIC_KC_DISCRIMINANT_2TORSION_TARGET_MATERIALIZED=true
-J2_SEMANTIC_KC_DISCRIMINANT_2TORSION_CANDIDATES=3
-J2_CV_TO_DISCRIMINANT_MARKING_OBSTRUCTION_MATERIALIZED=true
-KC_TRANSCENDENTAL_LATTICE_ISOMETRY_MATERIALIZED=true
-KC_TRANSCENDENTAL_LATTICE_GRAM=[[4,0],[0,8]]
-KC_NS_T_DISCRIMINANT_ANTI_ISOMETRY_WITNESS_MATERIALIZED=true
-KC_BRAUER_2TORSION_HALFDUAL_TARGET_MATERIALIZED=true
-KC_BRAUER_2TORSION_MARKED_BASIS=[beta1=t1/8,beta2=t2/16]
-KC_BRAUER_2TORSION_NONZERO_FUNCTIONALS=[[1,0],[0,1],[1,1]]
-DISCRIMINANT_Q_AS_NAMED_J2_BRAUER_SELECTOR=REJECTED_EXACTLY_WRONG_QUOTIENT
-KC_AUTOMORPHISM_MOD2_MARKING_SHORTCUT=REJECTED_EXACTLY
-KC_FULL_GALOIS_DISCRIMINANT_FIXED_SUBSPACE_DIMENSION_F2=2
-J2_FULL_GALOIS_FIXED_LINE_SHORTCUT=REJECTED_EXACTLY
 J2_NAMED_TRANSCENDENTAL_FUNCTIONAL_MATERIALIZED=false
-J2_BRANCH_COHOMOLOGICAL_MAP_MATERIALIZED=false
 J2_BRANCH_JACOBIAN_TO_DISCRIMINANT_KUMMER_GLUE_MATERIALIZED=false
 J2_KC_DISCRIMINANT_COORDINATE_MATERIALIZED=false
-LOOP_GUARD_ACTIVE=true
-LOOP_STAGNATION_COUNT=0
+BRANCH_COHOMOLOGY_ROUTE_REDUCTION_MATERIALIZED=true
+BRANCH_COHOMOLOGICAL_MAP_ROUTE_STATUS=EQUIVALENT_FOR_CURRENT_MARKED_RECEIVER
 FINITE_V4_KUMMER_DEFECT_COLUMNS_MATERIALIZED=0
 ARITHMETIC_HS_D2_COMPUTED=false
 STAGE33_07_HOSTILE_REAUDIT=NOT_RUN
 STAGE33_12_CLOSED=false
 ```
 
-Next exact leaf: `CONSTRUCT_BRANCH_NORMALIZATION_J2_2TORSION_TO_K3_H2_MU2_BRAUER_MAP_AND_EVALUATE_IN_FIXED_T_DIAG_4_8_HALFDUAL_TARGET`.
+Next exact leaf: `EVALUATE_NAMED_CV_J2_CSA_OR_BFIELD_ON_MARKED_T1_OR_T2_CYCLE_IN_FIXED_HALFDUAL_TARGET`.
 
 No 33-13 release, theorem/receiver/endpoint credit, or perfect-cuboid existence/nonexistence claim is granted by this checkpoint.
