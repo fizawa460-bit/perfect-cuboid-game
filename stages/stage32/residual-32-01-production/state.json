@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V63_RESUMABLE_GEN35_INGESTED",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V64_RESUMABLE_GEN36_COLD_PREFLIGHT_PASS",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "RESUMABLE_GEN35_PASS_FRONTIER_124_PREPARE_GEN36",
+  "status": "RESUMABLE_GEN36_COLD_PREFLIGHT_PASS_FRESH_ARM_NEXT",
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": false,
@@ -53,20 +53,6 @@
       "frontier_net_change": -49,
       "result": "PASS_RESUMABLE_GEN34_EXACT_FIFO_FRONTIER_218_TO_169"
     },
-    "generation35_cold_preflight": {
-      "checkpoint": "stages/stage32/residual-32-01-production/full178-resumable-generation35-cold-preflight-main-checkpoint.json",
-      "workflow_run_id": 33273217629,
-      "authorize_job_id": 99155332613,
-      "source_frontier_count": 169,
-      "dispatch_count": 128,
-      "carry_count": 41,
-      "dispatch_canonical_sha256": "8724bf6fffc780f45414ca3f43280ff6afdd1a56c734f29b9ded7f0404afa220",
-      "exact_fifo_source_preflight": "PASS_EXACT_FIFO_SOURCE_PREFLIGHT",
-      "structural_preflight": "PASS_RESUMABLE_PRODUCTION_STRUCTURAL_PREFLIGHT",
-      "production_armed": false,
-      "arm_authorized": true,
-      "arm_requires_fresh_runkey_only_sync": true
-    },
     "generation35": {
       "checkpoint": "stages/stage32/residual-32-01-production/full178-resumable-generation35-main-checkpoint.json",
       "workflow_run_id": 33273365713,
@@ -84,6 +70,21 @@
       "frontier_net_change": -45,
       "result": "PASS_RESUMABLE_GEN35_EXACT_FIFO_FRONTIER_169_TO_124"
     },
+    "generation36_cold_preflight": {
+      "checkpoint": "stages/stage32/residual-32-01-production/full178-resumable-generation36-cold-preflight-main-checkpoint.json",
+      "workflow_run_id": 33276336857,
+      "authorize_job_id": 99163608816,
+      "source_frontier_count": 124,
+      "dispatch_count": 124,
+      "carry_count": 0,
+      "dispatch_canonical_sha256": "f130308eee4470d42bb43198db544cfd8c3f0f7cd49205b4b9526e87d3e9f3db",
+      "exact_fifo_source_preflight": "PASS_EXACT_FIFO_SOURCE_PREFLIGHT",
+      "structural_preflight": "PASS_RESUMABLE_PRODUCTION_STRUCTURAL_PREFLIGHT",
+      "cursor_roundtrip_exact": true,
+      "production_armed": false,
+      "arm_authorized": true,
+      "arm_requires_fresh_runkey_only_sync": true
+    },
     "production_switch_supported": true,
     "production_switched": true
   },
@@ -91,5 +92,5 @@
     "armed": false,
     "preferred": false
   },
-  "next_item": "COLD_PREFLIGHT_GEN36_FROM_GEN35_FRONTIER_ARTIFACT"
+  "next_item": "ARM_RESUMABLE_GEN36_WITH_FRESH_RUNKEY_ONLY_SYNC"
 }
