@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V10_GENERATION14_COST_AWARE_PASS",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V11_GENERATION16_1M_BOUNDED_PASS",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "GENERATION11_BEST_ACTIONS_PROFILE_GENERATION12_NO_CREDIT_GENERATION13_VALID_REGRESSION_GENERATION14_COST_AWARE_ACTIONS_PASS_COMPLETION_CURVE_NEXT",
+  "status": "GENERATION14_COST_AWARE_ACTIONS_PASS_GENERATION15_NO_CREDIT_GENERATION16_FIXED_CONTRACT_1M_BOUNDED_PASS_SINGLE_M2_HIGHER_BOUND_SCOUT_NEXT",
   "audit_required": true,
   "repair_required": false,
   "merge_allowed": false,
@@ -19,52 +19,35 @@
   "diagnosis": {
     "hperp_integral_saturation_adapter_validated": true,
     "full_aut1536_reconstructed_exactly": true,
-    "generation12_result_valid_for_credit": false,
-    "generation13_result_valid_for_cost_comparison": true,
-    "generation13_cost_regression": true,
-    "cost_aware_cold_search_completed": true,
     "generation14_actions_matches_cold_prediction_exactly": true,
-    "generation14_improves_generation11_cost_profile": true,
     "generation14_node_cap_exhausted_all_representatives": true,
+    "generation15_result_valid_for_credit": false,
+    "generation16_fixed_contract_actions_pass": true,
+    "generation16_node_budget_exhausted_all_representatives": true,
     "production_cost_ready": false,
-    "reason": "GENERATION14_EXACTLY_REPRODUCED_THE_COST_AWARE_COLD_WINNER_ON_ALL_FOUR_LOCKED_REPRESENTATIVES: 250000_NODES,55377_MEMBERSHIP_PRUNES,42618_SYMMETRY_PRUNES,55580_TERMINALS_EACH. THIS_REDUCES_TERMINALS_BY_ABOUT_61_PERCENT_RELATIVE_TO_GENERATION11_BUT_STILL_EXHAUSTS_THE_250K_NODE_CAP, SO_FULL178_AND_B18_REMAIN_CLOSED."
-  },
-  "generation11_main_checkpoint": {
-    "checkpoint_file": "stages/stage32/residual-32-01-production/generation11-main-checkpoint.json",
-    "run_id": 33221526201,
-    "artifact_id": 9705346600,
-    "certificate_sha256": "6aa69e928cc049839f5062db856f53a8a155074b3144bd1f9fc73bc68f2b7fa0"
-  },
-  "generation12_engineering_fail": {
-    "checkpoint_file": "stages/stage32/residual-32-01-production/generation12-engineering-fail.json",
-    "run_id": 33224065499,
-    "result": "FAIL_CLOSED_ENGINEERING_NO_CREDIT"
-  },
-  "generation13_main_checkpoint": {
-    "checkpoint_file": "stages/stage32/residual-32-01-production/generation13-main-checkpoint.json",
-    "run_id": 33224323382,
-    "artifact_id": 9706313895,
-    "certificate_sha256": "8bfd9145fbd54afe966cb4e890bea8684f1580cd4d4ed5d67f591aee4a124baf"
+    "reason": "THE_EXACT_COST_AWARE_WINNER_WAS_REPRODUCED_AT_1M_NODES_WITH_A_VALID_COMPACT_ARTIFACT. ALL_FOUR_LOCKED_REPRESENTATIVES_STILL_EXHAUST_THE_NODE_BUDGET. THE_M2_REPRESENTATIVE_HAS_THE_SMALLEST_NORMAL_MASS_AND_IS_THE_LOWEST_COST_NEXT_COMPLETION_SCOUT, SO_FULL178_AND_B18_REMAIN_CLOSED."
   },
   "generation14_main_checkpoint": {
     "checkpoint_file": "stages/stage32/residual-32-01-production/generation14-main-checkpoint.json",
     "run_id": 33224684998,
     "artifact_id": 9706434218,
-    "artifact_zip_sha256": "543437a26d734003740e89fdd987afed1845a30a08b377e915b14ef417a45b5a",
-    "certificate_sha256": "438603ee4ebc9fcfe3ac6a019292ca92ee64765776ae9a78579a53d2d8df28cf",
-    "known_label_order_1based": [95,99,103,102,49,97,94,101,93,98,96],
-    "representative_profile_each": {"nodes":250000,"membership_prunes":55377,"symmetry_prunes":42618,"terminals":55580},
-    "cold_prediction_exactly_reproduced": true,
-    "production_cost_ready": false
+    "certificate_sha256": "438603ee4ebc9fcfe3ac6a019292ca92ee64765776ae9a78579a53d2d8df28cf"
   },
-  "cost_aware_cold_search": {
-    "checkpoint_file": "stages/stage32/residual-32-01-production/cost-aware-order-cold-search.json",
-    "orders_screened": 82,
-    "deterministic_seed": 320113,
-    "selected_order_1based": [95,99,103,102,49,97,94,101,93,98,96],
-    "normal_label_49_depth": 5,
-    "coordinate_semantics_changed": false,
-    "baseline_250k_reproduced_exactly": true
+  "generation15_engineering_fail": {
+    "checkpoint_file": "stages/stage32/residual-32-01-production/generation15-engineering-fail.json",
+    "run_id": 33227719328,
+    "result": "FAIL_CLOSED_POSTCOMPUTE_CONTRACT_KEY_MISMATCH_NO_ARTIFACT_NO_CREDIT"
+  },
+  "generation16_main_checkpoint": {
+    "checkpoint_file": "stages/stage32/residual-32-01-production/generation16-main-checkpoint.json",
+    "run_id": 33227879384,
+    "artifact_id": 9707487247,
+    "artifact_zip_sha256": "27b2bc2cf0e2891f91ba4bc5e21e5adf4cd78df2fd4b65745c6abe24f9808579",
+    "certificate_sha256": "486998102e942c54b96b4941a2329d619e2c0b751cab1c7fbaef876637407dbc",
+    "known_label_order_1based": [95,99,103,102,49,97,94,101,93,98,96],
+    "node_limit": 1000000,
+    "node_budget_exhausted_all_representatives": true,
+    "production_cost_ready": false
   },
   "implementation": {
     "hperp_integral_adapter": "stages/stage32/residual-32-01-production/hperp_integral_adapter.py",
@@ -72,8 +55,8 @@
     "generation14_wrapper": "stages/stage32/residual-32-01-production/calibrate_generation14.py",
     "workflow": ".github/workflows/stage32-residual32-01-pairing-prefix-calibration.yml",
     "runkey": "stages/stage32/runkeys/residual32-01-pairing-prefix-calibration.json",
-    "runkey_generation": 14,
+    "runkey_generation": 16,
     "online_magma_dependency": false
   },
-  "next_item": "COST_AWARE_WINNER_BOUNDED_NODE_LIMIT_COMPLETION_CURVE"
+  "next_item": "SINGLE_REPRESENTATIVE_M2_HIGHER_BOUND_COMPLETION_SCOUT"
 }
