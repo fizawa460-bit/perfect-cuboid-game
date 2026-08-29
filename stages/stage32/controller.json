@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V107_FULL178_GEN23_PASS_GEN24_WIDE128_CARRY34_COLD_READY",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V108_FULL178_GEN24_AUTH_FAIL_GEN25_WIDE128_CARRY34_COLD_READY",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
   "G10_LOWGENUS_PICARD": "AMBER",
   "stage32_closed": false,
-  "status": "RESIDUAL32_01_FULL178_GENERATION23_PASS_GENERATION24_WIDE128_CARRY34_COLD_READY",
+  "status": "RESIDUAL32_01_FULL178_GENERATION24_AUTHORIZATION_FAIL_NO_COMPUTE_GENERATION25_WIDE128_CARRY34_COLD_READY",
   "audit_required": false,
   "repair_required": false,
   "repair_allowed": false,
@@ -24,14 +24,15 @@
   "accepted_current_facts": {
     "residual32_01_generations2_through21_pass": true,
     "residual32_01_generation22_authorization_failed_before_compute": true,
-    "residual32_01_generation22_produce_skipped": true,
-    "residual32_01_generation22_aggregate_skipped": true,
-    "residual32_01_generation22_failure_class": "RUNKEY_WORK_UNIT_ID_INTEGRITY",
     "residual32_01_generation23_pass": true,
-    "residual32_01_generation23_input_work_units": 124,
     "residual32_01_generation23_next_exact_work_units": 162,
-    "residual32_01_generation24_planned_work_unit_count": 128,
-    "residual32_01_generation24_carry_before_new_children": 34,
+    "residual32_01_generation24_authorization_failed_before_compute": true,
+    "residual32_01_generation24_produce_skipped": true,
+    "residual32_01_generation24_aggregate_skipped": true,
+    "residual32_01_generation24_failure_class": "RUNKEY_WORK_UNIT_ID_INTEGRITY_TRANSCRIPTION_MISMATCH",
+    "residual32_01_generation25_exact_manifest_rebuild_ready": true,
+    "residual32_01_generation25_planned_work_unit_count": 128,
+    "residual32_01_generation25_carry_before_new_children": 34,
     "residual32_01_max_work_units_per_wave": 128,
     "residual32_01_full178_effective_heavy_concurrency": 17,
     "residual32_01_maximum_stage32_heavy_overlap": 18
@@ -54,18 +55,18 @@
     "mathematical_credit_changed_this_batch": false,
     "receiver_credit_changed": false
   },
-  "current_item": "ARM_FULL178_GENERATION24_WIDE128_WITH_CARRY34",
-  "current_item_execution_constraint": "GENERATION23 RUN 33245993582 PASSED ALL 124 WORK UNITS AND AGGREGATE. EXACT OUTPUT FRONTIER IS 162 CHILDREN; GENERATION24 MUST DISPATCH THE FIRST 128 FIFO AND RETAIN 34 AS PREEXISTING CARRY BEFORE ANY NEW CHILDREN. ARM ONLY AFTER COLD METADATA CI BY A FRESH DEDICATED-RUNKEY-ONLY GENERATION24 SYNCHRONIZATION. UNKNOWN!=UNSAT; PREFIX COMPLETION!=NUMERICAL ROW CLOSURE; ALL MATHEMATICAL CREDIT FIREWALLS REMAIN CLOSED.",
+  "current_item": "ARM_FULL178_GENERATION25_WIDE128_EXACT_MANIFEST_REBUILD_WITH_CARRY34",
+  "current_item_execution_constraint": "GENERATION24 RUN 33246665404 FAILED CLOSED IN AUTHORIZATION BEFORE ANY HEAVY PRODUCE JOB. THE FAILURE WAS A RUNKEY TRANSCRIPTION MISMATCH, NOT A MATHEMATICAL EVENT. THE EXACT GENERATION23 FRONTIER REMAINS 162 UNTOUCHED CHILDREN. GENERATION25 MUST USE THE FIRST 128 FIFO CHILDREN DIRECTLY FROM MANIFEST ARTIFACT 9712975257 AND RETAIN 34 AS PREEXISTING CARRY. ARM ONLY AFTER COLD METADATA CI BY A FRESH DEDICATED-RUNKEY-ONLY GENERATION25 SYNCHRONIZATION. UNKNOWN!=UNSAT; PREFIX COMPLETION!=NUMERICAL ROW CLOSURE; ALL MATHEMATICAL CREDIT FIREWALLS REMAIN CLOSED.",
   "execution_class": 2,
   "next_expected_command": "Stage32-main-batch",
-  "next_item": "ARM_GENERATION24_WIDE128_FIRST_FRONTIER_THEN_INGEST_WITH_CARRY34",
+  "next_item": "ARM_GENERATION25_WIDE128_EXACT_MANIFEST_REBUILD_THEN_INGEST_WITH_CARRY34",
   "post_b16_progression": {
     "b18_release_authorized": false,
     "full_178_preflight_authorized": true,
     "full_178_preflight_implemented": true,
     "full_178_row_sweep_authorized": true,
     "later_items_released": false,
-    "current_release": "RESIDUAL32_01_FULL178_PREFIX_FRONTIER_GENERATION24_WIDE128_CARRY34_COLD_READY",
+    "current_release": "RESIDUAL32_01_FULL178_PREFIX_FRONTIER_GENERATION25_WIDE128_CARRY34_COLD_READY",
     "residual_feasibility_gate": "HOSTILE_AUDIT_PASS_SCOPE_LOCKED"
   },
   "residual32_01_checkpoint": {
@@ -76,10 +77,7 @@
     "generation22": {
       "run_id": 33245841814,
       "authorize_job_id": 99083017304,
-      "result": "FAIL_CLOSED_AUTHORIZATION_NO_COMPUTE",
-      "produce_result": "SKIPPED",
-      "aggregate_result": "SKIPPED",
-      "failure_class": "RUNKEY_WORK_UNIT_ID_INTEGRITY"
+      "result": "FAIL_CLOSED_AUTHORIZATION_NO_COMPUTE"
     },
     "generation23": {
       "run_id": 33245993582,
@@ -94,16 +92,24 @@
       "checkpoint": "stages/stage32/residual-32-01-production/full178-generation23-main-checkpoint.json",
       "wave_manifest_artifact_id": 9712975257,
       "wave_manifest_artifact_zip_sha256": "d4b3ebacb4e8499f90c0ccdf95f65d752f744d4ad6471f3138418471370e26b2",
-      "wave_manifest_canonical_sha256": "8201c3c2e85574b65f4520fbcc4d557ef7f5bc10b4d9e9162378dbb632239f43",
-      "wave_manifest_canonical_sha256_independently_recomputed": true
+      "wave_manifest_canonical_sha256": "8201c3c2e85574b65f4520fbcc4d557ef7f5bc10b4d9e9162378dbb632239f43"
     },
     "generation24": {
+      "run_id": 33246665404,
+      "authorize_job_id": 99085207925,
+      "result": "FAIL_CLOSED_AUTHORIZATION_NO_COMPUTE",
+      "produce_result": "SKIPPED",
+      "aggregate_result": "SKIPPED",
+      "failure_class": "RUNKEY_WORK_UNIT_ID_INTEGRITY_TRANSCRIPTION_MISMATCH"
+    },
+    "generation25": {
       "armed": false,
       "planned_work_unit_count": 128,
       "queue_policy": "FIFO_GLOBAL_FRONTIER_FROM_GENERATION23_ARTIFACT",
       "pending_frontier_before_dispatch": 162,
       "pending_frontier_after_dispatch_before_new_children": 34,
       "carry_count_before_new_children": 34,
+      "source_artifact_id": 9712975257,
       "node_ceiling_per_work_unit": 16000000,
       "max_work_units_per_wave": 128,
       "effective_heavy_concurrency": 17,
