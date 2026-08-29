@@ -1,6 +1,6 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_IN_PROGRESS_INDEX2_GENUS_ONE_TORSOR_TARGET_4_OF_5`
+Status: `MAIN_IN_PROGRESS_DEGENERATE_HERMITE_INVERSE_4_OF_5`
 
 Stage33-12 remains open. Stage33-07 remains open. Stage33-13 is not released.
 
@@ -16,72 +16,83 @@ Br(Kc)[2] = Hom(T,Z/2)
 
 The marked Brauer functional is still one of the three nonzero functionals.
 
-## Retained exact rejections
+## Retained semantic firewalls
 
-```text
-constant d=2 -> geometrically trivial after Qbar base change
-q=t^4-6*t^2+1 -> single-isogeny homogeneous space has an explicit Q(t)-point
-Dplus=t^2-2*t-1 -> half-divisor pushforward/support datum only
-naive CV branch pair-products -> split-E[2] triple (1,2,2), hence trivial over Qbar(t)
-```
+The constant `d=2`, the scalar `q`, the `Dplus` support pushforward, and the naive CV branch pair-products do not materialize the named geometric J2 Sha torsor. Stage33-05's zero presentation connecting cocycle only gives a fixed lift in the CV presentation module; it is not Sha-triviality.
 
-Stage33-05's zero presentation connecting cocycle only means that J2 has a fixed lift in the CV presentation module; it is not Sha-triviality.
-
-## Brauer-to-Sha interface retained
-
-For the elliptic K3 fibration `Kc -> P1_t` with section,
-
-```text
-Br(Kc_bar) ~= Sha(Kc_bar/P1),
-E: Y^2=X*(X-(t^2-1)^2)*(X-(t^4-6*t^2+1)).
-```
-
-The named J2 class must be materialized through the relative Picard/twisted-Poincare descent, not through scalar norms or direct branch pair-products.
-
-## NEW exact target refinement: the torsor is an index-2 genus-one K3
-
-J2 is already certified geometrically nontrivial and of exact order 2. For an elliptic K3 torsor `X` over its Jacobian surface `S`, the standard Brauer-Sha correspondence gives:
-
-```text
-alpha_X = 0  <=>  X has a section,
-multisection_index(X) = order(alpha_X).
-```
-
-Therefore the named J2 image is forced to be a genus-one K3 torsor `X_J2` satisfying
+The named J2 image is a nontrivial order-2 genus-one K3 torsor `X_J2` with
 
 ```text
 J^0(X_J2) ~= Kc,
-X_J2 has no section,
-multisection index(X_J2) = 2.
+no section,
+multisection index = 2.
 ```
 
-Equivalently, the universal object is a `(1 x J2)`-twisted Poincare invertible sheaf on `X_J2 x_{P1} Kc` over the smooth base. Local untwisted trivializations of that twisted Poincare object glue by translations in `Pic^0`; those translations are the actual Sha Cech cocycle.
+## NEW: explicit construction route is the degenerate Hermite inverse problem
 
-This corrects an overly loose formulation from the previous leaf: arbitrary line-bundle differences on `Kc` alone are not enough. The local data must come from the named Azumaya/twisted-Poincare descent.
+Van Geemen's Hermite construction starts from a genus-one fibration with a double section
 
-Certificate: `j2-twisted-poincare-torsor-target.json`; verifier: `certify_j2_twisted_poincare_torsor_target.py`.
+```text
+w^2=a0*v^4+4*a1*v^3+6*a2*v^2+4*a3*v+a4
+```
 
-The existing exact CV graph lifts remain useful only as branch-side divisor input for constructing local splitting modules of the named Q-defined CSA. They are not promoted directly to Sha data.
+and recovers its Jacobian together with a symmetric `3 x 3` determinantal conic bundle
+
+```text
+M = [[a0, a1, a2+2*x],
+     [a1, a2-x, a3],
+     [a2+2*x, a3, a4]].
+```
+
+The conic bundle / even Clifford algebra is the order-2 Brauer datum defining the genus-one torsor.
+
+For our Kc generic fiber
+
+```text
+E: Y^2=X*(X-r1)*(X-r2),
+r1=(t^2-1)^2,
+r2=q=t^4-6*t^2+1,
+```
+
+the affine cubic branch is exactly
+
+```text
+X=0  union  X=r1  union  X=r2.
+```
+
+These are three generically distinct sections because `r1-r2=4*t^2`. Hence this is not the smooth trigonal branch situation: it is the three-component degenerate Hermite/conic-bundle case. Van Geemen Section 8.7 explicitly notes Wittenberg's three-irreducible-component case as a degenerate instance of this construction.
+
+Therefore we do not apply the general smooth-branch Theorem 7.6 directly. The exact inverse problem is now:
+
+```text
+construct a Hermite-form symmetric matrix M_J2
+such that its determinant is the Kc cubic branch
+(up to an explicitly certified Weierstrass coordinate/scaling change)
+and its even-Clifford Brauer class is the named CV J2 class;
+then read off a0,...,a4 and obtain X_J2.
+```
+
+This is stronger than the previous abstract relative-Picard interface: the unknown is now a concrete symmetric determinantal representation / binary quartic.
+
+Certificate: `j2-degenerate-hermite-inverse-construction-target.json`; verifier: `certify_j2_degenerate_hermite_inverse_construction_target.py`.
 
 ## Next exact leaf
 
 ```text
-CONSTRUCT_AN_EXPLICIT_GENUS_ONE_K3_MODEL_X_J2
-OR EQUIVALENT LOCAL AZUMAYA SPLITTING MODULES,
-VERIFY J^0(X_J2)=Kc,
-VERIFY NO SECTION,
-VERIFY A DEGREE-2 MULTISECTION,
-THEN COMPUTE T(X_J2) OR THE OVERLAP TRANSLATION COCYCLE.
+SOLVE_THE_DEGENERATE_HERMITE_SYMMETRIC_DETERMINANTAL_REPRESENTATION
+FOR_THE_NAMED_CV_J2_CLASS,
+RECOVER_THE_BINARY_QUARTIC_GENUS_ONE_K3_X_J2,
+VERIFY JACOBIAN=Kc / NO SECTION / BISECTION INDEX 2,
+THEN COMPUTE T(X_J2).
 ```
 
-Once `T(X_J2)` is explicit, the existing lattice fingerprints select the marked J2 functional by minimum norm 4/8/12.
+Once `T(X_J2)` is explicit, the existing minimum-norm fingerprints `4/8/12` select the marked J2 functional.
 
 ## Firewalls
 
 ```text
 Stage33-12 visible progress = 4/5
 J2 explicit torsor surface materialized = false
-J2 Brauer-to-Sha Leray edge materialized = false
 J2 marked Brauer functional materialized = false
 J2 twisted transcendental kernel identified = false
 Stage33-12 exact closure = false
