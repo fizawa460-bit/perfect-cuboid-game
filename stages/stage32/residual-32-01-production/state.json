@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V17_FULL178_PREFLIGHT_IMPLEMENTED_PENDING_AUDIT",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V18_FULL178_SOURCE_PROVENANCE_REPAIRED_PENDING_REAUDIT",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "FULL178_COLD_PREFLIGHT_IMPLEMENTED_PENDING_FRESH_AUDIT_NO_HEAVY_SWEEP",
+  "status": "FULL178_COLD_PREFLIGHT_SOURCE_PROVENANCE_REPAIRED_PENDING_FRESH_REAUDIT_NO_HEAVY_SWEEP",
   "audit_required": true,
   "repair_required": false,
   "merge_allowed": false,
@@ -21,18 +21,31 @@
     "representative_cost_feasibility_hostile_audit_pass": true,
     "full178_preflight_released": true,
     "full178_preflight_implemented": true,
+    "full178_manifest_internal_consistency_pass": true,
+    "full178_source_provenance_repair_complete": true,
     "production_cost_ready": false,
-    "production_cost_ready_provisional": true,
-    "production_cost_ready_blocker": "FRESH_HOSTILE_AUDIT_OF_FULL178_STATIC_PREFLIGHT_REQUIRED_BEFORE_HEAVY_RELEASE",
-    "reason": "THE EXACT 178-ROW MANIFEST, M-CLASS PARTITION, DETERMINISTIC FAIL-CLOSED WORK-UNIT POLICY, 8-RUNNER BOUNDED-WAVE POLICY, COMPACT-EVIDENCE STORAGE PREFLIGHT, STATIC VERIFIER, AND COLD DEDICATED RUN KEY ARE NOW IMPLEMENTED. REPRESENTATIVE COSTS REMAIN REFERENCE TELEMETRY ONLY, NOT A FULL178 WORST-CASE BOUND. NO HEAVY SWEEP IS AUTHORIZED OR ARMED."
+    "production_cost_ready_provisional": false,
+    "production_cost_ready_blocker": "FRESH_HOSTILE_REAUDIT_REQUIRED_AFTER_AUDITED_183_ROW_SOURCE_PROVENANCE_REPAIR",
+    "reason": "HOSTILE AUDIT 5057147138 ACCEPTED THE INTERNAL 178-ROW MANIFEST, M-CLASS PARTITION, FAIL-CLOSED 16M POLICY, CONCURRENCY/STORAGE PREFLIGHT, COLD RUN KEY, AND CI BEHAVIOR, BUT REQUIRED A MACHINE-CHECKED LINK TO THE AUDITED 183-ROW SOURCE. THE VERIFIER NOW READS THE HOSTILE-AUDITED RESIDUAL-FEASIBILITY STATE, IMPORTS ITS LOCKED ANALYZER, REQUIRES PAYLOAD SHA e787c75b845b691c934fcba5a09a1a76c3c95a82a2deb6563bb7e8fbcd636897, OBTAINS THE 183 ROWS FROM audited_rows(), AND PROVES THE MANIFEST IS EXACTLY THAT SET MINUS THE FIVE AUDITED DEGREE<=6 ROWS."
   },
-  "hostile_audit": {
-    "review_id": 5056772158,
-    "audited_head_sha": "3def08e2887c67089cfdc77f7e0355977425c0c5",
-    "verdict": "PASS_RESIDUAL32_01_REPRESENTATIVE_COST_FEASIBILITY_SCOPE_LOCKED",
-    "artifact_hashes_independently_recomputed": true,
-    "generation18_certificate_sha256": "10fd522322d65de1ebfb2b03985848678fc2b33ded1a2aa1c22ae8d7be514fb5",
-    "generation19_certificate_sha256": "06e487a6b083eb56d15df76920db4bb0c388ab52a3b321cc4cf2581752e23c5e"
+  "full178_hostile_audit": {
+    "review_id": 5057147138,
+    "audited_head_sha": "99c7fb237d0aff53dd2a9f97083650b60d5643f8",
+    "verdict": "FAIL_REPAIR_REQUIRED_SOURCE_PROVENANCE_LOCK",
+    "accepted_components": ["internal_manifest_consistency","m_class_partition","fail_closed_unknown_policy","actions_storage_concurrency_preflight","cold_runkey_and_ci"],
+    "failed_component": "AUDITED_183_ROW_SOURCE_PROVENANCE_LOCK",
+    "repair_complete": true
+  },
+  "source_provenance_repair": {
+    "audited_state": "stages/stage32/post-b16-residual-feasibility/state.json",
+    "audited_state_schema": "STAGE32_POST_B16_RESIDUAL_FEASIBILITY_STATE_V2_HOSTILE_AUDIT_PASS",
+    "audited_residual_feasibility_review_id": 5055351647,
+    "audited_analyzer": "stages/stage32/post-b16-residual-feasibility/analyze_full_window_feasibility.py",
+    "audited_payload_sha256": "e787c75b845b691c934fcba5a09a1a76c3c95a82a2deb6563bb7e8fbcd636897",
+    "audited_source_row_count": 183,
+    "excluded_degree_le_6_row_ids": ["g0-d002","g0-d004","g0-d006","g1-d004","g1-d006"],
+    "derived_residual_row_count": 178,
+    "verifier_derives_rows_from_audited_analyzer": true
   },
   "full178_preflight": {
     "manifest": "stages/stage32/residual-32-01-production/full178-manifest.json",
@@ -61,5 +74,5 @@
     "m4": {"nodes":10360479,"membership_prunes":2157624,"symmetry_prunes":734852,"terminals":2139102},
     "m8": {"nodes":8277509,"membership_prunes":1723816,"symmetry_prunes":587108,"terminals":1709018}
   },
-  "next_item": "HOSTILE_AUDIT_FULL178_STATIC_PREFLIGHT_BEFORE_ANY_HEAVY_PRODUCTION_RELEASE"
+  "next_item": "HOSTILE_REAUDIT_FULL178_STATIC_PREFLIGHT_SOURCE_PROVENANCE_REPAIR"
 }
