@@ -13,6 +13,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   authorize:
@@ -35,8 +36,7 @@ jobs:
         run: |
           python - <<'PY'
           import json
-          p='stages/stage32/residual-32-01-production/full178-wave128-preflight.json'
-          x=json.load(open(p))
+          x=json.load(open('stages/stage32/residual-32-01-production/full178-wave128-preflight.json'))
           assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_WAVE128_CONCURRENCY17_PREFLIGHT_V1'
           assert x['scope']=='OPERATIONAL_WAVE_EXPANSION_ONLY_NO_MATHEMATICAL_SEMANTICS_CHANGE'
           assert x['source_and_math_contract_unchanged'] is True
@@ -47,8 +47,7 @@ jobs:
           assert x['full178_heavy_concurrency']==17
           assert x['other_stage32_heavy_overlap_bound']==1
           assert x['maximum_effective_stage32_heavy_overlap']==18
-          assert x['hard_stage_cap']==18
-          assert x['stage_cap_pass'] is True
+          assert x['hard_stage_cap']==18 and x['stage_cap_pass'] is True
           assert x['storage_safe_under_operating_budget'] is True
           assert x['unknown_is_unsat'] is False
           assert x['fresh_runkey_only_authorization_required'] is True
@@ -61,6 +60,8 @@ jobs:
           ACTION: ${{ github.event.action }}
           BEFORE: ${{ github.event.before }}
           HEAD: ${{ github.event.pull_request.head.sha }}
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
         run: |
           set -euo pipefail
           KEY='stages/stage32/runkeys/residual32-01-full178-production.json'
@@ -76,7 +77,7 @@ jobs:
           [ "${#changed[@]}" -eq 1 ] || exit 0
           [ "${changed[0]}" = "$KEY" ] || exit 0
           python - "$BEFORE" "$KEY" "$GITHUB_OUTPUT" <<'PY'
-          import base64, gzip, hashlib, json, subprocess, sys
+          import hashlib, json, os, pathlib, subprocess, sys, tempfile, zipfile
           before, key, output = sys.argv[1:]
           old = json.loads(subprocess.check_output(['git','show',f'{before}:{key}'], text=True))
           new = json.load(open(key))
@@ -94,65 +95,74 @@ jobs:
           assert new['FULL178_HEAVY_PRODUCTION_AUTHORIZED'] is True
           assert new['FULL_178_ROW_SWEEP_AUTHORIZED'] is True
           assert new['B18_RELEASE_AUTHORIZED'] is False
-          assert new['THEOREM_CREDIT'] is False
-          assert new['RECEIVER_CREDIT'] is False
+          assert new['THEOREM_CREDIT'] is False and new['RECEIVER_CREDIT'] is False
+          assert new['work_units_source']=='LOCKED_PRIOR_WAVE_MANIFEST_SLICE_V1'
+          assert int(new['source_run_id'])==33249640508
+          assert int(new['source_manifest_artifact_id'])==9714094354
+          assert new['source_artifact_zip_sha256']=='35959bc4611d2967766d5dc4ae3eb8624dc851cab23444f3b50c01d98311f5b4'
+          assert new['source_manifest_canonical_sha256']=='0a33257cd04ff3b67dcca85a6366502329d49206269fc1bddd7e21d879977bca'
+          assert int(new['source_next_exact_start'])==4
+          assert int(new['source_next_exact_end'])==132
+          assert int(new['work_units_count'])==128
+          assert new['work_units_canonical_sha256']=='56a7771f66bf0feb6bab8f77c7da56e3c448bfaab280de787f85f42751ab70b7'
+
+          def cjson(v):
+              return json.dumps(v,sort_keys=True,separators=(',',':')).encode()
+          def digest(v):
+              return hashlib.sha256(cjson(v)).hexdigest()
+
+          td=pathlib.Path(tempfile.mkdtemp(prefix='gen31-source-'))
+          zp=td/'source.zip'
+          url=f"https://api.github.com/repos/{os.environ['REPOSITORY']}/actions/artifacts/{new['source_manifest_artifact_id']}/zip"
+          subprocess.check_call(['curl','-fsSL','-H',f"Authorization: Bearer {os.environ['GH_TOKEN']}",'-H','X-GitHub-Api-Version: 2022-11-28',url,'-o',str(zp)])
+          assert hashlib.sha256(zp.read_bytes()).hexdigest()==new['source_artifact_zip_sha256']
+          with zipfile.ZipFile(zp) as z:
+              names=z.namelist()
+              assert 'wave-manifest.json' in names
+              source=json.loads(z.read('wave-manifest.json'))
+          source_sha=source.pop('canonical_sha256_without_this_field')
+          assert digest(source)==source_sha==new['source_manifest_canonical_sha256']
+          assert source['generation']==29 and source['input_work_unit_count']==128
+          children=source['next_exact_work_units']
+          assert len(children)==160
+          units=children[int(new['source_next_exact_start']):int(new['source_next_exact_end'])]
+          assert len(units)==128
+          assert hashlib.sha256(cjson(units)).hexdigest()==new['work_units_canonical_sha256']
 
           manifest = json.load(open('stages/stage32/residual-32-01-production/full178-manifest.json'))
           row_ids = {row for rows in manifest['m_class_rows'].values() for row in rows}
           labels = [95,99,103,102,49,97,94,101,93,98,96]
-
-          def digest(v):
-              return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-
-          def parse_row(row_id):
-              assert row_id in row_ids
-              g,d = row_id.split('-')
-              return int(g[1:]), int(d[1:])
-
           def verify_unit(u):
               assert isinstance(u, dict)
-              kind = u['kind']; row_id = u['row_id']
-              genus, degree = parse_row(row_id)
-              emin = 8 if genus == 0 else 4
-              emax = (19 * degree) // 5
-              if kind == 'ROW_TAIL':
-                  base = {'kind':kind,'row_id':row_id,'e_start':int(u['e_start'])}
+              kind=u['kind']; row_id=u['row_id']; assert row_id in row_ids
+              g,d=row_id.split('-'); genus=int(g[1:]); degree=int(d[1:])
+              emin=8 if genus==0 else 4; emax=(19*degree)//5
+              if kind=='ROW_TAIL':
+                  base={'kind':kind,'row_id':row_id,'e_start':int(u['e_start'])}
                   assert emin <= base['e_start'] <= emax
-              elif kind == 'STRATUM_PARTITION':
-                  e = int(u['e']); prefix = [int(v) for v in u.get('prefix',[])]
-                  lo = int(u['next_min']); hi = int(u['next_max'])
-                  assert emin <= e <= emax
-                  assert len(prefix) < len(labels)
-                  assert all(v >= 0 for v in prefix)
-                  exceptional = sum(v for label,v in zip(labels,prefix) if label > 92)
-                  normal = sum(v for label,v in zip(labels,prefix) if label <= 92)
-                  assert exceptional <= e
-                  normal_mass = 19 * degree - 5 * e
-                  assert normal <= normal_mass
-                  next_label = labels[len(prefix)]
-                  upper = e - exceptional if next_label > 92 else normal_mass - normal
-                  assert 0 <= lo <= hi <= upper
-                  base = {'kind':kind,'row_id':row_id,'e':e,'prefix':prefix,'next_min':lo,'next_max':hi}
+              elif kind=='STRATUM_PARTITION':
+                  e=int(u['e']); prefix=[int(v) for v in u.get('prefix',[])]; lo=int(u['next_min']); hi=int(u['next_max'])
+                  assert emin <= e <= emax and len(prefix)<len(labels) and all(v>=0 for v in prefix)
+                  exceptional=sum(v for label,v in zip(labels,prefix) if label>92)
+                  normal=sum(v for label,v in zip(labels,prefix) if label<=92)
+                  assert exceptional<=e
+                  normal_mass=19*degree-5*e; assert normal<=normal_mass
+                  upper=e-exceptional if labels[len(prefix)]>92 else normal_mass-normal
+                  assert 0<=lo<=hi<=upper
+                  base={'kind':kind,'row_id':row_id,'e':e,'prefix':prefix,'next_min':lo,'next_max':hi}
               else:
                   raise AssertionError(kind)
-              expected = 'wu-' + digest(base)[:20]
-              assert u.get('work_unit_id') == expected
-              return base | {'work_unit_id': expected}
-
-          assert new['work_units_encoding'] == 'GZIP_BASE64_CANONICAL_JSON_V1'
-          raw_units = gzip.decompress(base64.b64decode(new['work_units_gzip_base64']))
-          assert hashlib.sha256(raw_units).hexdigest() == new['work_units_canonical_sha256']
-          decoded = json.loads(raw_units)
-          assert isinstance(decoded, list)
-          assert len(decoded) == int(new['work_units_count']) == 128
-          units = [verify_unit(u) for u in decoded]
-          assert len({u['work_unit_id'] for u in units}) == len(units)
-          matrix = json.dumps({'work_unit': units}, separators=(',', ':'))
-          with open(output, 'a') as f:
+              expected='wu-'+digest(base)[:20]
+              assert u.get('work_unit_id')==expected
+              return base|{'work_unit_id':expected}
+          units=[verify_unit(u) for u in units]
+          assert len({u['work_unit_id'] for u in units})==128
+          matrix=json.dumps({'work_unit':units},separators=(',',':'))
+          with open(output,'a') as f:
               f.write('authorized=true\n')
-              f.write('matrix=' + matrix + '\n')
-              f.write('generation=' + str(new['generation']) + '\n')
-              f.write('work_unit_count=' + str(len(units)) + '\n')
+              f.write('matrix='+matrix+'\n')
+              f.write('generation='+str(new['generation'])+'\n')
+              f.write('work_unit_count=128\n')
           PY
 
   produce:
@@ -192,14 +202,13 @@ jobs:
           assert x['nodes_used_accounting']=='SUM_TELEMETRY_NODES_V2'
           assert x['nodes_used']==sum(int(t['nodes']) for t in x['telemetry'])
           assert 0 <= x['nodes_used'] <= x['node_limit'] == 64000000
-          assert x['prefix_stage_only'] is True
-          assert x['unknown_is_unsat'] is False
+          assert x['prefix_stage_only'] is True and x['unknown_is_unsat'] is False
           assert x['numerical_row_complete'] is False
           assert x['FULL_D176_D192_NUMERICAL_ORBIT_CENSUS'] is False
           assert x['R29_LG2']=='NOT_DISCHARGED'
           assert x['B18_RELEASE_AUTHORIZED'] is False
           assert x['THEOREM_CREDIT'] is False and x['RECEIVER_CREDIT'] is False
-          assert p.stat().st_size <= 16*1024, p.stat().st_size
+          assert p.stat().st_size <= 16*1024
           PY
       - uses: actions/upload-artifact@v4
         with:
@@ -226,31 +235,17 @@ jobs:
           python - <<'PY'
           import hashlib, json, os, pathlib
           root=pathlib.Path(os.environ['RUNNER_TEMP'])/'stage32-full178-aggregate'
-          files=sorted(root.glob('*.json'))
-          expected=int(os.environ['EXPECTED_COUNT'])
-          assert 1 <= expected <= 128
-          assert len(files)==expected, (len(files), expected)
+          files=sorted(root.glob('*.json')); expected=int(os.environ['EXPECTED_COUNT'])
+          assert len(files)==expected==128
           work=[]; children=[]
           for p in files:
               x=json.loads(p.read_text())
               assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2'
               assert x['nodes_used']==sum(int(t['nodes']) for t in x['telemetry'])
-              work.append({'work_unit_id':x['input_work_unit']['work_unit_id'],'row_id':x['row_id'],
-                           'nodes_used':x['nodes_used'],
-                           'completed_prefix_partitions':len(x['completed_prefix_partitions']),
-                           'unknown_count':x['unknown_count'],
-                           'certificate_sha256':x['canonical_sha256_without_this_field']})
+              work.append({'work_unit_id':x['input_work_unit']['work_unit_id'],'row_id':x['row_id'],'nodes_used':x['nodes_used'],'completed_prefix_partitions':len(x['completed_prefix_partitions']),'unknown_count':x['unknown_count'],'certificate_sha256':x['canonical_sha256_without_this_field']})
               children.extend(x['unresolved_exact_child_work_units'])
-          payload={'schema':'STAGE32_RESIDUAL32_01_FULL178_PREFIX_WAVE_MANIFEST_V3',
-                   'generation':int(os.environ['GENERATION']),'input_work_unit_count':expected,
-                   'work_units':sorted(work,key=lambda v:v['work_unit_id']),
-                   'total_nodes_used':sum(v['nodes_used'] for v in work),
-                   'next_exact_work_units':children,
-                   'prefix_stage_only':True,'unknown_is_unsat':False,
-                   'FULL_D176_D192_NUMERICAL_ORBIT_CENSUS':False,
-                   'R29_LG2':'NOT_DISCHARGED','THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
-          raw=json.dumps(payload,sort_keys=True,separators=(',',':')).encode()
-          payload['canonical_sha256_without_this_field']=hashlib.sha256(raw).hexdigest()
+          payload={'schema':'STAGE32_RESIDUAL32_01_FULL178_PREFIX_WAVE_MANIFEST_V3','generation':int(os.environ['GENERATION']),'input_work_unit_count':expected,'work_units':sorted(work,key=lambda v:v['work_unit_id']),'total_nodes_used':sum(v['nodes_used'] for v in work),'next_exact_work_units':children,'prefix_stage_only':True,'unknown_is_unsat':False,'FULL_D176_D192_NUMERICAL_ORBIT_CENSUS':False,'R29_LG2':'NOT_DISCHARGED','THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
+          payload['canonical_sha256_without_this_field']=hashlib.sha256(json.dumps(payload,sort_keys=True,separators=(',',':')).encode()).hexdigest()
           out=root/'wave-manifest.json'; out.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\n')
           assert out.stat().st_size < 1024*1024
           PY
