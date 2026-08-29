@@ -5,8 +5,10 @@ on:
     types: [opened, synchronize, reopened]
     paths:
       - 'stages/stage32/residual-32-01-production/resumable_prefix_engine.py'
+      - 'stages/stage32/residual-32-01-production/run_full178_resumable_work_unit.py'
       - 'stages/stage32/residual-32-01-production/test_resumable_prefix_engine.py'
       - 'stages/stage32/residual-32-01-production/test_resumable_prefix_engine_stage32.py'
+      - 'stages/stage32/residual-32-01-production/test_resumable_full178_runner.py'
       - '.github/workflows/stage32-resumable-prefix-selftest.yml'
 
 permissions:
@@ -27,3 +29,5 @@ jobs:
         run: python stages/stage32/residual-32-01-production/test_resumable_prefix_engine.py
       - name: Exact real Stage32 oracle segmented-vs-one-shot regression
         run: python stages/stage32/residual-32-01-production/test_resumable_prefix_engine_stage32.py
+      - name: Exact real row-tail branching collapse regression
+        run: python stages/stage32/residual-32-01-production/test_resumable_full178_runner.py
