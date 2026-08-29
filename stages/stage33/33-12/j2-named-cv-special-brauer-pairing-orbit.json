@@ -1,0 +1,88 @@
+{
+  "schema": "STAGE33_12_J2_NAMED_CV_SPECIAL_BRAUER_PAIRING_ORBIT_V1",
+  "status": "PASS_EXACT_NAMED_CV_PAIRING_ORBIT_SELECTED_NOT_MARKED_COORDINATE",
+  "stage": "33-12",
+  "class2_budget_batch": 2,
+  "class2_budget_total": 4,
+  "purpose": "Identify the named Stage33-05 J2 class inside the four exact resolved-contact pairing orbits without identifying those orbit bits with the fixed marked transcendental Brauer bits.",
+  "source_lock": {
+    "stage33_05_lce_filtered_quotient_blob_sha1": "ac8bb0096714d85e67efd55f8bb4730e1d1169ce",
+    "stage33_05_normalization_galois_blob_sha1": "139a309c52a6646e649d37bdb03c3bb535d29cf1",
+    "stage33_05_xalpha_pair_galois_repair_blob_sha1": "b7f37df50a123ef6c972aa210e7efb5f16535f76",
+    "stage33_05_j2_arithmetic_descent_blob_sha1": "a63be5592c793c3812da99275478f14dd0d2687b",
+    "batch1_pairing_orbit_certificate": "stages/stage33/33-12/j2-four-even-contact-pairing-orbits.json",
+    "semantic_theorem": "For E self-dual via Pic^0(E)=E, the Kummer character of a two-torsion line bundle T on an E[2] cycle D is the Weil pairing e_2(T,D); bit 1 denotes the nontrivial value -1. This is the standard Weil/Kummer duality, used here only after the contact cycles are materialized exactly."
+  },
+  "normalization_elliptic_model": {
+    "curve": "E: y^2=x^3-x",
+    "map_x": "(t-(1+sqrt(2)))/((1+sqrt(2))*t+1)",
+    "map_y": "i*sqrt(2)/(1+sqrt(2))*z/(t-(1-sqrt(2)))^2",
+    "named_two_torsion": {
+      "J1": "(0,0)",
+      "J2": "(1,0)",
+      "J1_plus_J2": "(-1,0)"
+    },
+    "named_cv_class": "J2=(1,0)",
+    "named_cv_class_source": "Stage33-05 quotient basis [J2,q1], with J2 represented by f2=(t+(1+sqrt(2)))/(t-(1-sqrt(2))) in the Jacobian quotient."
+  },
+  "distinguished_contact_lifts_on_Bplus": {
+    "P1": {"edge":"e1","fiber":"t=0","normalization":"z=-1","E_point":"(-1-sqrt(2),-i*(2+sqrt(2)))"},
+    "P3": {"edge":"e3","fiber":"t=1","normalization":"z=-2*i","E_point":"(1-sqrt(2),2-sqrt(2))"},
+    "P5": {"edge":"e5","fiber":"t=-1","normalization":"z=2*i","E_point":"(1+sqrt(2),-2-sqrt(2))"},
+    "P7": {"edge":"e7","fiber":"t=infinity","normalization":"z/t^2=1","E_point":"(-1+sqrt(2),i*(2-sqrt(2)))"}
+  },
+  "exact_contact_cycle_torsion": {
+    "left_cycle": {
+      "pairing_invariant": "L=p_plus1 XOR p_minus1",
+      "cycle_divisor_class": "D_L=P3-P5",
+      "elliptic_group_value": "J1+J2=(-1,0)",
+      "flip_regression": "P3+P5=J1=(0,0)"
+    },
+    "right_cycle": {
+      "pairing_invariant": "R=p_0 XOR p_infinity",
+      "cycle_divisor_class": "D_R=P1-P7",
+      "elliptic_group_value": "J2=(1,0)",
+      "flip_regression": "P1+P7=J1=(0,0)"
+    },
+    "interpretation": "The two batch-1 orbit parities are precisely the two sheet-holonomy characters around the resolved left and right contact cycles. Component sheet relabeling changes local endpoint labels but not these cycle parities."
+  },
+  "weil_pairing_evaluation": {
+    "convention": "orbit bit is 0 for e2=+1 and 1 for e2=-1",
+    "facts": [
+      "e2 is alternating and nondegenerate on E[2]",
+      "for E[2]~=(F2)^2, two distinct nonzero two-torsion points pair to -1",
+      "e2(T,T)=+1"
+    ],
+    "named_T": "J2",
+    "left": "e2(J2,J1+J2)=-1",
+    "right": "e2(J2,J2)=+1",
+    "selected_orbit_invariant": [1,0],
+    "selected_raw_orbit_members": ["0100","0111","1000","1011"]
+  },
+  "complete_four_class_regression": {
+    "0": [0,0],
+    "J1": [1,1],
+    "J2": [1,0],
+    "J1+J2": [0,1],
+    "bijection": true,
+    "reason": "The two contact cycles D_L=J1+J2 and D_R=J2 are independent in E[2], so their Weil characters separate all four Jacobian two-torsion classes."
+  },
+  "exact_conclusion": "The named CV J2 special-Brauer/admissible-cover datum selects exactly the resolved-contact pairing orbit (L,R)=(1,0). This closes the batch-2 named-orbit selection problem. It does not identify (L,R) with the fixed marked Brauer basis beta1,beta2 and therefore does not yet select [1,0], [0,1], or [1,1] in Hom(T(Kc),Z/2).",
+  "next_exact_leaf": "CONSTRUCT_A_HERMITE_OR_TWISTED_RELATIVE_PICARD_GENUS_ONE_K3_MODEL_REALIZING_THE_SELECTED_PAIRING_ORBIT_L1_R0_AND_COMPUTE_T_X_J2_OR_ITS_MINIMUM_NORM_4_8_12",
+  "firewalls": {
+    "named_cv_j2_pairing_orbit_selected": true,
+    "selected_pairing_orbit": [1,0],
+    "pairing_orbit_bits_equal_marked_brauer_bits": false,
+    "j2_marked_coordinate_selected": false,
+    "j2_twisted_transcendental_kernel_identified": false,
+    "j2_explicit_torsor_surface_materialized": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "heavy_actions_authorized": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
