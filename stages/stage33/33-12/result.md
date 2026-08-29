@@ -1,6 +1,6 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_IN_PROGRESS_J2_DIRECT_CSA_MARKED_CYCLE_EVALUATION_OPEN_4_OF_5`
+Status: `MAIN_IN_PROGRESS_J2_LOOP_GUARD_ACTIVE_BRANCH_COHOMOLOGY_PREFERRED_4_OF_5`
 
 Stage33-12 remains open. Stage33-07 remains open. Stage33-13 is not released.
 
@@ -129,6 +129,36 @@ Certificate: `j2-full-galois-discriminant-fixedness-rejection.json`.
 Canonical SHA256: `c351988141e0d75da27727931b1c6167eeb9e07bb58c240bd5e57a5ad6e26d54`.
 Network-free verifier: `certify_j2_full_galois_discriminant_fixedness_rejection.py`.
 
+## Anti-loop / wrong-weapon guard
+
+The 2026-08-29 loop audit found no exact cycle returning to an identical state, but it did find local route churn around the same missing semantic bridge. Stage33 now enforces `stages/stage33/LOOP-GUARD.md`.
+
+Current state vector:
+
+```text
+LOOP_GUARD_ACTIVE=true
+LOOP_STAGNATION_COUNT=0
+LOOP_ACTIVE_RECEIVER=named CV J2 -> Br(Kc)[2]=Hom(T(Kc),Z/2)
+LOOP_ACTIVE_MISSING_INTERFACE=branch-normalization J2[2] -> K3 H^2(mu_2)/Brauer map in the fixed T=diag(4,8) marking
+LOOP_NEW_EXACT_INFORMATION=Brauer target corrected from A_T[2] to the half-dual quotient plus route-family audit
+LOOP_CANDIDATES_REMOVED_THIS_BATCH=0
+LOOP_EXHAUSTIVE_VIEW_AUDIT_REQUIRED=false
+LOOP_BLIND_REDISCOVERY_REQUIRED=false
+```
+
+A third ordinary same-route MAIN batch is forbidden if two consecutive batches leave the receiver, missing interface, live-candidate count, and load-bearing invariants unchanged. Renamed Galois/automorphism/Smith/discriminant selectors do not count as new routes after their route families have been exactly rejected.
+
+The current candidate ledger deliberately tests whether the previous weapon family was wrong:
+
+```text
+BRANCH_COHOMOLOGICAL_MAP                 LIVE / PREFERRED
+DIRECT_TOPOLOGICAL_OR_BFIELD_EVALUATION LIVE / FALLBACK
+SHIODA_INOSE_OR_CM_MODEL_MARKING         UNTESTED
+GOOD_REDUCTION_ETALE_SPECIALIZATION      UNTESTED
+```
+
+The preferred next route attacks the actual semantic connection one level earlier than direct transcendental-cycle integration: construct the branch-normalization 2-torsion to K3 `H^2(mu_2)`/Brauer map, then evaluate its image in the already fixed half-dual target. Direct CSA evaluation on `t1,t2` remains live and is not discarded.
+
 ## Rejected shortcuts retained
 
 - HS-d2 parity as a direct orientation bit: `REJECTED_EXACTLY`.
@@ -155,7 +185,9 @@ Network-free verifier: `certify_j2_full_galois_discriminant_fixedness_rejection.
     marked Br(Kc)[2] half-dual target beta1=t1/8,beta2=t2/16              DONE
     automorphism-signature marking shortcut                                EXACTLY_REJECTED
     full Galois fixed-line marking shortcut                                EXACTLY_REJECTED
-    direct named CV J2 CSA evaluation on marked t1/t2 cycle                OPEN
+    anti-loop / wrong-weapon guard                                          ACTIVE
+    branch J2[2] -> K3 H^2(mu_2)/Brauer cohomological adapter              OPEN / PREFERRED
+    direct named CV J2 CSA evaluation on marked t1/t2 cycle                OPEN / FALLBACK
 ```
 
 ## Current exit state
@@ -179,14 +211,17 @@ KC_AUTOMORPHISM_MOD2_MARKING_SHORTCUT=REJECTED_EXACTLY
 KC_FULL_GALOIS_DISCRIMINANT_FIXED_SUBSPACE_DIMENSION_F2=2
 J2_FULL_GALOIS_FIXED_LINE_SHORTCUT=REJECTED_EXACTLY
 J2_NAMED_TRANSCENDENTAL_FUNCTIONAL_MATERIALIZED=false
+J2_BRANCH_COHOMOLOGICAL_MAP_MATERIALIZED=false
 J2_BRANCH_JACOBIAN_TO_DISCRIMINANT_KUMMER_GLUE_MATERIALIZED=false
 J2_KC_DISCRIMINANT_COORDINATE_MATERIALIZED=false
+LOOP_GUARD_ACTIVE=true
+LOOP_STAGNATION_COUNT=0
 FINITE_V4_KUMMER_DEFECT_COLUMNS_MATERIALIZED=0
 ARITHMETIC_HS_D2_COMPUTED=false
 STAGE33_07_HOSTILE_REAUDIT=NOT_RUN
 STAGE33_12_CLOSED=false
 ```
 
-Next exact leaf: `EVALUATE_NAMED_CV_J2_CSA_ON_MARKED_T1_OR_T2_CYCLE_USING_THE_EXPLICIT_HALFDUAL_BFIELD_TARGET`.
+Next exact leaf: `CONSTRUCT_BRANCH_NORMALIZATION_J2_2TORSION_TO_K3_H2_MU2_BRAUER_MAP_AND_EVALUATE_IN_FIXED_T_DIAG_4_8_HALFDUAL_TARGET`.
 
 No 33-13 release, theorem/receiver/endpoint credit, or perfect-cuboid existence/nonexistence claim is granted by this checkpoint.
