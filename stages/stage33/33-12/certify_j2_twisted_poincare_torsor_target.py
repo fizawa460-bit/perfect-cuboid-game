@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import json
+import subprocess
+import sys
 from pathlib import Path
 p=Path(__file__).with_name('j2-twisted-poincare-torsor-target.json')
 c=json.loads(p.read_text())
@@ -15,4 +17,5 @@ assert c['j2_explicit_torsor_surface_materialized'] is False
 assert c['j2_marked_brauer_coordinate_selected'] is False
 assert c['stage33_12_closed_exact'] is False
 assert c['stage33_13_released'] is False
+subprocess.run([sys.executable, str(Path(__file__).with_name('certify_j2_degenerate_hermite_inverse_construction_target.py'))], check=True)
 print('PASS J2 target refined to nontrivial index-2 genus-one K3 torsor / twisted-Poincare descent')
