@@ -46,7 +46,7 @@ jobs:
           assert new['workload'] == old['workload'] == 'PAIRING_PREFIX_REPRESENTATIVE_CALIBRATION'
           assert int(new['generation']) == int(old['generation']) + 1
           assert new['armed'] is True
-          assert int(new['node_limit']) == 4000000
+          assert int(new['node_limit']) == 16000000
           assert new['selection_mode'] == 'LOCKED_RAW_KNOWN_LABEL_ORDER_RECALIBRATION_V1'
           assert new['known_label_order_1based'] == [95,99,103,102,49,97,94,101,93,98,96]
           assert new['coordinate_model'] == 'EXACT_RAW_KNOWN_LABEL_PAIRING_IMAGE_HNF_PLUS_AUT1536_PREFIX'
@@ -87,7 +87,7 @@ jobs:
           python-version: '3.10.6'
       - name: Install exact local algebra dependency
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Run generation17 m2 bounded 4M-node completion scout
+      - name: Run generation18 m2 bounded 16M-node completion scout
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/stage32-residual32-01"
@@ -95,7 +95,7 @@ jobs:
             --retained stages/stage33/33-07/picard_base_rows_retained.py \
             --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
             --output "$RUNNER_TEMP/stage32-residual32-01/calibration.json" \
-            --node-limit 4000000
+            --node-limit 16000000
       - name: Enforce scoped calibration contract
         run: |
           python - <<'PY'
@@ -121,7 +121,7 @@ jobs:
           assert r['m']==2 and r['degree']==8 and r['exceptional_mass']==8
           assert r['credit_scope']=='RAW_ALL140_PAIRING_IMAGE_HNF_AND_PREFIX_AUT_COST_PROFILE_ONLY'
           assert r['total_exact_prunes']==r['membership_prunes']+r['symmetry_prunes']
-          assert r['node_limit']==4000000
+          assert r['node_limit']==16000000
           assert x['full_178_row_sweep_authorized'] is False
           assert x['B18_RELEASE_AUTHORIZED'] is False
           assert x['THEOREM_CREDIT'] is False and x['RECEIVER_CREDIT'] is False
