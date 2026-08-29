@@ -1,0 +1,57 @@
+{
+  "schema": "STAGE33_12_J2_TWISTED_POINCARE_TORSOR_TARGET_V1",
+  "status": "PASS_EXACT_TARGET_REFINEMENT_NOT_YET_EXPLICIT_MODEL",
+  "source_lock": {
+    "stage33_05_j2_arithmetic_descent_blob_sha1": "a63be5592c793c3812da99275478f14dd0d2687b",
+    "stage33_05_cv_exact_graph_lifts_blob_sha1": "70881aa2880636f831b3132ba2526a666abd494f",
+    "external_elliptic_k3_brauer_sha": "Derived Equivalence for Elliptic K3 Surfaces and Jacobians, IMRN 2024, Eq. (4.1) and Lemma 4.4",
+    "external_twisted_poincare": "Splitting unramified Brauer classes by abelian torsors and the period-index problem, elliptic K3 discussion"
+  },
+  "fixed_input": {
+    "jacobian_surface": "Kc -> P1_t with section",
+    "generic_jacobian": "E: Y^2=X*(X-(t^2-1)^2)*(X-(t^4-6*t^2+1))",
+    "named_brauer_class": "J2",
+    "order_of_J2": 2,
+    "J2_geometrically_nontrivial": true
+  },
+  "exact_torsor_consequences": {
+    "brauer_sha_identification": "Br(Kc_bar) ~= Sha(Kc_bar/P1)",
+    "named_torsor": "X_J2",
+    "relative_jacobian_of_X_J2": "J^0(X_J2) ~= Kc",
+    "X_J2_has_section": false,
+    "multisection_index": 2,
+    "reason": "For an elliptic K3 torsor X, section iff alpha_X=0 and multisection index equals order(alpha_X); J2 is nonzero of order 2.",
+    "transcendental_target_if_model_materialized": "T(X_J2) ~= ker(J2:T(Kc)->Z/2)"
+  },
+  "twisted_poincare_interface": {
+    "correct_space": "X_J2 x_{P1} Kc over the smooth base",
+    "universal_object": "a (1 x J2)-twisted Poincare invertible sheaf, locally untwisted after choosing trivializations",
+    "local_transition_meaning": "changes of local twisted-Poincare trivialization act by translation in Pic^0 of the fibers, producing the Sha Cech 1-cocycle",
+    "not_sufficient": [
+      "an arbitrary line-bundle difference on Kc alone",
+      "the CV-presentation connecting cocycle in H1(C2,R)",
+      "a scalar norm or one rational 2-isogeny squareclass",
+      "direct pair-products of the branch algebra representative"
+    ]
+  },
+  "existing_repo_data_reuse": {
+    "cv_exact_graph_lifts_available": true,
+    "cv_graph_lifts_role": "provide exact branch-side divisor functions and Galois mixing, useful only as input for constructing local splitting modules of the named Azumaya class",
+    "direct_graph_lift_to_sha_promotion_allowed": false,
+    "named_Q_defined_CSA_available": true,
+    "named_Q_defined_CSA_role": "starting algebra whose local splitting modules must be assembled into the twisted-Poincare/torsor descent datum"
+  },
+  "next_exact_leaf": "CONSTRUCT_AN_EXPLICIT_GENUS_ONE_K3_MODEL_X_J2_OR_EQUIVALENT_LOCAL_AZUMAYA_SPLITTING_MODULES_WITH_JACOBIAN_Kc_AND_VERIFY_NO_SECTION_PLUS_BISECTION_INDEX_2",
+  "j2_relative_picard_overlap_cocycle_materialized": false,
+  "j2_twisted_poincare_descent_materialized": false,
+  "j2_explicit_torsor_surface_materialized": false,
+  "j2_marked_brauer_coordinate_selected": false,
+  "stage33_12_closed_exact": false,
+  "stage33_13_released": false,
+  "heavy_actions_authorized": false,
+  "theorem_credit": false,
+  "receiver_credit": false,
+  "endpoint_credit": false,
+  "perfect_cuboid_existence_claim": false,
+  "perfect_cuboid_nonexistence_claim": false
+}
