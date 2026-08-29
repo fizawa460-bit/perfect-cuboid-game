@@ -1,130 +1,189 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_IN_PROGRESS_NAMED_SPECIAL_BRAUER_ORBIT_SELECTED_4_OF_5`
+Status: `MAIN_CLASS2_GO_NO_GO_FAILED_PENDING_BATCH4_CLASS3_ESCALATION_AUDIT_4_OF_5`
 
 Stage33-12 remains open. Stage33-07 remains open. Stage33-13 is not released.
 
 ## Class-2 decision budget
 
-This is MAIN **batch 2 / 4** under the common-standard-form go/no-go contract.
+This is MAIN **batch 3 / 4** under the committed common-standard-form go/no-go contract.
 
-```text
-named CV J2
-  -> special-Brauer / mu_2 Cech datum
-  -> twisted relative Picard K3 X_J2
-  -> T(X_J2)=ker(J2:T(Kc)->Z/2)
-  -> minimum norm 4 / 8 / 12
-  -> [0,1] / [1,0] / [1,1].
-```
-
-Batch 1 closed the four-even-contact local search: exactly 16 raw pairings, exactly four isomorphism orbits, classified by
-
-```text
-L = p_+1 XOR p_-1
-R = p_0  XOR p_inf.
-```
-
-The orbit bits are not the fixed marked Brauer bits.
-
-## Fixed marked receiver
+The fixed marked receiver remains
 
 ```text
 T(Kc) ~= <4> direct_sum <8>
 Br(Kc)[2] = Hom(T,Z/2)
 [1,0] -> kernel minimum norm 8
 [0,1] -> kernel minimum norm 4
-[1,1] -> kernel minimum norm 12
+[1,1] -> kernel minimum norm 12.
 ```
 
-The marked coordinate remains unselected in this batch.
+Batch 1 exhausted the four-contact pairing space. Batch 2 selected the named branch/admissible-cover orbit `(L,R)=(1,0)`. Batch 3 asks whether that named orbit can actually be promoted to the nontrivial genus-one K3 torsor `X_J2` or its index-two transcendental kernel using retained class-2 data.
 
-## Batch 2: exact named-CV orbit adapter
+## Scope correction: branch orbit is not yet the K3 special-Brauer lift
 
-Stage33-05 already presents the named geometric class as the Jacobian two-torsion element
+The batch-2 Weil/Kummer computation exactly selects the branch/admissible-cover orbit
 
 ```text
-J2=(1,0) on E: y^2=x^3-x,
+J2 -> (L,R)=(1,0).
 ```
 
-with the common branch normalization `z^2=t^4-6*t^2+1`. The same Stage33-05 normalization records distinguished B+ nodes
+It did **not** materialize any of the following:
 
 ```text
-P1 = e1 at t=0,
-P3 = e3 at t=1,
-P5 = e5 at t=-1,
-P7 = e7 at t=infinity.
+H^2(Kc,mu_2) special-Brauer lift,
+PGL2 splitting modules and transition matrices,
+relative-Picard local trivializations,
+overlap divisor cocycle D_ij,
+Brauer -> Sha Leray/Ogg-Shafarevich coordinate.
 ```
 
-Under the exact normalization map to `E:y^2=x^3-x`, direct elliptic group-law calculation gives
+Those firewalls were already false in the controller and remain false. Therefore `(L,R)=(1,0)` cannot be promoted to the fixed marked `[1,0]` merely because the bit strings agree.
+
+## Kc side is fully lattice-ready
+
+Write
 
 ```text
-P3-P5 = J1+J2 = (-1,0)
-P3+P5 = J1     = (0,0)
-P1-P7 = J2     = (1,0)
-P1+P7 = J1     = (0,0).
+r=(t^2-1)^2,
+q=t^4-6*t^2+1=r-4t^2,
+Kc: Y^2=X(X-r)(X-q).
 ```
 
-The two batch-1 pairing parities are therefore the two special-Brauer/Kummer sheet-holonomy characters on the exact contact cycles
+Over `Q(i)(t)`, the change
 
 ```text
-D_L = P3-P5 = J1+J2,
-D_R = P1-P7 = J2.
+x=r-X,
+y=iY
 ```
 
-For an elliptic curve identified with `Pic^0(E)`, the Kummer character of a two-torsion line bundle `T` on a two-torsion cycle `D` is the Weil pairing `e_2(T,D)`. We encode `+1 -> bit 0` and `-1 -> bit 1`.
-
-For the named `T=J2`, alternating nondegeneracy of the Weil pairing gives
+identifies the geometric fibration with Naskrecki's
 
 ```text
-e_2(J2,J1+J2) = -1 -> L=1
-e_2(J2,J2)     = +1 -> R=0.
+E2: y^2=x(x-r)(x-4t^2).
 ```
 
-Hence the named CV J2 datum selects the unique orbit
+The exact discriminant is
 
 ```text
-(L,R) = (1,0)
-raw representatives = {0100,0111,1000,1011}.
+Delta=256*t^4*r^2*q^2.
 ```
 
-As a complete regression, the four Jacobian two-torsion classes map bijectively to the four pairing orbits:
+The geometric fiber configuration is
 
 ```text
-0       -> (0,0)
-J1      -> (1,1)
-J2      -> (1,0)
-J1+J2   -> (0,1).
+I4 at t=0,+1,-1,infinity,
+I2 at the four simple roots of q.
 ```
 
-This is not a cardinality argument: the two exact contact cycles form an independent `E[2]` basis and the Weil/Kummer character evaluates the named class on them.
-
-Certificate: `j2-named-cv-special-brauer-pairing-orbit.json`.
-Verifier: `certify_j2_named_cv_special_brauer_pairing_orbit.py`.
-
-## Semantic firewall
-
-The notation `(L,R)=(1,0)` is **not** identified with the fixed marked Kc coordinate `[1,0]`. The former is the finite resolved-contact special-Brauer orbit coordinate; the latter is the fixed functional on `T(Kc)`.
-
-Thus batch 2 closes the named-orbit selection interface but does not close Stage33-12.
-
-## Batch 3 exact target
+Naskrecki's Table 2 / Lemmas 3.8 and 6.5 give geometric MW rank 2, height Gram `diag(1/2,1)`, and torsion `Z/2 + Z/4`. Hence
 
 ```text
-CONSTRUCT A HERMITE / TWISTED-RELATIVE-PICARD GENUS-ONE K3 X_J2
-REALIZING THE SELECTED ORBIT (L,R)=(1,0),
-THEN COMPUTE T(X_J2) OR ITS MINIMUM NORM.
+root lattice = A3^4 + A1^4,
+|disc(root)| = 4^4*2^4 = 4096,
+|disc(NS)| = 4096*(1/2)/8^2 = 32,
+rho = 20,
 ```
 
-If the resulting minimum norm is `4`, `8`, or `12`, the already certified kernel fingerprints select `[0,1]`, `[1,0]`, or `[1,1]` respectively. If the selected orbit cannot be promoted to such a torsor/lattice without a new global marked-cohomology theorem, batch 3 must record formal class-2 failure rather than reopen local bridge search.
+exactly matching the retained semantic PicK discriminant and `T(Kc)=<4>+<8>`. This is only a geometric lattice cross-check over the extension field; it grants no Q-marked coordinate. It does show that missing Kc singular-fiber/MW information is not the obstruction.
+
+## Exact finite Hermite test: the obvious inverse family is Sha-trivial
+
+Depress the cubic by `x=X-(r+q)/3`. For an even quartic
+
+```text
+w^2=a0*v^4+6*a2*v^2+a4
+```
+
+Hermite gives
+
+```text
+M=[[a0,0,a2+2x],
+   [0,a2-x,0],
+   [a2+2x,0,a4]].
+```
+
+There are three canonical choices of `a2`, one for each cubic branch component. Imposing both
+
+```text
+det(M)=4*X(X-r)(X-q)
+```
+
+and the retained component-cover fingerprint `[q,1,q]` forces the following squareclasses:
+
+```text
+middle C0: a0 squareclass 1
+middle Cr: a0 squareclass q
+middle Cq: a0 squareclass 1.
+```
+
+All three canonical even inverses are Sha-trivial:
+
+- `C0` case: choose `a0=1`, so there is a rational point at infinity.
+- `Cq` case: choose `a0=1`, so there is a rational point at infinity.
+- `Cr` case: the forced canonical quartic is
+
+```text
+w^2=q*(v^4+1)+2*(t^2+1)^2*v^2,
+```
+
+and it has the explicit rational point
+
+```text
+v=1,
+w=2*(t^2-1).
+```
+
+Thus the retained `[q,1,q]` component fingerprint, even after exact Hermite inversion in the canonical even subfamily, produces only zero Sha classes. This does not prove every non-even symmetric representation is trivial. It proves that a nontrivial named J2 requires exactly the missing global gluing/special-Brauer realization rather than another component-fingerprint refinement.
+
+Certificate: `j2-class2-batch3-go-no-go.json`.
+Verifier: `certify_j2_class2_batch3_go_no_go.py`.
+
+## Post-orbit breadth audit
+
+A fresh exhaustive/blind audit was run after the material receiver change in batch 2.
+
+```text
+PGL2/mu2 globalization       -> same missing global K3 lift
+non-even Hermite/Recillas    -> same missing named lift
+Wittenberg generic Kummer pair -> same Brauer-to-Sha coordinate gap
+Twisted Mukai                -> needs the same named B-field lift
+Pic/2 / q1 shortcut          -> Kummer extension class still missing
+K3-level Shioda-Inose        -> class-3-level integral marked transport
+```
+
+No class-2 route remains that is both distinct and executable from retained finite data. This is **not** a mathematical impossibility claim.
+
+## Batch-3 go/no-go verdict
+
+```text
+CLASS2_GO_NO_GO = NO_GO_AFTER_BATCH3
+class-2 budget used = 3/4
+class-3 promoted now = false
+class-3 escalation audit pending = true
+```
+
+The exact missing interface is now frozen as:
+
+```text
+FUNCTORIAL INTEGRAL MARKED REALIZATION OF THE NAMED CV AZUMAYA/GERBE CLASS,
+COMPATIBLE WITH Q-DESCENT,
+INTO EITHER
+  (1/2 T*)/T*
+OR
+  AN EXPLICIT TWISTED RELATIVE-PICARD K3 X_J2
+WITH T(X_J2)=ker(J2) IN THE FIXED Kc MARKING.
+```
+
+Batch 4 is **not** another class-2 bridge search. It is a hostile audit of this no-go and the committed class-3 escalation conditions. If the no-go survives, Stage33-12 is promoted to class 3 under the user's four-batch contract.
 
 ## Firewalls
 
 ```text
-class-2 budget used = 2/4
 Stage33-12 visible progress = 4/5
-named CV J2 pairing orbit selected = true
-selected special-Brauer orbit = (1,0)
-pairing orbit bits = marked Brauer bits = false
+named branch orbit = (1,0)
+branch orbit bits = marked Brauer bits = false
+K3 mu2 special-Brauer lift materialized = false
 J2 explicit torsor surface materialized = false
 J2 marked Brauer functional materialized = false
 J2 twisted transcendental kernel identified = false
