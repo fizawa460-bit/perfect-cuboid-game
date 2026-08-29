@@ -1,6 +1,6 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_IN_PROGRESS_FULL_GEOMETRIC_LERAY_SHA_COCYCLE_4_OF_5`
+Status: `MAIN_IN_PROGRESS_FULL_E2_COCYCLE_4_OF_5`
 
 Stage33-12 remains open. Stage33-07 remains open. Stage33-13 is not released.
 
@@ -16,83 +16,117 @@ Br(Kc)[2] = Hom(T,Z/2)
 
 The marked Brauer functional is still one of the three nonzero functionals.
 
-## IMPORTANT revocation: constant d=2 is not the named J2 torsor
+## Revocation retained: constant d=2 is not the named J2 torsor
 
-The previous promotion
+The previous promotion `partial norm squareclass 2 => named Leray/Sha d=2` is invalid. J2 is geometrically nontrivial, whereas constant `2` becomes a square over `Qbar` and its single-isogeny covering becomes geometrically trivial.
 
-```text
-partial norm squareclass = 2
-=> named Leray/Sha squareclass d=2
-```
+Exact rejection certificate: `j2-d2-geometric-nontriviality-rejection.json`.
 
-is invalid. J2 is already certified geometrically nontrivial in `Br(Kc_bar)[2]`. But `2` is a square after base change to `Qbar`, so a 2-isogeny covering with constant squareclass `d=2` becomes trivial over `Qbar(t)`. It therefore cannot represent the geometric J2 torsor.
-
-Exact rejection certificate:
-
-```text
-j2-d2-geometric-nontriviality-rejection.json
-canonical SHA256 = 8e128315159812ec709c79840bd46e213df3cb22512056478294c8f4fa637d78
-```
-
-Thus
-
-```text
-J2_2ISOGENY_SQUARECLASS_SELECTED=false
-J2_2ISOGENY_KERNEL_MEMBERSHIP_CERTIFIED=false
-J2_TORSOR_EQUATION_MATERIALIZED=false
-PARTIAL_NORM_SQUARECLASS_2=ARITHMETIC_DESCENT_DATUM_ONLY
-```
-
-The old `d=2` fiber/lattice computation is retained only as a computation for that generic candidate; it has no named-J2 credit.
-
-## NEW exact geometric half-divisor pushforward
+## Half-divisor pushforward remains support data, not the Sha coordinate
 
 On the branch normalization
 
 ```text
-C: z^2=t^4-6*t^2+1,
+C: z^2=q, q=t^4-6*t^2+1,
 E_J2=2*infinity_minus-P_plus-P_minus,
-P_plus: t=1+sqrt(2),
-P_minus: t=1-sqrt(2).
 ```
 
-For `pi:C->P1_t`, exact pushforward gives
+we have exactly
 
 ```text
-pi_*(E_J2)=2*infinity-r_plus-r_minus.
+pi_*(E_J2)=-div(Dplus),
+Dplus=t^2-2*t-1.
 ```
 
-Since
+This identifies the base support/trivialization forced by the named half-divisor, but it is not by itself the Leray/Ogg-Shafarevich edge map. Therefore `Dplus` is not promoted to a named torsor coordinate.
+
+Certificate: `j2-geometric-halfdivisor-base-squareclass.json`.
+
+## NEW: recover the nonconstant Hilbert-90 datum
+
+Stage33-05 already contains the exact identity
 
 ```text
-Dplus=t^2-2*t-1,
-div(Dplus)=r_plus+r_minus-2*infinity,
+ell_z = f2 * g90^2,
+f2=(t+1+sqrt(2))/(t-1+sqrt(2)).
 ```
 
-we obtain the exact identity
+Thus the geometric squareclass retained by the Hilbert-90 reduction is `f2`, not the arithmetic partial norm `2`.
+
+Under the constant-field conjugation `sqrt(2)->-sqrt(2)`, exact multiplication gives
 
 ```text
-pi_*(E_J2) = -div(Dplus).
+f2 * ct(f2) = Dminus/Dplus,
+Dminus=t^2+2*t-1,
+q=Dplus*Dminus,
+(Dminus/Dplus)*q=Dminus^2.
 ```
 
-Therefore `Dplus` is the unique geometrically nonconstant squareclass with the finite odd-valuation support forced by the named J2 half-divisor, up to constants (which are squares over `Qbar`). In particular, unlike constant `2`, `Dplus` remains nonsquare over `Qbar(t)`.
-
-Certificate:
+Hence
 
 ```text
-j2-geometric-halfdivisor-base-squareclass.json
-canonical SHA256 = 876734d9c1263150666d120c55c2d836fac74b2fb04168197c0845854a6f142d
+[Dminus/Dplus]=[q] in Q(t)^*/Q(t)^{*2}.
 ```
 
-This does **not yet** promote `Dplus` to the full Leray/Ogg-Shafarevich torsor coordinate. The remaining adapter is now precise:
+This gives a Q-rational nonconstant norm/corestriction squareclass candidate `q`. It survives over `Qbar(t)`, unlike constant `2`.
+
+Certificate: `j2-hilbert90-geometric-squareclass-candidate.json`; verifier: `certify_j2_hilbert90_geometric_squareclass_candidate.py`.
+
+## NEW exact rejection: q is also not a single-isogeny J2 coordinate
+
+For the standard single-2-isogeny homogeneous-space template
 
 ```text
-PROVE_THE_LERAY_OGG_SHA_EDGE_MAP_IDENTIFIES
-THE_HALFDIVISOR_PUSHFORWARD_SQUARECLASS_DPLUS
-WITH_THE_NAMED_CLASS_XI_J2.
+C_d: N^2=d*U^4-2*H*U^2*V^2+(D/d)*V^4,
+H=t^4-4*t^2+1,
+D=(t^2-1)^2*q,
 ```
 
-If that adapter is exact, the geometric torsor coordinate is forced to `Dplus` and only then should arithmetic descent back to `Q(t)` be performed.
+setting `d=q` gives
+
+```text
+C_q: N^2=q*U^4-2*H*U^2*V^2+(t^2-1)^2*V^4.
+```
+
+But this has the explicit K-rational point
+
+```text
+[U:V:N]=[0:1:t^2-1].
+```
+
+Therefore the `q` projection is a trivial torsor and cannot equal the named geometrically nontrivial J2 Weil-Chatelet class.
+
+Certificate: `j2-q-single-isogeny-projection-rejection.json`; verifier: `certify_j2_q_single_isogeny_projection_rejection.py`.
+
+## Exact consequence
+
+The failed scalar projections now explain the obstruction cleanly:
+
+```text
+constant 2 projection -> geometrically trivial
+q norm/corestriction projection -> explicitly trivial
+Dplus pushforward -> support/trivialization datum only
+```
+
+So the named J2 class cannot be recovered by taking one scalar norm and calling it a 2-isogeny coordinate. Since
+
+```text
+E: Y^2=X*(X-r1)*(X-r2),
+r1=(t^2-1)^2,
+r2=q,
+```
+
+has full rational 2-torsion, the next exact object is the **full two-coordinate** class in
+
+```text
+H^1(Q(t),E[2]) ~= (Q(t)^*/Q(t)^{*2})^2
+```
+
+before projection to any one rational 2-isogeny.
+
+Next exact leaf:
+
+`COMPUTE_THE_TWO_KUMMER_SQUARECLASS_COORDINATES_OF_THE_NAMED_HILBERT90_COCYCLE_IN_H1(Q(t),E[2])_THEN_MAP_THE_PAIR_TO_THE_WEIL_CHATELET_CLASS`.
 
 ## Firewalls
 
