@@ -1,6 +1,6 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_IN_PROGRESS_RELATIVE_PICARD_OVERLAP_COCYCLE_4_OF_5`
+Status: `MAIN_IN_PROGRESS_INDEX2_GENUS_ONE_TORSOR_TARGET_4_OF_5`
 
 Stage33-12 remains open. Stage33-07 remains open. Stage33-13 is not released.
 
@@ -25,55 +25,65 @@ Dplus=t^2-2*t-1 -> half-divisor pushforward/support datum only
 naive CV branch pair-products -> split-E[2] triple (1,2,2), hence trivial over Qbar(t)
 ```
 
-Therefore scalar norms and direct branch-partition products are not the named geometric J2 Sha class.
+Stage33-05's zero presentation connecting cocycle only means that J2 has a fixed lift in the CV presentation module; it is not Sha-triviality.
 
-## NEW exact interface reduction: what the Leray edge must materialize
+## Brauer-to-Sha interface retained
 
-Stage33-05 already computed a different connecting map from the finite CV presentation
-
-```text
-0 -> R=im(x-alpha) -> LcE -> Br(Kc_bar)[2] -> 0.
-```
-
-For J2 that presentation connecting cocycle is exactly zero: J2 has a Galois-fixed lift in `LcE`. This does **not** mean its Ogg-Shafarevich torsor is trivial. The two connecting maps have different targets and different meanings.
-
-For the elliptic K3 fibration `Kc -> P1_t` with section, the load-bearing map is
+For the elliptic K3 fibration `Kc -> P1_t` with section,
 
 ```text
-Br(Kc_bar) -> Sha(E/Qbar(t)),
+Br(Kc_bar) ~= Sha(Kc_bar/P1),
 E: Y^2=X*(X-(t^2-1)^2)*(X-(t^4-6*t^2+1)).
 ```
 
-The named J2 edge can be materialized on a cover `{U_i}` of the smooth base by choosing local relative degree-zero Picard trivializations `L_i` of the named CV Azumaya/Brauer gerbe. On overlaps define
+The named J2 class must be materialized through the relative Picard/twisted-Poincare descent, not through scalar norms or direct branch pair-products.
+
+## NEW exact target refinement: the torsor is an index-2 genus-one K3
+
+J2 is already certified geometrically nontrivial and of exact order 2. For an elliptic K3 torsor `X` over its Jacobian surface `S`, the standard Brauer-Sha correspondence gives:
 
 ```text
-D_ij = L_j - L_i in Pic^0(E),
-D_ij + D_jk + D_ki = 0.
+alpha_X = 0  <=>  X has a section,
+multisection_index(X) = order(alpha_X).
 ```
 
-Then `[D_ij] in H^1(U,Pic^0)` is the actual Sha/Weil-Chatelet class. Crucially, the `L_i` must be derived from the named CV Azumaya/corestriction class; an arbitrary 2-covering with matching support is not enough.
+Therefore the named J2 image is forced to be a genus-one K3 torsor `X_J2` satisfying
 
-Certificate: `j2-brauer-to-sha-leray-edge-interface.json`; verifier: `certify_j2_brauer_to_sha_leray_edge_interface.py`.
+```text
+J^0(X_J2) ~= Kc,
+X_J2 has no section,
+multisection index(X_J2) = 2.
+```
 
-This is a genuine narrowing of the missing interface: we no longer search for another scalar/Kummer formula. We need the local relative-Picard trivializations and their overlap divisor cocycle.
+Equivalently, the universal object is a `(1 x J2)`-twisted Poincare invertible sheaf on `X_J2 x_{P1} Kc` over the smooth base. Local untwisted trivializations of that twisted Poincare object glue by translations in `Pic^0`; those translations are the actual Sha Cech cocycle.
+
+This corrects an overly loose formulation from the previous leaf: arbitrary line-bundle differences on `Kc` alone are not enough. The local data must come from the named Azumaya/twisted-Poincare descent.
+
+Certificate: `j2-twisted-poincare-torsor-target.json`; verifier: `certify_j2_twisted_poincare_torsor_target.py`.
+
+The existing exact CV graph lifts remain useful only as branch-side divisor input for constructing local splitting modules of the named Q-defined CSA. They are not promoted directly to Sha data.
 
 ## Next exact leaf
 
 ```text
-EXTRACT_LOCAL_RELATIVE_PICARD_TRIVIALIZATIONS_OF_THE_NAMED_CV_AZUMAYA_CLASS
-AND_COMPUTE_THEIR_OVERLAP_DIVISOR_COCYCLE_Dij
+CONSTRUCT_AN_EXPLICIT_GENUS_ONE_K3_MODEL_X_J2
+OR EQUIVALENT LOCAL AZUMAYA SPLITTING MODULES,
+VERIFY J^0(X_J2)=Kc,
+VERIFY NO SECTION,
+VERIFY A DEGREE-2 MULTISECTION,
+THEN COMPUTE T(X_J2) OR THE OVERLAP TRANSLATION COCYCLE.
 ```
 
-Only after this cocycle is explicit should it be converted to a generic-fiber Weil-Chatelet or `E[2]` coordinate.
+Once `T(X_J2)` is explicit, the existing lattice fingerprints select the marked J2 functional by minimum norm 4/8/12.
 
 ## Firewalls
 
 ```text
 Stage33-12 visible progress = 4/5
+J2 explicit torsor surface materialized = false
 J2 Brauer-to-Sha Leray edge materialized = false
 J2 marked Brauer functional materialized = false
 J2 twisted transcendental kernel identified = false
-J2 torsor equation materialized = false
 Stage33-12 exact closure = false
 Stage33-13 released = false
 heavy actions authorized = false
