@@ -1,0 +1,73 @@
+{
+  "schema": "STAGE33_12_J2_DEGENERATE_CLIFFORD_Q_FINGERPRINT_ADAPTER_V1",
+  "status": "PASS_EXACT_GEOMETRIC_FINGERPRINT_NOT_YET_GLOBAL_THETA_GLUE",
+  "stage": "33-12",
+  "purpose": "Record an exact geometric q-cover fingerprint for the split three-component symmetric determinantal conic without promoting it to equality with the named CV J2 class.",
+  "base_field": {
+    "arithmetic": "Q(t)",
+    "geometric_comparison": "Qbar(t) (equivalently C(t) for squareclass tests)"
+  },
+  "definitions": {
+    "r": "(t^2-1)^2",
+    "q": "t^4-6*t^2+1",
+    "identity": "r-q=4*t^2",
+    "weierstrass_branch_cubic": "X*(X-r)*(X-q)"
+  },
+  "split_symmetric_determinantal_representation": {
+    "matrix": "diag(X, X-r, X-q)",
+    "determinant": "X*(X-r)*(X-q)",
+    "determinant_exact": true,
+    "associated_conic": "X*U^2 + (X-r)*V^2 + (X-q)*W^2 = 0",
+    "even_clifford_quaternion": "(-X*(X-r), -X*(X-q))",
+    "source_adapter": "van Geemen, Some remarks on Brauer groups of K3 surfaces, Section 8.7: for diag(f,g,h), even Clifford class is represented by (-fg,-fh)."
+  },
+  "branch_component_ruling_covers": [
+    {
+      "component": "C0",
+      "equation": "X=0",
+      "restricted_conic": "-r*V^2-q*W^2=0",
+      "geometric_squareclass": "q",
+      "reason": "r=(t^2-1)^2 is a square; constants including -1 are squares over the geometric constant field."
+    },
+    {
+      "component": "Cr",
+      "equation": "X=r",
+      "restricted_conic": "r*U^2+(r-q)*W^2=0",
+      "geometric_squareclass": "1",
+      "reason": "r=(t^2-1)^2 and r-q=4*t^2 are both squares over the geometric function field."
+    },
+    {
+      "component": "Cq",
+      "equation": "X=q",
+      "restricted_conic": "q*U^2+(q-r)*V^2=0",
+      "geometric_squareclass": "q",
+      "reason": "q-r=-4*t^2 is a square up to a nonzero geometric constant."
+    }
+  ],
+  "geometric_component_cover_fingerprint": [
+    "q",
+    "1",
+    "q"
+  ],
+  "q_squarefree": true,
+  "q_geometrically_nonsquare": true,
+  "named_j2_branch_normalization": "z^2=q(t)=t^4-6*t^2+1",
+  "exact_conclusion": "The split determinantal conic reproduces the same nonconstant q-cover fingerprint as the named J2 branch normalization on the two nontrivial components, and this fingerprint survives geometric base change.",
+  "semantic_limit": "Componentwise squareclasses do not by themselves determine the global admissible double cover across the nodes, its theta characteristic, or equality of the global even-Clifford class with the named CV J2 class.",
+  "semantic_firewalls": {
+    "global_admissible_double_cover_identified": false,
+    "global_theta_characteristic_identified": false,
+    "named_cv_j2_equals_split_clifford_class_certified": false,
+    "j2_hermite_inverse_selected": false,
+    "j2_explicit_torsor_surface_materialized": false,
+    "j2_marked_brauer_coordinate_selected": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_release": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "next_exact_leaf": "MATCH_GLOBAL_NODE_GLUE_AND_THETA_CHARACTERISTIC_OF_THE_SPLIT_CLIFFORD_COMPONENT_COVERS_TO_THE_NAMED_CV_J2_CLASS"
+}
