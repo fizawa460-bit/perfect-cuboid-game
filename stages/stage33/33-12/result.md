@@ -1,6 +1,6 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_IN_PROGRESS_d2_TORSOR_DISCRIMINANT_GROUP_4_OF_5`
+Status: `MAIN_IN_PROGRESS_FULL_GEOMETRIC_LERAY_SHA_COCYCLE_4_OF_5`
 
 Stage33-12 remains open. Stage33-07 remains open. Stage33-13 is not released.
 
@@ -16,64 +16,83 @@ Br(Kc)[2] = Hom(T,Z/2)
 
 The marked Brauer functional is still one of the three nonzero functionals.
 
-## Named J2 torsor already fixed
+## IMPORTANT revocation: constant d=2 is not the named J2 torsor
 
-The exact CV/Leray adapter gives squareclass `d=2`, hence
-
-```text
-Y_J2/K:
-N^2 = 2*U^4 - 2*H*U^2*V^2 + (D/2)*V^4,
-H=t^4-4*t^2+1,
-D=(t^2-1)^2*(t^4-6*t^2+1).
-```
-
-The earlier `d=Dplus` candidate is rejected as the named J2 coordinate.
-
-## NEW exact fiber/lattice gate
-
-The Jacobian factors as
+The previous promotion
 
 ```text
-E: Y^2=X*(X-r1)*(X-r2),
-r1=(t^2-1)^2,
-r2=q=t^4-6*t^2+1,
-r1-r2=4*t^2.
+partial norm squareclass = 2
+=> named Leray/Sha squareclass d=2
 ```
 
-Therefore, up to a nonzero constant,
+is invalid. J2 is already certified geometrically nontrivial in `Br(Kc_bar)[2]`. But `2` is a square after base change to `Qbar`, so a 2-isogeny covering with constant squareclass `d=2` becomes trivial over `Qbar(t)`. It therefore cannot represent the geometric J2 torsor.
+
+Exact rejection certificate:
 
 ```text
-Delta = t^4*(t^2-1)^4*q^2.
+j2-d2-geometric-nontriviality-rejection.json
+canonical SHA256 = 8e128315159812ec709c79840bd46e213df3cb22512056478294c8f4fa637d78
 ```
 
-The elliptic K3 fiber configuration is
+Thus
 
 ```text
-I4 at t=0,+1,-1,infinity,
-I2 at the four simple roots of q,
-Euler sum = 4*4 + 4*2 = 24,
-root lattice = A3^4 + A1^4,
-root rank = 16,
-root discriminant = 4^4*2^4 = 4096.
+J2_2ISOGENY_SQUARECLASS_SELECTED=false
+J2_2ISOGENY_KERNEL_MEMBERSHIP_CERTIFIED=false
+J2_TORSOR_EQUATION_MATERIALIZED=false
+PARTIAL_NORM_SQUARECLASS_2=ARITHMETIC_DESCENT_DATUM_ONLY
 ```
 
-The order-2 J2 torsor has the same Jacobian fiber types and a degree-2 multisection. This turns the remaining problem into an explicit component/bisection glue computation in `NS(Y_J2)`.
+The old `d=2` fiber/lattice computation is retained only as a computation for that generic candidate; it has no named-J2 credit.
 
-There is also a useful shortcut. The three possible transcendental kernels have Smith groups
+## NEW exact geometric half-divisor pushforward
+
+On the branch normalization
 
 ```text
-[0,1]: Gram diag(4,32)      -> Z/4 + Z/32, min 4
-[1,0]: Gram diag(8,16)      -> Z/8 + Z/16, min 8
-[1,1]: Gram [[12,-4],[-4,12]] -> Z/4 + Z/32, min 12.
+C: z^2=t^4-6*t^2+1,
+E_J2=2*infinity_minus-P_plus-P_minus,
+P_plus: t=1+sqrt(2),
+P_minus: t=1-sqrt(2).
 ```
 
-Hence a full minimum-norm computation is not always necessary: if the discriminant group of `NS(Y_J2)` is `Z/8 + Z/16`, J2 is immediately `[1,0]`. If it is `Z/4 + Z/32`, only the residual quadratic form is needed to distinguish `[0,1]` from `[1,1]`.
+For `pi:C->P1_t`, exact pushforward gives
 
-Exact certificate: `j2-d2-torsor-fiber-lattice-gate.json`; verifier: `certify_j2_d2_torsor_fiber_lattice_gate.py`.
+```text
+pi_*(E_J2)=2*infinity-r_plus-r_minus.
+```
 
-Next exact leaf:
+Since
 
-`COMPUTE_NS_DISCRIMINANT_GROUP_FROM_I4^4_I2^4_FIBER_COMPONENTS_AND_DEGREE2_MULTISECTION_GLUE`.
+```text
+Dplus=t^2-2*t-1,
+div(Dplus)=r_plus+r_minus-2*infinity,
+```
+
+we obtain the exact identity
+
+```text
+pi_*(E_J2) = -div(Dplus).
+```
+
+Therefore `Dplus` is the unique geometrically nonconstant squareclass with the finite odd-valuation support forced by the named J2 half-divisor, up to constants (which are squares over `Qbar`). In particular, unlike constant `2`, `Dplus` remains nonsquare over `Qbar(t)`.
+
+Certificate:
+
+```text
+j2-geometric-halfdivisor-base-squareclass.json
+canonical SHA256 = 876734d9c1263150666d120c55c2d836fac74b2fb04168197c0845854a6f142d
+```
+
+This does **not yet** promote `Dplus` to the full Leray/Ogg-Shafarevich torsor coordinate. The remaining adapter is now precise:
+
+```text
+PROVE_THE_LERAY_OGG_SHA_EDGE_MAP_IDENTIFIES
+THE_HALFDIVISOR_PUSHFORWARD_SQUARECLASS_DPLUS
+WITH_THE_NAMED_CLASS_XI_J2.
+```
+
+If that adapter is exact, the geometric torsor coordinate is forced to `Dplus` and only then should arithmetic descent back to `Q(t)` be performed.
 
 ## Firewalls
 
@@ -81,6 +100,8 @@ Next exact leaf:
 Stage33-12 visible progress = 4/5
 J2 marked Brauer functional materialized = false
 J2 twisted transcendental kernel identified = false
+J2 2-isogeny squareclass selected = false
+J2 torsor equation materialized = false
 Stage33-12 exact closure = false
 Stage33-13 released = false
 heavy actions authorized = false
