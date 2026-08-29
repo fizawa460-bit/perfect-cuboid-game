@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V60_RESUMABLE_PRODUCTION_COLD_PREFLIGHT_PASS",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V61_RESUMABLE_GEN34_INGESTED",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "RESUMABLE_PRODUCTION_COLD_PREFLIGHT_PASS_FRESH_GEN34_ARM_NEXT",
+  "status": "RESUMABLE_GEN34_PASS_FRONTIER_169_PREPARE_GEN35",
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": false,
@@ -38,33 +38,28 @@
       "resumable_children_per_input": 0.5,
       "exact_prefix_equivalence_each": true
     },
-    "production_cold_preflight": {
-      "checkpoint": "stages/stage32/residual-32-01-production/full178-resumable-production-cold-preflight-main-checkpoint.json",
-      "workflow_run_id": 33270042345,
-      "result": "PASS_RESUMABLE_PRODUCTION_COLD_PREFLIGHT",
-      "runkey": "stages/stage32/runkeys/residual32-01-full178-resumable-production.json",
-      "workflow": ".github/workflows/stage32-residual32-01-full178-resumable-production.yml",
-      "source_frontier_count": 218,
+    "generation34": {
+      "checkpoint": "stages/stage32/residual-32-01-production/full178-resumable-generation34-main-checkpoint.json",
+      "workflow_run_id": 33270325393,
+      "frontier_artifact_id": 9720400921,
+      "frontier_artifact_zip_sha256": "292e8cde68eb98df341b38feec57f6a3c59c0bee7a9c0c59dcaf3a406d4ee700",
+      "frontier_manifest_canonical_sha256": "7dc05594947606f80dfc38a79f40fd4449b735a978c5af82a20e7df748da4255",
+      "input_frontier_count": 218,
       "dispatch_count": 128,
       "carry_count": 90,
-      "dispatch_canonical_sha256": "2d96ebc0ed716d319e554c1ff6ac05dc9ad0bde9dbacc20490c9027c33f210a9",
-      "queue_policy": "FIFO_GLOBAL_FRONTIER_CARRY_THEN_RESUMABLE_CHILDREN",
-      "cursor_serialization_reload_exact": true,
-      "effective_heavy_concurrency": 17,
-      "maximum_effective_stage32_heavy_overlap": 18,
-      "projected_peak_artifact_mb": 48.0,
-      "production_armed": false,
-      "arm_authorized": true,
-      "arm_requires_fresh_runkey_only_sync": true
+      "completed_input_count": 49,
+      "continuation_count": 79,
+      "continuations_per_input": 0.6171875,
+      "frontier_after_ingest_count": 169,
+      "frontier_net_change": -49,
+      "result": "PASS_RESUMABLE_GEN34_EXACT_FIFO_FRONTIER_218_TO_169"
     },
     "production_switch_supported": true,
-    "production_switched": false
+    "production_switched": true
   },
   "legacy_generation34_old_split": {
-    "work_units_count": 128,
-    "work_units_canonical_sha256": "2d96ebc0ed716d319e554c1ff6ac05dc9ad0bde9dbacc20490c9027c33f210a9",
     "armed": false,
     "preferred": false
   },
-  "next_item": "ARM_RESUMABLE_PRODUCTION_GEN34_WITH_FRESH_RUNKEY_ONLY_SYNC"
+  "next_item": "GENERALIZE_RESUMABLE_PRODUCTION_TO_GEN34_FRONTIER_ARTIFACT_THEN_ARM_GEN35"
 }
