@@ -27,29 +27,23 @@ def scale(a,c): return [c*x for x in a]
 t2=[0,0,1]
 t4=[0,0,0,0,1]
 one=[1]
-H=add(add(t4,scale(t2,-4)),one)                       # t^4-4t^2+1
-q=add(add(t4,scale(t2,-6)),one)                       # t^4-6t^2+1
-Dp=add(add(t2,[ -1]),[0,-2])                          # t^2-2t-1
-Dm=add(add(t2,[ -1]),[0, 2])                          # t^2+2t-1
+H=add(add(t4,scale(t2,-4)),one)
+q=add(add(t4,scale(t2,-6)),one)
+Dp=add(add(t2,[-1]),[0,-2])
+Dm=add(add(t2,[-1]),[0,2])
 t2m1=add(t2,[-1])
 D=mul(mul(t2m1,t2m1),q)
 
 assert mul(Dp,Dm)==q
 assert sub(sub(mul(H,H),D),scale(t4,4))==[0]
-# Full rational 2-torsion factorization:
-# X*(X-(t^2-1)^2)*(X-q) expands to X*(X^2-2H*X+D).
 r1=mul(t2m1,t2m1)
 assert add(r1,q)==scale(H,2)
 assert mul(r1,q)==D
 
-# M/K norm. beta+beta'=-H/t^2, beta*beta'=1.
-# c=t^4-4t^2+2=H+1 and
-# Norm(t^2*beta+c)=t^4-c*H+c^2=2*(t^2-1)^2.
+# M/K norm with beta+beta'=-H/t^2 and beta*beta'=1.
 c=add(H,one)
 norm_num=add(sub(t4,mul(c,H)),mul(c,c))
 assert norm_num==scale(mul(t2m1,t2m1),2)
-# ell has factor 4/((t^2-1)Dplus), hence Norm_M/K(ell)=16*norm_num/((t^2-1)^2 Dplus^2)=32/Dplus^2.
-# Therefore its K-squareclass is exactly 2.
 
 assert cert['cv_input']['ell_J2_in_M'] is True
 assert cert['cv_input']['ell_J2_iota_invariant'] is True
@@ -68,5 +62,5 @@ assert cert['stage33_13_released'] is False
 claimed=cert.pop('canonical_sha256')
 actual=hashlib.sha256(json.dumps(cert,sort_keys=True,separators=(',',':')).encode()).hexdigest()
 assert claimed==actual,(claimed,actual)
-assert claimed=='52a3e741fbe6158a2a9434c9797207f6e126fc7d9df2ab09a80d3edd5e005771'
+assert claimed=='b3010a268d89aed047251db75a845897c9e61786f7ba75f339d6d9bd744bf86b'
 print('PASS',claimed)
