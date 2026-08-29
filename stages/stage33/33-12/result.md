@@ -4,6 +4,27 @@ Status: `MAIN_IN_PROGRESS_DEGENERATE_CLIFFORD_EVEN_CONTACT_GLUE_4_OF_5`
 
 Stage33-12 remains open. Stage33-07 remains open. Stage33-13 is not released.
 
+## Common-standard-form strategy audit
+
+The direct-presentation bridge search has been replaced at the strategy level
+by a common-standard-form design.  The selected class-2 architecture is:
+
+```text
+named CV J2
+  -> special-Brauer / mu_2 Cech datum
+  -> twisted relative Picard K3 X_J2
+  -> T(X_J2)
+  -> minimum norm 4 / 8 / 12.
+```
+
+The current four-even-contact Clifford computation is the finite constructor
+for the first two arrows, not by itself an identification theorem.  The route
+census, external theorem hypotheses, three-batch class-2 go/no-go experiment,
+and exact class-3 escalation contract are recorded in
+`j2-marked-kc-common-standard-form-route-audit.md` and its structured JSON
+companion.  This architecture audit changes no closure, receiver, theorem, or
+downstream release flag.
+
 ## Fixed marked receiver
 
 ```text
