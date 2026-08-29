@@ -1,6 +1,6 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_IN_PROGRESS_J2_2ISOGENY_ADAPTER_NEXT_4_OF_5`
+Status: `MAIN_IN_PROGRESS_J2_LERAY_SHA_2ISOGENY_GATE_4_OF_5`
 
 Stage33-12 remains open. Stage33-07 remains open. Stage33-13 is not released.
 
@@ -18,7 +18,7 @@ The named J2 coordinate is still one of the three nonzero functionals. The indep
 
 ## Elliptic-K3 kernel route retained
 
-For the `P1_t` ruling the certified Jacobian is
+For the `P1_t` ruling:
 
 ```text
 H=t^4-4*t^2+1
@@ -27,43 +27,26 @@ D=(t^2-1)^2*q
 E: Y^2=X*(X^2-2*H*X+D).
 ```
 
-The rational point `(0,0)` is 2-torsion. An order-two Tate-Shafarevich torsor `Y_J2` attached to the named Brauer class satisfies the kernel target
+The rational point `(0,0)` is 2-torsion. The order-two Tate-Shafarevich torsor `Y_J2` attached to the named Brauer class satisfies
 
 ```text
 T(Y_J2) ~= ker(alpha_J2:T(Kc)->Q/Z).
 ```
 
-Thus the minimum norm of `T(Y_J2)` would select the marked coordinate uniquely.
+Therefore the minimum norm of `T(Y_J2)` would select the marked coordinate uniquely.
 
-## NEW: explicit 2-isogeny homogeneous-space candidate
+## Explicit conditional 2-isogeny candidate retained
 
-Factor
+With
 
 ```text
 Dplus=t^2-2*t-1
 Dminus=t^2+2*t-1
-q=Dplus*Dminus.
+q=Dplus*Dminus
+H^2-D=4*t^4,
 ```
 
-The exact identity
-
-```text
-H^2-D=4*t^4
-```
-
-gives the dual 2-isogenous curve
-
-```text
-Ehat: Y^2=X*(X^2+4*H*X+16*t^4).
-```
-
-For `E:y^2=x(x^2-2H*x+D)`, the standard 2-isogeny homogeneous-space template is
-
-```text
-C_d: N^2=d*U^4-2*H*U^2*V^2+(D/d)*V^4.
-```
-
-The two named support points `P_plus,P_minus` of `E_J2` are exactly the ramification points cut out by `Dplus(t)=0`. Therefore the natural J2 candidate squareclass is `d=Dplus`, giving the completely explicit quartic
+the rational 2-isogeny gives the conditional homogeneous-space candidate
 
 ```text
 C_Dplus:
@@ -71,40 +54,42 @@ N^2 = Dplus*U^4 - 2*H*U^2*V^2
       + (t^2-1)^2*Dminus*V^4.
 ```
 
-Its algebraic compatibility with the certified Jacobian/2-isogeny template is checked exactly. Certificate: `j2-2isogeny-torsor-candidate.json`; canonical SHA256 `4a4cf285c3f68f8f3be69a2e24af32f008525d600b88bdf66d7526f90c4f98ea`; verifier `certify_j2_2isogeny_torsor_candidate.py`.
+The algebraic identities and the standard homogeneous-space template are certified exactly by `j2-2isogeny-torsor-candidate.json`.
 
-## Exact semantic boundary
+## NEW exact semantic gate
 
-This candidate is **not yet promoted to `Y_J2`**. The common support polynomial alone does not prove that the Creutz--Viray Brauer class maps to the 2-isogeny Tate-Shafarevich squareclass `Dplus`.
+An order-two Sha class is **not automatically** a class in the kernel subgroup selected by one chosen rational 2-isogeny. Therefore the common `Dplus` support does not yet define a legitimate 2-isogeny squareclass for J2.
+
+The correct factorization is now frozen as
 
 ```text
-CANDIDATE_TORSOR_EQUATION_MATERIALIZED=true
-NAMED_J2_TORSOR_IDENTIFICATION_CERTIFIED=false
+alpha_J2 in Br(Kc)[2]
+  -> xi_J2 in H^1(Q(t),E)[2]                 (Leray/Ogg-Shafarevich)
+  -> prove/reject xi_J2 lies in the relevant 2-isogeny-kernel image
+  -> only then assign a descent squareclass d
+  -> compare d with Dplus.
+```
+
+Exact gate certificate: `j2-2isogeny-cohomological-gate.json`; canonical SHA256 `7373416b8c0aa9ca232ba4c0a7ede76cd8400e9d0a79d84ac60d31d408f05a41`; verifier `certify_j2_2isogeny_cohomological_gate.py`.
+
+```text
+BR_2TORSION_IMPLIES_ORDER2_SHA_CLASS=true
+ORDER2_SHA_AUTOMATICALLY_HAS_THIS_2ISOGENY_SQUARECLASS=false
+DPLUS_SUPPORT_PROVES_ISOGENY_KERNEL_MEMBERSHIP=false
+DPLUS_SUPPORT_PROVES_d=DPLUS=false
 CANDIDATES_BEFORE=3
 CANDIDATES_AFTER=3
-ROUTE_STATUS=BLOCKED_NEW_PATTERN_ISOLATED
 ```
 
-The missing interface is now a single explicit adapter:
+The next exact leaf is:
 
-`PROVE_CV_J2_CLASS_MAPS_TO_2ISOGENY_DESCENT_SQUARECLASS_DPLUS_UNDER_BR_KC_TO_SHA_OF_THE_P1_T_JACOBIAN_FIBRATION`.
+`MATERIALIZE_XI_J2_AS_AN_EXPLICIT_GENUS_ONE_TORSOR_OR_CECH_COCYCLE_AND_TEST_THE_2ISOGENY_KERNEL_GATE`.
 
-Once that adapter is exact, compute `NS(C_Dplus)` or `T(C_Dplus)` and compare its minimum norm with `4,8,12`.
+The Creutz--Viray corestricted quaternion remains the named input; its role is to certify the Brauer class, not by itself to choose the 2-isogeny coordinate.
 
-## Route ledger
+## CI repair
 
-```text
-CV_J2_TO_2ISOGENY_DPLUS_ADAPTER              LIVE / ACTIVE
-EXPLICIT_DPLUS_GENUS_ONE_TORSOR               LIVE / CONDITIONAL ON ADAPTER
-KERNEL_LATTICE_FINGERPRINT                    LIVE / COMPARISON
-TWISTED_MUKAI_OR_DERIVED_HODGE                UNTESTED FALLBACK
-K3_LEVEL_SHIODA_INOSE_CORRESPONDENCE           UNTESTED HIGH-COST FALLBACK
-ALGEBRAIC_AZUMAYA_C1_MOD2                      UNTESTED FALLBACK
-BRANCH_COHOMOLOGICAL_MAP                       EQUIVALENT / ARCHIVED
-GOOD_REDUCTION_ETALE_SPECIALIZATION            EQUIVALENT-BLOCKED
-NAIVE_SHIODA_MITANI_ELLIPTIC_FACTOR            REJECTED_EXACTLY
-DIRECT_TOPOLOGICAL_OR_BFIELD_EVALUATION        BLOCKED
-```
+The deterministic checkpoint failure at head `94a3b313...` was operational, not mathematical: the two new verifiers imported `sympy`, which is absent from the network-free Python job. Both verifiers now use exact dependency-free integer polynomial arithmetic. The new cohomological gate verifier is also wired into the checkpoint replay.
 
 ## Firewalls
 
@@ -112,6 +97,7 @@ DIRECT_TOPOLOGICAL_OR_BFIELD_EVALUATION        BLOCKED
 Stage33-12 visible progress = 4/5
 J2 marked Brauer functional materialized = false
 J2 twisted transcendental kernel identified = false
+J2 2-isogeny squareclass selected = false
 Stage33-12 exact closure = false
 Stage33-13 released = false
 heavy actions authorized = false
