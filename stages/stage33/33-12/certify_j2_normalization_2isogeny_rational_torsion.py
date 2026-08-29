@@ -10,7 +10,7 @@ import sympy as sp
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 CERT = HERE / "j2-normalization-2isogeny-rational-torsion.json"
-SOURCE = ROOT / "stage33" / "33-05" / "j2_arithmetic_descent.py"
+SOURCE = ROOT / "stages" / "stage33" / "33-05" / "j2_arithmetic_descent.py"
 
 cert = json.loads(CERT.read_text(encoding="utf-8"))
 stored = cert.pop("canonical_sha256")
@@ -22,7 +22,7 @@ assert canonical == stored == "81097b3eab3b9f17de5a802b88324c74a7ab80e09c70dc179
 blob = subprocess.check_output(["git", "hash-object", str(SOURCE)], text=True).strip()
 assert blob == cert["source_locks"]["stage33_05_j2_arithmetic_descent_blob_sha1"]
 
-t, z, X, Y = sp.symbols("t z X Y")
+t, z, X = sp.symbols("t z X")
 s2 = sp.sqrt(2)
 q = t**4 - 6*t**2 + 1
 
