@@ -4,6 +4,14 @@
   "item": "RESIDUAL_32_01_PRODUCTION",
   "manifest": "stages/stage32/residual-32-01-production/full178-manifest.json",
   "manifest_sha256": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23",
+  "source_provenance": {
+    "audited_state": "stages/stage32/post-b16-residual-feasibility/state.json",
+    "audited_analyzer": "stages/stage32/post-b16-residual-feasibility/analyze_full_window_feasibility.py",
+    "audited_payload_sha256": "e787c75b845b691c934fcba5a09a1a76c3c95a82a2deb6563bb7e8fbcd636897",
+    "audited_row_count": 183,
+    "excluded_degree_le_6_row_ids": ["g0-d002", "g0-d004", "g0-d006", "g1-d004", "g1-d006"],
+    "derivation": "AUDITED_183_ROWS_MINUS_EXACTLY_FIVE_AUDITED_DEGREE_LE_6_ROWS"
+  },
   "residual_row_count": 178,
   "coarse_strata_count": 64111,
   "representative_completion_nodes": {"1": 14526419, "2": 6194539, "4": 10360479, "8": 8277509},
@@ -58,5 +66,5 @@
   "ROUTE_COLOR_CHANGE_AUTHORIZED": false,
   "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
   "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false,
-  "next_gate": "STATIC_PREFLIGHT_REVIEW_AND_EXPLICIT_HEAVY_PRODUCTION_RELEASE_DECISION"
+  "next_gate": "REPEAT_HOSTILE_AUDIT_AFTER_SOURCE_PROVENANCE_REPAIR"
 }
