@@ -1,0 +1,107 @@
+{
+  "canonical_sha256": "63c09f6ac52cef43d529d17a48907b5818cb19d18efcced3aa35e1ccc080b061",
+  "exact_coordinate_identification": {
+    "adapter": {
+      "s": "u2/v2",
+      "t": "u1/v1"
+    },
+    "cv_branch_plus": "t*(1-s^2)+i*s*(1-t^2)=0",
+    "identity": "v1^2*v2^2*Gplus(t,s)=X+iY",
+    "identity_verified_exact": true,
+    "ruled_model": {
+      "A1": "v1^2-u1^2",
+      "A2": "v2^2-u2^2",
+      "X": "u1*v1*A2",
+      "Y": "u2*v2*A1",
+      "branch_plus": "X+i*Y=0"
+    }
+  },
+  "exact_gap_after_this_leaf": {
+    "adapter_survivors_after_this_leaf": 6,
+    "cv_to_ruled_support_adapter_materialized": true,
+    "j2_kc_discriminant_coordinate_materialized": false,
+    "j2_support_in_ruled_P1xP1_materialized": true,
+    "reason": "The named J2 divisor is now located exactly in the frozen ruled coordinates, but the retained interface still lacks the resolved ruled-model-to-Stoll marked Kc divisor map needed to evaluate qPicK/imageinPicK and the discriminant glue.",
+    "ruled_support_to_stoll_marked_Kc_materialized": false
+  },
+  "j2_half_divisor": {
+    "Dplus": "t^2-2*t-1",
+    "P_minus": {
+      "ruled_P1xP1": [
+        "[1-sqrt(2):1]",
+        "[-i:1]"
+      ],
+      "s": "-i",
+      "t": "1-sqrt(2)",
+      "z": "0"
+    },
+    "P_plus": {
+      "ruled_P1xP1": [
+        "[1+sqrt(2):1]",
+        "[-i:1]"
+      ],
+      "s": "-i",
+      "t": "1+sqrt(2)",
+      "z": "0"
+    },
+    "definition": "2*infinity_minus-P_plus-P_minus",
+    "finite_support_branch_identity_verified_exact": true,
+    "infinity_minus": {
+      "ruled_P1xP1": [
+        "[1:0]",
+        "[1:0]"
+      ],
+      "s": "infinity",
+      "t": "infinity",
+      "z_over_t2": "-1"
+    },
+    "infinity_support_projective_limit_verified_exact": true,
+    "name": "E_J2"
+  },
+  "next_exact_leaf": "MATERIALIZE_RESOLVED_RULED_P1xP1_TO_STOLL_MARKED_KC_DIVISOR_MAP_ON_THREE_J2_SUPPORTS_THEN_COMPUTE_J2_KC_KERNEL_LINE",
+  "promotion_firewall": {
+    "arithmetic_hs_d2_computed": false,
+    "endpoint_credit": false,
+    "finite_v4_kummer_defect_columns_materialized": 0,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "stage33_07_closed": false,
+    "stage33_08_released": false,
+    "stage33_12_closed": false,
+    "theorem_credit": false
+  },
+  "ruled_ambient_images": {
+    "P_minus": {
+      "A1": "-2*(1-sqrt(2))",
+      "A2": "2",
+      "X": "2*(1-sqrt(2))",
+      "X_plus_iY": "0",
+      "Y": "2*i*(1-sqrt(2))"
+    },
+    "P_plus": {
+      "A1": "-2*(1+sqrt(2))",
+      "A2": "2",
+      "X": "2*(1+sqrt(2))",
+      "X_plus_iY": "0",
+      "Y": "2*i*(1+sqrt(2))"
+    },
+    "infinity_minus": {
+      "A1": "-1",
+      "A2": "-1",
+      "X": "0",
+      "Y": "0",
+      "homogeneous_representative": "(u1:v1,u2:v2)=([1:0],[1:0])",
+      "warning": "This is a boundary/base-locus support for the ruled chart; do not assign a Stoll marked Kc point without the audited ruled-to-Kc morphism/resolution."
+    }
+  },
+  "schema": "STAGE33_12_J2_CV_TO_RULED_SUPPORT_ADAPTER_V1",
+  "source_locks": {
+    "stage33_05_j2_arithmetic_descent_git_blob_sha1": "a63be5592c793c3812da99275478f14dd0d2687b",
+    "stage33_05_normalization_galois_skeleton_git_blob_sha1": "139a309c52a6646e649d37bdb03c3bb535d29cf1",
+    "stage33_05_source_reduction_git_blob_sha1": "662ad27494c8e275012a5ce0e1656a7c62782730",
+    "stage33_12_j2_named_kummer_glue_input_git_blob_sha1": "7574bb1acdf458b67e65f609b6c361473ce406c6",
+    "stoll_commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+    "stoll_path": "Cuboids/cuboids.magma",
+    "stoll_repository": "MichaelStollBayreuth/Verification"
+  }
+}
