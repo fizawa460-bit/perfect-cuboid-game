@@ -33,7 +33,7 @@ jobs:
           python-version: '3.10.6'
       - name: Install exact local algebra dependency
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Reverify cold resumable production preflight
+      - name: Reverify resumable production structural preflight
         run: python stages/stage32/residual-32-01-production/verify_resumable_production_cold_preflight.py
       - id: gate
         name: Verify fresh dedicated resumable production arm and exact FIFO frontier
@@ -70,8 +70,16 @@ jobs:
           schema='STAGE32_RESIDUAL32_01_FULL178_RESUMABLE_PRODUCTION_RUNKEY_V1'
           assert old['schema']==new['schema']==schema
           assert old['workload']==new['workload']=='FULL178_EXACT_PAIRING_PREFIX_RESUMABLE_PRODUCTION'
-          assert int(new['revision'])==int(old['revision'])+1==1
-          assert old['armed'] is False and new['armed'] is True
+          assert int(new['revision'])==int(old['revision'])+1
+          assert new['armed'] is True
+          if int(new['revision']) == 1:
+              assert int(old['revision']) == 0 and old['armed'] is False
+              assert 'retry_of_failed_run_id' not in new
+          else:
+              assert int(new['revision']) == 2 and int(old['revision']) == 1
+              assert old['armed'] is True
+              assert int(new['retry_of_failed_run_id']) == 33270126048
+              assert new['retry_reason'] == 'STRUCTURAL_PREFLIGHT_LIFECYCLE_VERIFIER_BUG_NO_HEAVY_STARTED'
           assert int(new['production_generation'])==34
           assert new['source_mode']=='BOOTSTRAP_LOCKED_OLD_FRONTIER_V1'
           assert int(new['source_frontier_count'])==218
@@ -116,7 +124,6 @@ jobs:
           dispatch=frontier[:128]; carry=frontier[128:]
           assert len(dispatch)==128 and len(carry)==90
           assert digest(dispatch)==new['dispatch_canonical_sha256']=='2d96ebc0ed716d319e554c1ff6ac05dc9ad0bde9dbacc20490c9027c33f210a9'
-          # Every queued unit must reload through the exact resumable input adapter.
           normalized=[]
           for raw in dispatch:
               row=raw['row_id']; genus=int(row.split('-')[0][1:]); emin=8 if genus==0 else 4
