@@ -14,10 +14,14 @@ from aut_equivariant_pairing_adapter import (
     NORMAL_LABEL_MAX,
 )
 from hperp_integral_adapter import HperpIntegralPairingAdapter
-from pairing_prefix_engine import RETAINED_BUNDLE_SHA256, RetainedBasisPairingTransform
+from pairing_prefix_engine import (
+    RETAINED_BUNDLE_SHA256,
+    PrefixMembershipOracle,
+    RetainedBasisPairingTransform,
+)
 
-SCHEMA = "STAGE32_RESIDUAL32_01_AUT_EQUIVARIANT_ALL140_CALIBRATION_V4"
-COORDINATE_MODEL = "AUT_EQUIVARIANT_ALL140_KNOWN_CURVE_PAIRINGS_TO_PICARD64_HNF"
+SCHEMA = "STAGE32_RESIDUAL32_01_COMBINED_HNF_AUT1536_CALIBRATION_V5"
+COORDINATE_MODEL = "GEN6_SELECTED64_EXACT_EXTENSION_HNF_PLUS_AUT_EQUIVARIANT_ALL140_PREFIX"
 AUT_MODE = "EXACT_AUT1536_ALL140_GLOBAL_BUDGET_CLASS_PREFIX_STABILIZER_LEX_MIN"
 SELECTED_ASSIGNMENT_ORDER = [0, 1, 2, 3, 61, 4, 5, 6, 7, 8, 9]
 REPRESENTATIVES = [
@@ -29,9 +33,7 @@ REPRESENTATIVES = [
 
 
 def csha(value: object) -> str:
-    return hashlib.sha256(
-        json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
-    ).hexdigest()
+    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
 def load_module_payload(path: pathlib.Path, module_name: str) -> dict:
@@ -44,7 +46,8 @@ def load_module_payload(path: pathlib.Path, module_name: str) -> dict:
 
 
 def run_probe(
-    oracle: EquivariantPrefixMembershipOracle,
+    legacy_oracle: PrefixMembershipOracle,
+    all140_oracle: EquivariantPrefixMembershipOracle,
     aut: AutEquivariantPrefixCanonicalAugmentation,
     known_labels_1based: list[int],
     rep: dict,
@@ -55,7 +58,8 @@ def run_probe(
     normal_mass = 19 * d - 5 * e
     values: list[int] = []
     nodes = 0
-    membership_prunes = 0
+    legacy_hnf_prunes = 0
+    all140_hnf_prunes = 0
     symmetry_prunes = 0
     terminal_prefixes = 0
     terminal_hash = hashlib.sha256()
@@ -64,7 +68,8 @@ def run_probe(
     started = time.perf_counter()
 
     def dfs(depth: int, exceptional_used: int, normal_used: int) -> None:
-        nonlocal nodes, membership_prunes, symmetry_prunes, terminal_prefixes, exhausted, max_depth_reached
+        nonlocal nodes, legacy_hnf_prunes, all140_hnf_prunes, symmetry_prunes
+        nonlocal terminal_prefixes, exhausted, max_depth_reached
         if exhausted:
             return
         max_depth_reached = max(max_depth_reached, depth)
@@ -81,8 +86,10 @@ def run_probe(
                 exhausted = True
                 return
             values.append(value)
-            if not oracle.feasible(values):
-                membership_prunes += 1
+            if not legacy_oracle.feasible(values):
+                legacy_hnf_prunes += 1
+            elif not all140_oracle.feasible(values):
+                all140_hnf_prunes += 1
             elif not aut.canonical(values):
                 symmetry_prunes += 1
             else:
@@ -95,12 +102,15 @@ def run_probe(
                 return
 
     dfs(0, 0, 0)
+    membership_prunes = legacy_hnf_prunes + all140_hnf_prunes
     return {
         **rep,
         "normal_mass": normal_mass,
         "known_label_order_1based": known_labels_1based,
         "node_limit": node_limit,
         "nodes_visited": min(nodes, node_limit),
+        "legacy_generation6_hnf_prunes": legacy_hnf_prunes,
+        "all140_row_image_hnf_prunes_after_legacy": all140_hnf_prunes,
         "membership_prunes": membership_prunes,
         "symmetry_prunes": symmetry_prunes,
         "total_exact_prunes": membership_prunes + symmetry_prunes,
@@ -110,7 +120,7 @@ def run_probe(
         "node_budget_exhausted": exhausted,
         "probe_complete": not exhausted,
         "elapsed_seconds": round(time.perf_counter() - started, 6),
-        "credit_scope": "ALL140_PAIRING_LATTICE_AND_PREFIX_AUT_COST_PROFILE_ONLY",
+        "credit_scope": "COMBINED_EXACT_HNF_AND_ALL140_PREFIX_AUT_COST_PROFILE_ONLY",
     }
 
 
@@ -134,9 +144,20 @@ def main() -> None:
     adapter = HperpIntegralPairingAdapter.from_retained(marking, bundle)
     adapter_seconds = time.perf_counter() - adapter_started
 
-    oracle_started = time.perf_counter()
-    oracle = EquivariantPrefixMembershipOracle(adapter, known_labels)
-    oracle_seconds = time.perf_counter() - oracle_started
+    legacy_started = time.perf_counter()
+    legacy_oracle = PrefixMembershipOracle(transform, SELECTED_ASSIGNMENT_ORDER)
+    legacy_seconds = time.perf_counter() - legacy_started
+    legacy_certificate = legacy_oracle.certificate()
+    legacy_active = [c["active_congruence_rows"] for c in legacy_certificate["checks"]]
+    legacy_moduli = [c["modulus"] for c in legacy_certificate["checks"]]
+    assert legacy_active == [0, 0, 0, 0, 16, 16, 16, 16, 16, 16, 16]
+    assert legacy_moduli[4] == 8
+
+    all140_started = time.perf_counter()
+    all140_oracle = EquivariantPrefixMembershipOracle(adapter, known_labels)
+    all140_seconds = time.perf_counter() - all140_started
+    all140_certificate = all140_oracle.certificate()
+    all140_active = [c["active_congruence_rows"] for c in all140_certificate["checks"]]
 
     aut_payload = marking["aut_action"]
     aut_started = time.perf_counter()
@@ -146,17 +167,19 @@ def main() -> None:
         aut_payload["canonical_sha256_without_this_field"],
     )
     aut_seconds = time.perf_counter() - aut_started
-
-    profiles = [run_probe(oracle, aut, known_labels, rep, args.node_limit) for rep in REPRESENTATIVES]
-    oracle_certificate = oracle.certificate()
-    active_by_depth = [c["active_congruence_rows"] for c in oracle_certificate["checks"]]
     aut_certificate = aut.certificate()
     prefix_actions = [c["distinct_prefix_actions"] for c in aut_certificate["checks"]]
+
+    profiles = [
+        run_probe(legacy_oracle, all140_oracle, aut, known_labels, rep, args.node_limit)
+        for rep in REPRESENTATIVES
+    ]
     gen6_regression = adapter.certificate["generation6_hnf_regression"]
+    assert gen6_regression["exact_match"] is True
 
     payload = {
         "schema": SCHEMA,
-        "engine": "LOCAL_OFFLINE_EXACT_ALL140_PAIRING_IMAGE_HNF_PLUS_PREFIX_AUT1536_V4",
+        "engine": "LOCAL_OFFLINE_EXACT_GEN6_EXTENSION_HNF_PLUS_ALL140_ROW_IMAGE_HNF_PLUS_PREFIX_AUT1536_V5",
         "coordinate_model": COORDINATE_MODEL,
         "selected_assignment_order_source": "LOCKED_FROM_GENERATION6_DISCRIMINANT_ACTIVE_SELECTION",
         "selected_assignment_order": SELECTED_ASSIGNMENT_ORDER,
@@ -164,16 +187,19 @@ def main() -> None:
         "gen6_depth5_active_known_label_1based": 49,
         "generation6_hnf_regression": gen6_regression,
         "saturated_picard64_integral_adapter_validated": adapter.certificate["saturated_picard64_integral_adapter_validated"],
-        "active_congruence_rows_by_depth": active_by_depth,
-        "first_active_depth": next((i + 1 for i, n in enumerate(active_by_depth) if n > 0), None),
+        "legacy_generation6_hnf_certificate": legacy_certificate,
+        "legacy_generation6_active_rows_by_depth": legacy_active,
+        "legacy_generation6_modulus_by_depth": legacy_moduli,
+        "all140_row_image_hnf_certificate": all140_certificate,
+        "all140_row_image_active_rows_by_depth": all140_active,
         "retained_picard_bundle_sha256": RETAINED_BUNDLE_SHA256,
         "retained_marking_sha256": marking["canonical_sha256"],
         "retained_aut_action_sha256": marking["stage32_aut_action_sha256"],
         "selected64_transform_certificate": transform.certificate,
         "adapter_certificate": adapter.certificate,
         "adapter_build_seconds": round(adapter_seconds, 6),
-        "oracle_certificate": oracle_certificate,
-        "oracle_build_seconds": round(oracle_seconds, 6),
+        "legacy_oracle_build_seconds": round(legacy_seconds, 6),
+        "all140_oracle_build_seconds": round(all140_seconds, 6),
         "aut_mode": AUT_MODE,
         "aut_certificate": aut_certificate,
         "aut_build_seconds": round(aut_seconds, 6),
@@ -192,7 +218,7 @@ def main() -> None:
         "R29_LG2": "NOT_DISCHARGED",
         "THEOREM_CREDIT": False,
         "RECEIVER_CREDIT": False,
-        "next_engineering_gate": "AUT_EQUIVARIANT_ALL140_REPRESENTATIVE_COST_RESULT_REVIEW",
+        "next_engineering_gate": "COMBINED_HNF_AUT1536_REPRESENTATIVE_COST_RESULT_REVIEW",
     }
     payload["canonical_sha256_without_this_field"] = csha(payload)
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -200,20 +226,22 @@ def main() -> None:
     print(json.dumps({
         "schema": SCHEMA,
         "known_labels": known_labels,
-        "adapter_paths": list(adapter.discovery_paths),
-        "adapter_modes": list(adapter.discovery_modes),
         "saturated_adapter_validated": payload["saturated_picard64_integral_adapter_validated"],
         "gen6_hnf_exact": gen6_regression["exact_match"],
-        "active_rows": active_by_depth,
+        "legacy_active_rows": legacy_active,
+        "legacy_moduli": legacy_moduli,
+        "all140_active_rows": all140_active,
         "full_aut_group_order": aut.group_order,
         "global_budget_subgroup_size": aut.global_budget_subgroup_size,
         "prefix_actions": prefix_actions,
         "nodes": {str(p["m"]): p["nodes_visited"] for p in profiles},
-        "membership_prunes": {str(p["m"]): p["membership_prunes"] for p in profiles},
+        "legacy_hnf_prunes": {str(p["m"]): p["legacy_generation6_hnf_prunes"] for p in profiles},
+        "all140_hnf_prunes": {str(p["m"]): p["all140_row_image_hnf_prunes_after_legacy"] for p in profiles},
         "symmetry_prunes": {str(p["m"]): p["symmetry_prunes"] for p in profiles},
         "terminals": {str(p["m"]): p["terminal_prefixes_before_stop"] for p in profiles},
         "adapter_build_seconds": payload["adapter_build_seconds"],
-        "oracle_build_seconds": payload["oracle_build_seconds"],
+        "legacy_oracle_build_seconds": payload["legacy_oracle_build_seconds"],
+        "all140_oracle_build_seconds": payload["all140_oracle_build_seconds"],
         "aut_build_seconds": payload["aut_build_seconds"],
         "sha256": payload["canonical_sha256_without_this_field"],
     }, sort_keys=True))
