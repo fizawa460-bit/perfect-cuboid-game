@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V7_GENERATION12_NO_CREDIT_GENERATION13_READY",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V8_GENERATION13_COST_REGRESSION",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "GENERATION11_LAST_VALID_COST_PROFILE_GENERATION12_COORDINATE_MISMATCH_NO_CREDIT_RAW_ALL140_REORDER_DEPTH4_READY",
+  "status": "GENERATION11_REMAINS_BEST_VALID_COST_PROFILE_GENERATION12_NO_CREDIT_GENERATION13_VALID_COST_REGRESSION_COST_AWARE_COLD_SEARCH_NEXT",
   "audit_required": true,
   "repair_required": false,
   "merge_allowed": false,
@@ -20,12 +20,13 @@
     "hperp_integral_saturation_adapter_validated": true,
     "full_aut1536_reconstructed_exactly": true,
     "generation11_selected64_coordinate_wall_broken": true,
-    "generation11_nontrivial_prefix_symmetry_pruning_observed": true,
     "generation12_result_valid_for_credit": false,
-    "generation12_reason": "LEGACY_GENERATION6_HNF_COORDINATES_ARE_RETAINED_MAGMA_BASIS_PAIRINGS_AND_CANNOT_BE_APPLIED_POINTWISE_TO_RAW_KNOWN_LABEL_PAIRINGS.",
-    "raw_known_label_reorder_coordinate_semantics_changed": false,
-    "raw_known_label_first_active_depth_old": 8,
-    "raw_known_label_first_active_depth_new": 4,
+    "generation13_result_valid_for_cost_comparison": true,
+    "generation13_first_active_depth": 4,
+    "generation13_membership_prunes_all_representatives": 0,
+    "generation13_cost_regression": true,
+    "generation11_remains_best_valid_cost_profile": true,
+    "reason": "STATIC_EARLY_HNF_VISIBILITY_IS_NOT_A_SUFFICIENT_ORDER_OBJECTIVE. GENERATION13_MOVED_A_VALID_MOD2_ROW_TO_DEPTH4_BUT_THE_FIRST_250K_VISITED_PREFIXES_NEVER_VIOLATED_IT, WHILE_PREFIX_SYMMETRY_PRUNING_DROPPED_TO_1581. THE_NEXT_GATE_MUST_SCORE_ACTUAL_EXACT_DFS_COST_ON_COLD_MICRO_PROBES_BEFORE_ANOTHER_250K_ACTIONS_RUN.",
     "production_cost_ready": false
   },
   "generation11_main_checkpoint": {
@@ -34,36 +35,28 @@
     "artifact_id": 9705346600,
     "artifact_zip_sha256": "36424d783de54ef98f893c16df746e71831edccbe6571932567e3e6451878b25",
     "certificate_sha256": "6aa69e928cc049839f5062db856f53a8a155074b3144bd1f9fc73bc68f2b7fa0",
-    "valid_main_cost_profile": true
+    "valid_main_cost_profile": true,
+    "best_valid_cost_profile": true
   },
   "generation12_engineering_fail": {
     "checkpoint_file": "stages/stage32/residual-32-01-production/generation12-engineering-fail.json",
     "run_id": 33224065499,
-    "artifact_id": 9706236199,
-    "artifact_zip_sha256": "e79b4f7c01688bb979a93dd03de0b7255d3c98ca7ab4cd2b25ad89899e7383ca",
-    "certificate_sha256": "24801e09ac7caa1c790be8ae5d3b03d03d4ea85ffe7ec57e1ac636f638f93c1d",
     "result": "FAIL_CLOSED_ENGINEERING_NO_CREDIT"
   },
-  "raw_known_label_order_recalibration": {
-    "checkpoint_file": "stages/stage32/residual-32-01-production/raw-known-label-order-recalibration.json",
-    "fixed_label_set_1based": [49,93,94,95,96,97,98,99,101,102,103],
-    "old_order_1based": [93,94,95,96,49,97,98,99,101,102,103],
-    "new_order_1based": [93,96,98,99,49,94,95,97,101,102,103],
-    "normal_label_49_depth": 5,
-    "old_first_active_depth": 8,
-    "new_first_active_depth": 4,
-    "new_modulus_at_first_active_depth": 2,
-    "new_active_rows_at_first_active_depth": 1,
-    "new_distinct_prefix_actions_by_depth": [1,2,2,8,4,4,8,4,1,1,1],
-    "coordinate_semantics_changed": false,
-    "source": "COLD_EXACT_REPLAY_FROM_STAGE32_PREPARED_HPERP_AND_AUT1536_ARTIFACT"
-  },
-  "hperp_integral_adapter_checkpoint": {
-    "adapter_certificate_sha256": "fc695b9405ec4becfbcf19866c0c70fceed9372186a5aa4974879f302ee8ffe9",
-    "selected64_change_of_basis_unimodular": true,
-    "selected64_change_of_basis_determinant": 1,
-    "full_aut_group_order": 1536,
-    "validated": true
+  "generation13_main_checkpoint": {
+    "checkpoint_file": "stages/stage32/residual-32-01-production/generation13-main-checkpoint.json",
+    "run_id": 33224323382,
+    "artifact_id": 9706313895,
+    "artifact_zip_sha256": "a9072e418a8b69fe47dbaebc410703812ca40d7d1e12d54324385affcb56adac",
+    "certificate_sha256": "8bfd9145fbd54afe966cb4e890bea8684f1580cd4d4ed5d67f591aee4a124baf",
+    "known_label_order_1based": [93,96,98,99,49,94,95,97,101,102,103],
+    "first_active_depth": 4,
+    "membership_prunes_each_representative": 0,
+    "symmetry_prunes_each_representative": 1581,
+    "terminals_each_representative": 151459,
+    "all_representatives_node_cap_exhausted": true,
+    "valid_bounded_cost_profile": true,
+    "production_cost_ready": false
   },
   "implementation": {
     "hperp_integral_adapter": "stages/stage32/residual-32-01-production/hperp_integral_adapter.py",
@@ -72,5 +65,5 @@
     "runkey": "stages/stage32/runkeys/residual32-01-pairing-prefix-calibration.json",
     "online_magma_dependency": false
   },
-  "next_item": "GENERATION13_RAW_ALL140_REORDERED_HNF_PLUS_AUT1536_REPRESENTATIVE_COST_PROFILE"
+  "next_item": "COST_AWARE_RAW_PREFIX_ORDER_COLD_SEARCH_WITH_GENERATION11_BASELINE"
 }
