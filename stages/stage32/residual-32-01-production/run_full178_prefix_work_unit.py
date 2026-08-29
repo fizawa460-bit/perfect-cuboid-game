@@ -21,7 +21,7 @@ ROOT = pathlib.Path(__file__).resolve().parent
 MANIFEST = ROOT / "full178-manifest.json"
 KNOWN_LABEL_ORDER = [95, 99, 103, 102, 49, 97, 94, 101, 93, 98, 96]
 EXPECTED_MANIFEST_SHA256 = "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23"
-SCHEMA = "STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V1"
+SCHEMA = "STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2"
 
 
 def csha(value: object) -> str:
@@ -76,12 +76,29 @@ def next_upper(labels: list[int], prefix: list[int], e: int, d: int) -> int:
     return 19 * d - 5 * e - normal
 
 
-def run_partition(oracle, aut, labels: list[int], *, e: int, d: int, node_limit: int,
-                  prefix: list[int], next_min: int | None, next_max: int | None) -> dict:
+def run_partition(
+    oracle,
+    aut,
+    labels: list[int],
+    *,
+    e: int,
+    d: int,
+    node_limit: int,
+    prefix: list[int],
+    next_min: int | None,
+    next_max: int | None,
+) -> dict:
     if prefix and (not oracle.feasible(prefix) or not aut.canonical(prefix)):
-        return {"complete": True, "nodes": 0, "membership_prunes": 0, "symmetry_prunes": 0,
-                "terminal_count": 0, "terminal_stream_sha256": hashlib.sha256().hexdigest(),
-                "elapsed_seconds": 0.0, "empty_by_prefix_filter": True}
+        return {
+            "complete": True,
+            "nodes": 0,
+            "membership_prunes": 0,
+            "symmetry_prunes": 0,
+            "terminal_count": 0,
+            "terminal_stream_sha256": hashlib.sha256().hexdigest(),
+            "elapsed_seconds": 0.0,
+            "empty_by_prefix_filter": True,
+        }
     budget_state(labels, prefix, e, d)
     values = list(prefix)
     nodes = membership = symmetry = terminals = 0
@@ -161,20 +178,58 @@ def split_partition(unit: dict, *, e: int, d: int, labels: list[int]) -> list[di
     hi = int(unit["next_max"])
     if lo < hi:
         mid = (lo + hi) // 2
-        return [normalize_unit({"kind": "STRATUM_PARTITION", "row_id": unit["row_id"], "e": e,
-                                "prefix": prefix, "next_min": lo, "next_max": mid}),
-                normalize_unit({"kind": "STRATUM_PARTITION", "row_id": unit["row_id"], "e": e,
-                                "prefix": prefix, "next_min": mid + 1, "next_max": hi})]
+        return [
+            normalize_unit(
+                {
+                    "kind": "STRATUM_PARTITION",
+                    "row_id": unit["row_id"],
+                    "e": e,
+                    "prefix": prefix,
+                    "next_min": lo,
+                    "next_max": mid,
+                }
+            ),
+            normalize_unit(
+                {
+                    "kind": "STRATUM_PARTITION",
+                    "row_id": unit["row_id"],
+                    "e": e,
+                    "prefix": prefix,
+                    "next_min": mid + 1,
+                    "next_max": hi,
+                }
+            ),
+        ]
     new_prefix = prefix + [lo]
     if len(new_prefix) >= len(labels):
         raise RuntimeError("single-leaf partition exceeded node ceiling")
     upper = next_upper(labels, new_prefix, e, d)
     mid = upper // 2
-    children = [normalize_unit({"kind": "STRATUM_PARTITION", "row_id": unit["row_id"], "e": e,
-                                "prefix": new_prefix, "next_min": 0, "next_max": mid})]
+    children = [
+        normalize_unit(
+            {
+                "kind": "STRATUM_PARTITION",
+                "row_id": unit["row_id"],
+                "e": e,
+                "prefix": new_prefix,
+                "next_min": 0,
+                "next_max": mid,
+            }
+        )
+    ]
     if mid < upper:
-        children.append(normalize_unit({"kind": "STRATUM_PARTITION", "row_id": unit["row_id"], "e": e,
-                                       "prefix": new_prefix, "next_min": mid + 1, "next_max": upper}))
+        children.append(
+            normalize_unit(
+                {
+                    "kind": "STRATUM_PARTITION",
+                    "row_id": unit["row_id"],
+                    "e": e,
+                    "prefix": new_prefix,
+                    "next_min": mid + 1,
+                    "next_max": upper,
+                }
+            )
+        )
     return children
 
 
@@ -204,7 +259,8 @@ def main() -> None:
     adapter = HperpIntegralPairingAdapter.from_retained(marking, bundle)
     oracle = EquivariantPrefixMembershipOracle(adapter, KNOWN_LABEL_ORDER)
     aut = AutEquivariantPrefixCanonicalAugmentation(
-        marking["aut_action"]["permutations_1based"], KNOWN_LABEL_ORDER,
+        marking["aut_action"]["permutations_1based"],
+        KNOWN_LABEL_ORDER,
         marking["aut_action"]["canonical_sha256_without_this_field"],
     )
 
@@ -219,15 +275,38 @@ def main() -> None:
             if remaining <= 0:
                 unresolved.append(normalize_unit({"kind": "ROW_TAIL", "row_id": row_id, "e_start": e}))
                 break
-            root = normalize_unit({"kind": "STRATUM_PARTITION", "row_id": row_id, "e": e,
-                                   "prefix": [], "next_min": 0, "next_max": e})
-            result = run_partition(oracle, aut, KNOWN_LABEL_ORDER, e=e, d=degree,
-                                   node_limit=remaining, prefix=[], next_min=0, next_max=e)
+            root = normalize_unit(
+                {
+                    "kind": "STRATUM_PARTITION",
+                    "row_id": row_id,
+                    "e": e,
+                    "prefix": [],
+                    "next_min": 0,
+                    "next_max": e,
+                }
+            )
+            result = run_partition(
+                oracle,
+                aut,
+                KNOWN_LABEL_ORDER,
+                e=e,
+                d=degree,
+                node_limit=remaining,
+                prefix=[],
+                next_min=0,
+                next_max=e,
+            )
             remaining -= result["nodes"]
             telemetry.append({"e": e, "work_unit_id": root["work_unit_id"], **result})
             if result["complete"]:
-                completed.append({"e": e, "partition": root, "terminal_count": result["terminal_count"],
-                                  "terminal_stream_sha256": result["terminal_stream_sha256"]})
+                completed.append(
+                    {
+                        "e": e,
+                        "partition": root,
+                        "terminal_count": result["terminal_count"],
+                        "terminal_stream_sha256": result["terminal_stream_sha256"],
+                    }
+                )
                 continue
             unresolved.extend(split_partition(root, e=e, d=degree, labels=KNOWN_LABEL_ORDER))
             if e < emax:
@@ -236,15 +315,34 @@ def main() -> None:
     else:
         e = int(unit["e"])
         assert emin <= e <= emax
-        result = run_partition(oracle, aut, KNOWN_LABEL_ORDER, e=e, d=degree,
-                               node_limit=remaining, prefix=unit["prefix"],
-                               next_min=unit["next_min"], next_max=unit["next_max"])
+        result = run_partition(
+            oracle,
+            aut,
+            KNOWN_LABEL_ORDER,
+            e=e,
+            d=degree,
+            node_limit=remaining,
+            prefix=unit["prefix"],
+            next_min=unit["next_min"],
+            next_max=unit["next_max"],
+        )
         telemetry.append({"e": e, "work_unit_id": unit["work_unit_id"], **result})
         if result["complete"]:
-            completed.append({"e": e, "partition": unit, "terminal_count": result["terminal_count"],
-                              "terminal_stream_sha256": result["terminal_stream_sha256"]})
+            completed.append(
+                {
+                    "e": e,
+                    "partition": unit,
+                    "terminal_count": result["terminal_count"],
+                    "terminal_stream_sha256": result["terminal_stream_sha256"],
+                }
+            )
         else:
             unresolved.extend(split_partition(unit, e=e, d=degree, labels=KNOWN_LABEL_ORDER))
+
+    actual_nodes_used = sum(int(t["nodes"]) for t in telemetry)
+    assert 0 <= actual_nodes_used <= args.node_limit
+    if unit["kind"] == "ROW_TAIL":
+        assert actual_nodes_used == args.node_limit - remaining
 
     payload = {
         "schema": SCHEMA,
@@ -259,7 +357,8 @@ def main() -> None:
         "exceptional_mass_range": [emin, emax],
         "input_work_unit": unit,
         "node_limit": args.node_limit,
-        "nodes_used": args.node_limit - remaining,
+        "nodes_used": actual_nodes_used,
+        "nodes_used_accounting": "SUM_TELEMETRY_NODES_V2",
         "completed_prefix_partitions": completed,
         "unresolved_exact_child_work_units": unresolved,
         "telemetry": telemetry,
@@ -278,9 +377,18 @@ def main() -> None:
     payload["canonical_sha256_without_this_field"] = csha(payload)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
-    print(json.dumps({"row_id": row_id, "nodes_used": payload["nodes_used"],
-                      "completed": len(completed), "unresolved": len(unresolved),
-                      "sha256": payload["canonical_sha256_without_this_field"]}, sort_keys=True))
+    print(
+        json.dumps(
+            {
+                "row_id": row_id,
+                "nodes_used": payload["nodes_used"],
+                "completed": len(completed),
+                "unresolved": len(unresolved),
+                "sha256": payload["canonical_sha256_without_this_field"],
+            },
+            sort_keys=True,
+        )
+    )
 
 
 if __name__ == "__main__":
