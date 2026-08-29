@@ -1,12 +1,12 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V18_FULL178_SOURCE_PROVENANCE_REPAIRED_PENDING_REAUDIT",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V19_FULL178_PREFLIGHT_HOSTILE_REAUDIT_PASS",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "FULL178_COLD_PREFLIGHT_SOURCE_PROVENANCE_REPAIRED_PENDING_FRESH_REAUDIT_NO_HEAVY_SWEEP",
-  "audit_required": true,
+  "status": "FULL178_COLD_PREFLIGHT_HOSTILE_REAUDIT_PASS_SCOPE_LOCKED_AWAIT_EXPLICIT_HEAVY_RELEASE",
+  "audit_required": false,
   "repair_required": false,
-  "merge_allowed": false,
-  "advance_allowed": false,
+  "merge_allowed": true,
+  "advance_allowed": true,
   "B18_RELEASE_AUTHORIZED": false,
   "FULL_178_ROW_SWEEP_AUTHORIZED": false,
   "FULL_D16_G0_ROW_COMPLETE": false,
@@ -23,18 +23,22 @@
     "full178_preflight_implemented": true,
     "full178_manifest_internal_consistency_pass": true,
     "full178_source_provenance_repair_complete": true,
-    "production_cost_ready": false,
-    "production_cost_ready_provisional": false,
-    "production_cost_ready_blocker": "FRESH_HOSTILE_REAUDIT_REQUIRED_AFTER_AUDITED_183_ROW_SOURCE_PROVENANCE_REPAIR",
-    "reason": "HOSTILE AUDIT 5057147138 ACCEPTED THE INTERNAL 178-ROW MANIFEST, M-CLASS PARTITION, FAIL-CLOSED 16M POLICY, CONCURRENCY/STORAGE PREFLIGHT, COLD RUN KEY, AND CI BEHAVIOR, BUT REQUIRED A MACHINE-CHECKED LINK TO THE AUDITED 183-ROW SOURCE. THE VERIFIER NOW READS THE HOSTILE-AUDITED RESIDUAL-FEASIBILITY STATE, IMPORTS ITS LOCKED ANALYZER, REQUIRES PAYLOAD SHA e787c75b845b691c934fcba5a09a1a76c3c95a82a2deb6563bb7e8fbcd636897, OBTAINS THE 183 ROWS FROM audited_rows(), AND PROVES THE MANIFEST IS EXACTLY THAT SET MINUS THE FIVE AUDITED DEGREE<=6 ROWS."
+    "full178_source_provenance_hostile_reaudit_pass": true,
+    "production_cost_ready": true,
+    "production_cost_ready_scope": "BOUNDED_FAIL_CLOSED_PRODUCTION_POLICY_ONLY_NOT_WORST_CASE_CERTIFICATE",
+    "reason": "HOSTILE REAUDIT 5057163230 PASSED THE SOURCE-PROVENANCE REPAIR. THE VERIFIER NOW MECHANICALLY LOCKS THE HOSTILE-AUDITED RESIDUAL-FEASIBILITY STATE AND PAYLOAD, DERIVES THE AUTHORITATIVE 183 ROWS FROM THE LOCKED ANALYZER, REMOVES EXACTLY THE FIVE AUDITED DEGREE<=6 ROWS, AND PROVES EXACT EQUALITY WITH THE 178-ROW MANIFEST. STATIC PREFLIGHT IS AUDITED, BUT FULL178 HEAVY EXECUTION REMAINS UNAUTHORIZED UNTIL A SEPARATE MAIN CONTROLLER RELEASE."
   },
-  "full178_hostile_audit": {
-    "review_id": 5057147138,
-    "audited_head_sha": "99c7fb237d0aff53dd2a9f97083650b60d5643f8",
-    "verdict": "FAIL_REPAIR_REQUIRED_SOURCE_PROVENANCE_LOCK",
-    "accepted_components": ["internal_manifest_consistency","m_class_partition","fail_closed_unknown_policy","actions_storage_concurrency_preflight","cold_runkey_and_ci"],
-    "failed_component": "AUDITED_183_ROW_SOURCE_PROVENANCE_LOCK",
-    "repair_complete": true
+  "full178_hostile_reaudit": {
+    "review_id": 5057163230,
+    "audited_head_sha": "657c99327316336592ff757d36875c69cc19623d",
+    "verdict": "PASS_SOURCE_PROVENANCE_REPAIR_SCOPE_LOCKED",
+    "prior_failed_review_id": 5057147138,
+    "audited_source_provenance_lock": "PASS",
+    "internal_manifest_consistency": "PASS",
+    "m_class_partition": "PASS",
+    "fail_closed_unknown_policy": "PASS",
+    "actions_storage_concurrency_preflight": "PASS",
+    "cold_runkey_and_ci": "PASS"
   },
   "source_provenance_repair": {
     "audited_state": "stages/stage32/post-b16-residual-feasibility/state.json",
@@ -74,5 +78,5 @@
     "m4": {"nodes":10360479,"membership_prunes":2157624,"symmetry_prunes":734852,"terminals":2139102},
     "m8": {"nodes":8277509,"membership_prunes":1723816,"symmetry_prunes":587108,"terminals":1709018}
   },
-  "next_item": "HOSTILE_REAUDIT_FULL178_STATIC_PREFLIGHT_SOURCE_PROVENANCE_REPAIR"
+  "next_item": "EXPLICIT_MAIN_RELEASE_DECISION_FOR_FULL178_HEAVY_PRODUCTION"
 }
