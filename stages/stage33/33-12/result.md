@@ -1,6 +1,6 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_IN_PROGRESS_FULL_E2_COCYCLE_4_OF_5`
+Status: `MAIN_IN_PROGRESS_BRAUER_TO_SHA_LERAY_EDGE_4_OF_5`
 
 Stage33-12 remains open. Stage33-07 remains open. Stage33-13 is not released.
 
@@ -16,117 +16,73 @@ Br(Kc)[2] = Hom(T,Z/2)
 
 The marked Brauer functional is still one of the three nonzero functionals.
 
-## Revocation retained: constant d=2 is not the named J2 torsor
+## Retained exact rejections
 
-The previous promotion `partial norm squareclass 2 => named Leray/Sha d=2` is invalid. J2 is geometrically nontrivial, whereas constant `2` becomes a square over `Qbar` and its single-isogeny covering becomes geometrically trivial.
-
-Exact rejection certificate: `j2-d2-geometric-nontriviality-rejection.json`.
-
-## Half-divisor pushforward remains support data, not the Sha coordinate
-
-On the branch normalization
+The scalar projections are not the named geometric J2 torsor:
 
 ```text
-C: z^2=q, q=t^4-6*t^2+1,
-E_J2=2*infinity_minus-P_plus-P_minus,
+constant d=2 -> geometrically trivial after Qbar base change
+q=t^4-6*t^2+1 -> single-isogeny homogeneous space has an explicit Q(t)-point
+Dplus=t^2-2*t-1 -> half-divisor pushforward/support datum only
 ```
 
-we have exactly
+The Stage33-05 Hilbert-90 identity
 
 ```text
-pi_*(E_J2)=-div(Dplus),
-Dplus=t^2-2*t-1.
+ell_z=f2*g90^2,
+f2=(t+1+sqrt(2))/(t-1+sqrt(2))
 ```
 
-This identifies the base support/trivialization forced by the named half-divisor, but it is not by itself the Leray/Ogg-Shafarevich edge map. Therefore `Dplus` is not promoted to a named torsor coordinate.
+is retained as geometric branch data, not as a generic-fiber Sha coordinate.
 
-Certificate: `j2-geometric-halfdivisor-base-squareclass.json`.
+## NEW exact rejection: naive CV branch algebra -> split E[2] Kummer
 
-## NEW: recover the nonconstant Hilbert-90 datum
-
-Stage33-05 already contains the exact identity
+For the even quartic branch algebra
 
 ```text
-ell_z = f2 * g90^2,
-f2=(t+1+sqrt(2))/(t-1+sqrt(2)).
+s^4+A*s^2+1,
+A=(t^4-4*t^2+1)/t^2,
+ell=4*(t^2*s^2+t^4-4*t^2+2)/((t^2-1)*(t^2-2*t-1)),
 ```
 
-Thus the geometric squareclass retained by the Hilbert-90 reduction is `f2`, not the arithmetic partial norm `2`.
+the root pattern is `{r,-r,1/r,-1/r}` and `ell` is even in `s`.
 
-Under the constant-field conjugation `sqrt(2)->-sqrt(2)`, exact multiplication gives
+If one naively converts the CV representative to the three split-2-torsion partition characters by pair products, then:
 
 ```text
-f2 * ct(f2) = Dminus/Dplus,
-Dminus=t^2+2*t-1,
-q=Dplus*Dminus,
-(Dminus/Dplus)*q=Dminus^2.
+{r,-r}|{1/r,-1/r}: square -> class 1
+{r,1/r}|{-r,-1/r}: 32/(t^2-2*t-1)^2 -> class 2
+third partition: class 2
 ```
 
-Hence
+The key exact identity is
 
 ```text
-[Dminus/Dplus]=[q] in Q(t)^*/Q(t)^{*2}.
+(t^2*beta+c)*(t^2/beta+c)=2*(t^2-1)^2,
+c=t^4-4*t^2+2,
+beta+beta^-1=-(t^4-4*t^2+1)/t^2.
 ```
 
-This gives a Q-rational nonconstant norm/corestriction squareclass candidate `q`. It survives over `Qbar(t)`, unlike constant `2`.
-
-Certificate: `j2-hilbert90-geometric-squareclass-candidate.json`; verifier: `certify_j2_hilbert90_geometric_squareclass_candidate.py`.
-
-## NEW exact rejection: q is also not a single-isogeny J2 coordinate
-
-For the standard single-2-isogeny homogeneous-space template
+So the naive split-E[2] character triple is
 
 ```text
-C_d: N^2=d*U^4-2*H*U^2*V^2+(D/d)*V^4,
-H=t^4-4*t^2+1,
-D=(t^2-1)^2*q,
+(1,2,2).
 ```
 
-setting `d=q` gives
+After base change to `Qbar(t)`, constant `2` is a square, hence this naive class becomes `(1,1,1)` and is geometrically trivial. That cannot equal the named J2 class, which is already certified geometrically nontrivial.
+
+Therefore the CV branch-algebra class must **not** be identified directly with generic-fiber `H^1(Q(t),E[2])` Kummer coordinates. The missing semantic map is the actual Brauer-to-Sha Leray/Ogg-Shafarevich edge for the elliptic K3 fibration.
+
+Certificate: `j2-naive-cv-branch-to-e2-kummer-rejection.json`; verifier: `certify_j2_naive_cv_branch_to_e2_kummer_rejection.py`.
+
+## Next exact leaf
 
 ```text
-C_q: N^2=q*U^4-2*H*U^2*V^2+(t^2-1)^2*V^4.
+MATERIALIZE_THE_BRAUER_TO_SHA_LERAY_EDGE_FOR_THE_NAMED_CV_AZUMAYA_CLASS
+AS_A_CECH_OR_DIVISOR_COCYCLE_ON_THE_ELLIPTIC_K3_FIBRATION
 ```
 
-But this has the explicit K-rational point
-
-```text
-[U:V:N]=[0:1:t^2-1].
-```
-
-Therefore the `q` projection is a trivial torsor and cannot equal the named geometrically nontrivial J2 Weil-Chatelet class.
-
-Certificate: `j2-q-single-isogeny-projection-rejection.json`; verifier: `certify_j2_q_single_isogeny_projection_rejection.py`.
-
-## Exact consequence
-
-The failed scalar projections now explain the obstruction cleanly:
-
-```text
-constant 2 projection -> geometrically trivial
-q norm/corestriction projection -> explicitly trivial
-Dplus pushforward -> support/trivialization datum only
-```
-
-So the named J2 class cannot be recovered by taking one scalar norm and calling it a 2-isogeny coordinate. Since
-
-```text
-E: Y^2=X*(X-r1)*(X-r2),
-r1=(t^2-1)^2,
-r2=q,
-```
-
-has full rational 2-torsion, the next exact object is the **full two-coordinate** class in
-
-```text
-H^1(Q(t),E[2]) ~= (Q(t)^*/Q(t)^{*2})^2
-```
-
-before projection to any one rational 2-isogeny.
-
-Next exact leaf:
-
-`COMPUTE_THE_TWO_KUMMER_SQUARECLASS_COORDINATES_OF_THE_NAMED_HILBERT90_COCYCLE_IN_H1(Q(t),E[2])_THEN_MAP_THE_PAIR_TO_THE_WEIL_CHATELET_CLASS`.
+Only after that edge is explicit should any `H^1(Q(t),E[2])` or Weil-Chatelet coordinate be assigned.
 
 ## Firewalls
 
@@ -134,7 +90,7 @@ Next exact leaf:
 Stage33-12 visible progress = 4/5
 J2 marked Brauer functional materialized = false
 J2 twisted transcendental kernel identified = false
-J2 2-isogeny squareclass selected = false
+J2 full E[2] Kummer coordinates materialized = false
 J2 torsor equation materialized = false
 Stage33-12 exact closure = false
 Stage33-13 released = false
