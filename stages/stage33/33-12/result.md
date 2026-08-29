@@ -1,6 +1,6 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_IN_PROGRESS_J2_MARKED_TRANSCENDENTAL_CYCLE_OPEN_4_OF_5`
+Status: `MAIN_IN_PROGRESS_J2_DIRECT_BFIELD_CYCLE_EVALUATION_OPEN_4_OF_5`
 
 Stage33-12 remains open. Stage33-07 remains open. Stage33-13 is not released.
 
@@ -31,32 +31,46 @@ The Creutz--Viray ruled-surface presentation supplies an exact two-dimensional q
 
 Certificate: `j2-cv-to-discriminant-marking-obstruction.json`, canonical SHA256 `1366726812db7828e14a6f5c40d862e16b08856ba8278c9c1781f0a3d40eb5dd`.
 
-## New exact reduction: T(Kc) is fixed up to isometry
+## Transcendental lattice fixed up to isometry
 
-Because `rho(Kc)=20`, the K3 transcendental lattice has rank two. The semantic Picard lattice has determinant `-32` and discriminant group `Z/4 direct_sum Z/8`. For a primitive Neron--Severi lattice inside the even unimodular K3 lattice, `A_T` and `A_NS` have opposite discriminant quadratic forms.
-
-An exhaustive Gauss-reduced enumeration of positive definite even rank-two lattices of determinant `32` gives only
-
-```text
-[[2,0],[0,16]]      A = Z/2 + Z/16
-[[4,0],[0,8]]       A = Z/4 + Z/8
-[[6,-2],[-2,6]]     A = Z/2 + Z/16
-[[6,2],[2,6]]       A = Z/2 + Z/16
-```
-
-so the transcendental lattice is fixed up to isometry as
+The exact semantic discriminant form fixes
 
 ```text
 T(Kc) ~= <4> direct_sum <8>.
 ```
 
-The certificate also materializes an explicit anti-isometry witness from the discriminant generators `t1/4, t2/8` to the semantic NS discriminant: the two NS images have orders `4,8`, quadratic values `7/4,15/8`, cross-pairing `0 mod Z`, and generate all `32` discriminant classes. Thus this is stronger than a determinant-only classification.
+The retained certificate also gives an explicit discriminant anti-isometry witness from `t1/4,t2/8` to the semantic NS discriminant, generating all 32 discriminant classes.
 
 Certificate: `j2-kc-transcendental-lattice-isometry.json`.
 Canonical SHA256: `b7f2bcfa29c01731ea2f10d22db898ad57317f140b547f91e3d3a27a0faf1010`.
-Network-free verifier: `certify_j2_kc_transcendental_lattice_isometry.py`.
 
-This does **not** mark the basis `(t1,t2)` by the named CV basis `[J2,q1]`. Therefore the J2 coordinate is still one of three nonzero mod-2 functionals; the unique-isotropic guess remains forbidden.
+## New exact reduction: automorphism signatures cannot mark J2
+
+A tempting route was to use a named Kc coordinate sign involution. In particular Stoll's `substsK[6]` is `B1 -> -B1`, while the named J2 branch has `B1=0` and all three named support points also have `B1=0`; hence this involution fixes the named J2 carrier/support pointwise.
+
+However this cannot select the J2 functional. For
+
+```text
+T(Kc) = diag(4,8),
+```
+
+the complete integral isometry group is exactly
+
+```text
+diag(+/-1,+/-1),
+```
+
+four elements. Every one reduces to the identity modulo `2`. Therefore every geometric automorphism, through its integral action on `T(Kc)`, acts trivially on
+
+```text
+Hom(T(Kc), Z/2) = Br(Kc)[2].
+```
+
+So not only `B1 -> -B1`, but **every automorphism fixed-line/signature strategy** is unable to distinguish the three nonzero J2 candidates.
+
+Certificate: `j2-kc-automorphism-mod2-marking-rejection.json`.
+Canonical SHA256: `dfbd85c56c3c9c29238e1da633baec2ed2bd8cc58021c8137e95fb1cf9cd74fb`.
+Network-free verifier: `certify_j2_kc_automorphism_mod2_marking_rejection.py`.
 
 ## Rejected shortcuts retained
 
@@ -64,6 +78,7 @@ This does **not** mark the basis `(t1,t2)` by the named CV basis `[J2,q1]`. Ther
 - Unsupported classical Kummer `(16_6)` transfer: `REJECTED_EXACTLY`.
 - Historical Smith frame alone: `INSUFFICIENT_EXACTLY`.
 - Bare Picard-discriminant Galois connecting signature: `REJECTED_EXACTLY`.
+- Kc automorphism/sign/swap fixed-line signature: `REJECTED_EXACTLY`.
 - Unique-isotropic-vector guess: `FORBIDDEN_WITHOUT_CV_SIDE_QUADRATIC/B-FIELD_COMPATIBILITY`.
 
 ## Visible progress
@@ -79,7 +94,8 @@ This does **not** mark the basis `(t1,t2)` by the named CV basis `[J2,q1]`. Ther
     GL2(F2) marking obstruction isolated                                   DONE
     transcendental lattice isometry T(Kc)=diag(4,8)                        DONE
     explicit NS/T discriminant anti-isometry witness                       DONE
-    named J2 evaluation on one marked transcendental cycle                 OPEN
+    automorphism-signature marking shortcut                                EXACTLY_REJECTED
+    direct named J2 B-field / transcendental-cycle evaluation              OPEN
 ```
 
 ## Current exit state
@@ -95,6 +111,7 @@ J2_CV_TO_DISCRIMINANT_MARKING_OBSTRUCTION_MATERIALIZED=true
 KC_TRANSCENDENTAL_LATTICE_ISOMETRY_MATERIALIZED=true
 KC_TRANSCENDENTAL_LATTICE_GRAM=[[4,0],[0,8]]
 KC_NS_T_DISCRIMINANT_ANTI_ISOMETRY_WITNESS_MATERIALIZED=true
+KC_AUTOMORPHISM_MOD2_MARKING_SHORTCUT=REJECTED_EXACTLY
 J2_NAMED_TRANSCENDENTAL_FUNCTIONAL_MATERIALIZED=false
 J2_BRANCH_JACOBIAN_TO_DISCRIMINANT_KUMMER_GLUE_MATERIALIZED=false
 J2_KC_DISCRIMINANT_COORDINATE_MATERIALIZED=false
@@ -104,6 +121,6 @@ STAGE33_07_HOSTILE_REAUDIT=NOT_RUN
 STAGE33_12_CLOSED=false
 ```
 
-Next exact leaf: `EVALUATE_NAMED_CV_J2_ON_ONE_MARKED_TRANSCENDENTAL_CYCLE_IN_T_DIAG_4_8_OR_PROVE_A_COMPATIBLE_BFIELD_QUADRATIC_INVARIANT`.
+Next exact leaf: `MATERIALIZE_DIRECT_NAMED_CV_J2_BFIELD_OR_TRANSCENDENTAL_CYCLE_EVALUATION_IN_THE_FIXED_T_KC_DIAG_4_8_MARKING`.
 
 No 33-13 release, theorem/receiver/endpoint credit, or perfect-cuboid existence/nonexistence claim is granted by this checkpoint.
