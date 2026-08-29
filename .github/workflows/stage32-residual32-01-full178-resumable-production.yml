@@ -22,6 +22,7 @@ jobs:
       matrix: ${{ steps.gate.outputs.matrix }}
       carry: ${{ steps.gate.outputs.carry }}
       production_generation: ${{ steps.gate.outputs.production_generation }}
+      source_frontier_count: ${{ steps.gate.outputs.source_frontier_count }}
       dispatch_count: ${{ steps.gate.outputs.dispatch_count }}
       carry_count: ${{ steps.gate.outputs.carry_count }}
     steps:
@@ -36,7 +37,7 @@ jobs:
       - name: Reverify resumable production structural preflight
         run: python stages/stage32/residual-32-01-production/verify_resumable_production_cold_preflight.py
       - id: gate
-        name: Verify fresh dedicated resumable production arm and exact FIFO frontier
+        name: Verify fresh dedicated arm and exact FIFO frontier
         env:
           ACTION: ${{ github.event.action }}
           BEFORE: ${{ github.event.before }}
@@ -50,6 +51,7 @@ jobs:
           echo 'matrix={"work_unit":[]}' >> "$GITHUB_OUTPUT"
           echo 'carry=[]' >> "$GITHUB_OUTPUT"
           echo 'production_generation=0' >> "$GITHUB_OUTPUT"
+          echo 'source_frontier_count=0' >> "$GITHUB_OUTPUT"
           echo 'dispatch_count=0' >> "$GITHUB_OUTPUT"
           echo 'carry_count=0' >> "$GITHUB_OUTPUT"
           [ "$ACTION" = synchronize ] || exit 0
@@ -71,20 +73,9 @@ jobs:
           assert old['schema']==new['schema']==schema
           assert old['workload']==new['workload']=='FULL178_EXACT_PAIRING_PREFIX_RESUMABLE_PRODUCTION'
           assert int(new['revision'])==int(old['revision'])+1
-          assert new['armed'] is True
-          if int(new['revision']) == 1:
-              assert int(old['revision']) == 0 and old['armed'] is False
-              assert 'retry_of_failed_run_id' not in new
-          else:
-              assert int(new['revision']) == 2 and int(old['revision']) == 1
-              assert old['armed'] is True
-              assert int(new['retry_of_failed_run_id']) == 33270126048
-              assert new['retry_reason'] == 'STRUCTURAL_PREFLIGHT_LIFECYCLE_VERIFIER_BUG_NO_HEAVY_STARTED'
-          assert int(new['production_generation'])==34
-          assert new['source_mode']=='BOOTSTRAP_LOCKED_OLD_FRONTIER_V1'
-          assert int(new['source_frontier_count'])==218
-          assert int(new['dispatch_count'])==128
-          assert int(new['carry_count'])==90
+          assert int(new['production_generation'])>=34
+          assert 0<int(new['dispatch_count'])<=128
+          assert int(new['carry_count'])>=0
           assert int(new['dispatch_count'])+int(new['carry_count'])==int(new['source_frontier_count'])
           assert int(new['node_limit_per_work_unit'])==64000000
           assert int(new['max_unresolved_children_per_input'])==1
@@ -99,46 +90,77 @@ jobs:
           assert new['FULL_178_ROW_SWEEP_AUTHORIZED'] is True
           assert new['B18_RELEASE_AUTHORIZED'] is False
           assert new['THEOREM_CREDIT'] is False and new['RECEIVER_CREDIT'] is False
+          assert new['PERFECT_CUBOID_EXISTENCE_CLAIM'] is False and new['PERFECT_CUBOID_NONEXISTENCE_CLAIM'] is False
+
+          # Lifecycle: every new generation is first committed cold, then armed by
+          # one further runkey-only synchronization. This prevents source/workflow
+          # edits from authorizing heavy work.
+          if new['armed'] is False:
+              assert old['armed'] is True
+              assert int(new['production_generation'])==int(old['production_generation'])+1
+          else:
+              assert new['armed'] is True and old['armed'] is False
+              assert int(new['production_generation'])==int(old['production_generation'])
+              for k in ('source_mode','source_frontier_count','dispatch_count','carry_count','queue_policy','runner','runner_schema','node_limit_per_work_unit'):
+                  assert new[k]==old[k]
+              assert new.get('source_frontier_artifact')==old.get('source_frontier_artifact')
 
           def digest(v):
               return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-          def load_slice(spec,root):
-              aid=int(spec['artifact_id']); zp=root/f'{aid}.zip'
-              url=f"https://api.github.com/repos/{os.environ['REPOSITORY']}/actions/artifacts/{aid}/zip"
-              subprocess.check_call(['curl','-fsSL','-H',f"Authorization: Bearer {os.environ['GH_TOKEN']}",'-H','X-GitHub-Api-Version: 2022-11-28',url,'-o',str(zp)])
-              assert hashlib.sha256(zp.read_bytes()).hexdigest()==spec['artifact_zip_sha256']
-              with zipfile.ZipFile(zp) as z:
-                  m=json.loads(z.read('wave-manifest.json'))
-              claimed=m.pop('canonical_sha256_without_this_field')
-              assert digest(m)==claimed==spec['manifest_canonical_sha256']
-              assert int(m['generation'])==int(spec['generation'])
-              units=m['next_exact_work_units']; a=int(spec['start']); b=int(spec['end'])
-              assert 0<=a<=b<=len(units)
-              return units[a:b]
 
           root=pathlib.Path(tempfile.mkdtemp(prefix='resumable-frontier-'))
-          frontier=[]
-          for spec in new['source_slices']:
-              frontier.extend(load_slice(spec,root))
-          assert len(frontier)==218
-          dispatch=frontier[:128]; carry=frontier[128:]
-          assert len(dispatch)==128 and len(carry)==90
-          assert digest(dispatch)==new['dispatch_canonical_sha256']=='2d96ebc0ed716d319e554c1ff6ac05dc9ad0bde9dbacc20490c9027c33f210a9'
+          if new['source_mode']=='RESUMABLE_FRONTIER_ARTIFACT_V1':
+              src=new['source_frontier_artifact']; aid=int(src['artifact_id']); zp=root/f'{aid}.zip'
+              url=f"https://api.github.com/repos/{os.environ['REPOSITORY']}/actions/artifacts/{aid}/zip"
+              subprocess.check_call(['curl','-fsSL','-H',f"Authorization: Bearer {os.environ['GH_TOKEN']}",'-H','X-GitHub-Api-Version: 2022-11-28',url,'-o',str(zp)])
+              assert hashlib.sha256(zp.read_bytes()).hexdigest()==src['artifact_zip_sha256']
+              with zipfile.ZipFile(zp) as z:
+                  names=z.namelist(); candidates=[n for n in names if n.endswith('resumable-frontier-manifest.json')]
+                  assert len(candidates)==1
+                  m=json.loads(z.read(candidates[0]))
+              claimed=m.pop('canonical_sha256_without_this_field')
+              assert digest(m)==claimed==src['manifest_canonical_sha256']
+              assert int(m['production_generation'])==int(src['generation'])==int(new['production_generation'])-1
+              assert int(m['frontier_after_ingest_count'])==int(new['source_frontier_count'])
+              frontier=m['frontier_exact_work_units']
+          elif new['source_mode']=='BOOTSTRAP_LOCKED_OLD_FRONTIER_V1':
+              # Retained only for provenance of generation 34; no later cold key
+              # should return to this mode.
+              assert int(new['production_generation'])==34
+              frontier=[]
+              for spec in new['source_slices']:
+                  aid=int(spec['artifact_id']); zp=root/f'{aid}.zip'
+                  url=f"https://api.github.com/repos/{os.environ['REPOSITORY']}/actions/artifacts/{aid}/zip"
+                  subprocess.check_call(['curl','-fsSL','-H',f"Authorization: Bearer {os.environ['GH_TOKEN']}",'-H','X-GitHub-Api-Version: 2022-11-28',url,'-o',str(zp)])
+                  assert hashlib.sha256(zp.read_bytes()).hexdigest()==spec['artifact_zip_sha256']
+                  with zipfile.ZipFile(zp) as z: m=json.loads(z.read('wave-manifest.json'))
+                  claimed=m.pop('canonical_sha256_without_this_field'); assert digest(m)==claimed==spec['manifest_canonical_sha256']
+                  frontier.extend(m['next_exact_work_units'][int(spec['start']):int(spec['end'])])
+          else:
+              raise AssertionError(new['source_mode'])
+
+          assert len(frontier)==int(new['source_frontier_count'])
+          dispatch=frontier[:int(new['dispatch_count'])]; carry=frontier[int(new['dispatch_count']):]
+          assert len(carry)==int(new['carry_count'])
           normalized=[]
           for raw in dispatch:
               row=raw['row_id']; genus=int(row.split('-')[0][1:]); emin=8 if genus==0 else 4
-              cur=decode_input(raw,emin=emin)
-              assert cur['row_id']==row
+              cur=decode_input(raw,emin=emin); assert cur['row_id']==row
               normalized.append(raw)
-          assert len({u['work_unit_id'] for u in dispatch})==128
-          assert len({u['work_unit_id'] for u in carry})==90
+          ids=[u['work_unit_id'] for u in frontier]; assert len(ids)==len(set(ids))
+          print(json.dumps({'verdict':'PASS_EXACT_FIFO_SOURCE_PREFLIGHT','generation':int(new['production_generation']),
+                            'frontier':len(frontier),'dispatch':len(dispatch),'carry':len(carry),
+                            'dispatch_sha256':digest(dispatch),'armed':bool(new['armed'])},sort_keys=True))
+          if not new['armed']:
+              sys.exit(0)
           with open(out,'a') as f:
               f.write('authorized=true\n')
               f.write('matrix='+json.dumps({'work_unit':normalized},separators=(',',':'))+'\n')
               f.write('carry='+json.dumps(carry,separators=(',',':'))+'\n')
-              f.write('production_generation=34\n')
-              f.write('dispatch_count=128\n')
-              f.write('carry_count=90\n')
+              f.write('production_generation='+str(int(new['production_generation']))+'\n')
+              f.write('source_frontier_count='+str(len(frontier))+'\n')
+              f.write('dispatch_count='+str(len(dispatch))+'\n')
+              f.write('carry_count='+str(len(carry))+'\n')
           PY
 
   produce:
@@ -168,9 +190,7 @@ jobs:
           python stages/stage32/residual-32-01-production/run_full178_resumable_work_unit.py \
             --retained stages/stage33/33-07/picard_base_rows_retained.py \
             --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
-            --work-unit-json "$WORK_UNIT_JSON" \
-            --node-limit 64000000 \
-            --output "$OUT"
+            --work-unit-json "$WORK_UNIT_JSON" --node-limit 64000000 --output "$OUT"
           python - "$OUT" <<'PY'
           import json,pathlib,sys
           p=pathlib.Path(sys.argv[1]); x=json.loads(p.read_text())
@@ -178,12 +198,9 @@ jobs:
           assert x['nodes_used']==sum(int(t['nodes']) for t in x['telemetry'])
           assert 0<=x['nodes_used']<=x['node_limit']==64000000
           assert x['unknown_count']==len(x['unresolved_exact_child_work_units'])<=1
-          assert x['max_unresolved_children_per_input']==1
-          assert x['reproduction_factor_structural_upper_bound']==1.0
-          assert x['prefix_stage_only'] is True and x['unknown_is_unsat'] is False
-          assert x['numerical_row_complete'] is False
-          assert x['B18_RELEASE_AUTHORIZED'] is False
-          assert x['THEOREM_CREDIT'] is False and x['RECEIVER_CREDIT'] is False
+          assert x['max_unresolved_children_per_input']==1 and x['reproduction_factor_structural_upper_bound']==1.0
+          assert x['prefix_stage_only'] is True and x['unknown_is_unsat'] is False and x['numerical_row_complete'] is False
+          assert x['B18_RELEASE_AUTHORIZED'] is False and x['THEOREM_CREDIT'] is False and x['RECEIVER_CREDIT'] is False
           assert p.stat().st_size <= 32*1024
           PY
       - uses: actions/upload-artifact@v4
@@ -199,6 +216,7 @@ jobs:
     runs-on: ubuntu-24.04
     env:
       PRODUCTION_GENERATION: ${{ needs.authorize.outputs.production_generation }}
+      SOURCE_FRONTIER_COUNT: ${{ needs.authorize.outputs.source_frontier_count }}
       DISPATCH_COUNT: ${{ needs.authorize.outputs.dispatch_count }}
       CARRY_COUNT: ${{ needs.authorize.outputs.carry_count }}
       CARRY_JSON: ${{ needs.authorize.outputs.carry }}
@@ -213,43 +231,34 @@ jobs:
           python - <<'PY'
           import hashlib,json,os,pathlib
           root=pathlib.Path(os.environ['RUNNER_TEMP'])/'aggregate'
-          files=sorted(root.glob('*.json')); dispatch_count=int(os.environ['DISPATCH_COUNT'])
-          assert len(files)==dispatch_count==128
-          carry=json.loads(os.environ['CARRY_JSON']); assert len(carry)==int(os.environ['CARRY_COUNT'])==90
+          dispatch_count=int(os.environ['DISPATCH_COUNT']); source_count=int(os.environ['SOURCE_FRONTIER_COUNT'])
+          files=sorted(root.glob('*.json')); assert len(files)==dispatch_count
+          carry=json.loads(os.environ['CARRY_JSON']); assert len(carry)==int(os.environ['CARRY_COUNT'])
           rows=[]; children=[]
           for p in files:
-              x=json.loads(p.read_text())
-              assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_RESUMABLE_WORK_UNIT_V1'
+              x=json.loads(p.read_text()); assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_RESUMABLE_WORK_UNIT_V1'
               assert x['unknown_count']==len(x['unresolved_exact_child_work_units'])<=1
-              rows.append({'work_unit_id':x['input_work_unit']['work_unit_id'],'row_id':x['row_id'],
-                           'nodes_used':x['nodes_used'],'completed_prefix_partitions':len(x['completed_prefix_partitions']),
-                           'continuation_count':x['unknown_count'],'certificate_sha256':x['canonical_sha256_without_this_field']})
+              rows.append({'work_unit_id':x['input_work_unit']['work_unit_id'],'row_id':x['row_id'],'nodes_used':x['nodes_used'],
+                           'completed_prefix_partitions':len(x['completed_prefix_partitions']),'continuation_count':x['unknown_count'],
+                           'certificate_sha256':x['canonical_sha256_without_this_field']})
               children.extend(x['unresolved_exact_child_work_units'])
           frontier=carry+children
-          assert len(children)<=dispatch_count
-          assert len(frontier)<=len(carry)+dispatch_count==218
+          assert len(children)<=dispatch_count and len(frontier)<=source_count
           ids=[u['work_unit_id'] for u in frontier]; assert len(ids)==len(set(ids))
           payload={'schema':'STAGE32_RESIDUAL32_01_FULL178_RESUMABLE_FRONTIER_MANIFEST_V1',
                    'production_generation':int(os.environ['PRODUCTION_GENERATION']),
-                   'input_frontier_count':218,'dispatch_count':dispatch_count,'carry_count':len(carry),
+                   'input_frontier_count':source_count,'dispatch_count':dispatch_count,'carry_count':len(carry),
                    'completed_input_count':sum(1 for x in rows if x['continuation_count']==0),
                    'continuation_count':len(children),'frontier_after_ingest_count':len(frontier),
-                   'frontier_net_change':len(frontier)-218,
-                   'structural_frontier_nonincrease':len(frontier)<=218,
-                   'work_units':sorted(rows,key=lambda v:v['work_unit_id']),
-                   'frontier_exact_work_units':frontier,
-                   'queue_policy':'FIFO_GLOBAL_FRONTIER_CARRY_THEN_RESUMABLE_CHILDREN',
-                   'unknown_is_unsat':False,'prefix_stage_only':True,
-                   'FULL_D176_D192_NUMERICAL_ORBIT_CENSUS':False,'R29_LG2':'NOT_DISCHARGED',
-                   'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,
+                   'frontier_net_change':len(frontier)-source_count,'structural_frontier_nonincrease':len(frontier)<=source_count,
+                   'work_units':sorted(rows,key=lambda v:v['work_unit_id']),'frontier_exact_work_units':frontier,
+                   'queue_policy':'FIFO_GLOBAL_FRONTIER_CARRY_THEN_RESUMABLE_CHILDREN','unknown_is_unsat':False,'prefix_stage_only':True,
+                   'FULL_D176_D192_NUMERICAL_ORBIT_CENSUS':False,'R29_LG2':'NOT_DISCHARGED','THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,
                    'PERFECT_CUBOID_EXISTENCE_CLAIM':False,'PERFECT_CUBOID_NONEXISTENCE_CLAIM':False}
-          raw=json.dumps(payload,sort_keys=True,separators=(',',':')).encode()
-          payload['canonical_sha256_without_this_field']=hashlib.sha256(raw).hexdigest()
-          out=root/'resumable-frontier-manifest.json'; out.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\n')
-          assert out.stat().st_size < 1024*1024
-          print(json.dumps({'input_frontier':218,'dispatch':128,'carry':90,'continuations':len(children),
-                            'frontier_after':len(frontier),'net_change':len(frontier)-218,
-                            'sha256':payload['canonical_sha256_without_this_field']},sort_keys=True))
+          raw=json.dumps(payload,sort_keys=True,separators=(',',':')).encode(); payload['canonical_sha256_without_this_field']=hashlib.sha256(raw).hexdigest()
+          out=root/'resumable-frontier-manifest.json'; out.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\n'); assert out.stat().st_size<1024*1024
+          print(json.dumps({'input_frontier':source_count,'dispatch':dispatch_count,'carry':len(carry),'continuations':len(children),
+                            'frontier_after':len(frontier),'net_change':len(frontier)-source_count,'sha256':payload['canonical_sha256_without_this_field']},sort_keys=True))
           PY
       - uses: actions/upload-artifact@v4
         with:
