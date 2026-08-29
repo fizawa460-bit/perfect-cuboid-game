@@ -1,0 +1,22 @@
+name: Stage33-12 J2 Kc exceptional order
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-12/extract_j2_infinity_kc_exceptional_order.py'
+      - '.github/workflows/stage33-12-j2-kc-exceptional-order.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract pinned ptsK index and qPicK coordinate
+        run: |
+          python stages/stage33/33-12/extract_j2_infinity_kc_exceptional_order.py
+          cat stages/stage33/33-12/j2-infinity-kc-exceptional-order.json
