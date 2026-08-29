@@ -90,7 +90,7 @@ jobs:
           python-version: '3.10.6'
       - name: Install exact local algebra dependency
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Run generation15 bounded 1M-node completion-curve probe
+      - name: Run generation16 bounded 1M-node completion-curve probe
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/stage32-residual32-01"
@@ -122,6 +122,8 @@ jobs:
           assert len(x['representatives'])==4
           assert all(r['credit_scope']=='RAW_ALL140_PAIRING_IMAGE_HNF_AND_PREFIX_AUT_COST_PROFILE_ONLY' for r in x['representatives'])
           assert all(r['total_exact_prunes']==r['membership_prunes']+r['symmetry_prunes'] for r in x['representatives'])
+          assert all(r['node_limit']==1000000 for r in x['representatives'])
+          assert all(r['node_budget_exhausted'] is True and r['probe_complete'] is False for r in x['representatives'])
           assert x['full_178_row_sweep_authorized'] is False
           assert x['B18_RELEASE_AUTHORIZED'] is False
           assert x['THEOREM_CREDIT'] is False and x['RECEIVER_CREDIT'] is False
@@ -133,7 +135,7 @@ jobs:
               'membership_prunes':{str(r['m']):r['membership_prunes'] for r in x['representatives']},
               'symmetry_prunes':{str(r['m']):r['symmetry_prunes'] for r in x['representatives']},
               'terminals':{str(r['m']):r['terminal_prefixes_before_stop'] for r in x['representatives']},
-              'node_cap_exhausted':{str(r['m']):r['node_cap_exhausted'] for r in x['representatives']},
+              'node_budget_exhausted':{str(r['m']):r['node_budget_exhausted'] for r in x['representatives']},
               'certificate_sha256':x['canonical_sha256_without_this_field'],
           },sort_keys=True))
           PY
