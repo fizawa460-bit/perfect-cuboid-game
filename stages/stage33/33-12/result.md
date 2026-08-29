@@ -1,56 +1,53 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_IN_PROGRESS_EXACT_ADAPTER_AMBIGUITY_WITNESSED`
+Status: `MAIN_IN_PROGRESS_NAMED_J2_KUMMER_GLUE_INPUT_MATERIALIZED`
 
-This checkpoint performs the first exact arithmetic Hochschild--Serre assembly after the audited Stage33-11 exit. It does not close Stage33-12 or Stage33-07.
+This checkpoint continues the exact arithmetic Hochschild--Serre assembly after the audited Stage33-11 exit. It does not close Stage33-12 or Stage33-07.
 
-## Exact progress
+## Exact receiver state
 
-The audited predecessor interfaces are source-locked and separated into the two required descent stages:
+Stage33-11 has already proved the localization connecting map exact zero on all 26 finite directions. Stage33-12 has independently linearized the full-surface finite-V4 Kummer receiver:
 
-1. localization connecting map (`delta_loc`): exact zero on all 26 finite directions;
-2. Hochschild--Serre `d2`: still requires its own computation on the remaining two-primary blocks.
+* `P=Br(Sbar)[2]^{G_Q}` has exact F2 dimension 10;
+* `H^1(V4,Pic(Sbar)/2)` has exact F2 dimension 75;
+* the missing finite restriction is therefore a literal `75 x 10` matrix;
+* materialized columns remain `0/10` and finite obstruction cosets remain `0/26`.
 
-The following already Q-defined blocks have exact HS image zero, because each is already in the image of `Br(U)`:
+Known Q-defined blocks, including J2, have exact HS image zero. Odd-primary global residue-lift completion is exact. The two remaining obstruction blocks are still the two-primary constant-character cokernel and the finite 26-direction block.
 
-* the complete BR0B all-primary block;
-* the 44 explicit Q-defined U44 quaternion classes;
-* the Q-defined exact-order-two proper class J2;
-* the zero seven-line block.
+## J2/q1 adapter state
 
-The odd-primary repair is exact and complete: the globally liftable part of the odd constant-boundary cokernel is zero, so no new odd-primary Q-defined residue-lift block remains beyond BR0B.
+The named K3 basis is hostile-audited as `[J2,q1]`, with `d2(J2)=0` and `d2(q1)!=0`. The retained ambiguity witness enumerates all six elements of `GL(2,F2)`: all six survive the currently retained named d2 data, and even after the Kc kernel line `<J2>` is fixed exactly two adapters remain because `q1` and `q1+J2` have the same nonzero d2.
 
-## Exact remaining obstruction inventory
+Certificate: `j2-q1-kc-adapter-ambiguity-witness.json`, canonical SHA256 `2d41bf2d5961fa16caf162311974a858329f2714ec1fe3838305c58e6da79ffb`.
 
-Only two two-primary blocks remain:
+## New exact progress: named J2 Kummer-glue input
 
-1. the parametric constant-character cokernel
-   `coker(rho: BR0B[2^infinity] -> Hom_cont(G_Q,Q_2/Z_2)^48 direct_sum Hom_cont(G_Q(i),Q_2/Z_2)^12)`;
-2. the finite quotient `(Z/2)^23 direct_sum (Z/4)^3`, with the 26 named directions `A2_01..A2_26`.
+`certify_j2_named_kummer_glue_input.py` source-locks the committed Stage33-05 J2 arithmetic representative, the full-surface zero-defect contract, the Stage33-09 marked Picard bridge, and the pinned Stoll source. It materializes the named geometric input needed by a genuine Kummer-glue reconstruction:
 
-The full constant cokernel is not claimed liftable. Its actually liftable residue subgroup modulo BR0B injects into the ten-dimensional proper invariant `Br(Sbar)[2]^G_Q`, modulo Q-defined zero-boundary proper classes. Since J2 supplies one such nonzero dimension, this unknown liftable subgroup has F2 dimension at most 9, cardinality at most 512, and exponent 2. Determining which residue tuples form that finite subgroup remains open.
+* normalization: `z^2=t^4-6*t^2+1`;
+* named squareclass: `f2=(t-r2)/(t-r4)`, with `r2=-(1+sqrt(2))`, `r4=1-sqrt(2)`;
+* Q-defined branch representative `ell_J2` from Stage33-05;
+* exact geometric divisor `div(ell_J2)=4*infinity_minus-2*P1-2*P2`;
+* hence the exact named half-divisor
+  `E=2*infinity_minus-P1-P2`, with `div(ell_J2)=2E`.
 
-For the finite block, Stage33-11 proves Stage A exact zero on all 26 directions. It does not, without a new adapter, compute the 26 Stage B HS values or produce 26 Q-defined lifts. The constant cokernel is not covered by the 26-direction certificate and remains a separate parametric HS map.
+The pinned Stoll code supplies the rank-20 `PicK`, its 20-element known-curve generating interface, `imageinPicK(C)` from intersection data, and the exact `MatStoK` / `MatKtoS` transport. The missing bridge is now stated narrowly: no committed adapter identifies `infinity_minus` and the two `Dplus` support points (or directly `E`) with Stoll marked divisor classes, and no committed Kummer/Picard-transcendental glue map sends that named data to the Kc discriminant/Brauer coordinate.
 
-The function-level scalar adapter has now also been computed. The 14 exact Stage33-11 generators contain 134 nontrivial side/exceptional boundary-function packages. Reconstructing their occurrence scalars from the two retained #1430 ambient-function artifacts gives 564 admissible `cc/ct` source-target comparisons, and every scalar ratio is exactly `1`. The audited Stage33-11f Q-defined automorphism/XOR span transports this zero scalar correction to all 26 directions. Therefore the finite block does not mix with the constant cokernel through boundary-function multiplicative constants. This does not rule out a later coupling in the still-unmaterialized global Gersten 2-cochain or HS differential.
+This distinction matters: merely putting `E` into `PicK` would not by itself justify assigning a Brauer discriminant coordinate. The Kummer-glue step must be explicit.
 
-The full-surface Stage-B receiver is now stated exactly. For a finite residue direction `r`, Stage33-11 gives an invariant geometric lift fibre which is a torsor under `P=Br(Sbar)[2]^{G_Q}`, with `dim_F2(P)=10`. Hence the lift-independent obstruction is the coset `omega(r)=[d2(beta)]` in `coker(d2_S|P)`, not the literal `d2` value of an arbitrary chosen lift. The audited `q1` nonzero obstruction belongs to the coordinate K3 `K_c`; no retained adapter certifies a nonzero `q1` pullback into the full 14-dimensional surface module, so it is not promoted here. The 26 obstruction cosets remain `0/26` materialized.
+Retained certificate: `j2-named-kummer-glue-input.json`, canonical SHA256 `18e320e82c9c975f35413c1fe365889c2fa803f2ac0595609d8c6044aa32f0b5`.
 
-The finite-V4 restriction of the full-surface Kummer-defect receiver is now completely linearized from the retained integral 64-dimensional Picard actions. Exact row reduction gives `dim_F2 Pic(Sbar)/2^{V4}=46` and `dim_F2 H^1(V4,Pic(Sbar)/2)=75`. A literal 75-element quotient basis is retained as `cc/ct` cocycle pairs in the original Picard coordinates, while the ten invariant proper `Br[2]` directions are retained in the original 14 coordinates. Thus the missing finite restriction is exactly a `75 x 10` matrix. No column is filled without a full-surface `mu_2` lift or equivalent unimodular glue datum, and finite-V4 `H1` is not identified with absolute `G_Q` cohomology.
+## Current exact gap
 
-## Exact J2/q1-to-Kc adapter ambiguity
+The next exact route is now:
 
-The named K3 basis is hostile-audited as `[J2,q1]`, with `d2(J2)=0` and `d2(q1)!=0`. The pinned Stoll source fixes the geometric Picard/discriminant coordinate system but does not label its two-dimensional discriminant 2-torsion by the CV names `J2` and `q1`.
+1. materialize the images of `infinity_minus` and the two roots of `Dplus`, or directly `E`, in the pinned marked Kc divisor presentation;
+2. apply an exact Kummer/Picard-transcendental glue map to the named half-divisor plus the Q-defined corestriction representative;
+3. read the resulting nonzero Kc Br[2] line and filter the six adapters;
+4. if that construction does not simultaneously identify q1, supply one further named invariant distinguishing `q1` from `q1+J2`.
 
-`certify_j2_q1_kc_adapter_ambiguity_witness.py` now enumerates all six elements of `GL(2,F2)` exactly. Every one of the six named-to-Kc adapters is compatible with the retained named d2 data, because the Kc-coordinate d2 functional itself is not materialized. More strongly, even after the Kc kernel line `<J2>` is materialized, exactly two adapters remain: `q1` and `q1+J2` have the same nonzero d2 because `d2(J2)=0`.
-
-Therefore J2-zero plus q1-nonzero can never by themselves prove a unique 2x2 adapter. Two pieces of coordinate information are exposed explicitly: first the Kc coordinate of the named kernel line (or equivalently the Kc-coordinate d2 functional), then one named orientation invariant distinguishing `q1` from `q1+J2`. Acceptable exact sources are a CV named mu2/Kummer lift transported through the pinned Stoll quotient, a direct exact coordinate of J2/q1, or an audited Kc-coordinate pairing/evaluation that distinguishes the two q1 coset representatives.
-
-The retained ambiguity certificate is `j2-q1-kc-adapter-ambiguity-witness.json`, canonical SHA256 `2d41bf2d5961fa16caf162311974a858329f2714ec1fe3838305c58e6da79ffb`.
-
-This does not materialize J2 in the original proper-Br2 14 coordinates or in the retained ten-dimensional invariant basis. Accordingly the `75 x 10` Kummer-defect matrix remains at `0` materialized columns, although the named J2 zero-defect still gives the exact abstract rank bound `rank <= 9`.
-
-The machine-readable obstruction-inventory certificate remains `stage33-12-exact-obstruction-inventory.json`, generated and independently replayable by `assemble_exact_obstruction_inventory.py`.
+Until this is done, J2 is not assigned to the original proper-Br2 14 coordinates or the retained P10 basis. The abstract J2 zero-defect continues to imply only the exact rank bound `rank <= 9`; it does not materialize a matrix column or a P10 linear relation.
 
 ## Current exit state
 
@@ -59,11 +56,13 @@ ARITHMETIC_HS_D2_COMPUTED=false
 GLOBAL_Q_BR0G_RESIDUE_LIFTS_COMPLETE=false
 COMPLETE_RELEVANT_Q_DEFINED_CLASS_LIST_FOR_STAGE33_BRAUER_SCOPE=false
 J2_Q1_KC_ADAPTER_UNIQUE=false
+J2_NAMED_HALF_DIVISOR_MATERIALIZED=true
+J2_KC_DISCRIMINANT_COORDINATE_MATERIALIZED=false
 FINITE_V4_KUMMER_DEFECT_COLUMNS_MATERIALIZED=0
 STAGE33_07_HOSTILE_REAUDIT=NOT_RUN
 STAGE33_12_CLOSED=false
 ```
 
-The next exact leaf is to materialize one named CV-to-Stoll discriminant orientation invariant and replay the six adapters. The first invariant should identify the Kc kernel line; a second invariant must distinguish `q1` from `q1+J2`. Only after that named coordinate bridge exists may J2 be transported to the proper 14-coordinate module and then to the retained ten-dimensional invariant basis. The known Q-defined prefix and zero boundary scalar adapter must not be recomputed.
+The next exact leaf is `MATERIALIZE_J2_HALF_DIVISOR_E_IN_STOLL_MARKED_KC_PRESENTATION_AND_KUMMER_GLUE`. The known Q-defined prefix, Stage33-11 zero connecting map, and zero boundary scalar adapter must not be recomputed.
 
-All Stage33-07/08/40, theorem, endpoint, receiver, and perfect-cuboid firewalls remain closed.
+All Stage33-07/08/40, theorem, endpoint, receiver, and perfect-cuboid existence/nonexistence firewalls remain closed.
