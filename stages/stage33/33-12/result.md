@@ -1,6 +1,6 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_IN_PROGRESS_J2_SEMANTIC_KC_DISCRIMINANT_2TORSION_TARGET_MATERIALIZED_4_OF_5`
+Status: `MAIN_IN_PROGRESS_J2_ORIENTATION_INVARIANT_REDUCED_4_OF_5`
 
 Stage33-12 remains open. Stage33-07 remains open. Stage33-13 is not released.
 
@@ -30,85 +30,50 @@ Important firewall: the support points of `E_J2` live on the branch normalizatio
 
 ## Exact order-independent semantic PicK basis
 
-The Magma `ptsK` enumeration order is no longer load-bearing.
-
-Using the pinned Stoll source lock
+The Magma `ptsK` enumeration order is no longer load-bearing. The source-locked semantic 20-class basis has determinant `-32`, index one in `PicK`, and canonical certificate SHA256
 
 ```text
-MichaelStollBayreuth/Verification
-commit 51233ed5ef2bf228fac9416c66db9adc0ebcaadd
-Cuboids/cuboids.magma
+c17439c877de3d1cdebd716f4ba2571fb67ec9f07e30d944eafc39ae534380c0
 ```
 
-and its exact assertion
+In this basis `[CsK[22]]=e8=[CsK[21]]` and the infinity exceptional is `e18`.
 
-```text
-sub<PicK | [qPicK(BigK.j) : j in indlistK]> eq PicK
-```
+## Semantic discriminant 2-torsion target
 
-we keep the same 17 curve slots from `indlistK` and replace its three order-dependent exceptional slots by the semantic exceptionals
-
-```text
-A1_B2-1_B3-1 = [1:0:0:0:-1:-1]   (= P_inf_K)
-A2_B1-1_B3-1 = [0:1:0:-1:0:-1]
-A3_B1-1_B2-1 = [0:0:1:-1:-1:0].
-```
-
-The exact `17 x 17` curve Gram and `17 x 12` curve/exceptional incidence table are committed in `j2-semantic-kc-picard-basis.json`. Exhausting all `C(12,3)=220` exceptional triples gives determinant distribution
-
-```text
-0      : 120
--32    : 64
--128   : 32
--512   : 4
-```
-
-so every nondegenerate triple has absolute determinant at least `32`. The chosen semantic triple has determinant `-32`. Since the pinned Stoll `indlistK` triple generates `PicK`, while the semantic 20-class lattice is a sublattice of `PicK`, the index/discriminant formula forces
-
-```text
-|disc PicK| = 32
-[PicK : L_semantic] = 1.
-```
-
-Thus the semantic 20 classes are an exact integral basis of `PicK`, with no Smith recomputation and no `ptsK` ordering dependency.
-
-In this basis:
-
-```text
-[CsK[22]] = e8 = [CsK[21]] in PicK
-[E_{P_inf}] = e18
-```
-
-Certificate: `j2-semantic-kc-picard-basis.json`, canonical SHA256 `c17439c877de3d1cdebd716f4ba2571fb67ec9f07e30d944eafc39ae534380c0`.
-Verifier: `certify_j2_semantic_kc_picard_basis.py`.
-
-## New exact progress inside 5/5: semantic discriminant 2-torsion target
-
-The same semantic `20 x 20` Gram now determines the Kc discriminant 2-torsion target directly, without reconstructing the historical Smith basis.
-
-Exact GF(2) reduction gives
-
-```text
-rank(G mod 2)    = 18
-nullity(G mod 2) = 2
-A_PicK[2]        = (F2)^2.
-```
-
-A deterministic semantic half-lattice basis is
+Exact GF(2) reduction of the semantic Gram gives rank `18`, nullity `2`, hence `A_PicK[2]=(F2)^2`. A deterministic half-lattice basis is
 
 ```text
 u1 = [1,1,0,0,1,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0]
 u2 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0]
 ```
 
-where `u/2` denotes the corresponding element of `PicK^*/PicK`; exact replay verifies `G*u` is even. The three nonzero discriminant-2-torsion candidates are therefore exactly `u1/2`, `u2/2`, `(u1+u2)/2`. Their discriminant quadratic values mod `2` are respectively `1,0,1`, and the `u1,u2` cross-pairing is integral.
+and the three nonzero candidates are exactly `u1/2`, `u2/2`, `(u1+u2)/2`. Their discriminant quadratic values mod 2 are `1,0,1`. This still does not by itself select J2.
 
 Certificate: `j2-semantic-kc-discriminant-2torsion-target.json`, canonical SHA256 `0b5d7dfdefbb0f2b7c37396ada35c0bee462dfeb625eb18262be0e862205d8df`.
-Verifier: `certify_j2_semantic_kc_discriminant_2torsion_target.py`.
 
-This is a genuine narrowing of the final glue problem: the Kc-side target is now an explicit semantic three-element set with canonical 20-bit representatives. It does **not** select the named J2 element. The remaining exact task is to evaluate one named CV/Kummer orientation invariant against this semantic half-lattice basis; guessing the unique isotropic candidate is forbidden.
+## New exact reduction: HS-d2 parity is not the missing orientation bit
 
-The former remote Magma materializer remains optional cross-check only and is not load-bearing.
+The audited Stage33-05 q1 obstruction uses the integral NS lift
+
+```text
+D = Cb + E_[0:1:0:-1:0:1]
+```
+
+and the ct-invariant test conic
+
+```text
+T : A1=0, A2+B3=0, A3-B2=0.
+```
+
+Pinned Stoll ordering identifies this test conic exactly as `CsK[2]`, which is semantic basis vector `e1`. The hostile-audited calculation gives `D.T=1` and `[D] != 0` in `H^2(<ct>,Pic)`.
+
+However every numerator of a semantic discriminant 2-torsion class lies in `rad(G mod 2)`. Therefore every one of `u1`, `u2`, `u1+u2` pairs evenly with every integral PicK class, in particular with `T=e1`.
+
+Consequently the odd HS obstruction parity `D.T=1` cannot be identified with a direct parity bit of the semantic discriminant half-lattice numerator. This rigorously rejects the tempting shortcut `q1 HS parity -> choose J2 discriminant candidate`; no candidate is guessed or promoted.
+
+Certificate: `j2-orientation-invariant-reduction.json`, canonical SHA256 `2027fbe407fef0bad64f17d9735790b0c65ff8b158b9cd5c898277dc4851a01f`.
+
+The remaining exact orientation must instead come from the named Jacobian/Kummer geometry itself. The next leaf is to derive one theta-translate / Kummer `(16_6)` incidence bit from the already fixed CV support and pinned Stoll marking and evaluate it on the three semantic half-lattice candidates.
 
 ## Visible progress
 
@@ -119,7 +84,8 @@ The former remote Magma materializer remains optional cross-check only and is no
 4/5 explicit marked PicK coordinate for J2 carrier + infinity exceptional DONE
 5/5 branch-Jacobian 2-torsion -> Kc discriminant Kummer glue              IN_PROGRESS
     Kc discriminant 2-torsion semantic target                              DONE
-    named J2 orientation among 3 nonzero target classes                    OPEN
+    HS-d2 parity shortcut                                                   EXACTLY_REJECTED
+    named J2 theta/Kummer incidence orientation                            OPEN
 ```
 
 ## Current exit state
@@ -135,6 +101,7 @@ J2_CSK22_PICARD_COORDINATE=e8
 J2_INFINITY_EXCEPTIONAL_PICARD_COORDINATE=e18
 J2_SEMANTIC_KC_DISCRIMINANT_2TORSION_TARGET_MATERIALIZED=true
 J2_SEMANTIC_KC_DISCRIMINANT_2TORSION_CANDIDATES=3
+J2_HS_PARITY_ORIENTATION_SHORTCUT=REJECTED_EXACTLY
 J2_BRANCH_JACOBIAN_TO_DISCRIMINANT_KUMMER_GLUE_MATERIALIZED=false
 J2_KC_DISCRIMINANT_COORDINATE_MATERIALIZED=false
 FINITE_V4_KUMMER_DEFECT_COLUMNS_MATERIALIZED=0
@@ -143,6 +110,6 @@ STAGE33_07_HOSTILE_REAUDIT=NOT_RUN
 STAGE33_12_CLOSED=false
 ```
 
-Next exact leaf: `EVALUATE_ONE_NAMED_J2_KUMMER_ORIENTATION_INVARIANT_AGAINST_SEMANTIC_HALF_LATTICE_BASIS`.
+Next exact leaf: `DERIVE_NAMED_J2_THETA_TRANSLATE_OR_KUMMER_INCIDENCE_BIT_FROM_CV_SUPPORT_AND_STOLL_16_6_GEOMETRY`.
 
 No 33-13 release, theorem/receiver/endpoint credit, or perfect-cuboid existence/nonexistence claim is granted by this checkpoint.
