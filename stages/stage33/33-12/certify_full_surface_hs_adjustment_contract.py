@@ -31,7 +31,7 @@ OUT = HERE / "full-surface-hs-adjustment-contract.json"
 
 EXPECTED_BR2 = "c86f6e838d072816426e4a2b0eb738f44e8632dd1ab4f3e6fdccd161ec41b5bf"
 EXPECTED_GLUE = "0cc5321d02b56cea801b8def71a4c3b0946bd8011d8c30767a9602faba2fa8d8"
-EXPECTED_K3_AUDIT_FILE = "e702aff6051e747d0d2f29842c22c2bb8f39f1fdbf025ce2eb9497824917b672"
+EXPECTED_K3_AUDIT_TEXT_LF = "08a4bb374a29266aa9c59dd433ac0fb6cac89eaca31829339f7a6ce9e32a7fa6"
 EXPECTED_H10 = "4dbbfa8d208026e8ccb47915e66eb4bedef327ccf5b6f8c6c9caa7e74a64028f"
 EXPECTED_SCALARS = "e7d0d003c71271822e51b626acf21575e0c490035bdf3ef802feb3d7c767e36b"
 N = 14
@@ -52,8 +52,9 @@ def load_locked(path, expected):
     return obj
 
 
-def file_sha(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+def text_lf_sha(path):
+    text = path.read_text(encoding="utf-8").replace("\r\n", "\n")
+    return hashlib.sha256(text.encode()).hexdigest()
 
 
 def rank(rows):
@@ -85,7 +86,7 @@ h10 = load_locked(H10, EXPECTED_H10)
 scalars = load_locked(SCALARS, EXPECTED_SCALARS)
 k3_audit = json.loads(K3_AUDIT.read_text(encoding="utf-8"))
 controller = json.loads(CONTROLLER.read_text(encoding="utf-8"))
-if file_sha(K3_AUDIT) != EXPECTED_K3_AUDIT_FILE:
+if text_lf_sha(K3_AUDIT) != EXPECTED_K3_AUDIT_TEXT_LF:
     raise SystemExit("Stage33-05 hostile-audit state moved")
 if k3_audit["audit_verdict"] != "PASS_AFTER_INDEPENDENT_Q_SURVIVAL_AND_HS_D2_VERIFICATION":
     raise SystemExit("Stage33-05 audit verdict regression")
@@ -114,7 +115,7 @@ certificate = {
     "source_locks": {
         "proper_brauer2_from_discriminant_sha256": EXPECTED_BR2,
         "coordinate_k3_transcendental_glue_sha256": EXPECTED_GLUE,
-        "stage33_05_audit_state_file_sha256": EXPECTED_K3_AUDIT_FILE,
+        "stage33_05_audit_state_text_lf_sha256": EXPECTED_K3_AUDIT_TEXT_LF,
         "stage33_10_handoff_sha256": EXPECTED_H10,
         "boundary_function_scalar_descent_sha256": EXPECTED_SCALARS,
     },
