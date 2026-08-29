@@ -1,0 +1,31 @@
+name: Stage33-12 exact assembly
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-12/**'
+      - 'stages/stage33/controller.json'
+      - '.github/workflows/stage33-12-main.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage33-12-exact-assembly-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  exact-local-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Replay exact obstruction inventory
+        run: |
+          cp stages/stage33/33-12/stage33-12-exact-obstruction-inventory.json /tmp/expected.json
+          python stages/stage33/33-12/assemble_exact_obstruction_inventory.py
+          cmp /tmp/expected.json stages/stage33/33-12/stage33-12-exact-obstruction-inventory.json

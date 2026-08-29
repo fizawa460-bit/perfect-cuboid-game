@@ -1,6 +1,6 @@
 # Stage33-12 — ARITHMETIC-HS-CLOSURE-AND-33-07-RECERTIFICATION
 
-Status: RELEASE BOOTSTRAP / MAIN IN PROGRESS
+Status: RELEASED / MAIN IN PROGRESS — EXACT OBSTRUCTION INVENTORY MATERIALIZED
 
 This file records the narrow Stage33-12 release boundary. It does not close Stage33-07, release Stage33-08, or grant theorem / endpoint / perfect-cuboid credit.
 
@@ -55,4 +55,6 @@ This bootstrap is documentation/controller state only. It does not arm or author
 
 ## Immediate MAIN leaf
 
-Assemble the arithmetic Hochschild-Serre `d2` from the audited Stage33-10 absolute receiver and the audited Stage33-11 zero connecting map, while separately retaining the global-Q residue-lift and complete Q-defined class-inventory obligations. Do not infer either global-Q obligation merely from the zero connecting map.
+The first exact assembly is recorded in `result.md` and `stage33-12-exact-obstruction-inventory.json`. It proves HS `d2=0` on the already Q-defined BR0B/U44/J2/zero-line prefix and closes the new odd-primary lift obligation. It leaves exactly two two-primary obstruction blocks: the parametric constant-character cokernel and the 26 named finite invariant-factor directions.
+
+Next, compute the constant two-primary HS map and the 26 named finite HS values, or produce exact Q-defined residue lifts that kill those values. The audited Stage33-11 zero connecting map closes Stage A for the finite block only; it does not by itself close Stage B or the global-Q obligations.
