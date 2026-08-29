@@ -7,7 +7,7 @@
     "stage33_11_connecting_columns_exact_audited": "26/26",
     "stage33_11_connecting_map": "COMPUTED_EXACT_ZERO_MAP"
   },
-  "canonical_sha256": "fc4d6ec7ee0aab65c11641ca73a459b10a5b1064ac5e5c5282e3336caf647be7",
+  "canonical_sha256": "312bf021700b10d937d69354c47d12fd9eda55a8957c2ecc9772938e15a1b499",
   "exact_remaining_work": {
     "next_leaf": "COMPUTE_C2_CONSTANT_COKERNEL_HS_MAP_AND_F26_26_NAMED_HS_D2_VALUES_OR_EXPLICIT_Q_DEFINED_LIFTS",
     "unresolved_block_count": 2,
@@ -84,9 +84,20 @@
   "remaining_two_primary_obstruction_blocks": [
     {
       "block_id": "C2_CONSTANT_COKERNEL",
+      "full_cokernel_claimed_globally_liftable": false,
       "global_q_residue_lift_status": "UNRESOLVED",
       "group": "coker(rho: BR0B[2^infinity] -> Hom_cont(G_Q,Q_2/Z_2)^48 direct_sum Hom_cont(G_Q(i),Q_2/Z_2)^12)",
       "hs_d2_status": "UNCOMPUTED_PARAMETRIC_MAP",
+      "liftable_subgroup_exact_reduction": {
+        "known_q_defined_zero_boundary_subgroup": "<J2> ~= Z/2",
+        "known_q_defined_zero_boundary_subgroup_dimension_f2": 1,
+        "liftable_residue_classes_modulo_BR0B_inject_into": "Br(Sbar)[2]^G_Q / image(Q-defined zero-boundary proper classes)",
+        "proof": "Two Q-defined lifts with the same constant residue differ by a Q-defined zero-boundary class. A lift whose geometric restriction is zero is algebraic and already lies in BR0B. Hence liftable constant-residue classes modulo BR0B inject into the proper invariant quotient; the nonzero Q-defined zero-boundary class J2 removes at least one of its ten dimensions.",
+        "proper_geometric_br2_gq_invariant_dimension_f2": 10,
+        "therefore_cardinality_upper_bound": 512,
+        "therefore_dimension_upper_bound_f2": 9,
+        "therefore_exponent": 2
+      },
       "localization_connecting_map_status": "NOT_CLAIMED_BY_THE_26_DIRECTION_CERTIFICATE"
     },
     {
@@ -133,6 +144,7 @@
     "arithmetic_hs_problem_sha256": "5304ef5372eae904b75ea9e261516117a7386fab44ede6c28b9ad437371a50e2",
     "br0b_boundary_raw_residue_map_sha256": "44f03877c524a817e41036d89cf20ea971cc95c3d52adf53c2af6317a83d2324",
     "finite_ramified_presentation_sha256": "4ff7731ec06df0fbd676c7c310e29c50ef1898690530d7f7497ce832a1e0d71d",
+    "proper_brauer2_from_discriminant_sha256": "c86f6e838d072816426e4a2b0eb738f44e8632dd1ab4f3e6fdccd161ec41b5bf",
     "proper_brauer_odd_invariants_sha256": "63f1ba53a422a7d9334767d5cde2d52a4535b8022d3f78b214f981ad0596fcc9",
     "stage33_08_audit_state_content_sha256": "bcb4dacf600f27fb8e9350848d072fc4bd428810d67ffa5da3eb20edc99711be",
     "stage33_09_handoff_sha256": "9d385fd8ccddbf2d6f5289d944c4e80523ba39310d165c0741d9b5c33698e573",

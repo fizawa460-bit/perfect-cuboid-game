@@ -55,6 +55,6 @@ This bootstrap is documentation/controller state only. It does not arm or author
 
 ## Immediate MAIN leaf
 
-The first exact assembly is recorded in `result.md` and `stage33-12-exact-obstruction-inventory.json`. It proves HS `d2=0` on the already Q-defined BR0B/U44/J2/zero-line prefix and closes the new odd-primary lift obligation. It leaves exactly two two-primary obstruction blocks: the parametric constant-character cokernel and the 26 named finite invariant-factor directions.
+The first exact assembly is recorded in `result.md` and `stage33-12-exact-obstruction-inventory.json`. It proves HS `d2=0` on the already Q-defined BR0B/U44/J2/zero-line prefix and closes the new odd-primary lift obligation. It leaves exactly two two-primary obstruction blocks: the constant-character cokernel, whose actually liftable subgroup modulo BR0B is now bounded by F2 dimension 9, and the 26 named finite invariant-factor directions.
 
 Next, compute the constant two-primary HS map and the 26 named finite HS values, or produce exact Q-defined residue lifts that kill those values. The audited Stage33-11 zero connecting map closes Stage A for the finite block only; it does not by itself close Stage B or the global-Q obligations.

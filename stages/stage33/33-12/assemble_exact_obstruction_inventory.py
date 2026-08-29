@@ -45,6 +45,7 @@ exit11 = load(
 )
 hs_problem = load("stages/stage33/33-07/arithmetic-hs-descent-problem.json")
 odd = load("stages/stage33/33-07/proper-brauer-odd-invariants-zero.json")
+proper2 = load("stages/stage33/33-07/proper-brauer2-from-discriminant.json")
 br0b = load("stages/stage33/33-07/br0b-boundary-raw-residue-map.json")
 finite = load("stages/stage33/33-07/br0g-finite-ramified-residue-presentation.json")
 explicit = load("stages/stage33/33-08/audit-state.json")
@@ -56,6 +57,7 @@ locks = {
     "stage33_11g_certificate_sha256": canonical_sha256(exit11),
     "arithmetic_hs_problem_sha256": canonical_sha256(hs_problem),
     "proper_brauer_odd_invariants_sha256": canonical_sha256(odd),
+    "proper_brauer2_from_discriminant_sha256": canonical_sha256(proper2),
     "br0b_boundary_raw_residue_map_sha256": canonical_sha256(br0b),
     "finite_ramified_presentation_sha256": canonical_sha256(finite),
     "stage33_08_audit_state_content_sha256": canonical_sha256(explicit),
@@ -95,6 +97,10 @@ require(odd["repair_reduced_to_two_primary"] is True, "odd-primary repair is ope
 require(
     odd["constant_odd_boundary_cokernel_globally_liftable_part"] == "0",
     "unexpected odd-primary boundary cokernel lift",
+)
+require(
+    proper2["proper_Br2_joint_v4_fixed_dimension_f2"] == 10,
+    "proper geometric Br[2] invariant dimension regression",
 )
 require(
     br0b["induced_left_filtration_boundary_map_injective"] is True,
@@ -172,6 +178,17 @@ certificate = {
         {
             "block_id": "C2_CONSTANT_COKERNEL",
             "group": constant_two_cokernel,
+            "full_cokernel_claimed_globally_liftable": False,
+            "liftable_subgroup_exact_reduction": {
+                "proper_geometric_br2_gq_invariant_dimension_f2": 10,
+                "known_q_defined_zero_boundary_subgroup": "<J2> ~= Z/2",
+                "known_q_defined_zero_boundary_subgroup_dimension_f2": 1,
+                "liftable_residue_classes_modulo_BR0B_inject_into": "Br(Sbar)[2]^G_Q / image(Q-defined zero-boundary proper classes)",
+                "therefore_dimension_upper_bound_f2": 9,
+                "therefore_cardinality_upper_bound": 512,
+                "therefore_exponent": 2,
+                "proof": "Two Q-defined lifts with the same constant residue differ by a Q-defined zero-boundary class. A lift whose geometric restriction is zero is algebraic and already lies in BR0B. Hence liftable constant-residue classes modulo BR0B inject into the proper invariant quotient; the nonzero Q-defined zero-boundary class J2 removes at least one of its ten dimensions.",
+            },
             "localization_connecting_map_status": "NOT_CLAIMED_BY_THE_26_DIRECTION_CERTIFICATE",
             "hs_d2_status": "UNCOMPUTED_PARAMETRIC_MAP",
             "global_q_residue_lift_status": "UNRESOLVED",
@@ -222,7 +239,7 @@ stage12 = repair_children["33-12"]
 require(
     stage12["exact_obstruction_inventory_materialized"] is True
     and stage12["exact_obstruction_inventory_sha256"] == certificate["canonical_sha256"],
-    "Stage33-12 controller inventory writeback is missing or stale",
+    f"Stage33-12 controller inventory writeback is missing or stale; expected {certificate['canonical_sha256']}",
 )
 require(
     controller["stage33_07"]["stage33_12_exact_obstruction_inventory_sha256"]

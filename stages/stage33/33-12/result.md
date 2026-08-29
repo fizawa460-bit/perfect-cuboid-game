@@ -28,6 +28,8 @@ Only two two-primary blocks remain:
    `coker(rho: BR0B[2^infinity] -> Hom_cont(G_Q,Q_2/Z_2)^48 direct_sum Hom_cont(G_Q(i),Q_2/Z_2)^12)`;
 2. the finite quotient `(Z/2)^23 direct_sum (Z/4)^3`, with the 26 named directions `A2_01..A2_26`.
 
+The full constant cokernel is not claimed liftable. Its actually liftable residue subgroup modulo BR0B injects into the ten-dimensional proper invariant `Br(Sbar)[2]^G_Q`, modulo Q-defined zero-boundary proper classes. Since J2 supplies one such nonzero dimension, this unknown liftable subgroup has F2 dimension at most 9, cardinality at most 512, and exponent 2. Determining which residue tuples form that finite subgroup remains open.
+
 For the finite block, Stage33-11 proves Stage A exact zero on all 26 directions. It does not, without a new adapter, compute the 26 Stage B HS values or produce 26 Q-defined lifts. The constant cokernel is not covered by the 26-direction certificate and remains a separate parametric HS map.
 
 The machine-readable certificate is `stage33-12-exact-obstruction-inventory.json`, generated and independently replayable by `assemble_exact_obstruction_inventory.py`.
