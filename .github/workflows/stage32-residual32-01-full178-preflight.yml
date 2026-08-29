@@ -1,0 +1,41 @@
+name: Stage32 residual32-01 full178 cold preflight
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
+      - 'stages/stage32/residual-32-01-production/full178-production-preflight.json'
+      - 'stages/stage32/residual-32-01-production/verify_full178_preflight.py'
+      - 'stages/stage32/runkeys/residual32-01-full178-production.json'
+      - '.github/workflows/stage32-residual32-01-full178-preflight.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-cold-preflight:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Verify exact 178-row manifest and resource contract
+        run: python stages/stage32/residual-32-01-production/verify_full178_preflight.py
+      - name: Require production key to remain cold in this PR
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage32/runkeys/residual32-01-full178-production.json'
+          x=json.load(open(p))
+          assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_PRODUCTION_RUNKEY_V1'
+          assert x['generation']==0
+          assert x['armed'] is False
+          assert x['FULL178_PREFLIGHT_COMPLETE'] is True
+          assert x['FULL_178_ROW_SWEEP_AUTHORIZED'] is False
+          assert x['effective_heavy_concurrency']==8
+          assert x['effective_heavy_concurrency']<=18
+          assert x['projected_peak_artifact_mb']<500
+          print('FULL178_HEAVY_COMPUTE_ARMED=false')
+          PY
