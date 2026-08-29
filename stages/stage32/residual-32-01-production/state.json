@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V13_GENERATION18_M2_COMPLETED_REMAINING_16M_NEXT",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V14_ALL_LOCKED_REPRESENTATIVE_COMPLETION_COSTS_MEASURED",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "GENERATION16_1M_BOUNDED_PASS_GENERATION17_M2_4M_BOUNDED_PASS_GENERATION18_M2_COMPLETED_REMAINING_M1_M4_M8_16M_NEXT",
+  "status": "GENERATION18_M2_COMPLETED_GENERATION19_REMAINING_COMPLETED_ALL_FOUR_LOCKED_REPRESENTATIVE_COMPLETION_COSTS_MEASURED_RESULT_REVIEW_NEXT",
   "audit_required": true,
   "repair_required": false,
   "merge_allowed": false,
@@ -17,40 +17,34 @@
   "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
   "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false,
   "diagnosis": {
-    "generation16_fixed_contract_actions_pass": true,
-    "generation17_m2_4m_actions_pass": true,
-    "generation18_m2_16m_actions_pass": true,
     "generation18_m2_probe_complete": true,
-    "generation18_m2_completion_nodes": 6194539,
+    "generation19_m1_probe_complete": true,
+    "generation19_m4_probe_complete": true,
+    "generation19_m8_probe_complete": true,
+    "all_four_locked_representative_completion_costs_measured": true,
     "production_cost_ready": false,
-    "reason": "M2_COMPLETED_EXACTLY_AT_6194539_NODES_BELOW_THE_16M_BOUND. THE_REMAINING_LOCKED_REPRESENTATIVES_M1_M4_M8_STILL_REQUIRE_COMPLETION_COST_MEASUREMENT. FULL178_AND_B18_REMAIN_CLOSED."
+    "reason": "ALL_FOUR_LOCKED_REPRESENTATIVES_NOW_HAVE_EXACT_COMPLETION_COSTS_UNDER_THE_COST_AWARE_WINNER_ORDER. THIS_COMPLETES_THE_REQUESTED_BOUNDED_COMPLETION_CURVE_MEASUREMENT, BUT_PRODUCTION_COST_READINESS_AND_ANY_FULL178_OR_B18_RELEASE_REQUIRE_A_SEPARATE_RESULT_REVIEW/CONTROLLER_DECISION."
   },
-  "generation16_main_checkpoint": {
-    "checkpoint_file": "stages/stage32/residual-32-01-production/generation16-main-checkpoint.json",
-    "run_id": 33227879384,
-    "artifact_id": 9707487247,
-    "certificate_sha256": "486998102e942c54b96b4941a2329d619e2c0b751cab1c7fbaef876637407dbc"
-  },
-  "generation17_main_checkpoint": {
-    "checkpoint_file": "stages/stage32/residual-32-01-production/generation17-main-checkpoint.json",
-    "run_id": 33228006185,
-    "artifact_id": 9707527112,
-    "certificate_sha256": "6c25c9cc51ae631d65409f775687b88e2dca1851446d013978bca4d2c8dd2c13"
+  "representative_completion_curve": {
+    "known_label_order_1based": [95,99,103,102,49,97,94,101,93,98,96],
+    "m1": {"nodes":14526419,"membership_prunes":3025240,"symmetry_prunes":1030340,"terminals":2999270},
+    "m2": {"nodes":6194539,"membership_prunes":1290008,"symmetry_prunes":439364,"terminals":1278934},
+    "m4": {"nodes":10360479,"membership_prunes":2157624,"symmetry_prunes":734852,"terminals":2139102},
+    "m8": {"nodes":8277509,"membership_prunes":1723816,"symmetry_prunes":587108,"terminals":1709018}
   },
   "generation18_main_checkpoint": {
     "checkpoint_file": "stages/stage32/residual-32-01-production/generation18-main-checkpoint.json",
     "run_id": 33228109574,
     "artifact_id": 9707560153,
-    "artifact_zip_sha256": "c2c57ef608243002da2078f792042da66e09ad8317cfed060efd26f9080d2027",
-    "certificate_sha256": "10fd522322d65de1ebfb2b03985848678fc2b33ded1a2aa1c22ae8d7be514fb5",
-    "representative": {"m":2,"genus":0,"degree":8,"exceptional_mass":8},
-    "node_limit": 16000000,
-    "nodes": 6194539,
-    "membership_prunes": 1290008,
-    "symmetry_prunes": 439364,
-    "terminals": 1278934,
-    "node_budget_exhausted": false,
-    "probe_complete": true
+    "certificate_sha256": "10fd522322d65de1ebfb2b03985848678fc2b33ded1a2aa1c22ae8d7be514fb5"
+  },
+  "generation19_main_checkpoint": {
+    "checkpoint_file": "stages/stage32/residual-32-01-production/generation19-main-checkpoint.json",
+    "run_id": 33228247548,
+    "artifact_id": 9707625903,
+    "artifact_zip_sha256": "2724ccf4bc501af1dc78d53e44f450e788bcb00834607239d66388b5578ebea5",
+    "certificate_sha256": "06e487a6b083eb56d15df76920db4bb0c388ab52a3b321cc4cf2581752e23c5e",
+    "all_remaining_representatives_probe_complete": true
   },
   "implementation": {
     "hperp_integral_adapter": "stages/stage32/residual-32-01-production/hperp_integral_adapter.py",
@@ -60,8 +54,8 @@
     "generation19_remaining_wrapper": "stages/stage32/residual-32-01-production/calibrate_generation19_remaining.py",
     "workflow": ".github/workflows/stage32-residual32-01-pairing-prefix-calibration.yml",
     "runkey": "stages/stage32/runkeys/residual32-01-pairing-prefix-calibration.json",
-    "runkey_generation": 18,
+    "runkey_generation": 19,
     "online_magma_dependency": false
   },
-  "next_item": "REMAINING_M1_M4_M8_16M_BOUNDED_COMPLETION_SCOUT"
+  "next_item": "REPRESENTATIVE_COMPLETION_CURVE_RESULT_REVIEW"
 }
