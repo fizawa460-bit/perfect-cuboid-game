@@ -1,16 +1,16 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V86_FULL178_GEN3_PASS_COST_REPAIR_GEN4_COLD_READY",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V87_FULL178_GEN4_PREFLIGHT_CONTRACT_REPAIR_PENDING_COLD_PASS",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
   "G10_LOWGENUS_PICARD": "AMBER",
   "stage32_closed": false,
-  "status": "RESIDUAL32_01_FULL178_GENERATION3_EXACT_FRONTIER_PASS_COST_ACCOUNTING_REPAIRED_GENERATION4_COLD_READY",
+  "status": "RESIDUAL32_01_FULL178_GENERATION4_PREFLIGHT_CONTRACT_REPAIR_IMPLEMENTED_AWAIT_COLD_PASS",
   "audit_required": false,
   "repair_required": false,
   "repair_allowed": false,
   "merge_allowed": false,
-  "advance_allowed": true,
+  "advance_allowed": false,
   "theorem_credit": false,
   "receiver_credit": false,
   "route_color_change_authorized": false,
@@ -33,7 +33,10 @@
     "residual32_01_generation3_v1_outer_node_accounting_defect_only": true,
     "residual32_01_generation3_actual_nodes_from_artifact_telemetry": 75342562,
     "residual32_01_v2_node_accounting_repair_implemented": true,
-    "residual32_01_generation4_released": true
+    "residual32_01_generation4_released": true,
+    "residual32_01_generation4_old_cold_preflight_contract_failure_detected": true,
+    "residual32_01_generation4_old_cold_preflight_static_manifest_check_passed": true,
+    "residual32_01_generation4_campaign_aware_cold_preflight_repair_implemented": true
   },
   "active_execution_guardrail": {
     "automatic_b18_or_higher_forbidden": true,
@@ -46,22 +49,24 @@
     "prefix_stage_completion_is_not_numerical_row_completion": true,
     "runner_schema_required_from_generation4": "STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2",
     "nodes_used_accounting_required_from_generation4": "SUM_TELEMETRY_NODES_V2",
+    "campaign_preflight_does_not_authorize_heavy_compute": true,
+    "generation4_arm_blocked_until_campaign_preflight_pass": true,
     "mathematical_credit_changed_this_batch": false,
     "receiver_credit_changed": false,
     "post_b16_release_scope": "RESIDUAL32_01_FULL178_PREFIX_FRONTIER_RECURSIVE_PRODUCTION_ONLY"
   },
-  "current_item": "ARM_FULL178_GENERATION4_FIFO_WAVE_WITH_REPAIRED_COST_TELEMETRY",
-  "current_item_execution_constraint": "GENERATION3 RUN 33239254190 COMPLETED ALL EIGHT INPUT WORK UNITS. EXACT COVERAGE/FRONTIER IS VALID: FIVE PREFIX PARTITIONS COMPLETED AND EIGHT EXACT CHILD UNITS WERE EMITTED. ITS V1 OUTER nodes_used FIELD WAS WRONG ONLY FOR DIRECT STRATUM_PARTITION UNITS; INDIVIDUAL ARTIFACT telemetry.nodes RECONSTRUCTS 75,342,562 ACTUAL NODES AND THE DEFECT DOES NOT AFFECT COVERAGE. RUNNER/WORKFLOW V2 NOW REQUIRE nodes_used=sum(telemetry.nodes). GENERATION4 TAKES THE NEXT EIGHT FIFO UNITS FROM THE PREEXISTING GENERATION2 FRONTIER. ARM MUST BE RUNKEY-ONLY; NO WRITES UNTIL COMPLETION. UNKNOWN!=UNSAT. B18 AND ALL MATHEMATICAL CREDIT REMAIN CLOSED.",
-  "execution_class": 2,
+  "current_item": "VERIFY_GENERATION4_CAMPAIGN_AWARE_COLD_PREFLIGHT_REPAIR",
+  "current_item_execution_constraint": "GENERATION4 IS RELEASED BUT MUST NOT BE ARMED UNTIL THE REPAIRED CHEAP COLD-PREFLIGHT CI PASSES. RUN 33239576783 FAILED ONLY BECAUSE THE LEGACY COLD WORKFLOW PERMANENTLY REQUIRED generation=0/armed=false AFTER THE CAMPAIGN HAD ALREADY REACHED GENERATION3. ITS STATIC 178-ROW MANIFEST/RESOURCE VERIFIER PASSED. THE REPAIR VALIDATES generation0 COLD OR generation>0 HISTORICAL ARMED RUNKEY SAFETY WITHOUT AUTHORIZING HEAVY COMPUTE. AFTER PASS, ARM GENERATION4 BY DEDICATED RUNKEY-ONLY SYNC AND MAKE NO WRITES UNTIL COMPLETION. UNKNOWN!=UNSAT. B18 AND ALL MATHEMATICAL CREDIT REMAIN CLOSED.",
+  "execution_class": 0,
   "next_expected_command": "Stage32-main-batch",
-  "next_item": "ARM_GENERATION4_THEN_INGEST_WITH_NO_INTERVENING_WRITES",
+  "next_item": "ON_COLD_PASS_ARM_GENERATION4_RUNKEY_ONLY_THEN_INGEST",
   "post_b16_progression": {
     "b18_release_authorized": false,
     "full_178_preflight_authorized": true,
     "full_178_preflight_implemented": true,
     "full_178_row_sweep_authorized": true,
     "later_items_released": false,
-    "current_release": "RESIDUAL32_01_FULL178_PREFIX_FRONTIER_GENERATION4_COLD_READY",
+    "current_release": "RESIDUAL32_01_FULL178_PREFIX_FRONTIER_GENERATION4_RELEASED_PREFLIGHT_REPAIR_PENDING",
     "residual_feasibility_gate": "HOSTILE_AUDIT_PASS_SCOPE_LOCKED"
   },
   "residual32_01_checkpoint": {
@@ -73,7 +78,6 @@
     "generation3_checkpoint": "stages/stage32/residual-32-01-production/generation3-main-checkpoint.json",
     "generation3": {
       "run_id": 33239254190,
-      "authorize_job_id": 99065623540,
       "result": "PASS_EXACT_FRONTIER_WITH_V1_OUTER_NODE_ACCOUNTING_DEFECT_REPAIRED_FOR_NEXT_GENERATION",
       "completed_prefix_partition_count": 5,
       "next_exact_work_unit_count": 8,
@@ -88,6 +92,15 @@
       "workflow_commit": "b540d7365a354a6f23e55eb8fdc711eeca252e17",
       "runner_schema": "STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2",
       "nodes_used_accounting": "SUM_TELEMETRY_NODES_V2"
+    },
+    "generation4_preflight_repair": {
+      "failed_legacy_run_id": 33239576783,
+      "failed_legacy_job_id": 99066475597,
+      "static_manifest_resource_verifier_passed": true,
+      "failure_reason": "LEGACY_REQUIRE_GENERATION0_ARMED_FALSE_ASSERTION",
+      "repair_commit": "91bd14ce7e9fb0ee41ecb412db9e9bd97f644b79",
+      "repair_mode": "CAMPAIGN_AWARE_CHEAP_RUNKEY_SAFETY_VALIDATION_NO_HEAVY_AUTHORIZATION",
+      "cold_pass_pending": true
     },
     "generation4": {
       "armed": false,
