@@ -1,16 +1,16 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V80_FULL178_SOURCE_PROVENANCE_REPAIRED_REAUDIT_REQUIRED",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V81_FULL178_PREFLIGHT_HOSTILE_REAUDIT_PASS",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
   "G10_LOWGENUS_PICARD": "AMBER",
   "stage32_closed": false,
-  "status": "RESIDUAL32_01_FULL178_STATIC_PREFLIGHT_SOURCE_PROVENANCE_REPAIRED_PENDING_FRESH_REAUDIT_NO_HEAVY_SWEEP",
-  "audit_required": true,
+  "status": "RESIDUAL32_01_FULL178_STATIC_PREFLIGHT_HOSTILE_REAUDIT_PASS_SCOPE_LOCKED_AWAIT_EXPLICIT_HEAVY_RELEASE",
+  "audit_required": false,
   "repair_required": false,
   "repair_allowed": false,
-  "merge_allowed": false,
-  "advance_allowed": false,
+  "merge_allowed": true,
+  "advance_allowed": true,
   "theorem_credit": false,
   "receiver_credit": false,
   "route_color_change_authorized": false,
@@ -29,9 +29,10 @@
     "residual32_01_full178_preflight_implemented": true,
     "residual32_01_full178_manifest_internal_consistency_pass": true,
     "residual32_01_full178_source_provenance_repair_complete": true,
-    "residual32_01_full178_source_provenance_lock_pass": false,
+    "residual32_01_full178_source_provenance_lock_pass": true,
+    "residual32_01_full178_static_preflight_hostile_reaudit_pass": true,
     "residual32_01_full178_heavy_sweep_authorized": false,
-    "residual32_01_production_cost_ready": false
+    "residual32_01_production_cost_ready": true
   },
   "active_execution_guardrail": {
     "automatic_b18_or_higher_forbidden": true,
@@ -40,26 +41,24 @@
     "heavy_compute_armed_by_controller_sync": false,
     "mathematical_credit_changed_this_batch": false,
     "receiver_credit_changed": false,
-    "post_b16_release_scope": "RESIDUAL32_01_FULL178_STATIC_PREFLIGHT_SOURCE_PROVENANCE_REAUDIT_ONLY"
+    "post_b16_release_scope": "RESIDUAL32_01_FULL178_STATIC_PREFLIGHT_HOSTILE_REAUDIT_PASS_ONLY"
   },
-  "current_item": "HOSTILE_REAUDIT_FULL178_AUDITED_183_ROW_SOURCE_PROVENANCE_REPAIR",
-  "current_item_execution_constraint": "RE-AUDIT THE REPAIR FOR REVIEW 5057147138. THE VERIFIER MUST READ THE HOSTILE-AUDITED RESIDUAL-FEASIBILITY STATE, LOCK EXPECTED PAYLOAD SHA e787c75b845b691c934fcba5a09a1a76c3c95a82a2deb6563bb7e8fbcd636897, IMPORT THE LOCKED ANALYZER, OBTAIN ITS 183 audited_rows(), AND PROVE THE FULL178 MANIFEST IS EXACTLY THAT SET MINUS THE FIVE AUDITED DEGREE<=6 ROWS. DO NOT ARM OR LAUNCH FULL178 OR B18. NO THEOREM, RECEIVER, ROUTE, ENDPOINT, OR PERFECT-CUBOID CREDIT.",
+  "current_item": "EXPLICIT_MAIN_RELEASE_DECISION_FOR_FULL178_HEAVY_PRODUCTION",
+  "current_item_execution_constraint": "THE STATIC FULL178 PREFLIGHT AND ITS AUDITED-183-ROW SOURCE PROVENANCE HAVE PASSED HOSTILE REAUDIT. THIS CERTIFIES THE BOUNDED FAIL-CLOSED PRODUCTION POLICY, NOT THE FULL178 SWEEP RESULT. FULL178 HEAVY EXECUTION REMAINS UNAUTHORIZED AND UNARMED UNTIL A SEPARATE MAIN CONTROLLER RELEASE. B18, THEOREM, RECEIVER, ROUTE, ENDPOINT, STAGE32 CLOSURE, AND PERFECT-CUBOID CREDIT REMAIN CLOSED.",
   "execution_class": 0,
-  "next_expected_command": "Stage32-audit",
-  "next_item": "HOSTILE_REAUDIT_FULL178_STATIC_PREFLIGHT_SOURCE_PROVENANCE_REPAIR",
+  "next_expected_command": "Stage32-main-batch",
+  "next_item": "EXPLICIT_MAIN_RELEASE_DECISION_FOR_FULL178_HEAVY_PRODUCTION",
   "post_b16_progression": {
     "b18_release_authorized": false,
     "full_178_preflight_authorized": true,
     "full_178_preflight_implemented": true,
     "full_178_row_sweep_authorized": false,
     "later_items_released": false,
-    "current_release": "RESIDUAL32_01_FULL178_STATIC_PREFLIGHT_SOURCE_PROVENANCE_REAUDIT_GATE_ONLY",
+    "current_release": "RESIDUAL32_01_FULL178_STATIC_PREFLIGHT_HOSTILE_REAUDIT_PASS_ONLY",
     "residual_feasibility_gate": "HOSTILE_AUDIT_PASS_SCOPE_LOCKED"
   },
   "residual32_01_checkpoint": {
-    "representative_audit_state": "HOSTILE_AUDIT_PASS_METADATA_SYNC_REPAIRED",
     "representative_audit_review_id": 5056772158,
-    "representative_audit_verdict": "PASS_RESIDUAL32_01_REPRESENTATIVE_COST_FEASIBILITY_SCOPE_LOCKED",
     "merged_calibration_pr": 1456,
     "merged_calibration_commit": "a4027b54ff57c556f9a2d1cb9448bb5c8c1affbb",
     "state": "stages/stage32/residual-32-01-production/state.json",
@@ -80,19 +79,23 @@
     "full178_effective_heavy_concurrency": 8,
     "full178_projected_peak_artifact_mb": 7.78125,
     "full178_raw_evidence_persisted": false,
-    "full178_hostile_audit": {
+    "full178_prior_hostile_audit": {
       "review_id": 5057147138,
       "audited_head_sha": "99c7fb237d0aff53dd2a9f97083650b60d5643f8",
-      "verdict": "FAIL_REPAIR_REQUIRED_SOURCE_PROVENANCE_LOCK",
+      "verdict": "FAIL_REPAIR_REQUIRED_SOURCE_PROVENANCE_LOCK"
+    },
+    "full178_hostile_reaudit": {
+      "review_id": 5057163230,
+      "audited_head_sha": "657c99327316336592ff757d36875c69cc19623d",
+      "verdict": "PASS_SOURCE_PROVENANCE_REPAIR_SCOPE_LOCKED",
+      "audited_183_row_source_provenance_lock": "PASS",
       "internal_manifest_consistency": "PASS",
       "m_class_partition": "PASS",
       "fail_closed_unknown_policy": "PASS",
       "actions_storage_concurrency_preflight": "PASS",
-      "cold_runkey_and_ci": "PASS",
-      "audited_183_row_source_provenance_lock": "FAIL"
+      "cold_runkey_and_ci": "PASS"
     },
-    "source_provenance_repair": {
-      "repair_complete": true,
+    "source_provenance": {
       "audited_state": "stages/stage32/post-b16-residual-feasibility/state.json",
       "audited_state_schema": "STAGE32_POST_B16_RESIDUAL_FEASIBILITY_STATE_V2_HOSTILE_AUDIT_PASS",
       "audited_residual_feasibility_review_id": 5055351647,
@@ -100,12 +103,11 @@
       "audited_expected_payload_sha256": "e787c75b845b691c934fcba5a09a1a76c3c95a82a2deb6563bb7e8fbcd636897",
       "audited_source_row_count": 183,
       "excluded_degree_le_6_row_ids": ["g0-d002","g0-d004","g0-d006","g1-d004","g1-d006"],
-      "derived_residual_row_count": 178,
-      "verifier_derives_rows_from_audited_analyzer": true
+      "derived_residual_row_count": 178
     },
     "representative_completion_nodes": {"1":14526419,"2":6194539,"4":10360479,"8":8277509},
-    "production_cost_ready": false,
-    "production_cost_ready_blocker": "FRESH_HOSTILE_REAUDIT_REQUIRED_AFTER_SOURCE_PROVENANCE_REPAIR"
+    "production_cost_ready": true,
+    "production_cost_ready_scope": "BOUNDED_FAIL_CLOSED_PRODUCTION_POLICY_ONLY_NOT_WORST_CASE_CERTIFICATE"
   },
   "controller_writeback_policy": {
     "controller_must_reflect_current_state_before_batch_end": true,
