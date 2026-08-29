@@ -1,0 +1,45 @@
+{
+  "schema": "STAGE33_12_J2_D2_TORSOR_FIBER_LATTICE_GATE_V1",
+  "status": "PASS_EXACT_PARTIAL_LATTICE_GATE",
+  "base_field": "Q",
+  "jacobian": {
+    "equation": "Y^2=X*(X-r1)*(X-r2)",
+    "r1": "(t^2-1)^2",
+    "r2": "q=t^4-6*t^2+1",
+    "difference": "r1-r2=4*t^2",
+    "discriminant_up_to_nonzero_constant": "t^4*(t^2-1)^4*q^2",
+    "fiber_configuration": "I4 at t=0,+1,-1,infinity; I2 at the four simple roots of q",
+    "euler_sum": 24,
+    "root_lattice": "A3^4+A1^4",
+    "root_rank": 16,
+    "root_discriminant": 4096
+  },
+  "named_j2_torsor": {
+    "squareclass": "d=2",
+    "equation": "N^2=2*U^4-2*H*U^2*V^2+(D/2)*V^4",
+    "index": 2,
+    "same_jacobian_fiber_types": true,
+    "multisection_degree": 2
+  },
+  "lattice_gate": {
+    "known_transcendental_rank": 2,
+    "known_transcendental_determinant": 128,
+    "candidate_kernel_lattices": {
+      "0,1": {"reduced_gram": [[4,0],[0,32]], "minimum_norm": 4, "smith_group": "Z/4+Z/32"},
+      "1,0": {"reduced_gram": [[8,0],[0,16]], "minimum_norm": 8, "smith_group": "Z/8+Z/16"},
+      "1,1": {"reduced_gram": [[12,-4],[-4,12]], "minimum_norm": 12, "smith_group": "Z/4+Z/32"}
+    },
+    "new_discriminator": "Computing only the abelian discriminant group of NS(Y_J2) already separates [1,0] from the other two: Z/8+Z/16 selects [1,0], while Z/4+Z/32 leaves [0,1] versus [1,1]. A full minimum-norm computation is unnecessary if the former group occurs.",
+    "candidate_count_after": 3,
+    "marked_brauer_functional_selected": false
+  },
+  "next_exact_leaf": "COMPUTE_THE_DISCRIMINANT_GROUP_OF_NS(Y_J2)_FROM_THE_I4^4_I2^4_FIBER_COMPONENTS_AND_DEGREE_2_MULTISECTION_GLUE; IF_Z8_PLUS_Z16_SELECT_[1,0], OTHERWISE_COMPUTE_THE_RESIDUAL_QUADRATIC_FORM_TO_SEPARATE_[0,1]_FROM_[1,1]",
+  "stage33_12_closed_exact": false,
+  "stage33_13_released": false,
+  "heavy_actions_authorized": false,
+  "theorem_credit": false,
+  "receiver_credit": false,
+  "endpoint_credit": false,
+  "perfect_cuboid_existence_claim": false,
+  "perfect_cuboid_nonexistence_claim": false
+}
