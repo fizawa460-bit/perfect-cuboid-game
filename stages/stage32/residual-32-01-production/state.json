@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V28_GEN6_PASS_GEN7_FIFO_COLD_READY",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V29_GEN7_PASS_GEN8_FIFO_COLD_READY",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "FULL178_GENERATION6_V2_PASS_GENERATION7_FIFO_CHILDREN_COLD_READY",
+  "status": "FULL178_GENERATION7_V2_PASS_GENERATION8_FIFO_COLD_READY",
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": false,
@@ -21,32 +21,33 @@
   "generation3": {"run_id":33239254190,"result":"PASS_EXACT_FRONTIER_WITH_V1_OUTER_NODE_ACCOUNTING_DEFECT_REPAIRED_FOR_NEXT_GENERATION","completed_prefix_partition_count":5,"next_exact_work_unit_count":8,"actual_nodes_used_from_individual_artifact_telemetry":75342562,"checkpoint":"stages/stage32/residual-32-01-production/generation3-main-checkpoint.json","exact_coverage_or_frontier_affected_by_accounting_defect":false},
   "generation4": {"run_id":33239787951,"result":"PASS_EIGHT_WORK_UNITS_V2_EXACT_FRONTIER","total_nodes_used":96000040,"completed_prefix_partition_count":2,"next_exact_work_unit_count":15,"checkpoint":"stages/stage32/residual-32-01-production/generation4-main-checkpoint.json"},
   "generation5": {"run_id":33239992315,"result":"PASS_EIGHT_WORK_UNITS_V2_EXACT_FRONTIER","total_nodes_used":80000042,"completed_prefix_partition_count":3,"next_exact_work_unit_count":13,"checkpoint":"stages/stage32/residual-32-01-production/generation5-main-checkpoint.json"},
-  "generation6": {
-    "run_id": 33240158172,
-    "authorize_job_id": 99068003504,
+  "generation6": {"run_id":33240158172,"result":"PASS_EIGHT_WORK_UNITS_V2_EXACT_FRONTIER","total_nodes_used":80126500,"completed_prefix_partition_count":3,"next_exact_work_unit_count":12,"checkpoint":"stages/stage32/residual-32-01-production/generation6-main-checkpoint.json"},
+  "generation7": {
+    "run_id": 33240326569,
+    "authorize_job_id": 99068445836,
     "result": "PASS_EIGHT_WORK_UNITS_V2_EXACT_FRONTIER",
     "runner_schema": "STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2",
     "nodes_used_accounting": "SUM_TELEMETRY_NODES_V2",
-    "total_nodes_used": 80126500,
+    "total_nodes_used": 80214126,
     "completed_prefix_partition_count": 3,
-    "next_exact_work_unit_count": 12,
-    "checkpoint": "stages/stage32/residual-32-01-production/generation6-main-checkpoint.json",
-    "wave_manifest_artifact_id": 9711121319,
-    "wave_manifest_canonical_sha256": "b5831bf4dc123ec0de7586b3bb9e108edda34772a58063c347334443e5dbad46",
+    "next_exact_work_unit_count": 11,
+    "checkpoint": "stages/stage32/residual-32-01-production/generation7-main-checkpoint.json",
+    "wave_manifest_artifact_id": 9711169810,
+    "wave_manifest_canonical_sha256": "41385a40d5cd8231c74c21e6e568571bcb374befd27bf50f1d98524be3a6aeb5",
     "manifest_sha_independently_recomputed": true
   },
-  "generation7": {
+  "generation8": {
     "released": true,
     "armed": false,
     "queue_policy": "FIFO_GLOBAL_FRONTIER",
-    "planned_work_unit_ids": ["wu-ff95744231802b2d7a90","wu-8b4692f908653b6ed94a","wu-8cb204ef42073dac3450","wu-a9644403b9253868e452","wu-3f56c59779fbbf964702","wu-47a58350cffa6f981f58","wu-87586cf149925803d60c","wu-539fa65a5df6d17eb3b4"],
-    "pending_frontier_before_dispatch": 40,
-    "pending_frontier_after_dispatch_before_new_children": 32,
+    "planned_work_unit_ids": ["wu-aa9a3d448195a5f62438","wu-0235bab3da9490d7425e","wu-b94b171244790f91a527","wu-367e68ef93f82706afe7","wu-29b41969ff65dda587d6","wu-cff9f7a58fb143ec139b","wu-89a143bbfc950ac62e86","wu-f279049b0dc154a4a8e0"],
+    "pending_frontier_before_dispatch": 43,
+    "pending_frontier_after_dispatch_before_new_children": 35,
     "node_ceiling_per_work_unit": 16000000,
     "effective_heavy_concurrency": 8,
     "unknown_is_unsat": false,
     "required_arm_diff": "DEDICATED_RUNKEY_ONLY",
     "no_repository_writes_after_arm_until_run_complete": true
   },
-  "next_item": "ARM_GENERATION7_THEN_INGEST_WITH_NO_INTERVENING_WRITES"
+  "next_item": "ARM_GENERATION8_THEN_INGEST_WITH_NO_INTERVENING_WRITES"
 }
