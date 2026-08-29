@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V14_ALL_LOCKED_REPRESENTATIVE_COMPLETION_COSTS_MEASURED",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V15_REPRESENTATIVE_COST_FEASIBILITY_MAIN_PASS_AUDIT_NEXT",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "GENERATION18_M2_COMPLETED_GENERATION19_REMAINING_COMPLETED_ALL_FOUR_LOCKED_REPRESENTATIVE_COMPLETION_COSTS_MEASURED_RESULT_REVIEW_NEXT",
+  "status": "ALL_FOUR_LOCKED_REPRESENTATIVES_COMPLETE_MAIN_COST_FEASIBILITY_PASS_HOSTILE_AUDIT_NEXT",
   "audit_required": true,
   "repair_required": false,
   "merge_allowed": false,
@@ -17,13 +17,11 @@
   "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
   "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false,
   "diagnosis": {
-    "generation18_m2_probe_complete": true,
-    "generation19_m1_probe_complete": true,
-    "generation19_m4_probe_complete": true,
-    "generation19_m8_probe_complete": true,
     "all_four_locked_representative_completion_costs_measured": true,
+    "main_provisional_representative_cost_feasibility_pass": true,
     "production_cost_ready": false,
-    "reason": "ALL_FOUR_LOCKED_REPRESENTATIVES_NOW_HAVE_EXACT_COMPLETION_COSTS_UNDER_THE_COST_AWARE_WINNER_ORDER. THIS_COMPLETES_THE_REQUESTED_BOUNDED_COMPLETION_CURVE_MEASUREMENT, BUT_PRODUCTION_COST_READINESS_AND_ANY_FULL178_OR_B18_RELEASE_REQUIRE_A_SEPARATE_RESULT_REVIEW/CONTROLLER_DECISION."
+    "production_cost_ready_blocker": "HOSTILE_AUDIT_REQUIRED_BY_ACTIVE_RESIDUAL_FEASIBILITY_GATE",
+    "reason": "THE LOCKED EXACT ENGINE COMPLETES M1=14526419, M2=6194539, M4=10360479, AND M8=8277509 NODES, SO THE REPRESENTATIVE COST BLOCKER IS REMOVED ON MAIN. REPRESENTATIVE DATA DO NOT CERTIFY FULL178 WORST-CASE COST OR AUTHORIZE THE FULL SWEEP; HOSTILE AUDIT IS REQUIRED BEFORE ANY PRODUCTION-READINESS PROMOTION."
   },
   "representative_completion_curve": {
     "known_label_order_1based": [95,99,103,102,49,97,94,101,93,98,96],
@@ -32,20 +30,9 @@
     "m4": {"nodes":10360479,"membership_prunes":2157624,"symmetry_prunes":734852,"terminals":2139102},
     "m8": {"nodes":8277509,"membership_prunes":1723816,"symmetry_prunes":587108,"terminals":1709018}
   },
-  "generation18_main_checkpoint": {
-    "checkpoint_file": "stages/stage32/residual-32-01-production/generation18-main-checkpoint.json",
-    "run_id": 33228109574,
-    "artifact_id": 9707560153,
-    "certificate_sha256": "10fd522322d65de1ebfb2b03985848678fc2b33ded1a2aa1c22ae8d7be514fb5"
-  },
-  "generation19_main_checkpoint": {
-    "checkpoint_file": "stages/stage32/residual-32-01-production/generation19-main-checkpoint.json",
-    "run_id": 33228247548,
-    "artifact_id": 9707625903,
-    "artifact_zip_sha256": "2724ccf4bc501af1dc78d53e44f450e788bcb00834607239d66388b5578ebea5",
-    "certificate_sha256": "06e487a6b083eb56d15df76920db4bb0c388ab52a3b321cc4cf2581752e23c5e",
-    "all_remaining_representatives_probe_complete": true
-  },
+  "main_review": "stages/stage32/residual-32-01-production/representative-completion-curve-main-review.json",
+  "generation18_main_checkpoint": "stages/stage32/residual-32-01-production/generation18-main-checkpoint.json",
+  "generation19_main_checkpoint": "stages/stage32/residual-32-01-production/generation19-main-checkpoint.json",
   "implementation": {
     "hperp_integral_adapter": "stages/stage32/residual-32-01-production/hperp_integral_adapter.py",
     "calibration_base": "stages/stage32/residual-32-01-production/calibrate_representatives.py",
@@ -57,5 +44,5 @@
     "runkey_generation": 19,
     "online_magma_dependency": false
   },
-  "next_item": "REPRESENTATIVE_COMPLETION_CURVE_RESULT_REVIEW"
+  "next_item": "HOSTILE_AUDIT_OF_RESIDUAL32_01_REPRESENTATIVE_COST_FEASIBILITY"
 }
