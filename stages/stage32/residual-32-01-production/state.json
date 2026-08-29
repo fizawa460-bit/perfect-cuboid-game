@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V44_GEN22_AUTH_FAIL_GEN23_WIDE124_COLD_READY",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V45_GEN23_PASS_GEN24_WIDE128_CARRY34_COLD_READY",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "FULL178_GENERATION22_AUTHORIZATION_FAIL_NO_COMPUTE_GENERATION23_WIDE124_COLD_READY",
+  "status": "FULL178_GENERATION23_V2_PASS_GENERATION24_WIDE128_CARRY34_COLD_READY",
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": false,
@@ -40,12 +40,29 @@
     "mathematical_credit": false
   },
   "generation23": {
+    "run_id": 33245993582,
+    "authorize_job_id": 99083416934,
+    "result": "PASS_ONE_HUNDRED_TWENTY_FOUR_WORK_UNITS_V2_EXACT_FRONTIER",
+    "input_work_unit_count": 124,
+    "total_nodes_used": 1422411242,
+    "completed_prefix_partition_count": 47,
+    "unknown_count_total": 162,
+    "node_ceiling_hit_work_unit_count": 77,
+    "next_exact_work_unit_count": 162,
+    "checkpoint": "stages/stage32/residual-32-01-production/full178-generation23-main-checkpoint.json",
+    "wave_manifest_artifact_id": 9712975257,
+    "wave_manifest_artifact_zip_sha256": "d4b3ebacb4e8499f90c0ccdf95f65d752f744d4ad6471f3138418471370e26b2",
+    "wave_manifest_canonical_sha256": "8201c3c2e85574b65f4520fbcc4d557ef7f5bc10b4d9e9162378dbb632239f43",
+    "manifest_sha_independently_recomputed": true
+  },
+  "generation24": {
     "released": true,
     "armed": false,
-    "queue_policy": "FIFO_GLOBAL_FRONTIER_FROM_GENERATION21_ARTIFACT",
-    "planned_work_unit_count": 124,
-    "pending_frontier_before_dispatch": 124,
-    "pending_frontier_after_dispatch_before_new_children": 0,
+    "queue_policy": "FIFO_GLOBAL_FRONTIER_FROM_GENERATION23_ARTIFACT",
+    "planned_work_unit_count": 128,
+    "pending_frontier_before_dispatch": 162,
+    "pending_frontier_after_dispatch_before_new_children": 34,
+    "carry_count_before_new_children": 34,
     "node_ceiling_per_work_unit": 16000000,
     "max_work_units_per_wave": 128,
     "effective_heavy_concurrency": 17,
@@ -57,5 +74,5 @@
     "required_arm_diff": "DEDICATED_RUNKEY_ONLY",
     "no_repository_writes_after_arm_until_run_complete": true
   },
-  "next_item": "ARM_GENERATION23_WIDE124_EXACT_ARTIFACT_REBUILD_THEN_INGEST"
+  "next_item": "ARM_GENERATION24_WIDE128_FIRST_FRONTIER_THEN_INGEST_WITH_CARRY34"
 }
