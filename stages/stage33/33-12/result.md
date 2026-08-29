@@ -1,6 +1,6 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_IN_PROGRESS_EXACT_OBSTRUCTION_INVENTORY_MATERIALIZED`
+Status: `MAIN_IN_PROGRESS_EXACT_ADAPTER_AMBIGUITY_WITNESSED`
 
 This checkpoint performs the first exact arithmetic Hochschild--Serre assembly after the audited Stage33-11 exit. It does not close Stage33-12 or Stage33-07.
 
@@ -38,7 +38,19 @@ The full-surface Stage-B receiver is now stated exactly. For a finite residue di
 
 The finite-V4 restriction of the full-surface Kummer-defect receiver is now completely linearized from the retained integral 64-dimensional Picard actions. Exact row reduction gives `dim_F2 Pic(Sbar)/2^{V4}=46` and `dim_F2 H^1(V4,Pic(Sbar)/2)=75`. A literal 75-element quotient basis is retained as `cc/ct` cocycle pairs in the original Picard coordinates, while the ten invariant proper `Br[2]` directions are retained in the original 14 coordinates. Thus the missing finite restriction is exactly a `75 x 10` matrix. No column is filled without a full-surface `mu_2` lift or equivalent unimodular glue datum, and finite-V4 `H1` is not identified with absolute `G_Q` cohomology.
 
-The machine-readable certificate is `stage33-12-exact-obstruction-inventory.json`, generated and independently replayable by `assemble_exact_obstruction_inventory.py`.
+## Exact J2/q1-to-Kc adapter ambiguity
+
+The named K3 basis is hostile-audited as `[J2,q1]`, with `d2(J2)=0` and `d2(q1)!=0`. The pinned Stoll source fixes the geometric Picard/discriminant coordinate system but does not label its two-dimensional discriminant 2-torsion by the CV names `J2` and `q1`.
+
+`certify_j2_q1_kc_adapter_ambiguity_witness.py` now enumerates all six elements of `GL(2,F2)` exactly. Every one of the six named-to-Kc adapters is compatible with the retained named d2 data, because the Kc-coordinate d2 functional itself is not materialized. More strongly, even after the Kc kernel line `<J2>` is materialized, exactly two adapters remain: `q1` and `q1+J2` have the same nonzero d2 because `d2(J2)=0`.
+
+Therefore J2-zero plus q1-nonzero can never by themselves prove a unique 2x2 adapter. Two pieces of coordinate information are exposed explicitly: first the Kc coordinate of the named kernel line (or equivalently the Kc-coordinate d2 functional), then one named orientation invariant distinguishing `q1` from `q1+J2`. Acceptable exact sources are a CV named mu2/Kummer lift transported through the pinned Stoll quotient, a direct exact coordinate of J2/q1, or an audited Kc-coordinate pairing/evaluation that distinguishes the two q1 coset representatives.
+
+The retained ambiguity certificate is `j2-q1-kc-adapter-ambiguity-witness.json`, canonical SHA256 `2d41bf2d5961fa16caf162311974a858329f2714ec1fe3838305c58e6da79ffb`.
+
+This does not materialize J2 in the original proper-Br2 14 coordinates or in the retained ten-dimensional invariant basis. Accordingly the `75 x 10` Kummer-defect matrix remains at `0` materialized columns, although the named J2 zero-defect still gives the exact abstract rank bound `rank <= 9`.
+
+The machine-readable obstruction-inventory certificate remains `stage33-12-exact-obstruction-inventory.json`, generated and independently replayable by `assemble_exact_obstruction_inventory.py`.
 
 ## Current exit state
 
@@ -46,10 +58,12 @@ The machine-readable certificate is `stage33-12-exact-obstruction-inventory.json
 ARITHMETIC_HS_D2_COMPUTED=false
 GLOBAL_Q_BR0G_RESIDUE_LIFTS_COMPLETE=false
 COMPLETE_RELEVANT_Q_DEFINED_CLASS_LIST_FOR_STAGE33_BRAUER_SCOPE=false
+J2_Q1_KC_ADAPTER_UNIQUE=false
+FINITE_V4_KUMMER_DEFECT_COLUMNS_MATERIALIZED=0
 STAGE33_07_HOSTILE_REAUDIT=NOT_RUN
 STAGE33_12_CLOSED=false
 ```
 
-The next exact leaf is to materialize one 75-coordinate finite-V4 Kummer-defect column from a full-surface `mu_2` lift or an equivalent unimodular Picard/transcendental glue datum. After applying the integral Bockstein and the proper adjustment quotient, the same data can supply the first finite obstruction coset. The known Q-defined prefix and zero boundary scalar adapter must not be recomputed.
+The next exact leaf is to materialize one named CV-to-Stoll discriminant orientation invariant and replay the six adapters. The first invariant should identify the Kc kernel line; a second invariant must distinguish `q1` from `q1+J2`. Only after that named coordinate bridge exists may J2 be transported to the proper 14-coordinate module and then to the retained ten-dimensional invariant basis. The known Q-defined prefix and zero boundary scalar adapter must not be recomputed.
 
-All Stage33-07/08/40, theorem, endpoint, and perfect-cuboid firewalls remain closed.
+All Stage33-07/08/40, theorem, endpoint, receiver, and perfect-cuboid firewalls remain closed.
