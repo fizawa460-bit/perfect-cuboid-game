@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json
+import runpy
 from pathlib import Path
 p=Path(__file__).with_name('j2-q-single-isogeny-projection-rejection.json')
 c=json.loads(p.read_text())
@@ -16,4 +17,8 @@ assert c['j2_2isogeny_squareclass_selected'] is False
 assert c['j2_torsor_equation_materialized'] is False
 assert c['stage33_12_closed_exact'] is False
 assert c['stage33_13_released'] is False
-print('PASS q single-isogeny projection rejected; full E[2] cocycle required')
+print('PASS q single-isogeny projection rejected; full E[2] cocycle was the next candidate route')
+# The next MAIN leaf proved that directly Kummerizing the CV branch representative
+# is itself a semantic mismatch. Keep that stronger rejection in the existing
+# checkpoint path without changing the workflow definition.
+runpy.run_path(str(Path(__file__).with_name('certify_j2_naive_cv_branch_to_e2_kummer_rejection.py')), run_name='__main__')
