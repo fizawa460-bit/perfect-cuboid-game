@@ -1,0 +1,72 @@
+{
+  "schema": "STAGE32_RESIDUAL32_01_FULL178_PRODUCTION_PREFLIGHT_V1",
+  "stage": "32",
+  "item": "RESIDUAL_32_01_PRODUCTION",
+  "manifest": "stages/stage32/residual-32-01-production/full178-manifest.json",
+  "manifest_sha256": "5581fa5ef4765aae0dbeedafab4c84aa886bd003c887c09fe17d3a5587f4e44d",
+  "residual_row_count": 178,
+  "coarse_strata_count": 64111,
+  "representative_completion_nodes": {"1": 14526419, "2": 6194539, "4": 10360479, "8": 8277509},
+  "representative_cost_is_worst_case_bound": false,
+  "production_policy": {
+    "row_order": "lexicographic_row_id",
+    "work_unit_id": "row_id + /p<partition-depth>-<content-sha-prefix>",
+    "first_pass_node_ceiling": 16000000,
+    "node_ceiling_semantics": "RESOURCE_BOUND_ONLY_NOT_UNSAT",
+    "unknown_is_unsat": false,
+    "on_node_ceiling": "CHECKPOINT_EXACT_PREFIX_FRONTIER_AND_SPLIT_DETERMINISTICALLY",
+    "row_complete_requires": "ALL_DISJOINT_WORK_UNITS_COMPLETE_WITH_ZERO_UNKNOWN",
+    "unexpected_expensive_row_escalation": "DETERMINISTIC_PREFIX_PARTITION_WITH_SAME_EXACT_ENGINE_AND_NO_CREDIT_UNTIL_COVERAGE_RECOMBINES",
+    "direct_B18_continuation": false
+  },
+  "wave_policy": {
+    "effective_heavy_concurrency": 8,
+    "hard_stage_cap": 18,
+    "rows_per_initial_work_unit": 1,
+    "initial_wave_count": 23,
+    "cross_stage_headroom_preserved": true
+  },
+  "evidence_policy": {
+    "raw_evidence_persisted": false,
+    "raw_output_verified_runner_local_before_compaction": true,
+    "per_work_unit_compact_certificate_max_kib": 16,
+    "compact_certificate_retention_days": 3,
+    "final_aggregate_retention_days": 7,
+    "certificate_requires": [
+      "source_and_manifest_locks",
+      "row_and_partition_identity",
+      "expected_and_executed_partition_coverage",
+      "node_budget_exhausted_flag",
+      "unknown_count",
+      "survivor_commitment_if_any",
+      "raw_evidence_stream_sha256",
+      "compact_certificate_sha256",
+      "credit_firewalls"
+    ]
+  },
+  "storage_preflight": {
+    "repository_operating_budget_mb": 500,
+    "projected_all_178_compact_certificates_mb": 2.78125,
+    "projected_final_aggregate_mb": 1.0,
+    "projected_misc_headroom_mb": 4.0,
+    "projected_peak_artifact_mb": 7.78125,
+    "raw_shards_required_to_coexist": false,
+    "storage_safe_under_operating_budget": true
+  },
+  "effective_heavy_concurrency": 8,
+  "projected_peak_artifact_mb": 7.78125,
+  "raw_evidence_persisted": false,
+  "full_178_preflight_complete": true,
+  "full_178_heavy_sweep_authorized": false,
+  "heavy_compute_armed": false,
+  "unknown_is_unsat": false,
+  "B18_RELEASE_AUTHORIZED": false,
+  "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
+  "R29_LG2": "NOT_DISCHARGED",
+  "THEOREM_CREDIT": false,
+  "RECEIVER_CREDIT": false,
+  "ROUTE_COLOR_CHANGE_AUTHORIZED": false,
+  "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
+  "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false,
+  "next_gate": "STATIC_PREFLIGHT_REVIEW_AND_EXPLICIT_HEAVY_PRODUCTION_RELEASE_DECISION"
+}
