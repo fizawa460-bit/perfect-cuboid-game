@@ -46,16 +46,13 @@ jobs:
           assert new['workload'] == old['workload'] == 'PAIRING_PREFIX_REPRESENTATIVE_CALIBRATION'
           assert int(new['generation']) == int(old['generation']) + 1
           assert new['armed'] is True
-          assert int(new['node_limit']) == 1000000
+          assert int(new['node_limit']) == 4000000
           assert new['selection_mode'] == 'LOCKED_RAW_KNOWN_LABEL_ORDER_RECALIBRATION_V1'
           assert new['known_label_order_1based'] == [95,99,103,102,49,97,94,101,93,98,96]
           assert new['coordinate_model'] == 'EXACT_RAW_KNOWN_LABEL_PAIRING_IMAGE_HNF_PLUS_AUT1536_PREFIX'
           assert new['aut_mode'] == 'EXACT_AUT1536_ALL140_GLOBAL_BUDGET_CLASS_PREFIX_STABILIZER_LEX_MIN'
           assert new['representatives'] == [
-              {'m':1,'genus':0,'degree':16,'exceptional_mass':8},
               {'m':2,'genus':0,'degree':8,'exceptional_mass':8},
-              {'m':4,'genus':0,'degree':12,'exceptional_mass':8},
-              {'m':8,'genus':0,'degree':10,'exceptional_mass':8},
           ]
           assert int(new['effective_heavy_concurrency']) == 1
           assert float(new['projected_peak_artifact_mb']) < 1.0
@@ -90,22 +87,22 @@ jobs:
           python-version: '3.10.6'
       - name: Install exact local algebra dependency
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Run generation16 bounded 1M-node completion-curve probe
+      - name: Run generation17 m2 bounded 4M-node completion scout
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/stage32-residual32-01"
-          python stages/stage32/residual-32-01-production/calibrate_generation14.py \
+          python stages/stage32/residual-32-01-production/calibrate_generation17_m2.py \
             --retained stages/stage33/33-07/picard_base_rows_retained.py \
             --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
             --output "$RUNNER_TEMP/stage32-residual32-01/calibration.json" \
-            --node-limit 1000000
+            --node-limit 4000000
       - name: Enforce scoped calibration contract
         run: |
           python - <<'PY'
           import json, os, pathlib
           p=pathlib.Path(os.environ['RUNNER_TEMP'])/'stage32-residual32-01'/'calibration.json'
           x=json.loads(p.read_text())
-          assert x['schema']=='STAGE32_RESIDUAL32_01_RAW_ALL140_COST_AWARE_CALIBRATION_V7'
+          assert x['schema']=='STAGE32_RESIDUAL32_01_RAW_ALL140_COST_AWARE_M2_COMPLETION_SCOUT_V8'
           assert x['coordinate_model']=='EXACT_RAW_KNOWN_LABEL_PAIRING_IMAGE_HNF_PLUS_AUT1536_PREFIX'
           assert x['selection_mode']=='LOCKED_RAW_KNOWN_LABEL_ORDER_RECALIBRATION_V1'
           assert x['known_label_order_1based']==[95,99,103,102,49,97,94,101,93,98,96]
@@ -119,11 +116,12 @@ jobs:
           assert x['full_aut_group_order']==1536
           assert x['global_budget_class_preserving_subgroup_size']==1536
           assert x['generation12_combined_legacy_oracle_used'] is False
-          assert len(x['representatives'])==4
-          assert all(r['credit_scope']=='RAW_ALL140_PAIRING_IMAGE_HNF_AND_PREFIX_AUT_COST_PROFILE_ONLY' for r in x['representatives'])
-          assert all(r['total_exact_prunes']==r['membership_prunes']+r['symmetry_prunes'] for r in x['representatives'])
-          assert all(r['node_limit']==1000000 for r in x['representatives'])
-          assert all(r['node_budget_exhausted'] is True and r['probe_complete'] is False for r in x['representatives'])
+          assert len(x['representatives'])==1
+          r=x['representatives'][0]
+          assert r['m']==2 and r['degree']==8 and r['exceptional_mass']==8
+          assert r['credit_scope']=='RAW_ALL140_PAIRING_IMAGE_HNF_AND_PREFIX_AUT_COST_PROFILE_ONLY'
+          assert r['total_exact_prunes']==r['membership_prunes']+r['symmetry_prunes']
+          assert r['node_limit']==4000000
           assert x['full_178_row_sweep_authorized'] is False
           assert x['B18_RELEASE_AUTHORIZED'] is False
           assert x['THEOREM_CREDIT'] is False and x['RECEIVER_CREDIT'] is False
@@ -131,11 +129,12 @@ jobs:
               'first_active_depth':x['first_active_depth'],
               'raw_hnf_active_rows':x['raw_hnf_active_rows_by_depth'],
               'prefix_actions':x['distinct_prefix_actions_by_depth'],
-              'nodes':{str(r['m']):r['nodes_visited'] for r in x['representatives']},
-              'membership_prunes':{str(r['m']):r['membership_prunes'] for r in x['representatives']},
-              'symmetry_prunes':{str(r['m']):r['symmetry_prunes'] for r in x['representatives']},
-              'terminals':{str(r['m']):r['terminal_prefixes_before_stop'] for r in x['representatives']},
-              'node_budget_exhausted':{str(r['m']):r['node_budget_exhausted'] for r in x['representatives']},
+              'nodes':r['nodes_visited'],
+              'membership_prunes':r['membership_prunes'],
+              'symmetry_prunes':r['symmetry_prunes'],
+              'terminals':r['terminal_prefixes_before_stop'],
+              'node_budget_exhausted':r['node_budget_exhausted'],
+              'probe_complete':r['probe_complete'],
               'certificate_sha256':x['canonical_sha256_without_this_field'],
           },sort_keys=True))
           PY
