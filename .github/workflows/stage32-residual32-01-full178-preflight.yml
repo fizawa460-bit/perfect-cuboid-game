@@ -23,19 +23,32 @@ jobs:
           python-version: '3.10.6'
       - name: Verify exact 178-row manifest and resource contract
         run: python stages/stage32/residual-32-01-production/verify_full178_preflight.py
-      - name: Require production key to remain cold in this PR
+      - name: Validate production run-key safety state without authorizing compute
         run: |
           python - <<'PY'
           import json
           p='stages/stage32/runkeys/residual32-01-full178-production.json'
           x=json.load(open(p))
           assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_PRODUCTION_RUNKEY_V1'
-          assert x['generation']==0
-          assert x['armed'] is False
+          generation=int(x['generation'])
+          assert generation >= 0
           assert x['FULL178_PREFLIGHT_COMPLETE'] is True
-          assert x['FULL_178_ROW_SWEEP_AUTHORIZED'] is False
           assert x['effective_heavy_concurrency']==8
           assert x['effective_heavy_concurrency']<=18
           assert x['projected_peak_artifact_mb']<500
-          print('FULL178_HEAVY_COMPUTE_ARMED=false')
+          assert x['B18_RELEASE_AUTHORIZED'] is False
+          assert x['THEOREM_CREDIT'] is False
+          assert x['RECEIVER_CREDIT'] is False
+          if generation == 0:
+              assert x['armed'] is False
+              assert x.get('FULL178_HEAVY_PRODUCTION_AUTHORIZED', False) is False
+              assert x['FULL_178_ROW_SWEEP_AUTHORIZED'] is False
+              print('FULL178_CAMPAIGN_STATE=COLD_GENERATION0')
+          else:
+              assert x['armed'] is True
+              assert x['FULL178_HEAVY_PRODUCTION_AUTHORIZED'] is True
+              assert x['FULL_178_ROW_SWEEP_AUTHORIZED'] is True
+              assert isinstance(x.get('work_units'), list) and 1 <= len(x['work_units']) <= 8
+              print(f'FULL178_CAMPAIGN_STATE=ARMED_HISTORY_GENERATION_{generation}_CHEAP_VALIDATION_ONLY')
+          print('THIS_WORKFLOW_AUTHORIZES_HEAVY_COMPUTE=false')
           PY
