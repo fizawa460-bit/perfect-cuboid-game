@@ -1,45 +1,20 @@
 {
   "schema": "STAGE32_RESIDUAL32_01_FULL178_RESUMABLE_PRODUCTION_RUNKEY_V1",
   "workload": "FULL178_EXACT_PAIRING_PREFIX_RESUMABLE_PRODUCTION",
-  "revision": 2,
-  "armed": true,
-  "retry_of_failed_run_id": 33270126048,
-  "retry_reason": "STRUCTURAL_PREFLIGHT_LIFECYCLE_VERIFIER_BUG_NO_HEAVY_STARTED",
-  "production_generation": 34,
-  "source_mode": "BOOTSTRAP_LOCKED_OLD_FRONTIER_V1",
-  "source_slices": [
-    {
-      "generation": 31,
-      "run_id": 33252271559,
-      "artifact_id": 9715047774,
-      "artifact_zip_sha256": "44831de7c31c6dd7464598e0fe7233de4d25fac88e81fb021233e504bd15b69c",
-      "manifest_canonical_sha256": "d9adbdd73abb0edea4c27f0f72d6f0a09e3bb6deb6388e0f50547a676511f4aa",
-      "start": 68,
-      "end": 88
-    },
-    {
-      "generation": 32,
-      "run_id": 33253571908,
-      "artifact_id": 9715431304,
-      "artifact_zip_sha256": "4dd9d2e7705674fbe90a36598ab524b1146ccce294f90be309ecbdc8fd4b023f",
-      "manifest_canonical_sha256": "5f853694e19013b8110714c9cae25a873d6d7e80e9d941f85490acb067e0d6d1",
-      "start": 0,
-      "end": 88
-    },
-    {
-      "generation": 33,
-      "run_id": 33254924253,
-      "artifact_id": 9715848672,
-      "artifact_zip_sha256": "e8db7cef2aacbaf5845f8645a311cf32fe8cbf4ab8581c9c8f006eedad7762bd",
-      "manifest_canonical_sha256": "86923e2fa3065410a40b50bf56b9ee51027ce1d98956029c314675aec5d26d50",
-      "start": 0,
-      "end": 110
-    }
-  ],
-  "source_frontier_count": 218,
+  "revision": 3,
+  "armed": false,
+  "production_generation": 35,
+  "source_mode": "RESUMABLE_FRONTIER_ARTIFACT_V1",
+  "source_frontier_artifact": {
+    "generation": 34,
+    "run_id": 33270325393,
+    "artifact_id": 9720400921,
+    "artifact_zip_sha256": "292e8cde68eb98df341b38feec57f6a3c59c0bee7a9c0c59dcaf3a406d4ee700",
+    "manifest_canonical_sha256": "7dc05594947606f80dfc38a79f40fd4449b735a978c5af82a20e7df748da4255"
+  },
+  "source_frontier_count": 169,
   "dispatch_count": 128,
-  "dispatch_canonical_sha256": "2d96ebc0ed716d319e554c1ff6ac05dc9ad0bde9dbacc20490c9027c33f210a9",
-  "carry_count": 90,
+  "carry_count": 41,
   "queue_policy": "FIFO_GLOBAL_FRONTIER_CARRY_THEN_RESUMABLE_CHILDREN",
   "runner": "stages/stage32/residual-32-01-production/run_full178_resumable_work_unit.py",
   "runner_schema": "STAGE32_RESIDUAL32_01_FULL178_RESUMABLE_WORK_UNIT_V1",
@@ -49,7 +24,7 @@
   "effective_heavy_concurrency": 17,
   "other_stage32_heavy_overlap_bound": 1,
   "maximum_effective_stage32_heavy_overlap": 18,
-  "projected_peak_artifact_mb": 48.0,
+  "projected_peak_artifact_mb": 2.0,
   "persisted_artifact": "COMPACT_VERIFIED_RESUMABLE_CERTIFICATES_AND_FRONTIER_MANIFEST_ONLY",
   "intermediate_retention_days": 1,
   "frontier_manifest_retention_days": 7,
