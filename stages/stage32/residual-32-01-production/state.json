@@ -1,0 +1,59 @@
+{
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V16_HOSTILE_AUDIT_PASS_METADATA_SYNCED",
+  "stage": "32",
+  "item": "RESIDUAL_32_01_PRODUCTION",
+  "status": "REPRESENTATIVE_COST_FEASIBILITY_HOSTILE_AUDIT_PASS_SCOPE_LOCKED_METADATA_SYNCED",
+  "audit_required": false,
+  "repair_required": false,
+  "merge_allowed": false,
+  "advance_allowed": false,
+  "B18_RELEASE_AUTHORIZED": false,
+  "FULL_178_ROW_SWEEP_AUTHORIZED": false,
+  "FULL_D16_G0_ROW_COMPLETE": false,
+  "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
+  "R29_LG2": "NOT_DISCHARGED",
+  "THEOREM_CREDIT": false,
+  "RECEIVER_CREDIT": false,
+  "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
+  "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false,
+  "diagnosis": {
+    "all_four_locked_representative_completion_costs_measured": true,
+    "representative_cost_feasibility_hostile_audit_pass": true,
+    "production_cost_ready": false,
+    "production_cost_ready_blocker": "FULL178_WORST_CASE_AND_PRODUCTION_SWEEP_NOT_CERTIFIED_OR_RELEASED",
+    "metadata_sync_repair_complete": true,
+    "reason": "HOSTILE AUDIT REVIEW 5056772158 PASSED THE SCOPE-LOCKED FOUR-REPRESENTATIVE COST FEASIBILITY CLAIM AND INDEPENDENTLY RECOMPUTED THE RETAINED ARTIFACT CANONICAL HASHES. THE AUDIT FOUND ONE METADATA DEFECT: THIS STATE FILE HAD advance_allowed=true WHILE THE AUTHORITATIVE CONTROLLER BLOCKED ADVANCE. THAT FLAG IS NOW SYNCHRONIZED TO false. THIS REPAIR DOES NOT PROMOTE FULL178, B18, THEOREM, RECEIVER, ROUTE, ENDPOINT, OR PERFECT-CUBOID CREDIT."
+  },
+  "hostile_audit": {
+    "review_id": 5056772158,
+    "audited_head_sha": "3def08e2887c67089cfdc77f7e0355977425c0c5",
+    "verdict": "PASS_RESIDUAL32_01_REPRESENTATIVE_COST_FEASIBILITY_SCOPE_LOCKED",
+    "artifact_hashes_independently_recomputed": true,
+    "generation18_certificate_sha256": "10fd522322d65de1ebfb2b03985848678fc2b33ded1a2aa1c22ae8d7be514fb5",
+    "generation19_certificate_sha256": "06e487a6b083eb56d15df76920db4bb0c388ab52a3b321cc4cf2581752e23c5e",
+    "metadata_finding": "advance_allowed true in state versus false in authoritative controller",
+    "metadata_finding_repaired": true
+  },
+  "representative_completion_curve": {
+    "known_label_order_1based": [95,99,103,102,49,97,94,101,93,98,96],
+    "m1": {"nodes":14526419,"membership_prunes":3025240,"symmetry_prunes":1030340,"terminals":2999270},
+    "m2": {"nodes":6194539,"membership_prunes":1290008,"symmetry_prunes":439364,"terminals":1278934},
+    "m4": {"nodes":10360479,"membership_prunes":2157624,"symmetry_prunes":734852,"terminals":2139102},
+    "m8": {"nodes":8277509,"membership_prunes":1723816,"symmetry_prunes":587108,"terminals":1709018}
+  },
+  "main_review": "stages/stage32/residual-32-01-production/representative-completion-curve-main-review.json",
+  "generation18_main_checkpoint": "stages/stage32/residual-32-01-production/generation18-main-checkpoint.json",
+  "generation19_main_checkpoint": "stages/stage32/residual-32-01-production/generation19-main-checkpoint.json",
+  "implementation": {
+    "hperp_integral_adapter": "stages/stage32/residual-32-01-production/hperp_integral_adapter.py",
+    "calibration_base": "stages/stage32/residual-32-01-production/calibrate_representatives.py",
+    "generation14_wrapper": "stages/stage32/residual-32-01-production/calibrate_generation14.py",
+    "generation17_m2_wrapper": "stages/stage32/residual-32-01-production/calibrate_generation17_m2.py",
+    "generation19_remaining_wrapper": "stages/stage32/residual-32-01-production/calibrate_generation19_remaining.py",
+    "workflow": ".github/workflows/stage32-residual32-01-pairing-prefix-calibration.yml",
+    "runkey": "stages/stage32/runkeys/residual32-01-pairing-prefix-calibration.json",
+    "runkey_generation": 19,
+    "online_magma_dependency": false
+  },
+  "next_item": "CONTROLLER_POST_REPAIR_DECISION_NO_AUTOMATIC_DOWNSTREAM_RELEASE"
+}

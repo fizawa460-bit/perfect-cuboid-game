@@ -1,0 +1,144 @@
+name: Stage32 residual32-01 pairing-prefix calibration
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/residual-32-01-production/**'
+      - 'stages/stage32/runkeys/residual32-01-pairing-prefix-calibration.json'
+      - '.github/workflows/stage32-residual32-01-pairing-prefix-calibration.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: gate
+        name: Verify fresh dedicated run-key generation
+        env:
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/runkeys/residual32-01-pairing-prefix-calibration.json'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          [ "$ACTION" = synchronize ] || exit 0
+          [ -n "${BEFORE:-}" ] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || exit 0
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          mapfile -t changed < <(git diff --name-only "$BEFORE" "$HEAD")
+          [ "${#changed[@]}" -eq 1 ] || exit 0
+          [ "${changed[0]}" = "$KEY" ] || exit 0
+          python - "$BEFORE" "$KEY" <<'PY'
+          import json, subprocess, sys
+          before, key = sys.argv[1:]
+          old = json.loads(subprocess.check_output(['git','show',f'{before}:{key}'], text=True))
+          new = json.load(open(key))
+          assert old['schema'] == new['schema'] == 'STAGE32_RESIDUAL32_01_PAIRING_PREFIX_RUNKEY_V1'
+          assert new['workload'] == old['workload'] == 'PAIRING_PREFIX_REPRESENTATIVE_CALIBRATION'
+          assert int(new['generation']) == int(old['generation']) + 1
+          assert new['armed'] is True
+          assert int(new['node_limit']) == 16000000
+          assert new['selection_mode'] == 'LOCKED_RAW_KNOWN_LABEL_ORDER_RECALIBRATION_V1'
+          assert new['known_label_order_1based'] == [95,99,103,102,49,97,94,101,93,98,96]
+          assert new['coordinate_model'] == 'EXACT_RAW_KNOWN_LABEL_PAIRING_IMAGE_HNF_PLUS_AUT1536_PREFIX'
+          assert new['aut_mode'] == 'EXACT_AUT1536_ALL140_GLOBAL_BUDGET_CLASS_PREFIX_STABILIZER_LEX_MIN'
+          assert new['representatives'] == [
+              {'m':1,'genus':0,'degree':16,'exceptional_mass':8},
+              {'m':4,'genus':0,'degree':12,'exceptional_mass':8},
+              {'m':8,'genus':0,'degree':10,'exceptional_mass':8},
+          ]
+          assert int(new['effective_heavy_concurrency']) == 1
+          assert float(new['projected_peak_artifact_mb']) < 1.0
+          assert new['B18_RELEASE_AUTHORIZED'] is False
+          assert new['FULL_178_ROW_SWEEP_AUTHORIZED'] is False
+          assert new['THEOREM_CREDIT'] is False
+          assert new['RECEIVER_CREDIT'] is False
+          PY
+          sed -i '$d' "$GITHUB_OUTPUT"
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+      - name: Inspect nonexpiring retained exact Stage32 marking
+        run: |
+          python - <<'PY'
+          import importlib.util, json
+          path='stages/stage33/33-07/stage32_picard_marking_retained.py'
+          spec=importlib.util.spec_from_file_location('retained_stage32_marking',path)
+          mod=importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+          x=mod.load(); a=x['aut_action']
+          print('MARKING_META='+json.dumps({'schema':x['schema'],'canonical_sha256':x['canonical_sha256'],'stage32_aut_action_sha256':x['stage32_aut_action_sha256'],'hperp_text_sha256':x['hperp_text_sha256']},sort_keys=True))
+          print('AUT_META='+json.dumps({'schema':a['schema'],'permutation_count':a['permutation_count'],'permutation_degree':len(a['permutations_1based'][0]),'canonical_sha256':a['canonical_sha256_without_this_field']},sort_keys=True))
+          PY
+
+  calibrate:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run generation19 remaining 16M-node completion scouts
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/stage32-residual32-01"
+          python stages/stage32/residual-32-01-production/calibrate_generation19_remaining.py \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --output "$RUNNER_TEMP/stage32-residual32-01/calibration.json" \
+            --node-limit 16000000
+      - name: Enforce scoped calibration contract
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])/'stage32-residual32-01'/'calibration.json'
+          x=json.loads(p.read_text())
+          assert x['schema']=='STAGE32_RESIDUAL32_01_RAW_ALL140_COST_AWARE_REMAINING_COMPLETION_SCOUT_V9'
+          assert x['coordinate_model']=='EXACT_RAW_KNOWN_LABEL_PAIRING_IMAGE_HNF_PLUS_AUT1536_PREFIX'
+          assert x['selection_mode']=='LOCKED_RAW_KNOWN_LABEL_ORDER_RECALIBRATION_V1'
+          assert x['known_label_order_1based']==[95,99,103,102,49,97,94,101,93,98,96]
+          assert x['normal_label_49_depth']==5
+          assert x['coordinate_semantics_changed'] is False
+          assert x['saturated_picard64_integral_adapter_validated'] is True
+          assert x['raw_hnf_active_rows_by_depth']==[0,0,0,0,0,0,0,0,0,0,1]
+          assert x['raw_hnf_modulus_by_depth']==[1,1,1,1,1,1,1,1,1,1,2]
+          assert x['first_active_depth']==11
+          assert x['distinct_prefix_actions_by_depth']==[1,2,2,2,2,1,1,1,1,2,1]
+          assert x['full_aut_group_order']==1536
+          assert x['global_budget_class_preserving_subgroup_size']==1536
+          assert len(x['representatives'])==3
+          assert [r['m'] for r in x['representatives']]==[1,4,8]
+          assert all(r['node_limit']==16000000 for r in x['representatives'])
+          assert all(r['credit_scope']=='RAW_ALL140_PAIRING_IMAGE_HNF_AND_PREFIX_AUT_COST_PROFILE_ONLY' for r in x['representatives'])
+          assert all(r['total_exact_prunes']==r['membership_prunes']+r['symmetry_prunes'] for r in x['representatives'])
+          assert x['full_178_row_sweep_authorized'] is False
+          assert x['B18_RELEASE_AUTHORIZED'] is False
+          assert x['THEOREM_CREDIT'] is False and x['RECEIVER_CREDIT'] is False
+          print(json.dumps({
+              'nodes':{str(r['m']):r['nodes_visited'] for r in x['representatives']},
+              'membership_prunes':{str(r['m']):r['membership_prunes'] for r in x['representatives']},
+              'symmetry_prunes':{str(r['m']):r['symmetry_prunes'] for r in x['representatives']},
+              'terminals':{str(r['m']):r['terminal_prefixes_before_stop'] for r in x['representatives']},
+              'node_budget_exhausted':{str(r['m']):r['node_budget_exhausted'] for r in x['representatives']},
+              'probe_complete':{str(r['m']):r['probe_complete'] for r in x['representatives']},
+              'certificate_sha256':x['canonical_sha256_without_this_field'],
+          },sort_keys=True))
+          PY
+          du -h "$RUNNER_TEMP/stage32-residual32-01/calibration.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-residual32-01-pairing-prefix-calibration
+          path: ${{ runner.temp }}/stage32-residual32-01/calibration.json
+          retention-days: 7
+          if-no-files-found: error
