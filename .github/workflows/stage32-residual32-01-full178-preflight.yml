@@ -6,7 +6,7 @@ on:
     paths:
       - 'stages/stage32/residual-32-01-production/full178-manifest.json'
       - 'stages/stage32/residual-32-01-production/full178-production-preflight.json'
-      - 'stages/stage32/residual-32-01-production/full178-concurrency16-preflight.json'
+      - 'stages/stage32/residual-32-01-production/full178-wave128-preflight.json'
       - 'stages/stage32/residual-32-01-production/verify_full178_preflight.py'
       - 'stages/stage32/runkeys/residual32-01-full178-production.json'
       - '.github/workflows/stage32-residual32-01-full178-preflight.yml'
@@ -24,23 +24,24 @@ jobs:
           python-version: '3.10.6'
       - name: Verify exact 178-row manifest and resource contract
         run: python stages/stage32/residual-32-01-production/verify_full178_preflight.py
-      - name: Verify 16-runner operational expansion preflight
+      - name: Verify 128-unit wave / 17-runner operational preflight
         run: |
           python - <<'PY'
           import json
-          p='stages/stage32/residual-32-01-production/full178-concurrency16-preflight.json'
+          p='stages/stage32/residual-32-01-production/full178-wave128-preflight.json'
           x=json.load(open(p))
-          assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_CONCURRENCY16_PREFLIGHT_V1'
-          assert x['scope']=='OPERATIONAL_CONCURRENCY_EXPANSION_ONLY_NO_MATHEMATICAL_SEMANTICS_CHANGE'
+          assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_WAVE128_CONCURRENCY17_PREFLIGHT_V1'
+          assert x['scope']=='OPERATIONAL_WAVE_EXPANSION_ONLY_NO_MATHEMATICAL_SEMANTICS_CHANGE'
           assert x['source_and_math_contract_unchanged'] is True
           assert x['runner_schema']=='STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2'
           assert x['nodes_used_accounting']=='SUM_TELEMETRY_NODES_V2'
           assert x['node_ceiling_per_work_unit']==16000000
-          assert x['full178_heavy_concurrency']==16
-          assert x['maximum_effective_stage32_heavy_overlap']==17
+          assert x['max_work_units_per_wave']==128
+          assert x['full178_heavy_concurrency']==17
+          assert x['other_stage32_heavy_overlap_bound']==1
+          assert x['maximum_effective_stage32_heavy_overlap']==18
           assert x['hard_stage_cap']==18
           assert x['stage_cap_pass'] is True
-          assert x['remaining_stage32_heavy_headroom']==1
           assert x['storage_safe_under_operating_budget'] is True
           assert x['unknown_is_unsat'] is False
           assert x['fresh_runkey_only_authorization_required'] is True
@@ -57,7 +58,7 @@ jobs:
           generation=int(x['generation'])
           assert generation >= 0
           assert x['FULL178_PREFLIGHT_COMPLETE'] is True
-          expected_concurrency = 16 if generation >= 14 else 8
+          expected_concurrency = 17 if generation >= 19 else (16 if generation >= 14 else 8)
           assert x['effective_heavy_concurrency']==expected_concurrency
           assert x['effective_heavy_concurrency']<=18
           assert x['projected_peak_artifact_mb']<500
@@ -74,8 +75,8 @@ jobs:
               assert x['FULL178_HEAVY_PRODUCTION_AUTHORIZED'] is True
               assert x['FULL_178_ROW_SWEEP_AUTHORIZED'] is True
               units=x.get('work_units')
-              assert isinstance(units, list) and 1 <= len(units) <= expected_concurrency
-              if generation >= 14:
+              assert isinstance(units, list) and 1 <= len(units) <= 128
+              if 14 <= generation <= 18:
                   assert len(units)==16
               print(f'FULL178_CAMPAIGN_STATE=ARMED_HISTORY_GENERATION_{generation}_CHEAP_VALIDATION_ONLY')
           print('THIS_WORKFLOW_AUTHORIZES_HEAVY_COMPUTE=false')
