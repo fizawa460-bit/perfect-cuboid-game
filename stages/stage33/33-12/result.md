@@ -1,6 +1,6 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_IN_PROGRESS_J2_INDEPENDENT_ELLIPTIC_2TORSION_OBSERVATION_AND_CM_TRANSPORT_REDUCTION_4_OF_5`
+Status: `MAIN_IN_PROGRESS_DIRECT_CYCLE_INTERFACE_BLOCKED_GOOD_REDUCTION_NEXT_4_OF_5`
 
 Stage33-12 remains open. Stage33-07 remains open. Stage33-13 is not released.
 
@@ -76,53 +76,54 @@ Network-free verifier: `certify_j2_normalization_2isogeny_rational_torsion.py`.
 
 ## Exact rejection of the naive Shioda-Mitani factor shortcut
 
-For `T(Kc)=diag(4,8)`, the Shioda-Mitani quadratic form is
+For `T(Kc)=diag(4,8)`, the Shioda-Mitani quadratic form has discriminant `-32`, so the canonical elliptic factors have CM field `Q(sqrt(-2))`. The J2 normalization and its elliptic quotient have CM field `Q(i)`. Since complex-isogenous elliptic curves have the same rational endomorphism algebra, there is no elliptic isogeny identifying the J2 quotient with either Shioda-Mitani factor.
 
 ```text
-(a,b,c)=(2,0,4), D=-32,
-tau=i*sqrt(2),
-a*tau+b=2*i*sqrt(2).
+NAIVE_SHIODA_MITANI_ELLIPTIC_FACTOR_TRANSPORT=REJECTED_EXACTLY
 ```
-
-Thus the two elliptic factors in the canonical Shioda-Mitani abelian surface have CM field
-
-```text
-Q(sqrt(-2)).
-```
-
-The J2 normalization has `j=1728`, hence CM field `Q(i)`, and its explicit elliptic quotient `E'` is isogenous to it, so `E'` also has rational endomorphism algebra `Q(i)`.
-
-Complex-isogenous elliptic curves have isomorphic rational endomorphism algebras. Since
-
-```text
-Q(i) != Q(sqrt(-2)),
-```
-
-there is no elliptic isogeny identifying the J2 normalization or `E'` with either Shioda-Mitani elliptic factor of `Kc`.
-
-Therefore
-
-```text
-NAIVE_SHIODA_MITANI_ELLIPTIC_FACTOR_TRANSPORT=REJECTED_EXACTLY.
-```
-
-This does not rule out a genuinely K3-level Shioda-Inose correspondence; it only kills the tempting direct elliptic-factor shortcut.
 
 Certificate: `j2-naive-shioda-mitani-factor-transport-rejection.json`.
 Canonical SHA256: `1713ce4b2a88250e0110fc5b3863836f3b108e752e0911939b3687fc0540ab2b`.
-Network-free verifier: `certify_j2_naive_shioda_mitani_factor_transport_rejection.py`.
 
-## Anti-loop / wrong-weapon guard
+## NEW: direct B-field / topological cycle route interface block
 
-`stages/stage33/LOOP-GUARD.md` now explicitly forbids resetting stagnation merely by relabelling the same three Brauer candidates. This batch remains non-stagnant because it both produced an independent named-J2 observation and permanently removed a materially distinct naive transport route.
+The named Creutz--Viray class is already materialized by a Q-defined CSA, and the abstract Brauer target is already fixed as
+
+```text
+Br(Kc)[2]=Hom(T(Kc),Z/2),  T(Kc) ~= <4> direct_sum <8>.
+```
+
+However, the retained transcendental-lattice certificate explicitly has
+
+```text
+transcendental_marking_materialized=false.
+```
+
+Thus `t1,t2` are currently only an abstract basis of the isometry class. There are no retained explicit topological/cohomological cycle representatives for `t1,t2`, and no retained comparison map pairing the named CV CSA/B-field with such representatives. Therefore `alpha_J2(t1)` and `alpha_J2(t2)` cannot be computed from the current certified interface without first constructing exactly that missing realization/pairing adapter.
+
+This is not a claim that direct cycle evaluation is mathematically impossible. It is an exact block of the current leaf specification: choosing an arbitrary abstract isometry basis and pretending it is a marked geometric cycle basis would be an unsupported semantic transfer.
+
+```text
+DIRECT_TOPOLOGICAL_OR_BFIELD_CYCLE_EVALUATION=BLOCKED_BY_MISSING_TRANSCENDENTAL_CYCLE_REALIZATION_INTERFACE
+CANDIDATES_BEFORE=3
+CANDIDATES_AFTER=3
+```
+
+Certificate: `j2-direct-bfield-cycle-evaluation-interface-block.json`.
+Canonical SHA256: `df2125f623166496770a9d3f172deec1e1a898277d27953081d9f2eb6be51a28`.
+Network-free verifier: `certify_j2_direct_bfield_cycle_evaluation_interface_block.py`.
+
+Per the loop guard, this permanently removes a materially distinct immediate route and therefore resets stagnation without pretending that the three Brauer candidates were reduced.
+
+## Anti-loop / route ledger
 
 ```text
 LOOP_GUARD_ACTIVE=true
 LOOP_STAGNATION_COUNT=0
 LOOP_ACTIVE_RECEIVER=named CV J2 -> Br(Kc)[2]=Hom(T(Kc),Z/2)
-LOOP_ACTIVE_MISSING_INTERFACE=transport named J2 data to fixed marked t1/t2 Brauer basis
-LOOP_NEW_EXACT_INFORMATION=phi_*(E_J2)=(0,0) plus exact CM-field mismatch for naive Shioda-Mitani factor transport
-LOOP_J2_INDEPENDENT_OBSERVATION=phi_*(E_J2)=(0,0) in E'[2]
+LOOP_ACTIVE_MISSING_INTERFACE=transport named J2 data to the fixed marked Brauer receiver without an unsupported abstract-cycle identification
+LOOP_NEW_EXACT_INFORMATION=direct cycle evaluation leaf exactly blocked by absent transcendental cycle realization/pairing adapter
+LOOP_J2_INDEPENDENT_OBSERVATION=phi_*(E_J2)=(0,0) in E'[2] (retained; no new independent J2 datum this batch)
 LOOP_CANDIDATES_REMOVED_THIS_BATCH=0
 LOOP_ROUTES_REMOVED_THIS_BATCH=1
 LOOP_EXHAUSTIVE_VIEW_AUDIT_REQUIRED=false
@@ -135,9 +136,9 @@ Current route ledger:
 BRANCH_COHOMOLOGICAL_MAP                    EQUIVALENT / ARCHIVED
 KERNEL_LATTICE_FINGERPRINT_IDENTIFICATION   LIVE / COMPARISON DICTIONARY
 NAIVE_SHIODA_MITANI_ELLIPTIC_FACTOR_ROUTE  REJECTED_EXACTLY
-K3_LEVEL_SHIODA_INOSE_CORRESPONDENCE        UNTESTED / HIGHER-COST
-DIRECT_TOPOLOGICAL_OR_BFIELD_EVALUATION     LIVE / PREFERRED
-GOOD_REDUCTION_ETALE_SPECIALIZATION         UNTESTED
+DIRECT_TOPOLOGICAL_OR_BFIELD_EVALUATION     BLOCKED / CURRENT INTERFACE INSUFFICIENT
+GOOD_REDUCTION_ETALE_SPECIALIZATION         LIVE / PREFERRED NEXT
+K3_LEVEL_SHIODA_INOSE_CORRESPONDENCE        UNTESTED / HIGHER-COST FALLBACK
 ```
 
 ## Visible progress
@@ -152,7 +153,8 @@ GOOD_REDUCTION_ETALE_SPECIALIZATION         UNTESTED
     three candidate kernel fingerprints                                   DONE / COMPARISON ONLY
     named J2 elliptic quotient 2-torsion image                            DONE: (0,0)
     naive Shioda-Mitani factor transport                                  EXACTLY REJECTED
-    one direct marked t1/t2 value or genuine K3-level transport           OPEN
+    direct t1/t2 evaluation from retained interface                       EXACTLY BLOCKED
+    good-reduction / etale specialization adapter                         NEXT
 ```
 
 ## Current exit state
@@ -161,6 +163,7 @@ GOOD_REDUCTION_ETALE_SPECIALIZATION         UNTESTED
 J2_NAMED_ELLIPTIC_QUOTIENT_2TORSION_IMAGE=(0,0)
 J2_INDEPENDENT_OBSERVATION_MATERIALIZED=true
 NAIVE_SHIODA_MITANI_ELLIPTIC_FACTOR_TRANSPORT=REJECTED_EXACTLY
+DIRECT_BFIELD_CYCLE_EVALUATION_INTERFACE=BLOCKED
 J2_NAMED_TRANSCENDENTAL_FUNCTIONAL_MATERIALIZED=false
 J2_TWISTED_TRANSCENDENTAL_KERNEL_IDENTIFIED=false
 J2_KC_DISCRIMINANT_COORDINATE_MATERIALIZED=false
@@ -170,6 +173,6 @@ STAGE33_07_HOSTILE_REAUDIT=NOT_RUN
 STAGE33_12_CLOSED=false
 ```
 
-Next exact leaf: `EVALUATE_ONE_NAMED_CV_J2_BFIELD_OR_CSA_VALUE_ON_MARKED_T1_OR_T2; IF_NO_INDEPENDENT_BIT_IS_OBTAINED, INCREMENT_LOOP_STAGNATION_AND_SWITCH_TO_K3_LEVEL_CORRESPONDENCE_OR_SPECIALIZATION`.
+Next exact leaf: `TEST_GOOD_REDUCTION_ETALE_SPECIALIZATION_FOR_A_NAMED_J2_SPECIFIC_BIT_IN_THE_FIXED_BR_KC_2_RECEIVER; IF_IT_ONLY_RELABELS_THE_SAME_THREE_CANDIDATES_OR_REQUIRES_THE_SAME_MISSING_MARKING, CLASSIFY_EXACTLY_AND_APPLY_LOOP_GUARD`.
 
 No 33-13 release, theorem/receiver/endpoint credit, or perfect-cuboid existence/nonexistence claim is granted by this checkpoint.
