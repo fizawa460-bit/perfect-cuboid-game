@@ -28,8 +28,7 @@ jobs:
         run: |
           python - <<'PY'
           import json
-          p='stages/stage32/residual-32-01-production/full178-wave128-preflight.json'
-          x=json.load(open(p))
+          x=json.load(open('stages/stage32/residual-32-01-production/full178-wave128-preflight.json'))
           assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_WAVE128_CONCURRENCY17_PREFLIGHT_V1'
           assert x['scope']=='OPERATIONAL_WAVE_EXPANSION_ONLY_NO_MATHEMATICAL_SEMANTICS_CHANGE'
           assert x['source_and_math_contract_unchanged'] is True
@@ -40,8 +39,7 @@ jobs:
           assert x['full178_heavy_concurrency']==17
           assert x['other_stage32_heavy_overlap_bound']==1
           assert x['maximum_effective_stage32_heavy_overlap']==18
-          assert x['hard_stage_cap']==18
-          assert x['stage_cap_pass'] is True
+          assert x['hard_stage_cap']==18 and x['stage_cap_pass'] is True
           assert x['storage_safe_under_operating_budget'] is True
           assert x['unknown_is_unsat'] is False
           assert x['fresh_runkey_only_authorization_required'] is True
@@ -51,41 +49,38 @@ jobs:
       - name: Validate production run-key safety state without authorizing compute
         run: |
           python - <<'PY'
-          import base64, gzip, hashlib, json
-          p='stages/stage32/runkeys/residual32-01-full178-production.json'
-          x=json.load(open(p))
+          import json
+          x=json.load(open('stages/stage32/runkeys/residual32-01-full178-production.json'))
           assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_PRODUCTION_RUNKEY_V1'
-          generation=int(x['generation'])
-          assert generation >= 0
+          generation=int(x['generation']); assert generation>=0
           assert x['FULL178_PREFLIGHT_COMPLETE'] is True
-          expected_concurrency = 17 if generation >= 19 else (16 if generation >= 14 else 8)
-          assert x['effective_heavy_concurrency']==expected_concurrency
-          assert x['effective_heavy_concurrency']<=18
+          expected_concurrency=17 if generation>=19 else (16 if generation>=14 else 8)
+          assert x['effective_heavy_concurrency']==expected_concurrency<=18
           assert x['projected_peak_artifact_mb']<500
           assert x['B18_RELEASE_AUTHORIZED'] is False
-          assert x['THEOREM_CREDIT'] is False
-          assert x['RECEIVER_CREDIT'] is False
-          if generation == 0:
+          assert x['THEOREM_CREDIT'] is False and x['RECEIVER_CREDIT'] is False
+          if generation==0:
               assert x['armed'] is False
-              assert x.get('FULL178_HEAVY_PRODUCTION_AUTHORIZED', False) is False
+              assert x.get('FULL178_HEAVY_PRODUCTION_AUTHORIZED',False) is False
               assert x['FULL_178_ROW_SWEEP_AUTHORIZED'] is False
               print('FULL178_CAMPAIGN_STATE=COLD_GENERATION0')
           else:
               assert x['armed'] is True
               assert x['FULL178_HEAVY_PRODUCTION_AUTHORIZED'] is True
               assert x['FULL_178_ROW_SWEEP_AUTHORIZED'] is True
-              if 14 <= generation <= 30:
-                  units=x.get('work_units')
-                  assert isinstance(units, list) and 1 <= len(units) <= 128
-                  if generation <= 18:
-                      assert len(units)==16
-              if generation >= 31:
+              if 14<=generation<=30:
+                  units=x.get('work_units'); assert isinstance(units,list) and 1<=len(units)<=128
+                  if generation<=18: assert len(units)==16
+              if generation>=31:
                   assert x['first_pass_node_ceiling']==64000000
-                  assert x['work_units_encoding']=='GZIP_BASE64_CANONICAL_JSON_V1'
-                  raw=gzip.decompress(base64.b64decode(x['work_units_gzip_base64']))
-                  assert hashlib.sha256(raw).hexdigest()==x['work_units_canonical_sha256']
-                  units=json.loads(raw)
-                  assert isinstance(units,list) and len(units)==x['work_units_count']==128
+                  assert x['work_units_source']=='LOCKED_PRIOR_WAVE_MANIFEST_SLICE_V1'
+                  assert x['source_run_id']==33249640508
+                  assert x['source_manifest_artifact_id']==9714094354
+                  assert x['source_artifact_zip_sha256']=='35959bc4611d2967766d5dc4ae3eb8624dc851cab23444f3b50c01d98311f5b4'
+                  assert x['source_manifest_canonical_sha256']=='0a33257cd04ff3b67dcca85a6366502329d49206269fc1bddd7e21d879977bca'
+                  assert x['source_next_exact_start']==4 and x['source_next_exact_end']==132
+                  assert x['work_units_count']==128
+                  assert x['work_units_canonical_sha256']=='56a7771f66bf0feb6bab8f77c7da56e3c448bfaab280de787f85f42751ab70b7'
               print(f'FULL178_CAMPAIGN_STATE=ARMED_HISTORY_GENERATION_{generation}_CHEAP_VALIDATION_ONLY')
           print('THIS_WORKFLOW_AUTHORIZES_HEAVY_COMPUTE=false')
           PY
