@@ -42,7 +42,7 @@ jobs:
           assert x['source_and_math_contract_unchanged'] is True
           assert x['runner_schema']=='STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2'
           assert x['nodes_used_accounting']=='SUM_TELEMETRY_NODES_V2'
-          assert x['node_ceiling_per_work_unit']==16000000
+          assert x['node_ceiling_per_work_unit']==64000000
           assert x['max_work_units_per_wave']==128
           assert x['full178_heavy_concurrency']==17
           assert x['other_stage32_heavy_overlap_bound']==1
@@ -87,7 +87,7 @@ jobs:
           assert new['manifest_sha256'] == '46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23'
           assert new['hostile_reaudit_review_id'] == 5057163230
           assert new['prefix_stage_only'] is True
-          assert int(new['first_pass_node_ceiling']) == 16000000
+          assert int(new['first_pass_node_ceiling']) == 64000000
           assert int(new['effective_heavy_concurrency']) == 17
           assert int(new['effective_heavy_concurrency']) <= 18
           assert float(new['projected_peak_artifact_mb']) < 500
@@ -178,7 +178,7 @@ jobs:
             --retained stages/stage33/33-07/picard_base_rows_retained.py \
             --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
             --work-unit-json "$WORK_UNIT_JSON" \
-            --node-limit 16000000 \
+            --node-limit 64000000 \
             --output "$OUT"
           python - "$OUT" <<'PY'
           import json, pathlib, sys
@@ -186,7 +186,7 @@ jobs:
           assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2'
           assert x['nodes_used_accounting']=='SUM_TELEMETRY_NODES_V2'
           assert x['nodes_used']==sum(int(t['nodes']) for t in x['telemetry'])
-          assert 0 <= x['nodes_used'] <= x['node_limit'] == 16000000
+          assert 0 <= x['nodes_used'] <= x['node_limit'] == 64000000
           assert x['prefix_stage_only'] is True
           assert x['unknown_is_unsat'] is False
           assert x['numerical_row_complete'] is False
