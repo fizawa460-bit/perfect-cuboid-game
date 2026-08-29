@@ -79,9 +79,6 @@ printf "CURVE_COUNT=%o\n", #CsK;
 printf "TARGET_INDEX=%o\n", idx;
 printf "BIGK_EXCEPTIONAL_INDEX=%o\n", exc;
 printf "QPICK_COORD=%o\n", qv;
-for j := 1 to #ptsK do
-  printf "PT_%o=%o\n", j, Eltseq(ptsK[j]);
-end for;
 printf "STAGE33_12_J2_INFINITY_KC_END\n";
 '''
 code = preamble + "\n" + kcore + "\n" + extra
@@ -131,11 +128,9 @@ idx = scalar("TARGET_INDEX")
 node_count = scalar("NODE_COUNT")
 curve_count = scalar("CURVE_COUNT")
 qv = seq("QPICK_COORD")
-pts = [seq(f"PT_{j}") for j in range(1, node_count + 1)]
 assert node_count == 12
 assert 1 <= idx <= node_count
 assert len(qv) == 20
-assert len(pts) == 12
 
 cert = {
     "schema": "STAGE33_12_J2_INFINITY_KC_EXCEPTIONAL_ORDER_V1",
@@ -156,7 +151,6 @@ cert = {
         "CsK_count": curve_count,
         "BigK_exceptional_index_1_based": scalar("BIGK_EXCEPTIONAL_INDEX"),
         "qPicK_coordinate": qv,
-        "ptsK_coordinates_in_order": pts,
     },
     "firewall": {
         "j2_branch_jacobian_to_discriminant_kummer_glue_materialized": False,
