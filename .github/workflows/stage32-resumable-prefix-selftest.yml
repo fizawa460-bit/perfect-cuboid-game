@@ -1,0 +1,24 @@
+name: Stage32 resumable prefix selftest
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/residual-32-01-production/resumable_prefix_engine.py'
+      - 'stages/stage32/residual-32-01-production/test_resumable_prefix_engine.py'
+      - '.github/workflows/stage32-resumable-prefix-selftest.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  selftest:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Exact segmented-vs-one-shot regression
+        run: python stages/stage32/residual-32-01-production/test_resumable_prefix_engine.py
