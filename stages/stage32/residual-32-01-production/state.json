@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V49_GEN27_PASS_GEN28_WIDE128_CARRY124_COLD_READY",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V50_GEN29_PASS_AFTER_GEN28_AUTH_FAIL_GEN30_WIDE128_CARRY156_COLD_READY",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "FULL178_GENERATION27_PASS_GENERATION28_WIDE128_CARRY124_COLD_READY",
+  "status": "FULL178_GENERATION29_PASS_AFTER_GENERATION28_AUTH_FAIL_GENERATION30_WIDE128_CARRY156_COLD_READY",
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": false,
@@ -17,25 +17,6 @@
   "RECEIVER_CREDIT": false,
   "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
   "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false,
-  "generation26": {
-    "run_id": 33247563024,
-    "authorize_job_id": 99087582150,
-    "result": "PASS_ONE_HUNDRED_TWENTY_EIGHT_WORK_UNITS_V2_EXACT_FRONTIER",
-    "input_work_unit_count": 128,
-    "total_nodes_used": 1534870135,
-    "completed_prefix_partition_count": 49,
-    "unknown_count_total": 164,
-    "node_ceiling_hit_work_unit_count": 79,
-    "next_exact_work_unit_count": 164,
-    "checkpoint": "stages/stage32/residual-32-01-production/full178-generation26-main-checkpoint.json",
-    "wave_manifest_artifact_id": 9713465969,
-    "wave_manifest_artifact_zip_sha256": "3da88d84f75521df1013a5eef196de331775b7e7cea18d3c131998152921e64c",
-    "wave_manifest_canonical_sha256": "b4269c05193dd71ad1e7303d68155d2c80cd0df2e1623ca16f17ca15d2effd27",
-    "manifest_sha_independently_recomputed": true,
-    "work_unit_id_integrity_recomputed": true,
-    "preexisting_carry_before_new_children": 62,
-    "global_frontier_after_ingest": 226
-  },
   "generation27": {
     "run_id": 33248383749,
     "authorize_job_id": 99089690298,
@@ -56,13 +37,43 @@
     "global_frontier_after_ingest": 252
   },
   "generation28": {
+    "run_id": 33249384968,
+    "result": "FAIL_CLOSED_AUTHORIZATION_NO_COMPUTE",
+    "produce_result": "SKIPPED",
+    "aggregate_result": "SKIPPED",
+    "failure_class": "RUNKEY_PAYLOAD_TRANSCRIPTION_MISMATCH",
+    "mathematical_credit": false,
+    "frontier_consumed": 0
+  },
+  "generation29": {
+    "run_id": 33249640508,
+    "authorize_job_id": 99092993469,
+    "head_sha": "49a78e12b326e3d1e0a10742c347f99693ec64f5",
+    "runkey_git_blob_sha1": "62a21cfe3979b5278674e87363edfbd3bcbc880b",
+    "result": "PASS_ONE_HUNDRED_TWENTY_EIGHT_WORK_UNITS_V2_EXACT_FRONTIER",
+    "input_work_unit_count": 128,
+    "total_nodes_used": 1611366344,
+    "completed_prefix_partition_count": 49,
+    "unknown_count_total": 160,
+    "node_ceiling_hit_work_unit_count": 79,
+    "next_exact_work_unit_count": 160,
+    "checkpoint": "stages/stage32/residual-32-01-production/full178-generation29-main-checkpoint.json",
+    "wave_manifest_artifact_id": 9714094354,
+    "wave_manifest_artifact_zip_sha256": "35959bc4611d2967766d5dc4ae3eb8624dc851cab23444f3b50c01d98311f5b4",
+    "wave_manifest_canonical_sha256": "0a33257cd04ff3b67dcca85a6366502329d49206269fc1bddd7e21d879977bca",
+    "manifest_sha_independently_recomputed": true,
+    "work_unit_id_integrity_recomputed": true,
+    "preexisting_carry_before_new_children": 124,
+    "global_frontier_after_ingest": 284
+  },
+  "generation30": {
     "released": true,
     "armed": false,
-    "queue_policy": "FIFO_GLOBAL_FRONTIER_CARRY98_THEN_GENERATION27_CHILDREN",
+    "queue_policy": "FIFO_GLOBAL_FRONTIER_CARRY124_THEN_GENERATION29_CHILDREN",
     "planned_work_unit_count": 128,
-    "pending_frontier_before_dispatch": 252,
-    "pending_frontier_after_dispatch_before_new_children": 124,
-    "carry_count_before_new_children": 124,
+    "pending_frontier_before_dispatch": 284,
+    "pending_frontier_after_dispatch_before_new_children": 156,
+    "carry_count_before_new_children": 156,
     "node_ceiling_per_work_unit": 16000000,
     "max_work_units_per_wave": 128,
     "effective_heavy_concurrency": 17,
@@ -71,5 +82,5 @@
     "required_arm_diff": "DEDICATED_RUNKEY_ONLY",
     "no_repository_writes_after_arm_until_run_complete": true
   },
-  "next_item": "ARM_GENERATION28_WIDE128_GLOBAL_FIFO_THEN_INGEST_WITH_CARRY124"
+  "next_item": "ARM_GENERATION30_WIDE128_GLOBAL_FIFO_THEN_INGEST_WITH_CARRY156"
 }
