@@ -51,7 +51,7 @@ jobs:
       - name: Validate production run-key safety state without authorizing compute
         run: |
           python - <<'PY'
-          import json
+          import base64, gzip, hashlib, json
           p='stages/stage32/runkeys/residual32-01-full178-production.json'
           x=json.load(open(p))
           assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_PRODUCTION_RUNKEY_V1'
@@ -74,12 +74,18 @@ jobs:
               assert x['armed'] is True
               assert x['FULL178_HEAVY_PRODUCTION_AUTHORIZED'] is True
               assert x['FULL_178_ROW_SWEEP_AUTHORIZED'] is True
-              units=x.get('work_units')
-              assert isinstance(units, list) and 1 <= len(units) <= 128
-              if 14 <= generation <= 18:
-                  assert len(units)==16
+              if 14 <= generation <= 30:
+                  units=x.get('work_units')
+                  assert isinstance(units, list) and 1 <= len(units) <= 128
+                  if generation <= 18:
+                      assert len(units)==16
               if generation >= 31:
                   assert x['first_pass_node_ceiling']==64000000
+                  assert x['work_units_encoding']=='GZIP_BASE64_CANONICAL_JSON_V1'
+                  raw=gzip.decompress(base64.b64decode(x['work_units_gzip_base64']))
+                  assert hashlib.sha256(raw).hexdigest()==x['work_units_canonical_sha256']
+                  units=json.loads(raw)
+                  assert isinstance(units,list) and len(units)==x['work_units_count']==128
               print(f'FULL178_CAMPAIGN_STATE=ARMED_HISTORY_GENERATION_{generation}_CHEAP_VALIDATION_ONLY')
           print('THIS_WORKFLOW_AUTHORIZES_HEAVY_COMPUTE=false')
           PY
