@@ -1,29 +1,25 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_IN_PROGRESS_DEGENERATE_CLIFFORD_EVEN_CONTACT_GLUE_4_OF_5`
+Status: `MAIN_IN_PROGRESS_SPECIAL_BRAUER_PAIRING_ORBITS_4_OF_5`
 
 Stage33-12 remains open. Stage33-07 remains open. Stage33-13 is not released.
 
-## Common-standard-form strategy audit
+## Class-2 decision budget
 
-The direct-presentation bridge search has been replaced at the strategy level
-by a common-standard-form design.  The selected class-2 architecture is:
+This is MAIN **batch 1 / 4** under the common-standard-form go/no-go contract committed in `j2-marked-kc-common-standard-form-route-audit.md` / `.json`.
+
+Selected class-2 architecture:
 
 ```text
 named CV J2
-  -> special-Brauer / mu_2 Cech datum
+  -> special-Brauer / mu_2 Cech datum on the resolved four-contact model
   -> twisted relative Picard K3 X_J2
-  -> T(X_J2)
-  -> minimum norm 4 / 8 / 12.
+  -> T(X_J2)=ker(J2:T(Kc)->Z/2)
+  -> minimum norm 4 / 8 / 12
+  -> [0,1] / [1,0] / [1,1].
 ```
 
-The current four-even-contact Clifford computation is the finite constructor
-for the first two arrows, not by itself an identification theorem.  The route
-census, external theorem hypotheses, three-batch class-2 go/no-go experiment,
-and exact class-3 escalation contract are recorded in
-`j2-marked-kc-common-standard-form-route-audit.md` and its structured JSON
-companion.  This architecture audit changes no closure, receiver, theorem, or
-downstream release flag.
+The direct-presentation bridge search is no longer the MAIN strategy. The Clifford/Hermite model is used only as the finite construction engine for the special-Brauer/PGL2 lifting datum.
 
 ## Fixed marked receiver
 
@@ -35,105 +31,99 @@ Br(Kc)[2] = Hom(T,Z/2)
 [1,1] -> kernel minimum norm 12
 ```
 
-The marked Brauer functional is still one of the three nonzero functionals.
+The marked functional is still one of these three nonzero elements.
 
-## Retained semantic firewalls
-
-The constant `d=2`, the scalar `q` viewed as a single chosen isogeny coordinate, the `Dplus` support pushforward, and the naive CV branch pair-products do not materialize the named geometric J2 Sha torsor. Stage33-05's zero presentation connecting cocycle only gives a fixed lift in the CV presentation module; it is not Sha-triviality.
-
-The named J2 image remains a nontrivial order-2 genus-one K3 torsor target `X_J2` with relative Jacobian `Kc`, no section, and multisection-index target 2; no explicit torsor surface is promoted yet.
-
-## Split Clifford fingerprint
+## Retained split-Clifford data
 
 Write
 
 ```text
 r=(t^2-1)^2,
 q=t^4-6*t^2+1,
-E: Y^2=X*(X-r)*(X-q),
-r-q=4*t^2.
+M_split=diag(X,X-r,X-q).
 ```
 
-The explicit split symmetric representation
+The normalized ruling-cover fingerprint remains exactly `[q,1,q]`. The four transverse `q=0` intersections have forced glue. The only local glue choices occur at the four even contacts
 
 ```text
-M_split = diag(X, X-r, X-q)
+t=+1,-1 on C0/Cr,
+t=0,infinity on Cr/Cq.
 ```
 
-has determinant `X*(X-r)*(X-q)` and associated conic
+The `Dplus` support lies among the forced transverse q-root nodes and therefore does not select the remaining theta glue.
+
+## NEW in batch 1/4: local resolution and complete pairing-orbit census
+
+Each even tangency has the local form `y=0` and `y=s^2*u(s)` with `u(0)=4` after the indicated local coordinate choice. One blowup `y=sY` converts it to two transverse branches. At all four contacts the incident normalized ruling covers are unramified (`q(±1)=-4`, `q(0)=1`, and normalized `q(infinity)=1`). Hence each resolved node has exactly two deck-equivariant sheet bijections: identity or crossed.
+
+Therefore the raw pairing space is exactly
 
 ```text
-X*U^2 + (X-r)*V^2 + (X-q)*W^2 = 0.
+F2^4 = {p_+1,p_-1,p_0,p_inf},
+raw count = 16.
 ```
 
-Its three normalized ruling-cover squareclasses over geometric constants are exactly
+The full component sheet-relabeling action is also exact. In the above bit order, deck flips act by
 
 ```text
-C0: X=0  -> q
-Cr: X=r  -> 1
-Cq: X=q  -> q
+delta_C0 = 1100
+delta_Cr = 1111
+delta_Cq = 0011
 ```
 
-so the component fingerprint is `[q,1,q]`, with `q` squarefree and nonsquare over `Qbar(t)`. This matches the Stage33-05 named J2 branch normalization `z^2=q` at the fingerprint level only.
-
-## NEW: contact combinatorics isolate the actual glue ambiguity
-
-The pairwise branch contacts are now exact:
+with relation `delta_C0 + delta_Cr + delta_Cq = 0` on pairing bits. Thus the effective relabeling subgroup is
 
 ```text
-C0 ∩ Cr: r=(t^2-1)^2 -> t=+1,-1, each contact order 2
-C0 ∩ Cq: q=0 -> four simple transverse intersections
-Cr ∩ Cq: r-q=4t^2 -> t=0 order 2, and t=infinity order 2
+H={0000,1100,0011,1111} ~= F2^2.
 ```
 
-The infinity statement is checked in `u=1/t`, `x=X/t^4`, where
+All 16 predecessors were enumerated before quotienting. They split into exactly four pairwise-disjoint orbits of size four, with complete invariants
 
 ```text
-r/t^4 - q/t^4 = 4u^2.
+L = p_+1 XOR p_-1
+R = p_0  XOR p_inf.
 ```
 
-Normalized line families may be written over geometric constants as
+Representatives and complete member sets are:
 
 ```text
-C0: z0^2=q,        (t^2-1)V + i*z0 W = 0
-Cr: epsilon^2=1,  (t^2-1)U + 2 i t epsilon W = 0
-Cq: zq^2=q,        zq U + 2 t V = 0.
+(L,R)=(0,0): 0000 -> {0000,0011,1100,1111}
+(L,R)=(0,1): 0001 -> {0001,0010,1101,1110}
+(L,R)=(1,0): 0100 -> {0100,0111,1000,1011}
+(L,R)=(1,1): 0101 -> {0101,0110,1001,1010}
 ```
 
-At each of the four transverse `q=0` points, both nontrivial covers ramify and both specialized lines are the unique line `V=0`. Therefore those four node gluings are forced: they do not carry the remaining binary sheet-pairing ambiguity.
-
-The remaining ambiguity is confined to exactly four even-contact points:
+So batch 1 closes the finite local/global pairing search itself:
 
 ```text
-t=+1, -1  on C0/Cr
-t=0, infinity on Cr/Cq.
+16 raw patterns -> exactly 4 isomorphism orbits -> exactly 2 parity bits.
 ```
 
-At these points the normalized covers are unramified while the original degenerate lines coalesce, so one must resolve the tangency and compute the induced sheet pairing/monodromy.
+The four-orbit cardinality is **not** used to identify these parity bits with the fixed marked Brauer basis. The named CV J2 orbit is still unknown.
 
-This also kills a tempting shortcut: `Dplus=t^2-2t-1` selects two of the four transverse q-roots, but those q-root gluings are already forced. Hence `Dplus` support alone cannot select the global theta characteristic.
+Certificate: `j2-four-even-contact-pairing-orbits.json`.
+Verifier: `certify_j2_four_even_contact_pairing_orbits.py`.
 
-Certificate: `j2-degenerate-clifford-contact-glue-reduction.json`; verifier: `certify_j2_degenerate_clifford_contact_glue_reduction.py`.
-
-## Next exact leaf
+## Batch 2 exact target
 
 ```text
-RESOLVE THE FOUR EVEN TANGENCIES LOCALLY,
-COMPUTE THE CANONICAL SHEET PAIRING / MONODROMY OF M_split,
-AND COMPARE THAT GLOBAL ADMISSIBLE COVER WITH THE NAMED CV J2 CLASS.
+RESTRICT THE NAMED CV J2 AZUMAYA/PGL2 DATA TO THE SAME FOUR RESOLVED CHARTS,
+CONSTRUCT LOCAL SPLITTING MODULES AND TRANSITION MATRICES,
+EXTRACT THE mu_2 CECH / SPECIAL-BRAUER PAIRING ORBIT,
+AND EITHER SELECT ONE OF THE FOUR (L,R) ORBITS OR CERTIFY NON-SEPARATION.
 ```
 
-Only after that equality is certified may the Hermite inverse be used to materialize `X_J2` and compute its transcendental lattice. The existing minimum-norm fingerprints `4/8/12` remain the final marked-functional selector.
+A shared `[q,1,q]` component fingerprint is not sufficient for this selection.
 
 ## Firewalls
 
 ```text
+class-2 budget used = 1/4
 Stage33-12 visible progress = 4/5
-split determinantal q-cover fingerprint = exact [q,1,q]
-transverse q-root glue = forced exact
-remaining glue locus = four even contacts {+1,-1,0,infinity}
-global theta characteristic identified = false
-named CV J2 = split Clifford class certified = false
+four even-contact raw pairing count = 16
+pairing isomorphism orbit count = 4
+named CV J2 pairing orbit selected = false
+pairing orbit bits = marked Brauer bits = false
 J2 explicit torsor surface materialized = false
 J2 marked Brauer functional materialized = false
 J2 twisted transcendental kernel identified = false
