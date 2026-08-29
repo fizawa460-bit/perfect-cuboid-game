@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V52_GEN30_PASS_64M_CALIBRATION_PASS_GEN31_64M_MIGRATION_READY",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V53_GEN30_PASS_64M_CALIBRATION_PASS_GEN31_64M_ARM_READY",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "FULL178_GENERATION30_PASS_64M_CALIBRATION_PASS_GENERATION31_64M_PRODUCTION_MIGRATION_READY",
+  "status": "FULL178_GENERATION30_PASS_64M_CALIBRATION_PASS_GENERATION31_64M_ARM_READY",
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": false,
@@ -59,14 +59,17 @@
     "pending_frontier_before_dispatch": 316,
     "pending_frontier_after_dispatch_before_new_children": 188,
     "carry_count_before_new_children": 188,
-    "target_node_ceiling_per_work_unit": 64000000,
-    "production_workflow_migration_required": true,
+    "node_ceiling_per_work_unit": 64000000,
+    "production_workflow_migration_required": false,
+    "production_workflow_migration_complete": true,
+    "cold_preflight_run_id": 33251870284,
+    "cold_preflight_result": "PASS_64M_CONFIGURATION",
     "max_work_units_per_wave": 128,
     "effective_heavy_concurrency": 17,
     "maximum_effective_stage32_heavy_overlap": 18,
     "unknown_is_unsat": false,
-    "required_arm_diff": "DEDICATED_PRODUCTION_RUNKEY_ONLY_AFTER_COLD_64M_WORKFLOW_MIGRATION",
+    "required_arm_diff": "DEDICATED_PRODUCTION_RUNKEY_ONLY",
     "no_repository_writes_after_arm_until_run_complete": true
   },
-  "next_item": "COLD_MIGRATE_FULL178_PRODUCTION_TO_64M_THEN_ARM_GENERATION31_FIFO128_CARRY188"
+  "next_item": "ARM_GENERATION31_64M_FIFO128_CARRY188"
 }
