@@ -7,20 +7,9 @@
     "D2": "v2^2-u2^2",
     "e": "D1*D2",
     "p": "(u1^2+v1^2)*D2",
-    "prior_frozen_relation": [
-      "x=2*X",
-      "y=2*Y",
-      "z=2*w"
-    ],
+    "prior_frozen_relation": ["x=2*X", "y=2*Y", "z=2*w"],
     "q": "(u2^2+v2^2)*D1",
-    "stoll_coordinate_identification": [
-      "A1=e",
-      "A2=x",
-      "A3=y",
-      "B1=z",
-      "B2=q",
-      "B3=p"
-    ],
+    "stoll_coordinate_identification": ["A1=e", "A2=x", "A3=y", "B1=z", "B2=q", "B3=p"],
     "x": "2*u1*v1*D2",
     "y": "2*u2*v2*D1"
   },
@@ -28,76 +17,35 @@
     "cv_equation": "X+i*Y=0",
     "marked_curve_identified_exactly": true,
     "stoll_CsK_index_1based": 22,
-    "stoll_equations": [
-      "B1=0",
-      "i*A2-A3=0"
-    ],
+    "stoll_equations": ["B1=0", "i*A2-A3=0"],
     "stoll_known_curve_family": "C2sK",
     "stoll_known_curve_family_index_1based": 2
   },
   "branch_jacobian_2torsion_to_picard_discriminant_kummer_glue_materialized": false,
-  "canonical_sha256": "07e44bf9f2de7be32d28823414485166366285e137d42869063a2f2ccc1813ab",
+  "canonical_sha256": "881d2637c83bcae5d7bdfe9cf534baea7ad15b983719f7a482d3b7240fe8c510",
   "endpoint_credit": false,
   "finite_v4_kummer_defect_columns_materialized": 0,
-  "finite_v4_kummer_defect_matrix_shape": [
-    75,
-    10
-  ],
-  "infinity_resolved_exceptional_attachment_materialized": false,
-  "j2_support_images": {
-    "P_minus": {
-      "jacobian_rank": 3,
-      "ruled": [
-        "[1-sqrt(2):1]",
-        "[-i:1]"
-      ],
-      "smooth_on_Kc": true,
-      "stoll": [
-        "-1",
-        "1",
-        "i",
-        "0",
-        "0",
-        "-sqrt(2)"
-      ]
-    },
-    "P_plus": {
-      "jacobian_rank": 3,
-      "ruled": [
-        "[1+sqrt(2):1]",
-        "[-i:1]"
-      ],
-      "smooth_on_Kc": true,
-      "stoll": [
-        "-1",
-        "1",
-        "i",
-        "0",
-        "0",
-        "sqrt(2)"
-      ]
-    },
-    "infinity_minus": {
-      "jacobian_rank": 2,
-      "ruled": [
-        "[1:0]",
-        "[1:0]"
-      ],
-      "singular_on_Kc": true,
-      "stoll": [
-        "1",
-        "0",
-        "0",
-        "0",
-        "-1",
-        "-1"
-      ]
-    }
+  "finite_v4_kummer_defect_matrix_shape": [75, 10],
+  "infinity_resolved_exceptional_attachment_materialized": true,
+  "j2_infinity_resolution": {
+    "affine_chart": "A1=1",
+    "branch_tangent_equations": ["c=0", "i*a-b=0"],
+    "exceptional_conic_attachment_direction": ["1", "i", "0"],
+    "geometric_exceptional_attachment_materialized": true,
+    "local_tangent_cone": "c^2=a^2+b^2 with a=A2, b=A3, c=B1",
+    "qPicK_exceptional_coordinate_materialized": false,
+    "singular_point_stoll": ["1", "0", "0", "0", "-1", "-1"],
+    "stoll_ptsK_order_index_materialized": false
   },
-  "next_exact_leaf": "MATERIALIZE_RESOLUTION_ATTACHMENT_AT_J2_INFINITY_AND_BRANCH_JACOBIAN_2TORSION_TO_KC_PICARD_DISCRIMINANT_KUMMER_GLUE",
+  "j2_support_images": {
+    "P_minus": {"jacobian_rank": 3, "ruled": ["[1-sqrt(2):1]", "[-i:1]"], "smooth_on_Kc": true, "stoll": ["-1", "1", "i", "0", "0", "-sqrt(2)"]},
+    "P_plus": {"jacobian_rank": 3, "ruled": ["[1+sqrt(2):1]", "[-i:1]"], "smooth_on_Kc": true, "stoll": ["-1", "1", "i", "0", "0", "sqrt(2)"]},
+    "infinity_minus": {"jacobian_rank": 2, "ruled": ["[1:0]", "[1:0]"], "singular_on_Kc": true, "stoll": ["1", "0", "0", "0", "-1", "-1"]}
+  },
+  "next_exact_leaf": "MATERIALIZE_STOLL_PTSK_INDEX_AND_QPICK_COORDINATE_FOR_J2_INFINITY_EXCEPTIONAL_THEN_BRANCH_JACOBIAN_2TORSION_TO_KC_PICARD_DISCRIMINANT_KUMMER_GLUE",
   "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false,
-  "schema": "STAGE33_12_J2_RULED_TO_STOLL_MARKED_KC_SUPPORT_V1",
+  "schema": "STAGE33_12_J2_RULED_TO_STOLL_MARKED_KC_SUPPORT_V2",
   "source_locks": {
     "stage29_07_sign_tower_adapter_git_blob_sha1": "82f039ab9ff793598ddb0b2a02808b92364c7046",
     "stage33_07_kc_discriminant_derivation_git_blob_sha1": "62724b75eba42bf980574b4b57b936775a1a893c",
