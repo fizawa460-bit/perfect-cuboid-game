@@ -1,0 +1,38 @@
+{
+  "schema": "STAGE32_RESIDUAL32_01_GENERATION13_MAIN_CHECKPOINT_V1",
+  "run_id": 33224323382,
+  "artifact_id": 9706313895,
+  "artifact_zip_sha256": "a9072e418a8b69fe47dbaebc410703812ca40d7d1e12d54324385affcb56adac",
+  "certificate_sha256": "8bfd9145fbd54afe966cb4e890bea8684f1580cd4d4ed5d67f591aee4a124baf",
+  "artifact_size_bytes": 4500,
+  "result": "PASS_EXACT_RAW_ALL140_REORDERED_COST_REGRESSION",
+  "known_label_order_1based": [93,96,98,99,49,94,95,97,101,102,103],
+  "first_active_depth": 4,
+  "raw_hnf_active_rows_by_depth": [0,0,0,1,1,1,1,1,1,1,1],
+  "raw_hnf_moduli_by_depth": [1,1,1,2,2,2,2,2,2,2,2],
+  "full_aut_group_order": 1536,
+  "global_budget_class_preserving_subgroup_size": 1536,
+  "distinct_prefix_actions_by_depth": [1,2,2,8,4,4,8,4,1,1,1],
+  "representatives": {
+    "1": {"nodes":250000,"membership_prunes":0,"symmetry_prunes":1581,"terminals":151459},
+    "2": {"nodes":250000,"membership_prunes":0,"symmetry_prunes":1581,"terminals":151459},
+    "4": {"nodes":250000,"membership_prunes":0,"symmetry_prunes":1581,"terminals":151459},
+    "8": {"nodes":250000,"membership_prunes":0,"symmetry_prunes":1581,"terminals":151459}
+  },
+  "comparison_to_generation11": {
+    "generation11_remains_best_valid_cost_profile": true,
+    "generation13_membership_pruning_regressed": true,
+    "generation13_symmetry_pruning_regressed": true,
+    "generation13_terminal_count_regressed": true,
+    "interpretation": "EARLIER_STATIC_HNF_VISIBILITY_DOES_NOT_CORRELATE_WITH_THE_ACTUAL_PREFIX_VALUES_VISITED_BY_THE_DFS; ORDER_SELECTION_MUST_USE_A_COST_AWARE_EXACT_PROBE_OBJECTIVE_RATHER_THAN_FIRST_ACTIVE_HNF_DEPTH_ALONE."
+  },
+  "production_cost_ready": false,
+  "audit_required": true,
+  "merge_allowed": false,
+  "advance_allowed": true,
+  "B18_RELEASE_AUTHORIZED": false,
+  "FULL_178_ROW_SWEEP_AUTHORIZED": false,
+  "THEOREM_CREDIT": false,
+  "RECEIVER_CREDIT": false,
+  "next_gate": "COST_AWARE_RAW_PREFIX_ORDER_COLD_SEARCH_WITH_GENERATION11_AS_BASELINE"
+}
