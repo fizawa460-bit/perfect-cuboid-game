@@ -35,7 +35,7 @@ jobs:
           assert x['source_and_math_contract_unchanged'] is True
           assert x['runner_schema']=='STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2'
           assert x['nodes_used_accounting']=='SUM_TELEMETRY_NODES_V2'
-          assert x['node_ceiling_per_work_unit']==16000000
+          assert x['node_ceiling_per_work_unit']==64000000
           assert x['max_work_units_per_wave']==128
           assert x['full178_heavy_concurrency']==17
           assert x['other_stage32_heavy_overlap_bound']==1
@@ -78,6 +78,8 @@ jobs:
               assert isinstance(units, list) and 1 <= len(units) <= 128
               if 14 <= generation <= 18:
                   assert len(units)==16
+              if generation >= 31:
+                  assert x['first_pass_node_ceiling']==64000000
               print(f'FULL178_CAMPAIGN_STATE=ARMED_HISTORY_GENERATION_{generation}_CHEAP_VALIDATION_ONLY')
           print('THIS_WORKFLOW_AUTHORIZES_HEAVY_COMPUTE=false')
           PY
