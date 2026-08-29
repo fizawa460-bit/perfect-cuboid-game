@@ -1,0 +1,1 @@
+Status: READY_FOR_MANUAL_EXACT_EXTRACTION. Stage33-12 remains 3/5; no closure or downstream release credit. The manual-only workflow now targets the order-independent marked-Picard materializer and retains only compact one-day evidence.
