@@ -68,7 +68,7 @@ quick := true;
 L<i,s> := ext<Rationals() | Polynomial([1,0,1]), Polynomial([-2,0,1])>;
 '''
 extra = r'''
-target := Pr5![-1,0,0,0,-1,-1];
+target := Pr5![1,0,0,0,-1,-1];
 idx := Position(ptsK, target);
 assert idx ne 0;
 exc := #CsK + idx;
@@ -147,9 +147,8 @@ cert = {
         "magma_request_attempt": magma_attempt,
     },
     "target": {
-        "stoll_projective_coordinates": [-1, 0, 0, 0, -1, -1],
-        "equivalent_normalization_used_in_result_md": [1, 0, 0, 0, -1, -1],
-        "note": "Projective equality is tested by Magma Position on ptsK; the two displayed representatives differ by neither a scalar nor field automorphism, so target is source-normalized independently of the result.md display representative.",
+        "stoll_projective_coordinates": [1, 0, 0, 0, -1, -1],
+        "matches_result_md_P_inf_K": True,
     },
     "pinned_order": {
         "ptsK_count": node_count,
