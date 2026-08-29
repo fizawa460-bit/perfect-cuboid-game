@@ -9,7 +9,7 @@ HERE = Path(__file__).resolve().parent
 block = json.loads((HERE / "j2-direct-bfield-cycle-evaluation-interface-block.json").read_text(encoding="utf-8"))
 tcert = json.loads((HERE / "j2-kc-transcendental-lattice-isometry.json").read_text(encoding="utf-8"))
 bcert = json.loads((HERE / "j2-kc-bfield-halfdual-target.json").read_text(encoding="utf-8"))
-descent = (ROOT / "stage33" / "33-05" / "j2_arithmetic_descent.py").read_text(encoding="utf-8")
+descent = (ROOT / "stages" / "stage33" / "33-05" / "j2_arithmetic_descent.py").read_text(encoding="utf-8")
 
 assert tcert["canonical_sha256"] == block["source_locks"]["transcendental_lattice_certificate_canonical_sha256"]
 assert bcert["canonical_sha256"] == block["source_locks"]["halfdual_target_certificate_canonical_sha256"]
