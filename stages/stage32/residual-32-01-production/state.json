@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V57_GEN33_64M_PASS_HARDNESS_SHIFT",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V58_RESUMABLE_HARDNESS_AVOIDANCE",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "FULL178_GENERATION33_64M_PASS_FRONTIER_218_HARDNESS_SHIFT_CLASSIFICATION_NEXT",
+  "status": "GEN33_HARDNESS_DIAGNOSED_RESUMABLE_CURSOR_EXACT_TEST_PASS_CALIBRATION_NEXT",
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": false,
@@ -44,11 +44,40 @@
     "gen31_children_per_input": 0.6875,
     "gen32_children_per_input": 0.6875,
     "gen33_children_per_input": 0.859375,
+    "gen31_ceiling_hit_rate": 0.3359375,
+    "gen32_ceiling_hit_rate": 0.3359375,
+    "gen33_ceiling_hit_rate": 0.40625,
+    "gen31_children_per_ceiling_hit": 2.0465116279069766,
+    "gen33_children_per_ceiling_hit": 2.1153846153846154,
+    "primary_shift": "MORE_WORK_UNITS_REACH_64M_CEILING",
     "gen33_row_local_reproduction_above_one": ["g0-d012", "g0-d022"],
-    "interpretation": "64M FIFO remains globally contractive at generation33, but stationarity broke and hardness is row-local rather than uniform. Do not infer future contraction.",
+    "interpretation": "Later-pass selection increased the ceiling-hit rate while an old-split ceiling hit still spawns about two children. Continuing the same split policy risks reproduction >=1 even if per-hit branching barely changes.",
     "blind_generation34_arm": false
   },
-  "generation34_if_later_armed": {
+  "resumable_hardness_avoidance": {
+    "evidence": "stages/stage32/residual-32-01-production/full178-resumable-hardness-avoidance.json",
+    "engine": "stages/stage32/residual-32-01-production/resumable_prefix_engine.py",
+    "runner": "stages/stage32/residual-32-01-production/run_full178_resumable_work_unit.py",
+    "selftest_workflow_run_id": 33258040823,
+    "real_stage32_resume_equivalence": "PASS_REAL_STAGE32_RESUME_EQUIVALENCE",
+    "real_stage32_50k_nodes": 50000,
+    "real_stage32_50k_membership_prunes": 11102,
+    "real_stage32_50k_symmetry_prunes": 8488,
+    "real_stage32_50k_terminal_count": 11143,
+    "real_stage32_terminal_stream_exact_match": true,
+    "real_row_tail_branching_collapse": "PASS_REAL_ROW_TAIL_BRANCHING_COLLAPSE",
+    "real_row_tail_old_children_after_50k": 3,
+    "real_row_tail_resumable_children_after_50k": 1,
+    "real_row_tail_resumable_children_after_next_50k": 1,
+    "max_unresolved_children_per_input": 1,
+    "structural_reproduction_upper_bound": 1.0,
+    "generation33_counterfactual_children_if_resumable": 52,
+    "generation33_counterfactual_children_per_input_if_resumable": 0.40625,
+    "generation33_counterfactual_frontier_after_ingest_if_resumable": 160,
+    "production_switched": false,
+    "production_arm_authorized": false
+  },
+  "generation34_old_split_if_later_armed": {
     "queue_policy": "FIFO_GLOBAL_FRONTIER_REMAINING_GEN31_THEN_GEN32_THEN_GEN33_CHILDREN",
     "dispatch_derivation": "GEN31_NEXT_EXACT_WORK_UNITS_SLICE_68_88_CONCAT_GEN32_NEXT_EXACT_WORK_UNITS_SLICE_0_88_CONCAT_GEN33_NEXT_EXACT_WORK_UNITS_SLICE_0_20",
     "work_units_source": "LOCKED_PRIOR_WAVE_MANIFEST_CONCAT_V1",
@@ -60,7 +89,8 @@
     "node_ceiling_per_work_unit": 64000000,
     "effective_heavy_concurrency": 17,
     "maximum_effective_stage32_heavy_overlap": 18,
-    "armed": false
+    "armed": false,
+    "preferred": false
   },
-  "next_item": "CLASSIFY_GEN33_HARD_PREFIX_SHAPES_AND_DESIGN_TARGETED_CEILING_OR_SPLIT_POLICY_BEFORE_GEN34"
+  "next_item": "BOUNDED_RESUMABLE_CURRENT_FRONTIER_CALIBRATION_THEN_PRODUCTION_SWITCH_DECISION"
 }
