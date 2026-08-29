@@ -1,12 +1,12 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V24_GEN3_PASS_COST_REPAIR_GEN4_COLD_READY",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V25_GEN4_PREFLIGHT_CONTRACT_REPAIR_PENDING_COLD_PASS",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "FULL178_GENERATION3_EXACT_FRONTIER_PASS_COST_ACCOUNTING_REPAIRED_GENERATION4_COLD_READY",
+  "status": "FULL178_GENERATION4_PREFLIGHT_CONTRACT_REPAIR_IMPLEMENTED_AWAIT_COLD_PASS",
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": false,
-  "advance_allowed": true,
+  "advance_allowed": false,
   "B18_RELEASE_AUTHORIZED": false,
   "FULL_178_ROW_SWEEP_AUTHORIZED": true,
   "FULL_D16_G0_ROW_COMPLETE": false,
@@ -44,6 +44,15 @@
     "runner_commit": "bd9925b7dc924e096e612f5a3441c65ae1c291fe",
     "workflow_commit": "b540d7365a354a6f23e55eb8fdc711eeca252e17"
   },
+  "generation4_preflight_repair": {
+    "failed_legacy_run_id": 33239576783,
+    "failed_legacy_job_id": 99066475597,
+    "static_manifest_resource_verifier_passed": true,
+    "failure_reason": "LEGACY_REQUIRE_GENERATION0_ARMED_FALSE_ASSERTION",
+    "repair_commit": "91bd14ce7e9fb0ee41ecb412db9e9bd97f644b79",
+    "repair_mode": "CAMPAIGN_AWARE_CHEAP_RUNKEY_SAFETY_VALIDATION_NO_HEAVY_AUTHORIZATION",
+    "cold_pass_pending": true
+  },
   "generation4": {
     "released": true,
     "armed": false,
@@ -55,7 +64,8 @@
     "effective_heavy_concurrency": 8,
     "unknown_is_unsat": false,
     "required_arm_diff": "DEDICATED_RUNKEY_ONLY",
-    "no_repository_writes_after_arm_until_run_complete": true
+    "no_repository_writes_after_arm_until_run_complete": true,
+    "arm_blocked_until_campaign_preflight_pass": true
   },
-  "next_item": "ARM_GENERATION4_THEN_INGEST_WITH_NO_INTERVENING_WRITES"
+  "next_item": "VERIFY_CAMPAIGN_PREFLIGHT_REPAIR_THEN_ARM_GENERATION4_RUNKEY_ONLY"
 }
