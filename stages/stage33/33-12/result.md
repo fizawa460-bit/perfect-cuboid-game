@@ -32,6 +32,8 @@ The full constant cokernel is not claimed liftable. Its actually liftable residu
 
 For the finite block, Stage33-11 proves Stage A exact zero on all 26 directions. It does not, without a new adapter, compute the 26 Stage B HS values or produce 26 Q-defined lifts. The constant cokernel is not covered by the 26-direction certificate and remains a separate parametric HS map.
 
+The function-level scalar adapter has now also been computed. The 14 exact Stage33-11 generators contain 134 nontrivial side/exceptional boundary-function packages. Reconstructing their occurrence scalars from the two retained #1430 ambient-function artifacts gives 564 admissible `cc/ct` source-target comparisons, and every scalar ratio is exactly `1`. The audited Stage33-11f Q-defined automorphism/XOR span transports this zero scalar correction to all 26 directions. Therefore the finite block does not mix with the constant cokernel through boundary-function multiplicative constants. This does not rule out a later coupling in the still-unmaterialized global Gersten 2-cochain or HS differential.
+
 The machine-readable certificate is `stage33-12-exact-obstruction-inventory.json`, generated and independently replayable by `assemble_exact_obstruction_inventory.py`.
 
 ## Current exit state
@@ -44,6 +46,6 @@ STAGE33_07_HOSTILE_REAUDIT=NOT_RUN
 STAGE33_12_CLOSED=false
 ```
 
-The next exact leaf is to compute the constant two-primary HS map and the 26 named finite HS values, or equivalently materialize and residue-check explicit Q-defined lifts for those inputs. The known Q-defined prefix must not be recomputed.
+The next exact leaf is now strictly above the boundary-function level: compute a global Gersten 2-cochain / HS differential for the constant two-primary block and the 26 finite directions, or equivalently materialize and residue-check explicit Q-defined lifts. The known Q-defined prefix and the zero boundary scalar adapter must not be recomputed.
 
 All Stage33-07/08/40, theorem, endpoint, and perfect-cuboid firewalls remain closed.

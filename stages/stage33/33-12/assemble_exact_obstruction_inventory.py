@@ -49,6 +49,7 @@ proper2 = load("stages/stage33/33-07/proper-brauer2-from-discriminant.json")
 br0b = load("stages/stage33/33-07/br0b-boundary-raw-residue-map.json")
 finite = load("stages/stage33/33-07/br0g-finite-ramified-residue-presentation.json")
 explicit = load("stages/stage33/33-08/audit-state.json")
+boundary_scalars = load("stages/stage33/33-12/boundary-function-scalar-descent-certificate.json")
 controller = load("stages/stage33/controller.json")
 
 locks = {
@@ -61,6 +62,7 @@ locks = {
     "br0b_boundary_raw_residue_map_sha256": canonical_sha256(br0b),
     "finite_ramified_presentation_sha256": canonical_sha256(finite),
     "stage33_08_audit_state_content_sha256": canonical_sha256(explicit),
+    "boundary_function_scalar_descent_sha256": canonical_sha256(boundary_scalars),
 }
 
 require(
@@ -118,6 +120,15 @@ require(
 require(
     finite["diagnostic_quotient_by_U44"] == "(Z/2)^23 direct_sum (Z/4)^3",
     "finite quotient regression",
+)
+require(
+    boundary_scalars["exact_conclusion"]["all_cc_ct_function_level_scalar_ratios_equal_one"]
+    is True
+    and boundary_scalars["exact_conclusion"][
+        "stage33_11f_orbit_span_transports_zero_scalar_correction_to_all_26_directions"
+    ]
+    is True,
+    "boundary-function scalar descent regression",
 )
 require(
     controller["stage33_progress"] == "6/11"
@@ -201,6 +212,9 @@ certificate = {
             "order4_factors": 3,
             "named_direction_ids": finite_direction_ids,
             "localization_connecting_map_status": "ZERO_EXACT_AUDITED_26_OF_26",
+            "boundary_function_galois_scalar_correction": "ZERO_EXACT_ALL_26_DIRECTIONS",
+            "coupling_to_constant_cokernel_at_boundary_function_scalar_level": False,
+            "global_gersten_or_hs_level_coupling_ruled_out": False,
             "hs_d2_status": "26_NAMED_VALUES_UNCOMPUTED",
             "global_q_residue_lift_status": "26_NAMED_LIFTS_UNRESOLVED",
         },
@@ -210,7 +224,7 @@ certificate = {
         "unresolved_parametric_blocks": ["C2_CONSTANT_COKERNEL"],
         "unresolved_finite_named_directions": finite_direction_ids,
         "unresolved_finite_named_direction_count": 26,
-        "next_leaf": "COMPUTE_C2_CONSTANT_COKERNEL_HS_MAP_AND_F26_26_NAMED_HS_D2_VALUES_OR_EXPLICIT_Q_DEFINED_LIFTS",
+        "next_leaf": "COMPUTE_GLOBAL_GERSTEN_2COCHAIN_OR_HS_D2_AFTER_ZERO_BOUNDARY_FUNCTION_SCALAR_CORRECTION_FOR_C2_AND_F26",
     },
     "stage33_12_exit": {
         "arithmetic_hs_d2_computed": False,

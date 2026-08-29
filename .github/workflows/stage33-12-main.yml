@@ -26,6 +26,9 @@ jobs:
           python-version: '3.11'
       - name: Replay exact obstruction inventory
         run: |
+          cp stages/stage33/33-12/boundary-function-scalar-descent-certificate.json /tmp/expected-boundary-scalars.json
+          python stages/stage33/33-12/certify_boundary_function_scalar_descent.py
+          cmp /tmp/expected-boundary-scalars.json stages/stage33/33-12/boundary-function-scalar-descent-certificate.json
           cp stages/stage33/33-12/stage33-12-exact-obstruction-inventory.json /tmp/expected.json
           python stages/stage33/33-12/assemble_exact_obstruction_inventory.py
           cmp /tmp/expected.json stages/stage33/33-12/stage33-12-exact-obstruction-inventory.json
