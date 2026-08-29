@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V124_RESUMABLE_GEN34_INGESTED",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V125_RESUMABLE_GEN35_COLD_PREFLIGHT_PASS",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
   "G10_LOWGENUS_PICARD": "AMBER",
   "stage32_closed": false,
-  "status": "RESUMABLE_GEN34_PASS_FRONTIER_169_PREPARE_GEN35",
+  "status": "RESUMABLE_GEN35_COLD_PREFLIGHT_PASS_FRESH_ARM_NEXT",
   "audit_required": false,
   "repair_required": false,
   "repair_allowed": false,
@@ -23,24 +23,20 @@
   "R29_LG2": "NOT_DISCHARGED",
   "accepted_current_facts": {
     "residual32_01_generation33_global_frontier_after_ingest": 218,
-    "residual32_01_generation33_children_per_input": 0.859375,
-    "residual32_01_hardness_primary_shift": "MORE_WORK_UNITS_REACH_64M_CEILING",
-    "residual32_01_resumable_real_oracle_equivalence_pass": true,
     "residual32_01_resumable_structural_max_children_per_input": 1,
     "residual32_01_resumable_structural_reproduction_upper_bound": 1.0,
-    "residual32_01_resumable_calibration_r1_run_id": 33269006175,
-    "residual32_01_resumable_calibration_r1_exact_prefix_equivalence_each": true,
     "residual32_01_resumable_generation34_run_id": 33270325393,
-    "residual32_01_resumable_generation34_input_frontier": 218,
-    "residual32_01_resumable_generation34_dispatch": 128,
-    "residual32_01_resumable_generation34_carry": 90,
-    "residual32_01_resumable_generation34_completed_inputs": 49,
-    "residual32_01_resumable_generation34_continuations": 79,
-    "residual32_01_resumable_generation34_continuations_per_input": 0.6171875,
     "residual32_01_resumable_generation34_frontier_after_ingest": 169,
     "residual32_01_resumable_generation34_frontier_net_change": -49,
     "residual32_01_resumable_generation34_manifest_sha256": "7dc05594947606f80dfc38a79f40fd4449b735a978c5af82a20e7df748da4255",
-    "residual32_01_resumable_production_switch_supported": true,
+    "residual32_01_resumable_generation35_cold_preflight_run_id": 33273217629,
+    "residual32_01_resumable_generation35_source_frontier": 169,
+    "residual32_01_resumable_generation35_dispatch": 128,
+    "residual32_01_resumable_generation35_carry": 41,
+    "residual32_01_resumable_generation35_dispatch_sha256": "8724bf6fffc780f45414ca3f43280ff6afdd1a56c734f29b9ded7f0404afa220",
+    "residual32_01_resumable_generation35_exact_fifo_source_preflight": true,
+    "residual32_01_resumable_generation35_structural_preflight": true,
+    "residual32_01_resumable_generation35_cold_heavy_started": false,
     "residual32_01_resumable_production_switched": true
   },
   "active_execution_guardrail": {
@@ -58,15 +54,14 @@
     "mathematical_credit_changed_this_batch": false,
     "receiver_credit_changed": false,
     "old_split_production_preferred": false,
-    "resumable_production_switch_supported": true,
     "resumable_production_arm_must_be_runkey_only_sync": true,
-    "next_heavy_arm_authorized": false
+    "next_heavy_arm_authorized": true
   },
-  "current_item": "GENERALIZE_RESUMABLE_PRODUCTION_TO_GEN34_FRONTIER_ARTIFACT",
-  "current_item_execution_constraint": "GEN34 COMPLETED SUCCESSFULLY: EXACT FIFO FRONTIER 218 -> 169, WITH 128 DISPATCH, 49 COMPLETED INPUTS, 79 SINGLE-CURSOR CONTINUATIONS, AND 90 CARRY. NEXT, GENERALIZE THE COLD PRODUCTION AUTHORIZATION PATH TO SOURCE THE LOCKED GEN34 FRONTIER ARTIFACT (ID 9720400921, ZIP SHA256 292e8c..., MANIFEST SHA256 7dc0559...). SOURCE/WORKFLOW/BOOKKEEPING SYNCS MUST REMAIN COLD. ONLY AFTER A COLD PREFLIGHT MAY A FRESH DEDICATED RUNKEY-ONLY SYNC ARM GEN35. UNKNOWN!=UNSAT; PREFIX COMPLETION!=NUMERICAL ROW CLOSURE; ALL CLAIM FIREWALLS REMAIN CLOSED.",
+  "current_item": "ARM_RESUMABLE_GEN35_WITH_FRESH_RUNKEY_ONLY_SYNC",
+  "current_item_execution_constraint": "GEN35 COLD PREFLIGHT PASSED AGAINST THE EXACT GEN34 FRONTIER ARTIFACT: 169 SOURCE UNITS = 128 FIFO DISPATCH + 41 CARRY, DISPATCH SHA256 8724bf6f..., CURSOR ROUNDTRIP EXACT, ALL LEGACY/CALIBRATION HEAVY JOBS VERIFIED SKIPPED, PROJECTED ARTIFACT PEAK 2 MB <500 MB, EFFECTIVE STAGE32 HEAVY OVERLAP <=18. ARM ONLY THE DEDICATED RESUMABLE RUNKEY IN A SINGLE-FILE SYNC; THEN DO NOT WRITE REPOSITORY STATE UNTIL THE HEAVY RUN FINISHES. UNKNOWN!=UNSAT; PREFIX COMPLETION!=NUMERICAL ROW CLOSURE; ALL CLAIM FIREWALLS REMAIN CLOSED.",
   "execution_class": 1,
   "next_expected_command": "Stage32-main-batch",
-  "next_item": "COLD_PREFLIGHT_GEN35_FROM_RESUMABLE_FRONTIER_THEN_FRESH_RUNKEY_ONLY_ARM",
+  "next_item": "RUN_RESUMABLE_GEN35_THEN_INGEST_EXACT_FRONTIER_MANIFEST",
   "post_b16_progression": {
     "b18_release_authorized": false,
     "full_178_row_sweep_authorized": true,
@@ -75,16 +70,18 @@
     "residual_feasibility_gate": "HOSTILE_AUDIT_PASS_SCOPE_LOCKED"
   },
   "residual32_01_checkpoint": {
-    "generation33": {"run_id": 33254924253, "global_frontier_after_ingest": 218},
-    "resumable_calibration_r1": {"run_id": 33269006175, "result": "PASS_8_EXACT_CURRENT_FRONTIER_OLD_VS_RESUMABLE_COMPARISONS"},
-    "resumable_generation34": {
-      "checkpoint": "stages/stage32/residual-32-01-production/full178-resumable-generation34-main-checkpoint.json",
+    "generation34": {
       "run_id": 33270325393,
       "artifact_id": 9720400921,
-      "artifact_zip_sha256": "292e8cde68eb98df341b38feec57f6a3c59c0bee7a9c0c59dcaf3a406d4ee700",
       "manifest_canonical_sha256": "7dc05594947606f80dfc38a79f40fd4449b735a978c5af82a20e7df748da4255",
-      "result": "PASS_RESUMABLE_GEN34_EXACT_FIFO_FRONTIER_218_TO_169",
       "frontier_after_ingest": 169
+    },
+    "generation35_cold_preflight": {
+      "checkpoint": "stages/stage32/residual-32-01-production/full178-resumable-generation35-cold-preflight-main-checkpoint.json",
+      "run_id": 33273217629,
+      "result": "PASS_RESUMABLE_GEN35_COLD_PREFLIGHT_EXACT_FRONTIER_169_DISPATCH_128_CARRY_41",
+      "dispatch_canonical_sha256": "8724bf6fffc780f45414ca3f43280ff6afdd1a56c734f29b9ded7f0404afa220",
+      "production_armed": false
     }
   },
   "repo_absolute_rule_read_policy": {
