@@ -1,12 +1,12 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V16_HOSTILE_AUDIT_PASS_METADATA_SYNCED",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V19_FULL178_PREFLIGHT_HOSTILE_REAUDIT_PASS",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "REPRESENTATIVE_COST_FEASIBILITY_HOSTILE_AUDIT_PASS_SCOPE_LOCKED_METADATA_SYNCED",
+  "status": "FULL178_COLD_PREFLIGHT_HOSTILE_REAUDIT_PASS_SCOPE_LOCKED_AWAIT_EXPLICIT_HEAVY_RELEASE",
   "audit_required": false,
   "repair_required": false,
-  "merge_allowed": false,
-  "advance_allowed": false,
+  "merge_allowed": true,
+  "advance_allowed": true,
   "B18_RELEASE_AUTHORIZED": false,
   "FULL_178_ROW_SWEEP_AUTHORIZED": false,
   "FULL_D16_G0_ROW_COMPLETE": false,
@@ -19,20 +19,57 @@
   "diagnosis": {
     "all_four_locked_representative_completion_costs_measured": true,
     "representative_cost_feasibility_hostile_audit_pass": true,
-    "production_cost_ready": false,
-    "production_cost_ready_blocker": "FULL178_WORST_CASE_AND_PRODUCTION_SWEEP_NOT_CERTIFIED_OR_RELEASED",
-    "metadata_sync_repair_complete": true,
-    "reason": "HOSTILE AUDIT REVIEW 5056772158 PASSED THE SCOPE-LOCKED FOUR-REPRESENTATIVE COST FEASIBILITY CLAIM AND INDEPENDENTLY RECOMPUTED THE RETAINED ARTIFACT CANONICAL HASHES. THE AUDIT FOUND ONE METADATA DEFECT: THIS STATE FILE HAD advance_allowed=true WHILE THE AUTHORITATIVE CONTROLLER BLOCKED ADVANCE. THAT FLAG IS NOW SYNCHRONIZED TO false. THIS REPAIR DOES NOT PROMOTE FULL178, B18, THEOREM, RECEIVER, ROUTE, ENDPOINT, OR PERFECT-CUBOID CREDIT."
+    "full178_preflight_released": true,
+    "full178_preflight_implemented": true,
+    "full178_manifest_internal_consistency_pass": true,
+    "full178_source_provenance_repair_complete": true,
+    "full178_source_provenance_hostile_reaudit_pass": true,
+    "production_cost_ready": true,
+    "production_cost_ready_scope": "BOUNDED_FAIL_CLOSED_PRODUCTION_POLICY_ONLY_NOT_WORST_CASE_CERTIFICATE",
+    "reason": "HOSTILE REAUDIT 5057163230 PASSED THE SOURCE-PROVENANCE REPAIR. THE VERIFIER NOW MECHANICALLY LOCKS THE HOSTILE-AUDITED RESIDUAL-FEASIBILITY STATE AND PAYLOAD, DERIVES THE AUTHORITATIVE 183 ROWS FROM THE LOCKED ANALYZER, REMOVES EXACTLY THE FIVE AUDITED DEGREE<=6 ROWS, AND PROVES EXACT EQUALITY WITH THE 178-ROW MANIFEST. STATIC PREFLIGHT IS AUDITED, BUT FULL178 HEAVY EXECUTION REMAINS UNAUTHORIZED UNTIL A SEPARATE MAIN CONTROLLER RELEASE."
   },
-  "hostile_audit": {
-    "review_id": 5056772158,
-    "audited_head_sha": "3def08e2887c67089cfdc77f7e0355977425c0c5",
-    "verdict": "PASS_RESIDUAL32_01_REPRESENTATIVE_COST_FEASIBILITY_SCOPE_LOCKED",
-    "artifact_hashes_independently_recomputed": true,
-    "generation18_certificate_sha256": "10fd522322d65de1ebfb2b03985848678fc2b33ded1a2aa1c22ae8d7be514fb5",
-    "generation19_certificate_sha256": "06e487a6b083eb56d15df76920db4bb0c388ab52a3b321cc4cf2581752e23c5e",
-    "metadata_finding": "advance_allowed true in state versus false in authoritative controller",
-    "metadata_finding_repaired": true
+  "full178_hostile_reaudit": {
+    "review_id": 5057163230,
+    "audited_head_sha": "657c99327316336592ff757d36875c69cc19623d",
+    "verdict": "PASS_SOURCE_PROVENANCE_REPAIR_SCOPE_LOCKED",
+    "prior_failed_review_id": 5057147138,
+    "audited_source_provenance_lock": "PASS",
+    "internal_manifest_consistency": "PASS",
+    "m_class_partition": "PASS",
+    "fail_closed_unknown_policy": "PASS",
+    "actions_storage_concurrency_preflight": "PASS",
+    "cold_runkey_and_ci": "PASS"
+  },
+  "source_provenance_repair": {
+    "audited_state": "stages/stage32/post-b16-residual-feasibility/state.json",
+    "audited_state_schema": "STAGE32_POST_B16_RESIDUAL_FEASIBILITY_STATE_V2_HOSTILE_AUDIT_PASS",
+    "audited_residual_feasibility_review_id": 5055351647,
+    "audited_analyzer": "stages/stage32/post-b16-residual-feasibility/analyze_full_window_feasibility.py",
+    "audited_payload_sha256": "e787c75b845b691c934fcba5a09a1a76c3c95a82a2deb6563bb7e8fbcd636897",
+    "audited_source_row_count": 183,
+    "excluded_degree_le_6_row_ids": ["g0-d002","g0-d004","g0-d006","g1-d004","g1-d006"],
+    "derived_residual_row_count": 178,
+    "verifier_derives_rows_from_audited_analyzer": true
+  },
+  "full178_preflight": {
+    "manifest": "stages/stage32/residual-32-01-production/full178-manifest.json",
+    "manifest_sha256": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23",
+    "preflight": "stages/stage32/residual-32-01-production/full178-production-preflight.json",
+    "verifier": "stages/stage32/residual-32-01-production/verify_full178_preflight.py",
+    "workflow": ".github/workflows/stage32-residual32-01-full178-preflight.yml",
+    "runkey": "stages/stage32/runkeys/residual32-01-full178-production.json",
+    "runkey_generation": 0,
+    "runkey_armed": false,
+    "residual_row_count": 178,
+    "m_class_counts": {"1":23,"2":23,"4":44,"8":88},
+    "coarse_strata_count": 64111,
+    "first_pass_node_ceiling": 16000000,
+    "unknown_is_unsat": false,
+    "effective_heavy_concurrency": 8,
+    "projected_peak_artifact_mb": 7.78125,
+    "raw_evidence_persisted": false,
+    "heavy_sweep_authorized": false,
+    "heavy_compute_armed": false
   },
   "representative_completion_curve": {
     "known_label_order_1based": [95,99,103,102,49,97,94,101,93,98,96],
@@ -41,19 +78,5 @@
     "m4": {"nodes":10360479,"membership_prunes":2157624,"symmetry_prunes":734852,"terminals":2139102},
     "m8": {"nodes":8277509,"membership_prunes":1723816,"symmetry_prunes":587108,"terminals":1709018}
   },
-  "main_review": "stages/stage32/residual-32-01-production/representative-completion-curve-main-review.json",
-  "generation18_main_checkpoint": "stages/stage32/residual-32-01-production/generation18-main-checkpoint.json",
-  "generation19_main_checkpoint": "stages/stage32/residual-32-01-production/generation19-main-checkpoint.json",
-  "implementation": {
-    "hperp_integral_adapter": "stages/stage32/residual-32-01-production/hperp_integral_adapter.py",
-    "calibration_base": "stages/stage32/residual-32-01-production/calibrate_representatives.py",
-    "generation14_wrapper": "stages/stage32/residual-32-01-production/calibrate_generation14.py",
-    "generation17_m2_wrapper": "stages/stage32/residual-32-01-production/calibrate_generation17_m2.py",
-    "generation19_remaining_wrapper": "stages/stage32/residual-32-01-production/calibrate_generation19_remaining.py",
-    "workflow": ".github/workflows/stage32-residual32-01-pairing-prefix-calibration.yml",
-    "runkey": "stages/stage32/runkeys/residual32-01-pairing-prefix-calibration.json",
-    "runkey_generation": 19,
-    "online_magma_dependency": false
-  },
-  "next_item": "CONTROLLER_POST_REPAIR_DECISION_NO_AUTOMATIC_DOWNSTREAM_RELEASE"
+  "next_item": "EXPLICIT_MAIN_RELEASE_DECISION_FOR_FULL178_HEAVY_PRODUCTION"
 }
