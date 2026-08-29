@@ -1,14 +1,14 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V79_FULL178_PREFLIGHT_HOSTILE_AUDIT_FAIL_SOURCE_PROVENANCE_REPAIR_REQUIRED",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V80_FULL178_SOURCE_PROVENANCE_REPAIRED_REAUDIT_REQUIRED",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
   "G10_LOWGENUS_PICARD": "AMBER",
   "stage32_closed": false,
-  "status": "RESIDUAL32_01_FULL178_STATIC_PREFLIGHT_HOSTILE_AUDIT_FAIL_SOURCE_PROVENANCE_REPAIR_REQUIRED_NO_HEAVY_SWEEP",
-  "audit_required": false,
-  "repair_required": true,
-  "repair_allowed": true,
+  "status": "RESIDUAL32_01_FULL178_STATIC_PREFLIGHT_SOURCE_PROVENANCE_REPAIRED_PENDING_FRESH_REAUDIT_NO_HEAVY_SWEEP",
+  "audit_required": true,
+  "repair_required": false,
+  "repair_allowed": false,
   "merge_allowed": false,
   "advance_allowed": false,
   "theorem_credit": false,
@@ -28,10 +28,10 @@
     "residual32_01_full178_preflight_released": true,
     "residual32_01_full178_preflight_implemented": true,
     "residual32_01_full178_manifest_internal_consistency_pass": true,
+    "residual32_01_full178_source_provenance_repair_complete": true,
     "residual32_01_full178_source_provenance_lock_pass": false,
     "residual32_01_full178_heavy_sweep_authorized": false,
-    "residual32_01_production_cost_ready": false,
-    "residual32_01_production_cost_ready_provisional_pending_audit": false
+    "residual32_01_production_cost_ready": false
   },
   "active_execution_guardrail": {
     "automatic_b18_or_higher_forbidden": true,
@@ -40,31 +40,29 @@
     "heavy_compute_armed_by_controller_sync": false,
     "mathematical_credit_changed_this_batch": false,
     "receiver_credit_changed": false,
-    "post_b16_release_scope": "RESIDUAL32_01_FULL178_STATIC_PREFLIGHT_SOURCE_PROVENANCE_REPAIR_ONLY"
+    "post_b16_release_scope": "RESIDUAL32_01_FULL178_STATIC_PREFLIGHT_SOURCE_PROVENANCE_REAUDIT_ONLY"
   },
-  "current_item": "REPAIR_FULL178_AUDITED_183_ROW_SOURCE_PROVENANCE_LOCK",
-  "current_item_execution_constraint": "HOSTILE AUDIT PASSED INTERNAL 178-ROW CONSISTENCY, M-CLASS PARTITION, FAIL-CLOSED NODE POLICY, CONCURRENCY/STORAGE PREFLIGHT, COLD RUN KEY, AND CI BEHAVIOR, BUT FAILED THE CLAIMED AUDITED-183-ROW SOURCE PROVENANCE LOCK. LOCK THE HOSTILE-AUDITED RESIDUAL-FEASIBILITY ANALYZER/STATE/PAYLOAD, VERIFY THE AUDITED PAYLOAD SHA e787c75b845b691c934fcba5a09a1a76c3c95a82a2deb6563bb7e8fbcd636897, AND DERIVE THE 178 ROWS FROM THAT SOURCE MINUS EXACTLY FIVE AUDITED DEGREE<=6 ROWS. DO NOT ARM FULL178 OR B18. NO THEOREM, RECEIVER, ROUTE, ENDPOINT, OR PERFECT-CUBOID CREDIT.",
+  "current_item": "HOSTILE_REAUDIT_FULL178_AUDITED_183_ROW_SOURCE_PROVENANCE_REPAIR",
+  "current_item_execution_constraint": "RE-AUDIT THE REPAIR FOR REVIEW 5057147138. THE VERIFIER MUST READ THE HOSTILE-AUDITED RESIDUAL-FEASIBILITY STATE, LOCK EXPECTED PAYLOAD SHA e787c75b845b691c934fcba5a09a1a76c3c95a82a2deb6563bb7e8fbcd636897, IMPORT THE LOCKED ANALYZER, OBTAIN ITS 183 audited_rows(), AND PROVE THE FULL178 MANIFEST IS EXACTLY THAT SET MINUS THE FIVE AUDITED DEGREE<=6 ROWS. DO NOT ARM OR LAUNCH FULL178 OR B18. NO THEOREM, RECEIVER, ROUTE, ENDPOINT, OR PERFECT-CUBOID CREDIT.",
   "execution_class": 0,
-  "next_expected_command": "Stage32-main-batch",
-  "next_item": "REPAIR_FULL178_AUDITED_183_ROW_SOURCE_PROVENANCE_LOCK",
+  "next_expected_command": "Stage32-audit",
+  "next_item": "HOSTILE_REAUDIT_FULL178_STATIC_PREFLIGHT_SOURCE_PROVENANCE_REPAIR",
   "post_b16_progression": {
     "b18_release_authorized": false,
     "full_178_preflight_authorized": true,
     "full_178_preflight_implemented": true,
     "full_178_row_sweep_authorized": false,
     "later_items_released": false,
-    "current_release": "RESIDUAL32_01_FULL178_STATIC_PREFLIGHT_SOURCE_LOCK_REPAIR_GATE_ONLY",
+    "current_release": "RESIDUAL32_01_FULL178_STATIC_PREFLIGHT_SOURCE_PROVENANCE_REAUDIT_GATE_ONLY",
     "residual_feasibility_gate": "HOSTILE_AUDIT_PASS_SCOPE_LOCKED"
   },
   "residual32_01_checkpoint": {
     "representative_audit_state": "HOSTILE_AUDIT_PASS_METADATA_SYNC_REPAIRED",
-    "audit_review_id": 5056772158,
-    "audited_head_sha": "3def08e2887c67089cfdc77f7e0355977425c0c5",
-    "audit_verdict": "PASS_RESIDUAL32_01_REPRESENTATIVE_COST_FEASIBILITY_SCOPE_LOCKED",
+    "representative_audit_review_id": 5056772158,
+    "representative_audit_verdict": "PASS_RESIDUAL32_01_REPRESENTATIVE_COST_FEASIBILITY_SCOPE_LOCKED",
     "merged_calibration_pr": 1456,
     "merged_calibration_commit": "a4027b54ff57c556f9a2d1cb9448bb5c8c1affbb",
     "state": "stages/stage32/residual-32-01-production/state.json",
-    "main_review": "stages/stage32/residual-32-01-production/representative-completion-curve-main-review.json",
     "release_decision": "stages/stage32/residual-32-01-production/FULL178_PRODUCTION_RELEASE_DECISION.md",
     "full178_manifest": "stages/stage32/residual-32-01-production/full178-manifest.json",
     "full178_manifest_sha256": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23",
@@ -91,14 +89,23 @@
       "fail_closed_unknown_policy": "PASS",
       "actions_storage_concurrency_preflight": "PASS",
       "cold_runkey_and_ci": "PASS",
-      "audited_183_row_source_provenance_lock": "FAIL",
-      "audited_source_analyzer": "stages/stage32/post-b16-residual-feasibility/analyze_full_window_feasibility.py",
-      "audited_expected_payload_sha256": "e787c75b845b691c934fcba5a09a1a76c3c95a82a2deb6563bb7e8fbcd636897"
+      "audited_183_row_source_provenance_lock": "FAIL"
+    },
+    "source_provenance_repair": {
+      "repair_complete": true,
+      "audited_state": "stages/stage32/post-b16-residual-feasibility/state.json",
+      "audited_state_schema": "STAGE32_POST_B16_RESIDUAL_FEASIBILITY_STATE_V2_HOSTILE_AUDIT_PASS",
+      "audited_residual_feasibility_review_id": 5055351647,
+      "audited_analyzer": "stages/stage32/post-b16-residual-feasibility/analyze_full_window_feasibility.py",
+      "audited_expected_payload_sha256": "e787c75b845b691c934fcba5a09a1a76c3c95a82a2deb6563bb7e8fbcd636897",
+      "audited_source_row_count": 183,
+      "excluded_degree_le_6_row_ids": ["g0-d002","g0-d004","g0-d006","g1-d004","g1-d006"],
+      "derived_residual_row_count": 178,
+      "verifier_derives_rows_from_audited_analyzer": true
     },
     "representative_completion_nodes": {"1":14526419,"2":6194539,"4":10360479,"8":8277509},
     "production_cost_ready": false,
-    "production_cost_ready_provisional_pending_audit": false,
-    "production_cost_ready_blocker": "HOSTILE_AUDIT_REQUIRES_AUDITED_183_ROW_SOURCE_PROVENANCE_LOCK_BEFORE_HEAVY_RELEASE"
+    "production_cost_ready_blocker": "FRESH_HOSTILE_REAUDIT_REQUIRED_AFTER_SOURCE_PROVENANCE_REPAIR"
   },
   "controller_writeback_policy": {
     "controller_must_reflect_current_state_before_batch_end": true,
