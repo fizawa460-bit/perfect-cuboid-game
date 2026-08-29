@@ -49,7 +49,7 @@ jobs:
           [ "${#changed[@]}" -eq 1 ] || exit 0
           [ "${changed[0]}" = "$KEY" ] || exit 0
           python - "$BEFORE" "$KEY" "$GITHUB_OUTPUT" <<'PY'
-          import hashlib, json, math, subprocess, sys
+          import hashlib, json, subprocess, sys
           before, key, output = sys.argv[1:]
           old = json.loads(subprocess.check_output(['git','show',f'{before}:{key}'], text=True))
           new = json.load(open(key))
@@ -155,7 +155,10 @@ jobs:
           python - "$OUT" <<'PY'
           import json, pathlib, sys
           p=pathlib.Path(sys.argv[1]); x=json.loads(p.read_text())
-          assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V1'
+          assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2'
+          assert x['nodes_used_accounting']=='SUM_TELEMETRY_NODES_V2'
+          assert x['nodes_used']==sum(int(t['nodes']) for t in x['telemetry'])
+          assert 0 <= x['nodes_used'] <= x['node_limit'] == 16000000
           assert x['prefix_stage_only'] is True
           assert x['unknown_is_unsat'] is False
           assert x['numerical_row_complete'] is False
@@ -199,15 +202,18 @@ jobs:
           work=[]; children=[]
           for p in files:
               x=json.loads(p.read_text())
+              assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2'
+              assert x['nodes_used']==sum(int(t['nodes']) for t in x['telemetry'])
               work.append({'work_unit_id':x['input_work_unit']['work_unit_id'],'row_id':x['row_id'],
                            'nodes_used':x['nodes_used'],
                            'completed_prefix_partitions':len(x['completed_prefix_partitions']),
                            'unknown_count':x['unknown_count'],
                            'certificate_sha256':x['canonical_sha256_without_this_field']})
               children.extend(x['unresolved_exact_child_work_units'])
-          payload={'schema':'STAGE32_RESIDUAL32_01_FULL178_PREFIX_WAVE_MANIFEST_V2',
+          payload={'schema':'STAGE32_RESIDUAL32_01_FULL178_PREFIX_WAVE_MANIFEST_V3',
                    'generation':int(os.environ['GENERATION']),'input_work_unit_count':8,
                    'work_units':sorted(work,key=lambda v:v['work_unit_id']),
+                   'total_nodes_used':sum(v['nodes_used'] for v in work),
                    'next_exact_work_units':children,
                    'prefix_stage_only':True,'unknown_is_unsat':False,
                    'FULL_D176_D192_NUMERICAL_ORBIT_CENSUS':False,
@@ -216,7 +222,8 @@ jobs:
           payload['canonical_sha256_without_this_field']=hashlib.sha256(raw).hexdigest()
           out=root/'wave-manifest.json'; out.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\n')
           assert out.stat().st_size < 128*1024
-          print(json.dumps({'generation':payload['generation'],'next_work_units':len(children),
+          print(json.dumps({'generation':payload['generation'],'total_nodes_used':payload['total_nodes_used'],
+                            'next_work_units':len(children),
                             'sha256':payload['canonical_sha256_without_this_field']},sort_keys=True))
           PY
       - uses: actions/upload-artifact@v4
