@@ -34,6 +34,8 @@ For the finite block, Stage33-11 proves Stage A exact zero on all 26 directions.
 
 The function-level scalar adapter has now also been computed. The 14 exact Stage33-11 generators contain 134 nontrivial side/exceptional boundary-function packages. Reconstructing their occurrence scalars from the two retained #1430 ambient-function artifacts gives 564 admissible `cc/ct` source-target comparisons, and every scalar ratio is exactly `1`. The audited Stage33-11f Q-defined automorphism/XOR span transports this zero scalar correction to all 26 directions. Therefore the finite block does not mix with the constant cokernel through boundary-function multiplicative constants. This does not rule out a later coupling in the still-unmaterialized global Gersten 2-cochain or HS differential.
 
+The full-surface Stage-B receiver is now stated exactly. For a finite residue direction `r`, Stage33-11 gives an invariant geometric lift fibre which is a torsor under `P=Br(Sbar)[2]^{G_Q}`, with `dim_F2(P)=10`. Hence the lift-independent obstruction is the coset `omega(r)=[d2(beta)]` in `coker(d2_S|P)`, not the literal `d2` value of an arbitrary chosen lift. The audited `q1` nonzero obstruction belongs to the coordinate K3 `K_c`; no retained adapter certifies a nonzero `q1` pullback into the full 14-dimensional surface module, so it is not promoted here. The 26 obstruction cosets remain `0/26` materialized.
+
 The machine-readable certificate is `stage33-12-exact-obstruction-inventory.json`, generated and independently replayable by `assemble_exact_obstruction_inventory.py`.
 
 ## Current exit state
@@ -46,6 +48,6 @@ STAGE33_07_HOSTILE_REAUDIT=NOT_RUN
 STAGE33_12_CLOSED=false
 ```
 
-The next exact leaf is now strictly above the boundary-function level: compute a global Gersten 2-cochain / HS differential for the constant two-primary block and the 26 finite directions, or equivalently materialize and residue-check explicit Q-defined lifts. The known Q-defined prefix and the zero boundary scalar adapter must not be recomputed.
+The next exact leaf is to materialize the full-surface proper Kummer `d2_S|P` adjustment map and one finite obstruction coset (then transport only through certified actions). Equivalently, a direct Q-defined lift may discharge a coset. The known Q-defined prefix and the zero boundary scalar adapter must not be recomputed.
 
 All Stage33-07/08/40, theorem, endpoint, and perfect-cuboid firewalls remain closed.

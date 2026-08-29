@@ -50,6 +50,7 @@ br0b = load("stages/stage33/33-07/br0b-boundary-raw-residue-map.json")
 finite = load("stages/stage33/33-07/br0g-finite-ramified-residue-presentation.json")
 explicit = load("stages/stage33/33-08/audit-state.json")
 boundary_scalars = load("stages/stage33/33-12/boundary-function-scalar-descent-certificate.json")
+hs_adjustment = load("stages/stage33/33-12/full-surface-hs-adjustment-contract.json")
 controller = load("stages/stage33/controller.json")
 
 locks = {
@@ -63,6 +64,7 @@ locks = {
     "finite_ramified_presentation_sha256": canonical_sha256(finite),
     "stage33_08_audit_state_content_sha256": canonical_sha256(explicit),
     "boundary_function_scalar_descent_sha256": canonical_sha256(boundary_scalars),
+    "full_surface_hs_adjustment_contract_sha256": canonical_sha256(hs_adjustment),
 }
 
 require(
@@ -131,6 +133,16 @@ require(
     "boundary-function scalar descent regression",
 )
 require(
+    hs_adjustment["full_surface_proper_adjustment_module"]["dimension_f2"] == 10
+    and hs_adjustment["finite_stage_B_obstruction"]["lift_independent_obstruction_target"]
+    == "coker(d2_S|P)"
+    and hs_adjustment["k3_to_full_surface_firewall"][
+        "q1_full_surface_d2_image_generator_promoted"
+    ]
+    is False,
+    "full-surface HS adjustment contract regression",
+)
+require(
     controller["stage33_progress"] == "6/11"
     and controller["stage33_07"]["unit_closed"] is False
     and controller["stage33_08_released"] is False
@@ -185,6 +197,14 @@ certificate = {
         "new_odd_primary_q_defined_residue_lifts_required": 0,
         "status": "EXACT_COMPLETE_NO_NEW_ODD_PRIMARY_BLOCK",
     },
+    "full_surface_stage_B_adjustment": {
+        "proper_invariant_module": "P=Br(Sbar)[2]^{G_Q}",
+        "proper_invariant_dimension_f2": 10,
+        "correct_lift_independent_receiver": "coker(d2_S|P)",
+        "finite_obstruction_cosets_materialized": 0,
+        "q1_nonzero_d2_on_Kc_promoted_to_full_surface_S": False,
+        "full_surface_proper_d2_adjustment_map_materialized": False,
+    },
     "remaining_two_primary_obstruction_blocks": [
         {
             "block_id": "C2_CONSTANT_COKERNEL",
@@ -224,7 +244,7 @@ certificate = {
         "unresolved_parametric_blocks": ["C2_CONSTANT_COKERNEL"],
         "unresolved_finite_named_directions": finite_direction_ids,
         "unresolved_finite_named_direction_count": 26,
-        "next_leaf": "COMPUTE_GLOBAL_GERSTEN_2COCHAIN_OR_HS_D2_AFTER_ZERO_BOUNDARY_FUNCTION_SCALAR_CORRECTION_FOR_C2_AND_F26",
+        "next_leaf": "MATERIALIZE_FULL_SURFACE_PROPER_KUMMER_D2_ADJUSTMENT_MAP_AND_THE_FIRST_FINITE_OBSTRUCTION_COSET",
     },
     "stage33_12_exit": {
         "arithmetic_hs_d2_computed": False,

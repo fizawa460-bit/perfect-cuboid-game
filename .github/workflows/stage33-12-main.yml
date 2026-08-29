@@ -29,6 +29,9 @@ jobs:
           cp stages/stage33/33-12/boundary-function-scalar-descent-certificate.json /tmp/expected-boundary-scalars.json
           python stages/stage33/33-12/certify_boundary_function_scalar_descent.py
           cmp /tmp/expected-boundary-scalars.json stages/stage33/33-12/boundary-function-scalar-descent-certificate.json
+          cp stages/stage33/33-12/full-surface-hs-adjustment-contract.json /tmp/expected-hs-adjustment.json
+          python stages/stage33/33-12/certify_full_surface_hs_adjustment_contract.py
+          cmp /tmp/expected-hs-adjustment.json stages/stage33/33-12/full-surface-hs-adjustment-contract.json
           cp stages/stage33/33-12/stage33-12-exact-obstruction-inventory.json /tmp/expected.json
           python stages/stage33/33-12/assemble_exact_obstruction_inventory.py
           cmp /tmp/expected.json stages/stage33/33-12/stage33-12-exact-obstruction-inventory.json
