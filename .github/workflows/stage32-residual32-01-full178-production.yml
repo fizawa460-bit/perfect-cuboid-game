@@ -9,6 +9,7 @@ on:
       - '.github/workflows/stage32-residual32-01-full178-production.yml'
       - 'stages/stage32/residual-32-01-production/full178-manifest.json'
       - 'stages/stage32/residual-32-01-production/full178-production-preflight.json'
+      - 'stages/stage32/residual-32-01-production/full178-concurrency16-preflight.json'
 
 permissions:
   contents: read
@@ -29,6 +30,29 @@ jobs:
           python-version: '3.10.6'
       - name: Reverify hostile-audited cold preflight
         run: python stages/stage32/residual-32-01-production/verify_full178_preflight.py
+      - name: Verify 16-runner operational expansion preflight
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage32/residual-32-01-production/full178-concurrency16-preflight.json'
+          x=json.load(open(p))
+          assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_CONCURRENCY16_PREFLIGHT_V1'
+          assert x['scope']=='OPERATIONAL_CONCURRENCY_EXPANSION_ONLY_NO_MATHEMATICAL_SEMANTICS_CHANGE'
+          assert x['source_and_math_contract_unchanged'] is True
+          assert x['runner_schema']=='STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2'
+          assert x['nodes_used_accounting']=='SUM_TELEMETRY_NODES_V2'
+          assert x['node_ceiling_per_work_unit']==16000000
+          assert x['full178_heavy_concurrency']==16
+          assert x['maximum_effective_stage32_heavy_overlap']==17
+          assert x['hard_stage_cap']==18
+          assert x['stage_cap_pass'] is True
+          assert x['remaining_stage32_heavy_headroom']==1
+          assert x['storage_safe_under_operating_budget'] is True
+          assert x['unknown_is_unsat'] is False
+          assert x['fresh_runkey_only_authorization_required'] is True
+          assert x['B18_RELEASE_AUTHORIZED'] is False
+          assert x['THEOREM_CREDIT'] is False and x['RECEIVER_CREDIT'] is False
+          PY
       - id: gate
         name: Verify fresh full178 production run-key arm
         env:
@@ -61,7 +85,7 @@ jobs:
           assert new['hostile_reaudit_review_id'] == 5057163230
           assert new['prefix_stage_only'] is True
           assert int(new['first_pass_node_ceiling']) == 16000000
-          assert int(new['effective_heavy_concurrency']) == 8
+          assert int(new['effective_heavy_concurrency']) == 16
           assert int(new['effective_heavy_concurrency']) <= 18
           assert float(new['projected_peak_artifact_mb']) < 500
           assert new['FULL178_HEAVY_PRODUCTION_AUTHORIZED'] is True
@@ -113,8 +137,8 @@ jobs:
               return base | {'work_unit_id': expected}
 
           units = [verify_unit(u) for u in new['work_units']]
-          assert len(units) == 8
-          assert len({u['work_unit_id'] for u in units}) == 8
+          assert len(units) == 16
+          assert len({u['work_unit_id'] for u in units}) == 16
           matrix = json.dumps({'work_unit': units}, separators=(',', ':'))
           with open(output, 'a') as f:
               f.write('authorized=true\n')
@@ -127,7 +151,7 @@ jobs:
     if: needs.authorize.outputs.authorized == 'true'
     strategy:
       fail-fast: false
-      max-parallel: 8
+      max-parallel: 16
       matrix: ${{ fromJSON(needs.authorize.outputs.matrix) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -198,7 +222,7 @@ jobs:
           import hashlib, json, os, pathlib
           root=pathlib.Path(os.environ['RUNNER_TEMP'])/'stage32-full178-aggregate'
           files=sorted(root.glob('*.json'))
-          assert len(files)==8, len(files)
+          assert len(files)==16, len(files)
           work=[]; children=[]
           for p in files:
               x=json.loads(p.read_text())
@@ -211,7 +235,7 @@ jobs:
                            'certificate_sha256':x['canonical_sha256_without_this_field']})
               children.extend(x['unresolved_exact_child_work_units'])
           payload={'schema':'STAGE32_RESIDUAL32_01_FULL178_PREFIX_WAVE_MANIFEST_V3',
-                   'generation':int(os.environ['GENERATION']),'input_work_unit_count':8,
+                   'generation':int(os.environ['GENERATION']),'input_work_unit_count':16,
                    'work_units':sorted(work,key=lambda v:v['work_unit_id']),
                    'total_nodes_used':sum(v['nodes_used'] for v in work),
                    'next_exact_work_units':children,
