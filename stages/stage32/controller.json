@@ -1,16 +1,16 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V76_RESIDUAL32_01_HOSTILE_AUDIT_PASS_METADATA_REPAIR_COMPLETE",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V77_FULL178_PRODUCTION_PREFLIGHT_RELEASED_COLD",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
   "G10_LOWGENUS_PICARD": "AMBER",
   "stage32_closed": false,
-  "status": "RESIDUAL32_01_REPRESENTATIVE_COST_FEASIBILITY_HOSTILE_AUDIT_PASS_SCOPE_LOCKED_METADATA_REPAIR_COMPLETE",
+  "status": "RESIDUAL32_01_FULL178_PRODUCTION_PREFLIGHT_RELEASED_COLD_NO_HEAVY_SWEEP",
   "audit_required": false,
   "repair_required": false,
   "repair_allowed": false,
   "merge_allowed": false,
-  "advance_allowed": false,
+  "advance_allowed": true,
   "theorem_credit": false,
   "receiver_credit": false,
   "route_color_change_authorized": false,
@@ -25,26 +25,30 @@
     "residual32_01_all_four_locked_representative_completion_costs_measured": true,
     "residual32_01_representative_cost_feasibility_hostile_audit_pass": true,
     "residual32_01_metadata_sync_repair_complete": true,
+    "residual32_01_full178_preflight_released": true,
+    "residual32_01_full178_heavy_sweep_authorized": false,
     "residual32_01_production_cost_ready": false
   },
   "active_execution_guardrail": {
     "automatic_b18_or_higher_forbidden": true,
     "full_178_row_sweep_authorized": false,
+    "full_178_preflight_authorized": true,
     "heavy_compute_armed_by_controller_sync": false,
     "mathematical_credit_changed_this_batch": false,
     "receiver_credit_changed": false,
-    "post_b16_release_scope": "RESIDUAL_32_01_AUDITED_REPRESENTATIVE_COST_FEASIBILITY_ONLY"
+    "post_b16_release_scope": "RESIDUAL32_01_FULL178_PRODUCTION_PREFLIGHT_AND_SHARD_POLICY_ONLY"
   },
-  "current_item": "RESIDUAL32_01_AUDITED_REPRESENTATIVE_COST_FEASIBILITY_COMPLETE_AWAIT_EXPLICIT_NEXT_RELEASE_DECISION",
-  "current_item_execution_constraint": "THE HOSTILE AUDIT PASSED THE SCOPE-LOCKED FOUR-REPRESENTATIVE COST FEASIBILITY CLAIM AND THE SOLE METADATA FINDING HAS BEEN REPAIRED. THIS DOES NOT CERTIFY FULL178 WORST-CASE COST OR COVERAGE AND DOES NOT RELEASE FULL178, B18, THEOREM, RECEIVER, ROUTE, ENDPOINT, OR PERFECT-CUBOID CREDIT. NO HEAVY COMPUTE IS ARMED. A SEPARATE EXPLICIT CONTROLLER RELEASE DECISION IS REQUIRED BEFORE ANY DOWNSTREAM PRODUCTION STEP.",
+  "current_item": "RESIDUAL32_01_FULL178_PRODUCTION_PREFLIGHT_AND_SHARD_POLICY",
+  "current_item_execution_constraint": "BUILD THE COLD EXACT 178-ROW MANIFEST, DETERMINISTIC WORK-UNIT/SHARD POLICY, FAIL-CLOSED EXPENSIVE-ROW ESCALATION, STORAGE/CONCURRENCY PROJECTION, COMPACT EVIDENCE CONTRACT, AND DEDICATED COMMIT-RANGE-AUTHORIZED RUN KEY. REPRESENTATIVE COSTS ARE NOT A FULL178 WORST-CASE BOUND. DO NOT ARM OR LAUNCH THE ALL-178 HEAVY SWEEP. B18, THEOREM, RECEIVER, ROUTE, ENDPOINT, AND PERFECT-CUBOID CREDIT REMAIN CLOSED.",
   "execution_class": 0,
   "next_expected_command": "Stage32-main-batch",
-  "next_item": "EXPLICIT_POST_AUDIT_PRODUCTION_RELEASE_DECISION",
+  "next_item": "IMPLEMENT_COLD_FULL178_MANIFEST_AND_PRODUCTION_PREFLIGHT_PACKAGE",
   "post_b16_progression": {
     "b18_release_authorized": false,
+    "full_178_preflight_authorized": true,
     "full_178_row_sweep_authorized": false,
     "later_items_released": false,
-    "current_release": "RESIDUAL_32_01_AUDITED_REPRESENTATIVE_COST_FEASIBILITY_ONLY",
+    "current_release": "RESIDUAL32_01_FULL178_PRODUCTION_PREFLIGHT_AND_SHARD_POLICY_ONLY",
     "residual_feasibility_gate": "HOSTILE_AUDIT_PASS_SCOPE_LOCKED"
   },
   "residual32_01_checkpoint": {
@@ -52,8 +56,11 @@
     "audit_review_id": 5056772158,
     "audited_head_sha": "3def08e2887c67089cfdc77f7e0355977425c0c5",
     "audit_verdict": "PASS_RESIDUAL32_01_REPRESENTATIVE_COST_FEASIBILITY_SCOPE_LOCKED",
+    "merged_calibration_pr": 1456,
+    "merged_calibration_commit": "a4027b54ff57c556f9a2d1cb9448bb5c8c1affbb",
     "state": "stages/stage32/residual-32-01-production/state.json",
     "main_review": "stages/stage32/residual-32-01-production/representative-completion-curve-main-review.json",
+    "release_decision": "stages/stage32/residual-32-01-production/FULL178_PRODUCTION_RELEASE_DECISION.md",
     "generation18_checkpoint": "stages/stage32/residual-32-01-production/generation18-main-checkpoint.json",
     "generation19_checkpoint": "stages/stage32/residual-32-01-production/generation19-main-checkpoint.json",
     "workflow": ".github/workflows/stage32-residual32-01-pairing-prefix-calibration.yml",
@@ -68,14 +75,10 @@
     "artifact_hashes_independently_recomputed": true,
     "hostile_audit_passed": true,
     "metadata_repair_complete": true,
-    "metadata_repair": {
-      "path": "stages/stage32/residual-32-01-production/state.json",
-      "field": "advance_allowed",
-      "old_value": true,
-      "new_value": false
-    },
+    "full178_preflight_released": true,
+    "full178_heavy_sweep_authorized": false,
     "production_cost_ready": false,
-    "production_cost_ready_blocker": "FULL178_WORST_CASE_AND_PRODUCTION_SWEEP_NOT_CERTIFIED_OR_RELEASED"
+    "production_cost_ready_blocker": "FULL178_MANIFEST_SHARD_STORAGE_CONCURRENCY_AND_FAIL_CLOSED_PRODUCTION_POLICY_NOT_YET_IMPLEMENTED"
   },
   "controller_writeback_policy": {
     "controller_must_reflect_current_state_before_batch_end": true,
