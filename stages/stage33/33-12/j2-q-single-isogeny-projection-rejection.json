@@ -1,0 +1,43 @@
+{
+  "schema": "STAGE33_12_J2_Q_SINGLE_ISOGENY_PROJECTION_REJECTION_V1",
+  "status": "REJECTED_EXACTLY_AS_SINGLE_ISOGENY_SHA_COORDINATE",
+  "base_field": "K=Q(t)",
+  "jacobian": {
+    "equation": "Y^2=X*(X^2-2*H*X+D)",
+    "H": "t^4-4*t^2+1",
+    "D": "(t^2-1)^2*q",
+    "q": "t^4-6*t^2+1"
+  },
+  "hilbert90_input": {
+    "geometric_squareclass": "f2=(t+1+sqrt(2))/(t-1+sqrt(2))",
+    "constant_conjugate_norm_squareclass": "q",
+    "q_is_nonconstant": true
+  },
+  "single_isogeny_test": {
+    "template": "C_d: N^2=d*U^4-2*H*U^2*V^2+(D/d)*V^4",
+    "d": "q",
+    "equation": "N^2=q*U^4-2*H*U^2*V^2+(t^2-1)^2*V^4",
+    "K_rational_point": "[U:V:N]=[0:1:t^2-1]",
+    "torsor_class": "TRIVIAL",
+    "q_can_be_named_nontrivial_J2_single_isogeny_coordinate": false
+  },
+  "exact_conclusion": {
+    "constant_d2_projection_rejected": true,
+    "q_single_isogeny_projection_rejected": true,
+    "Dplus_support_pushforward_not_promoted": true,
+    "full_E2_cocycle_required": true,
+    "reason": "The named geometric J2 Brauer/Sha class is nontrivial, while both tested scalar projections (constant 2 and the q norm/corestriction projection) give geometrically or explicitly trivial single-isogeny coverings. The missing datum is therefore the full two-coordinate E[2] cocycle before projection to any one rational 2-isogeny."
+  },
+  "next_exact_leaf": "COMPUTE_THE_TWO_KUMMER_SQUARECLASS_COORDINATES_OF_THE_NAMED_HILBERT90_COCYCLE_IN_H1(Q(t),E[2])_FOR_E:Y2=X(X-r1)(X-r2),_THEN_MAP_THAT_PAIR_TO_THE_WEIL_CHATELET_CLASS",
+  "j2_2isogeny_squareclass_selected": false,
+  "j2_torsor_equation_materialized": false,
+  "j2_marked_brauer_coordinate_selected": false,
+  "stage33_12_closed_exact": false,
+  "stage33_13_released": false,
+  "heavy_actions_authorized": false,
+  "theorem_credit": false,
+  "receiver_credit": false,
+  "endpoint_credit": false,
+  "perfect_cuboid_existence_claim": false,
+  "perfect_cuboid_nonexistence_claim": false
+}
