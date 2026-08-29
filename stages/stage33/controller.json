@@ -16,12 +16,8 @@
   "stage33_can_run_concurrently_with_stage32": true,
   "repair_required": false,
   "new_kernel_id": "R33-BR0G-BR2A-GLOBAL-RESIDUE-LIFT-ARITHMETIC-HS-DESCENT",
-
   "repo_absolute_rule_read_policy": {
-    "mandatory_every_main_batch_reads": [
-      "AGENTS.md",
-      "stages/stage33/controller.json"
-    ],
+    "mandatory_every_main_batch_reads": ["AGENTS.md", "stages/stage33/controller.json"],
     "repo_wide_rules_override_stage_local_controller": true,
     "conditional_mandatory_policy_reads": {
       "before_actions_artifacts_or_heavy_compute": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
@@ -29,7 +25,6 @@
       "before_parking_route_or_claiming_exhaustion": "docs/research-os/policies/cycle-exploration-safety-protocol.md"
     }
   },
-
   "controller_writeback_policy": {
     "controller_writeback_required_for_every_main_batch_with_repository_write": true,
     "controller_must_reflect_current_state_before_batch_end": true,
@@ -37,38 +32,16 @@
     "controller_only_or_docs_only_change_must_not_authorize_heavy_rerun": true,
     "if_controller_edit_would_retrigger_heavy": "FIX_OR_GATE_WORKFLOW_DO_NOT_LEAVE_CONTROLLER_STALE"
   },
-
   "context_budget_policy": {
     "mode": "BOUNDED_HOT_WARM_COLD",
-    "hot": [
-      "AGENTS.md",
-      "stages/stage33/controller.json",
-      "CURRENT_REPAIR_CHILD_ROADMAP_SECTION_ONLY",
-      "CURRENT_CHILD_RESULT_OR_COMPACT_HANDOFF",
-      "CURRENT_CHILD_NAMED_INPUT_CERTIFICATES_ONLY"
-    ],
-    "warm": [
-      "IMMEDIATE_PREDECESSOR_COMPACT_HANDOFF",
-      "NAMED_INTERFACE_DEFINITIONS_ONLY"
-    ],
-    "cold": [
-      "GIANT_GENERATED_JSON",
-      "OLD_WORKFLOW_LOGS",
-      "FULL_PRIOR_PR_DIFFS",
-      "AUDITED_ANCESTOR_INTERNALS"
-    ],
+    "hot": ["AGENTS.md", "stages/stage33/controller.json", "CURRENT_REPAIR_CHILD_ROADMAP_SECTION_ONLY", "CURRENT_CHILD_RESULT_OR_COMPACT_HANDOFF", "CURRENT_CHILD_NAMED_INPUT_CERTIFICATES_ONLY"],
+    "warm": ["IMMEDIATE_PREDECESSOR_COMPACT_HANDOFF", "NAMED_INTERFACE_DEFINITIONS_ONLY"],
+    "cold": ["GIANT_GENERATED_JSON", "OLD_WORKFLOW_LOGS", "FULL_PRIOR_PR_DIFFS", "AUDITED_ANCESTOR_INTERNALS"],
     "read_giant_json_body_by_default": false,
     "reconstruct_audited_history_by_default": false,
-    "expand_cold_only_for_named_reason": [
-      "MISSING_LOAD_BEARING_REPRESENTATIVE_OR_MATRIX",
-      "SOURCE_LOCK_MISMATCH",
-      "CERTIFICATE_CONTRADICTION_OR_MISSING_INVARIANT",
-      "HOSTILE_AUDIT_MODE",
-      "DEBUGGING_FAILED_DETERMINISTIC_REPLAY"
-    ],
+    "expand_cold_only_for_named_reason": ["MISSING_LOAD_BEARING_REPRESENTATIVE_OR_MATRIX", "SOURCE_LOCK_MISMATCH", "CERTIFICATE_CONTRADICTION_OR_MISSING_INVARIANT", "HOSTILE_AUDIT_MODE", "DEBUGGING_FAILED_DETERMINISTIC_REPLAY"],
     "policy_source": "stages/stage33/ROADMAP-33-07-REPAIR-BAND.md"
   },
-
   "compact_evidence_policy": {
     "expanded_generated_evidence_default_location": "RUNNER_LOCAL",
     "commit_new_giant_generated_json_by_default": false,
@@ -80,7 +53,6 @@
     "existing_large_stage33_12_files": "RETAIN_AS_COLD_EVIDENCE_DO_NOT_DELETE_FOR_SIZE_ONLY",
     "policy_source": "stages/stage33/ROADMAP-33-07-REPAIR-BAND.md"
   },
-
   "main_batch_bootstrap_read_policy": {
     "scope": "MAIN_BATCH_NOT_HOSTILE_AUDIT",
     "purpose": "BOUND_CONTEXT_GROWTH_AND_AVOID_RECONSTRUCTING_AUDITED_HISTORY",
@@ -97,32 +69,11 @@
     "do_not_read_prior_result_or_certificate_body_by_default": true,
     "when_in_doubt": "DO_NOT_EXPAND_HISTORY_TRUST_AUDITED_INTERFACE_AND_CONTINUE_CURRENT_LEAF"
   },
-
   "audited_history_interfaces": {
-    "stage33_09": {
-      "status": "CLOSED_EXACT",
-      "pr": 1439,
-      "handoff": "stages/stage33/33-09/handoff.json"
-    },
-    "stage33_10": {
-      "status": "CLOSED_EXACT_HOSTILE_AUDIT_PASS",
-      "pr": 1444,
-      "handoff": "stages/stage33/33-10/handoff.json",
-      "absolute_h1_receiver_exact": true,
-      "finite_v4_shortcut_status": "EXPLICITLY_REPLACED"
-    },
-    "stage33_11": {
-      "status": "CLOSED_EXACT_HOSTILE_AUDIT_PASS",
-      "pr": 1459,
-      "handoff": "stages/stage33/33-11g/result.md",
-      "connecting_columns_exact_audited": "26/26",
-      "unresolved_connecting_columns": 0,
-      "arithmetic_localization_connecting_map": "COMPUTED_EXACT_ZERO_MAP",
-      "hostile_audit_verdict": "PASS_STAGE33_11G_HOSTILE_AUDIT_EXACT_EXIT",
-      "hostile_audit_review_id": 5055777323
-    }
+    "stage33_09": {"status": "CLOSED_EXACT", "pr": 1439, "handoff": "stages/stage33/33-09/handoff.json"},
+    "stage33_10": {"status": "CLOSED_EXACT_HOSTILE_AUDIT_PASS", "pr": 1444, "handoff": "stages/stage33/33-10/handoff.json", "absolute_h1_receiver_exact": true, "finite_v4_shortcut_status": "EXPLICITLY_REPLACED"},
+    "stage33_11": {"status": "CLOSED_EXACT_HOSTILE_AUDIT_PASS", "pr": 1459, "handoff": "stages/stage33/33-11g/result.md", "connecting_columns_exact_audited": "26/26", "unresolved_connecting_columns": 0, "arithmetic_localization_connecting_map": "COMPUTED_EXACT_ZERO_MAP", "hostile_audit_verdict": "PASS_STAGE33_11G_HOSTILE_AUDIT_EXACT_EXIT", "hostile_audit_review_id": 5055777323}
   },
-
   "stage33_07": {
     "pr": 1370,
     "unit_status": "BLOCKED_NEW_KERNEL",
@@ -130,6 +81,9 @@
     "downstream_released": false,
     "repair_execution_released": true,
     "new_kernel_id": "R33-BR0G-BR2A-GLOBAL-RESIDUE-LIFT-ARITHMETIC-HS-DESCENT",
+    "j2_q_defined": true,
+    "j2_exact_order": 2,
+    "j2_proper_transcendental": true,
     "arithmetic_localization_connecting_map_computed": true,
     "connecting_matrix_columns_explicitly_materialized": 26,
     "connecting_matrix_columns_total": 26,
@@ -140,44 +94,11 @@
     "theorem_credit": false,
     "endpoint_credit": false
   },
-
-  "stage33_08": {
-    "pr": 1375,
-    "unit_status": "BLOCKED_NEW_KERNEL",
-    "unit_closed": false,
-    "downstream_released": false,
-    "blocked_by_predecessor": "33-07",
-    "theorem_credit": false,
-    "endpoint_credit": false
-  },
-
+  "stage33_08": {"pr": 1375, "unit_status": "BLOCKED_NEW_KERNEL", "unit_closed": false, "downstream_released": false, "blocked_by_predecessor": "33-07", "theorem_credit": false, "endpoint_credit": false},
   "repair_children": [
-    {
-      "id": "33-09",
-      "name": "PICARD-EQUIVARIANT-TRANSPORT",
-      "status": "CLOSED_EXACT",
-      "pr": 1439,
-      "parent_big_task": "33-07",
-      "counts_toward_progress": false
-    },
-    {
-      "id": "33-10",
-      "name": "ABSOLUTE-H1-AND-GALOIS-DESCENT-ADAPTER",
-      "status": "CLOSED_EXACT_HOSTILE_AUDIT_PASS",
-      "pr": 1444,
-      "parent_big_task": "33-07",
-      "counts_toward_progress": false
-    },
-    {
-      "id": "33-11",
-      "name": "ARITHMETIC-LOCALIZATION-CONNECTING-MAP",
-      "status": "CLOSED_EXACT_HOSTILE_AUDIT_PASS",
-      "pr": 1459,
-      "parent_big_task": "33-07",
-      "counts_toward_progress": false,
-      "visible_progress": "26/26",
-      "unresolved": 0
-    },
+    {"id": "33-09", "name": "PICARD-EQUIVARIANT-TRANSPORT", "status": "CLOSED_EXACT", "pr": 1439, "parent_big_task": "33-07", "counts_toward_progress": false},
+    {"id": "33-10", "name": "ABSOLUTE-H1-AND-GALOIS-DESCENT-ADAPTER", "status": "CLOSED_EXACT_HOSTILE_AUDIT_PASS", "pr": 1444, "parent_big_task": "33-07", "counts_toward_progress": false},
+    {"id": "33-11", "name": "ARITHMETIC-LOCALIZATION-CONNECTING-MAP", "status": "CLOSED_EXACT_HOSTILE_AUDIT_PASS", "pr": 1459, "parent_big_task": "33-07", "counts_toward_progress": false, "visible_progress": "26/26", "unresolved": 0},
     {
       "id": "33-12",
       "name": "J2-MARKED-KC-KUMMER-GLUE",
@@ -192,18 +113,12 @@
       "audit_passed_for_exact_child_closure": false,
       "checkpoint_merge_allowed": true,
       "visible_progress": "3/5",
-      "milestones": {
-        "named_j2_half_divisor_and_cv_support_adapter": "DONE",
-        "pinned_stoll_branch_support_identification": "DONE",
-        "infinity_exceptional_geometric_attachment": "DONE",
-        "ptsk_index_and_qpick_exceptional_coordinate": "OPEN",
-        "branch_jacobian_to_kc_discriminant_kummer_glue_and_named_j2_coordinate": "OPEN"
-      },
+      "milestones": {"named_j2_half_divisor_and_cv_support_adapter": "DONE", "pinned_stoll_branch_support_identification": "DONE", "infinity_exceptional_geometric_attachment": "DONE", "ptsk_index_and_qpick_exceptional_coordinate": "OPEN", "branch_jacobian_to_kc_discriminant_kummer_glue_and_named_j2_coordinate": "OPEN"},
       "result": "stages/stage33/33-12/result.md",
       "full_surface_hs_adjustment_receiver": "coker(d2_S|Br(Sbar)[2]^{G_Q})",
       "proper_receiver_dimension_f2": 10,
       "finite_v4_pic2_h1_dimension_f2": 75,
-      "future_finite_v4_kummer_matrix_shape": [75,10],
+      "future_finite_v4_kummer_matrix_shape": [75, 10],
       "future_finite_v4_kummer_columns_materialized": 0,
       "future_finite_hs_obstruction_cosets_materialized": 0,
       "j2_q1_kc_adapter_survivors": 6,
@@ -213,60 +128,15 @@
       "heavy_actions_authorized": false,
       "stage33_12_closed_exact": false
     },
-    {
-      "id": "33-13",
-      "name": "FINITE-V4-KUMMER-MATRIX",
-      "status": "PLANNED_BLOCKED_BY_33_12",
-      "parent_big_task": "33-07",
-      "counts_toward_progress": false,
-      "released": false,
-      "prerequisites": ["33-12"],
-      "visible_progress": "0/10",
-      "matrix_shape": [75,10]
-    },
-    {
-      "id": "33-14",
-      "name": "FINITE-HS-COSETS-AND-TWO-PRIMARY-CONSTANT-BLOCK",
-      "status": "PLANNED_BLOCKED_BY_33_13",
-      "parent_big_task": "33-07",
-      "counts_toward_progress": false,
-      "released": false,
-      "prerequisites": ["33-13"],
-      "visible_progress": "0/26; CONSTANT_TWO_PRIMARY_BLOCK=OPEN"
-    },
-    {
-      "id": "33-15",
-      "name": "GLOBAL-ARITHMETIC-HS-ASSEMBLY-AND-33-07-HOSTILE-RECERTIFICATION",
-      "status": "PLANNED_BLOCKED_BY_33_14",
-      "parent_big_task": "33-07",
-      "counts_toward_progress": false,
-      "released": false,
-      "prerequisites": ["33-14"],
-      "global_hs_assembly": "NOT_STARTED",
-      "q_defined_class_inventory": "INCOMPLETE",
-      "stage33_07_hostile_reaudit": "NOT_RUN"
-    }
+    {"id": "33-13", "name": "FINITE-V4-KUMMER-MATRIX", "status": "PLANNED_BLOCKED_BY_33_12", "parent_big_task": "33-07", "counts_toward_progress": false, "released": false, "prerequisites": ["33-12"], "visible_progress": "0/10", "matrix_shape": [75, 10]},
+    {"id": "33-14", "name": "FINITE-HS-COSETS-AND-TWO-PRIMARY-CONSTANT-BLOCK", "status": "PLANNED_BLOCKED_BY_33_13", "parent_big_task": "33-07", "counts_toward_progress": false, "released": false, "prerequisites": ["33-13"], "visible_progress": "0/26; CONSTANT_TWO_PRIMARY_BLOCK=OPEN"},
+    {"id": "33-15", "name": "GLOBAL-ARITHMETIC-HS-ASSEMBLY-AND-33-07-HOSTILE-RECERTIFICATION", "status": "PLANNED_BLOCKED_BY_33_14", "parent_big_task": "33-07", "counts_toward_progress": false, "released": false, "prerequisites": ["33-14"], "global_hs_assembly": "NOT_STARTED", "q_defined_class_inventory": "INCOMPLETE", "stage33_07_hostile_reaudit": "NOT_RUN"}
   ],
-
-  "repair_expansion_band": {
-    "range": "33-16..33-39",
-    "policy": "UNUSED_BY_DEFAULT_USE_NEXT_NUMBER_ONLY_IF_A_COARSE_PHASE_EXPOSES_A_GENUINELY_NEW_EXACT_SUBKERNEL"
-  },
-
+  "repair_expansion_band": {"range": "33-16..33-39", "policy": "UNUSED_BY_DEFAULT_USE_NEXT_NUMBER_ONLY_IF_A_COARSE_PHASE_EXPOSES_A_GENUINELY_NEW_EXACT_SUBKERNEL"},
   "big_tasks": [
-    {"id":"33-01","unit_status":"CLOSED"},
-    {"id":"33-02","unit_status":"CLOSED"},
-    {"id":"33-03","unit_status":"CLOSED"},
-    {"id":"33-04","unit_status":"CLOSED"},
-    {"id":"33-05","unit_status":"CLOSED"},
-    {"id":"33-06","unit_status":"CLOSED"},
-    {"id":"33-07","unit_status":"BLOCKED_NEW_KERNEL"},
-    {"id":"33-08","unit_status":"BLOCKED_NEW_KERNEL","prerequisite_units":["33-07"]},
-    {"id":"33-40","legacy_id":"33-09","unit_status":"OPEN","prerequisite_units":["33-08"]},
-    {"id":"33-41","legacy_id":"33-10","unit_status":"OPEN","prerequisite_units":["33-40"]},
-    {"id":"33-42","legacy_id":"33-11","unit_status":"OPEN","prerequisite_units":["33-07","33-08","33-40","33-41"]}
+    {"id": "33-01", "unit_status": "CLOSED"}, {"id": "33-02", "unit_status": "CLOSED"}, {"id": "33-03", "unit_status": "CLOSED"}, {"id": "33-04", "unit_status": "CLOSED"}, {"id": "33-05", "unit_status": "CLOSED"}, {"id": "33-06", "unit_status": "CLOSED"},
+    {"id": "33-07", "unit_status": "BLOCKED_NEW_KERNEL"}, {"id": "33-08", "unit_status": "BLOCKED_NEW_KERNEL", "prerequisite_units": ["33-07"]}, {"id": "33-40", "legacy_id": "33-09", "unit_status": "OPEN", "prerequisite_units": ["33-08"]}, {"id": "33-41", "legacy_id": "33-10", "unit_status": "OPEN", "prerequisite_units": ["33-40"]}, {"id": "33-42", "legacy_id": "33-11", "unit_status": "OPEN", "prerequisite_units": ["33-07", "33-08", "33-40", "33-41"]}
   ],
-
   "downstream_release_rule": "BIG_TASK_DOWNSTREAM_RELEASED_ONLY_IF_PARENT_UNIT_STATUS_CLOSED",
   "stage33_07_released": true,
   "stage33_07_release_allowed": true,
@@ -277,7 +147,6 @@
   "stage33_40_released": false,
   "stage33_40_release_allowed": false,
   "stage33_40_lock_reason": "STAGE33_08_NOT_CLOSED",
-
   "current_item": "Stage33-12_J2_MARKED_KC_KUMMER_GLUE_IN_PROGRESS_3_OF_5",
   "audit_required": true,
   "audit_scope": "STAGE33_12_EXACT_CHILD_CLOSURE_NOT_REQUIRED_FOR_THIS_MAIN_CHECKPOINT_MERGE",
@@ -288,21 +157,7 @@
   "repair_scope_allowed": "STAGE33_12_J2_MARKED_KC_KUMMER_GLUE_ONLY",
   "next_item": "Stage33-12_MATERIALIZE_STOLL_PTSK_INDEX_AND_QPICK_EXCEPTIONAL_COORDINATE_THEN_KUMMER_GLUE",
   "next_expected_command": "Stage33-main-batch",
-
-  "checkpoint_merge_contract": {
-    "pr": 1460,
-    "checkpoint_only": true,
-    "stage33_12_closed_exact": false,
-    "stage33_07_closed": false,
-    "stage33_progress_after_merge": "6/11",
-    "stage33_13_released_by_checkpoint_merge": false,
-    "stage33_08_released_by_checkpoint_merge": false,
-    "stage33_40_released_by_checkpoint_merge": false,
-    "deterministic_network_free_checkpoint_replay_required_green": true,
-    "external_magma_required_as_merge_gate": false,
-    "heavy_actions_authorized": false
-  },
-
+  "checkpoint_merge_contract": {"pr": 1460, "checkpoint_only": true, "stage33_12_closed_exact": false, "stage33_07_closed": false, "stage33_progress_after_merge": "6/11", "stage33_13_released_by_checkpoint_merge": false, "stage33_08_released_by_checkpoint_merge": false, "stage33_40_released_by_checkpoint_merge": false, "deterministic_network_free_checkpoint_replay_required_green": true, "external_magma_required_as_merge_gate": false, "heavy_actions_authorized": false},
   "theorem_credit": false,
   "receiver_credit": false,
   "endpoint_credit": false,
