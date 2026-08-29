@@ -1,6 +1,6 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_IN_PROGRESS_J2_ORIENTATION_INTERFACE_GAP_PINNED_4_OF_5`
+Status: `MAIN_IN_PROGRESS_J2_KUMMER_EXTENSION_ADAPTER_OPEN_4_OF_5`
 
 Stage33-12 remains open. Stage33-07 remains open. Stage33-13 is not released.
 
@@ -32,43 +32,48 @@ J2 candidate set = {u1/2, u2/2, (u1+u2)/2}
 
 with canonical target SHA256 `0b5d7dfdefbb0f2b7c37396ada35c0bee462dfeb625eb18262be0e862205d8df`. No candidate is selected yet.
 
-## Prior exact reduction retained
+## Prior exact reductions retained
 
 The Stage33-05 `q1` HS/Bockstein odd test parity cannot be used as the missing J2 orientation bit: every semantic discriminant numerator lies in `rad(G mod 2)` and pairs evenly with integral PicK. The shortcut remains `REJECTED_EXACTLY`.
 
-## New exact reduction: the missing object is an interface, not another Smith computation
+Historical Smith `V` is reproducible but does not contain the named `[J2,q1] -> discriminant` change of basis. A classical Kummer `(16_6)` marking is also unavailable in the pinned 12-node Kc model and is not imported.
 
-A named COLD expansion was performed because the current leaf lacked the load-bearing presentation/discriminant adapter.
+## New exact reduction: lattice Galois connecting also cannot select J2
 
-Historical exact generators were recovered:
-
-```text
-4be96346dd2353ae9ef7d86a7451487cf229f2a6
-  Stage33-07: split Kc Picard maps for HS regression
-
-6c1c2bebec8e973dc6712eb0b9f31cc03335537e
-  Stage33-07: derive Kc discriminant action from split shards
-```
-
-The first deterministically extracts the Kc Gram, `MatKtoS`, `MatStoK`, and Smith right transform `V`; the Smith type is exactly
+The pinned Stoll definition gives `ct: sqrt(2)->-sqrt(2), i fixed`. In the exact curve enumeration:
 
 ```text
-[1^18,4,8].
+CsK[1..26]  ct-fixed
+CsK[47] <-> CsK[49]
+CsK[52] <-> CsK[54]
 ```
 
-The second uses that frame to compute Galois action and the discriminant bilinear data. Crucially, neither generator maps the named Creutz--Viray quotient basis `[J2,q1]` into the Smith/discriminant coordinate frame. The later compact discriminant certificate merely attaches the already audited labels `kernel basis=['J2']` and `nonzero class='q1'` after the coordinate-frame calculation. Therefore regenerating Smith `V` alone cannot choose one of the three semantic J2 candidates.
-
-A second tempting route is also rejected. The pinned Stoll Kc construction has exactly `12` singular nodes (`kc-picard-lattice.json`) and does not provide a classical 16-node/trope `(16_6)` Kummer marking. Importing a classical `(16_6)` theta-incidence marking would therefore be an unsupported semantic transfer.
-
-The exact missing interface is now pinned as
+The semantic half-lattice numerators have supports
 
 ```text
-ONE_CV_J2_PRESENTATION_TO_PICARD_DISCRIMINANT_FUNCTIONAL
-OR_EQUIVALENT_NAMED_CHANGE_OF_BASIS_BIT
+u1 : semantic positions [1,2,5,6,14,15]
+     curve slots        [2,4,9,10,47,49]
+
+u2 : semantic positions [16,17]
+     curve slots        [52,54]
 ```
 
-Certificate: `j2-kc-orientation-interface-gap.json`
-Canonical SHA256: `7b6002e54f2d6d746de7917ec017d35e9e143522869201c1cfad5109a22958fa`.
+Hence `u1` and `u2` are each fixed exactly as integral divisor sums by `ct`; therefore `u1/2`, `u2/2`, and `(u1+u2)/2` all admit an exactly `ct`-fixed dual-lattice representative. The connecting cocycle from the bare lattice sequence `PicK -> PicK^* -> A_PicK` is therefore zero on all three candidates.
+
+By contrast, the hostile-audited Creutz--Viray presentation has
+
+```text
+ct(J2)-J2 = 0
+ct(q1)-q1 = J1 != 0 in the presentation relation module.
+```
+
+Therefore the bare Picard-discriminant Galois connecting map is **not** the CV/Kummer extension connecting map and cannot identify the named J2 coordinate.
+
+Certificate: `j2-picard-discriminant-galois-functional-rejection.json`
+Canonical SHA256: `ae980dae7e33ecf58e35d697dde1c1be20c98c170bde6b6b9591e9b1f8680e54`.
+Network-free verifier: `certify_j2_picard_discriminant_galois_functional_rejection.py`.
+
+This agrees with the already retained `full-surface-pic2-kummer-target.json` information boundary: Picard action is known, but the **Kummer extension class is missing**. The remaining interface is therefore not another action matrix or parity functional; it is the genuine CV `x-alpha` / Kummer extension-class adapter into the semantic PicK discriminant frame.
 
 ## Visible progress
 
@@ -82,7 +87,8 @@ Canonical SHA256: `7b6002e54f2d6d746de7917ec017d35e9e143522869201c1cfad5109a2295
     HS-d2 parity shortcut                                                   EXACTLY_REJECTED
     unsupported classical Kummer (16_6) shortcut                           EXACTLY_REJECTED
     historical Smith-frame-only shortcut                                   INSUFFICIENT_EXACTLY
-    CV J2 presentation -> PicK discriminant functional                     OPEN
+    bare Picard-discriminant Galois connecting shortcut                    EXACTLY_REJECTED
+    genuine CV/Kummer extension-class adapter                              OPEN
 ```
 
 ## Current exit state
@@ -97,7 +103,8 @@ J2_SEMANTIC_KC_DISCRIMINANT_2TORSION_CANDIDATES=3
 J2_HS_PARITY_ORIENTATION_SHORTCUT=REJECTED_EXACTLY
 J2_CLASSICAL_KUMMER_16_6_SHORTCUT=REJECTED_UNSUPPORTED_TRANSFER
 J2_HISTORICAL_SMITH_FRAME_REGENERABLE=true
-J2_NAMED_PRESENTATION_TO_DISCRIMINANT_ADAPTER_MATERIALIZED=false
+J2_PICARD_DISCRIMINANT_GALOIS_CONNECTING_SHORTCUT=REJECTED_EXACTLY
+J2_GENUINE_CV_KUMMER_EXTENSION_ADAPTER_MATERIALIZED=false
 J2_BRANCH_JACOBIAN_TO_DISCRIMINANT_KUMMER_GLUE_MATERIALIZED=false
 J2_KC_DISCRIMINANT_COORDINATE_MATERIALIZED=false
 FINITE_V4_KUMMER_DEFECT_COLUMNS_MATERIALIZED=0
@@ -106,6 +113,6 @@ STAGE33_07_HOSTILE_REAUDIT=NOT_RUN
 STAGE33_12_CLOSED=false
 ```
 
-Next exact leaf: `CONSTRUCT_ONE_CV_J2_PRESENTATION_TO_PICARD_DISCRIMINANT_FUNCTIONAL_AND_EVALUATE_ON_THREE_SEMANTIC_CANDIDATES`.
+Next exact leaf: `CONSTRUCT_GENUINE_CV_XALPHA_KUMMER_EXTENSION_CLASS_ADAPTER_TO_SEMANTIC_PICARD_DISCRIMINANT_AND_EVALUATE_J2`.
 
 No 33-13 release, theorem/receiver/endpoint credit, or perfect-cuboid existence/nonexistence claim is granted by this checkpoint.
