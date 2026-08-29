@@ -77,7 +77,7 @@ d = 2 in K^x/K^{x2}.
 
 So the previous `d=Dplus` guess is rejected as the named J2 coordinate. It remains only a generic homogeneous-space candidate sharing the visible support polynomial.
 
-Exact certificate: `j2-cv-leray-2isogeny-coordinate.json`; canonical SHA256 `52a3e741fbe6158a2a9434c9797207f6e126fc7d9df2ab09a80d3edd5e005771`; verifier `certify_j2_cv_leray_2isogeny_coordinate.py`.
+Exact certificate: `j2-cv-leray-2isogeny-coordinate.json`; canonical SHA256 `b3010a268d89aed047251db75a845897c9e61786f7ba75f339d6d9bd744bf86b`; verifier `certify_j2_cv_leray_2isogeny_coordinate.py`.
 
 ## Explicit named J2 torsor
 
