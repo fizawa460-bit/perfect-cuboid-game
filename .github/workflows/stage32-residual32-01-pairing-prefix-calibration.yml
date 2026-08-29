@@ -50,7 +50,7 @@ jobs:
           assert new['selection_mode'] == 'LOCKED_GENERATION6_DISCRIMINANT_ACTIVE_ORDER'
           assert new['assignment_order'] == [0,1,2,3,61,4,5,6,7,8,9]
           assert new['known_label_order_1based'] == [93,94,95,96,49,97,98,99,101,102,103]
-          assert new['coordinate_model'] == 'AUT_EQUIVARIANT_ALL140_KNOWN_CURVE_PAIRINGS_TO_PICARD64_HNF'
+          assert new['coordinate_model'] == 'GEN6_SELECTED64_EXACT_EXTENSION_HNF_PLUS_AUT_EQUIVARIANT_ALL140_PREFIX'
           assert new['aut_mode'] == 'EXACT_AUT1536_ALL140_GLOBAL_BUDGET_CLASS_PREFIX_STABILIZER_LEX_MIN'
           assert new['representatives'] == [
               {'m':1,'genus':0,'degree':16,'exceptional_mass':8},
@@ -86,13 +86,6 @@ jobs:
               'stored_permutations':len(a['permutations_1based']),
               'permutation_degree':len(a['permutations_1based'][0]),
               'canonical_sha256':a['canonical_sha256_without_this_field']},sort_keys=True))
-          print('AUT_SOURCE='+json.dumps(a['source'],sort_keys=True))
-          print('AUT_SPLICE='+json.dumps(a['source_splice'],sort_keys=True))
-          lines=x['hperp_text'].splitlines()
-          print('HPERP_SUMMARY='+json.dumps({'line_count':len(lines),'char_count':len(x['hperp_text'])},sort_keys=True))
-          for i,line in enumerate(lines):
-              if i < 40 or i >= max(0,len(lines)-20):
-                  print(f'HPERP_LINE[{i}]={line[:500]}')
           PY
 
   calibrate:
@@ -106,9 +99,8 @@ jobs:
         with:
           python-version: '3.10.6'
       - name: Install exact local algebra dependency
-        run: |
-          python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Run exact offline all140 HNF plus prefix Aut1536 representative calibration
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run exact combined HNF plus all140 prefix Aut1536 calibration
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/stage32-residual32-01"
@@ -123,28 +115,22 @@ jobs:
           import json, os, pathlib
           p=pathlib.Path(os.environ['RUNNER_TEMP'])/'stage32-residual32-01'/'calibration.json'
           x=json.loads(p.read_text())
-          assert x['schema']=='STAGE32_RESIDUAL32_01_AUT_EQUIVARIANT_ALL140_CALIBRATION_V4'
-          assert x['coordinate_model']=='AUT_EQUIVARIANT_ALL140_KNOWN_CURVE_PAIRINGS_TO_PICARD64_HNF'
-          assert x['selected_assignment_order_source']=='LOCKED_FROM_GENERATION6_DISCRIMINANT_ACTIVE_SELECTION'
+          assert x['schema']=='STAGE32_RESIDUAL32_01_COMBINED_HNF_AUT1536_CALIBRATION_V5'
+          assert x['coordinate_model']=='GEN6_SELECTED64_EXACT_EXTENSION_HNF_PLUS_AUT_EQUIVARIANT_ALL140_PREFIX'
           assert x['selected_assignment_order']==[0,1,2,3,61,4,5,6,7,8,9]
           assert x['known_label_order_1based']==[93,94,95,96,49,97,98,99,101,102,103]
-          assert x['gen6_depth5_active_known_label_1based']==49
-          assert x['retained_picard_bundle_sha256']=='d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c'
-          assert x['adapter_certificate']['known_curve_count']==140
-          assert x['adapter_certificate']['picard_rank']==64
-          assert x['adapter_certificate']['basis_row_regression_count']==64
-          assert x['adapter_certificate']['basis_row_regression_exact'] is True
-          assert x['aut_mode']=='EXACT_AUT1536_ALL140_GLOBAL_BUDGET_CLASS_PREFIX_STABILIZER_LEX_MIN'
-          assert x['aut_used_in_probe'] is True
-          assert x['prefix_aut_canonical_augmentation_implemented'] is True
-          assert x['selected64_setwise_preservation_required'] is False
+          assert x['saturated_picard64_integral_adapter_validated'] is True
+          assert x['generation6_hnf_regression']['exact_match'] is True
+          assert x['legacy_generation6_active_rows_by_depth']==[0,0,0,0,16,16,16,16,16,16,16]
+          assert x['legacy_generation6_modulus_by_depth'][4]==8
           assert x['full_aut_group_order']==1536
-          assert x['global_budget_class_preserving_subgroup_size'] >= 1
-          assert len(x['aut_certificate']['checks'])==11
+          assert x['global_budget_class_preserving_subgroup_size']==1536
           assert len(x['distinct_prefix_actions_by_depth'])==11
+          assert x['selected64_setwise_preservation_required'] is False
           assert x['representative_m_classes']==[1,2,4,8]
           assert len(x['representatives'])==4
-          assert all(r['credit_scope']=='ALL140_PAIRING_LATTICE_AND_PREFIX_AUT_COST_PROFILE_ONLY' for r in x['representatives'])
+          assert all(r['credit_scope']=='COMBINED_EXACT_HNF_AND_ALL140_PREFIX_AUT_COST_PROFILE_ONLY' for r in x['representatives'])
+          assert all(r['membership_prunes']==r['legacy_generation6_hnf_prunes']+r['all140_row_image_hnf_prunes_after_legacy'] for r in x['representatives'])
           assert all(r['total_exact_prunes']==r['membership_prunes']+r['symmetry_prunes'] for r in x['representatives'])
           assert x['full_178_row_sweep_authorized'] is False
           assert x['B18_RELEASE_AUTHORIZED'] is False
@@ -153,20 +139,14 @@ jobs:
           assert x['R29_LG2']=='NOT_DISCHARGED'
           assert x['THEOREM_CREDIT'] is False and x['RECEIVER_CREDIT'] is False
           print(json.dumps({
-              'known_labels':x['known_label_order_1based'],
-              'adapter_paths':x['adapter_certificate']['discovery_paths'],
-              'adapter_modes':x['adapter_certificate']['discovery_modes'],
-              'active_rows':x['active_congruence_rows_by_depth'],
-              'full_aut_group_order':x['full_aut_group_order'],
-              'global_budget_subgroup_size':x['global_budget_class_preserving_subgroup_size'],
+              'legacy_active_rows':x['legacy_generation6_active_rows_by_depth'],
+              'all140_active_rows':x['all140_row_image_active_rows_by_depth'],
               'prefix_actions':x['distinct_prefix_actions_by_depth'],
               'nodes':{str(r['m']):r['nodes_visited'] for r in x['representatives']},
-              'membership_prunes':{str(r['m']):r['membership_prunes'] for r in x['representatives']},
+              'legacy_hnf_prunes':{str(r['m']):r['legacy_generation6_hnf_prunes'] for r in x['representatives']},
+              'all140_hnf_prunes':{str(r['m']):r['all140_row_image_hnf_prunes_after_legacy'] for r in x['representatives']},
               'symmetry_prunes':{str(r['m']):r['symmetry_prunes'] for r in x['representatives']},
               'terminals':{str(r['m']):r['terminal_prefixes_before_stop'] for r in x['representatives']},
-              'adapter_build_seconds':x['adapter_build_seconds'],
-              'oracle_build_seconds':x['oracle_build_seconds'],
-              'aut_build_seconds':x['aut_build_seconds'],
               'certificate_sha256':x['canonical_sha256_without_this_field'],
           },sort_keys=True))
           PY
