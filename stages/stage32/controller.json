@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V113_FULL178_GEN30_PASS_GEN31_WIDE128_CARRY188_COLD_READY",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V114_GEN30_PASS_64M_CALIBRATION_PASS_GEN31_64M_MIGRATION_READY",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
   "G10_LOWGENUS_PICARD": "AMBER",
   "stage32_closed": false,
-  "status": "RESIDUAL32_01_FULL178_GENERATION30_PASS_GENERATION31_WIDE128_CARRY188_COLD_READY",
+  "status": "RESIDUAL32_01_FULL178_GEN30_PASS_64M_CALIBRATION_PASS_GEN31_64M_PRODUCTION_MIGRATION_READY",
   "audit_required": false,
   "repair_required": false,
   "repair_allowed": false,
@@ -22,14 +22,17 @@
   "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
   "R29_LG2": "NOT_DISCHARGED",
   "accepted_current_facts": {
-    "residual32_01_generation29_pass": true,
     "residual32_01_generation30_pass": true,
-    "residual32_01_generation30_input_work_units": 128,
-    "residual32_01_generation30_new_exact_children": 160,
-    "residual32_01_generation30_preexisting_carry": 156,
     "residual32_01_generation30_global_frontier_after_ingest": 316,
     "residual32_01_generation31_planned_work_unit_count": 128,
     "residual32_01_generation31_carry_before_new_children": 188,
+    "residual32_01_64m_calibration_pass": true,
+    "residual32_01_64m_calibration_sample_count": 8,
+    "residual32_01_16m_sample_children_per_input": 1.75,
+    "residual32_01_64m_sample_children_per_input": 0.75,
+    "residual32_01_16m_sample_ceiling_hit_rate": 0.875,
+    "residual32_01_64m_sample_ceiling_hit_rate": 0.375,
+    "residual32_01_64m_sample_frontier_shrinks": true,
     "residual32_01_max_work_units_per_wave": 128,
     "residual32_01_full178_effective_heavy_concurrency": 17,
     "residual32_01_maximum_stage32_heavy_overlap": 18
@@ -39,6 +42,7 @@
     "full_178_row_sweep_authorized": true,
     "heavy_compute_requires_fresh_runkey_sync": true,
     "max_work_units_per_wave": 128,
+    "target_node_ceiling_per_work_unit": 64000000,
     "effective_heavy_concurrency": 17,
     "effective_heavy_concurrency_cap": 18,
     "maximum_effective_stage32_heavy_overlap": 18,
@@ -51,39 +55,21 @@
     "mathematical_credit_changed_this_batch": false,
     "receiver_credit_changed": false
   },
-  "current_item": "ARM_FULL178_GENERATION31_WIDE128_GLOBAL_FIFO_WITH_CARRY188",
-  "current_item_execution_constraint": "GENERATION30 RUN 33250533174 PASSED ALL 128 WORK UNITS AND AGGREGATE. IT PRODUCED 160 EXACT CHILDREN; WITH THE PREEXISTING 156 FIFO CARRY, THE GLOBAL FRONTIER IS 316. GENERATION31 MUST DISPATCH THE FIRST 128 GLOBAL FIFO ITEMS AND RETAIN 188 AS PREEXISTING CARRY BEFORE ANY NEW CHILDREN. ARM ONLY BY A FRESH DEDICATED-RUNKEY-ONLY GENERATION31 SYNCHRONIZATION. UNKNOWN!=UNSAT; PREFIX COMPLETION!=NUMERICAL ROW CLOSURE; ALL MATHEMATICAL CREDIT FIREWALLS REMAIN CLOSED.",
+  "current_item": "COLD_MIGRATE_FULL178_PRODUCTION_WORKFLOW_AND_PREFLIGHT_TO_64M",
+  "current_item_execution_constraint": "PAIRED GEN30 FIFO-FIRST8 CALIBRATION RUN 33251157888 PASSED: 16M PRODUCED 14 CHILDREN FROM 8 INPUTS (1.75/INPUT; 7/8 CEILING HITS), WHILE 64M PRODUCED 6 CHILDREN (0.75/INPUT; 3/8 CEILING HITS). THIS SUPPORTS AN EXECUTION-CONFIGURATION PIVOT TO 64M ONLY; IT GRANTS NO THEOREM/RECEIVER/ROW-CLOSURE CREDIT. MIGRATE SOURCE/PREFLIGHT COLD, THEN ARM GENERATION31 ONLY BY A FRESH DEDICATED PRODUCTION-RUNKEY-ONLY SYNCHRONIZATION. UNKNOWN!=UNSAT; PREFIX COMPLETION!=NUMERICAL ROW CLOSURE.",
   "execution_class": 2,
   "next_expected_command": "Stage32-main-batch",
-  "next_item": "ARM_GENERATION31_WIDE128_GLOBAL_FIFO_THEN_INGEST_WITH_CARRY188",
+  "next_item": "COLD_MIGRATE_FULL178_PRODUCTION_TO_64M_THEN_ARM_GENERATION31_FIFO128_CARRY188",
   "post_b16_progression": {
     "b18_release_authorized": false,
     "full_178_row_sweep_authorized": true,
     "later_items_released": false,
-    "current_release": "RESIDUAL32_01_FULL178_PREFIX_FRONTIER_GENERATION31_WIDE128_CARRY188_COLD_READY",
+    "current_release": "RESIDUAL32_01_FULL178_64M_PRODUCTION_CONFIGURATION_MIGRATION_READY",
     "residual_feasibility_gate": "HOSTILE_AUDIT_PASS_SCOPE_LOCKED"
   },
   "residual32_01_checkpoint": {
-    "generation29": {
-      "run_id": 33249640508,
-      "authorize_job_id": 99092993469,
-      "result": "PASS_ONE_HUNDRED_TWENTY_EIGHT_WORK_UNITS_V2_EXACT_FRONTIER",
-      "input_work_unit_count": 128,
-      "total_nodes_used": 1611366344,
-      "completed_prefix_partition_count": 49,
-      "unknown_count_total": 160,
-      "node_ceiling_hit_work_unit_count": 79,
-      "next_exact_work_unit_count": 160,
-      "global_frontier_after_ingest": 284,
-      "checkpoint": "stages/stage32/residual-32-01-production/full178-generation29-main-checkpoint.json",
-      "wave_manifest_artifact_id": 9714094354,
-      "wave_manifest_artifact_zip_sha256": "35959bc4611d2967766d5dc4ae3eb8624dc851cab23444f3b50c01d98311f5b4",
-      "wave_manifest_canonical_sha256": "0a33257cd04ff3b67dcca85a6366502329d49206269fc1bddd7e21d879977bca",
-      "runkey_git_blob_sha1": "62a21cfe3979b5278674e87363edfbd3bcbc880b"
-    },
     "generation30": {
       "run_id": 33250533174,
-      "authorize_job_id": 99095323003,
       "result": "PASS_ONE_HUNDRED_TWENTY_EIGHT_WORK_UNITS_V2_EXACT_FRONTIER",
       "input_work_unit_count": 128,
       "total_nodes_used": 1542357218,
@@ -94,9 +80,19 @@
       "global_frontier_after_ingest": 316,
       "checkpoint": "stages/stage32/residual-32-01-production/full178-generation30-main-checkpoint.json",
       "wave_manifest_artifact_id": 9714353597,
-      "wave_manifest_artifact_zip_sha256": "139501e61eac2b7851b8df784cf48666d108f2b27356ba6cc9b4aa35bcb362cf",
-      "wave_manifest_canonical_sha256": "58d24ef28774fc7585457c5306b2c9ca3f925715dc2b0bf9422f45ebb3c5b51c",
-      "runkey_git_blob_sha1": "2235bd7d95c249a42bf63278e583b2c69b839fbc"
+      "wave_manifest_canonical_sha256": "58d24ef28774fc7585457c5306b2c9ca3f925715dc2b0bf9422f45ebb3c5b51c"
+    },
+    "full178_64m_calibration": {
+      "run_id": 33251157888,
+      "result": "PASS_64M_SAMPLE_FRONTIER_SHRINKS",
+      "sample_count": 8,
+      "node16m_children_per_input": 1.75,
+      "node64m_children_per_input": 0.75,
+      "node16m_ceiling_hit_rate": 0.875,
+      "node64m_ceiling_hit_rate": 0.375,
+      "manifest_artifact_id": 9714521998,
+      "manifest_canonical_sha256": "71d4683ba1b016d273c7105e44981957a4d79dd4aa51075999f8c374a7dd86f8",
+      "checkpoint": "stages/stage32/residual-32-01-production/full178-64m-calibration-main-checkpoint.json"
     },
     "generation31": {
       "armed": false,
@@ -105,11 +101,12 @@
       "pending_frontier_before_dispatch": 316,
       "pending_frontier_after_dispatch_before_new_children": 188,
       "carry_count_before_new_children": 188,
-      "node_ceiling_per_work_unit": 16000000,
+      "target_node_ceiling_per_work_unit": 64000000,
+      "production_workflow_migration_required": true,
       "max_work_units_per_wave": 128,
       "effective_heavy_concurrency": 17,
       "maximum_effective_stage32_heavy_overlap": 18,
-      "required_arm_diff": "DEDICATED_RUNKEY_ONLY"
+      "required_arm_diff": "DEDICATED_PRODUCTION_RUNKEY_ONLY_AFTER_COLD_64M_MIGRATION"
     }
   },
   "controller_writeback_policy": {
@@ -119,10 +116,7 @@
     "controller_writeback_required_for_every_main_batch_with_repository_write": true
   },
   "repo_absolute_rule_read_policy": {
-    "mandatory_every_main_batch_reads": [
-      "AGENTS.md",
-      "stages/stage32/controller.json"
-    ],
+    "mandatory_every_main_batch_reads": ["AGENTS.md", "stages/stage32/controller.json"],
     "conditional_mandatory_policy_reads": {
       "before_actions_artifacts_or_heavy_compute": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
       "before_claim_promotion_closure_or_downstream_release": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
