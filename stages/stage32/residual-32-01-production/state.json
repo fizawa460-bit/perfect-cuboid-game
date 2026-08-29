@@ -1,12 +1,12 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V25_GEN4_PREFLIGHT_CONTRACT_REPAIR_PENDING_COLD_PASS",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V26_GEN4_PASS_GEN5_FIFO_COLD_READY",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "FULL178_GENERATION4_PREFLIGHT_CONTRACT_REPAIR_IMPLEMENTED_AWAIT_COLD_PASS",
+  "status": "FULL178_GENERATION4_V2_PASS_GENERATION5_FIFO_COLD_READY",
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": false,
-  "advance_allowed": false,
+  "advance_allowed": true,
   "B18_RELEASE_AUTHORIZED": false,
   "FULL_178_ROW_SWEEP_AUTHORIZED": true,
   "FULL_D16_G0_ROW_COMPLETE": false,
@@ -38,34 +38,41 @@
     "checkpoint": "stages/stage32/residual-32-01-production/generation3-main-checkpoint.json",
     "exact_coverage_or_frontier_affected_by_accounting_defect": false
   },
-  "accounting_repair": {
-    "runner_schema": "STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2",
-    "nodes_used_accounting": "SUM_TELEMETRY_NODES_V2",
-    "runner_commit": "bd9925b7dc924e096e612f5a3441c65ae1c291fe",
-    "workflow_commit": "b540d7365a354a6f23e55eb8fdc711eeca252e17"
-  },
-  "generation4_preflight_repair": {
-    "failed_legacy_run_id": 33239576783,
-    "failed_legacy_job_id": 99066475597,
-    "static_manifest_resource_verifier_passed": true,
-    "failure_reason": "LEGACY_REQUIRE_GENERATION0_ARMED_FALSE_ASSERTION",
+  "campaign_preflight_repair": {
+    "legacy_failed_run_id": 33239576783,
+    "legacy_failure_reason": "LEGACY_REQUIRE_GENERATION0_ARMED_FALSE_ASSERTION",
     "repair_commit": "91bd14ce7e9fb0ee41ecb412db9e9bd97f644b79",
-    "repair_mode": "CAMPAIGN_AWARE_CHEAP_RUNKEY_SAFETY_VALIDATION_NO_HEAVY_AUTHORIZATION",
-    "cold_pass_pending": true
+    "repaired_cold_run_id": 33239764277,
+    "repaired_cold_result": "PASS",
+    "production_cold_run_id": 33239764268,
+    "production_cold_heavy_jobs_skipped": true
   },
   "generation4": {
+    "run_id": 33239787951,
+    "authorize_job_id": 99067039602,
+    "result": "PASS_EIGHT_WORK_UNITS_V2_EXACT_FRONTIER",
+    "runner_schema": "STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2",
+    "nodes_used_accounting": "SUM_TELEMETRY_NODES_V2",
+    "total_nodes_used": 96000040,
+    "completed_prefix_partition_count": 2,
+    "next_exact_work_unit_count": 15,
+    "checkpoint": "stages/stage32/residual-32-01-production/generation4-main-checkpoint.json",
+    "wave_manifest_artifact_id": 9711026656,
+    "wave_manifest_canonical_sha256": "7277cabead80fe7201a52f1803be02575d735e2e6cf07bd2030264e51a65b59e",
+    "manifest_sha_independently_recomputed": true
+  },
+  "generation5": {
     "released": true,
     "armed": false,
     "queue_policy": "FIFO_GLOBAL_FRONTIER",
-    "planned_work_unit_ids": ["wu-fa2a04859674145ac825","wu-135c9ac5a81daeb0d8ce","wu-081edf6f026548f894e4","wu-f9404cb1cc8e0ea2b2c9","wu-6854e39d875f689d0386","wu-11383242fcc30600b9a4","wu-1222a1a6c2227bf2bb60","wu-25a2c77ae2363d810ed2"],
-    "pending_frontier_before_dispatch": 24,
-    "pending_frontier_after_dispatch_before_new_children": 16,
+    "planned_work_unit_ids": ["wu-8eeafe6c9caaf04a7130","wu-6810c35043673407adfb","wu-e78d3f5498a4cd2b8686","wu-ff90d1fc349f5606b5c2","wu-60a55c8c40413a8d7f12","wu-b989087e907f3bd50fce","wu-adca5fb80a42c9a624f6","wu-ab0333a0bd86cc02cd7c"],
+    "pending_frontier_before_dispatch": 31,
+    "pending_frontier_after_dispatch_before_new_children": 23,
     "node_ceiling_per_work_unit": 16000000,
     "effective_heavy_concurrency": 8,
     "unknown_is_unsat": false,
     "required_arm_diff": "DEDICATED_RUNKEY_ONLY",
-    "no_repository_writes_after_arm_until_run_complete": true,
-    "arm_blocked_until_campaign_preflight_pass": true
+    "no_repository_writes_after_arm_until_run_complete": true
   },
-  "next_item": "VERIFY_CAMPAIGN_PREFLIGHT_REPAIR_THEN_ARM_GENERATION4_RUNKEY_ONLY"
+  "next_item": "ARM_GENERATION5_THEN_INGEST_WITH_NO_INTERVENING_WRITES"
 }
