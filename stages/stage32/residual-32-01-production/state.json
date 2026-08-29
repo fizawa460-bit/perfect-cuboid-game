@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V23_GEN2_PASS_GEN3_COLD_READY",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V24_GEN3_PASS_COST_REPAIR_GEN4_COLD_READY",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "FULL178_GENERATION2_PREFIX_WAVE_PASS_GENERATION3_EXACT_CHILD_WAVE_COLD_READY",
+  "status": "FULL178_GENERATION3_EXACT_FRONTIER_PASS_COST_ACCOUNTING_REPAIRED_GENERATION4_COLD_READY",
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": false,
@@ -19,35 +19,43 @@
   "generation1": {
     "run_id": 33238836983,
     "result": "CANCELLED_NO_CREDIT_BY_STALE_HEAD_SWEEPER",
-    "mathematical_failure": false,
-    "incident": "stages/stage32/residual-32-01-production/generation1-cancelled-no-credit.json"
+    "mathematical_failure": false
   },
   "generation2": {
     "run_id": 33239004167,
-    "authorize_job_id": 99064966353,
     "result": "PASS_EIGHT_WORK_UNITS_FAIL_CLOSED_PREFIX_PRODUCTION",
-    "input_work_unit_count": 8,
     "total_nodes_used": 128000000,
     "completed_prefix_partition_count": 5,
     "next_exact_work_unit_count": 24,
-    "checkpoint": "stages/stage32/residual-32-01-production/generation2-main-checkpoint.json",
-    "wave_manifest_artifact_id": 9710806623,
-    "wave_manifest_canonical_sha256": "6a95af6ded82b48ff643a093fcfbd4316778f0a6d092c0dda27a645058fb7b9f",
-    "wave_manifest_hash_independently_recomputed": true,
-    "unknown_is_unsat": false,
-    "numerical_row_credit": false
+    "checkpoint": "stages/stage32/residual-32-01-production/generation2-main-checkpoint.json"
   },
   "generation3": {
+    "run_id": 33239254190,
+    "result": "PASS_EXACT_FRONTIER_WITH_V1_OUTER_NODE_ACCOUNTING_DEFECT_REPAIRED_FOR_NEXT_GENERATION",
+    "completed_prefix_partition_count": 5,
+    "next_exact_work_unit_count": 8,
+    "actual_nodes_used_from_individual_artifact_telemetry": 75342562,
+    "checkpoint": "stages/stage32/residual-32-01-production/generation3-main-checkpoint.json",
+    "exact_coverage_or_frontier_affected_by_accounting_defect": false
+  },
+  "accounting_repair": {
+    "runner_schema": "STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2",
+    "nodes_used_accounting": "SUM_TELEMETRY_NODES_V2",
+    "runner_commit": "bd9925b7dc924e096e612f5a3441c65ae1c291fe",
+    "workflow_commit": "b540d7365a354a6f23e55eb8fdc711eeca252e17"
+  },
+  "generation4": {
     "released": true,
     "armed": false,
-    "queue_policy": "FIFO_FROM_GENERATION2_HASH_VERIFIED_FRONTIER",
-    "planned_work_unit_ids": ["wu-c8bf7db7e82dab46830c","wu-8bb1cc3eb96c2916c4cc","wu-93e90b1cd5c9247a0606","wu-834ac7ead72f92b0e73e","wu-535c1981a4d1c20e2f84","wu-5058e6c36ad1b9dc57e2","wu-14b9400aa208b2fa3671","wu-56ae10bf1369561ef095"],
-    "unconsumed_generation2_frontier_after_dispatch": 16,
+    "queue_policy": "FIFO_GLOBAL_FRONTIER",
+    "planned_work_unit_ids": ["wu-fa2a04859674145ac825","wu-135c9ac5a81daeb0d8ce","wu-081edf6f026548f894e4","wu-f9404cb1cc8e0ea2b2c9","wu-6854e39d875f689d0386","wu-11383242fcc30600b9a4","wu-1222a1a6c2227bf2bb60","wu-25a2c77ae2363d810ed2"],
+    "pending_frontier_before_dispatch": 24,
+    "pending_frontier_after_dispatch_before_new_children": 16,
     "node_ceiling_per_work_unit": 16000000,
     "effective_heavy_concurrency": 8,
     "unknown_is_unsat": false,
     "required_arm_diff": "DEDICATED_RUNKEY_ONLY",
     "no_repository_writes_after_arm_until_run_complete": true
   },
-  "next_item": "ARM_GENERATION3_THEN_INGEST_WITH_NO_INTERVENING_WRITES"
+  "next_item": "ARM_GENERATION4_THEN_INGEST_WITH_NO_INTERVENING_WRITES"
 }
