@@ -1,12 +1,12 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V21_FULL178_WAVE1_GENERATION1_RUNNING",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V22_WAVE1_GEN1_CANCELLED_GEN2_COLD_READY",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "FULL178_HEAVY_PRODUCTION_WAVE1_GENERATION1_RUNNING_PREFIX_ONLY",
+  "status": "FULL178_WAVE1_GENERATION1_CANCELLED_NO_CREDIT_GENERATION2_COLD_READY",
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": false,
-  "advance_allowed": false,
+  "advance_allowed": true,
   "B18_RELEASE_AUTHORIZED": false,
   "FULL_178_ROW_SWEEP_AUTHORIZED": true,
   "FULL_D16_G0_ROW_COMPLETE": false,
@@ -16,45 +16,28 @@
   "RECEIVER_CREDIT": false,
   "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
   "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false,
-  "diagnosis": {
-    "full178_static_preflight_hostile_reaudit_pass": true,
-    "full178_heavy_campaign_released": true,
-    "wave1_generation1_armed": true,
-    "wave1_generation1_authorization_passed": true,
-    "wave1_prefix_stage_only": true,
-    "production_cost_ready": true,
-    "reason": "DEDICATED RUN KEY GENERATION 1 WAS ARMED BY A KEY-ONLY SYNCHRONIZATION AND AUTHORIZATION PASSED. EIGHT HEAVY ROW-TAIL JOBS ARE RUNNING UNDER THE AUDITED 16M FAIL-CLOSED POLICY. PREFIX COMPLETION IS NOT NUMERICAL ROW COMPLETION."
-  },
-  "hostile_preflight": {
-    "preflight_pr": 1461,
-    "preflight_merge_commit": "f9317affbeafd81af4f537667de8be2d3c64ae90",
-    "reaudit_review_id": 5057163230,
-    "verdict": "PASS_SOURCE_PROVENANCE_REPAIR_SCOPE_LOCKED",
-    "manifest_sha256": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23",
-    "residual_row_count": 178,
-    "coarse_strata_count": 64111
-  },
-  "wave1": {
-    "release_decision": "stages/stage32/residual-32-01-production/FULL178_HEAVY_RELEASE_DECISION.md",
-    "runner": "stages/stage32/residual-32-01-production/run_full178_prefix_work_unit.py",
-    "workflow": ".github/workflows/stage32-residual32-01-full178-production.yml",
-    "runkey": "stages/stage32/runkeys/residual32-01-full178-production.json",
-    "runkey_generation": 1,
-    "runkey_armed": true,
+  "generation1": {
     "run_id": 33238836983,
     "authorize_job_id": 99064525215,
     "authorization_passed": true,
+    "heavy_jobs_started": 8,
+    "heavy_jobs_cancelled": 8,
+    "production_artifacts_persisted": 0,
+    "result": "CANCELLED_NO_CREDIT_BY_STALE_HEAD_SWEEPER",
+    "mathematical_failure": false,
+    "incident": "stages/stage32/residual-32-01-production/generation1-cancelled-no-credit.json"
+  },
+  "generation2": {
+    "released": true,
+    "armed": false,
+    "runkey_generation_before_arm": 1,
+    "same_eight_work_units_as_generation1": true,
     "row_ids": ["g0-d008","g0-d010","g0-d012","g0-d014","g0-d016","g0-d018","g0-d020","g0-d022"],
-    "work_unit_count": 8,
     "node_ceiling_per_work_unit": 16000000,
     "effective_heavy_concurrency": 8,
-    "effective_heavy_concurrency_cap": 18,
-    "projected_peak_artifact_mb": 7.78125,
-    "raw_evidence_persisted": false,
-    "prefix_stage_only": true,
     "unknown_is_unsat": false,
-    "node_ceiling_action": "EMIT_EXACT_DISJOINT_CHILD_WORK_UNITS_WITH_NO_PARENT_COMPLETION_CREDIT",
-    "heavy_compute_armed": true
+    "required_arm_diff": "DEDICATED_RUNKEY_ONLY",
+    "no_repository_writes_after_arm_until_run_complete": true
   },
-  "next_item": "INGEST_FULL178_WAVE1_GENERATION1_RESULT"
+  "next_item": "ARM_GENERATION2_THEN_INGEST_WITH_NO_INTERVENING_WRITES"
 }
