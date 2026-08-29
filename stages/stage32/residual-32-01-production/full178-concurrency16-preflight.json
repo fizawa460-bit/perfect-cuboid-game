@@ -1,0 +1,41 @@
+{
+  "schema": "STAGE32_RESIDUAL32_01_FULL178_CONCURRENCY16_PREFLIGHT_V1",
+  "stage": 32,
+  "item": "RESIDUAL_32_01_PRODUCTION",
+  "scope": "OPERATIONAL_CONCURRENCY_EXPANSION_ONLY_NO_MATHEMATICAL_SEMANTICS_CHANGE",
+  "source_and_math_contract_unchanged": true,
+  "runner_schema": "STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2",
+  "nodes_used_accounting": "SUM_TELEMETRY_NODES_V2",
+  "node_ceiling_per_work_unit": 16000000,
+  "full178_heavy_concurrency": 16,
+  "overlapping_stage32_heavy_workflows": [
+    {
+      "workflow": "stage32-residual32-01-pairing-prefix-calibration.yml",
+      "effective_heavy_concurrency": 1,
+      "fresh_dedicated_runkey_required": true
+    }
+  ],
+  "maximum_effective_stage32_heavy_overlap": 17,
+  "hard_stage_cap": 18,
+  "stage_cap_pass": true,
+  "remaining_stage32_heavy_headroom": 1,
+  "representative_persisted_certificate_size_bytes": 1108,
+  "per_work_unit_compact_certificate_hard_cap_kib": 16,
+  "maximum_new_wave_certificate_storage_kib": 256,
+  "manifest_hard_cap_kib": 128,
+  "repository_operating_budget_mb": 500,
+  "storage_safe_under_operating_budget": true,
+  "raw_evidence_persisted": false,
+  "unknown_is_unsat": false,
+  "prefix_stage_completion_is_not_numerical_row_completion": true,
+  "fresh_runkey_only_authorization_required": true,
+  "B18_RELEASE_AUTHORIZED": false,
+  "FULL_D16_G0_ROW_COMPLETE": false,
+  "FULL_D8_G0_ROW_COMPLETE": false,
+  "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
+  "R29_LG2": "NOT_DISCHARGED",
+  "THEOREM_CREDIT": false,
+  "RECEIVER_CREDIT": false,
+  "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
+  "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false
+}
