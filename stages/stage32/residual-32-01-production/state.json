@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V45_GEN23_PASS_GEN24_WIDE128_CARRY34_COLD_READY",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V46_GEN24_AUTH_FAIL_GEN25_WIDE128_CARRY34_COLD_READY",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "FULL178_GENERATION23_V2_PASS_GENERATION24_WIDE128_CARRY34_COLD_READY",
+  "status": "FULL178_GENERATION24_AUTHORIZATION_FAIL_NO_COMPUTE_GENERATION25_WIDE128_CARRY34_COLD_READY",
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": false,
@@ -56,6 +56,15 @@
     "manifest_sha_independently_recomputed": true
   },
   "generation24": {
+    "run_id": 33246665404,
+    "authorize_job_id": 99085207925,
+    "result": "FAIL_CLOSED_AUTHORIZATION_NO_COMPUTE",
+    "produce_result": "SKIPPED",
+    "aggregate_result": "SKIPPED",
+    "failure_class": "RUNKEY_WORK_UNIT_ID_INTEGRITY_TRANSCRIPTION_MISMATCH",
+    "mathematical_credit": false
+  },
+  "generation25": {
     "released": true,
     "armed": false,
     "queue_policy": "FIFO_GLOBAL_FRONTIER_FROM_GENERATION23_ARTIFACT",
@@ -72,7 +81,8 @@
     "stage_cap_pass": true,
     "unknown_is_unsat": false,
     "required_arm_diff": "DEDICATED_RUNKEY_ONLY",
+    "source": "EXACT_FIRST_128_CHILDREN_FROM_GENERATION23_MANIFEST_ARTIFACT_9712975257",
     "no_repository_writes_after_arm_until_run_complete": true
   },
-  "next_item": "ARM_GENERATION24_WIDE128_FIRST_FRONTIER_THEN_INGEST_WITH_CARRY34"
+  "next_item": "ARM_GENERATION25_WIDE128_EXACT_MANIFEST_REBUILD_THEN_INGEST_WITH_CARRY34"
 }
