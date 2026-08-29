@@ -48,7 +48,7 @@ jobs:
           assert new['armed'] is True
           assert int(new['node_limit']) == 250000
           assert new['selection_mode'] == 'LOCKED_RAW_KNOWN_LABEL_ORDER_RECALIBRATION_V1'
-          assert new['known_label_order_1based'] == [93,96,98,99,49,94,95,97,101,102,103]
+          assert new['known_label_order_1based'] == [95,99,103,102,49,97,94,101,93,98,96]
           assert new['coordinate_model'] == 'EXACT_RAW_KNOWN_LABEL_PAIRING_IMAGE_HNF_PLUS_AUT1536_PREFIX'
           assert new['aut_mode'] == 'EXACT_AUT1536_ALL140_GLOBAL_BUDGET_CLASS_PREFIX_STABILIZER_LEX_MIN'
           assert new['representatives'] == [
@@ -90,11 +90,11 @@ jobs:
           python-version: '3.10.6'
       - name: Install exact local algebra dependency
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Run exact raw all140 reordered HNF plus prefix Aut1536 calibration
+      - name: Run generation14 cost-aware raw all140 HNF plus prefix Aut1536 calibration
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/stage32-residual32-01"
-          python stages/stage32/residual-32-01-production/calibrate_representatives.py \
+          python stages/stage32/residual-32-01-production/calibrate_generation14.py \
             --retained stages/stage33/33-07/picard_base_rows_retained.py \
             --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
             --output "$RUNNER_TEMP/stage32-residual32-01/calibration.json" \
@@ -105,17 +105,17 @@ jobs:
           import json, os, pathlib
           p=pathlib.Path(os.environ['RUNNER_TEMP'])/'stage32-residual32-01'/'calibration.json'
           x=json.loads(p.read_text())
-          assert x['schema']=='STAGE32_RESIDUAL32_01_RAW_ALL140_REORDERED_CALIBRATION_V6'
+          assert x['schema']=='STAGE32_RESIDUAL32_01_RAW_ALL140_COST_AWARE_CALIBRATION_V7'
           assert x['coordinate_model']=='EXACT_RAW_KNOWN_LABEL_PAIRING_IMAGE_HNF_PLUS_AUT1536_PREFIX'
           assert x['selection_mode']=='LOCKED_RAW_KNOWN_LABEL_ORDER_RECALIBRATION_V1'
-          assert x['known_label_order_1based']==[93,96,98,99,49,94,95,97,101,102,103]
+          assert x['known_label_order_1based']==[95,99,103,102,49,97,94,101,93,98,96]
           assert x['normal_label_49_depth']==5
           assert x['coordinate_semantics_changed'] is False
           assert x['saturated_picard64_integral_adapter_validated'] is True
-          assert x['raw_hnf_active_rows_by_depth']==[0,0,0,1,1,1,1,1,1,1,1]
-          assert x['raw_hnf_modulus_by_depth']==[1,1,1,2,2,2,2,2,2,2,2]
-          assert x['first_active_depth']==4
-          assert x['distinct_prefix_actions_by_depth']==[1,2,2,8,4,4,8,4,1,1,1]
+          assert x['raw_hnf_active_rows_by_depth']==[0,0,0,0,0,0,0,0,0,0,1]
+          assert x['raw_hnf_modulus_by_depth']==[1,1,1,1,1,1,1,1,1,1,2]
+          assert x['first_active_depth']==11
+          assert x['distinct_prefix_actions_by_depth']==[1,2,2,2,2,1,1,1,1,2,1]
           assert x['full_aut_group_order']==1536
           assert x['global_budget_class_preserving_subgroup_size']==1536
           assert x['generation12_combined_legacy_oracle_used'] is False
