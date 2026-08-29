@@ -9,7 +9,7 @@ on:
       - '.github/workflows/stage32-residual32-01-full178-production.yml'
       - 'stages/stage32/residual-32-01-production/full178-manifest.json'
       - 'stages/stage32/residual-32-01-production/full178-production-preflight.json'
-      - 'stages/stage32/residual-32-01-production/full178-concurrency16-preflight.json'
+      - 'stages/stage32/residual-32-01-production/full178-wave128-preflight.json'
 
 permissions:
   contents: read
@@ -21,6 +21,7 @@ jobs:
       authorized: ${{ steps.gate.outputs.authorized }}
       matrix: ${{ steps.gate.outputs.matrix }}
       generation: ${{ steps.gate.outputs.generation }}
+      work_unit_count: ${{ steps.gate.outputs.work_unit_count }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -30,23 +31,24 @@ jobs:
           python-version: '3.10.6'
       - name: Reverify hostile-audited cold preflight
         run: python stages/stage32/residual-32-01-production/verify_full178_preflight.py
-      - name: Verify 16-runner operational expansion preflight
+      - name: Verify 128-unit wave / 17-runner operational preflight
         run: |
           python - <<'PY'
           import json
-          p='stages/stage32/residual-32-01-production/full178-concurrency16-preflight.json'
+          p='stages/stage32/residual-32-01-production/full178-wave128-preflight.json'
           x=json.load(open(p))
-          assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_CONCURRENCY16_PREFLIGHT_V1'
-          assert x['scope']=='OPERATIONAL_CONCURRENCY_EXPANSION_ONLY_NO_MATHEMATICAL_SEMANTICS_CHANGE'
+          assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_WAVE128_CONCURRENCY17_PREFLIGHT_V1'
+          assert x['scope']=='OPERATIONAL_WAVE_EXPANSION_ONLY_NO_MATHEMATICAL_SEMANTICS_CHANGE'
           assert x['source_and_math_contract_unchanged'] is True
           assert x['runner_schema']=='STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2'
           assert x['nodes_used_accounting']=='SUM_TELEMETRY_NODES_V2'
           assert x['node_ceiling_per_work_unit']==16000000
-          assert x['full178_heavy_concurrency']==16
-          assert x['maximum_effective_stage32_heavy_overlap']==17
+          assert x['max_work_units_per_wave']==128
+          assert x['full178_heavy_concurrency']==17
+          assert x['other_stage32_heavy_overlap_bound']==1
+          assert x['maximum_effective_stage32_heavy_overlap']==18
           assert x['hard_stage_cap']==18
           assert x['stage_cap_pass'] is True
-          assert x['remaining_stage32_heavy_headroom']==1
           assert x['storage_safe_under_operating_budget'] is True
           assert x['unknown_is_unsat'] is False
           assert x['fresh_runkey_only_authorization_required'] is True
@@ -65,6 +67,7 @@ jobs:
           echo 'authorized=false' >> "$GITHUB_OUTPUT"
           echo 'matrix={"work_unit":[]}' >> "$GITHUB_OUTPUT"
           echo 'generation=0' >> "$GITHUB_OUTPUT"
+          echo 'work_unit_count=0' >> "$GITHUB_OUTPUT"
           [ "$ACTION" = synchronize ] || exit 0
           [ -n "${BEFORE:-}" ] || exit 0
           git fetch --no-tags --depth=1 origin "$BEFORE" || exit 0
@@ -85,7 +88,7 @@ jobs:
           assert new['hostile_reaudit_review_id'] == 5057163230
           assert new['prefix_stage_only'] is True
           assert int(new['first_pass_node_ceiling']) == 16000000
-          assert int(new['effective_heavy_concurrency']) == 16
+          assert int(new['effective_heavy_concurrency']) == 17
           assert int(new['effective_heavy_concurrency']) <= 18
           assert float(new['projected_peak_artifact_mb']) < 500
           assert new['FULL178_HEAVY_PRODUCTION_AUTHORIZED'] is True
@@ -137,13 +140,14 @@ jobs:
               return base | {'work_unit_id': expected}
 
           units = [verify_unit(u) for u in new['work_units']]
-          assert len(units) == 16
-          assert len({u['work_unit_id'] for u in units}) == 16
+          assert 1 <= len(units) <= 128
+          assert len({u['work_unit_id'] for u in units}) == len(units)
           matrix = json.dumps({'work_unit': units}, separators=(',', ':'))
           with open(output, 'a') as f:
               f.write('authorized=true\n')
               f.write('matrix=' + matrix + '\n')
               f.write('generation=' + str(new['generation']) + '\n')
+              f.write('work_unit_count=' + str(len(units)) + '\n')
           PY
 
   produce:
@@ -151,7 +155,7 @@ jobs:
     if: needs.authorize.outputs.authorized == 'true'
     strategy:
       fail-fast: false
-      max-parallel: 16
+      max-parallel: 17
       matrix: ${{ fromJSON(needs.authorize.outputs.matrix) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -191,11 +195,6 @@ jobs:
           assert x['B18_RELEASE_AUTHORIZED'] is False
           assert x['THEOREM_CREDIT'] is False and x['RECEIVER_CREDIT'] is False
           assert p.stat().st_size <= 16*1024, p.stat().st_size
-          print(json.dumps({'work_unit_id':x['input_work_unit']['work_unit_id'],'row_id':x['row_id'],
-                            'nodes_used':x['nodes_used'],
-                            'completed_prefix_partitions':len(x['completed_prefix_partitions']),
-                            'unknown_child_work_units':x['unknown_count'],
-                            'certificate_sha256':x['canonical_sha256_without_this_field']},sort_keys=True))
           PY
       - uses: actions/upload-artifact@v4
         with:
@@ -208,6 +207,9 @@ jobs:
     needs: [authorize, produce]
     if: needs.authorize.outputs.authorized == 'true' && needs.produce.result == 'success'
     runs-on: ubuntu-24.04
+    env:
+      EXPECTED_COUNT: ${{ needs.authorize.outputs.work_unit_count }}
+      GENERATION: ${{ needs.authorize.outputs.generation }}
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -215,14 +217,14 @@ jobs:
           path: ${{ runner.temp }}/stage32-full178-aggregate
           merge-multiple: true
       - name: Build compact wave manifest
-        env:
-          GENERATION: ${{ needs.authorize.outputs.generation }}
         run: |
           python - <<'PY'
           import hashlib, json, os, pathlib
           root=pathlib.Path(os.environ['RUNNER_TEMP'])/'stage32-full178-aggregate'
           files=sorted(root.glob('*.json'))
-          assert len(files)==16, len(files)
+          expected=int(os.environ['EXPECTED_COUNT'])
+          assert 1 <= expected <= 128
+          assert len(files)==expected, (len(files), expected)
           work=[]; children=[]
           for p in files:
               x=json.loads(p.read_text())
@@ -235,7 +237,7 @@ jobs:
                            'certificate_sha256':x['canonical_sha256_without_this_field']})
               children.extend(x['unresolved_exact_child_work_units'])
           payload={'schema':'STAGE32_RESIDUAL32_01_FULL178_PREFIX_WAVE_MANIFEST_V3',
-                   'generation':int(os.environ['GENERATION']),'input_work_unit_count':16,
+                   'generation':int(os.environ['GENERATION']),'input_work_unit_count':expected,
                    'work_units':sorted(work,key=lambda v:v['work_unit_id']),
                    'total_nodes_used':sum(v['nodes_used'] for v in work),
                    'next_exact_work_units':children,
@@ -245,10 +247,7 @@ jobs:
           raw=json.dumps(payload,sort_keys=True,separators=(',',':')).encode()
           payload['canonical_sha256_without_this_field']=hashlib.sha256(raw).hexdigest()
           out=root/'wave-manifest.json'; out.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\n')
-          assert out.stat().st_size < 128*1024
-          print(json.dumps({'generation':payload['generation'],'total_nodes_used':payload['total_nodes_used'],
-                            'next_work_units':len(children),
-                            'sha256':payload['canonical_sha256_without_this_field']},sort_keys=True))
+          assert out.stat().st_size < 1024*1024
           PY
       - uses: actions/upload-artifact@v4
         with:
