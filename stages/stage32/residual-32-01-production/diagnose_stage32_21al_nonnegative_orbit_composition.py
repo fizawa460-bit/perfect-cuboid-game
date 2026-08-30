@@ -6,12 +6,10 @@ import hashlib
 import json
 from pathlib import Path
 
+from sympy import Matrix
 from z3 import Int, Solver, get_version_string, sat, unknown, unsat
 
-from diagnose_stage32_21ak_affine_2adic_membership import (
-    build_certificate as build_21ak_certificate,
-    reconstruct_translation_data,
-)
+from diagnose_stage32_21ak_affine_2adic_membership import reconstruct_translation_data
 from direct_picard_reynolds_lattice_diagnostic import csha, load_retained
 from direct_picard_reynolds_rank2_antifixed_coset_bound import (
     ReynoldsRank2AntiFixedCosetBound,
@@ -20,6 +18,8 @@ from direct_picard_reynolds_rank2_antifixed_coset_bound import (
 EXPECTED_MANIFEST_SHA256 = "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23"
 EXPECTED_21AC_CERTIFICATE_SHA256 = "2c227d773aaf6a6543ae89419c468d85fd4ebd42422eb6f4c8ac60b2e7227c8e"
 EXPECTED_21AK_CERTIFICATE_SHA256 = "51effd04ea195831a3bf1859710716910e5ef0945caab94c36c1c03840b1d6ee"
+EXPECTED_21AK_CONSTRAINT_ROWS_SHA256 = "1c8ea0443dcf80dcaec80964618eac97385d85bfa7d009e60d471cd70f3a5169"
+EXPECTED_21AK_FACTORS = (1,) * 45 + (2,) * 4 + (4,) * 8 + (8,) * 2
 EXPECTED_SELECTED_PAIRING_COUNT = 59
 EXPECTED_ORBIT_COUNT = 14
 SCHEMA = "STAGE32_21AL_NONNEGATIVE_ORBIT_COMPOSITION_2ADIC_DIAGNOSTIC_V1"
@@ -102,9 +102,8 @@ def solve_selected_composition(
     model = solver.model()
     witness = tuple(int(model.eval(var, model_completion=True).as_long()) for var in s)
 
-    for value in witness:
-        if value < 0:
-            raise ValueError("SAT composition witness became negative")
+    if any(value < 0 for value in witness):
+        raise ValueError("SAT composition witness became negative")
     for oid, positions in enumerate(selected_positions_by_orbit):
         subtotal = sum(witness[j] for j in positions)
         total = int(orbit_totals[oid])
@@ -136,9 +135,9 @@ def main() -> None:
     ap.add_argument("--output", type=Path, required=True)
     ap.add_argument("--row-shards", type=int, default=16)
     ap.add_argument("--shard-index", type=int, default=0)
-    ap.add_argument("--sample-modulus", type=int, default=256)
+    ap.add_argument("--sample-modulus", type=int, default=1024)
     ap.add_argument("--sample-remainder", type=int, default=0)
-    ap.add_argument("--solver-timeout-ms", type=int, default=1000)
+    ap.add_argument("--solver-timeout-ms", type=int, default=250)
     ap.add_argument("--example-limit", type=int, default=24)
     args = ap.parse_args()
 
@@ -161,15 +160,17 @@ def main() -> None:
     if model.certificate["canonical_sha256_without_this_field"] != EXPECTED_21AC_CERTIFICATE_SHA256:
         raise ValueError("32-21ac audited evaluator certificate regression")
 
-    cert_21ak = build_21ak_certificate(marking, bundle)
-    if cert_21ak["canonical_sha256_without_this_field"] != EXPECTED_21AK_CERTIFICATE_SHA256:
-        raise ValueError("32-21ak interface certificate regression")
+    # Reconstruct the exact 21ak interface once. 21ak itself has a successful
+    # source-locked certificate at EXPECTED_21AK_CERTIFICATE_SHA256; here we
+    # additionally lock the exact 14 published constraint rows used below.
     data = reconstruct_translation_data(marking, bundle)
-
-    interface = cert_21ak["affine_membership_filter"]
-    constraint_rows = tuple(interface["constraint_rows"])
+    if tuple(int(v) for v in data["factors"]) != EXPECTED_21AK_FACTORS:
+        raise ValueError("32-21ak Smith factor regression")
+    constraint_rows = tuple(data["constraint_rows"])
     if len(constraint_rows) != 14:
         raise ValueError("21ak nonunit affine constraint count regression")
+    if csha(list(constraint_rows)) != EXPECTED_21AK_CONSTRAINT_ROWS_SHA256:
+        raise ValueError("32-21ak affine constraint-row hash regression")
 
     selected_curve_indices = tuple(int(v) for v in data["pivot_rows"])
     selected_orbit_ids = tuple(int(v) for v in data["selected_orbit_ids"])
@@ -261,7 +262,7 @@ def main() -> None:
 
                 cached = cache.get(z)
                 if cached is None:
-                    y0 = pairing_x0_map * __import__("sympy").Matrix(z)
+                    y0 = pairing_x0_map * Matrix(z)
                     orbit_totals = tuple(
                         sum(int(y0[i, 0]) for i in orbit)
                         for orbit in orbits
@@ -362,6 +363,7 @@ def main() -> None:
         "manifest_canonical_sha256": EXPECTED_MANIFEST_SHA256,
         "audited_32_21ac_certificate_sha256": EXPECTED_21AC_CERTIFICATE_SHA256,
         "upstream_32_21ak_certificate_sha256": EXPECTED_21AK_CERTIFICATE_SHA256,
+        "upstream_32_21ak_constraint_rows_sha256": EXPECTED_21AK_CONSTRAINT_ROWS_SHA256,
         "z3_version": get_version_string(),
         "interface": {
             "selected_pairing_coordinate_count": len(selected_curve_indices),
