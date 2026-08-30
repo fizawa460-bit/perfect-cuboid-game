@@ -26,18 +26,12 @@ from pairing_prefix_engine import close_permutation_group
 
 EXPECTED_FIXED_SLICE_KERNEL_RANK = 2
 EXPECTED_PROJECTION_CLASS_COUNT = 16384
+EXPECTED_STABILIZER_ORBIT_COUNT = 14
+EXPECTED_DISTINCT_FIXED_PAIRING_ROW_COUNT = 12
 
 
 def matrix_int_list(m: Matrix) -> list[list[int]]:
     return [[int(m[i, j]) for j in range(m.cols)] for i in range(m.rows)]
-
-
-def vector_int_list(v: Matrix) -> list[int]:
-    if v.cols == 1:
-        return [int(v[i, 0]) for i in range(v.rows)]
-    if v.rows == 1:
-        return [int(v[0, j]) for j in range(v.cols)]
-    raise ValueError(f"expected vector, got {v.shape}")
 
 
 def build_reynolds_numerator(
@@ -119,13 +113,9 @@ def main() -> None:
     if N * B != GROUP_ORDER * B:
         raise ValueError("im(N) basis is not Reynolds-fixed")
 
-    # Every projected integral Picard class is exactly
-    #
-    #     p = P(x) = N x / 64 = B z / 64, z in Z^5,
-    #
-    # because B is a Z-basis of im(N). Conversely every Bz is N x for some
-    # integral x by the definition of im(N), so this is an exact
-    # parameterization of P(Pic_Z), not merely an over-lattice.
+    # Exact projected integral lattice:
+    #   P(Pic_Z) = (1/64) im(N) = {B z / 64 : z in Z^5}.
+    # B is a Z-basis of im(N), so z is unique and every z occurs.
     phi_B = phi * B
     if any(int(v) % GROUP_ORDER for v in phi_B):
         raise ValueError("phi(B) is not divisible by Reynolds group order")
@@ -133,9 +123,8 @@ def main() -> None:
     if Psi.shape != (3, EXPECTED_FIXED_RANK) or int(Psi.rank()) != 3:
         raise ValueError(f"projected slice matrix regression: {Psi.shape}, rank={Psi.rank()}")
 
-    # Tiny Smith decomposition gives a reusable exact affine rank-2 solver:
-    #   S Psi T = D, z=T y, D y=S t.
-    # The last two columns of T are therefore a Z-basis of ker_Z(Psi).
+    # Tiny Smith decomposition provides an exact affine rank-2 integer solver:
+    # S Psi T=D, z=T y, D y=S t. The last two T-columns are ker_Z(Psi).
     D, S, T = smith_normal_decomp(Psi, domain=ZZ)
     if S * Psi * T != D:
         raise ValueError("projected slice Smith decomposition regression")
@@ -150,38 +139,50 @@ def main() -> None:
     if Psi * kernel != Matrix.zeros(3, EXPECTED_FIXED_SLICE_KERNEL_RANK):
         raise ValueError("projected integer kernel regression")
 
-    # Objective and averaged nonnegativity are integral forms in z. If x has
-    # all 140 pairings >=0, then p is the average of its 64 stabilizer images,
-    # hence every pairing of p is >=0. Since p is fixed, rows are constant on
-    # stabilizer orbits; we retain the deduplicated exact linear forms here.
+    # For p=Bz/64, all140 pairings have numerator pairing_B*z. A nonnegative
+    # integral x averages to a nonnegative p. Because p is stabilizer-fixed,
+    # the 140 rows are constant on each of the 14 stabilizer orbits. Two orbit
+    # pairs collapse further on the fixed subspace, leaving only 12 distinct
+    # halfspaces; this is an exact redundancy, not a relaxation.
     H = B.T * gram * B
     pairing_B = adapter.pairing_matrix * B
-    distinct_pairing_rows = sorted({
+    row_tuples = [
         tuple(int(pairing_B[i, j]) for j in range(EXPECTED_FIXED_RANK))
         for i in range(pairing_B.rows)
-    })
-    distinct_pairing_matrix = Matrix(distinct_pairing_rows)
+    ]
+    distinct_pairing_rows = sorted(set(row_tuples))
 
-    # Verify row constancy on every actual slice-stabilizer orbit, not merely
-    # by deduplication count.
     unvisited = set(range(140))
     stabilizer_orbits: list[tuple[int, ...]] = []
+    orbit_rows: list[tuple[int, ...]] = []
     while unvisited:
         seed = min(unvisited)
         orbit = tuple(sorted({g[seed] for g in subgroup}))
-        base_row = tuple(int(pairing_B[seed, j]) for j in range(EXPECTED_FIXED_RANK))
-        if any(
-            tuple(int(pairing_B[i, j]) for j in range(EXPECTED_FIXED_RANK)) != base_row
-            for i in orbit
-        ):
+        base_row = row_tuples[seed]
+        if any(row_tuples[i] != base_row for i in orbit):
             raise ValueError("fixed projected pairing is not constant on a stabilizer orbit")
         stabilizer_orbits.append(orbit)
+        orbit_rows.append(base_row)
         unvisited.difference_update(orbit)
-    if len(distinct_pairing_rows) != len(stabilizer_orbits):
+    if len(stabilizer_orbits) != EXPECTED_STABILIZER_ORBIT_COUNT:
+        raise ValueError(f"stabilizer orbit count regression: {len(stabilizer_orbits)}")
+    if len(distinct_pairing_rows) != EXPECTED_DISTINCT_FIXED_PAIRING_ROW_COUNT:
         raise ValueError(
-            f"distinct fixed pairing row/orbit count regression: "
-            f"{len(distinct_pairing_rows)} != {len(stabilizer_orbits)}"
+            f"distinct fixed pairing halfspace count regression: {len(distinct_pairing_rows)}"
         )
+    if set(orbit_rows) != set(distinct_pairing_rows):
+        raise ValueError("orbit rows do not cover exactly the distinct fixed halfspaces")
+
+    row_to_orbits: dict[tuple[int, ...], list[int]] = {}
+    for orbit_id, row in enumerate(orbit_rows):
+        row_to_orbits.setdefault(row, []).append(orbit_id)
+    collapsed_orbit_groups = [
+        ids for _, ids in sorted(row_to_orbits.items()) if len(ids) > 1
+    ]
+    if sum(len(ids) - 1 for ids in collapsed_orbit_groups) != (
+        EXPECTED_STABILIZER_ORBIT_COUNT - EXPECTED_DISTINCT_FIXED_PAIRING_ROW_COUNT
+    ):
+        raise ValueError("fixed-halfspace orbit-collapse accounting regression")
 
     reduced_H = kernel.T * H * kernel
     if reduced_H.shape != (2, 2) or reduced_H != reduced_H.T:
@@ -189,18 +190,15 @@ def main() -> None:
     if not (int(reduced_H[0, 0]) < 0 and int(reduced_H.det()) > 0):
         raise ValueError(f"rank-2 projected Hessian is not negative definite: {reduced_H}")
 
-    # Orthogonal decomposition: P=N/64 is Gram-self-adjoint and idempotent, so
-    # x=p+q with p=P x and q=(I-P)x has <p,q>=0. Moreover phi(q)=0. The locked
-    # exact slice-kernel negative-definiteness certificate therefore gives
-    # q^2<=0, hence x^2=p^2+q^2<=p^2. Thus maximizing p^2 over the projected
-    # integral rank-2 feasible lattice is a safe replacement upper bound for
-    # the original integral search; no 59-dimensional anti-fixed CVP is needed.
-    projection_class_count = EXPECTED_PROJECTION_CLASS_COUNT
-    projection_denominator = GROUP_ORDER
+    # P=N/64 is a Gram-self-adjoint idempotent. Thus x=p+q orthogonally,
+    # phi(q)=0, and the locked exact slice-kernel negative-definiteness gives
+    # q^2<=0. Therefore x^2<=p^2. Maximizing p^2 over the exact projected
+    # rank-2 integral lattice is a safe upper bound; no 59D anti-fixed CVP is
+    # required merely for safety.
     objective_denominator = GROUP_ORDER * GROUP_ORDER
 
     cert = {
-        "schema": "STAGE32_RESIDUAL32_01_REYNOLDS_RANK2_INTEGRAL_PROJECTION_BOUND_V1",
+        "schema": "STAGE32_RESIDUAL32_01_REYNOLDS_RANK2_INTEGRAL_PROJECTION_BOUND_V2_12_HALFSPACES",
         "mode": "EXACT_INTEGRAL_PROJECTED_LATTICE_PARAMETERIZATION_AND_SAFE_RANK2_SELF_INTERSECTION_UPPER_BOUND",
         "adapter_certificate_sha256": adapter.certificate[
             "canonical_sha256_without_this_field"
@@ -215,7 +213,7 @@ def main() -> None:
         "picard_rank": PICARD_RANK,
         "fixed_rank": EXPECTED_FIXED_RANK,
         "fixed_slice_kernel_rank": EXPECTED_FIXED_SLICE_KERNEL_RANK,
-        "projection_class_count_crosscheck": projection_class_count,
+        "projection_class_count_crosscheck": EXPECTED_PROJECTION_CLASS_COUNT,
         "reynolds_numerator_sha256": csha(matrix_int_list(N)),
         "action_hashes_sha256": action_hashes_sha,
         "fixed_image_basis": {
@@ -225,7 +223,7 @@ def main() -> None:
         },
         "exact_projected_parameterization": {
             "formula": "p=B*z/64 with z in Z^5",
-            "projection_denominator": projection_denominator,
+            "projection_denominator": GROUP_ORDER,
             "surjective_onto_P_of_integral_Picard_lattice": True,
             "injective_in_z": True,
         },
@@ -242,10 +240,13 @@ def main() -> None:
         },
         "projected_feasibility": {
             "all140_pairing_numerator_matrix_sha256": csha(matrix_int_list(pairing_B)),
-            "distinct_stabilizer_orbit_pairing_row_count": len(distinct_pairing_rows),
+            "stabilizer_orbit_count": len(stabilizer_orbits),
+            "distinct_fixed_halfspace_count": len(distinct_pairing_rows),
             "distinct_pairing_rows": [list(row) for row in distinct_pairing_rows],
             "stabilizer_orbit_sizes": sorted(len(o) for o in stabilizer_orbits),
+            "collapsed_orbit_groups_0based": collapsed_orbit_groups,
             "criterion": "pairing_B*z >= 0; division by 64 is positive and omitted",
+            "two_orbit_redundancies_on_fixed_subspace_exact": True,
         },
         "projected_objective": {
             "formula": "p^2=(z^T H z)/4096",
@@ -270,7 +271,7 @@ def main() -> None:
             "anti_fixed_59dimensional_cvp_required_for_safety": False,
             "remaining_integer_optimization_dimension_after_slice": 2,
         },
-        "next_leaf": "implement exact 2D integer concave-QP evaluator for each (d,e,a) slice using the Smith affine solution and constant orbit inequalities; benchmark it against the measured FULL178 52-unit tail before any heavy production re-arm",
+        "next_leaf": "implement exact 2D integer concave-QP evaluator for each (d,e,a) slice using the Smith affine solution and 12 constant fixed-halfspace inequalities; benchmark it against the measured FULL178 52-unit tail before any heavy production re-arm",
         "numerical_row_complete": False,
         "theorem_credit": False,
         "receiver_credit": False,
@@ -286,7 +287,8 @@ def main() -> None:
         "slice_rank": 3,
         "integer_free_rank": EXPECTED_FIXED_SLICE_KERNEL_RANK,
         "projected_slice_smith": list(smith_diag),
-        "distinct_orbit_inequality_count": len(distinct_pairing_rows),
+        "stabilizer_orbit_count": len(stabilizer_orbits),
+        "distinct_fixed_halfspace_count": len(distinct_pairing_rows),
         "rank2_hessian_det": int(reduced_H.det()),
         "canonical_sha256": cert["canonical_sha256_without_this_field"],
     }, sort_keys=True))
