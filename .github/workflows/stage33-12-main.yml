@@ -1,6 +1,7 @@
 name: Stage33-12 exact checkpoint replay
 
-# Merge gate: deterministic and network-free. External Magma is optional cross-check only.
+# Merge gate after Batch4 hostile reopen. Historical J2-dependent certificates
+# whose source representative was revoked are retained as history, not regenerated.
 on:
   pull_request:
     paths:
@@ -27,53 +28,46 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Replay exact obstruction inventory and semantic Kc Picard basis
+      - name: Replay authoritative Batch4 hostile-reopen state
         run: |
           cp stages/stage33/33-12/boundary-function-scalar-descent-certificate.json /tmp/expected-boundary-scalars.json
           python stages/stage33/33-12/certify_boundary_function_scalar_descent.py
           cmp /tmp/expected-boundary-scalars.json stages/stage33/33-12/boundary-function-scalar-descent-certificate.json
+
           cp stages/stage33/33-12/full-surface-hs-adjustment-contract.json /tmp/expected-hs-adjustment.json
           python stages/stage33/33-12/certify_full_surface_hs_adjustment_contract.py
           cmp /tmp/expected-hs-adjustment.json stages/stage33/33-12/full-surface-hs-adjustment-contract.json
+
           cp stages/stage33/33-12/j2-full-surface-mu2-zero-defect-contract.json /tmp/expected-j2-mu2-zero-defect.json
           python stages/stage33/33-12/certify_j2_full_surface_mu2_zero_defect_contract.py
           cmp /tmp/expected-j2-mu2-zero-defect.json stages/stage33/33-12/j2-full-surface-mu2-zero-defect-contract.json
-          cp stages/stage33/33-12/j2-kc-coordinate-ambiguity-reduction.json /tmp/expected-j2-kc-ambiguity.json
-          python stages/stage33/33-12/certify_j2_kc_coordinate_ambiguity_reduction.py
-          cmp /tmp/expected-j2-kc-ambiguity.json stages/stage33/33-12/j2-kc-coordinate-ambiguity-reduction.json
+
+          # Kc-side marked lattice data remain independent of the revoked named ell.
           python stages/stage33/33-12/certify_j2_semantic_kc_picard_basis.py
-          python stages/stage33/33-12/certify_j2_semantic_kc_discriminant_2torsion_target.py
-          python stages/stage33/33-12/certify_j2_picard_discriminant_galois_functional_rejection.py
-          python stages/stage33/33-12/certify_j2_full_galois_discriminant_fixedness_rejection.py
-          python stages/stage33/33-12/certify_j2_cv_to_discriminant_marking_obstruction.py
           python stages/stage33/33-12/certify_j2_kc_transcendental_lattice_isometry.py
           python stages/stage33/33-12/certify_j2_kc_bfield_halfdual_target.py
-          python stages/stage33/33-12/certify_j2_kc_automorphism_mod2_marking_rejection.py
-          python stages/stage33/33-12/certify_j2_branch_cohomology_route_reduction.py
           python stages/stage33/33-12/certify_j2_brauer_kernel_lattice_fingerprints.py
-          python stages/stage33/33-12/certify_j2_normalization_2isogeny_rational_torsion.py
-          python stages/stage33/33-12/certify_j2_naive_shioda_mitani_factor_transport_rejection.py
-          python stages/stage33/33-12/certify_j2_direct_bfield_cycle_evaluation_interface_block.py
-          python stages/stage33/33-12/certify_j2_good_reduction_etale_specialization_route_audit.py
-          python stages/stage33/33-12/certify_j2_elliptic_torsor_kernel_reduction.py
-          python stages/stage33/33-12/certify_j2_2isogeny_torsor_candidate.py
-          python stages/stage33/33-12/certify_j2_2isogeny_cohomological_gate.py
-          python stages/stage33/33-12/certify_j2_d2_geometric_nontriviality_rejection.py
-          python stages/stage33/33-12/certify_j2_geometric_halfdivisor_base_squareclass.py
-          python stages/stage33/33-12/certify_j2_hilbert90_geometric_squareclass_candidate.py
-          python stages/stage33/33-12/certify_j2_q_single_isogeny_projection_rejection.py
-          python stages/stage33/33-12/certify_j2_degenerate_hermite_inverse_construction_target.py
-          python stages/stage33/33-12/certify_j2_degenerate_clifford_q_fingerprint_adapter.py
-          python stages/stage33/33-12/certify_j2_degenerate_clifford_contact_glue_reduction.py
-          python stages/stage33/33-12/certify_j2_four_even_contact_pairing_orbits.py
-          python stages/stage33/33-12/certify_j2_named_cv_special_brauer_pairing_orbit.py
-          python stages/stage33/33-12/certify_j2_class2_batch3_go_no_go.py
+
+          # New load-bearing hostile regression: current Stage33-05 ell is CV-zero.
           cp stages/stage33/33-12/j2-cv-lclass-zero-regression.json /tmp/expected-j2-cv-lclass-zero.json
           python stages/stage33/33-12/certify_j2_cv_lclass_zero_regression.py
           cmp /tmp/expected-j2-cv-lclass-zero.json stages/stage33/33-12/j2-cv-lclass-zero-regression.json
-          cp stages/stage33/33-12/full-surface-pic2-kummer-target.json /tmp/expected-pic2-kummer-target.json
-          python stages/stage33/33-12/certify_full_surface_pic2_kummer_target.py
-          cmp /tmp/expected-pic2-kummer-target.json stages/stage33/33-12/full-surface-pic2-kummer-target.json
-          cp stages/stage33/33-12/stage33-12-exact-obstruction-inventory.json /tmp/expected.json
-          python stages/stage33/33-12/assemble_exact_obstruction_inventory.py
-          cmp /tmp/expected.json stages/stage33/33-12/stage33-12-exact-obstruction-inventory.json
+
+          python - <<'PY'
+          import json
+          c=json.load(open('stages/stage33/controller.json'))
+          s=c['stage33_05_hostile_reopen']
+          j=next(x for x in c['repair_children'] if x['id']=='33-12')
+          assert s['reopened'] is True
+          assert s['named_representative_credit']=='REVOKED_PENDING_REPAIR'
+          assert c['stage33_07']['stage33_12_exact_obstruction_inventory_sha256']=='7656f2bd9ff89cdc8d8dfd3c027fa672c00457efc8b707be8cd0a926e5d0fda4'
+          assert j['exact_obstruction_inventory_materialized'] is True
+          assert j['exact_obstruction_inventory_sha256']=='7656f2bd9ff89cdc8d8dfd3c027fa672c00457efc8b707be8cd0a926e5d0fda4'
+          assert j['j2_class2_go_no_go']=='REVOKED_BY_BATCH4_HOSTILE_AUDIT'
+          assert j['j2_class3_promoted'] is False
+          assert j['j2_cv_lemma_4_6_explicit_e2_cocycle_route_live'] is True
+          assert next(x for x in c['repair_children'] if x['id']=='33-13')['released'] is False
+          assert c['theorem_credit'] is False and c['receiver_credit'] is False and c['endpoint_credit'] is False
+          assert c['perfect_cuboid_existence_claim'] is False and c['perfect_cuboid_nonexistence_claim'] is False
+          print('authoritative hostile-reopen controller state PASS')
+          PY
