@@ -19,8 +19,8 @@ No Stage33-13 release is allowed during this repair band.
 |---|---|---|---|
 | R0 | Is the promoted `ell_J2` actually nonzero in the geometric CV quotient? | Exact full branch-algebra regression of `ell_J2` modulo `K^*L^{*2}` | **DONE: ZERO** |
 | R1 | Does the abstract `J2` basis element remain genuinely nonzero independently of the bad representative? | Recompute the quotient/presentation nonzero statement without using the revoked `ell_J2`; identify exactly what object the symbol `J2` denotes | **DONE: ABSTRACT_J2_NONZERO_CONFIRMED** |
-| R2 | Can a correct concrete representative of abstract `J2` be constructed? | Produce `ell_J2_corrected` and certify `[ell_J2_corrected] != 0` in `L^*/(K^*L^{*2})`, with branch/ruling dictionary source-locked | **IN_PROGRESS** |
-| R3 | What is its explicit generic-fiber cohomology class? | Apply Creutz--Viray explicit descent to materialize a nonzero cocycle in `H^1(K,E[2])` and fixed rational `E[2]` Kummer coordinates | **BLOCKED_BY_R2** |
+| R2 | Can a correct concrete representative of abstract `J2` be constructed? | Produce `ell_J2_corrected` and certify `[ell_J2_corrected] != 0` in `L^*/(K^*L^{*2})`, with branch/ruling dictionary source-locked | **DONE: CORRECTED_ELL_J2_NONZERO_CONFIRMED** |
+| R3 | What is its explicit generic-fiber cohomology class? | Apply Creutz--Viray explicit descent to materialize a nonzero cocycle in `H^1(K,E[2])` and fixed rational `E[2]` Kummer coordinates | **IN_PROGRESS** |
 | R4 | Which marked Brauer functional is it? | Build the associated 2-cover/torsor or equivalent lattice object and determine `min T(X_J2) in {4,8,12}`, hence `[0,1]`, `[1,0]`, or `[1,1]` | **BLOCKED_BY_R3** |
 | R5 | Can Stage33-05/12 credit be restored? | Independent hostile replay of R1--R4; restore only the credits actually re-established; update Stage33 controller and downstream release gates | **BLOCKED_BY_R4** |
 
@@ -43,11 +43,44 @@ Verifier: `stages/stage33/33-05/certify_j2_abstract_nonzero_reaudit.py`.
 
 This restores **only** abstract geometric nonzero-ness. It does not restore the revoked concrete `ell_J2`, its Q-descent, or any marked coordinate.
 
+## R2 exact closure
+
+R2 reconstructs abstract `J2` from the source-locked full branch algebra rather than from the revoked Q-defined function.
+
+The existing Stage33-05 quotient skeleton identifies the geometric `J2` lift as the full pair
+
+```text
+ell_J2_corrected = (f2,1),
+f2 = (t+1+sqrt(2))/(t-1+sqrt(2)),
+Lbar = E_plus x E_minus,
+E = Kbar(z), z^2=q(t), q=t^4-6*t^2+1.
+```
+
+This is materially different from the old failed representative: after restricting the old Q-defined `ell_Q` to the two normalization components, both components became the same `ell_z`, and the hostile regression proved `ell_z=f2*g^2`. Thus the old pair was diagonal `f2` times component squares and was zero in `Lbar^*/(Kbar^*Lbar^{*2})`.
+
+For the corrected pair, quotient-zero would mean
+
+```text
+(f2,1)=k*(u^2,v^2)
+```
+
+for diagonal `k in Kbar^*`, hence `f2=(u/v)^2` in `E`. Write an arbitrary element of `E` as `A+Bz`. If `(A+Bz)^2=f2 in Kbar`, then the `z` coefficient gives `2AB=0`, so either `f2` is a square in `Kbar` or `f2/q` is a square in `Kbar`. Both alternatives fail exactly:
+
+- `f2` has odd valuations `v_r2=+1`, `v_r4=-1`;
+- `f2/q=1/((t-r1)(t-r3)(t-r4)^2)` has odd valuations `v_r1=v_r3=-1`.
+
+Therefore `(f2,1)` is nonzero in the actual full geometric CV quotient.
+
+Certificate: `stages/stage33/33-05/j2-corrected-full-l-representative.json`.
+Verifier: `stages/stage33/33-05/certify_j2_corrected_full_l_representative.py`.
+
+This closes **only R2**. It does not restore the revoked Q-defined descent credit, does not materialize the Creutz--Viray `E[2]` cocycle, does not select a marked Kc Brauer coordinate, and does not re-close Stage33-05/12. Those remain gated by R3--R5.
+
 ## Stop / escalation rules
 
 - R1 has only two legitimate outcomes: `ABSTRACT_J2_NONZERO_CONFIRMED` or `ABSTRACT_J2_SURVIVAL_REVOKED`. **Resolved: CONFIRMED.**
-- If R1 confirms abstract J2 but R2 fails after two materially different exact constructions, run a bounded breadth audit before adding a third construction.
-- If R2 succeeds, the first mandatory regression is quotient nonzero-ness. Norm/divisor/residue checks alone are insufficient.
+- If R1 confirms abstract J2 but R2 fails after two materially different exact constructions, run a bounded breadth audit before adding a third construction. **Not triggered: R2 succeeded on the first corrected full-L construction.**
+- If R2 succeeds, the first mandatory regression is quotient nonzero-ness. Norm/divisor/residue checks alone are insufficient. **Passed exactly.**
 - R3 must use the actual corrected representative. No relabeling of branch orbit `(1,0)` as marked Brauer `[1,0]` is allowed.
 - R4 reads the fixed marked coordinate only through the retained kernel-lattice fingerprints: minimum norm `4 -> [0,1]`, `8 -> [1,0]`, `12 -> [1,1]`.
 - Class-3 routes remain dormant unless this finite repair ladder reaches a new exact no-go after the representative issue is resolved.
@@ -65,8 +98,8 @@ A batch that does not change the current leaf, candidate set, exact invariant, o
 ```text
 R0 = DONE: current promoted ell_J2 is zero in geometric CV quotient
 R1 = DONE: abstract J2 nonzero independently reconfirmed
-R2 = IN_PROGRESS: construct corrected representative; quotient nonzero is first gate
-R3 = BLOCKED
+R2 = DONE: corrected full-L pair (f2,1) directly certified nonzero in geometric CV quotient
+R3 = IN_PROGRESS: apply corrected representative to explicit Creutz--Viray E[2] cocycle/Kummer coordinates
 R4 = BLOCKED
 R5 = BLOCKED
 Stage33 progress = 5/11
@@ -80,6 +113,9 @@ Hostile-reopen evidence:
 
 R1 evidence:
 `stages/stage33/33-05/j2-abstract-nonzero-reaudit.json`
+
+R2 evidence:
+`stages/stage33/33-05/j2-corrected-full-l-representative.json`
 
 Machine-readable repair state:
 `stages/stage33/33-05/j2-representative-repair-state.json`
