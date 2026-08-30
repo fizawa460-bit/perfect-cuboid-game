@@ -20,9 +20,9 @@ Exact symbolic terminal count: `688101306360803751427719294`, with exact random-
 
 ## 32-21 — numerical Picard leaf compression
 
-Status: `IN_PROGRESS_AT_32_21AD_ZERO_PRUNE_AUDIT_BOUNDARY`
+Status: `AUDITED_CHECKPOINT_PENDING_PR1466_MERGE`
 
-The fixed Reynolds rank-2 integer-QP alone pruned `0 / 679337` continuous-KKT survivors. The coherent aa->ab->ac package restored a finite exact piece of the information discarded by Reynolds averaging and turned it into a usable safe pruning predicate. 32-21ad has now applied that audited predicate to the exact FULL178 population and established that this particular cheap bound has zero additional numerical pruning power on the full population.
+The fixed Reynolds rank-2 integer-QP alone pruned `0 / 679337` continuous-KKT survivors. The coherent aa->ab->ac package restored a finite exact piece of the information discarded by Reynolds averaging and turned it into a usable safe pruning predicate. 32-21ad then applied that audited predicate to the exact FULL178 population. Fresh boundary audit confirms that this particular cheap bound has exactly zero additional numerical pruning power on the full population.
 
 ### 32-21aa — anti-fixed coset penalty representation
 
@@ -89,7 +89,7 @@ PR #1465 is merged. Authoritative merge commit: `34b351b2d99c27b82fcd1eea075432e
 
 ## 32-21ad — FULL178 compressed numerical census
 
-Status: `EXACT_CENSUS_COMPLETE_PENDING_BOUNDARY_AUDIT`
+Status: `CLOSED_AUDITED_ZERO_PRUNE_CHECKPOINT`
 
 Result: `PASS_STAGE32_21AD_FULL178_16SHARD_ANTIFIXED_COSET_NUMERICAL_CENSUS`.
 
@@ -106,12 +106,26 @@ Exact FULL178 aggregate:
 - zeroed rows: `0`;
 - total exact integer-u probes inside the audited evaluator: `1971035`;
 - maximum probes for one slice: `114`;
-- run `33313814094`, aggregate job `99263722930`;
+- production run `33313814094`, aggregate job `99263722930`;
 - aggregate artifact `9732838513`, size `5429` bytes;
 - aggregate ZIP SHA256 `5c2ba19b704f9466ad8bd083a4ad14a2821aad5ab0b5829999dbd9ab3bca98cf`;
 - aggregate certificate SHA256 `9bf4aba655a6df81e621e3f78e19b16460f1138410ed118f18e25fcb77bf24ad`.
 
-Interpretation is deliberately narrow: 32-21ac remains mathematically valid, but its cheap coset-minimum penalty is numerically dominated on this exact FULL178 population. This is not UNSAT, not numerical-row completion, and not theorem/receiver/route/perfect-cuboid credit.
+### 32-21ad fresh boundary audit
+
+Status: `PASS`
+
+Verdict: `PASS_STAGE32_21AD_FRESH_ZERO_PRUNE_BOUNDARY_AUDIT`.
+
+The fresh audit independently downloaded the immutable 16 production shard artifacts, recomputed every shard canonical hash, rebuilt the deterministic mod-16 row partition from the locked FULL178 manifest, verified exact disjoint coverage of all 178 rows, recomputed all row-level totals, reconciled decision/coset/penalty populations, and independently rebuilt the audited 32-21ac evaluator lock.
+
+The initial PASS was run `33314674227`, job `99265778889`. After hardening the verifier so the same audit remains valid after final bookkeeping status changes, run `33314886424`, job `99266357586`, artifact `9733137852` reproduced the same canonical audit SHA256:
+
+`1f2e61ef29cf6000b8cc98906a5dcf3f2a4d15a7b405be2e40ef9c0de3bfab0e`.
+
+Hardened audit artifact size: `2142` bytes. ZIP SHA256: `15d11651104172a9f89c22c144acdff72f6dfc46e7a7b868a45bf05e9f67efa6`.
+
+Interpretation is deliberately narrow: 32-21ac remains mathematically valid, but its cheap coset-minimum penalty is numerically dominated on this exact FULL178 population. Exact zero additional pruning does **not** mean UNSAT, route impossibility, numerical-row completion, theorem credit, receiver discharge, route color change, or perfect-cuboid existence/nonexistence.
 
 Operational notes:
 
@@ -121,11 +135,12 @@ Operational notes:
 - effective Stage32 heavy concurrency was `16 <= 18`;
 - the old pairing-prefix heavy calibration remained skipped;
 - both 32-21ad run-keys are consumed and disarmed;
-- no terminal-family materialization, legacy prefix DFS, or 59-dimensional closest-vector search was executed.
+- no terminal-family materialization, legacy prefix DFS, or 59-dimensional closest-vector search was executed;
+- re-running the same FULL178 census without a semantic change is dominated and not authorized.
 
-The zero-prune result is a meaningful strategy boundary. Do not re-run the same census or merely increase old DFS/node ceilings. A materially stronger bound or different symmetry/integrality mechanism is required before further heavy production.
+The zero-prune result is a meaningful strategy boundary. A materially stronger bound or different symmetry/integrality mechanism is required before further heavy production, but that post-32-21ad strategy is intentionally **not selected inside PR #1466**.
 
-Next action: fresh focused boundary audit of 32-21ad / PR #1466. The post-32-21ad leaf name and strategy are intentionally not precommitted until that audit has certified the exact zero-prune result and safety state.
+PR #1466 is the checkpoint boundary. It may be merged only with explicit user authorization. After merge, reread authoritative `main`, `AGENTS.md`, and `stages/stage32/controller.json` before selecting the next materially distinct strategy. No new heavy production is released by this audit.
 
 ## PR / MAIN batch discipline
 
@@ -143,4 +158,4 @@ Default MAIN behavior:
 
 Current pointer:
 
-`32-19 CLOSED_RETROSPECTIVE -> 32-20 CLOSED_CHECKPOINTED -> 32-21aa CLOSED_AUDITED -> 32-21ab CLOSED_AUDITED -> 32-21ac CLOSED_AUDITED -> #1465 MERGED -> 32-21ad EXACT_ZERO_PRUNE_CENSUS_COMPLETE -> FRESH_BOUNDARY_AUDIT`
+`32-19 CLOSED_RETROSPECTIVE -> 32-20 CLOSED_CHECKPOINTED -> 32-21aa CLOSED_AUDITED -> 32-21ab CLOSED_AUDITED -> 32-21ac CLOSED_AUDITED -> #1465 MERGED -> 32-21ad CLOSED_AUDITED_ZERO_PRUNE_CHECKPOINT -> PR #1466 CHECKPOINT_MERGE_READY -> NEXT_STRATEGY UNSELECTED_PENDING_MERGE`
