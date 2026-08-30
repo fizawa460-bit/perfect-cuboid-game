@@ -34,12 +34,10 @@ def deterministic_sample(
     row_id: str,
     e: int,
     a: int,
-    u: int,
-    v: int,
     sample_modulus: int,
     sample_remainder: int,
 ) -> bool:
-    raw = f"{row_id}|{e}|{a}|{u}|{v}".encode()
+    raw = f"{row_id}|{e}|{a}".encode()
     value = int.from_bytes(hashlib.sha256(raw).digest()[:8], "big")
     return value % sample_modulus == sample_remainder
 
@@ -241,17 +239,18 @@ def main() -> None:
 
                 continuous += 1
                 row_cont += 1
-                survives, _, _, witness, _ = model.can_reach_selfsq(d, e, a, lower)
-                if not survives or witness is None:
-                    raise ValueError("32-21ad zero-prune witness regression")
-                u, v = witness
                 if not deterministic_sample(
-                    row_id, e, a, u, v, args.sample_modulus, args.sample_remainder
+                    row_id, e, a, args.sample_modulus, args.sample_remainder
                 ):
                     continue
 
+                survives, _, _, witness, _ = model.can_reach_selfsq(d, e, a, lower)
+                if not survives or witness is None:
+                    raise ValueError("32-21ad zero-prune witness regression on deterministic sample")
+                u, v = witness
                 sampled += 1
                 row_sampled += 1
+
                 z0 = rank2.affine_origin(d, e, a)
                 if z0 is None:
                     raise ValueError("rank2 affine origin missing")
@@ -345,7 +344,7 @@ def main() -> None:
             {
                 "row_id": row_id,
                 "continuous_kkt_survivors": row_cont,
-                "deterministically_sampled_existing_witnesses": row_sampled,
+                "deterministically_sampled_continuous_slices": row_sampled,
                 "composition_sat": row_sat,
                 "composition_unsat": row_unsat,
                 "composition_unknown": row_unknown,
@@ -390,8 +389,8 @@ def main() -> None:
             "continuous_kkt_survivors": continuous,
             "sample_modulus": args.sample_modulus,
             "sample_remainder": args.sample_remainder,
-            "selection_rule": "sha256(row|e|a|u|v)[0:8]_big_endian mod sample_modulus == sample_remainder",
-            "sampled_existing_witnesses": sampled,
+            "selection_rule": "sha256(row|e|a)[0:8]_big_endian mod sample_modulus == sample_remainder, applied before rank2 witness reconstruction",
+            "sampled_continuous_slices": sampled,
             "unique_sampled_projection_states": len(cache),
             "solver_timeout_ms_per_unique_projection_state": args.solver_timeout_ms,
         },
