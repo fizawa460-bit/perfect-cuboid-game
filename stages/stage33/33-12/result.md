@@ -1,161 +1,162 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_WAITING_ON_STAGE33_05_SUPER_HOSTILE_AUDIT_AFTER_R5_REPAIR_EXIT`
+Status: `MAIN_BLOCKED_BY_STAGE33_05_POST_R5_SURFACE_MU2_AND_HS_D2`
 
-Stage33-12 remains open. Stage33-13 is not released. Class-3 promotion is **not** authorized. Stage33 progress remains `5/11`.
+Stage33-12 remains open. Stage33-13 is not released. Stage33 progress remains `5/11`.
 
-## Historical regression and geometric repair
+## Retained geometric repair
 
-The historical Stage33-05 Q-defined `ell_Q`/CSA formerly used as the named geometric `J2` representative was hostile-proved geometrically trivial in the exact Creutz--Viray quotient:
+The historical Q-defined `ell_Q`/CSA is revoked as the named nonzero J2 witness: its geometric Creutz--Viray class is zero. It must not be reused.
 
-```text
-stages/stage33/33-12/j2-cv-lclass-zero-regression.json
-```
-
-That revoked witness is not reused.
-
-The Stage33-05 repair then independently reconstructed the named class:
+The corrected geometric repair remains authoritative:
 
 ```text
+R0 old ell_J2 zero regression                  PASS
 R1 abstract J2 nonzero                         PASS
 R2 corrected full-L pair (f2,1) nonzero       PASS
-R3 explicit CV E[2] cocycle xi(rho)=Tr        PASS
-R4 correct attempt-2 torsor / lattice marking PASS
-R5 hostile replay R1--R4                      PASS
+R3 explicit CV cocycle xi(rho)=Tr              PASS
+R4 named geometric torsor / integral kernel    PASS
+R5 hostile replay of R1--R4 geometric content  PASS
 ```
 
-R4 hostile verification fixes the integral statement
+R4 retains
 
 ```text
 T(X_J2) ~= ker(J2:T(Kc)->Q/Z)
+T(X_J2)=<8> direct_sum <16>
+minimum norm=8
+marked J2=[1,0]
 ```
 
-with inherited integral pairing, and the independent degree-two quotient comparison gives
+This is geometric `Kgeom=Qbar(t)` credit only.
+
+## Hostile failure of the attempted post-R5 Q descent
+
+The previous post-R5 verifier proved only that J2 is fixed in the finite 5D F2 Creutz--Viray presentation. It then assigned
 
 ```text
-T(X_J2)=<8> direct_sum <16>,
-minimum norm=8,
-marked J2=[1,0].
+Pic/2 defect = 0
+integral Pic lift = 0
+HS d2 cocycle = 0
 ```
 
-Attempt 1 remains revoked as the named torsor.
+without deriving them. This inference is invalid. Galois invariance of a geometric Brauer class does not imply its Hochschild--Serre obstruction vanishes.
 
-## Post-R5 corrected J2 arithmetic descent
-
-The previous residual
-
-```text
-CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE
-```
-
-now has **pre-audit exact evidence of resolution** without reusing the old `ell_Q`.
-
-New certificate/verifier:
+Current failure certificate:
 
 ```text
 ../33-05/j2-post-r5-hs-descent-datum.json
-../33-05/certify_j2_post_r5_q_descent_cocycle.py
+canonical_sha256=a7c08372b9ef012a1446bd3bf4f40541d77d372dadc73e3780f6ce2529fcc6d8
 ```
 
-The exact full-pair presentation has basis `[J1,J2,q1,q2,q3]` and source-locked Galois generators `tau`, `cc`, `ct`.  Direct replay gives
+Therefore:
 
 ```text
-tau(J2)-J2 = 0
-cc(J2)-J2  = 0
-ct(J2)-J2  = 0.
+corrected_J2_Q_descent_exact_evidence_reestablished=false
+Q_defined_descent_credit_restored=false
+R5_full_repair_exit_reached=false
+Stage33-05 reclosed=false
 ```
 
-Creutz--Viray's Galois-equivariant presentation/cocycle comparison identifies this with the Kummer `Pic/2` defect.  Hence corrected J2 has the explicit normalized descent cochains
+## New exact MAIN progress: corrected pre-Kummer descent cochain
+
+MAIN now materializes explicit representative-level descent data for the corrected pair without promoting it to a surface Kummer lift.
+
+Certificate/verifier:
 
 ```text
-Pic/2 defect 1-cocycle = 0,
-integral Pic lift       = 0,
-Bockstein / HS d2       = 0.
+../33-05/j2-corrected-pre-kummer-descent-cochain.json
+../33-05/certify_j2_corrected_pre_kummer_descent_cochain.py
+canonical_sha256=940df53040c6f5245914effbfb7d752a08c61b6d593586952b322e4069415106
 ```
 
-For `k=Q`, `H^3(Q,Qbar^*)=0`.  Standard Hochschild--Serre exactness therefore gives
+On the normalization
 
 ```text
-ker(Br(Kc_bar)^G_Q -> H^2(Q,Pic(Kc_bar)))
- = image(Br(Kc_Q) -> Br(Kc_bar)^G_Q).
+z^2=q=(t-r1)(t-r2)(t-r3)(t-r4)
+f2=(t-r2)/(t-r4)
 ```
 
-Thus there is an arithmetic class
+the corrected half-divisor is
 
 ```text
-beta_J2_Q in Br(Kc_Q)
+D=P_r2-P_r4
+div(f2)=2D.
 ```
 
-with
+For sqrt(2)-conjugation `ct`, with `r1<->r4` and `r2<->r3`, define
 
 ```text
-res_Qbar(beta_J2_Q)=corrected nonzero J2=(f2,1).
+h_ct = z/((t-r1)(t-r2))
+u_ct = (t-r3)(t-r4)/z.
 ```
 
-Because the class is obtained in `Br(Kc_Q)` of the smooth projective Q-K3 itself, rather than only in the function-field Brauer group, arithmetic unramifiedness is built into this conclusion.  This repair records an explicit **Hochschild--Serre/Kummer descent datum**; it does **not** claim a new closed-form Q quaternion/CSA formula.
-
-External source locks are frozen in `../33-05/source-lock.md`, including:
-
-- Creutz--Viray, arXiv:1306.3251, Theorem I / Theorem 2.5;
-- Creutz--Viray, arXiv:1403.2924, Remark 3.1 / Proposition 3.2 / Lemmas 3.4--3.5;
-- Skorobogatov--Zarhin, JEMS 16 (2014), Hochschild--Serre equation (21) application;
-- Neukirch--Schmidt--Wingberg, *Cohomology of Number Fields*, Proposition 8.3.11.
-
-## R5 repair exit and mandatory audit gate
-
-The R5 repair line has now reached its full mathematical exit **as pre-audit evidence**:
+Exact identities give
 
 ```text
-R5_FULL_REPAIR_EXIT_REACHED=true
-CORRECTED_J2_Q_DESCENT_EXACT_EVIDENCE_REESTABLISHED=true
-EQUIVALENT_ARITHMETIC_DESCENT_DATUM_MATERIALIZED=true
-UNRESOLVED_UNKNOWN_IN_R5_REPAIR_SCOPE=0
+div(h_ct)=ct(D)-D
+h_ct*ct(h_ct)=1
+ct(f2)/f2=u_ct^2
+u_ct*ct(u_ct)=1
+u_ct=1/ct(h_ct).
 ```
 
-However the repository-wide promotion firewall and the user's explicit workflow require a separate **super-hostile audit** before any authoritative closure credit.
-
-Current Stage33-05 state is therefore
+The full split pair also has explicit representative witnesses:
 
 ```text
-UNIT_STATUS=AUDIT_REQUIRED
-UNIT_CLOSED=false
-DOWNSTREAM_RELEASED=false
-Q_DEFINED_DESCENT_CREDIT_AUTHORITATIVELY_RESTORED=false
+tau(f2,1)=(f2,1)
+ct(f2,1)=(f2,1)*(u_ct^2,1)
+cc(f2,1)=diag(f2)*(f2,1)*((1/f2)^2,1)
 ```
 
-The next exact leaf is
+This is strictly stronger than merely observing that the 5D quotient vector J2 is fixed.
+
+## Exact boundary after this batch
+
+The new datum is still only a normalization/full-L pre-Kummer descent cochain. It is **not yet** a class in `H^2_et(Kc_bar,mu_2)`.
+
+Current machine contract:
 
 ```text
-SUPER_HOSTILE_AUDIT_STAGE33_05_CORRECTED_J2_REPAIR
+j2-full-surface-mu2-zero-defect-contract.json
+status=OPEN_CORRECTED_REPRESENTATIVE_PRE_KUMMER_COCHAIN_MATERIALIZED_SURFACE_MU2_AND_HS_D2_UNPROVEN
+canonical_sha256=c35eec49758734e29cb801ea9a55ed6e739238750f3ff92c14f030ae25e8ff2b
 ```
 
-and the audit must be performed on a new PR/work line.  It must independently challenge at least:
+The historical `j2-named-kummer-glue-input` producer was also tombstoned because it could regenerate revoked old-ell zero-defect credit.
+
+Still missing:
 
 ```text
-1. R0--R5 replay without trusting promoted booleans;
-2. zero full-pair presentation defect -> zero Kummer/Pic defect;
-3. zero Bockstein -> HS d2=0;
-4. H^3(Q,Qbar^*)=0 and ker(d2)=image Br(Kc_Q);
-5. whether this explicit cohomological descent datum satisfies the Stage33-05
-   explicit arithmetic representative closure contract;
-6. corrected geometric restriction is nonzero (f2,1), never the revoked ell_Q.
+1. an explicit functorial adapter from the corrected CV/normalization datum
+   to a genuine H^2_et(Kc_bar,mu_2) lift of J2;
+2. sigma(lift)-lift in Pic(Kc_bar)/2;
+3. integral Pic lifts of that 1-cocycle;
+4. the resulting Bockstein / Hochschild-Serre d2 2-cocycle;
+5. determination of its class, without assuming it is zero.
 ```
 
-Only a super-hostile `PASS` may reclose Stage33-05 or allow Stage33-12 / downstream release to be reconsidered.
+Only if the actual d2 class is zero may Hochschild--Serre kernel=image be used to restore Q-defined Brauer credit.
+
+## Next exact leaf
+
+```text
+MATERIALIZE_NORMALIZATION_HALF_DIVISOR_TO_KC_SURFACE_H2_MU2_ADAPTER
+THEN_COMPUTE_PIC_MOD2_DEFECT_AND_BOCKSTEIN_HS_D2
+```
 
 ## Firewalls
 
 ```text
 R4 minimum norm 8 / marked J2=[1,0] = RETAINED GEOMETRIC CREDIT
-post-R5 corrected J2 Q-descent evidence = EXACT PRE-AUDIT
-old ell_Q J2 witness = REVOKED / FORBIDDEN
+post-R5 Q descent = FAIL / UNPROVEN
+surface mu2 lift = OPEN
+HS d2 = OPEN
+Q-defined descent credit = false
 Stage33-05 reclosed = false
 Stage33-12 exact closure = false
 Stage33-13 released = false
 Stage33 progress = 5/11
-class3 promoted = false
-theorem credit = false
-receiver credit = false
-endpoint credit = false
+theorem/receiver/endpoint credit = false
 perfect cuboid existence/nonexistence claim = false
 ```
