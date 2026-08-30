@@ -27,8 +27,8 @@ from run_full178_prefix_work_unit import (  # noqa: E402
 )
 
 ROOT = HERE.parents[2]
-RETAINED = ROOT / "stage33" / "33-07" / "picard_base_rows_retained.py"
-MARKING = ROOT / "stage33" / "33-07" / "stage32_picard_marking_retained.py"
+RETAINED = ROOT / "stages" / "stage33" / "33-07" / "picard_base_rows_retained.py"
+MARKING = ROOT / "stages" / "stage33" / "33-07" / "stage32_picard_marking_retained.py"
 
 
 class CompressedTerminalFamilyTest(unittest.TestCase):
@@ -73,9 +73,6 @@ class CompressedTerminalFamilyTest(unittest.TestCase):
                 self.assertEqual(actions, {identity(depth)})
 
     def test_symbolic_counts_match_current_exact_dfs(self) -> None:
-        # Synthetic (d,e) pairs are deliberately chosen near the finite e ceiling
-        # so the normal budget stays small while exceptional combinatorics grows.
-        # run_partition itself is the current production DFS kernel.
         cases = [(1, 0), (1, 3), (2, 4), (2, 7), (3, 8), (3, 11)]
         for d, e in cases:
             with self.subTest(d=d, e=e):
@@ -94,8 +91,6 @@ class CompressedTerminalFamilyTest(unittest.TestCase):
                 self.assertEqual(exact["terminal_count"], stratum_terminal_count(e=e, d=d))
 
     def test_terminal_predicate_matches_oracle_and_aut_on_small_box(self) -> None:
-        # Exhaustive 0..2 box locks the predicate semantics independently of the
-        # symbolic convolution while remaining small enough for a cold selftest.
         e, d = 2, 1
         vals = [0] * 11
         seen = 0
