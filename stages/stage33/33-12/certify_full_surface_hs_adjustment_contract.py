@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Materialize the full-surface Stage-B adjustment contract after the J2 hostile reopen.
+"""Materialize the full-surface Stage-B adjustment contract after J2 reopen.
 
-The historical Stage33-05 audit is retained as history, but the specific
-Q-defined ell_J2 representative may no longer be charged into the full-surface
-d2 kernel: Batch4 proved it is zero in the geometric CV function quotient.
+The historical Stage33-05 PR #1358 audit is retained only as a frozen history
+snapshot. The current audit-state.json is intentionally a superseded/reopened
+V2 record and MUST NOT claim current CLOSED/J2-descent credit.
 """
 import hashlib, json
 from pathlib import Path
@@ -19,6 +19,8 @@ CONTROLLER=STAGE33/"controller.json"
 OUT=HERE/"full-surface-hs-adjustment-contract.json"
 EXPECTED_BR2="c86f6e838d072816426e4a2b0eb738f44e8632dd1ab4f3e6fdccd161ec41b5bf"
 EXPECTED_GLUE="0cc5321d02b56cea801b8def71a4c3b0946bd8011d8c30767a9602faba2fa8d8"
+# Historical PR #1358 audit-state text hash. This is a history source lock, not
+# a hash requirement on the current reopened audit-state.json.
 EXPECTED_K3_AUDIT_TEXT_LF="08a4bb374a29266aa9c59dd433ac0fb6cac89eaca31829339f7a6ce9e32a7fa6"
 EXPECTED_H10="4dbbfa8d208026e8ccb47915e66eb4bedef327ccf5b6f8c6c9caa7e74a64028f"
 EXPECTED_SCALARS="e7d0d003c71271822e51b626acf21575e0c490035bdf3ef802feb3d7c767e36b"
@@ -29,7 +31,6 @@ def load_locked(path,expected):
     o=json.loads(path.read_text()); b=dict(o); claimed=b.pop("canonical_sha256",None)
     if claimed!=expected or csha(b)!=expected: raise SystemExit(f"canonical source lock moved: {path}")
     return o
-def text_lf_sha(path): return hashlib.sha256(path.read_text().replace("\r\n","\n").encode()).hexdigest()
 def rank(rows):
     a=[[int(x)&1 for x in r] for r in rows if any(int(x)&1 for x in r)]; rr=0
     for c in range(len(a[0]) if a else N):
@@ -48,9 +49,14 @@ def fixed_dimension(cc,ct):
 
 br2=load_locked(BR2,EXPECTED_BR2); glue=load_locked(GLUE,EXPECTED_GLUE); h10=load_locked(H10,EXPECTED_H10); scalars=load_locked(SCALARS,EXPECTED_SCALARS)
 k3=json.loads(K3_AUDIT.read_text()); reopen=json.loads(REOPEN.read_text()); controller=json.loads(CONTROLLER.read_text())
-if text_lf_sha(K3_AUDIT)!=EXPECTED_K3_AUDIT_TEXT_LF: raise SystemExit("Stage33-05 historical audit state moved")
-if k3["audit_verdict"]!="PASS_AFTER_INDEPENDENT_Q_SURVIVAL_AND_HS_D2_VERIFICATION": raise SystemExit("historical Stage33-05 audit record moved")
-if not k3["q1_hs_d2_nonzero"]: raise SystemExit("historical q1 d2 record moved")
+# Current audit state must be the hostile-reopened authority, never the old CLOSED record.
+if k3.get("semantic_status")!="SUPERSEDED_BY_HOSTILE_REOPEN": raise SystemExit("Stage33-05 current audit state is not hostile-reopened")
+if k3.get("do_not_use_as_current_credit") is not True: raise SystemExit("Stage33-05 stale audit credit firewall missing")
+if k3.get("unit_closed") is not False or k3.get("downstream_released") is not False: raise SystemExit("Stage33-05 current audit state incorrectly closed")
+hist=k3.get("historical_audit_snapshot",{})
+if hist.get("verdict_at_that_time")!="PASS_AFTER_INDEPENDENT_Q_SURVIVAL_AND_HS_D2_VERIFICATION": raise SystemExit("historical Stage33-05 audit snapshot moved")
+if hist.get("q1_hs_d2_nonzero_at_that_time") is not True: raise SystemExit("historical q1 d2 fact missing")
+if hist.get("historical_J2_descent_claim_now_revoked") is not True: raise SystemExit("historical J2 descent revocation missing")
 if reopen["status"]!="PASS_EXACT_UPSTREAM_REPRESENTATIVE_CONTRADICTION" or reopen["class3_promotion_allowed"]: raise SystemExit("hostile reopen certificate regression")
 if controller["stage33_05_hostile_reopen"]["named_representative_credit"]!="REVOKED_PENDING_REPAIR": raise SystemExit("controller did not preserve hostile reopen")
 if controller["stage33_07"]["j2_q_defined"]: raise SystemExit("stale J2 Q-defined promotion reappeared")
