@@ -48,7 +48,6 @@ The earlier semantic gap was that a correctly oriented 2-isogeny cover with matc
 
 ```text
 stages/stage33/33-05/j2-r3-r4-brauer-sha-bridge.json
-canonical_sha256 = 4289ef568ce4c793c1ecc91fd55dac9e74f5ecd01e5aad99c5b98917e1df2a66
 ```
 
 with verifier:
@@ -57,7 +56,7 @@ with verifier:
 stages/stage33/33-05/certify_j2_r3_r4_brauer_sha_bridge.py
 ```
 
-The exact named-class chain is now source-locked as
+The exact named-class chain is source-locked as
 
 ```text
 abstract J2 = corrected (f2,1)
@@ -75,14 +74,13 @@ The fresh super-hostile audit additionally checked the possible Kummer-kernel fa
 [xi] != 0 in H^1(Kgeom,E_Kc).
 ```
 
-The bridge certificate now explicitly records `generic_weil_chatelet_class_nonzero=true`.
+The bridge certificate explicitly records `generic_weil_chatelet_class_nonzero=true`.
 
-The two load-bearing source locks requested by the audit are also materialized:
+The load-bearing source locks requested by the audit are materialized:
 
-1. Creutz--Viray, *On Brauer groups of double covers of ruled surfaces*, DOI `10.1007/s00208-014-1153-0`: §1.2 gives the purity filtration `Br X subset Br C`; §2.3 Theorem 2.5 gives the generic-fiber `gamma`; Corollary 5.4 gives the surface presentation `Pic C/2 -> Lc,E -> Br X[2] -> 0`.
-2. *Derived Equivalence for Elliptic K3 Surfaces and Jacobians*, DOI `10.1093/imrn/rnae061`, §4.1 equation (4.1): for an elliptic K3 surface with section, `Br(S) ~= Sha(S)` and the corresponding elements parametrize `S`-torsors.
-
-The standard 2-isogeny homogeneous-space formula is also source-locked in the bridge certificate.
+1. Creutz--Viray, *On Brauer groups of double covers of ruled surfaces*, DOI `10.1007/s00208-014-1153-0`: §1.2 gives `Br X subset Br C`; §2.3 Theorem 2.5 gives the generic-fiber `gamma`; Corollary 5.4 gives `Pic C/2 -> Lc,E -> Br X[2] -> 0`.
+2. *Derived Equivalence for Elliptic K3 Surfaces and Jacobians*, DOI `10.1093/imrn/rnae061`, §4.1 equation (4.1): for an elliptic K3 surface with section, `Br(S) ~= Sha(S)` and the corresponding elements parametrize torsors.
+3. The standard 2-isogeny homogeneous-space formula is source-locked in the bridge certificate.
 
 Fresh audit verdict:
 
@@ -90,11 +88,11 @@ Fresh audit verdict:
 PASS_FRESH_SUPER_HOSTILE_MATHEMATICALLY
 ```
 
-Hence `named_J2_torsor_authoritative_credit=true` is now allowed at the geometric `Kgeom=Qbar(t)` layer.
+Hence `named_J2_torsor_authoritative_credit=true` is allowed at the geometric `Kgeom=Qbar(t)` layer.
 
 ## Authoritative named J2 torsor
 
-Attempt4 by itself remains only an orientation/phi-cover certificate. Together with the audited bridge, its quartic is now authoritatively identified as the named geometric torsor `X_J2`:
+Attempt4 by itself remains only an orientation/phi-cover certificate. Together with the audited bridge, its quartic is authoritatively identified as the named geometric torsor `X_J2`:
 
 ```text
 X_J2:
@@ -161,3 +159,5 @@ AND_SELECT_MINIMUM_NORM_4_8_12.
 ```
 
 Only after that exact R4 exit may R5 run.
+
+Operational note: the bridge certificate canonical digest is being mechanically re-locked after the audit-hardening field additions; this bookkeeping repair changes no mathematical credit.
