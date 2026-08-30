@@ -64,6 +64,43 @@ jobs:
             --gen38-sha "$GEN38_MANIFEST_SHA256" \
             --output "$RUNNER_TEMP/residual-volume/stage32-residual-volume-diagnostic.json"
 
+      - name: Print compact row-scale interpretation
+        run: |
+          python - <<'PY'
+          import json, os
+          p = os.path.join(os.environ['RUNNER_TEMP'], 'residual-volume', 'stage32-residual-volume-diagnostic.json')
+          d = json.load(open(p))
+          print(json.dumps({
+              'raw_remaining_upper': d['current_exact_frontier']['exact_finite_raw_remaining_node_upper_bound'],
+              'raw_remaining_upper_log10': d['current_exact_frontier']['exact_finite_raw_remaining_node_upper_bound_log10'],
+              'full_campaign_raw_upper': d['finite_search_certificate']['raw_budget_only_full_campaign_node_upper_bound'],
+              'full_campaign_raw_upper_log10': d['finite_search_certificate']['raw_budget_only_full_campaign_node_upper_bound_log10'],
+              'estimated_actual_remaining': d['local_linear_residual_model']['total_estimated_actual_nodes_remaining'],
+              'estimated_256m_chunks': d['local_linear_residual_model']['total_estimated_256m_equivalent_chunks'],
+              'idealized_17_runner_waves': d['local_linear_residual_model']['idealized_17_runner_256m_waves'],
+              'per_lineage_estimate': d['local_linear_residual_model']['per_lineage_estimated_actual_nodes'],
+              'row_tail_before_peak': d['current_exact_frontier']['row_tail_sources_before_or_at_budget_only_raw_peak'],
+              'row_tail_count': d['current_exact_frontier']['row_tail_source_count'],
+          }, sort_keys=True))
+          for r in d['rows']:
+              print(json.dumps({
+                  'row_id': r['row_id'],
+                  'frontier_units': r['frontier_units'],
+                  'row_tail_units': r['row_tail_units'],
+                  'partition_units': r['stratum_partition_units'],
+                  'current_e_min': r['current_e_min'],
+                  'current_e_median': r['current_e_median'],
+                  'current_e_max': r['current_e_max'],
+                  'emax': r['emax'],
+                  'raw_peak_e': r['raw_curve_peak_e'],
+                  'all_current_before_or_at_peak': r['all_current_e_before_or_at_raw_peak'],
+                  'row_tail_later_e_counts': r['row_tail_later_e_counts'],
+                  'median_raw_next_over_current': r['median_raw_next_over_current'],
+                  'row_raw_remaining': r['raw_remaining_envelope_total'],
+                  'row_estimated_actual_remaining': r['local_linear_estimated_actual_nodes_remaining_total'],
+              }, sort_keys=True))
+          PY
+
       - name: Upload compact diagnostic
         uses: actions/upload-artifact@v4
         with:
