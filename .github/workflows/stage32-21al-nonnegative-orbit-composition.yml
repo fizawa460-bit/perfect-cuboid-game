@@ -49,9 +49,9 @@ jobs:
             --marking "$GITHUB_WORKSPACE/stages/stage33/33-07/stage32_picard_marking_retained.py" \
             --row-shards 16 \
             --shard-index 0 \
-            --sample-modulus 256 \
+            --sample-modulus 1024 \
             --sample-remainder 0 \
-            --solver-timeout-ms 1000 \
+            --solver-timeout-ms 250 \
             --output "$GITHUB_WORKSPACE/stage32-21al-nonnegative-orbit-composition.json"
 
       - name: Upload compact diagnostic evidence
