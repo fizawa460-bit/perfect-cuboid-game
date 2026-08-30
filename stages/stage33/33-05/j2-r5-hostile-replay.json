@@ -1,0 +1,105 @@
+{
+  "schema": "STAGE33_05_J2_R5_HOSTILE_REPLAY_V1",
+  "status": "PASS_HOSTILE_REPLAY_R1_TO_R4_GEOMETRIC_CREDIT_RESTORED_Q_DESCENT_NOT_RESTORED",
+  "repair_leaf": "R5",
+  "scope": "INDEPENDENT_REPLAY_AND_CREDIT_RECONCILIATION",
+  "source_locks": {
+    "R1": "stages/stage33/33-05/j2-abstract-nonzero-reaudit.json",
+    "R2": "stages/stage33/33-05/j2-corrected-full-l-representative.json",
+    "R3": "stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json",
+    "R4_torsor": "stages/stage33/33-05/j2-r4-correct-translation-torsor.json",
+    "R4_lattice": "stages/stage33/33-05/j2-r4-translation-quotient-lattice.json",
+    "R4_integral_kernel_hostile_adapter": "stages/stage33/33-05/j2-r4-hostile-torsor-brauer-kernel-verification.json",
+    "old_arithmetic_descent": "stages/stage33/33-05/j2_arithmetic_descent.py",
+    "old_audit_state": "stages/stage33/33-05/audit-state.json",
+    "unit_closure_contract": "stages/stage33/33-00/unit-closure-contract.md"
+  },
+  "independent_replay": {
+    "R1": {
+      "verdict": "PASS",
+      "check": "For every (b,d) in F2^2, span{J1,bJ2+q1+q2,dJ2+q1+q2+q3} has rank 3 and adjoining J2 raises rank to 4.",
+      "case_ranks": [[0,0,3,4],[0,1,3,4],[1,0,3,4],[1,1,3,4]],
+      "revoked_old_ell_used": false
+    },
+    "R2": {
+      "verdict": "PASS",
+      "check": "q=(t-r1)(t-r2)(t-r3)(t-r4) and f2/q=1/((t-r1)(t-r3)(t-r4)^2); odd valuations exclude both square alternatives required for quotient zero.",
+      "corrected_pair": "(f2,1)",
+      "geometric_nonzero": true
+    },
+    "R3": {
+      "verdict": "PASS",
+      "check": "Creutz-Viray Lemma 4.6 is applied to the corrected pair, and the Bplus partition is independently identified with Tr by reducing the retained exact square identity modulo Y^2=X(X-r)(X-q); the remainder is zero.",
+      "cocycle": "xi(rho)=Tr",
+      "kummer_squareclasses": ["1","f2"]
+    },
+    "R4": {
+      "verdict": "PASS",
+      "algebra_checks": [
+        "a^2-4*b=q^2",
+        "a-4*t*(t^2-1)=Dplus^2",
+        "a+4*t*(t^2-1)=Dminus^2",
+        "Dminus^2-Dplus^2=8*t*(t^2-1)",
+        "the Mobius/Legendre identity is exact",
+        "X=n^2/d, Y=-n*v/d satisfies the Eprime_Tr quotient equation exactly"
+      ],
+      "integral_kernel_adapter": "Caldararu Theorem 1.2 together with the elliptic-K3 Ogg-Shafarevich dictionary and Creutz-Viray Proposition 5.1 identifies the smooth projective attempt-2 torsor with the corrected J2 torsor and gives T(X_J2) integrally Hodge-isometric to ker(J2) with inherited pairing.",
+      "T_X_J2_gram": [[8,0],[0,16]],
+      "minimum_norm": 8,
+      "marked_brauer_coordinate": [1,0]
+    }
+  },
+  "credit_reconciliation": {
+    "abstract_J2_nonzero": true,
+    "corrected_geometric_J2_representative_nonzero": true,
+    "corrected_geometric_J2_E2_cocycle": true,
+    "corrected_geometric_J2_torsor_integral_kernel": true,
+    "corrected_geometric_J2_marked_coordinate": [1,0],
+    "old_Q_defined_ell_Q_geometric_nonzero_credit": false,
+    "old_Q_defined_ell_Q_remains_revoked": true,
+    "corrected_J2_Q_defined_arithmetic_representative_materialized": false,
+    "corrected_J2_Q_descent_certified": false,
+    "reason_Q_credit_not_restored": "The former Q-defined ell_Q/CSA was the object later proved geometrically trivial. R1-R4 repair the geometric class and its torsor/lattice marking, but they do not construct a new Q-defined arithmetic representative or descent datum for corrected (f2,1). The pre-reopen audit field j2_q_descent_certified=true therefore cannot be inherited.",
+    "stage33_05_closure_contract_blocker": "ALL_SURVIVING_K3_CLASSES_HAVE_EXPLICIT_ARITHMETIC_REPRESENTATIVES remains unsatisfied for corrected J2.",
+    "stage33_05_hostile_audit_pass_for_reclosure": false
+  },
+  "r5_exit": {
+    "hostile_replay_R1_R4": "PASS",
+    "geometric_R4_done_status_retained": true,
+    "minimum_norm_8_retained": true,
+    "marked_J2_1_0_retained": true,
+    "downgrade_R4_to_PROVISIONAL_LATTICE_PULLBACK": false,
+    "restored_credit_scope": "GEOMETRIC_ONLY",
+    "stage33_05_reclosed": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "stage33_progress": "5/11"
+  },
+  "post_r5_residual_kernel": {
+    "id": "CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE",
+    "state": "OPEN",
+    "exact_question": "Construct and hostile-verify a Q-defined arithmetic Brauer representative/descent datum for the corrected geometric J2=(f2,1), without reusing the revoked geometrically trivial ell_Q as its witness.",
+    "mandatory_checks": [
+      "source-lock the full Galois action on the corrected full-L pair/class",
+      "materialize an explicit Q-defined Azumaya/CSA representative or equivalent descent cocycle",
+      "prove its geometric restriction is the corrected nonzero J2, not the revoked zero class",
+      "verify unramifiedness/residue conditions required by the Stage33-05 arithmetic scope",
+      "hostile replay the Stage33-05 closure criterion ALL_SURVIVING_K3_CLASSES_HAVE_EXPLICIT_ARITHMETIC_REPRESENTATIVES",
+      "only after that may Stage33-05 be reclosed and Stage33-12 closure/release gates be reconsidered"
+    ],
+    "forbidden_shortcut": "Do not reuse j2_arithmetic_descent.py's old ell_Q merely because it is Q-defined; hostile regression proved its geometric CV class is zero."
+  },
+  "firewalls": {
+    "Q_defined_descent_credit_restored": false,
+    "stage33_05_reclosed": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "class3_promoted": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "next_exact_leaf": "POST_R5_CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE"
+}
