@@ -2,13 +2,11 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
-import math
 from pathlib import Path
 
 from sympy import Matrix, ZZ
-from sympy.matrices.normalforms import smith_normal_decomp, smith_normal_form
+from sympy.polys.matrices.normalforms import smith_normal_decomp
 
 from direct_picard_reynolds_lattice_diagnostic import (
     EXPECTED_FIXED_RANK,
@@ -20,7 +18,11 @@ from direct_picard_reynolds_lattice_diagnostic import (
 )
 from direct_picard_reynolds_rank2_integral_projection_bound import build_reynolds_numerator
 from direct_picard_slice_bridge import DirectPicardSliceBridge
-from hperp_integral_adapter import HperpIntegralPairingAdapter
+from hperp_integral_adapter import (
+    EXPECTED_PICARD_DETERMINANT,
+    HperpIntegralPairingAdapter,
+    RETAINED_BASIS_KNOWN_LABELS_1BASED,
+)
 
 EXPECTED_ANTI_RANK = PICARD_RANK - EXPECTED_FIXED_RANK
 EXPECTED_ORBIT_COUNT = 14
@@ -61,6 +63,26 @@ def integer_coordinate_matrix(numerator: Matrix, basis: Matrix) -> Matrix:
     return Matrix.hstack(*cols)
 
 
+def gf2_rank(m: Matrix) -> int:
+    """Exact row rank over F_2 using Python integer bitsets."""
+    pivots: dict[int, int] = {}
+    rank = 0
+    for i in range(m.rows):
+        bits = 0
+        for j in range(m.cols):
+            if int(m[i, j]) & 1:
+                bits |= 1 << j
+        while bits:
+            pivot = bits.bit_length() - 1
+            prior = pivots.get(pivot)
+            if prior is None:
+                pivots[pivot] = bits
+                rank += 1
+                break
+            bits ^= prior
+    return rank
+
+
 def build_diagnostic(marking: dict, bundle: dict) -> dict:
     adapter = HperpIntegralPairingAdapter.from_retained(marking, bundle)
     bridge = DirectPicardSliceBridge.from_retained(marking, bundle)
@@ -80,7 +102,7 @@ def build_diagnostic(marking: dict, bundle: dict) -> dict:
 
     # N=B*C with C integral and surjective Z^64 -> Z^5 because B is the
     # exact column-module basis of im(N). Smith on this small-row 5x64 map
-    # therefore gives a saturated Z-basis for ker_Z(N) in the last 59 columns.
+    # gives a saturated Z-basis K for ker_Z(N) in the last 59 columns.
     C = integer_coordinate_matrix(N, B)
     if B * C != N:
         raise ValueError("N=B*C reconstruction regression")
@@ -101,17 +123,42 @@ def build_diagnostic(marking: dict, bundle: dict) -> dict:
         raise ValueError("anti-fixed kernel did not lie in slice kernel")
 
     pairing = adapter.pairing_matrix
+    coords = adapter.class_coordinates_in_retained_basis
     M = pairing * K
     if M.shape != (EXPECTED_KNOWN_CURVE_COUNT, EXPECTED_ANTI_RANK):
         raise ValueError(f"anti-fixed pairing map shape regression: {M.shape}")
-    pairing_rank = int(M.rank())
-    if pairing_rank != EXPECTED_ANTI_RANK:
-        raise ValueError(f"anti-fixed pairing map lost rank: {pairing_rank}")
+
+    # The retained 64 curves are an integral Picard basis. Therefore their
+    # anti-fixed pairing block is exactly G*K, every all140 row is an integral
+    # combination of these retained rows, and those 64 rows occur inside M.
+    # Hence the row lattice of M equals the row lattice of G*K exactly.
+    retained_pairing = gram * K
+    if coords * retained_pairing != M:
+        raise ValueError("all140 pairing rows are not reconstructed from retained64 rows")
+    retained_idx = [label - 1 for label in RETAINED_BASIS_KNOWN_LABELS_1BASED]
+    if M.extract(retained_idx, list(range(EXPECTED_ANTI_RANK))) != retained_pairing:
+        raise ValueError("retained64 generator block is not embedded identically in all140 pairing rows")
+
+    # No wide HNF/SNF is needed to decide whether the pairing-image lattice is
+    # saturated in its rational span. Let R=(G*K)^T : Z^64 -> Z^59.
+    #
+    # K is a saturated kernel basis obtained from the unimodular Smith-right
+    # transform, so K^T is surjective. Since det(G)=-2^28, adj(G) proves that
+    # coker(R) is killed by 2^28: for any y choose x with K^T x=y and set
+    # z=adj(G)x, then K^T G z=det(G)y. Thus the finite cokernel is 2-primary.
+    # It is trivial iff R has full rank mod 2.
+    if abs(int(EXPECTED_PICARD_DETERMINANT)) != 1 << 28:
+        raise ValueError("Picard determinant lock is no longer 2^28")
+    retained_restriction = retained_pairing.T
+    mod2_rank = gf2_rank(retained_restriction)
+    mod2_defect = EXPECTED_ANTI_RANK - mod2_rank
+    if not 0 <= mod2_defect <= EXPECTED_ANTI_RANK:
+        raise ValueError("mod2 rank defect regression")
+    has_modular_coupling = mod2_defect > 0
+    exact_saturation_index_if_trivial = 1 if not has_modular_coupling else None
 
     # Stabilizer orbits. Any anti-fixed vector has zero total pairing on each
-    # orbit because Reynolds averaging kills it. This exposes the fixed orbit
-    # totals as exact affine invariants and puts the live variation in the
-    # orbit-zero lattice of rank 140-14=126.
+    # orbit because Reynolds averaging kills it.
     unvisited = set(range(EXPECTED_KNOWN_CURVE_COUNT))
     orbits: list[tuple[int, ...]] = []
     while unvisited:
@@ -144,36 +191,17 @@ def build_diagnostic(marking: dict, bundle: dict) -> dict:
         orbit_total_map_rows.append(row)
     orbit_total_map = Matrix(orbit_total_map_rows)
 
-    # Within-orbit differences remove the 14 fixed totals. Their rank tells us
-    # whether all 59 anti-fixed degrees are already visible before any norm
-    # inequality is applied.
-    diff_rows = []
-    for orbit in orbits:
-        seed = orbit[0]
-        for idx in orbit[1:]:
-            diff_rows.append([int(M[idx, j] - M[seed, j]) for j in range(M.cols)])
-    diff = Matrix(diff_rows)
-    diff_rank = int(diff.rank())
-
-    print(json.dumps({
-        "phase": "pairing_image_smith_start",
-        "shape": [M.rows, M.cols],
-        "rank": pairing_rank,
-    }, sort_keys=True), flush=True)
-    Msmith = smith_normal_form(M, domain=ZZ)
-    pairing_smith = nonzero_smith_diagonal(Msmith)
-    print(json.dumps({
-        "phase": "pairing_image_smith_complete",
-        "nonzero_factor_count": len(pairing_smith),
-        "nonunit_factor_count": sum(1 for v in pairing_smith if v != 1),
-    }, sort_keys=True), flush=True)
-    if len(pairing_smith) != EXPECTED_ANTI_RANK:
-        raise ValueError("anti-fixed pairing Smith rank regression")
-    saturation_index = math.prod(pairing_smith)
+    # The within-orbit difference map is injective on the anti-fixed space:
+    # if all differences vanish then pairings are constant on each orbit;
+    # zero orbit sums force every constant to vanish; the retained64 basis
+    # pairings then vanish, and nondegeneracy of G forces the class to be zero.
+    within_orbit_difference_row_count = sum(len(orbit) - 1 for orbit in orbits)
+    pairing_rank = EXPECTED_ANTI_RANK
+    relation_rank = EXPECTED_KNOWN_CURVE_COUNT - pairing_rank
 
     cert = {
-        "schema": "STAGE32_21AI_ANTIFIXED_AFFINE_PAIRING_FIBER_STRUCTURE_V1",
-        "mode": "EXACT_SATURATED_REYNOLDS_ANTIFIXED_INTEGER_KERNEL_TO_ALL140_PAIRING_LATTICE",
+        "schema": "STAGE32_21AI_ANTIFIXED_AFFINE_PAIRING_FIBER_STRUCTURE_V2_MOD2_GATE",
+        "mode": "EXACT_SATURATED_REYNOLDS_ANTIFIXED_PAIRING_LATTICE_WITH_2PRIMARY_COKERNEL_GATE",
         "slice_stabilizer_group_order": GROUP_ORDER,
         "picard_rank": PICARD_RANK,
         "fixed_rank": EXPECTED_FIXED_RANK,
@@ -200,6 +228,7 @@ def build_diagnostic(marking: dict, bundle: dict) -> dict:
             "sha256": csha(matrix_int_list(K)),
             "rank": EXPECTED_ANTI_RANK,
             "saturated": True,
+            "basis_from_smith_right_kernel_columns": True,
             "N_times_kernel_zero": True,
             "phi_times_kernel_zero": True,
         },
@@ -207,12 +236,19 @@ def build_diagnostic(marking: dict, bundle: dict) -> dict:
             "shape": [M.rows, M.cols],
             "sha256": csha(matrix_int_list(M)),
             "rank": pairing_rank,
-            "left_rational_relation_rank": EXPECTED_KNOWN_CURVE_COUNT - pairing_rank,
-            "smith_nonzero_diagonal": list(pairing_smith),
-            "nonunit_smith_factor_count": sum(1 for v in pairing_smith if v != 1),
-            "maximum_smith_factor": max(pairing_smith),
-            "saturation_index_in_rational_span": saturation_index,
-            "has_nontrivial_modular_coupling": saturation_index > 1,
+            "left_rational_relation_rank": relation_rank,
+            "retained64_generator_block_sha256": csha(matrix_int_list(retained_pairing)),
+            "all140_rows_are_integral_combinations_of_retained64_rows": True,
+            "retained64_rows_occur_identically_inside_all140": True,
+            "all140_row_lattice_equals_retained64_row_lattice": True,
+            "wide_hnf_or_snf_run": False,
+            "cokernel_annihilator": abs(int(EXPECTED_PICARD_DETERMINANT)),
+            "cokernel_annihilator_factorization": "2^28",
+            "cokernel_only_2_primary": True,
+            "retained_restriction_mod2_rank": mod2_rank,
+            "retained_restriction_mod2_rank_defect": mod2_defect,
+            "has_nontrivial_modular_coupling": has_modular_coupling,
+            "saturation_index_if_mod2_full_rank": exact_saturation_index_if_trivial,
         },
         "stabilizer_orbit_decomposition": {
             "orbit_count": len(orbits),
@@ -222,15 +258,25 @@ def build_diagnostic(marking: dict, bundle: dict) -> dict:
             "anti_fixed_rational_codimension_inside_orbit_zero_space": (
                 EXPECTED_KNOWN_CURVE_COUNT - len(orbits) - pairing_rank
             ),
-            "within_orbit_difference_row_count": diff.rows,
-            "within_orbit_difference_rank": diff_rank,
-            "all_anti_fixed_directions_visible_in_within_orbit_differences": (
-                diff_rank == EXPECTED_ANTI_RANK
-            ),
+            "within_orbit_difference_row_count": within_orbit_difference_row_count,
+            "within_orbit_difference_rank": EXPECTED_ANTI_RANK,
+            "within_orbit_difference_injectivity_proved_without_wide_rank_elimination": True,
+            "all_anti_fixed_directions_visible_in_within_orbit_differences": True,
             "projected_orbit_total_map_shape": [orbit_total_map.rows, orbit_total_map.cols],
             "projected_orbit_total_map_rank": int(orbit_total_map.rank()),
             "projected_orbit_total_map_sha256": csha(matrix_int_list(orbit_total_map)),
             "projected_orbit_totals_integral_for_every_fixed_image_basis_generator": True,
+        },
+        "proof": {
+            "retained64_are_integral_picard_basis": True,
+            "pairing_matrix_equals_all140_integral_coordinates_times_gram": True,
+            "anti_kernel_is_saturated": True,
+            "K_transpose_surjective": True,
+            "adjugate_argument_kills_pairing_cokernel_by_abs_det_gram": True,
+            "abs_det_gram": abs(int(EXPECTED_PICARD_DETERMINANT)),
+            "abs_det_gram_is_power_of_two": True,
+            "mod2_full_rank_iff_pairing_image_saturated": True,
+            "wide_59x64_or_140x59_hnf_snf_required": False,
         },
         "interpretation": {
             "historical_direct_integral_coset_bound_equivalent": False,
@@ -243,7 +289,8 @@ def build_diagnostic(marking: dict, bundle: dict) -> dict:
             "simultaneous_nonnegative_fiber_feasibility_solved": False,
             "self_intersection_threshold_solved_on_fiber": False,
             "next_if_modular_coupling_nontrivial": (
-                "derive a compact exact modular/affine fiber membership filter before any norm search"
+                "derive exact mod-2 affine pairing-image membership constraints, then test them against "
+                "nonnegative orbit compositions before any norm search"
             ),
             "next_if_modular_coupling_trivial": (
                 "use the 81 exact rational pairing relations and nonnegative orbit-composition constraints; "
@@ -287,8 +334,9 @@ def main() -> None:
         "anti_fixed_integer_rank": cert["anti_fixed_integer_rank"],
         "pairing_image_rank": p["rank"],
         "pairing_relation_rank": p["left_rational_relation_rank"],
-        "nonunit_smith_factor_count": p["nonunit_smith_factor_count"],
-        "saturation_index": str(p["saturation_index_in_rational_span"]),
+        "mod2_rank": p["retained_restriction_mod2_rank"],
+        "mod2_rank_defect": p["retained_restriction_mod2_rank_defect"],
+        "has_nontrivial_modular_coupling": p["has_nontrivial_modular_coupling"],
         "orbit_count": o["orbit_count"],
         "orbit_zero_codimension": o["anti_fixed_rational_codimension_inside_orbit_zero_space"],
         "within_orbit_difference_rank": o["within_orbit_difference_rank"],
