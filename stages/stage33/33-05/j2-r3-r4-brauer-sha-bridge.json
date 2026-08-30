@@ -7,36 +7,46 @@
     "rational_origin_available": true,
     "rational_origin_consequence": "degree splits Pic(Cbar)=Pic^0(Cbar) plus Z, so the H^1(K,Pic C) class of h0 is the corresponding Weil-Chatelet H^1(K,E_Kc) class"
   },
-  "canonical_sha256": "4703d20bc8421eb1f46a0e9d5b2c97b76aa228c1dabecd90244a7820f18aceec",
+  "canonical_sha256": "4289ef568ce4c793c1ecc91fd55dac9e74f5ecd01e5aad99c5b98917e1df2a66",
   "corrected_J2_input": {
     "abstract_class": "J2",
     "belongs_to_L1": true,
     "corrected_CV_pair": "(f2,1)",
     "f2": "(t+1+sqrt(2))/(t-1+sqrt(2))",
+    "r1_proves_abstract_J2_not_in_im_xalpha": true,
     "r2_proves_pair_nonzero": true,
     "r2_proves_pair_represents_abstract_J2": true
   },
   "cv_brauer_to_wc_chain": {
+    "gamma_corrected_pair_nonzero_mod_constants": true,
+    "gamma_nonzero_reason": "R1 proves abstract J2 is outside im(x-alpha), R2 identifies corrected (f2,1) with that J2, and CV Proposition 5.1 gives the exact quotient whose kernel is im(x-alpha).",
     "gamma_of_corrected_pair": "gamma(f2,1), the CV Brauer/corestriction class representing geometric J2",
     "generic_weil_chatelet_class": "[xi] in H^1(K,E_Kc)",
+    "generic_weil_chatelet_class_nonzero": true,
+    "generic_weil_chatelet_nonzero_reason": "gamma(f2,1) is nonzero in Br(C)/Br0(C) and h0 is injective, hence d(f2,1)=h0(gamma(f2,1))=[xi] is nonzero in H^1(K,Pic C), equivalently in H^1(K,E_Kc) in this elliptic-with-origin setup.",
+    "h0_injective_on_BrC_mod_Br0": true,
     "lemma_4_6_output": "d(f2,1) is represented by xi",
     "proposition_5_1_compatibility": "h0(gamma(f2,1))=d(f2,1)",
     "r3_explicit_xi": "xi(rho)=Tr for rho flipping sqrt(f2)",
-    "surface_leray_sha_interpretation": "Because the input is the unramified geometric surface class J2, its generic Weil-Chatelet class is the Leray/Ogg-Shafarevich image of J2."
+    "surface_leray_sha_interpretation": "CV surfaces identifies Br X inside Br C on the generic fiber and uses the same gamma presentation; Ogg-Shafarevich identifies Br(Kc_bar) with the Tate-Shafarevich group of the elliptic K3 with section. Therefore this nonzero [xi] is the named J2 surface torsor class.",
+    "surface_restriction_preserves_named_class": true
   },
   "exact_conclusion": {
     "R4_exit_4_8_12_selected": false,
     "attempt4_phi_cover_identified_with_named_geometric_J2_torsor": true,
-    "authoritative_promotion_pending_fresh_super_hostile_audit": true,
+    "authoritative_promotion_pending_fresh_super_hostile_audit": false,
     "brauer_to_sha_bridge_materialized": true,
     "candidate_minimum_norms": [
       4,
       8,
       12
     ],
+    "fresh_super_hostile_audit_passed": true,
+    "generic_weil_chatelet_class_nonzero": true,
     "identity_proof_uses_CV_gamma_d_compatibility": true,
+    "named_J2_torsor_authoritative_credit": true,
     "named_torsor_equation": "N^2=f2*U^4-2*(t^2+1)^2*U^2*V^2+((t^4-6*t^2+1)^2/f2)*V^4",
-    "next_exact_leaf_after_fresh_audit": "R4_COMPUTE_PRIMITIVE_NS_DISCRIMINANT_GROUP_AND_QUADRATIC_FORM_OF_X_J2_AND_SELECT_MINIMUM_NORM_4_8_12",
+    "next_exact_leaf": "R4_COMPUTE_PRIMITIVE_NS_DISCRIMINANT_GROUP_AND_QUADRATIC_FORM_OF_X_J2_AND_SELECT_MINIMUM_NORM_4_8_12",
     "old_arbitrary_matching_support_shortcut_used": false,
     "one_isogeny_squareclass_alone_used_as_identity_proof": false
   },
@@ -54,6 +64,16 @@
     "stage33_13_released": false,
     "theorem_credit": false
   },
+  "fresh_super_hostile_audit": {
+    "audited_head": "b569159aced79d4038399e11fde2924d0a69c52e",
+    "pre_authoritative_hardening_completed": true,
+    "pre_authoritative_hardening_required": [
+      "SOURCE_LOCK_SURFACE_TO_GENERIC_AND_OGG_SHA_IDENTIFICATION",
+      "MATERIALIZE_GENERIC_WC_NONZERO_FROM_R1_R2_CV_PROP5_1_INJECTIVITY"
+    ],
+    "r3_or_r4_recomputation_required": false,
+    "verdict": "PASS_FRESH_SUPER_HOSTILE_MATHEMATICALLY"
+  },
   "phi_cover_match": {
     "attempt4_equation": "N^2=f2*U^4-2*(t^2+1)^2*U^2*V^2+((t^4-6*t^2+1)^2/f2)*V^4",
     "attempt4_equation_multiplied_by_f2": "f2*N^2=f2^2*U^4-2*(t^2+1)^2*f2*U^2*V^2+q^2*V^4",
@@ -62,20 +82,38 @@
     "kummer_cocycle": "rho -> Tr",
     "same_H1_E_class_as_CV_d": true,
     "squareclass": "d=f2",
+    "standard_cover_formula": "d*N^2=d^2*U^4-2*a*d*U^2*V^2+(a^2-4*b)*V^4",
     "standard_formula_match": true
   },
-  "schema": "STAGE33_05_J2_R3_R4_BRAUER_SHA_BRIDGE_V1",
+  "schema": "STAGE33_05_J2_R3_R4_BRAUER_SHA_BRIDGE_V2_FRESH_SUPER_HOSTILE_HARDENED",
   "scope": "GEOMETRIC_Kgeom_Qbar_t_ONLY_NO_Q_DEFINED_DESCENT_CREDIT",
   "source_lock": {
-    "creutz_viray": {
+    "creutz_viray_curve": {
       "arxiv": "1403.2924v1",
       "compatibility_statement": "h0(gamma(ell)) = d(ell) in H^1(K,Pic C)",
       "doi": "10.1007/s00229-014-0721-7",
       "lemma_4_6_location": "published/arXiv PDF p.15: explicit 1-cocycle representing d(ell)",
       "paper": "Brendan Creutz and Bianca Viray, Two torsion in the Brauer group of a hyperelliptic curve",
-      "proposition_5_1_location": "published/arXiv PDF p.16: exact sequence; proof identifies h0 o gamma with d"
+      "proposition_5_1_location": "published/arXiv PDF p.16: exact sequence; h0 is the injective Hochschild-Serre edge on Br(C)/Br0(C), and the proof identifies h0 o gamma with d"
+    },
+    "creutz_viray_surface": {
+      "arxiv": "1306.3251",
+      "doi": "10.1007/s00208-014-1153-0",
+      "generic_gamma_location": "published PDF section 2.3, Theorem 2.5: the generic-fiber gamma construction into Br C",
+      "named_class_transfer_statement": "the surface class represented by ell restricts to the generic-fiber class produced by the same gamma/corestriction construction",
+      "paper": "Brendan Creutz and Bianca Viray, On Brauer groups of double covers of ruled surfaces",
+      "surface_gamma_presentation_location": "published PDF Corollary 5.4: Pic C/2Pic C -> Lc,E ->gamma Br X[2] -> 0",
+      "surface_to_generic_location": "published PDF section 1.2: purity filtration Br X subset Br C subset Br k(C)=Br k(X), with Br X the vertically unramified subgroup"
+    },
+    "ogg_shafarevich": {
+      "doi": "10.1093/imrn/rnae061",
+      "location": "IMRN 2024 section 4.1, equation (4.1), immediately after Definition 4.2 / Example 4.3",
+      "paper": "Derived Equivalence for Elliptic K3 Surfaces and Jacobians",
+      "statement": "for an elliptic K3 surface S -> P1 with a section, Br(S) is isomorphic to the Tate-Shafarevich group Sha(S), whose elements are S-torsors"
     },
     "old_open_interface": "stages/stage33/33-12/j2-brauer-to-sha-leray-edge-interface.json",
+    "r1_blob_sha1": "792bd4d4c9c0b452e59dbcba0b3305e1195e40bf",
+    "r1_certificate": "stages/stage33/33-05/j2-abstract-nonzero-reaudit.json",
     "r2_canonical_sha256": "73ca8ecc89282369b1cd36dabc906a7f79eee1d6880b8371cb1a18a43b4c42cd",
     "r2_certificate": "stages/stage33/33-05/j2-corrected-full-l-representative.json",
     "r3_canonical_sha256": "8440400fd7eff183830bb16e991a6fb6f253b1774a76384ed2a3dc8adc951312",
@@ -83,16 +121,17 @@
     "r4_attempt4_canonical_sha256": "f7261a1f2d8e88fc1f1cfff31441cf3d0be01a02c4114a472c810ba37ff4cd90",
     "r4_attempt4_certificate": "stages/stage33/33-05/j2-r4-2isogeny-orientation-correction.json",
     "standard_phi_descent": {
-      "cohomology_meaning": "the squareclass d gives the E[phi]=<Tr> cocycle sigma -> Tr exactly when sigma flips sqrt(d); the corresponding genus-one phi-cover represents its image in H^1(K,E)",
+      "cohomology_meaning": "the squareclass d gives the E[phi]=<Tr> cocycle sigma -> Tr exactly when sigma flips sqrt(d); this homogeneous space represents its image in H^1(K,E)",
       "cover_formula": "d*N^2=d^2*U^4-2*a*d*U^2*V^2+(a^2-4*b)*V^4",
       "model": "E:y^2=x*(x^2+a*x+b), E'=E/<(0,0)>: y^2=x*(x^2-2*a*x+(a^2-4*b))",
-      "reference_note": "standard 2-isogeny descent; same formula appears in Cassels-style 2-isogeny descent notes"
+      "reference": "Math 788 elliptic-curves Week 13 notes, section 37.8 (2-isogeny descent homogeneous spaces), formula displayed for C_d",
+      "reference_url": "https://thornef.github.io/math788-20/ec-week13.pdf"
     },
     "twisted_poincare_target": "stages/stage33/33-12/j2-twisted-poincare-torsor-target.json"
   },
-  "status": "PASS_EXACT_R3_R4_BRAUER_SHA_ADAPTER_MATERIALIZED_PENDING_FRESH_SUPER_HOSTILE_AUDIT",
+  "status": "PASS_FRESH_SUPER_HOSTILE_R3_R4_BRAUER_SHA_BRIDGE_AUTHORITATIVE_NAMED_J2_TORSOR",
   "supersession": {
-    "j2_brauer_to_sha_leray_edge_interface": "RESOLVED_BY_CORRECTED_CV_PROP5_1_LEMMA4_6_BRIDGE_PENDING_FRESH_AUDIT",
+    "j2_brauer_to_sha_leray_edge_interface": "SUPERSEDED_RESOLVED_BY_FRESH_SUPER_HOSTILE_PASSED_CV_PROP5_1_LEMMA4_6_SURFACE_OS_BRIDGE",
     "j2_twisted_poincare_torsor_target": "RESOLVED_FOR_NAMED_CLASS_IDENTIFICATION_BY_CV_BRIDGE_AND_EXPLICIT_PHI_COVER; TWISTED_POINCARE_NOT_REQUIRED_AS_SEPARATE_IDENTITY_PROOF"
   }
 }
