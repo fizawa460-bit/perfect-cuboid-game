@@ -1,6 +1,6 @@
 # Stage32-21aa — anti-fixed coset penalty representation
 
-Status: `AWAITING_EXACT_CI`
+Status: `CLOSED_CHECKPOINTED`
 
 ## Target
 
@@ -49,7 +49,26 @@ Taking the maximum over retained coordinates defines a deterministic safe class 
 
 `lambda(r) <= -q^2`.
 
-The implementation enumerates all `16384` exact Reynolds projection classes, checks that only the zero class has zero penalty, and emits a compact deterministic certificate plus stream hash. It does **not** store the full class table as an artifact; it is regenerated from retained sources.
+## Exact CI checkpoint
+
+Workflow: `Stage32 Reynolds anti-fixed coset penalty`
+
+- run: `33307921980`
+- job: `99247655675`
+- verdict: `PASS_STAGE32_21AA_ANTI_FIXED_COSET_PENALTY_REPRESENTATION`
+- projection classes: `16384`
+- zero-penalty classes: `1`
+- positive-penalty classes: `16383`
+- distinct penalty values: `23`
+- minimum positive penalty: `1/572`
+- maximum coordinate-Cauchy penalty: `5/39`
+- canonical penalty-stream SHA256: `8bd09aa4a7e942b7bb772815a05475d04604985556325203dec0851437c0c76e`
+- canonical certificate SHA256: `f5e6e363fa2c8f2258e340054948319aae2ad805bd2ca5412f8e3a76231e0238`
+- artifact: `9731071290`
+- artifact ZIP SHA256: `e0c683d2343f1cb6ff212c606d1f28db1e20fd54c27429bf46b38bd82fe203f7`
+- artifact size: `1799` bytes
+
+The full 16384-class table is not stored as an artifact; it is deterministically regenerated from retained exact sources and committed by the penalty-stream hash.
 
 ## Safety / credit
 
@@ -61,10 +80,10 @@ The implementation enumerates all `16384` exact Reynolds projection classes, che
 - numerical row completion remains false;
 - theorem / receiver / route / perfect-cuboid credit remain false.
 
-## Execution preflight
+This closure is an exact representation checkpoint only. It does not release downstream mathematical credit beyond the explicit finite interface.
 
-This leaf uses one ordinary Ubuntu runner, no matrix, and uploads one compact JSON certificate with 7-day retention. It does not touch a Stage32 heavy run key and cannot overlap as a heavy Stage32 workload.
+## Next leaf
 
-## Exit criterion
+`32-21ab — EXACT_QUOTIENT_CLASS_MAP`
 
-Close 32-21aa only after the exact CI certificate passes and records the class count / positivity / deterministic hashes. Then advance to `32-21ab`, the exact quotient-class map from the rank-2 Smith affine coordinates into the 16384-class penalty state.
+Derive the exact map from the rank-2 projected Smith affine coordinates to the `16384` Reynolds projection classes so the certified anti-fixed penalty can be attached to each projected candidate without materializing the terminal family.
