@@ -1,13 +1,13 @@
 {
-  "schema": "STAGE33_05_HOSTILE_AUDIT_STATE_V8_CT_NORM_PICARD_SUPPORT_HS_D2_OPEN",
+  "schema": "STAGE33_05_HOSTILE_AUDIT_STATE_V9_CT_NORM_SPLITTING_MODULE_AMBIGUITY_HS_D2_OPEN",
   "stage33_unit": "33-05",
-  "audit_verdict": "PARTIAL_PASS_R0_TO_R4_AND_R5_GEOMETRIC_PASS_CT_NORM_Q_FIBER_MARKED_PICARD_SUPPORT_PASS_SPLITTING_LINE_BUNDLE_PIC_MOD2_AND_HS_D2_OPEN",
+  "audit_verdict": "PARTIAL_PASS_R0_TO_R4_AND_R5_GEOMETRIC_PASS_CT_NORM_SPLITTING_MODULE_AND_STANDARD_EVEN_DETERMINANT_PASS_ACTUAL_CECH_LATTICE_PIC_MOD2_AND_HS_D2_OPEN",
   "unit_status": "BLOCKED_NEW_KERNEL",
   "unit_closed": false,
   "downstream_released": false,
   "repair_state": "stages/stage33/33-05/j2-representative-repair-state.json",
   "post_r5_leaf_state": "stages/stage33/33-05/j2-post-r5-hs-d2-state.json",
-  "post_r5_leaf_state_canonical_sha256": "8e3344fbbd8d4aff17523c27bf3e515f2fe2c7a50960878dd1b6f1749cd2e514",
+  "post_r5_leaf_state_canonical_sha256": "d225891879621754c2e5d6d7c38826c15408ea44c396aea3273ed6d532c7d3e0",
   "post_r5_failure_certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json",
   "post_r5_failure_canonical_sha256": "a7c08372b9ef012a1446bd3bf4f40541d77d372dadc73e3780f6ce2529fcc6d8",
   "retained_exact_geometric_credit": {
@@ -59,15 +59,21 @@
     "ct_norm_common_q_fiber_class_marked_semantic_PicK_coordinates": [0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
     "ct_norm_picard_support_certificate": "stages/stage33/33-12/j2-corrected-ct-norm-picard-support.json",
     "ct_norm_picard_support_canonical_sha256": "77af329d2baf2fe807bf23722c9b320fdfddec2bd1df90ced7758d411c9cf021",
+    "ct_norm_splitting_module_certificate": "stages/stage33/33-12/j2-corrected-ct-norm-splitting-module.json",
+    "ct_norm_splitting_module_canonical_sha256": "b4c04590fe48141e7555b7c5b4c167a677abe422c7e2b83e51805b4d263d10b2",
+    "ct_norm_generic_rank2_splitting_matrices_materialized": true,
+    "ct_norm_standard_auxiliary_q_cover_determinant_mod2_zero": true,
+    "ct_norm_compactification_parity_ambiguity_materialized": true,
+    "actual_lambda_D_local_rank2_lattices_materialized": false,
     "ct_norm_splitting_determinant_line_bundle_materialized": false,
     "pic_mod2_integral_coordinates_materialized": false,
     "explicit_cech_mu2_lift_certificate": "stages/stage33/33-12/j2-corrected-explicit-cech-mu2-lift.json",
     "explicit_cech_mu2_lift_canonical_sha256": "6c9333f564637c362b026596833acd26ad2abff27e9c9d75d82ee5c6991cb76b",
-    "credit_scope": "CORRECTED_EXPLICIT_GEOMETRIC_SURFACE_MU2_LIFT_AND_CT_Q_FIBER_MARKED_PICARD_SUPPORT_ONLY_NO_PIC_MOD2_OR_ARITHMETIC_HS_D2_CREDIT"
+    "credit_scope": "CORRECTED_EXPLICIT_GEOMETRIC_SURFACE_MU2_LIFT_CT_Q_FIBER_MARKING_AND_GENERIC_SPLITTING_MODULE_ONLY_NO_ACTUAL_PIC_MOD2_OR_ARITHMETIC_HS_D2_CREDIT"
   },
   "current_surface_mu2_contract": {
     "path": "stages/stage33/33-12/j2-full-surface-mu2-zero-defect-contract.json",
-    "canonical_sha256": "c3b4ad72f9fcff7b18955420e8cc33b62f9748e5ab6511acfc06d677d6bfa719",
+    "canonical_sha256": "55cd01cc8570cb759e7029ddef3b9dac764625a7cdd313c76fd694e37fd478ce",
     "corrected_branch_Pic0_2torsion_to_surface_adapter_materialized": true,
     "surface_mu2_lift_materialized": true,
     "pic_mod2_defect_materialized": false,
@@ -85,9 +91,10 @@
     "R5_full_repair_exit_reached": false,
     "hostile_audit_pass_for_reclosure": false
   },
-  "next_exact_leaf": "DERIVE_CT_NORM_SPLITTING_DETERMINANT_LINE_BUNDLE_ON_RESOLVED_QUOTIENT_THEN_PULL_BACK_TO_MARKED_PIC_KC_MOD2_AND_COMPUTE_INTEGRAL_BOCKSTEIN",
+  "next_exact_leaf": "MATERIALIZE_ACTUAL_CECH_LOCAL_RANK2_LATTICES_AND_OVERLAP_TRANSITION_MATRICES_FOR_LAMBDA_D_AT_T0_TINF_SINF_C21_C22_AND_RESOLUTION_EXCEPTIONALS_THEN_COMPARE_CC_CT_NULLHOMOTOPIES_AND_COMPUTE_MARKED_PIC_MOD2_AND_HS_D2",
   "next_leaf_requirements": [
-    "derive the determinant line bundle or Cartier divisor of the explicit ct norm nullhomotopy on the resolved quotient, without guessing a component selector",
+    "materialize the actual local rank-two lattices and overlap transition matrices defining the chosen Cech extension of lambda_D at t=0, t=infinity, s=infinity, C21, C22, and every resolution exceptional",
+    "compare the actual cc/ct nullhomotopies with the standard auxiliary q-cover module; do not identify its even determinant with the actual defect without this comparison",
     "pull the ct splitting line bundle to Kc and compute the explicit cc and ct defect classes in Pic(Kc_bar)/2",
     "choose integral Pic lifts",
     "compute the Bockstein/Hochschild-Serre d2 2-cocycle and its class without assuming zero",

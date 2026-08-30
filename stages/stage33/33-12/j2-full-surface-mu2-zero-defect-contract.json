@@ -1,5 +1,5 @@
 {
-  "canonical_sha256": "c3b4ad72f9fcff7b18955420e8cc33b62f9748e5ab6511acfc06d677d6bfa719",
+  "canonical_sha256": "55cd01cc8570cb759e7029ddef3b9dac764625a7cdd313c76fd694e37fd478ce",
   "defect_state": {
     "HS_d2_2cocycle_materialized": false,
     "HS_d2_zero_proved": false,
@@ -11,21 +11,28 @@
   "exact_input": {
     "class": "corrected geometric J2=(f2,1)",
     "full_split_pair_representative_witnesses_materialized": true,
-    "marked_brauer_coordinate": [1, 0],
+    "marked_brauer_coordinate": [
+      1,
+      0
+    ],
     "named_geometric_representative_certified": true,
     "normalization_half_divisor": "D=P_r2-P_r4",
     "normalization_half_divisor_descent_cochain_materialized": true
   },
   "kummer_exact_sequence": {
+    "actual_lambda_D_local_rank2_lattices_materialized": false,
+    "ct_norm_compactification_parity_ambiguity_materialized": true,
+    "ct_norm_generic_rank2_splitting_matrices_materialized": true,
+    "ct_norm_standard_auxiliary_q_cover_determinant_mod2_zero": true,
     "explicit_Cech_preimage_e_D_materialized": true,
     "full_surface_mu2_lift_for_corrected_J2_materialized": true,
     "generic_galois_defect_splittings_materialized": true,
     "normalization_to_surface_Kummer_adapter_materialized": true,
     "pic_mod2_integral_coordinates_materialized": false,
-    "reason": "The corrected class is now represented by the explicit unramified Kummer cup product {f2,g22}; its cc/ct differences have explicit generic splittings, but the associated divisor classes are not yet expressed in the marked integral Picard lattice.",
+    "reason": "The standard auxiliary q-cover module has even determinant, but an elementary transform preserves the generic splitting data and changes parity by a nonzero marked Kc fiber. The actual local Cech lattices and overlap transitions must be materialized before assigning the defect.",
     "sequence": "Pic(Kc_bar)/2 -> H^2_et(Kc_bar,mu_2) -> Br(Kc_bar)[2] -> 0"
   },
-  "next_exact_leaf": "COMPUTE_DIVISORS_OF_CC_CT_SYMBOL_SPLITTING_COCHAINS_IN_MARKED_PIC_KC_MOD2_THEN_INTEGRAL_BOCKSTEIN_HS_D2",
+  "next_exact_leaf": "MATERIALIZE_ACTUAL_CECH_LOCAL_RANK2_LATTICES_AND_OVERLAP_TRANSITION_MATRICES_FOR_LAMBDA_D_AT_T0_TINF_SINF_C21_C22_AND_RESOLUTION_EXCEPTIONALS_THEN_COMPARE_CC_CT_NULLHOMOTOPIES_AND_COMPUTE_MARKED_PIC_MOD2_AND_HS_D2",
   "promotion_firewall": {
     "Q_defined_descent_credit_restored": false,
     "arithmetic_hs_d2_computed": false,
@@ -44,14 +51,16 @@
     "historical_named_kummer_glue_producer_tombstoned": true,
     "old_Q_defined_ell_J2_may_be_used": false
   },
-  "schema": "STAGE33_12_J2_FULL_SURFACE_MU2_ZERO_DEFECT_CONTRACT_V4_EXPLICIT_SYMBOL_LIFT",
+  "schema": "STAGE33_12_J2_FULL_SURFACE_MU2_ZERO_DEFECT_CONTRACT_V5_CT_NORM_SPLITTING_MODULE_AMBIGUITY",
   "source_locks": {
     "corrected_pre_kummer_canonical_sha256": "940df53040c6f5245914effbfb7d752a08c61b6d593586952b322e4069415106",
     "corrected_pre_kummer_certificate": "stages/stage33/33-05/j2-corrected-pre-kummer-descent-cochain.json",
+    "ct_norm_splitting_module_canonical_sha256": "b4c04590fe48141e7555b7c5b4c167a677abe422c7e2b83e51805b4d263d10b2",
+    "ct_norm_splitting_module_certificate": "stages/stage33/33-12/j2-corrected-ct-norm-splitting-module.json",
     "explicit_cech_mu2_lift_canonical_sha256": "6c9333f564637c362b026596833acd26ad2abff27e9c9d75d82ee5c6991cb76b",
     "explicit_cech_mu2_lift_certificate": "stages/stage33/33-12/j2-corrected-explicit-cech-mu2-lift.json",
     "post_r5_fail_canonical_sha256": "a7c08372b9ef012a1446bd3bf4f40541d77d372dadc73e3780f6ce2529fcc6d8",
     "post_r5_fail_certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json"
   },
-  "status": "OPEN_EXPLICIT_SURFACE_MU2_LIFT_MATERIALIZED_PIC_MOD2_COORDINATES_AND_HS_D2_UNPROVEN"
+  "status": "OPEN_EXPLICIT_SURFACE_MU2_LIFT_AND_CT_SPLITTING_MODULE_MATERIALIZED_ACTUAL_CECH_LATTICE_PIC_MOD2_AND_HS_D2_UNPROVEN"
 }
