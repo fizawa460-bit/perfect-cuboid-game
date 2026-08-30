@@ -1,8 +1,10 @@
 name: Stage33-12 exact checkpoint replay
 
-# Merge gate after Batch4 hostile reopen and Stage33-05 repair-band activation.
-# Historical J2-dependent certificates are replayed only as frozen regression;
-# R4 attempt 4 supersedes the attempt-1 2-isogeny orientation semantically.
+# Merge gate after hostile reopen and Stage33-05 repair-band activation.
+# Historical R4 attempts 1/2 are NOT regenerated as current named-torsor
+# evidence. Their algebra is frozen history and their current semantic status is
+# controlled by j2-r4-historical-attempts-semantic-status.json. Attempt4 is the
+# current 2-isogeny-orientation authority.
 on:
   pull_request:
     paths:
@@ -31,7 +33,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Replay authoritative hostile-reopen through R4 2-isogeny orientation correction
+      - name: Replay authoritative hostile-reopen through R4 attempt4
         run: |
           cp stages/stage33/33-12/boundary-function-scalar-descent-certificate.json /tmp/expected-boundary-scalars.json
           python stages/stage33/33-12/certify_boundary_function_scalar_descent.py
@@ -50,10 +52,12 @@ jobs:
           python stages/stage33/33-12/certify_j2_kc_bfield_halfdual_target.py
           python stages/stage33/33-12/certify_j2_brauer_kernel_lattice_fingerprints.py
 
+          # Load-bearing hostile regression: historical Q-defined ell is CV-zero.
           cp stages/stage33/33-12/j2-cv-lclass-zero-regression.json /tmp/expected-j2-cv-lclass-zero.json
           python stages/stage33/33-12/certify_j2_cv_lclass_zero_regression.py
           cmp /tmp/expected-j2-cv-lclass-zero.json stages/stage33/33-12/j2-cv-lclass-zero-regression.json
 
+          # Retained repaired geometric chain R1-R3.
           python stages/stage33/33-05/certify_j2_abstract_nonzero_reaudit.py
 
           cp stages/stage33/33-05/j2-corrected-full-l-representative.json /tmp/expected-j2-corrected-full-l.json
@@ -64,22 +68,28 @@ jobs:
           python stages/stage33/33-05/certify_j2_corrected_cv_e2_cocycle.py
           cmp /tmp/expected-j2-corrected-e2.json stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json
 
-          # Historical R4 attempts 1-3 remain bit-for-bit regression evidence.
-          # Their attempt-1 named-torsor orientation is explicitly superseded below.
-          cp stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json /tmp/expected-j2-r4-tr-torsor.json
-          python stages/stage33/33-05/certify_j2_r4_tr_kernel_torsor_reduction.py
-          cmp /tmp/expected-j2-r4-tr-torsor.json stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json
+          # DO NOT execute attempt1/attempt2 generators here. Their old equations
+          # are preserved as historical algebra but are semantically superseded as
+          # named Kc-torsor evidence by attempt4.
+          python - <<'PY'
+          import json
+          s=json.load(open('stages/stage33/33-05/j2-r4-historical-attempts-semantic-status.json'))
+          a1=s['attempts']['attempt1']
+          a2=s['attempts']['attempt2']
+          a3=s['attempts']['attempt3']
+          a4=s['attempts']['attempt4']
+          assert a1['semantic_status']=='SUPERSEDED'
+          assert a1['not_valid_as_named_kc_torsor_evidence'] is True
+          assert a2['semantic_status']=='SUPERSEDED_AS_NAMED_TORSOR_EVIDENCE'
+          assert a2['not_valid_as_named_kc_torsor_evidence'] is True
+          assert a3['semantic_status']=='RETAINED_EXACT_FIXED_JACOBIAN_TORSION_IDENTITIES_ONLY'
+          assert a4['semantic_status']=='CURRENT_R4_ORIENTATION_AUTHORITY'
+          assert a4['minimum_norm_selected'] is False
+          assert a4['marked_brauer_coordinate_selected'] is False
+          print('R4_HISTORICAL_SEMANTIC_SUPERSESSION=PASS')
+          PY
 
-          cp stages/stage33/33-05/j2-r4-bisection-relative-component-incidence.json /tmp/expected-j2-r4-component-incidence.json
-          python stages/stage33/33-05/certify_j2_r4_bisection_relative_component_incidence.py
-          cmp /tmp/expected-j2-r4-component-incidence.json stages/stage33/33-05/j2-r4-bisection-relative-component-incidence.json
-
-          cp stages/stage33/33-05/j2-r4-legendre-torsion-glue-reduction.json /tmp/expected-j2-r4-legendre-torsion.json
-          python stages/stage33/33-05/certify_j2_r4_legendre_torsion_glue_reduction.py
-          cmp /tmp/expected-j2-r4-legendre-torsion.json stages/stage33/33-05/j2-r4-legendre-torsion-glue-reduction.json
-
-          # R4 attempt 4: audit the binary-quartic Jacobian and correct the
-          # 2-isogeny direction. The current named genus-one model has Jac=Kc.
+          # R4 attempt4 is the current named genus-one orientation authority.
           cp stages/stage33/33-05/j2-r4-2isogeny-orientation-correction.json /tmp/expected-j2-r4-orientation.json
           python stages/stage33/33-05/certify_j2_r4_2isogeny_orientation_correction.py
           cmp /tmp/expected-j2-r4-orientation.json stages/stage33/33-05/j2-r4-2isogeny-orientation-correction.json
@@ -91,6 +101,7 @@ jobs:
           j=next(x for x in c['repair_children'] if x['id']=='33-12')
           r=json.load(open('stages/stage33/33-05/j2-representative-repair-state.json'))
           o=json.load(open('stages/stage33/33-05/j2-r4-2isogeny-orientation-correction.json'))
+          a=json.load(open('stages/stage33/33-05/audit-state.json'))
 
           assert s['reopened'] is True
           assert s['named_representative_credit']=='REVOKED_PENDING_REPAIR'
@@ -113,24 +124,34 @@ jobs:
           assert o['orientation_audit']['attempt1_named_torsor_credit_revoked'] is True
           assert o['corrected_named_geometric_torsor']['jacobian']=='E_Kc'
           assert o['corrected_named_geometric_torsor']['degree2_map_target']=='Eprime_Tr'
-          assert o['historical_no_go_reaudit']['explicit_Kc_jacobian_genus_one_model_materialized'] is True
           assert o['historical_no_go_reaudit']['global_K3_minimal_regular_model_NS_discriminant_form_materialized'] is False
           assert o['historical_no_go_reaudit']['candidate_minimum_norms']==[4,8,12]
           assert o['historical_no_go_reaudit']['minimum_norm_selected'] is False
           assert o['historical_no_go_reaudit']['marked_Brauer_functional_selected'] is False
-          assert o['cycle_protocol']['CYCLE_ROUTE_STATUS']=='PASS_NEW_GATE_FROM_STRONGER_VIEW'
 
-          assert r['firewalls']['Q_defined_descent_credit_restored'] is False
-          assert r['firewalls']['stage33_05_reclosed'] is False
-          assert j['j2_class2_go_no_go']=='REVOKED_BY_BATCH4_HOSTILE_AUDIT'
-          assert j['j2_class3_promoted'] is False
+          # Current audit state must explicitly supersede the historical CLOSED state.
+          assert a['semantic_status']=='SUPERSEDED_BY_HOSTILE_REOPEN'
+          assert a['do_not_use_as_current_credit'] is True
+          assert a['unit_closed'] is False
+          assert a['downstream_released'] is False
+          assert a['merge_allowed'] is False
+
+          # Controller must point to the current PR/attempt4 state.
+          assert j['pr']==1464
+          assert j['j2_torsor_equation_materialized'] is True
+          assert j['j2_explicit_torsor_surface_materialized'] is True
+          assert j['j2_repair_leaf']=='R4'
           assert j['j2_marked_brauer_coordinate_selected'] is False
           assert j['j2_twisted_transcendental_kernel_identified'] is False
           assert j['stage33_12_closed_exact'] is False
           assert j['heavy_actions_authorized'] is False
+
+          assert r['firewalls']['Q_defined_descent_credit_restored'] is False
+          assert r['firewalls']['stage33_05_reclosed'] is False
           assert next(x for x in c['repair_children'] if x['id']=='33-13')['released'] is False
           assert c['stage33_progress']=='5/11'
+          assert c['merge_allowed'] is False
           assert c['theorem_credit'] is False and c['receiver_credit'] is False and c['endpoint_credit'] is False
           assert c['perfect_cuboid_existence_claim'] is False and c['perfect_cuboid_nonexistence_claim'] is False
-          print('R1-R3 exact; R4 attempt 4 corrected 2-isogeny orientation PASS; primitive NS/T 4/8/12 selection still open')
+          print('R1-R3 PASS; R4 attempt4 orientation PASS; 4/8/12 OPEN; stale evidence paths blocked')
           PY
