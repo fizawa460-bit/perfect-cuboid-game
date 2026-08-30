@@ -1,0 +1,46 @@
+name: Stage32 21aa-ac boundary audit
+
+on:
+  pull_request:
+    types: [synchronize, opened, reopened]
+    paths:
+      - 'stages/stage32/residual-32-01-production/audit_stage32_21aa_ac_boundary.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_antifixed_coset_penalty.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_quotient_class_map.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_antifixed_coset_bound.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_integer_qp.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_integral_projection_bound.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_lattice_diagnostic.py'
+      - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_slice_bridge.py'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+      - '.github/workflows/stage32-21aa-ac-boundary-audit.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  fresh-boundary-audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run fresh independent aa-ab-ac boundary audit
+        run: |
+          python stages/stage32/residual-32-01-production/audit_stage32_21aa_ac_boundary.py \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --output stage32-21aa-ac-boundary-audit.json
+      - name: Upload compact boundary-audit evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-21aa-ac-boundary-audit
+          path: stage32-21aa-ac-boundary-audit.json
+          retention-days: 3
+          compression-level: 9
