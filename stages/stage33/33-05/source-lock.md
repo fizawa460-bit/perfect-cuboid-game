@@ -1,223 +1,222 @@
-# Stage33-05 source lock — Creutz--Viray presentation and arithmetic descent
+# Stage33-05 source lock — corrected J2 / Creutz--Viray / Hochschild--Serre
 
-## Post-R5 authoritative correction
+## Current authoritative status
 
-The historical Q-defined `ell_J2` / corestriction-CSA witness from `j2_arithmetic_descent.py` is **revoked as a witness for the named nonzero J2**.  The exact regression
+The historical Q-defined `ell_J2` / CSA from `j2_arithmetic_descent.py` is **revoked** as a witness for the named nonzero J2. The exact regression is:
 
 ```text
 stages/stage33/33-12/j2-cv-lclass-zero-regression.json
 ```
 
-proves that its geometric Creutz--Viray class is zero.  It must not be reused to certify corrected J2.
-
-The corrected nonzero geometric class is the full branch-algebra pair
+The corrected geometric class is
 
 ```text
-J2 = (f2,1),
+J2=(f2,1),
 f2=(t+1+sqrt(2))/(t-1+sqrt(2)),
 ```
 
-certified in `j2-corrected-full-l-representative.json`, with exact E[2] cocycle `xi(rho)=Tr` in `j2-corrected-cv-e2-cocycle.json` and marked Brauer coordinate `[1,0]` after the R4 hostile integral-kernel verification.
-
-The post-R5 arithmetic repair no longer relies on a replacement closed-form Q quaternion.  Instead
+with R0--R4 and the geometric part of R5 hostile-replayed PASS. The integral geometric receiver is retained:
 
 ```text
-stages/stage33/33-05/j2-post-r5-hs-descent-datum.json
-stages/stage33/33-05/certify_j2_post_r5_q_descent_cocycle.py
+T(X_J2)=<8> direct_sum <16>
+minimum norm=8
+marked J2=[1,0]
 ```
 
-materialize an equivalent Hochschild--Serre/Kummer descent datum.  In the exact full-pair basis `[J1,J2,q1,q2,q3]`, the source-locked actions have `tau(J2)=cc(J2)=ct(J2)=J2`.  Hence the presentation defect of the corrected J2 lift is zero on every Galois generator, the associated Pic/2 Kummer defect is the explicit zero 1-cocycle, and its Bockstein/HS `d2` is the explicit zero Pic-valued 2-cocycle.
+This is `Kgeom=Qbar(t)` credit only.
 
-For `k=Q`, `H^3(k,kbar^*)=0`.  Standard Hochschild--Serre exactness therefore identifies the kernel of
+The attempted post-R5 Q descent was hostile-rejected. `certify_j2_post_r5_q_descent_cocycle.py` had proved only fixedness in the finite 5D CV presentation and then assigned the Pic/2 defect, integral Pic lift and HS d2 to zero constants. That inference is forbidden.
+
+Current failure certificate:
 
 ```text
-Br(Kc_bar)^G_Q -> H^2(Q,Pic(Kc_bar))
+j2-post-r5-hs-descent-datum.json
+canonical_sha256=a7c08372b9ef012a1446bd3bf4f40541d77d372dadc73e3780f6ce2529fcc6d8
 ```
 
-with the image of `Br(Kc_Q)`.  Thus the corrected nonzero J2 has an arithmetic preimage `beta_J2_Q` whose geometric restriction is exactly corrected `(f2,1)`.  Since this class lies in the Brauer group of the smooth projective Q-K3 itself rather than merely its function field, unramifiedness is built into the conclusion.  No generic-function residue claim for the revoked `ell_Q` is inherited.
-
-This is **pre-audit exact evidence only**.  By the repository-wide promotion firewall and the user's workflow rule, authoritative Q-descent credit and Stage33-05 reclosure remain forbidden until a separate super-hostile audit passes.
-
-## Primary ruled-surface source
-
-- Brendan Creutz, Bianca Viray, *On Brauer groups of double covers of ruled surfaces*, arXiv:1306.3251, Math. Ann. 362 (2015), 1169--1200.
-- Load-bearing locators: Theorem 2.5 (`Pic C/2 -> L_c -> Br C[2] -> 0`, Galois-equivariant); §3, Proposition 3.1 / Corollary 3.2 (vertical residue tests); Proposition 3.4 (exceptional curves over simple branch singularities); Theorem I and Theorem 5.2 / Corollary 5.4 (surface presentation and NS relations).
-
-Stage33 uses this source in the exact direction
+Therefore currently:
 
 ```text
-reduced flat branch with simple singularities on a ruled surface
- -> finite presentation of geometric Br[2]
- -> explicit corestriction quaternion generators
- -> relations from NS(X)
- -> residue criterion for extending generic-fiber classes to the surface
+CORRECTED_J2_Q_DESCENT_EXACT_EVIDENCE_REESTABLISHED=false
+HS_D2_CORRECTED_J2_MATERIALIZED=false
+HS_D2_CORRECTED_J2_ZERO_PROVED=false
+R5_FULL_REPAIR_EXIT_REACHED=false
+Q_DEFINED_DESCENT_CREDIT_RESTORED=false
+STAGE33_05_RECLOSED=false
 ```
 
-For the rational ruled base `W=P1`, the source gives `L_{c,E}=L_E`. At a singular branch point its `e(b/w)` is the sum of ramification indices over normalization points; this is load-bearing for the corrected count of four nodal even-e fibers.
+## Primary Creutz--Viray sources
 
-## Hyperelliptic cocycle / Hochschild--Serre compatibility source
+### Ruled-surface presentation
 
-- Brendan Creutz, Bianca Viray, *Two torsion in the Brauer group of a hyperelliptic curve*, arXiv:1403.2924, Manuscripta Math. 147 (2015), 139--167.
-- Remark 3.1: the exact Brauer-to-`H^1(Pic)` construction is the one coming from the étale Hochschild--Serre spectral sequence, up to sign.
-- Proposition 3.2: gives the explicit Picard-valued Galois cocycle associated to the corestriction construction and identifies its class with the spectral-sequence map.
-- Lemma 3.4: lifts the Picard cocycle to divisors and computes its coboundary explicitly as the divisor of the norm of `(x-alpha)` with the corresponding cochain exponent.
-- Lemma 3.5: identifies the resulting function-field 2-cocycle with the corestriction quaternion algebra by cup product and Shapiro.
+Brendan Creutz, Bianca Viray, *On Brauer groups of double covers of ruled surfaces*, arXiv:1306.3251v3, Math. Ann. 362 (2015), 1169--1200.
 
-These locators are used for compatibility of the explicit Creutz--Viray presentation with the standard étale/Kummer cochain construction.  The q1 Bockstein and corrected-J2 zero-defect Bockstein are recomputed exactly in repository scripts.
+Load-bearing locators:
 
-## Hochschild--Serre arithmetic descent source
+- Theorem 2.5: `gamma'` induces an exact sequence of Galois modules for the generic hyperelliptic fiber.
+- Proposition 3.1 / Corollary 3.2: residue tests for extending generic-fiber classes.
+- Theorem 5.2 / Corollary 5.4: geometric surface Br[2] presentation and NS relations.
 
-- Alexei N. Skorobogatov, Yuri G. Zarhin, *The Brauer group and the Brauer--Manin set of products of varieties*, JEMS 16 (2014), proof of Theorem B around equation (21): when `H^3(k,kbar^*)=0`, standard Hochschild--Serre theory gives
+This source justifies Galois equivariance of the CV presentation. It does **not** say that a Galois-fixed geometric Brauer class has Hochschild--Serre d2 equal to zero.
+
+### Hyperelliptic cocycle / Brauer-to-WC compatibility
+
+Brendan Creutz, Bianca Viray, *Two torsion in the Brauer group of a hyperelliptic curve*, arXiv:1403.2924v1, Manuscripta Math. 147 (2015), 139--167.
+
+Load-bearing locators:
+
+- Lemma 4.6: explicit `J[2]` 1-cocycle representing `d(ell)`.
+- Proposition 5.1 and its proof: `h0 o gamma` and `d` are the same map to `H^1(K,Pic C)`.
+- Proposition 3.2 and Lemmas 3.4--3.5: explicit divisor/function cocycles underlying the cohomological construction.
+
+These support the audited geometric chain
 
 ```text
-ker(Br(Xbar)^G -> H^2(k,Pic(Xbar))) = image(Br(X) -> Br(Xbar)^G).
+J2=(f2,1) -> gamma(J2) -> h0 gamma=d -> xi -> named X_J2.
 ```
 
-- Neukirch--Schmidt--Wingberg, *Cohomology of Number Fields*, Proposition 8.3.11: for a number field `k`, `H^3(k,kbar^*)=0`.
-- Harari--Skorobogatov, *The Brauer group of torsors and its arithmetic applications*, also recalls this number-field vanishing and the smooth/proper unramified Brauer interpretation.
+They do not by themselves provide the arithmetic surface `H^2(mu_2)` lift needed for `d2^{0,2}` over Q.
 
-## General cohomological source locks
+## Hochschild--Serre / Kummer source locks
 
-- Stacks Project tag `03PK`, §59.28 Kummer theory, Lemma 59.28.1: for 2 invertible,
-  `0 -> mu_2 -> G_m --square--> G_m -> 0` on the étale site, with the associated long exact cohomology sequence.
-- Stacks Project tag `03QA` / Proposition 59.54.2: Leray spectral sequence
-  `E2^{p,q}=H^p(Y,R^q f_*F) => H^{p+q}(X,F)`.
-- Applied to `Xbar` and Kummer, and using torsion-freeness of the K3 Picard lattice, this gives
+- Stacks Project, tag `03PK`, Kummer sequence:
+  `0 -> mu_2 -> G_m --2--> G_m -> 0`.
+- For a geometric K3 with torsion-free Picard group:
 
 ```text
-0 -> Pic(Xbar)/2 -> H^2_et(Xbar,mu_2) -> Br(Xbar)[2] -> 0.
+0 -> Pic(Kc_bar)/2
+  -> H^2_et(Kc_bar,mu_2)
+  -> Br(Kc_bar)[2]
+  -> 0.
 ```
 
-For an invariant geometric 2-torsion class, the Galois defect of a `mu_2` lift is a `Pic/2` 1-cocycle.  The `d2^{0,2}` in the `G_m` Hochschild--Serre/Leray spectral sequence is the Bockstein of this defect for
+For an invariant geometric Brauer class, one must first choose an actual `mu_2` lift. Its Galois defect is a `Pic/2` 1-cocycle. Choosing integral Pic lifts and applying the Bockstein gives the Pic-valued 2-cocycle representing the Hochschild--Serre `d2` obstruction.
+
+- Skorobogatov--Zarhin, JEMS 16 (2014), proof of Theorem B around equation (21): when `H^3(k,kbar^*)=0`,
 
 ```text
-0 -> Pic(Xbar) --2--> Pic(Xbar) -> Pic(Xbar)/2 -> 0.
+ker(Br(Xbar)^G -> H^2(k,Pic(Xbar)))
+= image(Br(X) -> Br(Xbar)^G).
 ```
 
-## Frozen geometric application to K_c
+- Neukirch--Schmidt--Wingberg, *Cohomology of Number Fields*, Proposition 8.3.11: the required `H^3` vanishing for number fields.
 
-The exact dimension checker certifies
+**Application firewall:** this kernel=image theorem may be applied to corrected J2 only after `d2(J2)=0` is actually proved. It cannot be used to prove its own hypothesis.
+
+## Corrected pre-Kummer descent cochain — exact new MAIN evidence
+
+Current certificate:
 
 ```text
-B=B+ union B-, genera 1 and 1
-h0(B)=2
-b1(Gamma)=7
-Jac(B)[2] dimension=4
-smooth common ramification fibers=4
-nodal even-e fibers t=0,1,-1,infinity=4
-special even-e fiber count=8
-K*/K*2 -> L*/L*2 kernel dimension=1
-raw generator subspace mod L*2 dimension=12
-kernel to K*L*2 dimension=7
-L_E=L_{c,E} dimension=5
-x-alpha image dimension=3
-Br(K_cbar)[2] dimension=2
+j2-corrected-pre-kummer-descent-cochain.json
+canonical_sha256=940df53040c6f5245914effbfb7d752a08c61b6d593586952b322e4069415106
 ```
 
-The old Stage33 pilot `L_{c,E}=9` omitted the nodal fibers and is superseded.
-
-The true exact presentation is materialized in basis `[J1,J2,q1,q2,q3]` with
+On the common normalization
 
 ```text
-im(x-alpha)=span_F2{
-  J1,
-  b*J2+q1+q2,
-  d*J2+q1+q2+q3
-}, b,d in F2,
+z^2=q=(t-r1)(t-r2)(t-r3)(t-r4)
+r1=1+sqrt(2)
+r2=-(1+sqrt(2))
+r3=sqrt(2)-1
+r4=1-sqrt(2)
+f2=(t-r2)/(t-r4),
 ```
 
-and geometric quotient basis `[J2,q1]`. The full-pair action is identity on the quotient, so the geometric invariant dimension is two.
-
-## Corrected J2 arithmetic source application
-
-The corrected J2 presentation lift is fixed by every exact action generator:
+we have the exact half-divisor
 
 ```text
-tau(J2)-J2 = 0
-cc(J2)-J2  = 0
-ct(J2)-J2  = 0
+D=P_r2-P_r4
+div(f2)=2D.
 ```
 
-The corresponding normalized cochains are therefore
+For `ct: sqrt(2)->-sqrt(2)`:
 
 ```text
-Pic/2 defect j_sigma = 0,
-integral Pic lift J_sigma = 0,
-Bockstein/HS d2(sigma,tau) = 0.
+ct: r1<->r4, r2<->r3
+h_ct=z/((t-r1)*(t-r2))
+u_ct=(t-r3)*(t-r4)/z
+
+div(h_ct)=ct(D)-D
+h_ct*ct(h_ct)=1
+ct(f2)/f2=u_ct^2
+u_ct*ct(u_ct)=1
+u_ct=1/ct(h_ct).
 ```
 
-This gives
+Thus the line bundle `O(D)` on the normalization has an explicit trivial C2 descent obstruction for this conjugation.
+
+At the full split-pair representative level:
 
 ```text
-HS_D2_CORRECTED_J2=0
-CORRECTED_J2_IN_IMAGE_OF_Br_Kc_Q=true
-GEOMETRIC_RESTRICTION=corrected nonzero (f2,1)
-ARITHMETIC_UNRAMIFIED=true
-OLD_ELL_Q_USED=false
+tau(f2,1)=(f2,1)
+ct(f2,1)=(f2,1)*(u_ct^2,1)
+cc(f2,1)=diag(f2)*(f2,1)*((1/f2)^2,1)
 ```
 
-The concrete Q-class is recorded cohomologically as `beta_J2_Q`, specified by its corrected geometric restriction and the explicit zero HS descent datum.  A new closed-form Q CSA formula is **not** claimed.
+These identities are stronger than the old statement that the quotient vector `[0,1,0,0,0]` is Galois-fixed.
 
-## q1 Hochschild--Serre source application
+### Exact boundary
 
-The presentation defect is `ct(q1)-q1=J1`. Stage33 materializes
+They are **not** yet a full-surface Kummer lift. In particular none of the following is currently credited:
 
 ```text
-D=Cb+E_P0,
-Cb : i*A1+B1=i*A2+B2=i*A3+B3=0,
-P0=[0:1:0:-1:0:1],
+H^2_et(Kc_bar,mu_2) lift of corrected J2
+Pic(Kc_bar)/2 Galois-defect 1-cocycle
+integral Pic lift
+Bockstein / HS d2 2-cocycle
+HS d2(J2)=0
+Q-defined arithmetic Brauer preimage
+arithmetic unramifiedness of such a preimage
 ```
 
-as an integral `ct`-invariant NS lift of `J1`. The invariant test conic
+The missing functorial adapter is:
 
 ```text
-T : A1=0, A2+B3=0, A3-B2=0
+corrected CV / normalization half-divisor datum
+ -> marked Kc surface H^2(mu_2) lift
+ -> Pic/2 defect
+ -> integral Pic lift
+ -> HS d2.
 ```
 
-has `D.T=1`, proving `D` is not a cyclic norm. The Kummer defect is `D mod 2`; on `C2=<ct>` the normalized integral lift has
+Current machine boundary contract:
 
 ```text
-(dJ)(ct,ct)=2D,
-Bockstein(ct,ct)=D.
+stages/stage33/33-12/j2-full-surface-mu2-zero-defect-contract.json
+canonical_sha256=c35eec49758734e29cb801ea9a55ed6e739238750f3ff92c14f030ae25e8ff2b
 ```
 
-Therefore the restricted Hochschild--Serre differential is nonzero, and `q1` does not descend.
+The historical `certify_j2_named_kummer_glue_input.py` producer has been tombstoned because it consumed the revoked old `ell_J2` and could regenerate stale zero-defect credit.
 
-## Immutable Picard geometry source
+## Immutable geometric inputs
 
 - `MichaelStollBayreuth/Verification@51233ed5ef2bf228fac9416c66db9adc0ebcaadd`, `Cuboids/cuboids.magma`.
-- Load-bearing facts: rank-20 Picard lattice generated by known curves, 2-saturation, explicit conic/branch-conic geometry and intersection pairing.
-- Primitive generating indices frozen in Stage33:
+- Kc marked Picard rank 20 and discriminant 32 are source-locked in Stage33-12.
+- `T(Kc)=<4> direct_sum <8>` and the geometric marked class `[1,0]` are retained.
+
+The existence of a complex-lattice B-field/half-dual representative does not by itself determine the arithmetic étale Galois action on a `mu_2` lift. No such transfer may be made without an explicit adapter.
+
+## q1 historical comparison
+
+The separately materialized q1 obstruction used an actual integral Picard lift `D=Cb+E_P0` and computed a nonzero restricted Bockstein. It remains useful as a template for what corrected J2 must now supply: an actual Pic/2 defect and integral lift, not a quotient-fixedness assertion.
+
+## Current source-lock disposition
 
 ```text
-[2,4,5,7,9,10,20,21,26,35,39,42,44,47,49,52,54,64,67,72].
-```
-
-## Internal source locks
-
-- `stages/stage29/29-15/k3-ruled2-audit-execution.md`
-- `stages/stage29/29-02e/result.md`
-- `stages/stage33/33-00/unit-closure-contract.md`
-- `stages/stage33/33-05/j2-post-r5-hs-descent-datum.json`
-- `stages/stage33/33-05/certify_j2_post_r5_q_descent_cocycle.py`
-
-## Source-lock disposition
-
-```text
-SOURCE_THEOREM_APPLICABILITY=FROZEN_POST_R5_PRE_SUPER_HOSTILE_AUDIT
+SOURCE_THEOREM_APPLICABILITY=FROZEN_WITH_POST_R5_HOSTILE_ROLLBACK
 LCE_DIMENSION=5
 XALPHA_IMAGE_DIMENSION=3
-FINITE_EXPLICIT_PRESENTATION_MATERIALIZED=true
-FULL_PAIR_GALOIS_ACTION_MATERIALIZED=true
 CORRECTED_J2_GEOMETRIC_REPRESENTATIVE=(f2,1)
-CORRECTED_J2_HS_ZERO_DESCENT_DATUM_MATERIALIZED=true
-CORRECTED_J2_Q_DESCENT_EXACT_EVIDENCE_REESTABLISHED=true
+CORRECTED_J2_MARKED_BRAUER_COORDINATE=[1,0]
+CORRECTED_J2_NORMALIZATION_PRE_KUMMER_COCHAIN_MATERIALIZED=true
+CORRECTED_J2_SURFACE_MU2_LIFT_MATERIALIZED=false
+CORRECTED_J2_HS_D2_MATERIALIZED=false
+CORRECTED_J2_HS_D2_ZERO_PROVED=false
+CORRECTED_J2_Q_DESCENT_EXACT_EVIDENCE_REESTABLISHED=false
 OLD_ELL_Q_J2_WITNESS_REVOKED=true
-Q1_HS_D2_MATERIALIZED=true
-DESCENT_OBSTRUCTION_ACCOUNTED_PREAUDIT=true
-Q_RELEVANT_SURVIVING_DIM_EVIDENCE=1
-R5_FULL_REPAIR_EXIT_REACHED=true
-STAGE33_05_UNIT_STATUS=AUDIT_REQUIRED
+R5_FULL_REPAIR_EXIT_REACHED=false
+STAGE33_05_UNIT_STATUS=BLOCKED_NEW_KERNEL
 AUTHORITATIVE_Q_DESCENT_CREDIT_RESTORED=false
-HOSTILE_AUDIT=SUPER_HOSTILE_REQUIRED
+NEXT=MATERIALIZE_NORMALIZATION_HALF_DIVISOR_TO_KC_SURFACE_H2_MU2_ADAPTER_THEN_COMPUTE_PIC_MOD2_DEFECT_AND_BOCKSTEIN_HS_D2
 ```
