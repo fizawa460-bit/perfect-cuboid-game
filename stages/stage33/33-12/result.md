@@ -1,145 +1,140 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_BATCH4_HOSTILE_AUDIT_REVOKED_CLASS2_NO_GO_UPSTREAM_J2_REPRESENTATIVE_REPAIR_REQUIRED_4_OF_5`
+Status: `MAIN_BLOCKED_BY_REOPENED_STAGE33_05_CORRECTED_J2_Q_DESCENT_RESIDUAL_4_OF_5`
 
 Stage33-12 remains open. Stage33-13 is not released. Class-3 promotion is **not** authorized.
 
 ## Batch 4 / 4 hostile-audit verdict
 
-The committed four-batch class-2 audit budget is exhausted, but the Batch3 `NO_GO_AFTER_BATCH3` verdict does **not** survive hostile audit. The reason is upstream: the Stage33-05 Q-defined function currently called the named geometric `J2` representative is geometrically trivial in the exact Creutz--Viray function quotient.
+The committed four-batch class-2 audit budget is exhausted, but the Batch3 `NO_GO_AFTER_BATCH3` verdict does **not** survive hostile audit. The reason is upstream: the Stage33-05 Q-defined function formerly called the named geometric `J2` representative is geometrically trivial in the exact Creutz--Viray function quotient.
 
-The Stage33-05 source is
-
-```text
-stages/stage33/33-05/j2_arithmetic_descent.py
-blob a63be5592c793c3812da99275478f14dd0d2687b
-```
-
-with
-
-```text
-F=t^2(1-a^2)^2+a^2(1-t^2)^2,
-q=t^4-6t^2+1,
-z=(2t^2(1-a^2)-(1-t^2)^2)/(1-t^2),
-ell_Q=4(a^2t^2+t^4-4t^2+2)/((t^2-1)(t^2-2t-1)).
-```
-
-The new dependency-free exact verifier proves, after clearing denominators,
-
-```text
-znum^2-q*zden^2 = 4*t^2*F.
-```
-
-Hence the normalization coordinate `z` really is an element of the full branch algebra `Lbar=Qbar(t)[a]/(F)`.
-
-The same verifier then substitutes the retained Hilbert-90 identity
-
-```text
-ell_z = f2*g90^2,
-f2=(t+1+sqrt(2))/(t-1+sqrt(2)) in Qbar(t)^*,
-```
-
-and proves the corresponding cleared identity in `Q(sqrt(2))[t,a]` is a multiple of `F`. Therefore
-
-```text
-ell_Q = f2*g^2 in Lbar^*.
-```
-
-Creutz--Viray define the relevant geometric function quotient by scalars and squares,
+The hostile regression proves the old Q-defined `ell_Q` is diagonal scalar times component squares in
 
 ```text
 Lbar^*/(Kbar^* Lbar^{*2}),  Kbar=Qbar(t),
 ```
 
-so the currently promoted representative satisfies
+hence `[ell_Q]=0`. Certificate: `j2-cv-lclass-zero-regression.json`.
+
+This revokes the old named-representative/Q-descent witness but does not revoke the abstract geometric basis element `J2`.
+
+## Repair R1--R4
+
+The upstream Stage33-05 repair reconstructed the class without reusing the revoked witness:
 
 ```text
-[ell_Q]=0.
+R1 abstract J2 nonzero                         PASS
+R2 corrected full-L pair (f2,1) nonzero       PASS
+R3 explicit CV E[2] cocycle xi(rho)=Tr        PASS
+R4 correct attempt-2 torsor / lattice marking PASS
 ```
 
-The surfaces paper explicitly places the finite presentation in the quotient by `K^*L^{*2}` and Corollary 5.4 maps the resulting `L_{c,E}` to `Br X[2]`. The curves paper Lemma 4.6 gives an explicit `E[2]` cocycle `d(ell)`, and Proposition 5.1 identifies this explicit descent map with the Brauer image modulo constants. Thus the generic-fiber explicit-cocycle route is not a missing new theorem.
-
-Certificate: `j2-cv-lclass-zero-regression.json`.
-Verifier: `certify_j2_cv_lclass_zero_regression.py`.
-
-## Consequences
-
-The following Batch3 statements are revoked:
+The correct attempt-2 torsor is
 
 ```text
-CLASS2_GO_NO_GO = NO_GO_AFTER_BATCH3
-live_class2_routes_after_audit = 0
-class3 escalation from the named-J2 marking gap
+d*v^2=n^4-2*a*d*n^2+d^2*q^2,
+a=(t^2+1)^2,
+d=f2.
 ```
 
-This does **not** prove that the abstract geometric basis element called `J2` in the Stage33-05 finite F2 presentation is zero. It proves that the specific promoted Q-defined branch-algebra function `ell_Q` cannot represent a nonzero geometric class under the stated CV quotient. The inconsistency must be resolved upstream before any marked coordinate can receive credit.
-
-Possible repair outcomes are deliberately left open:
-
-1. the Hilbert-90 identity was applied to only a normalization component and the branch-algebra dictionary was overstated;
-2. `ell_Q` was incorrectly identified with the abstract quotient-basis element `J2`;
-3. the Stage33-05 named representative itself must be replaced;
-4. another ruling/branch-algebra dictionary was silently substituted.
-
-## Restored executable class-2 route
-
-After a corrected nonzero `ell` is fixed, Creutz--Viray Lemma 4.6 gives an explicit finite route
+Its free involution `(n,v)->(-n,-v)` has quotient
 
 ```text
-corrected named ell
-  -> d(ell) in H^1(Qbar(t),E[2])
-  -> explicit 2-cover / genus-one torsor
-  -> compactify and resolve
-  -> T(X_J2)
-  -> minimum norm 4 / 8 / 12
-  -> marked [0,1] / [1,0] / [1,1].
+X=n^2/d,
+Y=-n*v/d,
+E'_Tr: Y^2=X*(X^2-2*a*X+q^2).
 ```
 
-No identification of branch orbit `(1,0)` with the marked Brauer coordinate is made.
+The degree-one base change
 
-## Batch-budget interpretation
+```text
+u=-(1+sqrt(2))*(t+sqrt(2)-1)/(t-1-sqrt(2))
+```
 
-The four MAIN batches have been used. Batch4 did what it was supposed to do: hostile-audit the class-2 NO-GO. Since that audit found a concrete contradiction and an explicit literature-backed class-2 map, the contractual class-3 escalation condition is **not satisfied**. The correct state is upstream repair, not class-3 promotion.
+and the Legendre root permutation identify the `E'_Tr` elliptic K3 with `Kc` over `Q(i,sqrt(2))`. The hostile theorem adapter now additionally fixes the previously implicit integral step: Creutz--Viray Lemma 4.6 + Proposition 5.1 identify the corrected CV class with the torsor/Sha image, and Căldăraru Theorem 1.2 with the elliptic-K3 Ogg--Shafarevich dictionary gives
+
+```text
+T(X_J2) ~= ker(J2:T(Kc)->Q/Z)
+```
+
+as an **integral** Hodge isometry with inherited pairing. The separate degree-two quotient pullback gives
+
+```text
+T(Kc)(2)=<8> direct_sum <16>, det=128.
+```
+
+The nonzero order-two kernel has the same determinant, hence pullback index one. Therefore
+
+```text
+T(X_J2)=<8> direct_sum <16>,
+minimum norm=8,
+marked J2=[1,0].
+```
+
+Certificates:
+
+```text
+../33-05/j2-r4-translation-quotient-lattice.json
+../33-05/j2-r4-hostile-torsor-brauer-kernel-verification.json
+```
+
+Attempt 1 remains revoked as the named torsor; `E'_Tr` is only the quotient target of the correct attempt-2 torsor.
+
+## R5 hostile replay and credit reconciliation
+
+R5 independently replayed R1--R4 and **PASSed the geometric repair**. Certificate/verifier:
+
+```text
+../33-05/j2-r5-hostile-replay.json
+../33-05/certify_j2_r5_hostile_replay.py
+```
+
+However, R5 also found that the historical Stage33-05 audit credit
+
+```text
+j2_q_descent_certified=true
+```
+
+cannot be inherited. That historical claim used the old Q-defined `ell_Q`/CSA whose geometric class is now exactly known to be zero. The corrected nonzero geometric representative `(f2,1)` has not yet been supplied with a replacement Q-defined arithmetic Brauer representative or equivalent descent datum.
+
+Therefore the Stage33-05 closure contract condition
+
+```text
+ALL_SURVIVING_K3_CLASSES_HAVE_EXPLICIT_ARITHMETIC_REPRESENTATIVES=true
+```
+
+is still unsatisfied for corrected `J2`.
+
+## Current exact blocker
+
+```text
+POST_R5_CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE
+```
+
+Required before Stage33-05 reclosure:
+
+```text
+1. source-lock the full Galois action on corrected J2;
+2. construct an explicit Q-defined Azumaya/CSA or equivalent descent cocycle;
+3. prove its geometric restriction is corrected nonzero (f2,1), not revoked ell_Q;
+4. verify the required arithmetic unramifiedness/residue conditions;
+5. hostile replay the Stage33-05 explicit-arithmetic-representative closure criterion.
+```
 
 ## Firewalls
 
 ```text
-class-2 budget used = 4/4
-Batch3 class-2 NO-GO = REVOKED_BY_HOSTILE_AUDIT
-Stage33-05 named ell geometric nontriviality = REVOKED_PENDING_REPAIR
-explicit CV E[2] cocycle route = LIVE_AFTER_REPRESENTATIVE_REPAIR
-J2 marked Brauer functional materialized = false
-J2 twisted transcendental kernel identified = false
+R4 minimum norm 8 / marked J2=[1,0] = RETAINED GEOMETRIC CREDIT
+corrected J2 Q-defined descent = NOT RESTORED
+Stage33-05 reclosed = false
 Stage33-12 exact closure = false
 Stage33-13 released = false
+Stage33 progress = 5/11
 class3 promoted = false
-heavy actions authorized = false
 theorem credit = false
 receiver credit = false
 endpoint credit = false
 perfect cuboid existence/nonexistence claim = false
 ```
 
-Next exact leaf:
-
-```text
-REPAIR_OR_REPLACE_THE_STAGE33_05_NAMED_J2_CV_REPRESENTATIVE,
-THEN COMPUTE_THE_CREUTZ_VIRAY_LEMMA_4_6_E2_COCYCLE.
-```
-
-## Repair update: R4 solved, R5 still pending
-
-The upstream repair has now replaced the revoked representative, computed the corrected cocycle and torsor, and closed the marked-lattice leaf:
-
-```text
-correct torsor --degree 2--> E'_Tr --K3 isomorphism over Q(i,sqrt(2))--> Kc
-T(X_J2)=T(Kc)(2)=<8>+<16>
-minimum norm=8
-marked J2=[1,0]
-```
-
-The first arrow is the exact quotient `X=n^2/f2, Y=-n*v/f2`. The second is certified by a degree-one Möbius base change and an exact Legendre-parameter identity. This is not a reuse of the attempt-1 quartic as the named torsor.
-
-Certificate: `../33-05/j2-r4-translation-quotient-lattice.json`.
-
-Stage33-12 remains open because R5 independent hostile replay and credit reconciliation have not run. Stage33-13 remains unreleased; theorem, receiver, endpoint, and Perfect Cuboid claims remain false.
+Do not reuse the attempt-1 quartic as the named torsor. Do not reuse the old geometrically-trivial `ell_Q` as the corrected J2 arithmetic representative.
