@@ -1,0 +1,183 @@
+name: Stage32-21ad FULL178 anti-fixed coset parallel census
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/residual-32-01-production/build_stage32_21ad_full178_antifixed_coset_census.py'
+      - 'stages/stage32/residual-32-01-production/aggregate_stage32_21ad_full178_antifixed_coset_shards.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_antifixed_coset_bound.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_quotient_class_map.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_antifixed_coset_penalty.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_integer_qp.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_integral_projection_bound.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_lattice_diagnostic.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_orbit_sum_qp_bound.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_slice_bridge.py'
+      - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
+      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
+      - 'stages/stage32/runkeys/stage32-21ad-full178-antifixed-coset-parallel.json'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+      - '.github/workflows/stage32-21ad-full178-antifixed-coset-parallel.yml'
+
+permissions:
+  contents: read
+
+env:
+  RUNKEY: stages/stage32/runkeys/stage32-21ad-full178-antifixed-coset-parallel.json
+  DRIVER: stages/stage32/residual-32-01-production/build_stage32_21ad_full178_antifixed_coset_census.py
+  AGGREGATOR: stages/stage32/residual-32-01-production/aggregate_stage32_21ad_full178_antifixed_coset_shards.py
+  MANIFEST: stages/stage32/residual-32-01-production/full178-manifest.json
+  RETAINED: stages/stage33/33-07/picard_base_rows_retained.py
+  MARKING: stages/stage33/33-07/stage32_picard_marking_retained.py
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      armed: ${{ steps.gate.outputs.armed }}
+      reason: ${{ steps.gate.outputs.reason }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: gate
+        name: Authorize only fresh parallel run-key-only synchronize commit
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import subprocess
+          from pathlib import Path
+
+          runkey_path = os.environ['RUNKEY']
+          key = json.loads(Path(runkey_path).read_text())
+          event = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text())
+          action = event.get('action')
+          before = event.get('before')
+          after = event.get('after') or event['pull_request']['head']['sha']
+          reasons = []
+
+          if action != 'synchronize':
+              reasons.append('action_not_synchronize')
+          if key.get('armed') is not True:
+              reasons.append('runkey_not_armed')
+          if not isinstance(key.get('generation'), int) or key['generation'] <= 0:
+              reasons.append('generation_not_positive')
+          if key.get('requested_heavy_jobs') != 16:
+              reasons.append('requested_heavy_jobs_not_sixteen')
+          if key.get('known_concurrent_stage32_21ad_single_runner') != 0:
+              reasons.append('known_single_runner_not_zero')
+          if key.get('effective_stage32_heavy_jobs_if_armed') != 16:
+              reasons.append('effective_heavy_jobs_not_sixteen')
+          if key.get('maximum_effective_stage32_heavy_overlap', 999) > 18:
+              reasons.append('stage32_concurrency_ceiling_exceeded')
+          if key.get('effective_stage32_heavy_jobs_if_armed', 999) > key.get('maximum_effective_stage32_heavy_overlap', 0):
+              reasons.append('effective_heavy_jobs_exceed_ceiling')
+          if key.get('legacy_prefix_dfs_heavy_rearm_authorized') is not False:
+              reasons.append('legacy_prefix_dfs_rearm_not_forbidden')
+          if key.get('blind_512m_or_higher_arm_authorized') is not False:
+              reasons.append('blind_escalation_not_forbidden')
+          if key.get('representative_preflight_certificate_sha256') != '71a7a03579b841dc86c101e0490bb28cf30cd2cbf18ca945fcea0b1d66ec268e':
+              reasons.append('representative_preflight_certificate_mismatch')
+
+          changed = []
+          if action == 'synchronize' and before and after:
+              changed = subprocess.check_output(
+                  ['git', 'diff', '--name-only', before, after], text=True
+              ).splitlines()
+              if changed != [runkey_path]:
+                  reasons.append('synchronize_diff_not_exactly_parallel_runkey')
+          elif action == 'synchronize':
+              reasons.append('missing_before_after')
+
+          expected_base = key.get('expected_base_merge_commit')
+          if expected_base:
+              ok = subprocess.run(
+                  ['git', 'merge-base', '--is-ancestor', expected_base, after]
+              ).returncode == 0
+              if not ok:
+                  reasons.append('audited_base_not_ancestor')
+          else:
+              reasons.append('missing_expected_base')
+
+          armed = not reasons
+          with Path(os.environ['GITHUB_OUTPUT']).open('a') as fh:
+              fh.write(f"armed={'true' if armed else 'false'}\n")
+              fh.write(f"reason={'AUTHORIZED' if armed else ','.join(reasons)}\n")
+          print(json.dumps({
+              'armed': armed,
+              'reason': 'AUTHORIZED' if armed else reasons,
+              'action': action,
+              'before': before,
+              'after': after,
+              'changed_files': changed,
+              'generation': key.get('generation'),
+              'requested_heavy_jobs': key.get('requested_heavy_jobs'),
+              'effective_stage32_heavy_jobs_if_armed': key.get('effective_stage32_heavy_jobs_if_armed')
+          }, sort_keys=True))
+          PY
+
+  shard:
+    needs: authorize
+    if: needs.authorize.outputs.armed == 'true'
+    strategy:
+      fail-fast: true
+      max-parallel: 16
+      matrix:
+        shard_index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Exact deterministic FULL178 row shard
+        run: |
+          python "$DRIVER" \
+            --manifest "$MANIFEST" \
+            --retained "$RETAINED" \
+            --marking "$MARKING" \
+            --row-shards 16 \
+            --shard-index ${{ matrix.shard_index }} \
+            --output stage32-21ad-shard-${{ matrix.shard_index }}.json
+      - name: Upload compact shard evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-21ad-shard-${{ matrix.shard_index }}
+          path: stage32-21ad-shard-${{ matrix.shard_index }}.json
+          retention-days: 7
+          compression-level: 9
+
+  aggregate:
+    needs: [authorize, shard]
+    if: needs.authorize.outputs.armed == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Download all exact shard evidence
+        uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-21ad-shard-*
+          path: stage32-21ad-shards
+      - name: Aggregate exact FULL178 partition and verify historical invariants
+        run: |
+          python "$AGGREGATOR" \
+            --input-dir stage32-21ad-shards \
+            --output stage32-21ad-full178-parallel-aggregate.json
+      - name: Upload compact exact aggregate evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-21ad-full178-parallel-aggregate
+          path: stage32-21ad-full178-parallel-aggregate.json
+          retention-days: 7
+          compression-level: 9

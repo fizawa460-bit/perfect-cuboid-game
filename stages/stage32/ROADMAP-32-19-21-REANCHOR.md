@@ -20,9 +20,9 @@ Exact symbolic terminal count: `688101306360803751427719294`, with exact random-
 
 ## 32-21 — numerical Picard leaf compression
 
-Status: `IN_PROGRESS_AT_AUDITED_BOUNDARY`
+Status: `AUDITED_CHECKPOINT_PENDING_PR1466_MERGE`
 
-The fixed Reynolds rank-2 integer-QP alone pruned `0 / 679337` continuous-KKT survivors. The coherent aa->ab->ac package restores a finite exact piece of the information discarded by Reynolds averaging and turns it into a usable safe pruning predicate.
+The fixed Reynolds rank-2 integer-QP alone pruned `0 / 679337` continuous-KKT survivors. The coherent aa->ab->ac package restored a finite exact piece of the information discarded by Reynolds averaging and turned it into a usable safe pruning predicate. 32-21ad then applied that audited predicate to the exact FULL178 population. Fresh boundary audit confirms that this particular cheap bound has exactly zero additional numerical pruning power on the full population.
 
 ### 32-21aa — anti-fixed coset penalty representation
 
@@ -85,20 +85,62 @@ The 81-case synthetic Smith panel had old-rank2-false -> new-true count `0` and 
 
 The initial audit attempt failed only because the audit harness omitted the `quad` import; it received no PASS or mathematical credit. The repaired fresh audit above is the authoritative audit.
 
+PR #1465 is merged. Authoritative merge commit: `34b351b2d99c27b82fcd1eea075432ee451ce68c`.
+
 ## 32-21ad — FULL178 compressed numerical census
 
-Status: `BLOCKED_PENDING_PR1465_MERGE`
+Status: `CLOSED_AUDITED_ZERO_PRUNE_CHECKPOINT`
 
-This is the next major execution phase: apply the audited aa->ab->ac evaluator to the FULL178 population. It is deliberately separated from evaluator construction/audit.
+Result: `PASS_STAGE32_21AD_FULL178_16SHARD_ANTIFIXED_COSET_NUMERICAL_CENSUS`.
 
-Release requires:
+The audited 32-21ac evaluator was applied to the exact FULL178 continuous-KKT population under PR #1466. A representative deterministic 1-of-16 row shard first reproduced the exact evaluator and observed `0 / 51462` additional prunes. The production census was then executed as an exact disjoint partition of all 178 rows into 16 shards.
 
-1. #1465 merged into the authoritative base;
-2. reread of current controller/main after merge;
-3. execution/storage/concurrency preflight if the census design is materially heavy;
-4. fresh run-key authorization if a heavy production workflow is used.
+Exact FULL178 aggregate:
 
-The aa->ab->ac audit does not arm 32-21ad.
+- prior image + unconstrained quadratic slices: `2018569`;
+- continuous-KKT survivors: `679337`;
+- anti-fixed-coset additional prunes: `0`;
+- anti-fixed-coset survivors: `679337`;
+- additional prune rate: `0`;
+- zeroed e-strata: `0`;
+- zeroed rows: `0`;
+- total exact integer-u probes inside the audited evaluator: `1971035`;
+- maximum probes for one slice: `114`;
+- production run `33313814094`, aggregate job `99263722930`;
+- aggregate artifact `9732838513`, size `5429` bytes;
+- aggregate ZIP SHA256 `5c2ba19b704f9466ad8bd083a4ad14a2821aad5ab0b5829999dbd9ab3bca98cf`;
+- aggregate certificate SHA256 `9bf4aba655a6df81e621e3f78e19b16460f1138410ed118f18e25fcb77bf24ad`.
+
+### 32-21ad fresh boundary audit
+
+Status: `PASS`
+
+Verdict: `PASS_STAGE32_21AD_FRESH_ZERO_PRUNE_BOUNDARY_AUDIT`.
+
+The fresh audit independently downloaded the immutable 16 production shard artifacts, recomputed every shard canonical hash, rebuilt the deterministic mod-16 row partition from the locked FULL178 manifest, verified exact disjoint coverage of all 178 rows, recomputed all row-level totals, reconciled decision/coset/penalty populations, and independently rebuilt the audited 32-21ac evaluator lock.
+
+The initial PASS was run `33314674227`, job `99265778889`. After hardening the verifier so the same audit remains valid after final bookkeeping status changes, run `33314886424`, job `99266357586`, artifact `9733137852` reproduced the same canonical audit SHA256:
+
+`1f2e61ef29cf6000b8cc98906a5dcf3f2a4d15a7b405be2e40ef9c0de3bfab0e`.
+
+Hardened audit artifact size: `2142` bytes. ZIP SHA256: `15d11651104172a9f89c22c144acdff72f6dfc46e7a7b868a45bf05e9f67efa6`.
+
+Interpretation is deliberately narrow: 32-21ac remains mathematically valid, but its cheap coset-minimum penalty is numerically dominated on this exact FULL178 population. Exact zero additional pruning does **not** mean UNSAT, route impossibility, numerical-row completion, theorem credit, receiver discharge, route color change, or perfect-cuboid existence/nonexistence.
+
+Operational notes:
+
+- a one-runner FULL attempt was authorized after the representative preflight, but a later PR synchronization canceled that full job before it produced a result artifact;
+- the authoritative result is the exact 16-shard partition above;
+- the parallel arm commit changed only its dedicated run-key;
+- effective Stage32 heavy concurrency was `16 <= 18`;
+- the old pairing-prefix heavy calibration remained skipped;
+- both 32-21ad run-keys are consumed and disarmed;
+- no terminal-family materialization, legacy prefix DFS, or 59-dimensional closest-vector search was executed;
+- re-running the same FULL178 census without a semantic change is dominated and not authorized.
+
+The zero-prune result is a meaningful strategy boundary. A materially stronger bound or different symmetry/integrality mechanism is required before further heavy production, but that post-32-21ad strategy is intentionally **not selected inside PR #1466**.
+
+PR #1466 is the checkpoint boundary. It may be merged only with explicit user authorization. After merge, reread authoritative `main`, `AGENTS.md`, and `stages/stage32/controller.json` before selecting the next materially distinct strategy. No new heavy production is released by this audit.
 
 ## PR / MAIN batch discipline
 
@@ -116,4 +158,4 @@ Default MAIN behavior:
 
 Current pointer:
 
-`32-19 CLOSED_RETROSPECTIVE -> 32-20 CLOSED_CHECKPOINTED -> 32-21aa CLOSED_AUDITED -> 32-21ab CLOSED_AUDITED -> 32-21ac CLOSED_AUDITED -> PR #1465 CHECKPOINT_MERGE_READY -> 32-21ad BLOCKED_PENDING_MERGE`
+`32-19 CLOSED_RETROSPECTIVE -> 32-20 CLOSED_CHECKPOINTED -> 32-21aa CLOSED_AUDITED -> 32-21ab CLOSED_AUDITED -> 32-21ac CLOSED_AUDITED -> #1465 MERGED -> 32-21ad CLOSED_AUDITED_ZERO_PRUNE_CHECKPOINT -> PR #1466 CHECKPOINT_MERGE_READY -> NEXT_STRATEGY UNSELECTED_PENDING_MERGE`

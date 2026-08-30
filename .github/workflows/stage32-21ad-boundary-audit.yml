@@ -1,0 +1,67 @@
+name: Stage32 21ad fresh zero-prune boundary audit
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/workflows/stage32-21ad-boundary-audit.yml'
+      - 'stages/stage32/residual-32-01-production/audit_stage32_21ad_boundary.py'
+      - 'stages/stage32/32-21/32-21ad-full178-antifixed-coset-census-result.json'
+      - 'stages/stage32/32-21/state.json'
+      - 'stages/stage32/controller.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-21ad-boundary-audit-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    if: github.event.pull_request.number == 1466
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+
+      - name: Install exact local algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
+
+      - name: Download immutable credited 16-shard evidence
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: fizawa460-bit/perfect-cuboid-game
+          run-id: 33313814094
+          pattern: stage32-21ad-shard-*
+          path: stage32-21ad-audit-input
+          merge-multiple: false
+
+      - name: Fresh independent evidence and boundary audit
+        working-directory: stages/stage32/residual-32-01-production
+        run: |
+          python audit_stage32_21ad_boundary.py \
+            --input-dir "$GITHUB_WORKSPACE/stage32-21ad-audit-input" \
+            --manifest "$GITHUB_WORKSPACE/stages/stage32/residual-32-01-production/full178-manifest.json" \
+            --retained "$GITHUB_WORKSPACE/stages/stage33/33-07/picard_base_rows_retained.py" \
+            --marking "$GITHUB_WORKSPACE/stages/stage33/33-07/stage32_picard_marking_retained.py" \
+            --result "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21ad-full178-antifixed-coset-census-result.json" \
+            --output "$GITHUB_WORKSPACE/stage32-21ad-boundary-audit.json"
+
+      - name: Upload compact fresh audit evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-21ad-boundary-audit
+          path: stage32-21ad-boundary-audit.json
+          retention-days: 7
+          compression-level: 9
