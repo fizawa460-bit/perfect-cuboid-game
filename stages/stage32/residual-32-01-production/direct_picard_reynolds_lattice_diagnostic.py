@@ -8,7 +8,7 @@ import json
 import math
 from pathlib import Path
 
-from sympy import Matrix, ZZ
+from sympy import Matrix, Rational, ZZ, eye, ilcm
 from sympy.matrices.normalforms import hermite_normal_form, smith_normal_form
 
 from direct_picard_slice_bridge import DirectPicardSliceBridge
@@ -47,22 +47,96 @@ def nonzero_smith_diagonal(d: Matrix) -> tuple[int, ...]:
     return tuple(vals)
 
 
-def smith_nonzero_diagonal_via_column_hnf(m: Matrix) -> tuple[tuple[int, ...], Matrix]:
-    """Compute nonzero Smith factors after exact column-lattice compression.
+def _coordinate_solver(basis: Matrix) -> tuple[tuple[int, ...], Matrix]:
+    rank = basis.cols
+    row_pivots = tuple(int(i) for i in basis.T.rref()[1])
+    if len(row_pivots) != rank:
+        raise ValueError(f"basis row-pivot regression: {len(row_pivots)} != {rank}")
+    square = basis[list(row_pivots), :]
+    return row_pivots, square.inv()
 
-    SymPy's Hermite normal form returns a basis matrix for the same integral
-    column module, dropping redundant zero directions. Smith invariants of the
-    resulting tall full-column-rank matrix are therefore exactly the nonzero
-    Smith invariants of the original matrix. This is crucial here because the
-    Reynolds numerator is 64x64 but has rank only five.
+
+def exact_column_lattice_basis_lowrank(
+    m: Matrix, expected_rank: int
+) -> tuple[Matrix, dict]:
+    """Build a Z-basis of the column module using only rank-sized HNFs.
+
+    Start from any Q-independent set of `expected_rank` source columns. If B is
+    the current integral basis and a new source column is v=B*x with rational
+    x, write d*x=a in Z^r. The enlarged coordinate lattice is
+
+        Z^r + Z*x = (1/d) (d Z^r + Z*a).
+
+    A column HNF of the tiny r x (r+1) matrix [d I | a] is therefore an exact
+    basis of the enlarged coordinate lattice. Multiplying B by H/d gives the
+    new integral basis. Repeating over all source columns yields exactly im(m)
+    without ever computing HNF/SNF on the original wide matrix.
     """
-    h = hermite_normal_form(m)
-    d = smith_normal_form(h, domain=ZZ)
-    return nonzero_smith_diagonal(d), h
+    pivot_cols = tuple(int(i) for i in m.rref()[1])
+    if len(pivot_cols) != expected_rank:
+        raise ValueError(
+            f"column rank regression: pivots={len(pivot_cols)} expected={expected_rank}"
+        )
+    basis = m[:, list(pivot_cols)]
+    row_pivots, inv_square = _coordinate_solver(basis)
+    update_count = 0
+    coordinate_denominators: list[int] = []
+
+    for j in range(m.cols):
+        v = m[:, j]
+        rhs = Matrix([v[i, 0] for i in row_pivots])
+        x = inv_square * rhs
+        if basis * x != v:
+            raise ValueError(f"coordinate reconstruction regression at column {j}")
+        d = 1
+        for value in x:
+            d = ilcm(d, int(value.q))
+        coordinate_denominators.append(d)
+        if d == 1:
+            continue
+
+        a = Matrix([int(value * d) for value in x])
+        tiny = (d * eye(expected_rank)).row_join(a)
+        h = hermite_normal_form(tiny)
+        if h.shape != (expected_rank, expected_rank):
+            raise ValueError(f"tiny HNF shape regression: {h.shape}")
+        transform = h.applyfunc(lambda z: Rational(int(z), d))
+        enlarged = basis * transform
+        if any(value.q != 1 for value in enlarged):
+            raise ValueError(f"nonintegral enlarged basis at source column {j}")
+        basis = enlarged.applyfunc(lambda z: int(z))
+        update_count += 1
+        row_pivots, inv_square = _coordinate_solver(basis)
+
+    # Final exact membership check: every source column must have integral
+    # coordinates in the resulting basis.
+    row_pivots, inv_square = _coordinate_solver(basis)
+    for j in range(m.cols):
+        v = m[:, j]
+        rhs = Matrix([v[i, 0] for i in row_pivots])
+        x = inv_square * rhs
+        if basis * x != v or any(value.q != 1 for value in x):
+            raise ValueError(f"final integral column-module membership regression at {j}")
+
+    stats = {
+        "pivot_source_columns_0based": list(pivot_cols),
+        "source_column_count": m.cols,
+        "basis_update_count": update_count,
+        "maximum_coordinate_denominator_seen": max(coordinate_denominators, default=1),
+        "coordinate_denominators_sha256": csha(coordinate_denominators),
+    }
+    return basis, stats
+
+
+def smith_nonzero_diagonal_via_lowrank_column_module(
+    m: Matrix, expected_rank: int
+) -> tuple[tuple[int, ...], Matrix, dict]:
+    basis, stats = exact_column_lattice_basis_lowrank(m, expected_rank)
+    d = smith_normal_form(basis, domain=ZZ)
+    return nonzero_smith_diagonal(d), basis, stats
 
 
 def lowrank_smith_selftest() -> None:
-    # Deterministic regression that redundant columns do not change the factors.
     toy = Matrix([
         [2, 0, 2, 4],
         [0, 4, 4, 8],
@@ -70,10 +144,12 @@ def lowrank_smith_selftest() -> None:
         [0, 0, 0, 0],
     ])
     direct = nonzero_smith_diagonal(smith_normal_form(toy, domain=ZZ))
-    compressed, h = smith_nonzero_diagonal_via_column_hnf(toy)
-    if compressed != direct or h.cols != toy.rank():
+    compressed, basis, _ = smith_nonzero_diagonal_via_lowrank_column_module(
+        toy, int(toy.rank())
+    )
+    if compressed != direct or basis.cols != toy.rank():
         raise ValueError(
-            f"column-HNF Smith regression: direct={direct}, compressed={compressed}, hshape={h.shape}"
+            f"lowrank column-module Smith regression: direct={direct}, compressed={compressed}, bshape={basis.shape}"
         )
 
 
@@ -136,18 +212,21 @@ def main() -> None:
         raise ValueError(f"fixed rank regression: {fixed_rank}")
 
     print(json.dumps({
-        "phase": "fixed_column_hnf_start",
+        "phase": "fixed_lowrank_column_module_start",
         "ambient_shape": [N.rows, N.cols],
         "exact_rank": fixed_rank,
     }, sort_keys=True), flush=True)
-    fixed_smith, fixed_hnf = smith_nonzero_diagonal_via_column_hnf(N)
+    fixed_smith, fixed_basis, module_stats = smith_nonzero_diagonal_via_lowrank_column_module(
+        N, fixed_rank
+    )
     print(json.dumps({
-        "phase": "fixed_column_hnf_complete",
-        "compressed_shape": [fixed_hnf.rows, fixed_hnf.cols],
+        "phase": "fixed_lowrank_column_module_complete",
+        "compressed_shape": [fixed_basis.rows, fixed_basis.cols],
+        "basis_update_count": module_stats["basis_update_count"],
         "fixed_smith": list(fixed_smith),
     }, sort_keys=True), flush=True)
-    if fixed_hnf.rows != PICARD_RANK or fixed_hnf.cols != fixed_rank:
-        raise ValueError(f"fixed column-HNF shape regression: {fixed_hnf.shape}")
+    if fixed_basis.rows != PICARD_RANK or fixed_basis.cols != fixed_rank:
+        raise ValueError(f"fixed basis shape regression: {fixed_basis.shape}")
     if len(fixed_smith) != fixed_rank:
         raise ValueError("fixed Smith rank regression")
     if any(GROUP_ORDER % s for s in fixed_smith):
@@ -158,25 +237,17 @@ def main() -> None:
     if projected_quotient_order * fixed_saturation_index != GROUP_ORDER ** fixed_rank:
         raise ValueError("fixed projection quotient order identity regression")
 
-    # Q=(I-P) is the complementary rational projector. Its integral projected
-    # quotient is canonically isomorphic to the fixed projected quotient:
-    #
-    #   P(Pic_Z)/Pic_Z^G  <- Pic_Z/(Pic_Z^G + Pic_Z^anti)
-    #                    -> Q(Pic_Z)/Pic_Z^anti.
-    #
-    # Both arrows send the class of x to P(x), respectively Q(x). Their kernels
-    # are exactly Pic_Z^G + Pic_Z^anti. Thus the expensive 59-dimensional Smith
-    # computation is unnecessary; the finite quotient itself is the same group.
-    A = GROUP_ORDER * Matrix.eye(PICARD_RANK) - N
-    anti_rank = int(A.rank())
-    if anti_rank != PICARD_RANK - fixed_rank:
-        raise ValueError("anti-fixed rank regression")
+    # For P=N/64 and Q=I-P, the two finite projection quotients are canonically
+    # isomorphic. Both are the image of Pic_Z modulo Pic_Z^G + Pic_Z^anti:
+    # x -> P(x) mod Pic_Z^G and x -> Q(x) mod Pic_Z^anti have the same kernel.
+    # Hence no separate 59-dimensional Smith computation is mathematically needed.
+    anti_rank = PICARD_RANK - fixed_rank
     anti_projected_quotient_factors = projected_quotient_factors
     anti_projected_quotient_order = projected_quotient_order
 
     cert = {
-        "schema": "STAGE32_RESIDUAL32_01_REYNOLDS_PROJECTED_INTEGRAL_LATTICE_DIAGNOSTIC_V2_LOWRANK_HNF",
-        "mode": "EXACT_LOWRANK_FIXED_LATTICE_PLUS_CANONICAL_COMPLEMENTARY_PROJECTION_QUOTIENT",
+        "schema": "STAGE32_RESIDUAL32_01_REYNOLDS_PROJECTED_INTEGRAL_LATTICE_DIAGNOSTIC_V3_RANK5_COLUMN_MODULE",
+        "mode": "EXACT_RANK5_COLUMN_MODULE_SMITH_PLUS_CANONICAL_COMPLEMENTARY_PROJECTION_QUOTIENT",
         "hperp_integral_adapter_certificate_sha256": adapter.certificate[
             "canonical_sha256_without_this_field"
         ],
@@ -191,11 +262,12 @@ def main() -> None:
         "reynolds_numerator_sha256": csha([[int(N[i,j]) for j in range(64)] for i in range(64)]),
         "action_hashes_sha256": csha(sorted(action_hashes)),
         "fixed_image_lattice": {
-            "smith_method": "COLUMN_HNF_THEN_SMITH_ON_64x5_FULL_COLUMN_RANK_BASIS",
-            "column_hnf_shape": [fixed_hnf.rows, fixed_hnf.cols],
-            "column_hnf_sha256": csha([
-                [int(fixed_hnf[i, j]) for j in range(fixed_hnf.cols)]
-                for i in range(fixed_hnf.rows)
+            "smith_method": "INCREMENTAL_RANK5_COLUMN_MODULE_USING_ONLY_5x6_HNF_THEN_SMITH_ON_64x5_BASIS",
+            "column_module_stats": module_stats,
+            "basis_shape": [fixed_basis.rows, fixed_basis.cols],
+            "basis_sha256": csha([
+                [int(fixed_basis[i, j]) for j in range(fixed_basis.cols)]
+                for i in range(fixed_basis.rows)
             ]),
             "smith_nonzero_diagonal": list(fixed_smith),
             "saturation_index_imN_in_PicZ_fixed": fixed_saturation_index,
@@ -213,8 +285,8 @@ def main() -> None:
             "N_squared_equals_group_order_times_N": True,
             "N_gram_self_adjoint": True,
             "phi_N_equals_group_order_phi": True,
-            "column_hnf_preserves_integral_image_lattice": True,
-            "smith_performed_only_after_exact_rank5_column_compression": True,
+            "incremental_column_module_equals_imN": True,
+            "only_rank5_coordinate_algebra_and_5x6_HNF_used_before_final_64x5_smith": True,
             "imN_saturates_to_integral_fixed_lattice": True,
             "64_times_fixed_lattice_contained_in_imN_contained_in_fixed_lattice": True,
             "projected_integral_classes_finite": True,
