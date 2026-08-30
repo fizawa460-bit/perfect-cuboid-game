@@ -1,0 +1,50 @@
+{
+  "schema": "STAGE33_05_REVOKED_ACTION_EVIDENCE_V1",
+  "status": "REVOKED_DO_NOT_CONSUME_AS_CURRENT_CREDIT",
+  "reason": "A legacy Stage33-05 workflow regenerated the hostile-revoked historical ell_J2 arithmetic-descent certificate after the J2 representative reopen. The run was operationally GREEN but mathematically non-credit-bearing.",
+  "run": {
+    "id": 33292974476,
+    "head_sha": "5b9109e4e6f4e22fe3afc15895bce684eaab349b",
+    "branch": "stage33-r4-j2-tr-kernel-clean-continuation",
+    "operational_conclusion": "success",
+    "credit_status": "REVOKED"
+  },
+  "artifact": {
+    "id": 9726534480,
+    "name": "stage33-05-k3-branch-preflight",
+    "size_in_bytes": 13931,
+    "digest": "sha256:62a0dece922936a30bd6c4643f942a49eb64f1dc612e7d4d93067f74b4a56dd0",
+    "expired_when_recorded": false,
+    "expires_at": "2026-09-13T04:39:24Z",
+    "credit_status": "REVOKED_DO_NOT_USE"
+  },
+  "forbidden_claims_from_this_run_or_artifact": [
+    "J2_Q_descent_certified=true",
+    "J2_geometric_nontrivial=true when witnessed by historical ell_Q",
+    "Q_surviving_geometric_Br2_basis=[J2] when derived from historical ell_Q",
+    "all_stage33_05_descent_unknowns_resolved=true when derived from historical ell_Q"
+  ],
+  "corrective_actions": {
+    "legacy_workflow_no_longer_executes_j2_arithmetic_descent": true,
+    "legacy_workflow_no_longer_uploads_stage33_05_certificate_artifact": true,
+    "j2_arithmetic_descent_producer_tombstoned": true,
+    "historical_audit_state_superseded": true,
+    "current_authority": "stages/stage33/33-05/j2-representative-repair-state.json"
+  },
+  "cleanup": {
+    "deletion_required_when_supported": true,
+    "deleted": false,
+    "note": "The currently available GitHub connector exposes artifact fetch/download but no artifact-delete action. This manifest prevents credit consumption until the artifact expires or is deleted through an authorized surface."
+  },
+  "firewalls": {
+    "Q_defined_descent_credit_restored": false,
+    "stage33_05_reclosed": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
