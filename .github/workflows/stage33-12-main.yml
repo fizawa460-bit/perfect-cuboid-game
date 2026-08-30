@@ -1,11 +1,14 @@
 name: Stage33-12 exact checkpoint replay
 
-# Merge gate after Batch4 hostile reopen. Historical J2-dependent certificates
-# whose source representative was revoked are retained as history, not regenerated.
+# Merge gate after Batch4 hostile reopen and Stage33-05 repair-band activation.
+# Historical J2-dependent certificates whose source representative was revoked
+# are retained as history, not regenerated.
 on:
   pull_request:
     paths:
+      - 'stages/stage33/33-05/**'
       - 'stages/stage33/33-12/**'
+      - 'stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md'
       - 'stages/stage33/controller.json'
       - '.github/workflows/stage33-12-main.yml'
   workflow_dispatch:
@@ -28,7 +31,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Replay authoritative Batch4 hostile-reopen state
+      - name: Replay authoritative hostile-reopen and R1 repair state
         run: |
           cp stages/stage33/33-12/boundary-function-scalar-descent-certificate.json /tmp/expected-boundary-scalars.json
           python stages/stage33/33-12/certify_boundary_function_scalar_descent.py
@@ -48,26 +51,36 @@ jobs:
           python stages/stage33/33-12/certify_j2_kc_bfield_halfdual_target.py
           python stages/stage33/33-12/certify_j2_brauer_kernel_lattice_fingerprints.py
 
-          # New load-bearing hostile regression: current Stage33-05 ell is CV-zero.
+          # Load-bearing hostile regression: current Stage33-05 ell is CV-zero.
           cp stages/stage33/33-12/j2-cv-lclass-zero-regression.json /tmp/expected-j2-cv-lclass-zero.json
           python stages/stage33/33-12/certify_j2_cv_lclass_zero_regression.py
           cmp /tmp/expected-j2-cv-lclass-zero.json stages/stage33/33-12/j2-cv-lclass-zero-regression.json
+
+          # R1 repair closure: abstract J2 survives independently of revoked ell.
+          python stages/stage33/33-05/certify_j2_abstract_nonzero_reaudit.py
 
           python - <<'PY'
           import json
           c=json.load(open('stages/stage33/controller.json'))
           s=c['stage33_05_hostile_reopen']
           j=next(x for x in c['repair_children'] if x['id']=='33-12')
+          r=json.load(open('stages/stage33/33-05/j2-representative-repair-state.json'))
           assert s['reopened'] is True
           assert s['named_representative_credit']=='REVOKED_PENDING_REPAIR'
+          assert s['abstract_J2_nonzero_reconfirmed'] is True
+          assert s['repair_leaf']=='R2'
+          assert r['current_leaf']=='R2'
+          assert r['leaves']['R1']['state']=='DONE_ABSTRACT_J2_NONZERO_CONFIRMED'
           assert c['stage33_07']['stage33_12_exact_obstruction_inventory_sha256']=='7656f2bd9ff89cdc8d8dfd3c027fa672c00457efc8b707be8cd0a926e5d0fda4'
           assert j['exact_obstruction_inventory_materialized'] is True
           assert j['exact_obstruction_inventory_sha256']=='7656f2bd9ff89cdc8d8dfd3c027fa672c00457efc8b707be8cd0a926e5d0fda4'
           assert j['j2_class2_go_no_go']=='REVOKED_BY_BATCH4_HOSTILE_AUDIT'
           assert j['j2_class3_promoted'] is False
+          assert j['j2_abstract_nonzero_reconfirmed'] is True
+          assert j['j2_repair_leaf']=='R2'
           assert j['j2_cv_lemma_4_6_explicit_e2_cocycle_route_live'] is True
           assert next(x for x in c['repair_children'] if x['id']=='33-13')['released'] is False
           assert c['theorem_credit'] is False and c['receiver_credit'] is False and c['endpoint_credit'] is False
           assert c['perfect_cuboid_existence_claim'] is False and c['perfect_cuboid_nonexistence_claim'] is False
-          print('authoritative hostile-reopen controller state PASS')
+          print('authoritative hostile-reopen + R1 repair controller state PASS')
           PY
