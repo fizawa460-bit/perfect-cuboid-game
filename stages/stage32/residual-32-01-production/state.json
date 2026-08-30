@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V68_GEN38_256M_GIANT_STRATUM_TAIL_52",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V69_FINITE_RESIDUAL_VOLUME_MEASURED",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "GEN38_256M_EXACT_FRONTIER_52_ALL_SAME_E_BOUNDED_SPLIT_DESIGN_NEXT",
+  "status": "FINITE_RESIDUAL_VOLUME_MEASURED_ALGORITHMIC_COMPRESSION_NEXT",
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": false,
@@ -29,20 +29,8 @@
     "real_stage32_resume_equivalence": "PASS_REAL_STAGE32_RESUME_EQUIVALENCE",
     "max_unresolved_children_per_input": 1,
     "structural_reproduction_upper_bound": 1.0,
-    "generation34": {
-      "workflow_run_id": 33270325393,
-      "input_frontier_count": 218,
-      "frontier_after_ingest_count": 169,
-      "frontier_net_change": -49,
-      "continuation_count": 79
-    },
-    "generation35": {
-      "workflow_run_id": 33273365713,
-      "input_frontier_count": 169,
-      "frontier_after_ingest_count": 124,
-      "frontier_net_change": -45,
-      "continuation_count": 83
-    },
+    "generation34": {"workflow_run_id": 33270325393, "input_frontier_count": 218, "frontier_after_ingest_count": 169, "frontier_net_change": -49, "continuation_count": 79},
+    "generation35": {"workflow_run_id": 33273365713, "input_frontier_count": 169, "frontier_after_ingest_count": 124, "frontier_net_change": -45, "continuation_count": 83},
     "generation36": {
       "checkpoint": "stages/stage32/residual-32-01-production/full178-resumable-generation36-main-checkpoint.json",
       "workflow_run_id": 33276475360,
@@ -100,11 +88,7 @@
       "frontier_net_change": -21,
       "result": "PASS_RESUMABLE_GEN38_256M_EXACT_FIFO_FRONTIER_73_TO_52"
     },
-    "carry_free_continuation_rate_sequence": [
-      0.7419354838709677,
-      0.7934782608695652,
-      0.7123287671232876
-    ],
+    "carry_free_continuation_rate_sequence": [0.7419354838709677, 0.7934782608695652, 0.7123287671232876],
     "generation38_hard_tail_diagnostic": {
       "checkpoint": "stages/stage32/residual-32-01-production/full178-resumable-generation38-256m-hard-tail-diagnostic-main-checkpoint.json",
       "workflow_run_id": 33286709799,
@@ -122,6 +106,31 @@
       "classification": "GIANT_INDIVIDUAL_EXACT_STRATA",
       "result": "PASS_EXACT_GEN38_256M_HARD_TAIL_DIAGNOSTIC"
     },
+    "generation38_residual_volume_diagnostic": {
+      "checkpoint": "stages/stage32/residual-32-01-production/full178-resumable-generation38-residual-volume-main-checkpoint.json",
+      "workflow_run_id": 33289665531,
+      "job_id": 99198956760,
+      "artifact_id": 9725555086,
+      "artifact_zip_sha256": "7f7864f535d883fe49e08a44464165f77e3658b67d93e5bbe99859323db4e6e2",
+      "diagnostic_canonical_sha256": "b0dbfa0d2be07e36a9cb587268fe0a36e7ef7322ad0240b4fa5875a9e2ce2fea",
+      "finite_prefix_search": true,
+      "exact_coarse_e_strata_full178": 64111,
+      "maximum_emax": 729,
+      "current_frontier_count": 52,
+      "row_tail_sources": 8,
+      "stratum_partition_sources": 44,
+      "later_e_strata": 278,
+      "row_tail_sources_before_or_at_raw_peak": 8,
+      "exact_finite_raw_remaining_node_upper_bound": "4555530975806418",
+      "local_linear_estimated_actual_nodes_remaining": "2877801026017990",
+      "estimated_256m_equivalent_chunks": "11241411",
+      "idealized_17_runner_256m_waves": "661260",
+      "median_pruning_compression_gen37_64m": 1.5403344609374998,
+      "median_pruning_compression_gen38_256m": 1.316647169921875,
+      "compression_worsened_lineages": 42,
+      "classification": "FINITE_BUT_CURRENT_BRUTE_FORCE_SCALE_OPERATIONALLY_INFEASIBLE",
+      "result": "PASS_EXACT_FINITE_RESIDUAL_VOLUME_DIAGNOSTIC"
+    },
     "generation38_adaptive_interpretation": {
       "previous_node_limit_per_work_unit": 64000000,
       "current_node_limit_per_work_unit": 256000000,
@@ -130,17 +139,17 @@
       "frontier_after": 52,
       "hard_tail_remains_substantial": true,
       "all_survivors_remained_inside_same_exact_e_stratum": true,
-      "interpretation_is_theorem": false,
+      "finite_search_now_certified_by_explicit_combinatorial_envelope": true,
+      "raw_tail_growth_is_still_pre_peak_for_all_8_row_tail_sources": true,
+      "interpretation_is_theorem_credit": false,
       "blind_next_ceiling_escalation_authorized": false,
+      "bounded_split_as_primary_strategy_authorized": false,
       "old_unbounded_split_restoration_authorized": false,
-      "next": "DESIGN_AND_CALIBRATE_BOUNDED_DISJOINT_CONTINUATION_SPLIT_FOR_52_GIANT_EXACT_STRATA"
+      "next": "EXACT_ALGORITHMIC_RESIDUAL_COMPRESSION_AND_PRUNING_REDESIGN"
     },
     "production_switch_supported": true,
     "production_switched": true
   },
-  "legacy_generation34_old_split": {
-    "armed": false,
-    "preferred": false
-  },
-  "next_item": "DESIGN_AND_CALIBRATE_BOUNDED_DISJOINT_CONTINUATION_SPLIT_FOR_52_GIANT_EXACT_STRATA"
+  "legacy_generation34_old_split": {"armed": false, "preferred": false},
+  "next_item": "EXACT_ALGORITHMIC_RESIDUAL_COMPRESSION_AND_PRUNING_REDESIGN"
 }
