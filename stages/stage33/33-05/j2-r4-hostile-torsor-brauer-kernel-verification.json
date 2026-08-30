@@ -1,0 +1,90 @@
+{
+  "schema": "STAGE33_05_J2_R4_HOSTILE_TORSOR_BRAUER_KERNEL_VERIFICATION_V1",
+  "status": "PASS_HOSTILE_R4_INTEGRAL_KERNEL_IDENTIFICATION",
+  "scope": "GEOMETRIC_COMPLEX_K3_ONLY_NO_Q_DESCENT_NO_STAGE_CLOSURE",
+  "purpose": "Independently verify the previously implicit step T(X_J2) is integrally Hodge-isometric to ker(J2:T(Kc)->Q/Z), including the torsor/Brauer dictionary, pairing convention, index, and smooth projective K3 model. This certificate is required before R5 hostile replay.",
+  "source_locks": {
+    "r2_corrected_representative": "stages/stage33/33-05/j2-corrected-full-l-representative.json",
+    "r3_cv_e2_cocycle": "stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json",
+    "r4_correct_translation_torsor": "stages/stage33/33-05/j2-r4-correct-translation-torsor.json",
+    "r4_translation_quotient_lattice": "stages/stage33/33-05/j2-r4-translation-quotient-lattice.json",
+    "kc_transcendental_lattice": "stages/stage33/33-12/j2-kc-transcendental-lattice-isometry.json",
+    "kernel_fingerprints": "stages/stage33/33-12/j2-brauer-kernel-lattice-fingerprints.json"
+  },
+  "external_theorems": {
+    "creutz_viray": {
+      "paper": "Brendan Creutz and Bianca Viray, Two torsion in the Brauer group of a hyperelliptic curve, arXiv:1403.2924v1",
+      "lemma_4_6": "For ell in L1, the map d(ell) is represented by the explicit cocycle xi_ell in H^1(K,J[2]).",
+      "proposition_5_1": "The Brauer construction gamma and the cohomological map d have the same image under the Hochschild-Serre edge: h0 o gamma = d in H^1(K,Pic C).",
+      "application_note": "For the Kc generic fiber over Kgeom=Qbar(t), the elliptic curve has a Kgeom-rational origin, so Pic^1 is trivial; Kgeom is C1 and Br(Kgeom)=0. Thus the corrected CV Brauer class has Ogg-Shafarevich/torsor image equal to the H^1(Kgeom,E) image of the R3 cocycle."
+    },
+    "caldararu": {
+      "paper": "Andrei Căldăraru, Non-fine moduli spaces of sheaves on K3 surfaces",
+      "theorem_1_2": "For a compact nonempty K3 moduli space M of stable sheaves on a K3 X, if alpha in Br(M) is the obstruction to a universal sheaf, Mukai's map restricts to a Hodge isometry T(X) ~= ker(alpha:T(M)->Q/Z). The proof identifies equality of integral lattices, not merely rational Hodge structures.",
+      "elliptic_torsor_dictionary_sections_1_15_1_16": "For an elliptic K3 J/S with section, Ogg-Shafarevich identifies Br(J) with the torsor group. For a genus-one elliptic fibration X/S with relative Jacobian J, J is the relative moduli space of rank-1 degree-0 semistable sheaves; the universal-sheaf obstruction alpha equals the Ogg-Shafarevich class alpha_X that classifies X. Consequently T(J_alpha)=ker alpha with the inherited integral intersection pairing."
+    }
+  },
+  "exact_application_dictionary": {
+    "jacobian_surface_J": "Kc_bar, the geometric elliptic K3 with section",
+    "base": "P1_t over Qbar, embedded in C for lattice/Hodge comparison",
+    "brauer_class_alpha": "the corrected geometric named J2 represented in the CV quotient by ell_J2_corrected=(f2,1)",
+    "cv_brauer_representative_map": "gamma(ell_J2_corrected)=J2",
+    "cv_edge_image": "d(ell_J2_corrected), represented by the R3 cocycle xi with xi(rho)=Tr",
+    "torsor_class": "image of xi in H^1(Kgeom,E), equal to the Ogg-Shafarevich image of corrected J2",
+    "torsor_generic_fiber": "d*v^2=n^4-2*a*d*n^2+d^2*q^2 from R4 attempt 2",
+    "torsor_construction": "Galois descent of E over Kgeom(sqrt(f2)) by the semilinear action tau_Tr o rho; this is precisely the torsor determined by the same cocycle xi",
+    "smooth_projective_model": "the relatively minimal smooth projective genus-one fibration J_alpha supplied by Ogg-Shafarevich theory; its generic fiber is birational to the explicit attempt-2 quartic, and because J=Kc is a K3 surface, J_alpha is an elliptic K3 surface",
+    "named_surface": "X_J2 := J_alpha for alpha=corrected geometric J2"
+  },
+  "integral_lattice_check": {
+    "pairing_convention": "No scaling occurs in the Căldăraru/Ogg-Shafarevich identification: ker(alpha) is a sublattice of T(Kc) with the inherited integral cup/intersection pairing, and T(X_J2) is integrally Hodge-isometric to that lattice.",
+    "alpha_order": 2,
+    "alpha_nonzero_source": "R2 and R3 independently certify corrected J2 nonzero; hence alpha:T(Kc)->Z/2 is surjective.",
+    "kernel_index_in_T_Kc": 2,
+    "T_Kc_gram": [[4,0],[0,8]],
+    "det_T_Kc": 32,
+    "det_kernel": 128,
+    "degree_two_quotient_pairing": "Separately, the explicit degree-2 rational quotient X_J2 -> Eprime_Tr ~= Kc scales the pulled-back transcendental pairing by degree 2, so the image T(Kc)(2) has Gram diag(8,16) and determinant 128.",
+    "pullback_gram": [[8,0],[0,16]],
+    "pullback_determinant": 128,
+    "index_of_pullback_in_T_X_J2": 1,
+    "reason": "Căldăraru/Ogg-Shafarevich gives det T(X_J2)=det ker(J2)=128. The degree-2 pullback is a full-rank sublattice of T(X_J2) with the same determinant, so its index is 1.",
+    "T_X_J2_gram": [[8,0],[0,16]],
+    "minimum_norm": 8,
+    "marked_brauer_coordinate": [1,0]
+  },
+  "hostile_checks": {
+    "mere_rational_hodge_isometry_rejected": true,
+    "integral_pairing_verified": true,
+    "torsor_class_equals_named_corrected_J2_verified": true,
+    "smooth_projective_k3_model_verified": true,
+    "order_and_index_verified": true,
+    "attempt1_quartic_reused_as_named_torsor": false,
+    "extension_field_result_promoted_to_Q": false
+  },
+  "verdict": {
+    "r4_done_status_may_be_retained": true,
+    "r4_minimum_norm_8_may_be_retained": true,
+    "r4_marked_J2_1_0_may_be_retained": true,
+    "downgrade_to_PROVISIONAL_LATTICE_PULLBACK_required": false,
+    "Q_defined_descent_credit_restored": false,
+    "stage33_05_reclosed": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "next_required_work": {
+    "leaf": "R5_HOSTILE_REPLAY_R1_TO_R4_AND_RESTORE_ONLY_REESTABLISHED_CREDIT",
+    "mandatory": true,
+    "instructions": [
+      "Replay R1-R4 from their source-locked certificates and independent exact checks.",
+      "Treat this certificate as the required hostile adapter for the R4 torsor-Brauer integral kernel step.",
+      "Restore only geometric credits actually re-established; do not restore Q-defined descent unless separately proved.",
+      "Do not reclose Stage33-05 or Stage33-12 and do not release Stage33-13 until the R5 hostile replay passes and the controller is updated under the research-credit firewall."
+    ]
+  }
+}
