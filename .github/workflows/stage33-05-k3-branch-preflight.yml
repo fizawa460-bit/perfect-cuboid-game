@@ -1,4 +1,16 @@
-name: Stage33-05 K3 branch/Galois preflight
+name: Stage33-05 retained geometric preflight (NO Q-descent credit)
+
+# HOSTILE-REOPEN SAFETY NOTE
+# The historical j2_arithmetic_descent.py output was revoked after its
+# Q-defined ell_J2 was proved geometrically trivial in the corrected
+# Creutz--Viray quotient. This workflow MUST NOT execute that script, MUST NOT
+# execute downstream scripts that consume its positive J2-descent flag, and
+# MUST NOT upload j2-arithmetic-descent.json as current evidence.
+#
+# This workflow now checks only the retained geometric/presentation prefix.
+# Current repair authority is j2-representative-repair-state.json plus the
+# dedicated Stage33-12/R4 replay. A GREEN run here grants no Q-descent, unit
+# closure, downstream-release, theorem, receiver, or endpoint credit.
 
 on:
   pull_request:
@@ -11,7 +23,7 @@ permissions:
   contents: read
 
 jobs:
-  branch-galois-preflight:
+  retained-geometric-preflight:
     runs-on: ubuntu-latest
     timeout-minutes: 6
     steps:
@@ -42,7 +54,7 @@ jobs:
       - name: Replace parity-only graph pilots by exact elliptic lifts and materialize extension mixing
         working-directory: stages/stage33/33-05
         run: python cv_exact_graph_lifts_and_galois.py
-      - name: Run superseded norm-level two-row pilot for regression only
+      - name: Run superseded norm-level two-row pilot for algebraic regression only
         working-directory: stages/stage33/33-05
         run: python xalpha_split_section_rows.py
       - name: Repair true x-alpha pair classes and full-pair Galois action
@@ -51,30 +63,31 @@ jobs:
       - name: Compute CV-presentation connecting cocycles for geometric quotient basis
         working-directory: stages/stage33/33-05
         run: python descent_presentation_cocycle.py
-      - name: Certify Q-defined arithmetic descent of J2
-        working-directory: stages/stage33/33-05
-        run: python j2_arithmetic_descent.py
-      - name: Materialize q1 NS lift and cyclic non-norm parity
-        working-directory: stages/stage33/33-05
-        run: python q1_ns_lift_parity.py
-      - name: Identify q1 Hochschild-Serre d2 by Kummer Bockstein
-        working-directory: stages/stage33/33-05
-        run: python q1_hs_d2_bockstein.py
-      - name: Upload exact preflight certificates
-        uses: actions/upload-artifact@v4
-        with:
-          name: stage33-05-k3-branch-preflight
-          path: |
-            stages/stage33/33-05/branch-galois-certificate.json
-            stages/stage33/33-05/cv-dimension-certificate.json
-            stages/stage33/33-05/normalization-galois-graded.json
-            stages/stage33/33-05/lce-filtered-quotient-skeleton.json
-            stages/stage33/33-05/lowdegree-graph-functions.json
-            stages/stage33/33-05/residual-graph-function-bidegree21.json
-            stages/stage33/33-05/cv-exact-graph-lifts-galois.json
-            stages/stage33/33-05/xalpha-two-rows-quotient-action.json
-            stages/stage33/33-05/xalpha-pair-galois-repair.json
-            stages/stage33/33-05/descent-presentation-cocycle.json
-            stages/stage33/33-05/j2-arithmetic-descent.json
-            stages/stage33/33-05/q1-ns-lift-cyclic-parity.json
-            stages/stage33/33-05/q1-hs-d2-bockstein.json
+      - name: Enforce hostile-reopen evidence firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          r = json.load(open('stages/stage33/33-05/j2-representative-repair-state.json', encoding='utf-8'))
+          assert r['current_leaf'] == 'R4'
+          assert r['firewalls']['Q_defined_descent_credit_restored'] is False
+          assert r['firewalls']['stage33_05_reclosed'] is False
+          assert r['firewalls']['stage33_12_closed_exact'] is False
+          assert r['firewalls']['stage33_13_released'] is False
+          assert r['firewalls']['theorem_credit'] is False
+          assert r['firewalls']['receiver_credit'] is False
+          assert r['firewalls']['endpoint_credit'] is False
+
+          # The revoked historical producer remains source-locked history only.
+          old = Path('stages/stage33/33-05/j2_arithmetic_descent.py')
+          assert old.exists()
+          assert not Path('stages/stage33/33-05/j2-arithmetic-descent.json').exists(), (
+              'revoked j2-arithmetic-descent.json was regenerated in current workflow'
+          )
+          print('STAGE33_05_RETAINED_GEOMETRIC_PREFLIGHT_ONLY=PASS')
+          print('Q_DEFINED_J2_DESCENT_CREDIT=FORBIDDEN')
+          PY
+
+      # Intentionally no artifact upload. In particular, the revoked
+      # j2-arithmetic-descent.json must never be republished as fresh evidence.
