@@ -1,15 +1,15 @@
 {
-  "schema": "STAGE32_21_STATE_V4_AA_AC_AUDITED_BOUNDARY",
+  "schema": "STAGE32_21_STATE_V5_32_21AD_FULL178_CENSUS_IN_PROGRESS",
   "stage_item": "32-21",
   "name": "NUMERICAL_PICARD_LEAF_COMPRESSION_ON_EXACT_PREFIX_REPRESENTATION",
-  "status": "AUDITED_CHECKPOINT_PENDING_MERGE",
-  "working_pr": 1465,
-  "current_boundary": "32-21aa-ac_AUDITED_CHECKPOINT",
+  "status": "32_21AD_IN_PROGRESS_COLD_PREFLIGHT_PASS",
+  "working_pr": 1466,
+  "current_boundary": "32-21ad_FULL178_COMPRESSED_NUMERICAL_CENSUS",
   "work_package": {
     "id": "32-21aa-ac",
     "principle": "LEAVES_ARE_SMALL_REASONING_UNITS_NOT_AUTOMATIC_PR_OR_AUDIT_BOUNDARIES",
     "included_leaves": ["32-21aa", "32-21ab", "32-21ac"],
-    "status": "CLOSED_AUDITED",
+    "status": "CLOSED_AUDITED_MERGED",
     "target": "EXACT_ANTI_FIXED_PENALTY_ATTACHED_TO_PROJECTED_SMITH_STATES_AND_EXPOSED_AS_A_CHEAP_SAFE_PRUNING_PREDICATE",
     "audit_verdict": "PASS_STAGE32_21AA_AC_FRESH_BOUNDARY_AUDIT",
     "audit_run_id": 33309333080,
@@ -17,7 +17,9 @@
     "audit_artifact_id": 9731500315,
     "audit_artifact_size_bytes": 1343,
     "audit_artifact_zip_sha256": "520f7f458d71b5b89ec42ed4abf36e1288c312313d284ab988ae6b7a26168b3b",
-    "audit_certificate_sha256": "5dfd1087d7d1c20baa3475e05e1768edbb9e8f063b20d01ca467a6725b657f1e"
+    "audit_certificate_sha256": "5dfd1087d7d1c20baa3475e05e1768edbb9e8f063b20d01ca467a6725b657f1e",
+    "merged_pr": 1465,
+    "merge_commit": "34b351b2d99c27b82fcd1eea075432ee451ce68c"
   },
   "32-21aa": {
     "name": "ANTI_FIXED_COSET_PENALTY_REPRESENTATION",
@@ -53,13 +55,43 @@
   },
   "32-21ad": {
     "name": "FULL178_COMPRESSED_NUMERICAL_CENSUS",
-    "status": "BLOCKED_PENDING_PR1465_MERGE",
-    "release_requires": [
-      "32-21AA_AC_BOUNDARY_AUDIT_PASS",
-      "PR1465_MERGED_TO_AUTHORITATIVE_BASE",
-      "SEPARATE_EXECUTION_PREFLIGHT_IF_PRODUCTION_IS_MATERIALLY_HEAVY"
-    ],
-    "armed": false
+    "status": "IN_PROGRESS_COLD_PREFLIGHT_PASS",
+    "working_pr": 1466,
+    "branch": "stage32-21ad-full178-antifixed-coset-census",
+    "audited_base_merge_commit": "34b351b2d99c27b82fcd1eea075432ee451ce68c",
+    "evaluator_certificate_sha256": "2c227d773aaf6a6543ae89419c468d85fd4ebd42422eb6f4c8ac60b2e7227c8e",
+    "runkey": "stages/stage32/runkeys/stage32-21ad-full178-antifixed-coset-census.json",
+    "armed": false,
+    "runkey_generation": 0,
+    "requested_heavy_jobs": 1,
+    "cold_preflight": {
+      "status": "PASS",
+      "run_id": 33313278833,
+      "authorize_job_id": 99262034550,
+      "preflight_job_id": 99262053226,
+      "artifact_id": 9732672345,
+      "artifact_size_bytes": 2007,
+      "artifact_zip_sha256": "559bd3bca777344640bf9dad6f910b3b18e0756b83ee3929abc14e05a4fa72e7",
+      "certificate_sha256": "71a7a03579b841dc86c101e0490bb28cf30cd2cbf18ca945fcea0b1d66ec268e",
+      "row_shards": 16,
+      "shard_index": 0,
+      "selected_rows": 12,
+      "prior_slices": 152351,
+      "continuous_kkt_survivors": 51462,
+      "antifixed_coset_pruned": 0,
+      "antifixed_coset_survivors": 51462,
+      "checked_integer_u_total": 153279,
+      "checked_integer_u_max_per_slice": 110,
+      "full_census_job_skipped": true
+    },
+    "full178_census": {
+      "status": "NOT_YET_ARMED",
+      "expected_prior_slices": 2018569,
+      "expected_continuous_kkt_survivors": 679337
+    },
+    "terminal_family_materialization_authorized": false,
+    "legacy_prefix_dfs_rearm_authorized": false,
+    "boundary_audit_required_after_full_result": true
   },
   "package_ci": {
     "run_id": 33308996594,
@@ -77,11 +109,13 @@
     "cheap_antifixed_coset_bound_exact": true,
     "projection_class_count": 16384,
     "rank2_free_subgroup_order": 128,
-    "rank2_free_quotient_coset_count": 128
+    "rank2_free_quotient_coset_count": 128,
+    "representative_32_21ad_shard_pruned": 0,
+    "representative_32_21ad_shard_survivors": 51462
   },
-  "checkpoint_merge_ready": true,
+  "checkpoint_merge_ready": false,
   "automatic_merge_authorized": false,
-  "advance_before_merge_authorized": false,
+  "advance_before_boundary_audit_authorized": true,
   "legacy_prefix_dfs_rearm_authorized": false,
   "heavy_compute_authorized": false,
   "numerical_row_complete": false,
@@ -90,6 +124,6 @@
   "route_credit": false,
   "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false,
-  "next_expected_command": "Stage32-main-batch",
-  "next_after_merge": "32-21ad_FULL178_COMPRESSED_NUMERICAL_CENSUS"
+  "next_expected_action": "ARM_GENERATION_1_BY_RUNKEY_ONLY_SYNCHRONIZE_COMMIT_THEN_EXECUTE_FULL178_CENSUS",
+  "next_boundary": "AFTER_32_21AD_FULL178_RESULT_BEFORE_ANY_DOWNSTREAM_STRATEGY_CHANGE"
 }
