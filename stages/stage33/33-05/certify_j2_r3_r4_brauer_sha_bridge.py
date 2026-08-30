@@ -119,9 +119,10 @@ for k in (
 ):
     assert fw[k] is False
 
-dct=dict(c); got=dct.pop("canonical_sha256")
+dct=dict(c); got=dct.pop("canonical_sha256"); actual=csha(dct)
+print("BRIDGE_ACTUAL_CANONICAL_SHA256="+actual)
 assert got=="4289ef568ce4c793c1ecc91fd55dac9e74f5ecd01e5aad99c5b98917e1df2a66"
-assert got==csha(dct)
+assert got==actual
 print(json.dumps({
     "success":True,
     "status":c["status"],
