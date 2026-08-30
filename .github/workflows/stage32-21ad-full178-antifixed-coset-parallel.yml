@@ -68,10 +68,10 @@ jobs:
               reasons.append('generation_not_positive')
           if key.get('requested_heavy_jobs') != 16:
               reasons.append('requested_heavy_jobs_not_sixteen')
-          if key.get('known_concurrent_stage32_21ad_single_runner') != 1:
-              reasons.append('known_single_runner_not_one')
-          if key.get('effective_stage32_heavy_jobs_if_armed') != 17:
-              reasons.append('effective_heavy_jobs_not_seventeen')
+          if key.get('known_concurrent_stage32_21ad_single_runner') != 0:
+              reasons.append('known_single_runner_not_zero')
+          if key.get('effective_stage32_heavy_jobs_if_armed') != 16:
+              reasons.append('effective_heavy_jobs_not_sixteen')
           if key.get('maximum_effective_stage32_heavy_overlap', 999) > 18:
               reasons.append('stage32_concurrency_ceiling_exceeded')
           if key.get('effective_stage32_heavy_jobs_if_armed', 999) > key.get('maximum_effective_stage32_heavy_overlap', 0):
