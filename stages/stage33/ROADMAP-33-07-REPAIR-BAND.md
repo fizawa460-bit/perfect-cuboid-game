@@ -10,7 +10,7 @@ ORIGINAL_STAGE33_09_10_11_RENUMBERED_TO=33-40,33-41,33-42
 PERFECT_CUBOID_PROBLEM_STATUS=OPEN
 ```
 
-## 1. Why this amendment exists
+## 1. Current topology
 
 Stage33-08 exposed a deep Stage33-07 arithmetic Hochschild--Serre / global Gersten descent repair. Stage33-07 remains the blocked parent big task, while repair execution proceeds through coarse child stages.
 
@@ -23,16 +23,25 @@ Closed exact repair children:
 33-11 connecting columns = 26/26 exact, unresolved 0
 ```
 
-The former single Stage33-12 mixed too many independent kernels. The remaining repair is split into four human-trackable children:
+Remaining children:
 
 ```text
-33-12 = J2 / marked-Kc / Kummer glue
+33-12 = corrected J2 / marked-Kc / arithmetic descent closure package
 33-13 = finite-V4 75x10 Kummer matrix
 33-14 = 26 finite HS cosets + two-primary constant block
 33-15 = global arithmetic HS assembly + Stage33-07 hostile recertification
 ```
 
-Repair children do not change the 11-big-task denominator. Only hostile-audited closure of parent Stage33-07 changes progress from 6/11 to 7/11.
+Important current reopen:
+
+```text
+Stage33-05 = REOPENED at R5 arithmetic descent
+current Stage33 progress = 5/11
+successful Stage33-05 reclosure restores progress to 6/11
+hostile-audited Stage33-07 closure later raises progress from 6/11 to 7/11
+```
+
+Repair children do not change the 11-big-task denominator.
 
 ## 2. Numbering and adaptive execution
 
@@ -80,37 +89,80 @@ CONNECTING_MAP=COMPUTED_EXACT_ZERO_MAP
 
 33-09..11 are opaque by default after closure. Do not reload their full evidence, PR diffs, workflow logs, or generated certificates unless the current proof names a missing representative/matrix, a source-lock mismatch occurs, a certificate contradiction occurs, or hostile-audit mode explicitly requires expansion.
 
-## 4. Stage33-12 — J2-MARKED-KC-KUMMER-GLUE
+## 4. Stage33-12 — CORRECTED-J2-MARKED-KC-ARITHMETIC-CLOSURE
 
-Purpose: finish the named J2 bridge from the branch-normalization half-divisor through the pinned marked Stoll Kc resolution into the exact Kc Picard discriminant/Brauer 2-torsion coordinate. This child stops before the full 75x10 finite-V4 Kummer matrix.
+Purpose: package the corrected named J2 bridge into an exact Stage33-12 child closure. Stage33-12 does not run an independent second J2 derivation in parallel with the Stage33-05 R5 repair.
 
-Current checkpoint:
+### Anti-duplication rule
+
+The historical Stage33-12 checklist
 
 ```text
-1/5 named J2 half-divisor and CV support adapter                 DONE
-2/5 pinned Stoll branch/support identification                  DONE
-3/5 infinity exceptional geometric attachment                  DONE
-4/5 ptsK index + qPicK exceptional coordinate                  OPEN
-5/5 branch-Jacobian 2-torsion -> Kc discriminant Kummer glue   OPEN
-VISIBLE_PROGRESS=3/5
+infinity exceptional attachment
+ptsK order/index
+qPicK exceptional coordinate
+old branch-Jacobian Kummer glue
 ```
 
-Exit:
+belonged to the superseded representative route. For the corrected divisor `D=P_r2-P_r4`, exact work established finite smooth support on marked `CsK[22]` and eliminated the old infinity/exceptional dependency.
+
+Therefore:
 
 ```text
-J2_INFINITY_STOLL_PTSK_ORDER_INDEX_MATERIALIZED=true
-J2_INFINITY_QPICK_EXCEPTIONAL_COORDINATE_MATERIALIZED=true
-J2_BRANCH_JACOBIAN_TO_DISCRIMINANT_KUMMER_GLUE_MATERIALIZED=true
-J2_KC_DISCRIMINANT_COORDINATE_MATERIALIZED=true
-J2_KC_KERNEL_LINE_FIXED=true
+OLD_INFINITY_PTSK_QPICK_CHECKLIST_FOR_CORRECTED_J2 = RETIRED
+DO_NOT_RECOMPUTE_OLD_INFINITY_ROUTE = true
+STAGE33_05_R5_REPAIR_STATE = AUTHORITATIVE_FOR_CURRENT_J2_ARITHMETIC_GAP
+```
+
+Historical files remain cold evidence and are not deleted.
+
+### Corrected J2 evidence already exact
+
+```text
+corrected geometric J2=(f2,1) nonzero                     DONE
+explicit CV E[2] cocycle xi(rho)=Tr                      DONE
+marked Brauer coordinate J2=[1,0]                       DONE
+corrected finite smooth Kc support on CsK[22]            DONE
+branch Pic0[2] -> surface H^2(mu2) adapter               DONE
+explicit Cech surface mu2 lift lambda_D                  DONE
+generic cc/ct splitting data and ct norm module          DONE
+actual compactified Pic/2 defect                          OPEN
+integral Pic lifts                                        OPEN
+Hochschild-Serre d2 class                                 OPEN
+Q-defined corrected J2 Brauer preimage                    OPEN
+```
+
+The exact current leaf is owned by:
+
+`stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md`.
+
+### Stage33-12 closure contract
+
+Stage33-12 remains blocked while Stage33-05 R5 arithmetic descent is open. After successful full R5 exit and its mandatory super-hostile audit, Stage33-12 closure is a corrected-evidence audit/package step, not a replay of the old infinity route.
+
+Exact Stage33-12 exit requires:
+
+```text
+CORRECTED_J2_GEOMETRIC_REPRESENTATIVE_NONZERO=true
+CORRECTED_J2_MARKED_BRAUER_COORDINATE=[1,0]
+CORRECTED_J2_SURFACE_MU2_LIFT_EXACT=true
+CORRECTED_J2_ACTUAL_PIC_MOD2_DEFECT_EXACT=true
+CORRECTED_J2_HS_D2_CLASS_ZERO=true
+CORRECTED_J2_Q_DEFINED_BRAUER_PREIMAGE=true
+CORRECTED_J2_ARITHMETIC_UNRAMIFIEDNESS=true
+CORRECTED_J2_RESTRICTION_BACK_TO_F2_1=true
+STAGE33_05_R5_FULL_REPAIR_EXIT=true
+STAGE33_05_SUPER_HOSTILE_AUDIT=PASS
 STAGE33_12_CLOSED_EXACT=true
 ```
 
-Remote Magma may be used as a manual diagnostic, but unreliable remote execution is not a PR merge gate. Exact closure requires a deterministic retained certificate.
+If the actual HS `d2` class is nonzero, do not close Stage33-12. Record the exact no-go and rebuild the affected dependency chain.
+
+Stage33-13 is not released until `STAGE33_12_CLOSED_EXACT=true`.
 
 ## 5. Stage33-13 — FINITE-V4-KUMMER-MATRIX
 
-Purpose: materialize the finite-V4 Kummer restriction on the full-surface proper Br[2] receiver.
+Purpose: materialize the finite-V4 Kummer restriction on the full-surface proper Br[2] receiver after Stage33-12 exact closure.
 
 ```text
 P=Br(Sbar)[2]^{G_Q}
@@ -173,7 +225,7 @@ COMPLETE_RELEVANT_Q_DEFINED_CLASS_LIST_FOR_STAGE33_BRAUER_SCOPE=true
 STAGE33_07_HOSTILE_REAUDIT=PASS
 ```
 
-Only then may Stage33-07 close, progress become 7/11, and Stage33-08 be released.
+Only then may Stage33-07 close and progress rise from 6/11 to 7/11. Stage33-08 remains blocked until that closure.
 
 ## 8. Compact evidence policy — mandatory for 33-12..15
 
@@ -207,8 +259,6 @@ CI should regenerate large expanded objects in temporary runner storage, verify 
 
 ## 9. Bounded context / handoff policy — mandatory for MAIN
 
-The mathematical breadth of Stage33 does not require every MAIN batch to reread the breadth. Each closed child must expose a small interface sufficient for the next child.
-
 Normal MAIN startup is bounded to:
 
 ```text
@@ -217,6 +267,14 @@ Normal MAIN startup is bounded to:
 3. current child roadmap section
 4. immediate predecessor handoff/result summary
 5. current child's explicitly named compact input certificates
+```
+
+While Stage33-05 R5 is reopened, also read:
+
+```text
+stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md
+stages/stage33/33-05/j2-representative-repair-state.json
+stages/stage33/33-05/j2-post-r5-hs-d2-state.json
 ```
 
 Default prohibitions:
@@ -241,11 +299,9 @@ DEBUGGING_FAILED_DETERMINISTIC_REPLAY
 
 When possible, query or regenerate only the needed slice/column/block instead of loading a complete expanded certificate.
 
-Every child closure must produce a compact handoff containing: exact status, source hashes, definitions of exported objects, dimensions/counts, unresolved items, next exact leaf, firewalls, and the minimum named files the next child may read. Target handoff size is small enough for a fresh chat to understand the current mathematical interface without reconstructing the branch history.
+Every child closure must produce a compact handoff containing exact status, source hashes, definitions of exported objects, dimensions/counts, unresolved items, next exact leaf, firewalls, and the minimum named files the next child may read.
 
 ## 10. Chat/context budget rule
-
-Context size is an engineering constraint, not a reason to weaken mathematics. Stage33 MAIN should optimize for a bounded working set:
 
 ```text
 HOT = controller + current roadmap section + current compact handoff + immediate scripts/certificates
@@ -253,19 +309,19 @@ WARM = predecessor compact handoff and named interface definitions
 COLD = giant generated JSON, old workflow logs, full PR diffs, audited ancestor internals
 ```
 
-COLD material is not loaded during routine MAIN. If a proof step requires it, load only the named portion, derive/update a compact reusable interface, and return it to COLD status. Repeatedly rediscovering the same ancestor detail is a signal that the handoff is missing an exported invariant and should be repaired once.
-
-This rule applies equally when the mathematics spans K3 surfaces, Picard lattices, Galois cohomology, Gersten localization, Kummer theory, and Brauer groups: cross-field dependencies should be represented by explicit small adapters/interfaces rather than by keeping all source derivations in the active context.
+COLD material is not loaded during routine MAIN. If a proof step requires it, load only the named portion, derive/update a compact reusable interface, and return it to COLD status. Repeated rediscovery of the same ancestor detail means the handoff is missing an exported invariant and should be repaired once.
 
 ## 11. Visible progress dashboard
 
-Every MAIN checkpoint exposes one compact line:
+During the Stage33-05 hostile reopen, use status rather than the retired Stage33-12 `x/5` counter:
 
 ```text
-33-12: J2/Kummer glue milestones x/5
-33-13: finite-V4 Kummer matrix columns x/10
-33-14: finite HS cosets x/26; constant 2-primary block OPEN/CLOSED
-33-15: global assembly state; Q-defined inventory state; hostile recertification state
+33-05 R5: geometric PASS; arithmetic descent OPEN at actual Cech Pic/2 -> HS d2
+33-12: BLOCKED_PENDING_SUCCESSFUL_33_05_R5_EXIT_AND_SUPER_HOSTILE_AUDIT
+33-13: BLOCKED_PENDING_33_12_EXACT_CLOSURE; finite-V4 columns x/10 after release
+33-14: finite HS cosets x/26; constant 2-primary block OPEN/CLOSED after release
+33-15: global assembly state; Q-defined inventory state; hostile recertification state after release
+Stage33 progress: 5/11 while 33-05 is reopened
 ```
 
 Counters are navigational only; exact certificates and audit states remain authoritative.
@@ -286,11 +342,15 @@ Stage33-42 = original Stage33-11 objective
 
 Stage33-40 remains blocked until Stage33-08 is actually closed.
 
-## 14. Firewalls
+## 14. Firewalls and progress transitions
 
 ```text
 REPAIR_CHILDREN_COUNT_TOWARD_STAGE33_PROGRESS=false
-STAGE33_PROGRESS_REMAINS=6/11_UNTIL_33_07_HOSTILE_RECERTIFICATION_PASS
+CURRENT_STAGE33_PROGRESS_WHILE_33_05_REOPENED=5/11
+SUCCESSFUL_33_05_RECLOSURE_PROGRESS=6/11
+SUCCESSFUL_33_07_HOSTILE_RECERTIFICATION_PROGRESS=7/11
+STAGE33_12_CLOSE_BEFORE_33_05_R5_SUCCESS=false
+STAGE33_13_RELEASE_BEFORE_33_12_CLOSED=false
 STAGE33_08_RELEASE_BEFORE_33_07_CLOSED=false
 THEOREM_CREDIT=false_UNLESS_SEPARATELY_AUTHORIZED
 ENDPOINT_CREDIT=false_UNLESS_SEPARATELY_AUTHORIZED
@@ -298,4 +358,4 @@ PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
 
-Operational PASS, CI success, a materialized Kummer column, or closure of one repair child never by itself promotes parent Stage33-07 credit.
+Operational PASS, CI success, a materialized Kummer column, a geometric-only J2 result, or closure of one repair child never by itself promotes parent Stage33-07 credit.
