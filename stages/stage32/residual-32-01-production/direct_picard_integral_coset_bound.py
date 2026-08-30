@@ -130,7 +130,7 @@ class DirectPicardIntegralCosetLowerBound:
 
         def class_key(residue: tuple[int, int, int]) -> tuple[int, ...]:
             return tuple(
-                sum(R[i, j] * residue[j] for j in range(3)) % common_den
+                int(sum(R[i, j] * residue[j] for j in range(3)) % common_den)
                 for i in range(61)
             )
 
