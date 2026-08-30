@@ -1,10 +1,32 @@
 {
-  "schema": "STAGE32_21_STATE_V2_32_21AA_CHECKPOINTED",
+  "schema": "STAGE32_21_STATE_V3_WORK_PACKAGE_AA_AC",
   "stage_item": "32-21",
   "name": "NUMERICAL_PICARD_LEAF_COMPRESSION_ON_EXACT_PREFIX_REPRESENTATION",
   "status": "IN_PROGRESS",
   "current_leaf": "32-21ab",
   "current_leaf_name": "EXACT_QUOTIENT_CLASS_MAP",
+  "working_pr": 1465,
+  "work_package": {
+    "id": "32-21aa-ac",
+    "principle": "LEAVES_ARE_SMALL_REASONING_UNITS_NOT_AUTOMATIC_PR_BOUNDARIES",
+    "included_leaves": [
+      "32-21aa",
+      "32-21ab",
+      "32-21ac"
+    ],
+    "target": "EXACT_ANTI_FIXED_PENALTY_ATTACHED_TO_PROJECTED_SMITH_STATES_AND_EXPOSED_AS_A_CHEAP_SAFE_PRUNING_PREDICATE",
+    "continue_within_same_pr_while": "NEXT_LEAF_IS_A_TIGHTLY_COUPLED_ADAPTER_NEEDED_TO_MAKE_THE_CURRENT_INTERFACE_USABLE",
+    "stop_conditions": [
+      "MATERIAL_NEW_MATHEMATICAL_STRATEGY",
+      "HEAVY_PRODUCTION_ARM_REQUIRED",
+      "CLAIM_OR_DOWNSTREAM_CREDIT_PROMOTION_REQUIRED",
+      "RESOURCE_OR_EXACTNESS_BLOCKER",
+      "WORK_PACKAGE_EXIT_REACHED"
+    ],
+    "audit_boundary": "AFTER_32_21AC_BEFORE_32_21AD_FULL178_COMPRESSED_NUMERICAL_CENSUS",
+    "audit_required_at_boundary": true,
+    "merge_only_after_boundary_audit_pass": true
+  },
   "32-21aa": {
     "name": "ANTI_FIXED_COSET_PENALTY_REPRESENTATION",
     "status": "CLOSED_CHECKPOINTED",
@@ -25,6 +47,21 @@
     "theorem_credit": false,
     "receiver_credit": false
   },
+  "32-21ab": {
+    "name": "EXACT_QUOTIENT_CLASS_MAP",
+    "status": "IN_PROGRESS",
+    "goal": "MAP_EACH_RANK2_PROJECTED_SMITH_AFFINE_STATE_EXACTLY_TO_THE_16384_REYNOLDS_PROJECTION_CLASSES"
+  },
+  "32-21ac": {
+    "name": "CHEAP_EXACT_LOWER_BOUND",
+    "status": "PLANNED_IN_SAME_WORK_PACKAGE",
+    "goal": "COMBINE_PROJECTED_SELF_INTERSECTION_SLACK_WITH_THE_MAPPED_ANTI_FIXED_PENALTY_INTO_A_SAFE_EXACT_PRUNING_PREDICATE"
+  },
+  "32-21ad": {
+    "name": "FULL178_COMPRESSED_NUMERICAL_CENSUS",
+    "status": "BLOCKED_ON_WORK_PACKAGE_AUDIT",
+    "release_requires": "32-21AA_AC_BOUNDARY_AUDIT_PASS"
+  },
   "current_fact": {
     "reynolds_continuous_kkt_survivors": 679337,
     "reynolds_exact_integer_qp_survivors": 679337,
@@ -32,7 +69,7 @@
     "anti_fixed_penalty_representation_exact": true,
     "projection_class_count": 16384
   },
-  "goal": "MAP_EACH_RANK2_PROJECTED_SMITH_AFFINE_STATE_EXACTLY_TO_THE_16384_REYNOLDS_PROJECTION_CLASSES_SO_THE_32_21AA_PENALTY_CAN_BE_APPLIED_WITHOUT_TERMINAL_MATERIALIZATION",
+  "goal": "MAP_THE_EXACT_ANTI_FIXED_PENALTY_TO_EACH_PROJECTED_SMITH_AFFINE_STATE_THEN_TURN_IT_INTO_A_CHEAP_SAFE_PRUNING_PREDICATE_BEFORE_ANY_FULL178_CENSUS",
   "legacy_prefix_dfs_rearm_authorized": false,
   "heavy_compute_authorized": false,
   "numerical_row_complete": false,
@@ -45,6 +82,7 @@
   "planned_leaves": [
     "32-21ab",
     "32-21ac",
+    "BOUNDARY_AUDIT",
     "32-21ad"
   ]
 }
