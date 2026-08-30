@@ -1,13 +1,13 @@
 {
-  "schema": "STAGE33_05_HOSTILE_AUDIT_STATE_V7_EXPLICIT_SURFACE_MU2_LIFT_HS_D2_OPEN",
+  "schema": "STAGE33_05_HOSTILE_AUDIT_STATE_V8_CT_NORM_PICARD_SUPPORT_HS_D2_OPEN",
   "stage33_unit": "33-05",
-  "audit_verdict": "PARTIAL_PASS_R0_TO_R4_AND_R5_GEOMETRIC_PASS_EXPLICIT_SURFACE_MU2_LIFT_PASS_PIC_MOD2_AND_HS_D2_OPEN",
+  "audit_verdict": "PARTIAL_PASS_R0_TO_R4_AND_R5_GEOMETRIC_PASS_CT_NORM_Q_FIBER_MARKED_PICARD_SUPPORT_PASS_SPLITTING_LINE_BUNDLE_PIC_MOD2_AND_HS_D2_OPEN",
   "unit_status": "BLOCKED_NEW_KERNEL",
   "unit_closed": false,
   "downstream_released": false,
   "repair_state": "stages/stage33/33-05/j2-representative-repair-state.json",
   "post_r5_leaf_state": "stages/stage33/33-05/j2-post-r5-hs-d2-state.json",
-  "post_r5_leaf_state_canonical_sha256": "af7bf858d4622b4ae0ea5828570756737b780aa67ec10eb862da2a4d9937fa56",
+  "post_r5_leaf_state_canonical_sha256": "8e3344fbbd8d4aff17523c27bf3e515f2fe2c7a50960878dd1b6f1749cd2e514",
   "post_r5_failure_certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json",
   "post_r5_failure_canonical_sha256": "a7c08372b9ef012a1446bd3bf4f40541d77d372dadc73e3780f6ce2529fcc6d8",
   "retained_exact_geometric_credit": {
@@ -54,10 +54,16 @@
     "explicit_Cech_preimage": "{f2,1-s^2+i*s*(1-t^2)/t}",
     "surface_mu2_lift_materialized": true,
     "generic_cc_ct_defect_splittings_materialized": true,
+    "ct_norm_q_fiber_component_coordinates_materialized": true,
+    "ct_norm_q_fiber_component_count": 8,
+    "ct_norm_common_q_fiber_class_marked_semantic_PicK_coordinates": [0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
+    "ct_norm_picard_support_certificate": "stages/stage33/33-12/j2-corrected-ct-norm-picard-support.json",
+    "ct_norm_picard_support_canonical_sha256": "77af329d2baf2fe807bf23722c9b320fdfddec2bd1df90ced7758d411c9cf021",
+    "ct_norm_splitting_determinant_line_bundle_materialized": false,
     "pic_mod2_integral_coordinates_materialized": false,
     "explicit_cech_mu2_lift_certificate": "stages/stage33/33-12/j2-corrected-explicit-cech-mu2-lift.json",
     "explicit_cech_mu2_lift_canonical_sha256": "6c9333f564637c362b026596833acd26ad2abff27e9c9d75d82ee5c6991cb76b",
-    "credit_scope": "CORRECTED_EXPLICIT_GEOMETRIC_SURFACE_MU2_LIFT_ONLY_NO_ARITHMETIC_HS_D2_CREDIT"
+    "credit_scope": "CORRECTED_EXPLICIT_GEOMETRIC_SURFACE_MU2_LIFT_AND_CT_Q_FIBER_MARKED_PICARD_SUPPORT_ONLY_NO_PIC_MOD2_OR_ARITHMETIC_HS_D2_CREDIT"
   },
   "current_surface_mu2_contract": {
     "path": "stages/stage33/33-12/j2-full-surface-mu2-zero-defect-contract.json",
@@ -79,9 +85,10 @@
     "R5_full_repair_exit_reached": false,
     "hostile_audit_pass_for_reclosure": false
   },
-  "next_exact_leaf": "COMPUTE_DIVISORS_OF_CC_CT_SYMBOL_SPLITTING_COCHAINS_IN_MARKED_PIC_KC_MOD2_THEN_INTEGRAL_BOCKSTEIN_HS_D2",
+  "next_exact_leaf": "DERIVE_CT_NORM_SPLITTING_DETERMINANT_LINE_BUNDLE_ON_RESOLVED_QUOTIENT_THEN_PULL_BACK_TO_MARKED_PIC_KC_MOD2_AND_COMPUTE_INTEGRAL_BOCKSTEIN",
   "next_leaf_requirements": [
-    "compute the divisor classes of the explicit cc and ct symbol splittings in Pic(Kc_bar)/2",
+    "derive the determinant line bundle or Cartier divisor of the explicit ct norm nullhomotopy on the resolved quotient, without guessing a component selector",
+    "pull the ct splitting line bundle to Kc and compute the explicit cc and ct defect classes in Pic(Kc_bar)/2",
     "choose integral Pic lifts",
     "compute the Bockstein/Hochschild-Serre d2 2-cocycle and its class without assuming zero",
     "only on actual zero apply HS kernel=image for Q-Brauer credit",
