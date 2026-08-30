@@ -1,71 +1,66 @@
 {
-  "schema": "STAGE33_05_HOSTILE_AUDIT_STATE_V2_SUPERSEDED_BY_REOPEN",
-  "stage33_unit": "33-05",
-  "semantic_status": "SUPERSEDED_BY_HOSTILE_REOPEN",
-  "do_not_use_as_current_credit": true,
-  "current_audit_verdict": "FAIL_REPAIR_REQUIRED_BEFORE_MERGE",
-  "unit_status": "BLOCKED_NEW_KERNEL",
-  "unit_closed": false,
-  "downstream_released": false,
-  "merge_allowed": false,
   "advance_allowed": true,
-  "advance_scope": "R4_REPAIR_AND_EVIDENCE_HYGIENE_ONLY",
+  "advance_scope": "FRESH_SUPER_HOSTILE_REAUDIT_OF_R3_R4_BRAUER_SHA_BRIDGE_ONLY_BEFORE_NS",
+  "current_audit_verdict": "FAIL_REPAIR_APPLIED_BRAUER_SHA_BRIDGE_PENDING_FRESH_SUPER_HOSTILE_REAUDIT",
   "current_authority": "stages/stage33/33-05/j2-representative-repair-state.json",
-  "current_pr": 1464,
   "current_branch": "stage33-r4-j2-tr-kernel-clean-continuation",
-  "reopen_reason": "The historical Q-defined ell_J2 used to certify J2 descent was hostile-proved geometrically trivial. A later super-hostile audit also found that the legacy Stage33-05 workflow was still regenerating the revoked positive descent certificate as fresh GREEN evidence.",
-  "reopen_certificate": "stages/stage33/33-12/j2-cv-lclass-zero-regression.json",
-  "super_hostile_evidence_failure": {
-    "stale_workflow": ".github/workflows/stage33-05-k3-branch-preflight.yml",
-    "stale_producer": "stages/stage33/33-05/j2_arithmetic_descent.py",
-    "observed_green_run": 33292974476,
-    "observed_stale_artifact": 9726534480,
-    "stale_claims_forbidden_as_current_credit": [
-      "J2_Q_descent_certified=true",
-      "J2_geometric_nontrivial=true from historical ell_Q",
-      "Q_surviving_geometric_Br2_basis=[J2] based on historical ell_Q",
-      "all_stage33_05_descent_unknowns_resolved=true based on historical ell_Q"
-    ],
-    "required_disposition": "LEGACY_WORKFLOW_MUST_NOT_REGENERATE_OR_UPLOAD_THE_REVOKED_CERTIFICATE"
-  },
-  "retained_exact_mathematical_credit": {
-    "R1": "PASS_ABSTRACT_J2_NONZERO",
-    "R2": "PASS_CORRECTED_FULL_L_PAIR_f2_1_NONZERO",
-    "R3": "PASS_CV_EXPLICIT_E2_COCYCLE_xi_rho_Tr",
-    "R4_attempt4_orientation": "PASS_CORRECTED_2ISOGENY_DIRECTION_JACOBIAN_Kc",
-    "candidate_minimum_norms": [4, 8, 12],
-    "minimum_norm_selected": false,
-    "marked_brauer_coordinate_selected": false
-  },
-  "revoked_or_open_credit": {
-    "historical_j2_q_descent_certified": false,
-    "historical_Q_defined_ell_J2_may_witness_corrected_J2": false,
-    "Q_defined_descent_credit_restored": false,
-    "all_surviving_k3_classes_have_explicit_arithmetic_representatives": false,
-    "unresolved_unknown_in_scope": 1,
-    "stage33_05_reclosed": false,
-    "stage33_12_closed_exact": false,
-    "stage33_13_released": false
-  },
-  "historical_audit_snapshot": {
-    "pr": 1358,
-    "audited_functional_head": "1e6452d2a3df9c9e054d454173b4f923d6f1d343",
-    "verdict_at_that_time": "PASS_AFTER_INDEPENDENT_Q_SURVIVAL_AND_HS_D2_VERIFICATION",
-    "q1_hs_d2_nonzero_at_that_time": true,
-    "q1_q_descent_false_at_that_time": true,
-    "historical_J2_descent_claim_now_revoked": true,
-    "status_now": "SUPERSEDED_IN_PART_DO_NOT_USE_AS_CURRENT_CREDIT",
-    "historical_workflow_run": 32712707329,
-    "historical_artifact": 9514868333
-  },
+  "current_pr": 1464,
+  "do_not_use_historical_closed_state_as_current_credit": true,
   "firewalls": {
-    "theorem_credit": false,
-    "receiver_credit": false,
     "endpoint_credit": false,
     "perfect_cuboid_existence_claim": false,
-    "perfect_cuboid_nonexistence_claim": false
+    "perfect_cuboid_nonexistence_claim": false,
+    "receiver_credit": false,
+    "theorem_credit": false
   },
+  "historical_evidence_hygiene_incident": {
+    "legacy_descent_producer_current_credit": false,
+    "legacy_workflow_current_credit": false,
+    "observed_stale_artifact": 9726534480,
+    "observed_stale_run": 33292974476,
+    "repair_manifest": "stages/stage33/33-05/revoked-action-evidence.json"
+  },
+  "historical_stage33_05_audit": {
+    "audited_functional_head": "1e6452d2a3df9c9e054d454173b4f923d6f1d343",
+    "historical_J2_descent_claim_now_revoked": true,
+    "pr": 1358,
+    "status_now": "SUPERSEDED_IN_PART_DO_NOT_USE_AS_CURRENT_CREDIT",
+    "verdict_at_that_time": "PASS_AFTER_INDEPENDENT_Q_SURVIVAL_AND_HS_D2_VERIFICATION"
+  },
+  "mathematical_super_hostile_reaudit": {
+    "R0": "PASS_OLD_ELL_J2_ZERO_IN_CV_QUOTIENT",
+    "R1": "PASS_ABSTRACT_J2_NONZERO",
+    "R2": "PASS_CORRECTED_FULL_L_PAIR_f2_1_NONZERO",
+    "R3": "PASS_CV_LEMMA4_6_EXPLICIT_COCYCLE_xi_rho_Tr",
+    "R3_to_R4_bridge_at_audit_time": "MISSING",
+    "R3_to_R4_bridge_repair_now": {
+      "certificate": "stages/stage33/33-05/j2-r3-r4-brauer-sha-bridge.json",
+      "canonical_sha256": "4703d20bc8421eb1f46a0e9d5b2c97b76aa228c1dabecd90244a7820f18aceec",
+      "mathematical_adapter_materialized": true,
+      "fresh_super_hostile_audit_passed": false,
+      "source_theorem": "Creutz-Viray Proposition 5.1 plus Lemma 4.6: h0(gamma(ell))=d(ell) and d(ell) is the explicit cocycle"
+    },
+    "R4_attempt4": "PASS_CORRECTLY_ORIENTED_PHI_COVER_CANDIDATE_WITH_JACOBIAN_E_Kc",
+    "R4_named_J2_torsor_identification": "PROVISIONAL_VIA_NEW_BRAUER_SHA_BRIDGE_PENDING_FRESH_SUPER_HOSTILE",
+    "R4_named_J2_torsor_authoritative_credit": false,
+    "R4_exit": "OPEN_PRIMITIVE_NS_T_AND_4_8_12_SELECTION",
+    "candidate_minimum_norms": [
+      4,
+      8,
+      12
+    ],
+    "marked_brauer_coordinate_selected": false,
+    "minimum_norm_selected": false,
+    "R5": "NOT_RUN_BLOCKED_BY_R4"
+  },
+  "merge_allowed": false,
+  "new_kernel_id": "FRESH_SUPER_HOSTILE_REAUDIT_R3_R4_BRAUER_SHA_BRIDGE_THEN_R4_NS_4_8_12",
+  "next_expected_command": "fresh super-hostile audit of R3-R4 bridge",
+  "schema": "STAGE33_05_HOSTILE_AUDIT_STATE_V3_BRAUER_SHA_BRIDGE_REPAIR_PENDING_REAUDIT",
+  "semantic_status": "CURRENT_REOPENED_SUPER_HOSTILE_REPAIR_PENDING_REAUDIT",
   "stage33_progress": "5/11",
-  "new_kernel_id": "R4_PRIMITIVE_NS_DISCRIMINANT_FORM_AND_4_8_12_SELECTION_PLUS_EVIDENCE_HYGIENE",
-  "next_expected_command": "Stage33-main-batch"
+  "stage33_unit": "33-05",
+  "unit_closed": false,
+  "unit_status": "BLOCKED_PENDING_FRESH_SUPER_HOSTILE_REAUDIT",
+  "downstream_released": false
 }
