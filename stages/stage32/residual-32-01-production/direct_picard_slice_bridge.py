@@ -3,10 +3,12 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 from dataclasses import dataclass
 
 import sympy
 from sympy import Matrix
+from sympy.matrices.normalforms import hermite_normal_form
 
 from hperp_integral_adapter import (
     HperpIntegralPairingAdapter,
@@ -34,13 +36,26 @@ def vector_list(v: Matrix) -> list[int]:
     raise ValueError("expected vector")
 
 
+def matrix_list(m: Matrix) -> list[list[int]]:
+    return [[int(m[i, j]) for j in range(m.cols)] for i in range(m.rows)]
+
+
 @dataclass(frozen=True)
 class DirectPicardSliceBridge:
     hyperplane_coordinates: tuple[int, ...]
     degree_functional: tuple[int, ...]
     exceptional_mass_functional: tuple[int, ...]
     first_normal_half_functional: tuple[int, ...]
+    target_image_modulus: int
+    target_image_coefficients: tuple[tuple[int, int, int], ...]
     certificate: dict
+
+    def target_in_image(self, d: int, e: int, a: int) -> bool:
+        q = int(self.target_image_modulus)
+        if q == 1:
+            return True
+        target = (int(d), int(e), int(a))
+        return all(sum(row[j] * target[j] for j in range(3)) % q == 0 for row in self.target_image_coefficients)
 
     @classmethod
     def from_retained(cls, marking: dict, bundle: dict) -> "DirectPicardSliceBridge":
@@ -86,6 +101,27 @@ class DirectPicardSliceBridge:
         if rank != 3:
             raise ValueError(f"direct-slice functional rank regression: {rank}")
 
+        # Image(phi: Z^64 -> Z^3) is an exact full-rank column lattice.  The
+        # historical Magma `tar in Image(phi)` gate therefore reduces to three
+        # fixed integer congruences, certified here by the column HNF.
+        image_hnf = hermite_normal_form(phi)
+        if image_hnf.shape != (3, 3) or image_hnf.det() == 0:
+            raise ValueError(f"direct-slice image HNF regression: {image_hnf.shape}")
+        image_index = abs(int(image_hnf.det()))
+        image_inv = image_hnf.inv()
+        modulus = 1
+        for value in image_inv:
+            modulus = math.lcm(modulus, int(sympy.denom(value)))
+        image_inv_int = image_inv * modulus
+        if any(sympy.denom(v) != 1 for v in image_inv_int):
+            raise ValueError("direct-slice HNF inverse scaling regression")
+        image_inv_int = Matrix([[int(image_inv_int[i, j]) for j in range(3)] for i in range(3)])
+        active_coefficients = tuple(
+            tuple(int(image_inv_int[i, j]) % modulus for j in range(3))
+            for i in range(3)
+            if modulus != 1 and any(int(image_inv_int[i, j]) % modulus for j in range(3))
+        )
+
         cert = {
             "schema": "STAGE32_RESIDUAL32_01_DIRECT_PICARD_SLICE_BRIDGE_V1",
             "mode": "CURRENT_RETAINED_PICARD64_TO_EXACT_D_E_A_PARTITION",
@@ -110,6 +146,15 @@ class DirectPicardSliceBridge:
             "slice_functional_rank": rank,
             "slice_kernel_rank": PICARD_RANK - rank,
             "slice_coordinates": ["degree", "exceptional_total", "first_normal_half_total"],
+            "target_image": {
+                "hnf": matrix_list(image_hnf),
+                "hnf_sha256": csha(matrix_list(image_hnf)),
+                "image_index": image_index,
+                "congruence_modulus": modulus,
+                "active_congruence_rows": len(active_coefficients),
+                "congruence_coefficients": [list(v) for v in active_coefficients],
+                "historical_magma_gate_equivalent": "tar in Image(phi)",
+            },
             "candidate_partition_semantics": {
                 "if_all140_pairings_nonnegative": True,
                 "exceptional_total_nonnegative": True,
@@ -117,6 +162,7 @@ class DirectPicardSliceBridge:
                 "first_normal_half_a_bounds": "0 <= a <= 19*d - 5*e",
                 "slice_assignment_unique": True,
                 "terminal_prefix_materialization_required_for_partition": False,
+                "target_image_gate_exact_before_closevectors": True,
             },
             "numerical_closevectors_complete": False,
             "numerical_row_complete": False,
@@ -131,5 +177,7 @@ class DirectPicardSliceBridge:
             degree_functional=tuple(vector_list(degree_fn)),
             exceptional_mass_functional=tuple(vector_list(exceptional)),
             first_normal_half_functional=tuple(vector_list(first_half)),
+            target_image_modulus=modulus,
+            target_image_coefficients=active_coefficients,
             certificate=cert,
         )
