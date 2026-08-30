@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE33_05_J2_REPRESENTATIVE_REPAIR_STATE_V4_BRANCH_SURFACE_MU2_COSET_ADAPTER",
+  "schema": "STAGE33_05_J2_REPRESENTATIVE_REPAIR_STATE_V5_EXPLICIT_SURFACE_MU2_LIFT",
   "repair_band": "R0_TO_R5",
   "roadmap": "stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md",
-  "status": "R5_GEOMETRIC_PASS_POST_R5_BRANCH_SURFACE_MU2_COSET_ADAPTER_DONE_EXPLICIT_CECH_AND_HS_D2_OPEN",
-  "current_leaf": "POST_R5_CORRECTED_BRANCH_SURFACE_MU2_CECH",
-  "current_leaf_title": "MATERIALIZE_EXPLICIT_CECH_PREIMAGE_eD_FOR_CORRECTED_BRANCH_KUMMER_CLASS_THEN_COMPUTE_SIGMA_LAMBDA_MINUS_LAMBDA_IN_PIC_MOD2_AND_HS_D2",
-  "current_leaf_attempts": 4,
+  "status": "R5_GEOMETRIC_PASS_POST_R5_EXPLICIT_SURFACE_MU2_LIFT_DONE_PIC_MOD2_AND_HS_D2_OPEN",
+  "current_leaf": "POST_R5_CORRECTED_SYMBOL_SPLITTING_TO_PIC_MOD2",
+  "current_leaf_title": "COMPUTE_DIVISORS_OF_CC_CT_SYMBOL_SPLITTING_COCHAINS_IN_MARKED_PIC_KC_MOD2_THEN_INTEGRAL_BOCKSTEIN_HS_D2",
+  "current_leaf_attempts": 5,
   "mandatory_pre_r5_certificate": "stages/stage33/33-05/j2-r4-hostile-torsor-brauer-kernel-verification.json",
   "r5_certificate": "stages/stage33/33-05/j2-r5-hostile-replay.json",
   "post_r5_failure_certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json",
@@ -17,6 +17,8 @@
   "corrected_kc_branch_support_canonical_sha256": "a9eb7d4d3868581d88ff7ce88c23a42b7010c79c959ead1579738e4a0c56961a",
   "corrected_branch_surface_mu2_adapter_certificate": "stages/stage33/33-12/j2-corrected-branch-surface-mu2-adapter.json",
   "corrected_branch_surface_mu2_adapter_canonical_sha256": "edb98c634c79c97c09b0ea4a14402f32d9c5900c63dd9584eca5ea91b91d6875",
+  "explicit_cech_mu2_lift_certificate": "stages/stage33/33-12/j2-corrected-explicit-cech-mu2-lift.json",
+  "explicit_cech_mu2_lift_canonical_sha256": "6c9333f564637c362b026596833acd26ad2abff27e9c9d75d82ee5c6991cb76b",
   "leaves": {
     "R0": {
       "state": "DONE_ZERO",
@@ -52,18 +54,19 @@
       "geometric_certificate": "stages/stage33/33-05/j2-r5-hostile-replay.json",
       "post_r5_attempt_status": "FAIL_UNPROVEN_HS_D2_NOT_MATERIALIZED",
       "post_r5_failure_certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json",
-      "new_exact_progress": "CORRECTED_PRE_KUMMER_COCHAIN_MARKED_KC_SUPPORT_AND_B1_QUOTIENT_BRANCH_SURFACE_MU2_COSET_ADAPTER_MATERIALIZED",
+      "new_exact_progress": "CORRECTED_EXPLICIT_CECH_SYMBOL_PREIMAGE_SURFACE_MU2_LIFT_AND_GENERIC_GALOIS_DEFECT_SPLITTINGS_MATERIALIZED",
       "new_progress_certificates": [
         "stages/stage33/33-05/j2-corrected-pre-kummer-descent-cochain.json",
         "stages/stage33/33-12/j2-corrected-kc-branch-support.json",
-        "stages/stage33/33-12/j2-corrected-branch-surface-mu2-adapter.json"
+        "stages/stage33/33-12/j2-corrected-branch-surface-mu2-adapter.json",
+        "stages/stage33/33-12/j2-corrected-explicit-cech-mu2-lift.json"
       ],
       "R5_full_repair_exit_reached": false
     }
   },
   "post_r5_residual_kernel": {
     "id": "CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE",
-    "state": "OPEN_EXPLICIT_SURFACE_MU2_CECH_PREIMAGE_AND_HS_D2",
+    "state": "OPEN_PIC_MOD2_SPLITTING_DIVISORS_AND_HS_D2",
     "exact_question": "Does corrected geometric J2=(f2,1) have zero Hochschild-Serre d2 and hence an arithmetic Brauer preimage on Kc/Q?",
     "known_exact": {
       "J2_geometric_Galois_fixed": true,
@@ -86,12 +89,16 @@
       "B1_sign_double_cover_quotient_materialized": true,
       "four_branch_crossings_resolved_exactly": true,
       "corrected_branch_to_surface_H2_mu2_coset_adapter_materialized": true,
-      "surface_H2_mu2_lift_coset_materialized": true
+      "surface_H2_mu2_lift_coset_materialized": true,
+      "explicit_Cech_preimage_e_D": "{f2,1-s^2+i*s*(1-t^2)/t}",
+      "explicit_Cech_preimage_e_D_materialized": true,
+      "full_surface_mu2_lift_materialized": true,
+      "generic_cc_ct_defect_splittings_materialized": true
     },
     "still_unproved": {
       "corrected_branch_Pic0_2torsion_to_Kc_surface_H2_mu2_adapter": false,
-      "explicit_Cech_preimage_e_D": true,
-      "full_surface_mu2_lift": true,
+      "explicit_Cech_preimage_e_D": false,
+      "full_surface_mu2_lift": false,
       "pic_mod2_defect_1cocycle": true,
       "integral_Pic_lift": true,
       "HS_d2_2cocycle": true,
@@ -117,7 +124,7 @@
   "super_hostile_gate": {
     "mandatory_after_full_R5_exit": true,
     "state": "NOT_RELEASED",
-    "reason": "The corrected support and the actual B1-sign quotient/resolution Smith-Gysin adapter are exact. One explicit Cech preimage e_D, its Pic/2 Galois defect, and the HS d2 class remain open.",
+    "reason": "The corrected explicit Cech symbol and genuine surface mu2 lift are exact. The divisor classes of the cc/ct splitting cochains in marked Pic/2, their integral lifts, and the HS d2 class remain open.",
     "new_PR_required_after_full_R5_exit": true
   },
   "firewalls": {
@@ -142,6 +149,6 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "stage33_progress": "5/11",
-  "next_exact_leaf": "MATERIALIZE_EXPLICIT_CECH_PREIMAGE_eD_FOR_CORRECTED_BRANCH_KUMMER_CLASS_THEN_COMPUTE_SIGMA_LAMBDA_MINUS_LAMBDA_IN_PIC_MOD2_AND_HS_D2",
+  "next_exact_leaf": "COMPUTE_DIVISORS_OF_CC_CT_SYMBOL_SPLITTING_COCHAINS_IN_MARKED_PIC_KC_MOD2_THEN_INTEGRAL_BOCKSTEIN_HS_D2",
   "report_format": "33-05 repair: post-R5 | exact new information | surface-mu2/HS-d2 state | next exit test"
 }

@@ -1,5 +1,5 @@
 {
-  "canonical_sha256": "c35eec49758734e29cb801ea9a55ed6e739238750f3ff92c14f030ae25e8ff2b",
+  "canonical_sha256": "c3b4ad72f9fcff7b18955420e8cc33b62f9748e5ab6511acfc06d677d6bfa719",
   "defect_state": {
     "HS_d2_2cocycle_materialized": false,
     "HS_d2_zero_proved": false,
@@ -17,12 +17,15 @@
     "normalization_half_divisor_descent_cochain_materialized": true
   },
   "kummer_exact_sequence": {
-    "full_surface_mu2_lift_for_corrected_J2_materialized": false,
-    "normalization_to_surface_Kummer_adapter_materialized": false,
-    "reason": "The corrected normalization/full-L descent cochain is exact, but no committed functorial map yet turns it into an H^2_et(Kc_bar,mu_2) lift in the marked Kc surface presentation.",
+    "explicit_Cech_preimage_e_D_materialized": true,
+    "full_surface_mu2_lift_for_corrected_J2_materialized": true,
+    "generic_galois_defect_splittings_materialized": true,
+    "normalization_to_surface_Kummer_adapter_materialized": true,
+    "pic_mod2_integral_coordinates_materialized": false,
+    "reason": "The corrected class is now represented by the explicit unramified Kummer cup product {f2,g22}; its cc/ct differences have explicit generic splittings, but the associated divisor classes are not yet expressed in the marked integral Picard lattice.",
     "sequence": "Pic(Kc_bar)/2 -> H^2_et(Kc_bar,mu_2) -> Br(Kc_bar)[2] -> 0"
   },
-  "next_exact_leaf": "MATERIALIZE_NORMALIZATION_HALF_DIVISOR_TO_KC_SURFACE_H2_MU2_ADAPTER_THEN_COMPUTE_PIC_MOD2_DEFECT_AND_BOCKSTEIN_HS_D2",
+  "next_exact_leaf": "COMPUTE_DIVISORS_OF_CC_CT_SYMBOL_SPLITTING_COCHAINS_IN_MARKED_PIC_KC_MOD2_THEN_INTEGRAL_BOCKSTEIN_HS_D2",
   "promotion_firewall": {
     "Q_defined_descent_credit_restored": false,
     "arithmetic_hs_d2_computed": false,
@@ -41,12 +44,14 @@
     "historical_named_kummer_glue_producer_tombstoned": true,
     "old_Q_defined_ell_J2_may_be_used": false
   },
-  "schema": "STAGE33_12_J2_FULL_SURFACE_MU2_ZERO_DEFECT_CONTRACT_V3_CORRECTED_PRE_KUMMER",
+  "schema": "STAGE33_12_J2_FULL_SURFACE_MU2_ZERO_DEFECT_CONTRACT_V4_EXPLICIT_SYMBOL_LIFT",
   "source_locks": {
     "corrected_pre_kummer_canonical_sha256": "940df53040c6f5245914effbfb7d752a08c61b6d593586952b322e4069415106",
     "corrected_pre_kummer_certificate": "stages/stage33/33-05/j2-corrected-pre-kummer-descent-cochain.json",
+    "explicit_cech_mu2_lift_canonical_sha256": "6c9333f564637c362b026596833acd26ad2abff27e9c9d75d82ee5c6991cb76b",
+    "explicit_cech_mu2_lift_certificate": "stages/stage33/33-12/j2-corrected-explicit-cech-mu2-lift.json",
     "post_r5_fail_canonical_sha256": "a7c08372b9ef012a1446bd3bf4f40541d77d372dadc73e3780f6ce2529fcc6d8",
     "post_r5_fail_certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json"
   },
-  "status": "OPEN_CORRECTED_REPRESENTATIVE_PRE_KUMMER_COCHAIN_MATERIALIZED_SURFACE_MU2_AND_HS_D2_UNPROVEN"
+  "status": "OPEN_EXPLICIT_SURFACE_MU2_LIFT_MATERIALIZED_PIC_MOD2_COORDINATES_AND_HS_D2_UNPROVEN"
 }
