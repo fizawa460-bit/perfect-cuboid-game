@@ -1,0 +1,28 @@
+name: Stage32 compressed terminal exact indexer
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/residual-32-01-production/compressed_terminal_family.py'
+      - 'stages/stage32/residual-32-01-production/compressed_terminal_indexer.py'
+      - 'stages/stage32/residual-32-01-production/test_compressed_terminal_indexer.py'
+      - '.github/workflows/stage32-compressed-terminal-indexer.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-compressed-terminal-indexer-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  exact-indexer:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Validate exact count, bijection, and large-stratum random access
+        run: python -m unittest stages/stage32/residual-32-01-production/test_compressed_terminal_indexer.py -v
