@@ -1,0 +1,46 @@
+{
+  "schema": "STAGE33_05_J2_R4_HISTORICAL_ATTEMPTS_SEMANTIC_STATUS_V1",
+  "authority": "CURRENT_SEMANTIC_OVERRIDE_FOR_HISTORICAL_R4_CERTIFICATES",
+  "created_from_super_hostile_verdict": "FAIL_REPAIR_REQUIRED_BEFORE_MERGE",
+  "attempts": {
+    "attempt1": {
+      "certificate": "stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json",
+      "historical_canonical_sha256": "a2b13adf8bf186796058baf88de4853a10682577298f4c75f508ddd8a0c4b3ec",
+      "semantic_status": "SUPERSEDED",
+      "not_valid_as_named_kc_torsor_evidence": true,
+      "retained_scope": "ALGEBRAIC_REGRESSION_OF_OLD_PLUS_A_BINARY_QUARTIC_AND_EPRIME_TR_COMPARISON_ONLY",
+      "reason": "Attempt4 binary-quartic invariants prove the old +a,b/f2 quartic has Jacobian Eprime_Tr rather than E_Kc."
+    },
+    "attempt2": {
+      "certificate": "stages/stage33/33-05/j2-r4-bisection-relative-component-incidence.json",
+      "historical_canonical_sha256": "bae1bd41d89a994b87ad7649547d5045808ff28653df319fd6bbad470e758735",
+      "semantic_status": "SUPERSEDED_AS_NAMED_TORSOR_EVIDENCE",
+      "not_valid_as_named_kc_torsor_evidence": true,
+      "retained_scope": "FIXED_JACOBIAN_TR_COMPONENT_SPECIALIZATION_AND_BISECTION_RAMIFICATION_REGRESSION_ONLY",
+      "reason": "Its component calculations remain useful only after reinterpreting them as fixed-Jacobian relative data; its source-lock named-torsor interpretation used the superseded attempt1 orientation."
+    },
+    "attempt3": {
+      "certificate": "stages/stage33/33-05/j2-r4-legendre-torsion-glue-reduction.json",
+      "semantic_status": "RETAINED_EXACT_FIXED_JACOBIAN_TORSION_IDENTITIES_ONLY",
+      "not_sufficient_to_select_4_8_12": true
+    },
+    "attempt4": {
+      "certificate": "stages/stage33/33-05/j2-r4-2isogeny-orientation-correction.json",
+      "semantic_status": "CURRENT_R4_ORIENTATION_AUTHORITY",
+      "corrected_named_torsor_jacobian": "E_Kc",
+      "candidate_minimum_norms": [4, 8, 12],
+      "minimum_norm_selected": false,
+      "marked_brauer_coordinate_selected": false
+    }
+  },
+  "workflow_rule": "Attempts 1 and 2 may not be regenerated as current PASS_EXACT named-torsor evidence. Any replay must be explicitly historical/algebraic and must consume this semantic override.",
+  "firewalls": {
+    "Q_defined_descent_credit_restored": false,
+    "stage33_05_reclosed": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false
+  }
+}
