@@ -14,6 +14,10 @@ from direct_picard_reynolds_rank2_antifixed_coset_bound import ReynoldsRank2Anti
 EXPECTED_MANIFEST_SHA256 = "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23"
 EXPECTED_AC_SHA256 = "2c227d773aaf6a6543ae89419c468d85fd4ebd42422eb6f4c8ac60b2e7227c8e"
 EXPECTED_RESULT_VERDICT = "PASS_STAGE32_21AD_FULL178_16SHARD_ANTIFIXED_COSET_NUMERICAL_CENSUS"
+EXPECTED_RESULT_STATUSES = {
+    "EXACT_CENSUS_COMPLETE_PENDING_BOUNDARY_AUDIT",
+    "AUDITED_ZERO_PRUNE_CHECKPOINT",
+}
 EXPECTED_PRODUCTION_RUN_ID = 33313814094
 EXPECTED_AGGREGATE_ARTIFACT_ID = 9732838513
 EXPECTED_AGGREGATE_ZIP_SHA256 = "5c2ba19b704f9466ad8bd083a4ad14a2821aad5ab0b5829999dbd9ab3bca98cf"
@@ -59,8 +63,8 @@ def main() -> None:
     result = json.loads(args.result.read_text())
     if result["verdict"] != EXPECTED_RESULT_VERDICT:
         raise ValueError("committed 32-21ad verdict drift")
-    if result["status"] != "EXACT_CENSUS_COMPLETE_PENDING_BOUNDARY_AUDIT":
-        raise ValueError("32-21ad result is not at the expected pre-audit boundary")
+    if result["status"] not in EXPECTED_RESULT_STATUSES:
+        raise ValueError(f"32-21ad result status is not audit-compatible: {result['status']}")
     par = result["exact_parallel_census"]
     result_locks = (
         int(par["run_id"]),
