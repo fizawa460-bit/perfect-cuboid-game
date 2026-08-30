@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V67_RESUMABLE_GEN38_256M_EXACT_FRONTIER_52",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V68_GEN38_256M_GIANT_STRATUM_TAIL_52",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "RESUMABLE_GEN38_256M_EXACT_FRONTIER_52_HARD_TAIL_DIAGNOSTIC_NEXT",
+  "status": "GEN38_256M_EXACT_FRONTIER_52_ALL_SAME_E_BOUNDED_SPLIT_DESIGN_NEXT",
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": false,
@@ -105,6 +105,23 @@
       0.7934782608695652,
       0.7123287671232876
     ],
+    "generation38_hard_tail_diagnostic": {
+      "checkpoint": "stages/stage32/residual-32-01-production/full178-resumable-generation38-256m-hard-tail-diagnostic-main-checkpoint.json",
+      "workflow_run_id": 33286709799,
+      "job_id": 99191037051,
+      "artifact_id": 9724653438,
+      "artifact_zip_sha256": "7b58b0f93d20b44c972194b141f56293af57aa31729c759edb3c809d6c9fbc0c",
+      "diagnostic_canonical_sha256": "b5f873869b278f08310b2101ebd242f3639503d9cfc005d9752e5735dd90596e",
+      "survivor_count": 52,
+      "same_e_after_full_256m": 52,
+      "advanced_e_survivor_count": 0,
+      "unique_survivor_rows": 8,
+      "completed_pre_nodes_median": 192000000,
+      "survived_pre_nodes_median": 192000000,
+      "survived_post_nodes_median": 448000000,
+      "classification": "GIANT_INDIVIDUAL_EXACT_STRATA",
+      "result": "PASS_EXACT_GEN38_256M_HARD_TAIL_DIAGNOSTIC"
+    },
     "generation38_adaptive_interpretation": {
       "previous_node_limit_per_work_unit": 64000000,
       "current_node_limit_per_work_unit": 256000000,
@@ -112,9 +129,11 @@
       "frontier_before": 73,
       "frontier_after": 52,
       "hard_tail_remains_substantial": true,
+      "all_survivors_remained_inside_same_exact_e_stratum": true,
       "interpretation_is_theorem": false,
       "blind_next_ceiling_escalation_authorized": false,
-      "next": "DIAGNOSE_EXACT_FRONTIER_52_BEFORE_NEXT_HEAVY_ARM"
+      "old_unbounded_split_restoration_authorized": false,
+      "next": "DESIGN_AND_CALIBRATE_BOUNDED_DISJOINT_CONTINUATION_SPLIT_FOR_52_GIANT_EXACT_STRATA"
     },
     "production_switch_supported": true,
     "production_switched": true
@@ -123,5 +142,5 @@
     "armed": false,
     "preferred": false
   },
-  "next_item": "ANALYZE_RESUMABLE_GEN38_256M_HARD_TAIL_52_BEFORE_NEXT_HEAVY_ARM"
+  "next_item": "DESIGN_AND_CALIBRATE_BOUNDED_DISJOINT_CONTINUATION_SPLIT_FOR_52_GIANT_EXACT_STRATA"
 }
