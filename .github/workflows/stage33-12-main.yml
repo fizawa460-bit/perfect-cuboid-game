@@ -31,7 +31,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Replay authoritative hostile-reopen through R3 repair closure
+      - name: Replay authoritative hostile-reopen through R4 torsor reduction
         run: |
           cp stages/stage33/33-12/boundary-function-scalar-descent-certificate.json /tmp/expected-boundary-scalars.json
           python stages/stage33/33-12/certify_boundary_function_scalar_descent.py
@@ -70,12 +70,19 @@ jobs:
           python stages/stage33/33-05/certify_j2_corrected_cv_e2_cocycle.py
           cmp /tmp/expected-j2-corrected-e2.json stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json
 
+          # R4 attempt 1: materialize the named repaired Tr-kernel 2-cover. This
+          # is a reduction only; no minimum norm or marked coordinate is promoted.
+          cp stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json /tmp/expected-j2-r4-tr-torsor.json
+          python stages/stage33/33-05/certify_j2_r4_tr_kernel_torsor_reduction.py
+          cmp /tmp/expected-j2-r4-tr-torsor.json stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json
+
           python - <<'PY'
           import json
           c=json.load(open('stages/stage33/controller.json'))
           s=c['stage33_05_hostile_reopen']
           j=next(x for x in c['repair_children'] if x['id']=='33-12')
           r=json.load(open('stages/stage33/33-05/j2-representative-repair-state.json'))
+          z=json.load(open('stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json'))
           assert s['reopened'] is True
           assert s['named_representative_credit']=='REVOKED_PENDING_REPAIR'
           assert s['abstract_J2_nonzero_reconfirmed'] is True
@@ -83,11 +90,15 @@ jobs:
           assert s['corrected_geometric_J2_E2_cocycle_materialized'] is True
           assert s['Q_descent_of_corrected_representative_established'] is False
           assert s['repair_leaf']=='R4'
-          assert r['current_leaf']=='R4'
+          assert r['current_leaf']=='R4' and r['current_leaf_attempts']==1
           assert r['leaves']['R1']['state']=='DONE_ABSTRACT_J2_NONZERO_CONFIRMED'
           assert r['leaves']['R2']['state']=='DONE_CORRECTED_ELL_J2_NONZERO_CONFIRMED'
           assert r['leaves']['R3']['state']=='DONE_EXPLICIT_NONZERO_CV_E2_COCYCLE_AND_KUMMER_COORDINATES'
-          assert r['leaves']['R4']['state']=='IN_PROGRESS'
+          assert r['leaves']['R4']['state']=='IN_PROGRESS_NAMED_TR_KERNEL_2COVER_MATERIALIZED_LATTICE_GLUE_PENDING'
+          assert z['named_repaired_J2_2cover']['kernel']=='<Tr>'
+          assert z['tr_kernel_2isogenous_comparison_surface']['is_named_J2_torsor'] is False
+          assert z['lattice_reduction']['minimum_norm_selected'] is False
+          assert z['lattice_reduction']['marked_brauer_coordinate_selected'] is False
           assert r['firewalls']['Q_defined_descent_credit_restored'] is False
           assert r['firewalls']['stage33_05_reclosed'] is False
           assert c['stage33_07']['stage33_12_exact_obstruction_inventory_sha256']=='7656f2bd9ff89cdc8d8dfd3c027fa672c00457efc8b707be8cd0a926e5d0fda4'
@@ -109,5 +120,5 @@ jobs:
           assert c['stage33_progress']=='5/11'
           assert c['theorem_credit'] is False and c['receiver_credit'] is False and c['endpoint_credit'] is False
           assert c['perfect_cuboid_existence_claim'] is False and c['perfect_cuboid_nonexistence_claim'] is False
-          print('authoritative hostile-reopen + R1/R2/R3 repair controller state PASS; R4 live')
+          print('R1-R3 exact plus R4 named Tr-kernel torsor reduction PASS; lattice glue still open')
           PY
