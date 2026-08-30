@@ -19,8 +19,6 @@ CONTROLLER=STAGE33/"controller.json"
 OUT=HERE/"full-surface-hs-adjustment-contract.json"
 EXPECTED_BR2="c86f6e838d072816426e4a2b0eb738f44e8632dd1ab4f3e6fdccd161ec41b5bf"
 EXPECTED_GLUE="0cc5321d02b56cea801b8def71a4c3b0946bd8011d8c30767a9602faba2fa8d8"
-# Historical PR #1358 audit-state text hash. History source lock only; the
-# current reopened audit-state.json is expected to evolve under hostile audit.
 EXPECTED_K3_AUDIT_TEXT_LF="08a4bb374a29266aa9c59dd433ac0fb6cac89eaca31829339f7a6ce9e32a7fa6"
 EXPECTED_H10="4dbbfa8d208026e8ccb47915e66eb4bedef327ccf5b6f8c6c9caa7e74a64028f"
 EXPECTED_SCALARS="e7d0d003c71271822e51b626acf21575e0c490035bdf3ef802feb3d7c767e36b"
@@ -50,11 +48,12 @@ def fixed_dimension(cc,ct):
 br2=load_locked(BR2,EXPECTED_BR2); glue=load_locked(GLUE,EXPECTED_GLUE); h10=load_locked(H10,EXPECTED_H10); scalars=load_locked(SCALARS,EXPECTED_SCALARS)
 k3=json.loads(K3_AUDIT.read_text()); reopen=json.loads(REOPEN.read_text()); controller=json.loads(CONTROLLER.read_text())
 
-# Current audit state must remain a hostile-reopened authority, never a stale
-# CLOSED record. V2 and V3 differ in bookkeeping only; both preserve revocation.
+# Current audit state must remain a hostile-reopened authority, never a stale CLOSED record.
+# It may advance from repair-pending to fresh-audit-pass while Stage33-05 itself remains open.
 allowed_semantic={
     "SUPERSEDED_BY_HOSTILE_REOPEN",
     "CURRENT_REOPENED_SUPER_HOSTILE_REPAIR_PENDING_REAUDIT",
+    "CURRENT_REOPENED_R3_R4_BRIDGE_AUDITED_R4_EXIT_OPEN",
 }
 if k3.get("semantic_status") not in allowed_semantic:
     raise SystemExit("Stage33-05 current audit state is not hostile-reopened")
@@ -73,14 +72,16 @@ if hist.get("verdict_at_that_time")!="PASS_AFTER_INDEPENDENT_Q_SURVIVAL_AND_HS_D
     raise SystemExit("historical Stage33-05 audit snapshot moved")
 if hist.get("historical_J2_descent_claim_now_revoked") is not True:
     raise SystemExit("historical J2 descent revocation missing")
-# V2 carried extra q1 history; if present it remains load-bearing history.
 if "q1_hs_d2_nonzero_at_that_time" in hist and hist["q1_hs_d2_nonzero_at_that_time"] is not True:
     raise SystemExit("historical q1 d2 fact moved")
 
 if reopen["status"]!="PASS_EXACT_UPSTREAM_REPRESENTATIVE_CONTRADICTION" or reopen["class3_promotion_allowed"]:
     raise SystemExit("hostile reopen certificate regression")
-if controller["stage33_05_hostile_reopen"]["named_representative_credit"]!="REVOKED_PENDING_REPAIR":
-    raise SystemExit("controller did not preserve hostile reopen")
+reopen_state=controller["stage33_05_hostile_reopen"]
+if reopen_state.get("Q_descent_of_current_ell_as_nonzero_geometric_J2_revoked") is not True:
+    raise SystemExit("controller lost historical J2 Q-descent revocation")
+if reopen_state.get("Q_descent_of_corrected_representative_established") is not False:
+    raise SystemExit("controller incorrectly restored corrected J2 Q-descent")
 if controller["stage33_07"]["j2_q_defined"]:
     raise SystemExit("stale J2 Q-defined promotion reappeared")
 if h10["status"]!="CLOSED_EXACT": raise SystemExit("Stage33-10 is not exact-closed")
