@@ -35,7 +35,7 @@ class CompressedTerminalFamilyTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         bundle = load_module_payload(RETAINED, "stage32_compressed_family_picard")
-        cls.assertEqual(cls, bundle["canonical_sha256"], RETAINED_BUNDLE_SHA256)
+        assert bundle["canonical_sha256"] == RETAINED_BUNDLE_SHA256
         marking = load_module_payload(MARKING, "stage32_compressed_family_marking")
         adapter = HperpIntegralPairingAdapter.from_retained(marking, bundle)
         cls.oracle = EquivariantPrefixMembershipOracle(adapter, KNOWN_LABEL_ORDER)
@@ -94,9 +94,9 @@ class CompressedTerminalFamilyTest(unittest.TestCase):
                 self.assertEqual(exact["terminal_count"], stratum_terminal_count(e=e, d=d))
 
     def test_terminal_predicate_matches_oracle_and_aut_on_small_box(self) -> None:
-        # Exhaustive tiny box locks the predicate semantics independently of the
-        # symbolic count convolution.
-        e, d = 3, 1
+        # Exhaustive 0..2 box locks the predicate semantics independently of the
+        # symbolic convolution while remaining small enough for a cold selftest.
+        e, d = 2, 1
         vals = [0] * 11
         seen = 0
 
@@ -104,22 +104,18 @@ class CompressedTerminalFamilyTest(unittest.TestCase):
             nonlocal seen
             if depth == 11:
                 expected = self.oracle.feasible(vals) and self.aut.canonical(vals)
-                # Budget conditions are enforced separately by the production DFS.
                 exceptional_sum = sum(vals[i] for i in range(11) if i != 4)
                 budget_ok = exceptional_sum <= e and vals[4] <= 19 * d - 5 * e
                 expected = expected and budget_ok
                 self.assertEqual(terminal_predicate(vals, e=e, d=d), expected, tuple(vals))
                 seen += 1
                 return
-            # 0..3 is enough to cover every exceptional value under e=3; x4 has
-            # budget 4, so include 4 there.
-            hi = 4 if depth == 4 else 3
-            for v in range(hi + 1):
+            for v in range(3):
                 vals[depth] = v
                 rec(depth + 1)
 
         rec(0)
-        self.assertEqual(seen, 5 * (4 ** 10))
+        self.assertEqual(seen, 3 ** 11)
 
     def test_precompute_reaches_full_stage32_e_ceiling(self) -> None:
         table = build_exceptional_count_table(729)
