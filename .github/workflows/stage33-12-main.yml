@@ -31,7 +31,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Replay authoritative hostile-reopen through R2 repair closure
+      - name: Replay authoritative hostile-reopen through R3 repair closure
         run: |
           cp stages/stage33/33-12/boundary-function-scalar-descent-certificate.json /tmp/expected-boundary-scalars.json
           python stages/stage33/33-12/certify_boundary_function_scalar_descent.py
@@ -64,6 +64,12 @@ jobs:
           python stages/stage33/33-05/certify_j2_corrected_full_l_representative.py
           cmp /tmp/expected-j2-corrected-full-l.json stages/stage33/33-05/j2-corrected-full-l-representative.json
 
+          # R3 repair closure: corrected pair maps by CV Lemma 4.6 to a nonzero
+          # fixed-basis E[2] cocycle with explicit Kummer character coordinates.
+          cp stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json /tmp/expected-j2-corrected-e2.json
+          python stages/stage33/33-05/certify_j2_corrected_cv_e2_cocycle.py
+          cmp /tmp/expected-j2-corrected-e2.json stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json
+
           python - <<'PY'
           import json
           c=json.load(open('stages/stage33/controller.json'))
@@ -74,12 +80,14 @@ jobs:
           assert s['named_representative_credit']=='REVOKED_PENDING_REPAIR'
           assert s['abstract_J2_nonzero_reconfirmed'] is True
           assert s['corrected_geometric_J2_representative_nonzero'] is True
+          assert s['corrected_geometric_J2_E2_cocycle_materialized'] is True
           assert s['Q_descent_of_corrected_representative_established'] is False
-          assert s['repair_leaf']=='R3'
-          assert r['current_leaf']=='R3'
+          assert s['repair_leaf']=='R4'
+          assert r['current_leaf']=='R4'
           assert r['leaves']['R1']['state']=='DONE_ABSTRACT_J2_NONZERO_CONFIRMED'
           assert r['leaves']['R2']['state']=='DONE_CORRECTED_ELL_J2_NONZERO_CONFIRMED'
-          assert r['leaves']['R3']['state']=='IN_PROGRESS'
+          assert r['leaves']['R3']['state']=='DONE_EXPLICIT_NONZERO_CV_E2_COCYCLE_AND_KUMMER_COORDINATES'
+          assert r['leaves']['R4']['state']=='IN_PROGRESS'
           assert r['firewalls']['Q_defined_descent_credit_restored'] is False
           assert r['firewalls']['stage33_05_reclosed'] is False
           assert c['stage33_07']['stage33_12_exact_obstruction_inventory_sha256']=='7656f2bd9ff89cdc8d8dfd3c027fa672c00457efc8b707be8cd0a926e5d0fda4'
@@ -89,15 +97,17 @@ jobs:
           assert j['j2_class3_promoted'] is False
           assert j['j2_abstract_nonzero_reconfirmed'] is True
           assert j['j2_corrected_geometric_cv_representative_nonzero'] is True
+          assert j['j2_corrected_geometric_cv_e2_cocycle_materialized'] is True
           assert j['j2_Q_descent_credit_restored'] is False
-          assert j['j2_repair_leaf']=='R3'
-          assert j['j2_cv_lemma_4_6_explicit_e2_cocycle_route_live'] is True
-          assert j['j2_full_E2_kummer_coordinates_materialized'] is False
+          assert j['j2_repair_leaf']=='R4'
+          assert j['j2_full_E2_kummer_coordinates_materialized'] is True
+          assert j['j2_marked_brauer_coordinate_selected'] is False
+          assert j['j2_twisted_transcendental_kernel_identified'] is False
           assert j['stage33_12_closed_exact'] is False
           assert j['heavy_actions_authorized'] is False
           assert next(x for x in c['repair_children'] if x['id']=='33-13')['released'] is False
           assert c['stage33_progress']=='5/11'
           assert c['theorem_credit'] is False and c['receiver_credit'] is False and c['endpoint_credit'] is False
           assert c['perfect_cuboid_existence_claim'] is False and c['perfect_cuboid_nonexistence_claim'] is False
-          print('authoritative hostile-reopen + R1/R2 repair controller state PASS; R3 live')
+          print('authoritative hostile-reopen + R1/R2/R3 repair controller state PASS; R4 live')
           PY
