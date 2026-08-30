@@ -2,13 +2,15 @@
   "schema": "STAGE33_05_J2_REPRESENTATIVE_REPAIR_STATE_V1",
   "repair_band": "R0_TO_R5",
   "roadmap": "stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md",
-  "status": "R4_DONE_MINIMUM_NORM_8_MARKED_J2_1_0_HOSTILE_KERNEL_VERIFIED_R5_READY",
-  "current_leaf": "R5",
-  "current_leaf_title": "HOSTILE_REPLAY_R1_TO_R4_AND_RESTORE_ONLY_REESTABLISHED_CREDIT",
+  "status": "R5_HOSTILE_REPLAY_PASS_GEOMETRIC_R1_TO_R4_RESTORED_Q_DESCENT_RESIDUAL_OPEN",
+  "current_leaf": "POST_R5_Q_DESCENT",
+  "current_leaf_title": "CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE",
   "current_leaf_attempts": 0,
   "current_leaf_stagnation_count": 0,
   "stagnation_trigger": 2,
   "mandatory_pre_r5_certificate": "stages/stage33/33-05/j2-r4-hostile-torsor-brauer-kernel-verification.json",
+  "r5_certificate": "stages/stage33/33-05/j2-r5-hostile-replay.json",
+  "r5_verifier": "stages/stage33/33-05/certify_j2_r5_hostile_replay.py",
   "leaves": {
     "R0": {
       "state": "DONE_ZERO",
@@ -16,13 +18,13 @@
       "certificate": "stages/stage33/33-12/j2-cv-lclass-zero-regression.json"
     },
     "R1": {
-      "state": "DONE_ABSTRACT_J2_NONZERO_CONFIRMED",
+      "state": "DONE_ABSTRACT_J2_NONZERO_CONFIRMED_HOSTILE_REPLAY_PASS",
       "exit": "ABSTRACT_J2_NONZERO_CONFIRMED",
       "certificate": "stages/stage33/33-05/j2-abstract-nonzero-reaudit.json",
       "exact_statement": "J2 is nonzero in LcE/im(x-alpha) for all four undetermined (b,d) image normal forms; revoked ell_J2 was not used as a witness."
     },
     "R2": {
-      "state": "DONE_CORRECTED_ELL_J2_NONZERO_CONFIRMED",
+      "state": "DONE_CORRECTED_ELL_J2_NONZERO_CONFIRMED_HOSTILE_REPLAY_PASS",
       "exit": "CORRECTED_ELL_J2_NONZERO_IN_LSTAR_MOD_KSTAR_LSTAR2",
       "attempts": 1,
       "certificate": "stages/stage33/33-05/j2-corrected-full-l-representative.json",
@@ -32,7 +34,7 @@
       "exact_statement": "The source-locked J2 pair (f2,1) is nonzero in Lbar^*/(Kbar^* Lbar^{*2}); quotient-zero would force f2 square in E, but neither f2 nor f2/q is a Kbar-square because of odd branch valuations."
     },
     "R3": {
-      "state": "DONE_EXPLICIT_NONZERO_CV_E2_COCYCLE_AND_KUMMER_COORDINATES",
+      "state": "DONE_EXPLICIT_NONZERO_CV_E2_COCYCLE_AND_KUMMER_COORDINATES_HOSTILE_REPLAY_PASS",
       "exit": "EXPLICIT_NONZERO_CREUTZ_VIRAY_E2_COCYCLE_AND_KUMMER_COORDINATES",
       "attempts": 1,
       "input_certificate": "stages/stage33/33-05/j2-corrected-full-l-representative.json",
@@ -44,7 +46,7 @@
       "exact_statement": "Creutz-Viray Lemma 4.6 applied directly to corrected (f2,1) gives chi_tilde=(1,1,0,0), g=1 and xi(rho)=the Bplus partition class; an exact quartic-to-Jacobian square identity identifies that class as Tr=((t^2-1)^2,0)."
     },
     "R4": {
-      "state": "DONE_MINIMUM_NORM_8_MARKED_J2_1_0_HOSTILE_KERNEL_VERIFIED",
+      "state": "DONE_MINIMUM_NORM_8_MARKED_J2_1_0_HOSTILE_REPLAY_PASS",
       "exit": "TWISTED_KERNEL_MINIMUM_NORM_IN_4_8_12_AND_MARKED_COORDINATE_SELECTED",
       "attempts": 3,
       "input_certificate": "stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json",
@@ -71,9 +73,26 @@
       "exact_statement": "The corrected pair (f2,1) maps by Creutz-Viray's explicit d-map to the R3 E[2] cocycle xi(rho)=Tr, and Proposition 5.1 identifies this with the cohomological edge image of the same CV Brauer class. Over Kgeom=Qbar(t), the elliptic section and Br(Kgeom)=0 make its H1(E) image exactly the Ogg-Shafarevich torsor class of corrected geometric J2. The attempt-2 quartic is the explicit semilinear translation descent for that cocycle, so its relatively minimal smooth projective model is the elliptic K3 torsor J_J2. Căldăraru Theorem 1.2 and sections 1.15-1.16 give an integral Hodge isometry T(X_J2) ~= ker(J2:T(Kc)->Q/Z), with no pairing rescaling. Separately, the free involution quotient gives a degree-2 map to E'_Tr, whose K3 is Kc over Q(i,sqrt(2)); pullback therefore has Gram T(Kc)(2)=diag(8,16), determinant 128. Since nonzero order-2 J2 has kernel index 2 and determinant 128, equal determinants force pullback index 1. Thus T(X_J2)=diag(8,16), minimum norm 8, and marked J2=[1,0]. Attempt 1 remains revoked as the named torsor."
     },
     "R5": {
-      "state": "READY_AFTER_R4_HOSTILE_KERNEL_VERIFICATION",
-      "exit": "HOSTILE_REPLAY_AND_ONLY_VALID_CREDIT_RESTORED"
+      "state": "DONE_HOSTILE_REPLAY_PASS_GEOMETRIC_ONLY_Q_DESCENT_NOT_RESTORED",
+      "exit": "HOSTILE_REPLAY_AND_ONLY_VALID_CREDIT_RESTORED",
+      "certificate": "stages/stage33/33-05/j2-r5-hostile-replay.json",
+      "verifier": "stages/stage33/33-05/certify_j2_r5_hostile_replay.py",
+      "exact_statement": "Independent replay confirms R1-R4 and retains minimum norm 8 / marked J2=[1,0]. Credit reconciliation refuses to inherit the pre-reopen Q-descent claim because the former Q-defined arithmetic representative ell_Q was proved geometrically trivial. No corrected Q-defined arithmetic representative/descent datum has yet been materialized."
     }
+  },
+  "post_r5_residual_kernel": {
+    "id": "CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE",
+    "state": "OPEN",
+    "certificate": "stages/stage33/33-05/j2-r5-hostile-replay.json",
+    "exact_question": "Construct and hostile-verify a Q-defined arithmetic Brauer representative/descent datum whose geometric restriction is the corrected nonzero J2=(f2,1).",
+    "mandatory_checks": [
+      "source-lock the full Galois action on corrected J2",
+      "materialize an explicit Q-defined Azumaya/CSA representative or equivalent descent cocycle",
+      "prove geometric restriction equals corrected nonzero J2 and not revoked ell_Q",
+      "verify required arithmetic unramifiedness/residue conditions",
+      "hostile replay the Stage33-05 explicit arithmetic representative closure criterion"
+    ],
+    "forbidden_shortcut": "Do not reuse the old Q-defined ell_Q/CSA from j2_arithmetic_descent.py as corrected J2; its geometric CV class is zero."
   },
   "fixed_marked_receiver": {
     "T_Kc_gram": [[4, 0], [0, 8]],
@@ -104,6 +123,6 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "stage33_progress": "5/11",
-  "next_exact_leaf": "R5_HOSTILE_REPLAY_R1_TO_R4_AND_RESTORE_ONLY_REESTABLISHED_CREDIT",
+  "next_exact_leaf": "POST_R5_CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE",
   "report_format": "33-05 repair: R?/R5 | state | attempts | exact new information | next exit test"
 }
