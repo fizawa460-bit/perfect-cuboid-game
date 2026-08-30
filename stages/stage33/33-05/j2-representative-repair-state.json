@@ -2,9 +2,9 @@
   "schema": "STAGE33_05_J2_REPRESENTATIVE_REPAIR_STATE_V1",
   "repair_band": "R0_TO_R5",
   "roadmap": "stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md",
-  "status": "R1_IN_PROGRESS_ABSTRACT_J2_NONZERO_REAUDIT",
-  "current_leaf": "R1",
-  "current_leaf_title": "ABSTRACT_J2_NONZERO_SURVIVAL_REAUDIT_INDEPENDENT_OF_REVOKED_ELL",
+  "status": "R2_IN_PROGRESS_CORRECTED_NONZERO_CV_REPRESENTATIVE_CONSTRUCTION",
+  "current_leaf": "R2",
+  "current_leaf_title": "CONSTRUCT_CORRECTED_NONZERO_CV_REPRESENTATIVE_FOR_CONFIRMED_ABSTRACT_J2",
   "current_leaf_attempts": 0,
   "current_leaf_stagnation_count": 0,
   "stagnation_trigger": 2,
@@ -15,16 +15,15 @@
       "certificate": "stages/stage33/33-12/j2-cv-lclass-zero-regression.json"
     },
     "R1": {
-      "state": "IN_PROGRESS",
-      "exit_options": [
-        "ABSTRACT_J2_NONZERO_CONFIRMED",
-        "ABSTRACT_J2_SURVIVAL_REVOKED"
-      ],
-      "required_independence": "DO_NOT_USE_REVOKED_ELL_J2_AS_NONZERO_WITNESS"
+      "state": "DONE_ABSTRACT_J2_NONZERO_CONFIRMED",
+      "exit": "ABSTRACT_J2_NONZERO_CONFIRMED",
+      "certificate": "stages/stage33/33-05/j2-abstract-nonzero-reaudit.json",
+      "exact_statement": "J2 is nonzero in LcE/im(x-alpha) for all four undetermined (b,d) image normal forms; revoked ell_J2 was not used as a witness."
     },
     "R2": {
-      "state": "BLOCKED_BY_R1",
-      "exit": "CORRECTED_ELL_J2_NONZERO_IN_LSTAR_MOD_KSTAR_LSTAR2"
+      "state": "IN_PROGRESS",
+      "exit": "CORRECTED_ELL_J2_NONZERO_IN_LSTAR_MOD_KSTAR_LSTAR2",
+      "mandatory_first_test": "QUOTIENT_NONZERO_BEFORE_NORM_DIVISOR_RESIDUE_PROMOTION"
     },
     "R3": {
       "state": "BLOCKED_BY_R2",
@@ -50,6 +49,7 @@
   "firewalls": {
     "current_ell_J2_nonzero_geometric_credit": false,
     "abstract_J2_revoked": false,
+    "abstract_J2_nonzero_reconfirmed": true,
     "stage33_05_reclosed": false,
     "stage33_12_closed_exact": false,
     "stage33_13_released": false,
@@ -61,6 +61,6 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "stage33_progress": "5/11",
-  "next_exact_leaf": "R1_RECOMPUTE_ABSTRACT_J2_NONZERO_QUOTIENT_PRESENTATION_WITHOUT_REVOKED_ELL_WITNESS",
+  "next_exact_leaf": "R2_CONSTRUCT_ELL_J2_CORRECTED_AND_FIRST_CERTIFY_NONZERO_IN_LSTAR_MOD_KSTAR_LSTAR2",
   "report_format": "33-05 repair: R?/R5 | state | attempts | exact new information | next exit test"
 }
