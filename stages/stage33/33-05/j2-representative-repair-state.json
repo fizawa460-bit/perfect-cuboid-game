@@ -1,0 +1,66 @@
+{
+  "schema": "STAGE33_05_J2_REPRESENTATIVE_REPAIR_STATE_V1",
+  "repair_band": "R0_TO_R5",
+  "roadmap": "stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md",
+  "status": "R1_IN_PROGRESS_ABSTRACT_J2_NONZERO_REAUDIT",
+  "current_leaf": "R1",
+  "current_leaf_title": "ABSTRACT_J2_NONZERO_SURVIVAL_REAUDIT_INDEPENDENT_OF_REVOKED_ELL",
+  "current_leaf_attempts": 0,
+  "current_leaf_stagnation_count": 0,
+  "stagnation_trigger": 2,
+  "leaves": {
+    "R0": {
+      "state": "DONE_ZERO",
+      "exit": "CURRENT_PROMOTED_ELL_J2_ZERO_IN_GEOMETRIC_CV_QUOTIENT",
+      "certificate": "stages/stage33/33-12/j2-cv-lclass-zero-regression.json"
+    },
+    "R1": {
+      "state": "IN_PROGRESS",
+      "exit_options": [
+        "ABSTRACT_J2_NONZERO_CONFIRMED",
+        "ABSTRACT_J2_SURVIVAL_REVOKED"
+      ],
+      "required_independence": "DO_NOT_USE_REVOKED_ELL_J2_AS_NONZERO_WITNESS"
+    },
+    "R2": {
+      "state": "BLOCKED_BY_R1",
+      "exit": "CORRECTED_ELL_J2_NONZERO_IN_LSTAR_MOD_KSTAR_LSTAR2"
+    },
+    "R3": {
+      "state": "BLOCKED_BY_R2",
+      "exit": "EXPLICIT_NONZERO_CREUTZ_VIRAY_E2_COCYCLE_AND_KUMMER_COORDINATES"
+    },
+    "R4": {
+      "state": "BLOCKED_BY_R3",
+      "exit": "TWISTED_KERNEL_MINIMUM_NORM_IN_4_8_12_AND_MARKED_COORDINATE_SELECTED"
+    },
+    "R5": {
+      "state": "BLOCKED_BY_R4",
+      "exit": "HOSTILE_REPLAY_AND_ONLY_VALID_CREDIT_RESTORED"
+    }
+  },
+  "fixed_marked_receiver": {
+    "T_Kc_gram": [[4,0],[0,8]],
+    "minimum_norm_to_functional": {
+      "4": [0,1],
+      "8": [1,0],
+      "12": [1,1]
+    }
+  },
+  "firewalls": {
+    "current_ell_J2_nonzero_geometric_credit": false,
+    "abstract_J2_revoked": false,
+    "stage33_05_reclosed": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "class3_promoted": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "stage33_progress": "5/11",
+  "next_exact_leaf": "R1_RECOMPUTE_ABSTRACT_J2_NONZERO_QUOTIENT_PRESENTATION_WITHOUT_REVOKED_ELL_WITNESS",
+  "report_format": "33-05 repair: R?/R5 | state | attempts | exact new information | next exit test"
+}
