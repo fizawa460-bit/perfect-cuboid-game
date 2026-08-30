@@ -40,12 +40,16 @@ assert pc["jacobian"]=="E_Kc"
 assert pc["kernel_exact_sequence"]=="0 -> <Tr> -> E_Kc -> Eprime_Tr -> 0"
 assert pc["named_J2_torsor_credit_without_bridge"] is False
 
-old=json.loads((STAGE33/"33-12"/"j2-brauer-to-sha-leray-edge-interface.json").read_text())
-assert old["j2_brauer_to_sha_leray_edge_materialized"] is False
-assert "named CV Azumaya/corestriction" in old["required_materialization"]["named_J2_requirement"]
+edge=json.loads((STAGE33/"33-12"/"j2-brauer-to-sha-leray-edge-interface.json").read_text())
+assert edge["status"]=="SUPERSEDED_RESOLVED_BY_CORRECTED_CV_PROP5_1_LEMMA4_6_BRIDGE_PENDING_FRESH_SUPER_HOSTILE_AUDIT"
+assert edge["current_credit"]["j2_brauer_to_sha_leray_edge_materialized"] is True
+assert edge["resolution"]["arbitrary_matching_support_shortcut_used"] is False
+assert edge["resolution"]["one_isogeny_squareclass_alone_used_as_identity_proof"] is False
 
 tw=json.loads((STAGE33/"33-12"/"j2-twisted-poincare-torsor-target.json").read_text())
-assert "a scalar norm or one rational 2-isogeny squareclass" in tw["twisted_poincare_interface"]["not_sufficient"]
+assert tw["status"]=="SUPERSEDED_FOR_NAMED_J2_IDENTITY_BY_CORRECTED_CV_BRAUER_SHA_BRIDGE_PENDING_FRESH_SUPER_HOSTILE_AUDIT"
+assert tw["historical_v1"]["load_bearing_warning"]=="one rational 2-isogeny squareclass alone is not sufficient to identify the named J2 torsor"
+assert tw["resolution"]["twisted_poincare_required_as_separate_identity_proof"] is False
 
 c=json.loads(CERT.read_text())
 assert c["status"]=="PASS_EXACT_R3_R4_BRAUER_SHA_ADAPTER_MATERIALIZED_PENDING_FRESH_SUPER_HOSTILE_AUDIT"
