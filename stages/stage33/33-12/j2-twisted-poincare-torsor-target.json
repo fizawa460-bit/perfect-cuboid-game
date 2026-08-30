@@ -1,57 +1,40 @@
 {
-  "schema": "STAGE33_12_J2_TWISTED_POINCARE_TORSOR_TARGET_V1",
-  "status": "PASS_EXACT_TARGET_REFINEMENT_NOT_YET_EXPLICIT_MODEL",
-  "source_lock": {
-    "stage33_05_j2_arithmetic_descent_blob_sha1": "a63be5592c793c3812da99275478f14dd0d2687b",
-    "stage33_05_cv_exact_graph_lifts_blob_sha1": "70881aa2880636f831b3132ba2526a666abd494f",
-    "external_elliptic_k3_brauer_sha": "Derived Equivalence for Elliptic K3 Surfaces and Jacobians, IMRN 2024, Eq. (4.1) and Lemma 4.4",
-    "external_twisted_poincare": "Splitting unramified Brauer classes by abelian torsors and the period-index problem, elliptic K3 discussion"
+  "current_target": {
+    "candidate_minimum_norms": [
+      4,
+      8,
+      12
+    ],
+    "minimum_norm_selected": false,
+    "named_geometric_torsor_equation": "N^2=f2*U^4-2*(t^2+1)^2*U^2*V^2+((t^4-6*t^2+1)^2/f2)*V^4",
+    "named_identity_provisional_pending_fresh_super_hostile_audit": true,
+    "primitive_NS_T_discriminant_form_materialized": false,
+    "relative_jacobian": "E_Kc"
   },
-  "fixed_input": {
-    "jacobian_surface": "Kc -> P1_t with section",
-    "generic_jacobian": "E: Y^2=X*(X-(t^2-1)^2)*(X-(t^4-6*t^2+1))",
-    "named_brauer_class": "J2",
-    "order_of_J2": 2,
-    "J2_geometrically_nontrivial": true
+  "firewalls": {
+    "Q_defined_descent_credit_restored": false,
+    "endpoint_credit": false,
+    "merge_allowed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "receiver_credit": false,
+    "stage33_05_reclosed": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "theorem_credit": false
   },
-  "exact_torsor_consequences": {
-    "brauer_sha_identification": "Br(Kc_bar) ~= Sha(Kc_bar/P1)",
-    "named_torsor": "X_J2",
-    "relative_jacobian_of_X_J2": "J^0(X_J2) ~= Kc",
-    "X_J2_has_section": false,
-    "multisection_index": 2,
-    "reason": "For an elliptic K3 torsor X, section iff alpha_X=0 and multisection index equals order(alpha_X); J2 is nonzero of order 2.",
-    "transcendental_target_if_model_materialized": "T(X_J2) ~= ker(J2:T(Kc)->Z/2)"
+  "historical_v1": {
+    "disposition": "WARNING_RETAINED; NEW_BRIDGE_DOES_NOT_USE_SQUARECLASS_ALONE",
+    "load_bearing_warning": "one rational 2-isogeny squareclass alone is not sufficient to identify the named J2 torsor",
+    "status_at_creation": "PASS_EXACT_TARGET_REFINEMENT_NOT_YET_EXPLICIT_MODEL"
   },
-  "twisted_poincare_interface": {
-    "correct_space": "X_J2 x_{P1} Kc over the smooth base",
-    "universal_object": "a (1 x J2)-twisted Poincare invertible sheaf, locally untwisted after choosing trivializations",
-    "local_transition_meaning": "changes of local twisted-Poincare trivialization act by translation in Pic^0 of the fibers, producing the Sha Cech 1-cocycle",
-    "not_sufficient": [
-      "an arbitrary line-bundle difference on Kc alone",
-      "the CV-presentation connecting cocycle in H1(C2,R)",
-      "a scalar norm or one rational 2-isogeny squareclass",
-      "direct pair-products of the branch algebra representative"
-    ]
+  "resolution": {
+    "bridge_canonical_sha256": "4703d20bc8421eb1f46a0e9d5b2c97b76aa228c1dabecd90244a7820f18aceec",
+    "bridge_certificate": "stages/stage33/33-05/j2-r3-r4-brauer-sha-bridge.json",
+    "identity_chain": "corrected CV pair -> gamma -> h0 gamma=d -> xi(rho)=Tr -> standard phi-cover for d=f2",
+    "reason": "The named-class identity is now supplied by the CV compatibility theorem and the explicit phi-descent class, not by support matching or the squareclass alone.",
+    "twisted_poincare_required_as_separate_identity_proof": false
   },
-  "existing_repo_data_reuse": {
-    "cv_exact_graph_lifts_available": true,
-    "cv_graph_lifts_role": "provide exact branch-side divisor functions and Galois mixing, useful only as input for constructing local splitting modules of the named Azumaya class",
-    "direct_graph_lift_to_sha_promotion_allowed": false,
-    "named_Q_defined_CSA_available": true,
-    "named_Q_defined_CSA_role": "starting algebra whose local splitting modules must be assembled into the twisted-Poincare/torsor descent datum"
-  },
-  "next_exact_leaf": "CONSTRUCT_AN_EXPLICIT_GENUS_ONE_K3_MODEL_X_J2_OR_EQUIVALENT_LOCAL_AZUMAYA_SPLITTING_MODULES_WITH_JACOBIAN_Kc_AND_VERIFY_NO_SECTION_PLUS_BISECTION_INDEX_2",
-  "j2_relative_picard_overlap_cocycle_materialized": false,
-  "j2_twisted_poincare_descent_materialized": false,
-  "j2_explicit_torsor_surface_materialized": false,
-  "j2_marked_brauer_coordinate_selected": false,
-  "stage33_12_closed_exact": false,
-  "stage33_13_released": false,
-  "heavy_actions_authorized": false,
-  "theorem_credit": false,
-  "receiver_credit": false,
-  "endpoint_credit": false,
-  "perfect_cuboid_existence_claim": false,
-  "perfect_cuboid_nonexistence_claim": false
+  "schema": "STAGE33_12_J2_TWISTED_POINCARE_TORSOR_TARGET_V2_SUPERSEDED_AS_REQUIRED_IDENTITY_ROUTE",
+  "status": "SUPERSEDED_FOR_NAMED_J2_IDENTITY_BY_CORRECTED_CV_BRAUER_SHA_BRIDGE_PENDING_FRESH_SUPER_HOSTILE_AUDIT"
 }
