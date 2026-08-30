@@ -28,6 +28,11 @@ jobs:
       GEN38_MANIFEST_SHA256: 7c1c6248274f988848b9608d65102e207368467ba1afb29022341a6f866d0476
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
 
       - name: Download and verify exact Gen36-38 frontier manifests
         env:
@@ -98,6 +103,53 @@ jobs:
                   'median_raw_next_over_current': r['median_raw_next_over_current'],
                   'row_raw_remaining': r['raw_remaining_envelope_total'],
                   'row_estimated_actual_remaining': r['local_linear_estimated_actual_nodes_remaining_total'],
+              }, sort_keys=True))
+          PY
+
+      - name: Inspect exact membership and symmetry prefix filters
+        run: |
+          python - <<'PY'
+          import json, math, pathlib, sys
+          sys.path.insert(0, 'stages/stage32/residual-32-01-production')
+          from aut_equivariant_pairing_adapter import AutEquivariantPrefixCanonicalAugmentation, EquivariantPrefixMembershipOracle
+          from hperp_integral_adapter import HperpIntegralPairingAdapter
+          from pairing_prefix_engine import RETAINED_BUNDLE_SHA256
+          from run_full178_prefix_work_unit import KNOWN_LABEL_ORDER, load_module_payload
+
+          retained = pathlib.Path('stages/stage33/33-07/picard_base_rows_retained.py')
+          marking_path = pathlib.Path('stages/stage33/33-07/stage32_picard_marking_retained.py')
+          bundle = load_module_payload(retained, 'stage32_volume_diag_picard')
+          assert bundle['canonical_sha256'] == RETAINED_BUNDLE_SHA256
+          marking = load_module_payload(marking_path, 'stage32_volume_diag_marking')
+          adapter = HperpIntegralPairingAdapter.from_retained(marking, bundle)
+          oracle = EquivariantPrefixMembershipOracle(adapter, KNOWN_LABEL_ORDER)
+          aut = AutEquivariantPrefixCanonicalAugmentation(
+              marking['aut_action']['permutations_1based'],
+              KNOWN_LABEL_ORDER,
+              marking['aut_action']['canonical_sha256_without_this_field'],
+          )
+
+          for check, acheck in zip(oracle.checks, aut.checks):
+              M = int(check.modulus)
+              periods = []
+              nonzero_last = 0
+              for row in check.coefficients:
+                  a = int(row[-1]) % M if M != 1 else 0
+                  if a:
+                      nonzero_last += 1
+                      periods.append(M // math.gcd(a, M))
+              step_period = 1
+              for p in periods:
+                  step_period = math.lcm(step_period, p)
+              print(json.dumps({
+                  'depth': check.depth,
+                  'label': KNOWN_LABEL_ORDER[check.depth - 1],
+                  'membership_modulus': M,
+                  'membership_active_rows': len(check.coefficients),
+                  'membership_nonzero_next_coeff_rows': nonzero_last,
+                  'next_value_progression_period_if_compatible': step_period,
+                  'aut_stabilizer_size': acheck.stabilizer_size,
+                  'aut_distinct_prefix_actions': len(acheck.actions_on_prefix),
               }, sort_keys=True))
           PY
 
