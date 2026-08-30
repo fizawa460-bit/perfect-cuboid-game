@@ -1,0 +1,52 @@
+name: Stage32 compressed full178 prefix census
+
+on:
+  pull_request:
+    types: [synchronize, opened, reopened]
+    paths:
+      - 'stages/stage32/residual-32-01-production/compressed_terminal_family.py'
+      - 'stages/stage32/residual-32-01-production/build_compressed_full178_prefix_census.py'
+      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
+      - '.github/workflows/stage32-compressed-full178-prefix-census.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  census:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Build exact symbolic census
+        run: |
+          python stages/stage32/residual-32-01-production/build_compressed_full178_prefix_census.py \
+            --manifest stages/stage32/residual-32-01-production/full178-manifest.json \
+            --output compressed-full178-prefix-census.json
+          python - <<'PY'
+          import json, pathlib
+          p=json.loads(pathlib.Path('compressed-full178-prefix-census.json').read_text())
+          assert p['schema']=='STAGE32_RESIDUAL32_01_COMPRESSED_FULL178_PREFIX_COUNT_CENSUS_V1'
+          assert p['row_count']==178
+          assert p['exact_coarse_e_strata']==64111
+          assert p['maximum_emax']==729
+          assert p['semantics']['count_is_exact_for_current_prefix_filters'] is True
+          assert p['semantics']['numerical_picard_leaf_checks_complete'] is False
+          print(json.dumps({
+            'verdict':'PASS_COMPRESSED_FULL178_PREFIX_COUNT_CENSUS_RECHECK',
+            'terminal_count_total':p['terminal_count_total'],
+            'terminal_count_total_digits':p['terminal_count_total_digits'],
+            'max_single_stratum':p['max_single_stratum'],
+            'canonical_sha256':p['canonical_sha256_without_this_field'],
+          }, sort_keys=True))
+          PY
+      - name: Upload compact census
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-compressed-full178-prefix-census
+          path: compressed-full178-prefix-census.json
+          retention-days: 7
+          compression-level: 9
