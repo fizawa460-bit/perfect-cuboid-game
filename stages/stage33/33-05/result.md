@@ -1,220 +1,135 @@
-# Stage33-05 — K3 Br[2] Q(i)/Q action and descent
+# Stage33-05 — J2 representative repair / arithmetic descent
 
 ```text
-STAGE33_UNIT=33-05
-UNIT_STATUS=CLOSED
-UNIT_CLOSED=true
-DOWNSTREAM_RELEASED=true
-HOSTILE_AUDIT=PASS_AFTER_INDEPENDENT_Q_SURVIVAL_AND_HS_D2_VERIFICATION
-K3_GEOMETRIC_BR2_DIM=2
-QI_OVER_Q_ACTION_MATRIX_EXACT=true
-INVARIANT_DESCENDED_SUBSPACE_EXACT=true
-DESCENT_OBSTRUCTION_ACCOUNTED=true
-Q_RELEVANT_SURVIVING_DIM_EXACT=true
-Q_RELEVANT_SURVIVING_DIM=1
-ALL_SURVIVING_K3_CLASSES_HAVE_EXPLICIT_ARITHMETIC_REPRESENTATIVES=true
-UNRESOLVED_UNKNOWN_IN_SCOPE=0
+UNIT_STATUS=BLOCKED_NEW_KERNEL
+UNIT_CLOSED=false
+DOWNSTREAM_RELEASED=false
+STAGE33_PROGRESS=5/11
+```
+
+The historical audited closure is superseded in the named J2 arithmetic-representative layer. The old Q-defined `ell_J2` was later proved zero in the geometric Creutz--Viray quotient and is revoked as the nonzero J2 witness.
+
+## Retained exact geometric credit
+
+```text
+R0  old promoted ell_J2 geometrically zero             PASS
+R1  abstract J2 nonzero independently                  PASS
+R2  corrected full-L representative J2=(f2,1) nonzero PASS
+R3  CV cocycle xi(rho)=Tr                              PASS
+R4  named geometric torsor / integral kernel           PASS
+R5  hostile replay of R1--R4 geometric content         PASS
+```
+
+The audited geometric receiver remains
+
+```text
+T(X_J2)=<8> direct_sum <16>
+minimum norm=8
+marked J2=[1,0]
+named J2 torsor credit scope=Kgeom=Qbar(t) only
+```
+
+R4 is not reopened by the current arithmetic blocker.
+
+## Post-R5 hostile rollback
+
+The attempted Q descent proved only Galois fixedness in the finite 5D CV presentation and then assigned the Pic/2 defect, integral Pic lift and Hochschild--Serre d2 to zero without deriving them.
+
+That promotion is rejected:
+
+```text
+j2-post-r5-hs-descent-datum.json
+canonical_sha256=a7c08372b9ef012a1446bd3bf4f40541d77d372dadc73e3780f6ce2529fcc6d8
+status=FAIL_UNPROVEN_POST_R5_Q_DESCENT_HS_D2_NOT_MATERIALIZED
+```
+
+Therefore
+
+```text
+corrected_J2_Q_descent_exact_evidence_reestablished=false
+Q_defined_descent_credit_restored=false
+R5_full_repair_exit_reached=false
+Stage33-05 reclosed=false
+```
+
+## Exact MAIN progress after rollback
+
+For
+
+```text
+z^2=q=(t-r1)(t-r2)(t-r3)(t-r4)
+f2=(t-r2)/(t-r4)
+D=P_r2-P_r4
+```
+
+MAIN now verifies
+
+```text
+div(f2)=2D
+ct(D)-D=div(h_ct)
+h_ct=z/((t-r1)(t-r2))
+h_ct*ct(h_ct)=1
+ct(f2)/f2=u_ct^2
+u_ct=(t-r3)(t-r4)/z
+u_ct*ct(u_ct)=1
+```
+
+and explicit full-pair square/diagonal witnesses for `tau`, `ct`, and `cc` acting on `(f2,1)`.
+
+Certificate:
+
+```text
+j2-corrected-pre-kummer-descent-cochain.json
+canonical_sha256=940df53040c6f5245914effbfb7d752a08c61b6d593586952b322e4069415106
+status=PASS_EXACT_PRE_KUMMER_DESCENT_COCHAIN_NO_HS_D2_CREDIT
+```
+
+This is normalization/full-L representative-level descent data only. It is not yet a Kc-surface Kummer lift.
+
+Current boundary contract:
+
+```text
+../33-12/j2-full-surface-mu2-zero-defect-contract.json
+canonical_sha256=c35eec49758734e29cb801ea9a55ed6e739238750f3ff92c14f030ae25e8ff2b
+surface_mu2_lift=false
+pic_mod2_defect=false
+integral_Pic_lift=false
+HS_d2=false
+```
+
+The old named-Kummer-glue producer that consumed the revoked `j2_arithmetic_descent.py` has been tombstoned. The q1 Bockstein route has also been isolated from the old J2 promotion: its valid conclusion is only `d2(q1) != 0`.
+
+## Current exact leaf
+
+```text
+MATERIALIZE_NORMALIZATION_HALF_DIVISOR_TO_KC_SURFACE_H2_MU2_ADAPTER
+THEN_COMPUTE_PIC_MOD2_DEFECT_AND_BOCKSTEIN_HS_D2
+```
+
+Required chain:
+
+```text
+corrected CV/normalization datum
+ -> genuine H^2_et(Kc_bar,mu_2) lift
+ -> Galois defect in Pic(Kc_bar)/2
+ -> integral Pic lift
+ -> Bockstein / HS d2 2-cocycle
+ -> determine its class without assuming zero.
+```
+
+Only if the actual class is zero may the Hochschild--Serre kernel=image theorem be used for Q-defined Brauer credit.
+
+## Firewalls
+
+```text
+Q_DEFINED_DESCENT_CREDIT_RESTORED=false
+R5_FULL_REPAIR_EXIT_REACHED=false
+STAGE33_05_RECLOSED=false
+STAGE33_12_CLOSED_EXACT=false
+STAGE33_13_RELEASED=false
 THEOREM_CREDIT=false
+RECEIVER_CREDIT=false
 ENDPOINT_CREDIT=false
+PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
-
-## Exact geometric presentation
-
-The corrected Creutz--Viray finite presentation is
-
-```text
-Jac(B)[2] dimension       = 4
-dual graph b1             = 7
-L_E=L_{c,E} dimension     = 5
-im(x-alpha) dimension     = 3
-Br(K_cbar)[2] dimension   = 2.
-```
-
-The exact 5D presentation basis is `[J1,J2,q1,q2,q3]`.  The true pair-valued `x-alpha` calculation gives
-
-```text
-im(x-alpha)=span_F2{
-  J1,
-  b*J2+q1+q2,
-  d*J2+q1+q2+q3
-}, b,d in F2.
-```
-
-For all four choices of `(b,d)`, `[J2,q1]` is an exact quotient basis.  The corrected full-pair action is
-
-```text
-tau = identity,
-cc  = identity,
-ct(q1)=q1+J1,
-ct(q2)=q2+J1,
-ct(q3)=q3,
-ct(J1)=J1,
-ct(J2)=J2.
-```
-
-Because `J1` is an `x-alpha` relation, the induced action on `Br(K_cbar)[2]` is identity.  Therefore
-
-```text
-Br(K_cbar)[2]^G_Q ~= (F2)^2
-basis = [J2,q1].
-```
-
-## Exact arithmetic descent
-
-### J2 survives
-
-A Q-defined branch-algebra representative is
-
-```text
-ell_J2 = 4*(alpha^2*t^2+t^4-4*t^2+2)
-         /((t^2-1)*(t^2-2*t-1)).
-```
-
-The exact resultant norm is
-
-```text
-Norm_{L/Q(t)}(ell_J2)
- = 1024/(t^2-2*t-1)^4
- = (32/(t^2-2*t-1)^2)^2.
-```
-
-On `z^2=t^4-6t^2+1` its divisor is
-
-```text
-4*infinity_minus - 2*P1 - 2*P2,
-```
-
-so the vertical residue conditions are even.  Creutz--Viray Prop. 3.1 / Cor. 3.2 and Prop. 3.4 then certify the corresponding Q-defined corestriction quaternion algebra as unramified on the K3 resolution.  Thus
-
-```text
-J2_Q_DESCENT_CERTIFIED=true.
-```
-
-### q1 does not survive
-
-The exact presentation defect is
-
-```text
-ct(q1)-q1=J1.
-```
-
-An integral `ct`-invariant NS lift of `J1` is
-
-```text
-D = Cb + E_P0.
-```
-
-For the `ct`-invariant test conic
-
-```text
-T : A1=0, A2+B3=0, A3-B2=0,
-```
-
-exact tangent/intersection computation gives
-
-```text
-Cb.T=1,
-E_P0.T=0,
-D.T=1.
-```
-
-Therefore `D` is not a cyclic norm in `Pic(K_cbar)` and
-
-```text
-[D] != 0 in H^2(<ct>,Pic).
-```
-
-Kummer gives
-
-```text
-0 -> Pic/2 -> H^2_et(K_cbar,mu_2) -> Br(K_cbar)[2] -> 0.
-```
-
-Creutz--Viray's Galois-equivariant corestriction/divisor cocycle comparison identifies the `x-alpha` defect with the Picard/Kummer defect.  With normalized lift `J(ct)=D`,
-
-```text
-(dJ)(ct,ct)=2D,
-Bockstein(J1)(ct,ct)=D,
-```
-
-hence
-
-```text
-d2(q1)|_<ct>=[D] != 0,
-q1_Q_DESCENT=false.
-```
-
-By linearity `q1+J2` has the same nonzero obstruction.  Consequently
-
-```text
-ker(d2 | Br(K_cbar)[2]^G_Q)=span_F2{J2}
-Q_RELEVANT_SURVIVING_DIM=1
-Q_SURVIVING_GEOMETRIC_BR2_BASIS=[J2].
-```
-
-The unique surviving K3 class has an explicit Q-defined arithmetic representative.
-
-## Hostile audit evidence
-
-Final functional head audited:
-
-```text
-1e6452d2a3df9c9e054d454173b4f923d6f1d343
-```
-
-Authoritative execution:
-
-```text
-workflow_run     = 32712707329
-workflow_number  = 59
-conclusion       = success
-artifact_id      = 9514868333
-artifact_sha256  = 410950d087fa5898af6b11ac7f163effe88773164a3dd569c366863a78e705bd
-```
-
-The artifact ZIP digest was independently recomputed and matched.  Every stored canonical SHA256 in the artifact was independently recomputed and matched.  The audit also independently checked all four `(b,d)` quotient cases and recomputed the J2 resultant norm.
-
-Repo authority:
-
-```text
-stages/stage33/33-05/audit.md
-stages/stage33/33-05/audit-state.json
-stages/stage33/33-05/handoff.json
-```
-
-## Disposition
-
-```text
-CLOSURE_CRITERIA_TOTAL=8
-CLOSURE_CRITERIA_SATISFIED=8
-UNRESOLVED_UNKNOWN_IN_SCOPE=0
-UNIT_STATUS=CLOSED
-UNIT_CLOSED=true
-DOWNSTREAM_RELEASED=true
-```
-
-This closes only the Stage33-05 K3 arithmetic-descent branch.  Stage33-07 remains locked until its independent prerequisites `33-03`, `33-04`, and `33-06` are also CLOSED.  No endpoint theorem, route-color change, Brauer--Manin obstruction, or Perfect Cuboid existence/nonexistence credit is granted by this unit alone.
-
-## Hostile-repair checkpoint: R4 exact closure
-
-The later hostile reopen revoked the old promoted `ell_J2`; the authoritative repair state is `j2-representative-repair-state.json`. For the corrected nonzero representative `(f2,1)`, R3 gives `xi(rho)=Tr` and the correct translation torsor
-
-```text
-f2*v^2=n^4-2*(t^2+1)^2*f2*n^2+f2^2*q^2.
-```
-
-Its free involution `(n,v)->(-n,-v)` has degree-two quotient
-
-```text
-X=n^2/f2, Y=-n*v/f2,
-Y^2=X*(X^2-2*(t^2+1)^2*X+q^2)=E'_Tr.
-```
-
-An exact degree-one Möbius base change and Legendre root permutation identify the elliptic K3 of `E'_Tr` with `Kc` over `Q(i,sqrt(2))`. The pullback lattice is therefore `T(Kc)(2)=<8>+<16>`, of determinant `128`. The corrected nonzero order-two `J2` kernel also has determinant `128`, so the pullback has index one. Hence
-
-```text
-T(X_J2)=<8>+<16>, minimum norm=8, marked J2=[1,0].
-```
-
-This closes only repair leaf R4. R5 hostile replay remains required; Stage33-05 is not yet re-closed and no downstream or theorem credit is restored here.
