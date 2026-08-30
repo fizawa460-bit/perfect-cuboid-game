@@ -34,7 +34,6 @@ jobs:
       - name: Replay audited R3-R4 bridge and R4-open firewalls
         run: |
           set -euo pipefail
-
           cp stages/stage33/33-12/boundary-function-scalar-descent-certificate.json /tmp/expected-boundary-scalars.json
           python stages/stage33/33-12/certify_boundary_function_scalar_descent.py
           cmp /tmp/expected-boundary-scalars.json stages/stage33/33-12/boundary-function-scalar-descent-certificate.json
@@ -90,6 +89,7 @@ jobs:
           b=json.load(open('stages/stage33/33-05/j2-r3-r4-brauer-sha-bridge.json'))
           e=json.load(open('stages/stage33/33-12/j2-brauer-to-sha-leray-edge-interface.json'))
           t=json.load(open('stages/stage33/33-12/j2-twisted-poincare-torsor-target.json'))
+          expected='3dff502b69bbee725abfe7e1f5580837410f1a8552a7b4cae31dd85c9b34bb28'
 
           assert s['reopened'] is True
           assert s['Q_descent_of_corrected_representative_established'] is False
@@ -98,6 +98,7 @@ jobs:
           assert s['named_J2_torsor_authoritative_credit'] is True
 
           assert r['current_leaf']=='R4' and r['current_leaf_attempts']==4
+          assert r['leaves']['R3']['brauer_sha_bridge']['canonical_sha256']==expected
           assert r['leaves']['R3']['brauer_sha_bridge']['fresh_super_hostile_verdict']=='PASS_FRESH_SUPER_HOSTILE_MATHEMATICALLY'
           assert r['leaves']['R3']['brauer_sha_bridge']['generic_weil_chatelet_class_nonzero'] is True
           assert r['leaves']['R4']['named_J2_torsor_authoritative_credit'] is True
@@ -107,17 +108,21 @@ jobs:
           assert r['leaves']['R4']['marked_brauer_coordinate_selected'] is False
           assert r['leaves']['R5']['state']=='NOT_RUN_BLOCKED_BY_R4'
 
-          assert b['canonical_sha256']=='4289ef568ce4c793c1ecc91fd55dac9e74f5ecd01e5aad99c5b98917e1df2a66'
+          assert b['canonical_sha256']==expected
           assert b['exact_conclusion']['fresh_super_hostile_audit_passed'] is True
           assert b['exact_conclusion']['generic_weil_chatelet_class_nonzero'] is True
           assert b['exact_conclusion']['named_J2_torsor_authoritative_credit'] is True
           assert b['exact_conclusion']['R4_exit_4_8_12_selected'] is False
 
           assert e['status']=='RESOLVED_FRESH_SUPER_HOSTILE_PASS_NAMED_J2_TORSOR_AUTHORITATIVE'
+          assert e['resolution']['certificate_canonical_sha256']==expected
           assert t['current_target']['named_identity_authoritative_after_fresh_super_hostile'] is True
+          assert t['resolution']['bridge_canonical_sha256']==expected
+          assert a['mathematical_super_hostile_reaudit']['R3_to_R4_bridge']['canonical_sha256']==expected
           assert a['current_audit_verdict']=='PASS_FRESH_SUPER_HOSTILE_MATHEMATICALLY_R3_R4_BRIDGE_HARDENED_AUTHORITATIVE'
           assert a['unit_closed'] is False and a['downstream_released'] is False and a['merge_allowed'] is False
 
+          assert j['j2_brauer_sha_bridge_canonical_sha256']==expected
           assert j['j2_named_torsor_authoritative_credit'] is True
           assert j['j2_generic_weil_chatelet_class_nonzero'] is True
           assert j['j2_marked_brauer_coordinate_selected'] is False
