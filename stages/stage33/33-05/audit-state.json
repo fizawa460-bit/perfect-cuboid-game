@@ -1,19 +1,21 @@
 {
-  "schema": "STAGE33_05_HOSTILE_AUDIT_STATE_V2_REOPENED_J2_REPRESENTATIVE",
+  "schema": "STAGE33_05_HOSTILE_AUDIT_STATE_V3_POST_R5_SUPER_HOSTILE_REQUIRED",
   "stage33_unit": "33-05",
   "historical_pr": 1358,
   "historical_audited_functional_head": "1e6452d2a3df9c9e054d454173b4f923d6f1d343",
   "historical_audit_verdict": "PASS_AFTER_INDEPENDENT_Q_SURVIVAL_AND_HS_D2_VERIFICATION",
   "historical_status": "SUPERSEDED_IN_PART_BY_J2_GEOMETRIC_ZERO_REGRESSION",
-  "audit_verdict": "REOPENED_R5_GEOMETRIC_REPAIR_PASS_Q_DEFINED_J2_ARITHMETIC_REPRESENTATIVE_NOT_REESTABLISHED",
-  "unit_status": "BLOCKED_NEW_KERNEL",
+  "audit_verdict": "AUDIT_REQUIRED_POST_R5_CORRECTED_J2_HS_DESCENT_DATUM_MATERIALIZED",
+  "unit_status": "AUDIT_REQUIRED",
   "unit_closed": false,
   "downstream_released": false,
-  "reopen_reason": "The historical Q-defined ell_J2 arithmetic representative was later proved zero in the geometric Creutz-Viray quotient. R1-R5 reconstruct and hostile-verify the geometric J2, including marked coordinate [1,0], but do not provide a replacement Q-defined arithmetic representative/descent datum.",
+  "reopen_reason": "The historical Q-defined ell_J2 arithmetic representative was hostile-proved zero in the geometric Creutz-Viray quotient. R1-R5 reconstruct and hostile-replay the geometric J2. Post-R5 now supplies a replacement cohomological HS/Kummer descent datum for corrected J2, but repository policy and the user's explicit workflow require a fresh super-hostile audit before authoritative credit or reclosure.",
   "reopen_certificate": "stages/stage33/33-12/j2-cv-lclass-zero-regression.json",
   "repair_state": "stages/stage33/33-05/j2-representative-repair-state.json",
   "r5_certificate": "stages/stage33/33-05/j2-r5-hostile-replay.json",
   "r5_verifier": "stages/stage33/33-05/certify_j2_r5_hostile_replay.py",
+  "post_r5_q_descent_certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json",
+  "post_r5_q_descent_verifier": "stages/stage33/33-05/certify_j2_post_r5_q_descent_cocycle.py",
   "r4_integral_kernel_hostile_certificate": "stages/stage33/33-05/j2-r4-hostile-torsor-brauer-kernel-verification.json",
   "retained_exact_geometric_credit": {
     "k3_geometric_br2_dim": 2,
@@ -25,22 +27,43 @@
     "corrected_J2_minimum_norm": 8,
     "corrected_J2_marked_brauer_coordinate": [1,0]
   },
-  "revoked_or_not_restored_arithmetic_credit": {
-    "historical_j2_q_descent_certified": false,
+  "post_r5_exact_evidence": {
     "historical_Q_defined_ell_J2_may_witness_corrected_J2": false,
-    "corrected_J2_Q_defined_arithmetic_representative_materialized": false,
-    "corrected_J2_Q_descent_certified": false,
-    "all_surviving_k3_classes_have_explicit_arithmetic_representatives": false
+    "old_ell_Q_reused": false,
+    "corrected_J2_fixed_by_full_presentation_Galois_generators": true,
+    "corrected_J2_pic_mod2_defect_cocycle": "ZERO",
+    "corrected_J2_HS_d2_cocycle": "ZERO",
+    "H3_Q_Qbar_times_zero": true,
+    "corrected_J2_in_image_of_Br_Kc_Q": true,
+    "corrected_J2_equivalent_arithmetic_descent_datum_materialized": true,
+    "corrected_J2_closed_form_Q_CSA_materialized": false,
+    "corrected_J2_arithmetic_unramified_by_surface_Br_membership": true,
+    "geometric_restriction": "corrected nonzero J2=(f2,1)",
+    "all_surviving_k3_classes_have_explicit_arithmetic_representatives_evidence": true
+  },
+  "promotion_firewall": {
+    "Q_defined_descent_credit_authoritatively_restored": false,
+    "reason": "Fresh super-hostile audit required before promotion.",
+    "stage33_05_reclosure_before_super_hostile_pass_forbidden": true
   },
   "closure_contract": {
     "path": "stages/stage33/33-00/unit-closure-contract.md",
-    "blocking_criterion": "ALL_SURVIVING_K3_CLASSES_HAVE_EXPLICIT_ARITHMETIC_REPRESENTATIVES=true OR EXACT_ZERO_SURVIVAL_CERTIFICATE=true",
-    "blocking_reason": "J2 remains the corrected nonzero geometric survivor, so the zero-survival alternative is unavailable and an explicit corrected Q-arithmetic representative is still required.",
-    "unresolved_unknown_in_scope": 1,
+    "criterion": "ALL_SURVIVING_K3_CLASSES_HAVE_EXPLICIT_ARITHMETIC_REPRESENTATIVES=true OR EXACT_ZERO_SURVIVAL_CERTIFICATE=true",
+    "pre_audit_criterion_evidence_satisfied": true,
+    "unresolved_unknown_in_repair_scope": 0,
     "hostile_audit_pass_for_reclosure": false
   },
-  "new_kernel_id": "CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE",
-  "next_exact_leaf": "POST_R5_CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE",
+  "new_kernel_id": null,
+  "next_exact_leaf": "SUPER_HOSTILE_AUDIT_STAGE33_05_CORRECTED_J2_REPAIR",
+  "super_hostile_audit": {
+    "required": true,
+    "state": "PENDING_NEW_PR",
+    "must_replay_without_trusting_promoted_booleans": true,
+    "must_challenge_explicit_descent_datum_contract": true,
+    "must_challenge_CV_Kummer_to_HS_adapter": true,
+    "must_challenge_H3_kernel_image_adapter": true,
+    "must_verify_old_ell_Q_not_reintroduced": true
+  },
   "stage33_progress": "5/11",
   "stage33_12_closed_exact": false,
   "stage33_13_released": false,
@@ -51,6 +74,6 @@
   "perfect_cuboid_nonexistence_claim": false,
   "merge_allowed": false,
   "advance_allowed": true,
-  "advance_scope": "CORRECTED_J2_Q_DEFINED_DESCENT_REPAIR_ONLY_NO_STAGE33_12_CLOSURE_NO_STAGE33_13_RELEASE",
+  "advance_scope": "SUPER_HOSTILE_AUDIT_ONLY_NO_STAGE33_05_RECLOSURE_NO_STAGE33_12_CLOSURE_NO_STAGE33_13_RELEASE",
   "next_expected_command": "Stage33-main-batch"
 }
