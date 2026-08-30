@@ -9,10 +9,10 @@
     "source_pr_merge_commit": "9cea1edae4c6bb2ba781bc80921f67b4a3a980b2",
     "migration_only_no_new_mathematical_credit": true
   },
-  "status": "R4_IN_PROGRESS_BISECTION_COMPONENT_PATTERN_FIXED_NS_ASSEMBLY_PENDING",
+  "status": "R4_IN_PROGRESS_COMPONENT_ONLY_ROUTE_BLOCKED_HORIZONTAL_MONODROMY_GLUE_LIVE",
   "current_leaf": "R4",
-  "current_leaf_title": "ASSEMBLE_PRIMITIVE_INDEX_2_NS_FROM_FIXED_BISECTION_RELATIVE_COMPONENT_PATTERN_AND_r2_r4_HORIZONTAL_RAMIFICATION_GLUE",
-  "current_leaf_attempts": 2,
+  "current_leaf_title": "COMPUTE_f2_HORIZONTAL_RAMIFICATION_CHARACTER_IN_LEGENDRE_PULLBACK_MONODROMY_OR_EQUIVALENT_MW_FRAME_GLUE",
+  "current_leaf_attempts": 3,
   "current_leaf_stagnation_count": 0,
   "stagnation_trigger": 2,
   "leaves": {
@@ -56,21 +56,26 @@
       "exact_statement": "Creutz-Viray Lemma 4.6 applied directly to corrected (f2,1) gives chi_tilde=(1,1,0,0), g=1 and xi(rho)=the Bplus partition class; an exact quartic-to-Jacobian square identity identifies that class as Tr=((t^2-1)^2,0)."
     },
     "R4": {
-      "state": "IN_PROGRESS_BISECTION_COMPONENT_PATTERN_FIXED_NS_ASSEMBLY_PENDING",
+      "state": "IN_PROGRESS_COMPONENT_ONLY_ROUTE_BLOCKED_HORIZONTAL_MONODROMY_GLUE_LIVE",
       "exit": "TWISTED_KERNEL_MINIMUM_NORM_IN_4_8_12_AND_MARKED_COORDINATE_SELECTED",
-      "attempts": 2,
+      "attempts": 3,
       "input_certificate": "stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json",
       "torsor_certificate": "stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json",
       "torsor_verifier": "stages/stage33/33-05/certify_j2_r4_tr_kernel_torsor_reduction.py",
       "component_incidence_certificate": "stages/stage33/33-05/j2-r4-bisection-relative-component-incidence.json",
       "component_incidence_verifier": "stages/stage33/33-05/certify_j2_r4_bisection_relative_component_incidence.py",
+      "legendre_torsion_glue_certificate": "stages/stage33/33-05/j2-r4-legendre-torsion-glue-reduction.json",
+      "legendre_torsion_glue_verifier": "stages/stage33/33-05/certify_j2_r4_legendre_torsion_glue_reduction.py",
       "named_2cover": "N^2=f2*U^4+(t^2+1)^2*U^2*V^2+([2*t*(t^2-1)]^2/f2)*V^4",
       "kernel_direction": "Tr=((t^2-1)^2,0)",
       "comparison_2isogenous_curve": "y^2=x*(x-Dplus^2)*(x-Dminus^2)",
       "comparison_curve_is_named_torsor": false,
       "bisection": "w^2=f2, genus 0, ramified at q-roots r2 and r4",
       "bisection_relative_component_pattern": "I4: branch difference 2 mod 4 (canonical pair 0,2 up to rotation); I2: branch difference 0 mod 2; r2,r4 horizontally ramified",
-      "exact_statement": "The repaired named J2 torsor is the f2/Tr 2-cover. Exact local Weierstrass algebra now fixes the bisection's label-independent reducible-fiber incidence: the two local branches differ by component 2 on every I4 fiber and by component 0 on every I2 fiber, with horizontal ramification exactly at q-roots r2 and r4. The marked 4/8/12 lattice is still not selected; the remaining interface is primitive index-2 NS assembly from this fixed component pattern and ramification glue."
+      "legendre_parameter": "lambda=4*t^2/(t^2-1)^2",
+      "rational_4torsion_half": "Pplus=(2*t*(t^2-1), 2*t*(t^2-1)*(t^2+2*t-1)), 2*Pplus=Tr",
+      "component_only_route": "BLOCKED_NEW_PATTERN_ISOLATED: relative I4/I2 incidence is rational 4-torsion primitive glue and does not orient the marked Brauer coordinate",
+      "exact_statement": "The repaired named J2 torsor remains the f2/Tr 2-cover. Attempt 3 rewrites its Jacobian as the Legendre pullback y^2=x(x+A^2)(x+B^2), A=t^2-1, B=2t, and proves Tr is twice an explicit rational order-4 point. Therefore the attempt-2 relative component pattern is already torsion primitive glue and cannot select among 4/8/12 by itself. The remaining live selector is the horizontal f2 character: its branch points cross the two lambda=1 factors, r2 on A+B=0 and r4 on A-B=0."
     },
     "R5": {
       "state": "BLOCKED_BY_R4",
@@ -79,29 +84,24 @@
   },
   "fixed_marked_receiver": {
     "T_Kc_gram": [
-      [
-        4,
-        0
-      ],
-      [
-        0,
-        8
-      ]
+      [4, 0],
+      [0, 8]
     ],
     "minimum_norm_to_functional": {
-      "4": [
-        0,
-        1
-      ],
-      "8": [
-        1,
-        0
-      ],
-      "12": [
-        1,
-        1
-      ]
+      "4": [0, 1],
+      "8": [1, 0],
+      "12": [1, 1]
     }
+  },
+  "cycle_protocol": {
+    "route_status": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "active_receiver": "COMPUTE_THE_f2_HORIZONTAL_RAMIFICATION_CHARACTER_IN_THE_LEGENDRE_PULLBACK_AND_MAP_IT_TO_Hom(T_Kc,Z/2)",
+    "live_candidates": 2,
+    "untested_candidates": 3,
+    "exhaustive_view_audit": true,
+    "blind_rediscovery": true,
+    "split_triggered": false,
+    "parking_audit_complete": false
   },
   "firewalls": {
     "current_ell_J2_nonzero_geometric_credit": false,
@@ -121,6 +121,6 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "stage33_progress": "5/11",
-  "next_exact_leaf": "R4_ASSEMBLE_PRIMITIVE_INDEX2_NS_FROM_FIXED_BISECTION_COMPONENT_PATTERN_AND_r2_r4_HORIZONTAL_RAMIFICATION_GLUE_AND_SELECT_MINIMUM_NORM_4_8_12",
+  "next_exact_leaf": "R4_COMPUTE_f2_HORIZONTAL_RAMIFICATION_CHARACTER_IN_LEGENDRE_PULLBACK_MONODROMY_OR_EQUIVALENT_MW_FRAME_GLUE_AND_SELECT_MINIMUM_NORM_4_8_12",
   "report_format": "33-05 repair: R?/R5 | state | attempts | exact new information | next exit test"
 }

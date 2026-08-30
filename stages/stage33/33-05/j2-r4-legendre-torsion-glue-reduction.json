@@ -1,0 +1,164 @@
+{
+  "attempt": 3,
+  "canonical_sha256": "5dad98eeefbecfef52a9531afbdbd5f48aa2e9016bd9a8045f84d731d77f1e63",
+  "cycle_protocol": {
+    "CYCLE_ACTIVE_RECEIVER": "COMPUTE_THE_f2_HORIZONTAL_RAMIFICATION_CHARACTER_IN_THE_LEGENDRE_PULLBACK_AND_MAP_IT_TO_Hom(T_Kc,Z/2)",
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_LIVE_CANDIDATES": 2,
+    "CYCLE_NEW_VIEW": "Use the exact Legendre pullback lambda=4t^2/(t^2-1)^2 and the cross-factor branch pair r2 in A+B, r4 in A-B to compute the Sha/Brauer character topologically rather than reusing reducible-fiber component incidence.",
+    "CYCLE_NEW_VIEW_SOURCE": "BLIND",
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_ROUTE_STATUS": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_UNTESTED_CANDIDATES": 3,
+    "candidate_ledger": [
+      {
+        "route": "LEGENDRE_PULLBACK_MONODROMY_TO_TRANSCENDENTAL_FUNCTIONAL",
+        "status": "LIVE"
+      },
+      {
+        "route": "HORIZONTAL_RAMIFICATION_PLUS_MW_FRAME_CHARACTER",
+        "status": "LIVE"
+      },
+      {
+        "route": "EXPLICIT_TORSOR_NS_CURVE_CONFIGURATION",
+        "status": "UNTESTED"
+      },
+      {
+        "route": "SEMANTIC_STOLL_BFIELD_GLUE_WITH_R3_Tr",
+        "status": "UNTESTED"
+      },
+      {
+        "route": "CM_PERIOD_OR_GOOD_PRIME_TRACE_IDENTIFICATION",
+        "status": "UNTESTED"
+      },
+      {
+        "route": "RELATIVE_COMPONENT_INCIDENCE_ALONE",
+        "status": "BLOCKED"
+      }
+    ],
+    "trigger": "NEW_EXACT_INVARIANT_MATERIALLY_CHANGES_THE_GEOMETRY"
+  },
+  "exact_new_information": "The fixed Jacobian is the Legendre pullback y^2=x(x+A^2)(x+B^2) with A=t^2-1, B=2t and lambda=B^2/A^2. Tr=(0,0) is twice each of two explicit rational order-4 points. Hence the previously certified I4 relative class 2 is already rational torsion primitive glue and cannot orient J2 in the marked K3 discriminant by itself. The genuinely new selector data is the horizontal f2 branch pair: r2 lies on A+B=0 and r4 on A-B=0.",
+  "f2_horizontal_character": {
+    "Pplus_I2_node_pattern": {
+      "singular_component_roots": [
+        "r2",
+        "r3"
+      ],
+      "smooth_identity_component_roots": [
+        "r1",
+        "r4"
+      ]
+    },
+    "companion_identity": "f2*(A-B)/(A+B)=(t-r1)/(t-r3)",
+    "cross_factor_property": "r2 is a root of A+B while r4 is a root of A-B",
+    "f2": "(t-r2)/(t-r4)",
+    "ramification_meets_one_Pplus_singular_and_one_Pplus_smooth_I2": true,
+    "ramified_q_roots": [
+      "r2",
+      "r4"
+    ]
+  },
+  "firewalls": {
+    "E2_basis_bits_equal_marked_brauer_bits": false,
+    "Q_defined_descent_credit_restored": false,
+    "class3_promoted": false,
+    "comparison_2isogenous_curve_is_named_torsor": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "receiver_credit": false,
+    "stage33_05_reclosed": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "theorem_credit": false
+  },
+  "lattice_reduction": {
+    "candidate_functionals": {
+      "12": [
+        1,
+        1
+      ],
+      "4": [
+        0,
+        1
+      ],
+      "8": [
+        1,
+        0
+      ]
+    },
+    "candidate_minimum_norms": [
+      4,
+      8,
+      12
+    ],
+    "candidate_set_change": "{4,8,12}->{4,8,12}",
+    "candidate_set_reduced": false,
+    "marked_brauer_coordinate_selected": false,
+    "minimum_norm_selected": false,
+    "new_exact_invariant": "The I4/I2 relative component pattern is entirely explained by rational 4-torsion primitive glue; f2 ramifies across the two distinct lambda=1 factors A+B and A-B, so the remaining orientation data is horizontal/monodromic."
+  },
+  "legendre_pullback": {
+    "A_minus_B": "Dplus=t^2-2*t-1=(t-r1)*(t-r4)",
+    "A_plus_B": "Dminus=t^2+2*t-1=(t-r2)*(t-r3)",
+    "base_symmetries": [
+      "lambda(-t)=lambda(t)",
+      "lambda(1/t)=lambda(t)"
+    ],
+    "lambda_equals_1_divisor": "q=(A-B)*(A+B)=0",
+    "parameter": "lambda=B^2/A^2=4*t^2/(t^2-1)^2",
+    "q_roots": {
+      "r1": "1+sqrt(2)",
+      "r2": "-(1+sqrt(2))",
+      "r3": "sqrt(2)-1",
+      "r4": "1-sqrt(2)"
+    }
+  },
+  "next_exact_leaf": "R4_COMPUTE_f2_HORIZONTAL_RAMIFICATION_CHARACTER_IN_LEGENDRE_PULLBACK_MONODROMY_OR_EQUIVALENT_MW_FRAME_GLUE_AND_SELECT_MINIMUM_NORM_4_8_12",
+  "primitive_torsion_glue_reduction": {
+    "I2_reason": "Tr has component class 0 in Z/2, so the two bisection branches differing by Tr have the same I2 component.",
+    "I4_reason": "Since 2*Pplus=Tr and Tr has component class 2 in Z/4, Pplus has an odd component class and doubling the rational 4-torsion glue gives exactly the relative class 2.",
+    "attempt2_relative_component_pattern": "I4:(0,2) at all four I4; I2:same component at all four I2",
+    "component_only_direction": "DOUBLE_OF_RATIONAL_4TORSION_GLUE",
+    "component_only_route_can_select_marked_brauer_coordinate": false,
+    "exact_remaining_information": "The selector must use the horizontal f2 ramification character (or an equivalent MW/frame/topological monodromy or B-field adapter), not the relative reducible-fiber component vector by itself."
+  },
+  "rational_4torsion_halves_of_Tr": {
+    "Pminus": {
+      "double": "Tr",
+      "point": "(-A*B, A*B*(A-B))"
+    },
+    "Pplus": {
+      "double": "Tr",
+      "point": "(A*B, A*B*(A+B))"
+    },
+    "consequence": "Tr is rationally 2-divisible on the fixed Jacobian; the repaired J2 kernel direction is therefore the double of a rational order-4 torsion direction.",
+    "order4_exact": true
+  },
+  "repair_leaf": "R4",
+  "schema": "STAGE33_05_J2_R4_LEGENDRE_TORSION_GLUE_REDUCTION_V1",
+  "source_lock": {
+    "r3_cocycle_certificate": "stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json",
+    "r3_cocycle_certificate_canonical_sha256": "8440400fd7eff183830bb16e991a6fb6f253b1774a76384ed2a3dc8adc951312",
+    "r4_component_certificate": "stages/stage33/33-05/j2-r4-bisection-relative-component-incidence.json",
+    "r4_component_certificate_canonical_sha256": "bae1bd41d89a994b87ad7649547d5045808ff28653df319fd6bbad470e758735",
+    "r4_torsor_certificate": "stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json",
+    "r4_torsor_certificate_canonical_sha256": "a2b13adf8bf186796058baf88de4853a10682577298f4c75f508ddd8a0c4b3ec",
+    "torsion_primitive_closure_theorem": "Schuett-Shioda, Elliptic Surfaces, arXiv:0907.0298, primitive closure of the trivial lattice / trivial lattice equals MW torsion"
+  },
+  "split_pythagorean_jacobian": {
+    "A": "t^2-1",
+    "B": "2*t",
+    "C": "t^2+1",
+    "Tr": "(0,0)",
+    "identities": [
+      "A^2+B^2=C^2",
+      "q=A^2-B^2=(A-B)*(A+B)",
+      "E: y^2=x*(x+A^2)*(x+B^2)"
+    ]
+  },
+  "status": "PASS_EXACT_R4_COMPONENT_ONLY_ROUTE_BLOCKED_HORIZONTAL_MONODROMY_GLUE_LIVE"
+}
