@@ -20,9 +20,9 @@ Exact symbolic terminal count: `688101306360803751427719294`, with exact random-
 
 ## 32-21 — numerical Picard leaf compression
 
-Status: `IN_PROGRESS_AT_AUDITED_BOUNDARY`
+Status: `IN_PROGRESS_AT_32_21AD_ZERO_PRUNE_AUDIT_BOUNDARY`
 
-The fixed Reynolds rank-2 integer-QP alone pruned `0 / 679337` continuous-KKT survivors. The coherent aa->ab->ac package restores a finite exact piece of the information discarded by Reynolds averaging and turns it into a usable safe pruning predicate.
+The fixed Reynolds rank-2 integer-QP alone pruned `0 / 679337` continuous-KKT survivors. The coherent aa->ab->ac package restored a finite exact piece of the information discarded by Reynolds averaging and turned it into a usable safe pruning predicate. 32-21ad has now applied that audited predicate to the exact FULL178 population and established that this particular cheap bound has zero additional numerical pruning power on the full population.
 
 ### 32-21aa — anti-fixed coset penalty representation
 
@@ -85,20 +85,47 @@ The 81-case synthetic Smith panel had old-rank2-false -> new-true count `0` and 
 
 The initial audit attempt failed only because the audit harness omitted the `quad` import; it received no PASS or mathematical credit. The repaired fresh audit above is the authoritative audit.
 
+PR #1465 is merged. Authoritative merge commit: `34b351b2d99c27b82fcd1eea075432ee451ce68c`.
+
 ## 32-21ad — FULL178 compressed numerical census
 
-Status: `BLOCKED_PENDING_PR1465_MERGE`
+Status: `EXACT_CENSUS_COMPLETE_PENDING_BOUNDARY_AUDIT`
 
-This is the next major execution phase: apply the audited aa->ab->ac evaluator to the FULL178 population. It is deliberately separated from evaluator construction/audit.
+Result: `PASS_STAGE32_21AD_FULL178_16SHARD_ANTIFIXED_COSET_NUMERICAL_CENSUS`.
 
-Release requires:
+The audited 32-21ac evaluator was applied to the exact FULL178 continuous-KKT population under PR #1466. A representative deterministic 1-of-16 row shard first reproduced the exact evaluator and observed `0 / 51462` additional prunes. The production census was then executed as an exact disjoint partition of all 178 rows into 16 shards.
 
-1. #1465 merged into the authoritative base;
-2. reread of current controller/main after merge;
-3. execution/storage/concurrency preflight if the census design is materially heavy;
-4. fresh run-key authorization if a heavy production workflow is used.
+Exact FULL178 aggregate:
 
-The aa->ab->ac audit does not arm 32-21ad.
+- prior image + unconstrained quadratic slices: `2018569`;
+- continuous-KKT survivors: `679337`;
+- anti-fixed-coset additional prunes: `0`;
+- anti-fixed-coset survivors: `679337`;
+- additional prune rate: `0`;
+- zeroed e-strata: `0`;
+- zeroed rows: `0`;
+- total exact integer-u probes inside the audited evaluator: `1971035`;
+- maximum probes for one slice: `114`;
+- run `33313814094`, aggregate job `99263722930`;
+- aggregate artifact `9732838513`, size `5429` bytes;
+- aggregate ZIP SHA256 `5c2ba19b704f9466ad8bd083a4ad14a2821aad5ab0b5829999dbd9ab3bca98cf`;
+- aggregate certificate SHA256 `9bf4aba655a6df81e621e3f78e19b16460f1138410ed118f18e25fcb77bf24ad`.
+
+Interpretation is deliberately narrow: 32-21ac remains mathematically valid, but its cheap coset-minimum penalty is numerically dominated on this exact FULL178 population. This is not UNSAT, not numerical-row completion, and not theorem/receiver/route/perfect-cuboid credit.
+
+Operational notes:
+
+- a one-runner FULL attempt was authorized after the representative preflight, but a later PR synchronization canceled that full job before it produced a result artifact;
+- the authoritative result is the exact 16-shard partition above;
+- the parallel arm commit changed only its dedicated run-key;
+- effective Stage32 heavy concurrency was `16 <= 18`;
+- the old pairing-prefix heavy calibration remained skipped;
+- both 32-21ad run-keys are consumed and disarmed;
+- no terminal-family materialization, legacy prefix DFS, or 59-dimensional closest-vector search was executed.
+
+The zero-prune result is a meaningful strategy boundary. Do not re-run the same census or merely increase old DFS/node ceilings. A materially stronger bound or different symmetry/integrality mechanism is required before further heavy production.
+
+Next action: fresh focused boundary audit of 32-21ad / PR #1466. The post-32-21ad leaf name and strategy are intentionally not precommitted until that audit has certified the exact zero-prune result and safety state.
 
 ## PR / MAIN batch discipline
 
@@ -116,4 +143,4 @@ Default MAIN behavior:
 
 Current pointer:
 
-`32-19 CLOSED_RETROSPECTIVE -> 32-20 CLOSED_CHECKPOINTED -> 32-21aa CLOSED_AUDITED -> 32-21ab CLOSED_AUDITED -> 32-21ac CLOSED_AUDITED -> PR #1465 CHECKPOINT_MERGE_READY -> 32-21ad BLOCKED_PENDING_MERGE`
+`32-19 CLOSED_RETROSPECTIVE -> 32-20 CLOSED_CHECKPOINTED -> 32-21aa CLOSED_AUDITED -> 32-21ab CLOSED_AUDITED -> 32-21ac CLOSED_AUDITED -> #1465 MERGED -> 32-21ad EXACT_ZERO_PRUNE_CENSUS_COMPLETE -> FRESH_BOUNDARY_AUDIT`
