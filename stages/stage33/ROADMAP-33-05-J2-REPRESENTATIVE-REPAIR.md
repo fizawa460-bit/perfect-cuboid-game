@@ -20,8 +20,8 @@ No Stage33-13 release is allowed during this repair band.
 | R0 | Is the promoted `ell_J2` actually nonzero in the geometric CV quotient? | Exact full branch-algebra regression of `ell_J2` modulo `K^*L^{*2}` | **DONE: ZERO** |
 | R1 | Does the abstract `J2` basis element remain genuinely nonzero independently of the bad representative? | Recompute the quotient/presentation nonzero statement without using the revoked `ell_J2`; identify exactly what object the symbol `J2` denotes | **DONE: ABSTRACT_J2_NONZERO_CONFIRMED** |
 | R2 | Can a correct concrete representative of abstract `J2` be constructed? | Produce `ell_J2_corrected` and certify `[ell_J2_corrected] != 0` in `L^*/(K^*L^{*2})`, with branch/ruling dictionary source-locked | **DONE: CORRECTED_ELL_J2_NONZERO_CONFIRMED** |
-| R3 | What is its explicit generic-fiber cohomology class? | Apply Creutz--Viray explicit descent to materialize a nonzero cocycle in `H^1(K,E[2])` and fixed rational `E[2]` Kummer coordinates | **IN_PROGRESS** |
-| R4 | Which marked Brauer functional is it? | Build the associated 2-cover/torsor or equivalent lattice object and determine `min T(X_J2) in {4,8,12}`, hence `[0,1]`, `[1,0]`, or `[1,1]` | **BLOCKED_BY_R3** |
+| R3 | What is its explicit generic-fiber cohomology class? | Apply Creutz--Viray explicit descent to materialize a nonzero cocycle in `H^1(K,E[2])` and fixed rational `E[2]` Kummer coordinates | **DONE: EXPLICIT_NONZERO_CV_E2_COCYCLE** |
+| R4 | Which marked Brauer functional is it? | Build the associated 2-cover/torsor or equivalent lattice object and determine `min T(X_J2) in {4,8,12}`, hence `[0,1]`, `[1,0]`, or `[1,1]` | **IN_PROGRESS** |
 | R5 | Can Stage33-05/12 credit be restored? | Independent hostile replay of R1--R4; restore only the credits actually re-established; update Stage33 controller and downstream release gates | **BLOCKED_BY_R4** |
 
 ## R1 exact closure
@@ -74,14 +74,78 @@ Therefore `(f2,1)` is nonzero in the actual full geometric CV quotient.
 Certificate: `stages/stage33/33-05/j2-corrected-full-l-representative.json`.
 Verifier: `stages/stage33/33-05/certify_j2_corrected_full_l_representative.py`.
 
-This closes **only R2**. It does not restore the revoked Q-defined descent credit, does not materialize the Creutz--Viray `E[2]` cocycle, does not select a marked Kc Brauer coordinate, and does not re-close Stage33-05/12. Those remain gated by R3--R5.
+This closes **only R2**. It does not restore the revoked Q-defined descent credit, select a marked Kc Brauer coordinate, or re-close Stage33-05/12.
+
+## R3 exact closure
+
+R3 applies Creutz--Viray `arXiv:1403.2924v1`, Lemma 4.6 directly to the corrected full-L pair, not to the revoked Q-defined function.
+
+On the generic fiber over `Kgeom=Qbar(t)` the branch algebra is
+
+```text
+L = Kgeom(B_plus) x Kgeom(B_minus),
+deg(B_plus/Kgeom)=deg(B_minus/Kgeom)=2,
+ell_J2_corrected=(f2,1).
+```
+
+Because `f2` lies in the base field, `Norm_L/Kgeom(f2,1)=f2^2`, so the corrected representative lies in the `L_1` domain of Lemma 4.6. For the nontrivial element `rho` of `Gal(Kgeom(sqrt(f2))/Kgeom)`, the four branch-point square-root characters are exactly
+
+```text
+chi_tilde(rho)=(1,1,0,0),
+g_ell(rho)=1.
+```
+
+Hence Lemma 4.6 gives the B-plus two-point partition class in `E[2]`.
+
+That partition was then identified independently in the fixed generic Weierstrass model
+
+```text
+E: Y^2=X(X-r)(X-q),
+r=(t^2-1)^2,
+q=t^4-6t^2+1.
+```
+
+The original biquadratic quartic is mapped to this Jacobian by `s=2tX/Y`, and the B-plus factor satisfies the exact function-field identity
+
+```text
+(-1/(t*r))*Gplus/(X-r)
+ = (1/(X-r)+iY/((t^2-1)(X-r)(X-q)))^2.
+```
+
+Therefore the B-plus partition is exactly
+
+```text
+Tr=(r,0)=((t^2-1)^2,0).
+```
+
+With the fixed Q(t)-rational `E[2]` basis
+
+```text
+T0=(0,0),
+Tr=((t^2-1)^2,0),
+```
+
+the explicit cocycle and character squareclass coordinates are
+
+```text
+xi(rho)=Tr,
+coordinates=[0,1],
+Kummer squareclass pair=(1,f2).
+```
+
+The class is nonzero because `f2` has odd zero/pole valuations at `r2` and `r4`. This is a geometric `Kgeom=Qbar(t)` statement; it does **not** restore Q-defined descent credit.
+
+Certificate: `stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json`.
+Verifier: `stages/stage33/33-05/certify_j2_corrected_cv_e2_cocycle.py`.
+
+This closes **only R3** and releases R4. It does not identify the twisted transcendental kernel, select a marked Brauer coordinate, re-close Stage33-05/12, or release Stage33-13.
 
 ## Stop / escalation rules
 
 - R1 has only two legitimate outcomes: `ABSTRACT_J2_NONZERO_CONFIRMED` or `ABSTRACT_J2_SURVIVAL_REVOKED`. **Resolved: CONFIRMED.**
 - If R1 confirms abstract J2 but R2 fails after two materially different exact constructions, run a bounded breadth audit before adding a third construction. **Not triggered: R2 succeeded on the first corrected full-L construction.**
 - If R2 succeeds, the first mandatory regression is quotient nonzero-ness. Norm/divisor/residue checks alone are insufficient. **Passed exactly.**
-- R3 must use the actual corrected representative. No relabeling of branch orbit `(1,0)` as marked Brauer `[1,0]` is allowed.
+- R3 must use the actual corrected representative. No relabeling of branch orbit `(1,0)` as marked Brauer `[1,0]` is allowed. **Passed: the partition point was derived by an exact function-field square identity and is not a marked K3 coordinate.**
 - R4 reads the fixed marked coordinate only through the retained kernel-lattice fingerprints: minimum norm `4 -> [0,1]`, `8 -> [1,0]`, `12 -> [1,1]`.
 - Class-3 routes remain dormant unless this finite repair ladder reaches a new exact no-go after the representative issue is resolved.
 
@@ -99,8 +163,8 @@ A batch that does not change the current leaf, candidate set, exact invariant, o
 R0 = DONE: current promoted ell_J2 is zero in geometric CV quotient
 R1 = DONE: abstract J2 nonzero independently reconfirmed
 R2 = DONE: corrected full-L pair (f2,1) directly certified nonzero in geometric CV quotient
-R3 = IN_PROGRESS: apply corrected representative to explicit Creutz--Viray E[2] cocycle/Kummer coordinates
-R4 = BLOCKED
+R3 = DONE: corrected pair gives explicit nonzero CV E[2] cocycle xi(rho)=Tr and Kummer pair (1,f2)
+R4 = IN_PROGRESS: build associated torsor/kernel lattice and read min norm 4/8/12
 R5 = BLOCKED
 Stage33 progress = 5/11
 Stage33-12 exact closure = false
@@ -116,6 +180,9 @@ R1 evidence:
 
 R2 evidence:
 `stages/stage33/33-05/j2-corrected-full-l-representative.json`
+
+R3 evidence:
+`stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json`
 
 Machine-readable repair state:
 `stages/stage33/33-05/j2-representative-repair-state.json`
