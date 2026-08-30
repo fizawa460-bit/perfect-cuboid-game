@@ -1,69 +1,36 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_BLOCKED_BY_REOPENED_STAGE33_05_CORRECTED_J2_Q_DESCENT_RESIDUAL_4_OF_5`
+Status: `MAIN_WAITING_ON_STAGE33_05_SUPER_HOSTILE_AUDIT_AFTER_R5_REPAIR_EXIT`
 
-Stage33-12 remains open. Stage33-13 is not released. Class-3 promotion is **not** authorized.
+Stage33-12 remains open. Stage33-13 is not released. Class-3 promotion is **not** authorized. Stage33 progress remains `5/11`.
 
-## Batch 4 / 4 hostile-audit verdict
+## Historical regression and geometric repair
 
-The committed four-batch class-2 audit budget is exhausted, but the Batch3 `NO_GO_AFTER_BATCH3` verdict does **not** survive hostile audit. The reason is upstream: the Stage33-05 Q-defined function formerly called the named geometric `J2` representative is geometrically trivial in the exact Creutz--Viray function quotient.
-
-The hostile regression proves the old Q-defined `ell_Q` is diagonal scalar times component squares in
+The historical Stage33-05 Q-defined `ell_Q`/CSA formerly used as the named geometric `J2` representative was hostile-proved geometrically trivial in the exact Creutz--Viray quotient:
 
 ```text
-Lbar^*/(Kbar^* Lbar^{*2}),  Kbar=Qbar(t),
+stages/stage33/33-12/j2-cv-lclass-zero-regression.json
 ```
 
-hence `[ell_Q]=0`. Certificate: `j2-cv-lclass-zero-regression.json`.
+That revoked witness is not reused.
 
-This revokes the old named-representative/Q-descent witness but does not revoke the abstract geometric basis element `J2`.
-
-## Repair R1--R4
-
-The upstream Stage33-05 repair reconstructed the class without reusing the revoked witness:
+The Stage33-05 repair then independently reconstructed the named class:
 
 ```text
 R1 abstract J2 nonzero                         PASS
 R2 corrected full-L pair (f2,1) nonzero       PASS
 R3 explicit CV E[2] cocycle xi(rho)=Tr        PASS
 R4 correct attempt-2 torsor / lattice marking PASS
+R5 hostile replay R1--R4                      PASS
 ```
 
-The correct attempt-2 torsor is
-
-```text
-d*v^2=n^4-2*a*d*n^2+d^2*q^2,
-a=(t^2+1)^2,
-d=f2.
-```
-
-Its free involution `(n,v)->(-n,-v)` has quotient
-
-```text
-X=n^2/d,
-Y=-n*v/d,
-E'_Tr: Y^2=X*(X^2-2*a*X+q^2).
-```
-
-The degree-one base change
-
-```text
-u=-(1+sqrt(2))*(t+sqrt(2)-1)/(t-1-sqrt(2))
-```
-
-and the Legendre root permutation identify the `E'_Tr` elliptic K3 with `Kc` over `Q(i,sqrt(2))`. The hostile theorem adapter now additionally fixes the previously implicit integral step: Creutz--Viray Lemma 4.6 + Proposition 5.1 identify the corrected CV class with the torsor/Sha image, and Căldăraru Theorem 1.2 with the elliptic-K3 Ogg--Shafarevich dictionary gives
+R4 hostile verification fixes the integral statement
 
 ```text
 T(X_J2) ~= ker(J2:T(Kc)->Q/Z)
 ```
 
-as an **integral** Hodge isometry with inherited pairing. The separate degree-two quotient pullback gives
-
-```text
-T(Kc)(2)=<8> direct_sum <16>, det=128.
-```
-
-The nonzero order-two kernel has the same determinant, hence pullback index one. Therefore
+with inherited integral pairing, and the independent degree-two quotient comparison gives
 
 ```text
 T(X_J2)=<8> direct_sum <16>,
@@ -71,61 +38,117 @@ minimum norm=8,
 marked J2=[1,0].
 ```
 
-Certificates:
+Attempt 1 remains revoked as the named torsor.
+
+## Post-R5 corrected J2 arithmetic descent
+
+The previous residual
 
 ```text
-../33-05/j2-r4-translation-quotient-lattice.json
-../33-05/j2-r4-hostile-torsor-brauer-kernel-verification.json
+CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE
 ```
 
-Attempt 1 remains revoked as the named torsor; `E'_Tr` is only the quotient target of the correct attempt-2 torsor.
+now has **pre-audit exact evidence of resolution** without reusing the old `ell_Q`.
 
-## R5 hostile replay and credit reconciliation
-
-R5 independently replayed R1--R4 and **PASSed the geometric repair**. Certificate/verifier:
+New certificate/verifier:
 
 ```text
-../33-05/j2-r5-hostile-replay.json
-../33-05/certify_j2_r5_hostile_replay.py
+../33-05/j2-post-r5-hs-descent-datum.json
+../33-05/certify_j2_post_r5_q_descent_cocycle.py
 ```
 
-However, R5 also found that the historical Stage33-05 audit credit
+The exact full-pair presentation has basis `[J1,J2,q1,q2,q3]` and source-locked Galois generators `tau`, `cc`, `ct`.  Direct replay gives
 
 ```text
-j2_q_descent_certified=true
+tau(J2)-J2 = 0
+cc(J2)-J2  = 0
+ct(J2)-J2  = 0.
 ```
 
-cannot be inherited. That historical claim used the old Q-defined `ell_Q`/CSA whose geometric class is now exactly known to be zero. The corrected nonzero geometric representative `(f2,1)` has not yet been supplied with a replacement Q-defined arithmetic Brauer representative or equivalent descent datum.
-
-Therefore the Stage33-05 closure contract condition
+Creutz--Viray's Galois-equivariant presentation/cocycle comparison identifies this with the Kummer `Pic/2` defect.  Hence corrected J2 has the explicit normalized descent cochains
 
 ```text
-ALL_SURVIVING_K3_CLASSES_HAVE_EXPLICIT_ARITHMETIC_REPRESENTATIVES=true
+Pic/2 defect 1-cocycle = 0,
+integral Pic lift       = 0,
+Bockstein / HS d2       = 0.
 ```
 
-is still unsatisfied for corrected `J2`.
-
-## Current exact blocker
+For `k=Q`, `H^3(Q,Qbar^*)=0`.  Standard Hochschild--Serre exactness therefore gives
 
 ```text
-POST_R5_CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE
+ker(Br(Kc_bar)^G_Q -> H^2(Q,Pic(Kc_bar)))
+ = image(Br(Kc_Q) -> Br(Kc_bar)^G_Q).
 ```
 
-Required before Stage33-05 reclosure:
+Thus there is an arithmetic class
 
 ```text
-1. source-lock the full Galois action on corrected J2;
-2. construct an explicit Q-defined Azumaya/CSA or equivalent descent cocycle;
-3. prove its geometric restriction is corrected nonzero (f2,1), not revoked ell_Q;
-4. verify the required arithmetic unramifiedness/residue conditions;
-5. hostile replay the Stage33-05 explicit-arithmetic-representative closure criterion.
+beta_J2_Q in Br(Kc_Q)
 ```
+
+with
+
+```text
+res_Qbar(beta_J2_Q)=corrected nonzero J2=(f2,1).
+```
+
+Because the class is obtained in `Br(Kc_Q)` of the smooth projective Q-K3 itself, rather than only in the function-field Brauer group, arithmetic unramifiedness is built into this conclusion.  This repair records an explicit **Hochschild--Serre/Kummer descent datum**; it does **not** claim a new closed-form Q quaternion/CSA formula.
+
+External source locks are frozen in `../33-05/source-lock.md`, including:
+
+- Creutz--Viray, arXiv:1306.3251, Theorem I / Theorem 2.5;
+- Creutz--Viray, arXiv:1403.2924, Remark 3.1 / Proposition 3.2 / Lemmas 3.4--3.5;
+- Skorobogatov--Zarhin, JEMS 16 (2014), Hochschild--Serre equation (21) application;
+- Neukirch--Schmidt--Wingberg, *Cohomology of Number Fields*, Proposition 8.3.11.
+
+## R5 repair exit and mandatory audit gate
+
+The R5 repair line has now reached its full mathematical exit **as pre-audit evidence**:
+
+```text
+R5_FULL_REPAIR_EXIT_REACHED=true
+CORRECTED_J2_Q_DESCENT_EXACT_EVIDENCE_REESTABLISHED=true
+EQUIVALENT_ARITHMETIC_DESCENT_DATUM_MATERIALIZED=true
+UNRESOLVED_UNKNOWN_IN_R5_REPAIR_SCOPE=0
+```
+
+However the repository-wide promotion firewall and the user's explicit workflow require a separate **super-hostile audit** before any authoritative closure credit.
+
+Current Stage33-05 state is therefore
+
+```text
+UNIT_STATUS=AUDIT_REQUIRED
+UNIT_CLOSED=false
+DOWNSTREAM_RELEASED=false
+Q_DEFINED_DESCENT_CREDIT_AUTHORITATIVELY_RESTORED=false
+```
+
+The next exact leaf is
+
+```text
+SUPER_HOSTILE_AUDIT_STAGE33_05_CORRECTED_J2_REPAIR
+```
+
+and the audit must be performed on a new PR/work line.  It must independently challenge at least:
+
+```text
+1. R0--R5 replay without trusting promoted booleans;
+2. zero full-pair presentation defect -> zero Kummer/Pic defect;
+3. zero Bockstein -> HS d2=0;
+4. H^3(Q,Qbar^*)=0 and ker(d2)=image Br(Kc_Q);
+5. whether this explicit cohomological descent datum satisfies the Stage33-05
+   explicit arithmetic representative closure contract;
+6. corrected geometric restriction is nonzero (f2,1), never the revoked ell_Q.
+```
+
+Only a super-hostile `PASS` may reclose Stage33-05 or allow Stage33-12 / downstream release to be reconsidered.
 
 ## Firewalls
 
 ```text
 R4 minimum norm 8 / marked J2=[1,0] = RETAINED GEOMETRIC CREDIT
-corrected J2 Q-defined descent = NOT RESTORED
+post-R5 corrected J2 Q-descent evidence = EXACT PRE-AUDIT
+old ell_Q J2 witness = REVOKED / FORBIDDEN
 Stage33-05 reclosed = false
 Stage33-12 exact closure = false
 Stage33-13 released = false
@@ -136,5 +159,3 @@ receiver credit = false
 endpoint credit = false
 perfect cuboid existence/nonexistence claim = false
 ```
-
-Do not reuse the attempt-1 quartic as the named torsor. Do not reuse the old geometrically-trivial `ell_Q` as the corrected J2 arithmetic representative.
