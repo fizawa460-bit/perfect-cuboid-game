@@ -1,9 +1,9 @@
 {
-  "schema": "STAGE32_21AD_FULL178_ANTIFIXED_COSET_CENSUS_RESULT_V1",
+  "schema": "STAGE32_21AD_FULL178_ANTIFIXED_COSET_CENSUS_RESULT_V2_AUDITED",
   "stage": 32,
   "leaf": "32-21ad",
   "name": "FULL178_COMPRESSED_NUMERICAL_CENSUS",
-  "status": "EXACT_CENSUS_COMPLETE_PENDING_BOUNDARY_AUDIT",
+  "status": "AUDITED_ZERO_PRUNE_CHECKPOINT",
   "verdict": "PASS_STAGE32_21AD_FULL178_16SHARD_ANTIFIXED_COSET_NUMERICAL_CENSUS",
   "working_pr": 1466,
   "branch": "stage32-21ad-full178-antifixed-coset-census",
@@ -64,6 +64,30 @@
     "continuous_kkt_survivors_expected": 679337,
     "continuous_kkt_survivors_match": true
   },
+  "boundary_audit": {
+    "status": "PASS",
+    "verdict": "PASS_STAGE32_21AD_FRESH_ZERO_PRUNE_BOUNDARY_AUDIT",
+    "first_pass_run_id": 33314674227,
+    "first_pass_job_id": 99265778889,
+    "first_pass_artifact_id": 9733074341,
+    "first_pass_artifact_zip_sha256": "206cd3fc75f69c95bbc7812467c6d81d12f1ad5a46e6f0508e0f69e36441ddbc",
+    "hardened_rerun_id": 33314886424,
+    "hardened_rerun_job_id": 99266357586,
+    "artifact_id": 9733137852,
+    "artifact_size_bytes": 2142,
+    "artifact_zip_sha256": "15d11651104172a9f89c22c144acdff72f6dfc46e7a7b868a45bf05e9f67efa6",
+    "canonical_sha256": "1f2e61ef29cf6000b8cc98906a5dcf3f2a4d15a7b405be2e40ef9c0de3bfab0e",
+    "canonical_sha_reproduced_after_audit_status_hardening": true,
+    "all_16_shard_payload_canonical_hashes_recomputed": true,
+    "deterministic_mod16_row_partition_rebuilt_from_manifest": true,
+    "checked_shards": 16,
+    "checked_rows": 178,
+    "row_summary_totals_recomputed": true,
+    "decision_reason_population_reconciled": true,
+    "quotient_coset_population_reconciled": true,
+    "coset_penalty_population_reconciled": true,
+    "audited_32_21ac_lock_rederived": true
+  },
   "operational_safety": {
     "parallel_runkey_only_arm_verified": true,
     "parallel_arm_commit_sha": "a6b47eeaa94dbd59768518a3c3f136cec7755a75",
@@ -90,9 +114,11 @@
     "audited_32_21ac_predicate_additional_full178_pruning_power": "ZERO_ON_THIS_EXACT_POPULATION",
     "full178_additional_pruning_observed": false,
     "current_cheap_antifixed_coset_bound_is_numerically_dominated_for_this_population": true,
+    "same_full178_census_rearm_without_semantic_change_is_dominated": true,
     "strategy_change_required_before_further_heavy_production": true,
-    "do_not_rearm_same_full178_census_without_semantic_change": true,
-    "next_strategy_not_precommitted_before_boundary_audit": true
+    "next_strategy_not_selected_before_pr1466_checkpoint_merge": true,
+    "zero_prune_is_not_route_impossibility": true,
+    "zero_prune_is_not_global_nonexistence": true
   },
   "firewalls": {
     "unknown_is_unsat": false,
@@ -105,5 +131,11 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
   },
-  "next_required_action": "FRESH_32_21AD_BOUNDARY_AUDIT_THEN_SELECT_A_MATERIALLY_STRONGER_STRATEGY_FROM_THE_EXACT_ZERO_PRUNE_RESULT"
+  "checkpoint": {
+    "checkpoint_merge_ready": true,
+    "automatic_merge_authorized": false,
+    "advance_before_merge_authorized": false,
+    "further_heavy_compute_authorized": false
+  },
+  "next_required_action": "MERGE_PR1466_ONLY_WITH_EXPLICIT_USER_AUTHORIZATION_THEN_REREAD_MAIN_CONTROLLER_AND_SELECT_A_MATERIALLY_STRONGER_POST_32_21AD_STRATEGY"
 }
