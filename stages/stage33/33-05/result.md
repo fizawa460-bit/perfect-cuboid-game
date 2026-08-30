@@ -195,3 +195,26 @@ DOWNSTREAM_RELEASED=true
 ```
 
 This closes only the Stage33-05 K3 arithmetic-descent branch.  Stage33-07 remains locked until its independent prerequisites `33-03`, `33-04`, and `33-06` are also CLOSED.  No endpoint theorem, route-color change, Brauer--Manin obstruction, or Perfect Cuboid existence/nonexistence credit is granted by this unit alone.
+
+## Hostile-repair checkpoint: R4 exact closure
+
+The later hostile reopen revoked the old promoted `ell_J2`; the authoritative repair state is `j2-representative-repair-state.json`. For the corrected nonzero representative `(f2,1)`, R3 gives `xi(rho)=Tr` and the correct translation torsor
+
+```text
+f2*v^2=n^4-2*(t^2+1)^2*f2*n^2+f2^2*q^2.
+```
+
+Its free involution `(n,v)->(-n,-v)` has degree-two quotient
+
+```text
+X=n^2/f2, Y=-n*v/f2,
+Y^2=X*(X^2-2*(t^2+1)^2*X+q^2)=E'_Tr.
+```
+
+An exact degree-one Möbius base change and Legendre root permutation identify the elliptic K3 of `E'_Tr` with `Kc` over `Q(i,sqrt(2))`. The pullback lattice is therefore `T(Kc)(2)=<8>+<16>`, of determinant `128`. The corrected nonzero order-two `J2` kernel also has determinant `128`, so the pullback has index one. Hence
+
+```text
+T(X_J2)=<8>+<16>, minimum norm=8, marked J2=[1,0].
+```
+
+This closes only repair leaf R4. R5 hostile replay remains required; Stage33-05 is not yet re-closed and no downstream or theorem credit is restored here.

@@ -21,8 +21,8 @@ No Stage33-13 release is allowed during this repair band.
 | R1 | Does the abstract `J2` basis element remain genuinely nonzero independently of the bad representative? | Recompute the quotient/presentation nonzero statement without using the revoked `ell_J2`; identify exactly what object the symbol `J2` denotes | **DONE: ABSTRACT_J2_NONZERO_CONFIRMED** |
 | R2 | Can a correct concrete representative of abstract `J2` be constructed? | Produce `ell_J2_corrected` and certify `[ell_J2_corrected] != 0` in `L^*/(K^*L^{*2})`, with branch/ruling dictionary source-locked | **DONE: CORRECTED_ELL_J2_NONZERO_CONFIRMED** |
 | R3 | What is its explicit generic-fiber cohomology class? | Apply Creutz--Viray explicit descent to materialize a nonzero cocycle in `H^1(K,E[2])` and fixed rational `E[2]` Kummer coordinates | **DONE: EXPLICIT_NONZERO_CV_E2_COCYCLE** |
-| R4 | Which marked Brauer functional is it? | Build the associated 2-cover/torsor or equivalent lattice object and determine `min T(X_J2) in {4,8,12}`, hence `[0,1]`, `[1,0]`, or `[1,1]` | **IN_PROGRESS** |
-| R5 | Can Stage33-05/12 credit be restored? | Independent hostile replay of R1--R4; restore only the credits actually re-established; update Stage33 controller and downstream release gates | **BLOCKED_BY_R4** |
+| R4 | Which marked Brauer functional is it? | Build the associated 2-cover/torsor or equivalent lattice object and determine `min T(X_J2) in {4,8,12}`, hence `[0,1]`, `[1,0]`, or `[1,1]` | **DONE: MINIMUM NORM 8, MARKED J2=[1,0]** |
+| R5 | Can Stage33-05/12 credit be restored? | Independent hostile replay of R1--R4; restore only the credits actually re-established; update Stage33 controller and downstream release gates | **READY_AFTER_R4** |
 
 ## R1 exact closure
 
@@ -140,6 +140,55 @@ Verifier: `stages/stage33/33-05/certify_j2_corrected_cv_e2_cocycle.py`.
 
 This closes **only R3** and releases R4. It does not identify the twisted transcendental kernel, select a marked Brauer coordinate, re-close Stage33-05/12, or release Stage33-13.
 
+## R4 exact closure
+
+R4 closes through a degree-two quotient of the **correct attempt-2 translation torsor**; it does not promote the revoked attempt-1 quartic as the named torsor.  On the affine chart
+
+```text
+d*v^2=n^4-2*a*d*n^2+d^2*q^2,
+```
+
+the fixed-point-free involution `(n,v) -> (-n,-v)` has quotient map
+
+```text
+X=n^2/d,
+Y=-n*v/d,
+Y^2=X*(X^2-2*a*X+q^2)=X*(X-Dplus^2)*(X-Dminus^2).
+```
+
+The quotient is the comparison curve `E'_Tr`, now obtained from the correct torsor rather than substituted for it.  Its elliptic K3 is explicitly identified with `Kc` over `Q(i,sqrt(2))`: the degree-one base change
+
+```text
+u=-(1+sqrt(2))*(t+sqrt(2)-1)/(t-1-sqrt(2))
+```
+
+and the root permutation `x'=Dminus^2-x` give the exact Legendre identity
+
+```text
+q(u)/(u^2-1)^2
+  =(Dminus^2-Dplus^2)/Dminus^2
+  =8*t*(t^2-1)/Dminus^2.
+```
+
+Consequently the degree-two pullback on transcendental lattices contains
+
+```text
+T(Kc)(2)=<8> direct_sum <16>
+```
+
+inside `T(X_J2)`.  This sublattice has determinant `128`.  The corrected `J2` is a nonzero order-two class, so its kernel in `T(Kc)` has index two and determinant `4*32=128`.  Equal determinants force pullback index one.  Therefore
+
+```text
+T(X_J2)=<8> direct_sum <16>,
+minimum norm=8,
+marked J2=[1,0].
+```
+
+Certificate: `stages/stage33/33-05/j2-r4-translation-quotient-lattice.json`.
+Verifier: `stages/stage33/33-05/certify_j2_r4_translation_quotient_lattice.py`.
+
+This closes **only R4**.  R5 hostile replay is still required before Stage33-05 reclosure, Stage33-12 exact closure, any downstream release, or any restored theorem/receiver credit.
+
 ## Stop / escalation rules
 
 - R1 has only two legitimate outcomes: `ABSTRACT_J2_NONZERO_CONFIRMED` or `ABSTRACT_J2_SURVIVAL_REVOKED`. **Resolved: CONFIRMED.**
@@ -164,8 +213,8 @@ R0 = DONE: current promoted ell_J2 is zero in geometric CV quotient
 R1 = DONE: abstract J2 nonzero independently reconfirmed
 R2 = DONE: corrected full-L pair (f2,1) directly certified nonzero in geometric CV quotient
 R3 = DONE: corrected pair gives explicit nonzero CV E[2] cocycle xi(rho)=Tr and Kummer pair (1,f2)
-R4 = IN_PROGRESS: build associated torsor/kernel lattice and read min norm 4/8/12
-R5 = BLOCKED
+R4 = DONE: correct torsor quotient gives T(X_J2)=<8>+<16>, min norm 8, marked J2=[1,0]
+R5 = READY: hostile replay and restore only re-established credit
 Stage33 progress = 5/11
 Stage33-12 exact closure = false
 Stage33-13 release = false

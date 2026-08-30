@@ -1,0 +1,91 @@
+{
+  "schema": "STAGE33_05_J2_R4_TRANSLATION_QUOTIENT_LATTICE_V1",
+  "status": "PASS_EXACT_R4_MINIMUM_NORM_8_MARKED_J2_1_0",
+  "repair_leaf": "R4",
+  "attempt": 3,
+  "source_locks": {
+    "correct_translation_torsor": {
+      "path": "stages/stage33/33-05/j2-r4-correct-translation-torsor.json",
+      "canonical_sha256": "ef72c43811428acb2d4c1ea58d4867d7bbcc5c20774b6724eb8b272450cd0725"
+    },
+    "kc_transcendental_lattice": {
+      "path": "stages/stage33/33-12/j2-kc-transcendental-lattice-isometry.json",
+      "canonical_sha256": "b7f2bcfa29c01731ea2f10d22db898ad57317f140b547f91e3d3a27a0faf1010"
+    },
+    "kernel_fingerprints": {
+      "path": "stages/stage33/33-12/j2-brauer-kernel-lattice-fingerprints.json",
+      "canonical_sha256": "572ad201ca859c5970507dbc598ac0489fdd90d10ee74ffc58f5e2f3fba7927e"
+    }
+  },
+  "fixed_data": {
+    "a": "(t^2+1)^2",
+    "b": "[2*t*(t^2-1)]^2",
+    "q": "t^4-6*t^2+1",
+    "d": "f2=(t+1+sqrt(2))/(t-1+sqrt(2))",
+    "Dplus": "t^2-2*t-1",
+    "Dminus": "t^2+2*t-1",
+    "correct_torsor": "d*v^2=n^4-2*a*d*n^2+d^2*q^2",
+    "correct_torsor_jacobian": "E: y^2=x*(x^2+a*x+b)"
+  },
+  "correct_torsor_degree_two_quotient": {
+    "involution": "iota(n,v)=(-n,-v)",
+    "involution_role": "translation by the nonzero order-2 point on the genus-one torsor",
+    "map": {
+      "X": "n^2/d",
+      "Y": "-n*v/d"
+    },
+    "target": "E'_Tr: Y^2=X*(X^2-2*a*X+q^2)",
+    "target_split_form": "Y^2=X*(X-Dplus^2)*(X-Dminus^2)",
+    "function_field_relation": "n^2=d*X",
+    "generic_degree": 2,
+    "fixed_point_free_on_smooth_generic_fiber": true,
+    "semantic_firewall": "E'_Tr is derived here as the quotient of the correct attempt-2 torsor; the attempt-1 quartic is not promoted as the named J2 torsor."
+  },
+  "comparison_k3_isomorphism": {
+    "extension_field": "Q(i,sqrt(2))",
+    "base_change": "u=-(1+sqrt(2))*(t+sqrt(2)-1)/(t-1-sqrt(2))",
+    "base_change_degree": 1,
+    "kc_legendre_parameter": "q(u)/(u^2-1)^2",
+    "Eprime_root_permutation": "x'=Dminus^2-x",
+    "Eprime_legendre_parameter": "(Dminus^2-Dplus^2)/Dminus^2",
+    "legendre_identity": "q(u)/(u^2-1)^2=(Dminus^2-Dplus^2)/Dminus^2=8*t*(t^2-1)/Dminus^2",
+    "legendre_identity_verified": true,
+    "fiber_coordinate_scalings": {
+      "Kc": "z=x/(u^2-1)^2, w=y/(u^2-1)^3",
+      "Eprime": "z=(Dminus^2-x)/Dminus^2, w=i*y/Dminus^3"
+    },
+    "surface_conclusion": "The relatively minimal elliptic K3 surface of E'_Tr is isomorphic over Q(i,sqrt(2)) to Kc; hence their integral transcendental lattices are isometric."
+  },
+  "lattice_conclusion": {
+    "degree_two_projection_formula": "For the dominant degree-2 rational map of smooth projective K3 models, the transcendental pullback pairing is multiplied by 2.",
+    "comparison_transcendental_gram": [[4, 0], [0, 8]],
+    "pullback_gram": [[8, 0], [0, 16]],
+    "pullback_determinant": 128,
+    "torsor_kernel_determinant": 128,
+    "determinant_reason": "The corrected J2 is nonzero of order 2, so ker(J2:T(Kc)->Z/2) has index 2 and determinant 4*det(T(Kc))=128.",
+    "pullback_index_in_torsor_kernel": 1,
+    "torsor_transcendental_gram": [[8, 0], [0, 16]],
+    "minimum_norm": 8,
+    "marked_brauer_coordinate": [1, 0],
+    "other_candidates_rejected": {
+      "0,1": "minimum norm 4",
+      "1,1": "minimum norm 12"
+    }
+  },
+  "exact_new_information": "The corrected J2 torsor has a degree-2 quotient E'_Tr. An explicit degree-one Mobius base change and Legendre root permutation identify the E'_Tr K3 with Kc over Q(i,sqrt(2)). Pullback therefore embeds T(Kc)(2)=<8>+<16> into the torsor kernel lattice. Both determinants are 128, so the embedding is primitive of index 1 and the minimum norm is exactly 8, selecting marked J2=[1,0].",
+  "r4_exit": "TWISTED_KERNEL_MINIMUM_NORM_8_AND_MARKED_COORDINATE_1_0_SELECTED",
+  "next_exact_leaf": "R5_HOSTILE_REPLAY_R1_TO_R4_AND_RESTORE_ONLY_REESTABLISHED_CREDIT",
+  "firewalls": {
+    "Q_defined_descent_credit_restored": false,
+    "stage33_05_reclosed": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "class3_promoted": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256": "89efe817d2689d7533c99ea9b7f7cc753b90bfd3e55377fef8ee22cfc549108d"
+}

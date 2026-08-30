@@ -2,10 +2,10 @@
   "schema": "STAGE33_05_J2_REPRESENTATIVE_REPAIR_STATE_V1",
   "repair_band": "R0_TO_R5",
   "roadmap": "stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md",
-  "status": "R4_IN_PROGRESS_CORRECT_TRANSLATION_TORSOR_MATERIALIZED_LATTICE_GLUE_PENDING",
-  "current_leaf": "R4",
-  "current_leaf_title": "COMPUTE_CORRECT_TRANSLATION_DESCENT_J2_TORSOR_NS_DISCRIMINANT_FORM_OR_EQUIVALENT_COMPONENT_GLUE_AND_READ_MINIMUM_NORM_4_8_12",
-  "current_leaf_attempts": 2,
+  "status": "R4_DONE_MINIMUM_NORM_8_MARKED_J2_1_0_R5_READY",
+  "current_leaf": "R5",
+  "current_leaf_title": "HOSTILE_REPLAY_R1_TO_R4_AND_RESTORE_ONLY_REESTABLISHED_CREDIT",
+  "current_leaf_attempts": 0,
   "current_leaf_stagnation_count": 0,
   "stagnation_trigger": 2,
   "leaves": {
@@ -43,13 +43,14 @@
       "exact_statement": "Creutz-Viray Lemma 4.6 applied directly to corrected (f2,1) gives chi_tilde=(1,1,0,0), g=1 and xi(rho)=the Bplus partition class; an exact quartic-to-Jacobian square identity identifies that class as Tr=((t^2-1)^2,0)."
     },
     "R4": {
-      "state": "IN_PROGRESS_CORRECT_TRANSLATION_TORSOR_MATERIALIZED_LATTICE_GLUE_PENDING",
+      "state": "DONE_MINIMUM_NORM_8_MARKED_J2_1_0",
       "exit": "TWISTED_KERNEL_MINIMUM_NORM_IN_4_8_12_AND_MARKED_COORDINATE_SELECTED",
-      "attempts": 2,
+      "attempts": 3,
       "input_certificate": "stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json",
       "attempt1_certificate": "stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json",
-      "certificate": "stages/stage33/33-05/j2-r4-correct-translation-torsor.json",
-      "verifier": "stages/stage33/33-05/certify_j2_r4_correct_translation_torsor.py",
+      "attempt2_certificate": "stages/stage33/33-05/j2-r4-correct-translation-torsor.json",
+      "certificate": "stages/stage33/33-05/j2-r4-translation-quotient-lattice.json",
+      "verifier": "stages/stage33/33-05/certify_j2_r4_translation_quotient_lattice.py",
       "attempt1_isogeny_cover": "N^2=f2*U^4+(t^2+1)^2*U^2*V^2+([2*t*(t^2-1)]^2/f2)*V^4",
       "attempt1_isogeny_cover_jacobian": "E'_Tr: y^2=x*(x-Dplus^2)*(x-Dminus^2)",
       "attempt1_isogeny_cover_is_named_E_torsor": false,
@@ -57,10 +58,15 @@
       "correct_translation_torsor_jacobian": "E: y^2=x*(x^2+(t^2+1)^2*x+[2*t*(t^2-1)]^2)",
       "kernel_direction": "Tr=((t^2-1)^2,0)",
       "bisection": "w^2=f2, genus 0, ramified at q-roots r2 and r4",
-      "exact_statement": "Attempt 1 materialized the standard Tr-isogeny homogeneous-space quartic, whose binary-quartic Jacobian is the 2-isogenous comparison curve E'_Tr, not the original Kc generic fiber. Using the exact R3 cocycle rho->Tr, semilinear translation descent by tau_Tr(x,y)=(b/x,-b*y/x^2) gives invariant functions and the corrected genus-one quartic f2*V^2=N^4-2*a*f2*N^2*Z^2+f2^2*q^2*Z^4. Its binary-quartic j-invariant equals j(E) exactly, so the remaining R4 interface is now the primitive NS discriminant form/component glue of the correct E-torsor."
+      "correct_torsor_quotient": "X=n^2/f2, Y=-n*v/f2 maps degree 2 to E'_Tr: Y^2=X*(X^2-2*a*X+q^2)",
+      "comparison_k3_isomorphism": "u=-(1+sqrt(2))*(t+sqrt(2)-1)/(t-1-sqrt(2)) and a Legendre root permutation identify the E'_Tr K3 with Kc over Q(i,sqrt(2))",
+      "twisted_kernel_gram": [[8, 0], [0, 16]],
+      "minimum_norm": 8,
+      "marked_brauer_coordinate": [1, 0],
+      "exact_statement": "The correct attempt-2 torsor has the free involution (n,v)->(-n,-v), whose quotient is E'_Tr by X=n^2/f2 and Y=-n*v/f2. A verified degree-one Mobius base change and Legendre root permutation identify the E'_Tr elliptic K3 with Kc over Q(i,sqrt(2)). The degree-2 transcendental pullback has Gram T(Kc)(2)=diag(8,16) and determinant 128. The nonzero order-2 J2 kernel also has determinant 128, forcing pullback index 1. Thus the corrected torsor kernel has minimum norm 8 and selects marked J2=[1,0]. Attempt 1 remains revoked as the named torsor."
     },
     "R5": {
-      "state": "BLOCKED_BY_R4",
+      "state": "READY_AFTER_R4",
       "exit": "HOSTILE_REPLAY_AND_ONLY_VALID_CREDIT_RESTORED"
     }
   },
@@ -76,6 +82,9 @@
     "current_ell_J2_nonzero_geometric_credit": false,
     "corrected_ell_J2_nonzero_geometric_credit": true,
     "corrected_J2_explicit_E2_cocycle_materialized": true,
+    "corrected_J2_twisted_kernel_materialized": true,
+    "corrected_J2_twisted_kernel_minimum_norm": 8,
+    "corrected_J2_marked_brauer_coordinate": [1, 0],
     "Q_defined_descent_credit_restored": false,
     "abstract_J2_revoked": false,
     "abstract_J2_nonzero_reconfirmed": true,
@@ -90,6 +99,6 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "stage33_progress": "5/11",
-  "next_exact_leaf": "R4_COMPUTE_CORRECT_TRANSLATION_TORSOR_NS_DISCRIMINANT_OR_COMPONENT_GLUE_AND_SELECT_MINIMUM_NORM_4_8_12",
+  "next_exact_leaf": "R5_HOSTILE_REPLAY_R1_TO_R4_AND_RESTORE_ONLY_REESTABLISHED_CREDIT",
   "report_format": "33-05 repair: R?/R5 | state | attempts | exact new information | next exit test"
 }

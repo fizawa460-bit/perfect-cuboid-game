@@ -126,3 +126,20 @@ Next exact leaf:
 REPAIR_OR_REPLACE_THE_STAGE33_05_NAMED_J2_CV_REPRESENTATIVE,
 THEN COMPUTE_THE_CREUTZ_VIRAY_LEMMA_4_6_E2_COCYCLE.
 ```
+
+## Repair update: R4 solved, R5 still pending
+
+The upstream repair has now replaced the revoked representative, computed the corrected cocycle and torsor, and closed the marked-lattice leaf:
+
+```text
+correct torsor --degree 2--> E'_Tr --K3 isomorphism over Q(i,sqrt(2))--> Kc
+T(X_J2)=T(Kc)(2)=<8>+<16>
+minimum norm=8
+marked J2=[1,0]
+```
+
+The first arrow is the exact quotient `X=n^2/f2, Y=-n*v/f2`. The second is certified by a degree-one Möbius base change and an exact Legendre-parameter identity. This is not a reuse of the attempt-1 quartic as the named torsor.
+
+Certificate: `../33-05/j2-r4-translation-quotient-lattice.json`.
+
+Stage33-12 remains open because R5 independent hostile replay and credit reconciliation have not run. Stage33-13 remains unreleased; theorem, receiver, endpoint, and Perfect Cuboid claims remain false.
