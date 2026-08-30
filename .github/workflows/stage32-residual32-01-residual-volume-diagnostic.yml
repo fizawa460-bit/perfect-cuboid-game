@@ -45,9 +45,7 @@ jobs:
             ZIP_VAR="GEN${G}_ZIP_SHA256"
             AID="${!AID_VAR}"
             EXPECT="${!ZIP_VAR}"
-            curl -fsSL \
-              -H "Authorization: Bearer $GH_TOKEN" \
-              -H 'X-GitHub-Api-Version: 2022-11-28' \
+            curl -fsSL -H "Authorization: Bearer $GH_TOKEN" -H 'X-GitHub-Api-Version: 2022-11-28' \
               "https://api.github.com/repos/$REPOSITORY/actions/artifacts/$AID/zip" \
               -o "$RUNNER_TEMP/residual-volume/gen${G}.zip"
             ACTUAL=$(sha256sum "$RUNNER_TEMP/residual-volume/gen${G}.zip" | awk '{print $1}')
@@ -58,7 +56,6 @@ jobs:
 
       - name: Measure finite envelope and residual scale
         run: |
-          set -euo pipefail
           python stages/stage32/residual-32-01-production/measure_resumable_residual_volume.py \
             --full178-manifest stages/stage32/residual-32-01-production/full178-manifest.json \
             --gen36-dir "$RUNNER_TEMP/residual-volume/gen36" \
@@ -73,84 +70,43 @@ jobs:
         run: |
           python - <<'PY'
           import json, os
-          p = os.path.join(os.environ['RUNNER_TEMP'], 'residual-volume', 'stage32-residual-volume-diagnostic.json')
-          d = json.load(open(p))
+          d=json.load(open(os.path.join(os.environ['RUNNER_TEMP'],'residual-volume','stage32-residual-volume-diagnostic.json')))
           print(json.dumps({
-              'raw_remaining_upper': d['current_exact_frontier']['exact_finite_raw_remaining_node_upper_bound'],
-              'raw_remaining_upper_log10': d['current_exact_frontier']['exact_finite_raw_remaining_node_upper_bound_log10'],
-              'full_campaign_raw_upper': d['finite_search_certificate']['raw_budget_only_full_campaign_node_upper_bound'],
-              'full_campaign_raw_upper_log10': d['finite_search_certificate']['raw_budget_only_full_campaign_node_upper_bound_log10'],
-              'estimated_actual_remaining': d['local_linear_residual_model']['total_estimated_actual_nodes_remaining'],
-              'estimated_256m_chunks': d['local_linear_residual_model']['total_estimated_256m_equivalent_chunks'],
-              'idealized_17_runner_waves': d['local_linear_residual_model']['idealized_17_runner_256m_waves'],
-              'per_lineage_estimate': d['local_linear_residual_model']['per_lineage_estimated_actual_nodes'],
-              'row_tail_before_peak': d['current_exact_frontier']['row_tail_sources_before_or_at_budget_only_raw_peak'],
-              'row_tail_count': d['current_exact_frontier']['row_tail_source_count'],
-          }, sort_keys=True))
+            'raw_remaining_upper':d['current_exact_frontier']['exact_finite_raw_remaining_node_upper_bound'],
+            'estimated_actual_remaining':d['local_linear_residual_model']['total_estimated_actual_nodes_remaining'],
+            'estimated_256m_chunks':d['local_linear_residual_model']['total_estimated_256m_equivalent_chunks'],
+            'idealized_17_runner_waves':d['local_linear_residual_model']['idealized_17_runner_256m_waves'],
+            'row_tail_before_peak':d['current_exact_frontier']['row_tail_sources_before_or_at_budget_only_raw_peak'],
+            'row_tail_count':d['current_exact_frontier']['row_tail_source_count']},sort_keys=True))
           for r in d['rows']:
-              print(json.dumps({
-                  'row_id': r['row_id'],
-                  'frontier_units': r['frontier_units'],
-                  'row_tail_units': r['row_tail_units'],
-                  'partition_units': r['stratum_partition_units'],
-                  'current_e_min': r['current_e_min'],
-                  'current_e_median': r['current_e_median'],
-                  'current_e_max': r['current_e_max'],
-                  'emax': r['emax'],
-                  'raw_peak_e': r['raw_curve_peak_e'],
-                  'all_current_before_or_at_peak': r['all_current_e_before_or_at_raw_peak'],
-                  'row_tail_later_e_counts': r['row_tail_later_e_counts'],
-                  'median_raw_next_over_current': r['median_raw_next_over_current'],
-                  'row_raw_remaining': r['raw_remaining_envelope_total'],
-                  'row_estimated_actual_remaining': r['local_linear_estimated_actual_nodes_remaining_total'],
-              }, sort_keys=True))
+            print(json.dumps({'row_id':r['row_id'],'frontier_units':r['frontier_units'],'current_e_min':r['current_e_min'],'current_e_max':r['current_e_max'],'emax':r['emax'],'raw_peak_e':r['raw_curve_peak_e'],'row_tail_later_e_counts':r['row_tail_later_e_counts'],'median_raw_next_over_current':r['median_raw_next_over_current'],'row_estimated_actual_remaining':r['local_linear_estimated_actual_nodes_remaining_total']},sort_keys=True))
           PY
 
       - name: Inspect exact membership and symmetry prefix filters
         run: |
           python - <<'PY'
           import json, math, pathlib, sys
-          sys.path.insert(0, 'stages/stage32/residual-32-01-production')
-          from aut_equivariant_pairing_adapter import AutEquivariantPrefixCanonicalAugmentation, EquivariantPrefixMembershipOracle
+          sys.path.insert(0,'stages/stage32/residual-32-01-production')
+          from aut_equivariant_pairing_adapter import AutEquivariantPrefixCanonicalAugmentation,EquivariantPrefixMembershipOracle
           from hperp_integral_adapter import HperpIntegralPairingAdapter
           from pairing_prefix_engine import RETAINED_BUNDLE_SHA256
-          from run_full178_prefix_work_unit import KNOWN_LABEL_ORDER, load_module_payload
-
-          retained = pathlib.Path('stages/stage33/33-07/picard_base_rows_retained.py')
-          marking_path = pathlib.Path('stages/stage33/33-07/stage32_picard_marking_retained.py')
-          bundle = load_module_payload(retained, 'stage32_volume_diag_picard')
-          assert bundle['canonical_sha256'] == RETAINED_BUNDLE_SHA256
-          marking = load_module_payload(marking_path, 'stage32_volume_diag_marking')
-          adapter = HperpIntegralPairingAdapter.from_retained(marking, bundle)
-          oracle = EquivariantPrefixMembershipOracle(adapter, KNOWN_LABEL_ORDER)
-          aut = AutEquivariantPrefixCanonicalAugmentation(
-              marking['aut_action']['permutations_1based'],
-              KNOWN_LABEL_ORDER,
-              marking['aut_action']['canonical_sha256_without_this_field'],
-          )
-
-          for check, acheck in zip(oracle.checks, aut.checks):
-              M = int(check.modulus)
-              periods = []
-              nonzero_last = 0
-              for row in check.coefficients:
-                  a = int(row[-1]) % M if M != 1 else 0
-                  if a:
-                      nonzero_last += 1
-                      periods.append(M // math.gcd(a, M))
-              step_period = 1
-              for p in periods:
-                  step_period = math.lcm(step_period, p)
-              print(json.dumps({
-                  'depth': check.depth,
-                  'label': KNOWN_LABEL_ORDER[check.depth - 1],
-                  'membership_modulus': M,
-                  'membership_active_rows': len(check.coefficients),
-                  'membership_nonzero_next_coeff_rows': nonzero_last,
-                  'next_value_progression_period_if_compatible': step_period,
-                  'aut_stabilizer_size': acheck.stabilizer_size,
-                  'aut_distinct_prefix_actions': len(acheck.actions_on_prefix),
-              }, sort_keys=True))
+          from run_full178_prefix_work_unit import KNOWN_LABEL_ORDER,load_module_payload
+          bundle=load_module_payload(pathlib.Path('stages/stage33/33-07/picard_base_rows_retained.py'),'stage32_volume_diag_picard')
+          assert bundle['canonical_sha256']==RETAINED_BUNDLE_SHA256
+          marking=load_module_payload(pathlib.Path('stages/stage33/33-07/stage32_picard_marking_retained.py'),'stage32_volume_diag_marking')
+          adapter=HperpIntegralPairingAdapter.from_retained(marking,bundle)
+          oracle=EquivariantPrefixMembershipOracle(adapter,KNOWN_LABEL_ORDER)
+          aut=AutEquivariantPrefixCanonicalAugmentation(marking['aut_action']['permutations_1based'],KNOWN_LABEL_ORDER,marking['aut_action']['canonical_sha256_without_this_field'])
+          for check,acheck in zip(oracle.checks,aut.checks):
+            M=int(check.modulus); periods=[]; nonzero=0
+            for row in check.coefficients:
+              a=int(row[-1])%M if M!=1 else 0
+              if a:
+                nonzero+=1; periods.append(M//math.gcd(a,M))
+            period=1
+            for p in periods: period=math.lcm(period,p)
+            nonidentity=[list(a) for a in acheck.actions_on_prefix if tuple(a)!=tuple(range(check.depth))]
+            print(json.dumps({'depth':check.depth,'label':KNOWN_LABEL_ORDER[check.depth-1],'membership_modulus':M,'membership_rows':[list(r) for r in check.coefficients],'membership_nonzero_next_coeff_rows':nonzero,'next_value_progression_period_if_compatible':period,'aut_stabilizer_size':acheck.stabilizer_size,'aut_nonidentity_actions':nonidentity},sort_keys=True))
           PY
 
       - name: Upload compact diagnostic
