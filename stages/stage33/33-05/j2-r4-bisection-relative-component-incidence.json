@@ -1,0 +1,160 @@
+{
+  "attempt": 2,
+  "bisection_component_incidence": {
+    "I2_relative_pattern": {
+      "all_q_root_fibers_component_difference_mod_2": 0,
+      "canonical_same_component_label_up_to_rotation": 0,
+      "ramified_bisection_point_single_over_base": true,
+      "ramified_branches_coalesce_in_same_component": true,
+      "ramified_roots": [
+        "r2=-(1+sqrt(2))",
+        "r4=1-sqrt(2)"
+      ],
+      "unramified_roots": [
+        "r1=1+sqrt(2)",
+        "r3=sqrt(2)-1"
+      ],
+      "unramified_two_branches_same_component": true
+    },
+    "I4_relative_pattern": {
+      "canonical_pair_up_to_rotation": [
+        0,
+        2
+      ],
+      "component_difference_mod_4": 2,
+      "cover_ramified": false,
+      "fibers": [
+        "t=0",
+        "t=1",
+        "t=-1",
+        "t=infinity"
+      ],
+      "two_local_branches": true
+    },
+    "bisection": "w^2=f2",
+    "generic_two_points_difference": "Tr",
+    "meaning": "Component labels are chosen independently at each reducible fiber up to the natural cyclic rotation. The recorded invariant is the component difference of the two local branches, so it does not assume a global zero section on the torsor.",
+    "ramification_reason": "f2=(t-r2)/(t-r4), so the degree-2 bisection cover is ramified exactly at r2 and r4 and is unramified at the four I4 fibers and at r1,r3."
+  },
+  "canonical_sha256": "bae1bd41d89a994b87ad7649547d5045808ff28653df319fd6bbad470e758735",
+  "exact_factorization": {
+    "a": "(t^2+1)^2",
+    "b": "4*t^2*r=[2*t*(t^2-1)]^2",
+    "identities": [
+      "a=r+4*t^2",
+      "b=4*t^2*r",
+      "a^2-4*b=q^2",
+      "d*N^2=(d*U^2+r*V^2)*(d*U^2+4*t^2*V^2) with d=f2"
+    ],
+    "q": "t^4-6*t^2+1",
+    "r": "(t^2-1)^2",
+    "role": "The last identity is on the named torsor itself after multiplying its equation by d; it is not an identification with the Tr-isogenous comparison surface."
+  },
+  "exact_new_information": "For the repaired named f2/Tr torsor, the two bisection branches differ by Tr. Exact local Weierstrass algebra shows Tr specializes to component 2 at every I4 fiber and to component 0 at every I2 fiber. Hence, up to cyclic relabeling of each torsor fiber, the bisection branch pair is opposite (0,2) on each I4 and lies in one common component on each I2; the bisection is horizontally ramified only at q-roots r2 and r4.",
+  "firewalls": {
+    "E2_basis_bits_equal_marked_brauer_bits": false,
+    "Q_defined_descent_credit_restored": false,
+    "class3_promoted": false,
+    "comparison_2isogenous_curve_is_named_torsor": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "receiver_credit": false,
+    "stage33_05_reclosed": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "theorem_credit": false
+  },
+  "jacobian_fibers": {
+    "I2": {
+      "Tr_component_class": 0,
+      "Tr_is_smooth": true,
+      "Tr_x": "0",
+      "b_nonzero_at_all_roots": true,
+      "component_group": "Z/2",
+      "q_zero": true,
+      "roots": [
+        "r1=1+sqrt(2)",
+        "r2=-(1+sqrt(2))",
+        "r3=sqrt(2)-1",
+        "r4=1-sqrt(2)"
+      ],
+      "singular_x": "-a/2 != 0",
+      "special_cubic": "y^2=x*(x+a/2)^2"
+    },
+    "I4": [
+      {
+        "Tr_component_class": 2,
+        "Tr_on_singular_point": true,
+        "b_zero_order": 2,
+        "component_group": "Z/4",
+        "fiber": "t=0",
+        "q_value": "1"
+      },
+      {
+        "Tr_component_class": 2,
+        "Tr_on_singular_point": true,
+        "b_zero_order": 2,
+        "component_group": "Z/4",
+        "fiber": "t=1",
+        "q_value": "-4"
+      },
+      {
+        "Tr_component_class": 2,
+        "Tr_on_singular_point": true,
+        "b_zero_order": 2,
+        "component_group": "Z/4",
+        "fiber": "t=-1",
+        "q_value": "-4"
+      },
+      {
+        "Tr_component_class": 2,
+        "Tr_on_singular_point": true,
+        "b_normalized_zero_order": 2,
+        "component_group": "Z/4",
+        "fiber": "t=infinity",
+        "q_normalized_value": "1"
+      }
+    ],
+    "configuration": "I4 at t=0,+1,-1,infinity; I2 at the four simple roots of q"
+  },
+  "lattice_reduction": {
+    "candidate_functionals": {
+      "12": [
+        1,
+        1
+      ],
+      "4": [
+        0,
+        1
+      ],
+      "8": [
+        1,
+        0
+      ]
+    },
+    "candidate_minimum_norms": [
+      4,
+      8,
+      12
+    ],
+    "candidate_set_change": "{4,8,12}->{4,8,12}",
+    "candidate_set_reduced": false,
+    "exact_missing_interface": "ASSEMBLE_THE_PRIMITIVE_INDEX_2_NS_SUBLATTICE_OF_NS_Kc_FROM_THE_FIXED_BISECTION_RELATIVE_COMPONENT_PATTERN_AND_THE_r2_r4_HORIZONTAL_RAMIFICATION_GLUE_THEN_COMPUTE_ITS_DISCRIMINANT_GROUP_OR_FORM",
+    "marked_brauer_coordinate_selected": false,
+    "minimum_norm_selected": false,
+    "new_exact_invariant": "The resolved bisection has relative component pattern I4:(0,2) at all four I4 fibers and I2:(same component) at all four I2 fibers, with horizontal ramification exactly at r2,r4."
+  },
+  "next_exact_leaf": "R4_ASSEMBLE_PRIMITIVE_INDEX2_NS_FROM_FIXED_BISECTION_COMPONENT_PATTERN_AND_r2_r4_HORIZONTAL_RAMIFICATION_GLUE_AND_SELECT_MINIMUM_NORM_4_8_12",
+  "repair_leaf": "R4",
+  "schema": "STAGE33_05_J2_R4_BISECTION_RELATIVE_COMPONENT_INCIDENCE_V1",
+  "source_lock": {
+    "kernel_direction": "Tr=((t^2-1)^2,0)",
+    "named_torsor": "N^2=f2*U^4+(t^2+1)^2*U^2*V^2+([2*t*(t^2-1)]^2/f2)*V^4",
+    "r3_cocycle_certificate": "stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json",
+    "r3_cocycle_certificate_canonical_sha256": "8440400fd7eff183830bb16e991a6fb6f253b1774a76384ed2a3dc8adc951312",
+    "r4_torsor_certificate": "stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json",
+    "r4_torsor_certificate_canonical_sha256": "a2b13adf8bf186796058baf88de4853a10682577298f4c75f508ddd8a0c4b3ec"
+  },
+  "status": "PASS_EXACT_R4_BISECTION_RELATIVE_COMPONENT_PATTERN_NS_ASSEMBLY_PENDING"
+}
