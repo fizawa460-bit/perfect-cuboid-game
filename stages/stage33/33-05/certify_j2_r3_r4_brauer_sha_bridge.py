@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic verifier for the fresh-super-hostile-passed R3->R4 bridge.
-
-This verifier checks the repo-side class dictionary and hardening assertions.
-External theorem text is source-locked in the certificate; its mathematical
-content was independently fresh-super-hostile audited before authoritative
-named-J2 torsor credit was enabled.
-"""
+"""Deterministic verifier for the fresh-super-hostile-passed R3->R4 bridge."""
 import hashlib
 import json
 from pathlib import Path
@@ -13,7 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 STAGE33 = ROOT.parent
 CERT = ROOT / "j2-r3-r4-brauer-sha-bridge.json"
-
+EXPECTED="3dff502b69bbee725abfe7e1f5580837410f1a8552a7b4cae31dd85c9b34bb28"
 
 def csha(o):
     return hashlib.sha256(json.dumps(o, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
@@ -52,18 +46,15 @@ assert c["fresh_super_hostile_audit"]["pre_authoritative_hardening_completed"] i
 sl=c["source_lock"]
 assert sl["r1_blob_sha1"]=="792bd4d4c9c0b452e59dbcba0b3305e1195e40bf"
 cv=sl["creutz_viray_curve"]
-assert cv["arxiv"]=="1403.2924v1"
-assert cv["doi"]=="10.1007/s00229-014-0721-7"
+assert cv["arxiv"]=="1403.2924v1" and cv["doi"]=="10.1007/s00229-014-0721-7"
 assert cv["compatibility_statement"]=="h0(gamma(ell)) = d(ell) in H^1(K,Pic C)"
 surf=sl["creutz_viray_surface"]
-assert surf["arxiv"]=="1306.3251"
-assert surf["doi"]=="10.1007/s00208-014-1153-0"
+assert surf["arxiv"]=="1306.3251" and surf["doi"]=="10.1007/s00208-014-1153-0"
 assert "Br X subset Br C" in surf["surface_to_generic_location"]
 assert "Theorem 2.5" in surf["generic_gamma_location"]
 assert "Corollary 5.4" in surf["surface_gamma_presentation_location"]
 os=sl["ogg_shafarevich"]
-assert os["doi"]=="10.1093/imrn/rnae061"
-assert "equation (4.1)" in os["location"]
+assert os["doi"]=="10.1093/imrn/rnae061" and "equation (4.1)" in os["location"]
 assert "Tate-Shafarevich" in os["statement"]
 phi=sl["standard_phi_descent"]
 assert phi["cover_formula"]=="d*N^2=d^2*U^4-2*a*d*U^2*V^2+(a^2-4*b)*V^4"
@@ -80,10 +71,8 @@ assert chain["surface_restriction_preserves_named_class"] is True
 
 pm=c["phi_cover_match"]
 assert pm["kernel_exact_sequence"]=="0 -> <Tr> -> E_Kc -> Eprime_Tr -> 0"
-assert pm["squareclass"]=="d=f2"
-assert pm["kummer_cocycle"]=="rho -> Tr"
-assert pm["standard_formula_match"] is True
-assert pm["attempt4_jacobian"]=="E_Kc"
+assert pm["squareclass"]=="d=f2" and pm["kummer_cocycle"]=="rho -> Tr"
+assert pm["standard_formula_match"] is True and pm["attempt4_jacobian"]=="E_Kc"
 assert pm["same_H1_E_class_as_CV_d"] is True
 
 ex=c["exact_conclusion"]
@@ -95,8 +84,7 @@ assert ex["attempt4_phi_cover_identified_with_named_geometric_J2_torsor"] is Tru
 assert ex["named_J2_torsor_authoritative_credit"] is True
 assert ex["old_arbitrary_matching_support_shortcut_used"] is False
 assert ex["one_isogeny_squareclass_alone_used_as_identity_proof"] is False
-assert ex["R4_exit_4_8_12_selected"] is False
-assert ex["candidate_minimum_norms"]==[4,8,12]
+assert ex["R4_exit_4_8_12_selected"] is False and ex["candidate_minimum_norms"]==[4,8,12]
 
 edge=json.loads((STAGE33/"33-12"/"j2-brauer-to-sha-leray-edge-interface.json").read_text())
 assert edge["status"]=="RESOLVED_FRESH_SUPER_HOSTILE_PASS_NAMED_J2_TORSOR_AUTHORITATIVE"
@@ -108,21 +96,12 @@ assert tw["status"]=="SUPERSEDED_FOR_NAMED_J2_IDENTITY_BY_FRESH_SUPER_HOSTILE_PA
 assert tw["historical_v1"]["load_bearing_warning"]=="one rational 2-isogeny squareclass alone is not sufficient to identify the named J2 torsor"
 assert tw["current_target"]["named_identity_authoritative_after_fresh_super_hostile"] is True
 
-fw=c["firewalls"]
-for k in (
-    "Q_defined_descent_credit_restored", "stage33_05_reclosed",
-    "stage33_12_closed_exact", "stage33_13_released",
-    "minimum_norm_selected", "marked_brauer_coordinate_selected",
-    "theorem_credit", "receiver_credit", "endpoint_credit",
-    "perfect_cuboid_existence_claim", "perfect_cuboid_nonexistence_claim",
-    "merge_allowed",
-):
-    assert fw[k] is False
+for k,v in c["firewalls"].items():
+    if k in {"Q_defined_descent_credit_restored","endpoint_credit","marked_brauer_coordinate_selected","merge_allowed","minimum_norm_selected","perfect_cuboid_existence_claim","perfect_cuboid_nonexistence_claim","receiver_credit","stage33_05_reclosed","stage33_12_closed_exact","stage33_13_released","theorem_credit"}:
+        assert v is False
 
-dct=dict(c); got=dct.pop("canonical_sha256"); actual=csha(dct)
-print("BRIDGE_ACTUAL_CANONICAL_SHA256="+actual)
-assert got=="4289ef568ce4c793c1ecc91fd55dac9e74f5ecd01e5aad99c5b98917e1df2a66"
-assert got==actual
+dct=dict(c); got=dct.pop("canonical_sha256")
+assert got==EXPECTED and got==csha(dct)
 print(json.dumps({
     "success":True,
     "status":c["status"],
