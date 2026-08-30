@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 from sympy import Matrix, ZZ
+from sympy.polys.matrices import DomainMatrix
 from sympy.polys.matrices.normalforms import smith_normal_decomp
 
 from direct_picard_reynolds_lattice_diagnostic import (
@@ -106,9 +107,13 @@ def build_diagnostic(marking: dict, bundle: dict) -> dict:
     C = integer_coordinate_matrix(N, B)
     if B * C != N:
         raise ValueError("N=B*C reconstruction regression")
-    D, S, T = smith_normal_decomp(C, domain=ZZ)
-    if S * C * T != D:
+    C_dm = DomainMatrix.from_Matrix(C).convert_to(ZZ)
+    D_dm, S_dm, T_dm = smith_normal_decomp(C_dm)
+    if S_dm * C_dm * T_dm != D_dm:
         raise ValueError("fixed-coordinate Smith reconstruction regression")
+    D = D_dm.to_Matrix()
+    S = S_dm.to_Matrix()
+    T = T_dm.to_Matrix()
     cdiag = nonzero_smith_diagonal(D)
     if cdiag != (1,) * EXPECTED_FIXED_RANK:
         raise ValueError(f"im(N) coordinate map should be surjective, got Smith {cdiag}")
