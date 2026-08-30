@@ -1,12 +1,13 @@
 {
-  "schema": "STAGE33_05_HOSTILE_AUDIT_STATE_V5_PRE_KUMMER_PROGRESS_HS_D2_OPEN",
+  "schema": "STAGE33_05_HOSTILE_AUDIT_STATE_V6_CORRECTED_KC_BRANCH_SUPPORT_HS_D2_OPEN",
   "stage33_unit": "33-05",
-  "audit_verdict": "PARTIAL_PASS_R0_TO_R4_AND_R5_GEOMETRIC_PASS_POST_R5_Q_DESCENT_FAIL_WITH_PRE_KUMMER_PROGRESS",
+  "audit_verdict": "PARTIAL_PASS_R0_TO_R4_AND_R5_GEOMETRIC_PASS_POST_R5_Q_DESCENT_FAIL_WITH_CORRECTED_KC_BRANCH_SUPPORT_PROGRESS",
   "unit_status": "BLOCKED_NEW_KERNEL",
   "unit_closed": false,
   "downstream_released": false,
   "repair_state": "stages/stage33/33-05/j2-representative-repair-state.json",
   "post_r5_leaf_state": "stages/stage33/33-05/j2-post-r5-hs-d2-state.json",
+  "post_r5_leaf_state_canonical_sha256": "a1f2e3b83a25b0e30bd5aedd494e5761cce1d21af07c50a16d334d48da3da6dc",
   "post_r5_failure_certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json",
   "post_r5_failure_canonical_sha256": "a7c08372b9ef012a1446bd3bf4f40541d77d372dadc73e3780f6ce2529fcc6d8",
   "retained_exact_geometric_credit": {
@@ -28,8 +29,10 @@
     "failure_mode": "UNJUSTIFIED_INFERENCE_GALOIS_FIXED_IMPLIES_HS_D2_ZERO"
   },
   "new_exact_progress": {
-    "certificate": "stages/stage33/33-05/j2-corrected-pre-kummer-descent-cochain.json",
-    "canonical_sha256": "940df53040c6f5245914effbfb7d752a08c61b6d593586952b322e4069415106",
+    "pre_kummer_certificate": "stages/stage33/33-05/j2-corrected-pre-kummer-descent-cochain.json",
+    "pre_kummer_canonical_sha256": "940df53040c6f5245914effbfb7d752a08c61b6d593586952b322e4069415106",
+    "corrected_kc_branch_support_certificate": "stages/stage33/33-12/j2-corrected-kc-branch-support.json",
+    "corrected_kc_branch_support_canonical_sha256": "a9eb7d4d3868581d88ff7ce88c23a42b7010c79c959ead1579738e4a0c56961a",
     "normalization_half_divisor": "D=P_r2-P_r4",
     "div_f2": "2D",
     "ct_principal_witness": "h_ct=z/((t-r1)*(t-r2))",
@@ -37,11 +40,21 @@
     "ct_f2_square_witness": "u_ct=(t-r3)*(t-r4)/z",
     "u_ct_times_ct_u_ct": "1",
     "full_split_pair_representative_witnesses_materialized": true,
-    "credit_scope": "NORMALIZATION_AND_FULL_L_PRE_KUMMER_ONLY"
+    "normalization_support_to_marked_Kc_branch_materialized": true,
+    "marked_Kc_branch": "CsK[22]",
+    "corrected_support_points": {
+      "P_r2": ["1","1","i","0","0","-sqrt(2)"],
+      "P_r4": ["-1","1","i","0","0","-sqrt(2)"]
+    },
+    "both_corrected_support_points_smooth_on_Kc": true,
+    "old_infinity_exceptional_dependency_eliminated": true,
+    "corrected_D_degree_two_quotient_image": "(0,0) in E'[2]",
+    "credit_scope": "NORMALIZATION_FULL_L_AND_MARKED_KC_SUPPORT_ONLY_NO_SURFACE_MU2_CREDIT"
   },
   "current_surface_mu2_contract": {
     "path": "stages/stage33/33-12/j2-full-surface-mu2-zero-defect-contract.json",
     "canonical_sha256": "c35eec49758734e29cb801ea9a55ed6e739238750f3ff92c14f030ae25e8ff2b",
+    "corrected_branch_Pic0_2torsion_to_surface_adapter_materialized": false,
     "surface_mu2_lift_materialized": false,
     "pic_mod2_defect_materialized": false,
     "HS_d2_materialized": false
@@ -49,7 +62,8 @@
   "retired_evidence": {
     "old_Q_defined_ell_J2_witness_forbidden": true,
     "historical_delta_Kum_zero_credit_revoked": true,
-    "historical_named_kummer_glue_producer_tombstoned": true
+    "historical_named_kummer_glue_producer_tombstoned": true,
+    "historical_infinity_exceptional_support_not_needed_for_corrected_D": true
   },
   "closure_contract": {
     "criterion_evidence_satisfied": false,
@@ -57,13 +71,14 @@
     "R5_full_repair_exit_reached": false,
     "hostile_audit_pass_for_reclosure": false
   },
-  "next_exact_leaf": "MATERIALIZE_NORMALIZATION_HALF_DIVISOR_TO_KC_SURFACE_H2_MU2_ADAPTER_THEN_COMPUTE_PIC_MOD2_DEFECT_AND_BOCKSTEIN_HS_D2",
+  "next_exact_leaf": "MATERIALIZE_CORRECTED_PIC0_CSK22_2TORSION_TO_KC_SURFACE_H2_MU2_KUMMER_GYSIN_ADAPTER_THEN_COMPUTE_PIC_MOD2_DEFECT_AND_HS_D2",
   "next_leaf_requirements": [
-    "construct a genuine H^2_et(Kc_bar,mu_2) lift of corrected J2",
+    "construct a genuine H^2_et(Kc_bar,mu_2) lift of corrected J2 from the corrected CsK[22] Pic0[2] datum or an equivalent explicit surface construction",
     "compute the Galois defect in Pic(Kc_bar)/2",
     "choose integral Pic lifts",
     "compute the Bockstein/Hochschild-Serre d2 2-cocycle and its class without assuming zero",
-    "only on actual zero apply HS kernel=image for Q-Brauer credit"
+    "only on actual zero apply HS kernel=image for Q-Brauer credit",
+    "do not promote the single degree-two quotient image (0,0) to the full E[2] cocycle or surface Kummer class"
   ],
   "promotion_firewall": {
     "Q_defined_descent_credit_authoritatively_restored": false,
@@ -81,6 +96,6 @@
   "perfect_cuboid_nonexistence_claim": false,
   "merge_allowed": false,
   "advance_allowed": true,
-  "advance_scope": "SURFACE_MU2_AND_HS_D2_ONLY_NO_RECLOSURE_OR_DOWNSTREAM_RELEASE",
+  "advance_scope": "CORRECTED_BRANCH_TO_SURFACE_MU2_AND_HS_D2_ONLY_NO_RECLOSURE_OR_DOWNSTREAM_RELEASE",
   "next_expected_command": "Stage33-main-batch"
 }
