@@ -1,161 +1,144 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `R3_R4_BRAUER_SHA_BRIDGE_REPAIRED_PENDING_FRESH_SUPER_HOSTILE_R4_4_8_12_OPEN_R5_BLOCKED_4_OF_5`
+Status: `R3_R4_BRAUER_SHA_BRIDGE_FRESH_SUPER_HOSTILE_PASS_NAMED_X_J2_AUTHORITATIVE_R4_4_8_12_OPEN_R5_BLOCKED_4_OF_5`
 
 Stage33-12 remains open. Stage33-13 is not released. PR #1464 is not merge-authorized. No theorem, receiver, endpoint, or Perfect Cuboid existence/nonexistence credit is released.
 
-## Current mathematical audit state
-
-The fresh mathematical super-hostile audit separates the Stage33-05 J2 repair into the following credit layers:
+## Current mathematical state
 
 ```text
 R0 PASS
 R1 PASS
 R2 PASS
-R3 mathematical content PASS
-R3 -> R4 Brauer-to-Sha bridge was missing at audit time
-R4 attempt4 orientation / phi-cover construction PASS
-R4 named-J2-torsor credit was premature before that bridge
+R3 PASS
+R3 -> R4 Brauer-to-Sha bridge PASS_FRESH_SUPER_HOSTILE_MATHEMATICALLY
+R4 attempt4 phi-cover orientation PASS
+R4 named J2 torsor identity AUTHORITATIVE over Kgeom=Qbar(t)
 R4 exit {4,8,12} OPEN
 R5 NOT RUN / BLOCKED BY R4
 ```
 
-The historical Q-defined `ell_J2` remains revoked: it is zero in the geometric Creutz--Viray quotient. It MUST NOT be regenerated or reused as the corrected nonzero J2 witness.
+The historical Q-defined `ell_J2` remains revoked: it is geometrically zero in the Creutz--Viray quotient and MUST NOT be reused as the corrected J2 witness. `Q_defined_descent_credit_restored=false` remains load-bearing.
 
-## Retained R0-R3 chain
+## R0--R3 retained chain
 
-R1 confirms the abstract quotient-basis class J2 is nonzero independently of the revoked historical `ell_J2`.
+R1 proves the abstract quotient-basis element `J2` is outside `im(x-alpha)` for all four unresolved `(b,d)` presentation normal forms, without using the revoked historical `ell_J2`.
 
 R2 source-locks the corrected geometric full-L pair
 
 ```text
-J2 = (f2,1),
+J2=(f2,1),
 f2=(t+1+sqrt(2))/(t-1+sqrt(2)),
 ```
 
-and proves it is nonzero in `Lbar^*/(Kbar^* Lbar^{*2})` using the exact quadratic-extension square test and odd valuations.
+and proves it is nonzero in `Lbar^*/(Kbar^* Lbar^{*2})` by the exact quadratic-extension square test and odd valuations.
 
-R3 applies Creutz--Viray Lemma 4.6 to this corrected pair and obtains the explicit cocycle
+R3 applies Creutz--Viray Lemma 4.6 and obtains
 
 ```text
 xi(rho)=Tr,
 Tr=((t^2-1)^2,0),
 ```
 
-where `rho` flips `sqrt(f2)`. The B+ partition is identified with Tr by an exact function-field square identity, not by branch-orbit labeling.
+with the B+ partition identified with `Tr` by an exact function-field square identity.
 
-Certificates:
+## Fresh-super-hostile-passed R3 -> R4 bridge
 
-- `stages/stage33/33-05/j2-corrected-full-l-representative.json`
-- `stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json`
-
-## Repaired R3 -> R4 Brauer-to-Sha bridge
-
-The audit correctly identified a missing semantic adapter. A correctly oriented 2-isogeny cover with matching cocycle data is not, by itself, enough to identify the surface Brauer class J2 with that genus-one torsor.
-
-The repair is now materialized in
+The earlier semantic gap was that a correctly oriented 2-isogeny cover with matching support/squareclass is not by itself enough to identify the surface Brauer class `J2` with that torsor. The repaired bridge is:
 
 ```text
 stages/stage33/33-05/j2-r3-r4-brauer-sha-bridge.json
-canonical_sha256 = 4703d20bc8421eb1f46a0e9d5b2c97b76aa228c1dabecd90244a7820f18aceec
+canonical_sha256 = 4289ef568ce4c793c1ecc91fd55dac9e74f5ecd01e5aad99c5b98917e1df2a66
 ```
 
-with deterministic verifier
+with verifier:
 
 ```text
 stages/stage33/33-05/certify_j2_r3_r4_brauer_sha_bridge.py
 ```
 
-The adapter records the exact chain
+The exact named-class chain is now source-locked as
 
 ```text
-corrected (f2,1) represents abstract J2
-  -> gamma(f2,1), the Creutz--Viray Brauer/corestriction class
-  -> h0(gamma(f2,1)) = d(f2,1)          [Creutz--Viray Proposition 5.1]
-  -> d(f2,1) is represented by xi       [Creutz--Viray Lemma 4.6]
+abstract J2 = corrected (f2,1)
+  -> gamma(f2,1), the CV Brauer/corestriction class
+  -> h0(gamma(f2,1)) = d(f2,1)          [CV Proposition 5.1]
+  -> d(f2,1) is represented by xi       [CV Lemma 4.6]
   -> xi(rho)=Tr                         [R3 exact computation]
-  -> standard Tr-kernel phi-descent for d=f2
-  -> corrected attempt4 quartic.
+  -> standard <Tr> phi-descent with d=f2
+  -> attempt4 quartic.
 ```
 
-Thus the new bridge supplies the missing named-class identity route. However, this promotion is deliberately marked
+The fresh super-hostile audit additionally checked the possible Kummer-kernel failure. It is excluded because R1+R2 make `gamma(f2,1)` nonzero modulo constants and the Hochschild--Serre edge `h0` used in CV Proposition 5.1 is injective. Therefore
 
 ```text
-PROVISIONAL_PENDING_FRESH_SUPER_HOSTILE_AUDIT
+[xi] != 0 in H^1(Kgeom,E_Kc).
 ```
 
-until the bridge itself is independently re-audited. No primitive NS/T computation is to be charged before that audit gate passes.
+The bridge certificate now explicitly records `generic_weil_chatelet_class_nonzero=true`.
 
-The old interfaces are explicitly superseded/resolved by this bridge:
+The two load-bearing source locks requested by the audit are also materialized:
 
-- `stages/stage33/33-12/j2-brauer-to-sha-leray-edge-interface.json`
-- `stages/stage33/33-12/j2-twisted-poincare-torsor-target.json`
+1. Creutz--Viray, *On Brauer groups of double covers of ruled surfaces*, DOI `10.1007/s00208-014-1153-0`: §1.2 gives the purity filtration `Br X subset Br C`; §2.3 Theorem 2.5 gives the generic-fiber `gamma`; Corollary 5.4 gives the surface presentation `Pic C/2 -> Lc,E -> Br X[2] -> 0`.
+2. *Derived Equivalence for Elliptic K3 Surfaces and Jacobians*, DOI `10.1093/imrn/rnae061`, §4.1 equation (4.1): for an elliptic K3 surface with section, `Br(S) ~= Sha(S)` and the corresponding elements parametrize `S`-torsors.
 
-The old warning remains load-bearing: one rational 2-isogeny squareclass alone is not sufficient. The new identity uses the Creutz--Viray `h0 o gamma = d` compatibility, not the squareclass alone or matching support.
+The standard 2-isogeny homogeneous-space formula is also source-locked in the bridge certificate.
 
-## R4 attempt4 scope
-
-Attempt4 itself is now intentionally scoped only as the correctly oriented phi-cover candidate:
+Fresh audit verdict:
 
 ```text
+PASS_FRESH_SUPER_HOSTILE_MATHEMATICALLY
+```
+
+Hence `named_J2_torsor_authoritative_credit=true` is now allowed at the geometric `Kgeom=Qbar(t)` layer.
+
+## Authoritative named J2 torsor
+
+Attempt4 by itself remains only an orientation/phi-cover certificate. Together with the audited bridge, its quartic is now authoritatively identified as the named geometric torsor `X_J2`:
+
+```text
+X_J2:
 N^2 = f2*U^4
       - 2*(t^2+1)^2*U^2*V^2
-      + ((t^4-6*t^2+1)^2/f2)*V^4.
+      + ((t^4-6*t^2+1)^2/f2)*V^4,
+Jac(X_J2)=E_Kc.
 ```
 
-Exact binary-quartic invariants prove
-
-```text
-Jac(attempt4) = E_Kc.
-```
-
-The historical `+a,b/f2` attempt has Jacobian `Eprime_Tr` and remains superseded as named Kc-torsor evidence.
-
-Attempt4 certificate:
-
-`stages/stage33/33-05/j2-r4-2isogeny-orientation-correction.json`
-
-Its standalone firewall is now explicit:
-
-```text
-named_J2_torsor_credit_without_brauer_sha_bridge = false.
-```
+The historical `+a,b/f2` quartic has Jacobian `Eprime_Tr` and remains superseded as named-Kc-torsor evidence.
 
 ## R4 exit remains open
 
-The fixed marked receiver is still
+The fixed marked receiver is
 
 ```text
-T(Kc) = diag(4,8).
+T(Kc)=diag(4,8).
 ```
 
-The three index-2 kernels remain exactly distinguishable by minimum norm:
+The three possible nonzero order-2 functionals have distinct index-2 kernel minima:
 
 ```text
-functional [0,1] -> minimum norm 4
-functional [1,0] -> minimum norm 8
-functional [1,1] -> minimum norm 12
+[0,1] -> minimum norm 4
+[1,0] -> minimum norm 8
+[1,1] -> minimum norm 12
 ```
 
-But the primitive NS/T discriminant form of the corrected J2 torsor has not yet been computed. Therefore
+But the primitive `NS/T` discriminant form of `X_J2` has not yet been computed. Therefore:
 
 ```text
 candidate minimum norms = {4,8,12}
 minimum norm selected = false
 marked Brauer coordinate selected = false
+R4 exit = OPEN
+R5 = NOT RUN / BLOCKED BY R4
 ```
 
-No value among 4, 8, or 12 is currently authoritative.
-
-## Evidence hygiene and firewalls
-
-The stale historical positive J2-descent Actions path is revoked and blocked. Historical attempt1/2 producers are not current semantic evidence. Current controller, repair-state, audit-state, and replay workflow distinguish phi-cover construction from named-J2 promotion.
-
-Current firewalls:
+## Firewalls
 
 ```text
 Q_defined_descent_credit_restored = false
-named_J2_torsor_authoritative_credit = false
+named_J2_torsor_authoritative_credit = true   # geometric Kgeom layer only
+minimum norm selected = false
+marked Brauer coordinate selected = false
 Stage33-05 reclosed = false
 Stage33-12 exact closure = false
 Stage33-13 released = false
@@ -170,17 +153,11 @@ merge allowed = false
 Stage33 progress = 5/11
 ```
 
-## Next exact gate
-
-```text
-FRESH_SUPER_HOSTILE_AUDIT_R3_R4_BRAUER_SHA_BRIDGE
-```
-
-Only if that audit passes may MAIN proceed to
+## Next exact leaf
 
 ```text
 R4_COMPUTE_PRIMITIVE_NS_DISCRIMINANT_GROUP_AND_QUADRATIC_FORM_OF_X_J2
 AND_SELECT_MINIMUM_NORM_4_8_12.
 ```
 
-R5 remains blocked until the R4 exit is actually established.
+Only after that exact R4 exit may R5 run.
