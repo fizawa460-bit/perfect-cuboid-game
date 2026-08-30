@@ -8,9 +8,12 @@ from dataclasses import dataclass
 import sympy
 from sympy import Matrix
 
-from aut_equivariant_pairing_adapter import AutEquivariantPairingAdapter
 from direct_picard_slice_stabilizer_orbit_bound import DirectPicardSliceStabilizerOrbitBound
-from pairing_prefix_engine import INDLIST, close_permutation_group
+from hperp_integral_adapter import (
+    HperpIntegralPairingAdapter,
+    RETAINED_BASIS_KNOWN_LABELS_1BASED,
+)
+from pairing_prefix_engine import close_permutation_group
 
 
 def csha(value: object) -> str:
@@ -33,18 +36,15 @@ class DirectPicardStabilizerAveragingEquivalence:
         cls, marking: dict, bundle: dict
     ) -> "DirectPicardStabilizerAveragingEquivalence":
         orbit_model = DirectPicardSliceStabilizerOrbitBound.from_retained(marking, bundle)
-        pairing = AutEquivariantPairingAdapter.from_retained(marking, bundle)
+        adapter = HperpIntegralPairingAdapter.from_retained(marking, bundle)
         bound = orbit_model.bound
 
         gram = Matrix(bundle["picard_gram_64x64"])
-        gram_inv = gram.inv()
-        curve_coords = pairing.pairing_matrix * gram_inv
+        curve_coords = adapter.class_coordinates_in_retained_basis
+        if curve_coords.shape != (140, 64):
+            raise ValueError("saturated all140 coordinate shape regression")
         if any(sympy.denom(v) != 1 for v in curve_coords):
             raise ValueError("known-curve Picard coordinates are not integral")
-        curve_coords = Matrix([
-            [int(curve_coords[i, j]) for j in range(64)]
-            for i in range(140)
-        ])
 
         full_group = close_permutation_group(marking["aut_action"]["permutations_1based"])
         if len(full_group) != 1536:
@@ -70,7 +70,7 @@ class DirectPicardStabilizerAveragingEquivalence:
         actions: list[Matrix] = []
         for g in subgroup:
             cols = []
-            for basis_label in INDLIST:
+            for basis_label in RETAINED_BASIS_KNOWN_LABELS_1BASED:
                 image_label = g[basis_label - 1]
                 cols.append(curve_coords[image_label, :].T)
             T = Matrix.hstack(*cols)
@@ -104,7 +104,7 @@ class DirectPicardStabilizerAveragingEquivalence:
         for rule in orbit_model.rules:
             orbit = [label - 1 for label in rule.known_curve_labels_1based]
             orbit_sum = Matrix([[
-                sum(int(pairing.pairing_matrix[i, j]) for i in orbit)
+                sum(int(adapter.pairing_matrix[i, j]) for i in orbit)
                 for j in range(64)
             ]])
             expected = orbit_sum / len(orbit)
@@ -112,7 +112,7 @@ class DirectPicardStabilizerAveragingEquivalence:
             if multiplicity * len(orbit) != len(subgroup):
                 raise ValueError("orbit size does not divide stabilizer order")
             for target in orbit:
-                got = pairing.pairing_matrix[target, :] * P
+                got = adapter.pairing_matrix[target, :] * P
                 if got != expected:
                     raise ValueError(
                         f"orbit-average pairing identity failed for label {target + 1}"
@@ -131,17 +131,18 @@ class DirectPicardStabilizerAveragingEquivalence:
             raise ValueError("missing exact negative-definite slice-kernel certificate")
 
         cert = {
-            "schema": "STAGE32_RESIDUAL32_01_DIRECT_PICARD_STABILIZER_AVERAGING_EQUIVALENCE_V1",
+            "schema": "STAGE32_RESIDUAL32_01_DIRECT_PICARD_STABILIZER_AVERAGING_EQUIVALENCE_V2_SATURATED_BASIS",
             "mode": "EXACT_REYNOLDS_AVERAGING_EQUIVALENCE_OF_ALL140_AND_ORBIT_SUM_CONTINUOUS_MAXIMA",
             "stabilizer_orbit_certificate_sha256": orbit_model.certificate[
                 "canonical_sha256_without_this_field"
             ],
-            "pairing_adapter_certificate_sha256": pairing.certificate[
+            "hperp_integral_adapter_certificate_sha256": adapter.certificate[
                 "canonical_sha256_without_this_field"
             ],
             "quadratic_bound_certificate_sha256": bound.certificate[
                 "canonical_sha256_without_this_field"
             ],
+            "basis_semantics": "SATURATED_RETAINED_PICARD_BASIS_REALIZED_BY_RETAINED_BASIS_KNOWN_LABELS",
             "full_aut_group_order": len(full_group),
             "slice_stabilizer_group_order": len(subgroup),
             "picard_rank": 64,
@@ -154,6 +155,7 @@ class DirectPicardStabilizerAveragingEquivalence:
             "all140_orbit_average_pairing_identities_checked": checked_pairings,
             "orbits": orbit_checks,
             "proof": {
+                "hperp_adapter_independently_checks_all_aut_generators_are_all140_intersection_isometries": True,
                 "orbit_sum_nonnegative_point_averages_to_all140_nonnegative_point": True,
                 "for_each_curve_averaged_pairing_equals_its_orbit_sum_divided_by_orbit_size": True,
                 "average_minus_original_lies_in_slice_kernel": True,
