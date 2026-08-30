@@ -59,9 +59,6 @@ assert r4["integral_lattice_check"]["marked_brauer_coordinate"] == [1, 0]
 assert old_zero["status"] == "PASS_EXACT_UPSTREAM_REPRESENTATIVE_CONTRADICTION"
 assert old_zero["stage33_05_named_representative_geometric_nontriviality_supported"] is False
 
-# Independent replay of the finite-presentation Galois action.
-# Basis [J1,J2,q1,q2,q3]. The source-locked full-pair computation has
-# tau=cc=I and ct(q1)=q1+J1, ct(q2)=q2+J1; J1,J2,q3 fixed.
 BASIS = ["J1", "J2", "q1", "q2", "q3"]
 I5 = [[1 if i == j else 0 for j in range(5)] for i in range(5)]
 ct = [row[:] for row in I5]
@@ -100,10 +97,6 @@ assert len(group_image) == 2
 for M in group_image:
     assert add(matvec(M, J2), J2) == [0] * 5
 
-# CV/Kummer compatibility sends this presentation defect to the Pic/2 Kummer
-# defect. Since it is literally zero, choose the normalized Pic/2 1-cocycle
-# and its integral Pic lift to be zero. Its Bockstein is the explicit zero
-# Pic-valued 2-cocycle.
 defect_by_generator = {name: [0, 0, 0, 0, 0] for name in MATS}
 pic_mod2_defect = {name: "0" for name in MATS}
 integral_pic_lift = {name: "0" for name in MATS}
@@ -146,7 +139,7 @@ cert = {
         "equivalent_descent_cocycle_materialized": True,
         "closed_form_Q_CSA_formula_materialized": False,
     },
-    "hochchild_serre_exit": {
+    "hochschild_serre_exit": {
         "base_field": "Q",
         "H3_Q_Qbar_times_zero": True,
         "kernel_d2_equals_image_Br_Q": True,
