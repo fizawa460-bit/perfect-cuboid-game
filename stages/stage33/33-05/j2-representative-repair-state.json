@@ -2,15 +2,17 @@
   "schema": "STAGE33_05_J2_REPRESENTATIVE_REPAIR_STATE_V1",
   "repair_band": "R0_TO_R5",
   "roadmap": "stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md",
-  "status": "R5_HOSTILE_REPLAY_PASS_GEOMETRIC_R1_TO_R4_RESTORED_Q_DESCENT_RESIDUAL_OPEN",
-  "current_leaf": "POST_R5_Q_DESCENT",
-  "current_leaf_title": "CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE",
+  "status": "R5_FULL_REPAIR_EXIT_REACHED_CORRECTED_J2_Q_DESCENT_EVIDENCE_REESTABLISHED_SUPER_HOSTILE_AUDIT_REQUIRED",
+  "current_leaf": "SUPER_HOSTILE_AUDIT_GATE",
+  "current_leaf_title": "SUPER_HOSTILE_AUDIT_STAGE33_05_CORRECTED_J2_REPAIR",
   "current_leaf_attempts": 0,
   "current_leaf_stagnation_count": 0,
   "stagnation_trigger": 2,
   "mandatory_pre_r5_certificate": "stages/stage33/33-05/j2-r4-hostile-torsor-brauer-kernel-verification.json",
   "r5_certificate": "stages/stage33/33-05/j2-r5-hostile-replay.json",
   "r5_verifier": "stages/stage33/33-05/certify_j2_r5_hostile_replay.py",
+  "post_r5_q_descent_certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json",
+  "post_r5_q_descent_verifier": "stages/stage33/33-05/certify_j2_post_r5_q_descent_cocycle.py",
   "leaves": {
     "R0": {
       "state": "DONE_ZERO",
@@ -73,26 +75,45 @@
       "exact_statement": "The corrected pair (f2,1) maps by Creutz-Viray's explicit d-map to the R3 E[2] cocycle xi(rho)=Tr, and Proposition 5.1 identifies this with the cohomological edge image of the same CV Brauer class. Over Kgeom=Qbar(t), the elliptic section and Br(Kgeom)=0 make its H1(E) image exactly the Ogg-Shafarevich torsor class of corrected geometric J2. The attempt-2 quartic is the explicit semilinear translation descent for that cocycle, so its relatively minimal smooth projective model is the elliptic K3 torsor J_J2. Căldăraru Theorem 1.2 and sections 1.15-1.16 give an integral Hodge isometry T(X_J2) ~= ker(J2:T(Kc)->Q/Z), with no pairing rescaling. Separately, the free involution quotient gives a degree-2 map to E'_Tr, whose K3 is Kc over Q(i,sqrt(2)); pullback therefore has Gram T(Kc)(2)=diag(8,16), determinant 128. Since nonzero order-2 J2 has kernel index 2 and determinant 128, equal determinants force pullback index 1. Thus T(X_J2)=diag(8,16), minimum norm 8, and marked J2=[1,0]. Attempt 1 remains revoked as the named torsor."
     },
     "R5": {
-      "state": "DONE_HOSTILE_REPLAY_PASS_GEOMETRIC_ONLY_Q_DESCENT_NOT_RESTORED",
-      "exit": "HOSTILE_REPLAY_AND_ONLY_VALID_CREDIT_RESTORED",
+      "state": "DONE_FULL_REPAIR_EXIT_POST_R5_Q_DESCENT_DATUM_MATERIALIZED_PENDING_SUPER_HOSTILE_AUDIT",
+      "exit": "HOSTILE_REPLAY_AND_CORRECTED_J2_Q_DESCENT_EVIDENCE_REESTABLISHED",
       "certificate": "stages/stage33/33-05/j2-r5-hostile-replay.json",
       "verifier": "stages/stage33/33-05/certify_j2_r5_hostile_replay.py",
-      "exact_statement": "Independent replay confirms R1-R4 and retains minimum norm 8 / marked J2=[1,0]. Credit reconciliation refuses to inherit the pre-reopen Q-descent claim because the former Q-defined arithmetic representative ell_Q was proved geometrically trivial. No corrected Q-defined arithmetic representative/descent datum has yet been materialized."
+      "post_r5_certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json",
+      "post_r5_verifier": "stages/stage33/33-05/certify_j2_post_r5_q_descent_cocycle.py",
+      "exact_statement": "R1-R4 geometric hostile replay remains PASS with minimum norm 8 / marked J2=[1,0]. The post-R5 repair independently uses the exact full-pair Galois action: J2 is fixed by tau, cc and ct, so its Creutz-Viray/Kummer Pic/2 defect is the explicit zero 1-cocycle and its Bockstein/Hochschild-Serre d2 is the explicit zero 2-cocycle. Since H^3(Q,Qbar^*)=0, standard HS exactness gives an arithmetic class beta_J2_Q in Br(Kc_Q) restricting to corrected nonzero J2=(f2,1). The revoked old ell_Q is not used. This reaches the full R5 repair exit as pre-audit exact evidence; authoritative credit and Stage33-05 reclosure await the separately mandated super-hostile audit."
     }
   },
   "post_r5_residual_kernel": {
     "id": "CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE",
-    "state": "OPEN",
-    "certificate": "stages/stage33/33-05/j2-r5-hostile-replay.json",
+    "state": "RESOLVED_PRE_AUDIT",
+    "certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json",
+    "verifier": "stages/stage33/33-05/certify_j2_post_r5_q_descent_cocycle.py",
     "exact_question": "Construct and hostile-verify a Q-defined arithmetic Brauer representative/descent datum whose geometric restriction is the corrected nonzero J2=(f2,1).",
-    "mandatory_checks": [
-      "source-lock the full Galois action on corrected J2",
-      "materialize an explicit Q-defined Azumaya/CSA representative or equivalent descent cocycle",
-      "prove geometric restriction equals corrected nonzero J2 and not revoked ell_Q",
-      "verify required arithmetic unramifiedness/residue conditions",
-      "hostile replay the Stage33-05 explicit arithmetic representative closure criterion"
-    ],
+    "exact_answer": "Equivalent HS/Kummer descent datum materialized: full-presentation J2 defect is zero on tau/cc/ct, hence Pic/2 defect and Bockstein d2 are zero; H^3(Q,Qbar^*)=0 puts corrected J2 in the image of Br(Kc_Q).",
+    "mandatory_checks": {
+      "full_Galois_action_source_locked": true,
+      "equivalent_descent_cocycle_materialized": true,
+      "geometric_restriction_is_corrected_nonzero_J2": true,
+      "old_revoked_ell_Q_reused": false,
+      "arithmetic_unramifiedness": true,
+      "super_hostile_closure_replay": false
+    },
     "forbidden_shortcut": "Do not reuse the old Q-defined ell_Q/CSA from j2_arithmetic_descent.py as corrected J2; its geometric CV class is zero."
+  },
+  "super_hostile_gate": {
+    "mandatory": true,
+    "state": "PENDING_NEW_PR",
+    "next_leaf": "SUPER_HOSTILE_AUDIT_STAGE33_05_CORRECTED_J2_REPAIR",
+    "new_PR_required_by_user_workflow": true,
+    "required_scope": [
+      "independently replay R0-R5 and post-R5 HS descent without trusting promoted booleans",
+      "challenge whether zero CV presentation defect really identifies zero Kummer/Pic defect globally",
+      "challenge the H^3(Q,Qbar^*)=0 Hochschild-Serre kernel=image adapter",
+      "challenge whether the explicit cohomological descent datum satisfies the Stage33-05 explicit arithmetic representative contract",
+      "verify corrected geometric restriction is nonzero (f2,1), never the revoked old ell_Q",
+      "only on PASS may Stage33-05 be reclosed and downstream release reconsidered"
+    ]
   },
   "fixed_marked_receiver": {
     "T_Kc_gram": [[4, 0], [0, 8]],
@@ -109,10 +130,14 @@
     "corrected_J2_twisted_kernel_materialized": true,
     "corrected_J2_twisted_kernel_minimum_norm": 8,
     "corrected_J2_marked_brauer_coordinate": [1, 0],
+    "corrected_J2_Q_descent_exact_evidence_reestablished": true,
+    "corrected_J2_equivalent_arithmetic_descent_datum_materialized": true,
     "Q_defined_descent_credit_restored": false,
+    "Q_defined_descent_credit_restore_requires_super_hostile_pass": true,
     "abstract_J2_revoked": false,
     "abstract_J2_nonzero_reconfirmed": true,
     "stage33_05_reclosed": false,
+    "stage33_05_unit_status": "AUDIT_REQUIRED",
     "stage33_12_closed_exact": false,
     "stage33_13_released": false,
     "class3_promoted": false,
@@ -123,6 +148,6 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "stage33_progress": "5/11",
-  "next_exact_leaf": "POST_R5_CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE",
+  "next_exact_leaf": "SUPER_HOSTILE_AUDIT_STAGE33_05_CORRECTED_J2_REPAIR",
   "report_format": "33-05 repair: R?/R5 | state | attempts | exact new information | next exit test"
 }
