@@ -6,8 +6,6 @@ on:
     paths:
       - '.github/workflows/stage32-21ai-antifixed-affine-pairing-fiber.yml'
       - 'stages/stage32/residual-32-01-production/diagnose_stage32_21ai_antifixed_affine_pairing_fiber.py'
-      - 'stages/stage32/residual-32-01-production/diagnose_stage32_21ai_antifixed_affine_pairing_fiber_fast.py'
-      - 'stages/stage32/residual-32-01-production/diagnose_stage32_21ai_antifixed_affine_pairing_fiber_v3.py'
       - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_lattice_diagnostic.py'
       - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_integral_projection_bound.py'
       - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
@@ -39,7 +37,7 @@ jobs:
       - name: Reconstruct exact saturated anti-fixed pairing fiber
         working-directory: stages/stage32/residual-32-01-production
         run: |
-          python diagnose_stage32_21ai_antifixed_affine_pairing_fiber_v3.py \
+          python diagnose_stage32_21ai_antifixed_affine_pairing_fiber.py \
             --retained "$GITHUB_WORKSPACE/stages/stage33/33-07/picard_base_rows_retained.py" \
             --marking "$GITHUB_WORKSPACE/stages/stage33/33-07/stage32_picard_marking_retained.py" \
             --output "$GITHUB_WORKSPACE/stage32-21ai-antifixed-affine-pairing-fiber.json"
