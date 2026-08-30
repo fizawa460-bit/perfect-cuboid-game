@@ -1,142 +1,128 @@
 # Stage33-12 MAIN exact assembly checkpoint
 
-Status: `MAIN_IN_PROGRESS_J2_MARKED_KC_BRANCH_AND_RESOLUTION_ATTACHMENT_MATERIALIZED`
+Status: `MAIN_BATCH4_HOSTILE_AUDIT_REVOKED_CLASS2_NO_GO_UPSTREAM_J2_REPRESENTATIVE_REPAIR_REQUIRED_4_OF_5`
 
-This checkpoint continues the exact arithmetic Hochschild--Serre assembly after the audited Stage33-11 exit. It does not close Stage33-12 or Stage33-07.
+Stage33-12 remains open. Stage33-13 is not released. Class-3 promotion is **not** authorized.
 
-## Exact receiver state
+## Batch 4 / 4 hostile-audit verdict
 
-Stage33-11 has already proved the localization connecting map exact zero on all 26 finite directions. Stage33-12 has independently linearized the full-surface finite-V4 Kummer receiver:
+The committed four-batch class-2 audit budget is exhausted, but the Batch3 `NO_GO_AFTER_BATCH3` verdict does **not** survive hostile audit. The reason is upstream: the Stage33-05 Q-defined function currently called the named geometric `J2` representative is geometrically trivial in the exact Creutz--Viray function quotient.
 
-* `P=Br(Sbar)[2]^{G_Q}` has exact F2 dimension 10;
-* `H^1(V4,Pic(Sbar)/2)` has exact F2 dimension 75;
-* the missing finite restriction is a literal `75 x 10` matrix;
-* materialized columns remain `0/10` and finite obstruction cosets remain `0/26`.
-
-Known Q-defined blocks, including J2, have exact HS image zero. Odd-primary global residue-lift completion is exact. The two remaining obstruction blocks are still the two-primary constant-character cokernel and the finite 26-direction block.
-
-## J2/q1 adapter state
-
-The named K3 basis remains `[J2,q1]`, with `d2(J2)=0` and `d2(q1)!=0`. All six elements of `GL(2,F2)` still survive the currently retained named d2 data. Fixing the Kc line `<J2>` would reduce this to two; one further named orientation invariant would then distinguish `q1` from `q1+J2`.
-
-Ambiguity certificate: `j2-q1-kc-adapter-ambiguity-witness.json`, canonical SHA256 `2d41bf2d5961fa16caf162311974a858329f2714ec1fe3838305c58e6da79ffb`.
-
-## Named J2 input retained
-
-The exact branch half-divisor is
-
-`E_J2 = 2*infinity_minus - P_plus - P_minus`,
-
-with `div(ell_J2)=2E_J2`.  The CV-to-ruled adapter is also exact:
+The Stage33-05 source is
 
 ```text
-t=u1/v1,
-s=u2/v2,
-v1^2*v2^2 Gplus(t,s)=X+iY.
+stages/stage33/33-05/j2_arithmetic_descent.py
+blob a63be5592c793c3812da99275478f14dd0d2687b
 ```
 
-Its certificate is `j2-cv-to-ruled-support-adapter.json`, canonical SHA256 `63c09f6ac52cef43d529d17a48907b5818cb19d18efcced3aa35e1ccc080b061`.
-
-## New exact progress: frozen ruled model to pinned Stoll Kc
-
-The audited Stage29-07 anticanonical map supplies the missing geometric bridge. Put
+with
 
 ```text
-D1=v1^2-u1^2,
-D2=v2^2-u2^2,
-e=D1*D2,
-x=2*u1*v1*D2,
-p=(u1^2+v1^2)*D2,
-y=2*u2*v2*D1,
-q=(u2^2+v2^2)*D1.
+F=t^2(1-a^2)^2+a^2(1-t^2)^2,
+q=t^4-6t^2+1,
+z=(2t^2(1-a^2)-(1-t^2)^2)/(1-t^2),
+ell_Q=4(a^2t^2+t^4-4t^2+2)/((t^2-1)(t^2-2t-1)).
 ```
 
-Then `e^2+x^2=p^2` and `e^2+y^2=q^2`. Adding the Kc square `z^2=x^2+y^2`, comparison with the pinned Stoll equations gives the exact coordinate identification
+The new dependency-free exact verifier proves, after clearing denominators,
 
 ```text
-(A1,A2,A3,B1,B2,B3)_Stoll = (e,x,y,z,q,p).
+znum^2-q*zden^2 = 4*t^2*F.
 ```
 
-The prior frozen coordinates satisfy `x=2X`, `y=2Y`, `z=2w`. Therefore the CV component `B+ : X+iY=0` becomes
+Hence the normalization coordinate `z` really is an element of the full branch algebra `Lbar=Qbar(t)[a]/(F)`.
+
+The same verifier then substitutes the retained Hilbert-90 identity
 
 ```text
-B1=0,
-i*A2-A3=0.
+ell_z = f2*g90^2,
+f2=(t+1+sqrt(2))/(t-1+sqrt(2)) in Qbar(t)^*,
 ```
 
-This is exactly the second curve in Stoll's first `C2sK` pair, hence `C2sK[2]=CsK[22]`. The named CV branch itself is now a pinned marked Stoll Kc curve; this is no longer an unnamed birational image.
-
-The three J2 support images are exact:
+and proves the corresponding cleared identity in `Q(sqrt(2))[t,a]` is a multiple of `F`. Therefore
 
 ```text
-P_plus_K  = [-1:1:i:0:0:sqrt(2)],
-P_minus_K = [-1:1:i:0:0:-sqrt(2)],
-P_inf_K   = [1:0:0:0:-1:-1].
+ell_Q = f2*g^2 in Lbar^*.
 ```
 
-The first two have Kc Jacobian rank 3 and are smooth. `P_inf_K` has rank 2 and is one of the Kc A1 singularities.
-
-## New exact progress: resolution attachment at J2 infinity
-
-In the affine chart `A1=1` around `P_inf_K`, write
+Creutz--Viray define the relevant geometric function quotient by scalars and squares,
 
 ```text
-a=A2,
-b=A3,
-c=B1.
+Lbar^*/(Kbar^* Lbar^{*2}),  Kbar=Qbar(t),
 ```
 
-The local tangent cone is
+so the currently promoted representative satisfies
 
 ```text
-c^2=a^2+b^2.
+[ell_Q]=0.
 ```
 
-The marked B+ branch has `c=0` and `i*a-b=0`; consequently its strict transform meets the exceptional conic over `P_inf_K` in the exact tangent direction
+The surfaces paper explicitly places the finite presentation in the quotient by `K^*L^{*2}` and Corollary 5.4 maps the resulting `L_{c,E}` to `Br X[2]`. The curves paper Lemma 4.6 gives an explicit `E[2]` cocycle `d(ell)`, and Proposition 5.1 identifies this explicit descent map with the Brauer image modulo constants. Thus the generic-fiber explicit-cocycle route is not a missing new theorem.
+
+Certificate: `j2-cv-lclass-zero-regression.json`.
+Verifier: `certify_j2_cv_lclass_zero_regression.py`.
+
+## Consequences
+
+The following Batch3 statements are revoked:
 
 ```text
-[a:b:c]=[1:i:0].
+CLASS2_GO_NO_GO = NO_GO_AFTER_BATCH3
+live_class2_routes_after_audit = 0
+class3 escalation from the named-J2 marking gap
 ```
 
-Thus the geometric exceptional attachment is materialized. What is not yet materialized is the algorithmic `ptsK` order index used by the pinned Magma presentation and therefore the corresponding explicit `qPicK` exceptional coordinate.
+This does **not** prove that the abstract geometric basis element called `J2` in the Stage33-05 finite F2 presentation is zero. It proves that the specific promoted Q-defined branch-algebra function `ell_Q` cannot represent a nonzero geometric class under the stated CV quotient. The inconsistency must be resolved upstream before any marked coordinate can receive credit.
 
-Certificate: `j2-ruled-to-stoll-marked-kc-support.json`, canonical SHA256 `881d2637c83bcae5d7bdfe9cf534baea7ad15b983719f7a482d3b7240fe8c510`.
+Possible repair outcomes are deliberately left open:
 
-## Important Kummer-glue firewall
+1. the Hilbert-90 identity was applied to only a normalization component and the branch-algebra dictionary was overstated;
+2. `ell_Q` was incorrectly identified with the abstract quotient-basis element `J2`;
+3. the Stage33-05 named representative itself must be replaced;
+4. another ruling/branch-algebra dictionary was silently substituted.
 
-`E_J2` is a degree-zero divisor on the genus-one branch normalization. Its support points are not divisors on the K3 surface and must not be inserted directly into `PicK` as though they were K3 divisor classes.
+## Restored executable class-2 route
 
-The exact marked-curve/support bridge now reduces the remaining first orientation problem to the genuine Kummer glue:
-
-1. identify the exceptional divisor over `P_inf_K=[1:0:0:0:-1:-1]` in the pinned `ptsK`/`qPicK` ordering;
-2. combine that resolved branch data with `CsK[22]` and the branch Jacobian 2-torsion class `E_J2`;
-3. materialize the exact map from this named branch-Jacobian 2-torsion datum to the Kc Picard discriminant/Brauer `2`-torsion coordinate;
-4. fix the Kc line represented by named J2 and replay the six `GL(2,F2)` adapters (`6 -> 2` expected once the line is fixed);
-5. then provide one additional named orientation invariant for `q1` versus `q1+J2` unless the same glue computation identifies q1 too.
-
-The historical `derive_kc_discriminant_from_split.py` confirms the Kc discriminant carrier is `Z/4 direct_sum Z/8` and records the audited 2-dimensional invariant Br[2] / one-dimensional HS kernel interface, but it does not itself identify named J2 with one discriminant coordinate. Its deleted transient `kc-picard-maps.json` is not treated as available evidence.
-
-## Current exit state
+After a corrected nonzero `ell` is fixed, Creutz--Viray Lemma 4.6 gives an explicit finite route
 
 ```text
-ARITHMETIC_HS_D2_COMPUTED=false
-GLOBAL_Q_BR0G_RESIDUE_LIFTS_COMPLETE=false
-COMPLETE_RELEVANT_Q_DEFINED_CLASS_LIST_FOR_STAGE33_BRAUER_SCOPE=false
-J2_Q1_KC_ADAPTER_UNIQUE=false
-J2_NAMED_HALF_DIVISOR_MATERIALIZED=true
-J2_CV_TO_RULED_SUPPORT_ADAPTER_MATERIALIZED=true
-J2_BRANCH_IDENTIFIED_WITH_STOLL_CSK22=true
-J2_THREE_STOLL_KC_SUPPORT_IMAGES_MATERIALIZED=true
-J2_INFINITY_EXCEPTIONAL_GEOMETRIC_ATTACHMENT_MATERIALIZED=true
-J2_INFINITY_STOLL_PTSK_ORDER_INDEX_MATERIALIZED=false
-J2_INFINITY_QPICK_EXCEPTIONAL_COORDINATE_MATERIALIZED=false
-J2_BRANCH_JACOBIAN_TO_DISCRIMINANT_KUMMER_GLUE_MATERIALIZED=false
-J2_KC_DISCRIMINANT_COORDINATE_MATERIALIZED=false
-FINITE_V4_KUMMER_DEFECT_COLUMNS_MATERIALIZED=0
-STAGE33_07_HOSTILE_REAUDIT=NOT_RUN
-STAGE33_12_CLOSED=false
+corrected named ell
+  -> d(ell) in H^1(Qbar(t),E[2])
+  -> explicit 2-cover / genus-one torsor
+  -> compactify and resolve
+  -> T(X_J2)
+  -> minimum norm 4 / 8 / 12
+  -> marked [0,1] / [1,0] / [1,1].
 ```
 
-The next exact leaf is `MATERIALIZE_STOLL_PTSK_INDEX_AND_QPICK_COORDINATE_FOR_J2_INFINITY_EXCEPTIONAL_THEN_BRANCH_JACOBIAN_2TORSION_TO_KC_PICARD_DISCRIMINANT_KUMMER_GLUE`. No giant SymPy Smith recomputation is authorized or needed.
+No identification of branch orbit `(1,0)` with the marked Brauer coordinate is made.
 
-All Stage33-07/08/40, theorem, endpoint, receiver, and perfect-cuboid existence/nonexistence firewalls remain closed.
+## Batch-budget interpretation
+
+The four MAIN batches have been used. Batch4 did what it was supposed to do: hostile-audit the class-2 NO-GO. Since that audit found a concrete contradiction and an explicit literature-backed class-2 map, the contractual class-3 escalation condition is **not satisfied**. The correct state is upstream repair, not class-3 promotion.
+
+## Firewalls
+
+```text
+class-2 budget used = 4/4
+Batch3 class-2 NO-GO = REVOKED_BY_HOSTILE_AUDIT
+Stage33-05 named ell geometric nontriviality = REVOKED_PENDING_REPAIR
+explicit CV E[2] cocycle route = LIVE_AFTER_REPRESENTATIVE_REPAIR
+J2 marked Brauer functional materialized = false
+J2 twisted transcendental kernel identified = false
+Stage33-12 exact closure = false
+Stage33-13 released = false
+class3 promoted = false
+heavy actions authorized = false
+theorem credit = false
+receiver credit = false
+endpoint credit = false
+perfect cuboid existence/nonexistence claim = false
+```
+
+Next exact leaf:
+
+```text
+REPAIR_OR_REPLACE_THE_STAGE33_05_NAMED_J2_CV_REPRESENTATIVE,
+THEN COMPUTE_THE_CREUTZ_VIRAY_LEMMA_4_6_E2_COCYCLE.
+```

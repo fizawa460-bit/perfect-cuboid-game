@@ -1,0 +1,171 @@
+{
+  "schema": "STAGE33_12_J2_MARKED_KC_COMMON_STANDARD_FORM_ROUTE_AUDIT_V1",
+  "status": "ARCHITECTURE_AUDIT_ONLY_NO_CLOSURE_CREDIT",
+  "source_snapshot": {
+    "pr": 1463,
+    "head": "bf5f0da0ecf8640b14ef8215a4079c292874a22f",
+    "stage33_progress": "6/11",
+    "stage33_12_visible_progress": "4/5",
+    "input_sha256": {
+      "j2-kc-transcendental-lattice-isometry.json": "1f39b270485f35dd2afd67e29da622953f71615e475c3fee0c43bea416f59228",
+      "j2-kc-bfield-halfdual-target.json": "0014f6a12198539dc1e9c0bfa9efb32db418afcb1efbbc27a8b623fcf55b2026",
+      "j2-brauer-kernel-lattice-fingerprints.json": "8a34985aef909895087a47d1008266c62a30e335433ab21b50f6b6ff4787b38d",
+      "j2-cv-to-discriminant-marking-obstruction.json": "a8ba54a8ca55e447cb1eb1280a8a7f01febd3a49b58868b710417ed8dc9c8222",
+      "j2-twisted-poincare-torsor-target.json": "6df5cf6031448631fa9ec4ea5d1d33f35d197e6ded9527510143a9f592e66643",
+      "j2-degenerate-clifford-contact-glue-reduction.json": "b12dff890091d679abefd6e083aec69fdd2aef0f7568989b0c047432062a0461",
+      "j2-degenerate-hermite-inverse-construction-target.json": "2f078f5bf71df77b1f98772557610d492d5a07fd7d83884f3316f6a6c3dbb359"
+    }
+  },
+  "fixed_receiver": {
+    "transcendental_gram": [[4, 0], [0, 8]],
+    "marked_basis": ["beta1=t1/8", "beta2=t2/16"],
+    "kernel_minimum_norm_to_functional": {
+      "4": [0, 1],
+      "8": [1, 0],
+      "12": [1, 1]
+    },
+    "candidate_count_before": 3,
+    "candidate_count_after": 3
+  },
+  "strategic_redesign": {
+    "old_pattern": "DIRECT_DICTIONARY_BETWEEN_EXISTING_CV_AND_MARKED_LATTICE_PRESENTATIONS",
+    "new_pattern": "CONVERT_BOTH_SIDES_TO_A_COMMON_GEOMETRIC_OR_COHOMOLOGICAL_STANDARD_FORM",
+    "selected_standard_form": "NAMED_SPECIAL_BRAUER_CLASS_TO_TWISTED_RELATIVE_PICARD_K3_TO_TRANSCENDENTAL_KERNEL_LATTICE",
+    "selected_construction_engine": "FOUR_EVEN_CONTACT_PGL_MU2_CECH_AND_DEGENERATE_CLIFFORD_HERMITE_ASSEMBLY",
+    "selected_status": "LIVE_ONE_INTERFACE"
+  },
+  "families": [
+    {
+      "id": "R1_SPECIAL_BRAUER_TWISTED_PICARD_TORSOR_K3",
+      "A_j2_exact_conversion": "ABSTRACT_ONLY_EXACT_EXPLICIT_TORSOR_NOT_MATERIALIZED",
+      "B_kc_exact_conversion": true,
+      "C_distinguishes_three": true,
+      "D_missing_interface": "NAMED_SPECIAL_BRAUER_OR_TWISTED_POINCARE_CECH_DATUM_AND_EXPLICIT_X_J2",
+      "E_repo_only_feasibility": "PROBABLY_FINITE_EXPLICIT_WITH_RETAINED_DATA",
+      "F_external_locations": ["van Geemen sections 1.2 and 2.1", "Huybrechts-Mattei Theorem 1.1, Definition-Proposition 2.8, Lemma 5.1"],
+      "status": "LIVE_ONE_INTERFACE"
+    },
+    {
+      "id": "R2_TWISTED_MUKAI_DERIVED_HODGE",
+      "A_j2_exact_conversion": false,
+      "B_kc_exact_conversion": "YES_FOR_ALL_THREE_CANDIDATES",
+      "C_distinguishes_three": "ONLY_AFTER_NAMED_BFIELD_OR_TWISTED_SHEAF_LIFT",
+      "D_missing_interface": "NAMED_SPECIAL_BRAUER_BFIELD_LIFT_COMPATIBLE_WITH_FIXED_MARKING",
+      "E_repo_only_feasibility": false,
+      "F_external_locations": ["Huybrechts-Stellari Theorem 0.4 and Definition 4.1"],
+      "status": "LIVE_ONE_INTERFACE",
+      "status_without_named_lift": "CANNOT_DISTINGUISH_THREE_CANDIDATES"
+    },
+    {
+      "id": "R3A_ORDINARY_AZUMAYA_C1_MOD2",
+      "A_j2_exact_conversion": "UNDERLYING_AZUMAYA_C1_DOES_NOT_RETAIN_REQUIRED_BRAUER_COORDINATE",
+      "B_kc_exact_conversion": false,
+      "C_distinguishes_three": false,
+      "D_missing_interface": "NONE_ROUTE_INVARIANT_IS_STRUCTURALLY_INSUFFICIENT",
+      "E_repo_only_feasibility": "ENOUGH_TO_REJECT",
+      "F_external_locations": ["correct replacement is the PGL2 lifting obstruction or special-Brauer twisted Chern character"],
+      "exact_rejection_reason": "REDUCED_TRACE_GIVES_A_ISOMORPHISM_A_TO_A_DUAL_SO_2C1_A_IS_ZERO_AND_PICARD_OF_A_K3_IS_TORSION_FREE_HENCE_C1_A_IS_ZERO",
+      "status": "REJECTED_EXACTLY",
+      "secondary_status": "CANNOT_DISTINGUISH_THREE_CANDIDATES"
+    },
+    {
+      "id": "R3B_PGL2_LIFTING_OBSTRUCTION_SPECIAL_BRAUER_CHARACTERISTIC_CLASS",
+      "A_j2_exact_conversion": "NAMED_FUNCTION_FIELD_CSA_ONLY_GLOBAL_CECH_CLASS_MISSING",
+      "B_kc_exact_conversion": "ABSTRACT_TARGET_FIXED_MARKED_COMPARISON_MISSING",
+      "C_distinguishes_three": true,
+      "D_missing_interface": "GLOBAL_SPLITTING_MODULES_TRANSITION_MATRICES_DETERMINANT_NORMALIZATION_AND_MARKED_H2_MU2_COMPARISON",
+      "E_repo_only_feasibility": "PROBABLY_FINITE_EXPLICIT_ON_FOUR_RESOLVED_CONTACT_CHARTS",
+      "F_external_locations": ["Huybrechts-Mattei Definition-Proposition 2.8"],
+      "status": "LIVE_ONE_INTERFACE"
+    },
+    {
+      "id": "R4_K3_LEVEL_SHIODA_INOSE_KUMMER",
+      "A_j2_exact_conversion": false,
+      "B_kc_exact_conversion": "ABSTRACT_COMPLEX_EXISTENCE_ONLY",
+      "C_distinguishes_three": "ONLY_WITH_EXPLICIT_INTEGRAL_TWO_PRIMARY_MARKED_TRANSPORT",
+      "D_missing_interface": "CONTROLLED_FIELD_K3_CORRESPONDENCE_AND_PULLBACK_OF_NAMED_J2_IN_FIXED_INTEGRAL_MARKING",
+      "E_repo_only_feasibility": false,
+      "F_external_locations": ["Morrison Theorem 6.3 and Corollary 6.4", "Ma Theorem 2.5"],
+      "status": "CLASS3_LEVEL_NEW_MATHEMATICS_REQUIRED"
+    },
+    {
+      "id": "R5_DEGENERATE_CLIFFORD_ADMISSIBLE_COVER_HERMITE_INVERSE",
+      "A_j2_exact_conversion": "COMPONENT_FINGERPRINT_EXACT_GLOBAL_THETA_AND_NAMED_EQUALITY_MISSING",
+      "B_kc_exact_conversion": true,
+      "C_distinguishes_three": true,
+      "D_missing_interface": "FOUR_EVEN_CONTACT_SHEET_PAIRINGS_GLOBAL_COMPATIBILITY_NAMED_CV_EQUALITY_AND_TORSOR_MODEL",
+      "E_repo_only_feasibility": "MOST_LIKELY_FINITE_EXPLICIT",
+      "F_external_locations": ["van Geemen sections 8.1-8.3 and 8.7"],
+      "status": "LIVE_ONE_INTERFACE",
+      "role": "CONSTRUCTION_ENGINE_FOR_R1_AND_R3B"
+    },
+    {
+      "id": "R6_DIRECT_PERIOD_CYCLE_BFIELD_EVALUATION",
+      "A_j2_exact_conversion": false,
+      "B_kc_exact_conversion": "ABSTRACT_BASIS_ONLY",
+      "C_distinguishes_three": "IN_PRINCIPLE_ONLY",
+      "D_missing_interface": "INTEGRAL_CYCLES_AND_CSA_TO_CYCLE_PAIRING",
+      "E_repo_only_feasibility": false,
+      "F_external_locations": [],
+      "status": "EQUIVALENT_TO_EXISTING_BLOCK"
+    },
+    {
+      "id": "R7_BRANCH_COHOMOLOGY_GOOD_REDUCTION_ETALE_SPECIALIZATION_FINITE_KUMMER",
+      "A_j2_exact_conversion": "PARTIAL_PRESENTATIONS_ONLY",
+      "B_kc_exact_conversion": "MARKED_ONLY_AFTER_MISSING_COMPARISON",
+      "C_distinguishes_three": false,
+      "D_missing_interface": "SAME_CV_TO_MARKED_COHOMOLOGY_ADAPTER",
+      "E_repo_only_feasibility": "ALREADY_AUDITED",
+      "F_external_locations": [],
+      "status": "EQUIVALENT_TO_EXISTING_BLOCK"
+    }
+  ],
+  "genuinely_untried_large_families": [
+    "SPECIAL_BRAUER_TWISTED_PICARD_STANDARD_FORM",
+    "EXPLICIT_K3_LEVEL_SHIODA_INOSE_INTEGRAL_TWO_PRIMARY_TRANSPORT"
+  ],
+  "genuinely_untried_implementations_not_independent_final_invariants": [
+    "PGL2_LIFTING_OBSTRUCTION_ON_FOUR_RESOLVED_CONTACT_CHARTS",
+    "TWISTED_MUKAI_OR_MODULI_OF_TWISTED_SHEAVES_AFTER_NAMED_LIFT"
+  ],
+  "minimum_exact_experiment": {
+    "raw_pairing_upper_bound": 16,
+    "upper_bound_firewall": "FIRST_PROVE_ONE_BINARY_NORMALIZED_SHEET_PAIRING_PER_EVEN_CONTACT",
+    "steps": [
+      "RESOLVE_T_EQUALS_PLUS1_MINUS1_ZERO_INFINITY_AND_PROVE_LOCAL_PAIRING_SPACES",
+      "ENUMERATE_RAW_PAIRINGS_AND_CERTIFY_GLOBAL_SHEET_FLIP_ACTION_COVERAGE_AND_DISJOINTNESS",
+      "CONSTRUCT_MU2_CECH_SPECIAL_BRAUER_CLASS_OR_HERMITE_TORSOR_FOR_EACH_ADMISSIBLE_ORBIT",
+      "COMPUTE_EXACT_MARKED_H2_COORDINATE_OR_T_X_EPSILON_MINIMUM_NORM",
+      "INDEPENDENTLY_RESTRICT_NAMED_CV_ALGEBRA_TO_THE_SAME_CHARTS_AND_IDENTIFY_ITS_ORBIT"
+    ],
+    "success_condition": "UNIQUE_NAMED_CV_ORBIT_WITH_MINIMUM_NORM_IN_4_8_12",
+    "class2_failure_condition": "EXHAUSTIVE_COVERAGE_BUT_NAMED_DATA_REMAIN_COMPATIBLE_WITH_MULTIPLE_DIFFERENT_FINGERPRINTS_OR_REQUIRE_A_NEW_GLOBAL_MARKED_COHOMOLOGY_THEOREM",
+    "component_fingerprint_only_forbidden": true,
+    "canonical_pruning_without_predecessor_reconstruction_forbidden": true
+  },
+  "main_batch_budget": {
+    "class2_go_no_go": 3,
+    "certified_success_with_independent_replay": 4,
+    "promise_of_success": false
+  },
+  "class3_escalation_requires_all": [
+    "EXHAUSTIVE_FOUR_CONTACT_SPECIAL_BRAUER_EXPERIMENT_IS_NONSEPARATING_OR_GLOBALLY_OBSTRUCTED",
+    "TWISTED_MUKAI_ROUTE_IS_CERTIFIED_TO_REQUIRE_THE_SAME_ABSENT_NAMED_LIFT",
+    "PGL_LIFTING_OBSTRUCTION_ROUTE_IS_COMPUTED_NONSEPARATING_OR_EQUIVALENT_TO_THE_SAME_MARKED_H2_GAP",
+    "K3_LEVEL_SHIODA_INOSE_REQUIRES_A_NEW_CONTROLLED_FIELD_INTEGRAL_TWO_PRIMARY_TRANSPORT_THEOREM",
+    "BRANCH_SPECIALIZATION_PERIOD_AND_FINITE_KUMMER_VARIANTS_REMAIN_SOURCE_LOCKED_EQUIVALENT_BLOCKS"
+  ],
+  "class3_missing_theorem": "FUNCTORIAL_INTEGRAL_MARKED_REALIZATION_OF_THE_NAMED_CV_AZUMAYA_GERBE_CLASS_COMPATIBLE_WITH_Q_DESCENT_INTO_EITHER_A_BFIELD_IN_HALF_TSTAR_MOD_TSTAR_OR_AN_EXPLICIT_TWISTED_RELATIVE_PICARD_K3_WITH_CERTIFIED_TRANSCENDENTAL_KERNEL_IN_THE_FIXED_KC_MARKING",
+  "firewalls": {
+    "j2_marked_coordinate_selected": false,
+    "j2_twisted_transcendental_kernel_identified": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "stage33_progress": "6/11",
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

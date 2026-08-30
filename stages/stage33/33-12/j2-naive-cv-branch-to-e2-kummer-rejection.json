@@ -1,0 +1,48 @@
+{
+  "schema": "STAGE33_12_J2_NAIVE_CV_BRANCH_TO_E2_KUMMER_REJECTION_V1",
+  "status": "REJECTED_EXACTLY_WRONG_SEMANTIC_EDGE",
+  "source_lock": {
+    "stage33_05_j2_arithmetic_descent_blob_sha1": "a63be5592c793c3812da99275478f14dd0d2687b",
+    "kc_generic_jacobian": "Y^2=X*(X-(t^2-1)^2)*(X-(t^4-6*t^2+1))"
+  },
+  "branch_quartic": {
+    "model": "s^4+A*s^2+1 with A=(t^4-4*t^2+1)/t^2",
+    "root_pattern": "{r,-r,1/r,-1/r}",
+    "named_cv_representative": "ell=4*(t^2*s^2+t^4-4*t^2+2)/((t^2-1)*(t^2-2*t-1))",
+    "ell_is_even_in_s": true
+  },
+  "naive_partition_character_test": {
+    "partition_pm": "{r,-r}|{1/r,-1/r}",
+    "partition_pm_pair_product": "square because ell(r)=ell(-r)",
+    "partition_reciprocal": "{r,1/r}|{-r,-1/r}",
+    "fixed_quadratic_norm_identity": "(t^2*beta+c)*(t^2/beta+c)=2*(t^2-1)^2, c=t^4-4*t^2+2",
+    "reciprocal_pair_product": "32/(t^2-2*t-1)^2",
+    "reciprocal_pair_squareclass": "2",
+    "third_partition_squareclass": "2 by evenness of ell",
+    "resulting_naive_split_E2_character_triple": ["1", "2", "2"],
+    "product_relation": "1*2*2=4 is a square"
+  },
+  "geometric_base_change_test": {
+    "over_Qbar_t": "constant 2 is a square",
+    "naive_triple_after_Qbar_base_change": ["1", "1", "1"],
+    "naive_H1_E2_class_geometrically_trivial": true,
+    "named_J2_geometrically_nontrivial": true,
+    "contradiction_if_identified": true
+  },
+  "exact_conclusion": {
+    "cv_branch_algebra_representative_may_not_be_identified_directly_with_generic_fiber_split_E2_kummer_coordinates": true,
+    "previous_full_E2_kummer_from_hilbert90_route_rejected": true,
+    "reason": "The direct partition-product map sends the retained CV representative to a geometrically trivial split-E2 character triple, while the named J2 Brauer class is geometrically nontrivial. The missing map is the actual Brauer-to-Sha Leray/Ogg-Shafarevich edge, not another scalar or partition norm of ell.",
+    "next_exact_leaf": "MATERIALIZE_THE_BRAUER_TO_SHA_LERAY_EDGE_FOR_THE_NAMED_CV_AZUMAYA_CLASS_AS_A_CECH_OR_DIVISOR_COCYCLE_ON_THE_ELLIPTIC_K3_FIBRATION"
+  },
+  "j2_marked_brauer_coordinate_selected": false,
+  "j2_twisted_transcendental_kernel_identified": false,
+  "stage33_12_closed_exact": false,
+  "stage33_13_released": false,
+  "heavy_actions_authorized": false,
+  "theorem_credit": false,
+  "receiver_credit": false,
+  "endpoint_credit": false,
+  "perfect_cuboid_existence_claim": false,
+  "perfect_cuboid_nonexistence_claim": false
+}

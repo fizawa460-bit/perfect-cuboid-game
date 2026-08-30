@@ -1,0 +1,92 @@
+{
+  "schema": "STAGE33_05_J2_REPRESENTATIVE_REPAIR_STATE_V1",
+  "repair_band": "R0_TO_R5",
+  "roadmap": "stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md",
+  "status": "R4_IN_PROGRESS_NAMED_TR_KERNEL_2COVER_MATERIALIZED_LATTICE_GLUE_PENDING",
+  "current_leaf": "R4",
+  "current_leaf_title": "COMPUTE_NAMED_f2_Tr_TORSOR_NS_DISCRIMINANT_FORM_OR_EQUIVALENT_COMPONENT_GLUE_AND_READ_MINIMUM_NORM_4_8_12",
+  "current_leaf_attempts": 1,
+  "current_leaf_stagnation_count": 0,
+  "stagnation_trigger": 2,
+  "leaves": {
+    "R0": {
+      "state": "DONE_ZERO",
+      "exit": "CURRENT_PROMOTED_ELL_J2_ZERO_IN_GEOMETRIC_CV_QUOTIENT",
+      "certificate": "stages/stage33/33-12/j2-cv-lclass-zero-regression.json"
+    },
+    "R1": {
+      "state": "DONE_ABSTRACT_J2_NONZERO_CONFIRMED",
+      "exit": "ABSTRACT_J2_NONZERO_CONFIRMED",
+      "certificate": "stages/stage33/33-05/j2-abstract-nonzero-reaudit.json",
+      "exact_statement": "J2 is nonzero in LcE/im(x-alpha) for all four undetermined (b,d) image normal forms; revoked ell_J2 was not used as a witness."
+    },
+    "R2": {
+      "state": "DONE_CORRECTED_ELL_J2_NONZERO_CONFIRMED",
+      "exit": "CORRECTED_ELL_J2_NONZERO_IN_LSTAR_MOD_KSTAR_LSTAR2",
+      "attempts": 1,
+      "certificate": "stages/stage33/33-05/j2-corrected-full-l-representative.json",
+      "verifier": "stages/stage33/33-05/certify_j2_corrected_full_l_representative.py",
+      "corrected_geometric_full_L_pair": "(f2,1)",
+      "mandatory_first_test": "PASS_EXACT_FULL_QUOTIENT_NONZERO",
+      "exact_statement": "The source-locked J2 pair (f2,1) is nonzero in Lbar^*/(Kbar^* Lbar^{*2}); quotient-zero would force f2 square in E, but neither f2 nor f2/q is a Kbar-square because of odd branch valuations."
+    },
+    "R3": {
+      "state": "DONE_EXPLICIT_NONZERO_CV_E2_COCYCLE_AND_KUMMER_COORDINATES",
+      "exit": "EXPLICIT_NONZERO_CREUTZ_VIRAY_E2_COCYCLE_AND_KUMMER_COORDINATES",
+      "attempts": 1,
+      "input_certificate": "stages/stage33/33-05/j2-corrected-full-l-representative.json",
+      "certificate": "stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json",
+      "verifier": "stages/stage33/33-05/certify_j2_corrected_cv_e2_cocycle.py",
+      "fixed_E2_basis": ["T0=(0,0)", "Tr=((t^2-1)^2,0)"],
+      "cocycle": "xi(rho)=Tr for rho flipping sqrt(f2)",
+      "kummer_squareclass_pair": ["1", "f2"],
+      "exact_statement": "Creutz-Viray Lemma 4.6 applied directly to corrected (f2,1) gives chi_tilde=(1,1,0,0), g=1 and xi(rho)=the Bplus partition class; an exact quartic-to-Jacobian square identity identifies that class as Tr=((t^2-1)^2,0)."
+    },
+    "R4": {
+      "state": "IN_PROGRESS_NAMED_TR_KERNEL_2COVER_MATERIALIZED_LATTICE_GLUE_PENDING",
+      "exit": "TWISTED_KERNEL_MINIMUM_NORM_IN_4_8_12_AND_MARKED_COORDINATE_SELECTED",
+      "attempts": 1,
+      "input_certificate": "stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json",
+      "certificate": "stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json",
+      "verifier": "stages/stage33/33-05/certify_j2_r4_tr_kernel_torsor_reduction.py",
+      "named_2cover": "N^2=f2*U^4+(t^2+1)^2*U^2*V^2+([2*t*(t^2-1)]^2/f2)*V^4",
+      "kernel_direction": "Tr=((t^2-1)^2,0)",
+      "comparison_2isogenous_curve": "y^2=x*(x-Dplus^2)*(x-Dminus^2)",
+      "comparison_curve_is_named_torsor": false,
+      "bisection": "w^2=f2, genus 0, ramified at q-roots r2 and r4",
+      "exact_statement": "After shifting Tr to (0,0), E is y^2=x*(x^2+(t^2+1)^2*x+[2*t*(t^2-1)]^2). The repaired R3 Kummer character therefore gives the explicit Tr-kernel 2-cover with d=f2. The associated 2-isogenous comparison curve factors exactly through Dplus^2 and Dminus^2, but it is not promoted as the named torsor. The remaining R4 interface is the primitive NS discriminant form/component glue of this named 2-cover."
+    },
+    "R5": {
+      "state": "BLOCKED_BY_R4",
+      "exit": "HOSTILE_REPLAY_AND_ONLY_VALID_CREDIT_RESTORED"
+    }
+  },
+  "fixed_marked_receiver": {
+    "T_Kc_gram": [[4,0],[0,8]],
+    "minimum_norm_to_functional": {
+      "4": [0,1],
+      "8": [1,0],
+      "12": [1,1]
+    }
+  },
+  "firewalls": {
+    "current_ell_J2_nonzero_geometric_credit": false,
+    "corrected_ell_J2_nonzero_geometric_credit": true,
+    "corrected_J2_explicit_E2_cocycle_materialized": true,
+    "Q_defined_descent_credit_restored": false,
+    "abstract_J2_revoked": false,
+    "abstract_J2_nonzero_reconfirmed": true,
+    "stage33_05_reclosed": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "class3_promoted": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "stage33_progress": "5/11",
+  "next_exact_leaf": "R4_COMPUTE_NAMED_f2_Tr_TORSOR_NS_DISCRIMINANT_FORM_OR_EQUIVALENT_COMPONENT_GLUE_AND_SELECT_MINIMUM_NORM_4_8_12",
+  "report_format": "33-05 repair: R?/R5 | state | attempts | exact new information | next exit test"
+}

@@ -1,0 +1,149 @@
+{
+  "schema": "STAGE33_12_J2_FOUR_EVEN_CONTACT_PAIRING_ORBITS_V1",
+  "status": "PASS_EXACT_LOCAL_RESOLUTION_AND_COMPLETE_PAIRING_ORBIT_CENSUS",
+  "stage": "33-12",
+  "class2_budget_batch": 1,
+  "class2_budget_total": 4,
+  "purpose": "Resolve the four remaining even tangencies of the split Clifford branch curve, prove exactly one binary normalized-sheet pairing at each resolved node, enumerate all 16 raw pairing patterns, and quotient by the full component-sheet relabeling action with coverage and disjointness certified.",
+  "definitions": {
+    "r": "(t^2-1)^2",
+    "q": "t^4-6*t^2+1",
+    "components": ["C0:X=0", "Cr:X=r", "Cq:X=q"],
+    "bit_order": ["p_plus1", "p_minus1", "p_0", "p_infinity"],
+    "bit_semantics": "0 and 1 are the two equivariant bijections between the two unramified normalized cover fibers after resolving the corresponding even tangency; changing local sheet labels changes the bit by XOR."
+  },
+  "local_resolutions": [
+    {
+      "contact": "t=1 on C0/Cr",
+      "local_parameter": "s=t-1",
+      "branch_difference": "r=s^2*(t+1)^2",
+      "unit_at_contact": 4,
+      "blowup_chart": "y=X=s*Y",
+      "strict_transforms": ["C0:Y=0", "Cr:Y=s*(t+1)^2"],
+      "strict_transforms_transverse": true,
+      "cover_units": ["q(1)=-4", "epsilon^2=1"],
+      "both_normalized_covers_unramified": true,
+      "pairing_count": 2
+    },
+    {
+      "contact": "t=-1 on C0/Cr",
+      "local_parameter": "s=t+1",
+      "branch_difference": "r=s^2*(t-1)^2",
+      "unit_at_contact": 4,
+      "blowup_chart": "y=X=s*Y",
+      "strict_transforms": ["C0:Y=0", "Cr:Y=s*(t-1)^2"],
+      "strict_transforms_transverse": true,
+      "cover_units": ["q(-1)=-4", "epsilon^2=1"],
+      "both_normalized_covers_unramified": true,
+      "pairing_count": 2
+    },
+    {
+      "contact": "t=0 on Cr/Cq",
+      "local_parameter": "s=t",
+      "branch_difference": "r-q=4*s^2",
+      "unit_at_contact": 4,
+      "blowup_chart": "y=X-q=s*Y",
+      "strict_transforms": ["Cq:Y=0", "Cr:Y=4*s"],
+      "strict_transforms_transverse": true,
+      "cover_units": ["q(0)=1", "epsilon^2=1"],
+      "both_normalized_covers_unramified": true,
+      "pairing_count": 2
+    },
+    {
+      "contact": "t=infinity on Cr/Cq",
+      "local_parameter": "u=1/t",
+      "normalized_coordinates": "x=X/t^4",
+      "normalized_r": "(1-u^2)^2",
+      "normalized_q": "1-6*u^2+u^4",
+      "branch_difference": "normalized_r-normalized_q=4*u^2",
+      "unit_at_contact": 4,
+      "blowup_chart": "y=x-normalized_q=u*Y",
+      "strict_transforms": ["Cq:Y=0", "Cr:Y=4*u"],
+      "strict_transforms_transverse": true,
+      "cover_units": ["normalized_q(0)=1", "epsilon^2=1"],
+      "both_normalized_covers_unramified": true,
+      "pairing_count": 2
+    }
+  ],
+  "local_pairing_lemma": {
+    "statement": "After the displayed blowup each even tangency becomes one transverse node, and each incident normalized ruling cover is unramified with a two-point fiber. An admissible deck-equivariant gluing is therefore a bijection between two two-point torsors; there are exactly two such bijections, identity and crossed.",
+    "binary_pairing_proved_at_all_four_contacts": true,
+    "independent_raw_choices": 4,
+    "raw_pairing_count": 16
+  },
+  "raw_pairings": [
+    "0000", "0001", "0010", "0011",
+    "0100", "0101", "0110", "0111",
+    "1000", "1001", "1010", "1011",
+    "1100", "1101", "1110", "1111"
+  ],
+  "sheet_relabeling_action": {
+    "component_deck_flips": {
+      "delta_C0": "1100",
+      "delta_Cr": "1111",
+      "delta_Cq": "0011"
+    },
+    "relation": "delta_C0 XOR delta_Cr XOR delta_Cq = 0000 on pairing bits",
+    "explanation": "Flipping a component sheet label toggles every pairing bit at even-contact nodes incident to that component. The simultaneous deck flip on all three normalized components changes no pairing bit, so the effective relabeling group has rank 2.",
+    "effective_action_subspace": ["0000", "1100", "0011", "1111"],
+    "effective_group_order": 4,
+    "effective_group_rank_over_F2": 2,
+    "forced_q_root_glue_preserved_by_component_deck_flips": true
+  },
+  "orbit_invariants": {
+    "L": "p_plus1 XOR p_minus1",
+    "R": "p_0 XOR p_infinity",
+    "complete": true,
+    "interpretation": "The two independent cycle parities in the unramified even-contact gluing graph."
+  },
+  "orbits": [
+    {
+      "invariant": [0, 0],
+      "representative": "0000",
+      "members": ["0000", "0011", "1100", "1111"]
+    },
+    {
+      "invariant": [0, 1],
+      "representative": "0001",
+      "members": ["0001", "0010", "1101", "1110"]
+    },
+    {
+      "invariant": [1, 0],
+      "representative": "0100",
+      "members": ["0100", "0111", "1000", "1011"]
+    },
+    {
+      "invariant": [1, 1],
+      "representative": "0101",
+      "members": ["0101", "0110", "1001", "1010"]
+    }
+  ],
+  "coverage": {
+    "orbit_count": 4,
+    "orbit_size_each": 4,
+    "union_size": 16,
+    "raw_space_size": 16,
+    "pairwise_disjoint": true,
+    "complete_coverage": true,
+    "canonical_pruning_used": false,
+    "predecessor_reconstruction_available": true
+  },
+  "exact_conclusion": "The four-contact local/global gluing search is finite and completely reduced: 16 raw binary pairing patterns form exactly four isomorphism orbits under component sheet relabeling, classified by the two parity bits (L,R). No additional local sheet-glue choices exist at the four even contacts. The named CV J2 orbit is not selected in this certificate.",
+  "semantic_limit": "The four pairing orbits are a common finite standard form for the next named-CV comparison, but no identification with the fixed marked Brauer basis [beta1,beta2], no equality with the named CV J2 class, and no torsor/lattice fingerprint is inferred from the cardinality four or the two-bit notation.",
+  "next_exact_leaf": "RESTRICT_THE_NAMED_CV_J2_AZUMAYA_PGL2_DATA_TO_THE_SAME_FOUR_RESOLVED_CHARTS_CONSTRUCT_SPLITTING_MODULE_TRANSITIONS_AND_SELECT_ITS_UNIQUE_PAIRING_ORBIT_OR_CERTIFY_NONSEPARATION",
+  "firewalls": {
+    "named_cv_j2_pairing_orbit_selected": false,
+    "pairing_orbit_bits_equal_marked_brauer_bits": false,
+    "j2_marked_coordinate_selected": false,
+    "j2_twisted_transcendental_kernel_identified": false,
+    "j2_explicit_torsor_surface_materialized": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "heavy_actions_authorized": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

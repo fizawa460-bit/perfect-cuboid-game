@@ -1,4 +1,4 @@
-name: Stage33-12 J2 Kc exceptional order
+name: Stage33-12 J2 Kc marked Picard extraction
 
 on:
   workflow_dispatch:
@@ -12,7 +12,17 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Extract pinned ptsK index and qPicK coordinate
+      - name: Materialize pinned order-independent marked Picard input
         run: |
-          python stages/stage33/33-12/extract_j2_infinity_kc_exceptional_order.py
-          cat stages/stage33/33-12/j2-infinity-kc-exceptional-order.json
+          python stages/stage33/33-12/materialize_j2_stoll_marked_picard_input.py
+          python stages/stage33/33-12/finalize_j2_stoll_marked_picard_checkpoint.py
+          cat stages/stage33/33-12/j2-stoll-marked-picard-input.json
+      - name: Retain compact exact checkpoint only
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-12-j2-stoll-marked-picard-checkpoint
+          path: |
+            stages/stage33/33-12/j2-stoll-marked-picard-input.json
+            stages/stage33/33-12/result.md
+            stages/stage33/controller.json
+          retention-days: 1

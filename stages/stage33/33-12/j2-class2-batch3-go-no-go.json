@@ -1,0 +1,161 @@
+{
+  "schema": "STAGE33_12_J2_CLASS2_BATCH3_GO_NO_GO_V1",
+  "status": "CLASS2_GO_NO_GO_FAILED_PENDING_BATCH4_CLASS3_ESCALATION_AUDIT",
+  "stage": "33-12",
+  "class2_budget_batch": 3,
+  "class2_budget_total": 4,
+  "purpose": "Decide the class-2 go/no-go contract after the named four-contact branch orbit was selected. Test whether retained finite Hermite/PGL/Picard data materialize the named genus-one K3 torsor or its index-two transcendental kernel; if not, freeze the missing interface instead of opening another class-2 adapter search.",
+  "source_locks": {
+    "named_branch_orbit": "stages/stage33/33-12/j2-named-cv-special-brauer-pairing-orbit.json",
+    "brauer_to_sha_interface": "stages/stage33/33-12/j2-brauer-to-sha-leray-edge-interface.json",
+    "kernel_fingerprints": "stages/stage33/33-12/j2-brauer-kernel-lattice-fingerprints.json",
+    "pic2_kummer_target": "stages/stage33/33-12/full-surface-pic2-kummer-target.json",
+    "common_standard_form_audit": "stages/stage33/33-12/j2-marked-kc-common-standard-form-route-audit.json",
+    "van_geemen": "B. van Geemen, Some remarks on Brauer groups of K3 surfaces, arXiv:math/0408006v2, Sections 1.2, 2.4, 8.1-8.3, 8.7",
+    "naskrecki": "B. Naskrecki, Mordell-Weil ranks of families of elliptic curves associated to Pythagorean triples, arXiv:1210.6933v2, Table 2, Lemma 3.8, Lemma 6.5"
+  },
+  "fixed_receiver": {
+    "T_Kc_gram": [[4, 0], [0, 8]],
+    "kernel_minimum_norm_to_marked_functional": {
+      "4": [0, 1],
+      "8": [1, 0],
+      "12": [1, 1]
+    },
+    "named_branch_orbit": [1, 0],
+    "branch_orbit_is_marked_brauer_coordinate": false
+  },
+  "kc_elliptic_lattice_crosscheck": {
+    "Kc_generic_fiber": "Y^2=X*(X-r)*(X-q)",
+    "r": "(t^2-1)^2",
+    "q": "t^4-6*t^2+1=r-4*t^2",
+    "geometric_change_to_Naskrecki_E2_over_Qi": "x=r-X, y=i*Y",
+    "E2": "y^2=x*(x-r)*(x-4*t^2)",
+    "weierstrass_discriminant": "256*t^4*r^2*q^2",
+    "singular_fibers_geometric": {
+      "I4": ["t=0", "t=1", "t=-1", "t=infinity"],
+      "I2": ["four simple roots of q"]
+    },
+    "root_lattice": "A3^4 direct_sum A1^4",
+    "root_lattice_discriminant": 4096,
+    "geometric_MW_rank": 2,
+    "geometric_MW_height_gram": [["1/2", "0"], ["0", "1"]],
+    "geometric_MW_lattice_determinant": "1/2",
+    "geometric_torsion": "Z/2 direct_sum Z/4",
+    "geometric_torsion_order": 8,
+    "shioda_tate_picard_rank": 20,
+    "NS_abs_discriminant_from_elliptic_data": 32,
+    "matches_semantic_PicK_abs_discriminant": true,
+    "consequence": "The Kc/Jacobian side is already lattice-complete for the batch-3 comparison; lack of singular-fiber or Mordell-Weil data is not the remaining obstruction.",
+    "field_firewall": "The displayed E2 identification is geometric over Q(i); it is used only as an independent geometric lattice cross-check and is not promoted to a Q-marked Brauer coordinate."
+  },
+  "canonical_even_hermite_inverse_test": {
+    "setup": "Put S=r+q and x=X-S/3. For an even binary quartic w^2=a0*v^4+6*a2*v^2+a4, Hermite gives M=[[a0,0,a2+2x],[0,a2-x,0],[a2+2x,0,a4]]. Choose a2 to be one depressed cubic root and impose det(M)=4*X*(X-r)*(X-q).",
+    "component_cover_rule": "If a2 corresponds to branch component C_k, the cover on C_k has squareclass 9*a2^2-A, while each other component C_j has squareclass a0*(root_k-root_j), modulo squares over Qbar(t); A=a0*a4 is the square of the difference of the other two roots.",
+    "required_component_fingerprint": ["q", "1", "q"],
+    "cases": [
+      {
+        "middle_component": "C0:X=0",
+        "a2": "-2*(t^4-4*t^2+1)/3",
+        "A=a0*a4": "16*t^4",
+        "middle_cover_squareclass_witness": "9*a2^2-A=4*r*q",
+        "forced_a0_squareclass": "1",
+        "canonical_choice": {"a0": "1", "a4": "16*t^4"},
+        "torsor_zero_witness": "a0=1 is a square, so the binary quartic has a rational point at infinity"
+      },
+      {
+        "middle_component": "Cr:X=r",
+        "a2": "(t^2+1)^2/3",
+        "A=a0*a4": "q^2",
+        "middle_cover_squareclass_witness": "9*a2^2-A=16*t^2*r",
+        "forced_a0_squareclass": "q",
+        "canonical_choice": {"a0": "q", "a4": "q"},
+        "binary_quartic": "w^2=q*(v^4+1)+2*(t^2+1)^2*v^2",
+        "torsor_zero_witness": "v=1, w=2*(t^2-1) is a Q(t)-rational point"
+      },
+      {
+        "middle_component": "Cq:X=q",
+        "a2": "(t^4-10*t^2+1)/3",
+        "A=a0*a4": "r^2",
+        "middle_cover_squareclass_witness": "9*a2^2-A=-16*t^2*q",
+        "forced_a0_squareclass": "1",
+        "canonical_choice": {"a0": "1", "a4": "r^2"},
+        "torsor_zero_witness": "a0=1 is a square, so the binary quartic has a rational point at infinity"
+      }
+    ],
+    "all_three_determinants_equal": "4*X*(X-r)*(X-q)",
+    "all_three_canonical_even_inverses_have_a_Qbar_t_point": true,
+    "all_three_canonical_even_inverses_are_zero_in_Sha": true,
+    "exact_limit": "This exhausts the canonical even Hermite inverse subfamily compatible with the retained [q,1,q] component-cover fingerprint. It does not prove that every non-even symmetric determinantal representation is trivial. Rather, it proves that the missing nontrivial named class cannot be obtained by the retained component-fingerprint/even-Hermite shortcut."
+  },
+  "batch2_scope_correction": {
+    "named_branch_admissible_cover_orbit_selected": true,
+    "selected_orbit": [1, 0],
+    "K3_mu2_special_brauer_lift_materialized": false,
+    "PGL2_splitting_modules_materialized": false,
+    "relative_picard_local_trivializations_materialized": false,
+    "relative_picard_overlap_cocycle_materialized": false,
+    "brauer_to_sha_leray_edge_materialized": false,
+    "reason": "The batch-2 Weil/Kummer calculation selects the branch/admissible-cover orbit. The existing firewalls never materialized the global H^2(mu_2) special-Brauer lift or the named relative-Picard Cech cocycle on Kc, so the orbit bits cannot be promoted to the fixed marked Hom(T,Z/2) basis."
+  },
+  "post_orbit_breadth_audit": {
+    "exhaustive_view_audit": true,
+    "blind_rediscovery": true,
+    "candidates": [
+      {
+        "route": "PGL2_MU2_SPECIAL_BRAUER_GLOBALIZATION",
+        "status": "BLOCKED_CLASS2_CONTRACT",
+        "reason": "The branch orbit is known but the global K3 mu2 lifting class and splitting-module transition cocycle are still absent; constructing exactly this object is the missing named realization rather than another finite local pairing calculation."
+      },
+      {
+        "route": "GENERAL_NON_EVEN_HERMITE_OR_DEGENERATE_RECILLAS",
+        "status": "BLOCKED_EQUIVALENT_TO_SAME_MISSING_LIFT",
+        "reason": "The canonical even inverse subfamily is Sha-trivial. Selecting a non-even representation with the named orbit requires the same unbuilt global theta/special-Brauer realization; no independent retained selector chooses such a matrix."
+      },
+      {
+        "route": "GENERIC_FIBER_WITTENBERG_KUMMER_PAIR",
+        "status": "EQUIVALENT_TO_EXISTING_BRAUER_TO_SHA_EDGE_BLOCK",
+        "reason": "Writing the restricted CV corestriction class as explicit Kummer coordinates in H1(Qbar(t),E[2]) is precisely a coordinate materialization of the already source-locked Brauer-to-Sha Leray/Ogg-Shafarevich edge."
+      },
+      {
+        "route": "TWISTED_MUKAI_DERIVED_HODGE",
+        "status": "EQUIVALENT_TO_SAME_NAMED_LIFT_GAP",
+        "reason": "It verifies the kernel once a named B-field/special-Brauer lift is given, but does not select that lift from the branch orbit."
+      },
+      {
+        "route": "PIC2_KUMMER_OR_Q1_ORIENTATION_SHORTCUT",
+        "status": "BLOCKED_BY_EXISTING_EXACT_TARGET",
+        "reason": "full-surface-pic2-kummer-target.json explicitly retains KUMMER_EXTENSION_CLASS_MISSING and INTEGRAL_BOCKSTEIN_TARGET_QUOTIENT_MATERIALIZED=false; the earlier D.T parity orientation shortcut was already rejected exactly."
+      },
+      {
+        "route": "K3_LEVEL_SHIODA_INOSE_INTEGRAL_TWO_PRIMARY_TRANSPORT",
+        "status": "CLASS3_LEVEL_NEW_MATHEMATICS_REQUIRED",
+        "reason": "The common-standard-form audit already isolates the need for a controlled-field integral marked 2-primary transport, not a finite repo-local adapter."
+      }
+    ],
+    "live_class2_routes_after_audit": 0,
+    "mathematical_impossibility_claimed": false
+  },
+  "class2_go_no_go": {
+    "verdict": "NO_GO_AFTER_BATCH3",
+    "why": "The finite local pairing space is exhausted and the named branch orbit is unique, while the Kc elliptic lattice is fully ready. Nevertheless no named K3 H^2(mu_2) lift, relative-Picard Cech cocycle, explicit nontrivial genus-one torsor X_J2, or index-two NS/T sublattice is materialized. The canonical even Hermite inverse subfamily compatible with the component fingerprint is explicitly Sha-trivial. Further local fingerprint refinement would therefore repeat the same semantic gap.",
+    "missing_interface": "FUNCTORIAL_INTEGRAL_MARKED_REALIZATION_OF_THE_NAMED_CV_AZUMAYA_GERBE_CLASS_COMPATIBLE_WITH_Q_DESCENT_INTO_EITHER_A_BFIELD_IN_(1/2*TSTAR)/TSTAR_OR_AN_EXPLICIT_TWISTED_RELATIVE_PICARD_K3_X_J2_WITH_T_X_J2=KER_J2_IN_THE_FIXED_KC_MARKING",
+    "batch4_role": "HOSTILE_AUDIT_THE_CLASS2_NO_GO_AND_CLASS3_ESCALATION_CONTRACT; DO_NOT_OPEN_ANOTHER_CLASS2_LOCAL_BRIDGE_SEARCH",
+    "class3_promoted_now": false,
+    "class3_escalation_pending_batch4": true
+  },
+  "firewalls": {
+    "j2_marked_brauer_coordinate_selected": false,
+    "j2_twisted_transcendental_kernel_identified": false,
+    "j2_explicit_torsor_surface_materialized": false,
+    "j2_torsor_picard_lattice_materialized": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "heavy_actions_authorized": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "next_exact_leaf": "BATCH4_HOSTILE_AUDIT_CLASS2_NO_GO_AND_IF_UNREVERSED_CERTIFY_STAGE33_12_CLASS3_ESCALATION_WITH_THE_EXACT_MISSING_THEOREM_INTERFACE"
+}
