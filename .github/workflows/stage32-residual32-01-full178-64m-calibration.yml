@@ -1,0 +1,218 @@
+name: Stage32 residual32-01 full178 64M calibration
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/runkeys/residual32-01-full178-64m-calibration.json'
+      - '.github/workflows/stage32-residual32-01-full178-64m-calibration.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      matrix: ${{ steps.gate.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: gate
+        name: Verify fresh dedicated 64M calibration arm
+        env:
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/runkeys/residual32-01-full178-64m-calibration.json'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          echo 'matrix={"include":[]}' >> "$GITHUB_OUTPUT"
+          [ "$ACTION" = synchronize ] || exit 0
+          [ -n "${BEFORE:-}" ] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || exit 0
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          mapfile -t changed < <(git diff --name-only "$BEFORE" "$HEAD")
+          [ "${#changed[@]}" -eq 1 ] || exit 0
+          [ "${changed[0]}" = "$KEY" ] || exit 0
+          python - "$BEFORE" "$KEY" "$GITHUB_OUTPUT" <<'PY'
+          import hashlib,json,subprocess,sys
+          before,key,out=sys.argv[1:]
+          old=json.loads(subprocess.check_output(['git','show',f'{before}:{key}'],text=True))
+          new=json.load(open(key))
+          assert old['schema']==new['schema']=='STAGE32_RESIDUAL32_01_FULL178_64M_CALIBRATION_RUNKEY_V1'
+          assert old['workload']==new['workload']=='FULL178_CURRENT_FRONTIER_PAIRED_NODE_CEILING_CALIBRATION'
+          assert int(new['generation'])==int(old['generation'])+1
+          assert new['armed'] is True
+          assert new['sample_mode']=='GEN30_NEXT_EXACT_FIFO_FIRST8'
+          assert int(new['sample_source_run_id'])==33250533174
+          assert int(new['sample_source_manifest_artifact_id'])==9714353597
+          assert new['sample_source_manifest_canonical_sha256']=='58d24ef28774fc7585457c5306b2c9ca3f925715dc2b0bf9422f45ebb3c5b51c'
+          assert new['node_limits']==[16000000,64000000]
+          assert int(new['effective_heavy_concurrency'])==4
+          assert int(new['maximum_effective_stage32_heavy_overlap'])==18
+          assert float(new['projected_peak_artifact_mb'])<=1.0
+          assert new['persisted_artifact']=='COMPACT_PAIRED_CALIBRATION_CERTIFICATES_ONLY'
+          assert len(new['work_units'])==8
+          def digest(v):
+              return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          ids=[]
+          for u in new['work_units']:
+              base={k:v for k,v in u.items() if k!='work_unit_id'}
+              assert u['work_unit_id']=='wu-'+digest(base)[:20]
+              ids.append(u['work_unit_id'])
+          assert len(set(ids))==8
+          assert new['unknown_is_unsat'] is False
+          assert new['prefix_stage_only'] is True
+          assert new['B18_RELEASE_AUTHORIZED'] is False
+          assert new['FULL_D16_G0_ROW_COMPLETE'] is False
+          assert new['FULL_D8_G0_ROW_COMPLETE'] is False
+          assert new['FULL_D176_D192_NUMERICAL_ORBIT_CENSUS'] is False
+          assert new['R29_LG2']=='NOT_DISCHARGED'
+          assert new['THEOREM_CREDIT'] is False and new['RECEIVER_CREDIT'] is False
+          assert new['PERFECT_CUBOID_EXISTENCE_CLAIM'] is False and new['PERFECT_CUBOID_NONEXISTENCE_CLAIM'] is False
+          matrix={'include':[{'idx':i,'unit':u} for i,u in enumerate(new['work_units'])]}
+          with open(out,'a') as f:
+              f.write('matrix='+json.dumps(matrix,separators=(',',':'))+'\n')
+              f.write('authorized=true\n')
+          PY
+
+  calibrate:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.authorize.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Execute paired 16M and 64M exact prefix work unit
+        env:
+          UNIT_JSON: ${{ toJSON(matrix.unit) }}
+          IDX: ${{ matrix.idx }}
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/stage32-64m-calibration/$IDX"
+          mkdir -p "$OUT"
+          for LIMIT in 16000000 64000000; do
+            python stages/stage32/residual-32-01-production/run_full178_prefix_work_unit.py \
+              --retained stages/stage33/33-07/picard_base_rows_retained.py \
+              --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+              --work-unit-json "$UNIT_JSON" \
+              --node-limit "$LIMIT" \
+              --output "$OUT/$LIMIT.json"
+          done
+          python - "$OUT" "$UNIT_JSON" <<'PY'
+          import hashlib,json,pathlib,sys
+          out=pathlib.Path(sys.argv[1]); unit=json.loads(sys.argv[2])
+          rows=[]
+          for limit in (16000000,64000000):
+              x=json.loads((out/f'{limit}.json').read_text())
+              assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2'
+              assert x['input_work_unit']==unit
+              assert x['node_limit']==limit
+              assert x['unknown_is_unsat'] is False
+              assert x['numerical_row_complete'] is False
+              assert x['THEOREM_CREDIT'] is False and x['RECEIVER_CREDIT'] is False
+              rows.append({
+                  'node_limit':limit,
+                  'nodes_used':x['nodes_used'],
+                  'ceiling_hit':x['nodes_used']==limit,
+                  'completed_prefix_partitions':len(x['completed_prefix_partitions']),
+                  'unknown_count':x['unknown_count'],
+                  'children':len(x['unresolved_exact_child_work_units']),
+                  'row_prefix_stage_complete':x['row_prefix_stage_complete'],
+                  'certificate_sha256':x['canonical_sha256_without_this_field'],
+              })
+          payload={
+              'schema':'STAGE32_RESIDUAL32_01_FULL178_64M_PAIRED_CALIBRATION_UNIT_V1',
+              'input_work_unit':unit,
+              'runs':rows,
+              'unknown_is_unsat':False,
+              'theorem_credit':False,
+              'receiver_credit':False,
+          }
+          payload['canonical_sha256_without_this_field']=hashlib.sha256(json.dumps(payload,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          (out/'comparison.json').write_text(json.dumps(payload,indent=2,sort_keys=True)+'\n')
+          PY
+          du -h "$OUT/comparison.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-full178-64m-calibration-${{ matrix.idx }}
+          path: ${{ runner.temp }}/stage32-64m-calibration/${{ matrix.idx }}/comparison.json
+          retention-days: 3
+          if-no-files-found: error
+
+  aggregate:
+    needs: [authorize, calibrate]
+    if: needs.authorize.outputs.authorized == 'true' && needs.calibrate.result == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-full178-64m-calibration-*
+          path: ${{ runner.temp }}/stage32-64m-calibration/all
+      - name: Build compact paired calibration manifest
+        run: |
+          python - <<'PY'
+          import glob,hashlib,json,os,pathlib
+          files=sorted(glob.glob(os.path.join(os.environ['RUNNER_TEMP'],'stage32-64m-calibration','all','*','comparison.json')))
+          assert len(files)==8
+          units=[json.load(open(p)) for p in files]
+          summary={}
+          for limit in (16000000,64000000):
+              rs=[next(r for r in u['runs'] if r['node_limit']==limit) for u in units]
+              summary[str(limit)]={
+                  'sample_count':len(rs),
+                  'completed_without_ceiling':sum(not r['ceiling_hit'] for r in rs),
+                  'ceiling_hit_count':sum(r['ceiling_hit'] for r in rs),
+                  'ceiling_hit_rate':sum(r['ceiling_hit'] for r in rs)/len(rs),
+                  'total_children':sum(r['children'] for r in rs),
+                  'children_per_input':sum(r['children'] for r in rs)/len(rs),
+                  'total_nodes_used':sum(r['nodes_used'] for r in rs),
+                  'completed_prefix_partitions':sum(r['completed_prefix_partitions'] for r in rs),
+                  'unknown_count':sum(r['unknown_count'] for r in rs),
+                  'frontier_shrinks_on_sample':sum(r['children'] for r in rs)<len(rs),
+              }
+          payload={
+              'schema':'STAGE32_RESIDUAL32_01_FULL178_64M_PAIRED_CALIBRATION_MANIFEST_V1',
+              'sample_mode':'GEN30_NEXT_EXACT_FIFO_FIRST8',
+              'sample_source_run_id':33250533174,
+              'sample_source_manifest_artifact_id':9714353597,
+              'sample_source_manifest_canonical_sha256':'58d24ef28774fc7585457c5306b2c9ca3f925715dc2b0bf9422f45ebb3c5b51c',
+              'summary':summary,
+              'unit_certificate_sha256':[u['canonical_sha256_without_this_field'] for u in units],
+              'unknown_is_unsat':False,
+              'prefix_completion_is_numerical_row_closure':False,
+              'B18_RELEASE_AUTHORIZED':False,
+              'FULL_D16_G0_ROW_COMPLETE':False,
+              'FULL_D8_G0_ROW_COMPLETE':False,
+              'FULL_D176_D192_NUMERICAL_ORBIT_CENSUS':False,
+              'R29_LG2':'NOT_DISCHARGED',
+              'THEOREM_CREDIT':False,
+              'RECEIVER_CREDIT':False,
+              'PERFECT_CUBOID_EXISTENCE_CLAIM':False,
+              'PERFECT_CUBOID_NONEXISTENCE_CLAIM':False,
+          }
+          payload['canonical_sha256_without_this_field']=hashlib.sha256(json.dumps(payload,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'stage32-64m-calibration'/'manifest.json'
+          out.parent.mkdir(parents=True,exist_ok=True)
+          out.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(summary,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-full178-64m-calibration-manifest
+          path: ${{ runner.temp }}/stage32-64m-calibration/manifest.json
+          retention-days: 7
+          if-no-files-found: error

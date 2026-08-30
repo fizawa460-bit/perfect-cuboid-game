@@ -19,7 +19,7 @@
   "production_policy": {
     "row_order": "lexicographic_row_id",
     "work_unit_id": "row_id + /p<partition-depth>-<content-sha-prefix>",
-    "first_pass_node_ceiling": 16000000,
+    "first_pass_node_ceiling": 64000000,
     "node_ceiling_semantics": "RESOURCE_BOUND_ONLY_NOT_UNSAT",
     "unknown_is_unsat": false,
     "on_node_ceiling": "CHECKPOINT_EXACT_PREFIX_FRONTIER_AND_SPLIT_DETERMINISTICALLY",
@@ -28,7 +28,7 @@
     "direct_B18_continuation": false
   },
   "wave_policy": {
-    "effective_heavy_concurrency": 8,
+    "effective_heavy_concurrency": 17,
     "hard_stage_cap": 18,
     "rows_per_initial_work_unit": 1,
     "initial_wave_count": 23,
@@ -51,7 +51,7 @@
     "raw_shards_required_to_coexist": false,
     "storage_safe_under_operating_budget": true
   },
-  "effective_heavy_concurrency": 8,
+  "effective_heavy_concurrency": 17,
   "projected_peak_artifact_mb": 7.78125,
   "raw_evidence_persisted": false,
   "full_178_preflight_complete": true,
@@ -66,5 +66,5 @@
   "ROUTE_COLOR_CHANGE_AUTHORIZED": false,
   "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
   "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false,
-  "next_gate": "REPEAT_HOSTILE_AUDIT_AFTER_SOURCE_PROVENANCE_REPAIR"
+  "next_gate": "GEN31_64M_PRODUCTION_RUNKEY_ONLY_ARM_AFTER_COLD_MIGRATION"
 }

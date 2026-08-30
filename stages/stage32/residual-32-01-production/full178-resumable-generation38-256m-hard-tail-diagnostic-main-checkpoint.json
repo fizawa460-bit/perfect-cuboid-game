@@ -1,0 +1,74 @@
+{
+  "schema": "STAGE32_RESIDUAL32_01_GEN38_256M_HARD_TAIL_DIAGNOSTIC_MAIN_CHECKPOINT_V1",
+  "stage": "32",
+  "item": "RESIDUAL_32_01_PRODUCTION",
+  "result": "PASS_EXACT_GEN38_256M_HARD_TAIL_DIAGNOSTIC",
+  "diagnostic_workflow_run_id": 33286709799,
+  "diagnostic_job_id": 99191037051,
+  "source_generation37": {
+    "frontier_artifact_id": 9722817296,
+    "frontier_artifact_zip_sha256": "4a786b5e8e9816f855294c04cc2352818fbb84e6d1de4dc0dcb54e60bc181e6a",
+    "manifest_canonical_sha256": "19617b2e04a9c61508eaa408e85f98167217b5f96d36371763f12d1841685bc1",
+    "frontier_count": 73
+  },
+  "source_generation38": {
+    "frontier_artifact_id": 9724140764,
+    "frontier_artifact_zip_sha256": "6af38b6518e846822f729f269f029ab0509319b375fa75167b6b68c6cc37d8ba",
+    "manifest_canonical_sha256": "7c1c6248274f988848b9608d65102e207368467ba1afb29022341a6f866d0476",
+    "frontier_count": 52
+  },
+  "exact_transition": {
+    "input_count": 73,
+    "completed_count": 21,
+    "survived_count": 52,
+    "node_limit_per_input": 256000000,
+    "survival_rate": 0.7123287671232876
+  },
+  "survivor_mechanism": {
+    "same_e_after_full_256m": 52,
+    "advanced_to_later_e_but_still_unresolved": 0,
+    "same_e_fraction_of_survivors": 1.0,
+    "same_e_exact_added_nodes_each": 256000000,
+    "unique_survivor_rows": 8,
+    "completed_pre_nodes_median": 192000000,
+    "survived_pre_nodes_median": 192000000,
+    "survived_post_nodes_median": 448000000,
+    "interpretation": "All 52 survivors consumed the full additional 256M nodes without leaving their current exact e stratum. The remaining tail is therefore dominated by giant individual exact DFS strata rather than by cursors cheaply advancing across many e strata.",
+    "interpretation_is_theorem": false
+  },
+  "diagnostic_artifact": {
+    "id": 9724653438,
+    "name": "stage32-gen38-256m-hard-tail-diagnostic",
+    "size_in_bytes": 2299,
+    "zip_sha256": "7b58b0f93d20b44c972194b141f56293af57aa31729c759edb3c809d6c9fbc0c",
+    "diagnostic_canonical_sha256": "b5f873869b278f08310b2101ebd242f3639503d9cfc005d9752e5735dd90596e",
+    "retention_days": 7
+  },
+  "strategy_decision": {
+    "blind_512m_or_higher_ceiling_escalation_authorized": false,
+    "old_unbounded_split_restoration_authorized": false,
+    "next_leaf": "DESIGN_AND_CALIBRATE_BOUNDED_DISJOINT_CONTINUATION_SPLIT_FOR_52_GIANT_EXACT_STRATA",
+    "goal": "Exploit parallelism inside the 52 giant exact strata without restoring frontier multiplication as an uncontrolled recurrence. Require exact disjoint cover, explicit child cap, resume equivalence, and a global bounded-frontier invariant before any production arm.",
+    "production_arm_authorized": false
+  },
+  "production_gate_checks_after_diagnostic_commit": {
+    "gen38_256m_run_id": 33286709776,
+    "gen38_256m_produce_skipped": true,
+    "gen38_256m_aggregate_skipped": true,
+    "resumable_64m_run_id": 33286709748,
+    "resumable_64m_produce_skipped": true,
+    "resumable_64m_aggregate_skipped": true,
+    "legacy_split_run_id": 33286709749,
+    "legacy_split_produce_skipped": true,
+    "legacy_split_aggregate_skipped": true
+  },
+  "unknown_is_unsat": false,
+  "prefix_stage_only": true,
+  "numerical_row_complete": false,
+  "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
+  "R29_LG2": "NOT_DISCHARGED",
+  "THEOREM_CREDIT": false,
+  "RECEIVER_CREDIT": false,
+  "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
+  "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false
+}

@@ -108,7 +108,9 @@ def main() -> None:
     assert preflight["manifest_sha256"] == expected_hash
     assert preflight["residual_row_count"] == 178
     assert preflight["coarse_strata_count"] == 64111
-    assert preflight["effective_heavy_concurrency"] == 8
+    assert preflight["production_policy"]["first_pass_node_ceiling"] == 64000000
+    assert preflight["effective_heavy_concurrency"] == 17
+    assert preflight["wave_policy"]["effective_heavy_concurrency"] == 17
     assert preflight["effective_heavy_concurrency"] <= 18
     assert preflight["projected_peak_artifact_mb"] < 500
     assert preflight["raw_evidence_persisted"] is False
@@ -129,6 +131,8 @@ def main() -> None:
         "coarse_strata_count": strata,
         "max_hperp_norm_bound": max_norm[0],
         "max_row": max_norm[1],
+        "node_ceiling_per_work_unit": preflight["production_policy"]["first_pass_node_ceiling"],
+        "effective_heavy_concurrency": preflight["effective_heavy_concurrency"],
         "source_provenance_lock": "PASS",
         "preflight_verdict": "PASS_COLD_PREFLIGHT_STATIC_CONTRACT_WITH_AUDITED_SOURCE_PROVENANCE",
     }, sort_keys=True))

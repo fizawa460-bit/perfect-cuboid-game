@@ -1,0 +1,64 @@
+name: Stage32 direct Picard stabilizer averaging equivalence
+
+on:
+  pull_request:
+    types: [synchronize, opened, reopened]
+    paths:
+      - 'stages/stage32/residual-32-01-production/direct_picard_stabilizer_averaging_equivalence.py'
+      - '.github/workflows/stage32-direct-picard-stabilizer-averaging-equivalence.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  averaging-equivalence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Verify exact Reynolds averaging equivalence
+        run: |
+          python - <<'PY'
+          import importlib.util, json, pathlib, sys
+          root=pathlib.Path.cwd()
+          prod=root/'stages/stage32/residual-32-01-production'
+          sys.path.insert(0,str(prod))
+          from direct_picard_stabilizer_averaging_equivalence import DirectPicardStabilizerAveragingEquivalence
+          def load(path,name):
+              spec=importlib.util.spec_from_file_location(name,path)
+              assert spec and spec.loader
+              mod=importlib.util.module_from_spec(spec)
+              spec.loader.exec_module(mod)
+              return mod.load()
+          bundle=load(root/'stages/stage33/33-07/picard_base_rows_retained.py','s32_avg_picard')
+          marking=load(root/'stages/stage33/33-07/stage32_picard_marking_retained.py','s32_avg_marking')
+          model=DirectPicardStabilizerAveragingEquivalence.from_retained(marking,bundle)
+          c=model.certificate
+          assert c['slice_stabilizer_group_order']==64
+          assert c['all140_orbit_average_pairing_identities_checked']==140
+          assert c['proof']['continuous_feasibility_equivalent'] is True
+          assert c['proof']['continuous_max_self_intersection_equal'] is True
+          assert c['proof']['integral_equivalence_not_claimed'] is True
+          pathlib.Path('direct-picard-stabilizer-averaging-equivalence.json').write_text(
+              json.dumps(c,indent=2,sort_keys=True)+'\n'
+          )
+          print(json.dumps({
+              'verdict':'PASS_DIRECT_PICARD_STABILIZER_AVERAGING_EQUIVALENCE',
+              'stabilizer_order':c['slice_stabilizer_group_order'],
+              'fixed_subspace_dimension':c['fixed_subspace_dimension'],
+              'all140_pairing_checks':c['all140_orbit_average_pairing_identities_checked'],
+              'canonical_sha256':c['canonical_sha256_without_this_field'],
+          },sort_keys=True))
+          PY
+      - name: Upload compact averaging evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-direct-picard-stabilizer-averaging-equivalence
+          path: direct-picard-stabilizer-averaging-equivalence.json
+          retention-days: 7
+          compression-level: 9

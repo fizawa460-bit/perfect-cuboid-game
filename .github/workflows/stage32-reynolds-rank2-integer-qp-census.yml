@@ -1,0 +1,49 @@
+name: Stage32 Reynolds rank2 exact integer QP census
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_integer_qp.py'
+      - 'stages/stage32/residual-32-01-production/build_reynolds_rank2_integer_qp_census.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_integral_projection_bound.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_lattice_diagnostic.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_orbit_sum_qp_bound.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_slice_bridge.py'
+      - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
+      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+      - '.github/workflows/stage32-reynolds-rank2-integer-qp-census.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-reynolds-rank2-integer-qp-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  census:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Exact FULL178 Reynolds rank2 integer QP census
+        run: |
+          python stages/stage32/residual-32-01-production/build_reynolds_rank2_integer_qp_census.py \
+            --manifest stages/stage32/residual-32-01-production/full178-manifest.json \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --output reynolds-rank2-integer-qp-census.json
+      - name: Upload compact exact census evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-reynolds-rank2-exact-integer-qp-census
+          path: reynolds-rank2-integer-qp-census.json
+          retention-days: 7
+          compression-level: 9
