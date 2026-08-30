@@ -49,29 +49,45 @@ Status: `IN_PROGRESS`
 
 The job now is to push actual numerical Picard information into the compressed representation and reduce the huge family without materializing it.
 
-Current exact obstruction: the Reynolds fixed rank-2 projection is cheap, but its exact integer-QP check prunes `0 / 679337` continuous-KKT survivors. Information discarded by the fixed projection must therefore be restored or bounded.
+The Reynolds fixed rank-2 exact integer-QP check alone prunes `0 / 679337` continuous-KKT survivors, so information discarded by the fixed projection has to be restored or bounded.
 
 ### 32-21aa — anti-fixed coset penalty representation
 
+Status: `CLOSED_CHECKPOINTED`
+
+Exact checkpoint:
+
+- exact Reynolds projection classes: `16384`;
+- exact safe class penalty `lambda(r) <= -q^2` obtained from retained-coordinate fractional residues and exact slice-kernel dual norms;
+- positive penalty classes: `16383`;
+- zero penalty classes: `1`;
+- distinct penalty values: `23`;
+- minimum positive penalty: `1/572`;
+- maximum coordinate-Cauchy penalty: `5/39`;
+- exact CI run `33307921980`, artifact `9731071290`;
+- canonical certificate SHA256 `f5e6e363fa2c8f2258e340054948319aae2ad805bd2ca5412f8e3a76231e0238`;
+- canonical penalty-stream SHA256 `8bd09aa4a7e942b7bb772815a05475d04604985556325203dec0851437c0c76e`.
+
+No 59-dimensional closest-vector search and no terminal-family materialization were used. This closes the finite anti-fixed penalty representation only; numerical row completion and all higher credit remain closed.
+
+### 32-21ab — exact quotient class map
+
 Status: `IN_PROGRESS`
 
-Goal: obtain an exact finite-state representation of the anti-fixed lift / coset penalty, or an equivalent exact condition using the information lost by Reynolds averaging.
+Goal: derive an exact map from the rank-2 projected Smith affine coordinates to the `16384` Reynolds projection classes so the 32-21aa penalty can be attached to every projected candidate without terminal materialization.
 
-Exit criterion: an exact representation with a proof/check that it is safe for the numerical leaf and does not rely on enumerating the 27-digit terminal family.
+Exit criterion: a deterministic exact class map with proof/check of compatibility with the fixed-image basis, Smith affine parameterization, and the 32-21aa canonical projection-residue convention.
 
 Planned nearby leaves, subject to evidence:
 
-- `32-21ab` — exact quotient class map;
-- `32-21ac` — cheap exact lower bound / pruning predicate;
+- `32-21ac` — cheap exact lower bound / pruning predicate using projected slack minus the mapped 32-21aa penalty;
 - `32-21ad` — FULL178 compressed numerical census once the evaluator is certified.
 
-If 32-21aa reveals a materially different blocker, open a new leaf instead of stretching `aa`.
+If 32-21ab reveals a materially different blocker, open a new leaf instead of stretching `ab`.
 
 ## PR discipline from this boundary
 
-PR #1462 is a historical exception. It remains the container for the retrospective consolidation and current checkpoint until explicitly closed/merged by the user.
-
-After #1462:
+PR #1462 is the historical exception and is merged. From 32-21 onward:
 
 - normally one clear hypothesis + implementation + proof/check per leaf;
 - normally one leaf per PR;
@@ -83,4 +99,4 @@ After #1462:
 
 Current pointer:
 
-`32-19 CLOSED_RETROSPECTIVE -> 32-20 CLOSED_CHECKPOINTED -> 32-21aa IN_PROGRESS`
+`32-19 CLOSED_RETROSPECTIVE -> 32-20 CLOSED_CHECKPOINTED -> 32-21aa CLOSED_CHECKPOINTED -> 32-21ab IN_PROGRESS`
