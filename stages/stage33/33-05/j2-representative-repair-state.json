@@ -2,9 +2,9 @@
   "schema": "STAGE33_05_J2_REPRESENTATIVE_REPAIR_STATE_V1",
   "repair_band": "R0_TO_R5",
   "roadmap": "stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md",
-  "status": "R3_IN_PROGRESS_EXPLICIT_CV_E2_COCYCLE_FROM_CORRECTED_REPRESENTATIVE",
-  "current_leaf": "R3",
-  "current_leaf_title": "MATERIALIZE_EXPLICIT_CREUTZ_VIRAY_E2_COCYCLE_AND_KUMMER_COORDINATES_FROM_CORRECTED_J2_REPRESENTATIVE",
+  "status": "R4_IN_PROGRESS_TWISTED_KERNEL_LATTICE_FROM_EXPLICIT_NONZERO_CV_E2_COCYCLE",
+  "current_leaf": "R4",
+  "current_leaf_title": "BUILD_ASSOCIATED_TORSOR_OR_KERNEL_LATTICE_AND_READ_MINIMUM_NORM_4_8_12",
   "current_leaf_attempts": 0,
   "current_leaf_stagnation_count": 0,
   "stagnation_trigger": 2,
@@ -31,13 +31,21 @@
       "exact_statement": "The source-locked J2 pair (f2,1) is nonzero in Lbar^*/(Kbar^* Lbar^{*2}); quotient-zero would force f2 square in E, but neither f2 nor f2/q is a Kbar-square because of odd branch valuations."
     },
     "R3": {
-      "state": "IN_PROGRESS",
+      "state": "DONE_EXPLICIT_NONZERO_CV_E2_COCYCLE_AND_KUMMER_COORDINATES",
       "exit": "EXPLICIT_NONZERO_CREUTZ_VIRAY_E2_COCYCLE_AND_KUMMER_COORDINATES",
-      "input_certificate": "stages/stage33/33-05/j2-corrected-full-l-representative.json"
+      "attempts": 1,
+      "input_certificate": "stages/stage33/33-05/j2-corrected-full-l-representative.json",
+      "certificate": "stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json",
+      "verifier": "stages/stage33/33-05/certify_j2_corrected_cv_e2_cocycle.py",
+      "fixed_E2_basis": ["T0=(0,0)", "Tr=((t^2-1)^2,0)"],
+      "cocycle": "xi(rho)=Tr for rho flipping sqrt(f2)",
+      "kummer_squareclass_pair": ["1", "f2"],
+      "exact_statement": "Creutz-Viray Lemma 4.6 applied directly to corrected (f2,1) gives chi_tilde=(1,1,0,0), g=1 and xi(rho)=the Bplus partition class; an exact quartic-to-Jacobian square identity identifies that class as Tr=((t^2-1)^2,0)."
     },
     "R4": {
-      "state": "BLOCKED_BY_R3",
-      "exit": "TWISTED_KERNEL_MINIMUM_NORM_IN_4_8_12_AND_MARKED_COORDINATE_SELECTED"
+      "state": "IN_PROGRESS",
+      "exit": "TWISTED_KERNEL_MINIMUM_NORM_IN_4_8_12_AND_MARKED_COORDINATE_SELECTED",
+      "input_certificate": "stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json"
     },
     "R5": {
       "state": "BLOCKED_BY_R4",
@@ -55,6 +63,7 @@
   "firewalls": {
     "current_ell_J2_nonzero_geometric_credit": false,
     "corrected_ell_J2_nonzero_geometric_credit": true,
+    "corrected_J2_explicit_E2_cocycle_materialized": true,
     "Q_defined_descent_credit_restored": false,
     "abstract_J2_revoked": false,
     "abstract_J2_nonzero_reconfirmed": true,
@@ -69,6 +78,6 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "stage33_progress": "5/11",
-  "next_exact_leaf": "R3_APPLY_CORRECTED_J2_REPRESENTATIVE_TO_CREUTZ_VIRAY_EXPLICIT_E2_COCYCLE_AND_FIXED_KUMMER_COORDINATES",
+  "next_exact_leaf": "R4_BUILD_ASSOCIATED_TORSOR_OR_KERNEL_LATTICE_AND_READ_MINIMUM_NORM_4_8_12",
   "report_format": "33-05 repair: R?/R5 | state | attempts | exact new information | next exit test"
 }
