@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V130_RESUMABLE_GEN38_256M_EXACT_FRONTIER_52",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V131_GEN38_256M_GIANT_STRATUM_TAIL_52",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
   "G10_LOWGENUS_PICARD": "AMBER",
   "stage32_closed": false,
-  "status": "RESUMABLE_GEN38_256M_EXACT_FRONTIER_52_HARD_TAIL_DIAGNOSTIC_NEXT",
+  "status": "GEN38_256M_EXACT_FRONTIER_52_ALL_SAME_E_BOUNDED_SPLIT_DESIGN_NEXT",
   "audit_required": false,
   "repair_required": false,
   "repair_allowed": false,
@@ -53,6 +53,14 @@
     "residual32_01_resumable_generation38_frontier_artifact_id": 9724140764,
     "residual32_01_resumable_generation38_frontier_artifact_zip_sha256": "6af38b6518e846822f729f269f029ab0509319b375fa75167b6b68c6cc37d8ba",
     "residual32_01_resumable_generation38_hard_tail_remains_substantial": true,
+    "residual32_01_gen38_hard_tail_diagnostic_run_id": 33286709799,
+    "residual32_01_gen38_hard_tail_diagnostic_artifact_id": 9724653438,
+    "residual32_01_gen38_hard_tail_diagnostic_sha256": "b5f873869b278f08310b2101ebd242f3639503d9cfc005d9752e5735dd90596e",
+    "residual32_01_gen38_survivors_same_e_after_full_256m": 52,
+    "residual32_01_gen38_survivors_advanced_e": 0,
+    "residual32_01_gen38_unique_survivor_rows": 8,
+    "residual32_01_gen38_survivor_post_nodes_median": 448000000,
+    "residual32_01_gen38_tail_classification": "GIANT_INDIVIDUAL_EXACT_STRATA",
     "residual32_01_resumable_production_switched": true
   },
   "active_execution_guardrail": {
@@ -63,6 +71,9 @@
     "last_completed_node_ceiling_per_work_unit": 256000000,
     "next_node_ceiling_undecided": true,
     "blind_512m_or_higher_arm_authorized": false,
+    "bounded_disjoint_split_design_authorized": true,
+    "bounded_disjoint_split_production_authorized": false,
+    "old_unbounded_split_restoration_authorized": false,
     "effective_heavy_concurrency": 17,
     "other_stage32_heavy_overlap_bound": 1,
     "maximum_effective_stage32_heavy_overlap": 18,
@@ -75,11 +86,11 @@
     "resumable_production_arm_must_be_runkey_only_sync": true,
     "next_heavy_arm_authorized": false
   },
-  "current_item": "ANALYZE_RESUMABLE_GEN38_256M_HARD_TAIL_52_BEFORE_NEXT_HEAVY_ARM",
-  "current_item_execution_constraint": "GEN38 256M IS EXACT: 73 SOURCE = 73 DISPATCH + 0 CARRY, 21 COMPLETED, 52 CONTINUATIONS, FRONTIER 73->52, CONTINUATION RATE 0.7123287671232876. THE 4X NODE CEILING RELATIVE TO GEN37 REMOVED 21 INPUTS BUT LEFT A SUBSTANTIAL 52-UNIT HARD TAIL. TREAT THIS AS COMPUTATIONAL EVIDENCE OF SURVIVOR SELECTION/HARDNESS ONLY, NOT A THEOREM. DIAGNOSE THE EXACT 52-UNIT FRONTIER BEFORE ANY 512M-OR-HIGHER ARM OR BOUNDED FINAL SPLIT; KEEP ALL NUMERICAL/THEOREM/RECEIVER/PERFECT-CUBOID FIREWALLS CLOSED.",
+  "current_item": "DESIGN_AND_CALIBRATE_BOUNDED_DISJOINT_CONTINUATION_SPLIT_FOR_52_GIANT_EXACT_STRATA",
+  "current_item_execution_constraint": "GEN38 256M IS EXACT: 73 SOURCE -> 21 COMPLETED + 52 CONTINUATIONS. EXACT LINEAGE DIAGNOSTIC SHOWS ALL 52/52 SURVIVORS REMAINED IN THE SAME e STRATUM AFTER THE FULL ADDITIONAL 256M NODES; ZERO SURVIVORS ADVANCED TO A LATER e. THE 52 SURVIVORS OCCUPY 8 ROWS, AND MEDIAN CURRENT-STRATUM NODES ROSE FROM 192M PRE-CALL TO 448M POST-CALL. TREAT THIS AS COMPUTATIONAL EVIDENCE THAT THE TAIL IS DOMINATED BY GIANT INDIVIDUAL EXACT DFS STRATA. DO NOT BLINDLY ARM 512M/1B AND DO NOT RESTORE THE OLD RECURSIVE SPLITTER. NEXT LEAF MUST DESIGN/CALIBRATE AN EXACT DISJOINT BOUNDED CONTINUATION SPLIT WITH EXPLICIT GLOBAL CHILD CAP AND RESUME-EQUIVALENCE BEFORE ANY PRODUCTION ARM. KEEP ALL NUMERICAL/THEOREM/RECEIVER/PERFECT-CUBOID FIREWALLS CLOSED.",
   "execution_class": 1,
   "next_expected_command": "Stage32-main-batch",
-  "next_item": "GEN38_256M_HARD_TAIL_TOPOLOGY_DIAGNOSTIC",
+  "next_item": "BOUNDED_DISJOINT_CONTINUATION_SPLIT_DESIGN_AND_CALIBRATION",
   "post_b16_progression": {
     "b18_release_authorized": false,
     "full_178_row_sweep_authorized": true,
@@ -116,6 +127,17 @@
       "artifact_zip_sha256": "6af38b6518e846822f729f269f029ab0509319b375fa75167b6b68c6cc37d8ba",
       "manifest_canonical_sha256": "7c1c6248274f988848b9608d65102e207368467ba1afb29022341a6f866d0476",
       "frontier_after_ingest": 52
+    },
+    "generation38_hard_tail_diagnostic": {
+      "checkpoint": "stages/stage32/residual-32-01-production/full178-resumable-generation38-256m-hard-tail-diagnostic-main-checkpoint.json",
+      "run_id": 33286709799,
+      "job_id": 99191037051,
+      "artifact_id": 9724653438,
+      "artifact_zip_sha256": "7b58b0f93d20b44c972194b141f56293af57aa31729c759edb3c809d6c9fbc0c",
+      "diagnostic_canonical_sha256": "b5f873869b278f08310b2101ebd242f3639503d9cfc005d9752e5735dd90596e",
+      "same_e_survivors": 52,
+      "advanced_e_survivors": 0,
+      "unique_survivor_rows": 8
     }
   },
   "repo_absolute_rule_read_policy": {
