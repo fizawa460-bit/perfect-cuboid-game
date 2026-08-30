@@ -1,10 +1,10 @@
 {
-  "schema": "STAGE32_21_STATE_V6_32_21AD_EXACT_ZERO_PRUNE_BOUNDARY",
+  "schema": "STAGE32_21_STATE_V7_32_21AD_AUDITED_ZERO_PRUNE_CHECKPOINT",
   "stage_item": "32-21",
   "name": "NUMERICAL_PICARD_LEAF_COMPRESSION_ON_EXACT_PREFIX_REPRESENTATION",
-  "status": "32_21AD_EXACT_CENSUS_COMPLETE_PENDING_BOUNDARY_AUDIT",
+  "status": "32_21AD_AUDITED_ZERO_PRUNE_CHECKPOINT_PENDING_PR1466_MERGE",
   "working_pr": 1466,
-  "current_boundary": "AFTER_32_21AD_FULL178_ZERO_PRUNE_RESULT_BEFORE_STRATEGY_CHANGE",
+  "current_boundary": "32-21ad_AUDITED_ZERO_PRUNE_CHECKPOINT",
   "work_package": {
     "id": "32-21aa-ac",
     "principle": "LEAVES_ARE_SMALL_REASONING_UNITS_NOT_AUTOMATIC_PR_OR_AUDIT_BOUNDARIES",
@@ -55,11 +55,12 @@
   },
   "32-21ad": {
     "name": "FULL178_COMPRESSED_NUMERICAL_CENSUS",
-    "status": "EXACT_CENSUS_COMPLETE_PENDING_BOUNDARY_AUDIT",
+    "status": "CLOSED_AUDITED_ZERO_PRUNE_CHECKPOINT",
     "result": "PASS_STAGE32_21AD_FULL178_16SHARD_ANTIFIXED_COSET_NUMERICAL_CENSUS",
     "working_pr": 1466,
     "branch": "stage32-21ad-full178-antifixed-coset-census",
     "result_file": "stages/stage32/32-21/32-21ad-full178-antifixed-coset-census-result.json",
+    "audit_file": "stages/stage32/32-21/audit-32-21ad.md",
     "audited_base_merge_commit": "34b351b2d99c27b82fcd1eea075432ee451ce68c",
     "evaluator_certificate_sha256": "2c227d773aaf6a6543ae89419c468d85fd4ebd42422eb6f4c8ac60b2e7227c8e",
     "representative_preflight": {
@@ -94,6 +95,22 @@
       "artifact_zip_sha256": "5c2ba19b704f9466ad8bd083a4ad14a2821aad5ab0b5829999dbd9ab3bca98cf",
       "certificate_sha256": "9bf4aba655a6df81e621e3f78e19b16460f1138410ed118f18e25fcb77bf24ad"
     },
+    "boundary_audit": {
+      "status": "PASS",
+      "verdict": "PASS_STAGE32_21AD_FRESH_ZERO_PRUNE_BOUNDARY_AUDIT",
+      "first_pass_run_id": 33314674227,
+      "first_pass_job_id": 99265778889,
+      "hardened_rerun_id": 33314886424,
+      "hardened_rerun_job_id": 99266357586,
+      "artifact_id": 9733137852,
+      "artifact_size_bytes": 2142,
+      "artifact_zip_sha256": "15d11651104172a9f89c22c144acdff72f6dfc46e7a7b868a45bf05e9f67efa6",
+      "certificate_sha256": "1f2e61ef29cf6000b8cc98906a5dcf3f2a4d15a7b405be2e40ef9c0de3bfab0e",
+      "canonical_sha_reproduced": true,
+      "all_16_shard_payload_canonical_hashes_recomputed": true,
+      "deterministic_mod16_partition_rebuilt": true,
+      "checked_rows": 178
+    },
     "single_runner_attempt": {
       "run_id": 33313458554,
       "full_job_id": 99262732511,
@@ -103,8 +120,9 @@
     "parallel_runkey_consumed_and_disarmed": true,
     "terminal_family_materialization_authorized": false,
     "legacy_prefix_dfs_rearm_authorized": false,
-    "boundary_audit_required_after_full_result": true,
-    "strategy_change_required_before_further_heavy_production": true
+    "same_full178_census_rearm_authorized": false,
+    "strategy_change_required_before_further_heavy_production": true,
+    "next_strategy_selected": false
   },
   "package_ci": {
     "run_id": 33308996594,
@@ -126,13 +144,16 @@
     "full178_32_21ad_antifixed_coset_pruned": 0,
     "full178_32_21ad_antifixed_coset_survivors": 679337,
     "full178_32_21ad_additional_prune_rate": 0.0,
-    "cheap_antifixed_coset_bound_numerically_dominated_on_full178": true
+    "cheap_antifixed_coset_bound_numerically_dominated_on_full178": true,
+    "zero_prune_is_not_route_impossibility": true,
+    "zero_prune_is_not_global_nonexistence": true
   },
-  "checkpoint_merge_ready": false,
+  "checkpoint_merge_ready": true,
   "automatic_merge_authorized": false,
-  "advance_before_boundary_audit_authorized": false,
+  "advance_before_merge_authorized": false,
   "legacy_prefix_dfs_rearm_authorized": false,
   "heavy_compute_authorized": false,
+  "same_full178_census_rearm_authorized": false,
   "numerical_row_complete": false,
   "stage32_closed": false,
   "theorem_credit": false,
@@ -140,6 +161,6 @@
   "route_credit": false,
   "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false,
-  "next_expected_action": "FRESH_32_21AD_BOUNDARY_AUDIT",
-  "next_boundary": "AFTER_32_21AD_FULL178_ZERO_PRUNE_RESULT_BEFORE_ANY_NEW_HEAVY_OR_STRATEGY_PROMOTION"
+  "next_expected_action": "MERGE_PR1466_ONLY_WITH_EXPLICIT_USER_AUTHORIZATION",
+  "next_boundary": "AFTER_PR1466_MERGE_REREAD_MAIN_CONTROLLER_THEN_SELECT_MATERIALLY_STRONGER_POST_32_21AD_STRATEGY"
 }
