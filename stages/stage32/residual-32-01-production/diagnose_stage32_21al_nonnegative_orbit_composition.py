@@ -20,6 +20,7 @@ EXPECTED_21AC_CERTIFICATE_SHA256 = "2c227d773aaf6a6543ae89419c468d85fd4ebd42422e
 EXPECTED_21AK_CERTIFICATE_SHA256 = "51effd04ea195831a3bf1859710716910e5ef0945caab94c36c1c03840b1d6ee"
 EXPECTED_21AK_CONSTRAINT_ROWS_SHA256 = "1c8ea0443dcf80dcaec80964618eac97385d85bfa7d009e60d471cd70f3a5169"
 EXPECTED_21AK_FACTORS = (1,) * 45 + (2,) * 4 + (4,) * 8 + (8,) * 2
+EXPECTED_21AE_SHARD0_CONTINUOUS_KKT_SURVIVORS = 51462
 EXPECTED_SELECTED_PAIRING_COUNT = 59
 EXPECTED_ORBIT_COUNT = 14
 SCHEMA = "STAGE32_21AL_NONNEGATIVE_ORBIT_COMPOSITION_2ADIC_DIAGNOSTIC_V1"
@@ -158,9 +159,6 @@ def main() -> None:
     if model.certificate["canonical_sha256_without_this_field"] != EXPECTED_21AC_CERTIFICATE_SHA256:
         raise ValueError("32-21ac audited evaluator certificate regression")
 
-    # Reconstruct the exact 21ak interface once. 21ak itself has a successful
-    # source-locked certificate at EXPECTED_21AK_CERTIFICATE_SHA256; here we
-    # additionally lock the exact 14 published constraint rows used below.
     data = reconstruct_translation_data(marking, bundle)
     if tuple(int(v) for v in data["factors"]) != EXPECTED_21AK_FACTORS:
         raise ValueError("32-21ak Smith factor regression")
@@ -205,7 +203,7 @@ def main() -> None:
     bridge = rank2.bridge
     k0, k1 = rank2.kernel_columns
 
-    continuous = sampled = sat_count = unsat_count = unknown_count = 0
+    hashed_points = sampled = sat_count = unsat_count = unknown_count = 0
     cache: dict[tuple[int, ...], tuple[str, tuple[int, ...] | None, tuple[int, ...]]] = {}
     sat_examples: list[dict] = []
     unsat_examples: list[dict] = []
@@ -220,7 +218,7 @@ def main() -> None:
         emin = 8 if g == 0 else 4
         emax = (19 * d) // 5
         lower = -d - 2 + 2 * g
-        row_cont = row_sampled = row_sat = row_unsat = row_unknown = 0
+        row_hashed = row_sampled = row_sat = row_unsat = row_unknown = 0
 
         for e in range(emin, emax + 1):
             upper = 19 * d - 5 * e
@@ -229,19 +227,19 @@ def main() -> None:
                 continue
             lo, hi = interval
             for a in range(lo, hi + 1):
+                if not deterministic_sample(
+                    row_id, e, a, args.sample_modulus, args.sample_remainder
+                ):
+                    continue
+                hashed_points += 1
+                row_hashed += 1
+
                 if not bridge.target_in_image(d, e, a):
                     continue
                 if kkt.orbit_model.first_negative_fixed_orbit(d, e, a) is not None:
                     continue
                 candidate = kkt.solve_candidate(d, e, a)
                 if candidate is None or not candidate.can_reach_selfsq(d, e, a, lower):
-                    continue
-
-                continuous += 1
-                row_cont += 1
-                if not deterministic_sample(
-                    row_id, e, a, args.sample_modulus, args.sample_remainder
-                ):
                     continue
 
                 survives, _, _, witness, _ = model.can_reach_selfsq(d, e, a, lower)
@@ -343,8 +341,8 @@ def main() -> None:
         row_summaries.append(
             {
                 "row_id": row_id,
-                "continuous_kkt_survivors": row_cont,
-                "deterministically_sampled_continuous_slices": row_sampled,
+                "hash_selected_feasible_interval_points": row_hashed,
+                "sampled_continuous_kkt_survivors": row_sampled,
                 "composition_sat": row_sat,
                 "composition_unsat": row_unsat,
                 "composition_unknown": row_unknown,
@@ -353,6 +351,8 @@ def main() -> None:
 
     if sampled != sat_count + unsat_count + unknown_count:
         raise ValueError("21al sampled decision accounting regression")
+    if sampled == 0:
+        raise ValueError("21al deterministic sample contained no continuous-KKT survivors")
 
     payload = {
         "schema": SCHEMA,
@@ -386,11 +386,13 @@ def main() -> None:
             "shard_index": args.shard_index,
             "selected_row_count": len(selected_rows),
             "selected_rows": selected_rows,
-            "continuous_kkt_survivors": continuous,
+            "upstream_21ae_shard0_continuous_kkt_survivors": EXPECTED_21AE_SHARD0_CONTINUOUS_KKT_SURVIVORS,
+            "full_continuous_kkt_population_recomputed": False,
             "sample_modulus": args.sample_modulus,
             "sample_remainder": args.sample_remainder,
-            "selection_rule": "sha256(row|e|a)[0:8]_big_endian mod sample_modulus == sample_remainder, applied before rank2 witness reconstruction",
-            "sampled_continuous_slices": sampled,
+            "selection_rule": "sha256(row|e|a)[0:8]_big_endian mod sample_modulus == sample_remainder, applied before expensive slice predicates; conditioning on later predicates gives a deterministic uniform hash sample of their survivor set",
+            "hash_selected_feasible_interval_points": hashed_points,
+            "sampled_continuous_kkt_survivors": sampled,
             "unique_sampled_projection_states": len(cache),
             "solver_timeout_ms_per_unique_projection_state": args.solver_timeout_ms,
         },
