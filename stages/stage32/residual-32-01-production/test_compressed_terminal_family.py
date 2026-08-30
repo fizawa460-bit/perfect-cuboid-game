@@ -90,7 +90,7 @@ class CompressedTerminalFamilyTest(unittest.TestCase):
                 self.assertTrue(exact["complete"], exact)
                 self.assertEqual(exact["terminal_count"], stratum_terminal_count(e=e, d=d))
 
-    def test_terminal_predicate_matches_oracle_and_aut_on_small_box(self) -> None:
+    def test_terminal_predicate_matches_every_exact_prefix_filter_on_small_box(self) -> None:
         e, d = 2, 1
         vals = [0] * 11
         seen = 0
@@ -98,7 +98,12 @@ class CompressedTerminalFamilyTest(unittest.TestCase):
         def rec(depth: int) -> None:
             nonlocal seen
             if depth == 11:
-                expected = self.oracle.feasible(vals) and self.aut.canonical(vals)
+                expected = True
+                for k in range(1, 12):
+                    prefix = vals[:k]
+                    if not self.oracle.feasible(prefix) or not self.aut.canonical(prefix):
+                        expected = False
+                        break
                 exceptional_sum = sum(vals[i] for i in range(11) if i != 4)
                 budget_ok = exceptional_sum <= e and vals[4] <= 19 * d - 5 * e
                 expected = expected and budget_ok
