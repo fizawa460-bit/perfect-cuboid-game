@@ -46,13 +46,6 @@ class DirectPicardSliceQuadraticBound:
         return self.max_selfsq_numerator(d, e, a) >= int(lower) * self.dual_denominator
 
     def feasible_a_interval(self, d: int, e: int, upper: int, lower: int) -> tuple[int, int] | None:
-        """Exact integer interval where the continuous slice maximum reaches lower.
-
-        For fixed d,e the maximum self-intersection is a concave quadratic in a.
-        The a^2 coefficient is certified negative, so the feasible integer set is
-        empty or one contiguous interval.  Binary searches use integer-scaled exact
-        arithmetic only.
-        """
         R = self.dual_integer_matrix
         A = R[2][2]
         B = 2 * (R[0][2] * int(d) + R[1][2] * int(e))
@@ -71,7 +64,6 @@ class DirectPicardSliceQuadraticBound:
         n = int(upper)
         if n < 0:
             return None
-        # Exact vertex candidates.  Fraction avoids floating-point boundary risk.
         vertex = Fraction(-B, 2 * A)
         vf = vertex.numerator // vertex.denominator
         candidates = {0, n, max(0, min(n, vf)), max(0, min(n, vf + 1))}
@@ -125,16 +117,19 @@ class DirectPicardSliceQuadraticBound:
         if R[2][2] >= 0:
             raise ValueError("fixed-(d,e) self-square upper bound is not concave in a")
 
-        # The retained Hperp Q is the exact positive-definite form on the degree
-        # kernel.  Exact SymPy definiteness is checked here because using the
-        # stationary value as an upper bound requires negativity on ker(degree).
         hperp_text = marking.get("hperp_text")
         if not isinstance(hperp_text, str):
             raise ValueError("retained marking missing hperp_text")
         q, _, _, _, hmeta = _parse_hperp(hperp_text)
-        hperp_positive = q.is_positive_definite
-        if hperp_positive is not True:
-            raise ValueError(f"retained Hperp exact positive-definiteness not certified: {hperp_positive}")
+        # Exact rational LDL^T is much faster than the generic definiteness
+        # predicate on this 63x63 integer matrix.  For a symmetric matrix it is
+        # a Sylvester certificate: Q=L*D*L^T with every diagonal pivot D_ii>0.
+        L, D = q.LDLdecomposition(hermitian=False)
+        if L * D * L.T != q:
+            raise ValueError("retained Hperp LDL reconstruction regression")
+        pivots = [D[i, i] for i in range(D.rows)]
+        if any(v <= 0 for v in pivots):
+            raise ValueError("retained Hperp LDL has nonpositive pivot")
 
         cert = {
             "schema": "STAGE32_RESIDUAL32_01_DIRECT_PICARD_SLICE_QUADRATIC_BOUND_V1",
@@ -142,6 +137,13 @@ class DirectPicardSliceQuadraticBound:
             "bridge_certificate_sha256": bridge.certificate["canonical_sha256_without_this_field"],
             "hperp_text_sha256": hmeta["hperp_text_sha256"],
             "hperp_positive_definite_exact": True,
+            "hperp_positive_definite_certificate": {
+                "mode": "EXACT_RATIONAL_LDL_POSITIVE_DIAGONAL",
+                "rank": D.rows,
+                "positive_pivot_count": len(pivots),
+                "diagonal_sha256": csha([str(v) for v in pivots]),
+                "reconstruction_exact": True,
+            },
             "slice_kernel_negative_definite_exact": True,
             "dual_target_gram": payload,
             "a_squared_integer_coefficient": R[2][2],
