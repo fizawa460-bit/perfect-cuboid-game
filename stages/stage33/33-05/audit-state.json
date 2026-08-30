@@ -1,16 +1,16 @@
 {
-  "schema": "STAGE33_05_HOSTILE_AUDIT_STATE_V3_POST_R5_SUPER_HOSTILE_REQUIRED",
+  "schema": "STAGE33_05_HOSTILE_AUDIT_STATE_V4_POST_R5_Q_DESCENT_REOPENED_HS_D2_UNPROVEN",
   "stage33_unit": "33-05",
   "historical_pr": 1358,
   "historical_audited_functional_head": "1e6452d2a3df9c9e054d454173b4f923d6f1d343",
   "historical_audit_verdict": "PASS_AFTER_INDEPENDENT_Q_SURVIVAL_AND_HS_D2_VERIFICATION",
   "historical_status": "SUPERSEDED_IN_PART_BY_J2_GEOMETRIC_ZERO_REGRESSION",
-  "audit_verdict": "AUDIT_REQUIRED_POST_R5_CORRECTED_J2_HS_DESCENT_DATUM_MATERIALIZED",
-  "unit_status": "AUDIT_REQUIRED",
+  "audit_verdict": "PARTIAL_PASS_R0_TO_R4_AND_R5_GEOMETRIC_REPLAY_PASS_POST_R5_Q_DESCENT_FAIL_UNPROVEN",
+  "unit_status": "BLOCKED_NEW_KERNEL",
   "unit_closed": false,
   "downstream_released": false,
-  "reopen_reason": "The historical Q-defined ell_J2 arithmetic representative was hostile-proved zero in the geometric Creutz-Viray quotient. R1-R5 reconstruct and hostile-replay the geometric J2. Post-R5 now supplies a replacement cohomological HS/Kummer descent datum for corrected J2, but repository policy and the user's explicit workflow require a fresh super-hostile audit before authoritative credit or reclosure.",
-  "reopen_certificate": "stages/stage33/33-12/j2-cv-lclass-zero-regression.json",
+  "reopen_reason": "Fresh audit of branch head b622e0f0d643327b58d58a38a57d477761138237 found that certify_j2_post_r5_q_descent_cocycle.py proves only finite-presentation Galois fixedness of corrected J2, then assigns Pic/2 defect, integral Pic lift and Hochschild-Serre d2 to zero constants. The source xalpha_pair_galois_repair.py explicitly says arithmetic HS descent is not claimed and descent_obstruction_accounted=false. Therefore d2(J2)=0 is unproved and Q-defined descent credit remains blocked. R0-R4 and R5 geometric hostile replay are retained.",
+  "reopen_certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json",
   "repair_state": "stages/stage33/33-05/j2-representative-repair-state.json",
   "r5_certificate": "stages/stage33/33-05/j2-r5-hostile-replay.json",
   "r5_verifier": "stages/stage33/33-05/certify_j2_r5_hostile_replay.py",
@@ -25,44 +25,52 @@
     "corrected_J2_E2_cocycle": "xi(rho)=Tr",
     "corrected_J2_twisted_transcendental_gram": [[8,0],[0,16]],
     "corrected_J2_minimum_norm": 8,
-    "corrected_J2_marked_brauer_coordinate": [1,0]
+    "corrected_J2_marked_brauer_coordinate": [1,0],
+    "named_J2_torsor_authoritative_credit": true,
+    "named_J2_torsor_authoritative_scope": "GEOMETRIC_KGEOM_ONLY"
   },
-  "post_r5_exact_evidence": {
+  "post_r5_audit": {
     "historical_Q_defined_ell_J2_may_witness_corrected_J2": false,
     "old_ell_Q_reused": false,
     "corrected_J2_fixed_by_full_presentation_Galois_generators": true,
-    "corrected_J2_pic_mod2_defect_cocycle": "ZERO",
-    "corrected_J2_HS_d2_cocycle": "ZERO",
-    "H3_Q_Qbar_times_zero": true,
-    "corrected_J2_in_image_of_Br_Kc_Q": true,
-    "corrected_J2_equivalent_arithmetic_descent_datum_materialized": true,
+    "credit_of_fixedness": "GEOMETRIC_GALOIS_INVARIANCE_ONLY",
+    "corrected_J2_pic_mod2_defect_cocycle_materialized": false,
+    "corrected_J2_integral_Pic_lift_materialized": false,
+    "corrected_J2_HS_d2_cocycle_materialized": false,
+    "corrected_J2_HS_d2_zero_proved": false,
+    "corrected_J2_in_image_of_Br_Kc_Q_proved": false,
+    "corrected_J2_equivalent_arithmetic_descent_datum_materialized": false,
     "corrected_J2_closed_form_Q_CSA_materialized": false,
-    "corrected_J2_arithmetic_unramified_by_surface_Br_membership": true,
-    "geometric_restriction": "corrected nonzero J2=(f2,1)",
-    "all_surviving_k3_classes_have_explicit_arithmetic_representatives_evidence": true
+    "corrected_J2_arithmetic_unramifiedness_proved": false,
+    "all_surviving_k3_classes_have_explicit_arithmetic_representatives_evidence": false,
+    "failure_mode": "UNJUSTIFIED_INFERENCE_GALOIS_FIXED_IMPLIES_HS_D2_ZERO"
   },
   "promotion_firewall": {
     "Q_defined_descent_credit_authoritatively_restored": false,
-    "reason": "Fresh super-hostile audit required before promotion.",
-    "stage33_05_reclosure_before_super_hostile_pass_forbidden": true
+    "reason": "Actual Hochschild-Serre d2 obstruction is not materialized or proved zero.",
+    "stage33_05_reclosure_before_actual_HS_d2_zero_and_required_super_hostile_pass_forbidden": true
   },
   "closure_contract": {
     "path": "stages/stage33/33-00/unit-closure-contract.md",
     "criterion": "ALL_SURVIVING_K3_CLASSES_HAVE_EXPLICIT_ARITHMETIC_REPRESENTATIVES=true OR EXACT_ZERO_SURVIVAL_CERTIFICATE=true",
-    "pre_audit_criterion_evidence_satisfied": true,
-    "unresolved_unknown_in_repair_scope": 0,
+    "criterion_evidence_satisfied": false,
+    "unresolved_unknown_in_repair_scope": 1,
     "hostile_audit_pass_for_reclosure": false
   },
-  "new_kernel_id": null,
-  "next_exact_leaf": "SUPER_HOSTILE_AUDIT_STAGE33_05_CORRECTED_J2_REPAIR",
+  "new_kernel_id": "POST_R5_MATERIALIZE_HS_D2_OBSTRUCTION_AND_PROVE_ZERO",
+  "next_exact_leaf": "POST_R5_MATERIALIZE_HS_D2_OBSTRUCTION_AND_PROVE_ZERO",
+  "next_leaf_requirements": [
+    "materialize a genuine Pic/2 or integral-Pic lift datum from the full Galois action",
+    "compute the resulting Hochschild-Serre d2 2-cocycle/class",
+    "prove that d2 class is zero in the correct H2 target",
+    "only then invoke HS kernel=image to obtain a Q-defined Brauer lift",
+    "prove geometric restriction is corrected nonzero J2=(f2,1), not the revoked old ell_Q",
+    "verify arithmetic unramifiedness/residue conditions required by Stage33-05"
+  ],
   "super_hostile_audit": {
-    "required": true,
-    "state": "PENDING_NEW_PR",
-    "must_replay_without_trusting_promoted_booleans": true,
-    "must_challenge_explicit_descent_datum_contract": true,
-    "must_challenge_CV_Kummer_to_HS_adapter": true,
-    "must_challenge_H3_kernel_image_adapter": true,
-    "must_verify_old_ell_Q_not_reintroduced": true
+    "required_after_full_R5_exit": true,
+    "state": "NOT_RELEASED_HS_D2_BLOCKER_OPEN",
+    "new_PR_after_full_R5_exit_required_by_user_workflow": true
   },
   "stage33_progress": "5/11",
   "stage33_12_closed_exact": false,
@@ -74,6 +82,6 @@
   "perfect_cuboid_nonexistence_claim": false,
   "merge_allowed": false,
   "advance_allowed": true,
-  "advance_scope": "SUPER_HOSTILE_AUDIT_ONLY_NO_STAGE33_05_RECLOSURE_NO_STAGE33_12_CLOSURE_NO_STAGE33_13_RELEASE",
+  "advance_scope": "POST_R5_HS_D2_OBSTRUCTION_ONLY_NO_STAGE33_05_RECLOSURE_NO_STAGE33_12_CLOSURE_NO_STAGE33_13_RELEASE",
   "next_expected_command": "Stage33-main-batch"
 }
