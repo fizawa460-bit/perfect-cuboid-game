@@ -1,22 +1,95 @@
 {
-  "schema": "STAGE32_21_STATE_V1",
+  "schema": "STAGE32_21_STATE_V4_AA_AC_AUDITED_BOUNDARY",
   "stage_item": "32-21",
   "name": "NUMERICAL_PICARD_LEAF_COMPRESSION_ON_EXACT_PREFIX_REPRESENTATION",
-  "status": "IN_PROGRESS",
-  "current_leaf": "32-21aa",
-  "current_leaf_name": "ANTI_FIXED_COSET_PENALTY_REPRESENTATION",
+  "status": "AUDITED_CHECKPOINT_PENDING_MERGE",
+  "working_pr": 1465,
+  "current_boundary": "32-21aa-ac_AUDITED_CHECKPOINT",
+  "work_package": {
+    "id": "32-21aa-ac",
+    "principle": "LEAVES_ARE_SMALL_REASONING_UNITS_NOT_AUTOMATIC_PR_OR_AUDIT_BOUNDARIES",
+    "included_leaves": ["32-21aa", "32-21ab", "32-21ac"],
+    "status": "CLOSED_AUDITED",
+    "target": "EXACT_ANTI_FIXED_PENALTY_ATTACHED_TO_PROJECTED_SMITH_STATES_AND_EXPOSED_AS_A_CHEAP_SAFE_PRUNING_PREDICATE",
+    "audit_verdict": "PASS_STAGE32_21AA_AC_FRESH_BOUNDARY_AUDIT",
+    "audit_run_id": 33309333080,
+    "audit_job_id": 99251414877,
+    "audit_artifact_id": 9731500315,
+    "audit_artifact_size_bytes": 1343,
+    "audit_artifact_zip_sha256": "520f7f458d71b5b89ec42ed4abf36e1288c312313d284ab988ae6b7a26168b3b",
+    "audit_certificate_sha256": "5dfd1087d7d1c20baa3475e05e1768edbb9e8f063b20d01ca467a6725b657f1e"
+  },
+  "32-21aa": {
+    "name": "ANTI_FIXED_COSET_PENALTY_REPRESENTATION",
+    "status": "CLOSED_AUDITED_AS_PART_OF_AA_AC_PACKAGE",
+    "certificate_sha256": "f5e6e363fa2c8f2258e340054948319aae2ad805bd2ca5412f8e3a76231e0238",
+    "projection_class_count": 16384,
+    "positive_penalty_class_count": 16383,
+    "zero_penalty_class_count": 1,
+    "minimum_positive_penalty": [1, 572]
+  },
+  "32-21ab": {
+    "name": "EXACT_QUOTIENT_CLASS_MAP",
+    "status": "CLOSED_AUDITED",
+    "result": "PASS_STAGE32_21AB_EXACT_QUOTIENT_CLASS_MAP",
+    "certificate_sha256": "07bf0aff16a344ad68fe7179ff797057fca562fd6bafbdaf418155ba0995c8b4",
+    "projection_class_count": 16384,
+    "rank2_free_subgroup_order": 128,
+    "rank2_free_quotient_coset_count": 128
+  },
+  "32-21ac": {
+    "name": "CHEAP_EXACT_ANTIFIXED_COSET_PRUNING_PREDICATE",
+    "status": "CLOSED_AUDITED",
+    "result": "PASS_STAGE32_21AC_CHEAP_EXACT_ANTIFIXED_COSET_BOUND",
+    "certificate_sha256": "2c227d773aaf6a6543ae89419c468d85fd4ebd42422eb6f4c8ac60b2e7227c8e",
+    "rank2_free_quotient_coset_count": 128,
+    "positive_minimum_coset_count": 127,
+    "zero_minimum_coset_count": 1,
+    "minimum_positive_coset_lower_bound": [1, 572],
+    "audit_panel_cases": 81,
+    "audit_panel_old_false_new_true": 0,
+    "audit_panel_old_true_new_false": 1,
+    "audit_panel_is_not_full178_numerical_credit": true
+  },
+  "32-21ad": {
+    "name": "FULL178_COMPRESSED_NUMERICAL_CENSUS",
+    "status": "BLOCKED_PENDING_PR1465_MERGE",
+    "release_requires": [
+      "32-21AA_AC_BOUNDARY_AUDIT_PASS",
+      "PR1465_MERGED_TO_AUTHORITATIVE_BASE",
+      "SEPARATE_EXECUTION_PREFLIGHT_IF_PRODUCTION_IS_MATERIALLY_HEAVY"
+    ],
+    "armed": false
+  },
+  "package_ci": {
+    "run_id": 33308996594,
+    "job_id": 99250520551,
+    "artifact_id": 9731412581,
+    "artifact_size_bytes": 3008,
+    "artifact_zip_sha256": "e9b7a2525d6c1d63e52a4a5132210739f86a09c4bf23186aac7a8ab23e5dc351"
+  },
   "current_fact": {
     "reynolds_continuous_kkt_survivors": 679337,
     "reynolds_exact_integer_qp_survivors": 679337,
-    "pruned": 0
+    "reynolds_exact_integer_qp_pruned": 0,
+    "anti_fixed_penalty_representation_exact": true,
+    "rank2_projection_class_map_exact": true,
+    "cheap_antifixed_coset_bound_exact": true,
+    "projection_class_count": 16384,
+    "rank2_free_subgroup_order": 128,
+    "rank2_free_quotient_coset_count": 128
   },
-  "goal": "RESTORE_OR_BOUND_INFORMATION_LOST_BY_REYNOLDS_FIXED_PROJECTION_USING_AN_EXACT_FINITE_STATE_ANTI_FIXED_LIFT_OR_COSET_PENALTY",
+  "checkpoint_merge_ready": true,
+  "automatic_merge_authorized": false,
+  "advance_before_merge_authorized": false,
   "legacy_prefix_dfs_rearm_authorized": false,
   "heavy_compute_authorized": false,
+  "numerical_row_complete": false,
+  "theorem_credit": false,
+  "receiver_credit": false,
+  "route_credit": false,
+  "perfect_cuboid_existence_claim": false,
+  "perfect_cuboid_nonexistence_claim": false,
   "next_expected_command": "Stage32-main-batch",
-  "planned_leaves": [
-    "32-21ab",
-    "32-21ac",
-    "32-21ad"
-  ]
+  "next_after_merge": "32-21ad_FULL178_COMPRESSED_NUMERICAL_CENSUS"
 }

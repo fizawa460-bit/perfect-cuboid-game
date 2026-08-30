@@ -2,85 +2,118 @@
 
 This file is the authoritative Stage32 generation map after the long post-32-18 production sequence.
 
-The re-anchor is retrospective only: it changes names and navigation, not any previously accepted exact result, audit verdict, artifact hash, UNKNOWN semantics, theorem credit, receiver credit, or perfect-cuboid firewall.
-
-## Boundary
-
-`32-18` remains the audited B16-era line. The clean generation boundary is after PR #1451 promoted the audited B16 stack. Post-B16 residual-feasibility, pairing-prefix production, and the long PR #1462 history are grouped below instead of being retroactively split into dozens of lettered historical leaves.
+The re-anchor changes navigation, not historical exact evidence, audit verdicts, hashes, UNKNOWN semantics, theorem/receiver credit, or perfect-cuboid firewalls.
 
 ## 32-19 — brute-force scaling limit / hard-tail generation
 
 Status: `CLOSED_RETROSPECTIVE`
 
-Scope: post-B16 residual feasibility through the resumable Gen38 hard-tail and residual-volume diagnostics.
-
-Accepted interpretation:
-
-- bounded production did make exact progress, but the surviving strata became giant individual exact strata;
-- Gen38 ended with 52 continuations from 73 inputs, and all 52 diagnostic survivors remained at the same `e`;
-- FULL178 contains 64,111 coarse `e` strata;
-- the exact finite raw remaining-node upper bound is `4555530975806418`;
-- the local-linear estimate is `2877801026017990` remaining nodes, about `11241411` 256M-equivalent chunks or `661260` idealized 17-runner waves;
-- therefore simply escalating 64M/128M/256M ceilings is no longer the primary strategy. Blind 512M/1B escalation is explicitly dominated.
-
-This closes the operational question “can we finish by continuing to hit the same enumeration harder?” It does not revoke Gen33–Gen38 evidence.
+The post-B16 resumable production reached giant individual exact strata. Gen38 retained 52 continuations from 73 inputs, while the exact finite raw remaining-node upper bound is `4555530975806418`. Blind 512M/1B escalation is therefore dominated as the primary strategy. Historical Gen33–Gen38 evidence remains valid.
 
 ## 32-20 — symbolic prefix compression / exact random access
 
 Status: `CLOSED_CHECKPOINTED`
 
-Goal: replace terminal-by-terminal materialization of the current 11-pairing prefix family.
-
-Accepted checkpoint:
-
-- exact symbolic terminal count: `688101306360803751427719294`;
-- exact random-access unrank and inverse rank;
-- small-family full-set bijection checked;
-- large `e=663,729` roundtrips checked;
-- the Gen38 52-unit frontier is retained as historical telemetry but superseded as the enumeration mechanism.
-
 Result: `PASS_PREFIX_DFS_REPARAMETERIZED_TO_EXACT_INDEXED_TERMINAL_FAMILY`.
 
-This is a representation theorem for the locked prefix family only. It is not numerical Picard row completion.
+Exact symbolic terminal count: `688101306360803751427719294`, with exact random-access unrank and inverse rank. The Gen38 52-unit frontier remains historical telemetry but is superseded as the enumeration mechanism. This is not numerical Picard row completion.
 
-## 32-21 — numerical Picard leaf compression on the exact prefix representation
+## 32-21 — numerical Picard leaf compression
 
-Status: `IN_PROGRESS`
+Status: `IN_PROGRESS_AT_AUDITED_BOUNDARY`
 
-The job now is to push actual numerical Picard information into the compressed representation and reduce the huge family without materializing it.
-
-Current exact obstruction: the Reynolds fixed rank-2 projection is cheap, but its exact integer-QP check prunes `0 / 679337` continuous-KKT survivors. Information discarded by the fixed projection must therefore be restored or bounded.
+The fixed Reynolds rank-2 integer-QP alone pruned `0 / 679337` continuous-KKT survivors. The coherent aa->ab->ac package restores a finite exact piece of the information discarded by Reynolds averaging and turns it into a usable safe pruning predicate.
 
 ### 32-21aa — anti-fixed coset penalty representation
 
-Status: `IN_PROGRESS`
+Status: `CLOSED_AUDITED_AS_PART_OF_AA_AC_PACKAGE`
 
-Goal: obtain an exact finite-state representation of the anti-fixed lift / coset penalty, or an equivalent exact condition using the information lost by Reynolds averaging.
+Exact checkpoint:
 
-Exit criterion: an exact representation with a proof/check that it is safe for the numerical leaf and does not rely on enumerating the 27-digit terminal family.
+- Reynolds projection classes: `16384`;
+- `lambda(r) <= -q^2` from exact retained-coordinate fractional residues and exact slice-kernel dual norms;
+- positive classes `16383`, zero class `1`;
+- minimum positive penalty `1/572`;
+- certificate SHA256 `f5e6e363fa2c8f2258e340054948319aae2ad805bd2ca5412f8e3a76231e0238`.
 
-Planned nearby leaves, subject to evidence:
+### 32-21ab — exact quotient class map
 
-- `32-21ab` — exact quotient class map;
-- `32-21ac` — cheap exact lower bound / pruning predicate;
-- `32-21ad` — FULL178 compressed numerical census once the evaluator is certified.
+Status: `CLOSED_AUDITED`
 
-If 32-21aa reveals a materially different blocker, open a new leaf instead of stretching `aa`.
+Result: `PASS_STAGE32_21AB_EXACT_QUOTIENT_CLASS_MAP`.
 
-## PR discipline from this boundary
+For exact fixed-image basis `B`, projected Smith-right transform `T`, and Smith affine state `y=(y0,y1,y2,u,v)`, the canonical Reynolds projection residue is
 
-PR #1462 is a historical exception. It remains the container for the retrospective consolidation and current checkpoint until explicitly closed/merged by the user.
+`r=(B*T*y) mod 64`.
 
-After #1462:
+Exact package CI proves the Smith-coordinate image is exactly the same `16384` classes as 32-21aa. The free `(u,v)` directions generate a subgroup of order `128`, hence exactly `128` quotient cosets.
 
-- normally one clear hypothesis + implementation + proof/check per leaf;
-- normally one leaf per PR;
-- two or three tightly coupled leaves may share one PR when separating them would create artificial boundaries;
-- completed machinery is checkpointed rather than carried through many unrelated generations;
-- a materially different strategy gets a new leaf label;
-- controller/docs-only edits never authorize heavy compute;
-- heavy work still requires a fresh run-key synchronization and repository-wide Actions policy compliance.
+Certificate SHA256: `07bf0aff16a344ad68fe7179ff797057fca562fd6bafbdaf418155ba0995c8b4`.
+
+### 32-21ac — cheap exact anti-fixed coset pruning predicate
+
+Status: `CLOSED_AUDITED`
+
+Result: `PASS_STAGE32_21AC_CHEAP_EXACT_ANTIFIXED_COSET_BOUND`.
+
+For the exact free-subgroup coset `C` occupied by one projected slice, define
+
+`lambda_C=min_{r in C} lambda(r)`.
+
+Then every integral lift satisfies `x^2 <= p^2-lambda_C`. The existing exact rank-2 concave integer-QP is reused against the raised threshold `lower+lambda_C`, scaled to exact integers.
+
+Exact package CI:
+
+- free subgroup order `128`;
+- quotient cosets `128`;
+- positive minimum-penalty cosets `127`;
+- zero minimum-penalty cosets `1`;
+- minimum positive coset bound `1/572`;
+- certificate SHA256 `2c227d773aaf6a6543ae89419c468d85fd4ebd42422eb6f4c8ac60b2e7227c8e`.
+
+### aa->ab->ac meaningful boundary audit
+
+Status: `PASS`
+
+Verdict: `PASS_STAGE32_21AA_AC_FRESH_BOUNDARY_AUDIT`.
+
+Fresh audit run `33309333080`, job `99251414877`, artifact `9731500315` independently rebuilt `B*T mod 64`, the 16384-element image, the 128-element free subgroup, all 128 cosets, all 16384 penalties, and all coset minima. Canonical audit SHA256:
+
+`5dfd1087d7d1c20baa3475e05e1768edbb9e8f063b20d01ca467a6725b657f1e`.
+
+The 81-case synthetic Smith panel had old-rank2-false -> new-true count `0` and old-true -> new-false count `1`. That one strengthened panel prune is regression evidence only, not FULL178 numerical credit.
+
+The initial audit attempt failed only because the audit harness omitted the `quad` import; it received no PASS or mathematical credit. The repaired fresh audit above is the authoritative audit.
+
+## 32-21ad — FULL178 compressed numerical census
+
+Status: `BLOCKED_PENDING_PR1465_MERGE`
+
+This is the next major execution phase: apply the audited aa->ab->ac evaluator to the FULL178 population. It is deliberately separated from evaluator construction/audit.
+
+Release requires:
+
+1. #1465 merged into the authoritative base;
+2. reread of current controller/main after merge;
+3. execution/storage/concurrency preflight if the census design is materially heavy;
+4. fresh run-key authorization if a heavy production workflow is used.
+
+The aa->ab->ac audit does not arm 32-21ad.
+
+## PR / MAIN batch discipline
+
+Leaf labels are small reasoning/checkpoint units, not automatic PR or audit boundaries.
+
+Default MAIN behavior:
+
+- continue through tightly coupled leaves in one PR until a usable mathematical interface or other meaningful boundary is reached;
+- checkpoint intermediate exact leaves so failures remain diagnosable;
+- audit at meaningful boundaries, especially before full-population production, heavy arming, downstream/claim promotion, or a materially different strategy;
+- after an audit PASS, checkpoint/merge the coherent package before entering the next major phase;
+- controller/docs edits never authorize heavy compute;
+- UNKNOWN remains distinct from UNSAT;
+- all theorem / receiver / route / perfect-cuboid firewalls remain explicit.
 
 Current pointer:
 
-`32-19 CLOSED_RETROSPECTIVE -> 32-20 CLOSED_CHECKPOINTED -> 32-21aa IN_PROGRESS`
+`32-19 CLOSED_RETROSPECTIVE -> 32-20 CLOSED_CHECKPOINTED -> 32-21aa CLOSED_AUDITED -> 32-21ab CLOSED_AUDITED -> 32-21ac CLOSED_AUDITED -> PR #1465 CHECKPOINT_MERGE_READY -> 32-21ad BLOCKED_PENDING_MERGE`
