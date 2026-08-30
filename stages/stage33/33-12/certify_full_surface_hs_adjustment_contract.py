@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Materialize the full-surface Stage-B adjustment contract after J2 reopen.
 
-The historical Stage33-05 PR #1358 audit is retained only as a frozen history
-snapshot. The current audit-state.json is intentionally a superseded/reopened
-V2 record and MUST NOT claim current CLOSED/J2-descent credit.
+The historical Stage33-05 PR #1358 audit is retained only as frozen history.
+The current audit-state may advance across reopened audit schemas, but MUST
+remain open and MUST NOT restore the revoked historical Q-defined J2 credit.
 """
 import hashlib, json
 from pathlib import Path
@@ -19,8 +19,8 @@ CONTROLLER=STAGE33/"controller.json"
 OUT=HERE/"full-surface-hs-adjustment-contract.json"
 EXPECTED_BR2="c86f6e838d072816426e4a2b0eb738f44e8632dd1ab4f3e6fdccd161ec41b5bf"
 EXPECTED_GLUE="0cc5321d02b56cea801b8def71a4c3b0946bd8011d8c30767a9602faba2fa8d8"
-# Historical PR #1358 audit-state text hash. This is a history source lock, not
-# a hash requirement on the current reopened audit-state.json.
+# Historical PR #1358 audit-state text hash. History source lock only; the
+# current reopened audit-state.json is expected to evolve under hostile audit.
 EXPECTED_K3_AUDIT_TEXT_LF="08a4bb374a29266aa9c59dd433ac0fb6cac89eaca31829339f7a6ce9e32a7fa6"
 EXPECTED_H10="4dbbfa8d208026e8ccb47915e66eb4bedef327ccf5b6f8c6c9caa7e74a64028f"
 EXPECTED_SCALARS="e7d0d003c71271822e51b626acf21575e0c490035bdf3ef802feb3d7c767e36b"
@@ -49,17 +49,40 @@ def fixed_dimension(cc,ct):
 
 br2=load_locked(BR2,EXPECTED_BR2); glue=load_locked(GLUE,EXPECTED_GLUE); h10=load_locked(H10,EXPECTED_H10); scalars=load_locked(SCALARS,EXPECTED_SCALARS)
 k3=json.loads(K3_AUDIT.read_text()); reopen=json.loads(REOPEN.read_text()); controller=json.loads(CONTROLLER.read_text())
-# Current audit state must be the hostile-reopened authority, never the old CLOSED record.
-if k3.get("semantic_status")!="SUPERSEDED_BY_HOSTILE_REOPEN": raise SystemExit("Stage33-05 current audit state is not hostile-reopened")
-if k3.get("do_not_use_as_current_credit") is not True: raise SystemExit("Stage33-05 stale audit credit firewall missing")
-if k3.get("unit_closed") is not False or k3.get("downstream_released") is not False: raise SystemExit("Stage33-05 current audit state incorrectly closed")
-hist=k3.get("historical_audit_snapshot",{})
-if hist.get("verdict_at_that_time")!="PASS_AFTER_INDEPENDENT_Q_SURVIVAL_AND_HS_D2_VERIFICATION": raise SystemExit("historical Stage33-05 audit snapshot moved")
-if hist.get("q1_hs_d2_nonzero_at_that_time") is not True: raise SystemExit("historical q1 d2 fact missing")
-if hist.get("historical_J2_descent_claim_now_revoked") is not True: raise SystemExit("historical J2 descent revocation missing")
-if reopen["status"]!="PASS_EXACT_UPSTREAM_REPRESENTATIVE_CONTRADICTION" or reopen["class3_promotion_allowed"]: raise SystemExit("hostile reopen certificate regression")
-if controller["stage33_05_hostile_reopen"]["named_representative_credit"]!="REVOKED_PENDING_REPAIR": raise SystemExit("controller did not preserve hostile reopen")
-if controller["stage33_07"]["j2_q_defined"]: raise SystemExit("stale J2 Q-defined promotion reappeared")
+
+# Current audit state must remain a hostile-reopened authority, never a stale
+# CLOSED record. V2 and V3 differ in bookkeeping only; both preserve revocation.
+allowed_semantic={
+    "SUPERSEDED_BY_HOSTILE_REOPEN",
+    "CURRENT_REOPENED_SUPER_HOSTILE_REPAIR_PENDING_REAUDIT",
+}
+if k3.get("semantic_status") not in allowed_semantic:
+    raise SystemExit("Stage33-05 current audit state is not hostile-reopened")
+if not (
+    k3.get("do_not_use_as_current_credit") is True
+    or k3.get("do_not_use_historical_closed_state_as_current_credit") is True
+):
+    raise SystemExit("Stage33-05 stale audit credit firewall missing")
+if k3.get("unit_closed") is not False or k3.get("downstream_released") is not False:
+    raise SystemExit("Stage33-05 current audit state incorrectly closed")
+if k3.get("merge_allowed") is not False:
+    raise SystemExit("Stage33-05 current audit state incorrectly mergeable")
+
+hist=k3.get("historical_audit_snapshot") or k3.get("historical_stage33_05_audit") or {}
+if hist.get("verdict_at_that_time")!="PASS_AFTER_INDEPENDENT_Q_SURVIVAL_AND_HS_D2_VERIFICATION":
+    raise SystemExit("historical Stage33-05 audit snapshot moved")
+if hist.get("historical_J2_descent_claim_now_revoked") is not True:
+    raise SystemExit("historical J2 descent revocation missing")
+# V2 carried extra q1 history; if present it remains load-bearing history.
+if "q1_hs_d2_nonzero_at_that_time" in hist and hist["q1_hs_d2_nonzero_at_that_time"] is not True:
+    raise SystemExit("historical q1 d2 fact moved")
+
+if reopen["status"]!="PASS_EXACT_UPSTREAM_REPRESENTATIVE_CONTRADICTION" or reopen["class3_promotion_allowed"]:
+    raise SystemExit("hostile reopen certificate regression")
+if controller["stage33_05_hostile_reopen"]["named_representative_credit"]!="REVOKED_PENDING_REPAIR":
+    raise SystemExit("controller did not preserve hostile reopen")
+if controller["stage33_07"]["j2_q_defined"]:
+    raise SystemExit("stale J2 Q-defined promotion reappeared")
 if h10["status"]!="CLOSED_EXACT": raise SystemExit("Stage33-10 is not exact-closed")
 if glue["integral_glue"]["actual_glue_subgroup_identified"]: raise SystemExit("historical full-surface glue state unexpectedly promoted")
 if not scalars["exact_conclusion"]["all_cc_ct_function_level_scalar_ratios_equal_one"]: raise SystemExit("boundary scalar adapter regression")
