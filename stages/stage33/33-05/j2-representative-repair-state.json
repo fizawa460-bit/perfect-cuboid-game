@@ -1,18 +1,18 @@
 {
-  "schema": "STAGE33_05_J2_REPRESENTATIVE_REPAIR_STATE_V1",
+  "schema": "STAGE33_05_J2_REPRESENTATIVE_REPAIR_STATE_V2_POST_R5_HS_D2",
   "repair_band": "R0_TO_R5",
   "roadmap": "stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md",
-  "status": "R5_GEOMETRIC_HOSTILE_REPLAY_PASS_POST_R5_Q_DESCENT_FAIL_UNPROVEN_HS_D2_OPEN",
-  "current_leaf": "POST_R5_HS_D2",
-  "current_leaf_title": "MATERIALIZE_ACTUAL_HOCHSCHILD_SERRE_D2_OBSTRUCTION_FOR_CORRECTED_J2",
-  "current_leaf_attempts": 1,
-  "current_leaf_stagnation_count": 0,
-  "stagnation_trigger": 2,
+  "status": "R5_GEOMETRIC_PASS_POST_R5_PRE_KUMMER_COCHAIN_DONE_SURFACE_MU2_AND_HS_D2_OPEN",
+  "current_leaf": "POST_R5_SURFACE_MU2_HS_D2",
+  "current_leaf_title": "MATERIALIZE_NORMALIZATION_HALF_DIVISOR_TO_KC_SURFACE_H2_MU2_ADAPTER_THEN_COMPUTE_PIC_MOD2_DEFECT_AND_BOCKSTEIN_HS_D2",
+  "current_leaf_attempts": 2,
   "mandatory_pre_r5_certificate": "stages/stage33/33-05/j2-r4-hostile-torsor-brauer-kernel-verification.json",
   "r5_certificate": "stages/stage33/33-05/j2-r5-hostile-replay.json",
-  "r5_verifier": "stages/stage33/33-05/certify_j2_r5_hostile_replay.py",
-  "post_r5_q_descent_certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json",
-  "post_r5_q_descent_verifier": "stages/stage33/33-05/certify_j2_post_r5_q_descent_cocycle.py",
+  "post_r5_failure_certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json",
+  "post_r5_failure_canonical_sha256": "a7c08372b9ef012a1446bd3bf4f40541d77d372dadc73e3780f6ce2529fcc6d8",
+  "post_r5_compact_state": "stages/stage33/33-05/j2-post-r5-hs-d2-state.json",
+  "pre_kummer_certificate": "stages/stage33/33-05/j2-corrected-pre-kummer-descent-cochain.json",
+  "pre_kummer_canonical_sha256": "940df53040c6f5245914effbfb7d752a08c61b6d593586952b322e4069415106",
   "leaves": {
     "R0": {
       "state": "DONE_ZERO",
@@ -20,127 +20,93 @@
       "certificate": "stages/stage33/33-12/j2-cv-lclass-zero-regression.json"
     },
     "R1": {
-      "state": "DONE_ABSTRACT_J2_NONZERO_CONFIRMED_HOSTILE_REPLAY_PASS",
+      "state": "DONE_HOSTILE_REPLAY_PASS",
       "exit": "ABSTRACT_J2_NONZERO_CONFIRMED",
-      "certificate": "stages/stage33/33-05/j2-abstract-nonzero-reaudit.json",
-      "exact_statement": "J2 is nonzero in LcE/im(x-alpha) for all four undetermined (b,d) image normal forms; revoked ell_J2 was not used as a witness."
+      "certificate": "stages/stage33/33-05/j2-abstract-nonzero-reaudit.json"
     },
     "R2": {
-      "state": "DONE_CORRECTED_ELL_J2_NONZERO_CONFIRMED_HOSTILE_REPLAY_PASS",
-      "exit": "CORRECTED_ELL_J2_NONZERO_IN_LSTAR_MOD_KSTAR_LSTAR2",
-      "attempts": 1,
-      "certificate": "stages/stage33/33-05/j2-corrected-full-l-representative.json",
-      "verifier": "stages/stage33/33-05/certify_j2_corrected_full_l_representative.py",
-      "corrected_geometric_full_L_pair": "(f2,1)",
-      "mandatory_first_test": "PASS_EXACT_FULL_QUOTIENT_NONZERO",
-      "exact_statement": "The source-locked J2 pair (f2,1) is nonzero in Lbar^*/(Kbar^* Lbar^{*2}); quotient-zero would force f2 square in E, but neither f2 nor f2/q is a Kbar-square because of odd branch valuations."
+      "state": "DONE_HOSTILE_REPLAY_PASS",
+      "exit": "CORRECTED_J2=(f2,1)_NONZERO_IN_FULL_GEOMETRIC_CV_QUOTIENT",
+      "certificate": "stages/stage33/33-05/j2-corrected-full-l-representative.json"
     },
     "R3": {
-      "state": "DONE_EXPLICIT_NONZERO_CV_E2_COCYCLE_AND_KUMMER_COORDINATES_HOSTILE_REPLAY_PASS",
-      "exit": "EXPLICIT_NONZERO_CREUTZ_VIRAY_E2_COCYCLE_AND_KUMMER_COORDINATES",
-      "attempts": 1,
-      "input_certificate": "stages/stage33/33-05/j2-corrected-full-l-representative.json",
-      "certificate": "stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json",
-      "verifier": "stages/stage33/33-05/certify_j2_corrected_cv_e2_cocycle.py",
-      "fixed_E2_basis": ["T0=(0,0)", "Tr=((t^2-1)^2,0)"],
-      "cocycle": "xi(rho)=Tr for rho flipping sqrt(f2)",
-      "kummer_squareclass_pair": ["1", "f2"],
-      "exact_statement": "Creutz-Viray Lemma 4.6 applied directly to corrected (f2,1) gives chi_tilde=(1,1,0,0), g=1 and xi(rho)=the Bplus partition class; an exact quartic-to-Jacobian square identity identifies that class as Tr=((t^2-1)^2,0)."
+      "state": "DONE_HOSTILE_REPLAY_PASS",
+      "exit": "CV_D_MAP_COCYCLE_XI_RHO_EQUALS_Tr",
+      "certificate": "stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json"
     },
     "R4": {
-      "state": "DONE_MINIMUM_NORM_8_MARKED_J2_1_0_HOSTILE_REPLAY_PASS",
-      "exit": "TWISTED_KERNEL_MINIMUM_NORM_IN_4_8_12_AND_MARKED_COORDINATE_SELECTED",
-      "attempts": 3,
-      "input_certificate": "stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json",
-      "attempt1_certificate": "stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json",
-      "attempt2_certificate": "stages/stage33/33-05/j2-r4-correct-translation-torsor.json",
-      "certificate": "stages/stage33/33-05/j2-r4-translation-quotient-lattice.json",
-      "verifier": "stages/stage33/33-05/certify_j2_r4_translation_quotient_lattice.py",
-      "hostile_kernel_identification_certificate": "stages/stage33/33-05/j2-r4-hostile-torsor-brauer-kernel-verification.json",
-      "hostile_kernel_identification_verified": true,
-      "integral_kernel_theorem": "Caldararu Theorem 1.2 plus elliptic torsor/Ogg-Shafarevich dictionary in sections 1.15-1.16: for the torsor J_alpha classified by alpha in Br(J), T(J_alpha) is integrally Hodge-isometric to ker(alpha:T(J)->Q/Z) with the inherited pairing.",
-      "named_torsor_class_adapter": "Creutz-Viray Lemma 4.6 and Proposition 5.1 identify d(ell) with the H1(Pic) edge image of gamma(ell); over Kgeom=Qbar(t) with the elliptic section and Br(Kgeom)=0, the R3 cocycle xi is the Ogg-Shafarevich torsor image of corrected geometric J2.",
-      "attempt1_isogeny_cover": "N^2=f2*U^4+(t^2+1)^2*U^2*V^2+([2*t*(t^2-1)]^2/f2)*V^4",
-      "attempt1_isogeny_cover_jacobian": "E'_Tr: y^2=x*(x-Dplus^2)*(x-Dminus^2)",
-      "attempt1_isogeny_cover_is_named_E_torsor": false,
-      "correct_translation_torsor": "f2*V^2=N^4-2*(t^2+1)^2*f2*N^2*Z^2+f2^2*q^2*Z^4",
-      "correct_translation_torsor_jacobian": "E: y^2=x*(x^2+(t^2+1)^2*x+[2*t*(t^2-1)]^2)",
-      "kernel_direction": "Tr=((t^2-1)^2,0)",
-      "bisection": "w^2=f2, genus 0, ramified at q-roots r2 and r4",
-      "correct_torsor_quotient": "X=n^2/f2, Y=-n*v/f2 maps degree 2 to E'_Tr: Y^2=X*(X^2-2*a*X+q^2)",
-      "comparison_k3_isomorphism": "u=-(1+sqrt(2))*(t+sqrt(2)-1)/(t-1-sqrt(2)) and a Legendre root permutation identify the E'_Tr K3 with Kc over Q(i,sqrt(2))",
-      "twisted_kernel_gram": [[8, 0], [0, 16]],
+      "state": "DONE_HOSTILE_REPLAY_PASS",
+      "exit": "NAMED_GEOMETRIC_TORSOR_AND_INTEGRAL_KERNEL_SELECTED",
+      "hostile_certificate": "stages/stage33/33-05/j2-r4-hostile-torsor-brauer-kernel-verification.json",
+      "twisted_kernel_gram": [[8,0],[0,16]],
       "minimum_norm": 8,
-      "marked_brauer_coordinate": [1, 0],
-      "exact_statement": "The corrected pair (f2,1) maps by Creutz-Viray's explicit d-map to the R3 E[2] cocycle xi(rho)=Tr, and Proposition 5.1 identifies this with the cohomological edge image of the same CV Brauer class. Over Kgeom=Qbar(t), the elliptic section and Br(Kgeom)=0 make its H1(E) image exactly the Ogg-Shafarevich torsor class of corrected geometric J2. The attempt-2 quartic is the explicit semilinear translation descent for that cocycle, so its relatively minimal smooth projective model is the elliptic K3 torsor J_J2. Căldăraru Theorem 1.2 and sections 1.15-1.16 give an integral Hodge isometry T(X_J2) ~= ker(J2:T(Kc)->Q/Z), with no pairing rescaling. Separately, the free involution quotient gives a degree-2 map to E'_Tr, whose K3 is Kc over Q(i,sqrt(2)); pullback therefore has Gram T(Kc)(2)=diag(8,16), determinant 128. Since nonzero order-2 J2 has kernel index 2 and determinant 128, equal determinants force pullback index 1. Thus T(X_J2)=diag(8,16), minimum norm 8, and marked J2=[1,0]. Attempt 1 remains revoked as the named torsor."
+      "marked_brauer_coordinate": [1,0],
+      "scope": "GEOMETRIC_KGEOM_ONLY"
     },
     "R5": {
-      "state": "DONE_GEOMETRIC_HOSTILE_REPLAY_PASS_POST_R5_Q_DESCENT_FAIL_UNPROVEN",
-      "exit": "HOSTILE_REPLAY_R1_TO_R4_GEOMETRIC_PASS_Q_DESCENT_NOT_REESTABLISHED",
-      "certificate": "stages/stage33/33-05/j2-r5-hostile-replay.json",
-      "verifier": "stages/stage33/33-05/certify_j2_r5_hostile_replay.py",
-      "post_r5_certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json",
-      "post_r5_verifier": "stages/stage33/33-05/certify_j2_post_r5_q_descent_cocycle.py",
-      "exact_statement": "R1-R4 geometric hostile replay remains PASS with minimum norm 8 / marked J2=[1,0]. The attempted post-R5 Q-descent proves only that J2 is fixed in the finite 5D F2 presentation. It did not derive the Pic/2 defect, integral Pic lift, or Hochschild-Serre d2 cocycle; those were assigned zero constants. Therefore d2(J2)=0 and membership in the image of Br(Kc_Q) remain unproved, and full R5 repair exit is not reached."
+      "state": "GEOMETRIC_HOSTILE_REPLAY_PASS_POST_R5_ARITHMETIC_OPEN",
+      "geometric_certificate": "stages/stage33/33-05/j2-r5-hostile-replay.json",
+      "post_r5_attempt_status": "FAIL_UNPROVEN_HS_D2_NOT_MATERIALIZED",
+      "post_r5_failure_certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json",
+      "new_exact_progress": "CORRECTED_PRE_KUMMER_DESCENT_COCHAIN_MATERIALIZED",
+      "new_progress_certificate": "stages/stage33/33-05/j2-corrected-pre-kummer-descent-cochain.json",
+      "R5_full_repair_exit_reached": false
     }
   },
   "post_r5_residual_kernel": {
     "id": "CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE",
-    "state": "OPEN_HS_D2_NOT_MATERIALIZED",
-    "certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json",
-    "verifier": "stages/stage33/33-05/certify_j2_post_r5_q_descent_cocycle.py",
-    "exact_question": "Construct and hostile-verify a Q-defined arithmetic Brauer representative/descent datum whose geometric restriction is the corrected nonzero J2=(f2,1).",
-    "exact_answer": "NOT YET ESTABLISHED. Finite-presentation Galois invariance is proved, but the actual Hochschild-Serre d2 obstruction has not been materialized or shown to vanish.",
-    "unresolved_unknown_in_R5_repair_scope": 1,
-    "mandatory_checks": {
-      "full_Galois_action_source_locked": true,
-      "equivalent_descent_cocycle_materialized": false,
-      "HS_d2_obstruction_materialized": false,
-      "HS_d2_zero_proved": false,
-      "geometric_restriction_is_corrected_nonzero_J2": true,
-      "old_revoked_ell_Q_reused": false,
-      "arithmetic_unramifiedness": false,
-      "super_hostile_closure_replay": false
+    "state": "OPEN_SURFACE_MU2_AND_HS_D2",
+    "exact_question": "Does corrected geometric J2=(f2,1) have zero Hochschild-Serre d2 and hence an arithmetic Brauer preimage on Kc/Q?",
+    "known_exact": {
+      "J2_geometric_Galois_fixed": true,
+      "normalization_half_divisor": "D=P_r2-P_r4",
+      "div_f2": "2D",
+      "ct_half_divisor_principal_witness": "h_ct=z/((t-r1)*(t-r2))",
+      "h_ct_times_ct_h_ct": "1",
+      "ct_f2_square_witness": "u_ct=(t-r3)*(t-r4)/z",
+      "u_ct_times_ct_u_ct": "1",
+      "full_split_pair_representative_witnesses_materialized": true
     },
-    "forbidden_shortcut": "Do not infer HS d2=0 from Galois invariance in the geometric Brauer quotient. Do not reuse the old Q-defined ell_Q/CSA; its geometric CV class is zero."
-  },
-  "super_hostile_gate": {
-    "mandatory_after_full_R5_exit": true,
-    "state": "NOT_RELEASED_POST_R5_HS_D2_BLOCKER",
-    "next_leaf_after_HS_d2_exit": "SUPER_HOSTILE_AUDIT_STAGE33_05_CORRECTED_J2_REPAIR",
-    "new_PR_required_by_user_workflow_after_full_R5_exit": true,
-    "required_scope": [
-      "independently replay R0-R5 and the corrected Q-descent without trusting promoted booleans",
-      "challenge the actual materialized HS d2 computation",
-      "challenge the H^3(Q,Qbar^*) Hochschild-Serre kernel=image adapter",
-      "challenge whether the explicit cohomological descent datum satisfies the Stage33-05 explicit arithmetic representative contract",
-      "verify corrected geometric restriction is nonzero (f2,1), never the revoked old ell_Q",
-      "only on PASS may Stage33-05 be reclosed and downstream release reconsidered"
+    "still_unproved": {
+      "normalization_to_Kc_surface_H2_mu2_adapter": true,
+      "full_surface_mu2_lift": true,
+      "pic_mod2_defect_1cocycle": true,
+      "integral_Pic_lift": true,
+      "HS_d2_2cocycle": true,
+      "HS_d2_zero": true,
+      "Q_defined_arithmetic_Brauer_preimage": true,
+      "arithmetic_unramifiedness": true
+    },
+    "unresolved_unknown_in_R5_repair_scope": 1,
+    "forbidden_shortcuts": [
+      "Do not infer HS d2=0 from geometric Galois fixedness.",
+      "Do not identify normalization half-divisor descent with a Kc surface mu2 lift without an explicit adapter.",
+      "Do not reuse the historical Q-defined ell_J2/CSA; its geometric CV class is zero."
     ]
   },
   "fixed_marked_receiver": {
-    "T_Kc_gram": [[4, 0], [0, 8]],
-    "minimum_norm_to_functional": {
-      "4": [0, 1],
-      "8": [1, 0],
-      "12": [1, 1]
-    }
+    "T_Kc_gram": [[4,0],[0,8]],
+    "minimum_norm_to_functional": {"4":[0,1],"8":[1,0],"12":[1,1]},
+    "selected_minimum_norm": 8,
+    "selected_marked_J2": [1,0],
+    "selection_scope": "GEOMETRIC_KGEOM_ONLY"
+  },
+  "super_hostile_gate": {
+    "mandatory_after_full_R5_exit": true,
+    "state": "NOT_RELEASED",
+    "reason": "Actual surface mu2/Pic/HS d2 calculation remains open.",
+    "new_PR_required_after_full_R5_exit": true
   },
   "firewalls": {
-    "current_ell_J2_nonzero_geometric_credit": false,
+    "old_ell_J2_witness_revoked": true,
     "corrected_ell_J2_nonzero_geometric_credit": true,
     "named_J2_torsor_authoritative_credit": true,
     "named_J2_torsor_authoritative_scope": "GEOMETRIC_KGEOM_ONLY",
-    "corrected_J2_explicit_E2_cocycle_materialized": true,
-    "corrected_J2_twisted_kernel_materialized": true,
-    "corrected_J2_twisted_kernel_minimum_norm": 8,
-    "corrected_J2_marked_brauer_coordinate": [1, 0],
+    "corrected_J2_marked_brauer_coordinate": [1,0],
     "corrected_J2_Q_descent_exact_evidence_reestablished": false,
     "corrected_J2_equivalent_arithmetic_descent_datum_materialized": false,
     "Q_defined_descent_credit_restored": false,
-    "Q_defined_descent_credit_restore_requires_actual_HS_d2_zero_proof_and_super_hostile_pass": true,
-    "abstract_J2_revoked": false,
-    "abstract_J2_nonzero_reconfirmed": true,
+    "R5_full_repair_exit_reached": false,
     "stage33_05_reclosed": false,
     "stage33_05_unit_status": "BLOCKED_NEW_KERNEL",
     "stage33_12_closed_exact": false,
@@ -153,6 +119,6 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "stage33_progress": "5/11",
-  "next_exact_leaf": "POST_R5_MATERIALIZE_HS_D2_OBSTRUCTION_AND_PROVE_ZERO",
-  "report_format": "33-05 repair: R?/R5 | state | attempts | exact new information | next exit test"
+  "next_exact_leaf": "MATERIALIZE_NORMALIZATION_HALF_DIVISOR_TO_KC_SURFACE_H2_MU2_ADAPTER_THEN_COMPUTE_PIC_MOD2_DEFECT_AND_BOCKSTEIN_HS_D2",
+  "report_format": "33-05 repair: post-R5 | exact new information | surface-mu2/HS-d2 state | next exit test"
 }
