@@ -78,25 +78,52 @@ Goal: derive an exact map from the rank-2 projected Smith affine coordinates to 
 
 Exit criterion: a deterministic exact class map with proof/check of compatibility with the fixed-image basis, Smith affine parameterization, and the 32-21aa canonical projection-residue convention.
 
-Planned nearby leaves, subject to evidence:
+### 32-21ac — cheap exact pruning predicate
 
-- `32-21ac` — cheap exact lower bound / pruning predicate using projected slack minus the mapped 32-21aa penalty;
-- `32-21ad` — FULL178 compressed numerical census once the evaluator is certified.
+Status: `PLANNED_IN_CURRENT_WORK_PACKAGE`
 
-If 32-21ab reveals a materially different blocker, open a new leaf instead of stretching `ab`.
+Goal: combine the exact projected self-intersection slack with the mapped 32-21aa anti-fixed penalty into a cheap, exact, safe pruning predicate.
 
-## PR discipline from this boundary
+Exit criterion: an evaluator whose negative decision rigorously prunes an original integral Picard slice, with deterministic tests/certificate and no 27-digit terminal-family materialization.
 
-PR #1462 is the historical exception and is merged. From 32-21 onward:
+### Meaningful audit boundary: after 32-21ac
 
-- normally one clear hypothesis + implementation + proof/check per leaf;
-- normally one leaf per PR;
-- two or three tightly coupled leaves may share one PR when separating them would create artificial boundaries;
-- completed machinery is checkpointed rather than carried through many unrelated generations;
-- a materially different strategy gets a new leaf label;
+`32-21aa`, `32-21ab`, and `32-21ac` are one tightly coupled mathematical package:
+
+1. represent the information lost by Reynolds averaging;
+2. attach that finite state to the rank-2 projected coordinates;
+3. turn the attached state into an actually usable exact pruning predicate.
+
+Therefore the current PR #1465 is the container for `32-21aa -> 32-21ab -> 32-21ac`. Do **not** stop merely because one small leaf closes. Continue within the same PR while the next step is a tightly coupled adapter needed to make the package usable.
+
+After 32-21ac reaches its exact exit criterion, stop and run a fresh boundary audit. Merge #1465 only after that audit passes. The audit should check the complete aa->ab->ac semantic chain, exactness, hashes/tests, UNKNOWN semantics, heavy-run safety, and all research-credit firewalls.
+
+### 32-21ad — FULL178 compressed numerical census
+
+Status: `BLOCKED_ON_AA_AC_BOUNDARY_AUDIT`
+
+This is the next major phase: apply the audited compressed evaluator to the FULL178 population. It is a natural new PR / execution boundary because it changes from building the exact evaluator to using it at full population scale and may require a separately authorized production run.
+
+Release condition: `32-21aa-ac boundary audit PASS`.
+
+## PR / MAIN batch discipline from this boundary
+
+PR #1462 is the historical exception and is merged.
+
+From 32-21 onward, **leaf boundaries are reasoning/checkpoint boundaries, not automatic PR or audit boundaries**.
+
+Default MAIN behavior:
+
+- advance through consecutive tightly coupled leaves in the same PR until a meaningful boundary is reached;
+- keep leaf labels small enough that exact failures and dependencies remain diagnosable;
+- do not manufacture a PR merely because a lettered leaf completed;
+- record intermediate exact checkpoints inside the current PR/controller/state;
+- run a fresh audit at meaningful boundaries, especially before full-population production, heavy arming, downstream/claim promotion, or a materially different mathematical strategy;
+- after an audit PASS, merge/checkpoint the package and start the next coherent package in a new PR;
+- a material blocker or strategy change may force an earlier audit/split;
 - controller/docs-only edits never authorize heavy compute;
 - heavy work still requires a fresh run-key synchronization and repository-wide Actions policy compliance.
 
-Current pointer:
+Current working package:
 
-`32-19 CLOSED_RETROSPECTIVE -> 32-20 CLOSED_CHECKPOINTED -> 32-21aa CLOSED_CHECKPOINTED -> 32-21ab IN_PROGRESS`
+`PR #1465: 32-21aa CLOSED_CHECKPOINTED -> 32-21ab IN_PROGRESS -> 32-21ac PLANNED -> BOUNDARY AUDIT -> merge -> 32-21ad next PR`
