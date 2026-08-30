@@ -71,6 +71,35 @@ The reusable repo-wide cycle policy remains:
 
 `LOOP-GUARD.md` is retained for historical compatibility and detailed prior examples, but its old current-receiver/candidate-ledger sections are not authoritative current state.
 
+## Compact evidence and bounded context
+
+Stage33 should keep exact evidence reproducible without making routine MAIN load or persist giant expanded objects.
+
+For large generated evidence, prefer a compact committed interface containing:
+
+```text
+SOURCE_LOCKS
+GENERATOR / deterministic invocation
+CANONICAL_SHA256 of complete regenerated output
+SEMANTIC_SUMMARY
+EXIT_RELEVANT_INVARIANTS
+REGEN_COMMAND
+```
+
+Expanded deterministic evidence should normally remain runner-local and be regenerated for verification. Do not commit or upload giant expanded artifacts by default when a compact deterministic certificate preserves the exact downstream invariants. Any exception must name the irreducible load-bearing data that cannot be reconstructed.
+
+Routine context is tiered:
+
+```text
+HOT  = RULES + CURRENT + controller + active state + immediate current-leaf certificates/scripts
+WARM = predecessor compact handoff/result and named interface definitions
+COLD = giant generated JSON, old workflow logs, full PR diffs, audited ancestor internals
+```
+
+COLD material is loaded only for a named reason such as source-lock mismatch, certificate contradiction, a missing load-bearing representative/matrix, hostile-audit mode, or deterministic replay debugging. If the same cold detail must be rediscovered repeatedly, export it once into a compact reusable interface.
+
+These Stage33 rules operate under the stricter repo-wide Actions storage policy in Research OS.
+
 ## MAIN startup order
 
 For a Stage33 MAIN batch, read only what is needed in this order:
