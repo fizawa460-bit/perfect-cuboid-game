@@ -1,15 +1,28 @@
 {
-  "schema": "STAGE33_CONTROLLER_RUNTIME_OVERRIDE_POST_R5_HS_D2_V1",
+  "schema": "STAGE33_CONTROLLER_RUNTIME_OVERRIDE_POST_R5_HS_D2_V2_PRE_KUMMER_COCHAIN",
   "supersedes_runtime_fields_in": "stages/stage33/controller.json",
-  "reason": "The giant one-line controller remains structurally historical and still names R5 hostile replay as active. Fresh hostile audit of b622e0f0d643327b58d58a38a57d477761138237 invalidated the attempted post-R5 Q-descent promotion: Galois fixedness was computed, but Pic/2 defect, integral Pic lift and Hochschild-Serre d2 were assigned zero constants rather than derived. This override is authoritative for current runtime routing until controller.json can be safely regenerated without dropping historical fields.",
+  "reason": "Fresh hostile audit invalidated the attempted post-R5 Q-descent promotion because Galois fixedness was computed but Pic/2 and Hochschild-Serre d2 were not. MAIN has now materialized a stronger corrected representative-level/normalization half-divisor descent cochain, while explicitly preserving the surface Kummer and HS d2 gap.",
   "authoritative_repair_state": "stages/stage33/33-05/j2-representative-repair-state.json",
   "authoritative_audit_state": "stages/stage33/33-05/audit-state.json",
   "post_r5_failure_certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json",
-  "current_status": "R0_R4_PASS_R5_GEOMETRIC_HOSTILE_REPLAY_PASS_POST_R5_Q_DESCENT_FAIL_UNPROVEN",
-  "current_item": "Stage33-05_POST_R5_HS_D2_OBSTRUCTION",
+  "pre_kummer_progress_certificate": "stages/stage33/33-05/j2-corrected-pre-kummer-descent-cochain.json",
+  "pre_kummer_progress_canonical_sha256": "940df53040c6f5245914effbfb7d752a08c61b6d593586952b322e4069415106",
+  "current_status": "R0_R4_PASS_R5_GEOMETRIC_PASS_POST_R5_Q_DESCENT_OPEN_PRE_KUMMER_COCHAIN_MATERIALIZED",
+  "current_item": "Stage33-05_POST_R5_SURFACE_MU2_AND_HS_D2",
   "active_receiver": "CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE",
-  "active_missing_interface": "MATERIALIZE_ACTUAL_HOCHSCHILD_SERRE_D2_OBSTRUCTION_AND_PROVE_ZERO",
-  "next_exact_leaf": "POST_R5_MATERIALIZE_HS_D2_OBSTRUCTION_AND_PROVE_ZERO",
+  "active_missing_interface": "NORMALIZATION_HALF_DIVISOR_DESCENT_TO_KC_SURFACE_H2_MU2_THEN_PIC_MOD2_AND_HS_D2",
+  "next_exact_leaf": "MATERIALIZE_NORMALIZATION_HALF_DIVISOR_TO_KC_SURFACE_H2_MU2_ADAPTER_THEN_COMPUTE_PIC_MOD2_DEFECT_AND_BOCKSTEIN_HS_D2",
+  "new_exact_information": {
+    "corrected_half_divisor": "D=P_r2-P_r4",
+    "div_f2": "2D",
+    "sqrt2_descent_principal_witness": "h_ct=z/((t-r1)*(t-r2))",
+    "h_ct_times_ct_h_ct": "1",
+    "ct_f2_square_witness": "u_ct=(t-r3)*(t-r4)/z",
+    "u_ct_times_ct_u_ct": "1",
+    "full_pair_tau_ct_cc_square_diagonal_witnesses_materialized": true,
+    "surface_mu2_lift_materialized": false,
+    "HS_d2_materialized": false
+  },
   "R5_full_repair_exit_reached": false,
   "super_hostile_audit_gate_released": false,
   "new_PR_transition_released": false,
@@ -19,6 +32,11 @@
     "named_J2_torsor_authoritative_scope": "GEOMETRIC_KGEOM_ONLY",
     "minimum_norm": 8,
     "marked_J2": [1,0]
+  },
+  "retired_evidence": {
+    "historical_j2_arithmetic_descent_may_be_reused": false,
+    "historical_named_kummer_glue_producer_tombstoned": true,
+    "historical_full_surface_delta_Kum_zero_credit_revoked": true
   },
   "firewalls": {
     "Q_defined_descent_credit_restored": false,
@@ -33,12 +51,12 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "mandatory_next_checks": [
-    "construct a genuine Pic/2 or integral-Pic lift datum for corrected J2",
-    "compute the resulting Hochschild-Serre d2 cocycle/class",
-    "prove d2(J2)=0 in the correct H2 target",
-    "only then apply HS kernel=image to obtain Q-defined Brauer lift credit",
-    "verify the lift restricts to corrected nonzero J2=(f2,1), not revoked old ell_Q",
-    "verify arithmetic unramifiedness/residue conditions",
+    "construct a genuine H^2_et(Kc_bar,mu_2) lift of corrected J2 from the corrected normalization/CV datum or an equivalent explicit surface construction",
+    "compute sigma(lift)-lift in Pic(Kc_bar)/2 for the actual Galois generators",
+    "choose integral Pic lifts and compute the Bockstein/Hochschild-Serre 2-cocycle",
+    "determine its class without assuming zero",
+    "only if the class is zero apply HS kernel=image to obtain Q-defined Brauer lift credit",
+    "verify the arithmetic lift restricts to corrected nonzero J2=(f2,1), never the revoked old ell_Q",
     "after full R5 exit only: transition to new PR and run mandatory super-hostile audit"
   ]
 }
