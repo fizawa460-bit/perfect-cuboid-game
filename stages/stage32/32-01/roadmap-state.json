@@ -1,45 +1,55 @@
 {
-  "schema": "STAGE32_32_01_CHILD_ROADMAP_V1",
-  "parent": "32-01",
-  "roadmap": "stages/stage32/ROADMAP-32-01-RESIDUAL-CLOSURE.md",
-  "pr_size_policy": "ONE_BOUNDED_CHILD_OR_TIGHTLY_COUPLED_CHECKPOINT_PER_PR_AFTER_CURRENT_HISTORICAL_PR_BOUNDARY",
+  "schema": "STAGE32_RETROSPECTIVE_GENERATION_MAP_V1",
+  "authoritative_roadmap": "stages/stage32/ROADMAP-32-19-21-REANCHOR.md",
+  "legacy_parent_alias": "32-01",
   "current_pr": 1462,
   "current_pr_is_historical_exception": true,
   "merge_allowed": false,
-  "children": [
+  "new_pr_creation_authorized_this_batch": false,
+  "generations": [
     {
-      "id": "32-01A",
-      "name": "EXACT_PREFIX_REPRESENTATION",
-      "status": "DONE_CHECKPOINTED",
+      "id": "32-19",
+      "name": "BRUTE_FORCE_SCALING_LIMIT_AND_HARD_TAIL",
+      "status": "CLOSED_RETROSPECTIVE",
+      "result": "BLIND_NODE_CEILING_ESCALATION_OPERATIONALLY_DOMINATED"
+    },
+    {
+      "id": "32-20",
+      "name": "SYMBOLIC_PREFIX_COUNT_AND_EXACT_INDEXED_TERMINAL_FAMILY",
+      "status": "CLOSED_CHECKPOINTED",
       "result": "PASS_PREFIX_DFS_REPARAMETERIZED_TO_EXACT_INDEXED_TERMINAL_FAMILY"
     },
     {
-      "id": "32-01B",
-      "name": "NUMERICAL_PICARD_LEAF_COMPRESSION",
+      "id": "32-21",
+      "name": "NUMERICAL_PICARD_LEAF_COMPRESSION_ON_EXACT_PREFIX_REPRESENTATION",
       "status": "IN_PROGRESS",
-      "next": "ANTI_FIXED_LIFT_OR_COSET_PENALTY"
-    },
-    {
-      "id": "32-01C",
-      "name": "BOUNDED_NUMERICAL_ROW_EVALUATOR",
-      "status": "BLOCKED_BY_32-01B"
-    },
-    {
-      "id": "32-01D",
-      "name": "FULL178_COMPRESSED_NUMERICAL_CENSUS",
-      "status": "BLOCKED_BY_32-01C"
-    },
-    {
-      "id": "32-01E",
-      "name": "HOSTILE_EQUIVALENCE_AND_COMPLETENESS_AUDIT",
-      "status": "BLOCKED_BY_32-01D"
-    },
-    {
-      "id": "32-01F",
-      "name": "RESIDUAL_RECEIVER_CLOSURE_DECISION",
-      "status": "BLOCKED_BY_32-01E"
+      "current_leaf": "32-21aa"
     }
   ],
+  "leaves": [
+    {
+      "id": "32-21aa",
+      "name": "ANTI_FIXED_COSET_PENALTY_REPRESENTATION",
+      "status": "IN_PROGRESS"
+    },
+    {
+      "id": "32-21ab",
+      "name": "EXACT_QUOTIENT_CLASS_MAP",
+      "status": "PLANNED"
+    },
+    {
+      "id": "32-21ac",
+      "name": "CHEAP_EXACT_LOWER_BOUND",
+      "status": "PLANNED"
+    },
+    {
+      "id": "32-21ad",
+      "name": "FULL178_COMPRESSED_NUMERICAL_CENSUS",
+      "status": "PLANNED_BLOCKED"
+    }
+  ],
+  "pr_size_policy": "ONE_CLEAR_LEAF_PER_PR_NORMALLY_AFTER_PR1462; TWO_OR_THREE_TIGHTLY_COUPLED_LEAVES_MAY_SHARE_ONE_PR",
+  "heavy_compute_authorized_by_this_file": false,
   "firewalls": {
     "FULL_D16_G0_ROW_COMPLETE": false,
     "FULL_D8_G0_ROW_COMPLETE": false,
