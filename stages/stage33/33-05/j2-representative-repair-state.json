@@ -2,12 +2,13 @@
   "schema": "STAGE33_05_J2_REPRESENTATIVE_REPAIR_STATE_V1",
   "repair_band": "R0_TO_R5",
   "roadmap": "stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md",
-  "status": "R4_DONE_MINIMUM_NORM_8_MARKED_J2_1_0_R5_READY",
+  "status": "R4_DONE_MINIMUM_NORM_8_MARKED_J2_1_0_HOSTILE_KERNEL_VERIFIED_R5_READY",
   "current_leaf": "R5",
   "current_leaf_title": "HOSTILE_REPLAY_R1_TO_R4_AND_RESTORE_ONLY_REESTABLISHED_CREDIT",
   "current_leaf_attempts": 0,
   "current_leaf_stagnation_count": 0,
   "stagnation_trigger": 2,
+  "mandatory_pre_r5_certificate": "stages/stage33/33-05/j2-r4-hostile-torsor-brauer-kernel-verification.json",
   "leaves": {
     "R0": {
       "state": "DONE_ZERO",
@@ -43,7 +44,7 @@
       "exact_statement": "Creutz-Viray Lemma 4.6 applied directly to corrected (f2,1) gives chi_tilde=(1,1,0,0), g=1 and xi(rho)=the Bplus partition class; an exact quartic-to-Jacobian square identity identifies that class as Tr=((t^2-1)^2,0)."
     },
     "R4": {
-      "state": "DONE_MINIMUM_NORM_8_MARKED_J2_1_0",
+      "state": "DONE_MINIMUM_NORM_8_MARKED_J2_1_0_HOSTILE_KERNEL_VERIFIED",
       "exit": "TWISTED_KERNEL_MINIMUM_NORM_IN_4_8_12_AND_MARKED_COORDINATE_SELECTED",
       "attempts": 3,
       "input_certificate": "stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json",
@@ -51,6 +52,10 @@
       "attempt2_certificate": "stages/stage33/33-05/j2-r4-correct-translation-torsor.json",
       "certificate": "stages/stage33/33-05/j2-r4-translation-quotient-lattice.json",
       "verifier": "stages/stage33/33-05/certify_j2_r4_translation_quotient_lattice.py",
+      "hostile_kernel_identification_certificate": "stages/stage33/33-05/j2-r4-hostile-torsor-brauer-kernel-verification.json",
+      "hostile_kernel_identification_verified": true,
+      "integral_kernel_theorem": "Caldararu Theorem 1.2 plus elliptic torsor/Ogg-Shafarevich dictionary in sections 1.15-1.16: for the torsor J_alpha classified by alpha in Br(J), T(J_alpha) is integrally Hodge-isometric to ker(alpha:T(J)->Q/Z) with the inherited pairing.",
+      "named_torsor_class_adapter": "Creutz-Viray Lemma 4.6 and Proposition 5.1 identify d(ell) with the H1(Pic) edge image of gamma(ell); over Kgeom=Qbar(t) with the elliptic section and Br(Kgeom)=0, the R3 cocycle xi is the Ogg-Shafarevich torsor image of corrected geometric J2.",
       "attempt1_isogeny_cover": "N^2=f2*U^4+(t^2+1)^2*U^2*V^2+([2*t*(t^2-1)]^2/f2)*V^4",
       "attempt1_isogeny_cover_jacobian": "E'_Tr: y^2=x*(x-Dplus^2)*(x-Dminus^2)",
       "attempt1_isogeny_cover_is_named_E_torsor": false,
@@ -63,10 +68,10 @@
       "twisted_kernel_gram": [[8, 0], [0, 16]],
       "minimum_norm": 8,
       "marked_brauer_coordinate": [1, 0],
-      "exact_statement": "The correct attempt-2 torsor has the free involution (n,v)->(-n,-v), whose quotient is E'_Tr by X=n^2/f2 and Y=-n*v/f2. A verified degree-one Mobius base change and Legendre root permutation identify the E'_Tr elliptic K3 with Kc over Q(i,sqrt(2)). The degree-2 transcendental pullback has Gram T(Kc)(2)=diag(8,16) and determinant 128. The nonzero order-2 J2 kernel also has determinant 128, forcing pullback index 1. Thus the corrected torsor kernel has minimum norm 8 and selects marked J2=[1,0]. Attempt 1 remains revoked as the named torsor."
+      "exact_statement": "The corrected pair (f2,1) maps by Creutz-Viray's explicit d-map to the R3 E[2] cocycle xi(rho)=Tr, and Proposition 5.1 identifies this with the cohomological edge image of the same CV Brauer class. Over Kgeom=Qbar(t), the elliptic section and Br(Kgeom)=0 make its H1(E) image exactly the Ogg-Shafarevich torsor class of corrected geometric J2. The attempt-2 quartic is the explicit semilinear translation descent for that cocycle, so its relatively minimal smooth projective model is the elliptic K3 torsor J_J2. Căldăraru Theorem 1.2 and sections 1.15-1.16 give an integral Hodge isometry T(X_J2) ~= ker(J2:T(Kc)->Q/Z), with no pairing rescaling. Separately, the free involution quotient gives a degree-2 map to E'_Tr, whose K3 is Kc over Q(i,sqrt(2)); pullback therefore has Gram T(Kc)(2)=diag(8,16), determinant 128. Since nonzero order-2 J2 has kernel index 2 and determinant 128, equal determinants force pullback index 1. Thus T(X_J2)=diag(8,16), minimum norm 8, and marked J2=[1,0]. Attempt 1 remains revoked as the named torsor."
     },
     "R5": {
-      "state": "READY_AFTER_R4",
+      "state": "READY_AFTER_R4_HOSTILE_KERNEL_VERIFICATION",
       "exit": "HOSTILE_REPLAY_AND_ONLY_VALID_CREDIT_RESTORED"
     }
   },
