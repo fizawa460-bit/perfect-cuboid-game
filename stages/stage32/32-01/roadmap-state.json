@@ -1,0 +1,52 @@
+{
+  "schema": "STAGE32_32_01_CHILD_ROADMAP_V1",
+  "parent": "32-01",
+  "roadmap": "stages/stage32/ROADMAP-32-01-RESIDUAL-CLOSURE.md",
+  "pr_size_policy": "ONE_BOUNDED_CHILD_OR_TIGHTLY_COUPLED_CHECKPOINT_PER_PR_AFTER_CURRENT_HISTORICAL_PR_BOUNDARY",
+  "current_pr": 1462,
+  "current_pr_is_historical_exception": true,
+  "merge_allowed": false,
+  "children": [
+    {
+      "id": "32-01A",
+      "name": "EXACT_PREFIX_REPRESENTATION",
+      "status": "DONE_CHECKPOINTED",
+      "result": "PASS_PREFIX_DFS_REPARAMETERIZED_TO_EXACT_INDEXED_TERMINAL_FAMILY"
+    },
+    {
+      "id": "32-01B",
+      "name": "NUMERICAL_PICARD_LEAF_COMPRESSION",
+      "status": "IN_PROGRESS",
+      "next": "ANTI_FIXED_LIFT_OR_COSET_PENALTY"
+    },
+    {
+      "id": "32-01C",
+      "name": "BOUNDED_NUMERICAL_ROW_EVALUATOR",
+      "status": "BLOCKED_BY_32-01B"
+    },
+    {
+      "id": "32-01D",
+      "name": "FULL178_COMPRESSED_NUMERICAL_CENSUS",
+      "status": "BLOCKED_BY_32-01C"
+    },
+    {
+      "id": "32-01E",
+      "name": "HOSTILE_EQUIVALENCE_AND_COMPLETENESS_AUDIT",
+      "status": "BLOCKED_BY_32-01D"
+    },
+    {
+      "id": "32-01F",
+      "name": "RESIDUAL_RECEIVER_CLOSURE_DECISION",
+      "status": "BLOCKED_BY_32-01E"
+    }
+  ],
+  "firewalls": {
+    "FULL_D16_G0_ROW_COMPLETE": false,
+    "FULL_D8_G0_ROW_COMPLETE": false,
+    "R29_LG2": "NOT_DISCHARGED",
+    "THEOREM_CREDIT": false,
+    "RECEIVER_CREDIT": false,
+    "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
+    "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false
+  }
+}
