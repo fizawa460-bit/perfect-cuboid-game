@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE33_UNIT_HANDOFF_V2_POST_R5_HS_D2_OPEN",
+  "schema": "STAGE33_UNIT_HANDOFF_V3_CORRECTED_KC_BRANCH_SUPPORT_HS_D2_OPEN",
   "stage33_unit": "33-05",
   "unit_name": "K3_BR2_J2_REPRESENTATIVE_AND_ARITHMETIC_DESCENT_REPAIR",
   "unit_status": "BLOCKED_NEW_KERNEL",
@@ -28,8 +28,10 @@
     "forbidden_inference": "Galois-fixed geometric Brauer class => HS d2=0"
   },
   "new_exact_progress": {
-    "certificate": "stages/stage33/33-05/j2-corrected-pre-kummer-descent-cochain.json",
-    "canonical_sha256": "940df53040c6f5245914effbfb7d752a08c61b6d593586952b322e4069415106",
+    "pre_kummer_certificate": "stages/stage33/33-05/j2-corrected-pre-kummer-descent-cochain.json",
+    "pre_kummer_canonical_sha256": "940df53040c6f5245914effbfb7d752a08c61b6d593586952b322e4069415106",
+    "corrected_kc_branch_support_certificate": "stages/stage33/33-12/j2-corrected-kc-branch-support.json",
+    "corrected_kc_branch_support_canonical_sha256": "a9eb7d4d3868581d88ff7ce88c23a42b7010c79c959ead1579738e4a0c56961a",
     "half_divisor": "D=P_r2-P_r4",
     "div_f2": "2D",
     "ct_principal_witness": "h_ct=z/((t-r1)*(t-r2))",
@@ -37,11 +39,20 @@
     "ct_f2_square_witness": "u_ct=(t-r3)*(t-r4)/z",
     "u_ct_times_ct_u_ct": "1",
     "full_pair_tau_ct_cc_representative_witnesses": true,
-    "credit_scope": "NORMALIZATION_AND_FULL_L_PRE_KUMMER_ONLY"
+    "marked_Kc_branch": "CsK[22]",
+    "corrected_support_points": {
+      "P_r2": ["1","1","i","0","0","-sqrt(2)"],
+      "P_r4": ["-1","1","i","0","0","-sqrt(2)"]
+    },
+    "both_corrected_support_points_smooth_on_Kc": true,
+    "old_infinity_exceptional_dependency_eliminated": true,
+    "corrected_D_degree_two_quotient_image": "(0,0) in E'[2]",
+    "credit_scope": "NORMALIZATION_FULL_L_AND_MARKED_KC_SUPPORT_ONLY_NO_SURFACE_MU2_CREDIT"
   },
   "surface_mu2_boundary": {
     "contract": "stages/stage33/33-12/j2-full-surface-mu2-zero-defect-contract.json",
     "canonical_sha256": "c35eec49758734e29cb801ea9a55ed6e739238750f3ff92c14f030ae25e8ff2b",
+    "corrected_branch_Pic0_2torsion_to_surface_adapter_materialized": false,
     "surface_mu2_lift_materialized": false,
     "pic_mod2_defect_materialized": false,
     "integral_Pic_lift_materialized": false,
@@ -51,10 +62,12 @@
     "old_Q_defined_ell_J2_forbidden": true,
     "historical_named_kummer_glue_producer_tombstoned": true,
     "historical_delta_Kum_zero_credit_revoked": true,
+    "historical_infinity_exceptional_support_not_needed_for_corrected_D": true,
     "q1_HS_d2_route_retained_as_q1_only_template": true,
-    "q1_route_may_promote_J2_survival": false
+    "q1_route_may_promote_J2_survival": false,
+    "single_degree_two_quotient_coordinate_may_promote_surface_Kummer_class": false
   },
-  "next_exact_leaf": "MATERIALIZE_NORMALIZATION_HALF_DIVISOR_TO_KC_SURFACE_H2_MU2_ADAPTER_THEN_COMPUTE_PIC_MOD2_DEFECT_AND_BOCKSTEIN_HS_D2",
+  "next_exact_leaf": "MATERIALIZE_CORRECTED_PIC0_CSK22_2TORSION_TO_KC_SURFACE_H2_MU2_KUMMER_GYSIN_ADAPTER_THEN_COMPUTE_PIC_MOD2_DEFECT_AND_HS_D2",
   "unresolved_unknown_in_repair_scope": 1,
   "R5_full_repair_exit_reached": false,
   "super_hostile_gate_released": false,
