@@ -1,0 +1,43 @@
+name: Stage32 direct Picard orbit-sum rank diagnostic
+
+on:
+  pull_request:
+    types: [synchronize, opened, reopened]
+    paths:
+      - 'stages/stage32/residual-32-01-production/direct_picard_orbit_sum_rank_diagnostic.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_slice_stabilizer_orbit_bound.py'
+      - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_slice_bridge.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_slice_quadratic_bound.py'
+      - 'stages/stage32/residual-32-01-production/pairing_prefix_engine.py'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+      - '.github/workflows/stage32-direct-picard-orbit-sum-rank.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  orbit-sum-rank:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Measure exact orbit-sum quotient rank
+        run: |
+          python stages/stage32/residual-32-01-production/direct_picard_orbit_sum_rank_diagnostic.py \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --output direct-picard-orbit-sum-rank.json
+      - name: Upload compact rank evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-direct-picard-orbit-sum-rank
+          path: direct-picard-orbit-sum-rank.json
+          retention-days: 7
+          compression-level: 9
