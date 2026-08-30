@@ -1,19 +1,21 @@
 {
-  "schema": "STAGE33_CONTROLLER_RUNTIME_OVERRIDE_POST_R5_HS_D2_V2_PRE_KUMMER_COCHAIN",
+  "schema": "STAGE33_CONTROLLER_RUNTIME_OVERRIDE_POST_R5_HS_D2_V3_CORRECTED_KC_BRANCH_SUPPORT",
   "supersedes_runtime_fields_in": "stages/stage33/controller.json",
-  "reason": "Fresh hostile audit invalidated the attempted post-R5 Q-descent promotion because Galois fixedness was computed but Pic/2 and Hochschild-Serre d2 were not. MAIN has now materialized a stronger corrected representative-level/normalization half-divisor descent cochain, while explicitly preserving the surface Kummer and HS d2 gap.",
+  "reason": "Fresh hostile audit invalidated the attempted post-R5 Q-descent promotion because Galois fixedness was computed but Pic/2 and Hochschild-Serre d2 were not. MAIN has now materialized the corrected normalization half-divisor on two finite smooth points of the marked Kc branch CsK[22], eliminating the historical infinity/exceptional support ambiguity while explicitly preserving the surface Kummer and HS d2 gap.",
   "authoritative_repair_state": "stages/stage33/33-05/j2-representative-repair-state.json",
   "authoritative_post_r5_leaf_state": "stages/stage33/33-05/j2-post-r5-hs-d2-state.json",
-  "authoritative_post_r5_leaf_state_canonical_sha256": "aeb0c12a9c5b9bccad7dbd8e2bfc6cde6e9f9ccb8139e123f1e5fab6163531fc",
+  "authoritative_post_r5_leaf_state_canonical_sha256": "a1f2e3b83a25b0e30bd5aedd494e5761cce1d21af07c50a16d334d48da3da6dc",
   "authoritative_audit_state": "stages/stage33/33-05/audit-state.json",
   "post_r5_failure_certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json",
   "pre_kummer_progress_certificate": "stages/stage33/33-05/j2-corrected-pre-kummer-descent-cochain.json",
   "pre_kummer_progress_canonical_sha256": "940df53040c6f5245914effbfb7d752a08c61b6d593586952b322e4069415106",
-  "current_status": "R0_R4_PASS_R5_GEOMETRIC_PASS_POST_R5_Q_DESCENT_OPEN_PRE_KUMMER_COCHAIN_MATERIALIZED",
-  "current_item": "Stage33-05_POST_R5_SURFACE_MU2_AND_HS_D2",
+  "corrected_kc_branch_support_certificate": "stages/stage33/33-12/j2-corrected-kc-branch-support.json",
+  "corrected_kc_branch_support_canonical_sha256": "a9eb7d4d3868581d88ff7ce88c23a42b7010c79c959ead1579738e4a0c56961a",
+  "current_status": "R0_R4_PASS_R5_GEOMETRIC_PASS_POST_R5_Q_DESCENT_OPEN_CORRECTED_KC_BRANCH_SUPPORT_MATERIALIZED",
+  "current_item": "Stage33-05_POST_R5_CORRECTED_BRANCH_TO_SURFACE_MU2_AND_HS_D2",
   "active_receiver": "CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE",
-  "active_missing_interface": "NORMALIZATION_HALF_DIVISOR_DESCENT_TO_KC_SURFACE_H2_MU2_THEN_PIC_MOD2_AND_HS_D2",
-  "next_exact_leaf": "MATERIALIZE_NORMALIZATION_HALF_DIVISOR_TO_KC_SURFACE_H2_MU2_ADAPTER_THEN_COMPUTE_PIC_MOD2_DEFECT_AND_BOCKSTEIN_HS_D2",
+  "active_missing_interface": "CORRECTED_PIC0_CSK22_2TORSION_TO_KC_SURFACE_H2_MU2_KUMMER_GYSIN_ADAPTER",
+  "next_exact_leaf": "MATERIALIZE_CORRECTED_PIC0_CSK22_2TORSION_TO_KC_SURFACE_H2_MU2_KUMMER_GYSIN_ADAPTER_THEN_COMPUTE_PIC_MOD2_DEFECT_AND_HS_D2",
   "new_exact_information": {
     "corrected_half_divisor": "D=P_r2-P_r4",
     "div_f2": "2D",
@@ -22,6 +24,14 @@
     "ct_f2_square_witness": "u_ct=(t-r3)*(t-r4)/z",
     "u_ct_times_ct_u_ct": "1",
     "full_pair_tau_ct_cc_square_diagonal_witnesses_materialized": true,
+    "marked_Kc_branch": "CsK[22]",
+    "corrected_support_points": {
+      "P_r2": ["1","1","i","0","0","-sqrt(2)"],
+      "P_r4": ["-1","1","i","0","0","-sqrt(2)"]
+    },
+    "both_corrected_support_points_smooth_on_Kc": true,
+    "old_infinity_exceptional_dependency_eliminated": true,
+    "corrected_D_degree_two_quotient_image": "(0,0) in E'[2]",
     "surface_mu2_lift_materialized": false,
     "HS_d2_materialized": false
   },
@@ -38,7 +48,8 @@
   "retired_evidence": {
     "historical_j2_arithmetic_descent_may_be_reused": false,
     "historical_named_kummer_glue_producer_tombstoned": true,
-    "historical_full_surface_delta_Kum_zero_credit_revoked": true
+    "historical_full_surface_delta_Kum_zero_credit_revoked": true,
+    "historical_infinity_exceptional_support_needed_for_corrected_D": false
   },
   "firewalls": {
     "Q_defined_descent_credit_restored": false,
@@ -53,12 +64,13 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "mandatory_next_checks": [
-    "construct a genuine H^2_et(Kc_bar,mu_2) lift of corrected J2 from the corrected normalization/CV datum or an equivalent explicit surface construction",
+    "construct a genuine H^2_et(Kc_bar,mu_2) lift of corrected J2 from the corrected CsK[22] Pic0[2] datum or an equivalent explicit surface construction",
     "compute sigma(lift)-lift in Pic(Kc_bar)/2 for the actual Galois generators",
     "choose integral Pic lifts and compute the Bockstein/Hochschild-Serre 2-cocycle",
     "determine its class without assuming zero",
     "only if the class is zero apply HS kernel=image to obtain Q-defined Brauer lift credit",
     "verify the arithmetic lift restricts to corrected nonzero J2=(f2,1), never the revoked old ell_Q",
+    "do not promote the single degree-two quotient image (0,0) to the full E[2] cocycle or surface Kummer class",
     "after full R5 exit only: transition to new PR and run mandatory super-hostile audit"
   ]
 }
