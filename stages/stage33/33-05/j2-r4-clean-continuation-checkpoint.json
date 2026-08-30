@@ -1,6 +1,6 @@
 {
-  "schema": "STAGE33_05_J2_R4_CLEAN_CONTINUATION_CHECKPOINT_V1",
-  "status": "PASS_MIGRATION_ONLY_NO_NEW_MATHEMATICAL_CREDIT",
+  "schema": "STAGE33_05_J2_R4_CLEAN_CONTINUATION_CHECKPOINT_V2_ATTEMPT4",
+  "status": "ACTIVE_R4_ATTEMPT4_EVIDENCE_HYGIENE_REPAIRED",
   "active_pr": 1464,
   "active_branch": "stage33-r4-j2-tr-kernel-clean-continuation",
   "source_pr": 1463,
@@ -9,21 +9,58 @@
   "source_tree_sha": "399fb9feb7abc6a5ba84e16bbfbd525462d6d7d8",
   "base_main_sha": "9cea1edae4c6bb2ba781bc80921f67b4a3a980b2",
   "base_main_tree_sha": "399fb9feb7abc6a5ba84e16bbfbd525462d6d7d8",
-  "tree_identity_verified": true,
+  "tree_identity_verified_at_branch_cut": true,
+  "migration_only_no_new_mathematical_credit_at_branch_cut": true,
+  "post_migration_mathematical_work_present": true,
   "retained_state": {
     "R0": "DONE_ZERO",
     "R1": "DONE_ABSTRACT_J2_NONZERO_CONFIRMED",
     "R2": "DONE_CORRECTED_ELL_J2_NONZERO_CONFIRMED",
     "R3": "DONE_EXPLICIT_NONZERO_CV_E2_COCYCLE_AND_KUMMER_COORDINATES",
-    "R4": "IN_PROGRESS_NAMED_TR_KERNEL_2COVER_MATERIALIZED_LATTICE_GLUE_PENDING",
+    "R4": "IN_PROGRESS_2ISOGENY_ORIENTATION_CORRECTED_KC_JACOBIAN_TORSOR_MATERIALIZED_NS_PENDING",
     "R5": "BLOCKED_BY_R4",
     "candidate_minimum_norms": [4, 8, 12],
     "candidate_set_reduced": false,
-    "minimum_norm_selected": false
+    "minimum_norm_selected": false,
+    "marked_brauer_coordinate_selected": false
   },
-  "named_R4_torsor": "N^2=f2*U^4+(t^2+1)^2*U^2*V^2+([2*t*(t^2-1)]^2/f2)*V^4",
-  "next_exact_leaf": "R4_COMPUTE_NAMED_f2_Tr_TORSOR_NS_DISCRIMINANT_FORM_OR_EQUIVALENT_COMPONENT_GLUE_AND_SELECT_MINIMUM_NORM_4_8_12",
+  "historical_attempts": {
+    "attempt1": {
+      "certificate": "stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json",
+      "semantic_status": "SUPERSEDED",
+      "not_valid_as_named_kc_torsor_evidence": true,
+      "historical_quartic": "N^2=f2*U^4+(t^2+1)^2*U^2*V^2+([2*t*(t^2-1)]^2/f2)*V^4",
+      "actual_jacobian": "Eprime_Tr"
+    },
+    "attempt2": {
+      "certificate": "stages/stage33/33-05/j2-r4-bisection-relative-component-incidence.json",
+      "semantic_status": "SUPERSEDED_AS_NAMED_TORSOR_EVIDENCE_RETAINED_ONLY_AS_FIXED_JACOBIAN_RELATIVE_COMPONENT_REGRESSION",
+      "not_valid_as_named_kc_torsor_evidence": true
+    },
+    "attempt3": {
+      "certificate": "stages/stage33/33-05/j2-r4-legendre-torsion-glue-reduction.json",
+      "semantic_status": "RETAINED_EXACT_FIXED_JACOBIAN_TORSION_IDENTITIES_ONLY"
+    }
+  },
+  "current_attempt4": {
+    "certificate": "stages/stage33/33-05/j2-r4-2isogeny-orientation-correction.json",
+    "semantic_status": "CURRENT_R4_GEOMETRIC_TORSOR_ORIENTATION",
+    "corrected_named_torsor": "N^2=f2*U^4-2*(t^2+1)^2*U^2*V^2+((t^4-6*t^2+1)^2/f2)*V^4",
+    "jacobian": "E_Kc",
+    "degree2_map_target": "Eprime_Tr",
+    "minimum_norm_selected": false,
+    "marked_brauer_coordinate_selected": false
+  },
+  "evidence_hygiene": {
+    "historical_stage33_05_audit_current_credit": false,
+    "historical_j2_arithmetic_descent_current_credit": false,
+    "legacy_workflow_may_regenerate_old_positive_j2_descent": false,
+    "super_hostile_verdict": "FAIL_REPAIR_REQUIRED_BEFORE_MERGE",
+    "merge_allowed": false
+  },
+  "next_exact_leaf": "R4_COMPUTE_PRIMITIVE_NS_DISCRIMINANT_GROUP_AND_QUADRATIC_FORM_OF_CORRECTED_f2_Tr_Kc_JACOBIAN_TORSOR_AND_SELECT_MINIMUM_NORM_4_8_12",
   "firewalls": {
+    "Q_defined_descent_credit_restored": false,
     "stage33_05_reclosed": false,
     "stage33_12_closed_exact": false,
     "stage33_13_released": false,
