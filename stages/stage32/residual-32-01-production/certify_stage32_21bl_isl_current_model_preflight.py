@@ -20,6 +20,7 @@ from z3 import (
     Z3_OP_SUB,
     Z3_OP_UMINUS,
     is_int_value,
+    sat,
 )
 
 from certify_stage32_21ba_r51_interval_census import prism_triples
@@ -65,19 +66,25 @@ def linear(expr):
         cc, c0 = linear(expr.arg(0))
         return {k: -v for k, v in cc.items()}, -c0
     if kind == Z3_OP_MUL:
-        children = list(expr.children())
+        # Z3 preserves unsimplified constant products such as 1*0*ri_0.
+        # Parse every child as an affine form first, fold all constant-only
+        # factors exactly, and permit at most one genuinely variable factor.
+        # A zero constant factor annihilates the whole product exactly.
         scalar = 1
-        nonconstant = None
-        for child in children:
-            if is_int_value(child):
-                scalar *= int(child.as_long())
-            else:
-                if nonconstant is not None:
-                    raise ValueError(f"nonlinear product: {expr}")
-                nonconstant = child
-        if nonconstant is None:
+        variable_factor = None
+        for child in expr.children():
+            cc, c0 = linear(child)
+            if not cc:
+                scalar *= int(c0)
+                if scalar == 0:
+                    return {}, 0
+                continue
+            if variable_factor is not None:
+                raise ValueError(f"nonlinear product: {expr}")
+            variable_factor = (cc, int(c0))
+        if variable_factor is None:
             return {}, scalar
-        cc, c0 = linear(nonconstant)
+        cc, c0 = variable_factor
         return {k: scalar * v for k, v in cc.items()}, scalar * c0
     raise ValueError(f"unsupported arithmetic operator: {expr.decl()} / {expr}")
 
@@ -184,6 +191,7 @@ def exact_worker(cfg: dict) -> dict:
     solve_seconds = time.perf_counter() - start
 
     witness = None
+    original_z3_replay = None
     if empty:
         status = "UNSAT"
     else:
@@ -192,6 +200,16 @@ def exact_worker(cfg: dict) -> dict:
         witness = [int(point.get_coordinate_val(isl.dim_type.set, j).to_python()) for j in range(RANK)]
         point_map = {name: witness[j] for j, name in enumerate(names)}
         verify_point(relation_payload, point_map)
+
+        # Cross-backend witness firewall: replay the exact sampled integer point
+        # into the original current 21bl Z3 assertion set. A translated SAT point
+        # receives no credit unless the source model itself accepts it exactly.
+        for j, value in enumerate(witness):
+            solver.add(ri[j] == int(value))
+        replay_result = solver.check()
+        original_z3_replay = str(replay_result)
+        if replay_result != sat:
+            raise ValueError(f"ISL witness rejected by original 21bl Z3 model: {replay_result}")
 
     payload = {
         "schema": SCHEMA,
@@ -211,12 +229,14 @@ def exact_worker(cfg: dict) -> dict:
             "six_lossless_coordinate_bands_included": True,
             "all_42_pair_cuts_inherited_from_21bf": True,
             "floating_point_relaxation_used": False,
+            "sat_witness_requires_original_z3_replay": True,
         },
         "result": {
             "status": status,
             "solve_wall_seconds": solve_seconds,
             "witness_r_reduced": witness,
             "witness_sha256": csha(witness) if witness is not None else None,
+            "original_z3_replay_status": original_z3_replay,
         },
         "interpretation": {
             "sat_is_exact_fixed_projection_integer_witness_only": status == "SAT",
