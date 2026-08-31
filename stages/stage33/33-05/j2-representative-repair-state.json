@@ -12,31 +12,22 @@
     "restricted_d2_kernel_dimension_f2": 0,
     "restricted_d2_rank_f2": 2,
     "restricted_pairing_signature_determinant_mod2": 1,
-    "restricted_pairing_signature_matrix_rows_tests_columns_J2_q1": [
-      [
-        1,
-        1
-      ],
-      [
-        1,
-        0
-      ]
-    ],
-    "restricted_pairing_signature_tests": [
-      "CsK[2]",
-      "CsK[5]"
-    ],
+    "restricted_pairing_signature_matrix_rows_tests_columns_J2_q1": [[1,1],[1,0]],
+    "restricted_pairing_signature_tests": ["CsK[2]", "CsK[5]"],
     "subgroup_used_for_injective_restriction": "<ct> ~= C2"
   },
   "current_leaf": "STAGE33_05_RECLOSED_EXACT_ZERO_K3_BR2_Q_SURVIVAL",
   "current_leaf_attempts": 12,
-  "current_subleaf": "DONE_REBUILD_STAGE33_12_EXIT_ADAPTER_TO_CONSUME_EXACT_ZERO_K3_BR2_Q_SURVIVAL_WITHOUT_J2_Q_PREIMAGE",
+  "current_subleaf": "DONE_DEPENDENCY_REBUILD_HANDOFF_TO_STAGE33_12_ARITHMETIC_HS",
   "dependency_rebuild": {
-    "next_exact_leaf": "REBUILD_STAGE33_12_EXIT_ADAPTER_TO_CONSUME_ZERO_K3_BR2_Q_SURVIVAL_WITHOUT_J2_Q_PREIMAGE",
+    "adapter_rebuilt": true,
     "old_overconstrained_gate": "CORRECTED_J2_HS_D2_ZERO_AND_Q_DEFINED_PREIMAGE_REQUIRED",
-    "reason": "The original Stage33-05 unit contract allows exact zero survival as an alternative to arithmetic representatives. Corrected J2 and q1 both have nonzero, linearly independent HS d2 restrictions, so the entire 2D geometric invariant K3 Br[2] block has zero Q-survival.",
+    "reason": "The original Stage33-05 unit contract allows exact zero survival as an alternative to arithmetic representatives. Corrected J2 and q1 have nonzero independent HS d2 restrictions, so the entire 2D invariant K3 Br[2] block has zero Q-survival.",
     "replacement_gate": "EXACT_K3_BR2_Q_SURVIVAL_CLASSIFICATION_WITH_ZERO_SURVIVAL_ALLOWED",
-    "stage33_05_reclosure_mode": "EXACT_ZERO_SURVIVAL"
+    "stage33_05_reclosure_mode": "EXACT_ZERO_SURVIVAL",
+    "downstream_contract_child": "33-12_ARITHMETIC_HS_CLOSURE_AND_STAGE33_07_RECERTIFICATION",
+    "downstream_current_logical_branch": "33-13_FINITE_V4_KUMMER_MATRIX",
+    "next_exact_leaf": "MATERIALIZE_FINITE_V4_KUMMER_RESTRICTION_MATRIX_75x10_WITH_ALL_10_EXACT_COLUMNS_NO_GUESSED_ZERO_COLUMNS"
   },
   "evidence": {
     "j2_d2_hostile": "stages/stage33/33-05/j2-r5f-hs-d2-nonzero-hostile-replay.json",
@@ -74,35 +65,20 @@
     "full_successful_J2_descent_exit_reached": false
   },
   "repair_band": "R0_TO_R5_PLUS_DEPENDENCY_REBUILD",
-  "report_format": "33-05: CLOSED by exact zero K3 Br2 Q-survival | Stage33 6/11 | next 33-12 dependency adapter rebuild",
+  "report_format": "33-05 CLOSED by exact zero K3 Br2 Q-survival | Stage33 6/11 | active 33-12 internal 33-13 finite-V4 75x10 matrix",
   "retained_exact_geometric_credit": {
     "E2_cocycle": "xi(rho)=Tr",
     "K3_geometric_Br2_dimension_f2": 2,
     "corrected_J2": "(f2,1)",
     "corrected_J2_nonzero": true,
-    "geometric_GQ_invariant_basis": [
-      "J2",
-      "q1"
-    ],
-    "marked_J2": [
-      1,
-      0
-    ],
+    "geometric_GQ_invariant_basis": ["J2", "q1"],
+    "marked_J2": [1,0],
     "minimum_norm": 8,
     "scope": "GEOMETRIC_KGEOM_ONLY",
-    "twisted_kernel_gram": [
-      [
-        8,
-        0
-      ],
-      [
-        0,
-        16
-      ]
-    ]
+    "twisted_kernel_gram": [[8,0],[0,16]]
   },
   "roadmap": "stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md",
-  "schema": "STAGE33_05_J2_REPRESENTATIVE_REPAIR_STATE_V13_EXACT_ZERO_K3_BR2_Q_SURVIVAL_RECLOSURE",
+  "schema": "STAGE33_05_J2_REPRESENTATIVE_REPAIR_STATE_V14_ZERO_SURVIVAL_CLOSED_DOWNSTREAM_HANDOFF",
   "stage33_progress": "6/11",
   "status": "CLOSED_EXACT_ZERO_K3_BR2_Q_SURVIVAL_HOSTILE_PASS",
   "unit_closure_contract": {
