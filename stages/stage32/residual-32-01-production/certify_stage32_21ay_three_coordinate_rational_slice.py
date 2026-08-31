@@ -144,7 +144,6 @@ def main() -> None:
     for j, (lo, hi) in enumerate(initial_bounds):
         solver.add(rvars[j] >= lo, rvars[j] <= hi)
 
-    # Revalidate the one persisted 21ax cut independently before consuming it.
     cut = seed["persisted_integer_valid_cuts"][0]
     if cut != {"coordinate": 11, "relation": ">=", "value": -1426, "prior_bound": [-5529, 3621], "new_bound": [-1426, 3621]}:
         raise ValueError("21ax seed cut regression")
@@ -162,7 +161,7 @@ def main() -> None:
 
     checked = 0
     rational_sat = []
-    qflra_unkown = []
+    qflra_unknown = []
     exact_unsat_count = 0
     stopped_by_wall = False
 
@@ -249,7 +248,7 @@ def main() -> None:
             "rational_sat_triple_count": len(rational_sat),
             "qflra_unknown_triple_count": len(qflra_unknown),
             "rational_sat_triples": rational_sat,
-            "qflra_unknown_triples": qflra_unkown,
+            "qflra_unknown_triples": qflra_unknown,
             "combined_representative_sample_sat": 0,
             "combined_representative_sample_unsat": 56 if status == "UNSAT" else 55,
             "combined_representative_sample_unknown": 0 if status == "UNSAT" else 1
@@ -278,6 +277,7 @@ def main() -> None:
     payload["canonical_sha256_without_this_field"] = csha(payload)
     args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
     print(json.dumps({"status": status, "canonical": payload["canonical_sha256_without_this_field"], "checked": checked, "sat": len(rational_sat), "unsat": exact_unsat_count, "unknown": len(qflra_unknown), "elapsed_seconds": round(time.monotonic()-started,3)}), flush=True)
+
 
 if __name__ == "__main__":
     main()
