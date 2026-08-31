@@ -1,4 +1,4 @@
-name: Stage33 J2 half-lift functional probe
+name: Stage33 J2 half-lift quadratic probe
 on:
   push:
     branches: [stage33-12-j2-ptsK-qPicK-continuation]
@@ -11,5 +11,5 @@ jobs:
     timeout-minutes: 3
     steps:
       - uses: actions/checkout@v4
-      - name: Enumerate all order4 half-lift functionals
+      - name: Enumerate order4 half-lift functionals and quadratic values
         run: python3 stages/stage33/33-12/certify_j2_order4_half_lift_functional_space.py
