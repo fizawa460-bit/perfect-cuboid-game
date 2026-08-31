@@ -1,6 +1,13 @@
 name: Stage33-12 J2 semantic u1 retained Smith source
 
 on:
+  push:
+    branches:
+      - 'stage33-12-j2-ptsK-qPicK-continuation'
+    paths:
+      - 'stages/stage33/33-12/j2-semantic-u1-smith-run-key.json'
+      - 'stages/stage33/33-12/materialize_j2_semantic_u1_full_surface_smith_source.py'
+      - '.github/workflows/stage33-12-j2-semantic-u1-smith-source.yml'
   pull_request:
     paths:
       - 'stages/stage33/33-12/j2-semantic-u1-smith-run-key.json'
@@ -31,7 +38,7 @@ jobs:
           EVENT: ${{ github.event_name }}
           ACTION: ${{ github.event.action }}
           BEFORE: ${{ github.event.before }}
-          HEAD: ${{ github.event.pull_request.head.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           set -euo pipefail
           KEY='stages/stage33/33-12/j2-semantic-u1-smith-run-key.json'
@@ -52,7 +59,11 @@ jobs:
           PY
             exit 0
           fi
-          [[ "$EVENT" == pull_request && "$ACTION" == synchronize ]] || exit 0
+          if [[ "$EVENT" == pull_request ]]; then
+            [[ "$ACTION" == synchronize ]] || exit 0
+          else
+            [[ "$EVENT" == push ]] || exit 0
+          fi
           [[ -n "$BEFORE" && -n "$HEAD" ]] || exit 0
           git fetch --no-tags --depth=1 origin "$BEFORE" || true
           git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
