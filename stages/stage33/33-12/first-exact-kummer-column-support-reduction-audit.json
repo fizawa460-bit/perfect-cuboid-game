@@ -1,0 +1,70 @@
+{
+  "schema": "STAGE33_12_J2_FIRST_KUMMER_COLUMN_SUPPORT_REDUCTION_AUDIT_V2",
+  "role": "EXACT_SUPPORT_LEVEL_REDUCTION_NO_COLUMN_PROMOTION",
+  "stage": "33-12",
+  "status": "PASS_EXACT_REDUCTION_CC_CECH_PARITY_PLUS_CT_SIX_PULLBACKS_PLUS_J2_ONE_ORIENTATION_BIT_REMAIN",
+  "canonical_sha256": "2f0ca83494297f16649861d655ffccd90c128fcece2a315da1536df205a57341",
+  "finite_v4_kummer_columns_materialized": 0,
+  "first_exact_kummer_column_materialized": false,
+  "exact_progress": {
+    "corrected_J2_surface_mu2_lift_materialized": true,
+    "ct_defect_marked_semantic_Kc_Pic2_materialized": true,
+    "ct_defect_marked_semantic_Kc_Pic2_coordinates_f2_20": [0,0,0,0,0,0,0,0,1,1,0,1,0,1,1,1,0,0,0,0],
+    "semantic_Kc_basis_equals_upstream_indlistK": true,
+    "semantic_Kc_indlistK_1based": [2,4,5,7,9,10,20,21,26,35,39,42,44,47,49,52,54,64,67,72],
+    "ct_defect_exact_BigK_support_1based": [26,35,42,47,49,52],
+    "full_Kc20_to_fullPic64_matrix_required_for_first_column": false,
+    "sufficient_fullPic64_transport_for_ct": "pull back BigK[26], BigK[35], BigK[42], BigK[47], BigK[49], BigK[52] by pinned upstream preimages map and sum mod2",
+    "upstream_pullback_formula": "MatKtoS = Matrix(PicbasrepsK) * MatBigKtoBig * MatqPic",
+    "retained_full_surface_marked_basis_numeric_matrix_exists": true,
+    "retained_full_surface_marked_basis_path": "stages/stage33/33-09/marked-picard-basis-source.json",
+    "retained_full_surface_marked_basis_field": "indlist_to_magma_picard_matrix_64x64",
+    "J2_semantic_discriminant_2torsion_candidates_exact": 3,
+    "J2_semantic_discriminant_orientation_remaining_bits_at_most": 2,
+    "J2_cv_two_isogeny_squareclass_d2_exact": true,
+    "proper_Br2_14D_to_retained_10D_reduction_is_deterministic_GF2_once_J2_14D_known": true
+  },
+  "cc_defect_firewall": {
+    "generic_identity": "cc(lambda_D)-lambda_D={f2,g21*g22}={f2,(B1/(2*t))^2}",
+    "generic_symbol_zero": true,
+    "actual_marked_Pic2_cc_defect_materialized": false,
+    "cc_zero_may_not_be_inferred_from_generic_square": true,
+    "revocation_reason": "generic rank-2 splitting data can be changed by elementary transforms at compactification divisors; actual local Cech lattices and overlap determinant parity are required before assigning a Pic/2 defect",
+    "historical_zero_defect_credit_revoked": true
+  },
+  "j2_source_coordinate_reduction": {
+    "semantic_discriminant_basis": ["u1","u2"],
+    "nonzero_candidates_f2": [[1,0],[0,1],[1,1]],
+    "cv_exact_selected_squareclass": "d=2",
+    "remaining_exact_interface": "MATCH_NAMED_CV_KUMMER_ORIENTATION_FOR_d2_TO_ONE_OF_u1_u2_u1_PLUS_u2_THEN_TRANSPORT_TO_PROPER_BR2_14D_AND_SOLVE_RETAINED_10D_COORDINATES"
+  },
+  "new_smallest_exact_kernel": "R33-12-33-13-J2-CC-CECH-PARITY-PLUS-CT-SIX-KC-SUPPORT-PULLBACKS-PLUS-ONE-NAMED-SEMANTIC-DISCRIMINANT-ORIENTATION",
+  "next_exact_leaf": "MATERIALIZE_CC_ACTUAL_CECH_OVERLAP_PARITY; RECOVER_FULLPIC64_PULLBACKS_OF_CT_BIGK_26_35_42_47_49_52_FROM_PINNED_PREIMAGE_MAP_AND_RETAINED_33_09_MARKED_BASIS; MATCH_CV_d2_TO_SEMANTIC_u1_u2_OR_u1_PLUS_u2; THEN_ASSEMBLE_ONE_EXACT_75D_KUMMER_COLUMN",
+  "prohibited_shortcuts": [
+    "do not set cc defect to zero from the generic square symbol alone",
+    "do not require or regenerate the entire historical 20x64 MatKtoS when only support-vector pullbacks are needed",
+    "do not choose one of the three semantic J2 discriminant classes from dimensions or quadratic values alone",
+    "do not materialize a 75D column until cc, ct fullPic64 transport, and J2 source orientation are exact"
+  ],
+  "source_locks": {
+    "branch_head_observed": "eb2f16b9436709421b47f1f839981fff22950969",
+    "previous_j2_recovery_audit_canonical_sha256": "1174b98316f6e78e886540192cf9af378b9dac8e91a8359f2fb2e174ca3fc3b5",
+    "semantic_kc_picard_basis_canonical_sha256": "c17439c877de3d1cdebd716f4ba2571fb67ec9f07e30d944eafc39ae534380c0",
+    "semantic_kc_discriminant_2torsion_canonical_sha256": "0b5d7dfdefbb0f2b7c37396ada35c0bee462dfeb625eb18262be0e862205d8df",
+    "cv_leray_2isogeny_coordinate_canonical_sha256": "b3010a268d89aed047251db75a845897c9e61786f7ba75f339d6d9bd744bf86b",
+    "full_surface_mu2_zero_defect_contract_canonical_sha256": "55cd01cc8570cb759e7029ddef3b9dac764625a7cdd313c76fd694e37fd478ce",
+    "ct_actual_cech_overlap_canonical_sha256": "68077141a4f792eefb47ebfd5db46ae9e785a0bef286449fc888663f2f2f5c3c",
+    "stage33_09_marked_picard_basis_source_canonical_sha256": "0a1863928608c2698051b4d22d0ac1b92128164825dbdb7edfb82fe941a05c8f",
+    "pinned_upstream_commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+    "pinned_upstream_blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1"
+  },
+  "promotion_firewall": {
+    "stage33_12_closed": false,
+    "stage33_07_reclosed": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
