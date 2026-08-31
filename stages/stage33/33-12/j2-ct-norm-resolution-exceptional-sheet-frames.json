@@ -1,0 +1,120 @@
+{
+  "actual_ct_resolution_exceptional_sheet_frames": {
+    "E_00": {
+      "generic_blowup_substitution": "t=e, s=e*r",
+      "ord_norm": 0,
+      "q_sheet_minus_near": "-sqrt(q), z|e=0=-1",
+      "q_sheet_plus_near": "+sqrt(q), z|e=0=+1",
+      "sheet_minus": {"ord_sigma_u": -1, "ord_u": 1, "regular_unit_frame_for_u": "u/e"},
+      "sheet_plus": {"ord_sigma_u": 1, "ord_u": -1, "regular_unit_frame_for_u": "e*u"}
+    },
+    "E_0inf": {
+      "generic_blowup_substitution": "t=e, w=e*r, w=1/s",
+      "ord_norm": -2,
+      "q_sheet_minus_near": "-sqrt(q), z|e=0=-1",
+      "q_sheet_plus_near": "+sqrt(q), z|e=0=+1",
+      "sheet_minus": {"ord_sigma_u": -1, "ord_u": -1, "regular_unit_frame_for_u": "e*u"},
+      "sheet_plus": {"ord_sigma_u": -1, "ord_u": -1, "regular_unit_frame_for_u": "e*u"}
+    },
+    "E_inf0": {
+      "generic_blowup_substitution": "v=e, s=e*r, v=1/t",
+      "ord_norm": 0,
+      "q_sheet_minus_near": "-sqrt(q_inf), z_inf|e=0=-1",
+      "q_sheet_plus_near": "+sqrt(q_inf), z_inf|e=0=+1",
+      "rescaled_q_coordinate": "z_inf=v^2*z",
+      "sheet_minus": {"ord_sigma_u": 1, "ord_u": -1, "regular_unit_frame_for_u": "e*u"},
+      "sheet_plus": {"ord_sigma_u": -1, "ord_u": 1, "regular_unit_frame_for_u": "u/e"}
+    },
+    "E_infinf": {
+      "generic_blowup_substitution": "v=e, w=e*r, v=1/t,w=1/s",
+      "ord_norm": -2,
+      "q_sheet_minus_near": "-sqrt(q_inf), z_inf|e=0=-1",
+      "q_sheet_plus_near": "+sqrt(q_inf), z_inf|e=0=+1",
+      "rescaled_q_coordinate": "z_inf=v^2*z",
+      "sheet_minus": {"ord_sigma_u": -1, "ord_u": -1, "regular_unit_frame_for_u": "e*u"},
+      "sheet_plus": {"ord_sigma_u": -1, "ord_u": -1, "regular_unit_frame_for_u": "e*u"}
+    }
+  },
+  "branch_crossing_corner_identification": {
+    "blowup_divisorial_valuation_rule": "ord_E is total order in the maximal ideal of the displayed smooth corner; verified on a generic blowup chart by setting both corner parameters equal to e times units.",
+    "corners": {
+      "E_00": {"Kc_node": ["1", "0", "0", "0", "1", "1"], "corner": "(t,s)=(0,0)"},
+      "E_0inf": {"Kc_node": ["1", "0", "0", "0", "-1", "1"], "corner": "(t,w)=(0,0), w=1/s"},
+      "E_inf0": {"Kc_node": ["1", "0", "0", "0", "1", "-1"], "corner": "(v,s)=(0,0), v=1/t"},
+      "E_infinf": {"Kc_node": ["1", "0", "0", "0", "-1", "-1"], "corner": "(v,w)=(0,0), v=1/t,w=1/s"}
+    },
+    "quotient_parametrization": [
+      "A1=(1-t^2)*(1-s^2)", "A2=2*t*(1-s^2)", "A3=2*s*(1-t^2)",
+      "B2=(1+s^2)*(1-t^2)", "B3=(1+t^2)*(1-s^2)"
+    ]
+  },
+  "canonical_sha256": "bbde421a54d2b7159f8d3ff4cf641cbddf2bbbc45fe4791cb7ed18d7cfb69591",
+  "exact_information_boundary": {
+    "HS_d2_2cocycle_materialized": false,
+    "HS_d2_zero_or_nonzero_proved": false,
+    "actual_cc_ct_overlap_transition_matrices_materialized": false,
+    "actual_ct_defect_marked_Pic_mod2_materialized": false,
+    "actual_ct_resolution_exceptional_scalar_frames_materialized": true,
+    "actual_lambda_D_local_rank2_lattices_materialized": false,
+    "all_12_Kc_resolution_exceptionals_accounted_for": true,
+    "reason": "Resolution-exceptional scalar valuations of the chosen ct nullhomotopy are now fixed, but scalar frames still do not select the actual compactified rank-two Cech lattice or its elementary transforms. Overlap matrices remain load-bearing."
+  },
+  "next_exact_subleaf": "BUILD_ACTUAL_RANK2_CECH_LATTICES_AND_OVERLAP_MATRICES_FROM_FIXED_BOUNDARY_AND_ALL_RESOLUTION_EXCEPTIONAL_SCALAR_FRAMES_THEN_COMPUTE_DETERMINANT_DIVISORS_MARKED_PIC_MOD2_AND_HS_D2",
+  "promotion_firewall": {
+    "Q_defined_descent_credit_restored": false,
+    "actual_ct_Pic_mod2_defect_zero_claim": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "receiver_credit": false,
+    "stage33_05_reclosed": false,
+    "stage33_12_closed": false,
+    "stage33_13_released": false,
+    "theorem_credit": false
+  },
+  "quotient_A1_exceptional_frames": {
+    "generic_ord_norm": 0,
+    "generic_ord_sigma_u_on_every_auxiliary_q_cover_component": 0,
+    "generic_ord_u_on_every_auxiliary_q_cover_component": 0,
+    "geometry": "The four quotient A1 resolutions are unbranched for the B1 double cover, hence give eight Kc exceptional curves.",
+    "s_node_restrictions": {
+      "s=+1": "u=(1-t^2+2*i*t+z)/(2*t), generically nonzero on z^2=q",
+      "s=-1": "u=(1-t^2-2*i*t+z)/(2*t), generically nonzero on z^2=q"
+    },
+    "t_node_restrictions": {
+      "t=+1": "q=-4; on z=+2*i/-2*i sheets, u=i*(s+1) / i*(s-1), respectively",
+      "t=-1": "q=-4; on z=+2*i/-2*i sheets, u=i*(s-1) / i*(s+1), respectively"
+    },
+    "warning": "Zeros at special points of an exceptional curve do not change the divisorial valuation of u along that exceptional; they belong to codimension-two overlap data."
+  },
+  "repair_leaf": "33-05/R5e",
+  "schema": "STAGE33_12_J2_CT_NORM_RESOLUTION_EXCEPTIONAL_SHEET_FRAMES_V1",
+  "singular_partition": {
+    "Kc_equations": ["A1^2+A2^2-B3^2=0", "A2^2+A3^2-B1^2=0", "A1^2+A3^2-B2^2=0"],
+    "branch_crossing_coordinates": [
+      ["1", "0", "0", "0", "1", "1"], ["1", "0", "0", "0", "-1", "1"],
+      ["1", "0", "0", "0", "1", "-1"], ["1", "0", "0", "0", "-1", "-1"]
+    ],
+    "branch_crossing_nodes": 4,
+    "partition_verified_by_exact_jacobian_rank": true,
+    "quotient_A1_lift_families": [
+      "[0,1,0,delta,0,epsilon], delta,epsilon in {+1,-1}",
+      "[0,0,1,delta,epsilon,0], delta,epsilon in {+1,-1}"
+    ],
+    "total_Kc_A1_nodes": 12,
+    "unbranched_lifts_of_quotient_A1_nodes": 8
+  },
+  "source_locks": {
+    "boundary_sheet_frames_canonical_sha256": "5b961822dc10e7a1a424ed87ba6307d83efd3a0b31671db305a609269094937b",
+    "boundary_sheet_frames_certificate": "stages/stage33/33-12/j2-ct-norm-actual-boundary-sheet-frames.json",
+    "branch_surface_resolution_adapter_canonical_sha256": "edb98c634c79c97c09b0ea4a14402f32d9c5900c63dd9584eca5ea91b91d6875",
+    "branch_surface_resolution_adapter_certificate": "stages/stage33/33-12/j2-corrected-branch-surface-mu2-adapter.json"
+  },
+  "stage": "33-12",
+  "status": "PASS_EXACT_RESOLUTION_EXCEPTIONAL_SCALAR_FRAMES_ACTUAL_RANK2_CECH_LATTICES_STILL_OPEN",
+  "what_this_removes": [
+    "No resolution exceptional remains with an unknown generic scalar valuation for the chosen u=(A+z)/(2*t).",
+    "The four branch-crossing exceptionals have exact sheetwise pole/zero orders, including the asymmetric E_00 and E_inf0 transforms.",
+    "The eight unbranched quotient-A1 lift exceptionals are exact generic units for u and sigma(u)."
+  ]
+}

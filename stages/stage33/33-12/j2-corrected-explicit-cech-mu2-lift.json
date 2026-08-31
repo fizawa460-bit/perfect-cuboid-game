@@ -1,0 +1,196 @@
+{
+  "canonical_sha256": "6c9333f564637c362b026596833acd26ad2abff27e9c9d75d82ee5c6991cb76b",
+  "codimension_one_residue_audit": {
+    "all_nonboundary_residues_zero": true,
+    "formula": "partial_v{a,b}=(-1)^(v(a)v(b))*a^v(b)/b^v(a) mod squares",
+    "other_prime_divisors_have_both_valuations_zero": true,
+    "rows": [
+      {
+        "divisor": "C22",
+        "residue": "f2",
+        "role": "required boundary kappa_D",
+        "valuations": [
+          0,
+          1
+        ]
+      },
+      {
+        "divisor": "C21",
+        "residue": "1",
+        "role": "zero boundary",
+        "valuations": [
+          0,
+          0
+        ]
+      },
+      {
+        "divisor": "t=r2",
+        "residue_square_witness": "g22(r2,s)=(1+i*s)^2",
+        "valuations": [
+          1,
+          0
+        ]
+      },
+      {
+        "divisor": "t=r4",
+        "residue_square_witness": "g22(r4,s)=(1-i*s)^2",
+        "valuations": [
+          -1,
+          0
+        ]
+      },
+      {
+        "divisor": "t=0",
+        "residue_square_witness": "f2(0)=(1+sqrt(2))^2",
+        "valuations": [
+          0,
+          -1
+        ]
+      },
+      {
+        "divisor": "t=infinity",
+        "residue_square_witness": "f2(infinity)=1",
+        "valuations": [
+          0,
+          -1
+        ]
+      },
+      {
+        "divisor": "s=infinity",
+        "residue": "f2^-2 is a square",
+        "valuations": [
+          0,
+          -2
+        ]
+      }
+    ]
+  },
+  "exact_information_boundary": {
+    "HS_d2_2cocycle_materialized": false,
+    "HS_d2_zero_or_nonzero_proved": false,
+    "Q_defined_arithmetic_Brauer_preimage_proved": false,
+    "explicit_Cech_preimage_e_D_materialized": true,
+    "generic_galois_defect_splittings_materialized": true,
+    "integral_Pic_lift_materialized": false,
+    "pic_mod2_defect_1cocycle_materialized": false,
+    "reason": "The explicit symbol fixes the lift and proves each Galois difference is algebraic, but the divisor classes of the cc/ct splitting cochains have not yet been expressed in the integral marked Picard lattice.",
+    "surface_mu2_lift_materialized": true
+  },
+  "explicit_cech_preimage": {
+    "boundary_on_C21_C22": [
+      "0",
+      "kappa_D represented by f2"
+    ],
+    "cech_model": "cup product of the two Kummer double-cover Cech 1-cocycles, extended across the listed divisors using the displayed residue-square trivializations",
+    "class": "e_D={f2,g22}=kum(f2) cup kum(g22) in H^2(Ubar,mu_2)",
+    "concrete_Cech_preimage_e_D_materialized": true,
+    "f2": "(t+1+sqrt(2))/(t-1+sqrt(2))",
+    "g22": "1-s^2+i*s*(1-t^2)/t",
+    "maps_to_corrected_branch_class": true,
+    "open": "Ubar=Sprime_bar-(C21_tilde disjoint_union C22_tilde)"
+  },
+  "galois_defect_generic_splittings": {
+    "cc": {
+      "consequence": "the full defect lies in Pic(Kc_bar)/2",
+      "formula": "cc(lambda_D)-lambda_D={f2,g21*g22}={f2,(B1/(2*t))^2}",
+      "generic_symbol_zero": true
+    },
+    "ct": {
+      "consequence": "the full defect lies in Pic(Kc_bar)/2",
+      "formula": "ct(lambda_D)-lambda_D={ct(f2)/f2,g22}={q,g22}",
+      "generic_symbol_zero": true,
+      "norm_splitting": "g22=-Norm_{Qbar(t,z)/Qbar(t)}(s-i*(1-t^2+z)/(2*t)), z^2=q",
+      "squareclass_identity": "ct(f2)/f2=((t-r3)*(t-r4))^2/q"
+    },
+    "pic_mod2_integral_coordinates_materialized": false,
+    "pic_mod2_kernel_membership_materialized": true,
+    "tau": {
+      "formula": "tau(lambda_D)-lambda_D=0",
+      "generic_symbol_zero": true
+    }
+  },
+  "next_exact_leaf": "COMPUTE_DIVISORS_OF_CC_CT_SYMBOL_SPLITTING_COCHAINS_IN_MARKED_PIC_KC_MOD2_THEN_INTEGRAL_BOCKSTEIN_HS_D2",
+  "promotion_firewall": {
+    "Q_defined_descent_credit_restored": false,
+    "R5_full_repair_exit_reached": false,
+    "endpoint_credit": false,
+    "historical_kummer_glue_reused": false,
+    "old_ell_Q_reused": false,
+    "old_j2_arithmetic_descent_reused": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "receiver_credit": false,
+    "stage33_05_reclosed": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "stage33_progress": "5/11",
+    "theorem_credit": false
+  },
+  "quotient_chart": {
+    "corrected_branch": "C22:g22=0",
+    "corrected_branch_identity": "A3-i*A2=-2*i*t*g22",
+    "parameters": [
+      "t=A2/(A1+B3)",
+      "s=A3/(A1+B2)"
+    ],
+    "parametrization": {
+      "A1": "(1-t^2)*(1-s^2)",
+      "A2": "2*t*(1-s^2)",
+      "A3": "2*s*(1-t^2)",
+      "B2": "(1+s^2)*(1-t^2)",
+      "B3": "(1+t^2)*(1-s^2)"
+    }
+  },
+  "resolution_residue_audit": {
+    "all_exceptional_residues_zero": true,
+    "branch_crossing_exceptionals": "the four centers have t=0 or t=infinity; any exceptional residue is killed by f2(0)=(1+sqrt(2))^2 or f2(infinity)=1",
+    "corrected_support_avoids_crossings": true,
+    "quotient_A1_exceptionals": "centers are disjoint from C21 union C22; g22 is a unit at the centers and f2 has generic exceptional valuation zero"
+  },
+  "schema": "STAGE33_12_J2_CORRECTED_EXPLICIT_CECH_MU2_LIFT_V1",
+  "source_locks": {
+    "branch_surface_adapter": {
+      "canonical_sha256": "edb98c634c79c97c09b0ea4a14402f32d9c5900c63dd9584eca5ea91b91d6875",
+      "path": "stages/stage33/33-12/j2-corrected-branch-surface-mu2-adapter.json"
+    },
+    "corrected_pre_kummer": {
+      "canonical_sha256": "940df53040c6f5245914effbfb7d752a08c61b6d593586952b322e4069415106",
+      "path": "stages/stage33/33-05/j2-corrected-pre-kummer-descent-cochain.json"
+    },
+    "corrected_support": {
+      "canonical_sha256": "a9eb7d4d3868581d88ff7ce88c23a42b7010c79c959ead1579738e4a0c56961a",
+      "path": "stages/stage33/33-12/j2-corrected-kc-branch-support.json"
+    },
+    "primary_sources": [
+      {
+        "locations": [
+          "Gysin sequence (15)",
+          "exact sequence (16)",
+          "Proposition 3.1"
+        ],
+        "url": "https://www.ma.imperial.ac.uk/~anskor/doub8.pdf",
+        "work": "Skorobogatov, Cohomology and the Brauer group of double covers"
+      },
+      {
+        "locations": [
+          "gamma^0 definition in Section 2.3",
+          "residue formula (3.1)",
+          "corestriction residue formula (3.2)"
+        ],
+        "url": "https://www.math.canterbury.ac.nz/~b.creutz/Papers/CreutzViray_Surfaces.pdf",
+        "work": "Creutz--Viray, On Brauer groups of double covers of ruled surfaces"
+      }
+    ]
+  },
+  "status": "PASS_EXACT_EXPLICIT_CECH_SYMBOL_PREIMAGE_AND_SURFACE_MU2_LIFT_PIC_COORDINATES_OPEN",
+  "surface_mu2_lift": {
+    "brauer_image": "corrected nonzero J2=(f2,1)",
+    "class": "lambda_D=alpha(e_D), represented generically by {f2,g22}",
+    "cv_projection_formula": "Cor_{K(C22)(s)/K(t,s)}{f2,s-alpha22}={f2,Norm(s-alpha22)}={f2,g22}",
+    "genuine_surface_H2_mu2_lift_materialized": true,
+    "historical_kummer_glue_used": false,
+    "old_ell_Q_used": false,
+    "ramification_check": "pi^*g22 has valuation 2 along the ramification curve over C22, so the required surface residue is trivial",
+    "surface": "minimal resolution Kc_tilde_bar"
+  }
+}

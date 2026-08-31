@@ -1,0 +1,135 @@
+{
+  "actual_nullhomotopy": {
+    "A": "1-t^2+2*i*t*s",
+    "exact_norm_identity": "u*sigma_u=g22",
+    "g22": "1-s^2+i*s*(1-t^2)/t",
+    "polynomial_identity": "A^2-q=4*t^2*g22",
+    "q": "t^4-6*t^2+1",
+    "q_cover_relation": "z^2=q",
+    "sigma_u": "(A-z)/(2*t)",
+    "u": "(A+z)/(2*t)"
+  },
+  "boundary_sheet_frames": {
+    "C21": {
+      "all_generic_components": {
+        "ord_sigma_u": 0,
+        "ord_u": 0,
+        "regular_unit_frame_for_u": "u"
+      },
+      "exact_check": "g22 is generically a unit on C21; A+z and A-z can vanish only over g22=0",
+      "generic_q_cover": "away from C21 intersection with C22 and boundary divisors",
+      "ord_norm": 0
+    },
+    "C22": {
+      "D22_minus": {
+        "ord_sigma_u": 0,
+        "ord_u": 1,
+        "regular_unit_frame_for_u": "u/g22"
+      },
+      "D22_plus": {
+        "ord_sigma_u": 1,
+        "ord_u": 0,
+        "regular_unit_frame_for_u": "u"
+      },
+      "exact_check": "A^2=q on g22=0 and g22 is the norm of u",
+      "generic_cover_components": [
+        "D22_plus: z=A",
+        "D22_minus: z=-A"
+      ],
+      "ord_norm": 1
+    },
+    "Sinf": {
+      "all_generic_q_sheets": {
+        "ord_sigma_u": -1,
+        "ord_u": -1,
+        "regular_unit_frame_for_u": "w*u"
+      },
+      "exact_check": "ord_w(g22)=-2 and w*(A+z)|_{w=0}=2*i*t",
+      "ord_norm": -2,
+      "rewritten_numerator": "w*(A+z)=w*(1-t^2+z)+2*i*t",
+      "uniformizer": "w=1/s"
+    },
+    "T0": {
+      "cover_special_fiber": "z^2=1",
+      "exact_check": "ord_t(g22)=-1 and (A+z)(A-z)=4*t^2*g22",
+      "ord_norm": -1,
+      "sheet_z_minus_1": {
+        "ord_sigma_u": -1,
+        "ord_u": 0,
+        "regular_unit_frame_for_u": "u"
+      },
+      "sheet_z_plus_1": {
+        "ord_sigma_u": 0,
+        "ord_u": -1,
+        "regular_unit_frame_for_u": "t*u"
+      },
+      "uniformizer": "t"
+    },
+    "Tinf": {
+      "A_inf": "v^2*A=-1+2*i*s*v+v^2",
+      "cover_special_fiber": "z_inf^2=1",
+      "exact_check": "u=(A_inf+z_inf)/(2*v), ord_v(g22)=-1",
+      "ord_norm": -1,
+      "rescaled_cover_coordinate": "z_inf=v^2*z",
+      "sheet_z_inf_minus_1": {
+        "ord_sigma_u": 0,
+        "ord_u": -1,
+        "regular_unit_frame_for_u": "v*u"
+      },
+      "sheet_z_inf_plus_1": {
+        "ord_sigma_u": -1,
+        "ord_u": 0,
+        "regular_unit_frame_for_u": "u"
+      },
+      "uniformizer": "v=1/t"
+    }
+  },
+  "canonical_sha256": "5b961822dc10e7a1a424ed87ba6307d83efd3a0b31671db305a609269094937b",
+  "next_exact_subleaf": "MATERIALIZE_RESOLVED_CHART_PULLBACKS_AND_ACTUAL_RANK2_CECH_LATTICES_FROM_THE_FIXED_BOUNDARY_SHEET_FRAMES_THEN_COMPUTE_OVERLAP_DETERMINANTS_MARKED_PIC_MOD2_AND_HS_D2",
+  "promotion_firewall": {
+    "Q_defined_descent_credit_restored": false,
+    "actual_ct_Pic_mod2_defect_zero_claim": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "receiver_credit": false,
+    "stage33_05_reclosed": false,
+    "stage33_12_closed": false,
+    "stage33_13_released": false,
+    "theorem_credit": false
+  },
+  "repair_leaf": "33-05/R5e",
+  "resolution_exceptionals": {
+    "actual_sheet_frames_materialized": false,
+    "reason": "The previously certified zero mu2 residue on resolution exceptionals does not determine the actual compactified rank-two lattice frame or overlap transition. Exact resolved-chart pullbacks are still required."
+  },
+  "schema": "STAGE33_12_J2_CT_NORM_ACTUAL_BOUNDARY_SHEET_FRAMES_V1",
+  "source_locks": {
+    "ct_norm_splitting_module_canonical_sha256": "b4c04590fe48141e7555b7c5b4c167a677abe422c7e2b83e51805b4d263d10b2",
+    "ct_norm_splitting_module_certificate": "stages/stage33/33-12/j2-corrected-ct-norm-splitting-module.json",
+    "explicit_cech_mu2_lift_canonical_sha256": "6c9333f564637c362b026596833acd26ad2abff27e9c9d75d82ee5c6991cb76b",
+    "explicit_cech_mu2_lift_certificate": "stages/stage33/33-12/j2-corrected-explicit-cech-mu2-lift.json"
+  },
+  "stage": "33-12",
+  "state": {
+    "HS_d2_2cocycle_materialized": false,
+    "HS_d2_zero_proved": false,
+    "actual_ct_nullhomotopy_boundary_sheet_frames_materialized": true,
+    "actual_lambda_D_local_rank2_lattices_materialized": false,
+    "actual_overlap_transition_matrices_materialized": false,
+    "marked_pic_mod2_defect_materialized": false
+  },
+  "status": "PASS_EXACT_ACTUAL_CT_NORM_BOUNDARY_SHEET_FRAMES_RANK2_LATTICES_AND_OVERLAPS_STILL_OPEN",
+  "what_remains": [
+    "Pull the actual chosen Cech lambda_D and these ct frames through the explicit resolution charts, especially every resolution exceptional.",
+    "Build the actual local rank-two lattices on T0,Tinf,Sinf,C21,C22 and the resolution charts.",
+    "Materialize all overlap transition matrices and determinant divisors.",
+    "Compare the cc and ct nullhomotopies in the marked Pic(Kc_bar)/2 basis.",
+    "Choose integral Pic lifts and compute the Hochschild-Serre d2 2-cocycle and its cohomology class."
+  ],
+  "what_this_removes": [
+    "The pole/zero sheet choices of the chosen ct nullhomotopy at T0 and Tinf are no longer left to a generic q-cover splitting template.",
+    "The common simple pole at Sinf and the asymmetric simple zero over C22 are fixed for the actual u=(A+z)/(2t).",
+    "Any eventual compactified rank-two lattice for the ct nullhomotopy must reproduce these exact local scalar valuations."
+  ]
+}

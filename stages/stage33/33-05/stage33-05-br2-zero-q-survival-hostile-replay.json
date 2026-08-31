@@ -1,0 +1,98 @@
+{
+  "canonical_sha256": "4e9f20c1f753bb63134207422b097c1985ce3edd6be87f7f41ba8afa316e7dc9",
+  "firewalls": {
+    "R5_full_successful_J2_descent_exit_reached": false,
+    "endpoint_credit": false,
+    "historical_ell_J2_reused": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "receiver_credit": false,
+    "stage33_07_closed": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "theorem_credit": false
+  },
+  "hostile_checks": {
+    "J2_image_nonzero": {
+      "pass": true,
+      "witness": "audited corrected-J2 ct restriction nonzero in Pic^ct/(1+ct)Pic"
+    },
+    "J2_plus_q1_image_nonzero": {
+      "J2_pairing": 1,
+      "pass": true,
+      "q1_pairing": 0,
+      "witness": "(Z_J2-D_q1).CsK[5]=1 mod 2 with CsK[5] ct-fixed"
+    },
+    "all_three_nonzero_domain_elements_have_nonzero_restricted_d2": true,
+    "domain_basis": [
+      "J2",
+      "q1"
+    ],
+    "domain_dimension_f2": 2,
+    "exact_zero_survival": true,
+    "global_kernel_dimension_f2": 0,
+    "nonzero_domain_elements": [
+      "J2",
+      "q1",
+      "J2+q1"
+    ],
+    "q1_image_nonzero": {
+      "pass": true,
+      "witness": "D_q1.CsK[2]=1 mod 2 with CsK[2] ct-fixed"
+    },
+    "restricted_kernel_dimension_f2": 0
+  },
+  "next_exact_leaf": "RECLOSE_STAGE33_05_BY_EXACT_ZERO_SURVIVAL_THEN_REBUILD_STAGE33_12_EXIT_ADAPTER_TO_CONSUME_ZERO_K3_BR2_Q_SURVIVAL_WITHOUT_J2_Q_PREIMAGE",
+  "schema": "STAGE33_05_BR2_ZERO_Q_SURVIVAL_HOSTILE_REPLAY_V1",
+  "scope": "HOSTILE_REPLAY_OF_TWO_DIMENSIONAL_K3_BR2_GQ_INVARIANT_HS_D2_KERNEL",
+  "source_locks": {
+    "candidate": {
+      "canonical_sha256": "a48386c523e8c98b1d2b22a7dc3d789e4cea1bfa4557e658fb150e3c6b85a585",
+      "path": "stages/stage33/33-05/stage33-05-br2-zero-q-survival-after-j2-nogo.json"
+    },
+    "j2_hostile": {
+      "canonical_sha256": "6535f3190daab8c20ba5ddb3409675f20ac35dc4ee319e3be7af056baa4ce20d",
+      "path": "stages/stage33/33-05/j2-r5f-hs-d2-nonzero-hostile-replay.json"
+    },
+    "q1_hs_d2_script": {
+      "git_blob_sha1": "9b38833b58c548a539648cc803ee1f451ece5434",
+      "path": "stages/stage33/33-05/q1_hs_d2_bockstein.py"
+    },
+    "q1_ns_script": {
+      "git_blob_sha1": "6526a8cbc50e5e683e5385fd38e208703b724ff3",
+      "path": "stages/stage33/33-05/q1_ns_lift_parity.py"
+    },
+    "semantic_picard": {
+      "canonical_sha256": "c17439c877de3d1cdebd716f4ba2571fb67ec9f07e30d944eafc39ae534380c0",
+      "path": "stages/stage33/33-12/j2-semantic-kc-picard-basis.json"
+    },
+    "unit_closure_contract": {
+      "git_blob_sha1": "b7036a9901304340361f68a9fc845770fb51cb4b",
+      "path": "stages/stage33/33-00/unit-closure-contract.md"
+    }
+  },
+  "stage": "33-05",
+  "status": "PASS_HOSTILE_REPLAY_EXACT_ZERO_K3_BR2_Q_SURVIVAL",
+  "unit_closure_adapter": {
+    "ALL_SURVIVING_K3_CLASSES_HAVE_EXPLICIT_ARITHMETIC_REPRESENTATIVES": "VACUOUS_ZERO_SURVIVAL",
+    "DESCENT_OBSTRUCTION_ACCOUNTED": true,
+    "EXACT_ZERO_SURVIVAL_CERTIFICATE": true,
+    "HOSTILE_AUDIT": "PASS",
+    "INVARIANT_DESCENDED_SUBSPACE_EXACT": true,
+    "K3_GEOMETRIC_BR2_DIM": 2,
+    "QI_OVER_Q_ACTION_MATRIX_EXACT": true,
+    "Q_RELEVANT_SURVIVING_DIM": 0,
+    "Q_RELEVANT_SURVIVING_DIM_EXACT": true,
+    "STAGE33_05_UNIT_CLOSURE_CRITERIA_MATHEMATICALLY_SATISFIED": true,
+    "UNRESOLVED_UNKNOWN_IN_SCOPE": 0,
+    "contract_allows_exact_zero_survival": true
+  },
+  "verdict": {
+    "K3_BR2_Q_surviving_class_list": [],
+    "Stage33_05_reclose_by_exact_zero_survival": true,
+    "corrected_J2_Q_defined_Brauer_preimage": false,
+    "corrected_J2_Q_descent_success_required": false,
+    "dependency_rebuild_result": "REPLACE_J2_REQUIRED_DESCENT_GATE_WITH_EXACT_K3_BR2_ZERO_SURVIVAL_GATE",
+    "q1_Q_defined_Brauer_preimage": false
+  }
+}

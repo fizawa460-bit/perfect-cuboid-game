@@ -1,0 +1,96 @@
+{
+  "attempt": 2,
+  "attempt1_diagnosis": {
+    "binary_quartic_j_invariant_matches_E": false,
+    "binary_quartic_j_invariant_matches_Eprime": true,
+    "binary_quartic_jacobian": "E'_Tr: y^2=x*(x^2-2*a*x+(a^2-4*b))",
+    "exact_map_on_V_eq_1": "x=d*u^2, y=d*u*N maps degree 2 to E: y^2=x*(x^2+a*x+b)",
+    "old_ns_glue_target_revoked": true,
+    "previous_quartic": "N^2=d*U^4+a*U^2*V^2+(b/d)*V^4",
+    "semantic_correction": "This is the Tr-isogeny homogeneous-space/intermediate cover. It is not, by itself, the genus-one torsor under the original Kc generic fiber required by the Brauer/Sha interface."
+  },
+  "base_field_scope": "Kgeom=Qbar(t); L=Kgeom(w), w^2=f2",
+  "canonical_sha256": "ef72c43811428acb2d4c1ea58d4867d7bbcc5c20774b6724eb8b272450cd0725",
+  "correct_translation_descent": {
+    "bisection_branch_points": [
+      "r2=-(1+sqrt(2))",
+      "r4=1-sqrt(2)"
+    ],
+    "bisection_genus": 0,
+    "eliminated_affine_quartic": "d*v^2=n^4-2*a*d*n^2+d^2*q^2",
+    "homogeneous_weighted_quartic": "d*V^2=N^4-2*a*d*N^2*Z^2+d^2*q^2*Z^4",
+    "invariant_functions": {
+      "n": "w*y/x",
+      "u0": "x+b/x",
+      "v": "w*(x-b/x)"
+    },
+    "invariant_relations": [
+      "n^2=d*(u0+a)",
+      "v^2=d*(u0^2-4*b)"
+    ],
+    "jacobian": "E: y^2=x*(x^2+a*x+b)",
+    "jacobian_reason": "The torsor is obtained by Galois descent of E_L using a translation-valued cocycle; translations act trivially on Pic^0. Independently, the binary-quartic j-invariant equals j(E) exactly.",
+    "obvious_bisection_at_infinity": "d*V^2=N^4, hence V/N^2=+-1/sqrt(d)",
+    "r3_cocycle": "rho(w)=-w and xi(rho)=Tr",
+    "semilinear_descent_action": "tilde_rho=tau_Tr o rho",
+    "splitting_field": "Kgeom(sqrt(f2))",
+    "translation_by_Tr": "tau_Tr(x,y)=(b/x,-b*y/x^2)"
+  },
+  "exact_new_information": "Attempt 1 used the standard Tr-isogeny quartic, whose Jacobian is the 2-isogenous comparison curve E'_Tr rather than the original Kc generic fiber E. The R3 cocycle rho->Tr has now been descended directly by the semilinear translation action, yielding an explicit genus-one quartic d*V^2=N^4-2*a*d*N^2+d^2*q^2*Z^4 with Jacobian exactly E. R4 remains open only at the NS/component-glue to minimum-norm step.",
+  "firewalls": {
+    "Q_defined_descent_credit_restored": false,
+    "class3_promoted": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "receiver_credit": false,
+    "stage33_05_reclosed": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "theorem_credit": false
+  },
+  "fixed_data": {
+    "Tr_shifted": "(0,0)",
+    "a": "(t^2+1)^2",
+    "b": "[2*t*(t^2-1)]^2",
+    "d": "f2=(t+1+sqrt(2))/(t-1+sqrt(2))",
+    "identity": "a^2-4*b=q^2",
+    "q": "t^4-6*t^2+1",
+    "r": "(t^2-1)^2"
+  },
+  "lattice_reduction": {
+    "candidate_functionals": {
+      "12": [
+        1,
+        1
+      ],
+      "4": [
+        0,
+        1
+      ],
+      "8": [
+        1,
+        0
+      ]
+    },
+    "candidate_minimum_norms": [
+      4,
+      8,
+      12
+    ],
+    "candidate_set_reduced": false,
+    "exact_missing_interface": "COMPUTE_PRIMITIVE_NS_DISCRIMINANT_FORM_OR_EQUIVALENT_COMPONENT_GLUE_OF_THE_CORRECT_TRANSLATION_DESCENT_TORSOR_AND_MATCH_ONE_OF_THE_THREE_KERNEL_LATTICES",
+    "marked_brauer_coordinate_selected": false,
+    "minimum_norm_selected": false,
+    "next_local_data": "Use the corrected E-torsor quartic, not the attempt-1 isogeny cover, to resolve the I4^4 I2^4 fibers and compute the bisection/component glue."
+  },
+  "next_exact_leaf": "R4_COMPUTE_CORRECT_TRANSLATION_TORSOR_NS_DISCRIMINANT_OR_COMPONENT_GLUE_AND_SELECT_MINIMUM_NORM_4_8_12",
+  "repair_leaf": "R4",
+  "schema": "STAGE33_05_J2_R4_CORRECT_TRANSLATION_TORSOR_V1",
+  "source_lock": {
+    "attempt1_certificate": "stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json",
+    "fixed_generic_fiber": "Y^2=X*(X-r)*(X-q)",
+    "r3_certificate": "stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json"
+  },
+  "status": "PASS_EXACT_R4_ATTEMPT2_CORRECT_E_TORSOR_MODEL_LATTICE_PENDING"
+}

@@ -1,197 +1,134 @@
-# Stage33-05 — K3 Br[2] Q(i)/Q action and descent
+# Stage33-05 — K3 Br[2] Q-action and arithmetic descent
 
 ```text
 STAGE33_UNIT=33-05
 UNIT_STATUS=CLOSED
 UNIT_CLOSED=true
 DOWNSTREAM_RELEASED=true
-HOSTILE_AUDIT=PASS_AFTER_INDEPENDENT_Q_SURVIVAL_AND_HS_D2_VERIFICATION
+STAGE33_PROGRESS=6/11
+HOSTILE_AUDIT=PASS
+```
+
+Stage33-05 is reclosed through the **exact-zero-survival** alternative in the original unit closure contract. This does not restore the revoked historical `ell_J2` and does not prove that corrected `J2` descends to Q.
+
+## Geometric invariant receiver
+
+The exact geometric invariant two-primary Brauer receiver is
+
+```text
+Br(Kc_bar)[2]^G_Q = span_F2{J2,q1}
+dimension = 2
+```
+
+with corrected geometric
+
+```text
+J2=(f2,1),
+marked J2=[1,0],
+T(X_J2)=<8> direct_sum <16>.
+```
+
+The historical Q-defined `ell_J2` / `ell_Q` witness remains revoked because its full geometric Creutz--Viray class is zero.
+
+## Arithmetic HS classification
+
+The previously isolated q1 route remains valid independently of the revoked J2 producer:
+
+```text
+d2(q1)|_<ct> != 0.
+```
+
+The corrected J2 surface calculation now gives
+
+```text
+cc Pic/2 defect = 0,
+ct Pic/2 defect = [0,0,0,0,0,0,0,0,1,1,0,1,0,1,1,1,0,0,0,0],
+Z_J2=(B+ct(B))/2
+    =[0,0,0,0,0,0,0,1,1,1,-1,0,0,0,2,1,0,0,0,0],
+d2(J2)|_<ct> != 0.
+```
+
+The two restricted classes are not equal. Using two ct-fixed marked Picard tests, `CsK[2]` and `CsK[5]`, their mod-2 pairing signatures are
+
+```text
+             CsK[2]  CsK[5]
+J2              1       1
+q1              1       0
+```
+
+so the signature matrix has determinant `1` over F2. Equivalently, all three nonzero elements `J2`, `q1`, and `J2+q1` have nonzero restricted HS d2. Hence
+
+```text
+rank_F2(d2|_<ct> on span{J2,q1}) = 2,
+ker(d2|_<ct>) = 0,
+ker(global d2 on Br(Kc_bar)[2]^G_Q) = 0,
+Q_RELEVANT_SURVIVING_DIM = 0.
+```
+
+Primary certificates:
+
+```text
+stage33-05-br2-zero-q-survival-after-j2-nogo.json
+canonical_sha256=a48386c523e8c98b1d2b22a7dc3d789e4cea1bfa4557e658fb150e3c6b85a585
+
+stage33-05-br2-zero-q-survival-hostile-replay.json
+canonical_sha256=4e9f20c1f753bb63134207422b097c1985ce3edd6be87f7f41ba8afa316e7dc9
+status=PASS_HOSTILE_REPLAY_EXACT_ZERO_K3_BR2_Q_SURVIVAL
+```
+
+## Closure interpretation
+
+The Stage33-05 closure contract explicitly allows
+
+```text
+ALL_SURVIVING_K3_CLASSES_HAVE_EXPLICIT_ARITHMETIC_REPRESENTATIVES=true
+OR EXACT_ZERO_SURVIVAL_CERTIFICATE=true.
+```
+
+The second branch is now exact and hostile-replayed. Therefore Stage33-05 closes even though corrected J2 itself has nonzero HS d2 and no Q-defined Brauer preimage.
+
+```text
 K3_GEOMETRIC_BR2_DIM=2
 QI_OVER_Q_ACTION_MATRIX_EXACT=true
 INVARIANT_DESCENDED_SUBSPACE_EXACT=true
 DESCENT_OBSTRUCTION_ACCOUNTED=true
 Q_RELEVANT_SURVIVING_DIM_EXACT=true
-Q_RELEVANT_SURVIVING_DIM=1
-ALL_SURVIVING_K3_CLASSES_HAVE_EXPLICIT_ARITHMETIC_REPRESENTATIVES=true
+Q_RELEVANT_SURVIVING_DIM=0
+EXACT_ZERO_SURVIVAL_CERTIFICATE=true
 UNRESOLVED_UNKNOWN_IN_SCOPE=0
+HOSTILE_AUDIT=PASS
+UNIT_STATUS=CLOSED
+```
+
+## Dependency rebuild
+
+The old J2-repair-specific successful-exit gate
+
+```text
+corrected J2 d2=0 -> Q-defined J2 preimage
+```
+
+is no longer a valid prerequisite for downstream Stage33. The downstream adapter must instead consume the complete arithmetic classification of the K3 Br[2] invariant block, allowing exact zero survival. In the current case that input is the empty K3 Br[2] Q-survivor list.
+
+Next exact leaf:
+
+```text
+REBUILD_STAGE33_12_EXIT_ADAPTER_TO_CONSUME_ZERO_K3_BR2_Q_SURVIVAL_WITHOUT_J2_Q_PREIMAGE
+```
+
+Stage33-07 and Stage33-12 are not closed by this result alone; the independent BR0B/BR0G/global inventory obligations remain governed by their own repair contracts.
+
+## Firewalls
+
+```text
+CORRECTED_J2_Q_DEFINED_BRAUER_PREIMAGE=false
+R5_FULL_SUCCESSFUL_J2_DESCENT_EXIT=false
+STAGE33_05_RECLOSED=true
+STAGE33_07_CLOSED=false
+STAGE33_12_CLOSED_EXACT=false
 THEOREM_CREDIT=false
+RECEIVER_CREDIT=false
 ENDPOINT_CREDIT=false
+PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
-
-## Exact geometric presentation
-
-The corrected Creutz--Viray finite presentation is
-
-```text
-Jac(B)[2] dimension       = 4
-dual graph b1             = 7
-L_E=L_{c,E} dimension     = 5
-im(x-alpha) dimension     = 3
-Br(K_cbar)[2] dimension   = 2.
-```
-
-The exact 5D presentation basis is `[J1,J2,q1,q2,q3]`.  The true pair-valued `x-alpha` calculation gives
-
-```text
-im(x-alpha)=span_F2{
-  J1,
-  b*J2+q1+q2,
-  d*J2+q1+q2+q3
-}, b,d in F2.
-```
-
-For all four choices of `(b,d)`, `[J2,q1]` is an exact quotient basis.  The corrected full-pair action is
-
-```text
-tau = identity,
-cc  = identity,
-ct(q1)=q1+J1,
-ct(q2)=q2+J1,
-ct(q3)=q3,
-ct(J1)=J1,
-ct(J2)=J2.
-```
-
-Because `J1` is an `x-alpha` relation, the induced action on `Br(K_cbar)[2]` is identity.  Therefore
-
-```text
-Br(K_cbar)[2]^G_Q ~= (F2)^2
-basis = [J2,q1].
-```
-
-## Exact arithmetic descent
-
-### J2 survives
-
-A Q-defined branch-algebra representative is
-
-```text
-ell_J2 = 4*(alpha^2*t^2+t^4-4*t^2+2)
-         /((t^2-1)*(t^2-2*t-1)).
-```
-
-The exact resultant norm is
-
-```text
-Norm_{L/Q(t)}(ell_J2)
- = 1024/(t^2-2*t-1)^4
- = (32/(t^2-2*t-1)^2)^2.
-```
-
-On `z^2=t^4-6t^2+1` its divisor is
-
-```text
-4*infinity_minus - 2*P1 - 2*P2,
-```
-
-so the vertical residue conditions are even.  Creutz--Viray Prop. 3.1 / Cor. 3.2 and Prop. 3.4 then certify the corresponding Q-defined corestriction quaternion algebra as unramified on the K3 resolution.  Thus
-
-```text
-J2_Q_DESCENT_CERTIFIED=true.
-```
-
-### q1 does not survive
-
-The exact presentation defect is
-
-```text
-ct(q1)-q1=J1.
-```
-
-An integral `ct`-invariant NS lift of `J1` is
-
-```text
-D = Cb + E_P0.
-```
-
-For the `ct`-invariant test conic
-
-```text
-T : A1=0, A2+B3=0, A3-B2=0,
-```
-
-exact tangent/intersection computation gives
-
-```text
-Cb.T=1,
-E_P0.T=0,
-D.T=1.
-```
-
-Therefore `D` is not a cyclic norm in `Pic(K_cbar)` and
-
-```text
-[D] != 0 in H^2(<ct>,Pic).
-```
-
-Kummer gives
-
-```text
-0 -> Pic/2 -> H^2_et(K_cbar,mu_2) -> Br(K_cbar)[2] -> 0.
-```
-
-Creutz--Viray's Galois-equivariant corestriction/divisor cocycle comparison identifies the `x-alpha` defect with the Picard/Kummer defect.  With normalized lift `J(ct)=D`,
-
-```text
-(dJ)(ct,ct)=2D,
-Bockstein(J1)(ct,ct)=D,
-```
-
-hence
-
-```text
-d2(q1)|_<ct>=[D] != 0,
-q1_Q_DESCENT=false.
-```
-
-By linearity `q1+J2` has the same nonzero obstruction.  Consequently
-
-```text
-ker(d2 | Br(K_cbar)[2]^G_Q)=span_F2{J2}
-Q_RELEVANT_SURVIVING_DIM=1
-Q_SURVIVING_GEOMETRIC_BR2_BASIS=[J2].
-```
-
-The unique surviving K3 class has an explicit Q-defined arithmetic representative.
-
-## Hostile audit evidence
-
-Final functional head audited:
-
-```text
-1e6452d2a3df9c9e054d454173b4f923d6f1d343
-```
-
-Authoritative execution:
-
-```text
-workflow_run     = 32712707329
-workflow_number  = 59
-conclusion       = success
-artifact_id      = 9514868333
-artifact_sha256  = 410950d087fa5898af6b11ac7f163effe88773164a3dd569c366863a78e705bd
-```
-
-The artifact ZIP digest was independently recomputed and matched.  Every stored canonical SHA256 in the artifact was independently recomputed and matched.  The audit also independently checked all four `(b,d)` quotient cases and recomputed the J2 resultant norm.
-
-Repo authority:
-
-```text
-stages/stage33/33-05/audit.md
-stages/stage33/33-05/audit-state.json
-stages/stage33/33-05/handoff.json
-```
-
-## Disposition
-
-```text
-CLOSURE_CRITERIA_TOTAL=8
-CLOSURE_CRITERIA_SATISFIED=8
-UNRESOLVED_UNKNOWN_IN_SCOPE=0
-UNIT_STATUS=CLOSED
-UNIT_CLOSED=true
-DOWNSTREAM_RELEASED=true
-```
-
-This closes only the Stage33-05 K3 arithmetic-descent branch.  Stage33-07 remains locked until its independent prerequisites `33-03`, `33-04`, and `33-06` are also CLOSED.  No endpoint theorem, route-color change, Brauer--Manin obstruction, or Perfect Cuboid existence/nonexistence credit is granted by this unit alone.

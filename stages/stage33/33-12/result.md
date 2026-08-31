@@ -1,128 +1,229 @@
-# Stage33-12 MAIN exact assembly checkpoint
+# Stage33-12 arithmetic-HS closure / Stage33-07 recertification
 
-Status: `MAIN_BATCH4_HOSTILE_AUDIT_REVOKED_CLASS2_NO_GO_UPSTREAM_J2_REPRESENTATIVE_REPAIR_REQUIRED_4_OF_5`
+Status: `CURRENT_INTERNAL_33_13_FINITE_V4_KUMMER_MATRIX`
 
-Stage33-12 remains open. Stage33-13 is not released. Class-3 promotion is **not** authorized.
-
-## Batch 4 / 4 hostile-audit verdict
-
-The committed four-batch class-2 audit budget is exhausted, but the Batch3 `NO_GO_AFTER_BATCH3` verdict does **not** survive hostile audit. The reason is upstream: the Stage33-05 Q-defined function currently called the named geometric `J2` representative is geometrically trivial in the exact Creutz--Viray function quotient.
-
-The Stage33-05 source is
+Stage33-12 is the contract-level final repair child for reopened Stage33-07. It remains open until arithmetic HS, global-Q residue lifts, complete relevant Q-defined class inventory, and hostile parent recertification are all exact.
 
 ```text
-stages/stage33/33-05/j2_arithmetic_descent.py
-blob a63be5592c793c3812da99275478f14dd0d2687b
+Stage33 progress = 6/11
+Stage33-05 reclosed = true
+Stage33-09 closed = true
+Stage33-10 closed = true
+Stage33-11 closed hostile-pass = true
+Stage33-12 closed exact = false
+Stage33-07 closed = false
+Stage33-08 released = false
 ```
 
-with
+## Closed prerequisite interfaces
+
+### Stage33-09 Picard transport
 
 ```text
-F=t^2(1-a^2)^2+a^2(1-t^2)^2,
-q=t^4-6t^2+1,
-z=(2t^2(1-a^2)-(1-t^2)^2)/(1-t^2),
-ell_Q=4(a^2t^2+t^4-4t^2+2)/((t^2-1)(t^2-2t-1)).
+PICARD_EQUIVARIANT_TRANSPORT_CLOSED=true
+canonical_sha256=6c3ff8f7ca7d1bbd4084da0cc77ca6d43b31b32566a3bbb2c2103b7c2e9548b7
 ```
 
-The new dependency-free exact verifier proves, after clearing denominators,
+### Stage33-10 absolute-H1 receiver
 
 ```text
-znum^2-q*zden^2 = 4*t^2*F.
+absolute_h1_receiver_exact=true
+kernel_galois_relevant_contribution_accounted=true
+stage33_11_domain_and_codomain_well_defined=true
+canonical_sha256=4dbbfa8d208026e8ccb47915e66eb4bedef327ccf5b6f8c6c9caa7e74a64028f
 ```
 
-Hence the normalization coordinate `z` really is an element of the full branch algebra `Lbar=Qbar(t)[a]/(F)`.
+### Stage33-11 arithmetic localization
 
-The same verifier then substitutes the retained Hilbert-90 identity
+The independent 33-11g hostile audit gives
 
 ```text
-ell_z = f2*g90^2,
-f2=(t+1+sqrt(2))/(t-1+sqrt(2)) in Qbar(t)^*,
+ARITHMETIC_LOCALIZATION_CONNECTING_MAP=COMPUTED_EXACT_ZERO_MAP
+CONNECTING_COLUMNS_EXACT_AUDITED=26/26
+UNRESOLVED_CONNECTING_COLUMNS=0
+STAGE33_11_HOSTILE_AUDIT=PASS
+STAGE33_11_CLOSED_EXACT=true
+canonical_sha256=233be042e92010be169206df1193f25375ee9fd768f7fb3eebb9eb696389632e
 ```
 
-and proves the corresponding cleared identity in `Q(sqrt(2))[t,a]` is a multiple of `F`. Therefore
+### Stage33-05 K3 Br[2] arithmetic classification
+
+The corrected named-J2 repair exposed a stronger exact closure route. The complete invariant K3 block is
 
 ```text
-ell_Q = f2*g^2 in Lbar^*.
+Br(Kc_bar)[2]^G_Q = span_F2{J2,q1}.
 ```
 
-Creutz--Viray define the relevant geometric function quotient by scalars and squares,
+Both basis directions have nonzero, independent restricted HS d2 classes. With ct-fixed tests `[CsK[2],CsK[5]]` the pairing matrix is
 
 ```text
-Lbar^*/(Kbar^* Lbar^{*2}),  Kbar=Qbar(t),
+[[1,1],
+ [1,0]]
 ```
 
-so the currently promoted representative satisfies
+and has determinant `1 mod 2`. Hence
 
 ```text
-[ell_Q]=0.
+GLOBAL_D2_KERNEL_DIMENSION_F2=0
+Q_RELEVANT_SURVIVING_DIM=0
+K3_BR2_Q_SURVIVING_CLASS_LIST=[]
+EXACT_ZERO_SURVIVAL_CERTIFICATE=true
+STAGE33_05_HOSTILE_AUDIT=PASS
+STAGE33_05_UNIT_CLOSED=true
+canonical_sha256=4e9f20c1f753bb63134207422b097c1985ce3edd6be87f7f41ba8afa316e7dc9
 ```
 
-The surfaces paper explicitly places the finite presentation in the quotient by `K^*L^{*2}` and Corollary 5.4 maps the resulting `L_{c,E}` to `Br X[2]`. The curves paper Lemma 4.6 gives an explicit `E[2]` cocycle `d(ell)`, and Proposition 5.1 identifies this explicit descent map with the Brauer image modulo constants. Thus the generic-fiber explicit-cocycle route is not a missing new theorem.
+Corrected geometric `J2=(f2,1)` remains nonzero, but `d2(J2)!=0`; there is no corrected-J2 Q-defined Brauer preimage. The revoked historical `ell_J2` is not restored.
 
-Certificate: `j2-cv-lclass-zero-regression.json`.
-Verifier: `certify_j2_cv_lclass_zero_regression.py`.
+## What the zero-survival result changes
 
-## Consequences
-
-The following Batch3 statements are revoked:
+The old Stage33-12 dependency that demanded
 
 ```text
-CLASS2_GO_NO_GO = NO_GO_AFTER_BATCH3
-live_class2_routes_after_audit = 0
-class3 escalation from the named-J2 marking gap
+corrected J2 d2=0 -> Q-defined J2 preimage
 ```
 
-This does **not** prove that the abstract geometric basis element called `J2` in the Stage33-05 finite F2 presentation is zero. It proves that the specific promoted Q-defined branch-algebra function `ell_Q` cannot represent a nonzero geometric class under the stated CV quotient. The inconsistency must be resolved upstream before any marked coordinate can receive credit.
+is retired. Stage33-12 consumes the complete K3 arithmetic classification, and exact zero survival is valid.
 
-Possible repair outcomes are deliberately left open:
+This closes the K3 contribution only. It does **not** close the independent full-surface/global-Q arithmetic-HS obligations required by the Stage33-12 contract.
 
-1. the Hilbert-90 identity was applied to only a normalization component and the branch-algebra dictionary was overstated;
-2. `ell_Q` was incorrectly identified with the abstract quotient-basis element `J2`;
-3. the Stage33-05 named representative itself must be replaced;
-4. another ruling/branch-algebra dictionary was silently substituted.
+## Remaining Stage33-12 contract
 
-## Restored executable class-2 route
-
-After a corrected nonzero `ell` is fixed, Creutz--Viray Lemma 4.6 gives an explicit finite route
+Authoritative exit still requires
 
 ```text
-corrected named ell
-  -> d(ell) in H^1(Qbar(t),E[2])
-  -> explicit 2-cover / genus-one torsor
-  -> compactify and resolve
-  -> T(X_J2)
-  -> minimum norm 4 / 8 / 12
-  -> marked [0,1] / [1,0] / [1,1].
+ARITHMETIC_HS_D2_COMPUTED=true
+GLOBAL_Q_RESIDUE_LIFT_COMPLETION=true
+COMPLETE_RELEVANT_Q_DEFINED_CLASS_INVENTORY_FOR_FROZEN_STAGE33_BRAUER_SCOPE=true
+STAGE33_07_HOSTILE_RECERTIFICATION=PASS
+STAGE33_12_EXIT_EXACT=true
 ```
 
-No identification of branch orbit `(1,0)` with the marked Brauer coordinate is made.
+The next logical internal branch is the finite-V4 Kummer restriction on the remaining proper full-surface receiver:
 
-## Batch-budget interpretation
+```text
+internal branch = 33-13 FINITE-V4-KUMMER-MATRIX
+P = Br(Sbar)[2]^{G_Q}
+DIM_F2(P)=10
+DIM_F2(H^1(V4,Pic(Sbar)/2))=75
+required exact matrix = 75x10
+required exact columns = 10/10
+```
 
-The four MAIN batches have been used. Batch4 did what it was supposed to do: hostile-audit the class-2 NO-GO. Since that audit found a concrete contradiction and an explicit literature-backed class-2 map, the contractual class-3 escalation condition is **not satisfied**. The correct state is upstream repair, not class-3 promotion.
+After that, 33-14 must close the finite HS cosets/two-primary constant block, and 33-15 must assemble global-Q residue lifts, the complete class inventory, and hostile-recertify parent Stage33-07.
+
+## Current exact leaf
+
+```text
+MATERIALIZE_CORRECTED_J2_IN_CURRENT_PROPER_BR2_F2_14
+THEN_SOLVE_ITS_RETAINED_10D_COORDINATE
+THEN_PLACE_THE_LOCKED_WEIGHT15_75D_TARGET
+```
 
 ## Firewalls
 
 ```text
-class-2 budget used = 4/4
-Batch3 class-2 NO-GO = REVOKED_BY_HOSTILE_AUDIT
-Stage33-05 named ell geometric nontriviality = REVOKED_PENDING_REPAIR
-explicit CV E[2] cocycle route = LIVE_AFTER_REPRESENTATIVE_REPAIR
-J2 marked Brauer functional materialized = false
-J2 twisted transcendental kernel identified = false
-Stage33-12 exact closure = false
-Stage33-13 released = false
-class3 promoted = false
-heavy actions authorized = false
-theorem credit = false
-receiver credit = false
-endpoint credit = false
+historical ell_J2 reused = false
+corrected J2 Q-defined preimage = false
+Stage33-05 reclosed = true
+Stage33-12 closed exact = false
+Stage33-07 closed = false
+Stage33-08 released = false
+theorem / receiver / endpoint credit = false
 perfect cuboid existence/nonexistence claim = false
 ```
 
-Next exact leaf:
+## J2 ct six-support full-Pic64 transport
+
+The six support rows required by the corrected-J2 ct defect were extracted
+from the pinned Stoll `MatBigKtoBig` preimage map without regenerating the
+historical full `20 x 64` Kc map. Each row was independently reconstructed
+from the retained Stage32 all-140 known-class marking and transported through
+the certified Stage33-09 INDLIST-to-Magma basis bridge.
 
 ```text
-REPAIR_OR_REPLACE_THE_STAGE33_05_NAMED_J2_CV_REPRESENTATIVE,
-THEN COMPUTE_THE_CREUTZ_VIRAY_LEMMA_4_6_E2_COCYCLE.
+BIGK_SUPPORT=[26,35,42,47,49,52]
+FULLPIC64_PULLBACKS_EXACT=6/6
+CT_SUM_INDLIST_MOD2_WEIGHT=24
+CT_SUM_HISTORICAL_MAGMA_MOD2_WEIGHT=8
+HISTORICAL_FULL_KC20_TO_FULLPIC64_REGENERATED=false
+FIRST_EXACT_75D_KUMMER_COLUMN_MATERIALIZED=false
+canonical_sha256=592704594d6d26f9e0b0b2ba529d50c34fd801cede779b4e42b1cf775b63a96d
 ```
+
+## J2 actual cc Cech-overlap parity
+
+The fixed corrected Cech representative supplies the global overlap
+zero-cochain `c=B1/(2*t)`, not merely the generic statement that a symbol is a
+square. The literal rank-two basis change is
+
+```text
+Y=[[0,c],[c,0]]
+G=diag(c,1)
+G*Y*G^-1=[[0,c^2],[1,0]]
+det(G)=c
+```
+
+At every prime divisor of the smooth resolved surface, including every
+resolution exceptional, the determinant order is `ord_D(c)`. The complete
+Cartier divisor is therefore the principal divisor `div(c)`, so the actual cc
+class is zero already in integral Pic and hence zero in marked Pic/2 and both
+full Pic64 coordinate systems.
+
+```text
+ACTUAL_CC_CECH_OVERLAP_MATERIALIZED=true
+ACTUAL_CC_INTEGRAL_PIC_CLASS=0
+ACTUAL_CC_FULLPIC64_MOD2=0
+FIRST_EXACT_75D_KUMMER_COLUMN_MATERIALIZED=false
+canonical_sha256=82ac2b6fe8d023c915e9cf3bb8ff38d4782dbec47f98e2593f964ea020ccc6fd
+```
+
+## Named J2 finite-V4 H1 target
+
+The exact pair `(cc defect, ct defect)=(0, ct_fullPic64)` satisfies all three
+normalized V4 cocycle equations in the retained historical-Magma Pic64 basis.
+Reduction modulo the locked coboundary space gives a unique nonzero vector in
+the retained 75D H1 quotient basis.
+
+```text
+NAMED_J2_V4_H1_TARGET_MATERIALIZED=true
+NAMED_J2_V4_H1_TARGET_WEIGHT=15
+NAMED_J2_V4_H1_TARGET_NONZERO=true
+NAMED_J2_RETAINED_10D_SOURCE_COORDINATE_MATERIALIZED=false
+FINITE_V4_KUMMER_COLUMNS_MATERIALIZED=0/10
+canonical_sha256=4625b6d3ea19ec0e4d8a51471c7f60c0c1219de4672d84c64779c4213306f3b3
+```
+
+## Named CV `d=2` semantic orientation — exact
+
+The remaining three-way semantic ambiguity is now closed using retained exact
+geometric credit rather than a guessed Kc automorphism. Stage33-05 retains the
+corrected named-J2 twisted transcendental kernel with Gram `diag(8,16)` and
+minimum norm `8`. In the exact kernel fingerprint table for
+`T(Kc)=<4> direct_sum <8>`, minimum norms `4,8,12` distinguish the three
+nonzero marked Brauer functionals, so minimum norm `8` uniquely selects
+`beta1=[1,0]`.
+
+This does **not** canonically identify `Br[2]` with discriminant 2-torsion. In
+the shared marked transcendental basis `(t1,t2)`, the explicit coordinate
+adapter sends `beta1=[1,0]` to `t1 mod 2T`, and the fixed map
+`T/2T -> A_T[2]`, `x -> x/2`, sends it to `t1/2`. Doubling the already-fixed
+anti-isometry image of `t1/4` gives exactly the semantic half-lattice vector
+`u1/2`. Therefore
+
+```text
+NAMED_CV_J2_FIXED_MARKED_KC_COORDINATE_F2=[1,0]
+NAMED_CV_J2_SEMANTIC_DISCRIMINANT_LABEL=u1
+SEMANTIC_CANDIDATE_COUNT=1
+NAMED_J2_SEMANTIC_ORIENTATION_MATERIALIZED=true
+NAMED_J2_RETAINED_10D_SOURCE_COORDINATE_MATERIALIZED=false
+FIRST_EXACT_75D_KUMMER_COLUMN_MATERIALIZED=false
+canonical_sha256=0a5abe419c3bd2e4c523af50fd8f85858af6a0d957dcce1e3bdf2ff1430fed3e
+```
+
+The next exact datum is no longer the CV/Kc orientation. It is the corrected
+J2 coordinate in the current full-surface proper-Br2 14D basis. Once that is
+materialized, the retained 10D coordinate is a deterministic GF(2) solve and
+the already-locked weight-15 target can be placed as the first exact matrix
+column. No guessed proper-Br2 coordinate, Stage33-12 closure, parent reclosure,
+or downstream release is claimed.
