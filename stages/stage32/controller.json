@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V145_21BF_FIFTH_COORDINATE_PROJECTION_ACTIVE",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V146_21BG_SIXTH_COORDINATE_R42_PROJECTION_ACTIVE",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
   "G10_LOWGENUS_PICARD": "AMBER",
   "stage32_closed": false,
-  "status": "STAGE32_21BF_PER_TRIPLE_FIFTH_COORDINATE_PROJECTION_ACTIVE_AFTER_21BE_EXACT_R51_FORMULA_RESCUE",
+  "status": "STAGE32_21BG_PER_TRIPLE_SIXTH_COORDINATE_R42_PROJECTION_ACTIVE_AFTER_21BF_EXACT_R49_COMPRESSION",
   "advance_allowed": true,
   "merge_allowed": false,
   "checkpoint_merge_ready": false,
@@ -64,39 +64,32 @@
       "21ba_bug": {
         "affected_function": "integer_interval",
         "issue": "upper binary search starts at new_lo; if the real projection interval contains no integer, new_lo may exceed floor(real_max) but the routine cannot cross below new_lo and can emit a false singleton interval",
-        "known_partial_bookkeeping_bug_already_corrected": true,
-        "new_endpoint_correctness_risk_discovered": true,
         "21ba_interval_credit_status": "SUPERSEDED_BY_21BE_INDEPENDENT_ENDPOINT_AUDIT",
         "21bb_formula_credit_status": "RESTORED_EXACT_AFTER_21BE",
         "21bc_pair_bounds_credit_status": "RESTORED_EXACT_AFTER_21BE",
         "21bd_pair_cut_closure_credit_status": "RESTORED_EXACT_AFTER_21BE"
       },
-      "21bb_provisional_formula": {
+      "21bb": {
         "credit_status": "RESTORED_EXACT_AFTER_21BE",
         "source_lock_file": "stages/stage32/32-21/32-21bb-r51-interval-formula.json",
         "source_lock_sha256": "370bc29433006c5a5ac0b8ee977212f0a274449ab85c736e62b3f5cbf7e51405",
-        "predicted_r51_upper": -132,
-        "predicted_r51_lower_formula": "max(r27 - 103, -176 - floor((r50-r55-129)/4))",
-        "predicted_feasible_integer_r51_indices": 124856
+        "r51_upper": -132,
+        "r51_lower_formula": "max(r27 - 103, -176 - floor((r50-r55-129)/4))",
+        "integer_valid_r51_indices": 124856
       },
-      "21bc_provisional": {
+      "21bc": {
         "credit_status": "RESTORED_EXACT_AFTER_21BE",
-        "run_id": 33354866988,
-        "artifact_id": 9744811034,
-        "certificate_sha256": "569c3ded01f04056d5ec73b4eb48bd5b94d25533ad66b22d0caedadd8f1c1e8f",
+        "lock_file": "stages/stage32/32-21/32-21bc-pair-combination-bounds.json",
+        "lock_sha256": "5b4f91a0c8cd3d3025abfeb4e169382aa79a9148f8121df5378fe1195cf54fac",
         "resolved_pair_combinations": 42,
-        "qflra_unknown": 0,
-        "narrowest": "-79 <= r57-r42 <= -19"
+        "qflra_unknown": 0
       },
-      "21bd_provisional": {
+      "21bd": {
         "credit_status": "RESTORED_EXACT_AFTER_21BE",
         "run_id": 33355035932,
         "artifact_id": 9744858094,
-        "artifact_zip_sha256": "213d42be099d460a68039233fd29cbddb84b118f4e2b3a89217f9b54994c8af2",
-        "evidence_json_sha256": "63e0b984a26485aab7607e4458dba9bbf84bd57fc990ea1fd1e3a6dffe75b1a3",
         "certificate_sha256": "198b71eff30c79eb56fc011759a075d919556a0c8c547c13f782b9d04bd05120",
-        "result": "OPEN_AFTER_ALL_42_PAIR_CUTS",
-        "all_seven_single_coordinate_domains_remain_47": true
+        "result": "OPEN_AFTER_ALL_42_PAIR_CUTS"
       },
       "21be": {
         "status": "PASS_EXACT_21BB_R51_FORMULA_RESCUE",
@@ -104,22 +97,36 @@
         "lock_sha256": "61a1c08ab999bce28bbbf15a5286262d548b2a81960f758571e8a54414484b08",
         "run_id": 33355923690,
         "artifact_id": 9745172629,
-        "artifact_zip_sha256": "2a6f716870b7f5995351927542dc9d977d7aa293cc1be4bf1151700791bee00e",
-        "evidence_json_sha256": "da2b1865a03abd874f0c7f6c3e15204ddf8d70d1e438101cccbb32504c12133d",
         "aggregate_canonical_sha256": "afaddfd92cb5664797e8a81998002a5631d265b84e656aa3e334b852dfb0c645",
         "passed_rows": 3234,
         "failure_count": 0,
         "qflra_unknown": 0,
-        "exact_qf_lra_checks": 9570,
-        "formula_feasible_integer_r51_indices": 124856
+        "exact_qf_lra_checks": 9570
+      },
+      "21bf": {
+        "status": "PASS_EXACT_21BF_R49_PER_TRIPLE_PROJECTION",
+        "lock_file": "stages/stage32/32-21/32-21bf-r49-per-triple-projection.json",
+        "lock_sha256": "0eeebe9be4ed3315d3e0b078bf615681de5cad5ef261707a7e4de54f437efc7a",
+        "run_id": 33356701245,
+        "artifact_id": 9745476388,
+        "artifact_zip_sha256": "9429da13ab7701571105d991df6b54ef7b137d1e92d40c9846165049393ec864",
+        "evidence_json_sha256": "adbd450bdc95dc98b3332c79390970c36802f3140f62c3c85ae790c1be3a4a8a",
+        "aggregate_canonical_sha256": "27c4a62dc20e977e527500b7a41111615201d2465eb4dcb79985274963159ca1",
+        "exact_qf_lra_checks": 40722,
+        "open_triples": 3234,
+        "integer_pruned_triples": 0,
+        "qflra_unknown": 0,
+        "r49_indices_before": 151998,
+        "r49_indices_after": 98010,
+        "r49_interval_formula": "132 <= r49 <= min(178, 130-floor(r27/2), 61+floor(-3*r27/2))"
       },
       "current_combined_state": {"sat": 0, "unsat": 55, "unknown": 1}
     }
   },
-  "current_item": "32-21BF_PER_TRIPLE_FIFTH_COORDINATE_PROJECTION",
-  "current_item_execution_constraint": "Consume the 21be-restored 21bb r51 formula and 21bc/21bd integer-valid rational cuts only inside the same deterministic representative fixed projection. Derive the next fifth-coordinate or fifth-coordinate-combination projection exactly from the original all140 QF_LRA system plus audited integer-valid bounds, preserve every UNKNOWN explicitly, and do not promote rational feasibility to integer SAT or fixed-projection results to slice/FULL178 credit.",
-  "next_item_if_pass": "SELECT_NEXT_EXACT_INTEGER_VALID_REDUCTION_FROM_21BF_OUTPUT",
-  "next_item_if_fail": "RETAIN_AUDITED_FOUR_COORDINATE_STATE_AND_CHANGE_FIFTH_COORDINATE_PROJECTION",
+  "current_item": "32-21BG_PER_TRIPLE_SIXTH_COORDINATE_R42_PROJECTION",
+  "current_item_execution_constraint": "Inside the same representative fixed projection, consume only the audited 21bb r51 formula, 21bc pair bounds, 21be rescue lock, and exact 21bf r49 interval formula. For each of all 3234 triples add the exact integer-valid r51/r49 bands and all 42 integer-valid pair cuts, then project r42 with independent lower and upper QF_LRA endpoint searches. Preserve every UNKNOWN; lower>upper is an integer-empty real projection and may prune that triple for integer solutions, but nonempty intervals are necessary data only and fixed-projection results do not promote to slice/FULL178 credit.",
+  "next_item_if_pass": "SELECT_NEXT_EXACT_INTEGER_VALID_REDUCTION_FROM_21BG_OUTPUT_OR_CONTINUE_COORDINATE_COMPRESSION",
+  "next_item_if_fail": "RETAIN_AUDITED_21BF_FIVE_COORDINATE_STATE_AND_REPAIR_OR_CHANGE_SIXTH_COORDINATE_PROJECTION",
   "active_execution_guardrail": {
     "full_178_row_sweep_authorized": false,
     "heavy_compute_requires_fresh_runkey_sync": true,
@@ -144,11 +151,11 @@
     "policy": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
     "operating_artifact_budget_mb": 500,
     "stage_heavy_concurrency_cap": 18,
-    "21be_light_runners": 2
+    "21bg_light_runners": 2
   },
   "cycle_safety": {
     "route_open": true,
-    "live_candidate": "AUDITED_FIFTH_COORDINATE_PROJECTION_FROM_21BE_RESCUED_R51_FORMULA",
+    "live_candidate": "AUDITED_SIXTH_COORDINATE_R42_PROJECTION_FROM_21BF_COMPRESSED_R49_FORMULA",
     "blocked": [
       "FULL178_PROMOTION_FROM_REPRESENTATIVE_SAMPLE",
       "SLICE_UNSAT_FROM_ONE_FIXED_PROJECTION",
