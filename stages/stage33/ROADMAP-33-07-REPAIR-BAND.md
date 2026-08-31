@@ -45,7 +45,7 @@ The repair architecture is:
 33-09  PICARD-EQUIVARIANT-TRANSPORT
 33-10  ABSOLUTE-H1-AND-GALOIS-DESCENT-ADAPTER
 33-11  ARITHMETIC-LOCALIZATION-CONNECTING-MAP
-33-12  CORRECTED-J2-MARKED-KC-ARITHMETIC-CLOSURE
+33-12  K3-BR2-ARITHMETIC-CLASSIFICATION-PACKAGE
 33-13  FINITE-V4-KUMMER-MATRIX
 33-14  FINITE-HS-COSETS-AND-TWO-PRIMARY-CONSTANT-BLOCK
 33-15  GLOBAL-ARITHMETIC-HS-ASSEMBLY-AND-33-07-HOSTILE-RECERTIFICATION
@@ -69,9 +69,11 @@ Exit interface requires the arithmetic localization connecting map with exact co
 
 The roadmap prescribes the receiver/coverage, not a mandatory serial mini-map method.
 
-## 33-12 — CORRECTED-J2-MARKED-KC-ARITHMETIC-CLOSURE
+## 33-12 — K3-BR2-ARITHMETIC-CLASSIFICATION-PACKAGE
 
-Purpose: consume the corrected named-J2 evidence and package it into the exact Stage33-12 child closure. Stage33-12 does not run a second independent derivation of the Stage33-05 J2 problem.
+Purpose: consume the complete audited Stage33-05 arithmetic classification of the K3 geometric `Br[2]` invariant receiver and package it into the exact Stage33-12 child interface. Stage33-12 does not run a second independent derivation of Stage33-05.
+
+The historical child name `CORRECTED-J2-MARKED-KC-ARITHMETIC-CLOSURE` remains provenance only. The child must consume the **whole invariant K3 Br[2] block**, not assume in advance that a named nonzero geometric class descends.
 
 ### Retired old checklist
 
@@ -90,25 +92,48 @@ Do not recompute it merely to satisfy an obsolete roadmap generation.
 
 ### 33-12 exit interface
 
-Exact Stage33-12 closure requires corrected evidence sufficient to certify:
+Exact Stage33-12 closure requires an audited complete arithmetic classification of the Stage33-05 K3 `Br[2]` invariant receiver:
 
 ```text
-CORRECTED_J2_GEOMETRIC_REPRESENTATIVE_NONZERO=true
-CORRECTED_J2_MARKED_BRAUER_COORDINATE=[1,0]
-CORRECTED_J2_SURFACE_MU2_LIFT_EXACT=true
-CORRECTED_J2_ACTUAL_PIC_MOD2_DEFECT_EXACT=true
-CORRECTED_J2_HS_D2_CLASS_ZERO=true
-CORRECTED_J2_Q_DEFINED_BRAUER_PREIMAGE=true
-CORRECTED_J2_ARITHMETIC_UNRAMIFIEDNESS=true
-CORRECTED_J2_RESTRICTION_BACK_TO_F2_1=true
-STAGE33_05_R5_FULL_REPAIR_EXIT=true
-required hostile/super-hostile audit = PASS
-STAGE33_12_CLOSED_EXACT=true
+K3_GEOMETRIC_BR2_DIM=2
+K3_BR2_GQ_INVARIANT_BASIS_EXACT=true
+K3_BR2_ARITHMETIC_HS_CLASSIFICATION_EXACT=true
+DESCENT_OBSTRUCTION_ACCOUNTED=true
+Q_RELEVANT_SURVIVING_DIM_EXACT=true
+UNRESOLVED_K3_BR2_ARITHMETIC_UNKNOWN=0
+STAGE33_05_UNIT_CLOSED=true
+required hostile audit = PASS
 ```
 
-The current production of those J2 arithmetic facts belongs to the Stage33-05 R5 repair state/roadmap. Stage33-12 consumes and audits/packages them after the required release gate.
+The survivor interface is deliberately disjunctive and follows the original Stage33-05 unit closure contract:
 
-If the exact HS `d2` class is nonzero, do not close Stage33-12; record the exact no-go and rebuild affected dependencies.
+```text
+if Q_RELEVANT_SURVIVING_DIM > 0:
+    ALL_SURVIVING_K3_CLASSES_HAVE_EXPLICIT_ARITHMETIC_REPRESENTATIVES=true
+else:
+    EXACT_ZERO_SURVIVAL_CERTIFICATE=true
+```
+
+A corrected named J2 Q-defined preimage is therefore **not** a mandatory downstream prerequisite. If `d2(J2)` is nonzero, J2 is removed from the Q-surviving inventory rather than forcing the child to fail. If all invariant K3 `Br[2]` classes are eliminated, the exact empty survivor list is a valid child input.
+
+### Current classified Stage33-05 input
+
+The current audited Stage33-05 result is
+
+```text
+GEOMETRIC_GQ_INVARIANT_BASIS=[J2,q1]
+d2(J2)|_<ct> != 0
+d2(q1)|_<ct> != 0
+PAIRING_SIGNATURE_MATRIX_ROWS_[CsK2,CsK5]_COLS_[J2,q1]=[[1,1],[1,0]]
+RESTRICTED_D2_RANK_F2=2
+GLOBAL_D2_KERNEL_DIMENSION_F2=0
+Q_RELEVANT_SURVIVING_DIM=0
+EXACT_ZERO_SURVIVAL_CERTIFICATE=true
+STAGE33_05_HOSTILE_AUDIT=PASS
+STAGE33_05_UNIT_CLOSED=true
+```
+
+Thus Stage33-12 should now audit/package this zero-survival interface. It must not resurrect the revoked historical `ell_J2`, and it must not infer any parent Stage33-07 closure until the independent BR0B/BR0G/global-inventory obligations are assembled under their own contracts.
 
 ## 33-13 — FINITE-V4-KUMMER-MATRIX
 
