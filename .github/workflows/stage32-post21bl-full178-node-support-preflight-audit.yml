@@ -1,0 +1,42 @@
+name: Stage32 post-21bl FULL178 node-support preflight audit
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/32-21/post-21bl-full178-node-support-preflight.json'
+      - 'stages/stage32/residual-32-01-production/audit_stage32_post21bl_full178_node_support_preflight.py'
+      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
+      - 'stages/stage32/residual-32-01-production/build_stage32_21ad_full178_antifixed_coset_census.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_slice_bridge.py'
+      - '.github/workflows/stage32-post21bl-full178-node-support-preflight-audit.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Freshly recompute cheap FULL178 node-mass cut
+        run: |
+          python stages/stage32/residual-32-01-production/audit_stage32_post21bl_full178_node_support_preflight.py \
+            --manifest stages/stage32/residual-32-01-production/full178-manifest.json \
+            --preflight stages/stage32/32-21/post-21bl-full178-node-support-preflight.json \
+            --driver stages/stage32/residual-32-01-production/build_stage32_21ad_full178_antifixed_coset_census.py \
+            --bridge stages/stage32/residual-32-01-production/direct_picard_slice_bridge.py \
+            --output "$RUNNER_TEMP/stage32-post21bl-full178-node-support-preflight-audit.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-post21bl-full178-node-support-preflight-audit
+          path: ${{ runner.temp }}/stage32-post21bl-full178-node-support-preflight-audit.json
+          retention-days: 1
+          compression-level: 9
