@@ -1,0 +1,117 @@
+name: Stage33-12 J2 semantic u1 retained Smith source
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-12/j2-semantic-u1-smith-run-key.json'
+      - 'stages/stage33/33-12/materialize_j2_semantic_u1_full_surface_smith_source.py'
+      - '.github/workflows/stage33-12-j2-semantic-u1-smith-source.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage33-12-j2-u1-smith-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      generation: ${{ steps.gate.outputs.generation }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: gate
+        env:
+          EVENT: ${{ github.event_name }}
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage33/33-12/j2-semantic-u1-smith-run-key.json'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          echo 'generation=0' >> "$GITHUB_OUTPUT"
+          if [[ "$EVENT" == workflow_dispatch ]]; then
+            python - "$KEY" "$GITHUB_OUTPUT" <<'PY'
+          import json,sys
+          key=json.load(open(sys.argv[1]))
+          assert key['schema']=='STAGE33_12_J2_SEMANTIC_U1_SMITH_RUN_KEY_V1'
+          assert key['armed'] is True and isinstance(key['generation'],int) and key['generation']>0
+          assert key['source_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
+          assert key['target_BigK_support_1based']==[2,4,9,10,47,49]
+          p=key['storage_preflight']; assert p['planned_jobs']==1 and p['effective_heavy_concurrency']==1<=18
+          assert p['projected_peak_storage_bytes']<=p['repository_operating_budget_bytes']==500000000
+          with open(sys.argv[2],'a') as f:
+              f.write('authorized=true\n'); f.write(f"generation={key['generation']}\n")
+          PY
+            exit 0
+          fi
+          [[ "$EVENT" == pull_request && "$ACTION" == synchronize ]] || exit 0
+          [[ -n "$BEFORE" && -n "$HEAD" ]] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY" || exit 0
+          python - "$KEY" "$BEFORE" "$GITHUB_OUTPUT" <<'PY'
+          import json,subprocess,sys
+          path,before,out=sys.argv[1:]
+          new=json.load(open(path))
+          prior=subprocess.run(['git','show',f'{before}:{path}'],capture_output=True)
+          if prior.returncode:
+              assert new['armed'] is False and new['generation']==0
+              raise SystemExit(0)
+          old=json.loads(prior.stdout)
+          assert new['schema']==old['schema']=='STAGE33_12_J2_SEMANTIC_U1_SMITH_RUN_KEY_V1'
+          assert new['armed'] is True and isinstance(new['generation'],int) and new['generation']>old['generation']>=0
+          assert new['source_blob_sha1']==old['source_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
+          assert new['target_BigK_support_1based']==old['target_BigK_support_1based']==[2,4,9,10,47,49]
+          p=new['storage_preflight']; assert p==old['storage_preflight']
+          assert p['planned_jobs']==1 and p['effective_heavy_concurrency']==1<=18
+          assert p['projected_peak_storage_bytes']<=p['repository_operating_budget_bytes']==500000000
+          with open(out,'a') as f:
+              f.write('authorized=true\n'); f.write(f"generation={new['generation']}\n")
+          PY
+
+  materialize:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize pinned pullbacks and literal retained Smith source
+        run: python stages/stage33/33-12/materialize_j2_semantic_u1_full_surface_smith_source.py
+      - name: Verify compact certificate and firewalls
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          p='stages/stage33/33-12/j2-semantic-u1-full-surface-smith-source.json'
+          x=json.load(open(p)); h=x.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert x['schema']=='STAGE33_12_J2_SEMANTIC_U1_FULL_SURFACE_SMITH_SOURCE_V1'
+          assert x['semantic_u1_pullback']['BigK_support_1based']==[2,4,9,10,47,49]
+          s=x['retained_common_smith_source']; assert s['discriminant_moduli']==[2]*4+[4]*6+[8]*4
+          assert s['all_retained_cc_ct_and_seven_sign_actions_reproduced_literally']
+          assert s['retained_quadratic_form_reproduced_literally']
+          n=x['exact_normalization']; assert len(n['full_surface_A_T_2_coordinates_f2'])==14
+          assert n['normalization_integral_exact']
+          f=x['promotion_firewall']; assert not any(f.values())
+          print('STAGE33_12_J2_SEMANTIC_U1_SMITH_SOURCE=PASS_EXACT')
+          print('CERTIFICATE_SHA256='+h)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-12-j2-semantic-u1-smith-source-g${{ needs.authorize.outputs.generation }}
+          retention-days: 1
+          if-no-files-found: error
+          path: stages/stage33/33-12/j2-semantic-u1-full-surface-smith-source.json
