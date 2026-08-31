@@ -146,7 +146,7 @@ out = {
         "semantic_u1_to_proper_Br2_dual_blocker": {
             "copied_A_T_2_coefficients_rejected": True,
             "copied_dual_cc_invariance_defect_f2": shortcut["copied_vector_cc_invariance_defect_f2"],
-            "active_missing_interface": current["active_missing_interface"],
+            "active_missing_interface": missing_dual["name"],
             "certificate": "stages/stage33/33-12/j2-semantic-u1-at2-to-proper-br2-dual-adapter-blocker.json",
             "canonical_sha256": LOCKS[U1_DUAL_BLOCKER],
         },
@@ -232,7 +232,7 @@ out = {
         "semantic_u1_full_surface_A_T_2_coordinate_f2": normalization["full_surface_A_T_2_coordinates_f2"],
         "required_BigK_pullback_rows_missing_1based": [20, 35, 39, 67],
         "retained_full_surface_Magma_Smith_right_transform_V_retained": True,
-        "active_missing_interface": missing_dual["name"],
+        "active_missing_interface": current["active_missing_interface"],
         "deterministic_after_proper14_coordinate": True,
         "matrix_columns_materialized": stage["finite_v4_kummer_columns_materialized"],
         "first_exact_75D_column_materialized": stage["first_exact_kummer_column_materialized"],
