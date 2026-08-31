@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V146_21BG_SIXTH_COORDINATE_R42_PROJECTION_ACTIVE",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V147_21BH_SEVENTH_COORDINATE_R54_PROJECTION_ACTIVE",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
   "G10_LOWGENUS_PICARD": "AMBER",
   "stage32_closed": false,
-  "status": "STAGE32_21BG_PER_TRIPLE_SIXTH_COORDINATE_R42_PROJECTION_ACTIVE_AFTER_21BF_EXACT_R49_COMPRESSION",
+  "status": "STAGE32_21BH_PER_TRIPLE_SEVENTH_COORDINATE_R54_PROJECTION_ACTIVE_AFTER_21BG_CORRECTED_R42_AUDIT",
   "advance_allowed": true,
   "merge_allowed": false,
   "checkpoint_merge_ready": false,
@@ -15,154 +15,34 @@
   "route_color_change_authorized": false,
   "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false,
-  "history": {
-    "through_32_21ad": "stages/stage32/controller-history-through-32-21ad.json",
-    "snapshot_blob_sha": "1f89f1722fb4c34c932128f6d2cc2286b4918a65"
-  },
-  "checkpoint_base": {
-    "pr_1466_merge_commit": "d8fa4446af9bcc36b34d2421733333f0c74d23d5",
-    "full178_rows": 178,
-    "continuous_kkt_survivors": 679337,
-    "32_21ac_additional_pruned": 0,
-    "boundary_audit_sha256": "1f2e61ef29cf6000b8cc98906a5dcf3f2a4d15a7b405be2e40ef9c0de3bfab0e"
-  },
-  "active_pr": {
-    "number": 1467,
-    "branch": "stage32-21ae-actual-residue-witness-preflight",
-    "base_sha": "d8fa4446af9bcc36b34d2421733333f0c74d23d5",
-    "automatic_merge_authorized": false
-  },
+  "history": {"through_32_21ad": "stages/stage32/controller-history-through-32-21ad.json", "snapshot_blob_sha": "1f89f1722fb4c34c932128f6d2cc2286b4918a65"},
+  "checkpoint_base": {"pr_1466_merge_commit": "d8fa4446af9bcc36b34d2421733333f0c74d23d5", "full178_rows": 178, "continuous_kkt_survivors": 679337, "32_21ac_additional_pruned": 0, "boundary_audit_sha256": "1f2e61ef29cf6000b8cc98906a5dcf3f2a4d15a7b405be2e40ef9c0de3bfab0e"},
+  "active_pr": {"number": 1467, "branch": "stage32-21ae-actual-residue-witness-preflight", "base_sha": "d8fa4446af9bcc36b34d2421733333f0c74d23d5", "automatic_merge_authorized": false},
   "representative_chain": {
     "scope": "deterministic 56 fixed-projection representative sample only; not FULL178 numerical credit",
-    "21ap": {
-      "sat": 0,
-      "unsat": 55,
-      "unknown": 1,
-      "certificate_sha256": "fc1ea72a88a6e4486bfa07a1c2489a4a38649df2cb8859781db8c83a706ac9ff"
-    },
+    "21ap": {"sat": 0, "unsat": 55, "unknown": 1, "certificate_sha256": "fc1ea72a88a6e4486bfa07a1c2489a4a38649df2cb8859781db8c83a706ac9ff"},
     "lone_unknown": {
-      "row_id": "g1-d186",
-      "e": 266,
-      "a": 592,
-      "u": -44,
-      "v": 32,
-      "z": [-15, 62, -44, 26, 32],
+      "row_id": "g1-d186", "e": 266, "a": 592, "u": -44, "v": 32, "z": [-15, 62, -44, 26, 32],
       "21ax_exact_cut": "r11 >= -1426",
-      "21ay": {
-        "triples": 7865,
-        "exact_rational_unsat": 4631,
-        "rational_sat": 3234,
-        "qflra_unknown": 0,
-        "certificate_sha256": "8c149a585d6b4f1168d1425cc89daafad4bf37e1ac3568dffb97e1628ffd14be"
-      },
-      "21az": {
-        "source_lock_file": "stages/stage32/32-21/32-21az-survivor-prism.json",
-        "source_lock_sha256": "3c83ce97058ad52124730376a4e41720a40eb45995994314ac47d7f973da40da",
-        "survivor_prism_integer_points": 3234,
-        "r51_global_integer_valid_bound": [-178, -132]
-      },
-      "21ba_bug": {
-        "affected_function": "integer_interval",
-        "issue": "upper binary search starts at new_lo; if the real projection interval contains no integer, new_lo may exceed floor(real_max) but the routine cannot cross below new_lo and can emit a false singleton interval",
-        "21ba_interval_credit_status": "SUPERSEDED_BY_21BE_INDEPENDENT_ENDPOINT_AUDIT",
-        "21bb_formula_credit_status": "RESTORED_EXACT_AFTER_21BE",
-        "21bc_pair_bounds_credit_status": "RESTORED_EXACT_AFTER_21BE",
-        "21bd_pair_cut_closure_credit_status": "RESTORED_EXACT_AFTER_21BE"
-      },
-      "21bb": {
-        "credit_status": "RESTORED_EXACT_AFTER_21BE",
-        "source_lock_file": "stages/stage32/32-21/32-21bb-r51-interval-formula.json",
-        "source_lock_sha256": "370bc29433006c5a5ac0b8ee977212f0a274449ab85c736e62b3f5cbf7e51405",
-        "r51_upper": -132,
-        "r51_lower_formula": "max(r27 - 103, -176 - floor((r50-r55-129)/4))",
-        "integer_valid_r51_indices": 124856
-      },
-      "21bc": {
-        "credit_status": "RESTORED_EXACT_AFTER_21BE",
-        "lock_file": "stages/stage32/32-21/32-21bc-pair-combination-bounds.json",
-        "lock_sha256": "5b4f91a0c8cd3d3025abfeb4e169382aa79a9148f8121df5378fe1195cf54fac",
-        "resolved_pair_combinations": 42,
-        "qflra_unknown": 0
-      },
-      "21bd": {
-        "credit_status": "RESTORED_EXACT_AFTER_21BE",
-        "run_id": 33355035932,
-        "artifact_id": 9744858094,
-        "certificate_sha256": "198b71eff30c79eb56fc011759a075d919556a0c8c547c13f782b9d04bd05120",
-        "result": "OPEN_AFTER_ALL_42_PAIR_CUTS"
-      },
-      "21be": {
-        "status": "PASS_EXACT_21BB_R51_FORMULA_RESCUE",
-        "lock_file": "stages/stage32/32-21/32-21be-r51-endpoint-audit.json",
-        "lock_sha256": "61a1c08ab999bce28bbbf15a5286262d548b2a81960f758571e8a54414484b08",
-        "run_id": 33355923690,
-        "artifact_id": 9745172629,
-        "aggregate_canonical_sha256": "afaddfd92cb5664797e8a81998002a5631d265b84e656aa3e334b852dfb0c645",
-        "passed_rows": 3234,
-        "failure_count": 0,
-        "qflra_unknown": 0,
-        "exact_qf_lra_checks": 9570
-      },
-      "21bf": {
-        "status": "PASS_EXACT_21BF_R49_PER_TRIPLE_PROJECTION",
-        "lock_file": "stages/stage32/32-21/32-21bf-r49-per-triple-projection.json",
-        "lock_sha256": "0eeebe9be4ed3315d3e0b078bf615681de5cad5ef261707a7e4de54f437efc7a",
-        "run_id": 33356701245,
-        "artifact_id": 9745476388,
-        "artifact_zip_sha256": "9429da13ab7701571105d991df6b54ef7b137d1e92d40c9846165049393ec864",
-        "evidence_json_sha256": "adbd450bdc95dc98b3332c79390970c36802f3140f62c3c85ae790c1be3a4a8a",
-        "aggregate_canonical_sha256": "27c4a62dc20e977e527500b7a41111615201d2465eb4dcb79985274963159ca1",
-        "exact_qf_lra_checks": 40722,
-        "open_triples": 3234,
-        "integer_pruned_triples": 0,
-        "qflra_unknown": 0,
-        "r49_indices_before": 151998,
-        "r49_indices_after": 98010,
-        "r49_interval_formula": "132 <= r49 <= min(178, 130-floor(r27/2), 61+floor(-3*r27/2))"
-      },
+      "21ay": {"triples": 7865, "exact_rational_unsat": 4631, "rational_sat": 3234, "qflra_unknown": 0, "certificate_sha256": "8c149a585d6b4f1168d1425cc89daafad4bf37e1ac3568dffb97e1628ffd14be"},
+      "21az": {"source_lock_file": "stages/stage32/32-21/32-21az-survivor-prism.json", "source_lock_sha256": "3c83ce97058ad52124730376a4e41720a40eb45995994314ac47d7f973da40da", "survivor_prism_integer_points": 3234, "r51_global_integer_valid_bound": [-178, -132]},
+      "21ba_bug": {"affected_function": "integer_interval", "issue": "upper binary search starts at new_lo; if the real projection interval contains no integer, new_lo may exceed floor(real_max) but the routine cannot cross below new_lo and can emit a false singleton interval", "21ba_interval_credit_status": "SUPERSEDED_BY_21BE_INDEPENDENT_ENDPOINT_AUDIT", "21bb_formula_credit_status": "RESTORED_EXACT_AFTER_21BE", "21bc_pair_bounds_credit_status": "RESTORED_EXACT_AFTER_21BE", "21bd_pair_cut_closure_credit_status": "RESTORED_EXACT_AFTER_21BE"},
+      "21bb": {"credit_status": "RESTORED_EXACT_AFTER_21BE", "source_lock_file": "stages/stage32/32-21/32-21bb-r51-interval-formula.json", "source_lock_sha256": "370bc29433006c5a5ac0b8ee977212f0a274449ab85c736e62b3f5cbf7e51405", "r51_upper": -132, "r51_lower_formula": "max(r27 - 103, -176 - floor((r50-r55-129)/4))", "integer_valid_r51_indices": 124856},
+      "21bc": {"credit_status": "RESTORED_EXACT_AFTER_21BE", "lock_file": "stages/stage32/32-21/32-21bc-pair-combination-bounds.json", "lock_sha256": "5b4f91a0c8cd3d3025abfeb4e169382aa79a9148f8121df5378fe1195cf54fac", "resolved_pair_combinations": 42, "qflra_unknown": 0},
+      "21bd": {"credit_status": "RESTORED_EXACT_AFTER_21BE", "run_id": 33355035932, "artifact_id": 9744858094, "certificate_sha256": "198b71eff30c79eb56fc011759a075d919556a0c8c547c13f782b9d04bd05120", "result": "OPEN_AFTER_ALL_42_PAIR_CUTS"},
+      "21be": {"status": "PASS_EXACT_21BB_R51_FORMULA_RESCUE", "lock_file": "stages/stage32/32-21/32-21be-r51-endpoint-audit.json", "lock_sha256": "61a1c08ab999bce28bbbf15a5286262d548b2a81960f758571e8a54414484b08", "run_id": 33355923690, "artifact_id": 9745172629, "aggregate_canonical_sha256": "afaddfd92cb5664797e8a81998002a5631d265b84e656aa3e334b852dfb0c645", "passed_rows": 3234, "failure_count": 0, "qflra_unknown": 0, "exact_qf_lra_checks": 9570},
+      "21bf": {"status": "PASS_EXACT_21BF_R49_PER_TRIPLE_PROJECTION", "lock_file": "stages/stage32/32-21/32-21bf-r49-per-triple-projection.json", "lock_sha256": "0eeebe9be4ed3315d3e0b078bf615681de5cad5ef261707a7e4de54f437efc7a", "run_id": 33356701245, "artifact_id": 9745476388, "artifact_zip_sha256": "9429da13ab7701571105d991df6b54ef7b137d1e92d40c9846165049393ec864", "evidence_json_sha256": "adbd450bdc95dc98b3332c79390970c36802f3140f62c3c85ae790c1be3a4a8a", "aggregate_canonical_sha256": "27c4a62dc20e977e527500b7a41111615201d2465eb4dcb79985274963159ca1", "exact_qf_lra_checks": 40722, "open_triples": 3234, "integer_pruned_triples": 0, "qflra_unknown": 0, "r49_indices_before": 151998, "r49_indices_after": 98010, "r49_interval_formula": "132 <= r49 <= min(178, 130-floor(r27/2), 61+floor(-3*r27/2))"},
+      "21bg": {"status": "PASS_EXACT_21BG_CORRECTED_R42_DOMAIN_AUDIT", "lock_file": "stages/stage32/32-21/32-21bg-r42-corrected-domain-audit.json", "lock_sha256": "0b8f334ff814929fa6779dbed5a941679c0acbfa2c89000a72ce39da38f3ffe2", "run_id": 33358627622, "artifact_id": 9746098946, "artifact_zip_sha256": "0d806dd15150e96f3e1e3743396862b28da5e089a4bc77a36578554947ee5d82", "evidence_json_sha256": "0e8f730dce9c4462bb00e997af1cb8bc2476fdbee130c48cbbf58d4cdbdd09c6", "aggregate_canonical_sha256": "18abcbee9fe2332f383d710643ab16e7f7387ceb319e1d332e6c0904584b0753", "corrected_r42_global_bound": [33, 79], "exact_qf_lra_checks": 46910, "open_triples": 3234, "integer_pruned_triples": 0, "qflra_unknown": 0, "r42_indices_before": 151998, "r42_indices_after": 124856, "r42_interval_formula": "max(r27+108, 35-floor((r50-r55-129)/4)) <= r42 <= 79", "invalid_prior_run": {"run_id": 33357765085, "aggregate_canonical_sha256": "9309e4bf1f246e2f7f2237d68f02eab083cc43ee192267ad945ddb33856a2126", "reason": "wrong r42 search domain (79,125) instead of audited (33,79)", "credit": false}},
       "current_combined_state": {"sat": 0, "unsat": 55, "unknown": 1}
     }
   },
-  "current_item": "32-21BG_PER_TRIPLE_SIXTH_COORDINATE_R42_PROJECTION",
-  "current_item_execution_constraint": "Inside the same representative fixed projection, consume only the audited 21bb r51 formula, 21bc pair bounds, 21be rescue lock, and exact 21bf r49 interval formula. For each of all 3234 triples add the exact integer-valid r51/r49 bands and all 42 integer-valid pair cuts, then project r42 with independent lower and upper QF_LRA endpoint searches. Preserve every UNKNOWN; lower>upper is an integer-empty real projection and may prune that triple for integer solutions, but nonempty intervals are necessary data only and fixed-projection results do not promote to slice/FULL178 credit.",
-  "next_item_if_pass": "SELECT_NEXT_EXACT_INTEGER_VALID_REDUCTION_FROM_21BG_OUTPUT_OR_CONTINUE_COORDINATE_COMPRESSION",
-  "next_item_if_fail": "RETAIN_AUDITED_21BF_FIVE_COORDINATE_STATE_AND_REPAIR_OR_CHANGE_SIXTH_COORDINATE_PROJECTION",
-  "active_execution_guardrail": {
-    "full_178_row_sweep_authorized": false,
-    "heavy_compute_requires_fresh_runkey_sync": true,
-    "effective_heavy_concurrency": 0,
-    "maximum_effective_stage32_heavy_overlap": 18,
-    "next_heavy_arm_authorized": false,
-    "post_32_21ad_heavy_production_authorized": false,
-    "legacy_prefix_dfs_heavy_rearm_authorized": false,
-    "terminal_family_materialization_authorized": false,
-    "antifixed_59d_cvp_authorized": false,
-    "unknown_is_unsat": false,
-    "representative_sample_is_not_full178_numerical_credit": true,
-    "fixed_projection_unsat_is_not_slice_unsat": true
-  },
-  "research_credit_firewalls": {
-    "policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
-    "inherited": true,
-    "stage_local_overrides_may_weaken": false,
-    "hostile_audit_can_reopen_prior_credit": true
-  },
-  "actions_safety": {
-    "policy": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
-    "operating_artifact_budget_mb": 500,
-    "stage_heavy_concurrency_cap": 18,
-    "21bg_light_runners": 2
-  },
-  "cycle_safety": {
-    "route_open": true,
-    "live_candidate": "AUDITED_SIXTH_COORDINATE_R42_PROJECTION_FROM_21BF_COMPRESSED_R49_FORMULA",
-    "blocked": [
-      "FULL178_PROMOTION_FROM_REPRESENTATIVE_SAMPLE",
-      "SLICE_UNSAT_FROM_ONE_FIXED_PROJECTION",
-      "UNKNOWN_TO_UNSAT_PROMOTION",
-      "LEGACY_PREFIX_DFS_REARM",
-      "59D_CVP_WITHOUT_SEPARATE_AUDITED_JUSTIFICATION"
-    ]
-  },
+  "current_item": "32-21BH_PER_TRIPLE_SEVENTH_COORDINATE_R54_PROJECTION",
+  "current_item_execution_constraint": "Inside the same representative fixed projection, consume only audited 21bb r51, 21bf r49, and corrected 21bg r42 integer-valid formulas plus the 21bc pair cuts. Independently reaudit the compact r42 lower/upper thresholds against the original all140 QF_LRA system for each of all 3234 triples before use, then project r54 over its audited global integer-valid domain [-178,-132] with independent lower and upper searches. Preserve every UNKNOWN; nonempty intervals are necessary data only and no fixed-projection result promotes to slice/FULL178 credit.",
+  "next_item_if_pass": "SELECT_NEXT_EXACT_INTEGER_VALID_REDUCTION_FROM_21BH_OUTPUT_OR_CONTINUE_COORDINATE_COMPRESSION",
+  "next_item_if_fail": "RETAIN_AUDITED_21BG_SIX_COORDINATE_STATE_AND_REPAIR_OR_CHANGE_SEVENTH_COORDINATE_PROJECTION",
+  "active_execution_guardrail": {"full_178_row_sweep_authorized": false, "heavy_compute_requires_fresh_runkey_sync": true, "effective_heavy_concurrency": 0, "maximum_effective_stage32_heavy_overlap": 18, "next_heavy_arm_authorized": false, "post_32_21ad_heavy_production_authorized": false, "legacy_prefix_dfs_heavy_rearm_authorized": false, "terminal_family_materialization_authorized": false, "antifixed_59d_cvp_authorized": false, "unknown_is_unsat": false, "representative_sample_is_not_full178_numerical_credit": true, "fixed_projection_unsat_is_not_slice_unsat": true},
+  "research_credit_firewalls": {"policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md", "inherited": true, "stage_local_overrides_may_weaken": false, "hostile_audit_can_reopen_prior_credit": true},
+  "actions_safety": {"policy": "docs/research-os/policies/actions-storage-and-evidence-safety.md", "operating_artifact_budget_mb": 500, "stage_heavy_concurrency_cap": 18, "21bh_light_runners": 2},
+  "cycle_safety": {"route_open": true, "live_candidate": "AUDITED_SEVENTH_COORDINATE_R54_PROJECTION_AFTER_CORRECTED_R42_DOMAIN_AUDIT", "blocked": ["FULL178_PROMOTION_FROM_REPRESENTATIVE_SAMPLE", "SLICE_UNSAT_FROM_ONE_FIXED_PROJECTION", "UNKNOWN_TO_UNSAT_PROMOTION", "LEGACY_PREFIX_DFS_REARM", "59D_CVP_WITHOUT_SEPARATE_AUDITED_JUSTIFICATION"]},
   "next_expected_command": "stage32main batch"
 }
