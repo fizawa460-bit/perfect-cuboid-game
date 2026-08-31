@@ -1,112 +1,79 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V152_21BL_AUDITED_INTEGER_SAT_CHECKPOINT",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V153_POST21BL_PICARD_WITNESS_ADAPTER",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
-  "status": "STAGE32_21BL_AUDITED_INTEGER_SAT_RESOLUTION_CHECKPOINT",
-  "current_item": "32-21BL_AUDITED_INTEGER_SAT_CHECKPOINT",
-  "current_item_execution_constraint": "The former lone representative UNKNOWN is resolved by an exact 59D integer witness in the preserved current fixed-projection model and a fresh independent Z3 replay audit. Do not run the 3234-triple scaleout: SAT resolution requires one exact current-model witness, and that condition is already audited. Do not extend the single-coordinate compression sequence. This is representative fixed-projection credit only, not FULL178, slice, theorem, receiver, route, or perfect-cuboid credit.",
+  "status": "STAGE32_POST21BL_PICARD_WITNESS_ADAPTER_ACTIVE",
+  "current_item": "POST_21BL_PICARD_WITNESS_ADAPTER",
+  "current_item_execution_constraint": "Consume only the audited 21bl exact 59D representative witness through an explicit exact adapter back to the retained Picard64 object. Reconstruct one Picard64 class, replay the fixed/Reynolds projection and all 140 original pairings, replay the exact (d,e,a) slice invariants, and evaluate the original self-intersection threshold on the same class. Do not invent 32-21bm, restart single-coordinate compression, rearm 21bl, or launch the 3234-triple scaleout. A passing Picard64 class remains representative-slice computational evidence only and does not grant FULL178, effectivity, receiver, theorem, route, or perfect-cuboid credit.",
   "active_pr": {
-    "number": 1467,
-    "branch": "stage32-21ae-actual-residue-witness-preflight",
-    "base_sha": "d8fa4446af9bcc36b34d2421733333f0c74d23d5",
+    "number": 1470,
+    "branch": "stage32-post21bl-picard-witness-adapter",
+    "base_sha": "73a3f3961a283c24715f32c57a81c1de1009742a",
     "automatic_merge_authorized": false
   },
-  "advance_allowed": false,
+  "advance_allowed": true,
   "merge_allowed": false,
   "automatic_merge_authorized": false,
-  "checkpoint_merge_ready": true,
+  "checkpoint_merge_ready": false,
   "stage32_closed": false,
   "actions_safety": {
     "policy": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
     "operating_artifact_budget_mb": 500,
     "stage_heavy_concurrency_cap": 18,
-    "21bl_shard_count": 16,
-    "21bl_max_parallel": 16,
-    "21bl_per_check_timeout_ms": 5000,
-    "21bl_intermediate_retention_days": 1,
-    "21bl_final_retention_days": 7,
-    "21bl_full_scaleout_authorized": false,
-    "21bl_heavy_rearm_authorized": false,
-    "heavy_compute_requires_fresh_runkey_sync": true
+    "this_adapter_is_heavy": false,
+    "planned_effective_heavy_overlap": 0,
+    "planned_jobs": 1,
+    "projected_new_artifact_peak_mb_lt": 1,
+    "final_artifact_retention_days": 7,
+    "heavy_run_key_required": false,
+    "21bl_full_3234_scaleout_authorized": false,
+    "21bl_heavy_rearm_authorized": false
   },
   "active_execution_guardrail": {
-    "maximum_effective_stage32_heavy_overlap": 18,
     "full_178_row_sweep_authorized": false,
     "legacy_prefix_dfs_heavy_rearm_authorized": false,
     "terminal_family_materialization_authorized": false,
+    "single_coordinate_extension_authorized": false,
     "21bl_full_3234_scaleout_authorized": false,
-    "21bl_additional_witness_hunt_required": false,
     "unknown_is_unsat": false,
     "fixed_projection_unsat_is_not_slice_unsat": true,
     "representative_sample_is_not_full178_numerical_credit": true
   },
-  "coordinate_closure_guard": {
-    "contract": "stages/stage32/32-21/32-21-coordinate-closure-contract.json",
-    "last_completed_single_coordinate_leaf": "32-21bk",
-    "single_coordinate_extension_authorized": false,
-    "joint_integer_leaf": "32-21bl",
-    "joint_integer_leaf_status": "CLOSED_AUDITED_INTEGER_SAT_RESOLUTION",
-    "current_mandatory_leaf": null,
-    "current_mode": "AUDITED_INTEGER_SAT_CHECKPOINT"
-  },
-  "representative_chain": {
-    "scope": "deterministic 56 fixed-projection representative sample only; not FULL178 numerical credit",
-    "current_combined_state": {
-      "sat": 1,
-      "unsat": 55,
-      "unknown": 0
-    },
-    "former_lone_unknown": {
+  "21bl_dependency": {
+    "status": "CLOSED_AUDITED_EXACT_INTEGER_SAT_RESOLUTION",
+    "evidence": "stages/stage32/32-21/32-21bl-joint-integer-witness.json",
+    "evidence_canonical_sha256": "ac88fb355252750e6afdc10cbb54abec24babbad57c25090c017f9a55ac93a44",
+    "witness_sha256": "1a131595c87cf9c5d54ef97dba62261eeb3dda7bb92a5a9fa62c280f46bc4137",
+    "fresh_audit_certificate": "stages/stage32/32-21/32-21bl-joint-integer-witness-audit.json",
+    "fresh_audit_canonical_sha256": "4c8ba2456d163963a7ca28d3ce72d3556460e7bee0d46ee676b891e94e9ba264",
+    "representative_chain_after_audit": {"sat": 1, "unsat": 55, "unknown": 0},
+    "target": {
       "row_id": "g1-d186",
       "e": 266,
       "a": 592,
       "u": -44,
       "v": 32,
       "z": [-15, 62, -44, 26, 32],
-      "survivor_prism_triples": 3234,
-      "resolution": "AUDITED_EXACT_INTEGER_SAT_WITNESS"
-    },
-    "21bk": {
-      "status": "PASS_EXACT_21BK_R20_FINAL_SINGLE_COORDINATE_PROJECTION",
-      "run_id": 33366843530,
-      "artifact_id": 9748813722,
-      "aggregate_canonical_sha256": "c023152d8578560df3fe687087e811941eee2a1670ebce4a580ec7aaea77c683",
-      "lock_file": "stages/stage32/32-21/32-21bk-r20-final-single-coordinate-evidence.json",
-      "lock_canonical_sha256": "c39ba719e648104cd62a8f87bd739f5933725fcd71cc0cca56397692f1036c57",
-      "open_triples": 3234,
-      "integer_pruned_triples": 0,
-      "unknown_triples": 0,
-      "r20_indices_before": 151998,
-      "r20_indices_after": 149740
-    },
-    "21bl": {
-      "status": "CLOSED_AUDITED_EXACT_INTEGER_SAT_RESOLUTION",
-      "solver_file": "stages/stage32/residual-32-01-production/certify_stage32_21bl_joint_integer_closure.py",
-      "candidate_preflight_file": "stages/stage32/residual-32-01-production/certify_stage32_21bl_milp_candidate_preflight.py",
-      "audit_file": "stages/stage32/residual-32-01-production/audit_stage32_21bl_joint_integer_witness.py",
-      "workflow": ".github/workflows/stage32-21bl-joint-integer-closure.yml",
-      "solver_mode": "EXACT_59D_JOINT_INTEGER_CLOSURE",
       "ordinal": 1617,
-      "triple": [76, -55, -96],
-      "integer_rank": 59,
-      "assertion_count": 514,
-      "witness_file": "stages/stage32/32-21/32-21bl-joint-integer-witness.json",
-      "witness_sha256": "1a131595c87cf9c5d54ef97dba62261eeb3dda7bb92a5a9fa62c280f46bc4137",
-      "producing_run_id": 33380510213,
-      "producing_artifact_id": 9753613683,
-      "producing_artifact_zip_sha256": "72a968f83cd0af4723b225b51b9bee7928bb56b4d393bc6442e27a9d98ad9072",
-      "evidence_canonical_sha256": "ac88fb355252750e6afdc10cbb54abec24babbad57c25090c017f9a55ac93a44",
-      "fresh_audit_certificate": "stages/stage32/32-21/32-21bl-joint-integer-witness-audit.json",
-      "fresh_audit_run_id": 33381259913,
-      "fresh_audit_job_id": 99453918992,
-      "fresh_audit_artifact_id": 9753859098,
-      "fresh_audit_artifact_zip_sha256": "3b1730f1ad8018682b28574d185ada86d2042f348eadb19f7c74260dfbfa85ad",
-      "fresh_audit_canonical_sha256": "4c8ba2456d163963a7ca28d3ce72d3556460e7bee0d46ee676b891e94e9ba264",
-      "original_joint_z3_fixed_witness_replay": "sat",
-      "full_3234_scaleout_required_for_sat_resolution": false,
-      "full_3234_scaleout_authorized": false
+      "triple": [76, -55, -96]
     }
+  },
+  "post21bl_strategy": {
+    "selected_strategy": "AUDITED_AFFINE_ANTIFIXED_FIBER_LATTICE_SOLVER",
+    "selection_basis": "The merged 21bl witness solves the simultaneous 59D integer linear affine-fiber constraints. The next semantic gap is not another projection coordinate but exact transfer of that same witness to the retained Picard64 object and the original quadratic slice threshold.",
+    "adapter_file": "stages/stage32/residual-32-01-production/adapt_stage32_post21bl_picard_witness.py",
+    "workflow": ".github/workflows/stage32-post21bl-picard-witness-adapter.yml",
+    "required_checks": [
+      "EXACT_PICARD64_RECONSTRUCTION",
+      "FIXED_AND_REYNOLDS_PROJECTION_REPLAY",
+      "ALL140_ORIGINAL_PAIRING_REPLAY",
+      "EXACT_D_E_A_SLICE_REPLAY",
+      "ORIGINAL_SELF_INTERSECTION_THRESHOLD"
+    ],
+    "current_result": "PENDING",
+    "fresh_independent_audit_required_before_promotion": true,
+    "effectivity_not_solved": true
   },
   "history": {
     "reusable_index": "stages/stage32/HISTORY.md",
@@ -116,7 +83,7 @@
   "research_credit_firewalls": {
     "policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
     "representative_sample_is_not_full178_numerical_credit": true,
-    "integer_sat_is_not_perfect_cuboid": true,
+    "integer_picard_class_is_not_effective_curve_existence": true,
     "fixed_projection_unsat_is_not_slice_unsat": true,
     "unknown_is_not_unsat": true,
     "theorem_credit": false,
@@ -125,8 +92,9 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
   },
-  "next_item_if_pass": "AFTER_EXPLICIT_PR1467_MERGE_AUTHORIZATION_AND_MERGE: REREAD_MAIN_CONTROLLER_AND_SELECT_A_POST_21BL_STRATEGY_THAT_CONSUMES_THE_AUDITED_INTEGER_WITNESS_THROUGH_AN_EXPLICIT_ADAPTER; DO_NOT_INVENT_32_21BM_OR_RESTART_SINGLE_COORDINATE_COMPRESSION",
-  "next_item_if_fail": "N/A_21BL_FRESH_EXACT_WITNESS_REPLAY_AUDIT_PASSED",
-  "next_expected_action": "MERGE_PR1467_ONLY_WITH_EXPLICIT_USER_AUTHORIZATION",
+  "next_item_if_pass": "PERSIST_POST21BL_PICARD64_ADAPTER_EVIDENCE_AND_RUN_A_FRESH_INDEPENDENT_EXACT_PICARD64_RECONSTRUCTION_AUDIT_BEFORE_ANY_PROMOTION",
+  "next_item_if_self_intersection_fail": "SELECT_AN_EXACT_QUADRATIC_CONSTRAINED_AFFINE_FIBER_SEARCH_FROM_THE_SAME_SOURCE_LOCKS_WITH_COST_AND_STORAGE_PREFLIGHT; DO_NOT_RETURN_TO_SINGLE_COORDINATE_COMPRESSION",
+  "next_item_if_reconstruction_fail": "FIX_ADAPTER_OR_SOURCE_LOCK_MISMATCH; DO_NOT_TREAT_AN_IMPLEMENTATION_FAILURE_AS_A_MATHEMATICAL_RESULT",
+  "next_expected_action": "RUN_POST21BL_PICARD_WITNESS_ADAPTER",
   "next_expected_command": "stage32main batch"
 }
