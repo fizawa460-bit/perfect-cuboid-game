@@ -1,214 +1,123 @@
 # Stage32 history and reusable evidence index
 
-Purpose: give MAIN a compact way to answer **what was already proved, what was superseded, and what can still be reused** without reconstructing Stage32 from old PRs, workflow logs, or the full controller history.
+Purpose: compactly record what is reusable, superseded, and currently open. Live machine state is always `stages/stage32/controller.json`.
 
-This file is an index, not an authority for live state. For the current machine state, use `stages/stage32/controller.json`.
+## Current boundary — post-21bl effectivity preflight
+
+Current continuation: PR #1471, branch `stage32-post21bl-effectivity-preflight`, based on merged #1470 / `main@20f5bd1e2e71cf96f8a30e677640666807a71729`.
+
+The former representative state `SAT 0 / UNSAT 55 / UNKNOWN 1` is superseded. The audited current representative state is:
+
+`SAT 1 / UNSAT 55 / UNKNOWN 0`.
+
+The former lone UNKNOWN `g1-d186` was resolved at 21bl by an exact 59D integer SAT witness and fresh replay audit. The witness was then transferred exactly to one retained integral Picard64 class and independently re-audited.
+
+Reusable current facts:
+
+- target: `g1-d186`, genus `1`, degree `186`, `e=266`, `a=592`;
+- 21bl witness SHA256: `1a131595c87cf9c5d54ef97dba62261eeb3dda7bb92a5a9fa62c280f46bc4137`;
+- 21bl evidence canonical: `ac88fb355252750e6afdc10cbb54abec24babbad57c25090c017f9a55ac93a44`;
+- 21bl fresh audit canonical: `4c8ba2456d163963a7ca28d3ce72d3556460e7bee0d46ee676b891e94e9ba264`;
+- post-21bl Picard64 adapter canonical: `ef3f21e4166d4bfcacce3503213b0a72afee5f5002ab7145de01fc9c54d47038`;
+- post-21bl fresh Picard64 audit canonical: `170611441f83113b27fa1b9b60eeaac31746a10938bb6ee5751f32a450f466d8`;
+- Picard-coordinate SHA256: `0fcbe0c9cdf894a95704bcaf55536290fc2daa736387169c891e8262f2c565a7`;
+- all140-pairing SHA256: `1968dba54ebe2082c6ed07203ea9e4118460f60c32c60d46292bc73dc6bdf961`;
+- all 140 known-curve/exceptional pairings are integral and nonnegative;
+- exact self-intersection `C^2=858`;
+- `K_S.C=d=186`.
+
+These facts close the representative integer/Picard semantic adapter only. They do **not** prove effectivity or an actual curve.
+
+The exact post-21bl gap is now deliberately split:
+
+1. `FULL178_NUMERICAL_CENSUS = OPEN_SEPARATE`;
+2. `EFFECTIVITY_ACTUAL_LOW_GENUS_CURVE = OPEN_PRIMARY`.
+
+`stages/stage32/32-21/post-21bl-effectivity-gap-separation.json` records that the representative already passes the historical Testa–Stoll numerical-effectivity **necessary** filter (nonnegative intersection with all known curves), but no sufficient curve-existence, irreducibility, normalization-genus-one, unibranch, or multibranch certificate is present.
+
+`stages/stage32/32-21/post-21bl-genus-defect-preflight.json` gives the current exact geometric burden:
+
+- adjunction arithmetic genus: `p_a=(858+186)/2+1=523`;
+- target normalization genus: `1`;
+- required normalization genus defect for a reduced irreducible genus-one realization: `522`;
+- exceptional pairing count `48`, sum `266`, min `0`, max `16`, zero count `4`;
+- no identity between that exceptional profile and the required delta invariant is claimed.
+
+The next meaningful datum is therefore a source-locked geometric adapter that constructs such an integral low-genus curve or excludes one. Repeating numerical Picard/integrality/nonnegative-pairing filters is not progress.
 
 ## Generation map
 
 | Unit | Role | Status | Reuse rule |
 |---|---|---|---|
-| 32-19 | brute-force scaling limit / hard-tail diagnosis | CLOSED_RETROSPECTIVE | Historical telemetry and scaling diagnosis remain valid; do not revive blind node-ceiling escalation as the default strategy. |
-| 32-20 | symbolic prefix compression / exact indexed terminal family | CLOSED_CHECKPOINTED | Exact symbolic counts and rank/unrank interface remain reusable; the Gen38 52-unit frontier is historical, not the active enumeration mechanism. |
-| 32-21 | numerical Picard / exact integer-fiber compression | ACTIVE | Reuse only audited/checkpointed interfaces listed below; preserve `UNKNOWN != UNSAT` and representative-sample firewalls. |
+| 32-19 | brute-force scaling limit / hard-tail diagnosis | CLOSED_RETROSPECTIVE | Historical scaling telemetry only; do not revive blind node-ceiling escalation. |
+| 32-20 | symbolic prefix compression / exact indexed terminal family | CLOSED_CHECKPOINTED | Exact count/rank/unrank interface remains reusable; do not materialize the full family without a new exact need. |
+| 32-21 | numerical Picard / integer-fiber / effectivity boundary | ACTIVE | Reuse only audited locks below; current live problem is effectivity sufficiency, with FULL178 kept separate. |
 
-Authoritative generation map: `stages/stage32/ROADMAP-32-19-21-REANCHOR.md`.
+## 32-19 / 32-20 reusable checkpoints
 
-## 32-19 — scaling-limit evidence
+32-19 established the brute-force scaling wall. Gen38 had 52 continuations from73 inputs and exact finite raw remaining-node upper bound `4555530975806418`.
 
-Reusable facts:
+32-20 replaced blind enumeration by an exact indexed terminal family:
 
-- Gen38: 73 inputs -> 52 continuations; hard tail remains substantial.
-- Exact finite raw remaining-node upper bound: `4555530975806418`.
-- Blind 512M/1B-style escalation was judged operationally dominated as the primary route.
-- Historical Gen33-Gen38 evidence is not revoked; only its use as the active enumeration mechanism is superseded.
+- status `PASS_PREFIX_DFS_REPARAMETERIZED_TO_EXACT_INDEXED_TERMINAL_FAMILY`;
+- exact symbolic terminal count `688101306360803751427719294`;
+- exact unrank/inverse-rank interface available.
 
-Primary history snapshot: `stages/stage32/controller-history-through-32-21ad.json`.
+Detailed pre-21ad history: `stages/stage32/controller-history-through-32-21ad.json`.
 
-## 32-20 — symbolic replacement of brute-force enumeration
+## 32-21aa through 21ad
 
-Reusable/current interface:
+Audited reusable package:
 
-- `PASS_PREFIX_DFS_REPARAMETERIZED_TO_EXACT_INDEXED_TERMINAL_FAMILY`.
-- Exact symbolic terminal count: `688101306360803751427719294`.
-- Exact random-access unrank and inverse-rank are available.
-- The old Gen38 52-unit prefix frontier is **superseded as an enumeration mechanism**, but retained as historical telemetry.
+- 21aa anti-fixed penalties: 16384 projection classes, 16383 positive, one zero, minimum positive `1/572`;
+- 21ab quotient map: free subgroup order128, quotient cosets128;
+- 21ac cheap exact anti-fixed coset predicate: 127 positive-minimum cosets, one zero;
+- aa→ac fresh audit canonical `5dfd1087d7d1c20baa3475e05e1768edbb9e8f063b20d01ca467a6725b657f1e`;
+- 21ad FULL178 census: 178 rows, 2,018,569 prior slices, 679,337 continuous-KKT survivors, **0 additional anti-fixed prunes**;
+- 21ad boundary audit canonical `1f2e61ef29cf6000b8cc98906a5dcf3f2a4d15a7b405be2e40ef9c0de3bfab0e`.
 
-Do not rematerialize the full terminal family unless a later exact argument specifically requires it.
+Interpretation: 21ac is mathematically valid but numerically dominated on that exact FULL178 population. Do not rerun the same census without a semantic change.
 
-## 32-21aa -> 32-21ad — audited anti-fixed / Reynolds package
+## Post-21ad representative chain
 
-### 32-21aa
+The deterministic56 fixed-projection sample is representative-only, never FULL178 credit.
 
-`CLOSED_AUDITED_AS_PART_OF_AA_AC_PACKAGE`
+Important repair/supersession rules:
 
-- projection classes: `16384`
-- positive penalty classes: `16383`
-- zero penalty classes: `1`
-- minimum positive penalty: `1/572`
-- certificate SHA256: `f5e6e363fa2c8f2258e340054948319aae2ad805bd2ca5412f8e3a76231e0238`
+- 21ba interval upper-search interface is buggy and permanently superseded;
+- 21bb/21bc/21bd are reusable only through the independent 21be rescue;
+- the first 21bg run with wrong r42 domain is invalid/no credit;
+- corrected 21bg and later exact locks are reusable.
 
-### 32-21ab
+Exact coordinate-compression chain:
 
-`CLOSED_AUDITED`
+- 21be restored exact r51;
+- 21bf exact r49;
+- corrected 21bg exact r42;
+- 21bh exact r54;
+- 21bi exact r57;
+- 21bj exact r56;
+- 21bk exact r20.
 
-- exact quotient class map
-- free subgroup order: `128`
-- quotient cosets: `128`
-- certificate SHA256: `07bf0aff16a344ad68fe7179ff797057fca562fd6bafbdaf418155ba0995c8b4`
+Every single-coordinate step left all3234 survivor-prism triples open. The finite anti-loop contract then forced 21bl joint integer closure rather than another coordinate. That joint step found the audited integer SAT witness described above. Do not restart the coordinate-compression chain or run the 3234 scaleout merely because it exists.
 
-### 32-21ac
+## Current receiver semantics
 
-`CLOSED_AUDITED`
+Stage29 receiver lock:
 
-- cheap exact anti-fixed coset pruning predicate
-- positive minimum-penalty cosets: `127`
-- zero minimum-penalty cosets: `1`
-- certificate SHA256: `2c227d773aaf6a6543ae89419c468d85fd4ebd42422eb6f4c8ac60b2e7227c8e`
+`R29-LG2-EFF = EffectiveCurveCertificationForSurvivingNumericalPicardClasses`.
 
-Fresh aa->ab->ac boundary audit: PASS, SHA256 `5dfd1087d7d1c20baa3475e05e1768edbb9e8f063b20d01ca467a6725b657f1e`.
+Its parent kernel wall is a symmetry-reduced, effectivity-aware, multibranch Picard-lattice enumeration through the audited genus0 degree<=176 / genus1 degree<=192 window. The current d186 genus1 representative lies inside that window, but numerical Picard survival is not receiver closure.
 
-### 32-21ad
+## Permanent firewalls
 
-`CLOSED_AUDITED_ZERO_PRUNE_CHECKPOINT`
+- `UNKNOWN != UNSAT`.
+- representative sample != FULL178 numerical credit.
+- rational SAT != integer SAT.
+- fixed-projection UNSAT != slice UNSAT.
+- integral Picard class != effective curve existence.
+- nonnegative intersections with known curves are a necessary filter, not effectivity sufficiency.
+- effectivity/divisor existence != integral low-genus carrier without irreducibility/normalization/branch semantics.
+- no theorem, receiver, route, or perfect-cuboid credit without its explicit audited adapter.
 
-FULL178 exact census:
-
-- rows: `178`
-- prior slices: `2018569`
-- continuous-KKT survivors: `679337`
-- anti-fixed additional prunes: `0`
-- survivors after anti-fixed bound: `679337`
-- additional prune rate: `0`
-
-Fresh boundary audit: PASS, SHA256 `1f2e61ef29cf6000b8cc98906a5dcf3f2a4d15a7b405be2e40ef9c0de3bfab0e`.
-
-Interpretation: 32-21ac is mathematically valid but numerically dominated on the exact FULL178 population. **Do not rerun the same FULL178 census without a semantic change.** Zero additional pruning is not UNSAT and gives no theorem/receiver/route credit.
-
-Checkpoint PR #1466 is merged; merge commit `d8fa4446af9bcc36b34d2421733333f0c74d23d5`.
-
-## Post-32-21ad representative integer-fiber chain
-
-Scope for the whole chain below:
-
-- deterministic 56 fixed-projection representative sample only
-- not FULL178 numerical credit
-- rational SAT is not integer SAT
-- fixed-projection UNSAT is not slice UNSAT
-- `UNKNOWN != UNSAT`
-
-Current combined representative state remains:
-
-`SAT 0 / UNSAT 55 / UNKNOWN 1`
-
-Sole unresolved projection: `g1-d186, e=266, a=592, z=(-15,62,-44,26,32)`.
-
-### 21ax / 21ay / 21az — exact survivor setup
-
-Reusable facts:
-
-- 21ax exact integer-valid cut: `r11 >= -1426`.
-- 21ay: `7865` triples checked; rational-UNSAT `4631`; rational-SAT `3234`; QF_LRA UNKNOWN `0`.
-- 21az: exact survivor prism has `3234` integer triples; global `r51` domain `[-178,-132]`.
-
-### 21ba — SUPERSEDED BUGGY INTERFACE
-
-Do **not** reuse the old 21ba `integer_interval` upper-search result as exact evidence.
-
-Bug: if the real projection interval contains no integer, the upper binary search can emit a false singleton because it starts at `new_lo` and cannot cross below it.
-
-Status: `SUPERSEDED_BY_21BE_INDEPENDENT_ENDPOINT_AUDIT`.
-
-### 21bb / 21bc / 21bd — restored after 21be
-
-These interfaces are reusable **only because 21be independently re-audited them**.
-
-- 21bb exact `r51` formula: RESTORED_EXACT_AFTER_21BE.
-- 21bc 42 pair-combination bounds: RESTORED_EXACT_AFTER_21BE.
-- 21bd pair-cut closure: RESTORED_EXACT_AFTER_21BE; result remains OPEN after all 42 pair cuts.
-
-### 21be — authoritative repair of the 21ba bug
-
-`PASS_EXACT_21BB_R51_FORMULA_RESCUE`
-
-- passed rows: `3234/3234`
-- failures: `0`
-- QF_LRA UNKNOWN: `0`
-- exact QF_LRA checks: `9570`
-- aggregate canonical SHA256: `afaddfd92cb5664797e8a81998002a5631d265b84e656aa3e334b852dfb0c645`
-- lock: `stages/stage32/32-21/32-21be-r51-endpoint-audit.json`
-
-### 21bf — r49 projection
-
-`PASS_EXACT_21BF_R49_PER_TRIPLE_PROJECTION`
-
-- open triples: `3234`
-- integer-pruned triples: `0`
-- r49 indices: `151998 -> 98010`
-- exact formula: `132 <= r49 <= min(178, 130-floor(r27/2), 61+floor(-3*r27/2))`
-- lock: `stages/stage32/32-21/32-21bf-r49-per-triple-projection.json`
-
-Interpretation: useful compression, but no triple was closed.
-
-### 21bg — corrected r42 projection
-
-`PASS_EXACT_21BG_CORRECTED_R42_DOMAIN_AUDIT`
-
-- corrected global r42 domain: `[33,79]`
-- open triples: `3234`
-- integer-pruned triples: `0`
-- r42 indices: `151998 -> 124856`
-- lock: `stages/stage32/32-21/32-21bg-r42-corrected-domain-audit.json`
-
-The earlier run using domain `(79,125)` is invalid and has **no credit**.
-
-### 21bh — r54 lossless table
-
-`PASS_EXACT_21BH_R54_PER_TRIPLE_PROJECTION`
-
-- open triples: `3234`
-- integer-pruned triples: `0`
-- r54 indices: `151998 -> 137095`
-- lossless table cells: `539`
-- fixed upper: `-132`
-- lock: `stages/stage32/32-21/32-21bh-r54-lossless-table.json`
-
-Interpretation: lossless coordinate compression, not closure.
-
-### 21bi — CURRENT
-
-Current leaf: per-triple `r57` projection over audited domain `[0,46]`, after independently re-auditing the 21bh r54 threshold/table against the original all140 QF_LRA system.
-
-The correct success metric is **not** “another coordinate got a tighter interval.” Track whether this chain actually reduces one or more of:
-
-- open triples (`3234` currently),
-- total integer candidate population,
-- effective unresolved freedom / exact degrees of freedom,
-- or produces a new exact coupled cut / contradiction.
-
-If repeated coordinate projections only tighten intervals while all `3234` triples stay open and effective freedom does not fall, treat that as weak progress and reconsider the strategy rather than extending the chain indefinitely.
-
-## Reuse / stale quick reference
-
-Reuse directly:
-
-- 32-20 symbolic indexed terminal-family interface.
-- 32-21aa/ab/ac audited exact interfaces.
-- 32-21ad zero-prune census as a **negative strategy result**: same cheap bound is dominated on FULL178.
-- 21bb/21bc/21bd only through the 21be repair.
-- 21be, 21bf, corrected 21bg, 21bh exact locks.
-
-Do not reuse as authoritative:
-
-- 21ba buggy `integer_interval` output.
-- the invalid pre-correction r42 run/domain.
-- the Gen38 52-unit frontier as the active enumeration mechanism.
-- any representative fixed-projection result as FULL178, slice, theorem, receiver, or endpoint credit.
-
-## Live-state pointer
-
-For the exact current leaf, branch, run-key state, authorization, and firewalls, read only:
-
-`stages/stage32/controller.json`
-
-This HISTORY file should be updated at meaningful boundaries or when an old interface becomes superseded/restored. It should not be rewritten for every small leaf.
+For the exact live branch, PR, current item, and next datum, read `stages/stage32/controller.json`.
