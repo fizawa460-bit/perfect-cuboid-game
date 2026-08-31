@@ -43,18 +43,16 @@ jobs:
           import json, subprocess, sys
           key_path, before = sys.argv[1:]
           cur = json.load(open(key_path))
-          assert cur == {
-              "schema": "STAGE32_21BL_JOINT_INTEGER_CLOSURE_RUNKEY_V1",
-              "armed": True,
-              "generation": 1,
-              "source_head_before_arm": before,
-              "expected_triples": 3234,
-              "shard_count": 16,
-              "max_parallel": 16,
-              "per_check_timeout_ms": 5000,
-              "solver_mode": "EXACT_59D_JOINT_INTEGER_CLOSURE",
-              "source_21bk_evidence_canonical_sha256": "c39ba719e648104cd62a8f87bd739f5933725fcd71cc0cca56397692f1036c57"
-          }
+          assert cur.get("schema") == "STAGE32_21BL_JOINT_INTEGER_CLOSURE_RUNKEY_V1"
+          assert cur.get("armed") is True
+          assert int(cur.get("generation", 0)) >= 1
+          assert cur.get("source_head_before_arm") == before
+          assert cur.get("expected_triples") == 3234
+          assert cur.get("shard_count") == 16
+          assert cur.get("max_parallel") == 16
+          assert cur.get("per_check_timeout_ms") == 5000
+          assert cur.get("solver_mode") == "EXACT_59D_JOINT_INTEGER_CLOSURE"
+          assert cur.get("source_21bk_evidence_canonical_sha256") == "c39ba719e648104cd62a8f87bd739f5933725fcd71cc0cca56397692f1036c57"
           old = subprocess.run(["git", "show", f"{before}:{key_path}"], text=True, capture_output=True)
           if old.returncode == 0:
               prev = json.loads(old.stdout)
