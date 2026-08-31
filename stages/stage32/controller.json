@@ -1,22 +1,26 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V160_POST21BL_FULL178_NODE_MASS_CENSUS_AUDITED",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V161_PR1473_OPERATIONS_FIX_PENDING_HOSTILE_REAUDIT",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
-  "status": "STAGE32_POST21BL_FULL178_NODE_MASS_NUMERICAL_CENSUS_AUDITED",
-  "current_item": "PR1473_CHECKPOINT_READY_AFTER_FULL178_NODE_MASS_CENSUS",
-  "current_item_execution_constraint": "Fresh audit closes only FULL178 numerical credit for the current bijective-normalization necessary-condition stack. The cheap node-mass cut removes 3,620/64,111 coarse (row,e) strata, 229,382 prior slices, and 19,640 continuous-KKT survivors, leaving 659,697; anti-fixed removes 0 additional survivors. Do not promote this to geometric closure, receiver/route/theorem/final-problem credit. Do not continue a same-type cheap-filter chain. The exact 48-exceptional-support constraint is reserved for an integral Picard feasibility layer and cannot be inferred from e or retroactively applied to continuous KKT survivors. Do not materialize all 659,697 survivors.",
+  "status": "STAGE32_POST21BL_FULL178_NODE_MASS_MATH_AUDITED_OPERATIONS_REPAIRED_PENDING_HOSTILE_REAUDIT",
+  "current_item": "PR1473_OPERATIONS_FIX_READY_FOR_HOSTILE_REAUDIT",
+  "current_item_execution_constraint": "The hostile audit verdict FAIL_OPERATIONS_ONLY / MATH_SCOPE_SURVIVES is respected. FULL178 numerical credit for the current bijective-normalization necessary-condition stack remains CLOSED_AUDITED. The operations blocker was the old heavy run-key gate failing to compare an existing run key's generation against BEFORE. The workflow now requires current generation > previous generation, and both a deliberate same-generation runkey-only replay probe and restoration commit were rejected with generation_not_advanced while pilot/shard/aggregate were all SKIPPED. MAIN must not self-promote the hostile audit to PASS: PR1473 remains merge-blocked until a hostile re-audit explicitly clears the repaired operations gate. The prior fresh FULL178 audit is characterized precisely as a fresh provenance/accounting audit over the already-audited evaluator stack, not a from-scratch independent reimplementation of every KKT evaluation. Do not continue the 659,697 survivors, materialize them, or start the integral-Picard bridge before PR1473 is audit-cleared and explicitly merged.",
   "active_pr": {
     "number": 1473,
     "branch": "stage32-post21bl-full178-node-mass-census",
     "base_sha": "8cb707ffdc4ea72094d397df1896b374a4bbb1a7",
-    "promotion_parent_sha": "24025ca43277c04f553ba2b75b8fe1a957d448d3",
+    "operations_fix_commit": "cc5caaedc0a315edc0940c5479c55ffc8503bc5c",
+    "same_generation_probe_commit": "9a973336d6252ac334fa4f3f94d1360cbb658aef",
+    "runkey_restore_commit": "999e5fc16201475c3cb31e2e3a6eaa559440a528",
+    "operations_audit_certificate_commit": "95b975ed9e8e8de71e8b71c0690c3094b491a6ff",
     "automatic_merge_authorized": false
   },
   "advance_allowed": false,
-  "merge_allowed": true,
+  "merge_allowed": false,
   "automatic_merge_authorized": false,
-  "checkpoint_merge_ready": true,
+  "checkpoint_merge_ready": false,
+  "hostile_reaudit_required_before_merge": true,
   "stage32_closed": false,
   "actions_safety": {
     "policy": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
@@ -25,7 +29,35 @@
     "production_max_parallel": 16,
     "observed_persisted_artifact_bytes_this_leaf": 55744,
     "new_heavy_compute_authorized": false,
-    "full178_heavy_arm_authorized": false
+    "full178_heavy_arm_authorized": false,
+    "existing_runkey_generation_advance_enforced": true,
+    "operations_blocker_before_fix": "EXISTING_RUNKEY_GENERATION_NOT_COMPARED_TO_BEFORE",
+    "operations_blocker_after_fix": "REPAIRED_PENDING_HOSTILE_REAUDIT",
+    "operations_fix_certificate": "stages/stage32/32-21/post-21bl-full178-node-mass-runkey-generation-gate-audit.json",
+    "operations_fix_certificate_canonical_sha256": "3c171df6621e4883735bf1c43ce2675dd04ba4c8b83a6d28f06b3b88bde321a6",
+    "workflow_only_cold_run_id": 33448005365,
+    "same_generation_replay_probe": {
+      "run_id": 33448059081,
+      "authorize_job_id": 99671490070,
+      "previous_generation": 1,
+      "current_generation": 1,
+      "armed": false,
+      "reason": "generation_not_advanced",
+      "pilot_skipped": true,
+      "shard_skipped": true,
+      "aggregate_skipped": true
+    },
+    "restored_runkey_cold_check": {
+      "run_id": 33448160403,
+      "authorize_job_id": 99671806103,
+      "previous_generation": 1,
+      "current_generation": 1,
+      "armed": false,
+      "reason": "generation_not_advanced",
+      "pilot_skipped": true,
+      "shard_skipped": true,
+      "aggregate_skipped": true
+    }
   },
   "closed_dependencies": {
     "21bl": {
@@ -56,6 +88,7 @@
     "post21bl_full178_node_mass_census": {
       "status": "CLOSED_AUDITED_FULL178_NUMERICAL_CREDIT_FOR_CURRENT_NECESSARY_CONDITION_STACK",
       "scope": "FULL178_BIJECTIVE_NORMALIZATION_NECESSARY_CONDITION_NUMERICAL_CENSUS",
+      "audit_characterization": "FRESH_PROVENANCE_AND_ACCOUNTING_AUDIT_OVER_ALREADY_AUDITED_EVALUATOR_STACK_NOT_FULL_INDEPENDENT_REIMPLEMENTATION",
       "exact_cut": "e >= ceil((d-16g+16)/4)",
       "source_lock": "stages/stage32/32-21/post-21bl-full178-node-mass-census-lock.json",
       "source_lock_canonical_sha256": "63b3a6d4a1dbbf2900ce97f3ec7c014df970d0be23b3cfe2e0d4f71c0cd23bfe",
@@ -80,8 +113,9 @@
   "gap_state": {
     "BIJECTIVE_NORMALIZATION_GENUS1_REPRESENTATIVE": "CLOSED_AUDITED_EXCLUDED",
     "FULL178_CHEAP_NODE_MASS_CUT": "CLOSED_AUDITED_APPLIED",
-    "FULL178_CURRENT_NECESSARY_CONDITION_NUMERICAL_CENSUS": "CLOSED_AUDITED",
-    "FULL178_INTEGRAL_PICARD_FEASIBILITY_LAYER": "OPEN_NEXT_SEMANTIC_LAYER",
+    "FULL178_CURRENT_NECESSARY_CONDITION_NUMERICAL_CENSUS": "CLOSED_AUDITED_MATH_SCOPE_SURVIVES_HOSTILE_AUDIT",
+    "PR1473_OPERATIONS_GATE": "REPAIRED_PENDING_HOSTILE_REAUDIT",
+    "FULL178_INTEGRAL_PICARD_FEASIBILITY_LAYER": "OPEN_BLOCKED_UNTIL_PR1473_AUDIT_CLEAR_AND_MERGE",
     "MULTIBRANCH_AT_NODE": "OPEN_SEPARATE_R29_LG2_MB",
     "R29_LG2_EFF_FULL_RECEIVER": "OPEN",
     "CLASS3_ENDPOINT_COVERAGE": "OPEN_OUTSIDE_STAGE32"
@@ -93,7 +127,7 @@
     "legacy_21ad_blind_rerun_authorized": false,
     "materialize_659697_survivors_authorized": false,
     "strong_48_support_can_apply_to_continuous_kkt_survivors": false,
-    "next_semantic_upgrade": "Only after explicit PR1473 merge, reread main and design a source-locked integral-Picard feasibility bridge. It must avoid materializing all 659,697 continuous survivors, establish an exact integral target interface first, and only then may apply the exact 48-exceptional-support cardinality constraint. Do not extend the cheap necessary-filter chain."
+    "next_semantic_upgrade": "Only after hostile re-audit explicitly clears PR1473 and the user explicitly merges it, reread main and design a source-locked integral-Picard feasibility bridge. It must avoid materializing all 659,697 continuous survivors, establish an exact integral target interface first, and only then may apply the exact 48-exceptional-support cardinality constraint. Do not extend the cheap necessary-filter chain."
   },
   "research_credit_firewalls": {
     "policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
@@ -107,6 +141,6 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
   },
-  "next_expected_action": "MERGE_PR1473_ONLY_WITH_EXPLICIT_USER_AUTHORIZATION",
-  "next_expected_command": "stage32main batch"
+  "next_expected_action": "HOSTILE_REAUDIT_PR1473_OPERATIONS_GATE_BEFORE_ANY_MERGE",
+  "next_expected_command": "stage32audit"
 }
