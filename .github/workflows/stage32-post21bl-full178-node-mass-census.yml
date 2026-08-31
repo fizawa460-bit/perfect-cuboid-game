@@ -49,7 +49,7 @@ jobs:
         with:
           fetch-depth: 0
       - id: gate
-        name: Authorize only a fresh run-key-only synchronize commit
+        name: Authorize only a fresh generation-advanced run-key-only synchronize commit
         shell: bash
         run: |
           python - <<'PY'
@@ -65,6 +65,8 @@ jobs:
           before = event.get('before')
           after = event.get('after') or event['pull_request']['head']['sha']
           reasons = []
+          previous_generation = None
+          previous_key_present = False
 
           if action != 'synchronize':
               reasons.append('action_not_synchronize')
@@ -100,6 +102,28 @@ jobs:
               ).splitlines()
               if changed != [runkey_path]:
                   reasons.append('synchronize_diff_not_exactly_runkey')
+
+              previous = subprocess.run(
+                  ['git', 'show', f'{before}:{runkey_path}'],
+                  text=True,
+                  capture_output=True,
+              )
+              if previous.returncode == 0:
+                  previous_key_present = True
+                  try:
+                      previous_key = json.loads(previous.stdout)
+                  except json.JSONDecodeError:
+                      reasons.append('previous_runkey_invalid_json')
+                  else:
+                      previous_generation = previous_key.get('generation')
+                      if not isinstance(previous_generation, int) or previous_generation <= 0:
+                          reasons.append('previous_generation_invalid')
+                      elif not isinstance(key.get('generation'), int) or key['generation'] <= previous_generation:
+                          reasons.append('generation_not_advanced')
+              else:
+                  # A newly introduced run key is allowed only by the positive-generation
+                  # checks above. Existing keys must pass the explicit advancement check.
+                  previous_generation = None
           elif action == 'synchronize':
               reasons.append('missing_before_after')
 
@@ -124,6 +148,8 @@ jobs:
               'before': before,
               'after': after,
               'changed_files': changed,
+              'previous_key_present': previous_key_present,
+              'previous_generation': previous_generation,
               'generation': key.get('generation'),
               'requested_heavy_jobs': key.get('requested_heavy_jobs'),
               'effective_stage32_heavy_jobs_if_armed': key.get('effective_stage32_heavy_jobs_if_armed')
