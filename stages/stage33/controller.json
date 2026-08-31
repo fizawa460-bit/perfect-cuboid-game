@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V40_STAGE33_12_FIRST_FULL_SURFACE_KUMMER_COLUMN_INPUT_RECOVERY_CURRENT",
+  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V41_STAGE33_12_J2_FIRST_KUMMER_COLUMN_RECOVERY_CURRENT",
   "role": "CURRENT_MACHINE_STATE",
   "stage": "33",
   "kernel": "K16-C2-BRAUER-EXPLICIT-CHAIN",
@@ -21,11 +21,11 @@
     "unit": "33-12",
     "contract_role": "ARITHMETIC_HS_CLOSURE_AND_STAGE33_07_RECERTIFICATION",
     "logical_internal_branch": "33-13_FINITE_V4_KUMMER_MATRIX",
-    "substep": "RECOVER_FIRST_EXACT_KUMMER_COLUMN_INPUT",
+    "substep": "RECOVER_J2_FIRST_EXACT_KUMMER_COLUMN",
     "status": "CURRENT",
     "active_receiver": "FINITE_V4_KUMMER_RESTRICTION_ON_REMAINING_PROPER_FULL_SURFACE_BR2_RECEIVER",
-    "active_missing_interface": "ONE_EQUIVARIANT_FULL_SURFACE_MU2_LIFT_WITH_CC_CT_ACTION_OR_EQUIVALENT_PICARD_TRANSCENDENTAL_UNIMODULAR_GLUE_DATUM",
-    "next_exact_leaf": "RECOVER_OR_CONSTRUCT_ONE_EQUIVARIANT_FULL_SURFACE_MU2_LIFT_FOR_A_RETAINED_10D_PROPER_INVARIANT_BASIS_VECTOR_THEN_PROJECT_ITS_CC_CT_DEFECT_TO_THE_LOCKED_75D_H1_BASIS"
+    "active_missing_interface": "J2_CC_DEFECT_IN_KC20_PLUS_KC20_TO_FULLPIC64_NUMERIC_MAP_PLUS_J2_COORDINATES_IN_RETAINED_10D_PROPER_INVARIANT_DOMAIN",
+    "next_exact_leaf": "RECOVER_J2_CC_MARKED_KC_PIC2_DEFECT_AND_KC20_TO_FULLPIC64_NUMERIC_EMBEDDING_AND_J2_10D_DOMAIN_COORDINATE_THEN_ASSEMBLE_ONE_EXACT_75D_COLUMN"
   },
   "stage33_05": {
     "unit_status": "CLOSED",
@@ -47,33 +47,14 @@
     "historical_ell_J2_reused": false
   },
   "closed_repair_interfaces": {
-    "33-09": {
-      "status": "CLOSED_EXACT",
-      "picard_equivariant_transport_closed": true,
-      "canonical_sha256": "6c3ff8f7ca7d1bbd4084da0cc77ca6d43b31b32566a3bbb2c2103b7c2e9548b7"
-    },
-    "33-10": {
-      "status": "CLOSED_EXACT",
-      "absolute_h1_receiver_exact": true,
-      "canonical_sha256": "4dbbfa8d208026e8ccb47915e66eb4bedef327ccf5b6f8c6c9caa7e74a64028f"
-    },
-    "33-11": {
-      "status": "CLOSED_EXACT_HOSTILE_AUDIT_PASS",
-      "arithmetic_localization_connecting_map": "COMPUTED_EXACT_ZERO_MAP",
-      "connecting_columns_exact_audited": "26/26",
-      "unresolved_connecting_columns": 0,
-      "canonical_sha256": "233be042e92010be169206df1193f25375ee9fd768f7fb3eebb9eb696389632e"
-    }
+    "33-09": {"status":"CLOSED_EXACT","picard_equivariant_transport_closed":true,"canonical_sha256":"6c3ff8f7ca7d1bbd4084da0cc77ca6d43b31b32566a3bbb2c2103b7c2e9548b7"},
+    "33-10": {"status":"CLOSED_EXACT","absolute_h1_receiver_exact":true,"canonical_sha256":"4dbbfa8d208026e8ccb47915e66eb4bedef327ccf5b6f8c6c9caa7e74a64028f"},
+    "33-11": {"status":"CLOSED_EXACT_HOSTILE_AUDIT_PASS","arithmetic_localization_connecting_map":"COMPUTED_EXACT_ZERO_MAP","connecting_columns_exact_audited":"26/26","unresolved_connecting_columns":0,"canonical_sha256":"233be042e92010be169206df1193f25375ee9fd768f7fb3eebb9eb696389632e"}
   },
   "stage33_12": {
     "status": "OPEN_CURRENT",
     "closed_exact": false,
-    "contract_exit_requires": [
-      "ARITHMETIC_HS_D2_COMPUTED",
-      "GLOBAL_Q_RESIDUE_LIFT_COMPLETION",
-      "COMPLETE_RELEVANT_Q_DEFINED_CLASS_INVENTORY_FOR_FROZEN_STAGE33_BRAUER_SCOPE",
-      "STAGE33_07_HOSTILE_RECERTIFICATION_PASS"
-    ],
+    "contract_exit_requires": ["ARITHMETIC_HS_D2_COMPUTED","GLOBAL_Q_RESIDUE_LIFT_COMPLETION","COMPLETE_RELEVANT_Q_DEFINED_CLASS_INVENTORY_FOR_FROZEN_STAGE33_BRAUER_SCOPE","STAGE33_07_HOSTILE_RECERTIFICATION_PASS"],
     "K3_subinterface_closed": true,
     "K3_Q_relevant_surviving_dimension": 0,
     "K3_exact_zero_survival": true,
@@ -89,67 +70,36 @@
     "retained_target_basis_scope": "75D_H1_AND_10D_DOMAIN_BASES_ONLY_HISTORICAL_J2_KERNEL_BOUND_SUPERSEDED",
     "first_exact_kummer_column_input_audit": "stages/stage33/33-12/first-exact-kummer-column-input-audit.json",
     "first_exact_kummer_column_input_audit_sha256": "9694446f8e9f5da97a87d4551b4d94c60db1e614ea52372da2f6f35c9456c090",
+    "j2_first_exact_kummer_column_recovery_audit": "stages/stage33/33-12/first-exact-kummer-column-j2-recovery-audit.json",
+    "j2_first_exact_kummer_column_recovery_audit_sha256": "1174b98316f6e78e886540192cf9af378b9dac8e91a8359f2fb2e174ca3fc3b5",
+    "corrected_J2_surface_mu2_lift_materialized": true,
+    "corrected_J2_ct_defect_marked_Kc_Pic2_materialized": true,
+    "corrected_J2_cc_defect_marked_Kc_Pic2_materialized": false,
+    "Kc20_to_fullPic64_numeric_map_retained": false,
+    "corrected_J2_retained_10D_domain_coordinate_materialized": false,
     "historical_rep88_actual_geometry_promotion_firewalled": true,
     "historical_rep88_labels_usable_as_mu2_lift": false,
-    "minimal_missing_exact_datum": "ONE_EQUIVARIANT_FULL_SURFACE_MU2_LIFT_OR_EQUIVALENT_PICARD_TRANSCENDENTAL_UNIMODULAR_GLUE_DATUM",
+    "minimal_missing_exact_datum": "J2_CC_DEFECT_PLUS_KC20_TO_FULLPIC64_NUMERIC_MAP_PLUS_J2_RETAINED_10D_DOMAIN_COORDINATE",
     "logical_internal_sequence": [
-      {"id": "33-13", "name": "FINITE-V4-KUMMER-MATRIX", "status": "CURRENT_FIRST_COLUMN_INPUT_RECOVERY"},
-      {"id": "33-14", "name": "FINITE-HS-COSETS-AND-TWO-PRIMARY-CONSTANT-BLOCK", "status": "PLANNED_BLOCKED_BY_33_13"},
-      {"id": "33-15", "name": "GLOBAL-ARITHMETIC-HS-ASSEMBLY-AND-33-07-HOSTILE-RECERTIFICATION", "status": "PLANNED_BLOCKED_BY_33_14"}
+      {"id":"33-13","name":"FINITE-V4-KUMMER-MATRIX","status":"CURRENT_J2_FIRST_COLUMN_RECOVERY"},
+      {"id":"33-14","name":"FINITE-HS-COSETS-AND-TWO-PRIMARY-CONSTANT-BLOCK","status":"PLANNED_BLOCKED_BY_33_13"},
+      {"id":"33-15","name":"GLOBAL-ARITHMETIC-HS-ASSEMBLY-AND-33-07-HOSTILE-RECERTIFICATION","status":"PLANNED_BLOCKED_BY_33_14"}
     ]
   },
   "parent_units": {
-    "33-07": {
-      "status": "BLOCKED_REPAIR_CHILD_33_12_ARITHMETIC_HS_OPEN",
-      "unit_closed": false,
-      "downstream_released": false,
-      "arithmetic_localization_connecting_map_computed": true,
-      "complete_relevant_Q_defined_class_list": false,
-      "hostile_reaudit": "PENDING_AFTER_STAGE33_12_FULL_EXIT"
-    },
-    "33-08": {
-      "status": "BLOCKED_BY_33_07",
-      "unit_closed": false,
-      "blocked_by_predecessor": "33-07"
-    }
+    "33-07": {"status":"BLOCKED_REPAIR_CHILD_33_12_ARITHMETIC_HS_OPEN","unit_closed":false,"downstream_released":false,"arithmetic_localization_connecting_map_computed":true,"complete_relevant_Q_defined_class_list":false,"hostile_reaudit":"PENDING_AFTER_STAGE33_12_FULL_EXIT"},
+    "33-08": {"status":"BLOCKED_BY_33_07","unit_closed":false,"blocked_by_predecessor":"33-07"}
   },
-  "release_gates": {
-    "stage33_05_reclosed": true,
-    "stage33_12_closed_exact": false,
-    "stage33_07_reclosed": false,
-    "stage33_08_released": false,
-    "stage33_40_released": false,
-    "new_PR_transition_released": false
-  },
-  "execution": {
-    "audit_required": true,
-    "merge_allowed": false,
-    "advance_allowed": true,
-    "advance_scope": "STAGE33_12_INTERNAL_33_13_FIRST_EXACT_KUMMER_COLUMN_INPUT_RECOVERY_ONLY_NO_PARENT_RECLOSURE",
-    "heavy_actions_authorized": false,
-    "next_item": "Stage33-12_33-13_RECOVER_FIRST_EXACT_KUMMER_COLUMN_INPUT",
-    "next_expected_command": "Stage33-main-batch"
-  },
-  "loop_state": {
-    "active": true,
-    "stagnation_count": 0,
-    "last_cycle_route_status": "PASS_FALSE_REP88_ROUTE_FIREWALLED_AND_INPUT_REDUCED",
-    "last_new_view": "historical rep88/120-123 finite-discriminant glue classification cannot supply the Kummer column because arithmetic cc/ct on the actual integral transcendental lattice was explicitly firewalled; one equivariant full-surface mu2 lift or equivalent Picard-transcendental unimodular gluing datum is the minimal exact input"
-  },
-  "compatibility": {
-    "legacy_runtime_override": "stages/stage33/controller-post-r5-hs-d2-override.json",
-    "legacy_post_r5_state": "stages/stage33/33-05/j2-post-r5-hs-d2-state.json",
-    "legacy_post_r5_state_role": "COMPATIBILITY_SHIM_ONLY",
-    "legacy_33_12_infinity_ptsK_qPicK_route": "RETIRED_FOR_CORRECTED_J2",
-    "historical_checkpoint_pr": 1463,
-    "historical_checkpoint_merged": true
-  },
+  "release_gates": {"stage33_05_reclosed":true,"stage33_12_closed_exact":false,"stage33_07_reclosed":false,"stage33_08_released":false,"stage33_40_released":false,"new_PR_transition_released":false},
+  "execution": {"audit_required":true,"merge_allowed":false,"advance_allowed":true,"advance_scope":"STAGE33_12_INTERNAL_33_13_J2_FIRST_EXACT_KUMMER_COLUMN_RECOVERY_ONLY_NO_PARENT_RECLOSURE","heavy_actions_authorized":false,"next_item":"Stage33-12_33-13_RECOVER_J2_FIRST_EXACT_KUMMER_COLUMN","next_expected_command":"Stage33-main-batch"},
+  "loop_state": {"active":true,"stagnation_count":0,"last_cycle_route_status":"PASS_J2_MU2_LIFT_AND_CT_DEFECT_RECOVERED_THREE_BRIDGES_REMAIN","last_new_view":"corrected J2 already has an exact surface mu2 lift and an exact nonzero ct defect in marked Kc Pic/2; first-column recovery is now narrowed to cc defect, numeric Kc20-to-fullPic64 transport, and corrected-J2 coordinates in the retained 10D proper invariant domain"},
+  "compatibility": {"legacy_runtime_override":"stages/stage33/controller-post-r5-hs-d2-override.json","legacy_post_r5_state":"stages/stage33/33-05/j2-post-r5-hs-d2-state.json","legacy_post_r5_state_role":"COMPATIBILITY_SHIM_ONLY","legacy_33_12_infinity_ptsK_qPicK_route":"RETIRED_FOR_CORRECTED_J2","historical_checkpoint_pr":1463,"historical_checkpoint_merged":true},
   "audit_required": true,
-  "audit_scope": "STAGE33_12_INTERNAL_33_13_FIRST_EXACT_KUMMER_COLUMN_INPUT_RECOVERY",
+  "audit_scope": "STAGE33_12_INTERNAL_33_13_J2_FIRST_EXACT_KUMMER_COLUMN_RECOVERY",
   "merge_allowed": false,
   "advance_allowed": true,
-  "advance_scope": "STAGE33_12_INTERNAL_33_13_FIRST_EXACT_KUMMER_COLUMN_INPUT_RECOVERY_ONLY_NO_PARENT_RECLOSURE",
-  "next_item": "Stage33-12_33-13_RECOVER_FIRST_EXACT_KUMMER_COLUMN_INPUT",
+  "advance_scope": "STAGE33_12_INTERNAL_33_13_J2_FIRST_EXACT_KUMMER_COLUMN_RECOVERY_ONLY_NO_PARENT_RECLOSURE",
+  "next_item": "Stage33-12_33-13_RECOVER_J2_FIRST_EXACT_KUMMER_COLUMN",
   "next_expected_command": "Stage33-main-batch",
   "theorem_credit": false,
   "receiver_credit": false,
