@@ -18,6 +18,12 @@ roadmaps, HISTORY, compatibility shims, old Stage33-05 state, ancestor results,
 old PR diffs, or a directory-wide certificate set. `MAIN-STATE.json` is a
 machine-checked projection of the detailed controller and current exact input.
 
+Before expanding beyond that set, inspect `resolved_investigations` and
+`anti_loop_reopen_policy` in `MAIN-STATE.json`. An item marked resolved or as a
+prohibited shortcut MUST NOT be reinvestigated in an ordinary MAIN batch while
+its listed source lock still matches. Reopen it only under a listed reopen
+condition. Human memory is never required to stop a repeated investigation.
+
 If the compact state is absent or fails
 `python stages/stage33/sync_main_state.py --check`, stop and repair the compact
 state before mathematical work. Do not compensate by broadly rereading history.
