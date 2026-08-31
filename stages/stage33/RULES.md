@@ -1,94 +1,62 @@
 # Stage33 rules
 
-This file is the Stage33-specific rule layer. It is intentionally stable: current receivers, live routes, current progress, and batch-by-batch findings do not belong here.
+Stage33 inherits all repo-wide rules in `AGENTS.md` and `docs/research-os/`. Stage-local rules may strengthen those rules but never weaken them. Repo-wide Actions/storage, research-credit/promotion, cycle-exploration, and claim firewalls are not restated here; read the authoritative Research OS policy when its trigger applies.
+
+This file contains only Stage33-specific scope, authority, release, and context-routing rules. Current receivers, live routes, progress, and batch findings do not belong here.
 
 ## Authority layers
 
-Use the repository in this order:
+Use Stage33 material in this order:
 
-1. `docs/research-os/` and `AGENTS.md` — repo-wide research safety, evidence, credit, Actions, and cycle policies.
-2. `stages/stage33/RULES.md` — stable Stage33-specific rules and routing.
+1. `AGENTS.md` and `docs/research-os/` — repo-wide policy.
+2. `stages/stage33/RULES.md` — stable Stage33-specific rules.
 3. `stages/stage33/CURRENT.md` and `stages/stage33/controller.json` — current human/machine execution state.
-4. active unit state, e.g. `stages/stage33/33-05/j2-representative-repair-state.json` — detailed current mathematics for the active repair.
-5. `stages/stage33/HISTORY.md`, `33-xx/result.md`, certificates, scripts, audits, and Git history — historical work and evidence.
+4. active unit state — detailed current mathematics for the active repair.
+5. `stages/stage33/HISTORY.md`, unit results/audits/certificates/scripts, and Git history — historical work and evidence.
 
-If a historical result or roadmap status conflicts with CURRENT/controller/active authoritative state, the current authoritative state wins. Mathematical certificate claims remain limited to their declared scope; this routing rule does not upgrade credit.
+If historical plan/status conflicts with CURRENT/controller/active authoritative state, the current authoritative state wins. Certificate claims remain limited to their declared scope.
 
 ## Frozen Stage33 scope
 
 Stage33 executes the frozen Stage29 physical-open Brauer kernel `K16-C2-BRAUER-EXPLICIT-CHAIN` / `BRAUER-EXPLICIT-DAG`.
 
-The Stage33 scope includes the Stage29-retained open-algebraic contribution, physical-boundary residue contribution, and two-primary geometric/transcendental contribution. No surviving class may be silently discarded merely because a later sub-route is two-primary.
+The frozen scope includes the Stage29-retained open-algebraic contribution, physical-boundary residue contribution, and two-primary geometric/transcendental contribution. No surviving class may be silently discarded because a later sub-route is two-primary.
 
-Detailed unit acceptance criteria remain delegated to:
+Detailed unit acceptance criteria live in:
 
 `stages/stage33/33-00/unit-closure-contract.md`
 
 ## Progress and release law
 
-The Stage33 progress denominator is 11 big tasks. Repair children do not independently increment that denominator.
+Stage33 has 11 big tasks. Repair children do not independently increment that denominator.
 
-A big task releases dependent downstream work only when its required closure state is exact and audited according to the unit closure contract. Partial, preview, numerical, blocked, or audit-pending states do not count as closed.
+A big task releases dependent downstream work only when the unit-closure contract marks the required state exact and audited. Partial, preview, numerical, blocked, or audit-pending states do not count as closed.
 
-Repair-child completion does not automatically close its reopened parent. The parent closes only after the required repair chain and hostile recertification succeed.
-
-## Credit and audit firewall
-
-Stage33 may not weaken the repo-wide Research OS promotion rules.
-
-In particular:
-
-- geometric, extension-field, quotient, bounded, or finite-presentation evidence stays at that scope until an explicit descent/adapter is proved;
-- Galois fixedness alone does not imply Hochschild-Serre obstruction zero;
-- successful CI or a materialized certificate does not by itself release theorem, receiver, endpoint, or perfect-cuboid credit;
-- hostile audit may revoke or reopen prior credit;
-- no perfect-cuboid existence/nonexistence claim is released without the explicit audited final endpoint required by Research OS.
+Repair-child completion does not automatically close its reopened parent; the parent closes only after the required repair chain and hostile recertification succeed.
 
 ## Stage33 bounded stop conditions
 
-A Stage33 line may stop/checkpoint for one of these stable reasons:
+A Stage33 line may stop/checkpoint only as one of:
 
-- `EXACT_BRANCH_CLOSURE` — the declared branch is exactly discharged;
-- `NEW_KERNEL_EXPOSED` — a smaller unresolved theorem/arithmetic/effectivity dependency is isolated;
-- `HOSTILE_AUDIT_REQUIRED` — a promotion boundary requires independent audit;
-- `EXECUTION_RESOURCE_WALL` — a finite exact computation is specified but the current backend cannot complete it.
+- `EXACT_BRANCH_CLOSURE`
+- `NEW_KERNEL_EXPOSED`
+- `HOSTILE_AUDIT_REQUIRED`
+- `EXECUTION_RESOURCE_WALL`
 
-Low prospect, an unhelpful sample, a trivial-looking local evaluation, or external pessimism is not a mathematical stop condition.
+The detailed meanings and generic anti-loop/parking rules are inherited from Research OS. Low prospect, an unhelpful sample, a trivial-looking local evaluation, or external pessimism is not by itself a mathematical stop condition.
 
-## Stage33 anti-loop rules
+## Stage33 anti-loop routing
 
-These rules are stable. Current route names and current receiver ledgers belong in CURRENT/HISTORY, not here.
+Apply the repo-wide Cycle Exploration Safety Protocol. Stage33 adds only these routing requirements:
 
-1. **Exact repeat prohibition.** Do not rerun a mathematically equivalent blocked/dominated route without a new hypothesis, adapter, or invariant.
-2. **Semantic route-churn detection.** Renaming the same input, target, functor, and distinguishing invariant is not a new route.
-3. **Two-batch stagnation trigger.** If two consecutive MAIN batches leave the active receiver, missing interface, live candidate information, and exact mathematical information unchanged, a third ordinary same-route continuation is forbidden; run breadth/route audit first.
-4. **Wrong-weapon trigger.** If new evidence changes the mathematical species of the missing interface, broaden immediately rather than continuing with an associated but non-load-bearing invariant.
-5. **Bookkeeping is not mathematical progress.** Controller edits, CI green status, source-lock restatement, and renamed coordinates do not reset stagnation unless they add new exact mathematics or permanently eliminate a distinct route.
-
-The reusable repo-wide cycle policy remains:
-
-`docs/research-os/policies/cycle-exploration-safety-protocol.md`
-
-`LOOP-GUARD.md` is retained for historical compatibility and detailed prior examples, but its old current-receiver/candidate-ledger sections are not authoritative current state.
+- current receiver/candidate/route state belongs in CURRENT/controller/active state, not RULES;
+- `LOOP-GUARD.md` is compatibility/history, not current-state authority;
+- after a material receiver change, do not continue an obsolete associated route merely because its artifacts still exist;
+- bookkeeping or relabeling does not change Stage33 progress or release status.
 
 ## Compact evidence and bounded context
 
-Stage33 should keep exact evidence reproducible without making routine MAIN load or persist giant expanded objects.
-
-For large generated evidence, prefer a compact committed interface containing:
-
-```text
-SOURCE_LOCKS
-GENERATOR / deterministic invocation
-CANONICAL_SHA256 of complete regenerated output
-SEMANTIC_SUMMARY
-EXIT_RELEVANT_INVARIANTS
-REGEN_COMMAND
-```
-
-Expanded deterministic evidence should normally remain runner-local and be regenerated for verification. Do not commit or upload giant expanded artifacts by default when a compact deterministic certificate preserves the exact downstream invariants. Any exception must name the irreducible load-bearing data that cannot be reconstructed.
-
-Routine context is tiered:
+Use the repo-wide evidence/storage policy for exact evidence. For routine Stage33 context, use:
 
 ```text
 HOT  = RULES + CURRENT + controller + active state + immediate current-leaf certificates/scripts
@@ -96,22 +64,25 @@ WARM = predecessor compact handoff/result and named interface definitions
 COLD = giant generated JSON, old workflow logs, full PR diffs, audited ancestor internals
 ```
 
-COLD material is loaded only for a named reason such as source-lock mismatch, certificate contradiction, a missing load-bearing representative/matrix, hostile-audit mode, or deterministic replay debugging. If the same cold detail must be rediscovered repeatedly, export it once into a compact reusable interface.
-
-These Stage33 rules operate under the stricter repo-wide Actions storage policy in Research OS.
+Load COLD material only for a named reason such as source-lock mismatch, certificate contradiction, missing load-bearing data, hostile audit, or deterministic replay debugging. If the same COLD detail is repeatedly needed, export a compact reusable interface instead.
 
 ## MAIN startup order
 
-For a Stage33 MAIN batch, read only what is needed in this order:
+For a routine Stage33 MAIN batch, read only what is needed in this order:
 
 1. `AGENTS.md`
 2. `stages/stage33/RULES.md`
 3. `stages/stage33/CURRENT.md`
 4. `stages/stage33/controller.json`
-5. the active unit's authoritative state and only the certificates/scripts required by the current leaf
+5. the active unit authoritative state and only the certificates/scripts required by the current leaf
 
-Before Actions/artifacts/heavy compute, read the Research OS Actions safety policy. Before claim promotion, closure, or downstream release, read the Research OS credit/promotion firewall.
+Read additional Research OS policy only when its trigger applies, especially before Actions/heavy compute, claim promotion, closure/release, hostile audit, or breadth/parking decisions.
 
 ## File-role invariant
 
-Do not put current receiver/status into RULES. Do not put historical route ledgers into controller. Do not put stable policy into CURRENT. Do not delete failed/revoked certificates merely to simplify navigation; HISTORY should index them and their credit status.
+- RULES: stable Stage33-specific policy only.
+- CURRENT/controller: current status, receiver, missing interface, release state.
+- active unit state: detailed current mathematics.
+- HISTORY/results/audits/certificates/Git: historical evidence and provenance.
+
+Do not duplicate mutable state across these layers merely for convenience, and do not delete failed/revoked evidence merely to simplify navigation.
