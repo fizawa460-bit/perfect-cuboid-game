@@ -1,16 +1,15 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V138_POST_21AV_INTEGER_FIBER_RECONNAISSANCE",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V139_POST_21AW_BOUND_CLOSURE_ACTIVE",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
   "G10_LOWGENUS_PICARD": "AMBER",
   "stage32_closed": false,
-  "status": "STAGE32_21AV_REPRESENTATIVE_INTEGER_FIBER_RECONNAISSANCE_ONE_UNKNOWN",
-  "audit_required": false,
+  "status": "STAGE32_21AX_EXACT_INTEGER_BOUND_CLOSURE_ACTIVE_AFTER_21AW_RESOURCE_WALL",
+  "advance_allowed": true,
   "merge_allowed": false,
   "checkpoint_merge_ready": false,
   "automatic_merge_authorized": false,
-  "advance_allowed": true,
   "theorem_credit": false,
   "receiver_credit": false,
   "route_color_change_authorized": false,
@@ -22,18 +21,16 @@
   "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
   "R29_LG2": "NOT_DISCHARGED",
   "history": {
-    "pre_21ae_controller_snapshot": "stages/stage32/controller-history-through-32-21ad.json",
-    "snapshot_blob_sha": "1f89f1722fb4c34c932128f6d2cc2286b4918a65",
-    "snapshot_scope": "authoritative detailed history through audited 32-21ad; current controller intentionally keeps only live state"
+    "through_32_21ad": "stages/stage32/controller-history-through-32-21ad.json",
+    "snapshot_blob_sha": "1f89f1722fb4c34c932128f6d2cc2286b4918a65"
   },
   "checkpoint_base": {
     "pr_1466_merged": true,
     "merge_commit": "d8fa4446af9bcc36b34d2421733333f0c74d23d5",
     "32_21ad": {
-      "status": "CLOSED_AUDITED_ZERO_PRUNE_CHECKPOINT",
       "full178_rows": 178,
       "continuous_kkt_survivors": 679337,
-      "additional_antifixed_coset_pruned": 0,
+      "additional_pruned": 0,
       "survivors": 679337,
       "boundary_audit_certificate_sha256": "1f2e61ef29cf6000b8cc98906a5dcf3f2a4d15a7b405be2e40ef9c0de3bfab0e",
       "zero_prune_is_not_unsat": true
@@ -43,128 +40,72 @@
     "number": 1467,
     "branch": "stage32-21ae-actual-residue-witness-preflight",
     "base_sha": "d8fa4446af9bcc36b34d2421733333f0c74d23d5",
-    "controller_sync_parent_head": "35935d454d2d3cb9e15fa45712e1fecf783298d6",
     "automatic_merge_authorized": false
   },
-  "post_32_21ad_reconnaissance": {
-    "scope": "deterministic representative projection sample only; not FULL178 numerical credit",
-    "32_21ai": {
-      "anti_fixed_pairing_translation_rank": 59,
-      "left_rational_relation_rank": 81,
-      "stabilizer_orbit_sum_relation_count": 14,
-      "additional_rational_relation_count": 67,
-      "retained_mod2_rank": 45,
-      "retained_mod2_defect": 14
-    },
-    "32_21aj": {
-      "two_adic_saturation_index": "2^26",
-      "nonunit_smith_factors": {
-        "2": 4,
-        "4": 8,
-        "8": 2
-      },
-      "maximum_modulus": 8
-    },
-    "32_21ak": {
-      "affine_congruence_count": 14,
-      "certificate_sha256": "51effd04ea195831a3bf1859710716910e5ef0945caab94c36c1c03840b1d6ee"
-    },
-    "32_21am": {
-      "sample_count": 56,
+  "structural_interface": {
+    "anti_fixed_pairing_translation_rank": 59,
+    "all140_left_relation_rank": 81,
+    "orbit_sum_relation_count": 14,
+    "additional_rational_relation_count": 67,
+    "two_adic_saturation_index": "2^26",
+    "nonunit_smith_factors": {"2": 4, "4": 8, "8": 2},
+    "affine_congruence_count": 14,
+    "21ak_certificate_sha256": "51effd04ea195831a3bf1859710716910e5ef0945caab94c36c1c03840b1d6ee"
+  },
+  "representative_chain": {
+    "scope": "deterministic 56 fixed-projection representative sample only; not FULL178 numerical credit",
+    "21am_weaker_gate": {
       "sat": 56,
       "unsat": 0,
       "unknown": 0,
-      "interpretation": "2-adic affine membership plus orbit-total composition alone had zero observed prune on this sample",
       "certificate_sha256": "696d2228386ccde98101ec85336849e67f1e040d459c819b91df8ccf40fb203d"
     },
-    "32_21an": {
-      "mode": "direct all140 integer affine-fiber SMT",
-      "sample_count": 56,
-      "sat": 0,
-      "unsat": 0,
-      "unknown": 56,
-      "interpretation": "generic 59D integer SMT was computationally inadequate; no mathematical prune credit"
-    },
-    "32_21ao": {
-      "mode": "exact rational all140 polyhedral relaxation",
-      "sample_count": 56,
+    "21ao_rational_all140": {
       "sat": 56,
       "unsat": 0,
       "unknown": 0,
-      "certificate_sha256": "56ee7fa5b6258a3ab593c1f067203054a9a598de41638006f496630dd0a92e42",
-      "interpretation": "all 81 rational affine relations leave the sample feasible over Q; remaining obstruction is integral and/or later norm structure"
+      "certificate_sha256": "56ee7fa5b6258a3ab593c1f067203054a9a598de41638006f496630dd0a92e42"
     },
-    "32_21ap": {
-      "mode": "selected-pairing bounded exact integer fiber",
+    "21ap_exact_integer_fixed_projection": {
       "run_id": 33344352396,
-      "sample_count": 56,
       "sat": 0,
       "unsat": 55,
       "unknown": 1,
       "certificate_sha256": "fc1ea72a88a6e4486bfa07a1c2489a4a38649df2cb8859781db8c83a706ac9ff",
       "unknown_frontier_file": "stages/stage32/32-21/32-21ap-unknown-frontier.json",
-      "unknown_target": {
-        "row_id": "g1-d186",
-        "e": 266,
-        "a": 592,
-        "z": [
-          -15,
-          62,
-          -44,
-          26,
-          32
-        ],
-        "u": -44,
-        "v": 32
-      },
       "fixed_projection_unsat_is_not_slice_unsat": true
     },
-    "32_21aq_to_21as": {
-      "target_count": 1,
-      "result": "UNKNOWN_PRESERVED",
-      "z3_300s_unknown": true,
-      "pure_qf_lia_z3_300s_unknown": true,
-      "cvc5_300s_unknown": true,
-      "interpretation": "independent generic SMT formulations did not decide the lone projection"
-    },
-    "32_21at": {
-      "result": "UNKNOWN_PRESERVED",
-      "all_59_reduced_coordinates_have_exact_finite_bounds": true,
-      "minimum_observed_coordinate_width": 10,
-      "interpretation": "LLL preconditioning did not decide the target; finite box is reusable"
-    },
-    "32_21au": {
-      "run_id": 33346975987,
-      "artifact_id": 9742385247,
-      "certificate_sha256": "784ce9096441db1ba593a85731bc3094683871788cf6d075bb30682f0ddbe8c6",
-      "exact_disjoint_branch_count": 11,
-      "unsat": 0,
-      "sat": 0,
-      "unknown": 11,
-      "interpretation": "fixing one minimum-width reduced coordinate was computationally dominated; UNKNOWN remains"
-    },
-    "32_21av": {
-      "run_id": 33347354219,
-      "artifact_id": 9742524428,
-      "artifact_zip_sha256": "646f9fc52a558eb9597660a4221e67046317681c7961cdee077aa74005228a90",
-      "certificate_sha256": "36042ba2a3f76221a7a81827f5687396be8af18d11d23d0b2ffaef62bbbd12ed",
-      "solver": "OR-Tools CP-SAT 9.15.6755",
-      "raw_status": "UNKNOWN",
-      "exact_sat_witness_rechecked": false,
-      "promoted_status": "NO_EXACT_SAT_WITNESS_FOUND",
-      "sample_combined": {
-        "sat": 0,
-        "unsat": 55,
-        "unknown": 1
+    "lone_unknown": {
+      "row_id": "g1-d186",
+      "e": 266,
+      "a": 592,
+      "z": [-15, 62, -44, 26, 32],
+      "u": -44,
+      "v": 32,
+      "generic_solver_recon": {
+        "21aq_z3_300s": "UNKNOWN",
+        "21ar_pure_qf_lia_z3_300s": "UNKNOWN",
+        "21as_cvc5_300s": "UNKNOWN",
+        "21at_lll_z3_300s": "UNKNOWN",
+        "21au_11way_exact_split": "11_UNKNOWN",
+        "21av_cpsat_300s": "UNKNOWN_NO_EXACT_WITNESS"
       },
-      "cp_sat_infeasible_is_not_exact_unsat_credit": true,
-      "interpretation": "specialized witness hunt found no exact SAT witness in 300s; lone projection remains UNKNOWN"
+      "21aw_exact_isl": {
+        "run_id": 33348607814,
+        "artifact_id": 9742907616,
+        "artifact_zip_sha256": "85a9d2f185d7098124cac59cdcecb4059c0a2c7f8fdad6ebab5a144efa78a807",
+        "certificate_sha256": "22cc752ad60ddbdf458ba806654adaaab516e071576d8cb200bf044e1cf5e653",
+        "status": "UNKNOWN_RESOURCE_WALL",
+        "wall_timeout_seconds": 300,
+        "resource_wall_is_not_unsat": true
+      },
+      "current_combined_state": {"sat": 0, "unsat": 55, "unknown": 1}
     }
   },
-  "current_item": "32-21AV_LONE_FIXED_PROJECTION_UNKNOWN_AFTER_GENERIC_AND_SPECIALIZED_SOLVER_RECONNAISSANCE",
-  "current_item_execution_constraint": "Preserve 55 exact fixed-projection UNSAT decisions and the single UNKNOWN. Do not promote representative evidence to FULL178 or slice UNSAT. Do not rerun generic 59D SMT, the same one-coordinate split, or CP-SAT witness hunting without a semantic change.",
-  "next_item": "32-21AW_EXACT_LONE_PROJECTION_LATTICE_OR_SEMIGROUP_ELIMINATION",
-  "next_item_goal": "Use exact algebraic/lattice/semigroup elimination on the source-locked lone projection, exploiting finite bounds and the original integer translation lattice. Prefer dimension reduction or certifiable infeasibility/witness reconstruction over another generic solver timeout.",
+  "current_item": "32-21AX_EXACT_INTEGER_BOUND_CLOSURE",
+  "current_item_execution_constraint": "Use only integer-valid cuts derived from exact QF_LRA projections of the all140 pairing polytope. Preserve the lone UNKNOWN unless the cut closure yields a certified contradiction. Do not return to unchanged generic 59D solver, ISL, CP-SAT, or one-coordinate split formulations.",
+  "next_item_if_unsat": "EXHAUST_ALL_RELEVANT_RANK2_PROJECTION_STATES_ONLY_FOR_CANDIDATE_SLICES_BEFORE_ANY_SLICE_PRUNE_PROMOTION",
+  "next_item_if_open": "USE_21AX_STABILIZED_EXACT_FINITE_BOX_FOR_MULTI_COORDINATE_OR_SEMIGROUP_DECOMPOSITION",
   "active_execution_guardrail": {
     "full_178_row_sweep_authorized": false,
     "heavy_compute_requires_fresh_runkey_sync": true,
@@ -176,7 +117,6 @@
     "terminal_family_materialization_authorized": false,
     "antifixed_59d_cvp_authorized": false,
     "unknown_is_unsat": false,
-    "no_repository_writes_while_credit_eligible_heavy_run_active": true,
     "representative_sample_is_not_full178_numerical_credit": true,
     "fixed_projection_unsat_is_not_slice_unsat": true
   },
@@ -191,10 +131,7 @@
     "stage_heavy_concurrency_cap": 18
   },
   "repo_absolute_rule_read_policy": {
-    "mandatory_every_main_batch_reads": [
-      "AGENTS.md",
-      "stages/stage32/controller.json"
-    ],
+    "mandatory_every_main_batch_reads": ["AGENTS.md", "stages/stage32/controller.json"],
     "conditional_mandatory_policy_reads": {
       "before_actions_artifacts_or_heavy_compute": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
       "before_claim_promotion_closure_or_downstream_release": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
@@ -203,12 +140,13 @@
   },
   "cycle_safety": {
     "route_open": true,
-    "live_candidate": "EXACT_LONE_PROJECTION_LATTICE_OR_SEMIGROUP_ELIMINATION",
+    "live_candidate": "EXACT_INTEGER_BOUND_CLOSURE_THEN_STRUCTURAL_DECOMPOSITION",
     "dominated": [
       "REARM_SAME_32_21AD_FULL178_CENSUS",
       "GENERIC_59D_INTEGER_SMT_WITHOUT_SEMANTIC_CHANGE",
       "ONE_COORDINATE_11_WAY_SPLIT_WITH_SAME_SOLVER",
-      "CP_SAT_WITNESS_HUNT_AS_AN_UNSAT_PROOF"
+      "CP_SAT_WITNESS_HUNT_AS_AN_UNSAT_PROOF",
+      "ISL_OR_OTHER_INTEGER_SOLVER_RETRY_WITHOUT_SEMANTIC_CHANGE"
     ],
     "blocked": [
       "FULL178_PROMOTION_FROM_REPRESENTATIVE_SAMPLE",
