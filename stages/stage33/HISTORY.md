@@ -195,6 +195,8 @@ In the August 2026 Stage33 cleanup:
 
 Historical checkpoint PR #1463 was merged, but that checkpoint merge did not itself close Stage33-12 or release Stage33-13.
 
+Checkpoint PR #1468 was squash-merged at `264a6cc5cd5db2cd4fba7641a023e3038bd3e4f7` after all five current Stage33 Actions passed. It integrated the exact Stage33-05 zero-survival closure, the corrected-J2 semantic orientation `u1=[1,0]`, the locked weight-15 75D target, and the compact MAIN startup constitution. This checkpoint did not close Stage33-12, reclose Stage33-07, release downstream work, or grant theorem/receiver/endpoint credit. Continuation moved to branch `stage33-12-proper14-retained10-continuation` at the proper-Br2 14D to retained-10D source-placement leaf.
+
 ## Evidence locations by role
 
 ```text
