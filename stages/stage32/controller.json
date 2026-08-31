@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V139_POST_21AW_BOUND_CLOSURE_ACTIVE",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V140_21AY_TRIPLE_CENSUS_ACTIVE",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
   "G10_LOWGENUS_PICARD": "AMBER",
   "stage32_closed": false,
-  "status": "STAGE32_21AX_EXACT_INTEGER_BOUND_CLOSURE_ACTIVE_AFTER_21AW_RESOURCE_WALL",
+  "status": "STAGE32_21AY_EXACT_THREE_COORDINATE_RATIONAL_SLICE_CENSUS_ACTIVE",
   "advance_allowed": true,
   "merge_allowed": false,
   "checkpoint_merge_ready": false,
@@ -48,24 +48,16 @@
     "orbit_sum_relation_count": 14,
     "additional_rational_relation_count": 67,
     "two_adic_saturation_index": "2^26",
-    "nonunit_smith_factors": {"2": 4, "4": 8, "8": 2},
+    "nonunit_smith_factors": {
+      "2": 4,
+      "4": 8,
+      "8": 2
+    },
     "affine_congruence_count": 14,
     "21ak_certificate_sha256": "51effd04ea195831a3bf1859710716910e5ef0945caab94c36c1c03840b1d6ee"
   },
   "representative_chain": {
     "scope": "deterministic 56 fixed-projection representative sample only; not FULL178 numerical credit",
-    "21am_weaker_gate": {
-      "sat": 56,
-      "unsat": 0,
-      "unknown": 0,
-      "certificate_sha256": "696d2228386ccde98101ec85336849e67f1e040d459c819b91df8ccf40fb203d"
-    },
-    "21ao_rational_all140": {
-      "sat": 56,
-      "unsat": 0,
-      "unknown": 0,
-      "certificate_sha256": "56ee7fa5b6258a3ab593c1f067203054a9a598de41638006f496630dd0a92e42"
-    },
     "21ap_exact_integer_fixed_projection": {
       "run_id": 33344352396,
       "sat": 0,
@@ -79,33 +71,60 @@
       "row_id": "g1-d186",
       "e": 266,
       "a": 592,
-      "z": [-15, 62, -44, 26, 32],
+      "z": [
+        -15,
+        62,
+        -44,
+        26,
+        32
+      ],
       "u": -44,
       "v": 32,
-      "generic_solver_recon": {
+      "generic_and_solver_walls": {
         "21aq_z3_300s": "UNKNOWN",
         "21ar_pure_qf_lia_z3_300s": "UNKNOWN",
         "21as_cvc5_300s": "UNKNOWN",
         "21at_lll_z3_300s": "UNKNOWN",
-        "21au_11way_exact_split": "11_UNKNOWN",
-        "21av_cpsat_300s": "UNKNOWN_NO_EXACT_WITNESS"
+        "21au_11way_integer_solver": "11_UNKNOWN",
+        "21av_cpsat_300s": "UNKNOWN_NO_EXACT_WITNESS",
+        "21aw_isl_300s": "UNKNOWN_RESOURCE_WALL"
       },
-      "21aw_exact_isl": {
-        "run_id": 33348607814,
-        "artifact_id": 9742907616,
-        "artifact_zip_sha256": "85a9d2f185d7098124cac59cdcecb4059c0a2c7f8fdad6ebab5a144efa78a807",
-        "certificate_sha256": "22cc752ad60ddbdf458ba806654adaaab516e071576d8cb200bf044e1cf5e653",
-        "status": "UNKNOWN_RESOURCE_WALL",
-        "wall_timeout_seconds": 300,
+      "21ax_incremental_bound_closure": {
+        "run_id": 33350121150,
+        "artifact_id": 9743326209,
+        "artifact_zip_sha256": "5151b250b9a9d360a53e916465bb61daa2bf6da70f57c9ee0f3bc2510406a5b0",
+        "certificate_sha256": "21c7b96be83f0d85a722fd16279fe3c9808918536cca258ee3e8110a695c092b",
+        "status": "PARTIAL_QF_LRA_RESOURCE_WALL",
+        "exact_persisted_cut": "r11 >= -1426",
+        "prior_r11_bound": [
+          -5529,
+          3621
+        ],
+        "new_r11_bound": [
+          -1426,
+          3621
+        ],
+        "bound_frontier_file": "stages/stage32/32-21/32-21ax-bound-frontier.json",
+        "bound_frontier_sha256": "f946942434594d80960eea79d04eee3b0df22553928e1d1f3d26721d412d7ad7",
+        "narrowest_three_coordinates": [
+          50,
+          55,
+          27
+        ],
+        "narrowest_three_domain_size": 7865,
         "resource_wall_is_not_unsat": true
       },
-      "current_combined_state": {"sat": 0, "unsat": 55, "unknown": 1}
+      "current_combined_state": {
+        "sat": 0,
+        "unsat": 55,
+        "unknown": 1
+      }
     }
   },
-  "current_item": "32-21AX_EXACT_INTEGER_BOUND_CLOSURE",
-  "current_item_execution_constraint": "Use only integer-valid cuts derived from exact QF_LRA projections of the all140 pairing polytope. Preserve the lone UNKNOWN unless the cut closure yields a certified contradiction. Do not return to unchanged generic 59D solver, ISL, CP-SAT, or one-coordinate split formulations.",
-  "next_item_if_unsat": "EXHAUST_ALL_RELEVANT_RANK2_PROJECTION_STATES_ONLY_FOR_CANDIDATE_SLICES_BEFORE_ANY_SLICE_PRUNE_PROMOTION",
-  "next_item_if_open": "USE_21AX_STABILIZED_EXACT_FINITE_BOX_FOR_MULTI_COORDINATE_OR_SEMIGROUP_DECOMPOSITION",
+  "current_item": "32-21AY_EXACT_THREE_COORDINATE_RATIONAL_SLICE_CENSUS",
+  "current_item_execution_constraint": "Exhaust the exact 7865 assignments of reduced coordinates (r50,r55,r27) over their independently rederived integer-valid domains. For each assignment use only exact QF_LRA feasibility of the remaining 56 real coordinates. Rational SAT is not integer SAT; QF_LRA UNKNOWN is not UNSAT; only complete all-UNSAT triple coverage closes the lone fixed projection.",
+  "next_item_if_unsat": "FRESH_INDEPENDENT_AUDIT_OF_21AP_PLUS_21AY_FIXED_PROJECTION_REPRESENTATIVE_CLOSURE_BEFORE_ANY_SCALING_OR_PROMOTION",
+  "next_item_if_open": "SOURCE_LOCK_21AY_SURVIVING_TRIPLES_THEN_ADD_FOURTH_OR_FIFTH_NARROW_COORDINATE_OR_EXACT_SEMIGROUP_CONSTRAINT",
   "active_execution_guardrail": {
     "full_178_row_sweep_authorized": false,
     "heavy_compute_requires_fresh_runkey_sync": true,
@@ -131,7 +150,10 @@
     "stage_heavy_concurrency_cap": 18
   },
   "repo_absolute_rule_read_policy": {
-    "mandatory_every_main_batch_reads": ["AGENTS.md", "stages/stage32/controller.json"],
+    "mandatory_every_main_batch_reads": [
+      "AGENTS.md",
+      "stages/stage32/controller.json"
+    ],
     "conditional_mandatory_policy_reads": {
       "before_actions_artifacts_or_heavy_compute": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
       "before_claim_promotion_closure_or_downstream_release": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
@@ -140,13 +162,14 @@
   },
   "cycle_safety": {
     "route_open": true,
-    "live_candidate": "EXACT_INTEGER_BOUND_CLOSURE_THEN_STRUCTURAL_DECOMPOSITION",
+    "live_candidate": "EXACT_THREE_COORDINATE_QF_LRA_SLICE_CENSUS",
     "dominated": [
       "REARM_SAME_32_21AD_FULL178_CENSUS",
       "GENERIC_59D_INTEGER_SMT_WITHOUT_SEMANTIC_CHANGE",
-      "ONE_COORDINATE_11_WAY_SPLIT_WITH_SAME_SOLVER",
+      "ONE_COORDINATE_11_WAY_SPLIT_WITH_INTEGER_SOLVER",
       "CP_SAT_WITNESS_HUNT_AS_AN_UNSAT_PROOF",
-      "ISL_OR_OTHER_INTEGER_SOLVER_RETRY_WITHOUT_SEMANTIC_CHANGE"
+      "ISL_OR_OTHER_INTEGER_SOLVER_RETRY_WITHOUT_SEMANTIC_CHANGE",
+      "21AX_FULL_COORDINATE_SWEEP_WITH_FRESH_SOLVER_PER_QUERY"
     ],
     "blocked": [
       "FULL178_PROMOTION_FROM_REPRESENTATIVE_SAMPLE",
