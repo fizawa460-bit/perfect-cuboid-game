@@ -221,9 +221,45 @@ FIRST_EXACT_75D_KUMMER_COLUMN_MATERIALIZED=false
 canonical_sha256=0a5abe419c3bd2e4c523af50fd8f85858af6a0d957dcce1e3bdf2ff1430fed3e
 ```
 
-The next exact datum is no longer the CV/Kc orientation. It is the corrected
-J2 coordinate in the current full-surface proper-Br2 14D basis. Once that is
-materialized, the retained 10D coordinate is a deterministic GF(2) solve and
-the already-locked weight-15 target can be placed as the first exact matrix
-column. No guessed proper-Br2 coordinate, Stage33-12 closure, parent reclosure,
-or downstream release is claimed.
+## Semantic `u1` to full-surface Smith normalization — exact boundary
+
+Targeted source tracing fixes the semantic half-lattice numerator without
+reopening the named orientation. In the semantic PicK basis, `u1` has support
+positions `[1,2,5,6,14,15]`; the locked curve-slot marking sends these exactly
+to pinned Stoll rows `BigK[2], BigK[4], BigK[9], BigK[10], BigK[47], BigK[49]`.
+This is distinct from the six ct-defect support rows.
+
+For their integral full-surface pullback numerator `n_S`, the Stage33-07 Smith
+convention fixes the factor-two normalization:
+
+```text
+z=(n_S*pmPic)/2
+D,U,V=SmithForm(pmPic)
+y=z*V
+mods=[2,2,2,2,4,4,4,4,4,4,8,8,8,8]
+bit_i=(y_i/(mods_i/2)) mod 2
+```
+
+Thus neither an arbitrary factor two nor an arbitrary 14D adapter remains.
+The current branch retains the required rows 47 and 49, but not rows 2, 4, 9,
+or 10. The historical full `MatKtoS` artifact and the retained full-surface
+Magma Smith right transform `V` are also unavailable. Therefore the exact
+14D source coordinate cannot yet be materialized locally.
+
+```text
+SEMANTIC_U1_BIGK_SUPPORT=[2,4,9,10,47,49]
+REQUIRED_PULLBACK_ROWS_RETAINED=[47,49]
+REQUIRED_PULLBACK_ROWS_MISSING=[2,4,9,10]
+NORMALIZATION_FORMULA_EXACT=true
+PROPER_BR2_14D_COORDINATE_MATERIALIZED=false
+RETAINED_10D_COORDINATE_MATERIALIZED=false
+FINITE_V4_KUMMER_COLUMNS_MATERIALIZED=0/10
+canonical_sha256=9a8c9bcc420a7ad60bb6d71326bc04000da676ec4bb222e0cc4266c2aadf3d7f
+```
+
+The next exact datum is the four missing pinned pullback rows together with
+the retained Smith `V`. After those are materialized, the proper-Br2 14D and
+retained 10D coordinates are deterministic and the locked weight-15 target
+can be placed. This is not the superseded 103D adapter ambiguity. No guessed
+coordinate, fake zero column, Stage33-12 closure, parent reclosure, or
+downstream release is claimed.
