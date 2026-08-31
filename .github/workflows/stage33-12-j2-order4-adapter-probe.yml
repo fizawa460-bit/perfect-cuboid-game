@@ -1,4 +1,4 @@
-name: Stage33 J2 half-lift quadratic probe
+name: Stage33 J2 semantic u2 full-surface probe
 on:
   push:
     branches: [stage33-12-j2-ptsK-qPicK-continuation]
@@ -8,8 +8,25 @@ permissions:
 jobs:
   probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
-      - name: Enumerate order4 half-lift functionals and quadratic values
-        run: python3 stages/stage33/33-12/certify_j2_order4_half_lift_functional_space.py
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize semantic u2 full-surface AT2
+        run: |
+          set -euo pipefail
+          python3 stages/stage33/33-12/materialize_j2_semantic_u2_full_surface_at2.py
+          python3 - <<'PY'
+          import json
+          p='stages/stage33/33-12/j2-semantic-u2-full-surface-at2.json'
+          x=json.load(open(p))
+          d=x['semantic_u2_pullback']
+          print('STATUS='+x['status'])
+          print('U2_AT2='+json.dumps(d['full_surface_A_T_2_coordinates_f2'],separators=(',',':')))
+          print('U2_MIXED='+json.dumps(d['mixed_smith_coordinates'],separators=(',',':')))
+          print('QNUM16='+str(d['quadratic_numerator_mod16_for_q_equals_num_over_8']))
+          print('CROSS_U1_NUM8='+str(d['cross_bilinear_with_u1_numerator_mod8_for_b_equals_num_over_8']))
+          print('CANONICAL_SHA256='+x['canonical_sha256'])
+          PY
