@@ -2,16 +2,16 @@
 
 This file answers only: **where is Stage33 now?**
 
-For stable rules use `RULES.md`. For machine state use `controller.json`. For detailed Stage33-05 arithmetic classification use `33-05/j2-representative-repair-state.json`. For past work use `HISTORY.md` and unit results/certificates.
+For stable rules use `RULES.md`. For machine state use `controller.json`. For detailed Stage33-05 arithmetic classification use `33-05/j2-representative-repair-state.json`. For Stage33-12 evidence/package status use `33-12/result.md`.
 
 ## Dashboard
 
 ```text
 Stage33 progress: 6/11
 Stage33-05: CLOSED_EXACT_ZERO_K3_BR2_Q_SURVIVAL
-active repair child: 33-12
-active substep: dependency-adapter/package audit
-status: AUDIT_33_12_PACKAGE_WITH_ZERO_K3_BR2_Q_SURVIVAL
+active contract-level repair child: 33-12
+active logical internal branch: 33-13 FINITE-V4-KUMMER-MATRIX
+status: MATERIALIZE_75x10_KUMMER_MATRIX
 ```
 
 ## Newly closed Stage33-05
@@ -22,16 +22,14 @@ The complete geometric invariant K3 two-primary Brauer receiver is
 Br(Kc_bar)[2]^G_Q = span_F2{J2,q1}, dimension 2.
 ```
 
-Both basis directions have nonzero Hochschild--Serre d2, and they are independent after restriction to `<ct>`.
-
-Using ct-fixed Picard tests `[CsK[2],CsK[5]]`, the pairing signatures are
+Using ct-fixed Picard tests `[CsK[2],CsK[5]]`, the restricted HS d2 pairing signatures are
 
 ```text
 J2 -> (1,1)
 q1 -> (1,0)
 ```
 
-so the 2x2 signature matrix has determinant `1 mod 2`. Therefore
+so the signature matrix has determinant `1 mod 2`. Therefore
 
 ```text
 ker(d2 on Br(Kc_bar)[2]^G_Q)=0
@@ -41,35 +39,51 @@ HOSTILE_AUDIT=PASS
 Stage33-05 UNIT_STATUS=CLOSED
 ```
 
-Corrected geometric `J2=(f2,1)` remains nonzero, but `d2(J2)!=0`; there is no corrected-J2 Q-defined Brauer preimage. Stage33-05 closes through the original contract's exact-zero-survival alternative, not through successful J2 descent.
+Corrected geometric `J2=(f2,1)` remains nonzero, but `d2(J2)!=0`; there is no corrected-J2 Q-defined Brauer preimage. Stage33-05 closes through the original contract's exact-zero-survival alternative.
 
-Primary zero-survival evidence:
+## Closed Stage33-12 prerequisites
 
 ```text
-33-05/stage33-05-br2-zero-q-survival-after-j2-nogo.json
-SHA256 a48386c523e8c98b1d2b22a7dc3d789e4cea1bfa4557e658fb150e3c6b85a585
-
-33-05/stage33-05-br2-zero-q-survival-hostile-replay.json
-SHA256 4e9f20c1f753bb63134207422b097c1985ce3edd6be87f7f41ba8afa316e7dc9
+33-09 Picard-equivariant transport                  CLOSED
+33-10 absolute-H1/Galois descent adapter            CLOSED
+33-11 arithmetic-localization connecting map        CLOSED_EXACT_HOSTILE_AUDIT_PASS
+33-11 connecting columns                            26/26 exact audited
+33-11 connecting map                                EXACT ZERO MAP
+33-05 K3 Br[2] arithmetic classification            CLOSED, Q-survival 0
 ```
+
+These facts remove the corrected-J2 blocker, but they do not by themselves satisfy the full Stage33-12 exit gate.
 
 ## Current
 
-Stage33-12 no longer requires a named J2 Q-defined preimage. Its rebuilt interface consumes the complete arithmetic classification of the K3 `Br[2]` invariant block, allowing exact zero survival.
+The authoritative Stage33-12 contract still requires arithmetic HS closure, global-Q residue-lift completion, complete relevant Q-defined class inventory, and hostile recertification of parent Stage33-07.
+
+The next logical internal branch is:
 
 ```text
-AUDIT_STAGE33_12_PACKAGE_AGAINST_CLOSED_33_09_33_10_33_11_INTERFACES_AND_ZERO_K3_BR2_Q_SURVIVAL_THEN_DECIDE_STAGE33_12_EXACT_CLOSURE
+33-13 FINITE-V4-KUMMER-MATRIX
+P=Br(Sbar)[2]^{G_Q}
+DIM_F2(P)=10
+DIM_F2(H^1(V4,Pic(Sbar)/2))=75
+required matrix=75x10
+required exact columns=10/10
 ```
 
-33-12 must still check its package against the independent 33-09/10/11 BR0B/BR0G repair outputs. Stage33-07 is therefore not closed yet.
+Current exact leaf:
+
+```text
+MATERIALIZE_FINITE_V4_KUMMER_RESTRICTION_MATRIX_75x10_WITH_ALL_10_EXACT_COLUMNS_NO_GUESSED_ZERO_COLUMNS
+```
+
+After that, the planned logical internal sequence remains 33-14 finite-HS/two-primary constant closure and 33-15 global arithmetic-HS assembly + Stage33-07 hostile recertification.
 
 ## Blocked downstream
 
 ```text
 Stage33-05 reclosed: true
 Stage33-12 exact closure: false
-Stage33-13 released: false
 Stage33-07 closed: false
+Stage33-08 released: false
 ```
 
 ## Authorities
@@ -78,14 +92,17 @@ Stage33-07 closed: false
 machine Stage33 state:
   stages/stage33/controller.json
 
-current Stage33-05 arithmetic classification:
+Stage33-05 arithmetic classification:
   stages/stage33/33-05/j2-representative-repair-state.json
 
-current Stage33-12 package:
+Stage33-12 current package:
   stages/stage33/33-12/result.md
 
-repair-band interfaces:
+repair-band execution plan:
   stages/stage33/ROADMAP-33-07-REPAIR-BAND.md
+
+contract-level acceptance:
+  stages/stage33/33-00/unit-closure-contract.md
 ```
 
 ## Firewalls
