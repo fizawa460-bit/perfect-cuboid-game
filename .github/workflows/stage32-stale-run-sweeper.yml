@@ -34,7 +34,7 @@ jobs:
         shell: bash
         run: |
           python - <<'PY'
-          import json, os, re, urllib.parse, urllib.request, urllib.error
+          import json, os, re, time, urllib.parse, urllib.request, urllib.error
           from pathlib import Path
 
           repo = os.environ['REPO']
@@ -99,28 +99,47 @@ jobs:
 
           cancelled = 0
           races = 0
+          transient_failures = 0
           same_head_cancelled = 0
           for run_id, name, sha, status, reason in stale:
               url = f'https://api.github.com/repos/{repo}/actions/runs/{run_id}/cancel'
-              req = urllib.request.Request(url, data=b'', method='POST', headers=headers)
-              try:
-                  with urllib.request.urlopen(req, timeout=30) as response:
-                      if response.status != 202:
-                          raise SystemExit(f'unexpected cancel status {response.status} for {run_id}')
-                  cancelled += 1
-                  if reason == 'OBSOLETE_SAME_HEAD':
-                      same_head_cancelled += 1
-                  print(f'CANCELLED reason={reason} run={run_id} status={status} head={sha} name={name}')
-              except urllib.error.HTTPError as exc:
-                  if exc.code == 409:
-                      races += 1
-                      print(f'ALREADY_FINISHING reason={reason} run={run_id} name={name}')
-                  else:
+              for attempt in range(3):
+                  req = urllib.request.Request(url, data=b'', method='POST', headers=headers)
+                  try:
+                      with urllib.request.urlopen(req, timeout=30) as response:
+                          if response.status != 202:
+                              raise RuntimeError(
+                                  f'unexpected cancel status {response.status} for {run_id}'
+                              )
+                      cancelled += 1
+                      if reason == 'OBSOLETE_SAME_HEAD':
+                          same_head_cancelled += 1
+                      print(
+                          f'CANCELLED reason={reason} run={run_id} status={status} '
+                          f'head={sha} name={name}'
+                      )
+                      break
+                  except urllib.error.HTTPError as exc:
+                      if exc.code == 409:
+                          races += 1
+                          print(f'ALREADY_FINISHING reason={reason} run={run_id} name={name}')
+                          break
+                      if 500 <= exc.code <= 599:
+                          print(
+                              f'TRANSIENT_CANCEL_HTTP_{exc.code} attempt={attempt + 1} '
+                              f'reason={reason} run={run_id} name={name}'
+                          )
+                          if attempt < 2:
+                              time.sleep(1 + attempt)
+                              continue
+                          transient_failures += 1
+                          break
                       raise
 
           print(f'STAGE32_STALE_RUNS_FOUND={len(stale)}')
           print(f'STAGE32_STALE_RUNS_CANCELLED={cancelled}')
           print(f'STAGE32_OBSOLETE_SAME_HEAD_CANCELLED={same_head_cancelled}')
           print(f'STAGE32_STALE_RUN_CANCEL_RACES={races}')
+          print(f'STAGE32_STALE_RUN_TRANSIENT_FAILURES={transient_failures}')
           print(f'CURRENT_HEAD_PRESERVED={current_sha}')
           PY
