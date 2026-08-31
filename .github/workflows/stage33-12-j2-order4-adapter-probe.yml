@@ -1,0 +1,37 @@
+name: Stage33 J2 order4 adapter probe
+on:
+  push:
+    branches: [stage33-12-j2-ptsK-qPicK-continuation]
+    paths: [.github/workflows/stage33-12-j2-order4-adapter-probe.yml]
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Correct reduction and materialize adapter
+        run: |
+          set -euo pipefail
+          python3 stages/stage33/33-12/certify_j2_order4_brauer_lift_reduction.py
+          python3 stages/stage33/33-12/materialize_j2_order4_full_surface_brauer_adapter.py
+          python3 - <<'PY'
+          import json
+          p='stages/stage33/33-12/j2-order4-full-surface-brauer-adapter.json'
+          x=json.load(open(p))
+          print('STATUS='+x['status'])
+          print('Z4_INTEGRAL='+str(x['exact_order4_normalization']['z4_integral']))
+          print('DOUBLE_MATCH='+str(x['exact_order4_normalization']['doubling_matches_locked_u1_mixed_smith_coordinate']))
+          e=x['proper_brauer2_evaluation']
+          print('PAIR_DIV4='+str(e['all_pairing_numerators_divisible_by_4']))
+          print('PROPER14='+json.dumps(e['proper_Br2_14D_coordinate_f2'],separators=(',',':')))
+          print('CC_FIXED='+str(e['proper_Br2_cc_fixed']))
+          print('CT_FIXED='+str(e['proper_Br2_ct_fixed']))
+          print('RETAINED10='+json.dumps(e['retained_10D_coordinate_f2'],separators=(',',':')))
+          print('ADAPTER_ACCEPTED='+str(e['adapter_accepted']))
+          print('CANONICAL_SHA256='+x['canonical_sha256'])
+          PY
