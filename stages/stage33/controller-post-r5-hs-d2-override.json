@@ -1,19 +1,23 @@
 {
-  "schema": "STAGE33_CONTROLLER_RUNTIME_OVERRIDE_COMPAT_SHIM_V9",
+  "schema": "STAGE33_CONTROLLER_RUNTIME_OVERRIDE_COMPAT_SHIM_V10_ZERO_SURVIVAL",
   "deprecated_as_authoritative_runtime": true,
   "authoritative_controller": "stages/stage33/controller.json",
   "authoritative_repair_state": "stages/stage33/33-05/j2-representative-repair-state.json",
   "compatibility_post_r5_state": "stages/stage33/33-05/j2-post-r5-hs-d2-state.json",
-  "reason": "The historical post-R5 runtime override and post-R5 leaf-state duplication have been folded into the compact controller plus the single authoritative Stage33-05 repair state. This file remains only as a compatibility pointer for older handoffs/scripts.",
+  "reason": "Compatibility pointer only. Stage33-05 is reclosed by exact zero K3 Br[2] Q-survival after independent nonzero HS d2 classes for J2 and q1. Corrected J2 itself does not descend.",
   "current_pipeline": {
-    "R5e_actual_Cech_and_Pic_mod2": "CURRENT",
-    "R5f_integral_Pic_and_HS_d2": "OPEN",
-    "R5g_Q_defined_descent": "OPEN"
+    "R5e_actual_Cech_and_Pic_mod2": "DONE_EXACT",
+    "R5f_integral_Pic_and_HS_d2": "J2_NONZERO_EXACT_HOSTILE_REPLAY_PASS",
+    "R5g_Q_defined_descent": "BLOCKED_BY_NONZERO_HS_D2_NOT_REQUIRED_AFTER_EXACT_ZERO_SURVIVAL",
+    "Stage33_05": "CLOSED_EXACT_ZERO_SURVIVAL"
   },
-  "stage33_progress": "5/11",
-  "stage33_05_reclosed": false,
+  "Q_relevant_surviving_dimension": 0,
+  "exact_zero_survival_certificate": "stages/stage33/33-05/stage33-05-br2-zero-q-survival-hostile-replay.json",
+  "stage33_progress": "6/11",
+  "stage33_05_reclosed": true,
   "stage33_12_closed_exact": false,
   "stage33_13_released": false,
-  "full_R5_exit_reached": false,
+  "full_successful_J2_descent_exit_reached": false,
+  "next_exact_leaf": "REBUILD_STAGE33_12_EXIT_ADAPTER_TO_CONSUME_ZERO_K3_BR2_Q_SURVIVAL_WITHOUT_J2_Q_PREIMAGE",
   "next_expected_command": "Stage33-main-batch"
 }
