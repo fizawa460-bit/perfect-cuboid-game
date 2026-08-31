@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V38_STAGE33_05_ZERO_SURVIVAL_RECLOSED_STAGE33_12_FINITE_V4_KUMMER_CURRENT",
+  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V39_STAGE33_12_FIRST_FULL_SURFACE_KUMMER_COLUMN_CURRENT",
   "role": "CURRENT_MACHINE_STATE",
   "stage": "33",
   "kernel": "K16-C2-BRAUER-EXPLICIT-CHAIN",
@@ -21,11 +21,11 @@
     "unit": "33-12",
     "contract_role": "ARITHMETIC_HS_CLOSURE_AND_STAGE33_07_RECERTIFICATION",
     "logical_internal_branch": "33-13_FINITE_V4_KUMMER_MATRIX",
-    "substep": "MATERIALIZE_75x10_KUMMER_MATRIX",
+    "substep": "MATERIALIZE_FIRST_EXACT_KUMMER_COLUMN_INTERFACE",
     "status": "CURRENT",
     "active_receiver": "FINITE_V4_KUMMER_RESTRICTION_ON_REMAINING_PROPER_FULL_SURFACE_BR2_RECEIVER",
-    "active_missing_interface": "ALL_10_EXACT_KUMMER_COLUMNS_IN_H1_V4_PIC_MOD2_NO_GUESSED_ZERO_COLUMNS",
-    "next_exact_leaf": "MATERIALIZE_FINITE_V4_KUMMER_RESTRICTION_MATRIX_75x10_WITH_ALL_10_EXACT_COLUMNS_NO_GUESSED_ZERO_COLUMNS"
+    "active_missing_interface": "ONE_EXACT_75_COORDINATE_KUMMER_COLUMN_FROM_FULL_SURFACE_MU2_LIFT_OR_EQUIVALENT_UNIMODULAR_GLUE_DATUM",
+    "next_exact_leaf": "MATERIALIZE_ONE_75_COORDINATE_FINITE_V4_KUMMER_DEFECT_COLUMN_FROM_A_FULL_SURFACE_MU2_LIFT_OR_EQUIVALENT_UNIMODULAR_GLUE_DATUM"
   },
   "stage33_05": {
     "unit_status": "CLOSED",
@@ -78,8 +78,17 @@
     "K3_Q_relevant_surviving_dimension": 0,
     "K3_exact_zero_survival": true,
     "old_required_J2_Q_preimage_gate_retired": true,
+    "full_surface_proper_invariant_dimension_f2": 10,
+    "finite_v4_pic2_h1_dimension_f2": 75,
+    "finite_v4_kummer_columns_materialized": 0,
+    "first_exact_kummer_column_materialized": false,
+    "known_q_defined_full_surface_proper_kernel_charge_from_J2": 0,
+    "full_surface_hs_adjustment_contract_sha256": "ec455bac5ba80c5be07e3eff045bb180d4b63d6d02bd6e8758c1c02e130b4f5b",
+    "exact_obstruction_inventory_sha256": "3187e5d4bb4b0dd7b47841fd7be097bb71858183cc7af49c527254994360720c",
+    "retained_target_basis_sha256": "384b7c9cb06e993c147fa89b30f93efcd454fe1a1773892ac70f463d07af9890",
+    "retained_target_basis_scope": "75D_H1_AND_10D_DOMAIN_BASES_ONLY_HISTORICAL_J2_KERNEL_BOUND_SUPERSEDED",
     "logical_internal_sequence": [
-      {"id": "33-13", "name": "FINITE-V4-KUMMER-MATRIX", "status": "CURRENT"},
+      {"id": "33-13", "name": "FINITE-V4-KUMMER-MATRIX", "status": "CURRENT_FIRST_COLUMN_INTERFACE"},
       {"id": "33-14", "name": "FINITE-HS-COSETS-AND-TWO-PRIMARY-CONSTANT-BLOCK", "status": "PLANNED_BLOCKED_BY_33_13"},
       {"id": "33-15", "name": "GLOBAL-ARITHMETIC-HS-ASSEMBLY-AND-33-07-HOSTILE-RECERTIFICATION", "status": "PLANNED_BLOCKED_BY_33_14"}
     ]
@@ -111,16 +120,16 @@
     "audit_required": true,
     "merge_allowed": false,
     "advance_allowed": true,
-    "advance_scope": "STAGE33_12_INTERNAL_33_13_FINITE_V4_KUMMER_MATRIX_ONLY_NO_PARENT_RECLOSURE",
+    "advance_scope": "STAGE33_12_INTERNAL_33_13_FIRST_EXACT_KUMMER_COLUMN_ONLY_NO_PARENT_RECLOSURE",
     "heavy_actions_authorized": false,
-    "next_item": "Stage33-12_33-13_FINITE_V4_KUMMER_MATRIX_75x10",
+    "next_item": "Stage33-12_33-13_FIRST_EXACT_75_COORDINATE_KUMMER_COLUMN",
     "next_expected_command": "Stage33-main-batch"
   },
   "loop_state": {
     "active": true,
     "stagnation_count": 0,
-    "last_cycle_route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
-    "last_new_view": "combine independent q1 and corrected-J2 HS d2 restrictions to obtain exact zero K3 Br2 Q-survival"
+    "last_cycle_route_status": "PASS_INTERFACE_NARROWED",
+    "last_new_view": "separate dead 2D Kc block from distinct 10D full-surface receiver and reduce blind 75x10 task to one exact constructible column"
   },
   "compatibility": {
     "legacy_runtime_override": "stages/stage33/controller-post-r5-hs-d2-override.json",
@@ -131,11 +140,11 @@
     "historical_checkpoint_merged": true
   },
   "audit_required": true,
-  "audit_scope": "STAGE33_12_INTERNAL_33_13_FINITE_V4_KUMMER_MATRIX",
+  "audit_scope": "STAGE33_12_INTERNAL_33_13_FIRST_EXACT_KUMMER_COLUMN",
   "merge_allowed": false,
   "advance_allowed": true,
-  "advance_scope": "STAGE33_12_INTERNAL_33_13_FINITE_V4_KUMMER_MATRIX_ONLY_NO_PARENT_RECLOSURE",
-  "next_item": "Stage33-12_33-13_FINITE_V4_KUMMER_MATRIX_75x10",
+  "advance_scope": "STAGE33_12_INTERNAL_33_13_FIRST_EXACT_KUMMER_COLUMN_ONLY_NO_PARENT_RECLOSURE",
+  "next_item": "Stage33-12_33-13_FIRST_EXACT_75_COORDINATE_KUMMER_COLUMN",
   "next_expected_command": "Stage33-main-batch",
   "theorem_credit": false,
   "receiver_credit": false,
