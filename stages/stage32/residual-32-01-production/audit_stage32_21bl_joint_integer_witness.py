@@ -68,6 +68,7 @@ def main() -> None:
         source_lock=args.source_lock, formula_lock=args.formula_lock, pair_lock=args.pair_lock,
         audit_lock=args.audit_lock, seventh_lock=args.seventh_lock, eighth_lock=args.eighth_lock,
         ninth_lock=args.ninth_lock, tenth_lock=args.tenth_lock, retained=args.retained, marking=args.marking,
+        per_check_timeout_ms=5000,
     )
     solver, r, ri, target, table = build_joint(cfg)
     assert target == EXPECTED_TARGET
