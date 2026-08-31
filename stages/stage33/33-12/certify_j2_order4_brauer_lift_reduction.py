@@ -1,13 +1,5 @@
 #!/usr/bin/env python3
-"""Reduce the corrected J2 proper-Br2 adapter to the transported order-4 lift.
-
-The previous exact source transported only the doubled order-2 class u1=t1/2.
-The marked J2 functional is beta1=t1/8 mod T*, so its lift-sensitive datum is
-the order-4 discriminant generator t1/4.  This producer derives its semantic
-BigK support, proves why four half-coefficient rows disappeared after doubling,
-and fixes the next numeric replay and parity gate without guessing a proper-Br2
-coordinate.
-"""
+"""Reduce corrected J2 to an order-4 full-surface lift and exact bilinear evaluation gate."""
 from __future__ import annotations
 
 from fractions import Fraction
@@ -62,7 +54,6 @@ assert orientation["anti_isometry_check"]["doubled_generator"] == "t1/2"
 assert proper["equivariant_identification"] == "T/2T ~= A_T[2] via x mod 2T -> x/2 mod T"
 assert blocker["exact_shortcut_rejection"]["finite_discriminant_pairing_covector_on_semantic_u1_f2"] == [0] * 14
 
-# On Kc, beta1=t1/8 evaluates with bit 2*(beta1,y)=(t1,y)/4 mod 2.
 gram = orientation["kernel_fingerprint_identification"]["T_Kc_gram"]
 kc_beta1_evaluations = [(gram[0][j] // 4) & 1 for j in range(2)]
 assert kc_beta1_evaluations == [1, 0]
@@ -71,16 +62,11 @@ frac_coords = orientation["anti_isometry_check"]["generator_image_semantic_fract
 assert len(frac_coords) == 20
 coeff4 = [int(Fraction(x) * 4) for x in frac_coords]
 assert coeff4 == [1,3,0,0,3,1,2,0,0,2,2,0,0,3,3,0,0,0,2,0]
-
 indlist = semantic["upstream_source_lock"]["indlistK_1based"]
 assert len(indlist) == 20
 order4_terms = [[indlist[i], coeff4[i]] for i in range(20) if coeff4[i] % 4]
 order4_rows = [x[0] for x in order4_terms]
 assert order4_rows == [2,4,9,10,20,35,39,47,49,67]
-
-# Doubling c/4 modulo Z keeps exactly the odd c coefficients.  These are the
-# six rows used by the previous u1=t1/2 replay; the four c=2 rows are exactly
-# the information destroyed by doubling.
 doubled_rows = [indlist[i] for i,c in enumerate(coeff4) if c & 1]
 assert doubled_rows == [2,4,9,10,47,49]
 assert doubled_rows == u1_source["semantic_u1_pullback"]["BigK_support_1based"]
@@ -88,7 +74,7 @@ extra_rows = [r for r in order4_rows if r not in doubled_rows]
 assert extra_rows == [20,35,39,67]
 
 out = {
-    "schema": "STAGE33_12_J2_ORDER4_BRAUER_LIFT_REDUCTION_V1",
+    "schema": "STAGE33_12_J2_ORDER4_BRAUER_LIFT_REDUCTION_V2_BILINEAR_EVALUATION",
     "stage": "33-12",
     "status": "PASS_EXACT_ORDER4_LIFT_ROUTE_REDUCED_TO_FOUR_ADDITIONAL_ROWS",
     "source_locks": {
@@ -120,13 +106,15 @@ out = {
         "integer_order4_numerator": "n4 = sum(c_j * MatKtoS[BigK_j]) for the ten listed (row,c_j) terms",
         "dual_pairing_vector": "z4 = (n4 * pmPic) / 4; require z4 integral",
         "smith_pairing_vector": "y4 = z4 * V in the retained Magma Smith convention",
-        "candidate_proper_Br2_14D_coordinate": "reduce the 14 nontrivial Smith entries of y4 modulo 2",
-        "reason_for_parity_gate": "If w is the transported dual-lattice lift represented by t1/4, then J2=w/2 mod T* and its bit on a T-basis vector tau is 2*(w/2,tau)=(w,tau) mod 2.",
+        "candidate_proper_Br2_14D_coordinate": "for each AT2 basis j with scale s_j=m_j/2, evaluate f_j=(sum_i y4_i*s_j*B8[i][j])/4 mod 2; do not reduce y4 componentwise",
+        "proper_Br2_evaluation_formula": "f_j = 2*b(w,(m_j/2)e_j) = (sum_i y4_i*(m_j/2)*B8[i][j])/4 mod 2",
+        "reason_for_bilinear_gate": "If w is the transported order-4 discriminant lift corresponding to t1/4, then J2=w/2 as a mod-2 Brauer functional and J2(tau)=2*(w/2,tau)=(w,tau) mod 2. In the Smith discriminant basis this is recovered by pairing w with the A_T[2] basis, not by copying or componentwise reducing w's coordinates.",
         "mandatory_acceptance_checks": [
-            "doubling/order2 reduction reproduces the locked full-surface u1 A_T[2] coordinate",
-            "candidate proper14 vector is fixed by both current proper-Br2 cc and ct actions",
-            "candidate proper14 vector lies in the locked retained 10D invariant domain",
-            "no proper14 coordinate is promoted if any lift/integrality/invariance check fails",
+            "doubling y4 modulo the Smith moduli reproduces the locked full-surface u1=t1/2 mixed Smith coordinate",
+            "all fourteen bilinear evaluation numerators are divisible by 4",
+            "candidate proper14 evaluation vector is fixed by both current proper-Br2 cc and ct actions",
+            "candidate proper14 evaluation vector lies in the locked retained 10D invariant domain",
+            "no proper14 coordinate is promoted if any lift/integrality/doubling/pairing/invariance check fails",
         ],
     },
     "next_numeric_leaf": {
@@ -135,8 +123,9 @@ out = {
         "required_compact_output": [
             "four additional fullPic64 pullback rows",
             "integral z4",
-            "14 nontrivial y4 entries modulo 8",
-            "candidate proper-Br2 parity vector and cc/ct invariance result",
+            "14 nontrivial y4 entries in mixed Smith coordinates",
+            "doubling regression against locked u1 mixed Smith coordinate",
+            "14 bilinear proper-Br2 evaluations and cc/ct invariance result",
         ],
         "full_sign_action_search_required": False,
         "repo_wide_source_search_required": False,
@@ -155,10 +144,6 @@ out = {
     },
 }
 out["canonical_sha256"] = csha(out)
+assert out["canonical_sha256"] == "d1bb3b6f15019c7ea6b0b93db49df28155bfc4f97d665fecc2a31547910a73f9"
 OUT.write_text(json.dumps(out, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-print(json.dumps({
-    "success": True,
-    "additional_rows": extra_rows,
-    "required_order4_rows": order4_rows,
-    "canonical_sha256": out["canonical_sha256"],
-}, sort_keys=True))
+print(json.dumps({"success": True, "additional_rows": extra_rows, "required_order4_rows": order4_rows, "canonical_sha256": out["canonical_sha256"]}, sort_keys=True))
