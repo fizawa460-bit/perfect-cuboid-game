@@ -1,32 +1,38 @@
-name: Stage33 J2 semantic u2 full-surface probe
+name: Stage33 J2 Picard adjoint proper Br2 probe
 on:
   push:
     branches: [stage33-12-j2-ptsK-qPicK-continuation]
     paths: [.github/workflows/stage33-12-j2-order4-adapter-probe.yml]
 permissions:
-  contents: read
+  contents: write
 jobs:
   probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Materialize semantic u2 full-surface AT2
+      - name: Materialize u2 and Picard adjoint proper Br2
         run: |
           set -euo pipefail
           python3 stages/stage33/33-12/materialize_j2_semantic_u2_full_surface_at2.py
+          python3 stages/stage33/33-12/materialize_j2_picard_adjoint_proper_br2.py
           python3 - <<'PY'
           import json
-          p='stages/stage33/33-12/j2-semantic-u2-full-surface-at2.json'
-          x=json.load(open(p))
-          d=x['semantic_u2_pullback']
-          print('STATUS='+x['status'])
-          print('U2_AT2='+json.dumps(d['full_surface_A_T_2_coordinates_f2'],separators=(',',':')))
-          print('U2_MIXED='+json.dumps(d['mixed_smith_coordinates'],separators=(',',':')))
-          print('QNUM16='+str(d['quadratic_numerator_mod16_for_q_equals_num_over_8']))
-          print('CROSS_U1_NUM8='+str(d['cross_bilinear_with_u1_numerator_mod8_for_b_equals_num_over_8']))
-          print('CANONICAL_SHA256='+x['canonical_sha256'])
+          for p in [
+            'stages/stage33/33-12/j2-semantic-u2-full-surface-at2.json',
+            'stages/stage33/33-12/j2-picard-adjoint-proper-br2.json',
+          ]:
+            x=json.load(open(p)); print(p, x['status'], x['canonical_sha256'])
+          a=json.load(open('stages/stage33/33-12/j2-picard-adjoint-proper-br2.json'))['proper_brauer2_pullback']
+          print('PROPER14='+json.dumps(a['proper_Br2_14D_coordinate_f2'],separators=(',',':')))
+          print('RETAINED10='+json.dumps(a['retained_10D_coordinate_f2'],separators=(',',':')))
+          print('BETA2='+json.dumps(a['companion_beta2_proper_Br2_14D_coordinate_f2'],separators=(',',':')))
           PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add stages/stage33/33-12/j2-semantic-u2-full-surface-at2.json stages/stage33/33-12/j2-picard-adjoint-proper-br2.json
+          git commit -m 'Stage33: materialize Picard adjoint proper Br2'
+          git push origin HEAD:stage33-12-j2-ptsK-qPicK-continuation
