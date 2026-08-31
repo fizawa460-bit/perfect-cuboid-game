@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V35_ROLE_SEPARATED",
+  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V36_AUDITED_J2_HS_D2_NOGO",
   "role": "CURRENT_MACHINE_STATE",
   "stage": "33",
   "kernel": "K16-C2-BRAUER-EXPLICIT-CHAIN",
@@ -19,36 +19,41 @@
   "current": {
     "unit": "33-05",
     "repair_leaf": "R5",
-    "substep": "R5e",
-    "status": "ACTUAL_CECH_PIC2_OPEN",
-    "active_receiver": "CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE",
-    "active_missing_interface": "ACTUAL_CECH_LOCAL_RANK2_LATTICES_AND_OVERLAP_TRANSITIONS_TO_CC_CT_DETERMINANT_PARITY_AND_MARKED_PIC_MOD2",
-    "next_exact_leaf": "MATERIALIZE_ACTUAL_CECH_LOCAL_RANK2_LATTICES_AND_OVERLAP_TRANSITION_MATRICES_FOR_LAMBDA_D_AT_T0_TINF_SINF_C21_C22_AND_RESOLUTION_EXCEPTIONALS_THEN_COMPARE_CC_CT_NULLHOMOTOPIES_AND_COMPUTE_MARKED_PIC_MOD2_AND_HS_D2"
+    "substep": "DEPENDENCY_REBUILD_AFTER_R5F_NOGO",
+    "status": "AUDITED_CORRECTED_J2_HS_D2_NONZERO_Q_DESCENT_BLOCKED",
+    "active_receiver": "STAGE33_DEPENDENCY_CHAIN_AFTER_CORRECTED_J2_Q_DESCENT_NOGO",
+    "active_missing_interface": "ALTERNATIVE_ARITHMETIC_RECEIVER_OR_REVISED_DEPENDENCY_ADAPTER_AFTER_J2_Q_DESCENT_NOGO",
+    "next_exact_leaf": "REBUILD_STAGE33_DEPENDENCY_CHAIN_AFTER_AUDITED_CORRECTED_J2_Q_DESCENT_NOGO"
   },
   "r5_pipeline": {
     "R5a_geometric_hostile_replay": "DONE",
     "R5b_corrected_marked_Kc_support": "DONE",
     "R5c_surface_mu2_lift": "DONE",
     "R5d_generic_cc_ct_and_ct_norm_splitting": "DONE",
-    "R5e_actual_Cech_and_Pic_mod2": "CURRENT",
-    "R5f_integral_Pic_and_HS_d2": "OPEN",
-    "R5g_Q_defined_descent": "OPEN",
+    "R5e_actual_Cech_and_Pic_mod2": "DONE_EXACT",
+    "R5f_integral_Pic_and_HS_d2": "NONZERO_EXACT_HOSTILE_REPLAY_PASS",
+    "R5g_Q_defined_descent": "BLOCKED_BY_NONZERO_HS_D2",
     "full_repair_exit_reached": false
   },
   "corrected_J2_interface": {
     "old_Q_defined_ell_J2_revoked": true,
     "corrected_geometric_representative": "(f2,1)",
     "corrected_geometric_representative_nonzero": true,
-    "marked_brauer_coordinate": [1, 0],
-    "twisted_transcendental_kernel_gram": [[8, 0], [0, 16]],
+    "marked_brauer_coordinate": [1,0],
+    "twisted_transcendental_kernel_gram": [[8,0],[0,16]],
     "surface_mu2_lift_materialized": true,
     "ct_norm_splitting_module_materialized": true,
-    "actual_lambda_D_local_rank2_lattices_materialized": false,
-    "actual_pic_mod2_defect_materialized": false,
-    "integral_Pic_lifts_materialized": false,
-    "HS_d2_materialized": false,
-    "HS_d2_class_zero": null,
+    "actual_lambda_D_local_rank2_lattices_materialized": true,
+    "actual_pic_mod2_defect_materialized": true,
+    "actual_cc_pic_mod2": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    "actual_ct_pic_mod2": [0,0,0,0,0,0,0,0,1,1,0,1,0,1,1,1,0,0,0,0],
+    "restricted_integral_ct_Pic_lift_materialized": true,
+    "HS_d2_materialized": true,
+    "HS_d2_materialized_scope": "CT_SUBGROUP_RESTRICTION_SUFFICIENT_FOR_GLOBAL_NONZERO",
+    "HS_d2_class_zero": false,
+    "HS_d2_hostile_replay_pass": true,
     "Q_defined_descent_credit_restored": false,
+    "corrected_J2_Q_defined_Brauer_preimage": false,
     "arithmetic_unramifiedness": false,
     "details": "stages/stage33/33-05/j2-representative-repair-state.json"
   },
@@ -59,21 +64,22 @@
     "stagnation_count": 0
   },
   "repair_children": [
-    {"id": "33-09", "status": "CLOSED_EXACT"},
-    {"id": "33-10", "status": "CLOSED_EXACT_HOSTILE_AUDIT_PASS"},
-    {"id": "33-11", "status": "CLOSED_EXACT_HOSTILE_AUDIT_PASS"},
-    {"id": "33-12", "status": "BLOCKED_BY_STAGE33_05_R5_ARITHMETIC_DESCENT", "closed_exact": false},
-    {"id": "33-13", "status": "PLANNED_BLOCKED_BY_33_12", "released": false},
-    {"id": "33-14", "status": "PLANNED_BLOCKED_BY_33_13", "released": false},
-    {"id": "33-15", "status": "PLANNED_BLOCKED_BY_33_14", "released": false}
+    {"id":"33-09","status":"CLOSED_EXACT"},
+    {"id":"33-10","status":"CLOSED_EXACT_HOSTILE_AUDIT_PASS"},
+    {"id":"33-11","status":"CLOSED_EXACT_HOSTILE_AUDIT_PASS"},
+    {"id":"33-12","status":"BLOCKED_BY_AUDITED_NONZERO_HS_D2_STAGE33_05","closed_exact":false},
+    {"id":"33-13","status":"PLANNED_BLOCKED_BY_33_12","released":false},
+    {"id":"33-14","status":"PLANNED_BLOCKED_BY_33_13","released":false},
+    {"id":"33-15","status":"PLANNED_BLOCKED_BY_33_14","released":false}
   ],
   "parent_units": {
     "33-07": {
-      "status": "BLOCKED_NEW_KERNEL_AND_REOPENED_33_05_INPUT",
+      "status": "BLOCKED_AUDITED_CORRECTED_J2_Q_DESCENT_NOGO_DEPENDENCY_REBUILD",
       "unit_closed": false,
       "closure_blocked_by_reopened_33_05": true,
-      "arithmetic_hs_d2_computed": false,
-      "hostile_reaudit": "NOT_RUN"
+      "arithmetic_hs_d2_computed": true,
+      "arithmetic_hs_d2_zero": false,
+      "hostile_reaudit": "NOT_RUN_AFTER_DEPENDENCY_REBUILD"
     },
     "33-08": {
       "status": "BLOCKED_NEW_KERNEL",
@@ -91,12 +97,13 @@
     "super_hostile_audit_released": false
   },
   "execution": {
-    "audit_required": true,
+    "audit_required": false,
+    "last_required_audit": "R5F_NONZERO_HS_D2_HOSTILE_REPLAY_PASS",
     "merge_allowed": false,
     "advance_allowed": true,
-    "advance_scope": "STAGE33_05_R5E_TO_R5G_ONLY_NO_33_12_RECLOSURE_OR_33_13_RELEASE",
+    "advance_scope": "DEPENDENCY_REBUILD_ONLY_NO_R5G_Q_DESCENT_NO_33_12_RECLOSURE_OR_33_13_RELEASE",
     "heavy_actions_authorized": false,
-    "next_item": "Stage33-05_R5E_ACTUAL_CECH_LOCAL_LATTICES_THEN_MARKED_PIC_MOD2",
+    "next_item": "Stage33-05_REBUILD_DEPENDENCY_CHAIN_AFTER_AUDITED_J2_Q_DESCENT_NOGO",
     "next_expected_command": "Stage33-main-batch"
   },
   "firewalls": {
@@ -114,7 +121,7 @@
     "legacy_33_12_infinity_ptsK_qPicK_route": "RETIRED_FOR_CORRECTED_J2",
     "historical_checkpoint_pr": 1463,
     "historical_checkpoint_merged": true,
-    "note": "The fields below are compatibility aliases only. Current human navigation is CURRENT.md; detailed R5 mathematics is j2-representative-repair-state.json."
+    "note": "Current authoritative state records audited nonzero corrected-J2 HS d2. Legacy override/shim files remain compatibility-only."
   },
   "roadmap": "stages/stage33/ROADMAP.md",
   "roadmap_repair_amendment": "stages/stage33/ROADMAP-33-07-REPAIR-BAND.md",
@@ -127,17 +134,19 @@
     "corrected_geometric_J2_representative_nonzero": true,
     "corrected_geometric_J2_representative": "(f2,1)",
     "Q_descent_of_corrected_representative_established": false,
-    "corrected_geometric_J2_marked_brauer_coordinate": [1, 0],
-    "actual_lambda_D_local_rank2_lattices_materialized": false
+    "Q_descent_of_corrected_representative_blocked_by_nonzero_HS_d2": true,
+    "corrected_geometric_J2_marked_brauer_coordinate": [1,0],
+    "actual_lambda_D_local_rank2_lattices_materialized": true
   },
   "stage33_07": {
-    "unit_status": "BLOCKED_NEW_KERNEL_AND_REOPENED_33_05_INPUT",
+    "unit_status": "BLOCKED_AUDITED_CORRECTED_J2_Q_DESCENT_NOGO_DEPENDENCY_REBUILD",
     "unit_closed": false,
     "downstream_released": false,
     "repair_execution_released": true,
     "closure_blocked_by_reopened_33_05": true,
-    "arithmetic_hs_d2_computed": false,
-    "stage33_07_hostile_reaudit": "NOT_RUN"
+    "arithmetic_hs_d2_computed": true,
+    "arithmetic_hs_d2_zero": false,
+    "stage33_07_hostile_reaudit": "NOT_RUN_AFTER_DEPENDENCY_REBUILD"
   },
   "stage33_08": {
     "unit_status": "BLOCKED_NEW_KERNEL",
@@ -151,12 +160,12 @@
   "stage33_08_release_allowed": false,
   "stage33_40_released": false,
   "stage33_40_release_allowed": false,
-  "audit_required": true,
-  "audit_scope": "STAGE33_05_R5E_R5F_R5G_ARITHMETIC_REPAIR_OPEN_STAGE33_12_EXACT_CHILD_CLOSURE_NOT_REACHED",
+  "audit_required": false,
+  "audit_scope": "R5F_NONZERO_HS_D2_HOSTILE_REPLAY_PASS_DEPENDENCY_REBUILD_CURRENT",
   "merge_allowed": false,
   "advance_allowed": true,
-  "advance_scope": "STAGE33_05_R5E_TO_R5G_ONLY_NO_33_12_RECLOSURE_OR_33_13_RELEASE",
-  "next_item": "Stage33-05_R5E_ACTUAL_CECH_LOCAL_LATTICES_THEN_MARKED_PIC_MOD2",
+  "advance_scope": "DEPENDENCY_REBUILD_ONLY_NO_R5G_Q_DESCENT_NO_33_12_RECLOSURE_OR_33_13_RELEASE",
+  "next_item": "Stage33-05_REBUILD_DEPENDENCY_CHAIN_AFTER_AUDITED_J2_Q_DESCENT_NOGO",
   "next_expected_command": "Stage33-main-batch",
   "checkpoint_merge_contract": {
     "pr": 1463,
