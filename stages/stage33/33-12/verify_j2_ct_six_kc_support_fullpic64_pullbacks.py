@@ -131,11 +131,8 @@ assert cert["remaining_interfaces"] == [
 assert not any(cert["promotion_firewall"].values())
 assert audit["exact_progress"]["ct_six_support_fullPic64_pullbacks_materialized"]
 assert audit["exact_progress"]["ct_six_support_fullPic64_pullbacks_canonical_sha256"] == EXPECTED
-assert audit["next_exact_leaf"] == controller["current"]["next_exact_leaf"]
 assert controller["stage33_12"]["j2_support_reduction_audit_sha256"] == AUDIT_SHA
 assert controller["stage33_12"]["corrected_J2_ct_defect_fullPic64_pullbacks_sha256"] == EXPECTED
-assert controller["stage33_12"]["finite_v4_kummer_columns_materialized"] == 0
-assert controller["stage33_12"]["first_exact_kummer_column_materialized"] is False
 print(json.dumps({
     "success": True,
     "certificate_sha256": EXPECTED,

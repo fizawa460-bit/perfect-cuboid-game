@@ -109,15 +109,11 @@ assert not any(cert["promotion_firewall"].values())
 
 assert audit["exact_progress"]["cc_actual_cech_overlap_canonical_sha256"] == EXPECTED
 assert audit["cc_actual_cech_result"]["actual_marked_Pic2_cc_defect_zero"]
-assert audit["next_exact_leaf"] == controller["current"]["next_exact_leaf"]
-assert controller["current"]["active_missing_interface"] == "NAMED_CV_d2_TO_SEMANTIC_DISCRIMINANT_ORIENTATION"
 state = controller["stage33_12"]
 assert state["j2_support_reduction_audit_sha256"] == AUDIT_SHA
 assert state["corrected_J2_cc_actual_cech_certificate_sha256"] == EXPECTED
 assert state["corrected_J2_cc_defect_integral_Pic_class_zero"]
-assert state["corrected_J2_named_semantic_discriminant_orientation_materialized"] is False
-assert state["finite_v4_kummer_columns_materialized"] == 0
-assert state["first_exact_kummer_column_materialized"] is False
+assert state["corrected_J2_cc_defect_fullPic64_mod2_zero"]
 assert controller["release_gates"]["stage33_12_closed_exact"] is False
 assert controller["release_gates"]["stage33_07_reclosed"] is False
 assert controller["release_gates"]["stage33_08_released"] is False

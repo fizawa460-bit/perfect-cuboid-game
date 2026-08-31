@@ -1,14 +1,14 @@
 name: Stage33-12 exact checkpoint replay
 
-# Merge gate after Batch4 hostile reopen and Stage33-05 repair-band activation.
-# Historical J2-dependent certificates whose source representative was revoked
-# are retained as history, not regenerated.
 on:
   pull_request:
     paths:
+      - 'AGENTS.md'
       - 'stages/stage33/33-05/**'
       - 'stages/stage33/33-12/**'
-      - 'stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md'
+      - 'stages/stage33/MAIN-START-HERE.md'
+      - 'stages/stage33/MAIN-STATE.json'
+      - 'stages/stage33/RULES.md'
       - 'stages/stage33/controller.json'
       - '.github/workflows/stage33-12-main.yml'
   workflow_dispatch:
@@ -23,125 +23,35 @@ concurrency:
 jobs:
   exact-local-replay:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Replay authoritative hostile-reopen through R4 lattice closure
+      - name: Replay current authoritative Stage33 checkpoint
         run: |
-          cp stages/stage33/33-12/boundary-function-scalar-descent-certificate.json /tmp/expected-boundary-scalars.json
-          python stages/stage33/33-12/certify_boundary_function_scalar_descent.py
-          cmp /tmp/expected-boundary-scalars.json stages/stage33/33-12/boundary-function-scalar-descent-certificate.json
+          python stages/stage33/sync_main_state.py --check
 
-          cp stages/stage33/33-12/full-surface-hs-adjustment-contract.json /tmp/expected-hs-adjustment.json
-          python stages/stage33/33-12/certify_full_surface_hs_adjustment_contract.py
-          cmp /tmp/expected-hs-adjustment.json stages/stage33/33-12/full-surface-hs-adjustment-contract.json
+          cp stages/stage33/33-05/j2-r5f-hs-d2-nonzero-hostile-replay.json /tmp/expected-j2-r5f.json
+          python stages/stage33/33-05/certify_j2_r5f_hs_d2_nonzero_hostile_replay.py
+          python -c "import json; assert json.load(open('/tmp/expected-j2-r5f.json')) == json.load(open('stages/stage33/33-05/j2-r5f-hs-d2-nonzero-hostile-replay.json'))"
+          mv /tmp/expected-j2-r5f.json stages/stage33/33-05/j2-r5f-hs-d2-nonzero-hostile-replay.json
 
-          cp stages/stage33/33-12/j2-full-surface-mu2-zero-defect-contract.json /tmp/expected-j2-mu2-zero-defect.json
-          python stages/stage33/33-12/certify_j2_full_surface_mu2_zero_defect_contract.py
-          cmp /tmp/expected-j2-mu2-zero-defect.json stages/stage33/33-12/j2-full-surface-mu2-zero-defect-contract.json
+          cp stages/stage33/33-05/stage33-05-br2-zero-q-survival-hostile-replay.json /tmp/expected-zero-survival.json
+          python stages/stage33/33-05/certify_stage33_05_br2_zero_q_survival_hostile_replay.py
+          python -c "import json; assert json.load(open('/tmp/expected-zero-survival.json')) == json.load(open('stages/stage33/33-05/stage33-05-br2-zero-q-survival-hostile-replay.json'))"
+          mv /tmp/expected-zero-survival.json stages/stage33/33-05/stage33-05-br2-zero-q-survival-hostile-replay.json
 
-          # Kc-side marked lattice data remain independent of the revoked named ell.
-          python stages/stage33/33-12/certify_j2_semantic_kc_picard_basis.py
-          python stages/stage33/33-12/certify_j2_kc_transcendental_lattice_isometry.py
-          python stages/stage33/33-12/certify_j2_kc_bfield_halfdual_target.py
-          python stages/stage33/33-12/certify_j2_brauer_kernel_lattice_fingerprints.py
+          python stages/stage33/33-12/verify_j2_cc_actual_cech_global_square_overlap.py
+          python stages/stage33/33-12/verify_j2_ct_six_kc_support_fullpic64_pullbacks.py
 
-          # Load-bearing hostile regression: old Stage33-05 Q-defined ell is CV-zero.
-          cp stages/stage33/33-12/j2-cv-lclass-zero-regression.json /tmp/expected-j2-cv-lclass-zero.json
-          python stages/stage33/33-12/certify_j2_cv_lclass_zero_regression.py
-          cmp /tmp/expected-j2-cv-lclass-zero.json stages/stage33/33-12/j2-cv-lclass-zero-regression.json
+          cp stages/stage33/33-12/j2-cv-d2-semantic-orientation.json /tmp/expected-j2-orientation.json
+          python stages/stage33/33-12/certify_j2_cv_d2_semantic_orientation.py
+          cmp /tmp/expected-j2-orientation.json stages/stage33/33-12/j2-cv-d2-semantic-orientation.json
 
-          # R1 repair closure: abstract J2 survives independently of revoked ell.
-          python stages/stage33/33-05/certify_j2_abstract_nonzero_reaudit.py
+          python stages/stage33/33-12/verify_j2_named_transport_first_column_rigidity.py
+          python stages/stage33/33-12/verify_j2_named_v4_h1_target_before_source_orientation.py
 
-          # R2 repair closure: source-locked corrected full-L pair is quotient-nonzero.
-          cp stages/stage33/33-05/j2-corrected-full-l-representative.json /tmp/expected-j2-corrected-full-l.json
-          python stages/stage33/33-05/certify_j2_corrected_full_l_representative.py
-          cmp /tmp/expected-j2-corrected-full-l.json stages/stage33/33-05/j2-corrected-full-l-representative.json
-
-          # R3 repair closure: corrected pair maps by CV Lemma 4.6 to a nonzero
-          # fixed-basis E[2] cocycle with explicit Kummer character coordinates.
-          cp stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json /tmp/expected-j2-corrected-e2.json
-          python stages/stage33/33-05/certify_j2_corrected_cv_e2_cocycle.py
-          cmp /tmp/expected-j2-corrected-e2.json stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json
-
-          # R4 attempt 1: materialize the named repaired Tr-kernel 2-cover. This
-          # is a reduction only; no minimum norm or marked coordinate is promoted.
-          cp stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json /tmp/expected-j2-r4-tr-torsor.json
-          python stages/stage33/33-05/certify_j2_r4_tr_kernel_torsor_reduction.py
-          cmp /tmp/expected-j2-r4-tr-torsor.json stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json
-
-          # R4 attempt 3 and closure: quotient the correct torsor by its free
-          # involution, identify the quotient K3 with Kc, and read the lattice.
-          # This dependency-free verifier source-locks attempt 2 and rechecks
-          # every identity from it needed for the closure.
-          python stages/stage33/33-05/certify_j2_r4_translation_quotient_lattice.py
-
-          python - <<'PY'
-          import json
-          c=json.load(open('stages/stage33/controller.json'))
-          s=c['stage33_05_hostile_reopen']
-          j=next(x for x in c['repair_children'] if x['id']=='33-12')
-          r=json.load(open('stages/stage33/33-05/j2-representative-repair-state.json'))
-          z=json.load(open('stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json'))
-          y=json.load(open('stages/stage33/33-05/j2-r4-correct-translation-torsor.json'))
-          x=json.load(open('stages/stage33/33-05/j2-r4-translation-quotient-lattice.json'))
-          assert s['reopened'] is True
-          assert s['named_representative_credit']=='REVOKED_PENDING_REPAIR'
-          assert s['abstract_J2_nonzero_reconfirmed'] is True
-          assert s['corrected_geometric_J2_representative_nonzero'] is True
-          assert s['corrected_geometric_J2_E2_cocycle_materialized'] is True
-          assert s['Q_descent_of_corrected_representative_established'] is False
-          assert s['repair_leaf']=='R5'
-          assert s['corrected_geometric_J2_twisted_kernel_materialized'] is True
-          assert s['corrected_geometric_J2_twisted_kernel_minimum_norm']==8
-          assert s['corrected_geometric_J2_marked_brauer_coordinate']==[1,0]
-          assert r['current_leaf']=='R5' and r['current_leaf_attempts']==0
-          assert r['leaves']['R1']['state']=='DONE_ABSTRACT_J2_NONZERO_CONFIRMED'
-          assert r['leaves']['R2']['state']=='DONE_CORRECTED_ELL_J2_NONZERO_CONFIRMED'
-          assert r['leaves']['R3']['state']=='DONE_EXPLICIT_NONZERO_CV_E2_COCYCLE_AND_KUMMER_COORDINATES'
-          assert r['leaves']['R4']['state']=='DONE_MINIMUM_NORM_8_MARKED_J2_1_0'
-          assert r['leaves']['R4']['attempts']==3
-          assert r['leaves']['R5']['state']=='READY_AFTER_R4'
-          assert z['named_repaired_J2_2cover']['kernel']=='<Tr>'
-          assert z['tr_kernel_2isogenous_comparison_surface']['is_named_J2_torsor'] is False
-          assert z['lattice_reduction']['minimum_norm_selected'] is False
-          assert z['lattice_reduction']['marked_brauer_coordinate_selected'] is False
-          assert y['attempt1_diagnosis']['old_ns_glue_target_revoked'] is True
-          assert y['correct_translation_descent']['jacobian'].startswith('E:')
-          assert x['correct_torsor_degree_two_quotient']['generic_degree']==2
-          assert x['comparison_k3_isomorphism']['base_change_degree']==1
-          assert x['lattice_conclusion']['torsor_transcendental_gram']==[[8,0],[0,16]]
-          assert x['lattice_conclusion']['minimum_norm']==8
-          assert x['lattice_conclusion']['marked_brauer_coordinate']==[1,0]
-          assert r['firewalls']['Q_defined_descent_credit_restored'] is False
-          assert r['firewalls']['stage33_05_reclosed'] is False
-          assert c['stage33_07']['stage33_12_exact_obstruction_inventory_sha256']=='7656f2bd9ff89cdc8d8dfd3c027fa672c00457efc8b707be8cd0a926e5d0fda4'
-          assert j['exact_obstruction_inventory_materialized'] is True
-          assert j['exact_obstruction_inventory_sha256']=='7656f2bd9ff89cdc8d8dfd3c027fa672c00457efc8b707be8cd0a926e5d0fda4'
-          assert j['j2_class2_go_no_go']=='REVOKED_BY_BATCH4_HOSTILE_AUDIT'
-          assert j['j2_class3_promoted'] is False
-          assert j['j2_abstract_nonzero_reconfirmed'] is True
-          assert j['j2_corrected_geometric_cv_representative_nonzero'] is True
-          assert j['j2_corrected_geometric_cv_e2_cocycle_materialized'] is True
-          assert j['j2_Q_descent_credit_restored'] is False
-          assert j['j2_repair_leaf']=='R5'
-          assert j['j2_full_E2_kummer_coordinates_materialized'] is True
-          assert j['j2_marked_brauer_coordinate_selected'] is True
-          assert j['j2_marked_brauer_coordinate']==[1,0]
-          assert j['j2_twisted_transcendental_kernel_identified'] is True
-          assert j['j2_twisted_transcendental_kernel_gram']==[[8,0],[0,16]]
-          assert j['j2_twisted_transcendental_kernel_minimum_norm']==8
-          assert j['stage33_12_closed_exact'] is False
-          assert j['heavy_actions_authorized'] is False
-          assert next(x for x in c['repair_children'] if x['id']=='33-13')['released'] is False
-          assert c['stage33_progress']=='5/11'
-          assert c['theorem_credit'] is False and c['receiver_credit'] is False and c['endpoint_credit'] is False
-          assert c['perfect_cuboid_existence_claim'] is False and c['perfect_cuboid_nonexistence_claim'] is False
-          print('R1-R4 exact PASS; min norm 8 and marked J2=[1,0]; R5 hostile replay still open')
-          PY
+          git diff --check
+          git diff --exit-code
