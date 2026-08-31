@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V42_STAGE33_12_J2_SUPPORT_LEVEL_FIRST_KUMMER_COLUMN_RECOVERY_CURRENT",
+  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V43_STAGE33_12_J2_CT_SIX_FULLPIC64_PULLBACKS_DONE",
   "role": "CURRENT_MACHINE_STATE",
   "stage": "33",
   "kernel": "K16-C2-BRAUER-EXPLICIT-CHAIN",
@@ -24,8 +24,8 @@
     "substep": "RECOVER_J2_FIRST_EXACT_KUMMER_COLUMN_AT_SUPPORT_LEVEL",
     "status": "CURRENT",
     "active_receiver": "FINITE_V4_KUMMER_RESTRICTION_ON_REMAINING_PROPER_FULL_SURFACE_BR2_RECEIVER",
-    "active_missing_interface": "J2_CC_ACTUAL_CECH_PARITY_PLUS_FULLPIC64_PULLBACKS_OF_CT_BIGK_26_35_42_47_49_52_PLUS_NAMED_CV_d2_TO_SEMANTIC_DISCRIMINANT_ORIENTATION",
-    "next_exact_leaf": "MATERIALIZE_CC_ACTUAL_CECH_OVERLAP_PARITY; RECOVER_FULLPIC64_PULLBACKS_OF_CT_BIGK_26_35_42_47_49_52; MATCH_CV_d2_TO_SEMANTIC_u1_u2_OR_u1_PLUS_u2; THEN_ASSEMBLE_ONE_EXACT_75D_COLUMN"
+    "active_missing_interface": "J2_CC_ACTUAL_CECH_PARITY_PLUS_NAMED_CV_d2_TO_SEMANTIC_DISCRIMINANT_ORIENTATION",
+    "next_exact_leaf": "MATERIALIZE_CC_ACTUAL_CECH_OVERLAP_PARITY; MATCH_CV_d2_TO_SEMANTIC_u1_u2_OR_u1_PLUS_u2; THEN_ASSEMBLE_ONE_EXACT_75D_KUMMER_COLUMN"
   },
   "stage33_05": {
     "unit_status": "CLOSED",
@@ -73,7 +73,7 @@
     "j2_first_exact_kummer_column_recovery_audit": "stages/stage33/33-12/first-exact-kummer-column-j2-recovery-audit.json",
     "j2_first_exact_kummer_column_recovery_audit_sha256": "1174b98316f6e78e886540192cf9af378b9dac8e91a8359f2fb2e174ca3fc3b5",
     "j2_support_reduction_audit": "stages/stage33/33-12/first-exact-kummer-column-support-reduction-audit.json",
-    "j2_support_reduction_audit_sha256": "2f0ca83494297f16649861d655ffccd90c128fcece2a315da1536df205a57341",
+    "j2_support_reduction_audit_sha256": "6e97d85ed2279049c1c70ee9fb4c2d6545b29f0e6246cf5a0bfc1348fca86217",
     "corrected_J2_surface_mu2_lift_materialized": true,
     "corrected_J2_ct_defect_marked_Kc_Pic2_materialized": true,
     "corrected_J2_ct_defect_semantic_BigK_support_1based": [26,35,42,47,49,52],
@@ -88,7 +88,12 @@
     "proper_Br2_14D_to_retained_10D_once_source_known": "DETERMINISTIC_GF2_SOLVE",
     "historical_rep88_actual_geometry_promotion_firewalled": true,
     "historical_rep88_labels_usable_as_mu2_lift": false,
-    "minimal_missing_exact_datum": "CC_ACTUAL_CECH_PARITY_PLUS_CT_SIX_SUPPORT_PULLBACKS_PLUS_NAMED_CV_d2_SEMANTIC_DISCRIMINANT_ORIENTATION",
+    "corrected_J2_ct_defect_fullPic64_pullbacks_materialized": true,
+    "corrected_J2_ct_defect_fullPic64_pullbacks_certificate": "stages/stage33/33-12/j2-ct-six-kc-support-fullpic64-pullbacks.json",
+    "corrected_J2_ct_defect_fullPic64_pullbacks_sha256": "592704594d6d26f9e0b0b2ba529d50c34fd801cede779b4e42b1cf775b63a96d",
+    "corrected_J2_ct_defect_fullPic64_INDLIST_mod2_weight": 24,
+    "corrected_J2_ct_defect_fullPic64_historical_Magma_mod2_weight": 8,
+    "minimal_missing_exact_datum": "CC_ACTUAL_CECH_PARITY_PLUS_NAMED_CV_d2_SEMANTIC_DISCRIMINANT_ORIENTATION",
     "logical_internal_sequence": [
       {"id":"33-13","name":"FINITE-V4-KUMMER-MATRIX","status":"CURRENT_J2_FIRST_COLUMN_SUPPORT_RECOVERY"},
       {"id":"33-14","name":"FINITE-HS-COSETS-AND-TWO-PRIMARY-CONSTANT-BLOCK","status":"PLANNED_BLOCKED_BY_33_13"},
@@ -101,7 +106,7 @@
   },
   "release_gates": {"stage33_05_reclosed":true,"stage33_12_closed_exact":false,"stage33_07_reclosed":false,"stage33_08_released":false,"stage33_40_released":false,"new_PR_transition_released":false},
   "execution": {"audit_required":true,"merge_allowed":false,"advance_allowed":true,"advance_scope":"STAGE33_12_INTERNAL_33_13_J2_FIRST_COLUMN_SUPPORT_LEVEL_RECOVERY_ONLY_NO_PARENT_RECLOSURE","heavy_actions_authorized":false,"next_item":"Stage33-12_33-13_RECOVER_J2_CC_CT_SUPPORT_AND_SEMANTIC_ORIENTATION","next_expected_command":"Stage33-main-batch"},
-  "loop_state": {"active":true,"stagnation_count":0,"last_cycle_route_status":"PASS_THREE_BROAD_BRIDGES_REDUCED_TO_CC_CECH_PARITY_CT_SIX_PULLBACKS_AND_ONE_SEMANTIC_ORIENTATION","last_new_view":"the ct Pic/2 defect is exactly the semantic BigK support 26+35+42+47+49+52; the full historical 20x64 pullback matrix is unnecessary for the first column because only those support pullbacks are needed; the J2 source-coordinate problem is reduced to matching the exact CV d=2 class to one of the three nonzero semantic discriminant classes, after which the 14D-to-10D solve is deterministic"},
+  "loop_state": {"active":true,"stagnation_count":0,"last_cycle_route_status":"PASS_CT_SIX_SUPPORT_FULLPIC64_PULLBACKS_EXACT_CC_CECH_PARITY_AND_ONE_SEMANTIC_ORIENTATION_REMAIN","last_new_view":"the six corrected-J2 ct support curves BigK[26,35,42,47,49,52] now have exact full-surface Pic64 pullbacks, independently replayed from the retained all-140 Stage32 marking through the certified Stage33-09 basis bridge; only cc actual Cech parity and the named CV d=2 to semantic discriminant orientation remain before the first 75D Kummer column"},
   "compatibility": {"legacy_runtime_override":"stages/stage33/controller-post-r5-hs-d2-override.json","legacy_post_r5_state":"stages/stage33/33-05/j2-post-r5-hs-d2-state.json","legacy_post_r5_state_role":"COMPATIBILITY_SHIM_ONLY","legacy_33_12_infinity_ptsK_qPicK_route":"RETIRED_FOR_CORRECTED_J2","historical_checkpoint_pr":1463,"historical_checkpoint_merged":true},
   "audit_required": true,
   "audit_scope": "STAGE33_12_INTERNAL_33_13_J2_FIRST_COLUMN_SUPPORT_LEVEL_RECOVERY",

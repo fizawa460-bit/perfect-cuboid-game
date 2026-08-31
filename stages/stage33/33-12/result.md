@@ -130,3 +130,25 @@ Stage33-08 released = false
 theorem / receiver / endpoint credit = false
 perfect cuboid existence/nonexistence claim = false
 ```
+
+## J2 ct six-support full-Pic64 transport
+
+The six support rows required by the corrected-J2 ct defect were extracted
+from the pinned Stoll `MatBigKtoBig` preimage map without regenerating the
+historical full `20 x 64` Kc map.  Each row was independently reconstructed
+from the retained Stage32 all-140 known-class marking and transported through
+the certified Stage33-09 INDLIST-to-Magma basis bridge.
+
+```text
+BIGK_SUPPORT=[26,35,42,47,49,52]
+FULLPIC64_PULLBACKS_EXACT=6/6
+CT_SUM_INDLIST_MOD2_WEIGHT=24
+CT_SUM_HISTORICAL_MAGMA_MOD2_WEIGHT=8
+HISTORICAL_FULL_KC20_TO_FULLPIC64_REGENERATED=false
+FIRST_EXACT_75D_KUMMER_COLUMN_MATERIALIZED=false
+canonical_sha256=592704594d6d26f9e0b0b2ba529d50c34fd801cede779b4e42b1cf775b63a96d
+```
+
+The remaining first-column interfaces are the actual cc Cech-overlap parity
+and the named CV `d=2` to semantic discriminant orientation.  No zero column,
+rep88 promotion, Stage33-12 closure, or downstream release is claimed.
