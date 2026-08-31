@@ -7,7 +7,7 @@ import time
 from pathlib import Path
 
 from sympy import Matrix
-from z3 import Real, SolverFor
+from z3 import Real, SolverFor, unknown, unsat
 
 from certify_stage32_21ba_r51_interval_census import (
     EXPECTED_MATRIX_SHA256,
@@ -52,7 +52,7 @@ def main() -> None:
     ap.add_argument("--prefix-lock", type=Path, required=True)
     ap.add_argument("--retained", type=Path, required=True)
     ap.add_argument("--marking", type=Path, required=True)
-    ap.add_argument("--wall-seconds", type=int, default=180)
+    ap.add_argument("--wall-seconds", type=int, default=390)
     ap.add_argument("--per-check-timeout-ms", type=int, default=1000)
     ap.add_argument("--output", type=Path, required=True)
     args = ap.parse_args()
@@ -194,7 +194,7 @@ def main() -> None:
             "complete_full_partition": combined_processed == EXPECTED_TRIPLES,
             "suffix_first_triple": list(suffix[0]),
             "suffix_last_triple": list(suffix[-1]),
-            "stopped_by_wall": stopped_by_wall
+            "stopped_by_wall": stopped_by_wall,
         },
         "result": {
             "status": status,
@@ -215,26 +215,26 @@ def main() -> None:
             "suffix_interval_records": interval_records,
             "suffix_integer_empty_triples": integer_empty,
             "suffix_qflra_unknown_triples": unknown_records,
-            "suffix_source_replay_unsat_triples": replay_unsat
+            "suffix_source_replay_unsat_triples": replay_unsat,
         },
         "interpretation": {
-            "partition_is_disjoint_and_complete_if_suffix_complete": true,
-            "surviving_r51_integer_index_is_not_integer_sat": true,
-            "qflra_unknown_is_not_unsat": true,
-            "fixed_projection_unsat_is_not_slice_unsat": true,
-            "representative_sample_only": true,
-            "not_full178_numerical_credit": true
+            "partition_is_disjoint_and_complete_if_suffix_complete": True,
+            "surviving_r51_integer_index_is_not_integer_sat": True,
+            "qflra_unknown_is_not_unsat": True,
+            "fixed_projection_unsat_is_not_slice_unsat": True,
+            "representative_sample_only": True,
+            "not_full178_numerical_credit": True,
         },
         "safety": {
-            "heavy_run_key_used": false,
-            "full178_production_run": false,
-            "integer_solver_used": false,
-            "theorem_credit": false,
-            "receiver_credit": false,
-            "route_credit": false,
-            "perfect_cuboid_existence_claim": false,
-            "perfect_cuboid_nonexistence_claim": false
-        }
+            "heavy_run_key_used": False,
+            "full178_production_run": False,
+            "integer_solver_used": False,
+            "theorem_credit": False,
+            "receiver_credit": False,
+            "route_credit": False,
+            "perfect_cuboid_existence_claim": False,
+            "perfect_cuboid_nonexistence_claim": False,
+        },
     }
     payload["canonical_sha256_without_this_field"] = csha(payload)
     args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
