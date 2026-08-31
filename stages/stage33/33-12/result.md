@@ -1,146 +1,124 @@
-# Stage33-12 corrected J2 arithmetic-closure checkpoint
+# Stage33-12 K3 Br[2] arithmetic-classification package
 
-Status: `BLOCKED_BY_AUDITED_NONZERO_HS_D2_IN_STAGE33_05_R5`
+Status: `CURRENT_DEPENDENCY_ADAPTER_REBUILD_AFTER_STAGE33_05_ZERO_SURVIVAL`
 
-Stage33-12 is evidence/package support for the reopened Stage33-05 J2 repair. It is not independently closed.
+Stage33-12 consumes and audits/packages the complete Stage33-05 K3 `Br[2]` arithmetic classification. It does not independently rederive J2.
 
 ```text
-Stage33 progress = 5/11
-Stage33-05 reclosed = false
+Stage33 progress = 6/11
+Stage33-05 reclosed = true
+Stage33-05 closure mode = EXACT_ZERO_K3_BR2_Q_SURVIVAL
 Stage33-12 closed exact = false
 Stage33-13 released = false
 ```
 
-## Current exact dashboard
+## Corrected J2 arithmetic result retained
+
+The actual corrected-J2 surface calculation is exact:
 
 ```text
-R0-R4 corrected geometric J2 chain                       DONE
-R5a geometric hostile replay                            DONE
-R5b corrected marked-Kc support                         DONE
-R5c genuine surface mu2 lift lambda_D                   DONE
-R5d generic cc/ct splittings                            DONE
-R5e actual cc/ct Pic(Kc_bar)/2                          DONE_EXACT
-R5f Hochschild-Serre d2                                 NONZERO_EXACT_HOSTILE_REPLAY_PASS
-R5g Q-defined corrected-J2 descent                      BLOCKED_BY_NONZERO_HS_D2
+J2=(f2,1) geometric nonzero
+marked J2=[1,0]
+cc Pic/2 defect = 0
+ct Pic/2 defect = [0,0,0,0,0,0,0,0,1,1,0,1,0,1,1,1,0,0,0,0]
+Z_J2=(B+ct(B))/2
+    =[0,0,0,0,0,0,0,1,1,1,-1,0,0,0,2,1,0,0,0,0]
+d2(J2)|_<ct> != 0
+d2(J2) != 0
+CORRECTED_J2_Q_DEFINED_BRAUER_PREIMAGE=false
 ```
 
-## Final R5e ct overlap result
-
-The actual q-square sheet choices are fixed by the committed Cech residue-square witnesses:
+Primary J2 hostile audit:
 
 ```text
-T0   -> plus q-sheet -> determinant parity 0
-Tinf -> plus q-sheet -> determinant parity 1
-q-roots r1,r2,r3,r4 -> parities 1,0,0,1
+j2-r5f-hs-d2-nonzero-hostile-replay.json
+canonical_sha256=6535f3190daab8c20ba5ddb3409675f20ac35dc4ee319e3be7af056baa4ce20d
 ```
 
-The two odd q-root contributions are both the same vertical fiber class and cancel mod 2. The strict `Tinf` contribution is
+## Dependency rebuild: whole K3 Br[2] block
+
+The Stage33-05 geometric invariant receiver is the two-dimensional space
 
 ```text
-[Tinf_strict]=F+E_inf0+E_infinf mod 2
-=[0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0].
+Br(Kc_bar)[2]^G_Q = span_F2{J2,q1}.
 ```
 
-Hence the actual ct defect is
+The q1 route independently has nonzero HS d2. Comparing both restricted classes in the same marked Picard lattice gives the ct-fixed test-pairing matrix
 
 ```text
-b_ct =
-[0,0,0,0,0,0,0,0,1,1,0,1,0,1,1,1,0,0,0,0].
+rows = [CsK[2], CsK[5]]
+cols = [J2, q1]
+
+[[1,1],
+ [1,0]]
 ```
 
-Certificate:
+whose determinant is `1 mod 2`. Therefore the restricted HS d2 map on the full two-dimensional receiver is injective. All three nonzero classes `J2`, `q1`, and `J2+q1` are obstructed.
 
 ```text
-stages/stage33/33-12/j2-ct-actual-cech-overlap-parities-and-marked-pic-mod2.json
-SHA256 68077141a4f792eefb47ebfd5db46ae9e785a0bef286449fc888663f2f2f5c3c
+RESTRICTED_D2_RANK_F2=2
+GLOBAL_D2_KERNEL_DIMENSION_F2=0
+Q_RELEVANT_SURVIVING_DIM=0
+K3_BR2_Q_SURVIVING_CLASS_LIST=[]
+EXACT_ZERO_SURVIVAL_CERTIFICATE=true
 ```
 
-For cc,
+Candidate certificate:
 
 ```text
-cc(lambda_D)-lambda_D={f2,(B1/(2*t))^2}.
+stages/stage33/33-05/stage33-05-br2-zero-q-survival-after-j2-nogo.json
+canonical_sha256=a48386c523e8c98b1d2b22a7dc3d789e4cea1bfa4557e658fb150e3c6b85a585
 ```
 
-The square root `c=B1/(2*t)` is a global base rational function. On the auxiliary `f2` cover it is the same on both deck sheets; its common rank-two frame contribution has determinant `c^2`, hence divisor `2 div(c)`. Therefore the actual cc Pic/2 defect is zero.
-
-Thus R5e is complete:
+Independent hostile replay:
 
 ```text
-cc -> 0
-ct -> b_ct
+stages/stage33/33-05/stage33-05-br2-zero-q-survival-hostile-replay.json
+canonical_sha256=4e9f20c1f753bb63134207422b097c1985ce3edd6be87f7f41ba8afa316e7dc9
+status=PASS_HOSTILE_REPLAY_EXACT_ZERO_K3_BR2_Q_SURVIVAL
 ```
 
-## R5f: exact nonzero HS d2
+## Rebuilt Stage33-12 interface
 
-Using the exact semantic rank-20 Picard action of `ct`, choose the displayed 0/1 vector `B=b_ct` as an integral lift. Exact conjugation gives
+The former Stage33-12 gate incorrectly required
 
 ```text
-ct(B) =
-[0,0,0,0,0,0,0,2,1,1,-2,-1,0,-1,3,1,0,0,0,0].
+CORRECTED_J2_HS_D2_CLASS_ZERO=true
+CORRECTED_J2_Q_DEFINED_BRAUER_PREIMAGE=true.
 ```
 
-The normalized `<ct> ~= C2` Bockstein 2-cocycle has only the nontrivial value
+That is too strong for the parent contract. Stage33-05 explicitly allows exact zero survival. The Stage33-12 package now consumes:
 
 ```text
-Z = beta(ct,ct) = (B+ct(B))/2
-  = [0,0,0,0,0,0,0,1,1,1,-1,0,0,0,2,1,0,0,0,0].
+K3_GEOMETRIC_BR2_DIM=2
+K3_BR2_GQ_INVARIANT_BASIS_EXACT=true
+K3_BR2_ARITHMETIC_HS_CLASSIFICATION_EXACT=true
+DESCENT_OBSTRUCTION_ACCOUNTED=true
+Q_RELEVANT_SURVIVING_DIM_EXACT=true
+Q_RELEVANT_SURVIVING_DIM=0
+EXACT_ZERO_SURVIVAL_CERTIFICATE=true
+UNRESOLVED_K3_BR2_ARITHMETIC_UNKNOWN=0
+STAGE33_05_HOSTILE_AUDIT=PASS
+STAGE33_05_UNIT_CLOSED=true
 ```
 
-`Z` is ct-invariant. In
+This arithmetic input is now ready for Stage33-12 package closure work. Stage33-12 itself remains open until its own package/audit interface is checked against the independent 33-09/10/11 BR0B/BR0G repair outputs.
+
+## Firewalls
 
 ```text
-H^2(<ct>,Pic)=Pic^ct/(1+ct)Pic
+historical ell_J2 reused = false
+corrected J2 Q-defined preimage = false
+Stage33-05 reclosed = true
+Stage33-07 closed = false
+Stage33-12 closed exact = false
+Stage33-13 released = false
+theorem / receiver / endpoint credit = false
+perfect cuboid existence/nonexistence claim = false
 ```
 
-the `CsK[26]` coordinate of `Z` is `1`, whereas the `CsK[26]` column of `1+ct` is exactly
+## Current exact leaf
 
 ```text
-[0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0]^T.
-```
-
-Therefore every norm has even `CsK[26]` coordinate and `Z` is not a norm. The restricted d2 class is nonzero. A zero global class would restrict to zero, so the global Hochschild-Serre `d2` class is nonzero.
-
-Primary certificate:
-
-```text
-stages/stage33/33-05/j2-r5e-pic2-r5f-ct-hs-d2-nonzero.json
-SHA256 8e384501db1cb3aa3f73358b0c3612a85e4012c5041fda60d3be7aeddc7c4c55
-```
-
-Independent hostile replay additionally verifies:
-
-```text
-ct^2=1
-ct preserves the exact Picard Gram matrix
-the restricted 2-cocycle identity
-Smith(1+ct)=diag(1,1,1,2,...,2,0,0,0)
-the independent CsK[26] parity witness
-```
-
-Audit certificate:
-
-```text
-stages/stage33/33-05/j2-r5f-hs-d2-nonzero-hostile-replay.json
-SHA256 6535f3190daab8c20ba5ddb3409675f20ac35dc4ee319e3be7af056baa4ce20d
-```
-
-## Arithmetic verdict
-
-The corrected geometric class `J2=(f2,1)` is still a valid nonzero geometric class with marked coordinate `[1,0]`. However its audited HS d2 obstruction is nonzero, so this corrected J2 route does **not** supply the required Q-defined Brauer preimage.
-
-Per the R5 roadmap:
-
-```text
-R5g corrected-J2 Q descent = BLOCKED
-successful R5 repair exit = false
-Stage33-05 reclosure = false
-next = rebuild the Stage33 dependency chain around this arithmetic no-go
-```
-
-This is a route-level arithmetic no-go. It does not imply a perfect-cuboid existence/nonexistence result and releases no theorem/receiver/endpoint credit.
-
-## Next exact leaf
-
-```text
-REBUILD_STAGE33_DEPENDENCY_CHAIN_AFTER_AUDITED_CORRECTED_J2_Q_DESCENT_NOGO
+AUDIT_STAGE33_12_PACKAGE_AGAINST_CLOSED_33_09_33_10_33_11_INTERFACES_AND_ZERO_K3_BR2_Q_SURVIVAL_THEN_DECIDE_STAGE33_12_EXACT_CLOSURE
 ```
