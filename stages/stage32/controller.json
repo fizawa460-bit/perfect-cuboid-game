@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V155_POST21BL_EFFECTIVITY_PREFLIGHT_ACTIVE",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V156_POST21BL_INTEGRAL_CURVE_CARRIER_PREFLIGHT_ACTIVE",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
-  "status": "STAGE32_POST21BL_EFFECTIVITY_SUFFICIENCY_PREFLIGHT_ACTIVE",
-  "current_item": "POST_21BL_EFFECTIVITY_SUFFICIENCY_PREFLIGHT",
-  "current_item_execution_constraint": "Consume the audited 21bl integer witness and audited post-21bl Picard64 adapter only. The representative class g1-d186 already passes the historical all-140 nonnegative-intersection numerical-effectivity necessary filter. That is not curve existence. Identify a source-locked sufficient geometric certificate or exclusion criterion for an actual integral low-genus carrier with normalization genus 1, preserving node/branch and unibranch semantics. Do not restart 21bl, add single-coordinate filters, launch the 3234 scaleout, or arm FULL178 heavy production while the semantic effectivity wall is still unidentified.",
+  "status": "STAGE32_POST21BL_DIVISOR_EFFECTIVITY_CLOSED_INTEGRAL_CURVE_CARRIER_OPEN",
+  "current_item": "POST_21BL_INTEGRAL_CURVE_CARRIER_AND_NORMALIZATION_PREFLIGHT",
+  "current_item_execution_constraint": "The audited representative Picard64 class g1-d186 is no longer merely numerical: Testa-Stoll surface invariants plus exact Riemann-Roch prove h0(O_S(C))>=344, so an effective divisor exists in the class. Do not promote that to an integral genus-one curve. The remaining primary gap is to construct or exclude an integral irreducible member whose normalization has genus 1 and whose node/branch data realizes the required genus defect 522. Preserve the separate FULL178 numerical gap. Do not restart 21bl, add single-coordinate filters, run the 3234 scaleout, or arm FULL178 heavy production while this carrier semantic wall is unresolved.",
   "active_pr": {
     "number": 1471,
     "branch": "stage32-post21bl-effectivity-preflight",
@@ -34,8 +34,9 @@
     "legacy_prefix_dfs_heavy_rearm_authorized": false,
     "terminal_family_materialization_authorized": false,
     "representative_sample_is_not_full178_numerical_credit": true,
-    "integral_picard_class_is_not_effective_curve_existence": true,
-    "nonnegative_known_curve_pairings_are_not_effectivity": true,
+    "effective_divisor_is_not_integral_curve": true,
+    "integral_curve_is_not_normalization_genus1_without_adapter": true,
+    "nonnegative_known_curve_pairings_are_not_curve_effectivity_sufficiency": true,
     "unknown_is_unsat": false
   },
   "closed_dependencies": {
@@ -52,30 +53,28 @@
       "evidence": "stages/stage32/32-21/post-21bl-picard64-witness-adapter.json",
       "evidence_canonical_sha256": "ef3f21e4166d4bfcacce3503213b0a72afee5f5002ab7145de01fc9c54d47038",
       "fresh_audit_canonical_sha256": "170611441f83113b27fa1b9b60eeaac31746a10938bb6ee5751f32a450f466d8",
-      "picard_coordinates_sha256": "0fcbe0c9cdf894a95704bcaf55536290fc2daa736387169c891e8262f2c565a7",
-      "all140_pairings_sha256": "1968dba54ebe2082c6ed07203ea9e4118460f60c32c60d46292bc73dc6bdf961",
       "target": {"row_id": "g1-d186", "genus": 1, "degree": 186, "e": 266, "a": 592},
-      "exact_result": {
-        "all140_pairings_integral": true,
-        "all140_pairings_nonnegative": true,
-        "picard_self_square": 858,
-        "minimum_pairing": 0,
-        "maximum_pairing": 56,
-        "zero_pairing_count": 6
-      }
+      "exact_result": {"picard_self_square": 858, "all140_pairings_integral": true, "all140_pairings_nonnegative": true}
+    },
+    "representative_divisor_effectivity": {
+      "status": "CLOSED_EXACT_RIEMANN_ROCH_DIVISOR_EFFECTIVITY",
+      "file": "stages/stage32/32-21/post-21bl-riemann-roch-divisor-effectivity.json",
+      "canonical_sha256": "6e02dfa2f29ebdd218aa869e1994776abc6bd068be9f138e1dd1980789e2483b",
+      "surface_source_lock": "stages/stage29/29-02a/source-lock.md",
+      "surface_invariants": {"K_square": 16, "p_g": 7, "q": 0, "chi_O": 8, "K_big": true, "K_nef": true},
+      "riemann_roch": {"chi_O_C": 344, "h2_O_C": 0, "h0_lower_bound": 344, "effective_divisor_exists": true}
     }
   },
-  "post21bl_gap_separation": {
-    "status": "PASS_EXACT_SEMANTIC_GAP_SEPARATION_EFFECTIVITY_REMAINS_OPEN",
-    "file": "stages/stage32/32-21/post-21bl-effectivity-gap-separation.json",
-    "canonical_sha256": "4afeb8a3add7c203fbbaa9ffdb5b4b4d357df8503979ee80617db654df73d4dc",
+  "gap_state": {
+    "gap_separation_file": "stages/stage32/32-21/post-21bl-effectivity-gap-separation.json",
+    "gap_separation_canonical_sha256": "4afeb8a3add7c203fbbaa9ffdb5b4b4d357df8503979ee80617db654df73d4dc",
     "FULL178_NUMERICAL_CENSUS": "OPEN_SEPARATE",
-    "EFFECTIVITY_ACTUAL_LOW_GENUS_CURVE": "OPEN_PRIMARY",
-    "r29_lg2_eff_receiver_closed": false,
-    "historical_all140_nonnegative_necessary_filter": "PASS_ON_REPRESENTATIVE"
+    "DIVISOR_EFFECTIVITY_REPRESENTATIVE": "CLOSED_EXACT",
+    "INTEGRAL_IRREDUCIBLE_LOW_GENUS_CARRIER": "OPEN_PRIMARY",
+    "NORMALIZATION_AND_BRANCH_COMPATIBILITY": "OPEN_PRIMARY",
+    "R29_LG2_EFF_FULL_RECEIVER": "OPEN"
   },
   "genus_defect_preflight": {
-    "status": "PASS_EXACT_NUMERICAL_GENUS_DEFECT_DIAGNOSTIC_EFFECTIVITY_UNRESOLVED",
     "file": "stages/stage32/32-21/post-21bl-genus-defect-preflight.json",
     "canonical_sha256": "e59e23b2aefb1a3b622f3f3ed4eb0f83fd7bb335125fa3254c7e4e737caaa96c",
     "degree_K_dot_C": 186,
@@ -88,29 +87,30 @@
   },
   "stage29_receiver_lock": {
     "route_contract": "stages/stage29/29-02c-LG2/route-contract.json",
+    "audit": "stages/stage29/29-02c-LG2/audit.md",
     "receiver": "R29-LG2-EFF EffectiveCurveCertificationForSurvivingNumericalPicardClasses",
-    "kernel_wall": "symmetry-reduced effectivity-aware multibranch Picard-lattice enumeration to the audited d<=176/192 bounds",
+    "multibranch_receiver": "R29-LG2-MB MultibranchAtNodeLowGenusCarrierLedgerOutsideFreitagSalvatiManniTheorem3_1",
     "candidate_within_genus1_degree_window": true
   },
-  "minimal_missing_exact_datum": "An audited geometric adapter that either constructs an integral curve in the exact representative Picard64 class with normalization genus 1 and compatible node/branch data, or proves that no such curve can realize the required normalization genus defect 522. Numerical Picard integrality and nonnegative known-curve intersections alone are insufficient.",
+  "minimal_missing_exact_datum": "An audited geometric carrier adapter: either exhibit an integral irreducible member of |C| whose normalization has genus 1 and whose singularity/node/branch data accounts for p_a-g=522, or prove that no such member exists. Riemann-Roch h0>=344 proves divisor effectivity only.",
   "loop_state": {
     "single_coordinate_loop_closed": true,
     "repeat_numerical_effectivity_necessary_filters_authorized": false,
     "arbitrary_new_picard_filter_authorized": false,
-    "stagnation_guard": "A new filter counts as progress only if it is semantically stronger than the already-passed integrality/nonnegative-pairing conditions or directly addresses actual curve existence/normalization/node-branch compatibility."
+    "blind_full178_scaleout_authorized": false,
+    "stagnation_guard": "Progress must address irreducibility, normalization genus, or node/branch compatibility, or provide a semantically stronger audited exclusion. More Picard integrality/nonnegative-pairing filters do not count."
   },
   "research_credit_firewalls": {
     "policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
     "representative_sample_is_not_full178_numerical_credit": true,
-    "integral_picard_class_is_not_effective_curve_existence": true,
-    "effectivity_is_not_integral_low_genus_carrier_without_normalization_adapter": true,
+    "effective_divisor_is_not_integral_low_genus_curve": true,
     "theorem_credit": false,
     "receiver_credit": false,
     "route_credit": false,
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
   },
-  "next_item_if_pass": "If a source-locked sufficient effectivity/exclusion criterion is found, build a fresh-auditable representative geometric adapter. If no reusable criterion exists, freeze the exact theorem/computation wall and only then reassess whether a semantically upgraded FULL178 computation is justified; do not blind-scale the current necessary filters.",
-  "next_item_if_fail": "Retain the audited 21bl/Picard64 checkpoints, preserve effectivity as OPEN, and do not promote the representative class or arm FULL178 merely because the sufficiency route is blocked.",
+  "next_item_if_pass": "If an integral-genus1 carrier construction or exclusion is found, make it independently auditable and then reassess R29-LG2-EFF/R29-LG2-MB. If only divisor effectivity is available, keep the receiver open and do not scale FULL178 under the same semantics.",
+  "next_item_if_fail": "Retain audited integer/Picard/divisor-effectivity checkpoints, freeze the exact geometric wall, and reassess a semantically upgraded route without promoting to curve existence or FULL178 credit.",
   "next_expected_command": "stage32main batch"
 }
