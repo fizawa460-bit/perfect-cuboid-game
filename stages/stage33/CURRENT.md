@@ -2,68 +2,75 @@
 
 This file answers only: **where is Stage33 now?**
 
-For stable rules use `RULES.md`. For machine state use `controller.json`. For detailed current J2 repair mathematics use `33-05/j2-representative-repair-state.json`. For past work use `HISTORY.md` and unit results/certificates.
+For stable rules use `RULES.md`. For machine state use `controller.json`. For detailed Stage33-05 arithmetic classification use `33-05/j2-representative-repair-state.json`. For past work use `HISTORY.md` and unit results/certificates.
 
 ## Dashboard
 
 ```text
-Stage33 progress: 5/11
-active unit: 33-05
-active repair leaf: R5
-active substep: dependency rebuild after audited R5f no-go
-status: CORRECTED_J2_Q_DESCENT_BLOCKED_BY_NONZERO_HS_D2
+Stage33 progress: 6/11
+Stage33-05: CLOSED_EXACT_ZERO_K3_BR2_Q_SURVIVAL
+active repair child: 33-12
+active substep: dependency-adapter/package audit
+status: AUDIT_33_12_PACKAGE_WITH_ZERO_K3_BR2_Q_SURVIVAL
 ```
 
-### Exact result now
+## Newly closed Stage33-05
+
+The complete geometric invariant K3 two-primary Brauer receiver is
 
 ```text
-R0-R4 corrected geometric J2 chain                         DONE
-R5a geometric hostile replay                              DONE
-R5b corrected finite smooth marked-Kc support             DONE
-R5c genuine surface mu2 lift lambda_D                     DONE
-R5d generic cc/ct splittings                              DONE
-R5e actual cc/ct Pic(Kc_bar)/2 defects                    DONE_EXACT
-R5f HS d2                                                 NONZERO_EXACT_HOSTILE_REPLAY_PASS
-R5g Q-defined corrected-J2 descent                        BLOCKED_BY_NONZERO_HS_D2
+Br(Kc_bar)[2]^G_Q = span_F2{J2,q1}, dimension 2.
 ```
 
-The actual Pic/2 defects are
+Both basis directions have nonzero Hochschild--Serre d2, and they are independent after restriction to `<ct>`.
+
+Using ct-fixed Picard tests `[CsK[2],CsK[5]]`, the pairing signatures are
 
 ```text
-cc -> 0
-ct -> [0,0,0,0,0,0,0,0,1,1,0,1,0,1,1,1,0,0,0,0].
+J2 -> (1,1)
+q1 -> (1,0)
 ```
 
-For the displayed integral ct lift `B`, the restricted Bockstein is
+so the 2x2 signature matrix has determinant `1 mod 2`. Therefore
 
 ```text
-Z=(B+ct(B))/2
- =[0,0,0,0,0,0,0,1,1,1,-1,0,0,0,2,1,0,0,0,0].
+ker(d2 on Br(Kc_bar)[2]^G_Q)=0
+Q_RELEVANT_SURVIVING_DIM=0
+EXACT_ZERO_SURVIVAL_CERTIFICATE=true
+HOSTILE_AUDIT=PASS
+Stage33-05 UNIT_STATUS=CLOSED
 ```
 
-In `H^2(<ct>,Pic)=Pic^ct/(1+ct)Pic`, the `CsK[26]` coordinate of `Z` is `1`, while every `(1+ct)Pic` vector has even `CsK[26]` coordinate. Therefore the `<ct>` restriction is nonzero, hence the global HS `d2` class is nonzero.
+Corrected geometric `J2=(f2,1)` remains nonzero, but `d2(J2)!=0`; there is no corrected-J2 Q-defined Brauer preimage. Stage33-05 closes through the original contract's exact-zero-survival alternative, not through successful J2 descent.
 
-This has an independent hostile replay PASS. It is an arithmetic no-go for the corrected J2 Q-descent route, **not** a successful Stage33-05 reclosure and not a perfect-cuboid theorem.
+Primary zero-survival evidence:
+
+```text
+33-05/stage33-05-br2-zero-q-survival-after-j2-nogo.json
+SHA256 a48386c523e8c98b1d2b22a7dc3d789e4cea1bfa4557e658fb150e3c6b85a585
+
+33-05/stage33-05-br2-zero-q-survival-hostile-replay.json
+SHA256 4e9f20c1f753bb63134207422b097c1985ce3edd6be87f7f41ba8afa316e7dc9
+```
 
 ## Current
 
-The exact next task is no longer more R5e lattice work or R5g descent. Per the repair roadmap, the dependency chain must be rebuilt around the audited fact that corrected geometric `J2=(f2,1)` does not lie in the required Q-Brauer image through this route.
+Stage33-12 no longer requires a named J2 Q-defined preimage. Its rebuilt interface consumes the complete arithmetic classification of the K3 `Br[2]` invariant block, allowing exact zero survival.
 
 ```text
-REBUILD_STAGE33_DEPENDENCY_CHAIN_AFTER_AUDITED_CORRECTED_J2_Q_DESCENT_NOGO
+AUDIT_STAGE33_12_PACKAGE_AGAINST_CLOSED_33_09_33_10_33_11_INTERFACES_AND_ZERO_K3_BR2_Q_SURVIVAL_THEN_DECIDE_STAGE33_12_EXACT_CLOSURE
 ```
+
+33-12 must still check its package against the independent 33-09/10/11 BR0B/BR0G repair outputs. Stage33-07 is therefore not closed yet.
 
 ## Blocked downstream
 
 ```text
-Stage33-05 reclosed: false
-R5 full successful repair exit: false
+Stage33-05 reclosed: true
 Stage33-12 exact closure: false
 Stage33-13 released: false
-super-hostile successful-exit audit released: false
+Stage33-07 closed: false
 ```
-
-Do not run R5g Q-descent for corrected J2 while the nonzero-d2 certificate stands. Do not restore the revoked historical `ell_Q`.
 
 ## Authorities
 
@@ -71,19 +78,21 @@ Do not run R5g Q-descent for corrected J2 while the nonzero-d2 certificate stand
 machine Stage33 state:
   stages/stage33/controller.json
 
-current R5 mathematics:
+current Stage33-05 arithmetic classification:
   stages/stage33/33-05/j2-representative-repair-state.json
 
-audited no-go evidence:
-  stages/stage33/33-05/j2-r5e-pic2-r5f-ct-hs-d2-nonzero.json
-  stages/stage33/33-05/j2-r5f-hs-d2-nonzero-hostile-replay.json
+current Stage33-12 package:
+  stages/stage33/33-12/result.md
+
+repair-band interfaces:
+  stages/stage33/ROADMAP-33-07-REPAIR-BAND.md
 ```
 
 ## Firewalls
 
 ```text
-Q-defined descent credit restored = false
-R5 full repair exit reached = false
+historical ell_J2 reused = false
+corrected J2 Q-defined Brauer preimage = false
 theorem credit = false
 receiver credit = false
 endpoint credit = false
