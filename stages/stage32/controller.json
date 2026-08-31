@@ -1,116 +1,116 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V154_POST21BL_AUDITED_PICARD64_CHECKPOINT",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V156_POST21BL_INTEGRAL_CURVE_CARRIER_PREFLIGHT_ACTIVE",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
-  "status": "STAGE32_POST21BL_AUDITED_PICARD64_SLICE_WITNESS_CHECKPOINT",
-  "current_item": "POST_21BL_AUDITED_PICARD64_SLICE_WITNESS",
-  "current_item_execution_constraint": "The audited 21bl representative integer witness has now been transferred exactly to one retained integral Picard64 class for row g1-d186. The same class exactly reproduces (d,e,a)=(186,266,592), all 140 original pairings are integral and nonnegative, and its exact self-intersection is 858 >= -186. A fresh independent retained-basis pairing inversion audit reproduces the same Picard64 class and all invariants. This closes only the post-21bl semantic adapter checkpoint. It is not FULL178 numerical census credit, not effectivity, not receiver/theorem/route credit, and not a perfect-cuboid claim. Do not restart 21bl, invent 32-21bm, return to single-coordinate compression, or launch the 3234-triple scaleout.",
+  "status": "STAGE32_POST21BL_DIVISOR_EFFECTIVITY_CLOSED_INTEGRAL_CURVE_CARRIER_OPEN",
+  "current_item": "POST_21BL_INTEGRAL_CURVE_CARRIER_AND_NORMALIZATION_PREFLIGHT",
+  "current_item_execution_constraint": "The audited representative Picard64 class g1-d186 is no longer merely numerical: Testa-Stoll surface invariants plus exact Riemann-Roch prove h0(O_S(C))>=344, so an effective divisor exists in the class. Do not promote that to an integral genus-one curve. The remaining primary gap is to construct or exclude an integral irreducible member whose normalization has genus 1 and whose node/branch data realizes the required genus defect 522. Preserve the separate FULL178 numerical gap. Do not restart 21bl, add single-coordinate filters, run the 3234 scaleout, or arm FULL178 heavy production while this carrier semantic wall is unresolved.",
   "active_pr": {
-    "number": 1470,
-    "branch": "stage32-post21bl-picard-witness-adapter",
-    "base_sha": "73a3f3961a283c24715f32c57a81c1de1009742a",
+    "number": 1471,
+    "branch": "stage32-post21bl-effectivity-preflight",
+    "base_sha": "20f5bd1e2e71cf96f8a30e677640666807a71729",
     "automatic_merge_authorized": false
   },
-  "advance_allowed": false,
+  "advance_allowed": true,
   "merge_allowed": false,
   "automatic_merge_authorized": false,
-  "checkpoint_merge_ready": true,
+  "checkpoint_merge_ready": false,
   "stage32_closed": false,
   "actions_safety": {
     "policy": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
     "operating_artifact_budget_mb": 500,
     "stage_heavy_concurrency_cap": 18,
-    "adapter_and_audit_are_heavy": false,
     "planned_effective_heavy_overlap": 0,
-    "adapter_artifact_bytes": 2093,
-    "audit_artifact_bytes": 1314,
-    "heavy_run_key_required": false,
+    "new_heavy_compute_authorized": false,
+    "full178_heavy_arm_authorized": false,
     "21bl_full_3234_scaleout_authorized": false,
-    "21bl_heavy_rearm_authorized": false
+    "heavy_compute_requires_fresh_runkey_sync": true
   },
   "active_execution_guardrail": {
     "full_178_row_sweep_authorized": false,
+    "21bl_full_3234_scaleout_authorized": false,
+    "single_coordinate_extension_authorized": false,
     "legacy_prefix_dfs_heavy_rearm_authorized": false,
     "terminal_family_materialization_authorized": false,
-    "single_coordinate_extension_authorized": false,
-    "21bl_full_3234_scaleout_authorized": false,
-    "unknown_is_unsat": false,
     "representative_sample_is_not_full178_numerical_credit": true,
-    "integral_picard_class_is_not_effective_curve_existence": true
+    "effective_divisor_is_not_integral_curve": true,
+    "integral_curve_is_not_normalization_genus1_without_adapter": true,
+    "nonnegative_known_curve_pairings_are_not_curve_effectivity_sufficiency": true,
+    "unknown_is_unsat": false
   },
-  "21bl_dependency": {
-    "status": "CLOSED_AUDITED_EXACT_INTEGER_SAT_RESOLUTION",
-    "evidence": "stages/stage32/32-21/32-21bl-joint-integer-witness.json",
-    "evidence_canonical_sha256": "ac88fb355252750e6afdc10cbb54abec24babbad57c25090c017f9a55ac93a44",
-    "witness_sha256": "1a131595c87cf9c5d54ef97dba62261eeb3dda7bb92a5a9fa62c280f46bc4137",
-    "fresh_audit_canonical_sha256": "4c8ba2456d163963a7ca28d3ce72d3556460e7bee0d46ee676b891e94e9ba264",
-    "representative_chain_after_audit": {"sat": 1, "unsat": 55, "unknown": 0}
-  },
-  "post21bl_picard64_adapter": {
-    "status": "CLOSED_AUDITED_EXACT_PICARD64_SLICE_WITNESS",
-    "selected_strategy": "AUDITED_AFFINE_ANTIFIXED_FIBER_LATTICE_SOLVER",
-    "adapter_file": "stages/stage32/residual-32-01-production/adapt_stage32_post21bl_picard_witness.py",
-    "workflow": ".github/workflows/stage32-post21bl-picard-witness-adapter.yml",
-    "evidence": "stages/stage32/32-21/post-21bl-picard64-witness-adapter.json",
-    "producing_head_sha": "b61a3f0ea9855c8bc44b4265a40872cf1b1bf5d2",
-    "producing_run_id": 33383937134,
-    "producing_job_id": 99462202057,
-    "producing_artifact_id": 9754840586,
-    "producing_artifact_zip_sha256": "fed828b49a5e136b570724d511de2345e483e75815b2711f18356a5a46a0967a",
-    "evidence_canonical_sha256": "ef3f21e4166d4bfcacce3503213b0a72afee5f5002ab7145de01fc9c54d47038",
-    "picard_coordinates_sha256": "0fcbe0c9cdf894a95704bcaf55536290fc2daa736387169c891e8262f2c565a7",
-    "all140_pairings_sha256": "1968dba54ebe2082c6ed07203ea9e4118460f60c32c60d46292bc73dc6bdf961",
-    "target": {
-      "row_id": "g1-d186",
-      "genus": 1,
-      "degree": 186,
-      "e": 266,
-      "a": 592,
-      "u": -44,
-      "v": 32,
-      "z": [-15, 62, -44, 26, 32],
-      "ordinal": 1617,
-      "triple": [76, -55, -96]
+  "closed_dependencies": {
+    "21bl": {
+      "status": "CLOSED_AUDITED_EXACT_INTEGER_SAT_RESOLUTION",
+      "evidence": "stages/stage32/32-21/32-21bl-joint-integer-witness.json",
+      "evidence_canonical_sha256": "ac88fb355252750e6afdc10cbb54abec24babbad57c25090c017f9a55ac93a44",
+      "witness_sha256": "1a131595c87cf9c5d54ef97dba62261eeb3dda7bb92a5a9fa62c280f46bc4137",
+      "fresh_audit_canonical_sha256": "4c8ba2456d163963a7ca28d3ce72d3556460e7bee0d46ee676b891e94e9ba264",
+      "representative_chain_after_audit": {"sat": 1, "unsat": 55, "unknown": 0}
     },
-    "exact_result": {
-      "picard_rank": 64,
-      "actual_d_e_a": [186, 266, 592],
-      "all140_pairings_integral": true,
-      "all140_pairings_nonnegative": true,
-      "minimum_pairing": 0,
-      "maximum_pairing": 56,
-      "zero_pairing_count": 6,
-      "picard_self_square": 858,
-      "required_self_square_lower": -186,
-      "self_square_slack": 1044
+    "post21bl_picard64_adapter": {
+      "status": "CLOSED_AUDITED_EXACT_PICARD64_SLICE_WITNESS",
+      "evidence": "stages/stage32/32-21/post-21bl-picard64-witness-adapter.json",
+      "evidence_canonical_sha256": "ef3f21e4166d4bfcacce3503213b0a72afee5f5002ab7145de01fc9c54d47038",
+      "fresh_audit_canonical_sha256": "170611441f83113b27fa1b9b60eeaac31746a10938bb6ee5751f32a450f466d8",
+      "target": {"row_id": "g1-d186", "genus": 1, "degree": 186, "e": 266, "a": 592},
+      "exact_result": {"picard_self_square": 858, "all140_pairings_integral": true, "all140_pairings_nonnegative": true}
     },
-    "fresh_audit": {
-      "audit_file": "stages/stage32/residual-32-01-production/audit_stage32_post21bl_picard64_witness.py",
-      "workflow": ".github/workflows/stage32-post21bl-picard64-witness-audit.yml",
-      "certificate": "stages/stage32/32-21/post-21bl-picard64-witness-audit.json",
-      "run_id": 33384274192,
-      "job_id": 99463245229,
-      "artifact_id": 9754959311,
-      "artifact_zip_sha256": "d36d24dc9684813a92c81ee67f6fb6f1fcc6119b7cdc7b88281535714f0e9ec3",
-      "canonical_sha256": "170611441f83113b27fa1b9b60eeaac31746a10938bb6ee5751f32a450f466d8",
-      "verdict": "PASS_STAGE32_POST21BL_FRESH_PICARD64_PAIRING_INVERSION_AUDIT",
-      "independent_reconstruction_mode": "PAIRING_VECTOR_TO_RETAINED_PICARD_BASIS_GRAM_INVERSION_WITHOUT_CALLING_PRODUCING_ADAPTER"
+    "representative_divisor_effectivity": {
+      "status": "CLOSED_EXACT_RIEMANN_ROCH_DIVISOR_EFFECTIVITY",
+      "file": "stages/stage32/32-21/post-21bl-riemann-roch-divisor-effectivity.json",
+      "canonical_sha256": "6e02dfa2f29ebdd218aa869e1994776abc6bd068be9f138e1dd1980789e2483b",
+      "surface_source_lock": "stages/stage29/29-02a/source-lock.md",
+      "surface_invariants": {"K_square": 16, "p_g": 7, "q": 0, "chi_O": 8, "K_big": true, "K_nef": true},
+      "riemann_roch": {"chi_O_C": 344, "h2_O_C": 0, "h0_lower_bound": 344, "effective_divisor_exists": true}
     }
+  },
+  "gap_state": {
+    "gap_separation_file": "stages/stage32/32-21/post-21bl-effectivity-gap-separation.json",
+    "gap_separation_canonical_sha256": "4afeb8a3add7c203fbbaa9ffdb5b4b4d357df8503979ee80617db654df73d4dc",
+    "FULL178_NUMERICAL_CENSUS": "OPEN_SEPARATE",
+    "DIVISOR_EFFECTIVITY_REPRESENTATIVE": "CLOSED_EXACT",
+    "INTEGRAL_IRREDUCIBLE_LOW_GENUS_CARRIER": "OPEN_PRIMARY",
+    "NORMALIZATION_AND_BRANCH_COMPATIBILITY": "OPEN_PRIMARY",
+    "R29_LG2_EFF_FULL_RECEIVER": "OPEN"
+  },
+  "genus_defect_preflight": {
+    "file": "stages/stage32/32-21/post-21bl-genus-defect-preflight.json",
+    "canonical_sha256": "e59e23b2aefb1a3b622f3f3ed4eb0f83fd7bb335125fa3254c7e4e737caaa96c",
+    "degree_K_dot_C": 186,
+    "picard_self_square": 858,
+    "arithmetic_genus": 523,
+    "target_geometric_genus": 1,
+    "required_normalization_genus_defect": 522,
+    "exceptional_pairing_sum": 266,
+    "no_delta_formula_claimed_from_exceptional_profile": true
+  },
+  "stage29_receiver_lock": {
+    "route_contract": "stages/stage29/29-02c-LG2/route-contract.json",
+    "audit": "stages/stage29/29-02c-LG2/audit.md",
+    "receiver": "R29-LG2-EFF EffectiveCurveCertificationForSurvivingNumericalPicardClasses",
+    "multibranch_receiver": "R29-LG2-MB MultibranchAtNodeLowGenusCarrierLedgerOutsideFreitagSalvatiManniTheorem3_1",
+    "candidate_within_genus1_degree_window": true
+  },
+  "minimal_missing_exact_datum": "An audited geometric carrier adapter: either exhibit an integral irreducible member of |C| whose normalization has genus 1 and whose singularity/node/branch data accounts for p_a-g=522, or prove that no such member exists. Riemann-Roch h0>=344 proves divisor effectivity only.",
+  "loop_state": {
+    "single_coordinate_loop_closed": true,
+    "repeat_numerical_effectivity_necessary_filters_authorized": false,
+    "arbitrary_new_picard_filter_authorized": false,
+    "blind_full178_scaleout_authorized": false,
+    "stagnation_guard": "Progress must address irreducibility, normalization genus, or node/branch compatibility, or provide a semantically stronger audited exclusion. More Picard integrality/nonnegative-pairing filters do not count."
   },
   "research_credit_firewalls": {
     "policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
     "representative_sample_is_not_full178_numerical_credit": true,
-    "integral_picard_class_is_not_effective_curve_existence": true,
-    "full_d176_d192_numerical_orbit_census": false,
+    "effective_divisor_is_not_integral_low_genus_curve": true,
     "theorem_credit": false,
     "receiver_credit": false,
     "route_credit": false,
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
   },
-  "next_item_if_pass": "AFTER_EXPLICIT_PR1470_MERGE_AUTHORIZATION_AND_MERGE: REREAD_MAIN_CONTROLLER_AND_SELECT_THE_NEXT_STAGE32_STRATEGY_FROM_THE_AUDITED_PICARD64_REPRESENTATIVE_BOUNDARY; THE NEXT GAP MUST BE STATED EXPLICITLY AS FULL178_NUMERICAL_CENSUS_VS_EFFECTIVITY_AND MUST NOT SILENTLY PROMOTE_THIS_ONE_REPRESENTATIVE_CLASS",
-  "next_item_if_fail": "N/A_POST21BL_FRESH_PICARD64_PAIRING_INVERSION_AUDIT_PASSED",
-  "next_expected_action": "MERGE_PR1470_ONLY_WITH_EXPLICIT_USER_AUTHORIZATION",
+  "next_item_if_pass": "If an integral-genus1 carrier construction or exclusion is found, make it independently auditable and then reassess R29-LG2-EFF/R29-LG2-MB. If only divisor effectivity is available, keep the receiver open and do not scale FULL178 under the same semantics.",
+  "next_item_if_fail": "Retain audited integer/Picard/divisor-effectivity checkpoints, freeze the exact geometric wall, and reassess a semantically upgraded route without promoting to curve existence or FULL178 credit.",
   "next_expected_command": "stage32main batch"
 }
