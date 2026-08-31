@@ -1,0 +1,56 @@
+name: Stage32-21bb exact r51 interval formula compression
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/workflows/stage32-21bb-r51-formula-compression.yml'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_21bb_r51_formula.py'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-21bb-r51-formula-compression-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Download exact 21ba prefix artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-21ba-r51-interval-census
+          path: prefix-artifact
+          github-token: ${{ github.token }}
+          repository: fizawa460-bit/perfect-cuboid-game
+          run-id: 33353157553
+      - name: Download exact 21ba suffix artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-21ba-r51-interval-resume
+          path: suffix-artifact
+          github-token: ${{ github.token }}
+          repository: fizawa460-bit/perfect-cuboid-game
+          run-id: 33354345083
+      - name: Verify exact formula compression
+        working-directory: stages/stage32/residual-32-01-production
+        run: |
+          python verify_stage32_21bb_r51_formula.py \
+            --prefix "$GITHUB_WORKSPACE/prefix-artifact/stage32-21ba-r51-interval-census.json" \
+            --suffix "$GITHUB_WORKSPACE/suffix-artifact/stage32-21ba-r51-interval-resume.json" \
+            --output "$GITHUB_WORKSPACE/stage32-21bb-r51-formula.json"
+      - name: Upload compact exact evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-21bb-r51-formula
+          path: stage32-21bb-r51-formula.json
+          retention-days: 3
+          compression-level: 9
