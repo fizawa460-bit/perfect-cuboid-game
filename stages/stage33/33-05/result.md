@@ -1,132 +1,131 @@
-# Stage33-05 — J2 representative repair / arithmetic descent
+# Stage33-05 — K3 Br[2] Q-action and arithmetic descent
 
 ```text
-UNIT_STATUS=BLOCKED_NEW_KERNEL
-UNIT_CLOSED=false
-DOWNSTREAM_RELEASED=false
-STAGE33_PROGRESS=5/11
+STAGE33_UNIT=33-05
+UNIT_STATUS=CLOSED
+UNIT_CLOSED=true
+DOWNSTREAM_RELEASED=true
+STAGE33_PROGRESS=6/11
+HOSTILE_AUDIT=PASS
 ```
 
-The historical audited closure is superseded in the named J2 arithmetic-representative layer. The old Q-defined `ell_J2` was later proved zero in the geometric Creutz--Viray quotient and is revoked as the nonzero J2 witness.
+Stage33-05 is reclosed through the **exact-zero-survival** alternative in the original unit closure contract. This does not restore the revoked historical `ell_J2` and does not prove that corrected `J2` descends to Q.
 
-## Retained exact geometric credit
+## Geometric invariant receiver
+
+The exact geometric invariant two-primary Brauer receiver is
 
 ```text
-R0  old promoted ell_J2 geometrically zero             PASS
-R1  abstract J2 nonzero independently                  PASS
-R2  corrected full-L representative J2=(f2,1) nonzero PASS
-R3  CV cocycle xi(rho)=Tr                              PASS
-R4  named geometric torsor / integral kernel           PASS
-R5  hostile replay of R1--R4 geometric content         PASS
+Br(Kc_bar)[2]^G_Q = span_F2{J2,q1}
+dimension = 2
 ```
 
-The audited geometric receiver remains
+with corrected geometric
 
 ```text
-T(X_J2)=<8> direct_sum <16>
-minimum norm=8
-marked J2=[1,0]
-named J2 torsor credit scope=Kgeom=Qbar(t) only
+J2=(f2,1),
+marked J2=[1,0],
+T(X_J2)=<8> direct_sum <16>.
 ```
 
-R4 is not reopened by the current arithmetic blocker.
+The historical Q-defined `ell_J2` / `ell_Q` witness remains revoked because its full geometric Creutz--Viray class is zero.
 
-## Post-R5 hostile rollback
+## Arithmetic HS classification
 
-The attempted Q descent proved only Galois fixedness in the finite 5D CV presentation and then assigned the Pic/2 defect, integral Pic lift and Hochschild--Serre d2 to zero without deriving them.
-
-That promotion is rejected:
+The previously isolated q1 route remains valid independently of the revoked J2 producer:
 
 ```text
-j2-post-r5-hs-descent-datum.json
-canonical_sha256=a7c08372b9ef012a1446bd3bf4f40541d77d372dadc73e3780f6ce2529fcc6d8
-status=FAIL_UNPROVEN_POST_R5_Q_DESCENT_HS_D2_NOT_MATERIALIZED
+d2(q1)|_<ct> != 0.
 ```
 
-Therefore
+The corrected J2 surface calculation now gives
 
 ```text
-corrected_J2_Q_descent_exact_evidence_reestablished=false
-Q_defined_descent_credit_restored=false
-R5_full_repair_exit_reached=false
-Stage33-05 reclosed=false
+cc Pic/2 defect = 0,
+ct Pic/2 defect = [0,0,0,0,0,0,0,0,1,1,0,1,0,1,1,1,0,0,0,0],
+Z_J2=(B+ct(B))/2
+    =[0,0,0,0,0,0,0,1,1,1,-1,0,0,0,2,1,0,0,0,0],
+d2(J2)|_<ct> != 0.
 ```
 
-## Exact MAIN progress after rollback
-
-For
+The two restricted classes are not equal. Using two ct-fixed marked Picard tests, `CsK[2]` and `CsK[5]`, their mod-2 pairing signatures are
 
 ```text
-z^2=q=(t-r1)(t-r2)(t-r3)(t-r4)
-f2=(t-r2)/(t-r4)
-D=P_r2-P_r4
+             CsK[2]  CsK[5]
+J2              1       1
+q1              1       0
 ```
 
-MAIN now verifies
+so the signature matrix has determinant `1` over F2. Equivalently, all three nonzero elements `J2`, `q1`, and `J2+q1` have nonzero restricted HS d2. Hence
 
 ```text
-div(f2)=2D
-ct(D)-D=div(h_ct)
-h_ct=z/((t-r1)(t-r2))
-h_ct*ct(h_ct)=1
-ct(f2)/f2=u_ct^2
-u_ct=(t-r3)(t-r4)/z
-u_ct*ct(u_ct)=1
+rank_F2(d2|_<ct> on span{J2,q1}) = 2,
+ker(d2|_<ct>) = 0,
+ker(global d2 on Br(Kc_bar)[2]^G_Q) = 0,
+Q_RELEVANT_SURVIVING_DIM = 0.
 ```
 
-and explicit full-pair square/diagonal witnesses for `tau`, `ct`, and `cc` acting on `(f2,1)`.
-
-Certificate:
+Primary certificates:
 
 ```text
-j2-corrected-pre-kummer-descent-cochain.json
-canonical_sha256=940df53040c6f5245914effbfb7d752a08c61b6d593586952b322e4069415106
-status=PASS_EXACT_PRE_KUMMER_DESCENT_COCHAIN_NO_HS_D2_CREDIT
+stage33-05-br2-zero-q-survival-after-j2-nogo.json
+canonical_sha256=a48386c523e8c98b1d2b22a7dc3d789e4cea1bfa4557e658fb150e3c6b85a585
+
+stage33-05-br2-zero-q-survival-hostile-replay.json
+canonical_sha256=4e9f20c1f753bb63134207422b097c1985ce3edd6be87f7f41ba8afa316e7dc9
+status=PASS_HOSTILE_REPLAY_EXACT_ZERO_K3_BR2_Q_SURVIVAL
 ```
 
-This is normalization/full-L representative-level descent data only. It is not yet a Kc-surface Kummer lift.
+## Closure interpretation
 
-Current boundary contract:
+The Stage33-05 closure contract explicitly allows
 
 ```text
-../33-12/j2-full-surface-mu2-zero-defect-contract.json
-canonical_sha256=c35eec49758734e29cb801ea9a55ed6e739238750f3ff92c14f030ae25e8ff2b
-surface_mu2_lift=false
-pic_mod2_defect=false
-integral_Pic_lift=false
-HS_d2=false
+ALL_SURVIVING_K3_CLASSES_HAVE_EXPLICIT_ARITHMETIC_REPRESENTATIVES=true
+OR EXACT_ZERO_SURVIVAL_CERTIFICATE=true.
 ```
 
-The old named-Kummer-glue producer that consumed the revoked `j2_arithmetic_descent.py` has been tombstoned. The q1 Bockstein route has also been isolated from the old J2 promotion: its valid conclusion is only `d2(q1) != 0`.
-
-## Current exact leaf
+The second branch is now exact and hostile-replayed. Therefore Stage33-05 closes even though corrected J2 itself has nonzero HS d2 and no Q-defined Brauer preimage.
 
 ```text
-MATERIALIZE_NORMALIZATION_HALF_DIVISOR_TO_KC_SURFACE_H2_MU2_ADAPTER
-THEN_COMPUTE_PIC_MOD2_DEFECT_AND_BOCKSTEIN_HS_D2
+K3_GEOMETRIC_BR2_DIM=2
+QI_OVER_Q_ACTION_MATRIX_EXACT=true
+INVARIANT_DESCENDED_SUBSPACE_EXACT=true
+DESCENT_OBSTRUCTION_ACCOUNTED=true
+Q_RELEVANT_SURVIVING_DIM_EXACT=true
+Q_RELEVANT_SURVIVING_DIM=0
+EXACT_ZERO_SURVIVAL_CERTIFICATE=true
+UNRESOLVED_UNKNOWN_IN_SCOPE=0
+HOSTILE_AUDIT=PASS
+UNIT_STATUS=CLOSED
 ```
 
-Required chain:
+## Dependency rebuild
+
+The old J2-repair-specific successful-exit gate
 
 ```text
-corrected CV/normalization datum
- -> genuine H^2_et(Kc_bar,mu_2) lift
- -> Galois defect in Pic(Kc_bar)/2
- -> integral Pic lift
- -> Bockstein / HS d2 2-cocycle
- -> determine its class without assuming zero.
+corrected J2 d2=0 -> Q-defined J2 preimage
 ```
 
-Only if the actual class is zero may the Hochschild--Serre kernel=image theorem be used for Q-defined Brauer credit.
+is no longer a valid prerequisite for downstream Stage33. The downstream adapter must instead consume the complete arithmetic classification of the K3 Br[2] invariant block, allowing exact zero survival. In the current case that input is the empty K3 Br[2] Q-survivor list.
+
+Next exact leaf:
+
+```text
+REBUILD_STAGE33_12_EXIT_ADAPTER_TO_CONSUME_ZERO_K3_BR2_Q_SURVIVAL_WITHOUT_J2_Q_PREIMAGE
+```
+
+Stage33-07 and Stage33-12 are not closed by this result alone; the independent BR0B/BR0G/global inventory obligations remain governed by their own repair contracts.
 
 ## Firewalls
 
 ```text
-Q_DEFINED_DESCENT_CREDIT_RESTORED=false
-R5_FULL_REPAIR_EXIT_REACHED=false
-STAGE33_05_RECLOSED=false
+CORRECTED_J2_Q_DEFINED_BRAUER_PREIMAGE=false
+R5_FULL_SUCCESSFUL_J2_DESCENT_EXIT=false
+STAGE33_05_RECLOSED=true
+STAGE33_07_CLOSED=false
 STAGE33_12_CLOSED_EXACT=false
-STAGE33_13_RELEASED=false
 THEOREM_CREDIT=false
 RECEIVER_CREDIT=false
 ENDPOINT_CREDIT=false
