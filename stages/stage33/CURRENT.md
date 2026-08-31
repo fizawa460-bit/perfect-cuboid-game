@@ -38,14 +38,27 @@ orientation certificate = 0a5abe419c3bd2e4c523af50fd8f85858af6a0d957dcce1e3bdf2f
 ## Current exact leaf
 
 ```text
-MATERIALIZE_CORRECTED_J2_IN_CURRENT_PROPER_BR2_F2_14
+MATERIALIZE_CORRECTED_KC_BRAUER_FUNCTIONAL_PULLBACK_EVALUATIONS
+ON_RETAINED_FULL_SURFACE_T_MOD_2_SMITH_BASIS
 THEN_SOLVE_ITS_RETAINED_10D_COORDINATE
 THEN_PLACE_THE_LOCKED_WEIGHT15_75D_TARGET
 ```
 
 The retained 10D basis and locked 75D target are exported directly in
-`MAIN-STATE.json`. The only missing first-column datum is the corrected J2
-coordinate in the current full-surface proper-Br2 14D basis. Do not guess it.
+`MAIN-STATE.json`. Pinned BigK rows `[2,4,9,10,47,49]` and the literal retained
+Magma Smith transform are now exact. They give the full-surface `A_T[2]`
+coordinate
+
+```text
+[0,0,0,0,0,0,0,1,0,1,0,1,1,0].
+```
+
+This vector cannot be copied into the ordered proper-Br2 dual basis: that copy
+fails `cc` invariance with defect
+`[1,0,1,1,0,0,0,0,0,0,0,0,0,0]`. The only missing first-column datum is now
+the corrected Kc Brauer functional's exact pullback/evaluation coordinate in
+the current full-surface proper-Br2 14D dual basis. Do not guess it and do not
+promote the zero finite-discriminant pairing as a zero J2 column.
 
 ## Release state
 

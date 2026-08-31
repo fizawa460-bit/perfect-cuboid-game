@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V48_SEMANTIC_U1_SMITH_NORMALIZATION_BLOCKER",
+  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V49_SEMANTIC_U1_AT2_EXACT_PROPER_DUAL_ADAPTER_BLOCKER",
   "role": "CURRENT_MACHINE_STATE",
   "stage": "33",
   "kernel": "K16-C2-BRAUER-EXPLICIT-CHAIN",
@@ -32,11 +32,11 @@
     "unit": "33-12",
     "contract_role": "ARITHMETIC_HS_CLOSURE_AND_STAGE33_07_RECERTIFICATION",
     "logical_internal_branch": "33-13_FINITE_V4_KUMMER_MATRIX",
-    "substep": "MATERIALIZE_PINNED_U1_BIGK_PULLBACK_ROWS_AND_RETAINED_SMITH_V",
+    "substep": "MATERIALIZE_CORRECTED_KC_BRAUER_FUNCTIONAL_TO_FULL_SURFACE_PROPER_BR2_DUAL_ADAPTER",
     "status": "CURRENT",
     "active_receiver": "FINITE_V4_KUMMER_RESTRICTION_ON_REMAINING_PROPER_FULL_SURFACE_BR2_RECEIVER",
-    "active_missing_interface": "CORRECTED_J2_SEMANTIC_U1_TO_FULL_SURFACE_AT2_SMITH_NUMERIC_ROWS_AND_V",
-    "next_exact_leaf": "MATERIALIZE_PINNED_BIGK_ROWS_2_4_9_10_AND_RETAINED_MAGMA_SMITH_V; APPLY_Z_EQUALS_N_S_TIMES_PM_PIC_OVER_2_THEN_Y_EQUALS_Z_TIMES_V; SOLVE_RETAINED10_AND_PLACE_LOCKED_WEIGHT15_TARGET"
+    "active_missing_interface": "CORRECTED_KC_BRAUER_FUNCTIONAL_TO_FULL_SURFACE_PROPER_BR2_DUAL_COORDINATE_ADAPTER",
+    "next_exact_leaf": "MATERIALIZE_CORRECTED_KC_BRAUER_FUNCTIONAL_PULLBACK_EVALUATIONS_ON_RETAINED_FULL_SURFACE_T_MOD_2_SMITH_BASIS_THEN_SOLVE_RETAINED10_AND_PLACE_LOCKED_WEIGHT15_TARGET"
   },
   "stage33_05": {
     "unit_status": "CLOSED",
@@ -116,16 +116,18 @@
       47,
       49
     ],
-    "corrected_J2_semantic_u1_required_BigK_pullback_rows_missing_1based": [
-      2,
-      4,
-      9,
-      10
-    ],
+    "corrected_J2_semantic_u1_required_BigK_pullback_rows_missing_1based": [],
     "corrected_J2_semantic_u1_smith_normalization": "n_S=sum(pinned MatKtoS rows [2,4,9,10,47,49]); z=(n_S*pmPic)/2; D,U,V=SmithForm(pmPic); y=z*V; decode each nontrivial factor m by bit=(y/(m/2)) mod 2",
     "corrected_J2_semantic_u1_full_surface_smith_normalization_blocker": "stages/stage33/33-12/j2-semantic-u1-full-surface-smith-normalization-blocker.json",
     "corrected_J2_semantic_u1_full_surface_smith_normalization_blocker_sha256": "9a8c9bcc420a7ad60bb6d71326bc04000da676ec4bb222e0cc4266c2aadf3d7f",
-    "retained_full_surface_Magma_Smith_right_transform_V_retained": false,
+    "corrected_J2_semantic_u1_full_surface_smith_source": "stages/stage33/33-12/j2-semantic-u1-full-surface-smith-source.json",
+    "corrected_J2_semantic_u1_full_surface_smith_source_sha256": "ae5a9b45e4e4d9b50d8685d1c4649725dadf4956f246e18b33cb601aef94a2ec",
+    "corrected_J2_semantic_u1_full_surface_A_T_2_coordinate_f2": [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0],
+    "corrected_J2_semantic_u1_full_surface_A_T_2_coordinate_materialized": true,
+    "retained_full_surface_Magma_Smith_right_transform_V_retained": true,
+    "corrected_J2_A_T_2_coefficients_not_reusable_as_proper_dual_coefficients": true,
+    "corrected_J2_proper_dual_adapter_blocker": "stages/stage33/33-12/j2-semantic-u1-at2-to-proper-br2-dual-adapter-blocker.json",
+    "corrected_J2_proper_dual_adapter_blocker_sha256": "f5d1336e21dd5563ec6466811b5e1c3cacc6def17e4dbe4968023d9bd3756399",
     "corrected_J2_retained_10D_domain_coordinate_materialized": false,
     "corrected_J2_named_V4_H1_target_materialized": true,
     "corrected_J2_named_V4_H1_target_nonzero": true,
@@ -140,7 +142,7 @@
     "corrected_J2_ct_defect_fullPic64_pullbacks_sha256": "592704594d6d26f9e0b0b2ba529d50c34fd801cede779b4e42b1cf775b63a96d",
     "corrected_J2_ct_defect_fullPic64_INDLIST_mod2_weight": 24,
     "corrected_J2_ct_defect_fullPic64_historical_Magma_mod2_weight": 8,
-    "minimal_missing_exact_datum": "PINNED_BIGK_PULLBACK_ROWS_2_4_9_10_AND_RETAINED_FULL_SURFACE_MAGMA_SMITH_RIGHT_TRANSFORM_V",
+    "minimal_missing_exact_datum": "CORRECTED_KC_BRAUER_FUNCTIONAL_PULLBACK_EVALUATIONS_ON_RETAINED_FULL_SURFACE_T_MOD_2_SMITH_BASIS",
     "logical_internal_sequence": [
       {"id":"33-13","name":"FINITE-V4-KUMMER-MATRIX","status":"CURRENT_J2_FIRST_COLUMN_SOURCE_PLACEMENT"},
       {"id":"33-14","name":"FINITE-HS-COSETS-AND-TWO-PRIMARY-CONSTANT-BLOCK","status":"PLANNED_BLOCKED_BY_33_13"},
@@ -153,7 +155,7 @@
   },
   "release_gates": {"stage33_05_reclosed":true,"stage33_12_closed_exact":false,"stage33_07_reclosed":false,"stage33_08_released":false,"stage33_40_released":false,"new_PR_transition_released":false},
   "execution": {"audit_required":true,"merge_allowed":false,"advance_allowed":true,"advance_scope":"STAGE33_12_INTERNAL_33_13_J2_FIRST_COLUMN_SUPPORT_LEVEL_RECOVERY_ONLY_NO_PARENT_RECLOSURE","heavy_actions_authorized":false,"next_item":"Stage33-12_33-13_MATERIALIZE_PINNED_U1_BIGK_ROWS_AND_RETAINED_SMITH_V_THEN_PLACE_LOCKED_TARGET","next_expected_command":"Stage33-main-batch"},
-  "loop_state": {"active":true,"stagnation_count":0,"last_cycle_route_status":"PASS_SEMANTIC_U1_SMITH_NORMALIZATION_FORMULA_EXACT_NUMERIC_ROWS_AND_V_BLOCKED","last_new_view":"semantic u1 has exact pinned BigK support [2,4,9,10,47,49], and the full-surface normalization is z=(n_S*pmPic)/2 then y=z*V in the retained Magma Smith convention. Rows [47,49] are retained; rows [2,4,9,10] and the retained numeric Smith V are missing. This is not the superseded generic adapter ambiguity."},
+  "loop_state": {"active":true,"stagnation_count":0,"last_cycle_route_status":"PASS_SEMANTIC_U1_FULL_SURFACE_AT2_EXACT_PROPER_DUAL_ADAPTER_BLOCKED","last_new_view":"Pinned rows [2,4,9,10,47,49] and the literal retained Magma Smith V are materialized. Semantic u1 maps to full-surface A_T[2] coordinate [0,0,0,0,0,0,0,1,0,1,0,1,1,0]. Copying those coefficients to the ordered proper-Br2 dual basis fails cc invariance with defect [1,0,1,1,0,0,0,0,0,0,0,0,0,0], so no retained10 coordinate or 75D column is promoted. The remaining interface is the corrected Kc Brauer functional pullback/evaluation adapter, not the superseded generic 103D ambiguity."},
   "compatibility": {"legacy_runtime_override":"stages/stage33/controller-post-r5-hs-d2-override.json","legacy_post_r5_state":"stages/stage33/33-05/j2-post-r5-hs-d2-state.json","legacy_post_r5_state_role":"COMPATIBILITY_SHIM_ONLY","legacy_33_12_infinity_ptsK_qPicK_route":"RETIRED_FOR_CORRECTED_J2","historical_checkpoint_pr":1463,"historical_checkpoint_merged":true},
   "audit_required": true,
   "audit_scope": "STAGE33_12_INTERNAL_33_13_J2_FIRST_COLUMN_SUPPORT_LEVEL_RECOVERY",

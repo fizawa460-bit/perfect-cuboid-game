@@ -257,9 +257,41 @@ FINITE_V4_KUMMER_COLUMNS_MATERIALIZED=0/10
 canonical_sha256=9a8c9bcc420a7ad60bb6d71326bc04000da676ec4bb222e0cc4266c2aadf3d7f
 ```
 
-The next exact datum is the four missing pinned pullback rows together with
-the retained Smith `V`. After those are materialized, the proper-Br2 14D and
-retained 10D coordinates are deterministic and the locked weight-15 target
-can be placed. This is not the superseded 103D adapter ambiguity. No guessed
-coordinate, fake zero column, Stage33-12 closure, parent reclosure, or
-downstream release is claimed.
+At this checkpoint the next exact datum was the four missing pinned pullback
+rows together with the retained Smith `V`. The replay below resolves that
+numeric blocker and records the newly exposed dual-functional interface. This
+is not the superseded 103D adapter ambiguity. No guessed coordinate, fake zero
+column, Stage33-12 closure, parent reclosure, or downstream release is claimed.
+
+## Semantic `u1` full-surface Smith source — exact
+
+The six pinned pullback rows and literal retained Magma Smith transform have
+now been materialized in one source-locked Actions replay. The normalization
+above gives
+
+```text
+FULL_SURFACE_A_T_2_COORDINATE_F2=[0,0,0,0,0,0,0,1,0,1,0,1,1,0]
+FULL_SURFACE_A_T_2_COORDINATE_WEIGHT=4
+REQUIRED_PULLBACK_ROWS_MISSING=[]
+RETAINED_MAGMA_SMITH_V_MATERIALIZED=true
+canonical_sha256=ae5a9b45e4e4d9b50d8685d1c4649725dadf4956f246e18b33cb601aef94a2ec
+```
+
+The ordered proper-Br2 basis is the dual of the ordered `T/2T` basis; it is
+not the same vector space. Copying the 14 `A_T[2]` coefficients into that dual
+basis fails `cc` invariance with exact defect
+`[1,0,1,1,0,0,0,0,0,0,0,0,0,0]`. The finite discriminant pairing also sends
+this `A_T[2]` element to the zero covector, so that pairing cannot be promoted
+as the named J2 functional or as a zero Kummer column.
+
+```text
+PROPER_BR2_14D_COORDINATE_MATERIALIZED=false
+RETAINED_10D_COORDINATE_MATERIALIZED=false
+FINITE_V4_KUMMER_COLUMNS_MATERIALIZED=0/10
+NEXT=MATERIALIZE_CORRECTED_KC_BRAUER_FUNCTIONAL_PULLBACK_EVALUATIONS_ON_RETAINED_FULL_SURFACE_T_MOD_2_SMITH_BASIS
+canonical_sha256=f5d1336e21dd5563ec6466811b5e1c3cacc6def17e4dbe4968023d9bd3756399
+```
+
+This supersedes only the prior numeric rows/Smith-V blocker. It does not
+reopen the named orientation or the historical 103D ambiguity, and it restores
+no Q-defined descent, closure, release, theorem, receiver, or endpoint credit.

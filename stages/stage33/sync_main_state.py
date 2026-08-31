@@ -19,9 +19,8 @@ ORIENTATION = HERE / "33-12" / "j2-cv-d2-semantic-orientation.json"
 PROPER14 = HERE / "33-07" / "proper-brauer2-from-discriminant.json"
 TARGET_BASIS = HERE / "33-12" / "full-surface-pic2-kummer-target.json"
 NAMED_TARGET = HERE / "33-12" / "j2-named-v4-h1-target-before-source-orientation.json"
-U1_SMITH_BLOCKER = (
-    HERE / "33-12" / "j2-semantic-u1-full-surface-smith-normalization-blocker.json"
-)
+U1_SMITH_SOURCE = HERE / "33-12" / "j2-semantic-u1-full-surface-smith-source.json"
+U1_DUAL_BLOCKER = HERE / "33-12" / "j2-semantic-u1-at2-to-proper-br2-dual-adapter-blocker.json"
 OUT = HERE / "MAIN-STATE.json"
 
 LOCKS = {
@@ -29,7 +28,8 @@ LOCKS = {
     PROPER14: "c86f6e838d072816426e4a2b0eb738f44e8632dd1ab4f3e6fdccd161ec41b5bf",
     TARGET_BASIS: "384b7c9cb06e993c147fa89b30f93efcd454fe1a1773892ac70f463d07af9890",
     NAMED_TARGET: "4625b6d3ea19ec0e4d8a51471c7f60c0c1219de4672d84c64779c4213306f3b3",
-    U1_SMITH_BLOCKER: "9a8c9bcc420a7ad60bb6d71326bc04000da676ec4bb222e0cc4266c2aadf3d7f",
+    U1_SMITH_SOURCE: "ae5a9b45e4e4d9b50d8685d1c4649725dadf4956f246e18b33cb601aef94a2ec",
+    U1_DUAL_BLOCKER: "f5d1336e21dd5563ec6466811b5e1c3cacc6def17e4dbe4968023d9bd3756399",
 }
 
 
@@ -52,7 +52,8 @@ orientation = locked(ORIENTATION)
 proper14 = locked(PROPER14)
 target_basis = locked(TARGET_BASIS)
 named_target = locked(NAMED_TARGET)
-u1_smith_blocker = locked(U1_SMITH_BLOCKER)
+u1_smith_source = locked(U1_SMITH_SOURCE)
+u1_dual_blocker = locked(U1_DUAL_BLOCKER)
 
 current = controller["current"]
 stage = controller["stage33_12"]
@@ -71,19 +72,20 @@ assert len(domain["basis_rows_original_proper_br2_coordinates_f2"]) == 10
 assert proper14["proper_geometric_Br2_dimension_f2"] == 14
 assert target["retained_H1_dimension_f2"] == 75
 assert target["coordinate_weight"] == 15 and target["nonzero"] is True
-normalization = u1_smith_blocker["exact_resolved_normalization"]
-missing_numeric = u1_smith_blocker["exact_missing_numeric_data"]
-assert normalization["semantic_label"] == "u1"
-assert normalization["semantic_coordinate_f2"] == [1, 0]
-assert normalization["semantic_support_BigK_indices_1based"] == [2, 4, 9, 10, 47, 49]
-assert normalization["arbitrary_factor_two_choice_remaining"] is False
-assert normalization["arbitrary_14D_adapter_remaining"] is False
-assert missing_numeric["required_rows_missing_1based"] == [2, 4, 9, 10]
-assert missing_numeric["proper_Br2_14D_coordinate_materialized"] is False
+normalization = u1_smith_source["exact_normalization"]
+progress = u1_dual_blocker["exact_new_progress"]
+missing_dual = u1_dual_blocker["exact_missing_interface"]
+shortcut = u1_dual_blocker["exact_shortcut_rejection"]
+assert progress["semantic_u1_BigK_support_1based"] == [2, 4, 9, 10, 47, 49]
+assert progress["all_six_full_surface_pullback_rows_materialized"] is True
+assert progress["literal_retained_Magma_Smith_V_materialized"] is True
+assert normalization["full_surface_A_T_2_coordinates_f2"] == [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0]
+assert shortcut["copied_vector_is_joint_V4_invariant"] is False
+assert missing_dual["proper_Br2_14D_coordinate_materialized"] is False
 
 coordinates = target["coordinates_f2"]
 out = {
-    "schema": "STAGE33_MAIN_COMPACT_STATE_V2",
+    "schema": "STAGE33_MAIN_COMPACT_STATE_V3",
     "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
     "detailed_machine_authority": "stages/stage33/controller.json",
     "controller_schema": controller["schema"],
@@ -124,24 +126,24 @@ out = {
         },
         "semantic_u1_full_surface_smith_normalization": {
             "formula_materialized": True,
-            "semantic_support_BigK_indices_1based": normalization[
-                "semantic_support_BigK_indices_1based"
-            ],
-            "required_rows_already_retained_1based": missing_numeric[
-                "required_rows_already_retained_1based"
-            ],
-            "required_rows_missing_1based": missing_numeric[
-                "required_rows_missing_1based"
-            ],
-            "integral_dual_quotient_representative": normalization[
-                "integral_dual_quotient_representative"
-            ],
-            "magma_smith_convention": normalization["magma_smith_convention"],
+            "semantic_support_BigK_indices_1based": progress["semantic_u1_BigK_support_1based"],
+            "required_rows_missing_1based": [],
+            "retained_Magma_Smith_V_materialized": True,
+            "integral_dual_quotient_representative_z": normalization["integral_dual_quotient_representative_z"],
+            "magma_smith_convention": normalization["formula"],
+            "full_surface_A_T_2_coordinates_f2": normalization["full_surface_A_T_2_coordinates_f2"],
             "certificate": (
                 "stages/stage33/33-12/"
-                "j2-semantic-u1-full-surface-smith-normalization-blocker.json"
+                "j2-semantic-u1-full-surface-smith-source.json"
             ),
-            "canonical_sha256": LOCKS[U1_SMITH_BLOCKER],
+            "canonical_sha256": LOCKS[U1_SMITH_SOURCE],
+        },
+        "semantic_u1_to_proper_Br2_dual_blocker": {
+            "copied_A_T_2_coefficients_rejected": True,
+            "copied_dual_cc_invariance_defect_f2": shortcut["copied_vector_cc_invariance_defect_f2"],
+            "active_missing_interface": missing_dual["name"],
+            "certificate": "stages/stage33/33-12/j2-semantic-u1-at2-to-proper-br2-dual-adapter-blocker.json",
+            "canonical_sha256": LOCKS[U1_DUAL_BLOCKER],
         },
     },
     "resolved_investigations": {
@@ -170,17 +172,25 @@ out = {
             "source_canonical_sha256": LOCKS[ORIENTATION],
         },
         "semantic_u1_full_surface_normalization_trace": {
-            "status": "RESOLVED_FORMULA_ONLY_DO_NOT_REOPEN_AS_GENERIC_ADAPTER_AMBIGUITY",
+            "status": "RESOLVED_NUMERIC_AT2_DO_NOT_REOPEN",
             "fact": (
-                "The exact route is n_S from pinned BigK rows [2,4,9,10,47,49], "
-                "z=(n_S*pmPic)/2, then y=z*V in the retained Magma Smith convention. "
-                "Only rows [2,4,9,10] and the retained numeric V are missing."
+                "Pinned rows [2,4,9,10,47,49] and literal retained Magma Smith V "
+                "give full-surface A_T[2]=[0,0,0,0,0,0,0,1,0,1,0,1,1,0]."
             ),
             "source_certificate": (
                 "stages/stage33/33-12/"
-                "j2-semantic-u1-full-surface-smith-normalization-blocker.json"
+                "j2-semantic-u1-full-surface-smith-source.json"
             ),
-            "source_canonical_sha256": LOCKS[U1_SMITH_BLOCKER],
+            "source_canonical_sha256": LOCKS[U1_SMITH_SOURCE],
+        },
+        "A_T_2_coefficients_to_proper_dual_shortcut": {
+            "status": "REJECTED_EXACT_DO_NOT_RETRY",
+            "fact": (
+                "Copying the A_T[2] coefficients to the ordered proper-Br2 dual basis "
+                "fails cc invariance with defect [1,0,1,1,0,0,0,0,0,0,0,0,0,0]."
+            ),
+            "source_certificate": "stages/stage33/33-12/j2-semantic-u1-at2-to-proper-br2-dual-adapter-blocker.json",
+            "source_canonical_sha256": LOCKS[U1_DUAL_BLOCKER],
         },
     },
     "anti_loop_reopen_policy": {
@@ -198,28 +208,29 @@ out = {
         "corrected_J2_current_proper_Br2_14D_coordinate_materialized": False,
         "corrected_J2_retained_10D_coordinate_materialized": False,
         "semantic_u1_full_surface_smith_normalization_formula_materialized": True,
-        "required_BigK_pullback_rows_missing_1based": missing_numeric[
-            "required_rows_missing_1based"
-        ],
-        "retained_full_surface_Magma_Smith_right_transform_V_retained": False,
+        "semantic_u1_full_surface_A_T_2_coordinate_materialized": True,
+        "semantic_u1_full_surface_A_T_2_coordinate_f2": normalization["full_surface_A_T_2_coordinates_f2"],
+        "required_BigK_pullback_rows_missing_1based": [],
+        "retained_full_surface_Magma_Smith_right_transform_V_retained": True,
+        "active_missing_interface": missing_dual["name"],
         "deterministic_after_proper14_coordinate": True,
         "matrix_columns_materialized": stage["finite_v4_kummer_columns_materialized"],
         "first_exact_75D_column_materialized": stage["first_exact_kummer_column_materialized"],
     },
     "current_leaf_working_set": [
-        "stages/stage33/33-12/j2-semantic-u1-full-surface-smith-normalization-blocker.json",
-        "stages/stage33/33-12/certify_j2_semantic_u1_full_surface_smith_normalization_blocker.py",
-        "stages/stage33/33-12/verify_j2_semantic_u1_full_surface_smith_normalization_blocker.py",
-        "stages/stage33/33-12/j2-semantic-kc-discriminant-2torsion-target.json",
-        "stages/stage33/33-12/j2-semantic-kc-picard-basis.json",
-        "stages/stage33/33-07/picard-discriminant-compact.json",
-        "stages/stage33/33-09/marked-picard-basis-source.json",
+        "stages/stage33/33-12/j2-semantic-u1-full-surface-smith-source.json",
+        "stages/stage33/33-12/j2-semantic-u1-at2-to-proper-br2-dual-adapter-blocker.json",
+        "stages/stage33/33-12/certify_j2_semantic_u1_at2_to_proper_br2_dual_adapter_blocker.py",
+        "stages/stage33/33-12/verify_j2_semantic_u1_at2_to_proper_br2_dual_adapter_blocker.py",
+        "stages/stage33/33-07/proper-brauer2-from-discriminant.json",
+        "stages/stage33/33-12/full-surface-pic2-kummer-target.json",
     ],
     "targeted_expansion_hints": {
         "orientation_proof_only_if_needed": "stages/stage33/33-12/j2-cv-d2-semantic-orientation.json",
         "proper14_coordinate_convention_only_if_needed": "stages/stage33/33-07/proper-brauer2-from-discriminant.json",
         "retained10_basis_replay_only_if_needed": "stages/stage33/33-12/full-surface-pic2-kummer-target.json",
-        "semantic_u1_normalization_blocker": "stages/stage33/33-12/j2-semantic-u1-full-surface-smith-normalization-blocker.json",
+        "semantic_u1_smith_source": "stages/stage33/33-12/j2-semantic-u1-full-surface-smith-source.json",
+        "proper_dual_adapter_blocker": "stages/stage33/33-12/j2-semantic-u1-at2-to-proper-br2-dual-adapter-blocker.json",
         "human_checkpoint_only_if_needed": "stages/stage33/33-12/result.md"
     },
     "default_startup_exclusions": [
