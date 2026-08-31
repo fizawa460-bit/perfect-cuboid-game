@@ -295,3 +295,21 @@ canonical_sha256=f5d1336e21dd5563ec6466811b5e1c3cacc6def17e4dbe4968023d9bd375639
 This supersedes only the prior numeric rows/Smith-V blocker. It does not
 reopen the named orientation or the historical 103D ambiguity, and it restores
 no Q-defined descent, closure, release, theorem, receiver, or endpoint credit.
+
+
+## Named J2 order-4 Brauer lift reduction — exact
+
+The remaining proper-Br2 adapter is lift-sensitive. The marked class is `beta1=t1/8`, so the relevant transported discriminant datum is the order-4 generator `t1/4`, not only its doubled order-2 class `u1=t1/2`. In the semantic PicK basis, `t1/4` uses BigK rows `[2,4,9,10,20,35,39,47,49,67]`; the prior u1 replay already materialized `[2,4,9,10,47,49]`. The only new rows are therefore `[20,35,39,67]`. Each has coefficient `2/4=1/2`, so doubling makes it integral and it disappears modulo PicK, exactly explaining why the previous order-2 replay could not see this lift parity.
+
+```text
+ORDER4_REQUIRED_BIGK_ROWS=[2,4,9,10,20,35,39,47,49,67]
+ORDER4_REUSE_BIGK_ROWS=[2,4,9,10,47,49]
+ORDER4_MISSING_BIGK_ROWS=[20,35,39,67]
+CANDIDATE_ROUTE=n4 -> z4=(n4*pmPic)/4 -> y4=z4*V -> y4_nontrivial mod2
+PROPER_BR2_14D_COORDINATE_MATERIALIZED=false
+RETAINED_10D_COORDINATE_MATERIALIZED=false
+FINITE_V4_KUMMER_COLUMNS_MATERIALIZED=0/10
+canonical_sha256=a524121930e1c712bd8d8220415ef1836b11cd6eb11f2bb44f70dc844f6d85b0
+```
+
+Promotion remains blocked until `z4` is integral, the resulting 14-bit parity vector is fixed by the current proper-Br2 `cc/ct` actions, and it lies in the retained 10D domain. No closure, release, theorem, receiver, or endpoint credit is restored here.

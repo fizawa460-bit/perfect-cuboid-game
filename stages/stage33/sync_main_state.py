@@ -21,6 +21,7 @@ TARGET_BASIS = HERE / "33-12" / "full-surface-pic2-kummer-target.json"
 NAMED_TARGET = HERE / "33-12" / "j2-named-v4-h1-target-before-source-orientation.json"
 U1_SMITH_SOURCE = HERE / "33-12" / "j2-semantic-u1-full-surface-smith-source.json"
 U1_DUAL_BLOCKER = HERE / "33-12" / "j2-semantic-u1-at2-to-proper-br2-dual-adapter-blocker.json"
+ORDER4 = HERE / "33-12" / "j2-order4-brauer-lift-reduction.json"
 OUT = HERE / "MAIN-STATE.json"
 
 LOCKS = {
@@ -30,6 +31,7 @@ LOCKS = {
     NAMED_TARGET: "4625b6d3ea19ec0e4d8a51471c7f60c0c1219de4672d84c64779c4213306f3b3",
     U1_SMITH_SOURCE: "ae5a9b45e4e4d9b50d8685d1c4649725dadf4956f246e18b33cb601aef94a2ec",
     U1_DUAL_BLOCKER: "f5d1336e21dd5563ec6466811b5e1c3cacc6def17e4dbe4968023d9bd3756399",
+    ORDER4: "a524121930e1c712bd8d8220415ef1836b11cd6eb11f2bb44f70dc844f6d85b0",
 }
 
 
@@ -54,6 +56,7 @@ target_basis = locked(TARGET_BASIS)
 named_target = locked(NAMED_TARGET)
 u1_smith_source = locked(U1_SMITH_SOURCE)
 u1_dual_blocker = locked(U1_DUAL_BLOCKER)
+order4 = locked(ORDER4)
 
 current = controller["current"]
 stage = controller["stage33_12"]
@@ -82,10 +85,12 @@ assert progress["literal_retained_Magma_Smith_V_materialized"] is True
 assert normalization["full_surface_A_T_2_coordinates_f2"] == [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0]
 assert shortcut["copied_vector_is_joint_V4_invariant"] is False
 assert missing_dual["proper_Br2_14D_coordinate_materialized"] is False
+assert order4["next_numeric_leaf"]["materialize_additional_BigK_pullback_rows_1based"] == [20, 35, 39, 67]
+assert order4["promotion_firewall"]["proper_Br2_14D_coordinate_materialized"] is False
 
 coordinates = target["coordinates_f2"]
 out = {
-    "schema": "STAGE33_MAIN_COMPACT_STATE_V3",
+    "schema": "STAGE33_MAIN_COMPACT_STATE_V4",
     "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
     "detailed_machine_authority": "stages/stage33/controller.json",
     "controller_schema": controller["schema"],
@@ -141,9 +146,18 @@ out = {
         "semantic_u1_to_proper_Br2_dual_blocker": {
             "copied_A_T_2_coefficients_rejected": True,
             "copied_dual_cc_invariance_defect_f2": shortcut["copied_vector_cc_invariance_defect_f2"],
-            "active_missing_interface": missing_dual["name"],
+            "active_missing_interface": current["active_missing_interface"],
             "certificate": "stages/stage33/33-12/j2-semantic-u1-at2-to-proper-br2-dual-adapter-blocker.json",
             "canonical_sha256": LOCKS[U1_DUAL_BLOCKER],
+        },
+        "j2_order4_brauer_lift_reduction": {
+            "materialized": True,
+            "required_BigK_rows_1based": order4["semantic_order4_generator"]["required_BigK_rows_1based"],
+            "reuse_rows_1based": order4["next_numeric_leaf"]["reuse_already_materialized_BigK_rows_1based"],
+            "missing_rows_1based": order4["next_numeric_leaf"]["materialize_additional_BigK_pullback_rows_1based"],
+            "candidate_normalization": order4["candidate_full_surface_brauer_lift_normalization"],
+            "certificate": "stages/stage33/33-12/j2-order4-brauer-lift-reduction.json",
+            "canonical_sha256": LOCKS[ORDER4],
         },
     },
     "resolved_investigations": {
@@ -183,6 +197,12 @@ out = {
             ),
             "source_canonical_sha256": LOCKS[U1_SMITH_SOURCE],
         },
+        "order4_lift_reduction": {
+            "status": "RESOLVED_EXACT_NEXT_NUMERIC_LEAF_FOUR_ROWS_ONLY",
+            "fact": "Transporting t1/4 instead of only doubled u1=t1/2 exposes exactly four additional required BigK rows [20,35,39,67]; no repo-wide search is required.",
+            "source_certificate": "stages/stage33/33-12/j2-order4-brauer-lift-reduction.json",
+            "source_canonical_sha256": LOCKS[ORDER4],
+        },
         "A_T_2_coefficients_to_proper_dual_shortcut": {
             "status": "REJECTED_EXACT_DO_NOT_RETRY",
             "fact": (
@@ -210,7 +230,7 @@ out = {
         "semantic_u1_full_surface_smith_normalization_formula_materialized": True,
         "semantic_u1_full_surface_A_T_2_coordinate_materialized": True,
         "semantic_u1_full_surface_A_T_2_coordinate_f2": normalization["full_surface_A_T_2_coordinates_f2"],
-        "required_BigK_pullback_rows_missing_1based": [],
+        "required_BigK_pullback_rows_missing_1based": [20, 35, 39, 67],
         "retained_full_surface_Magma_Smith_right_transform_V_retained": True,
         "active_missing_interface": missing_dual["name"],
         "deterministic_after_proper14_coordinate": True,
@@ -218,10 +238,10 @@ out = {
         "first_exact_75D_column_materialized": stage["first_exact_kummer_column_materialized"],
     },
     "current_leaf_working_set": [
+        "stages/stage33/33-12/j2-order4-brauer-lift-reduction.json",
+        "stages/stage33/33-12/certify_j2_order4_brauer_lift_reduction.py",
+        "stages/stage33/33-12/verify_j2_order4_brauer_lift_reduction.py",
         "stages/stage33/33-12/j2-semantic-u1-full-surface-smith-source.json",
-        "stages/stage33/33-12/j2-semantic-u1-at2-to-proper-br2-dual-adapter-blocker.json",
-        "stages/stage33/33-12/certify_j2_semantic_u1_at2_to_proper_br2_dual_adapter_blocker.py",
-        "stages/stage33/33-12/verify_j2_semantic_u1_at2_to_proper_br2_dual_adapter_blocker.py",
         "stages/stage33/33-07/proper-brauer2-from-discriminant.json",
         "stages/stage33/33-12/full-surface-pic2-kummer-target.json",
     ],
@@ -231,6 +251,7 @@ out = {
         "retained10_basis_replay_only_if_needed": "stages/stage33/33-12/full-surface-pic2-kummer-target.json",
         "semantic_u1_smith_source": "stages/stage33/33-12/j2-semantic-u1-full-surface-smith-source.json",
         "proper_dual_adapter_blocker": "stages/stage33/33-12/j2-semantic-u1-at2-to-proper-br2-dual-adapter-blocker.json",
+        "order4_lift_reduction": "stages/stage33/33-12/j2-order4-brauer-lift-reduction.json",
         "human_checkpoint_only_if_needed": "stages/stage33/33-12/result.md"
     },
     "default_startup_exclusions": [
