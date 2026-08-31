@@ -7,6 +7,7 @@ on:
       - 'stages/stage32/runkeys/stage32-21bl-joint-integer-closure.json'
       - '.github/workflows/stage32-21bl-joint-integer-closure.yml'
       - 'stages/stage32/residual-32-01-production/certify_stage32_21bl_joint_integer_closure.py'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_21bl_isl_current_model_preflight.py'
 
 permissions:
   contents: read
@@ -71,6 +72,8 @@ jobs:
     if: needs.authorize.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
+    outputs:
+      scaleout_authorized: ${{ steps.audit.outputs.scaleout_authorized }}
     steps:
       - name: Checkout exact PR head
         uses: actions/checkout@v4
@@ -81,11 +84,11 @@ jobs:
         with:
           python-version: '3.10.6'
       - name: Install exact algebra dependencies
-        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
-      - name: Probe one exact 59D QF_LIA fixed triple before scale-out
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0' 'islpy==2026.1'
+      - name: Probe one exact current-model Presburger fixed triple without scale-out
         working-directory: stages/stage32/residual-32-01-production
         run: |
-          python certify_stage32_21bl_joint_integer_closure.py shard \
+          python certify_stage32_21bl_isl_current_model_preflight.py \
             --source-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21az-survivor-prism.json" \
             --formula-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bb-r51-interval-formula.json" \
             --pair-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bc-pair-combination-bounds.json" \
@@ -96,28 +99,38 @@ jobs:
             --tenth-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bk-r20-final-single-coordinate-evidence.json" \
             --retained "$GITHUB_WORKSPACE/stages/stage33/33-07/picard_base_rows_retained.py" \
             --marking "$GITHUB_WORKSPACE/stages/stage33/33-07/stage32_picard_marking_retained.py" \
-            --shard-index 1617 \
-            --shard-count 3234 \
-            --per-check-timeout-ms 5000 \
-            --output "$RUNNER_TEMP/stage32-21bl-qflia-preflight.json"
-          python - "$RUNNER_TEMP/stage32-21bl-qflia-preflight.json" <<'PY'
+            --ordinal 1617 \
+            --wall-seconds 90 \
+            --output "$RUNNER_TEMP/stage32-21bl-isl-current-model-preflight.json"
+      - id: audit
+        name: Require a decisive exact preflight while keeping full scale-out disabled
+        shell: bash
+        run: |
+          python - "$RUNNER_TEMP/stage32-21bl-isl-current-model-preflight.json" <<'PY'
           import json, sys
           x = json.load(open(sys.argv[1]))
-          r = x["result"]
-          assert r["processed_rows"] == 1
-          assert r["integer_sat_count"] + r["integer_unsat_count"] + r["unknown_count"] == 1
-          assert r["unknown_count"] == 0, r.get("unknown_rows")
-          print(json.dumps({
-              "preflight": "PASS_RESOLVED_WITHIN_5S",
-              "sat": r["integer_sat_count"],
-              "unsat": r["integer_unsat_count"],
-              "unknown": r["unknown_count"],
-          }))
+          assert x.get("schema") == "STAGE32_21BL_ISL_CURRENT_MODEL_PREFLIGHT_V1"
+          assert x.get("ordinal") == 1617
+          status = x.get("result", {}).get("status")
+          assert status in {"SAT", "UNSAT"}, x.get("result")
+          assert x.get("exact_problem", {}).get("same_integerized_21bl_assertions_as_z3_solver") is True
+          assert x.get("exact_problem", {}).get("fixed_triple_constraints_included") is True
+          assert x.get("exact_problem", {}).get("floating_point_relaxation_used") is False
+          assert x.get("safety", {}).get("full_3234_scaleout_authorized_by_this_result") is False
+          print(json.dumps({"preflight": "PASS_DECISIVE_EXACT_ISL_CURRENT_MODEL", "status": status}))
           PY
+          echo "scaleout_authorized=false" >> "$GITHUB_OUTPUT"
+      - name: Upload compact preflight evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-21bl-isl-current-model-preflight
+          path: ${{ runner.temp }}/stage32-21bl-isl-current-model-preflight.json
+          retention-days: 1
+          compression-level: 9
 
   solve:
     needs: [authorize, preflight]
-    if: needs.authorize.outputs.authorized == 'true' && needs.preflight.result == 'success'
+    if: needs.authorize.outputs.authorized == 'true' && needs.preflight.result == 'success' && needs.preflight.outputs.scaleout_authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     strategy:
@@ -164,7 +177,7 @@ jobs:
 
   aggregate:
     needs: [authorize, preflight, solve]
-    if: needs.authorize.outputs.authorized == 'true' && needs.preflight.result == 'success'
+    if: needs.authorize.outputs.authorized == 'true' && needs.preflight.result == 'success' && needs.preflight.outputs.scaleout_authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
