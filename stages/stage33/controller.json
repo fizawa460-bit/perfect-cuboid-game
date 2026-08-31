@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V37_STAGE33_05_ZERO_SURVIVAL_RECLOSED_33_12_PACKAGE_AUDIT",
+  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V38_STAGE33_05_ZERO_SURVIVAL_RECLOSED_STAGE33_12_FINITE_V4_KUMMER_CURRENT",
   "role": "CURRENT_MACHINE_STATE",
   "stage": "33",
   "kernel": "K16-C2-BRAUER-EXPLICIT-CHAIN",
@@ -19,12 +19,13 @@
   "stage33_progress": "6/11",
   "current": {
     "unit": "33-12",
-    "repair_leaf": "33-12",
-    "substep": "K3_BR2_ARITHMETIC_CLASSIFICATION_PACKAGE_AUDIT",
-    "status": "CURRENT_RELEASED_BY_STAGE33_05_EXACT_ZERO_SURVIVAL",
-    "active_receiver": "STAGE33_12_K3_BR2_ARITHMETIC_CLASSIFICATION_PACKAGE",
-    "active_missing_interface": "AUDIT_PACKAGE_AGAINST_CLOSED_33_09_33_10_33_11_INTERFACES_AND_ZERO_K3_BR2_Q_SURVIVAL",
-    "next_exact_leaf": "AUDIT_STAGE33_12_PACKAGE_AGAINST_CLOSED_33_09_33_10_33_11_INTERFACES_AND_ZERO_K3_BR2_Q_SURVIVAL_THEN_DECIDE_STAGE33_12_EXACT_CLOSURE"
+    "contract_role": "ARITHMETIC_HS_CLOSURE_AND_STAGE33_07_RECERTIFICATION",
+    "logical_internal_branch": "33-13_FINITE_V4_KUMMER_MATRIX",
+    "substep": "MATERIALIZE_75x10_KUMMER_MATRIX",
+    "status": "CURRENT",
+    "active_receiver": "FINITE_V4_KUMMER_RESTRICTION_ON_REMAINING_PROPER_FULL_SURFACE_BR2_RECEIVER",
+    "active_missing_interface": "ALL_10_EXACT_KUMMER_COLUMNS_IN_H1_V4_PIC_MOD2_NO_GUESSED_ZERO_COLUMNS",
+    "next_exact_leaf": "MATERIALIZE_FINITE_V4_KUMMER_RESTRICTION_MATRIX_75x10_WITH_ALL_10_EXACT_COLUMNS_NO_GUESSED_ZERO_COLUMNS"
   },
   "stage33_05": {
     "unit_status": "CLOSED",
@@ -43,60 +44,76 @@
     "exact_zero_survival_canonical_sha256": "4e9f20c1f753bb63134207422b097c1985ce3edd6be87f7f41ba8afa316e7dc9",
     "hostile_audit": "PASS",
     "corrected_J2_Q_defined_Brauer_preimage": false,
-    "historical_ell_J2_reused": false,
-    "full_successful_J2_descent_exit_reached": false
+    "historical_ell_J2_reused": false
   },
-  "repair_children": [
-    {"id": "33-09", "status": "CLOSED_EXACT"},
-    {"id": "33-10", "status": "CLOSED_EXACT_HOSTILE_AUDIT_PASS"},
-    {"id": "33-11", "status": "CLOSED_EXACT_HOSTILE_AUDIT_PASS"},
-    {"id": "33-12", "status": "CURRENT_PACKAGE_AUDIT", "closed_exact": false, "released": true},
-    {"id": "33-13", "status": "PLANNED_BLOCKED_BY_33_12", "released": false},
-    {"id": "33-14", "status": "PLANNED_BLOCKED_BY_33_13", "released": false},
-    {"id": "33-15", "status": "PLANNED_BLOCKED_BY_33_14", "released": false}
-  ],
+  "closed_repair_interfaces": {
+    "33-09": {
+      "status": "CLOSED_EXACT",
+      "picard_equivariant_transport_closed": true,
+      "canonical_sha256": "6c3ff8f7ca7d1bbd4084da0cc77ca6d43b31b32566a3bbb2c2103b7c2e9548b7"
+    },
+    "33-10": {
+      "status": "CLOSED_EXACT",
+      "absolute_h1_receiver_exact": true,
+      "canonical_sha256": "4dbbfa8d208026e8ccb47915e66eb4bedef327ccf5b6f8c6c9caa7e74a64028f"
+    },
+    "33-11": {
+      "status": "CLOSED_EXACT_HOSTILE_AUDIT_PASS",
+      "arithmetic_localization_connecting_map": "COMPUTED_EXACT_ZERO_MAP",
+      "connecting_columns_exact_audited": "26/26",
+      "unresolved_connecting_columns": 0,
+      "canonical_sha256": "233be042e92010be169206df1193f25375ee9fd768f7fb3eebb9eb696389632e"
+    }
+  },
   "stage33_12": {
-    "unit_status": "CURRENT_PACKAGE_AUDIT",
+    "status": "OPEN_CURRENT",
     "closed_exact": false,
-    "released": true,
-    "old_required_J2_Q_preimage_gate_retired": true,
-    "replacement_interface": "COMPLETE_AUDITED_K3_BR2_ARITHMETIC_CLASSIFICATION_ZERO_SURVIVAL_ALLOWED",
-    "K3_geometric_Br2_dimension_f2": 2,
+    "contract_exit_requires": [
+      "ARITHMETIC_HS_D2_COMPUTED",
+      "GLOBAL_Q_RESIDUE_LIFT_COMPLETION",
+      "COMPLETE_RELEVANT_Q_DEFINED_CLASS_INVENTORY_FOR_FROZEN_STAGE33_BRAUER_SCOPE",
+      "STAGE33_07_HOSTILE_RECERTIFICATION_PASS"
+    ],
+    "K3_subinterface_closed": true,
     "K3_Q_relevant_surviving_dimension": 0,
     "K3_exact_zero_survival": true,
-    "must_still_audit_against_33_09_33_10_33_11": true
+    "old_required_J2_Q_preimage_gate_retired": true,
+    "logical_internal_sequence": [
+      {"id": "33-13", "name": "FINITE-V4-KUMMER-MATRIX", "status": "CURRENT"},
+      {"id": "33-14", "name": "FINITE-HS-COSETS-AND-TWO-PRIMARY-CONSTANT-BLOCK", "status": "PLANNED_BLOCKED_BY_33_13"},
+      {"id": "33-15", "name": "GLOBAL-ARITHMETIC-HS-ASSEMBLY-AND-33-07-HOSTILE-RECERTIFICATION", "status": "PLANNED_BLOCKED_BY_33_14"}
+    ]
   },
   "parent_units": {
     "33-07": {
-      "status": "BLOCKED_REPAIR_CHAIN_STAGE33_12_CURRENT",
+      "status": "BLOCKED_REPAIR_CHILD_33_12_ARITHMETIC_HS_OPEN",
       "unit_closed": false,
       "downstream_released": false,
-      "closure_blocked_by_repair_chain": true,
-      "hostile_reaudit": "NOT_YET_RECERTIFIED_AFTER_ZERO_SURVIVAL_REBUILD"
+      "arithmetic_localization_connecting_map_computed": true,
+      "complete_relevant_Q_defined_class_list": false,
+      "hostile_reaudit": "PENDING_AFTER_STAGE33_12_FULL_EXIT"
     },
     "33-08": {
-      "status": "BLOCKED_NEW_KERNEL",
+      "status": "BLOCKED_BY_33_07",
       "unit_closed": false,
       "blocked_by_predecessor": "33-07"
     }
   },
   "release_gates": {
     "stage33_05_reclosed": true,
-    "stage33_12_released": true,
     "stage33_12_closed_exact": false,
-    "stage33_13_released": false,
+    "stage33_07_reclosed": false,
     "stage33_08_released": false,
     "stage33_40_released": false,
-    "new_PR_transition_released": false,
-    "parent_33_07_hostile_recertification_released": false
+    "new_PR_transition_released": false
   },
   "execution": {
     "audit_required": true,
     "merge_allowed": false,
     "advance_allowed": true,
-    "advance_scope": "STAGE33_12_PACKAGE_AUDIT_ONLY_NO_33_07_PARENT_RECLOSURE_UNTIL_FULL_INTERFACE_PASS",
+    "advance_scope": "STAGE33_12_INTERNAL_33_13_FINITE_V4_KUMMER_MATRIX_ONLY_NO_PARENT_RECLOSURE",
     "heavy_actions_authorized": false,
-    "next_item": "Stage33-12_AUDIT_ZERO_K3_BR2_PACKAGE_WITH_33_09_33_10_33_11",
+    "next_item": "Stage33-12_33-13_FINITE_V4_KUMMER_MATRIX_75x10",
     "next_expected_command": "Stage33-main-batch"
   },
   "loop_state": {
@@ -114,11 +131,11 @@
     "historical_checkpoint_merged": true
   },
   "audit_required": true,
-  "audit_scope": "STAGE33_12_PACKAGE_AUDIT_AFTER_STAGE33_05_EXACT_ZERO_K3_BR2_Q_SURVIVAL",
+  "audit_scope": "STAGE33_12_INTERNAL_33_13_FINITE_V4_KUMMER_MATRIX",
   "merge_allowed": false,
   "advance_allowed": true,
-  "advance_scope": "STAGE33_12_PACKAGE_AUDIT_ONLY_NO_PARENT_RECLOSURE_WITHOUT_FULL_CONTRACT",
-  "next_item": "Stage33-12_AUDIT_ZERO_K3_BR2_PACKAGE_WITH_33_09_33_10_33_11",
+  "advance_scope": "STAGE33_12_INTERNAL_33_13_FINITE_V4_KUMMER_MATRIX_ONLY_NO_PARENT_RECLOSURE",
+  "next_item": "Stage33-12_33-13_FINITE_V4_KUMMER_MATRIX_75x10",
   "next_expected_command": "Stage33-main-batch",
   "theorem_credit": false,
   "receiver_credit": false,
