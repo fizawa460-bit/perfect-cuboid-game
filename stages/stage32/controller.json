@@ -1,18 +1,18 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V158_NODE_SUPPORT_REFINEMENT_CLOSED",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V159_NODE_SUPPORT_FULL178_PREFLIGHT_CLOSED",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
-  "status": "STAGE32_POST21BL_BIJECTIVE_GENUS1_REPRESENTATIVE_EXCLUDED_AUDITED",
-  "current_item": "POST_21BL_NODE_SUPPORT_REFINEMENT_CLOSED_SELECT_FULL178_INTERFACE",
-  "current_item_execution_constraint": "The representative g1-d186 bijective-normalization genus-one carrier is now excluded by a fresh-audited sharpening of Freitag-Salvati Manni Theorem 3.1: d <= 16g-16+4n, where n is actual node support. The exact Picard64 exceptional profile has support 44, so g=1 forces d<=176, contradicting d=186. This closes only the representative bijective-normalization branch. Multibranch-at-node remains open under R29-LG2-MB, FULL178 remains separate, and R29-LG2-EFF is not discharged. The next allowed work is a bounded preflight for reusing this stronger node-support cut on the existing FULL178 numerical interface; do not arm heavy production until that preflight identifies the exact required data and cost.",
+  "status": "STAGE32_NODE_SUPPORT_REFINEMENT_AND_FULL178_CHEAP_CUT_PREFLIGHT_AUDITED",
+  "current_item": "PR1472_CHECKPOINT_READY_AFTER_NODE_SUPPORT_PREFLIGHT",
+  "current_item_execution_constraint": "The representative g1-d186 bijective-normalization genus-one carrier is CLOSED_AUDITED_EXCLUDED by d<=16g-16+4n with exact exceptional support n<=44, giving d<=176<186. A fresh-audited FULL178 preflight also derives the weaker support-free necessary cut e>=ceil((d-16g+16)/4), valid because n<=e. On the manifest's 64,111 coarse (row,e) strata this removes exactly 3,620 strata across 168/178 rows, leaving 60,491. Existing 21ad compact evidence does not retain per-candidate 48-exceptional positive-support data, and continuous KKT survivors are not integral Picard classes, so the strong n-cut cannot be retroactively applied to the 679,337 survivors. Do not rerun 21ad blindly or materialize those survivors. The next production step, only after this checkpoint is merged and a fresh run key is explicitly armed, is an exact FULL178 slice census inserting the cheap e-cut before KKT/anti-fixed work; only later surviving integral targets may receive the exact 48-support cardinality constraint.",
   "active_pr": {
     "number": 1472,
     "branch": "stage32-post21bl-node-count-refinement",
     "base_sha": "d6acf27fe9c3ba2fb3fad63a49f39668bb52118d",
     "automatic_merge_authorized": false
   },
-  "advance_allowed": true,
+  "advance_allowed": false,
   "merge_allowed": true,
   "automatic_merge_authorized": false,
   "checkpoint_merge_ready": true,
@@ -24,8 +24,8 @@
     "planned_effective_heavy_overlap": 0,
     "new_heavy_compute_authorized": false,
     "full178_heavy_arm_authorized": false,
-    "node_support_audit_is_heavy": false,
-    "node_support_audit_artifact_bytes": 956
+    "node_support_refinement_audit_artifact_bytes": 956,
+    "full178_preflight_audit_artifact_bytes": 891
   },
   "closed_dependencies": {
     "21bl": {
@@ -35,7 +35,6 @@
     },
     "post21bl_picard64_adapter": {
       "status": "CLOSED_AUDITED_EXACT_PICARD64_SLICE_WITNESS",
-      "evidence": "stages/stage32/32-21/post-21bl-picard64-witness-adapter.json",
       "evidence_canonical_sha256": "ef3f21e4166d4bfcacce3503213b0a72afee5f5002ab7145de01fc9c54d47038"
     },
     "representative_divisor_effectivity": {
@@ -44,29 +43,32 @@
     },
     "representative_bijective_genus1_carrier": {
       "status": "CLOSED_AUDITED_EXCLUDED_BY_NODE_SUPPORT",
+      "formula": "d <= 16g-16+4n",
       "proof": "stages/stage32/32-21/post-21bl-freitag-node-support-refinement.md",
-      "certificate": "stages/stage32/32-21/post-21bl-node-support-refinement.json",
       "certificate_canonical_sha256": "d1b446dd8fa32db16a3ec4f2eb8a4db06b2cc65b80a0ef7580cec1437b4ff5ad",
-      "fresh_audit": "stages/stage32/32-21/post-21bl-node-support-refinement-audit.json",
       "fresh_audit_canonical_sha256": "29312a61c79fc2d0d7525142be54677119c5006d900126c769c8bcb7fb711f7c",
       "run_id": 33397000034,
-      "job_id": 99503789860,
       "artifact_id": 9759707703,
-      "artifact_zip_sha256": "732f7d4ccd3346dafef21ef314aed6bd7198e86d5bdbfa7f21290be60a21af1a",
-      "formula": "d <= 16g-16+4n",
-      "target": {
-        "row_id": "g1-d186",
-        "g": 1,
-        "d": 186,
-        "positive_exceptional_support": 44,
-        "required_support": 47,
-        "max_degree_at_support": 176,
-        "degree_excess": 10
-      }
+      "target": {"row_id":"g1-d186","g":1,"d":186,"positive_exceptional_support":44,"required_support":47,"max_degree_at_support":176,"degree_excess":10}
+    },
+    "full178_node_support_preflight": {
+      "status": "CLOSED_AUDITED_BOUNDED_PREFLIGHT_NO_HEAVY_RUN",
+      "cheap_cut": "e >= ceil((d-16g+16)/4)",
+      "certificate": "stages/stage32/32-21/post-21bl-full178-node-support-preflight.json",
+      "certificate_canonical_sha256": "1654ef385558c606623f81bfbaf7c68063141a5be39d9b692d58567f011a6c65",
+      "fresh_audit": "stages/stage32/32-21/post-21bl-full178-node-support-preflight-audit.json",
+      "fresh_audit_canonical_sha256": "6039b5ffb4538c80d2b7fec32f817d90a7b98ef51af5adfef6b0bb2fef8f3336",
+      "run_id": 33398098834,
+      "job_id": 99507413721,
+      "artifact_id": 9760122977,
+      "artifact_zip_sha256": "44aa96d8cc160c76bd7f9d0c64bcc3bae51d33536b454252034585c572a2c91a",
+      "coarse_strata": {"original":64111,"eliminated":3620,"remaining":60491,"affected_rows":168},
+      "strong_support_reconstruction_available_from_legacy_compact_evidence": false
     }
   },
   "gap_state": {
     "BIJECTIVE_NORMALIZATION_GENUS1_REPRESENTATIVE": "CLOSED_AUDITED_EXCLUDED",
+    "FULL178_CHEAP_NODE_MASS_CUT": "CLOSED_AUDITED_PREFLIGHT_READY_FOR_POST_MERGE_PRODUCTION",
     "FULL178_NUMERICAL_CENSUS": "OPEN_SEPARATE",
     "MULTIBRANCH_AT_NODE": "OPEN_SEPARATE_R29_LG2_MB",
     "R29_LG2_EFF_FULL_RECEIVER": "OPEN",
@@ -76,11 +78,14 @@
     "single_coordinate_loop_closed": true,
     "repeat_numerical_effectivity_necessary_filters_authorized": false,
     "blind_full178_scaleout_authorized": false,
-    "next_semantic_upgrade": "Determine whether existing FULL178 survivor/candidate interfaces expose or cheaply reconstruct the 48 exceptional-support indicators needed to apply d <= 16g-16+4n before any heavy scaleout."
+    "legacy_21ad_blind_rerun_authorized": false,
+    "materialize_679337_survivors_authorized": false,
+    "next_semantic_upgrade": "After explicit PR1472 merge, arm a new source-locked FULL178 census that inserts the cheap node-mass e lower bound before existing KKT/anti-fixed evaluation and records exact per-row/per-e reductions; preserve the strong 48-support cut for the integral feasibility layer."
   },
   "research_credit_firewalls": {
     "policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
-    "representative_only": true,
+    "representative_only_for_strong_support_exclusion": true,
+    "coarse_e_cut_is_full178_valid_necessary_condition": true,
     "full178_not_closed": true,
     "multibranch_not_closed": true,
     "receiver_credit": false,
@@ -88,5 +93,6 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
   },
+  "next_expected_action": "MERGE_PR1472_ONLY_WITH_EXPLICIT_USER_AUTHORIZATION",
   "next_expected_command": "stage32main batch"
 }
