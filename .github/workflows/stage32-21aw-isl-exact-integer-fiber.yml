@@ -1,0 +1,59 @@
+name: Stage32-21aw ISL exact integer fiber
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/workflows/stage32-21aw-isl-exact-integer-fiber.yml'
+      - 'stages/stage32/32-21/32-21ap-unknown-frontier.json'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_21aw_isl_exact_integer_fiber.py'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_21ak_affine_2adic_membership.py'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_21aj_2adic_pairing_saturation.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_lattice_diagnostic.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_integral_projection_bound.py'
+      - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-21aw-isl-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  certify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install exact Presburger dependencies
+        run: python -m pip install 'sympy==1.14.0' 'islpy==2026.2.1'
+
+      - name: Decide source-locked lone integer fiber with ISL
+        working-directory: stages/stage32/residual-32-01-production
+        run: |
+          python certify_stage32_21aw_isl_exact_integer_fiber.py \
+            --frontier "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21ap-unknown-frontier.json" \
+            --retained "$GITHUB_WORKSPACE/stages/stage33/33-07/picard_base_rows_retained.py" \
+            --marking "$GITHUB_WORKSPACE/stages/stage33/33-07/stage32_picard_marking_retained.py" \
+            --wall-timeout-seconds 300 \
+            --output "$GITHUB_WORKSPACE/stage32-21aw-isl-exact-integer-fiber.json"
+
+      - name: Upload compact exact evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-21aw-isl-exact-integer-fiber
+          path: stage32-21aw-isl-exact-integer-fiber.json
+          retention-days: 3
+          compression-level: 9
