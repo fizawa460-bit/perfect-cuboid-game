@@ -10,9 +10,6 @@ from certify_stage32_21bf_r49_per_triple_projection import build_21bf_solver
 from certify_stage32_21bg_r42_per_triple_projection import r49_hi
 from certify_stage32_21bh_r54_per_triple_projection import r42_lo
 from certify_stage32_21bj_r56_per_triple_projection import r57_hi
-from certify_stage32_21bk_r20_final_single_coordinate import (
-    EXPECTED_21BI_LOCK_SHA256, EXPECTED_21BJ_LOCK_SHA256, load_canonical_lock, r56_lo,
-)
 from direct_picard_reynolds_lattice_diagnostic import csha
 
 RANK=59
@@ -20,8 +17,24 @@ SCHEMA_SHARD="STAGE32_21BL_EXACT_JOINT_INTEGER_CLOSURE_SHARD_V1"
 SCHEMA_AGG="STAGE32_21BL_EXACT_JOINT_INTEGER_CLOSURE_AGGREGATE_V1"
 EXPECTED_21BK_EVIDENCE_CANONICAL="c39ba719e648104cd62a8f87bd739f5933725fcd71cc0cca56397692f1036c57"
 EXPECTED_21BH_LOCK_CANONICAL="23a732fd232cf025533cb9ef17c6ab482a5a50a860d163731a346faca7a11c6d"
+EXPECTED_21BI_LOCK_SHA256="171de3592fec3f32a381de8a07365e3444cbfc75d5acb2e0eff053bd644bc06c"
+EXPECTED_21BJ_LOCK_SHA256="8d803f10a52ef9b07bc1b06f2a705af068f815424296fe1cfd393d4ecdaea337"
 
 def sha(path: Path)->str: return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def load_canonical_lock(path: Path, expected: str, status: str) -> dict:
+    raw=json.loads(path.read_text()); claimed=raw.pop("canonical_sha256_without_this_field")
+    if claimed!=expected or csha(raw)!=claimed: raise ValueError(f"lock canonical regression: {path}")
+    if raw.get("status")!=status: raise ValueError(f"lock status regression: {path}")
+    return raw
+
+def ceil_div2(n: int) -> int:
+    return -((-n)//2)
+
+def r56_lo(r50: int, r55: int, r27: int) -> int:
+    delta=r50-r55-129
+    if not 0<=delta<=10: raise ValueError(f"delta outside 21az prism: {delta}")
+    return max(ceil_div2(r27+128-(delta//2)),ceil_div2(3*r27+262))
 
 def load_21bk_evidence(path: Path)->dict:
     x=json.loads(path.read_text()); claimed=x.pop("canonical_sha256_without_this_field")
