@@ -162,7 +162,7 @@ def main() -> None:
 
     checked = 0
     rational_sat = []
-    qflra_unknown = []
+    qflra_unkown = []
     exact_unsat_count = 0
     stopped_by_wall = False
 
@@ -241,7 +241,7 @@ def main() -> None:
             "expected_total_triples": total_triples,
             "checked_triples": checked,
             "complete": complete,
-            "lexicographic_prefix": True,
+            "lexicographic_prefix": True
         },
         "result": {
             "status": status,
@@ -249,10 +249,10 @@ def main() -> None:
             "rational_sat_triple_count": len(rational_sat),
             "qflra_unknown_triple_count": len(qflra_unknown),
             "rational_sat_triples": rational_sat,
-            "qflra_unknown_triples": qflra_unknown,
+            "qflra_unknown_triples": qflra_unkown,
             "combined_representative_sample_sat": 0,
             "combined_representative_sample_unsat": 56 if status == "UNSAT" else 55,
-            "combined_representative_sample_unknown": 0 if status == "UNSAT" else 1,
+            "combined_representative_sample_unknown": 0 if status == "UNSAT" else 1
         },
         "interpretation": {
             "unsat_if_and_only_if_complete_and_every_triple_rationally_infeasible": status == "UNSAT",
@@ -260,7 +260,7 @@ def main() -> None:
             "qflra_unknown_is_not_unsat": True,
             "fixed_projection_unsat_is_not_slice_unsat": True,
             "representative_sample_only": True,
-            "not_full178_numerical_credit": True,
+            "not_full178_numerical_credit": True
         },
         "safety": {
             "heavy_run_key_used": False,
@@ -272,12 +272,12 @@ def main() -> None:
             "receiver_credit": False,
             "route_credit": False,
             "perfect_cuboid_existence_claim": False,
-            "perfect_cuboid_nonexistence_claim": False,
-        },
+            "perfect_cuboid_nonexistence_claim": False
+        }
     }
     payload["canonical_sha256_without_this_field"] = csha(payload)
     args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
-    print(json.dumps({"status": status, "canonical": payload["canonical_sha256_without_this_field"], "checked": checked, "sat": len(rational_sat), "unsat": exact_unsat_count, "unknown": len(qflra_unkown), "elapsed_seconds": round(time.monotonic()-started,3)}), flush=True)
+    print(json.dumps({"status": status, "canonical": payload["canonical_sha256_without_this_field"], "checked": checked, "sat": len(rational_sat), "unsat": exact_unsat_count, "unknown": len(qflra_unknown), "elapsed_seconds": round(time.monotonic()-started,3)}), flush=True)
 
 if __name__ == "__main__":
     main()
