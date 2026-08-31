@@ -1,0 +1,259 @@
+name: Stage32 post-21bl FULL178 node-mass parallel census
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/residual-32-01-production/build_stage32_post21bl_full178_node_mass_census.py'
+      - 'stages/stage32/residual-32-01-production/aggregate_stage32_post21bl_full178_node_mass_shards.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_antifixed_coset_bound.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_quotient_class_map.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_antifixed_coset_penalty.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_integer_qp.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_integral_projection_bound.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_lattice_diagnostic.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_orbit_sum_qp_bound.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_slice_bridge.py'
+      - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
+      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
+      - 'stages/stage32/32-21/post-21bl-full178-node-support-preflight.json'
+      - 'stages/stage32/runkeys/stage32-post21bl-full178-node-mass-census.json'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+      - '.github/workflows/stage32-post21bl-full178-node-mass-census.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-post21bl-node-mass-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  RUNKEY: stages/stage32/runkeys/stage32-post21bl-full178-node-mass-census.json
+  DRIVER: stages/stage32/residual-32-01-production/build_stage32_post21bl_full178_node_mass_census.py
+  AGGREGATOR: stages/stage32/residual-32-01-production/aggregate_stage32_post21bl_full178_node_mass_shards.py
+  MANIFEST: stages/stage32/residual-32-01-production/full178-manifest.json
+  PREFLIGHT: stages/stage32/32-21/post-21bl-full178-node-support-preflight.json
+  RETAINED: stages/stage33/33-07/picard_base_rows_retained.py
+  MARKING: stages/stage33/33-07/stage32_picard_marking_retained.py
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      armed: ${{ steps.gate.outputs.armed }}
+      reason: ${{ steps.gate.outputs.reason }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: gate
+        name: Authorize only a fresh generation-advanced run-key-only synchronize commit
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import subprocess
+          from pathlib import Path
+
+          runkey_path = os.environ['RUNKEY']
+          event = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text())
+          action = event.get('action')
+          before = event.get('before')
+          after = event.get('after') or event['pull_request']['head']['sha']
+          reasons = []
+          previous_generation = None
+          previous_key_present = False
+
+          runkey_file = Path(runkey_path)
+          key = {}
+          if not runkey_file.is_file():
+              reasons.append('current_runkey_missing')
+          else:
+              try:
+                  key = json.loads(runkey_file.read_text())
+              except json.JSONDecodeError:
+                  reasons.append('current_runkey_invalid_json')
+
+          if action != 'synchronize':
+              reasons.append('action_not_synchronize')
+          if key.get('armed') is not True:
+              reasons.append('runkey_not_armed')
+          if not isinstance(key.get('generation'), int) or key['generation'] <= 0:
+              reasons.append('generation_not_positive')
+          if key.get('requested_heavy_jobs') != 16:
+              reasons.append('requested_heavy_jobs_not_sixteen')
+          if key.get('effective_stage32_heavy_jobs_if_armed') != 16:
+              reasons.append('effective_heavy_jobs_not_sixteen')
+          if key.get('maximum_effective_stage32_heavy_overlap', 999) > 18:
+              reasons.append('stage32_concurrency_ceiling_exceeded')
+          if key.get('effective_stage32_heavy_jobs_if_armed', 999) > key.get('maximum_effective_stage32_heavy_overlap', 0):
+              reasons.append('effective_heavy_jobs_exceed_ceiling')
+          if key.get('legacy_prefix_dfs_heavy_rearm_authorized') is not False:
+              reasons.append('legacy_prefix_dfs_rearm_not_forbidden')
+          if key.get('blind_512m_or_higher_arm_authorized') is not False:
+              reasons.append('blind_escalation_not_forbidden')
+          if key.get('old_679337_survivor_materialization_authorized') is not False:
+              reasons.append('old_survivor_materialization_not_forbidden')
+          if key.get('manifest_canonical_sha256') != '46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23':
+              reasons.append('manifest_mismatch')
+          if key.get('node_support_preflight_canonical_sha256') != '1654ef385558c606623f81bfbaf7c68063141a5be39d9b692d58567f011a6c65':
+              reasons.append('preflight_mismatch')
+          if key.get('node_support_preflight_audit_canonical_sha256') != '6039b5ffb4538c80d2b7fec32f817d90a7b98ef51af5adfef6b0bb2fef8f3336':
+              reasons.append('preflight_audit_mismatch')
+
+          changed = []
+          if action == 'synchronize' and before and after:
+              changed = subprocess.check_output(
+                  ['git', 'diff', '--name-only', before, after], text=True
+              ).splitlines()
+              if changed != [runkey_path]:
+                  reasons.append('synchronize_diff_not_exactly_runkey')
+
+              previous = subprocess.run(
+                  ['git', 'show', f'{before}:{runkey_path}'],
+                  text=True,
+                  capture_output=True,
+              )
+              if previous.returncode == 0:
+                  previous_key_present = True
+                  try:
+                      previous_key = json.loads(previous.stdout)
+                  except json.JSONDecodeError:
+                      reasons.append('previous_runkey_invalid_json')
+                  else:
+                      previous_generation = previous_key.get('generation')
+                      if not isinstance(previous_generation, int) or previous_generation <= 0:
+                          reasons.append('previous_generation_invalid')
+                      elif not isinstance(key.get('generation'), int) or key['generation'] <= previous_generation:
+                          reasons.append('generation_not_advanced')
+              else:
+                  # This workflow's run key is already established. Deleting it and
+                  # re-adding the same path must never reset generation history.
+                  reasons.append('previous_runkey_missing_fail_closed')
+          elif action == 'synchronize':
+              reasons.append('missing_before_after')
+
+          expected_base = key.get('expected_base_merge_commit')
+          if expected_base:
+              ok = subprocess.run(
+                  ['git', 'merge-base', '--is-ancestor', expected_base, after]
+              ).returncode == 0
+              if not ok:
+                  reasons.append('audited_base_not_ancestor')
+          else:
+              reasons.append('missing_expected_base')
+
+          armed = not reasons
+          with Path(os.environ['GITHUB_OUTPUT']).open('a') as fh:
+              fh.write(f"armed={'true' if armed else 'false'}\n")
+              fh.write(f"reason={'AUTHORIZED' if armed else ','.join(reasons)}\n")
+          print(json.dumps({
+              'armed': armed,
+              'reason': 'AUTHORIZED' if armed else reasons,
+              'action': action,
+              'before': before,
+              'after': after,
+              'changed_files': changed,
+              'previous_key_present': previous_key_present,
+              'previous_generation': previous_generation,
+              'generation': key.get('generation'),
+              'requested_heavy_jobs': key.get('requested_heavy_jobs'),
+              'effective_stage32_heavy_jobs_if_armed': key.get('effective_stage32_heavy_jobs_if_armed')
+          }, sort_keys=True))
+          PY
+
+  pilot:
+    needs: authorize
+    if: needs.authorize.outputs.armed == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Deterministic one-of-16 measured pilot
+        run: |
+          python "$DRIVER" \
+            --manifest "$MANIFEST" \
+            --preflight "$PREFLIGHT" \
+            --retained "$RETAINED" \
+            --marking "$MARKING" \
+            --row-shards 16 \
+            --shard-index 0 \
+            --output stage32-post21bl-node-mass-pilot.json
+      - name: Upload compact measured pilot evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-post21bl-node-mass-pilot
+          path: stage32-post21bl-node-mass-pilot.json
+          retention-days: 3
+          compression-level: 9
+
+  shard:
+    needs: [authorize, pilot]
+    if: needs.authorize.outputs.armed == 'true'
+    strategy:
+      fail-fast: true
+      max-parallel: 16
+      matrix:
+        shard_index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Exact deterministic FULL178 node-mass row shard
+        run: |
+          python "$DRIVER" \
+            --manifest "$MANIFEST" \
+            --preflight "$PREFLIGHT" \
+            --retained "$RETAINED" \
+            --marking "$MARKING" \
+            --row-shards 16 \
+            --shard-index ${{ matrix.shard_index }} \
+            --output stage32-post21bl-node-mass-shard-${{ matrix.shard_index }}.json
+      - name: Upload compact shard evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-post21bl-node-mass-shard-${{ matrix.shard_index }}
+          path: stage32-post21bl-node-mass-shard-${{ matrix.shard_index }}.json
+          retention-days: 3
+          compression-level: 9
+
+  aggregate:
+    needs: [authorize, shard]
+    if: needs.authorize.outputs.armed == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Download all exact shard evidence
+        uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-post21bl-node-mass-shard-*
+          path: stage32-post21bl-node-mass-shards
+      - name: Aggregate exact FULL178 post-cut census
+        run: |
+          python "$AGGREGATOR" \
+            --input-dir stage32-post21bl-node-mass-shards \
+            --output stage32-post21bl-full178-node-mass-aggregate.json
+      - name: Upload compact exact aggregate evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-post21bl-full178-node-mass-aggregate
+          path: stage32-post21bl-full178-node-mass-aggregate.json
+          retention-days: 3
+          compression-level: 9

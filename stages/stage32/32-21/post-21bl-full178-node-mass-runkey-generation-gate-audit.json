@@ -1,0 +1,70 @@
+{
+  "schema": "STAGE32_POST21BL_FULL178_NODE_MASS_RUNKEY_GENERATION_GATE_AUDIT_V1",
+  "stage": 32,
+  "leaf": "POST_21BL_FULL178_NODE_MASS_CENSUS",
+  "pr": 1473,
+  "hostile_audit_verdict_before_fix": "FAIL_OPERATIONS_ONLY_MATH_SCOPE_SURVIVES",
+  "operations_blocker": "Existing armed run key could be cosmetically rewritten at the same generation and pass the old runkey-only gate because previous generation was not compared.",
+  "fix": {
+    "workflow_path": ".github/workflows/stage32-post21bl-full178-node-mass-census.yml",
+    "fix_commit": "cc5caaedc0a315edc0940c5479c55ffc8503bc5c",
+    "workflow_git_blob_sha1": "c65ec15c698a7c96014ba55eafd577b776ed6d3b",
+    "rule": "For an existing run key on synchronize, current generation must be an integer strictly greater than the generation read from BEFORE:runkey_path. Otherwise armed=false with reason generation_not_advanced.",
+    "pilot_requires_authorize_true": true,
+    "shard_requires_authorize_true": true,
+    "aggregate_requires_authorize_true": true
+  },
+  "cold_workflow_only_check": {
+    "commit": "cc5caaedc0a315edc0940c5479c55ffc8503bc5c",
+    "run_id": 33448005365,
+    "authorize_completed": true,
+    "pilot_skipped": true,
+    "shard_skipped": true,
+    "aggregate_skipped": true
+  },
+  "same_generation_replay_probe": {
+    "probe_commit": "9a973336d6252ac334fa4f3f94d1360cbb658aef",
+    "run_id": 33448059081,
+    "authorize_job_id": 99671490070,
+    "changed_files": [
+      "stages/stage32/runkeys/stage32-post21bl-full178-node-mass-census.json"
+    ],
+    "previous_generation": 1,
+    "current_generation": 1,
+    "previous_key_present": true,
+    "armed": false,
+    "reason": [
+      "generation_not_advanced"
+    ],
+    "pilot_skipped": true,
+    "shard_skipped": true,
+    "aggregate_skipped": true
+  },
+  "restored_runkey_cold_check": {
+    "restore_commit": "999e5fc16201475c3cb31e2e3a6eaa559440a528",
+    "run_id": 33448160403,
+    "authorize_job_id": 99671806103,
+    "runkey_blob_sha1": "f9dab71303c66e94750cfedbae466195d25a502f",
+    "previous_generation": 1,
+    "current_generation": 1,
+    "armed": false,
+    "reason": [
+      "generation_not_advanced"
+    ],
+    "pilot_skipped": true,
+    "shard_skipped": true,
+    "aggregate_skipped": true
+  },
+  "math_scope": {
+    "full178_current_necessary_condition_numerical_census_status": "UNCHANGED_CLOSED_AUDITED",
+    "fresh_audit_characterization": "fresh provenance/accounting audit over the already-audited evaluator stack; not a from-scratch independent reimplementation of all KKT evaluations",
+    "math_result_revoked": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "verdict": "PASS_OPERATIONS_BLOCKER_FIXED_MATH_SCOPE_UNCHANGED",
+  "canonical_sha256_without_this_field": "3c171df6621e4883735bf1c43ce2675dd04ba4c8b83a6d28f06b3b88bde321a6"
+}

@@ -1,0 +1,83 @@
+{
+  "schema": "STAGE32_POST21BL_FULL178_NODE_MASS_RUNKEY_DELETE_READD_GATE_AUDIT_V1",
+  "stage": 32,
+  "pr": 1473,
+  "hostile_audit_review_id": 5072211242,
+  "hostile_audit_input_verdict": "FAIL_OPERATIONS_ONLY_MATH_SCOPE_SURVIVES",
+  "status": "OPERATIONS_REPAIR_EXERCISED_PENDING_HOSTILE_REAUDIT",
+  "workflow_path": ".github/workflows/stage32-post21bl-full178-node-mass-census.yml",
+  "runkey_path": "stages/stage32/runkeys/stage32-post21bl-full178-node-mass-census.json",
+  "repair": {
+    "commit": "924e4691c40c8be4755de4f21b5078aa012da7d5",
+    "rule": "For this already-established run key, failure to read BEFORE:<runkey> is fail-closed.",
+    "missing_previous_reason": "previous_runkey_missing_fail_closed",
+    "missing_current_reason": "current_runkey_missing"
+  },
+  "workflow_only_cold_check": {
+    "commit": "924e4691c40c8be4755de4f21b5078aa012da7d5",
+    "run_id": 33449679024,
+    "authorize_job_id": 99676529137,
+    "pilot_job_id": 99676561601,
+    "shard_job_id": 99676562351,
+    "aggregate_job_id": 99676562873,
+    "pilot": "SKIPPED",
+    "shard": "SKIPPED",
+    "aggregate": "SKIPPED"
+  },
+  "delete_probe": {
+    "commit": "21f04523a8a967c56de6381206f179258eb53734",
+    "run_id": 33449727372,
+    "authorize_job_id": 99676676994,
+    "before_commit": "924e4691c40c8be4755de4f21b5078aa012da7d5",
+    "current_runkey_present": false,
+    "previous_runkey_present": true,
+    "previous_generation": 1,
+    "armed": false,
+    "reasons_include": [
+      "current_runkey_missing",
+      "generation_not_advanced"
+    ],
+    "pilot": "SKIPPED",
+    "shard": "SKIPPED",
+    "aggregate": "SKIPPED"
+  },
+  "same_generation_readd_probe": {
+    "commit": "f30e6f45b02a5bd93c9c011f5e02be2edd87eee8",
+    "run_id": 33449758020,
+    "authorize_job_id": 99676771506,
+    "pilot_job_id": 99676816506,
+    "shard_job_id": 99676817134,
+    "aggregate_job_id": 99676817846,
+    "before_commit": "21f04523a8a967c56de6381206f179258eb53734",
+    "previous_runkey_present": false,
+    "previous_generation": null,
+    "current_generation": 1,
+    "armed": false,
+    "reason": "previous_runkey_missing_fail_closed",
+    "pilot": "SKIPPED",
+    "shard": "SKIPPED",
+    "aggregate": "SKIPPED"
+  },
+  "mathematical_scope": {
+    "unchanged": true,
+    "full178_rows": 178,
+    "coarse_e_strata_before": 64111,
+    "coarse_e_strata_after": 60491,
+    "continuous_kkt_survivors_before": 679337,
+    "continuous_kkt_survivors_after": 659697,
+    "newly_removed": 19640,
+    "antifixed_additional_prune": 0,
+    "full178_current_bijective_normalization_necessary_condition_numerical_credit": "CLOSED_AUDITED",
+    "integral_picard_feasibility": "OPEN",
+    "multibranch": "OPEN",
+    "receiver_theorem_perfect_cuboid_endpoint": "OPEN"
+  },
+  "merge_gate": {
+    "main_self_clear_hostile_audit": false,
+    "hostile_reaudit_required_before_merge": true,
+    "merge_allowed": false,
+    "checkpoint_merge_ready": false,
+    "automatic_merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "62a0549074f15318b132e73792c83656eece28ee16aeddef6f0e21787b82eaa7"
+}

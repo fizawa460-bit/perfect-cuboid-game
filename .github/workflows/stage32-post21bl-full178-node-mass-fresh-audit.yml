@@ -1,0 +1,44 @@
+name: Stage32 post-21bl FULL178 node-mass fresh audit
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/32-21/post-21bl-full178-node-mass-census-lock.json'
+      - 'stages/stage32/residual-32-01-production/audit_stage32_post21bl_full178_node_mass_census.py'
+      - '.github/workflows/stage32-post21bl-full178-node-mass-fresh-audit.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download exact production aggregate artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-post21bl-full178-node-mass-aggregate
+          path: ${{ runner.temp }}/node-mass-aggregate
+          github-token: ${{ github.token }}
+          repository: fizawa460-bit/perfect-cuboid-game
+          run-id: 33401652971
+      - name: Fresh independent audit of cut accounting and frozen output
+        run: |
+          python stages/stage32/residual-32-01-production/audit_stage32_post21bl_full178_node_mass_census.py \
+            --manifest stages/stage32/residual-32-01-production/full178-manifest.json \
+            --lock stages/stage32/32-21/post-21bl-full178-node-mass-census-lock.json \
+            --aggregate "${{ runner.temp }}/node-mass-aggregate/stage32-post21bl-full178-node-mass-aggregate.json" \
+            --driver stages/stage32/residual-32-01-production/build_stage32_post21bl_full178_node_mass_census.py \
+            --aggregator stages/stage32/residual-32-01-production/aggregate_stage32_post21bl_full178_node_mass_shards.py \
+            --output "${{ runner.temp }}/stage32-post21bl-full178-node-mass-fresh-audit.json"
+      - name: Upload compact fresh audit evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-post21bl-full178-node-mass-fresh-audit
+          path: ${{ runner.temp }}/stage32-post21bl-full178-node-mass-fresh-audit.json
+          retention-days: 3
+          compression-level: 9
