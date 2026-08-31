@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V141_POST_21AY_COMPLETE_TRIPLE_CENSUS",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V142_POST_21AZ_COMPRESSED_PRISM",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
   "G10_LOWGENUS_PICARD": "AMBER",
   "stage32_closed": false,
-  "status": "STAGE32_21AY_COMPLETE_TRIPLE_CENSUS_OPEN_3234_RATIONAL_SURVIVORS",
+  "status": "STAGE32_21AZ_COMPRESSED_21AY_SURVIVOR_PRISM_FOURTH_COORDINATE_SELECTED",
   "advance_allowed": true,
   "merge_allowed": false,
   "checkpoint_merge_ready": false,
@@ -48,11 +48,7 @@
     "orbit_sum_relation_count": 14,
     "additional_rational_relation_count": 67,
     "two_adic_saturation_index": "2^26",
-    "nonunit_smith_factors": {
-      "2": 4,
-      "4": 8,
-      "8": 2
-    },
+    "nonunit_smith_factors": {"2": 4, "4": 8, "8": 2},
     "affine_congruence_count": 14,
     "21ak_certificate_sha256": "51effd04ea195831a3bf1859710716910e5ef0945caab94c36c1c03840b1d6ee"
   },
@@ -108,12 +104,33 @@
         "qflra_unknown_triples": 0,
         "rational_sat_is_not_integer_sat": true
       },
+      "21az_compressed_survivor_prism": {
+        "run_id": 33352670146,
+        "artifact_id": 9744156475,
+        "artifact_zip_sha256": "f9a309b9a11d41c77b93b178147384b3155d22c917729a6dfa7790807285d9c9",
+        "evidence_json_sha256": "084cc3323f6c83f067ea2a9be6d0650e7481b2df53d06d23c19f359a3012a3d2",
+        "certificate_sha256": "da62663b507c6df8e9c8620ade3c63157fea8d125c2f552da1ef89211e9f4315",
+        "source_lock_file": "stages/stage32/32-21/32-21az-survivor-prism.json",
+        "source_lock_sha256": "3c83ce97058ad52124730376a4e41720a40eb45995994314ac47d7f973da40da",
+        "compressed_integer_point_count": 3234,
+        "compressed_inequalities": [
+          "69 <= r50 <= 79",
+          "-60 <= r55 <= -50",
+          "r55 <= r50 - 129",
+          "-96 <= r27 <= -48"
+        ],
+        "chosen_fourth_coordinate": 51,
+        "r51_initial_bound": [-236, -132],
+        "r51_residual_integer_valid_bound": [-178, -132],
+        "r51_residual_domain_size": 47,
+        "projection_unknown_candidates": 0
+      },
       "current_combined_state": {"sat": 0, "unsat": 55, "unknown": 1}
     }
   },
-  "current_item": "32-21AZ_COMPRESS_21AY_SURVIVOR_REGION_AND_SELECT_FOURTH_COORDINATE",
-  "current_item_execution_constraint": "Source-lock the exact 21ay 3234-triple survivor set without storing a raw list if an exact compact inequality description replays exactly. Then compare exact QF_LRA projection bounds for remaining reduced coordinates and choose a fourth coordinate by certified residual domain size/activity. Rational feasibility is not integer SAT; preserve the lone fixed projection as UNKNOWN unless a complete exact integer-valid decomposition closes it.",
-  "next_item_if_compressed": "32-21BA_EXACT_FOUR_COORDINATE_RATIONAL_SLICE_CENSUS_OR_SEMIGROUP_REFINEMENT",
+  "current_item": "32-21BA_EXACT_PER_TRIPLE_R51_INTERVAL_CENSUS",
+  "current_item_execution_constraint": "For each of the 3234 integer triples in the exact 21az survivor prism, derive the exact QF_LRA feasible interval of r51 and convert it to the complete integer r51 interval by ceil/floor. Exploit convexity: fixed-triple rational feasibility in one coordinate is an interval, so do not enumerate all 47 values blindly. Preserve QF_LRA UNKNOWN explicitly and do not promote rationally feasible quadruples to integer SAT.",
+  "next_item_if_compressed": "32-21BB_COMPRESS_FOUR_COORDINATE_SURVIVOR_REGION_OR_ADD_EXACT_SEMIGROUP_CONSTRAINT",
   "active_execution_guardrail": {
     "full_178_row_sweep_authorized": false,
     "heavy_compute_requires_fresh_runkey_sync": true,
@@ -148,7 +165,7 @@
   },
   "cycle_safety": {
     "route_open": true,
-    "live_candidate": "COMPRESSED_21AY_SURVIVOR_REGION_PLUS_CERTIFIED_FOURTH_COORDINATE_REFINEMENT",
+    "live_candidate": "PER_TRIPLE_EXACT_R51_INTERVAL_CENSUS_THEN_FOUR_DIMENSIONAL_COMPRESSION",
     "dominated": [
       "REARM_SAME_32_21AD_FULL178_CENSUS",
       "GENERIC_59D_INTEGER_SMT_WITHOUT_SEMANTIC_CHANGE",
@@ -156,7 +173,8 @@
       "CP_SAT_WITNESS_HUNT_AS_AN_UNSAT_PROOF",
       "ISL_OR_OTHER_INTEGER_SOLVER_RETRY_WITHOUT_SEMANTIC_CHANGE",
       "21AX_FULL_COORDINATE_SWEEP_WITH_FRESH_SOLVER_PER_QUERY",
-      "STORE_RAW_3234_TRIPLE_LIST_AS_LONG_TERM_CONTROLLER_STATE"
+      "STORE_RAW_3234_TRIPLE_LIST_AS_LONG_TERM_CONTROLLER_STATE",
+      "RAW_3234_X_47_QUADRUPLE_ENUMERATION_WHEN_PER_TRIPLE_CONVEX_INTERVALS_SUFFICE"
     ],
     "blocked": [
       "FULL178_PROMOTION_FROM_REPRESENTATIVE_SAMPLE",
