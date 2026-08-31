@@ -1,21 +1,21 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V151_21BL_JOINT_INTEGER_CLOSURE_ACTIVE",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V152_21BL_AUDITED_INTEGER_SAT_CHECKPOINT",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
-  "status": "STAGE32_21BL_JOINT_INTEGER_CLOSURE_ACTIVE_AFTER_21BK_FINAL_SINGLE_COORDINATE_COMPRESSION",
-  "current_item": "32-21BL_JOINT_INTEGER_CLOSURE_CHECKPOINT",
-  "current_item_execution_constraint": "Check every one of the 3234 surviving fixed triples in the preserved all140 model with all 59 unimodular reduced coordinates constrained integer simultaneously. Reuse only audited 21bb/21bc/21be/21bf/21bg/21bh/21bi/21bj data and the locked 21bk final-single-coordinate evidence. SAT requires an exact fixed-projection integer witness; UNSAT prunes only that fixed triple; preserve every UNKNOWN. If all 3234 are UNSAT with UNKNOWN=0, close only this fixed projection, not the slice or Stage32 theorem route.",
+  "status": "STAGE32_21BL_AUDITED_INTEGER_SAT_RESOLUTION_CHECKPOINT",
+  "current_item": "32-21BL_AUDITED_INTEGER_SAT_CHECKPOINT",
+  "current_item_execution_constraint": "The former lone representative UNKNOWN is resolved by an exact 59D integer witness in the preserved current fixed-projection model and a fresh independent Z3 replay audit. Do not run the 3234-triple scaleout: SAT resolution requires one exact current-model witness, and that condition is already audited. Do not extend the single-coordinate compression sequence. This is representative fixed-projection credit only, not FULL178, slice, theorem, receiver, route, or perfect-cuboid credit.",
   "active_pr": {
     "number": 1467,
     "branch": "stage32-21ae-actual-residue-witness-preflight",
     "base_sha": "d8fa4446af9bcc36b34d2421733333f0c74d23d5",
     "automatic_merge_authorized": false
   },
-  "advance_allowed": true,
+  "advance_allowed": false,
   "merge_allowed": false,
   "automatic_merge_authorized": false,
-  "checkpoint_merge_ready": false,
+  "checkpoint_merge_ready": true,
   "stage32_closed": false,
   "actions_safety": {
     "policy": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
@@ -26,15 +26,17 @@
     "21bl_per_check_timeout_ms": 5000,
     "21bl_intermediate_retention_days": 1,
     "21bl_final_retention_days": 7,
-    "projected_21bl_artifact_peak_mb": "well below 10 MB; compact status/witness certificates only",
+    "21bl_full_scaleout_authorized": false,
+    "21bl_heavy_rearm_authorized": false,
     "heavy_compute_requires_fresh_runkey_sync": true
   },
   "active_execution_guardrail": {
-    "effective_heavy_concurrency_limit_for_21bl": 16,
     "maximum_effective_stage32_heavy_overlap": 18,
     "full_178_row_sweep_authorized": false,
     "legacy_prefix_dfs_heavy_rearm_authorized": false,
     "terminal_family_materialization_authorized": false,
+    "21bl_full_3234_scaleout_authorized": false,
+    "21bl_additional_witness_hunt_required": false,
     "unknown_is_unsat": false,
     "fixed_projection_unsat_is_not_slice_unsat": true,
     "representative_sample_is_not_full178_numerical_credit": true
@@ -43,22 +45,27 @@
     "contract": "stages/stage32/32-21/32-21-coordinate-closure-contract.json",
     "last_completed_single_coordinate_leaf": "32-21bk",
     "single_coordinate_extension_authorized": false,
-    "current_mandatory_leaf": "32-21bl",
-    "current_mode": "JOINT_INTEGER_CLOSURE_CHECKPOINT"
+    "joint_integer_leaf": "32-21bl",
+    "joint_integer_leaf_status": "CLOSED_AUDITED_INTEGER_SAT_RESOLUTION",
+    "current_mandatory_leaf": null,
+    "current_mode": "AUDITED_INTEGER_SAT_CHECKPOINT"
   },
   "representative_chain": {
     "scope": "deterministic 56 fixed-projection representative sample only; not FULL178 numerical credit",
     "current_combined_state": {
-      "sat": 0,
+      "sat": 1,
       "unsat": 55,
-      "unknown": 1
+      "unknown": 0
     },
-    "lone_unknown": {
+    "former_lone_unknown": {
       "row_id": "g1-d186",
       "e": 266,
       "a": 592,
+      "u": -44,
+      "v": 32,
       "z": [-15, 62, -44, 26, 32],
-      "survivor_prism_triples": 3234
+      "survivor_prism_triples": 3234,
+      "resolution": "AUDITED_EXACT_INTEGER_SAT_WITNESS"
     },
     "21bk": {
       "status": "PASS_EXACT_21BK_R20_FINAL_SINGLE_COORDINATE_PROJECTION",
@@ -74,11 +81,31 @@
       "r20_indices_after": 149740
     },
     "21bl": {
-      "status": "ACTIVE_NOT_YET_CREDITED",
+      "status": "CLOSED_AUDITED_EXACT_INTEGER_SAT_RESOLUTION",
       "solver_file": "stages/stage32/residual-32-01-production/certify_stage32_21bl_joint_integer_closure.py",
+      "candidate_preflight_file": "stages/stage32/residual-32-01-production/certify_stage32_21bl_milp_candidate_preflight.py",
+      "audit_file": "stages/stage32/residual-32-01-production/audit_stage32_21bl_joint_integer_witness.py",
       "workflow": ".github/workflows/stage32-21bl-joint-integer-closure.yml",
-      "runkey": "stages/stage32/runkeys/stage32-21bl-joint-integer-closure.json",
-      "solver_mode": "EXACT_59D_JOINT_INTEGER_CLOSURE"
+      "solver_mode": "EXACT_59D_JOINT_INTEGER_CLOSURE",
+      "ordinal": 1617,
+      "triple": [76, -55, -96],
+      "integer_rank": 59,
+      "assertion_count": 514,
+      "witness_file": "stages/stage32/32-21/32-21bl-joint-integer-witness.json",
+      "witness_sha256": "1a131595c87cf9c5d54ef97dba62261eeb3dda7bb92a5a9fa62c280f46bc4137",
+      "producing_run_id": 33380510213,
+      "producing_artifact_id": 9753613683,
+      "producing_artifact_zip_sha256": "72a968f83cd0af4723b225b51b9bee7928bb56b4d393bc6442e27a9d98ad9072",
+      "evidence_canonical_sha256": "ac88fb355252750e6afdc10cbb54abec24babbad57c25090c017f9a55ac93a44",
+      "fresh_audit_certificate": "stages/stage32/32-21/32-21bl-joint-integer-witness-audit.json",
+      "fresh_audit_run_id": 33381259913,
+      "fresh_audit_job_id": 99453918992,
+      "fresh_audit_artifact_id": 9753859098,
+      "fresh_audit_artifact_zip_sha256": "3b1730f1ad8018682b28574d185ada86d2042f348eadb19f7c74260dfbfa85ad",
+      "fresh_audit_canonical_sha256": "4c8ba2456d163963a7ca28d3ce72d3556460e7bee0d46ee676b891e94e9ba264",
+      "original_joint_z3_fixed_witness_replay": "sat",
+      "full_3234_scaleout_required_for_sat_resolution": false,
+      "full_3234_scaleout_authorized": false
     }
   },
   "history": {
@@ -98,7 +125,8 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
   },
-  "next_item_if_pass": "IF_ALL_3234_INTEGER_UNSAT_AND_UNKNOWN_ZERO: FIXED_PROJECTION_INTEGER_UNSAT_CHECKPOINT_ONLY; IF_ANY_INTEGER_SAT: EXACT_WITNESS_AUDIT",
-  "next_item_if_fail": "PRESERVE_ALL_UNKNOWN_OR_FAILED_SHARDS_WITHOUT_CREDIT_AND_REPAIR_ONLY_21BL_EXECUTION",
+  "next_item_if_pass": "AFTER_EXPLICIT_PR1467_MERGE_AUTHORIZATION_AND_MERGE: REREAD_MAIN_CONTROLLER_AND_SELECT_A_POST_21BL_STRATEGY_THAT_CONSUMES_THE_AUDITED_INTEGER_WITNESS_THROUGH_AN_EXPLICIT_ADAPTER; DO_NOT_INVENT_32_21BM_OR_RESTART_SINGLE_COORDINATE_COMPRESSION",
+  "next_item_if_fail": "N/A_21BL_FRESH_EXACT_WITNESS_REPLAY_AUDIT_PASSED",
+  "next_expected_action": "MERGE_PR1467_ONLY_WITH_EXPLICIT_USER_AUTHORIZATION",
   "next_expected_command": "stage32main batch"
 }
