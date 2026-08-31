@@ -2,7 +2,29 @@
 from __future__ import annotations
 import argparse, hashlib, json
 from pathlib import Path
-from z3 import Int, Solver, get_version_string, sat, unknown, unsat
+from z3 import (
+    And,
+    Int,
+    IntVal,
+    Not,
+    Or,
+    SolverFor,
+    Z3_OP_ADD,
+    Z3_OP_AND,
+    Z3_OP_EQ,
+    Z3_OP_GE,
+    Z3_OP_LE,
+    Z3_OP_MUL,
+    Z3_OP_NOT,
+    Z3_OP_OR,
+    Z3_OP_SUB,
+    Z3_OP_UMINUS,
+    get_version_string,
+    is_rational_value,
+    sat,
+    unknown,
+    unsat,
+)
 from audit_stage32_21be_r51_endpoints import EXPECTED_TRIPLES, predicted_lo
 from certify_stage32_21ba_r51_interval_census import prism_triples
 from certify_stage32_21bc_pair_combination_projection import CANDIDATE_BOUNDS
@@ -65,18 +87,75 @@ def r54_lo_from_table(table: dict, r50: int, r55: int, r27: int) -> int:
         seen += count
     raise ValueError("21bh RLE did not cover r27")
 
+def integerize_linear_ast(expr, var_map: dict[str, object]):
+    """Rebuild an audited integer-coefficient linear Real assertion over Int vars.
+
+    21bl needs all 59 reduced coordinates integral simultaneously.  Earlier
+    generations encoded that as 59 Real variables bridged to 59 Int variables,
+    which left Z3 in mixed integer/real arithmetic and timed out on all 3234
+    triples.  The audited all140/pair/bound assertions have integer coefficients,
+    so replacing each reduced Real variable by the corresponding Int variable
+    and every denominator-one rational numeral by IntVal is exactly equivalent
+    to the bridge encoding while producing pure QF_LIA.
+    """
+    if is_rational_value(expr):
+        if expr.denominator_as_long()!=1:
+            raise ValueError(f"non-integer coefficient in 21bl linear assertion: {expr}")
+        return IntVal(expr.numerator_as_long())
+    if expr.num_args()==0:
+        name=expr.decl().name()
+        if name in var_map:
+            return var_map[name]
+        raise ValueError(f"unexpected leaf in 21bl linear assertion: {expr}")
+    kind=expr.decl().kind()
+    args=[integerize_linear_ast(a,var_map) for a in expr.children()]
+    if kind==Z3_OP_ADD:
+        out=IntVal(0)
+        for a in args: out=out+a
+        return out
+    if kind==Z3_OP_MUL:
+        out=IntVal(1)
+        for a in args: out=out*a
+        return out
+    if kind==Z3_OP_SUB:
+        if len(args)==1: return -args[0]
+        out=args[0]
+        for a in args[1:]: out=out-a
+        return out
+    if kind==Z3_OP_UMINUS:
+        if len(args)!=1: raise ValueError("bad unary minus")
+        return -args[0]
+    if kind==Z3_OP_LE:
+        if len(args)!=2: raise ValueError("bad <= arity")
+        return args[0]<=args[1]
+    if kind==Z3_OP_GE:
+        if len(args)!=2: raise ValueError("bad >= arity")
+        return args[0]>=args[1]
+    if kind==Z3_OP_EQ:
+        if len(args)!=2: raise ValueError("bad = arity")
+        return args[0]==args[1]
+    if kind==Z3_OP_AND:
+        return And(*args)
+    if kind==Z3_OP_OR:
+        return Or(*args)
+    if kind==Z3_OP_NOT:
+        if len(args)!=1: raise ValueError("bad not arity")
+        return Not(args[0])
+    raise ValueError(f"unsupported operator in 21bl linear assertion: {expr.decl()} / {expr}")
+
 def build_joint(args):
     load_21bk_evidence(args.tenth_lock)
     load_canonical_lock(args.eighth_lock,EXPECTED_21BI_LOCK_SHA256,"PASS_EXACT_21BI_R57_AFTER_TARGETED_UNKNOWN_RESCUE")
     load_canonical_lock(args.ninth_lock,EXPECTED_21BJ_LOCK_SHA256,"PASS_EXACT_21BJ_R56_PER_TRIPLE_PROJECTION")
     _,r54_table=load_21bh_lock(args.seventh_lock)
-    lra,r,target=build_21bf_solver(args)
-    if len(r)!=RANK: raise ValueError("rank regression")
+    lra,r_real,target=build_21bf_solver(args)
+    if len(r_real)!=RANK: raise ValueError("rank regression")
     if CANDIDATE_BOUNDS.get(20)!=(86,132): raise ValueError("r20 bound regression")
-    s=Solver(); s.set(timeout=args.per_check_timeout_ms); s.add(*lra.assertions())
     ri=[Int(f"ri_{j}") for j in range(RANK)]
-    for j in range(RANK): s.add(r[j]==ri[j])
-    return s,r,ri,target,r54_table
+    var_map={r_real[j].decl().name():ri[j] for j in range(RANK)}
+    integer_assertions=[integerize_linear_ast(a,var_map) for a in lra.assertions()]
+    s=SolverFor("QF_LIA"); s.set(timeout=args.per_check_timeout_ms); s.add(*integer_assertions)
+    return s,ri,ri,target,r54_table
 
 def bands_for(triple,table):
     r50,r55,r27=triple
@@ -102,7 +181,7 @@ def run_shard(args):
             else: raise RuntimeError(out)
         finally: s.pop()
         if (ordinal-start+1)%50==0: print(json.dumps({"shard":args.shard_index,"processed":ordinal-start+1,"unsat":len(unsat_rows),"sat":len(sat_rows),"unknown":len(unknown_rows)}),flush=True)
-    payload={"schema":SCHEMA_SHARD,"stage":32,"leaf":"32-21bl","mode":"EXACT_59D_JOINT_INTEGER_CLOSURE_PER_FIXED_TRIPLE","source_21bk_evidence_canonical_sha256":EXPECTED_21BK_EVIDENCE_CANONICAL,"z3_version":get_version_string(),"target":target,"partition":{"shard_index":args.shard_index,"shard_count":args.shard_count,"start_ordinal":start,"end_ordinal_exclusive":end,"expected_rows":end-start},"result":{"processed_rows":end-start,"integer_unsat_count":len(unsat_rows),"integer_sat_count":len(sat_rows),"unknown_count":len(unknown_rows),"unsat_ordinals":unsat_rows,"sat_witnesses":sat_rows,"unknown_rows":unknown_rows},"interpretation":{"all_59_unimodular_reduced_coordinates_are_constrained_integer_simultaneously":True,"six_prior_lossless_coordinate_bands_and_42_pair_cuts_are_sound_pruning_only":True,"sat_contains_exact_fixed_projection_integer_witness":True,"unsat_prunes_only_the_fixed_triple":True,"unknown_is_not_unsat":True,"fixed_projection_unsat_is_not_slice_unsat":True,"representative_sample_only":True,"not_full178_numerical_credit":True},"safety":{"heavy_run_key_used":True,"full178_production_run":False,"integer_solver_used":True,"theorem_credit":False,"receiver_credit":False,"route_credit":False,"perfect_cuboid_existence_claim":False,"perfect_cuboid_nonexistence_claim":False}}
+    payload={"schema":SCHEMA_SHARD,"stage":32,"leaf":"32-21bl","mode":"EXACT_59D_JOINT_INTEGER_CLOSURE_PER_FIXED_TRIPLE","source_21bk_evidence_canonical_sha256":EXPECTED_21BK_EVIDENCE_CANONICAL,"z3_version":get_version_string(),"target":target,"partition":{"shard_index":args.shard_index,"shard_count":args.shard_count,"start_ordinal":start,"end_ordinal_exclusive":end,"expected_rows":end-start},"result":{"processed_rows":end-start,"integer_unsat_count":len(unsat_rows),"integer_sat_count":len(sat_rows),"unknown_count":len(unknown_rows),"unsat_ordinals":unsat_rows,"sat_witnesses":sat_rows,"unknown_rows":unknown_rows},"interpretation":{"all_59_unimodular_reduced_coordinates_are_constrained_integer_simultaneously":True,"direct_qf_lia_integerization_of_audited_integer_coefficient_linear_assertions":True,"six_prior_lossless_coordinate_bands_and_42_pair_cuts_are_sound_pruning_only":True,"sat_contains_exact_fixed_projection_integer_witness":True,"unsat_prunes_only_the_fixed_triple":True,"unknown_is_not_unsat":True,"fixed_projection_unsat_is_not_slice_unsat":True,"representative_sample_only":True,"not_full178_numerical_credit":True},"safety":{"heavy_run_key_used":True,"full178_production_run":False,"integer_solver_used":True,"theorem_credit":False,"receiver_credit":False,"route_credit":False,"perfect_cuboid_existence_claim":False,"perfect_cuboid_nonexistence_claim":False}}
     payload["canonical_sha256_without_this_field"]=csha(payload); args.output.write_text(json.dumps(payload,indent=2,sort_keys=True)+"\n")
     print(json.dumps({"status":"PASS_SHARD" if not unknown_rows else "SHARD_WITH_UNKNOWN","canonical":payload["canonical_sha256_without_this_field"],"unsat":len(unsat_rows),"sat":len(sat_rows),"unknown":len(unknown_rows)}),flush=True)
 
