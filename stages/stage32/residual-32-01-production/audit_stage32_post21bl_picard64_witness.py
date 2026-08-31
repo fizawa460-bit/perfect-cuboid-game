@@ -59,8 +59,8 @@ def main() -> None:
     if gram.shape != (EXPECTED_PICARD_RANK, EXPECTED_PICARD_RANK):
         raise ValueError("Picard Gram rank regression")
 
-    # Rebuild the exact 21bl pairing vector from its source witness.  This audit
-    # intentionally does NOT import or call adapt_stage32_post21bl_picard_witness.py.
+    # Rebuild the exact 21bl pairing vector from its source witness. This audit
+    # intentionally does NOT import or call the producing adapter.
     z = Matrix([int(v) for v in source["target"]["z"]])
     r = Matrix([int(v) for v in source["result"]["witness_r_reduced"]])
     M = data["M"]
@@ -75,12 +75,13 @@ def main() -> None:
     y = data["pairing_x0_map"] * z + M * U * r
     y_values = [int(y[i, 0]) for i in range(y.rows)]
 
-    # Independent Picard reconstruction: instead of x=x0+KUr, select the 64
-    # pairings against the retained Picard basis and invert the retained Gram
-    # matrix.  The retained-basis pairing block must be exactly Gram itself.
+    # Independent reconstruction: select pairings against the retained Picard
+    # basis and invert its Gram matrix, rather than using x=x0+KUr.
     retained_idx = [int(v) - 1 for v in RETAINED_BASIS_KNOWN_LABELS_1BASED]
     pairing_matrix = data["adapter"].pairing_matrix
-    retained_pairing_block = pairing_matrix.extract(retained_idx, list(range(EXPECTED_PICARD_RANK)))
+    retained_pairing_block = pairing_matrix.extract(
+        retained_idx, list(range(EXPECTED_PICARD_RANK))
+    )
     retained_pairing_block_is_gram = retained_pairing_block == gram
     if not retained_pairing_block_is_gram:
         raise ValueError("retained pairing block is not the Picard Gram")
@@ -93,8 +94,12 @@ def main() -> None:
     x_values = [int(x[i, 0]) for i in range(x.rows)]
 
     all140_replay_exact = pairing_matrix * x == y
-    source_pairings_match_persisted = y_values == [int(v) for v in adapted["all140"]["pairings"]]
-    picard_matches_persisted = x_values == [int(v) for v in adapted["reconstruction"]["picard_coordinates"]]
+    source_pairings_match_persisted = y_values == [
+        int(v) for v in adapted["all140"]["pairings"]
+    ]
+    picard_matches_persisted = x_values == [
+        int(v) for v in adapted["reconstruction"]["picard_coordinates"]
+    ]
     picard_sha = sha256_json(x_values)
     pairing_sha = sha256_json(y_values)
 
@@ -138,7 +143,8 @@ def main() -> None:
         "target_image_exact": target_image_exact,
         "all140_nonnegative": all140_nonnegative,
         "self_square_threshold_exact": self_square_threshold_exact,
-        "self_square_matches_persisted": self_square == int(adapted["quadratic"]["picard_self_square"]),
+        "self_square_matches_persisted": self_square
+        == int(adapted["quadratic"]["picard_self_square"]),
     }
     passed = all(checks.values())
     verdict = (
@@ -157,8 +163,12 @@ def main() -> None:
             "adapter_evidence_canonical_sha256": EXPECTED_ADAPTER_CANONICAL,
             "21bl_witness_sha256": EXPECTED_WITNESS_SHA256,
             "retained_bundle_sha256": bundle["canonical_sha256"],
-            "adapter_certificate_sha256": data["adapter"].certificate["canonical_sha256_without_this_field"],
-            "bridge_certificate_sha256": bridge.certificate["canonical_sha256_without_this_field"],
+            "adapter_certificate_sha256": data["adapter"].certificate[
+                "canonical_sha256_without_this_field"
+            ],
+            "bridge_certificate_sha256": bridge.certificate[
+                "canonical_sha256_without_this_field"
+            ],
         },
         "checks": checks,
         "result": {
@@ -175,15 +185,15 @@ def main() -> None:
             "slack": self_square - required_lower,
         },
         "credit_firewalls": {
-            "representative_sample_only": true,
-            "not_full178_numerical_credit": true,
-            "picard_class_is_not_effective_curve_existence": true,
-            "receiver_credit": false,
-            "theorem_credit": false,
-            "route_credit": false,
-            "perfect_cuboid_existence_claim": false,
-            "perfect_cuboid_nonexistence_claim": false
-        }
+            "representative_sample_only": True,
+            "not_full178_numerical_credit": True,
+            "picard_class_is_not_effective_curve_existence": True,
+            "receiver_credit": False,
+            "theorem_credit": False,
+            "route_credit": False,
+            "perfect_cuboid_existence_claim": False,
+            "perfect_cuboid_nonexistence_claim": False,
+        },
     }
     payload["canonical_sha256_without_this_field"] = csha(payload)
     args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
