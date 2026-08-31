@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V39_STAGE33_12_FIRST_FULL_SURFACE_KUMMER_COLUMN_CURRENT",
+  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V40_STAGE33_12_FIRST_FULL_SURFACE_KUMMER_COLUMN_INPUT_RECOVERY_CURRENT",
   "role": "CURRENT_MACHINE_STATE",
   "stage": "33",
   "kernel": "K16-C2-BRAUER-EXPLICIT-CHAIN",
@@ -21,11 +21,11 @@
     "unit": "33-12",
     "contract_role": "ARITHMETIC_HS_CLOSURE_AND_STAGE33_07_RECERTIFICATION",
     "logical_internal_branch": "33-13_FINITE_V4_KUMMER_MATRIX",
-    "substep": "MATERIALIZE_FIRST_EXACT_KUMMER_COLUMN_INTERFACE",
+    "substep": "RECOVER_FIRST_EXACT_KUMMER_COLUMN_INPUT",
     "status": "CURRENT",
     "active_receiver": "FINITE_V4_KUMMER_RESTRICTION_ON_REMAINING_PROPER_FULL_SURFACE_BR2_RECEIVER",
-    "active_missing_interface": "ONE_EXACT_75_COORDINATE_KUMMER_COLUMN_FROM_FULL_SURFACE_MU2_LIFT_OR_EQUIVALENT_UNIMODULAR_GLUE_DATUM",
-    "next_exact_leaf": "MATERIALIZE_ONE_75_COORDINATE_FINITE_V4_KUMMER_DEFECT_COLUMN_FROM_A_FULL_SURFACE_MU2_LIFT_OR_EQUIVALENT_UNIMODULAR_GLUE_DATUM"
+    "active_missing_interface": "ONE_EQUIVARIANT_FULL_SURFACE_MU2_LIFT_WITH_CC_CT_ACTION_OR_EQUIVALENT_PICARD_TRANSCENDENTAL_UNIMODULAR_GLUE_DATUM",
+    "next_exact_leaf": "RECOVER_OR_CONSTRUCT_ONE_EQUIVARIANT_FULL_SURFACE_MU2_LIFT_FOR_A_RETAINED_10D_PROPER_INVARIANT_BASIS_VECTOR_THEN_PROJECT_ITS_CC_CT_DEFECT_TO_THE_LOCKED_75D_H1_BASIS"
   },
   "stage33_05": {
     "unit_status": "CLOSED",
@@ -85,10 +85,15 @@
     "known_q_defined_full_surface_proper_kernel_charge_from_J2": 0,
     "full_surface_hs_adjustment_contract_sha256": "ec455bac5ba80c5be07e3eff045bb180d4b63d6d02bd6e8758c1c02e130b4f5b",
     "exact_obstruction_inventory_sha256": "3187e5d4bb4b0dd7b47841fd7be097bb71858183cc7af49c527254994360720c",
-    "retained_target_basis_sha256": "384b7c9cb06e993c147fa89b30f93efcd454fe1a1773892ac70f463d07af9890",
+    "retained_target_basis_sha256": "384ba7c9cb06e993c147fa89b30f93efcd454fe1a1773892ac70f463d07af9890",
     "retained_target_basis_scope": "75D_H1_AND_10D_DOMAIN_BASES_ONLY_HISTORICAL_J2_KERNEL_BOUND_SUPERSEDED",
+    "first_exact_kummer_column_input_audit": "stages/stage33/33-12/first-exact-kummer-column-input-audit.json",
+    "first_exact_kummer_column_input_audit_sha256": "9694446f8e9f5da97a87d4551b4d94c60db1e614ea52372da2f6f35c9456c090",
+    "historical_rep88_actual_geometry_promotion_firewalled": true,
+    "historical_rep88_labels_usable_as_mu2_lift": false,
+    "minimal_missing_exact_datum": "ONE_EQUIVARIANT_FULL_SURFACE_MU2_LIFT_OR_EQUIVALENT_PICARD_TRANSCENDENTAL_UNIMODULAR_GLUE_DATUM",
     "logical_internal_sequence": [
-      {"id": "33-13", "name": "FINITE-V4-KUMMER-MATRIX", "status": "CURRENT_FIRST_COLUMN_INTERFACE"},
+      {"id": "33-13", "name": "FINITE-V4-KUMMER-MATRIX", "status": "CURRENT_FIRST_COLUMN_INPUT_RECOVERY"},
       {"id": "33-14", "name": "FINITE-HS-COSETS-AND-TWO-PRIMARY-CONSTANT-BLOCK", "status": "PLANNED_BLOCKED_BY_33_13"},
       {"id": "33-15", "name": "GLOBAL-ARITHMETIC-HS-ASSEMBLY-AND-33-07-HOSTILE-RECERTIFICATION", "status": "PLANNED_BLOCKED_BY_33_14"}
     ]
@@ -120,16 +125,16 @@
     "audit_required": true,
     "merge_allowed": false,
     "advance_allowed": true,
-    "advance_scope": "STAGE33_12_INTERNAL_33_13_FIRST_EXACT_KUMMER_COLUMN_ONLY_NO_PARENT_RECLOSURE",
+    "advance_scope": "STAGE33_12_INTERNAL_33_13_FIRST_EXACT_KUMMER_COLUMN_INPUT_RECOVERY_ONLY_NO_PARENT_RECLOSURE",
     "heavy_actions_authorized": false,
-    "next_item": "Stage33-12_33-13_FIRST_EXACT_75_COORDINATE_KUMMER_COLUMN",
+    "next_item": "Stage33-12_33-13_RECOVER_FIRST_EXACT_KUMMER_COLUMN_INPUT",
     "next_expected_command": "Stage33-main-batch"
   },
   "loop_state": {
     "active": true,
     "stagnation_count": 0,
-    "last_cycle_route_status": "PASS_INTERFACE_NARROWED",
-    "last_new_view": "separate dead 2D Kc block from distinct 10D full-surface receiver and reduce blind 75x10 task to one exact constructible column"
+    "last_cycle_route_status": "PASS_FALSE_REP88_ROUTE_FIREWALLED_AND_INPUT_REDUCED",
+    "last_new_view": "historical rep88/120-123 finite-discriminant glue classification cannot supply the Kummer column because arithmetic cc/ct on the actual integral transcendental lattice was explicitly firewalled; one equivariant full-surface mu2 lift or equivalent Picard-transcendental unimodular gluing datum is the minimal exact input"
   },
   "compatibility": {
     "legacy_runtime_override": "stages/stage33/controller-post-r5-hs-d2-override.json",
@@ -140,11 +145,11 @@
     "historical_checkpoint_merged": true
   },
   "audit_required": true,
-  "audit_scope": "STAGE33_12_INTERNAL_33_13_FIRST_EXACT_KUMMER_COLUMN",
+  "audit_scope": "STAGE33_12_INTERNAL_33_13_FIRST_EXACT_KUMMER_COLUMN_INPUT_RECOVERY",
   "merge_allowed": false,
   "advance_allowed": true,
-  "advance_scope": "STAGE33_12_INTERNAL_33_13_FIRST_EXACT_KUMMER_COLUMN_ONLY_NO_PARENT_RECLOSURE",
-  "next_item": "Stage33-12_33-13_FIRST_EXACT_75_COORDINATE_KUMMER_COLUMN",
+  "advance_scope": "STAGE33_12_INTERNAL_33_13_FIRST_EXACT_KUMMER_COLUMN_INPUT_RECOVERY_ONLY_NO_PARENT_RECLOSURE",
+  "next_item": "Stage33-12_33-13_RECOVER_FIRST_EXACT_KUMMER_COLUMN_INPUT",
   "next_expected_command": "Stage33-main-batch",
   "theorem_credit": false,
   "receiver_credit": false,
