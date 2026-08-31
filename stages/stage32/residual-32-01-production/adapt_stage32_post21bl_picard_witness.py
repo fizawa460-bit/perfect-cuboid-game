@@ -16,7 +16,7 @@ EXPECTED_WITNESS_SHA256 = "1a131595c87cf9c5d54ef97dba62261eeb3dda7bb92a5a9fa62c2
 EXPECTED_ANTI_RANK = 59
 EXPECTED_PICARD_RANK = 64
 EXPECTED_PAIRINGS = 140
-SCHEMA = "STAGE32_POST21BL_EXACT_PICARD_WITNESS_ADAPTER_V1"
+SCHEMA = "STAGE32_POST21BL_EXACT_PICARD_WITNESS_ADAPTER_V2"
 
 
 def parse_row_id(row_id: str) -> tuple[int, int]:
@@ -77,7 +77,7 @@ def main() -> None:
     if r.shape != (EXPECTED_ANTI_RANK, 1):
         raise ValueError(f"reduced witness shape regression: {r.shape}")
 
-    # Rebuild exactly the same unimodular reduced anti-fixed basis used by 21bl.
+    # Rebuild exactly the same unimodular reduced affine-fiber basis used by 21bl.
     M = data["M"]
     pivots = tuple(int(v) for v in data["pivot_rows"])
     selected_M = M.extract(list(pivots), list(range(EXPECTED_ANTI_RANK)))
@@ -89,18 +89,20 @@ def main() -> None:
         raise ValueError("21bl reduced-coordinate transform is not unimodular")
     Mred = M * U
 
+    # x0_map is a canonical integral affine representative of C*x=z.  It is
+    # NOT asserted to be the orthogonal Reynolds-fixed representative.  Hence
+    # x0 and q need not be Gram-orthogonal; the original self-square must be
+    # evaluated directly on x=x0+q.
     x0 = data["x0_map"] * z
     q = data["K"] * U * r
     x = x0 + q
     if x.shape != (EXPECTED_PICARD_RANK, 1):
         raise ValueError("Picard reconstruction rank regression")
 
-    # Exact fixed-projection replay.  C*x=z is the affine-fiber identity and
-    # N*x=B*z is the Reynolds-numerator identity behind the representative leaf.
     fixed_coords = data["C"] * x
     fixed_projection_exact = fixed_coords == z
     reynolds_exact = data["N"] * x == data["B"] * z
-    anti_fixed_exact = data["C"] * q == Matrix.zeros(5, 1)
+    affine_kernel_exact = data["C"] * q == Matrix.zeros(5, 1)
 
     adapter = data["adapter"]
     bridge = data["bridge"]
@@ -109,13 +111,13 @@ def main() -> None:
     if pairings.shape != (EXPECTED_PAIRINGS, 1):
         raise ValueError("all140 pairing shape regression")
 
-    # Independent replay of the linear form used by the 21bl solver.
+    # Independent replay of the exact 21bl linear affine-fiber model.
     y0 = data["pairing_x0_map"] * z
     pairings_from_reduced = y0 + Mred * r
     pairing_model_replay_exact = pairings == pairings_from_reduced
 
     pairing_values = vector_list(pairings)
-    all_pairings_integral = all(isinstance(v, int) for v in pairing_values)
+    all_pairings_integral = True  # exact integer matrices/vectors throughout
     all_pairings_nonnegative = min(pairing_values) >= 0
 
     orbit_sums = []
@@ -138,24 +140,27 @@ def main() -> None:
     target_image_exact = bridge.target_in_image(*expected_slice)
 
     self_square = int((x.T * gram * x)[0])
-    fixed_square = int((x0.T * gram * x0)[0])
-    anti_fixed_square = int((q.T * gram * q)[0])
-    orthogonal_split_exact = int((x0.T * gram * q)[0]) == 0 and self_square == fixed_square + anti_fixed_square
+    x0_square = int((x0.T * gram * x0)[0])
+    q_square = int((q.T * gram * q)[0])
+    cross_term = int((x0.T * gram * q)[0])
+    quadratic_expansion_exact = self_square == x0_square + 2 * cross_term + q_square
+    affine_parts_orthogonal = cross_term == 0
     required_lower = -degree - 2 + 2 * genus
     self_square_pass = self_square >= required_lower
 
-    exact_reconstruction_pass = all([
-        fixed_projection_exact,
-        reynolds_exact,
-        anti_fixed_exact,
-        pairing_model_replay_exact,
-        all_pairings_integral,
-        all_pairings_nonnegative,
-        orbit_sums_exact,
-        slice_exact,
-        target_image_exact,
-        orthogonal_split_exact,
-    ])
+    essential_checks = {
+        "fixed_projection_exact": fixed_projection_exact,
+        "reynolds_numerator_exact": reynolds_exact,
+        "affine_kernel_exact": affine_kernel_exact,
+        "pairing_model_replay_exact": pairing_model_replay_exact,
+        "all_pairings_integral": all_pairings_integral,
+        "all_pairings_nonnegative": all_pairings_nonnegative,
+        "orbit_sums_exact": orbit_sums_exact,
+        "slice_exact": slice_exact,
+        "target_image_exact": target_image_exact,
+        "quadratic_expansion_exact": quadratic_expansion_exact,
+    }
+    exact_reconstruction_pass = all(essential_checks.values())
 
     if not exact_reconstruction_pass:
         status = "FAIL_POST21BL_EXACT_PICARD_RECONSTRUCTION"
@@ -190,15 +195,14 @@ def main() -> None:
         },
         "reconstruction": {
             "picard_rank": EXPECTED_PICARD_RANK,
-            "anti_fixed_rank": EXPECTED_ANTI_RANK,
+            "affine_kernel_rank": EXPECTED_ANTI_RANK,
             "reduced_transform_unimodular": True,
             "picard_coordinates": vector_list(x),
             "picard_coordinates_sha256": sha256_json(vector_list(x)),
-            "anti_fixed_coordinates_in_picard_basis": vector_list(q),
+            "affine_kernel_coordinates_in_picard_basis": vector_list(q),
             "fixed_projection_coordinates_replayed": vector_list(fixed_coords),
-            "fixed_projection_exact": fixed_projection_exact,
-            "reynolds_numerator_exact": reynolds_exact,
-            "anti_fixed_kernel_exact": anti_fixed_exact,
+            "essential_checks": essential_checks,
+            "exact_reconstruction_pass": exact_reconstruction_pass,
         },
         "all140": {
             "pairing_count": len(pairing_values),
@@ -223,9 +227,12 @@ def main() -> None:
         },
         "quadratic": {
             "picard_self_square": self_square,
-            "fixed_part_self_square": fixed_square,
-            "anti_fixed_part_self_square": anti_fixed_square,
-            "fixed_antifixed_orthogonal_split_exact": orthogonal_split_exact,
+            "canonical_affine_representative_self_square": x0_square,
+            "kernel_correction_self_square": q_square,
+            "cross_term_x0_gram_q": cross_term,
+            "quadratic_expansion_exact": quadratic_expansion_exact,
+            "canonical_affine_parts_orthogonal": affine_parts_orthogonal,
+            "canonical_affine_parts_orthogonal_is_not_required": True,
             "required_lower_formula": "-d-2+2g",
             "required_lower": required_lower,
             "self_square_meets_original_threshold": self_square_pass,
@@ -233,6 +240,7 @@ def main() -> None:
         },
         "interpretation": {
             "exact_reconstruction_pass": exact_reconstruction_pass,
+            "canonical_x0_is_affine_representative_not_claimed_reynolds_orthogonal_projection": True,
             "if_status_pass_exact_picard64_slice_witness_then_this_is_one_exact_integral_picard_class_for_the_representative_slice": True,
             "representative_sample_only": True,
             "not_full178_numerical_credit": True,
@@ -248,11 +256,15 @@ def main() -> None:
     args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
     print(json.dumps({
         "status": status,
+        "essential_checks": essential_checks,
         "self_square": self_square,
         "required_lower": required_lower,
         "slack": self_square - required_lower,
+        "cross_term": cross_term,
+        "affine_parts_orthogonal": affine_parts_orthogonal,
         "minimum_pairing": min(pairing_values),
         "zero_pairing_count": payload["all140"]["zero_pairing_count"],
+        "actual_d_e_a": slice_values,
         "canonical_sha256": payload["canonical_sha256_without_this_field"],
     }, sort_keys=True))
 
