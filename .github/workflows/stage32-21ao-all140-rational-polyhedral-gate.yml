@@ -1,0 +1,60 @@
+name: Stage32-21ao all140 rational polyhedral gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/workflows/stage32-21ao-all140-rational-polyhedral-gate.yml'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_21ao_all140_rational_polyhedral_gate.py'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_21ak_affine_2adic_membership.py'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_21al_nonnegative_orbit_composition.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_antifixed_coset_bound.py'
+      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-21ao-rational-polyhedral-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+
+      - name: Install exact algebra and SMT dependencies
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.13.4.0'
+
+      - name: Decide exact rational all140 nonnegative fibers
+        working-directory: stages/stage32/residual-32-01-production
+        run: |
+          python diagnose_stage32_21ao_all140_rational_polyhedral_gate.py \
+            --manifest "$GITHUB_WORKSPACE/stages/stage32/residual-32-01-production/full178-manifest.json" \
+            --retained "$GITHUB_WORKSPACE/stages/stage33/33-07/picard_base_rows_retained.py" \
+            --marking "$GITHUB_WORKSPACE/stages/stage33/33-07/stage32_picard_marking_retained.py" \
+            --row-shards 16 \
+            --shard-index 0 \
+            --sample-modulus 1024 \
+            --sample-remainder 0 \
+            --output "$GITHUB_WORKSPACE/stage32-21ao-all140-rational-polyhedral-gate.json"
+
+      - name: Upload compact diagnostic evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-21ao-all140-rational-polyhedral-gate
+          path: stage32-21ao-all140-rational-polyhedral-gate.json
+          retention-days: 3
+          compression-level: 9
