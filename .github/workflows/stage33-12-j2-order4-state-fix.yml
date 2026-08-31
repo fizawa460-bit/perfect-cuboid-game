@@ -1,0 +1,35 @@
+name: Stage33 J2 order4 compact-state fix
+on:
+  push:
+    branches: [stage33-12-j2-ptsK-qPicK-continuation]
+    paths: [.github/workflows/stage33-12-j2-order4-state-fix.yml]
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fix active interface projection
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('stages/stage33/sync_main_state.py')
+          t=p.read_text()
+          old1='            "active_missing_interface": current["active_missing_interface"],\n            "certificate": "stages/stage33/33-12/j2-semantic-u1-at2-to-proper-br2-dual-adapter-blocker.json",'
+          new1='            "active_missing_interface": missing_dual["name"],\n            "certificate": "stages/stage33/33-12/j2-semantic-u1-at2-to-proper-br2-dual-adapter-blocker.json",'
+          old2='        "active_missing_interface": missing_dual["name"],\n        "deterministic_after_proper14_coordinate": True,'
+          new2='        "active_missing_interface": current["active_missing_interface"],\n        "deterministic_after_proper14_coordinate": True,'
+          assert old1 in t and old2 in t
+          p.write_text(t.replace(old1,new1,1).replace(old2,new2,1))
+          PY
+          python3 stages/stage33/sync_main_state.py
+          python3 stages/stage33/sync_main_state.py --check
+          rm .github/workflows/stage33-12-j2-order4-state-fix.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Stage33: fix order4 compact active interface"
+          git push origin HEAD:stage33-12-j2-ptsK-qPicK-continuation
