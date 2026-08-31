@@ -12,7 +12,6 @@
     "base_sha": "8cb707ffdc4ea72094d397df1896b374a4bbb1a7",
     "first_operations_fix_commit": "cc5caaedc0a315edc0940c5479c55ffc8503bc5c",
     "same_generation_probe_commit": "9a973336d6252ac334fa4f3f94d1360cbb658aef",
-    "runkey_restore_commit": "999e5fc16201475c3cb31e2e3a6eaa559440a528",
     "second_operations_fix_commit": "924e4691c40c8be4755de4f21b5078aa012da7d5",
     "runkey_delete_probe_commit": "21f04523a8a967c56de6381206f179258eb53734",
     "same_generation_readd_probe_commit": "f30e6f45b02a5bd93c9c011f5e02be2edd87eee8",
@@ -30,71 +29,39 @@
     "operating_artifact_budget_mb": 500,
     "stage_heavy_concurrency_cap": 18,
     "production_max_parallel": 16,
-    "observed_persisted_artifact_bytes_this_leaf": 55744,
     "new_heavy_compute_authorized": false,
     "full178_heavy_arm_authorized": false,
     "existing_runkey_generation_advance_enforced": true,
     "established_runkey_delete_readd_resets_generation_history": false,
-    "operations_blockers_before_fixes": [
-      "EXISTING_RUNKEY_GENERATION_NOT_COMPARED_TO_BEFORE",
-      "MISSING_BEFORE_RUNKEY_WAS_MISCLASSIFIED_AS_NEW_KEY"
-    ],
     "operations_blockers_after_fixes": "REPAIRED_EXERCISED_PENDING_HOSTILE_REAUDIT",
     "first_operations_fix_certificate": "stages/stage32/32-21/post-21bl-full178-node-mass-runkey-generation-gate-audit.json",
     "first_operations_fix_certificate_canonical_sha256": "3c171df6621e4883735bf1c43ce2675dd04ba4c8b83a6d28f06b3b88bde321a6",
     "second_operations_fix_certificate": "stages/stage32/32-21/post-21bl-full178-node-mass-runkey-delete-readd-gate-audit.json",
     "second_operations_fix_certificate_canonical_sha256": "62a0549074f15318b132e73792c83656eece28ee16aeddef6f0e21787b82eaa7",
     "workflow_only_cold_run_id": 33449679024,
-    "runkey_delete_probe": {
-      "commit": "21f04523a8a967c56de6381206f179258eb53734",
-      "run_id": 33449727372,
-      "authorize_job_id": 99676676994,
-      "armed": false,
-      "pilot_skipped": true,
-      "shard_skipped": true,
-      "aggregate_skipped": true
-    },
+    "runkey_delete_probe_run_id": 33449727372,
     "same_generation_readd_probe": {
-      "commit": "f30e6f45b02a5bd93c9c011f5e02be2edd87eee8",
       "run_id": 33449758020,
       "authorize_job_id": 99676771506,
       "previous_key_present": false,
       "current_generation": 1,
       "armed": false,
       "reason": "previous_runkey_missing_fail_closed",
-      "pilot_job_id": 99676816506,
-      "shard_job_id": 99676817134,
-      "aggregate_job_id": 99676817846,
       "pilot_skipped": true,
       "shard_skipped": true,
       "aggregate_skipped": true
     }
   },
   "closed_dependencies": {
-    "21bl": {
-      "status": "CLOSED_AUDITED_EXACT_INTEGER_SAT_RESOLUTION",
-      "evidence_canonical_sha256": "ac88fb355252750e6afdc10cbb54abec24babbad57c25090c017f9a55ac93a44",
-      "representative_chain_after_audit": {"sat": 1, "unsat": 55, "unknown": 0}
-    },
-    "post21bl_picard64_adapter": {
-      "status": "CLOSED_AUDITED_EXACT_PICARD64_SLICE_WITNESS",
-      "evidence_canonical_sha256": "ef3f21e4166d4bfcacce3503213b0a72afee5f5002ab7145de01fc9c54d47038"
-    },
-    "representative_divisor_effectivity": {
-      "status": "CLOSED_AUDITED_RIEMANN_ROCH_DIVISOR_EFFECTIVITY",
-      "h0_lower_bound": 344
-    },
-    "representative_bijective_genus1_carrier": {
-      "status": "CLOSED_AUDITED_EXCLUDED_BY_NODE_SUPPORT",
-      "formula": "d <= 16g-16+4n"
-    },
+    "21bl": {"status": "CLOSED_AUDITED_EXACT_INTEGER_SAT_RESOLUTION"},
+    "post21bl_picard64_adapter": {"status": "CLOSED_AUDITED_EXACT_PICARD64_SLICE_WITNESS"},
+    "representative_divisor_effectivity": {"status": "CLOSED_AUDITED_RIEMANN_ROCH_DIVISOR_EFFECTIVITY", "h0_lower_bound": 344},
+    "representative_bijective_genus1_carrier": {"status": "CLOSED_AUDITED_EXCLUDED_BY_NODE_SUPPORT", "formula": "d <= 16g-16+4n"},
     "post21bl_full178_node_mass_census": {
       "status": "CLOSED_AUDITED_FULL178_NUMERICAL_CREDIT_FOR_CURRENT_NECESSARY_CONDITION_STACK",
       "scope": "FULL178_BIJECTIVE_NORMALIZATION_NECESSARY_CONDITION_NUMERICAL_CENSUS",
       "audit_characterization": "FRESH_PROVENANCE_AND_ACCOUNTING_AUDIT_OVER_ALREADY_AUDITED_EVALUATOR_STACK_NOT_FULL_INDEPENDENT_REIMPLEMENTATION",
       "rows": 178,
-      "coarse_e_strata": {"before": 64111, "eliminated": 3620, "after": 60491, "affected_rows": 168},
-      "prior_slices": {"before": 2018569, "removed": 229382, "after": 1789187},
       "continuous_kkt_survivors": {"before": 679337, "removed": 19640, "after": 659697},
       "antifixed": {"additional_pruned": 0, "survivors": 659697},
       "aggregate_canonical_sha256": "f9d4ca8c504ed605e7f97bbd306a3d38272e1759e2a2d44d55bb0e8dfb55995d",
@@ -102,22 +69,18 @@
     }
   },
   "gap_state": {
-    "BIJECTIVE_NORMALIZATION_GENUS1_REPRESENTATIVE": "CLOSED_AUDITED_EXCLUDED",
     "FULL178_CURRENT_NECESSARY_CONDITION_NUMERICAL_CENSUS": "CLOSED_AUDITED_MATH_SCOPE_SURVIVES_HOSTILE_AUDIT",
     "PR1473_OPERATIONS_GATE": "SECOND_REPAIR_EXERCISED_PENDING_HOSTILE_REAUDIT",
     "FULL178_INTEGRAL_PICARD_FEASIBILITY_LAYER": "OPEN_BLOCKED_UNTIL_PR1473_AUDIT_CLEAR_AND_MERGE",
     "MULTIBRANCH_AT_NODE": "OPEN_SEPARATE_R29_LG2_MB",
-    "R29_LG2_EFF_FULL_RECEIVER": "OPEN",
-    "CLASS3_ENDPOINT_COVERAGE": "OPEN_OUTSIDE_STAGE32"
+    "R29_LG2_EFF_FULL_RECEIVER": "OPEN"
   },
   "loop_state": {
-    "single_coordinate_loop_closed": true,
     "repeat_numerical_effectivity_necessary_filters_authorized": false,
     "blind_full178_scaleout_authorized": false,
-    "legacy_21ad_blind_rerun_authorized": false,
     "materialize_659697_survivors_authorized": false,
     "strong_48_support_can_apply_to_continuous_kkt_survivors": false,
-    "next_semantic_upgrade": "Only after hostile re-audit explicitly clears PR1473 and the user explicitly merges it, reread main and design a source-locked integral-Picard feasibility bridge. Do not extend the cheap necessary-filter chain."
+    "next_semantic_upgrade": "Only after hostile re-audit explicitly clears PR1473 and the user explicitly merges it, reread main and design a source-locked integral-Picard feasibility bridge."
   },
   "research_credit_firewalls": {
     "policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
