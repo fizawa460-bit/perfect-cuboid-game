@@ -1,4 +1,4 @@
-name: Stage33 J2 full-sign invariant probe
+name: Stage33 J2 order4 lift reduction probe
 
 on:
   push:
@@ -17,33 +17,8 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - name: Inspect retained action payload shapes
+      - name: Run order4 reduction producer
         shell: bash
         run: |
-          python3 - <<'PY'
-          import json
-          from pathlib import Path
-
-          obj=json.loads(Path('stages/stage33/33-12/j2-semantic-u1-full-surface-smith-source.json').read_text())
-          root=obj['retained_common_smith_source']
-          print('ROOT_KEYS=',sorted(root.keys()))
-
-          def shape(x):
-              if isinstance(x,list):
-                  if not x: return [0]
-                  s=shape(x[0])
-                  return [len(x)]+s if all(shape(y)==s for y in x) else [len(x),'ragged']
-              return []
-          def walk(x,path='root'):
-              if isinstance(x,dict):
-                  for k,v in x.items():
-                      p=path+'.'+k
-                      if 'action' in k.lower() or 'sign' in k.lower() or 'galois' in k.lower():
-                          print('ACTIONISH',p,'type=',type(v).__name__,'shape=',shape(v) if isinstance(v,list) else '')
-                          if isinstance(v,dict): print('  keys=',sorted(v.keys()))
-                      walk(v,p)
-              elif isinstance(x,list):
-                  for i,v in enumerate(x):
-                      if isinstance(v,dict): walk(v,f'{path}[{i}]')
-          walk(root)
-          PY
+          python3 stages/stage33/33-12/certify_j2_order4_brauer_lift_reduction.py
+          cat stages/stage33/33-12/j2-order4-brauer-lift-reduction.json
