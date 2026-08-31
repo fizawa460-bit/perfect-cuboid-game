@@ -1,9 +1,9 @@
 {
-  "schema": "STAGE33_12_J2_FIRST_KUMMER_COLUMN_SUPPORT_REDUCTION_AUDIT_V3",
+  "schema": "STAGE33_12_J2_FIRST_KUMMER_COLUMN_SUPPORT_REDUCTION_AUDIT_V4",
   "role": "EXACT_SUPPORT_LEVEL_REDUCTION_NO_COLUMN_PROMOTION",
   "stage": "33-12",
-  "status": "PASS_EXACT_CT_SIX_FULLPIC64_PULLBACKS_CC_CECH_PARITY_PLUS_J2_ONE_ORIENTATION_BIT_REMAIN",
-  "canonical_sha256": "6e97d85ed2279049c1c70ee9fb4c2d6545b29f0e6246cf5a0bfc1348fca86217",
+  "status": "PASS_EXACT_CT_SIX_FULLPIC64_PULLBACKS_AND_ACTUAL_CC_ZERO_ONLY_J2_NAMED_ORIENTATION_REMAINS",
+  "canonical_sha256": "040b2c0ecbd0b2e7ca8aef82952c6c71e84f9eea84aef407fc08b765a63fafe6",
   "finite_v4_kummer_columns_materialized": 0,
   "first_exact_kummer_column_materialized": false,
   "exact_progress": {
@@ -20,6 +20,11 @@
     "ct_six_support_fullPic64_pullbacks_canonical_sha256": "592704594d6d26f9e0b0b2ba529d50c34fd801cede779b4e42b1cf775b63a96d",
     "ct_sum_fullPic64_INDLIST_coordinates_mod2_weight": 24,
     "ct_sum_fullPic64_historical_Magma_coordinates_mod2_weight": 8,
+    "cc_actual_cech_overlap_materialized": true,
+    "cc_actual_cech_overlap_certificate": "stages/stage33/33-12/j2-cc-actual-cech-global-square-overlap.json",
+    "cc_actual_cech_overlap_canonical_sha256": "82ac2b6fe8d023c915e9cf3bb8ff38d4782dbec47f98e2593f964ea020ccc6fd",
+    "cc_defect_integral_Pic_class_zero": true,
+    "cc_defect_fullPic64_mod2_zero": true,
     "upstream_pullback_formula": "MatKtoS = Matrix(PicbasrepsK) * MatBigKtoBig * MatqPic",
     "retained_full_surface_marked_basis_numeric_matrix_exists": true,
     "retained_full_surface_marked_basis_path": "stages/stage33/33-09/marked-picard-basis-source.json",
@@ -29,13 +34,18 @@
     "J2_cv_two_isogeny_squareclass_d2_exact": true,
     "proper_Br2_14D_to_retained_10D_reduction_is_deterministic_GF2_once_J2_14D_known": true
   },
-  "cc_defect_firewall": {
+  "cc_actual_cech_result": {
     "generic_identity": "cc(lambda_D)-lambda_D={f2,g21*g22}={f2,(B1/(2*t))^2}",
     "generic_symbol_zero": true,
-    "actual_marked_Pic2_cc_defect_materialized": false,
-    "cc_zero_may_not_be_inferred_from_generic_square": true,
-    "revocation_reason": "generic rank-2 splitting data can be changed by elementary transforms at compactification divisors; actual local Cech lattices and overlap determinant parity are required before assigning a Pic/2 defect",
-    "historical_zero_defect_credit_revoked": true
+    "fixed_global_zero_cochain": "c=B1/(2*t)",
+    "literal_basis_change": "diag(c,1)",
+    "determinant_divisor": "div(c)",
+    "determinant_divisor_principal": true,
+    "all_resolution_exceptionals_covered": true,
+    "actual_marked_Pic2_cc_defect_materialized": true,
+    "actual_marked_Pic2_cc_defect_zero": true,
+    "cc_zero_inferred_from_generic_square_alone": false,
+    "historical_zero_defect_credit_reused": false
   },
   "j2_source_coordinate_reduction": {
     "semantic_discriminant_basis": ["u1","u2"],
@@ -43,16 +53,17 @@
     "cv_exact_selected_squareclass": "d=2",
     "remaining_exact_interface": "MATCH_NAMED_CV_KUMMER_ORIENTATION_FOR_d2_TO_ONE_OF_u1_u2_u1_PLUS_u2_THEN_TRANSPORT_TO_PROPER_BR2_14D_AND_SOLVE_RETAINED_10D_COORDINATES"
   },
-  "new_smallest_exact_kernel": "R33-12-33-13-J2-CC-CECH-PARITY-PLUS-ONE-NAMED-SEMANTIC-DISCRIMINANT-ORIENTATION",
-  "next_exact_leaf": "MATERIALIZE_CC_ACTUAL_CECH_OVERLAP_PARITY; MATCH_CV_d2_TO_SEMANTIC_u1_u2_OR_u1_PLUS_u2; THEN_ASSEMBLE_ONE_EXACT_75D_KUMMER_COLUMN",
+  "new_smallest_exact_kernel": "R33-12-33-13-J2-ONE-NAMED-SEMANTIC-DISCRIMINANT-ORIENTATION",
+  "next_exact_leaf": "MATCH_CV_d2_TO_SEMANTIC_u1_u2_OR_u1_PLUS_u2; THEN_ASSEMBLE_ONE_EXACT_75D_KUMMER_COLUMN",
   "prohibited_shortcuts": [
-    "do not set cc defect to zero from the generic square symbol alone",
+    "do not replace the fixed global Cech cochain and determinant-divisor replay by generic square-symbol triviality",
     "do not require or regenerate the entire historical 20x64 MatKtoS when only support-vector pullbacks are needed",
     "do not choose one of the three semantic J2 discriminant classes from dimensions or quadratic values alone",
-    "do not materialize a 75D column until cc, ct fullPic64 transport, and J2 source orientation are exact"
+    "do not materialize a 75D column until the remaining J2 source orientation is exact"
   ],
   "source_locks": {
-    "branch_head_observed": "d1c8fb48d4f8fb397cfd4ae5f4676902df457bbe",
+    "branch_head_observed": "d1c36dd1877f8cce520e4b1911a460120b8f6f81",
+    "cc_actual_cech_global_square_overlap_canonical_sha256": "82ac2b6fe8d023c915e9cf3bb8ff38d4782dbec47f98e2593f964ea020ccc6fd",
     "ct_six_support_fullPic64_pullbacks_canonical_sha256": "592704594d6d26f9e0b0b2ba529d50c34fd801cede779b4e42b1cf775b63a96d",
     "previous_j2_recovery_audit_canonical_sha256": "1174b98316f6e78e886540192cf9af378b9dac8e91a8359f2fb2e174ca3fc3b5",
     "semantic_kc_picard_basis_canonical_sha256": "c17439c877de3d1cdebd716f4ba2571fb67ec9f07e30d944eafc39ae534380c0",

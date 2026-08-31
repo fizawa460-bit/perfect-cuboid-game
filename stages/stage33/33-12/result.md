@@ -152,3 +152,34 @@ canonical_sha256=592704594d6d26f9e0b0b2ba529d50c34fd801cede779b4e42b1cf775b63a96
 The remaining first-column interfaces are the actual cc Cech-overlap parity
 and the named CV `d=2` to semantic discriminant orientation.  No zero column,
 rep88 promotion, Stage33-12 closure, or downstream release is claimed.
+
+## J2 actual cc Cech-overlap parity
+
+The fixed corrected Cech representative supplies the global overlap
+zero-cochain `c=B1/(2*t)`, not merely the generic statement that a symbol is a
+square.  The literal rank-two basis change is
+
+```text
+Y=[[0,c],[c,0]]
+G=diag(c,1)
+G*Y*G^-1=[[0,c^2],[1,0]]
+det(G)=c
+```
+
+At every prime divisor of the smooth resolved surface, including every
+resolution exceptional, the determinant order is `ord_D(c)`.  The complete
+Cartier divisor is therefore the principal divisor `div(c)`, so the actual cc
+class is zero already in integral Pic and hence zero in marked Pic/2 and both
+full Pic64 coordinate systems.
+
+```text
+ACTUAL_CC_CECH_OVERLAP_MATERIALIZED=true
+ACTUAL_CC_INTEGRAL_PIC_CLASS=0
+ACTUAL_CC_FULLPIC64_MOD2=0
+FIRST_EXACT_75D_KUMMER_COLUMN_MATERIALIZED=false
+canonical_sha256=82ac2b6fe8d023c915e9cf3bb8ff38d4782dbec47f98e2593f964ea020ccc6fd
+```
+
+Only the named CV `d=2` to semantic `u1/u2/u1+u2` orientation remains before
+assembling the first exact 75D column.  No historical J2 zero column, closure,
+credit, or downstream release is restored.
