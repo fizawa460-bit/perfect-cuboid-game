@@ -8,6 +8,7 @@ on:
       - '.github/workflows/stage32-21bl-joint-integer-closure.yml'
       - 'stages/stage32/residual-32-01-production/certify_stage32_21bl_joint_integer_closure.py'
       - 'stages/stage32/residual-32-01-production/certify_stage32_21bl_isl_current_model_preflight.py'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_21bl_milp_candidate_preflight.py'
 
 permissions:
   contents: read
@@ -83,12 +84,15 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.10.6'
-      - name: Install exact algebra dependencies
-        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0' 'islpy==2026.1'
-      - name: Probe one exact current-model Presburger fixed triple without scale-out
+      - name: Install algebra and candidate-search dependencies
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0' 'islpy==2026.1' 'scipy==1.15.3'
+      - name: Probe one current-model fixed triple with exact-replay witness firewall and exact ISL fallback
         working-directory: stages/stage32/residual-32-01-production
+        shell: bash
         run: |
-          python certify_stage32_21bl_isl_current_model_preflight.py \
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/stage32-21bl-isl-current-model-preflight.json"
+          if python certify_stage32_21bl_milp_candidate_preflight.py \
             --source-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21az-survivor-prism.json" \
             --formula-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bb-r51-interval-formula.json" \
             --pair-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bc-pair-combination-bounds.json" \
@@ -100,10 +104,28 @@ jobs:
             --retained "$GITHUB_WORKSPACE/stages/stage33/33-07/picard_base_rows_retained.py" \
             --marking "$GITHUB_WORKSPACE/stages/stage33/33-07/stage32_picard_marking_retained.py" \
             --ordinal 1617 \
-            --wall-seconds 90 \
-            --output "$RUNNER_TEMP/stage32-21bl-isl-current-model-preflight.json"
+            --wall-seconds 45 \
+            --output "$OUT"; then
+            echo 'candidate search produced an exact-replayed SAT witness; ISL fallback not needed'
+          else
+            echo 'candidate search was non-decisive; preserving UNKNOWN semantics and falling back to exact ISL'
+            python certify_stage32_21bl_isl_current_model_preflight.py \
+              --source-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21az-survivor-prism.json" \
+              --formula-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bb-r51-interval-formula.json" \
+              --pair-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bc-pair-combination-bounds.json" \
+              --audit-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21be-r51-endpoint-audit.json" \
+              --seventh-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bh-r54-lossless-table.json" \
+              --eighth-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bi-r57-exact-formula.json" \
+              --ninth-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bj-r56-exact-formula.json" \
+              --tenth-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bk-r20-final-single-coordinate-evidence.json" \
+              --retained "$GITHUB_WORKSPACE/stages/stage33/33-07/picard_base_rows_retained.py" \
+              --marking "$GITHUB_WORKSPACE/stages/stage33/33-07/stage32_picard_marking_retained.py" \
+              --ordinal 1617 \
+              --wall-seconds 90 \
+              --output "$OUT"
+          fi
       - id: audit
-        name: Require a decisive exact preflight while keeping full scale-out disabled
+        name: Require a decisive exact-credited preflight while keeping full scale-out disabled
         shell: bash
         run: |
           python - "$RUNNER_TEMP/stage32-21bl-isl-current-model-preflight.json" <<'PY'
@@ -116,8 +138,13 @@ jobs:
           assert x.get("exact_problem", {}).get("same_integerized_21bl_assertions_as_z3_solver") is True
           assert x.get("exact_problem", {}).get("fixed_triple_constraints_included") is True
           assert x.get("exact_problem", {}).get("floating_point_relaxation_used") is False
+          if x.get("mode", "").startswith("NUMERICAL_MILP_CANDIDATE"):
+              assert status == "SAT"
+              assert x.get("candidate_search", {}).get("exact_relation_replay_passed") is True
+              assert x.get("result", {}).get("original_z3_replay_status") == "sat"
+              assert x.get("exact_problem", {}).get("numerical_backend_never_authorizes_unsat") is True
           assert x.get("safety", {}).get("full_3234_scaleout_authorized_by_this_result") is False
-          print(json.dumps({"preflight": "PASS_DECISIVE_EXACT_ISL_CURRENT_MODEL", "status": status}))
+          print(json.dumps({"preflight": "PASS_DECISIVE_EXACT_CREDIT_CURRENT_MODEL", "status": status, "mode": x.get("mode")}))
           PY
           echo "scaleout_authorized=false" >> "$GITHUB_OUTPUT"
       - name: Upload compact preflight evidence
