@@ -1,0 +1,152 @@
+name: Stage32-21bl exact joint integer closure
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage32/runkeys/stage32-21bl-joint-integer-closure.json'
+      - '.github/workflows/stage32-21bl-joint-integer-closure.yml'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_21bl_joint_integer_closure.py'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-21bl-joint-integer-closure-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - id: gate
+        name: Require fresh semantic 21bl run-key arm in this synchronization range
+        shell: bash
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/runkeys/stage32-21bl-joint-integer-closure.json'
+          BEFORE='${{ github.event.before }}'
+          HEAD='${{ github.event.pull_request.head.sha }}'
+          authorized=false
+          if [ -n "$BEFORE" ]; then
+            git fetch --no-tags --depth=1 origin "$BEFORE" || true
+            if git cat-file -e "$BEFORE^{commit}" 2>/dev/null && git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY"; then
+              python - "$KEY" "$BEFORE" <<'PY'
+          import json, subprocess, sys
+          key_path, before = sys.argv[1:]
+          cur = json.load(open(key_path))
+          assert cur == {
+              "schema": "STAGE32_21BL_JOINT_INTEGER_CLOSURE_RUNKEY_V1",
+              "armed": True,
+              "generation": 1,
+              "source_head_before_arm": before,
+              "expected_triples": 3234,
+              "shard_count": 16,
+              "max_parallel": 16,
+              "per_check_timeout_ms": 5000,
+              "solver_mode": "EXACT_59D_JOINT_INTEGER_CLOSURE",
+              "source_21bk_evidence_canonical_sha256": "c39ba719e648104cd62a8f87bd739f5933725fcd71cc0cca56397692f1036c57"
+          }
+          old = subprocess.run(["git", "show", f"{before}:{key_path}"], text=True, capture_output=True)
+          if old.returncode == 0:
+              prev = json.loads(old.stdout)
+              assert int(cur["generation"]) > int(prev.get("generation", -1))
+          else:
+              assert cur["generation"] == 1
+          PY
+              authorized=true
+            fi
+          fi
+          echo "authorized=$authorized" >> "$GITHUB_OUTPUT"
+          echo "authorized=$authorized"
+
+  solve:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact algebra dependencies
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Solve exact 59D joint integer feasibility for fixed triples
+        working-directory: stages/stage32/residual-32-01-production
+        run: |
+          python certify_stage32_21bl_joint_integer_closure.py shard \
+            --source-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21az-survivor-prism.json" \
+            --formula-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bb-r51-interval-formula.json" \
+            --pair-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bc-pair-combination-bounds.json" \
+            --audit-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21be-r51-endpoint-audit.json" \
+            --seventh-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bh-r54-lossless-table.json" \
+            --eighth-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bi-r57-exact-formula.json" \
+            --ninth-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bj-r56-exact-formula.json" \
+            --tenth-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bk-r20-final-single-coordinate-evidence.json" \
+            --retained "$GITHUB_WORKSPACE/stages/stage33/33-07/picard_base_rows_retained.py" \
+            --marking "$GITHUB_WORKSPACE/stages/stage33/33-07/stage32_picard_marking_retained.py" \
+            --shard-index ${{ matrix.shard }} \
+            --shard-count 16 \
+            --per-check-timeout-ms 5000 \
+            --output "$GITHUB_WORKSPACE/stage32-21bl-joint-${{ matrix.shard }}.json"
+      - name: Upload compact shard evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-21bl-joint-${{ matrix.shard }}
+          path: stage32-21bl-joint-${{ matrix.shard }}.json
+          retention-days: 1
+          compression-level: 9
+
+  aggregate:
+    needs: [authorize, solve]
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact algebra dependencies
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Download compact shard evidence
+        uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-21bl-joint-*
+          path: joint-artifacts
+      - name: Aggregate exact joint integer closure
+        working-directory: stages/stage32/residual-32-01-production
+        run: |
+          python certify_stage32_21bl_joint_integer_closure.py aggregate \
+            --input-dir "$GITHUB_WORKSPACE/joint-artifacts" \
+            --shard-count 16 \
+            --output "$GITHUB_WORKSPACE/stage32-21bl-joint-integer-closure-aggregate.json"
+      - name: Upload final aggregate evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-21bl-joint-integer-closure-aggregate
+          path: stage32-21bl-joint-integer-closure-aggregate.json
+          retention-days: 7
+          compression-level: 9
