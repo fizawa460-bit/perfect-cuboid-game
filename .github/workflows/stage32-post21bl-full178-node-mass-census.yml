@@ -59,7 +59,6 @@ jobs:
           from pathlib import Path
 
           runkey_path = os.environ['RUNKEY']
-          key = json.loads(Path(runkey_path).read_text())
           event = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text())
           action = event.get('action')
           before = event.get('before')
@@ -67,6 +66,16 @@ jobs:
           reasons = []
           previous_generation = None
           previous_key_present = False
+
+          runkey_file = Path(runkey_path)
+          key = {}
+          if not runkey_file.is_file():
+              reasons.append('current_runkey_missing')
+          else:
+              try:
+                  key = json.loads(runkey_file.read_text())
+              except json.JSONDecodeError:
+                  reasons.append('current_runkey_invalid_json')
 
           if action != 'synchronize':
               reasons.append('action_not_synchronize')
@@ -121,9 +130,9 @@ jobs:
                       elif not isinstance(key.get('generation'), int) or key['generation'] <= previous_generation:
                           reasons.append('generation_not_advanced')
               else:
-                  # A newly introduced run key is allowed only by the positive-generation
-                  # checks above. Existing keys must pass the explicit advancement check.
-                  previous_generation = None
+                  # This workflow's run key is already established. Deleting it and
+                  # re-adding the same path must never reset generation history.
+                  reasons.append('previous_runkey_missing_fail_closed')
           elif action == 'synchronize':
               reasons.append('missing_before_after')
 
