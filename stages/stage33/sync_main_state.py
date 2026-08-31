@@ -57,6 +57,10 @@ domain = target_basis["proper_invariant_domain"]
 assert conclusion["orientation_materialized"] is True
 assert conclusion["named_CV_J2_semantic_discriminant_label"] == "u1"
 assert conclusion["named_CV_J2_fixed_marked_Kc_coordinate_f2"] == [1, 0]
+assert conclusion["semantic_candidate_count_before"] == 3
+assert conclusion["semantic_candidate_count_after"] == 1
+assert orientation["firewalls"]["Br2_identified_canonically_with_A_T_2torsion"] is False
+assert orientation["firewalls"]["proper_Br2_14D_coordinate_guessed"] is False
 assert domain["dimension_f2"] == 10
 assert len(domain["basis_rows_original_proper_br2_coordinates_f2"]) == 10
 assert proper14["proper_geometric_Br2_dimension_f2"] == 14
@@ -65,7 +69,7 @@ assert target["coordinate_weight"] == 15 and target["nonzero"] is True
 
 coordinates = target["coordinates_f2"]
 out = {
-    "schema": "STAGE33_MAIN_COMPACT_STATE_V1",
+    "schema": "STAGE33_MAIN_COMPACT_STATE_V2",
     "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
     "detailed_machine_authority": "stages/stage33/controller.json",
     "controller_schema": controller["schema"],
@@ -104,6 +108,43 @@ out = {
             "certificate": "stages/stage33/33-12/j2-named-v4-h1-target-before-source-orientation.json",
             "canonical_sha256": LOCKS[NAMED_TARGET],
         },
+    },
+    "resolved_investigations": {
+        "named_J2_semantic_orientation": {
+            "status": "RESOLVED_DO_NOT_REINVESTIGATE_IN_ORDINARY_MAIN",
+            "fact": {
+                "semantic_discriminant_label": conclusion[
+                    "named_CV_J2_semantic_discriminant_label"
+                ],
+                "fixed_marked_Kc_coordinate_f2": conclusion[
+                    "named_CV_J2_fixed_marked_Kc_coordinate_f2"
+                ],
+                "candidate_count_before": conclusion["semantic_candidate_count_before"],
+                "candidate_count_after": conclusion["semantic_candidate_count_after"],
+            },
+            "source_certificate": "stages/stage33/33-12/j2-cv-d2-semantic-orientation.json",
+            "source_canonical_sha256": LOCKS[ORIENTATION],
+        },
+        "Br2_vs_discriminant_coordinate_shortcut": {
+            "status": "PROHIBITED_SHORTCUT_DO_NOT_RETRY",
+            "fact": (
+                "Do not identify semantic discriminant u1 with current proper-Br2 "
+                "e0 without an explicit full-surface adapter."
+            ),
+            "source_certificate": "stages/stage33/33-12/j2-cv-d2-semantic-orientation.json",
+            "source_canonical_sha256": LOCKS[ORIENTATION],
+        },
+    },
+    "anti_loop_reopen_policy": {
+        "ordinary_main_rule": (
+            "Do not reinvestigate resolved_investigations while all listed source "
+            "locks still match."
+        ),
+        "reopen_only_if": [
+            "a listed source canonical_sha256 changes",
+            "an authoritative current certificate contradicts the recorded fact",
+            "the user explicitly requests hostile audit or historical revalidation",
+        ],
     },
     "open_datum": {
         "corrected_J2_current_proper_Br2_14D_coordinate_materialized": False,
