@@ -1,0 +1,73 @@
+name: Stage32 direct Picard integral coset lower bound
+
+on:
+  pull_request:
+    types: [synchronize, opened, reopened]
+    paths:
+      - 'stages/stage32/residual-32-01-production/direct_picard_slice_bridge.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_slice_quadratic_bound.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_integral_coset_diagnostic.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_integral_coset_bound.py'
+      - 'stages/stage32/residual-32-01-production/build_direct_picard_integral_coset_census.py'
+      - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
+      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+      - '.github/workflows/stage32-direct-picard-integral-coset-bound.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  integral-coset-bound:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Build exact 640-class coordinate integrality lower bound
+        run: |
+          python - <<'PY'
+          import importlib.util, json, pathlib, sys
+          root=pathlib.Path.cwd(); prod=root/'stages/stage32/residual-32-01-production'; sys.path.insert(0,str(prod))
+          from direct_picard_integral_coset_bound import DirectPicardIntegralCosetLowerBound
+          def load(path,name):
+              spec=importlib.util.spec_from_file_location(name,path); assert spec and spec.loader
+              mod=importlib.util.module_from_spec(spec); spec.loader.exec_module(mod); return mod.load()
+          bundle=load(root/'stages/stage33/33-07/picard_base_rows_retained.py','s32_integral_lb_picard')
+          marking=load(root/'stages/stage33/33-07/stage32_picard_marking_retained.py','s32_integral_lb_marking')
+          model=DirectPicardIntegralCosetLowerBound.from_retained(marking,bundle)
+          c=model.certificate
+          assert c['reachable_class_count']==640
+          assert c['generator_orders']==[20,20,40]
+          assert c['zero_class_count']==1
+          pathlib.Path('direct-picard-integral-coset-lower-bound.json').write_text(json.dumps(c,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({
+              'verdict':'PASS_DIRECT_PICARD_INTEGRAL_COSET_LOWER_BOUND',
+              'reachable_classes':c['reachable_class_count'],
+              'generator_orders':c['generator_orders'],
+              'minimum_positive_lower_bound':c['minimum_positive_lower_bound'],
+              'maximum_coordinate_lower_bound':c['maximum_coordinate_lower_bound'],
+              'canonical_sha256':c['canonical_sha256_without_this_field'],
+          },sort_keys=True))
+          PY
+      - name: Apply exact coordinate lower bound to FULL178 direct slices
+        run: |
+          python stages/stage32/residual-32-01-production/build_direct_picard_integral_coset_census.py \
+            --manifest stages/stage32/residual-32-01-production/full178-manifest.json \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --output direct-picard-integral-coset-census.json
+      - name: Upload compact integral-coset lower-bound evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-direct-picard-integral-coset-lower-bound
+          path: |
+            direct-picard-integral-coset-lower-bound.json
+            direct-picard-integral-coset-census.json
+          retention-days: 7
+          compression-level: 9

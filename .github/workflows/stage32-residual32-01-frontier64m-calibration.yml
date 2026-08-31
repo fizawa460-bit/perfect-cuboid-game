@@ -1,0 +1,203 @@
+name: Stage32 residual32-01 current-frontier 64M calibration
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/runkeys/residual32-01-frontier64m-calibration.json'
+      - '.github/workflows/stage32-residual32-01-frontier64m-calibration.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      matrix: ${{ steps.gate.outputs.matrix }}
+      generation: ${{ steps.gate.outputs.generation }}
+      work_unit_count: ${{ steps.gate.outputs.work_unit_count }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: gate
+        name: Verify fresh 64M calibration run-key arm
+        env:
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/runkeys/residual32-01-frontier64m-calibration.json'
+          PROD='stages/stage32/runkeys/residual32-01-full178-production.json'
+          SOURCE='49a78e12b326e3d1e0a10742c347f99693ec64f5'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          echo 'matrix={"work_unit":[]}' >> "$GITHUB_OUTPUT"
+          echo 'generation=0' >> "$GITHUB_OUTPUT"
+          echo 'work_unit_count=0' >> "$GITHUB_OUTPUT"
+          [ "$ACTION" = synchronize ] || exit 0
+          [ -n "${BEFORE:-}" ] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || exit 0
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          mapfile -t changed < <(git diff --name-only "$BEFORE" "$HEAD")
+          [ "${#changed[@]}" -eq 1 ] || exit 0
+          [ "${changed[0]}" = "$KEY" ] || exit 0
+          python - "$BEFORE" "$KEY" "$PROD" "$SOURCE" "$GITHUB_OUTPUT" <<'PY'
+          import hashlib, json, subprocess, sys
+          before,key,prod,source,out=sys.argv[1:]
+          old=json.loads(subprocess.check_output(['git','show',f'{before}:{key}'],text=True))
+          new=json.load(open(key))
+          p=json.loads(subprocess.check_output(['git','show',f'{source}:{prod}'],text=True))
+          assert old['schema']==new['schema']=='STAGE32_RESIDUAL32_01_FRONTIER64M_CALIBRATION_RUNKEY_V1'
+          assert old['workload']==new['workload']=='FULL178_CURRENT_FRONTIER_64M_CALIBRATION'
+          assert int(new['generation'])==int(old['generation'])+1
+          assert new['armed'] is True
+          assert int(new['source_generation'])==29
+          assert int(new['source_run_id'])==33249640508
+          assert int(new['node_limit'])==64000000
+          assert new['sample_policy']=='FIRST16_GEN29_16M_CEILING_HITS_SORTED_BY_WORK_UNIT_ID'
+          ids=new['sample_work_unit_ids']
+          assert len(ids)==16 and len(set(ids))==16 and ids==sorted(ids)
+          assert int(new['effective_heavy_concurrency'])==16 <= 18
+          assert float(new['projected_peak_artifact_mb']) < 500
+          assert new['B18_RELEASE_AUTHORIZED'] is False
+          assert new['FULL_178_ROW_SWEEP_AUTHORIZED'] is False
+          assert new['THEOREM_CREDIT'] is False and new['RECEIVER_CREDIT'] is False
+          assert int(p['generation'])==29
+          blob=subprocess.check_output(['git','rev-parse',f'{source}:{prod}'],text=True).strip()
+          assert blob==new['source_production_runkey_git_blob_sha1']
+          byid={u['work_unit_id']:u for u in p['work_units']}
+          units=[byid[i] for i in ids]
+          def digest(v):
+              return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          for u in units:
+              if u['kind']=='ROW_TAIL':
+                  base={'kind':'ROW_TAIL','row_id':u['row_id'],'e_start':int(u['e_start'])}
+              else:
+                  base={'kind':'STRATUM_PARTITION','row_id':u['row_id'],'e':int(u['e']),
+                        'prefix':[int(v) for v in u.get('prefix',[])],
+                        'next_min':int(u['next_min']),'next_max':int(u['next_max'])}
+              assert u['work_unit_id']=='wu-'+digest(base)[:20]
+              b=new['baseline16m'][u['work_unit_id']]
+              assert b['nodes_used']==16000000 and b['unknown_count']==2 and b['completed_prefix_partitions']==0
+              assert u['row_id']==b['row_id']
+          matrix=json.dumps({'work_unit':units},separators=(',',':'))
+          with open(out,'a') as f:
+              f.write('authorized=true\n')
+              f.write('matrix='+matrix+'\n')
+              f.write('generation='+str(new['generation'])+'\n')
+              f.write('work_unit_count='+str(len(units))+'\n')
+          PY
+
+  calibrate:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix: ${{ fromJSON(needs.authorize.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      WORK_UNIT_JSON: ${{ toJSON(matrix.work_unit) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Execute one 64M exact frontier work unit
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/stage32-frontier64m"
+          UNIT_ID=$(python -c 'import json,os; print(json.loads(os.environ["WORK_UNIT_JSON"])["work_unit_id"])')
+          OUT="$RUNNER_TEMP/stage32-frontier64m/${UNIT_ID}.json"
+          python stages/stage32/residual-32-01-production/run_full178_prefix_work_unit.py \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --work-unit-json "$WORK_UNIT_JSON" \
+            --node-limit 64000000 \
+            --output "$OUT"
+          python - "$OUT" <<'PY'
+          import json,pathlib,sys
+          p=pathlib.Path(sys.argv[1]); x=json.loads(p.read_text())
+          assert x['schema']=='STAGE32_RESIDUAL32_01_FULL178_PREFIX_WORK_UNIT_V2'
+          assert x['nodes_used']==sum(int(t['nodes']) for t in x['telemetry'])
+          assert 0 <= x['nodes_used'] <= x['node_limit'] == 64000000
+          assert x['prefix_stage_only'] is True and x['unknown_is_unsat'] is False
+          assert x['numerical_row_complete'] is False
+          assert x['B18_RELEASE_AUTHORIZED'] is False
+          assert x['THEOREM_CREDIT'] is False and x['RECEIVER_CREDIT'] is False
+          assert p.stat().st_size <= 16*1024
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-frontier64m-${{ needs.authorize.outputs.generation }}-${{ matrix.work_unit.work_unit_id }}
+          path: ${{ runner.temp }}/stage32-frontier64m/*.json
+          retention-days: 3
+          if-no-files-found: error
+
+  aggregate:
+    needs: [authorize, calibrate]
+    if: needs.authorize.outputs.authorized == 'true' && needs.calibrate.result == 'success'
+    runs-on: ubuntu-24.04
+    env:
+      EXPECTED_COUNT: ${{ needs.authorize.outputs.work_unit_count }}
+      GENERATION: ${{ needs.authorize.outputs.generation }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-frontier64m-${{ needs.authorize.outputs.generation }}-wu-*
+          path: ${{ runner.temp }}/stage32-frontier64m-aggregate
+          merge-multiple: true
+      - name: Build 16M-vs-64M calibration manifest
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'stage32-frontier64m-aggregate'
+          files=sorted(root.glob('*.json'))
+          expected=int(os.environ['EXPECTED_COUNT'])
+          assert len(files)==expected==16
+          rows=[]; children=[]
+          for p in files:
+              x=json.loads(p.read_text())
+              assert x['node_limit']==64000000
+              rows.append({'work_unit_id':x['input_work_unit']['work_unit_id'],'row_id':x['row_id'],
+                           'nodes_used_64m':x['nodes_used'],
+                           'completed_prefix_partitions_64m':len(x['completed_prefix_partitions']),
+                           'unknown_count_64m':x['unknown_count'],
+                           'ceiling_hit_64m':x['nodes_used']>=64000000,
+                           'certificate_sha256':x['canonical_sha256_without_this_field']})
+              children.extend(x['unresolved_exact_child_work_units'])
+          rows=sorted(rows,key=lambda v:v['work_unit_id'])
+          payload={'schema':'STAGE32_RESIDUAL32_01_FRONTIER_16M_VS_64M_CALIBRATION_V1',
+                   'generation':int(os.environ['GENERATION']),'sample_count':16,
+                   'baseline16m_ceiling_hit_count':16,'baseline16m_unknown_count_total':32,
+                   'node_limit_64m':64000000,
+                   'ceiling_hit_count_64m':sum(v['ceiling_hit_64m'] for v in rows),
+                   'completed_prefix_partition_count_64m':sum(v['completed_prefix_partitions_64m'] for v in rows),
+                   'unknown_count_total_64m':sum(v['unknown_count_64m'] for v in rows),
+                   'next_exact_work_unit_count_64m':len(children),
+                   'sample_results':rows,'next_exact_work_units_64m':children,
+                   'unknown_is_unsat':False,'prefix_stage_only':True,
+                   'B18_RELEASE_AUTHORIZED':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False}
+          raw=json.dumps(payload,sort_keys=True,separators=(',',':')).encode()
+          payload['canonical_sha256_without_this_field']=hashlib.sha256(raw).hexdigest()
+          out=root/'frontier64m-manifest.json'; out.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\n')
+          assert out.stat().st_size < 1024*1024
+          print(json.dumps({'sample_count':16,'baseline_children_proxy':32,
+                            'ceiling_hits_64m':payload['ceiling_hit_count_64m'],
+                            'unknown_64m':payload['unknown_count_total_64m'],
+                            'children_64m':payload['next_exact_work_unit_count_64m'],
+                            'completed_64m':payload['completed_prefix_partition_count_64m'],
+                            'sha256':payload['canonical_sha256_without_this_field']},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-frontier64m-${{ needs.authorize.outputs.generation }}-manifest
+          path: ${{ runner.temp }}/stage32-frontier64m-aggregate/frontier64m-manifest.json
+          retention-days: 7
+          if-no-files-found: error

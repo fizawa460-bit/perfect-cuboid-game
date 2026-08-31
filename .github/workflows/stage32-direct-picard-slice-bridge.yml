@@ -1,0 +1,80 @@
+name: Stage32 direct Picard slice bridge
+
+on:
+  pull_request:
+    types: [synchronize, opened, reopened]
+    paths:
+      - 'stages/stage32/residual-32-01-production/direct_picard_slice_bridge.py'
+      - 'stages/stage32/residual-32-01-production/build_direct_picard_slice_census.py'
+      - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
+      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+      - '.github/workflows/stage32-direct-picard-slice-bridge.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  bridge:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Verify current retained direct-slice bridge
+        run: |
+          python - <<'PY'
+          import importlib.util, json, pathlib, sys
+          root=pathlib.Path.cwd()
+          prod=root/'stages/stage32/residual-32-01-production'
+          sys.path.insert(0,str(prod))
+          from direct_picard_slice_bridge import DirectPicardSliceBridge
+          def load(path,name):
+              spec=importlib.util.spec_from_file_location(name,path)
+              assert spec and spec.loader
+              mod=importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+              return mod.load()
+          bundle=load(root/'stages/stage33/33-07/picard_base_rows_retained.py','s32_bridge_picard')
+          marking=load(root/'stages/stage33/33-07/stage32_picard_marking_retained.py','s32_bridge_marking')
+          bridge=DirectPicardSliceBridge.from_retained(marking,bundle)
+          c=bridge.certificate
+          assert c['hyperplane_square']==16
+          assert c['mass_identity_exact_on_picard64'] is True
+          assert c['slice_functional_rank']==3
+          assert c['slice_kernel_rank']==61
+          assert c['candidate_partition_semantics']['slice_assignment_unique'] is True
+          assert c['candidate_partition_semantics']['terminal_prefix_materialization_required_for_partition'] is False
+          assert c['candidate_partition_semantics']['target_image_gate_exact_before_closevectors'] is True
+          pathlib.Path('direct-picard-slice-bridge.json').write_text(json.dumps(c,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({
+              'verdict':'PASS_CURRENT_RETAINED_DIRECT_PICARD_SLICE_BRIDGE',
+              'hyperplane_square':c['hyperplane_square'],
+              'mass_identity':c['mass_identity'],
+              'slice_kernel_rank':c['slice_kernel_rank'],
+              'target_image_index':c['target_image']['image_index'],
+              'target_image_modulus':c['target_image']['congruence_modulus'],
+              'target_image_active_rows':c['target_image']['active_congruence_rows'],
+              'canonical_sha256':c['canonical_sha256_without_this_field'],
+          },sort_keys=True))
+          PY
+      - name: Count FULL178 direct slices and exact image-feasible targets
+        run: |
+          python stages/stage32/residual-32-01-production/build_direct_picard_slice_census.py \
+            --manifest stages/stage32/residual-32-01-production/full178-manifest.json \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --output direct-picard-slice-census.json
+      - name: Upload compact bridge evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-direct-picard-slice-bridge
+          path: |
+            direct-picard-slice-bridge.json
+            direct-picard-slice-census.json
+          retention-days: 7
+          compression-level: 9

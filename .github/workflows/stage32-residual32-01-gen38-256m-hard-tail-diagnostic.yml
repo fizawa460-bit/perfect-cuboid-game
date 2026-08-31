@@ -1,0 +1,278 @@
+name: Stage32 residual32-01 Gen38 256M hard-tail diagnostic
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - '.github/workflows/stage32-residual32-01-gen38-256m-hard-tail-diagnostic.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      REPOSITORY: ${{ github.repository }}
+      GH_TOKEN: ${{ github.token }}
+      GEN37_ARTIFACT_ID: '9722817296'
+      GEN37_ZIP_SHA256: '4a786b5e8e9816f855294c04cc2352818fbb84e6d1de4dc0dcb54e60bc181e6a'
+      GEN37_MANIFEST_SHA256: '19617b2e04a9c61508eaa408e85f98167217b5f96d36371763f12d1841685bc1'
+      GEN38_ARTIFACT_ID: '9724140764'
+      GEN38_ZIP_SHA256: '6af38b6518e846822f729f269f029ab0509319b375fa75167b6b68c6cc37d8ba'
+      GEN38_MANIFEST_SHA256: '7c1c6248274f988848b9608d65102e207368467ba1afb29022341a6f866d0476'
+    steps:
+      - name: Download and verify exact Gen37 and Gen38 frontier manifests
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/hard-tail"
+          for G in 37 38; do
+            AID_VAR="GEN${G}_ARTIFACT_ID"; ZIP_VAR="GEN${G}_ZIP_SHA256"
+            AID="${!AID_VAR}"; EXPECT="${!ZIP_VAR}"
+            curl -fsSL \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H 'X-GitHub-Api-Version: 2022-11-28' \
+              "https://api.github.com/repos/$REPOSITORY/actions/artifacts/$AID/zip" \
+              -o "$RUNNER_TEMP/hard-tail/gen${G}.zip"
+            ACTUAL=$(sha256sum "$RUNNER_TEMP/hard-tail/gen${G}.zip" | awk '{print $1}')
+            test "$ACTUAL" = "$EXPECT"
+            mkdir -p "$RUNNER_TEMP/hard-tail/gen${G}"
+            unzip -q "$RUNNER_TEMP/hard-tail/gen${G}.zip" -d "$RUNNER_TEMP/hard-tail/gen${G}"
+          done
+
+      - name: Build exact lineage hard-tail diagnostic
+        run: |
+          python - <<'PY'
+          import collections, hashlib, json, os, pathlib, statistics
+
+          root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'hard-tail'
+
+          def csha(v):
+              return hashlib.sha256(json.dumps(v, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+
+          def load_manifest(g, expected_sha):
+              files = list((root / f'gen{g}').glob('*.json'))
+              assert len(files) == 1, files
+              m = json.loads(files[0].read_text())
+              claimed = m.pop('canonical_sha256_without_this_field')
+              assert csha(m) == claimed == expected_sha
+              m['canonical_sha256_without_this_field'] = claimed
+              return m
+
+          m37 = load_manifest(37, os.environ['GEN37_MANIFEST_SHA256'])
+          m38 = load_manifest(38, os.environ['GEN38_MANIFEST_SHA256'])
+          old = m37['frontier_exact_work_units']
+          new = m38['frontier_exact_work_units']
+          assert len(old) == 73
+          assert len(new) == 52
+          assert m38['input_frontier_count'] == 73 and m38['dispatch_count'] == 73 and m38['carry_count'] == 0
+
+          def lineage(u):
+              assert u['kind'] == 'RESUMABLE_CURSOR'
+              return u['source_unit']['work_unit_id']
+
+          old_by = {lineage(u): u for u in old}
+          new_by = {lineage(u): u for u in new}
+          assert len(old_by) == 73 and len(new_by) == 52
+          assert set(new_by) <= set(old_by)
+          completed_ids = sorted(set(old_by) - set(new_by))
+          assert len(completed_ids) == 21
+
+          def degree(row_id):
+              return int(row_id.split('-d', 1)[1])
+
+          def genus(row_id):
+              return int(row_id.split('-d', 1)[0][1:])
+
+          def stack_depth(u):
+              c = u.get('continuation')
+              return len(c['stack']) if c else 0
+
+          def values_depth(u):
+              c = u.get('continuation')
+              return len(c['values']) if c else 0
+
+          def top_remaining(u):
+              c = u.get('continuation')
+              if not c:
+                  return None
+              f = c['stack'][-1]
+              return max(0, int(f['hi']) - int(f['next_value']) + 1)
+
+          def stat(vals):
+              vals = [int(v) for v in vals]
+              if not vals:
+                  return None
+              return {
+                  'min': min(vals),
+                  'median': statistics.median(vals),
+                  'max': max(vals),
+                  'mean': sum(vals) / len(vals),
+              }
+
+          survived_same_e = []
+          survived_advanced_e = []
+          survivor_rows = collections.Counter()
+          input_rows = collections.Counter()
+          completed_rows = collections.Counter()
+          genus_input = collections.Counter()
+          genus_survivor = collections.Counter()
+          source_kind_input = collections.Counter()
+          source_kind_survivor = collections.Counter()
+
+          for u in old:
+              input_rows[u['row_id']] += 1
+              genus_input[genus(u['row_id'])] += 1
+              source_kind_input[u['source_unit']['kind']] += 1
+          for lid in completed_ids:
+              completed_rows[old_by[lid]['row_id']] += 1
+
+          transitions = []
+          for lid, v in new_by.items():
+              u = old_by[lid]
+              assert u['row_id'] == v['row_id']
+              assert int(v['e_current']) >= int(u['e_current'])
+              survivor_rows[v['row_id']] += 1
+              genus_survivor[genus(v['row_id'])] += 1
+              source_kind_survivor[v['source_unit']['kind']] += 1
+              rec = {
+                  'lineage_id': lid,
+                  'row_id': v['row_id'],
+                  'source_kind': v['source_unit']['kind'],
+                  'e_before': int(u['e_current']),
+                  'e_after': int(v['e_current']),
+                  'e_delta': int(v['e_current']) - int(u['e_current']),
+                  'segments_before_current_partition': int(u['segment_count']),
+                  'segments_after_current_partition': int(v['segment_count']),
+                  'nodes_before_current_partition': int(u['nodes_accumulated']),
+                  'nodes_after_current_partition': int(v['nodes_accumulated']),
+                  'stack_depth_before': stack_depth(u),
+                  'stack_depth_after': stack_depth(v),
+                  'values_depth_after': values_depth(v),
+                  'top_remaining_choices_after': top_remaining(v),
+              }
+              transitions.append(rec)
+              if rec['e_delta'] == 0:
+                  survived_same_e.append(rec)
+              else:
+                  survived_advanced_e.append(rec)
+
+          same_e_node_deltas = [x['nodes_after_current_partition'] - x['nodes_before_current_partition'] for x in survived_same_e]
+          if same_e_node_deltas:
+              assert all(v == 256000000 for v in same_e_node_deltas), sorted(set(same_e_node_deltas))
+
+          # Compare features visible before the 256M call for completed vs surviving lineages.
+          completed_old = [old_by[x] for x in completed_ids]
+          survived_old = [old_by[x] for x in sorted(new_by)]
+
+          def feature_panel(units):
+              return {
+                  'count': len(units),
+                  'e_current': stat([u['e_current'] for u in units]),
+                  'segment_count_current_partition': stat([u['segment_count'] for u in units]),
+                  'nodes_accumulated_current_partition': stat([u['nodes_accumulated'] for u in units]),
+                  'stack_depth': stat([stack_depth(u) for u in units]),
+                  'continuation_present_count': sum(1 for u in units if u.get('continuation') is not None),
+              }
+
+          row_table = []
+          for row in sorted(input_rows):
+              i = input_rows[row]; s = survivor_rows[row]; c = completed_rows[row]
+              assert i == s + c
+              row_table.append({
+                  'row_id': row,
+                  'input': i,
+                  'completed': c,
+                  'survived': s,
+                  'survival_rate': s / i,
+              })
+
+          top_survivor_rows = sorted(row_table, key=lambda x: (-x['survived'], -x['survival_rate'], x['row_id']))[:15]
+          hardest_same_e = sorted(
+              survived_same_e,
+              key=lambda x: (-x['nodes_after_current_partition'], -x['segments_after_current_partition'], x['row_id'], x['lineage_id'])
+          )[:15]
+
+          e_progress = [x['e_delta'] for x in survived_advanced_e]
+          summary = {
+              'schema': 'STAGE32_RESIDUAL32_01_GEN38_256M_HARD_TAIL_DIAGNOSTIC_V1',
+              'source_locks': {
+                  'gen37_artifact_id': int(os.environ['GEN37_ARTIFACT_ID']),
+                  'gen37_manifest_sha256': os.environ['GEN37_MANIFEST_SHA256'],
+                  'gen38_artifact_id': int(os.environ['GEN38_ARTIFACT_ID']),
+                  'gen38_manifest_sha256': os.environ['GEN38_MANIFEST_SHA256'],
+              },
+              'exact_transition': {
+                  'input': 73,
+                  'completed': 21,
+                  'survived': 52,
+                  'node_limit_per_input': 256000000,
+                  'survival_rate': 52 / 73,
+              },
+              'survivor_mechanism': {
+                  'same_e_after_full_256m': len(survived_same_e),
+                  'advanced_to_later_e_but_still_unresolved': len(survived_advanced_e),
+                  'advanced_e_delta_stats': stat(e_progress),
+                  'same_e_exact_added_nodes_each': 256000000 if survived_same_e else None,
+                  'interpretation': 'same_e means the current exact stratum alone consumed the full additional 256M nodes; advanced_e means one or more strata completed during the call but the row-tail still remained unresolved',
+              },
+              'pre_call_feature_comparison': {
+                  'completed_21': feature_panel(completed_old),
+                  'survived_52': feature_panel(survived_old),
+              },
+              'post_call_survivor_features': {
+                  'e_current': stat([u['e_current'] for u in new]),
+                  'segment_count_current_partition': stat([u['segment_count'] for u in new]),
+                  'nodes_accumulated_current_partition': stat([u['nodes_accumulated'] for u in new]),
+                  'stack_depth': stat([stack_depth(u) for u in new]),
+                  'values_depth': stat([values_depth(u) for u in new]),
+                  'top_remaining_choices': stat([v for v in (top_remaining(u) for u in new) if v is not None]),
+              },
+              'population_structure': {
+                  'unique_input_rows': len(input_rows),
+                  'unique_survivor_rows': len(survivor_rows),
+                  'genus_input_counts': dict(sorted(genus_input.items())),
+                  'genus_survivor_counts': dict(sorted(genus_survivor.items())),
+                  'source_kind_input_counts': dict(sorted(source_kind_input.items())),
+                  'source_kind_survivor_counts': dict(sorted(source_kind_survivor.items())),
+                  'top_survivor_rows': top_survivor_rows,
+              },
+              'hardest_same_e_examples': hardest_same_e,
+              'all_row_transition_counts': row_table,
+              'firewalls': {
+                  'diagnostic_only': True,
+                  'unknown_is_unsat': False,
+                  'numerical_row_complete': False,
+                  'theorem_credit': False,
+                  'receiver_credit': False,
+                  'perfect_cuboid_existence_claim': False,
+                  'perfect_cuboid_nonexistence_claim': False,
+              },
+          }
+          raw = json.dumps(summary, sort_keys=True, separators=(',', ':')).encode()
+          summary['canonical_sha256_without_this_field'] = hashlib.sha256(raw).hexdigest()
+          out = root / 'gen38-256m-hard-tail-diagnostic.json'
+          out.write_text(json.dumps(summary, indent=2, sort_keys=True) + '\n')
+          print(json.dumps({
+              'verdict': 'PASS_EXACT_GEN38_256M_HARD_TAIL_DIAGNOSTIC',
+              'input': 73,
+              'completed': 21,
+              'survived': 52,
+              'same_e': len(survived_same_e),
+              'advanced_e': len(survived_advanced_e),
+              'unique_survivor_rows': len(survivor_rows),
+              'completed_pre_nodes_median': feature_panel(completed_old)['nodes_accumulated_current_partition']['median'],
+              'survived_pre_nodes_median': feature_panel(survived_old)['nodes_accumulated_current_partition']['median'],
+              'survived_post_nodes_median': summary['post_call_survivor_features']['nodes_accumulated_current_partition']['median'],
+              'sha256': summary['canonical_sha256_without_this_field'],
+          }, sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-gen38-256m-hard-tail-diagnostic
+          path: ${{ runner.temp }}/hard-tail/gen38-256m-hard-tail-diagnostic.json
+          retention-days: 7
+          if-no-files-found: error

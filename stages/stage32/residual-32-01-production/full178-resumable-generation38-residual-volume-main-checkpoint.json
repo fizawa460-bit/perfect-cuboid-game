@@ -1,0 +1,82 @@
+{
+  "schema": "STAGE32_RESIDUAL32_01_GEN38_RESIDUAL_VOLUME_MAIN_CHECKPOINT_V1",
+  "stage": 32,
+  "item": "RESIDUAL_32_01_PRODUCTION",
+  "status": "PASS_EXACT_FINITE_RESIDUAL_VOLUME_DIAGNOSTIC",
+  "workflow_run_id": 33289665531,
+  "job_id": 99198956760,
+  "artifact_id": 9725555086,
+  "artifact_zip_sha256": "7f7864f535d883fe49e08a44464165f77e3658b67d93e5bbe99859323db4e6e2",
+  "diagnostic_canonical_sha256": "b0dbfa0d2be07e36a9cb587268fe0a36e7ef7322ad0240b4fa5875a9e2ce2fea",
+  "source_frontier_manifest_sha256": {
+    "generation36": "5d27617cd9ea9f85dc871a387e149e7a2b075803de86ac03a879f3894d7cc6a4",
+    "generation37": "19617b2e04a9c61508eaa408e85f98167217b5f96d36371763f12d1841685bc1",
+    "generation38": "7c1c6248274f988848b9608d65102e207368467ba1afb29022341a6f866d0476"
+  },
+  "finite_search_certificate": {
+    "full178_rows": 178,
+    "exact_coarse_e_strata": 64111,
+    "e_upper_rule": "floor(19*degree/5)",
+    "maximum_degree": 192,
+    "maximum_emax": 729,
+    "dfs_label_count": 11,
+    "exceptional_label_count": 10,
+    "normal_label_count": 1,
+    "finite_prefix_search": true,
+    "budget_only_full_campaign_node_upper_bound": "2802306172177575540981756061",
+    "budget_only_full_campaign_node_upper_bound_log10": 27.447515583349137
+  },
+  "current_frontier_measurement": {
+    "frontier_count": 52,
+    "unique_rows": 8,
+    "row_tail_sources": 8,
+    "stratum_partition_sources": 44,
+    "later_e_strata_owned_by_row_tail_sources": 278,
+    "row_tail_sources_before_or_at_budget_only_raw_peak": 8,
+    "exact_finite_raw_remaining_node_upper_bound": "4555530975806418",
+    "exact_finite_raw_remaining_node_upper_bound_log10": 15.658539004014461
+  },
+  "observed_pruning_envelope": {
+    "gen37_64m_median_raw_nodes_removed_per_actual_node": 1.5403344609374998,
+    "gen38_256m_median_raw_nodes_removed_per_actual_node": 1.316647169921875,
+    "gen38_over_gen37_compression_worsened_lineages": 42,
+    "gen38_over_gen37_compression_not_worsened_lineages": 10,
+    "interpretation": "Hard-tail pruning efficiency is weak and worsened on 42/52 surviving lineages."
+  },
+  "local_linear_model": {
+    "is_rigorous_bound": false,
+    "estimated_actual_nodes_remaining": "2877801026017990",
+    "estimated_256m_equivalent_chunks": "11241411",
+    "idealized_17_runner_256m_waves": "661260",
+    "per_lineage_estimate_min": "1272965",
+    "per_lineage_estimate_median": "2366413868",
+    "per_lineage_estimate_p75": "6185292675",
+    "per_lineage_estimate_max": "1922996863971598"
+  },
+  "row_tail_growth": {
+    "g0-d008": {"current_e_range": [18, 22], "emax": 30, "raw_peak_e": 27, "later_e": 8, "median_next_over_current": 1.3173366069867878, "estimated_actual_remaining": "59052402094"},
+    "g0-d010": {"current_e_range": [18, 23], "emax": 38, "raw_peak_e": 34, "later_e": 15, "median_next_over_current": 1.3630066252454198, "estimated_actual_remaining": "403678346108"},
+    "g0-d012": {"current_e_range": [17, 22], "emax": 45, "raw_peak_e": 41, "later_e": 23, "median_next_over_current": 1.409654126492895, "estimated_actual_remaining": "2703722602133"},
+    "g0-d014": {"current_e_range": [16, 22], "emax": 53, "raw_peak_e": 48, "later_e": 31, "median_next_over_current": 1.4332965413595165, "estimated_actual_remaining": "13760894480403"},
+    "g0-d016": {"current_e_range": [16, 23], "emax": 60, "raw_peak_e": 55, "later_e": 37, "median_next_over_current": 1.4410618435336415, "estimated_actual_remaining": "57286525605048"},
+    "g0-d018": {"current_e_range": [16, 21], "emax": 68, "raw_peak_e": 62, "later_e": 47, "median_next_over_current": 1.4584145491938996, "estimated_actual_remaining": "210169576537575"},
+    "g0-d020": {"current_e_range": [16, 21], "emax": 76, "raw_peak_e": 69, "later_e": 55, "median_next_over_current": 1.4623273858710903, "estimated_actual_remaining": "670402051770701"},
+    "g0-d022": {"current_e_range": [15, 21], "emax": 83, "raw_peak_e": 76, "later_e": 62, "median_next_over_current": 1.4772297776376042, "estimated_actual_remaining": "1923015524273928"}
+  },
+  "main_interpretation": {
+    "finite_vs_infinite": "FINITE_EXACTLY_BOUNDED",
+    "blind_ceiling_escalation": "NOT_AUTHORIZED",
+    "bounded_split_as_primary_strategy": "NOT_JUSTIFIED_AT_CURRENT_SCALE",
+    "next": "EXACT_ALGORITHMIC_RESIDUAL_COMPRESSION_AND_PRUNING_REDESIGN",
+    "reason": "Splitting changes parallelism but not the measured residual node mass. The current model is millions of 256M chunks, dominated by row tails that are still before the budget-only raw-size peak."
+  },
+  "firewalls": {
+    "diagnostic_only": true,
+    "unknown_is_unsat": false,
+    "numerical_row_complete": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

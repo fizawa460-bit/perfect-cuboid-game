@@ -1,0 +1,125 @@
+{
+  "branch": "stage32-full178-heavy-production-wave1",
+  "canonical_sha256_without_this_field": "65a5ab43e44ebb33341c250a8fa2c5ece09999203893f9a76ca46fb037df558f",
+  "direct_picard_crosscheck": {
+    "continuous_kkt_surviving_slices": 679337,
+    "exact_reynolds_rank2_integer_qp_surviving_slices": 679337,
+    "interpretation": "fixed projected integrality is computationally cheap but does not prune this population",
+    "rank2_projection_pruned_slices": 0
+  },
+  "exact_terminal_family": {
+    "assignment_order_known_labels_1based": [
+      95,
+      99,
+      103,
+      102,
+      49,
+      97,
+      94,
+      101,
+      93,
+      98,
+      96
+    ],
+    "closed_symbolic_count_file": "stages/stage32/residual-32-01-production/compressed_terminal_family.py",
+    "closed_symbolic_count_matches_current_exact_DFS_on_locked_tests": true,
+    "constraints": [
+      "all xi >= 0",
+      "sum(xi for i != 4) <= e",
+      "0 <= x4 <= 19*d-5*e",
+      "x0 <= x1",
+      "if x0==x1 then (x5,x6) <=lex (x8,x9)",
+      "x1+x8+x9+x10 == 0 (mod 2)"
+    ],
+    "variables": "x0..x10 in that order"
+  },
+  "firewalls": {
+    "FULL_D16_G0_ROW_COMPLETE": false,
+    "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
+    "FULL_D8_G0_ROW_COMPLETE": false,
+    "R29_LG2": "NOT_DISCHARGED",
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "stage32_closed": false,
+    "theorem_credit": false
+  },
+  "gen38_frontier_interpretation": {
+    "continue_256m_or_scale_512m_for_prefix_family": false,
+    "historical_estimated_256m_chunks": "11241411",
+    "historical_estimated_actual_nodes_remaining": "2877801026017990",
+    "historical_evidence_revoked": false,
+    "historical_frontier_count": 52,
+    "historical_raw_remaining_node_upper_bound": "4555530975806418",
+    "prefix_stage_completion_is_not_numerical_row_completion": true,
+    "status_for_prefix_family_representation": "SUPERSEDED_BY_EXACT_SYMBOLIC_COUNT_PLUS_INDEXED_RANDOM_ACCESS"
+  },
+  "indexed_reparameterization": {
+    "conclusion": "success",
+    "file": "stages/stage32/residual-32-01-production/compressed_terminal_indexer.py",
+    "full_terminal_materialization_required": false,
+    "inverse_rank": true,
+    "job_id": 99235511934,
+    "large_random_access_roundtrip_e": [
+      663,
+      729
+    ],
+    "legacy_DFS_stream_order_preserved": false,
+    "new_canonical_order": "EXCEPTIONAL_UNEQUAL_THEN_EQUAL__NORMAL_X4_INNERMOST",
+    "random_access_unrank": true,
+    "small_family_full_set_bijection_checked": true,
+    "symbolic_branch_count_crosschecks": [
+      0,
+      1,
+      2,
+      3,
+      8,
+      31,
+      63,
+      128,
+      256,
+      511,
+      663,
+      729
+    ],
+    "terminal_set_semantics_preserved": true,
+    "test_file": "stages/stage32/residual-32-01-production/test_compressed_terminal_indexer.py",
+    "unit_test_count": 3,
+    "unit_test_runtime_seconds": 4.079,
+    "workflow": ".github/workflows/stage32-compressed-terminal-indexer.yml",
+    "workflow_run_id": 33303388515
+  },
+  "item": "RESIDUAL_32_01_PRODUCTION",
+  "next_leaf": {
+    "blind_node_ceiling_escalation_authorized": false,
+    "heavy_production_arm_authorized": false,
+    "item": "DIRECT_NUMERICAL_PICARD_LEAF_COMPRESSION_AFTER_PREFIX_REPARAMETERIZATION",
+    "preferred_direction": "push actual numerical Picard leaf/lift conditions into compressed coordinates; prioritize exact anti-fixed lift/coset penalty or another exact direct-Picard finite-state reduction rather than materializing the 27-digit terminal family"
+  },
+  "pr": 1462,
+  "schema": "STAGE32_RESIDUAL32_01_PREFIX_INDEXED_COMPRESSION_MAIN_CHECKPOINT_V1",
+  "source_head_before_checkpoint": "a90e7c2fe5cdeb472d02543de0b2c6e5fe1af931",
+  "stage": "32",
+  "status": "PASS_PREFIX_DFS_REPARAMETERIZED_TO_EXACT_INDEXED_TERMINAL_FAMILY",
+  "symbolic_full178_prefix_census": {
+    "artifact_id": 9729507733,
+    "artifact_zip_sha256": "1a8fad1313cd3baaa8e79ab1e8eea6fe55001a8568b8f5fcb4a707d076f50fbb",
+    "census_canonical_sha256": "83fe3d5e157b3f94c35b0c937cb9c56f1834fce28f406b80eedf506cfcf18738",
+    "coarse_e_strata": 64111,
+    "current_prefix_filter_count_exact": true,
+    "job_id": 99234083902,
+    "legacy_terminal_stream_materialized": false,
+    "max_single_stratum": {
+      "e": 663,
+      "row_id": "g1-d192",
+      "terminal_count": "410107396030458090802608"
+    },
+    "maximum_e": 729,
+    "numerical_picard_leaf_checks_complete": false,
+    "row_count": 178,
+    "terminal_count_total": "688101306360803751427719294",
+    "terminal_count_total_digits": 27,
+    "workflow_run_id": 33302857515
+  }
+}

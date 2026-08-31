@@ -1,0 +1,59 @@
+{
+  "schema": "STAGE32_RESIDUAL32_01_GEN31_33_HARDNESS_PROFILE_V1",
+  "stage": "32",
+  "item": "RESIDUAL_32_01_PRODUCTION",
+  "scope": "COMPUTATIONAL_FRONTIER_BEHAVIOR_ONLY",
+  "node_ceiling_per_work_unit": 64000000,
+  "waves": [
+    {
+      "generation": 31,
+      "input_work_unit_count": 128,
+      "next_exact_work_unit_count": 88,
+      "children_per_input": 0.6875,
+      "node_ceiling_hit_count": 43,
+      "completed_prefix_partition_count": 85,
+      "global_frontier_before_dispatch": 316,
+      "global_frontier_after_ingest": 276,
+      "global_frontier_net_change": -40,
+      "row_children_per_input": {"g0-d008":0.6666666667,"g0-d010":0.6190476190,"g0-d012":0.7142857143,"g0-d014":0.4545454545,"g0-d016":0.5,"g0-d018":0.8571428571,"g0-d020":1.0,"g0-d022":1.0}
+    },
+    {
+      "generation": 32,
+      "input_work_unit_count": 128,
+      "next_exact_work_unit_count": 88,
+      "children_per_input": 0.6875,
+      "node_ceiling_hit_count": 43,
+      "completed_prefix_partition_count": 85,
+      "global_frontier_before_dispatch": 276,
+      "global_frontier_after_ingest": 236,
+      "global_frontier_net_change": -40,
+      "row_children_per_input": {"g0-d008":0.5714285714,"g0-d010":1.0,"g0-d012":0.2,"g0-d014":1.1666666667,"g0-d016":0.4857142857,"g0-d018":0.7391304348,"g0-d020":1.0,"g0-d022":0.6666666667}
+    },
+    {
+      "generation": 33,
+      "input_work_unit_count": 128,
+      "next_exact_work_unit_count": 110,
+      "children_per_input": 0.859375,
+      "node_ceiling_hit_count": 52,
+      "completed_prefix_partition_count": 76,
+      "global_frontier_before_dispatch": 236,
+      "global_frontier_after_ingest": 218,
+      "global_frontier_net_change": -18,
+      "row_input_counts": {"g0-d008":13,"g0-d010":21,"g0-d012":17,"g0-d014":13,"g0-d016":16,"g0-d018":12,"g0-d020":19,"g0-d022":17},
+      "row_children_counts": {"g0-d008":9,"g0-d010":15,"g0-d012":21,"g0-d014":7,"g0-d016":12,"g0-d018":12,"g0-d020":15,"g0-d022":19},
+      "row_children_per_input": {"g0-d008":0.6923076923,"g0-d010":0.7142857143,"g0-d012":1.2352941176,"g0-d014":0.5384615385,"g0-d016":0.75,"g0-d018":1.0,"g0-d020":0.7894736842,"g0-d022":1.1176470588},
+      "row_ceiling_hit_counts": {"g0-d008":4,"g0-d010":7,"g0-d012":10,"g0-d014":3,"g0-d016":6,"g0-d018":6,"g0-d020":7,"g0-d022":9}
+    }
+  ],
+  "interpretation": {
+    "gen31_32_stationary_children_per_input": true,
+    "gen33_stationarity_break_observed": true,
+    "gen33_still_frontier_shrinking": true,
+    "row_local_reproduction_above_one_in_gen33": ["g0-d012","g0-d022"],
+    "blind_gen34_arm_recommended": false,
+    "recommended_next_step": "CLASSIFY_HARD_PREFIX_SHAPES_AND_TEST_TARGETED_CEILING_OR_SPLIT_POLICY_BEFORE_MORE_BLIND_FIFO64M",
+    "unknown_is_unsat": false,
+    "theorem_credit": false,
+    "receiver_credit": false
+  }
+}

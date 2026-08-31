@@ -1,0 +1,118 @@
+name: Stage32 residual32-01 residual volume diagnostic
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/residual-32-01-production/measure_resumable_residual_volume.py'
+      - '.github/workflows/stage32-residual32-01-residual-volume-diagnostic.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  measure:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      REPOSITORY: fizawa460-bit/perfect-cuboid-game
+      GEN36_ARTIFACT_ID: '9722184127'
+      GEN36_ZIP_SHA256: c892e391ae36076db4e1627822ec95863739cded2bfb34586fc7eb23f0622ee6
+      GEN36_MANIFEST_SHA256: 5d27617cd9ea9f85dc871a387e149e7a2b075803de86ac03a879f3894d7cc6a4
+      GEN37_ARTIFACT_ID: '9722817296'
+      GEN37_ZIP_SHA256: 4a786b5e8e9816f855294c04cc2352818fbb84e6d1de4dc0dcb54e60bc181e6a
+      GEN37_MANIFEST_SHA256: 19617b2e04a9c61508eaa408e85f98167217b5f96d36371763f12d1841685bc1
+      GEN38_ARTIFACT_ID: '9724140764'
+      GEN38_ZIP_SHA256: 6af38b6518e846822f729f269f029ab0509319b375fa75167b6b68c6cc37d8ba
+      GEN38_MANIFEST_SHA256: 7c1c6248274f988848b9608d65102e207368467ba1afb29022341a6f866d0476
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+
+      - name: Download and verify exact Gen36-38 frontier manifests
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/residual-volume"
+          for G in 36 37 38; do
+            AID_VAR="GEN${G}_ARTIFACT_ID"
+            ZIP_VAR="GEN${G}_ZIP_SHA256"
+            AID="${!AID_VAR}"
+            EXPECT="${!ZIP_VAR}"
+            curl -fsSL -H "Authorization: Bearer $GH_TOKEN" -H 'X-GitHub-Api-Version: 2022-11-28' \
+              "https://api.github.com/repos/$REPOSITORY/actions/artifacts/$AID/zip" \
+              -o "$RUNNER_TEMP/residual-volume/gen${G}.zip"
+            ACTUAL=$(sha256sum "$RUNNER_TEMP/residual-volume/gen${G}.zip" | awk '{print $1}')
+            test "$ACTUAL" = "$EXPECT"
+            mkdir -p "$RUNNER_TEMP/residual-volume/gen${G}"
+            unzip -q "$RUNNER_TEMP/residual-volume/gen${G}.zip" -d "$RUNNER_TEMP/residual-volume/gen${G}"
+          done
+
+      - name: Measure finite envelope and residual scale
+        run: |
+          python stages/stage32/residual-32-01-production/measure_resumable_residual_volume.py \
+            --full178-manifest stages/stage32/residual-32-01-production/full178-manifest.json \
+            --gen36-dir "$RUNNER_TEMP/residual-volume/gen36" \
+            --gen37-dir "$RUNNER_TEMP/residual-volume/gen37" \
+            --gen38-dir "$RUNNER_TEMP/residual-volume/gen38" \
+            --gen36-sha "$GEN36_MANIFEST_SHA256" \
+            --gen37-sha "$GEN37_MANIFEST_SHA256" \
+            --gen38-sha "$GEN38_MANIFEST_SHA256" \
+            --output "$RUNNER_TEMP/residual-volume/stage32-residual-volume-diagnostic.json"
+
+      - name: Print compact row-scale interpretation
+        run: |
+          python - <<'PY'
+          import json, os
+          d=json.load(open(os.path.join(os.environ['RUNNER_TEMP'],'residual-volume','stage32-residual-volume-diagnostic.json')))
+          print(json.dumps({
+            'raw_remaining_upper':d['current_exact_frontier']['exact_finite_raw_remaining_node_upper_bound'],
+            'estimated_actual_remaining':d['local_linear_residual_model']['total_estimated_actual_nodes_remaining'],
+            'estimated_256m_chunks':d['local_linear_residual_model']['total_estimated_256m_equivalent_chunks'],
+            'idealized_17_runner_waves':d['local_linear_residual_model']['idealized_17_runner_256m_waves'],
+            'row_tail_before_peak':d['current_exact_frontier']['row_tail_sources_before_or_at_budget_only_raw_peak'],
+            'row_tail_count':d['current_exact_frontier']['row_tail_source_count']},sort_keys=True))
+          for r in d['rows']:
+            print(json.dumps({'row_id':r['row_id'],'frontier_units':r['frontier_units'],'current_e_min':r['current_e_min'],'current_e_max':r['current_e_max'],'emax':r['emax'],'raw_peak_e':r['raw_curve_peak_e'],'row_tail_later_e_counts':r['row_tail_later_e_counts'],'median_raw_next_over_current':r['median_raw_next_over_current'],'row_estimated_actual_remaining':r['local_linear_estimated_actual_nodes_remaining_total']},sort_keys=True))
+          PY
+
+      - name: Inspect exact membership and symmetry prefix filters
+        run: |
+          python - <<'PY'
+          import json, math, pathlib, sys
+          sys.path.insert(0,'stages/stage32/residual-32-01-production')
+          from aut_equivariant_pairing_adapter import AutEquivariantPrefixCanonicalAugmentation,EquivariantPrefixMembershipOracle
+          from hperp_integral_adapter import HperpIntegralPairingAdapter
+          from pairing_prefix_engine import RETAINED_BUNDLE_SHA256
+          from run_full178_prefix_work_unit import KNOWN_LABEL_ORDER,load_module_payload
+          bundle=load_module_payload(pathlib.Path('stages/stage33/33-07/picard_base_rows_retained.py'),'stage32_volume_diag_picard')
+          assert bundle['canonical_sha256']==RETAINED_BUNDLE_SHA256
+          marking=load_module_payload(pathlib.Path('stages/stage33/33-07/stage32_picard_marking_retained.py'),'stage32_volume_diag_marking')
+          adapter=HperpIntegralPairingAdapter.from_retained(marking,bundle)
+          oracle=EquivariantPrefixMembershipOracle(adapter,KNOWN_LABEL_ORDER)
+          aut=AutEquivariantPrefixCanonicalAugmentation(marking['aut_action']['permutations_1based'],KNOWN_LABEL_ORDER,marking['aut_action']['canonical_sha256_without_this_field'])
+          for check,acheck in zip(oracle.checks,aut.checks):
+            M=int(check.modulus); periods=[]; nonzero=0
+            for row in check.coefficients:
+              a=int(row[-1])%M if M!=1 else 0
+              if a:
+                nonzero+=1; periods.append(M//math.gcd(a,M))
+            period=1
+            for p in periods: period=math.lcm(period,p)
+            nonidentity=[list(a) for a in acheck.actions_on_prefix if tuple(a)!=tuple(range(check.depth))]
+            print(json.dumps({'depth':check.depth,'label':KNOWN_LABEL_ORDER[check.depth-1],'membership_modulus':M,'membership_rows':[list(r) for r in check.coefficients],'membership_nonzero_next_coeff_rows':nonzero,'next_value_progression_period_if_compatible':period,'aut_stabilizer_size':acheck.stabilizer_size,'aut_nonidentity_actions':nonidentity},sort_keys=True))
+          PY
+
+      - name: Upload compact diagnostic
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-residual32-01-residual-volume-diagnostic
+          path: ${{ runner.temp }}/residual-volume/stage32-residual-volume-diagnostic.json
+          retention-days: 7
+          if-no-files-found: error
