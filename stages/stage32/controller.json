@@ -3,69 +3,40 @@
   "stage": "32",
   "status": "STAGE32_POST21BL_FULL178_NODE_MASS_MATH_AUDITED_SECOND_OPERATIONS_REPAIR_PENDING_HOSTILE_REAUDIT",
   "current_item": "PR1473_DELETE_READD_OPERATIONS_FIX_READY_FOR_HOSTILE_REAUDIT",
-  "current_item_execution_constraint": "Hostile audit remains authoritative: FAIL_OPERATIONS_ONLY / MATH_SCOPE_SURVIVES until re-audit. FULL178 numerical credit for the current bijective-normalization necessary-condition stack remains CLOSED_AUDITED. Same-generation runkey rewrites are rejected by generation_not_advanced. Delete-then-same-generation-readd is rejected by previous_runkey_missing_fail_closed. Exact attack replays left pilot/shard/aggregate SKIPPED. MAIN must not self-promote to PASS. PR1473 remains merge-blocked until hostile re-audit explicitly clears the operations gate. Do not continue or materialize 659697 survivors or start integral-Picard work before audit clearance and explicit merge.",
-  "active_pr": {
-    "number": 1473,
-    "branch": "stage32-post21bl-full178-node-mass-census",
-    "base_sha": "8cb707ffdc4ea72094d397df1896b374a4bbb1a7",
-    "second_operations_fix_commit": "924e4691c40c8be4755de4f21b5078aa012da7d5",
-    "runkey_delete_probe_commit": "21f04523a8a967c56de6381206f179258eb53734",
-    "same_generation_readd_probe_commit": "f30e6f45b02a5bd93c9c011f5e02be2edd87eee8",
-    "second_operations_audit_certificate_commit": "cf2a356c73a4c8be834d7462d9c01a693738bc77",
-    "automatic_merge_authorized": false
-  },
+  "active_pr": {"number":1473,"branch":"stage32-post21bl-full178-node-mass-census","automatic_merge_authorized":false},
   "advance_allowed": false,
   "merge_allowed": false,
   "automatic_merge_authorized": false,
   "checkpoint_merge_ready": false,
   "hostile_reaudit_required_before_merge": true,
   "stage32_closed": false,
-  "actions_safety": {
-    "policy": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
-    "stage_heavy_concurrency_cap": 18,
-    "new_heavy_compute_authorized": false,
-    "full178_heavy_arm_authorized": false,
-    "existing_runkey_generation_advance_enforced": true,
-    "established_runkey_delete_readd_resets_generation_history": false,
-    "first_operations_fix_certificate": "stages/stage32/32-21/post-21bl-full178-node-mass-runkey-generation-gate-audit.json",
-    "first_operations_fix_certificate_canonical_sha256": "3c171df6621e4883735bf1c43ce2675dd04ba4c8b83a6d28f06b3b88bde321a6",
-    "second_operations_fix_certificate": "stages/stage32/32-21/post-21bl-full178-node-mass-runkey-delete-readd-gate-audit.json",
-    "second_operations_fix_certificate_canonical_sha256": "62a0549074f15318b132e73792c83656eece28ee16aeddef6f0e21787b82eaa7",
-    "same_generation_readd_probe": {
-      "run_id": 33449758020,
-      "authorize_job_id": 99676771506,
-      "previous_key_present": false,
-      "current_generation": 1,
-      "armed": false,
-      "reason": "previous_runkey_missing_fail_closed",
-      "pilot_skipped": true,
-      "shard_skipped": true,
-      "aggregate_skipped": true
-    }
+  "math_scope": {
+    "status": "CLOSED_AUDITED_MATH_SCOPE_SURVIVES_HOSTILE_AUDIT",
+    "rows": 178,
+    "continuous_kkt_survivors_before": 679337,
+    "continuous_kkt_survivors_after": 659697,
+    "removed": 19640,
+    "antifixed_additional_prune": 0,
+    "integral_picard_feasibility": "OPEN",
+    "multibranch": "OPEN",
+    "receiver_theorem_endpoint": "OPEN"
   },
-  "closed_dependencies": {
-    "post21bl_full178_node_mass_census": {
-      "status": "CLOSED_AUDITED_FULL178_NUMERICAL_CREDIT_FOR_CURRENT_NECESSARY_CONDITION_STACK",
-      "rows": 178,
-      "continuous_kkt_survivors": {"before": 679337, "removed": 19640, "after": 659697},
-      "antifixed": {"additional_pruned": 0, "survivors": 659697},
-      "aggregate_canonical_sha256": "f9d4ca8c504ed605e7f97bbd306a3d38272e1759e2a2d44d55bb0e8dfb55995d",
-      "fresh_audit_canonical_sha256": "c506cecdfbed56fa1ec99df98fe4366ece7303035b5d38295f3d0b6547319c80",
-      "audit_characterization": "FRESH_PROVENANCE_AND_ACCOUNTING_AUDIT_OVER_ALREADY_AUDITED_EVALUATOR_STACK_NOT_FULL_INDEPENDENT_REIMPLEMENTATION"
-    }
+  "operations_gate": {
+    "status": "SECOND_REPAIR_EXERCISED_PENDING_HOSTILE_REAUDIT",
+    "same_generation_rewrite": "REJECTED_GENERATION_NOT_ADVANCED",
+    "delete_readd_same_generation": "REJECTED_PREVIOUS_RUNKEY_MISSING_FAIL_CLOSED",
+    "second_fix_commit": "924e4691c40c8be4755de4f21b5078aa012da7d5",
+    "delete_probe_commit": "21f04523a8a967c56de6381206f179258eb53734",
+    "readd_probe_commit": "f30e6f45b02a5bd93c9c011f5e02be2edd87eee8",
+    "readd_probe_run_id": 33449758020,
+    "readd_probe_authorize_job_id": 99676771506,
+    "readd_probe_reason": "previous_runkey_missing_fail_closed",
+    "heavy_jobs_all_skipped": true,
+    "certificate": "stages/stage32/32-21/post-21bl-full178-node-mass-runkey-delete-readd-gate-audit.json",
+    "certificate_canonical_sha256": "62a0549074f15318b132e73792c83656eece28ee16aeddef6f0e21787b82eaa7"
   },
-  "gap_state": {
-    "FULL178_CURRENT_NECESSARY_CONDITION_NUMERICAL_CENSUS": "CLOSED_AUDITED_MATH_SCOPE_SURVIVES_HOSTILE_AUDIT",
-    "PR1473_OPERATIONS_GATE": "SECOND_REPAIR_EXERCISED_PENDING_HOSTILE_REAUDIT",
-    "FULL178_INTEGRAL_PICARD_FEASIBILITY_LAYER": "OPEN_BLOCKED_UNTIL_PR1473_AUDIT_CLEAR_AND_MERGE",
-    "MULTIBRANCH_AT_NODE": "OPEN_SEPARATE_R29_LG2_MB",
-    "R29_LG2_EFF_FULL_RECEIVER": "OPEN"
-  },
-  "research_credit_firewalls": {
-    "policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
-    "full178_numerical_credit_for_current_necessary_condition_stack": true,
+  "firewalls": {
     "full178_geometric_closure": false,
-    "multibranch_closed": false,
     "receiver_credit": false,
     "route_credit": false,
     "theorem_credit": false,
