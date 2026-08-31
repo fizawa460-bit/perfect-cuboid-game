@@ -1,0 +1,110 @@
+name: Stage33 J2 full-sign invariant probe
+
+on:
+  push:
+    branches:
+      - stage33-12-j2-ptsK-qPicK-continuation
+    paths:
+      - .github/workflows/stage33-12-j2-full-sign-invariant-probe.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compute full-sign dual fixed space
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          p = Path('stages/stage33/33-12/j2-semantic-u1-full-surface-smith-source.json')
+          obj = json.loads(p.read_text())
+          root = obj['retained_common_smith_source']
+
+          def is_binary_14(m):
+              return isinstance(m, list) and len(m)==14 and all(
+                  isinstance(r,list) and len(r)==14 and all(x in (0,1) for x in r)
+                  for r in m
+              )
+
+          mats=[]
+          def walk(x, path='root'):
+              if is_binary_14(x):
+                  mats.append((path,x))
+                  return
+              if isinstance(x,dict):
+                  for k,v in x.items(): walk(v, path+'.'+k)
+              elif isinstance(x,list):
+                  for i,v in enumerate(x): walk(v, f'{path}[{i}]')
+          walk(root)
+
+          def eye(n): return [[int(i==j) for j in range(n)] for i in range(n)]
+          def mm(a,b):
+              return [[sum(a[i][k]*b[k][j] for k in range(len(b)))&1 for j in range(len(b[0]))] for i in range(len(a))]
+          def tr(a): return [list(x) for x in zip(*a)]
+          def inv(a):
+              n=len(a); z=[a[i][:]+eye(n)[i] for i in range(n)]
+              r=0
+              for c in range(n):
+                  q=next((i for i in range(r,n) if z[i][c]),None)
+                  if q is None: raise ValueError('singular')
+                  z[r],z[q]=z[q],z[r]
+                  for i in range(n):
+                      if i!=r and z[i][c]: z[i]=[x^y for x,y in zip(z[i],z[r])]
+                  r+=1
+              return [row[n:] for row in z]
+          def rref_basis_null(rows,n):
+              a=[r[:] for r in rows if any(r)]
+              piv=[]; rr=0
+              for c in range(n):
+                  q=next((i for i in range(rr,len(a)) if a[i][c]),None)
+                  if q is None: continue
+                  a[rr],a[q]=a[q],a[rr]
+                  for i in range(len(a)):
+                      if i!=rr and a[i][c]: a[i]=[x^y for x,y in zip(a[i],a[rr])]
+                  piv.append(c); rr+=1
+                  if rr==len(a): break
+              free=[c for c in range(n) if c not in piv]
+              out=[]
+              for f in free:
+                  v=[0]*n; v[f]=1
+                  for i,c in enumerate(piv):
+                      if a[i][f]: v[c]=1
+                  out.append(v)
+              return out
+
+          good=[]
+          I=eye(14)
+          for path,m in mats:
+              try:
+                  if mm(m,m)==I:
+                      good.append((path,m))
+              except Exception:
+                  pass
+
+          # Row-vector convention: dual action is (A^{-1})^T.
+          equations=[]
+          for _,a in good:
+              d=tr(inv(a))
+              # row v fixed by d means v(d-I)=0; transpose columns into equations on v.
+              for j in range(14):
+                  equations.append([(d[i][j] ^ I[i][j]) for i in range(14)])
+          basis=rref_basis_null(equations,14)
+          u1=obj['exact_normalization']['full_surface_A_T_2_coordinates_f2']
+
+          print('BINARY_14X14_COUNT=',len(mats))
+          print('INVOLUTION_14X14_COUNT=',len(good))
+          print('INVOLUTION_PATHS=')
+          for path,_ in good: print(path)
+          print('FULL_SIGN_DUAL_FIXED_DIM=',len(basis))
+          print('FULL_SIGN_DUAL_FIXED_BASIS=',json.dumps(basis,separators=(',',':')))
+          print('U1=',json.dumps(u1,separators=(',',':')))
+          print('U1_DOT_FIXED_BASIS=',json.dumps([sum(x*y for x,y in zip(u1,v))&1 for v in basis]))
+          PY
