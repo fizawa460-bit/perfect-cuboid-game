@@ -10,11 +10,11 @@ Use Stage33 material in this order:
 
 1. `AGENTS.md` and `docs/research-os/` — repo-wide policy.
 2. `stages/stage33/RULES.md` — stable Stage33-specific rules.
-3. `stages/stage33/CURRENT.md` and `stages/stage33/controller.json` — current human/machine execution state.
-4. active unit state — detailed current mathematics for the active repair.
-5. `stages/stage33/HISTORY.md`, unit results/audits/certificates/scripts, and Git history — historical work and evidence.
+3. `stages/stage33/MAIN-STATE.json` — compact generated projection for ordinary MAIN startup.
+4. `stages/stage33/controller.json` and active unit state — detailed current machine state and mathematics.
+5. `stages/stage33/CURRENT.md`, `stages/stage33/HISTORY.md`, unit results/audits/certificates/scripts, and Git history — human dashboard, historical work, and evidence.
 
-If historical plan/status conflicts with CURRENT/controller/active authoritative state, the current authoritative state wins. Certificate claims remain limited to their declared scope.
+If historical plan/status conflicts with MAIN-STATE/controller/active authoritative state, the current authoritative state wins. Certificate claims remain limited to their declared scope.
 
 ## Frozen Stage33 scope
 
@@ -49,7 +49,7 @@ The detailed meanings and generic anti-loop/parking rules are inherited from Res
 
 Apply the repo-wide Cycle Exploration Safety Protocol. Stage33 adds only these routing requirements:
 
-- current receiver/candidate/route state belongs in CURRENT/controller/active state, not RULES;
+- current receiver/candidate/route state belongs in generated MAIN-STATE/controller/active state, not RULES;
 - `LOOP-GUARD.md` is compatibility/history, not current-state authority;
 - after a material receiver change, do not continue an obsolete associated route merely because its artifacts still exist;
 - bookkeeping or relabeling does not change Stage33 progress or release status.
@@ -59,7 +59,7 @@ Apply the repo-wide Cycle Exploration Safety Protocol. Stage33 adds only these r
 Use the repo-wide evidence/storage policy for exact evidence. For routine Stage33 context, use:
 
 ```text
-HOT  = RULES + CURRENT + controller + active state + immediate current-leaf certificates/scripts
+HOT  = MAIN-START-HERE + MAIN-STATE + immediate current-leaf certificates/scripts
 WARM = predecessor compact handoff/result and named interface definitions
 COLD = giant generated JSON, old workflow logs, full PR diffs, audited ancestor internals
 ```
@@ -68,20 +68,27 @@ Load COLD material only for a named reason such as source-lock mismatch, certifi
 
 ## MAIN startup order
 
-For a routine Stage33 MAIN batch, read only what is needed in this order:
+For a routine Stage33 MAIN batch, `AGENTS.md` routes startup through
+`MAIN-START-HERE.md`. Read only what is needed in this order:
 
 1. `AGENTS.md`
-2. `stages/stage33/RULES.md`
-3. `stages/stage33/CURRENT.md`
-4. `stages/stage33/controller.json`
-5. the active unit authoritative state and only the certificates/scripts required by the current leaf
+2. `stages/stage33/MAIN-START-HERE.md`
+3. `stages/stage33/MAIN-STATE.json`
+4. only the immediate files named by `current_leaf_working_set`
+
+Do not read RULES, CURRENT, the full controller, compatibility shims, old
+Stage33-05 state, roadmaps, or HISTORY merely because they exist. The startup
+constitution names the exact triggers that authorize expanding to those layers.
+After writes, regenerate and verify MAIN-STATE with `sync_main_state.py`.
 
 Read additional Research OS policy only when its trigger applies, especially before Actions/heavy compute, claim promotion, closure/release, hostile audit, or breadth/parking decisions.
 
 ## File-role invariant
 
 - RULES: stable Stage33-specific policy only.
-- CURRENT/controller: current status, receiver, missing interface, release state.
+- MAIN-STATE: generated compact startup projection; never hand-edit it.
+- controller: detailed current status, receiver, missing interface, and release state.
+- CURRENT: optional human dashboard, not ordinary MAIN startup input.
 - active unit state: detailed current mathematics.
 - HISTORY/results/audits/certificates/Git: historical evidence and provenance.
 

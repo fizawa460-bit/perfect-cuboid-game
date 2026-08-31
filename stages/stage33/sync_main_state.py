@@ -1,0 +1,153 @@
+#!/usr/bin/env python3
+"""Build or verify the compact Stage33 MAIN startup state.
+
+The full controller remains the detailed machine authority.  This projection
+contains only the fields and exact interfaces needed to start an ordinary MAIN
+batch without rereading compatibility shims or historical repair state.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+from pathlib import Path
+
+
+HERE = Path(__file__).resolve().parent
+CONTROLLER = HERE / "controller.json"
+ORIENTATION = HERE / "33-12" / "j2-cv-d2-semantic-orientation.json"
+PROPER14 = HERE / "33-07" / "proper-brauer2-from-discriminant.json"
+TARGET_BASIS = HERE / "33-12" / "full-surface-pic2-kummer-target.json"
+NAMED_TARGET = HERE / "33-12" / "j2-named-v4-h1-target-before-source-orientation.json"
+OUT = HERE / "MAIN-STATE.json"
+
+LOCKS = {
+    ORIENTATION: "0a5abe419c3bd2e4c523af50fd8f85858af6a0d957dcce1e3bdf2ff1430fed3e",
+    PROPER14: "c86f6e838d072816426e4a2b0eb738f44e8632dd1ab4f3e6fdccd161ec41b5bf",
+    TARGET_BASIS: "384b7c9cb06e993c147fa89b30f93efcd454fe1a1773892ac70f463d07af9890",
+    NAMED_TARGET: "4625b6d3ea19ec0e4d8a51471c7f60c0c1219de4672d84c64779c4213306f3b3",
+}
+
+
+def csha(obj):
+    return hashlib.sha256(
+        json.dumps(obj, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+
+
+def locked(path):
+    obj = json.loads(path.read_text(encoding="utf-8"))
+    body = dict(obj)
+    claimed = body.pop("canonical_sha256")
+    assert claimed == LOCKS[path] == csha(body), path
+    return obj
+
+
+controller = json.loads(CONTROLLER.read_text(encoding="utf-8"))
+orientation = locked(ORIENTATION)
+proper14 = locked(PROPER14)
+target_basis = locked(TARGET_BASIS)
+named_target = locked(NAMED_TARGET)
+
+current = controller["current"]
+stage = controller["stage33_12"]
+conclusion = orientation["exact_conclusion"]
+target = named_target["retained_H1_projection"]
+domain = target_basis["proper_invariant_domain"]
+assert conclusion["orientation_materialized"] is True
+assert conclusion["named_CV_J2_semantic_discriminant_label"] == "u1"
+assert conclusion["named_CV_J2_fixed_marked_Kc_coordinate_f2"] == [1, 0]
+assert domain["dimension_f2"] == 10
+assert len(domain["basis_rows_original_proper_br2_coordinates_f2"]) == 10
+assert proper14["proper_geometric_Br2_dimension_f2"] == 14
+assert target["retained_H1_dimension_f2"] == 75
+assert target["coordinate_weight"] == 15 and target["nonzero"] is True
+
+coordinates = target["coordinates_f2"]
+out = {
+    "schema": "STAGE33_MAIN_COMPACT_STATE_V1",
+    "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
+    "detailed_machine_authority": "stages/stage33/controller.json",
+    "controller_schema": controller["schema"],
+    "stage33_progress": controller["stage33_progress"],
+    "current": {
+        "unit": current["unit"],
+        "logical_internal_branch": current["logical_internal_branch"],
+        "substep": current["substep"],
+        "active_missing_interface": current["active_missing_interface"],
+        "next_exact_leaf": current["next_exact_leaf"],
+    },
+    "exact_reusable_inputs": {
+        "named_J2_semantic_orientation": {
+            "materialized": True,
+            "label": "u1",
+            "fixed_marked_Kc_coordinate_f2": [1, 0],
+            "certificate": "stages/stage33/33-12/j2-cv-d2-semantic-orientation.json",
+            "canonical_sha256": LOCKS[ORIENTATION],
+        },
+        "proper_Br2_source": {
+            "ambient_dimension_f2": 14,
+            "retained_invariant_dimension_f2": 10,
+            "retained_10D_basis_rows_in_proper14_coordinates_f2": domain[
+                "basis_rows_original_proper_br2_coordinates_f2"
+            ],
+            "retained_basis_sha256": domain["basis_sha256"],
+            "proper14_certificate": "stages/stage33/33-07/proper-brauer2-from-discriminant.json",
+            "proper14_canonical_sha256": LOCKS[PROPER14],
+            "target_basis_canonical_sha256": LOCKS[TARGET_BASIS],
+        },
+        "named_J2_locked_target": {
+            "ambient_dimension_f2": 75,
+            "coordinate_weight": 15,
+            "nonzero": True,
+            "coordinates_f2": coordinates,
+            "certificate": "stages/stage33/33-12/j2-named-v4-h1-target-before-source-orientation.json",
+            "canonical_sha256": LOCKS[NAMED_TARGET],
+        },
+    },
+    "open_datum": {
+        "corrected_J2_current_proper_Br2_14D_coordinate_materialized": False,
+        "corrected_J2_retained_10D_coordinate_materialized": False,
+        "deterministic_after_proper14_coordinate": True,
+        "matrix_columns_materialized": stage["finite_v4_kummer_columns_materialized"],
+        "first_exact_75D_column_materialized": stage["first_exact_kummer_column_materialized"],
+    },
+    "current_leaf_working_set": [],
+    "targeted_expansion_hints": {
+        "orientation_proof_only_if_needed": "stages/stage33/33-12/j2-cv-d2-semantic-orientation.json",
+        "proper14_coordinate_convention_only_if_needed": "stages/stage33/33-07/proper-brauer2-from-discriminant.json",
+        "retained10_basis_replay_only_if_needed": "stages/stage33/33-12/full-surface-pic2-kummer-target.json",
+        "human_checkpoint_only_if_needed": "stages/stage33/33-12/result.md"
+    },
+    "default_startup_exclusions": [
+        "stages/stage33/controller-post-r5-hs-d2-override.json",
+        "stages/stage33/33-05/j2-post-r5-hs-d2-state.json",
+        "stages/stage33/33-05/j2-representative-repair-state.json",
+        "stages/stage33/HISTORY.md",
+        "stages/stage33/ROADMAP.md",
+        "stages/stage33/ROADMAP-33-07-REPAIR-BAND.md",
+    ],
+    "firewalls": {
+        "merge_allowed": controller["merge_allowed"],
+        "stage33_12_closed_exact": controller["release_gates"]["stage33_12_closed_exact"],
+        "stage33_07_reclosed": controller["release_gates"]["stage33_07_reclosed"],
+        "stage33_08_released": controller["release_gates"]["stage33_08_released"],
+        "theorem_credit": controller["theorem_credit"],
+        "receiver_credit": controller["receiver_credit"],
+        "endpoint_credit": controller["endpoint_credit"],
+        "perfect_cuboid_existence_claim": controller["perfect_cuboid_existence_claim"],
+        "perfect_cuboid_nonexistence_claim": controller["perfect_cuboid_nonexistence_claim"],
+    },
+}
+out["canonical_sha256"] = csha(out)
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--check", action="store_true")
+args = parser.parse_args()
+rendered = json.dumps(out, sort_keys=True, separators=(",", ":")) + "\n"
+if args.check:
+    assert OUT.read_text(encoding="utf-8") == rendered
+    print(json.dumps({"success": True, "canonical_sha256": out["canonical_sha256"]}, sort_keys=True))
+else:
+    OUT.write_text(rendered, encoding="utf-8")
+    print(json.dumps({"success": True, "canonical_sha256": out["canonical_sha256"]}, sort_keys=True))

@@ -59,6 +59,16 @@ The mandatory invariants are:
 
 Stage-local controllers may strengthen these firewalls but must not weaken them.
 
+## Stage33 MAIN context bootstrap
+
+For an ordinary `Stage33-main-batch`, after reading this file use
+`stages/stage33/MAIN-START-HERE.md` as the Stage33 entrypoint. Follow its bounded
+startup list and its machine-checked `MAIN-STATE.json`; do not automatically
+load the full controller, compatibility shims, old repair state, roadmaps, or
+history. Detailed authority is loaded only when the entrypoint's named trigger
+applies. This routing reduces context only; it does not weaken any policy,
+source lock, audit, closure, or promotion requirement.
+
 ## Stage14 automation PR contract
 
 Every pull request created for one of the recurring Stage14 batches must include exactly one safety marker and exactly one route marker in its body:

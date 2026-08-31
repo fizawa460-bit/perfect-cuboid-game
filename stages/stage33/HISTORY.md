@@ -2,7 +2,8 @@
 
 This file is an index of past Stage33 decisions, route changes, revocations, and evidence locations. It is not current-state authority and it is not a proof certificate.
 
-For current status use `CURRENT.md` / `controller.json`. For stable rules use `RULES.md`.
+For ordinary current startup use `MAIN-START-HERE.md` / `MAIN-STATE.json`.
+For detailed machine state use `controller.json`; for stable rules use `RULES.md`.
 
 ## Structural history
 
@@ -10,7 +11,7 @@ For current status use `CURRENT.md` / `controller.json`. For stable rules use `R
 
 Stage33 began as the 11-big-task `BRAUER-EXPLICIT-DAG` execution program for the frozen Stage29 physical-open Brauer kernel. The original plan and task descriptions remain in `ROADMAP.md`.
 
-The original roadmap also accumulated execution policy and a mutable status header; those are now treated as historical/plan text rather than current authority. Stable policy is routed through `RULES.md`, while live status is routed through `CURRENT.md` and `controller.json`.
+The original roadmap also accumulated execution policy and a mutable status header; those are now treated as historical/plan text rather than current authority. Stable policy is routed through `RULES.md`, compact startup state through generated `MAIN-STATE.json`, and detailed live state through `controller.json`.
 
 ### Stage33-07 repair band
 
@@ -41,7 +42,7 @@ Use this section as the first lookup table when a later Stage33 leaf needs an al
 | Picard-equivariant transport repair | `33-09/` | exact closed Picard-equivariant transport interface | current controller records `CLOSED_EXACT`; canonical digest is in controller |
 | absolute H1 receiver repair | `33-10/` | exact closed absolute H1 receiver | current controller records `CLOSED_EXACT`; canonical digest is in controller |
 | arithmetic localization connecting map | `33-11/` | exact zero connecting map, all 26/26 columns audited | current controller records hostile-audit PASS and zero unresolved columns |
-| current arithmetic HS / finite-V4 Kummer repair | `33-12/`, `controller.json` | corrected J2 surface mu2 lift; cc=0; six ct Kc supports; fullPic64 pullbacks; retained 75D H1 target; first-column input/recovery/support audits | OPEN. Minimal missing datum is the named CV `d=2` semantic discriminant orientation; do not promote parent 33-07 closure |
+| current arithmetic HS / finite-V4 Kummer repair | `MAIN-STATE.json`, `33-12/`, `controller.json` | corrected J2 surface mu2 lift; cc=0; six ct Kc supports; fullPic64 pullbacks; retained weight-15 75D H1 target; exact named orientation `u1=[1,0]`; retained 10D basis | OPEN. Minimal missing datum is corrected J2 in the current full-surface proper-Br2 14D basis, followed by deterministic retained-10D placement; do not promote parent 33-07 closure |
 
 ### Fast lookup by reusable interface
 
@@ -81,7 +82,7 @@ LOCALIZATION CONNECTING MAP
 FINITE-V4 KUMMER / FULL-SURFACE HS
   33-12
   current live repair; reuse all already-materialized J2 surface/Picard/H1 data,
-  but source orientation remains open
+  orientation is exact u1; proper-Br2 14D source placement remains open
 ```
 
 ### Current high-value Stage33-12 reusable assets
@@ -95,9 +96,10 @@ The current controller already records the following as materialized and reusabl
 - retained full-surface marked-basis numeric matrix;
 - six corrected-J2 ct Kc-support pullbacks to fullPic64;
 - retained 75D finite-V4 H1 named J2 target, nonzero of weight 15;
+- exact named CV semantic orientation `u1=[1,0]`;
 - deterministic proper-Br2 `14D -> retained 10D` solve once the source coordinate is known.
 
-Do not redo the historical search for a full `Kc20 -> fullPic64` matrix merely to obtain the first Kummer column: the current controller explicitly records that such a full matrix is not required. The active missing datum is narrower: match the named CV `d=2` source to the semantic discriminant orientation, then place the already-locked 75D J2 target as the first `75 x 10` column.
+Do not redo the historical search for a full `Kc20 -> fullPic64` matrix merely to obtain the first Kummer column: the current controller explicitly records that such a full matrix is not required. The named semantic orientation is already exact. The active missing datum is narrower: materialize corrected J2 in the current full-surface proper-Br2 14D basis, solve its retained 10D coordinate, then place the already-locked 75D target.
 
 ### Reuse protocol for future Stage33 batches
 

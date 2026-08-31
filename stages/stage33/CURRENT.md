@@ -1,118 +1,59 @@
-# Stage33 current state
+# Stage33 human current dashboard
 
-This file answers only: **where is Stage33 now?**
-
-For stable rules use `RULES.md`. For machine state use `controller.json`. For detailed Stage33-05 arithmetic classification use `33-05/j2-representative-repair-state.json`. For Stage33-12 evidence/package status use `33-12/result.md`.
+Ordinary MAIN startup must use `MAIN-START-HERE.md` and generated
+`MAIN-STATE.json`, not this narrative dashboard. The detailed machine authority
+is `controller.json`.
 
 ## Dashboard
 
 ```text
-Stage33 progress: 6/11
-Stage33-05: CLOSED_EXACT_ZERO_K3_BR2_Q_SURVIVAL
-active contract-level repair child: 33-12
-active logical internal branch: 33-13 FINITE-V4-KUMMER-MATRIX
-status: MATERIALIZE_75x10_KUMMER_MATRIX
+Stage33 progress = 6/11
+Stage33-05 = CLOSED_EXACT_ZERO_K3_BR2_Q_SURVIVAL
+active repair child = 33-12 OPEN
+active internal branch = 33-13 FINITE-V4-KUMMER-MATRIX
+matrix = 75x10
+materialized columns = 0/10
 ```
 
-## Newly closed Stage33-05
+Stage33-09, 33-10, and 33-11 are closed exact; the Stage33-11 localization
+connecting map is exact zero with 26/26 columns hostile-audited. Corrected J2
+and q1 have independent nonzero HS d2, so the K3 invariant block has exact zero
+Q-survival. This closes Stage33-05 but does not close full-surface Stage33-12.
 
-The complete geometric invariant K3 two-primary Brauer receiver is
+## Corrected J2 first-column progress
+
+The genuine corrected surface mu2 lift is materialized. Its actual cc defect is
+zero in integral Pic, its ct defect has six exact Kc supports with exact full
+Pic64 pullbacks, and the resulting named finite-V4 H1 target is a locked nonzero
+75D vector of weight 15.
+
+The named CV semantic orientation is now exact:
 
 ```text
-Br(Kc_bar)[2]^G_Q = span_F2{J2,q1}, dimension 2.
+fixed marked Kc coordinate = [1,0]
+semantic discriminant label = u1
+orientation certificate = 0a5abe419c3bd2e4c523af50fd8f85858af6a0d957dcce1e3bdf2ff1430fed3e
 ```
 
-Using ct-fixed Picard tests `[CsK[2],CsK[5]]`, the restricted HS d2 pairing signatures are
+## Current exact leaf
 
 ```text
-J2 -> (1,1)
-q1 -> (1,0)
+MATERIALIZE_CORRECTED_J2_IN_CURRENT_PROPER_BR2_F2_14
+THEN_SOLVE_ITS_RETAINED_10D_COORDINATE
+THEN_PLACE_THE_LOCKED_WEIGHT15_75D_TARGET
 ```
 
-so the signature matrix has determinant `1 mod 2`. Therefore
+The retained 10D basis and locked 75D target are exported directly in
+`MAIN-STATE.json`. The only missing first-column datum is the corrected J2
+coordinate in the current full-surface proper-Br2 14D basis. Do not guess it.
+
+## Release state
 
 ```text
-ker(d2 on Br(Kc_bar)[2]^G_Q)=0
-Q_RELEVANT_SURVIVING_DIM=0
-EXACT_ZERO_SURVIVAL_CERTIFICATE=true
-HOSTILE_AUDIT=PASS
-Stage33-05 UNIT_STATUS=CLOSED
-```
-
-Corrected geometric `J2=(f2,1)` remains nonzero, but `d2(J2)!=0`; there is no corrected-J2 Q-defined Brauer preimage. Stage33-05 closes through the original contract's exact-zero-survival alternative.
-
-## Closed Stage33-12 prerequisites
-
-```text
-33-09 Picard-equivariant transport                  CLOSED
-33-10 absolute-H1/Galois descent adapter            CLOSED
-33-11 arithmetic-localization connecting map        CLOSED_EXACT_HOSTILE_AUDIT_PASS
-33-11 connecting columns                            26/26 exact audited
-33-11 connecting map                                EXACT ZERO MAP
-33-05 K3 Br[2] arithmetic classification            CLOSED, Q-survival 0
-```
-
-These facts remove the corrected-J2 blocker, but they do not by themselves satisfy the full Stage33-12 exit gate.
-
-## Current
-
-The authoritative Stage33-12 contract still requires arithmetic HS closure, global-Q residue-lift completion, complete relevant Q-defined class inventory, and hostile recertification of parent Stage33-07.
-
-The next logical internal branch is:
-
-```text
-33-13 FINITE-V4-KUMMER-MATRIX
-P=Br(Sbar)[2]^{G_Q}
-DIM_F2(P)=10
-DIM_F2(H^1(V4,Pic(Sbar)/2))=75
-required matrix=75x10
-required exact columns=10/10
-```
-
-Current exact leaf:
-
-```text
-MATERIALIZE_FINITE_V4_KUMMER_RESTRICTION_MATRIX_75x10_WITH_ALL_10_EXACT_COLUMNS_NO_GUESSED_ZERO_COLUMNS
-```
-
-After that, the planned logical internal sequence remains 33-14 finite-HS/two-primary constant closure and 33-15 global arithmetic-HS assembly + Stage33-07 hostile recertification.
-
-## Blocked downstream
-
-```text
-Stage33-05 reclosed: true
-Stage33-12 exact closure: false
-Stage33-07 closed: false
-Stage33-08 released: false
-```
-
-## Authorities
-
-```text
-machine Stage33 state:
-  stages/stage33/controller.json
-
-Stage33-05 arithmetic classification:
-  stages/stage33/33-05/j2-representative-repair-state.json
-
-Stage33-12 current package:
-  stages/stage33/33-12/result.md
-
-repair-band execution plan:
-  stages/stage33/ROADMAP-33-07-REPAIR-BAND.md
-
-contract-level acceptance:
-  stages/stage33/33-00/unit-closure-contract.md
-```
-
-## Firewalls
-
-```text
-historical ell_J2 reused = false
-corrected J2 Q-defined Brauer preimage = false
-theorem credit = false
-receiver credit = false
-endpoint credit = false
-perfect cuboid existence claim = false
-perfect cuboid nonexistence claim = false
+Stage33-12 closed exact = false
+Stage33-07 reclosed = false
+Stage33-08 released = false
+Stage33-40 released = false
+theorem / receiver / endpoint credit = false
+perfect cuboid existence/nonexistence claim = false
 ```
