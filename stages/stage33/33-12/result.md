@@ -183,3 +183,24 @@ canonical_sha256=82ac2b6fe8d023c915e9cf3bb8ff38d4782dbec47f98e2593f964ea020ccc6f
 Only the named CV `d=2` to semantic `u1/u2/u1+u2` orientation remains before
 assembling the first exact 75D column.  No historical J2 zero column, closure,
 credit, or downstream release is restored.
+
+## Named J2 finite-V4 H1 target before source orientation
+
+The exact pair `(cc defect, ct defect)=(0, ct_fullPic64)` satisfies all three
+normalized V4 cocycle equations in the retained historical-Magma Pic64 basis.
+Reduction modulo the locked coboundary space gives a unique nonzero vector in
+the retained 75D H1 quotient basis.
+
+```text
+NAMED_J2_V4_H1_TARGET_MATERIALIZED=true
+NAMED_J2_V4_H1_TARGET_WEIGHT=15
+NAMED_J2_V4_H1_TARGET_NONZERO=true
+NAMED_J2_RETAINED_10D_SOURCE_COORDINATE_MATERIALIZED=false
+FINITE_V4_KUMMER_COLUMNS_MATERIALIZED=0/10
+canonical_sha256=4625b6d3ea19ec0e4d8a51471c7f60c0c1219de4672d84c64779c4213306f3b3
+```
+
+This is a locked named target image, not yet a 75x10 matrix column.  The single
+quotient coordinate `d=2` was not promoted to a full-surface orientation.  The
+remaining exact step is to identify the named source coordinate and place this
+already-fixed target vector in the corresponding column.

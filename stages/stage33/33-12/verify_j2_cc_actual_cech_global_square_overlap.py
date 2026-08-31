@@ -12,7 +12,7 @@ CERT = HERE / "j2-cc-actual-cech-global-square-overlap.json"
 AUDIT = HERE / "first-exact-kummer-column-support-reduction-audit.json"
 CONTROLLER = HERE.parent / "controller.json"
 EXPECTED = "82ac2b6fe8d023c915e9cf3bb8ff38d4782dbec47f98e2593f964ea020ccc6fd"
-AUDIT_SHA = "040b2c0ecbd0b2e7ca8aef82952c6c71e84f9eea84aef407fc08b765a63fafe6"
+AUDIT_SHA = "c636334f719780c461817c37ae772f013292e8d2830548066b4fa402d6dde064"
 
 
 def csha(obj):
