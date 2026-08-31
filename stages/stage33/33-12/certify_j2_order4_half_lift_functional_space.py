@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Enumerate every mixed-Smith order-4 half-lift 2w=u1 and its proper-Br2 functional."""
+"""Enumerate every mixed-Smith order-4 half-lift 2w=u1 and its proper-Br2 functional/quadratic value."""
 from __future__ import annotations
 
 import hashlib
@@ -55,13 +55,10 @@ for v,m in zip(y2,mods):
     cs=[x for x in range(m) if (2*x)%m==v]
     assert len(cs)==2
     choices.append(cs)
-assert 2**14 == 16384
 basis10=target["proper_invariant_domain"]["basis_rows_original_proper_br2_coordinates_f2"]
 
 functional_to_count={}
-functional_to_witness={}
-invariant_to_count={}
-invariant_to_witness={}
+invariant_data={}
 divisibility_fail=0
 for w in itertools.product(*choices):
     nums=[sum(w[i]*scales[j]*int(b8[i][j]) for i in range(14)) for j in range(14)]
@@ -70,27 +67,35 @@ for w in itertools.product(*choices):
         continue
     f=tuple((x//4)&1 for x in nums)
     functional_to_count[f]=functional_to_count.get(f,0)+1
-    functional_to_witness.setdefault(f,list(w))
     if rowmul(f,proper["proper_Br2_cc_action_f2"])==list(f) and rowmul(f,proper["proper_Br2_ct_action_f2"])==list(f):
-        invariant_to_count[f]=invariant_to_count.get(f,0)+1
-        invariant_to_witness.setdefault(f,list(w))
+        qnum=sum(int(w[i])*int(w[j])*int(b8[i][j]) for i in range(14) for j in range(14)) % 16
+        rec=invariant_data.setdefault(f,{"count":0,"witness":list(w),"qnum_counts":{}})
+        rec["count"] += 1
+        rec["qnum_counts"][qnum] = rec["qnum_counts"].get(qnum,0)+1
 
 invariants=[]
-for f,count in sorted(invariant_to_count.items()):
-    coord=solve10(basis10,list(f))
-    assert coord is not None
-    invariants.append({
+qhalf_functionals=[]
+for f,rec in sorted(invariant_data.items()):
+    coord=solve10(basis10,list(f)); assert coord is not None
+    qdist={str(k):v for k,v in sorted(rec["qnum_counts"].items())}
+    qhalf_count=rec["qnum_counts"].get(4,0)  # q=4/8=1/2 mod 2Z
+    entry={
         "proper_Br2_14D_coordinate_f2": list(f),
         "weight": sum(f),
-        "half_lift_count": count,
-        "one_half_lift_witness_mixed_smith": invariant_to_witness[f],
+        "half_lift_count": rec["count"],
+        "one_half_lift_witness_mixed_smith": rec["witness"],
         "retained_10D_coordinate_f2": coord,
-    })
+        "quadratic_numerator_mod16_distribution_for_q_equals_num_over_8": qdist,
+        "q_equals_one_half_lift_count": qhalf_count,
+    }
+    invariants.append(entry)
+    if qhalf_count:
+        qhalf_functionals.append({"proper_Br2_14D_coordinate_f2":list(f),"retained_10D_coordinate_f2":coord,"q_equals_one_half_lift_count":qhalf_count})
 
 out={
-    "schema":"STAGE33_12_J2_ORDER4_HALF_LIFT_FUNCTIONAL_SPACE_V1",
+    "schema":"STAGE33_12_J2_ORDER4_HALF_LIFT_FUNCTIONAL_SPACE_V2_QUADRATIC_FILTER",
     "stage":"33-12",
-    "status":"PASS_EXACT_HALF_LIFT_FUNCTIONAL_SPACE_ENUMERATED",
+    "status":"PASS_EXACT_HALF_LIFT_FUNCTIONAL_AND_QUADRATIC_SPACE_ENUMERATED",
     "source_locks":{
         "semantic_u1_full_surface_smith_source_sha256":LOCKS[U1],
         "proper_brauer2_sha256":LOCKS[PROPER],
@@ -100,18 +105,24 @@ out={
         "half_lift":"2*w = locked semantic u1 mixed-Smith coordinate",
         "functional":"f_j=2*b(w,(m_j/2)e_j)=(sum_i w_i*(m_j/2)*B8[i][j])/4 mod2",
         "q_defined_test":"f fixed by proper-Br2 cc and ct actions",
+        "quadratic_form":"q(w)=w^T*B8*w/8 mod 2Z; stored as numerator mod16",
+        "degree2_expected_value_if_transcendental_pullback_scales_pairing_by_2":"q_Kc(t1/4)=1/4 -> q_full(w)=1/2 -> numerator 4 mod16",
     },
     "enumeration":{
         "half_lifts_total":16384,
         "pairing_divisibility_failures":divisibility_fail,
         "distinct_functionals":len(functional_to_count),
-        "distinct_joint_v4_fixed_functionals":len(invariant_to_count),
+        "distinct_joint_v4_fixed_functionals":len(invariant_data),
         "joint_v4_fixed_functionals":invariants,
-        "zero_functional_present_among_joint_v4_fixed":tuple([0]*14) in invariant_to_count,
-        "nonzero_joint_v4_fixed_functional_count":sum(1 for f in invariant_to_count if any(f)),
+        "zero_functional_present_among_joint_v4_fixed":tuple([0]*14) in invariant_data,
+        "nonzero_joint_v4_fixed_functional_count":sum(1 for f in invariant_data if any(f)),
+        "joint_v4_fixed_functionals_admitting_q_equals_one_half_lift":qhalf_functionals,
+        "q_equals_one_half_functional_count":len(qhalf_functionals),
     },
     "interpretation_firewall":{
-        "actual_J2_functional_selected_by_half_lift_and_q_definedness_alone":len(invariant_to_count)==1 and tuple([0]*14) not in invariant_to_count,
+        "actual_J2_functional_selected_by_half_lift_and_q_definedness_alone":len(invariant_data)==1 and tuple([0]*14) not in invariant_data,
+        "degree2_quadratic_filter_promoted_as_actual_correspondence_law":False,
+        "actual_J2_functional_selected_after_unpromoted_degree2_quadratic_filter":len(qhalf_functionals)==1,
         "half_lift_relation_proven_for_actual_full_surface_J2":False,
         "proper_Br2_14D_coordinate_promoted":False,
         "retained_10D_coordinate_promoted":False,
@@ -128,8 +139,9 @@ OUT.write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
 print(json.dumps({
     "success":True,
     "distinct_functionals":len(functional_to_count),
-    "joint_v4_fixed":len(invariant_to_count),
-    "nonzero_joint_v4_fixed":sum(1 for f in invariant_to_count if any(f)),
+    "joint_v4_fixed":len(invariant_data),
+    "qhalf_functional_count":len(qhalf_functionals),
+    "qhalf_functionals":qhalf_functionals,
     "invariants":invariants,
     "canonical_sha256":out["canonical_sha256"],
 },sort_keys=True))
