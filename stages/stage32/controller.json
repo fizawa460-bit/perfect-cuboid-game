@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V140_21AY_TRIPLE_CENSUS_ACTIVE",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V141_POST_21AY_COMPLETE_TRIPLE_CENSUS",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "parent_route": "G10-LOWGENUS-PICARD",
   "G10_LOWGENUS_PICARD": "AMBER",
   "stage32_closed": false,
-  "status": "STAGE32_21AY_EXACT_THREE_COORDINATE_RATIONAL_SLICE_CENSUS_ACTIVE",
+  "status": "STAGE32_21AY_COMPLETE_TRIPLE_CENSUS_OPEN_3234_RATIONAL_SURVIVORS",
   "advance_allowed": true,
   "merge_allowed": false,
   "checkpoint_merge_ready": false,
@@ -71,16 +71,10 @@
       "row_id": "g1-d186",
       "e": 266,
       "a": 592,
-      "z": [
-        -15,
-        62,
-        -44,
-        26,
-        32
-      ],
+      "z": [-15, 62, -44, 26, 32],
       "u": -44,
       "v": 32,
-      "generic_and_solver_walls": {
+      "prior_solver_walls": {
         "21aq_z3_300s": "UNKNOWN",
         "21ar_pure_qf_lia_z3_300s": "UNKNOWN",
         "21as_cvc5_300s": "UNKNOWN",
@@ -96,35 +90,30 @@
         "certificate_sha256": "21c7b96be83f0d85a722fd16279fe3c9808918536cca258ee3e8110a695c092b",
         "status": "PARTIAL_QF_LRA_RESOURCE_WALL",
         "exact_persisted_cut": "r11 >= -1426",
-        "prior_r11_bound": [
-          -5529,
-          3621
-        ],
-        "new_r11_bound": [
-          -1426,
-          3621
-        ],
         "bound_frontier_file": "stages/stage32/32-21/32-21ax-bound-frontier.json",
-        "bound_frontier_sha256": "f946942434594d80960eea79d04eee3b0df22553928e1d1f3d26721d412d7ad7",
-        "narrowest_three_coordinates": [
-          50,
-          55,
-          27
-        ],
-        "narrowest_three_domain_size": 7865,
-        "resource_wall_is_not_unsat": true
+        "bound_frontier_sha256": "f946942434594d80960eea79d04eee3b0df22553928e1d1f3d26721d412d7ad7"
       },
-      "current_combined_state": {
-        "sat": 0,
-        "unsat": 55,
-        "unknown": 1
-      }
+      "21ay_three_coordinate_census": {
+        "run_id": 33351116136,
+        "artifact_id": 9743665213,
+        "artifact_zip_sha256": "6c41856565955d6e8fc519944597377702239eb1e99f7b20fb7ff6ed2ffed157",
+        "evidence_json_sha256": "b757b3e7fc5cd3be4aed488411ea99b13023da415403ad0d1a5e79677f327ca7",
+        "certificate_sha256": "8c149a585d6b4f1168d1425cc89daafad4bf37e1ac3568dffb97e1628ffd14be",
+        "status": "OPEN_COMPLETE_TRIPLE_CENSUS",
+        "coordinates": [50, 55, 27],
+        "expected_triples": 7865,
+        "checked_triples": 7865,
+        "exact_rational_unsat_triples": 4631,
+        "rational_sat_triples": 3234,
+        "qflra_unknown_triples": 0,
+        "rational_sat_is_not_integer_sat": true
+      },
+      "current_combined_state": {"sat": 0, "unsat": 55, "unknown": 1}
     }
   },
-  "current_item": "32-21AY_EXACT_THREE_COORDINATE_RATIONAL_SLICE_CENSUS",
-  "current_item_execution_constraint": "Exhaust the exact 7865 assignments of reduced coordinates (r50,r55,r27) over their independently rederived integer-valid domains. For each assignment use only exact QF_LRA feasibility of the remaining 56 real coordinates. Rational SAT is not integer SAT; QF_LRA UNKNOWN is not UNSAT; only complete all-UNSAT triple coverage closes the lone fixed projection.",
-  "next_item_if_unsat": "FRESH_INDEPENDENT_AUDIT_OF_21AP_PLUS_21AY_FIXED_PROJECTION_REPRESENTATIVE_CLOSURE_BEFORE_ANY_SCALING_OR_PROMOTION",
-  "next_item_if_open": "SOURCE_LOCK_21AY_SURVIVING_TRIPLES_THEN_ADD_FOURTH_OR_FIFTH_NARROW_COORDINATE_OR_EXACT_SEMIGROUP_CONSTRAINT",
+  "current_item": "32-21AZ_COMPRESS_21AY_SURVIVOR_REGION_AND_SELECT_FOURTH_COORDINATE",
+  "current_item_execution_constraint": "Source-lock the exact 21ay 3234-triple survivor set without storing a raw list if an exact compact inequality description replays exactly. Then compare exact QF_LRA projection bounds for remaining reduced coordinates and choose a fourth coordinate by certified residual domain size/activity. Rational feasibility is not integer SAT; preserve the lone fixed projection as UNKNOWN unless a complete exact integer-valid decomposition closes it.",
+  "next_item_if_compressed": "32-21BA_EXACT_FOUR_COORDINATE_RATIONAL_SLICE_CENSUS_OR_SEMIGROUP_REFINEMENT",
   "active_execution_guardrail": {
     "full_178_row_sweep_authorized": false,
     "heavy_compute_requires_fresh_runkey_sync": true,
@@ -150,10 +139,7 @@
     "stage_heavy_concurrency_cap": 18
   },
   "repo_absolute_rule_read_policy": {
-    "mandatory_every_main_batch_reads": [
-      "AGENTS.md",
-      "stages/stage32/controller.json"
-    ],
+    "mandatory_every_main_batch_reads": ["AGENTS.md", "stages/stage32/controller.json"],
     "conditional_mandatory_policy_reads": {
       "before_actions_artifacts_or_heavy_compute": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
       "before_claim_promotion_closure_or_downstream_release": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
@@ -162,14 +148,15 @@
   },
   "cycle_safety": {
     "route_open": true,
-    "live_candidate": "EXACT_THREE_COORDINATE_QF_LRA_SLICE_CENSUS",
+    "live_candidate": "COMPRESSED_21AY_SURVIVOR_REGION_PLUS_CERTIFIED_FOURTH_COORDINATE_REFINEMENT",
     "dominated": [
       "REARM_SAME_32_21AD_FULL178_CENSUS",
       "GENERIC_59D_INTEGER_SMT_WITHOUT_SEMANTIC_CHANGE",
       "ONE_COORDINATE_11_WAY_SPLIT_WITH_INTEGER_SOLVER",
       "CP_SAT_WITNESS_HUNT_AS_AN_UNSAT_PROOF",
       "ISL_OR_OTHER_INTEGER_SOLVER_RETRY_WITHOUT_SEMANTIC_CHANGE",
-      "21AX_FULL_COORDINATE_SWEEP_WITH_FRESH_SOLVER_PER_QUERY"
+      "21AX_FULL_COORDINATE_SWEEP_WITH_FRESH_SOLVER_PER_QUERY",
+      "STORE_RAW_3234_TRIPLE_LIST_AS_LONG_TERM_CONTROLLER_STATE"
     ],
     "blocked": [
       "FULL178_PROMOTION_FROM_REPRESENTATIVE_SAMPLE",
