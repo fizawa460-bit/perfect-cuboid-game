@@ -1,137 +1,123 @@
 {
-  "schema": "STAGE33_05_J2_REPRESENTATIVE_REPAIR_STATE_V12_R5F_AUDITED_NONZERO_HS_D2",
-  "repair_band": "R0_TO_R5",
-  "roadmap": "stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md",
-  "status": "R5E_DONE_R5F_NONZERO_HS_D2_HOSTILE_REPLAY_PASS_R5G_BLOCKED_DEPENDENCY_REBUILD_REQUIRED",
-  "stage33_progress": "5/11",
-  "current_leaf": "POST_R5_CORRECTED_J2_ARITHMETIC_NOGO_DEPENDENCY_REBUILD",
-  "current_leaf_title": "REBUILD_STAGE33_DEPENDENCY_CHAIN_AFTER_AUDITED_CORRECTED_J2_Q_DESCENT_NOGO",
-  "current_leaf_attempts": 11,
-  "current_subleaf": "REBUILD_STAGE33_DEPENDENCY_CHAIN_AFTER_AUDITED_CORRECTED_J2_Q_DESCENT_NOGO",
+  "arithmetic_classification": {
+    "K3_Br2_Q_surviving_class_list": [],
+    "Q_relevant_surviving_dimension": 0,
+    "Q_relevant_surviving_dimension_exact": true,
+    "corrected_J2_Q_defined_Brauer_preimage": false,
+    "d2_J2_global_nonzero": true,
+    "d2_q1_global_nonzero": true,
+    "exact_zero_survival_certificate": true,
+    "global_d2_kernel_dimension_f2": 0,
+    "q1_Q_defined_Brauer_preimage": false,
+    "restricted_d2_kernel_dimension_f2": 0,
+    "restricted_d2_rank_f2": 2,
+    "restricted_pairing_signature_determinant_mod2": 1,
+    "restricted_pairing_signature_matrix_rows_tests_columns_J2_q1": [
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "restricted_pairing_signature_tests": [
+      "CsK[2]",
+      "CsK[5]"
+    ],
+    "subgroup_used_for_injective_restriction": "<ct> ~= C2"
+  },
+  "current_leaf": "STAGE33_05_RECLOSED_EXACT_ZERO_K3_BR2_Q_SURVIVAL",
+  "current_leaf_attempts": 12,
+  "current_subleaf": "DONE_REBUILD_STAGE33_12_EXIT_ADAPTER_TO_CONSUME_EXACT_ZERO_K3_BR2_Q_SURVIVAL_WITHOUT_J2_Q_PREIMAGE",
+  "dependency_rebuild": {
+    "next_exact_leaf": "REBUILD_STAGE33_12_EXIT_ADAPTER_TO_CONSUME_ZERO_K3_BR2_Q_SURVIVAL_WITHOUT_J2_Q_PREIMAGE",
+    "old_overconstrained_gate": "CORRECTED_J2_HS_D2_ZERO_AND_Q_DEFINED_PREIMAGE_REQUIRED",
+    "reason": "The original Stage33-05 unit contract allows exact zero survival as an alternative to arithmetic representatives. Corrected J2 and q1 both have nonzero, linearly independent HS d2 restrictions, so the entire 2D geometric invariant K3 Br[2] block has zero Q-survival.",
+    "replacement_gate": "EXACT_K3_BR2_Q_SURVIVAL_CLASSIFICATION_WITH_ZERO_SURVIVAL_ALLOWED",
+    "stage33_05_reclosure_mode": "EXACT_ZERO_SURVIVAL"
+  },
+  "evidence": {
+    "j2_d2_hostile": "stages/stage33/33-05/j2-r5f-hs-d2-nonzero-hostile-replay.json",
+    "j2_pic2_and_d2": "stages/stage33/33-05/j2-r5e-pic2-r5f-ct-hs-d2-nonzero.json",
+    "zero_survival_candidate": "stages/stage33/33-05/stage33-05-br2-zero-q-survival-after-j2-nogo.json",
+    "zero_survival_candidate_canonical_sha256": "a48386c523e8c98b1d2b22a7dc3d789e4cea1bfa4557e658fb150e3c6b85a585",
+    "zero_survival_hostile": "stages/stage33/33-05/stage33-05-br2-zero-q-survival-hostile-replay.json",
+    "zero_survival_hostile_canonical_sha256": "4e9f20c1f753bb63134207422b097c1985ce3edd6be87f7f41ba8afa316e7dc9"
+  },
+  "firewalls": {
+    "Q_defined_descent_credit_restored_for_J2": false,
+    "R5_full_successful_J2_descent_exit_reached": false,
+    "corrected_J2_Q_descent_exact_evidence_reestablished": false,
+    "corrected_ell_J2_nonzero_geometric_credit": true,
+    "endpoint_credit": false,
+    "old_ell_J2_witness_revoked": true,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "receiver_credit": false,
+    "stage33_05_reclosed": true,
+    "stage33_05_unit_status": "CLOSED",
+    "stage33_07_closed": false,
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "theorem_credit": false
+  },
   "r5_pipeline": {
     "R5a_geometric_hostile_replay": "DONE",
     "R5b_corrected_marked_Kc_support": "DONE",
     "R5c_surface_mu2_lift": "DONE",
     "R5d_generic_cc_ct_and_ct_norm_splitting": "DONE",
     "R5e_actual_Cech_and_Pic_mod2": "DONE_EXACT",
-    "R5f_integral_Pic_and_HS_d2": "NONZERO_EXACT_HOSTILE_REPLAY_PASS",
-    "R5g_Q_defined_descent": "BLOCKED_BY_NONZERO_HS_D2",
-    "full_repair_exit_reached": false
+    "R5f_integral_Pic_and_HS_d2": "J2_NONZERO_EXACT_HOSTILE_REPLAY_PASS",
+    "R5g_Q_defined_descent": "BLOCKED_BY_NONZERO_HS_D2_NOT_REQUIRED_FOR_UNIT_CLOSURE_AFTER_EXACT_ZERO_SURVIVAL",
+    "full_successful_J2_descent_exit_reached": false
   },
-  "leaves": {
-    "R0": {"state": "DONE_ZERO", "certificate": "stages/stage33/33-12/j2-cv-lclass-zero-regression.json"},
-    "R1": {"state": "DONE_HOSTILE_REPLAY_PASS", "certificate": "stages/stage33/33-05/j2-abstract-nonzero-reaudit.json"},
-    "R2": {"state": "DONE_HOSTILE_REPLAY_PASS", "certificate": "stages/stage33/33-05/j2-corrected-full-l-representative.json"},
-    "R3": {"state": "DONE_HOSTILE_REPLAY_PASS", "certificate": "stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json"},
-    "R4": {"state": "DONE_HOSTILE_REPLAY_PASS", "certificate": "stages/stage33/33-05/j2-r4-hostile-torsor-brauer-kernel-verification.json", "marked_brauer_coordinate": [1,0], "minimum_norm": 8, "scope": "GEOMETRIC_KGEOM_ONLY"},
-    "R5": {"state": "ARITHMETIC_NOGO_NONZERO_HS_D2_AUDITED_SUCCESSFUL_RECLOSURE_IMPOSSIBLE_ON_THIS_ROUTE", "geometric_certificate": "stages/stage33/33-05/j2-r5-hostile-replay.json", "R5_full_repair_exit_reached": false}
-  },
+  "repair_band": "R0_TO_R5_PLUS_DEPENDENCY_REBUILD",
+  "report_format": "33-05: CLOSED by exact zero K3 Br2 Q-survival | Stage33 6/11 | next 33-12 dependency adapter rebuild",
   "retained_exact_geometric_credit": {
+    "E2_cocycle": "xi(rho)=Tr",
+    "K3_geometric_Br2_dimension_f2": 2,
     "corrected_J2": "(f2,1)",
     "corrected_J2_nonzero": true,
-    "E2_cocycle": "xi(rho)=Tr",
-    "marked_J2": [1,0],
-    "twisted_kernel_gram": [[8,0],[0,16]],
+    "geometric_GQ_invariant_basis": [
+      "J2",
+      "q1"
+    ],
+    "marked_J2": [
+      1,
+      0
+    ],
     "minimum_norm": 8,
     "scope": "GEOMETRIC_KGEOM_ONLY",
-    "surface_mu2_lift_materialized": true
-  },
-  "post_r5_residual_kernel": {
-    "id": "CORRECTED_J2_Q_DEFINED_DESCENT_OR_EXPLICIT_ARITHMETIC_REPRESENTATIVE",
-    "state": "ANSWERED_NEGATIVE_FOR_CORRECTED_J2_BY_NONZERO_HS_D2_DEPENDENCY_REBUILD_REQUIRED",
-    "exact_question": "Does corrected geometric J2=(f2,1) have zero Hochschild-Serre d2 and hence an arithmetic Brauer preimage on Kc/Q?",
-    "answer": "NO_FOR_THIS_CORRECTED_J2_LIFT_ROUTE_HS_D2_NONZERO_BY_CT_RESTRICTION",
-    "known_exact": {
-      "J2_geometric_Galois_fixed": true,
-      "normalization_half_divisor": "D=P_r2-P_r4",
-      "marked_Kc_branch": "CsK[22]",
-      "explicit_Cech_preimage_e_D": "{f2,1-s^2+i*s*(1-t^2)/t}",
-      "full_surface_mu2_lift_materialized": true,
-      "actual_cc_Pic_mod2": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      "actual_ct_Pic_mod2": [0,0,0,0,0,0,0,0,1,1,0,1,0,1,1,1,0,0,0,0],
-      "actual_cc_ct_Pic_mod2_defect_materialized": true,
-      "ct_integral_lift_B": [0,0,0,0,0,0,0,0,1,1,0,1,0,1,1,1,0,0,0,0],
-      "ct_action_B": [0,0,0,0,0,0,0,2,1,1,-2,-1,0,-1,3,1,0,0,0,0],
-      "ct_restricted_Bockstein_Z": [0,0,0,0,0,0,0,1,1,1,-1,0,0,0,2,1,0,0,0,0],
-      "ct_restricted_H2_nonzero_witness": {"coordinate": "CsK[26]", "Z_coordinate": 1, "all_(1+ct)_Pic_values_even_in_coordinate": true},
-      "global_HS_d2_class_zero": false,
-      "global_HS_d2_nonzero_proved_by_restriction": true,
-      "corrected_J2_Q_defined_Brauer_preimage": false,
-      "hostile_replay_pass": true
-    },
-    "still_unproved": {
-      "dependency_chain_rebuilt_after_J2_Q_descent_nogo": true,
-      "alternative_arithmetic_receiver_identified": true
-    },
-    "unresolved_unknown_in_R5_repair_scope": 0,
-    "forbidden_shortcuts": [
-      "Do not force HS d2=0 after the audited nonzero ct restriction.",
-      "Do not run R5g Q-descent for corrected J2 while the nonzero d2 certificate stands.",
-      "Do not reuse the historical Q-defined ell_J2/CSA; its full geometric CV class is zero.",
-      "Do not promote this J2 arithmetic no-go to perfect-cuboid nonexistence or theorem/endpoint credit."
+    "twisted_kernel_gram": [
+      [
+        8,
+        0
+      ],
+      [
+        0,
+        16
+      ]
     ]
   },
-  "fixed_marked_receiver": {
-    "T_Kc_gram": [[4,0],[0,8]],
-    "minimum_norm_to_functional": {"4":[0,1],"8":[1,0],"12":[1,1]},
-    "selected_minimum_norm": 8,
-    "selected_marked_J2": [1,0],
-    "selection_scope": "GEOMETRIC_KGEOM_ONLY"
-  },
-  "r5_exit_contract": {
-    "actual_cc_ct_Pic_mod2_defect_materialized": true,
-    "integral_Pic_lifts_materialized": false,
-    "restricted_integral_ct_Pic_lift_materialized": true,
-    "HS_d2_2cocycle_materialized": true,
-    "HS_d2_2cocycle_scope": "CT_SUBGROUP_RESTRICTION_SUFFICIENT_TO_PROVE_GLOBAL_NONZERO",
-    "HS_d2_class_zero": false,
-    "Q_defined_corrected_J2_Brauer_preimage": false,
-    "arithmetic_unramifiedness": false,
-    "restricts_to_corrected_J2_f2_1": false,
-    "R5_full_repair_exit_reached": false
-  },
-  "super_hostile_gate": {
-    "mandatory_after_full_R5_exit": true,
-    "state": "NOT_RELEASED_SUCCESSFUL_R5_EXIT_FAILED_NONZERO_D2",
-    "new_PR_required_after_full_R5_exit": true
-  },
-  "firewalls": {
-    "old_ell_J2_witness_revoked": true,
-    "corrected_ell_J2_nonzero_geometric_credit": true,
-    "named_J2_torsor_authoritative_credit": true,
-    "named_J2_torsor_authoritative_scope": "GEOMETRIC_KGEOM_ONLY",
-    "corrected_J2_marked_brauer_coordinate": [1,0],
-    "corrected_J2_Q_descent_exact_evidence_reestablished": false,
-    "corrected_J2_equivalent_arithmetic_descent_datum_materialized": false,
-    "Q_defined_descent_credit_restored": false,
-    "R5_full_repair_exit_reached": false,
-    "stage33_05_reclosed": false,
-    "stage33_05_unit_status": "BLOCKED_AUDITED_NONZERO_HS_D2_DEPENDENCY_REBUILD_REQUIRED",
-    "stage33_12_closed_exact": false,
-    "stage33_13_released": false,
-    "theorem_credit": false,
-    "receiver_credit": false,
-    "endpoint_credit": false,
-    "perfect_cuboid_existence_claim": false,
-    "perfect_cuboid_nonexistence_claim": false
-  },
-  "next_exact_leaf": "REBUILD_STAGE33_DEPENDENCY_CHAIN_AFTER_AUDITED_CORRECTED_J2_Q_DESCENT_NOGO",
-  "report_format": "33-05 repair: R5e done | R5f d2 nonzero audited | R5g blocked | dependency rebuild required",
-  "compatibility": {
-    "note": "V12 records audited nonzero HS d2 for corrected J2. Successful R5 reclosure is not reached; downstream remains blocked while the dependency chain is rebuilt.",
-    "post_r5_state_role": "COMPATIBILITY_SHIM_ONLY"
-  },
-  "mandatory_pre_r5_certificate": "stages/stage33/33-05/j2-r4-hostile-torsor-brauer-kernel-verification.json",
-  "r5_certificate": "stages/stage33/33-05/j2-r5-hostile-replay.json",
-  "post_r5_failure_certificate": "stages/stage33/33-05/j2-post-r5-hs-descent-datum.json",
-  "post_r5_failure_canonical_sha256": "a7c08372b9ef012a1446bd3bf4f40541d77d372dadc73e3780f6ce2529fcc6d8",
-  "post_r5_compact_state": "stages/stage33/33-05/j2-post-r5-hs-d2-state.json",
-  "ct_actual_pic2_certificate": "stages/stage33/33-12/j2-ct-actual-cech-overlap-parities-and-marked-pic-mod2.json",
-  "ct_actual_pic2_canonical_sha256": "68077141a4f792eefb47ebfd5db46ae9e785a0bef286449fc888663f2f2f5c3c",
-  "r5e_r5f_nonzero_certificate": "stages/stage33/33-05/j2-r5e-pic2-r5f-ct-hs-d2-nonzero.json",
-  "r5e_r5f_nonzero_canonical_sha256": "8e384501db1cb3aa3f73358b0c3612a85e4012c5041fda60d3be7aeddc7c4c55",
-  "r5f_nonzero_hostile_replay_certificate": "stages/stage33/33-05/j2-r5f-hs-d2-nonzero-hostile-replay.json",
-  "r5f_nonzero_hostile_replay_canonical_sha256": "6535f3190daab8c20ba5ddb3409675f20ac35dc4ee319e3be7af056baa4ce20d",
-  "surface_mu2_boundary_contract": "stages/stage33/33-12/j2-full-surface-mu2-zero-defect-contract.json",
-  "surface_mu2_boundary_canonical_sha256": "55cd01cc8570cb759e7029ddef3b9dac764625a7cdd313c76fd694e37fd478ce"
+  "roadmap": "stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md",
+  "schema": "STAGE33_05_J2_REPRESENTATIVE_REPAIR_STATE_V13_EXACT_ZERO_K3_BR2_Q_SURVIVAL_RECLOSURE",
+  "stage33_progress": "6/11",
+  "status": "CLOSED_EXACT_ZERO_K3_BR2_Q_SURVIVAL_HOSTILE_PASS",
+  "unit_closure_contract": {
+    "ALL_SURVIVING_K3_CLASSES_HAVE_EXPLICIT_ARITHMETIC_REPRESENTATIVES": "VACUOUS_ZERO_SURVIVAL",
+    "DESCENT_OBSTRUCTION_ACCOUNTED": true,
+    "DOWNSTREAM_RELEASED": true,
+    "EXACT_ZERO_SURVIVAL_CERTIFICATE": true,
+    "HOSTILE_AUDIT": "PASS",
+    "INVARIANT_DESCENDED_SUBSPACE_EXACT": true,
+    "K3_GEOMETRIC_BR2_DIM": 2,
+    "QI_OVER_Q_ACTION_MATRIX_EXACT": true,
+    "Q_RELEVANT_SURVIVING_DIM": 0,
+    "Q_RELEVANT_SURVIVING_DIM_EXACT": true,
+    "UNIT_CLOSED": true,
+    "UNIT_STATUS": "CLOSED",
+    "UNRESOLVED_UNKNOWN_IN_SCOPE": 0
+  }
 }
