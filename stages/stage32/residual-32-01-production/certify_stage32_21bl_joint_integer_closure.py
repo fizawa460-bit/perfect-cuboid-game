@@ -8,7 +8,7 @@ from certify_stage32_21ba_r51_interval_census import prism_triples
 from certify_stage32_21bc_pair_combination_projection import CANDIDATE_BOUNDS
 from certify_stage32_21bf_r49_per_triple_projection import build_21bf_solver
 from certify_stage32_21bg_r42_per_triple_projection import r49_hi
-from certify_stage32_21bh_r54_per_triple_projection import load_21bh_lock, r42_lo, r54_lo_from_table
+from certify_stage32_21bh_r54_per_triple_projection import r42_lo
 from certify_stage32_21bj_r56_per_triple_projection import r57_hi
 from certify_stage32_21bk_r20_final_single_coordinate import (
     EXPECTED_21BI_LOCK_SHA256, EXPECTED_21BJ_LOCK_SHA256, load_canonical_lock, r56_lo,
@@ -19,6 +19,7 @@ RANK=59
 SCHEMA_SHARD="STAGE32_21BL_EXACT_JOINT_INTEGER_CLOSURE_SHARD_V1"
 SCHEMA_AGG="STAGE32_21BL_EXACT_JOINT_INTEGER_CLOSURE_AGGREGATE_V1"
 EXPECTED_21BK_EVIDENCE_CANONICAL="c39ba719e648104cd62a8f87bd739f5933725fcd71cc0cca56397692f1036c57"
+EXPECTED_21BH_LOCK_CANONICAL="23a732fd232cf025533cb9ef17c6ab482a5a50a860d163731a346faca7a11c6d"
 
 def sha(path: Path)->str: return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -27,6 +28,29 @@ def load_21bk_evidence(path: Path)->dict:
     if claimed!=EXPECTED_21BK_EVIDENCE_CANONICAL or csha(x)!=claimed: raise ValueError("21bk evidence canonical regression")
     if x.get("status")!="PASS_EXACT_21BK_R20_FINAL_SINGLE_COORDINATE_PROJECTION" or x["result"]["open_triples"]!=EXPECTED_TRIPLES or x["result"]["unknown_triples"]!=0: raise ValueError("21bk evidence status regression")
     return x
+
+def load_21bh_lock(path: Path):
+    x=json.loads(path.read_text()); claimed=x.pop("canonical_sha256_without_this_field")
+    if claimed!=EXPECTED_21BH_LOCK_CANONICAL or csha(x)!=claimed: raise ValueError("21bh lossless table canonical regression")
+    if x.get("status")!="PASS_EXACT_21BH_R54_PER_TRIPLE_PROJECTION": raise ValueError("21bh lossless table is not exact PASS")
+    cov=x.get("coverage",{})
+    if cov.get("expected_triples")!=EXPECTED_TRIPLES or cov.get("open_triples")!=EXPECTED_TRIPLES or cov.get("unknown_triples")!=0 or cov.get("exact_integer_pruned_triples")!=0: raise ValueError("21bh lossless table coverage regression")
+    table=x.get("lossless_r54_interval_table",{})
+    if table.get("r27_start")!=-96 or table.get("r27_end")!=-48 or table.get("upper")!=-132 or not table.get("verified_against_all_3234_exact_21bh_rows"): raise ValueError("21bh lossless table metadata regression")
+    return x,table
+
+def r54_lo_from_table(table: dict, r50: int, r55: int, r27: int) -> int:
+    delta=r50-r55-129
+    if delta not in table.get("delta_values",[]): raise ValueError(f"21bh delta outside lock: {delta}")
+    start=int(table["r27_start"]); end=int(table["r27_end"])
+    if not start<=r27<=end: raise ValueError(f"r27 outside 21bh table: {r27}")
+    offset=r27-start
+    seen=0
+    for value,count in table["lower_rle_by_delta"][str(delta)]:
+        count=int(count)
+        if offset < seen+count: return int(value)
+        seen += count
+    raise ValueError("21bh RLE did not cover r27")
 
 def build_joint(args):
     load_21bk_evidence(args.tenth_lock)
