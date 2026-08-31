@@ -1,89 +1,92 @@
 {
-  "actions_safety": {
-    "full178_heavy_arm_authorized": false,
-    "new_heavy_compute_authorized": false,
-    "node_support_audit_is_heavy": false,
-    "operating_artifact_budget_mb": 500,
-    "planned_effective_heavy_overlap": 0,
-    "policy": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
-    "stage_heavy_concurrency_cap": 18
-  },
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V158_NODE_SUPPORT_REFINEMENT_CLOSED",
+  "stage": "32",
+  "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
+  "parent_route": "G10-LOWGENUS-PICARD",
+  "status": "STAGE32_POST21BL_BIJECTIVE_GENUS1_REPRESENTATIVE_EXCLUDED_AUDITED",
+  "current_item": "POST_21BL_NODE_SUPPORT_REFINEMENT_CLOSED_SELECT_FULL178_INTERFACE",
+  "current_item_execution_constraint": "The representative g1-d186 bijective-normalization genus-one carrier is now excluded by a fresh-audited sharpening of Freitag-Salvati Manni Theorem 3.1: d <= 16g-16+4n, where n is actual node support. The exact Picard64 exceptional profile has support 44, so g=1 forces d<=176, contradicting d=186. This closes only the representative bijective-normalization branch. Multibranch-at-node remains open under R29-LG2-MB, FULL178 remains separate, and R29-LG2-EFF is not discharged. The next allowed work is a bounded preflight for reusing this stronger node-support cut on the existing FULL178 numerical interface; do not arm heavy production until that preflight identifies the exact required data and cost.",
   "active_pr": {
-    "automatic_merge_authorized": false,
-    "base_sha": "d6acf27fe9c3ba2fb3fad63a49f39668bb52118d",
+    "number": 1472,
     "branch": "stage32-post21bl-node-count-refinement",
-    "number": null
+    "base_sha": "d6acf27fe9c3ba2fb3fad63a49f39668bb52118d",
+    "automatic_merge_authorized": false
   },
   "advance_allowed": true,
+  "merge_allowed": true,
   "automatic_merge_authorized": false,
-  "checkpoint_merge_ready": false,
+  "checkpoint_merge_ready": true,
+  "stage32_closed": false,
+  "actions_safety": {
+    "policy": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
+    "operating_artifact_budget_mb": 500,
+    "stage_heavy_concurrency_cap": 18,
+    "planned_effective_heavy_overlap": 0,
+    "new_heavy_compute_authorized": false,
+    "full178_heavy_arm_authorized": false,
+    "node_support_audit_is_heavy": false,
+    "node_support_audit_artifact_bytes": 956
+  },
   "closed_dependencies": {
     "21bl": {
+      "status": "CLOSED_AUDITED_EXACT_INTEGER_SAT_RESOLUTION",
       "evidence_canonical_sha256": "ac88fb355252750e6afdc10cbb54abec24babbad57c25090c017f9a55ac93a44",
-      "representative_chain_after_audit": {
-        "sat": 1,
-        "unknown": 0,
-        "unsat": 55
-      },
-      "status": "CLOSED_AUDITED_EXACT_INTEGER_SAT_RESOLUTION"
+      "representative_chain_after_audit": {"sat": 1, "unsat": 55, "unknown": 0}
     },
     "post21bl_picard64_adapter": {
+      "status": "CLOSED_AUDITED_EXACT_PICARD64_SLICE_WITNESS",
       "evidence": "stages/stage32/32-21/post-21bl-picard64-witness-adapter.json",
-      "evidence_canonical_sha256": "ef3f21e4166d4bfcacce3503213b0a72afee5f5002ab7145de01fc9c54d47038",
-      "status": "CLOSED_AUDITED_EXACT_PICARD64_SLICE_WITNESS"
+      "evidence_canonical_sha256": "ef3f21e4166d4bfcacce3503213b0a72afee5f5002ab7145de01fc9c54d47038"
     },
     "representative_divisor_effectivity": {
-      "h0_lower_bound": 344,
-      "status": "CLOSED_AUDITED_RIEMANN_ROCH_DIVISOR_EFFECTIVITY"
+      "status": "CLOSED_AUDITED_RIEMANN_ROCH_DIVISOR_EFFECTIVITY",
+      "h0_lower_bound": 344
+    },
+    "representative_bijective_genus1_carrier": {
+      "status": "CLOSED_AUDITED_EXCLUDED_BY_NODE_SUPPORT",
+      "proof": "stages/stage32/32-21/post-21bl-freitag-node-support-refinement.md",
+      "certificate": "stages/stage32/32-21/post-21bl-node-support-refinement.json",
+      "certificate_canonical_sha256": "d1b446dd8fa32db16a3ec4f2eb8a4db06b2cc65b80a0ef7580cec1437b4ff5ad",
+      "fresh_audit": "stages/stage32/32-21/post-21bl-node-support-refinement-audit.json",
+      "fresh_audit_canonical_sha256": "29312a61c79fc2d0d7525142be54677119c5006d900126c769c8bcb7fb711f7c",
+      "run_id": 33397000034,
+      "job_id": 99503789860,
+      "artifact_id": 9759707703,
+      "artifact_zip_sha256": "732f7d4ccd3346dafef21ef314aed6bd7198e86d5bdbfa7f21290be60a21af1a",
+      "formula": "d <= 16g-16+4n",
+      "target": {
+        "row_id": "g1-d186",
+        "g": 1,
+        "d": 186,
+        "positive_exceptional_support": 44,
+        "required_support": 47,
+        "max_degree_at_support": 176,
+        "degree_excess": 10
+      }
     }
   },
-  "current_item": "POST_21BL_FREITAG_NODE_SUPPORT_REFINEMENT",
-  "current_item_execution_constraint": "Fresh source inspection sharpens Freitag-Salvati Manni Theorem 3.1 by replacing the worst-case 48-node pole budget with the actual node-support count n: d <= 16g-16+4n. For the audited g1-d186 Picard64 class, the last 48 all140 pairings are the exceptional-divisor rows; exactly 44 are positive and four are zero, so any bijective-normalization genus-one curve in this class would satisfy d<=176, contradicting d=186. Treat this as provisional until the fresh audit passes. Do not promote to multibranch exclusion, FULL178, receiver/route, or perfect-cuboid credit.",
   "gap_state": {
-    "BIJECTIVE_NORMALIZATION_GENUS1_REPRESENTATIVE": "PROVISIONALLY_EXCLUDED_PENDING_AUDIT",
+    "BIJECTIVE_NORMALIZATION_GENUS1_REPRESENTATIVE": "CLOSED_AUDITED_EXCLUDED",
     "FULL178_NUMERICAL_CENSUS": "OPEN_SEPARATE",
     "MULTIBRANCH_AT_NODE": "OPEN_SEPARATE_R29_LG2_MB",
-    "R29_LG2_EFF_FULL_RECEIVER": "OPEN"
+    "R29_LG2_EFF_FULL_RECEIVER": "OPEN",
+    "CLASS3_ENDPOINT_COVERAGE": "OPEN_OUTSIDE_STAGE32"
   },
-  "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "loop_state": {
-    "blind_full178_scaleout_authorized": false,
-    "next_semantic_upgrade": "After fresh audit, evaluate this node-support cut as a FULL178 pruning/census interface; keep multibranch separate.",
+    "single_coordinate_loop_closed": true,
     "repeat_numerical_effectivity_necessary_filters_authorized": false,
-    "single_coordinate_loop_closed": true
+    "blind_full178_scaleout_authorized": false,
+    "next_semantic_upgrade": "Determine whether existing FULL178 survivor/candidate interfaces expose or cheaply reconstruct the 48 exceptional-support indicators needed to apply d <= 16g-16+4n before any heavy scaleout."
   },
-  "merge_allowed": false,
-  "next_expected_command": "stage32main batch",
-  "node_support_refinement": {
-    "certificate": "stages/stage32/32-21/post-21bl-node-support-refinement.json",
-    "certificate_canonical_sha256": "d1b446dd8fa32db16a3ec4f2eb8a4db06b2cc65b80a0ef7580cec1437b4ff5ad",
-    "formula": "d <= 16g-16+4n",
-    "proof": "stages/stage32/32-21/post-21bl-freitag-node-support-refinement.md",
-    "status": "PROVISIONAL_PASS_PENDING_FRESH_AUDIT",
-    "target": {
-      "d": 186,
-      "degree_excess": 10,
-      "g": 1,
-      "max_degree_at_support": 176,
-      "positive_exceptional_support": 44,
-      "required_support": 47,
-      "row_id": "g1-d186",
-      "zero_exceptional_support": 4
-    }
-  },
-  "parent_route": "G10-LOWGENUS-PICARD",
   "research_credit_firewalls": {
+    "policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
+    "representative_only": true,
     "full178_not_closed": true,
     "multibranch_not_closed": true,
-    "perfect_cuboid_existence_claim": false,
-    "perfect_cuboid_nonexistence_claim": false,
-    "policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
     "receiver_credit": false,
-    "representative_only": true,
-    "route_credit": false
+    "route_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
   },
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V157_NODE_SUPPORT_REFINEMENT_AUDIT_PENDING",
-  "stage": "32",
-  "stage32_closed": false,
-  "status": "STAGE32_POST21BL_BIJECTIVE_GENUS1_NODE_SUPPORT_EXCLUSION_AUDIT_PENDING"
+  "next_expected_command": "stage32main batch"
 }
