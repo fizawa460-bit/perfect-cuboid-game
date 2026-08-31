@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 from pathlib import Path
 
@@ -16,6 +15,10 @@ EXPECTED_EVIDENCE_CANONICAL = "ac88fb355252750e6afdc10cbb54abec24babbad57c25090c
 EXPECTED_WITNESS_SHA = "1a131595c87cf9c5d54ef97dba62261eeb3dda7bb92a5a9fa62c280f46bc4137"
 EXPECTED_ORDINAL = 1617
 EXPECTED_TARGET = {"row_id": "g1-d186", "e": 266, "a": 592, "u": -44, "v": 32, "z": [-15, 62, -44, 26, 32]}
+PRODUCING_RUN_ID = 33380510213
+PRODUCING_ARTIFACT_ID = 9753613683
+PRODUCING_HEAD = "b819b128beecdbbd6bb4e773ab98ad7c12e1b2ef"
+PRODUCING_ARTIFACT_ZIP_SHA256 = "72a968f83cd0af4723b225b51b9bee7928bb56b4d393bc6442e27a9d98ad9072"
 
 
 def canonical_without_field(x: dict, field: str) -> str:
@@ -44,11 +47,8 @@ def main() -> None:
     assert evidence["exact_problem"]["fixed_triple_constraints_included"] is True
     assert evidence["exact_problem"]["numerical_backend_never_authorizes_unsat"] is True
     assert evidence["safety"]["full_3234_scaleout_authorized_by_this_result"] is False
-    assert evidence["safety"]["theorem_credit"] is False
-    assert evidence["safety"]["receiver_credit"] is False
-    assert evidence["safety"]["route_credit"] is False
-    assert evidence["safety"]["perfect_cuboid_existence_claim"] is False
-    assert evidence["safety"]["perfect_cuboid_nonexistence_claim"] is False
+    for flag in ("theorem_credit", "receiver_credit", "route_credit", "perfect_cuboid_existence_claim", "perfect_cuboid_nonexistence_claim"):
+        assert evidence["safety"][flag] is False
 
     recomputed_evidence_canonical = canonical_without_field(evidence, "canonical_sha256_without_this_field")
     assert evidence["canonical_sha256_without_this_field"] == EXPECTED_EVIDENCE_CANONICAL
@@ -65,16 +65,9 @@ def main() -> None:
     assert list(triple) == evidence["triple"] == [76, -55, -96]
 
     cfg = argparse.Namespace(
-        source_lock=args.source_lock,
-        formula_lock=args.formula_lock,
-        pair_lock=args.pair_lock,
-        audit_lock=args.audit_lock,
-        seventh_lock=args.seventh_lock,
-        eighth_lock=args.eighth_lock,
-        ninth_lock=args.ninth_lock,
-        tenth_lock=args.tenth_lock,
-        retained=args.retained,
-        marking=args.marking,
+        source_lock=args.source_lock, formula_lock=args.formula_lock, pair_lock=args.pair_lock,
+        audit_lock=args.audit_lock, seventh_lock=args.seventh_lock, eighth_lock=args.eighth_lock,
+        ninth_lock=args.ninth_lock, tenth_lock=args.tenth_lock, retained=args.retained, marking=args.marking,
     )
     solver, r, ri, target, table = build_joint(cfg)
     assert target == EXPECTED_TARGET
@@ -89,9 +82,7 @@ def main() -> None:
         solver.add(ri[j] == value)
     replay = solver.check()
     assert replay == sat, replay
-
-    model = solver.model()
-    replayed = [int(model.eval(ri[j]).as_long()) for j in range(59)]
+    replayed = [int(solver.model().eval(ri[j]).as_long()) for j in range(59)]
     assert replayed == witness
 
     payload = {
@@ -99,7 +90,13 @@ def main() -> None:
         "stage": 32,
         "leaf": "32-21bl",
         "verdict": "PASS_STAGE32_21BL_FRESH_EXACT_WITNESS_REPLAY_AUDIT",
-        "evidence_canonical_sha256": recomputed_evidence_canonical,
+        "producing_evidence": {
+            "run_id": PRODUCING_RUN_ID,
+            "artifact_id": PRODUCING_ARTIFACT_ID,
+            "source_head": PRODUCING_HEAD,
+            "artifact_zip_sha256": PRODUCING_ARTIFACT_ZIP_SHA256,
+            "evidence_canonical_sha256": recomputed_evidence_canonical,
+        },
         "witness_sha256": EXPECTED_WITNESS_SHA,
         "ordinal": EXPECTED_ORDINAL,
         "triple": list(triple),
