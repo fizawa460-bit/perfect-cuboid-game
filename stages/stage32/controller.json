@@ -1,116 +1,89 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V156_POST21BL_INTEGRAL_CURVE_CARRIER_PREFLIGHT_ACTIVE",
-  "stage": "32",
-  "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
-  "parent_route": "G10-LOWGENUS-PICARD",
-  "status": "STAGE32_POST21BL_DIVISOR_EFFECTIVITY_CLOSED_INTEGRAL_CURVE_CARRIER_OPEN",
-  "current_item": "POST_21BL_INTEGRAL_CURVE_CARRIER_AND_NORMALIZATION_PREFLIGHT",
-  "current_item_execution_constraint": "The audited representative Picard64 class g1-d186 is no longer merely numerical: Testa-Stoll surface invariants plus exact Riemann-Roch prove h0(O_S(C))>=344, so an effective divisor exists in the class. Do not promote that to an integral genus-one curve. The remaining primary gap is to construct or exclude an integral irreducible member whose normalization has genus 1 and whose node/branch data realizes the required genus defect 522. Preserve the separate FULL178 numerical gap. Do not restart 21bl, add single-coordinate filters, run the 3234 scaleout, or arm FULL178 heavy production while this carrier semantic wall is unresolved.",
+  "actions_safety": {
+    "full178_heavy_arm_authorized": false,
+    "new_heavy_compute_authorized": false,
+    "node_support_audit_is_heavy": false,
+    "operating_artifact_budget_mb": 500,
+    "planned_effective_heavy_overlap": 0,
+    "policy": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
+    "stage_heavy_concurrency_cap": 18
+  },
   "active_pr": {
-    "number": 1471,
-    "branch": "stage32-post21bl-effectivity-preflight",
-    "base_sha": "20f5bd1e2e71cf96f8a30e677640666807a71729",
-    "automatic_merge_authorized": false
+    "automatic_merge_authorized": false,
+    "base_sha": "d6acf27fe9c3ba2fb3fad63a49f39668bb52118d",
+    "branch": "stage32-post21bl-node-count-refinement",
+    "number": null
   },
   "advance_allowed": true,
-  "merge_allowed": false,
   "automatic_merge_authorized": false,
   "checkpoint_merge_ready": false,
-  "stage32_closed": false,
-  "actions_safety": {
-    "policy": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
-    "operating_artifact_budget_mb": 500,
-    "stage_heavy_concurrency_cap": 18,
-    "planned_effective_heavy_overlap": 0,
-    "new_heavy_compute_authorized": false,
-    "full178_heavy_arm_authorized": false,
-    "21bl_full_3234_scaleout_authorized": false,
-    "heavy_compute_requires_fresh_runkey_sync": true
-  },
-  "active_execution_guardrail": {
-    "full_178_row_sweep_authorized": false,
-    "21bl_full_3234_scaleout_authorized": false,
-    "single_coordinate_extension_authorized": false,
-    "legacy_prefix_dfs_heavy_rearm_authorized": false,
-    "terminal_family_materialization_authorized": false,
-    "representative_sample_is_not_full178_numerical_credit": true,
-    "effective_divisor_is_not_integral_curve": true,
-    "integral_curve_is_not_normalization_genus1_without_adapter": true,
-    "nonnegative_known_curve_pairings_are_not_curve_effectivity_sufficiency": true,
-    "unknown_is_unsat": false
-  },
   "closed_dependencies": {
     "21bl": {
-      "status": "CLOSED_AUDITED_EXACT_INTEGER_SAT_RESOLUTION",
-      "evidence": "stages/stage32/32-21/32-21bl-joint-integer-witness.json",
       "evidence_canonical_sha256": "ac88fb355252750e6afdc10cbb54abec24babbad57c25090c017f9a55ac93a44",
-      "witness_sha256": "1a131595c87cf9c5d54ef97dba62261eeb3dda7bb92a5a9fa62c280f46bc4137",
-      "fresh_audit_canonical_sha256": "4c8ba2456d163963a7ca28d3ce72d3556460e7bee0d46ee676b891e94e9ba264",
-      "representative_chain_after_audit": {"sat": 1, "unsat": 55, "unknown": 0}
+      "representative_chain_after_audit": {
+        "sat": 1,
+        "unknown": 0,
+        "unsat": 55
+      },
+      "status": "CLOSED_AUDITED_EXACT_INTEGER_SAT_RESOLUTION"
     },
     "post21bl_picard64_adapter": {
-      "status": "CLOSED_AUDITED_EXACT_PICARD64_SLICE_WITNESS",
       "evidence": "stages/stage32/32-21/post-21bl-picard64-witness-adapter.json",
       "evidence_canonical_sha256": "ef3f21e4166d4bfcacce3503213b0a72afee5f5002ab7145de01fc9c54d47038",
-      "fresh_audit_canonical_sha256": "170611441f83113b27fa1b9b60eeaac31746a10938bb6ee5751f32a450f466d8",
-      "target": {"row_id": "g1-d186", "genus": 1, "degree": 186, "e": 266, "a": 592},
-      "exact_result": {"picard_self_square": 858, "all140_pairings_integral": true, "all140_pairings_nonnegative": true}
+      "status": "CLOSED_AUDITED_EXACT_PICARD64_SLICE_WITNESS"
     },
     "representative_divisor_effectivity": {
-      "status": "CLOSED_EXACT_RIEMANN_ROCH_DIVISOR_EFFECTIVITY",
-      "file": "stages/stage32/32-21/post-21bl-riemann-roch-divisor-effectivity.json",
-      "canonical_sha256": "6e02dfa2f29ebdd218aa869e1994776abc6bd068be9f138e1dd1980789e2483b",
-      "surface_source_lock": "stages/stage29/29-02a/source-lock.md",
-      "surface_invariants": {"K_square": 16, "p_g": 7, "q": 0, "chi_O": 8, "K_big": true, "K_nef": true},
-      "riemann_roch": {"chi_O_C": 344, "h2_O_C": 0, "h0_lower_bound": 344, "effective_divisor_exists": true}
+      "h0_lower_bound": 344,
+      "status": "CLOSED_AUDITED_RIEMANN_ROCH_DIVISOR_EFFECTIVITY"
     }
   },
+  "current_item": "POST_21BL_FREITAG_NODE_SUPPORT_REFINEMENT",
+  "current_item_execution_constraint": "Fresh source inspection sharpens Freitag-Salvati Manni Theorem 3.1 by replacing the worst-case 48-node pole budget with the actual node-support count n: d <= 16g-16+4n. For the audited g1-d186 Picard64 class, the last 48 all140 pairings are the exceptional-divisor rows; exactly 44 are positive and four are zero, so any bijective-normalization genus-one curve in this class would satisfy d<=176, contradicting d=186. Treat this as provisional until the fresh audit passes. Do not promote to multibranch exclusion, FULL178, receiver/route, or perfect-cuboid credit.",
   "gap_state": {
-    "gap_separation_file": "stages/stage32/32-21/post-21bl-effectivity-gap-separation.json",
-    "gap_separation_canonical_sha256": "4afeb8a3add7c203fbbaa9ffdb5b4b4d357df8503979ee80617db654df73d4dc",
+    "BIJECTIVE_NORMALIZATION_GENUS1_REPRESENTATIVE": "PROVISIONALLY_EXCLUDED_PENDING_AUDIT",
     "FULL178_NUMERICAL_CENSUS": "OPEN_SEPARATE",
-    "DIVISOR_EFFECTIVITY_REPRESENTATIVE": "CLOSED_EXACT",
-    "INTEGRAL_IRREDUCIBLE_LOW_GENUS_CARRIER": "OPEN_PRIMARY",
-    "NORMALIZATION_AND_BRANCH_COMPATIBILITY": "OPEN_PRIMARY",
+    "MULTIBRANCH_AT_NODE": "OPEN_SEPARATE_R29_LG2_MB",
     "R29_LG2_EFF_FULL_RECEIVER": "OPEN"
   },
-  "genus_defect_preflight": {
-    "file": "stages/stage32/32-21/post-21bl-genus-defect-preflight.json",
-    "canonical_sha256": "e59e23b2aefb1a3b622f3f3ed4eb0f83fd7bb335125fa3254c7e4e737caaa96c",
-    "degree_K_dot_C": 186,
-    "picard_self_square": 858,
-    "arithmetic_genus": 523,
-    "target_geometric_genus": 1,
-    "required_normalization_genus_defect": 522,
-    "exceptional_pairing_sum": 266,
-    "no_delta_formula_claimed_from_exceptional_profile": true
-  },
-  "stage29_receiver_lock": {
-    "route_contract": "stages/stage29/29-02c-LG2/route-contract.json",
-    "audit": "stages/stage29/29-02c-LG2/audit.md",
-    "receiver": "R29-LG2-EFF EffectiveCurveCertificationForSurvivingNumericalPicardClasses",
-    "multibranch_receiver": "R29-LG2-MB MultibranchAtNodeLowGenusCarrierLedgerOutsideFreitagSalvatiManniTheorem3_1",
-    "candidate_within_genus1_degree_window": true
-  },
-  "minimal_missing_exact_datum": "An audited geometric carrier adapter: either exhibit an integral irreducible member of |C| whose normalization has genus 1 and whose singularity/node/branch data accounts for p_a-g=522, or prove that no such member exists. Riemann-Roch h0>=344 proves divisor effectivity only.",
+  "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "loop_state": {
-    "single_coordinate_loop_closed": true,
-    "repeat_numerical_effectivity_necessary_filters_authorized": false,
-    "arbitrary_new_picard_filter_authorized": false,
     "blind_full178_scaleout_authorized": false,
-    "stagnation_guard": "Progress must address irreducibility, normalization genus, or node/branch compatibility, or provide a semantically stronger audited exclusion. More Picard integrality/nonnegative-pairing filters do not count."
+    "next_semantic_upgrade": "After fresh audit, evaluate this node-support cut as a FULL178 pruning/census interface; keep multibranch separate.",
+    "repeat_numerical_effectivity_necessary_filters_authorized": false,
+    "single_coordinate_loop_closed": true
   },
+  "merge_allowed": false,
+  "next_expected_command": "stage32main batch",
+  "node_support_refinement": {
+    "certificate": "stages/stage32/32-21/post-21bl-node-support-refinement.json",
+    "certificate_canonical_sha256": "d1b446dd8fa32db16a3ec4f2eb8a4db06b2cc65b80a0ef7580cec1437b4ff5ad",
+    "formula": "d <= 16g-16+4n",
+    "proof": "stages/stage32/32-21/post-21bl-freitag-node-support-refinement.md",
+    "status": "PROVISIONAL_PASS_PENDING_FRESH_AUDIT",
+    "target": {
+      "d": 186,
+      "degree_excess": 10,
+      "g": 1,
+      "max_degree_at_support": 176,
+      "positive_exceptional_support": 44,
+      "required_support": 47,
+      "row_id": "g1-d186",
+      "zero_exceptional_support": 4
+    }
+  },
+  "parent_route": "G10-LOWGENUS-PICARD",
   "research_credit_firewalls": {
-    "policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
-    "representative_sample_is_not_full178_numerical_credit": true,
-    "effective_divisor_is_not_integral_low_genus_curve": true,
-    "theorem_credit": false,
-    "receiver_credit": false,
-    "route_credit": false,
+    "full178_not_closed": true,
+    "multibranch_not_closed": true,
     "perfect_cuboid_existence_claim": false,
-    "perfect_cuboid_nonexistence_claim": false
+    "perfect_cuboid_nonexistence_claim": false,
+    "policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
+    "receiver_credit": false,
+    "representative_only": true,
+    "route_credit": false
   },
-  "next_item_if_pass": "If an integral-genus1 carrier construction or exclusion is found, make it independently auditable and then reassess R29-LG2-EFF/R29-LG2-MB. If only divisor effectivity is available, keep the receiver open and do not scale FULL178 under the same semantics.",
-  "next_item_if_fail": "Retain audited integer/Picard/divisor-effectivity checkpoints, freeze the exact geometric wall, and reassess a semantically upgraded route without promoting to curve existence or FULL178 credit.",
-  "next_expected_command": "stage32main batch"
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V157_NODE_SUPPORT_REFINEMENT_AUDIT_PENDING",
+  "stage": "32",
+  "stage32_closed": false,
+  "status": "STAGE32_POST21BL_BIJECTIVE_GENUS1_NODE_SUPPORT_EXCLUSION_AUDIT_PENDING"
 }

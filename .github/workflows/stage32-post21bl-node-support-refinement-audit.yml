@@ -1,0 +1,45 @@
+name: Stage32 post-21bl node-support refinement audit
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/32-21/post-21bl-freitag-node-support-refinement.md'
+      - 'stages/stage32/32-21/post-21bl-node-support-refinement.json'
+      - 'stages/stage32/residual-32-01-production/audit_stage32_post21bl_node_support_refinement.py'
+      - 'stages/stage32/32-21/post-21bl-picard64-witness-adapter.json'
+      - 'stages/stage29/29-02c-LG2/upstream-code-lock.md'
+      - '.github/workflows/stage32-post21bl-node-support-refinement-audit.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Freshly replay node-support exclusion
+        run: |
+          python stages/stage32/residual-32-01-production/audit_stage32_post21bl_node_support_refinement.py \
+            --adapter stages/stage32/32-21/post-21bl-picard64-witness-adapter.json \
+            --certificate stages/stage32/32-21/post-21bl-node-support-refinement.json \
+            --proof stages/stage32/32-21/post-21bl-freitag-node-support-refinement.md \
+            --upstream-lock stages/stage29/29-02c-LG2/upstream-code-lock.md \
+            --output "$RUNNER_TEMP/stage32-post21bl-node-support-refinement-audit.json"
+      - name: Upload compact audit evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-post21bl-node-support-refinement-audit
+          path: ${{ runner.temp }}/stage32-post21bl-node-support-refinement-audit.json
+          retention-days: 1
+          compression-level: 9
