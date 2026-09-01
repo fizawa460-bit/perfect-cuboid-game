@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V186_POST1473_O188_CUSP_RAMIFICATION_AUDITED_EQUALITY_CASES",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V187_POST1473_X8_SATAKE_BOUNDARY_MARKED",
   "stage": "32",
-  "status": "STAGE32_POST1473_FIXED_Z_O188_CUSP_RAMIFICATION_AUDITED_MARKED_GEOMETRY_OPEN",
-  "current_item": "POST1473_FIXED_Z_O188_THREE_HISTOGRAM_MARKED_LOW_RAMIFICATION_GEOMETRY",
+  "status": "STAGE32_POST1473_FIXED_Z_O188_X8_SATAKE_BOUNDARY_MARKED_GEOMETRY_OPEN",
+  "current_item": "POST1473_FIXED_Z_O188_MARKED_EXCEPTIONAL_NODE_INCIDENCE_GEOMETRY",
   "active_pr": {
     "number": 1474,
     "branch": "stage32-post1473-integral-picard-support-preflight",
@@ -64,21 +64,46 @@
   "retained_o188_projection_profile": {
     "checkpoint": "stages/stage32/residual-32-01-production/post1473-o188-product-cover-extremal-profile.json",
     "canonical_sha256": "45775c816f7e3ba46c9c0ab81ff0646d41cbc7d5d5e9a623f8f43c04ccd36923",
-    "qprime_2": {"degrees": [46,47], "ramification_totals": [8,0]},
-    "qprime_4": {"degree_profiles": [[92,94],[93,93]], "ramification_profiles": [[16,0],[8,8]]}
+    "qprime_2": {
+      "degrees": [46, 47],
+      "ramification_totals": [8, 0]
+    },
+    "qprime_4": {
+      "degree_profiles": [[92, 94], [93, 93]],
+      "ramification_profiles": [[16, 0], [8, 8]]
+    }
+  },
+  "derived_source_locked_markings": {
+    "x8_satake_boundary": {
+      "status": "DERIVED_NOT_AUDITED_SAFE_FOR_CURRENT_LIGHTWEIGHT_PREFLIGHT_ONLY",
+      "proof_note": "stages/stage32/residual-32-01-production/post1473-x8-satake-boundary-marking.md",
+      "certificate": "stages/stage32/residual-32-01-production/post1473-x8-satake-boundary-marking.json",
+      "checker": "stages/stage32/residual-32-01-production/diagnose_stage32_post1473_x8_satake_boundary_marking.py",
+      "certificate_canonical_sha256": "69a2a6d3cdf7b0d5c6162424a8102ec41cd09ac7e303469d30577d454363e31d",
+      "upstream_curve_order": {
+        "C1": [1, 32],
+        "C2": [33, 44],
+        "C3": [45, 92],
+        "exceptional": [93, 140]
+      },
+      "C2_semantics": "Satake boundary",
+      "first_factor_z_fixed_labels": [34, 35, 38, 39, 42, 43],
+      "second_factor_w_fixed_labels": [33, 36, 37, 40, 41, 44],
+      "firewall": "This marking alone excludes none of A/B/C and releases no receiver/theorem/route/endpoint credit."
+    }
   },
   "current_leaf": {
-    "status": "OPEN_O188_THREE_HISTOGRAM_MARKED_LOW_RAMIFICATION_GEOMETRY",
-    "target": "SOURCE_LOCK_OR_DERIVE_MARKED_CUSP_FIBER_OR_LOW_RAMIFICATION_MODULAR_CORRESPONDENCE_CONSTRAINTS_FOR_THE_THREE_AUDITED_O188_HISTOGRAMS",
+    "status": "OPEN_O188_MARKED_EXCEPTIONAL_NODE_INCIDENCE_GEOMETRY",
+    "target": "JOIN_THE_SOURCE_LOCKED_6_PLUS_6_X8_SATAKE_BOUNDARY_MARKING_TO_THE_48_EXCEPTIONAL_CURVES_AND_TEST_THE_THREE_AUDITED_O188_HISTOGRAMS",
     "audited_contact_histograms": {
-      "A": {"m1":188,"m2":39,"B":227,"contact_defect":0,"S1":188},
-      "B": {"m1":187,"m2":38,"m3":1,"B":226,"contact_defect":2,"S1":187},
-      "C": {"m1":188,"m2":37,"m4":1,"B":226,"contact_defect":2,"S1":188}
+      "A": {"m1": 188, "m2": 39, "B": 227, "contact_defect": 0, "S1": 188},
+      "B": {"m1": 187, "m2": 38, "m3": 1, "B": 226, "contact_defect": 2, "S1": 187},
+      "C": {"m1": 188, "m2": 37, "m4": 1, "B": 226, "contact_defect": 2, "S1": 188}
     },
     "profile_assignment": {
       "qprime_2_46_47": ["A"],
       "qprime_4_asymmetric_92_94": ["A"],
-      "qprime_4_symmetric_93_93": ["A","B","C"]
+      "qprime_4_symmetric_93_93": ["A", "B", "C"]
     },
     "exact_equality_cases": {
       "B_and_C_only_occur_in_qprime4_symmetric": true,
@@ -94,9 +119,15 @@
       "with_an_etale_projection": "For the etale projection A_i=m at every exceptional branch and there is no away-from-exceptional ramification.",
       "qprime4_symmetric": "Each projection has normalized ramification budget 2 above the defect-zero baseline; exponent excess and/or away-from-exceptional ramification remain possible."
     },
+    "new_marking_input": {
+      "C2_boundary_labels": [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44],
+      "first_factor_z_fixed": [34, 35, 38, 39, 42, 43],
+      "second_factor_w_fixed": [33, 36, 37, 40, 41, 44],
+      "expected_node_geometry": "each singular product cusp should be incident to one boundary component from each factor family; certify this against retained exact data before using it"
+    },
     "direct_all_O188_exclusion_found": false,
     "next_geometry_candidates": [
-      "source-locked identification of vertical/horizontal X(8) cusp fibers inside the retained Picard/special-curve model",
+      "retained exact incidence of each exceptional curve with one first-factor and one second-factor marked C2 boundary curve",
       "marked cusp-location compatibility for the unique B/C ramification branch",
       "low-total-ramification degree-93 self-correspondences on X(8) with identical ramification support",
       "etale-projection cusp-fiber degree constraints for A"
@@ -123,6 +154,7 @@
     "do_not_reopen_O186": true,
     "do_not_reopen_O188_S1_149_zero_slack": true,
     "do_not_repeat_large_nodewise_assignment_counts_as_primary_geometry": true,
+    "do_not_re_search_x8_satake_boundary_marking": true,
     "do_not_treat_three_histogram_reachability_as_analytic_realization": true,
     "do_not_re_search_stage33_26_residue_materialization": true,
     "do_not_materialize_659697_survivors": true,
@@ -132,6 +164,7 @@
     "unknown_is_not_unsat": true,
     "nodewise_partition_is_not_analytic_realization": true,
     "ramification_divisor_support_is_not_global_correspondence_existence": true,
+    "source_locked_marking_is_not_histogram_exclusion": true,
     "multibranch_closed": false,
     "full178_geometric_closure": false,
     "receiver_credit": false,
@@ -140,7 +173,7 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
   },
-  "safe_semantics": "Hostile re-audit review 5078487342 passes canonical 318ac76c at audited head e76d407f. The O=188/S1=149 zero-slack profile is therefore excluded and all remaining O=188 contact multiplicity patterns are exactly A=188x1+39x2, B=187x1+38x2+1x3, or C=188x1+37x2+1x4. B/C occur only in the qprime=4 symmetric 93/93 profile and saturate both projection ramification budgets, forcing a1=a2=4m at every exceptional branch and no additional ramification away from the unique defect-2 branch. O=188 remains open. FULL178 remains inactive.",
-  "next_expected_action": "SEARCH_ONLY_FOR_A_SOURCE_LOCKED_MARKING_OF_X8_CUSP_FIBERS_OR_EQUIVALENT_SPECIAL_CURVE_CLASSES_IN_THE_RETAINED_PICARD_MODEL, THEN_TEST_THE_THREE_O188_HISTOGRAMS_AGAINST_THAT_MARKED_GEOMETRY. IF_NO_MARKING_EXISTS, PIN_THE_EXACT_MISSING_ADAPTER. DO_NOT_REOPEN_COARSE_PARTITION_ARITHMETIC, MERGE, OR_ARM_FULL178.",
-  "next_expected_datum": "A SOURCE_LOCKED MAP FROM THE TWO X8 CUSP-FIBER FAMILIES (OR EQUIVALENT MARKED MODULAR BOUNDARY DATA) INTO THE RETAINED 92 NONEXCEPTIONAL SPECIAL-CURVE PAIRINGS, OR AN EXACT CERTIFICATE THAT THIS MARKING IS ABSENT."
+  "safe_semantics": "Hostile re-audit review 5078487342 passes canonical 318ac76c at audited head e76d407f. The remaining O=188 contact multiplicity patterns are exactly A, B, C as previously audited. A new source-locked but not-yet-audited modular marking identifies retained labels 33..44 with the 12 Satake-boundary elliptic curves, split as first-factor z-fixed labels {34,35,38,39,42,43} and second-factor w-fixed labels {33,36,37,40,41,44}. This marking alone excludes none of A/B/C. The active task is now to join those 6+6 labels to the 48 exceptional curves using retained exact incidence data and test the marked B/C support constraint. O=188 remains open. FULL178 remains inactive.",
+  "next_expected_action": "USE_THE_SOURCE_LOCKED_6_PLUS_6_X8_SATAKE_BOUNDARY_MARKING_TO_RECOVER_THE_EXACT_BOUNDARY_PAIR_INCIDENT_TO_EACH_OF_THE_48_EXCEPTIONAL_CURVES_FROM_RETAINED_DATA, THEN_TEST_B_C_UNIQUE_DEFECT_SUPPORT. IF_THE_RETAINED_DATA_DO_NOT_PRESERVE_NODE_IDENTITY, PIN_THAT_EXACT_ADAPTER_GAP. DO_NOT_REOPEN_THE_MARKING_SEARCH_OR_COARSE_PARTITION_ARITHMETIC, MERGE, OR ARM_FULL178.",
+  "next_expected_datum": "AN_EXACT_48_NODE_TABLE_OR_EQUIVALENT_CERTIFICATE_PAIRING_EACH_EXCEPTIONAL_CURVE_WITH_ONE_FIRST_FACTOR_AND_ONE_SECOND_FACTOR_MARKED_C2_BOUNDARY_CURVE, OR AN_EXACT_CERTIFICATE_THAT_THE_RETAINED_MARKING_LACKS_THE_NODE_IDENTITY_NEEDED_TO_BUILD_IT."
 }
