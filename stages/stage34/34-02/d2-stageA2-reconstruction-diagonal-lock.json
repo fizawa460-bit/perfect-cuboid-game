@@ -1,0 +1,41 @@
+{
+  "schema": "STAGE34_02_D2_STAGEA2_RECONSTRUCTION_DIAGONAL_COVER_V1",
+  "status": "PASS_EXACT_NECESSARY_RECONSTRUCTION_COVER",
+  "stageA2_sources": {
+    "A2_4_result": {"path":"stages/stageA2/A2-4/result.md","blob_sha":"8d2c347d5f67f6d3a9a6aaa4ddf8055714b55b8a"},
+    "A2_5_result": {"path":"stages/stageA2/A2-5/result.md","blob_sha":"c1b47381d0238ebd2941522c55097b6f51ada00d"},
+    "reused_pattern": "After factor-squareclass descent, isolate the remaining source reconstruction square as a new genus-one quartic; compute binary-quartic invariants and its Jacobian before further MW machinery."
+  },
+  "factor_branch": "U=delta1*R^2, V=delta2*S^2, A=delta3*M^2, B=delta4*N^2",
+  "d1": {
+    "U": "T^2-S0^2",
+    "V": "2*T*S0",
+    "identity": "U^2+V^2=(T^2+S0^2)^2",
+    "necessary_quartic": "W^2=delta1^2*R^4+delta2^2*S^4",
+    "kappa": 1
+  },
+  "d2": {
+    "U": "2*T^2-S0^2",
+    "V": "2*T^2-4*T*S0+S0^2",
+    "identity": "2*(U^2+V^2)=4*(S0^2-2*S0*T+2*T^2)^2",
+    "necessary_quartic": "W^2=2*(delta1^2*R^4+delta2^2*S^4)",
+    "kappa": 2
+  },
+  "binary_quartic": {
+    "model": "W^2=kappa*delta1^2*R^4+kappa*delta2^2*S^4",
+    "I": "12*kappa^2*delta1^2*delta2^2",
+    "J": 0,
+    "jacobian": "Y^2=X^3-324*kappa^2*(delta1*delta2)^2*X",
+    "twist_species": "After rational Weierstrass scaling, d1 depends only on squareclass n=sf(2*delta1*delta2); d2 depends only on n=sf(delta1*delta2). Signs do not affect the Jacobian coefficient."
+  },
+  "rank_zero_closure_rules": {
+    "d1": "The reconstruction quartic always has four rational axis points R=0 or S=0. If its Jacobian has rank 0 and torsion order 4, these are all rational points; U=0 or V=0 then maps only to receiver torsion/origin.",
+    "d2_e1": "If sf(delta1*delta2)=+/-1, the quartic is Q-isomorphic to W^2=2(R^4+S^4). It has four explicit rational points R/S=+/-1 with W/S^2=+/-2. If the Jacobian has rank 0 and torsion order 4, these are complete. Returning through the rational square rescaling gives U/V=+/-1, hence t in {0,1/2,1,infinity}, exactly the audited order-4 receiver poles."
+  },
+  "firewalls": {
+    "diagonal_cover_is_sufficient_reconstruction": false,
+    "positive_rank_species_is_Q_point": false,
+    "rank_data_alone_closes_d2_nontrivial_torsors": false,
+    "receiver_closed": false
+  }
+}
