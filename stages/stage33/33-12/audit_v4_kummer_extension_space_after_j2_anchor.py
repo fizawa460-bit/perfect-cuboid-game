@@ -1,21 +1,27 @@
 #!/usr/bin/env python3
-"""Exact GF(2) audit of V4 Kummer extension ambiguity after the J2 anchor.
+"""Audit the named-J2 Kummer relation against all compatible V4 module extensions.
 
-We range over every F2[V4]-module extension
+Over F2, every V4-module extension
 
     0 -> Pic(Sbar)/2 -> E -> Br(Sbar)[2] -> 0
 
-compatible with the already-certified Picard and proper-Br2 actions.  In a
-row-vector section the two actions on E have lower-left blocks Phi_cc and
-Phi_ct (14 x 64).  The V4 relations give linear equations on those blocks.
-We additionally impose the exact named-J2 boundary class, modulo Picard
-coboundary (section change), and ask which retained 10D source images are
-forced in H^1(V4,Pic/2).
+can, after choosing a linear section, be written with row-action blocks
 
-This is deliberately an *all-module-extensions* audit.  If a column varies
-inside this superset, the current module actions plus the J2 anchor alone do
-not determine that geometric Kummer column.  No historical finite-glue
-candidate is promoted to actual geometry here.
+    E_g = [[P_g, 0], [Phi_g, B_g]].
+
+The involution and commutation laws give a homogeneous linear system for the
+14x64 matrices Phi_cc and Phi_ct.  For an invariant Brauer source s, its
+connecting cocycle is (s Phi_cc, s Phi_ct), modulo Picard coboundaries.
+
+This script enumerates the full solution space of those module-extension
+constraints, projects every resulting invariant-source defect through the
+locked 75D H1 quotient, and asks whether the independently locked named-J2
+75D target is reachable from the independently locked J2 proper-Br2 source.
+
+If it is not reachable, then the current source and target certificates cannot
+simultaneously be the Kummer connecting pair under the locked V4 actions; this
+is a coordinate/semantic compatibility blocker, not permission to guess a new
+column or promote historical glue.
 """
 from __future__ import annotations
 
@@ -24,7 +30,6 @@ import json
 from pathlib import Path
 
 from v4_pic2_raw_cocycle_projection import expand_sparse, locked, projection_basis
-
 
 HERE = Path(__file__).resolve().parent
 S33 = HERE.parent
@@ -50,15 +55,12 @@ H1 = 75
 PHI_SIZE = NB * NP
 PHI_C_OFF = 0
 PHI_T_OFF = PHI_SIZE
-W_OFF = 2 * PHI_SIZE
-NVARS = W_OFF + NP
+NVARS = 2 * PHI_SIZE
 MASK64 = (1 << NP) - 1
 
 
 def csha(obj: object) -> str:
-    return hashlib.sha256(
-        json.dumps(obj, sort_keys=True, separators=(",", ":")).encode()
-    ).hexdigest()
+    return hashlib.sha256(json.dumps(obj, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
 def xor(a: list[int], b: list[int]) -> list[int]:
@@ -81,10 +83,6 @@ def vindex(off: int, brow: int, pcol: int) -> int:
     return off + brow * NP + pcol
 
 
-def add_bit(bits: int, index: int) -> int:
-    return bits ^ (1 << index)
-
-
 def insert_rank(echelon: dict[int, int], vector: int) -> bool:
     while vector:
         pivot = vector.bit_length() - 1
@@ -94,6 +92,15 @@ def insert_rank(echelon: dict[int, int], vector: int) -> bool:
             echelon[pivot] = vector
             return True
     return False
+
+
+def in_span(echelon: dict[int, int], vector: int) -> bool:
+    while vector:
+        pivot = vector.bit_length() - 1
+        if pivot not in echelon:
+            return False
+        vector ^= echelon[pivot]
+    return True
 
 
 def insert_labelled(echelon: dict[int, tuple[int, int]], vector: int, label: int) -> bool:
@@ -108,33 +115,24 @@ def insert_labelled(echelon: dict[int, tuple[int, int]], vector: int, label: int
     return False
 
 
-def affine_echelon(equations: list[tuple[int, int]]) -> dict[int, tuple[int, int]]:
-    """Highest-pivot echelon: pivot row contains only lower-index variables."""
-    pivots: dict[int, tuple[int, int]] = {}
-    for coeff, rhs in equations:
-        rhs &= 1
+def homogeneous_echelon(equations: list[int]) -> dict[int, int]:
+    pivots: dict[int, int] = {}
+    for coeff in equations:
         while coeff:
             pivot = coeff.bit_length() - 1
             if pivot in pivots:
-                pc, pr = pivots[pivot]
-                coeff ^= pc
-                rhs ^= pr
+                coeff ^= pivots[pivot]
             else:
-                pivots[pivot] = (coeff, rhs)
+                pivots[pivot] = coeff
                 break
-        else:
-            if rhs:
-                raise ValueError("inconsistent anchored V4 extension system")
     return pivots
 
 
-def solve_from_free(pivots: dict[int, tuple[int, int]], free_seed: int, affine: bool) -> int:
-    x = free_seed
+def null_vector_from_free(pivots: dict[int, int], free_var: int) -> int:
+    x = 1 << free_var
     for pivot in sorted(pivots):
-        coeff, rhs = pivots[pivot]
-        lower = coeff & ((1 << pivot) - 1)
-        value = ((lower & x).bit_count() & 1) ^ (rhs if affine else 0)
-        if value:
+        lower = pivots[pivot] & ((1 << pivot) - 1)
+        if (lower & x).bit_count() & 1:
             x |= 1 << pivot
     return x
 
@@ -155,7 +153,7 @@ def source_raw_pair_int(solution: int, source: list[int]) -> int:
     return cc | (ct << NP)
 
 
-def make_h1_reducer() -> tuple[dict[int, tuple[int, int]], list[list[int]], list[list[int]]]:
+def make_h1_reducer() -> dict[int, tuple[int, int]]:
     nc, nt, h1_reps = projection_basis()
     echelon: dict[int, tuple[int, int]] = {}
     for i in range(NP):
@@ -166,7 +164,7 @@ def make_h1_reducer() -> tuple[dict[int, tuple[int, int]], list[list[int]], list
         pair = sum((rep[k] & 1) << k for k in range(2 * NP))
         if not insert_labelled(echelon, pair, 1 << (NP + j)):
             raise ValueError("locked H1 quotient basis lost independence")
-    return echelon, nc, nt
+    return echelon
 
 
 def project_pair(pair: int, reducer: dict[int, tuple[int, int]]) -> int:
@@ -182,8 +180,8 @@ def project_pair(pair: int, reducer: dict[int, tuple[int, int]]) -> int:
     return (label >> NP) & ((1 << H1) - 1)
 
 
-def bits_to_list(x: int, n: int) -> list[int]:
-    return [(x >> i) & 1 for i in range(n)]
+def support_1based(mask: int, n: int = 10) -> list[int]:
+    return [i + 1 for i in range(n) if (mask >> i) & 1]
 
 
 pic = locked(PIC, PIC_SHA)
@@ -200,130 +198,103 @@ Bc = proper["proper_Br2_cc_action_f2"]
 Bt = proper["proper_Br2_ct_action_f2"]
 I64 = identity(NP)
 I14 = identity(NB)
-Nc = [xor(row, eye) for row, eye in zip(Pc, I64)]
-Nt = [xor(row, eye) for row, eye in zip(Pt, I64)]
-
-assert len(Bc) == len(Bt) == NB and all(len(row) == NB for row in Bc + Bt)
 assert matmul(Pc, Pc) == I64 and matmul(Pt, Pt) == I64 and matmul(Pc, Pt) == matmul(Pt, Pc)
 assert matmul(Bc, Bc) == I14 and matmul(Bt, Bt) == I14 and matmul(Bc, Bt) == matmul(Bt, Bc)
 
 retained = target["proper_invariant_domain"]["basis_rows_original_proper_br2_coordinates_f2"]
 assert len(retained) == 10
 for source in retained:
-    assert rowmul(source, Bc) == source
-    assert rowmul(source, Bt) == source
+    assert rowmul(source, Bc) == source and rowmul(source, Bt) == source
 
 j2 = adjoint["proper_brauer2_pullback"]["proper_Br2_14D_coordinate_f2"]
 assert rowmul(j2, Bc) == j2 and rowmul(j2, Bt) == j2
-assert xor(retained[1], retained[2]) == j2  # retained10 e2+e3
+assert xor(retained[1], retained[2]) == j2
+j2_retained_mask = (1 << 1) | (1 << 2)
 
 raw_j2_cc = j2_cc["actual_cc_defect"]["full_surface_Pic64_historical_Magma_mod2_coordinates"]
 raw_j2_ct = j2_ct["ct_sum_fullPic64_historical_Magma_coordinates_mod2"]
-assert len(raw_j2_cc) == len(raw_j2_ct) == NP
 j2_h1_list = j2_target["retained_H1_projection"]["coordinates_f2"]
 j2_h1 = sum((bit & 1) << i for i, bit in enumerate(j2_h1_list))
-
-reducer, _, _ = make_h1_reducer()
+reducer = make_h1_reducer()
 raw_j2_pair = sum((bit & 1) << i for i, bit in enumerate(raw_j2_cc))
 raw_j2_pair |= sum((bit & 1) << (NP + i) for i, bit in enumerate(raw_j2_ct))
 assert project_pair(raw_j2_pair, reducer) == j2_h1
 
-# Build all module-extension equations.
-equations: list[tuple[int, int]] = []
-
-# Phi_c Pc + Bc Phi_c = 0 and Phi_t Pt + Bt Phi_t = 0.
+# All homogeneous block-extension constraints.
+equations: list[int] = []
 for a in range(NB):
     for p in range(NP):
         bits = 0
         for q in range(NP):
             if Pc[q][p]:
-                bits = add_bit(bits, vindex(PHI_C_OFF, a, q))
+                bits ^= 1 << vindex(PHI_C_OFF, a, q)
         for b in range(NB):
             if Bc[a][b]:
-                bits = add_bit(bits, vindex(PHI_C_OFF, b, p))
-        equations.append((bits, 0))
+                bits ^= 1 << vindex(PHI_C_OFF, b, p)
+        equations.append(bits)
 
         bits = 0
         for q in range(NP):
             if Pt[q][p]:
-                bits = add_bit(bits, vindex(PHI_T_OFF, a, q))
+                bits ^= 1 << vindex(PHI_T_OFF, a, q)
         for b in range(NB):
             if Bt[a][b]:
-                bits = add_bit(bits, vindex(PHI_T_OFF, b, p))
-        equations.append((bits, 0))
+                bits ^= 1 << vindex(PHI_T_OFF, b, p)
+        equations.append(bits)
 
-# Phi_c Pt + Bc Phi_t = Phi_t Pc + Bt Phi_c.
 for a in range(NB):
     for p in range(NP):
         bits = 0
         for q in range(NP):
             if Pt[q][p]:
-                bits = add_bit(bits, vindex(PHI_C_OFF, a, q))
+                bits ^= 1 << vindex(PHI_C_OFF, a, q)
             if Pc[q][p]:
-                bits = add_bit(bits, vindex(PHI_T_OFF, a, q))
+                bits ^= 1 << vindex(PHI_T_OFF, a, q)
         for b in range(NB):
             if Bc[a][b]:
-                bits = add_bit(bits, vindex(PHI_T_OFF, b, p))
+                bits ^= 1 << vindex(PHI_T_OFF, b, p)
             if Bt[a][b]:
-                bits = add_bit(bits, vindex(PHI_C_OFF, b, p))
-        equations.append((bits, 0))
+                bits ^= 1 << vindex(PHI_C_OFF, b, p)
+        equations.append(bits)
 
-# Exact J2 anchor modulo a Picard coboundary from one section-change vector w.
-for p in range(NP):
-    bits = 0
-    for a, bit in enumerate(j2):
-        if bit:
-            bits = add_bit(bits, vindex(PHI_C_OFF, a, p))
-    for q in range(NP):
-        if Nc[q][p]:
-            bits = add_bit(bits, W_OFF + q)
-    equations.append((bits, raw_j2_cc[p]))
-
-    bits = 0
-    for a, bit in enumerate(j2):
-        if bit:
-            bits = add_bit(bits, vindex(PHI_T_OFF, a, p))
-    for q in range(NP):
-        if Nt[q][p]:
-            bits = add_bit(bits, W_OFF + q)
-    equations.append((bits, raw_j2_ct[p]))
-
-pivots = affine_echelon(equations)
-rank = len(pivots)
+pivots = homogeneous_echelon(equations)
 free = [i for i in range(NVARS) if i not in pivots]
-particular = solve_from_free(pivots, 0, affine=True)
 
-# Verify the particular solution satisfies every equation exactly.
-for coeff, rhs in equations:
-    assert ((coeff & particular).bit_count() & 1) == rhs
-
-particular_images = [project_pair(source_raw_pair_int(particular, s), reducer) for s in retained]
-assert particular_images[1] ^ particular_images[2] == j2_h1
-
-ambiguity_spaces: list[dict[int, int]] = [dict() for _ in retained]
-nonzero_null_images = 0
+# For each basis direction in the complete extension solution space, record the
+# H1 image of each retained standard source.
+null_standard_images: list[list[int]] = []
 for free_var in free:
-    null_solution = solve_from_free(pivots, 1 << free_var, affine=False)
-    # The anchored J2 boundary must be zero in every homogeneous direction.
-    j2_delta = project_pair(source_raw_pair_int(null_solution, j2), reducer)
-    assert j2_delta == 0
-    any_nonzero = False
-    for i, source in enumerate(retained):
-        delta = project_pair(source_raw_pair_int(null_solution, source), reducer)
-        if delta:
-            any_nonzero = True
-            insert_rank(ambiguity_spaces[i], delta)
-    if any_nonzero:
-        nonzero_null_images += 1
+    solution = null_vector_from_free(pivots, free_var)
+    for eq in equations:
+        assert ((eq & solution).bit_count() & 1) == 0
+    images = [project_pair(source_raw_pair_int(solution, source), reducer) for source in retained]
+    null_standard_images.append(images)
 
-ambiguity_ranks = [len(space) for space in ambiguity_spaces]
-forced = [rank_i == 0 for rank_i in ambiguity_ranks]
-forced_coordinates = [bits_to_list(particular_images[i], H1) if forced[i] else None for i in range(10)]
+# Exact reachable H1 subspace for the independently fixed J2 proper-Br2 source.
+j2_reachable: dict[int, int] = {}
+for images in null_standard_images:
+    insert_rank(j2_reachable, images[1] ^ images[2])
+j2_target_reachable = in_span(j2_reachable, j2_h1)
+
+# Diagnose whether a different retained source could, at the level of abstract
+# module extensions, carry the locked target.  This does NOT rename J2; it only
+# narrows whether the incompatibility is source-specific or target-global.
+compatible_masks: list[int] = []
+for mask in range(1, 1 << 10):
+    span: dict[int, int] = {}
+    for images in null_standard_images:
+        out = 0
+        for i in range(10):
+            if (mask >> i) & 1:
+                out ^= images[i]
+        insert_rank(span, out)
+    if in_span(span, j2_h1):
+        compatible_masks.append(mask)
 
 result = {
     "success": True,
-    "schema": "STAGE33_12_V4_KUMMER_EXTENSION_SPACE_AFTER_J2_ANCHOR_AUDIT_V1",
-    "scope": "ALL_F2_V4_MODULE_EXTENSIONS_COMPATIBLE_WITH_LOCKED_PIC_AND_PROPER_BR2_ACTIONS_PLUS_EXACT_J2_BOUNDARY_ANCHOR",
+    "schema": "STAGE33_12_V4_KUMMER_EXTENSION_REACHABILITY_AUDIT_V2",
+    "scope": "ALL_F2_V4_MODULE_EXTENSIONS_COMPATIBLE_WITH_LOCKED_PIC_AND_PROPER_BR2_ACTIONS",
     "source_locks": {
         "retained_picard_base_sparse_canonical_sha256": PIC_SHA,
         "proper_brauer2_from_discriminant_canonical_sha256": PROPER_SHA,
@@ -333,45 +304,38 @@ result = {
         "j2_ct_raw_cocycle_canonical_sha256": J2_CT_SHA,
         "j2_cc_raw_cocycle_canonical_sha256": J2_CC_SHA,
     },
-    "linear_system": {
-        "variables": NVARS,
-        "phi_variables": 2 * PHI_SIZE,
-        "j2_anchor_coboundary_witness_variables": NP,
+    "extension_solution_space": {
+        "variables_phi_cc_phi_ct": NVARS,
         "equations": len(equations),
-        "rank_f2": rank,
+        "rank_f2": len(pivots),
         "nullity_f2": len(free),
-        "consistent": True,
+        "zero_extension_present": True,
     },
-    "j2_anchor": {
+    "locked_named_j2": {
         "proper14_f2": j2,
-        "retained_equation": "e2 + e3",
-        "locked_75D_weight": sum(j2_h1_list),
-        "homogeneous_boundary_ambiguity_rank_f2": 0,
+        "retained10_support_1based": [2, 3],
+        "target_75D_weight": sum(j2_h1_list),
+        "reachable_H1_subspace_dimension_f2": len(j2_reachable),
+        "locked_target_reachable_from_locked_source": j2_target_reachable,
     },
-    "retained_standard_columns": [
-        {
-            "column_1based": i + 1,
-            "source_proper14_f2": retained[i],
-            "ambiguity_rank_in_H1_f2": ambiguity_ranks[i],
-            "forced_by_module_actions_plus_j2_anchor": forced[i],
-            "forced_75D_coordinate_f2": forced_coordinates[i],
-        }
-        for i in range(10)
-    ],
-    "e2_e3_split": {
-        "C2_ambiguity_rank_f2": ambiguity_ranks[1],
-        "C3_ambiguity_rank_f2": ambiguity_ranks[2],
-        "C2_forced": forced[1],
-        "C3_forced": forced[2],
-        "C2_plus_C3_fixed_to_named_J2": True,
+    "target_reachability_over_all_nonzero_retained_sources": {
+        "compatible_source_count": len(compatible_masks),
+        "locked_j2_source_mask_decimal": j2_retained_mask,
+        "locked_j2_source_is_compatible": j2_retained_mask in compatible_masks,
+        "compatible_source_masks_decimal": compatible_masks,
+        "compatible_source_supports_1based": [support_1based(mask) for mask in compatible_masks],
     },
-    "nullspace_directions_with_nonzero_retained_H1_effect": nonzero_null_images,
-    "interpretation_firewall": {
+    "interpretation": (
+        "LOCKED_J2_SOURCE_TARGET_RELATION_IS_COMPATIBLE_WITH_SOME_V4_MODULE_EXTENSION"
+        if j2_target_reachable
+        else "LOCKED_J2_SOURCE_TARGET_RELATION_IS_NOT_REALIZABLE_BY_ANY_V4_MODULE_EXTENSION_WITH_THE_LOCKED_ACTIONS"
+    ),
+    "firewall": {
         "actual_geometric_extension_identified": False,
         "historical_rep88_promoted": False,
+        "standard_kummer_columns_materialized": 0,
         "Q_defined_descent_credit_added": False,
-        "standard_column_materialized_only_if_forced": True,
-        "if_ambiguity_positive": "module actions plus the J2 anchor alone are insufficient to infer that column; an additional geometric mu2-lift/glue datum is still required",
+        "if_incompatible": "do not use C2+C3=h_J2 as a Kummer-matrix relation until the source/target/action convention mismatch is repaired",
     },
 }
 result["canonical_sha256"] = csha(result)
