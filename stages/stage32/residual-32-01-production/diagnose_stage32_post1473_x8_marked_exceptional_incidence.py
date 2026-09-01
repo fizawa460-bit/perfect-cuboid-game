@@ -27,6 +27,8 @@ def main() -> None:
     pairing = data["adapter"].pairing_matrix
     if pairing.rows != 140 or pairing.cols != 140:
         raise ValueError(f"unexpected pairing shape {pairing.rows}x{pairing.cols}")
+    if pairing != pairing.T:
+        raise ValueError("retained pairing matrix lost symmetry")
 
     rows = []
     factor1_counts = {str(k): 0 for k in FIRST_FACTOR}
@@ -67,6 +69,7 @@ def main() -> None:
     out = {
         "schema": "STAGE32_POST1473_X8_MARKED_EXCEPTIONAL_INCIDENCE_REPLAY_V1",
         "status": "PASS",
+        "pairing_matrix_symmetric": True,
         "first_factor_labels": list(FIRST_FACTOR),
         "second_factor_labels": list(SECOND_FACTOR),
         "exceptional_labels": [93, 140],
