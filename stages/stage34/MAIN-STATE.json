@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE34_EXT_C_MAIN_STATE_V5_34_02_AUDITED_D1_ACTIVE",
+  "schema": "STAGE34_EXT_C_MAIN_STATE_V6_34_02_AUDITED_D1_22_LOCAL_CLASSES",
   "stage": "34",
-  "status": "ACTIVE_34_02_D1_FINITE_SQUARECLASS_DESCENT_LOCAL_MW_SIEVE",
+  "status": "ACTIVE_34_02_D1_QP_LOCAL_SOLUBILITY_AND_MW_SIEVE_PREP",
   "mission": "Close Stage29 kernel K16-C3-EXT-C-PRIMITIVE-DIVISOR / receiver R29-EXT-CHANG-C for the exact all-multiples Paper-C population, without promoting any parent-route or perfect-cuboid claim.",
   "source_kernel": {
     "kernel_id": "K16-C3-EXT-C-PRIMITIVE-DIVISOR",
@@ -46,20 +46,28 @@
       "path": "stages/stage34/34-02/d1-squareclass-manifest.json",
       "blob_sha": "8b7eb010ad2774de7b24e53890f8326ed7e67638"
     },
+    "d1_good_prime_filter": {
+      "path": "stages/stage34/34-02/d1-good-prime-residue-filter.json",
+      "blob_sha": "a88cd81c9e5b70dbd237878ad2a9ec31c0d72d90"
+    },
+    "d1_good_prime_verifier": {
+      "path": "stages/stage34/34-02/verify_d1_good_prime_residue_filter.py",
+      "blob_sha": "32afa4077249357c2f09470439bc300ef03ee96e"
+    },
     "result": {
       "path": "stages/stage34/34-02/result.md",
-      "blob_sha": "68899c50c610af8528ee8301bdc4961a3213dbb4"
+      "blob_sha": "1863bf3b2281d0c67834facf06025b231f2c296e"
     }
   },
   "current": {
     "unit": "34-02-D1",
     "selected_route": "D_REPLACEMENT_DIRECT_RATIONAL_POINT_COVER",
-    "next_exact_leaf": "D1_LOCAL_SOLUBILITY_FILTER_30_SURVIVING_SQUARECLASSES_THEN_DEFINE_EXACT_MW_REDUCTION_MAPS",
-    "why_this_leaf": "The audited genus-5 Route-D reduction gives 104 raw squareclasses. The first exact sum-of-two-squares local filter eliminates 74, leaving 30 necessary local classes. D1 must now certify true local solubility/non-solubility and then map the audited full Mordell-Weil lattices into finite local groups for a proof-complete sieve."
+    "next_exact_leaf": "D1_CERTIFY_QP_LOCAL_SOLUBILITY_OR_OBSTRUCTION_FOR_22_SURVIVORS_AND_DEFINE_EXACT_MW_REDUCTION_MAPS",
+    "why_this_leaf": "The audited genus-5 Route-D reduction yields 104 raw squareclasses. Exact sum-of-two-squares and good-prime projective-residue filters eliminate 82, leaving 22 classes not yet proved Q_p-soluble or insoluble. The next proof layer is genuine local solubility followed by exact MW reduction maps and a proof-complete sieve."
   },
   "current_leaf_working_set": [
+    "stages/stage34/34-02/d1-good-prime-residue-filter.json",
     "stages/stage34/34-02/d1-squareclass-manifest.json",
-    "stages/stage34/34-02/pole-torsion-lock.json",
     "stages/stage34/34-02/exact-cover-reduction.json",
     "stages/stage34/34-01/global-population-contract.json"
   ],
@@ -69,10 +77,20 @@
     "genus": 5,
     "all_seven_q_smooth_branch_hypotheses": true,
     "poles_order4_torsion_outside_receiver": true,
-    "homogeneous_squareclass_gcd_support": "primes dividing 2ab for q=a/b in lowest terms",
     "raw_squareclasses_total": 104,
-    "sum_of_two_squares_filter_survivors": 30,
+    "after_sum_of_two_squares_filter": 30,
+    "after_good_prime_projective_residue_filter": 22,
+    "eliminated_exactly": 82,
     "handles_rank1_and_rank2_uniformly": true
+  },
+  "surviving_squareclasses": {
+    "20/21": [1,2],
+    "80/39": [1,2,5,10,13,26,65,130],
+    "24/7": [1,2],
+    "84/13": [1,2],
+    "48/55": [1,2],
+    "20/99": [1,2],
+    "60/11": [1,2,5,10]
   },
   "34_02_classification": {
     "A_lucas_lehmer": "NO_PROVED_OR_SOURCE_LOCKED_IDENTIFICATION_NO_BHV_CREDIT",
@@ -106,20 +124,23 @@
     "pole_receiver_gap_closed": true,
     "D1_released": true,
     "D1_first_local_filter_passed": true,
-    "D1_local_sieve_complete": false,
+    "D1_good_prime_residue_filter_passed": true,
+    "D1_local_eliminated_squareclasses": 82,
+    "D1_surviving_squareclasses": 22,
+    "D1_Qp_local_solubility_complete": false,
+    "D1_MW_sieve_complete": false,
     "direct_cover_rational_points_complete": false,
-    "primitive_theorem_source_locked": false,
-    "odd_multiplicity_proved": false,
     "all_multiples_closed": false,
     "R29_EXT_CHANG_C_closed": false,
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
   },
   "firewalls": {
-    "no_lucas_lehmer_identification_is_proof_of_nonmembership": false,
+    "absence_of_lucas_lehmer_identification_proves_nonmembership": false,
     "route_D_algebraic_reduction_is_rational_point_enumeration": false,
     "genus5_finiteness_is_effective_completeness": false,
-    "local_squareclass_filter_survival_is_global_solubility": false,
+    "mod_p_residue_survival_is_Qp_solubility": false,
+    "Qp_local_solubility_is_Q_rational_solubility": false,
     "local_squareclass_elimination_is_receiver_closure": false,
     "quotient_point_completeness_implies_cover_point_completeness_without_pullback": false,
     "finite_sieve_statistics_are_global_exclusion": false,
