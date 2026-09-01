@@ -6,6 +6,14 @@ This is the compact entry point for reusable mathematical weapons. The weapon fi
 
 For the large historical corpora, use [`deep-source-index.md`](deep-source-index.md) instead of browsing Stage14 or StructureRadar blindly. It routes by task to the exact Arsenal, Toolbox, numerical, literature, external-gate, failed-route and promotion sources.
 
+## When to consult Arsenal
+
+Do **not** load the full Arsenal during ordinary Stage startup. First identify the active leaf's exact object and the kind of missing weapon: theorem, obstruction, adapter, finite reduction, exact-search compression, certificate pattern, or warning.
+
+Before starting a fresh literature search or inventing a new mathematical route, query this router/index for that weapon shape and open only the matching card/source locks. A topic match is not enough: population/object, field, cutoff, canonicalization, multiplicity, measure, quantifiers and adapter hypotheses must match. If no card applies after that check, proceed to external literature/new-theorem work. If a new reusable weapon is proved and audited, feed it back through Arsenal promotion.
+
+Machine-readable routing summary: [`index.json`](index.json).
+
 ## Current strongest selectors
 
 Use a selector only after population, cutoff, canonicalization, multiplicity, measure and quantifier matching.
@@ -21,7 +29,22 @@ Use a selector only after population, cutoff, canonicalization, multiplicity, me
 | branch-profile differential | `S28-W03` |
 | common-polarization fixed-curve differential | `S28-W04` |
 
-Machine-readable routing summary: [`index.json`](index.json).
+## Provisional active-stage harvests
+
+These are deliberately **not** current strongest selectors. They expose reusable candidates from still-open stages so later work can avoid re-inventing them, while forcing source revalidation before credit.
+
+- [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) — provisional Stage32 exact-enumeration compression, rank/unrank, Picard slice/image, and finite integral-coset reduction cards.
+- [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) — provisional Stage33 arithmetic-HS, finite-module/Bockstein, Picard-adjoint, source-target compatibility, and descent-warning cards.
+
+Rules:
+
+```text
+PROVISIONAL_CARD_CAN_TRIGGER_SOURCE_LOOKUP=true
+PROVISIONAL_CARD_IS_FORMAL_SELECTOR=false
+PROVISIONAL_CARD_EARNS_THEOREM_CREDIT=false
+ACTIVE_STAGE_SOURCE_LOCK_MUST_BE_REVALIDATED=true
+FINAL_PROMOTION_REVIEW_REQUIRED_AT_STAGE_CLOSE=true
+```
 
 ## Weapon sets kept at stable paths
 
@@ -63,3 +86,4 @@ The Stage27 promotion candidate is also archived because its file header remaine
 - A family closure does not close the endpoint.
 - A finite census does not prove global nonexistence.
 - Historical Stage29 `GREEN` means certified route-level progress, not a solved endpoint.
+- Provisional Stage32/33 cards are discovery aids until final promotion review; they never override their active Stage controllers/source locks.
