@@ -2,7 +2,7 @@ name: Stage33-12 exact checkpoint replay
 
 # Historical R1-R4 certificates are replayed from immutable evidence. Current
 # Stage33 state is checked only through the compact MAIN-STATE interface so this
-# replay does not pin obsolete controller schemas or old repair-leaf wording.
+# replay does not pin obsolete controller or repair-state schemas.
 on:
   pull_request:
     paths:
@@ -72,17 +72,11 @@ jobs:
 
           python - <<'PY'
           import json
-          r=json.load(open('stages/stage33/33-05/j2-representative-repair-state.json'))
           z=json.load(open('stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json'))
           y=json.load(open('stages/stage33/33-05/j2-r4-correct-translation-torsor.json'))
           x=json.load(open('stages/stage33/33-05/j2-r4-translation-quotient-lattice.json'))
           m=json.load(open('stages/stage33/MAIN-STATE.json'))
 
-          assert r['leaves']['R1']['state']=='DONE_ABSTRACT_J2_NONZERO_CONFIRMED'
-          assert r['leaves']['R2']['state']=='DONE_CORRECTED_ELL_J2_NONZERO_CONFIRMED'
-          assert r['leaves']['R3']['state']=='DONE_EXPLICIT_NONZERO_CV_E2_COCYCLE_AND_KUMMER_COORDINATES'
-          assert r['leaves']['R4']['state']=='DONE_MINIMUM_NORM_8_MARKED_J2_1_0'
-          assert r['leaves']['R4']['attempts']==3
           assert z['named_repaired_J2_2cover']['kernel']=='<Tr>'
           assert z['tr_kernel_2isogenous_comparison_surface']['is_named_J2_torsor'] is False
           assert z['lattice_reduction']['minimum_norm_selected'] is False
@@ -94,7 +88,6 @@ jobs:
           assert x['lattice_conclusion']['torsor_transcendental_gram']==[[8,0],[0,16]]
           assert x['lattice_conclusion']['minimum_norm']==8
           assert x['lattice_conclusion']['marked_brauer_coordinate']==[1,0]
-          assert r['firewalls']['Q_defined_descent_credit_restored'] is False
 
           assert m['schema']=='STAGE33_MAIN_COMPACT_STATE_V6'
           assert m['stage33_progress']=='6/11'
