@@ -1,0 +1,26 @@
+name: Stage34-02 D2 StageA2 rank-one alternate occurrence probe
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage34/34-02/probe_d2_stageA2_rank1_alternate_occurrence.py'
+      - '.github/workflows/stage34-02-d2-stageA2-rank1-alt-occurrence-probe.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Regenerate exact branch state
+        run: |
+          python3 stages/stage34/34-02/run_d2_stageA2_factor_branch_local.py
+          python3 stages/stage34/34-02/refine_d2_stageA2_factor_branch_support.py
+          python3 stages/stage34/34-02/run_d2_stageA2_full_support_projective.py
+          python3 stages/stage34/34-02/run_d2_stageA2_rank1_cover_selection.py
+      - name: Probe alternate occurrences without credit
+        run: python3 stages/stage34/34-02/probe_d2_stageA2_rank1_alternate_occurrence.py
