@@ -1,19 +1,24 @@
 {
   "active_pr": {
-    "automatic_merge_authorized": true,
-    "branch": "stage32-post1473-integral-picard-support-preflight",
-    "number": 1474
+    "automatic_merge_authorized": false,
+    "branch": "stage32-post1474-o188-ramification-concentration",
+    "number": 1484
   },
   "advance_allowed": true,
-  "audit_required_before_promotion": false,
+  "audit_required_before_promotion": true,
   "audited_baseline": {
     "head": "e76d407fe97b58c81479b43ad28731b580222def",
     "o188_cusp_ramification_canonical_sha256": "318ac76ca5baf9e5f7f7a2300628b432f3b5fbb718f2bd21bc7a4f13b9cf3328",
     "review_id": 5078487342,
-    "scope": "Previously passed baseline. Do not reopen in bounded re-audit."
+    "scope": "Previously passed baseline. Do not reopen."
   },
-  "checkpoint_merge_ready": true,
-  "current_item": "HOSTILE_REAUDIT_5083834097_PASS_READY_TO_MERGE",
+  "checkpoint_merge_ready": false,
+  "current_item": "O188_DEFECT_BRANCH_TO_RETAINED_BOUNDARY_NODE_BRIDGE",
+  "current_leaf": {
+    "obligation_path": "stages/stage32/residual-32-01-production/post1474-o188-defect-boundary-bridge-obligation.json",
+    "status": "OPEN_SEMANTIC_BRIDGE",
+    "target": "Identify q'=4 B/C defect support on the same source model, transport it to explicit retained boundary node(s), and prove the descended degree-2 ramification divisor is concentrated there."
+  },
   "firewalls": {
     "O188_closed": false,
     "endpoint_credit": false,
@@ -31,13 +36,13 @@
     "row_id": "g1-d186",
     "z": [-15, 62, -44, 26, 32]
   },
-  "hostile_audit": {
+  "hostile_audit_history": {
     "failed_head": "0c22165bbadcf2d5bc083d8404bd6b0cd274a902",
     "failed_review_id": 5083453635,
     "passed_head": "a2cd62cdcf8331827eca94453482244a2fd8bf0d",
     "passed_review_id": 5083834097,
-    "reaudit_scope": "Only the four repaired authority/certificate/provenance points.",
-    "verdict": "PASS_BOUNDED_FOUR_POINT_REPAIR"
+    "verdict": "PASS_BOUNDED_FOUR_POINT_REPAIR",
+    "scope": "Historical #1474 bounded four-point repair only; do not treat as audit of the new defect-boundary bridge."
   },
   "math_scope": {
     "fixed_z_O186_all_qprime": "CLOSED_AUDITED_EXCLUDED_DO_NOT_REOPEN",
@@ -48,15 +53,21 @@
     "full178_geometric_closure": "OPEN_NOT_ACTIVE",
     "receiver_theorem_endpoint": "OPEN"
   },
-  "merge_allowed": true,
-  "next_expected_action": "MERGE_PR_1474_AFTER_BOUNDED_HOSTILE_REAUDIT_PASS, then resume only O=188 geometry from the audited retained state. DO NOT REOPEN O186 OR CANONICAL 318ac76c. FULL178 remains inactive until separately authorized.",
+  "merge_allowed": false,
+  "next_expected_action": "SOLVE_ONLY_O188_DEFECT_BRANCH_TO_RETAINED_BOUNDARY_NODE_BRIDGE: construct an explicit source-side defect-branch identifier on the same model as the audited boundary marking; transport it to retained boundary node/label identifiers; prove all descended degree-2 ramification support is concentrated there; persist source or deterministic replay evidence; then run a bounded hostile audit of this bridge. DO NOT REOPEN O186 OR CANONICAL 318ac76c. FULL178 remains inactive.",
   "operations": {
-    "execution_class": "LIGHTWEIGHT_POST_AUDIT_WRITEBACK",
+    "execution_class": "LIGHTWEIGHT_O188_GEOMETRY_BRIDGE",
     "full178_scaleout_authorized": false,
     "heavy_compute_authorized": false,
     "survivor_materialization_authorized": false
   },
-  "post_baseline_delta": {
+  "post_1474_merge": {
+    "merge_commit": "e0e03ff19b6fcdbc302ed964e6b068680aa5f957",
+    "pr": 1474,
+    "bounded_hostile_reaudit_review_id": 5083834097,
+    "status": "MERGED_AUDITED_CHECKPOINT"
+  },
+  "retained_audited_state": {
     "boundary_label_weierstrass_adapter": {
       "canonical_sha256": "b947be5a3677a9e0b46839241adc03004ee5221ee94d6371f165253281e2a81f",
       "certificate_blob_sha1": "d3f9c82ab087ea4a2721737867159900a3f304c4",
@@ -69,30 +80,30 @@
     },
     "exceptional_48_incidence": {
       "canonical_sha256": "efdecb5d5cef219fc39d931521cbc1890a4830b5296e3c6ff7e93ccb6fa6b143",
-      "status": "RETAINED_MATH_CURRENTLY_PASSES"
+      "status": "RETAINED_AUDITED_INPUT"
     },
     "qprime4_genus2_descent": {
       "authority_note_blob_sha1": "ac85353cbe56d04582aaf98c34e6b6c9483b21f1",
       "canonical_sha256": "3617ef2e0717a1d75de0f3a271a4b0e25f3ed7e67e76f1e58b490d3fcba9d978",
+      "retained_fact": "degree 93 is preserved and each descended map has ramification total 2",
       "status": "AUDITED_PASS"
     },
     "satake_6_plus_6_marking": {
       "canonical_sha256": "69a2a6d3cdf7b0d5c6162424a8102ec41cd09ac7e303469d30577d454363e31d",
-      "status": "RETAINED_MATH_CURRENTLY_PASSES"
+      "status": "RETAINED_AUDITED_INPUT"
     },
     "v4_genus2_six_weierstrass": {
       "canonical_sha256": "2869208e7509d7b79378264ea1982299b0f1745b1a54c5856cfbba0754567ce5",
-      "status": "RETAINED_MATH_CURRENTLY_PASSES"
+      "status": "RETAINED_AUDITED_INPUT"
     }
   },
-  "repairs": {
-    "c_zero_label_sets_materialized_as_24_element_arrays": true,
-    "controller_synced_through_weierstrass_adapter": true,
-    "genus2_cartesian_v4_torsor_descent_source_locked": true,
-    "weierstrass_adapter_has_replay_canonical_certificate_source_note_and_controller_binding": true
+  "semantic_gap": {
+    "boundary_to_weierstrass": "AUDITED_CLOSED",
+    "defect_branch_to_retained_boundary_node": "OPEN",
+    "reason": "The q'=4 authority note explicitly says it does not identify a retained boundary label with a hypothetical defect branch, and the cusp budget explicitly firewalls nodewise reachability from analytic branch realization."
   },
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V189_POST1473_HOSTILE_REAUDIT_PASS",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V190_POST1474_O188_DEFECT_BOUNDARY_BRIDGE",
   "stage": "32",
   "stage32_closed": false,
-  "status": "STAGE32_POST1473_O188_DELTA_HOSTILE_REAUDIT_PASS_READY_TO_MERGE"
+  "status": "STAGE32_POST1474_O188_DEFECT_BOUNDARY_BRIDGE_OPEN"
 }
