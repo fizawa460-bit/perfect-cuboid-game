@@ -7,11 +7,14 @@ Current unresolved delta after `MAIN-STATE.json`:
 
 - Exact diagnostic over all six relative V4 generator identifications found `compatible_relative_identification_count = 0`; simple cc/ct/ccct relabelling does not repair the locked J2 source -> locked 75D target mismatch.
 - proper-Br2 producer convention was checked: the proper Br2 dual row-action is intentionally obtained by transpose from the producer action. A simple transpose / row-column convention mistake is rejected.
-- Direct Kc -> full-surface Picard pullback V4-equivariance diagnostic was attempted, but the remote Magma HTTP endpoint returned `504 Gateway Timeout` after constructing the surface, quotient, Picard groups, and canonical maps. This is not a mathematical equivariance failure.
-- Therefore the exact unresolved question at this handoff is:
-  `IS_THE_KC_TO_FULL_SURFACE_PICARD_PULLBACK_V4_EQUIVARIANT_UNDER_THE_LOCKED_ACTIONS`
-- Preferred next action: avoid repeated heavy Magma reconstruction; first reuse materialized Picard pullback and locked action matrices for a lightweight exact replay of `K_g * P = P * S_g` for `g = cc, ct`.
-- If exact equivariance FAILS, isolate the transport/binding adapter without changing the locked J2 source or target by fiat.
-- If exact equivariance PASSES, move next to the explicit Cech mu2-lift -> proper Br[2] source adapter (`H^2(mu2) -> Br[2]`) rather than reopening already-rejected routes.
+- The earlier remote Magma equivariance probe ended in HTTP 504, but this has now been bypassed by a local exact replay using already-locked materialized matrices.
+- Exact local replay result: the integral Kc->full-surface Picard pullback `P` has rank 20 over Q and unique induced integral actions satisfying `K_cc * P = P * S_cc` and `K_ct * P = P * S_ct`; the induced actions are commuting involutions.
+- Modulo 2, the same pullback has rank 20 and kernel dimension 0.
+- The locked J2 raw ct support `[26,35,42,47,49,52]` pulls back to the locked raw ct Pic64 vector and is already fixed mod 2 by both induced `cc` and `ct` actions; both action defects are zero.
+- Therefore the Picard transport is not the source of the locked J2 source-target mismatch, and there is no hidden mod-2 pullback-kernel defect to repair.
+- V4 relabelling, simple proper-Br2 transpose/row-column error, Picard pullback non-equivariance, and mod-2 pullback-kernel hiding are all rejected as repair routes.
+- Exact next unresolved interface:
+  `IDENTIFY_THE_EXPLICIT_CECH_MU2_TO_PROPER_BR2_SOURCE_ADAPTER_FOR_THE_LOCKED_J2_REPRESENTATIVE`
+- Preferred next action: trace the existing corrected J2 Cech mu2 lift / overlap data into the exact `H^2(mu2) -> Br[2]` quotient coordinate, reusing locked source/target data and searching only for the missing adapter/interface not already represented in this handoff or `MAIN-STATE.json`.
 
-No mathematical state promotion is claimed here. `MAIN-STATE.json`, controller/result mathematics, relation rank, standard-column count, closure/release, theorem/receiver/endpoint credit are unchanged by this handoff note.
+No mathematical state promotion is claimed here yet. `MAIN-STATE.json`, controller/result mathematics, relation rank, standard-column count, closure/release, theorem/receiver/endpoint credit are unchanged by this handoff note.
