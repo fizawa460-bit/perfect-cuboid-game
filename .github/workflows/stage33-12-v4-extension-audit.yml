@@ -6,6 +6,8 @@ on:
       - stage33-12-j2-ptsK-qPicK-continuation
     paths:
       - stages/stage33/33-12/audit_v4_kummer_extension_space_after_j2_anchor.py
+      - stages/stage33/33-12/certify_j2_kummer_source_target_module_compatibility.py
+      - stages/stage33/33-12/verify_j2_kummer_source_target_module_compatibility.py
       - .github/workflows/stage33-12-v4-extension-audit.yml
 
 permissions:
@@ -22,8 +24,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Compile
-        run: python -m py_compile stages/stage33/33-12/audit_v4_kummer_extension_space_after_j2_anchor.py
-      - name: Audit all module extensions after exact J2 anchor
-        run: python stages/stage33/33-12/audit_v4_kummer_extension_space_after_j2_anchor.py
+        run: |
+          python -m py_compile stages/stage33/33-12/audit_v4_kummer_extension_space_after_j2_anchor.py
+          python -m py_compile stages/stage33/33-12/certify_j2_kummer_source_target_module_compatibility.py
+          python -m py_compile stages/stage33/33-12/verify_j2_kummer_source_target_module_compatibility.py
+      - name: Materialize compact compatibility audit
+        run: |
+          python stages/stage33/33-12/certify_j2_kummer_source_target_module_compatibility.py --write
+          cat stages/stage33/33-12/j2-kummer-source-target-module-compatibility-audit.json
+      - name: Verify full recompute and gauge sanity
+        run: python stages/stage33/33-12/verify_j2_kummer_source_target_module_compatibility.py
       - name: Compact-state check
         run: python stages/stage33/sync_main_state.py --check
