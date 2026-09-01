@@ -1,0 +1,42 @@
+{
+  "schema": "STAGE34_01_MW_FULL_GROUP_ACTIONS_PREFLIGHT_V1",
+  "status": "COLD_NOT_ARMED",
+  "purpose": "Apply formal Arsenal S31-WF01 to the seven Paper-C elliptic fibers and determine rank/full-group status plus exact source-point coordinates in the certified Mordell-Weil group.",
+  "planned_heavy_jobs": 1,
+  "effective_heavy_concurrency": 1,
+  "stage34_heavy_concurrency_cap": 18,
+  "artifact_plan": {
+    "artifact_count": 1,
+    "artifact_name": "stage34-01-mw-full-group-certificate",
+    "persisted_files": [
+      "stages/stage34/34-01/mw-magma-response.json",
+      "stages/stage34/34-01/mw-magma-stdout.txt"
+    ],
+    "conservative_max_bytes": 1048576,
+    "retention_days": 1,
+    "raw_large_intermediates": false,
+    "projected_new_peak_bytes": 1048576,
+    "operating_budget_bytes": 524288000,
+    "storage_quota_dependency": "NONE; the run persists at most one deliberately bounded <=1 MiB artifact and does not rely on spare bulk storage"
+  },
+  "runtime_plan": {
+    "runner": "ubuntu-latest",
+    "timeout_minutes": 8,
+    "external_calculator": "official Magma XML calculator",
+    "expected_magma_version_family": "2.29",
+    "network_calls": 1
+  },
+  "authorization": {
+    "dedicated_key": "stages/stage34/runkeys/stage34-01-mw-full-group.json",
+    "pr_commit_range_gate_required": true,
+    "initial_workflow_commit_must_be_cold": true,
+    "arming_requires": "armed=true and generation strictly increases in the actual github.event.before..head commit range"
+  },
+  "credit_firewall": {
+    "actions_success_is_full_MW_credit": false,
+    "magma_full_group_boolean_must_be_true_for_full_group_credit": true,
+    "source_points_span_full_free_part_requires_coordinate_index_check": true,
+    "mw_population_repair_is_receiver_closure": false,
+    "mw_population_repair_is_endpoint_closure": false
+  }
+}
