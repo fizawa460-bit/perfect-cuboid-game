@@ -7,6 +7,9 @@ on:
       - 'stages/stage34/runkeys/stage34-02-d2-stageA2-pair-quotient-pari.json'
       - 'stages/stage34/34-02/d2-stageA2-pair-quotient-pari-classification-lock.json'
       - 'stages/stage34/34-02/run_d2_stageA2_pair_quotient_pari_classification.py'
+      - 'stages/stage34/34-02/run_d2_stageA2_factor_branch_local.py'
+      - 'stages/stage34/34-02/refine_d2_stageA2_factor_branch_support.py'
+      - 'stages/stage34/34-02/run_d2_stageA2_full_support_projective.py'
       - 'stages/stage34/34-02/validate_d2_stageA2_pair_quotient_pari_runkey.py'
       - '.github/workflows/stage34-02-d2-stageA2-pair-quotient-pari.yml'
 
@@ -44,6 +47,11 @@ jobs:
     timeout-minutes: 105
     steps:
       - uses: actions/checkout@v4
+      - name: Regenerate exact 92 d1 survivors
+        run: |
+          python3 stages/stage34/34-02/run_d2_stageA2_factor_branch_local.py
+          python3 stages/stage34/34-02/refine_d2_stageA2_factor_branch_support.py
+          python3 stages/stage34/34-02/run_d2_stageA2_full_support_projective.py
       - name: Install PARI GP
         run: |
           sudo apt-get update -qq
