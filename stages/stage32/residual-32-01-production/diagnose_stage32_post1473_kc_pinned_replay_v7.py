@@ -15,6 +15,7 @@ import diagnose_stage32_post1473_kc_pinned_replay as v6
 ENDPOINT_EXPECTED = "19d59e89b87d49681ae8b1b165085d529bef64b40c2d5ab6fe692a6b899fb061"
 SIGMA_C_PICARD_ROWS_EXPECTED = "65f90a3356941bd4bdaeb77cfc3a8c5370d5726e2f66e2eb348bf5f9633af43a"
 PICARD_GRAM_ROWS_EXPECTED = "22b1f891116ea16fcb615c95e9a83be9fef76c275d792e638d9ab0dab65a6e3b"
+PICARD_BASE_SPARSE_EXPECTED = "e41df3f84760b941440035a388baac88602126c80140139ddf9c187bedf0bb49"
 
 
 def lit(stdout: str, name: str):
@@ -126,10 +127,38 @@ def exact_pushforward(repo: Path, geo: dict) -> dict:
         "stage32_kc_retained_picard_v7",
     ).load()
     gram_rows = [[int(a) for a in row] for row in bundle["picard_gram_64x64"]]
-    if v6.base.csha(gram_rows) != PICARD_GRAM_ROWS_EXPECTED:
-        raise ValueError("retained Picard Gram payload hash moved")
     if bundle.get("upstream_git_blob_sha1") != "0422b69847f2afb97cb7b3ed02ebef91279f61b1":
         raise ValueError("retained Picard upstream blob lock moved")
+
+    sparse_path = repo / "stages/stage33/33-07/retained-picard-base-sparse.json"
+    sparse_bundle = json.loads(sparse_path.read_text())
+    sparse_body = dict(sparse_bundle)
+    sparse_canonical = sparse_body.pop("canonical_sha256", None)
+    if sparse_canonical != PICARD_BASE_SPARSE_EXPECTED or v6.base.csha(sparse_body) != PICARD_BASE_SPARSE_EXPECTED:
+        raise ValueError("retained Picard sparse-base canonical lock moved")
+    if sparse_bundle.get("schema") != "STAGE33_07_RETAINED_PICARD_BASE_SPARSE_V1":
+        raise ValueError("retained Picard sparse-base schema moved")
+    gram_object = sparse_bundle.get("objects", {}).get("gram", {})
+    if gram_object.get("source_certificate_sha256") != PICARD_GRAM_ROWS_EXPECTED:
+        raise ValueError("historical Picard Gram source-certificate lock moved")
+    sparse_rows = gram_object.get("matrix_64x64_sparse_rows_1based", [])
+    if len(sparse_rows) != 64:
+        raise ValueError("retained sparse Picard Gram row-count regression")
+    sparse_dense = []
+    for row in sparse_rows:
+        dense_row = [0] * 64
+        seen = set()
+        for pair in row:
+            if not isinstance(pair, list) or len(pair) != 2:
+                raise ValueError("retained sparse Picard Gram pair encoding moved")
+            j1, value = int(pair[0]), int(pair[1])
+            if not 1 <= j1 <= 64 or j1 in seen or value == 0:
+                raise ValueError("retained sparse Picard Gram coordinate encoding moved")
+            seen.add(j1)
+            dense_row[j1 - 1] = value
+        sparse_dense.append(dense_row)
+    if sparse_dense != gram_rows:
+        raise ValueError("retained sparse Picard Gram no longer matches dense retained Gram")
     gram = Matrix(gram_rows)
 
     endpoint = json.loads(
@@ -205,6 +234,7 @@ def exact_pushforward(repo: Path, geo: dict) -> dict:
             "v6_all140_pairings_sha256": v6.base.WITNESS_ALL140_EXPECTED,
             "kc_wall_git_blob_sha1": v6.base.KC_WALL_GIT_BLOB_SHA1,
             "retained_picard_bundle_canonical_sha256": bundle.get("canonical_sha256"),
+            "retained_picard_base_sparse_canonical_sha256": sparse_canonical,
             "retained_geometric_sign_endpoint_canonical_sha256": ENDPOINT_EXPECTED,
             "testa_stoll_git_blob_sha1": mat["testa_stoll_git_blob_sha1"],
             "sigma_c_picard64_rows_sha256": mat["sigma_rows_sha256"],
@@ -215,6 +245,8 @@ def exact_pushforward(repo: Path, geo: dict) -> dict:
         "materialization": {
             "source_fetch_attempt": mat["source_fetch_attempt"],
             "magma_request_attempt": mat["magma_request_attempt"],
+            "picard_gram_historical_certificate_matches_sparse_retained_source": True,
+            "picard_gram_sparse_retained_matches_dense_retained": True,
             "sigma_c_picard64_matches_retained_sha256": True,
             "sigma_c_exceptional_permutation_matches_direct_node_replay": True,
             "all_24_E_pi_classes_are_minus2_and_sigma_c_fixed": True,
