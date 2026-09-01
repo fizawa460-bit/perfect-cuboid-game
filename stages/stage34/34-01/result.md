@@ -68,7 +68,9 @@ FULL_MW_Z_BASIS_SOURCE_LOCKED=false
 SOURCE_LATTICE_EQUALS_ALL_EqQ_MOD_TORSION=false
 ```
 
-Stage34 must either certify the full basis/saturation for all seven fibers or source-lock that the Stage29 receiver intentionally targets only the finite-index source lattice.
+Stage29's receiver text itself says only that a theorem must be strong enough to "close all multiples"; it does not separately source-lock that the `ellrank` points form the full Mordell--Weil basis. Stage34 therefore keeps this as a population-adapter obligation rather than silently weakening or strengthening the receiver.
+
+Stage34 must either certify the full basis/saturation for all seven fibers or source-lock that the receiver intentionally targets only the finite-index source lattice.
 
 ### 2. Torsion-translated primitive-divisor theorem is not formulated
 
@@ -82,21 +84,25 @@ Thus the Stage29 phrase `EFFECTIVE_ODD_MULTIPLICITY_PRIMITIVE_DIVISOR_THEOREM` i
 
 ## Arsenal check
 
-After the exact object and missing weapon type were identified, the current Arsenal router was checked. No formal mathematical weapon directly supplies an odd-multiplicity primitive-divisor theorem for these elliptic orbit-value numerators, torsion translates, or the rank-two lattice.
+After the exact object and missing weapon types were identified, the current Arsenal router was checked. No formal mathematical weapon directly supplies an odd-multiplicity primitive-divisor theorem for these elliptic orbit-value numerators, torsion translates, or the rank-two lattice.
 
-Relevant reusable workflow only:
+The population gap does have an exact formal workflow match:
 
-- `S30-WF02 IMMUTABLE_LAYERED_CERTIFICATE_REPLAY` for immutable source/certificate binding;
+- `S31-WF01 CAS_MW_FULL_GROUP_CERTIFICATION` — use a proof-capable Mordell--Weil full-group/saturation computation and distinguish rank proof from full-basis credit.
+
+Supporting workflows:
+
+- `S30-WF02 IMMUTABLE_LAYERED_CERTIFICATE_REPLAY` for immutable source/CAS/certificate binding;
 - `S30-WF03 ADAPTER_CREDIT_LAYER_FIREWALL` for keeping finite-window, adapter, receiver and endpoint credit separate.
 
-No theorem is imported from Arsenal by topic similarity.
+No theorem is imported from Arsenal by topic similarity. The next population-repair attempt should use `S31-WF01` rather than inventing a new certification workflow.
 
 ## Current exact next leaf
 
 ```text
 RESOLVE_EXT_C_GLOBAL_POPULATION_CONTRACT:
-  A. certify full Mordell--Weil basis/saturation for the seven source fibers,
-     or narrow/source-lock the receiver population;
+  A. using S31-WF01, certify full Mordell--Weil basis/saturation for the seven
+     source fibers, or narrow/source-lock the receiver population;
   B. define the translated rank-one orbit families needed for all torsion cosets;
   C. define a valid rank-two global indexing/primitive notion, or replace the
      primitive-divisor route there by another deterministic nonsquare theorem.
