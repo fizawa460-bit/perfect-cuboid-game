@@ -2,12 +2,82 @@ name: Stage33-07 marked Picard basis bridge producer
 
 on:
   workflow_dispatch:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - stages/stage33/runkeys/stage33-07-marked-picard-basis-bridge-producer.json
+  push:
+    branches:
+      - stage33-post1475-j2-v4-generator-adapter
+    paths:
+      - stages/stage33/runkeys/stage33-07-marked-picard-basis-bridge-producer.json
 
 permissions:
   contents: read
 
 jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      mode: ${{ steps.gate.outputs.mode }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Authorize exact producer/retention action
+        id: gate
+        shell: bash
+        env:
+          BEFORE: ${{ github.event.before }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" = workflow_dispatch ]; then
+            echo 'authorized=true' >> "$GITHUB_OUTPUT"
+            echo 'mode=produce' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          KEY='stages/stage33/runkeys/stage33-07-marked-picard-basis-bridge-producer.json'
+          authorized=false
+          mode=none
+          HEAD="$GITHUB_SHA"
+          if [ "$EVENT_NAME" = pull_request ]; then HEAD="$PR_HEAD"; fi
+          if [ -n "${BEFORE:-}" ]; then
+            git fetch --no-tags --depth=1 origin "$BEFORE" || true
+            if git cat-file -e "$BEFORE^{commit}" 2>/dev/null \
+              && git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY"; then
+              mode=$(python - <<'PY'
+          import json
+          p='stages/stage33/runkeys/stage33-07-marked-picard-basis-bridge-producer.json'
+          x=json.load(open(p,encoding='utf-8'))
+          assert x['schema']=='STAGE33_07_MARKED_PICARD_BASIS_BRIDGE_PRODUCER_RUNKEY_V1'
+          assert x['generation']==3 and x['armed'] is True
+          assert x['pr']==1476
+          assert x['branch']=='stage33-post1475-j2-v4-generator-adapter'
+          assert x['pinned_upstream_commit']=='51233ed5ef2bf228fac9416c66db9adc0ebcaadd'
+          assert x['pinned_upstream_blob']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
+          assert x['planned_effective_heavy_concurrency']==1
+          assert x['artifact_retention_days']==1 and x['one_shot'] is True
+          assert x['theorem_credit'] is False and x['receiver_credit'] is False
+          assert x['endpoint_credit'] is False and x['merge_allowed'] is False
+          assert x['mode']=='retain_existing_artifact'
+          assert x['source_workflow_run_id']==33559031775
+          assert x['expected_raw_bridge_sha256']=='0a1863928608c2698051b4d22d0ac1b92128164825dbdb7edfb82fe941a05c8f'
+          print(x['mode'])
+          PY
+              )
+              authorized=true
+            fi
+          fi
+          echo "authorized=$authorized" >> "$GITHUB_OUTPUT"
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "PRODUCER_AUTHORIZATION=$authorized MODE=$mode"
+
   produce:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true' && needs.authorize.outputs.mode == 'produce'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     defaults:
@@ -21,41 +91,59 @@ jobs:
         run: python extract_indlist_to_magma_picard_basis.py
       - name: Certify produced bridge before retention
         run: python certify_marked_picard_basis_bridge.py
-      - name: Enforce producer source locks and Stage33 firewalls
-        run: |
-          python - <<'PY'
-          import hashlib,json
-          raw=json.load(open('indlist-to-magma-picard-basis.json'))
-          raw_body=dict(raw); raw_hash=raw_body.pop('canonical_sha256')
-          assert raw_hash==hashlib.sha256(json.dumps(raw_body,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-          assert raw['schema']=='STAGE33_07_INDLIST_TO_MAGMA_PICARD_BASIS_V1'
-          assert raw['source']['git_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
-          assert raw['upstream_asserts_indlist_maps_onto_pic']
-          assert not raw['execution']['automorphism_computed']
-          assert not raw['execution']['smith_form_computed']
-          assert not raw['execution']['gersten_data_computed']
-          assert raw['stage33_progress']=='6/11' and not raw['stage33_08_released']
-          assert not raw['theorem_credit'] and not raw['endpoint_credit']
-
-          x=json.load(open('marked-picard-basis-bridge-certified.json'))
-          h=x.pop('canonical_sha256')
-          assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-          e=x['exact_consequence']
-          assert e['connecting_matrix_columns_explicitly_materialized']==0
-          assert not e['middle_gersten_module_action_materialized']
-          assert not e['absolute_delta_loc_computed'] and not e['arithmetic_hs_closed']
-          assert x['stage33_progress']=='6/11' and not x['stage33_08_released']
-          assert not x['theorem_credit'] and not x['endpoint_credit']
-          print('STAGE33_07_MARKED_PICARD_BASIS_BRIDGE_PRODUCER=PASS_SOURCE_LOCKED')
-          print('RAW_BRIDGE_SHA256='+raw_hash)
-          print('CERTIFIED_BRIDGE_SHA256='+h)
-          print('RETENTION_ACTION=download_audit_then_commit_compact_raw_bridge_only')
-          PY
       - uses: actions/upload-artifact@v4
         with:
           name: stage33-07-marked-picard-basis-bridge-producer
-          retention-days: 7
+          retention-days: 1
           if-no-files-found: error
           path: |
             stages/stage33/33-07/indlist-to-magma-picard-basis.json
             stages/stage33/33-07/marked-picard-basis-bridge-certified.json
+
+  retain:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true' && needs.authorize.outputs.mode == 'retain_existing_artifact'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stage33-post1475-j2-v4-generator-adapter
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage33-07-marked-picard-basis-bridge-producer
+          path: /tmp/stage33-bridge
+          github-token: ${{ github.token }}
+          repository: fizawa460-bit/perfect-cuboid-game
+          run-id: 33559031775
+      - name: Verify retained raw bridge exactly
+        run: |
+          python - <<'PY'
+          import hashlib,json,pathlib,shutil
+          src=pathlib.Path('/tmp/stage33-bridge/indlist-to-magma-picard-basis.json')
+          x=json.loads(src.read_text())
+          h=x['canonical_sha256']; b=dict(x); b.pop('canonical_sha256')
+          got=hashlib.sha256(json.dumps(b,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert h==got=='0a1863928608c2698051b4d22d0ac1b92128164825dbdb7edfb82fe941a05c8f'
+          B=x['indlist_to_magma_picard_matrix_64x64']
+          assert len(B)==64 and all(len(r)==64 for r in B)
+          assert x['source']['git_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
+          assert x['source']['commit']=='51233ed5ef2bf228fac9416c66db9adc0ebcaadd'
+          assert x['upstream_asserts_indlist_maps_onto_pic'] is True
+          shutil.copyfile(src,'stages/stage33/33-07/indlist-to-magma-picard-basis.json')
+          print('STAGE33_07_RETAIN_RAW_BRIDGE=PASS_64x64_SOURCE_LOCKED')
+          PY
+      - name: Commit exact retained bridge
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add stages/stage33/33-07/indlist-to-magma-picard-basis.json
+          git diff --cached --check
+          git diff --cached --quiet && exit 0
+          git commit -m 'Stage33: repair retained qPic bridge from certified artifact'
+          git push origin HEAD:stage33-post1475-j2-v4-generator-adapter

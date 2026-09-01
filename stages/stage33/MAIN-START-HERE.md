@@ -45,6 +45,14 @@ MUST NOT be reinvestigated in an ordinary MAIN batch while its listed source
 lock still matches. Reopen it only under a listed reopen condition. Human memory
 is never required to stop a repeated investigation.
 
+A resolved-investigation or “do not reinvestigate” rule is therefore scoped to
+the **same effective premises**: the same locked inputs, basis/conventions, and
+source/target/interface meaning. A mere state promotion does not reopen it.
+However, if a new proof, adapter, basis, source/target definition, or other exact
+change materially alters premises on which that investigation depended, MAIN may
+re-evaluate only the affected item under the new premises. That is a new
+interface question, not permission to rerun the old investigation unchanged.
+
 If the compact state is absent or fails
 `python stages/stage33/sync_main_state.py --check`, stop and repair the compact
 state before mathematical work. Do not compensate by broadly rereading history.
@@ -87,6 +95,42 @@ working set afterward. Never reload a closed ancestor merely for reassurance.
   audit, load the specific policy and detailed authority required by that trigger.
 - Before ending a MAIN batch, write only genuinely unpromoted narrowing/blockers
   to `MAIN-BATCH-HANDOFF.md`. Do not copy current mathematical state into it.
+
+### MAIN / AUDIT role split
+
+MAIN is progress-first within the exact-evidence and firewall rules. It should
+continue through ordinary mathematical ambiguity by constructing the strongest
+source-locked certificate, adapter, diagnostic, or explicit blocker it can, rather
+than stopping merely to ask the user to interpret an intermediate technical
+result. Adversarial re-checking belongs to the separate AUDIT workflow: if AUDIT
+later rejects a MAIN conclusion, MAIN repairs it from that exact audit finding.
+
+Do not trade away evidentiary discipline for speed: MAIN still must not guess
+coordinates, silently identify unequal interfaces, promote unsupported claims, or
+cross closure/release/theorem firewalls. The intended split is **forward progress
+in MAIN, hostile verification in AUDIT**, not lower proof standards in MAIN.
+
+## MAIN batch completion gate
+
+`Stage33-main-batch` is a work unit, not a single-observation or short-status
+unit. After compact startup, continue the current exact leaf until one of these
+conditions is reached:
+
+- exact progress is promoted/materialized and the required state/writeback is
+  complete;
+- an exact blocker is materially narrowed with durable evidence and the latest
+  unresolved delta/next action is committed to `MAIN-BATCH-HANDOFF.md`;
+- a real permission, safety, tool, or external dependency boundary prevents
+  further progress in the current turn.
+
+Do NOT end a MAIN batch merely because an intermediate diagnostic was found, a
+search target was narrowed, several tool calls elapsed, or a plausible next step
+became visible. If an exploration changes the blocker or next action but is not
+promoted state, that change is itself an unpromoted delta and MUST be written to
+the handoff before the user-visible batch completion response.
+
+The user must not be required to remind MAIN to continue, commit durable work,
+or update/reset the handoff. Those are part of the batch completion condition.
 
 ## Mandatory handoff reset law
 

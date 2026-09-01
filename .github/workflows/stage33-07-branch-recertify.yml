@@ -1,0 +1,61 @@
+name: Stage33-07 branch-local marked bridge recertify
+on:
+  push:
+    branches: [stage33-post1475-j2-v4-generator-adapter]
+    paths:
+      - stages/stage33/runkeys/stage33-07-branch-recertify.json
+permissions:
+  contents: write
+jobs:
+  recertify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Gate exact retained bridge
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          k=json.load(open('stages/stage33/runkeys/stage33-07-branch-recertify.json'))
+          assert k['schema']=='STAGE33_07_BRANCH_RECERTIFY_RUNKEY_V1'
+          assert k['generation']==2 and k['armed'] is True
+          assert k['external_magma_dispatch_authorized'] is False
+          x=json.load(open('stages/stage33/33-07/indlist-to-magma-picard-basis.json'))
+          h=x['canonical_sha256']; b=dict(x); b.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(b,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert h=='0a1863928608c2698051b4d22d0ac1b92128164825dbdb7edfb82fe941a05c8f'
+          B=x['indlist_to_magma_picard_matrix_64x64']
+          assert len(B)==64 and all(len(r)==64 for r in B)
+          print('BRANCH_RETAINED_BRIDGE=PASS_64x64')
+          PY
+      - name: Re-run branch-local exact certifier
+        working-directory: stages/stage33/33-07
+        run: python certify_marked_picard_basis_bridge.py
+      - name: Lock recertified result
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          p='stages/stage33/33-07/marked-picard-basis-bridge-certified.json'
+          x=json.load(open(p)); h=x['canonical_sha256']; b=dict(x); b.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(b,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert h=='039e3792e950ac5bf94adf6538c229640da231000a5e1b159a80e2323a812a92'
+          e=x['exact_consequence']
+          assert e['historical_retained_picard_basis_now_marked_by_actual_140_class_geometry'] is True
+          assert e['actual_integral_swaps_now_available_in_historical_q256_picard_basis'] is True
+          assert e['common_smith_transport_can_be_replayed_without_basis_guess'] is True
+          assert e['connecting_matrix_columns_explicitly_materialized']==0
+          print('BRANCH_LOCAL_RECERTIFY=PASS '+h)
+          PY
+      - name: Commit branch-local certified bridge
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add stages/stage33/33-07/marked-picard-basis-bridge-certified.json
+          git diff --cached --check
+          git diff --cached --quiet && exit 0
+          git commit -m 'Stage33: certify retained qPic bridge on branch'
+          git push origin HEAD:stage33-post1475-j2-v4-generator-adapter
