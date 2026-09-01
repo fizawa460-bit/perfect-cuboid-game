@@ -5,16 +5,13 @@ base_main_state_canonical_sha256: 32baebf358ae47b99a5a1ffd40dc90e7eb090db353f588
 
 Current unresolved delta after `MAIN-STATE.json`:
 
-- Exact diagnostic over all six relative V4 generator identifications found `compatible_relative_identification_count = 0`; simple cc/ct/ccct relabelling does not repair the locked J2 source -> locked 75D target mismatch.
-- proper-Br2 producer convention was checked: the proper Br2 dual row-action is intentionally obtained by transpose from the producer action. A simple transpose / row-column convention mistake is rejected.
-- The earlier remote Magma equivariance probe ended in HTTP 504, but this has now been bypassed by a local exact replay using already-locked materialized matrices.
-- Exact local replay result: the integral Kc->full-surface Picard pullback `P` has rank 20 over Q and unique induced integral actions satisfying `K_cc * P = P * S_cc` and `K_ct * P = P * S_ct`; the induced actions are commuting involutions.
-- Modulo 2, the same pullback has rank 20 and kernel dimension 0.
-- The locked J2 raw ct support `[26,35,42,47,49,52]` pulls back to the locked raw ct Pic64 vector and is already fixed mod 2 by both induced `cc` and `ct` actions; both action defects are zero.
-- Therefore the Picard transport is not the source of the locked J2 source-target mismatch, and there is no hidden mod-2 pullback-kernel defect to repair.
-- V4 relabelling, simple proper-Br2 transpose/row-column error, Picard pullback non-equivariance, and mod-2 pullback-kernel hiding are all rejected as repair routes.
+- New exact diagnostic: `stages/stage33/33-12/j2-picard-adjoint-reopen-diagnostic.json`, canonical SHA `1a20e001fd23b292881f9652818e52d5afc7f0bd43657809d5e52075ae6d1737`.
+- The `MAIN-STATE.json` reopen condition “authoritative current certificate contradicts the recorded fact” is now triggered for `J2_picard_adjoint_source_coordinate`: the old Picard-adjoint J2 retained mask `6` cannot reach the exact locked J2 target in any compatible V4-module extension.
+- This does NOT reopen the marked Kc orientation `J2=[1,0]`; the R4 torsor/kernel fingerprint still fixes that Brauer functional exactly.
+- The Picard-adjoint companion lines are diagnostic only: `beta2` has retained mask `742` and `beta1+beta2` mask `736`, and both lie in the target-compatible 1000-mask set. They are NOT promoted as J2.
+- The exact dependency gap is narrower than “find another source”: the proper-Br2 producer materializes the abstract dual Galois module from the Picard discriminant, while the Picard-adjoint source placement invokes a full-surface discriminant anti-isometry without source-locking a marked full-surface transcendental anti-isometry/correspondence.
 - Exact next unresolved interface:
-  `IDENTIFY_THE_EXPLICIT_CECH_MU2_TO_PROPER_BR2_SOURCE_ADAPTER_FOR_THE_LOCKED_J2_REPRESENTATIVE`
-- Preferred next action: trace the existing corrected J2 Cech mu2 lift / overlap data into the exact `H^2(mu2) -> Br[2]` quotient coordinate, reusing locked source/target data and searching only for the missing adapter/interface not already represented in this handoff or `MAIN-STATE.json`.
+  `MATERIALIZE_FULL_SURFACE_MARKED_DISCRIMINANT_ANTI_ISOMETRY_OR_EQUIVALENT_EXPLICIT_H2_MU2_TO_PROPER_BR2_PULLBACK_ADAPTER_FOR_LAMBDA_D`
+- Do not rerun V4 labels, transpose/row-column, Picard equivariance/kernel, old relation, order4 direct route, q1, or beta2-as-J2 guessing under unchanged premises.
 
-No mathematical state promotion is claimed here yet. `MAIN-STATE.json`, controller/result mathematics, relation rank, standard-column count, closure/release, theorem/receiver/endpoint credit are unchanged by this handoff note.
+No controller/`MAIN-STATE.json` promotion is claimed yet. Relation rank remains 0, standard columns 0/10, and all closure/release/theorem/receiver/endpoint firewalls remain unchanged.
