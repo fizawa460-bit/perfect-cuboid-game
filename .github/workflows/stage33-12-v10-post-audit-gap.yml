@@ -6,6 +6,8 @@ on:
       - 'stages/stage33/33-12/v10-hostile-audit-pass-receipt.json'
       - 'stages/stage33/33-12/j2-named-order4-actual-s3-source-lock-gap-v10.json'
       - 'stages/stage33/33-12/verify_j2_named_order4_actual_s3_source_lock_gap_v10.py'
+      - 'stages/stage33/33-12/j2-order4-retained-pullback-row-availability-v11.json'
+      - 'stages/stage33/33-12/verify_j2_order4_retained_pullback_row_availability_v11.py'
       - '.github/workflows/stage33-12-v10-post-audit-gap.yml'
   workflow_dispatch:
 
@@ -24,4 +26,5 @@ jobs:
       - name: Verify audit receipt and narrowed named-J2 source gap
         run: |
           python stages/stage33/33-12/verify_j2_named_order4_actual_s3_source_lock_gap_v10.py
+          python stages/stage33/33-12/verify_j2_order4_retained_pullback_row_availability_v11.py
           git diff --check
