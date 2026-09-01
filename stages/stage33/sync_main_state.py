@@ -1,232 +1,95 @@
 #!/usr/bin/env python3
-"""Build/check compact Stage33 MAIN state from the V9 qPic-bridge controller authority."""
+"""Build/check compact Stage33 MAIN V10 after certified qPic bridge + actual S3 descent."""
 from __future__ import annotations
 import argparse, hashlib, json
 from pathlib import Path
 
-HERE=Path(__file__).resolve().parent
-CONTROLLER=HERE/'controller.json'
-FILES={
- 'orientation':(HERE/'33-12'/'j2-cv-d2-semantic-orientation.json','0a5abe419c3bd2e4c523af50fd8f85858af6a0d957dcce1e3bdf2ff1430fed3e'),
- 'proper':(HERE/'33-07'/'proper-brauer2-from-discriminant.json','c86f6e838d072816426e4a2b0eb738f44e8632dd1ab4f3e6fdccd161ec41b5bf'),
- 'target':(HERE/'33-12'/'j2-named-v4-h1-target-before-source-orientation.json','4625b6d3ea19ec0e4d8a51471c7f60c0c1219de4672d84c64779c4213306f3b3'),
- 'adjoint':(HERE/'33-12'/'j2-picard-adjoint-proper-br2.json','066e6b039eb7b67c6dfc44a7af1459254c190ebfa5376e89b8e97fad1c8cb9f8'),
- 'compat':(HERE/'33-12'/'j2-kummer-source-target-module-compatibility-audit.json','463aae0d34980bb9f04171430872e59094a8e0f5ee14592e7f8e957393358229'),
- 'reopen':(HERE/'33-12'/'j2-picard-adjoint-reopen-diagnostic.json','1a20e001fd23b292881f9652818e52d5afc7f0bd43657809d5e52075ae6d1737'),
- 'gap':(HERE/'33-12'/'j2-marked-discriminant-proper-br2-adapter-source-lock-gap.json','e27da962e6bd4330bd2e3ede77424bedb5ad40a684d81fadba632ac2fdef8b58'),
- 'bridge_gap':(HERE/'33-12'/'j2-indlist-magma-picard-bridge-source-lock-gap.json','db9cd117556f7e63ede1256534ecd139b017089c938ab9c6d0f546f29ee82798'),
- 'route':(HERE/'33-12'/'j2-marked-picard-bridge-retained-route-inventory.json','10106a86dc79aa491133cf877c21a37a546ea439c7c21b1bfa4ef5ea70b79fc9'),
+H=Path(__file__).resolve().parent; OUT=H/'MAIN-STATE.json'
+LOCKS={
+ 'orientation':(H/'33-12/j2-cv-d2-semantic-orientation.json','0a5abe419c3bd2e4c523af50fd8f85858af6a0d957dcce1e3bdf2ff1430fed3e'),
+ 'proper':(H/'33-07/proper-brauer2-from-discriminant.json','c86f6e838d072816426e4a2b0eb738f44e8632dd1ab4f3e6fdccd161ec41b5bf'),
+ 'target':(H/'33-12/j2-named-v4-h1-target-before-source-orientation.json','4625b6d3ea19ec0e4d8a51471c7f60c0c1219de4672d84c64779c4213306f3b3'),
+ 'adjoint':(H/'33-12/j2-picard-adjoint-proper-br2.json','066e6b039eb7b67c6dfc44a7af1459254c190ebfa5376e89b8e97fad1c8cb9f8'),
+ 'compat':(H/'33-12/j2-kummer-source-target-module-compatibility-audit.json','463aae0d34980bb9f04171430872e59094a8e0f5ee14592e7f8e957393358229'),
+ 'bridge_gap':(H/'33-12/j2-indlist-magma-picard-bridge-source-lock-gap.json','db9cd117556f7e63ede1256534ecd139b017089c938ab9c6d0f546f29ee82798'),
+ 'route':(H/'33-12/j2-marked-picard-bridge-retained-route-inventory.json','10106a86dc79aa491133cf877c21a37a546ea439c7c21b1bfa4ef5ea70b79fc9'),
+ 'receipt':(H/'33-12/qpic-bridge-local-recertification-receipt.json','c6e9466c509699b1ef2c037ad248915673d391f00115032782970667f44e7dd0'),
+ 'swap':(H/'33-12/j2-actual-swap-mixed-discriminant-descent.json','93dc99201a04fdec7c8ad8369409e7cb593ae7f8fba44b772df1b2cc1d29cfa3'),
 }
-OUT=HERE/'MAIN-STATE.json'
-EXPECTED_CONTROLLER_SCHEMA='STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V53_QPIC_MARKED_BRIDGE_GAP'
-EXPECTED_MISSING='SOURCE_AUTHORIZED_PINNED_UPSTREAM_QPIC_64x64_MARKED_PICARD_BRIDGE_MISSING'
-EXPECTED_LEAF='ACQUIRE_SOURCE_AUTHORIZED_PINNED_UPSTREAM_QPIC_64x64_INDLIST_TO_MAGMA_PICARD_BRIDGE_THEN_CERTIFY_MARKING_DESCEND_ACTUAL_SWAPS_AND_TEST_ORDER4_AFFINE_SLICE'
-EXPECTED_MINIMAL='SOURCE_AUTHORIZED_PINNED_UPSTREAM_QPIC_64x64_INDLIST_TO_MAGMA_PICARD_BRIDGE'
-EXPECTED_AUDIT_SCOPE='STAGE33_12_V9_QPIC_BRIDGE_CONTROLLER_AUTHORITY_SYNC'
-EXPECTED_AUDIT_REVIEW_ID=5080029385
-EXPECTED_AUDIT_HEAD='8e61024cd12bcb55b3406701aea68f8bfbaa06a2'
-EXPECTED_ADVANCE_SCOPE='STAGE33_12_INTERNAL_33_13_QPIC_MARKED_BRIDGE_ACQUISITION_ONLY_NO_PARENT_RECLOSURE'
-
 def csha(x): return hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-def load(p,expected):
- x=json.loads(p.read_text(encoding='utf-8')); b=dict(x); h=b.pop('canonical_sha256')
- assert h==expected==csha(b),p
- return x
-
-controller=json.loads(CONTROLLER.read_text(encoding='utf-8'))
-x={k:load(*v) for k,v in FILES.items()}
-stage=controller['stage33_12']; current=controller['current']
-p=x['adjoint']['proper_brauer2_pullback']; h1=x['target']['retained_H1_projection']
-bg=x['bridge_gap']; route=x['route']
-
-# Detailed controller is authoritative. Compact sync must reject semantic drift,
-# not translate an obsolete controller into a newer compact state.
-assert controller['schema']==EXPECTED_CONTROLLER_SCHEMA
-assert controller['stage33_progress']=='6/11' and current['unit']=='33-12'
-assert current['logical_internal_branch']=='33-13_FINITE_V4_KUMMER_MATRIX_REPAIR'
-assert current['substep']=='REPAIR_J2_SOURCE_TARGET_KUMMER_MODULE_COMPATIBILITY'
-assert current['active_missing_interface']==EXPECTED_MISSING
-assert current['next_exact_leaf']==EXPECTED_LEAF==route['next_exact_leaf']
-assert stage['minimal_missing_exact_datum']==EXPECTED_MINIMAL
-assert stage['logical_internal_sequence'][0]['id']=='33-13'
-assert stage['logical_internal_sequence'][0]['status']=='CURRENT_QPIC_MARKED_BRIDGE_SOURCE_GAP_RELATION_RANK_0_STANDARD_COLUMNS_0_OF_10'
-
-# Reopened mask-6 Picard-adjoint data is historical diagnostic evidence only.
-assert stage['corrected_J2_proper_Br2_14D_coordinate_materialized'] is False
-assert stage['corrected_J2_retained_10D_domain_coordinate_materialized'] is False
-assert stage['corrected_J2_proper_Br2_14D_coordinate_f2'] is None
-assert stage['corrected_J2_retained_10D_domain_coordinate_f2'] is None
-assert stage['historical_picard_adjoint_authoritative_named_J2_source'] is False
-assert stage['historical_picard_adjoint_mask_decimal']==6
-assert stage['historical_picard_adjoint_proper_Br2_14D_coordinate_f2']==p['proper_Br2_14D_coordinate_f2']==[1,0,0,1,1,0,0,0,0,0,0,0,0,0]
-assert stage['historical_picard_adjoint_retained_10D_domain_coordinate_f2']==p['retained_10D_coordinate_f2']==[0,1,1,0,0,0,0,0,0,0]
-assert stage['historical_picard_adjoint_proper_Br2_certificate_sha256']==FILES['adjoint'][1]
-assert stage['corrected_J2_named_source_target_relation_materialized'] is False
-assert stage['corrected_J2_named_standard_column_relation_valid'] is False
-assert stage['finite_v4_kummer_named_relations_materialized']==0
-assert stage['finite_v4_kummer_named_relation_rank_f2']==0
-
-# qPic bridge gap and retained-route narrowing are detailed-controller facts.
-assert stage['marked_picard_bridge_source_gap_certificate_sha256']==FILES['bridge_gap'][1]
-assert stage['marked_picard_retained_route_inventory_sha256']==FILES['route'][1]
-assert stage['actual_indlist_to_magma_picard_basis_bridge_materialized'] is False
-assert stage['source_authorized_qPic_bridge_required'] is True
-assert stage['retained_smith_route_authoritative_for_qPic_bridge'] is False
-assert stage['new_external_magma_dispatch_authorized'] is False
-
-# Hostile re-audit 5080029385 closes only the controller/V9 authority-sync gate.
-# It authorizes MAIN to resume the qPic acquisition leaf, not merge/closure/credit
-# and not a new external Magma dispatch.
-assert controller['audit_required'] is False
-assert controller['audit_status']=='PASS'
-assert controller['audit_scope']==EXPECTED_AUDIT_SCOPE
-assert controller['audit_review_id']==EXPECTED_AUDIT_REVIEW_ID
-assert controller['audit_head_sha']==EXPECTED_AUDIT_HEAD
-assert controller['advance_allowed'] is True
-assert controller['advance_scope']==EXPECTED_ADVANCE_SCOPE
-assert controller['next_item']=='Stage33-12_33-13_ACQUIRE_SOURCE_AUTHORIZED_QPIC_MARKED_BRIDGE'
-assert controller['next_expected_command']=='Stage33-main-batch'
-assert controller['execution']['audit_required'] is False
-assert controller['execution']['audit_status']=='PASS'
-assert controller['execution']['audit_scope']==EXPECTED_AUDIT_SCOPE
-assert controller['execution']['audit_review_id']==EXPECTED_AUDIT_REVIEW_ID
-assert controller['execution']['audit_head_sha']==EXPECTED_AUDIT_HEAD
-assert controller['execution']['advance_allowed'] is True
-assert controller['execution']['advance_scope']==EXPECTED_ADVANCE_SCOPE
-assert controller['execution']['next_item']==controller['next_item']
-assert controller['execution']['next_expected_command']==controller['next_expected_command']
-assert controller['merge_allowed'] is False and controller['execution']['merge_allowed'] is False
-assert controller['execution']['heavy_actions_authorized'] is False
-
+def load(k):
+ p,h=LOCKS[k]; x=json.loads(p.read_text()); b=dict(x); got=b.pop('canonical_sha256'); assert got==h==csha(b),k; return x
+c=json.loads((H/'controller.json').read_text()); x={k:load(k) for k in LOCKS}; s=c['stage33_12']; q=c['current']; receipt=x['receipt']; swap=x['swap']
+assert c['schema']=='STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V54_QPIC_CERTIFIED_ACTUAL_SWAP_DESCENT'
+assert c['stage33_progress']=='6/11' and q['unit']=='33-12' and q['logical_internal_branch']=='33-13_FINITE_V4_KUMMER_MATRIX_REPAIR'
+assert q['substep']=='IDENTIFY_NAMED_J2_ORDER4_LIFT_WITH_ACTUAL_S3_ACTION'
+assert q['active_missing_interface']=='NAMED_J2_ORDER4_LIFT_ACTUAL_S3_BEHAVIOR_OR_EQUIVALENT_SOURCE_LABEL_MISSING'
+assert q['next_exact_leaf']==swap['next_exact_leaf']
+assert s['actual_indlist_to_magma_picard_basis_bridge_materialized'] is True
+assert s['source_authorized_qPic_bridge_requirement_satisfied'] is True
+assert s['actual_indlist_to_magma_picard_basis_bridge_raw_sha256']==receipt['raw_bridge']['canonical_sha256']
+assert s['actual_indlist_to_magma_picard_basis_bridge_certified_sha256']==receipt['certified_bridge']['canonical_sha256']
+assert s['qpic_bridge_local_recertification_receipt_sha256']==LOCKS['receipt'][1]
+assert s['actual_swap_mixed_discriminant_descent_certificate_sha256']==LOCKS['swap'][1]
+assert s['actual_swap_mixed_discriminant_actions_materialized'] is True
+assert s['corrected_J2_order4_affine_candidate_s3_action_materialized'] is True
+assert s['corrected_J2_order4_unique_joint_s3_fixed_retained10_mask_decimal']==6
+assert s['corrected_J2_order4_unique_joint_s3_fixed_proper14_mask_decimal']==25
+assert s['historical_picard_adjoint_mask6_independently_rederived_as_unique_joint_s3_fixed_candidate'] is True
+assert s['historical_picard_adjoint_authoritative_named_J2_source'] is False
+assert s['historical_picard_adjoint_mask6_reused_as_named_J2_source'] is False
+assert s['corrected_J2_order4_lift_actual_s3_behavior_source_locked'] is False
+assert s['corrected_J2_proper_Br2_14D_coordinate_materialized'] is False
+assert s['corrected_J2_retained_10D_domain_coordinate_materialized'] is False
+assert s['corrected_J2_named_source_target_relation_materialized'] is False
+assert s['finite_v4_kummer_columns_materialized']==0 and s['finite_v4_kummer_named_relation_rank_f2']==0
+assert c['advance_scope']=='STAGE33_12_INTERNAL_33_13_NAMED_J2_ORDER4_LIFT_ACTUAL_S3_LABEL_ONLY_NO_PARENT_RECLOSURE'
+assert c['next_item']=='Stage33-12_33-13_SOURCE_LOCK_NAMED_J2_ORDER4_LIFT_ACTUAL_S3_BEHAVIOR'
+assert c['merge_allowed'] is False and c['theorem_credit'] is False and c['receiver_credit'] is False and c['endpoint_credit'] is False
 assert x['orientation']['exact_conclusion']['named_CV_J2_fixed_marked_Kc_coordinate_f2']==[1,0]
-assert h1['retained_H1_dimension_f2']==75 and sum(h1['coordinates_f2'])==15
+assert x['target']['retained_H1_projection']['retained_H1_dimension_f2']==75
 assert x['compat']['locked_named_j2']['locked_75D_target_reachable_from_locked_source'] is False
-assert x['reopen']['status']=='PASS_EXACT_DIAGNOSTIC_PICARD_ADJOINT_NAMED_SOURCE_REOPENED'
-assert x['gap']['status']=='PASS_EXACT_SOURCE_LOCK_GAP_MATERIALIZED'
-assert bg['status']=='PASS_EXACT_NONIDENTIFIABILITY_REQUIRES_SOURCE_AUTHORIZED_QPIC_BRIDGE'
-assert bg['facts']['actual_64x64_bridge_source_locked'] is False
-assert bg['facts']['retained_constraints_identify_unique_bridge'] is False
-assert route['status']=='PASS_EXACT_RETAINED_SMITH_ROUTE_INSUFFICIENT_QPIC_BRIDGE_STILL_REQUIRED'
-assert route['exact_findings']['retained_smith_V_exists'] is True
-assert route['exact_findings']['retained_smith_V_identifies_indlist_to_historical_magma_picard_basis_64x64'] is False
-assert route['conclusion']['equivalent_retained_smith_composite_found'] is False
-assert route['conclusion']['source_authoritative_qPic_bridge_still_missing'] is True
-assert route['conclusion']['new_external_magma_dispatch_authorized'] is False
-assert route['credit']['main_progress_added'] is False
-
+assert x['bridge_gap']['facts']['actual_64x64_bridge_source_locked'] is False
+assert x['route']['conclusion']['source_authoritative_qPic_bridge_still_missing'] is True
+assert swap['residual_order4_affine_candidate_S3_action']['unique_joint_fixed_retained10_mask_decimal']==6
+assert swap['exact_consequence']['historical_mask6_reused_as_named_J2_source'] is False
 out={
- 'schema':'STAGE33_MAIN_COMPACT_STATE_V9_QPIC_ONLY_MARKED_BRIDGE_ACQUISITION',
+ 'schema':'STAGE33_MAIN_COMPACT_STATE_V10_QPIC_CERTIFIED_ACTUAL_SWAP_DESCENT',
  'role':'ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE',
  'detailed_machine_authority':'stages/stage33/controller.json',
- 'controller_schema':controller['schema'],
- 'stage33_progress':controller['stage33_progress'],
- 'current':{
-  'unit':current['unit'],
-  'logical_internal_branch':current['logical_internal_branch'],
-  'substep':current['substep'],
-  'active_missing_interface':current['active_missing_interface'],
-  'next_exact_leaf':current['next_exact_leaf'],
- },
+ 'controller_schema':c['schema'],'stage33_progress':'6/11',
+ 'current':{k:q[k] for k in ['unit','logical_internal_branch','substep','active_missing_interface','next_exact_leaf']},
  'locked_facts':{
-  'named_J2_semantic_orientation':{'label':'u1','marked_Kc_coordinate_f2':[1,0],'sha256':FILES['orientation'][1]},
-  'proper_Br2_domain':{'ambient_dimension_f2':14,'retained_dimension_f2':10,'sha256':FILES['proper'][1]},
-  'named_J2_raw_75D_target':{'nonzero':True,'weight':15,'sha256':FILES['target'][1]},
-  'historical_picard_adjoint_candidate':{
-   'proper14_f2':stage['historical_picard_adjoint_proper_Br2_14D_coordinate_f2'],
-   'retained10_f2':stage['historical_picard_adjoint_retained_10D_domain_coordinate_f2'],
-   'mask_decimal':stage['historical_picard_adjoint_mask_decimal'],
-   'authoritative_named_J2_source':stage['historical_picard_adjoint_authoritative_named_J2_source'],
-   'sha256':FILES['adjoint'][1],
-  },
-  'compatibility_audit':{'historical_mask6_target_reachable':False,'reachable_H1_dimension_f2':13,'relation_rank_credit':0,'sha256':FILES['compat'][1]},
-  'reopen_diagnostic':{'status':x['reopen']['status'],'sha256':FILES['reopen'][1]},
-  'marked_adapter_gap':{'status':x['gap']['status'],'accepted_shapes_f2':[[14,14],[2,14]],'sha256':FILES['gap'][1]},
-  'marked_picard_bridge_source_gap':{
-   'status':bg['status'],
-   'retained_constraints_identify_unique_bridge':False,
-   'nonunique_witness_count_materialized':2,
-   'induced_swap12_actions_differ':True,
-   'actual_64x64_bridge_source_locked':False,
-   'sha256':FILES['bridge_gap'][1],
-  },
-  'marked_picard_retained_route_inventory':{
-   'status':route['status'],
-   'retained_smith_V_exists':True,
-   'retained_smith_V_identifies_64x64_marking':False,
-   'source_authoritative_qPic_bridge_still_missing':True,
-   'sha256':FILES['route'][1],
-  },
+  'named_J2_semantic_orientation':{'label':'u1','marked_Kc_coordinate_f2':[1,0],'sha256':LOCKS['orientation'][1]},
+  'proper_Br2_domain':{'ambient_dimension_f2':14,'retained_dimension_f2':10,'sha256':LOCKS['proper'][1]},
+  'named_J2_raw_75D_target':{'nonzero':True,'weight':15,'sha256':LOCKS['target'][1]},
+  'qpic_marked_picard_bridge':{'status':receipt['status'],'raw_bridge_sha256':receipt['raw_bridge']['canonical_sha256'],'certified_bridge_sha256':receipt['certified_bridge']['canonical_sha256'],'bridge_determinant':receipt['certified_bridge']['bridge_determinant'],'receipt_sha256':LOCKS['receipt'][1]},
+  'actual_swap_mixed_discriminant_descent':{'status':swap['status'],'moduli':[2]*4+[4]*6+[8]*4,'s3_braid_exact':True,'semantic_u1_fixed_by_both_swaps':True,'candidate_count':4,'unique_joint_fixed_retained10_mask_decimal':6,'unique_joint_fixed_proper14_mask_decimal':25,'named_J2_source_selected':False,'sha256':LOCKS['swap'][1]},
+  'historical_picard_adjoint_candidate':{'mask_decimal':6,'proper14_f2':s['historical_picard_adjoint_proper_Br2_14D_coordinate_f2'],'retained10_f2':s['historical_picard_adjoint_retained_10D_domain_coordinate_f2'],'authoritative_named_J2_source':False,'independently_rederived_as_unique_joint_s3_fixed_candidate':True,'sha256':LOCKS['adjoint'][1]},
+  'compatibility_audit':{'historical_mask6_target_reachable':False,'reachable_H1_dimension_f2':13,'relation_rank_credit':0,'sha256':LOCKS['compat'][1]},
+  'historical_qpic_gap':{'superseded_by_source_authorized_bridge':True,'sha256':LOCKS['bridge_gap'][1]},
+  'historical_retained_smith_route':{'still_not_literal_qpic_marking':True,'superseded_as_current_blocker':True,'sha256':LOCKS['route'][1]},
  },
  'authority_changes':{
-  'J2_picard_adjoint_named_source_binding':'REVOKED_EXACT_REPAIR_REQUIRED',
-  'J2_picard_adjoint_source_coordinate':'REOPENED_EXACT_DO_NOT_USE_AS_NAMED_SOURCE',
+  'actual_INDLIST_to_historical_Magma_Picard_basis_bridge':'SOURCE_LOCKED_CERTIFIED_EXACT',
+  'actual_swap12_swap13_on_mixed_discriminant_basis':'MATERIALIZED_EXACT',
+  'historical_mask6':'INDEPENDENTLY_REDERIVED_UNIQUE_JOINT_S3_FIXED_CANDIDATE_NOT_NAMED_SOURCE',
+  'J2_picard_adjoint_named_source_binding':'REVOKED_EXACT_DO_NOT_REVIVE_FROM_HISTORY',
   'J2_named_Kummer_source_target_relation':'REVOKED_EXACT_DO_NOT_USE',
   'named_J2_semantic_orientation':'RETAINED_EXACT_DO_NOT_REINVESTIGATE',
   'named_J2_raw_75D_target':'RETAINED_EXACT_INDEPENDENT_TARGET',
-  'actual_INDLIST_to_historical_Magma_Picard_basis_bridge':'MISSING_SOURCE_LOCK_DO_NOT_INFER_FROM_RETAINED_SYMMETRIES',
-  'retained_common_Smith_route_for_literal_64x64_marking':'AUDITED_INSUFFICIENT_DO_NOT_USE_AS_QPIC_BRIDGE',
  },
- 'do_not_use':[
-  'mask 6 as authoritative named J2 source','C2+C3=h_J2',
-  'mask 742 or 736 as J2 merely from compatibility',
-  'A_T[2] coefficients copied directly as proper-Br2 dual coefficients',
-  'either nonunique bridge witness as the actual INDLIST-to-Magma Picard marking',
-  'nonunique retained-basis swap transports as actual actions',
-  '20 Kc preimsinPic rows as full-surface qPic bridge rows',
-  'retained Smith V or common-Smith transport as the literal 64x64 INDLIST-to-Magma Picard marking',
- ],
- 'open_datum':{
-  'named_J2_proper_Br2_source_coordinate_materialized':False,
-  'marked_discriminant_proper_br2_adapter_materialized':False,
-  'named_J2_source_target_relation_materialized':False,
-  'named_source_target_relation_rank_f2':0,
-  'matrix_standard_columns_materialized':0,
-  'actual_indlist_to_magma_picard_basis_bridge_materialized':stage['actual_indlist_to_magma_picard_basis_bridge_materialized'],
- },
- 'current_leaf_working_set':[
-  'stages/stage33/33-12/j2-marked-picard-bridge-retained-route-inventory.json',
-  'stages/stage33/33-12/j2-indlist-magma-picard-bridge-source-lock-gap.json',
-  'stages/stage33/33-07/extract_indlist_to_magma_picard_basis.py',
-  'stages/stage33/33-07/certify_marked_picard_basis_bridge.py',
-  'stages/stage33/33-07/stoll_cuboid_source.py',
-  'stages/stage33/33-12/j2-semantic-u1-full-surface-smith-source.json',
- ],
- 'anti_loop_reopen_policy':{
-  'ordinary_main_rule':'The retained Smith route is already audited and insufficient for the literal 64x64 marking. Do not rerun symmetry/isometry/Smith substitutes; acquire the source-authorized pinned-upstream qPic bridge and certify it.',
-  'reopen_only_if':[
-   'the pinned upstream qPic/source lock changes',
-   'the exact source-authorized qPic bridge becomes available',
-   'the user explicitly requests hostile audit or historical revalidation',
-  ],
- },
- 'execution_gate':{
-  'audit_required':controller['audit_required'],
-  'audit_status':controller['audit_status'],
-  'audit_scope':controller['audit_scope'],
-  'audit_review_id':controller['audit_review_id'],
-  'audit_head_sha':controller['audit_head_sha'],
-  'advance_allowed':controller['advance_allowed'],
-  'advance_scope':controller['advance_scope'],
-  'next_expected_command':controller['next_expected_command'],
- },
- 'firewalls':{
-  'stage33_12_closed_exact':stage['closed_exact'],
-  'stage33_07_reclosed':controller['release_gates']['stage33_07_reclosed'],
-  'stage33_08_released':controller['release_gates']['stage33_08_released'],
-  'theorem_credit':controller['theorem_credit'],
-  'receiver_credit':controller['receiver_credit'],
-  'endpoint_credit':controller['endpoint_credit'],
-  'perfect_cuboid_existence_claim':controller['perfect_cuboid_existence_claim'],
-  'perfect_cuboid_nonexistence_claim':controller['perfect_cuboid_nonexistence_claim'],
-  'merge_allowed':controller['merge_allowed'],
- },
+ 'do_not_use':['historical mask 6 as authoritative named J2 source without a new source-locked lift label','unique S3-fixed candidate implies named J2 unless named order-4 lift S3 behavior is proved','C2+C3=h_J2','mask 742 or 736 as J2 merely from compatibility','A_T[2] coefficients copied directly as proper-Br2 dual coefficients','nonunique retained-basis bridge witnesses instead of the certified literal qPic bridge','retained Smith V as the literal 64x64 qPic marking'],
+ 'open_datum':{'named_J2_order4_lift_actual_s3_behavior_source_locked':False,'named_J2_proper_Br2_source_coordinate_materialized':False,'retained10_named_J2_source_coordinate_materialized':False,'named_J2_source_target_relation_materialized':False,'named_source_target_relation_rank_f2':0,'matrix_standard_columns_materialized':0,'actual_indlist_to_magma_picard_basis_bridge_materialized':True,'actual_swap_mixed_discriminant_actions_materialized':True},
+ 'current_leaf_working_set':['stages/stage33/33-12/j2-actual-swap-mixed-discriminant-descent.json','stages/stage33/33-12/verify_j2_actual_swap_mixed_discriminant_descent.py','stages/stage33/33-12/qpic-bridge-local-recertification-receipt.json','stages/stage33/33-07/marked-picard-basis-bridge-certified.json','stages/stage33/33-12/j2-semantic-u1-full-surface-smith-source.json','stages/stage33/33-12/j2-marked-order4-lift-label-gap.json','stages/stage33/33-12/j2-marked-order4-geometric-sign-indistinguishability.json','stages/stage33/33-12/j2-cv-d2-semantic-orientation.json','stages/stage33/33-12/j2-order4-brauer-lift-reduction.json'],
+ 'anti_loop_reopen_policy':{'ordinary_main_rule':'The literal qPic bridge and actual mixed-discriminant S3 action are now exact. Do not reacquire the bridge, rerun Smith/symmetry substitutes, or select mask 6 merely because it is the unique S3-fixed candidate. Resolve the named J2 order-4 lift behavior under actual swaps or an equivalent source-locked label.','reopen_only_if':['the pinned upstream qPic/source lock changes','the certified bridge or mixed-discriminant swap certificate fails replay','a source-locked named J2 order-4 lift label or swap behavior becomes available','the user explicitly requests hostile audit or historical revalidation']},
+ 'execution_gate':{'audit_required':c['audit_required'],'audit_status':c['audit_status'],'last_completed_audit_scope':c['audit_scope'],'last_completed_audit_review_id':c['audit_review_id'],'last_completed_audit_head_sha':c['audit_head_sha'],'advance_allowed':c['advance_allowed'],'advance_scope':c['advance_scope'],'next_expected_command':c['next_expected_command']},
+ 'firewalls':{'stage33_12_closed_exact':False,'stage33_07_reclosed':False,'stage33_08_released':False,'theorem_credit':False,'receiver_credit':False,'endpoint_credit':False,'perfect_cuboid_existence_claim':False,'perfect_cuboid_nonexistence_claim':False,'merge_allowed':False},
 }
-out['canonical_sha256']=csha(out)
-rendered=json.dumps(out,sort_keys=True,separators=(',',':'))+'\n'
-parser=argparse.ArgumentParser(); parser.add_argument('--check',action='store_true'); args=parser.parse_args()
-if args.check:
- assert OUT.exists() and OUT.read_text(encoding='utf-8')==rendered,'MAIN-STATE.json is stale; run sync_main_state.py'
+out['canonical_sha256']=csha(out); rendered=json.dumps(out,sort_keys=True,separators=(',',':'))+'\n'
+ap=argparse.ArgumentParser(); ap.add_argument('--check',action='store_true'); a=ap.parse_args()
+if a.check:
+ assert OUT.exists() and OUT.read_text()==rendered,'MAIN-STATE.json is stale; run sync_main_state.py'
  print(json.dumps({'success':True,'mode':'check','canonical_sha256':out['canonical_sha256']},sort_keys=True))
 else:
- OUT.write_text(rendered,encoding='utf-8')
- print(json.dumps({'success':True,'mode':'write','canonical_sha256':out['canonical_sha256']},sort_keys=True))
+ OUT.write_text(rendered); print(json.dumps({'success':True,'mode':'write','canonical_sha256':out['canonical_sha256']},sort_keys=True))
