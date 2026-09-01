@@ -1,0 +1,31 @@
+name: Stage32 post-1473 X8 marked node c-zero partition
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/workflows/stage32-post1473-x8-marked-node-czero-partition.yml'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_x8_marked_node_czero_partition.py'
+      - 'stages/stage32/residual-32-01-production/post1473-x8-marked-exceptional-incidence.json'
+      - 'stages/stage33/33-07/exceptional-p1-tangent-coordinates.json'
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Replay exact marked-node c-zero partition
+        working-directory: stages/stage32/residual-32-01-production
+        run: |
+          python diagnose_stage32_post1473_x8_marked_node_czero_partition.py \
+            --incidence post1473-x8-marked-exceptional-incidence.json \
+            --tangent "$GITHUB_WORKSPACE/stages/stage33/33-07/exceptional-p1-tangent-coordinates.json"
