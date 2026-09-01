@@ -8,6 +8,7 @@ Use this page when you know what kind of reusable object you need but not which 
 
 | Need | Start here | What it contains |
 |---|---|---|
+| Formal finite-group / equivariant / quadratic-Galois-descent adapter from closed Stage30 | [`../stage30-arsenal-promotion.md`](../stage30-arsenal-promotion.md) | `S30-W01..W03`: concrete finite action identification with source anchor, semilinear Galois cocycle descent, marked-defect equivariant classification; router-only, not selectors |
 | Provisional reusable work from active Stage32/33 | [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) / [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) | Consolidated active-stage cards, workflows, source locks, applicability and `DO_NOT_USE_FOR`; revalidation required and no formal-selector credit |
 | Reusable Stage14 theorem/obstruction by shape | [`../stage14-arsenal-index.md`](../stage14-arsenal-index.md) | Search phrases -> `AR-*` candidates and first firewall checks |
 | Exact Stage14 weapon contract | [`../stage14-arsenal.md`](../stage14-arsenal.md) | Full `AR-*` hypotheses, outputs, provenance and exclusions |
@@ -19,7 +20,7 @@ Use this page when you know what kind of reusable object you need but not which 
 | Prior external literature work | [`../structure-radar/literature/`](../structure-radar/literature/) / [`../structure-radar/external-search/`](../structure-radar/external-search/) | Literature and search outputs |
 | Undischarged theorem/adapter gates | [`../structure-radar/external-gate/`](../structure-radar/external-gate/) | Precise missing external gates |
 | StructureRadar promoted/backflowed weapons | [`../structure-radar/arsenal/`](../structure-radar/arsenal/) | `SR-ARSENAL-*` and backflow records |
-| Current unresolved work | [`../frontier/13-active-kernels.md`](../frontier/13-active-kernels.md) | Current post-Stage29 frontier |
+| Current unresolved work | [`../frontier/13-active-kernels.md`](../frontier/13-active-kernels.md) | Historical post-Stage29 frontier entrypoint; later Stage closures/controllers may supersede counts |
 
 ## 2. Stage14 source family
 
@@ -49,7 +50,7 @@ For route archaeology rather than current authority, use the Stage14/15 attack m
 
 Historical StructureRadar controller/progress files are reproducibility records, not current project state after Stage29 close.
 
-## 4. Stage20-28 promoted weapon layer
+## 4. Stage20-30 promoted weapon layer
 
 | Source | Main reusable theme |
 |---|---|
@@ -61,8 +62,19 @@ Historical StructureRadar controller/progress files are reproducibility records,
 | [`../stage25-arsenal-promotion.md`](../stage25-arsenal-promotion.md) | current `N2 >> B^(1/4)` construction and interactions |
 | [`../stage26-arsenal-promotion.md`](../stage26-arsenal-promotion.md) | generalized Saunderson M3 lower; Euler corridor; K3 upper interface |
 | [`../stage28-arsenal-promotion.md`](../stage28-arsenal-promotion.md) | common-host bridge, normalized interaction threshold, K3 branch/fixed-curve differentials |
+| [`../stage30-arsenal-promotion.md`](../stage30-arsenal-promotion.md) | formal router-only finite-action identification, semilinear quadratic Galois descent, and marked finite-defect transport/classification |
 
 Prefer later audited promotions when they explicitly supersede earlier quantitative statements; retain earlier files only as provenance.
+
+### Stage30 finite equivariant/descent lookup
+
+Use `S30-W01` when the missing object is a concrete finite action identification. Its key firewall is that abstract isomorphism or exhaustive relabeling alone is not a semantic adapter without a common/source-derived anchor.
+
+Use `S30-W02` when the missing object is descent of a finite action over a quadratic extension: explicit Galois automorphism, group automorphism, cocycle/deck element, and full semilinear compatibility.
+
+Use `S30-W03` when the missing object is a complete finite marked-defect classification. It separates ordinary group orbits/stabilizers from the actual Galois-marked arithmetic equivalence relation.
+
+Stage30 formal workflows `S30-WF01` and `S30-WF02` cover finite equivariant adapter audit and immutable finite certificate replay.
 
 ## 4.5 Provisional Stage32/33 active-stage layer
 
@@ -70,8 +82,8 @@ These are consolidated discovery layers for still-open stages. Do not load them 
 
 | Source | Active provisional cards |
 |---|---|
-| [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) | 4 cards: exact compressed-family count/index access; HNF lattice-image gate; finite-coset quadratic bound; finite-group orbit reconstruction. Former `S32-PW02` is merged into `S32-PW01`. |
-| [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) | 7 cards: HS zero-survival; mixed-order finite-module normal form+Bockstein gate; marked source adapter; equivariant source-target audit; absolute-H1 receiver; Brauer/torsor/Čech semantics; Gersten localization. Former `S33-PW03` is merged into `S33-PW02`. |
+| [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) | 4 cards: exact compressed-family count/index access; HNF lattice-image gate; finite-coset quadratic bound; finite-group orbit reconstruction. Former `S32-PW02` is merged into `S32-PW01`. `S32-PW05` is complementary to formal `S30-W01`, because it consumes an already validated action to reconstruct invariant values. |
+| [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) | 7 cards: HS zero-survival; mixed-order finite-module normal form+Bockstein gate; marked source adapter; equivariant source-target audit; absolute-H1 receiver; Brauer/torsor/Čech semantics; Gersten localization. Former `S33-PW03` is merged into `S33-PW02`. `S33-PW05` specializes `S30-W01`; `S33-PW07` is downstream/adjacent to `S30-W02`. |
 
 Both promotion files record source paths/SHAs, hypotheses, applicability, `DO_NOT_USE_FOR`, workflow vocabulary and Stage-specific non-promotion boundaries. Stage33 additionally records the live hostile override forbidding the historical mask-6 named J2 source binding.
 
@@ -83,11 +95,12 @@ These cards may trigger a targeted source read, but they carry no formal selecto
 1. Current frontier / active leaf exact object.
 2. Identify the missing weapon type.
 3. Check docs/arsenal/README.md and docs/arsenal/index.json.
-4. If relevant, open only the matching consolidated Stage32/33 provisional card and revalidate its active source lock.
-5. Use this deep index to route into Stage14/Toolbox/numerical or StructureRadar sources.
-6. Use historical Stage14/15 attack records only for duplication/failure/provenance checks.
-7. If no applicable weapon remains, perform fresh literature/new-theorem work.
-8. Read the canonical proof/audit source before granting theorem credit.
+4. Prefer a matching formal stable weapon such as Stage30 before opening an active-stage provisional specialization.
+5. If relevant, open only the matching consolidated Stage32/33 provisional card and revalidate its active source lock.
+6. Use this deep index to route into Stage14/Toolbox/numerical or StructureRadar sources.
+7. Use historical Stage14/15 attack records only for duplication/failure/provenance checks.
+8. If no applicable weapon remains, perform fresh literature/new-theorem work.
+9. Read the canonical proof/audit source before granting theorem credit.
 ```
 
 ## 6. Authority firewall
@@ -95,5 +108,10 @@ These cards may trigger a targeted source read, but they carry no formal selecto
 - `docs/frontier/` owns the current unresolved frontier.
 - `docs/arsenal/` owns navigation to reusable weapons.
 - Historical Stage14/StructureRadar state labels retain only their local historical meaning.
+- Formal Stage30 adapter weapons are stable reusable procedures, not endpoint selectors.
+- Abstract finite-group isomorphism does not supply a concrete source-target adapter.
+- Finite exhaustive identification does not become an unconditional theorem outside the exact finite population.
+- Ordinary finite orbits do not automatically equal Galois-marked arithmetic classes.
+- Adapter closure does not imply parent-route or endpoint closure.
 - Provisional Stage32/33 cards are candidate-discovery aids and never override active Stage source locks or promotion gates.
 - No source becomes a current weapon without exact object/population/field/cutoff/canonicalization/multiplicity/measure/quantifier and adapter checks.
