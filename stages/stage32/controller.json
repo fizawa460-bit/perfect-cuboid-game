@@ -1,14 +1,14 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V178_POST1473_MULTIBRANCH_PRODUCT_COVER_MONODROMY_EXTREMAL_PENDING_AUDIT",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V179_POST1473_PRODUCT_COVER_MONODROMY_WALL_AUDITED_RESIDUE_DATA_OPEN",
   "stage": "32",
-  "status": "STAGE32_POST1473_FIXED_Z_MULTIBRANCH_PRODUCT_COVER_MONODROMY_EXTREMAL_SHARPENING_PROVISIONAL_NONEXCLUSION_PENDING_HOSTILE_AUDIT",
-  "current_item": "POST1473_FIXED_Z_MULTIBRANCH_PRODUCT_COVER_MONODROMY_EXTREMAL_SHARPENING",
+  "status": "STAGE32_POST1473_FIXED_Z_PRODUCT_COVER_MONODROMY_NECESSARY_CONDITION_AUDITED_RESIDUE_DATA_ACQUISITION_OPEN",
+  "current_item": "POST1473_FIXED_Z_MULTIBRANCH_CARRIER_BRANCH_RESIDUE_SQUARECLASS_V4_MONODROMY_DATA_ACQUISITION",
   "active_pr": {
     "number": 1474,
     "branch": "stage32-post1473-integral-picard-support-preflight",
     "automatic_merge_authorized": false
   },
-  "advance_allowed": false,
+  "advance_allowed": true,
   "merge_allowed": false,
   "checkpoint_merge_ready": false,
   "stage32_closed": false,
@@ -44,75 +44,53 @@
       "certificate_canonical_sha256": "250f987a4aa298362ce0c8b4a0993d762434e0cece3236a85f08280d5587b078",
       "necessary_conditions": {"O_min": 186, "S1_min": 146},
       "coarse_extremal_reachable_state": {"B": 186, "O": 186, "S1": 146}
+    },
+    "multibranch_product_cover_monodromy_extremal_wall": {
+      "status": "CLOSED_AUDITED_NECESSARY_CONDITION_NONEXCLUSION_WALL",
+      "audit_review_id": 5076613249,
+      "audited_head": "9a1539897a3cf69c46ef9a60756a05f374f55e6e",
+      "source_note": "stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-product-cover-monodromy-extremal-wall.md",
+      "certificate": "stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-product-cover-monodromy-extremal-wall.json",
+      "certificate_canonical_sha256": "1d7086f7ebd2a826f42d0f8d67fef075a64b5af214c92e681c4a8b36e9b03c0f",
+      "ci_run": 33493601847,
+      "ci_conclusion": "SUCCESS",
+      "ci_semantics": "REPRODUCIBILITY_ONLY_EXACT_BARE_PR_HEAD_CHECKOUT",
+      "audited_necessary_conditions": {
+        "qprime_2": {"O_min": 188, "S1_min": 149, "coarse_state_survives": [188, 188, 149]},
+        "O_186": {"qprime": 4, "full_V4_monodromy_required": true, "n1": 93, "n2": 93, "both_projections_etale_degree_93": true, "coarse_state_survives": [186, 186, 146]}
+      },
+      "exact_claim": "The exact product-cover integer sharpening is a necessary-condition NONEXCLUSION wall: qprime=2 forces O>=188,S1>=149; O=186 forces qprime=4/full-V4 and two etale degree-93 projections; retained tangent evidence does not evaluate hypothetical carrier monodromy."
     }
   },
-  "current_provisional_leaf": {
-    "status": "PROVISIONAL_EXACT_NECESSARY_CONDITION_NONEXCLUSION_PENDING_HOSTILE_AUDIT",
-    "source_note": "stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-product-cover-monodromy-extremal-wall.md",
-    "source_note_git_blob_sha1": "c6430ca94a4897f9f50104ab76a4eaae60df4268",
-    "certificate": "stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-product-cover-monodromy-extremal-wall.json",
-    "certificate_canonical_sha256": "1d7086f7ebd2a826f42d0f8d67fef075a64b5af214c92e681c4a8b36e9b03c0f",
-    "diagnostic": "stages/stage32/residual-32-01-production/diagnose_stage32_post1473_multibranch_product_cover_monodromy_extremal_wall.py",
-    "workflow": ".github/workflows/stage32-post1473-multibranch-product-cover-monodromy-diagnostic.yml",
-    "workflow_checkout_semantics": "EXPLICIT_PULL_REQUEST_HEAD_SHA",
-    "ci_run_observed": true,
-    "ci_run": 33493472528,
-    "ci_source_head": "edb5f39a714777a10242974d64ca3a7bf29929d3",
-    "ci_conclusion": "SUCCESS",
-    "ci_credit": "REPRODUCIBILITY_ONLY_NOT_HOSTILE_AUDIT",
-    "exact_sharpening": {
-      "qprime_2": {
-        "n1_plus_n2": 93,
-        "O_min": 188,
-        "S1_min": 149,
-        "O_186_possible": false,
-        "coarse_minimum_S1_given_O_ge_188": 149,
-        "coarse_extremal_reachable_state": {"B": 188, "O": 188, "S1": 149}
-      },
-      "qprime_4_O_186": {
-        "n1": 93,
-        "n2": 93,
-        "R1": 0,
-        "R2": 0,
-        "both_projections_etale_degree_93": true,
-        "full_V4_monodromy_required": true,
-        "coarse_extremal_reachable_state": {"B": 186, "O": 186, "S1": 146}
-      },
-      "identity": "R1+R2=2*qprime*(O-d)"
-    },
-    "retained_tangent_boundary": {
-      "path": "stages/stage33/33-07/exceptional-p1-tangent-coordinates.json",
+  "current_leaf": {
+    "status": "OPEN_PRIMARY_SOURCE_LOCKED_DATA_ACQUISITION",
+    "target": "MATERIALIZE_OR_SOURCE_LOCK_A_HYPOTHETICAL_CARRIER_BRANCH_RESIDUE_SQUARECLASS_OR_V4_MONODROMY_EVALUATOR",
+    "stage33_reverse_lookup": {
+      "tangent_certificate": "stages/stage33/33-07/exceptional-p1-tangent-coordinates.json",
       "canonical_sha256": "beffca388f2795296fd914a6345186dc6e594419f0fffb93896bda2c3896a636",
-      "order2_source_first_residue_functions_materialized": false,
-      "project_14x26_L_squareclass_tensor_materialized": false,
-      "absolute_delta_loc_computed": false,
-      "chosen_global_geometric_lifts_materialized": false,
-      "physical_side_tangent_points_must_not_be_substituted_for_hypothetical_carrier_branch_data": true,
-      "carrier_full_V4_monodromy_evaluated": false
-    },
-    "verdict": {
-      "stronger_necessary_condition": true,
-      "coarse_partition_layer_still_survives": true,
-      "multibranch_carrier_excluded": false,
-      "carrier_existence_proved": false
+      "pointed_kernel": "R33-BR2A-EXPLICIT-26-FIRST-RESIDUE-FUNCTIONS-AND-GLOBAL-GERSTEN-LIFTS",
+      "pointed_leaf": "L33-07-MATERIALIZE-26-FIRST-RESIDUE-FUNCTIONS-ON-72-BOUNDARY-P1-MODELS",
+      "required_missing_layers": [
+        "order2_source_first_residue_functions",
+        "project_14x26_L_squareclass_tensor",
+        "absolute_delta_loc",
+        "chosen_global_geometric_lifts"
+      ],
+      "physical_side_tangents_are_not_carrier_branch_data": true
     }
   },
   "math_scope": {
-    "fixed_z_effective_divisor_existence": "PROVISIONAL_EXACT_PASS_RIEMANN_ROCH_EFFECTIVITY_ONLY",
     "fixed_z_bijective_normalization_integral_genus1_carrier": "CLOSED_AUDITED_EXCLUDED",
     "fixed_z_multibranch_beauville_coarse_wall": "CLOSED_AUDITED_NONEXCLUSION_WALL",
-    "fixed_z_multibranch_product_cover_extremal_monodromy": "PROVISIONAL_NECESSARY_CONDITION_NONEXCLUSION_PENDING_HOSTILE_AUDIT",
-    "fixed_z_multibranch_analytic_branch_geometry_compatibility": "OPEN",
+    "fixed_z_multibranch_product_cover_extremal_monodromy": "CLOSED_AUDITED_NECESSARY_CONDITION_NONEXCLUSION_WALL",
+    "fixed_z_multibranch_carrier_branch_residue_squareclass_monodromy": "OPEN_PRIMARY",
     "fixed_z_all_integral_genus1_carriers": "OPEN",
     "general_geometric_genus_le_1_classification": "OPEN_TESTA_STOLL_QUESTION_19",
-    "full178_exact_positive_exceptional_support": "OPEN_PRIMARY_NOT_ACTIVE",
-    "full178_geometric_closure": "OPEN",
+    "full178_geometric_closure": "OPEN_NOT_ACTIVE",
     "receiver_theorem_endpoint": "OPEN"
   },
   "arsenal_consultation": {
-    "live_index_checked_at_leaf_open": true,
     "last_used_mathematical_card": "S32-PW01 EXACT_ENUMERATION_COMPRESSION_AND_INDEXER",
-    "use_in_current_leaf": "ONLY_REPLAY_ALREADY_AUDITED_FINITE_PARTITION_SPACE_AS_NONEXCLUSION_CHECK; NOT_A_NEW_BRANCH_GEOMETRY_WEAPON",
     "current_missing_weapon_type": "SOURCE_LOCKED_CARRIER_BRANCH_RESIDUE_SQUARECLASS_OR_V4_MONODROMY_EVALUATOR",
     "direct_current_card_match": null,
     "workflow_used": "S30-WF02 IMMUTABLE_LAYERED_CERTIFICATE_REPLAY",
@@ -122,20 +100,7 @@
     "execution_class": "LIGHTWEIGHT_ONE_PROJECTION_EXACT_PREFLIGHT",
     "heavy_compute_authorized": false,
     "full178_scaleout_authorized": false,
-    "survivor_materialization_authorized": false,
-    "new_workflow_has_artifact_upload": false
-  },
-  "audit_gate": {
-    "hostile_audit_required": true,
-    "main_must_not_self_clear": true,
-    "audit_targets": [
-      "independently derive qprime=2 => n1+n2=93 and, using integer Riemann-Hurwitz bounds plus even O, O>=188 and S1>=149",
-      "independently verify the exact partition replay still contains (B,O,S1)=(188,188,149) and that minimum S1 for O>=188 is 149",
-      "independently derive qprime=4 and O=186 => n1=n2=93 and R1=R2=0, hence both projections D->X(8) are etale degree 93",
-      "verify for the connected regular V4 product cover that a connected pullback component degree qprime equals the monodromy-image order, so qprime=4 means full V4 monodromy",
-      "verify the retained tangent certificate does not materialize hypothetical-carrier branch residue/squareclass/absolute-local data and reject any substitution of physical-side tangent points",
-      "enforce NONEXCLUSION firewall: unknown carrier monodromy is not UNSAT and grants no multibranch/FULL178/theorem/endpoint credit"
-    ]
+    "survivor_materialization_authorized": false
   },
   "anti_loop": {
     "do_not_repeat_v7_or_completed_kc": true,
@@ -147,10 +112,9 @@
   },
   "firewalls": {
     "unknown_is_not_unsat": true,
-    "ci_pass_is_not_hostile_audit": true,
     "coarse_partition_is_not_analytic_branch_realization": true,
-    "local_branch_compatibility_is_not_global_curve_existence": true,
     "physical_side_tangent_is_not_carrier_branch_tangent": true,
+    "local_branch_data_is_not_global_curve_existence": true,
     "multibranch_closed": false,
     "full178_geometric_closure": false,
     "receiver_credit": false,
@@ -159,7 +123,7 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
   },
-  "safe_semantics": "The prior Beauville multibranch wall is hostile-audited. MAIN sharpened its integer product-cover alternatives: qprime=2 requires O>=188 and S1>=149 but the exact coarse state (188,188,149) survives; the old extremal O=186 can only occur through qprime=4, which requires full V4 monodromy and two etale degree-93 projections. Retained tangent evidence does not materialize the hypothetical carrier residue/squareclass/monodromy data needed to test that condition. Exact-head lightweight replay is SUCCESS, but this is still a stronger necessary-condition NONEXCLUSION wall pending hostile audit, not a carrier exclusion or existence result.",
-  "next_expected_action": "HOSTILE_AUDIT_THE_PRODUCT_COVER_INTEGER_SHARPENING, FULL_V4_MONODROMY_INTERPRETATION, SHARPENED_PARTITION_NONEXCLUSION, AND TANGENT_EVIDENCE_BOUNDARY. MAIN MUST NOT ADVANCE OR ARM FULL178 UNTIL AUDIT PASSES OR REPAIRS THIS LEAF.",
-  "next_expected_datum": "AUDIT_PASS_OR_REPAIR_FOR qprime=2=>O>=188,S1>=149; O=186=>qprime=4,full_V4,n1=n2=93,etale; AND THE CLAIM THAT CURRENT_RETAINED_TANGENT_DATA_DO_NOT_YET_EVALUATE_HYPOTHETICAL_CARRIER_V4_MONODROMY."
+  "safe_semantics": "Hostile audit review 5076613249 promotes only the exact product-cover necessary-condition NONEXCLUSION wall. The multibranch carrier remains open. MAIN may now advance only to carrier-relevant branch residue/squareclass/V4-monodromy data acquisition for the same fixed V6 class. The Stage33 tangent certificate identifies an explicit next residue-function kernel but its physical-side tangent values are not substitutes for hypothetical carrier branch data. FULL178 remains inactive.",
+  "next_expected_action": "REVERSE_LOOKUP_AND_REUSE_THE_STAGE33_33_07_FIRST_RESIDUE_FUNCTION_KERNEL_IF_SOURCE_LOCKED_AND_APPLICABLE; MATERIALIZE_SYMBOLIC_CARRIER_RELEVANT_RESIDUE_OR_SQUARECLASS_DATA_IF_POSSIBLE, OTHERWISE RECORD_THE_EXACT_MISSING_GEOMETRIC_DEPENDENCY. DO_NOT_ARM_FULL178.",
+  "next_expected_datum": "SOURCE_PATH_SHA_AND_EXACT_SYMBOLIC_RESIDUE_SQUARECLASS_OR_V4_MONODROMY_EVALUATOR_FOR_A_HYPOTHETICAL_BRANCH_ON_EXCEPTIONAL_P1_MODELS, WITH_AN_EXPLICIT_FIREWALL_SEPARATING_SYMBOLIC_BRANCH_GEOMETRY_FROM_PHYSICAL_SIDE_TANGENTS."
 }
