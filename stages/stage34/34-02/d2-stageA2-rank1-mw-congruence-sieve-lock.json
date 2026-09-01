@@ -1,0 +1,53 @@
+{
+  "schema": "STAGE34_02_D2_STAGEA2_RANK1_MW_CONGRUENCE_SIEVE_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION",
+  "sources": {
+    "rank1_cover_script": {"path":"stages/stage34/34-02/run_d2_stageA2_rank1_cover_selection.py","blob_sha":"85fddb466129720faa5cb8c6ed187b1d57fe5d6f"},
+    "rank1_mw": {"path":"stages/stage34/34-02/d2-stageA2-selected-rank1-mw-default.json","blob_sha":"f448bf48fcd3fbd5532c048efc0a37e1748b61c9","status":"PASS_ALL_14_UNCONDITIONAL_FULL_MW_BASES"}
+  },
+  "input": {"remaining_d1_branches":76,"selected_rank1_models":14},
+  "exact_map": {
+    "quartic": "w^2=s*F_i(t)*F_j(t)",
+    "choose": "a finite rational root r of the canonical selected pair quartic and write t=r+1/u",
+    "cubic": "u^4*s*F_i(r+1/u)*F_j(r+1/u)=A*u^3+B*u^2+C*u+D",
+    "short_model": "Y^2=X^3+a4*X+a6 with X=9*A*u+3*B, Y=27*A*w, a4=81*(A*C-B^2/3), a6=729*(2*B^3/27-B*A*C/3+A^2*D)",
+    "inverse_t": "t=r+9*A/(X-3*B), with X=3*B mapping to projective t=infinity",
+    "verification": "The runner must rederive A,B,C,D over Q and assert exact equality with the locked selected short Jacobian coefficients before using any reduction."
+  },
+  "torsion_contract": {
+    "known_subgroup": "The other three rational quartic roots map to three distinct rational Y=0 points, giving E[2](Q) of order 4 together with O.",
+    "exactness_proof": "For each selected short model, count #E(F_p) at good primes p>=5 until their gcd is 4. Good-reduction injectivity of rational torsion then bounds |E(Q)_tors| by 4, so the explicit order-4 subgroup is the full torsion group.",
+    "required_exact_torsion_order": 4
+  },
+  "sieve": {
+    "prime_bound": 211,
+    "max_primes_per_branch": 12,
+    "state_cap_per_torsion_translate": 300000,
+    "good_prime_exclusions": "p=2,3; bad reduction; p dividing q numerator/denominator, a^2-b^2, a branch squareclass, or a denominator needed by the exact map/generator/torsion points.",
+    "necessary_local_condition": "For all four parent forms U,V,A,B, F_k(T,S)/delta_k must be a square or zero mod p.",
+    "global_parameterization": "Every quotient rational point is uniquely n*P+T with n in Z and T in the certified order-4 rational torsion subgroup.",
+    "closure_rule": "For each fixed T, intersect allowed congruence classes for n modulo ord_p(P) across primes by generalized CRT. A parent branch closes only if the allowed integer classes are empty for every one of the four T labels."
+  },
+  "expected": {
+    "closed_branches": 24,
+    "closed_by_q": {"20/21":8,"80/39":4,"20/99":4,"60/11":8},
+    "remaining_branches": 52,
+    "remaining_by_q": {"20/21":4,"80/39":4,"24/7":8,"84/13":8,"48/55":8,"20/99":12,"60/11":8}
+  },
+  "resource_preflight": {
+    "planned_heavy_jobs": 0,
+    "effective_heavy_concurrency": 0,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1,
+    "repository_operating_budget_bytes": 524288000
+  },
+  "credit": "Only the 24 branches whose four torsion-translate congruence state sets are exactly empty receive parent-branch closure credit. The other 52 are unresolved; finite survival gives neither existence nor closure.",
+  "firewalls": {
+    "finite_residue_survivor_is_Q_point": false,
+    "one_torsion_translate_empty_closes_branch": false,
+    "quotient_sieve_closure_without_exact_map": false,
+    "twenty_four_branch_closure_is_all_factor_branch_closure": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
