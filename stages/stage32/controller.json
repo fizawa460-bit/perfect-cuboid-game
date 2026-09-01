@@ -1,14 +1,15 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V182_POST1473_PRODUCT_COVER_V4_CHARACTER_RANK_REDUCTION",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V183_POST1473_X8_ODD_ETALE_CORRESPONDENCE_PROVISIONAL",
   "stage": "32",
-  "status": "STAGE32_POST1473_FIXED_Z_PRODUCT_COVER_CHARACTER_CLASSES_SOURCE_LOCKED_CARRIER_PULLBACK_RANK_OPEN",
-  "current_item": "POST1473_FIXED_Z_MULTIBRANCH_PRODUCT_COVER_V4_CHARACTER_PULLBACK_RANK",
+  "status": "STAGE32_POST1473_FIXED_Z_O186_Q4_X8_ODD_ETALE_OBSTRUCTION_PENDING_HOSTILE_AUDIT",
+  "current_item": "POST1473_FIXED_Z_O186_Q4_X8_ODD_ETALE_CORRESPONDENCE_OBSTRUCTION",
   "active_pr": {
     "number": 1474,
     "branch": "stage32-post1473-integral-picard-support-preflight",
     "automatic_merge_authorized": false
   },
-  "advance_allowed": true,
+  "advance_allowed": false,
+  "audit_required_before_promotion": true,
   "merge_allowed": false,
   "checkpoint_merge_ready": false,
   "stage32_closed": false,
@@ -49,104 +50,69 @@
       "status": "CLOSED_AUDITED_NECESSARY_CONDITION_NONEXCLUSION_WALL",
       "audit_review_id": 5076613249,
       "audited_head": "9a1539897a3cf69c46ef9a60756a05f374f55e6e",
-      "source_note": "stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-product-cover-monodromy-extremal-wall.md",
-      "certificate": "stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-product-cover-monodromy-extremal-wall.json",
       "certificate_canonical_sha256": "1d7086f7ebd2a826f42d0f8d67fef075a64b5af214c92e681c4a8b36e9b03c0f",
       "audited_necessary_conditions": {
         "qprime_2": {"O_min": 188, "S1_min": 149, "coarse_state_survives": [188, 188, 149]},
-        "O_186": {
-          "qprime": 4,
-          "full_V4_monodromy_required": true,
-          "n1": 93,
-          "n2": 93,
-          "both_projections_etale_degree_93": true,
-          "coarse_state_survives": [186, 186, 146]
-        }
+        "O_186": {"qprime": 4, "full_V4_monodromy_required": true, "n1": 93, "n2": 93, "both_projections_etale_degree_93": true, "coarse_state_survives": [186, 186, 146]}
       }
     }
   },
-  "current_leaf": {
-    "status": "OPEN_CARRIER_PULLBACK_CHARACTER_RANK_DEPENDENCY",
-    "target": "SOURCE_LOCK_OR_DERIVE_THE_PULLBACK_OF_THE_TWO_PRODUCT_COVER_V4_TORSOR_CHARACTER_CLASSES_ALONG_THE_HYPOTHETICAL_CARRIER_MAP_f_Y_TO_X_AND_DECIDE_THEIR_F2_SPAN_RANK",
-    "evidence_checkpoint": {
-      "path": "stages/stage32/residual-32-01-production/post1473-product-cover-v4-character-rank-reduction.json",
-      "blob_sha": "01ab580662a76ccda0fc0e3cc44f09f705825942",
-      "canonical_sha256": "509635ab9964de7e7eecb41277b892589a7bb418676d8e76bd99b20607dac9dd"
-    },
-    "exact_replay": {
-      "path": "stages/stage32/residual-32-01-production/diagnose_stage32_post1473_product_cover_v4_character_rank_reduction.py",
-      "blob_sha": "74f73046cfc41975fcea978d2d505746e0f00a41",
-      "local_algebra_replay": "PASS"
-    },
-    "primary_source_lock": {
-      "work": "Freitag-Salvati Manni, Parametrization of the box variety by theta functions",
-      "arxiv": "1303.6495",
-      "doi": "10.1307/mmj/1480734014",
-      "locator": "Section 4, Lemma 4.1",
-      "group": "GammaPrime4/Gamma8 ~= F2^2",
-      "nonidentity_mod8_representatives": [
-        [[1, 4], [4, 1]],
-        [[5, 4], [0, 5]],
-        [[5, 0], [4, 5]]
-      ]
-    },
-    "character_rank_reduction": {
-      "cover": "P=X(8)xX(8)->X",
-      "deck_group": "F2^2",
-      "chosen_basis": {
-        "chi1": ["g1->1", "g2->0"],
-        "chi2": ["g1->0", "g2->1"]
-      },
-      "carrier_map": "f:Y->X",
-      "pulled_back_classes": ["alpha=f^*(chi1)", "beta=f^*(chi2)"],
-      "ambient": "H^1_et(Y,F2)",
-      "formula": "qprime=2^rank_F2(span(alpha,beta))",
-      "rank_table": {"0": 1, "1": 2, "2": 4},
-      "O_186_requires_rank": 2,
-      "rational_function_representatives_required_for_this_reduction": false,
-      "basis_change_invariant": true
-    },
-    "stage33_boundary_residue_prefix": {
-      "retained_as_positive_source_module_fact": true,
-      "required_to_define_product_cover_characters": false,
-      "comparison_map_to_product_cover_torsor_source_locked": false,
-      "current_dependency": false
-    },
-    "remaining_gap": {
-      "abstract_product_cover_character_basis_source_locked": true,
-      "carrier_pullback_alpha_beta_evaluated": false,
-      "required_datum": "A source-locked description of f:Y->X sufficient to compute f^* on the two V4 torsor classes, or an equivalent function-field/fundamental-group/etale-cohomology evaluator.",
-      "intersection_partition_data_sufficient": false,
-      "physical_side_tangent_data_sufficient": false
-    },
-    "supersedes_v181_target": "TWO_RATIONAL_DECK_CHARACTER_FUNCTIONS_PLUS_STAGE33_RESIDUE_IMPORT_ARE_NOT_PREREQUISITES_FOR_THE_ABSTRACT_MONODROMY_RANK_TEST"
+  "retained_v182_character_rank_reduction": {
+    "checkpoint": "stages/stage32/residual-32-01-production/post1473-product-cover-v4-character-rank-reduction.json",
+    "checkpoint_blob_sha": "01ab580662a76ccda0fc0e3cc44f09f705825942",
+    "canonical_sha256": "509635ab9964de7e7eecb41277b892589a7bb418676d8e76bd99b20607dac9dd",
+    "exact_fact": "For the fixed product-cover V4 torsor, qprime=2^rank_F2(span(f^*chi1,f^*chi2)); O=186 would require rank 2.",
+    "stage33_boundary_residue_required": false
   },
-  "retained_dependency_narrowing": {
-    "stage33_33_07_mixed_order_boundary_source_directions_materialized": 26,
-    "stage33_33_07_raw_order2": 17,
-    "stage33_33_07_raw_order4": 9,
-    "stage33_33_07_genuine_middle_gersten_connecting_columns_materialized": "0/26",
-    "semantics": "Retained for possible future comparison only; no current source-locked identification with the product-cover V4 torsor."
+  "current_leaf": {
+    "status": "PROVISIONAL_EXACT_OBSTRUCTION_PENDING_HOSTILE_AUDIT",
+    "target": "HOSTILE_AUDIT_THE_X8_ODD_ETALE_SELF_CORRESPONDENCE_LEMMA_BEFORE_PROMOTING_THE_O186_Q4_EXCLUSION",
+    "proof_note": {
+      "path": "stages/stage32/residual-32-01-production/post1473-x8-odd-etale-self-correspondence-obstruction.md",
+      "blob_sha": "5a542df90f280294d6f301e899ff7477ce8686d3"
+    },
+    "certificate": {
+      "path": "stages/stage32/residual-32-01-production/post1473-x8-odd-etale-self-correspondence-obstruction.json",
+      "blob_sha": "8c905bf3bd4336c3f592026afebf2d4dd6ac0790",
+      "canonical_sha256": "22b957bcec96f933d24952a424bf8d5ff35ad96b73e66995eacc2d672ed80d7a"
+    },
+    "provisional_lemma": "For C=X(8), an irreducible correspondence whose normalized two projections to C are both finite etale cannot have odd projection degree >1; therefore degree 93 is impossible.",
+    "provisional_fixed_target_consequence": {
+      "O_186_qprime4_excluded_if_audit_passes": true,
+      "qprime2_already_excludes_O_186": true,
+      "qprime1_already_excluded": true,
+      "universal_O_min_if_promoted": 188,
+      "universal_S1_min_if_promoted": 149,
+      "coarse_188_188_149_still_survives": true,
+      "multibranch_carrier_excluded": false
+    },
+    "source_locks": {
+      "fsm_arxiv": "1303.6495",
+      "fsm_doi": "10.1307/mmj/1480734014",
+      "commensurator_doi": "10.1112/topo.12200",
+      "retained_product_cover_note_blob": "c6430ca94a4897f9f50104ab76a4eaae60df4268"
+    },
+    "audit_checklist": [
+      "universal-cover to commensurator step",
+      "birationality implies Lambda=Gamma intersect h^-1 Gamma h",
+      "Smith-normal-form index invariance",
+      "mod-p surjectivity and Borel-index divisibility",
+      "projective Gamma(8) sign conventions"
+    ],
+    "promotion_allowed_now": false
   },
   "math_scope": {
     "fixed_z_bijective_normalization_integral_genus1_carrier": "CLOSED_AUDITED_EXCLUDED",
     "fixed_z_multibranch_beauville_coarse_wall": "CLOSED_AUDITED_NONEXCLUSION_WALL",
     "fixed_z_multibranch_product_cover_extremal_monodromy": "CLOSED_AUDITED_NECESSARY_CONDITION_NONEXCLUSION_WALL",
-    "fixed_z_multibranch_product_cover_character_pullback_rank": "OPEN_PRIMARY",
+    "fixed_z_O186_q4_degree93_etale_correspondence": "PROVISIONAL_OBSTRUCTION_PENDING_HOSTILE_AUDIT",
     "fixed_z_all_integral_genus1_carriers": "OPEN",
     "general_geometric_genus_le_1_classification": "OPEN_TESTA_STOLL_QUESTION_19",
     "full178_geometric_closure": "OPEN_NOT_ACTIVE",
     "receiver_theorem_endpoint": "OPEN"
   },
-  "arsenal_consultation": {
-    "last_used_mathematical_card": "S32-PW01 EXACT_ENUMERATION_COMPRESSION_AND_INDEXER",
-    "current_missing_weapon_type": "CARRIER_MAP_PULLBACK_ON_A_FIXED_ETALE_V4_TORSOR_OR_EQUIVALENT_H1_EVALUATOR",
-    "direct_current_card_match": null,
-    "workflow_used": "S30-WF02 IMMUTABLE_LAYERED_CERTIFICATE_REPLAY",
-    "credit_firewall": "S30-WF03 ADAPTER_CREDIT_LAYER_FIREWALL"
-  },
   "operations": {
-    "execution_class": "LIGHTWEIGHT_EXACT_GROUP_AND_COHOMOLOGY_DEPENDENCY_REDUCTION",
+    "execution_class": "LIGHTWEIGHT_PROVISIONAL_MATHEMATICAL_LEMMA_AWAITING_SEPARATE_HOSTILE_AUDIT",
     "heavy_compute_authorized": false,
     "full178_scaleout_authorized": false,
     "survivor_materialization_authorized": false
@@ -155,20 +121,17 @@
     "do_not_repeat_v7_or_completed_kc": true,
     "do_not_reaudit_closed_prior_leaves_without_new_dependency": true,
     "do_not_repeat_total_intersection_partition_arithmetic_as_branch_geometry": true,
-    "do_not_substitute_physical_side_tangents_for_hypothetical_carrier_branch_tangents": true,
     "do_not_re_search_for_26_boundary_first_residue_materialization": true,
-    "do_not_require_rational_function_representatives_before_using_the_abstract_V4_character_rank_test": true,
-    "do_not_route_product_cover_monodromy_through_stage33_boundary_V4_without_a_source_locked_comparison_map": true,
-    "do_not_repeat_the_FSM_Lemma_4_1_group_reduction": true,
+    "do_not_repeat_the_FSM_Lemma_4_1_character_rank_reduction": true,
+    "do_not_promote_the_new_odd_etale_correspondence_obstruction_before_separate_hostile_audit": true,
+    "do_not_continue_to_O188_geometry_as_if_O186_were_closed_before_audit": true,
     "do_not_materialize_659697_survivors": true,
     "do_not_launch_full178_scaleout_from_this_leaf": true
   },
   "firewalls": {
     "unknown_is_not_unsat": true,
+    "provisional_is_not_audited": true,
     "coarse_partition_is_not_analytic_branch_realization": true,
-    "physical_side_tangent_is_not_carrier_branch_tangent": true,
-    "abstract_deck_character_is_not_carrier_pullback_value": true,
-    "stage33_boundary_v4_is_not_product_cover_v4_without_comparison_map": true,
     "local_branch_data_is_not_global_curve_existence": true,
     "multibranch_closed": false,
     "full178_geometric_closure": false,
@@ -178,7 +141,7 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
   },
-  "safe_semantics": "The product-cover V4 deck group and an abstract two-character basis are now source-locked directly from Freitag-Salvati Manni Section 4, Lemma 4.1. For a hypothetical carrier map f:Y->X, qprime is exactly 2 to the F2-rank of the span of the two pulled-back character classes. Thus the audited O=186 extremal survivor requires rank 2. Rational function representatives and the Stage33 26-direction boundary residue module are not prerequisites for this abstract reduction, and no comparison between the Stage33 V4 source module and the product-cover V4 torsor is presently source-locked. The remaining datum is f^* on these two fixed classes. This is dependency reduction only, not a carrier exclusion or theorem result. FULL178 remains inactive.",
-  "next_expected_action": "SOURCE_LOCK_OR_DERIVE_THE_HYPOTHETICAL_CARRIER_MAP_f_Y_TO_X_AT_THE_LEVEL_NEEDED_TO_COMPUTE_fSTAR_CHI1_AND_fSTAR_CHI2. TEST_LINEAR_INDEPENDENCE_IN_H1_ET_Y_F2. IF_NO_SUCH_MAP_LEVEL_DATUM_IS_RETAINED, SEEK_A_GLOBAL_COMPATIBILITY_OBSTRUCTION_ON_THE_TWO_DEGREE_93_ETALE_PROJECTIONS_WITHOUT_REOPENING_CLOSED_LOCAL_PARTITION_ARITHMETIC. DO_NOT_ROUTE_THROUGH_STAGE33_RESIDUES_WITHOUT_A_COMPARISON_MAP. DO_NOT_ARM_FULL178.",
-  "next_expected_datum": "EITHER_THE_TWO_PULLBACK_CLASSES_ALPHA_BETA_OR_AN_EQUIVALENT_MONODROMY_HOMOMORPHISM_pi1_Y_TO_F2^2_FOR_THE_HYPOTHETICAL_CARRIER; OTHERWISE_A_SOURCE_LOCKED_GLOBAL_OBSTRUCTION_TO_THE_REQUIRED_PAIR_OF_DEGREE_93_ETALE_PROJECTIONS."
+  "safe_semantics": "MAIN has produced a provisional exact obstruction to the only audited O=186 qprime=4 survivor: both required degree-93 projections would be etale self-correspondence projections on X(8), while the new commensurator/index lemma says a nontrivial such correspondence cannot have odd projection degree. If hostile audit passes, O=186 is eliminated in every qprime case and the universal necessary wall sharpens to O>=188 and S1>=149. The coarse state (188,188,149) still survives, so even promotion would remain a NONEXCLUSION wall. MAIN must not self-promote this lemma; separate hostile audit is required. FULL178 remains inactive.",
+  "next_expected_action": "RUN_SEPARATE_STAGE32_HOSTILE_AUDIT_ON_post1473-x8-odd-etale-self-correspondence-obstruction.md_AND_JSON. IF_PASS_PROMOTE_O_MIN_188_S1_MIN_149_AND_RESUME_AT_O188_PRODUCT_COVER_GEOMETRY. IF_FAIL_REPAIR_ONLY_THE_FAILED_LEMMA_STEP. DO_NOT_MERGE_OR_ARM_FULL178.",
+  "next_expected_datum": "HOSTILE_AUDIT_PASS_OR_FAIL_FOR_CANONICAL_22b957bcec96f933d24952a424bf8d5ff35ad96b73e66995eacc2d672ed80d7a"
 }
