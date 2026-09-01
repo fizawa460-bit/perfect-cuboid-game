@@ -34,7 +34,7 @@ Use a selector only after population, cutoff, canonicalization, multiplicity, me
 These are deliberately **not** current strongest selectors. They expose reusable candidates from still-open stages so later work can avoid re-inventing them, while forcing source revalidation before credit.
 
 - [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) — provisional Stage32 exact-enumeration compression, rank/unrank, Picard slice/image, and finite integral-coset reduction cards.
-- [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) — provisional Stage33 arithmetic-HS, finite-module/Bockstein, Picard-adjoint, source-target compatibility, and descent-warning cards.
+- [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) — provisional Stage33 arithmetic-HS, Smith/finite-module and Bockstein reduction, Picard-adjoint basis adapters, exact V4-equivariant source-target transport/reachability audits, and descent-warning cards. Concrete Kc/J2 bases and revoked Kummer relations remain non-promoted.
 
 Rules:
 
