@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V179_POST1473_PRODUCT_COVER_MONODROMY_WALL_AUDITED_RESIDUE_DATA_OPEN",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V180_POST1473_RESIDUE_KERNEL_UPSTREAM_GAP_PINNED",
   "stage": "32",
-  "status": "STAGE32_POST1473_FIXED_Z_PRODUCT_COVER_MONODROMY_NECESSARY_CONDITION_AUDITED_RESIDUE_DATA_ACQUISITION_OPEN",
+  "status": "STAGE32_POST1473_FIXED_Z_CARRIER_RESIDUE_KERNEL_UPSTREAM_DEPENDENCY_PINNED",
   "current_item": "POST1473_FIXED_Z_MULTIBRANCH_CARRIER_BRANCH_RESIDUE_SQUARECLASS_V4_MONODROMY_DATA_ACQUISITION",
   "active_pr": {
     "number": 1474,
@@ -63,10 +63,16 @@
     }
   },
   "current_leaf": {
-    "status": "OPEN_PRIMARY_SOURCE_LOCKED_DATA_ACQUISITION",
-    "target": "MATERIALIZE_OR_SOURCE_LOCK_A_HYPOTHETICAL_CARRIER_BRANCH_RESIDUE_SQUARECLASS_OR_V4_MONODROMY_EVALUATOR",
+    "status": "OPEN_UPSTREAM_DEPENDENCY_PINNED",
+    "target": "OBTAIN_A_SOURCE_LOCKED_STAGE33_FIRST_RESIDUE_KERNEL_BEFORE_BUILDING_THE_STAGE32_CARRIER_EVALUATOR",
+    "dependency_checkpoint": "stages/stage32/residual-32-01-production/post1473-stage33-33-07-residue-kernel-source-lock-gap.json",
     "stage33_reverse_lookup": {
+      "reverse_lookup_complete": true,
+      "stage33_pr": 1476,
+      "stage33_branch": "stage33-post1475-j2-v4-generator-adapter",
+      "checked_head": "f6749ccf631da7d3f3985ab960adbd8b30d37f05",
       "tangent_certificate": "stages/stage33/33-07/exceptional-p1-tangent-coordinates.json",
+      "source_blob_sha": "f4a591bfac5e4e6e79b13309bdc006973d7c5b4e",
       "canonical_sha256": "beffca388f2795296fd914a6345186dc6e594419f0fffb93896bda2c3896a636",
       "pointed_kernel": "R33-BR2A-EXPLICIT-26-FIRST-RESIDUE-FUNCTIONS-AND-GLOBAL-GERSTEN-LIFTS",
       "pointed_leaf": "L33-07-MATERIALIZE-26-FIRST-RESIDUE-FUNCTIONS-ON-72-BOUNDARY-P1-MODELS",
@@ -76,14 +82,18 @@
         "absolute_delta_loc",
         "chosen_global_geometric_lifts"
       ],
-      "physical_side_tangents_are_not_carrier_branch_data": true
+      "order2_source_first_residue_functions_materialized": false,
+      "direct_importer_justified": false,
+      "local_explicit_evaluator_justified": false,
+      "physical_side_tangents_are_not_carrier_branch_data": true,
+      "blocking_reason": "The source-locked exceptional-P1/tangent chart does not materialize the 26 order-2 first-residue functions or global Gersten/squareclass lift semantics, so Stage32 cannot safely infer carrier-branch residue or V4-monodromy data from the chart alone."
     }
   },
   "math_scope": {
     "fixed_z_bijective_normalization_integral_genus1_carrier": "CLOSED_AUDITED_EXCLUDED",
     "fixed_z_multibranch_beauville_coarse_wall": "CLOSED_AUDITED_NONEXCLUSION_WALL",
     "fixed_z_multibranch_product_cover_extremal_monodromy": "CLOSED_AUDITED_NECESSARY_CONDITION_NONEXCLUSION_WALL",
-    "fixed_z_multibranch_carrier_branch_residue_squareclass_monodromy": "OPEN_PRIMARY",
+    "fixed_z_multibranch_carrier_branch_residue_squareclass_monodromy": "OPEN_PRIMARY_UPSTREAM_DEPENDENCY",
     "fixed_z_all_integral_genus1_carriers": "OPEN",
     "general_geometric_genus_le_1_classification": "OPEN_TESTA_STOLL_QUESTION_19",
     "full178_geometric_closure": "OPEN_NOT_ACTIVE",
@@ -107,6 +117,7 @@
     "do_not_reaudit_closed_prior_leaves_without_new_dependency": true,
     "do_not_repeat_total_intersection_partition_arithmetic_as_branch_geometry": true,
     "do_not_substitute_physical_side_tangents_for_hypothetical_carrier_branch_tangents": true,
+    "do_not_re_run_stage33_reverse_lookup_until_new_residue_artifact_or_stage33_head_changes": true,
     "do_not_materialize_659697_survivors": true,
     "do_not_launch_full178_scaleout_from_this_leaf": true
   },
@@ -123,7 +134,7 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
   },
-  "safe_semantics": "Hostile audit review 5076613249 promotes only the exact product-cover necessary-condition NONEXCLUSION wall. The multibranch carrier remains open. MAIN may now advance only to carrier-relevant branch residue/squareclass/V4-monodromy data acquisition for the same fixed V6 class. The Stage33 tangent certificate identifies an explicit next residue-function kernel but its physical-side tangent values are not substitutes for hypothetical carrier branch data. FULL178 remains inactive.",
-  "next_expected_action": "REVERSE_LOOKUP_AND_REUSE_THE_STAGE33_33_07_FIRST_RESIDUE_FUNCTION_KERNEL_IF_SOURCE_LOCKED_AND_APPLICABLE; MATERIALIZE_SYMBOLIC_CARRIER_RELEVANT_RESIDUE_OR_SQUARECLASS_DATA_IF_POSSIBLE, OTHERWISE RECORD_THE_EXACT_MISSING_GEOMETRIC_DEPENDENCY. DO_NOT_ARM_FULL178.",
-  "next_expected_datum": "SOURCE_PATH_SHA_AND_EXACT_SYMBOLIC_RESIDUE_SQUARECLASS_OR_V4_MONODROMY_EVALUATOR_FOR_A_HYPOTHETICAL_BRANCH_ON_EXCEPTIONAL_P1_MODELS, WITH_AN_EXPLICIT_FIREWALL_SEPARATING_SYMBOLIC_BRANCH_GEOMETRY_FROM_PHYSICAL_SIDE_TANGENTS."
+  "safe_semantics": "Hostile audit review 5076613249 promotes only the exact product-cover necessary-condition NONEXCLUSION wall. The multibranch carrier remains open. The Stage33 33-07 reverse lookup is now complete at Stage33 head f6749ccf631da7d3f3985ab960adbd8b30d37f05: the source-locked exceptional-P1/tangent chart still has order2_source_first_residue_functions_materialized=false, with the squareclass/global-lift layers also absent. Therefore no direct importer or local carrier evaluator is justified from the tangent chart alone. This is an upstream dependency checkpoint, not an exclusion or theorem result. FULL178 remains inactive.",
+  "next_expected_action": "WAIT_FOR_OR_MATERIALIZE_R33_BR2A_EXPLICIT_26_FIRST_RESIDUE_FUNCTIONS_AND_GLOBAL_GERSTEN_LIFTS_IN_STAGE33; THEN SOURCE_LOCK_THE_EXACT_ARTIFACT_AND_IMPORT_OR_EVALUATE_IT_FOR_THE_STAGE32_CARRIER_MASK. DO_NOT_INFER_RESIDUES_FROM_PHYSICAL_SIDE_TANGENTS. DO_NOT_ARM_FULL178.",
+  "next_expected_datum": "A SOURCE_LOCKED MATERIALIZED ORDER2_SOURCE_FIRST_RESIDUE_FUNCTIONS ARTIFACT FOR THE 72 BOUNDARY P1 MODELS, INCLUDING GLOBAL GERSTEN/SQUARECLASS EVALUATOR SEMANTICS SUFFICIENT TO EVALUATE A HYPOTHETICAL CARRIER BRANCH."
 }
