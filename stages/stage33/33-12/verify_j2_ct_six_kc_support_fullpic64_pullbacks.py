@@ -131,8 +131,14 @@ assert cert["remaining_interfaces"] == [
 assert not any(cert["promotion_firewall"].values())
 assert audit["exact_progress"]["ct_six_support_fullPic64_pullbacks_materialized"]
 assert audit["exact_progress"]["ct_six_support_fullPic64_pullbacks_canonical_sha256"] == EXPECTED
+# The support-reduction audit records the leaf that was current when the six
+# rows were first materialized.  Later exact certificates may advance the
+# controller without changing this immutable source audit.
+assert audit["next_exact_leaf"].startswith("MATCH_CV_d2_TO_SEMANTIC_")
 assert controller["stage33_12"]["j2_support_reduction_audit_sha256"] == AUDIT_SHA
 assert controller["stage33_12"]["corrected_J2_ct_defect_fullPic64_pullbacks_sha256"] == EXPECTED
+assert controller["stage33_12"]["finite_v4_kummer_columns_materialized"] == 0
+assert controller["stage33_12"]["first_exact_kummer_column_materialized"] is False
 print(json.dumps({
     "success": True,
     "certificate_sha256": EXPECTED,

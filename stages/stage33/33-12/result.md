@@ -221,9 +221,132 @@ FIRST_EXACT_75D_KUMMER_COLUMN_MATERIALIZED=false
 canonical_sha256=0a5abe419c3bd2e4c523af50fd8f85858af6a0d957dcce1e3bdf2ff1430fed3e
 ```
 
-The next exact datum is no longer the CV/Kc orientation. It is the corrected
-J2 coordinate in the current full-surface proper-Br2 14D basis. Once that is
-materialized, the retained 10D coordinate is a deterministic GF(2) solve and
-the already-locked weight-15 target can be placed as the first exact matrix
-column. No guessed proper-Br2 coordinate, Stage33-12 closure, parent reclosure,
-or downstream release is claimed.
+## Semantic `u1` to full-surface Smith normalization — exact boundary
+
+Targeted source tracing fixes the semantic half-lattice numerator without
+reopening the named orientation. In the semantic PicK basis, `u1` has support
+positions `[1,2,5,6,14,15]`; the locked curve-slot marking sends these exactly
+to pinned Stoll rows `BigK[2], BigK[4], BigK[9], BigK[10], BigK[47], BigK[49]`.
+This is distinct from the six ct-defect support rows.
+
+For their integral full-surface pullback numerator `n_S`, the Stage33-07 Smith
+convention fixes the factor-two normalization:
+
+```text
+z=(n_S*pmPic)/2
+D,U,V=SmithForm(pmPic)
+y=z*V
+mods=[2,2,2,2,4,4,4,4,4,4,8,8,8,8]
+bit_i=(y_i/(mods_i/2)) mod 2
+```
+
+Thus neither an arbitrary factor two nor an arbitrary 14D adapter remains.
+The current branch retains the required rows 47 and 49, but not rows 2, 4, 9,
+or 10. The historical full `MatKtoS` artifact and the retained full-surface
+Magma Smith right transform `V` are also unavailable. Therefore the exact
+14D source coordinate cannot yet be materialized locally.
+
+```text
+SEMANTIC_U1_BIGK_SUPPORT=[2,4,9,10,47,49]
+REQUIRED_PULLBACK_ROWS_RETAINED=[47,49]
+REQUIRED_PULLBACK_ROWS_MISSING=[2,4,9,10]
+NORMALIZATION_FORMULA_EXACT=true
+PROPER_BR2_14D_COORDINATE_MATERIALIZED=false
+RETAINED_10D_COORDINATE_MATERIALIZED=false
+FINITE_V4_KUMMER_COLUMNS_MATERIALIZED=0/10
+canonical_sha256=9a8c9bcc420a7ad60bb6d71326bc04000da676ec4bb222e0cc4266c2aadf3d7f
+```
+
+At this checkpoint the next exact datum was the four missing pinned pullback
+rows together with the retained Smith `V`. The replay below resolves that
+numeric blocker and records the newly exposed dual-functional interface. This
+is not the superseded 103D adapter ambiguity. No guessed coordinate, fake zero
+column, Stage33-12 closure, parent reclosure, or downstream release is claimed.
+
+## Semantic `u1` full-surface Smith source — exact
+
+The six pinned pullback rows and literal retained Magma Smith transform have
+now been materialized in one source-locked Actions replay. The normalization
+above gives
+
+```text
+FULL_SURFACE_A_T_2_COORDINATE_F2=[0,0,0,0,0,0,0,1,0,1,0,1,1,0]
+FULL_SURFACE_A_T_2_COORDINATE_WEIGHT=4
+REQUIRED_PULLBACK_ROWS_MISSING=[]
+RETAINED_MAGMA_SMITH_V_MATERIALIZED=true
+canonical_sha256=ae5a9b45e4e4d9b50d8685d1c4649725dadf4956f246e18b33cb601aef94a2ec
+```
+
+The ordered proper-Br2 basis is the dual of the ordered `T/2T` basis; it is
+not the same vector space. Copying the 14 `A_T[2]` coefficients into that dual
+basis fails `cc` invariance with exact defect
+`[1,0,1,1,0,0,0,0,0,0,0,0,0,0]`. The finite discriminant pairing also sends
+this `A_T[2]` element to the zero covector, so that pairing cannot be promoted
+as the named J2 functional or as a zero Kummer column.
+
+```text
+PROPER_BR2_14D_COORDINATE_MATERIALIZED=false
+RETAINED_10D_COORDINATE_MATERIALIZED=false
+FINITE_V4_KUMMER_COLUMNS_MATERIALIZED=0/10
+NEXT=MATERIALIZE_CORRECTED_KC_BRAUER_FUNCTIONAL_PULLBACK_EVALUATIONS_ON_RETAINED_FULL_SURFACE_T_MOD_2_SMITH_BASIS
+canonical_sha256=f5d1336e21dd5563ec6466811b5e1c3cacc6def17e4dbe4968023d9bd3756399
+```
+
+This supersedes only the prior numeric rows/Smith-V blocker. It does not
+reopen the named orientation or the historical 103D ambiguity, and it restores
+no Q-defined descent, closure, release, theorem, receiver, or endpoint credit.
+
+
+## Named J2 order-4 Brauer lift reduction — exact
+
+The remaining proper-Br2 adapter is lift-sensitive. The marked class is `beta1=t1/8`, so the relevant transported discriminant datum is the order-4 generator `t1/4`, not only its doubled order-2 class `u1=t1/2`. In the semantic PicK basis, `t1/4` uses BigK rows `[2,4,9,10,20,35,39,47,49,67]`; the prior u1 replay already materialized `[2,4,9,10,47,49]`. The only new rows are therefore `[20,35,39,67]`. Each has coefficient `2/4=1/2`, so doubling makes it integral and it disappears modulo PicK, exactly explaining why the previous order-2 replay could not see this lift parity.
+
+```text
+ORDER4_REQUIRED_BIGK_ROWS=[2,4,9,10,20,35,39,47,49,67]
+ORDER4_REUSE_BIGK_ROWS=[2,4,9,10,47,49]
+ORDER4_MISSING_BIGK_ROWS=[20,35,39,67]
+CANDIDATE_ROUTE=n4 -> z4=(n4*pmPic)/4 -> y4=z4*V -> y4_nontrivial mod2
+PROPER_BR2_14D_COORDINATE_MATERIALIZED=false
+RETAINED_10D_COORDINATE_MATERIALIZED=false
+FINITE_V4_KUMMER_COLUMNS_MATERIALIZED=0/10
+canonical_sha256=a524121930e1c712bd8d8220415ef1836b11cd6eb11f2bb44f70dc844f6d85b0
+```
+
+Promotion remains blocked until `z4` is integral, the resulting 14-bit parity vector is fixed by the current proper-Br2 `cc/ct` actions, and it lies in the retained 10D domain. No closure, release, theorem, receiver, or endpoint credit is restored here.
+
+## J2 Picard-adjoint source and named Kummer relation — exact
+
+The degree-2 Picard pullback matrix now determines the adjoint map on the transcendental mod-2 quotients directly.  This bypasses the superseded order-4 half-lift ambiguity and fixes corrected named J2 exactly in the current full-surface proper-Br2 coordinates.
+
+```text
+J2_PROPER_BR2_14D=[1,0,0,1,1,0,0,0,0,0,0,0,0,0]
+J2_RETAINED_10D=[0,1,1,0,0,0,0,0,0,0]
+J2_PICARD_ADJOINT_SHA256=066e6b039eb7b67c6dfc44a7af1459254c190ebfa5376e89b8e97fad1c8cb9f8
+```
+
+The retained 10D coordinate has weight two.  Therefore the already locked nonzero 75D named J2 target does **not** individually determine standard matrix column 2 or 3.  The exact new information is the rank-one source-target relation
+
+```text
+M * [0,1,1,0,0,0,0,0,0,0]^T = h_J2
+C2 + C3 = h_J2
+NAMED_SOURCE_TARGET_RELATION_RANK_F2=1
+STANDARD_KUMMER_COLUMNS_MATERIALIZED=0/10
+RELATION_SHA256=0563af417d41765e39ecb1b73fdabf33c1bc831e78f74d2227d286227c3aa082
+```
+
+Counting this as `1/10` standard columns would violate the retained-basis contract.  The next exact leaf is to materialize another independent named proper-Br2 source together with its exact 75D Kummer image, increasing the source-relation rank until standard columns can be solved.  Stage33-12 remains open; no parent reclosure, downstream release, theorem, receiver, endpoint, or perfect-cuboid claim is promoted.
+
+## J2 Kummer source-target binding — exact compatibility audit revokes rank-one relation
+
+A later exact V4-module-extension audit tested the independently fixed corrected J2 proper-Br2 source against the independently fixed raw/75D J2 target under the locked Pic/2 and proper-Br2 actions. Across the full compatible F2[V4]-module-extension solution space (1792 block variables, rank 781, nullity 1011), the locked J2 source reaches only a 13-dimensional H1 subspace and the locked weight-15 target is not in it. All 896 elementary section-change gauge checks independently reproduce pure Picard coboundaries.
+
+```text
+J2_LOCKED_SOURCE_RETAINED10=e2+e3
+J2_LOCKED_SOURCE_REACHABLE_H1_DIM=13
+J2_LOCKED_TARGET_REACHABLE_FROM_LOCKED_SOURCE=false
+COMPATIBILITY_AUDIT_SHA256=463aae0d34980bb9f04171430872e59094a8e0f5ee14592e7f8e957393358229
+NAMED_SOURCE_TARGET_RELATION_RANK_F2=0
+STANDARD_KUMMER_COLUMNS_MATERIALIZED=0/10
+```
+
+Therefore the earlier `C2 + C3 = h_J2` statement is revoked as a Kummer-matrix relation. This does not revoke the J2 proper-Br2 source certificate or the J2 raw/75D target certificate separately; it revokes only their semantic/source-target binding. The next exact leaf is to identify the coordinate or semantic adapter that places both exact objects in one compatible Kummer V4-module extension. Stage33-12 remains open; no parent reclosure, downstream release, theorem, receiver, endpoint, or perfect-cuboid claim is promoted.
