@@ -1,8 +1,9 @@
 {
-  "schema": "RESEARCH_ARSENAL_V5_STAGE30_FORMAL_CERTIFICATE_CONSOLIDATED",
-  "status": "CURRENT_WITH_FORMAL_STAGE30_AND_CONSOLIDATED_STAGE32_STAGE33_PROVISIONAL_HARVEST",
+  "schema": "RESEARCH_ARSENAL_V6_STAGE30_STAGE31_FORMAL_STAGE32_STAGE33_PROVISIONAL",
+  "status": "CURRENT_WITH_FORMAL_STAGE30_STAGE31_AND_CONSOLIDATED_STAGE32_STAGE33_PROVISIONAL_HARVEST",
   "stage29_closed": true,
   "stage30_closed": true,
+  "stage31_closed": true,
   "perfect_cuboid_problem_open": true,
   "lookup_policy": {
     "load_full_arsenal_at_ordinary_stage_startup": false,
@@ -60,6 +61,36 @@
       "formal_selector": false,
       "router_only": true,
       "summary": "transport a complete finite defect set equivariantly and classify marked Galois-descent classes separately from ordinary group orbits"
+    },
+    {
+      "id": "S31-W01",
+      "role": "GENUS_ONE_QUARTIC_ELLIPTIC_BIRATIONAL_ADAPTER",
+      "path": "../stage31-arsenal-promotion.md",
+      "source_stage": "Stage31",
+      "source_stage_closed": true,
+      "formal_selector": false,
+      "router_only": true,
+      "summary": "explicit quartic-to-elliptic rational maps with exact inverse-domain, denominator, exceptional-locus and round-trip certification; no automatic integral-point transfer"
+    },
+    {
+      "id": "S31-W02",
+      "role": "DIRECT_INTEGRAL_MODEL_COMPLETENESS_TRANSFER",
+      "path": "../stage31-arsenal-promotion.md",
+      "source_stage": "Stage31",
+      "source_stage_closed": true,
+      "formal_selector": false,
+      "router_only": true,
+      "summary": "transfer complete integral-point enumeration through an exact integral model plus iff divisibility/congruence image condition instead of unsafe birational integrality"
+    },
+    {
+      "id": "S31-W03",
+      "role": "COMPLETE_POINT_SET_PARAMETER_PULLBACK",
+      "path": "../stage31-arsenal-promotion.md",
+      "source_stage": "Stage31",
+      "source_stage_closed": true,
+      "formal_selector": false,
+      "router_only": true,
+      "summary": "exhaustively pull a complete auxiliary curve point set back through a source-locked branch dictionary and exact family hypotheses, closing only the represented family"
     }
   ],
   "formal_workflows": [
@@ -84,79 +115,47 @@
       "path": "../stage30-arsenal-promotion.md",
       "status": "FORMAL_CLOSED_STAGE_WORKFLOW",
       "summary": "typed credit DAG: finite PASS grants only its exact layer; adapter/receiver/route/theorem/endpoint promotions require explicit source-locked implications; reproducibility adds no new mathematical credit"
+    },
+    {
+      "id": "S31-WF01",
+      "name": "CAS_MW_FULL_GROUP_CERTIFICATION",
+      "path": "../stage31-arsenal-promotion.md",
+      "status": "FORMAL_CLOSED_STAGE_WORKFLOW",
+      "parent_workflow": "S30-WF02",
+      "summary": "pin CAS version/routine/documentation/artifact and distinguish rank proof from full Mordell-Weil group/saturation proof before granting full-basis credit"
     }
   ],
   "stage30_certificate_architecture": {
     "path": "../stage30-arsenal-promotion.md",
-    "input_manifest": {
-      "path": "../../stages/stage30/30-09/input-manifest.json",
-      "blob_sha": "87dd1576576c9b5e7995d3426dbf1426ac6ade82",
-      "mutable_controller_hash_pinned": false
-    },
-    "independent_checker": {
-      "path": "../../stages/stage30/30-09/verify_stage30.py",
-      "blob_sha": "58e41b524bf134a863696fea5184a45ff4b73961"
-    },
-    "bound_upstream_certificate": {
-      "path": "../../stages/stage30/30-06C/semilinear-certificate.json",
-      "blob_sha": "23338d990bc337f456967a5ab8d3b6d81a1b1769",
-      "recomputed_from_scratch_by_final_checker": false
-    },
-    "layer_wrappers": {
-      "action": {"path":"../../stages/stage30/30-09/action-tables.json","blob_sha":"e179d56a621b4685cef9b3dea43e032bf5be1904"},
-      "equivariant_map": {"path":"../../stages/stage30/30-09/equivariant-map.json","blob_sha":"cc572f22e6ee42a8b145e13b0bee23bf870bebf0"},
-      "galois_cocycle": {"path":"../../stages/stage30/30-09/galois-cocycle.json","blob_sha":"ec8d5d7320bf4fc08be490eac81c635c1e283e98"},
-      "defect_classification": {"path":"../../stages/stage30/30-09/defect-classification.json","blob_sha":"02257e31f9bcdcad801b1fd4581d40b3cb746000"},
-      "final_certificate": {"path":"../../stages/stage30/30-09/final-certificate.json","blob_sha":"f1e8b8b823b3f7cce32cf78ec6bec76b875e63e1"}
-    }
+    "input_manifest": {"path":"../../stages/stage30/30-09/input-manifest.json","blob_sha":"87dd1576576c9b5e7995d3426dbf1426ac6ade82","mutable_controller_hash_pinned":false},
+    "independent_checker": {"path":"../../stages/stage30/30-09/verify_stage30.py","blob_sha":"58e41b524bf134a863696fea5184a45ff4b73961"},
+    "bound_upstream_certificate": {"path":"../../stages/stage30/30-06C/semilinear-certificate.json","blob_sha":"23338d990bc337f456967a5ab8d3b6d81a1b1769","recomputed_from_scratch_by_final_checker":false}
+  },
+  "stage31_certificate_architecture": {
+    "path": "../stage31-arsenal-promotion.md",
+    "source_lock": {"path":"../../stages/stage31/31-01/source-lock.json","blob_sha":"e3cb3c18a5cf9c9cbee3e9dd834c439924dbd3d7"},
+    "birational_map": {"path":"../../stages/stage31/31-01/birational-map.json","blob_sha":"973f61023b7b0b5d322168331b3ecc68a281ca25"},
+    "integrality_transfer": {"path":"../../stages/stage31/31-01/integrality-transfer.md","blob_sha":"1fca126abdcd36cbe9a12ce7b7ff856a196a4036"},
+    "integral_points_certificate": {"path":"../../stages/stage31/31-01/integral-points-certificate.json","blob_sha":"69eb32c5d93a9cee569e7ccd3767c4ac983421cc"},
+    "mordell_weil_certificate": {"path":"../../stages/stage31/31-01/mordell-weil-certificate.json","blob_sha":"d1cd25c7b660caf06f2074ee7d9439d3bcf64ce5"},
+    "reconstruction_ledger": {"path":"../../stages/stage31/31-01/reconstruction-ledger.json","blob_sha":"0b829208f4d2b9a67538adc4617af38addbeb00e"},
+    "independent_checker": {"path":"../../stages/stage31/31-01/verify_stage31.py","blob_sha":"92b956d570367d145d87692ae25c0da5da312233"},
+    "final_hostile_audit": {"path":"../../stages/stage31/31-06/audit.md","blob_sha":"149c9025752a8ee39f6a57f45d26f58385edf412"}
   },
   "cross_stage_relationships": [
-    {
-      "source": "S30-W01",
-      "target": "S33-PW05",
-      "relation": "FORMAL_PARENT_PATTERN_TO_PROVISIONAL_SPECIALIZATION",
-      "note": "Stage33 adds module-specific intertwiner/extension/reachability calculations"
-    },
-    {
-      "source": "S30-W01",
-      "target": "S32-PW05",
-      "relation": "COMPLEMENTARY_NOT_DUPLICATE",
-      "note": "Stage32 consumes a validated action to reconstruct invariant values rather than identifying source/target actions"
-    },
-    {
-      "source": "S30-W02",
-      "target": "S33-PW07",
-      "relation": "FORMAL_GENERIC_LAYER_TO_PROVISIONAL_DOWNSTREAM_SPECIALIZATION",
-      "note": "Stage33 adds Brauer/torsor/translation-cocycle semantics beyond finite-action descent"
-    },
-    {
-      "source": "S30-WF01",
-      "target": "V4_EQUIVARIANT_TRANSPORT_AUDIT",
-      "relation": "FORMAL_PARENT_WORKFLOW_TO_PROVISIONAL_SPECIALIZATION"
-    },
-    {
-      "source": "S30-WF02",
-      "target": "CANONICAL_EVIDENCE_CHAIN",
-      "relation": "FORMAL_SUPERSEDES_GENERIC_IMMUTABLE_REPLAY_PORTION",
-      "note": "Stage32 retains separate numerical-candidate exact replay and geometry-specific semantic layers"
-    },
-    {
-      "source": "S30-WF02",
-      "target": "SPARSE_SOURCE_REPLAY",
-      "relation": "FORMAL_PARENT_FOR_IMMUTABLE_CERTIFICATE_BINDING_PORTION",
-      "note": "Stage33 retains active-stage sparse-source routing/context specialization"
-    },
-    {
-      "source": "S30-WF03",
-      "target": "SEMANTIC_PROMOTION_FIREWALL",
-      "relation": "FORMAL_SUPERSEDES_GENERIC_CREDIT_LADDER_PORTION",
-      "note": "Stage32 retains its concrete integral-class/effectivity/curve semantic specialization"
-    },
-    {
-      "source": "S30-WF03",
-      "target": "ARITHMETIC_LIFT_FIREWALL",
-      "relation": "FORMAL_PARENT_TO_PROVISIONAL_ARITHMETIC_SPECIALIZATION"
-    }
+    {"source":"S30-W01","target":"S33-PW05","relation":"FORMAL_PARENT_PATTERN_TO_PROVISIONAL_SPECIALIZATION","note":"Stage33 adds module-specific intertwiner/extension/reachability calculations"},
+    {"source":"S30-W01","target":"S32-PW05","relation":"COMPLEMENTARY_NOT_DUPLICATE","note":"Stage32 consumes a validated action to reconstruct invariant values rather than identifying source/target actions"},
+    {"source":"S30-W02","target":"S33-PW07","relation":"FORMAL_GENERIC_LAYER_TO_PROVISIONAL_DOWNSTREAM_SPECIALIZATION","note":"Stage33 adds Brauer/torsor/translation-cocycle semantics beyond finite-action descent"},
+    {"source":"S30-WF02","target":"S31-WF01","relation":"FORMAL_PARENT_TO_FORMAL_DOMAIN_SPECIALIZATION","note":"Stage31 adds Mordell-Weil rank/full-group/saturation proof semantics to generic immutable CAS certificate replay"},
+    {"source":"S30-WF03","target":"S31-W01","relation":"FORMAL_PARENT_FIREWALL","note":"birational equivalence does not grant integral-point equivalence"},
+    {"source":"S30-WF03","target":"S31-W03","relation":"FORMAL_PARENT_FIREWALL","note":"complete thin-family reconstruction does not grant parent-route or endpoint closure"},
+    {"source":"S31-W01","target":"S33-PW04","relation":"DISTINCT_ADAPTER_DOMAINS_NOT_DUPLICATE","note":"curve rational-map adapter versus marked basis/dual/adjoint coordinate adapter"},
+    {"source":"S31-W02","target":"S30-WF03","relation":"MATHEMATICAL_TRANSFER_WITH_GENERIC_CREDIT_FIREWALL","note":"S31-W02 supplies the exact integral iff-image mathematics; S30-WF03 governs what closure credit follows"},
+    {"source":"S30-WF01","target":"V4_EQUIVARIANT_TRANSPORT_AUDIT","relation":"FORMAL_PARENT_WORKFLOW_TO_PROVISIONAL_SPECIALIZATION"},
+    {"source":"S30-WF02","target":"CANONICAL_EVIDENCE_CHAIN","relation":"FORMAL_SUPERSEDES_GENERIC_IMMUTABLE_REPLAY_PORTION"},
+    {"source":"S30-WF02","target":"SPARSE_SOURCE_REPLAY","relation":"FORMAL_PARENT_FOR_IMMUTABLE_CERTIFICATE_BINDING_PORTION"},
+    {"source":"S30-WF03","target":"SEMANTIC_PROMOTION_FIREWALL","relation":"FORMAL_SUPERSEDES_GENERIC_CREDIT_LADDER_PORTION"},
+    {"source":"S30-WF03","target":"ARITHMETIC_LIFT_FIREWALL","relation":"FORMAL_PARENT_TO_PROVISIONAL_ARITHMETIC_SPECIALIZATION"}
   ],
   "provisional_harvests": [
     {
@@ -174,12 +173,7 @@
         "S32-PW04": "FINITE_LATTICE_QUOTIENT_BOUND",
         "S32-PW05": "FINITE_GROUP_EQUIVARIANT_RECONSTRUCTION"
       },
-      "workflow_candidates": [
-        "NUMERICAL_CANDIDATE_EXACT_REPLAY",
-        "SOURCE_LOCKED_ADAPTER_WALL",
-        "SEMANTIC_PROMOTION_FIREWALL",
-        "CANONICAL_EVIDENCE_CHAIN"
-      ],
+      "workflow_candidates": ["NUMERICAL_CANDIDATE_EXACT_REPLAY","SOURCE_LOCKED_ADAPTER_WALL","SEMANTIC_PROMOTION_FIREWALL","CANONICAL_EVIDENCE_CHAIN"],
       "provisional_card_count": 4,
       "routeable_for_candidate_discovery": true,
       "formal_selector": false,
@@ -204,19 +198,7 @@
         "S33-PW07": "TORSOR_BRAUER_INTEGRAL_KERNEL_ADAPTER",
         "S33-PW08": "GERSTEN_CONNECTING_LOCALIZATION_ADAPTER"
       },
-      "workflow_candidates": [
-        "SMITH_ROUNDTRIP",
-        "MIXED_ORDER_RESIDUE_TO_LOCALIZATION",
-        "BASIS_ADJOINT_AUDIT",
-        "V4_EQUIVARIANT_TRANSPORT_AUDIT",
-        "HS_ZERO_SURVIVAL_MATRIX",
-        "ABSOLUTE_H1_RECEIVER_DECOMPOSITION",
-        "TORSOR_SEMANTIC_VALIDATION",
-        "CONNECTING_MAP_FAIL_CLOSED",
-        "RESOLVED_VALUATION_ATTACHMENT",
-        "ARITHMETIC_LIFT_FIREWALL",
-        "SPARSE_SOURCE_REPLAY"
-      ],
+      "workflow_candidates": ["SMITH_ROUNDTRIP","MIXED_ORDER_RESIDUE_TO_LOCALIZATION","BASIS_ADJOINT_AUDIT","V4_EQUIVARIANT_TRANSPORT_AUDIT","HS_ZERO_SURVIVAL_MATRIX","ABSOLUTE_H1_RECEIVER_DECOMPOSITION","TORSOR_SEMANTIC_VALIDATION","CONNECTING_MAP_FAIL_CLOSED","RESOLVED_VALUATION_ATTACHMENT","ARITHMETIC_LIFT_FIREWALL","SPARSE_SOURCE_REPLAY"],
       "live_authority_overrides": {
         "current_main_state_canonical_sha256": "7d52c93a517fc96050b2f78583ae05e5e4ff4f983c2533c673ca008060bd0226",
         "historical_mask6_named_J2_source": "REOPENED_EXACT_DO_NOT_USE_AS_NAMED_SOURCE",
@@ -243,7 +225,8 @@
     "../stage25-arsenal-promotion.md",
     "../stage26-arsenal-promotion.md",
     "../stage28-arsenal-promotion.md",
-    "../stage30-arsenal-promotion.md"
+    "../stage30-arsenal-promotion.md",
+    "../stage31-arsenal-promotion.md"
   ],
   "stage29_frontier": {
     "historical_checkpoint_active_kernel_count": 13,
@@ -251,7 +234,7 @@
     "historical_checkpoint_class3_kernel_count": 9,
     "hidden_class1_pending_count": 0,
     "authoritative_handoff": "../../stages/stage29/29-17/final-handoff.json",
-    "warning": "Stage30 later closed one Class-2 kernel; do not use these historical counts as current frontier counts"
+    "warning": "later closed stages change these historical counts; do not use the frozen Stage29 handoff as current frontier counts"
   },
   "superseded_indexes": [
     "../archive/arsenal-index-history/research-arsenal-index.md",
@@ -271,6 +254,11 @@
     "mutable_execution_state_is_permanent_math_input": false,
     "abstract_finite_group_isomorphism_implies_concrete_action_adapter": false,
     "ordinary_group_orbit_implies_marked_arithmetic_class": false,
+    "birational_equivalence_implies_integral_point_equivalence": false,
+    "cas_output_alone_is_independently_locked_proof_surface": false,
+    "rank_proved_implies_full_mordell_weil_group_proved": false,
+    "complete_auxiliary_points_imply_source_family_closure_without_pullback": false,
+    "thin_family_closure_implies_global_endpoint_closure": false,
     "historical_green_means_endpoint_solved": false,
     "provisional_card_implies_formal_selector": false,
     "provisional_card_implies_theorem_credit": false,
