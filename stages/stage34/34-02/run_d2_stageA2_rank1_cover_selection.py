@@ -52,7 +52,6 @@ assert len(rankvec)==48 and rankvec.count(0)==2 and rankvec.count(1)==26 and ran
 selected=set(map(int,lock["selected_rank1_model_ids"])); assert len(selected)==14
 closed_ids={b["branch_id"] for b in closed["branches"]}; assert len(closed_ids)==16
 
-# Reconstruct the exact 48 model keys from all 92 branches.
 model_keys=set(); branch_raw=[]
 for rec in data["cases"]:
     if int(rec["d"])!=1 or int(rec["survivors"])==0:continue
@@ -67,33 +66,38 @@ assert len(branch_raw)==92 and len(model_keys)==48
 sorted_keys=sorted(model_keys); id_by_key={k:i+1 for i,k in enumerate(sorted_keys)}; rank_by_key={k:rankvec[i] for i,k in enumerate(sorted_keys)}
 assert all(rank_by_key[sorted_keys[mid-1]]==1 for mid in selected)
 
-rows=[]; pattern_hist=collections.Counter(); rank1count_hist=collections.Counter(); selected_coverage=collections.Counter()
+rows=[]; pattern_hist=collections.Counter(); rank1count_hist=collections.Counter(); pair_occ_hist=collections.Counter(); selected_coverage=collections.Counter()
 for q,branch_id,delta,entries in branch_raw:
     if branch_id in closed_ids:continue
-    pairs=[]; chosen=[]
+    pairs=[]; selected_occurrences=[]
     for pair,key,s in entries:
         mid=id_by_key[key]; rank=rank_by_key[key]
         pairs.append({"pair":pair,"model_id":mid,"rank":rank,"squareclass":s,"a4":key[0],"a6":key[1]})
         if mid in selected:
-            assert rank==1; chosen.append({"pair":pair,"model_id":mid})
-    assert len(chosen)==1
+            assert rank==1; selected_occurrences.append({"pair":pair,"model_id":mid})
+    selected_ids=sorted({x["model_id"] for x in selected_occurrences})
+    assert len(selected_ids)==int(lock["expected_distinct_selected_model_count_per_branch"])
+    chosen_mid=selected_ids[0]
+    chosen_pairs=sorted(x["pair"] for x in selected_occurrences if x["model_id"]==chosen_mid)
+    assert len(chosen_pairs) in (1,2)
+    pair_occ_hist[str(len(chosen_pairs))]+=1
     pattern=tuple(x["rank"] for x in pairs); pattern_hist[str(list(pattern))]+=1
     rank1count_hist[str(sum(r==1 for r in pattern))]+=1
-    selected_coverage[str(chosen[0]["model_id"])]+=1
-    rows.append({"q":q,"branch_id":branch_id,"delta":list(delta),"pair_ranks":pairs,"selected_rank1_quotient":chosen[0]})
+    selected_coverage[str(chosen_mid)]+=1
+    rows.append({"q":q,"branch_id":branch_id,"delta":list(delta),"pair_ranks":pairs,"selected_rank1_model":{"model_id":chosen_mid,"pair_occurrences":chosen_pairs}})
 assert len(rows)==76
 expected_patterns={str(k):int(v) for k,v in lock["expected_rank_patterns_in_pair_order_UA_UB_VA_VB_AB"].items()}
-# Normalize lock keys like '[2,1,...]' to Python list string with spaces removed for stable comparison.
 def compact(s):return s.replace(" ","")
 assert {compact(k):v for k,v in pattern_hist.items()}=={compact(k):v for k,v in expected_patterns.items()}
 assert dict(sorted(rank1count_hist.items()))==dict(sorted((str(k),int(v)) for k,v in lock["expected_rank1_quotient_count_per_branch_histogram"].items()))
+assert dict(sorted(pair_occ_hist.items()))==dict(sorted((str(k),int(v)) for k,v in lock["expected_selected_pair_occurrence_histogram_per_branch"].items()))
 assert sum(selected_coverage.values())==76
 models=[]
 for mid in sorted(selected):
     key=sorted_keys[mid-1]
     models.append({"model_id":mid,"rank":1,"a4":key[0],"a6":key[1],"covered_branches":selected_coverage[str(mid)]})
 payload={
- "schema":"STAGE34_02_D2_STAGEA2_RANK1_MODEL_COVER_SELECTION_V1",
+ "schema":"STAGE34_02_D2_STAGEA2_RANK1_MODEL_COVER_SELECTION_V2_DISTINCT_MODEL",
  "status":"PASS_EXACT_14_MODEL_RANK1_COVER_OF_76_BRANCHES",
  "source":"d2-stageA2-full-support-projective.json",
  "source_lock":"d2-stageA2-rank1-cover-selection-lock.json",
@@ -101,10 +105,12 @@ payload={
  "pair_order":["U*A","U*B","V*A","V*B","A*B"],
  "rank_pattern_histogram":dict(sorted(pattern_hist.items())),
  "rank1_quotient_count_per_branch_histogram":dict(sorted(rank1count_hist.items())),
+ "selected_pair_occurrence_histogram_per_branch":dict(sorted(pair_occ_hist.items())),
+ "distinct_selected_model_count_per_branch":1,
  "selected_rank1_models":models,
  "branches":rows,
- "credit":"Workload compression only: every remaining branch has exactly one designated quotient among the 14 selected rank-one models. No branch closure or rational-point claim follows.",
- "firewalls":{"rank1_cover_is_branch_closure":False,"fourteen_is_proved_minimum":False,"selected_quotient_point_is_parent_point":False,"R29_EXT_CHANG_C_closed":False}
+ "credit":"Workload compression only: every remaining branch has quotient occurrence(s) from exactly one designated model among the 14 selected rank-one Jacobians. Duplicate symmetric pair occurrences do not duplicate MW-basis work. No branch closure or rational-point claim follows.",
+ "firewalls":{"rank1_cover_is_branch_closure":False,"fourteen_is_proved_minimum":False,"duplicate_pair_occurrences_are_distinct_MW_models":False,"selected_quotient_point_is_parent_point":False,"R29_EXT_CHANG_C_closed":False}
 }
 OUT.write_text(json.dumps(payload,indent=2,sort_keys=True)+"\n")
-print(json.dumps({"status":payload["status"],"branches":76,"selected_models":14,"coverage":dict(sorted(selected_coverage.items()))},sort_keys=True))
+print(json.dumps({"status":payload["status"],"branches":76,"selected_models":14,"selected_pair_occurrence_histogram":dict(sorted(pair_occ_hist.items())),"coverage":dict(sorted(selected_coverage.items()))},sort_keys=True))
