@@ -1,0 +1,29 @@
+name: Stage33-12 V4 extension-space audit
+
+on:
+  push:
+    branches:
+      - stage33-12-j2-ptsK-qPicK-continuation
+    paths:
+      - stages/stage33/33-12/audit_v4_kummer_extension_space_after_j2_anchor.py
+      - .github/workflows/stage33-12-v4-extension-audit.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage33-12-v4-extension-audit
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile
+        run: python -m py_compile stages/stage33/33-12/audit_v4_kummer_extension_space_after_j2_anchor.py
+      - name: Audit all module extensions after exact J2 anchor
+        run: python stages/stage33/33-12/audit_v4_kummer_extension_space_after_j2_anchor.py
+      - name: Compact-state check
+        run: python stages/stage33/sync_main_state.py --check
