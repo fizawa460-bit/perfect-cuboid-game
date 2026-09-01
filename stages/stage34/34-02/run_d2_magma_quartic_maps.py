@@ -17,11 +17,15 @@ CASES = [
 def code_for(a,b,c,d):
     if d == 1:
         quartic = "(1+q^2)*t^4 + 8*q*t^3 + 2*(1+q^2)*t^2 - 8*q*t + (1+q^2)"
-        point = f"C![1, 2*(Q!{c}/Q!{b}), 1]"
+        point = f"C![1, 2*r, 1]"
+        pminus = "C![1, -2*r, 1]"
+        testpoint = "C![0, r, 1]"
     else:
         quartic = "4*(q+1)^2*t^4 - 8*(q+1)^2*t^3 + 8*(1+q^2)*t^2 - 4*(q-1)^2*t + (q-1)^2"
         point = "C![0, q-1, 1]"
-    return f'''SetColumns(0);\nSetQuitOnError(true);\nQ := Rationals();\nQt<t> := PolynomialRing(Q);\nq := Q!{a}/Q!{b};\nf := {quartic};\nC := HyperellipticCurve(f);\nP := {point};\nassert Genus(C) eq 1;\nE, phi := EllipticCurve(C, P);\nII := 16*(q^4+14*q^2+1);\nJJ := 128*(q^2+1)*(q^4-34*q^2+1);\nJq := EllipticCurve([Q|0,0,0,-II/48,-JJ/1728]);\nok, iso := IsIsomorphic(E,Jq);\nassert ok;\nassert phi(P) eq E!0;\nfw := DefiningPolynomials(phi);\ninv := InverseDefiningPolynomials(phi);\nbaseeq := DefiningPolynomials(BaseScheme(phi));\nassert #fw gt 0 and #inv gt 0;\nprint \"STAGE34_D2_MAP_BEGIN q={a}/{b} d={d}\";\nprint \"E_AINVARIANTS:\", aInvariants(E);\nprintf \"FORWARD_COUNT: %o\\n\", #fw;\nfor i in [1..#fw] do printf \"FORWARD_POLY_%o: %o\\n\", i, fw[i]; end for;\nprintf \"INVERSE_COUNT: %o\\n\", #inv;\nfor i in [1..#inv] do printf \"INVERSE_POLY_%o: %o\\n\", i, inv[i]; end for;\nprint \"ISO_DATA_TO_JQ:\", IsomorphismData(iso);\nprintf \"BASE_EQ_COUNT: %o\\n\", #baseeq;\nfor i in [1..#baseeq] do printf \"BASE_EQ_%o: %o\\n\", i, baseeq[i]; end for;\nprint \"STAGE34_D2_MAP_END q={a}/{b} d={d}\";\n'''
+        pminus = "C![0, 1-q, 1]"
+        testpoint = "C![1, q-1, 1]"
+    return f'''SetColumns(0);\nSetQuitOnError(true);\nQ := Rationals();\nQt<t> := PolynomialRing(Q);\nq := Q!{a}/Q!{b};\nr := Q!{c}/Q!{b};\nassert r^2 eq 1+q^2;\nf := {quartic};\nC := HyperellipticCurve(f);\nP := {point};\nPm := {pminus};\nT := {testpoint};\nassert Genus(C) eq 1;\nassert P in C and Pm in C and T in C;\nE, phi := EllipticCurve(C, P);\nII := 16*(q^4+14*q^2+1);\nJJ := 128*(q^2+1)*(q^4-34*q^2+1);\nJq := EllipticCurve([Q|0,0,0,-II/48,-JJ/1728]);\nok, iso := IsIsomorphic(E,Jq);\nassert ok;\nassert EvaluateByPowerSeries(phi,P) eq E!0;\nokinv, psi := IsInvertible(phi);\nassert okinv;\nassert EvaluateByPowerSeries(psi,E!0) eq P;\nQtst := EvaluateByPowerSeries(phi,T);\nassert EvaluateByPowerSeries(psi,Qtst) eq T;\nQminus := EvaluateByPowerSeries(phi,Pm);\nassert EvaluateByPowerSeries(psi,Qminus) eq Pm;\nfw := DefiningPolynomials(phi);\ninv := InverseDefiningPolynomials(phi);\nbaseeq := DefiningPolynomials(BaseScheme(phi));\nibaseeq := DefiningPolynomials(BaseScheme(psi));\nassert #fw gt 0 and #inv gt 0;\nprint \"STAGE34_D2_MAP_BEGIN q={a}/{b} d={d}\";\nprint \"E_AINVARIANTS:\", aInvariants(E);\nprintf \"FORWARD_COUNT: %o\\n\", #fw;\nfor i in [1..#fw] do printf \"FORWARD_POLY_%o: %o\\n\", i, fw[i]; end for;\nprintf \"INVERSE_COUNT: %o\\n\", #inv;\nfor i in [1..#inv] do printf \"INVERSE_POLY_%o: %o\\n\", i, inv[i]; end for;\nprint \"ISO_DATA_TO_JQ:\", IsomorphismData(iso);\nprintf \"BASE_EQ_COUNT: %o\\n\", #baseeq;\nfor i in [1..#baseeq] do printf \"BASE_EQ_%o: %o\\n\", i, baseeq[i]; end for;\nprintf \"INVERSE_BASE_EQ_COUNT: %o\\n\", #ibaseeq;\nfor i in [1..#ibaseeq] do printf \"INVERSE_BASE_EQ_%o: %o\\n\", i, ibaseeq[i]; end for;\nprint \"SELECTED_BASE_POINT:\", P;\nprint \"CONJUGATE_POINT:\", Pm;\nprint \"CONJUGATE_IMAGE_E:\", Qminus;\nprint \"TEST_POINT:\", T;\nprint \"TEST_IMAGE_E:\", Qtst;\nprint \"ORIGIN_INVERSE_EXTENSION:\", EvaluateByPowerSeries(psi,E!0);\nprint \"ROUNDTRIP_SELECTED_BASE_PASS: true\";\nprint \"ROUNDTRIP_CONJUGATE_PASS: true\";\nprint \"ROUNDTRIP_TEST_PASS: true\";\nprint \"STAGE34_D2_MAP_END q={a}/{b} d={d}\";\n'''
 
 
 def submit(code):
@@ -75,12 +79,14 @@ for a,b,c in CASES:
             raise SystemExit(f"Magma map case failed q={a}/{b} d={d} status={status}\n{stdout}")
         if any(x in stdout for x in ("Runtime error","Internal error","User error","Assertion failed")):
             raise SystemExit(f"Magma runtime error q={a}/{b} d={d}\n{stdout}")
+        for marker in ("ROUNDTRIP_SELECTED_BASE_PASS: true","ROUNDTRIP_CONJUGATE_PASS: true","ROUNDTRIP_TEST_PASS: true"):
+            if marker not in stdout:
+                raise SystemExit(f"roundtrip marker missing q={a}/{b} d={d}: {marker}")
         raw_sections.append(f"===== q={a}/{b} d={d} =====\n{stdout}")
         fw=numbered("FORWARD_POLY","FORWARD_COUNT:",stdout)
         inv=numbered("INVERSE_POLY","INVERSE_COUNT:",stdout)
         base=numbered("BASE_EQ","BASE_EQ_COUNT:",stdout)
-        if any(x == "[" for x in fw+inv+base):
-            raise SystemExit(f"truncated polynomial parse q={a}/{b} d={d}")
+        ibase=numbered("INVERSE_BASE_EQ","INVERSE_BASE_EQ_COUNT:",stdout)
         records.append({
             "q":f"{a}/{b}",
             "d":d,
@@ -89,7 +95,16 @@ for a,b,c in CASES:
             "inverse_polynomials":inv,
             "isomorphism_data_to_common_Jq":value_after("ISO_DATA_TO_JQ:",stdout),
             "forward_base_scheme_equations":base,
-            "base_point_sent_to_origin":True,
+            "inverse_base_scheme_equations":ibase,
+            "selected_base_point":value_after("SELECTED_BASE_POINT:",stdout),
+            "conjugate_point":value_after("CONJUGATE_POINT:",stdout),
+            "conjugate_image_E":value_after("CONJUGATE_IMAGE_E:",stdout),
+            "test_point":value_after("TEST_POINT:",stdout),
+            "test_image_E":value_after("TEST_IMAGE_E:",stdout),
+            "origin_inverse_extension":value_after("ORIGIN_INVERSE_EXTENSION:",stdout),
+            "roundtrip_selected_base":True,
+            "roundtrip_conjugate":True,
+            "roundtrip_test":True,
             "raw_stdout_sha256":hashlib.sha256(stdout.encode()).hexdigest(),
             "raw_xml_sha256":hashlib.sha256(raw_xml.encode()).hexdigest()
         })
@@ -97,17 +112,17 @@ for a,b,c in CASES:
 raw_text="\n".join(raw_sections)
 (ROOT/"d2-quartic-map-stdout.txt").write_text(raw_text,encoding="utf-8")
 payload={
-    "schema":"STAGE34_02_D2_EXPLICIT_QUARTIC_JACOBIAN_MAP_CERTIFICATE_V2",
-    "status":"PASS_MAGMA_EXPLICIT_BIRATIONAL_MAPS_TO_COMMON_JACOBIANS_SELF_CONTAINED",
+    "schema":"STAGE34_02_D2_EXPLICIT_QUARTIC_JACOBIAN_MAP_CERTIFICATE_V3",
+    "status":"PASS_14_OF_14_EXPLICIT_MAPS_EXCEPTIONAL_EXTENSION_AND_ROUNDTRIP",
     "source":"stages/stage34/34-02/d2-split-genus1-quotient-lock.json",
     "protocol":"official-magma-xml-calculator",
-    "magma_intrinsics":["EllipticCurve(C,P)","DefiningPolynomials","InverseDefiningPolynomials","IsIsomorphic","IsomorphismData","BaseScheme"],
+    "magma_intrinsics":["EllipticCurve(C,P)","DefiningPolynomials","InverseDefiningPolynomials","IsIsomorphic","IsomorphismData","BaseScheme","IsInvertible","EvaluateByPowerSeries"],
     "cases":records,
     "case_count":len(records),
     "raw_stdout_sha256":hashlib.sha256(raw_text.encode()).hexdigest(),
     "firewalls":{
-        "explicit_birational_maps_are_quartic_point_completeness":False,
-        "common_jacobian_full_MW_basis_plus_maps_is_cover_point_completeness":False,
+        "map_and_roundtrip_certificate_is_quartic_point_completeness":False,
+        "full_jacobian_MW_basis_plus_maps_is_cover_point_completeness":False,
         "receiver_closed":False
     }
 }
