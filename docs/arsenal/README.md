@@ -34,7 +34,8 @@ Use a selector only after population, cutoff, canonicalization, multiplicity, me
 These are deliberately **not** current strongest selectors. They expose reusable candidates from still-open stages so later work can avoid re-inventing them, while forcing source revalidation before credit.
 
 - [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) — provisional Stage32 exact-enumeration compression, rank/unrank, Picard slice/image, and finite integral-coset reduction cards.
-- [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) — provisional Stage33 arithmetic-HS zero-survival, Smith/Bockstein finite-module reductions, Picard/Kummer source-target adapters, exact absolute-H1 receiver construction, and geometric Brauer↔translation-torsor↔integral-kernel adapter. Concrete Kc/J2 formulas, final localization values, and revoked relations remain non-promoted.
+- [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) — provisional Stage33 arithmetic-HS zero-survival, Smith/Bockstein finite-module reductions, Picard/Kummer source-target adapters, exact absolute-H1 receiver construction, and geometric Brauer↔translation-torsor↔integral-kernel adapter.
+- [`../stage33-arsenal-gersten-residue-promotion.md`](../stage33-arsenal-gersten-residue-promotion.md) — targeted Stage33 supplement for Gersten/residue/Bockstein/localization/arithmetic-lift work. It adds `S33-PW08`, the explicit Gersten-lift → Galois-difference → connecting/localization adapter, while concrete Stage33 zero-localization values and hostile-revoked global-Q lift shortcuts remain non-promoted.
 
 Rules:
 
