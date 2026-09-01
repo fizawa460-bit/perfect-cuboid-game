@@ -1,0 +1,29 @@
+{
+  "schema": "STAGE34_02_D2_STAGEA2_TWO_ADIC_FULL_BRANCH_LOCK_V1",
+  "status": "THEOREM_LOCKED_PENDING_ACTIONS_REPLAY",
+  "scope": "The 92 surviving d=1 four-factor branches after odd full-support projective reduction.",
+  "equations": [
+    "U=T^2-S^2=delta1*r1^2",
+    "V=2*T*S=delta2*r2^2",
+    "A=aU+bV=delta3*r3^2",
+    "B=bU+aV=delta4*r4^2"
+  ],
+  "integrality_lemma": "Scale a rational [T:S] to coprime integers. Each delta_i is an integral squareclass representative with v2(delta_i) in {0,1}. If F_i=delta_i*r_i^2 is rationally soluble and F_i is integral, then v2(F_i)-v2(delta_i)=2v2(r_i) is an even nonnegative-compatible integer; hence r_i is 2-adically integral. Therefore every Q_2 branch point has a primitive pair (T,S), not both even, modulo 2^k together with square-root residues satisfying all four congruences.",
+  "finite_obstruction": "For k=5 (modulus 32), enumerate all primitive (T,S) modulo 32 and precompute delta*r^2 modulo 32. A branch with no simultaneous congruence solution has no Q_2 point and hence no Q point.",
+  "precomputed_expected_replay": {
+    "input": 92,
+    "survivors_mod4": 84,
+    "survivors_mod8": 76,
+    "survivors_mod16": 70,
+    "survivors_mod32": 64,
+    "survivors_mod64": 64,
+    "expected_by_q_mod32": {"20/21":8,"80/39":12,"24/7":8,"84/13":8,"48/55":8,"20/99":12,"60/11":8}
+  },
+  "credit_boundary": "Only absence of a primitive congruence solution modulo 32 eliminates a branch. A mod-32 survivor is not asserted to be Q_2-soluble or rational.",
+  "firewalls": {
+    "mod32_survivor_is_Q2_point": false,
+    "mod32_survivor_is_Q_point": false,
+    "two_adic_filter_closes_receiver": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}
