@@ -1,8 +1,8 @@
 # Research arsenal
 
-Status: **CURRENT ROUTER WITH FORMAL STAGE30 AND PROVISIONAL STAGE32/33 HARVESTS**.
+Status: **CURRENT ROUTER WITH FORMAL STAGE30/31 AND PROVISIONAL STAGE32/33 HARVESTS**.
 
-This is the compact entry point for reusable mathematical weapons and audited workflow patterns. The weapon files themselves intentionally keep their long-standing paths in `docs/` so historical Stage links do not break.
+This is the compact entry point for reusable mathematical weapons and audited workflow patterns. The weapon files intentionally keep stable paths in `docs/` so historical Stage links do not break.
 
 For large historical corpora, use [`deep-source-index.md`](deep-source-index.md) instead of browsing Stage14 or StructureRadar blindly.
 
@@ -33,26 +33,38 @@ Use a selector only after exact population/quantifier matching.
 
 Stage30 is CLOSED and hostile-audited. Its reusable methods are formally promoted at [`../stage30-arsenal-promotion.md`](../stage30-arsenal-promotion.md), but are **router-only adapter weapons**, not theorem/population selectors.
 
-- `S30-W01` — concrete finite equivariant action identification with a source/common-model anchor. Abstract `G ~= H`, matching orders, or surviving finite relabelings are not semantic adapter credit.
-- `S30-W02` — quadratic semilinear Galois-descent cocycle adapter: explicit `sigma`, `theta`, cocycle/deck element, source-derived action, and complete exact finite compatibility.
-- `S30-W03` — marked finite-defect transport/classification: exact adapter plus exhaustive equivariance, keeping ordinary group orbits distinct from Galois-marked arithmetic classes.
+- `S30-W01` — concrete finite equivariant action identification with a source/common-model anchor.
+- `S30-W02` — quadratic semilinear Galois-descent cocycle adapter.
+- `S30-W03` — marked finite-defect equivariant transport/classification.
 
-The second Stage30 harvest added **no new mathematical card IDs**. Deterministic finite reconstruction and exhaustive finite computation remain inside these three cards rather than being duplicated as certificate cards.
+The certificate/replay harvest added no duplicate mathematical cards.
 
 ### Formal Stage30 workflows
 
-- `S30-WF01 FINITE_EQUIVARIANT_IDENTIFICATION_AUDIT` — exhaustive finite relabeling is candidate evidence until a source/common-model anchor identifies the actual semantic action.
-- `S30-WF02 IMMUTABLE_LAYERED_CERTIFICATE_REPLAY` — immutable mathematical manifest, separated layer certificates, cheap independent deterministic reconstruction, and source-locked binding of already-audited expensive subcertificates. Mutable controller/runtime state is not permanent mathematical input identity.
-- `S30-WF03 ADAPTER_CREDIT_LAYER_FIREWALL` — finite PASS, adapter completion, receiver closure, theorem/route/endpoint closure, and reproducibility credit are distinct typed layers; upward promotion requires an explicit source-locked implication.
+- `S30-WF01 FINITE_EQUIVARIANT_IDENTIFICATION_AUDIT` — exhaustive finite relabeling remains candidate evidence until a source/common-model anchor identifies the semantic action.
+- `S30-WF02 IMMUTABLE_LAYERED_CERTIFICATE_REPLAY` — immutable math manifest, separated layer certificates, cheap independent deterministic reconstruction, and immutable binding of already-audited expensive subcertificates.
+- `S30-WF03 ADAPTER_CREDIT_LAYER_FIREWALL` — finite PASS, adapter completion, receiver closure, theorem/route/endpoint closure, and reproducibility are distinct credit layers.
 
-Use `S30-WF02` when the question is “how do I make the final certificate independently replayable without rerunning every expensive upstream calculation?” Use `S30-WF03` when the question is “what mathematical credit does this exact PASS actually authorize?”
+## Formal router-only Stage31 weapons
+
+Stage31 is CLOSED and hostile-audited. Its formal harvest is [`../stage31-arsenal-promotion.md`](../stage31-arsenal-promotion.md). These are reusable exact adapters/procedures, not selectors.
+
+- `S31-W01 GENUS_ONE_QUARTIC_ELLIPTIC_BIRATIONAL_ADAPTER` — explicit quartic ↔ elliptic rational maps with exact algebraic verification, inverse-denominator/open-locus control, exceptional-point accounting, and a hard firewall against automatic integral-point transfer.
+- `S31-W02 DIRECT_INTEGRAL_MODEL_COMPLETENESS_TRANSFER` — replace unsafe birational integrality with an exact integral/scaled model, an iff divisibility/congruence image condition, and a proof-capable complete integral-point enumeration.
+- `S31-W03 COMPLETE_POINT_SET_PARAMETER_PULLBACK` — exhaustively pull a complete auxiliary curve point set through a source-locked branch dictionary and exact family hypotheses, closing only the represented family.
+
+### Formal Stage31 workflow
+
+- `S31-WF01 CAS_MW_FULL_GROUP_CERTIFICATION` — specialization of `S30-WF02`: pin CAS version/routine/documentation/artifact and distinguish rank proof from proof of the full saturated Mordell--Weil group before granting full-basis credit.
+
+Stage31 intentionally does **not** create separate generic IDs for CAS replay or thin-family scope. Generic immutable CAS/certificate replay routes to `S30-WF02`; the thin-family/global-endpoint and birational/integrality credit boundaries route to `S30-WF03`.
 
 ## Provisional active-stage harvests
 
-These are deliberately **not** current strongest selectors. They expose reusable candidates from still-open stages so later work can avoid re-inventing them, while forcing source revalidation before credit.
+These are deliberately **not** current strongest selectors. They expose reusable candidates from still-open stages while forcing source revalidation before credit.
 
-- [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) — 4 active provisional cards. `PW01` combines symbolic count with rank/unrank/random access; `PW03` is the HNF image gate; `PW04` the finite-coset quadratic bound; `PW05` exact finite-group orbit reconstruction. Former `PW02` is retired into `PW01`. `S32-PW05` is complementary to formal `S30-W01`. Generic immutable certificate binding in `CANONICAL_EVIDENCE_CHAIN` now routes to formal `S30-WF02`; its numerical candidate/exact replay remains distinct. Generic semantic credit-ladder discipline routes to formal `S30-WF03`, while Stage32's geometry-specific ladder remains a specialization.
-- [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) — 7 active provisional cards. `PW02` combines mixed-order Smith normal form with raw-order/Bockstein liftability; former `PW03` is retired into it. `PW05` specializes formal `S30-W01`; `PW07` is downstream/adjacent to `S30-W02`. The generic immutable-certificate part of `SPARSE_SOURCE_REPLAY` routes to `S30-WF02`; `ARITHMETIC_LIFT_FIREWALL` is an arithmetic specialization of `S30-WF03`. Active Stage33 source locks override historical concrete payloads.
+- [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) — 4 active provisional cards. `PW01` combines symbolic count with rank/unrank/random access; `PW03` is the HNF image gate; `PW04` the finite-coset quadratic bound; `PW05` exact finite-group orbit reconstruction. Former `PW02` is retired into `PW01`. `S32-PW05` is complementary to formal `S30-W01`. Generic immutable certificate binding routes to `S30-WF02`; generic semantic credit-ladder discipline routes to `S30-WF03`.
+- [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) — 7 active provisional cards. `PW02` combines mixed-order Smith normal form with raw-order/Bockstein liftability; former `PW03` is retired into it. `PW05` specializes formal `S30-W01`; `PW07` is downstream/adjacent to `S30-W02`. Generic immutable-certificate replay routes to `S30-WF02`; `ARITHMETIC_LIFT_FIREWALL` specializes `S30-WF03`.
 
 Rules:
 
@@ -80,12 +92,13 @@ FINAL_PROMOTION_REVIEW_REQUIRED_AT_STAGE_CLOSE=true
 - [`../stage26-arsenal-promotion.md`](../stage26-arsenal-promotion.md)
 - [`../stage28-arsenal-promotion.md`](../stage28-arsenal-promotion.md)
 - [`../stage30-arsenal-promotion.md`](../stage30-arsenal-promotion.md)
+- [`../stage31-arsenal-promotion.md`](../stage31-arsenal-promotion.md)
 
 Use [`deep-source-index.md`](deep-source-index.md) for historical Stage14/StructureRadar/attack-ledger routing.
 
 ## Stage29 endpoint frontier
 
-Stage29 closed the synthesis phase and recorded 13 active kernels at that historical checkpoint. Stage30 later closed one Class-2 kernel; do not infer the current active-kernel count from the frozen Stage29 handoff alone.
+Stage29 recorded 13 active kernels at its historical checkpoint. Later closed stages changed that count; do not infer the current frontier from the frozen Stage29 handoff alone.
 
 - [`../../stages/stage29/29-17/final-handoff.json`](../../stages/stage29/29-17/final-handoff.json)
 - [`../../stages/stage29/29-17/result.md`](../../stages/stage29/29-17/result.md)
@@ -103,8 +116,13 @@ The former `research-arsenal-index.md/json` stopped at Stage26 and are archived 
 - A finite census, finite certificate PASS, or exhaustive finite classification does not become a global theorem outside its exact domain.
 - Adapter closure does not close a receiver, parent route, or endpoint unless that implication is separately source-locked.
 - Reproducibility/audit PASS does not create new mathematical credit.
-- Binding an audited upstream certificate is not the same as recomputing it; the final checker must say which occurred.
+- Binding an audited upstream certificate is not the same as recomputing it.
 - Mutable execution/controller state is not permanent mathematical input identity.
+- `birational equivalence != integral-point equivalence`.
+- `finite/thin family closure != global endpoint closure`.
+- `CAS output alone != independently locked proof surface`.
+- Rank proof does not imply that returned generators are the full saturated Mordell--Weil group.
+- A complete auxiliary point set does not close the source family without an exact exhaustive pullback dictionary.
 - Abstract finite-group isomorphism does not identify concrete actions without an explicit source anchor.
 - Ordinary finite-group orbits do not automatically equal Galois-marked arithmetic classes.
 - Historical Stage29 `GREEN` means certified route-level progress, not a solved endpoint.
