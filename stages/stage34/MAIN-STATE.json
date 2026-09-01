@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE34_EXT_C_PRIMITIVE_DIVISOR_MAIN_STATE_V1",
+  "schema": "STAGE34_EXT_C_PRIMITIVE_DIVISOR_MAIN_STATE_V2_EXACT_OBJECT_POPULATION_GAP",
   "stage": "34",
-  "status": "OPEN_ROADMAP_SEEDED",
-  "mission": "Close Stage29 kernel K16-C3-EXT-C-PRIMITIVE-DIVISOR for receiver R29-EXT-CHANG-C by upgrading audited finite multiple windows to a proof for all admissible multiples, or by an equivalent deterministic closure of the same moving/thin family.",
+  "status": "ACTIVE_34_01_EXACT_OBJECT_WINDOW_ADAPTER_LOCKED_GLOBAL_POPULATION_CONTRACT_OPEN",
+  "mission": "Close Stage29 kernel K16-C3-EXT-C-PRIMITIVE-DIVISOR for receiver R29-EXT-CHANG-C by upgrading the audited finite Paper-C orbit windows to a proof for the exact all-multiples population, or by an equivalent deterministic closure of that same population.",
   "source_kernel": {
     "kernel_id": "K16-C3-EXT-C-PRIMITIVE-DIVISOR",
     "receiver_id": "R29-EXT-CHANG-C",
@@ -24,42 +24,86 @@
     "stage29_final_handoff": {
       "path": "stages/stage29/29-17/final-handoff.json",
       "blob_sha": "c1b86f5216a897e31378b0121a6c9fe8da0ba63d"
+    },
+    "paper_c_external": {
+      "repo": "weiqi-kids/perfect-cuboid-problem",
+      "commit": "bd3018b896c8ac15b56cadc382af1477dca9e97a",
+      "paper_tex_blob_sha": "daf581e0d44a72a13a9542668a7c60eae7dccb65",
+      "meta_blob_sha": "b76886b7b8e5bf4b0cfd841e572a776a407b6f88"
     }
+  },
+  "stage34_01_locks": {
+    "exact_object": "stages/stage34/34-01/exact-sequence-lock.json",
+    "finite_window": "stages/stage34/34-01/finite-window-lock.json",
+    "cuboid_obstruction_adapter": "stages/stage34/34-01/cuboid-obstruction-adapter-lock.json",
+    "result": "stages/stage34/34-01/result.md"
   },
   "current": {
     "unit": "34-01",
-    "next_exact_leaf": "MATERIALIZE_EXACT_EXT_C_SEQUENCE_INDEX_SET_FINITE_WINDOW_AND_CUBOID_OBSTRUCTION_ADAPTER",
-    "why_first": "Do not choose or cite a primitive-divisor theorem until the exact Stage29 sequence identity and required odd-multiplicity obstruction are reconstructed and source-locked."
+    "next_exact_leaf": "RESOLVE_EXT_C_GLOBAL_POPULATION_CONTRACT_FULL_MW_BASIS_TORSION_TRANSLATES_AND_RANK2_INDEXING",
+    "why_not_34_02_yet": "Paper C's exact orbit-value object and finite windows are now locked, but its all-rational-point population is not yet source-locked from the ellrank outputs, its displayed primitive-divisor input is untranslated rank-one only, and no rank-two primitive ordering is defined. The theorem funnel must not start until those population/quantifier adapters are exact."
   },
   "current_leaf_working_set": [
-    "stages/stage34/34-01/source-contract.json"
+    "stages/stage34/34-01/result.md",
+    "stages/stage34/34-01/exact-sequence-lock.json"
+  ],
+  "exact_object_summary": {
+    "kind": "ELLIPTIC_ORBIT_VALUE_NUMERATOR_FAMILY_NOT_SINGLE_EDS",
+    "curve": "E_q: y^2=x(x+1)(x+q^2)",
+    "face3": "F3(Q)=(2*y(Q)*q/(q^2-x(Q)^2))^2+1+q^2",
+    "obstruction_value": "N(Q)=Num(F3(Q)) in lowest terms",
+    "rank1_population": "six fibers, Q=nP+T, n>=1, full 8-element torsion",
+    "rank2_population": "q=60/11, Q=aG1+bG2+T, (a,b) in Z^2 minus {(0,0)}, full 8-element torsion",
+    "finite_windows": "rank1 n<=200; rank2 |a|,|b|<=12; zero Face-3 squares in 14592 checked cosets",
+    "source_untranslated_primitive_counterexample": "q=20/21,n=5, prime 29 primitive for N_n but v_29(N_5)=2"
+  },
+  "missing_interfaces": [
+    "FULL_MORDELL_WEIL_BASIS_OR_EXACT_RECEIVER_POPULATION_ADAPTER_NOT_SOURCE_LOCKED",
+    "TORSION_TRANSLATED_RANK1_ODD_PRIMITIVE_DIVISOR_THEOREM_NOT_FORMULATED",
+    "RANK2_TWO_VARIABLE_PRIMITIVE_DIVISOR_INDEXING_NOT_DEFINED"
   ],
   "proof_obligations": {
-    "P1_exact_object": "State the exact recurrence, Lucas/Lehmer/divisibility sequence, elliptic divisibility sequence, or other divisor sequence used by EXT-C; state normalization, parameters, admissible indices, degeneracies, and the exact finite windows already audited.",
-    "P2_primitive_existence": "Prove or source-lock a theorem giving a primitive divisor beyond an explicit effective threshold N0 for exactly that object and parameter range.",
-    "P3_odd_multiplicity": "Prove that at least one usable primitive divisor has odd valuation, or prove an equivalent parity/squareclass obstruction. Primitive existence alone receives no closure credit.",
-    "P4_exceptional_indices": "Certifiably discharge every admissible index at or below N0 and every theorem-exception/degenerate parameter case.",
-    "P5_cuboid_adapter": "Map the odd primitive divisor/parity fact to the exact parent-edge, gcd-factor, or representability contradiction required by R29-EXT-CHANG-C without changing population or normalization.",
-    "P6_all_multiples": "Conclude impossibility for every remaining admissible multiple in the same moving/thin family, not merely a searched range."
+    "P1_exact_object": "Exact Paper-C orbit-value numerator family is reconstructed. Complete P1 by certifying that the chosen points give the exact receiver population modulo torsion, or by narrowing/source-locking the receiver population; define all translated and rank-two index semantics without undefined primitive terminology.",
+    "P2_primitive_existence": "After P1 population repair, prove or source-lock an effective primitive/fresh-factor theorem for exactly the required orbit-value family and parameter/index population. A theorem only for the EDS denominator B_n does not qualify.",
+    "P3_odd_multiplicity": "Prove that at least one usable fresh/primitive numerator factor has odd valuation, or prove an equivalent parity/squareclass obstruction. Primitive existence alone receives no closure credit.",
+    "P4_exceptional_indices": "Certifiably discharge every admissible index below the global threshold and every theorem-exception/degenerate population case.",
+    "P5_cuboid_adapter": "The same-point Face-3 adapter is source-locked: odd valuation in the reduced numerator N(Q) makes F3(Q) nonsquare and excludes that source point. Global use still requires exact coverage of the receiver population.",
+    "P6_all_multiples": "Conclude impossibility for every point/index in the exact repaired receiver population, not merely the searched windows or one untranslated rank-one sequence."
   },
   "theorem_route_tree": {
-    "route_A_lucas_lehmer": "If P1 identifies a nondegenerate Lucas/Lehmer sequence, test Bilu-Hanrot-Voutier-style primitive divisor results first, then solve P3 separately with p-adic valuation/cyclotomic-atom analysis.",
-    "route_B_elliptic_divisibility": "If P1 identifies an elliptic divisibility sequence, use an effective elliptic-Zsigmondy/primitive-divisor theorem only after an explicit threshold is available, then prove the required valuation parity locally.",
-    "route_C_other_recurrence": "If neither A nor B applies, derive a cyclotomic/divisibility-sequence formulation and seek an effective primitive-factor theorem or a custom Thue/S-unit/local argument.",
-    "route_D_vacuity_or_replacement": "If odd multiplicity is stronger than available primitive-divisor technology, Stage34 may instead prove the Stage29 vacuity alternative: only finitely many admissible primitive-divisor-free exceptions, or another deterministic family theorem showing offending multiples cannot persist."
+    "route_A_lucas_lehmer": "Use only if a repaired exact orbit-value subfamily is proved to be a nondegenerate Lucas/Lehmer sequence; no such identification is currently source-locked.",
+    "route_B_elliptic_divisibility": "The ambient points are elliptic, but Paper C proves that the Face-3 numerator N(Q) is not the standard EDS denominator B_n. Any elliptic-Zsigmondy route must be for the divisor/function F3 itself or have an exact transfer theorem.",
+    "route_C_orbit_function_divisors": "Treat values of the rational function F3 along elliptic orbits directly, including torsion-translated arithmetic progressions; seek effective primitive/fresh divisor, valuation-parity, squareclass, Vojta/height, or S-unit/Thue reductions only after P1 is exact.",
+    "route_D_vacuity_or_replacement": "A primitive-divisor formulation is optional. Any deterministic theorem proving all remaining orbit values nonsquare on the exact population is an allowed replacement. Rank two may require a different mechanism from rank one."
+  },
+  "arsenal_lookup": {
+    "performed_after_exact_object_identification": true,
+    "router_source": "docs/arsenal/README.md on arsenal-provisional-stage32-stage33-harvest",
+    "direct_mathematical_weapon_match": false,
+    "relevant_workflows": [
+      "S30-WF02 IMMUTABLE_LAYERED_CERTIFICATE_REPLAY",
+      "S30-WF03 ADAPTER_CREDIT_LAYER_FIREWALL"
+    ],
+    "fresh_theorem_invention_allowed_only_after_population_contract": true
   },
   "promotion_gates": {
+    "exact_orbit_value_object_source_locked": true,
     "sequence_source_locked": false,
-    "finite_window_reconstructed": false,
+    "finite_window_reconstructed": true,
+    "global_receiver_population_source_locked": false,
     "primitive_theorem_source_locked": false,
     "primitive_theorem_hypotheses_verified": false,
     "odd_multiplicity_proved": false,
     "small_indices_closed": false,
-    "cuboid_adapter_proved": false,
+    "cuboid_adapter_proved": true,
     "all_multiples_closed": false,
     "R29_EXT_CHANG_C_closed": false
   },
   "firewalls": {
+    "tight_ellrank_implies_full_MW_basis": false,
+    "untranslated_rank1_theorem_covers_torsion_translates": false,
+    "one_variable_primitive_definition_covers_rank2": false,
+    "EDS_denominator_theorem_applies_to_face3_numerator": false,
     "bounded_search_is_global_theorem": false,
     "primitive_divisor_implies_odd_multiplicity": false,
     "ext_c_family_closure_implies_master_hit_closure": false,
@@ -75,7 +119,8 @@
     "stages/stage29/29-17/final-handoff.json",
     "stages/stage32/controller.json",
     "stages/stage33/controller.json",
-    "stages/stage33/MAIN-STATE.json"
+    "stages/stage33/MAIN-STATE.json",
+    "stages/stage34/ROADMAP.md"
   ],
-  "next_after_34_01": "34-02_SEQUENCE_CLASSIFICATION_AND_THEOREM_FUNNEL"
+  "next_after_34_01": "34-02_SEQUENCE_CLASSIFICATION_AND_THEOREM_FUNNEL_AFTER_GLOBAL_POPULATION_CONTRACT_IS_EXACT"
 }
