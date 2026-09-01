@@ -6,12 +6,25 @@ STATUS=PROVISIONAL_ACTIVE_STAGE_HARVEST
 SOURCE_STAGE=Stage32
 SOURCE_PR=1474
 SOURCE_BRANCH=stage32-post1473-integral-picard-support-preflight
-SOURCE_HEAD=0de6dc6f5314f45dcebe1df46c022cfb08721360
+SOURCE_HEAD=305da21597a8d61f64cd221b7efc8ca39833e3a8
 FORMAL_PROMOTION_AUDIT=NOT_YET_RUN
 THEOREM_CREDIT=false
 ```
 
 This file harvests reusable Stage32 interfaces before Stage32 closes. These cards are valid for candidate discovery and exact-source lookup, but they are **not** active theorem selectors. Revalidate the named source locks and applicability conditions before reuse. At Stage32 close, rerun promotion review and either activate, revise, or retire each card.
+
+## Current production-algorithm harvest disposition
+
+The four locked source paths were revalidated at exact Stage32 source head `305da21597a8d61f64cd221b7efc8ca39833e3a8`; their blob SHAs below are unchanged at that head. This batch deliberately distinguishes reusable production algorithms from the Picard-side mathematical adapters that happened to live in the same production directory.
+
+```text
+PRODUCTION_ALGORITHM_BATCH=S32-PW01,S32-PW02
+PARKED_OUTSIDE_THIS_ALGORITHM_BATCH=S32-PW03,S32-PW04
+ALL_FOUR_CARDS_REMAIN_PROVISIONAL=true
+STAGE32_SELECTOR_OR_CONTROLLER_CHANGED=false
+```
+
+`S32-PW01/PW02` are retained as the current production-algorithm harvest because they implement exact symbolic compression and exact random access to the same certified finite terminal predicate. `S32-PW03/PW04` remain useful provisional Arsenal candidates, but are parked outside this narrower algorithm batch because they are Picard-lattice/finite-coset adapters tied to the current mathematical closure interface. Parking them here is not retirement or revocation.
 
 ## S32-PW01 — exact symbolic terminal-family compression
 
@@ -45,6 +58,7 @@ Use when a later search has the **same combinatorial predicate** and exhaustive 
 
 ```text
 ID=S32-PW01
+CURRENT_BATCH_DISPOSITION=PROVISIONAL_PRODUCTION_ALGORITHM_CANDIDATE
 REQUIRES_EXACT_PREDICATE_MATCH=true
 REPLACES_DFS_MATERIALIZATION_WITH_EXACT_COUNT=true
 CHANGING_VARIABLE_ORDER_OR_FILTERS_REQUIRES_NEW_PROOF=true
@@ -68,6 +82,7 @@ This is reusable when a mathematically exact finite family is too large to enume
 
 ```text
 ID=S32-PW02
+CURRENT_BATCH_DISPOSITION=PROVISIONAL_PRODUCTION_ALGORITHM_CANDIDATE
 SET_EQUAL_TO_TERMINAL_PREDICATE=true
 LEGACY_DFS_ORDER_PRESERVED=false
 EXACT_RANDOM_ACCESS=true
@@ -105,6 +120,7 @@ Use when a high-rank integral lattice search has a small set of exact linear obs
 
 ```text
 ID=S32-PW03
+CURRENT_BATCH_DISPOSITION=PARKED_OUTSIDE_PRODUCTION_ALGORITHM_BATCH
 EXACT_HNF_IMAGE_GATE=true
 TARGET_PARTITION_WITHOUT_TERMINAL_MATERIALIZATION=true
 REQUIRES_RETAINED_MARKING_AND_GRAM_MATCH=true
@@ -132,6 +148,7 @@ Use when a family of affine lattice optimization problems shares one quadratic k
 
 ```text
 ID=S32-PW04
+CURRENT_BATCH_DISPOSITION=PARKED_OUTSIDE_PRODUCTION_ALGORITHM_BATCH
 FINITE_COSET_REDUCTION=true
 CLOSEST_VECTOR_SEARCH_REQUIRED=false
 BOUND_IS_SAFE_LOWER_BOUND_NOT_EXACT_CVP=true
@@ -145,6 +162,7 @@ FINITE_PRUNE_IS_NOT_GLOBAL_THEOREM=true
 - Reuse requires source-lock and hypothesis matching; matching only the broad topic is insufficient.
 - `S32-PW01/PW02` preserve a specific finite predicate, not arbitrary DFS searches.
 - `S32-PW03/PW04` are exact only for a matching retained lattice/marking interface or an explicitly proved adapter.
+- `PARKED_OUTSIDE_PRODUCTION_ALGORITHM_BATCH` is only a batch-scope classification; it is not retirement, revocation, or theorem-status change.
 - No bounded count, SAT/UNSAT result, finite quotient, or representative row earns theorem/receiver/endpoint credit by itself.
 - Stage32 closure may revise or retire these cards.
 
