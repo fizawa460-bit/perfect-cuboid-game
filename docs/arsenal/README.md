@@ -1,6 +1,6 @@
 # Research arsenal
 
-Status: **CURRENT ROUTER AFTER STAGE29 CLOSE**.
+Status: **CURRENT ROUTER WITH FORMAL STAGE30 AND PROVISIONAL STAGE32/33 HARVESTS**.
 
 This is the compact entry point for reusable mathematical weapons. The weapon files themselves intentionally keep their long-standing paths in `docs/` so historical Stage links do not break. Historical progress/status documents are archived separately.
 
@@ -29,12 +29,27 @@ Use a selector only after population, cutoff, canonicalization, multiplicity, me
 | branch-profile differential | `S28-W03` |
 | common-polarization fixed-curve differential | `S28-W04` |
 
+## Formal router-only Stage30 weapons
+
+Stage30 is CLOSED and hostile-audited. Its reusable finite-group / Galois-descent methods are formally promoted at [`../stage30-arsenal-promotion.md`](../stage30-arsenal-promotion.md), but they are **router-only adapter weapons**, not formal selectors.
+
+- `S30-W01` — concrete finite equivariant action identification with a source/common-model anchor. Abstract `G ~= H`, matching orders, or surviving finite relabelings are not semantic adapter credit.
+- `S30-W02` — quadratic semilinear Galois-descent cocycle adapter: explicit `sigma`, `theta`, cocycle/deck element, source-derived action, and exhaustive finite semilinear verification.
+- `S30-W03` — marked finite-defect transport/classification: exact source-target adapter plus exhaustive equivariance, with ordinary group orbits kept distinct from Galois-marked arithmetic classes.
+
+Formal Stage30 workflows:
+
+- `S30-WF01 FINITE_EQUIVARIANT_IDENTIFICATION_AUDIT`;
+- `S30-WF02 IMMUTABLE_FINITE_CERTIFICATE_REPLAY`.
+
+These formalize reusable adapter/checking procedures from a closed stage; they do not convert Stage30's finite result into an endpoint theorem.
+
 ## Provisional active-stage harvests
 
 These are deliberately **not** current strongest selectors. They expose reusable candidates from still-open stages so later work can avoid re-inventing them, while forcing source revalidation before credit.
 
-- [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) — consolidated Stage32 provisional Arsenal: 4 active cards. Exact symbolic count and rank/unrank/random access are one compressed-family interface (`PW01`); `PW03` is the HNF image gate, `PW04` the finite-coset quadratic bound, and `PW05` exact finite-group orbit reconstruction. Former `PW02` is retired into `PW01`.
-- [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) — consolidated Stage33 provisional Arsenal: 7 active cards. Mixed-order Smith normal form and raw-order/Bockstein liftability are one interface (`PW02`); former `PW03` is retired into it. The same file now contains the marked-source, equivariant transport, absolute-H1 receiver, Brauer/torsor/Čech, and Gersten/localization cards plus consolidated workflow vocabulary. Active Stage33 source locks override historical concrete payloads.
+- [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) — consolidated Stage32 provisional Arsenal: 4 active cards. Exact symbolic count and rank/unrank/random access are one compressed-family interface (`PW01`); `PW03` is the HNF image gate, `PW04` the finite-coset quadratic bound, and `PW05` exact finite-group orbit reconstruction. Former `PW02` is retired into `PW01`. Stage32 `PW05` is complementary to formal `S30-W01`: it consumes a validated finite action to reconstruct invariant values rather than identifying source and target actions.
+- [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) — consolidated Stage33 provisional Arsenal: 7 active cards. Mixed-order Smith normal form and raw-order/Bockstein liftability are one interface (`PW02`); former `PW03` is retired into it. Stage33 `PW05` is a module-specific specialization of formal `S30-W01` plus extra intertwiner/reachability structure; Stage33 `PW07` is a downstream Brauer/torsor specialization adjacent to formal `S30-W02`. Active Stage33 source locks override historical concrete payloads.
 
 Rules:
 
@@ -61,17 +76,18 @@ FINAL_PROMOTION_REVIEW_REQUIRED_AT_STAGE_CLOSE=true
 - [`../stage25-arsenal-promotion.md`](../stage25-arsenal-promotion.md)
 - [`../stage26-arsenal-promotion.md`](../stage26-arsenal-promotion.md)
 - [`../stage28-arsenal-promotion.md`](../stage28-arsenal-promotion.md)
+- [`../stage30-arsenal-promotion.md`](../stage30-arsenal-promotion.md)
 
 The Stage14/15 bound-attack ledger/map/coverage/queues are also retained as Arsenal provenance because they are useful for duplication and failed-route checks. Use [`deep-source-index.md`](deep-source-index.md) for the recommended lookup order.
 
 ## Stage29 endpoint frontier
 
-Stage29 closed the synthesis phase and compressed remaining work to 13 active kernels. These are research receivers/frontier, not automatically theorem weapons.
+Stage29 closed the synthesis phase and compressed remaining work to 13 active kernels at that historical checkpoint. Stage30 later closed one Class-2 kernel; do not infer the current active-kernel count from the frozen Stage29 handoff alone.
 
 - [`../../stages/stage29/29-17/final-handoff.json`](../../stages/stage29/29-17/final-handoff.json)
 - [`../../stages/stage29/29-17/result.md`](../../stages/stage29/29-17/result.md)
 
-Future endpoint work should choose one of these kernels and descend its dependency DAG rather than replaying the old 46-entry triage.
+Future endpoint work should use the current Stage controllers/frontier rather than replaying the old 46-entry triage.
 
 ## Superseded compiled indexes
 
@@ -84,6 +100,9 @@ The Stage27 promotion candidate is also archived because its file header remaine
 - Alternative proofs of the same completion condition are not independent probabilities.
 - Do not multiply sieve, thin-cover, squareclass and global bounds merely because they use different coordinates.
 - A family closure does not close the endpoint.
-- A finite census does not prove global nonexistence.
+- A finite census or exhaustive finite classification does not prove global nonexistence.
+- Adapter closure does not close the parent route or endpoint unless that implication is separately proved.
+- Abstract finite-group isomorphism does not identify concrete actions without an explicit adapter/source anchor.
+- Ordinary finite-group orbits do not automatically equal Galois-marked arithmetic classes.
 - Historical Stage29 `GREEN` means certified route-level progress, not a solved endpoint.
 - Provisional Stage32/33 cards are discovery aids until final promotion review; they never override their active Stage controllers/source locks.
