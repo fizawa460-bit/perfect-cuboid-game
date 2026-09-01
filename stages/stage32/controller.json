@@ -1,15 +1,15 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V185_POST1473_O188_CUSP_RAMIFICATION_PROVISIONAL",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V186_POST1473_O188_CUSP_RAMIFICATION_AUDITED_EQUALITY_CASES",
   "stage": "32",
-  "status": "STAGE32_POST1473_FIXED_Z_O188_CUSP_RAMIFICATION_ADAPTER_PENDING_HOSTILE_AUDIT",
-  "current_item": "POST1473_FIXED_Z_O188_CUSP_TO_X8_PROJECTION_RAMIFICATION_BUDGET",
+  "status": "STAGE32_POST1473_FIXED_Z_O188_CUSP_RAMIFICATION_AUDITED_MARKED_GEOMETRY_OPEN",
+  "current_item": "POST1473_FIXED_Z_O188_THREE_HISTOGRAM_MARKED_LOW_RAMIFICATION_GEOMETRY",
   "active_pr": {
     "number": 1474,
     "branch": "stage32-post1473-integral-picard-support-preflight",
     "automatic_merge_authorized": false
   },
-  "advance_allowed": false,
-  "audit_required_before_promotion": true,
+  "advance_allowed": true,
+  "audit_required_before_promotion": false,
   "merge_allowed": false,
   "checkpoint_merge_ready": false,
   "stage32_closed": false,
@@ -41,13 +41,25 @@
       "audit_review_id": 5078184271,
       "audited_head": "300140d4ff519965571ade06f29595f9011e3f67",
       "certificate_canonical_sha256": "22b957bcec96f933d24952a424bf8d5ff35ad96b73e66995eacc2d672ed80d7a"
+    },
+    "o188_cusp_to_x8_projection_ramification": {
+      "status": "CLOSED_AUDITED_ZERO_SLACK_EXCLUDED_THREE_HISTOGRAM_COMPRESSION",
+      "audit_review_id": 5078487342,
+      "audited_head": "e76d407fe97b58c81479b43ad28731b580222def",
+      "proof_note": "stages/stage32/residual-32-01-production/post1473-o188-cusp-ramification-budget.md",
+      "proof_note_blob_sha": "c7c4f8cdc59d5c0215f128265458f3861ee1d4dd",
+      "certificate": "stages/stage32/residual-32-01-production/post1473-o188-cusp-ramification-budget.json",
+      "certificate_blob_sha": "dd5fdb8d2553d25a1479c1e5cff68a201c8396e3",
+      "certificate_canonical_sha256": "318ac76ca5baf9e5f7f7a2300628b432f3b5fbb718f2bd21bc7a4f13b9cf3328"
     }
   },
   "audited_universal_multibranch_wall": {
     "O_min": 188,
-    "S1_min": 149,
-    "derivation_authority_review": 5078184271,
-    "status": "CLOSED_AUDITED_NECESSARY_CONDITION_NONEXCLUSION_WALL"
+    "prior_S1_min": 149,
+    "O_parity": "even because sum of contact multiplicities is e=266 even",
+    "post_o188_histogram_compression_universal_S1_min": 152,
+    "reason": "If O=188, the audited three histograms have S1 in {187,188}; if O>188 then O is even, hence O>=190 and e>=3O-2S1 gives S1>=152.",
+    "status": "CLOSED_AUDITED_INPUTS_PLUS_EXACT_ARITHMETIC_SHARPENING_NONEXCLUSION"
   },
   "retained_o188_projection_profile": {
     "checkpoint": "stages/stage32/residual-32-01-production/post1473-o188-product-cover-extremal-profile.json",
@@ -56,78 +68,70 @@
     "qprime_4": {"degree_profiles": [[92,94],[93,93]], "ramification_profiles": [[16,0],[8,8]]}
   },
   "current_leaf": {
-    "status": "PROVISIONAL_EXACT_LOCAL_TO_GLOBAL_OBSTRUCTION_PENDING_HOSTILE_AUDIT",
-    "target": "HOSTILE_AUDIT_THE_O188_CUSP_TO_X8_PROJECTION_RAMIFICATION_ADAPTER_BEFORE_PROMOTION",
-    "proof_note": {
-      "path": "stages/stage32/residual-32-01-production/post1473-o188-cusp-ramification-budget.md",
-      "blob_sha": "c7c4f8cdc59d5c0215f128265458f3861ee1d4dd"
+    "status": "OPEN_O188_THREE_HISTOGRAM_MARKED_LOW_RAMIFICATION_GEOMETRY",
+    "target": "SOURCE_LOCK_OR_DERIVE_MARKED_CUSP_FIBER_OR_LOW_RAMIFICATION_MODULAR_CORRESPONDENCE_CONSTRAINTS_FOR_THE_THREE_AUDITED_O188_HISTOGRAMS",
+    "audited_contact_histograms": {
+      "A": {"m1":188,"m2":39,"B":227,"contact_defect":0,"S1":188},
+      "B": {"m1":187,"m2":38,"m3":1,"B":226,"contact_defect":2,"S1":187},
+      "C": {"m1":188,"m2":37,"m4":1,"B":226,"contact_defect":2,"S1":188}
     },
-    "certificate": {
-      "path": "stages/stage32/residual-32-01-production/post1473-o188-cusp-ramification-budget.json",
-      "blob_sha": "dd5fdb8d2553d25a1479c1e5cff68a201c8396e3",
-      "canonical_sha256": "318ac76ca5baf9e5f7f7a2300628b432f3b5fbb718f2bd21bc7a4f13b9cf3328"
+    "profile_assignment": {
+      "qprime_2_46_47": ["A"],
+      "qprime_4_asymmetric_92_94": ["A"],
+      "qprime_4_symmetric_93_93": ["A","B","C"]
     },
-    "replay": "stages/stage32/residual-32-01-production/diagnose_stage32_post1473_o188_cusp_ramification_budget.py",
-    "local_adapter": {
-      "A_i": "a_i/4",
-      "m": "min(A1,A2)",
-      "odd_contact_forced_projection_ramification": "qprime*(A_i-1) >= qprime*(m-1)",
-      "even_contact_forced_projection_ramification": "qprime*(A_i-2) >= qprime*(m-2)",
-      "global_bound": "R_i >= qprime*sum delta(m_P)"
+    "exact_equality_cases": {
+      "B_and_C_only_occur_in_qprime4_symmetric": true,
+      "B_and_C_each_have_R_i_over_qprime": 2,
+      "B_and_C_contact_defect": 2,
+      "consequence": "For both X(8) projections the audited lower bound is saturated: there is no projection ramification away from the exceptional branches and A_i=m at every exceptional branch.",
+      "cusp_exponent_consequence": "At every exceptional branch a1=a2=4m.",
+      "B_ramification_support": "The unique m=3 odd branch supplies the entire ramification divisor of each projection: four D-points of local degree 3, each ramification index contribution 2, total R_i=8.",
+      "C_ramification_support": "The unique m=4 even branch supplies the entire ramification divisor of each projection: two Y-points with four etale D-lifts each, eight D-points of local degree 2, total R_i=8.",
+      "same_support_for_both_projections": true
     },
-    "provisional_consequences": {
-      "zero_slack_S1_149_excluded": true,
-      "qprime_2_forced_histogram": {"m1":188,"m2":39,"B":227},
-      "qprime_4_asymmetric_forced_histogram": {"m1":188,"m2":39,"B":227},
-      "qprime_4_symmetric_allowed_histograms": [
-        {"m1":188,"m2":39,"B":227},
-        {"m1":187,"m3":1,"m2":38,"B":226},
-        {"m1":188,"m2":37,"m4":1,"B":226}
-      ],
-      "all_three_histogram_types_coarsely_nodewise_reachable": true,
-      "all_O188_excluded": false
+    "A_case_constraints": {
+      "with_an_etale_projection": "For the etale projection A_i=m at every exceptional branch and there is no away-from-exceptional ramification.",
+      "qprime4_symmetric": "Each projection has normalized ramification budget 2 above the defect-zero baseline; exponent excess and/or away-from-exceptional ramification remain possible."
     },
-    "audit_checklist": [
-      "cusp parameter p_i~t^(a_i/8) normalization",
-      "odd-contact t=s^2 local degree A_i",
-      "even-contact two-point unramified pullback and local degree A_i/2",
-      "multiplication by qprime through D->Y etale pullback",
-      "no omitted local/projective quotient factor",
-      "ramification-budget arithmetic and nodewise nonexclusion counts"
-    ],
-    "promotion_allowed_now": false
+    "direct_all_O188_exclusion_found": false,
+    "next_geometry_candidates": [
+      "source-locked identification of vertical/horizontal X(8) cusp fibers inside the retained Picard/special-curve model",
+      "marked cusp-location compatibility for the unique B/C ramification branch",
+      "low-total-ramification degree-93 self-correspondences on X(8) with identical ramification support",
+      "etale-projection cusp-fiber degree constraints for A"
+    ]
   },
   "math_scope": {
     "fixed_z_bijective_normalization_integral_genus1_carrier": "CLOSED_AUDITED_EXCLUDED",
-    "fixed_z_multibranch_universal_O_S1_wall": "CLOSED_AUDITED_O_MIN_188_S1_MIN_149_NONEXCLUSION_WALL",
     "fixed_z_O186_all_qprime": "CLOSED_AUDITED_EXCLUDED",
-    "fixed_z_O188_zero_slack_S1_149": "PROVISIONAL_EXCLUSION_PENDING_HOSTILE_AUDIT",
-    "fixed_z_O188_all_profiles": "OPEN",
+    "fixed_z_O188_S1_149_zero_slack": "CLOSED_AUDITED_EXCLUDED",
+    "fixed_z_O188_contact_histograms": "CLOSED_AUDITED_REDUCED_TO_THREE_TYPES",
+    "fixed_z_O188_all_profiles": "OPEN_PRIMARY",
     "fixed_z_all_integral_genus1_carriers": "OPEN",
     "general_geometric_genus_le_1_classification": "OPEN_TESTA_STOLL_QUESTION_19",
     "full178_geometric_closure": "OPEN_NOT_ACTIVE",
     "receiver_theorem_endpoint": "OPEN"
   },
   "operations": {
-    "execution_class": "LIGHTWEIGHT_PROVISIONAL_LOCAL_RAMIFICATION_ADAPTER_AWAITING_SEPARATE_HOSTILE_AUDIT",
+    "execution_class": "LIGHTWEIGHT_MARKED_O188_MODULAR_GEOMETRY_PREFLIGHT",
     "heavy_compute_authorized": false,
     "full178_scaleout_authorized": false,
     "survivor_materialization_authorized": false
   },
   "anti_loop": {
     "do_not_reopen_O186": true,
-    "do_not_repeat_total_intersection_partition_arithmetic_as_primary_geometry": true,
-    "do_not_promote_cusp_ramification_adapter_before_hostile_audit": true,
-    "do_not_continue_past_O188_zero_slack_as_closed_before_audit": true,
+    "do_not_reopen_O188_S1_149_zero_slack": true,
+    "do_not_repeat_large_nodewise_assignment_counts_as_primary_geometry": true,
+    "do_not_treat_three_histogram_reachability_as_analytic_realization": true,
     "do_not_re_search_stage33_26_residue_materialization": true,
     "do_not_materialize_659697_survivors": true,
     "do_not_launch_full178_scaleout": true
   },
   "firewalls": {
     "unknown_is_not_unsat": true,
-    "provisional_is_not_audited": true,
     "nodewise_partition_is_not_analytic_realization": true,
-    "local_ramification_lower_bound_is_not_global_curve_existence": true,
+    "ramification_divisor_support_is_not_global_correspondence_existence": true,
     "multibranch_closed": false,
     "full178_geometric_closure": false,
     "receiver_credit": false,
@@ -136,7 +140,7 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
   },
-  "safe_semantics": "The audited O>=188,S1>=149 wall remains authoritative. MAIN has now derived a new provisional local-to-global adapter from the FSM cusp exponents to the exact X(8) projection ramification budgets at O=188. If audited, it excludes the former zero-slack S1=149 profile and compresses all remaining O=188 contact multiplicity patterns to three explicit histograms, while leaving all three coarsely reachable against the fixed node totals. This is not yet audited and does not close O=188 or the multibranch carrier. FULL178 remains inactive.",
-  "next_expected_action": "RUN_SEPARATE_STAGE32_HOSTILE_AUDIT_ON_post1473-o188-cusp-ramification-budget.md_AND_JSON_CANONICAL_318ac76c. IF_PASS_PROMOTE_THE_ZERO_SLACK_S1_149_EXCLUSION_AND_RESUME_ONLY_WITH_THE_THREE_REMAINING_O188_CONTACT_HISTOGRAMS. IF_FAIL_REPAIR_ONLY_THE_LOCAL_PARAMETER_OR_RAMIFICATION_STEP. DO_NOT_MERGE_OR_ARM_FULL178.",
-  "next_expected_datum": "HOSTILE_AUDIT_PASS_OR_FAIL_FOR_CANONICAL_318ac76ca5baf9e5f7f7a2300628b432f3b5fbb718f2bd21bc7a4f13b9cf3328"
+  "safe_semantics": "Hostile re-audit review 5078487342 passes canonical 318ac76c at audited head e76d407f. The O=188/S1=149 zero-slack profile is therefore excluded and all remaining O=188 contact multiplicity patterns are exactly A=188x1+39x2, B=187x1+38x2+1x3, or C=188x1+37x2+1x4. B/C occur only in the qprime=4 symmetric 93/93 profile and saturate both projection ramification budgets, forcing a1=a2=4m at every exceptional branch and no additional ramification away from the unique defect-2 branch. O=188 remains open. FULL178 remains inactive.",
+  "next_expected_action": "SEARCH_ONLY_FOR_A_SOURCE_LOCKED_MARKING_OF_X8_CUSP_FIBERS_OR_EQUIVALENT_SPECIAL_CURVE_CLASSES_IN_THE_RETAINED_PICARD_MODEL, THEN_TEST_THE_THREE_O188_HISTOGRAMS_AGAINST_THAT_MARKED_GEOMETRY. IF_NO_MARKING_EXISTS, PIN_THE_EXACT_MISSING_ADAPTER. DO_NOT_REOPEN_COARSE_PARTITION_ARITHMETIC, MERGE, OR_ARM_FULL178.",
+  "next_expected_datum": "A SOURCE_LOCKED MAP FROM THE TWO X8 CUSP-FIBER FAMILIES (OR EQUIVALENT MARKED MODULAR BOUNDARY DATA) INTO THE RETAINED 92 NONEXCEPTIONAL SPECIAL-CURVE PAIRINGS, OR AN EXACT CERTIFICATE THAT THIS MARKING IS ABSENT."
 }
