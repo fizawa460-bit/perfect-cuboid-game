@@ -1,0 +1,26 @@
+name: Stage32 post-1473 X8 V4 cusp quotient
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/workflows/stage32-post1473-x8-v4-cusp-quotient.yml'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_x8_v4_cusp_quotient.py'
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Replay exact X8 V4 cusp quotient
+        working-directory: stages/stage32/residual-32-01-production
+        run: python diagnose_stage32_post1473_x8_v4_cusp_quotient.py
