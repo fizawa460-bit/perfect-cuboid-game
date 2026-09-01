@@ -10,7 +10,6 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 CERT = HERE / "j2-cc-actual-cech-global-square-overlap.json"
 AUDIT = HERE / "first-exact-kummer-column-support-reduction-audit.json"
-CONTROLLER = HERE.parent / "controller.json"
 EXPECTED = "82ac2b6fe8d023c915e9cf3bb8ff38d4782dbec47f98e2593f964ea020ccc6fd"
 AUDIT_SHA = "c636334f719780c461817c37ae772f013292e8d2830548066b4fa402d6dde064"
 
@@ -53,7 +52,6 @@ def multiply(left, right):
 
 cert = locked(CERT, EXPECTED)
 audit = locked(AUDIT, AUDIT_SHA)
-controller = json.loads(CONTROLLER.read_text(encoding="utf-8"))
 assert cert["schema"] == "STAGE33_12_J2_CC_ACTUAL_CECH_GLOBAL_SQUARE_OVERLAP_V1"
 assert cert["source_locks"] == {
     "corrected_explicit_cech_mu2_lift_sha256": "6c9333f564637c362b026596833acd26ad2abff27e9c9d75d82ee5c6991cb76b",
@@ -109,26 +107,13 @@ assert not any(cert["promotion_firewall"].values())
 
 assert audit["exact_progress"]["cc_actual_cech_overlap_canonical_sha256"] == EXPECTED
 assert audit["cc_actual_cech_result"]["actual_marked_Pic2_cc_defect_zero"]
-assert audit["next_exact_leaf"] == controller["current"]["next_exact_leaf"]
-assert controller["current"]["active_missing_interface"] == "NAMED_CV_d2_TO_SEMANTIC_DISCRIMINANT_ORIENTATION"
-state = controller["stage33_12"]
-assert state["j2_support_reduction_audit_sha256"] == AUDIT_SHA
-assert state["corrected_J2_cc_actual_cech_certificate_sha256"] == EXPECTED
-assert state["corrected_J2_cc_defect_integral_Pic_class_zero"]
-assert state["corrected_J2_named_semantic_discriminant_orientation_materialized"] is False
-assert state["finite_v4_kummer_columns_materialized"] == 0
-assert state["first_exact_kummer_column_materialized"] is False
-assert controller["release_gates"]["stage33_12_closed_exact"] is False
-assert controller["release_gates"]["stage33_07_reclosed"] is False
-assert controller["release_gates"]["stage33_08_released"] is False
-assert controller["theorem_credit"] is False
-assert controller["receiver_credit"] is False
-assert controller["endpoint_credit"] is False
+# This is a historical certificate replay. Mutable current controller/leaf/release
+# assertions do not belong here; current-state consistency is checked separately.
 
 print(json.dumps({
     "success": True,
     "certificate_sha256": EXPECTED,
     "actual_cc_integral_pic_class_zero": True,
-    "remaining_interface": cert["remaining_interface"],
+    "historical_certificate_remaining_interface": cert["remaining_interface"],
     "first_exact_75D_kummer_column_materialized": False,
 }, sort_keys=True))
