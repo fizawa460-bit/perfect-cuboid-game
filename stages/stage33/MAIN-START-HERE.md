@@ -14,6 +14,15 @@ After confirming the branch head with the GitHub connector, read only:
 4. `stages/stage33/MAIN-BATCH-HANDOFF.md`
 5. only the immediate files named by `current_leaf_working_set`
 
+This ordered list is the **sole routine startup enumeration authority**. Other
+Stage33 files may point here but must not maintain a competing copy of the list.
+
+Out-of-repo conversation notes or inherited prompt/handoff text are operational
+hints, not durable Stage33 policy. In particular, branch/PR restrictions from
+such notes MUST be revalidated against live GitHub state and current repository
+authority when their referent may have changed; stale notes never become
+permanent policy by repetition.
+
 `MAIN-BATCH-HANDOFF.md` is a **transient delta note only**. It may contain only
 useful narrowing/blockers learned after the mathematical state represented by
 `MAIN-STATE.json`. It MUST NOT recap facts already exported by `MAIN-STATE.json`,
