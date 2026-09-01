@@ -1,10 +1,24 @@
 {
-  "schema": "RESEARCH_ARSENAL_V6_STAGE30_STAGE31_FORMAL_STAGE32_STAGE33_PROVISIONAL",
+  "schema": "RESEARCH_ARSENAL_V7_STAGE30_STAGE31_FORMAL_STAGE32_STAGE33_PROVISIONAL",
   "status": "CURRENT_WITH_FORMAL_STAGE30_STAGE31_AND_CONSOLIDATED_STAGE32_STAGE33_PROVISIONAL_HARVEST",
   "stage29_closed": true,
   "stage30_closed": true,
   "stage31_closed": true,
   "perfect_cuboid_problem_open": true,
+  "pr1478_audit": {
+    "path": "PR1478-AUDIT.md",
+    "verdict": "PASS_MERGE_READY_AFTER_SNAPSHOT_SEMANTICS_REPAIR",
+    "formal_selector_additions": 0,
+    "active_stage_snapshot_policy_repaired": true
+  },
+  "active_stage_snapshot_policy": {
+    "harvest_snapshot_head_is_immutable_provenance": true,
+    "latest_verified_active_head_is_informational_only": true,
+    "live_head_must_be_refetched_at_card_use": true,
+    "active_stage_authority_overrides_provisional_card": true,
+    "head_drift_requires_targeted_source_revalidation_before_use": true,
+    "head_drift_alone_promotes_or_revokes_card": false
+  },
   "lookup_policy": {
     "load_full_arsenal_at_ordinary_stage_startup": false,
     "consult_when": "after the active leaf exact object and missing weapon type are identified, before fresh literature search or invention of a new mathematical route",
@@ -163,7 +177,9 @@
       "path": "../stage32-arsenal-promotion.md",
       "source_pr": 1474,
       "source_branch": "stage32-post1473-integral-picard-support-preflight",
-      "source_head": "77ede66e92a46b3365a4ee43a265728665a0b17a",
+      "harvest_snapshot_head": "77ede66e92a46b3365a4ee43a265728665a0b17a",
+      "latest_verified_active_head_at_pr1478_audit": "4e7865599de58d184f160d8d779ef2a024216562",
+      "live_head_refetch_required_before_use": true,
       "promotion_status": "PROVISIONAL_ACTIVE_STAGE_HARVEST",
       "active_cards": ["S32-PW01", "S32-PW03", "S32-PW04", "S32-PW05"],
       "retired_merged_ids": {"S32-PW02":"S32-PW01"},
@@ -185,7 +201,10 @@
       "path": "../stage33-arsenal-promotion.md",
       "source_pr": 1476,
       "source_branch": "stage33-post1475-j2-v4-generator-adapter",
-      "source_head": "b4ed4c898988975f485e48b3803e0f8753c65015",
+      "harvest_snapshot_head": "b4ed4c898988975f485e48b3803e0f8753c65015",
+      "latest_verified_active_head_at_pr1478_audit": "18f6c64dde415c235b49f7458bf44afb1f2403b5",
+      "live_head_refetch_required_before_use": true,
+      "latest_hostile_audit_status_at_pr1478_audit": "FAIL_ACTIVE_MAIN_AUTHORITY_REPAIR_REQUIRED",
       "promotion_status": "PROVISIONAL_ACTIVE_STAGE_HARVEST",
       "active_cards": ["S33-PW01", "S33-PW02", "S33-PW04", "S33-PW05", "S33-PW06", "S33-PW07", "S33-PW08"],
       "retired_merged_ids": {"S33-PW03":"S33-PW02"},
