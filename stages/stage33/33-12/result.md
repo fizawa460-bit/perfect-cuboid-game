@@ -313,3 +313,25 @@ canonical_sha256=a524121930e1c712bd8d8220415ef1836b11cd6eb11f2bb44f70dc844f6d85b
 ```
 
 Promotion remains blocked until `z4` is integral, the resulting 14-bit parity vector is fixed by the current proper-Br2 `cc/ct` actions, and it lies in the retained 10D domain. No closure, release, theorem, receiver, or endpoint credit is restored here.
+
+## J2 Picard-adjoint source and named Kummer relation — exact
+
+The degree-2 Picard pullback matrix now determines the adjoint map on the transcendental mod-2 quotients directly.  This bypasses the superseded order-4 half-lift ambiguity and fixes corrected named J2 exactly in the current full-surface proper-Br2 coordinates.
+
+```text
+J2_PROPER_BR2_14D=[1,0,0,1,1,0,0,0,0,0,0,0,0,0]
+J2_RETAINED_10D=[0,1,1,0,0,0,0,0,0,0]
+J2_PICARD_ADJOINT_SHA256=066e6b039eb7b67c6dfc44a7af1459254c190ebfa5376e89b8e97fad1c8cb9f8
+```
+
+The retained 10D coordinate has weight two.  Therefore the already locked nonzero 75D named J2 target does **not** individually determine standard matrix column 2 or 3.  The exact new information is the rank-one source-target relation
+
+```text
+M * [0,1,1,0,0,0,0,0,0,0]^T = h_J2
+C2 + C3 = h_J2
+NAMED_SOURCE_TARGET_RELATION_RANK_F2=1
+STANDARD_KUMMER_COLUMNS_MATERIALIZED=0/10
+RELATION_SHA256=0563af417d41765e39ecb1b73fdabf33c1bc831e78f74d2227d286227c3aa082
+```
+
+Counting this as `1/10` standard columns would violate the retained-basis contract.  The next exact leaf is to materialize another independent named proper-Br2 source together with its exact 75D Kummer image, increasing the source-relation rank until standard columns can be solved.  Stage33-12 remains open; no parent reclosure, downstream release, theorem, receiver, endpoint, or perfect-cuboid claim is promoted.
