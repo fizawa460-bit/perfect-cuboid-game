@@ -1,0 +1,48 @@
+{
+  "schema": "STAGE34_02_D1_MW_REDUCTION_PANEL_V1",
+  "status": "PASS_EXACT_FINITE_MW_REDUCTION_PANEL_WITH_RESIDUAL_CONGRUENCE_CLASSES",
+  "source_population": "stages/stage34/34-01/global-population-contract.json",
+  "local_classification": "stages/stage34/34-02/d1-qp-local-classification.json",
+  "verifier": "stages/stage34/34-02/verify_d1_mw_reduction_panel.py",
+  "panel_primes": [107, 109, 113, 127],
+  "map": {
+    "rank1": "rho_{q,p}: Z x Z/4 x Z/2 -> E_q(F_p), (n,r,s) |-> n P_q + r R_q + s S_q",
+    "rank2": "rho_{q,p}: Z^2 x Z/4 x Z/2 -> E_q(F_p), (m,n,r,s) |-> m G1 + n G2 + r R_q + s S_q",
+    "torsion_generators": {
+      "R_q": "(q,q(q+1)), order 4, 2R_q=(0,0)",
+      "S_q": "(-1,0), order 2"
+    },
+    "torsion_reduction_injective_on_panel": true,
+    "good_reduction_for_all_seven_fibers_on_panel": true
+  },
+  "allowed_predicate": "For d in {1,2}, the reduced point must have A_q(x)/d and B_q(x)/d quadratic residues in F_p; at infinity the homogeneous leading values are used.",
+  "rank1_four_prime_CRT": {
+    "20/21": {"d1":{"modulus":2464,"states":144,"sha256":"cb1538a5386fe9d58ef830b5b776ccbf02f67c7600747f6e6fd58bef6933ee52"},"d2":{"modulus":2464,"states":48,"sha256":"98354cfd88e88d6cf7751e139df8c945b05d696456bd1f76a43da4bd0af6f0ce"}},
+    "80/39": {"d1":{"modulus":1680,"states":16,"sha256":"8d418433176de4d4151ba0ca3f3850ddd9c321474db557a0d360151441321c9e"},"d2":{"modulus":1680,"states":144,"sha256":"aeebbe5a6016fd8c9c0d568af7ca436ffcf198e0759f20ea9effe465c8f1bbfc"}},
+    "24/7": {"d1":{"modulus":3120,"states":200,"sha256":"ef6e62e52fe86ad6b6e35276cf1361734325fbe9907acacb8f3dbd5ce1b648cb"},"d2":{"modulus":3120,"states":72,"sha256":"706c1e4a309907ec6cc2d53bbd033bbf94c887faa16ee21c05c5636b26ea5f90"}},
+    "84/13": {"d1":{"modulus":420,"states":8,"sha256":"ae144f7b97cc2432212b47ac664af960dcb142b6f653ab8dc63f1f000afafdc5"},"d2":{"modulus":420,"states":136,"sha256":"b13932534ffc524ae8952e240729f46f9de7e1a423f8ef547c2afe104877c74e"}},
+    "48/55": {"d1":{"modulus":16320,"states":480,"sha256":"e94fac6d56ea2c1442ac97b0628e8d165262459ffb826fc602c9494388273a94"},"d2":{"modulus":16320,"states":1248,"sha256":"436c2fd19a2cedf59e6ac751333d0456cb4a1fb85e291ac9c2dabb045f95b48e"}},
+    "20/99": {"d1":{"modulus":672,"states":48,"sha256":"aacac47b6aab316bb254bffab1182612dddf7baae96228d28939d54ffbdba759"},"d2":{"modulus":672,"states":8,"sha256":"ad7483de084c064f404945fcc316013c5863736db7a80aad661e782622df23b1"}}
+  },
+  "rank2_per_prime": {
+    "107": {"d1":{"mods":[60,12],"states":1728,"sha256":"38bb4858c1072bf50a167aad4e611862005fb3cbde96cdbf18a8fff67f928aff"},"d2":{"mods":[60,12],"states":960,"sha256":"7ecad53237ddef80205b9904f0bfe4fe8d5ce60f94cfbdf2f65baae8588f6f6f"}},
+    "109": {"d1":{"mods":[28,28],"states":448,"sha256":"8b909aa2d5dc41fece3f3fd9cc1773648010ef30855bf3034c72567f873fed5b"},"d2":{"mods":[28,28],"states":448,"sha256":"d0016d3c39ff3368246d82af81e72d550dcbe592d5f0e2728a85dc36248e466e"}},
+    "113": {"d1":{"mods":[56,8],"states":1280,"sha256":"f8cf424b90b3822c90a501b4440b68e9f437e79a64406fa69a0271746ea68ec7"},"d2":{"mods":[56,8],"states":1280,"sha256":"f8cf424b90b3822c90a501b4440b68e9f437e79a64406fa69a0271746ea68ec7"}},
+    "127": {"d1":{"mods":[64,64],"states":10240,"sha256":"2ce0206bd6020da4749f2c603216ebe136f3b54a4c468a5294a0b2d1aae7ac5c"},"d2":{"mods":[64,64],"states":10240,"sha256":"2ce0206bd6020da4749f2c603216ebe136f3b54a4c468a5294a0b2d1aae7ac5c"}}
+  },
+  "conclusion": {
+    "exact_MW_reduction_maps_defined": true,
+    "finite_panel_has_residual_congruence_classes": true,
+    "finite_panel_closes_non_torsion_points": false,
+    "D1_local_descent_materially_reduced_problem": "104 raw squareclasses -> 22 after exact local filters -> 14 d=1,2 locally soluble classes",
+    "recommended_escalation": "D2_MATERIALIZE_D1_D2_GENUS_ONE_SPLIT_QUOTIENTS_AND_GENUS5_COVERING_DATA"
+  },
+  "firewalls": {
+    "finite_MW_panel_is_complete_MW_sieve": false,
+    "residue_survival_is_rational_point_survival": false,
+    "large_CRT_modulus_is_height_bound": false,
+    "D1_complete": false,
+    "direct_cover_rational_points_complete": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}
