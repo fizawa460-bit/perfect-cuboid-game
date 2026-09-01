@@ -1,0 +1,29 @@
+name: Stage32 post1473 multibranch Beauville odd-branch diagnostic
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
+      - 'stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-beauville-odd-branch-wall.md'
+      - 'stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-beauville-odd-branch-wall.json'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_multibranch_beauville_odd_branch_wall.py'
+      - 'docs/stage32-arsenal-promotion.md'
+      - '.github/workflows/stage32-post1473-multibranch-beauville-odd-branch-diagnostic.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  exact-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Replay exact multibranch branch-partition certificate
+        run: python stages/stage32/residual-32-01-production/diagnose_stage32_post1473_multibranch_beauville_odd_branch_wall.py --check
