@@ -1,7 +1,8 @@
 {
-  "schema": "RESEARCH_ARSENAL_POST_STAGE29_V3_CONSOLIDATED_PROVISIONAL",
-  "status": "CURRENT_AFTER_STAGE29_CLOSE_WITH_CONSOLIDATED_STAGE32_STAGE33_PROVISIONAL_HARVEST",
+  "schema": "RESEARCH_ARSENAL_V4_STAGE30_FORMAL_STAGE32_STAGE33_PROVISIONAL",
+  "status": "CURRENT_WITH_FORMAL_STAGE30_AND_CONSOLIDATED_STAGE32_STAGE33_PROVISIONAL_HARVEST",
   "stage29_closed": true,
+  "stage30_closed": true,
   "perfect_cuboid_problem_open": true,
   "lookup_policy": {
     "load_full_arsenal_at_ordinary_stage_startup": false,
@@ -28,6 +29,85 @@
     {"id":"S28-W02","role":"NORMALIZED_INTERACTION_THRESHOLD","path":"../stage28-arsenal-promotion.md"},
     {"id":"S28-W03","role":"BRANCH_PROFILE_DIFFERENTIAL","path":"../stage28-arsenal-promotion.md"},
     {"id":"S28-W04","role":"COMMON_POLARIZATION_FIXED_CURVE_DIFFERENTIAL","path":"../stage28-arsenal-promotion.md"}
+  ],
+  "formal_router_weapons": [
+    {
+      "id": "S30-W01",
+      "role": "FINITE_EQUIVARIANT_ACTION_IDENTIFICATION",
+      "path": "../stage30-arsenal-promotion.md",
+      "source_stage": "Stage30",
+      "source_stage_closed": true,
+      "formal_selector": false,
+      "router_only": true,
+      "summary": "reconstruct concrete finite actions, exhaust equivariant candidates, then require a common/source-derived semantic anchor before adapter credit"
+    },
+    {
+      "id": "S30-W02",
+      "role": "SEMILINEAR_GALOIS_DESCENT_ADAPTER",
+      "path": "../stage30-arsenal-promotion.md",
+      "source_stage": "Stage30",
+      "source_stage_closed": true,
+      "formal_selector": false,
+      "router_only": true,
+      "summary": "quadratic semilinear finite-action descent via explicit sigma, theta, cocycle/deck element and exhaustive exact compatibility"
+    },
+    {
+      "id": "S30-W03",
+      "role": "MARKED_DEFECT_EQUIVARIANT_DESCENT_CLASSIFIER",
+      "path": "../stage30-arsenal-promotion.md",
+      "source_stage": "Stage30",
+      "source_stage_closed": true,
+      "formal_selector": false,
+      "router_only": true,
+      "summary": "transport a complete finite defect set equivariantly and classify marked Galois-descent classes separately from ordinary group orbits"
+    }
+  ],
+  "formal_workflows": [
+    {
+      "id": "S30-WF01",
+      "name": "FINITE_EQUIVARIANT_IDENTIFICATION_AUDIT",
+      "path": "../stage30-arsenal-promotion.md",
+      "status": "FORMAL_CLOSED_STAGE_WORKFLOW",
+      "summary": "finite relabeling candidates require a source/common-model anchor and exact source-derived action before semantic adapter credit"
+    },
+    {
+      "id": "S30-WF02",
+      "name": "IMMUTABLE_FINITE_CERTIFICATE_REPLAY",
+      "path": "../stage30-arsenal-promotion.md",
+      "status": "FORMAL_CLOSED_STAGE_WORKFLOW",
+      "summary": "pin immutable mathematical sources, independently reconstruct cheap finite structure, and bind audited exhaustive subcertificates without pinning mutable controller state"
+    }
+  ],
+  "cross_stage_relationships": [
+    {
+      "source": "S30-W01",
+      "target": "S33-PW05",
+      "relation": "FORMAL_PARENT_PATTERN_TO_PROVISIONAL_SPECIALIZATION",
+      "note": "Stage33 adds module-specific intertwiner/extension/reachability calculations"
+    },
+    {
+      "source": "S30-W01",
+      "target": "S32-PW05",
+      "relation": "COMPLEMENTARY_NOT_DUPLICATE",
+      "note": "Stage32 consumes a validated action to reconstruct invariant values rather than identifying source/target actions"
+    },
+    {
+      "source": "S30-W02",
+      "target": "S33-PW07",
+      "relation": "FORMAL_GENERIC_LAYER_TO_PROVISIONAL_DOWNSTREAM_SPECIALIZATION",
+      "note": "Stage33 adds Brauer/torsor/translation-cocycle semantics beyond finite-action descent"
+    },
+    {
+      "source": "S30-WF01",
+      "target": "V4_EQUIVARIANT_TRANSPORT_AUDIT",
+      "relation": "FORMAL_PARENT_WORKFLOW_TO_PROVISIONAL_SPECIALIZATION"
+    },
+    {
+      "source": "S30-WF02",
+      "target": "CANONICAL_EVIDENCE_CHAIN",
+      "relation": "FORMAL_SUPERSEDES_GENERIC_IMMUTABLE_REPLAY_PORTION",
+      "note": "Stage32 retains its separate numerical-candidate replay and semantic-promotion workflow layers"
+    }
   ],
   "provisional_harvests": [
     {
@@ -113,14 +193,16 @@
     "../stage24-arsenal-promotion.md",
     "../stage25-arsenal-promotion.md",
     "../stage26-arsenal-promotion.md",
-    "../stage28-arsenal-promotion.md"
+    "../stage28-arsenal-promotion.md",
+    "../stage30-arsenal-promotion.md"
   ],
   "stage29_frontier": {
-    "active_kernel_count": 13,
-    "class2_kernel_count": 4,
-    "class3_kernel_count": 9,
+    "historical_checkpoint_active_kernel_count": 13,
+    "historical_checkpoint_class2_kernel_count": 4,
+    "historical_checkpoint_class3_kernel_count": 9,
     "hidden_class1_pending_count": 0,
-    "authoritative_handoff": "../../stages/stage29/29-17/final-handoff.json"
+    "authoritative_handoff": "../../stages/stage29/29-17/final-handoff.json",
+    "warning": "Stage30 later closed one Class-2 kernel; do not use these historical counts as current frontier counts"
   },
   "superseded_indexes": [
     "../archive/arsenal-index-history/research-arsenal-index.md",
@@ -131,6 +213,10 @@
     "multiply_alternative_completion_proofs_as_independent": false,
     "family_closure_implies_endpoint_closure": false,
     "finite_zero_implies_global_nonexistence": false,
+    "finite_exhaustive_identification_implies_unconditional_general_theorem": false,
+    "adapter_closure_implies_endpoint_closure": false,
+    "abstract_finite_group_isomorphism_implies_concrete_action_adapter": false,
+    "ordinary_group_orbit_implies_marked_arithmetic_class": false,
     "historical_green_means_endpoint_solved": false,
     "provisional_card_implies_formal_selector": false,
     "provisional_card_implies_theorem_credit": false,
