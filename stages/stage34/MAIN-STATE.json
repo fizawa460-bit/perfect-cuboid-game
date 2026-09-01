@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE34_EXT_C_PRIMITIVE_DIVISOR_MAIN_STATE_V2_EXACT_OBJECT_POPULATION_GAP",
+  "schema": "STAGE34_EXT_C_PRIMITIVE_DIVISOR_MAIN_STATE_V3_34_01_PREAUDIT_COMPLETE",
   "stage": "34",
-  "status": "ACTIVE_34_01_EXACT_OBJECT_WINDOW_ADAPTER_LOCKED_GLOBAL_POPULATION_CONTRACT_OPEN",
+  "status": "READY_FOR_HOSTILE_AUDIT_34_01_GLOBAL_POPULATION_CONTRACT",
   "mission": "Close Stage29 kernel K16-C3-EXT-C-PRIMITIVE-DIVISOR for receiver R29-EXT-CHANG-C by upgrading the audited finite Paper-C orbit windows to a proof for the exact all-multiples population, or by an equivalent deterministic closure of that same population.",
   "source_kernel": {
     "kernel_id": "K16-C3-EXT-C-PRIMITIVE-DIVISOR",
@@ -36,17 +36,36 @@
     "exact_object": "stages/stage34/34-01/exact-sequence-lock.json",
     "finite_window": "stages/stage34/34-01/finite-window-lock.json",
     "cuboid_obstruction_adapter": "stages/stage34/34-01/cuboid-obstruction-adapter-lock.json",
-    "result": "stages/stage34/34-01/result.md"
+    "global_population_contract": {
+      "path": "stages/stage34/34-01/global-population-contract.json",
+      "blob_sha": "4462aeac772edb507f208d1b0ef09386061a3cc3"
+    },
+    "magma_partial_mw": {
+      "path": "stages/stage34/34-01/mw-magma-partial-certificate.json",
+      "blob_sha": "35b17783e93ccc4e96a4867d50aef7747cefc376"
+    },
+    "eclib_residual_mw": {
+      "path": "stages/stage34/34-01/mw-eclib-certificate.json",
+      "blob_sha": "5114dda804871c6ec970647ec7b49560e3e380c6"
+    },
+    "eclib_execution": {
+      "path": "stages/stage34/34-01/mw-eclib-execution.json",
+      "blob_sha": "6898d4442c18a0083f5b92dddab6c49354cd9a35"
+    },
+    "result": {
+      "path": "stages/stage34/34-01/result.md",
+      "blob_sha": "4c5d8d0cbb45ee6903ce8d39a2e98f7c3e320e51"
+    }
   },
   "current": {
     "unit": "34-01",
-    "next_exact_leaf": "RESOLVE_EXT_C_GLOBAL_POPULATION_CONTRACT_FULL_MW_BASIS_TORSION_TRANSLATES_AND_RANK2_INDEXING",
-    "first_repair_route": "Use formal Arsenal S31-WF01 to certify full Mordell-Weil group/basis or determine the exact finite index before any theorem-family classification.",
-    "why_not_34_02_yet": "Paper C's exact orbit-value object and finite windows are now locked, but its all-rational-point population is not yet source-locked from the ellrank outputs, its displayed primitive-divisor input is untranslated rank-one only, and no rank-two primitive ordering is defined. The theorem funnel must not start until those population/quantifier adapters are exact."
+    "next_exact_leaf": "AWAIT_HOSTILE_AUDIT_34_01_GLOBAL_POPULATION_CONTRACT",
+    "evidence_state": "PREAUDIT_COMPLETE",
+    "why_not_34_02_yet": "All three 34-01 population/quantifier gaps now have complete evidence, but repository-wide promotion policy requires hostile audit before authoritative P1 closure and downstream release."
   },
   "current_leaf_working_set": [
     "stages/stage34/34-01/result.md",
-    "stages/stage34/34-01/exact-sequence-lock.json"
+    "stages/stage34/34-01/global-population-contract.json"
   ],
   "exact_object_summary": {
     "kind": "ELLIPTIC_ORBIT_VALUE_NUMERATOR_FAMILY_NOT_SINGLE_EDS",
@@ -58,57 +77,69 @@
     "finite_windows": "rank1 n<=200; rank2 |a|,|b|<=12; zero Face-3 squares in 14592 checked cosets",
     "source_untranslated_primitive_counterexample": "q=20/21,n=5, prime 29 primitive for N_n but v_29(N_5)=2"
   },
+  "population_evidence": {
+    "all_seven_free_lattices_index_one_preaudit": true,
+    "magma_index_one_fibers": ["20/21", "24/7", "60/11"],
+    "magma_resource_wall_fibers": ["80/39", "84/13", "48/55", "20/99"],
+    "eclib_residual_index_one_fibers": ["80/39", "84/13", "48/55", "20/99"],
+    "rank2_source_coordinate_matrix": [[0, -1], [1, 0]],
+    "rank2_determinant_absolute_value": 1,
+    "rank1_torsion_translate_quantifiers_defined": true,
+    "rank2_direct_replacement_target_defined": true,
+    "hostile_audit_passed": false
+  },
   "missing_interfaces": [
-    "FULL_MORDELL_WEIL_BASIS_OR_EXACT_RECEIVER_POPULATION_ADAPTER_NOT_SOURCE_LOCKED",
-    "TORSION_TRANSLATED_RANK1_ODD_PRIMITIVE_DIVISOR_THEOREM_NOT_FORMULATED",
-    "RANK2_TWO_VARIABLE_PRIMITIVE_DIVISOR_INDEXING_NOT_DEFINED"
+    "HOSTILE_AUDIT_34_01_REQUIRED_BEFORE_P1_PROMOTION_AND_34_02_RELEASE"
   ],
   "proof_obligations": {
-    "P1_exact_object": "Exact Paper-C orbit-value numerator family is reconstructed. Complete P1 by certifying that the chosen points give the exact receiver population modulo torsion, or by narrowing/source-locking the receiver population; define all translated and rank-two index semantics without undefined primitive terminology.",
-    "P2_primitive_existence": "After P1 population repair, prove or source-lock an effective primitive/fresh-factor theorem for exactly the required orbit-value family and parameter/index population. A theorem only for the EDS denominator B_n does not qualify.",
+    "P1_exact_object_and_population": "PREAUDIT_EVIDENCE_COMPLETE. Exact orbit-value object, all seven full free Mordell-Weil lattices modulo torsion, fixed-torsion rank-one sequences, and rank-two global index semantics/replacement target are materialized. Requires hostile audit before authoritative closure.",
+    "P2_primitive_or_fresh_factor_existence": "After audited P1 release, prove or source-lock an effective theorem for the exact rank-one translated orbit-value numerators, or an equivalent deterministic global nonsquare theorem. EDS denominator theorems do not transfer automatically.",
     "P3_odd_multiplicity": "Prove that at least one usable fresh/primitive numerator factor has odd valuation, or prove an equivalent parity/squareclass obstruction. Primitive existence alone receives no closure credit.",
-    "P4_exceptional_indices": "Certifiably discharge every admissible index below the global threshold and every theorem-exception/degenerate population case.",
-    "P5_cuboid_adapter": "The same-point Face-3 adapter is source-locked: odd valuation in the reduced numerator N(Q) makes F3(Q) nonsquare and excludes that source point. Global use still requires exact coverage of the receiver population.",
-    "P6_all_multiples": "Conclude impossibility for every point/index in the exact repaired receiver population, not merely the searched windows or one untranslated rank-one sequence."
+    "P4_exceptional_indices": "Certifiably discharge every admissible index below each global threshold and every theorem-exception/degenerate case.",
+    "P5_cuboid_adapter": "The same-point Face-3 adapter is source-locked: odd valuation in reduced numerator N(Q) makes F3(Q) nonsquare and excludes that source point.",
+    "P6_all_multiples": "Conclude impossibility for every point/index in the exact audited receiver population, not merely the searched windows."
   },
   "theorem_route_tree": {
-    "route_A_lucas_lehmer": "Use only if a repaired exact orbit-value subfamily is proved to be a nondegenerate Lucas/Lehmer sequence; no such identification is currently source-locked.",
-    "route_B_elliptic_divisibility": "The ambient points are elliptic, but Paper C proves that the Face-3 numerator N(Q) is not the standard EDS denominator B_n. Any elliptic-Zsigmondy route must be for the divisor/function F3 itself or have an exact transfer theorem.",
-    "route_C_orbit_function_divisors": "Treat values of the rational function F3 along elliptic orbits directly, including torsion-translated arithmetic progressions; seek effective primitive/fresh divisor, valuation-parity, squareclass, Vojta/height, or S-unit/Thue reductions only after P1 is exact.",
-    "route_D_vacuity_or_replacement": "A primitive-divisor formulation is optional. Any deterministic theorem proving all remaining orbit values nonsquare on the exact population is an allowed replacement. Rank two may require a different mechanism from rank one."
+    "route_A_lucas_lehmer": "Use only if an exact orbit-value subfamily is proved to be a nondegenerate Lucas/Lehmer sequence; no such identification is source-locked.",
+    "route_B_elliptic_divisibility": "Paper C's Face-3 numerator N(Q) is not the standard EDS denominator B_n. Any elliptic-Zsigmondy route must be for the divisor/function F3 itself or have an exact transfer theorem.",
+    "route_C_orbit_function_divisors": "Treat values of F3 along elliptic orbits directly, including fixed torsion translates; seek effective fresh-divisor, valuation-parity, squareclass, height, S-unit or Thue reductions after audited P1 release.",
+    "route_D_vacuity_or_replacement": "Primitive divisors are optional. Any deterministic theorem proving all remaining orbit values nonsquare on the exact population is allowed. Rank two is explicitly routed to a direct outside-finite-box theorem rather than an invented two-variable primitive order."
   },
   "arsenal_lookup": {
     "performed_after_exact_object_identification": true,
-    "router_source": "docs/arsenal/README.md on arsenal-provisional-stage32-stage33-harvest",
     "direct_mathematical_weapon_match": false,
-    "population_repair_workflow_match": "S31-WF01 CAS_MW_FULL_GROUP_CERTIFICATION",
-    "relevant_workflows": [
-      "S31-WF01 CAS_MW_FULL_GROUP_CERTIFICATION",
+    "population_repair_workflow_used": "S31-WF01 CAS_MW_FULL_GROUP_CERTIFICATION",
+    "supporting_workflows_used": [
       "S30-WF02 IMMUTABLE_LAYERED_CERTIFICATE_REPLAY",
       "S30-WF03 ADAPTER_CREDIT_LAYER_FIREWALL"
     ],
-    "fresh_theorem_invention_allowed_only_after_population_contract": true
+    "fresh_theorem_invention_allowed_only_after_audited_population_contract": true
   },
   "promotion_gates": {
     "exact_orbit_value_object_source_locked": true,
-    "sequence_source_locked": false,
     "finite_window_reconstructed": true,
-    "global_receiver_population_source_locked": false,
+    "cuboid_adapter_proved": true,
+    "global_receiver_population_evidence_complete_preaudit": true,
+    "global_receiver_population_source_locked_authoritative": false,
+    "stage34_01_hostile_audit_passed": false,
+    "stage34_02_released": false,
     "primitive_theorem_source_locked": false,
     "primitive_theorem_hypotheses_verified": false,
     "odd_multiplicity_proved": false,
     "small_indices_closed": false,
-    "cuboid_adapter_proved": true,
     "all_multiples_closed": false,
     "R29_EXT_CHANG_C_closed": false
   },
   "firewalls": {
-    "tight_ellrank_implies_full_MW_basis": false,
+    "preaudit_evidence_complete_is_audited_closure": false,
+    "tight_ellrank_implies_full_MW_basis_without_saturation": false,
+    "public_calculator_timeout_is_mathematical_failure": false,
     "untranslated_rank1_theorem_covers_torsion_translates": false,
     "one_variable_primitive_definition_covers_rank2": false,
     "EDS_denominator_theorem_applies_to_face3_numerator": false,
     "bounded_search_is_global_theorem": false,
     "primitive_divisor_implies_odd_multiplicity": false,
+    "mw_population_repair_is_receiver_closure": false,
     "ext_c_family_closure_implies_master_hit_closure": false,
     "ext_c_family_closure_implies_perfect_cuboid_nonexistence": false,
     "perfect_cuboid_existence_claim": false,
@@ -125,5 +156,5 @@
     "stages/stage33/MAIN-STATE.json",
     "stages/stage34/ROADMAP.md"
   ],
-  "next_after_34_01": "34-02_SEQUENCE_CLASSIFICATION_AND_THEOREM_FUNNEL_AFTER_GLOBAL_POPULATION_CONTRACT_IS_EXACT"
+  "next_after_audited_34_01": "34-02_SEQUENCE_CLASSIFICATION_AND_THEOREM_FUNNEL"
 }
