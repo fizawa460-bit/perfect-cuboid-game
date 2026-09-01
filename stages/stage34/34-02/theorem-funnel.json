@@ -1,0 +1,121 @@
+{
+  "schema": "STAGE34_02_SEQUENCE_CLASSIFICATION_THEOREM_FUNNEL_V1",
+  "status": "ROUTE_D_SELECTED_PRIMARY_WITH_D1_D2_SUBROUTES",
+  "exact_object": "stages/stage34/34-01/global-population-contract.json",
+  "exact_cover_reduction": "stages/stage34/34-02/exact-cover-reduction.json",
+  "classification": {
+    "A_lucas_lehmer": {
+      "status": "REJECTED_NO_EXACT_IDENTIFICATION",
+      "reason": "N_{q,T}(n)=Num(F3(nP_q+T)) is an elliptic-orbit rational-function numerator; no source-locked second-order linear recurrence, Lucas pair, Lehmer pair, cyclotomic atom identity, or strong divisibility law is present.",
+      "BHV_credit": false
+    },
+    "B_elliptic_divisibility": {
+      "status": "NEAR_MISS_NOT_APPLICABLE_TO_LOAD_BEARING_NUMERATOR",
+      "useful_background": [
+        {
+          "source": "Silverman elliptic Zsigmondy theorem",
+          "scope": "denominators B_n of x(nP)",
+          "mismatch": "Paper-C obstruction uses the reduced numerator of F3, not the x-coordinate denominator"
+        },
+        {
+          "source": "Matteo Verzobio, Primitive divisors of sequences associated to elliptic curves, JNT 209 (2020), 378-390, DOI 10.1016/j.jnt.2019.09.003",
+          "scope": "denominators of x(nP+Q); primitive divisors for large n when Q is torsion of prime order",
+          "mismatches": [
+            "denominator rather than Face-3 numerator",
+            "Stage34 includes order-4 torsion translates as well as order-2/identity translates",
+            "primitive existence alone does not imply odd valuation"
+          ]
+        }
+      ],
+      "direct_credit": false
+    },
+    "C_general_recurrence_or_dynamics": {
+      "status": "REJECTED_AS_PRIMARY",
+      "reason": "No exact linear/divisibility recurrence for N_{q,T}(n) is locked. Arithmetic-dynamical primitive-divisor theorems for degree >=2 rational-map iteration do not match the degree-1 group translation Q |-> Q+P on E_q.",
+      "direct_credit": false
+    },
+    "D_replacement": {
+      "status": "SELECTED_PRIMARY",
+      "reason": "The obstruction itself is a square condition on a rational function over seven fixed elliptic curves. The exact algebraic reduction produces seven fixed genus-5 double-cover/fiber-product curves, so direct rational-point exclusion attacks the same universal population and simultaneously avoids the rank-one torsion-translate and rank-two primitive-ordering problems.",
+      "subroutes": {
+        "D1_squareclass_MW_sieve": {
+          "priority": 1,
+          "target": "Use the certified full MW bases and the finite squareclass support d|rad(2ab) to perform local solubility/descent and Mordell-Weil-sieve elimination before high-genus Chabauty.",
+          "success_condition": "Every non-torsion receiver class is eliminated or reduced to an explicit finite candidate set with complete proof certificates.",
+          "remaining_lemmas": [
+            "materialize each q=a/b squareclass cover collection",
+            "local-solubility filter all d",
+            "define exact reduction maps from the audited MW basis to local residue groups",
+            "prove sieve completeness rather than report sampled residue statistics"
+          ]
+        },
+        "D2_genus5_covering_chabauty": {
+          "priority": 2,
+          "target": "For residual locally soluble covers, determine C_q(Q) by covering collections, elliptic-curve Chabauty and/or Mordell-Weil sieve, then project and classify all E_q(Q) points with F3 square.",
+          "literature_species": [
+            {
+              "source": "Enrique Gonzalez-Jimenez, Covering Techniques and Rational Points on Some Genus 5 Curves, Contemporary Mathematics 649 (2015), 89-105, DOI 10.1090/conm/649/13021",
+              "relevance": "computes rational points on suitable genus-5 curves using covering techniques and elliptic Chabauty",
+              "required_adapter": "put each Stage34 C_q into the required fiber-product/covering form and verify rank/field hypotheses for the chosen covers"
+            },
+            {
+              "source": "Nils Bruin and Michael Stoll, The Mordell-Weil sieve: proving non-existence of rational points on curves, LMS J. Comput. Math. 13 (2010), 272-306, DOI 10.1112/S1461157009000187",
+              "relevance": "proof-capable Mordell-Weil sieve for rational-point nonexistence/completeness",
+              "required_adapter": "explicit Jacobian/quotient map and finite-index MW subgroup/coset data"
+            },
+            {
+              "source": "Michael Stoll, Diagonal genus 5 curves, elliptic curves over Q(t), and rational diophantine quintuples, arXiv:1711.00500",
+              "relevance": "concrete methodology for rational points on genus-5 intersections of quadrics and elliptic quotient decompositions",
+              "required_adapter": "show the Stage34 cover or a finite squareclass cover is in the applicable model"
+            }
+          ],
+          "remaining_lemmas": [
+            "source-lock a smooth projective model for each of the seven C_q",
+            "materialize useful genus-1/genus-3 quotient maps and Jacobian decomposition or covering collection",
+            "certify ranks/Selmer bounds needed by elliptic Chabauty or MW sieve",
+            "enumerate exceptional pole/infinity/torsion points and map them back to the exact receiver population"
+          ]
+        }
+      }
+    }
+  },
+  "arsenal_recheck": {
+    "router": "docs/arsenal/index.json",
+    "direct_full_genus5_or_MW_sieve_weapon": false,
+    "applicable_support": [
+      {
+        "id": "S31-W01",
+        "role": "GENUS_ONE_QUARTIC_ELLIPTIC_BIRATIONAL_ADAPTER",
+        "use": "candidate adapter for the quartic genus-1 quotient D_q: z^2=A_qB_q; does not by itself determine C_q(Q)"
+      },
+      {
+        "id": "S31-W03",
+        "role": "COMPLETE_POINT_SET_PARAMETER_PULLBACK",
+        "use": "usable only after a complete auxiliary cover/quotient point set is certified; exact pullback still required"
+      },
+      {
+        "id": "S30-WF02",
+        "role": "IMMUTABLE_LAYERED_CERTIFICATE_REPLAY",
+        "use": "bind future descent/rank/sieve certificates"
+      },
+      {
+        "id": "S30-WF03",
+        "role": "ADAPTER_CREDIT_LAYER_FIREWALL",
+        "use": "keep local-solubility, quotient, cover-point, receiver and endpoint credit separate"
+      }
+    ]
+  },
+  "route_selection": {
+    "selected": "D_REPLACEMENT_DIRECT_RATIONAL_POINT_COVER",
+    "first_leaf": "D1_FINITE_SQUARECLASS_DESCENT_AND_LOCAL_MW_SIEVE",
+    "fallback_leaf": "D2_GENUS5_COVERING_ELLIPTIC_CHABAUTY_MW_SIEVE",
+    "why_before_primitive_divisors": "It attacks the exact square obstruction directly, handles rank one and rank two uniformly, and avoids proving the strictly stronger fresh-prime plus odd-valuation assertions unless the direct rational-point route fails."
+  },
+  "34_02_exit_gate": {
+    "one_route_selected": true,
+    "theorem_species_mapped": true,
+    "remaining_hypotheses_are_explicit_lemmas": true,
+    "primitive_divisor_theorem_promoted": false,
+    "receiver_closed": false
+  }
+}
