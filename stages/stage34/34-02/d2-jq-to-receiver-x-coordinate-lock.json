@@ -1,0 +1,29 @@
+{
+  "schema": "STAGE34_02_D2_JQ_TO_RECEIVER_X_COORDINATE_LOCK_V1",
+  "status": "PASS_SOURCE_LOCKED_JQ_TO_K_TO_RECEIVER_X_ADAPTER",
+  "source_maps": "stages/stage34/34-02/d2-quartic-map-certificate.json",
+  "source_pullback": "stages/stage34/34-02/d2-split-to-receiver-pullback-lock.json",
+  "magma_isomorphism_semantics": {
+    "source": "Magma V2.29 handbook, elliptic-curve morphisms / IsomorphismData",
+    "url": "https://magma.maths.usyd.edu.au/magma/handbook/text/1551",
+    "data_order": "[r,s,t,u]",
+    "map": "(x_E,y_E) -> (u^2*x_E+r, u^3*y_E+s*u^2*x_E+t) on J_q"
+  },
+  "inverse_map_structural_identity": {
+    "all_14_cases_checked_in_persisted_certificate": true,
+    "K_first_coordinate": "y_E*z_E",
+    "K_third_coordinate": "2*x_E*z_E+y_E*z_E",
+    "affine_projective_parameter": "[T:S]=[y_E:2*x_E+y_E]",
+    "selected_origin_cases": "J_q origin maps to the selected K base point: t=1 for d=1 and t=0 for d=2"
+  },
+  "receiver_x": {
+    "d1": "[T:S] -> [a(T^2-S^2):2*b*T*S]",
+    "d2": "[T:S] -> [a(2*T^2-4*T*S+S^2):b(2*T^2-S^2)]"
+  },
+  "finite_reduction_rule": "At a prime where all locked coefficients reduce and both curves have good reduction, reduce the certified J_q point, invert [r,s,t,u] to the Magma elliptic model, form [T:S], and compare the resulting projective receiver-x with the reduction of the E_q point. If one chosen coordinate presentation becomes [0:0] modulo p, retain that J-state conservatively rather than using it for elimination.",
+  "firewalls": {
+    "coordinate_adapter_is_global_matching_x_classification": false,
+    "indeterminate_mod_p_coordinate_is_obstruction": false,
+    "finite_matching_x_panel_is_receiver_closure": false
+  }
+}
