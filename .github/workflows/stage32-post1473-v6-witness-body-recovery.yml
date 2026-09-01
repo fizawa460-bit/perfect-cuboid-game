@@ -1,0 +1,61 @@
+name: Stage32 post-1473 V6 witness body recovery
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - '.github/workflows/stage32-post1473-v6-witness-body-recovery.yml'
+      - 'stages/stage32/residual-32-01-production/recover_stage32_post1473_v6_witness_body.py'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-post1473-v6-witness-body-recovery-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact locked dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0' 'scipy==1.15.3'
+      - name: Recover prior exact witness body under retained SHA locks
+        working-directory: stages/stage32/residual-32-01-production
+        run: |
+          python recover_stage32_post1473_v6_witness_body.py \
+            --manifest full178-manifest.json \
+            --node-preflight "$GITHUB_WORKSPACE/stages/stage32/32-21/post-21bl-full178-node-support-preflight.json" \
+            --picard-adapter "$GITHUB_WORKSPACE/stages/stage32/32-21/post-21bl-picard64-witness-adapter.json" \
+            --node-support-audit "$GITHUB_WORKSPACE/stages/stage32/32-21/post-21bl-node-support-refinement-audit.json" \
+            --source-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21az-survivor-prism.json" \
+            --formula-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bb-r51-interval-formula.json" \
+            --pair-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bc-pair-combination-bounds.json" \
+            --audit-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21be-r51-endpoint-audit.json" \
+            --retained "$GITHUB_WORKSPACE/stages/stage33/33-07/picard_base_rows_retained.py" \
+            --marking "$GITHUB_WORKSPACE/stages/stage33/33-07/stage32_picard_marking_retained.py" \
+            --wall-seconds 60 \
+            --exact-replay-timeout-ms 30000 \
+            --output "$RUNNER_TEMP/stage32-post1473-v6-witness-body-recovery.json"
+      - name: Enforce compact evidence size
+        run: |
+          test -f "$RUNNER_TEMP/stage32-post1473-v6-witness-body-recovery.json"
+          BYTES=$(wc -c < "$RUNNER_TEMP/stage32-post1473-v6-witness-body-recovery.json")
+          echo "artifact_bytes=$BYTES"
+          test "$BYTES" -le 100000
+      - name: Upload compact recovery evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-post1473-v6-witness-body-recovery
+          path: ${{ runner.temp }}/stage32-post1473-v6-witness-body-recovery.json
+          retention-days: 3
+          compression-level: 9
