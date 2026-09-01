@@ -1,0 +1,38 @@
+{
+  "schema": "STAGE34_02_D2_QUARTIC_MAP_LOCK_V1",
+  "status": "PASS_14_OF_14_BIRATIONAL_MAPS_MATERIALIZED_EXCEPTIONAL_LOCUS_STILL_OPEN",
+  "source": "stages/stage34/34-02/d2-split-genus1-quotient-lock.json",
+  "execution": "stages/stage34/34-02/d2-quartic-map-execution.json",
+  "construction": "For every q and d=1,2, Magma EllipticCurve(C,P) returned an exact birational K_{q,d}->E with inverse defining polynomials; E was proved Q-isomorphic to the locked common J_q and the exact IsomorphismData was recorded in the generation-2 certificate artifact.",
+  "common_structural_checks": {
+    "d1_forward_third_coordinate": "(X-Z)^3 in all seven d=1 cases",
+    "d2_forward_third_coordinate": "X^3 in all seven d=2 cases",
+    "selected_base_point_sent_to_origin": true,
+    "forward_polynomial_count_each": 3,
+    "inverse_polynomial_count_each": 3,
+    "forward_base_scheme_equation_count_each": 4
+  },
+  "cases": [
+    {"q":"20/21","d":1,"map_material_sha256":"8dd72105a723fbddfffc1cdfda63abd5bcf6e7bf404f66ba79d5635c9256c67b","iso_to_Jq":"[ 1409519/1112643, 1/609, 67240/10755549, 29/21 ]"},
+    {"q":"20/21","d":2,"map_material_sha256":"ad23375486e9ee4ec0ef129c7a07ff2f979d70865cde4d49c3f839b0be5296e2","iso_to_Jq":"[ -3361/1323, -1/21, 0, 1/42 ]"},
+    {"q":"80/39","d":1,"map_material_sha256":"896c722cd01fdf61f3c4df2c61124690f155023b1a0e17fa69bf2eaac996b655","iso_to_Jq":"[ 54070559/36143523, 1681/3471, 3808742560/1072257849, 89/39 ]"},
+    {"q":"80/39","d":2,"map_material_sha256":"9d57848796c575ea047b1819a9e012ab8842766a4d99d7c51e213e7f8bcbe7a8","iso_to_Jq":"[ -26641/4563, -41/39, 0, 41/78 ]"},
+    {"q":"24/7","d":1,"map_material_sha256":"829fc572bbaf74c02bb8d6c3e7832a2040c0007ba1cb7093bdf7c6d680e76313","iso_to_Jq":"[ -51937/91875, 289/175, 13330992/765625, 25/7 ]"},
+    {"q":"24/7","d":2,"map_material_sha256":"30b71107b9219033cb8662707b6539d9d696b1e7f382e54ef230dbcdecd22369","iso_to_Jq":"[ -1633/147, -17/7, 0, 17/14 ]"},
+    {"q":"84/13","d":1,"map_material_sha256":"396f01d919f6c448db7dfb26cb870aea465aee8a78d5d75fc0cff210f2d661ea","iso_to_Jq":"[ -37891057/3663075, 5041/1105, 7968369192/103787125, 85/13 ]"},
+    {"q":"84/13","d":2,"map_material_sha256":"820af6fabdc434c9772a0d808a8a813f0c593fff3ee6b89b1ab84b524d0f992b","iso_to_Jq":"[ -13777/507, -71/13, 0, 71/26 ]"},
+    {"q":"48/55","d":1,"map_material_sha256":"b8241d8306dadc948ec09871ee131341160004004f00b0782fdf1aee8a349bb9","iso_to_Jq":"[ 55236959/48360675, 49/4015, 49904736/1176776425, 73/55 ]"},
+    {"q":"48/55","d":2,"map_material_sha256":"7ae5ef7c75793c6efaecb4af6be33da0c6963de2635aa10b69d7d63cfed26ca7","iso_to_Jq":"[ -21169/9075, -7/55, 0, 7/110 ]"},
+    {"q":"20/99","d":1,"map_material_sha256":"52ed1765b62621ac7a043c17cc87ebc573fbff120173da6fe931f0b45dfb9034","iso_to_Jq":"[ -57015601/299940003, 6241/9999, 3535152040/10097980101, 101/99 ]"},
+    {"q":"20/99","d":2,"map_material_sha256":"766642f18beb415a1c49600e48e660fa1c275f42b7ba5f065bb0b0a5a6e17b7a","iso_to_Jq":"[ -22081/29403, -79/99, 0, 79/198 ]"},
+    {"q":"60/11","d":1,"map_material_sha256":"618fbbbaca10e0b3b5038f1cfcd45f524029e6383c62de7311b351914ecabef6","iso_to_Jq":"[ -8618641/1350723, 2401/671, 1452412920/27464701, 61/11 ]"},
+    {"q":"60/11","d":2,"map_material_sha256":"c00526e649ed5dc80fe825d4e27e5cc725b138cfe8e8d9b497417e5a29f04e24","iso_to_Jq":"[ -7681/363, -49/11, 0, 49/22 ]"}
+  ],
+  "next_obligation": "Identify the exact naive forward/inverse base schemes and certify round-trip extension at those exceptional points; then bind the explicit J_q coordinates to the certified full MW bases for covering/elliptic-Chabauty.",
+  "firewalls": {
+    "map_materialization_is_exceptional_locus_closure": false,
+    "map_materialization_is_quartic_point_completeness": false,
+    "full_Jq_MW_plus_map_is_cover_completeness": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}
