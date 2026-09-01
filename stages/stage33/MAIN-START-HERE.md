@@ -96,6 +96,20 @@ working set afterward. Never reload a closed ancestor merely for reassurance.
 - Before ending a MAIN batch, write only genuinely unpromoted narrowing/blockers
   to `MAIN-BATCH-HANDOFF.md`. Do not copy current mathematical state into it.
 
+### MAIN / AUDIT role split
+
+MAIN is progress-first within the exact-evidence and firewall rules. It should
+continue through ordinary mathematical ambiguity by constructing the strongest
+source-locked certificate, adapter, diagnostic, or explicit blocker it can, rather
+than stopping merely to ask the user to interpret an intermediate technical
+result. Adversarial re-checking belongs to the separate AUDIT workflow: if AUDIT
+later rejects a MAIN conclusion, MAIN repairs it from that exact audit finding.
+
+Do not trade away evidentiary discipline for speed: MAIN still must not guess
+coordinates, silently identify unequal interfaces, promote unsupported claims, or
+cross closure/release/theorem firewalls. The intended split is **forward progress
+in MAIN, hostile verification in AUDIT**, not lower proof standards in MAIN.
+
 ## MAIN batch completion gate
 
 `Stage33-main-batch` is a work unit, not a single-observation or short-status
