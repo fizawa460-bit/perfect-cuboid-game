@@ -1,0 +1,30 @@
+{
+  "schema": "STAGE34_02_D2_STAGEA2_PAIR_QUOTIENT_MWRANK_BOUND_LOCK_V1",
+  "status": "SOURCE_LOCKED",
+  "source": {
+    "repository": "JohnCremona/eclib",
+    "path": "doc/mwrank/mwrank.info",
+    "url": "https://github.com/JohnCremona/eclib/blob/master/doc/mwrank/mwrank.info"
+  },
+  "locked_semantics": [
+    "mwrank uses 2-descent to determine rank and then saturates known points to a full Z-basis when output generators are requested.",
+    "The homogeneous-space point-search logarithmic height bound defaults to 10.",
+    "The documented command-line option '-b N' changes that bound; the source explicitly gives '-b 12' as an example.",
+    "The documentation advises not normally exceeding 15 and states that a descent may remain conditional when an everywhere-locally-soluble homogeneous space has not been proved to have a rational point."
+  ],
+  "stage34_policy": "Run the default bound first. Only when the explicit unconditional full-Mordell-Weil-basis marker is absent, retry that exact curve at bounds 12, 14, then 15. Accept rank credit only on an attempt containing the explicit unconditional marker and no saturation/rank warning. If all attempts remain inconclusive, fail closed and send the model to a different proof route.",
+  "failed_generation_1": {
+    "run": 33513546677,
+    "job": 99874860715,
+    "classification": "NONCREDIT_INCONCLUSIVE_MWRANK_DEFAULT_BOUND",
+    "first_inconclusive_model": 6,
+    "default_models_certified_before_stop": 5,
+    "mathematical_counterexample": false
+  },
+  "firewalls": {
+    "conditional_rank_is_rank_credit": false,
+    "larger_search_bound_is_proof_without_unconditional_marker": false,
+    "failed_generation_1_changes_parent_branch_set": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}
