@@ -1,0 +1,37 @@
+{
+  "schema": "STAGE34_02_D2_STAGEA2_RANK1_MODEL_COVER_SELECTION_LOCK_V1",
+  "status": "SOURCE_LOCKED",
+  "source_pair_classification": {
+    "lock": "stages/stage34/34-02/d2-stageA2-pair-quotient-pari-classification-lock.json",
+    "run": 33516423218,
+    "job": 99884536334,
+    "distinct_models": 48,
+    "model_ranks_by_sorted_model_id_1_to_48": [2,2,1,1,3,1,2,1,2,0,1,1,1,1,3,1,1,2,1,0,2,1,1,2,1,1,2,1,2,2,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,1,1,2]
+  },
+  "source_rankzero_pullback": "stages/stage34/34-02/d2-stageA2-rankzero-AB-complete-pullback.json",
+  "input": {
+    "full_support_d1_branches": 92,
+    "rankzero_AB_closed_branches": 16,
+    "remaining_positive_rank_branches": 76
+  },
+  "selected_rank1_model_ids": [8,12,16,17,19,25,26,31,33,38,40,42,44,47],
+  "selection_claim": "COVER_NOT_OPTIMALITY_THEOREM. These 14 exact rank-one models are selected because every one of the 76 remaining branches contains exactly one quotient whose Jacobian is in this selected set. No claim that 14 is globally minimal is required for credit.",
+  "expected_rank_patterns_in_pair_order_UA_UB_VA_VB_AB": {
+    "[2,1,1,2,1]": 24,
+    "[2,1,1,2,2]": 12,
+    "[1,1,1,1,1]": 12,
+    "[1,1,1,1,2]": 8,
+    "[2,2,2,2,1]": 8,
+    "[2,1,1,2,3]": 8,
+    "[3,1,1,3,1]": 4
+  },
+  "expected_rank1_quotient_count_per_branch_histogram": {"1":8,"2":20,"3":28,"4":8,"5":12},
+  "next_if_verified": "Certify full Mordell-Weil bases only for these 14 selected rank-one models, rather than all 46 positive-rank models, then build branch-specific exact t-coordinate sieves against the remaining squareclass equations.",
+  "credit": "This is only a workload-compression adapter. A selected rank-one quotient does not close a branch and a full MW basis will still require an exact quotient-to-parent sieve/pullback.",
+  "firewalls": {
+    "rank1_model_cover_is_branch_closure": false,
+    "fourteen_is_proved_minimum": false,
+    "rank1_quotient_Q_point_is_parent_Q_point": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}
