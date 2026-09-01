@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE34_EXT_C_PRIMITIVE_DIVISOR_MAIN_STATE_V4_34_01_AUDITED_34_02_ROUTE_D_PREAUDIT",
+  "schema": "STAGE34_EXT_C_MAIN_STATE_V5_34_02_AUDITED_D1_ACTIVE",
   "stage": "34",
-  "status": "READY_FOR_HOSTILE_AUDIT_34_02_ROUTE_D_DIRECT_RATIONAL_POINT_COVER",
+  "status": "ACTIVE_34_02_D1_FINITE_SQUARECLASS_DESCENT_LOCAL_MW_SIEVE",
   "mission": "Close Stage29 kernel K16-C3-EXT-C-PRIMITIVE-DIVISOR / receiver R29-EXT-CHANG-C for the exact all-multiples Paper-C population, without promoting any parent-route or perfect-cuboid claim.",
   "source_kernel": {
     "kernel_id": "K16-C3-EXT-C-PRIMITIVE-DIVISOR",
@@ -14,67 +14,71 @@
     "status": "AUDITED_CLOSED_P1_EXACT_OBJECT_AND_GLOBAL_POPULATION",
     "merged_source_pr": 1479,
     "merged_main_commit": "5e2d9ab1035851b40268e6cd9877d27cd1003452",
-    "hostile_audit": {
-      "path": "stages/stage34/34-01/audit-closure.json",
-      "blob_sha": "6f248b77ad16976ee12b5c68aeb80c4078fe3129",
-      "review_id": "PRR_kwDOTr52Y88AAAABLpGUsQ",
-      "audited_head": "e320e5af68cb780654987ef9c4f7e90f4b7ba1f5",
-      "verdict": "PASS"
-    },
-    "global_population_contract": {
-      "path": "stages/stage34/34-01/global-population-contract.json",
-      "blob_sha": "f38d74862655b206b66f09105c4f5be481bc6444",
-      "authoritative": true
-    },
     "P1_exact_object_and_population_closed": true,
-    "all_seven_full_free_MW_lattices_mod_torsion_authoritative": true,
-    "rank1_fixed_torsion_translate_quantifiers_authoritative": true,
-    "rank2_full_Z2_lattice_quantifier_authoritative": true
+    "global_receiver_population_source_locked_authoritative": true
   },
-  "current": {
-    "unit": "34-02",
-    "next_exact_leaf": "AWAIT_HOSTILE_AUDIT_34_02_ROUTE_D_ALGEBRAIC_REDUCTION_AND_THEOREM_FUNNEL",
-    "selected_route": "D_REPLACEMENT_DIRECT_RATIONAL_POINT_COVER",
-    "selected_subroute_order": [
-      "D1_FINITE_SQUARECLASS_DESCENT_AND_LOCAL_MW_SIEVE",
-      "D2_GENUS5_COVERING_ELLIPTIC_CHABAUTY_MW_SIEVE"
-    ],
-    "why_audit_now": "34-02 changes the Class-3 proof architecture from primitive-divisor-first to a direct genus-5 rational-point closure. The exact factorization, genus, finite squareclass support, and literature applicability should be hostile-audited before heavy cover/rank/sieve work."
+  "stage34_02_audit": {
+    "status": "PASS",
+    "source_pr": 1480,
+    "review_node_id": "PRR_kwDOTr52Y88AAAABLpdEUQ",
+    "review_number_reported": 5076632657,
+    "audited_head": "d54ee6f0eda2814781301cc80ff11a47f92a8c24",
+    "submitted_at": "2026-09-01T09:57:16Z",
+    "closure": {
+      "path": "stages/stage34/34-02/audit-closure.json",
+      "blob_sha": "16f349dcd9fc5d3d46b7afde046ea1c389aefbac"
+    }
   },
-  "current_leaf_working_set": [
-    "stages/stage34/34-02/result.md",
-    "stages/stage34/34-02/exact-cover-reduction.json",
-    "stages/stage34/34-02/theorem-funnel.json",
-    "stages/stage34/34-01/global-population-contract.json"
-  ],
   "stage34_02_locks": {
-    "exact_cover_reduction": {
+    "audited_exact_cover_reduction": {
       "path": "stages/stage34/34-02/exact-cover-reduction.json",
       "blob_sha": "c023d3ad8567faa280f23e28e0300acfcc61e6a2"
     },
-    "theorem_funnel": {
+    "audited_theorem_funnel": {
       "path": "stages/stage34/34-02/theorem-funnel.json",
       "blob_sha": "8300f878d83d5bf5997a7ff57dd01cdb90c58f28"
     },
+    "pole_torsion_lock": {
+      "path": "stages/stage34/34-02/pole-torsion-lock.json",
+      "blob_sha": "04334c55124e4c2d61a685bd53a930ee5798f0aa"
+    },
+    "d1_squareclass_manifest": {
+      "path": "stages/stage34/34-02/d1-squareclass-manifest.json",
+      "blob_sha": "8b7eb010ad2774de7b24e53890f8326ed7e67638"
+    },
     "result": {
       "path": "stages/stage34/34-02/result.md",
-      "blob_sha": "b3256e529e9d38699a9bb70a855b8c5147a608ef"
+      "blob_sha": "68899c50c610af8528ee8301bdc4961a3213dbb4"
     }
   },
+  "current": {
+    "unit": "34-02-D1",
+    "selected_route": "D_REPLACEMENT_DIRECT_RATIONAL_POINT_COVER",
+    "next_exact_leaf": "D1_LOCAL_SOLUBILITY_FILTER_30_SURVIVING_SQUARECLASSES_THEN_DEFINE_EXACT_MW_REDUCTION_MAPS",
+    "why_this_leaf": "The audited genus-5 Route-D reduction gives 104 raw squareclasses. The first exact sum-of-two-squares local filter eliminates 74, leaving 30 necessary local classes. D1 must now certify true local solubility/non-solubility and then map the audited full Mordell-Weil lattices into finite local groups for a proof-complete sieve."
+  },
+  "current_leaf_working_set": [
+    "stages/stage34/34-02/d1-squareclass-manifest.json",
+    "stages/stage34/34-02/pole-torsion-lock.json",
+    "stages/stage34/34-02/exact-cover-reduction.json",
+    "stages/stage34/34-01/global-population-contract.json"
+  ],
   "exact_route_D_summary": {
     "face3_factorization": "F3(Q)=(x^2+q^2)*((1+q^2)x^2+4q^2x+q^2(1+q^2))/(q^2-x^2)^2 on E_q",
     "cover": "C_q: y^2=x(x+1)(x+q^2), z^2=(x^2+q^2)*((1+q^2)x^2+4q^2x+q^2(1+q^2))",
     "genus": 5,
     "all_seven_q_smooth_branch_hypotheses": true,
+    "poles_order4_torsion_outside_receiver": true,
     "homogeneous_squareclass_gcd_support": "primes dividing 2ab for q=a/b in lowest terms",
-    "raw_squareclass_count_per_q": "8 or 16",
+    "raw_squareclasses_total": 104,
+    "sum_of_two_squares_filter_survivors": 30,
     "handles_rank1_and_rank2_uniformly": true
   },
   "34_02_classification": {
-    "A_lucas_lehmer": "REJECTED_NO_EXACT_IDENTIFICATION",
+    "A_lucas_lehmer": "NO_PROVED_OR_SOURCE_LOCKED_IDENTIFICATION_NO_BHV_CREDIT",
     "B_elliptic_divisibility": "NEAR_MISS_DENOMINATOR_NOT_FACE3_NUMERATOR",
-    "C_general_recurrence_or_dynamics": "REJECTED_AS_PRIMARY_NO_EXACT_RECURRENCE_AND_TRANSLATION_IS_DEGREE_ONE",
-    "D_replacement": "SELECTED_PRIMARY"
+    "C_general_recurrence_or_dynamics": "NO_EXACT_RECURRENCE_PRIMARY_ROUTE",
+    "D_replacement": "AUDITED_SELECTED_PRIMARY"
   },
   "arsenal": {
     "direct_full_genus5_or_MW_sieve_weapon": false,
@@ -87,18 +91,22 @@
   },
   "proof_obligations": {
     "P1_exact_object_and_population": "CLOSED_AUDITED",
-    "P2_global_exclusion_mechanism": "OPEN_ROUTE_D: prove complete rational-point exclusion/classification on the seven C_q covers; primitive/fresh-factor existence is no longer mandatory if route D closes universally.",
-    "P3_odd_multiplicity": "OPEN_BUT_OPTIONAL_ON_ROUTE_D: required only if Stage34 returns to the primitive-divisor route.",
-    "P4_exceptional_points": "OPEN: poles, infinity, torsion, locally soluble squareclasses, and every residual rational cover point must be classified exactly.",
-    "P5_cuboid_adapter": "CLOSED_AUDITED from Stage34-01 same-point square obstruction.",
-    "P6_all_multiples": "OPEN: requires complete projection classification for the exact audited receiver population."
+    "P2_global_exclusion_mechanism": "OPEN_ROUTE_D_D1_ACTIVE",
+    "P3_odd_multiplicity": "OPTIONAL_ONLY_IF_RETURNING_TO_PRIMITIVE_DIVISOR_ROUTE",
+    "P4_exceptional_points": "OPEN",
+    "P5_cuboid_adapter": "CLOSED_AUDITED",
+    "P6_all_multiples": "OPEN"
   },
   "promotion_gates": {
     "P1_exact_object_and_population_closed": true,
     "global_receiver_population_source_locked_authoritative": true,
     "stage34_01_hostile_audit_passed": true,
-    "stage34_02_route_selected_preaudit": true,
-    "stage34_02_hostile_audit_passed": false,
+    "stage34_02_hostile_audit_passed": true,
+    "route_D_selected_authoritative": true,
+    "pole_receiver_gap_closed": true,
+    "D1_released": true,
+    "D1_first_local_filter_passed": true,
+    "D1_local_sieve_complete": false,
     "direct_cover_rational_points_complete": false,
     "primitive_theorem_source_locked": false,
     "odd_multiplicity_proved": false,
@@ -108,13 +116,14 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "firewalls": {
+    "no_lucas_lehmer_identification_is_proof_of_nonmembership": false,
     "route_D_algebraic_reduction_is_rational_point_enumeration": false,
     "genus5_finiteness_is_effective_completeness": false,
+    "local_squareclass_filter_survival_is_global_solubility": false,
+    "local_squareclass_elimination_is_receiver_closure": false,
     "quotient_point_completeness_implies_cover_point_completeness_without_pullback": false,
-    "local_squareclass_solubility_is_global_solubility": false,
     "finite_sieve_statistics_are_global_exclusion": false,
     "receiver_closure_implies_parent_route_closure": false,
     "perfect_cuboid_nonexistence_claim": false
-  },
-  "next_after_audited_34_02": "34_02_D1_MATERIALIZE_FINITE_SQUARECLASS_COVERS_AND_LOCAL_MW_SIEVE"
+  }
 }
