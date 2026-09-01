@@ -1,0 +1,95 @@
+{
+  "schema": "STAGE32_POST1473_O188_CUSP_RAMIFICATION_BUDGET_V1",
+  "stage": 32,
+  "leaf": "POST1473_FIXED_Z_O188_CUSP_RAMIFICATION_BUDGET",
+  "status": "PROVISIONAL_EXACT_LOCAL_TO_GLOBAL_OBSTRUCTION_PENDING_HOSTILE_AUDIT",
+  "fixed_target": {"row_id":"g1-d186","d":186,"e":266,"z":[-15,62,-44,26,32]},
+  "audited_input": {
+    "O_min": 188,
+    "S1_min": 149,
+    "o188_profile_canonical_sha256": "45775c816f7e3ba46c9c0ab81ff0646d41cbc7d5d5e9a623f8f43c04ccd36923",
+    "x8_odd_etale_audit_review_id": 5078184271
+  },
+  "source_lock": {
+    "authors": ["Eberhard Freitag","Riccardo Salvati Manni"],
+    "title": "Parametrization of the box variety by theta functions",
+    "arxiv": "1303.6495",
+    "doi": "10.1307/mmj/1480734014",
+    "locators": ["Section 3 proof of Theorem 3.1","Section 4 Lemma 4.1"],
+    "facts": [
+      "Near a node, product cusp coordinates are p=exp(2*pi*i*z/8), q=exp(2*pi*i*w/8).",
+      "A normalized branch has cusp exponents a1,a2 positive, each divisible by 4, with a1+a2 divisible by 8.",
+      "GammaPrime4/Gamma8 is V4 and acts freely on X(8), so the product cover is etale."
+    ]
+  },
+  "local_adapter": {
+    "notation": "A_i=a_i/4 and m=min(A1,A2)=exceptional contact multiplicity.",
+    "parity": "A1 and A2 have the same parity; hence their parity equals the parity of m.",
+    "odd_contact": {
+      "beauville_pullback": "Y->N is ramified, so with N-parameter t one may use t=s^2 on Y.",
+      "projection_local_degree": "e_i=A_i on each Y lift.",
+      "forced_ramification_on_D_per_N_branch": "qprime*(A_i-1) >= qprime*(m-1)"
+    },
+    "even_contact": {
+      "beauville_pullback": "Y->N is unramified and has two local points.",
+      "projection_local_degree": "e_i=A_i/2 on each Y lift.",
+      "forced_ramification_on_D_per_N_branch": "qprime*(A_i-2) >= qprime*(m-2)"
+    },
+    "total_lower_bound": "R_i >= qprime * sum_P delta(m_P), where delta(m)=m-1 for odd m and m-2 for even m."
+  },
+  "o188_consequences": {
+    "qprime_2_profile": {
+      "projection_degrees": [46,47],
+      "ramification_totals": [8,0],
+      "etale_projection_forces_contact_defect_zero": true,
+      "forced_contact_histogram": {"m1_odd":188,"m2_even":39,"all_other_contacts":0,"B":227},
+      "reason": "R=0 on one projection forces delta(m_P)=0 at every branch; mass 266 then gives 266=188+2*39."
+    },
+    "qprime_4_asymmetric_profile": {
+      "projection_degrees": [92,94],
+      "ramification_totals": [16,0],
+      "etale_projection_forces_contact_defect_zero": true,
+      "forced_contact_histogram": {"m1_odd":188,"m2_even":39,"all_other_contacts":0,"B":227}
+    },
+    "qprime_4_symmetric_profile": {
+      "projection_degrees": [93,93],
+      "ramification_totals": [8,8],
+      "contact_defect_bound": "sum delta(m_P) <= 2",
+      "allowed_contact_histograms": [
+        {"m1_odd":188,"m2_even":39,"B":227,"contact_defect":0},
+        {"m1_odd":187,"m3_odd":1,"m2_even":38,"B":226,"contact_defect":2},
+        {"m1_odd":188,"m2_even":37,"m4_even":1,"B":226,"contact_defect":2}
+      ]
+    },
+    "zero_slack_S1_149": {
+      "excluded_if_adapter_audits": true,
+      "reason": "Its 39 multiplicity-3 odd branches give sum delta >=78, while O=188 profiles allow per-projection normalized ramification budgets R_i/qprime at most 4 and, in the symmetric 93/93 case, only 2."
+    }
+  },
+  "coarse_nodewise_nonexclusion": {
+    "fixed_exceptional_totals": [1,1,1,2,2,0,1,2,8,4,7,2,9,5,1,10,5,11,7,1,3,1,13,1,6,2,12,16,4,3,5,6,5,10,8,1,10,15,11,2,5,11,4,10,2,4,3,13],
+    "base_188x1_39x2_nodewise_assignment_count": 6851266935728760020,
+    "one_m3_plus_38_m2_nodewise_assignment_count": 116737713339105712855,
+    "one_m4_plus_37_m2_nodewise_assignment_count": 67027354848511690399,
+    "all_three_histogram_types_nodewise_reachable": true,
+    "semantics": "This is only a nonexclusion check against fixed node totals; it is not analytic branch realization."
+  },
+  "verdict": {
+    "zero_slack_149x1_39x3_profile_provisionally_excluded": true,
+    "o188_all_profiles_excluded": false,
+    "remaining_o188_contact_histograms": 3,
+    "multibranch_carrier_excluded": false,
+    "full178_authorized": false
+  },
+  "firewalls": {
+    "local_cusp_lower_bound_is_not_global_curve_existence": true,
+    "nodewise_partition_reachability_is_not_analytic_realization": true,
+    "provisional_is_not_audited": true,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "canonical_sha256_without_this_field": "318ac76ca5baf9e5f7f7a2300628b432f3b5fbb718f2bd21bc7a4f13b9cf3328"
+}

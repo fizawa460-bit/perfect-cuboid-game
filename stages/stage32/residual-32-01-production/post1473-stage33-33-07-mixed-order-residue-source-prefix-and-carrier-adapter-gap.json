@@ -1,0 +1,98 @@
+{
+  "schema": "STAGE32_POST1473_STAGE33_33_07_MIXED_ORDER_RESIDUE_PREFIX_AND_CARRIER_ADAPTER_GAP_V1",
+  "stage": "32",
+  "status": "SOURCE_PREFIX_MATERIALIZED_CARRIER_EVALUATOR_NOT_JUSTIFIED",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "degree": 186,
+    "exceptional_mass": 266,
+    "z": [-15, 62, -44, 26, 32]
+  },
+  "checked_stage33": {
+    "pr": 1476,
+    "branch": "stage33-post1475-j2-v4-generator-adapter",
+    "head": "f6749ccf631da7d3f3985ab960adbd8b30d37f05"
+  },
+  "correction_to_v180": {
+    "old_assumption": "The 26 first-residue source layer was not materialized because the earlier tangent-coordinate certificate still had order2_source_first_residue_functions_materialized=false.",
+    "corrected_fact": "Later Stage33 33-07 work superseded that local constructive-progress flag: PR #1414 materialized 17 raw order-2 first-residue function models and PR #1419 materialized the remaining 9 raw order-4/Bockstein directions, so all 26 boundary first-residue source directions now have an explicit mixed-order presentation.",
+    "full_direction_count": 26,
+    "raw_order2_count": 17,
+    "raw_order4_count": 9,
+    "all_26_are_order2_squareclass_models": false
+  },
+  "source_locks": {
+    "order2_first_residue_function_liftability": {
+      "path": "stages/stage33/33-07/order2-first-residue-function-liftability.json",
+      "blob_sha": "9a57c5e6d050b5aa45551775c22c85da3d06fae2",
+      "canonical_sha256": "85e219932a47322f6283c650e7c39386c0f6a03ab7a47ff93ac9afd0115d0312",
+      "raw_order2_first_residue_function_models": 17
+    },
+    "mixed_order2_order4_bockstein_compact": {
+      "path": "stages/stage33/33-07/order2-quotient-raw-order4-bockstein-compact.json",
+      "blob_sha": "2300bc89c1c2a79c1b5fc57c4ae5060c91d2a320",
+      "canonical_sha256": "30f2a4653619419a42d5513be26c8acf7505e042e4cbef279abd3476c34d1cfa",
+      "full_certificate_sha256": "085ad52c1eb1cf8069fcac9a0814250428288cc5d517a036670ae529c36eb88a",
+      "all_26_boundary_first_residue_models_materialized_in_mixed_order2_order4_form": true
+    },
+    "boundary_source_v4_action_adapter": {
+      "path": "stages/stage33/33-07/boundary-source-v4-action-adapter.json",
+      "blob_sha": "91debc4a9202c58f422d6bd47142db1b27ea684c",
+      "canonical_sha256": "4c6a799b92c87e2432ee4aac86911b44c51a28b3ba8be47f79fc4c18d09ac246",
+      "source_side_v4_action_fully_materialized": true,
+      "connecting_matrix_columns_materialized": 0
+    },
+    "post_purity_gersten_torsor_ambiguity": {
+      "path": "stages/stage33/33-07/post-purity-gersten-torsor-ambiguity.json",
+      "blob_sha": "259a78270377bd6eb607b3b57cc78cf28b69697e",
+      "canonical_sha256": "3e9f189a2d94a7a3640e7e44504e60a8c2199b30d9e395651abf243d02af3a32",
+      "global_geometric_gersten_lift_existence_certified": 26,
+      "connecting_matrix_shape": [16, 26],
+      "connecting_matrix_columns_materialized": 0
+    },
+    "stage32_product_cover_wall": {
+      "path": "stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-product-cover-monodromy-extremal-wall.md",
+      "blob_sha": "c6430ca94a4897f9f50104ab76a4eaae60df4268",
+      "meaning": "The extremal O=186 survivor requires full V4 monodromy of P=X(8)xX(8)->X after pullback to the connected curve Y, but this source does not materialize the two deck-character pullback/evaluation functions on a hypothetical carrier normalization branch."
+    }
+  },
+  "positive_reusable_prefix": {
+    "boundary_first_residue_source_directions_materialized": true,
+    "mixed_order_normal_form_materialized": true,
+    "source_side_v4_action_materialized": true,
+    "global_geometric_gersten_lift_existence_certified_for_all_26": true,
+    "source_count": 26
+  },
+  "remaining_gaps": {
+    "genuine_galois_equivariant_middle_gersten_module_action_materialized": false,
+    "connecting_matrix_columns_materialized": "0/26",
+    "purity_supplies_galois_equivariant_section": false,
+    "chosen_lift_cc_ct_difference_cocycles_materialized": false,
+    "project_14x26_L_squareclass_tensor_materialized": false,
+    "absolute_delta_loc_computed": false,
+    "stage32_two_product_cover_deck_character_pullback_to_hypothetical_carrier_branch_materialized": false,
+    "stage32_hypothetical_carrier_branch_v4_monodromy_evaluator_materialized": false
+  },
+  "applicability": {
+    "direct_stage32_carrier_monodromy_evaluator_justified": false,
+    "stage33_boundary_source_prefix_is_reusable_if_a_carrier_pullback_adapter_is_source_locked": true,
+    "reason": "The Stage33 artifacts describe boundary residue source modules, mixed-order lifts, source-side V4 action, and non-equivariant global lift existence. They do not identify the two product-cover deck characters with functions on a symbolic Stage32 carrier branch, nor do they supply the pullback/evaluation law needed to decide the carrier's V4 monodromy.",
+    "physical_side_tangent_coordinates_may_substitute_for_carrier_branch_values": false
+  },
+  "firewalls": {
+    "source_module_data_is_not_carrier_branch_evaluation": true,
+    "non_equivariant_lift_existence_is_not_a_galois_equivariant_section": true,
+    "physical_side_tangent_is_not_carrier_branch_tangent": true,
+    "unknown_is_not_unsat": true,
+    "carrier_excluded": false,
+    "full178_geometric_closure": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "next_exact_dependency": "SOURCE_LOCK_OR_CONSTRUCT_THE_TWO_PRODUCT_COVER_DECK_CHARACTER_PULLBACK_EVALUATORS_ON_A_SYMBOLIC_HYPOTHETICAL_CARRIER_NORMALIZATION_BRANCH; THEN DETERMINE_WHETHER_THE_STAGE33_26_DIRECTION_MIXED_ORDER_RESIDUE_PREFIX_APPLIES. IF_THE_GLOBAL_GERSTEN_ROUTE_IS_REQUIRED, ALSO_MATERIALIZE_THE_GENUINE_GALOIS_EQUIVARIANT_MIDDLE_ACTION_OR_CHOSEN_LIFT_DIFFERENCE_COCYCLES.",
+  "claim_credit": false
+}

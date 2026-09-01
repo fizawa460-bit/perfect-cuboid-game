@@ -1,0 +1,31 @@
+name: Stage32 post-1473 O188 q4 genus2 descent
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/workflows/stage32-post1473-o188-q4-genus2-descent.yml'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_o188_q4_genus2_descent.py'
+      - 'stages/stage32/residual-32-01-production/post1473-o188-cusp-ramification-budget.json'
+      - 'stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json'
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Replay qprime4 symmetric genus-two descent
+        working-directory: stages/stage32/residual-32-01-production
+        run: |
+          python diagnose_stage32_post1473_o188_q4_genus2_descent.py \
+            --cusp-budget post1473-o188-cusp-ramification-budget.json \
+            --v4-quotient post1473-x8-v4-cusp-quotient.json

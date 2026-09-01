@@ -1,0 +1,112 @@
+name: Stage32 post-1473 integral Picard support preflight
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/workflows/stage32-post1473-integral-picard-support-preflight.yml'
+      - 'stages/stage32/controller.json'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_integral_picard_support_preflight.py'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_integral_picard_support_lia_preflight.py'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_integral_picard_support_saturated_lia_preflight.py'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_integral_picard_support_48branch_lia_preflight.py'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_integral_picard_support_reduced_lia_preflight.py'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_integral_picard_support_milp_candidate_preflight.py'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_integral_picard_support_selfsq_preflight.py'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_21ak_affine_2adic_membership.py'
+      - 'stages/stage32/residual-32-01-production/build_stage32_post21bl_full178_node_mass_census.py'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_21ba_r51_interval_census.py'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_21bc_pair_combination_projection.py'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_21bd_pair_cut_closure.py'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_21bf_r49_per_triple_projection.py'
+      - 'stages/stage32/32-21/post-21bl-full178-node-support-preflight.json'
+      - 'stages/stage32/32-21/post-21bl-picard64-witness-adapter.json'
+      - 'stages/stage32/32-21/post-21bl-node-support-refinement-audit.json'
+      - 'stages/stage32/32-21/32-21az-survivor-prism.json'
+      - 'stages/stage32/32-21/32-21bb-r51-interval-formula.json'
+      - 'stages/stage32/32-21/32-21bc-pair-combination-bounds.json'
+      - 'stages/stage32/32-21/32-21be-r51-endpoint-audit.json'
+      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-post1473-integral-picard-support-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+    steps:
+      - name: Checkout exact PR head with parent
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - name: Require fresh dedicated self-square replay source change
+        id: gate
+        shell: bash
+        env:
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          if [[ "$ACTION" != "synchronize" || -z "${BEFORE:-}" ]]; then
+            echo 'run=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          if git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_integral_picard_support_selfsq_preflight.py'; then
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'run=false' >> "$GITHUB_OUTPUT"
+          fi
+
+  preflight:
+    needs: authorize
+    if: needs.authorize.outputs.run == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact algebra and candidate-search dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0' 'scipy==1.15.3'
+      - name: Replay support-47 witness and measure exact Picard self-intersection
+        working-directory: stages/stage32/residual-32-01-production
+        run: |
+          python diagnose_stage32_post1473_integral_picard_support_selfsq_preflight.py \
+            --manifest full178-manifest.json \
+            --node-preflight "$GITHUB_WORKSPACE/stages/stage32/32-21/post-21bl-full178-node-support-preflight.json" \
+            --picard-adapter "$GITHUB_WORKSPACE/stages/stage32/32-21/post-21bl-picard64-witness-adapter.json" \
+            --node-support-audit "$GITHUB_WORKSPACE/stages/stage32/32-21/post-21bl-node-support-refinement-audit.json" \
+            --source-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21az-survivor-prism.json" \
+            --formula-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bb-r51-interval-formula.json" \
+            --pair-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bc-pair-combination-bounds.json" \
+            --audit-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21be-r51-endpoint-audit.json" \
+            --retained "$GITHUB_WORKSPACE/stages/stage33/33-07/picard_base_rows_retained.py" \
+            --marking "$GITHUB_WORKSPACE/stages/stage33/33-07/stage32_picard_marking_retained.py" \
+            --wall-seconds 60 \
+            --exact-replay-timeout-ms 30000 \
+            --output "$RUNNER_TEMP/stage32-post1473-integral-picard-support-selfsq-preflight.json"
+      - name: Upload compact preflight evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-post1473-integral-picard-support-selfsq-preflight
+          path: ${{ runner.temp }}/stage32-post1473-integral-picard-support-selfsq-preflight.json
+          if-no-files-found: ignore
+          retention-days: 3
+          compression-level: 9

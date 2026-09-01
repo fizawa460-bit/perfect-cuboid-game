@@ -1,0 +1,96 @@
+{
+  "schema": "STAGE32_POST1473_X8_SATAKE_BOUNDARY_MARKING_V1",
+  "stage": 32,
+  "target": "g1-d186",
+  "status": "SOURCE_LOCKED_MARKING_DERIVED_NOT_AUDITED",
+  "scope": "retained 140-curve Stage32 Picard marking only; identifies the 12 Satake-boundary curves and splits them by the two X(8) factors",
+  "sources": {
+    "stoll_verification": {
+      "repo": "MichaelStollBayreuth/Verification",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/cuboids.magma",
+      "blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+      "facts": [
+        "ambient coordinates are (a1,a2,a3,b1,b2,b3,c)",
+        "surface equations identify a1,a2,a3 with W1,W2,W3 and b1,b2,b3 with Z1,Z2,Z3",
+        "Cs := C1s cat C2s cat C3s",
+        "#C1s=32, #C2s=12, #C3s=48",
+        "C2s is three four-curve blocks cut out by b1=0, b2=0, b3=0"
+      ]
+    },
+    "freitag_salvati_manni": {
+      "title": "Parametrization of the box variety by theta functions",
+      "arxiv": "1303.6495",
+      "version_used": "v1",
+      "doi": "10.1307/mmj/1480734014",
+      "facts": [
+        "Z1=theta01(z)theta01(w), Z2=theta00(z)theta00(w), Z3=theta10(z)theta10(w)",
+        "the Satake boundary is Z1 Z2 Z3=0 and consists of 12 smooth elliptic curves",
+        "the boundary is the union of images of H* x {a} and {a} x H*",
+        "the 92 nonexceptional curves split modularly as 32 rational, 12 boundary elliptic, 48 non-boundary elliptic curves"
+      ]
+    },
+    "retained_marking": {
+      "path": "stages/stage33/33-07/stage32_picard_marking_retained.py",
+      "payload_canonical_sha256": "e06291dddfc529fca2c0b0fe58dd43151faccd3d7997d9aa5797e1978227bb7c",
+      "ordering_fact": "retained labels 1..92 are the upstream Cs order; labels 93..140 are exceptional curves"
+    }
+  },
+  "upstream_to_retained_labels": {
+    "C1_rational": {"labels": [1, 32], "count": 32},
+    "C2_satake_boundary": {"labels": [33, 44], "count": 12},
+    "C3_nonboundary_elliptic": {"labels": [45, 92], "count": 48},
+    "exceptional": {"labels": [93, 140], "count": 48}
+  },
+  "C2_blocks": [
+    {"box_coordinate": "Z1=b1", "labels": [33, 34, 35, 36]},
+    {"box_coordinate": "Z2=b2", "labels": [37, 38, 39, 40]},
+    {"box_coordinate": "Z3=b3", "labels": [41, 42, 43, 44]}
+  ],
+  "factor_marking": {
+    "first_factor_cusp_z_fixed_curves": [34, 35, 38, 39, 42, 43],
+    "second_factor_cusp_w_fixed_curves": [33, 36, 37, 40, 41, 44],
+    "counts": {"first_factor": 6, "second_factor": 6},
+    "sign_rule": {
+      "magma_C2_parameters": "(e1,e2)",
+      "first_factor_z_fixed": "e2=-e1",
+      "second_factor_w_fixed": "e2=e1",
+      "magma_iteration_order_per_four_curve_block": [[1,1],[-1,1],[1,-1],[-1,-1]]
+    }
+  },
+  "derivation": {
+    "theta_second_kind_notation": "A_z=theta00(2z), B_z=theta10(2z), A_w=theta00(2w), B_w=theta10(2w)",
+    "box_coordinates": {
+      "W1": "B_z A_w + A_z B_w",
+      "W2": "i(B_z A_w - A_z B_w)",
+      "W3": "A_z A_w - B_z B_w",
+      "C": "A_z A_w + B_z B_w"
+    },
+    "boundary_relations": {
+      "Z1_z_fixed": "B_z=+/- A_z",
+      "Z1_w_fixed": "B_w=+/- A_w",
+      "Z2_z_fixed": "B_z=+/- i A_z",
+      "Z2_w_fixed": "B_w=+/- i A_w",
+      "Z3_z_fixed": "A_z=0 or B_z=0",
+      "Z3_w_fixed": "A_w=0 or B_w=0"
+    },
+    "result": "Substitution into each upstream C2 block gives e2=-e1 exactly for first-factor cusp components and e2=e1 exactly for second-factor cusp components."
+  },
+  "newly_closed_datum": "source-locked map from the two X(8) cusp-factor boundary families into retained nonexceptional special-curve labels",
+  "not_proved": [
+    "no O=188 histogram A/B/C is excluded by this marking alone",
+    "no analytic carrier realization is proved",
+    "no individual exceptional node is yet assigned to its two marked C2 boundary components in this certificate",
+    "no receiver, theorem, route, endpoint, or perfect-cuboid credit"
+  ],
+  "next_exact_test": "join the marked 6+6 C2 boundary families to the 48 exceptional curves using the retained intersection/incidence data, then test the unique B/C defect branch against the resulting marked node pairs",
+  "firewalls": {
+    "O188_all_profiles_closed": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "route_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256": "69a2a6d3cdf7b0d5c6162424a8102ec41cd09ac7e303469d30577d454363e31d"
+}

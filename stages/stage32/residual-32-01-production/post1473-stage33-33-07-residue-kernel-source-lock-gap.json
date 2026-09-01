@@ -1,0 +1,53 @@
+{
+  "schema": "STAGE32_STAGE33_33_07_RESIDUE_KERNEL_SOURCE_LOCK_GAP_V1",
+  "stage": "32",
+  "status": "BLOCKED_UPSTREAM_UNMATERIALIZED",
+  "scope": "POST1473_FIXED_Z_MULTIBRANCH_CARRIER_BRANCH_RESIDUE_SQUARECLASS_V4_MONODROMY_DATA_ACQUISITION",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "degree": 186,
+    "e": 266,
+    "z": [-15, 62, -44, 26, 32]
+  },
+  "stage33_reverse_lookup": {
+    "repository": "fizawa460-bit/perfect-cuboid-game",
+    "pr": 1476,
+    "branch": "stage33-post1475-j2-v4-generator-adapter",
+    "checked_head": "f6749ccf631da7d3f3985ab960adbd8b30d37f05",
+    "source_path": "stages/stage33/33-07/exceptional-p1-tangent-coordinates.json",
+    "source_blob_sha": "f4a591bfac5e4e6e79b13309bdc006973d7c5b4e",
+    "canonical_sha256": "beffca388f2795296fd914a6345186dc6e594419f0fffb93896bda2c3896a636",
+    "pointed_kernel": "R33-BR2A-EXPLICIT-26-FIRST-RESIDUE-FUNCTIONS-AND-GLOBAL-GERSTEN-LIFTS",
+    "pointed_leaf": "L33-07-MATERIALIZE-26-FIRST-RESIDUE-FUNCTIONS-ON-72-BOUNDARY-P1-MODELS",
+    "constructive_progress": {
+      "exceptional_P1_tangent_coordinates_materialized": true,
+      "physical_side_P1_coordinates_materialized": true,
+      "order2_source_first_residue_functions_materialized": false,
+      "project_14x26_L_squareclass_tensor_materialized": false,
+      "absolute_delta_loc_computed": false,
+      "chosen_global_geometric_lifts_materialized": false
+    }
+  },
+  "decision": {
+    "reverse_lookup_complete": true,
+    "direct_importer_justified": false,
+    "local_explicit_evaluator_justified": false,
+    "reason": "The source-locked Stage33 artifact materializes the 72-boundary exceptional-P1/physical-side tangent coordinate layer but not the explicit order-2 first-residue functions or the downstream squareclass/global-lift layers needed to evaluate a hypothetical carrier branch. The tangent chart alone does not determine carrier-branch residue or V4-monodromy data.",
+    "exact_missing_dependency": [
+      "26 explicit order-2 source first-residue rational functions on the 72 boundary P1 models",
+      "global Gersten lift/evaluator semantics for those residue functions",
+      "project_14x26_L_squareclass_tensor or an equivalent source-locked squareclass evaluator",
+      "absolute_delta_loc and chosen global geometric lifts if required by the imported evaluator"
+    ]
+  },
+  "next_safe_action": "WAIT_FOR_OR_MATERIALIZE_R33_BR2A_EXPLICIT_26_FIRST_RESIDUE_FUNCTIONS_AND_GLOBAL_GERSTEN_LIFTS_IN_STAGE33_THEN_SOURCE_LOCK_THE_EXACT_ARTIFACT_AND_IMPORT_OR_EVALUATE_IT_FOR_THE_STAGE32_CARRIER_MASK",
+  "firewalls": {
+    "do_not_infer_residue_from_physical_side_tangent_coordinates": true,
+    "unknown_is_not_unsat": true,
+    "no_receiver_credit": true,
+    "no_route_credit": true,
+    "no_theorem_credit": true,
+    "no_full178_restart": true,
+    "no_perfect_cuboid_existence_or_nonexistence_claim": true
+  }
+}

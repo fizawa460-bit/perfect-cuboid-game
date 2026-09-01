@@ -1,0 +1,328 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+import sympy
+from sympy import Matrix
+from z3 import Int, Solver, get_version_string, sat, unknown, unsat
+
+from build_stage32_post21bl_full178_node_mass_census import (
+    EXPECTED_AC_CERTIFICATE_SHA256,
+    EXPECTED_MANIFEST_SHA256,
+    EXPECTED_PREFLIGHT_SHA256,
+    ceil_div,
+    load_module_payload,
+    load_preflight,
+)
+from diagnose_stage32_21ak_affine_2adic_membership import (
+    EXPECTED_SMITH_FACTORS,
+    reconstruct_translation_data,
+)
+from diagnose_stage32_post1473_integral_picard_support_preflight import (
+    EXPECTED_21AK_CONSTRAINT_ROWS_SHA256,
+    EXPECTED_ALL140_COUNT,
+    EXPECTED_EXCEPTIONAL_COUNT,
+    EXPECTED_KNOWN_EXCEPTIONAL_SUPPORT,
+    EXPECTED_NODE_SUPPORT_AUDIT_CANONICAL,
+    EXPECTED_PICARD_ADAPTER_CANONICAL,
+    EXPECTED_REQUIRED_EXCEPTIONAL_SUPPORT,
+    EXPECTED_TARGET,
+    load_canonical,
+)
+from direct_picard_reynolds_lattice_diagnostic import csha
+from direct_picard_reynolds_rank2_antifixed_coset_bound import (
+    ReynoldsRank2AntiFixedCosetBound,
+)
+
+
+def max_abs_matrix(a: Matrix) -> int:
+    return max((abs(int(v)) for v in a), default=0)
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--manifest", type=Path, required=True)
+    ap.add_argument("--node-preflight", type=Path, required=True)
+    ap.add_argument("--picard-adapter", type=Path, required=True)
+    ap.add_argument("--node-support-audit", type=Path, required=True)
+    ap.add_argument("--retained", type=Path, required=True)
+    ap.add_argument("--marking", type=Path, required=True)
+    ap.add_argument("--solver-timeout-ms", type=int, default=30000)
+    ap.add_argument("--output", type=Path, required=True)
+    args = ap.parse_args()
+
+    if args.solver_timeout_ms <= 0:
+        raise ValueError("solver timeout must be positive")
+
+    manifest = json.loads(args.manifest.read_text())
+    claimed_manifest = manifest.pop("canonical_sha256_without_this_field")
+    if csha(manifest) != claimed_manifest or claimed_manifest != EXPECTED_MANIFEST_SHA256:
+        raise ValueError("FULL178 manifest canonical regression")
+
+    node_preflight = load_preflight(args.node_preflight)
+    if node_preflight["canonical_sha256_without_this_field"] != EXPECTED_PREFLIGHT_SHA256:
+        raise ValueError("node-support preflight regression")
+
+    adapter_evidence = load_canonical(
+        args.picard_adapter,
+        EXPECTED_PICARD_ADAPTER_CANONICAL,
+        "post-21bl Picard adapter",
+    )
+    node_audit = load_canonical(
+        args.node_support_audit,
+        EXPECTED_NODE_SUPPORT_AUDIT_CANONICAL,
+        "node-support fresh audit",
+    )
+
+    target = adapter_evidence["target"]
+    for key, expected in EXPECTED_TARGET.items():
+        if target.get(key) != expected:
+            raise ValueError(
+                f"representative target regression at {key}: {target.get(key)} != {expected}"
+            )
+    if node_audit["verdict"]["bijective_normalization_genus1_curve_in_representative_class"] is not False:
+        raise ValueError("representative node-support exclusion audit regression")
+
+    g = int(target["genus"])
+    d = int(target["degree"])
+    e = int(target["e"])
+    required_support = ceil_div(d - 16 * g + 16, 4)
+    if required_support != EXPECTED_REQUIRED_EXCEPTIONAL_SUPPORT:
+        raise ValueError("required exceptional support regression")
+    if e < required_support:
+        raise ValueError("known representative unexpectedly fails the cheap e lower bound")
+
+    bundle = load_module_payload(args.retained, "stage32_post1473_support_picard")
+    marking = load_module_payload(args.marking, "stage32_post1473_support_marking")
+    model = ReynoldsRank2AntiFixedCosetBound.from_retained(marking, bundle)
+    if model.certificate["canonical_sha256_without_this_field"] != EXPECTED_AC_CERTIFICATE_SHA256:
+        raise ValueError("audited 32-21ac evaluator certificate regression")
+
+    data = reconstruct_translation_data(marking, bundle)
+    constraint_rows = tuple(data["constraint_rows"])
+    if csha(list(constraint_rows)) != EXPECTED_21AK_CONSTRAINT_ROWS_SHA256:
+        raise ValueError("21ak affine constraint-row regression")
+    if tuple(int(v) for v in data["factors"]) != EXPECTED_SMITH_FACTORS:
+        raise ValueError("21ak Smith-factor regression")
+    if data["Sfinal"] * data["F"] != data["M"]:
+        raise ValueError("saturated pairing-coordinate reconstruction regression")
+    if data["Uf"] * data["F"] * data["Vf"] != data["Df"]:
+        raise ValueError("Smith reconstruction regression")
+
+    z = tuple(int(v) for v in target["z"])
+    picard = Matrix([int(v) for v in adapter_evidence["reconstruction"]["picard_coordinates"]])
+    if picard.rows != 64 or picard.cols != 1:
+        raise ValueError("persisted Picard64 coordinate shape regression")
+
+    C = data["C"]
+    if tuple(int(v) for v in (C * picard)) != z:
+        raise ValueError("persisted Picard class does not map to the locked 5D projection z")
+
+    x0 = data["x0_map"] * Matrix(z)
+    delta = picard - x0
+    translation, params = data["K"].gauss_jordan_solve(delta)
+    if params.rows != 0:
+        raise ValueError("fixed-projection translation unexpectedly non-unique")
+    if any(sympy.denom(v) != 1 for v in translation):
+        raise ValueError("persisted Picard class requires nonintegral 21ak translation coordinates")
+    translation = Matrix([int(v) for v in translation])
+    if data["K"] * translation != delta:
+        raise ValueError("21ak affine translation reconstruction regression")
+
+    persisted_all140 = tuple(int(v) for v in adapter_evidence["all140"]["pairings"])
+    all140 = data["adapter"].pairing_matrix * picard
+    if tuple(int(v) for v in all140) != persisted_all140:
+        raise ValueError("persisted all140 pairing replay regression")
+    if len(persisted_all140) != EXPECTED_ALL140_COUNT or min(persisted_all140) < 0:
+        raise ValueError("known representative all140 nonnegative regression")
+
+    exceptional = persisted_all140[-EXPECTED_EXCEPTIONAL_COUNT:]
+    known_support = sum(1 for v in exceptional if v > 0)
+    known_zero_count = sum(1 for v in exceptional if v == 0)
+    if known_support != EXPECTED_KNOWN_EXCEPTIONAL_SUPPORT:
+        raise ValueError("known representative exceptional support regression")
+    if known_support >= required_support or known_zero_count <= 1:
+        raise ValueError("known representative no longer violates refined node-support bound")
+
+    # Exact saturated coordinates: M=Sfinal*F, q=F*t, y=y0+Sfinal*q.
+    # Smith U*F*V=D characterizes q in F Z^59 by the 14 nonunit
+    # divisibility conditions on U*q.  This changes coordinates only.
+    rank = int(data["F"].cols)
+    q = [Int(f"q_{j}") for j in range(rank)]
+    solver = Solver()
+    solver.set(timeout=args.solver_timeout_ms)
+
+    divisor_aux = []
+    divisibility_count = 0
+    for i in range(rank):
+        diag = int(data["Df"][i, i])
+        factor = abs(diag)
+        if factor == 1:
+            continue
+        r = Int(f"smith_div_{i}")
+        divisor_aux.append(r)
+        lhs = sum(int(data["Uf"][i, j]) * q[j] for j in range(rank))
+        solver.add(lhs == diag * r)
+        divisibility_count += 1
+    if divisibility_count != 14:
+        raise ValueError(f"expected 14 nonunit Smith divisibility constraints, got {divisibility_count}")
+
+    y0 = data["pairing_x0_map"] * Matrix(z)
+    S = data["Sfinal"]
+    pairing_exprs = []
+    for i in range(EXPECTED_ALL140_COUNT):
+        expr = int(y0[i, 0]) + sum(int(S[i, j]) * q[j] for j in range(rank))
+        pairing_exprs.append(expr)
+        solver.add(expr >= 0)
+
+    exceptional_exprs = pairing_exprs[-EXPECTED_EXCEPTIONAL_COUNT:]
+    pairwise_constraint_count = 0
+    for i in range(EXPECTED_EXCEPTIONAL_COUNT):
+        for j in range(i + 1, EXPECTED_EXCEPTIONAL_COUNT):
+            solver.add(exceptional_exprs[i] + exceptional_exprs[j] >= 1)
+            pairwise_constraint_count += 1
+    expected_pairwise_count = EXPECTED_EXCEPTIONAL_COUNT * (EXPECTED_EXCEPTIONAL_COUNT - 1) // 2
+    if pairwise_constraint_count != expected_pairwise_count:
+        raise ValueError("pairwise support linearization count regression")
+
+    result = solver.check()
+    fiber_status = "UNKNOWN"
+    fiber_witness = None
+    unknown_reason = None
+
+    if result == sat:
+        fiber_status = "SAT"
+        m = solver.model()
+        qv = Matrix([int(m.eval(v, model_completion=True).as_long()) for v in q])
+        uq = data["Uf"] * qv
+        smith_coordinates = []
+        for i in range(rank):
+            diag = int(data["Df"][i, i])
+            value = int(uq[i, 0])
+            if value % diag:
+                raise ValueError("SAT witness violates Smith image divisibility")
+            smith_coordinates.append(value // diag)
+        tw = data["Vf"] * Matrix(smith_coordinates)
+        if data["F"] * tw != qv:
+            raise ValueError("SAT witness does not reconstruct an original translation")
+        if data["M"] * tw != S * qv:
+            raise ValueError("SAT witness pairing translation reconstruction regression")
+
+        pairings = tuple(
+            int(y0[i, 0]) + sum(int(S[i, j]) * int(qv[j, 0]) for j in range(rank))
+            for i in range(EXPECTED_ALL140_COUNT)
+        )
+        support = sum(1 for v in pairings[-EXPECTED_EXCEPTIONAL_COUNT:] if v > 0)
+        if min(pairings) < 0 or support < required_support:
+            raise ValueError("SAT witness violates exact support/nonnegative preflight")
+        fiber_witness = {
+            "saturated_translation_sha256": csha([int(v) for v in qv]),
+            "original_translation_sha256": csha([int(v) for v in tw]),
+            "all140_pairings_sha256": csha(list(pairings)),
+            "minimum_pairing": min(pairings),
+            "maximum_pairing": max(pairings),
+            "positive_exceptional_support": support,
+        }
+    elif result == unsat:
+        fiber_status = "UNSAT"
+    elif result == unknown:
+        fiber_status = "UNKNOWN"
+        unknown_reason = solver.reason_unknown()
+    else:
+        raise ValueError(f"unexpected solver status: {result}")
+
+    nonunit_factors = [int(v) for v in data["factors"] if int(v) != 1]
+    payload = {
+        "schema": "STAGE32_POST1473_INTEGRAL_PICARD_SUPPORT_SATURATED_LIA_PREFLIGHT_V3",
+        "stage": 32,
+        "leaf": "POST1473_INTEGRAL_PICARD_SUPPORT_SATURATED_LIA_PREFLIGHT",
+        "mode": "ONE_LOCKED_PROJECTION_EXACT_21AK_SATURATED_PAIRING_LATTICE_PLUS_ALL140_NONNEGATIVITY_PLUS_EXACT_PAIRWISE_LIA_SUPPORT_LINEARIZATION",
+        "source_locks": {
+            "main_merge_base": "4a08b3636b342b682d2a257aa157e146e86ba302",
+            "manifest_canonical_sha256": EXPECTED_MANIFEST_SHA256,
+            "node_support_preflight_canonical_sha256": EXPECTED_PREFLIGHT_SHA256,
+            "picard_adapter_canonical_sha256": EXPECTED_PICARD_ADAPTER_CANONICAL,
+            "node_support_audit_canonical_sha256": EXPECTED_NODE_SUPPORT_AUDIT_CANONICAL,
+            "audited_32_21ac_certificate_sha256": EXPECTED_AC_CERTIFICATE_SHA256,
+            "affine_21ak_constraint_rows_sha256": EXPECTED_21AK_CONSTRAINT_ROWS_SHA256,
+        },
+        "locked_projection": {
+            **EXPECTED_TARGET,
+            "node_mass_cheap_required_support_lower_bound": required_support,
+            "known_exact_picard_positive_exceptional_support": known_support,
+            "known_exact_picard_zero_exceptional_count": known_zero_count,
+            "known_exact_picard_class_excluded_by_refined_support_bound": True,
+            "known_exact_picard_maps_to_21ak_projection": True,
+            "known_exact_picard_has_integral_21ak_translation": True,
+            "known_exact_picard_21ak_translation_sha256": csha([int(v) for v in translation]),
+        },
+        "saturated_pairing_lattice": {
+            "integer_rank": rank,
+            "exact_identity_M_equals_Sfinal_times_F": True,
+            "smith_factor_multiplicities": {
+                "1": list(data["factors"]).count(1),
+                "2": list(data["factors"]).count(2),
+                "4": list(data["factors"]).count(4),
+                "8": list(data["factors"]).count(8),
+            },
+            "nonunit_divisibility_constraint_count": divisibility_count,
+            "maximum_nonunit_modulus": max(nonunit_factors),
+            "original_M_max_abs_coefficient": max_abs_matrix(data["M"]),
+            "saturated_Sfinal_max_abs_coefficient": max_abs_matrix(S),
+            "exact_same_integer_fiber": True,
+        },
+        "exact_support_linearization": {
+            "all_exceptional_pairings_nonnegative_integer": True,
+            "required_positive_exceptional_support": required_support,
+            "equivalence": "support>=47_of_48 iff at_most_one_zero iff every_distinct_pair_sum>=1",
+            "boolean_cardinality_removed": True,
+            "pairwise_linear_constraint_count": pairwise_constraint_count,
+        },
+        "affine_fiber_support_preflight": {
+            "status": fiber_status,
+            "z3_version": get_version_string(),
+            "solver_timeout_ms": args.solver_timeout_ms,
+            "solver_unknown_reason": unknown_reason,
+            "saturated_integer_coordinate_rank": rank,
+            "smith_divisibility_auxiliary_count": len(divisor_aux),
+            "all140_nonnegative_enforced": True,
+            "exceptional_pairing_count": EXPECTED_EXCEPTIONAL_COUNT,
+            "required_positive_exceptional_support": required_support,
+            "positive_means_integer_pairing_at_least_one": True,
+            "self_intersection_threshold_enforced": False,
+            "fiber_sat_is_only_necessary_condition_survival": True,
+            "fiber_unsat_would_reject_this_fixed_z_for_bijective_normalization_branch": True,
+            "witness": fiber_witness,
+        },
+        "firewalls": {
+            "representative_known_class_exclusion_remains_audited": True,
+            "fixed_z_affine_fiber_closed": fiber_status == "UNSAT",
+            "full178_integral_picard_closed": False,
+            "full178_geometric_closed": False,
+            "multibranch_closed": False,
+            "receiver_credit": False,
+            "route_credit": False,
+            "theorem_credit": False,
+            "perfect_cuboid_existence_claim": False,
+            "perfect_cuboid_nonexistence_claim": False,
+            "unknown_is_not_unsat": True,
+        },
+    }
+    payload["canonical_sha256_without_this_field"] = csha(payload)
+    args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+    print(json.dumps({
+        "verdict": "PASS_STAGE32_POST1473_INTEGRAL_PICARD_SUPPORT_SATURATED_LIA_PREFLIGHT",
+        "known_class_support": known_support,
+        "required_support": required_support,
+        "fixed_z_affine_fiber_status": fiber_status,
+        "smith_divisibility_constraints": divisibility_count,
+        "pairwise_linear_constraint_count": pairwise_constraint_count,
+        "canonical_sha256": payload["canonical_sha256_without_this_field"],
+    }, sort_keys=True))
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,99 @@
+{
+  "schema": "STAGE32_POST1473_O188_PRODUCT_COVER_EXTREMAL_PROFILE_V1",
+  "stage": 32,
+  "leaf": "POST1473_FIXED_Z_O188_PRODUCT_COVER_EXTREMAL_PROFILE_REDUCTION",
+  "status": "EXACT_PROFILE_REDUCTION_OPEN_GEOMETRY",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "d": 186,
+    "e": 266,
+    "z": [-15, 62, -44, 26, 32]
+  },
+  "audit_promotion": {
+    "review_id": 5078184271,
+    "audited_head": "300140d4ff519965571ade06f29595f9011e3f67",
+    "audited_certificate_canonical_sha256": "22b957bcec96f933d24952a424bf8d5ff35ad96b73e66995eacc2d672ed80d7a",
+    "promoted_consequence": {
+      "universal_O_min": 188,
+      "universal_S1_min": 149,
+      "O186_eliminated": true
+    },
+    "scope": "FIXED_V6_MULTIBRANCH_GENUS_ONE_NECESSARY_CONDITION_NONEXCLUSION_ONLY"
+  },
+  "audited_upstream": {
+    "product_cover_wall_canonical_sha256": "1d7086f7ebd2a826f42d0f8d67fef075a64b5af214c92e681c4a8b36e9b03c0f",
+    "product_cover_audit_review_id": 5076613249,
+    "odd_etale_obstruction_note_blob_sha": "5a542df90f280294d6f301e899ff7477ce8686d3",
+    "odd_etale_obstruction_certificate_blob_sha": "8c905bf3bd4336c3f592026afebf2d4dd6ac0790"
+  },
+  "O188_exact_projection_profiles": {
+    "formulas": {
+      "n1_plus_n2": "qprime*d/4",
+      "R_i": "qprime*O-8*n_i",
+      "R1_plus_R2": "2*qprime*(O-d)"
+    },
+    "qprime_2": {
+      "monodromy_image_order": 2,
+      "n1_plus_n2": 93,
+      "projection_degree_cap": 47,
+      "unordered_projection_degrees": [46, 47],
+      "ordered_profiles": [
+        {"n1": 46, "n2": 47, "R1": 8, "R2": 0},
+        {"n1": 47, "n2": 46, "R1": 0, "R2": 8}
+      ],
+      "exact_geometry": "exactly one X(8) projection is etale of degree 47; the other has degree 46 and total ramification 8"
+    },
+    "qprime_4": {
+      "monodromy_image_order": 4,
+      "full_V4_required": true,
+      "n1_plus_n2": 186,
+      "projection_degree_cap": 94,
+      "unordered_projection_degree_multisets": [[92, 94], [93, 93]],
+      "ordered_profiles": [
+        {"n1": 92, "n2": 94, "R1": 16, "R2": 0},
+        {"n1": 93, "n2": 93, "R1": 8, "R2": 8},
+        {"n1": 94, "n2": 92, "R1": 0, "R2": 16}
+      ],
+      "exact_geometry": "either one projection is etale degree 94 and the other degree 92 with ramification 16, or both are degree 93 with ramification 8 each"
+    }
+  },
+  "O188_branch_mass_profile": {
+    "necessary_S1_min": 149,
+    "slack_formula": "slack=e-(S1+3*(O-S1))=2*(S1-149)",
+    "extremal_S1_149": {
+      "slack": 0,
+      "B": 188,
+      "multiplicity_histogram": {
+        "m1": 149,
+        "m3": 39,
+        "all_other_multiplicities": 0
+      },
+      "reason": "149*1+39*3=266 exhausts the full exceptional mass, so there are no even-contact branches and no odd multiplicity >3"
+    },
+    "coarse_extremal_state": [188, 188, 149],
+    "coarse_extremal_state_survives": true
+  },
+  "next_geometry": {
+    "primary_target": "SOURCE_LOCK_A_GEOMETRIC_COMPATIBILITY_OBSTRUCTION_FOR_THE_O188_PROJECTION_RAMIFICATION_PROFILES_AND_THE_EXTREMAL_149x1_PLUS_39x3_BRANCH_PROFILE",
+    "do_not_use": "total-intersection partition arithmetic alone",
+    "fallback": "If S1=149 extremal geometry is excluded, continue to positive even slack 2*(S1-149) without re-opening O=186"
+  },
+  "verdict": {
+    "O186_closed_audited": true,
+    "universal_O188_S149_wall_audited": true,
+    "O188_geometry_closed": false,
+    "multibranch_carrier_excluded": false,
+    "full178_authorized": false
+  },
+  "firewalls": {
+    "coarse_profile_is_not_analytic_realization": true,
+    "projection_ramification_totals_are_not_branch_location_data": true,
+    "unknown_is_not_unsat": true,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "canonical_sha256_without_this_field": "45775c816f7e3ba46c9c0ab81ff0646d41cbc7d5d5e9a623f8f43c04ccd36923"
+}
