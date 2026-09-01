@@ -1,0 +1,32 @@
+name: Stage33-12 J2 V4 generator identification diagnostic
+
+on:
+  push:
+    branches:
+      - stage33-post1475-j2-v4-generator-adapter
+    paths:
+      - 'stages/stage33/33-12/diagnose_j2_v4_generator_identification.py'
+      - '.github/workflows/stage33-12-j2-v4-generator-diagnostic.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage33-12-j2-v4-generator-diagnostic
+  cancel-in-progress: true
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test all six relative V4 generator identifications
+        run: python stages/stage33/33-12/diagnose_j2_v4_generator_identification.py
+      - name: Compact-state and diff checks
+        run: |
+          python stages/stage33/sync_main_state.py --check
+          git diff --check
