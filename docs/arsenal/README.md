@@ -76,6 +76,20 @@ ACTIVE_STAGE_SOURCE_LOCK_MUST_BE_REVALIDATED=true
 FINAL_PROMOTION_REVIEW_REQUIRED_AT_STAGE_CLOSE=true
 ```
 
+## Provisional historical Class-3 method harvest
+
+- [`stageA1-stageA2-class3-provisional-harvest.md`](stageA1-stageA2-class3-provisional-harvest.md) — historical StageA1/A2 harvest focused on theorem construction rather than old family conclusions. It records `A2-C3P01 RECEIVER_SPECIFIC_CLOSURE_THEOREM_PIPELINE`, new-card candidate `A2-W01 SUCCESSIVE_EXACT_FACTOR_SQUARECLASS_DESCENT`, merge targets for A2 common-Jacobian/pullback methods, and quarantined A1 MW/p-adic workflow specializations.
+- StageA2 is treated as a **retrospective Class-3 theorem-construction precedent**, not as a formal selector: Stage29's later Class-3 definition is used to classify the method pattern, while the A2 `-18` family theorem remains stage-specific.
+- StageA1 A1-3..A1-14 remains under the hard `SOURCE_OBJECT = auxiliary -8 curve` firewall. Only independently audited internal methods may be considered after a fresh target-specific derivation; no A1 family conclusion transfers to the published `-18` family or the perfect-cuboid mainline.
+- Stage34 PR #1480 already records direct reuse of the A2 factor/squareclass method. Live Stage34 authority must still be refetched before use.
+
+```text
+A1_A2_HARVEST_IS_FORMAL_SELECTOR=false
+A2_FAMILY_THEOREM_TRANSFERRED=false
+A1_MINUS8_MAINLINE_CREDIT=false
+CLASS3_PRECEDENT_DISCOVERY_ONLY=true
+```
+
 ## Weapon sets kept at stable paths
 
 - [`../stage14-arsenal.md`](../stage14-arsenal.md)
