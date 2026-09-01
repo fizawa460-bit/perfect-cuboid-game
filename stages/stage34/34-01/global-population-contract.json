@@ -1,6 +1,6 @@
 {
-  "schema": "STAGE34_01_EXT_C_GLOBAL_POPULATION_CONTRACT_V1",
-  "status": "PARTIAL_MW_BASIS_CERTIFICATE_PENDING_TRANSLATION_AND_RANK2_QUANTIFIERS_FIXED",
+  "schema": "STAGE34_01_EXT_C_GLOBAL_POPULATION_CONTRACT_V2_PREAUDIT_EVIDENCE_COMPLETE",
+  "status": "EVIDENCE_COMPLETE_7_OF_7_MW_POPULATION_PENDING_HOSTILE_AUDIT",
   "receiver": "R29-EXT-CHANG-C",
   "source_object": "stages/stage34/34-01/exact-sequence-lock.json",
   "population": {
@@ -39,11 +39,18 @@
     "finite_exception_contract": "Existing Paper-C credit covers only max(|a|,|b|)<=12 with (a,b)!=(0,0). Any proved B0>13 creates a new finite annulus that must be exactly checked.",
     "firewall": "No one-variable EDS/primitive-divisor theorem receives rank-two credit merely by restricting to individual rays; infinitely many primitive lattice directions would remain."
   },
-  "mw_basis_dependency": {
-    "status": "PENDING_STAGE34_01_MAGMA_FULL_GROUP_CERTIFICATE",
-    "required_for_full_fiber_population": true,
-    "if_source_free_index_is_1": "Paper-C source coordinates give the full free Mordell-Weil lattice; this contract becomes the exact all-rational-point population modulo torsion.",
-    "if_source_free_index_exceeds_1": "The existing finite windows cover only a proper finite-index sublattice. Stage34 must switch to the saturated basis and redo finite exception coverage or explicitly narrow the receiver; no silent promotion is allowed."
+  "mw_basis_evidence": {
+    "status": "PREAUDIT_COMPLETE_7_OF_7",
+    "rank_authority": "Paper-C source-locked PARI ellrank tight intervals",
+    "magma_partial_certificate": "stages/stage34/34-01/mw-magma-partial-certificate.json",
+    "magma_index_one_fibers": ["20/21", "24/7", "60/11"],
+    "eclib_residual_certificate": "stages/stage34/34-01/mw-eclib-certificate.json",
+    "eclib_execution": "stages/stage34/34-01/mw-eclib-execution.json",
+    "eclib_index_one_fibers": ["80/39", "84/13", "48/55", "20/99"],
+    "all_seven_source_free_lattices_span_full_free_part_preaudit": true,
+    "rank2_source_coordinate_matrix": [[0, -1], [1, 0]],
+    "rank2_determinant_absolute_value": 1,
+    "audit_required_for_authoritative_promotion": true
   },
   "resolved_interface_status": {
     "torsion_translated_rank1_quantifiers_defined": true,
@@ -51,6 +58,20 @@
     "rank2_population_defined": true,
     "rank2_primitive_ordering_needed": false,
     "rank2_replacement_theorem_target_defined": true,
-    "full_mw_basis_certified": false
+    "full_mw_basis_evidence_complete_preaudit": true,
+    "full_mw_basis_authoritative_after_hostile_audit": false
+  },
+  "release": {
+    "stage34_01_hostile_audit_passed": false,
+    "stage34_02_released": false,
+    "reason": "Repository-wide promotion policy requires the hostile/fresh audit demanded by the active Stage contract before downstream release."
+  },
+  "firewalls": {
+    "preaudit_evidence_complete_is_audited_closure": false,
+    "mw_population_lock_is_primitive_divisor_theorem": false,
+    "population_contract_is_receiver_discharge": false,
+    "receiver_discharge_is_parent_route_closure": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
   }
 }
