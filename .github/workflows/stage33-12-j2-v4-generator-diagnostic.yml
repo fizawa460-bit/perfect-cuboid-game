@@ -6,7 +6,7 @@ on:
       - stage33-post1475-j2-v4-generator-adapter
     paths:
       - 'stages/stage33/33-12/diagnose_j2_v4_generator_identification.py'
-      - 'stages/stage33/33-12/diagnose_j2_picard_pullback_v4_equivariance.py'
+      - 'stages/stage33/33-12/diagnose_j2_picard_pullback_mod2_kernel.py'
       - '.github/workflows/stage33-12-j2-v4-generator-diagnostic.yml'
 
 permissions:
@@ -27,8 +27,8 @@ jobs:
           python-version: '3.11'
       - name: Test all six relative V4 generator identifications
         run: python stages/stage33/33-12/diagnose_j2_v4_generator_identification.py
-      - name: Test Kc-to-full-surface Picard pullback V4 equivariance
-        run: python stages/stage33/33-12/diagnose_j2_picard_pullback_v4_equivariance.py
+      - name: Test exact Picard pullback and mod-2 kernel
+        run: python stages/stage33/33-12/diagnose_j2_picard_pullback_mod2_kernel.py
       - name: Compact-state and diff checks
         run: |
           python stages/stage33/sync_main_state.py --check
