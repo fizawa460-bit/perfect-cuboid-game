@@ -1,15 +1,15 @@
-name: Stage34-02b D2 StageA2 genus-two rank<=1 three-curve adapter
+name: Stage34-02b D2 StageA2 genus-two rank<=1 representative adapter
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - 'stages/stage34/runkeys/stage34-02b-d2-stageA2-genus2-rankle1-three-adapter.json'
-      - 'stages/stage34/34-02/d2-stageA2-genus2-rankle1-three-adapter-lock.json'
-      - 'stages/stage34/34-02/d2-stageA2-genus2-rankle1-three-chabauty-lock.json'
+      - 'stages/stage34/34-02/d2-stageA2-genus2-rankle1-two-rep-mw-chabauty-lock.json'
       - 'stages/stage34/34-02/d2-stageA2-genus2-rankle1-rationalpoints-lock.json'
-      - 'stages/stage34/34-02/probe_d2_stageA2_genus2_rankle1_three_adapter.py'
-      - 'stages/stage34/34-02/probe_d2_stageA2_genus2_rankle1_three_chabauty.py'
+      - 'stages/stage34/34-02/d2-stageA2-sign-involution-remaining30-pair-lock.json'
+      - 'stages/stage34/34-02/d2-stageA2-sign-involution-remaining30-pair-certificate.json'
+      - 'stages/stage34/34-02/probe_d2_stageA2_genus2_rankle1_two_rep_mw_chabauty.py'
       - '.github/workflows/stage34-02b-d2-stageA2-genus2-rankle1-three-adapter.yml'
 
 permissions:
@@ -43,7 +43,7 @@ jobs:
               and cur.get('armed') is True
               and isinstance(cur.get('generation'),int)
               and cur['generation']>int(old.get('generation',-1))
-              and cur.get('expected_targets')==3
+              and cur.get('expected_targets')==2
               and cur.get('planned_heavy_jobs')==1
               and cur.get('effective_heavy_concurrency')==1
               and cur.get('maximum_external_magma_requests_at_once')==1
@@ -56,24 +56,24 @@ jobs:
     needs: authorize
     if: needs.authorize.outputs.authorized == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
-      - name: Run three exact genus-two Chabauty adapter targets
-        run: python3 stages/stage34/34-02/probe_d2_stageA2_genus2_rankle1_three_chabauty.py
+      - name: Run two representative genus-two MW plus Chabauty targets
+        run: python3 stages/stage34/34-02/probe_d2_stageA2_genus2_rankle1_two_rep_mw_chabauty.py
       - name: Enforce compact diagnostic artifact cap
         if: always()
         run: |
-          test -f stages/stage34/34-02/d2-stageA2-genus2-rankle1-three-chabauty-probe.json
-          test $(wc -c < stages/stage34/34-02/d2-stageA2-genus2-rankle1-three-chabauty-probe.json) -le 1048576
-          test $(wc -c < stages/stage34/34-02/d2-stageA2-genus2-rankle1-three-chabauty-stdout.txt) -le 1048576
+          test -f stages/stage34/34-02/d2-stageA2-genus2-rankle1-two-rep-mw-chabauty-probe.json
+          test $(wc -c < stages/stage34/34-02/d2-stageA2-genus2-rankle1-two-rep-mw-chabauty-probe.json) -le 1048576
+          test $(wc -c < stages/stage34/34-02/d2-stageA2-genus2-rankle1-two-rep-mw-chabauty-stdout.txt) -le 1048576
       - name: Upload compact diagnostic evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage34-02b-d2-stageA2-genus2-rankle1-three-chabauty
+          name: stage34-02b-d2-stageA2-genus2-rankle1-two-rep-mw-chabauty
           path: |
-            stages/stage34/34-02/d2-stageA2-genus2-rankle1-three-chabauty-probe.json
-            stages/stage34/34-02/d2-stageA2-genus2-rankle1-three-chabauty-stdout.txt
+            stages/stage34/34-02/d2-stageA2-genus2-rankle1-two-rep-mw-chabauty-probe.json
+            stages/stage34/34-02/d2-stageA2-genus2-rankle1-two-rep-mw-chabauty-stdout.txt
           if-no-files-found: warn
           retention-days: 1
