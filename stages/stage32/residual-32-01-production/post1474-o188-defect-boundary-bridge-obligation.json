@@ -1,0 +1,75 @@
+{
+  "schema": "STAGE32_POST1474_O188_DEFECT_BOUNDARY_BRIDGE_OBLIGATION_V1",
+  "stage": 32,
+  "leaf": "POST1474_O188_DEFECT_BRANCH_TO_RETAINED_BOUNDARY_NODE_BRIDGE",
+  "status": "OPEN_OBLIGATION",
+  "base_merge": {
+    "pr": 1474,
+    "merge_commit": "e0e03ff19b6fcdbc302ed964e6b068680aa5f957",
+    "bounded_hostile_reaudit_review_id": 5083834097
+  },
+  "audited_inputs_do_not_reopen": {
+    "o186_and_cusp_budget": {
+      "status": "CLOSED_AUDITED_DO_NOT_REOPEN",
+      "canonical_sha256": "318ac76ca5baf9e5f7f7a2300628b432f3b5fbb718f2bd21bc7a4f13b9cf3328"
+    },
+    "qprime4_genus2_descent": {
+      "canonical_sha256": "3617ef2e0717a1d75de0f3a271a4b0e25f3ed7e67e76f1e58b490d3fcba9d978",
+      "certificate_path": "stages/stage32/residual-32-01-production/post1473-o188-q4-genus2-descent.json",
+      "certificate_blob_sha1": "4c5ed46de03eb0e74f7c54dd2c5adf8d6071602e",
+      "authority_note_path": "stages/stage32/residual-32-01-production/post1473-o188-q4-genus2-descent-source-note.md",
+      "authority_note_blob_sha1": "ac85353cbe56d04582aaf98c34e6b6c9483b21f1",
+      "retained_fact": "Each descended degree-93 map has total ramification degree 2; B has divisor 2P and C has divisor P+P'."
+    },
+    "boundary_label_weierstrass_adapter": {
+      "canonical_sha256": "b947be5a3677a9e0b46839241adc03004ee5221ee94d6371f165253281e2a81f",
+      "certificate_path": "stages/stage32/residual-32-01-production/post1473-boundary-label-weierstrass-adapter.json",
+      "certificate_blob_sha1": "d3f9c82ab087ea4a2721737867159900a3f304c4",
+      "retained_fact": "Boundary labels 33..44 are transported to the six quotient Weierstrass cusps."
+    },
+    "c_zero_partition": {
+      "canonical_sha256": "96e9d9b78201e99d98b31b8ece51c3e6227a2637c35356f012d0049d589a0f42"
+    },
+    "exceptional_incidence": {
+      "canonical_sha256": "efdecb5d5cef219fc39d931521cbc1890a4830b5296e3c6ff7e93ccb6fa6b143"
+    },
+    "satake_marking": {
+      "canonical_sha256": "69a2a6d3cdf7b0d5c6162424a8102ec41cd09ac7e303469d30577d454363e31d"
+    },
+    "v4_cusp_quotient": {
+      "canonical_sha256": "2869208e7509d7b79378264ea1982299b0f1745b1a54c5856cfbba0754567ce5"
+    }
+  },
+  "gap_evidence": {
+    "qprime4_authority_note_explicit_firewall": "The source note explicitly says it does not identify a retained boundary label with a hypothetical defect branch.",
+    "cusp_budget_explicit_firewall": "The audited coarse nodewise partition reachability is not analytic branch realization.",
+    "consequence": "Existing audited data do not by themselves identify the B/C defect support with a retained boundary node."
+  },
+  "exact_obligations": [
+    "On the same geometric model used by the audited boundary marking, identify the q'=4 B defect support (unique m=3 branch, descended divisor 2P) and the q'=4 C defect support (unique m=4 branch, descended divisor P+P') with explicit source-side branch identifiers.",
+    "Transport those source-side branch identifiers to explicit retained boundary node/label identifiers, not merely to an abstract six-cusp orbit.",
+    "Prove, by source lock or deterministic exact replay, that the entire descended ramification divisor of degree 2 is supported on the identified retained boundary node(s), with all other retained boundary nodes excluded from support.",
+    "Persist the source/replay inputs and a canonical certificate sufficient for a bounded hostile audit."
+  ],
+  "acceptable_closure_modes": [
+    "FORMAL_SOURCE_LOCK",
+    "DETERMINISTIC_EXACT_REPLAY_WITH_PERSISTED_INPUTS"
+  ],
+  "not_sufficient_for_closure": [
+    "contact histogram alone",
+    "nodewise partition reachability alone",
+    "V4 symmetry alone",
+    "boundary-to-Weierstrass adapter without a source-side defect identifier",
+    "numerical coincidence without persisted replay/source lock"
+  ],
+  "firewalls": {
+    "O188_closed": false,
+    "full178_active": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "next_action": "Construct the source-side defect-branch identifier and its exact transport to retained boundary node(s); then run a bounded hostile audit of only this bridge."
+}
