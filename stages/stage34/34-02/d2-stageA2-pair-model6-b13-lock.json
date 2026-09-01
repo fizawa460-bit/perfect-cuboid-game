@@ -1,0 +1,55 @@
+{
+  "schema": "STAGE34_02_D2_STAGEA2_PAIR_MODEL6_B13_PROBE_LOCK_V1",
+  "status": "SOURCE_LOCKED_NONCREDIT_UNTIL_UNCONDITIONAL_MARKER",
+  "parent_pair_rank_source_commit": "2953932f52370881b5a81a4f77a51dfba3ca269a",
+  "failed_generation_2": {
+    "run": 33514010567,
+    "job": 99876416120,
+    "classification": "NONCREDIT_RESOURCE_WALL_DURING_MODEL6_BOUND14",
+    "certified_models_before_stop": 5,
+    "first_inconclusive_model": 6,
+    "observed_failure": "mwrank -q -v 1 -o -b 14 exceeded the per-process 240 second timeout",
+    "mathematical_counterexample": false
+  },
+  "target": {
+    "model_id_in_sorted_48_model_list": 6,
+    "a4": -3228847023956400,
+    "a6": 66578607841354020720000,
+    "binary_quartic_example": [2181025, 3806880, -4362050, -3806880, 2181025],
+    "binary_quartic_I": 119586926813200,
+    "binary_quartic_J": -2465874364494593360000,
+    "example_association": {
+      "q": "48/55",
+      "delta": [-55, 3, 118965, -721],
+      "branch_id": "48f8042569dfc947fc39",
+      "pair": "U*B",
+      "squareclass": 39655
+    },
+    "association_count": 8
+  },
+  "probe": {
+    "software_package": "eclib-tools",
+    "command": "mwrank -q -v 1 -o -b 13",
+    "quartic_search_bound": 13,
+    "process_timeout_seconds": 600,
+    "required_success_marker": "The rank and full Mordell-Weil basis have been determined unconditionally.",
+    "forbidden_credit_markers": ["conditional rank", "unable to saturate", "saturation failed", "not saturated"]
+  },
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "artifact_max_bytes": 4194304,
+    "retention_days": 1,
+    "projected_peak_new_artifact_storage_bytes": 4194304,
+    "repository_operating_budget_bytes": 524288000
+  },
+  "credit": "This probe changes no branch state by itself. Only an exit-success certificate carrying the exact unconditional full Mordell-Weil-basis marker may certify the model-6 Jacobian rank. Even a certified Jacobian rank does not close a quotient torsor or a parent branch.",
+  "firewalls": {
+    "timeout_is_rank_credit": false,
+    "conditional_rank_is_rank_credit": false,
+    "rank_zero_jacobian_closes_quotient_torsor": false,
+    "positive_rank_is_Q_point": false,
+    "probe_closes_parent_branch": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}
