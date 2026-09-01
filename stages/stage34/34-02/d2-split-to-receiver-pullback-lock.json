@@ -1,0 +1,45 @@
+{
+  "schema": "STAGE34_02_D2_SPLIT_TO_RECEIVER_PULLBACK_LOCK_V1",
+  "status": "PASS_EXACT_P1_X_MAPS_AND_RECEIVER_EXCEPTION_CLASSIFICATION",
+  "source_split": "stages/stage34/34-02/d2-split-genus1-quotient-lock.json",
+  "source_receiver": "stages/stage34/34-01/global-population-contract.json",
+  "source_poles": "stages/stage34/34-02/pole-torsion-lock.json",
+  "setup": "Write q=a/b in lowest positive terms and [T:S] for the projective t-parameter. The K_{q,d} quartic supplies the B_h=d*v^2 condition after parameterizing A_h=d*u^2. A rational genus-5 cover point therefore gives a rational K_{q,d} point and an E_q point with the same projective x-coordinate.",
+  "d1": {
+    "affine_parameterization": "x=q*(t^2-1)/(2*t)",
+    "projective_x_map": "[T:S] |-> [a*(T^2-S^2) : 2*b*T*S]",
+    "map_has_projective_base_point": false,
+    "proof": "If T^2=S^2 and T*S=0 then T=S=0, impossible in P^1.",
+    "rational_x_infinity_preimages": ["[0:1]", "[1:0]"],
+    "rational_pole_preimages": [],
+    "pole_proof": "x/q=+1 gives t^2-2t-1=0 and x/q=-1 gives t^2+2t-1=0; both have discriminant 8 and no rational root.",
+    "receiver_exception": "The two rational t-points above x=infinity project to the elliptic origin O, hence have zero free part and are outside the audited non-torsion receiver population."
+  },
+  "d2": {
+    "affine_parameterization": "x=q*(2*t^2-4*t+1)/(2*t^2-1)",
+    "projective_x_map": "[T:S] |-> [a*(2*T^2-4*T*S+S^2) : b*(2*T^2-S^2)]",
+    "map_has_projective_base_point": false,
+    "proof": "A common zero would satisfy 2*T^2=S^2 and 2*T^2-4*T*S+S^2=0, hence 2*S*(S-2*T)=0; combining with 2*T^2=S^2 forces T=S=0 over characteristic zero.",
+    "rational_x_infinity_preimages": [],
+    "infinity_proof": "2*T^2=S^2 has no nonzero rational projective solution because 2 is not a rational square.",
+    "rational_pole_preimages": {
+      "x=-q": ["t=0", "t=1"],
+      "x=+q": ["t=1/2", "t=infinity"]
+    },
+    "pole_proof": "Equating the numerator to minus/plus the denominator factors respectively as 4*t*(t-1)=0 and -2*(2*t-1)=0 in the affine chart; the second +q preimage is the projective point at infinity where the leading-coefficient ratio is +1.",
+    "receiver_exception": "Every rational d=2 pole preimage projects to x=+/-q on E_q. The audited pole-torsion lock proves all rational E_q points above these x-values have order 4, so they are outside the non-torsion receiver population."
+  },
+  "fiber_product_equivalence_for_receiver": {
+    "forward": "Every non-torsion rational C_q point has a unique surviving squareclass d in {1,2} after D1 and yields a rational K_{q,d} point plus the same E_q point with equal finite non-pole x.",
+    "reverse": "A rational E_q point and K_{q,d} point with equal finite non-pole x satisfy A=d*u^2 and B=d*v^2; then z=d*u*v gives z^2=A*B, hence a rational C_q point (up to the harmless z sign).",
+    "receiver_target": "It is therefore sufficient and exact to classify rational pairs in E_q(Q) x K_{q,d}(Q) with matching finite non-pole x, then remove zero-free-part/torsion points."
+  },
+  "next_leaf": "D2_BUILD_PROOF_COMPLETE_FIBER_PRODUCT_MORDELL_WEIL_SIEVE_ON_MATCHING_X_USING_FULL_E_q_AND_J_q_BASES",
+  "firewalls": {
+    "x_map_lock_is_fiber_product_point_completeness": false,
+    "full_MW_bases_imply_matching_x_pairs_are_finite_without_sieve": false,
+    "receiver_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
