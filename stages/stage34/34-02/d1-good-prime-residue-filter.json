@@ -1,0 +1,47 @@
+{
+  "schema": "STAGE34_02_D1_GOOD_PRIME_RESIDUE_FILTER_V1",
+  "status": "PASS_EXACT_8_MORE_SQUARECLASSES_ELIMINATED",
+  "input_manifest": "stages/stage34/34-02/d1-squareclass-manifest.json",
+  "verifier": "stages/stage34/34-02/verify_d1_good_prime_residue_filter.py",
+  "necessary_reduction_condition": {
+    "setup": "q=a/b reduced, x=X/Z reduced, and p a prime not dividing 2ab(a^2-b^2)(a^2+b^2)d",
+    "E_h": "X*Z*(X+Z)*(b^2*X+a^2*Z)",
+    "A_h": "b^2*X^2+a^2*Z^2",
+    "B_h": "b^2(a^2+b^2)X^2+4a^2b^2XZ+a^2(a^2+b^2)Z^2",
+    "condition": "A rational point in squareclass d gives a projective residue [X:Z] in P^1(F_p) for which E_h, A_h/d, and B_h/d are all quadratic residues (zero allowed).",
+    "proof_scope": "The three quantities are exact integer squares after the rational square equations are cleared by square denominators. Therefore absence of any projective residue modulo a good prime is a rigorous obstruction to a rational point."
+  },
+  "eliminations": [
+    {"q":"20/21","d":5,"obstruction_prime":23,"projective_residue_count":0},
+    {"q":"20/21","d":10,"obstruction_prime":23,"projective_residue_count":0},
+    {"q":"84/13","d":13,"obstruction_prime":31,"projective_residue_count":0},
+    {"q":"84/13","d":26,"obstruction_prime":31,"projective_residue_count":0},
+    {"q":"48/55","d":5,"obstruction_prime":23,"projective_residue_count":0},
+    {"q":"48/55","d":10,"obstruction_prime":23,"projective_residue_count":0},
+    {"q":"20/99","d":5,"obstruction_prime":23,"projective_residue_count":0},
+    {"q":"20/99","d":10,"obstruction_prime":23,"projective_residue_count":0}
+  ],
+  "surviving_squareclasses": {
+    "20/21": [1,2],
+    "80/39": [1,2,5,10,13,26,65,130],
+    "24/7": [1,2],
+    "84/13": [1,2],
+    "48/55": [1,2],
+    "20/99": [1,2],
+    "60/11": [1,2,5,10]
+  },
+  "totals": {
+    "input_after_mod4_norm_filter": 30,
+    "eliminated_here": 8,
+    "surviving_after_good_prime_residue_filter": 22,
+    "eliminated_from_original_104": 82
+  },
+  "next_leaf": "D1_CERTIFY_QP_LOCAL_SOLUBILITY_OR_OBSTRUCTION_FOR_22_SURVIVORS_AND_DEFINE_EXACT_MW_REDUCTION_MAPS",
+  "firewalls": {
+    "mod_p_residue_survival_is_Qp_solubility": false,
+    "mod_p_residue_survival_is_Q_rational_solubility": false,
+    "22_survivors_are_cover_points": false,
+    "D1_complete": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}
