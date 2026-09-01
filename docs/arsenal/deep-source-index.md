@@ -8,7 +8,7 @@ Use this page when you know *what kind of thing you are looking for* but not whi
 
 | Need | Start here | What it contains |
 |---|---|---|
-| Find provisional reusable work from active Stage32/33 | [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) / [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) | Exact compression/lattice methods and arithmetic-HS/module/adapter candidates; source revalidation required and no formal selector credit yet |
+| Find provisional reusable work from active Stage32/33 | [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) / [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) | Exact compression/lattice methods and arithmetic-HS/module/adapter candidates; Stage33 includes Smith round-trip, Picard-adjoint basis, and V4-equivariant source-target reachability contracts; source revalidation required and no formal selector credit yet |
 | Find a reusable Stage14 theorem/obstruction by mathematical shape | [`../stage14-arsenal-index.md`](../stage14-arsenal-index.md) | Search phrases -> `AR-*` candidate IDs, reuse class, confidence, first firewall check |
 | Read the exact Stage14 weapon contract | [`../stage14-arsenal.md`](../stage14-arsenal.md) | Full `AR-*` registry with hypotheses, outputs, provenance and `DO_NOT_USE_FOR` boundaries |
 | Reuse normalized formulas/lemmas/dictionaries/recipes | [`../stage14-toolbox/README.md`](../stage14-toolbox/README.md) | Canonical reusable-card system extracted from merged Stage14 work |
@@ -144,7 +144,9 @@ Use these only after the current leaf identifies the missing weapon type. They a
 | Source | Provisional reusable theme |
 |---|---|
 | [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) | exact symbolic family compression; exact rank/unrank; Picard lattice image/HNF gate; finite integral-coset quadratic lower bounds |
-| [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) | exact zero-survival HS classification; finite residue-module and Bockstein reductions; Picard-adjoint source adapter; V4 source-target reachability audit; inflation-restriction warning |
+| [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) | exact zero-survival HS classification; Smith/finite-module and Bockstein reductions; Picard-adjoint basis adapter; exact V4-equivariant source-target transport/reachability audit; inflation-restriction warning |
+
+For the Stage33 Picard/Kummer band, route to the promotion file rather than raw history. Its targeted R02 section classifies reusable Arsenal candidates vs workflows vs Stage33-specific data, records source paths/canonical SHA256 locks, and explicitly excludes revoked J2 Kummer bindings.
 
 These cards may trigger a targeted source read, but do not carry formal selector/theorem credit until final promotion audit after their source Stage closes.
 
