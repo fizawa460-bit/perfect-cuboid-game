@@ -10,8 +10,11 @@ Current unresolved delta after `MAIN-STATE.json`:
 - This does NOT reopen the marked Kc orientation `J2=[1,0]`; the R4 torsor/kernel fingerprint still fixes that Brauer functional exactly.
 - The Picard-adjoint companion lines are diagnostic only: `beta2` has retained mask `742` and `beta1+beta2` mask `736`, and both lie in the target-compatible 1000-mask set. They are NOT promoted as J2.
 - The exact dependency gap is narrower than “find another source”: the proper-Br2 producer materializes the abstract dual Galois module from the Picard discriminant, while the Picard-adjoint source placement invokes a full-surface discriminant anti-isometry without source-locking a marked full-surface transcendental anti-isometry/correspondence.
+- Targeted follow-up inspection did not change that diagnosis: the Kc/J2 transcendental-lattice / B-field-half-dual side is already the relevant marked input side, while the unresolved bridge remains the exact basis/correspondence from that marked side into the full-surface proper-Br2 quotient/basis. Do not replace this missing bridge by guessing mask `742` or `736`.
+- The current blocker should therefore be treated as an interface/materialization problem, not a request to redo old V4-label, transpose/row-column, Picard-equivariance/kernel, or raw-projection investigations.
 - Exact next unresolved interface:
   `MATERIALIZE_FULL_SURFACE_MARKED_DISCRIMINANT_ANTI_ISOMETRY_OR_EQUIVALENT_EXPLICIT_H2_MU2_TO_PROPER_BR2_PULLBACK_ADAPTER_FOR_LAMBDA_D`
+- Next targeted expansion, if needed, is limited to the producer/proof locations that define the proper-Br2 quotient/basis or the marked full-surface discriminant/transcendental correspondence required to feed `lambda_D`; broad Stage33 history rereads are not justified.
 - Do not rerun V4 labels, transpose/row-column, Picard equivariance/kernel, old relation, order4 direct route, q1, or beta2-as-J2 guessing under unchanged premises.
 
 No controller/`MAIN-STATE.json` promotion is claimed yet. Relation rank remains 0, standard columns 0/10, and all closure/release/theorem/receiver/endpoint firewalls remain unchanged.
