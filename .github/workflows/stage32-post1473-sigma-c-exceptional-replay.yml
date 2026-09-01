@@ -17,7 +17,7 @@ concurrency:
 jobs:
   replay:
     runs-on: ubuntu-24.04
-    timeout-minutes: 3
+    timeout-minutes: 6
     steps:
       - name: Checkout exact PR head
         uses: actions/checkout@v4
@@ -29,7 +29,7 @@ jobs:
           python-version: '3.10.6'
       - name: Install exact dependency
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Replay c-sign on retained exceptional nodes and Aut140
+      - name: Replay c-sign, pinned Picard64, E_pi and Kc pushforward square
         working-directory: stages/stage32/residual-32-01-production
         run: |
           python diagnose_stage32_post1473_sigma_c_exceptional_replay.py \
