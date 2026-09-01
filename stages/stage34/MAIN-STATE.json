@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE34_EXT_C_MAIN_STATE_V9_D2_GLOBAL_QUARTIC_ISOMORPHISMS_RECEIVER_PULLBACK_LOCKED",
+  "schema": "STAGE34_EXT_C_MAIN_STATE_V10_D2_FIXED_QUOTIENT_MW_SIEVE",
   "stage": "34",
-  "status": "ACTIVE_34_02_D2_FIBER_PRODUCT_MW_SIEVE",
-  "mission": "Close only Stage29 receiver R29-EXT-CHANG-C for the exact audited Paper-C all-multiples population; no parent-route or perfect-cuboid credit.",
+  "status": "ACTIVE_34_02_D2_FIXED_QUOTIENT_FIBER_PRODUCT_MW_SIEVE",
+  "mission": "Close only Stage29 receiver R29-EXT-CHANG-C for the exact hostile-audited Paper-C all-multiples population; no parent-route or perfect-cuboid credit.",
   "audited_foundation": {
     "stage34_01_exact_object_and_population_closed": true,
     "stage34_02_route_D_hostile_audit_passed": true,
@@ -13,42 +13,55 @@
   "current": {
     "unit": "34-02-D2",
     "selected_route": "D_REPLACEMENT_DIRECT_RATIONAL_POINT_COVER",
-    "next_exact_leaf": "D2_BUILD_PROOF_COMPLETE_FIBER_PRODUCT_MORDELL_WEIL_SIEVE_ON_MATCHING_X_USING_FULL_E_q_AND_J_q_BASES",
-    "why_this_leaf": "D1 reduced 104 squareclasses to fourteen locally viable d=1,2 covers. All fourteen split quartics are now globally Q-isomorphic to seven common Jacobians with certified full MW bases, and the exact K_{q,d}->P1_x maps plus all rational infinity/pole exceptions are source-locked. The remaining global problem is exactly to classify matching-x pairs between E_q(Q) and K_{q,d}(Q) ~= J_q(Q)."
+    "next_exact_leaf": "D2_BUILD_FIBER_TAILORED_FIXED_QUOTIENT_MW_SIEVES_AND_INTERSECT_MATCHING_X_RELATIONS",
+    "why_this_leaf": "All fourteen split quartics are global Q-isomorphic to seven common Jacobians with full MW bases, and the receiver-x pullback is exact. A first exact four-prime panel on 107,109,113,127 completed successfully, but all fourteen cases retained finite residue survivors. Its gcd-style common projection loses free-coefficient information whenever one selected local generator order is odd. The proof-complete next formulation fixes a quotient m first and then selects primes whose reduction orders support that quotient, intersecting exact matching-x relations in the same quotient."
   },
   "current_leaf_working_set": [
-    "stages/stage34/34-02/d2-split-to-receiver-pullback-lock.json",
-    "stages/stage34/34-02/d2-quartic-map-lock.json",
-    "stages/stage34/34-02/d2-quartic-map-certificate.json",
+    "stages/stage34/34-02/d2-fiber-product-mw-panel-lock.json",
+    "stages/stage34/34-02/run_d2_fiber_product_mw_panel.py",
+    "stages/stage34/34-02/run_d2_fiber_product_mw_panel_v2.py",
+    "stages/stage34/34-02/verify_d2_inverse_basepoint_extension.py",
+    "stages/stage34/34-02/d2-jq-to-receiver-x-coordinate-lock.json",
+    "stages/stage34/34-02/d2-jacobian-torsion-lock.json",
     "stages/stage34/34-02/d2-jacobian-mw-certificate.json",
     "stages/stage34/34-01/global-population-contract.json"
   ],
   "locked_evidence": {
     "D1_Qp_local_classification_complete": true,
     "D1_locally_viable_squareclasses": 14,
-    "D1_classes": "d=1,2 for each of seven q",
-    "D1_global_MW_sieve_complete": false,
     "D2_common_jacobian_full_MW_bases_certified": true,
-    "D2_map_formula_certificate": {"path":"stages/stage34/34-02/d2-quartic-map-certificate.json","blob_sha":"7ff324ab76a2ba6d0852b1a552631d2b0998d318"},
-    "D2_map_lock": {"path":"stages/stage34/34-02/d2-quartic-map-lock.json","blob_sha":"dddb0d53c8d441936005f27a7356e88c1dc30aa2"},
-    "D2_birational_extension_theorem": {"path":"stages/stage34/34-02/d2-birational-extension-theorem-lock.json","blob_sha":"d07f822cd52b71d2f3a9b60d7f6c06693abd73ae"},
-    "D2_receiver_pullback": {"path":"stages/stage34/34-02/d2-split-to-receiver-pullback-lock.json","blob_sha":"101181f7575c1e559cd0438abd37e627b7bf984c"}
+    "D2_explicit_global_quartic_jacobian_isomorphisms_complete": true,
+    "D2_split_to_receiver_pullback_complete": true,
+    "D2_common_jacobian_torsion": "Z/4 x Z/2 on all seven fibers",
+    "D2_J_to_receiver_coordinate_adapter_locked": true,
+    "D2_inverse_coordinate_Q_basepoint_extension_locked": true,
+    "D2_four_prime_panel": {
+      "status": "PASS_EXACT_DIAGNOSTIC_NONCLOSING",
+      "run": 33505914867,
+      "job": 99849838545,
+      "head": "9064383d848bacbe3234271121ae70fdf54dd1e5",
+      "artifact_id": 9799577011,
+      "artifact_digest": "sha256:135fb3e60f52c96d2aaa23ee1e067fde7c556319870bc3b7820395fb2409cef0",
+      "lock": "stages/stage34/34-02/d2-fiber-product-mw-panel-lock.json",
+      "globally_eliminated_cases": 0,
+      "presentation_degenerate_states_total": 52,
+      "presentation_degenerate_location": "24/7,d=1,p=109 only"
+    }
   },
   "D2_exact_target": {
-    "d1_x_map": "[T:S] -> [a(T^2-S^2):2bTS]",
-    "d2_x_map": "[T:S] -> [a(2T^2-4TS+S^2):b(2T^2-S^2)]",
-    "receiver_equivalence": "Non-torsion C_q(Q) points are exactly non-torsion E_q(Q) points paired with K_{q,d}(Q) points of d=1 or 2 having the same finite non-pole x, up to harmless y/z signs.",
-    "d1_rational_exceptions": "t=0,infinity map to x=infinity -> E origin -> outside receiver",
-    "d2_rational_exceptions": "t=0,1 map to -q and t=1/2,infinity map to +q -> order-4 E torsion -> outside receiver"
+    "receiver_equivalence": "Non-torsion C_q(Q) points are exactly non-torsion E_q(Q) points paired with J_q(Q) points via K_{q,d}~=J_q, d=1 or 2, having the same finite non-pole receiver x.",
+    "fixed_quotient_sieve_contract": "Choose a free-coordinate modulus m (normally 2 or 4) before selecting primes. Use only good primes for which every relevant reduced free generator order is divisible by m. Reduce the exact E_q and J_q MW coordinates, with fixed torsion labels, into the same quotient and intersect matching-x relations across primes. Empty intersection is a valid global exclusion for that (q,d); nonempty intersection is pruning only.",
+    "presentation_degeneracy_contract": "A reduced coordinate presentation yielding [0:0] is retained conservatively or that prime is omitted for the affected case. Q-level extension alone does not justify deleting a bad reduction presentation state."
   },
   "failed_noncredit_hardening": {
-    "generation_3_run": 33500019489,
-    "generation_4_run": 33500164959,
-    "classification": "Magma CrvEll datatype does not support the attempted EvaluateByPowerSeries/Extend inverse-domain calls; no mathematical assertion failed and no credit derives from these runs."
+    "map_generation_3_run": 33500019489,
+    "map_generation_4_run": 33500164959,
+    "conjugate_exception_run": 33505167479,
+    "classification": "CAS datatype or rejected auxiliary assumption only; no receiver or closure credit."
   },
   "arsenal": {
-    "S31_W01": "CONSUMED: explicit quartic-to-elliptic map pattern plus exceptional-locus firewall; global curve isomorphisms now source-locked.",
-    "S31_W03": "PENDING: use only after complete matching-x/fiber-product point set is certified.",
+    "S31_W01": "CONSUMED: global quartic-to-Jacobian adapters complete.",
+    "S31_W03": "PENDING: use only after complete matching-x/fiber-product point sets are certified.",
     "S30_WF02": "ACTIVE immutable layered certificate replay.",
     "S30_WF03": "ACTIVE credit firewall."
   },
@@ -60,6 +73,8 @@
     "D2_explicit_birational_maps_complete": true,
     "D2_exceptional_loci_complete": true,
     "D2_split_to_receiver_pullback_complete": true,
+    "D2_four_prime_diagnostic_panel_complete": true,
+    "D2_fixed_quotient_MW_sieve_complete": false,
     "D2_fiber_product_MW_sieve_complete": false,
     "direct_cover_rational_points_complete": false,
     "all_multiples_closed": false,
@@ -68,9 +83,9 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "firewalls": {
-    "global_quartic_jacobian_isomorphism_is_point_completeness": false,
-    "full_MW_bases_make_matching_x_pairs_finite_without_sieve": false,
     "finite_mod_p_matching_statistics_are_global_exclusion": false,
+    "nonempty_fixed_quotient_survivor_is_rational_point": false,
+    "full_MW_bases_make_matching_x_pairs_finite_without_sieve": false,
     "receiver_closure_implies_parent_route_closure": false,
     "perfect_cuboid_nonexistence_claim": false
   }
