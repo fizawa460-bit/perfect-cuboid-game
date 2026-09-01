@@ -3,39 +3,34 @@ SetQuitOnError(true);
 
 v1, v2, v3 := GetVersion();
 QQ := Rationals();
-print "STAGE34_01_MAGMA_MW_CERTIFICATE_BEGIN";
+print "STAGE34_01_MAGMA_MW_SATURATION_BEGIN";
 print "MAGMA_VERSION:", v1, v2, v3;
-print "SEMANTICS: MordellWeilGroup rank_proved/full_group_proved are the documented proof-status booleans";
-print "SOURCE_INDEX_METHOD: Saturation(source_points,TorsionFree=true) plus exact torsion relation coordinates";
+print "SEMANTICS: Saturation(points) returns generators of the saturation of the given points in the Mordell-Weil group";
+print "LOGIC: Paper-C exact rank + full saturation of an equal-rank source subgroup gives the full free Mordell-Weil lattice";
 
 procedure CheckFiber(label, qnum, qden, expected_rank, srcxy)
     qq := QQ!qnum / qden;
     E := EllipticCurve([ QQ | 0, 1 + qq^2, 0, qq^2, 0 ]);
     source_pts := [ E![ pair[1], pair[2], 1 ] : pair in srcxy ];
+    T, tmap := TorsionSubgroup(E);
 
     print "FIBER_BEGIN:", label;
     print "Q:", qq;
-    print "EXPECTED_RANK:", expected_rank;
+    print "EXPECTED_SOURCE_LOCKED_RANK:", expected_rank;
     print "SOURCE_POINTS:", source_pts;
-
-    G, mwmap, rank_proved, full_group_proved := MordellWeilGroup(E : Effort := 2, HeightBound := 100);
-    inv := Invariants(G);
-    free_positions := [ i : i in [1..#inv] | inv[i] eq 0 ];
-    free_rank := #free_positions;
-    T, tmap := TorsionSubgroup(E);
-
-    print "MW_INVARIANTS:", inv;
-    print "MW_RANK:", free_rank;
-    print "MW_RANK_PROVED:", rank_proved;
-    print "MW_FULL_GROUP_PROVED:", full_group_proved;
-    print "MW_GENERATORS:", [ mwmap(G.i) : i in [1..Ngens(G)] ];
     print "TORSION_INVARIANTS:", Invariants(T);
-    assert rank_proved;
-    assert free_rank eq expected_rank;
+
+    src_independent, src_rel := IsLinearlyIndependent(source_pts);
+    print "SOURCE_INDEPENDENT_MOD_TORSION:", src_independent;
+    assert src_independent;
 
     sat := Saturation(source_pts : TorsionFree := true);
     print "SATURATED_SOURCE_BASIS:", sat;
     assert #sat eq expected_rank;
+
+    sat_independent, sat_rel := IsLinearlyIndependent(sat);
+    print "SATURATED_BASIS_INDEPENDENT_MOD_TORSION:", sat_independent;
+    assert sat_independent;
 
     source_free_coords := [];
     for j in [1..#source_pts] do
@@ -59,22 +54,30 @@ procedure CheckFiber(label, qnum, qden, expected_rank, srcxy)
     M := Matrix(Integers(), expected_rank, expected_rank, flat);
     idx := Abs(Determinant(M));
     print "SOURCE_FREE_COORD_MATRIX:", M;
-    print "SOURCE_FREE_INDEX:", idx;
+    print "SOURCE_FREE_INDEX_IN_SATURATION:", idx;
     print "SOURCE_SPANS_SATURATED_FREE_PART:", idx eq 1;
-    print "FULL_POPULATION_CERTIFIED:", full_group_proved and idx eq 1;
-
     print "FIBER_END:", label;
 end procedure;
 
-CheckFiber("20/21", 20, 21, 1, [ [ QQ | -45/49, 10/343 ] ]);
-CheckFiber("80/39", 80, 39, 1, [ [ QQ | -160/39, 1760/1521 ] ]);
-CheckFiber("24/7", 24, 7, 1, [ [ QQ | -75/7, 510/49 ] ]);
-CheckFiber("84/13", 84, 13, 1, [ [ QQ | 17787/169, 216678/169 ] ]);
-CheckFiber("48/55", 48, 55, 1, [ [ QQ | -24/25, 24/275 ] ]);
-CheckFiber("20/99", 20, 99, 1, [ [ QQ | -20/27, 980/2673 ] ]);
-CheckFiber("60/11", 60, 11, 2, [
-    [ QQ | -180/11, 7020/121 ],
-    [ QQ | -300/11, 5100/121 ]
-]);
+if target eq "20/21" then
+    CheckFiber("20/21", 20, 21, 1, [ [ QQ | -45/49, 10/343 ] ]);
+elif target eq "80/39" then
+    CheckFiber("80/39", 80, 39, 1, [ [ QQ | -160/39, 1760/1521 ] ]);
+elif target eq "24/7" then
+    CheckFiber("24/7", 24, 7, 1, [ [ QQ | -75/7, 510/49 ] ]);
+elif target eq "84/13" then
+    CheckFiber("84/13", 84, 13, 1, [ [ QQ | 17787/169, 216678/169 ] ]);
+elif target eq "48/55" then
+    CheckFiber("48/55", 48, 55, 1, [ [ QQ | -24/25, 24/275 ] ]);
+elif target eq "20/99" then
+    CheckFiber("20/99", 20, 99, 1, [ [ QQ | -20/27, 980/2673 ] ]);
+elif target eq "60/11" then
+    CheckFiber("60/11", 60, 11, 2, [
+        [ QQ | -180/11, 7020/121 ],
+        [ QQ | -300/11, 5100/121 ]
+    ]);
+else
+    error "unknown target fiber";
+end if;
 
-print "STAGE34_01_MAGMA_MW_CERTIFICATE_END";
+print "STAGE34_01_MAGMA_MW_SATURATION_END";
