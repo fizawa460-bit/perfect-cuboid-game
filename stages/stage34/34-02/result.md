@@ -1,145 +1,144 @@
-# Stage34-02 — audited Route D and active D1 descent
+# Stage34-02 — audited Route D, D1 local closure, D2 common-Jacobian preparation
 
-Status: `AUDITED_PASS_ROUTE_D_SELECTED_D1_ACTIVE_22_SQUARECLASSES_REMAIN`.
+Status: `ACTIVE_D2_EXPLICIT_QUARTIC_JACOBIAN_MAPS_AFTER_D1_LOCAL_REDUCTION`.
 
-## 34-02 hostile audit
+## Audited route
 
-PR #1480 hostile audit PASSed the exact Face-3 factorization, genus-5 cover, finite squareclass support, receiver coverage, and conservative theorem funnel on audited head `d54ee6f0eda2814781301cc80ff11a47f92a8c24`.
+PR #1480 hostile audit PASSed the Face-3 factorization, genus-5 cover, finite squareclass support and Route-D selection on audited head `d54ee6f0eda2814781301cc80ff11a47f92a8c24`.
 
-The exact writeback is `audit-closure.json`.
-
-The audit's wording hardening is applied: Stage34 claims only that **no Lucas/Lehmer identification is proved or source-locked**. This is sufficient to deny BHV credit; it is not a proof that the sequence can never admit such an identification.
-
-## Audited direct cover
-
-On
+The exact cover remains
 
 ```text
 E_q: y^2=x(x+1)(x+q^2)
+C_q: z^2=(x^2+q^2)((1+q^2)x^2+4q^2x+q^2(1+q^2)).
 ```
 
-we have
+All Face-3 poles `x=+/-q` are exact order-4 torsion and lie outside the non-torsion receiver population.
+
+## D1 — finite squareclass descent
+
+The audited factorization gives `104` raw squareclasses `d|rad(2ab)`.
+
+- sum-of-two-squares valuation filter: `104 -> 30`;
+- exact good-prime projective residue filter: `30 -> 22`;
+- complete local classification of the remaining 22: `22 -> 14` locally viable classes.
+
+The eight additional classes
 
 ```text
-A_q=x^2+q^2,
-B_q=(1+q^2)x^2+4q^2x+q^2(1+q^2),
-F3=A_q B_q/(q^2-x^2)^2.
+80/39: d=5,10,13,26,65,130
+60/11: d=5,10
 ```
 
-Away from `x=+/-q`, `F3(Q)` is a square exactly when the corresponding point lifts to
+are all `Q_7`-insoluble: after normalizing a hypothetical 7-adic point, exhaustive `P^1(F_7)` reduction gives zero residues satisfying the three split square equations.
+
+Every remaining locally viable class is simply `d=1` or `d=2` on each of the seven fibers. These are genuinely locally soluble because they have explicit rational torsion witnesses:
 
 ```text
-C_q:
-  y^2=x(x+1)(x+q^2),
-  z^2=A_q(x)B_q(x).
+d=1: x=0,
+d=2: x=q.
 ```
 
-The audited branch computation gives `g(C_q)=5` for all seven locked `q`.
+This local solubility does not give non-torsion receiver survival.
 
-## Pole lock
+Evidence:
 
-`pole-torsion-lock.json` exact-replays the Face-3 poles. The rational points above `x=+q` are `(q,+/-q(q+1))`, those above `x=-q` are `(-q,+/-q(q-1))`, and every one doubles to `(0,0)`. Since `(0,0)` is nonzero 2-torsion and the seven locked `q` satisfy `q!=0,+/-1`, the pole points have order 4.
+- `d1-qp-local-classification.json`
+- `verify_d1_qp_local_classification.py`
 
-Stage34-01's authoritative receiver population is non-torsion, so the non-pole equivalence has no receiver hole.
+## Exact MW reduction panel
 
-## D1 squareclass materialization
-
-For reduced `q=a/b`, `x=X/Z`, a square candidate has
+The audited full Paper-C MW bases define exact reduction maps
 
 ```text
-A_h=b^2X^2+a^2Z^2=d u^2,
-B_h=b^2(a^2+b^2)X^2+4a^2b^2XZ+a^2(a^2+b^2)Z^2=d v^2,
+rank 1: Z x Z/4 x Z/2 -> E_q(F_p)
+rank 2: Z^2 x Z/4 x Z/2 -> E_q(F_p)
 ```
 
-with one positive squarefree `d|rad(2ab)`.
+at common good primes `107,109,113,127`. `d1-mw-reduction-panel.json` and its verifier commit the rank-one four-prime CRT states and rank-two per-prime coefficient states by canonical hashes.
 
-`d1-squareclass-manifest.json` materializes all `104` raw squareclasses.
+Finite congruence survivors remain. Therefore this panel is useful exact D1 pruning, but is not a proof-complete global MW sieve and grants no receiver closure.
 
-### Exact filter 1 — sum of two squares
+## D2 compression — 14 split covers -> 7 common Jacobians
 
-Because
+For `d=1`, parameterizing `x^2+q^2=u^2` gives
 
 ```text
-A_h=(bX)^2+(aZ)^2=d u^2,
+K_{q,1}:
+W^2=(1+q^2)t^4+8q t^3+2(1+q^2)t^2-8q t+(1+q^2).
 ```
 
-any prime `p==3 mod 4` has even valuation on the left. Such a prime cannot occur in squarefree `d`, where the right side would have odd valuation. This eliminates `74` classes:
+For `d=2`, parameterizing `x^2+q^2=2u^2` gives
 
 ```text
-104 -> 30.
+K_{q,2}:
+W^2=4(q+1)^2t^4-8(q+1)^2t^3+8(1+q^2)t^2-4(q-1)^2t+(q-1)^2.
 ```
 
-### Exact filter 2 — good-prime projective residues
-
-For a good prime
+Both have discriminant
 
 ```text
-p ∤ 2ab(a^2-b^2)(a^2+b^2)d,
+65536*q^2*(q-1)^4*(q+1)^4
 ```
 
-a rational point in squareclass `d` must reduce to some `[X:Z] in P^1(F_p)` for which all three quantities
+and the same binary-quartic invariants
 
 ```text
-E_h = X Z (X+Z)(b^2X+a^2Z),
-A_h/d,
-B_h/d
+I=16(q^4+14q^2+1),
+J=128(q^2+1)(q^2-6q+1)(q^2+6q+1).
 ```
 
-are quadratic residues modulo `p` (zero allowed).
-
-`verify_d1_good_prime_residue_filter.py` exhausts `P^1(F_p)` for eight candidate covers and finds no residue at the stated good prime. `d1-good-prime-residue-filter.json` records the proof-level eliminations:
+Thus the two locally viable split quartics on each fiber share the same Jacobian
 
 ```text
-20/21: d=5,10 blocked mod 23
-84/13: d=13,26 blocked mod 31
-48/55: d=5,10 blocked mod 23
-20/99: d=5,10 blocked mod 23
+J_q: y^2=x^3-(I/48)x-(J/1728).
 ```
 
-Thus
+This convention is cross-checked against the audited Stage31 quartic/elliptic adapter.
+
+## Seven unconditional Jacobian MW ranks
+
+GitHub Actions run `33497875525`, job `99824168746`, with explicit run-key generation 1, ran Ubuntu 24.04 `eclib-tools` / `mwrank -q -v 1 -o`. Every curve reported:
+
+`The rank and full Mordell-Weil basis have been determined unconditionally.`
+
+Ranks:
 
 ```text
-30 -> 22
+rank 2: 20/21, 24/7, 20/99
+rank 1: 80/39, 84/13, 48/55, 60/11
 ```
 
-necessary local squareclasses remain.
+Evidence:
 
-Current survivors:
+- `d2-split-genus1-quotient-lock.json`
+- `d2-jacobian-mw-certificate.json`
+- `d2-jacobian-mw-execution.json`
+
+No rank-zero shortcut occurs.
+
+## Current exact leaf
 
 ```text
-20/21 -> {1,2}
-80/39 -> {1,2,5,10,13,26,65,130}
-24/7  -> {1,2}
-84/13 -> {1,2}
-48/55 -> {1,2}
-20/99 -> {1,2}
-60/11 -> {1,2,5,10}
+D2_MATERIALIZE_EXPLICIT_K_q_d_TO_J_q_BIRATIONAL_MAPS_AND_EXCEPTIONAL_LOCI
+  -> exact round-trip verification using S31-W01 workflow pattern;
+  -> use the certified full J_q Mordell-Weil bases in the covering / elliptic-Chabauty layer;
+  -> pull every resulting point back through K_{q,d} -> C_q -> E_q;
+  -> classify torsion/poles separately from non-torsion receiver points.
 ```
 
-Survival of this finite residue test is **not** Q_p-solubility and is not a rational-point claim.
-
-## Current leaf
+## Firewalls
 
 ```text
-D1_CERTIFY_QP_LOCAL_SOLUBILITY_OR_OBSTRUCTION_FOR_22_SURVIVORS
-  -> define exact reduction maps from the audited full MW bases to finite local groups;
-  -> run proof-complete Mordell--Weil sieve;
-  -> send only genuine residual covers to D2 covering / elliptic-Chabauty.
-```
-
-## Credit boundary
-
-```text
-STAGE34_02_HOSTILE_AUDIT_PASSED=true
-ROUTE_D_SELECTED_AUTHORITATIVE=true
-D1_RELEASED=true
-D1_LOCAL_ELIMINATIONS=82_OF_104
-D1_SURVIVING_SQUARECLASSES=22
-D1_COMPLETE=false
+D1_LOCAL_CLASSIFICATION_COMPLETE=true
+D1_LOCALLY_VIABLE_CLASSES=14
+D1_FINITE_MW_PANEL_COMPLETE=true
+D1_GLOBAL_MW_SIEVE_COMPLETE=false
+D2_COMMON_JACOBIAN_RANKS_CERTIFIED=true
+D2_EXPLICIT_BIRATIONAL_MAPS_COMPLETE=false
 DIRECT_COVER_RATIONAL_POINTS_COMPLETE=false
 ALL_MULTIPLES_CLOSED=false
 R29_EXT_CHANG_C_closed=false
 PARENT_ROUTE_CLOSED=false
-PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
