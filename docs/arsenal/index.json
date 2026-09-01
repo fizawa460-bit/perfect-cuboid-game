@@ -1,5 +1,5 @@
 {
-  "schema": "RESEARCH_ARSENAL_V4_STAGE30_FORMAL_STAGE32_STAGE33_PROVISIONAL",
+  "schema": "RESEARCH_ARSENAL_V5_STAGE30_FORMAL_CERTIFICATE_CONSOLIDATED",
   "status": "CURRENT_WITH_FORMAL_STAGE30_AND_CONSOLIDATED_STAGE32_STAGE33_PROVISIONAL_HARVEST",
   "stage29_closed": true,
   "stage30_closed": true,
@@ -72,12 +72,44 @@
     },
     {
       "id": "S30-WF02",
-      "name": "IMMUTABLE_FINITE_CERTIFICATE_REPLAY",
+      "name": "IMMUTABLE_LAYERED_CERTIFICATE_REPLAY",
+      "former_name": "IMMUTABLE_FINITE_CERTIFICATE_REPLAY",
       "path": "../stage30-arsenal-promotion.md",
       "status": "FORMAL_CLOSED_STAGE_WORKFLOW",
-      "summary": "pin immutable mathematical sources, independently reconstruct cheap finite structure, and bind audited exhaustive subcertificates without pinning mutable controller state"
+      "summary": "pin immutable mathematical inputs, separate layer certificates, independently reconstruct cheap structure, bind audited expensive subcertificates by immutable provenance, and exclude mutable controller state from permanent mathematical identity"
+    },
+    {
+      "id": "S30-WF03",
+      "name": "ADAPTER_CREDIT_LAYER_FIREWALL",
+      "path": "../stage30-arsenal-promotion.md",
+      "status": "FORMAL_CLOSED_STAGE_WORKFLOW",
+      "summary": "typed credit DAG: finite PASS grants only its exact layer; adapter/receiver/route/theorem/endpoint promotions require explicit source-locked implications; reproducibility adds no new mathematical credit"
     }
   ],
+  "stage30_certificate_architecture": {
+    "path": "../stage30-arsenal-promotion.md",
+    "input_manifest": {
+      "path": "../../stages/stage30/30-09/input-manifest.json",
+      "blob_sha": "87dd1576576c9b5e7995d3426dbf1426ac6ade82",
+      "mutable_controller_hash_pinned": false
+    },
+    "independent_checker": {
+      "path": "../../stages/stage30/30-09/verify_stage30.py",
+      "blob_sha": "58e41b524bf134a863696fea5184a45ff4b73961"
+    },
+    "bound_upstream_certificate": {
+      "path": "../../stages/stage30/30-06C/semilinear-certificate.json",
+      "blob_sha": "23338d990bc337f456967a5ab8d3b6d81a1b1769",
+      "recomputed_from_scratch_by_final_checker": false
+    },
+    "layer_wrappers": {
+      "action": {"path":"../../stages/stage30/30-09/action-tables.json","blob_sha":"e179d56a621b4685cef9b3dea43e032bf5be1904"},
+      "equivariant_map": {"path":"../../stages/stage30/30-09/equivariant-map.json","blob_sha":"cc572f22e6ee42a8b145e13b0bee23bf870bebf0"},
+      "galois_cocycle": {"path":"../../stages/stage30/30-09/galois-cocycle.json","blob_sha":"ec8d5d7320bf4fc08be490eac81c635c1e283e98"},
+      "defect_classification": {"path":"../../stages/stage30/30-09/defect-classification.json","blob_sha":"02257e31f9bcdcad801b1fd4581d40b3cb746000"},
+      "final_certificate": {"path":"../../stages/stage30/30-09/final-certificate.json","blob_sha":"f1e8b8b823b3f7cce32cf78ec6bec76b875e63e1"}
+    }
+  },
   "cross_stage_relationships": [
     {
       "source": "S30-W01",
@@ -106,7 +138,24 @@
       "source": "S30-WF02",
       "target": "CANONICAL_EVIDENCE_CHAIN",
       "relation": "FORMAL_SUPERSEDES_GENERIC_IMMUTABLE_REPLAY_PORTION",
-      "note": "Stage32 retains its separate numerical-candidate replay and semantic-promotion workflow layers"
+      "note": "Stage32 retains separate numerical-candidate exact replay and geometry-specific semantic layers"
+    },
+    {
+      "source": "S30-WF02",
+      "target": "SPARSE_SOURCE_REPLAY",
+      "relation": "FORMAL_PARENT_FOR_IMMUTABLE_CERTIFICATE_BINDING_PORTION",
+      "note": "Stage33 retains active-stage sparse-source routing/context specialization"
+    },
+    {
+      "source": "S30-WF03",
+      "target": "SEMANTIC_PROMOTION_FIREWALL",
+      "relation": "FORMAL_SUPERSEDES_GENERIC_CREDIT_LADDER_PORTION",
+      "note": "Stage32 retains its concrete integral-class/effectivity/curve semantic specialization"
+    },
+    {
+      "source": "S30-WF03",
+      "target": "ARITHMETIC_LIFT_FIREWALL",
+      "relation": "FORMAL_PARENT_TO_PROVISIONAL_ARITHMETIC_SPECIALIZATION"
     }
   ],
   "provisional_harvests": [
@@ -214,7 +263,12 @@
     "family_closure_implies_endpoint_closure": false,
     "finite_zero_implies_global_nonexistence": false,
     "finite_exhaustive_identification_implies_unconditional_general_theorem": false,
+    "finite_certificate_pass_implies_global_theorem": false,
     "adapter_closure_implies_endpoint_closure": false,
+    "adapter_completion_implies_receiver_closure_without_receiver_contract": false,
+    "reproducibility_pass_implies_new_mathematical_credit": false,
+    "bound_upstream_certificate_counts_as_recomputed": false,
+    "mutable_execution_state_is_permanent_math_input": false,
     "abstract_finite_group_isomorphism_implies_concrete_action_adapter": false,
     "ordinary_group_orbit_implies_marked_arithmetic_class": false,
     "historical_green_means_endpoint_solved": false,
