@@ -1,0 +1,43 @@
+name: Stage34-02 D2 StageA2 genus-two RankBounds smoke
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage34/34-02/probe_d2_stageA2_genus2_rankbounds_smoke.py'
+      - '.github/workflows/stage34-02-d2-stageA2-genus2-rankbounds-smoke.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Regenerate residual triple quotient table
+        run: |
+          python3 stages/stage34/34-02/run_d2_stageA2_factor_branch_local.py
+          python3 stages/stage34/34-02/refine_d2_stageA2_factor_branch_support.py
+          python3 stages/stage34/34-02/run_d2_stageA2_full_support_projective.py
+          python3 stages/stage34/34-02/run_d2_stageA2_rank1_cover_selection.py
+          python3 stages/stage34/34-02/probe_d2_stageA2_triple_quotient_models.py
+      - name: Smoke-test genus-two Jacobian rank bounds via official Magma calculator
+        run: python3 stages/stage34/34-02/probe_d2_stageA2_genus2_rankbounds_smoke.py
+      - name: Enforce compact diagnostic artifact cap
+        if: always()
+        run: |
+          test -f stages/stage34/34-02/d2-stageA2-genus2-rankbounds-smoke.json
+          test $(wc -c < stages/stage34/34-02/d2-stageA2-genus2-rankbounds-smoke.json) -le 1048576
+          test $(wc -c < stages/stage34/34-02/d2-stageA2-genus2-rankbounds-smoke-stdout.txt) -le 1048576
+      - name: Upload compact diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage34-02-d2-stageA2-genus2-rankbounds-smoke
+          path: |
+            stages/stage34/34-02/d2-stageA2-genus2-rankbounds-smoke.json
+            stages/stage34/34-02/d2-stageA2-genus2-rankbounds-smoke-stdout.txt
+          if-no-files-found: warn
+          retention-days: 1
