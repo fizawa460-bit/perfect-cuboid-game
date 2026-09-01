@@ -1,0 +1,75 @@
+{
+  "schema": "STAGE32_POST1473_X8_ODD_ETALE_CORRESPONDENCE_OBSTRUCTION_V1",
+  "stage": 32,
+  "leaf": "POST1473_FIXED_Z_O186_Q4_DEGREE93_ETALE_CORRESPONDENCE_OBSTRUCTION",
+  "status": "PROVISIONAL_EXACT_OBSTRUCTION_PENDING_HOSTILE_AUDIT",
+  "fixed_target": {"row_id": "g1-d186", "d": 186, "e": 266, "z": [-15, 62, -44, 26, 32]},
+  "audited_input": {
+    "product_cover_wall_canonical_sha256": "1d7086f7ebd2a826f42d0f8d67fef075a64b5af214c92e681c4a8b36e9b03c0f",
+    "audit_review_id": 5076613249,
+    "O_186_implies": {"qprime": 4, "full_V4": true, "n1": 93, "n2": 93, "projection1_etale": true, "projection2_etale": true}
+  },
+  "source_locks": {
+    "fsm": {
+      "authors": ["Eberhard Freitag", "Riccardo Salvati Manni"],
+      "title": "Parametrization of the box variety by theta functions",
+      "arxiv": "1303.6495",
+      "doi": "10.1307/mmj/1480734014",
+      "locators": ["Theorem 2.4 / modular uniformization", "Section 4, Lemma 4.1"],
+      "used_facts": ["X(8)=H/Gamma[8] has genus 5", "P=X(8)xX(8) is the modular product cover used in the retained wall"]
+    },
+    "commensurator": {
+      "authors": ["Thomas Koberda", "Mahan Mj"],
+      "title": "Commutators, commensurators, and PSL2(Z)",
+      "doi": "10.1112/topo.12200",
+      "locator": "Section 1.4 recap",
+      "used_fact": "The commensurator in PSL2(R) of PSL2(Z), hence of any finite-index subgroup such as the projective image of Gamma(8), is represented projectively by rational matrices."
+    },
+    "retained_stage32_note": {
+      "path": "stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-product-cover-monodromy-extremal-wall.md",
+      "git_blob_sha1": "c6430ca94a4897f9f50104ab76a4eaae60df4268"
+    },
+    "proof_note": {
+      "path": "stages/stage32/residual-32-01-production/post1473-x8-odd-etale-self-correspondence-obstruction.md",
+      "git_blob_sha1": "5a542df90f280294d6f301e899ff7477ce8686d3"
+    }
+  },
+  "lemma": {
+    "statement": "Let C=X(8). If an irreducible curve D in CxC has normalization Dbar such that both projections Dbar->C are finite etale and Dbar->D is birational, then any odd projection degree is 1. In particular there is no such correspondence with projection degree 93.",
+    "proof_steps": [
+      "Choose the first etale projection to identify pi1(Dbar)=Lambda as a finite-index subgroup of Gamma=projective Gamma(8). The second etale projection lifts between universal covers H and H to an element h in PSL2(R). Birationality of Dbar to its image in CxC gives Lambda=Gamma intersection h^{-1}Gamma h, so the first projection degree is [Gamma:Lambda].",
+      "Because Lambda and hLambda h^{-1} are finite index in Gamma, h commensurates Gamma. The finite-index commensurator theorem puts h in projective rational matrices.",
+      "Represent h by a primitive integral 2x2 matrix A. Smith normal form and normality of Gamma(8) under integral conjugation reduce the index calculation to h=diag(1,m), m>=1.",
+      "For gamma=[[a,b],[c,d]] in Gamma(8), membership in Gamma intersect h^{-1}Gamma h forces b to be divisible by 8m.",
+      "If an odd prime p divides m, reduction mod p maps Gamma(8) onto PSL2(F_p): the matrices [[1,8],[0,1]] and [[1,0],[8,1]] reduce to elementary unipotent generators because 8 is invertible mod p. The intersection maps into the Borel b=0, whose index is p+1. Therefore the correspondence degree is divisible by p+1 and is even.",
+      "If 2 divides m, the map Gamma(8)->F2 given by b/8 mod 2 is a surjective homomorphism, and the intersection lies in its kernel. Therefore the correspondence degree is even.",
+      "Hence an odd correspondence degree forces m=1. Then h is integral and normalizes Gamma(8), so the intersection equals Gamma and the degree is 1."
+    ],
+    "degree93_conclusion": "93 is odd and greater than 1, so the audited O=186 requirement n1=n2=93 with both projections etale is impossible."
+  },
+  "consequence": {
+    "O_186_qprime4_excluded": true,
+    "qprime2_already_excludes_O_186": true,
+    "qprime1_already_excluded": true,
+    "new_universal_necessary_even_O_min": 188,
+    "new_S1_min": 149,
+    "coarse_state_188_188_149_retained_reachable": true,
+    "multibranch_carrier_excluded": false
+  },
+  "audit_requirements": {
+    "must_check": ["uniformization-to-commensurator step", "birationality gives exact intersection subgroup", "Smith-normal-form index invariance", "mod-p surjectivity and Borel index argument", "projective Gamma(8) sign conventions"],
+    "promotion_allowed_before_hostile_audit": false
+  },
+  "firewalls": {
+    "provisional_not_audited": true,
+    "coarse_partition_is_not_geometric_realization": true,
+    "O_ge_188_is_necessary_only": true,
+    "full178_authorized": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "canonical_sha256_without_this_field": "22b957bcec96f933d24952a424bf8d5ff35ad96b73e66995eacc2d672ed80d7a"
+}
