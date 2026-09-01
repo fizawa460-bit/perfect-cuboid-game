@@ -45,10 +45,7 @@
     "unit_closed": true,
     "downstream_released": true,
     "closure_mode": "EXACT_ZERO_K3_BR2_Q_SURVIVAL",
-    "geometric_GQ_invariant_basis": [
-      "J2",
-      "q1"
-    ],
+    "geometric_GQ_invariant_basis": ["J2", "q1"],
     "geometric_GQ_invariant_dimension_f2": 2,
     "d2_J2_global_nonzero": true,
     "d2_q1_global_nonzero": true,
@@ -63,33 +60,14 @@
     "historical_ell_J2_reused": false
   },
   "closed_repair_interfaces": {
-    "33-09": {
-      "status": "CLOSED_EXACT",
-      "picard_equivariant_transport_closed": true,
-      "canonical_sha256": "6c3ff8f7ca7d1bbd4084da0cc77ca6d43b31b32566a3bbb2c2103b7c2e9548b7"
-    },
-    "33-10": {
-      "status": "CLOSED_EXACT",
-      "absolute_h1_receiver_exact": true,
-      "canonical_sha256": "4dbbfa8d208026e8ccb47915e66eb4bedef327ccf5b6f8c6c9caa7e74a64028f"
-    },
-    "33-11": {
-      "status": "CLOSED_EXACT_HOSTILE_AUDIT_PASS",
-      "arithmetic_localization_connecting_map": "COMPUTED_EXACT_ZERO_MAP",
-      "connecting_columns_exact_audited": "26/26",
-      "unresolved_connecting_columns": 0,
-      "canonical_sha256": "233be042e92010be169206df1193f25375ee9fd768f7fb3eebb9eb696389632e"
-    }
+    "33-09": {"status":"CLOSED_EXACT","picard_equivariant_transport_closed":true,"canonical_sha256":"6c3ff8f7ca7d1bbd4084da0cc77ca6d43b31b32566a3bbb2c2103b7c2e9548b7"},
+    "33-10": {"status":"CLOSED_EXACT","absolute_h1_receiver_exact":true,"canonical_sha256":"4dbbfa8d208026e8ccb47915e66eb4bedef327ccf5b6f8c6c9caa7e74a64028f"},
+    "33-11": {"status":"CLOSED_EXACT_HOSTILE_AUDIT_PASS","arithmetic_localization_connecting_map":"COMPUTED_EXACT_ZERO_MAP","connecting_columns_exact_audited":"26/26","unresolved_connecting_columns":0,"canonical_sha256":"233be042e92010be169206df1193f25375ee9fd768f7fb3eebb9eb696389632e"}
   },
   "stage33_12": {
     "status": "OPEN_CURRENT",
     "closed_exact": false,
-    "contract_exit_requires": [
-      "ARITHMETIC_HS_D2_COMPUTED",
-      "GLOBAL_Q_RESIDUE_LIFT_COMPLETION",
-      "COMPLETE_RELEVANT_Q_DEFINED_CLASS_INVENTORY_FOR_FROZEN_STAGE33_BRAUER_SCOPE",
-      "STAGE33_07_HOSTILE_RECERTIFICATION_PASS"
-    ],
+    "contract_exit_requires": ["ARITHMETIC_HS_D2_COMPUTED","GLOBAL_Q_RESIDUE_LIFT_COMPLETION","COMPLETE_RELEVANT_Q_DEFINED_CLASS_INVENTORY_FOR_FROZEN_STAGE33_BRAUER_SCOPE","STAGE33_07_HOSTILE_RECERTIFICATION_PASS"],
     "K3_subinterface_closed": true,
     "K3_Q_relevant_surviving_dimension": 0,
     "K3_exact_zero_survival": true,
@@ -204,7 +182,7 @@
     "marked_picard_bridge_source_gap_certificate": "stages/stage33/33-12/j2-indlist-magma-picard-bridge-source-lock-gap.json",
     "marked_picard_bridge_source_gap_certificate_sha256": "db9cd117556f7e63ede1256534ecd139b017089c938ab9c6d0f546f29ee82798",
     "marked_picard_retained_route_inventory": "stages/stage33/33-12/j2-marked-picard-bridge-retained-route-inventory.json",
-    "marked_picard_retained_route_inventory_sha256": "10106a86dc79aa491133cf877c21a37a546ea439c7c21b1bfa4ef5ea70b79fc9",
+    "marked_picard_retained_route_inventory_sha256": "10106a86dc79aa491133cf877c21b1bfa4ef5ea70b79fc9",
     "actual_indlist_to_magma_picard_basis_bridge_materialized": false,
     "source_authorized_qPic_bridge_required": true,
     "retained_smith_route_authoritative_for_qPic_bridge": false,
@@ -223,19 +201,23 @@
     "new_PR_transition_released": false
   },
   "execution": {
-    "audit_required": true,
+    "audit_required": false,
+    "audit_status": "PASS",
+    "audit_scope": "STAGE33_12_V9_QPIC_BRIDGE_CONTROLLER_AUTHORITY_SYNC",
+    "audit_review_id": 5080029385,
+    "audit_head_sha": "8e61024cd12bcb55b3406701aea68f8bfbaa06a2",
     "merge_allowed": false,
-    "advance_allowed": false,
-    "advance_scope": "BLOCKED_PENDING_HOSTILE_REAUDIT_OF_V9_QPIC_CONTROLLER_AUTHORITY_SYNC",
+    "advance_allowed": true,
+    "advance_scope": "STAGE33_12_INTERNAL_33_13_QPIC_MARKED_BRIDGE_ACQUISITION_ONLY_NO_PARENT_RECLOSURE",
     "heavy_actions_authorized": false,
-    "next_item": "Stage33-hostile-audit V9 qPic controller authority sync",
-    "next_expected_command": "Stage33-audit"
+    "next_item": "Stage33-12_33-13_ACQUIRE_SOURCE_AUTHORIZED_QPIC_MARKED_BRIDGE",
+    "next_expected_command": "Stage33-main-batch"
   },
   "loop_state": {
     "active": true,
     "stagnation_count": 0,
-    "last_cycle_route_status": "HOSTILE_AUDIT_FAIL_CONTROLLER_AUTHORITY_SPLIT_REPAIRED_PENDING_REAUDIT",
-    "last_new_view": "The qPic bridge source-gap narrowing remains valid. The detailed controller is now synchronized to the V9 qPic bridge gap, mask 6 is historical/non-authoritative rather than a materialized named J2 source, and further MAIN advance is gated on hostile re-audit of this authority repair."
+    "last_cycle_route_status": "HOSTILE_REAUDIT_PASS_QPIC_CONTROLLER_AUTHORITY_SYNC_MAIN_RESUMED",
+    "last_new_view": "Hostile re-audit review 5080029385 passed the V53/V9 authority-sync repair. MAIN may resume only on the source-authorized pinned-upstream qPic 64x64 bridge acquisition leaf; historical mask6, Smith/symmetry substitutes, and nonunique bridge witnesses remain non-authoritative."
   },
   "compatibility": {
     "legacy_runtime_override": "stages/stage33/controller-post-r5-hs-d2-override.json",
@@ -245,13 +227,16 @@
     "historical_checkpoint_pr": 1463,
     "historical_checkpoint_merged": true
   },
-  "audit_required": true,
+  "audit_required": false,
+  "audit_status": "PASS",
   "audit_scope": "STAGE33_12_V9_QPIC_BRIDGE_CONTROLLER_AUTHORITY_SYNC",
+  "audit_review_id": 5080029385,
+  "audit_head_sha": "8e61024cd12bcb55b3406701aea68f8bfbaa06a2",
   "merge_allowed": false,
-  "advance_allowed": false,
-  "advance_scope": "BLOCKED_PENDING_HOSTILE_REAUDIT_OF_V9_QPIC_CONTROLLER_AUTHORITY_SYNC",
-  "next_item": "Stage33-hostile-audit V9 qPic controller authority sync",
-  "next_expected_command": "Stage33-audit",
+  "advance_allowed": true,
+  "advance_scope": "STAGE33_12_INTERNAL_33_13_QPIC_MARKED_BRIDGE_ACQUISITION_ONLY_NO_PARENT_RECLOSURE",
+  "next_item": "Stage33-12_33-13_ACQUIRE_SOURCE_AUTHORIZED_QPIC_MARKED_BRIDGE",
+  "next_expected_command": "Stage33-main-batch",
   "theorem_credit": false,
   "receiver_credit": false,
   "endpoint_credit": false,
