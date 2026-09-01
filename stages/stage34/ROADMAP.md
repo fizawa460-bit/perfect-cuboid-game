@@ -69,6 +69,30 @@ Git history for the exact provenance only; do not replay Stage29.
 **Exit gate:** the desired global statement can be written with explicit
 quantifiers and no undefined “same family”, “bad multiple”, or “primitive” term.
 
+### Arsenal consultation gate — after 34-01, before theorem hunting
+
+Once the exact EXT-C object, population/index normalization, and the missing
+weapon type are fixed, consult the reusable Arsenal **before** fresh literature
+search or invention of a new proof route.
+
+Use this bounded lookup order:
+
+```text
+1. identify the exact missing weapon type from the 34-01 locks;
+2. read docs/arsenal/README.md and docs/arsenal/index.json only;
+3. open only cards whose object/population, field, quantifiers, normalization,
+   multiplicity/valuation requirement, and adapter hypotheses actually match;
+4. for provisional active-stage cards, refetch and revalidate the live source
+   path/hash before reuse; active Stage authority always overrides the card;
+5. if no applicable Arsenal weapon remains, continue to literature search or
+   new-theorem work.
+```
+
+Do **not** load the full Arsenal at Stage34 startup, and do not treat a topic
+match, abstract isomorphism, or historical PASS as applicability. Arsenal is a
+route selector/source pointer; every theorem or adapter used for Stage34 credit
+must still satisfy the Stage34 source-lock and hypothesis obligations below.
+
 ## 34-02 — Sequence classification and theorem funnel
 
 **Goal:** classify the locked sequence into the strongest valid theorem species.
