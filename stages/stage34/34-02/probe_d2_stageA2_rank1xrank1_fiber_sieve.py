@@ -75,13 +75,36 @@ def sieve(br,b1,b2):
   if best is None:break
   _,p,m1,m2,arr,states,Ms,Ns=best;used.append({"p":p,"ord1":m1,"ord2":m2,"state_counts":[len(x) for x in states]});remaining=[z for z in remaining if z[0]!=p]
   if all(not x for x in states):break
- return all(not x for x in states),used,[len(x) for x in states]
+ return all(not x for x in states),used,states,Ms,Ns
+def sym(a,M):
+ a%=M
+ return a if a<=M//2 else a-M
+def survivor_rows(states,Ms,Ns):
+ out=[]
+ for k,S in enumerate(states):
+  if not S:continue
+  out.append({
+   "torsion1_index":k//4,"torsion2_index":k%4,
+   "n_modulus":Ms[k],"m_modulus":Ns[k],
+   "residue_pairs":[{"n":a,"m":b,"n_symmetric":sym(a,Ms[k]),"m_symmetric":sym(b,Ns[k])} for a,b in sorted(S)]
+  })
+ return out
 closed=[];details=[]
 for rec in add["branches"]:
  br=brmap[rec["branch_id"]];b1=ns["branch_data"](br,gens1);mid2=int(rec["selected_model_id"]);best=None
  for pair2 in rec["pair_occurrences"]:
-  b2=bd_pair(br,mid2,pair2,gens2[mid2]);ok,used,counts=sieve(br,b1,b2);row={"q":br["q"],"branch_id":br["branch_id"],"model1":b1["mid"],"pair1":b1["pair"],"model2":mid2,"pair2":pair2,"closed":ok,"used":[[u["p"],u["ord1"],u["ord2"]] for u in used],"final_nonempty_torsion_pairs":sum(c>0 for c in counts),"max_final_states":max(counts) if counts else 0};details.append(row)
+  b2=bd_pair(br,mid2,pair2,gens2[mid2]);ok,used,states,Ms,Ns=sieve(br,b1,b2);surv=survivor_rows(states,Ms,Ns)
+  row={"q":br["q"],"branch_id":br["branch_id"],"model1":b1["mid"],"pair1":b1["pair"],"model2":mid2,"pair2":pair2,"closed":ok,"used":[[u["p"],u["ord1"],u["ord2"]] for u in used],"surviving_classes":surv,"final_nonempty_torsion_pairs":len(surv),"max_final_states":max((len(x) for x in states),default=0)};details.append(row)
   if ok:best=row;break
  if best:closed.append(best)
 cc=collections.Counter(x["q"] for x in closed);hist=collections.Counter(str(x["final_nonempty_torsion_pairs"]) for x in details);maxhist=collections.Counter(str(x["max_final_states"]) for x in details)
-print("RANK1XRANK1_FIBER_PROBE="+json.dumps({"status":"DIAGNOSTIC_NO_CREDIT","parameters":{"prime_bound":BOUND,"max_primes":MAX_PRIMES,"state_cap":CAP},"input_branches":28,"closed_count":len(closed),"closed_by_q":dict(sorted(cc.items())),"remaining_from_52":52-len(closed),"final_nonempty_torsion_pair_histogram":dict(sorted(hist.items())),"max_final_state_histogram":dict(sorted(maxhist.items())),"closed":closed},sort_keys=True))
+torshist=collections.Counter(f"{x['surviving_classes'][0]['torsion1_index']},{x['surviving_classes'][0]['torsion2_index']}" for x in details if len(x["surviving_classes"])==1)
+symhist=collections.Counter()
+zerozero=0
+for x in details:
+ if len(x["surviving_classes"])!=1:continue
+ c=x["surviving_classes"][0]
+ for z in c["residue_pairs"]:
+  symhist[f"{z['n_symmetric']},{z['m_symmetric']}"]+=1
+  if z["n_symmetric"]==0 and z["m_symmetric"]==0:zerozero+=1
+print("RANK1XRANK1_FIBER_PROBE="+json.dumps({"status":"DIAGNOSTIC_NO_CREDIT","parameters":{"prime_bound":BOUND,"max_primes":MAX_PRIMES,"state_cap":CAP},"input_branches":28,"tested_maps":len(details),"closed_count":len(closed),"closed_by_q":dict(sorted(cc.items())),"remaining_from_52":52-len(closed),"final_nonempty_torsion_pair_histogram":dict(sorted(hist.items())),"surviving_torsion_pair_label_histogram":dict(sorted(torshist.items())),"max_final_state_histogram":dict(sorted(maxhist.items())),"symmetric_residue_pair_histogram":dict(sorted(symhist.items())),"zero_zero_residue_occurrences":zerozero,"details":details},sort_keys=True))
