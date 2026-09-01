@@ -1,8 +1,24 @@
 {
-  "schema": "RESEARCH_ARSENAL_POST_STAGE29_V1",
-  "status": "CURRENT_AFTER_STAGE29_CLOSE",
+  "schema": "RESEARCH_ARSENAL_POST_STAGE29_V2",
+  "status": "CURRENT_AFTER_STAGE29_CLOSE_WITH_PROVISIONAL_STAGE32_STAGE33_HARVEST",
   "stage29_closed": true,
   "perfect_cuboid_problem_open": true,
+  "lookup_policy": {
+    "load_full_arsenal_at_ordinary_stage_startup": false,
+    "consult_when": "after the active leaf exact object and missing weapon type are identified, before fresh literature search or invention of a new mathematical route",
+    "candidate_match_requires": [
+      "object_or_population",
+      "field",
+      "cutoff_if_any",
+      "canonicalization",
+      "multiplicity",
+      "measure_if_any",
+      "quantifiers",
+      "adapter_hypotheses"
+    ],
+    "if_no_applicable_card": "proceed to external literature or new-theorem work",
+    "new_reusable_result": "submit through Arsenal promotion after source-lock and audit"
+  },
   "selectors": [
     {"id":"AR-006","role":"N2_WHOLE_FAMILY_UPPER","statement":"N2(B) << B^(1/2+o(1))","path":"../stage14-arsenal.md"},
     {"id":"S25-W01","role":"N2_GLOBAL_AND_DIRECTIONAL_LOWER","statement":"N2,j(B) >>_j B^(1/4)","path":"../stage25-arsenal-promotion.md"},
@@ -12,6 +28,34 @@
     {"id":"S28-W02","role":"NORMALIZED_INTERACTION_THRESHOLD","path":"../stage28-arsenal-promotion.md"},
     {"id":"S28-W03","role":"BRANCH_PROFILE_DIFFERENTIAL","path":"../stage28-arsenal-promotion.md"},
     {"id":"S28-W04","role":"COMMON_POLARIZATION_FIXED_CURVE_DIFFERENTIAL","path":"../stage28-arsenal-promotion.md"}
+  ],
+  "provisional_harvests": [
+    {
+      "source_stage": "Stage32",
+      "id_prefix": "S32-PW",
+      "path": "../stage32-arsenal-promotion.md",
+      "source_pr": 1474,
+      "source_branch": "stage32-post1473-integral-picard-support-preflight",
+      "source_head": "0de6dc6f5314f45dcebe1df46c022cfb08721360",
+      "promotion_status": "PROVISIONAL_ACTIVE_STAGE_HARVEST",
+      "routeable_for_candidate_discovery": true,
+      "formal_selector": false,
+      "theorem_credit": false,
+      "final_review_required_at_stage_close": true
+    },
+    {
+      "source_stage": "Stage33",
+      "id_prefix": "S33-PW",
+      "path": "../stage33-arsenal-promotion.md",
+      "source_pr": 1476,
+      "source_branch": "stage33-post1475-j2-v4-generator-adapter",
+      "source_head": "1ac7767da2add7765a085fcca13d01e38c927ce9",
+      "promotion_status": "PROVISIONAL_ACTIVE_STAGE_HARVEST",
+      "routeable_for_candidate_discovery": true,
+      "formal_selector": false,
+      "theorem_credit": false,
+      "final_review_required_at_stage_close": true
+    }
   ],
   "stable_weapon_libraries": [
     "../stage14-arsenal.md",
@@ -44,6 +88,9 @@
     "multiply_alternative_completion_proofs_as_independent": false,
     "family_closure_implies_endpoint_closure": false,
     "finite_zero_implies_global_nonexistence": false,
-    "historical_green_means_endpoint_solved": false
+    "historical_green_means_endpoint_solved": false,
+    "provisional_card_implies_formal_selector": false,
+    "provisional_card_implies_theorem_credit": false,
+    "provisional_card_overrides_active_stage_source_lock": false
   }
 }
