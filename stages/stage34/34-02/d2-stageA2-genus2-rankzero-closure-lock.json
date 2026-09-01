@@ -1,0 +1,62 @@
+{
+  "schema": "STAGE34_02_D2_STAGEA2_GENUS2_RANKZERO_CLOSURE_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION",
+  "sources": {
+    "residual_52_certificate": "stages/stage34/34-02/d2-stageA2-rank1-mw-congruence-sieve-certificate.json",
+    "triple_quotient_builder": "stages/stage34/34-02/probe_d2_stageA2_triple_quotient_models.py",
+    "rankzero_pullback_precedent": "stages/stage34/34-02/d2-stageA2-rankzero-AB-complete-pullback-lock.json",
+    "receiver_pullback": "stages/stage34/34-02/d2-split-to-receiver-pullback-lock.json",
+    "census_run": 33560119321,
+    "census_job": 100030598459,
+    "census_artifact_id": 9820987789,
+    "census_artifact_digest": "sha256:abb84551f49ccfd2719baa990d7f84b0eb0afd5618d121d1f7dfd3a7464b7914"
+  },
+  "factor_branch": {
+    "d": 1,
+    "U": "T^2-S^2",
+    "V": "2*T*S",
+    "A": "a*U+b*V",
+    "B": "b*U+a*V",
+    "receiver_x": "x=(a/b)*U/V",
+    "receiver_degeneracy": {
+      "U=0": "x=0, rational 2-torsion on E_q",
+      "V=0": "x=infinity, the elliptic origin",
+      "A=0": "x=-1, rational 2-torsion on E_q",
+      "B=0": "x=-q^2, rational 2-torsion on E_q"
+    }
+  },
+  "candidates": [
+    {"q":"20/21","branch_id":"9de5b50058aa2803bb55","delta":[210,2,42,10],"triple":"U*V*A","squareclass":10,"coefficients_desc_t_degree6":[0,100,210,-200,-210,100,0]},
+    {"q":"20/21","branch_id":"b26ed3eea7f3cc33f55e","delta":[-210,-2,-42,-10],"triple":"U*V*A","squareclass":-10,"coefficients_desc_t_degree6":[0,-100,-210,200,210,-100,0]},
+    {"q":"20/21","branch_id":"e4a70ddac4acbb0adb88","delta":[-1,-105,-5,-21],"triple":"U*V*B","squareclass":-5,"coefficients_desc_t_degree6":[0,-210,-400,420,400,-210,0]},
+    {"q":"20/21","branch_id":"f26e09cb71a56a255566","delta":[1,105,5,21],"triple":"U*V*B","squareclass":5,"coefficients_desc_t_degree6":[0,210,400,-420,-400,210,0]},
+    {"q":"20/99","branch_id":"0e33e1a80923d7b0f711","delta":[110,2,22,10],"triple":"U*V*A","squareclass":10,"coefficients_desc_t_degree6":[0,100,990,-200,-990,100,0]},
+    {"q":"20/99","branch_id":"6994a339ebf058d86cb2","delta":[-110,-2,-22,-10],"triple":"U*V*A","squareclass":-10,"coefficients_desc_t_degree6":[0,-100,-990,200,990,-100,0]},
+    {"q":"48/55","branch_id":"48f8042569dfc947fc39","delta":[-55,3,118965,-721],"triple":"U*V*A","squareclass":-721,"coefficients_desc_t_degree6":[0,-17304,-39655,34608,39655,-17304,0]},
+    {"q":"48/55","branch_id":"d17c9a63832e72c0c639","delta":[55,-3,-118965,721],"triple":"U*V*A","squareclass":721,"coefficients_desc_t_degree6":[0,17304,39655,-34608,-39655,17304,0]}
+  ],
+  "expected": {
+    "candidate_count": 8,
+    "closed_by_q": {"20/21":4,"20/99":2,"48/55":2},
+    "remaining_after_closure": 44,
+    "remaining_by_q": {"20/99":10,"24/7":8,"48/55":6,"60/11":8,"80/39":4,"84/13":8}
+  },
+  "proof_contract": [
+    "Regenerate the exact residual-52 branch table and all triple-product genus-two quotients from source; each locked candidate must match q, delta, triple, squareclass, and exact sextic coefficients.",
+    "For each exact genus-two curve C and J=Jac(C), require Magma RankBounds(J) to return exactly 0,0.",
+    "Only after exact rank zero is proved, run Chabauty0(J), which then gives the complete C(Q) point set.",
+    "For every returned projective point (X:Y:Z), evaluate U=X^2-Z^2, V=2XZ, A=aU+bV, B=bU+aV and require at least one factor in the selected locked triple to vanish.",
+    "Map every vanishing factor through x=(a/b)U/V: U=0 gives x=0, V=0 gives the elliptic origin, A=0 gives x=-1, B=0 gives x=-q^2. These are pure torsion/origin and lie outside the audited nonzero-free-part R29-EXT-CHANG-C population.",
+    "A parent branch point maps to its selected triple quotient; therefore if the complete quotient Q-point set is receiver-degenerate, the parent branch contributes no audited receiver point."
+  ],
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "maximum_external_magma_requests_at_once": 1,
+    "expected_requests": 8,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1
+  },
+  "credit": "A successful dedicated replay may close exactly these eight parent factor branches for the audited nonzero-free-part receiver population. It does not close the remaining 44 branches, R29-EXT-CHANG-C, any parent route, or the perfect-cuboid problem.",
+  "firewalls": {"census_candidate_is_closure":false,"rankzero_without_complete_pointset_is_closure":false,"quotient_point_without_receiver_pullback_is_parent_closure":false,"eight_branch_closure_is_receiver_closure":false,"R29_EXT_CHANG_C_closed":false,"perfect_cuboid_nonexistence_claim":false}
+}

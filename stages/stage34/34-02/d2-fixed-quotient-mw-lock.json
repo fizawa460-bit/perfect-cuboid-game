@@ -1,0 +1,49 @@
+{
+  "schema": "STAGE34_02_D2_FIXED_QUOTIENT_MW_LOCK_V1",
+  "status": "PASS_EXACT_M4_TAILORED_SIEVE_NONCLOSING",
+  "execution": {
+    "workflow_run": 33506986750,
+    "job": 99853323698,
+    "head": "94195af416240510c9d7e1edf7dffeca23aaa461",
+    "runkey_generation": 1,
+    "conclusion": "SUCCESS",
+    "artifact_id": 9800000305,
+    "artifact_digest": "sha256:fc0e52529168cae0e41f5908345433138b7c91609f0c9cc2a1cad7c479dc9606",
+    "artifact_name": "stage34-02-d2-fixed-quotient-mw-sieve",
+    "retention_days": 1
+  },
+  "source_pattern": "stages/stage34/34-02/d2-stage32-arsenal-adapter-lock.json",
+  "quotient": 4,
+  "prime_search_interval": [131,401],
+  "cases": [
+    {"q":"20/21","d":1,"survivors":16,"total":4096,"sha256":"a3445e066f8d7bbdb3124e911bab1e92fccea811bbbfa3812d16e221dca538a2","primes":[197,269,373,137]},
+    {"q":"20/21","d":2,"survivors":10,"total":4096,"sha256":"a0a6df3ef0b9c2cfcc59ecba31be905f939be5cd1f5b5dc3ed599bf98a33e6e4","primes":[269,197,373]},
+    {"q":"80/39","d":1,"survivors":15,"total":1024,"sha256":"c20c17114c5e367a650b516c5da80d1254484b62f5de32f6629bce56fee314f6","primes":[233,181,173]},
+    {"q":"80/39","d":2,"survivors":10,"total":1024,"sha256":"23654b633a36cc336307e69fdaeaea23972542cab85697d7f30841d1aa73e000","primes":[257,181]},
+    {"q":"24/7","d":1,"survivors":16,"total":4096,"sha256":"a3445e066f8d7bbdb3124e911bab1e92fccea811bbbfa3812d16e221dca538a2","primes":[197,277,149,313]},
+    {"q":"24/7","d":2,"survivors":10,"total":4096,"sha256":"f7ee8ac68f3e866f6697951b539f0d75ad4c628fa617a9226acdbf09dcb97c57","primes":[131,197,313,277]},
+    {"q":"84/13","d":1,"survivors":16,"total":1024,"sha256":"20d95418ce188da76db9c2c40b86e96bd91d5c47c3a5bde3042ba0130c77f402","primes":[149,281]},
+    {"q":"84/13","d":2,"survivors":10,"total":1024,"sha256":"23654b633a36cc336307e69fdaeaea23972542cab85697d7f30841d1aa73e000","primes":[149,137]},
+    {"q":"48/55","d":1,"survivors":16,"total":1024,"sha256":"20d95418ce188da76db9c2c40b86e96bd91d5c47c3a5bde3042ba0130c77f402","primes":[257,193]},
+    {"q":"48/55","d":2,"survivors":10,"total":1024,"sha256":"8f6f4570b3943e2c81ed1546cc4c36f9c2bda8bf50697507caeb96b184cad64b","primes":[193,373]},
+    {"q":"20/99","d":1,"survivors":16,"total":4096,"sha256":"12148bf9bc4d57048c90d498278fb15f5aa934d2972ce1b40187e6c5bc01613b","primes":[157,269,193]},
+    {"q":"20/99","d":2,"survivors":10,"total":4096,"sha256":"a0a6df3ef0b9c2cfcc59ecba31be905f939be5cd1f5b5dc3ed599bf98a33e6e4","primes":[281,269,157,197,229]},
+    {"q":"60/11","d":1,"survivors":15,"total":4096,"sha256":"b1c53b3acd7d3151f0cad474cecddb77c905f2b939bb5df8dbaceee7386651ac","primes":[337,233,293]},
+    {"q":"60/11","d":2,"survivors":10,"total":4096,"sha256":"c74c97235f4ec723c8825b84db2633eab13fc0e4c6cc89e05d906d3d75aca1c5","primes":[337,313,181,191]}
+  ],
+  "observations": {
+    "globally_eliminated_cases": 0,
+    "all_cases_support_m4": true,
+    "d1_survivor_counts": [15,16],
+    "d2_survivor_count_all_cases": 10,
+    "repeated_survivor_hashes_exist_across_distinct_fibers": true,
+    "structural_followup": "Persist the actual <=16 survivor tuples and test affine-subgroup/coset structure. If proved, S32-PW03 HNF/image-gate style compression becomes applicable to those cases. Otherwise refine to m=8/16 or covering/Chabauty."
+  },
+  "firewalls": {
+    "nonempty_m4_survivors_are_rational_points": false,
+    "repeated_hash_implies_geometric_identification": false,
+    "S32_PW03_applicable_before_coset_test": false,
+    "receiver_closed": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}

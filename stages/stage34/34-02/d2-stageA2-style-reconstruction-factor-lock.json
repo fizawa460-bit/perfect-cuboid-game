@@ -1,0 +1,58 @@
+{
+  "schema": "STAGE34_02_D2_STAGEA2_STYLE_RECONSTRUCTION_FACTOR_COVERS_V1",
+  "status": "PASS_EXACT_ALGEBRAIC_REDUCTION_PREAUDIT",
+  "source_weapon": "stages/stage34/34-02/d2-stageA2-weapon-applicability-lock.json",
+  "setup": "Let q=a/b be reduced and [T:S] the locked projective parameter on K_{q,d}. The remaining matching-x condition is that x(x+1)(x+q^2) be a rational square.",
+  "d1": {
+    "receiver_x": "x=a(T^2-S^2)/(2*b*T*S)",
+    "identity": "x(x+1)(x+q^2) = (a/(4*b^2*T^2*S^2))^2 * H1(T,S)",
+    "H1": "2*T*S*(T-S)*(T+S)*(b*T^2+2*a*T*S-b*S^2)*(a*T^2+2*b*T*S-a*S^2)",
+    "reconstruction_cover": "W^2=H1(T,S)",
+    "degree": 8,
+    "affine_degree_at_S_1": 7,
+    "genus_if_squarefree": 3,
+    "factor_degrees": [1,1,1,1,2,2]
+  },
+  "d2": {
+    "receiver_x": "x=a(2*T^2-4*T*S+S^2)/(b(2*T^2-S^2))",
+    "identity": "x(x+1)(x+q^2) = (a/(b^2*(2*T^2-S^2)^2))^2 * H2(T,S)",
+    "H2": "(2*T^2-S^2)*(2*T^2-4*T*S+S^2)*(2*(a+b)*T^2-4*b*T*S+(b-a)*S^2)*(2*(a+b)*T^2-4*a*T*S+(a-b)*S^2)",
+    "reconstruction_cover": "W^2=H2(T,S)",
+    "degree": 8,
+    "genus_if_squarefree": 3,
+    "factor_degrees": [2,2,2,2]
+  },
+  "seven_fiber_squarefreeness_precheck": {
+    "fibers": ["20/21","80/39","24/7","84/13","48/55","20/99","60/11"],
+    "d1_dehomogenized_gcd_with_derivative": "constant only on all seven fibers",
+    "d2_dehomogenized_gcd_with_derivative": "1 on all seven fibers",
+    "conclusion": "Both reconstruction hyperelliptic covers are smooth genus 3 on every locked fiber, subject to hostile replay of the symbolic identities and projective infinity bookkeeping."
+  },
+  "factor_resultant_support_preflight": {
+    "purpose": "A2-W01 next step: for primitive [T:S], any odd prime shared by two low-degree factor values is constrained by their homogeneous resultants. This gives a finite squareclass support before any generic genus-3 computation.",
+    "support_primes_by_q_overapprox": {
+      "20/21": [2,3,5,7,41],
+      "80/39": [2,3,5,7,13,17,41],
+      "24/7": [2,3,7,17,31],
+      "84/13": [2,3,7,13,71,97],
+      "48/55": [2,3,5,7,11,103],
+      "20/99": [2,3,5,7,11,17,79],
+      "60/11": [2,3,5,7,11,71]
+    },
+    "credit": "OVERAPPROX_SUPPORT_ONLY; exact homogeneous resultant/gcd lemmas and local squareclass elimination are the next obligation."
+  },
+  "relation_to_existing_mw_sieve": {
+    "fixed_quotient_m4_panel": "Retained as exact diagnostic pruning and may help prioritize branches.",
+    "new_route": "Before increasing m or adding more MW-sieve primes, apply A2-W01 to H1/H2: exact factor gcd/resultant analysis -> finite squareclasses -> local elimination -> lower-genus/two-cover models where possible.",
+    "reason": "This exploits algebraic factor structure invisible to the generic finite MW quotient and is the closest audited precedent in the repository."
+  },
+  "next_exact_leaf": "D2_A2W01_PROVE_HOMOGENEOUS_FACTOR_GCD_RESULTANT_BOUNDS_AND_ENUMERATE_EXACT_SQUARECLASS_BRANCHES_FOR_H1_H2",
+  "firewalls": {
+    "genus3_factor_cover_complete_points": false,
+    "resultant_support_overapprox_is_exact_squareclass_list": false,
+    "finite_squareclass_branch_is_rational_point": false,
+    "m4_survivor_count_is_closure": false,
+    "receiver_closed": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}

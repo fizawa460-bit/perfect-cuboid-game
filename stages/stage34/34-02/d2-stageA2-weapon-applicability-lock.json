@@ -1,0 +1,55 @@
+{
+  "schema": "STAGE34_02_D2_STAGEA2_WEAPON_APPLICABILITY_V1",
+  "status": "PASS_AUDITED_STAGEA2_PATTERN_DIRECTLY_RELEVANT",
+  "stageA2": {
+    "status": "CLOSED_PUBLISHED_MINUS18_FAMILY_EXCLUSION",
+    "controller": {"path":"stages/stageA2/controller.json","blob_sha":"8740445bbb1f4185729f6562792482bad5458f8f"},
+    "A2_4": {
+      "result": {"path":"stages/stageA2/A2-4/result.md","blob_sha":"8d2c347d5f67f6d3a9a6aaa4ddf8055714b55b8a"},
+      "verify": {"path":"stages/stageA2/A2-4/verify.py","blob_sha":"16347c8905383cb5bdd8c8609112d83df217c947"},
+      "audit": {"path":"stages/stageA2/A2-4/audit.md","blob_sha":"bf1b4ec1248caa1706c28523d199a60618564c3b","verdict":"PASS_WITH_ELEMENTARY_STRENGTHENING_AND_LANDMARK_REPAIR"}
+    },
+    "A2_5": {
+      "result": {"path":"stages/stageA2/A2-5/result.md","blob_sha":"c1b47381d0238ebd2941522c55097b6f51ada00d"},
+      "verify": {"path":"stages/stageA2/A2-5/verify.py","blob_sha":"65b69fbb49579b6e42c92e5b67190f4831181c67"},
+      "audit": {"path":"stages/stageA2/A2-5/audit.md","blob_sha":"da6d832f8405dcfd5845637d1e1efc506d1b1404","verdict":"PASS_WITH_CONTROLLER_HISTORY_REPAIR"}
+    }
+  },
+  "reusable_weapons": [
+    {
+      "id":"A2-W01",
+      "name":"SUCCESSIVE_EXACT_FACTOR_SQUARECLASS_DESCENT",
+      "pattern":"Factor the reconstruction square condition into low-degree primitive binary forms; bound pairwise gcds/resultants; enumerate only finitely supported common squareclasses; use parity/local solubility to kill branches; parameterize a surviving conic and repeat before invoking generic elliptic machinery.",
+      "stage34_verdict":"DIRECTLY_APPLICABLE_TO_THE_REMAINING_MATCHING_X_RECONSTRUCTION_CONDITION",
+      "do_not_transfer":"A2 numerical coefficients, the -18 family, Q5 eliminations, delta sets, or family closure."
+    },
+    {
+      "id":"A2-W02",
+      "name":"COMMON_JACOBIAN_COMPRESSION_OF_TWO_COVERS",
+      "pattern":"After two-cover parameterization, compute exact binary-quartic invariants and merge covers sharing one Jacobian; source-lock an actual Q-isomorphism rather than same-j only.",
+      "stage34_verdict":"ALREADY_PARTLY_REDISCOVERED_IN_D2; REUSE FOR_ANY_NEW_A2_STYLE_SUBCOVERS"
+    },
+    {
+      "id":"A2-W03",
+      "name":"COMPLETE_COVER_POINTSET_PULLBACK_WITH_LANDMARKS",
+      "pattern":"Once an auxiliary cover point set is complete, explicitly map every finite point, chart pole, and projective infinity back through each prior parameterization and close only the represented source family.",
+      "stage34_verdict":"DIRECTLY_APPLICABLE_AFTER_ANY_NEW_FACTOR_COVER_POINTSET_IS_COMPLETED"
+    }
+  ],
+  "critical_difference": {
+    "StageA2": "Its final common Jacobian had rank 0 and exactly eight rational points, so complete enumeration followed immediately.",
+    "Stage34": "The seven current common Jacobians have rank 1 or 2; StageA2 rank-zero closure does not transfer. The reusable gain is the successive factor-cover descent before or alongside the MW sieve."
+  },
+  "credit": {
+    "StageA2_family_exclusion_transferred": false,
+    "StageA2_rank0_result_transferred": false,
+    "StageA2_factor_descent_method_reused": true,
+    "new_Stage34_factor_identities_must_be_independently_verified": true
+  },
+  "firewalls": {
+    "similar_factorization_is_same_curve": false,
+    "same_binary_quartic_invariants_without_adapter_are_identity": false,
+    "rank0_A2_implies_rank0_Stage34": false,
+    "receiver_closed": false
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "schema": "STAGE34_02_D2_STAGEA2_PAIR_MODEL6_PARI_RANK_INTERVAL_LOCK_V1",
+  "status": "SOURCE_LOCKED",
+  "target_lock": "d2-stageA2-pair-model6-b13-lock.json",
+  "target": {
+    "model_id": 6,
+    "a4": -3228847023956400,
+    "a6": 66578607841354020720000
+  },
+  "source": {
+    "project": "PARI/GP",
+    "function": "ellrank",
+    "stable_reference": "https://pari.math.u-bordeaux.fr/dochtml/ref-stable/Elliptic_curves.html",
+    "locked_semantics": [
+      "For an elliptic curve over Q, ellrank returns [r1,r2,s,L] with r1 <= rank(E(Q)) <= r2 unconditionally.",
+      "The routine performs 2-descent and computes the 2-part of Cassels pairings; r2 is an unconditional upper bound, not a BSD estimate.",
+      "effort=0 avoids the randomized extra point search used for positive effort values."
+    ]
+  },
+  "decision_rule": {
+    "exact_rank_credit": "r1 == r2",
+    "proved_rank_zero": "r2 == 0",
+    "proved_rank_nonzero": "r1 >= 1",
+    "unresolved_rank_zero_status": "r1 == 0 and r2 > 0",
+    "purpose": "Decide whether model 6 can be a rank-zero quotient target; a non-singleton interval with positive lower bound is enough to exclude rank zero but is not exact-rank credit."
+  },
+  "execution": {
+    "package": "pari-gp",
+    "command_shape": "ellrank(ellinit([0,0,0,a4,a6]),0)",
+    "process_timeout_seconds": 300
+  },
+  "resource_preflight": {
+    "planned_new_heavy_jobs": 1,
+    "observed_possible_overlap_with_model6_b13_jobs": 1,
+    "effective_stage34_heavy_concurrency_bound": 2,
+    "stage_cap": 18,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1,
+    "projected_peak_new_artifact_storage_bytes": 1048576,
+    "repository_operating_budget_bytes": 524288000
+  },
+  "credit": "PARI interval credit is limited to the locked inequalities. It may decide zero versus nonzero rank, and it gives exact rank only when the returned interval is a singleton. It does not enumerate quotient-torsor rational points and does not close a parent branch.",
+  "firewalls": {
+    "analytic_rank_or_BSD_used": false,
+    "non_singleton_interval_is_exact_rank": false,
+    "proved_nonzero_rank_is_Q_point_on_torsor": false,
+    "rank_zero_jacobian_closes_quotient_torsor": false,
+    "probe_closes_parent_branch": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}

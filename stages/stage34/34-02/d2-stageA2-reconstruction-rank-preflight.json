@@ -1,0 +1,17 @@
+{
+  "schema": "STAGE34_02_D2_STAGEA2_RECONSTRUCTION_RANK_PREFLIGHT_V1",
+  "status": "COLD_READY",
+  "planned_jobs": 1,
+  "effective_heavy_concurrency": 1,
+  "expected_twist_species": 18,
+  "expected_input_survivors": 1214,
+  "artifact_max_bytes": 1048576,
+  "retention_days": 1,
+  "source_locks": [
+    "stages/stage34/34-02/d2-stageA2-reconstruction-diagonal-lock.json",
+    "stages/stage34/34-02/d2-stageA2-factor-branch-support-lock.json",
+    "stages/stage34/34-02/d2-stageA2-support-prime-legendre2-lock.json"
+  ],
+  "execution_dependency": "The workflow deterministically regenerates the local and support branch JSON before running mwrank, so the 1-day prior artifact is not a mathematical dependency.",
+  "credit_boundary": "Only rank-zero reconstruction species with a separately enumerated complete trivial point set are eliminated. Positive rank gives no Q-point or closure credit."
+}

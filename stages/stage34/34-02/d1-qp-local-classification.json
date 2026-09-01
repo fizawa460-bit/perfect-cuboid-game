@@ -1,0 +1,51 @@
+{
+  "schema": "STAGE34_02_D1_QP_LOCAL_CLASSIFICATION_V1",
+  "status": "PASS_COMPLETE_22_CLASS_LOCAL_CLASSIFICATION",
+  "input": "stages/stage34/34-02/d1-good-prime-residue-filter.json",
+  "verifier": "stages/stage34/34-02/verify_d1_qp_local_classification.py",
+  "classification": {
+    "Q_rationally_soluble_hence_all_places": {
+      "count": 14,
+      "classes": {
+        "20/21": [1, 2],
+        "80/39": [1, 2],
+        "24/7": [1, 2],
+        "84/13": [1, 2],
+        "48/55": [1, 2],
+        "20/99": [1, 2],
+        "60/11": [1, 2]
+      },
+      "witness_d1": "x=0, y=0; because a^2+b^2=c^2 on every locked q=a/b, A=q^2 and B=q^2(1+q^2) are rational squares",
+      "witness_d2": "x=q, y=q(q+1); A=2q^2 and B=2q^2(q+1)^2, so the d=2 split-cover equations have a rational point. This x=q point is a Face-3 pole/order-4 torsion point and gives local-solubility credit only, not receiver survival."
+    },
+    "Q7_insoluble": {
+      "count": 8,
+      "obstruction_prime": 7,
+      "classes": {
+        "80/39": [5, 10, 13, 26, 65, 130],
+        "60/11": [5, 10]
+      },
+      "proof": "For these eight classes d is a 7-adic unit. Normalize a hypothetical Q_7 point so X,Z are integral and not both divisible by 7. The three integral square equations reduce to P^1(F_7). Exhaustion of all eight projective residues finds none satisfying E_h square, A_h/d square and B_h/d square simultaneously.",
+      "projective_residue_count_each": 0
+    }
+  },
+  "totals": {
+    "input_classes": 22,
+    "locally_insoluble_eliminated": 8,
+    "locally_soluble_remaining": 14,
+    "remaining_squareclasses_per_fiber": [1, 2]
+  },
+  "receiver_effect": {
+    "all_nontrivial_d_greater_than_2_eliminated": true,
+    "remaining_d1_d2_have_only_torsion_points_proved_so_far": false,
+    "need_global_non_torsion_exclusion_on_d1_d2": true
+  },
+  "next_leaf": "D1_DEFINE_EXACT_MW_REDUCTION_MAPS_FOR_D1_D2_AND_RUN_PROOF_COMPLETE_SIEVE_OR_ESCALATE_TO_D2",
+  "firewalls": {
+    "local_solubility_is_rational_point_completeness": false,
+    "rational_torsion_witness_is_non_torsion_receiver_survival": false,
+    "d1_d2_local_survival_closes_receiver": false,
+    "D1_MW_sieve_complete": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}

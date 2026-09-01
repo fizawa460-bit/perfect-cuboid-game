@@ -1,0 +1,71 @@
+name: Stage34-02 D2 StageA2 genus-two rank<=1 RationalPoints probe
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage34/runkeys/stage34-02-d2-stageA2-genus2-rankle1-rationalpoints-probe.json'
+      - 'stages/stage34/34-02/d2-stageA2-genus2-rankle1-rationalpoints-lock.json'
+      - 'stages/stage34/34-02/probe_d2_stageA2_genus2_rankle1_rationalpoints.py'
+      - '.github/workflows/stage34-02-d2-stageA2-genus2-rankle1-rationalpoints-probe.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Check dedicated run key changed and armed
+        id: gate
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          KEY=stages/stage34/runkeys/stage34-02-d2-stageA2-genus2-rankle1-rationalpoints-probe.json
+          if [ -n "$BEFORE" ]; then git fetch --no-tags --depth=1 origin "$BEFORE" || true; fi
+          if [ ! -f "$KEY" ]; then echo 'authorized=false' >> "$GITHUB_OUTPUT"; exit 0; fi
+          if [ -z "$BEFORE" ] || ! git diff --name-only "$BEFORE" HEAD | grep -Fxq "$KEY"; then echo 'authorized=false' >> "$GITHUB_OUTPUT"; exit 0; fi
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          p='stages/stage34/runkeys/stage34-02-d2-stageA2-genus2-rankle1-rationalpoints-probe.json'
+          d=json.load(open(p))
+          ok=(d.get('schema')=='STAGE34_02_D2_STAGEA2_GENUS2_RANKLE1_RATIONALPOINTS_PROBE_RUNKEY_V1' and d.get('armed') is True and d.get('expected_targets')==17 and d.get('planned_heavy_jobs')==1 and d.get('effective_heavy_concurrency')==1 and d.get('maximum_external_magma_requests_at_once')==1)
+          print('authorized='+('true' if ok else 'false'))
+          PY
+
+  probe:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Regenerate exact residual triple quotient table
+        run: |
+          python3 stages/stage34/34-02/run_d2_stageA2_factor_branch_local.py
+          python3 stages/stage34/34-02/refine_d2_stageA2_factor_branch_support.py
+          python3 stages/stage34/34-02/run_d2_stageA2_full_support_projective.py
+          python3 stages/stage34/34-02/run_d2_stageA2_rank1_cover_selection.py
+          python3 stages/stage34/34-02/probe_d2_stageA2_triple_quotient_models.py
+      - name: Probe complete genus-two rational point sets and exact parent lifts
+        run: python3 stages/stage34/34-02/probe_d2_stageA2_genus2_rankle1_rationalpoints.py
+      - name: Enforce compact diagnostic cap
+        if: always()
+        run: |
+          test -f stages/stage34/34-02/d2-stageA2-genus2-rankle1-rationalpoints-probe.json
+          test $(wc -c < stages/stage34/34-02/d2-stageA2-genus2-rankle1-rationalpoints-probe.json) -le 1048576
+          test $(wc -c < stages/stage34/34-02/d2-stageA2-genus2-rankle1-rationalpoints-probe-stdout.txt) -le 1048576
+      - name: Upload compact diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage34-02-d2-stageA2-genus2-rankle1-rationalpoints-probe
+          path: |
+            stages/stage34/34-02/d2-stageA2-genus2-rankle1-rationalpoints-probe.json
+            stages/stage34/34-02/d2-stageA2-genus2-rankle1-rationalpoints-probe-stdout.txt
+          if-no-files-found: warn
+          retention-days: 1

@@ -1,0 +1,18 @@
+{
+  "schema": "STAGE34_02_D2_STAGEA2_ADDITIONAL_RANK1_SELECTION_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION",
+  "source_residual": "stages/stage34/34-02/d2-stageA2-rank1-mw-congruence-sieve-certificate.json",
+  "source_rank_table": "stages/stage34/34-02/d2-stageA2-rank1-cover-selection-lock.json",
+  "input_remaining_branches": 52,
+  "selected_additional_rank1_model_ids": [3,4,11,13,14,22,46],
+  "explicitly_deferred_model_ids": [6],
+  "reason_for_deferring_6": "Model 6 is historically the hard pair-rank model and adds only four 48/55 branches. The seven selected non-6 models cover 28 residual branches with no overlap, so acquire their bases first and leave model 6 as a targeted later option.",
+  "expected": {
+    "covered_branches": 28,
+    "covered_by_q": {"20/99":4,"84/13":4,"80/39":4,"48/55":4,"60/11":4,"24/7":8},
+    "uncovered_branches": 24,
+    "uncovered_by_q": {"20/21":4,"20/99":8,"60/11":4,"84/13":4,"48/55":4}
+  },
+  "credit": "This is a workload-selection adapter only. It identifies seven previously uncertified rank-one Jacobian models whose quotient occurrences cover 28 of the 52 exact residual parent branches. It grants no MW-basis or parent-closure credit.",
+  "firewalls": {"selection_is_MW_basis_credit":false,"selection_is_branch_closure":false,"deferred_model6_is_impossible":false,"uncovered_24_closed":false,"R29_EXT_CHANG_C_closed":false}
+}

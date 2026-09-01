@@ -1,0 +1,33 @@
+{
+  "schema": "STAGE34_02_D2_STAGEA2_SUPPORT_PRIME_LEGENDRE2_LOCK_V1",
+  "status": "PASS_EXACT_ELEMENTARY_SUPPORT_PRIME_OBSTRUCTION",
+  "scope": "d=2 factor template only",
+  "forms": {
+    "U": "2*T^2-S^2",
+    "V": "2*T^2-4*T*S+S^2",
+    "A": "a*U+b*V",
+    "B": "b*U+a*V"
+  },
+  "statement": "Let p be an odd prime dividing a*b, with gcd(a,b)=1. If (2/p)=-1, then no primitive projective (T:S) over F_p has U=0 or V=0. Therefore p cannot occur in any of the four squareclasses of a genuine d=2 branch.",
+  "proof": {
+    "U_zero": "On S!=0, U=0 gives 2*(T/S)^2=1, solvable iff 2 is a square mod p; S=0 gives U=2*T^2!=0 for a projective point.",
+    "V_zero": "On S!=0, V/S^2=2*t^2-4*t+1 has discriminant 8, hence a root iff 2 is a square mod p; S=0 gives V=2*T^2!=0.",
+    "p_divides_a": "Modulo p, A=b*V and B=b*U. The only nontrivial p-squareclass patterns from p|a are {U,B} or {V,A}; both require U=0 or V=0 mod p.",
+    "p_divides_b": "Modulo p, A=a*U and B=a*V. The only nontrivial p-squareclass patterns from p|b are {U,A} or {V,B}; both require U=0 or V=0 mod p."
+  },
+  "affected_primes": {
+    "20/21": [3,5],
+    "80/39": [3,5,13],
+    "24/7": [3],
+    "84/13": [3,13],
+    "48/55": [3,5,11],
+    "20/99": [3,5,11],
+    "60/11": [3,5,11]
+  },
+  "do_not_extend_to": "Primes dividing a^2-b^2. There A and B can vanish together through U+/-V=0 even when 2 is a nonsquare, so this obstruction does not apply.",
+  "firewalls": {
+    "support_prime_filter_is_full_Qp_classification": false,
+    "surviving_branch_is_Q_point": false,
+    "receiver_closed": false
+  }
+}

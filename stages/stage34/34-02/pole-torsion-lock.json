@@ -1,0 +1,42 @@
+{
+  "schema": "STAGE34_02_FACE3_POLE_TORSION_LOCK_V1",
+  "status": "PASS_EXACT_POLES_ARE_ORDER4_TORSION_OUTSIDE_RECEIVER",
+  "curve": "E_q: y^2=x^3+(1+q^2)x^2+q^2*x=x(x+1)(x+q^2)",
+  "hypotheses": ["q in Q", "q!=0", "q!=+1", "q!=-1"],
+  "face3_poles": ["x=+q", "x=-q"],
+  "points": {
+    "x=+q": ["(q,+q(q+1))", "(q,-q(q+1))"],
+    "x=-q": ["(-q,+q(q-1))", "(-q,-q(q-1))"]
+  },
+  "duplication_formula": {
+    "slope": "m=(3x^2+2(1+q^2)x+q^2)/(2y)",
+    "x_double": "x(2Q)=m^2-(1+q^2)-2x",
+    "y_double": "y(2Q)=-y+m*(x-x(2Q))"
+  },
+  "exact_replay": {
+    "x=+q": {
+      "slopes": ["q+1", "-(q+1)"],
+      "double": "(0,0)"
+    },
+    "x=-q": {
+      "slopes": ["1-q", "q-1"],
+      "double": "(0,0)"
+    }
+  },
+  "order": {
+    "(0,0)": 2,
+    "pole_points": 4,
+    "reason": "Each pole point doubles to the nonzero 2-torsion point (0,0); under q!=0,+/-1 the pole point itself is neither infinity nor (0,0)."
+  },
+  "receiver_adapter": {
+    "stage34_01_population": "all non-torsion rational points of the seven locked E_q, expressed through the audited full free Mordell-Weil lattice modulo torsion",
+    "pole_points_in_receiver": false,
+    "nonpole_face3_square_equivalence_has_receiver_hole": false
+  },
+  "all_seven_locked_q_satisfy_hypotheses": true,
+  "firewalls": {
+    "pole_torsion_lock_is_cover_point_enumeration": false,
+    "pole_torsion_lock_is_receiver_closure": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

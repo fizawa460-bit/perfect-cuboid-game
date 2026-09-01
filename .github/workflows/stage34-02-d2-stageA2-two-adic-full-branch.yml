@@ -1,0 +1,59 @@
+name: Stage34-02 D2 StageA2 two-adic full branch
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage34/runkeys/stage34-02-d2-stageA2-two-adic-full-branch.json'
+      - 'stages/stage34/34-02/d2-stageA2-two-adic-full-branch-preflight.json'
+      - 'stages/stage34/34-02/d2-stageA2-two-adic-full-branch-lock.json'
+      - 'stages/stage34/34-02/run_d2_stageA2-two-adic-full-branch.py'
+      - 'stages/stage34/34-02/run_d2_stageA2_two_adic_full_branch.py'
+      - 'stages/stage34/34-02/run_d2_stageA2_full_support_projective.py'
+      - 'stages/stage34/34-02/validate_d2_stageA2_two_adic_full_branch_runkey.py'
+      - '.github/workflows/stage34-02-d2-stageA2-two-adic-full-branch.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Fetch event-before commit if needed
+        env: {BEFORE: '${{ github.event.before }}'}
+        run: 'if [ -n "$BEFORE" ]; then git fetch --no-tags --depth=1 origin "$BEFORE" || true; fi'
+      - name: Validate dedicated run key
+        id: gate
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: python3 stages/stage34/34-02/validate_d2_stageA2_two_adic_full_branch_runkey.py "$BEFORE" "$HEAD_SHA" >> "$GITHUB_OUTPUT"
+  two-adic-full-branch:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Regenerate exact 92 d1 survivors
+        run: |
+          python3 stages/stage34/34-02/run_d2_stageA2_factor_branch_local.py
+          python3 stages/stage34/34-02/refine_d2_stageA2_factor_branch_support.py
+          python3 stages/stage34/34-02/run_d2_stageA2_full_support_projective.py
+      - name: Run exact primitive mod-32 branch filter
+        run: python3 stages/stage34/34-02/run_d2_stageA2_two_adic_full_branch.py
+      - name: Enforce compact artifact cap
+        run: test $(wc -c < stages/stage34/34-02/d2-stageA2-two-adic-full-branch.json) -le 1048576
+      - name: Upload compact certificate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage34-02-d2-stageA2-two-adic-full-branch
+          path: stages/stage34/34-02/d2-stageA2-two-adic-full-branch.json
+          if-no-files-found: warn
+          retention-days: 1

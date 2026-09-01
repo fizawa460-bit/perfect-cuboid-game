@@ -1,0 +1,27 @@
+name: Stage34-02 D2 StageA2 additional rank-one MW sieve probe
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage34/34-02/probe_d2_stageA2_additional_rank1_mw_sieve.py'
+      - '.github/workflows/stage34-02-d2-stageA2-additional-rank1-mw-sieve-probe.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Regenerate exact branch assignments
+        run: |
+          python3 stages/stage34/34-02/run_d2_stageA2_factor_branch_local.py
+          python3 stages/stage34/34-02/refine_d2_stageA2_factor_branch_support.py
+          python3 stages/stage34/34-02/run_d2_stageA2_full_support_projective.py
+          python3 stages/stage34/34-02/run_d2_stageA2_rank1_cover_selection.py
+          python3 stages/stage34/34-02/run_d2_stageA2_additional_rank1_selection.py
+      - name: Probe seven additional full-MW quotient sieves without credit
+        run: python3 stages/stage34/34-02/probe_d2_stageA2_additional_rank1_mw_sieve.py

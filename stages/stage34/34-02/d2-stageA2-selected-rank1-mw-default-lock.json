@@ -1,0 +1,38 @@
+{
+  "schema": "STAGE34_02_D2_STAGEA2_SELECTED_RANK1_MW_DEFAULT_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION",
+  "source_selection": "stages/stage34/34-02/d2-stageA2-rank1-cover-selection.json",
+  "source_selection_status": "PASS_EXACT_14_MODEL_RANK1_COVER_OF_76_BRANCHES",
+  "selected_model_ids": [8,12,16,17,19,25,26,31,33,38,40,42,44,47],
+  "expected_models": 14,
+  "expected_rank_each": 1,
+  "rank_authority": "Prior unconditional PARI ellrank singleton intervals from run 33516423218; this leaf independently asks eclib for a full Mordell-Weil basis, not merely rank.",
+  "execution": {
+    "package": "eclib-tools",
+    "command": "mwrank -q -v 1 -o",
+    "quartic_search_bound": 10,
+    "per_model_timeout_seconds": 120,
+    "required_success_marker": "The rank and full Mordell-Weil basis have been determined unconditionally.",
+    "forbidden_credit_markers": ["conditional rank","unable to saturate","saturation failed","not saturated"],
+    "strategy": "DEFAULT_BOUND_ONLY_FIRST_PASS. Run all 14 independently inside one bounded job; record every success and every unresolved model. Do not increase -b globally. Any unresolved subset receives a later targeted escalation."
+  },
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "maximum_mwrank_processes_at_once": 1,
+    "worst_case_process_runtime_seconds": 1680,
+    "workflow_timeout_minutes": 35,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1,
+    "repository_operating_budget_bytes": 524288000
+  },
+  "credit": "Only models carrying the exact unconditional full-basis marker, no forbidden warning, return code zero, and parsed rank exactly one receive full-MW-basis credit. The leaf may be partial. A certified basis does not close a quotient or parent branch.",
+  "firewalls": {
+    "PARI_rank1_is_full_eclib_basis": false,
+    "timeout_is_basis_credit": false,
+    "conditional_rank_is_basis_credit": false,
+    "full_basis_is_quotient_pointset": false,
+    "full_basis_closes_parent_branch": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}

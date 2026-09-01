@@ -1,0 +1,34 @@
+name: Stage34-02 D2 StageA2 triple quotient model probe
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage34/34-02/probe_d2_stageA2_triple_quotient_models.py'
+      - '.github/workflows/stage34-02-d2-stageA2-triple-quotient-model-probe.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Regenerate exact residual branch state
+        run: |
+          python3 stages/stage34/34-02/run_d2_stageA2_factor_branch_local.py
+          python3 stages/stage34/34-02/refine_d2_stageA2_factor_branch_support.py
+          python3 stages/stage34/34-02/run_d2_stageA2_full_support_projective.py
+          python3 stages/stage34/34-02/run_d2_stageA2_rank1_cover_selection.py
+      - name: Compress all residual triple-product genus-two quotients
+        run: python3 stages/stage34/34-02/probe_d2_stageA2_triple_quotient_models.py
+      - name: Enforce compact diagnostic artifact cap
+        run: test $(wc -c < stages/stage34/34-02/d2-stageA2-triple-quotient-model-probe.json) -le 1048576
+      - name: Upload diagnostic model table
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage34-02-d2-stageA2-triple-quotient-model-probe
+          path: stages/stage34/34-02/d2-stageA2-triple-quotient-model-probe.json
+          retention-days: 1

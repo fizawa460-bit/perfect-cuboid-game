@@ -1,0 +1,75 @@
+{
+  "schema": "STAGE34_02_EXACT_FACE3_SQUARE_COVER_REDUCTION_V1",
+  "status": "PASS_EXACT_ALGEBRAIC_REDUCTION_ROUTE_D_CANDIDATE",
+  "source_population": "stages/stage34/34-01/global-population-contract.json",
+  "ambient_curve": "E_q: y^2=x(x+1)(x+q^2)",
+  "paper_c_face3": "F3(Q)=(2*y*q/(q^2-x^2))^2+1+q^2",
+  "exact_factorization_on_Eq": {
+    "A_q": "x^2+q^2",
+    "B_q": "(1+q^2)*x^2+4*q^2*x+q^2*(1+q^2)",
+    "identity": "F3(Q)=A_q(x)*B_q(x)/(q^2-x^2)^2",
+    "derivation": "Substitute y^2=x(x+1)(x+q^2) into the Face-3 formula and factor the numerator exactly.",
+    "consequence": "Away from the poles x=+/-q, F3(Q) is a rational square iff A_q(x)B_q(x) is a rational square."
+  },
+  "genus5_cover": {
+    "affine_model": [
+      "y^2=x(x+1)(x+q^2)",
+      "z^2=(x^2+q^2)*((1+q^2)*x^2+4*q^2*x+q^2*(1+q^2))"
+    ],
+    "notation": "C_q",
+    "projection": "C_q -> E_q by (x,y,z) |-> (x,y)",
+    "receiver_equivalence": "For non-pole Q in E_q(Q), F3(Q) square iff Q lies in the projection of C_q(Q).",
+    "branch_check": {
+      "E_q_to_P1_branch": ["0", "-1", "-q^2", "infinity"],
+      "A_discriminant": "-4*q^2",
+      "B_discriminant": "-4*q^2*(q^2-1)^2",
+      "A_B_common_root_excluded_by": "B_q-(1+q^2)A_q=4*q^2*x; for q!=0 a common root would force x=0, but A_q(0)=q^2!=0",
+      "B_at_E_branch": {
+        "x=0": "q^2*(1+q^2)",
+        "x=-1": "(q^2-1)^2",
+        "x=-q^2": "q^2*(q^2-1)^2"
+      },
+      "A_at_E_finite_branch_nonzero_for_rational_q_nonzero": true,
+      "hypothesis": "q!=0,+/-1",
+      "all_seven_stage34_q_satisfy_hypothesis": true
+    },
+    "riemann_hurwitz": {
+      "degree_over_P1": 4,
+      "disjoint_simple_branch_points": 8,
+      "ramification_points_above_each_branch_point": 2,
+      "formula": "2g(C_q)-2=4*(-2)+8*2=8",
+      "genus": 5
+    },
+    "quotients": {
+      "E_q": "genus 1: y^2=x(x+1)(x+q^2)",
+      "D_q": "genus 1 quartic: z^2=A_q(x)B_q(x)",
+      "H_q": "genus 3 hyperelliptic: w^2=x(x+1)(x+q^2)A_q(x)B_q(x)"
+    }
+  },
+  "finite_squareclass_descent": {
+    "setup": "Write q=a/b in lowest positive terms and x=X/Z with gcd(X,Z)=1.",
+    "A_h": "b^2*X^2+a^2*Z^2",
+    "B_h": "b^2*(a^2+b^2)*X^2+4*a^2*b^2*X*Z+a^2*(a^2+b^2)*Z^2",
+    "identity": "B_h-(a^2+b^2)A_h=4*a^2*b^2*X*Z",
+    "gcd_support": "Every prime dividing gcd(A_h,B_h) divides 2ab.",
+    "gcd_support_proof": "For p not dividing 2ab, a common divisor would force p|XZ. If p|X then A_h=a^2 Z^2 mod p is nonzero; if p|Z then A_h=b^2 X^2 mod p is nonzero, using gcd(X,Z)=1.",
+    "square_consequence": "If A_h*B_h is a square, then there is a positive squarefree d supported on primes dividing 2ab with A_h=d*u^2 and B_h=d*v^2.",
+    "candidate_squareclasses_per_fiber_upper_bound": {
+      "20/21": 16,
+      "80/39": 16,
+      "24/7": 8,
+      "84/13": 16,
+      "48/55": 16,
+      "20/99": 16,
+      "60/11": 16
+    },
+    "purpose": "Turn the global square problem into a finite 2-cover/squareclass collection before elliptic-Chabauty or Mordell-Weil-sieve work."
+  },
+  "firewalls": {
+    "genus5_cover_finiteness_is_effective_enumeration": false,
+    "quotient_rational_points_determine_cover_points_automatically": false,
+    "local_squareclass_solubility_is_global_solubility": false,
+    "route_D_reduction_is_receiver_closure": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "STAGE34_01_HOSTILE_AUDIT_CLOSURE_V1",
+  "status": "PASS_AUDITED_34_01_GLOBAL_POPULATION_CONTRACT",
+  "scope": "Stage34-01 exact object, finite window, cuboid adapter, and global Mordell-Weil population contract only",
+  "audit": {
+    "source_pr": 1479,
+    "review_id": "PRR_kwDOTr52Y88AAAABLpGUsQ",
+    "review_state": "COMMENTED",
+    "verdict": "PASS",
+    "audited_head": "e320e5af68cb780654987ef9c4f7e90f4b7ba1f5",
+    "submitted_at": "2026-09-01T09:18:27Z",
+    "merged_main_commit": "5e2d9ab1035851b40268e6cd9877d27cd1003452"
+  },
+  "authoritative_promotions": {
+    "P1_exact_object_and_population_closed": true,
+    "global_receiver_population_source_locked_authoritative": true,
+    "all_seven_source_free_lattices_span_full_free_part_mod_torsion": true,
+    "rank1_fixed_torsion_translate_quantifiers_authoritative": true,
+    "rank2_direct_replacement_target_authoritative": true,
+    "stage34_02_released": true
+  },
+  "not_promoted": {
+    "primitive_or_fresh_factor_theorem": false,
+    "odd_multiplicity_theorem": false,
+    "exceptional_indices_closed": false,
+    "all_multiples_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "parent_route_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "audit_checks": [
+    "Paper-C external commit and load-bearing blob locks matched",
+    "Face-3 numerator N(Q) distinguished from standard EDS denominator B_n",
+    "finite windows retained as bounded credit only",
+    "same-point odd-valuation to nonsquare adapter verified",
+    "PARI tight rank not promoted to saturation without independent certification",
+    "Magma raw saturation evidence checked for 20/21, 24/7, 60/11",
+    "eclib raw full-basis evidence checked for 80/39, 84/13, 48/55, 20/99",
+    "rank-two source matrix determinant absolute value 1 independently replayed",
+    "rank-one torsion-translate and rank-two quantifiers checked",
+    "promotion firewalls preserved"
+  ],
+  "nonblocking_hardening": {
+    "audit_note": "Future eclib reruns should positively require mwrank's explicit unconditional full Mordell-Weil basis success sentence.",
+    "implemented_on_continuation_branch": true,
+    "runner": "stages/stage34/34-01/run_eclib_mw_certificate.py"
+  }
+}

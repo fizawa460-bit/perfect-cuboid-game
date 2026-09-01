@@ -1,0 +1,61 @@
+{
+  "schema": "STAGE34_02_D2_BIRATIONAL_EXTENSION_THEOREM_LOCK_V1",
+  "status": "PASS_SOURCE_LOCKED_CURVE_LEVEL_EXCEPTIONAL_LOCUS_CLOSED",
+  "scope": "Close only the apparent exceptional loci of the fourteen explicit K_{q,d} <-> J_q birational coordinate presentations. No rational-point completeness credit.",
+  "inputs": {
+    "quartic_map_lock": "stages/stage34/34-02/d2-quartic-map-lock.json",
+    "split_quartic_lock": "stages/stage34/34-02/d2-split-genus1-quotient-lock.json",
+    "all_fourteen_quartics_smooth": true,
+    "all_fourteen_quartics_projective": true,
+    "all_seven_jacobians_projective_smooth_normal": true
+  },
+  "magma_source_lock": {
+    "product": "Magma V2.29 handbook",
+    "handbook_date_seen": "2026-09-01",
+    "url": "https://magma.maths.usyd.edu.au/magma/handbook/text/1545",
+    "intrinsic": "EllipticCurve(C,P)",
+    "locked_semantics": "For a genus-one curve C with nonsingular rational point P, returns an elliptic curve E together with a birational map C -> E sending P to the origin.",
+    "stage34_execution": "Generation-2 official-Magma artifact materialized this birational map, inverse defining polynomials, and a Q-isomorphism E -> locked common J_q for all fourteen cases."
+  },
+  "extension_theorem_source_lock": {
+    "source": "The Stacks Project",
+    "section": "53.2 Curves and function fields",
+    "lemma": "53.2.2 tag 0BXZ",
+    "url": "https://stacks.math.columbia.edu/tag/0BXZ",
+    "statement_used": "If X is a normal curve and Y is proper, every rational map X -> Y extends uniquely to a morphism X -> Y.",
+    "category_equivalence_support": {
+      "theorem": "53.2.6 tag 0BY1",
+      "url": "https://stacks.math.columbia.edu/tag/0BY1",
+      "use": "On nonsingular projective curves, the function-field/birational correspondence is fully faithful; inverse rational maps extend to mutually inverse global morphisms."
+    }
+  },
+  "stage34_application": {
+    "forward": "Each Magma K_{q,d} -> E birational map extends uniquely across every naive coordinate base point because K_{q,d} is smooth/normal and E is proper.",
+    "inverse": "Its birational inverse extends uniquely across every naive inverse-coordinate base point because E is smooth/normal and K_{q,d} is projective/proper.",
+    "roundtrip": "The two extended compositions agree with the identity on the dense open where the birational formulas are mutually inverse; uniqueness then makes both compositions the identity globally.",
+    "common_jacobian": "Composing with the recorded Q-isomorphism E -> J_q gives a global Q-isomorphism K_{q,d} ~= J_q for every one of the fourteen cases.",
+    "naive_base_scheme_interpretation": "Zeros of one chosen homogeneous polynomial presentation are coordinate-presentation base loci, not missing points of the curve-level isomorphism."
+  },
+  "failed_cas_hardening_attempts": {
+    "generation_3_run": 33500019489,
+    "generation_3_failure": "EvaluateByPowerSeries does not accept a MapSch with CrvEll domain; Bad argument types before mathematical assertion.",
+    "generation_4_run": 33500164959,
+    "generation_4_failure": "Extend does not accept a MapSch with CrvEll domain; Bad argument types before mathematical assertion.",
+    "classification": "CAS_DATATYPE_RESOURCE_INTERFACE_WALL_NO_MATHEMATICAL_CREDIT",
+    "promoted_from_failed_runs": false
+  },
+  "promotions": {
+    "D2_explicit_birational_maps_complete": true,
+    "D2_exceptional_loci_complete_at_curve_level": true,
+    "D2_global_roundtrip_isomorphism_proved": true
+  },
+  "next_obligation": "Bind the explicit K_{q,d} ~= J_q isomorphisms to the certified full J_q Mordell-Weil groups and execute a proof-complete covering/elliptic-Chabauty or equivalent rational-point classification, then pull back to C_q and the exact receiver.",
+  "firewalls": {
+    "global_curve_isomorphism_is_quartic_rational_point_completeness": false,
+    "full_Jq_MW_basis_plus_isomorphism_is_finite_point_enumeration": false,
+    "quartic_point_completeness_implies_genus5_cover_completeness_without_split_pullback": false,
+    "receiver_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

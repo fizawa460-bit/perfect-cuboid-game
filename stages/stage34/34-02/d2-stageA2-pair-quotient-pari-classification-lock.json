@@ -1,0 +1,47 @@
+{
+  "schema": "STAGE34_02_D2_STAGEA2_PAIR_QUOTIENT_PARI_CLASSIFICATION_LOCK_V1",
+  "status": "SOURCE_LOCKED",
+  "source": "d2-stageA2-full-support-projective.json",
+  "expected_parent_branches": 92,
+  "expected_quotient_conditions": 460,
+  "expected_distinct_models": 48,
+  "pari_semantics_lock": "d2-stageA2-pair-model6-pari-rank-lock.json",
+  "pilot_evidence": {
+    "run": 33515873903,
+    "job": 99882708253,
+    "model_id": 6,
+    "returned_interval": [1, 1],
+    "exact_rank": 1,
+    "classification": "PROVED_RANK_NONZERO"
+  },
+  "decision_rule": {
+    "rank_zero": "upper bound R == 0",
+    "rank_nonzero": "lower bound r >= 1",
+    "exact_rank": "r == R",
+    "unresolved": "r == 0 and R > 0"
+  },
+  "execution": {
+    "package": "pari-gp",
+    "routine": "ellrank",
+    "effort": 0,
+    "per_model_timeout_seconds": 120,
+    "fail_closed_on_unresolved_interval": true,
+    "fail_closed_on_timeout_or_parse_error": true
+  },
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "artifact_max_bytes": 4194304,
+    "retention_days": 1,
+    "projected_peak_new_artifact_storage_bytes": 4194304,
+    "repository_operating_budget_bytes": 524288000
+  },
+  "credit": "This run classifies only whether each of the 48 pair-quotient Jacobians has rank zero or provably positive rank. Exact positive rank is credited only when PARI returns a singleton interval. A rank-zero Jacobian is only a target selector: the quotient torsor rational-point set still must be proved complete or empty and every quotient point pulled back exactly before a parent branch can close.",
+  "firewalls": {
+    "non_singleton_interval_is_exact_rank": false,
+    "rank_zero_jacobian_closes_quotient_torsor": false,
+    "proved_positive_rank_is_Q_point_on_torsor": false,
+    "classification_closes_parent_branch": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}

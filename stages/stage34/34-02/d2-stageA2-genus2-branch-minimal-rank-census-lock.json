@@ -1,0 +1,29 @@
+{
+  "schema": "STAGE34_02_D2_STAGEA2_GENUS2_BRANCH_MINIMAL_RANK_CENSUS_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION",
+  "sources": {
+    "triple_quotient_model_probe": {"path":"stages/stage34/34-02/probe_d2_stageA2_triple_quotient_models.py","blob_sha":"cf61052ac23a1b80ff20d34af658841d597a6958"},
+    "residual_rank1_closure_certificate": "stages/stage34/34-02/d2-stageA2-rank1-mw-congruence-sieve-certificate.json"
+  },
+  "input_remaining_branches": 52,
+  "selection": "For each exact residual parent branch choose exactly one of its four triple-product genus-two quotient models minimizing (max_abs_integer_coefficient, sum_abs_integer_coefficients, model_id).",
+  "expected_selected_curves": 52,
+  "magma": {
+    "protocol": "official-magma-xml-calculator",
+    "rank_intrinsic": "RankBounds(J)",
+    "rank_zero_point_intrinsic": "Chabauty0(J)",
+    "per_curve_http_timeout_seconds": 180,
+    "rank_zero_degeneracy_check": "For every point returned by Chabauty0, evaluate the selected homogeneous product among U,V,A,B at (X:Z) and require it to vanish before marking the quotient point list all-degenerate."
+  },
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "maximum_external_magma_requests_at_once": 1,
+    "expected_requests": 52,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1,
+    "repository_operating_budget_bytes": 524288000
+  },
+  "credit": "This census grants only curve-level rank-bound diagnostics and rank-zero closure-candidate discovery. No parent branch closes in this run. Any rank-zero all-degenerate candidate must be replayed under a dedicated proof lock before parent closure credit.",
+  "firewalls": {"census_is_parent_closure":false,"rank_upper_zero_without_dedicated_replay_closes_parent":false,"rank_upper_one_is_complete_Qpointset":false,"unresolved_request_is_rank_ge_2":false,"remaining_52_closed":false,"R29_EXT_CHANG_C_closed":false}
+}

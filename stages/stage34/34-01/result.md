@@ -1,6 +1,6 @@
 # Stage34-01 — exact EXT-C / Paper C source reconstruction
 
-Status: `PREAUDIT_PASS_EXACT_OBJECT_WINDOW_ADAPTER_AND_GLOBAL_POPULATION_EVIDENCE_COMPLETE`.
+Status: `AUDITED_PASS_P1_EXACT_OBJECT_AND_GLOBAL_POPULATION_CLOSED`.
 
 ## Exact object
 
@@ -23,6 +23,7 @@ Source locks:
 - `finite-window-lock.json`
 - `cuboid-obstruction-adapter-lock.json`
 - `global-population-contract.json`
+- `audit-closure.json`
 
 ## Finite source window
 
@@ -51,55 +52,21 @@ If the reduced numerator `N(Q)` has a prime of odd valuation, then `F3(Q)` is no
 
 The distinction is load-bearing: Paper C's `q=20/21,n=5` example has primitive prime `29` with even valuation `v_29(N_5)=2`.
 
-## Global population contract repaired
-
-The original source reconstruction exposed three gaps. Their preaudit evidence status is now:
-
-### A. Full Mordell--Weil source lattice — evidence complete 7/7
+## Global population contract — audited 7/7
 
 Formal Arsenal workflow `S31-WF01 CAS_MW_FULL_GROUP_CERTIFICATION` was used rather than treating PARI `ellrank` points as automatically saturated.
 
-Official Magma V2.29-9 `Saturation(points)` gave source free index `1` for:
+Official Magma V2.29-9 `Saturation(points)` gave source free index `1` for `q=20/21`, `q=24/7`, and rank-two `q=60/11`; the rank-two source-coordinate matrix is `[[0,-1],[1,0]]` with determinant absolute value `1`.
 
-```text
-q=20/21
-q=24/7
-q=60/11 (rank two)
-```
+The public Magma calculator hit its explicit 60-second resource limit on the other four fibers. That is preserved as a resource wall, not a mathematical failure, in `mw-magma-partial-certificate.json`.
 
-The rank-two source-coordinate matrix is
+The residual rank-one fibers `80/39`, `84/13`, `48/55`, `20/99` were independently replayed with Ubuntu `eclib-tools` / `mwrank -q -v 1 -o`. The pinned artifact explicitly reports that the rank and full Mordell--Weil basis were determined unconditionally, returns the Paper-C source point itself as the saturated free generator, and the Stage34 exact group-law replay verifies `4(P-G)=O` in each case.
 
-```text
-[0 -1]
-[1  0]
-```
+Therefore all seven Paper-C source free lattices equal the full free Mordell--Weil lattice modulo torsion.
 
-with determinant absolute value `1`.
+## Quantifier repair
 
-The public Magma calculator hit its explicit 60-second resource limit on the other four fibers. That was retained as a resource wall, not a mathematical failure, in `mw-magma-partial-certificate.json`.
-
-Those four rank-one fibers were independently replayed with Ubuntu `eclib-tools` / `mwrank`:
-
-```text
-q=80/39
-q=84/13
-q=48/55
-q=20/99
-```
-
-`mwrank -o` returned the Paper-C source point itself as the saturated free generator on every one of these four curves. `run_eclib_mw_certificate.py` also exact-replayed the group law and verified `4(P-G)=O` in every case. Since `E_q(Q)_tors = Z/4 x Z/2`, the source point and mwrank basis have the same free class.
-
-Evidence:
-
-- `mw-magma-partial-certificate.json`
-- `mw-eclib-certificate.json`
-- `mw-eclib-execution.json`
-
-Therefore all seven Paper-C source free lattices have complete preaudit index-one evidence.
-
-### B. Torsion translates — quantifiers fixed
-
-The rank-one theorem target is now per fixed torsion translate:
+Rank one is authoritative per fixed torsion translate:
 
 ```text
 N_{q,T}(n)=Num(F3(nP_q+T)).
@@ -107,43 +74,39 @@ N_{q,T}(n)=Num(F3(nP_q+T)).
 
 A theorem for `T=O` does not silently cover the other seven translates.
 
-### C. Rank two — no fake primitive ordering
+Rank two uses the full nonzero lattice `(a,b) in Z^2`. No artificial one-dimensional primitive-divisor order is imposed; the accepted target is instead a direct effective odd-valuation / nonsquare theorem outside an explicit finite box.
 
-No artificial one-dimensional primitive-divisor ordering is imposed on `Z^2`. The accepted rank-two target is instead an effective direct theorem proving odd valuation / nonsquareness outside an explicit finite box, with the remaining finite annulus discharged exactly.
+## Hostile audit
 
-The complete definitions are in `global-population-contract.json`.
+PR #1479 hostile audit PASS was submitted against head `e320e5af68cb780654987ef9c4f7e90f4b7ba1f5` and independently checked source locks, raw Magma/eclib evidence, rank-two coordinates, torsion-translate semantics, and promotion firewalls.
 
-## Arsenal use
-
-- `S31-WF01` supplied the MW full-group/saturation proof workflow.
-- `S30-WF02` supplies immutable execution/certificate binding discipline.
-- `S30-WF03` keeps population repair separate from theorem, receiver and endpoint credit.
-
-There is still no Arsenal mathematical weapon that directly proves the required global odd-valuation theorem for the Face-3 orbit-value numerators.
-
-## Current boundary
-
-34-01 evidence is complete, but repository-wide credit policy requires hostile audit before authoritative closure and downstream release.
+The audit promotes only:
 
 ```text
-STAGE34_01_EVIDENCE_COMPLETE=true
-STAGE34_01_HOSTILE_AUDIT_PASSED=false
-STAGE34_02_RELEASED=false
+P1 exact object + global population = CLOSED
+GLOBAL_RECEIVER_POPULATION_SOURCE_LOCKED_AUTHORITATIVE=true
+STAGE34_02_RELEASED=true
 ```
 
-Next command-level action is `stage34audit`. A hostile PASS may promote the global population contract and release `34-02_SEQUENCE_CLASSIFICATION_AND_THEOREM_FUNNEL`.
+It does **not** promote P2/P3/P4/P6, receiver closure, parent-route closure, endpoint closure, or any perfect-cuboid claim.
+
+The audit's nonblocking eclib hardening note is implemented on the continuation branch: future reruns positively require mwrank's explicit unconditional full-MW-basis success sentence.
+
+## Next unit
+
+`34-02_SEQUENCE_CLASSIFICATION_AND_THEOREM_FUNNEL`
+
+The task is now genuinely theorem-facing: classify which theorem species can apply to the exact fixed-torsion rank-one orbit-value numerators and which replacement theorem species can handle the rank-two lattice, without importing standard EDS denominator results by analogy.
 
 ## Firewalls
 
 ```text
-preaudit evidence complete != audited closure
-ellrank tight rank != saturated basis without certification
+P1 population closure != primitive/fresh-factor theorem
 untranslated nP theorem != all nP+T
 one-variable primitive divisor != rank-two lattice theorem
 EDS denominator B_n != Face-3 numerator N(Q)
 primitive divisor != odd valuation
 finite window != all multiples
-MW population repair != primitive-divisor theorem
 receiver closure != parent route closure
 seven-fiber closure != perfect-cuboid nonexistence
 ```

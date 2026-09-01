@@ -1,0 +1,57 @@
+{
+  "schema": "STAGE34_02_D2_STAGE32_ARSENAL_APPLICABILITY_V1",
+  "status": "PASS_TARGETED_REVALIDATION_METHOD_LEVEL_ONLY",
+  "stage34_target": "Proof-complete matching-x fiber-product Mordell-Weil sieve on E_q(Q) x J_q(Q), after both full MW groups and the receiver-x maps are exact.",
+  "stage32_live_source": {
+    "pr": 1474,
+    "branch": "stage32-post1473-integral-picard-support-preflight",
+    "head_revalidated": "300140d4ff519965571ade06f29595f9011e3f67"
+  },
+  "cards": {
+    "S32-PW04": {
+      "role": "FINITE_LATTICE_QUOTIENT_BOUND",
+      "live_path": "stages/stage32/residual-32-01-production/direct_picard_integral_coset_bound.py",
+      "live_blob_sha": "9276a75e00970851f1d27b043492257ca5c1d3f1",
+      "verdict": "METHOD_PATTERN_APPLICABLE_NOT_MATHEMATICAL_CARD_TRANSFER",
+      "reused_pattern": "Fix the finite quotient/class system first, compute exactly which classes are reachable, and perform downstream work only on those classes instead of repeatedly projecting unrelated local moduli by gcd.",
+      "not_reused": "Stage32's positive quadratic kernel, fractional-shift lower bound, Cauchy bound, Smith diagonal [1,2,2], generator orders [20,20,40], and 640 class count are Stage32-specific and receive no Stage34 credit.",
+      "stage34_specialization": "Choose m in {4,2} first for the E/J free MW coefficient lattice, then choose only good primes whose reduction orders are divisible by m and intersect matching-x relations in the fixed quotient."
+    },
+    "S32-PW03": {
+      "role": "LATTICE_IMAGE_HNF_GATE",
+      "live_path": "stages/stage32/residual-32-01-production/direct_picard_slice_bridge.py",
+      "live_blob_sha": "be48bd94304d0217727c5c3368761d347cb22eaa",
+      "verdict": "CONDITIONAL_FOLLOWUP_ONLY",
+      "applicability_condition": "Use only if a Stage34 fixed-quotient survivor relation is proved to be an affine subgroup/coset union or is expressible as exact image membership of an integral homomorphism. Then HNF/Smith can replace explicit class tables by exact congruence rows.",
+      "current_blocker": "Matching receiver-x is a nonlinear relation on finite elliptic reductions; no subgroup/coset structure has yet been proved."
+    },
+    "S32-PW01": {
+      "role": "EXACT_ENUMERATION_COMPRESSION_AND_INDEXER",
+      "verdict": "RESERVE_ONLY",
+      "use_if": "Tailored quotient survivor sets become too large to materialize but admit an exact count/rank/unrank decomposition."
+    },
+    "S32-PW05": {
+      "role": "FINITE_GROUP_EQUIVARIANT_RECONSTRUCTION",
+      "verdict": "NOT_CURRENTLY_APPLICABLE",
+      "reason": "No exact group action has been proved to preserve the Stage34 matching-x relation while giving complete orbit coverage."
+    }
+  },
+  "live_stage32_related_pattern": {
+    "path": "stages/stage32/residual-32-01-production/post1473-product-cover-v4-character-rank-reduction.json",
+    "blob_sha": "01ab580662a76ccda0fc0e3cc44f09f705825942",
+    "use": "Conceptual precedent only: reduce a cover condition to a fixed finite F2-character quotient where basis choice is noncanonical but span/rank is invariant.",
+    "direct_stage34_adapter": false
+  },
+  "credit": {
+    "Stage32_theorem_credit_transferred": false,
+    "Stage32_numerical_constants_transferred": false,
+    "Stage34_fixed_quotient_design_supported": true,
+    "new_Stage34_proof_obligations_unchanged": true
+  },
+  "firewalls": {
+    "method_similarity_is_card_hypothesis_match": false,
+    "finite_quotient_survivor_is_rational_point": false,
+    "S32_PW03_can_be_used_before_affine_coset_structure_is_proved": false,
+    "receiver_closed": false
+  }
+}

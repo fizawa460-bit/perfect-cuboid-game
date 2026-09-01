@@ -1,0 +1,35 @@
+{
+  "schema": "STAGE34_02_D2_COMMON_JACOBIAN_TORSION_LOCK_V1",
+  "status": "PASS_EXACT_JQ_TORSION_Z4_X_Z2_ALL_SEVEN",
+  "source_jacobian": "stages/stage34/34-02/d2-split-genus1-quotient-lock.json",
+  "verifier": "stages/stage34/34-02/verify_d2_jacobian_torsion.py",
+  "jacobian": "J_q: y^2=x^3-((q^4+14q^2+1)/3)x-(2/27)(q^2+1)(q^4-34q^2+1)",
+  "rational_2_torsion_roots": [
+    "2(q^2+1)/3",
+    "(-q^2+6q-1)/3",
+    "(-q^2-6q-1)/3"
+  ],
+  "torsion_generators": {
+    "R4": "((5-q^2)/3, 2(q^2-1))",
+    "double_R4": "(2(q^2+1)/3,0)",
+    "order_R4": 4,
+    "S2": "((-q^2+6q-1)/3,0)",
+    "order_S2": 2,
+    "generated_subgroup_order": 8
+  },
+  "upper_bound_by_good_reduction": {
+    "20/21": {"primes": [107,131], "orders": [128,152], "gcd": 8},
+    "80/39": {"primes": [109,137], "orders": [112,120], "gcd": 8},
+    "24/7": {"primes": [107,109], "orders": [120,104], "gcd": 8},
+    "84/13": {"primes": [107,109], "orders": [120,112], "gcd": 8},
+    "48/55": {"primes": [107,113], "orders": [120,128], "gcd": 8},
+    "20/99": {"primes": [107,109], "orders": [104,112], "gcd": 8},
+    "60/11": {"primes": [107,151], "orders": [96,136], "gcd": 8}
+  },
+  "conclusion": "For good primes, rational torsion injects into J_q(F_p). The explicit subgroup has order 8 and the gcd of two good-reduction group orders is 8 for every locked q, hence J_q(Q)_tors is exactly Z/4 x Z/2.",
+  "firewalls": {
+    "torsion_certification_is_matching_x_sieve": false,
+    "full_Jq_group_is_receiver_closure": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}

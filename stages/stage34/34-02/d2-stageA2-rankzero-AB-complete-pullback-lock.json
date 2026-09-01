@@ -1,0 +1,89 @@
+{
+  "schema": "STAGE34_02_D2_STAGEA2_RANKZERO_AB_COMPLETE_PULLBACK_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION",
+  "scope": "Only the 16 d=1 StageA2 factor branches whose A*B pair quotient has one of the two PARI-certified rank-zero Jacobians. This lock does not classify the other 76 branches.",
+  "sources": {
+    "full_support_lock": "stages/stage34/34-02/d2-stageA2-full-support-projective-lock.json",
+    "pair_classification_lock": "stages/stage34/34-02/d2-stageA2-pair-quotient-pari-classification-lock.json",
+    "pair_classification_run": 33516423218,
+    "pair_classification_job": 99884536334,
+    "stageA2_complete_pullback_precedent": "stages/stageA2/A2-5/result.md",
+    "stage34_rankzero_precedent": "stages/stage34/34-02/d2-stageA2-reconstruction-diagonal-lock.json",
+    "receiver_pullback": "stages/stage34/34-02/d2-split-to-receiver-pullback-lock.json",
+    "population_contract": "stages/stage34/34-01/global-population-contract.json"
+  },
+  "factor_branch": {
+    "d": 1,
+    "U": "T^2-S^2",
+    "V": "2*T*S",
+    "A": "a*U+b*V",
+    "B": "b*U+a*V",
+    "branch_equations": "U=delta1*r1^2, V=delta2*r2^2, A=delta3*r3^2, B=delta4*r4^2",
+    "receiver_x": "x=(a/b)*U/V"
+  },
+  "rank_zero_quotients": [
+    {
+      "q": "20/21",
+      "a": 20,
+      "b": 21,
+      "pair": "A*B",
+      "squareclass": -105,
+      "expected_parent_branches": 12,
+      "jacobian": {"a4": -3366636380100, "a6": -2377617087993840000, "rank": 0},
+      "quartic": "Y^2=-105*A*B=-210*(2*S-5*T)*(3*S-7*T)*(5*S+2*T)*(7*S+3*T)",
+      "finite_branch_ratios_T_over_S": ["2/5", "3/7", "-5/2", "-7/3"],
+      "leading_coefficient_S_equals_1": -44100
+    },
+    {
+      "q": "80/39",
+      "a": 80,
+      "b": 39,
+      "pair": "A*B",
+      "squareclass": -195,
+      "expected_parent_branches": 4,
+      "jacobian": {"a4": -932895725264100, "a6": -10508610941884186560000, "rank": 0},
+      "quartic": "Y^2=-195*A*B=-390*(3*S-13*T)*(5*S-8*T)*(8*S+5*T)*(13*S+3*T)",
+      "finite_branch_ratios_T_over_S": ["3/13", "5/8", "-8/5", "-13/3"],
+      "leading_coefficient_S_equals_1": -608400
+    }
+  ],
+  "pointset_theorem": {
+    "logic": [
+      "Each quartic is smooth and has four explicit distinct rational points with Y=0 at its four rational linear-factor roots.",
+      "The degree-four leading coefficient is a negative rational square, so there is no rational projective point at infinity.",
+      "A smooth genus-one curve with a rational point is Q-isomorphic as a torsor to its Jacobian after choosing that point as origin; hence its Q-point set has the same cardinality as the Jacobian Q-point group.",
+      "The prior PARI classification certifies rank zero. The execution attached to this lock must additionally certify Jacobian torsion order exactly 4 using PARI elltors.",
+      "Therefore each quotient quartic has exactly four rational points, namely the four displayed branch points."
+    ],
+    "required_PARl_semantics": "ellrank interval [0,0] and elltors total torsion order 4 on each exact locked short Weierstrass model"
+  },
+  "pullback_rule": {
+    "complete": "Test all four quotient Q-points against all four exact squareclass equations of every one of the 16 parent branches.",
+    "no_lift": "If no quotient point satisfies all four squareclass equations, the parent branch has no Q-point.",
+    "torsion_lift": "If a quotient branch point lifts, then A=0 gives x=-1 and B=0 gives x=-q^2. These are roots of x(x+1)(x+q^2), hence rational 2-torsion on E_q and have zero free part.",
+    "receiver_scope": "The authoritative Stage34 population contains only nonzero free-lattice points n*P_q+T with n>=1, or nonzero rank-two lattice coordinates plus torsion. Pure torsion points are outside R29-EXT-CHANG-C population credit."
+  },
+  "expected_result": {
+    "rank_zero_parent_branches": 16,
+    "branches_with_no_full_pullback": 8,
+    "branches_with_only_receiver_torsion_pullback": 8,
+    "non_torsion_receiver_survivors_from_these_16": 0,
+    "remaining_d1_factor_branches_after_this_leaf": 76
+  },
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1
+  },
+  "credit": "A successful execution may close only these 16 parent factor branches for the audited non-torsion receiver population. It does not close the remaining 76 d=1 branches, the direct cover, all multiples, R29-EXT-CHANG-C, any parent route, or the perfect-cuboid problem.",
+  "firewalls": {
+    "rank_zero_alone_is_complete_pointset": false,
+    "quotient_point_without_exact_pullback_is_parent_point": false,
+    "pure_torsion_is_receiver_population_member": false,
+    "sixteen_branch_closure_is_all_factor_branch_closure": false,
+    "direct_cover_rational_points_complete": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
