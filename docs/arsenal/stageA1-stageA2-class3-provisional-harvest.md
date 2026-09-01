@@ -23,11 +23,14 @@ exact low-dimensional family/receiver
 
 The StageA2 published `-18` family exclusion itself is not transferable.
 
-Authoritative sources:
+Classification authority chain:
 
 - `stages/stage29/29-16/active-kernel-ledger.json`, blob `5d6d4c7709b57064aea5dc0ece672c5170c39550`
-- `stages/stage29/29-16/result.md`, blob `4abf29d9aa57a9e89c0e768edb6a2ee6c85fb14c`
+- `stages/stage29/29-16/result.md`, blob `4abf29d9aa57a9e89c0e768edb6a2ee6c85fb14c`, submission surface `SUBMITTED_PENDING_FRESH_AUDIT`
+- `stages/stage29/29-16/audit.md`, blob `e01249c73478f9269456c919b25a024e8eb61320`, verdict `PASS_AFTER_BOUNDED_SEMANTIC_REPAIR`
 - `stages/stage29/29-13/result.md`, blob `49a289c6acb2b46733e20338cb77778d763d88df`
+
+The pending 29-16 result is not treated as standalone final authority. Its classification authority is completed by the audited 29-16 chain above. The bounded audit repair concerns the Brauer dependency-DAG wording and execution-owner independence scope; it does not alter the Class-2/Class-3 census or theorem-vs-current-tool-limit semantics used in this harvest.
 
 Harvest snapshot main commit: `5e2d9ab1035851b40268e6cd9877d27cd1003452`.
 
