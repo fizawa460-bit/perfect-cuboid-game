@@ -22,6 +22,10 @@ EXPECTED_CONTROLLER_SCHEMA='STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V53_QPIC_MARK
 EXPECTED_MISSING='SOURCE_AUTHORIZED_PINNED_UPSTREAM_QPIC_64x64_MARKED_PICARD_BRIDGE_MISSING'
 EXPECTED_LEAF='ACQUIRE_SOURCE_AUTHORIZED_PINNED_UPSTREAM_QPIC_64x64_INDLIST_TO_MAGMA_PICARD_BRIDGE_THEN_CERTIFY_MARKING_DESCEND_ACTUAL_SWAPS_AND_TEST_ORDER4_AFFINE_SLICE'
 EXPECTED_MINIMAL='SOURCE_AUTHORIZED_PINNED_UPSTREAM_QPIC_64x64_INDLIST_TO_MAGMA_PICARD_BRIDGE'
+EXPECTED_AUDIT_SCOPE='STAGE33_12_V9_QPIC_BRIDGE_CONTROLLER_AUTHORITY_SYNC'
+EXPECTED_AUDIT_REVIEW_ID=5080029385
+EXPECTED_AUDIT_HEAD='8e61024cd12bcb55b3406701aea68f8bfbaa06a2'
+EXPECTED_ADVANCE_SCOPE='STAGE33_12_INTERNAL_33_13_QPIC_MARKED_BRIDGE_ACQUISITION_ONLY_NO_PARENT_RECLOSURE'
 
 def csha(x): return hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
 def load(p,expected):
@@ -48,7 +52,6 @@ assert stage['logical_internal_sequence'][0]['id']=='33-13'
 assert stage['logical_internal_sequence'][0]['status']=='CURRENT_QPIC_MARKED_BRIDGE_SOURCE_GAP_RELATION_RANK_0_STANDARD_COLUMNS_0_OF_10'
 
 # Reopened mask-6 Picard-adjoint data is historical diagnostic evidence only.
-# It must never coexist with a positive named-J2 materialization flag.
 assert stage['corrected_J2_proper_Br2_14D_coordinate_materialized'] is False
 assert stage['corrected_J2_retained_10D_domain_coordinate_materialized'] is False
 assert stage['corrected_J2_proper_Br2_14D_coordinate_f2'] is None
@@ -63,7 +66,7 @@ assert stage['corrected_J2_named_standard_column_relation_valid'] is False
 assert stage['finite_v4_kummer_named_relations_materialized']==0
 assert stage['finite_v4_kummer_named_relation_rank_f2']==0
 
-# qPic bridge gap and retained-route narrowing are also detailed-controller facts.
+# qPic bridge gap and retained-route narrowing are detailed-controller facts.
 assert stage['marked_picard_bridge_source_gap_certificate_sha256']==FILES['bridge_gap'][1]
 assert stage['marked_picard_retained_route_inventory_sha256']==FILES['route'][1]
 assert stage['actual_indlist_to_magma_picard_basis_bridge_materialized'] is False
@@ -71,16 +74,29 @@ assert stage['source_authorized_qPic_bridge_required'] is True
 assert stage['retained_smith_route_authoritative_for_qPic_bridge'] is False
 assert stage['new_external_magma_dispatch_authorized'] is False
 
-# Audit failure gates further MAIN advance until hostile re-audit passes.
-assert controller['audit_required'] is True
-assert controller['audit_scope']=='STAGE33_12_V9_QPIC_BRIDGE_CONTROLLER_AUTHORITY_SYNC'
-assert controller['advance_allowed'] is False
-assert controller['advance_scope']=='BLOCKED_PENDING_HOSTILE_REAUDIT_OF_V9_QPIC_CONTROLLER_AUTHORITY_SYNC'
-assert controller['next_expected_command']=='Stage33-audit'
-assert controller['execution']['audit_required'] is True
-assert controller['execution']['advance_allowed'] is False
-assert controller['execution']['advance_scope']==controller['advance_scope']
+# Hostile re-audit 5080029385 closes only the controller/V9 authority-sync gate.
+# It authorizes MAIN to resume the qPic acquisition leaf, not merge/closure/credit
+# and not a new external Magma dispatch.
+assert controller['audit_required'] is False
+assert controller['audit_status']=='PASS'
+assert controller['audit_scope']==EXPECTED_AUDIT_SCOPE
+assert controller['audit_review_id']==EXPECTED_AUDIT_REVIEW_ID
+assert controller['audit_head_sha']==EXPECTED_AUDIT_HEAD
+assert controller['advance_allowed'] is True
+assert controller['advance_scope']==EXPECTED_ADVANCE_SCOPE
+assert controller['next_item']=='Stage33-12_33-13_ACQUIRE_SOURCE_AUTHORIZED_QPIC_MARKED_BRIDGE'
+assert controller['next_expected_command']=='Stage33-main-batch'
+assert controller['execution']['audit_required'] is False
+assert controller['execution']['audit_status']=='PASS'
+assert controller['execution']['audit_scope']==EXPECTED_AUDIT_SCOPE
+assert controller['execution']['audit_review_id']==EXPECTED_AUDIT_REVIEW_ID
+assert controller['execution']['audit_head_sha']==EXPECTED_AUDIT_HEAD
+assert controller['execution']['advance_allowed'] is True
+assert controller['execution']['advance_scope']==EXPECTED_ADVANCE_SCOPE
+assert controller['execution']['next_item']==controller['next_item']
 assert controller['execution']['next_expected_command']==controller['next_expected_command']
+assert controller['merge_allowed'] is False and controller['execution']['merge_allowed'] is False
+assert controller['execution']['heavy_actions_authorized'] is False
 
 assert x['orientation']['exact_conclusion']['named_CV_J2_fixed_marked_Kc_coordinate_f2']==[1,0]
 assert h1['retained_H1_dimension_f2']==75 and sum(h1['coordinates_f2'])==15
@@ -185,7 +201,10 @@ out={
  },
  'execution_gate':{
   'audit_required':controller['audit_required'],
+  'audit_status':controller['audit_status'],
   'audit_scope':controller['audit_scope'],
+  'audit_review_id':controller['audit_review_id'],
+  'audit_head_sha':controller['audit_head_sha'],
   'advance_allowed':controller['advance_allowed'],
   'advance_scope':controller['advance_scope'],
   'next_expected_command':controller['next_expected_command'],
