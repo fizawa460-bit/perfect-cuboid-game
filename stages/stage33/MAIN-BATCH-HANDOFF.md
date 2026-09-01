@@ -5,24 +5,42 @@ base_main_state_canonical_sha256: 7d52c93a517fc96050b2f78583ae05e5e4ff4f983c2533
 
 ## Exact narrowing from this batch
 
-New certificate:
-- `stages/stage33/33-12/j2-marked-order4-geometric-sign-indistinguishability.json`
-- verifier: `stages/stage33/33-12/verify_j2_marked_order4_geometric_sign_indistinguishability.py`
+The current retained data do not source-lock the actual 64x64 INDLIST-to-historical-Magma Picard-basis bridge. A corrected exact local backtracking search found two distinct full bridge witnesses satisfying all presently retained constraints simultaneously:
 
-The four source-side order-4 candidates retained in the preceding exact gap remain masks `{4,5,6,7}` after all seven safe geometric coordinate-sign fixedness tests. The locked semantic `u1` A_T[2] row and all four proper-Br2 candidate rows are fixed by all seven signs. Thus the safe sign family adds rank 0 and cannot select the named J2 row.
+- unimodular determinant `-1`;
+- exact historical Gram transport;
+- exact intertwining of named `cc`, `ct`, and all seven coordinate signs.
 
-The four candidates form the exact affine plane
-`mask4 + span_F2(e0,e1)`
-in retained10 coordinates. The remaining label ambiguity therefore has dimension 2. Any positive cross-marking route must provide two independent binary constraints on this slice, or directly materialize the actual proper14 evaluation row / marked order-4 lift.
+Witness 1 (1-based known-curve indices in historical basis-row order):
+`[1,42,22,21,4,77,80,79,68,34,53,39,30,90,32,92,93,94,47,96,97,98,99,100,105,106,54,108,101,48,29,104,109,15,111,112,113,114,115,116,121,122,67,26,24,118,2,120,125,126,127,128,129,130,7,132,135,136,133,134,139,140,137,138]`
 
-The existing exact coordinate-swap route was also replayed. The intrinsic 14-dimensional swap pair is exact (`actual-coordinate-swap-at2-actions.json`, canonical SHA-256 `bf44ad79107c3b6ee6b8c14fd6d7dbb67da132956a644e44da32b8bfad98ec3f`), but transport to the retained basis is still non-unique after the named `cc/ct` marking and all seven signs (`intrinsic-to-retained-at2-swap-transport-named-v4.json`, canonical SHA-256 `3f932640dd6ebf04c5c5c148664348b0c2e4a70df12f8d740ea85432323e14ba`). Therefore no retained-basis swap fixedness test is source-locked, and swaps cannot select among masks `{4,5,6,7}` at this leaf.
+Witness 2:
+`[8,43,19,20,5,77,80,79,66,35,60,39,30,91,32,89,99,100,52,98,95,96,93,94,108,107,59,105,104,51,29,101,114,15,116,115,110,109,112,111,118,117,65,26,17,121,7,123,125,126,127,128,129,130,2,132,140,139,138,137,136,135,134,133]`
+
+The induced actual `swap12` Picard actions differ:
+- witness 1 SHA-256: `75458313bb6d3cd666952d0cbb6d17351bb10228eb82528f5b16057f0efe62c7`
+- witness 2 SHA-256: `edc04fc389562ca89f3903db51ae489975e7f903d63944f9ce6156f1a3499aa6`
+
+Their `swap13` actions agree in this pair (SHA-256 `924e9a38a19a54a18216f764fe1a06fbcebc41d81ae5f10f63701d38f9c6648d`), but one differing swap is already sufficient: Gram + named V4 + seven signs do not determine the actual marking. Neither witness is authoritative; they are non-uniqueness witnesses only.
+
+The intended source-locked bridge already has repository adapters:
+- producer: `stages/stage33/33-07/extract_indlist_to_magma_picard_basis.py`
+- expected retained output: `stages/stage33/33-07/indlist-to-magma-picard-basis.json`
+- verifier/transport: `stages/stage33/33-07/certify_marked_picard_basis_bridge.py`
+- manual producer workflow: `.github/workflows/stage33-07-marked-picard-basis-bridge-producer.yml`
+
+No prior producer workflow run/artifact was found. An attempted public external-Magma route was stopped because submitting locally assembled source-derived inputs to a third party was not authorized. Do not retry or dispatch the manual workflow without explicit authorization.
 
 ## Refined next exact leaf
 
-`SOURCE_LOCK_RANK2_CROSS_MARKING_ON_THE_FOUR_ROW_ORDER4_AFFINE_SLICE_OR_DIRECTLY_MATERIALIZE_THE_ACTUAL_U1_PROPER14_ROW_THEN_REPEAT_FOR_U2`
+`SOURCE_LOCK_ACTUAL_INDLIST_TO_HISTORICAL_MAGMA_PICARD_BASIS_64x64_QPIC_BRIDGE_OR_EQUIVALENT_RETAINED_SMITH_COMPOSITE_THEN_DESCEND_ACTUAL_SWAPS_AND_TEST_THE_ORDER4_AFFINE_SLICE`
 
-Seek an actual primitive-H2 / marked `NS<->T` anti-isometry datum, or an actual labeled order-512 glue, that evaluates nontrivially on the two remaining affine directions. Do not repeat the seven-sign filter and do not use raw-75D/V4 compatibility, masks 742/736, or historical mask 6 to choose the label.
+Acquire the exact source-authorized `indlist-to-magma-picard-basis.json` (or an equivalent retained Smith composite), run `certify_marked_picard_basis_bridge.py`, replay the historical common Smith transport, and only then test literal swap fixedness on the four candidate masks `{4,5,6,7}`. Before using the result, source-lock that the swaps descend to and fix the named Kc J2.
 
-Do not reuse either witness swap pair emitted by the non-unique transport solvers as though it were the actual retained-basis pair. A further exact Picard/Smith marking invariant would be required before swap naturality is admissible.
+Do not:
+- treat either local witness above as the actual bridge;
+- reuse non-unique retained-basis swap transports as actual actions;
+- use the 20 Kc `preimsinPic` rows as full-surface known-curve qPic bridge rows;
+- repeat the seven-sign filter or infer the label from historical mask 6.
 
-No source coordinate, Kummer column, closure, receiver, theorem, endpoint, or release credit is added.
+No MAIN-STATE/controller progress, source coordinate, Kummer column, closure, receiver, theorem, endpoint, or release credit is added.
