@@ -1,6 +1,6 @@
 {
-  "schema": "STAGE34_02_D2_STAGEA2_FULL_SUPPORT_PROJECTIVE_LOCK_V1",
-  "status": "THEOREM_LOCKED_PENDING_ACTIONS_REPLAY",
+  "schema": "STAGE34_02_D2_STAGEA2_FULL_SUPPORT_PROJECTIVE_LOCK_V2_PASS",
+  "status": "PASS_EXACT_FULL_SUPPORT_PROJECTIVE_REDUCTION",
   "scope": "StageA2-style factor branches after the exact good-prime and support-Legendre2 layers, with rank-zero reconstruction pruning replayed from the certified rank-zero species.",
   "branch_equations": {
     "d1": [
@@ -22,17 +22,47 @@
   "rank_zero_replay": {
     "source": "d2-stageA2-reconstruction-rank-lock.json",
     "rank_zero_species": [1, 2, 10, 26, 66, 195],
-    "expected_input_after_rank_zero_pruning": 1024
+    "input_after_legendre2": 1214,
+    "input_after_rank_zero_pruning": 1024
   },
-  "precomputed_expected_replay": {
-    "d2": "20 -> 0",
+  "actions_replay": {
+    "run": 33512504700,
+    "job": 99871456739,
+    "head": "eec7478aac11151986be5df00487b464389eed10",
+    "artifact_id": 9802225387,
+    "artifact_digest": "sha256:eee10b6d11542422a1f8fbda84a091ebd1208353a31841bc969f812827cbe18b",
+    "status": "SUCCESS_ALL_STEPS"
+  },
+  "result": {
+    "after_rankzero": 1024,
+    "support_projective_survivors": 92,
     "d1": "1004 -> 92",
-    "total": "1024 -> 92"
+    "d2": "20 -> 0",
+    "d2_factor_branches_closed": true,
+    "d1_survivors_by_q": {
+      "20/21": 24,
+      "80/39": 12,
+      "24/7": 8,
+      "84/13": 8,
+      "48/55": 8,
+      "20/99": 16,
+      "60/11": 16
+    },
+    "d1_reconstruction_species": {
+      "20/21": [210],
+      "80/39": [390],
+      "24/7": [21],
+      "84/13": [546],
+      "48/55": [330],
+      "20/99": [110, 30],
+      "60/11": [330]
+    }
   },
   "credit_boundary": "Only a branch with no projective reduction at an odd support prime is globally excluded. Every surviving branch remains only a necessary-condition survivor; no rational point, receiver closure, or all-multiples credit follows.",
   "firewalls": {
     "support_mod_p_survivor_is_Q_point": false,
     "support_projective_sieve_is_full_Qp_classification": false,
+    "d2_factor_branch_closure_is_receiver_closure": false,
     "direct_cover_rational_points_complete": false,
     "all_multiples_closed": false,
     "R29_EXT_CHANG_C_closed": false
