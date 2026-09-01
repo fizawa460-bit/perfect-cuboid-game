@@ -1,17 +1,20 @@
 # Stage32 arsenal promotion — provisional harvest
 
 ```text
-REGISTRY=STAGE32-ARSENAL-PROVISIONAL-R01
+REGISTRY=STAGE32-ARSENAL-PROVISIONAL-R02
 STATUS=PROVISIONAL_ACTIVE_STAGE_HARVEST
 SOURCE_STAGE=Stage32
 SOURCE_PR=1474
 SOURCE_BRANCH=stage32-post1473-integral-picard-support-preflight
-SOURCE_HEAD=305da21597a8d61f64cd221b7efc8ca39833e3a8
+BASE_HARVEST_SOURCE_HEAD=305da21597a8d61f64cd221b7efc8ca39833e3a8
+PROOF_ADAPTER_SUPPLEMENT_SOURCE_HEAD=77ede66e92a46b3365a4ee43a265728665a0b17a
 FORMAL_PROMOTION_AUDIT=NOT_YET_RUN
 THEOREM_CREDIT=false
 ```
 
 This file harvests reusable Stage32 interfaces before Stage32 closes. These cards are valid for candidate discovery and exact-source lookup, but they are **not** active theorem selectors. Revalidate the named source locks and applicability conditions before reuse. At Stage32 close, rerun promotion review and either activate, revise, or retire each card.
+
+Targeted proof-adapter/certificate/firewall catch-up supplement: [`stage32-arsenal-proof-adapters-certificates-firewall.md`](stage32-arsenal-proof-adapters-certificates-firewall.md). It adds only `S32-PW05` as a new provisional mathematical card; numerical-candidate→exact-replay and source-locked adapter-wall patterns remain Workflow candidates rather than selectors/theorems.
 
 ## Current production-algorithm harvest disposition
 
@@ -20,11 +23,12 @@ The four locked source paths were revalidated at exact Stage32 source head `305d
 ```text
 PRODUCTION_ALGORITHM_BATCH=S32-PW01,S32-PW02
 PARKED_OUTSIDE_THIS_ALGORITHM_BATCH=S32-PW03,S32-PW04
-ALL_FOUR_CARDS_REMAIN_PROVISIONAL=true
+ALL_FOUR_BASE_CARDS_REMAIN_PROVISIONAL=true
+PROOF_ADAPTER_SUPPLEMENT=S32-PW05
 STAGE32_SELECTOR_OR_CONTROLLER_CHANGED=false
 ```
 
-`S32-PW01/PW02` are retained as the current production-algorithm harvest because they implement exact symbolic compression and exact random access to the same certified finite terminal predicate. `S32-PW03/PW04` remain useful provisional Arsenal candidates, but are parked outside this narrower algorithm batch because they are Picard-lattice/finite-coset adapters tied to the current mathematical closure interface. Parking them here is not retirement or revocation.
+`S32-PW01/PW02` are retained as the current production-algorithm harvest because they implement exact symbolic compression and exact random access to the same certified finite terminal predicate. `S32-PW03/PW04` remain useful provisional Arsenal candidates, but are parked outside this narrower algorithm batch because they are Picard-lattice/finite-coset adapters tied to the current mathematical closure interface. Parking them here is not retirement or revocation. `S32-PW05` is a separate exact finite-group equivariant reconstruction card from the later proof-adapter catch-up pass.
 
 ## S32-PW01 — exact symbolic terminal-family compression
 
@@ -156,18 +160,36 @@ REQUIRES_SAME_QUADRATIC_KERNEL_AND_SHIFT_LATTICE=true
 FINITE_PRUNE_IS_NOT_GLOBAL_THEOREM=true
 ```
 
+## S32-PW05 — exact finite-group orbit reconstruction from seed pairing data
+
+**Type:** `FINITE_GROUP_EQUIVARIANT_RECONSTRUCTION`
+
+The full contract, source locks, applicability, dedup boundary, and `DO_NOT_USE_FOR` rules are in [`stage32-arsenal-proof-adapters-certificates-firewall.md`](stage32-arsenal-proof-adapters-certificates-firewall.md).
+
+```text
+path=stages/stage32/residual-32-01-production/aut_equivariant_pairing_adapter.py
+blob_sha=08a7c76c5607e6feafae1c88b2befa3f1ebf9c89
+supporting_path=stages/stage32/residual-32-01-production/pairing_prefix_engine.py
+supporting_blob_sha=c8e87c6598fa1cd7ba1675fc35fa83bea983c94b
+```
+
+A source-locked exact finite group transports a small seed Gram/pairing table across all ordered-pair orbits. Conflicts, incomplete coverage, group-order regression, symmetry failure, or basis regression fail closed. This is a whole-table equivariant reconstruction method, not the HNF image-membership method of `S32-PW03`.
+
 ## Promotion firewalls
 
 - These are **provisional cards from an active Stage**. They are not in `docs/arsenal/index.json.selectors`.
 - Reuse requires source-lock and hypothesis matching; matching only the broad topic is insufficient.
 - `S32-PW01/PW02` preserve a specific finite predicate, not arbitrary DFS searches.
 - `S32-PW03/PW04` are exact only for a matching retained lattice/marking interface or an explicitly proved adapter.
+- `S32-PW05` requires a proved exact finite action, invariance, complete orbit coverage, and fail-closed conflict/regression checks.
+- Numerical candidate search never earns `UNSAT`; candidate success must be replayed exactly before even same-layer certificate promotion.
+- Computational success at one semantic layer does not silently promote through Picard/effectivity/irreducibility/geometric/theorem layers.
 - `PARKED_OUTSIDE_PRODUCTION_ALGORITHM_BATCH` is only a batch-scope classification; it is not retirement, revocation, or theorem-status change.
-- No bounded count, SAT/UNSAT result, finite quotient, or representative row earns theorem/receiver/endpoint credit by itself.
+- No bounded count, SAT/UNSAT result, finite quotient, representative row, or reconstructed finite table earns theorem/receiver/endpoint credit by itself.
 - Stage32 closure may revise or retire these cards.
 
 ```text
-PROVISIONAL_WEAPONS=S32-PW01,S32-PW02,S32-PW03,S32-PW04
+PROVISIONAL_WEAPONS=S32-PW01,S32-PW02,S32-PW03,S32-PW04,S32-PW05
 ROUTEABLE_FOR_CANDIDATE_DISCOVERY=true
 FORMAL_PROMOTION_ACTIVE=false
 PERFECT_CUBOID_CONCLUSION=NONE
