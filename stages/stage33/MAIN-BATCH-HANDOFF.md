@@ -5,16 +5,20 @@ base_main_state_canonical_sha256: 32baebf358ae47b99a5a1ffd40dc90e7eb090db353f588
 
 Current unresolved delta after `MAIN-STATE.json`:
 
-- New exact diagnostic: `stages/stage33/33-12/j2-picard-adjoint-reopen-diagnostic.json`, canonical SHA `1a20e001fd23b292881f9652818e52d5afc7f0bd43657809d5e52075ae6d1737`.
-- The `MAIN-STATE.json` reopen condition “authoritative current certificate contradicts the recorded fact” is now triggered for `J2_picard_adjoint_source_coordinate`: the old Picard-adjoint J2 retained mask `6` cannot reach the exact locked J2 target in any compatible V4-module extension.
-- This does NOT reopen the marked Kc orientation `J2=[1,0]`; the R4 torsor/kernel fingerprint still fixes that Brauer functional exactly.
-- The Picard-adjoint companion lines are diagnostic only: `beta2` has retained mask `742` and `beta1+beta2` mask `736`, and both lie in the target-compatible 1000-mask set. They are NOT promoted as J2.
-- The exact dependency gap is narrower than “find another source”: the proper-Br2 producer materializes the abstract dual Galois module from the Picard discriminant, while the Picard-adjoint source placement invokes a full-surface discriminant anti-isometry without source-locking a marked full-surface transcendental anti-isometry/correspondence.
-- Targeted follow-up inspection did not change that diagnosis: the Kc/J2 transcendental-lattice / B-field-half-dual side is already the relevant marked input side, while the unresolved bridge remains the exact basis/correspondence from that marked side into the full-surface proper-Br2 quotient/basis. Do not replace this missing bridge by guessing mask `742` or `736`.
-- The current blocker should therefore be treated as an interface/materialization problem, not a request to redo old V4-label, transpose/row-column, Picard-equivariance/kernel, or raw-projection investigations.
-- Exact next unresolved interface:
-  `MATERIALIZE_FULL_SURFACE_MARKED_DISCRIMINANT_ANTI_ISOMETRY_OR_EQUIVALENT_EXPLICIT_H2_MU2_TO_PROPER_BR2_PULLBACK_ADAPTER_FOR_LAMBDA_D`
-- Next targeted expansion, if needed, is limited to the producer/proof locations that define the proper-Br2 quotient/basis or the marked full-surface discriminant/transcendental correspondence required to feed `lambda_D`; broad Stage33 history rereads are not justified.
-- Do not rerun V4 labels, transpose/row-column, Picard equivariance/kernel, old relation, order4 direct route, q1, or beta2-as-J2 guessing under unchanged premises.
+- Exact reopen diagnostic remains `stages/stage33/33-12/j2-picard-adjoint-reopen-diagnostic.json`, canonical SHA `1a20e001fd23b292881f9652818e52d5afc7f0bd43657809d5e52075ae6d1737`.
+- New exact provenance/interface certificate: `stages/stage33/33-12/j2-marked-discriminant-proper-br2-adapter-source-lock-gap.json`, canonical SHA `e27da962e6bd4330bd2e3ede77424bedb5ad40a684d81fadba632ac2fdef8b58`.
+- Verifier: `stages/stage33/33-12/verify_j2_marked_discriminant_proper_br2_adapter_source_lock_gap.py`.
+- The marked Kc orientation remains locked: named J2 is semantic `u1` with coordinate `[1,0]`; do not reopen it in ordinary MAIN.
+- The semantic `u1/u2` artifacts already materialize their full-surface `A_T[2]` Smith coordinates. The remaining gap is not another u1/u2 search.
+- The proper-Br2 producer materializes the abstract 14D `A_T[2]` V4 module and its dual proper `Br[2]` module, and explicitly records `actual_index512_k3_glue_identified=false`.
+- The Picard-adjoint materializer invokes K3 discriminant anti-isometries when interpreting Picard-discriminant covectors as actual marked transcendental `T/2T` vectors, but its source locks contain no marked full-surface transcendental anti-isometry / equivalent discriminant-to-transcendental basis adapter.
+- Therefore the old Picard-adjoint retained mask `6` remains a lattice-derived candidate only and is not authoritative for named J2. It cannot reach the locked weight-15 75D target under any compatible V4-module extension.
+- Companion masks `742` (`beta2`) and `736` (`beta1+beta2`) are target-compatible diagnostics only. Compatibility is not provenance; neither is promoted as J2.
+- Exact accepted repair interfaces are now frozen to either:
+  1. a source-locked invertible V4-equivariant `14x14` F2 marked full-surface discriminant/transcendental basis adapter; or
+  2. an equivalent source-locked `2x14` F2 marked Kc `T/2T ->` full-surface proper-Br2 pullback map that respects named J2=`[1,0]` and replays against the locked 75D target.
+- Exact next leaf:
+  `MATERIALIZE_SOURCE_LOCKED_MARKED_FULL_SURFACE_DISCRIMINANT_ANTI_ISOMETRY_OR_EQUIVALENT_2x14_J2_PULLBACK_ADAPTER_AND_REPLAY_V4_COMPATIBILITY`
+- Do not rerun V4 labels, transpose/row-column, Picard equivariance/kernel, old relation, order4 direct route, q1, u1/u2 orientation, or beta2-as-J2 guessing under unchanged premises.
 
-No controller/`MAIN-STATE.json` promotion is claimed yet. Relation rank remains 0, standard columns 0/10, and all closure/release/theorem/receiver/endpoint firewalls remain unchanged.
+No `MAIN-STATE.json` promotion is claimed by this batch because the missing marked adapter itself has not yet been materialized. Relation rank remains 0, standard columns remain 0/10, and all closure/release/theorem/receiver/endpoint firewalls remain unchanged.
