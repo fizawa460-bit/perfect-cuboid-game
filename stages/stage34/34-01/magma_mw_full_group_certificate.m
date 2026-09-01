@@ -6,6 +6,7 @@ QQ := Rationals();
 print "STAGE34_01_MAGMA_MW_CERTIFICATE_BEGIN";
 print "MAGMA_VERSION:", v1, v2, v3;
 print "SEMANTICS: MordellWeilGroup rank_proved/full_group_proved are the documented proof-status booleans";
+print "SOURCE_INDEX_METHOD: Saturation(source_points,TorsionFree=true) plus exact torsion relation coordinates";
 
 procedure CheckFiber(label, qnum, qden, expected_rank, srcxy)
     qq := QQ!qnum / qden;
@@ -32,31 +33,35 @@ procedure CheckFiber(label, qnum, qden, expected_rank, srcxy)
     assert rank_proved;
     assert free_rank eq expected_rank;
 
-    if full_group_proved then
-        source_coords := [];
-        source_free_coords := [];
-        for j in [1..#source_pts] do
-            a := source_pts[j] @@ mwmap;
-            assert mwmap(a) eq source_pts[j];
-            seq := Eltseq(a);
-            fseq := [ seq[i] : i in free_positions ];
-            Append(~source_coords, seq);
-            Append(~source_free_coords, fseq);
+    sat := Saturation(source_pts : TorsionFree := true);
+    print "SATURATED_SOURCE_BASIS:", sat;
+    assert #sat eq expected_rank;
+
+    source_free_coords := [];
+    for j in [1..#source_pts] do
+        independent, rel := IsLinearlyIndependent([ source_pts[j] ] cat sat);
+        assert not independent;
+        v := [ Integers()!z : z in Eltseq(rel) ];
+        g := 0;
+        for z in v do
+            g := Gcd(g, Abs(z));
         end for;
-        print "SOURCE_MW_COORDS:", source_coords;
-        print "SOURCE_FREE_COORDS:", source_free_coords;
-        assert #source_free_coords eq expected_rank;
-        flat := &cat source_free_coords;
-        M := Matrix(Integers(), expected_rank, expected_rank, flat);
-        idx := Abs(Determinant(M));
-        print "SOURCE_FREE_COORD_MATRIX:", M;
-        print "SOURCE_FREE_INDEX:", idx;
-        print "SOURCE_SPANS_FULL_FREE_PART:", idx eq 1;
-    else
-        print "SOURCE_MW_COORDS: UNAVAILABLE_FULL_GROUP_NOT_PROVED";
-        print "SOURCE_FREE_INDEX: UNAVAILABLE_FULL_GROUP_NOT_PROVED";
-        print "SOURCE_SPANS_FULL_FREE_PART: false";
-    end if;
+        assert g ne 0;
+        v := [ z div g : z in v ];
+        assert Abs(v[1]) eq 1;
+        fseq := [ -(v[k+1] div v[1]) : k in [1..expected_rank] ];
+        Append(~source_free_coords, fseq);
+        print "SOURCE_RELATION:", j, v;
+        print "SOURCE_FREE_COORD:", j, fseq;
+    end for;
+
+    flat := &cat source_free_coords;
+    M := Matrix(Integers(), expected_rank, expected_rank, flat);
+    idx := Abs(Determinant(M));
+    print "SOURCE_FREE_COORD_MATRIX:", M;
+    print "SOURCE_FREE_INDEX:", idx;
+    print "SOURCE_SPANS_SATURATED_FREE_PART:", idx eq 1;
+    print "FULL_POPULATION_CERTIFIED:", full_group_proved and idx eq 1;
 
     print "FIBER_END:", label;
 end procedure;
