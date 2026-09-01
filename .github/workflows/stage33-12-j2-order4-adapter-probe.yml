@@ -1,4 +1,4 @@
-name: Stage33 J2 Picard adjoint proper Br2 probe
+name: Stage33 J2 relation state sync
 on:
   push:
     branches: [stage33-12-j2-ptsK-qPicK-continuation]
@@ -6,33 +6,29 @@ on:
 permissions:
   contents: write
 jobs:
-  probe:
+  sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Materialize u2 and Picard adjoint proper Br2
+      - name: Verify exact J2 source, materialize relation, and sync MAIN state
         run: |
           set -euo pipefail
-          python3 stages/stage33/33-12/materialize_j2_semantic_u2_full_surface_at2.py
-          python3 stages/stage33/33-12/materialize_j2_picard_adjoint_proper_br2.py
-          python3 - <<'PY'
-          import json
-          for p in [
-            'stages/stage33/33-12/j2-semantic-u2-full-surface-at2.json',
-            'stages/stage33/33-12/j2-picard-adjoint-proper-br2.json',
-          ]:
-            x=json.load(open(p)); print(p, x['status'], x['canonical_sha256'])
-          a=json.load(open('stages/stage33/33-12/j2-picard-adjoint-proper-br2.json'))['proper_brauer2_pullback']
-          print('PROPER14='+json.dumps(a['proper_Br2_14D_coordinate_f2'],separators=(',',':')))
-          print('RETAINED10='+json.dumps(a['retained_10D_coordinate_f2'],separators=(',',':')))
-          print('BETA2='+json.dumps(a['companion_beta2_proper_Br2_14D_coordinate_f2'],separators=(',',':')))
-          PY
+          python3 stages/stage33/33-12/verify_j2_picard_adjoint_proper_br2.py
+          python3 stages/stage33/33-12/certify_j2_named_kummer_source_target_relation.py
+          python3 stages/stage33/33-12/verify_j2_named_kummer_source_target_relation.py
+          python3 stages/stage33/33-12/promote_j2_picard_adjoint_relation_state.py
+          python3 stages/stage33/sync_main_state.py
+          python3 stages/stage33/sync_main_state.py --check
+          python3 stages/stage33/33-12/verify_j2_picard_adjoint_proper_br2.py
+          python3 stages/stage33/33-12/verify_j2_named_kummer_source_target_relation.py
+          git diff --check
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add stages/stage33/33-12/j2-semantic-u2-full-surface-at2.json stages/stage33/33-12/j2-picard-adjoint-proper-br2.json
-          git commit -m 'Stage33: materialize Picard adjoint proper Br2'
+          git add stages/stage33/controller.json stages/stage33/MAIN-STATE.json stages/stage33/33-12/result.md stages/stage33/33-12/j2-named-kummer-source-target-relation.json
+          git diff --cached --check
+          git commit -m 'Stage33: fix J2 named Kummer relation rank one'
           git push origin HEAD:stage33-12-j2-ptsK-qPicK-continuation
