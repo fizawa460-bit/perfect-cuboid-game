@@ -2,12 +2,68 @@ name: Stage33-07 marked Picard basis bridge producer
 
 on:
   workflow_dispatch:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - stages/stage33/runkeys/stage33-07-marked-picard-basis-bridge-producer.json
 
 permissions:
   contents: read
 
 jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Authorize exact producer dispatch
+        id: gate
+        shell: bash
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" = workflow_dispatch ]; then
+            echo 'authorized=true' >> "$GITHUB_OUTPUT"
+            echo 'PRODUCER_AUTHORIZATION=MANUAL_WORKFLOW_DISPATCH'
+            exit 0
+          fi
+
+          KEY='stages/stage33/runkeys/stage33-07-marked-picard-basis-bridge-producer.json'
+          authorized=false
+          if [ -n "${BEFORE:-}" ]; then
+            git fetch --no-tags --depth=1 origin "$BEFORE" || true
+            if git cat-file -e "$BEFORE^{commit}" 2>/dev/null \
+              && git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY"; then
+              python - <<'PY'
+          import json
+          p='stages/stage33/runkeys/stage33-07-marked-picard-basis-bridge-producer.json'
+          x=json.load(open(p,encoding='utf-8'))
+          assert x['schema']=='STAGE33_07_MARKED_PICARD_BASIS_BRIDGE_PRODUCER_RUNKEY_V1'
+          assert x['generation']==1 and x['armed'] is True
+          assert x['external_public_magma_dispatch_authorized'] is True
+          assert x['pr']==1476
+          assert x['branch']=='stage33-post1475-j2-v4-generator-adapter'
+          assert x['pinned_upstream_commit']=='51233ed5ef2bf228fac9416c66db9adc0ebcaadd'
+          assert x['pinned_upstream_blob']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
+          assert x['producer_path']=='stages/stage33/33-07/extract_indlist_to_magma_picard_basis.py'
+          assert x['certifier_path']=='stages/stage33/33-07/certify_marked_picard_basis_bridge.py'
+          print('STAGE33_07_PRODUCER_RUNKEY=AUTHORIZED')
+          PY
+              authorized=true
+            fi
+          fi
+          echo "authorized=$authorized" >> "$GITHUB_OUTPUT"
+          echo "PRODUCER_AUTHORIZATION=$authorized"
+
   produce:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     defaults:
@@ -15,6 +71,8 @@ jobs:
         working-directory: stages/stage33/33-07
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
       - name: Produce exact INDLIST to historical Magma Picard basis marking
@@ -54,7 +112,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: stage33-07-marked-picard-basis-bridge-producer
-          retention-days: 7
+          retention-days: 1
           if-no-files-found: error
           path: |
             stages/stage33/33-07/indlist-to-magma-picard-basis.json
