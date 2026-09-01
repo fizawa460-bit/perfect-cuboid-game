@@ -1,18 +1,10 @@
 {
-  "schema": "STAGE34_EXT_C_MAIN_STATE_V7_D1_LOCAL_COMPLETE_D2_JACOBIAN_MW_CERTIFIED",
+  "schema": "STAGE34_EXT_C_MAIN_STATE_V8_D2_14_MAPS_MATERIALIZED_EXCEPTIONAL_LOCUS_OPEN",
   "stage": "34",
-  "status": "ACTIVE_34_02_D2_EXPLICIT_QUARTIC_JACOBIAN_MAPS",
+  "status": "ACTIVE_34_02_D2_EXCEPTIONAL_LOCUS_AND_ROUNDTRIP",
   "mission": "Close Stage29 kernel K16-C3-EXT-C-PRIMITIVE-DIVISOR / receiver R29-EXT-CHANG-C for the exact all-multiples Paper-C population, without promoting any parent-route or perfect-cuboid claim.",
-  "source_kernel": {
-    "kernel_id": "K16-C3-EXT-C-PRIMITIVE-DIVISOR",
-    "receiver_id": "R29-EXT-CHANG-C",
-    "parent_route": "J12-PARAMETRIC",
-    "execution_class": 3,
-    "endpoint_decisive_alone": false
-  },
   "audited_foundation": {
     "stage34_01_P1_exact_object_and_population_closed": true,
-    "stage34_01_source_pr": 1479,
     "stage34_02_route_D_hostile_audit_passed": true,
     "stage34_02_source_pr": 1480,
     "stage34_02_audited_head": "d54ee6f0eda2814781301cc80ff11a47f92a8c24",
@@ -20,84 +12,64 @@
     "route_D_selected_authoritative": true,
     "pole_receiver_gap_closed": true
   },
-  "stage34_02_locks": {
-    "exact_cover_reduction": {"path":"stages/stage34/34-02/exact-cover-reduction.json","blob_sha":"c023d3ad8567faa280f23e28e0300acfcc61e6a2"},
-    "theorem_funnel": {"path":"stages/stage34/34-02/theorem-funnel.json","blob_sha":"8300f878d83d5bf5997a7ff57dd01cdb90c58f28"},
-    "pole_torsion": {"path":"stages/stage34/34-02/pole-torsion-lock.json","blob_sha":"04334c55124e4c2d61a685bd53a930ee5798f0aa"},
-    "d1_squareclass_manifest": {"path":"stages/stage34/34-02/d1-squareclass-manifest.json","blob_sha":"8b7eb010ad2774de7b24e53890f8326ed7e67638"},
-    "d1_good_prime_filter": {"path":"stages/stage34/34-02/d1-good-prime-residue-filter.json","blob_sha":"a88cd81c9e5b70dbd237878ad2a9ec31c0d72d90"},
-    "d1_qp_local_classification": {"path":"stages/stage34/34-02/d1-qp-local-classification.json","blob_sha":"ef3abd695967cb1ef0fc3562be68158c654f6448"},
-    "d1_mw_reduction_panel": {"path":"stages/stage34/34-02/d1-mw-reduction-panel.json","blob_sha":"0d5badfb0ad5a121a616d8e616d694ea6bd74320"},
-    "d2_split_genus1_quotient": {"path":"stages/stage34/34-02/d2-split-genus1-quotient-lock.json","blob_sha":"816319b864dc26624161f090a8a8aa3e51168c32"},
-    "d2_jacobian_mw_certificate": {"path":"stages/stage34/34-02/d2-jacobian-mw-certificate.json","blob_sha":"dc577b1eff606d387239813a684f226a10fb8460"},
-    "d2_jacobian_mw_execution": {"path":"stages/stage34/34-02/d2-jacobian-mw-execution.json","blob_sha":"edea73a4fe306deb63b2324fb04883bedd881bdc"},
-    "result": {"path":"stages/stage34/34-02/result.md","blob_sha":"ea9c0c2590693a1fe5624119c4127d72e606a725"}
-  },
   "current": {
     "unit": "34-02-D2",
     "selected_route": "D_REPLACEMENT_DIRECT_RATIONAL_POINT_COVER",
-    "next_exact_leaf": "D2_MATERIALIZE_EXPLICIT_K_q_d_TO_J_q_BIRATIONAL_MAPS_AND_EXCEPTIONAL_LOCI",
-    "why_this_leaf": "D1 exactly reduced 104 squareclasses to 14 locally viable d=1,2 covers. A finite exact MW reduction panel leaves congruence survivors, so the audited D2 fallback is active. The 14 split covers compress to seven common Jacobians whose unconditional full free Mordell-Weil bases and ranks are now certified; explicit quartic-Jacobian maps and pullback completeness are the next missing interfaces."
+    "next_exact_leaf": "D2_CERTIFY_EXCEPTIONAL_LOCI_AND_ROUNDTRIP_EXTENSION_FOR_14_MAPS",
+    "why_this_leaf": "D1 local classification is complete at fourteen d=1,2 covers. Their seven common Jacobians have unconditional full MW bases. Generation-2 official-Magma execution materialized forward/inverse birational maps for all fourteen covers and exact isomorphisms to the locked J_q. The remaining interface before covering/elliptic-Chabauty is the exact naive base schemes and round-trip/curve-place extension at exceptional points."
   },
   "current_leaf_working_set": [
     "stages/stage34/34-02/result.md",
+    "stages/stage34/34-02/d2-quartic-map-lock.json",
+    "stages/stage34/34-02/d2-quartic-map-execution.json",
     "stages/stage34/34-02/d2-split-genus1-quotient-lock.json",
-    "stages/stage34/34-02/d2-jacobian-mw-certificate.json",
-    "stages/stage34/34-02/exact-cover-reduction.json"
+    "stages/stage34/34-02/d2-jacobian-mw-certificate.json"
   ],
   "D1_summary": {
     "raw_squareclasses": 104,
-    "after_sum_of_two_squares_filter": 30,
-    "after_good_prime_filter": 22,
-    "Q7_insoluble_additional": 8,
     "locally_viable": 14,
     "locally_viable_classes": "d=1,2 on each of seven fibers",
-    "d1_rational_local_witness": "x=0",
-    "d2_rational_local_witness": "x=q order-4 pole torsion",
     "Qp_local_classification_complete": true,
-    "finite_MW_reduction_panel_defined": true,
     "finite_MW_panel_primes": [107,109,113,127],
     "finite_MW_panel_has_residual_congruence_classes": true,
     "global_MW_sieve_complete": false
   },
   "D2_summary": {
-    "split_quartics_per_fiber": [1,2],
-    "split_quartic_discriminant": "65536*q^2*(q-1)^4*(q+1)^4",
-    "common_binary_quartic_I": "16*(q^4+14q^2+1)",
-    "common_binary_quartic_J": "128*(q^2+1)*(q^2-6q+1)*(q^2+6q+1)",
-    "common_jacobian": "J_q: y^2=x^3-(I/48)x-(J/1728)",
+    "split_quartics": 14,
+    "common_jacobians": 7,
     "jacobian_rank_2": ["20/21","24/7","20/99"],
     "jacobian_rank_1": ["80/39","84/13","48/55","60/11"],
     "all_seven_unconditional_full_free_MW_basis": true,
-    "workflow_run": 33497875525,
-    "workflow_job": 99824168746,
-    "artifact_id": 9796486468
+    "jacobian_mw_run": 33497875525,
+    "map_materialization": {
+      "status": "PASS_14_OF_14_GENERATION2",
+      "run": 33499349144,
+      "job": 99828863469,
+      "head": "ac383f76d085e5ebbad6787075d6c3b8e1c9838e",
+      "artifact_id": 9797053559,
+      "artifact_digest": "sha256:6cea01c06135204eb591f1192d2ac84b196e1fdebc7df89f445f02853378d303",
+      "lock": "stages/stage34/34-02/d2-quartic-map-lock.json",
+      "execution": "stages/stage34/34-02/d2-quartic-map-execution.json",
+      "d1_third_forward_coordinate": "(X-Z)^3",
+      "d2_third_forward_coordinate": "X^3"
+    }
   },
   "arsenal": {
-    "S31_W01": "Use as exact quartic-to-elliptic birational-map workflow pattern with exceptional-locus and round-trip checks.",
-    "S31_W03": "Use only after a complete auxiliary point set is certified, then exact-pullback to the represented Stage34 family.",
+    "S31_W01": "ACTIVE: exact quartic-to-elliptic map workflow pattern; map materialization done, exceptional/roundtrip layer open.",
+    "S31_W03": "Use only after complete auxiliary point sets are certified, then exact pullback.",
     "S30_WF02": "Bind CAS/rank/map/pullback certificates immutably.",
-    "S30_WF03": "Keep quotient rank, quartic points, genus5 cover points, receiver and endpoint credit separate."
-  },
-  "proof_obligations": {
-    "P1_exact_object_and_population": "CLOSED_AUDITED",
-    "P2_global_exclusion_mechanism": "OPEN_ROUTE_D_D2_ACTIVE",
-    "P3_odd_multiplicity": "OPTIONAL_ONLY_IF_RETURNING_TO_PRIMITIVE_DIVISOR_ROUTE",
-    "P4_exceptional_points": "OPEN_EXPLICIT_MAP_EXCEPTIONAL_LOCI_AND_PULLBACK",
-    "P5_cuboid_adapter": "CLOSED_AUDITED",
-    "P6_all_multiples": "OPEN"
+    "S30_WF03": "Keep map, quotient MW, cover points, receiver and endpoint credit separate."
   },
   "promotion_gates": {
     "P1_exact_object_and_population_closed": true,
     "stage34_02_hostile_audit_passed": true,
-    "route_D_selected_authoritative": true,
     "D1_Qp_local_solubility_complete": true,
     "D1_locally_viable_squareclasses": 14,
-    "D1_finite_MW_reduction_panel_complete": true,
     "D1_MW_sieve_complete": false,
-    "D2_released": true,
     "D2_common_jacobian_ranks_certified": true,
+    "D2_map_materialization_execution_complete": true,
     "D2_explicit_birational_maps_complete": false,
+    "D2_exceptional_loci_complete": false,
     "direct_cover_rational_points_complete": false,
     "all_multiples_closed": false,
     "R29_EXT_CHANG_C_closed": false,
@@ -105,10 +77,8 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "firewalls": {
-    "Qp_local_solubility_is_Q_rational_solubility": false,
-    "finite_MW_panel_is_complete_global_sieve": false,
-    "common_jacobian_invariants_imply_identical_quartic_point_sets": false,
-    "full_jacobian_MW_basis_is_quartic_point_completeness": false,
+    "map_materialization_is_exceptional_locus_closure": false,
+    "full_jacobian_MW_basis_plus_maps_is_quartic_point_completeness": false,
     "quartic_point_completeness_implies_genus5_cover_completeness_without_pullback": false,
     "receiver_closure_implies_parent_route_closure": false,
     "perfect_cuboid_nonexistence_claim": false
