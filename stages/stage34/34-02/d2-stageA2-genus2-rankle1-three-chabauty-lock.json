@@ -1,0 +1,54 @@
+{
+  "schema": "STAGE34_02B_D2_STAGEA2_GENUS2_RANKLE1_THREE_CHABAUTY_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION_DIAGNOSTIC",
+  "baseline_remaining_branches": 30,
+  "source_targets": "d2-stageA2-genus2-rankle1-three-adapter-lock.json",
+  "independent_rank_upper_bound_source": {
+    "run": 33560119321,
+    "job": 100030598459,
+    "artifact_id": 9820987789,
+    "artifact_digest": "sha256:abb84551f49ccfd2719baa990d7f84b0eb0afd5618d121d1f7dfd3a7464b7914",
+    "certified_upper_bound": 1
+  },
+  "prior_three_curve_adapter_run": {
+    "run": 33564810503,
+    "job": 100045499234,
+    "artifact_id": 9822754477,
+    "artifact_digest": "sha256:68a8b7cbb9f8f3adc9b35e06c0c5b6b73947c886bee16b9608d8a730d70489ab",
+    "result": "All three requests returned six receiver-degenerate points and zero nondegenerate full parent lifts, but complete=false on all three."
+  },
+  "targets": [
+    {"branch_id":"6b3bcb70c4fda8e6f1e0","q":"20/99","model_id":97,"jacobian_search_bound":10000},
+    {"branch_id":"bb08690eaf9880e595ea","q":"20/99","model_id":112,"jacobian_search_bound":10000},
+    {"branch_id":"03f88290bf80ef2e6c98","q":"60/11","model_id":113,"jacobian_search_bound":10000}
+  ],
+  "proof_adapter": {
+    "step_1": "Recompute RankBound(J) and require upper bound <=1 for the exact curve.",
+    "step_2": "Search Points(J : Bound:=10000) and select any point P with Order(P)=0, which certifies a non-torsion rational Jacobian point.",
+    "step_3": "RankBound(J)<=1 plus a non-torsion P forces rank J(Q)=1.",
+    "step_4": "Run Chabauty(P : ptC:=C![0,0,1]). Magma documents that Chabauty(P) returns the curve points whose Jacobian images lie in the saturation of <P>, and in rank one all rational points on C are returned; the documentation example also checks the same complete set for 2*P, so primitivity of P is not required.",
+    "step_5": "Exact-test every returned curve point against receiver degeneracy and all four parent square conditions."
+  },
+  "documentation": [
+    "https://docs.magma-maths.org/ArithmeticGeometry/HyperellipticCurves/chabauty-method.html",
+    "https://docs.magma-maths.org/ArithmeticGeometry/HyperellipticCurves/jacobians-number-fields.html"
+  ],
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "maximum_external_magma_requests_at_once": 1,
+    "expected_requests": 3,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1,
+    "projected_peak_new_artifact_bytes": 2097152,
+    "repo_operating_budget_bytes": 524288000
+  },
+  "credit": "Diagnostic proof-capable adapter discovery only. A successful Chabauty result plus exact parent pullback remains a closure candidate until a separate deterministic proof replay is persisted and promoted.",
+  "firewalls": {
+    "finite_height_jacobian_search_exhausts_JQ": false,
+    "no_nontorsion_point_below_bound_implies_rank_zero": false,
+    "chabauty_candidate_is_parent_closure": false,
+    "remaining_30_closed": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}
