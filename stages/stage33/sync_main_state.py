@@ -43,8 +43,15 @@ assert s['corrected_J2_proper_Br2_14D_coordinate_materialized'] is False
 assert s['corrected_J2_retained_10D_domain_coordinate_materialized'] is False
 assert s['corrected_J2_named_source_target_relation_materialized'] is False
 assert s['finite_v4_kummer_columns_materialized']==0 and s['finite_v4_kummer_named_relation_rank_f2']==0
-assert c['advance_scope']=='STAGE33_12_INTERNAL_33_13_NAMED_J2_ORDER4_LIFT_ACTUAL_S3_LABEL_ONLY_NO_PARENT_RECLOSURE'
-assert c['next_item']=='Stage33-12_33-13_SOURCE_LOCK_NAMED_J2_ORDER4_LIFT_ACTUAL_S3_BEHAVIOR'
+assert c['audit_required'] is True and c['audit_status']=='PENDING_HOSTILE_AUDIT'
+assert c['audit_scope']=='STAGE33_12_V10_QPIC_CERTIFIED_ACTUAL_SWAP_DESCENT_HOSTILE_AUDIT'
+assert c['audit_review_id'] is None and c['audit_head_sha'] is None
+assert c['current_exact_promotion_audit_required'] is True
+assert c['advance_allowed'] is False and c['advance_scope']=='NONE_PENDING_HOSTILE_AUDIT'
+assert c['next_item']=='HOSTILE_AUDIT_V10_QPIC_CERTIFIED_ACTUAL_SWAP_DESCENT'
+assert c['next_expected_command']=='Stage33-audit'
+assert c['execution']['audit_required'] is True and c['execution']['audit_status']=='PENDING_HOSTILE_AUDIT'
+assert c['execution']['audit_scope']==c['audit_scope'] and c['execution']['advance_allowed'] is False
 assert c['merge_allowed'] is False and c['theorem_credit'] is False and c['receiver_credit'] is False and c['endpoint_credit'] is False
 assert x['orientation']['exact_conclusion']['named_CV_J2_fixed_marked_Kc_coordinate_f2']==[1,0]
 assert x['target']['retained_H1_projection']['retained_H1_dimension_f2']==75

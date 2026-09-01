@@ -6,6 +6,11 @@ branch: stage33-post1475-j2-v4-generator-adapter
 new_pr_before_audit_pass: FORBIDDEN
 merge_before_audit_pass: FORBIDDEN
 
+machine_audit_gate: PENDING_HOSTILE_AUDIT
+machine_audit_scope: STAGE33_12_V10_QPIC_CERTIFIED_ACTUAL_SWAP_DESCENT_HOSTILE_AUDIT
+ordinary_main_before_audit_pass: FORBIDDEN
+next_expected_command: Stage33-audit
+
 ## Audit boundary
 
 Stop ordinary Stage33 MAIN here and audit PR #1476 at its latest head. The qPic marking blocker has been removed and the actual coordinate swaps have been descended exactly to the retained mixed discriminant basis. The remaining blocker is narrower: the named J2 **order-4 lift** has not yet been source-locked under the actual S3 action.
