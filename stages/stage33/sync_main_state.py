@@ -14,8 +14,8 @@ FILES={
  'compat':(HERE/'33-12'/'j2-kummer-source-target-module-compatibility-audit.json','463aae0d34980bb9f04171430872e59094a8e0f5ee14592e7f8e957393358229'),
  'reopen':(HERE/'33-12'/'j2-picard-adjoint-reopen-diagnostic.json','1a20e001fd23b292881f9652818e52d5afc7f0bd43657809d5e52075ae6d1737'),
  'gap':(HERE/'33-12'/'j2-marked-discriminant-proper-br2-adapter-source-lock-gap.json','e27da962e6bd4330bd2e3ede77424bedb5ad40a684d81fadba632ac2fdef8b58'),
- 'bridge_gap':(HERE/'33-12'/'j2-indlist-magma-picard-bridge-source-lock-gap.json','85c3e0811bb9e9b5391772ae35e569f4aa0fd12940ca6c2db1b4be59b635ae2c'),
- 'route':(HERE/'33-12'/'j2-marked-picard-bridge-retained-route-inventory.json','42a4a59f03bfde4845ff37ee9e84ec8ce85614ccfa229668b225451b17d8fd8f'),
+ 'bridge_gap':(HERE/'33-12'/'j2-indlist-magma-picard-bridge-source-lock-gap.json','db9cd117556f7e63ede1256534ecd139b017089c938ab9c6d0f546f29ee82798'),
+ 'route':(HERE/'33-12'/'j2-marked-picard-bridge-retained-route-inventory.json','10106a86dc79aa491133cf877c21a37a546ea439c7c21b1bfa4ef5ea70b79fc9'),
 }
 OUT=HERE/'MAIN-STATE.json'
 def csha(x): return hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
