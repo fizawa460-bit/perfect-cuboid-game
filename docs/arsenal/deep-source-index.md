@@ -8,8 +8,9 @@ Use this page when you know what kind of reusable object you need but not which 
 
 | Need | Start here | What it contains |
 |---|---|---|
-| Formal finite-group / equivariant / quadratic-Galois-descent adapter or certificate workflow from closed Stage30 | [`../stage30-arsenal-promotion.md`](../stage30-arsenal-promotion.md) | `S30-W01..W03` plus `S30-WF01..WF03`: concrete finite identification, semilinear descent, marked classification, immutable layered replay, and semantic credit firewall; router/workflow only, not selectors |
-| Provisional reusable work from active Stage32/33 | [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) / [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) | Consolidated active-stage cards/workflows, source locks, applicability and `DO_NOT_USE_FOR`; revalidation required and no formal-selector credit |
+| Formal finite-group / equivariant / quadratic-Galois-descent adapter or certificate workflow | [`../stage30-arsenal-promotion.md`](../stage30-arsenal-promotion.md) | `S30-W01..W03`, `S30-WF01..WF03`: concrete finite identification, semilinear descent, marked classification, immutable layered replay, semantic credit firewall |
+| Formal quartic/elliptic/integral-point/MW/pullback methods | [`../stage31-arsenal-promotion.md`](../stage31-arsenal-promotion.md) | `S31-W01..W03`, `S31-WF01`: exact quartic↔elliptic adapter, direct integral-model completeness transfer, exact parameter pullback, CAS MW full-group certification |
+| Provisional reusable work from active Stage32/33 | [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) / [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) | Consolidated active-stage cards/workflows, source locks, applicability and `DO_NOT_USE_FOR`; revalidation required |
 | Reusable Stage14 theorem/obstruction by shape | [`../stage14-arsenal-index.md`](../stage14-arsenal-index.md) | Search phrases -> `AR-*` candidates and first firewall checks |
 | Exact Stage14 weapon contract | [`../stage14-arsenal.md`](../stage14-arsenal.md) | Full `AR-*` hypotheses, outputs, provenance and exclusions |
 | Normalized formulas/lemmas/dictionaries/recipes | [`../stage14-toolbox/README.md`](../stage14-toolbox/README.md) | Canonical extracted cards |
@@ -20,7 +21,7 @@ Use this page when you know what kind of reusable object you need but not which 
 | Prior external literature work | [`../structure-radar/literature/`](../structure-radar/literature/) / [`../structure-radar/external-search/`](../structure-radar/external-search/) | Literature and search outputs |
 | Undischarged theorem/adapter gates | [`../structure-radar/external-gate/`](../structure-radar/external-gate/) | Precise missing external gates |
 | StructureRadar promoted/backflowed weapons | [`../structure-radar/arsenal/`](../structure-radar/arsenal/) | `SR-ARSENAL-*` and backflow records |
-| Current unresolved work | [`../frontier/13-active-kernels.md`](../frontier/13-active-kernels.md) | Historical post-Stage29 frontier entrypoint; later Stage closures/controllers may supersede counts |
+| Historical post-Stage29 frontier entrypoint | [`../frontier/13-active-kernels.md`](../frontier/13-active-kernels.md) | Historical checkpoint only; later Stage closures/controllers may supersede counts |
 
 ## 2. Stage14 source family
 
@@ -32,11 +33,7 @@ For theorem/obstruction lookup, read in this order:
 
 The Stage14 Arsenal covers Pythagorean/Euclid, Gaussian/squareclass, moving-modulus and character-sum methods, divisor reconstruction, elliptic/genus-one fibers, local congruence/overlap sieves, incidence/two-face gluing, primitive-first/Möbius/scale conversion, and warning classes for measure/quantifier/double-counting mistakes.
 
-The Stage14 Toolbox at [`../stage14-toolbox/README.md`](../stage14-toolbox/README.md) repackages already-proved material as `FORMULA`, `LEMMA`, `BOUND`, `DICTIONARY`, `RECIPE`, `LEDGER`, and `WARNING`. Historical files named `current-*` inside that old subsystem are not project-current state.
-
 Use [`../stage14-num-reuse-index.md`](../stage14-num-reuse-index.md) before rerunning finite searches. Match population, face mask, cutoff, canonicalization and space-diagonal condition exactly; finite zero counts remain finite evidence only.
-
-For route archaeology rather than current authority, use the Stage14/15 attack map, ledger shards, coverage file and deep-review queue.
 
 ## 3. StructureRadar source family
 
@@ -48,9 +45,9 @@ For route archaeology rather than current authority, use the Stage14/15 attack m
 - [`../structure-radar/arsenal/`](../structure-radar/arsenal/): promoted/backflowed StructureRadar weapons.
 - [`../structure-radar/audits/`](../structure-radar/audits/): adversarial audit provenance.
 
-Historical StructureRadar controller/progress files are reproducibility records, not current project state after Stage29 close.
+Historical StructureRadar controller/progress files are reproducibility records, not current project state.
 
-## 4. Stage20-30 promoted weapon layer
+## 4. Stage20-31 promoted weapon layer
 
 | Source | Main reusable theme |
 |---|---|
@@ -62,44 +59,45 @@ Historical StructureRadar controller/progress files are reproducibility records,
 | [`../stage25-arsenal-promotion.md`](../stage25-arsenal-promotion.md) | current `N2 >> B^(1/4)` construction and interactions |
 | [`../stage26-arsenal-promotion.md`](../stage26-arsenal-promotion.md) | generalized Saunderson M3 lower; Euler corridor; K3 upper interface |
 | [`../stage28-arsenal-promotion.md`](../stage28-arsenal-promotion.md) | common-host bridge, normalized interaction threshold, K3 branch/fixed-curve differentials |
-| [`../stage30-arsenal-promotion.md`](../stage30-arsenal-promotion.md) | formal router-only finite-action/descent/marked-state weapons plus immutable certificate replay and typed credit firewall |
+| [`../stage30-arsenal-promotion.md`](../stage30-arsenal-promotion.md) | formal finite-action/descent/marked-state weapons plus immutable certificate replay and typed credit firewall |
+| [`../stage31-arsenal-promotion.md`](../stage31-arsenal-promotion.md) | formal quartic↔elliptic adapter, integral-model completeness transfer, complete-point pullback, CAS MW full-group certification |
 
-Prefer later audited promotions when they explicitly supersede earlier quantitative statements; retain earlier files only as provenance.
+Prefer later audited promotions when they explicitly supersede a generic workflow or quantitative statement; retain specializations only when they add a distinct contract.
 
-### Stage30 finite equivariant/descent lookup
+### Stage30 lookup
 
-Use `S30-W01` when the missing object is a concrete finite action identification. Abstract isomorphism or exhaustive relabeling alone is not a semantic adapter without a source/common-model anchor.
+Use `S30-W01` for concrete finite action identification, `S30-W02` for quadratic semilinear finite-action descent, and `S30-W03` for complete finite marked-defect classification.
 
-Use `S30-W02` for descent of a finite action over a quadratic extension: explicit Galois automorphism, group automorphism, cocycle/deck element, and complete semilinear compatibility.
+Use `S30-WF02` for hostile-auditable immutable certificate composition and `S30-WF03` for semantic credit boundaries. Mutable controller state is not permanent mathematical input identity; a bound upstream certificate is not a recomputation.
 
-Use `S30-W03` for a complete finite marked-defect classification, separating ordinary group orbit/stabilizer data from the actual Galois-marked arithmetic equivalence relation.
+### Stage31 quartic / elliptic lookup
 
-Use `S30-WF01` for the audit ordering around exhaustive finite identification.
+Use `S31-W01` when the missing object is an exact rational birational adapter between a genus-one quartic and elliptic model. The certificate must include explicit inverse-domain/denominator control and exceptional points. Do **not** use it to infer integral-point equivalence.
 
-Use `S30-WF02` for a minimal hostile-auditable reproducibility surface:
+Use `S31-W02` when integral completeness should be moved through an exact integral/scaled auxiliary model. Require an iff image condition such as divisibility/congruence plus a proof-capable complete enumeration of the auxiliary integral points.
+
+Use `S31-W03` when a complete auxiliary curve point list must be pulled back into the original parameter family. Every point/sign/branch must be accounted for under an exact source-locked dictionary; closure is only for that represented family.
+
+Use `S31-WF01` only for the Mordell--Weil-specific CAS semantic layer: exact curve + CAS version/routine/documentation/artifact + separate rank/full-group/saturation proof status. General CAS certificate binding remains `S30-WF02`.
+
+Stage31 scope firewalls:
 
 ```text
-immutable mathematical manifest
-+ separated semantic layer wrappers
-+ independent cheap deterministic reconstruction
-+ immutable binding of expensive audited subcertificates
-+ final cross-check/firewalls
+birational equivalence != integral-point equivalence
+rank proved != full Mordell-Weil group proved
+complete auxiliary points != source-family closure without exact pullback
+finite/thin family closure != global endpoint closure
+CAS output alone != independently locked proof surface
 ```
-
-Do not permanently hash mutable controller/runtime state into mathematical input identity. A bound upstream certificate is not a recomputation.
-
-Use `S30-WF03` for credit boundaries. `finite certificate PASS`, `adapter closure`, `receiver closure`, `route/theorem/endpoint closure`, and `reproducibility PASS` are distinct layers. Only an explicit source-locked implication can move credit upward.
 
 ## 4.5 Provisional Stage32/33 active-stage layer
 
-These are consolidated discovery layers for still-open stages. Do not load them at ordinary startup unless the current leaf needs the corresponding weapon type.
+These are discovery layers for still-open stages. Do not load them at ordinary startup unless the current leaf needs the corresponding weapon type.
 
 | Source | Active provisional cards |
 |---|---|
-| [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) | 4 cards: exact compressed-family count/index access; HNF lattice-image gate; finite-coset quadratic bound; finite-group orbit reconstruction. Former `S32-PW02` is merged into `S32-PW01`. `S32-PW05` complements `S30-W01`. Generic immutable replay routes to `S30-WF02`; generic semantic credit firewall routes to `S30-WF03`, while Stage32-specific layers remain specializations. |
-| [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) | 7 cards: HS zero-survival; mixed-order finite-module normal form+Bockstein gate; marked source adapter; equivariant source-target audit; absolute-H1 receiver; Brauer/torsor/Čech semantics; Gersten localization. Former `S33-PW03` is merged into `S33-PW02`. `S33-PW05` specializes `S30-W01`; `S33-PW07` is downstream/adjacent to `S30-W02`; generic sparse certificate binding routes to `S30-WF02`; arithmetic lift firewall specializes `S30-WF03`. |
-
-Both promotion files record source paths/SHAs, hypotheses, applicability, `DO_NOT_USE_FOR`, workflow vocabulary and Stage-specific non-promotion boundaries. Stage33 additionally records the live hostile override forbidding the historical mask-6 named J2 source binding.
+| [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) | 4 cards: exact compressed-family count/index access; HNF lattice-image gate; finite-coset quadratic bound; finite-group orbit reconstruction. Former `S32-PW02` is merged into `S32-PW01`. Generic immutable replay routes to `S30-WF02`; generic semantic credit firewall routes to `S30-WF03`. |
+| [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) | 7 cards: HS zero-survival; mixed-order finite-module normal form+Bockstein gate; marked source adapter; equivariant source-target audit; absolute-H1 receiver; Brauer/torsor/Čech semantics; Gersten localization. Former `S33-PW03` is merged into `S33-PW02`. Generic sparse certificate binding routes to `S30-WF02`; arithmetic lift firewall specializes `S30-WF03`. |
 
 These cards may trigger a targeted source read, but they carry no formal selector/theorem credit until final promotion audit after their source Stage closes.
 
@@ -109,25 +107,28 @@ These cards may trigger a targeted source read, but they carry no formal selecto
 1. Current frontier / active leaf exact object.
 2. Identify the missing weapon or workflow type.
 3. Check docs/arsenal/README.md and docs/arsenal/index.json.
-4. Prefer a matching formal stable weapon/workflow such as Stage30 before opening an active-stage provisional specialization.
-5. If relevant, open only the matching consolidated Stage32/33 provisional card and revalidate its active source lock.
+4. Prefer matching formal Stage30/31 weapons/workflows before active-stage provisional specializations.
+5. Open only the matching provisional Stage32/33 card when needed and revalidate its active source lock.
 6. Use this deep index to route into Stage14/Toolbox/numerical or StructureRadar sources.
-7. Use historical Stage14/15 attack records only for duplication/failure/provenance checks.
+7. Use historical attack records only for duplication/failure/provenance checks.
 8. If no applicable weapon remains, perform fresh literature/new-theorem work.
-9. Read the canonical proof/audit source before granting theorem credit.
+9. Read canonical proof/audit sources before granting theorem credit.
 ```
 
 ## 6. Authority firewall
 
 - `docs/frontier/` owns the current unresolved frontier.
 - `docs/arsenal/` owns navigation to reusable weapons/workflows.
-- Historical Stage14/StructureRadar state labels retain only their local historical meaning.
-- Formal Stage30 adapter weapons are stable reusable procedures, not endpoint selectors.
-- Finite certificate PASS does not become an unconditional theorem outside the exact finite population.
+- Formal Stage30/31 adapter weapons are stable reusable procedures, not endpoint selectors.
+- Finite certificate PASS does not become an unconditional theorem outside its exact domain.
 - Adapter closure does not imply receiver/parent-route/endpoint closure without an explicit source-locked implication.
 - Reproducibility/audit PASS does not create new mathematical credit.
 - Mutable execution state is not permanent mathematical input identity.
+- Birational equivalence does not imply integral-point equivalence.
+- CAS output without pinned proof semantics and independent locking is not a final proof surface.
+- Rank proof does not imply full Mordell--Weil saturation/full-group proof.
+- Complete auxiliary points do not close a source family without exhaustive pullback.
+- Thin-family closure does not close the global endpoint.
 - Abstract finite-group isomorphism does not supply a concrete source-target adapter.
 - Ordinary finite orbits do not automatically equal Galois-marked arithmetic classes.
-- Provisional Stage32/33 cards are candidate-discovery aids and never override active Stage source locks or promotion gates.
-- No source becomes a current weapon without exact object/population/field/cutoff/canonicalization/multiplicity/measure/quantifier and adapter checks.
+- Provisional Stage32/33 cards never override active Stage source locks or promotion gates.
