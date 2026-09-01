@@ -1,0 +1,97 @@
+{
+  "schema": "STAGE34_02_D1_FINITE_SQUARECLASS_MANIFEST_V1",
+  "status": "PASS_EXACT_MATERIALIZATION_AND_SUM_OF_TWO_SQUARES_LOCAL_FILTER",
+  "source": "stages/stage34/34-02/exact-cover-reduction.json",
+  "cover_condition": "For q=a/b reduced and x=X/Z reduced, any Face-3 square has A_h=d*u^2 and B_h=d*v^2 for one positive squarefree d supported on rad(2ab).",
+  "first_exact_filter": {
+    "identity": "A_h=(bX)^2+(aZ)^2=d*u^2",
+    "lemma": "For any prime p congruent to 3 mod 4, v_p(U^2+V^2) is even for rational/integer U,V not both zero. Since d is squarefree, p|d would make v_p(d*u^2) odd, contradiction.",
+    "consequence": "No prime p congruent to 3 mod 4 may divide d.",
+    "scope": "necessary local condition only; surviving d are not claimed globally soluble"
+  },
+  "fibers": [
+    {
+      "q": "20/21",
+      "a": 20,
+      "b": 21,
+      "rad_2ab": 210,
+      "raw_d": [1,2,3,5,6,7,10,14,15,21,30,35,42,70,105,210],
+      "surviving_d_after_mod4_norm_filter": [1,2,5,10],
+      "raw_count": 16,
+      "surviving_count": 4
+    },
+    {
+      "q": "80/39",
+      "a": 80,
+      "b": 39,
+      "rad_2ab": 390,
+      "raw_d": [1,2,3,5,6,10,13,15,26,30,39,65,78,130,195,390],
+      "surviving_d_after_mod4_norm_filter": [1,2,5,10,13,26,65,130],
+      "raw_count": 16,
+      "surviving_count": 8
+    },
+    {
+      "q": "24/7",
+      "a": 24,
+      "b": 7,
+      "rad_2ab": 42,
+      "raw_d": [1,2,3,6,7,14,21,42],
+      "surviving_d_after_mod4_norm_filter": [1,2],
+      "raw_count": 8,
+      "surviving_count": 2
+    },
+    {
+      "q": "84/13",
+      "a": 84,
+      "b": 13,
+      "rad_2ab": 546,
+      "raw_d": [1,2,3,6,7,13,14,21,26,39,42,78,91,182,273,546],
+      "surviving_d_after_mod4_norm_filter": [1,2,13,26],
+      "raw_count": 16,
+      "surviving_count": 4
+    },
+    {
+      "q": "48/55",
+      "a": 48,
+      "b": 55,
+      "rad_2ab": 330,
+      "raw_d": [1,2,3,5,6,10,11,15,22,30,33,55,66,110,165,330],
+      "surviving_d_after_mod4_norm_filter": [1,2,5,10],
+      "raw_count": 16,
+      "surviving_count": 4
+    },
+    {
+      "q": "20/99",
+      "a": 20,
+      "b": 99,
+      "rad_2ab": 330,
+      "raw_d": [1,2,3,5,6,10,11,15,22,30,33,55,66,110,165,330],
+      "surviving_d_after_mod4_norm_filter": [1,2,5,10],
+      "raw_count": 16,
+      "surviving_count": 4
+    },
+    {
+      "q": "60/11",
+      "a": 60,
+      "b": 11,
+      "rad_2ab": 330,
+      "raw_d": [1,2,3,5,6,10,11,15,22,30,33,55,66,110,165,330],
+      "surviving_d_after_mod4_norm_filter": [1,2,5,10],
+      "raw_count": 16,
+      "surviving_count": 4
+    }
+  ],
+  "totals": {
+    "raw_squareclasses": 104,
+    "surviving_after_first_exact_local_filter": 30,
+    "eliminated": 74
+  },
+  "next_leaf": "D1_LOCAL_SOLUBILITY_FILTER_30_SURVIVING_SQUARECLASSES_THEN_DEFINE_EXACT_MW_REDUCTION_MAPS",
+  "firewalls": {
+    "local_filter_survival_is_Q_rational_solubility": false,
+    "74_local_eliminations_close_receiver": false,
+    "30_survivors_are_actual_cover_points": false,
+    "D1_complete": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}
