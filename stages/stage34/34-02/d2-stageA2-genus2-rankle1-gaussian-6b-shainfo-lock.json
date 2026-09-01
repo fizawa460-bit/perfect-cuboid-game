@@ -1,0 +1,68 @@
+{
+  "schema": "STAGE34_02B_D2_STAGEA2_GENUS2_RANKLE1_GAUSSIAN_6B_SHAINFO_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION_DIAGNOSTIC",
+  "target": {
+    "branch_id": "6b3bcb70c4fda8e6f1e0",
+    "q": "20/99",
+    "model_id": 97,
+    "delta": [-1,-55,-5,-11],
+    "n": 10,
+    "c": -11,
+    "A": -110,
+    "elliptic_a2": "-1089+220*i",
+    "elliptic_a4": "-239580*i",
+    "sign_partner": "bb08690eaf9880e595ea"
+  },
+  "prior_diagnostic": {
+    "run": 33572548221,
+    "job": 100069459345,
+    "artifact_id": 9825461094,
+    "artifact_digest": "sha256:90648a44c5b55552120d733408269bbd2c1027a8eaaeba067bfadf3b1803bc54",
+    "observed": {
+      "elliptic_rank_bounds": [0,1],
+      "torsion_invariants": [2,2],
+      "pseudo_mw_success": false,
+      "pseudo_mw_invariants": [2,2]
+    },
+    "interpretation": "No free point was found and rank remains 0..1. This is not rank-zero credit. The later hm undeclared error was a diagnostic branch implementation bug after the unresolved rank state and is not mathematical evidence."
+  },
+  "adapter": {
+    "intrinsic": "MordellWeilShaInformation",
+    "parameters": {"ShaInfo": true, "Effort": 3, "Silent": true},
+    "reason": "Magma documents that this routine applies the available descent machinery, including 2/4/8/3-descent and Cassels-Tate pairing, and ShaInfo forces further Sha probing instead of stopping at the first rank information.",
+    "success_rank0": "returned rank bounds [0,0]",
+    "success_rank1": "returned rank bounds [1,1] with a non-torsion generator; then 2-saturate and use elliptic Chabauty as in the Gaussian quotient adapter",
+    "unresolved": "any remaining unequal rank bounds or external/resource failure"
+  },
+  "rank0_parent_logic": [
+    "Exact TorsionSubgroup(E) is then all of E(Q(i)).",
+    "Enumerate every torsion point, retain exactly those whose elliptic quotient x-coordinate lies in Q.",
+    "For quotient X, put u=X/A and solve x^2-u*x-1=0 over Q.",
+    "Also account separately for quotient/parent exceptional points where the affine quotient formula is undefined; they are receiver-degenerate.",
+    "Exact-test every reconstructed rational genus-two x against curve membership and all four U,V,A,B/delta square conditions."
+  ],
+  "documentation": [
+    "https://magma.maths.usyd.edu.au/magma/handbook/text/1570",
+    "https://magma.maths.usyd.edu.au/magma/handbook/text/1568"
+  ],
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "maximum_external_magma_requests_at_once": 1,
+    "expected_requests": 1,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1,
+    "projected_peak_new_artifact_bytes": 2097152,
+    "repo_operating_budget_bytes": 524288000
+  },
+  "credit": "Diagnostic only. Even exact rank-zero plus finite pullback requires a separate deterministic proof replay and hostile-audit promotion before branch closure.",
+  "firewalls": {
+    "pseudo_mw_torsion_only_implies_rank_zero": false,
+    "rank_bounds_0_1_implies_rank_zero": false,
+    "shainfo_external_failure_is_math_failure": false,
+    "diagnostic_candidate_is_parent_closure": false,
+    "sign_partner_transfer_authoritative_before_audit": false,
+    "remaining_30_closed": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}
