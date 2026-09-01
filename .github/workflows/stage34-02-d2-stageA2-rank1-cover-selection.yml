@@ -1,0 +1,68 @@
+name: Stage34-02 D2 StageA2 rank-one cover selection
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage34/runkeys/stage34-02-d2-stageA2-rank1-cover-selection.json'
+      - 'stages/stage34/34-02/d2-stageA2-rank1-cover-selection-lock.json'
+      - 'stages/stage34/34-02/run_d2_stageA2_rank1_cover_selection.py'
+      - 'stages/stage34/34-02/d2-stageA2-rankzero-AB-complete-pullback.json'
+      - 'stages/stage34/34-02/run_d2_stageA2_factor_branch_local.py'
+      - 'stages/stage34/34-02/refine_d2_stageA2_factor_branch_support.py'
+      - 'stages/stage34/34-02/run_d2_stageA2_full_support_projective.py'
+      - 'stages/stage34/34-02/validate_d2_stageA2_rank1_cover_selection_runkey.py'
+      - '.github/workflows/stage34-02-d2-stageA2-rank1-cover-selection.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      reason: ${{ steps.gate.outputs.reason }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fetch event-before commit if needed
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          if [ -n "$BEFORE" ]; then git fetch --no-tags --depth=1 origin "$BEFORE" || true; fi
+      - name: Validate dedicated run key against actual commit range
+        id: gate
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: python3 stages/stage34/34-02/validate_d2_stageA2_rank1_cover_selection_runkey.py "$BEFORE" "$HEAD_SHA" >> "$GITHUB_OUTPUT"
+      - name: Report authorization
+        run: echo "authorized=${{ steps.gate.outputs.authorized }} reason=${{ steps.gate.outputs.reason }}"
+
+  verify-cover:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - name: Regenerate exact 92 d1 survivors
+        run: |
+          python3 stages/stage34/34-02/run_d2_stageA2_factor_branch_local.py
+          python3 stages/stage34/34-02/refine_d2_stageA2_factor_branch_support.py
+          python3 stages/stage34/34-02/run_d2_stageA2_full_support_projective.py
+      - name: Verify exact rank patterns and 14-model cover
+        run: python3 stages/stage34/34-02/run_d2_stageA2_rank1_cover_selection.py
+      - name: Enforce compact artifact cap
+        run: |
+          test -f stages/stage34/34-02/d2-stageA2-rank1-cover-selection.json
+          test $(wc -c < stages/stage34/34-02/d2-stageA2-rank1-cover-selection.json) -le 1048576
+      - name: Upload compact selection certificate
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage34-02-d2-stageA2-rank1-cover-selection
+          path: stages/stage34/34-02/d2-stageA2-rank1-cover-selection.json
+          if-no-files-found: error
+          retention-days: 1
