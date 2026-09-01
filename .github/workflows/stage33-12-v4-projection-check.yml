@@ -1,0 +1,34 @@
+name: Stage33-12 V4 projection check
+
+on:
+  push:
+    branches:
+      - stage33-12-j2-ptsK-qPicK-continuation
+    paths:
+      - stages/stage33/33-12/v4_pic2_raw_cocycle_projection.py
+      - stages/stage33/33-12/verify_v4_pic2_raw_cocycle_projection.py
+      - .github/workflows/stage33-12-v4-projection-check.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage33-12-v4-projection-check
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile adapter
+        run: |
+          python -m py_compile stages/stage33/33-12/v4_pic2_raw_cocycle_projection.py
+          python -m py_compile stages/stage33/33-12/verify_v4_pic2_raw_cocycle_projection.py
+      - name: Replay generic adapter on locked J2 cocycle
+        run: python stages/stage33/33-12/verify_v4_pic2_raw_cocycle_projection.py
+      - name: Preserve existing J2 target replay
+        run: python stages/stage33/33-12/verify_j2_named_v4_h1_target_before_source_orientation.py
+      - name: Compact-state check
+        run: python stages/stage33/sync_main_state.py --check
