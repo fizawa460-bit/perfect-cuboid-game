@@ -15,7 +15,38 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+    steps:
+      - name: Checkout exact PR head with parent
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - name: Require fresh dedicated recovery source change
+        id: gate
+        shell: bash
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${BEFORE:-}" ]]; then
+            echo 'run=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          if git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq 'stages/stage32/residual-32-01-production/recover_stage32_post1473_v6_witness_body.py'; then
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'run=false' >> "$GITHUB_OUTPUT"
+          fi
+
   recover:
+    needs: authorize
+    if: needs.authorize.outputs.run == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
