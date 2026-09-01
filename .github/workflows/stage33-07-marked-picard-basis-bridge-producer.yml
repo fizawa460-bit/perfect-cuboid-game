@@ -6,6 +6,11 @@ on:
     types: [synchronize]
     paths:
       - stages/stage33/runkeys/stage33-07-marked-picard-basis-bridge-producer.json
+  push:
+    branches:
+      - stage33-post1475-j2-v4-generator-adapter
+    paths:
+      - stages/stage33/runkeys/stage33-07-marked-picard-basis-bridge-producer.json
 
 permissions:
   contents: read
@@ -24,7 +29,7 @@ jobs:
         shell: bash
         env:
           BEFORE: ${{ github.event.before }}
-          HEAD: ${{ github.event.pull_request.head.sha }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
           EVENT_NAME: ${{ github.event_name }}
         run: |
           set -euo pipefail
@@ -36,6 +41,8 @@ jobs:
 
           KEY='stages/stage33/runkeys/stage33-07-marked-picard-basis-bridge-producer.json'
           authorized=false
+          HEAD="$GITHUB_SHA"
+          if [ "$EVENT_NAME" = pull_request ]; then HEAD="$PR_HEAD"; fi
           if [ -n "${BEFORE:-}" ]; then
             git fetch --no-tags --depth=1 origin "$BEFORE" || true
             if git cat-file -e "$BEFORE^{commit}" 2>/dev/null \
@@ -45,7 +52,7 @@ jobs:
           p='stages/stage33/runkeys/stage33-07-marked-picard-basis-bridge-producer.json'
           x=json.load(open(p,encoding='utf-8'))
           assert x['schema']=='STAGE33_07_MARKED_PICARD_BASIS_BRIDGE_PRODUCER_RUNKEY_V1'
-          assert x['generation']==1 and x['armed'] is True
+          assert x['generation']==2 and x['armed'] is True
           assert x['external_public_magma_dispatch_authorized'] is True
           assert x['pr']==1476
           assert x['branch']=='stage33-post1475-j2-v4-generator-adapter'
@@ -53,6 +60,10 @@ jobs:
           assert x['pinned_upstream_blob']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
           assert x['producer_path']=='stages/stage33/33-07/extract_indlist_to_magma_picard_basis.py'
           assert x['certifier_path']=='stages/stage33/33-07/certify_marked_picard_basis_bridge.py'
+          assert x['planned_effective_heavy_concurrency']==1
+          assert x['artifact_retention_days']==1 and x['one_shot'] is True
+          assert x['theorem_credit'] is False and x['receiver_credit'] is False
+          assert x['endpoint_credit'] is False and x['merge_allowed'] is False
           print('STAGE33_07_PRODUCER_RUNKEY=AUTHORIZED')
           PY
               authorized=true
