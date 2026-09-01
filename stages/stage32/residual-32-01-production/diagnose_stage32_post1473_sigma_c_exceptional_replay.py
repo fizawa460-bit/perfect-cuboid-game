@@ -2,22 +2,24 @@
 from __future__ import annotations
 
 import argparse
+import ast
 import hashlib
 import importlib.util
 import json
+import re
 from pathlib import Path
 
 import sympy as sp
 from sympy import Matrix
 
-from aut_equivariant_pairing_adapter import AutEquivariantPairingAdapter
-from pairing_prefix_engine import INDLIST, close_permutation_group
-
+from pairing_prefix_engine import close_permutation_group
 
 TANGENT_EXPECTED = "beffca388f2795296fd914a6345186dc6e594419f0fffb93896bda2c3896a636"
 WITNESS_EXPECTED = "d0c1c8bddfe3950737ed6f87ffa74acd850c736298bd12ec1eceac609625b8a8"
 WITNESS_PICARD_EXPECTED = "2d5b956b182369cf42d3c34352e79c6306700ff87907f4e6d25d5743d7f12726"
 WITNESS_ALL140_EXPECTED = "4d4f6d306fcd1974ebb539c5adc65a0d595ca8d471d2a12b1e785bac7f41c9a3"
+SIGMA_C_PICARD_ROWS_EXPECTED = "65f90a3356941bd4bdaeb77cfc3a8c5370d5726e2f66e2eb348bf5f9633af43a"
+PICARD_GRAM_ROWS_EXPECTED = "22b1f891116ea16fcb615c95e9a83be9fef76c275d792e638d9ab0dab65a6e3b"
 KC_WALL_GIT_BLOB_SHA1 = "03f07ef74986ac7aede6fc5ab462b41b71435561"
 I = sp.I
 
@@ -87,25 +89,84 @@ def neg_c(v):
     return tuple(out)
 
 
-def integer_column(v: Matrix, label: str) -> Matrix:
-    out = []
-    for value in v:
-        value = sp.cancel(value)
-        if sp.denom(value) != 1:
-            raise ValueError(f"{label} escaped integral Picard lattice: {value}")
-        out.append(int(value))
-    return Matrix(out)
-
-
 def matrix_vector(v: Matrix) -> list[int]:
     return [int(v[i, 0]) for i in range(v.rows)]
 
 
-def replay_kc_pushforward(marking: dict, sigma_cert: dict) -> dict:
+def parse_literal(stdout: str, name: str):
+    m = re.search(rf"^{re.escape(name)}=(.+)$", stdout, re.M)
+    if not m:
+        raise ValueError(f"missing Magma output {name}")
+    return ast.literal_eval(m.group(1))
+
+
+def materialize_pinned_kc_picard(repo: Path, retained_gram: list[list[int]]) -> dict:
+    source_path = repo / "stages/stage33/33-07/stoll_cuboid_source.py"
+    source = load_module(source_path, "stage32_post1473_pinned_stoll_source")
+    _text, core, blob, fetch_attempt = source.load_pinned_source()
+    extra = r'''
+actperm32 := func<g, perm | qPic(Big![e[perm[j]] : j in [1..#e]]) where e := Eltseq(g @@ qPic)>;
+act32 := func<sch, subs | Curve(Pr6, [Evaluate(e, subs) : e in DefiningEquations(sch)])>;
+function actpt32(pt, subs)
+  i0 := 1; while pt[i0] eq 0 do i0 +:= 1; end while;
+  pteqns := [Pr6.j*pt[i0] - Pr6.i0*pt[j] : j in [1..7] | j ne i0];
+  return Rep(Points(Scheme(Pr6, [Evaluate(e, subs) : e in pteqns])));
+end function;
+su32 := [a1,a2,a3,b1,b2,b3,-c];
+perm32 := [Position(C1s,act32(C,su32)):C in C1s]
+ cat [#C1s+Position(C2s,act32(C,su32)):C in C2s]
+ cat [#C1s+#C2s+Position(C3s,act32(C,su32)):C in C3s]
+ cat [#Cs+Position(pts,actpt32(pt,su32)):pt in pts];
+assert #Cs eq 92 and #pts eq 48 and #perm32 eq 140;
+sigmaPic32 := Matrix(Integers(),[Eltseq(actperm32(Pic.j,perm32)):j in [1..64]]);
+assert sigmaPic32*pmPic*Transpose(sigmaPic32) eq pmPic;
+assert sigmaPic32^2 eq IdentityMatrix(Integers(),64);
+printf "STAGE32_KC_PICARD_BEGIN\n";
+printf "SIGMA_EXC_PERM=%o\n", [perm32[#Cs+j]-#Cs:j in [1..#pts]];
+for r in [1..64] do printf "SIGMA_ROW_%o=%o\n",r,Eltseq(sigmaPic32[r]); end for;
+for r in [1..64] do printf "GRAM_ROW_%o=%o\n",r,Eltseq(pmPic[r]); end for;
+for j in [1..#pts] do printf "EXC_ROW_%o=%o\n",j,Eltseq(qPic(Big.(#Cs+j))); end for;
+printf "STAGE32_KC_PICARD_END\n";
+'''
+    code = "SetColumns(0);\nquick := true;\n" + core + "\n" + extra
+    stdout, magma_attempt = source.run_magma(code, 240, "Stage32 Kc sigma-c Picard64 materialization")
+    if "STAGE32_KC_PICARD_END" not in stdout or any(
+        x in stdout for x in ("Runtime error", "Internal error", "Assertion failed")
+    ):
+        print(stdout)
+        raise ValueError("pinned Kc Picard materialization failed")
+    sigma_rows = [[int(x) for x in parse_literal(stdout, f"SIGMA_ROW_{r}")] for r in range(1, 65)]
+    gram_rows = [[int(x) for x in parse_literal(stdout, f"GRAM_ROW_{r}")] for r in range(1, 65)]
+    exceptional_rows = [[int(x) for x in parse_literal(stdout, f"EXC_ROW_{j}")] for j in range(1, 49)]
+    sigma_exc_1based = [int(x) for x in parse_literal(stdout, "SIGMA_EXC_PERM")]
+    if any(len(row) != 64 for row in sigma_rows + gram_rows + exceptional_rows):
+        raise ValueError("pinned Kc Picard row width regression")
+    if csha(sigma_rows) != SIGMA_C_PICARD_ROWS_EXPECTED:
+        raise ValueError(f"full sigma_c Picard64 hash mismatch: {csha(sigma_rows)}")
+    if csha(gram_rows) != PICARD_GRAM_ROWS_EXPECTED:
+        raise ValueError(f"pinned Picard Gram hash mismatch: {csha(gram_rows)}")
+    if gram_rows != retained_gram:
+        raise ValueError("pinned Magma Picard Gram differs from retained Stage33 Gram")
+    return {
+        "testa_stoll_git_blob_sha1": blob,
+        "source_fetch_attempt": fetch_attempt,
+        "magma_request_attempt": magma_attempt,
+        "submitted_code_sha256": hashlib.sha256(code.encode()).hexdigest(),
+        "sigma_rows": sigma_rows,
+        "sigma_rows_sha256": csha(sigma_rows),
+        "sigma_exc_1based": sigma_exc_1based,
+        "exceptional_rows": exceptional_rows,
+        "exceptional_rows_sha256": csha(exceptional_rows),
+        "gram_rows_sha256": csha(gram_rows),
+    }
+
+
+def replay_kc_pushforward(sigma_cert: dict) -> dict:
     here = Path(__file__).resolve().parent
     repo = Path(__file__).resolve().parents[3]
     witness_path = repo / "stages/stage32/32-21/post1473-v6-witness-body-recovered.json"
     retained_path = repo / "stages/stage33/33-07/picard_base_rows_retained.py"
+    endpoint_path = repo / "stages/stage33/33-07/retained-q256-geometric-sign-endpoint.json"
     wall_path = here / "post1473-specific-class-kc-adapter-wall.md"
 
     witness = json.loads(witness_path.read_text())
@@ -140,125 +201,130 @@ def replay_kc_pushforward(marking: dict, sigma_cert: dict) -> dict:
         raise ValueError(f"K_c source-lock semantics moved: {missing}")
 
     bundle = load_module(retained_path, "stage32_post1473_sigma_c_picard_bundle").load()
-    gram = Matrix(bundle["picard_gram_64x64"])
+    gram_rows = [[int(x) for x in row] for row in bundle["picard_gram_64x64"]]
+    gram = Matrix(gram_rows)
     if gram.shape != (64, 64) or gram != gram.T:
         raise ValueError("retained Picard Gram regression")
-    adapter = AutEquivariantPairingAdapter.from_retained(marking, bundle)
-    A = adapter.pairing_matrix
-    if A.shape != (140, 64):
-        raise ValueError("all140 pairing adapter shape regression")
+
+    endpoint = json.loads(endpoint_path.read_text())
+    endpoint_sign_hashes = endpoint.get("picard_sign_rows_sha256", {})
+    if endpoint.get("coordinate_order") != ["a1", "a2", "a3", "b1", "b2", "b3", "c"]:
+        raise ValueError("retained endpoint coordinate order moved")
+    if endpoint_sign_hashes.get("c") != SIGMA_C_PICARD_ROWS_EXPECTED:
+        raise ValueError("retained endpoint c-sign Picard64 hash moved")
+    if endpoint.get("picard_gram_rows_sha256") != PICARD_GRAM_ROWS_EXPECTED:
+        raise ValueError("retained endpoint Picard Gram hash moved")
+
+    mat = materialize_pinned_kc_picard(repo, gram_rows)
+    sigma = Matrix(mat["sigma_rows"])
+    exceptional = [Matrix(row) for row in mat["exceptional_rows"]]
+    expected_exc = [int(x) + 1 for x in sigma_cert["sigma_c_exceptional_permutation_0based"]]
+    if mat["sigma_exc_1based"] != expected_exc:
+        raise ValueError("pinned Magma c-sign exceptional permutation disagrees with retained-node replay")
+    for j, E in enumerate(exceptional):
+        if int((E.T * gram * E)[0, 0]) != -2:
+            raise ValueError(f"exceptional class {j} ceased to be a (-2)-class")
+        target = exceptional[expected_exc[j] - 1]
+        if sigma.T * E != target:
+            raise ValueError(f"sigma_c Picard64 convention mismatch on exceptional class {j}")
 
     C = Matrix(x_list)
-    pairings = Matrix(p_list)
-    if A * C != pairings:
-        raise ValueError("V6 Picard coordinates do not reproduce retained all140 pairings")
     C2 = sp.cancel((C.T * gram * C)[0, 0])
     if C2 != 758 or int(w.get("self_intersection")) != 758:
         raise ValueError(f"V6/V7 self-intersection regression: {C2}")
+    for j, E in enumerate(exceptional):
+        direct = int((C.T * gram * E)[0, 0])
+        if direct != p_list[92 + j]:
+            raise ValueError(f"V6 exceptional pairing convention mismatch at {j}: {direct} vs {p_list[92+j]}")
 
-    perm1 = sigma_cert["sigma_c_aut140"]["permutation_1based"]
-    if len(perm1) != 140:
-        raise ValueError("sigma_c Aut140 degree regression")
-    g = [int(v) - 1 for v in perm1]
-    if sorted(g) != list(range(140)):
-        raise ValueError("sigma_c Aut140 action is not a permutation")
-    inv = [-1] * 140
-    for source, target in enumerate(g):
-        inv[target] = source
-    if any(v < 0 for v in inv):
-        raise ValueError("sigma_c inverse permutation construction failed")
-    if any(g[g[i]] != i for i in range(140)):
-        raise ValueError("sigma_c Aut140 action is not an involution")
-
-    sigma_pairings = Matrix([int(pairings[inv[j], 0]) for j in range(140)])
-    sigma_basis_pairings = Matrix([int(sigma_pairings[label - 1, 0]) for label in INDLIST])
-    gram_inv = gram.inv()
-    sigma_C = integer_column(gram_inv * sigma_basis_pairings, "sigma_c(C)")
-    if A * sigma_C != sigma_pairings:
-        raise ValueError("recovered sigma_c(C) Picard64 coordinates fail all140 replay")
-    sigma_C2 = sp.cancel((sigma_C.T * gram * sigma_C)[0, 0])
-    if sigma_C2 != C2:
-        raise ValueError("sigma_c failed exact Picard isometry on C")
+    sigma_C = sigma.T * C
+    if sigma.T * sigma_C != C:
+        raise ValueError("sigma_c Picard64 action failed involution on V6 class")
+    sigma_C2 = int((sigma_C.T * gram * sigma_C)[0, 0])
+    if sigma_C2 != 758:
+        raise ValueError("sigma_c failed exact Picard isometry on V6 class")
 
     epi = [int(v) for v in sigma_cert["c_zero_exceptional_indices_0based"]]
     if len(epi) != 24 or len(set(epi)) != 24 or any(v < 0 or v >= 48 for v in epi):
         raise ValueError(f"E_pi retained exceptional shape regression: {epi}")
-    if any(sigma_cert["sigma_c_exceptional_permutation_0based"][i] != i for i in epi):
+    if any(expected_exc[i] != i + 1 for i in epi):
         raise ValueError("E_pi node is not fixed by sigma_c")
 
     correction = Matrix.zeros(64, 1)
     correction_rows = []
-    for exceptional_index in epi:
-        curve_index = 92 + exceptional_index
-        coefficient = int(pairings[curve_index, 0])
-        basis_pairings_of_E = A[curve_index, :].T
-        E = integer_column(gram_inv * basis_pairings_of_E, f"E_pi[{exceptional_index}]")
-        if A[curve_index, :] != (E.T * gram):
-            raise ValueError(f"exceptional Picard coordinate reconstruction failed at {exceptional_index}")
+    for j in epi:
+        E = exceptional[j]
+        coefficient = int((C.T * gram * E)[0, 0])
         correction += coefficient * E
         correction_rows.append({
-            "exceptional_index_0based": exceptional_index,
-            "exceptional_id": f"EXC_{exceptional_index + 1:03d}",
-            "all140_curve_index_1based": curve_index + 1,
+            "exceptional_index_0based": j,
+            "exceptional_id": f"EXC_{j + 1:03d}",
+            "all140_curve_index_1based": 93 + j,
             "C_dot_E": coefficient,
             "picard_coordinates_sha256": csha(matrix_vector(E)),
         })
 
     P = C + sigma_C + correction
-    P2 = sp.cancel((P.T * gram * P)[0, 0])
-    if sp.denom(P2) != 1:
-        raise ValueError(f"P^2 became nonintegral: {P2}")
-    P2 = int(P2)
-    push2 = sp.Rational(P2, 2)
-    if sp.denom(push2) != 1:
-        raise ValueError(f"P^2/2 became nonintegral on K_c: {push2}")
-    push2 = int(push2)
+    P2 = int((P.T * gram * P)[0, 0])
+    if P2 % 2:
+        raise ValueError(f"P^2 is not divisible by quotient degree 2: {P2}")
+    push2 = P2 // 2
     if push2 % 2:
         raise ValueError(f"K3 pushforward square is not even: {push2}")
 
-    C_sigma_C = int((C.T * gram * sigma_C)[0, 0])
-    correction2 = int((correction.T * gram * correction)[0, 0])
-    base_dot_correction = int(((C + sigma_C).T * gram * correction)[0, 0])
     class_sigma_invariant = sigma_C == C
     noninvariant_excluded = push2 < 0
-
+    invariant_case_obstruction = True
     result = {
-        "mode": "EXACT_TESTA_STOLL_LEMMA11_PUSHFORWARD_SELFINTERSECTION_SINGLE_V6_CLASS",
+        "mode": "EXACT_PINNED_TESTA_STOLL_SIGMA_C_AND_LEMMA11_SINGLE_V6_CLASS_REPLAY",
         "source_locks": {
             "v6_recovered_witness_canonical_sha256": claimed,
             "v6_picard_coordinates_sha256": WITNESS_PICARD_EXPECTED,
             "v6_all140_pairings_sha256": WITNESS_ALL140_EXPECTED,
             "kc_wall_git_blob_sha1": KC_WALL_GIT_BLOB_SHA1,
             "retained_picard_bundle_canonical_sha256": bundle.get("canonical_sha256"),
-            "all140_pairing_adapter_canonical_sha256": adapter.certificate.get("canonical_sha256_without_this_field"),
+            "retained_endpoint_c_sign_picard64_rows_sha256": SIGMA_C_PICARD_ROWS_EXPECTED,
+            "retained_endpoint_picard_gram_rows_sha256": PICARD_GRAM_ROWS_EXPECTED,
+            "testa_stoll_git_blob_sha1": mat["testa_stoll_git_blob_sha1"],
+            "submitted_magma_code_sha256": mat["submitted_code_sha256"],
             "sigma_c_aut140_permutation_sha256": sigma_cert["sigma_c_aut140"]["permutation_sha256"],
-            "E_pi_source": "retained ambient node coordinates with exact c=0",
+        },
+        "materialization": {
+            "source_fetch_attempt": mat["source_fetch_attempt"],
+            "magma_request_attempt": mat["magma_request_attempt"],
+            "sigma_c_picard64_rows_sha256": mat["sigma_rows_sha256"],
+            "exceptional_picard64_rows_sha256": mat["exceptional_rows_sha256"],
+            "picard_gram_rows_sha256": mat["gram_rows_sha256"],
+            "sigma_c_exceptional_permutation_matches_retained_nodes": True,
+            "all_48_exceptional_classes_are_minus2": True,
+            "sigma_c_picard_action_matches_all_48_exceptional_classes": True,
+            "V6_all_48_exceptional_pairings_match_recovered_all140": True,
         },
         "formula": "P=C+sigma_c(C)+sum_{E in E_pi}(C.E)E=pi^*pi_*C; (pi_*C)^2=P^2/2",
         "C_square": int(C2),
-        "sigma_C_square": int(sigma_C2),
-        "C_dot_sigma_C": C_sigma_C,
+        "sigma_C_square": sigma_C2,
+        "C_dot_sigma_C": int((C.T * gram * sigma_C)[0, 0]),
         "C_picard_coordinates_sha256": csha(matrix_vector(C)),
         "sigma_C_picard_coordinates": matrix_vector(sigma_C),
         "sigma_C_picard_coordinates_sha256": csha(matrix_vector(sigma_C)),
-        "class_sigma_c_invariant": class_sigma_invariant,
+        "class_sigma_c_invariant": bool(class_sigma_invariant),
         "E_pi_count": len(epi),
         "E_pi_exceptional_indices_0based": epi,
         "E_pi_exceptional_ids": [f"EXC_{i + 1:03d}" for i in epi],
         "E_pi_correction_terms": correction_rows,
         "E_pi_correction_picard_coordinates": matrix_vector(correction),
         "E_pi_correction_picard_coordinates_sha256": csha(matrix_vector(correction)),
-        "E_pi_correction_square": correction2,
-        "C_plus_sigma_C_dot_E_pi_correction": base_dot_correction,
+        "E_pi_correction_square": int((correction.T * gram * correction)[0, 0]),
+        "C_plus_sigma_C_dot_E_pi_correction": int(((C + sigma_C).T * gram * correction)[0, 0]),
         "P_picard_coordinates": matrix_vector(P),
         "P_picard_coordinates_sha256": csha(matrix_vector(P)),
         "P_square": P2,
         "pi_pushforward_C_square": push2,
         "noninvariant_integral_genus1_carrier_necessary_condition": "(pi_*C)^2>=0",
         "noninvariant_integral_genus1_carrier_excluded_by_negative_square": noninvariant_excluded,
-        "invariant_curve_case_source_locked_even_degree_obstruction": True,
+        "invariant_curve_case_source_locked_even_degree_obstruction": invariant_case_obstruction,
         "invariant_curve_image_degree": 93,
-        "specific_class_integral_genus1_carrier_excluded_if_source_locked_case_split_applies": noninvariant_excluded,
+        "specific_class_integral_genus1_carrier_excluded_if_source_locked_case_split_applies": bool(noninvariant_excluded and invariant_case_obstruction),
         "scope": "SINGLE_V6_SUPPORT47_CLASS_ONLY",
         "firewalls": {
             "full178_closed": False,
@@ -286,85 +352,57 @@ def main() -> None:
     tangent_body.pop("canonical_sha256", None)
     tangent_actual = csha(tangent_body)
     if tangent_claimed != TANGENT_EXPECTED or tangent_actual != TANGENT_EXPECTED:
-        raise ValueError(
-            f"retained tangent source lock moved: claimed={tangent_claimed} actual={tangent_actual}"
-        )
-
+        raise ValueError(f"retained tangent source lock moved: claimed={tangent_claimed} actual={tangent_actual}")
     marking = load_module(args.marking, "stage32_post1473_sigma_c_marking").load()
 
     models = tangent["exceptional_models"]
-    if len(models) != 48 or tangent.get("exceptional_count") != 48:
-        raise ValueError("48-exceptional tangent lock regression")
     ids = [m["exceptional_id"] for m in models]
-    expected_ids = [f"EXC_{i:03d}" for i in range(1, 49)]
-    if ids != expected_ids:
-        raise ValueError("exceptional model ordering is not EXC_001..EXC_048")
-
-    encoded_points = [m["node_point_ambient_P6_L_basis"] for m in models]
-    points = [decode_point(q) for q in encoded_points]
+    if len(models) != 48 or tangent.get("exceptional_count") != 48 or ids != [f"EXC_{i:03d}" for i in range(1, 49)]:
+        raise ValueError("48-exceptional tangent ordering regression")
+    points = [decode_point(m["node_point_ambient_P6_L_basis"]) for m in models]
     normalized_points = [projective_normalize(q) for q in points]
     if len(set(normalized_points)) != 48:
         raise ValueError("retained exceptional nodes are not 48 distinct projective points")
-    surface_failures = [
-        i for i, q in enumerate(points)
-        if any(not is_zero(x) for x in quadrics(q))
-    ]
-    if surface_failures:
-        raise ValueError(f"decoded node escaped ambient cuboid surface: {surface_failures}")
-
+    if any(any(not is_zero(x) for x in quadrics(q)) for q in points):
+        raise ValueError("decoded node escaped ambient cuboid surface")
     zero_c = [i for i, q in enumerate(points) if is_zero(q[6])]
-    if not zero_c:
-        raise ValueError("decoded ambient c=0 exceptional set is empty")
+    if len(zero_c) != 24:
+        raise ValueError(f"decoded ambient c=0 exceptional count regression: {len(zero_c)}")
 
     point_by_normalized = {q: i for i, q in enumerate(normalized_points)}
     sigma_exc = []
-    missing = []
-    for i, q in enumerate(points):
+    for q in points:
         target = projective_normalize(neg_c(q))
-        j = point_by_normalized.get(target)
-        if j is None:
-            sigma_exc.append(-1)
-            missing.append(i)
-        else:
-            sigma_exc.append(j)
-    if missing:
-        raise ValueError(f"ambient c-sign failed to permute retained 48 nodes: {missing}")
-    if sorted(sigma_exc) != list(range(48)):
-        raise ValueError("ambient c-sign node action is not a permutation")
-    if any(sigma_exc[sigma_exc[i]] != i for i in range(48)):
-        raise ValueError("ambient c-sign node action is not an involution")
+        if target not in point_by_normalized:
+            raise ValueError("ambient c-sign failed to permute retained 48 nodes")
+        sigma_exc.append(point_by_normalized[target])
+    if sorted(sigma_exc) != list(range(48)) or any(sigma_exc[sigma_exc[i]] != i for i in range(48)):
+        raise ValueError("ambient c-sign node action is not an involutive permutation")
     if any(sigma_exc[i] != i for i in zero_c):
         raise ValueError("ambient c=0 exceptional node is not fixed by c-sign")
 
     aut = marking.get("aut_action", {})
     generators = aut.get("permutations_1based", [])
-    if not isinstance(generators, list) or not generators:
-        raise ValueError("retained marking missing Aut140 generators")
-    curve_labels = aut.get("curve_labels")
-    exc_payload = marking.get("exceptionals", {})
-    exc_labels = exc_payload.get("curve_labels") if isinstance(exc_payload, dict) else None
-
     full_group = close_permutation_group(generators)
     if len(full_group) != 1536:
         raise ValueError(f"retained Aut group order regression: {len(full_group)}")
     candidates = []
     for gi, g in enumerate(full_group):
-        if len(g) != 140:
-            raise ValueError("Aut permutation degree regression")
         if all(g[92 + i] == 92 + sigma_exc[i] for i in range(48)):
+            one_based = [int(x) + 1 for x in g]
             candidates.append({
                 "closed_group_index": gi,
-                "permutation_1based": [int(x) + 1 for x in g],
-                "permutation_sha256": csha([int(x) + 1 for x in g]),
+                "permutation_1based": one_based,
+                "permutation_sha256": csha(one_based),
             })
     if len(candidates) != 1:
         raise ValueError(f"retained Aut140 c-sign match is not unique: {len(candidates)}")
 
     cert = {
-        "schema": "STAGE32_POST1473_SIGMA_C_EXCEPTIONAL_KC_PUSHFORWARD_REPLAY_V4",
+        "schema": "STAGE32_POST1473_SIGMA_C_EXCEPTIONAL_KC_PUSHFORWARD_REPLAY_V5",
         "stage": 32,
         "leaf": "POST1473_FIXED_Z_SIGMA_C_EPI_KC_PUSHFORWARD_REPLAY",
-        "mode": "EXACT_QI_DECODE_AMBIENT_C_SIGN_AUT140_PLUS_TESTA_STOLL_LEMMA11_SINGLE_CLASS_REPLAY",
+        "mode": "EXACT_RETAINED_NODE_C_SIGN_PLUS_PINNED_TESTA_STOLL_PICARD64_LEMMA11_REPLAY",
         "source_locks": {
             "tangent_canonical_sha256": tangent_claimed,
             "tangent_canonical_recomputed": tangent_actual,
@@ -377,16 +415,6 @@ def main() -> None:
         "coordinate_order": ["a1", "a2", "a3", "b1", "b2", "b3", "c"],
         "decoded_nodes_satisfy_all_four_ambient_quadrics": True,
         "exceptional_model_order_exact": True,
-        "exceptional_model_ids": ids,
-        "retained_marking_exceptional_keys": sorted(exc_payload.keys()) if isinstance(exc_payload, dict) else [],
-        "retained_aut_keys": sorted(aut.keys()),
-        "retained_aut_curve_label_count": len(curve_labels) if isinstance(curve_labels, list) else None,
-        "retained_exceptional_curve_label_count": len(exc_labels) if isinstance(exc_labels, list) else None,
-        "marking_exceptional_curve_labels": exc_labels,
-        "marking_exceptionals_equal_last48_aut_labels": (
-            isinstance(exc_labels, list) and isinstance(curve_labels, list) and exc_labels == curve_labels[92:]
-        ),
-        "last48_order_source_lock": "aut_equivariant_pairing_adapter.py: Stoll source defines 92 known curves followed by 48 exceptional divisors; retained Aut permutations act on that ordered set",
         "c_zero_exceptional_indices_0based": zero_c,
         "c_zero_exceptional_ids": [ids[i] for i in zero_c],
         "c_zero_exceptional_count": len(zero_c),
@@ -394,12 +422,11 @@ def main() -> None:
         "sigma_c_exceptional_permutation_0based": sigma_exc,
         "sigma_c_exceptional_permutation_1based": [x + 1 for x in sigma_exc],
         "sigma_c_exceptional_permutation_sha256": csha([x + 1 for x in sigma_exc]),
-        "retained_aut_generator_count": len(generators),
         "retained_aut_group_order": len(full_group),
         "aut140_candidates_matching_exceptional_c_sign_count": len(candidates),
         "sigma_c_aut140": candidates[0],
     }
-    cert["kc_pushforward_replay"] = replay_kc_pushforward(marking, cert)
+    cert["kc_pushforward_replay"] = replay_kc_pushforward(cert)
     cert["firewalls"] = {
         "full178_closed": False,
         "general_low_genus_classification_closed": False,
@@ -416,10 +443,11 @@ def main() -> None:
         "c_zero_count": len(zero_c),
         "aut_candidate_count": len(candidates),
         "sigma_c_aut140_sha256": candidates[0]["permutation_sha256"],
+        "sigma_c_picard64_sha256": kc["materialization"]["sigma_c_picard64_rows_sha256"],
         "class_sigma_c_invariant": kc["class_sigma_c_invariant"],
         "P_square": kc["P_square"],
         "pi_pushforward_C_square": kc["pi_pushforward_C_square"],
-        "noninvariant_genus1_excluded": kc["noninvariant_integral_genus1_carrier_excluded_by_negative_square"],
+        "specific_class_genus1_excluded": kc["specific_class_integral_genus1_carrier_excluded_if_source_locked_case_split_applies"],
         "canonical_sha256": cert["canonical_sha256_without_this_field"],
     }, indent=2, sort_keys=True))
 
