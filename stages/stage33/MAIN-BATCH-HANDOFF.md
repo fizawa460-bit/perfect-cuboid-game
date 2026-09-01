@@ -20,6 +20,30 @@ Do not use it as history or repeat facts already present in `MAIN-STATE.json`.
 - `q1` was checked as the next Q-defined source; existing exact work says it does not Q-descent.
 - Do not reconstruct old Stage33-05 q1 generated state in ordinary MAIN without a new exact reason.
 
+## Latest unfinished narrowing batch
+
+- branch head checked at batch start: `a90cbf94aadc68c66725275441ab30c40e7fa97a`.
+- Goal was only to identify the exact producer/adapter that generated the already-locked J2 75D target, so it could be generalized to companion `beta2 / semantic u2`.
+- Stayed inside the Stage33-12 file/tree inventory; no broad history/source reconstruction was performed.
+- Narrow filename/function probes already attempted against that inventory:
+  - `v4-h1`
+  - `before-source-orientation`
+  - `named-v4`
+  - `kummer`
+  - `certify_j2`
+- These inventory-name probes did NOT identify the producer for `j2-named-v4-h1-target-before-source-orientation.json`.
+- No beta2 75D coordinate was derived, guessed, or certified.
+- No controller / MAIN-STATE / result mathematical state was changed.
+- No PR, merge, downstream release, theorem credit, receiver credit, or endpoint credit occurred.
+
+### Do not spend the next batch repeating those same inventory-name probes
+
+Resume from the unresolved provenance question itself:
+
+> Which exact committed producer/adapter created the locked J2 75D target, and can that construction accept semantic `u2` / companion `beta2` as input?
+
+Prefer a provenance-directed route (certificate metadata or the commit that introduced/updated the locked J2 target and its sibling changed files) rather than another Stage33-12 filename sweep.
+
 ## Immediate next action
 
 Materialize and verify the smallest exact adapter/producer for:
