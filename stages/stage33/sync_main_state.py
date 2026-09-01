@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build/check the compact Stage33 MAIN state after the marked Picard bridge source-lock gap."""
+"""Build/check the compact Stage33 MAIN state after retained Smith route elimination."""
 from __future__ import annotations
 import argparse, hashlib, json
 from pathlib import Path
@@ -15,6 +15,7 @@ FILES={
  'reopen':(HERE/'33-12'/'j2-picard-adjoint-reopen-diagnostic.json','1a20e001fd23b292881f9652818e52d5afc7f0bd43657809d5e52075ae6d1737'),
  'gap':(HERE/'33-12'/'j2-marked-discriminant-proper-br2-adapter-source-lock-gap.json','e27da962e6bd4330bd2e3ede77424bedb5ad40a684d81fadba632ac2fdef8b58'),
  'bridge_gap':(HERE/'33-12'/'j2-indlist-magma-picard-bridge-source-lock-gap.json','85c3e0811bb9e9b5391772ae35e569f4aa0fd12940ca6c2db1b4be59b635ae2c'),
+ 'route':(HERE/'33-12'/'j2-marked-picard-bridge-retained-route-inventory.json','42a4a59f03bfde4845ff37ee9e84ec8ce85614ccfa229668b225451b17d8fd8f'),
 }
 OUT=HERE/'MAIN-STATE.json'
 def csha(x): return hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
@@ -41,17 +42,20 @@ assert h1['retained_H1_dimension_f2']==75 and sum(h1['coordinates_f2'])==15
 assert x['compat']['locked_named_j2']['locked_75D_target_reachable_from_locked_source'] is False
 assert x['reopen']['status']=='PASS_EXACT_DIAGNOSTIC_PICARD_ADJOINT_NAMED_SOURCE_REOPENED'
 assert x['gap']['status']=='PASS_EXACT_SOURCE_LOCK_GAP_MATERIALIZED'
-bg=x['bridge_gap']
+bg=x['bridge_gap']; route=x['route']
 assert bg['status']=='PASS_EXACT_NONIDENTIFIABILITY_REQUIRES_SOURCE_AUTHORIZED_QPIC_BRIDGE'
 assert bg['facts']['actual_64x64_bridge_source_locked'] is False
 assert bg['facts']['retained_constraints_identify_unique_bridge'] is False
-assert bg['facts']['nonunique_witness_count_materialized']==2
-assert bg['facts']['induced_swap12_actions_differ'] is True
-assert bg['credit']['main_progress_added'] is False
-assert bg['stage33_progress']=='6/11'
+assert route['status']=='PASS_EXACT_RETAINED_SMITH_ROUTE_INSUFFICIENT_QPIC_BRIDGE_STILL_REQUIRED'
+assert route['exact_findings']['retained_smith_V_exists'] is True
+assert route['exact_findings']['retained_smith_V_identifies_indlist_to_historical_magma_picard_basis_64x64'] is False
+assert route['conclusion']['equivalent_retained_smith_composite_found'] is False
+assert route['conclusion']['source_authoritative_qPic_bridge_still_missing'] is True
+assert route['conclusion']['new_external_magma_dispatch_authorized'] is False
+assert route['credit']['main_progress_added'] is False
 
 out={
- 'schema':'STAGE33_MAIN_COMPACT_STATE_V8_MARKED_PICARD_BRIDGE_SOURCE_GAP',
+ 'schema':'STAGE33_MAIN_COMPACT_STATE_V9_QPIC_ONLY_MARKED_BRIDGE_ACQUISITION',
  'role':'ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE',
  'detailed_machine_authority':'stages/stage33/controller.json',
  'controller_schema':controller['schema'],
@@ -60,8 +64,8 @@ out={
   'unit':current['unit'],
   'logical_internal_branch':current['logical_internal_branch'],
   'substep':current['substep'],
-  'active_missing_interface':'ACTUAL_INDLIST_TO_HISTORICAL_MAGMA_PICARD_BASIS_64x64_QPIC_BRIDGE_NOT_SOURCE_LOCKED',
-  'next_exact_leaf':bg['next_exact_leaf'],
+  'active_missing_interface':'SOURCE_AUTHORIZED_PINNED_UPSTREAM_QPIC_64x64_MARKED_PICARD_BRIDGE_MISSING',
+  'next_exact_leaf':route['next_exact_leaf'],
  },
  'locked_facts':{
   'named_J2_semantic_orientation':{'label':'u1','marked_Kc_coordinate_f2':[1,0],'sha256':FILES['orientation'][1]},
@@ -79,6 +83,13 @@ out={
    'actual_64x64_bridge_source_locked':False,
    'sha256':FILES['bridge_gap'][1],
   },
+  'marked_picard_retained_route_inventory':{
+   'status':route['status'],
+   'retained_smith_V_exists':True,
+   'retained_smith_V_identifies_64x64_marking':False,
+   'source_authoritative_qPic_bridge_still_missing':True,
+   'sha256':FILES['route'][1],
+  },
  },
  'authority_changes':{
   'J2_picard_adjoint_named_source_binding':'REVOKED_EXACT_REPAIR_REQUIRED',
@@ -87,6 +98,7 @@ out={
   'named_J2_semantic_orientation':'RETAINED_EXACT_DO_NOT_REINVESTIGATE',
   'named_J2_raw_75D_target':'RETAINED_EXACT_INDEPENDENT_TARGET',
   'actual_INDLIST_to_historical_Magma_Picard_basis_bridge':'MISSING_SOURCE_LOCK_DO_NOT_INFER_FROM_RETAINED_SYMMETRIES',
+  'retained_common_Smith_route_for_literal_64x64_marking':'AUDITED_INSUFFICIENT_DO_NOT_USE_AS_QPIC_BRIDGE',
  },
  'do_not_use':[
   'mask 6 as authoritative named J2 source','C2+C3=h_J2',
@@ -95,6 +107,7 @@ out={
   'either nonunique bridge witness as the actual INDLIST-to-Magma Picard marking',
   'nonunique retained-basis swap transports as actual actions',
   '20 Kc preimsinPic rows as full-surface qPic bridge rows',
+  'retained Smith V or common-Smith transport as the literal 64x64 INDLIST-to-Magma Picard marking',
  ],
  'open_datum':{
   'named_J2_proper_Br2_source_coordinate_materialized':False,
@@ -105,18 +118,18 @@ out={
   'actual_indlist_to_magma_picard_basis_bridge_materialized':False,
  },
  'current_leaf_working_set':[
+  'stages/stage33/33-12/j2-marked-picard-bridge-retained-route-inventory.json',
   'stages/stage33/33-12/j2-indlist-magma-picard-bridge-source-lock-gap.json',
   'stages/stage33/33-07/extract_indlist_to_magma_picard_basis.py',
   'stages/stage33/33-07/certify_marked_picard_basis_bridge.py',
-  'stages/stage33/33-07/picard_base_rows_retained.py',
-  'stages/stage33/33-07/picard_coordinate_sign_rows_retained.py',
-  'stages/stage33/33-07/certify_actual_galois_at2_actions.py',
+  'stages/stage33/33-07/stoll_cuboid_source.py',
+  'stages/stage33/33-12/j2-semantic-u1-full-surface-smith-source.json',
  ],
  'anti_loop_reopen_policy':{
-  'ordinary_main_rule':'Exact non-identifiability is already materialized. Do not rerun retained-symmetry bridge searches; acquire the source-authorized qPic bridge (or an equivalent retained Smith composite) and certify it.',
+  'ordinary_main_rule':'The retained Smith route is already audited and insufficient for the literal 64x64 marking. Do not rerun symmetry/isometry/Smith substitutes; acquire the source-authorized pinned-upstream qPic bridge and certify it.',
   'reopen_only_if':[
    'the pinned upstream qPic/source lock changes',
-   'the exact source-authorized bridge or equivalent retained Smith composite becomes available',
+   'the exact source-authorized qPic bridge becomes available',
    'the user explicitly requests hostile audit or historical revalidation',
   ],
  },
