@@ -22,7 +22,7 @@ jobs:
           import hashlib,json
           k=json.load(open('stages/stage33/runkeys/stage33-07-branch-recertify.json'))
           assert k['schema']=='STAGE33_07_BRANCH_RECERTIFY_RUNKEY_V1'
-          assert k['generation']==1 and k['armed'] is True
+          assert k['generation']==2 and k['armed'] is True
           assert k['external_magma_dispatch_authorized'] is False
           x=json.load(open('stages/stage33/33-07/indlist-to-magma-picard-basis.json'))
           h=x['canonical_sha256']; b=dict(x); b.pop('canonical_sha256')
@@ -42,7 +42,7 @@ jobs:
           p='stages/stage33/33-07/marked-picard-basis-bridge-certified.json'
           x=json.load(open(p)); h=x['canonical_sha256']; b=dict(x); b.pop('canonical_sha256')
           assert h==hashlib.sha256(json.dumps(b,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-          assert h=='039e37925b3c741b7cf0fbe868b9640398932890bc0d4ff7c65057d692467355'
+          assert h=='039e3792e950ac5bf94adf6538c229640da231000a5e1b159a80e2323a812a92'
           e=x['exact_consequence']
           assert e['historical_retained_picard_basis_now_marked_by_actual_140_class_geometry'] is True
           assert e['actual_integral_swaps_now_available_in_historical_q256_picard_basis'] is True
