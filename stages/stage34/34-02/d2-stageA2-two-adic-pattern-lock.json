@@ -1,0 +1,55 @@
+{
+  "schema": "STAGE34_02_D2_STAGEA2_TWO_ADIC_PATTERN_V1",
+  "status": "PASS_EXACT_TWO_ADIC_NECESSARY_PATTERN_CLASSIFICATION_PREAUDIT",
+  "source": "stages/stage34/34-02/d2-stageA2-odd-squareclass-support-lock.json",
+  "hypotheses": "q=a/b is one of the seven locked fibers; gcd(a,b)=1; b is odd; v2(a)>=2; gcd(T,S)=1; H=U*V*A*B is a rational square.",
+  "ordering": ["U","V","A=aU+bV","B=bU+aV"],
+  "d2": {
+    "U": "2*T^2-S^2",
+    "V": "2*T^2-4*T*S+S^2",
+    "patterns": ["none", "{U,V,A,B}"],
+    "proof": [
+      "If S is odd, U and V are odd; since a is even and b odd, A and B are odd.",
+      "If S is even, primitiveness makes T odd. Writing S=2s gives v2(U)=v2(V)=1; aU and aV have valuation at least 3 while bV and bU have valuation 1, hence v2(A)=v2(B)=1."
+    ]
+  },
+  "d1": {
+    "U": "T^2-S^2",
+    "V": "2*T*S",
+    "v2_a_eq_2_patterns": ["none", "{U,V,A,B}"],
+    "v2_a_ge_3_patterns": ["none", "{V,A}", "{U,V,A,B}"],
+    "proof_outline": [
+      "If T,S are odd, v2(V)=v2(A)=1 and v2(U)>=3; square parity forces v2(U) and v2(B) to have the same parity, giving {V,A} or all four. For v2(a)=2 the {V,A} parity cannot occur because once v2(U)>3, v2(B)=3, while the equality case also cannot yield even/even parity under the square condition.",
+      "If T,S have opposite parity, U and B are odd. Square parity requires v2(V) and v2(A) to have the same parity. When v2(a)=2 this forces both even, hence no 2-squareclass. When v2(a)>=3, both-even and both-odd possibilities give none or {V,A}."
+    ]
+  },
+  "fibers": [
+    {"q":"20/21","v2_a":2,"d1_two_patterns":2,"d2_two_patterns":2},
+    {"q":"80/39","v2_a":4,"d1_two_patterns":3,"d2_two_patterns":2},
+    {"q":"24/7","v2_a":3,"d1_two_patterns":3,"d2_two_patterns":2},
+    {"q":"84/13","v2_a":2,"d1_two_patterns":2,"d2_two_patterns":2},
+    {"q":"48/55","v2_a":4,"d1_two_patterns":3,"d2_two_patterns":2},
+    {"q":"20/99","v2_a":2,"d1_two_patterns":2,"d2_two_patterns":2},
+    {"q":"60/11","v2_a":2,"d1_two_patterns":2,"d2_two_patterns":2}
+  ],
+  "branch_upper_bound_before_real_and_Qp_filter": {
+    "sign_policy": "At most the eight sign patterns with positive total product are retained; no sign pattern is declared realizable yet.",
+    "per_case_counts": [
+      {"q":"20/21","d1":864,"d2":864},
+      {"q":"80/39","d1":5184,"d2":3456},
+      {"q":"24/7","d1":864,"d2":576},
+      {"q":"84/13","d1":1728,"d2":1728},
+      {"q":"48/55","d1":2592,"d2":1728},
+      {"q":"20/99","d1":3456,"d2":3456},
+      {"q":"60/11","d1":1728,"d2":1728}
+    ],
+    "total_over_all_fourteen_cases": 29952
+  },
+  "next_exact_leaf": "Enumerate these <=29952 exact over-approximate squareclass tuples, then eliminate by real solubility and good-prime/projective local tests; only surviving branches proceed to support-prime Q_p analysis or new lower-genus cover construction.",
+  "firewalls": {
+    "necessary_two_adic_pattern_is_locally_realisable": false,
+    "sign_overapprox_is_exact_real_branch_list": false,
+    "finite_branch_count_is_point_completeness": false,
+    "receiver_closed": false
+  }
+}
