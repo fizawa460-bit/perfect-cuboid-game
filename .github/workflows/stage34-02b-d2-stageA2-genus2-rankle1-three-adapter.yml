@@ -5,9 +5,8 @@ on:
     types: [opened, synchronize, reopened]
     paths:
       - 'stages/stage34/runkeys/stage34-02b-d2-stageA2-genus2-rankle1-three-adapter.json'
-      - 'stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-elliptic-quotient-lock.json'
-      - 'stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-6b-shainfo-lock.json'
-      - 'stages/stage34/34-02/probe_d2_stageA2_genus2_rankle1_gaussian_6b_shainfo.py'
+      - 'stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-6b-evenrank-twist-lock.json'
+      - 'stages/stage34/34-02/probe_d2_stageA2_genus2_rankle1_gaussian_6b_evenrank_twist.py'
       - '.github/workflows/stage34-02b-d2-stageA2-genus2-rankle1-three-adapter.yml'
 
 permissions:
@@ -54,24 +53,24 @@ jobs:
     needs: authorize
     if: needs.authorize.outputs.authorized == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
-      - name: Run focused 6b Gaussian ShaInfo rank adapter
-        run: python3 stages/stage34/34-02/probe_d2_stageA2_genus2_rankle1_gaussian_6b_shainfo.py
+      - name: Run focused 6b quadratic-twist rank probe
+        run: python3 stages/stage34/34-02/probe_d2_stageA2_genus2_rankle1_gaussian_6b_evenrank_twist.py
       - name: Enforce compact diagnostic artifact cap
         if: always()
         run: |
-          test -f stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-6b-shainfo-probe.json
-          test $(wc -c < stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-6b-shainfo-probe.json) -le 1048576
-          test $(wc -c < stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-6b-shainfo-stdout.txt) -le 1048576
+          test -f stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-6b-evenrank-twist-probe.json
+          test $(wc -c < stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-6b-evenrank-twist-probe.json) -le 1048576
+          test $(wc -c < stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-6b-evenrank-twist-stdout.txt) -le 1048576
       - name: Upload compact diagnostic evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage34-02b-d2-stageA2-genus2-rankle1-gaussian-6b-shainfo
+          name: stage34-02b-d2-stageA2-genus2-rankle1-gaussian-6b-evenrank-twist
           path: |
-            stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-6b-shainfo-probe.json
-            stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-6b-shainfo-stdout.txt
+            stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-6b-evenrank-twist-probe.json
+            stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-6b-evenrank-twist-stdout.txt
           if-no-files-found: warn
           retention-days: 1
