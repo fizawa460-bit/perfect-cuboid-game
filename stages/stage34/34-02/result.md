@@ -1,122 +1,95 @@
-# Stage34-02 — audited Route D, D1 local closure, D2 explicit-map layer
+# Stage34-02 — audited Route D, D1 local closure, D2 fiber-product MW-sieve preparation
 
-Status: `ACTIVE_D2_EXCEPTIONAL_LOCUS_AND_ROUNDTRIP_AFTER_14_MAPS_MATERIALIZED`.
+Status: `ACTIVE_D2_MATCHING_X_FIBER_PRODUCT_MW_SIEVE`.
 
-## Audited route
+## Locked foundation
 
-PR #1480 hostile audit PASSed the Face-3 factorization, genus-5 cover, finite squareclass support and Route-D selection on audited head `d54ee6f0eda2814781301cc80ff11a47f92a8c24`.
-
-The exact cover remains
+- Stage34-01 exact object/global population: hostile-audited CLOSED.
+- Stage34-02 Route-D algebraic reduction: hostile-audited PASS on `d54ee6f0eda2814781301cc80ff11a47f92a8c24`.
+- Exact genus-5 target:
 
 ```text
 E_q: y^2=x(x+1)(x+q^2)
 C_q: z^2=(x^2+q^2)((1+q^2)x^2+4q^2x+q^2(1+q^2)).
 ```
 
-All Face-3 poles `x=+/-q` are exact order-4 torsion and lie outside the non-torsion receiver population.
-
-## D1 — local squareclass closure
-
-The finite descent is now
+## D1 completed local layer
 
 ```text
-104 raw squareclasses
- -> 30 by sum-of-two-squares valuation
- -> 22 by exact good-prime projective residues
- -> 14 locally viable classes by complete remaining Q_p classification.
+104 raw squareclasses -> 30 -> 22 -> 14 locally viable.
 ```
 
-The eight final nontrivial classes on `80/39` and `60/11` are all `Q_7`-insoluble. Every locally viable class is exactly `d=1` or `d=2` on each of the seven fibers, with rational torsion witnesses `x=0` and `x=q` respectively. This does not give non-torsion receiver survival.
+Exactly `d=1,2` survive for each of the seven q. All other classes are rigorously locally obstructed. The finite E_q MW congruence panel is exact but not a global sieve.
 
-The exact MW reduction panel at `107,109,113,127` leaves congruence survivors, so D1 finite congruence pruning is not a complete global MW sieve.
+## D2: fourteen split quartics and seven Jacobians
 
-## D2 compression — 14 split covers -> 7 common Jacobians
+The fourteen surviving split curves are the two quartics `K_{q,1}, K_{q,2}` for each q. Each pair has the same binary-quartic invariants and common Jacobian `J_q`. All seven `J_q(Q)` full free Mordell-Weil bases are unconditionally certified (rank 2 for `20/21,24/7,20/99`; rank 1 for the other four fibers).
 
-The locally viable split quartics are
+Generation-2 official-Magma execution materialized all fourteen birational maps, inverse defining polynomials and exact `E -> J_q` isomorphisms. The complete self-contained formulas are now permanently stored in
+
+`d2-quartic-map-certificate.json`.
+
+## Coordinate base loci are not curve-level holes
+
+Magma V2.29 documents `EllipticCurve(C,P)` as returning a birational map from the genus-one curve to an elliptic curve. The Stacks Project, Lemma 53.2.2 / Theorem 53.2.6, implies that rational maps from normal projective curves to proper curves extend uniquely; applying this to the forward birational map and its inverse gives mutually inverse global morphisms.
+
+Therefore every
 
 ```text
-K_{q,1}: W^2=(1+q^2)t^4+8q t^3+2(1+q^2)t^2-8q t+(1+q^2),
-K_{q,2}: W^2=4(q+1)^2t^4-8(q+1)^2t^3+8(1+q^2)t^2-4(q-1)^2t+(q-1)^2.
+K_{q,d} ~= J_q   over Q
 ```
 
-Both have the same binary-quartic invariants
-
-```text
-I=16(q^4+14q^2+1),
-J=128(q^2+1)(q^2-6q+1)(q^2+6q+1),
-```
-
-hence the common Jacobian
-
-```text
-J_q: y^2=x^3-(I/48)x-(J/1728).
-```
-
-All seven `J_q` have unconditional full free Mordell-Weil bases certified by Actions run `33497875525`: rank 2 for `20/21,24/7,20/99`, rank 1 for `80/39,84/13,48/55,60/11`.
-
-## D2 explicit quartic -> Jacobian maps
-
-The formal Stage31 `S31-W01` pattern has now been instantiated computationally for all fourteen `K_{q,d}`.
-
-Dedicated generation-2 run:
-
-```text
-workflow run: 33499349144
-job:          99828863469
-head:         ac383f76d085e5ebbad6787075d6c3b8e1c9838e
-artifact:     9797053559
-artifact sha: 6cea01c06135204eb591f1192d2ac84b196e1fdebc7df89f445f02853378d303
-```
-
-For every `(q,d)` the official Magma calculator successfully executed
-
-```text
-E, phi := EllipticCurve(K_{q,d}, P);
-DefiningPolynomials(phi);
-InverseDefiningPolynomials(phi);
-IsIsomorphic(E,J_q);
-IsomorphismData(E -> J_q);
-BaseScheme(phi).
-```
-
-All fourteen cases have exactly three forward and three inverse defining polynomials, and the selected rational base point is sent to the elliptic origin. The generation-2 artifact is self-contained; `d2-quartic-map-lock.json` records a deterministic SHA for each complete map-data block and the exact `E -> J_q` isomorphism data.
-
-A strong structural pattern appears in every case:
-
-```text
-d=1: third forward coordinate = (X-Z)^3,
-d=2: third forward coordinate = X^3.
-```
-
-This exposes a tiny exceptional-locus problem rather than fourteen unrelated map problems. However, the exact naive forward/inverse base schemes and the round-trip extension at those exceptional points have not yet been promoted.
+is a global curve isomorphism. The zeros of one chosen homogeneous coordinate presentation are not missing curve points.
 
 Evidence:
 
-- `d2-quartic-map-preflight.json`
-- `run_d2_magma_quartic_maps.py`
-- `d2-quartic-map-execution.json`
 - `d2-quartic-map-lock.json`
+- `d2-birational-extension-theorem-lock.json`
+- `d2-quartic-map-certificate.json`
+
+Two attempted CAS-only hardenings (runs `33500019489`, `33500164959`) hit Magma datatype limitations for `CrvEll` in `EvaluateByPowerSeries` / `Extend`; they failed before any mathematical assertion and grant no credit.
+
+## Exact split-to-receiver pullback
+
+For reduced `q=a/b`, projective parameter `[T:S]` maps to receiver x by
+
+```text
+d=1: [T:S] -> [a(T^2-S^2) : 2bTS]
+d=2: [T:S] -> [a(2T^2-4TS+S^2) : b(2T^2-S^2)].
+```
+
+Both are genuine projective maps with no base point.
+
+Rational exceptional fibers are already outside the receiver:
+
+```text
+d=1: t=0,infinity -> x=infinity -> E_q origin;
+d=2: t=0,1 -> x=-q; t=1/2,infinity -> x=+q -> order-4 E_q torsion.
+```
+
+Thus for the audited non-torsion receiver population the global problem is exactly:
+
+> classify rational pairs `(P_E,P_J)` in `E_q(Q) x J_q(Q)` such that the corresponding `K_{q,d}` point and `P_E` have the same finite non-pole x.
+
+The forward/reverse equivalence is locked in `d2-split-to-receiver-pullback-lock.json`.
 
 ## Current exact leaf
 
 ```text
-D2_CERTIFY_EXCEPTIONAL_LOCI_AND_ROUNDTRIP_EXTENSION_FOR_14_MAPS
-  -> prove the exact forward/inverse base points from the materialized formulas;
-  -> certify K -> E -> K round-trip on a nonexceptional rational test point and the curve-place extension at the exceptional points;
-  -> only then bind the explicit J_q coordinates to the certified full MW bases;
-  -> proceed to covering / elliptic-Chabauty and exact pullback to C_q -> E_q.
+D2_BUILD_PROOF_COMPLETE_FIBER_PRODUCT_MORDELL_WEIL_SIEVE_ON_MATCHING_X_USING_FULL_E_q_AND_J_q_BASES
 ```
 
-## Firewalls
+Use the certified full MW bases on both elliptic sides, reduce them through exact finite groups, and sieve the matching-x condition. Finite residue statistics alone are not closure; any surviving MW cosets must be refined or sent to elliptic-Chabauty/covering until completeness is proved.
+
+## Credit boundary
 
 ```text
 D1_LOCAL_CLASSIFICATION_COMPLETE=true
-D1_LOCALLY_VIABLE_CLASSES=14
-D1_GLOBAL_MW_SIEVE_COMPLETE=false
 D2_COMMON_JACOBIAN_RANKS_CERTIFIED=true
-D2_MAP_MATERIALIZATION_EXECUTION_COMPLETE=true
-D2_EXPLICIT_BIRATIONAL_MAPS_COMPLETE=false
-D2_EXCEPTIONAL_LOCI_COMPLETE=false
+D2_EXPLICIT_BIRATIONAL_MAPS_COMPLETE=true
+D2_EXCEPTIONAL_LOCI_COMPLETE=true
+D2_SPLIT_TO_RECEIVER_PULLBACK_COMPLETE=true
+D2_FIBER_PRODUCT_MW_SIEVE_COMPLETE=false
 DIRECT_COVER_RATIONAL_POINTS_COMPLETE=false
 ALL_MULTIPLES_CLOSED=false
 R29_EXT_CHANG_C_closed=false
