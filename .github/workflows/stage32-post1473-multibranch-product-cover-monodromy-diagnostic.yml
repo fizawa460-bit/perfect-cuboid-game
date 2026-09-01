@@ -1,0 +1,36 @@
+name: Stage32 post1473 multibranch product-cover monodromy diagnostic
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - '.github/workflows/stage32-post1473-multibranch-product-cover-monodromy-diagnostic.yml'
+      - 'stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-product-cover-monodromy-extremal-wall.md'
+      - 'stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-product-cover-monodromy-extremal-wall.json'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_multibranch_product_cover_monodromy_extremal_wall.py'
+      - 'stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-beauville-odd-branch-wall.json'
+      - 'stages/stage33/33-07/exceptional-p1-tangent-coordinates.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-post1473-multibranch-product-cover-monodromy-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Replay exact product-cover extremal arithmetic and evidence boundary
+        working-directory: stages/stage32/residual-32-01-production
+        run: python diagnose_stage32_post1473_multibranch_product_cover_monodromy_extremal_wall.py
