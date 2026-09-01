@@ -45,6 +45,14 @@ MUST NOT be reinvestigated in an ordinary MAIN batch while its listed source
 lock still matches. Reopen it only under a listed reopen condition. Human memory
 is never required to stop a repeated investigation.
 
+A resolved-investigation or “do not reinvestigate” rule is therefore scoped to
+the **same effective premises**: the same locked inputs, basis/conventions, and
+source/target/interface meaning. A mere state promotion does not reopen it.
+However, if a new proof, adapter, basis, source/target definition, or other exact
+change materially alters premises on which that investigation depended, MAIN may
+re-evaluate only the affected item under the new premises. That is a new
+interface question, not permission to rerun the old investigation unchanged.
+
 If the compact state is absent or fails
 `python stages/stage33/sync_main_state.py --check`, stop and repair the compact
 state before mathematical work. Do not compensate by broadly rereading history.
