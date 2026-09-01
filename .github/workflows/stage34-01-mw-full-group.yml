@@ -7,8 +7,7 @@ on:
       - 'stages/stage34/runkeys/stage34-01-mw-full-group.json'
       - 'stages/stage34/34-01/mw-full-group-preflight.json'
       - 'stages/stage34/34-01/verify_mw_full_group_inputs.py'
-      - 'stages/stage34/34-01/magma_mw_full_group_certificate.m'
-      - 'stages/stage34/34-01/run_magma_mw_online.py'
+      - 'stages/stage34/34-01/run_eclib_mw_certificate.py'
       - 'stages/stage34/34-01/validate_mw_runkey.py'
       - '.github/workflows/stage34-01-mw-full-group.yml'
 
@@ -41,24 +40,29 @@ jobs:
       - name: Report authorization
         run: echo "authorized=${{ steps.gate.outputs.authorized }} reason=${{ steps.gate.outputs.reason }}"
 
-  magma-mw-full-group:
+  eclib-mw-residual:
     needs: authorize
     if: needs.authorize.outputs.authorized == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
       - name: Verify exact Stage34 MW inputs
         run: python3 stages/stage34/34-01/verify_mw_full_group_inputs.py
-      - name: Call official Magma calculator
-        run: python3 stages/stage34/34-01/run_magma_mw_online.py
+      - name: Install proof-capable eclib mwrank
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends eclib-tools
+          dpkg-query -W eclib-tools
+      - name: Run residual full-basis saturation and exact torsion replay
+        run: python3 stages/stage34/34-01/run_eclib_mw_certificate.py
       - name: Upload compact certificate output
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage34-01-mw-full-group-certificate
+          name: stage34-01-eclib-mw-certificate
           path: |
-            stages/stage34/34-01/mw-magma-response.json
-            stages/stage34/34-01/mw-magma-stdout.txt
+            stages/stage34/34-01/mw-eclib-certificate.json
+            stages/stage34/34-01/mw-eclib-stdout.txt
           if-no-files-found: warn
           retention-days: 1
