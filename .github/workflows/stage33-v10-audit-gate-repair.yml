@@ -15,78 +15,36 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Repair V10 audit authority gate
+      - name: Separate pending V10 audit from completed V9 audit
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
-          import json
           from pathlib import Path
 
-          root = Path('.')
-          cp = root / 'stages/stage33/controller.json'
-          c = json.loads(cp.read_text())
-
-          scope = 'STAGE33_12_V10_QPIC_CERTIFIED_ACTUAL_SWAP_DESCENT_HOSTILE_AUDIT'
-          next_item = 'HOSTILE_AUDIT_V10_QPIC_CERTIFIED_ACTUAL_SWAP_DESCENT'
-          next_cmd = 'Stage33-audit'
-          advance_scope = 'NONE_PENDING_HOSTILE_AUDIT'
-
-          def arm(d):
-              d['audit_required'] = True
-              d['audit_status'] = 'PENDING_HOSTILE_AUDIT'
-              d['audit_scope'] = scope
-              d['audit_review_id'] = None
-              d['audit_head_sha'] = None
-              d['merge_allowed'] = False
-              d['advance_allowed'] = False
-              d['advance_scope'] = advance_scope
-              d['next_item'] = next_item
-              d['next_expected_command'] = next_cmd
-
-          arm(c)
-          if 'execution' not in c or not isinstance(c['execution'], dict):
-              raise SystemExit('controller execution block missing')
-          arm(c['execution'])
-          c['current_exact_promotion_audit_required'] = True
-          c['current_exact_promotion_scope'] = 'QPIC_BRIDGE_RECERTIFICATION_AND_ACTUAL_SWAP_MIXED_DISCRIMINANT_DESCENT_ONLY_NO_CREDIT'
-          c['pending_audit_boundary'] = {
-              'scope': scope,
-              'target': 'LATEST_PR_1476_HEAD_AFTER_GATE_REPAIR',
-              'ordinary_main_forbidden_until_pass': True,
-              'new_pr_before_pass': False,
-              'new_pr_after_pass': True,
-              'mathematical_leaf_extension_in_this_repair': False,
-          }
-          cp.write_text(json.dumps(c, indent=2, ensure_ascii=False) + '\n')
-
-          sp = root / 'stages/stage33/sync_main_state.py'
+          sp = Path('stages/stage33/sync_main_state.py')
           s = sp.read_text()
-          old = "assert c['advance_scope']=='STAGE33_12_INTERNAL_33_13_NAMED_J2_ORDER4_LIFT_ACTUAL_S3_LABEL_ONLY_NO_PARENT_RECLOSURE'\nassert c['next_item']=='Stage33-12_33-13_SOURCE_LOCK_NAMED_J2_ORDER4_LIFT_ACTUAL_S3_BEHAVIOR'\nassert c['merge_allowed'] is False and c['theorem_credit'] is False and c['receiver_credit'] is False and c['endpoint_credit'] is False"
-          new = "assert c['audit_required'] is True and c['audit_status']=='PENDING_HOSTILE_AUDIT'\nassert c['audit_scope']=='STAGE33_12_V10_QPIC_CERTIFIED_ACTUAL_SWAP_DESCENT_HOSTILE_AUDIT'\nassert c['audit_review_id'] is None and c['audit_head_sha'] is None\nassert c['current_exact_promotion_audit_required'] is True\nassert c['advance_allowed'] is False and c['advance_scope']=='NONE_PENDING_HOSTILE_AUDIT'\nassert c['next_item']=='HOSTILE_AUDIT_V10_QPIC_CERTIFIED_ACTUAL_SWAP_DESCENT'\nassert c['next_expected_command']=='Stage33-audit'\nassert c['execution']['audit_required'] is True and c['execution']['audit_status']=='PENDING_HOSTILE_AUDIT'\nassert c['execution']['audit_scope']==c['audit_scope'] and c['execution']['advance_allowed'] is False\nassert c['merge_allowed'] is False and c['theorem_credit'] is False and c['receiver_credit'] is False and c['endpoint_credit'] is False"
-          if old not in s:
-              raise SystemExit('expected sync audit/advance assertion block not found; fail closed')
-          s = s.replace(old, new, 1)
-          sp.write_text(s)
 
-          hp = root / 'stages/stage33/MAIN-BATCH-HANDOFF.md'
-          h = hp.read_text()
-          marker = 'merge_before_audit_pass: FORBIDDEN\n'
-          addition = "\nmachine_audit_gate: PENDING_HOSTILE_AUDIT\nmachine_audit_scope: STAGE33_12_V10_QPIC_CERTIFIED_ACTUAL_SWAP_DESCENT_HOSTILE_AUDIT\nordinary_main_before_audit_pass: FORBIDDEN\nnext_expected_command: Stage33-audit\n"
-          if 'machine_audit_gate: PENDING_HOSTILE_AUDIT' not in h:
-              if marker not in h:
-                  raise SystemExit('handoff audit marker missing; fail closed')
-              h = h.replace(marker, marker + addition, 1)
-          hp.write_text(h)
+          anchor = "assert c['execution']['audit_scope']==c['audit_scope'] and c['execution']['advance_allowed'] is False\nassert c['merge_allowed'] is False and c['theorem_credit'] is False and c['receiver_credit'] is False and c['endpoint_credit'] is False"
+          replacement = "assert c['execution']['audit_scope']==c['audit_scope'] and c['execution']['advance_allowed'] is False\nassert c['last_completed_audit_scope']=='STAGE33_12_V9_QPIC_BRIDGE_CONTROLLER_AUTHORITY_SYNC'\nassert c['last_completed_audit_review_id']==5080029385\nassert c['last_completed_audit_head_sha']=='8e61024cd12bcb55b3406701aea68f8bfbaa06a2'\nassert c['merge_allowed'] is False and c['theorem_credit'] is False and c['receiver_credit'] is False and c['endpoint_credit'] is False"
+          if anchor not in s:
+              raise SystemExit('expected V10 audit assertion anchor missing; fail closed')
+          s = s.replace(anchor, replacement, 1)
+
+          old_gate = "'execution_gate':{'audit_required':c['audit_required'],'audit_status':c['audit_status'],'last_completed_audit_scope':c['audit_scope'],'last_completed_audit_review_id':c['audit_review_id'],'last_completed_audit_head_sha':c['audit_head_sha'],'advance_allowed':c['advance_allowed'],'advance_scope':c['advance_scope'],'next_expected_command':c['next_expected_command']},"
+          new_gate = "'execution_gate':{'audit_required':c['audit_required'],'audit_status':c['audit_status'],'audit_scope':c['audit_scope'],'audit_review_id':c['audit_review_id'],'audit_head_sha':c['audit_head_sha'],'last_completed_audit_scope':c['last_completed_audit_scope'],'last_completed_audit_review_id':c['last_completed_audit_review_id'],'last_completed_audit_head_sha':c['last_completed_audit_head_sha'],'advance_allowed':c['advance_allowed'],'advance_scope':c['advance_scope'],'next_expected_command':c['next_expected_command']},"
+          if old_gate not in s:
+              raise SystemExit('expected compact execution_gate mapping missing; fail closed')
+          s = s.replace(old_gate, new_gate, 1)
+          sp.write_text(s)
           PY
 
           python stages/stage33/sync_main_state.py
           python stages/stage33/sync_main_state.py --check
           python stages/stage33/33-12/verify_j2_actual_swap_mixed_discriminant_descent.py
-          python -m json.tool stages/stage33/controller.json >/dev/null
           git diff --check
 
-      - name: Commit bounded authority repair
+      - name: Commit bounded projection repair
         shell: bash
         run: |
           set -euo pipefail
@@ -96,6 +54,6 @@ jobs:
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add stages/stage33/controller.json stages/stage33/sync_main_state.py stages/stage33/MAIN-STATE.json stages/stage33/MAIN-BATCH-HANDOFF.md
-          git commit -m 'Stage33: arm V10 hostile audit boundary'
+          git add stages/stage33/sync_main_state.py stages/stage33/MAIN-STATE.json
+          git commit -m 'Stage33: separate pending V10 audit from V9 history'
           git push origin HEAD:${GITHUB_REF_NAME}
