@@ -3,6 +3,10 @@
 status: UNPROMOTED_DELTA
 base_main_state_canonical_sha256: 7d52c93a517fc96050b2f78583ae05e5e4ff4f983c2533c673ca008060bd0226
 
+durable_gap_artifact: `stages/stage33/33-12/j2-indlist-magma-picard-bridge-source-lock-gap.json`
+durable_gap_canonical_sha256: `85c3e0811bb9e9b5391772ae35e569f4aa0fd12940ca6c2db1b4be59b635ae2c`
+durable_gap_commit: `9fa968143ac65b9674bfe43a79a0f7d5c051644d`
+
 ## Exact narrowing from this batch
 
 The current retained data do not source-lock the actual 64x64 INDLIST-to-historical-Magma Picard-basis bridge. A corrected exact local backtracking search found two distinct full bridge witnesses satisfying all presently retained constraints simultaneously:
