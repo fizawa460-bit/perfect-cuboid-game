@@ -17,6 +17,8 @@ FIBERS = [
     {"q": "20/99", "P": ["-20/27", "980/2673"]},
 ]
 
+FULL_BASIS_SUCCESS = "The rank and full Mordell-Weil basis have been determined unconditionally."
+
 
 def F(s):
     return Fraction(s)
@@ -125,6 +127,10 @@ for item in FIBERS:
     bad = [s for s in bad_markers if s in low]
     if bad:
         raise SystemExit(f"mwrank saturation/rank warning for q={item['q']}: {bad}")
+    if FULL_BASIS_SUCCESS not in stdout:
+        raise SystemExit(
+            f"mwrank did not positively certify the full Mordell-Weil basis for q={item['q']}"
+        )
 
     G, o_line = parse_o_generator(stdout)
     if not on_curve(G, a2, a4):
@@ -144,24 +150,25 @@ for item in FIBERS:
         "paper_c_source_point": [str(P[0]), str(P[1])],
         "mwrank_generator": [str(G[0]), str(G[1])],
         "mwrank_o_line": o_line,
+        "full_mw_basis_success_sentence_seen": True,
         "paper_minus_generator_is_4_torsion": minus_torsion4,
         "paper_plus_generator_is_4_torsion": plus_torsion4,
         "source_spans_full_free_part": same_free_generator,
     })
 
 payload = {
-    "schema": "STAGE34_01_ECLIB_MWRANK_RESIDUAL_MW_CERTIFICATE_V1",
+    "schema": "STAGE34_01_ECLIB_MWRANK_RESIDUAL_MW_CERTIFICATE_V2_POSITIVE_FULL_BASIS_MARKER",
     "status": "PASS_ECLIB_MWRANK_FULL_BASIS_MOD_TORSION_REPLAY",
     "software": {
         "package": "eclib-tools",
         "package_version": package_version(),
         "routine": "mwrank",
         "command": "mwrank -q -v 1 -o",
-        "semantics": "with -o, mwrank performs its default saturation and outputs generators; warning markers are fail-closed",
+        "semantics": "with -o, mwrank performs its default saturation and outputs generators; warnings fail closed and the explicit unconditional full-MW-basis success sentence is required",
     },
     "paper_c_rank_source": "Paper C verify_ranks.gp tight rank locks remain the independent rank authority",
     "torsion_exponent": 4,
-    "method": "For each residual rank-one fiber, obtain mwrank's saturated free generator G on the original rational model and exact-replay 4*(P-G)=O or 4*(P+G)=O. Since E_q(Q)_tors has exponent 4, this proves P and +/-G have the same free class.",
+    "method": "For each residual rank-one fiber, require mwrank's explicit unconditional full Mordell-Weil basis certificate, obtain its saturated free generator G on the original rational model, and exact-replay 4*(P-G)=O or 4*(P+G)=O. Since E_q(Q)_tors has exponent 4, this proves P and +/-G have the same free class.",
     "fibers": records,
     "all_residual_source_points_span_full_free_part": all(r["source_spans_full_free_part"] for r in records),
     "credit_firewall": {
