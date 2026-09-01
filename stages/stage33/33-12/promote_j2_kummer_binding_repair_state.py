@@ -123,8 +123,7 @@ if heading not in text:
     text += f"COMPATIBILITY_AUDIT_SHA256={AUDIT_SHA}\n"
     text += "NAMED_SOURCE_TARGET_RELATION_RANK_F2=0\n"
     text += "STANDARD_KUMMER_COLUMNS_MATERIALIZED=0/10\n"
-    text += "```
-\n"
+    text += "```\n\n"
     text += (
         "Therefore the earlier `C2 + C3 = h_J2` statement is revoked as a Kummer-matrix relation. "
         "This does not revoke the J2 proper-Br2 source certificate or the J2 raw/75D target certificate separately; "
