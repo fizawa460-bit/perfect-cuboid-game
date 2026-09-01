@@ -96,6 +96,28 @@ working set afterward. Never reload a closed ancestor merely for reassurance.
 - Before ending a MAIN batch, write only genuinely unpromoted narrowing/blockers
   to `MAIN-BATCH-HANDOFF.md`. Do not copy current mathematical state into it.
 
+## MAIN batch completion gate
+
+`Stage33-main-batch` is a work unit, not a single-observation or short-status
+unit. After compact startup, continue the current exact leaf until one of these
+conditions is reached:
+
+- exact progress is promoted/materialized and the required state/writeback is
+  complete;
+- an exact blocker is materially narrowed with durable evidence and the latest
+  unresolved delta/next action is committed to `MAIN-BATCH-HANDOFF.md`;
+- a real permission, safety, tool, or external dependency boundary prevents
+  further progress in the current turn.
+
+Do NOT end a MAIN batch merely because an intermediate diagnostic was found, a
+search target was narrowed, several tool calls elapsed, or a plausible next step
+became visible. If an exploration changes the blocker or next action but is not
+promoted state, that change is itself an unpromoted delta and MUST be written to
+the handoff before the user-visible batch completion response.
+
+The user must not be required to remind MAIN to continue, commit durable work,
+or update/reset the handoff. Those are part of the batch completion condition.
+
 ## Mandatory handoff reset law
 
 Whenever a batch promotes mathematical progress into exact certificates and the
