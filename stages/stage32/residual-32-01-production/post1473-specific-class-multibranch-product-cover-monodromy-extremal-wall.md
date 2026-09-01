@@ -48,6 +48,8 @@ gives
 
 Thus a `q'=2` component cannot realize the coarse extremal `O=186` state.
 
+The already-audited exact branch-partition state space can be replayed against this sharpened threshold without treating partition arithmetic as branch geometry. It still survives: the minimum `S1` among states with `O>=188` is `149`, and `(B,O,S1)=(188,188,149)` is reachable. Hence the q'=2 sharpening is also a coarse NONEXCLUSION, not an exclusion.
+
 ### Case q'=4 and the extremal O=186 boundary
 
 Now
@@ -76,6 +78,8 @@ Hence at `q'=4`, `O=d=186`,
 
 So both maps `D -> X(8)` must be unramified/etale covers of degree `93`.
 
+The previous exact coarse state `(B,O,S1)=(186,186,146)` remains reachable, so this extremal q'=4 branch can only be attacked by the additional projection/monodromy geometry, not by total exceptional mass alone.
+
 ## V4 monodromy meaning of q'=4
 
 The product cover `P=X(8)xX(8) -> X` is the connected regular etale cover with deck group `(Z/2)^2`. Pull it back to the connected curve `Y`. If the monodromy image is `H <= (Z/2)^2`, then each connected component of the pullback has degree `|H|` over `Y`; equivalently `q'=|H| in {1,2,4}`.
@@ -101,7 +105,7 @@ It materializes the 48 exceptional P1 tangent-coordinate models and the physical
 - `absolute_delta_loc_computed=false`;
 - `chosen_global_geometric_lifts_materialized=false`.
 
-Repository search at this leaf found no separately materialized artifact for those residue/squareclass/absolute-local/monodromy layers.
+Targeted repository search at this leaf found no separately materialized artifact for those residue/squareclass/absolute-local/monodromy layers.
 
 Accordingly, the retained physical-side tangent points MUST NOT be substituted for the unknown tangent/residue data of a hypothetical V6 carrier branch. The current evidence is sufficient to state the extremal full-V4/etale necessary condition, but not sufficient to evaluate whether the hypothetical carrier realizes that monodromy.
 
@@ -109,8 +113,8 @@ Accordingly, the retained physical-side tangent points MUST NOT be substituted f
 
 Authoritative only after hostile audit:
 
-- if `q'=2`, necessarily `O>=188` and `S1>=149`;
-- if `O=186`, necessarily `q'=4`, full V4 monodromy, `n1=n2=93`, and both projections are etale;
+- if `q'=2`, necessarily `O>=188` and `S1>=149`; the exact coarse state `(188,188,149)` still survives;
+- if `O=186`, necessarily `q'=4`, full V4 monodromy, `n1=n2=93`, and both projections are etale; the exact coarse state `(186,186,146)` still survives;
 - current retained tangent/intersection evidence does not decide that full-V4 carrier-branch monodromy condition.
 
 DO NOT USE THIS FOR:
