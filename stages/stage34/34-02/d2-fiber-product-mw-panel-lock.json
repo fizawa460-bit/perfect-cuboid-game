@@ -1,0 +1,63 @@
+{
+  "schema": "STAGE34_02_D2_FIBER_PRODUCT_MW_PANEL_LOCK_V1",
+  "status": "PASS_EXACT_FOUR_PRIME_DIAGNOSTIC_PANEL_WITH_Q_BASEPOINT_EXTENSION",
+  "scope": "Exact finite matching-x MW pruning only. Nonempty finite residue survivors receive no global point or receiver-closure credit.",
+  "execution": {
+    "workflow_run": 33505914867,
+    "job": 99849838545,
+    "head": "9064383d848bacbe3234271121ae70fdf54dd1e5",
+    "runkey_generation": 4,
+    "conclusion": "SUCCESS",
+    "artifact_id": 9799577011,
+    "artifact_digest": "sha256:135fb3e60f52c96d2aaa23ee1e067fde7c556319870bc3b7820395fb2409cef0",
+    "artifact_name": "stage34-02-d2-fiber-product-mw-panel-v2",
+    "retention_days": 1
+  },
+  "sources": {
+    "runner": "stages/stage34/34-02/run_d2_fiber_product_mw_panel_v2.py",
+    "base_runner": "stages/stage34/34-02/run_d2_fiber_product_mw_panel.py",
+    "inverse_basepoint_verifier": "stages/stage34/34-02/verify_d2_inverse_basepoint_extension.py",
+    "jacobian_torsion_verifier": "stages/stage34/34-02/verify_d2_jacobian_torsion.py",
+    "maps": "stages/stage34/34-02/d2-quartic-map-certificate.json",
+    "jacobian_mw": "stages/stage34/34-02/d2-jacobian-mw-certificate.json"
+  },
+  "prime_panel": [107,109,113,127],
+  "inverse_basepoint_extension": {
+    "status": "PASS_EXACT_14_OF_14_PROJECTIVE_T_AND_RECEIVER_X_EXTENSIONS_AT_MAGMA_E_00",
+    "classification": "All fourteen Q-level inverse-coordinate base points extend to finite non-pole receiver-x values. The verifier derives t=[a4:2*a3+a4] from the local Weierstrass expansion and evaluates the locked projective x-map exactly.",
+    "false_assumption_removed": "No d=2 t=1/x=-q assertion is retained.",
+    "mod_p_presentation_degeneracy_policy": "If the reduced coordinate presentation still becomes [0:0] at a prime, that local state is retained conservatively; Q-level extension does not authorize deleting a bad reduced presentation state."
+  },
+  "cases": [
+    {"q":"20/21","d":1,"E_moduli":[1],"J_moduli":[2,2],"survivors":256,"total":256,"sha256":"a32e932e6cac208ae59577cef9236774cffedba27bc82d02cf9cf56582f28819"},
+    {"q":"20/21","d":2,"E_moduli":[1],"J_moduli":[2,2],"survivors":156,"total":256,"sha256":"f0e828d6e777ae8a59609d5e258a80ea88e6c8dc8971a54786fbf978db34b65d"},
+    {"q":"80/39","d":1,"E_moduli":[2],"J_moduli":[4],"survivors":16,"total":512,"sha256":"20d95418ce188da76db9c2c40b86e96bd91d5c47c3a5bde3042ba0130c77f402"},
+    {"q":"80/39","d":2,"E_moduli":[2],"J_moduli":[4],"survivors":12,"total":512,"sha256":"ffdb5bec582c8dd323a31700e8e3636d498e22eba75409438906cfa2c1449591"},
+    {"q":"24/7","d":1,"E_moduli":[2],"J_moduli":[2,1],"survivors":80,"total":256,"sha256":"ff7a17b0ce92e3473e092b9b016e602963b1b5ef1e2f57576ef007dfdc9ca963","presentation_degenerate_states":[{"p":109,"count":52}]},
+    {"q":"24/7","d":2,"E_moduli":[2],"J_moduli":[2,1],"survivors":182,"total":256,"sha256":"e61d116c31100fc9c55bc24c1d26c48d9a45c62dacec21c49f955321faa9f6af"},
+    {"q":"84/13","d":1,"E_moduli":[2],"J_moduli":[2],"survivors":16,"total":256,"sha256":"20d95418ce188da76db9c2c40b86e96bd91d5c47c3a5bde3042ba0130c77f402"},
+    {"q":"84/13","d":2,"E_moduli":[2],"J_moduli":[2],"survivors":31,"total":256,"sha256":"83709fc5aa25de07ef7d4ee17c1d60e6f84e69cbfd378312cfe1c3f0d63fd5ad"},
+    {"q":"48/55","d":1,"E_moduli":[1],"J_moduli":[2],"survivors":16,"total":128,"sha256":"20d95418ce188da76db9c2c40b86e96bd91d5c47c3a5bde3042ba0130c77f402"},
+    {"q":"48/55","d":2,"E_moduli":[1],"J_moduli":[2],"survivors":41,"total":128,"sha256":"4358b79a367c9a103a384d228a74190973e18324b822e0c9e2e6e643ec05126f"},
+    {"q":"20/99","d":1,"E_moduli":[2],"J_moduli":[2,2],"survivors":32,"total":512,"sha256":"477861939764a0b3ed6db8b9263169149c3dcd3f107e3f26be741d9cd6c52e5c"},
+    {"q":"20/99","d":2,"E_moduli":[2],"J_moduli":[2,2],"survivors":40,"total":512,"sha256":"e54a766419a26b802f29e7b6443f007e9be7b55556f1d62b1c1017bc10f8bd16"},
+    {"q":"60/11","d":1,"E_moduli":[4,4],"J_moduli":[1],"survivors":64,"total":1024,"sha256":"c48b88da3cc505a47e3e4f134978a7582f01c502f051bcf4f776d06f0730d92d"},
+    {"q":"60/11","d":2,"E_moduli":[4,4],"J_moduli":[1],"survivors":444,"total":1024,"sha256":"6ee2b1337721ba1a638a82500cc48386a435e2d0ce34d41d8030b740f00e596c"}
+  ],
+  "global_summary": {
+    "globally_eliminated_cases": 0,
+    "all_fourteen_have_finite_survivors": true,
+    "presentation_degenerate_states_total": 52,
+    "presentation_degenerate_location": "q=24/7,d=1,p=109 only",
+    "diagnostic_lesson": "A fixed common-prime gcd projection can discard most useful coefficient information when one local generator order is odd. The next MW-sieve layer must instead fix a quotient m first and select primes whose reduction orders are divisible by m."
+  },
+  "next_obligation": "Build fiber-tailored fixed-quotient MW sieves: choose m=2 or 4 on the free coordinates first, select good primes supporting that quotient with no presentation degeneracy, and intersect exact matching-x residue relations in the fixed quotient. Empty intersection gives a valid global obstruction for that case; nonempty intersections require further refinement or covering/elliptic-Chabauty.",
+  "firewalls": {
+    "four_prime_panel_is_proof_complete_global_MW_sieve": false,
+    "finite_survivor_is_rational_point": false,
+    "presentation_degenerate_state_is_deleted": false,
+    "receiver_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
