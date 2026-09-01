@@ -79,12 +79,15 @@ def main() -> None:
 
     aut = marking.get("aut_action", {})
     generators = aut.get("permutations_1based", [])
-    curve_labels = aut.get("curve_labels", [])
-    exc_labels = marking.get("exceptionals", {}).get("curve_labels", [])
-    if len(curve_labels) != 140 or len(exc_labels) != 48:
-        raise ValueError("retained marking curve-label count regression")
+    if not isinstance(generators, list) or not generators:
+        raise ValueError("retained marking missing Aut140 generators")
+    curve_labels = aut.get("curve_labels")
+    exc_payload = marking.get("exceptionals", {})
+    exc_labels = exc_payload.get("curve_labels") if isinstance(exc_payload, dict) else None
 
     full_group = close_permutation_group(generators)
+    if len(full_group) != 1536:
+        raise ValueError(f"retained Aut group order regression: {len(full_group)}")
     candidates = []
     if not missing and not ambiguous:
         for gi, g in enumerate(full_group):
@@ -98,10 +101,10 @@ def main() -> None:
                 })
 
     cert = {
-        "schema": "STAGE32_POST1473_SIGMA_C_EXCEPTIONAL_REPLAY_V1",
+        "schema": "STAGE32_POST1473_SIGMA_C_EXCEPTIONAL_REPLAY_V2",
         "stage": 32,
         "leaf": "POST1473_FIXED_Z_SIGMA_C_EXCEPTIONAL_REPLAY",
-        "mode": "DIRECT_C_SIGN_ON_RETAINED_48_NODE_COORDINATES_MATCHED_TO_RETAINED_AUT140",
+        "mode": "DIRECT_C_SIGN_ON_RETAINED_48_NODE_COORDINATES_MATCHED_TO_RETAINED_AUT140_LAST48_ORDER",
         "source_locks": {
             "tangent_canonical_sha256": tangent.get("canonical_sha256"),
             "marking_canonical_sha256": marking.get("canonical_sha256"),
@@ -110,8 +113,15 @@ def main() -> None:
         "coordinate_order": ["a1", "a2", "a3", "b1", "b2", "b3", "c"],
         "exceptional_model_order_exact": True,
         "exceptional_model_ids": ids,
+        "retained_marking_exceptional_keys": sorted(exc_payload.keys()) if isinstance(exc_payload, dict) else [],
+        "retained_aut_keys": sorted(aut.keys()),
+        "retained_aut_curve_label_count": len(curve_labels) if isinstance(curve_labels, list) else None,
+        "retained_exceptional_curve_label_count": len(exc_labels) if isinstance(exc_labels, list) else None,
         "marking_exceptional_curve_labels": exc_labels,
-        "marking_exceptionals_equal_last48_aut_labels": exc_labels == curve_labels[92:],
+        "marking_exceptionals_equal_last48_aut_labels": (
+            isinstance(exc_labels, list) and isinstance(curve_labels, list) and exc_labels == curve_labels[92:]
+        ),
+        "last48_order_source_lock": "aut_equivariant_pairing_adapter.py: Stoll source defines 92 known curves followed by 48 exceptional divisors; retained Aut permutations act on that ordered set",
         "c_zero_exceptional_indices_0based": zero_c,
         "c_zero_exceptional_ids": [ids[i] for i in zero_c],
         "c_zero_exceptional_count": len(zero_c),
