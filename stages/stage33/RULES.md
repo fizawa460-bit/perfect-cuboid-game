@@ -69,12 +69,9 @@ Load COLD material only for a named reason such as source-lock mismatch, certifi
 ## MAIN startup order
 
 For a routine Stage33 MAIN batch, `AGENTS.md` routes startup through
-`MAIN-START-HERE.md`. Read only what is needed in this order:
-
-1. `AGENTS.md`
-2. `stages/stage33/MAIN-START-HERE.md`
-3. `stages/stage33/MAIN-STATE.json`
-4. only the immediate files named by `current_leaf_working_set`
+`MAIN-START-HERE.md`. That constitution is the **sole authoritative enumeration**
+of routine startup inputs. Do not duplicate its ordered list here; follow its
+current list exactly, including `MAIN-BATCH-HANDOFF.md` semantics.
 
 Do not read RULES, CURRENT, the full controller, compatibility shims, old
 Stage33-05 state, roadmaps, or HISTORY merely because they exist. The startup
