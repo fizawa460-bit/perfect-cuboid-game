@@ -9,7 +9,9 @@ on:
       - 'stages/stage34/34-02/d2-jacobian-torsion-lock.json'
       - 'stages/stage34/34-02/d2-jq-to-receiver-x-coordinate-lock.json'
       - 'stages/stage34/34-02/verify_d2_jacobian_torsion.py'
+      - 'stages/stage34/34-02/verify_d2_inverse_basepoint_extension.py'
       - 'stages/stage34/34-02/run_d2_fiber_product_mw_panel.py'
+      - 'stages/stage34/34-02/run_d2_fiber_product_mw_panel_v2.py'
       - 'stages/stage34/34-02/validate_d2_fiber_product_mw_runkey.py'
       - 'stages/stage34/34-02/d2-quartic-map-certificate.json'
       - 'stages/stage34/34-02/d2-jacobian-mw-certificate.json'
@@ -51,15 +53,19 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify exact Jq torsion
         run: python3 stages/stage34/34-02/verify_d2_jacobian_torsion.py
-      - name: Run exact four-prime matching-x panel
-        run: python3 stages/stage34/34-02/run_d2_fiber_product_mw_panel.py
+      - name: Verify inverse-coordinate basepoint extension
+        run: python3 stages/stage34/34-02/verify_d2_inverse_basepoint_extension.py
+      - name: Run exact four-prime matching-x panel without indeterminate J states
+        run: python3 stages/stage34/34-02/run_d2_fiber_product_mw_panel_v2.py
       - name: Enforce compact artifact cap
-        run: test $(wc -c < stages/stage34/34-02/d2-fiber-product-mw-panel.json) -le 1048576
+        run: test $(wc -c < stages/stage34/34-02/d2-fiber-product-mw-panel-v2.json) -le 1048576
       - name: Upload compact certificate
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage34-02-d2-fiber-product-mw-panel
-          path: stages/stage34/34-02/d2-fiber-product-mw-panel.json
+          name: stage34-02-d2-fiber-product-mw-panel-v2
+          path: |
+            stages/stage34/34-02/d2-fiber-product-mw-panel-v2.json
+            stages/stage34/34-02/d2-inverse-basepoint-extension.json
           if-no-files-found: warn
           retention-days: 1
