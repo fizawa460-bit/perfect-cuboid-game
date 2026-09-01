@@ -9,6 +9,7 @@ RAW=ROOT/"d2-stageA2-pair-quotient-ranks-stdout.txt"
 FULL="The rank and full Mordell-Weil basis have been determined unconditionally."
 PAIR_LIST=[(0,2),(0,3),(1,2),(1,3),(2,3)]
 NAMES=["U","V","A","B"]
+BOUNDS=[None,12,14,15]
 
 
 def factor(n:int):
@@ -68,6 +69,31 @@ def h(obj):
     return hashlib.sha256(json.dumps(obj,sort_keys=True,separators=(",",":")).encode()).hexdigest()
 
 
+def certify_curve(curve:str,idx:int,a4:int,a6:int):
+    attempts=[]
+    hard_bad=["unable to saturate","saturation failed","not saturated"]
+    for bound in BOUNDS:
+        cmd=["mwrank","-q","-v","1","-o"]
+        if bound is not None: cmd += ["-b",str(bound)]
+        proc=subprocess.run(cmd,input=curve,text=True,capture_output=True,timeout=240)
+        txt=proc.stdout+("\nSTDERR:\n"+proc.stderr if proc.stderr else "")
+        attempts.append({"bound":10 if bound is None else bound,"command":" ".join(cmd),"returncode":proc.returncode,"stdout":txt})
+        low=txt.lower()
+        if proc.returncode!=0:
+            continue
+        if any(s in low for s in hard_bad):
+            raise RuntimeError(f"mwrank saturation warning model {idx} bound={bound}")
+        if FULL in txt and "conditional rank" not in low:
+            rank,oline=parse_rank(txt)
+            return rank,oline,attempts
+    # Persist all inconclusive attempts before failing closed.
+    RAW.write_text("\n".join(
+      f"===== model={idx} a4={a4} a6={a6} bound={a['bound']} cmd={a['command']} =====\n{a['stdout']}"
+      for a in attempts
+    ))
+    raise RuntimeError(f"no unconditional full-basis marker model {idx} through bound 15")
+
+
 data=json.loads(SRC.read_text())
 assert data["status"]=="PASS_EXACT_FULL_SUPPORT_PROJECTIVE_REDUCTION"
 assert data["remaining_d1"]==92 and data["remaining_d2"]==0
@@ -106,26 +132,31 @@ raw=[]; model_records=[]; rank_by_key={}
 for idx,key in enumerate(sorted(models),1):
     m=models[key]; a4,a6=key
     curve=f"[0,0,0,{a4},{a6}]\n"
-    proc=subprocess.run(["mwrank","-q","-v","1","-o"],input=curve,text=True,capture_output=True,timeout=180)
-    txt=proc.stdout+("\nSTDERR:\n"+proc.stderr if proc.stderr else "")
-    raw.append(f"===== model={idx} a4={a4} a6={a6} =====\n{txt}")
-    if proc.returncode!=0:raise SystemExit(f"mwrank failed model {idx} rc={proc.returncode}")
-    low=txt.lower()
-    if any(s in low for s in ["unable to saturate","saturation failed","not saturated","conditional rank"]):
-        raise SystemExit(f"mwrank warning model {idx}")
-    if FULL not in txt:raise SystemExit(f"missing unconditional full-basis marker model {idx}")
-    rank,oline=parse_rank(txt)
+    try:
+        rank,oline,attempts=certify_curve(curve,idx,a4,a6)
+    except Exception:
+        # Include all completed prior models as well as the failing-model attempts.
+        if raw:
+            prev="\n".join(raw)
+            failtxt=RAW.read_text() if RAW.exists() else ""
+            RAW.write_text(prev+"\n"+failtxt)
+        raise
+    for attempt in attempts:
+        raw.append(f"===== model={idx} a4={a4} a6={a6} bound={attempt['bound']} cmd={attempt['command']} =====\n{attempt['stdout']}")
     rank_by_key[key]=rank
+    accepted=next(a for a in reversed(attempts) if FULL in a["stdout"] and "conditional rank" not in a["stdout"].lower() and a["returncode"]==0)
     model_records.append({
       "model_id":idx,"a4":a4,"a6":a6,"I":m["I"],"J":m["J"],
       "rank":rank,"unconditional_full_basis":True,"mwrank_o_line":oline,
+      "accepted_bound":accepted["bound"],"attempted_bounds":[a["bound"] for a in attempts],
       "association_count":len(m["associations"]),
       "association_sha256":h(m["associations"]),
-      "raw_section_sha256":hashlib.sha256(txt.encode()).hexdigest(),
+      "raw_section_sha256":hashlib.sha256(accepted["stdout"].encode()).hexdigest(),
       "example_association":m["associations"][0]
     })
-    print(f"PASS model={idx}/48 rank={rank} associations={len(m['associations'])}")
+    print(f"PASS model={idx}/48 rank={rank} bound={accepted['bound']} associations={len(m['associations'])}")
 
+RAW.write_text("\n".join(raw))
 rank0_models={key for key,r in rank_by_key.items() if r==0}
 parent_out=[]
 branches_with_rank0=0
@@ -141,11 +172,12 @@ for p in parent:
 rank_hist={}
 for r in rank_by_key.values():rank_hist[str(r)]=rank_hist.get(str(r),0)+1
 payload={
- "schema":"STAGE34_02_D2_STAGEA2_PAIR_QUOTIENT_RANKS_V1",
+ "schema":"STAGE34_02_D2_STAGEA2_PAIR_QUOTIENT_RANKS_V2_BOUND_ESCALATION",
  "status":"PASS_UNCONDITIONAL_PAIR_QUOTIENT_JACOBIAN_RANKS",
  "source":"d2-stageA2-full-support-projective.json",
  "source_lock":"d2-stageA2-pair-quotient-lock.json",
- "software":{"package":"eclib-tools","routine":"mwrank","command":"mwrank -q -v 1 -o","required_success_marker":FULL},
+ "mwrank_bound_source_lock":"d2-stageA2-pair-quotient-mwrank-bound-lock.json",
+ "software":{"package":"eclib-tools","routine":"mwrank","base_command":"mwrank -q -v 1 -o","fallback_bounds":[12,14,15],"required_success_marker":FULL},
  "parent_branches":92,
  "quotient_conditions":460,
  "distinct_models":48,
@@ -158,5 +190,4 @@ payload={
  "firewalls":{"rank_zero_jacobian_closes_torsor":False,"positive_rank_is_Q_point":False,"pair_quotient_rank_table_closes_branch":False,"direct_cover_rational_points_complete":False,"R29_EXT_CHANG_C_closed":False}
 }
 OUT.write_text(json.dumps(payload,indent=2,sort_keys=True)+"\n")
-RAW.write_text("\n".join(raw))
 print(json.dumps({"status":payload["status"],"models":48,"rank_histogram":rank_hist,"rank0_models":len(rank0_models),"branches_with_rank0":branches_with_rank0},sort_keys=True))
