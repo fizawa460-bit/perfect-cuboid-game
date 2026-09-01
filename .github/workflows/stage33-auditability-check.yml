@@ -1,0 +1,27 @@
+name: Stage33 auditability check
+
+on:
+  push:
+    branches:
+      - stage33-12-audit-integration-post-1469
+    paths:
+      - .github/workflows/stage33-auditability-check.yml
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Auditability replay
+        shell: bash
+        run: |
+          python -m py_compile stages/stage33/33-12/verify_j2_cc_actual_cech_global_square_overlap.py
+          python stages/stage33/33-12/verify_j2_cc_actual_cech_global_square_overlap.py
+          python stages/stage33/sync_main_state.py
+          git diff --exit-code -- stages/stage33/MAIN-STATE.json
+          python stages/stage33/sync_main_state.py --check
+          python -m json.tool stages/stage33/controller.json >/dev/null
+          git diff --check
