@@ -1,0 +1,82 @@
+name: Stage32 direct Picard orbit-sum exact KKT QP
+
+on:
+  pull_request:
+    types: [synchronize, opened, reopened]
+    paths:
+      - 'stages/stage32/residual-32-01-production/direct_picard_orbit_sum_qp_bound.py'
+      - 'stages/stage32/residual-32-01-production/build_direct_picard_orbit_sum_qp_census.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_slice_stabilizer_orbit_bound.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_slice_bridge.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_slice_quadratic_bound.py'
+      - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
+      - 'stages/stage32/residual-32-01-production/pairing_prefix_engine.py'
+      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+      - '.github/workflows/stage32-direct-picard-orbit-sum-qp.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  orbit-sum-kkt:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Build exact orbit-sum KKT certificate
+        run: |
+          python - <<'PY'
+          import importlib.util, json, pathlib, sys
+          root=pathlib.Path.cwd()
+          prod=root/'stages/stage32/residual-32-01-production'
+          sys.path.insert(0,str(prod))
+          from direct_picard_orbit_sum_qp_bound import DirectPicardOrbitSumQPBound
+          def load(path,name):
+              spec=importlib.util.spec_from_file_location(name,path)
+              assert spec and spec.loader
+              mod=importlib.util.module_from_spec(spec)
+              spec.loader.exec_module(mod)
+              return mod.load()
+          bundle=load(root/'stages/stage33/33-07/picard_base_rows_retained.py','s32_orbit_qp_picard')
+          marking=load(root/'stages/stage33/33-07/stage32_picard_marking_retained.py','s32_orbit_qp_marking')
+          model=DirectPicardOrbitSumQPBound.from_retained(marking,bundle)
+          c=model.certificate
+          assert c['nonfixed_orbit_count']==10
+          assert c['orbit_sum_quotient_rank_mod_phi']==2
+          assert c['active_set_subset_upper_count']==56
+          assert c['proof']['enumeration_complete'] is True
+          pathlib.Path('direct-picard-orbit-sum-kkt-bound.json').write_text(
+              json.dumps(c,indent=2,sort_keys=True)+'\n'
+          )
+          print(json.dumps({
+              'verdict':'PASS_DIRECT_PICARD_ORBIT_SUM_EXACT_KKT_QP_BOUND',
+              'quotient_rank':c['orbit_sum_quotient_rank_mod_phi'],
+              'subset_upper':c['active_set_subset_upper_count'],
+              'independent_candidates':c['independent_kkt_candidate_count'],
+              'dependent_skipped':c['dependent_active_set_count'],
+              'canonical_sha256':c['canonical_sha256_without_this_field'],
+          },sort_keys=True))
+          PY
+      - name: Apply exact orbit-sum QP to FULL178 direct slices
+        run: |
+          python stages/stage32/residual-32-01-production/build_direct_picard_orbit_sum_qp_census.py \
+            --manifest stages/stage32/residual-32-01-production/full178-manifest.json \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --output direct-picard-orbit-sum-kkt-census.json
+      - name: Upload compact orbit-sum KKT evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-direct-picard-orbit-sum-kkt
+          path: |
+            direct-picard-orbit-sum-kkt-bound.json
+            direct-picard-orbit-sum-kkt-census.json
+          retention-days: 7
+          compression-level: 9

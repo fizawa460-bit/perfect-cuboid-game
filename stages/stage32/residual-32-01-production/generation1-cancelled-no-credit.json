@@ -1,0 +1,41 @@
+{
+  "schema": "STAGE32_RESIDUAL32_01_FULL178_GENERATION1_CANCELLED_NO_CREDIT_V1",
+  "stage": 32,
+  "item": "RESIDUAL_32_01_PRODUCTION",
+  "generation": 1,
+  "run_id": 33238836983,
+  "authorize_job_id": 99064525215,
+  "authorization_passed": true,
+  "heavy_jobs_started": 8,
+  "heavy_jobs_completed_with_credit": 0,
+  "artifact_count_expected_from_produce": 8,
+  "artifact_count_persisted": 0,
+  "result": "CANCELLED_NO_CREDIT_BY_STALE_HEAD_SWEEPER_AFTER_MAIN_METADATA_WRITEBACK",
+  "diagnosis": {
+    "mathematical_failure": false,
+    "production_runner_failure_demonstrated": false,
+    "resource_ceiling_result_available": false,
+    "cause": "After the generation-1 key-only arm started the eight heavy jobs, controller/state writeback commits advanced the PR head. The repository Stage32 stale-run sweeper intentionally cancels active Stage32 runs whose head_sha differs from the newest PR head. All eight jobs were therefore cancelled during the work-unit execution step before artifact upload.",
+    "stale_run_sweeper": ".github/workflows/stage32-stale-run-sweeper.yml",
+    "cancelled_job_ids": [99064563982,99064563994,99064563954,99064563980,99064563969,99064563984,99064563976,99064564063],
+    "sample_cancelled_job_id": 99064563982,
+    "sample_log_last_result": "The operation was canceled during run_full178_prefix_work_unit.py",
+    "execution_started_at_sample": "2026-08-29T06:36:14Z",
+    "execution_cancelled_at_sample": "2026-08-29T06:36:50Z"
+  },
+  "repair": {
+    "required": true,
+    "strategy": "WRITE_ALL_CONTROLLER_STATE_AND_INCIDENT_METADATA_BEFORE_ARM; THEN ARM_GENERATION2_BY_A_KEY_ONLY_SYNC; PERFORM_NO_REPOSITORY_WRITES_WHILE_THE_CREDIT_ELIGIBLE_HEAVY_RUN_IS_ACTIVE",
+    "same_eight_work_units_may_be_retried": true,
+    "fresh_runkey_generation_required": true,
+    "next_generation": 2
+  },
+  "UNKNOWN_IS_UNSAT": false,
+  "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
+  "R29_LG2": "NOT_DISCHARGED",
+  "B18_RELEASE_AUTHORIZED": false,
+  "THEOREM_CREDIT": false,
+  "RECEIVER_CREDIT": false,
+  "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
+  "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false
+}

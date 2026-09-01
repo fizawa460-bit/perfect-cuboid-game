@@ -1,0 +1,139 @@
+name: Stage32-21bk repaired final single-coordinate r20 projection
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - '.github/workflows/stage32-21bk-r20-final-single-coordinate-repair.yml'
+      - 'stages/stage32/residual-32-01-production/run_stage32_21bk_import_repair.py'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-21bk-r20-final-single-coordinate-repair-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - id: gate
+        name: Authorize only from current synchronization range
+        shell: bash
+        run: |
+          set -euo pipefail
+          BEFORE='${{ github.event.before }}'
+          HEAD='${{ github.event.pull_request.head.sha }}'
+          authorized=false
+          if [ -n "$BEFORE" ]; then
+            git fetch --no-tags --depth=1 origin "$BEFORE" || true
+            if git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+              changed="$(git diff --name-only "$BEFORE" "$HEAD")"
+              if printf '%s\n' "$changed" | grep -Eq '^(\.github/workflows/stage32-21bk-r20-final-single-coordinate-repair\.yml|stages/stage32/residual-32-01-production/run_stage32_21bk_import_repair\.py)$'; then
+                authorized=true
+              fi
+            fi
+          fi
+          echo "authorized=$authorized" >> "$GITHUB_OUTPUT"
+          echo "authorized=$authorized"
+
+  project:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        shard: [0, 1]
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact algebra dependency
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Reaudit r56 formula thresholds and project final exact r20 interval via import repair
+        working-directory: stages/stage32/residual-32-01-production
+        run: |
+          python run_stage32_21bk_import_repair.py shard \
+            --source-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21az-survivor-prism.json" \
+            --formula-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bb-r51-interval-formula.json" \
+            --pair-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bc-pair-combination-bounds.json" \
+            --audit-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21be-r51-endpoint-audit.json" \
+            --fifth-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bf-r49-per-triple-projection.json" \
+            --sixth-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bg-r42-corrected-domain-audit.json" \
+            --seventh-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bh-r54-lossless-table.json" \
+            --eighth-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bi-r57-exact-formula.json" \
+            --ninth-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bj-r56-exact-formula.json" \
+            --retained "$GITHUB_WORKSPACE/stages/stage33/33-07/picard_base_rows_retained.py" \
+            --marking "$GITHUB_WORKSPACE/stages/stage33/33-07/stage32_picard_marking_retained.py" \
+            --shard-index ${{ matrix.shard }} \
+            --shard-count 2 \
+            --per-check-timeout-ms 5000 \
+            --output "$GITHUB_WORKSPACE/stage32-21bk-r20-repair-projection-${{ matrix.shard }}.json"
+      - name: Upload compact shard evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-21bk-r20-repair-projection-${{ matrix.shard }}
+          path: stage32-21bk-r20-repair-projection-${{ matrix.shard }}.json
+          retention-days: 3
+          compression-level: 9
+
+  aggregate:
+    needs: [authorize, project]
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact algebra dependency
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Download shard evidence
+        uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-21bk-r20-repair-projection-*
+          path: projection-artifacts
+      - name: Normalize repair artifact names for unchanged 21bk aggregator
+        shell: bash
+        run: |
+          set -euo pipefail
+          find projection-artifacts -type f -name 'stage32-21bk-r20-repair-projection-*.json' -print0 | while IFS= read -r -d '' f; do
+            base="$(basename "$f")"
+            mv "$f" "$(dirname "$f")/${base/-repair/}"
+          done
+      - name: Aggregate final single-coordinate r20 projection via import repair
+        working-directory: stages/stage32/residual-32-01-production
+        run: |
+          python run_stage32_21bk_import_repair.py aggregate \
+            --input-dir "$GITHUB_WORKSPACE/projection-artifacts" \
+            --shard-count 2 \
+            --output "$GITHUB_WORKSPACE/stage32-21bk-r20-repair-projection-aggregate.json"
+      - name: Upload aggregate evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-21bk-r20-repair-projection-aggregate
+          path: stage32-21bk-r20-repair-projection-aggregate.json
+          retention-days: 3
+          compression-level: 9

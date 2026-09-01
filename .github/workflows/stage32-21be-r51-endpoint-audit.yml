@@ -1,0 +1,95 @@
+name: Stage32-21be independent r51 endpoint audit
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/workflows/stage32-21be-r51-endpoint-audit.yml'
+      - 'stages/stage32/residual-32-01-production/audit_stage32_21be_r51_endpoints.py'
+      - 'stages/stage32/32-21/32-21az-survivor-prism.json'
+      - 'stages/stage32/32-21/32-21bb-r51-interval-formula.json'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-21be-r51-endpoint-audit-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        shard: [0, 1]
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact algebra dependency
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Audit exact r51 endpoints
+        working-directory: stages/stage32/residual-32-01-production
+        run: |
+          python audit_stage32_21be_r51_endpoints.py shard \
+            --source-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21az-survivor-prism.json" \
+            --formula-lock "$GITHUB_WORKSPACE/stages/stage32/32-21/32-21bb-r51-interval-formula.json" \
+            --retained "$GITHUB_WORKSPACE/stages/stage33/33-07/picard_base_rows_retained.py" \
+            --marking "$GITHUB_WORKSPACE/stages/stage33/33-07/stage32_picard_marking_retained.py" \
+            --shard-index ${{ matrix.shard }} \
+            --shard-count 2 \
+            --per-check-timeout-ms 1500 \
+            --output "$GITHUB_WORKSPACE/stage32-21be-r51-endpoint-audit-${{ matrix.shard }}.json"
+      - name: Upload compact shard evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-21be-r51-endpoint-audit-${{ matrix.shard }}
+          path: stage32-21be-r51-endpoint-audit-${{ matrix.shard }}.json
+          retention-days: 3
+          compression-level: 9
+
+  aggregate:
+    needs: audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact algebra dependency
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Download shard evidence
+        uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-21be-r51-endpoint-audit-*
+          path: audit-artifacts
+      - name: Aggregate exact endpoint audit
+        working-directory: stages/stage32/residual-32-01-production
+        run: |
+          python audit_stage32_21be_r51_endpoints.py aggregate \
+            --input-dir "$GITHUB_WORKSPACE/audit-artifacts" \
+            --shard-count 2 \
+            --output "$GITHUB_WORKSPACE/stage32-21be-r51-endpoint-audit-aggregate.json"
+      - name: Upload aggregate evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-21be-r51-endpoint-audit-aggregate
+          path: stage32-21be-r51-endpoint-audit-aggregate.json
+          retention-days: 3
+          compression-level: 9

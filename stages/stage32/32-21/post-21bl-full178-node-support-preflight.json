@@ -1,0 +1,72 @@
+{
+  "canonical_sha256_without_this_field": "1654ef385558c606623f81bfbaf7c68063141a5be39d9b692d58567f011a6c65",
+  "exact_cut": {
+    "exceptional_mass_semantics": "e=sum of the 48 nonnegative integral exceptional-divisor pairings",
+    "full178_cheap_necessary_form": "e >= ceil((d-16g+16)/4)",
+    "n_semantics": "number of box-variety nodes met by a bijective-normalization integral curve",
+    "not_equivalent_to_strong_form": true,
+    "strong_form": "d <= 16g-16+4n",
+    "support_mass_relation": "n <= e"
+  },
+  "firewalls": {
+    "full178_closed": false,
+    "multibranch_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "r29_lg2_eff_full_receiver_closed": false,
+    "representative_bijective_genus1_exclusion_closed": true,
+    "route_credit": false
+  },
+  "full178_coarse_strata": {
+    "affected_rows": 168,
+    "after_cheap_node_mass_cut": 60491,
+    "eliminated_coarse_e_strata": 3620,
+    "eliminated_fraction_den": 64111,
+    "eliminated_fraction_num": 3620,
+    "genus0": {
+      "affected_rows": 80,
+      "after_cut": 27447,
+      "eliminated": 1640,
+      "original": 29087,
+      "rows": 85
+    },
+    "genus1": {
+      "affected_rows": 88,
+      "after_cut": 33044,
+      "eliminated": 1980,
+      "original": 35024,
+      "rows": 93
+    },
+    "original_coarse_e_strata": 64111,
+    "rows": 178
+  },
+  "legacy_evidence_limit": {
+    "21ad_compact_persists_per_candidate_48_exceptional_support": false,
+    "21ad_compact_persists_row_summaries_and_stream_hashes_only": true,
+    "21ad_driver_slice_coordinates": [
+      "degree",
+      "exceptional_total",
+      "first_normal_half_total"
+    ],
+    "continuous_kkt_survivor_is_not_an_integral_picard_class": true,
+    "exceptional_total_does_not_determine_positive_support": true,
+    "strong_support_cut_cannot_be_retroactively_applied_to_679337_survivors_from_compact_evidence_alone": true
+  },
+  "minimal_next_exact_datum": {
+    "blind_21ad_rerun": false,
+    "first_step": "Run an exact FULL178 slice census with the cheap e lower bound inserted before KKT/anti-fixed work, preserving row/e accounting in a compact certificate.",
+    "heavy_run_authorized_by_this_preflight": false,
+    "materialize_679337_survivors": false,
+    "second_step_if_needed": "For surviving integer-feasibility targets, add exact 48-exceptional positive-support cardinality to the integral Picard feasibility layer; do not infer support from e."
+  },
+  "schema": "STAGE32_POST21BL_FULL178_NODE_SUPPORT_PREFLIGHT_V1",
+  "source": {
+    "legacy_21ad_result": "stages/stage32/32-21/32-21ad-full178-antifixed-coset-census-result.json",
+    "manifest": "stages/stage32/residual-32-01-production/full178-manifest.json",
+    "manifest_canonical_sha256": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23",
+    "node_support_certificate": "stages/stage32/32-21/post-21bl-node-support-refinement.json",
+    "node_support_certificate_canonical_sha256": "d1b446dd8fa32db16a3ec4f2eb8a4db06b2cc65b80a0ef7580cec1437b4ff5ad"
+  },
+  "stage": 32,
+  "status": "PASS_BOUNDED_PREFLIGHT_NO_HEAVY_RUN"
+}

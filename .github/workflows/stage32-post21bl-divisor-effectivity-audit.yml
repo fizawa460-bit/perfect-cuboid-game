@@ -1,0 +1,54 @@
+name: Stage32 post-21bl fresh divisor effectivity audit
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/workflows/stage32-post21bl-divisor-effectivity-audit.yml'
+      - 'stages/stage32/residual-32-01-production/audit_stage32_post21bl_divisor_effectivity.py'
+      - 'stages/stage32/32-21/post-21bl-picard64-witness-adapter.json'
+      - 'stages/stage32/32-21/post-21bl-effectivity-gap-separation.json'
+      - 'stages/stage32/32-21/post-21bl-genus-defect-preflight.json'
+      - 'stages/stage32/32-21/post-21bl-riemann-roch-divisor-effectivity.json'
+      - 'stages/stage29/29-02a/source-lock.md'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-post21bl-divisor-effectivity-audit-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+
+      - name: Freshly recompute Riemann-Roch divisor effectivity
+        run: |
+          python stages/stage32/residual-32-01-production/audit_stage32_post21bl_divisor_effectivity.py \
+            --picard stages/stage32/32-21/post-21bl-picard64-witness-adapter.json \
+            --rr stages/stage32/32-21/post-21bl-riemann-roch-divisor-effectivity.json \
+            --gap stages/stage32/32-21/post-21bl-effectivity-gap-separation.json \
+            --genus stages/stage32/32-21/post-21bl-genus-defect-preflight.json \
+            --source-lock stages/stage29/29-02a/source-lock.md \
+            --output "$RUNNER_TEMP/stage32-post21bl-divisor-effectivity-audit.json"
+
+      - name: Upload compact audit evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-post21bl-divisor-effectivity-audit
+          path: ${{ runner.temp }}/stage32-post21bl-divisor-effectivity-audit.json
+          retention-days: 7
+          compression-level: 9

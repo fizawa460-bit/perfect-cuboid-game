@@ -1,0 +1,71 @@
+name: Stage32 direct Picard KKT integral coordinate bound
+
+on:
+  pull_request:
+    types: [synchronize, opened, reopened]
+    paths:
+      - 'stages/stage32/residual-32-01-production/direct_picard_orbit_sum_integral_coordinate_bound.py'
+      - 'stages/stage32/residual-32-01-production/build_direct_picard_orbit_kkt_integral_coordinate_census.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_orbit_sum_qp_bound.py'
+      - 'stages/stage32/residual-32-01-production/direct_picard_stabilizer_averaging_equivalence.py'
+      - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
+      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+      - '.github/workflows/stage32-direct-picard-orbit-kkt-integral-coordinate.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  kkt-integral-coordinate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Build exact KKT-centered coordinate integrality certificate
+        run: |
+          python - <<'PY'
+          import importlib.util, json, pathlib, sys
+          root=pathlib.Path.cwd(); prod=root/'stages/stage32/residual-32-01-production'; sys.path.insert(0,str(prod))
+          from direct_picard_orbit_sum_integral_coordinate_bound import DirectPicardOrbitSumKKTIntegralCoordinateBound
+          def load(path,name):
+              spec=importlib.util.spec_from_file_location(name,path); assert spec and spec.loader
+              mod=importlib.util.module_from_spec(spec); spec.loader.exec_module(mod); return mod.load()
+          bundle=load(root/'stages/stage33/33-07/picard_base_rows_retained.py','s32_kkt_int_picard')
+          marking=load(root/'stages/stage33/33-07/stage32_picard_marking_retained.py','s32_kkt_int_marking')
+          model=DirectPicardOrbitSumKKTIntegralCoordinateBound.from_retained(marking,bundle)
+          c=model.certificate
+          assert c['smith_diagonal']==[1,2,2]
+          assert c['slice_kernel_rank']==61
+          assert c['kkt_candidate_count']==39
+          assert c['penalty_candidate_count']==39
+          pathlib.Path('direct-picard-orbit-kkt-integral-coordinate-bound.json').write_text(json.dumps(c,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({
+              'verdict':'PASS_DIRECT_PICARD_ORBIT_KKT_INTEGRAL_COORDINATE_BOUND',
+              'kkt_candidates':c['kkt_candidate_count'],
+              'kernel_rank':c['slice_kernel_rank'],
+              'canonical_sha256':c['canonical_sha256_without_this_field'],
+          },sort_keys=True))
+          PY
+      - name: Apply KKT-centered coordinate integrality bound to FULL178
+        run: |
+          python stages/stage32/residual-32-01-production/build_direct_picard_orbit_kkt_integral_coordinate_census.py \
+            --manifest stages/stage32/residual-32-01-production/full178-manifest.json \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --output direct-picard-orbit-kkt-integral-coordinate-census.json
+      - name: Upload compact KKT integrality evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-direct-picard-orbit-kkt-integral-coordinate
+          path: |
+            direct-picard-orbit-kkt-integral-coordinate-bound.json
+            direct-picard-orbit-kkt-integral-coordinate-census.json
+          retention-days: 7
+          compression-level: 9
