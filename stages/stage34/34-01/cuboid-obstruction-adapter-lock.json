@@ -1,0 +1,62 @@
+{
+  "schema": "STAGE34_01_EXT_C_FACE3_OBSTRUCTION_ADAPTER_LOCK_V1",
+  "stage": "34-01",
+  "status": "PASS_EXACT_FACE3_NONSQUARE_ADAPTER_SOURCE_LOCKED",
+  "source": {
+    "repo": "weiqi-kids/perfect-cuboid-problem",
+    "commit": "bd3018b896c8ac15b56cadc382af1477dca9e97a",
+    "paper_tex": {
+      "path": "paper-c/paper.tex",
+      "blob_sha": "daf581e0d44a72a13a9542668a7c60eae7dccb65"
+    },
+    "meta": {
+      "path": "paper-c/meta.md",
+      "blob_sha": "b76886b7b8e5bf4b0cfd841e572a776a407b6f88"
+    },
+    "primitive_parity_script": {
+      "path": "paper-c/scripts/primitive_parity.gp",
+      "blob_sha": "bf1c8bb54d957e124e938807679c496c3b91ad52"
+    },
+    "primitive_parity_output": {
+      "path": "paper-c/scripts/primitive_parity.out",
+      "blob_sha": "f04697202e8a80ce00267f879ce5d99ef11d4985"
+    }
+  },
+  "adapter": {
+    "curve": "E_q: y^2=x(x+1)(x+q^2)",
+    "face3_edge_map": "c(Q)=2*y(Q)*q/(q^2-x(Q)^2)",
+    "face3_quantity": "F3(Q)=c(Q)^2+1+q^2",
+    "source_necessity": "a perfect-cuboid candidate on the q-fiber requires a rational point Q with c(Q) finite and nonzero and F3(Q) in (Q^*)^2",
+    "reduced_fraction": "write F3(Q)=N(Q)/D(Q) in lowest terms",
+    "odd_numerator_valuation_obstruction": "if some prime ell has v_ell(N(Q)) odd, then F3(Q) is not a rational square, hence Q cannot decode to a perfect-cuboid candidate on that source fiber",
+    "role_of_primitivity": "primitivity is not needed for the single-point nonsquare implication; it is only a proposed global bookkeeping mechanism for forcing a new odd numerator valuation at every sufficiently large orbit index"
+  },
+  "torsion_scope": {
+    "torsion_points_are_candidates_by_themselves": false,
+    "reason": "Paper C's torsion-degeneracy lemma sends nonidentity torsion under c to 0 or a pole",
+    "translated_orbits_must_still_be_covered": true,
+    "warning": "a theorem only for N_n=Num(F3(nP)) does not automatically cover Num(F3(nP+T)) for every fixed torsion translate T"
+  },
+  "rank2_scope": {
+    "source_population": "aG1+bG2+T with (a,b)!=(0,0)",
+    "single_point_adapter_valid": true,
+    "two_variable_primitive_divisor_mechanism_source_locked": false,
+    "warning": "Paper C says an analogous two-variable input would be needed but does not define a two-variable primitive ordering/divisibility sequence"
+  },
+  "counterexample_to_naive_global_chain": {
+    "fiber": "20/21",
+    "index": 5,
+    "prime": 29,
+    "primitive_for_untranslated_Nn": true,
+    "valuation": 2,
+    "conclusion": "primitive divisor does not imply odd multiplicity"
+  },
+  "firewalls": {
+    "EDS_denominator_primitive_divisor_implies_face3_numerator_primitive_divisor": false,
+    "face3_numerator_primitive_divisor_implies_nonsquare": false,
+    "face3_numerator_odd_valuation_implies_nonsquare": true,
+    "untranslated_rank1_theorem_covers_all_torsion_translates": false,
+    "rank1_theorem_covers_rank2_lattice": false,
+    "seven_source_fibers_imply_global_perfect_cuboid_closure": false
+  }
+}

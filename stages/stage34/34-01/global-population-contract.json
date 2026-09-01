@@ -1,0 +1,77 @@
+{
+  "schema": "STAGE34_01_EXT_C_GLOBAL_POPULATION_CONTRACT_V2_PREAUDIT_EVIDENCE_COMPLETE",
+  "status": "EVIDENCE_COMPLETE_7_OF_7_MW_POPULATION_PENDING_HOSTILE_AUDIT",
+  "receiver": "R29-EXT-CHANG-C",
+  "source_object": "stages/stage34/34-01/exact-sequence-lock.json",
+  "population": {
+    "rank1": {
+      "fibers": ["20/21", "80/39", "24/7", "84/13", "48/55", "20/99"],
+      "points": "Q=n*P_q+T",
+      "indices": "n in Z_{>=1}",
+      "torsion_quantifier": "for every T in E_q(Q)_tors, |E_q(Q)_tors|=8",
+      "negative_coefficients": "covered because F3(-Q)=F3(Q) and T -> -T permutes the full torsion subgroup",
+      "exact_sequences": "N_{q,T}(n)=Num(F3(n*P_q+T)) in lowest terms"
+    },
+    "rank2": {
+      "fiber": "60/11",
+      "points": "Q=a*G1+b*G2+T",
+      "indices": "(a,b) in Z^2 minus {(0,0)}",
+      "torsion_quantifier": "for every T in E_q(Q)_tors, |E_q(Q)_tors|=8",
+      "exact_values": "N_T(a,b)=Num(F3(a*G1+b*G2+T)) in lowest terms"
+    }
+  },
+  "rank1_global_theorem_target": {
+    "name": "ODD_FRESH_FACTOR_PER_FIXED_TORSION_TRANSLATE",
+    "definition": "For fixed (q,T), a prime ell is fresh at n when ell divides N_{q,T}(n) and ell divides no N_{q,T}(m) for 1<=m<n. Cross-translate nonoccurrence is NOT required.",
+    "sufficient_statement": "For each fixed (q,T), there is an explicit effective N0(q,T) such that every n>=N0(q,T) has some fresh prime ell with v_ell(N_{q,T}(n)) odd.",
+    "why_sufficient": "Odd valuation alone makes the same reduced numerator nonsquare. Freshness is only a mechanism to force a new usable odd valuation; comparing against other torsion translates is unnecessary for same-point exclusion.",
+    "finite_exception_contract": "Every n<N0(q,T) must be discharged for that exact (q,T), using existing finite-window credit only where the threshold lies inside the audited n<=200 window.",
+    "firewall": "A theorem for T=O does not cover T!=O without an explicit translate theorem or symmetry adapter."
+  },
+  "rank2_global_theorem_target": {
+    "name": "DIRECT_RANK2_NONSQUARE_OR_ODD_VALUATION_OUTSIDE_FINITE_BOX",
+    "primitive_divisor_ordering": "NOT_REQUIRED_AND_NOT_DEFINED",
+    "reason": "There is no canonical one-dimensional predecessor order on Z^2 compatible with the source contract, and Paper C supplies no two-variable divisibility sequence. Inventing a primitive ordering would add an unnecessary semantic obligation.",
+    "sufficient_statement_options": [
+      "There is an explicit effective B0 such that for every (a,b) with max(|a|,|b|)>=B0 and every torsion T, N_T(a,b) has a prime of odd valuation.",
+      "Equivalently strong: F3(aG1+bG2+T) is a nonsquare for every lattice point outside an explicit finite box, with all exceptional points exactly discharged."
+    ],
+    "finite_exception_contract": "Existing Paper-C credit covers only max(|a|,|b|)<=12 with (a,b)!=(0,0). Any proved B0>13 creates a new finite annulus that must be exactly checked.",
+    "firewall": "No one-variable EDS/primitive-divisor theorem receives rank-two credit merely by restricting to individual rays; infinitely many primitive lattice directions would remain."
+  },
+  "mw_basis_evidence": {
+    "status": "PREAUDIT_COMPLETE_7_OF_7",
+    "rank_authority": "Paper-C source-locked PARI ellrank tight intervals",
+    "magma_partial_certificate": "stages/stage34/34-01/mw-magma-partial-certificate.json",
+    "magma_index_one_fibers": ["20/21", "24/7", "60/11"],
+    "eclib_residual_certificate": "stages/stage34/34-01/mw-eclib-certificate.json",
+    "eclib_execution": "stages/stage34/34-01/mw-eclib-execution.json",
+    "eclib_index_one_fibers": ["80/39", "84/13", "48/55", "20/99"],
+    "all_seven_source_free_lattices_span_full_free_part_preaudit": true,
+    "rank2_source_coordinate_matrix": [[0, -1], [1, 0]],
+    "rank2_determinant_absolute_value": 1,
+    "audit_required_for_authoritative_promotion": true
+  },
+  "resolved_interface_status": {
+    "torsion_translated_rank1_quantifiers_defined": true,
+    "rank1_fresh_factor_semantics_defined": true,
+    "rank2_population_defined": true,
+    "rank2_primitive_ordering_needed": false,
+    "rank2_replacement_theorem_target_defined": true,
+    "full_mw_basis_evidence_complete_preaudit": true,
+    "full_mw_basis_authoritative_after_hostile_audit": false
+  },
+  "release": {
+    "stage34_01_hostile_audit_passed": false,
+    "stage34_02_released": false,
+    "reason": "Repository-wide promotion policy requires the hostile/fresh audit demanded by the active Stage contract before downstream release."
+  },
+  "firewalls": {
+    "preaudit_evidence_complete_is_audited_closure": false,
+    "mw_population_lock_is_primitive_divisor_theorem": false,
+    "population_contract_is_receiver_discharge": false,
+    "receiver_discharge_is_parent_route_closure": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "schema": "STAGE34_01_MW_FULL_GROUP_ACTIONS_PREFLIGHT_V3_ECLIB_RESIDUAL",
+  "status": "COLD_REVISED_AFTER_PUBLIC_MAGMA_LIMIT",
+  "purpose": "Apply formal Arsenal S31-WF01 to the four residual rank-one Paper-C fibers using Ubuntu eclib-tools/mwrank full-basis saturation, while retaining the three successful Magma saturation fibers as independent prior evidence.",
+  "planned_heavy_jobs": 1,
+  "effective_heavy_concurrency": 1,
+  "stage34_heavy_concurrency_cap": 18,
+  "artifact_plan": {
+    "artifact_count": 1,
+    "artifact_name": "stage34-01-eclib-mw-certificate",
+    "persisted_files": [
+      "stages/stage34/34-01/mw-eclib-certificate.json",
+      "stages/stage34/34-01/mw-eclib-stdout.txt"
+    ],
+    "conservative_max_bytes": 1048576,
+    "retention_days": 1,
+    "raw_large_intermediates": false,
+    "projected_new_peak_bytes": 1048576,
+    "operating_budget_bytes": 524288000,
+    "storage_quota_dependency": "NONE; four small mwrank transcripts plus one compact JSON certificate are persisted under a 1 MiB design cap"
+  },
+  "runtime_plan": {
+    "runner": "ubuntu-latest",
+    "timeout_minutes": 12,
+    "package": "eclib-tools from Ubuntu 24.04 noble universe",
+    "routine": "mwrank",
+    "command": "mwrank -q -v 1 -o",
+    "residual_fibers": ["80/39", "84/13", "48/55", "20/99"],
+    "prior_resource_wall": "public Magma Saturation exceeded its 60 second calculator limit on exactly these four fibers; this is an execution-resource wall, not mathematical failure"
+  },
+  "proof_composition": {
+    "rank_input": "Paper-C verify_ranks.gp / verify_ranks.out tight rank=1 locks for the four residual fibers",
+    "saturation_input": "mwrank -o performs its default saturation and outputs a full Mordell-Weil Z-basis unless an explicit saturation warning is emitted; warning markers fail closed",
+    "torsion_input": "Paper-C exact E_q(Q)_tors = Z/4 x Z/2, hence torsion exponent 4",
+    "exact_adapter": "for mwrank basis generator G and Paper-C point P, exact rational group law verifies 4(P-G)=O or 4(P+G)=O; therefore P and +/-G represent the same free generator modulo torsion",
+    "prior_successes": "Magma generation 3 already gave source index 1 for q=20/21, q=24/7 and rank-two q=60/11"
+  },
+  "authorization": {
+    "dedicated_key": "stages/stage34/runkeys/stage34-01-mw-full-group.json",
+    "pr_commit_range_gate_required": true,
+    "arming_requires": "armed=true and generation strictly increases in the actual github.event.before..head commit range"
+  },
+  "credit_firewall": {
+    "actions_success_is_full_MW_credit": false,
+    "tight_rank_alone_is_full_MW_credit": false,
+    "mwrank_output_with_saturation_warning_is_full_MW_credit": false,
+    "mw_population_repair_is_primitive_divisor_theorem": false,
+    "mw_population_repair_is_receiver_closure": false,
+    "mw_population_repair_is_endpoint_closure": false
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "schema": "STAGE34_01_EXT_C_FINITE_WINDOW_LOCK_V1",
+  "stage": "34-01",
+  "status": "PASS_EXACT_FINITE_WINDOW_SOURCE_LOCKED",
+  "source": {
+    "repo": "weiqi-kids/perfect-cuboid-problem",
+    "commit": "bd3018b896c8ac15b56cadc382af1477dca9e97a",
+    "paper_tex": {
+      "path": "paper-c/paper.tex",
+      "blob_sha": "daf581e0d44a72a13a9542668a7c60eae7dccb65"
+    },
+    "extended_check_script": {
+      "path": "paper-c/scripts/extended_check.gp",
+      "blob_sha": "3d151edce14d70269738d0d06c6d077599032b7f"
+    },
+    "extended_check_output": {
+      "path": "paper-c/scripts/extended_check.out",
+      "blob_sha": "57fe17e62ab01dfaa32741d4334f32af92ee1f83"
+    },
+    "rank_script": {
+      "path": "paper-c/scripts/verify_ranks.gp",
+      "blob_sha": "fef31b4f481a653b8675533d046e140ec17d0cb2"
+    },
+    "rank_output": {
+      "path": "paper-c/scripts/verify_ranks.out",
+      "blob_sha": "8a5e00351b2d112b0efc6e0b88234c639fbf145a"
+    }
+  },
+  "pari_gp_version": "2.15.4 as stated by Paper C",
+  "rank1_window": {
+    "fibers": ["20/21", "80/39", "24/7", "84/13", "48/55", "20/99"],
+    "index": "1 <= n <= 200",
+    "population": "Q=nP+T for every T in the full order-8 torsion subgroup",
+    "cosets_per_fiber": 1600,
+    "total_cosets": 9600,
+    "observed_face3_squares": 0
+  },
+  "rank2_window": {
+    "fiber": "60/11",
+    "index": "|a|<=12, |b|<=12, (a,b)!=(0,0)",
+    "population": "Q=aG1+bG2+T for every T in the full order-8 torsion subgroup",
+    "total_cosets": 4992,
+    "observed_face3_squares": 0
+  },
+  "combined_checked_cosets": 14592,
+  "proof_credit": "finite exact window only",
+  "not_claimed": [
+    "all n beyond 200",
+    "all rank-two lattice points outside the coefficient box",
+    "full-fiber closure without a full Mordell-Weil basis/population adapter",
+    "perfect-cuboid nonexistence"
+  ],
+  "replay_policy": "The committed Paper C output is source-locked evidence. Stage34 may independently replay only if needed for audit/reproducibility or after a source/population repair; the old finite window need not be rerun merely to restate its exact boundary."
+}
