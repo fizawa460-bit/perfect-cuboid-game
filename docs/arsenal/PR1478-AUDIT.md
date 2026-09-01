@@ -1,6 +1,6 @@
 # PR #1478 Arsenal hostile audit
 
-Status: `PASS_MERGE_READY_AFTER_SNAPSHOT_SEMANTICS_REPAIR`
+Status: `PASS_MERGE_READY`
 
 Scope: Arsenal routing/promotion semantics only. This audit does not re-prove every underlying Stage theorem or computation; it verifies that closed-stage formal promotions and active-stage provisional harvests are represented with the correct credit boundaries, provenance, and override rules.
 
@@ -10,6 +10,7 @@ Scope: Arsenal routing/promotion semantics only. This audit does not re-prove ev
 PR=1478
 BRANCH=arsenal-provisional-stage32-stage33-harvest
 PRE_REPAIR_HEAD=1dea5e28a0db4ad7c7d6ea5e8bd59f67e7b34624
+SNAPSHOT_POLICY_REPAIR_COMMIT=bc836df47d24fe076fdc72738089f774a8229a57
 FORMAL_STAGES=Stage30,Stage31
 PROVISIONAL_STAGES=Stage32,Stage33
 FORMAL_SELECTOR_ADDITIONS=0
@@ -53,6 +54,8 @@ Stage33_latest_verified_active_head=18f6c64dde415c235b49f7458bf44afb1f2403b5
 
 These latest heads are deliberately not permanent mathematical source locks. A future consumer must refetch the live PR/branch and then validate the card's exact load-bearing source paths/hashes/hypotheses.
 
+`docs/arsenal/index.json` now encodes this distinction explicitly as `harvest_snapshot_head` versus `latest_verified_active_head_at_pr1478_audit`, plus `live_head_refetch_required_before_use=true`.
+
 ## Stage33 hostile-audit interaction
 
 At the time of this audit, active Stage33 PR #1476 itself is blocked by a hostile audit on detailed-authority/source-lock consistency. That does not make PR #1478 unsafe because the Arsenal representation is fail-closed:
@@ -89,6 +92,6 @@ complete auxiliary points != source-family closure without exact pullback
 
 ## Merge boundary
 
-This audit authorizes the Arsenal PR as a merge-ready documentation/router update only after the machine-readable index explicitly distinguishes immutable harvest snapshots from informational latest-active-head observations.
+The snapshot-semantics repair is complete. This audit authorizes PR #1478 as a merge-ready Arsenal documentation/router update.
 
 It does not authorize merging Stage32 PR #1474 or Stage33 PR #1476, does not formalize their provisional cards, and does not claim a perfect-cuboid existence/nonexistence result.
