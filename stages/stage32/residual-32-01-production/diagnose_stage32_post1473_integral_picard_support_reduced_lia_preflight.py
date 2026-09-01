@@ -19,6 +19,7 @@ from build_stage32_post21bl_full178_node_mass_census import (
 )
 from certify_stage32_21ba_r51_interval_census import (
     EXPECTED_MATRIX_SHA256,
+    EXPECTED_SOURCE_LOCK_SHA256,
     EXPECTED_U_SHA256,
     R51_GLOBAL_HI,
     R51_GLOBAL_LO,
@@ -317,7 +318,7 @@ def main() -> None:
             "affine_21ak_constraint_rows_sha256": EXPECTED_21AK_CONSTRAINT_ROWS_SHA256,
             "reduced_pairing_matrix_sha256": EXPECTED_MATRIX_SHA256,
             "unimodular_transform_sha256": EXPECTED_U_SHA256,
-            "source_21az_lock_sha256": source["canonical_sha256_without_this_field"],
+            "source_21az_lock_sha256": EXPECTED_SOURCE_LOCK_SHA256,
         },
         "locked_projection": {
             **EXPECTED_TARGET,
