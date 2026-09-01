@@ -1,0 +1,47 @@
+{
+  "schema": "STAGE34_02B_D2_STAGEA2_GENUS2_RANKLE1_6B_FULL_PARENT_GENUS1_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION_DIAGNOSTIC",
+  "target": {
+    "branch_id": "6b3bcb70c4fda8e6f1e0",
+    "q": "20/99",
+    "delta": [-1,-55,-5,-11]
+  },
+  "exact_elimination": {
+    "forms": ["U=x^2-1","V=2*x","A=20*U+99*V","B=99*U+20*V"],
+    "parent_squares": ["U=-r^2","V=-55*s^2","A=-5*t^2","B=-11*w^2"],
+    "derived_equations": ["t^2=4*r^2+1089*s^2","w^2=9*r^2+100*s^2"],
+    "nondegenerate_requires": ["r!=0","s!=0"],
+    "ratio": "z=r/s",
+    "ratio_equations": ["T^2=4*z^2+1089","W^2=9*z^2+100"],
+    "parametrization": ["T+2*z=33*p","T-2*z=33/p","z=(33/4)*(p-1/p)"],
+    "necessary_genus1_curve": "H: Y^2=9801*p^4-18002*p^2+9801, with Y=4*p*W",
+    "degenerate_parameter": "z=0 iff p=+-1; this gives r=0 and U=0",
+    "extraneous_projective_parameters": "p=0 and the points at infinity arise from clearing the p denominator and are not images of a nondegenerate parent lift because p=(T+2z)/33 is nonzero finite."
+  },
+  "diagnostic_plan": [
+    "Construct H as the genus-one hyperelliptic quartic over Q.",
+    "Convert H to its elliptic Jacobian/model using its rational points at infinity (leading coefficient 99^2).",
+    "Compute exact Mordell-Weil rank bounds and torsion.",
+    "If rank zero, enumerate the full elliptic torsion and map all points back to H, or use an exact rational-point routine to obtain all H(Q).",
+    "Check whether every finite nonzero rational p is +-1."
+  ],
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "maximum_external_magma_requests_at_once": 1,
+    "expected_requests": 1,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1,
+    "projected_peak_new_artifact_bytes": 2097152,
+    "repo_operating_budget_bytes": 524288000
+  },
+  "credit": "Diagnostic only. The quartic is only a necessary receiver for nondegenerate parent lifts; closure requires a complete Q-point proof for H and an independently replayed implication from parent lift to H(Q), followed by hostile audit.",
+  "firewalls": {
+    "quartic_rank_bound_is_complete_Qpoints": false,
+    "finite_search_on_H_is_complete": false,
+    "diagnostic_zero_nondegenerate_parameters_is_branch_closure": false,
+    "sign_partner_transfer_authoritative_before_audit": false,
+    "remaining_30_closed": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}
