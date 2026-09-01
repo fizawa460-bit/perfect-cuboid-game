@@ -1,0 +1,39 @@
+name: Stage32 post-1473 X8 marked exceptional incidence
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - '.github/workflows/stage32-post1473-x8-marked-exceptional-incidence.yml'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_x8_marked_exceptional_incidence.py'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-post1473-x8-marked-exceptional-incidence-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install locked lightweight algebra dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0' 'scipy==1.15.3'
+      - name: Replay marked exceptional incidence
+        working-directory: stages/stage32/residual-32-01-production
+        run: |
+          python diagnose_stage32_post1473_x8_marked_exceptional_incidence.py \
+            --retained "$GITHUB_WORKSPACE/stages/stage33/33-07/picard_base_rows_retained.py" \
+            --marking "$GITHUB_WORKSPACE/stages/stage33/33-07/stage32_picard_marking_retained.py"
