@@ -8,6 +8,7 @@ Use this page when you know *what kind of thing you are looking for* but not whi
 
 | Need | Start here | What it contains |
 |---|---|---|
+| Find provisional reusable work from active Stage32/33 | [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) / [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) | Exact compression/lattice methods and arithmetic-HS/module/adapter candidates; source revalidation required and no formal selector credit yet |
 | Find a reusable Stage14 theorem/obstruction by mathematical shape | [`../stage14-arsenal-index.md`](../stage14-arsenal-index.md) | Search phrases -> `AR-*` candidate IDs, reuse class, confidence, first firewall check |
 | Read the exact Stage14 weapon contract | [`../stage14-arsenal.md`](../stage14-arsenal.md) | Full `AR-*` registry with hypotheses, outputs, provenance and `DO_NOT_USE_FOR` boundaries |
 | Reuse normalized formulas/lemmas/dictionaries/recipes | [`../stage14-toolbox/README.md`](../stage14-toolbox/README.md) | Canonical reusable-card system extracted from merged Stage14 work |
@@ -136,26 +137,39 @@ Later Stage promotions are often easier to reuse than raw Stage14 material becau
 
 When a later promotion explicitly supersedes an earlier quantitative statement, prefer the later audited statement while retaining the earlier file as provenance.
 
+## 4.5 Provisional Stage32/33 active-stage layer
+
+Use these only after the current leaf identifies the missing weapon type. They are intended to save rediscovery while the source stages are still moving.
+
+| Source | Provisional reusable theme |
+|---|---|
+| [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) | exact symbolic family compression; exact rank/unrank; Picard lattice image/HNF gate; finite integral-coset quadratic lower bounds |
+| [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) | exact zero-survival HS classification; finite residue-module and Bockstein reductions; Picard-adjoint source adapter; V4 source-target reachability audit; inflation-restriction warning |
+
+These cards may trigger a targeted source read, but do not carry formal selector/theorem credit until final promotion audit after their source Stage closes.
+
 ## 5. Recommended lookup order for future research
 
 ```text
-1. Current frontier:
-   docs/frontier/13-active-kernels.md
+1. Current frontier / active leaf exact object.
 
-2. Current compact weapon router:
+2. Identify the missing weapon type.
+
+3. Current compact weapon router:
    docs/arsenal/README.md
+   docs/arsenal/index.json
 
-3. This deep-source index:
-   docs/arsenal/deep-source-index.md
+4. If relevant, check provisional Stage32/33 cards and revalidate their active source locks.
 
-4. Stage14 Arsenal / Toolbox / numerical index
-   OR StructureRadar registry/literature/gates
-   depending on the missing mechanism.
+5. This deep-source index, then the matching Stage14 Arsenal / Toolbox / numerical index
+   or StructureRadar registry/literature/gates.
 
-5. Historical Stage14/15 attack ledger
+6. Historical Stage14/15 attack ledger
    only for duplication/failure/provenance checks.
 
-6. Canonical stage proof/audit source before granting theorem credit.
+7. If no applicable weapon remains, perform fresh literature/new-theorem work.
+
+8. Canonical stage proof/audit source before granting theorem credit.
 ```
 
 ## 6. Authority firewall
@@ -164,4 +178,5 @@ When a later promotion explicitly supersedes an earlier quantitative statement, 
 - `docs/arsenal/` owns **navigation to reusable weapons**.
 - Stage14 and StructureRadar giant files are **reference corpora**, not current status ledgers.
 - Old `CURRENT`, `OPEN`, `NEXT`, `PENDING`, or `GREEN` labels inside those corpora retain only their historical/local meaning.
+- Provisional Stage32/33 cards are candidate-discovery aids; they do not override active Stage source locks or promotion gates.
 - No source is promoted to a current weapon without exact population/height/measure/quantifier and adapter checks.
