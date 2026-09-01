@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build/check the compact Stage33 MAIN state after retained Smith route elimination."""
+"""Build/check compact Stage33 MAIN state from the V9 qPic-bridge controller authority."""
 from __future__ import annotations
 import argparse, hashlib, json
 from pathlib import Path
@@ -18,6 +18,11 @@ FILES={
  'route':(HERE/'33-12'/'j2-marked-picard-bridge-retained-route-inventory.json','10106a86dc79aa491133cf877c21a37a546ea439c7c21b1bfa4ef5ea70b79fc9'),
 }
 OUT=HERE/'MAIN-STATE.json'
+EXPECTED_CONTROLLER_SCHEMA='STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V53_QPIC_MARKED_BRIDGE_GAP'
+EXPECTED_MISSING='SOURCE_AUTHORIZED_PINNED_UPSTREAM_QPIC_64x64_MARKED_PICARD_BRIDGE_MISSING'
+EXPECTED_LEAF='ACQUIRE_SOURCE_AUTHORIZED_PINNED_UPSTREAM_QPIC_64x64_INDLIST_TO_MAGMA_PICARD_BRIDGE_THEN_CERTIFY_MARKING_DESCEND_ACTUAL_SWAPS_AND_TEST_ORDER4_AFFINE_SLICE'
+EXPECTED_MINIMAL='SOURCE_AUTHORIZED_PINNED_UPSTREAM_QPIC_64x64_INDLIST_TO_MAGMA_PICARD_BRIDGE'
+
 def csha(x): return hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
 def load(p,expected):
  x=json.loads(p.read_text(encoding='utf-8')); b=dict(x); h=b.pop('canonical_sha256')
@@ -28,21 +33,60 @@ controller=json.loads(CONTROLLER.read_text(encoding='utf-8'))
 x={k:load(*v) for k,v in FILES.items()}
 stage=controller['stage33_12']; current=controller['current']
 p=x['adjoint']['proper_brauer2_pullback']; h1=x['target']['retained_H1_projection']
-assert controller['schema']=='STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V52_J2_KUMMER_BINDING_REPAIR'
+bg=x['bridge_gap']; route=x['route']
+
+# Detailed controller is authoritative. Compact sync must reject semantic drift,
+# not translate an obsolete controller into a newer compact state.
+assert controller['schema']==EXPECTED_CONTROLLER_SCHEMA
 assert controller['stage33_progress']=='6/11' and current['unit']=='33-12'
 assert current['logical_internal_branch']=='33-13_FINITE_V4_KUMMER_MATRIX_REPAIR'
 assert current['substep']=='REPAIR_J2_SOURCE_TARGET_KUMMER_MODULE_COMPATIBILITY'
-assert current['active_missing_interface']=='MARKED_FULL_SURFACE_DISCRIMINANT_TO_PROPER_BR2_ADAPTER_NOT_SOURCE_LOCKED'
-assert stage['minimal_missing_exact_datum']=='SOURCE_LOCKED_MARKED_FULL_SURFACE_DISCRIMINANT_TO_PROPER_BR2_ADAPTER_OR_EQUIVALENT_2x14_J2_PULLBACK'
+assert current['active_missing_interface']==EXPECTED_MISSING
+assert current['next_exact_leaf']==EXPECTED_LEAF==route['next_exact_leaf']
+assert stage['minimal_missing_exact_datum']==EXPECTED_MINIMAL
+assert stage['logical_internal_sequence'][0]['id']=='33-13'
+assert stage['logical_internal_sequence'][0]['status']=='CURRENT_QPIC_MARKED_BRIDGE_SOURCE_GAP_RELATION_RANK_0_STANDARD_COLUMNS_0_OF_10'
+
+# Reopened mask-6 Picard-adjoint data is historical diagnostic evidence only.
+# It must never coexist with a positive named-J2 materialization flag.
+assert stage['corrected_J2_proper_Br2_14D_coordinate_materialized'] is False
+assert stage['corrected_J2_retained_10D_domain_coordinate_materialized'] is False
+assert stage['corrected_J2_proper_Br2_14D_coordinate_f2'] is None
+assert stage['corrected_J2_retained_10D_domain_coordinate_f2'] is None
+assert stage['historical_picard_adjoint_authoritative_named_J2_source'] is False
+assert stage['historical_picard_adjoint_mask_decimal']==6
+assert stage['historical_picard_adjoint_proper_Br2_14D_coordinate_f2']==p['proper_Br2_14D_coordinate_f2']==[1,0,0,1,1,0,0,0,0,0,0,0,0,0]
+assert stage['historical_picard_adjoint_retained_10D_domain_coordinate_f2']==p['retained_10D_coordinate_f2']==[0,1,1,0,0,0,0,0,0,0]
+assert stage['historical_picard_adjoint_proper_Br2_certificate_sha256']==FILES['adjoint'][1]
 assert stage['corrected_J2_named_source_target_relation_materialized'] is False
+assert stage['corrected_J2_named_standard_column_relation_valid'] is False
+assert stage['finite_v4_kummer_named_relations_materialized']==0
+assert stage['finite_v4_kummer_named_relation_rank_f2']==0
+
+# qPic bridge gap and retained-route narrowing are also detailed-controller facts.
+assert stage['marked_picard_bridge_source_gap_certificate_sha256']==FILES['bridge_gap'][1]
+assert stage['marked_picard_retained_route_inventory_sha256']==FILES['route'][1]
+assert stage['actual_indlist_to_magma_picard_basis_bridge_materialized'] is False
+assert stage['source_authorized_qPic_bridge_required'] is True
+assert stage['retained_smith_route_authoritative_for_qPic_bridge'] is False
+assert stage['new_external_magma_dispatch_authorized'] is False
+
+# Audit failure gates further MAIN advance until hostile re-audit passes.
+assert controller['audit_required'] is True
+assert controller['audit_scope']=='STAGE33_12_V9_QPIC_BRIDGE_CONTROLLER_AUTHORITY_SYNC'
+assert controller['advance_allowed'] is False
+assert controller['advance_scope']=='BLOCKED_PENDING_HOSTILE_REAUDIT_OF_V9_QPIC_CONTROLLER_AUTHORITY_SYNC'
+assert controller['next_expected_command']=='Stage33-audit'
+assert controller['execution']['audit_required'] is True
+assert controller['execution']['advance_allowed'] is False
+assert controller['execution']['advance_scope']==controller['advance_scope']
+assert controller['execution']['next_expected_command']==controller['next_expected_command']
+
 assert x['orientation']['exact_conclusion']['named_CV_J2_fixed_marked_Kc_coordinate_f2']==[1,0]
-assert p['proper_Br2_14D_coordinate_f2']==[1,0,0,1,1,0,0,0,0,0,0,0,0,0]
-assert p['retained_10D_coordinate_f2']==[0,1,1,0,0,0,0,0,0,0]
 assert h1['retained_H1_dimension_f2']==75 and sum(h1['coordinates_f2'])==15
 assert x['compat']['locked_named_j2']['locked_75D_target_reachable_from_locked_source'] is False
 assert x['reopen']['status']=='PASS_EXACT_DIAGNOSTIC_PICARD_ADJOINT_NAMED_SOURCE_REOPENED'
 assert x['gap']['status']=='PASS_EXACT_SOURCE_LOCK_GAP_MATERIALIZED'
-bg=x['bridge_gap']; route=x['route']
 assert bg['status']=='PASS_EXACT_NONIDENTIFIABILITY_REQUIRES_SOURCE_AUTHORIZED_QPIC_BRIDGE'
 assert bg['facts']['actual_64x64_bridge_source_locked'] is False
 assert bg['facts']['retained_constraints_identify_unique_bridge'] is False
@@ -64,14 +108,20 @@ out={
   'unit':current['unit'],
   'logical_internal_branch':current['logical_internal_branch'],
   'substep':current['substep'],
-  'active_missing_interface':'SOURCE_AUTHORIZED_PINNED_UPSTREAM_QPIC_64x64_MARKED_PICARD_BRIDGE_MISSING',
-  'next_exact_leaf':route['next_exact_leaf'],
+  'active_missing_interface':current['active_missing_interface'],
+  'next_exact_leaf':current['next_exact_leaf'],
  },
  'locked_facts':{
   'named_J2_semantic_orientation':{'label':'u1','marked_Kc_coordinate_f2':[1,0],'sha256':FILES['orientation'][1]},
   'proper_Br2_domain':{'ambient_dimension_f2':14,'retained_dimension_f2':10,'sha256':FILES['proper'][1]},
   'named_J2_raw_75D_target':{'nonzero':True,'weight':15,'sha256':FILES['target'][1]},
-  'historical_picard_adjoint_candidate':{'proper14_f2':p['proper_Br2_14D_coordinate_f2'],'retained10_f2':p['retained_10D_coordinate_f2'],'mask_decimal':6,'authoritative_named_J2_source':False,'sha256':FILES['adjoint'][1]},
+  'historical_picard_adjoint_candidate':{
+   'proper14_f2':stage['historical_picard_adjoint_proper_Br2_14D_coordinate_f2'],
+   'retained10_f2':stage['historical_picard_adjoint_retained_10D_domain_coordinate_f2'],
+   'mask_decimal':stage['historical_picard_adjoint_mask_decimal'],
+   'authoritative_named_J2_source':stage['historical_picard_adjoint_authoritative_named_J2_source'],
+   'sha256':FILES['adjoint'][1],
+  },
   'compatibility_audit':{'historical_mask6_target_reachable':False,'reachable_H1_dimension_f2':13,'relation_rank_credit':0,'sha256':FILES['compat'][1]},
   'reopen_diagnostic':{'status':x['reopen']['status'],'sha256':FILES['reopen'][1]},
   'marked_adapter_gap':{'status':x['gap']['status'],'accepted_shapes_f2':[[14,14],[2,14]],'sha256':FILES['gap'][1]},
@@ -115,7 +165,7 @@ out={
   'named_J2_source_target_relation_materialized':False,
   'named_source_target_relation_rank_f2':0,
   'matrix_standard_columns_materialized':0,
-  'actual_indlist_to_magma_picard_basis_bridge_materialized':False,
+  'actual_indlist_to_magma_picard_basis_bridge_materialized':stage['actual_indlist_to_magma_picard_basis_bridge_materialized'],
  },
  'current_leaf_working_set':[
   'stages/stage33/33-12/j2-marked-picard-bridge-retained-route-inventory.json',
@@ -132,6 +182,13 @@ out={
    'the exact source-authorized qPic bridge becomes available',
    'the user explicitly requests hostile audit or historical revalidation',
   ],
+ },
+ 'execution_gate':{
+  'audit_required':controller['audit_required'],
+  'audit_scope':controller['audit_scope'],
+  'advance_allowed':controller['advance_allowed'],
+  'advance_scope':controller['advance_scope'],
+  'next_expected_command':controller['next_expected_command'],
  },
  'firewalls':{
   'stage33_12_closed_exact':stage['closed_exact'],
