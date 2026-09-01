@@ -128,8 +128,8 @@ def main() -> None:
         },
         "structure": {
             "c2_boundary_graph": "three disjoint K2,2 blocks, each realized edge carrying four exceptional nodes",
-            "c_zero_exceptional_labels": [117, 140],
-            "c_nonzero_exceptional_labels": [93, 116],
+            "c_zero_exceptional_labels": zero_labels,
+            "c_nonzero_exceptional_labels": nonzero_labels,
             "c_zero_count": 24,
             "c_nonzero_count": 24,
             "c_zero_pairs": {f"{a}:{b}": zero_pairs[(a, b)] for a, b in sorted(zero_pairs)},
@@ -140,7 +140,6 @@ def main() -> None:
         "firewall": "exact retained-node marking only; this does not identify a hypothetical O188 carrier defect branch with any node and excludes none of A/B/C by itself",
     }
     result["canonical_sha256_without_this_field"] = csha(result)
-
     text = json.dumps(result, sort_keys=True, separators=(",", ":"))
     print(text)
     if args.output:
