@@ -5,9 +5,11 @@ on:
     types: [opened, synchronize, reopened]
     paths:
       - '.github/workflows/stage32-post1473-integral-picard-support-preflight.yml'
+      - 'stages/stage32/controller.json'
       - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_integral_picard_support_preflight.py'
       - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_integral_picard_support_lia_preflight.py'
       - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_integral_picard_support_saturated_lia_preflight.py'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_integral_picard_support_48branch_lia_preflight.py'
       - 'stages/stage32/residual-32-01-production/diagnose_stage32_21ak_affine_2adic_membership.py'
       - 'stages/stage32/residual-32-01-production/build_stage32_post21bl_full178_node_mass_census.py'
       - 'stages/stage32/32-21/post-21bl-full178-node-support-preflight.json'
@@ -39,24 +41,24 @@ jobs:
           python-version: '3.10.6'
       - name: Install exact local algebra dependencies
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
-      - name: Test one fixed-z support fiber in exact saturated pairing-lattice coordinates
+      - name: Test fixed-z support by exact 48-branch saturated LIA decomposition
         working-directory: stages/stage32/residual-32-01-production
         run: |
-          python diagnose_stage32_post1473_integral_picard_support_saturated_lia_preflight.py \
+          python diagnose_stage32_post1473_integral_picard_support_48branch_lia_preflight.py \
             --manifest full178-manifest.json \
             --node-preflight "$GITHUB_WORKSPACE/stages/stage32/32-21/post-21bl-full178-node-support-preflight.json" \
             --picard-adapter "$GITHUB_WORKSPACE/stages/stage32/32-21/post-21bl-picard64-witness-adapter.json" \
             --node-support-audit "$GITHUB_WORKSPACE/stages/stage32/32-21/post-21bl-node-support-refinement-audit.json" \
             --retained "$GITHUB_WORKSPACE/stages/stage33/33-07/picard_base_rows_retained.py" \
             --marking "$GITHUB_WORKSPACE/stages/stage33/33-07/stage32_picard_marking_retained.py" \
-            --solver-timeout-ms 30000 \
-            --output "$RUNNER_TEMP/stage32-post1473-integral-picard-support-saturated-lia-preflight.json"
+            --branch-timeout-ms 8000 \
+            --output "$RUNNER_TEMP/stage32-post1473-integral-picard-support-48branch-lia-preflight.json"
       - name: Upload compact preflight evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage32-post1473-integral-picard-support-saturated-lia-preflight
-          path: ${{ runner.temp }}/stage32-post1473-integral-picard-support-saturated-lia-preflight.json
+          name: stage32-post1473-integral-picard-support-48branch-lia-preflight
+          path: ${{ runner.temp }}/stage32-post1473-integral-picard-support-48branch-lia-preflight.json
           if-no-files-found: ignore
           retention-days: 3
           compression-level: 9
