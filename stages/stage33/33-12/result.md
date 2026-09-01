@@ -335,3 +335,18 @@ RELATION_SHA256=0563af417d41765e39ecb1b73fdabf33c1bc831e78f74d2227d286227c3aa082
 ```
 
 Counting this as `1/10` standard columns would violate the retained-basis contract.  The next exact leaf is to materialize another independent named proper-Br2 source together with its exact 75D Kummer image, increasing the source-relation rank until standard columns can be solved.  Stage33-12 remains open; no parent reclosure, downstream release, theorem, receiver, endpoint, or perfect-cuboid claim is promoted.
+
+## J2 Kummer source-target binding — exact compatibility audit revokes rank-one relation
+
+A later exact V4-module-extension audit tested the independently fixed corrected J2 proper-Br2 source against the independently fixed raw/75D J2 target under the locked Pic/2 and proper-Br2 actions. Across the full compatible F2[V4]-module-extension solution space (1792 block variables, rank 781, nullity 1011), the locked J2 source reaches only a 13-dimensional H1 subspace and the locked weight-15 target is not in it. All 896 elementary section-change gauge checks independently reproduce pure Picard coboundaries.
+
+```text
+J2_LOCKED_SOURCE_RETAINED10=e2+e3
+J2_LOCKED_SOURCE_REACHABLE_H1_DIM=13
+J2_LOCKED_TARGET_REACHABLE_FROM_LOCKED_SOURCE=false
+COMPATIBILITY_AUDIT_SHA256=463aae0d34980bb9f04171430872e59094a8e0f5ee14592e7f8e957393358229
+NAMED_SOURCE_TARGET_RELATION_RANK_F2=0
+STANDARD_KUMMER_COLUMNS_MATERIALIZED=0/10
+```
+
+Therefore the earlier `C2 + C3 = h_J2` statement is revoked as a Kummer-matrix relation. This does not revoke the J2 proper-Br2 source certificate or the J2 raw/75D target certificate separately; it revokes only their semantic/source-target binding. The next exact leaf is to identify the coordinate or semantic adapter that places both exact objects in one compatible Kummer V4-module extension. Stage33-12 remains open; no parent reclosure, downstream release, theorem, receiver, endpoint, or perfect-cuboid claim is promoted.
