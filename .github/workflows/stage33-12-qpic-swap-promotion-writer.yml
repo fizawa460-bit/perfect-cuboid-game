@@ -27,11 +27,11 @@ jobs:
           import json
           x=json.load(open('stages/stage33/runkeys/stage33-12-qpic-swap-promotion.json'))
           assert x['schema']=='STAGE33_12_QPIC_SWAP_PROMOTION_RUNKEY_V1'
-          assert x['generation']==1 and x['armed'] is True and x['one_shot'] is True
+          assert x['generation']==2 and x['armed'] is True and x['one_shot'] is True
           assert x['external_magma_dispatch_authorized'] is False
           assert x['heavy_compute'] is False and x['planned_jobs']==1
           assert x['merge_allowed'] is False and not x['theorem_credit'] and not x['receiver_credit'] and not x['endpoint_credit']
-          print('STAGE33_12_QPIC_SWAP_PROMOTION=AUTHORIZED_ONE_SHOT')
+          print('STAGE33_12_QPIC_SWAP_PROMOTION=AUTHORIZED_ONE_SHOT_GEN2')
           PY
       - name: Apply exact authority migration
         run: python stages/stage33/33-12/apply_qpic_actual_swap_promotion.py
@@ -42,11 +42,12 @@ jobs:
           python stages/stage33/sync_main_state.py --check
           python -m py_compile stages/stage33/sync_main_state.py stages/stage33/33-12/verify_j2_actual_swap_mixed_discriminant_descent.py
           git diff --check
-      - name: Commit exact promotion on same branch
+      - name: Commit state promotion on same branch
         run: |
           git config user.name 'stage33-main-bot'
           git config user.email 'stage33-main-bot@users.noreply.github.com'
-          git add stages/stage33/controller.json stages/stage33/MAIN-STATE.json stages/stage33/MAIN-BATCH-HANDOFF.md .github/workflows/stage33-12-main.yml
+          git restore .github/workflows/stage33-12-main.yml
+          git add stages/stage33/controller.json stages/stage33/MAIN-STATE.json stages/stage33/MAIN-BATCH-HANDOFF.md
           git diff --cached --check
           git commit -m 'Stage33: promote certified qPic actual swap descent'
           git push origin HEAD:${{ github.event.pull_request.head.ref }}
