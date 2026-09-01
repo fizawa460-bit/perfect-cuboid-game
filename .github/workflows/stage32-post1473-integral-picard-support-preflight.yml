@@ -50,6 +50,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.10.6'
+      - name: Install exact algebra and candidate-search dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0' 'scipy==1.15.3'
       - name: Replay support-47 witness and measure exact Picard self-intersection
         working-directory: stages/stage32/residual-32-01-production
         run: |
