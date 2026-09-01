@@ -2,15 +2,15 @@
 """Exact diagnostic for V4-equivariance of the Kc-to-full-surface Picard pullback.
 
 The current J2 raw ct defect was transported from six Kc divisor classes to the
-full-surface Picard lattice.  That transport was exact as a lattice map, but its
-producer deliberately did not compute Galois action.  Rebuild the same pinned
+full-surface Picard lattice. That transport was exact as a lattice map, but its
+producer deliberately did not compute Galois action. Rebuild the same pinned
 Stoll model and check, integrally, that for g=cc,ct
 
     K_g * MatKtoS = MatKtoS * S_g
 
 in the row-action convention used by the repository.
 
-This is diagnostic only.  It does not promote a Kummer relation or column.
+This is diagnostic only. It does not promote a Kummer relation or column.
 """
 from __future__ import annotations
 
@@ -35,20 +35,46 @@ end = "// action of sign change of c"
 kcore = text[text.index(start):text.index(end, text.index(start))]
 
 extra = r'''
-// Reconstruct the two Galois actions on Pic(K) in the same row convention as Pic(S).
+// Reconstruct the two Galois actions on Pic(S) omitted by the compact core.
+ccL33 := hom<L -> L | -i>;
+ctL33 := hom<L -> L | hom<GroundField(L) -> L | -s>, i>;
+RS33 := CoordinateRing(Pr6);
+ccPS33 := hom<RS33 -> RS33 | ccL33*Bang(L,RS33), [RS33.j : j in [1..7]]>;
+ctPS33 := hom<RS33 -> RS33 | ctL33*Bang(L,RS33), [RS33.j : j in [1..7]]>;
+actccS33 := func<C | Curve(Pr6, [ccPS33(e) : e in DefiningEquations(C)])>;
+actctS33 := func<C | Curve(Pr6, [ctPS33(e) : e in DefiningEquations(C)])>;
+permccS33 := [Position(C1s, actccS33(C)) : C in C1s]
+  cat [#C1s+Position(C2s, actccS33(C)) : C in C2s]
+  cat [#C1s+#C2s+Position(C3s, actccS33(C)) : C in C3s]
+  cat [#Cs+Position(pts, Pr6![ccL33(a) : a in Eltseq(pt)]) : pt in pts];
+permctS33 := [Position(C1s, actctS33(C)) : C in C1s]
+  cat [#C1s+Position(C2s, actctS33(C)) : C in C2s]
+  cat [#C1s+#C2s+Position(C3s, actctS33(C)) : C in C3s]
+  cat [#Cs+Position(pts, Pr6![ctL33(a) : a in Eltseq(pt)]) : pt in pts];
+assert &and[j gt 0 : j in permccS33] and &and[j gt 0 : j in permctS33];
+actpermS33 := func<g, perm | qPic(Big![e[perm[j]] : j in [1..#e]]) where e := Eltseq(g @@ qPic)>;
+ccPicS33 := Matrix(Integers(), [Eltseq(actpermS33(Pic.j, permccS33)) : j in [1..64]]);
+ctPicS33 := Matrix(Integers(), [Eltseq(actpermS33(Pic.j, permctS33)) : j in [1..64]]);
+assert ccPicS33*pmPic*Transpose(ccPicS33) eq pmPic;
+assert ctPicS33*pmPic*Transpose(ctPicS33) eq pmPic;
+assert ccPicS33^2 eq IdentityMatrix(Integers(),64);
+assert ctPicS33^2 eq IdentityMatrix(Integers(),64);
+assert ccPicS33*ctPicS33 eq ctPicS33*ccPicS33;
+
+// Reconstruct the same two Galois actions on Pic(K).
 RK33 := CoordinateRing(Pr5);
-ccPK33 := hom<RK33 -> RK33 | ccL*Bang(L,RK33), [RK33.j : j in [1..6]]>;
-ctPK33 := hom<RK33 -> RK33 | ctL*Bang(L,RK33), [RK33.j : j in [1..6]]>;
+ccPK33 := hom<RK33 -> RK33 | ccL33*Bang(L,RK33), [RK33.j : j in [1..6]]>;
+ctPK33 := hom<RK33 -> RK33 | ctL33*Bang(L,RK33), [RK33.j : j in [1..6]]>;
 actccK33 := func<C | Curve(Pr5, [ccPK33(e) : e in DefiningEquations(C)])>;
 actctK33 := func<C | Curve(Pr5, [ctPK33(e) : e in DefiningEquations(C)])>;
 permccK33 := [Position(C1sK, actccK33(C)) : C in C1sK]
   cat [#C1sK+Position(C2sK, actccK33(C)) : C in C2sK]
   cat [#C1sK+#C2sK+Position(C3sK, actccK33(C)) : C in C3sK]
-  cat [#CsK+Position(ptsK, Pr5![ccL(a) : a in Eltseq(pt)]) : pt in ptsK];
+  cat [#CsK+Position(ptsK, Pr5![ccL33(a) : a in Eltseq(pt)]) : pt in ptsK];
 permctK33 := [Position(C1sK, actctK33(C)) : C in C1sK]
   cat [#C1sK+Position(C2sK, actctK33(C)) : C in C2sK]
   cat [#C1sK+#C2sK+Position(C3sK, actctK33(C)) : C in C3sK]
-  cat [#CsK+Position(ptsK, Pr5![ctL(a) : a in Eltseq(pt)]) : pt in ptsK];
+  cat [#CsK+Position(ptsK, Pr5![ctL33(a) : a in Eltseq(pt)]) : pt in ptsK];
 assert &and[j gt 0 : j in permccK33] and &and[j gt 0 : j in permctK33];
 actpermK33 := func<g, perm | qPicK(BigK![e[perm[j]] : j in [1..#e]]) where e := Eltseq(g @@ qPicK)>;
 ccPicK33 := Matrix(Integers(), [Eltseq(actpermK33(PicK.j, permccK33)) : j in [1..20]]);
@@ -58,8 +84,10 @@ assert ctPicK33*pmPicK*Transpose(ctPicK33) eq pmPicK;
 assert ccPicK33^2 eq IdentityMatrix(Integers(),20);
 assert ctPicK33^2 eq IdentityMatrix(Integers(),20);
 assert ccPicK33*ctPicK33 eq ctPicK33*ccPicK33;
-assert ccPicK33*MatKtoS eq MatKtoS*ccPic;
-assert ctPicK33*MatKtoS eq MatKtoS*ctPic;
+
+// Naturality of the degree-two Picard pullback, exactly over Z.
+assert ccPicK33*MatKtoS eq MatKtoS*ccPicS33;
+assert ctPicK33*MatKtoS eq MatKtoS*ctPicS33;
 printf "STAGE33_12_PICARD_PULLBACK_V4_EQUIVARIANCE=PASS_EXACT\n";
 printf "CC_EQUIVARIANT=true\n";
 printf "CT_EQUIVARIANT=true\n";
