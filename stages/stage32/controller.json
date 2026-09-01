@@ -1,14 +1,14 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V175_POST1473_FSM_REFINED_BIJECTIVE_EXCLUSION_AUDITED_MULTIBRANCH_OPEN",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V176_POST1473_MULTIBRANCH_BEAUVILLE_ODD_BRANCH_WALL_PENDING_AUDIT",
   "stage": "32",
-  "status": "STAGE32_POST1473_FIXED_Z_BIJECTIVE_NORMALIZATION_EXCLUDED_AUDITED_MULTIBRANCH_OPEN",
+  "status": "STAGE32_POST1473_FIXED_Z_MULTIBRANCH_BEAUVILLE_ODD_BRANCH_BURDEN_PROVISIONAL_NONEXCLUSION_PENDING_HOSTILE_AUDIT",
   "current_item": "POST1473_FIXED_Z_NONBIJECTIVE_NORMALIZATION_MULTIBRANCH_CARRIER_OR_EXCLUSION",
   "active_pr": {
     "number": 1474,
     "branch": "stage32-post1473-integral-picard-support-preflight",
     "automatic_merge_authorized": false
   },
-  "advance_allowed": true,
+  "advance_allowed": false,
   "merge_allowed": false,
   "checkpoint_merge_ready": false,
   "stage32_closed": false,
@@ -35,6 +35,7 @@
       "picard_coordinates_sha256": "2d5b956b182369cf42d3c34352e79c6306700ff87907f4e6d25d5743d7f12726",
       "all140_pairings_sha256": "4d4f6d306fcd1974ebb539c5adc65a0d595ca8d471d2a12b1e785bac7f41c9a3",
       "positive_exceptional_support": 47,
+      "exceptional_mass": 266,
       "exceptional_histogram": {
         "zero": 1,
         "equal_one": 9,
@@ -55,7 +56,6 @@
     },
     "kc_replay": {
       "status": "EXACT_NONNEGATIVE_NONEXCLUSION",
-      "result_note": "stages/stage32/residual-32-01-production/post1473-specific-class-kc-replay-result.md",
       "run": 33480002342,
       "canonical_sha256": "a79b2e57e0b9e7444f3e2756542ac88f84a452a07e293226aa60917603f563b9",
       "P_square": 6532,
@@ -65,56 +65,80 @@
   },
   "fsm_refined_bijective_normalization_obstruction": {
     "status": "CLOSED_AUDITED_EXACT_BIJECTIVE_NORMALIZATION_G1_EXCLUDED",
-    "source_note": "stages/stage32/residual-32-01-production/post1473-specific-class-fsm-refined-pole-obstruction.md",
-    "source_note_git_blob_sha1": "203838b6e7504fcda517ce3aadd9b5f09063257c",
-    "diagnostic": "stages/stage32/residual-32-01-production/diagnose_stage32_post1473_fsm_refined_pole_obstruction.py",
     "certificate": "stages/stage32/residual-32-01-production/post1473-specific-class-fsm-refined-pole-obstruction.json",
     "certificate_canonical_sha256": "0614b63a7db75b2cc115005e5c6f1dcac61b418a86c22e98104bd53934296d23",
-    "ci_run": 33484062974,
-    "ci_source_head": "a592ab25d7160bbb109d5b651aa6403c14a260c1",
+    "hostile_audit": {
+      "verdict": "PASS",
+      "scope": "REFINED_FSM_BIJECTIVE_NORMALIZATION_LEAF_ONLY",
+      "review_id": 5075460484,
+      "audited_head": "bb98950994c99f90e43c0fe403a779157a218c35"
+    },
+    "exact_evaluation": {
+      "n1": 9,
+      "refined_degree_upper_bound": 36,
+      "degree": 186,
+      "bijective_normalization_integral_genus1_carrier_in_exact_V6_class": false
+    },
+    "scope": "BIJECTIVE_NORMALIZATION_BRANCH_ONLY"
+  },
+  "multibranch_beauville_odd_branch_wall": {
+    "status": "PROVISIONAL_EXACT_CI_PASS_NONEXCLUSION_PENDING_HOSTILE_AUDIT",
+    "source_note": "stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-beauville-odd-branch-wall.md",
+    "source_note_git_blob_sha1": "cb20a9b287430c2e238f79d3151500c262905468",
+    "diagnostic": "stages/stage32/residual-32-01-production/diagnose_stage32_post1473_multibranch_beauville_odd_branch_wall.py",
+    "certificate": "stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-beauville-odd-branch-wall.json",
+    "certificate_canonical_sha256": "250f987a4aa298362ce0c8b4a0993d762434e0cece3236a85f08280d5587b078",
+    "workflow": ".github/workflows/stage32-post1473-multibranch-beauville-odd-branch-diagnostic.yml",
+    "ci_run": 33487134622,
+    "ci_source_head": "4e4b7ac3da5fbcc8b499fff484cf4df201e2f546",
+    "ci_conclusion": "SUCCESS",
     "source": {
       "authors": "Eberhard Freitag; Riccardo Salvati Manni",
       "title": "Parametrization of the box variety by theta functions",
       "doi": "10.1307/mmj/1480734014",
       "arxiv": "1303.6495",
-      "published": 2016
+      "section4_inputs": [
+        "GammaPrime4/Gamma8 is a free (Z/2)^2 action",
+        "product X(8)xX(8) gives an unramified degree-4 cover of the Beauville surface",
+        "Beauville surface maps twofold to the box variety",
+        "after blow-up the double cover is ramified along the 48 exceptional curves"
+      ]
     },
-    "local_adapter": {
-      "node_model": "(C^2)/(+/-1)",
-      "resolution": "blow-up at the node with one exceptional line",
-      "invariant_coordinates": "x=p^2, y=q^2, u=p*q",
-      "exceptional_intersection": "m=C.E=min(a1,a2)/4",
-      "cusp_sum_bound": "a1+a2>=8*m",
-      "local_pole_order_upper_bound": "max(0,16-8*m)*k",
-      "positive_pole_possible_only_when_C_dot_E_equals_1": true
+    "provisional_derivation": {
+      "normalized_odd_contact_count_symbol": "O",
+      "beauville_product_cover_necessary_condition": "O>=d",
+      "odd_contact_lower_bound": 186,
+      "total_normalized_branch_count_lower_bound": 186,
+      "multiplicity_one_branch_lower_bound": 146,
+      "branchwise_fsm_crosscheck_lower_bound_B": 157,
+      "beauville_bound_stronger_than_fsm_crosscheck": true
     },
-    "exact_evaluation": {
-      "n1": 9,
-      "refined_formula": "d<=16*g-16+4*n1",
-      "refined_degree_upper_bound": 36,
-      "degree": 186,
-      "contradiction": true,
-      "bijective_normalization_integral_genus1_carrier_in_exact_V6_class": false
+    "exact_partition_replay": {
+      "arsenal_card": "S32-PW01 EXACT_ENUMERATION_COMPRESSION_AND_INDEXER",
+      "exceptional_mass": 266,
+      "odd_total_intersection_node_count": 26,
+      "reachable_state_count": 216095,
+      "reachable_states_sha256": "315a6f45625584fa3fa9e91fa69ad34bb682c34dc746eddb59f12b113b46d5bf",
+      "reachable_odd_contact_counts": "every even integer from 26 through 266",
+      "O_186_reachable": true,
+      "minimum_S1_given_O_ge_186": 146,
+      "extremal_reachable_state": {
+        "B": 186,
+        "O": 186,
+        "S1": 146
+      }
     },
-    "hostile_audit": {
-      "verdict": "PASS",
-      "scope": "REFINED_FSM_BIJECTIVE_NORMALIZATION_LEAF_ONLY",
-      "pr": 1474,
-      "review_id": 5075460484,
-      "audited_head": "bb98950994c99f90e43c0fe403a779157a218c35",
-      "submitted_at": "2026-09-01T07:59:19Z",
-      "local_multiplicity_formula_confirmed": true,
-      "factor_two_loss_rejected": true,
-      "last48_exceptional_pairing_semantics_confirmed": true,
-      "satake_boundary_elliptic_loophole_rejected_for_exact_V6_class": true,
-      "nonbijective_multibranch_case_closed": false
-    },
-    "scope": "BIJECTIVE_NORMALIZATION_BRANCH_ONLY"
+    "verdict": {
+      "current_exceptional_intersection_data_excludes_multibranch_carrier": false,
+      "coarse_branch_partition_layer_has_surviving_states": true,
+      "carrier_existence_proved": false,
+      "scope": "SAME_EXACT_V6_CLASS_MULTIBRANCH_NECESSARY_CONDITION_ONLY"
+    }
   },
   "math_scope": {
     "fixed_z_effective_divisor_existence": "PROVISIONAL_EXACT_PASS_RIEMANN_ROCH",
     "fixed_z_bijective_normalization_integral_genus1_carrier": "CLOSED_AUDITED_EXCLUDED_BY_REFINED_FSM_POLE_BOUND",
-    "fixed_z_nonbijective_normalization_multibranch_carrier": "OPEN_PRIMARY",
+    "fixed_z_nonbijective_normalization_multibranch_carrier": "OPEN_PROVISIONAL_EXACT_BEAUVILLE_ODD_BRANCH_BURDEN_NONEXCLUSION_PENDING_HOSTILE_AUDIT",
     "fixed_z_all_integral_genus1_carriers": "OPEN",
     "general_geometric_genus_le_1_classification": "OPEN_TESTA_STOLL_QUESTION_19",
     "full178_exact_positive_exceptional_support": "OPEN_PRIMARY",
@@ -123,8 +147,8 @@
   },
   "arsenal_consultation": {
     "main_snapshot": "main@95b5c5dd00aa8bd24232ef02bf5c3fabb9fedd02",
-    "mathematical_card_used": null,
-    "reason": "The audited leaf is a local geometric carrier obstruction; S32 provisional HNF/finite-quotient/equivariant cards do not match.",
+    "mathematical_card_used": "S32-PW01 EXACT_ENUMERATION_COMPRESSION_AND_INDEXER",
+    "use": "exactly aggregate per-node integer-partition branch states by dynamic programming without Cartesian-product materialization",
     "workflow_used": "S30-WF02 IMMUTABLE_LAYERED_CERTIFICATE_REPLAY",
     "credit_firewall": "S30-WF03 ADAPTER_CREDIT_LAYER_FIREWALL"
   },
@@ -133,7 +157,18 @@
     "heavy_compute_authorized": false,
     "full178_scaleout_authorized": false,
     "survivor_materialization_authorized": false,
-    "fsm_ci_has_no_artifact_upload": true
+    "multibranch_ci_has_no_artifact_upload": true
+  },
+  "audit_gate": {
+    "hostile_audit_required": true,
+    "main_must_not_self_clear": true,
+    "audit_targets": [
+      "normalized pullback of the Beauville double cover ramifies exactly at odd exceptional contact multiplicity and Riemann-Hurwitz gives 2*g(Y)-2=O for genus-one N",
+      "an irreducible component of the product-cover pullback has unramified degree qprime in {1,2,4} over Y and the degree/canonical identity is 2*qprime*d=8*(n1+n2)",
+      "Riemann-Hurwitz to genus-5 X(8) legitimately yields qprime*O>=8*max(n1,n2) and therefore O>=d",
+      "the exact last-48 partition DP and the minimum S1=146 are reproduced independently",
+      "coarse integer partitions are not promoted to analytic branch realization or global carrier existence"
+    ]
   },
   "anti_loop": {
     "do_not_repeat_v1_v2_v3_v4_v5_timeout_forms": true,
@@ -141,8 +176,8 @@
     "do_not_repeat_completed_kc_replay_without_new_exact_dependency": true,
     "do_not_reaudit_bijective_fsm_without_new_dependency": true,
     "do_not_materialize_659697_survivors": true,
-    "do_not_infer_integral_irreducible_genus1_carrier_from_effective_divisor": true,
-    "do_not_extend_bijective_normalization_result_or_pole_formula_to_multibranch_without_source_locked_adapter": true,
+    "do_not_treat_coarse_branch_partition_as_analytic_realization": true,
+    "do_not_treat_multibranch_nonexclusion_as_carrier_existence": true,
     "do_not_claim_general_low_genus_classification": true,
     "do_not_launch_full178_scaleout_from_this_leaf": true
   },
@@ -153,7 +188,10 @@
   },
   "firewalls": {
     "unknown_is_not_unsat": true,
+    "ci_pass_is_not_audited_promotion": true,
     "audited_bijective_branch_exclusion_is_not_multibranch_exclusion": true,
+    "coarse_partition_is_not_analytic_branch_realization": true,
+    "local_valuation_compatibility_is_not_global_curve_existence": true,
     "representative_sample_is_not_full178_numerical_credit": true,
     "effective_divisor_is_not_integral_irreducible_low_genus_curve": true,
     "multibranch_closed": false,
@@ -164,7 +202,7 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
   },
-  "safe_semantics": "Hostile audit PASS promotes exactly one claim: the exact V6 class has no integral geometric-genus-one carrier whose normalization map to the singular box surface is bijective. The non-bijective/multibranch branch remains OPEN PRIMARY. V8 proves only an effective divisor; the completed Kc test remains a nonexclusion. General low-genus classification, FULL178 geometric closure, receiver, route, theorem, endpoint, and perfect-cuboid claims remain open/false.",
-  "next_expected_action": "ATTACK_ONLY_THE_SAME_FIXED_Z_NONBIJECTIVE_NORMALIZATION_MULTIBRANCH_CASE_WITH_A_SEPARATELY_SOURCE_LOCKED_EXACT_LOCAL_BRANCH_OR_CARRIER_OBSTRUCTION. DO NOT EXTEND THE BIJECTIVE FSM POLE FORMULA BY ASSUMPTION, DO NOT RERUN Kc OR V7, AND DO NOT ARM FULL178.",
-  "next_expected_datum": "A SOURCE_LOCKED EXACT MULTIBRANCH LOCAL_NORMALIZATION_OR_NODE_BRANCH_DECOMPOSITION ADAPTER, OR AN INDEPENDENT CARRIER OBSTRUCTION FOR THE SAME V6 CLASS; OTHERWISE RETAIN THE AUDITED BIJECTIVE EXCLUSION WITH MULTIBRANCH OPEN."
+  "safe_semantics": "The hostile-audited bijective-normalization exclusion remains closed. For the still-open non-bijective/multibranch case, a new source-locked Beauville/product-cover argument provisionally forces at least 186 odd-contact normalized branches and at least 146 multiplicity-one branches for the exact V6 class. Exact S32-PW01-style branch-partition replay nevertheless finds surviving coarse states, including (B,O,S1)=(186,186,146). Therefore this is a stronger necessary-condition nonexclusion wall, not carrier existence and not multibranch closure. Hostile audit is required before the new inequalities receive authoritative credit.",
+  "next_expected_action": "HOSTILE_AUDIT_THE_MULTIBRANCH_BEAUVILLE_PRODUCT_COVER_DERIVATION_AND_EXACT_BRANCH_PARTITION_REPLAY. MAIN MUST NOT ADVANCE OR ARM FULL178 UNTIL THAT AUDIT PASSES OR REPAIRS THE LEAF.",
+  "next_expected_datum": "AUDIT_PASS_OR_REPAIR_FOR O>=d=186, S1>=146, THE PRODUCT_COVER DEGREE/CANONICAL IDENTITY, AND THE EXACT S32-PW01 PARTITION NONEXCLUSION; IF PASS, SEEK A NEW SOURCE_LOCKED GEOMETRIC BRANCH_COMPATIBILITY OBSTRUCTION RATHER THAN MORE TOTAL-INTERSECTION ARITHMETIC."
 }
