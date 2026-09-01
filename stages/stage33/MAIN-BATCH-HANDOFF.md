@@ -6,48 +6,45 @@ base_main_state_canonical_sha256: d2c85c1a00acaf5db0662cc3e8a8894ad5bf666b3ae884
 This file contains only work learned after that `MAIN-STATE.json` state.
 Do not use it as history or repeat facts already present in `MAIN-STATE.json`.
 
-## Unpromoted narrowing
+## Latest narrowing
 
-- Companion `beta2` source is already exact in the Picard-adjoint certificate.
-- retained10 coordinate:
-  `[0,1,1,0,0,1,1,1,0,1]`
-- This source is F2-linearly independent from the existing J2 source.
-- Therefore an exact beta2 75D finite-V4 H1/Kummer image would raise named source-relation rank from 1 to 2.
-- The beta2 75D image is NOT yet materialized. Do not infer or guess it from `u2`, retained10 coordinates, or the quotient basis.
+- Provenance of the locked named-J2 75D target is now resolved exactly.
+- It was introduced at commit `f63a36dac006de3ef67acfa851ff458882bcaf99` by:
+  `stages/stage33/33-12/materialize_j2_named_v4_h1_target_before_source_orientation.py`.
+- That producer has two logically separate parts:
+  1. construct the exact raw V4 cocycle `(raw_cc, raw_ct)` in historical-Magma Pic64 mod 2;
+  2. project that raw cocycle to the locked 75D H1 quotient basis.
+- Part (2) is generic. Part (1) is J2-specific.
+- For J2, `raw_cc=0` comes from the actual Cech-overlap certificate and `raw_ct` comes from exact BigK support `[26,35,42,47,49,52]` transported to full Pic64.
+- Semantic `u2` has a different discriminant support interface; do NOT substitute its `[52,54]` support for the J2 raw `ct` defect.
+- Companion `beta2` is V4-fixed/retained, but the adjoint certificate still records `Q_defined_descent_credit_restored=false`. Do NOT call beta2 Q-defined without a new exact descent argument.
 
-## Route not to repeat
+## Implemented reusable interface
 
-- `q1` was checked as the next Q-defined source; existing exact work says it does not Q-descent.
-- Do not reconstruct old Stage33-05 q1 generated state in ordinary MAIN without a new exact reason.
+- Added `stages/stage33/33-12/v4_pic2_raw_cocycle_projection.py`.
+- Added `stages/stage33/33-12/verify_v4_pic2_raw_cocycle_projection.py`.
+- The adapter accepts exact 64+64 raw cocycle components, checks the V4 cocycle equations, and projects them to the locked 75D H1 basis with an exact reconstruction witness.
+- Actions run `33456711239` passed: adapter compile, exact replay of the locked J2 75D target, existing J2 verifier, and `sync_main_state.py --check`.
+- Temporary workflow was removed after the successful replay.
 
-## Latest unfinished narrowing batch
+## Exact remaining blocker
 
-- branch head checked at batch start: `a90cbf94aadc68c66725275441ab30c40e7fa97a`.
-- Goal was only to identify the exact producer/adapter that generated the already-locked J2 75D target, so it could be generalized to companion `beta2 / semantic u2`.
-- Stayed inside the Stage33-12 file/tree inventory; no broad history/source reconstruction was performed.
-- Narrow filename/function probes already attempted against that inventory:
-  - `v4-h1`
-  - `before-source-orientation`
-  - `named-v4`
-  - `kummer`
-  - `certify_j2`
-- These inventory-name probes did NOT identify the producer for `j2-named-v4-h1-target-before-source-orientation.json`.
-- No beta2 75D coordinate was derived, guessed, or certified.
-- No controller / MAIN-STATE / result mathematical state was changed.
-- No PR, merge, downstream release, theorem credit, receiver credit, or endpoint credit occurred.
+The 75D projection is no longer the missing interface. The missing datum is now exactly the one already isolated by `first-exact-kummer-column-input-audit.json`:
 
-### Do not spend the next batch repeating those same inventory-name probes
+> one exact equivariant full-surface `mu_2` lift `b` for a retained proper-Br2 source vector, with enough `cc/ct` action to compute `(cc(b)-b, ct(b)-b)` in Pic/2, or equivalent equivariant unimodular Picard-transcendental glue data.
 
-Resume from the unresolved provenance question itself:
+For the standard-column split route, prefer retained basis `e2` or `e3`. Once either raw cocycle is exact, feed it directly to the new projection adapter; then use the already-certified named-J2 relation to derive the sibling column.
 
-> Which exact committed producer/adapter created the locked J2 75D target, and can that construction accept semantic `u2` / companion `beta2` as input?
+## Do not repeat
 
-Prefer a provenance-directed route (certificate metadata or the commit that introduced/updated the locked J2 target and its sibling changed files) rather than another Stage33-12 filename sweep.
+- Do not search again for the J2 75D target producer; provenance is resolved above.
+- Do not infer a beta2 75D target from semantic `u2`, retained10 coordinates, or discriminant support.
+- Do not treat beta2 as Q-defined merely because it is V4-fixed.
+- Do not reconstruct the rejected q1 route.
+- Do not try to derive a column from Picard/proper-Br2 actions alone; the exact input audit already proves those are insufficient without a `mu_2` lift or equivalent glue datum.
 
 ## Immediate next action
 
-Materialize and verify the smallest exact adapter/producer for:
+Recover or construct one equivariant full-surface `mu_2` lift for retained `e2` or `e3`; compute its exact raw `cc/ct` cocycle; project it with `v4_pic2_raw_cocycle_projection.py`; verify the resulting standard 75D column and derive the sibling via the existing J2 relation.
 
-`companion beta2 / semantic u2 -> 75D finite-V4 H1 target`
-
-If this result is promoted into certificates/controller and `MAIN-STATE.json` is synced, RESET THIS FILE immediately to `status: EMPTY` (or keep only genuinely new post-promotion unresolved delta).
+No controller / `MAIN-STATE.json` mathematical promotion has occurred yet. If an exact column is promoted and state sync succeeds, reset this handoff immediately under the reset law.
