@@ -79,7 +79,6 @@ c['loop_state'].update({
 c['audit_scope']='STAGE33_12_INTERNAL_33_13_NAMED_KUMMER_RELATION_ACCUMULATION'
 c['advance_scope']='STAGE33_12_INTERNAL_33_13_KUMMER_RELATION_ACCUMULATION_ONLY_NO_PARENT_RECLOSURE'
 c['next_item']='Stage33-12_33-13_MATERIALIZE_NEXT_INDEPENDENT_NAMED_SOURCE_TARGET_RELATION'
-# Preserve all release/claim firewalls.
 assert c['release_gates']['stage33_12_closed_exact'] is False
 assert c['release_gates']['stage33_07_reclosed'] is False
 assert c['release_gates']['stage33_08_released'] is False
@@ -89,5 +88,5 @@ CONTROLLER.write_text(json.dumps(c,indent=2,sort_keys=False)+'\n')
 marker='## J2 Picard-adjoint source and named Kummer relation — exact\n'
 text=RESULT.read_text()
 section=f'''\n\n{marker}\nThe degree-2 Picard pullback matrix now determines the adjoint map on the transcendental mod-2 quotients directly.  This bypasses the superseded order-4 half-lift ambiguity and fixes corrected named J2 exactly in the current full-surface proper-Br2 coordinates.\n\n```text\nJ2_PROPER_BR2_14D=[1,0,0,1,1,0,0,0,0,0,0,0,0,0]\nJ2_RETAINED_10D=[0,1,1,0,0,0,0,0,0,0]\nJ2_PICARD_ADJOINT_SHA256={EXPECTED[ADJ]}\n```\n\nThe retained 10D coordinate has weight two.  Therefore the already locked nonzero 75D named J2 target does **not** individually determine standard matrix column 2 or 3.  The exact new information is the rank-one source-target relation\n\n```text\nM * [0,1,1,0,0,0,0,0,0,0]^T = h_J2\nC2 + C3 = h_J2\nNAMED_SOURCE_TARGET_RELATION_RANK_F2=1\nSTANDARD_KUMMER_COLUMNS_MATERIALIZED=0/10\nRELATION_SHA256={rh}\n```\n\nCounting this as `1/10` standard columns would violate the retained-basis contract.  The next exact leaf is to materialize another independent named proper-Br2 source together with its exact 75D Kummer image, increasing the source-relation rank until standard columns can be solved.  Stage33-12 remains open; no parent reclosure, downstream release, theorem, receiver, endpoint, or perfect-cuboid claim is promoted.\n'''
-if marker not in text: RESULT.write_text(text.rstrip()+section+'\n')
+if marker not in text: RESULT.write_text((text.rstrip()+section).rstrip()+'\n')
 print(json.dumps({'success':True,'controller_schema':c['schema'],'relation_sha256':rh,'named_relation_rank':1,'standard_columns':0},sort_keys=True))
