@@ -1,4 +1,4 @@
 # Stage33 MAIN transient handoff
 
 status: EMPTY
-base_main_state_canonical_sha256: d536122dd49b920d22f46a59f3c0ba277bf18a434729c0560ec1c1b8b58b961f
+base_main_state_canonical_sha256: 1507bea7ea4f5a86fb91a173b3401821f679710a4e87ea7d0c1b01048b677d10
