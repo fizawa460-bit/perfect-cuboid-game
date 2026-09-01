@@ -74,6 +74,7 @@ jobs:
           python stages/stage33/33-12/verify_j2_marked_glue_geometric_sign_route_gap.py
           python stages/stage33/33-12/verify_j2_marked_order4_lift_label_gap.py
           python stages/stage33/33-12/verify_j2_marked_order4_geometric_sign_indistinguishability.py
+          python stages/stage33/33-12/verify_j2_actual_swap_mixed_discriminant_descent.py
 
           python - <<'PY'
           import json
@@ -94,27 +95,25 @@ jobs:
           assert x['lattice_conclusion']['minimum_norm']==8
           assert x['lattice_conclusion']['marked_brauer_coordinate']==[1,0]
 
-          assert m['schema']=='STAGE33_MAIN_COMPACT_STATE_V9_QPIC_ONLY_MARKED_BRIDGE_ACQUISITION'
+          assert m['schema']=='STAGE33_MAIN_COMPACT_STATE_V10_QPIC_CERTIFIED_ACTUAL_SWAP_DESCENT'
           assert m['stage33_progress']=='6/11'
           assert m['current']['unit']=='33-12'
-          assert m['current']['active_missing_interface']=='SOURCE_AUTHORIZED_PINNED_UPSTREAM_QPIC_64x64_MARKED_PICARD_BRIDGE_MISSING'
+          assert m['current']['active_missing_interface']=='NAMED_J2_ORDER4_LIFT_ACTUAL_S3_BEHAVIOR_OR_EQUIVALENT_SOURCE_LABEL_MISSING'
           assert m['locked_facts']['named_J2_semantic_orientation']['marked_Kc_coordinate_f2']==[1,0]
+          assert m['locked_facts']['qpic_marked_picard_bridge']['status']=='PASS_EXACT_LOCAL_REVERIFY'
+          assert m['locked_facts']['qpic_marked_picard_bridge']['bridge_determinant']==-1
+          assert m['locked_facts']['actual_swap_mixed_discriminant_descent']['candidate_count']==4
+          assert m['locked_facts']['actual_swap_mixed_discriminant_descent']['unique_joint_fixed_retained10_mask_decimal']==6
+          assert m['locked_facts']['actual_swap_mixed_discriminant_descent']['named_J2_source_selected'] is False
           assert m['locked_facts']['historical_picard_adjoint_candidate']['mask_decimal']==6
           assert m['locked_facts']['historical_picard_adjoint_candidate']['authoritative_named_J2_source'] is False
-          assert m['locked_facts']['compatibility_audit']['historical_mask6_target_reachable'] is False
-          assert m['locked_facts']['marked_adapter_gap']['status']=='PASS_EXACT_SOURCE_LOCK_GAP_MATERIALIZED'
-          assert m['locked_facts']['marked_picard_bridge_source_gap']['status']=='PASS_EXACT_NONIDENTIFIABILITY_REQUIRES_SOURCE_AUTHORIZED_QPIC_BRIDGE'
-          assert m['locked_facts']['marked_picard_bridge_source_gap']['actual_64x64_bridge_source_locked'] is False
-          assert m['locked_facts']['marked_picard_retained_route_inventory']['status']=='PASS_EXACT_RETAINED_SMITH_ROUTE_INSUFFICIENT_QPIC_BRIDGE_STILL_REQUIRED'
-          assert m['locked_facts']['marked_picard_retained_route_inventory']['source_authoritative_qPic_bridge_still_missing'] is True
-          assert m['authority_changes']['J2_picard_adjoint_source_coordinate']=='REOPENED_EXACT_DO_NOT_USE_AS_NAMED_SOURCE'
-          assert m['authority_changes']['named_J2_semantic_orientation']=='RETAINED_EXACT_DO_NOT_REINVESTIGATE'
+          assert m['authority_changes']['actual_INDLIST_to_historical_Magma_Picard_basis_bridge']=='SOURCE_LOCKED_CERTIFIED_EXACT'
+          assert m['authority_changes']['actual_swap12_swap13_on_mixed_discriminant_basis']=='MATERIALIZED_EXACT'
+          assert m['open_datum']['actual_indlist_to_magma_picard_basis_bridge_materialized'] is True
+          assert m['open_datum']['actual_swap_mixed_discriminant_actions_materialized'] is True
+          assert m['open_datum']['named_J2_order4_lift_actual_s3_behavior_source_locked'] is False
           assert m['open_datum']['named_J2_proper_Br2_source_coordinate_materialized'] is False
-          assert m['open_datum']['marked_discriminant_proper_br2_adapter_materialized'] is False
-          assert m['open_datum']['named_J2_source_target_relation_materialized'] is False
-          assert m['open_datum']['named_source_target_relation_rank_f2']==0
           assert m['open_datum']['matrix_standard_columns_materialized']==0
-          assert m['open_datum']['actual_indlist_to_magma_picard_basis_bridge_materialized'] is False
           assert m['firewalls']['stage33_12_closed_exact'] is False
           assert m['firewalls']['stage33_07_reclosed'] is False
           assert m['firewalls']['stage33_08_released'] is False
@@ -123,7 +122,7 @@ jobs:
           assert m['firewalls']['endpoint_credit'] is False
           assert m['firewalls']['perfect_cuboid_existence_claim'] is False
           assert m['firewalls']['perfect_cuboid_nonexistence_claim'] is False
-          print('historical R1-R4 replay PASS; current Stage33 MAIN-STATE V9 qPic-bridge-acquisition firewall PASS')
+          print('historical R1-R4 replay PASS; current Stage33 MAIN-STATE V10 certified-qPic actual-S3-descent firewall PASS')
           PY
 
           python stages/stage33/sync_main_state.py --check
