@@ -1,0 +1,62 @@
+name: Stage34-02 D2 StageA2 factor-branch local sieve
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage34/runkeys/stage34-02-d2-stageA2-factor-branch.json'
+      - 'stages/stage34/34-02/d2-stageA2-factor-branch-preflight.json'
+      - 'stages/stage34/34-02/d2-stageA2-weapon-applicability-lock.json'
+      - 'stages/stage34/34-02/d2-stageA2-style-reconstruction-factor-lock.json'
+      - 'stages/stage34/34-02/d2-stageA2-odd-squareclass-support-lock.json'
+      - 'stages/stage34/34-02/d2-stageA2-two-adic-pattern-lock.json'
+      - 'stages/stage34/34-02/run_d2_stageA2_factor_branch_local.py'
+      - 'stages/stage34/34-02/validate_d2_stageA2_factor_branch_runkey.py'
+      - '.github/workflows/stage34-02-d2-stageA2-factor-branch.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      reason: ${{ steps.gate.outputs.reason }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fetch event-before commit if needed
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          if [ -n "$BEFORE" ]; then git fetch --no-tags --depth=1 origin "$BEFORE" || true; fi
+      - name: Validate dedicated run key against actual commit range
+        id: gate
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: python3 stages/stage34/34-02/validate_d2_stageA2_factor_branch_runkey.py "$BEFORE" "$HEAD_SHA" >> "$GITHUB_OUTPUT"
+      - name: Report authorization
+        run: echo "authorized=${{ steps.gate.outputs.authorized }} reason=${{ steps.gate.outputs.reason }}"
+
+  factor-branch-local:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run exact StageA2-style factor-branch local sieve
+        run: python3 stages/stage34/34-02/run_d2_stageA2_factor_branch_local.py
+      - name: Enforce compact artifact cap
+        run: test $(wc -c < stages/stage34/34-02/d2-stageA2-factor-branch-local.json) -le 1048576
+      - name: Upload compact certificate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage34-02-d2-stageA2-factor-branch-local
+          path: stages/stage34/34-02/d2-stageA2-factor-branch-local.json
+          if-no-files-found: warn
+          retention-days: 1
