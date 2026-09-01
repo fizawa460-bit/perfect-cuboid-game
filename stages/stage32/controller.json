@@ -1,19 +1,19 @@
 {
   "active_pr": {
-    "automatic_merge_authorized": false,
+    "automatic_merge_authorized": true,
     "branch": "stage32-post1473-integral-picard-support-preflight",
     "number": 1474
   },
-  "advance_allowed": false,
-  "audit_required_before_promotion": true,
+  "advance_allowed": true,
+  "audit_required_before_promotion": false,
   "audited_baseline": {
     "head": "e76d407fe97b58c81479b43ad28731b580222def",
     "o188_cusp_ramification_canonical_sha256": "318ac76ca5baf9e5f7f7a2300628b432f3b5fbb718f2bd21bc7a4f13b9cf3328",
     "review_id": 5078487342,
     "scope": "Previously passed baseline. Do not reopen in bounded re-audit."
   },
-  "checkpoint_merge_ready": false,
-  "current_item": "HOSTILE_AUDIT_5083453635_FOUR_POINT_REPAIR",
+  "checkpoint_merge_ready": true,
+  "current_item": "HOSTILE_REAUDIT_5083834097_PASS_READY_TO_MERGE",
   "firewalls": {
     "O188_closed": false,
     "endpoint_credit": false,
@@ -33,9 +33,11 @@
   },
   "hostile_audit": {
     "failed_head": "0c22165bbadcf2d5bc083d8404bd6b0cd274a902",
+    "failed_review_id": 5083453635,
+    "passed_head": "a2cd62cdcf8331827eca94453482244a2fd8bf0d",
+    "passed_review_id": 5083834097,
     "reaudit_scope": "Only the four repaired authority/certificate/provenance points.",
-    "review_id": 5083453635,
-    "verdict": "FAIL_BOUNDED_FOUR_POINT_REPAIR_CORE_MATHEMATICS_PRESERVED"
+    "verdict": "PASS_BOUNDED_FOUR_POINT_REPAIR"
   },
   "math_scope": {
     "fixed_z_O186_all_qprime": "CLOSED_AUDITED_EXCLUDED_DO_NOT_REOPEN",
@@ -46,10 +48,10 @@
     "full178_geometric_closure": "OPEN_NOT_ACTIVE",
     "receiver_theorem_endpoint": "OPEN"
   },
-  "merge_allowed": false,
-  "next_expected_action": "RUN_BOUNDED_HOSTILE_REAUDIT_OF_REVIEW_5083453635_REPAIR_ONLY: controller synchronization; explicit 24+24 c=0 label arrays; Cartesian V4 torsor source lock for degree 93 and ramification 8->2; Weierstrass replay/certificate/source-note/controller binding. DO NOT REOPEN O186 OR CANONICAL 318ac76c. DO NOT ADVANCE NEW O188 GEOMETRY, ARM FULL178, OR MERGE BEFORE PASS.",
+  "merge_allowed": true,
+  "next_expected_action": "MERGE_PR_1474_AFTER_BOUNDED_HOSTILE_REAUDIT_PASS, then resume only O=188 geometry from the audited retained state. DO NOT REOPEN O186 OR CANONICAL 318ac76c. FULL178 remains inactive until separately authorized.",
   "operations": {
-    "execution_class": "LIGHTWEIGHT_AUDIT_REPAIR_ONLY",
+    "execution_class": "LIGHTWEIGHT_POST_AUDIT_WRITEBACK",
     "full178_scaleout_authorized": false,
     "heavy_compute_authorized": false,
     "survivor_materialization_authorized": false
@@ -59,11 +61,11 @@
       "canonical_sha256": "b947be5a3677a9e0b46839241adc03004ee5221ee94d6371f165253281e2a81f",
       "certificate_blob_sha1": "d3f9c82ab087ea4a2721737867159900a3f304c4",
       "source_note_blob_sha1": "e41abea3781536dc266be0782e6b0984f484c16b",
-      "status": "CERTIFIED_AWAITING_BOUNDED_REAUDIT"
+      "status": "AUDITED_PASS"
     },
     "c_zero_perfect_matching": {
       "canonical_sha256": "96e9d9b78201e99d98b31b8ece51c3e6227a2637c35356f012d0049d589a0f42",
-      "status": "REPAIRED_AWAITING_BOUNDED_REAUDIT"
+      "status": "AUDITED_PASS"
     },
     "exceptional_48_incidence": {
       "canonical_sha256": "efdecb5d5cef219fc39d931521cbc1890a4830b5296e3c6ff7e93ccb6fa6b143",
@@ -72,7 +74,7 @@
     "qprime4_genus2_descent": {
       "authority_note_blob_sha1": "ac85353cbe56d04582aaf98c34e6b6c9483b21f1",
       "canonical_sha256": "3617ef2e0717a1d75de0f3a271a4b0e25f3ed7e67e76f1e58b490d3fcba9d978",
-      "status": "REPAIRED_SOURCE_LOCK_AWAITING_BOUNDED_REAUDIT"
+      "status": "AUDITED_PASS"
     },
     "satake_6_plus_6_marking": {
       "canonical_sha256": "69a2a6d3cdf7b0d5c6162424a8102ec41cd09ac7e303469d30577d454363e31d",
@@ -89,8 +91,8 @@
     "genus2_cartesian_v4_torsor_descent_source_locked": true,
     "weierstrass_adapter_has_replay_canonical_certificate_source_note_and_controller_binding": true
   },
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V188_POST1473_HOSTILE_AUDIT_REPAIR",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V189_POST1473_HOSTILE_REAUDIT_PASS",
   "stage": "32",
   "stage32_closed": false,
-  "status": "STAGE32_POST1473_O188_DELTA_REPAIRED_AWAITING_BOUNDED_REAUDIT"
+  "status": "STAGE32_POST1473_O188_DELTA_HOSTILE_REAUDIT_PASS_READY_TO_MERGE"
 }
