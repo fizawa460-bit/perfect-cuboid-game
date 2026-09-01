@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/stage32-post1473-sigma-c-exceptional-replay.yml'
       - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_sigma_c_exceptional_replay.py'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_kc_pinned_replay.py'
 
 permissions:
   contents: read
@@ -32,7 +33,7 @@ jobs:
       - name: Replay c-sign, pinned Picard64, E_pi and Kc pushforward square
         working-directory: stages/stage32/residual-32-01-production
         run: |
-          python diagnose_stage32_post1473_sigma_c_exceptional_replay.py \
+          python diagnose_stage32_post1473_kc_pinned_replay.py \
             --tangent "$GITHUB_WORKSPACE/stages/stage33/33-07/exceptional-p1-tangent-coordinates.json" \
             --marking "$GITHUB_WORKSPACE/stages/stage33/33-07/stage32_picard_marking_retained.py" \
             --output "$RUNNER_TEMP/stage32-post1473-sigma-c-exceptional-replay.json"
