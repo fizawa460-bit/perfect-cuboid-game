@@ -1,8 +1,9 @@
 {
-  "schema": "STAGE34_01_EXT_C_GLOBAL_POPULATION_CONTRACT_V2_PREAUDIT_EVIDENCE_COMPLETE",
-  "status": "EVIDENCE_COMPLETE_7_OF_7_MW_POPULATION_PENDING_HOSTILE_AUDIT",
+  "schema": "STAGE34_01_EXT_C_GLOBAL_POPULATION_CONTRACT_V3_AUDITED",
+  "status": "AUDITED_PASS_GLOBAL_POPULATION_AUTHORITATIVE_34_02_RELEASED",
   "receiver": "R29-EXT-CHANG-C",
   "source_object": "stages/stage34/34-01/exact-sequence-lock.json",
+  "audit_closure": "stages/stage34/34-01/audit-closure.json",
   "population": {
     "rank1": {
       "fibers": ["20/21", "80/39", "24/7", "84/13", "48/55", "20/99"],
@@ -40,17 +41,19 @@
     "firewall": "No one-variable EDS/primitive-divisor theorem receives rank-two credit merely by restricting to individual rays; infinitely many primitive lattice directions would remain."
   },
   "mw_basis_evidence": {
-    "status": "PREAUDIT_COMPLETE_7_OF_7",
+    "status": "AUDITED_COMPLETE_7_OF_7",
     "rank_authority": "Paper-C source-locked PARI ellrank tight intervals",
     "magma_partial_certificate": "stages/stage34/34-01/mw-magma-partial-certificate.json",
     "magma_index_one_fibers": ["20/21", "24/7", "60/11"],
     "eclib_residual_certificate": "stages/stage34/34-01/mw-eclib-certificate.json",
     "eclib_execution": "stages/stage34/34-01/mw-eclib-execution.json",
     "eclib_index_one_fibers": ["80/39", "84/13", "48/55", "20/99"],
-    "all_seven_source_free_lattices_span_full_free_part_preaudit": true,
+    "all_seven_source_free_lattices_span_full_free_part_authoritative": true,
     "rank2_source_coordinate_matrix": [[0, -1], [1, 0]],
     "rank2_determinant_absolute_value": 1,
-    "audit_required_for_authoritative_promotion": true
+    "hostile_audit_pr": 1479,
+    "hostile_audit_review_id": "PRR_kwDOTr52Y88AAAABLpGUsQ",
+    "hostile_audit_head": "e320e5af68cb780654987ef9c4f7e90f4b7ba1f5"
   },
   "resolved_interface_status": {
     "torsion_translated_rank1_quantifiers_defined": true,
@@ -58,17 +61,17 @@
     "rank2_population_defined": true,
     "rank2_primitive_ordering_needed": false,
     "rank2_replacement_theorem_target_defined": true,
-    "full_mw_basis_evidence_complete_preaudit": true,
-    "full_mw_basis_authoritative_after_hostile_audit": false
+    "full_mw_basis_authoritative_after_hostile_audit": true,
+    "P1_exact_object_and_population_closed": true
   },
   "release": {
-    "stage34_01_hostile_audit_passed": false,
-    "stage34_02_released": false,
-    "reason": "Repository-wide promotion policy requires the hostile/fresh audit demanded by the active Stage contract before downstream release."
+    "stage34_01_hostile_audit_passed": true,
+    "stage34_02_released": true,
+    "released_unit": "34-02_SEQUENCE_CLASSIFICATION_AND_THEOREM_FUNNEL",
+    "reason": "Hostile audit PASS on PR #1479 authoritatively closes only the Stage34-01 P1 population/interface reconstruction."
   },
   "firewalls": {
-    "preaudit_evidence_complete_is_audited_closure": false,
-    "mw_population_lock_is_primitive_divisor_theorem": false,
+    "audited_population_lock_is_primitive_divisor_theorem": false,
     "population_contract_is_receiver_discharge": false,
     "receiver_discharge_is_parent_route_closure": false,
     "perfect_cuboid_existence_claim": false,
