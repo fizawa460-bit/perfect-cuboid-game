@@ -1,0 +1,81 @@
+{
+  "schema": "STAGE34_EXT_C_PRIMITIVE_DIVISOR_MAIN_STATE_V1",
+  "stage": "34",
+  "status": "OPEN_ROADMAP_SEEDED",
+  "mission": "Close Stage29 kernel K16-C3-EXT-C-PRIMITIVE-DIVISOR for receiver R29-EXT-CHANG-C by upgrading audited finite multiple windows to a proof for all admissible multiples, or by an equivalent deterministic closure of the same moving/thin family.",
+  "source_kernel": {
+    "kernel_id": "K16-C3-EXT-C-PRIMITIVE-DIVISOR",
+    "receiver_id": "R29-EXT-CHANG-C",
+    "parent_route": "J12-PARAMETRIC",
+    "execution_class": 3,
+    "stage29_needed": "effective odd-multiplicity primitive-divisor theorem strong enough to upgrade the audited finite windows to all multiples",
+    "scope": "narrow-specific",
+    "endpoint_decisive_alone": false
+  },
+  "source_locks": {
+    "stage29_active_kernel_ledger": {
+      "path": "stages/stage29/29-16/active-kernel-ledger.json",
+      "blob_sha": "5d6d4c7709b57064aea5dc0ece672c5170c39550"
+    },
+    "stage29_receiver_triage": {
+      "path": "stages/stage29/29-15/open-receiver-triage.json",
+      "blob_sha": "9c8255471dba76950bb442154978dd3310106df0"
+    },
+    "stage29_final_handoff": {
+      "path": "stages/stage29/29-17/final-handoff.json",
+      "blob_sha": "c1b86f5216a897e31378b0121a6c9fe8da0ba63d"
+    }
+  },
+  "current": {
+    "unit": "34-01",
+    "next_exact_leaf": "MATERIALIZE_EXACT_EXT_C_SEQUENCE_INDEX_SET_FINITE_WINDOW_AND_CUBOID_OBSTRUCTION_ADAPTER",
+    "why_first": "Do not choose or cite a primitive-divisor theorem until the exact Stage29 sequence identity and required odd-multiplicity obstruction are reconstructed and source-locked."
+  },
+  "current_leaf_working_set": [
+    "stages/stage34/34-01/source-contract.json"
+  ],
+  "proof_obligations": {
+    "P1_exact_object": "State the exact recurrence, Lucas/Lehmer/divisibility sequence, elliptic divisibility sequence, or other divisor sequence used by EXT-C; state normalization, parameters, admissible indices, degeneracies, and the exact finite windows already audited.",
+    "P2_primitive_existence": "Prove or source-lock a theorem giving a primitive divisor beyond an explicit effective threshold N0 for exactly that object and parameter range.",
+    "P3_odd_multiplicity": "Prove that at least one usable primitive divisor has odd valuation, or prove an equivalent parity/squareclass obstruction. Primitive existence alone receives no closure credit.",
+    "P4_exceptional_indices": "Certifiably discharge every admissible index at or below N0 and every theorem-exception/degenerate parameter case.",
+    "P5_cuboid_adapter": "Map the odd primitive divisor/parity fact to the exact parent-edge, gcd-factor, or representability contradiction required by R29-EXT-CHANG-C without changing population or normalization.",
+    "P6_all_multiples": "Conclude impossibility for every remaining admissible multiple in the same moving/thin family, not merely a searched range."
+  },
+  "theorem_route_tree": {
+    "route_A_lucas_lehmer": "If P1 identifies a nondegenerate Lucas/Lehmer sequence, test Bilu-Hanrot-Voutier-style primitive divisor results first, then solve P3 separately with p-adic valuation/cyclotomic-atom analysis.",
+    "route_B_elliptic_divisibility": "If P1 identifies an elliptic divisibility sequence, use an effective elliptic-Zsigmondy/primitive-divisor theorem only after an explicit threshold is available, then prove the required valuation parity locally.",
+    "route_C_other_recurrence": "If neither A nor B applies, derive a cyclotomic/divisibility-sequence formulation and seek an effective primitive-factor theorem or a custom Thue/S-unit/local argument.",
+    "route_D_vacuity_or_replacement": "If odd multiplicity is stronger than available primitive-divisor technology, Stage34 may instead prove the Stage29 vacuity alternative: only finitely many admissible primitive-divisor-free exceptions, or another deterministic family theorem showing offending multiples cannot persist."
+  },
+  "promotion_gates": {
+    "sequence_source_locked": false,
+    "finite_window_reconstructed": false,
+    "primitive_theorem_source_locked": false,
+    "primitive_theorem_hypotheses_verified": false,
+    "odd_multiplicity_proved": false,
+    "small_indices_closed": false,
+    "cuboid_adapter_proved": false,
+    "all_multiples_closed": false,
+    "R29_EXT_CHANG_C_closed": false
+  },
+  "firewalls": {
+    "bounded_search_is_global_theorem": false,
+    "primitive_divisor_implies_odd_multiplicity": false,
+    "ext_c_family_closure_implies_master_hit_closure": false,
+    "ext_c_family_closure_implies_perfect_cuboid_nonexistence": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "default_startup_exclusions": [
+    "stages/stage29/roadmap.md",
+    "stages/stage29/29-15/result.md",
+    "stages/stage29/29-15/literature-refresh.md",
+    "stages/stage29/29-16/active-kernel-ledger.json",
+    "stages/stage29/29-17/final-handoff.json",
+    "stages/stage32/controller.json",
+    "stages/stage33/controller.json",
+    "stages/stage33/MAIN-STATE.json"
+  ],
+  "next_after_34_01": "34-02_SEQUENCE_CLASSIFICATION_AND_THEOREM_FUNNEL"
+}

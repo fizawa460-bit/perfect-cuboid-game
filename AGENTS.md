@@ -59,6 +59,17 @@ The mandatory invariants are:
 
 Stage-local controllers may strengthen these firewalls but must not weaken them.
 
+## Stage34 MAIN context bootstrap
+
+For an ordinary `Stage34-main-batch`, after reading this file use
+`stages/stage34/MAIN-START-HERE.md` as the Stage34 entrypoint. Follow its bounded
+startup list and `MAIN-STATE.json`; do not automatically load Stage29 history,
+Stage32/33 mathematical state, the Stage34 roadmap, or a stage-wide certificate
+set. Historical EXT-C evidence is imported only when the current leaf requires
+one exact source and is then compacted into Stage34 source-lock files. This
+routing reduces context only; it does not weaken any source lock, theorem
+hypothesis, odd-multiplicity obligation, audit, closure, or promotion requirement.
+
 ## Stage33 MAIN context bootstrap
 
 For an ordinary `Stage33-main-batch`, after reading this file use
