@@ -1,0 +1,108 @@
+{
+  "schema": "STAGE34_01_EXT_C_ORBIT_VALUE_OBJECT_LOCK_V1",
+  "stage": "34-01",
+  "status": "PASS_EXACT_SOURCE_OBJECT_LOCKED_WITH_GLOBAL_POPULATION_GAPS",
+  "receiver": "R29-EXT-CHANG-C",
+  "kernel": "K16-C3-EXT-C-PRIMITIVE-DIVISOR",
+  "source": {
+    "repo": "weiqi-kids/perfect-cuboid-problem",
+    "commit": "bd3018b896c8ac15b56cadc382af1477dca9e97a",
+    "paper_tex": {
+      "path": "paper-c/paper.tex",
+      "blob_sha": "daf581e0d44a72a13a9542668a7c60eae7dccb65"
+    },
+    "meta": {
+      "path": "paper-c/meta.md",
+      "blob_sha": "b76886b7b8e5bf4b0cfd841e572a776a407b6f88"
+    },
+    "rank_script": {
+      "path": "paper-c/scripts/verify_ranks.gp",
+      "blob_sha": "fef31b4f481a653b8675533d046e140ec17d0cb2"
+    },
+    "rank_output": {
+      "path": "paper-c/scripts/verify_ranks.out",
+      "blob_sha": "8a5e00351b2d112b0efc6e0b88234c639fbf145a"
+    }
+  },
+  "exact_object": {
+    "kind": "ELLIPTIC_ORBIT_VALUE_NUMERATOR_FAMILY_NOT_A_SINGLE_EDS",
+    "base_field": "Q",
+    "curve": "E_q: y^2 = x(x+1)(x+q^2)",
+    "face3_map": "c(Q)=2*y(Q)*q/(q^2-x(Q)^2)",
+    "face3_quantity": "F3(Q)=c(Q)^2+1+q^2",
+    "integer_obstruction_value": "N(Q)=Num(F3(Q)) after reducing F3(Q) to lowest terms",
+    "torsion": "E_q(Q)_tors = Z/4Z x Z/2Z; all eight torsion translates are part of the checked/global source population",
+    "source_fibers": [
+      {
+        "q": "20/21",
+        "rank": 1,
+        "source_point": ["-45/49", "10/343"]
+      },
+      {
+        "q": "80/39",
+        "rank": 1,
+        "source_point": ["-160/39", "1760/1521"]
+      },
+      {
+        "q": "24/7",
+        "rank": 1,
+        "source_point": ["-75/7", "510/49"]
+      },
+      {
+        "q": "84/13",
+        "rank": 1,
+        "source_point": ["17787/169", "216678/169"]
+      },
+      {
+        "q": "48/55",
+        "rank": 1,
+        "source_point": ["-24/25", "24/275"]
+      },
+      {
+        "q": "20/99",
+        "rank": 1,
+        "source_point": ["-20/27", "980/2673"]
+      },
+      {
+        "q": "60/11",
+        "rank": 2,
+        "source_points": [
+          ["-180/11", "7020/121"],
+          ["-300/11", "5100/121"]
+        ]
+      }
+    ],
+    "rank1_orbit_values": "N_{q,T}(n)=Num(F3(nP+T)), n>=1, T in E_q(Q)_tors",
+    "rank2_orbit_values": "N_T(a,b)=Num(F3(aG1+bG2+T)), (a,b) in Z^2 minus {(0,0)}, T in E_q(Q)_tors",
+    "sign_normalization": "rank-one n>=1 plus all torsion translates covers negative free coefficient as well because F3(-Q)=F3(Q) and the torsion subgroup is closed under negation",
+    "not_source_locked": [
+      "no linear recurrence for these numerator values is proved in Paper C",
+      "the numerator family is not the elliptic-divisibility denominator B_n",
+      "no Lucas/Lehmer identification is source-locked",
+      "no two-variable divisibility-sequence structure is source-locked for the rank-two fiber"
+    ]
+  },
+  "primitive_divisor_semantics": {
+    "paper_defined_rank1_untranslated": "for N_n=Num(F3(nP)), a prime ell is primitive at n if ell divides N_n and ell divides no N_m for 1<=m<n",
+    "paper_counterexample": "q=20/21, n=5: ell=29 is primitive but v_29(N_5)=2",
+    "torsion_translated_global_semantics_source_locked": false,
+    "rank2_two_variable_primitive_order_source_locked": false,
+    "consequence": "Stage34 must not speak of one global EXT-C primitive-divisor sequence until translated rank-one and rank-two index semantics are explicitly repaired or replaced"
+  },
+  "global_population_gap": {
+    "paper_conjecture_population": "all Q=a1*P1+...+ar*Pr+T with nonzero free coefficient vector on the seven fibers",
+    "paper_script_fact": "verify_ranks.gp calls PARI/GP ellrank and uses its returned independent points; no ellsaturation call is present in the Paper C script set",
+    "pari_2_15_4_semantics": "ellrank returns independent non-torsion points; when their number equals the proved rank they generate a finite-index subgroup, not automatically a certified full Mordell-Weil Z-basis. Saturation is a separate operation.",
+    "pari_manual": "https://pari.math.u-bordeaux.fr/pub/pari/manuals/2.15.4/users.pdf sections ellrank / ellsaturation",
+    "full_MW_basis_or_saturation_source_locked": false,
+    "receiver_population_equivalence_to_source_lattice_source_locked": false,
+    "required_repair": "either certify full Mordell-Weil basis/saturation for all seven source fibers, or source-lock that R29-EXT-CHANG-C intentionally targets only the finite-index source lattice rather than all rational points"
+  },
+  "firewalls": {
+    "tight_rank_interval_implies_full_MW_basis": false,
+    "independent_points_imply_saturated_basis": false,
+    "EDS_denominator_theorem_applies_to_face3_numerator": false,
+    "primitive_divisor_implies_odd_multiplicity": false,
+    "one_variable_primitive_definition_implies_rank2_definition": false
+  }
+}
