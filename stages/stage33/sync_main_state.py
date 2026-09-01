@@ -27,6 +27,11 @@ x={k:load(*v) for k,v in FILES.items()}
 stage=controller['stage33_12']; current=controller['current']; p=x['adjoint']['proper_brauer2_pullback']; h1=x['target']['retained_H1_projection']
 assert controller['schema']=='STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V52_J2_KUMMER_BINDING_REPAIR'
 assert controller['stage33_progress']=='6/11' and current['unit']=='33-12'
+assert current['logical_internal_branch']=='33-13_FINITE_V4_KUMMER_MATRIX_REPAIR'
+assert current['substep']=='REPAIR_J2_SOURCE_TARGET_KUMMER_MODULE_COMPATIBILITY'
+assert current['active_missing_interface']=='MARKED_FULL_SURFACE_DISCRIMINANT_TO_PROPER_BR2_ADAPTER_NOT_SOURCE_LOCKED'
+assert current['next_exact_leaf']==x['gap']['next_exact_leaf']
+assert stage['minimal_missing_exact_datum']=='SOURCE_LOCKED_MARKED_FULL_SURFACE_DISCRIMINANT_TO_PROPER_BR2_ADAPTER_OR_EQUIVALENT_2x14_J2_PULLBACK'
 assert stage['corrected_J2_named_source_target_relation_materialized'] is False
 assert stage['corrected_J2_named_source_target_relation_status']=='REVOKED_BY_EXACT_V4_MODULE_COMPATIBILITY_AUDIT'
 assert stage['corrected_J2_kummer_source_target_module_compatibility'] is False
@@ -59,8 +64,8 @@ out={
   'unit':current['unit'],
   'logical_internal_branch':current['logical_internal_branch'],
   'substep':current['substep'],
-  'active_missing_interface':'MARKED_FULL_SURFACE_DISCRIMINANT_TO_PROPER_BR2_ADAPTER_NOT_SOURCE_LOCKED',
-  'next_exact_leaf':x['gap']['next_exact_leaf'],
+  'active_missing_interface':current['active_missing_interface'],
+  'next_exact_leaf':current['next_exact_leaf'],
  },
  'locked_facts':{
   'named_J2_semantic_orientation':{'label':'u1','marked_Kc_coordinate_f2':[1,0],'sha256':FILES['orientation'][1]},
