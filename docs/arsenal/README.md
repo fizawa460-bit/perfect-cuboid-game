@@ -36,6 +36,7 @@ These are deliberately **not** current strongest selectors. They expose reusable
 - [`../stage32-arsenal-promotion.md`](../stage32-arsenal-promotion.md) — provisional Stage32 exact-enumeration compression, rank/unrank, Picard slice/image, and finite integral-coset reduction cards.
 - [`../stage33-arsenal-promotion.md`](../stage33-arsenal-promotion.md) — provisional Stage33 arithmetic-HS zero-survival, Smith/Bockstein finite-module reductions, Picard/Kummer source-target adapters, exact absolute-H1 receiver construction, and geometric Brauer↔translation-torsor↔integral-kernel adapter.
 - [`../stage33-arsenal-gersten-residue-promotion.md`](../stage33-arsenal-gersten-residue-promotion.md) — targeted Stage33 supplement for Gersten/residue/Bockstein/localization/arithmetic-lift work. It adds `S33-PW08`, the explicit Gersten-lift → Galois-difference → connecting/localization adapter, while concrete Stage33 zero-localization values and hostile-revoked global-Q lift shortcuts remain non-promoted.
+- [`../stage33-arsenal-other-reuse-workflow-dedup.md`](../stage33-arsenal-other-reuse-workflow-dedup.md) — final Stage33 catch-all/dedup supplement. It integrates cross-basis marked Picard transport and lattice-fingerprint semantic orientation into `PW04`, finite-group equivariance/relabeling diagnostics into `PW05`, literal Čech representative/divisor validation into `PW07`, and adds only the `SPARSE_SOURCE_REPLAY` workflow candidate. The Stage33 card count remains eight.
 
 Rules:
 
