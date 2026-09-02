@@ -1,47 +1,20 @@
 # Stage33 MAIN batch handoff
 
-status: ORDER4_NAMED_FUNCTIONAL_QUOTIENT_V20_AUDIT_READY_TWO_BITS_OPEN
-pr: #1485
-branch: stage33-post1483-order4-pullback-two-row-extraction
+status: POST1485_V20_AUDIT_PASS_PENDING_PROMOTION
+branch: stage33-post1485-v20-audit-pass-two-bit-source-lock
 merge: FORBIDDEN
 heavy_compute: FORBIDDEN
-audit: READY_PENDING_HOSTILE_REVIEW
-ordinary_main: FROZEN_PENDING_AUDIT
 
-MAIN-STATE remains V11. No mathematical state promotion occurred, so this handoff records only the new unresolved delta and the frozen audit boundary.
+PR #1485 hostile audit PASS is complete at audited head `2f3a511f945a22c1df58eaf68553cbb70d4a207c`, review `5086169445`, and merged main commit `dc6b19ea5944c1c249f6d9534a095ffad9ae8f67`.
 
-## Current exact delta
+No post-audit mathematical state promotion has yet occurred on this branch. MAIN-STATE/controller still represent the prior V10 source-gap boundary.
 
-The v18 all-row numerator and v19 correction torsor are source-locked. For the named 75D matrix column, the v19 14-bit correction selector is more information than is required.
+## Exact promotion boundary
 
-The 16384 corrections induce 16 proper14 functionals, with exactly 1024 corrections per functional. After imposing the already locked cc/ct fixed condition, the named-column-relevant quotient is the exact affine plane
-`(a,b,1,0,0,0,0,0,0,0)` in retained10 coordinates. It contains masks `[4,5,6,7]` and therefore has dimension 2, not 14.
+Promote only the audited v17 -> v20 chain: rows 20/67 exact source lock, v18 all-required-row reconstruction and raw dual-integrality blocker, v19 14D correction torsor, and v20 reduction of the named-column ambiguity to the two-bit affine plane with retained10 masks `[4,5,6,7]` and S3 orbits `[6]`, `[4,5,7]`.
 
-The actual S3 action has exact orbits `[6]` and `[4,5,7]`. Mask 6 remains only the unique joint-fixed candidate: it is not the named J2 source unless order-4 joint fixedness is independently source-locked. No candidate is selected.
+Do not select mask 6 or any named J2 source. Do not materialize the named 75D column. Stage33 remains 6/11 and Stage33-12 remains OPEN.
 
-Certificate:
-`stages/stage33/33-12/j2-order4-named-functional-quotient-v20.json`
+## Next exact action
 
-Canonical SHA256:
-`1b53db254c381721c0c648bab41c276ec79f69f6e1f81235993936df3e25232e`
-
-## Frozen hostile-audit scope
-
-Audit the exact chain v17 -> v18 -> v19 -> v20: the two recovered source rows, all-required-row source numerator, 14D integral correction torsor, reduction to the two-bit named-column quotient, and the no-selection/no-credit firewalls.
-
-Required network-free replay surface:
-- `verify_j2_order4_row20_row67_exact_source_lock_v17.py`
-- `verify_j2_order4_source_coordinate_blocker_v18.py`
-- `verify_j2_order4_integral_correction_torsor_v19.py`
-- `verify_j2_order4_named_functional_quotient_v20.py`
-- `python stages/stage33/sync_main_state.py --check`
-
-Explicitly out of scope / still future work: source-locking `(a,b)`, selecting mask 6 or any other mask as named J2, materializing the named 75D relation/column, Stage33-12 closure, Stage33-07 reclosure, Stage33-08 release, theorem/receiver/endpoint credit, or merge.
-
-## Anti-repeat boundary
-
-Do not reacquire any row or rerun the correction/half-lift enumeration. Do not reopen qPic, Smith, sign census, S3 enumeration, target compatibility, historical mask6, or rep88. For the named matrix column, the ten-bit correction fiber is proved invisible and must not be reopened.
-
-## Next exact action after audit
-
-If hostile audit accepts this v17-v20 boundary, resume by source-locking the two-bit quotient value `(a,b)`, equivalently the actual swap12/swap13 behavior of the named semantic Kc `t1/4` lift on the four-element affine plane. A source proof that the named order-4 lift is fixed by both swaps forces mask 6; otherwise labeled nonfixed swap images identify one of masks 4,5,7. Only this source-first datum permits the named 75D relation/column step.
+First promote the PASS into controller/MAIN-STATE with a source-locked audit receipt and reset this handoff. Then source-lock the named semantic Kc `t1/4` lift's actual `swap12/swap13` behavior, equivalently the remaining two-bit value `(a,b)`. Do not reacquire rows or reopen qPic/Smith/sign/S3/target-compatibility/historical-mask6/rep88 routes.
