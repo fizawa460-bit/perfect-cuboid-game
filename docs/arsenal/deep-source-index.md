@@ -1,6 +1,6 @@
 # Deep source index — Stage14 / StructureRadar / Arsenal
 
-Status: **NAVIGATION INDEX ONLY**. This file does not promote new mathematics and does not replace source proofs, audits, or the current frontier.
+Status: **HISTORICAL/DEEP NAVIGATION ONLY**. This file does not define card maturity, promote mathematics, or replace [`index.json`](index.json), source proofs, audits, or the current frontier. For ordinary lookup, start with the generated [`catalog.md`](catalog.md).
 
 Use this page when you know what kind of reusable object you need but not which historical source contains it.
 
@@ -106,7 +106,7 @@ These cards may trigger a targeted source read, but they carry no formal selecto
 ```text
 1. Current frontier / active leaf exact object.
 2. Identify the missing weapon or workflow type.
-3. Check docs/arsenal/README.md and docs/arsenal/index.json.
+3. Check `docs/arsenal/catalog.md`; use `index.json` for machine-readable details.
 4. Prefer matching formal Stage30/31 weapons/workflows before active-stage provisional specializations.
 5. Open only the matching provisional Stage32/33 card when needed and revalidate its active source lock.
 6. Use this deep index to route into Stage14/Toolbox/numerical or StructureRadar sources.
