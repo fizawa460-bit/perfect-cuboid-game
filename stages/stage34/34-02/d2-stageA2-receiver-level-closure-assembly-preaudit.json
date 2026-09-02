@@ -1,0 +1,54 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_RECEIVER_LEVEL_CLOSURE_ASSEMBLY_PREAUDIT_V1",
+  "status": "PASS_EXACT_RECEIVER_LEVEL_CLOSURE_ASSEMBLY_PREAUDIT_ONLY",
+  "pr": 1489,
+  "branch": "stage34-main/q8413-torsion-parent-classification",
+  "source_head_before_assembly": "576e520068ca829884516e47f6fa63b2317edf96",
+  "scope": "Exactly the hostile-audited R29-EXT-CHANG-C non-torsion receiver population on the seven Stage34 fibers; no statement about all rational points of the auxiliary factor covers is made.",
+  "source_locks": {
+    "global_population_contract": ["stages/stage34/34-01/global-population-contract.json", "f38d74862655b206b66f09105c4f5be481bc6444"],
+    "exact_face3_cover_reduction": ["stages/stage34/34-02/exact-cover-reduction.json", "c023d3ad8567faa280f23e28e0300acfcc61e6a2"],
+    "pole_torsion_lock": ["stages/stage34/34-02/pole-torsion-lock.json", "04334c55124e4c2d61a685bd53a930ee5798f0aa"],
+    "reconstruction_factor_cover": ["stages/stage34/34-02/d2-stageA2-style-reconstruction-factor-lock.json", "a357a6691e0be4abd4965b3f822c829864d814bf"],
+    "odd_squareclass_support": ["stages/stage34/34-02/d2-stageA2-odd-squareclass-support-lock.json", "a053c32a8dbda15c909b7cddc241e8534d4399f9"],
+    "two_adic_pattern": ["stages/stage34/34-02/d2-stageA2-two-adic-pattern-lock.json", "a27621570e79e045a47bc27aec7ecbabb2ebd5f1"],
+    "all_factor_hostile_promotion": ["stages/stage34/34-02/d2-stageA2-pr1489-all-factor-hostile-reaudit-promotion-certificate.json", "4c50fa4361071fa09b307a7e3c3f01f220701591"]
+  },
+  "exact_implication_chain": [
+    "The authoritative Stage34 receiver population consists only of non-torsion rational points on the seven locked E_q.",
+    "Every Face-3 pole x=+/-q is an order-4 torsion point, hence no receiver point is a pole.",
+    "For every non-pole receiver point Q, Face-3 square is exactly equivalent to membership in the projection of the direct cover C_q(Q).",
+    "For a rational point in that projection, the locked reconstruction identities produce a rational point on one of the d1/d2 reconstruction covers, and squareclass support plus the exact two-adic pattern forces membership in the finite StageA2 factor-branch overcover.",
+    "Hostile re-audit review 5087246610 promotes D2_all_factor_branches_closed=true exactly for this audited nonzero-free-part R29-EXT-CHANG-C receiver-population scope, with receiver-relevant residual 0.",
+    "Therefore no point in the audited non-torsion receiver population can have Face-3 square."
+  ],
+  "semantic_boundary": {
+    "candidate_B_factor_cover_pointset_empty_required": false,
+    "reason": "Candidate B was closed by exact receiver-intersection obstruction. Receiver closure needs only emptiness of the factor-cover intersection with the target receiver population, not emptiness of the entire auxiliary factor-cover rational point set.",
+    "direct_cover_rational_points_complete_required": false,
+    "reason_direct_cover": "The target is a receiver-restricted nonsquare theorem. Complete classification of all C_q(Q) is strictly stronger and is not used."
+  },
+  "assembly_result_candidate": {
+    "receiver_face3_square_points_remaining": 0,
+    "all_non_torsion_receiver_points_face3_nonsquare": true,
+    "all_multiples_closed_candidate": true,
+    "R29_EXT_CHANG_C_closed_candidate": true
+  },
+  "promotion_gate": {
+    "requires_fresh_hostile_audit_of_this_receiver_level_implication": true,
+    "authoritative_all_multiples_closed_before_audit": false,
+    "authoritative_R29_EXT_CHANG_C_closed_before_audit": false
+  },
+  "firewalls": {
+    "direct_cover_rational_points_complete": false,
+    "factor_cover_rational_points_complete": false,
+    "candidateB_factor_branch_rational_pointset_empty_claim": false,
+    "all_multiples_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "parent_route_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_gate": "Fresh hostile audit may promote only the receiver-level implications all_multiples_closed=true and R29_EXT_CHANG_C_closed=true if this exact adapter and its source-lock chain pass. It may not promote direct/factor-cover rational-point completeness, parent-route closure, endpoint credit, perfect-cuboid credit, or merge authorization."
+}
