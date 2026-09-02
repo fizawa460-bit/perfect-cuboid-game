@@ -1,0 +1,67 @@
+{
+  "schema": "STAGE32_POST1484_O188_DEFECT_BOUNDARY_BRIDGE_OBSTRUCTION_V1",
+  "stage": 32,
+  "artifact_class": "diagnostic-nonclosure",
+  "proof_status": "DIAGNOSTIC_NOT_CLOSURE",
+  "closure_status": "OPEN_BLOCKED_MISSING_POINTWISE_PROVENANCE",
+  "target_order": 188,
+  "claim_scope": "q'=4 cases B/C defect-branch to retained-boundary bridge only",
+  "active_pr": 1484,
+  "active_branch": "stage32-post1474-o188-ramification-concentration",
+  "audited_head": "63dcbcb5fdd85c2936e786aa7ad4904417748c07",
+  "source_authority": {
+    "descent_certificate_path": "stages/stage32/residual-32-01-production/post1473-o188-q4-genus2-descent.json",
+    "descent_certificate_blob_sha1": "4c5ed46de03eb0e74f7c54dd2c5adf8d6071602e",
+    "descent_authority_note_path": "stages/stage32/residual-32-01-production/post1473-o188-q4-genus2-descent-source-note.md",
+    "descent_authority_note_blob_sha1": "ac85353cbe56d04582aaf98c34e6b6c9483b21f1",
+    "boundary_adapter_path": "stages/stage32/residual-32-01-production/post1473-boundary-label-weierstrass-adapter.json",
+    "boundary_adapter_blob_sha1": "d3f9c82ab087ea4a2721737867159900a3f304c4",
+    "boundary_adapter_source_note_blob_sha1": "e41abea3781536dc266be0782e6b0984f484c16b",
+    "qprime4_descent_canonical_sha256": "3617ef2e0717a1d75de0f3a271a4b0e25f3ed7e67e76f1e58b490d3fcba9d978",
+    "boundary_adapter_canonical_sha256": "b947be5a3677a9e0b46839241adc03004ee5221ee94d6371f165253281e2a81f",
+    "passport_digest_sha256": "920db071ebcae125cdac25e8ebb3c5cd257983b1975f9feb7434c0c5b2922b89",
+    "integrity_digest_sha256": "2869208e7509d7b79378264ea1982299b0f1745b1a54c5856cfbba0754567ce5"
+  },
+  "exact_known": {
+    "B": {
+      "cycle_type": "6^1 2^91",
+      "rh_defect": 2,
+      "unique_defect_contact_m": 3,
+      "descended_ramification_divisor": "2P",
+      "local_degrees": [
+        3
+      ]
+    },
+    "C": {
+      "cycle_type": "4^2 2^90",
+      "rh_defect": 2,
+      "unique_defect_contact_m": 4,
+      "descended_ramification_divisor": "P+P'",
+      "local_degrees": [
+        2,
+        2
+      ]
+    }
+  },
+  "audit_result": {
+    "pointwise_source_identifier_available_in_audited_evidence": false,
+    "qprime4_retained_boundary_label_transport_available_in_audited_evidence": false,
+    "full_ramification_concentration_on_named_retained_boundary_points_proved": false,
+    "findings": [
+      "The q'=4 descent certificate fixes cycle profiles, defect totals, and descended ramification-divisor shapes, but it does not carry an individual source-cycle or quotient-point identifier for the B/C defect contact.",
+      "The audited boundary-label adapter is certified for retained positive q'=2 rows and explicitly does not provide a pointwise retained-boundary label for the q'=4 B/C defect cases.",
+      "Within the committed evidence audited for this leaf, no persisted canonical source artifact carrying individual B/C branch identities was located; the previously referenced passport-style path is not present on the active branch."
+    ]
+  },
+  "non_inferences": [
+    "Do not infer a source branch identity from cycle counts or contact histograms alone.",
+    "Do not reuse q'=2 retained boundary labels for q'=4 B/C by reinterpretation.",
+    "Do not promote the B/C defect-boundary bridge, O=188 closure, receiver credit, route credit, theorem credit, or endpoint credit from this diagnostic."
+  ],
+  "minimum_missing_evidence": [
+    "A source-preserving individual branch or quotient-point identifier for the B m=3 and C m=4 defect contacts under the same q'=4 source lock.",
+    "An authorized exact transport of those identifiers to retained boundary node or label identifiers.",
+    "A local ramification computation or exact replay proving that the entire descended degree-2 ramification divisor is supported exactly on the transported retained boundary point(s)."
+  ],
+  "next_action": "Recover or regenerate source-preserving pointwise q'=4 branch evidence with stable identifiers, then build the defect-to-boundary table by exact transport without reinterpretation."
+}

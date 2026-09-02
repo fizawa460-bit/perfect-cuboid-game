@@ -16,8 +16,10 @@
   "current_item": "O188_DEFECT_BRANCH_TO_RETAINED_BOUNDARY_NODE_BRIDGE",
   "current_leaf": {
     "obligation_path": "stages/stage32/residual-32-01-production/post1474-o188-defect-boundary-bridge-obligation.json",
-    "status": "OPEN_SEMANTIC_BRIDGE",
-    "target": "Identify q'=4 B/C defect support on the same source model, transport it to explicit retained boundary node(s), and prove the descended degree-2 ramification divisor is concentrated there."
+    "status": "OPEN_BLOCKED_MISSING_POINTWISE_PROVENANCE",
+    "target": "Identify q'=4 B/C defect support on the same source model, transport it to explicit retained boundary node(s), and prove the descended degree-2 ramification divisor is concentrated there.",
+    "diagnostic_path": "stages/stage32/residual-32-01-production/post1484-o188-defect-boundary-bridge-obstruction.json",
+    "blocker": "Audited committed evidence lacks an individual q'=4 B/C source branch identifier and an authorized pointwise transport to retained boundary labels."
   },
   "firewalls": {
     "O188_closed": false,
@@ -34,7 +36,13 @@
     "e": 266,
     "genus": 1,
     "row_id": "g1-d186",
-    "z": [-15, 62, -44, 26, 32]
+    "z": [
+      -15,
+      62,
+      -44,
+      26,
+      32
+    ]
   },
   "hostile_audit_history": {
     "failed_head": "0c22165bbadcf2d5bc083d8404bd6b0cd274a902",
@@ -54,7 +62,7 @@
     "receiver_theorem_endpoint": "OPEN"
   },
   "merge_allowed": false,
-  "next_expected_action": "SOLVE_ONLY_O188_DEFECT_BRANCH_TO_RETAINED_BOUNDARY_NODE_BRIDGE: construct an explicit source-side defect-branch identifier on the same model as the audited boundary marking; transport it to retained boundary node/label identifiers; prove all descended degree-2 ramification support is concentrated there; persist source or deterministic replay evidence; then run a bounded hostile audit of this bridge. DO NOT REOPEN O186 OR CANONICAL 318ac76c. FULL178 remains inactive.",
+  "next_expected_action": "RECOVER_ONLY_MISSING_POINTWISE_Q4_PROVENANCE: obtain source-preserving stable identifiers for the B m=3 and C m=4 defect contacts on the same q'=4 source model, then transport them through an authorized q'=4 retained-boundary map and prove the complete descended degree-2 ramification support. Do not infer branch identity from counts, q'=2 labels, or symmetry. DO NOT REOPEN O186 OR CANONICAL 318ac76c. FULL178 remains inactive.",
   "operations": {
     "execution_class": "LIGHTWEIGHT_O188_GEOMETRY_BRIDGE",
     "full178_scaleout_authorized": false,
@@ -99,11 +107,12 @@
   },
   "semantic_gap": {
     "boundary_to_weierstrass": "AUDITED_CLOSED",
-    "defect_branch_to_retained_boundary_node": "OPEN",
-    "reason": "The q'=4 authority note explicitly says it does not identify a retained boundary label with a hypothetical defect branch, and the cusp budget explicitly firewalls nodewise reachability from analytic branch realization."
+    "defect_branch_to_retained_boundary_node": "OPEN_BLOCKED_MISSING_POINTWISE_PROVENANCE",
+    "reason": "The q'=4 authority note explicitly says it does not identify a retained boundary label with a hypothetical defect branch, and the cusp budget explicitly firewalls nodewise reachability from analytic branch realization.",
+    "diagnostic_path": "stages/stage32/residual-32-01-production/post1484-o188-defect-boundary-bridge-obstruction.json"
   },
   "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V190_POST1474_O188_DEFECT_BOUNDARY_BRIDGE",
   "stage": "32",
   "stage32_closed": false,
-  "status": "STAGE32_POST1474_O188_DEFECT_BOUNDARY_BRIDGE_OPEN"
+  "status": "STAGE32_POST1474_O188_DEFECT_BOUNDARY_BRIDGE_BLOCKED_ON_POINTWISE_PROVENANCE"
 }
