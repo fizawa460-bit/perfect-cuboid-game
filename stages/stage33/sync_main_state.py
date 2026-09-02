@@ -25,6 +25,10 @@ V23_PATH = H / "33-12/j2-kummer-target-h1-coordinate41-trace-v23.json"
 V23_SHA = "7718ea63eafa5561bfb2acaf1fb957c9d1767a609036d1a97bee36e9114ed003"
 V24_PATH = H / "33-12/j2-raw-h1-not-kummer-target-v24.json"
 V24_SHA = "9d104c7d4054b5d92f1df382654b152c30ca0be6ef267aa028fe8b9d78a4687d"
+V25_PATH = H / "33-12/j2-genuine-h2-mu2-kummer-adapter-v25.json"
+V25_SHA = "d2f8e087939401e3427056d6deeffa5bdb3433ad6e1801993be4978c3baff65c"
+V25_AUDIT_PATH = H / "33-12/v25-hostile-audit-pass-receipt.json"
+V25_AUDIT_SHA = "444c038d1bbe1396d312d68d7a7cdfb71509db4419fd35839088dfe53c5066da"
 
 EMPTY_CHECKPOINT = {
     "status": "EMPTY",
@@ -71,18 +75,20 @@ v21 = load_canonical(V21_PATH, V21_SHA)
 v22 = load_canonical(V22_PATH, V22_SHA)
 v23 = load_canonical(V23_PATH, V23_SHA)
 v24 = load_canonical(V24_PATH, V24_SHA)
+v25 = load_canonical(V25_PATH, V25_SHA)
+v25audit = load_canonical(V25_AUDIT_PATH, V25_AUDIT_SHA)
 checkpoint = load_work_checkpoint()
 s = c["stage33_12"]
 q = c["current"]
 
 assert not RETIRED_HANDOFF.exists(), "MAIN-BATCH-HANDOFF.md is retired; use MAIN-STATE.work_checkpoint"
 
-assert c["schema"] == "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V58_NAMED_J2_SOURCE_EXACT_GENUINE_KUMMER_ADAPTER_MISSING"
+assert c["schema"] == "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V59_NAMED_J2_GENUINE_H2_MU2_ADAPTER_MATERIALIZED_PIC2_HS_D2_OPEN"
 assert c["stage33_progress"] == "6/11"
 assert q["unit"] == "33-12"
 assert q["logical_internal_branch"] == "33-13_FINITE_V4_KUMMER_MATRIX_REPAIR"
-assert q["substep"] == "MATERIALIZE_GENUINE_H2_MU2_KUMMER_ADAPTER"
-assert q["active_missing_interface"] == "ACTUAL_FULL_SURFACE_H2_MU2_KUMMER_EXTENSION_OR_EQUIVALENT_GENUINE_LIFT_ADAPTER_FOR_NAMED_J2"
+assert q["substep"] == "MATERIALIZE_ACTUAL_CECH_LOCAL_LATTICES_PIC2_AND_HS_D2"
+assert q["active_missing_interface"] == "ACTUAL_CECH_LOCAL_RANK2_LATTICES_OVERLAP_TRANSITIONS_PIC_MOD2_DEFECT_AND_HS_D2_FOR_LAMBDA_D"
 assert q["next_exact_leaf"] == c["next_item"] == c["execution"]["next_item"]
 
 assert v10["status"] == "PASS_HOSTILE_AUDIT"
@@ -142,6 +148,21 @@ assert s["corrected_J2_actual_kummer_target_materialized"] is False
 assert s["corrected_J2_named_source_target_relation_materialized"] is False
 assert s["finite_v4_kummer_columns_materialized"] == 0
 assert s["finite_v4_kummer_named_relation_rank_f2"] == 0
+assert v25["status"] == "PASS_EXACT_CURRENT_NAMED_J2_GENUINE_H2_MU2_LIFT_ADAPTER_MATERIALIZED_CONNECTING_COCYCLE_OPEN"
+assert v25["current_named_source"]["retained10_mask_decimal"] == 6
+assert v25["current_named_source"]["two_bit_value_a_b"] == [0, 1]
+assert v25["genuine_h2_mu2_adapter"]["full_surface_named_j2_h2_mu2_lift_materialized"] is True
+assert v25["genuine_h2_mu2_adapter"]["historical_kummer_glue_used"] is False
+assert v25["genuine_h2_mu2_adapter"]["raw_weight15_h1_used_as_kummer_boundary"] is False
+assert v25["remaining_interface"]["standard_kummer_columns_materialized"] == 0
+assert v25audit["status"] == "PASS_HOSTILE_AUDIT"
+assert v25audit["audit_review_id"] == 5090434903
+assert v25audit["audited_head_sha"] == "9a01ec5a5c87782e44f1bffe91cc85e89db25fa1"
+assert s["corrected_J2_genuine_h2_mu2_adapter_certificate_sha256"] == V25_SHA
+assert s["corrected_J2_v25_hostile_audit_pass_receipt_sha256"] == V25_AUDIT_SHA
+assert s["corrected_J2_genuine_full_surface_h2_mu2_lift_materialized"] is True
+assert s["corrected_J2_genuine_h2_mu2_adapter_historical_kummer_glue_used"] is False
+assert s["corrected_J2_genuine_h2_mu2_adapter_raw_weight15_h1_used_as_kummer_boundary"] is False
 
 assert c["audit_required"] is False
 assert c["audit_status"] == "PASS"
@@ -153,7 +174,7 @@ assert c["last_completed_audit_review_id"] == v20audit["audit_review_id"]
 assert c["last_completed_audit_head_sha"] == v20audit["audited_head_sha"]
 assert c["current_exact_promotion_audit_required"] is False
 assert c["advance_allowed"] is True
-assert c["advance_scope"] == "STAGE33_12_GENUINE_H2_MU2_KUMMER_ADAPTER_ONLY"
+assert c["advance_scope"] == "STAGE33_12_CECH_PIC2_HS_D2_ONLY"
 assert c["next_item"] == q["next_exact_leaf"] == c["execution"]["next_item"]
 assert c["next_expected_command"] == "Stage33-main-batch"
 assert c["merge_allowed"] is False
@@ -164,7 +185,7 @@ assert c["perfect_cuboid_existence_claim"] is False
 assert c["perfect_cuboid_nonexistence_claim"] is False
 
 out = {
-    "schema": "STAGE33_MAIN_COMPACT_STATE_V14_NAMED_J2_SOURCE_EXACT_GENUINE_KUMMER_ADAPTER_MISSING",
+    "schema": "STAGE33_MAIN_COMPACT_STATE_V15_NAMED_J2_GENUINE_H2_MU2_ADAPTER_MATERIALIZED_PIC2_HS_D2_OPEN",
     "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
     "detailed_machine_authority": "stages/stage33/controller.json",
     "controller_schema": c["schema"],
@@ -345,18 +366,34 @@ out["locked_facts"]["raw_H1_scope_firewall"] = {
     "actual_kummer_target_materialized": False,
     "sha256": V24_SHA,
 }
+out["locked_facts"]["v25_genuine_H2_mu2_adapter"] = {
+    "status": v25["status"],
+    "audit_review_id": v25audit["audit_review_id"],
+    "audited_head_sha": v25audit["audited_head_sha"],
+    "named_J2_retained10_mask_decimal": 6,
+    "two_bit_value_a_b": [0, 1],
+    "full_surface_named_j2_h2_mu2_lift_materialized": True,
+    "lift_class": v25["genuine_h2_mu2_adapter"]["kc_lift_class"],
+    "old_weight15_target_restored": False,
+    "historical_kummer_glue_used": False,
+    "standard_kummer_columns_materialized": 0,
+    "v25_sha256": V25_SHA,
+    "audit_sha256": V25_AUDIT_SHA,
+}
 out["authority_changes"].update({
     "named_order4_source_gap": "CLOSED_EXACT_SOURCE_FIRST_V21",
     "named_J2_proper_Br2_source_coordinate": "MATERIALIZED_EXACT_SOURCE_FIRST_V21",
     "historical_mask6": "NUMERICALLY_MATCHES_BUT_HISTORICAL_BINDING_NOT_REUSED",
     "J2_named_Kummer_source_target_relation": "REVOKED_RELATION_NOT_RESTORED_TARGET_ADAPTER_REPLAY_REQUIRED",
     "old_weight15_raw_H1_as_named_kummer_target": "REVOKED_SCOPE_V24_RAW_H1_EVIDENCE_RETAINED",
+    "genuine_H2_mu2_named_J2_adapter": "PROMOTED_EXACT_HOSTILE_AUDITED_V25",
 })
 out["resolved_investigations"].update({
     "named_order4_functional_swap_behavior": "CLOSED_EXACT_SOURCE_FIRST_V21",
     "source_first_v4_extension_reachability": "CLOSED_EXACT_FAIL_TARGET_AT_H1_COORDINATE41_V22",
     "target_h1_coordinate41_raw_trace": "CLOSED_EXACT_CT_PIC2_SUPPORT_9_11_19_V23",
     "raw_h1_vs_kummer_target_scope": "CLOSED_EXACT_V24_GENUINE_KUMMER_ADAPTER_MISSING",
+    "genuine_h2_mu2_named_j2_adapter": "CLOSED_EXACT_HOSTILE_AUDITED_V25",
 })
 out["do_not_use"] = [
     "the historical Picard-adjoint certificate as authority for the matching mask 6",
@@ -370,29 +407,32 @@ out["open_datum"] = {
     "named_J2_order4_functional_actual_s3_behavior_source_locked": True,
     "named_J2_proper_Br2_source_coordinate_materialized": True,
     "retained10_named_J2_source_coordinate_materialized": True,
+    "genuine_H2_mu2_kummer_adapter_materialized": True,
+    "genuine_H2_mu2_kummer_adapter_required": False,
+    "actual_cech_local_rank2_lattices_materialized": False,
+    "pic_mod2_defect_1cocycle_materialized": False,
+    "hs_d2_2cocycle_materialized": False,
+    "v4_connecting_cocycle_materialized": False,
     "named_J2_source_target_relation_materialized": False,
     "named_source_target_relation_rank_f2": 0,
     "matrix_standard_columns_materialized": 0,
     "target_h1_basis41_adapter_repair_required": False,
-    "genuine_H2_mu2_kummer_adapter_required": True,
 }
 out["current_leaf_working_set"] = [
-    "stages/stage33/33-12/j2-kummer-source-target-module-source-first-v22.json",
-    "stages/stage33/33-12/verify_j2_kummer_source_target_module_source_first_v22.py",
-    "stages/stage33/33-12/j2-kummer-target-h1-coordinate41-trace-v23.json",
-    "stages/stage33/33-12/verify_j2_kummer_target_h1_coordinate41_trace_v23.py",
-    "stages/stage33/33-12/j2-named-v4-h1-target-before-source-orientation.json",
-    "stages/stage33/33-12/v4_pic2_raw_cocycle_projection.py",
-    "stages/stage33/33-12/j2-raw-h1-not-kummer-target-v24.json",
-    "stages/stage33/33-12/verify_j2_raw_h1_not_kummer_target_v24.py",
+    "stages/stage33/33-12/j2-genuine-h2-mu2-kummer-adapter-v25.json",
+    "stages/stage33/33-12/verify_j2_genuine_h2_mu2_kummer_adapter_v25.py",
+    "stages/stage33/33-12/v25-hostile-audit-pass-receipt.json",
+    "stages/stage33/33-12/j2-corrected-explicit-cech-mu2-lift.json",
+    "stages/stage33/33-12/j2-full-surface-mu2-zero-defect-contract.json",
+    "stages/stage33/33-12/j2-cc-actual-cech-global-square-overlap.json",
+    "stages/stage33/33-12/j2-ct-six-kc-support-fullpic64-pullbacks.json",
 ]
 out["anti_loop_reopen_policy"] = {
-    "ordinary_main_rule": "V21 fixes named J2 at retained10 mask 6; V22-V24 prove the old weight-15 vector is exact raw H1 evidence but not an authorized Kummer target. Do not reopen the source or bit-patch that vector. Construct the genuine H2(mu2) Kummer adapter.",
+    "ordinary_main_rule": "V25 hostile-audited promotion fixes the genuine full-surface H2(mu2) lift lambda_D for the exact current named J2. Do not reopen the source, old weight-15 H1 target, C2+C3, or historical Kummer glue. Continue only with actual Cech local lattices/overlaps, marked Pic/2 defect, and HS d2/V4 connecting cocycle.",
     "reopen_only_if": [
-        "the pinned upstream source lock changes",
-        "the V21 source-functional verifier fails replay",
-        "the V22 or V23 verifier fails replay",
-        "the exact target H1 projection or block-extension convention changes",
+        "a pinned V21-V25 source lock or V25 audit receipt fails replay",
+        "the exact V21 projection or marked Brauer coordinate changes",
+        "the actual Cech compactification/local-lattice convention changes",
         "the user explicitly requests hostile audit or historical revalidation",
     ],
 }
