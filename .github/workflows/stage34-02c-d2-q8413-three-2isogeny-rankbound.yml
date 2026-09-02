@@ -36,7 +36,7 @@ jobs:
           except Exception: oldgen=-1
           head=os.environ['HEAD_SHA']; lock='stages/stage34/34-02/d2-stageA2-q8413-model38-three-2isogeny-rankbound-lock.json'; script='stages/stage34/34-02/probe_d2_stageA2_q8413_model38_three_2isogeny_rankbound.py'
           locksha=subprocess.check_output(['git','rev-parse',f'{head}:{lock}'],text=True).strip(); scriptsha=subprocess.check_output(['git','rev-parse',f'{head}:{script}'],text=True).strip()
-          ok=(cur.get('schema')=='STAGE34_02C_D2_Q8413_THREE_2ISOGENY_RANKBOUND_RUNKEY_V1' and cur.get('armed') is True and isinstance(cur.get('generation'),int) and cur['generation']>oldgen and cur.get('expected_targets')==3 and cur.get('maximum_external_magma_requests_at_once')==1 and cur.get('artifact_max_bytes')==1048576 and cur.get('retention_days')==1 and cur.get('source_lock_blob_sha')==locksha=='ae38fd30179bd49f2e27920ff734dc1a47483d8b' and cur.get('probe_script_blob_sha')==scriptsha=='404fc7ab75376a35d35abbeb23a116fb46c945d0')
+          ok=(cur.get('schema')=='STAGE34_02C_D2_Q8413_THREE_2ISOGENY_RANKBOUND_RUNKEY_V1' and cur.get('armed') is True and isinstance(cur.get('generation'),int) and cur['generation']>oldgen and cur.get('expected_targets')==3 and cur.get('maximum_external_magma_requests_at_once')==1 and cur.get('artifact_max_bytes')==1048576 and cur.get('retention_days')==1 and cur.get('source_lock_blob_sha')==locksha=='ae38fd30179bd49f2e27920ff734dc1a47483d8b' and cur.get('probe_script_blob_sha')==scriptsha=='7a59bbf42351df2a28c30d05f63ec40cb8dd6a69')
           print('authorized='+('true' if ok else 'false'))
           PY
   rankbound:
