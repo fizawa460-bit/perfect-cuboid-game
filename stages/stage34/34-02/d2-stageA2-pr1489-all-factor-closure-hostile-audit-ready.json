@@ -1,32 +1,63 @@
 {
-  "schema": "STAGE34_02C_D2_STAGEA2_PR1489_ALL_FACTOR_CLOSURE_HOSTILE_AUDIT_READY_V1",
-  "status": "READY_FOR_INDEPENDENT_HOSTILE_AUDIT_NO_PROMOTION",
+  "schema": "STAGE34_02C_D2_STAGEA2_PR1489_ALL_FACTOR_CLOSURE_HOSTILE_AUDIT_READY_V2_REPAIR",
+  "status": "READY_FOR_INDEPENDENT_HOSTILE_REAUDIT_NO_PROMOTION",
   "pr": 1489,
   "branch": "stage34-main/q8413-torsion-parent-classification",
+  "repair_of_hostile_audit_review_id": 5087093035,
   "authoritative_source_head_before_assembly": "91dcb6ea20053ce9c68cb6e6025d6d817798f3f7",
-  "mathematical_assembly_frozen_head": "cddb481518430eb016f0dad295f06cfdbae31adc",
+  "original_assembly_frozen_head": "cddb481518430eb016f0dad295f06cfdbae31adc",
+  "repaired_mathematical_assembly_frozen_head": "e8b64721e34404f28896e2c284ef6b80a692a815",
   "new_exact_evidence": {
-    "verifier": {
+    "base_verifier": {
       "path": "stages/stage34/34-02/verify_d2_stageA2_zero_residual_all_factor_closure.py",
       "blob_sha": "7841bc431023be6edb8ab632d717e5b62547f278"
     },
+    "repair_verifier": {
+      "path": "stages/stage34/34-02/verify_d2_stageA2_zero_residual_all_factor_closure_repair.py",
+      "blob_sha": "b76eba9a37193556363a008fcb4660d6eac36d1f"
+    },
     "assembly_certificate": {
       "path": "stages/stage34/34-02/d2-stageA2-zero-residual-all-factor-closure-assembly-certificate.json",
-      "blob_sha": "3597746941dfcced393193d7f6c9ec055c7be9b6"
+      "blob_sha": "250baf48ee9c8c88fd90ed5a1119adbf58af5bba"
+    },
+    "full_support_survivor_commitment": {
+      "path": "stages/stage34/34-02/d2-stageA2-full-support-d1-survivor-id-commitment.json",
+      "blob_sha": "8528dd5b3767f3980827590e22f15e015529ad7c"
+    },
+    "genus2_rankle1_audit_receipt": {
+      "path": "stages/stage34/34-02/d2-stageA2-genus2-rankle1-14-hostile-audit-promotion-receipt.json",
+      "blob_sha": "79f635a01452e4ac41ba7b18c40f94c2ef9be62a"
     },
     "exact_replay": {
-      "workflow_run": 33605428706,
-      "job": 100168188775,
-      "head": "cddb481518430eb016f0dad295f06cfdbae31adc",
-      "conclusion": "success"
+      "workflow_run": 33607373464,
+      "job": 100174344124,
+      "head": "e8b64721e34404f28896e2c284ef6b80a692a815",
+      "conclusion": "success",
+      "base_and_repair_verifiers_executed": true
     }
   },
-  "source_lock_authority": {
-    "source_table_is_pinned_in_assembly_certificate": true,
-    "all_source_blob_shas_are_reverified_by_verifier": true,
-    "audit_lineage_is_pinned_in_assembly_certificate": true
+  "repaired_blockers": {
+    "missing_44_to_30_audit_lineage": {
+      "repaired": true,
+      "review_node": "PRR_kwDOTr52Y88AAAABLwVwQw",
+      "review_id": 5083852867,
+      "audited_head": "35d250ea96271c924b205383a8486fdcdcddd08f",
+      "authorized_transition": "44 -> 30",
+      "retained_receipt_blob_sha": "79f635a01452e4ac41ba7b18c40f94c2ef9be62a"
+    },
+    "full_support_92_set_identity_not_machine_checked": {
+      "repaired": true,
+      "source_artifact_id": 9802225387,
+      "source_artifact_zip_digest": "sha256:eee10b6d11542422a1f8fbda84a091ebd1208353a31841bc969f812827cbe18b",
+      "source_payload_sha256": "sha256:849058b6ab53f5efad68ef1394472af808f66588d2b7bd13aca197759a1fd36d",
+      "full_support_survivor_count": 92,
+      "full_support_survivor_ids_sha256": "7d43cd93f9329b48fa981857c10b03ad7a9df985af057ff1845001ca4fcefa6f",
+      "downstream_closed_unique": 92,
+      "downstream_closed_ids_sha256": "7d43cd93f9329b48fa981857c10b03ad7a9df985af057ff1845001ca4fcefa6f",
+      "machine_commitment_equality_asserted": true
+    }
   },
-  "candidate_promotion_if_and_only_if_audit_passes": {
+  "candidate_promotion_if_and_only_if_reaudit_passes": {
     "D2_all_factor_branches_closed": true,
     "scope": "audited nonzero-free-part R29-EXT-CHANG-C receiver population only",
     "authoritative_residual_before": 0,
@@ -37,7 +68,7 @@
     "d2_post_support_transition": "20 -> 0",
     "d1_post_support_initial": 92,
     "d1_closed_unique": 92,
-    "d1_closed_ids_sha256": "7d43cd93f9329b48fa981857c10b03ad7a9df985af057ff1845001ca4fcefa6f",
+    "d1_full_support_and_closure_set_commitment_sha256": "7d43cd93f9329b48fa981857c10b03ad7a9df985af057ff1845001ca4fcefa6f",
     "coverage_gap_detected": false,
     "duplicate_closure_id_detected": false
   },
@@ -46,17 +77,16 @@
     "factor_branch_rational_pointset_empty_claim": false,
     "must_not_be_strengthened_by_this_audit": true
   },
-  "audit_checklist": [
-    "Verify the initial 29952 tuples are an exhaustive over-approximation from the locked odd-squareclass, 2-adic, and sign conditions; do not reinterpret 29952 as a realizable-point count.",
-    "Independently verify the exact monotone transitions 29952->1946->1214->1024->92 and the full-support split d2 20->0 / d1 1004->92 from the pinned source locks.",
-    "Verify the consecutive post-support d1 transitions 92->76->52->44->30->26->22->8->4->0 and their q-by-q counts from the exact closure/promotion certificates.",
-    "Independently extract the post-support closed branch IDs, confirm all 92 are pairwise distinct, and reproduce SHA256 7d43cd93f9329b48fa981857c10b03ad7a9df985af057ff1845001ca4fcefa6f over the sorted newline-terminated ID list.",
-    "Verify Candidate B contributes only exact receiver/K or Face-3-square intersection exclusion for four branches and does not assert those factor branches have empty rational point sets.",
-    "Verify every transition requiring hostile-audit authority is backed by the pinned audit lineage and that no provisional or revoked closure is consumed.",
-    "Verify the cumulative implication is scoped only to the audited nonzero-free-part R29-EXT-CHANG-C receiver population and supports at most D2_all_factor_branches_closed=true."
+  "reaudit_checklist": [
+    "Verify review 5083852867 at audited head 35d250ea96271c924b205383a8486fdcdcddd08f explicitly authorizes the genus-two rank<=1 44->30 transition and that the retained receipt matches that review and the closure certificate.",
+    "Verify artifact 9802225387 provenance/digest and the retained full-support survivor commitment. Reconstructing sha256(canonical_json([q,delta]))[:20] from its d=1 survivor_squareclasses should give 92 unique IDs and commitment 7d43cd93f9329b48fa981857c10b03ad7a9df985af057ff1845001ca4fcefa6f.",
+    "Verify the repair verifier independently reconstructs all downstream closure IDs, obtains 92 unique IDs, and asserts the downstream commitment equals the retained full-support survivor commitment.",
+    "Verify the complete count chain 29952->1946->1214->1024->92->76->52->44->30->26->22->8->4->0 and the existing hostile-audit lineage for later transitions.",
+    "Verify Candidate B remains receiver/Face-3 intersection exclusion only and does not assert factor-branch rational pointset emptiness.",
+    "Verify the cumulative implication remains scoped only to the audited nonzero-free-part R29-EXT-CHANG-C receiver population and supports at most D2_all_factor_branches_closed=true."
   ],
   "firewalls": {
-    "hostile_audit_passed": false,
+    "hostile_reaudit_passed": false,
     "D2_all_factor_branches_closed": false,
     "direct_cover_rational_points_complete": false,
     "all_multiples_closed": false,
