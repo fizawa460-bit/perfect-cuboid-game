@@ -35,7 +35,7 @@ jobs:
           p='stages/stage34/runkeys/stage34-02b-d2-six-rankbound-adapter-proof.json'; cur=json.load(open(p))
           try: old=json.loads(subprocess.check_output(['git','show',f'{os.environ["BEFORE"]}:{p}'],text=True))
           except Exception: print('authorized=false'); print('reason=old_runkey_missing'); raise SystemExit
-          ok=(cur.get('schema')=='STAGE34_02B_D2_SIX_RANKBOUND_ADAPTER_PROOF_RUNKEY_V1' and cur.get('armed') is True and isinstance(cur.get('generation'),int) and cur['generation']>int(old.get('generation',-1)) and cur.get('expected_targets')==6 and cur.get('planned_heavy_jobs')==1 and cur.get('effective_heavy_concurrency')==1 and cur.get('maximum_external_magma_requests_at_once')==1 and cur.get('artifact_max_bytes')==1048576 and cur.get('retention_days')==1 and cur.get('source_lock_blob_sha')=='18110b31a19b71fa7912d620b64e2b2533a86679')
+          ok=(cur.get('schema')=='STAGE34_02B_D2_SIX_RANKBOUND_ADAPTER_PROOF_RUNKEY_V1' and cur.get('armed') is True and isinstance(cur.get('generation'),int) and cur['generation']>int(old.get('generation',-1)) and cur.get('expected_targets')==6 and cur.get('planned_heavy_jobs')==1 and cur.get('effective_heavy_concurrency')==1 and cur.get('maximum_external_magma_requests_at_once')==1 and cur.get('artifact_max_bytes')==1048576 and cur.get('retention_days')==1 and cur.get('source_lock_blob_sha')=='478d8d8acbc53866448297915733d560283ca125')
           print('authorized='+('true' if ok else 'false')); print('reason='+('fresh_generation_armed' if ok else 'semantic_gate_failed'))
           PY
       - run: echo "authorized=${{ steps.gate.outputs.authorized }} reason=${{ steps.gate.outputs.reason }}"
