@@ -1,0 +1,116 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_REMAINING_THREE_GAUSSIAN_ELLIPTIC_QUOTIENT_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION_DIAGNOSTIC",
+  "purpose": "Transport the already-used Stage34 Gaussian degree-two elliptic-quotient interface to three of the four post-#1482 residual sign-orbit representatives. Models 68, 38, and 165 have exact cubic quotient equations over Q(i); model 191 is intentionally excluded because the same invariant gives a quartic genus-one quotient and needs a separate adapter.",
+  "authoritative_baseline": {
+    "remaining_branches": 8,
+    "remaining_sign_orbits": 4,
+    "remaining_by_q": {"80/39": 4, "84/13": 4},
+    "source": "d2-stageA2-four-rankle1-rationalpoints-retry-lock.json",
+    "source_blob_sha": "acc9b2637c967062390c8cd78cd67b35b71ac25d"
+  },
+  "prior_proved_interface": {
+    "certificate": "d2-stageA2-genus2-rankle1-gaussian-03f-proof-certificate.json",
+    "certificate_blob_sha": "fb364b7d5d60dbca049fb2f426013ce16bb8a163",
+    "meaning": "Stage34 has already replayed the same Q(i) involution/invariant, exact rank-one elliptic quotient, odd-index plus elliptic-Chabauty completeness logic, rational reverse reconstruction, and full parent-square test on branch 03f88290bf80ef2e6c98. This is interface precedent only; it grants no credit to the present targets."
+  },
+  "generic_exact_adapter": {
+    "field": "K=Q(i), i^2=-1",
+    "involution": "sigma(x,y)=(-1/x, i*y/x^3)",
+    "required_identity": "f(-1/x)=-f(x)/x^6",
+    "invariants": {"u": "x-1/x", "v": "y*(x-i)/x^2"},
+    "cubic_form": "v^2 = alpha*u^3 + beta*u^2 + gamma*u + delta",
+    "weierstrass_scaling": "X=alpha*u, Y=alpha*v",
+    "weierstrass_equation": "Y^2=X^3+beta*X^2+(alpha*gamma)*X+alpha^2*delta",
+    "rationality_map": "For C(Q), u is rational and every listed alpha is rational, hence quotient X=alpha*u is rational.",
+    "reverse_filter": "For finite rational quotient X, set u=X/alpha. A rational parent x exists only if u^2+4 is a rational square; then x=(u+-sqrt(u^2+4))/2. Each candidate is exact-tested on C and against all four U,V,A,B/delta square conditions.",
+    "exceptional_points": "x=0 and x=infinity are outside the affine quotient formula and have homogeneous V=0, hence are receiver-degenerate. Rational Weierstrass roots occurring in the selected triple are also receiver-degenerate."
+  },
+  "targets": [
+    {
+      "branch_id": "169f94dd000a9c5c053f",
+      "sign_partner": "b870eb75fe3db7bf6a04",
+      "q": "80/39",
+      "delta": [-1, -195, -5, -39],
+      "selected_triple": "V*A*B",
+      "model_id": 68,
+      "integral_curve": "y^2=-x*(3*x+13)*(5*x+8)*(8*x-5)*(13*x-3)",
+      "coefficients_desc_t_degree6": [0, -1560, -7921, -3120, 7921, -1560, 0],
+      "quotient_cubic": "-(u-2*i)*(39*u+160)*(40*u+39)",
+      "alpha": -1560,
+      "elliptic_a2": "-7921+3120*i",
+      "elliptic_a4": "9734400-24713520*i",
+      "elliptic_a6": "30371328000*i"
+    },
+    {
+      "branch_id": "40dc8f63e92a8a3a65e8",
+      "sign_partner": "8a374a057daf5f92a87e",
+      "q": "84/13",
+      "delta": [13, -21, 1880151, -6887],
+      "selected_triple": "U*V*A",
+      "model_id": 38,
+      "integral_curve": "y^2=-6887*x*(x-1)*(x+1)*(6*x+7)*(7*x-6)",
+      "coefficients_desc_t_degree6": [0, -289254, -89531, 578508, 89531, -289254, 0],
+      "quotient_cubic": "-6887*u*(u-2*i)*(42*u+13)",
+      "alpha": -289254,
+      "elliptic_a2": "-89531+578508*i",
+      "elliptic_a4": "-51794399748*i",
+      "elliptic_a6": "0"
+    },
+    {
+      "branch_id": "7a7ef1a67e794fe1651f",
+      "sign_partner": "98b42307b3aa398f1e0c",
+      "q": "84/13",
+      "delta": [42, -26, 13774, -3760302],
+      "selected_triple": "U*V*B",
+      "model_id": 165,
+      "integral_curve": "y^2=6887*x*(x-1)*(x+1)*(x+13)*(13*x-1)",
+      "coefficients_desc_t_degree6": [0, 89531, 1157016, -179062, -1157016, 89531, 0],
+      "quotient_cubic": "6887*u*(u-2*i)*(13*u+168)",
+      "alpha": 89531,
+      "elliptic_a2": "1157016-179062*i",
+      "elliptic_a4": "-207177598992*i",
+      "elliptic_a6": "0"
+    }
+  ],
+  "excluded_residual_target": {
+    "branch_id": "99448685b81e29427c3f",
+    "sign_partner": "d4f551f1038c705e3a16",
+    "q": "80/39",
+    "model_id": 191,
+    "reason": "The same invariants give v^2=u*(u-2*i)*(39*u+160)*(40*u+39), a quartic genus-one quotient. Do not force it through the cubic adapter."
+  },
+  "magma_adapter": {
+    "mw": "PseudoMordellWeilGroup(E)",
+    "chabauty": "Chabauty(MWmap, xcoord_map : IndexBound:=2)",
+    "completion_gate": "A diagnostic candidate requires PseudoMordellWeilGroup success, elliptic Chabauty completion with the odd-index/IndexBound=2 coprimality condition checked, exact rational reverse reconstruction, and zero nondegenerate full-parent lifts. Separate proof replay and hostile audit are still mandatory.",
+    "documentation": [
+      "https://magma.maths.usyd.edu.au/magma/handbook/text/1619",
+      "https://docs.magma-maths.org/ArithmeticGeometry/EllipticCurvesOverQAndNumberFields/over_anf.html"
+    ]
+  },
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "maximum_external_magma_requests_at_once": 1,
+    "expected_requests": 3,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1,
+    "projected_peak_new_artifact_bytes": 2097152,
+    "repo_operating_budget_bytes": 524288000
+  },
+  "credit": "Diagnostic only. No branch or sign partner closes from this lock or from a bounded/resource-walled run. A successful diagnostic must be frozen into a dedicated exact proof replay and then hostile-audited before authoritative promotion.",
+  "firewalls": {
+    "symbolic_pattern_match_is_branch_closure": false,
+    "pseudo_MW_failure_is_math_failure": false,
+    "diagnostic_candidate_is_authoritative": false,
+    "sign_partner_transfer_authoritative_before_audit": false,
+    "authoritative_remaining_branches": 8,
+    "authoritative_remaining_sign_orbits": 4,
+    "D2_all_factor_branches_closed": false,
+    "all_multiples_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "parent_route_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
