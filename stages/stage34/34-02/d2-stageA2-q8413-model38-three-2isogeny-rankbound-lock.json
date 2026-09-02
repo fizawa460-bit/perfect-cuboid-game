@@ -1,0 +1,29 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_Q8413_MODEL38_THREE_2ISOGENY_RANKBOUND_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION_DIAGNOSTIC",
+  "purpose": "Compute exact rank upper bounds from each of the three K-rational 2-isogenies of the q=84/13 model38 elliptic quotient over K=Q(i). This is a distinct isogeny-Selmer route, not another full multiplication-by-2 descent or cover search.",
+  "authoritative_baseline": {"remaining_branches":8,"remaining_sign_orbits":4},
+  "target": {
+    "branch_id":"40dc8f63e92a8a3a65e8",
+    "model_id":38,
+    "field":"Q(i)",
+    "coefficients":["0","-89531+578508*i","0","-51794399748*i","0"],
+    "known_two_torsion_invariants":[2,2],
+    "known_rank_bounds":[0,1],
+    "known_global_root_number":-1
+  },
+  "method_contract": [
+    "Construct E exactly and enumerate all three nonzero K-rational 2-torsion points via TwoTorsionSubgroup(E).",
+    "For each nonzero 2-torsion point P construct phi=TwoIsogeny(P), then call RankBound(E : Isogeny:=phi). This invokes the phi and dual-isogeny Selmer machinery, whose Selmer groups are exact upper bounds for E(K)/phi E'(K) and hence for the Mordell-Weil rank.",
+    "Retain each kernel point, codomain coefficients, and returned integer rank bound. Require exactly three distinct nonzero kernel points.",
+    "If any exact isogeny rank bound is 0, rank(E38)=0 is a PREAUDIT proof candidate. If all are >=1, this route grants no rank closure. Runtime/transport errors are OPEN."
+  ],
+  "theorem_sources": [
+    "Magma V2.29 Mordell-Weil/Descent handbook: SelmerGroup(phi) is implemented for 2-isogenies over number fields and bounds E(K)/phi E'(K).",
+    "Magma V2.29 example with full 2-torsion explicitly compares RankBound(E : Isogeny:=phi) for all three 2-isogenies."
+  ],
+  "documentation_url":"https://magma.maths.usyd.edu.au/magma/handbook/text/1570",
+  "resource_preflight":{"planned_jobs":1,"effective_concurrency":1,"maximum_external_magma_requests_at_once":1,"expected_requests":1,"artifact_max_bytes":1048576,"retention_days":1},
+  "credit":"PREAUDIT rank-zero candidate only if an exact returned isogeny bound is 0. No rational-X, parent pullback, branch/sign-partner, or receiver closure without subsequent exact adapters and hostile audit.",
+  "firewalls":{"isogeny_bound_positive_proves_rank_one":false,"diagnostic_is_authoritative":false,"hostile_audit_passed":false,"authoritative_remaining_branches":8,"authoritative_remaining_sign_orbits":4,"D2_all_factor_branches_closed":false,"R29_EXT_CHANG_C_closed":false}
+}
