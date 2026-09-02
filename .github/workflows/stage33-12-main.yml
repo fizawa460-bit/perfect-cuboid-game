@@ -1,8 +1,8 @@
 name: Stage33-12 exact checkpoint replay
 
 # Historical R1-R4 certificates are replayed from immutable evidence. Current
-# Stage33 state is checked only through the compact MAIN-STATE generator and the
-# read-only v20 promotion verifier so this replay cannot pin a stale leaf schema.
+# Stage33 state is checked through the compact MAIN-STATE generator, the
+# read-only v20 promotion verifier, and the current v21-v24 authority chain.
 on:
   pull_request:
     paths:
@@ -87,8 +87,16 @@ jobs:
           python stages/stage33/33-12/verify_j2_order4_integral_correction_torsor_v19.py
           python stages/stage33/33-12/verify_j2_order4_named_functional_quotient_v20.py
 
+          # PR #1488 current mathematical authority: exact source-first named J2
+          # plus the raw-H1/Kummer-target scope firewall. These must run on the
+          # checked-out PR head, not only exist as repository artifacts.
+          python stages/stage33/33-12/verify_j2_order4_swap_functional_source_v21.py
+          python stages/stage33/33-12/verify_j2_kummer_source_target_module_source_first_v22.py
+          python stages/stage33/33-12/verify_j2_kummer_target_h1_coordinate41_trace_v23.py
+          python stages/stage33/33-12/verify_j2_raw_h1_not_kummer_target_v24.py
+
           # Historical assertions stay historical and do not duplicate current
-          # MAIN routing/state. Current v20 authority is checked below.
+          # MAIN routing/state. Current v21-v24 authority is replayed above.
           python - <<'PY'
           import json
           z=json.load(open('stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json'))
