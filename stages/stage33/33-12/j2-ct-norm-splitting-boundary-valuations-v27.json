@@ -1,0 +1,183 @@
+{
+  "canonical_sha256": "355c2a6dcb27f163ba6236a4e6790f090d03dbd7e74c89d76c2cf7a5c2e1ccc4",
+  "certified_frontier": {
+    "C21_unit_profile_materialized": true,
+    "C22_zero_assignment_materialized": true,
+    "actual_cc_ct_overlap_transition_matrices_materialized": false,
+    "actual_cech_local_rank2_lattices_materialized": false,
+    "actual_ct_defect_marked_Pic_mod2_materialized": false,
+    "actual_global_compactification_selector_materialized": false,
+    "named_boundary_splitting_valuations_materialized": [
+      "t=0",
+      "t=infinity",
+      "s=infinity",
+      "C21",
+      "C22"
+    ],
+    "resolution_exceptional_splitting_valuations_materialized": false,
+    "s_infinity_pole_profile_materialized": true,
+    "standard_kummer_columns_materialized": 0,
+    "t_infinity_sheet_cancellation_materialized": true,
+    "t_zero_sheet_cancellation_materialized": true
+  },
+  "derived_boundary_valuations": [
+    {
+      "base_divisor": "t=0",
+      "lift": "z=+1",
+      "role": "u simple pole / deck conjugate regular",
+      "v_deck_u": 0,
+      "v_norm_g22": -1,
+      "v_u": -1
+    },
+    {
+      "base_divisor": "t=0",
+      "lift": "z=-1",
+      "role": "u regular / deck conjugate simple pole",
+      "v_deck_u": -1,
+      "v_norm_g22": -1,
+      "v_u": 0
+    },
+    {
+      "base_divisor": "t=infinity",
+      "lift": "zbar=+1",
+      "role": "u regular / deck conjugate simple pole",
+      "v_deck_u": -1,
+      "v_norm_g22": -1,
+      "v_u": 0
+    },
+    {
+      "base_divisor": "t=infinity",
+      "lift": "zbar=-1",
+      "role": "u simple pole / deck conjugate regular",
+      "v_deck_u": 0,
+      "v_norm_g22": -1,
+      "v_u": -1
+    },
+    {
+      "base_divisor": "s=infinity",
+      "lift": "either generic q-cover sheet",
+      "role": "both splitting factors have a simple pole",
+      "v_deck_u": -1,
+      "v_norm_g22": -2,
+      "v_u": -1
+    },
+    {
+      "base_divisor": "C21",
+      "lift": "any generic q-cover lift",
+      "role": "both splitting factors are units",
+      "v_deck_u": 0,
+      "v_norm_g22": 0,
+      "v_u": 0
+    },
+    {
+      "base_divisor": "C22",
+      "lift": "z=+A",
+      "role": "u unit / deck conjugate simple zero",
+      "v_deck_u": 1,
+      "v_norm_g22": 1,
+      "v_u": 0
+    },
+    {
+      "base_divisor": "C22",
+      "lift": "z=-A",
+      "role": "u simple zero / deck conjugate unit",
+      "v_deck_u": 0,
+      "v_norm_g22": 1,
+      "v_u": 1
+    }
+  ],
+  "exact_conclusion": {
+    "actual_compactification_branch_selected": false,
+    "generic_splitting_boundary_profile_on_five_named_divisors_is_no_longer_missing": true,
+    "no_terminal_claim": true,
+    "reason_remaining_open": "Boundary valuations of the generic splitting cochain do not by themselves identify the actual integral lambda_D lattice across resolution exceptionals or its global overlap gluing."
+  },
+  "local_cancellation_audit": {
+    "C21": {
+      "conclusion": "u and deck_conjugate_u are both units on every generic lift",
+      "denominator_t_is_generic_unit": true,
+      "source_valuation_of_g22": 0
+    },
+    "C22": {
+      "lift_components": [
+        "z=+A",
+        "z=-A"
+      ],
+      "restriction": "q=A^2 on C22 because A^2-q=4*t^2*g22",
+      "simple_zero_assignment": "the factor A-z vanishes on z=+A and A+z vanishes on z=-A; the complementary factor is a unit generically",
+      "source_valuation_of_g22": 1
+    },
+    "s_infinity": {
+      "leading_terms": {
+        "deck_conjugate_u": "i/w",
+        "g22": "-1/w^2",
+        "u": "i/w"
+      },
+      "local_parameter": "w=1/s"
+    },
+    "t_infinity": {
+      "B": "v^2-1+2*i*s*v",
+      "B_at_boundary": -1,
+      "B_derivative_at_boundary": "2*i*s != 0 in the generic residue field",
+      "qbar_at_boundary": 1,
+      "qbar_derivative_at_boundary": 0,
+      "sheet_constants": {
+        "zbar=+1": "B+zbar=0 with first derivative 2*i*s",
+        "zbar=-1": "B+zbar=-2"
+      }
+    },
+    "t_zero": {
+      "A_at_boundary": 1,
+      "A_derivative_at_boundary": "2*i*s != 0 in the generic residue field",
+      "q_at_boundary": 1,
+      "q_derivative_at_boundary": 0,
+      "sheet_constants": {
+        "z=+1": "A+z=2",
+        "z=-1": "A+z=0 with first derivative 2*i*s"
+      }
+    }
+  },
+  "next_exact_leaf": "MATERIALIZE_RESOLUTION_EXCEPTIONAL_VALUATIONS_AND_ACTUAL_CECH_LAMBDA_D_LOCAL_RANK2_LATTICES_FROM_V27_BOUNDARY_PROFILE_THEN_COMPUTE_OVERLAP_DETERMINANTS_AND_MARKED_PIC_MOD2_DEFECT",
+  "norm_consistency": {
+    "all_rows_satisfy_v_u_plus_v_deck_u_equals_v_g22": true,
+    "source_cech_g22_valuations": {
+      "C21": 0,
+      "C22": 1,
+      "s=infinity": -2,
+      "t=0": -1,
+      "t=infinity": -1
+    }
+  },
+  "normalized_splitting": {
+    "A": "1-t^2+2*i*t*s",
+    "deck_conjugate_u": "(A-z)/(2*t)",
+    "identity": "A^2-q=4*t^2*g22",
+    "norm_u_equals_g22": true,
+    "q": "t^4-6*t^2+1",
+    "qbar": "1-6*v^2+v^4",
+    "t_infinity_normalized_cover_coordinate": "zbar=v^2*z",
+    "t_infinity_parameter": "v=1/t",
+    "u": "(A+z)/(2*t)",
+    "u_at_t_infinity": "(v^2-1+2*i*s*v+zbar)/(2*v)"
+  },
+  "promotion_firewall": {
+    "endpoint_credit": false,
+    "merge_allowed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "receiver_credit": false,
+    "stage33_07_reclosed": false,
+    "stage33_08_released": false,
+    "stage33_12_closed_exact": false,
+    "stage33_progress": "6/11",
+    "theorem_credit": false
+  },
+  "schema": "STAGE33_12_J2_CT_NORM_SPLITTING_BOUNDARY_VALUATIONS_V27",
+  "source_locks": {
+    "ct_norm_splitting_module": "b4c04590fe48141e7555b7c5b4c167a677abe422c7e2b83e51805b4d263d10b2",
+    "explicit_cech_mu2_lift": "6c9333f564637c362b026596833acd26ad2abff27e9c9d75d82ee5c6991cb76b",
+    "v26_determinant_parity_frontier": "dbfb3e12fa2d5bec7a48d4a3e4c3aeef5a3d4386c08555a1666c0dce53a04e7d"
+  },
+  "stage": "33-12",
+  "status": "PASS_EXACT_CT_NORM_SPLITTING_BOUNDARY_VALUATIONS_MATERIALIZED_GLOBAL_LATTICE_GLUING_OPEN"
+}
