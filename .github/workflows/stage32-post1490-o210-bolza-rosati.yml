@@ -20,11 +20,18 @@ on:
       - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-v4-deck-translate-defect-decomposition.json'
       - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-v4-deck-translate-defect-decomposition-source-note.md'
       - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_v4_deck_translate_defect_decomposition.py'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-picard64-deck-action-source-trace.json'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_picard64_deck_action_source_trace.py'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-deck-action-object-mismatch-correction.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-deck-action-object-mismatch-correction-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_deck_action_object_mismatch_correction.py'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json'
+      - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
+      - 'stages/stage32/32-21/post-21bl-picard64-witness-adapter.json'
+      - 'stages/stage32/32-21/post-21bl-effectivity-gap-separation.json'
       - 'stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-boundary.json'
       - 'stages/stage32/residual-32-01-production/post1473-x8-marked-exceptional-incidence.json'
       - 'stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json'
-      - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
-      - 'stages/stage32/32-21/post-21bl-picard64-witness-adapter.json'
   workflow_dispatch:
 
 permissions:
@@ -57,3 +64,11 @@ jobs:
         run: >-
           python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_v4_deck_translate_defect_decomposition.py
           --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-v4-deck-translate-defect-decomposition.json
+      - name: Replay Picard64 deck-action partial source trace
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_picard64_deck_action_source_trace.py
+          --check stages/stage32/residual-32-01-production/post1490-o210-q4-picard64-deck-action-source-trace.json
+      - name: Replay deck-action object mismatch correction
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_deck_action_object_mismatch_correction.py
+          --check stages/stage32/residual-32-01-production/post1490-o210-q4-deck-action-object-mismatch-correction.json
