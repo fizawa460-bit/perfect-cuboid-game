@@ -1,0 +1,27 @@
+name: Stage32 post1490 Bolza Rosati lock replay
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1490-bolza-rosati-lock.yml'
+      - 'stages/stage32/controller.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-frontier.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-polarization-rosati-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-polarization-rosati.json'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_principal_polarization_rosati.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Replay exact Bolza principal-polarization Rosati lock
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_principal_polarization_rosati.py
+          --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-polarization-rosati.json
