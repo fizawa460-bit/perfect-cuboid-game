@@ -1,0 +1,58 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_Q8413_MODEL38_RESIDUAL_COVER_EXTRACT_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION_DIAGNOSTIC",
+  "purpose": "Split the previously timed-out combined higher-descent request. This phase performs only TwoDescent(E38 : RemoveTorsion:=true) over Q(i), retaining the exact sole residual covering if it returns. It deliberately does not rerun RankBounds, MordellWeilShaInformation, point search, or TwoCoverDescent.",
+  "authoritative_baseline": {
+    "remaining_branches": 8,
+    "remaining_sign_orbits": 4,
+    "note": "Authority remains unchanged. The q=80/39 representatives have PREAUDIT parent-closure evidence only; q=84/13 remains open."
+  },
+  "depends_on": {
+    "mwsha_retained": "d2-stageA2-q8413-two-mwsha-descent-retained-certificate.json",
+    "mwsha_facts": "model38 exact RankBounds [0,1], torsion [2,2], 2-Selmer rank 3; model165 has the same unresolved rank interval",
+    "quotient_conjugate_scaling_certificate": "d2-stageA2-q8413-quotient-conjugate-scaling-certificate.json",
+    "combined_timeout_retained": "d2-stageA2-q8413-model38-residual-twocover-descent-retained-certificate.json",
+    "combined_timeout_retained_blob_sha": "c9c852d5d507a81f26b518d00ebc1746abb9bcc7",
+    "combined_timeout_run_id": 33595880430,
+    "combined_timeout_artifact_id": 9833387990
+  },
+  "target": {
+    "branch_id": "40dc8f63e92a8a3a65e8",
+    "sign_partner": "8a374a057daf5f92a87e",
+    "q": "84/13",
+    "model_id": 38,
+    "field": "Q(i), i^2=-1",
+    "elliptic_coefficients": ["0", "-89531+578508*i", "0", "-51794399748*i", "0"]
+  },
+  "method_contract": [
+    "Construct E38 exactly over K=Q(i) and require only Discriminant(E38) != 0 as a local construction sanity check.",
+    "Invoke TwoDescent(E38 : RemoveTorsion:=true) once. Do not invoke RankBounds, TwoSelmerGroup, MordellWeilShaInformation, TwoCoverDescent, Points, or point search in this request.",
+    "Retain Domain(gmap) invariants/order, cover count, and the exact printed residual cover. Extraction success requires quotient order 2 and exactly one returned cover.",
+    "Extraction success is not rank-zero evidence. The exact returned quartic must be frozen in a separate source lock before any TwoCoverDescent call.",
+    "HTTP timeout, runtime error, missing terminal marker, quotient order !=2, or cover count !=1 is OPEN with no mathematical failure or closure credit."
+  ],
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "maximum_external_magma_requests_at_once": 1,
+    "expected_requests": 1,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1,
+    "previous_combined_artifact_bytes": 1229,
+    "repo_operating_budget_bytes": 524288000
+  },
+  "credit": "Residual-cover extraction only. No exact rank, rational-X classification, parent pullback, branch/sign-partner closure, receiver closure, or perfect-cuboid endpoint credit is granted.",
+  "firewalls": {
+    "extraction_success_is_rank_zero": false,
+    "extraction_success_is_branch_closure": false,
+    "diagnostic_is_authoritative": false,
+    "rational_X_transfer_proved": false,
+    "parent_transfer_proved": false,
+    "hostile_audit_passed": false,
+    "authoritative_remaining_branches": 8,
+    "authoritative_remaining_sign_orbits": 4,
+    "D2_all_factor_branches_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
