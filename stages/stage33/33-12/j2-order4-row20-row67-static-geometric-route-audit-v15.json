@@ -1,0 +1,70 @@
+{
+  "canonical_sha256": "dfb7176cc59272896971a3f06964ddd9456db7935e0dc0a71213f7767664feb3",
+  "schema": "STAGE33_12_ORDER4_ROW20_ROW67_STATIC_GEOMETRIC_ROUTE_AUDIT_V15",
+  "source_head_sha": "65a9f472c7db174330fa628b107a2510dbc39c95",
+  "status": "EXACT_STATIC_ROUTE_NARROWING_NO_PROMOTION",
+  "target": {
+    "required_bigk_rows_1based": [20, 67],
+    "purpose": "Test a genuinely new source-locked geometric/symmetry route after the retained-serialization searches were exhausted, without executing the pinned Magma source or inferring rows from target compatibility."
+  },
+  "predecessor_locks": {
+    "row39_symmetry_transport_v11_sha256": "a83d558fc96822d9b8a01512e7d1afa3cf9db0958718325a27fddb32ba753604",
+    "retained_row_availability_v12_sha256": "61a8523c8ca788c58aa0c3732694406230e4fd11afbe67a2d63d5543b0dda9ec",
+    "retained_stage32_source_audit_v13_sha256": "1cc6639578e8f054e90f42297a2e364a56c87363dfa0aa2c18d45d7341685ff2",
+    "pinned_upstream_serialization_audit_v14_sha256": "aabdfd71306de99cae202d838be20144a0a001743d79fb5d1608ce91afc43562"
+  },
+  "pinned_upstream_source": {
+    "repository": "MichaelStollBayreuth/Verification",
+    "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+    "path": "Cuboids/cuboids.magma",
+    "git_blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+    "raw_sha256": "5dc3ae961d872ff96420385880edf0f4225a12d3f906c614e1ccd2220399ce89"
+  },
+  "row20_static_geometry": {
+    "c1sk_count": 20,
+    "row20_identity": "C1sK[20], the last member of the eight branch conics defined by [i*A1+e1*B1, i*A2+e2*B2, i*A3+e3*B3] with e1=e2=e3=-1.",
+    "branch_conic_bigk_rows_1based": [13, 14, 15, 16, 17, 18, 19, 20],
+    "branch_conics_form_separate_eight_element_orbit_under_the_explicit_sign_and_coordinate_symmetries": true,
+    "retained_six_support_bigk_rows_1based": [26, 35, 42, 47, 49, 52],
+    "branch_conic_orbit_intersects_retained_six_support_rows": false,
+    "static_source_also_exhibits_matching_full_surface_c1s_branch_conic_formula": true,
+    "matching_full_surface_curve_alone_is_not_a_complete_pullback_certificate": true,
+    "reason_matching_curve_is_insufficient": "The pinned source augments curve pullbacks by exceptional divisors over flattened singular points; their exact retained full-surface indices depend on the runtime singular-point ordering and incidence computation.",
+    "row39_style_retained_anchor_transport_closes_row20": false
+  },
+  "row67_static_geometry": {
+    "csk_count": 62,
+    "ptsk_count": 12,
+    "bigk_ordering": "known curves CsK first, then exceptional divisors represented by singular points ptsK",
+    "row67_identity": "the fifth exceptional-divisor coordinate, corresponding to ptsK[5]",
+    "ptsk_construction": "ptsK := Points(SingularSubscheme(K))",
+    "literal_static_order_of_the_12_points_serialized_in_source": false,
+    "permsk_exceptional_part_uses_runtime_Position_in_ptsk": true,
+    "static_source_alone_source_locks_which_geometric_singular_point_is_row67": false,
+    "static_symmetry_transport_to_a_retained_pullback_anchor_certified": false
+  },
+  "new_route_conclusion": {
+    "row20_exact_pullback_materialized": false,
+    "row67_exact_pullback_materialized": false,
+    "effective_unresolved_required_rows_1based": [20, 67],
+    "row20_blocker": "No retained exact pullback anchor lies in the statically identified branch-conic orbit, and a complete direct pullback still needs the exceptional-divisor incidence terms.",
+    "row67_blocker": "The basis coordinate is tied to ptsK[5], but the pinned source obtains ptsK by runtime point enumeration and does not serialize that ordering.",
+    "next_exact_action": "Use a genuinely new retained artifact that locks the missing singular-point ordering/incidences, or obtain explicit authorization for a narrow execution of the pinned upstream source solely to emit MatBigKtoBig rows 20 and 67."
+  },
+  "execution_boundary": {
+    "new_external_magma_dispatch_authorized": false,
+    "new_external_magma_dispatch_used": false,
+    "heavy_compute_used": false,
+    "broad_qpic_or_s3_recomputation_used": false,
+    "target_compatibility_inference_used": false
+  },
+  "promotion_firewall": {
+    "named_j2_order4_source_coordinate_materialized": false,
+    "stage33_12_closed_exact": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "matrix_standard_columns_materialized": 0,
+    "stage33_progress": "6/11"
+  }
+}
