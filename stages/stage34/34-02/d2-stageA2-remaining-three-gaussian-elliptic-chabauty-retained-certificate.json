@@ -1,0 +1,76 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_REMAINING_THREE_GAUSSIAN_ELLIPTIC_CHABAUTY_RETAINED_CERTIFICATE_V1",
+  "status": "PASS_DIAGNOSTIC_ROUTE_IDENTITIES_NO_CLOSURE",
+  "source_lock": "d2-stageA2-remaining-three-gaussian-elliptic-quotient-lock.json",
+  "source_lock_blob_sha": "ce54e24b6f3b4157835a213d8004d542c61bfdf2",
+  "source_lock_sha256": "sha256:6dea65d5cb87b7413c23b3acd332a48f0909e2f52446359f401d887d8bbc35ac",
+  "run": {
+    "run_id": 33590638708,
+    "job_id": 100123790069,
+    "head": "edf4d38d298bc12158793977e5b3a82f9ea1eae6",
+    "artifact_id": 9831611279,
+    "artifact_digest": "sha256:31388e70e676e323861e9f2d6c9fe6eb0207665533c57ca352210ae533dee08d",
+    "probe_json_sha256": "sha256:e49d8a93c354bb863542869473239a6cb478fb197ad1cf396717b6f18524ff4f",
+    "raw_stdout_sha256": "sha256:3aac544447c356af303c026ecf030d0c0aad2a4edbdcc63dc4c5fffaaf890f27"
+  },
+  "result": {
+    "input_representatives": 3,
+    "resolved_returns": 3,
+    "symbolic_quotient_identities_passed": 3,
+    "elliptic_discriminant_nonzero": 3,
+    "pmw_successes": 0,
+    "ellchab_executed": 0,
+    "closure_candidate_count": 0
+  },
+  "records": [
+    {
+      "branch_id": "169f94dd000a9c5c053f",
+      "sign_partner": "b870eb75fe3db7bf6a04",
+      "q": "80/39",
+      "model_id": 68,
+      "symbolic_quotient_identities": true,
+      "pmw_success": false,
+      "pmw_invariants": [2, 2, 0],
+      "interpretation": "A free PseudoMordellWeilGroup generator was returned even though finite-odd-index success was not certified. This is not yet rank or index proof; it is a valid input candidate for the existing exact RankBounds + 2-saturation rank/index adapter."
+    },
+    {
+      "branch_id": "40dc8f63e92a8a3a65e8",
+      "sign_partner": "8a374a057daf5f92a87e",
+      "q": "84/13",
+      "model_id": 38,
+      "symbolic_quotient_identities": true,
+      "pmw_success": false,
+      "pmw_invariants": [2, 2],
+      "interpretation": "No free generator occurred in the bounded pseudo-MW return. This does not imply rank zero; exact RankBounds(E) is the next classification gate."
+    },
+    {
+      "branch_id": "7a7ef1a67e794fe1651f",
+      "sign_partner": "98b42307b3aa398f1e0c",
+      "q": "84/13",
+      "model_id": 165,
+      "symbolic_quotient_identities": true,
+      "pmw_success": false,
+      "pmw_invariants": [2, 2],
+      "interpretation": "No free generator occurred in the bounded pseudo-MW return. This does not imply rank zero; exact RankBounds(E) is the next classification gate."
+    }
+  ],
+  "next_exact_route": {
+    "precedent_lock": "d2-stageA2-genus2-rankle1-gaussian-rank-index-lock.json",
+    "precedent_script": "probe_d2_stageA2_genus2_rankle1_gaussian_rank_index_chabauty.py",
+    "logic": "Run exact RankBounds(E). Rank [0,0] permits full torsion enumeration. Rank [1,1] plus a returned free generator permits exact 2-saturation; torsion plus the 2-saturated free generator then has finite odd index, suitable for elliptic Chabauty with IndexBound=2. Any unresolved rank/resource return remains OPEN."
+  },
+  "credit": "Retained diagnostic evidence only. The exact Q(i) quotient identities are established for the three targets, but no direct branch or sign partner is closed by this run.",
+  "firewalls": {
+    "pmw_failure_is_math_failure": false,
+    "pmw_invariants_22_imply_rank_zero": false,
+    "pmw_invariants_220_imply_certified_rank_one": false,
+    "diagnostic_candidate_is_authoritative": false,
+    "authoritative_remaining_branches": 8,
+    "authoritative_remaining_sign_orbits": 4,
+    "D2_all_factor_branches_closed": false,
+    "all_multiples_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "parent_route_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
