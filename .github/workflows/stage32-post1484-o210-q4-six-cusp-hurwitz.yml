@@ -26,6 +26,8 @@ on:
       - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_half_ramification_abel_jacobi_reduction.py'
       - 'stages/stage32/residual-32-01-production/post1484-o210-q4-half-ramification-abel-jacobi-reduction.json'
       - 'stages/stage32/residual-32-01-production/post1484-o210-q4-half-ramification-abel-jacobi-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_abel_jacobi_closure_contract.py'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-abel-jacobi-closure-contract.json'
       - 'stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-boundary.json'
       - 'stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json'
       - 'stages/stage32/residual-32-01-production/post1473-o188-q4-genus2-descent-source-note.md'
@@ -75,3 +77,7 @@ jobs:
         run: >-
           python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_half_ramification_abel_jacobi_reduction.py
           --check stages/stage32/residual-32-01-production/post1484-o210-q4-half-ramification-abel-jacobi-reduction.json
+      - name: Replay Abel-Jacobi closure contract
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_abel_jacobi_closure_contract.py
+          --check stages/stage32/residual-32-01-production/post1484-o210-q4-abel-jacobi-closure-contract.json
