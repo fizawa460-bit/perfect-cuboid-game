@@ -1,0 +1,53 @@
+name: Stage33-12 V25 audited promotion
+
+on:
+  push:
+    branches:
+      - stage33-post1485-v20-audit-pass-two-bit-source-lock
+    paths:
+      - 'stages/stage33/promote_v25_audit.py'
+      - '.github/workflows/stage33-12-v25-promotion.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stage33-12-v25-promotion
+  cancel-in-progress: false
+
+jobs:
+  promote-v25:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stage33-post1485-v20-audit-pass-two-bit-source-lock
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Apply audited V25 promotion
+        run: python stages/stage33/promote_v25_audit.py --apply
+      - name: Replay V21-V25
+        run: |
+          python stages/stage33/33-12/verify_j2_order4_swap_functional_source_v21.py
+          python stages/stage33/33-12/verify_j2_kummer_source_target_module_source_first_v22.py
+          python stages/stage33/33-12/verify_j2_kummer_target_h1_coordinate41_trace_v23.py
+          python stages/stage33/33-12/verify_j2_raw_h1_not_kummer_target_v24.py
+          python stages/stage33/33-12/verify_j2_genuine_h2_mu2_kummer_adapter_v25.py
+          python stages/stage33/promote_v25_audit.py --check
+          python stages/stage33/sync_main_state.py --check
+          git diff --check
+      - name: Commit promoted authority state
+        run: |
+          if git diff --quiet; then
+            echo 'No promotion diff to commit.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add stages/stage33/controller.json stages/stage33/sync_main_state.py stages/stage33/MAIN-STATE.json
+          git commit -m 'Stage33: promote hostile-audited V25 adapter'
+          git push origin HEAD:stage33-post1485-v20-audit-pass-two-bit-source-lock
