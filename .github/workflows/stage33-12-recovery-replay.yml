@@ -1,0 +1,37 @@
+name: Stage33-12 recovery replay
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-12/j2-recovered-mask6-h1-coordinate41-blocker.json'
+      - 'stages/stage33/33-12/verify_j2_recovered_mask6_h1_coordinate41_blocker.py'
+      - 'stages/stage33/33-12/audit_v4_kummer_extension_space_after_j2_anchor.py'
+      - 'stages/stage33/33-12/v4_pic2_raw_cocycle_projection.py'
+      - 'stages/stage33/33-12/full-surface-pic2-kummer-target.json'
+      - 'stages/stage33/MAIN-START-HERE.md'
+      - 'stages/stage33/MAIN-STATE.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage33-12-recovery-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  exact-recovery-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Replay recovered H1-41 blocker and compact state
+        run: |
+          python stages/stage33/33-12/verify_j2_recovered_mask6_h1_coordinate41_blocker.py
+          python stages/stage33/sync_main_state.py --check
+          git diff --check

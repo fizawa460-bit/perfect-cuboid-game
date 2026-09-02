@@ -1,10 +1,10 @@
 # Stage33 human current dashboard
 
-Ordinary MAIN startup must use `MAIN-START-HERE.md` and generated
-`MAIN-STATE.json`, not this narrative dashboard. The detailed machine authority
-is `controller.json`.
+This file is a human dashboard only. Ordinary MAIN startup uses
+`MAIN-START-HERE.md` and `MAIN-STATE.json`; detailed exact machine authority is
+`controller.json` and the active certificates.
 
-## Dashboard
+## Current position
 
 ```text
 Stage33 progress = 6/11
@@ -12,53 +12,69 @@ Stage33-05 = CLOSED_EXACT_ZERO_K3_BR2_Q_SURVIVAL
 active repair child = 33-12 OPEN
 active internal branch = 33-13 FINITE-V4-KUMMER-MATRIX
 matrix = 75x10
-materialized columns = 0/10
+standard columns materialized = 0/10
 ```
 
-Stage33-09, 33-10, and 33-11 are closed exact; the Stage33-11 localization
-connecting map is exact zero with 26/26 columns hostile-audited. Corrected J2
-and q1 have independent nonzero HS d2, so the K3 invariant block has exact zero
-Q-survival. This closes Stage33-05 but does not close full-surface Stage33-12.
+Stage33-09, 33-10, and 33-11 remain closed exact. Stage33-05 remains closed by
+exact zero K3 Br2 Q-survival. None of this closes the full-surface Stage33-12
+repair child.
 
-## Corrected J2 first-column progress
+## Corrected J2 locked target
 
-The genuine corrected surface mu2 lift is materialized. Its actual cc defect is
-zero in integral Pic, its ct defect has six exact Kc supports with exact full
-Pic64 pullbacks, and the resulting named finite-V4 H1 target is a locked nonzero
-75D vector of weight 15.
-
-The named CV semantic orientation is now exact:
+The corrected J2 full-surface construction has a locked named finite-V4 H1
+target: nonzero 75D vector, weight 15. The semantic CV orientation is also
+locked:
 
 ```text
-fixed marked Kc coordinate = [1,0]
+marked Kc coordinate = [1,0]
 semantic discriminant label = u1
-orientation certificate = 0a5abe419c3bd2e4c523af50fd8f85858af6a0d957dcce1e3bdf2ff1430fed3e
+target SHA256 = 4625b6d3ea19ec0e4d8a51471c7f60c0c1219de4672d84c64779c4213306f3b3
+orientation SHA256 = 0a5abe419c3bd2e4c523af50fd8f85858af6a0d957dcce1e3bdf2ff1430fed3e
 ```
+
+The historical named source-target relation is revoked. A locked target must not
+be used to choose its source label.
+
+## Audited order-4 source reduction
+
+PR #1485 hostile audit accepted the exact v17 -> v20 chain. Rows 20 and 67 are
+source-locked; the order-4 correction torsor has dimension 14 over F2 with
+16384 corrections, inducing 16 proper14 functionals with 1024 preimages each.
+For the named column the surviving information is only the exact two-bit affine
+plane with retained10 masks:
+
+```text
+[4,5,6,7]
+actual S3 orbits = [[6],[4,5,7]]
+```
+
+Mask 6 is the unique joint-fixed candidate, but it is **not** the named J2
+source. No named order-4 two-bit value `(a,b)`, actual named lift S3 behavior,
+proper-Br2 source coordinate, retained10 source coordinate, or named 75D column
+has been source-locked/materialized yet.
 
 ## Current exact leaf
 
 ```text
-MATERIALIZE_CORRECTED_KC_BRAUER_FUNCTIONAL_PULLBACK_EVALUATIONS
-ON_RETAINED_FULL_SURFACE_T_MOD_2_SMITH_BASIS
-THEN_SOLVE_ITS_RETAINED_10D_COORDINATE
-THEN_PLACE_THE_LOCKED_WEIGHT15_75D_TARGET
+SOURCE_LOCK_NAMED_J2_ORDER4_LIFT_ACTUAL_SWAP12_SWAP13_BEHAVIOR
+OR_EQUIVALENT_TWO_BIT_VALUE_A_B
+DO_NOT_SELECT_MASK6_WITHOUT_SOURCE
 ```
 
-The retained 10D basis and locked 75D target are exported directly in
-`MAIN-STATE.json`. Pinned BigK rows `[2,4,9,10,47,49]` and the literal retained
-Magma Smith transform are now exact. They give the full-surface `A_T[2]`
-coordinate
+Do not reacquire rows 20/67, rerun the v19 correction/half-lift enumeration, or
+reopen qPic/Smith/sign/S3 candidate enumeration under the same premises.
 
-```text
-[0,0,0,0,0,0,0,1,0,1,0,1,1,0].
-```
+## Operational checkpoint
 
-This vector cannot be copied into the ordered proper-Br2 dual basis: that copy
-fails `cc` invariance with defect
-`[1,0,1,1,0,0,0,0,0,0,0,0,0,0]`. The only missing first-column datum is now
-the corrected Kc Brauer functional's exact pullback/evaluation coordinate in
-the current full-surface proper-Br2 14D dual basis. Do not guess it and do not
-promote the zero finite-discriminant pairing as a zero J2 column.
+`MAIN-STATE.json.work_checkpoint` currently contains an
+`ACTIVE_UNPROMOTED / OPERATIONAL_ONLY_NOT_PROOF` recovery checkpoint. It records
+only the last unpromoted narrowing: a source-first route had reached mask 6 as a
+candidate, the source/target discrepancy had narrowed to H1 coordinate 41, and
+the raw ct Pic/2 side to support `[9,11,19]`.
+
+Those observations are not mathematical authority. MAIN must replay the smallest
+exact certificate needed to validate or reject them before using them. The
+checkpoint exists only to prevent restarting broad origin/history searches.
 
 ## Release state
 
@@ -69,4 +85,5 @@ Stage33-08 released = false
 Stage33-40 released = false
 theorem / receiver / endpoint credit = false
 perfect cuboid existence/nonexistence claim = false
+merge allowed = false
 ```
