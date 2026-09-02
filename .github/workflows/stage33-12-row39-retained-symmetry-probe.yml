@@ -1,0 +1,24 @@
+name: Stage33-12 row39 retained symmetry replay
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-12/probe_j2_order4_row39_retained_symmetry_v11.py'
+      - 'stages/stage33/33-12/verify_j2_order4_row39_retained_symmetry_transport_v11.py'
+      - 'stages/stage33/33-12/j2-order4-row39-retained-symmetry-transport-v11.json'
+      - 'stages/stage33/33-12/j2-order4-retained-pullback-row-availability-v12.json'
+      - '.github/workflows/stage33-12-row39-retained-symmetry-probe.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Exact retained symmetry replay
+        run: python stages/stage33/33-12/verify_j2_order4_row39_retained_symmetry_transport_v11.py
+      - name: Diff check
+        run: git diff --check
