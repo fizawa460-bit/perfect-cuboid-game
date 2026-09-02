@@ -17,10 +17,14 @@ on:
       - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-weierstrass-collision-delta-bound.json'
       - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-weierstrass-collision-delta-bound-source-note.md'
       - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_weierstrass_collision_delta_bound.py'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-v4-deck-translate-defect-decomposition.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-v4-deck-translate-defect-decomposition-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_v4_deck_translate_defect_decomposition.py'
       - 'stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-boundary.json'
       - 'stages/stage32/residual-32-01-production/post1473-x8-marked-exceptional-incidence.json'
       - 'stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json'
       - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
+      - 'stages/stage32/32-21/post-21bl-picard64-witness-adapter.json'
   workflow_dispatch:
 
 permissions:
@@ -49,3 +53,7 @@ jobs:
         run: >-
           python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_weierstrass_collision_delta_bound.py
           --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-weierstrass-collision-delta-bound.json
+      - name: Replay V4 deck-translate defect decomposition
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_v4_deck_translate_defect_decomposition.py
+          --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-v4-deck-translate-defect-decomposition.json
