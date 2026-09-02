@@ -25,6 +25,9 @@ on:
       - 'stages/stage32/residual-32-01-production/post1490-o210-q4-deck-action-object-mismatch-correction.json'
       - 'stages/stage32/residual-32-01-production/post1490-o210-q4-deck-action-object-mismatch-correction-source-note.md'
       - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_deck_action_object_mismatch_correction.py'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-marked-deck-difference-information-boundary.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-marked-deck-difference-information-boundary-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_x_marked_deck_difference_information_boundary.py'
       - 'stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json'
       - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
       - 'stages/stage32/32-21/post-21bl-picard64-witness-adapter.json'
@@ -72,3 +75,7 @@ jobs:
         run: >-
           python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_deck_action_object_mismatch_correction.py
           --check stages/stage32/residual-32-01-production/post1490-o210-q4-deck-action-object-mismatch-correction.json
+      - name: Replay X-side marked deck-difference information boundary
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_x_marked_deck_difference_information_boundary.py
+          --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-marked-deck-difference-information-boundary.json
