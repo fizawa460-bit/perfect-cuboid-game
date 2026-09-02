@@ -18,6 +18,8 @@ on:
       - 'stages/stage33/33-12/certify_j2_current_lambda_d_even_norm_rank2_lattices_v29.py'
       - 'stages/stage33/33-12/j2-current-lambda-d-odd-ramified-cech-overlaps-v30.json'
       - 'stages/stage33/33-12/certify_j2_current_lambda_d_odd_ramified_cech_overlaps_v30.py'
+      - 'stages/stage33/33-12/j2-current-cc-global-square-cech-overlap-v31.json'
+      - 'stages/stage33/33-12/certify_j2_current_cc_global_square_cech_overlap_v31.py'
       - '.github/workflows/stage33-12-post1488-frontier.yml'
   workflow_dispatch:
 
@@ -39,11 +41,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Replay V26-V30 exact frontier
+      - name: Replay V26-V31 exact frontier
         run: |
           python stages/stage33/33-12/certify_j2_ct_determinant_compactification_parity_frontier_v26.py --check
           python stages/stage33/33-12/certify_j2_ct_norm_splitting_boundary_valuations_v27.py --check
           python stages/stage33/33-12/certify_j2_post_v27_exceptional_overlap_inheritance_audit_v28.py --check
           python stages/stage33/33-12/certify_j2_current_lambda_d_even_norm_rank2_lattices_v29.py --check
           python stages/stage33/33-12/certify_j2_current_lambda_d_odd_ramified_cech_overlaps_v30.py --check
+          python stages/stage33/33-12/certify_j2_current_cc_global_square_cech_overlap_v31.py
           git diff --check
