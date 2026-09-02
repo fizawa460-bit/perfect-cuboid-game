@@ -9,8 +9,12 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
-EXPECTED = "9a8065d5f6baf86b48572b7ac56cbbe3392fc84f92fd588d7708b545a5ea93f1"
+EXPECTED = "c19c6b2aec02276d555d751505cdb2b20d4c3f1712c8edfed63046802f8b0150"
 LOCKS = {
+    "stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json": (
+        "def8b60b726c02aa7ee97c0cc25b34f43525ec34",
+        "eb31183bf519fec4ad5bb2d0799b3f0a64b7af893308e09ce0c33119b63440a1",
+    ),
     "stages/stage32/residual-32-01-production/post1473-x8-marked-exceptional-incidence.json": (
         "b3f673aa73324ee731356eec2c0448592fd1e59b",
         "efdecb5d5cef219fc39d931521cbc1890a4830b5296e3c6ff7e93ccb6fa6b143",
@@ -67,10 +71,22 @@ def main() -> None:
     if claimed != EXPECTED or csha(cert) != claimed:
         raise SystemExit("information-boundary canonical mismatch")
 
+    cart = load("stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json")
     incidence = load("stages/stage32/residual-32-01-production/post1473-x8-marked-exceptional-incidence.json")
     v4 = load("stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json")
     collision = load("stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-weierstrass-collision-delta-bound.json")
     defect = load("stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-v4-deck-translate-defect-decomposition.json")
+
+    square = cart["group_quotient_square"]
+    deck_object = cert["deck_object"]
+    if square["P"] != "Z x Z with diagonal G action" or square["X"] != "P/H_diag (Beauville cover surface)" or square["C0"] != "Z/H":
+        raise SystemExit("common-cover quotient objects moved")
+    if square["H"] != "Gamma'[4]/Gamma[8] ~= V4, order 4, normal index 2":
+        raise SystemExit("H quotient moved")
+    if deck_object["deck_group"] != "(H x H)/H_diag ~= H ~= V4" or not cert["firewalls"].get("G_diag_over_H_diag_is_not_the_q_deck_group"):
+        raise SystemExit("q deck-group correction missing")
+    if defect["quotient_geometry"].get("finite_etale_degree") != 4 or defect["quotient_geometry"].get("deck_group") != "V4":
+        raise SystemExit("degree-four V4 deck geometry moved")
 
     rows = incidence["rows"]
     pair_records = collision["weierstrass_support"]["pair_mass_capacity"]
@@ -125,6 +141,9 @@ def main() -> None:
 
     boundary = cert["exact_boundary"]
     firewalls = cert["firewalls"]
+    inventory = cert["retained_projection_inventory"]
+    if inventory.get("relative_H_deck_difference_field_present"):
+        raise SystemExit("certificate unexpectedly claims retained relative-H label")
     if boundary.get("retained_projected_payload_determines_ordered_deck_split_of_visible_pair_mass"):
         raise SystemExit("certificate overclaims ordered deck split")
     if boundary.get("retained_projected_payload_determines_individual_D_dot_tD"):
@@ -135,7 +154,8 @@ def main() -> None:
         raise SystemExit("certificate overclaims O210 closure")
 
     print(json.dumps({
-        "verdict": "PASS_EXACT_RETAINED_DECK_LABEL_INFORMATION_BOUNDARY",
+        "verdict": "PASS_EXACT_RETAINED_RELATIVE_H_DECK_LABEL_INFORMATION_BOUNDARY",
+        "q_deck_group": deck_object["deck_group"],
         "visible_pair_mass_total": sum(masses),
         "annotation_A_grouped_visible_mass": grouped(masses, A),
         "annotation_B_grouped_visible_mass": grouped(masses, B),
