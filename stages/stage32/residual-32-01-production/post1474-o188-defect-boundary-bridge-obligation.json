@@ -1,0 +1,117 @@
+{
+  "schema": "STAGE32_POST1474_O188_DEFECT_BOUNDARY_BRIDGE_OBLIGATION_V3",
+  "stage": 32,
+  "leaf": "POST1474_O188_DEFECT_BRANCH_TO_RETAINED_BOUNDARY_NODE_BRIDGE",
+  "status": "OPEN_BLOCKED_MISSING_DEFECT_NODE_AND_Q4_LABEL_TRANSPORT",
+  "base_merge": {
+    "pr": 1474,
+    "merge_commit": "e0e03ff19b6fcdbc302ed964e6b068680aa5f957",
+    "bounded_hostile_reaudit_review_id": 5083834097
+  },
+  "audited_inputs_do_not_reopen": {
+    "o186_and_cusp_budget": {
+      "status": "CLOSED_AUDITED_DO_NOT_REOPEN",
+      "canonical_sha256": "318ac76ca5baf9e5f7f7a2300628b432f3b5fbb718f2bd21bc7a4f13b9cf3328"
+    },
+    "qprime4_genus2_descent": {
+      "canonical_sha256": "3617ef2e0717a1d75de0f3a271a4b0e25f3ed7e67e76f1e58b490d3fcba9d978",
+      "certificate_path": "stages/stage32/residual-32-01-production/post1473-o188-q4-genus2-descent.json",
+      "certificate_blob_sha1": "4c5ed46de03eb0e74f7c54dd2c5adf8d6071602e",
+      "authority_note_path": "stages/stage32/residual-32-01-production/post1473-o188-q4-genus2-descent-source-note.md",
+      "authority_note_blob_sha1": "ac85353cbe56d04582aaf98c34e6b6c9483b21f1",
+      "retained_fact": "Each descended degree-93 map has total ramification degree 2; B has divisor 2P and C has divisor P+P'."
+    },
+    "boundary_label_weierstrass_adapter": {
+      "canonical_sha256": "b947be5a3677a9e0b46839241adc03004ee5221ee94d6371f165253281e2a81f",
+      "certificate_path": "stages/stage32/residual-32-01-production/post1473-boundary-label-weierstrass-adapter.json",
+      "certificate_blob_sha1": "d3f9c82ab087ea4a2721737867159900a3f304c4",
+      "retained_fact": "Boundary labels 33..44 are transported to the six quotient Weierstrass cusps."
+    },
+    "c_zero_partition": {
+      "canonical_sha256": "96e9d9b78201e99d98b31b8ece51c3e6227a2637c35356f012d0049d589a0f42"
+    },
+    "exceptional_incidence": {
+      "canonical_sha256": "efdecb5d5cef219fc39d931521cbc1890a4830b5296e3c6ff7e93ccb6fa6b143"
+    },
+    "satake_marking": {
+      "canonical_sha256": "69a2a6d3cdf7b0d5c6162424a8102ec41cd09ac7e303469d30577d454363e31d"
+    },
+    "v4_cusp_quotient": {
+      "canonical_sha256": "2869208e7509d7b79378264ea1982299b0f1745b1a54c5856cfbba0754567ce5"
+    }
+  },
+  "provisional_exact_progress": {
+    "qprime4_defect_local_saturation": {
+      "certificate_path": "stages/stage32/residual-32-01-production/post1484-o188-q4-defect-local-saturation.json",
+      "replay_path": "stages/stage32/residual-32-01-production/certify_stage32_post1484_o188_q4_defect_local_saturation.py",
+      "canonical_sha256": "eb860d29457a542b8f05b3d79bade963a44cf295a9807fe5ed66ef8ce23360fe",
+      "status": "PROVISIONAL_EXACT_REPLAY_PENDING_HOSTILE_AUDIT",
+      "facts": [
+        "B: unique m=3 odd defect forces A1=A2=3 because 4*(A_i-1)<=8; the defect contact contributes all source ramification 8 on each projection.",
+        "C: unique m=4 even defect forces A1=A2=4 because 4*(A_i-2)<=8; the defect contact contributes all source ramification 8 on each projection.",
+        "By the audited Cartesian etale V4 descent, no ramification remains away from the abstract defect support; the descended divisors are exactly 2P for B and P+P' for C."
+      ],
+      "does_not_identify": [
+        "the actual source node/formal branch realizing the defect contact",
+        "a retained boundary label for q'=4 B/C"
+      ]
+    }
+  },
+  "gap_evidence": {
+    "qprime4_authority_note_explicit_firewall": "The source note explicitly says it does not identify a retained boundary label with a hypothetical defect branch.",
+    "cusp_budget_explicit_firewall": "The audited coarse nodewise partition reachability is not analytic branch realization.",
+    "exact_replay_generation_limit": "The committed q'=4 descent replay script constructs B/C from histogram/profile data only and consumes no pointwise source-branch identifier.",
+    "upstream_profile_explicit_firewall": "The pinned O=188 extremal-profile certificate states projection_ramification_totals_are_not_branch_location_data=true and coarse_profile_is_not_analytic_realization=true.",
+    "remaining_consequence": "The local ramification-concentration sub-obligation is provisionally solved, but existing audited data still do not identify the B/C defect support with a retained boundary node."
+  },
+  "obligations": [
+    {
+      "id": "POINTWISE_SOURCE_DEFECT_ID",
+      "status": "OPEN",
+      "text": "On the same geometric model used by the audited boundary marking, instantiate the q'=4 B unique m=3 defect contact and C unique m=4 defect contact with stable source-side node/formal-branch identifiers."
+    },
+    {
+      "id": "Q4_RETAINED_BOUNDARY_TRANSPORT",
+      "status": "OPEN",
+      "text": "Transport those source-side identifiers to explicit retained boundary node/label identifiers through an authorized q'=4 adapter, not merely to an abstract six-cusp orbit."
+    },
+    {
+      "id": "RAMIFICATION_CONCENTRATION",
+      "status": "PROVISIONAL_EXACT_REPLAY_PENDING_HOSTILE_AUDIT",
+      "text": "Prove that the entire descended ramification divisor of degree 2 is supported on the unique abstract defect support and all other ramification support is excluded.",
+      "evidence_canonical_sha256": "eb860d29457a542b8f05b3d79bade963a44cf295a9807fe5ed66ef8ce23360fe"
+    },
+    {
+      "id": "BOUNDED_HOSTILE_AUDIT",
+      "status": "OPEN_AFTER_POINTWISE_BRIDGE",
+      "text": "Run a bounded hostile audit covering the new local-saturation replay and the completed pointwise defect-to-retained-boundary transport before promotion."
+    }
+  ],
+  "acceptable_closure_modes": [
+    "FORMAL_SOURCE_LOCK",
+    "DETERMINISTIC_EXACT_REPLAY_WITH_PERSISTED_INPUTS"
+  ],
+  "not_sufficient_for_closure": [
+    "contact histogram alone",
+    "nodewise partition reachability alone",
+    "V4 symmetry alone",
+    "boundary-to-Weierstrass adapter without a q'=4 source-side defect identifier",
+    "q'=2 retained labels reinterpreted as q'=4 labels",
+    "numerical coincidence without persisted replay/source lock"
+  ],
+  "firewalls": {
+    "O188_closed": false,
+    "full178_active": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "next_action": "Instantiate the actual B/C defect contact as a stable source node/formal branch on the audited boundary model and build an authorized q'=4 transport to retained labels. Reuse the local-saturation replay; do not redo or reinterpret histogram-level branch-location evidence.",
+  "diagnostic_nonclosure": {
+    "path": "stages/stage32/residual-32-01-production/post1484-o188-defect-boundary-bridge-obstruction.json",
+    "proof_status": "DIAGNOSTIC_NOT_CLOSURE",
+    "blocker": "Actual q'=4 defect-node/formal-branch instantiation and authorized retained-boundary transport remain missing."
+  }
+}
