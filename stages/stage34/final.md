@@ -34,7 +34,21 @@ For the first six fibers the authoritative population is the complete rank-one f
 Q=nP_q+T,\qquad n\ge1,\qquad T\in E_q(\mathbf Q)_{tors},
 \]
 
-and for `q=60/11` it is the complete rank-two lattice
+and this indeed covers both signs of the free coefficient. Negation fixes `x` and sends `y` to `-y`, while the defining formula for `F_3` contains `y` only through a square, so
+
+\[
+F_3(-Q)=F_3(Q).
+\]
+
+If `n<0`, then
+
+\[
+-(nP_q+T)=(-n)P_q-T
+\]
+
+has positive free coefficient, and `T\mapsto -T` merely permutes the complete torsion subgroup. The case `n=0` is torsion and is outside the non-torsion receiver. Thus the displayed `n\ge1` population is exactly the full nonzero rank-one free lattice modulo all torsion for the Face-3 question.
+
+For `q=60/11` it is the complete rank-two lattice
 
 \[
 Q=aG_1+bG_2+T,\qquad (a,b)\in\mathbf Z^2\setminus\{(0,0)\},
@@ -618,13 +632,33 @@ One direct representative is `q=20/99`,
 
 with the genus-two `U*V*B` quotient. Its Jacobian has rank zero and its complete rational set consists of six projective points. Only one satisfies all four parent square predicates, and that point has `V=0`; all six are receiver-degenerate.
 
-The second direct representative is on `q=60/11`. Its degree-two quotient over `Q(i)` is elliptic of exact rank one with torsion `C2 x C2`. A fixed infinite-order point is 2-saturated. Elliptic Chabauty with obstruction integer `R=4` gives the complete rational quotient-X set `0,-1320`; reverse reconstruction gives only
+The second direct representative is explicitly
+
+```text
+q=60/11
+δ=(330,2,22,30)
+model=113
+```
+
+with genus-two model
+
+\[
+C:\quad y^2=11x(x-1)(x+1)(x+11)(11x-1).
+\]
+
+Its degree-two quotient over `Q(i)` is the elliptic curve
+
+\[
+Y^2=X^3+(1320-242i)X^2-319440iX,
+\]
+
+obtained from the invariant `u=x-1/x` with quotient coordinate `X=121u`. This quotient has exact rank one and torsion `C2 x C2`. A fixed infinite-order point is 2-saturated. Elliptic Chabauty with obstruction integer `R=4` gives the complete rational quotient-X set `0,-1320`; reverse reconstruction gives only
 
 ```text
 x = 1, -1, 1/11, -11,
 ```
 
-plus separately checked quotient `x=0` and infinity exceptions. Every one is receiver-degenerate. The two direct closures and their two sign partners close four branches: `30 -> 26`.
+plus separately checked original-quotient `x=0` and infinity exceptions. Every one is receiver-degenerate. The two direct closures and their two sign partners close four branches: `30 -> 26`.
 
 ### 10.6 Two alternate rank-zero triple quotients: 26 -> 22
 
@@ -716,13 +750,14 @@ Both `5` and `8` are nonsquares. Exhaustion of all 14 points of `P^1(F_13)` ther
 
 ### 10.9 q=80/39 Gaussian quotient orbits: 8 -> 4
 
-Four of the eight branches form two sign orbits on `q=80/39`. One representative is
+Four of the eight branches form two sign orbits on `q=80/39`. The two direct representatives are:
 
-\[
-\delta=(-1,-195,-5,-39).
-\]
+| delta=(δU,δV,δA,δB) | triple/model | exact Q(i) quotient |
+|---|---|---|
+| `(-1,-195,-5,-39)` | `V*A*B`, model 68 | `v^2=-(u-2i)(39u+160)(40u+39)` |
+| `(390,2,78,10)` | `U*A*B`, model 191 | `v^2=u(u-2i)(39u+160)(40u+39)` |
 
-Its Q(i)-elliptic quotient has exact rank one and torsion `C2 x C2`. The fixed generator is 2-saturated; elliptic Chabauty with `R=4` gives complete finite rational quotient-X set
+For model 68, Weierstrass scaling has `X=-1560u`. The quotient has exact rank one and torsion `C2 x C2`; the fixed generator is 2-saturated. Elliptic Chabauty with `R=4` gives complete finite rational quotient-X set
 
 ```text
 1521, 6400.
@@ -734,13 +769,40 @@ Reverse reconstruction gives exactly
 5/8, -8/5, 3/13, -13/3.
 ```
 
-At `5/8,-8/5`, `A=0`; at `3/13,-13/3`, `B=0`. The second q=80/39 representative is treated by the same exact Gaussian quotient mechanism and likewise has zero nondegenerate full-parent lifts. The sign involution transfers both closures to their partners. Therefore all four q=80/39 branches close and `8 -> 4`.
+At `5/8,-8/5`, `A=0`; at `3/13,-13/3`, `B=0`.
+
+For model 191, the displayed quartic quotient is converted by
+
+\[
+s=1/u,\qquad w=(1+i)v/u^2
+\]
+
+to a cubic elliptic quotient, again of exact rank one with torsion `C2 x C2`. Elliptic Chabauty gives complete finite rational cubic-X set
+
+```text
+-25600, -6084,
+```
+
+hence `s=-40/39,-39/160`, then `u=-39/40,-160/39`, and the same reconstructed rational parent set
+
+```text
+5/8, -8/5, 3/13, -13/3.
+```
+
+These are again receiver-degenerate (`A=0` on the first pair, `B=0` on the second); the quotient boundary is separately receiver-degenerate. The sign involution transfers both direct closures to their partners. Therefore all four q=80/39 branches close and `8 -> 4`.
 
 ### 10.10 q=84/13 torsion quotients: 4 -> 0
 
-The last four branches are two sign orbits on `q=84/13`. For each direct representative the Q(i)-elliptic quotient has rank zero. Good reduction at two primes bounds the torsion order by four, while an explicit `C2 x C2` subgroup already has order four; therefore the complete quotient group is exactly `C2 x C2`.
+The last four branches are two sign orbits on `q=84/13`. Their two direct representatives are:
 
-For the first representative, the complete torsion quotient-X values are
+| delta=(δU,δV,δA,δB) | triple/model | exact Q(i) quotient |
+|---|---|---|
+| `(13,-21,1880151,-6887)` | `U*V*A`, model 38 | `v^2=-6887u(u-2i)(42u+13)` |
+| `(42,-26,13774,-3760302)` | `U*V*B`, model 165 | `v^2=6887u(u-2i)(13u+168)` |
+
+For each direct representative the Q(i)-elliptic quotient has rank zero. Good reduction at two primes bounds the torsion order by four, while an explicit `C2 x C2` subgroup already has order four; therefore the complete quotient group is exactly `C2 x C2`.
+
+For model 38, the complete torsion quotient-X values are
 
 ```text
 infinity, 0, 89531, -578508 i.
@@ -754,7 +816,7 @@ x=-1,1,-7/6,6/7.
 
 Testing all four parent square conditions leaves only one full-parent lift, at `x=-7/6`, and it has `A=0`.
 
-For the second representative, the complete torsion quotient-X values are
+For model 165, the complete torsion quotient-X values are
 
 ```text
 infinity, 0, -1157016, 179062 i.
