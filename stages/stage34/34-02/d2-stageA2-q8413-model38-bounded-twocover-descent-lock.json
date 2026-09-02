@@ -1,0 +1,59 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_Q8413_MODEL38_BOUNDED_TWOCOVER_DESCENT_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION_DIAGNOSTIC",
+  "purpose": "Test the exact frozen q=84/13 model38 residual quartic with a bounded TwoCoverDescent local sieve after the full default call hit an external 504. This is a one-way exact emptiness test, not an approximation promoted as equality.",
+  "authoritative_baseline": {
+    "remaining_branches": 8,
+    "remaining_sign_orbits": 4
+  },
+  "depends_on": {
+    "frozen_cover_certificate": "d2-stageA2-q8413-model38-residual-cover-extract-retained-certificate.json",
+    "full_descent_timeout_certificate": "d2-stageA2-q8413-model38-frozen-cover-twocover-descent-retained-certificate.json",
+    "full_descent_timeout_commit": "c8eba1dd43c671655b2f5e7a548a993edf039b07"
+  },
+  "frozen_cover": {
+    "field": "Q(i), i^2=-1",
+    "f_coefficients_constant_to_leading": [
+      "-71563-103532*i",
+      "-246956-305762*i",
+      "21797-173796*i",
+      "-75720+204690*i",
+      "32409-20313*i"
+    ],
+    "discriminant": "14020898335778241125546999481038592-4446296205218480995817430937503744*i",
+    "discriminant_norm_factorization_over_Z": "2^16 * 3^4 * 5^4 * 7^4 * 13^4 * 17^4 * 71^12 * 97^12"
+  },
+  "bounded_call": {
+    "intrinsic": "TwoCoverDescent(C : PrimeBound:=100, PrimeCutoff:=100)",
+    "PrimeBound": 100,
+    "PrimeCutoff": 100,
+    "why": "This includes a substantial finite local sieve while deliberately omitting very large local checks such as the Q(i) prime above rational 71, whose inert norm is 5041."
+  },
+  "theorem_adapter": {
+    "source": "Magma V2.29 handbook, Two-Selmer Set of a Curve / TwoCoverDescent",
+    "source_url": "https://magma.maths.usyd.edu.au/magma/handbook/text/1619",
+    "locked_direction": "Setting PrimeBound or PrimeCutoff can make the returned bounded set larger than the proper fake two-Selmer set. Therefore proper_set is a subset of bounded_set. If bounded_set is empty, proper_set is empty. If bounded_set is nonempty, no equality or rational-point conclusion is allowed.",
+    "empty_full_set_consequence": "If the proper fake two-Selmer set is empty, the frozen genus-one quartic has no Q(i)-rational points."
+  },
+  "promotion_rule": "Only bounded cardinality 0 with terminal marker and exact frozen-cover sanity checks becomes a PREAUDIT no-Q(i)-point proof candidate. Any positive cardinality, timeout, runtime error, or missing marker remains OPEN.",
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "maximum_external_magma_requests_at_once": 1,
+    "expected_requests": 1,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1,
+    "previous_full_descent_artifact_bytes": 1267
+  },
+  "credit": "Diagnostic one-way emptiness evidence only. No rank or branch authority changes before a separate rank adapter and hostile audit.",
+  "firewalls": {
+    "bounded_nonempty_equals_full_set": false,
+    "bounded_nonempty_proves_rational_point": false,
+    "diagnostic_is_authoritative": false,
+    "hostile_audit_passed": false,
+    "authoritative_remaining_branches": 8,
+    "authoritative_remaining_sign_orbits": 4,
+    "D2_all_factor_branches_closed": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}
