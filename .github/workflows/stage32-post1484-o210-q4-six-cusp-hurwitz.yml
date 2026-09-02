@@ -7,12 +7,16 @@ on:
       - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_six_cusp_hurwitz_reduction.py'
       - 'stages/stage32/residual-32-01-production/post1484-o210-q4-six-cusp-hurwitz-reduction.json'
       - 'stages/stage32/residual-32-01-production/post1484-o210-q4-six-cusp-hurwitz-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_first_hurwitz_explicit_nonexclusion.py'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-first-hurwitz-explicit-nonexclusion.json'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-first-hurwitz-explicit-nonexclusion-source-note.md'
       - 'stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-boundary.json'
       - 'stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json'
       - 'stages/stage32/residual-32-01-production/post1473-o188-q4-genus2-descent-source-note.md'
       - 'stages/stage32/residual-32-01-production/post1473-o188-cusp-ramification-budget.json'
       - 'stages/stage32/residual-32-01-production/post1473-x8-marked-exceptional-incidence.json'
       - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
+      - 'stages/stage32/controller.json'
   workflow_dispatch:
 
 permissions:
@@ -29,3 +33,7 @@ jobs:
         run: >-
           python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_six_cusp_hurwitz_reduction.py
           --check stages/stage32/residual-32-01-production/post1484-o210-q4-six-cusp-hurwitz-reduction.json
+      - name: Replay explicit first Hurwitz nonexclusion
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_first_hurwitz_explicit_nonexclusion.py
+          --check stages/stage32/residual-32-01-production/post1484-o210-q4-first-hurwitz-explicit-nonexclusion.json
