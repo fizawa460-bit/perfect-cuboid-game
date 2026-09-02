@@ -16,6 +16,8 @@ INCIDENCE_CANONICAL = "efdecb5d5cef219fc39d931521cbc1890a4830b5296e3c6ff7e93ccb6
 SATAKE_BLOB = "83cb5e2019d1bf8a7bb98e7426c90f898cca56c3"
 SATAKE_CANONICAL = "69a2a6d3cdf7b0d5c6162424a8102ec41cd09ac7e303469d30577d454363e31d"
 SOURCE_NOTE_BLOB = "deeecac5599f3b542b445cd87c2070dae488bc85"
+LOCAL_ADAPTER_BLOB = "dd5fdb8d2553d25a1479c1e5cff68a201c8396e3"
+LOCAL_ADAPTER_CANONICAL = "318ac76ca5baf9e5f7f7a2300628b432f3b5fbb718f2bd21bc7a4f13b9cf3328"
 
 FIRST = [34, 35, 38, 39, 42, 43]
 SECOND = [33, 36, 37, 40, 41, 44]
@@ -43,6 +45,18 @@ def locked_text(path: Path, blob: str) -> str:
     if actual != blob:
         raise ValueError(f"blob moved for {path}: {actual}")
     return raw.decode()
+
+
+def canonical_without_field(obj: dict, field: str) -> str:
+    body = dict(obj)
+    body.pop(field, None)
+    return csha(body)
+
+
+def local_cusp_ramification_delta(m: int) -> int:
+    if m <= 0:
+        raise ValueError("contact multiplicity must be positive")
+    return m - 1 if m % 2 else m - 2
 
 
 def nodewise_m1_m2_count(capacities: list[int], twos: int) -> int:
@@ -96,6 +110,38 @@ def build(repo: Path) -> dict:
     missing = [s for s in required_note if s not in note]
     if missing:
         raise ValueError(f"source note semantics moved: {missing}")
+
+    # Hostile-audit repair: independently source-lock and replay the local
+    # cusp/contact ramification lower-bound adapter used at O=210.  This is
+    # an input lock only; the old O=188 search is not reopened.
+    local_cert = locked_json(here / "post1473-o188-cusp-ramification-budget.json", LOCAL_ADAPTER_BLOB)
+    claimed_local = local_cert.get("canonical_sha256_without_this_field")
+    if claimed_local != LOCAL_ADAPTER_CANONICAL or canonical_without_field(local_cert, "canonical_sha256_without_this_field") != LOCAL_ADAPTER_CANONICAL:
+        raise ValueError("local cusp lower-bound adapter canonical moved")
+    if local_cert.get("source_lock", {}).get("arxiv") != "1303.6495":
+        raise ValueError("local cusp lower-bound primary-source lock moved")
+    if "Section 3 proof of Theorem 3.1" not in local_cert.get("source_lock", {}).get("locators", []):
+        raise ValueError("local cusp lower-bound source locator moved")
+    adapter = local_cert.get("local_adapter", {})
+    expected_adapter = {
+        "notation": "A_i=a_i/4 and m=min(A1,A2)=exceptional contact multiplicity.",
+        "parity": "A1 and A2 have the same parity; hence their parity equals the parity of m.",
+        "total_lower_bound": "R_i >= qprime * sum_P delta(m_P), where delta(m)=m-1 for odd m and m-2 for even m.",
+    }
+    for key, expected in expected_adapter.items():
+        if adapter.get(key) != expected:
+            raise ValueError(f"local cusp lower-bound adapter field moved: {key}")
+    if adapter.get("odd_contact", {}).get("forced_ramification_on_D_per_N_branch") != "qprime*(A_i-1) >= qprime*(m-1)":
+        raise ValueError("odd-contact local lower bound moved")
+    if adapter.get("even_contact", {}).get("forced_ramification_on_D_per_N_branch") != "qprime*(A_i-2) >= qprime*(m-2)":
+        raise ValueError("even-contact local lower bound moved")
+    for m in range(1, 267):
+        expected = m - 1 if m % 2 else m - 2
+        if local_cusp_ramification_delta(m) != expected or expected < 0:
+            raise ValueError(f"local cusp lower-bound replay moved at m={m}")
+    zero_delta_contacts = [m for m in range(1, 267) if local_cusp_ramification_delta(m) == 0]
+    if zero_delta_contacts != [1, 2]:
+        raise ValueError(f"zero-defect contact set moved: {zero_delta_contacts}")
 
     incident_mass: defaultdict[int, int] = defaultdict(int)
     incident_labels: defaultdict[int, list[int]] = defaultdict(list)
@@ -152,9 +198,23 @@ def build(repo: Path) -> dict:
     if r_desc != [0, 48]:
         raise ValueError("O210 descended ramification moved")
 
-    even_contacts = (266 - o_min) // 2
+    # R=0 on the first projection and qprime=4 imply
+    # sum_P delta(m_P)=0.  The exact replay above proves delta>=0 for all
+    # positive m<=e and delta=0 exactly at m=1,2.  Since O counts odd
+    # contacts, all O=210 odd contacts are m=1; the remaining exceptional
+    # mass 266-210 must be carried by m=2 contacts.
+    if r_source[0] != 0:
+        raise ValueError("first projection ceased to be etale at O210")
+    if [m for m in zero_delta_contacts if m % 2] != [1] or [m for m in zero_delta_contacts if m % 2 == 0] != [2]:
+        raise ValueError("zero-defect odd/even contact classification moved")
+    even_mass = 266 - o_min
+    if even_mass < 0 or even_mass % 2:
+        raise ValueError("O210 residual exceptional mass moved")
+    even_contacts = even_mass // 2
     if o_min + 2 * even_contacts != 266 or even_contacts != 28:
         raise ValueError("O210 forced m1/m2 histogram moved")
+    if o_min * local_cusp_ramification_delta(1) + even_contacts * local_cusp_ramification_delta(2) != 0:
+        raise ValueError("O210 zero-defect histogram replay failed")
     assignment_count = nodewise_m1_m2_count(capacities, even_contacts)
     if assignment_count != 43949136035405189:
         raise ValueError(f"O210 nodewise count moved: {assignment_count}")
@@ -259,6 +319,8 @@ def main() -> None:
     if args.output:
         args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
     print("STAGE32_POST1484_V6_MODULAR_FACTOR_BIDEGREE_BOUNDARY=PASS")
+    print("LOCAL_CUSP_LOWER_BOUND_ADAPTER=SOURCE_LOCKED_REPLAY_PASS")
+    print("LOCAL_CUSP_ZERO_DEFECT_CONTACTS=1,2")
     print("MODULAR_FACTOR_BIDEGREE=105,81")
     print("QPRIME1_2=EXCLUDED_BY_DEGREE_INTEGRALITY")
     print("QPRIME4_O_MIN=210")
