@@ -1,0 +1,83 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_PR1489_RECEIVER_LEVEL_CLOSURE_HOSTILE_AUDIT_READY_V1",
+  "status": "READY_FOR_FRESH_HOSTILE_AUDIT_RECEIVER_LEVEL_ONLY",
+  "pr": 1489,
+  "branch": "stage34-main/q8413-torsion-parent-classification",
+  "mathematical_evidence_frozen_head": "557aa823f41e1ff5ae31489eb1868fc32f04952e",
+  "candidate_promotion": {
+    "all_multiples_closed": true,
+    "R29_EXT_CHANG_C_closed": true,
+    "scope": "exact hostile-audited Stage34 non-torsion R29-EXT-CHANG-C receiver population on the seven locked E_q fibers"
+  },
+  "pinned_evidence": {
+    "receiver_closure_assembly": {
+      "path": "stages/stage34/34-02/d2-stageA2-receiver-level-closure-assembly-preaudit.json",
+      "blob_sha": "fe0c504a69ab27b7a3178ca591a0a43814a1782e"
+    },
+    "receiver_closure_verifier": {
+      "path": "stages/stage34/34-02/verify_d2_stageA2_receiver_level_closure_assembly_preaudit.py",
+      "blob_sha": "9a7cf02ba927755bf8aec35098a7713671a74259"
+    },
+    "global_population_contract": {
+      "path": "stages/stage34/34-01/global-population-contract.json",
+      "blob_sha": "f38d74862655b206b66f09105c4f5be481bc6444"
+    },
+    "exact_face3_cover_reduction": {
+      "path": "stages/stage34/34-02/exact-cover-reduction.json",
+      "blob_sha": "c023d3ad8567faa280f23e28e0300acfcc61e6a2"
+    },
+    "pole_torsion_lock": {
+      "path": "stages/stage34/34-02/pole-torsion-lock.json",
+      "blob_sha": "04334c55124e4c2d61a685bd53a930ee5798f0aa"
+    },
+    "split_to_receiver_pullback": {
+      "path": "stages/stage34/34-02/d2-split-to-receiver-pullback-lock.json",
+      "blob_sha": "101181f7575c1e559cd0438abd37e627b7bf984c"
+    },
+    "reconstruction_factor_cover": {
+      "path": "stages/stage34/34-02/d2-stageA2-style-reconstruction-factor-lock.json",
+      "blob_sha": "a357a6691e0be4abd4965b3f822c829864d814bf"
+    },
+    "odd_squareclass_support": {
+      "path": "stages/stage34/34-02/d2-stageA2-odd-squareclass-support-lock.json",
+      "blob_sha": "a053c32a8dbda15c909b7cddc241e8534d4399f9"
+    },
+    "two_adic_pattern": {
+      "path": "stages/stage34/34-02/d2-stageA2-two-adic-pattern-lock.json",
+      "blob_sha": "a27621570e79e045a47bc27aec7ecbabb2ebd5f1"
+    },
+    "all_factor_hostile_promotion": {
+      "path": "stages/stage34/34-02/d2-stageA2-pr1489-all-factor-hostile-reaudit-promotion-certificate.json",
+      "blob_sha": "4c50fa4361071fa09b307a7e3c3f01f220701591",
+      "review_id": 5087246610
+    }
+  },
+  "exact_head_replay": {
+    "run": 33620807240,
+    "job": 100217139651,
+    "head": "557aa823f41e1ff5ae31489eb1868fc32f04952e",
+    "conclusion": "success",
+    "receiver_level_step": "success"
+  },
+  "audit_questions": [
+    "Does the authoritative population contract quantify exactly all non-torsion points required by R29-EXT-CHANG-C?",
+    "Are all Face-3 poles excluded from that population by exact torsion classification?",
+    "For every remaining receiver point, is Face-3 square exactly equivalent to a rational direct-cover point?",
+    "Does the pinned split-to-receiver lock exactly transfer every such direct-cover point into d in {1,2}, K_{q,d}, and the matching finite non-pole x condition without dropping projective exceptions?",
+    "Do the reconstruction identity plus odd-support and 2-adic pattern locks force every rational matching solution into the finite StageA2 factor-branch overcover?",
+    "Does hostile review 5087246610 close that factor overcover only in the receiver-relevant sense needed here, including Candidate B semantics, with zero residual?",
+    "If all answers pass, is the promotion limited to all_multiples_closed=true and R29_EXT_CHANG_C_closed=true only?"
+  ],
+  "firewalls": {
+    "hostile_audit_passed": false,
+    "direct_cover_rational_points_complete": false,
+    "factor_cover_rational_points_complete": false,
+    "candidateB_factor_branch_rational_pointset_empty_claim": false,
+    "all_multiples_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "parent_route_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
