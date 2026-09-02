@@ -1,0 +1,74 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_Q8413_TWO_MWSHA_DESCENT_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION_DIAGNOSTIC",
+  "purpose": "Resolve, if possible, the exact Mordell-Weil rank obstruction left by RankBounds(E : Effort:=1)=[0,1] on the two q=84/13 Gaussian elliptic quotients. This is not a retry of RationalPointsGenus2 and does not grant closure credit. The diagnostic invokes the lower-level MordellWeilShaInformation interface so that available descent and Tate-Shafarevich information is exposed explicitly.",
+  "authoritative_baseline": {
+    "remaining_branches": 8,
+    "remaining_sign_orbits": 4,
+    "note": "The 169f and 9944 representatives now have deterministic PREAUDIT parent-closure certificates, but neither is authoritative before hostile audit and sign-transfer audit."
+  },
+  "depends_on": {
+    "rank_index_lock": "d2-stageA2-remaining-three-gaussian-rank-index-lock.json",
+    "rank_index_lock_blob_sha": "e5e5ca88fe5bd2a5f0c05d46afbe30d6f07ce9fc",
+    "rank_index_run_id": 33591535060,
+    "rank_index_artifact_id": 9831911232,
+    "rank_index_artifact_digest": "sha256:7d12f657d6167e876750aee2fc212c958f33d1ca556624c7395298b516321b4e",
+    "rank_index_probe_sha256": "sha256:2f5af81768af2dfc94d5376489252d55e061c0a48f00c641eb7beb9860ddab8f",
+    "rank_index_stdout_sha256": "sha256:11f40f9bc568746c42afa80d11c8cfd8625af9e2dd4cde7a14e93c82f2214b92"
+  },
+  "targets": [
+    {
+      "branch_id": "40dc8f63e92a8a3a65e8",
+      "sign_partner": "8a374a057daf5f92a87e",
+      "q": "84/13",
+      "model_id": 38,
+      "prior_exact_rank_bounds": [0, 1],
+      "elliptic_coefficients": ["0", "-89531+578508*i", "0", "-51794399748*i", "0"],
+      "torsion_invariants": [2, 2]
+    },
+    {
+      "branch_id": "7a7ef1a67e794fe1651f",
+      "sign_partner": "98b42307b3aa398f1e0c",
+      "q": "84/13",
+      "model_id": 165,
+      "prior_exact_rank_bounds": [0, 1],
+      "elliptic_coefficients": ["0", "1157016-179062*i", "0", "-207177598992*i", "0"],
+      "torsion_invariants": [2, 2]
+    }
+  ],
+  "method_contract": {
+    "field": "K=Q(i), i^2=-1",
+    "baseline_recheck": "Rebuild each exact elliptic quotient and require RankBounds(E : Effort:=1)=[0,1] and torsion invariants [2,2].",
+    "diagnostic": "Run MordellWeilShaInformation(E : Effort:=5) and retain its exact returned rank-bound sequence, returned points, Sha/descent tuples, and raw stdout commitment.",
+    "promotion_condition": "Only an exact equal Mordell-Weil rank conclusion, followed by a separately source-locked complete rational-X classification and exact parent pullback, can become a proof-replay candidate. Diagnostic Sha output or a numerical/analytic indication alone is not closure.",
+    "failure_rule": "Timeout, runtime error, unequal/unresolved rank information, or missing terminal marker remains OPEN and grants no mathematical failure or closure credit."
+  },
+  "documentation": [
+    "https://magma.maths.usyd.edu.au/magma/handbook/elliptic_curves_over_q_and_number_fields",
+    "https://magma.maths.usyd.edu.au/magma/releasenotes/2/21/"
+  ],
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "maximum_external_magma_requests_at_once": 1,
+    "expected_requests": 2,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1,
+    "reference_proof_artifact_bytes": 1831,
+    "repo_operating_budget_bytes": 524288000
+  },
+  "credit": "Diagnostic only. No branch, sign partner, all-multiples receiver, R29_EXT_CHANG_C receiver, or perfect-cuboid endpoint is closed by this lock or by a non-promoted diagnostic return.",
+  "firewalls": {
+    "mwsha_diagnostic_is_authoritative": false,
+    "analytic_rank_is_exact_rank": false,
+    "unequal_rank_bounds_are_exact_rank": false,
+    "hostile_audit_passed": false,
+    "authoritative_remaining_branches": 8,
+    "authoritative_remaining_sign_orbits": 4,
+    "D2_all_factor_branches_closed": false,
+    "all_multiples_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "parent_route_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

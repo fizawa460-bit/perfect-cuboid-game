@@ -1,0 +1,60 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_Q8413_MODEL38_RESIDUAL_COVER_EXTRACT_RETAINED_CERTIFICATE_V1",
+  "status": "PASS_EXACT_RESIDUAL_COVER_EXTRACTED_PREAUDIT_NO_RANK_CREDIT",
+  "source_lock": "d2-stageA2-q8413-model38-residual-cover-extract-lock.json",
+  "source_lock_blob_sha": "01a5d7198938334f21e6d28c85d8b317f08c0c1b",
+  "probe_script": "probe_d2_stageA2_q8413_model38_residual_cover_extract.py",
+  "probe_script_blob_sha": "afe37cb4c2e4a050d60f1fa06415ca859c77f30c",
+  "run": {
+    "run_id": 33596361996,
+    "head": "241192e63057139d52058c4fe35638369d23b86a",
+    "artifact_id": 9833530212,
+    "artifact_digest": "sha256:ad6d812f07a681f9cf30b50edfacaecbc89ed274d998620474126c57c1259423",
+    "artifact_bytes": 1452,
+    "raw_stdout_sha256": "sha256:462d1f829a19c69b26f0d05d1c2a5510f74d553fbc7e5831dbc63f67754e614e"
+  },
+  "target": {
+    "branch_id": "40dc8f63e92a8a3a65e8",
+    "sign_partner": "8a374a057daf5f92a87e",
+    "q": "84/13",
+    "model_id": 38,
+    "field": "Q(i), i^2=-1"
+  },
+  "residual_selmer_quotient": {
+    "invariants": [2],
+    "order": 2,
+    "cover_count": 1
+  },
+  "exact_residual_cover": {
+    "genus": 1,
+    "equation_form": "y^2=f(x), h=0",
+    "f_degree": 4,
+    "f_coefficients_constant_to_leading": [
+      "-71563-103532*i",
+      "-246956-305762*i",
+      "21797-173796*i",
+      "-75720+204690*i",
+      "32409-20313*i"
+    ],
+    "h_degree": -1,
+    "h_coefficients": [],
+    "discriminant": "14020898335778241125546999481038592-4446296205218480995817430937503744*i"
+  },
+  "artifact_parser_note": "The phase-1 JSON marker parser captured only '[' for the multiline f-coefficient print. The complete exact coefficient list above is frozen directly from the committed run's raw stdout, whose SHA-256 is locked in this certificate. No rerun or inferred coefficient was used.",
+  "interpretation": "TwoDescent(E38 : RemoveTorsion:=true) returned an order-2 residual Selmer quotient with exactly one genus-one quartic cover. This exactly isolates the sole non-torsion 2-descent obstruction, but extraction alone does not decide whether the cover has Q(i)-rational points and therefore does not prove rank zero.",
+  "next_exact_route": "Reconstruct this exact frozen quartic over Q(i), coefficient-for-coefficient, in a separate source-locked request and run TwoCoverDescent with default PrimeBound=0 and PrimeCutoff=0. An empty fake 2-Selmer set proves that this frozen cover has no Q(i)-rational points under the Magma V2.29 theorem contract; rank promotion still requires the locked TwoDescent-to-rank adapter and hostile audit.",
+  "credit": "Exact residual-cover extraction and source freeze only. No rank, rational-X, parent-pullback, branch/sign-partner, receiver, or endpoint closure credit.",
+  "firewalls": {
+    "extraction_success_is_rank_zero": false,
+    "fake_two_selmer_computed": false,
+    "rank_zero_authoritative": false,
+    "rational_X_transfer_proved": false,
+    "parent_transfer_proved": false,
+    "hostile_audit_passed": false,
+    "authoritative_remaining_branches": 8,
+    "authoritative_remaining_sign_orbits": 4,
+    "D2_all_factor_branches_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

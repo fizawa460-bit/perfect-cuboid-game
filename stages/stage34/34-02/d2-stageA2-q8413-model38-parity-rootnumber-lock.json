@@ -1,0 +1,58 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_Q8413_MODEL38_PARITY_ROOTNUMBER_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION_DIAGNOSTIC",
+  "purpose": "Use the exact global root number of the q=84/13 model38 elliptic quotient together with the proven 2-parity theorem and the already exact 2-Selmer/torsion bounds. This is independent of the external higher-descent gateway path.",
+  "authoritative_baseline": {
+    "remaining_branches": 8,
+    "remaining_sign_orbits": 4
+  },
+  "exact_inputs": {
+    "mwsha_retained_certificate": "d2-stageA2-q8413-two-mwsha-descent-retained-certificate.json",
+    "mwsha_retained_blob_sha": "b279d4147b3aa9228822957b418568fffc606d47",
+    "model38_rank_bounds": [0,1],
+    "model38_torsion_invariants": [2,2],
+    "model38_two_selmer_dimension": 3,
+    "model38_coefficients": ["0","-89531+578508*i","0","-51794399748*i","0"],
+    "conjugate_scaling_certificate": "d2-stageA2-q8413-quotient-conjugate-scaling-certificate.json",
+    "conjugate_scaling_blob_sha": "3fa87c6f640d202adba827ee0a45f471a3e6afd0"
+  },
+  "theorem_adapter": {
+    "field": "K=Q(i)",
+    "two_isogeny_hypothesis": "E(K)[2] is nonzero; in fact the exact torsion invariants are [2,2].",
+    "two_parity_statement": "For an elliptic curve over a number field with a K-rational point of order 2, the 2-parity theorem gives (-1)^(rk_2(E/K)) = w(E/K), where rk_2 is the Z_2-corank of the 2-infinity Selmer group.",
+    "sources": [
+      "Dokchitser parity notes, Theorem 5.1 (2-isogeny theorem)",
+      "Česnavičius, The p-parity conjecture for elliptic curves with a p-isogeny; p<=3 cases are established",
+      "Magma V2.29 number-field handbook RootNumber(E)"
+    ],
+    "urls": [
+      "https://arxiv.org/abs/1207.0431",
+      "https://magma.maths.usyd.edu.au/magma/handbook/text/1568"
+    ],
+    "selmer_upper_bound": "The Kummer exact sequence gives dim Sel_2(E/K) = rank(E(K)) + dim E(K)[2] + dim Sha(E/K)[2]. The divisible (Q_2/Z_2)^delta part contributes delta dimensions to Sha[2], hence rk_2=rank+delta <= dim Sel_2 - dim E[2] = 3-2 = 1.",
+    "decision": "If exact RootNumber(E38)=+1, 2-parity forces rk_2 even. Since 0<=rk_2<=1, rk_2=0 and therefore rank(E38)=0. If RootNumber(E38)=-1, parity forces rk_2=1 but does not distinguish Mordell-Weil rank 0 from 1, so no rank closure follows."
+  },
+  "root_number_contract": "Magma V2.29 RootNumber(E) for elliptic curves over number fields computes the product of local root numbers over all places. This is an exact integer +/-1 computation; AnalyticRank is not used.",
+  "rank_transfer_scope": "If model38 rank zero is proven, the existing exact Q(i)-conjugate-scaling certificate transfers rank zero to model165. It does not transfer the rational quotient-X condition or parent pullback.",
+  "resource_preflight": {
+    "planned_jobs": 1,
+    "effective_concurrency": 1,
+    "maximum_external_magma_requests_at_once": 1,
+    "expected_requests": 1,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1
+  },
+  "credit": "PREAUDIT rank candidate only if root number is +1 and all exact sanity checks return. No branch/sign-partner or receiver authority changes without deterministic adapter replay, rational-X/parent classification, and hostile audit.",
+  "firewalls": {
+    "analytic_rank_used": false,
+    "root_minus_one_proves_MW_rank_one": false,
+    "parity_candidate_is_authoritative": false,
+    "rational_X_transfer_proved": false,
+    "parent_transfer_proved": false,
+    "hostile_audit_passed": false,
+    "authoritative_remaining_branches": 8,
+    "authoritative_remaining_sign_orbits": 4,
+    "D2_all_factor_branches_closed": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}

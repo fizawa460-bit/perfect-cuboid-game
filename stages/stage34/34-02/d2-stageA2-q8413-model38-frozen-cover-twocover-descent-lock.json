@@ -1,0 +1,73 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_Q8413_MODEL38_FROZEN_COVER_TWOCOVER_DESCENT_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION_DIAGNOSTIC",
+  "purpose": "Apply TwoCoverDescent directly to the exact genus-one quartic frozen from the successful phase-1 TwoDescent run. This phase does not regenerate E38, rerun TwoDescent, rerun RankBounds, or perform point search. Its only mathematical target is whether the frozen cover C has Q(i)-rational points via the fake 2-Selmer-set obstruction.",
+  "authoritative_baseline": {
+    "remaining_branches": 8,
+    "remaining_sign_orbits": 4,
+    "note": "Authority is unchanged. q=80/39 parent-closure evidence is PREAUDIT only; q=84/13 remains authoritative-open."
+  },
+  "depends_on": {
+    "extract_retained": "d2-stageA2-q8413-model38-residual-cover-extract-retained-certificate.json",
+    "extract_retained_commit": "92bb7025c0a80e3d64426aea2c73765a1c7b4647",
+    "extract_run_id": 33596361996,
+    "extract_artifact_id": 9833530212,
+    "extract_artifact_digest": "sha256:ad6d812f07a681f9cf30b50edfacaecbc89ed274d998620474126c57c1259423",
+    "extract_raw_stdout_sha256": "sha256:462d1f829a19c69b26f0d05d1c2a5510f74d553fbc7e5831dbc63f67754e614e"
+  },
+  "frozen_cover": {
+    "field": "K=Q(i), i^2=-1",
+    "genus": 1,
+    "equation": "y^2=f(x)",
+    "f_coefficients_constant_to_leading": [
+      "-71563-103532*i",
+      "-246956-305762*i",
+      "21797-173796*i",
+      "-75720+204690*i",
+      "32409-20313*i"
+    ],
+    "h": "0",
+    "discriminant": "14020898335778241125546999481038592-4446296205218480995817430937503744*i",
+    "source_selmer_quotient_invariants": [2],
+    "source_selmer_quotient_order": 2,
+    "source_cover_count": 1
+  },
+  "method_contract": [
+    "Construct K=Q(i) and K[x], then define f coefficient-for-coefficient from this lock and C=HyperellipticCurve(f). Do not call TwoDescent or regenerate the cover.",
+    "Before descent, require Genus(C)=1, degree(f)=4, every coefficient to equal the frozen list, and Discriminant(C) to equal the frozen exact value.",
+    "Invoke Hk,AtoHk:=TwoCoverDescent(C) with Magma V2.29 defaults PrimeBound=0 and PrimeCutoff=0; do not introduce local-prime truncation parameters.",
+    "If #Hk=0, the Magma V2.29 Two-Selmer-set theorem contract says C(K)=empty. Retain this only as an exact frozen-cover no-point proof candidate pending deterministic replay and hostile audit.",
+    "If #Hk>0, this route does not prove C(K)=empty; retain the cardinality and rank obstruction remains open. HTTP timeout/runtime error/missing terminal marker is OPEN with no mathematical credit."
+  ],
+  "theorem_source_lock": {
+    "magma_version": "V2.29, 3 August 2026",
+    "two_cover_descent_url": "https://magma.maths.usyd.edu.au/magma/handbook/text/1619",
+    "hyperelliptic_creation_url": "https://magma.maths.usyd.edu.au/magma/handbook/hyperelliptic_curves",
+    "locked_statement": "For a hyperelliptic curve C over a number field k, if its fake two-Selmer set is empty then C has no k-rational points. TwoCoverDescent(C) computes that fake two-Selmer set as an abstract set.",
+    "parameter_firewall": "PrimeBound and PrimeCutoff are left at documented defaults 0; no user-specified truncation is permitted for empty-set credit."
+  },
+  "rank_adapter_firewall": "Even #Hk=0 proves only that this exact residual quartic has no Q(i)-rational point in this phase. Promotion to rank(E38)=0 requires a separately frozen adapter tying the successful RemoveTorsion TwoDescent quotient/unique cover to E38(K)/2E38(K), plus hostile audit. The existing conjugate-scaling certificate can transfer rank only after that rank statement is exact; it cannot transfer rational-X or parent-pullback conditions.",
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "maximum_external_magma_requests_at_once": 1,
+    "expected_requests": 1,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1,
+    "phase1_artifact_bytes": 1452,
+    "repo_operating_budget_bytes": 524288000
+  },
+  "credit": "Diagnostic frozen-cover no-point evidence only until replay/audit. No rank, rational-X, parent-pullback, branch/sign-partner, receiver, or endpoint closure is granted by this lock or a non-promoted return.",
+  "firewalls": {
+    "frozen_cover_empty_implies_rank_zero_without_adapter": false,
+    "diagnostic_is_authoritative": false,
+    "rational_X_transfer_proved": false,
+    "parent_transfer_proved": false,
+    "hostile_audit_passed": false,
+    "authoritative_remaining_branches": 8,
+    "authoritative_remaining_sign_orbits": 4,
+    "D2_all_factor_branches_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

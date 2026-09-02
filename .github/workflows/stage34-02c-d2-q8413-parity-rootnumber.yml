@@ -1,0 +1,74 @@
+name: Stage34-02c D2 q84/13 parity root number
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage34/runkeys/stage34-02c-d2-q8413-parity-rootnumber.json'
+      - 'stages/stage34/34-02/d2-stageA2-q8413-model38-parity-rootnumber-lock.json'
+      - 'stages/stage34/34-02/probe_d2_stageA2_q8413_model38_parity_rootnumber.py'
+      - '.github/workflows/stage34-02c-d2-q8413-parity-rootnumber.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - name: Validate parity root-number run key
+        id: gate
+        env:
+          BEFORE: "${{ github.event.before }}"
+          HEAD_SHA: "${{ github.event.pull_request.head.sha }}"
+        run: |
+          KEY=stages/stage34/runkeys/stage34-02c-d2-q8413-parity-rootnumber.json
+          if [ ! -f "$KEY" ] || [ -z "$BEFORE" ] || [ -z "$HEAD_SHA" ]; then echo 'authorized=false' >> "$GITHUB_OUTPUT"; exit 0; fi
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          if ! git cat-file -e "$BEFORE^{commit}" 2>/dev/null || ! git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY"; then echo 'authorized=false' >> "$GITHUB_OUTPUT"; exit 0; fi
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json,os,subprocess
+          p='stages/stage34/runkeys/stage34-02c-d2-q8413-parity-rootnumber.json'; cur=json.load(open(p))
+          try:
+              old=json.loads(subprocess.check_output(['git','show',f'{os.environ["BEFORE"]}:{p}'],text=True)); oldgen=int(old.get('generation',-1))
+          except Exception: oldgen=-1
+          head=os.environ['HEAD_SHA']; lock='stages/stage34/34-02/d2-stageA2-q8413-model38-parity-rootnumber-lock.json'; script='stages/stage34/34-02/probe_d2_stageA2_q8413_model38_parity_rootnumber.py'
+          locksha=subprocess.check_output(['git','rev-parse',f'{head}:{lock}'],text=True).strip(); scriptsha=subprocess.check_output(['git','rev-parse',f'{head}:{script}'],text=True).strip()
+          ok=(cur.get('schema')=='STAGE34_02C_D2_Q8413_PARITY_ROOTNUMBER_RUNKEY_V1' and cur.get('armed') is True and isinstance(cur.get('generation'),int) and cur['generation']>oldgen and cur.get('expected_targets')==1 and cur.get('maximum_external_magma_requests_at_once')==1 and cur.get('artifact_max_bytes')==1048576 and cur.get('retention_days')==1 and cur.get('source_lock_blob_sha')==locksha=='1b248bfe3c21548282611b4e7fac9a4ca509ac04' and cur.get('probe_script_blob_sha')==scriptsha=='8d41c8e8499177283433e8d798b8b6945a4634a3')
+          print('authorized='+('true' if ok else 'false'))
+          PY
+
+  rootnumber:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Compute exact global root number
+        run: python3 stages/stage34/34-02/probe_d2_stageA2_q8413_model38_parity_rootnumber.py
+      - name: Enforce compact evidence cap
+        if: always()
+        run: |
+          test -f stages/stage34/34-02/d2-stageA2-q8413-model38-parity-rootnumber-probe.json
+          test -f stages/stage34/34-02/d2-stageA2-q8413-model38-parity-rootnumber-stdout.txt
+          test $(wc -c < stages/stage34/34-02/d2-stageA2-q8413-model38-parity-rootnumber-probe.json) -le 1048576
+          test $(wc -c < stages/stage34/34-02/d2-stageA2-q8413-model38-parity-rootnumber-stdout.txt) -le 1048576
+      - name: Upload compact parity evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage34-02c-d2-q8413-parity-rootnumber
+          path: |
+            stages/stage34/34-02/d2-stageA2-q8413-model38-parity-rootnumber-probe.json
+            stages/stage34/34-02/d2-stageA2-q8413-model38-parity-rootnumber-stdout.txt
+          if-no-files-found: warn
+          retention-days: 1

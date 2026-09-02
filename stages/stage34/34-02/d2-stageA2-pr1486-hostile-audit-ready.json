@@ -1,0 +1,95 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_PR1486_HOSTILE_AUDIT_READY_V1",
+  "status": "READY_FOR_HOSTILE_AUDIT_NO_PROMOTION_APPLIED",
+  "pr": 1486,
+  "branch": "stage34-02c-remaining-four-sign-orbits",
+  "mathematical_evidence_frozen_head": "fbd16782b839ee7d554155eda4e56a704715c76a",
+  "authoritative_before_audit": {
+    "remaining_branches": 8,
+    "remaining_sign_orbits": 4,
+    "by_q": {"20/99":0,"24/7":0,"48/55":0,"60/11":0,"80/39":4,"84/13":4}
+  },
+  "audit_candidates": {
+    "q80_39_branch_closure_preaudit": [
+      {
+        "representative": "169f94dd000a9c5c053f",
+        "sign_partner": "b870eb75fe3db7bf6a04",
+        "certificate": "d2-stageA2-genus2-rankle1-gaussian-169f-proof-certificate.json",
+        "certificate_blob_sha": "106d6f1130c8c8359997e7907550a21bb41c8bf1",
+        "lock": "d2-stageA2-genus2-rankle1-gaussian-169f-proof-lock.json",
+        "lock_blob_sha": "38ae448e4bbe805b63c9a4abf6191690895500bf",
+        "proof_script": "prove_d2_stageA2_genus2_rankle1_gaussian_169f.py",
+        "proof_script_blob_sha": "ee1882724c03368aa4cf104af58ad2a2159f5fdf",
+        "preaudit_status": "PASS_EXACT_GAUSSIAN_ELLIPTIC_PARENT_CLOSURE_169F_PREAUDIT",
+        "nondegenerate_full_parent_lift_count": 0
+      },
+      {
+        "representative": "99448685b81e29427c3f",
+        "sign_partner": "d4f551f1038c705e3a16",
+        "certificate": "d2-stageA2-genus2-rankle1-gaussian-9944-proof-certificate.json",
+        "certificate_blob_sha": "fc8e442e978ff02127c23ad3137611947e8cdce4",
+        "lock": "d2-stageA2-genus2-rankle1-gaussian-9944-proof-lock.json",
+        "lock_blob_sha": "57bba7abb89e87689aa8a280092ccba4501f2639",
+        "proof_script": "prove_d2_stageA2_genus2_rankle1_gaussian_9944.py",
+        "proof_script_blob_sha": "10a1be9314f39605fd3a6a7a2c48fada189a09b5",
+        "preaudit_status": "PASS_EXACT_GAUSSIAN_QUARTIC_ELLIPTIC_PARENT_CLOSURE_9944_PREAUDIT",
+        "nondegenerate_full_parent_lift_count": 0
+      }
+    ],
+    "sign_transfer": {
+      "file": "d2-stageA2-sign-involution-remaining30-pair-lock.json",
+      "blob_sha": "e1ba9439f2483371517aec029015a71e683e91ee",
+      "required_pairs": [
+        ["169f94dd000a9c5c053f","b870eb75fe3db7bf6a04"],
+        ["99448685b81e29427c3f","d4f551f1038c705e3a16"]
+      ],
+      "credit": "Pair adapter only; sign partners may close only if the corresponding representative closure passes hostile audit and the adapter remains valid."
+    },
+    "q84_13_rankzero_only": {
+      "certificate": "d2-stageA2-q8413-two-quotient-rankzero-preaudit-certificate.json",
+      "certificate_blob_sha": "b3ff0e6681bafc80dd3050fd64782b5d01449006",
+      "status": "PASS_EXACT_Q8413_QUOTIENT_RANKZERO_PREAUDIT_NO_BRANCH_CLOSURE",
+      "representatives": ["40dc8f63e92a8a3a65e8","7a7ef1a67e794fe1651f"],
+      "mordell_weil_ranks": [0,0],
+      "branch_closure_credit": false,
+      "missing_for_branch_closure": ["exact torsion quotient point enumeration","rational quotient-X classification","genus-two inverse pullback","full-parent lift/receiver-degeneracy classification"]
+    }
+  },
+  "promotion_ceiling_if_hostile_audit_passes_both_q80_39_representatives_and_sign_transfer": {
+    "closed_branches": 4,
+    "closed_sign_orbits": 2,
+    "authoritative_after": {
+      "remaining_branches": 4,
+      "remaining_sign_orbits": 2,
+      "by_q": {"20/99":0,"24/7":0,"48/55":0,"60/11":0,"80/39":0,"84/13":4}
+    }
+  },
+  "forbidden_promotions": {
+    "q84_13_branch_closure_from_rankzero_alone": true,
+    "remaining_8_to_0": true,
+    "D2_all_factor_branches_closed": true,
+    "all_multiples_closed": true,
+    "R29_EXT_CHANG_C_closed": true,
+    "parent_route_closed": true,
+    "perfect_cuboid_nonexistence_claim": true,
+    "merge_from_audit_packet_alone": true
+  },
+  "audit_read_order": [
+    "d2-stageA2-pr1486-hostile-audit-ready.json",
+    "verify_d2_stageA2_pr1486_hostile_audit_ready.py",
+    "d2-stageA2-genus2-rankle1-gaussian-169f-proof-lock.json",
+    "prove_d2_stageA2_genus2_rankle1_gaussian_169f.py",
+    "d2-stageA2-genus2-rankle1-gaussian-169f-proof-certificate.json",
+    "d2-stageA2-genus2-rankle1-gaussian-9944-proof-lock.json",
+    "prove_d2_stageA2_genus2_rankle1_gaussian_9944.py",
+    "d2-stageA2-genus2-rankle1-gaussian-9944-proof-certificate.json",
+    "d2-stageA2-sign-involution-remaining30-pair-lock.json",
+    "d2-stageA2-q8413-two-quotient-rankzero-preaudit-certificate.json"
+  ],
+  "firewalls": {
+    "hostile_audit_passed": false,
+    "promotion_applied": false,
+    "authoritative_remaining_branches": 8,
+    "authoritative_remaining_sign_orbits": 4
+  }
+}

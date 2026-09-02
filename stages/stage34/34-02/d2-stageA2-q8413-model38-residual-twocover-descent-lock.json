@@ -1,0 +1,64 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_Q8413_MODEL38_RESIDUAL_TWOCOVER_DESCENT_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION_DIAGNOSTIC",
+  "purpose": "Resolve the sole q=84/13 elliptic rank obstruction by isolating the non-torsion residual 2-Selmer class on model38 and applying exact two-cover descent over Q(i). This is a distinct higher-descent route, not a point-search retry.",
+  "authoritative_baseline": {
+    "remaining_branches": 8,
+    "remaining_sign_orbits": 4,
+    "authority_note": "169f and 9944 have deterministic PREAUDIT parent-closure certificates only. q=84/13 remains unresolved. No authority changes until hostile audit and exact transfer gates pass."
+  },
+  "depends_on": {
+    "mwsha_retained": "d2-stageA2-q8413-two-mwsha-descent-retained-certificate.json",
+    "mwsha_retained_commit": "0b89ce3fe622081549f4a711176975ba1bf95728",
+    "conjugate_scaling_certificate": "d2-stageA2-q8413-quotient-conjugate-scaling-certificate.json",
+    "conjugate_scaling_script_blob_sha": "822a0634f7e53982193faa670fa2899aefa46400"
+  },
+  "target": {
+    "branch_id": "40dc8f63e92a8a3a65e8",
+    "sign_partner": "8a374a057daf5f92a87e",
+    "q": "84/13",
+    "model_id": 38,
+    "field": "Q(i), i^2=-1",
+    "elliptic_coefficients": ["0", "-89531+578508*i", "0", "-51794399748*i", "0"],
+    "exact_rank_bounds": [0, 1],
+    "torsion_invariants": [2, 2],
+    "two_selmer_rank": 3,
+    "residual_selmer_dimension_after_torsion": 1
+  },
+  "method_contract": [
+    "Rebuild E38 over K=Q(i), require RankBounds(E:Effort:=1)=[0,1] and TorsionSubgroup invariants [2,2].",
+    "Run TwoDescent(E : RemoveTorsion:=true). Over number fields Magma returns 2-coverings for the quotient of the 2-Selmer group after factoring out torsion. Require exactly one nontrivial residual covering; otherwise retain diagnostic output as OPEN and do not infer rank.",
+    "Run TwoCoverDescent(C) on that residual quartic with default PrimeBound/PrimeCutoff, so no local-prime truncation is introduced.",
+    "If the returned fake 2-Selmer set is empty, the locked Magma theorem contract implies C(K)=empty. Since C is the sole nontrivial class after quotienting E(K)[2], the residual 2-Selmer class is not represented by E(K)/2E(K); together with rank interval [0,1] this forces rank(E38)=0.",
+    "If the fake 2-Selmer set is nonempty, the run only exposes the next covering data and rank remains OPEN. A timeout/runtime/resource wall is also OPEN."
+  ],
+  "rank_transfer_scope": "The exact conjugate-scaling certificate proves rank(E165)=rank(E38), so an exact rank-zero result transfers to model165. It does NOT transfer the rational quotient-X or parent pullback classification.",
+  "documentation": [
+    "https://magma.maths.usyd.edu.au/magma/handbook/text/1570",
+    "https://magma.maths.usyd.edu.au/magma/handbook/text/1619"
+  ],
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "maximum_external_magma_requests_at_once": 1,
+    "expected_requests": 1,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1,
+    "reference_recent_artifact_bytes": 1734,
+    "repo_operating_budget_bytes": 524288000
+  },
+  "credit": "Diagnostic until a deterministic replay certificate is frozen and hostile-audited. Empty fake 2-Selmer output may establish an exact rank-zero candidate, but by itself does not close either genus-two branch or sign partner.",
+  "firewalls": {
+    "bounded_point_search_used_as_rank_proof": false,
+    "prime_bound_truncation_allowed_for_empty_set_credit": false,
+    "diagnostic_is_authoritative": false,
+    "rational_X_transfer_proved": false,
+    "parent_transfer_proved": false,
+    "hostile_audit_passed": false,
+    "authoritative_remaining_branches": 8,
+    "authoritative_remaining_sign_orbits": 4,
+    "D2_all_factor_branches_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

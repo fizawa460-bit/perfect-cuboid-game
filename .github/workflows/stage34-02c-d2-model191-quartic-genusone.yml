@@ -1,0 +1,89 @@
+name: Stage34-02c D2 model191 quartic genus-one Chabauty
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage34/runkeys/stage34-02c-d2-model191-quartic-genusone.json'
+      - 'stages/stage34/34-02/d2-stageA2-model191-gaussian-quartic-genusone-lock.json'
+      - 'stages/stage34/34-02/probe_d2_stageA2_model191_gaussian_quartic_genusone_chabauty.py'
+      - '.github/workflows/stage34-02c-d2-model191-quartic-genusone.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      reason: ${{ steps.gate.outputs.reason }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Validate dedicated model191 run key against commit range
+        id: gate
+        env:
+          BEFORE: "${{ github.event.before }}"
+        run: |
+          KEY=stages/stage34/runkeys/stage34-02c-d2-model191-quartic-genusone.json
+          if [ ! -f "$KEY" ]; then echo 'authorized=false' >> "$GITHUB_OUTPUT"; echo 'reason=runkey_missing' >> "$GITHUB_OUTPUT"; exit 0; fi
+          if [ -z "$BEFORE" ]; then echo 'authorized=false' >> "$GITHUB_OUTPUT"; echo 'reason=no_before' >> "$GITHUB_OUTPUT"; exit 0; fi
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          if ! git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then echo 'authorized=false' >> "$GITHUB_OUTPUT"; echo 'reason=before_unavailable' >> "$GITHUB_OUTPUT"; exit 0; fi
+          if ! git diff --name-only "$BEFORE" HEAD | grep -Fxq "$KEY"; then echo 'authorized=false' >> "$GITHUB_OUTPUT"; echo 'reason=runkey_unchanged' >> "$GITHUB_OUTPUT"; exit 0; fi
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os, subprocess
+          p='stages/stage34/runkeys/stage34-02c-d2-model191-quartic-genusone.json'
+          cur=json.load(open(p))
+          try:
+              old=json.loads(subprocess.check_output(['git','show',f'{os.environ["BEFORE"]}:{p}'],text=True))
+              oldgen=int(old.get('generation',-1))
+          except Exception:
+              oldgen=-1
+          ok=(
+              cur.get('schema')=='STAGE34_02C_D2_MODEL191_QUARTIC_GENUSONE_RUNKEY_V1'
+              and cur.get('armed') is True
+              and isinstance(cur.get('generation'),int)
+              and cur['generation']>oldgen
+              and cur.get('expected_targets')==1
+              and cur.get('planned_heavy_jobs')==1
+              and cur.get('effective_heavy_concurrency')==1
+              and cur.get('maximum_external_magma_requests_at_once')==1
+              and cur.get('artifact_max_bytes')==1048576
+              and cur.get('retention_days')==1
+              and cur.get('source_lock_blob_sha')=='8a8ca93b6e19bed611a4e8c4d463aad5bf1d250c'
+              and cur.get('script_blob_sha')=='dc1158829be51e54c85ca5107d4a1c46af9ecccc'
+          )
+          print('authorized='+('true' if ok else 'false'))
+          print('reason='+('fresh_generation_armed' if ok else 'semantic_gate_failed'))
+          PY
+      - name: Report authorization
+        run: echo "authorized=${{ steps.gate.outputs.authorized }} reason=${{ steps.gate.outputs.reason }}"
+
+  probe:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run model191 quartic genus-one diagnostic
+        run: python3 stages/stage34/34-02/probe_d2_stageA2_model191_gaussian_quartic_genusone_chabauty.py
+      - name: Enforce compact evidence cap
+        if: always()
+        run: |
+          test -f stages/stage34/34-02/d2-stageA2-model191-gaussian-quartic-genusone-chabauty-probe.json
+          test -f stages/stage34/34-02/d2-stageA2-model191-gaussian-quartic-genusone-chabauty-stdout.txt
+          test $(wc -c < stages/stage34/34-02/d2-stageA2-model191-gaussian-quartic-genusone-chabauty-probe.json) -le 1048576
+          test $(wc -c < stages/stage34/34-02/d2-stageA2-model191-gaussian-quartic-genusone-chabauty-stdout.txt) -le 1048576
+      - name: Upload compact diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage34-02c-d2-model191-quartic-genusone
+          path: |
+            stages/stage34/34-02/d2-stageA2-model191-gaussian-quartic-genusone-chabauty-probe.json
+            stages/stage34/34-02/d2-stageA2-model191-gaussian-quartic-genusone-chabauty-stdout.txt
+          if-no-files-found: warn
+          retention-days: 1

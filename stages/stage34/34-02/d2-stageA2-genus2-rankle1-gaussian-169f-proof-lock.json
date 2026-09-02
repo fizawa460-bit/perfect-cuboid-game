@@ -1,0 +1,58 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_GENUS2_RANKLE1_GAUSSIAN_169F_PROOF_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION_PROOF_REPLAY",
+  "target": {
+    "branch_id": "169f94dd000a9c5c053f",
+    "sign_partner": "b870eb75fe3db7bf6a04",
+    "q": "80/39",
+    "delta": [-1, -195, -5, -39],
+    "model_id": 68,
+    "coefficients_desc_t_degree6": [0, -1560, -7921, -3120, 7921, -1560, 0],
+    "quotient_cubic": "-(u-2*i)*(39*u+160)*(40*u+39)",
+    "alpha": -1560,
+    "elliptic_a2": "-7921+3120*i",
+    "elliptic_a4": "9734400-24713520*i",
+    "elliptic_a6": "30371328000*i",
+    "fixed_free_point": ["1/4*(-7140*i+26433)", "1/8*(-1461558*i+1429785)", "1"],
+    "expected_torsion_invariants": [2, 2],
+    "expected_rank_bounds": [1, 1],
+    "expected_elliptic_chabauty_R": 4,
+    "expected_elliptic_chabauty_count": 3,
+    "expected_finite_quotient_X": [1521, 6400],
+    "expected_reconstructed_rational_x": ["5/8", "-8/5", "3/13", "-13/3"]
+  },
+  "depends_on": {
+    "rank_index_lock": "d2-stageA2-remaining-three-gaussian-rank-index-lock.json",
+    "rank_index_lock_blob_sha": "e5e5ca88fe5bd2a5f0c05d46afbe30d6f07ce9fc",
+    "diagnostic_run_id": 33591535060,
+    "diagnostic_artifact_id": 9831911232,
+    "diagnostic_artifact_digest": "sha256:7d12f657d6167e876750aee2fc212c958f33d1ca556624c7395298b516321b4e",
+    "target_stdout_sha256": "sha256:b65f8af42cd9fde5858bf632ee5255f3c96e26effedc8f55a73fa1a0b3e07386"
+  },
+  "proof_plan": [
+    "Rebuild the locked Q(i) elliptic quotient and assert the symbolic quotient identities exactly.",
+    "Recompute RankBounds(E : Effort:=1) and require [1,1], then recompute exact torsion [2,2].",
+    "Use the fixed infinite-order point frozen from the diagnostic, 2-saturate it, and require the saturated point to equal plus or minus the fixed point.",
+    "Run elliptic Chabauty with IndexBound:=2 on torsion plus the 2-saturated generator. Require R=4 and exactly three returned group classes. Exact rank plus 2-saturation makes the subgroup index odd, hence coprime to R=4, so the rational quotient-X list is complete.",
+    "Require exactly one quotient point at infinity and finite rational quotient-X set {1521,6400}.",
+    "Reconstruct rational genus-two x from u=X/alpha and x^2-u*x-1=0. Require exactly {5/8,-8/5,3/13,-13/3}.",
+    "For x=5/8 and -8/5 assert A=80U+39V=0; for x=3/13 and -13/3 assert B=39U+80V=0. Therefore every reconstructed point is receiver-degenerate, independently of any map exception or heuristic search.",
+    "Account separately for x=0 and infinity: both have V=0 in homogeneous receiver coordinates and are receiver-degenerate."
+  ],
+  "credit": "Dedicated deterministic proof replay for branch 169f94dd000a9c5c053f only. PASS is PREAUDIT evidence, not authoritative closure. Hostile independent audit and audited sign-partner transfer are required before changing the 8-branch / 4-sign-orbit authority.",
+  "firewalls": {
+    "diagnostic_candidate_is_authoritative": false,
+    "map_exception_is_proof": false,
+    "bounded_point_search_is_proof": false,
+    "hostile_audit_passed": false,
+    "branch_closed": false,
+    "sign_partner_closed": false,
+    "authoritative_remaining_branches": 8,
+    "authoritative_remaining_sign_orbits": 4,
+    "D2_all_factor_branches_closed": false,
+    "all_multiples_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "parent_route_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

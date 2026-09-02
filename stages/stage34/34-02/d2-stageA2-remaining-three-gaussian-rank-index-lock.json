@@ -1,0 +1,98 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_REMAINING_THREE_GAUSSIAN_RANK_INDEX_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION_DIAGNOSTIC",
+  "depends_on": {
+    "quotient_lock": "d2-stageA2-remaining-three-gaussian-elliptic-quotient-lock.json",
+    "quotient_lock_blob_sha": "ce54e24b6f3b4157835a213d8004d542c61bfdf2",
+    "retained_diagnostic": "d2-stageA2-remaining-three-gaussian-elliptic-chabauty-retained-certificate.json"
+  },
+  "precedent": {
+    "lock": "d2-stageA2-genus2-rankle1-gaussian-rank-index-lock.json",
+    "lock_blob_sha": "352c909252453e1ab489cfda2b0cc67aad95e2e0",
+    "script": "probe_d2_stageA2_genus2_rankle1_gaussian_rank_index_chabauty.py",
+    "proved_branch_certificate": "d2-stageA2-genus2-rankle1-gaussian-03f-proof-certificate.json",
+    "proved_branch_certificate_blob_sha": "fb364b7d5d60dbca049fb2f426013ce16bb8a163"
+  },
+  "strategy": [
+    "Rebuild and symbolically verify each exact Q(i) elliptic quotient from the locked integral genus-two model.",
+    "Run RankBounds(E : Effort:=1). Equal bounds are certified rank data; unequal bounds are retained as OPEN and grant no rank inference.",
+    "Run exact TorsionSubgroup(E).",
+    "If RankBounds=[0,0], torsion is all E(K); enumerate the exact torsion subgroup and filter points with rational quotient X.",
+    "If RankBounds=[1,1], require a free generator from PseudoMordellWeilGroup, map it to E(K), verify infinite order, and 2-saturate it with Saturation([P],2 : TorsionFree:=true). Equal rank gives finite index and 2-saturation removes the 2-part of that index.",
+    "With exact torsion plus the 2-saturated free generator, run elliptic Chabauty with IndexBound:=2. Require the returned obstruction integer R to be 2-primary; then finite odd subgroup index is coprime to R and the rational-X quotient point set is complete.",
+    "For every finite rational quotient X reconstruct rational x from u=X/alpha and x^2-u*x-1=0, exact-test the genus-two curve, receiver degeneracy, and all four parent square conditions. Separately account for x=0 and infinity as V=0 receiver-degenerate exceptional points."
+  ],
+  "targets": [
+    {
+      "branch_id": "169f94dd000a9c5c053f",
+      "sign_partner": "b870eb75fe3db7bf6a04",
+      "q": "80/39",
+      "delta": [-1, -195, -5, -39],
+      "model_id": 68,
+      "coefficients_desc_t_degree6": [0, -1560, -7921, -3120, 7921, -1560, 0],
+      "quotient_cubic": "-(u-2*i)*(39*u+160)*(40*u+39)",
+      "alpha": -1560,
+      "elliptic_a2": "-7921+3120*i",
+      "elliptic_a4": "9734400-24713520*i",
+      "elliptic_a6": "30371328000*i",
+      "prior_pmw_invariants": [2, 2, 0]
+    },
+    {
+      "branch_id": "40dc8f63e92a8a3a65e8",
+      "sign_partner": "8a374a057daf5f92a87e",
+      "q": "84/13",
+      "delta": [13, -21, 1880151, -6887],
+      "model_id": 38,
+      "coefficients_desc_t_degree6": [0, -289254, -89531, 578508, 89531, -289254, 0],
+      "quotient_cubic": "-6887*u*(u-2*i)*(42*u+13)",
+      "alpha": -289254,
+      "elliptic_a2": "-89531+578508*i",
+      "elliptic_a4": "-51794399748*i",
+      "elliptic_a6": "0",
+      "prior_pmw_invariants": [2, 2]
+    },
+    {
+      "branch_id": "7a7ef1a67e794fe1651f",
+      "sign_partner": "98b42307b3aa398f1e0c",
+      "q": "84/13",
+      "delta": [42, -26, 13774, -3760302],
+      "model_id": 165,
+      "coefficients_desc_t_degree6": [0, 89531, 1157016, -179062, -1157016, 89531, 0],
+      "quotient_cubic": "6887*u*(u-2*i)*(13*u+168)",
+      "alpha": 89531,
+      "elliptic_a2": "1157016-179062*i",
+      "elliptic_a4": "-207177598992*i",
+      "elliptic_a6": "0",
+      "prior_pmw_invariants": [2, 2]
+    }
+  ],
+  "documentation": [
+    "https://magma.maths.usyd.edu.au/magma/handbook/text/1570",
+    "https://magma.maths.usyd.edu.au/magma/handbook/text/1568"
+  ],
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "maximum_external_magma_requests_at_once": 1,
+    "expected_requests": 3,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1,
+    "projected_peak_new_artifact_bytes": 2097152,
+    "repo_operating_budget_bytes": 524288000
+  },
+  "credit": "Diagnostic only. A complete rank/index/Chabauty result is only a proof candidate until frozen into dedicated deterministic replay and hostile-audited. Unequal RankBounds, missing free generator, saturation failure, or external failure remain OPEN and are not mathematical failure.",
+  "firewalls": {
+    "pseudo_invariants_prove_rank": false,
+    "unequal_rank_bounds_are_exact_rank": false,
+    "finite_index_implies_odd_index_without_2_saturation": false,
+    "diagnostic_candidate_is_authoritative": false,
+    "sign_partner_transfer_authoritative_before_audit": false,
+    "authoritative_remaining_branches": 8,
+    "authoritative_remaining_sign_orbits": 4,
+    "D2_all_factor_branches_closed": false,
+    "all_multiples_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "parent_route_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

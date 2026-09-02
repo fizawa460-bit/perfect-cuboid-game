@@ -1,0 +1,42 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_Q8413_MODEL38_RESIDUAL_TWOCOVER_DESCENT_RETAINED_CERTIFICATE_V1",
+  "status": "OPEN_EXTERNAL_GATEWAY_TIMEOUT_NO_MATHEMATICAL_CREDIT",
+  "source_lock": "d2-stageA2-q8413-model38-residual-twocover-descent-lock.json",
+  "source_lock_blob_sha": "e86c0b812cebf225d692f3ddf018ac649ae6c32b",
+  "fixed_probe_blob_sha": "72f71e6a18c115445a961c3a7f8821bde110dce6",
+  "generation": 2,
+  "run": {
+    "run_id": 33595880430,
+    "head": "a54a184245741fca5e031c4cad5621bc5b314a00",
+    "artifact_id": 9833387990,
+    "artifact_digest": "sha256:2953618772ac48a31de2b542102aa6265b7009cd27e5c5b80b9a8ca113bf0f8e",
+    "artifact_bytes": 1229
+  },
+  "observed": {
+    "http_error": "HTTP 504 Gateway Time-out",
+    "magma_stdout_bytes": 0,
+    "baseline_rank_bounds_returned": false,
+    "torsion_invariants_returned": false,
+    "residual_selmer_quotient_returned": false,
+    "residual_cover_returned": false,
+    "fake_two_selmer_set_returned": false,
+    "diagnostic_complete_marker": false,
+    "rank_zero_candidate": false
+  },
+  "interpretation": "The external Magma gateway timed out before any mathematical payload was returned. This is neither a proof failure nor evidence for rank 0 or rank 1. The combined TwoDescent plus TwoCoverDescent request is therefore abandoned as a single-shot route.",
+  "next_exact_route": "Split the higher descent into independently source-locked requests: first run only TwoDescent(E38 : RemoveTorsion:=true) and retain the sole residual quartic if returned; then freeze that exact quartic and invoke TwoCoverDescent on the frozen quartic in a separate request. This distinguishes the expensive phase and avoids repeating the timed-out combined request.",
+  "credit": "Transport/resource evidence only. No branch, sign partner, quotient rank, rational-X condition, parent pullback, or receiver is closed.",
+  "firewalls": {
+    "gateway_timeout_is_mathematical_failure": false,
+    "gateway_timeout_is_rank_evidence": false,
+    "rank_zero_authoritative": false,
+    "rational_X_transfer_proved": false,
+    "parent_transfer_proved": false,
+    "hostile_audit_passed": false,
+    "authoritative_remaining_branches": 8,
+    "authoritative_remaining_sign_orbits": 4,
+    "D2_all_factor_branches_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
