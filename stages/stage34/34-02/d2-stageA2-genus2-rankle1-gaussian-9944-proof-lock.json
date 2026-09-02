@@ -40,10 +40,10 @@
     "Recompute RankBounds(E : Effort:=1) and require [1,1], then recompute torsion invariants [2,2].",
     "Use the fixed infinite-order point frozen from the diagnostic, 2-saturate it, and require the saturated generator to equal plus or minus the fixed point.",
     "Run elliptic Chabauty with IndexBound:=2 on torsion plus the 2-saturated generator. Require R=4 and exactly three returned group classes. Exact rank plus 2-saturation makes the subgroup index odd, hence coprime to R=4.",
-    "Require exactly one quotient point at infinity and finite rational X set {-25600,-6084}; neither finite value is the s=0 inversion boundary.",
-    "Convert X to s=X/24960 and u=1/s. Require exactly s={-40/39,-39/160}, u={-39/40,-160/39}, then reconstruct x from x^2-u*x-1=0 and require exactly {5/8,-8/5,3/13,-13/3}.",
-    "For x=5/8 and -8/5 require A=80U+39V=0; for x=3/13 and -13/3 require B=39U+80V=0. Hence every reconstructed point is receiver-degenerate and is not a full parent lift for delta [390,2,78,10].",
-    "Account separately for u=0: x=+-1 gives U=0. Account for s=0 / u=infinity and quotient infinity through the original x=0/infinity boundary, where homogeneous V=0. These are receiver-degenerate."
+    "Require exactly one cubic point at infinity and finite rational X set {-25600,-6084}. The cubic point at infinity is the image of the quartic branch u=0; solving x-1/x=0 gives x=+-1, hence U=0 and receiver degeneracy.",
+    "Convert each finite X to s=X/24960 and require X!=0. Then u=1/s, with exactly s={-40/39,-39/160}, u={-39/40,-160/39}. Reconstruct x from x^2-u*x-1=0 and require exactly {5/8,-8/5,3/13,-13/3}.",
+    "For x=5/8 and -8/5 require A=80U+39V=0; for x=3/13 and -13/3 require B=39U+80V=0. Hence every reconstructed affine point is receiver-degenerate and is not a full parent lift for delta [390,2,78,10].",
+    "The omitted inversion boundary s=0 (X=0), equivalently u=infinity, comes from x=0 or x=infinity in the original quotient compactification; homogeneous V=2XZ is zero at both receiver boundary points. The complete Chabauty finite X set also explicitly excludes X=0."
   ],
   "credit": "Dedicated deterministic PREAUDIT proof replay for branch 99448685b81e29427c3f only. PASS is not authoritative closure. Hostile independent audit and separately audited sign-partner transfer are required before changing the 8-branch / 4-sign-orbit authority.",
   "firewalls": {
