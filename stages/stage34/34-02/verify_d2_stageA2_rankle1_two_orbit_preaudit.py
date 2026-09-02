@@ -39,6 +39,7 @@ assert dict(byq)=={"20/99":4,"48/55":1,"60/11":4,"80/39":2,"84/13":4}
 
 actual_sign_sha=sha(SIGNLOCK)
 sign_cert_hash_matches=(sc.get("source_lock_sha256")==actual_sign_sha)
+assert sign_cert_hash_matches, "sign-involution certificate source lock hash mismatch"
 records=[]; candidate=[]
 for d in lock["direct_proofs"]:
     cp=ROOT/d["certificate"]; c=json.loads(cp.read_text())
