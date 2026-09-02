@@ -29,6 +29,9 @@ on:
       - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-marked-deck-difference-information-boundary-source-note.md'
       - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_x_marked_deck_difference_information_boundary.py'
       - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1490_o210_q4_x_relative_h_node_action.py'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-relative-h-marked-node-action.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-relative-h-marked-node-action-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_x_relative_h_marked_node_action.py'
       - 'stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json'
       - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
       - 'stages/stage32/32-21/post-21bl-picard64-witness-adapter.json'
@@ -82,3 +85,7 @@ jobs:
           --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-marked-deck-difference-information-boundary.json
       - name: Probe relative-H action on marked nodes
         run: python stages/stage32/residual-32-01-production/diagnose_stage32_post1490_o210_q4_x_relative_h_node_action.py
+      - name: Replay exact relative-H marked-node action
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_x_relative_h_marked_node_action.py
+          --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-relative-h-marked-node-action.json
