@@ -58,7 +58,7 @@ def main() -> None:
     required_phrases = [
         "sum_P m_P = C.E = e = 266",
         "sum of the `m_P` over points lying on `E_j` equals the locked exact intersection number `C.E_j`",
-        "Xtilde -> Btilde` is a double cover ramified along the exceptional divisor",
+        "double cover `Xtilde -> Btilde` is ramified along the exceptional divisor",
         "local equation `y^2=t^m*unit`",
     ]
     if any(s not in note for s in required_phrases):
