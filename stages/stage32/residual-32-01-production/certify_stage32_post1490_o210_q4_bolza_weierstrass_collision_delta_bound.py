@@ -65,7 +65,7 @@ def main():
     stored=[(x["pair"],x["y_m2"],x["n_m1"],x["delta_pair_lower_bound"]) for x in opt["one_minimizer"]]; got=[(f"{k[0]}:{k[1]}",y,n,c) for k,y,n,c in path]
     req(got==stored,"stored minimizer"); req(sum(c for *_,c in path)==1924,"minimizer cost"); req(opt["nodewise_pair_interval_complete"] is True,"interval completeness")
     tc=o["trace_consequence"]; req(8586-best==tc["new_trace_upper_bound"]==6662,"trace bound"); req(tc["half_trace_upper_bound"]==3331,"half trace")
-    req(d4d4_prefix(3331)==tc["d4d4_integral_count_Q_le_6662"]==1999360132285041,"D4+D4 residual count"); req(tc["residual_materialization_safe"] is False and tc["O210_excluded"] is False,"nonexclusion/materialization")
+    req(d4d4_prefix(3331)==tc["d4d4_integral_count_Q_le_6662"]==1999581686774833,"D4+D4 residual count"); req(tc["residual_materialization_safe"] is False and tc["O210_excluded"] is False,"nonexclusion/materialization")
     dec=o["decision"]; req(dec["delta_lower_bound"]==1924 and dec["trace_upper_bound"]==6662,"decision numbers"); req(dec["O210_excluded"] is False and dec["next_exact_leaf"]=="O210_Q4_BOLZA_DECK_TRANSLATE_INTERSECTION_GEOMETRY","decision")
     req(canon(o)==o["canonical_sha256_without_this_field"],"canonical")
     print(json.dumps({"ok":True,"canonical_sha256":canon(o),"delta_lower_bound":1924,"Q_upper_bound":6662,"D4D4_count":tc["d4d4_integral_count_Q_le_6662"],"O210_excluded":False,"next_exact_leaf":dec["next_exact_leaf"]},sort_keys=True))

@@ -125,7 +125,7 @@ Hence the six-Weierstrass collision constraint sharpens the trace bound to
 Since the trace lattice is exactly `D4 direct-sum D4`, the exact theta-series
 prefix through `Q<=6662` (`half-trace <=3331`) contains
 
-`1,999,360,132,285,041`
+`1,999,581,686,774,833`
 
 integral endomorphisms, including zero.
 
