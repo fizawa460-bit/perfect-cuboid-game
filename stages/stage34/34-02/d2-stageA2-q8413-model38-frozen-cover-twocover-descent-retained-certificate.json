@@ -1,0 +1,32 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_Q8413_MODEL38_FROZEN_COVER_TWOCOVER_DESCENT_RETAINED_CERTIFICATE_V1",
+  "status": "OPEN_EXTERNAL_GATEWAY_TIMEOUT_NO_MATHEMATICAL_CREDIT",
+  "source_lock_blob_sha": "8129d4b54f03f4690778d815ba89e4c007255611",
+  "probe_script_blob_sha": "e8c257e65ac0d0980dbe19a7685f875bf1f3f58d",
+  "run": {
+    "run_id": 33596882382,
+    "head": "9ac52e9105f51e8c2b4666a84855864ca665adcc",
+    "artifact_id": 9833725534,
+    "artifact_digest": "sha256:b6686dd7799effc7098ed1a4b2b2ddadedab077846bea9bd93a476235e9c6ae8",
+    "artifact_bytes": 1267,
+    "raw_stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "observed": {
+    "http_error": "HTTP 504 Gateway Timeout",
+    "magma_stdout_bytes": 0,
+    "fake_two_selmer_cardinality_returned": false,
+    "descent_complete_marker": false
+  },
+  "interpretation": "The full default TwoCoverDescent request timed out before Magma returned mathematical output. No rank or no-point conclusion follows.",
+  "next_exact_route": "Run a separately locked bounded TwoCoverDescent local sieve. By the Magma contract, finite PrimeBound or PrimeCutoff may enlarge the returned set, so an empty bounded returned set still implies the proper fake two-Selmer set is empty. A nonempty bounded set gives no no-point credit.",
+  "credit": "Retained transport evidence only; authoritative Stage34 residual remains 8 branches / 4 sign orbits.",
+  "firewalls": {
+    "timeout_is_mathematical_failure": false,
+    "timeout_is_no_point_evidence": false,
+    "hostile_audit_passed": false,
+    "authoritative_remaining_branches": 8,
+    "authoritative_remaining_sign_orbits": 4,
+    "D2_all_factor_branches_closed": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}
