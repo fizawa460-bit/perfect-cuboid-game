@@ -1,64 +1,54 @@
 # Stage34 MAIN batch handoff
 
 ```text
-STATUS=MAIN_AUDITED_8_BRANCHES_MERGE_CANDIDATE_PENDING_FRESH_HEAD_CHECKS
-PR=#1482 OPEN
-BRANCH=stage34-02b-genus2-rankle1-rationalpoints
+STATUS=PR1486_READY_FOR_HOSTILE_AUDIT_NO_PROMOTION_APPLIED
+PR=#1486 OPEN
+BRANCH=stage34-02c-remaining-four-sign-orbits
+MATHEMATICAL_EVIDENCE_FROZEN_HEAD=fbd16782b839ee7d554155eda4e56a704715c76a
 AUTHORITATIVE_REMAINING=8
 AUTHORITATIVE_SIGN_ORBITS=4
 AUTHORITATIVE_BY_Q={20/99:0,24/7:0,48/55:0,60/11:0,80/39:4,84/13:4}
-HOSTILE_REAUDIT_REVIEW=5085277218
-AUDITED_HEAD=97af78df799a3ef76caf8833c5f1ac3e0251b51c
-MERGE_ALLOWED_FROM_AUDIT_ALONE=false
-MERGE_CANDIDATE_AFTER_FRESH_CI_AND_MERGEABILITY=true
+MAX_PROMOTION_IF_CURRENT_Q8039_PREAUDIT_PASSES=8/4 -> 4/2
+Q8413_RANKZERO_IS_BRANCH_CLOSURE=false
+MERGE_ALLOWED_FROM_THIS_HANDOFF=false
 ```
 
-Hostile re-audit review `5085277218` (`PRR_kwDOTr52Y88AAAABLxssIg`) PASSed exact head `97af78df799a3ef76caf8833c5f1ac3e0251b51c` and authorized both non-overlapping promotions:
+PR #1486 is now an audit boundary. Do not continue new mathematics before hostile audit unless the audit explicitly asks for a missing source or replay.
 
-- Candidate A: five exact representative sign orbits plus their five already-audited sign partners = `10` branches / `5` sign orbits;
-- Candidate B: the two hard q=`20/99` receiver/K-intersection sign orbits = `4` branches / `2` sign orbits.
+The mathematical evidence is frozen at `fbd16782b839ee7d554155eda4e56a704715c76a`; the audit-preparation commit after that head adds only audit scaffolding / handoff metadata. A hostile auditor should fresh-check the live PR head and verify that no later mathematical claim was inserted.
 
-Applied together to the previous authoritative `22 / 11`, Stage34-02b is now authoritatively **8 d1 branches / 4 sign orbits**, by-q `{20/99:0,24/7:0,48/55:0,60/11:0,80/39:4,84/13:4}`.
+## Audit target A — q=80/39 branch closure PREAUDIT
 
-Promotion certificate:
+Two representative branches have deterministic exact PREAUDIT parent-closure certificates:
 
-`stages/stage34/34-02/d2-stageA2-candidateAB-hostile-reaudit-promotion-certificate.json`
+- `169f94dd000a9c5c053f` with sign partner `b870eb75fe3db7bf6a04`;
+- `99448685b81e29427c3f` with sign partner `d4f551f1038c705e3a16`.
 
-Authoritative state:
+For each representative, audit the source lock, proof producer, exact Chabauty completeness argument, rational quotient-X reconstruction, boundary points, receiver-degeneracy checks, and `nondegenerate_full_parent_lift_count=0`. Then audit/reuse the exact sign involution pair adapter. Neither representative nor partner is authoritative before hostile-audit PASS.
 
-`stages/stage34/MAIN-STATE.json`
+If and only if both representative closures and sign transfer PASS, the maximum authorized promotion from this packet is exactly **4 branches / 2 sign orbits**, taking authority from `8/4` to `4/2`, with by-q state `{20/99:0,24/7:0,48/55:0,60/11:0,80/39:0,84/13:4}`.
 
-## Exact remaining four sign orbits
+## Audit target B — q=84/13 rank-zero evidence only
 
-Only these four representative orbits remain OPEN:
+`40dc8f63e92a8a3a65e8` and `7a7ef1a67e794fe1651f` now have exact PREAUDIT elliptic-quotient Mordell-Weil rank zero evidence. This is useful evidence but is **not branch closure**. The following remain false: rational quotient-X classified, genus-two inverse pullback complete, full-parent lift / receiver-degeneracy classification complete, representative branches closed, sign partners closed.
 
-- q=`80/39`: `169f94dd000a9c5c053f` ↔ `b870eb75fe3db7bf6a04`;
-- q=`84/13`: `40dc8f63e92a8a3a65e8` ↔ `8a374a057daf5f92a87e`;
-- q=`84/13`: `7a7ef1a67e794fe1651f` ↔ `98b42307b3aa398f1e0c`;
-- q=`80/39`: `99448685b81e29427c3f` ↔ `d4f551f1038c705e3a16`.
+Therefore hostile audit must not promote `8/4 -> 0/0`, must not close either q=`84/13` orbit from rank zero alone, and must not assert D2/all-multiples/receiver/parent-route/perfect-cuboid closure.
 
-These are exactly the generation-2 compute-incomplete representative cases. The bounded retry closed `0/4`; HTTP 504 or missing `PROOF_REPLAY_COMPLETE` is operational incompleteness, not mathematical failure.
+## Minimal hostile-audit read order
 
-Read only:
+1. `stages/stage34/34-02/d2-stageA2-pr1486-hostile-audit-ready.json`
+2. `stages/stage34/34-02/verify_d2_stageA2_pr1486_hostile_audit_ready.py`
+3. `stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-169f-proof-lock.json`
+4. `stages/stage34/34-02/prove_d2_stageA2_genus2_rankle1_gaussian_169f.py`
+5. `stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-169f-proof-certificate.json`
+6. `stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-9944-proof-lock.json`
+7. `stages/stage34/34-02/prove_d2_stageA2_genus2_rankle1_gaussian_9944.py`
+8. `stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-9944-proof-certificate.json`
+9. `stages/stage34/34-02/d2-stageA2-sign-involution-remaining30-pair-lock.json`
+10. `stages/stage34/34-02/d2-stageA2-q8413-two-quotient-rankzero-preaudit-certificate.json`
 
-1. `stages/stage34/34-02/d2-stageA2-candidateAB-hostile-reaudit-promotion-certificate.json`;
-2. `stages/stage34/34-02/d2-stageA2-six-rankbound-adapter-generation2-retained-certificate.json`;
-3. `stages/stage34/34-02/d2-stageA2-four-rankle1-rationalpoints-retry-lock.json`;
-4. `stages/stage34/34-02/d2-stageA2-sign-involution-remaining30-pair-lock.json` only for the already-audited pair map.
+Do not re-read Stage34 history or the many retained 504 diagnostics unless a specific source-lock discrepancy requires it. Workflow success is not mathematical credit by itself.
 
-## Scope firewall
+## Authority firewall
 
-Candidate B is promoted only as **receiver / Face-3-square intersection exclusion**. It does not assert that its four-factor branches themselves have no rational points.
-
-Still OPEN / false:
-
-- `D2_all_factor_branches_closed`;
-- `direct_cover_rational_points_complete`;
-- `all_multiples_closed`;
-- `R29_EXT_CHANG_C_closed`;
-- any parent-route closure;
-- any perfect-cuboid existence/nonexistence claim.
-
-## PR #1482 merge gate
-
-The hostile re-audit explicitly did not authorize merge by itself. MAIN has now applied only the authorized A/B promotion and synchronized derived state. The next operation is **fresh CI on the resulting exact head plus fresh PR mergeability**. If both are clean, #1482 is a legitimate merge candidate; do not add unrelated mathematics to this PR before making that decision.
+Until hostile audit passes and MAIN performs a separate promotion write, authoritative state remains exactly **8 branches / 4 sign orbits**. `MAIN-STATE.json` is deliberately not rewritten by this audit-preparation commit because no new hostile-audited mathematical closure has yet been promoted.
