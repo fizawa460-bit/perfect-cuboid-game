@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build/check compact Stage33 MAIN V12 after #1485 v17-v20 hostile-audit PASS."""
+"""Build/check compact Stage33 MAIN state while preserving one operational checkpoint."""
 from __future__ import annotations
 
 import argparse
@@ -9,6 +9,7 @@ from pathlib import Path
 
 H = Path(__file__).resolve().parent
 OUT = H / "MAIN-STATE.json"
+RETIRED_HANDOFF = H / "MAIN-BATCH-HANDOFF.md"
 
 V10_AUDIT_PATH = H / "33-12/v10-hostile-audit-pass-receipt.json"
 V10_AUDIT_SHA = "5bef940bf55dd480acb8fc3a75415470d28ee9eaa1473c3476d8bd6463ca89e1"
@@ -16,6 +17,11 @@ V20_AUDIT_PATH = H / "33-12/v20-hostile-audit-pass-receipt.json"
 V20_AUDIT_SHA = "2d65169174d636a93d68f7c2fe4dd1fef322dcd7598459253460631648dd9927"
 V20_PATH = H / "33-12/j2-order4-named-functional-quotient-v20.json"
 V20_SHA = "1b53db254c381721c0c648bab41c276ec79f69f6e1f81235993936df3e25232e"
+
+EMPTY_CHECKPOINT = {
+    "status": "EMPTY",
+    "authority": "OPERATIONAL_ONLY_NOT_PROOF",
+}
 
 
 def csha(x):
@@ -32,12 +38,32 @@ def load_canonical(path: Path, expected: str):
     return x
 
 
+def load_work_checkpoint():
+    if not OUT.exists():
+        return dict(EMPTY_CHECKPOINT)
+    current = json.loads(OUT.read_text())
+    checkpoint = current.get("work_checkpoint", EMPTY_CHECKPOINT)
+    assert isinstance(checkpoint, dict)
+    assert checkpoint.get("authority") == "OPERATIONAL_ONLY_NOT_PROOF"
+    assert checkpoint.get("status") in {"EMPTY", "ACTIVE_UNPROMOTED"}
+    if checkpoint["status"] == "EMPTY":
+        assert checkpoint == EMPTY_CHECKPOINT
+    else:
+        assert isinstance(checkpoint.get("observations"), list) and checkpoint["observations"]
+        assert isinstance(checkpoint.get("anti_repeat"), list)
+        assert isinstance(checkpoint.get("next_action"), str) and checkpoint["next_action"]
+    return checkpoint
+
+
 c = json.loads((H / "controller.json").read_text())
 v10 = load_canonical(V10_AUDIT_PATH, V10_AUDIT_SHA)
 v20audit = load_canonical(V20_AUDIT_PATH, V20_AUDIT_SHA)
 v20 = load_canonical(V20_PATH, V20_SHA)
+checkpoint = load_work_checkpoint()
 s = c["stage33_12"]
 q = c["current"]
+
+assert not RETIRED_HANDOFF.exists(), "MAIN-BATCH-HANDOFF.md is retired; use MAIN-STATE.work_checkpoint"
 
 assert c["schema"] == "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V56_V20_AUDIT_PASS_TWO_BIT_NAMED_ORDER4_GAP"
 assert c["stage33_progress"] == "6/11"
@@ -255,6 +281,7 @@ out = {
         "perfect_cuboid_nonexistence_claim": False,
         "merge_allowed": False,
     },
+    "work_checkpoint": checkpoint,
 }
 out["canonical_sha256"] = csha(out)
 rendered = json.dumps(out, sort_keys=True, separators=(",", ":")) + "\n"
@@ -264,7 +291,17 @@ ap.add_argument("--check", action="store_true")
 a = ap.parse_args()
 if a.check:
     assert OUT.exists() and OUT.read_text() == rendered, "MAIN-STATE.json is stale; run sync_main_state.py"
-    print(json.dumps({"success": True, "mode": "check", "canonical_sha256": out["canonical_sha256"]}, sort_keys=True))
+    print(json.dumps({
+        "success": True,
+        "mode": "check",
+        "canonical_sha256": out["canonical_sha256"],
+        "work_checkpoint_status": checkpoint["status"],
+    }, sort_keys=True))
 else:
     OUT.write_text(rendered)
-    print(json.dumps({"success": True, "mode": "write", "canonical_sha256": out["canonical_sha256"]}, sort_keys=True))
+    print(json.dumps({
+        "success": True,
+        "mode": "write",
+        "canonical_sha256": out["canonical_sha256"],
+        "work_checkpoint_status": checkpoint["status"],
+    }, sort_keys=True))
