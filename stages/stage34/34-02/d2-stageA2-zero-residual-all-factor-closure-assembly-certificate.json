@@ -1,25 +1,26 @@
 {
   "schema": "STAGE34_02C_D2_STAGEA2_ZERO_RESIDUAL_ALL_FACTOR_CLOSURE_ASSEMBLY_CERTIFICATE_V1",
   "status": "PASS_EXACT_CUMULATIVE_ALL_FACTOR_CLOSURE_ASSEMBLY_PREAUDIT",
+  "repair_of_hostile_audit_review_id": 5087093035,
   "pr": 1489,
   "branch": "stage34-main/q8413-torsion-parent-classification",
-  "authoritative_source_head_before_this_assembly": "91dcb6ea20053ce9c68cb6e6025d6d817798f3f7",
   "authoritative_before": {
     "remaining_branches": 0,
     "remaining_sign_orbits": 0,
     "D2_all_factor_branches_closed": false
   },
-  "scope": "Assemble the already exact/audited StageA2 factor-branch chain into one machine-verifiable coverage implication. This certificate does not add a new branch computation or a new rational-point theorem.",
   "source_locks": {
     "two_adic_pattern": ["d2-stageA2-two-adic-pattern-lock.json", "a27621570e79e045a47bc27aec7ecbabb2ebd5f1"],
     "factor_local": ["d2-stageA2-factor-branch-local-lock.json", "4c0afce8f693cab2f6652686bc85f46aba39f802"],
     "factor_support": ["d2-stageA2-factor-branch-support-lock.json", "ff510a1c39b9dc0ffeb8335f4ac65db86795b214"],
     "reconstruction_rank": ["d2-stageA2-reconstruction-rank-lock.json", "dc18cceeed2cce97b9cbb6b9225cf8334ea43cc8"],
     "full_support": ["d2-stageA2-full-support-projective-lock.json", "92dff93b3c8e5af8afbfc7b35e85ed7c578b2208"],
+    "full_support_survivor_commitment": ["d2-stageA2-full-support-d1-survivor-id-commitment.json", "8528dd5b3767f3980827590e22f15e015529ad7c"],
     "rankzero_ab": ["d2-stageA2-rankzero-AB-complete-pullback.json", "463d8e6c651dd315258640ef8a2de29537e3d9e5"],
     "rank1_mw": ["d2-stageA2-rank1-mw-congruence-sieve-certificate.json", "03067245c30f765db16fb1aea16ef25371f53bb0"],
     "genus2_rankzero": ["d2-stageA2-genus2-rankzero-closure-certificate.json", "ed66e62bb73c41d018ebb0a54466649f65cee28f"],
     "genus2_rankle1": ["d2-stageA2-genus2-rankle1-14-closure-certificate.json", "2fc15586127ae19c9bda63eecbe59edfa76e8ea0"],
+    "genus2_rankle1_audit_receipt": ["d2-stageA2-genus2-rankle1-14-hostile-audit-promotion-receipt.json", "79f635a01452e4ac41ba7b18c40f94c2ef9be62a"],
     "two_orbit_audit": ["d2-stageA2-two-orbit-audit-promotion-certificate.json", "0ae3514825f03d7ebdc31a58ba655f888998c79e"],
     "two_rankzero_audit": ["d2-stageA2-two-rankzero-alternate-audit-promotion-certificate.json", "37b03844347bf3bf66244fb4610c190a3b3e3f25"],
     "candidate_ab_reaudit": ["d2-stageA2-candidateAB-hostile-reaudit-promotion-certificate.json", "ce4ab24cab327270202674bee1814127d9a1c4c9"],
@@ -29,30 +30,40 @@
   "audit_lineage": {
     "pr1480_retrospective_review_id": 5083389610,
     "pr1480_authorized_chain_through": "44 remaining branches",
+    "pr1482_genus2_rankle1_14_review_node": "PRR_kwDOTr52Y88AAAABLwVwQw",
+    "pr1482_genus2_rankle1_14_review_id": 5083852867,
+    "pr1482_genus2_rankle1_14_audited_head": "35d250ea96271c924b205383a8486fdcdcddd08f",
+    "pr1482_genus2_rankle1_14_authorized_transition": "44 -> 30",
     "pr1482_two_orbit_review_id": 5084449232,
     "pr1482_two_rankzero_review_id": 5084712947,
     "pr1482_candidate_ab_reaudit_review_id": 5085277218,
     "pr1486_q8039_review_id": 5086426527,
     "pr1489_q8413_review_id": 5086857612
   },
-  "coverage_semantics": {
-    "initial_29952": "Exact exhaustive over-approximation upper bound from odd squareclass support, exact necessary 2-adic patterns, and product-positive sign patterns. It is not claimed that all 29952 tuples are realizable.",
-    "monotonicity": "Every rational point in the target factor-cover population must survive each necessary-condition layer, so elimination of every final survivor closes the covered receiver population even though early layers are over-approximations.",
-    "d2_species": "The full-support projective replay reduces the remaining d2 species 20 -> 0 and certifies d2_factor_branches_closed=true.",
-    "d1_species": "The same replay leaves exactly 92 d1 branches. The subsequent exact closure/promotion layers discharge 92 pairwise-distinct branch IDs, leaving authoritative residual 0."
+  "full_support_survivor_set_commitment": {
+    "source_artifact_id": 9802225387,
+    "source_artifact_zip_digest": "sha256:eee10b6d11542422a1f8fbda84a091ebd1208353a31841bc969f812827cbe18b",
+    "source_payload_sha256": "sha256:849058b6ab53f5efad68ef1394472af808f66588d2b7bd13aca197759a1fd36d",
+    "branch_id_rule": "sha256(canonical_json([q,delta]))[:20]",
+    "d1_survivor_count": 92,
+    "d1_survivor_counts_by_q": {
+      "20/21": 24,
+      "80/39": 12,
+      "24/7": 8,
+      "84/13": 8,
+      "48/55": 8,
+      "20/99": 16,
+      "60/11": 16
+    },
+    "d1_survivor_ids_sha256": "7d43cd93f9329b48fa981857c10b03ad7a9df985af057ff1845001ca4fcefa6f",
+    "repair_meaning": "Retained commitment to the actual full-support 92 survivor IDs reconstructed from artifact 9802225387; the repair verifier compares it with the independently assembled downstream 92 closure IDs."
   },
   "coverage_chain": [29952, 1946, 1214, 1024, 92, 76, 52, 44, 30, 26, 22, 8, 4, 0],
-  "early_exact_transitions": [
-    {"from": 29952, "to": 1946, "method": "good-prime projective local sieve"},
-    {"from": 1946, "to": 1214, "method": "support-prime Legendre-2 obstruction/refinement"},
-    {"from": 1214, "to": 1024, "method": "exact rank-zero reconstruction pruning"},
-    {"from": 1024, "to": 92, "method": "all odd support-prime projective tests; d2 20 -> 0, d1 1004 -> 92"}
-  ],
   "post_support_d1_closure_layers": [
     {"name": "rankzero_AB", "closed": 16, "remaining": 76},
     {"name": "rank1_MW", "closed": 24, "remaining": 52},
     {"name": "genus2_rankzero", "closed": 8, "remaining": 44},
-    {"name": "genus2_rankle1", "closed": 14, "remaining": 30},
+    {"name": "genus2_rankle1", "closed": 14, "remaining": 30, "hostile_audit_review_id": 5083852867},
     {"name": "two_orbit_hostile_audit", "closed": 4, "remaining": 26},
     {"name": "two_rankzero_hostile_audit", "closed": 4, "remaining": 22},
     {"name": "candidate_A_exact_orbits", "closed": 10, "remaining_before_candidate_B": 12},
@@ -71,6 +82,7 @@
     "receiver_relevant_factor_branch_residual": 0,
     "remaining_sign_orbits": 0,
     "all_92_post_support_d1_branch_ids_discharged_exactly_once": true,
+    "full_support_survivor_commitment_equals_closure_commitment": true,
     "d2_factor_species_residual": 0,
     "coverage_gap_detected": false,
     "duplicate_post_support_closure_id_detected": false
@@ -93,5 +105,5 @@
     "perfect_cuboid_nonexistence_claim": false,
     "merge_authorized": false
   },
-  "next_gate": "Fresh hostile audit of this cumulative assembly. A PASS may promote D2_all_factor_branches_closed=true only; it must not automatically promote direct_cover_rational_points_complete, all_multiples_closed, R29_EXT_CHANG_C_closed, parent-route, or endpoint credit."
+  "next_gate": "Fresh hostile re-audit of this repaired cumulative assembly; a PASS may promote D2_all_factor_branches_closed=true only."
 }
