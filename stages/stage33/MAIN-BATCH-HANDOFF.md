@@ -38,6 +38,22 @@ This is still an unpromoted acquisition delta. Do not change Stage33 progress or
 
 No named J2 order-4 source coordinate is materialized. Do not use S3-fixed mask 6 or target compatibility to fill rows `20` or `67`. Kummer standard columns remain `0`; Stage33 progress remains `6/11`; Stage33-12 stays OPEN; no theorem/receiver/endpoint credit is released.
 
+## Retained Stage32 source-artifact audit
+
+The provenance of `stages/stage33/33-07/stage32_picard_marking_retained.py` was followed back to its immutable Actions artifact `9588229672` via producer `retain_stage32_picard_marking.py` introduced in commit `4e8512c9577d5016a3fd3f0056c8f611db3c356f`.
+
+The artifact was downloaded successfully and its observed ZIP SHA256 exactly matched the retained lock:
+
+`6e4e6e5350717296f0e76e5c972e945b72a61d32e039718a535e245826b5b159`
+
+It contains exactly five members: `d16-aut-action.json`, `d16-aut-prefix256-bundle.txt`, `d16-exact`, `d16-hperp.txt`, and `packet-manifest.json`. The retained source is therefore the rank-63/140-class Picard marking plus nine source-locked geometric permutations and Stage32 D16 packet material. A raw-byte scan of all five members found zero occurrences of `BigK`, `MatBigKtoBig`, `preimages`, `ptsK`, `C1sK`, or `projection`.
+
+Exact negative-source certificate:
+- `stages/stage33/33-12/j2-order4-retained-stage32-pullback-source-audit-v13.json`
+- canonical SHA256 `1cc6639578e8f054e90f42297a2e364a56c87363dfa0aa2c18d45d7341685ff2`
+
+Consequence: the origin artifact behind the retained Stage32 Picard marking does **not** provide a directly replayable ordered `Big/BigK` projection-incidence serialization and does not close row `20` or row `67`. Do not reopen this artifact as a hidden-pullback source unless new independent evidence identifies a concrete encoded incidence table.
+
 ## Next exact action
 
-Acquire only BigK pullback rows `[20,67]` from already-retained/source-locked evidence or an explicitly authorized exact source route. Row `20` is a branch `C1sK` curve and row `67` is the fifth K exceptional row; do not infer their numerical pullbacks from orbit/target compatibility. If unavailable, keep `NO_INFERENCE`; do not reopen qPic, Smith, sign census, or S3 candidate enumeration.
+Acquire only BigK pullback rows `[20,67]` from another already-retained/source-locked exact source or an explicitly authorized exact source route. Row `20` is a branch `C1sK` curve and row `67` is the fifth K exceptional row; do not infer their numerical pullbacks from orbit/target compatibility. If unavailable, keep `NO_INFERENCE`; do not reopen qPic, Smith, sign census, S3 candidate enumeration, or the Stage32 retained-marking origin artifact.
