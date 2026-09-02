@@ -7,16 +7,23 @@
     "delta": [-1,-55,-5,-11],
     "triple": "U*V*B",
     "literal_quotient": "y^2=(U/-1)*(V/-55)*(B/-11)",
-    "quotient_polynomial": "-18/55*x^5-16/121*x^4+36/55*x^3+16/121*x^2-18/55*x"
+    "quotient_polynomial": "-18/55*x^5-16/121*x^4+36/55*x^3+16/121*x^2-18/55*x",
+    "integral_isomorphic_model": "Y^2=-990*x^5-400*x^4+1980*x^3+400*x^2-990*x with Y=55*y"
   },
   "diagnostic_provenance": {
-    "run": 33573723213,
-    "job": 100073063008,
-    "head": "4b5dde8f1ff715691d4e449a4ac0ab8141cb4b4d",
-    "artifact_id": 9825858934,
-    "artifact_digest": "sha256:bafc4cfb33a3ff99b891214d52c96a76ce668770624a66385cdf772dc7ec3058",
-    "raw_stdout_sha256": "sha256:93be742b3aa9ad1acb6b231093bdb63084bf19a135ae683d1a5cc0cf6ca986a3",
-    "observed_rank_upper": 0
+    "rank_census_run": 33573723213,
+    "rank_census_job": 100073063008,
+    "rank_census_head": "4b5dde8f1ff715691d4e449a4ac0ab8141cb4b4d",
+    "rank_census_artifact_id": 9825858934,
+    "rank_census_artifact_digest": "sha256:bafc4cfb33a3ff99b891214d52c96a76ce668770624a66385cdf772dc7ec3058",
+    "rank_census_raw_stdout_sha256": "sha256:93be742b3aa9ad1acb6b231093bdb63084bf19a135ae683d1a5cc0cf6ca986a3",
+    "observed_rank_upper": 0,
+    "first_proof_attempt": {
+      "run": 33573944200,
+      "artifact_id": 9825929279,
+      "artifact_digest": "sha256:c95a83b52fb9168c31961e12e5987dd250158b829ea9932db9493883bed6efba",
+      "result": "RankBounds=[0,0] reproduced. Chabauty0 rejected only because the literal rational polynomial was not integral; no mathematical failure."
+    }
   },
   "precedent": {
     "lock": "d2-stageA2-genus2-rankzero-closure-lock.json",
@@ -26,7 +33,8 @@
   },
   "proof_contract": [
     "Reconstruct U=x^2-1, V=2x, A=20U+99V, B=99U+20V and the literal quotient polynomial product(U/-1,V/-55,B/-11); assert exact polynomial identity.",
-    "Require Magma RankBounds(J)=[0,0].",
+    "Pass to the Q-isomorphic integral model Y=55*y, so the RHS is 3025 times the literal polynomial, namely -990*x^5-400*x^4+1980*x^3+400*x^2-990*x. This changes no x-coordinate or parent square test.",
+    "Require Magma RankBounds(J)=[0,0] on the integral model.",
     "Run Chabauty0(J); because the Jacobian rank is zero, this gives the complete quotient C(Q) point set.",
     "For every returned projective quotient point P=(X:Y:Z), evaluate homogeneous U=X^2-Z^2, V=2XZ, A=20U+99V, B=99U+20V.",
     "Exact-test U/-1, V/-55, A/-5, B/-11 for rational squareness and receiver degeneracy U*V*A*B=0.",
