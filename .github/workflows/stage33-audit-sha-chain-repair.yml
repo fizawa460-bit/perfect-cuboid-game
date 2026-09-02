@@ -1,0 +1,151 @@
+name: Stage33 bounded audit SHA-chain repair
+
+on:
+  push:
+    branches:
+      - stage33-post1476-j2-order4-lift-s3-label
+    paths:
+      - '.github/workflows/stage33-audit-sha-chain-repair.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stage33-audit-sha-chain-repair
+  cancel-in-progress: false
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stage33-post1476-j2-order4-lift-s3-label
+          fetch-depth: 0
+
+      - name: Repair exact V10 audit provenance chain
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          root = Path('.')
+          old_head = '088a0e5eae448616a5dc7f2c05369e4debf0bd4e'
+          new_head = '088a0e5e3b0baefc0be016a9ba70a00b31c7aedc'
+          old_receipt = 'b8de80e3f06f655e03c347a3c29dd904c86a1a54689d5e4b80627bfcda56faf7'
+          old_gap = 'e369c1f6705e5442200c053aa5c4d7ce46de8b87b52338f04eb78ff1fa6dddb1'
+
+          receipt_path = root / 'stages/stage33/33-12/v10-hostile-audit-pass-receipt.json'
+          gap_path = root / 'stages/stage33/33-12/j2-named-order4-actual-s3-source-lock-gap-v10.json'
+          controller_path = root / 'stages/stage33/controller.json'
+          verifier_path = root / 'stages/stage33/33-12/verify_j2_named_order4_actual_s3_source_lock_gap_v10.py'
+          sync_path = root / 'stages/stage33/sync_main_state.py'
+
+          def csha(obj):
+              x = dict(obj)
+              x.pop('canonical_sha256', None)
+              return hashlib.sha256(json.dumps(x, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+
+          receipt = json.loads(receipt_path.read_text())
+          assert receipt['audit_review_id'] == 5083583438
+          assert receipt['audited_pr'] == 1476
+          assert receipt['audited_head_sha'] == old_head
+          assert receipt['canonical_sha256'] == old_receipt
+          receipt['audited_head_sha'] = new_head
+          receipt['canonical_sha256'] = csha(receipt)
+          new_receipt = receipt['canonical_sha256']
+          assert new_receipt == '5bef940bf55dd480acb8fc3a75415470d28ee9eaa1473c3476d8bd6463ca89e1'
+          receipt_path.write_text(json.dumps(receipt, indent=2, sort_keys=True) + '\n')
+
+          gap = json.loads(gap_path.read_text())
+          assert gap['canonical_sha256'] == old_gap
+          assert gap['audit_receipt_sha256'] == old_receipt
+          assert gap['source_locks']['hostile_audit_pass_receipt_sha256'] == old_receipt
+          gap['audit_receipt_sha256'] = new_receipt
+          gap['source_locks']['hostile_audit_pass_receipt_sha256'] = new_receipt
+          gap['canonical_sha256'] = csha(gap)
+          new_gap = gap['canonical_sha256']
+          assert new_gap == '92502f0cb5d04cac6ed6b95270d9b844870a239dd5aaa2a3eeb535a74bac3f2e'
+          gap_path.write_text(json.dumps(gap, indent=2, sort_keys=True) + '\n')
+
+          replacements = {
+              old_head: new_head,
+              old_receipt: new_receipt,
+              old_gap: new_gap,
+          }
+
+          def replace_exact(x):
+              if isinstance(x, dict):
+                  return {k: replace_exact(v) for k, v in x.items()}
+              if isinstance(x, list):
+                  return [replace_exact(v) for v in x]
+              if isinstance(x, str):
+                  return replacements.get(x, x)
+              return x
+
+          controller = json.loads(controller_path.read_text())
+          controller = replace_exact(controller)
+          encoded = json.dumps(controller, sort_keys=True, separators=(',', ':')) + '\n'
+          for stale in replacements:
+              assert stale not in encoded
+          assert controller['audit_head_sha'] == new_head
+          assert controller['execution']['audit_head_sha'] == new_head
+          assert controller['last_completed_audit_head_sha'] == new_head
+          assert controller['stage33_12']['v10_hostile_audit_pass_receipt_sha256'] == new_receipt
+          assert controller['stage33_12']['v10_post_audit_named_order4_source_gap_sha256'] == new_gap
+          controller_path.write_text(encoded)
+
+          for path in (verifier_path, sync_path):
+              text = path.read_text()
+              for old, new in replacements.items():
+                  text = text.replace(old, new)
+              for stale in replacements:
+                  assert stale not in text, (path, stale)
+              path.write_text(text)
+
+          print(json.dumps({'new_audit_head': new_head, 'new_receipt_sha256': new_receipt, 'new_gap_sha256': new_gap}, sort_keys=True))
+          PY
+
+          python stages/stage33/sync_main_state.py
+          python stages/stage33/33-12/verify_j2_named_order4_actual_s3_source_lock_gap_v10.py
+          python stages/stage33/33-12/verify_j2_order4_retained_pullback_row_availability_v11.py
+          python stages/stage33/33-12/verify_j2_order4_row39_retained_symmetry_transport_v11.py
+          python stages/stage33/sync_main_state.py --check
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          m = json.loads(Path('stages/stage33/MAIN-STATE.json').read_text())
+          assert m['stage33_progress'] == '6/11'
+          assert m['execution_gate']['audit_head_sha'] == '088a0e5e3b0baefc0be016a9ba70a00b31c7aedc'
+          assert m['execution_gate']['last_completed_audit_head_sha'] == '088a0e5e3b0baefc0be016a9ba70a00b31c7aedc'
+          assert m['locked_facts']['v10_hostile_audit']['audited_head_sha'] == '088a0e5e3b0baefc0be016a9ba70a00b31c7aedc'
+          assert m['locked_facts']['v10_hostile_audit']['sha256'] == '5bef940bf55dd480acb8fc3a75415470d28ee9eaa1473c3476d8bd6463ca89e1'
+          assert m['locked_facts']['post_audit_named_order4_source_gap']['sha256'] == '92502f0cb5d04cac6ed6b95270d9b844870a239dd5aaa2a3eeb535a74bac3f2e'
+          assert m['open_datum']['matrix_standard_columns_materialized'] == 0
+          assert m['firewalls']['stage33_12_closed_exact'] is False
+          assert m['firewalls']['stage33_07_reclosed'] is False
+          assert m['firewalls']['stage33_08_released'] is False
+          assert m['firewalls']['theorem_credit'] is False
+          assert m['firewalls']['receiver_credit'] is False
+          assert m['firewalls']['endpoint_credit'] is False
+          h = Path('stages/stage33/MAIN-BATCH-HANDOFF.md').read_text()
+          assert 'UNPROMOTED_DELTA_ORDER4_PULLBACK_GAP_BLOCKED_ON_TWO_ROWS' in h
+          assert '[20,67]' in h or '[20, 67]' in h
+          PY
+          git diff --check
+
+      - name: Commit bounded repair and remove one-shot workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm .github/workflows/stage33-audit-sha-chain-repair.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'Stage33: repair V10 audit provenance SHA chain'
+          git push origin HEAD:stage33-post1476-j2-order4-lift-s3-label
