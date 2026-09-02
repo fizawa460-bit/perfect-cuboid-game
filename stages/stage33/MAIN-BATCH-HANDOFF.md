@@ -1,8 +1,9 @@
 # Stage33 MAIN batch handoff
 
 status: UNPROMOTED_DELTA_ORDER4_PULLBACK_GAP_BLOCKED_ON_TWO_ROWS
-pr: #1483
-branch: stage33-post1476-j2-order4-lift-s3-label
+base_merge: #1483
+pr: PENDING
+branch: stage33-post1483-order4-pullback-two-row-extraction
 merge: FORBIDDEN
 heavy_compute: FORBIDDEN
 
