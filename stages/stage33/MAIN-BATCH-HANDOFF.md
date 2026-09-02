@@ -1,6 +1,6 @@
 # Stage33 MAIN batch handoff
 
-status: UNPROMOTED_DELTA_ORDER4_PULLBACK_GAP_NARROWED_TO_TWO_ROWS
+status: UNPROMOTED_DELTA_ORDER4_PULLBACK_GAP_BLOCKED_ON_TWO_ROW_SERIALIZATION
 pr: #1483
 branch: stage33-post1476-j2-order4-lift-s3-label
 merge: FORBIDDEN
@@ -54,6 +54,24 @@ Exact negative-source certificate:
 
 Consequence: the origin artifact behind the retained Stage32 Picard marking does **not** provide a directly replayable ordered `Big/BigK` projection-incidence serialization and does not close row `20` or row `67`. Do not reopen this artifact as a hidden-pullback source unless new independent evidence identifies a concrete encoded incidence table.
 
+## Pinned upstream row-serialization audit
+
+The pinned exact source itself was inspected at:
+
+`MichaelStollBayreuth/Verification@51233ed5ef2bf228fac9416c66db9adc0ebcaadd:Cuboids/cuboids.magma`
+
+The source constructs `preimages` and `MatBigKtoBig` exactly at runtime and checks the Picard compatibility identity
+
+`Matrix(PicbasrepsK)*MatBigKtoBig*MatqPic eq MatKtoS`.
+
+However, the pinned source does not retain rows `20` or `67` as literal/serialized exact pullback vectors. Narrow repository/history searches under the known source identifiers likewise found no retained row serialization. This is an evidence-availability result, not a theorem that no such serialization can exist elsewhere.
+
+Permanent negative-availability certificate:
+- `stages/stage33/33-12/j2-order4-pinned-upstream-pullback-row-serialization-audit-v14.json`
+- canonical SHA256 `aabdfd71306de99cae202d838be20144a0a001743d79fb5d1608ce91afc43562`
+
+No new Magma execution was dispatched, and no numerical pullback row was inferred manually. The unresolved exact rows remain `[20,67]`.
+
 ## Next exact action
 
-Acquire only BigK pullback rows `[20,67]` from another already-retained/source-locked exact source or an explicitly authorized exact source route. Row `20` is a branch `C1sK` curve and row `67` is the fifth K exceptional row; do not infer their numerical pullbacks from orbit/target compatibility. If unavailable, keep `NO_INFERENCE`; do not reopen qPic, Smith, sign census, S3 candidate enumeration, or the Stage32 retained-marking origin artifact.
+Obtain exact serialized pullbacks for BigK rows `[20,67]` from another already-retained/source-locked source, or obtain explicit authorization for a **narrow execution of the pinned upstream source solely to extract those two rows**. Until one of those occurs, keep `NO_INFERENCE`; do not reopen qPic, Smith, sign census, S3 candidate enumeration, or the Stage32 retained-marking origin artifact. Stage33 progress remains `6/11`, Kummer standard columns remain `0`, and Stage33-12 stays OPEN.
