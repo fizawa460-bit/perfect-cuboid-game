@@ -1,0 +1,41 @@
+{
+  "schema": "STAGE34_02_D2_STAGEA2_FULL_SUPPORT_D1_SURVIVOR_ID_COMMITMENT_V1",
+  "status": "PASS_RETAINED_EXACT_92_D1_SURVIVOR_SET_COMMITMENT_FROM_FULL_SUPPORT_ARTIFACT",
+  "source": {
+    "run": 33512504700,
+    "job": 99871456739,
+    "head": "eec7478aac11151986be5df00487b464389eed10",
+    "artifact_id": 9802225387,
+    "artifact_name": "stage34-02-d2-stageA2-full-support-projective",
+    "artifact_zip_digest": "sha256:eee10b6d11542422a1f8fbda84a091ebd1208353a31841bc969f812827cbe18b",
+    "payload_file": "d2-stageA2-full-support-projective.json",
+    "payload_sha256": "sha256:849058b6ab53f5efad68ef1394472af808f66588d2b7bd13aca197759a1fd36d",
+    "source_lock_path": "stages/stage34/34-02/d2-stageA2-full-support-projective-lock.json",
+    "source_lock_blob_sha": "92dff93b3c8e5af8afbfc7b35e85ed7c578b2208"
+  },
+  "derivation": {
+    "input": "every d=1 survivor_squareclasses entry in the retained full-support artifact payload",
+    "branch_id_rule": "sha256(canonical_json([q,delta]))[:20], canonical_json uses json.dumps(..., separators=(',',':'))",
+    "set_commitment_rule": "sort the 92 unique branch IDs lexicographically, join with newline, append one trailing newline, then SHA256",
+    "main_repair_reconstruction": "The artifact was freshly downloaded and independently reconstructed during repair of hostile-audit review 5087093035.",
+    "hostile_audit_independent_reconstruction_review_id": 5087093035
+  },
+  "d2_survivor_count": 0,
+  "d1_survivor_count": 92,
+  "d1_survivor_counts_by_q": {
+    "20/21": 24,
+    "80/39": 12,
+    "24/7": 8,
+    "84/13": 8,
+    "48/55": 8,
+    "20/99": 16,
+    "60/11": 16
+  },
+  "d1_survivor_ids_sha256": "7d43cd93f9329b48fa981857c10b03ad7a9df985af057ff1845001ca4fcefa6f",
+  "firewalls": {
+    "survivor_is_Q_point": false,
+    "survivor_set_commitment_is_branch_closure": false,
+    "D2_all_factor_branches_closed": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}

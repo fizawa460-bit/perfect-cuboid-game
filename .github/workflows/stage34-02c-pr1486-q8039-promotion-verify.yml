@@ -1,13 +1,11 @@
-name: Stage34-02c PR1486 q80/39 promotion verify
+name: Stage34-02c PR1486 q80/39 promotion integrity
 
 on:
   pull_request:
     branches: [main]
     paths:
       - 'stages/stage34/MAIN-STATE.json'
-      - 'stages/stage34/MAIN-BATCH-HANDOFF.md'
       - 'stages/stage34/34-02/d2-stageA2-pr1486-q8039-hostile-audit-promotion-certificate.json'
-      - 'stages/stage34/34-02/d2-stageA2-q8413-two-quotient-rankzero-preaudit-certificate.json'
       - 'stages/stage34/34-02/verify_d2_stageA2_pr1486_q8039_promotion.py'
       - '.github/workflows/stage34-02c-pr1486-q8039-promotion-verify.yml'
 
@@ -20,5 +18,5 @@ jobs:
     timeout-minutes: 2
     steps:
       - uses: actions/checkout@v4
-      - name: Verify audited q80/39 promotion and q84/13 firewall
+      - name: Verify historical audited q80/39 promotion integrity
         run: python stages/stage34/34-02/verify_d2_stageA2_pr1486_q8039_promotion.py

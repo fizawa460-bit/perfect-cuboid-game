@@ -1,0 +1,121 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_PR1489_Q8413_HOSTILE_AUDIT_PROMOTION_CERTIFICATE_V1",
+  "status": "PASS_HOSTILE_AUDIT_PROMOTED_Q8413_FOUR_BRANCHES_4_TO_0",
+  "pr": 1489,
+  "branch": "stage34-main/q8413-torsion-parent-classification",
+  "audited_exact_head": "ade5e207f4a2ff07c6918821ae3e958cc951b983",
+  "mathematical_evidence_frozen_head": "e0c08807bf0b3718d7724f0134cab942a12de6b2",
+  "hostile_audit": {
+    "review_id": 5086857612,
+    "review_node": "PRR_kwDOTr52Y88AAAABLzNJjA",
+    "state": "COMMENTED",
+    "result": "PASS",
+    "scope": "q=84/13 two representative torsion-parent classifications plus exact sign-involution transfer only"
+  },
+  "exact_evidence": {
+    "audit_ready_manifest": {
+      "path": "stages/stage34/34-02/d2-stageA2-pr1489-q8413-hostile-audit-ready.json",
+      "blob_sha": "c12d1f45fe2897e25c4fdb97baf5eeb172189adc"
+    },
+    "classification_certificate": {
+      "path": "stages/stage34/34-02/d2-stageA2-q8413-torsion-parent-classification-certificate.json",
+      "blob_sha": "e6926bcebaa138265172b429e106708fb2fe0d23"
+    },
+    "proof_script": {
+      "path": "stages/stage34/34-02/prove_d2_stageA2_q8413_torsion_parent_classification.py",
+      "blob_sha": "190cc266ac65bb3fc5e6c2ded06ff756060904a4"
+    },
+    "fresh_exact_replay": {
+      "workflow_run": 33602732905,
+      "head": "e0c08807bf0b3718d7724f0134cab942a12de6b2",
+      "conclusion": "success"
+    }
+  },
+  "promoted_orbits": [
+    {
+      "q": "84/13",
+      "representative": "40dc8f63e92a8a3a65e8",
+      "sign_partner": "8a374a057daf5f92a87e",
+      "quotient_model": 38,
+      "mordell_weil_rank": 0,
+      "torsion_group": "C2 x C2",
+      "nondegenerate_full_parent_lift_count": 0,
+      "only_full_parent_lift": "x=-7/6",
+      "receiver_degeneracy": "A=0"
+    },
+    {
+      "q": "84/13",
+      "representative": "7a7ef1a67e794fe1651f",
+      "sign_partner": "98b42307b3aa398f1e0c",
+      "quotient_model": 165,
+      "mordell_weil_rank": 0,
+      "torsion_group": "C2 x C2",
+      "nondegenerate_full_parent_lift_count": 0,
+      "only_full_parent_lift": "x=-13",
+      "receiver_degeneracy": "B=0"
+    }
+  ],
+  "sign_transfer": {
+    "source": "stages/stage34/34-02/d2-stageA2-sign-involution-remaining30-pair-lock.json",
+    "source_blob_sha": "e1ba9439f2483371517aec029015a71e683e91ee",
+    "projective_map": "T(X:Z)=(-Z:X)",
+    "preserves_parent_square_and_receiver_degeneracy_truth": true
+  },
+  "authoritative_before": {
+    "remaining_branches": 4,
+    "remaining_sign_orbits": 2,
+    "remaining_representatives": [
+      "40dc8f63e92a8a3a65e8",
+      "7a7ef1a67e794fe1651f"
+    ],
+    "remaining_sign_partners": [
+      "8a374a057daf5f92a87e",
+      "98b42307b3aa398f1e0c"
+    ],
+    "by_q": {
+      "20/99": 0,
+      "24/7": 0,
+      "48/55": 0,
+      "60/11": 0,
+      "80/39": 0,
+      "84/13": 4
+    }
+  },
+  "promotion": {
+    "closed_branches": 4,
+    "closed_sign_orbits": 2,
+    "closed_branch_ids": [
+      "40dc8f63e92a8a3a65e8",
+      "8a374a057daf5f92a87e",
+      "7a7ef1a67e794fe1651f",
+      "98b42307b3aa398f1e0c"
+    ]
+  },
+  "authoritative_after": {
+    "remaining_branches": 0,
+    "remaining_sign_orbits": 0,
+    "remaining_representatives": [],
+    "remaining_sign_partners": [],
+    "by_q": {
+      "20/99": 0,
+      "24/7": 0,
+      "48/55": 0,
+      "60/11": 0,
+      "80/39": 0,
+      "84/13": 0
+    }
+  },
+  "scope_firewalls": {
+    "q84_13_four_branches_authoritatively_closed": true,
+    "stageA2_authoritative_residual_zero": true,
+    "D2_all_factor_branches_closed": false,
+    "direct_cover_rational_points_complete": false,
+    "all_multiples_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "parent_route_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized_by_this_certificate": false
+  },
+  "next_gate": "Assemble and verify the exact cumulative StageA2 branch-partition/coverage implication from the audited zero residual to D2_all_factor_branches_closed. Zero residual alone does not automatically release D2-all-factor, all-multiples, receiver, parent-route, or endpoint credit."
+}
