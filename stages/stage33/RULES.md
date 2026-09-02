@@ -59,10 +59,10 @@ evidence are not routine startup inputs.
 
 `work_checkpoint` must have authority `OPERATIONAL_ONLY_NOT_PROOF`. It may record
 only useful unpromoted narrowing, anti-repeat information, and the immediate
-next action. It must never select a mathematical source, grant proof credit, or
+current action. It must never select a mathematical source, grant proof credit, or
 override certificates/controller.
 
-When unpromoted work materially changes the next action or anti-repeat boundary,
+When unpromoted work materially changes the current action or anti-repeat boundary,
 commit `work_checkpoint` promptly before broader exploration. `sync_main_state.py`
 must preserve it. Clear it only after exact promotion subsumes it, or replace it
 with the corrected narrow blocker.

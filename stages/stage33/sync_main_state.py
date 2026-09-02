@@ -59,7 +59,7 @@ def load_work_checkpoint():
     else:
         assert isinstance(checkpoint.get("observations"), list) and checkpoint["observations"]
         assert isinstance(checkpoint.get("anti_repeat"), list)
-        assert isinstance(checkpoint.get("next_action"), str) and checkpoint["next_action"]
+        assert isinstance(checkpoint.get("current_action"), str) and checkpoint["current_action"]
     return checkpoint
 
 
