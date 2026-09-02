@@ -59,6 +59,17 @@ The mandatory invariants are:
 
 Stage-local controllers may strengthen these firewalls but must not weaken them.
 
+## Repository-wide Arsenal lookup and maintenance
+
+Do not load the full research Arsenal during ordinary Stage startup. First identify the active leaf's exact missing object or workflow type, then:
+
+1. read `docs/arsenal/index.json` as the sole machine-readable registry;
+2. select one matching ID and open only its generated file under `docs/arsenal/cards/`;
+3. open the linked source document or proof certificate only when the card's exact contract requires it;
+4. treat every `PROVISIONAL` card as discovery routing only: the live Stage controller and current source locks always override its snapshot.
+
+To add or change an Arsenal weapon, edit its authoritative source section and registry entry, then run `python3 -B docs/arsenal/sync_arsenal_catalog.py`. Never hand-edit `docs/arsenal/catalog.md` or generated ID cards. Before commit, `python3 -B docs/arsenal/sync_arsenal_catalog.py --check` MUST pass; this checks registered paths, duplicate IDs, retired successors, catalog synchronization, and every generated card.
+
 ## Stage34 MAIN context bootstrap
 
 For an ordinary `Stage34-main-batch`, after reading this file use
