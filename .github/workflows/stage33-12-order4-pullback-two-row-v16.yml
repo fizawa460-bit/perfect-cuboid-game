@@ -30,7 +30,7 @@ jobs:
         name: Exact synchronize/run-key authorization gate
         env:
           BEFORE: ${{ github.event.before }}
-          HEAD: ${{ github.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
           KEY: stages/stage33/33-12/j2-order4-row20-row67-run-key-v16.json
         run: |
           python - <<'PY'
@@ -50,8 +50,9 @@ jobs:
               finish(False,'missing_before')
           try:
               subprocess.run(['git','cat-file','-e',f'{before}^{{commit}}'],check=True,stdout=subprocess.DEVNULL)
+              subprocess.run(['git','cat-file','-e',f'{head}^{{commit}}'],check=True,stdout=subprocess.DEVNULL)
           except subprocess.CalledProcessError:
-              finish(False,'before_not_available')
+              finish(False,'commit_range_not_available')
           changed=subprocess.check_output(['git','diff','--name-only',before,head],text=True).splitlines()
           if changed != [key]:
               finish(False,'arming_commit_must_change_only_dedicated_run_key')
@@ -75,10 +76,15 @@ jobs:
                   finish(False,'locked_parameter_mismatch_'+k)
           if old.get('schema')!=expected['schema']:
               finish(False,'old_schema_mismatch')
-          if old.get('generation')!=1 or old.get('armed') is not False:
-              finish(False,'old_key_not_cold_generation_1')
-          if new.get('generation')!=2 or new.get('armed') is not True:
-              finish(False,'new_key_not_armed_generation_2')
+          try:
+              old_generation=int(old.get('generation'))
+              new_generation=int(new.get('generation'))
+          except Exception:
+              finish(False,'generation_not_integer')
+          if old.get('armed') is not False:
+              finish(False,'previous_generation_not_cold')
+          if new.get('armed') is not True or new_generation != old_generation + 1:
+              finish(False,'invalid_arm_generation_transition')
           for k in expected:
               if old.get(k)!=new.get(k):
                   finish(False,'locked_parameter_changed_'+k)
@@ -121,7 +127,7 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           python - <<'PY'
-          import json, os, pathlib
+          import json, pathlib
           p=pathlib.Path('stage33-12-order4-two-row-result-v16.json')
           if not p.exists():
               payload={'body':'STAGE33_ORDER4_PULLBACK_TWO_ROW_RESULT_V16\n\nresult file missing'}
