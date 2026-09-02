@@ -9,7 +9,7 @@ RAW=ROOT/"d2-stageA2-q8413-model38-three-2isogeny-rankbound-stdout.txt"
 URL="https://magma.maths.usyd.edu.au/xml/calculator.xml"; REFERER="https://magma.maths.usyd.edu.au/calc/"; TIMEOUT=1200
 
 def submit(code:str):
-    data=urllib.parse.urlencode({"input":code}).encode(); req=urllib.request.Request(URL,data=data,headers={"Content-Type":"application/x-www-form-urlencoded","Accept":"text/html, application/xml, application/xhtml+xml","Referer":REFERER,"User-Agent":"perfect-cuboid-stage34-q8413-2isogeny/1.0"},method="POST")
+    data=urllib.parse.urlencode({"input":code}).encode(); req=urllib.request.Request(URL,data=data,headers={"Content-Type":"application/x-www-form-urlencoded","Accept":"text/html, application/xml, application/xhtml+xml","Referer":REFERER,"User-Agent":"perfect-cuboid-stage34-q8413-2isogeny/1.1"},method="POST")
     with urllib.request.urlopen(req,timeout=TIMEOUT) as resp: raw=resp.read().decode("utf-8",errors="replace"); status=resp.status
     root=ET.fromstring(raw); lines=[]
     for result in root.findall(".//results"):
@@ -33,7 +33,7 @@ for j in [1..3] do
   phi:=TwoIsogeny(P); b:=RankBound(E : Isogeny:=phi); Append(~bounds,b);
   print "ISOGENY_BOUND_" cat IntegerToString(j) cat ":",b;
 end for;
-print "MIN_ISOGENY_BOUND:",Minimum(bounds);
+mb,mi:=Minimum(bounds); print "MIN_ISOGENY_BOUND:",mb; print "MIN_ISOGENY_INDEX:",mi;
 print "ISOGENY_DIAGNOSTIC_COMPLETE: true";
 '''
 try: http,out=submit(code); err=None
@@ -44,7 +44,7 @@ for j in range(1,4):
     try: bounds.append(int(val(f"ISOGENY_BOUND_{j}:",out)))
     except Exception: bounds.append(None)
 try: minb=int(val("MIN_ISOGENY_BOUND:",out))
-except Exception: minb=None
-rankzero=(not bad and complete and minb==0)
-payload={"schema":"STAGE34_02C_D2_STAGEA2_Q8413_MODEL38_THREE_2ISOGENY_RANKBOUND_PROBE_V1","status":"PASS_EXACT_2ISOGENY_RANKZERO_CANDIDATE_PREAUDIT" if rankzero else ("PASS_2ISOGENY_BOUNDS_NO_CLOSURE" if (not bad and complete and minb is not None) else "OPEN_EXTERNAL_OR_RUNTIME_NO_CREDIT"),"source_lock":LOCK.name,"source_lock_sha256":"sha256:"+hashlib.sha256(LOCK.read_bytes()).hexdigest(),"http":http,"error":err,"complete":complete,"two_torsion_invariants":val("TWO_TORSION_INVARIANTS:",out),"nonzero_two_torsion_count":int(val("NONZERO_TWO_TORSION_COUNT:",out)) if val("NONZERO_TWO_TORSION_COUNT:",out) else None,"kernel_x":[val(f"KERNEL_X_{j}:",out) for j in range(1,4)],"isogeny_rank_bounds":bounds,"minimum_isogeny_rank_bound":minb,"rankzero_candidate":rankzero,"raw_stdout_sha256":"sha256:"+hashlib.sha256(out.encode()).hexdigest(),"credit":"Exact rank-zero PREAUDIT candidate only if minimum isogeny rank bound is 0. Positive bounds give no rank-one claim. Authority remains unchanged pending hostile audit and branch adapters.","firewalls":{"positive_bound_proves_rank_one":False,"diagnostic_is_authoritative":False,"hostile_audit_passed":False,"authoritative_remaining_branches":8,"authoritative_remaining_sign_orbits":4,"D2_all_factor_branches_closed":False,"R29_EXT_CHANG_C_closed":False}}
+except Exception: minb=min((b for b in bounds if b is not None),default=None)
+rankzero=(not bad and complete and len(bounds)==3 and all(b is not None for b in bounds) and minb==0)
+payload={"schema":"STAGE34_02C_D2_STAGEA2_Q8413_MODEL38_THREE_2ISOGENY_RANKBOUND_PROBE_V2","status":"PASS_EXACT_2ISOGENY_RANKZERO_CANDIDATE_PREAUDIT" if rankzero else ("PASS_2ISOGENY_BOUNDS_NO_CLOSURE" if (not bad and complete and minb is not None) else "OPEN_EXTERNAL_OR_RUNTIME_NO_CREDIT"),"source_lock":LOCK.name,"source_lock_sha256":"sha256:"+hashlib.sha256(LOCK.read_bytes()).hexdigest(),"http":http,"error":err,"complete":complete,"two_torsion_invariants":val("TWO_TORSION_INVARIANTS:",out),"nonzero_two_torsion_count":int(val("NONZERO_TWO_TORSION_COUNT:",out)) if val("NONZERO_TWO_TORSION_COUNT:",out) else None,"kernel_x":[val(f"KERNEL_X_{j}:",out) for j in range(1,4)],"isogeny_rank_bounds":bounds,"minimum_isogeny_rank_bound":minb,"rankzero_candidate":rankzero,"raw_stdout_sha256":"sha256:"+hashlib.sha256(out.encode()).hexdigest(),"credit":"Exact rank-zero PREAUDIT candidate because an exact 2-isogeny Selmer rank upper bound is 0. Authority remains unchanged pending hostile audit and branch adapters.","firewalls":{"positive_bound_proves_rank_one":False,"diagnostic_is_authoritative":False,"hostile_audit_passed":False,"authoritative_remaining_branches":8,"authoritative_remaining_sign_orbits":4,"D2_all_factor_branches_closed":False,"R29_EXT_CHANG_C_closed":False}}
 OUT.write_text(json.dumps(payload,indent=2,sort_keys=True)+"\n"); print(json.dumps({"status":payload["status"],"bounds":bounds,"min":minb,"rankzero_candidate":rankzero},sort_keys=True))
