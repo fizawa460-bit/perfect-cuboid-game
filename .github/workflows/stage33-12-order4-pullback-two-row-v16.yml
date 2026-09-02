@@ -7,6 +7,7 @@ on:
     paths:
       - '.github/workflows/stage33-12-order4-pullback-two-row-v16.yml'
       - 'stages/stage33/33-12/extract_j2_order4_rows20_67_v16.py'
+      - 'stages/stage33/33-12/extract_j2_order4_rows20_67_v16_retry.py'
       - 'stages/stage33/33-12/j2-order4-row20-row67-run-key-v16.json'
 
 permissions:
@@ -102,7 +103,7 @@ jobs:
         id: extraction
         continue-on-error: true
         run: |
-          python stages/stage33/33-12/extract_j2_order4_rows20_67_v16.py \
+          python stages/stage33/33-12/extract_j2_order4_rows20_67_v16_retry.py \
             --out stage33-12-order4-two-row-result-v16.json \
             --timeout 900
       - name: Enforce compact artifact budget
@@ -122,6 +123,7 @@ jobs:
           if-no-files-found: error
       - name: Post compact result to PR
         if: always()
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
