@@ -1,0 +1,71 @@
+{
+  "canonical_sha256": "d0b7b6605b2e8fde9c0b42d2456abf6ab888f4b7888daf1c2875ff9cb858bbd0",
+  "schema": "STAGE33_12_J2_ORDER4_ROW20_ROW67_NARROW_EXECUTION_REQUEST_V16",
+  "status": "EXECUTION_READY_AWAITING_EXPLICIT_AUTHORIZATION",
+  "purpose": "Extract only the two exact BigK-to-Big pullback rows still missing from the semantic named-J2 order-4 route, without reopening qPic/Smith/S3 or performing downstream claim promotion.",
+  "predecessor_locks": {
+    "static_geometric_route_audit_v15_sha256": "dfb7176cc59272896971a3f06964ddd9456db7935e0dc0a71213f7767664feb3",
+    "retained_row_availability_v12_sha256": "61a8523c8ca788c58aa0c3732694406230e4fd11afbe67a2d63d5543b0dda9ec",
+    "pinned_upstream_serialization_audit_v14_sha256": "aabdfd71306de99cae202d838be20144a0a001743d79fb5d1608ce91afc43562"
+  },
+  "pinned_upstream_source": {
+    "repository": "MichaelStollBayreuth/Verification",
+    "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+    "path": "Cuboids/cuboids.magma",
+    "git_blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+    "raw_sha256": "5dc3ae961d872ff96420385880edf0f4225a12d3f906c614e1ccd2220399ce89"
+  },
+  "exact_target": {
+    "BigK_rows_1based": [20, 67],
+    "required_payload_per_row": [
+      "full_surface_known_preimage_indices_1based",
+      "full_surface_known_preimage_multiplicities"
+    ],
+    "reason_row20": "Static curve-orbit transport has no retained anchor; its complete pullback additionally needs runtime singular-point incidence terms.",
+    "reason_row67": "BigK row 67 is ptsK[5], while ptsK is runtime Points(SingularSubscheme(K)); the retained source does not serialize that ordering."
+  },
+  "execution_contract_if_authorized": {
+    "authorization_required": true,
+    "currently_authorized": false,
+    "dispatch_now": false,
+    "runner_concurrency": 1,
+    "artifact_output_budget_bytes": 16384,
+    "expected_persisted_artifacts": 1,
+    "source_scope": "Execute the pinned source only far enough to construct preimages/MatBigKtoBig, emit rows 20 and 67, then stop.",
+    "emit": [
+      "the pinned source identity/hash locks",
+      "preimages[20] as exact integer pairs <full_surface_index_1based,multiplicity>",
+      "preimages[67] as exact integer pairs <full_surface_index_1based,multiplicity>"
+    ],
+    "must_not_run_for_this_request": [
+      "qPic bridge reacquisition",
+      "Smith substitute reconstruction",
+      "sign census",
+      "S3 candidate enumeration",
+      "named-J2 source-label inference from target compatibility",
+      "unrelated downstream curve search"
+    ],
+    "storage_preflight": "Output is a two-row sparse certificate only; keep raw exhaustive logs runner-local and persist at most the compact <=16 KiB result."
+  },
+  "deterministic_downstream_plan": {
+    "after_exact_sparse_rows_arrive": [
+      "reconstruct each row from the retained full-surface 140-class Picard marking",
+      "transport to the exact Stage33-09 marked 64D basis",
+      "rebuild the semantic order-4 numerator using the already-locked required BigK row list",
+      "only then test whether the named J2 order-4 source coordinate is materialized"
+    ],
+    "no_target_compatibility_inference": true
+  },
+  "promotion_firewall": {
+    "named_j2_order4_source_coordinate_materialized": false,
+    "retained10_named_j2_source_coordinate_materialized": false,
+    "matrix_standard_columns_materialized": 0,
+    "stage33_12_closed_exact": false,
+    "stage33_progress": "6/11",
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
