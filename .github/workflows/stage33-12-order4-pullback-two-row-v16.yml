@@ -1,0 +1,158 @@
+name: Stage33-12 order4 BigK rows20-67 v16
+
+on:
+  pull_request:
+    branches: [main]
+    types: [synchronize]
+    paths:
+      - '.github/workflows/stage33-12-order4-pullback-two-row-v16.yml'
+      - 'stages/stage33/33-12/extract_j2_order4_rows20_67_v16.py'
+      - 'stages/stage33/33-12/extract_j2_order4_rows20_67_v16_retry.py'
+      - 'stages/stage33/33-12/j2-order4-row20-row67-run-key-v16.json'
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: stage33-12-order4-two-row-v16-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: gate
+        name: Exact synchronize/run-key authorization gate
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+          KEY: stages/stage33/33-12/j2-order4-row20-row67-run-key-v16.json
+        run: |
+          python - <<'PY'
+          import json, os, subprocess
+          before=os.environ.get('BEFORE','').strip()
+          head=os.environ.get('HEAD','').strip()
+          key=os.environ['KEY']
+          out=os.environ['GITHUB_OUTPUT']
+          def finish(ok, reason):
+              print(f'authorized={str(ok).lower()}')
+              print(f'reason={reason}')
+              with open(out,'a',encoding='utf-8') as f:
+                  f.write(f"authorized={str(ok).lower()}\n")
+                  f.write(f"reason={reason}\n")
+              raise SystemExit(0)
+          if not before or set(before)=={'0'}:
+              finish(False,'missing_before')
+          try:
+              subprocess.run(['git','cat-file','-e',f'{before}^{{commit}}'],check=True,stdout=subprocess.DEVNULL)
+              subprocess.run(['git','cat-file','-e',f'{head}^{{commit}}'],check=True,stdout=subprocess.DEVNULL)
+          except subprocess.CalledProcessError:
+              finish(False,'commit_range_not_available')
+          changed=subprocess.check_output(['git','diff','--name-only',before,head],text=True).splitlines()
+          if changed != [key]:
+              finish(False,'arming_commit_must_change_only_dedicated_run_key')
+          try:
+              old=json.loads(subprocess.check_output(['git','show',f'{before}:{key}'],text=True))
+              new=json.load(open(key,encoding='utf-8'))
+          except Exception as exc:
+              finish(False,'run_key_read_failure_'+type(exc).__name__)
+          expected={
+              'schema':'STAGE33_12_J2_ORDER4_ROW20_ROW67_RUN_KEY_V16',
+              'request_canonical_sha256':'d0b7b6605b2e8fde9c0b42d2456abf6ab888f4b7888daf1c2875ff9cb858bbd0',
+              'source_commit':'51233ed5ef2bf228fac9416c66db9adc0ebcaadd',
+              'source_blob_sha1':'0422b69847f2afb97cb7b3ed02ebef91279f61b1',
+              'source_raw_sha256':'5dc3ae961d872ff96420385880edf0f4225a12d3f906c614e1ccd2220399ce89',
+              'rows_1based':[20,67],
+              'runner_concurrency':1,
+              'artifact_output_budget_bytes':16384,
+          }
+          for k,v in expected.items():
+              if new.get(k)!=v:
+                  finish(False,'locked_parameter_mismatch_'+k)
+          if old.get('schema')!=expected['schema']:
+              finish(False,'old_schema_mismatch')
+          try:
+              old_generation=int(old.get('generation'))
+              new_generation=int(new.get('generation'))
+          except Exception:
+              finish(False,'generation_not_integer')
+          if old.get('armed') is not False:
+              finish(False,'previous_generation_not_cold')
+          if new.get('armed') is not True or new_generation != old_generation + 1:
+              finish(False,'invalid_arm_generation_transition')
+          for k in expected:
+              if old.get(k)!=new.get(k):
+                  finish(False,'locked_parameter_changed_'+k)
+          finish(True,'exact_v16_two_row_arm_transition')
+          PY
+
+  extract:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run narrow pinned-source extraction
+        id: extraction
+        continue-on-error: true
+        run: |
+          python stages/stage33/33-12/extract_j2_order4_rows20_67_v16_retry.py \
+            --out stage33-12-order4-two-row-result-v16.json \
+            --timeout 900
+      - name: Enforce compact artifact budget
+        if: always()
+        run: |
+          test -f stage33-12-order4-two-row-result-v16.json
+          size=$(wc -c < stage33-12-order4-two-row-result-v16.json)
+          echo "result_bytes=$size"
+          test "$size" -le 16384
+      - name: Upload compact exact/diagnostic result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-12-order4-two-row-v16
+          path: stage33-12-order4-two-row-result-v16.json
+          retention-days: 1
+          if-no-files-found: error
+      - name: Post compact result to PR
+        if: always()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          p=pathlib.Path('stage33-12-order4-two-row-result-v16.json')
+          if not p.exists():
+              payload={'body':'STAGE33_ORDER4_PULLBACK_TWO_ROW_RESULT_V16\n\nresult file missing'}
+          else:
+              text=p.read_text()
+              payload={'body':'STAGE33_ORDER4_PULLBACK_TWO_ROW_RESULT_V16\n\n```json\n'+text+'```'}
+          pathlib.Path('comment-payload.json').write_text(json.dumps(payload))
+          PY
+          gh api --method POST \
+            repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments \
+            --input comment-payload.json
+      - name: Fail closed unless exact extraction succeeded
+        if: always()
+        env:
+          EXTRACTION_OUTCOME: ${{ steps.extraction.outcome }}
+        run: |
+          python - <<'PY'
+          import json, os
+          data=json.load(open('stage33-12-order4-two-row-result-v16.json'))
+          assert os.environ['EXTRACTION_OUTCOME']=='success', os.environ['EXTRACTION_OUTCOME']
+          assert data['status']=='EXACT_ROWS_EXTRACTED', data.get('status')
+          assert sorted(map(int,data['rows'].keys()))==[20,67]
+          assert data['firewalls']['qpic_smith_s3_reopened'] is False
+          assert data['firewalls']['target_compatibility_inference_used'] is False
+          print('PROOF_REPLAY_COMPLETE')
+          PY

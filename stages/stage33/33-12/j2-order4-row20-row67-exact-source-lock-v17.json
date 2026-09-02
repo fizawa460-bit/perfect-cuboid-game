@@ -1,0 +1,70 @@
+{
+  "artifact": {
+    "id": 9831504749,
+    "name": "stage33-12-order4-two-row-v16",
+    "result_canonical_sha256": "9bf2fe321557c3e8c76ab693dbbd6bec055095f4fec95b84b29db61c4f22e9e8",
+    "result_filename": "stage33-12-order4-two-row-result-v16.json",
+    "result_raw_sha256": "61d4575313b2b2798e7b34c763c5cd21eb3fafb9c6766eb8feac48bd3be34e5f",
+    "result_status": "EXACT_ROWS_EXTRACTED",
+    "size_in_bytes": 930,
+    "zip_sha256": "b2168e79c62a32498f87aa9d5d1904ca937afee22caabf5db765592a44a61a5d"
+  },
+  "authorization_gate": {
+    "armed": true,
+    "armed_generation": 6,
+    "artifact_output_budget_bytes": 16384,
+    "cold_armed": false,
+    "cold_generation": 5,
+    "locked_rows_1based": [20, 67],
+    "run_key_blob_sha1": "605c5ec10537457682f26293dc11728a4819434d",
+    "run_key_path": "stages/stage33/33-12/j2-order4-row20-row67-run-key-v16.json",
+    "runner_concurrency": 1,
+    "transition_scope": "dedicated_run_key_only"
+  },
+  "branch": "stage33-post1483-order4-pullback-two-row-extraction",
+  "canonical_sha256": "04b47064db73e02068aa51301c94ab0576d927c0b71b2d3df093012028f061d2",
+  "dimensions": {
+    "bdimK": 74,
+    "bdim_full_surface": 140
+  },
+  "firewalls": {
+    "claim_promotion_performed": false,
+    "kummer_standard_columns_materialized": 0,
+    "named_j2_source_coordinate_materialized": false,
+    "qpic_smith_s3_reopened": false,
+    "stage33_12_closed_exact": false,
+    "stage33_progress": "6/11",
+    "target_compatibility_inference_used": false
+  },
+  "next_exact_action": "Reconstruct rows 20 and 67 through the retained 140-class Picard marking, transport to the locked Stage33-09 marked 64D basis, and continue the semantic named-J2 order-4 source-coordinate calculation deterministically without new heavy compute.",
+  "pinned_source": {
+    "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+    "git_blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+    "magma_source_slice_sha256": "7121fc484fa044f26aaa55ef5788a5598a879d84fb1c21f3ca3904844c1d4e8f",
+    "path": "Cuboids/cuboids.magma",
+    "raw_sha256": "5dc3ae961d872ff96420385880edf0f4225a12d3f906c614e1ccd2220399ce89",
+    "repository": "MichaelStollBayreuth/Verification"
+  },
+  "pr": 1485,
+  "rows": {
+    "20": [[32, 2], [117, 1], [122, 1], [125, 1], [130, 1], [133, 1], [138, 1]],
+    "67": [[110, 1], [115, 1]]
+  },
+  "schema": "STAGE33_12_J2_ORDER4_ROW20_ROW67_EXACT_SOURCE_LOCK_V17",
+  "source_head": "0a9d06810368737707dab4a8e168e33165c0cbe8",
+  "status": "EXACT_TWO_ROW_SOURCE_LOCKED_NO_CLAIM_PROMOTION",
+  "workflow": {
+    "authorize_job_conclusion": "success",
+    "authorize_job_id": 100122700934,
+    "extract_job_conclusion": "success",
+    "extract_job_id": 100122730714,
+    "extract_runner_count": 1,
+    "final_fail_closed_step_conclusion": "success",
+    "final_fail_closed_step_locked_marker": "PROOF_REPLAY_COMPLETE",
+    "path": ".github/workflows/stage33-12-order4-pullback-two-row-v16.yml",
+    "blob_sha1": "89337ece18da471b7a635fa80f8898887bbe91ab",
+    "run_conclusion": "success",
+    "run_id": 33590282972,
+    "run_status": "completed"
+  }
+}

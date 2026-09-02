@@ -78,6 +78,12 @@ jobs:
           python stages/stage33/33-12/verify_j2_actual_swap_mixed_discriminant_descent.py
           python stages/stage33/33-12/verify_j2_named_order4_actual_s3_source_lock_gap_v10.py
 
+          # PR #1485 frozen audit boundary: replay the exact v17-v20 chain.
+          python stages/stage33/33-12/verify_j2_order4_row20_row67_exact_source_lock_v17.py
+          python stages/stage33/33-12/verify_j2_order4_source_coordinate_blocker_v18.py
+          python stages/stage33/33-12/verify_j2_order4_integral_correction_torsor_v19.py
+          python stages/stage33/33-12/verify_j2_order4_named_functional_quotient_v20.py
+
           python - <<'PY'
           import json
           z=json.load(open('stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json'))
