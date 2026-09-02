@@ -2,7 +2,8 @@
 """Verify the already-promoted #1485 v17-v20 Stage33 boundary.
 
 The one-shot promotion is complete. This historical helper is deliberately
-read-only so rerunning it cannot overwrite later MAIN operational state.
+read-only and verifies only immutable #1485 evidence plus global no-release
+firewalls. Later Stage33 leaf/schema changes must not make this replay stale.
 """
 from __future__ import annotations
 
@@ -15,7 +16,6 @@ H = Path(__file__).resolve().parent
 C_PATH = H / "controller.json"
 R_PATH = H / "33-12/v20-hostile-audit-pass-receipt.json"
 
-SCHEMA = "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V56_V20_AUDIT_PASS_TWO_BIT_NAMED_ORDER4_GAP"
 AUDIT_SCOPE = "STAGE33_12_V17_V20_ORDER4_TWO_BIT_GAP_HOSTILE_AUDIT"
 AUDIT_HEAD = "2f3a511f945a22c1df58eaf68553cbb70d4a207c"
 AUDIT_REVIEW = 5086169445
@@ -65,6 +65,7 @@ def main():
     c = json.loads(C_PATH.read_text())
     s = c["stage33_12"]
 
+    # Immutable #1485 hostile-audit receipt.
     assert receipt["status"] == "PASS_HOSTILE_AUDIT"
     assert receipt["audit_scope"] == AUDIT_SCOPE
     assert receipt["audit_review_id"] == AUDIT_REVIEW
@@ -75,32 +76,21 @@ def main():
     assert receipt["pass_boundary"]["named_75d_column_materialized"] is False
     assert receipt["pass_boundary"]["kummer_standard_columns_materialized"] == 0
 
+    # Immutable v20 mathematical boundary. Later v21+ work may legitimately
+    # select the named source, so this helper must not assert current leaf flags.
     assert v20["status"] == "PASS_EXACT_NAMED_COLUMN_GAP_REDUCED_TO_TWO_BITS"
     assert v20["actual_s3_action_on_two_bit_quotient"]["orbits"] == [[6], [4, 5, 7]]
     assert v20["actual_s3_action_on_two_bit_quotient"]["named_mask_selected"] is False
 
-    assert c["schema"] == SCHEMA
+    # Current controller only has to retain the audited historical boundary and
+    # the global no-release firewalls. Do not pin its evolving schema/next leaf.
     assert c["stage33_progress"] == "6/11"
-    assert c["audit_required"] is False
-    assert c["audit_status"] == "PASS"
-    assert c["audit_scope"] == AUDIT_SCOPE
-    assert c["audit_review_id"] == AUDIT_REVIEW
-    assert c["audit_head_sha"] == AUDIT_HEAD
-    assert c["next_item"] == NEXT
-    assert c["advance_allowed"] is True
-    assert c["merge_allowed"] is False
-
+    assert c["last_completed_audit_scope"] == AUDIT_SCOPE
+    assert c["last_completed_audit_review_id"] == AUDIT_REVIEW
+    assert c["last_completed_audit_head_sha"] == AUDIT_HEAD
     assert s["v20_hostile_audit_pass_receipt_sha256"] == RECEIPT_SHA
-    assert s["corrected_J2_order4_named_column_relevant_quotient_dimension_f2"] == 2
-    assert s["corrected_J2_order4_named_column_relevant_masks_retained10"] == [4, 5, 6, 7]
-    assert s["corrected_J2_order4_named_column_relevant_s3_orbits"] == [[6], [4, 5, 7]]
-    assert s["corrected_J2_order4_two_bit_value_source_locked"] is False
-    assert s["corrected_J2_order4_lift_actual_s3_behavior_source_locked"] is False
-    assert s["corrected_J2_named_source_target_relation_materialized"] is False
-    assert s["finite_v4_kummer_columns_materialized"] == 0
-    assert s["finite_v4_kummer_named_relation_rank_f2"] == 0
-    assert s["closed_exact"] is False
 
+    assert c["merge_allowed"] is False
     assert c["release_gates"]["stage33_12_closed_exact"] is False
     assert c["release_gates"]["stage33_07_reclosed"] is False
     assert c["release_gates"]["stage33_08_released"] is False
