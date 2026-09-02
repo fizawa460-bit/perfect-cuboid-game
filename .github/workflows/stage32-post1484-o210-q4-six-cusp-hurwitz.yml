@@ -13,11 +13,16 @@ on:
       - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_common_double_cover_pic2_reduction.py'
       - 'stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-pic2-reduction.json'
       - 'stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-pic2-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_common_double_cover_cartesian_identity.py'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-source-note.md'
       - 'stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-boundary.json'
       - 'stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json'
       - 'stages/stage32/residual-32-01-production/post1473-o188-q4-genus2-descent-source-note.md'
       - 'stages/stage32/residual-32-01-production/post1473-o188-cusp-ramification-budget.json'
       - 'stages/stage32/residual-32-01-production/post1473-x8-marked-exceptional-incidence.json'
+      - 'stages/stage32/residual-32-01-production/post1473-product-cover-v4-character-rank-reduction.json'
+      - 'stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-beauville-odd-branch-wall.md'
       - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
       - 'stages/stage32/controller.json'
   workflow_dispatch:
@@ -44,3 +49,7 @@ jobs:
         run: >-
           python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_common_double_cover_pic2_reduction.py
           --check stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-pic2-reduction.json
+      - name: Replay common-cover Cartesian identity
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_common_double_cover_cartesian_identity.py
+          --check stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json
