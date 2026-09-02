@@ -18,12 +18,15 @@ Authoritative state is unchanged from the previous hostile-audit promotion: resi
 Read first:
 
 1. `stages/stage34/34-02/d2-stageA2-five-exact-orbit-preaudit-manifest.json`
-2. only the source evidence named by that manifest if replay is required.
+2. `stages/stage34/34-02/d2-stageA2-five-exact-orbit-replay-lock.json`
+3. only the source evidence named by the manifest if deeper replay is required.
 
 Exactly five direct representatives now have complete exact quotient point sets plus exact parent pullback with zero nondegenerate full-parent lifts:
 
 - q=`60/11`: `06bcc4e821a7d482a435`, `6c6d7f3a758500d6b585`, `70158c7fb753b71bd2dd`;
 - q=`84/13`: `54a9782fc24a5475166c`, `8f9ca1a5b214779b0af7`.
+
+The replay lock permanently stores q/delta/model/sextic/scale and all six projective x:z inputs for each candidate. MAIN independently replayed those exact inputs with rational arithmetic: each candidate has six receiver-degenerate quotient points, exactly one full-parent-square point, and zero nondegenerate full-parent lifts. This is preaudit evidence only.
 
 Their five listed sign partners are candidate-only. If and only if hostile audit validates all five direct proofs and the already-audited sign transfer, the prospective residual is `12` branches / `6` sign orbits, by-q `{20/99:4,24/7:0,48/55:0,60/11:0,80/39:4,84/13:4}`.
 
