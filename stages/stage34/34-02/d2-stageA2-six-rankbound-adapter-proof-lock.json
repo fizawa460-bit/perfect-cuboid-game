@@ -1,37 +1,30 @@
 {
-  "schema": "STAGE34_02B_D2_STAGEA2_SIX_DIAGNOSTIC_RANKBOUND_ADAPTER_PROOF_LOCK_V1",
-  "status": "SOURCE_LOCKED_COLD_NOT_ARMED",
+  "schema": "STAGE34_02B_D2_STAGEA2_SIX_DIAGNOSTIC_RANKBOUND_ADAPTER_PROOF_LOCK_V2_REPAIRED",
+  "status": "SOURCE_LOCKED_REPAIRED_COLD_NOT_ARMED",
   "authoritative_baseline_remaining_d1": 22,
-  "reason": "The first nine-representative proof replay independently re-ran RankBounds and obtained wider but still rigorous upper bounds on six targets. This is not a mathematical failure: the earlier dedicated alternate27 diagnostic already produced rigorous upper bounds <=1 on the exact same six models. This adapter uses that source-locked rank evidence only as the rank theorem, then independently requires RationalPointsGenus2 complete=true and exact parent pullback on the same integral sextic model.",
+  "reason": "Generation 1 used a compact RankBounds certificate that did not match its immutable workflow artifact. This repaired lock is rebuilt directly from artifact 9828202890 and selects, for each of the six unresolved representatives, the exact alternate model whose recorded RankBounds upper bound is <=1. RationalPointsGenus2 completeness and exact parent pullback are still required independently.",
   "rank_evidence": {
     "certificate": "d2-stageA2-nine-unresolved-orbit-alternate27-rank-certificate.json",
-    "certificate_blob_sha": "7162431ea96581d29faa87daf11fc74911765040",
+    "certificate_blob_sha": "3b27d82b4d9fa2e269d73570dc930453b632e057",
+    "certificate_schema": "STAGE34_02B_D2_STAGEA2_NINE_UNRESOLVED_ORBIT_ALTERNATE27_RANK_CERTIFICATE_V2_PROVENANCE_REPAIRED",
     "run": 33580395823,
     "job": 100093299550,
     "artifact_id": 9828202890,
-    "artifact_digest": "sha256:5543c3319bad33d5a09f691860b5ae75af3ec09243c988064652abe3d8607a88",
-    "payload_sha256": "sha256:75b69c85193f5b734f5e60b553596916846fe92cd3544a7f79ff248f08840769",
-    "raw_stdout_sha256": "sha256:60a3f2862b2f3226bdac98d5c29ec14155fd616a840d20be9577bad993181931"
+    "artifact_digest": "sha256:21609fc60dcf069ddbe79e7dd52ae050e5b9818c1c36792d2028831b462c7bab",
+    "payload_sha256": "sha256:6709fee5dda9736e7d02d7f9f43a7a5595077195ef4d634d8a7dbdbd9657ecc8",
+    "raw_stdout_sha256": "sha256:33cebf598d5e8bffb802ae66f44e6e88c1501c16be308666c399d32450f818ee",
+    "alternate27_source_lock_sha256": "sha256:68ecf5b39ebdd53cead002789e8b7172ed30dd2187fad55edd1cecbf3e371e08"
   },
-  "first_proof_replay": {
-    "run": 33581100188,
-    "job": 100095408932,
-    "head": "8d168260289ed9e306bb7a2ca596640e8d9e909a",
-    "artifact_id": 9828421218,
-    "artifact_digest": "sha256:5f4551f68343612ee6f3bbf103800dbbc6a671da3bb9aadaa3b40280207cb8e9",
-    "certificate_sha256": "sha256:f3a5342d5c468ebe887c1035a08c83626b40d51f858e88d59f0fded09547e5e1",
-    "raw_stdout_sha256": "sha256:66f5398265017b2a7c093eeccc73a4e592e0fda032bd67a4b181e7aaf804950e",
-    "already_direct_candidates": ["06bcc4e821a7d482a435","6c6d7f3a758500d6b585","70158c7fb753b71bd2dd"]
-  },
+  "generation1_revocation": "d2-stageA2-six-rankbound-adapter-generation1-revocation.json",
   "targets": [
-    {"branch_id":"169f94dd000a9c5c053f","partner":"b870eb75fe3db7bf6a04","q":"80/39","delta":[-1,-195,-5,-39],"triple":"U*V*A","model_id":69,"coefficients_desc_t_degree6":[0,-1560,-1521,3120,1521,-1560,0],"literal_to_integral_y_scale":"195/2","locked_rank_bounds":[0,1]},
-    {"branch_id":"40dc8f63e92a8a3a65e8","partner":"8a374a057daf5f92a87e","q":"84/13","delta":[13,-21,1880151,-6887],"triple":"U*V*B","model_id":180,"coefficients_desc_t_degree6":[0,48883926,631730736,-97767852,-631730736,48883926,0],"literal_to_integral_y_scale":"1880151","locked_rank_bounds":[0,1]},
-    {"branch_id":"54a9782fc24a5475166c","partner":"8c0b6409b866b1aa1121","q":"84/13","delta":[546,2,26,42],"triple":"U*V*A","model_id":142,"coefficients_desc_t_degree6":[0,1764,546,-3528,-546,1764,0],"literal_to_integral_y_scale":"546","locked_rank_bounds":[0,0]},
-    {"branch_id":"7a7ef1a67e794fe1651f","partner":"98b42307b3aa398f1e0c","q":"84/13","delta":[42,-26,13774,-3760302],"triple":"V*A*B","model_id":159,"coefficients_desc_t_degree6":[0,22932,303450,45864,-303450,22932,0],"literal_to_integral_y_scale":"3760302","locked_rank_bounds":[0,1]},
-    {"branch_id":"8f9ca1a5b214779b0af7","partner":"ea3dfa8e7dfb95bf3f7e","q":"84/13","delta":[1,273,21,13],"triple":"U*V*B","model_id":129,"coefficients_desc_t_degree6":[0,546,7056,-1092,-7056,546,0],"literal_to_integral_y_scale":"273","locked_rank_bounds":[0,0]},
-    {"branch_id":"99448685b81e29427c3f","partner":"d4f551f1038c705e3a16","q":"80/39","delta":[390,2,78,10],"triple":"U*V*B","model_id":139,"coefficients_desc_t_degree6":[0,1521,6240,-3042,-6240,1521,0],"literal_to_integral_y_scale":"390","locked_rank_bounds":[0,1]}
+    {"branch_id":"169f94dd000a9c5c053f","partner":"b870eb75fe3db7bf6a04","q":"80/39","delta":[-1,-195,-5,-39],"triple":"V*A*B","model_id":68,"coefficients_desc_t_degree6":[0,-1560,-7921,-3120,7921,-1560,0],"literal_to_integral_y_scale":"195/2","locked_rank_bounds":[0,1]},
+    {"branch_id":"40dc8f63e92a8a3a65e8","partner":"8a374a057daf5f92a87e","q":"84/13","delta":[13,-21,1880151,-6887],"triple":"U*V*A","model_id":38,"coefficients_desc_t_degree6":[0,-289254,-89531,578508,89531,-289254,0],"literal_to_integral_y_scale":"1880151/2","locked_rank_bounds":[0,1]},
+    {"branch_id":"54a9782fc24a5475166c","partner":"8c0b6409b866b1aa1121","q":"84/13","delta":[546,2,26,42],"triple":"U*A*B","model_id":187,"coefficients_desc_t_degree6":[546,7225,546,-14450,-546,7225,-546],"literal_to_integral_y_scale":"546","locked_rank_bounds":[0,0]},
+    {"branch_id":"7a7ef1a67e794fe1651f","partner":"98b42307b3aa398f1e0c","q":"84/13","delta":[42,-26,13774,-3760302],"triple":"U*V*B","model_id":165,"coefficients_desc_t_degree6":[0,89531,1157016,-179062,-1157016,89531,0],"literal_to_integral_y_scale":"3760302","locked_rank_bounds":[0,1]},
+    {"branch_id":"8f9ca1a5b214779b0af7","partner":"ea3dfa8e7dfb95bf3f7e","q":"84/13","delta":[1,273,21,13],"triple":"V*A*B","model_id":130,"coefficients_desc_t_degree6":[0,546,7225,1092,-7225,546,0],"literal_to_integral_y_scale":"273/2","locked_rank_bounds":[0,0]},
+    {"branch_id":"99448685b81e29427c3f","partner":"d4f551f1038c705e3a16","q":"80/39","delta":[390,2,78,10],"triple":"U*A*B","model_id":191,"coefficients_desc_t_degree6":[1560,7921,1560,-15842,-1560,7921,-1560],"literal_to_integral_y_scale":"390","locked_rank_bounds":[0,1]}
   ],
-  "proof_contract": "For each target, verify exact literal-parent-triple to integral-sextic square normalization, invoke RationalPointsGenus2 on that exact genus-two curve, require complete=true, enumerate every returned projective Q-point, and replay all four parent square conditions plus receiver degeneracy. The locked prior RankBounds is evidence for rank<=1 only; it carries no parent-closure credit by itself.",
+  "proof_contract": "For each repaired target, verify the exact literal-parent-triple to integral-sextic square normalization, invoke RationalPointsGenus2 on that exact favorable-rank genus-two curve, require complete=true, enumerate every returned projective Q-point, and replay all four parent square conditions plus receiver degeneracy. RankBounds evidence is exact-model evidence only and carries no parent-closure credit by itself.",
   "resource_preflight": {"expected_targets":6,"planned_heavy_jobs":1,"effective_heavy_concurrency":1,"maximum_external_magma_requests_at_once":1,"artifact_max_bytes":1048576,"retention_days":1},
   "firewalls": {"rank_bound_alone_closes_parent":false,"proof_candidate_is_authoritative":false,"hostile_audit_passed":false,"authoritative_remaining_d1":22,"D2_all_factor_branches_closed":false,"all_multiples_closed":false,"R29_EXT_CHANG_C_closed":false,"parent_route_closed":false,"perfect_cuboid_nonexistence_claim":false}
 }
