@@ -2,7 +2,7 @@
 
 status: UNPROMOTED_DELTA_ORDER4_PULLBACK_GAP_BLOCKED_ON_TWO_ROWS
 base_merge: #1483
-pr: PENDING
+pr: #1485
 branch: stage33-post1483-order4-pullback-two-row-extraction
 merge: FORBIDDEN
 heavy_compute: FORBIDDEN
@@ -21,6 +21,23 @@ Row `39` is already recovered exactly by retained symmetry transport:
 Successor exact row availability leaves exactly `[20,67]` unresolved:
 - certificate: `stages/stage33/33-12/j2-order4-retained-pullback-row-availability-v12.json`
 - canonical SHA256: `61a8523c8ca788c58aa0c3732694406230e4fd11afbe67a2d63d5543b0dda9ec`
+
+## New #1485 static geometric-route audit
+
+A genuinely new static source-locked route was checked without executing Magma and without target-compatibility inference:
+- certificate: `stages/stage33/33-12/j2-order4-row20-row67-static-geometric-route-audit-v15.json`
+- canonical SHA256: `dfb7176cc59272896971a3f06964ddd9456db7935e0dc0a71213f7767664feb3`
+- source head audited: `65a9f472c7db174330fa628b107a2510dbc39c95`
+
+Exact narrowing:
+- BigK row `20` is `C1sK[20]`, the last of the eight branch conics (BigK rows `13..20`). The explicit sign/coordinate symmetries keep this separate eight-element branch-conic orbit closed.
+- retained six-support exact pullbacks are BigK rows `[26,35,42,47,49,52]`, so the row20 branch-conic orbit has no retained six-support anchor. The row39-style anchor transport therefore does not close row20.
+- the pinned full-surface source has the matching branch-conic formula, but a complete pullback also includes exceptional-divisor terms over flattened singular points; the exact retained indices of those terms require the runtime singular-point ordering/incidence data.
+- BigK uses known curves first and then the 12 exceptional divisors represented by `ptsK`; hence row `67` is the fifth exceptional coordinate, `ptsK[5]`.
+- `ptsK` itself is constructed as `Points(SingularSubscheme(K))`, and the exceptional part of `permsK` uses runtime `Position(..., ptsK, ...)`. The pinned source does not statically serialize which geometric singular point occupies `ptsK[5]`.
+- narrow repository searches found no distinct retained point-order/incidence serialization under the new `SingularSubscheme(S)` / `flattened` route identifiers.
+
+Consequently rows `[20,67]` are still unresolved, but the static symmetry/geometric route is now exhausted to a sharper blocker: missing runtime singular-point ordering/incidence data. No named J2 order-4 source coordinate is materialized. Kummer standard columns remain `0`; Stage33 progress remains `6/11`; Stage33-12 remains OPEN. Keep `NO_INFERENCE`.
 
 ## Anti-repeat locks — do not redo these searches unchanged
 
@@ -44,10 +61,8 @@ Successor exact row availability leaves exactly `[20,67]` unresolved:
    - this is an evidence-availability negative result, not a theorem that no serialization can exist elsewhere.
    - reopen the same search only if a new concrete source/path/identifier is supplied; otherwise do not repeat it.
 
-No named J2 order-4 source coordinate is materialized. Kummer standard columns remain `0`; Stage33 progress remains `6/11`; Stage33-12 remains OPEN. Keep `NO_INFERENCE`.
-
 Do not reopen qPic, Smith, sign census, S3 candidate enumeration, the Stage32 retained-marking origin artifact, or infer rows 20/67 from target compatibility merely because the next batch lacks context. Their current premises have not changed.
 
 ## Next exact action
 
-Obtain exact serialized pullbacks for BigK rows `[20,67]` from a genuinely new already-retained/source-locked source, or obtain explicit authorization for a narrow execution of the pinned upstream source solely to extract those two rows. Until then, stop at this exact blocker rather than repeating the negative searches above.
+The remaining direct route is now explicit: obtain a genuinely new retained artifact that locks the missing singular-point ordering/incidences, or obtain explicit authorization for a narrow execution of the pinned upstream source solely to emit `MatBigKtoBig` rows `[20,67]`. Do not launch that execution under the current `heavy_compute: FORBIDDEN` boundary. Until one of those premises changes, stop at this exact blocker rather than repeating the negative/static searches above.
