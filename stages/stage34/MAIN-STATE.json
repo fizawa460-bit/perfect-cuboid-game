@@ -1,80 +1,77 @@
 {
-  "schema": "STAGE34_EXT_C_MAIN_STATE_V23_RECEIVER_CLOSED_AFTER_PR1489_HOSTILE_AUDIT",
+  "schema": "STAGE34_EXT_C_MAIN_STATE_V24_STAGE29_WRITEBACK_COMPLETE",
   "stage": "34",
-  "status": "RECEIVER_CLOSED_STAGE34_MISSION_COMPLETE_NO_PARENT_ROUTE_CREDIT",
+  "status": "COMPLETE_RECEIVER_CLOSED_AND_WRITTEN_BACK_NO_PARENT_ROUTE_CREDIT",
   "mission": "Close only Stage29 receiver R29-EXT-CHANG-C for the exact hostile-audited Paper-C all-multiples population; no parent-route or perfect-cuboid credit.",
   "prior_detailed_state": {
-    "schema": "STAGE34_EXT_C_MAIN_STATE_V22_D2_ALL_FACTOR_CLOSURE_AFTER_PR1489_HOSTILE_REAUDIT",
-    "blob_sha": "6e97fe16dc7f268ff67fc86d2dc69a8212619439",
-    "meaning": "Retained detailed lineage through q84/13 and cumulative 92-branch factor closure; V23 intentionally compacts routine startup after receiver closure."
+    "schema": "STAGE34_EXT_C_MAIN_STATE_V23_RECEIVER_CLOSED_AFTER_PR1489_HOSTILE_AUDIT",
+    "blob_sha": "b8d6536c3dfa8f1e792a8ba7ab3a0bff83707106",
+    "meaning": "Authoritative receiver closure before the Stage29 compatibility writeback."
   },
   "audited_foundation": {
-    "stage34_01_exact_object_and_population_closed": true,
-    "stage34_02_route_D_hostile_audit_passed": true,
-    "D2_split_to_receiver_pullback_complete": true,
     "D2_all_factor_branches_closed": true,
     "all_factor_hostile_reaudit_review_id": 5087246610,
-    "all_factor_audited_head": "06738d7f800781fc115ea99902956e7bb393bd8d",
     "receiver_level_hostile_audit_passed": true,
     "receiver_level_hostile_audit_review_id": 5088591887,
-    "receiver_level_audited_head": "52c3d9fc17c3615bc61f3844f2164a749303e930",
     "receiver_level_mathematical_evidence_frozen_head": "557aa823f41e1ff5ae31489eb1868fc32f04952e",
     "receiver_level_exact_replay_run": 33620807240,
     "receiver_level_exact_replay_job": 100217139651
   },
+  "stage29_writeback": {
+    "complete": true,
+    "certificate": "stages/stage34/34-09/stage29-receiver-writeback-certificate.json",
+    "verifier": "stages/stage34/34-09/verify_stage29_receiver_writeback.py",
+    "exact_replay_run": 33622578539,
+    "exact_replay_job": 100222778353,
+    "exact_replay_conclusion": "success",
+    "historical_stage29_ledgers_rewritten": false,
+    "post_stage34_active_kernel_count": 12,
+    "post_stage34_class3_kernel_count": 8,
+    "post_stage34_class2_kernel_count": 4
+  },
   "current": {
-    "unit": "34-02c-D2-RECEIVER-CLOSEOUT",
+    "unit": "34-09-STAGE29-RECEIVER-WRITEBACK-COMPLETE",
     "selected_route": "D_REPLACEMENT_DIRECT_RATIONAL_POINT_COVER_WITH_STAGEA2_SUCCESSIVE_FACTOR_DESCENT_AND_LOW_GENUS_QUOTIENTS",
-    "next_exact_leaf": "STAGE34_RECEIVER_CLOSEOUT_TO_STAGE29_RETURN_HANDOFF",
-    "why_this_leaf": "Hostile audit review 5088591887 proves the receiver-restricted implication from the authoritative non-torsion Stage34 population through pole exclusion, exact Face-3 cover equivalence, exact C_q <-> K_{q,d} receiver pullback, StageA2 reconstruction/squareclass overcover, and the already hostile-promoted zero receiver-relevant factor residual. Therefore all_multiples_closed=true and R29_EXT_CHANG_C_closed=true are authoritative. Stage34's stated mission is complete. No parent-route, endpoint, perfect-cuboid, direct-cover complete-pointset, factor-cover complete-pointset, or merge credit follows."
+    "next_exact_leaf": "NONE_STAGE34_COMPLETE",
+    "next_owner": "POST_STAGE29_RESEARCH_OS",
+    "why_complete": "The receiver theorem is hostile-audited and the exact cross-stage compatibility pointer now removes K16-C3-EXT-C-PRIMITIVE-DIVISOR from the live post-Stage29 frontier without mutating frozen Stage29 history."
   },
   "current_leaf_working_set": [
-    "stages/stage34/34-02/d2-stageA2-pr1489-receiver-level-hostile-audit-promotion-certificate.json",
-    "stages/stage34/34-02/d2-stageA2-pr1489-receiver-level-closure-hostile-audit-ready.json",
-    "stages/stage34/34-02/d2-stageA2-receiver-level-closure-assembly-preaudit.json",
-    "stages/stage34/34-02/verify_d2_stageA2_receiver_level_closure_assembly_preaudit.py"
+    "stages/stage34/34-09/stage29-receiver-writeback-certificate.json",
+    "stages/stage34/34-09/verify_stage29_receiver_writeback.py",
+    "stages/stage34/34-02/d2-stageA2-pr1489-receiver-level-hostile-audit-promotion-certificate.json"
   ],
   "authoritative_result": {
     "receiver": "R29-EXT-CHANG-C",
-    "receiver_population": "all non-torsion rational points of the seven locked E_q under the audited full free Mordell-Weil lattices and all torsion translates, including the full rank-two lattice on q=60/11",
     "receiver_face3_square_points_remaining": 0,
     "all_multiples_closed": true,
     "R29_EXT_CHANG_C_closed": true,
+    "K16_C3_EXT_C_PRIMITIVE_DIVISOR_discharged": true,
     "D2_all_factor_branches_closed": true,
     "D2_stageA2_remaining_branches": 0,
     "D2_stageA2_remaining_sign_orbits": 0
   },
-  "proof_adapter_summary": {
-    "population_exact": true,
-    "face3_poles_are_torsion_outside_receiver": true,
-    "nonpole_face3_square_iff_direct_cover_projection": true,
-    "direct_cover_to_d1_d2_matching_receiver_pullback_complete": true,
-    "reconstruction_factor_squareclass_overcover_complete_for_receiver": true,
-    "receiver_relevant_factor_residual_zero_hostile_audited": true,
-    "candidateB_used_only_as_receiver_intersection_exclusion": true
-  },
   "promotion_gates": {
-    "P1_exact_object_and_population_closed": true,
-    "D2_split_to_receiver_pullback_complete": true,
-    "D2_all_factor_branches_closed": true,
-    "receiver_level_hostile_audit_passed": true,
     "all_multiples_closed": true,
     "R29_EXT_CHANG_C_closed": true,
+    "stage29_receiver_writeback_complete": true,
     "direct_cover_rational_points_complete": false,
     "factor_cover_rational_points_complete": false,
+    "J12_PARAMETRIC_closed": false,
     "parent_route_closed": false,
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false,
     "merge_authorized": false
   },
   "firewalls": {
-    "candidateB_receiver_obstruction_implies_factor_branch_Q_pointset_empty": false,
     "receiver_closure_implies_direct_cover_rational_points_complete": false,
     "receiver_closure_implies_factor_cover_rational_points_complete": false,
+    "receiver_closure_implies_J12_PARAMETRIC_closure": false,
     "receiver_closure_implies_parent_route_closure": false,
     "receiver_closure_implies_perfect_cuboid_nonexistence": false,
     "direct_cover_rational_points_complete": false,
     "factor_cover_rational_points_complete": false,
+    "J12_PARAMETRIC_closed": false,
     "parent_route_closed": false,
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false,
@@ -85,6 +82,7 @@
     "do_not_reopen_q8039": true,
     "do_not_reopen_92_factor_branch_closure": true,
     "do_not_reopen_receiver_implication": true,
-    "reason": "All four layers are source-locked and hostile-audited. Reopen only on an explicit audit revocation, source mismatch, or user request."
+    "do_not_reopen_stage29_writeback": true,
+    "reason": "Stage34 mathematics and its Stage29 receiver writeback are exact-replayed/source-locked; the receiver implication itself is hostile-audited. Reopen only on audit revocation, source mismatch, or explicit user request."
   }
 }
