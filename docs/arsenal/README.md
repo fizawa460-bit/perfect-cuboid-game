@@ -8,10 +8,11 @@ Reusable mathematical weapons and proof workflows live at stable historical path
 |---|---|
 | Find a current card by ID, role, maturity, or Stage | [`catalog.md`](catalog.md) |
 | Read the machine-readable registry | [`index.json`](index.json) |
+| Open one small AI-oriented contract | [`cards/`](cards/) |
 | Search Stage14, Toolbox, StructureRadar, or old route history | [`deep-source-index.md`](deep-source-index.md) |
 | Check or regenerate the catalog after an edit | [`sync_arsenal_catalog.py`](sync_arsenal_catalog.py) |
 
-`index.json` is the sole machine-readable Arsenal registry. `catalog.md` is generated from it. Stage promotion files remain at their existing paths so old certificates and handoffs keep working; they are source/provenance documents, not competing indexes.
+`index.json` is the sole machine-readable Arsenal registry. `catalog.md` and `cards/<maturity>/<ID>.md` are generated from it and the linked source sections. Do not hand-edit generated files. Stage promotion files remain at their existing paths so old certificates and handoffs keep working; they are authoritative source/provenance documents, not competing indexes.
 
 ## Maturity labels
 
@@ -31,4 +32,4 @@ If no card matches, proceed to literature or new-theorem work. A finite certific
 
 ## Path policy
 
-The large Stage14 Arsenal, stage-specific promotion files, Toolbox, and StructureRadar are intentionally not moved. New navigation belongs here; proof sources stay at their stable paths. Superseded compiled indexes remain under [`../archive/arsenal-index-history/`](../archive/arsenal-index-history/).
+The large Stage14 Arsenal, stage-specific promotion files, Toolbox, and StructureRadar are intentionally not moved. Their reusable sections are exposed as uniformly named cards while proof sources stay at stable paths. Superseded compiled indexes remain under [`../archive/arsenal-index-history/`](../archive/arsenal-index-history/).
