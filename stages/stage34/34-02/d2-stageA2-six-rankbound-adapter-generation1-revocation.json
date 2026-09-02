@@ -1,0 +1,29 @@
+{
+  "schema": "STAGE34_02B_D2_SIX_RANKBOUND_ADAPTER_GENERATION1_REVOCATION_V1",
+  "status": "NON_CREDIT_SUPERSEDED_BAD_RANK_SOURCE_LOCK",
+  "run": 33581496651,
+  "head": "6b8979e92abe7ae0dd0e18c66e3de1f742a38c25",
+  "artifact_id": 9828601369,
+  "artifact_digest": "sha256:2c8c214222ae272eb2d7d30a128eaaa46e3509a26cff074fb17e5d4be61fcc34",
+  "certificate_sha256": "sha256:1425022c077e27d87b66e93e69920bbf81e33945288fd6a415447ac22800922a",
+  "raw_stdout_sha256": "sha256:e72a0ded16e1f41ad6c5aa5c8a922c2f7dcf8b98db49e4f50a98941937263346",
+  "superseded_source_lock_blob_sha": "18110b31a19b71fa7912d620b64e2b2533a86679",
+  "superseded_compact_rank_certificate_blob_sha": "7162431ea96581d29faa87daf11fc74911765040",
+  "observed_generation1_result": {
+    "workflow_conclusion": "success",
+    "direct_closure_candidates_reported": 4,
+    "reported_candidate_branch_ids": ["169f94dd000a9c5c053f","54a9782fc24a5475166c","8f9ca1a5b214779b0af7","99448685b81e29427c3f"],
+    "incomplete_branch_ids": ["40dc8f63e92a8a3a65e8","7a7ef1a67e794fe1651f"]
+  },
+  "revocation_reason": "The source-locked compact alternate27 RankBounds certificate did not match its immutable workflow artifact. In particular, four of the six generation-1 targets were assigned rank<=1 evidence belonging to different alternate models of the same branch. Therefore generation 1 receives no closure or audit-promotion credit, even where RationalPointsGenus2 independently returned complete=true.",
+  "corrective_action": "The alternate27 compact certificate is repaired directly from artifact 9828202890, the six target lock is rebuilt with the exact favorable alternate model for each branch, and a fresh run-key generation is required before re-execution.",
+  "firewalls": {
+    "generation1_candidate_is_authoritative": false,
+    "hostile_audit_passed": false,
+    "authoritative_remaining_d1": 22,
+    "D2_all_factor_branches_closed": false,
+    "all_multiples_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
