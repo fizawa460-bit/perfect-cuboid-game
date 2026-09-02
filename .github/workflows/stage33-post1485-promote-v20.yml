@@ -1,0 +1,51 @@
+name: Stage33 post1485 v20 audit promotion
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - '.github/workflows/stage33-post1485-promote-v20.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stage33-post1485-v20-promotion-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.number == 1488
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Promote audited v17-v20 boundary and replay
+        run: |
+          python stages/stage33/promote_post1485_v20_audit.py --continuation-pr 1488
+          python stages/stage33/sync_main_state.py
+          python stages/stage33/promote_post1485_v20_audit.py --continuation-pr 1488 --check
+          python stages/stage33/sync_main_state.py --check
+          python stages/stage33/33-12/verify_j2_order4_row20_row67_exact_source_lock_v17.py
+          python stages/stage33/33-12/verify_j2_order4_source_coordinate_blocker_v18.py
+          python stages/stage33/33-12/verify_j2_order4_integral_correction_torsor_v19.py
+          python stages/stage33/33-12/verify_j2_order4_named_functional_quotient_v20.py
+          git diff --check
+      - name: Commit exact authority promotion
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add stages/stage33/controller.json \
+                  stages/stage33/MAIN-STATE.json \
+                  stages/stage33/MAIN-BATCH-HANDOFF.md \
+                  stages/stage33/33-12/v20-hostile-audit-pass-receipt.json
+          git diff --cached --exit-code && exit 0
+          git commit -m 'Stage33: promote #1485 v20 hostile audit pass'
+          git push origin HEAD:${{ github.event.pull_request.head.ref || github.ref_name }}
