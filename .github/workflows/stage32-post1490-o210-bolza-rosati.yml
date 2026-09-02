@@ -11,6 +11,16 @@ on:
       - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json'
       - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-source-note.md'
       - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_principal_rosati_lock.py'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-birational-d4d4-trace-reduction.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-birational-d4d4-trace-reduction-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_birational_d4d4_trace_reduction.py'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-weierstrass-collision-delta-bound.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-weierstrass-collision-delta-bound-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_weierstrass_collision_delta_bound.py'
+      - 'stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-boundary.json'
+      - 'stages/stage32/residual-32-01-production/post1473-x8-marked-exceptional-incidence.json'
+      - 'stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json'
+      - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
   workflow_dispatch:
 
 permissions:
@@ -31,3 +41,11 @@ jobs:
         run: >-
           python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_principal_rosati_lock.py
           --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json
+      - name: Replay birational D4+D4 trace reduction
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_birational_d4d4_trace_reduction.py
+          --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-birational-d4d4-trace-reduction.json
+      - name: Replay six-Weierstrass collision delta bound
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_weierstrass_collision_delta_bound.py
+          --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-weierstrass-collision-delta-bound.json
