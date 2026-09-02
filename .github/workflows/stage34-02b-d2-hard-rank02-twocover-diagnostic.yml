@@ -41,7 +41,7 @@ jobs:
               oldgen=int(old.get('generation',-1))
           except Exception:
               oldgen=-1
-          ok=(cur.get('schema')=='STAGE34_02B_D2_HARD_RANK02_TWOCOVER_DIAGNOSTIC_RUNKEY_V1' and cur.get('armed') is True and isinstance(cur.get('generation'),int) and cur['generation']>oldgen and cur.get('expected_targets')==2 and cur.get('planned_heavy_jobs')==1 and cur.get('effective_heavy_concurrency')==1 and cur.get('maximum_external_magma_requests_at_once')==1 and cur.get('artifact_max_bytes')==1048576 and cur.get('retention_days')==1 and cur.get('source_lock_blob_sha')=='cdbf22c56979f0abdc0e84f14da25893d1636417')
+          ok=(cur.get('schema')=='STAGE34_02B_D2_HARD_RANK02_TWOCOVER_DIAGNOSTIC_RUNKEY_V1' and cur.get('armed') is True and isinstance(cur.get('generation'),int) and cur['generation']>oldgen and cur.get('expected_targets')==2 and cur.get('planned_heavy_jobs')==1 and cur.get('effective_heavy_concurrency')==1 and cur.get('maximum_external_magma_requests_at_once')==1 and cur.get('artifact_max_bytes')==1048576 and cur.get('retention_days')==1 and cur.get('source_lock_blob_sha')=='fc8fb6fe8557ab1b626bfb49228733753556bb2b')
           print('authorized='+('true' if ok else 'false'))
           print('reason='+('fresh_generation_armed' if ok else 'semantic_gate_failed'))
           PY
