@@ -1,69 +1,97 @@
 {
-  "schema": "STAGE32_POST1484_V6_MODULAR_FACTOR_BIDEGREE_HOSTILE_AUDIT_REPAIR_V1",
-  "stage": 32,
-  "status": "READY_FOR_BOUNDED_HOSTILE_REAUDIT",
+  "bounded_hostile_reaudit": {
+    "audited_exact_head": "78e41ef64f1fb8c4632ffd9604bbca26580f6de2",
+    "non_promotions": {
+      "O210_Q4_FIRST_PROJECTION_ETALE_GEOMETRY": "OPEN",
+      "endpoint": "NO_CREDIT",
+      "fixed_V6_all_integral_genus1_carriers": "OPEN",
+      "full178": "NO_CREDIT",
+      "perfect_cuboid": "NO_CREDIT",
+      "receiver": "NO_CREDIT",
+      "route": "NO_CREDIT",
+      "theorem": "NO_CREDIT"
+    },
+    "promotions": {
+      "O210_histogram_210xm1_28xm2": "AUDITED",
+      "fixed_V6_O188_product_cover_profiles": "CLOSED_AUDITED",
+      "modular_factor_bidegree_105_81": "AUDITED",
+      "qprime_1_2_integrality_exclusion": "AUDITED",
+      "qprime_4_O_wall": "AUDITED_O_AT_LEAST_210"
+    },
+    "review_id": 5086756888,
+    "verdict": "PASS"
+  },
+  "canonical_sha256_without_this_field": "e5badc7e076ccd5792f724a48498089386422cc1040866bbfb6b01ae9387ee30",
   "failed_audit": {
-    "audited_head": "3adcbbf3b1ca1138ce918c941740e33bc9bedf44",
-    "review_id": 5086509503,
-    "verdict": "FAIL_LIMITED_EVIDENCE_REPAIR",
     "accepted_math": [
       "modular_factor_bidegree_105_81",
       "degree_transport_8n_eq_2qprime_m",
       "qprime_1_2_integrality_exclusion",
       "qprime_4_O_min_210"
     ],
+    "audited_head": "3adcbbf3b1ca1138ce918c941740e33bc9bedf44",
     "repair_obligations": [
       "execute_new_certifier_in_exact_head_CI",
       "independently_source_lock_and_replay_local_cusp_lower_bound_adapter_for_O210_histogram"
-    ]
+    ],
+    "review_id": 5086509503,
+    "verdict": "FAIL_LIMITED_EVIDENCE_REPAIR"
   },
-  "repair": {
-    "repair_head": "723b872b0178e29f4b9220b75cdbf4e0fb1dc9c7",
-    "certifier_path": "stages/stage32/residual-32-01-production/certify_stage32_post1484_v6_modular_factor_bidegree_boundary.py",
-    "certifier_blob_sha1": "6350ece26b6e3a342d536bc20d59cc2396d256ba",
-    "boundary_canonical_sha256": "791870c37681702392e1e59d224f494ed791709d467efa68a20cf49bff4ab420",
-    "local_adapter_source_lock": {
-      "path": "stages/stage32/residual-32-01-production/post1473-o188-cusp-ramification-budget.json",
-      "blob_sha1": "dd5fdb8d2553d25a1479c1e5cff68a201c8396e3",
-      "canonical_sha256": "318ac76ca5baf9e5f7f7a2300628b432f3b5fbb718f2bd21bc7a4f13b9cf3328",
-      "primary_source": "Freitag--Salvati Manni, arXiv:1303.6495, Section 3 proof of Theorem 3.1"
-    },
-    "local_adapter_replay": {
-      "contact_multiplicity_domain": [1, 266],
-      "delta_formula": {
-        "odd": "m-1",
-        "even": "m-2"
-      },
-      "zero_delta_contacts": [1, 2],
-      "O210_first_projection_source_ramification": 0,
-      "forced_histogram": {
-        "m1_odd": 210,
-        "m2_even": 28,
-        "all_other_contacts": 0,
-        "B": 238
-      }
-    },
-    "ci": {
-      "workflow_path": ".github/workflows/stage32-post1484-v6-modular-factor-bidegree.yml",
-      "workflow_run_id": 33602423624,
-      "job_id": 100158889137,
-      "job_name": "replay",
-      "conclusion": "success",
-      "logged_boundary_canonical_sha256": "791870c37681702392e1e59d224f494ed791709d467efa68a20cf49bff4ab420"
-    }
-  },
-  "next_action": "BOUNDED_HOSTILE_REAUDIT_ONLY_BEFORE_PROMOTION_OR_FURTHER_CREDIT",
   "firewalls": {
-    "O188_closed": false,
-    "O188_provisionally_excluded_pending_hostile_reaudit": true,
+    "O188_closed": true,
     "O210_closed": false,
+    "endpoint_credit": false,
+    "fixed_V6_all_integral_genus1_carriers_closed": false,
     "full178_active": false,
+    "merge_allowed": false,
+    "perfect_cuboid_claim": false,
     "receiver_credit": false,
     "route_credit": false,
-    "theorem_credit": false,
-    "endpoint_credit": false,
-    "perfect_cuboid_claim": false,
-    "merge_allowed": false
+    "theorem_credit": false
   },
-  "canonical_sha256_without_this_field": "997326851186cbba7d98d1516f0c673c63364b4fb190185e57ce4dd4bafe6376"
+  "next_action": "O210_Q4_FIRST_PROJECTION_ETALE_GEOMETRY",
+  "repair": {
+    "boundary_canonical_sha256": "791870c37681702392e1e59d224f494ed791709d467efa68a20cf49bff4ab420",
+    "certifier_blob_sha1": "6350ece26b6e3a342d536bc20d59cc2396d256ba",
+    "certifier_path": "stages/stage32/residual-32-01-production/certify_stage32_post1484_v6_modular_factor_bidegree_boundary.py",
+    "ci": {
+      "conclusion": "success",
+      "job_id": 100159577739,
+      "job_name": "replay",
+      "logged_boundary_canonical_sha256": "791870c37681702392e1e59d224f494ed791709d467efa68a20cf49bff4ab420",
+      "workflow_path": ".github/workflows/stage32-post1484-v6-modular-factor-bidegree.yml",
+      "workflow_run_id": 33602648528
+    },
+    "final_repair_head": "78e41ef64f1fb8c4632ffd9604bbca26580f6de2",
+    "local_adapter_replay": {
+      "O210_first_projection_source_ramification": 0,
+      "contact_multiplicity_domain": [
+        1,
+        266
+      ],
+      "delta_formula": {
+        "even": "m-2",
+        "odd": "m-1"
+      },
+      "forced_histogram": {
+        "B": 238,
+        "all_other_contacts": 0,
+        "m1_odd": 210,
+        "m2_even": 28
+      },
+      "zero_delta_contacts": [
+        1,
+        2
+      ]
+    },
+    "local_adapter_source_lock": {
+      "blob_sha1": "dd5fdb8d2553d25a1479c1e5cff68a201c8396e3",
+      "canonical_sha256": "318ac76ca5baf9e5f7f7a2300628b432f3b5fbb718f2bd21bc7a4f13b9cf3328",
+      "path": "stages/stage32/residual-32-01-production/post1473-o188-cusp-ramification-budget.json",
+      "primary_source": "Freitag--Salvati Manni, arXiv:1303.6495, Section 3 proof of Theorem 3.1"
+    }
+  },
+  "schema": "STAGE32_POST1484_V6_MODULAR_FACTOR_BIDEGREE_HOSTILE_AUDIT_REPAIR_V2",
+  "stage": 32,
+  "status": "BOUNDED_HOSTILE_REAUDIT_PASS_PROMOTED"
 }
