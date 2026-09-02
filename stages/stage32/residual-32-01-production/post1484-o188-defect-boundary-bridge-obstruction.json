@@ -20,7 +20,15 @@
     "qprime4_descent_canonical_sha256": "3617ef2e0717a1d75de0f3a271a4b0e25f3ed7e67e76f1e58b490d3fcba9d978",
     "boundary_adapter_canonical_sha256": "b947be5a3677a9e0b46839241adc03004ee5221ee94d6371f165253281e2a81f",
     "replay_canonical_sha256": "920db071ebcae125cdac25e8ebb3c5cd257983b1975f9feb7434c0c5b2922b89",
-    "v4_cusp_quotient_canonical_sha256": "2869208e7509d7b79378264ea1982299b0f1745b1a54c5856cfbba0754567ce5"
+    "v4_cusp_quotient_canonical_sha256": "2869208e7509d7b79378264ea1982299b0f1745b1a54c5856cfbba0754567ce5",
+    "descent_replay_script_path": "stages/stage32/residual-32-01-production/diagnose_stage32_post1473_o188_q4_genus2_descent.py",
+    "descent_replay_script_blob_sha1": "6551e6c7b739dc25e6d47f29ebb97b10c373bab5",
+    "cusp_budget_path": "stages/stage32/residual-32-01-production/post1473-o188-cusp-ramification-budget.json",
+    "cusp_budget_blob_sha1": "dd5fdb8d2553d25a1479c1e5cff68a201c8396e3",
+    "cusp_budget_canonical_sha256": "318ac76ca5baf9e5f7f7a2300628b432f3b5fbb718f2bd21bc7a4f13b9cf3328",
+    "upstream_o188_profile_path": "stages/stage32/residual-32-01-production/post1473-o188-product-cover-extremal-profile.json",
+    "upstream_o188_profile_blob_sha1": "c3a434da20bdf038f8077a23c88fe3649b2474ba",
+    "upstream_o188_profile_canonical_sha256": "45775c816f7e3ba46c9c0ab81ff0646d41cbc7d5d5e9a623f8f43c04ccd36923"
   },
   "exact_known": {
     "B": {
@@ -45,9 +53,11 @@
     "full_ramification_concentration_on_named_retained_boundary_points_proved": false,
     "findings": [
       "The current q'=4 descent certificate V2 fixes the hyperelliptic-composite special cycle types (B: 6^1 2^90; C: 4^2 2^89), the unique defect-contact parameters, and the descended ramification-divisor shapes, but it does not carry an individual source-cycle or quotient-point identifier for the B/C defect contact.",
-      "The audited boundary-label adapter is certified for retained positive q'=2 rows and explicitly does not provide a pointwise retained-boundary label for the q'=4 B/C defect cases.",
-      "Within the committed evidence audited for this leaf, no persisted canonical source artifact carrying individual B/C branch identities was located; the previously referenced passport-style path is not present on the active branch."
-    ]
+      "The exact descent replay script constructs B/C from contact-histogram/profile data and does not consume any pointwise source-branch identifier or branch-to-boundary transport input.",
+      "The pinned upstream O=188 extremal-profile certificate explicitly firewalls that projection ramification totals are not branch-location data and that the coarse profile is not analytic realization.",
+      "The audited boundary-label adapter is certified for retained positive q'=2 rows and explicitly does not provide a pointwise retained-boundary label for the q'=4 B/C defect cases."
+    ],
+    "source_chain_pointwise_provenance_status": "ABSENT_BY_CONSTRUCTION_IN_CURRENT_REPLAY_CHAIN"
   },
   "non_inferences": [
     "Do not infer a source branch identity from cycle counts or contact histograms alone.",
@@ -59,5 +69,5 @@
     "An authorized exact transport of those identifiers to retained boundary node or label identifiers.",
     "A local ramification computation or exact replay proving that the entire descended degree-2 ramification divisor is supported exactly on the transported retained boundary point(s)."
   ],
-  "next_action": "Recover or regenerate source-preserving pointwise q'=4 branch evidence with stable identifiers, then build the defect-to-boundary table by exact transport without reinterpretation."
+  "next_action": "Create new source-preserving pointwise q'=4 geometric evidence with stable branch identifiers; the existing histogram/profile replay chain cannot be upgraded to the defect-to-boundary bridge by reinterpretation."
 }
