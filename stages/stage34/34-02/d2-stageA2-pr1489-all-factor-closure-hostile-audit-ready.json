@@ -1,0 +1,69 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_PR1489_ALL_FACTOR_CLOSURE_HOSTILE_AUDIT_READY_V1",
+  "status": "READY_FOR_INDEPENDENT_HOSTILE_AUDIT_NO_PROMOTION",
+  "pr": 1489,
+  "branch": "stage34-main/q8413-torsion-parent-classification",
+  "authoritative_source_head_before_assembly": "91dcb6ea20053ce9c68cb6e6025d6d817798f3f7",
+  "mathematical_assembly_frozen_head": "cddb481518430eb016f0dad295f06cfdbae31adc",
+  "new_exact_evidence": {
+    "verifier": {
+      "path": "stages/stage34/34-02/verify_d2_stageA2_zero_residual_all_factor_closure.py",
+      "blob_sha": "7841bc431023be6edb8ab632d717e5b62547f278"
+    },
+    "assembly_certificate": {
+      "path": "stages/stage34/34-02/d2-stageA2-zero-residual-all-factor-closure-assembly-certificate.json",
+      "blob_sha": "3597746941dfcced393193d7f6c9ec055c7be9b6"
+    },
+    "exact_replay": {
+      "workflow_run": 33605428706,
+      "job": 100168188775,
+      "head": "cddb481518430eb016f0dad295f06cfdbae31adc",
+      "conclusion": "success"
+    }
+  },
+  "source_lock_authority": {
+    "source_table_is_pinned_in_assembly_certificate": true,
+    "all_source_blob_shas_are_reverified_by_verifier": true,
+    "audit_lineage_is_pinned_in_assembly_certificate": true
+  },
+  "candidate_promotion_if_and_only_if_audit_passes": {
+    "D2_all_factor_branches_closed": true,
+    "scope": "audited nonzero-free-part R29-EXT-CHANG-C receiver population only",
+    "authoritative_residual_before": 0,
+    "authoritative_sign_orbits_before": 0
+  },
+  "exact_assembly_summary": {
+    "coverage_chain": [29952,1946,1214,1024,92,76,52,44,30,26,22,8,4,0],
+    "d2_post_support_transition": "20 -> 0",
+    "d1_post_support_initial": 92,
+    "d1_closed_unique": 92,
+    "d1_closed_ids_sha256": "7d43cd93f9329b48fa981857c10b03ad7a9df985af057ff1845001ca4fcefa6f",
+    "coverage_gap_detected": false,
+    "duplicate_closure_id_detected": false
+  },
+  "candidate_B_semantic_boundary": {
+    "receiver_population_exclusion_authoritative_in_prior_reaudit": true,
+    "factor_branch_rational_pointset_empty_claim": false,
+    "must_not_be_strengthened_by_this_audit": true
+  },
+  "audit_checklist": [
+    "Verify the initial 29952 tuples are an exhaustive over-approximation from the locked odd-squareclass, 2-adic, and sign conditions; do not reinterpret 29952 as a realizable-point count.",
+    "Independently verify the exact monotone transitions 29952->1946->1214->1024->92 and the full-support split d2 20->0 / d1 1004->92 from the pinned source locks.",
+    "Verify the consecutive post-support d1 transitions 92->76->52->44->30->26->22->8->4->0 and their q-by-q counts from the exact closure/promotion certificates.",
+    "Independently extract the post-support closed branch IDs, confirm all 92 are pairwise distinct, and reproduce SHA256 7d43cd93f9329b48fa981857c10b03ad7a9df985af057ff1845001ca4fcefa6f over the sorted newline-terminated ID list.",
+    "Verify Candidate B contributes only exact receiver/K or Face-3-square intersection exclusion for four branches and does not assert those factor branches have empty rational point sets.",
+    "Verify every transition requiring hostile-audit authority is backed by the pinned audit lineage and that no provisional or revoked closure is consumed.",
+    "Verify the cumulative implication is scoped only to the audited nonzero-free-part R29-EXT-CHANG-C receiver population and supports at most D2_all_factor_branches_closed=true."
+  ],
+  "firewalls": {
+    "hostile_audit_passed": false,
+    "D2_all_factor_branches_closed": false,
+    "direct_cover_rational_points_complete": false,
+    "all_multiples_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "parent_route_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
