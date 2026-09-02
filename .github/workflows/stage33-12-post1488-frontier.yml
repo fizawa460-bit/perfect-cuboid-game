@@ -1,0 +1,39 @@
+name: Stage33-12 post-1488 frontier replay
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-12/j2-genuine-h2-mu2-kummer-adapter-v25.json'
+      - 'stages/stage33/33-12/j2-corrected-ct-norm-splitting-module.json'
+      - 'stages/stage33/33-12/j2-corrected-ct-norm-picard-support.json'
+      - 'stages/stage33/33-12/j2-corrected-explicit-cech-mu2-lift.json'
+      - 'stages/stage33/33-12/j2-ct-determinant-compactification-parity-frontier-v26.json'
+      - 'stages/stage33/33-12/certify_j2_ct_determinant_compactification_parity_frontier_v26.py'
+      - 'stages/stage33/33-12/j2-ct-norm-splitting-boundary-valuations-v27.json'
+      - 'stages/stage33/33-12/certify_j2_ct_norm_splitting_boundary_valuations_v27.py'
+      - '.github/workflows/stage33-12-post1488-frontier.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage33-12-post1488-frontier-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  exact-frontier-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Replay V26 determinant frontier and V27 boundary valuations
+        run: |
+          python stages/stage33/33-12/certify_j2_ct_determinant_compactification_parity_frontier_v26.py --check
+          python stages/stage33/33-12/certify_j2_ct_norm_splitting_boundary_valuations_v27.py --check
+          git diff --check
