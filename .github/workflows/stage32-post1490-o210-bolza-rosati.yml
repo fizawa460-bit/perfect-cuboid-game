@@ -1,0 +1,33 @@
+name: Stage32 post1490 O210 Bolza Rosati replay
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1490-o210-bolza-rosati.yml'
+      - 'stages/stage32/controller.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-frontier.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_correspondence_rosati_frontier.py'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_principal_rosati_lock.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Replay Bolza correspondence Rosati frontier
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_correspondence_rosati_frontier.py
+          --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-frontier.json
+      - name: Replay exact Bolza principal Rosati lock
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_principal_rosati_lock.py
+          --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json
