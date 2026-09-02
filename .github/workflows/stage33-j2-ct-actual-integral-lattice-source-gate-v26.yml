@@ -1,0 +1,33 @@
+name: Stage33 J2 Ct actual integral lattice source gate V26
+
+on:
+  push:
+    paths:
+      - 'stages/stage33/33-12/j2-ct-actual-integral-lattice-source-gate-v26.json'
+      - 'scripts/verify_stage33_j2_ct_actual_integral_lattice_source_gate_v26.py'
+      - 'stages/stage33/33-12/j2-genuine-h2-mu2-kummer-adapter-v25.json'
+      - 'stages/stage33/33-12/j2-corrected-explicit-cech-mu2-lift.json'
+      - 'stages/stage33/33-12/j2-corrected-ct-norm-splitting-module.json'
+      - 'stages/stage33/33-12/j2-full-surface-mu2-zero-defect-contract.json'
+      - '.github/workflows/stage33-j2-ct-actual-integral-lattice-source-gate-v26.yml'
+  pull_request:
+    paths:
+      - 'stages/stage33/33-12/j2-ct-actual-integral-lattice-source-gate-v26.json'
+      - 'scripts/verify_stage33_j2_ct_actual_integral_lattice_source_gate_v26.py'
+      - 'stages/stage33/33-12/j2-genuine-h2-mu2-kummer-adapter-v25.json'
+      - 'stages/stage33/33-12/j2-corrected-explicit-cech-mu2-lift.json'
+      - 'stages/stage33/33-12/j2-corrected-ct-norm-splitting-module.json'
+      - 'stages/stage33/33-12/j2-full-surface-mu2-zero-defect-contract.json'
+      - '.github/workflows/stage33-j2-ct-actual-integral-lattice-source-gate-v26.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify V26 source gate
+        run: python scripts/verify_stage33_j2_ct_actual_integral_lattice_source_gate_v26.py

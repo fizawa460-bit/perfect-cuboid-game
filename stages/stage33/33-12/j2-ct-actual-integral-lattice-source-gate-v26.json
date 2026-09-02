@@ -1,0 +1,64 @@
+{
+  "schema": "stage33-j2-ct-actual-integral-lattice-source-gate-v26",
+  "version": 26,
+  "status": "BLOCKED_ON_ACTUAL_CT_INTEGRAL_LATTICE_SOURCE",
+  "purpose": "Prevent promotion of the named J2 lambda_D lift to a Pic(S)/2 defect or HS d2/V4 value before the actual C_t integral rank-2 Cech lattice is materialized.",
+  "authority": {
+    "beta1": [1, 0],
+    "source": "mask6",
+    "a": 0,
+    "b": 1,
+    "target_support": [2, 5],
+    "lift": "lambda_D"
+  },
+  "source_lock": {
+    "adapter_v25": "stages/stage33/33-12/j2-genuine-h2-mu2-kummer-adapter-v25.json",
+    "explicit_cech_lift": "stages/stage33/33-12/j2-corrected-explicit-cech-mu2-lift.json",
+    "norm_splitting": "stages/stage33/33-12/j2-corrected-ct-norm-splitting-module.json",
+    "zero_defect_contract": "stages/stage33/33-12/j2-full-surface-mu2-zero-defect-contract.json"
+  },
+  "integral_extension_ambiguity": {
+    "E0": {
+      "bundle": "O + O(-2,0)",
+      "determinant_pic_mod_2_candidate": 0,
+      "selected_as_actual": false
+    },
+    "E1": {
+      "bundle": "O + O(-3,0)",
+      "elementary_transform": true,
+      "determinant_pic_mod_2_candidate": 1,
+      "selected_as_actual": false
+    },
+    "selected": null,
+    "generic_norm_splitting_distinguishes": false
+  },
+  "required_actual_evidence": [
+    "actual C_t fpqc/Cech patch cover grounded in lambda_D/AALR",
+    "explicit local integral rank-2 basis on every patch",
+    "explicit 2x2 overlap transition matrices",
+    "triple-overlap cocycle verification",
+    "determinant transition line-bundle class in Pic(S)/2",
+    "explicit E0-versus-E1 integral selector"
+  ],
+  "forbidden_inferences": {
+    "generic_norm_splitting_implies_pic_mod_2": false,
+    "zero_defect_contract_is_materialized_proof": false,
+    "cc_actual_cech_implies_ct_actual_cech": false,
+    "f2_infinity_equals_1_alone_selects_E0": false
+  },
+  "downstream": {
+    "pic_mod_2_defect_materialized": false,
+    "hs_d2_materialized": false,
+    "v4_connecting_cocycle_materialized": false,
+    "stage33_progress": "6/11",
+    "standard_kummer_columns": "0/10"
+  },
+  "promotion_gate": {
+    "open": false,
+    "may_compute_pic_mod_2": false,
+    "may_compute_hs_d2": false,
+    "may_compute_v4_connecting_cocycle": false,
+    "may_mark_any_standard_kummer_column_solved": false
+  },
+  "anti_loop_next_leaf": "Materialize only the actual C_t integral lattice source bridge. Do not reopen generic splitting, residue-square, zero-defect-contract, or historical C_c arguments as substitutes."
+}
