@@ -20,6 +20,9 @@ on:
       - 'stages/stage32/residual-32-01-production/post1484-o210-q4-second-projection-local-excess-decomposition.json'
       - 'stages/stage32/residual-32-01-production/post1484-o210-q4-second-projection-local-excess-source-note.md'
       - 'stages/stage32/residual-32-01-production/post1484-o210-q4-second-projection-ramification-accounting.json'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_second_ramification_half_divisor_picard_identity.py'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-second-ramification-half-divisor-picard-identity.json'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-second-ramification-half-divisor-picard-source-note.md'
       - 'stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-boundary.json'
       - 'stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json'
       - 'stages/stage32/residual-32-01-production/post1473-o188-q4-genus2-descent-source-note.md'
@@ -61,3 +64,7 @@ jobs:
         run: >-
           python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_second_projection_local_excess_decomposition.py
           --check stages/stage32/residual-32-01-production/post1484-o210-q4-second-projection-local-excess-decomposition.json
+      - name: Replay second-ramification half-divisor Picard identity
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_second_ramification_half_divisor_picard_identity.py
+          --check stages/stage32/residual-32-01-production/post1484-o210-q4-second-ramification-half-divisor-picard-identity.json
