@@ -11,6 +11,8 @@ on:
       - 'stages/stage33/33-12/certify_j2_ct_determinant_compactification_parity_frontier_v26.py'
       - 'stages/stage33/33-12/j2-ct-norm-splitting-boundary-valuations-v27.json'
       - 'stages/stage33/33-12/certify_j2_ct_norm_splitting_boundary_valuations_v27.py'
+      - 'stages/stage33/33-12/j2-post-v27-exceptional-overlap-inheritance-audit-v28.json'
+      - 'stages/stage33/33-12/certify_j2_post_v27_exceptional_overlap_inheritance_audit_v28.py'
       - '.github/workflows/stage33-12-post1488-frontier.yml'
   workflow_dispatch:
 
@@ -32,8 +34,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Replay V26 determinant frontier and V27 boundary valuations
+      - name: Replay V26 determinant, V27 boundary, and V28 exceptional inheritance frontier
         run: |
           python stages/stage33/33-12/certify_j2_ct_determinant_compactification_parity_frontier_v26.py --check
           python stages/stage33/33-12/certify_j2_ct_norm_splitting_boundary_valuations_v27.py --check
+          python stages/stage33/33-12/certify_j2_post_v27_exceptional_overlap_inheritance_audit_v28.py --check
           git diff --check
