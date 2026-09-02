@@ -57,18 +57,30 @@ def branch_survivors(delta):
     return out
 
 
+def poly_mul(f, g):
+    out = [0] * (len(f) + len(g) - 1)
+    for i, x in enumerate(f):
+        for j, y in enumerate(g):
+            out[i + j] += x * y
+    return out
+
+
 def verify_cleared_quartic_identity():
-    # With U=T^2-S^2, V=2TS, A=aU+bV, B=bU+aV,
-    # A^2+B^2 is b^2 times the homogeneous d=1 K_{q,1} quartic (q=a/b).
-    lhs_coeffs = (
-        A_COEFF * A_COEFF + B_COEFF * B_COEFF,
-        8 * A_COEFF * B_COEFF,
-        2 * (A_COEFF * A_COEFF + B_COEFF * B_COEFF),
-        -8 * A_COEFF * B_COEFF,
-        A_COEFF * A_COEFF + B_COEFF * B_COEFF,
-    )
-    cleared_k_coeffs = lhs_coeffs
-    assert lhs_coeffs == cleared_k_coeffs
+    # Dehomogenize S=1.  A=a(t^2-1)+2bt and B=b(t^2-1)+2at.
+    # Exact coefficient expansion must equal b^2*K_{q,1}(t), q=a/b.
+    a = A_COEFF
+    b = B_COEFF
+    A_poly = [-a, 2 * b, a]
+    B_poly = [-b, 2 * a, b]
+    lhs = [x + y for x, y in zip(poly_mul(A_poly, A_poly), poly_mul(B_poly, B_poly))]
+    expected = [
+        a * a + b * b,
+        -8 * a * b,
+        2 * (a * a + b * b),
+        8 * a * b,
+        a * a + b * b,
+    ]
+    assert lhs == expected, (lhs, expected)
 
 
 def main():
