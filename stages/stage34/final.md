@@ -2,7 +2,7 @@
 
 ```text
 STAGE=Stage34
-STATUS=AUDITED_FINAL
+STATUS=AUDITED_FINAL_MERGE_NOT_AUTHORIZED
 SOURCE_RECEIVER=R29-EXT-CHANG-C
 SOURCE_KERNEL=K16-C3-EXT-C-PRIMITIVE-DIVISOR
 PARENT_ROUTE=J12-PARAMETRIC
@@ -12,103 +12,70 @@ PARENT_ROUTE_STATUS=OPEN
 PERFECT_CUBOID_CONCLUSION=NONE
 ```
 
-This file is the Stage34 mathematical closeout surface. Its load-bearing argument is written here rather than delegated to earlier Stage34 files. Repository paths and hashes near the end are provenance/replay pointers only; they are not prerequisites for understanding what Stage34 proves or why the receiver closes.
+This file is the Stage34 mathematical closeout surface. The algebraic reductions and the finite exclusion predicates needed to identify every closure group are stated here. Repository files, hashes, audit reviews and CI runs at the end are reproducibility provenance, not substitutes for omitted mathematical steps.
 
 ## 1. Exact theorem and population
 
-For each of
+For
 
 ```text
 q = 20/21, 80/39, 24/7, 84/13, 48/55, 20/99, 60/11
 ```
 
-consider
+put
 
 \[
-E_q:\qquad y^2=x(x+1)(x+q^2).
+E_q:\ y^2=x(x+1)(x+q^2).
 \]
 
-Every one of these seven curves has rational torsion subgroup of order eight. The free Mordell--Weil lattices used by Stage34 were independently certified to be the full free parts, not merely finite-index sublattices.
-
-For the six rank-one fibers
-
-```text
-20/21, 80/39, 24/7, 84/13, 48/55, 20/99
-```
-
-the authoritative population is
+For the first six fibers the authoritative population is the complete rank-one free lattice modulo all torsion,
 
 \[
-Q=nP_q+T,\qquad n\in\mathbf Z_{\ge1},\quad T\in E_q(\mathbf Q)_{\rm tors}.
+Q=nP_q+T,\qquad n\ge1,\qquad T\in E_q(\mathbf Q)_{tors},
 \]
 
-Negative free coefficients are already covered because the target Face-3 quantity is invariant under `Q -> -Q`, while `T -> -T` permutes the complete torsion subgroup.
-
-For `q=60/11`, whose free rank is two, the authoritative population is
+and for `q=60/11` it is the complete rank-two lattice
 
 \[
-Q=aG_1+bG_2+T,
-\qquad
-(a,b)\in\mathbf Z^2\setminus\{(0,0)\},
-\qquad
-T\in E_q(\mathbf Q)_{\rm tors}.
+Q=aG_1+bG_2+T,\qquad (a,b)\in\mathbf Z^2\setminus\{(0,0)\},
+\qquad T\in E_q(\mathbf Q)_{tors}.
 \]
 
-The source-to-certified rank-two basis change has determinant of absolute value one, so every nonzero free lattice point is included. Thus Stage34 is not a finite-multiple computation, a finite box theorem, or a union of selected rank-two rays.
+The locked Mordell--Weil generators span the full free parts. Thus this is not a bounded-multiple, selected-ray, or finite-box theorem.
 
-The exact Stage34 theorem is
+Stage34 proves
 
 \[
-\boxed{
-F_3(Q)\notin \mathbf Q^{\,2}
-\text{ for every non-torsion }Q
-\text{ in the seven populations above.}
-}
+\boxed{F_3(Q)\notin\mathbf Q^2}
 \]
 
-This is precisely the population required by the Stage29 receiver `R29-EXT-CHANG-C`.
+for every non-torsion point in that full seven-fiber population.
 
-## 2. Face-3 formula and exact cover equivalence
+## 2. Exact Face-3 cover
 
-Paper-C Face-3 on `E_q` is
+On `E_q`,
 
 \[
 F_3(Q)=\left(\frac{2yq}{q^2-x^2}\right)^2+1+q^2.
 \]
 
-Substitute
-
-\[
-y^2=x(x+1)(x+q^2)
-\]
-
-and collect the numerator. One obtains the exact factorization
+Using `y^2=x(x+1)(x+q^2)` gives
 
 \[
 F_3(Q)=\frac{A_q(x)B_q(x)}{(q^2-x^2)^2},
 \]
 
-where
+with
 
 \[
 A_q(x)=x^2+q^2,
 \]
 
-and
-
 \[
 B_q(x)=(1+q^2)x^2+4q^2x+q^2(1+q^2).
 \]
 
-Therefore, whenever `x != +/-q`,
-
-\[
-F_3(Q)\in\mathbf Q^2
-\iff
-A_q(x)B_q(x)\in\mathbf Q^2.
-\]
-
-Introduce
+Hence, away from `x=\pm q`, Face-3 is a square exactly when the point lifts to
 
 \[
 C_q:\quad
@@ -118,91 +85,21 @@ z^2=A_q(x)B_q(x).
 \end{cases}
 \]
 
-Then every non-pole Face-3-square point on `E_q(Q)` is exactly the projection of a rational point of `C_q`, and conversely every rational point of `C_q` projects to a Face-3-square point of `E_q` away from the poles. There is no implication gap here.
+The eight branch points of the degree-four map `C_q -> P^1_x` are simple and disjoint for `q\ne0,\pm1`, so Riemann--Hurwitz gives `g(C_q)=5`.
 
-For `q != 0,+/-1`, the four branch points of `E_q -> P^1` are
+## 3. Pole firewall
 
-```text
-0, -1, -q^2, infinity.
-```
-
-The quadratic factors `A_q` and `B_q` have discriminants
+The points above `x=q` are `(q,\pm q(q+1))`, and those above `x=-q` are `(-q,\pm q(q-1))`. The duplication formula on
 
 \[
--4q^2,
-\qquad
--4q^2(q^2-1)^2,
+y^2=x^3+(1+q^2)x^2+q^2x
 \]
 
-and no common root because
+shows that every one of these four points doubles to `(0,0)`. Since `(0,0)` is nonzero 2-torsion, every pole point has exact order four. They are therefore outside the non-torsion receiver. The cover equivalence of Section 2 has no receiver exception.
 
-\[
-B_q-(1+q^2)A_q=4q^2x,
-\]
+## 4. Exact squareclass reduction: 104 -> 30 -> 22 -> 14
 
-while `A_q(0)=q^2 != 0`. The eight relevant branch points are disjoint and simple. The degree-four map to `P^1` therefore gives
-
-\[
-2g(C_q)-2=4(-2)+8\cdot2=8,
-\]
-
-so `g(C_q)=5`.
-
-Stage34 does not need a complete classification of `C_q(Q)`; it needs only to show that no rational point of `C_q` projects into the specified non-torsion receiver.
-
-## 3. The apparent Face-3 poles are outside the receiver
-
-The only denominators excluded above occur at `x=+q` or `x=-q`. They cannot hide a non-torsion receiver point.
-
-The rational points above `x=+q` are
-
-\[
-(q,\pm q(q+1)),
-\]
-
-and those above `x=-q` are
-
-\[
-(-q,\pm q(q-1)).
-\]
-
-For
-
-\[
-E_q:y^2=x^3+(1+q^2)x^2+q^2x
-\]
-
-the duplication slope is
-
-\[
-m=\frac{3x^2+2(1+q^2)x+q^2}{2y}.
-\]
-
-At `x=+q` the two slopes are `q+1` and `-(q+1)`; at `x=-q` they are `1-q` and `q-1`. Substitution into
-
-\[
-x(2Q)=m^2-(1+q^2)-2x
-\]
-
-shows in all four cases
-
-\[
-2Q=(0,0).
-\]
-
-Since `(0,0)` is nonzero 2-torsion, each pole point has exact order four. All seven locked `q` satisfy `q != 0,+/-1`. Hence every Face-3 pole lies in torsion and is excluded by the authoritative non-torsion population.
-
-Thus the cover equivalence of Section 2 has no receiver hole.
-
-## 4. First finite squareclass descent
-
-Write
-
-\[
-q=a/b
-\]
-
-in lowest positive terms and write the projective `x` coordinate as `x=X/Z` with `gcd(X,Z)=1`. Homogenizing the two factors gives
+Write `q=a/b` in lowest positive terms and `x=X/Z` with `gcd(X,Z)=1`. Put
 
 \[
 A_h=b^2X^2+a^2Z^2,
@@ -212,87 +109,133 @@ A_h=b^2X^2+a^2Z^2,
 B_h=b^2(a^2+b^2)X^2+4a^2b^2XZ+a^2(a^2+b^2)Z^2.
 \]
 
-They satisfy
+Because
 
 \[
-B_h-(a^2+b^2)A_h=4a^2b^2XZ.
+B_h-(a^2+b^2)A_h=4a^2b^2XZ,
 \]
 
-If an odd prime `p` does not divide `2ab` and divides both `A_h` and `B_h`, the identity forces `p|XZ`. If `p|X`, then
+every odd prime in `gcd(A_h,B_h)` divides `ab`. Thus a square `A_hB_h` forces
 
 \[
-A_h\equiv a^2Z^2\not\equiv0\pmod p,
+A_h=d u^2,\qquad B_h=d v^2
 \]
 
-and if `p|Z`, then
+for a positive squarefree `d` supported on `rad(2ab)`.
+
+The complete raw `d` lists are:
+
+| q | rad(2ab) | raw squareclasses |
+|---|---:|---|
+| 20/21 | 210 | 1,2,3,5,6,7,10,14,15,21,30,35,42,70,105,210 |
+| 80/39 | 390 | 1,2,3,5,6,10,13,15,26,30,39,65,78,130,195,390 |
+| 24/7 | 42 | 1,2,3,6,7,14,21,42 |
+| 84/13 | 546 | 1,2,3,6,7,13,14,21,26,39,42,78,91,182,273,546 |
+| 48/55 | 330 | 1,2,3,5,6,10,11,15,22,30,33,55,66,110,165,330 |
+| 20/99 | 330 | 1,2,3,5,6,10,11,15,22,30,33,55,66,110,165,330 |
+| 60/11 | 330 | 1,2,3,5,6,10,11,15,22,30,33,55,66,110,165,330 |
+
+This is `104` raw squareclasses.
+
+### 4.1 Sum-of-two-squares filter: 104 -> 30
+
+Since
 
 \[
-A_h\equiv b^2X^2\not\equiv0\pmod p,
+A_h=(bX)^2+(aZ)^2=d u^2,
 \]
 
-contradicting primitiveness. Therefore
-
-\[
-\gcd(A_h,B_h)
-\]
-
-has prime support contained in `2ab`.
-
-Consequently, if `A_hB_h` is a square, there is a positive squarefree squareclass `d`, supported on primes dividing `2ab`, such that
-
-\[
-A_h=d u^2,
-\qquad
-B_h=d v^2.
-\]
-
-Good-prime filtering followed by exact local classification leaves only
-
-\[
-\boxed{d=1\text{ or }d=2}
-\]
-
-on every one of the seven fibers. Before the final local step there were 22 candidate classes. Eight are `Q_7`-insoluble:
+any prime `p\equiv3 (mod 4)` occurs in `A_h` to even valuation. Because `d` is squarefree, such a prime cannot divide `d`. The surviving lists are therefore
 
 ```text
-q=80/39 : d = 5,10,13,26,65,130
-q=60/11 : d = 5,10
+20/21 : 1,2,5,10
+80/39 : 1,2,5,10,13,26,65,130
+24/7  : 1,2
+84/13 : 1,2,13,26
+48/55 : 1,2,5,10
+20/99 : 1,2,5,10
+60/11 : 1,2,5,10
 ```
 
-For each such class, reduction of the three square equations to `P^1(F_7)` has no projective residue satisfying them simultaneously. The surviving fourteen cases are exactly `d=1,2` for each of the seven `q`.
+total `30`.
 
-The survival of `d=1,2` is only local-solubility credit. In particular, the `d=2` local witness `x=q` is one of the order-four poles and is not a non-torsion receiver witness.
+### 4.2 Good-prime projective obstruction: 30 -> 22
 
-## 5. The two genus-one auxiliary covers
-
-For `d=1`, parameterize
+For a candidate `(q=a/b,d)`, an eligible obstruction prime is any prime
 
 \[
-x^2+q^2=u^2
+p\nmid 2ab(a^2-b^2)(a^2+b^2)d.
 \]
 
-by
+Define
 
 \[
-x=q\frac{t^2-1}{2t},
-\qquad
+E_h=XZ(X+Z)(b^2X+a^2Z).
+\]
+
+A rational point necessarily reduces to some `[X:Z]\in P^1(F_p)` for which all three quantities
+
+\[
+E_h,\qquad A_h/d,\qquad B_h/d
+\]
+
+are quadratic residues modulo `p` (zero allowed). Therefore one witness prime with no such projective residue rigorously kills the class; no heuristic prime-selection convention is load-bearing.
+
+The eight exact witness eliminations are
+
+```text
+q=20/21, d=5,10      : p=23
+q=84/13, d=13,26     : p=31
+q=48/55, d=5,10      : p=23
+q=20/99, d=5,10      : p=23
+```
+
+and the full 22 survivors are
+
+```text
+20/21 : 1,2
+80/39 : 1,2,5,10,13,26,65,130
+24/7  : 1,2
+84/13 : 1,2
+48/55 : 1,2
+20/99 : 1,2
+60/11 : 1,2,5,10
+```
+
+### 4.3 Exact Q_7 obstruction: 22 -> 14
+
+The remaining eight non-{1,2} classes are
+
+```text
+80/39 : 5,10,13,26,65,130
+60/11 : 5,10.
+```
+
+For each, `d` is a 7-adic unit. Scale a hypothetical `Q_7` point so `X,Z` are integral and not both divisible by 7. Exhausting the eight points of `P^1(F_7)` gives no residue for which `E_h`, `A_h/d`, and `B_h/d` are simultaneously squares. Hence these eight classes are `Q_7`-insoluble.
+
+Thus, on every locked fiber, the only possible squareclasses are exactly
+
+\[
+\boxed{d=1,2}.
+\]
+
+## 5. The two genus-one auxiliary quartics
+
+For `d=1`, parameterize `x^2+q^2=u^2` by
+
+\[
+x=q\frac{t^2-1}{2t},\qquad
 u=q\frac{t^2+1}{2t}.
 \]
 
-After imposing the second square condition one obtains
+The remaining equation is
 
 \[
 K_{q,1}:\quad
 W^2=(1+q^2)t^4+8qt^3+2(1+q^2)t^2-8qt+(1+q^2).
 \]
 
-For `d=2`, parameterize
-
-\[
-x^2+q^2=2u^2
-\]
-
-by
+For `d=2`, parameterize `x^2+q^2=2u^2` by
 
 \[
 x=q\frac{2t^2-4t+1}{2t^2-1},
@@ -300,204 +243,97 @@ x=q\frac{2t^2-4t+1}{2t^2-1},
 u=-q\frac{2t^2-2t+1}{2t^2-1},
 \]
 
-which gives
+and obtain
 
 \[
 K_{q,2}:\quad
 W^2=4(q+1)^2t^4-8(q+1)^2t^3+8(1+q^2)t^2-4(q-1)^2t+(q-1)^2.
 \]
 
-Both quartics are smooth for the seven locked fibers because their discriminant is
+Both quartics are smooth genus-one curves. Their binary-quartic invariants agree, so they have the same Jacobian, but Stage34 never equates their rational point sets merely from that fact.
 
-\[
-65536q^2(q-1)^4(q+1)^4\neq0.
-\]
+## 6. Exact pullback to the receiver
 
-Their binary-quartic invariants agree:
-
-\[
-I=16(q^4+14q^2+1),
-\]
-
-\[
-J=128(q^2+1)(q^2-6q+1)(q^2+6q+1),
-\]
-
-so both have common Jacobian
-
-\[
-J_q:\quad
-y^2=x^3-\frac{q^4+14q^2+1}{3}x
--\frac{2}{27}(q^2+1)(q^4-34q^2+1).
-\]
-
-This common Jacobian is bookkeeping, not a claim that the two quartics have identical rational point sets.
-
-The projective maps back to the receiver are explicit. For homogeneous parameter `[T:S]`,
-
-\[
-d=1:\qquad [T:S]\mapsto
-[a(T^2-S^2):2bTS],
-\]
-
-and
-
-\[
-d=2:\qquad [T:S]\mapsto
-[a(2T^2-4TS+S^2):b(2T^2-S^2)].
-\]
-
-Neither map has a projective base point.
-
-For `d=1`, the only rational parameter points mapping to `x=infinity` are `[0:1]` and `[1:0]`; they project to the elliptic origin and have zero free part. There are no rational `d=1` pole preimages because the equations for `x/q=+/-1` have discriminant eight.
-
-For `d=2`, there are no rational preimages of `x=infinity`, because `2T^2=S^2` has no nonzero rational projective solution. Its rational pole preimages are
-
-```text
-x=-q : t=0, 1
-x=+q : t=1/2, infinity,
-```
-
-all of which project to the already-classified order-four torsion points.
-
-Therefore every non-torsion rational point of `C_q` yields, for a unique surviving `d in {1,2}`, a rational point of `K_{q,d}` and a rational point of `E_q` with the same finite non-pole `x`. Conversely, a matching finite non-pole pair satisfying
-
-\[
-A=d u^2,
-\qquad
-B=d v^2
-\]
-
-gives
-
-\[
-z=d uv,
-\qquad z^2=AB,
-\]
-
-and therefore a rational point of `C_q`. This is the exact receiver fiber-product reduction used below.
-
-## 6. Reconstruction as factor covers
-
-The remaining condition is that the matching `x` actually lies on `E_q`, i.e.
-
-\[
-x(x+1)(x+q^2)\in\mathbf Q^2.
-\]
-
-For `d=1`, substitution of the projective parameter gives
-
-\[
-x=\frac{a(T^2-S^2)}{2bTS}
-\]
-
-and
-
-\[
-x(x+1)(x+q^2)
-=
-\left(\frac{a}{4b^2T^2S^2}\right)^2H_1(T,S),
-\]
-
-where
-
-\[
-\begin{aligned}
-H_1={}&2TS(T-S)(T+S)\\
-&\cdot(bT^2+2aTS-bS^2)\\
-&\cdot(aT^2+2bTS-aS^2).
-\end{aligned}
-\]
-
-Thus the reconstruction cover is
-
-\[
-W^2=H_1(T,S).
-\]
-
-For `d=2`,
-
-\[
-x=\frac{a(2T^2-4TS+S^2)}{b(2T^2-S^2)}
-\]
-
-and
-
-\[
-x(x+1)(x+q^2)
-=
-\left(\frac{a}{b^2(2T^2-S^2)^2}\right)^2H_2(T,S),
-\]
-
-with
-
-\[
-\begin{aligned}
-H_2={}&(2T^2-S^2)(2T^2-4TS+S^2)\\
-&\cdot(2(a+b)T^2-4bTS+(b-a)S^2)\\
-&\cdot(2(a+b)T^2-4aTS+(a-b)S^2).
-\end{aligned}
-\]
-
-So the second reconstruction cover is
-
-\[
-W^2=H_2(T,S).
-\]
-
-Both binary forms have degree eight and are squarefree on all seven fibers, hence the smooth reconstruction curves have genus three.
-
-For squareclass analysis it is useful to write both cases in the common template
-
-\[
-H=UVAB,
-\qquad
-A=aU+bV,
-\qquad
-B=bU+aV.
-\]
+Use homogeneous `[T:S]`.
 
 For `d=1`,
 
 \[
-U=T^2-S^2,
-\qquad
-V=2TS,
+[X:Z]=[a(T^2-S^2):2bTS].
 \]
 
-and for `d=2`,
+There is no projective base point. The two rational preimages of `x=\infty` are `t=0,\infty`; both map to the elliptic origin and have zero free part. The equations for `x/q=\pm1` have discriminant 8, so there are no rational pole preimages.
+
+For `d=2`,
 
 \[
-U=2T^2-S^2,
-\qquad
-V=2T^2-4TS+S^2.
+[X:Z]=[a(2T^2-4TS+S^2):b(2T^2-S^2)].
 \]
 
-We now reduce rational points on these genus-three covers to a finite list of simultaneous squareclass branches.
+There is no rational preimage of `x=\infty`, while `t=0,1,1/2,\infty` map to `x=\pm q`; these are exactly the order-four poles of Section 3.
 
-## 7. Odd-prime squareclass theorem
+Therefore every non-torsion `C_q(Q)` point maps, without an omitted exceptional case, to a rational matching point on exactly one of `K_{q,1}` or `K_{q,2}` with the same finite non-pole `x`.
 
-Scale `[T:S]` to coprime integers. In either `d` case,
+## 7. Reconstruction as four square factors
+
+For `d=1`, set
 
 \[
-\gcd(U,V)\mid2.
+U=T^2-S^2,\qquad V=2TS,
 \]
 
-For `d=1`, any odd prime dividing both `2TS` and `T^2-S^2` would divide both `T` and `S`. For `d=2`, if an odd prime divides both `U` and `V`, then from
+and for `d=2`, set
 
 \[
-U-V=2S(2T-S)
+U=2T^2-S^2,\qquad V=2T^2-4TS+S^2.
 \]
 
-one obtains the same contradiction with primitiveness.
-
-Hence no odd prime divides both `U` and `V`.
-
-Suppose `UVAB` is a square. An odd prime occurring to odd valuation in one factor must occur to odd valuation in another factor as well. Using
+In both cases define
 
 \[
-A=aU+bV,
-\qquad B=bU+aV,
+A=aU+bV,\qquad B=bU+aV.
+\]
+
+The matching elliptic equation becomes a square multiple of
+
+\[
+H=UVAB.
+\]
+
+Explicitly,
+
+\[
+H_1=2TS(T-S)(T+S)
+(bT^2+2aTS-bS^2)(aT^2+2bTS-aS^2),
+\]
+
+and
+
+\[
+H_2=(2T^2-S^2)(2T^2-4TS+S^2)
+(2(a+b)T^2-4bTS+(b-a)S^2)
+(2(a+b)T^2-4aTS+(a-b)S^2).
+\]
+
+Thus every receiver-relevant point lies on a branch
+
+\[
+U=\delta_U r_U^2,
+\quad V=\delta_V r_V^2,
+\quad A=\delta_A r_A^2,
+\quad B=\delta_B r_B^2,
+\]
+
+where the product squareclass is trivial.
+
+## 8. Complete odd-prime and 2-adic branch patterns
+
+For primitive `[T:S]`, `gcd(U,V)` divides 2 for both `d=1` and `d=2`. Hence no odd prime divides both `U` and `V`.
+
+From
+
+\[
+A=aU+bV,\qquad B=bU+aV,
 \]
 
 and
@@ -508,380 +344,509 @@ aB-bA=(a^2-b^2)V,
 aA-bB=(a^2-b^2)U,
 \]
 
-one finds that every odd squareclass prime divides
-
-\[
-\boxed{ab(a^2-b^2)}.
-\]
-
-Because `gcd(a,b)=1`, an odd prime belongs to only one of the three categories `p|a`, `p|b`, `p|(a^2-b^2)`. Its possible parity support among `(U,V,A,B)` is exactly:
+an odd squareclass prime can occur only in `ab(a^2-b^2)`. Its only parity patterns are
 
 ```text
-p | a             : none, {U,B}, {V,A}
-p | b             : none, {U,A}, {V,B}
-p | a^2-b^2       : none, {A,B}.
+p | a           : none, {U,B}, {V,A}
+p | b           : none, {U,A}, {V,B}
+p | a^2-b^2     : none, {A,B}.
 ```
 
-Thus the number of odd-prime parity patterns is
-
-\[
-3^{\omega_{odd}(a)+\omega_{odd}(b)}
-2^{\omega_{odd}(a^2-b^2)}.
-\]
-
-For the seven fibers the exact odd support data are
+The resulting odd-pattern counts are
 
 ```text
-q=20/21 : a-primes {5};   b-primes {3,7};  diff {41};       54 patterns
-q=80/39 : a-primes {5};   b-primes {3,13}; diff {7,17,41}; 216 patterns
-q=24/7  : a-primes {3};   b-primes {7};    diff {17,31};    36 patterns
-q=84/13 : a-primes {3,7}; b-primes {13};   diff {71,97};   108 patterns
-q=48/55 : a-primes {3};   b-primes {5,11}; diff {7,103};   108 patterns
-q=20/99 : a-primes {5};   b-primes {3,11}; diff {7,17,79};216 patterns
-q=60/11 : a-primes {3,5}; b-primes {11};   diff {7,71};    108 patterns.
+20/21 54; 80/39 216; 24/7 36; 84/13 108;
+48/55 108; 20/99 216; 60/11 108.
 ```
 
-This theorem is the reason no unbounded collection of odd squareclasses remains.
+### 8.1 The d=2 2-adic pattern
 
-## 8. Exact two-adic patterns and the 29,952-branch finite funnel
-
-For all seven fibers, `b` is odd and `v_2(a)>=2`.
-
-For `d=2`, the 2-adic squareclass pattern is exactly one of
-
-```text
-none
-{U,V,A,B}.
-```
-
-Indeed, if `S` is odd then all four factors are odd. If `S` is even, primitiveness forces `T` odd; writing `S=2s` gives
+All seven fibers have odd `b` and `v_2(a)>=2`. If `S` is odd, then `U,V,A,B` are all odd. If `S` is even, primitiveness makes `T` odd; writing `S=2s` gives
 
 \[
 v_2(U)=v_2(V)=1,
 \]
 
-and since `a` is divisible by four while `b` is odd,
+while `aU,aV` have valuation at least 3 and `bV,bU` valuation 1, so
 
 \[
 v_2(A)=v_2(B)=1.
 \]
 
-For `d=1`, if `v_2(a)=2`, the only possibilities are
+Thus the only `d=2` parity patterns are
 
 ```text
-none
-{U,V,A,B},
+none, {U,V,A,B}.
 ```
 
-while if `v_2(a)>=3`, the possibilities are
+### 8.2 The d=1 2-adic pattern
+
+Here `U=T^2-S^2`, `V=2TS`.
+
+If `T,S` have opposite parity, then `U` and `B` are odd. Square parity requires `v_2(V)` and `v_2(A)` to have the same parity. For `v_2(a)=2` this gives no 2-squareclass; for `v_2(a)>=3` it gives either `none` or `{V,A}`.
+
+If `T,S` are both odd, then `v_2(V)=v_2(A)=1` and `v_2(U)>=3`. Square parity forces `v_2(U)` and `v_2(B)` to have the same parity, hence either `{V,A}` or all four factors. When `v_2(a)=2`, the `{V,A}` option is impossible: if `v_2(U)>3` then `v_2(B)=3`, and in the equality case the required even/even parity also fails. Therefore
 
 ```text
-none
-{V,A}
-{U,V,A,B}.
+v2(a)=2   : none, {U,V,A,B}
+v2(a)>=3  : none, {V,A}, {U,V,A,B}.
 ```
 
-Combining the exact odd-prime patterns, these 2-adic patterns, and at most eight real sign patterns having positive total product gives the following finite over-approximation before local filtering:
+For the seven fibers
 
 ```text
-q          d=1     d=2
-20/21       864      864
-80/39      5184     3456
-24/7        864      576
-84/13      1728     1728
-48/55      2592     1728
-20/99      3456     3456
-60/11      1728     1728
-------------------------
-total              29952
+v2(a)=2 : 20/21,84/13,20/99,60/11
+v2(a)=3 : 24/7
+v2(a)=4 : 80/39,48/55.
 ```
 
-Every receiver-relevant rational Face-3-square point must therefore land in one of these 29,952 simultaneous factor branches. No rational branch is lost by the reduction.
+Including at most eight sign patterns with positive total product gives the exact finite over-cover sizes
 
-Each branch has equations
+| q | d=1 | d=2 |
+|---|---:|---:|
+| 20/21 | 864 | 864 |
+| 80/39 | 5184 | 3456 |
+| 24/7 | 864 | 576 |
+| 84/13 | 1728 | 1728 |
+| 48/55 | 2592 | 1728 |
+| 20/99 | 3456 | 3456 |
+| 60/11 | 1728 | 1728 |
+
+for a total of
 
 \[
-U=\delta_1r_1^2,
-\quad
-V=\delta_2r_2^2,
-\quad
-A=\delta_3r_3^2,
-\quad
-B=\delta_4r_4^2.
+\boxed{29952}
 \]
 
-The remaining proof is finite and exact.
+branches.
 
-## 9. First finite local sieves: 29,952 -> 1,946 -> 1,214
+## 9. Finite local and quotient reduction: 29952 -> 92
 
-The first projective good-prime sieve rejects a branch whenever, at one selected prime outside its squareclass support, the four reduced square equations have no point of `P^1(F_p)`. This is a one-way obstruction: absence modulo `p` proves absence over `Q`; survival modulo `p` proves nothing by itself.
+This section states the actual finite predicates, not merely the internal job names.
 
-It reduces
+### 9.1 Good-prime branch sieve: 29952 -> 1946
+
+For a branch `delta=(δ_U,δ_V,δ_A,δ_B)`, a good-prime witness is a prime outside the coefficient/resultant and squareclass support. A rational branch point would reduce to `[T:S]\in P^1(F_p)` satisfying, for every factor `F_i in {U,V,A,B}`,
+
+```text
+if p | δ_i : F_i(T,S)=0 mod p;
+otherwise   : F_i(T,S)/δ_i is a quadratic residue mod p, zero allowed.
+```
+
+A branch is discarded only when one eligible prime has no projective residue satisfying all four predicates. Thus the mathematical selection rule is existential and witness-based; no choice of a preferred prime is part of the theorem.
+
+The exact survivors are
+
+```text
+20/21 : d1 88,  d2 64
+80/39 : d1 384, d2 164
+24/7  : d1 20,  d2 12
+84/13 : d1 48,  d2 12
+48/55 : d1 120, d2 72
+20/99 : d1 232, d2 184
+60/11 : d1 240, d2 306
+```
+
+for `1946` total.
+
+### 9.2 Support-prime refinement: 1946 -> 1214
+
+The same projective test is then imposed at the odd support primes themselves, with the necessary zero condition when `p|δ_i`. This leaves
+
+```text
+20/21 : 88/24
+80/39 : 384/12
+24/7  : 20/8
+84/13 : 48/4
+48/55 : 120/8
+20/99 : 232/8
+60/11 : 240/18
+```
+
+where each pair is `d1/d2`. Total: `1214 = 1132 d1 + 82 d2`.
+
+### 9.3 Reconstruction quotient species: 1214 -> 1024
+
+For each branch define its reconstruction species by
 
 \[
-29952\longrightarrow1946.
+s=\left|\operatorname{sf}(\delta_U\delta_V)\right|,
 \]
 
-The exact survivor counts after this layer are
-
-```text
-20/21:d1  88     20/21:d2  64
-80/39:d1 384     80/39:d2 164
-24/7:d1   20     24/7:d2   12
-84/13:d1  48     84/13:d2  12
-48/55:d1 120     48/55:d2  72
-20/99:d1 232     20/99:d2 184
-60/11:d1 240     60/11:d2 306
-```
-
-A second support-prime refinement tests the exact permitted residue behavior at the primes that do occur in the squareclasses. It reduces
+the positive squarefree representative of the `UV` squareclass. The associated genus-one quotient is the squareclass twist of `Y^2=UV`; a concrete representative is
 
 \[
-1946\longrightarrow1214,
+C^{(1)}_s:\quad Y^2=2sTS(T^2-S^2)
 \]
 
-with
-
-```text
-d=1 survivors = 1132
-d=2 survivors =   82.
-```
-
-Again, every discarded branch has a rigorous local obstruction; every survivor remains only a necessary-condition branch.
-
-## 10. Rank-zero reconstruction pruning: 1,214 -> 1,024
-
-The reconstruction quotient species have finitely many quadratic twists. Among eighteen species, the unconditional rank-zero species are
-
-```text
-1, 2, 10, 26, 66, 195.
-```
-
-Only species whose full Mordell--Weil basis is certified, whose rank is exactly zero, whose torsion has order four, and whose trivial rational point set is explicitly complete are used for elimination. No positive-rank species receives point-set credit.
-
-This removes 190 branches:
+for `d=1`, and
 
 \[
-1214\longrightarrow1024.
+C^{(2)}_s:\quad Y^2=s(2T^2-S^2)(2T^2-4TS+S^2)
 \]
 
-After this layer
+for `d=2`.
 
-```text
-d=1 survivors = 1004
-d=2 survivors =   20.
-```
+Eighteen distinct `s`-species occur among the 1214 branches. The six species
 
-The only remaining `d=2` cases are
+\[
+\boxed{s=1,2,10,26,66,195}
+\]
+
+have unconditional Mordell--Weil rank zero, torsion order four, and complete trivial quotient point sets. Pulling those complete point sets back through all four branch square equations removes exactly `190` branches. No positive-rank species is discarded here.
+
+The result is `1024 = 1004 d1 + 20 d2`; the only remaining d2 cases are
 
 ```text
 q=20/21 : 16
-q=24/7  :  4,
+q=24/7  : 4,
 ```
 
-all in squareclass species `|sf(delta1*delta2)|=7`. The other five `d=2` fibers are already completely eliminated.
+all with `|sf(δ_U δ_V)|=7`.
 
-## 11. Full support-prime projective sieve: 1,024 -> 92
+### 9.4 Full support projective test: 1024 -> 92
 
-For every odd support prime `p|2ab(a^2-b^2)`, a rational branch point may be represented by coprime integers `[T:S]`. From
+For every odd `p|2ab(a^2-b^2)`, scale a rational branch point to primitive integral `[T:S]`. From `F_i=δ_i r_i^2`, p-integrality of the left side and of `δ_i` forces the auxiliary square roots to be p-integral. Therefore the same four projective residue predicates above are necessary at every support prime.
 
-\[
-F_i=\delta_i r_i^2
-\]
-
-with integral `F_i` and integral squareclass representative `delta_i`, rational solubility forces the relevant `r_i` to be `p`-integral. Therefore a rational branch point necessarily reduces to a projective point satisfying all four square equations over `F_p`.
-
-For each `[T:S] in P^1(F_p)` the exact test is:
-
-- if `p|delta_i`, require `F_i=0 mod p`;
-- otherwise require `F_i/delta_i` to be a quadratic residue modulo `p`, with zero allowed.
-
-If no projective parameter passes, that branch has no rational point.
-
-Applying this at the complete odd support reduces
-
-\[
-1024\longrightarrow92.
-\]
-
-More precisely,
-
-```text
-d=2 : 20 -> 0
-d=1 : 1004 -> 92.
-```
-
-The 92 remaining `d=1` branches are distributed as
+Exhausting `P^1(F_p)` for the complete support set kills all 20 remaining d2 branches and reduces d1 from 1004 to 92:
 
 ```text
 20/21 : 24
 80/39 : 12
-24/7  :  8
-84/13 :  8
-48/55 :  8
+24/7  : 8
+84/13 : 8
+48/55 : 8
 20/99 : 16
 60/11 : 16.
 ```
 
-Thus all `d=2` factor branches are already closed globally, and the entire receiver problem has been reduced to exactly 92 identified `d=1` branches.
-
-## 12. Exact closure of the remaining 92 branches
-
-The 92 branch identities were frozen by the canonical rule
+The surviving d1 `UV` species are
 
 ```text
-branch_id = sha256(canonical_json([q,delta]))[:20]
+20/21 : 210
+80/39 : 390
+24/7  : 21
+84/13 : 546
+48/55 : 330
+20/99 : 110 or 30
+60/11 : 330.
 ```
 
-and the complete survivor-ID set has digest
+At this point every possible non-torsion receiver point is represented by one of these 92 concrete four-square branches.
+
+## 10. Exact closure of the last 92 branches
+
+The closure chain is
 
 ```text
-7d43cd93f9329b48fa981857c10b03ad7a9df985af057ff1845001ca4fcefa6f.
+92 -> 76 -> 52 -> 44 -> 30 -> 26 -> 22 -> 12 -> 8 -> 4 -> 0.
 ```
 
-The downstream closure assembly independently reproduces exactly the same 92 IDs, with no duplicate and no missing ID. Their exact cumulative elimination is
+The mathematical meaning of each arrow follows.
 
-```text
-92
- -> 76   rank-zero A*B quotient complete pullback
- -> 52   rank-one Mordell-Weil congruence sieve
- -> 44   genus-2 rank-zero closure
- -> 30   genus-2 rank<=1 closure
- -> 26   two-orbit hostile-audited closure
- -> 22   two rank-zero alternate hostile-audited closure
- -> 12   Candidate-A exact orbit closure
- ->  8   Candidate-B receiver-intersection exclusion
- ->  4   q=80/39 hostile-audited closure
- ->  0   q=84/13 hostile-audited closure.
-```
+### 10.1 Rank-zero A*B quotients: 92 -> 76
 
-The first 16 branches illustrate the receiver firewall explicitly. Their complete rank-zero `A*B` quotient point sets contain either no full rational lift or only lifts with receiver coordinate
+Sixteen branches lie above two rank-zero genus-one `A*B` quotients.
 
-```text
-x=-1
-or
-x=-q^2,
-```
-
-which are rational 2-torsion and therefore have zero free part. Hence these branches close for the non-torsion receiver even though one must not claim their ambient auxiliary covers are empty.
-
-The same semantic rule is retained throughout the later layers: a branch is removed only when an exact quotient/Mordell--Weil/local/orbit calculation excludes every nonzero-free-part receiver lift represented by it.
-
-Candidate B is especially important. Its four branches are not declared to have empty factor-cover rational point sets. They are discharged by an exact mod-13 obstruction to their intersection with the receiver / Face-3-square condition. Therefore
-
-```text
-Candidate-B receiver intersection = empty
-```
-
-is proved, while
-
-```text
-Candidate-B factor-cover Q-point set = empty
-```
-
-is deliberately **not** asserted.
-
-After the final `q=84/13` hostile audit, the cumulative result is exactly
-
-```text
-receiver-relevant factor branches remaining = 0
-sign orbits remaining                        = 0
-all 92 frozen survivor IDs discharged once   = true
-coverage gap                                  = false
-duplicate closure ID                          = false.
-```
-
-This finite chain is the computational core that the previous version of this file incorrectly compressed into the phrase “StageA2 factor-branch closure.”
-
-## 13. From zero factor residual to zero Face-3-square receiver points
-
-We can now concatenate only equivalences or one-way necessary reductions proved above.
-
-Take any non-torsion point `Q` in the authoritative seven-fiber population and suppose `F_3(Q)` is a rational square.
-
-1. `Q` cannot be a pole, because every pole point is order-four torsion.
-2. By the exact factorization, `Q` lifts to `C_q(Q)`.
-3. The squareclass descent places the lift in one of the locally viable classes `d=1,2`.
-4. The explicit `K_{q,d}` parameterizations convert it to a matching finite non-pole pair on `E_q x K_{q,d}`; all projective exceptions have zero free part or are torsion.
-5. Substitution into the elliptic equation gives one of the genus-three reconstruction equations `W^2=H_1` or `W^2=H_2`.
-6. The odd-prime theorem and the exact 2-adic classification place the rational parameter into one of the 29,952 finite simultaneous squareclass branches.
-7. The exact local/rank/support filters place it in one of the frozen 92 `d=1` survivor branches; all `d=2` branches are already impossible.
-8. The cumulative exact closure of those same 92 IDs leaves zero receiver-relevant branches.
-
-This is a contradiction.
-
-Therefore
+For `q=20/21`, the relevant squareclass is `-105` and the quartic is
 
 \[
-\boxed{
-\forall Q\text{ in the authoritative non-torsion Stage34 population},
-\quad F_3(Q)\notin\mathbf Q^2.
-}
+Y^2=-44100t^4-176610t^3-88200t^2+176610t-44100.
+\]
+
+Its complete rational t-set is
+
+```text
+2/5, 3/7, -5/2, -7/3.
+```
+
+For `q=80/39`, squareclass `-195`, the quartic is
+
+\[
+Y^2=-608400t^4-3089190t^3-1216800t^2+3089190t-608400,
+\]
+
+with complete rational t-set
+
+```text
+3/13, 5/8, -8/5, -13/3.
+```
+
+Both Jacobians have rank zero and torsion order four, and neither quartic has a rational point at infinity. Exact reverse substitution into all four parent equations shows: eight of the sixteen branches have no full rational lift; the other eight lift only to receiver 2-torsion at `x=-1` or `x=-q^2`. Hence no non-torsion receiver lift survives, and `92 -> 76`.
+
+### 10.2 Rank-one Mordell--Weil congruence quotients: 76 -> 52
+
+Twenty-four branches admit a genus-one quotient of exact rank one. For a fixed quotient, write every rational point as
+
+\[
+nP+T,
+\]
+
+with `T` one of the four torsion classes. Reduction modulo the selected good primes turns each of the omitted parent square equations into a congruence condition on `n`. For each of the 24 branches and for each of its four torsion translates, the admissible residue classes are intersected by generalized CRT. The final integer residue set is empty in all four translates. Therefore the complete Mordell--Weil group has no point satisfying the full four-factor parent conditions. Exactly 24 branches close: `76 -> 52`.
+
+This step is global in `n`; it is not a bounded search on the quotient.
+
+### 10.3 Rank-zero genus-two triple quotients: 52 -> 44
+
+Eight branches have a genus-two quotient obtained by multiplying three of `U,V,A,B`. The corresponding Jacobians have rank zero. Chabauty0 therefore gives the complete rational point set, six projective points on each quotient. Every returned point is then substituted back into all four square equations. Every possible pullback has at least one of
+
+\[
+U,V,A,B
+\]
+
+equal to zero, so every full lift is receiver-degenerate. There is no nondegenerate full parent lift. Thus `52 -> 44`.
+
+### 10.4 Rank-at-most-one genus-two quotients: 44 -> 30
+
+Fourteen further branches have explicit genus-two triple quotients whose Jacobians have certified rank at most one. Complete rational point sets are obtained by the applicable rank-zero or rank-one Chabauty/elliptic-cover argument, and every rational quotient point is reverse-tested against the four parent square equations. Across all fourteen branches the number of nondegenerate full parent lifts is zero. Hence `44 -> 30`.
+
+### 10.5 Two exact sign orbits: 30 -> 26
+
+The sign involution
+
+\[
+[T:S]\longmapsto[-S:T]
+\]
+
+pairs the 30 remaining branches and preserves both the four-square parent truth and receiver degeneracy.
+
+One direct representative is `q=20/99`,
+
+\[
+\delta=(-1,-55,-5,-11),
+\]
+
+with the genus-two `U*V*B` quotient. Its Jacobian has rank zero and its complete rational set consists of six projective points. Only one satisfies all four parent square predicates, and that point has `V=0`; all six are receiver-degenerate.
+
+The second direct representative is on `q=60/11`. Its degree-two quotient over `Q(i)` is elliptic of exact rank one with torsion `C2 x C2`. A fixed infinite-order point is 2-saturated. Elliptic Chabauty with obstruction integer `R=4` gives the complete rational quotient-X set `0,-1320`; reverse reconstruction gives only
+
+```text
+x = 1, -1, 1/11, -11,
+```
+
+plus separately checked quotient `x=0` and infinity exceptions. Every one is receiver-degenerate. The two direct closures and their two sign partners close four branches: `30 -> 26`.
+
+### 10.6 Two alternate rank-zero triple quotients: 26 -> 22
+
+Two more direct representatives admit rank-zero genus-two triple quotients:
+
+```text
+q=20/99, delta=(-11,5,517055,-9401), triple=U*V*A
+q=48/55, delta=(-6,110,1442,-237930), triple=U*V*B.
+```
+
+Their integral sextic models have coefficients
+
+```text
+[-94010,-930699,188020,930699,-94010] with zero end coefficient pattern,
+[39655,69216,-79310,-69216,39655] with zero end coefficient pattern,
+```
+
+respectively; both Jacobians have rank zero. Chabauty0 returns six projective rational points on each. Exact four-factor pullback leaves one full-parent point per curve, but it has respectively `A=0` and `B=0`. Thus both direct branches are receiver-degenerate; their audited sign partners are also closed. Hence `26 -> 22`.
+
+### 10.7 Candidate A, defined mathematically: 22 -> 12
+
+The next ten branches are five sign orbits. A direct representative of each orbit is completely specified by `(q,delta,triple)`:
+
+| q | delta=(δU,δV,δA,δB) | triple quotient | rank bound |
+|---|---|---|---|
+| 60/11 | (-11,15,-11715,71) | V*A*B | 0 |
+| 60/11 | (30,-22,142,-23430) | V*A*B | 0 |
+| 60/11 | (-1,-165,-15,-11) | U*V*B | <=1 |
+| 84/13 | (546,2,26,42) | U*A*B | 0 |
+| 84/13 | (1,273,21,13) | V*A*B | 0 |
+
+This five-orbit set is what Stage34 called **Candidate A**; the name carries no extra mathematics.
+
+For the five direct quotients, the complete rational quotient point set has six projective points in every case. Their projective `[T:S]` sets are, respectively,
+
+```text
+60/11 #1 : (-11:1),(-6:5),(0:1),(1:11),(5:6),(1:0)
+60/11 #2 : (-11:1),(-6:5),(0:1),(1:11),(5:6),(1:0)
+60/11 #3 : (0:1),(-1:1),(1:0),(1:11),(-11:1),(1:1)
+84/13 #1 : (1:13),(-1:1),(-13:1),(6:7),(-7:6),(1:1)
+84/13 #2 : (1:13),(0:1),(1:0),(-13:1),(6:7),(-7:6).
+```
+
+Each point is substituted into
+
+\[
+U/\delta_U,\ V/\delta_V,\ A/\delta_A,\ B/\delta_B.
+\]
+
+In every orbit exactly one quotient point can satisfy all four square predicates, and that lift has `UVAB=0`; hence the number of nondegenerate full-parent lifts is zero. The sign involution closes the five partners. Therefore Candidate A closes exactly ten branches and `22 -> 12`.
+
+### 10.8 Candidate B, defined mathematically: 12 -> 8
+
+Four of the twelve remaining branches are the two `q=20/99` sign orbits
+
+```text
+(-6,10,510,-34)  <->  (6,-10,-510,34)
+(-5,3,17,-255)   <->  (5,-3,-17,255).
+```
+
+This four-branch set is **Candidate B**. Unlike Candidate A, the claim here is not that the factor covers have no rational points. The only claim needed is that they have no point in the receiver intersection.
+
+For `q=20/99`,
+
+\[
+U=T^2-S^2,\quad V=2TS,\quad A=20U+99V,\quad B=99U+20V.
+\]
+
+A receiver point on the d=1 split must additionally satisfy the exact `K_{20/99,1}` condition
+
+\[
+A^2+B^2=w^2.
+\]
+
+Reduce modulo 13. The branch equations alone have only two projective residue possibilities,
+
+```text
+(T:S)=(5:1): (U,V,A,B)=(11,10,1,2),  A^2+B^2=5
+(T:S)=(8:1): (U,V,A,B)=(11,3,10,5),  A^2+B^2=8.
+```
+
+The square residues mod 13 are
+
+```text
+0,1,3,4,9,10,12.
+```
+
+Both `5` and `8` are nonsquares. Exhaustion of all 14 points of `P^1(F_13)` therefore gives zero branch+K survivors for each of the four delta tuples. Hence these four branches contribute no Face-3-square receiver point, even though the factor branches themselves may have rational points. This is the precise Candidate-B firewall. Thus `12 -> 8`.
+
+### 10.9 q=80/39 Gaussian quotient orbits: 8 -> 4
+
+Four of the eight branches form two sign orbits on `q=80/39`. One representative is
+
+\[
+\delta=(-1,-195,-5,-39).
+\]
+
+Its Q(i)-elliptic quotient has exact rank one and torsion `C2 x C2`. The fixed generator is 2-saturated; elliptic Chabauty with `R=4` gives complete finite rational quotient-X set
+
+```text
+1521, 6400.
+```
+
+Reverse reconstruction gives exactly
+
+```text
+5/8, -8/5, 3/13, -13/3.
+```
+
+At `5/8,-8/5`, `A=0`; at `3/13,-13/3`, `B=0`. The second q=80/39 representative is treated by the same exact Gaussian quotient mechanism and likewise has zero nondegenerate full-parent lifts. The sign involution transfers both closures to their partners. Therefore all four q=80/39 branches close and `8 -> 4`.
+
+### 10.10 q=84/13 torsion quotients: 4 -> 0
+
+The last four branches are two sign orbits on `q=84/13`. For each direct representative the Q(i)-elliptic quotient has rank zero. Good reduction at two primes bounds the torsion order by four, while an explicit `C2 x C2` subgroup already has order four; therefore the complete quotient group is exactly `C2 x C2`.
+
+For the first representative, the complete torsion quotient-X values are
+
+```text
+infinity, 0, 89531, -578508 i.
+```
+
+The rational X values are `0,89531`; inverse reconstruction gives
+
+```text
+x=-1,1,-7/6,6/7.
+```
+
+Testing all four parent square conditions leaves only one full-parent lift, at `x=-7/6`, and it has `A=0`.
+
+For the second representative, the complete torsion quotient-X values are
+
+```text
+infinity, 0, -1157016, 179062 i.
+```
+
+The rational X values are `0,-1157016`; inverse reconstruction gives
+
+```text
+x=-1,1,-13,1/13.
+```
+
+The only full-parent lift is at `x=-13`, and it has `B=0`.
+
+Quotient infinity is also receiver-degenerate. Thus both direct representatives have zero nondegenerate full-parent lifts. The sign involution closes their two partners. Therefore
+
+\[
+\boxed{4\to0}.
+\]
+
+Combining Sections 9 and 10 gives the complete finite chain
+
+\[
+29952\to1946\to1214\to1024\to92\to76\to52\to44\to30\to26\to22\to12\to8\to4\to0.
+\]
+
+Every arrow now has an explicit input class, quotient or residue predicate, and exact reason for exclusion in this file.
+
+## 11. Receiver implication
+
+Assume, for contradiction, that a non-torsion point in the authoritative Stage34 population has square Face-3.
+
+1. It is not a pole, by Section 3.
+2. By Section 2 it lifts to `C_q(Q)`.
+3. Section 4 forces its squareclass to `d=1` or `d=2`.
+4. Sections 5--7 place it on a matching reconstruction branch satisfying all four square conditions.
+5. Section 8 places that branch among the 29,952 exact finite over-cover branches.
+6. Sections 9--10 exclude every receiver-relevant branch; the final residual is zero.
+
+Contradiction. Hence
+
+\[
+\boxed{\text{no non-torsion rational point in the seven locked fibers has square Face-3}.}
 \]
 
 Equivalently,
 
 ```text
-receiver_face3_square_points_remaining=0
+all_multiples_closed=true
+R29_EXT_CHANG_C_closed=true
+receiver_face3_square_points_remaining=0.
+```
+
+## 12. Audit boundary
+
+The receiver-level hostile audit explicitly authorized
+
+```text
 all_multiples_closed=true
 R29_EXT_CHANG_C_closed=true.
 ```
 
-A receiver-level hostile audit independently checked this implication chain and authorized the two closure promotions `all_multiples_closed=true` and `R29_EXT_CHANG_C_closed=true`.
-
-## 14. What is and is not complete
-
-The theorem is complete for the specified receiver population. It is not a classification of all rational points on every auxiliary curve introduced during the proof.
-
-In particular:
+The promoted receiver state independently records zero remaining Face-3-square receiver points. The proof is deliberately receiver-restricted. It does not assert
 
 ```text
-direct_cover_rational_points_complete=false
-factor_cover_rational_points_complete=false
-candidateB_factor_branch_rational_pointset_empty_claim=false
-J12_PARAMETRIC_closed=false
-parent_route_closed=false
-PERFECT_CUBOID_EXISTENCE_CLAIM=false
-PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
+direct_cover_rational_points_complete=true
+factor_cover_rational_points_complete=true
+Candidate-B factor-cover Q-pointset empty
+J12-PARAMETRIC closed
+parent route closed
+perfect cuboid existence or nonexistence.
 ```
 
-These are not missing cases in the Stage34 receiver proof. They are stronger, different statements that Stage34 never needed.
+Candidate B is especially important: its four factor branches may possess rational points; mod 13 proves only that none simultaneously satisfies the required d=1 K-condition, which is exactly the receiver intersection needed here.
 
-The exact distinction is:
+## 13. Stage29 compatibility writeback
 
-\[
-\text{all receiver lifts excluded}
-\not\Rightarrow
-\text{all auxiliary-cover rational points classified}.
-\]
-
-Stage34 proves the statement on the left and does not claim the statement on the right.
-
-## 15. Stage29 writeback and remaining parent route
-
-The closed Stage29 child is
+The exact downstream writeback is
 
 ```text
-R29-EXT-CHANG-C
+R29-EXT-CHANG-C = CLOSED_ALL_ADMISSIBLE_MULTIPLES_BY_STAGE34_RECEIVER_RESTRICTED_ROUTE_D
+K16-C3-EXT-C-PRIMITIVE-DIVISOR = DISCHARGED_BY_STAGE34_REPLACEMENT_ROUTE.
 ```
 
-and its attached Class-3 kernel is
-
-```text
-K16-C3-EXT-C-PRIMITIVE-DIVISOR.
-```
-
-Stage34 therefore discharges that kernel by a replacement rational-cover route rather than by proving the originally contemplated global primitive-divisor theorem.
-
-The live post-Stage29 research frontier changes exactly as follows:
+The frozen historical Stage29 ledgers are not rewritten. The live frontier changes
 
 ```text
 active kernels : 13 -> 12
-Class 3        :  9 ->  8
-Class 2        :  4 ->  4.
+Class 3        : 9 -> 8
+Class 2        : 4 -> 4.
 ```
 
-The parent `J12-PARAMETRIC` remains open because three independent kernels remain:
+`J12-PARAMETRIC` remains open with
 
 ```text
 K16-C3-PESCH-EXPONENT-ONE
@@ -889,75 +854,64 @@ K16-C3-MOVING-FIBER-ARITHMETIC
 K16-C2-EXT-E-INTEGRAL-CERTIFICATION.
 ```
 
-Thus Stage34 removes exactly one live Class-3 obstruction. It supplies no logical basis for promoting `J12-PARAMETRIC`, its parent route, or the perfect-cuboid problem itself to closed.
+## 14. Reusable theorem and anti-loop rule
 
-## 16. Reproducibility and audit provenance
-
-The proof above is self-contained at the theorem/derivation level. The following identifiers preserve machine reproducibility of the finite calculations; they are provenance, not omitted mathematical steps.
+Downstream work may use the single implication
 
 ```text
-population contract blob
-  f38d74862655b206b66f09105c4f5be481bc6444
-
-Face-3 exact-cover reduction blob
-  c023d3ad8567faa280f23e28e0300acfcc61e6a2
-
-pole/order-4 torsion blob
-  04334c55124e4c2d61a685bd53a930ee5798f0aa
-
-d={1,2} split / matching-x pullback blob
-  101181f7575c1e559cd0438abd37e627b7bf984c
-
-reconstruction H1/H2 blob
-  a357a6691e0be4abd4965b3f822c829864d814bf
-
-odd-squareclass theorem blob
-  a053c32a8dbda15c909b7cddc241e8534d4399f9
-
-two-adic classification blob
-  a27621570e79e045a47bc27aec7ecbabb2ebd5f1
-
-all-factor cumulative assembly blob
-  250baf48ee9c8c88fd90ed5a1119adbf58af5bba
-
-all-factor hostile audit review
-  5087246610
-
-receiver mathematical evidence frozen head
-  557aa823f41e1ff5ae31489eb1868fc32f04952e
-
-receiver hostile audit review
-  5088591887
-
-receiver exact replay
-  run 33620807240
-  job 100217139651
-  SUCCESS
-
-Stage29 writeback exact replay
-  run 33622578539
-  job 100222778353
-  SUCCESS
+full seven-fiber non-torsion MW population
++ exact Face-3 cover equivalence
++ pole=order-4-torsion firewall
++ exact d={1,2} split
++ exact four-factor reconstruction
++ complete finite squareclass/local/quotient closure to residual 0
+=> no Face-3-square point in R29-EXT-CHANG-C.
 ```
 
-The frozen 92-branch ID commitment and the independently assembled 92-closure commitment are identical:
+Do not reopen the audited q=80/39 or q=84/13 terminal orbits, the 92-branch closure, the receiver implication, or the Stage29 writeback unless an audit is revoked, a source-lock mismatch is found, or materially new evidence changes the premises.
+
+## 15. Provenance and replay
+
+The load-bearing source locks remain reproducibility records for the statements written above. Principal frozen identifiers are:
 
 ```text
-7d43cd93f9329b48fa981857c10b03ad7a9df985af057ff1845001ca4fcefa6f.
+population contract blob       f38d74862655b206b66f09105c4f5be481bc6444
+Face-3 reduction blob          c023d3ad8567faa280f23e28e0300acfcc61e6a2
+pole torsion blob              04334c55124e4c2d61a685bd53a930ee5798f0aa
+receiver pullback blob         101181f7575c1e559cd0438abd37e627b7bf984c
+reconstruction blob            a357a6691e0be4abd4965b3f822c829864d814bf
+odd squareclass blob           a053c32a8dbda15c909b7cddc241e8534d4399f9
+two-adic blob                  a27621570e79e045a47bc27aec7ecbabb2ebd5f1
+all-factor promotion blob      4c50fa4361071fa09b307a7e3c3f01f220701591
+receiver promotion blob        fb3a79542088362973e1355bdc75e10433ccc12a
 ```
 
-That identity is the anti-gap check for the finite terminal chain.
+Receiver hostile audit: review `5088591887`.
 
-## 17. Final state
+Exact receiver replay:
+
+```text
+run=33620807240
+job=100217139651
+conclusion=SUCCESS
+```
+
+Stage29 writeback replay:
+
+```text
+run=33622578539
+job=100222778353
+conclusion=SUCCESS
+```
+
+These identifiers permit byte-for-byte reproduction; they are not required to determine what mathematical assertion each transition proves, because those assertions and their finite exclusion predicates are stated above.
+
+## 16. Final handoff
 
 ```text
 STAGE34_ALL_MULTIPLES_CLOSED=true
 R29_EXT_CHANG_C_CLOSED=true
 K16_C3_EXT_C_PRIMITIVE_DIVISOR_DISCHARGED=true
-RECEIVER_FACE3_SQUARE_POINTS_REMAINING=0
-D2_ALL_FACTOR_BRANCHES_CLOSED=true
-DIRECT_COVER_RATIONAL_POINTS_COMPLETE=false
-FACTOR_COVER_RATIONAL_POINTS_COMPLETE=false
 J12_PARAMETRIC_CLOSED=false
 PARENT_ROUTE_CLOSED=false
 POST_STAGE34_ACTIVE_KERNELS=12
@@ -966,7 +920,6 @@ POST_STAGE34_CLASS2_KERNELS=4
 NEXT_EXACT_LEAF=NONE_STAGE34_COMPLETE
 NEXT_OWNER=POST_STAGE29_RESEARCH_OS
 AUDIT_STATUS=PASS
+MERGE_ALLOWED=false
 PERFECT_CUBOID_CONCLUSION=NONE
 ```
-
-Stage34 is therefore complete in the precise Stage27/Stage28 final-document sense: the target population, equations, reductions, exception handling, finite branch funnel, exact residual count, closure implication, and non-claims are all present in this file. Internal artifacts are retained only to replay the finite certificates, not to supply missing logical content.
