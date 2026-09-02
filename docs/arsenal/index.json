@@ -1,6 +1,35 @@
 {
   "schema": "RESEARCH_ARSENAL_V8_STAGE30_STAGE31_STAGE34_FORMAL_STAGE32_STAGE33_PROVISIONAL",
   "status": "CURRENT_WITH_FORMAL_STAGE30_STAGE31_STAGE34_AND_CONSOLIDATED_STAGE32_STAGE33_PROVISIONAL_HARVEST",
+  "registry_contract": {
+    "canonical_machine_registry": true,
+    "human_catalog": "catalog.md",
+    "catalog_generator": "sync_arsenal_catalog.py",
+    "generated_card_root": "cards",
+    "card_filename_rule": "one stable ID per <card-class>/<ID>.md",
+    "card_collections": {
+      "selectors": {"directory":"formal","maturity":"FORMAL","kind":"selector"},
+      "formal_router_weapons": {"directory":"formal","maturity":"FORMAL","kind":"weapon"},
+      "formal_workflows": {"directory":"workflows","maturity":"WORKFLOW","kind":"workflow"},
+      "provisional_harvests.active_cards": {"directory":"provisional","maturity":"PROVISIONAL","kind":"weapon"},
+      "provisional_harvests.retired_merged_ids": {"directory":"retired","maturity":"RETIRED","kind":"redirect"}
+    },
+    "card_source_contract": "generated exact section snapshot when a matching source heading exists; linked source remains authoritative",
+    "stable_source_paths_are_not_relocated": true,
+    "maturity_classes": {
+      "FORMAL": "closed-stage, audited reusable result; exact card contract still governs use",
+      "PROVISIONAL": "discovery and source routing only; live stage authority must be revalidated",
+      "WORKFLOW": "reusable audit or proof procedure; not a mathematical selector",
+      "HISTORICAL": "provenance or duplication/failure lookup; not current authority",
+      "RETIRED": "identifier retained only to route to its declared successor"
+    },
+    "authority_order": [
+      "active stage controller and current source locks",
+      "formal audited Arsenal card contract",
+      "provisional harvest snapshot",
+      "historical navigation record"
+    ]
+  },
   "stage29_closed": true,
   "stage30_closed": true,
   "stage31_closed": true,
@@ -12,6 +41,13 @@
     "formal_selector_additions": 0,
     "active_stage_snapshot_policy_repaired": true
   },
+  "support_records": [
+    {"path":"PR1478-AUDIT.md","class":"HISTORICAL","role":"registry audit provenance; not current Stage authority"},
+    {"path":"STAGE34-PROMOTION-REVIEW.md","class":"HISTORICAL","role":"Stage34 promotion review provenance"},
+    {"path":"stage34-formal-harvest.json","class":"FORMAL","role":"machine-readable Stage34 formal harvest source"},
+    {"path":"stageA1-stageA2-class3-provisional-harvest.md","class":"HISTORICAL","role":"human historical Class-3 method harvest"},
+    {"path":"stageA1-stageA2-class3-provisional-harvest.json","class":"HISTORICAL","role":"machine historical Class-3 method harvest"}
+  ],
   "active_stage_snapshot_policy": {
     "harvest_snapshot_head_is_immutable_provenance": true,
     "latest_verified_active_head_is_informational_only": true,
