@@ -1,6 +1,6 @@
 # Research arsenal
 
-Status: **CURRENT ROUTER WITH FORMAL STAGE30/31 AND PROVISIONAL STAGE32/33 HARVESTS**.
+Status: **CURRENT ROUTER WITH FORMAL STAGE30/31/34 AND PROVISIONAL STAGE32/33 HARVESTS**.
 
 This is the compact entry point for reusable mathematical weapons and audited workflow patterns. The weapon files intentionally keep stable paths in `docs/` so historical Stage links do not break.
 
@@ -59,6 +59,20 @@ Stage31 is CLOSED and hostile-audited. Its formal harvest is [`../stage31-arsena
 
 Stage31 intentionally does **not** create separate generic IDs for CAS replay or thin-family scope. Generic immutable CAS/certificate replay routes to `S30-WF02`; the thin-family/global-endpoint and birational/integrality credit boundaries route to `S30-WF03`.
 
+## Formal router-only Stage34 weapons
+
+Stage34 is CLOSED, receiver-hostile-audited, and self-contained-closeout-audited. Its formal harvest is [`../stage34-arsenal-promotion.md`](../stage34-arsenal-promotion.md). Stage34 adds no population selector; it promotes three receiver-proof weapons.
+
+- `S34-W01 SUCCESSIVE_EXACT_FACTOR_SQUARECLASS_DESCENT` — formal successor of historical `A2-W01`: exact factor/gcd/resultant/valuation and 2-adic descent, followed by reparameterization/factor-again when available, to produce a finite exhaustive squareclass branch family before low-genus closure.
+- `S34-W02 GLOBAL_MORDELL_WEIL_CONGRUENCE_EXCLUSION` — with a certified full MW group and every torsion translate, convert omitted parent conditions into exact congruence conditions on the MW multiplier and prove global emptiness by generalized CRT. This is the fresh nonquarantined successor of the generic method seen historically in `A1-WF01`; no A1 numerical result transfers.
+- `S34-W03 RECEIVER_RESTRICTED_INTERSECTION_EXCLUSION` — close the exact receiver by proving `branch ∩ receiver-condition` empty or receiver-degenerate, without claiming the larger factor-cover rational-point set is complete. Stage34 Candidate B is the audited model case.
+
+### Formal Stage34 workflow
+
+- `S34-WF01 CLASS3_RECEIVER_REPLACEMENT_THEOREM_PIPELINE` — formal successor of historical `A2-C3P01`. A Class-3 theorem-shaped kernel may be discharged by a replacement theorem that matches the exact receiver quantifiers; the originally named theorem species need not itself be proved. Exact receiver freeze, exhaustive finite reduction, proof-capable quotient closure, terminal pullback, and typed receiver-only promotion are mandatory.
+
+Stage34 deliberately creates no duplicate IDs for common-Jacobian compression, explicit quartic↔elliptic maps, MW full-group certification, or complete auxiliary-point pullback. Those route to `S31-W01`, `S31-WF01`, and `S31-W03`. Sign/orbit and semantic-credit discipline remains under the Stage30 layer.
+
 ## Provisional active-stage harvests
 
 These are deliberately **not** current strongest selectors. They expose reusable candidates from still-open stages while forcing source revalidation before credit.
@@ -76,18 +90,21 @@ ACTIVE_STAGE_SOURCE_LOCK_MUST_BE_REVALIDATED=true
 FINAL_PROMOTION_REVIEW_REQUIRED_AT_STAGE_CLOSE=true
 ```
 
-## Provisional historical Class-3 method harvest
+## Historical Class-3/A1-A2 method harvest
 
-- [`stageA1-stageA2-class3-provisional-harvest.md`](stageA1-stageA2-class3-provisional-harvest.md) — historical StageA1/A2 harvest focused on theorem construction rather than old family conclusions. It records `A2-C3P01 RECEIVER_SPECIFIC_CLOSURE_THEOREM_PIPELINE`, new-card candidate `A2-W01 SUCCESSIVE_EXACT_FACTOR_SQUARECLASS_DESCENT`, merge targets for A2 common-Jacobian/pullback methods, and quarantined A1 MW/p-adic workflow specializations.
-- StageA2 is treated as a **retrospective Class-3 theorem-construction precedent**, not as a formal selector: Stage29's later Class-3 definition is used to classify the method pattern, while the A2 `-18` family theorem remains stage-specific.
-- StageA1 A1-3..A1-14 remains under the hard `SOURCE_OBJECT = auxiliary -8 curve` firewall. Only independently audited internal methods may be considered after a fresh target-specific derivation; no A1 family conclusion transfers to the published `-18` family or the perfect-cuboid mainline.
-- Stage34 PR #1480 already records direct reuse of the A2 factor/squareclass method. Live Stage34 authority must still be refetched before use.
+- [`stageA1-stageA2-class3-provisional-harvest.md`](stageA1-stageA2-class3-provisional-harvest.md) remains the historical provenance record.
+- Its two principal routeable candidates now have formal current-mainline successors: `A2-W01 -> S34-W01` and `A2-C3P01 -> S34-WF01`.
+- The generic MW-residue-sieve idea from historical `A1-WF01` now routes to the freshly derived formal `S34-W02`; the A1 `-8` source, its numerical survivors, and A1-3..A1-14 family conclusions remain quarantined.
+- `A2-W02` remains merged conceptually into `S31-W01 + S31-WF01`, with Stage34 supplying a second audited use. `A2-W03` remains merged into `S31-W03`, again validated by Stage34.
+- `A1-WF02 PRIME_POWER_FORMAL_GROUP_REFINEMENT` was not needed in the Stage34 final proof and remains historical/provisional only.
+- The StageA2 `-18` family theorem remains stage-specific and is not transferred.
 
 ```text
-A1_A2_HARVEST_IS_FORMAL_SELECTOR=false
-A2_FAMILY_THEOREM_TRANSFERRED=false
 A1_MINUS8_MAINLINE_CREDIT=false
-CLASS3_PRECEDENT_DISCOVERY_ONLY=true
+A2_FAMILY_THEOREM_TRANSFERRED=false
+A2_W01_FORMAL_SUCCESSOR=S34-W01
+A2_C3P01_FORMAL_SUCCESSOR=S34-WF01
+A1_WF01_GENERIC_FORMAL_SUCCESSOR=S34-W02
 ```
 
 ## Weapon sets kept at stable paths
@@ -107,15 +124,17 @@ CLASS3_PRECEDENT_DISCOVERY_ONLY=true
 - [`../stage28-arsenal-promotion.md`](../stage28-arsenal-promotion.md)
 - [`../stage30-arsenal-promotion.md`](../stage30-arsenal-promotion.md)
 - [`../stage31-arsenal-promotion.md`](../stage31-arsenal-promotion.md)
+- [`../stage34-arsenal-promotion.md`](../stage34-arsenal-promotion.md)
 
 Use [`deep-source-index.md`](deep-source-index.md) for historical Stage14/StructureRadar/attack-ledger routing.
 
 ## Stage29 endpoint frontier
 
-Stage29 recorded 13 active kernels at its historical checkpoint. Later closed stages changed that count; do not infer the current frontier from the frozen Stage29 handoff alone.
+Stage29 recorded 13 active kernels at its historical checkpoint. Stage34 subsequently discharged `K16-C3-EXT-C-PRIMITIVE-DIVISOR`, so the post-Stage34 compatibility frontier is 12 active kernels: 4 Class-2 and 8 Class-3. Do not infer current frontier state from the frozen Stage29 handoff alone when later stages have changed it.
 
 - [`../../stages/stage29/29-17/final-handoff.json`](../../stages/stage29/29-17/final-handoff.json)
 - [`../../stages/stage29/29-17/result.md`](../../stages/stage29/29-17/result.md)
+- [`../../stages/stage34/final.md`](../../stages/stage34/final.md)
 
 Future endpoint work should use current Stage controllers/frontier rather than replaying the old triage.
 
@@ -139,5 +158,7 @@ The former `research-arsenal-index.md/json` stopped at Stage26 and are archived 
 - A complete auxiliary point set does not close the source family without an exact exhaustive pullback dictionary.
 - Abstract finite-group isomorphism does not identify concrete actions without an explicit source anchor.
 - Ordinary finite-group orbits do not automatically equal Galois-marked arithmetic classes.
+- Receiver-intersection closure does not imply the larger factor-cover rational-point set is complete or empty.
+- A Class-3 receiver may be discharged by an exact replacement theorem; this does not prove the originally named general theorem species.
 - Historical Stage29 `GREEN` means certified route-level progress, not a solved endpoint.
 - Provisional Stage32/33 cards remain discovery aids until final promotion review and never override active source locks.
