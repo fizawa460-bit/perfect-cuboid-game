@@ -32,6 +32,10 @@ on:
       - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-relative-h-marked-node-action.json'
       - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-relative-h-marked-node-action-source-note.md'
       - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_x_relative_h_marked_node_action.py'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-local-multiplicity-adapter.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-local-multiplicity-adapter-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_x_local_multiplicity_adapter.py'
+      - 'stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-beauville-odd-branch-wall.md'
       - 'stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json'
       - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
       - 'stages/stage32/32-21/post-21bl-picard64-witness-adapter.json'
@@ -89,3 +93,7 @@ jobs:
         run: >-
           python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_x_relative_h_marked_node_action.py
           --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-relative-h-marked-node-action.json
+      - name: Replay exact X local multiplicity adapter
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_x_local_multiplicity_adapter.py
+          --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-local-multiplicity-adapter.json
