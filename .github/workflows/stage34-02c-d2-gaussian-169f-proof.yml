@@ -1,0 +1,93 @@
+name: Stage34-02c D2 Gaussian 169f deterministic proof replay
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage34/runkeys/stage34-02c-d2-gaussian-169f-proof.json'
+      - 'stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-169f-proof-lock.json'
+      - 'stages/stage34/34-02/prove_d2_stageA2_genus2-rankle1-gaussian-169f.py'
+      - '.github/workflows/stage34-02c-d2-gaussian-169f-proof.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      reason: ${{ steps.gate.outputs.reason }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Validate dedicated 169f proof run key
+        id: gate
+        env:
+          BEFORE: "${{ github.event.before }}"
+        run: |
+          KEY=stages/stage34/runkeys/stage34-02c-d2-gaussian-169f-proof.json
+          if [ ! -f "$KEY" ]; then echo 'authorized=false' >> "$GITHUB_OUTPUT"; echo 'reason=runkey_missing' >> "$GITHUB_OUTPUT"; exit 0; fi
+          if [ -z "$BEFORE" ]; then echo 'authorized=false' >> "$GITHUB_OUTPUT"; echo 'reason=no_before' >> "$GITHUB_OUTPUT"; exit 0; fi
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          if ! git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then echo 'authorized=false' >> "$GITHUB_OUTPUT"; echo 'reason=before_unavailable' >> "$GITHUB_OUTPUT"; exit 0; fi
+          if ! git diff --name-only "$BEFORE" HEAD | grep -Fxq "$KEY"; then echo 'authorized=false' >> "$GITHUB_OUTPUT"; echo 'reason=runkey_unchanged' >> "$GITHUB_OUTPUT"; exit 0; fi
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os, subprocess
+          p='stages/stage34/runkeys/stage34-02c-d2-gaussian-169f-proof.json'
+          cur=json.load(open(p))
+          try:
+              old=json.loads(subprocess.check_output(['git','show',f'{os.environ["BEFORE"]}:{p}'],text=True))
+              oldgen=int(old.get('generation',-1))
+          except Exception:
+              oldgen=-1
+          lock='stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-169f-proof-lock.json'
+          script='stages/stage34/34-02/prove_d2_stageA2_genus2_rankle1_gaussian_169f.py'
+          locksha=subprocess.check_output(['git','rev-parse',f'HEAD:{lock}'],text=True).strip()
+          scriptsha=subprocess.check_output(['git','rev-parse',f'HEAD:{script}'],text=True).strip()
+          ok=(
+              cur.get('schema')=='STAGE34_02C_D2_GAUSSIAN_169F_PROOF_RUNKEY_V1'
+              and cur.get('armed') is True
+              and isinstance(cur.get('generation'),int)
+              and cur['generation']>oldgen
+              and cur.get('expected_targets')==1
+              and cur.get('planned_heavy_jobs')==1
+              and cur.get('effective_heavy_concurrency')==1
+              and cur.get('maximum_external_magma_requests_at_once')==1
+              and cur.get('artifact_max_bytes')==1048576
+              and cur.get('retention_days')==1
+              and cur.get('source_lock_blob_sha')==locksha=='38ae448e4bbe805b63c9a4abf6191690895500bf'
+              and cur.get('proof_script_blob_sha')==scriptsha=='ee1882724c03368aa4cf104af58ad2a2159f5fdf'
+          )
+          print('authorized='+('true' if ok else 'false'))
+          print('reason='+('fresh_generation_armed' if ok else 'semantic_gate_failed'))
+          PY
+      - name: Report authorization
+        run: echo "authorized=${{ steps.gate.outputs.authorized }} reason=${{ steps.gate.outputs.reason }}"
+
+  proof:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run deterministic 169f Gaussian proof replay
+        run: python3 stages/stage34/34-02/prove_d2_stageA2_genus2_rankle1_gaussian_169f.py
+      - name: Enforce compact evidence cap
+        if: always()
+        run: |
+          test -f stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-169f-proof-certificate.json
+          test -f stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-169f-proof-stdout.txt
+          test $(wc -c < stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-169f-proof-certificate.json) -le 1048576
+          test $(wc -c < stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-169f-proof-stdout.txt) -le 1048576
+      - name: Upload compact proof evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage34-02c-d2-gaussian-169f-proof
+          path: |
+            stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-169f-proof-certificate.json
+            stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-169f-proof-stdout.txt
+          if-no-files-found: warn
+          retention-days: 1
