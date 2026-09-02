@@ -13,6 +13,9 @@ on:
       - 'stages/stage33/33-12/certify_j2_ct_norm_splitting_boundary_valuations_v27.py'
       - 'stages/stage33/33-12/j2-post-v27-exceptional-overlap-inheritance-audit-v28.json'
       - 'stages/stage33/33-12/certify_j2_post_v27_exceptional_overlap_inheritance_audit_v28.py'
+      - 'stages/stage33/33-12/j2-post-v28-main-handoff-v29.json'
+      - 'stages/stage33/33-12/j2-current-lambda-d-even-norm-rank2-lattices-v29.json'
+      - 'stages/stage33/33-12/certify_j2_current_lambda_d_even_norm_rank2_lattices_v29.py'
       - '.github/workflows/stage33-12-post1488-frontier.yml'
   workflow_dispatch:
 
@@ -34,9 +37,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Replay V26 determinant, V27 boundary, and V28 exceptional inheritance frontier
+      - name: Replay V26-V29 exact frontier
         run: |
           python stages/stage33/33-12/certify_j2_ct_determinant_compactification_parity_frontier_v26.py --check
           python stages/stage33/33-12/certify_j2_ct_norm_splitting_boundary_valuations_v27.py --check
           python stages/stage33/33-12/certify_j2_post_v27_exceptional_overlap_inheritance_audit_v28.py --check
+          python stages/stage33/33-12/certify_j2_current_lambda_d_even_norm_rank2_lattices_v29.py --check
           git diff --check
