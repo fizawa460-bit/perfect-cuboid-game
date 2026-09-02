@@ -28,6 +28,8 @@ on:
       - 'stages/stage32/residual-32-01-production/post1484-o210-q4-half-ramification-abel-jacobi-source-note.md'
       - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_abel_jacobi_closure_contract.py'
       - 'stages/stage32/residual-32-01-production/post1484-o210-q4-abel-jacobi-closure-contract.json'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_abel_jacobi_equivalent_theorem_closure.py'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-abel-jacobi-equivalent-theorem-closure.json'
       - 'stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-boundary.json'
       - 'stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json'
       - 'stages/stage32/residual-32-01-production/post1473-o188-q4-genus2-descent-source-note.md'
@@ -81,3 +83,7 @@ jobs:
         run: >-
           python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_abel_jacobi_closure_contract.py
           --check stages/stage32/residual-32-01-production/post1484-o210-q4-abel-jacobi-closure-contract.json
+      - name: Replay Abel-Jacobi equivalent-theorem zero closure
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_abel_jacobi_equivalent_theorem_closure.py
+          --check stages/stage32/residual-32-01-production/post1484-o210-q4-abel-jacobi-equivalent-theorem-closure.json
