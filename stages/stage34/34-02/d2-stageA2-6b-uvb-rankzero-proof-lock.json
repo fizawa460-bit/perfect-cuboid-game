@@ -1,0 +1,58 @@
+{
+  "schema": "STAGE34_02B_D2_STAGEA2_6B_UVB_RANKZERO_PROOF_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION_PROOF_REPLAY",
+  "target": {
+    "branch_id": "6b3bcb70c4fda8e6f1e0",
+    "q": "20/99",
+    "delta": [-1,-55,-5,-11],
+    "triple": "U*V*B",
+    "literal_quotient": "y^2=(U/-1)*(V/-55)*(B/-11)",
+    "quotient_polynomial": "-18/55*x^5-16/121*x^4+36/55*x^3+16/121*x^2-18/55*x"
+  },
+  "diagnostic_provenance": {
+    "run": 33573723213,
+    "job": 100073063008,
+    "head": "4b5dde8f1ff715691d4e449a4ac0ab8141cb4b4d",
+    "artifact_id": 9825858934,
+    "artifact_digest": "sha256:bafc4cfb33a3ff99b891214d52c96a76ce668770624a66385cdf772dc7ec3058",
+    "raw_stdout_sha256": "sha256:93be742b3aa9ad1acb6b231093bdb63084bf19a135ae683d1a5cc0cf6ca986a3",
+    "observed_rank_upper": 0
+  },
+  "precedent": {
+    "lock": "d2-stageA2-genus2-rankzero-closure-lock.json",
+    "replay": "run_d2_stageA2_genus2_rankzero_closure.py",
+    "certificate": "d2-stageA2-genus2-rankzero-closure-certificate.json",
+    "method": "Exact RankBounds=[0,0] followed by Chabauty0 complete Q-point enumeration and exact receiver/parent pullback."
+  },
+  "proof_contract": [
+    "Reconstruct U=x^2-1, V=2x, A=20U+99V, B=99U+20V and the literal quotient polynomial product(U/-1,V/-55,B/-11); assert exact polynomial identity.",
+    "Require Magma RankBounds(J)=[0,0].",
+    "Run Chabauty0(J); because the Jacobian rank is zero, this gives the complete quotient C(Q) point set.",
+    "For every returned projective quotient point P=(X:Y:Z), evaluate homogeneous U=X^2-Z^2, V=2XZ, A=20U+99V, B=99U+20V.",
+    "Exact-test U/-1, V/-55, A/-5, B/-11 for rational squareness and receiver degeneracy U*V*A*B=0.",
+    "Assert there is no quotient point satisfying all four parent square conditions with all four forms nonzero.",
+    "Since every parent branch point maps to this U*V*B quotient, zero nondegenerate full parent lifts closes the branch for the audited nonzero-free-part receiver population."
+  ],
+  "expected": {
+    "rank_bounds": [0,0],
+    "nondegenerate_full_parent_lift_count": 0,
+    "status": "PASS_EXACT_6B_UVB_RANKZERO_PARENT_CLOSURE_PREAUDIT"
+  },
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "maximum_external_magma_requests_at_once": 1,
+    "expected_requests": 1,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1
+  },
+  "credit": "A successful replay is exact pre-audit branch-closure evidence for 6b3bcb70c4fda8e6f1e0 only. Hostile audit is required before authoritative closure; sign-partner bb08690eaf9880e595ea requires audited sign-involution transfer.",
+  "firewalls": {
+    "proof_replay_success_is_hostile_audit_pass": false,
+    "branch_authoritatively_closed": false,
+    "sign_partner_closed": false,
+    "remaining_30_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
