@@ -20,6 +20,7 @@ def load_locked(path: str, expected_blob: str):
 
 def main():
     cert = json.loads(CERT.read_text())
+    assert cert["schema"] == "STAGE34_02C_D2_STAGEA2_RECEIVER_LEVEL_CLOSURE_ASSEMBLY_PREAUDIT_V2"
     locked = {k: load_locked(*v) for k, v in cert["source_locks"].items()}
 
     pop = locked["global_population_contract"]
@@ -34,6 +35,13 @@ def main():
     assert poles["receiver_adapter"]["pole_points_in_receiver"] is False
     assert poles["receiver_adapter"]["nonpole_face3_square_equivalence_has_receiver_hole"] is False
     assert poles["order"]["pole_points"] == 4
+
+    split = locked["split_to_receiver_pullback"]
+    eq = split["fiber_product_equivalence_for_receiver"]
+    assert eq["forward"].startswith("Every non-torsion rational C_q point has a unique surviving squareclass d in {1,2}")
+    assert "matching finite non-pole x" in eq["receiver_target"]
+    assert split["d1"]["receiver_exception"].endswith("outside the audited non-torsion receiver population.")
+    assert split["d2"]["receiver_exception"].endswith("outside the non-torsion receiver population.")
 
     reconstruction = locked["reconstruction_factor_cover"]
     assert reconstruction["d1"]["reconstruction_cover"] == "W^2=H1(T,S)"
@@ -52,6 +60,7 @@ def main():
     assert promotion["promotion"]["D2_all_factor_branches_closed"] is True
     assert promotion["promotion"]["authoritative_remaining_branches"] == 0
     assert promotion["promotion"]["authoritative_remaining_sign_orbits"] == 0
+    assert "R29-EXT-CHANG-C receiver population" in promotion["promotion"]["scope"]
 
     assert cert["semantic_boundary"]["candidate_B_factor_cover_pointset_empty_required"] is False
     assert cert["semantic_boundary"]["direct_cover_rational_points_complete_required"] is False
