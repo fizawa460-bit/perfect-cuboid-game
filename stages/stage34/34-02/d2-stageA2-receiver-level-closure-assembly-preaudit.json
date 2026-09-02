@@ -1,14 +1,15 @@
 {
-  "schema": "STAGE34_02C_D2_STAGEA2_RECEIVER_LEVEL_CLOSURE_ASSEMBLY_PREAUDIT_V1",
+  "schema": "STAGE34_02C_D2_STAGEA2_RECEIVER_LEVEL_CLOSURE_ASSEMBLY_PREAUDIT_V2",
   "status": "PASS_EXACT_RECEIVER_LEVEL_CLOSURE_ASSEMBLY_PREAUDIT_ONLY",
   "pr": 1489,
   "branch": "stage34-main/q8413-torsion-parent-classification",
   "source_head_before_assembly": "576e520068ca829884516e47f6fa63b2317edf96",
-  "scope": "Exactly the hostile-audited R29-EXT-CHANG-C non-torsion receiver population on the seven Stage34 fibers; no statement about all rational points of the auxiliary factor covers is made.",
+  "scope": "Exactly the hostile-audited R29-EXT-CHANG-C non-torsion receiver population on the seven Stage34 fibers; no statement about all rational points of the auxiliary direct/factor covers is made.",
   "source_locks": {
     "global_population_contract": ["stages/stage34/34-01/global-population-contract.json", "f38d74862655b206b66f09105c4f5be481bc6444"],
     "exact_face3_cover_reduction": ["stages/stage34/34-02/exact-cover-reduction.json", "c023d3ad8567faa280f23e28e0300acfcc61e6a2"],
     "pole_torsion_lock": ["stages/stage34/34-02/pole-torsion-lock.json", "04334c55124e4c2d61a685bd53a930ee5798f0aa"],
+    "split_to_receiver_pullback": ["stages/stage34/34-02/d2-split-to-receiver-pullback-lock.json", "101181f7575c1e559cd0438abd37e627b7bf984c"],
     "reconstruction_factor_cover": ["stages/stage34/34-02/d2-stageA2-style-reconstruction-factor-lock.json", "a357a6691e0be4abd4965b3f822c829864d814bf"],
     "odd_squareclass_support": ["stages/stage34/34-02/d2-stageA2-odd-squareclass-support-lock.json", "a053c32a8dbda15c909b7cddc241e8534d4399f9"],
     "two_adic_pattern": ["stages/stage34/34-02/d2-stageA2-two-adic-pattern-lock.json", "a27621570e79e045a47bc27aec7ecbabb2ebd5f1"],
@@ -18,7 +19,8 @@
     "The authoritative Stage34 receiver population consists only of non-torsion rational points on the seven locked E_q.",
     "Every Face-3 pole x=+/-q is an order-4 torsion point, hence no receiver point is a pole.",
     "For every non-pole receiver point Q, Face-3 square is exactly equivalent to membership in the projection of the direct cover C_q(Q).",
-    "For a rational point in that projection, the locked reconstruction identities produce a rational point on one of the d1/d2 reconstruction covers, and squareclass support plus the exact two-adic pattern forces membership in the finite StageA2 factor-branch overcover.",
+    "The exact split-to-receiver pullback lock proves that every non-torsion rational C_q point yields a unique surviving d in {1,2}, a rational K_{q,d} point, and the same finite non-pole receiver x-coordinate; conversely such a matching pair reconstructs a C_q point.",
+    "On K_{q,d}, the independently verified reconstruction identities turn the remaining matching-x condition into W^2=H_d(T,S)=U*V*A*B. Exact odd-prime support and two-adic parity force every rational solution into the finite StageA2 factor-branch overcover.",
     "Hostile re-audit review 5087246610 promotes D2_all_factor_branches_closed=true exactly for this audited nonzero-free-part R29-EXT-CHANG-C receiver-population scope, with receiver-relevant residual 0.",
     "Therefore no point in the audited non-torsion receiver population can have Face-3 square."
   ],
