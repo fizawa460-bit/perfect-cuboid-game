@@ -2,6 +2,8 @@
 """Network-free exact replay of the retained sign(a3) recovery of BigK row 39."""
 from __future__ import annotations
 
+# Merge-audit replay trigger after V10 provenance-chain repair; row39 mathematics unchanged.
+
 import hashlib
 import json
 import runpy

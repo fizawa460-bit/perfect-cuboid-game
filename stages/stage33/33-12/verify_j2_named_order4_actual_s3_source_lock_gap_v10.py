@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+# Merge-audit replay trigger after V10 provenance-chain repair; no mathematical change.
+
 import hashlib
 import json
 from pathlib import Path
