@@ -1,0 +1,26 @@
+name: Stage34-02c D2 q84/13 torsion parent exact replay
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage34/34-02/prove_d2_stageA2_q8413_torsion_parent_classification.py'
+      - 'stages/stage34/34-02/d2-stageA2-q8413-torsion-parent-classification-certificate.json'
+      - 'stages/stage34/34-02/d2-stageA2-q8413-two-quotient-rankzero-preaudit-certificate.json'
+      - 'stages/stage34/34-02/d2-stageA2-remaining-three-gaussian-elliptic-quotient-lock.json'
+      - '.github/workflows/stage34-02c-d2-q8413-torsion-parent-proof.yml'
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Exact pure-Python replay
+        run: |
+          python3 -m py_compile stages/stage34/34-02/prove_d2_stageA2_q8413_torsion_parent_classification.py
+          python3 stages/stage34/34-02/prove_d2_stageA2_q8413_torsion_parent_classification.py
+          git diff --exit-code -- stages/stage34/34-02/d2-stageA2-q8413-torsion-parent-classification-certificate.json
