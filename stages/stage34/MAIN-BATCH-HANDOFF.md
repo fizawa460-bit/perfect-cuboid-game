@@ -22,9 +22,7 @@ MERGE_ALLOWED=false
 
 Transient PREAUDIT delta only. `MAIN-STATE.json` remains authoritative at zero residual / zero sign orbits but `D2_all_factor_branches_closed=false`. It is intentionally unchanged until a fresh hostile audit authorizes the cumulative implication.
 
-The deterministic assembly verifies the exact chain
-`29952 -> 1946 -> 1214 -> 1024 -> 92 -> 76 -> 52 -> 44 -> 30 -> 26 -> 22 -> 8 -> 4 -> 0`.
-The full-support layer separately has `d2: 20 -> 0`; the 92 surviving d1 branches are then discharged by 92 pairwise-distinct closure IDs, with canonical digest `7d43cd93f9329b48fa981857c10b03ad7a9df985af057ff1845001ca4fcefa6f`.
+The deterministic assembly verifies the exact chain `29952 -> 1946 -> 1214 -> 1024 -> 92 -> 76 -> 52 -> 44 -> 30 -> 26 -> 22 -> 8 -> 4 -> 0`. The full-support layer separately has `d2: 20 -> 0`; the 92 surviving d1 branches are then discharged by 92 pairwise-distinct closure IDs, with canonical digest `7d43cd93f9329b48fa981857c10b03ad7a9df985af057ff1845001ca4fcefa6f`.
 
 Critical semantic boundary: Candidate B's four branches are closed only for the audited nonzero-free-part receiver population by the exact mod-13 receiver/Face-3-square intersection obstruction. Their factor-branch rational point sets are not asserted empty. Consequently `direct_cover_rational_points_complete` remains false.
 
