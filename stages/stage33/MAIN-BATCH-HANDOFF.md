@@ -1,56 +1,36 @@
 # Stage33 MAIN batch handoff
 
-status: TWO_ROW_EXTRACTION_EXACT_SOURCE_LOCKED_RECONSTRUCTION_NEXT
-base_merge: #1483
+status: ORDER4_ALL_ROWS_EXACT_DUAL_INTEGRALITY_BLOCKER
 pr: #1485
 branch: stage33-post1483-order4-pullback-two-row-extraction
 merge: FORBIDDEN
-heavy_compute: FORBIDDEN_AFTER_SUCCESSFUL_V16
+heavy_compute: FORBIDDEN
 
-MAIN-STATE remains V11. No Stage33 progress/closure promotion occurred, so do not reset this handoff to EMPTY.
+MAIN-STATE remains V11. No mathematical state promotion occurred, so this handoff records only the new unresolved delta.
 
 ## Current exact delta
 
-The previously missing BigK pullback rows `[20,67]` are now exact and source-locked from the authorized v16 narrow execution.
+All required semantic order-4 BigK pullback rows `[2,4,9,10,20,35,39,47,49,67]` are now exact. Rows 20 and 67 were reconstructed from the v17 source lock through the retained 140-class marking and certified Stage33-09 marked64 bridge; the other eight rows replay against their existing exact authorities.
 
-Successful workflow:
-- run: `33590282972`
-- head: `0a9d06810368737707dab4a8e168e33165c0cbe8`
-- status/conclusion: `completed / success`
-- authorization gate: generation `5 / false -> 6 / true`, dedicated run-key-only transition
-- extract concurrency: one runner
-- final fail-closed verification: success; locked workflow emits `PROOF_REPLAY_COMPLETE`
+The weighted semantic numerator with coefficients
+`[(2,1),(4,3),(9,3),(10,1),(20,2),(35,2),(39,2),(47,3),(49,3),(67,2)]`
+is exact in both INDLIST64 and historical Magma Pic64 coordinates.
 
-Compact artifact:
-- artifact id: `9831504749`
-- artifact name: `stage33-12-order4-two-row-v16`
-- ZIP SHA256: `b2168e79c62a32498f87aa9d5d1904ca937afee22caabf5db765592a44a61a5d`
-- result status: `EXACT_ROWS_EXTRACTED`
-- result canonical SHA256: `9bf2fe321557c3e8c76ab693dbbd6bec055095f4fec95b84b29db61c4f22e9e8`
-- `bdim=140`, `bdimK=74`
-- row20: `[(32,2),(117,1),(122,1),(125,1),(130,1),(133,1),(138,1)]`
-- row67: `[(110,1),(115,1)]`
+The next mandatory normalization fails exactly: `n4 * pmPic` is divisible by 2 but not by 4. Its nonzero residues modulo 4 occur at historical Picard coordinates `[3,4,10,12,55]`, all equal to 2. Therefore `z4=(n4*pmPic)/4` is not integral and no mixed-Smith order-4 class, proper-Br2 row, retained10 label, or 75D matrix column is promoted.
 
-Durable exact source lock:
-- certificate: `stages/stage33/33-12/j2-order4-row20-row67-exact-source-lock-v17.json`
-- certificate canonical SHA256: `04b47064db73e02068aa51301c94ab0576d927c0b71b2d3df093012028f061d2`
-- replay: `stages/stage33/33-12/verify_j2_order4_row20_row67_exact_source_lock_v17.py`
+Certificate:
+`stages/stage33/33-12/j2-order4-source-coordinate-v18.json`
 
-Pinned upstream remains:
-`MichaelStollBayreuth/Verification@51233ed5ef2bf228fac9416c66db9adc0ebcaadd:Cuboids/cuboids.magma`
-with blob `0422b69847f2afb97cb7b3ed02ebef91279f61b1` and raw SHA256 `5dc3ae961d872ff96420385880edf0f4225a12d3f906c614e1ccd2220399ce89`.
+Canonical SHA256:
+`a0378a7d7191d537347435d11002faa3692f91781dd15f53fe3063443e9d50d1`
 
-Firewalls remain intact:
-- qPic / Smith / sign census / S3 candidate enumeration were not reopened;
-- target compatibility inference was not used;
-- claim promotion was not performed.
-
-No named J2 source coordinate is materialized yet. Standard columns remain `0`; Stage33 progress remains `6/11`; Stage33-12 remains OPEN. Keep `NO_INFERENCE` until the deterministic reconstruction actually materializes the named source coordinate.
+Network-free replay:
+`stages/stage33/33-12/verify_j2_order4_source_coordinate_blocker_v18.py`
 
 ## Anti-repeat boundary
 
-Do not rerun v16 rows20/67 extraction under unchanged premises. Do not reopen qPic, Smith, sign census, S3 candidate enumeration, target-compatibility label inference, the retained Stage32 origin-artifact search, the pinned-source serialization search, or the v15 static symmetry/geometric route.
+Do not reacquire or re-extract any of the ten rows. Do not reopen qPic, Smith, sign census, S3 enumeration, row39 transport, target-compatibility selection, or historical mask6. Under the locked raw pullback formula these inputs deterministically reproduce the same divisibility obstruction.
 
 ## Next exact action
 
-Reconstruct exact rows20/67 through the retained full-surface 140-class Picard marking, transport them to the locked Stage33-09 marked 64D basis, then rebuild the semantic named-J2 order-4 numerator/source-coordinate calculation using the already locked required rows `[2,4,9,10,20,35,39,47,49,67]`. This continuation is deterministic and should not launch new heavy compute.
+Source-lock the missing normalization/correction for pulling the semantic Kc `t1/4` generator into the full-surface dual Picard lattice, or prove from an exact source that the current raw numerator formula must be replaced. The replacement must replay all ten exact rows, preserve doubling to locked semantic `u1`, and make the full-surface pairing numerator divisible by 4 before any source label is materialized.
