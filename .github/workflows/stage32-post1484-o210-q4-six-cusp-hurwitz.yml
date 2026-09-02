@@ -23,6 +23,9 @@ on:
       - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_second_ramification_half_divisor_picard_identity.py'
       - 'stages/stage32/residual-32-01-production/post1484-o210-q4-second-ramification-half-divisor-picard-identity.json'
       - 'stages/stage32/residual-32-01-production/post1484-o210-q4-second-ramification-half-divisor-picard-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_half_ramification_abel_jacobi_reduction.py'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-half-ramification-abel-jacobi-reduction.json'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-half-ramification-abel-jacobi-source-note.md'
       - 'stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-boundary.json'
       - 'stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json'
       - 'stages/stage32/residual-32-01-production/post1473-o188-q4-genus2-descent-source-note.md'
@@ -68,3 +71,7 @@ jobs:
         run: >-
           python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_second_ramification_half_divisor_picard_identity.py
           --check stages/stage32/residual-32-01-production/post1484-o210-q4-second-ramification-half-divisor-picard-identity.json
+      - name: Replay half-ramification Abel-Jacobi reduction
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_half_ramification_abel_jacobi_reduction.py
+          --check stages/stage32/residual-32-01-production/post1484-o210-q4-half-ramification-abel-jacobi-reduction.json
