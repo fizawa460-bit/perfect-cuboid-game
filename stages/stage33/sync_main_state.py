@@ -15,9 +15,9 @@ H = Path(__file__).resolve().parent
 OUT = H / "MAIN-STATE.json"
 
 AUDIT_PATH = H / "33-12/v10-hostile-audit-pass-receipt.json"
-AUDIT_SHA = "b8de80e3f06f655e03c347a3c29dd904c86a1a54689d5e4b80627bfcda56faf7"
+AUDIT_SHA = "5bef940bf55dd480acb8fc3a75415470d28ee9eaa1473c3476d8bd6463ca89e1"
 GAP_PATH = H / "33-12/j2-named-order4-actual-s3-source-lock-gap-v10.json"
-GAP_SHA = "e369c1f6705e5442200c053aa5c4d7ce46de8b87b52338f04eb78ff1fa6dddb1"
+GAP_SHA = "92502f0cb5d04cac6ed6b95270d9b844870a239dd5aaa2a3eeb535a74bac3f2e"
 
 
 def csha(x):
@@ -50,7 +50,7 @@ assert q["next_exact_leaf"] == gap["next_exact_leaf"]
 
 assert audit["status"] == "PASS_HOSTILE_AUDIT"
 assert audit["audit_review_id"] == 5083583438
-assert audit["audited_head_sha"] == "088a0e5eae448616a5dc7f2c05369e4debf0bd4e"
+assert audit["audited_head_sha"] == "088a0e5e3b0baefc0be016a9ba70a00b31c7aedc"
 assert audit["merge_commit_sha"] == "9b97f0795d297e8afdbea56e3bf6ff3608c78639"
 assert audit["pass_boundary"]["named_j2_source_label_selected"] is False
 assert audit["pass_boundary"]["kummer_standard_columns_materialized"] == 0

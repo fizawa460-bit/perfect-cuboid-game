@@ -18,8 +18,8 @@ LOCKS = {
     "orientation": (HERE / "j2-cv-d2-semantic-orientation.json", "0a5abe419c3bd2e4c523af50fd8f85858af6a0d957dcce1e3bdf2ff1430fed3e"),
     "order4": (HERE / "j2-order4-brauer-lift-reduction.json", "a524121930e1c712bd8d8220415ef1836b11cd6eb11f2bb44f70dc844f6d85b0"),
 }
-EXPECTED_AUDIT = "b8de80e3f06f655e03c347a3c29dd904c86a1a54689d5e4b80627bfcda56faf7"
-EXPECTED_GAP = "e369c1f6705e5442200c053aa5c4d7ce46de8b87b52338f04eb78ff1fa6dddb1"
+EXPECTED_AUDIT = "5bef940bf55dd480acb8fc3a75415470d28ee9eaa1473c3476d8bd6463ca89e1"
+EXPECTED_GAP = "92502f0cb5d04cac6ed6b95270d9b844870a239dd5aaa2a3eeb535a74bac3f2e"
 
 
 def csha(x: dict) -> str:
@@ -42,7 +42,7 @@ locked = {k: load_locked(p, h) for k, (p, h) in LOCKS.items()}
 
 assert audit["status"] == "PASS_HOSTILE_AUDIT"
 assert audit["audited_pr"] == 1476
-assert audit["audited_head_sha"] == "088a0e5eae448616a5dc7f2c05369e4debf0bd4e"
+assert audit["audited_head_sha"] == "088a0e5e3b0baefc0be016a9ba70a00b31c7aedc"
 assert audit["audit_review_id"] == 5083583438
 assert audit["merge_commit_sha"] == "9b97f0795d297e8afdbea56e3bf6ff3608c78639"
 assert audit["pass_boundary"]["unique_joint_s3_fixed_candidate_retained10_mask_decimal"] == 6
