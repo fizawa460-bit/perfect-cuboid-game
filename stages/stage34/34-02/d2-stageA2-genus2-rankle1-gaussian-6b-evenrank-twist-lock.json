@@ -1,0 +1,64 @@
+{
+  "schema": "STAGE34_02B_D2_STAGEA2_GENUS2_RANKLE1_GAUSSIAN_6B_EVENRANK_TWIST_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION_DIAGNOSTIC",
+  "target": {
+    "branch_id": "6b3bcb70c4fda8e6f1e0",
+    "q": "20/99",
+    "model_id": 97,
+    "genus2_curve": "C: y^2=-11*x*(x^2-1)*(x+10)*(10*x-1)",
+    "quadratic_twist_minus1": "Cminus: y^2=+11*x*(x^2-1)*(x+10)*(10*x-1)",
+    "gaussian_elliptic_quotient": "E/Q(i): Y^2=X*(X-1089)*(X+220*i)"
+  },
+  "structural_adapter": {
+    "involutions_over_Qi": [
+      "sigma(x,y)=(-1/x, i*y/x^3)",
+      "sigmabar(x,y)=(-1/x, -i*y/x^3)"
+    ],
+    "product": "sigma*sigmabar is the hyperelliptic involution",
+    "quotients": "C/<sigma>=E and C/<sigmabar>=conjugate(E)",
+    "jacobian_isogeny": "By the Klein-four Kani-Rosen relation, Jac(C) over Q(i) is isogenous to E x conjugate(E).",
+    "rank_evenness": "Complex conjugation identifies E(Q(i)) and conjugate(E)(Q(i)), hence rank Jac(C)(Q(i)) = 2*rank E(Q(i)) is even.",
+    "quadratic_extension_decomposition": "For K=Q(i), Jac(C)(K) tensor Q decomposes into +/- eigenspaces for Gal(K/Q). The + eigenspace is Jac(C)(Q) tensor Q and the - eigenspace is the Q-points of the (-1)-quadratic twist tensor Q. Therefore rank Jac(C)(K)=rank Jac(C)(Q)+rank Jac(Cminus)(Q).",
+    "closure_trigger": "If RankBound(Jac(C))<=1 and RankBound(Jac(Cminus))=0, then rank Jac(C)(Q(i))<=1 but is even, so it is 0. Consequently rank E(Q(i))=0."
+  },
+  "source_lock": [
+    {
+      "statement": "Kani-Rosen Klein-four isogeny relation for Jacobians of quotient curves",
+      "url": "https://pure.rug.nl/ws/files/2371262/Afzal_Thesis.pdf",
+      "location": "Theorem 4.1.4 as quoted from Kani-Rosen Theorem B"
+    },
+    {
+      "statement": "Concrete genus-two use: two involutions whose product is hyperelliptic give Jac isogenous to product of elliptic quotients",
+      "url": "https://www.researchgate.net/publication/349546848_Doubly_isogenous_genus-2_curves_with_D_4-action",
+      "location": "Lemma 2.6"
+    },
+    {
+      "statement": "Quadratic extension rank decomposes into base rank plus quadratic-twist rank; this is also proved directly here by the +/- eigenspace decomposition",
+      "url": "https://pure.mpg.de/rest/items/item_3119664_1/component/file_3119665/content",
+      "location": "discussion of rk A(K(sqrt d)) = rk A(K)+rk A^d(K)"
+    }
+  ],
+  "exact_computation": {
+    "recompute_original_rank_upper": true,
+    "compute_minus1_twist_rank_upper": true,
+    "desired_result": {"original_rank_upper_max":1,"minus1_twist_rank_upper":0}
+  },
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "maximum_external_magma_requests_at_once": 1,
+    "expected_requests": 1,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1,
+    "projected_peak_new_artifact_bytes": 2097152,
+    "repo_operating_budget_bytes": 524288000
+  },
+  "credit": "Diagnostic structural test only. Even if the twist rank upper bound is zero, the Kani-Rosen/twist adapter and the subsequent finite elliptic parent pullback require separate exact proof replay and hostile audit before branch closure.",
+  "firewalls": {
+    "twist_rank_probe_alone_closes_branch": false,
+    "rank_evenness_without_verified_quotient_adapter": false,
+    "sign_partner_transfer_authoritative_before_audit": false,
+    "remaining_30_closed": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}

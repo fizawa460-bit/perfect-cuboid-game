@@ -1,0 +1,57 @@
+{
+  "schema": "STAGE34_02B_D2_STAGEA2_RANKLE1_TWO_ORBIT_PREAUDIT_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREAUDIT_BUNDLE",
+  "baseline": {
+    "certificate": "d2-stageA2-genus2-rankle1-14-closure-certificate.json",
+    "authoritative_remaining_branches": 30,
+    "authoritative_remaining_by_q": {"20/99":8,"24/7":0,"48/55":2,"60/11":8,"80/39":4,"84/13":8}
+  },
+  "sign_adapter": {
+    "lock": "d2-stageA2-sign-involution-remaining30-pair-lock.json",
+    "certificate": "d2-stageA2-sign-involution-remaining30-pair-certificate.json",
+    "expected_orbits": 15,
+    "status_required": "PASS_EXACT_30_BRANCHES_TO_15_SIGN_ORBITS_PREAUDIT",
+    "authoritative_before_audit": false
+  },
+  "direct_proofs": [
+    {
+      "representative": "6b3bcb70c4fda8e6f1e0",
+      "partner": "bb08690eaf9880e595ea",
+      "q": "20/99",
+      "certificate": "d2-stageA2-6b-uvb-rankzero-proof-certificate.json",
+      "required_status": "PASS_EXACT_6B_UVB_RANKZERO_PARENT_CLOSURE_PREAUDIT",
+      "method": "unused U*V*B genus-two quotient with exact rank zero, complete Chabauty0 set, exact four-factor parent pullback"
+    },
+    {
+      "representative": "03f88290bf80ef2e6c98",
+      "partner": "231e60279b7c5627c085",
+      "q": "60/11",
+      "certificate": "d2-stageA2-genus2-rankle1-gaussian-03f-proof-certificate.json",
+      "required_status": "PASS_EXACT_GAUSSIAN_ELLIPTIC_PARENT_CLOSURE_03F_PREAUDIT",
+      "method": "Q(i) degree-two elliptic quotient, exact rank one, 2-saturation, elliptic Chabauty, exact reverse parent pullback"
+    }
+  ],
+  "expected_if_hostile_audit_passes": {
+    "direct_closed": 2,
+    "sign_transfer_closed": 2,
+    "candidate_closed_branch_ids": ["6b3bcb70c4fda8e6f1e0","bb08690eaf9880e595ea","03f88290bf80ef2e6c98","231e60279b7c5627c085"],
+    "candidate_remaining_branches": 26,
+    "candidate_remaining_by_q": {"20/99":6,"24/7":0,"48/55":2,"60/11":6,"80/39":4,"84/13":8}
+  },
+  "verification_contract": [
+    "Re-read the baseline 30-branch certificate and require exact counts.",
+    "Recompute all 15 sign pairs from the sign lock: delta vectors negate exactly and the selected triple binary sextics transform under T(X:Z)=(-Z:X).",
+    "Require the two direct proof certificates to have their exact expected statuses and zero nondegenerate full parent lifts.",
+    "Require each representative/partner pair to occur in the sign lock.",
+    "Compute the four candidate branch IDs as direct representatives plus their sign partners and verify projected 30->26 counts by q.",
+    "Do not mutate authoritative remaining=30 or any downstream receiver flag; the output is only hostile-audit input."
+  ],
+  "credit": "Pre-audit bundling only. No new authoritative branch closure, sign transfer, receiver closure, parent-route credit, or perfect-cuboid claim is granted until a separate hostile audit passes and MAIN state is explicitly promoted.",
+  "firewalls": {
+    "bundle_ready_is_hostile_audit_pass": false,
+    "candidate_remaining_26_is_authoritative": false,
+    "sign_transfer_authoritative_before_audit": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

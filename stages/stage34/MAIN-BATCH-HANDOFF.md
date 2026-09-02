@@ -1,75 +1,64 @@
 # Stage34 MAIN batch handoff
 
 ```text
-STATUS=PAUSED_BY_USER
-PR=#1480 OPEN
-BRANCH=stage34-02-sequence-classification-theorem-funnel
-LAST_VERIFIED_HEAD_BEFORE_HANDOFF=2f73781d73f7f0f8e990f9fa5bd140586fa0cee3
-DO_NOT_MERGE=true
-DO_NOT_CREATE_NEW_PR=true
+STATUS=MAIN_AUDITED_8_BRANCHES_MERGE_CANDIDATE_PENDING_FRESH_HEAD_CHECKS
+PR=#1482 OPEN
+BRANCH=stage34-02b-genus2-rankle1-rationalpoints
+AUTHORITATIVE_REMAINING=8
+AUTHORITATIVE_SIGN_ORBITS=4
+AUTHORITATIVE_BY_Q={20/99:0,24/7:0,48/55:0,60/11:0,80/39:4,84/13:4}
+HOSTILE_REAUDIT_REVIEW=5085277218
+AUDITED_HEAD=97af78df799a3ef76caf8833c5f1ac3e0251b51c
+MERGE_ALLOWED_FROM_AUDIT_ALONE=false
+MERGE_CANDIDATE_AFTER_FRESH_CI_AND_MERGEABILITY=true
 ```
 
-## Authoritative current state
+Hostile re-audit review `5085277218` (`PRR_kwDOTr52Y88AAAABLxssIg`) PASSed exact head `97af78df799a3ef76caf8833c5f1ac3e0251b51c` and authorized both non-overlapping promotions:
 
-`MAIN-STATE.json` is already synchronized to schema
-`STAGE34_EXT_C_MAIN_STATE_V15_D2_STAGEA2_44_BRANCHES_AFTER_GENUS2_RANKZERO_CLOSURE`.
-Do not reconstruct current mathematics from this handoff when `MAIN-STATE.json` is available; this file only preserves the stop-point delta and resume instructions.
+- Candidate A: five exact representative sign orbits plus their five already-audited sign partners = `10` branches / `5` sign orbits;
+- Candidate B: the two hard q=`20/99` receiver/K-intersection sign orbits = `4` branches / `2` sign orbits.
 
-Current exact residual count is **44 d1 branches**. Receiver `R29-EXT-CHANG-C` remains OPEN.
-No parent-route / endpoint / perfect-cuboid closure is claimed.
+Applied together to the previous authoritative `22 / 11`, Stage34-02b is now authoritatively **8 d1 branches / 4 sign orbits**, by-q `{20/99:0,24/7:0,48/55:0,60/11:0,80/39:4,84/13:4}`.
 
-Durable reduction chain now locked in `MAIN-STATE.json`:
+Promotion certificate:
 
-- StageA2 factor descent: `92` exact d1 branches, d2 closed.
-- rank-zero elliptic `A*B` quotient complete pointsets + exact pullback: `92 -> 76` (16 closed).
-- selected rank-one elliptic quotient full-MW congruence sieve: `76 -> 52` (24 closed).
-- residual triple-product genus-two diagnostic: `52 * 4 = 208` quotient conditions and **208 distinct exact sextic models**; there is no exact-model reuse/compression across branches.
-- branch-minimal genus-two RankBounds census resolved 33/52 with histogram `{(0,0):8,(0,1):14,(0,2):8,(1,1):3}`; 19 external responses remained unresolved in that census.
-- dedicated exact genus-two rank-zero closure replay: all 8 rank-zero quotient curves had complete six-point `Chabauty0` sets and every point failed the exact four-factor parent lift / mapped only to receiver-excluded torsion/origin; exactly 8 parent branches closed.
-- current residual: `52 -> 44`.
-- current 44 partition: 17 branches already have a selected genus-two quotient with certified rank upper bound <=1; 8 have selected bound `(0,2)`; 19 had unresolved external RankBounds response.
+`stages/stage34/34-02/d2-stageA2-candidateAB-hostile-reaudit-promotion-certificate.json`
 
-## Current exact leaf
+Authoritative state:
 
-`D2_STAGEA2_GENUS2_RANK_UPPER_LE_1_RATIONALPOINTSGENUS2_17_BRANCH_DIAGNOSTIC`
+`stages/stage34/MAIN-STATE.json`
 
-Reason: Magma 2.29 `RationalPointsGenus2` is being tested only on the 17 selected quotient curves with certified rank upper bound <=1. Any returned pointset must still be checked by the exact four-factor parent-lift condition before branch closure credit.
+## Exact remaining four sign orbits
 
-At the stop snapshot, Actions run `33561056094` (`Stage34-02 D2 StageA2 genus-two rank<=1 RationalPoints probe`) was **in_progress**. Do not assume success or mathematical credit from that run. On resume, fresh-check the run/job/artifact before any further write.
+Only these four representative orbits remain OPEN:
 
-Current working set from `MAIN-STATE.json`:
+- q=`80/39`: `169f94dd000a9c5c053f` ↔ `b870eb75fe3db7bf6a04`;
+- q=`84/13`: `40dc8f63e92a8a3a65e8` ↔ `8a374a057daf5f92a87e`;
+- q=`84/13`: `7a7ef1a67e794fe1651f` ↔ `98b42307b3aa398f1e0c`;
+- q=`80/39`: `99448685b81e29427c3f` ↔ `d4f551f1038c705e3a16`.
 
-- `stages/stage34/34-02/d2-stageA2-genus2-rankzero-closure-certificate.json`
-- `stages/stage34/34-02/d2-stageA2-genus2-rankle1-rationalpoints-lock.json`
-- `stages/stage34/34-02/probe_d2_stageA2_genus2_rankle1_rationalpoints.py`
-- `stages/stage34/34-02/probe_d2_stageA2_triple_quotient_models.py`
+These are exactly the generation-2 compute-incomplete representative cases. The bounded retry closed `0/4`; HTTP 504 or missing `PROOF_REPLAY_COMPLETE` is operational incompleteness, not mathematical failure.
 
-## Stop-point provenance
+Read only:
 
-Useful commits on the path to the current state:
+1. `stages/stage34/34-02/d2-stageA2-candidateAB-hostile-reaudit-promotion-certificate.json`;
+2. `stages/stage34/34-02/d2-stageA2-six-rankbound-adapter-generation2-retained-certificate.json`;
+3. `stages/stage34/34-02/d2-stageA2-four-rankle1-rationalpoints-retry-lock.json`;
+4. `stages/stage34/34-02/d2-stageA2-sign-involution-remaining30-pair-lock.json` only for the already-audited pair map.
 
-- `caf2437da6cf283e40e295c6e2ab7073ee5f09fe` — add residual genus-two triple quotient probe.
-- `39384dc46c34b946c2b1532cd26d0f2147f6460b` — seven-q genus-two `RankBounds` smoke script.
-- `b8824257ba382bf5c4d582cac499b6055a9fbfad` — smoke workflow.
-- `33323a8e634d49c9f5560c33773b5d45dd009621` — persist exact eight-branch genus-two closure certificate.
-- `4e4342204952a7220053ae4b56dd6e47d6d1ff93` — sync MAIN state to 44 branches.
-- `2f73781d73f7f0f8e990f9fa5bd140586fa0cee3` — arm 17-curve genus-two rank<=1 `RationalPoints` probe.
+## Scope firewall
 
-Diagnostic triple-quotient run `33559532976`, job `100028416415`, artifact `9820684312` established 208 conditions = 208 exact sextic models. This diagnostic alone grants no parent closure.
+Candidate B is promoted only as **receiver / Face-3-square intersection exclusion**. It does not assert that its four-factor branches themselves have no rational points.
 
-## Resume protocol
+Still OPEN / false:
 
-1. Fresh-check PR #1480 is OPEN and branch head.
-2. Read only `AGENTS.md`, `MAIN-START-HERE.md`, `MAIN-STATE.json`, this handoff, then the current-leaf working set.
-3. Inspect run `33561056094` first. If it finished, validate completeness semantics and exact parent-lift filtering before promotion.
-4. Do not rerun or reopen the already certified 8 genus-two rank-zero closures without contradictory evidence.
-5. Do not launch all 208 genus-two models blindly; exact-model compression is zero and the current strategy is branch-minimal targeted completeness.
-6. Preserve firewalls: rank bounds, local/congruence survivors, quotient rational points, or successful CAS execution alone do not close a parent branch or receiver.
+- `D2_all_factor_branches_closed`;
+- `direct_cover_rational_points_complete`;
+- `all_multiples_closed`;
+- `R29_EXT_CHANG_C_closed`;
+- any parent-route closure;
+- any perfect-cuboid existence/nonexistence claim.
 
-## Firewalls at pause
+## PR #1482 merge gate
 
-- `D2_all_factor_branches_closed=false`
-- `direct_cover_rational_points_complete=false`
-- `all_multiples_closed=false`
-- `R29_EXT_CHANG_C_closed=false`
-- no perfect-cuboid existence/nonexistence claim
+The hostile re-audit explicitly did not authorize merge by itself. MAIN has now applied only the authorized A/B promotion and synchronized derived state. The next operation is **fresh CI on the resulting exact head plus fresh PR mergeability**. If both are clean, #1482 is a legitimate merge candidate; do not add unrelated mathematics to this PR before making that decision.

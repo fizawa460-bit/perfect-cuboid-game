@@ -1,0 +1,35 @@
+name: Stage34-02b D2 rankle1 two-orbit preaudit replay
+
+on:
+  push:
+    branches:
+      - stage34-02b-genus2-rankle1-rationalpoints
+    paths:
+      - .github/workflows/stage34-02b-d2-rankle1-two-orbit-preaudit.yml
+      - stages/stage34/34-02/verify_d2_stageA2_rankle1_two_orbit_preaudit.py
+      - stages/stage34/34-02/d2-stageA2-rankle1-two-orbit-preaudit-lock.json
+      - stages/stage34/34-02/d2-stageA2-genus2-rankle1-14-closure-certificate.json
+      - stages/stage34/34-02/d2-stageA2-sign-involution-remaining30-pair-lock.json
+      - stages/stage34/34-02/d2-stageA2-sign-involution-remaining30-pair-certificate.json
+      - stages/stage34/34-02/d2-stageA2-6b-uvb-rankzero-proof-certificate.json
+      - stages/stage34/34-02/d2-stageA2-genus2-rankle1-gaussian-03f-proof-certificate.json
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact preaudit bundle
+        run: |
+          python3 stages/stage34/34-02/verify_d2_stageA2_rankle1_two_orbit_preaudit.py
+          cat stages/stage34/34-02/d2-stageA2-rankle1-two-orbit-preaudit-bundle.json
+      - name: Upload compact preaudit bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage34-02b-rankle1-two-orbit-preaudit
+          path: stages/stage34/34-02/d2-stageA2-rankle1-two-orbit-preaudit-bundle.json
+          retention-days: 1
+          if-no-files-found: error

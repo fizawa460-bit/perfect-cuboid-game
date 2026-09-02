@@ -1,0 +1,79 @@
+{
+  "schema": "STAGE34_02B_D2_STAGEA2_GENUS2_RANKLE1_TWO_REP_MW_CHABAUTY_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION_DIAGNOSTIC",
+  "baseline_remaining_branches": 30,
+  "current_three_target_source": "d2-stageA2-genus2-rankle1-rationalpoints-lock.json",
+  "sign_orbit_adapter": {
+    "certificate": "d2-stageA2-sign-involution-remaining30-pair-certificate.json",
+    "status": "PREAUDIT_ONLY",
+    "use": "Avoid duplicate diagnostic arithmetic on Q-isomorphic sign partners only; no authoritative branch-transfer credit is claimed before hostile audit."
+  },
+  "independent_rank_upper_bound_source": {
+    "run": 33560119321,
+    "job": 100030598459,
+    "artifact_id": 9820987789,
+    "artifact_digest": "sha256:abb84551f49ccfd2719baa990d7f84b0eb0afd5618d121d1f7dfd3a7464b7914"
+  },
+  "prior_chabauty_resource_wall": {
+    "run": 33569092667,
+    "job": 100058919907,
+    "artifact_id": 9824339538,
+    "artifact_digest": "sha256:25a3c926dcec8a8cc5f1f74cf46d7bc06dc63fde996f80d1d25600abdab60955",
+    "result": "Direct Points(J : Bound:=10000) did not produce a non-torsion point before external timeout/resource termination; this is no mathematical failure."
+  },
+  "targets": [
+    {
+      "branch_id": "6b3bcb70c4fda8e6f1e0",
+      "q": "20/99",
+      "model_id": 97,
+      "rank_bounds": [0,1],
+      "sign_partner": "bb08690eaf9880e595ea"
+    },
+    {
+      "branch_id": "03f88290bf80ef2e6c98",
+      "q": "60/11",
+      "model_id": 113,
+      "rank_bounds": [0,1],
+      "sign_partner": "231e60279b7c5627c085"
+    }
+  ],
+  "adapter": {
+    "intrinsic": "MordellWeilGroupGenus2",
+    "parameters": {
+      "Rankbound": 1,
+      "RankOnly": true,
+      "MaxBound": 3000,
+      "BoundC": 3000
+    },
+    "logic": [
+      "Recompute the unconditional exact RankBound(J) and require it <=1.",
+      "Call MordellWeilGroupGenus2 with the already-proved upper bound one. RankOnly skips saturation and returns as soon as rank is determined.",
+      "If the returned abstract group has a free generator, map it to J(Q); this gives a certified non-torsion point while rank<=1 forces rank exactly one.",
+      "Run Chabauty on that non-torsion point. Chabauty internally works with the saturation of the generated subgroup, so the point need not be primitive.",
+      "Exhaustively exact-test all returned C(Q) points against U,V,A,B degeneracy and the four parent square conditions."
+    ]
+  },
+  "documentation": [
+    "https://docs.magma-maths.org/ArithmeticGeometry/HyperellipticCurves/jacobians-number-fields.html",
+    "https://docs.magma-maths.org/ArithmeticGeometry/HyperellipticCurves/chabauty-method.html"
+  ],
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "maximum_external_magma_requests_at_once": 1,
+    "expected_requests": 2,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1,
+    "projected_peak_new_artifact_bytes": 2097152,
+    "repo_operating_budget_bytes": 524288000
+  },
+  "credit": "Diagnostic only. Failure to find a free generator within these effort bounds is a resource/search wall, not rank zero. Any complete Chabauty candidate still requires a separate proof replay and hostile-audit promotion before branch closure/transfer.",
+  "firewalls": {
+    "bounded_MW_search_exhausts_JQ": false,
+    "no_free_generator_returned_implies_rank_zero": false,
+    "sign_partner_closed_before_adapter_audit": false,
+    "diagnostic_chabauty_candidate_is_parent_closure": false,
+    "remaining_30_closed": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}

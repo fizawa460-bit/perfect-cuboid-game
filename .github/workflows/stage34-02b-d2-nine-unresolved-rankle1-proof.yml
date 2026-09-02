@@ -1,0 +1,79 @@
+name: Stage34-02b D2 nine-unresolved rankle1 exact proof
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage34/runkeys/stage34-02b-d2-nine-unresolved-rankle1-proof.json'
+      - 'stages/stage34/34-02/d2-stageA2-nine-unresolved-orbit-rankle1-proof-lock.json'
+      - 'stages/stage34/34-02/prove_d2_stageA2_nine_unresolved_orbit_rankle1.py'
+      - '.github/workflows/stage34-02b-d2-nine-unresolved-rankle1-proof.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      reason: ${{ steps.gate.outputs.reason }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Validate dedicated proof run key against commit range
+        id: gate
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          KEY=stages/stage34/runkeys/stage34-02b-d2-nine-unresolved-rankle1-proof.json
+          if [ -z "$BEFORE" ]; then echo 'authorized=false' >> "$GITHUB_OUTPUT"; echo 'reason=no_before' >> "$GITHUB_OUTPUT"; exit 0; fi
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          if ! git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then echo 'authorized=false' >> "$GITHUB_OUTPUT"; echo 'reason=before_unavailable' >> "$GITHUB_OUTPUT"; exit 0; fi
+          if ! git diff --name-only "$BEFORE" HEAD | grep -Fxq "$KEY"; then echo 'authorized=false' >> "$GITHUB_OUTPUT"; echo 'reason=runkey_unchanged' >> "$GITHUB_OUTPUT"; exit 0; fi
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json,os,subprocess
+          p='stages/stage34/runkeys/stage34-02b-d2-nine-unresolved-rankle1-proof.json'
+          cur=json.load(open(p))
+          try: old=json.loads(subprocess.check_output(['git','show',f'{os.environ["BEFORE"]}:{p}'],text=True))
+          except Exception:
+              print('authorized=false'); print('reason=old_runkey_missing'); raise SystemExit
+          ok=(cur.get('schema')=='STAGE34_02B_D2_NINE_UNRESOLVED_RANKLE1_PROOF_RUNKEY_V1'
+              and cur.get('armed') is True
+              and isinstance(cur.get('generation'),int) and cur['generation']>int(old.get('generation',-1))
+              and cur.get('expected_targets')==9 and cur.get('planned_heavy_jobs')==1
+              and cur.get('effective_heavy_concurrency')==1 and cur.get('maximum_external_magma_requests_at_once')==1
+              and cur.get('artifact_max_bytes')==1048576 and cur.get('retention_days')==1
+              and cur.get('source_lock_blob_sha')=='981eacb77e9708504cd8f3f3732da4b78f25edf0')
+          print('authorized='+('true' if ok else 'false'))
+          print('reason='+('fresh_generation_armed' if ok else 'semantic_gate_failed'))
+          PY
+      - name: Report authorization
+        run: echo "authorized=${{ steps.gate.outputs.authorized }} reason=${{ steps.gate.outputs.reason }}"
+
+  prove:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run nine exact quotient rational-point and parent-pullback proofs sequentially
+        run: python3 stages/stage34/34-02/prove_d2_stageA2_nine_unresolved_orbit_rankle1.py
+      - name: Enforce compact evidence cap
+        if: always()
+        run: |
+          test -f stages/stage34/34-02/d2-stageA2-nine-unresolved-orbit-rankle1-proof-certificate.json
+          test -f stages/stage34/34-02/d2-stageA2-nine-unresolved-orbit-rankle1-proof-stdout.txt
+          test $(wc -c < stages/stage34/34-02/d2-stageA2-nine-unresolved-orbit-rankle1-proof-certificate.json) -le 1048576
+          test $(wc -c < stages/stage34/34-02/d2-stageA2-nine-unresolved-orbit-rankle1-proof-stdout.txt) -le 1048576
+      - name: Upload compact exact proof evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage34-02b-d2-nine-unresolved-rankle1-proof
+          path: |
+            stages/stage34/34-02/d2-stageA2-nine-unresolved-orbit-rankle1-proof-certificate.json
+            stages/stage34/34-02/d2-stageA2-nine-unresolved-orbit-rankle1-proof-stdout.txt
+          if-no-files-found: warn
+          retention-days: 1

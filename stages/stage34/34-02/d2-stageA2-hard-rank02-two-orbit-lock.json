@@ -1,0 +1,72 @@
+{
+  "schema": "STAGE34_02B_D2_STAGEA2_HARD_RANK02_TWO_ORBIT_LOCK_V1",
+  "status": "SOURCE_LOCKED_FUTURE_LEAF_NO_CREDIT",
+  "authoritative_baseline_remaining_d1": 22,
+  "purpose": "Isolate the two genuine q=20/99 rank-(0,2) residual sign orbits after removing the two rank-(0,2) representatives already closed by the audited alternate rank-zero route. This file is future-leaf source locking only and grants no branch closure.",
+  "representatives": [
+    {
+      "branch_id": "0de8f4d61c834bdf136b",
+      "partner": "1f5f04661b6ace1279b8",
+      "q": "20/99",
+      "delta": [-6,10,510,-34],
+      "selected_model": {"model_id":85,"triple":"U*V*A","rank_bounds":[0,2],"squareclass":-34},
+      "alternate_rank_diagnostic": [
+        {"model_id":194,"triple":"U*A*B","coefficients_desc_t_degree6":[4950,51005,4950,-102010,-4950,51005,-4950],"rank_bounds":[0,3],"squareclass":10},
+        {"model_id":160,"triple":"U*V*B","coefficients_desc_t_degree6":[0,25245,10200,-50490,-10200,25245,0],"rank_bounds":[0,3],"squareclass":510},
+        {"model_id":58,"triple":"V*A*B","coefficients_desc_t_degree6":[0,-5940,-61206,-11880,61206,-5940,0],"rank_bounds":[0,2],"squareclass":-6,"literal_to_integral_y_scale":"510"}
+      ],
+      "best_checked_rank_upper": 2,
+      "preferred_first_higher_rank_model": 58
+    },
+    {
+      "branch_id": "6c9e0174b4ec2e232143",
+      "partner": "81bdbd19aed01cc4a379",
+      "q": "20/99",
+      "delta": [-5,3,17,-255],
+      "selected_model": {"model_id":147,"triple":"U*V*B","rank_bounds":[0,2],"squareclass":17},
+      "alternate_rank_diagnostic": [
+        {"model_id":195,"triple":"U*A*B","coefficients_desc_t_degree6":[5940,61206,5940,-122412,-5940,61206,-5940],"rank_bounds":[0,2],"squareclass":3,"literal_to_integral_y_scale":"255"},
+        {"model_id":64,"triple":"U*V*A","coefficients_desc_t_degree6":[0,-2550,-25245,5100,25245,-2550,0],"rank_bounds":[0,3],"squareclass":-255},
+        {"model_id":59,"triple":"V*A*B","coefficients_desc_t_degree6":[0,-4950,-51005,-9900,51005,-4950,0],"rank_bounds":[0,3],"squareclass":-5}
+      ],
+      "best_checked_rank_upper": 2,
+      "preferred_first_higher_rank_model": 195
+    }
+  ],
+  "source_evidence": {
+    "remaining26_sign_orbit_lock": "d2-stageA2-remaining26-sign-orbit-representatives-lock.json",
+    "remaining26_sign_orbit_lock_blob_sha": "8ec1fea489eafe8b1cfc1a3b3786a248ebf56322",
+    "alternate12_source_lock": "d2-stageA2-rank02-four-rep-alternate12-lock.json",
+    "alternate12_source_lock_blob_sha": "9801cc30a7998a00ae93539695d4c82d39279ac5",
+    "alternate12_run": 33576964244,
+    "alternate12_job": 100082990208,
+    "alternate12_artifact_id": 9826989525,
+    "alternate12_artifact_digest": "sha256:c5208e98f5426e83d8db64827732b027f997fa5cfa7bce33b18266bfde42449b",
+    "alternate12_raw_stdout_sha256": "sha256:ddd0da03404b58af0f43669524f605548216d034e1713e8b9c40900037f278dd"
+  },
+  "method_boundary": {
+    "rank_le_1_adapter_applicable": false,
+    "reason": "For each of these two representatives, the selected quotient and all three checked alternate triple-product quotients have best rigorous rank upper bound >=2. The four rank<=1 RationalPoints retry leaf is therefore inapplicable.",
+    "next_methods_to_test": [
+      "exact TwoCoverDescent / fake 2-Selmer data on the preferred rank-upper-2 quotient",
+      "explicit higher-rank two-cover to elliptic-Chabauty reduction if the Selmer data is nontrivial",
+      "parent-lift-specific cover obstruction before attempting complete C(Q) enumeration"
+    ]
+  },
+  "corrections": {
+    "no_shared_model49": true,
+    "model58_model59_not_q_isomorphic_from_scalar_relation": true,
+    "note": "Use the exact immutable alternate12 artifact. Earlier exploratory remarks about a shared model49 or a simple x->-x identification were stale and are not admissible evidence."
+  },
+  "firewalls": {
+    "source_lock_closes_branch": false,
+    "rank_bound_is_complete_pointset": false,
+    "higher_rank_route_proved": false,
+    "hostile_audit_passed": false,
+    "D2_all_factor_branches_closed": false,
+    "all_multiples_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "parent_route_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

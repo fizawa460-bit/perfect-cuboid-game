@@ -1,0 +1,88 @@
+{
+  "schema": "STAGE34_02B_D2_STAGEA2_HARD_RANK02_RECEIVER_INTERSECTION_MOD13_PREAUDIT_V1",
+  "status": "PREAUDIT_EXACT_LOCAL_OBSTRUCTION_CANDIDATE_NO_AUTHORITY",
+  "scope": "Exclude receiver/F3-square lifts from exactly the two hard q=20/99 sign orbits by intersecting the StageA2 four-factor branch conditions with the required d=1 K_{q,1} condition. The factor branches themselves may have rational points; the claim is only that none can simultaneously lie on the required K_{q,1} fiber.",
+  "authoritative_baseline": {
+    "remaining_d1_branches": 22,
+    "remaining_sign_orbits": 11,
+    "remaining_by_q": {"20/99": 4, "24/7": 0, "48/55": 0, "60/11": 6, "80/39": 4, "84/13": 8},
+    "promotion_applied": false
+  },
+  "sources": {
+    "hard_two_orbit_lock": {"path": "stages/stage34/34-02/d2-stageA2-hard-rank02-two-orbit-lock.json", "blob_sha": "fc8fb6fe8557ab1b626bfb49228733753556bb2b"},
+    "sign_involution_lock": {"path": "stages/stage34/34-02/d2-stageA2-sign-involution-remaining30-pair-lock.json", "blob_sha": "e1ba9439f2483371517aec029015a71e683e91ee"},
+    "full_support_branch_lock": {"path": "stages/stage34/34-02/d2-stageA2-full-support-projective-lock.json", "blob_sha": "92dff93b3c8e5af8afbfc7b35e85ed7c578b2208"},
+    "reconstruction_factor_lock": {"path": "stages/stage34/34-02/d2-stageA2-style-reconstruction-factor-lock.json", "blob_sha": "a357a6691e0be4abd4965b3f822c829864d814bf"},
+    "split_genus1_lock": {"path": "stages/stage34/34-02/d2-split-genus1-quotient-lock.json", "blob_sha": "816319b864dc26624161f090a8a8aa3e51168c32"},
+    "split_receiver_pullback_lock": {"path": "stages/stage34/34-02/d2-split-to-receiver-pullback-lock.json", "blob_sha": "101181f7575c1e559cd0438abd37e627b7bf984c"},
+    "exact_cover_reduction": {"path": "stages/stage34/34-02/exact-cover-reduction.json", "blob_sha": "c023d3ad8567faa280f23e28e0300acfcc61e6a2"},
+    "verifier": {"path": "stages/stage34/34-02/verify_d2_stageA2_hard_rank02_receiver_intersection_mod13.py", "blob_sha": "d80d7e959fdd0106ab076c3b71b478fabb79eaa7"}
+  },
+  "exact_setup": {
+    "q": "20/99",
+    "a": 20,
+    "b": 99,
+    "d": 1,
+    "forms": {
+      "U": "T^2-S^2",
+      "V": "2*T*S",
+      "A": "20*U+99*V",
+      "B": "99*U+20*V"
+    },
+    "receiver_x": "x=(20/99)*U/V on the finite V!=0 chart",
+    "factor_branch_equations": "U=delta1*r1^2, V=delta2*r2^2, A=delta3*r3^2, B=delta4*r4^2",
+    "required_K_condition": "A^2+B^2 is a rational square",
+    "K_identity": "A^2+B^2 = 99^2 * K_{20/99,1}^{hom}(T,S)",
+    "reason_K_is_required": "The d=1 split first parameterizes x^2+q^2=u^2; a receiver C_q point additionally requires the matching d=1 B_q square, equivalently a rational K_{q,1} quartic point at the same [T:S]. The cleared quartic identity above is exact."
+  },
+  "branches": [
+    {"branch_id": "0de8f4d61c834bdf136b", "delta": [-6,10,510,-34], "orbit_partner": "1f5f04661b6ace1279b8"},
+    {"branch_id": "1f5f04661b6ace1279b8", "delta": [6,-10,-510,34], "orbit_partner": "0de8f4d61c834bdf136b"},
+    {"branch_id": "6c9e0174b4ec2e232143", "delta": [-5,3,17,-255], "orbit_partner": "81bdbd19aed01cc4a379"},
+    {"branch_id": "81bdbd19aed01cc4a379", "delta": [5,-3,-17,255], "orbit_partner": "6c9e0174b4ec2e232143"}
+  ],
+  "local_obstruction": {
+    "prime": 13,
+    "good_prime_checks": {
+      "13_not_dividing_2ab_a2minusb2": true,
+      "13_not_dividing_any_listed_delta_entry": true,
+      "minus_one_is_square_mod_13": true
+    },
+    "reduction_lemma": "If a rational receiver-intersection point existed, scale [T:S] to p-integral primitive coordinates. Because every listed delta_i is a p-unit and each integral form F_i satisfies F_i=delta_i*r_i^2, every r_i is p-integral. Since A^2+B^2=w^2 with integral A,B, w is also p-integral. Reduction therefore gives a point of P1(F_13) satisfying all four branch square predicates and the K-square predicate.",
+    "four_square_branch_residues_for_each_of_four_branches": [
+      {"T": 5, "S": 1, "U": 11, "V": 10, "A": 1, "B": 2, "A2_plus_B2": 5},
+      {"T": 8, "S": 1, "U": 11, "V": 3, "A": 10, "B": 5, "A2_plus_B2": 8}
+    ],
+    "square_residue_set_mod_13": [0,1,3,4,9,10,12],
+    "K_failures": ["5 is nonsquare mod 13", "8 is nonsquare mod 13"],
+    "projective_points_checked_per_branch": 14,
+    "receiver_intersection_survivors_per_branch": 0,
+    "exact_conclusion": "No rational point on any of the four listed StageA2 factor branches can simultaneously satisfy the required d=1 K_{20/99,1} condition. Hence these four branches contribute no receiver/F3-square point."
+  },
+  "diagnostic_parent_points_reinterpreted": {
+    "representative_t_values": ["1/5", "2/3"],
+    "meaning": "These are genuine nondegenerate points of the four-factor reconstruction branches and map to E_q points, but they are not K_{q,1} points. Direct evaluation gives nonsquare F3, so their existence does not block the local receiver-intersection obstruction.",
+    "no_genus2_pointset_claim": true
+  },
+  "candidate_promotion_if_and_only_if_separate_hostile_audit_passes": {
+    "branches_closed_for_receiver_population": 4,
+    "sign_orbits_closed_for_receiver_population": 2,
+    "prospective_remaining_d1_branches": 18,
+    "prospective_remaining_sign_orbits": 9,
+    "prospective_remaining_by_q": {"20/99": 0, "24/7": 0, "48/55": 0, "60/11": 6, "80/39": 4, "84/13": 8}
+  },
+  "firewalls": {
+    "hostile_audit_passed": false,
+    "authoritative_counts_changed": false,
+    "factor_branch_itself_has_no_Q_points": false,
+    "genus2_quotient_complete_pointset_proved": false,
+    "D2_all_factor_branches_closed": false,
+    "direct_cover_rational_points_complete": false,
+    "all_multiples_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "parent_route_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "next_obligation": "Separate hostile audit must replay the exact K identity, p-integrality reduction, all 14 projective F_13 points for each delta tuple, and the receiver-scope adapter before any branch/orbit promotion."
+}

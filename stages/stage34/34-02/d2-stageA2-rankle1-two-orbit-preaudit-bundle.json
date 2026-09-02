@@ -1,0 +1,84 @@
+{
+  "audit_requirements": [
+    "Verify the sign involution theorem and all 15 locked pair transports, including parent square and receiver-degeneracy semantics.",
+    "Verify the 6b U*V*B rank-zero Chabauty0 proof certificate and integral-model normalization.",
+    "Verify the 03f Q(i) elliptic quotient, fixed free point, 2-saturation/index argument, elliptic Chabauty completeness, exceptional points, and reverse parent pullback.",
+    "Only after PASS may MAIN promote the four candidate branches and change 30->26."
+  ],
+  "authoritative_now": {
+    "R29_EXT_CHANG_C_closed": false,
+    "all_multiples_closed": false,
+    "remaining_branches": 30
+  },
+  "baseline_authoritative_remaining_branches": 30,
+  "baseline_authoritative_remaining_by_q": {
+    "20/99": 8,
+    "24/7": 0,
+    "48/55": 2,
+    "60/11": 8,
+    "80/39": 4,
+    "84/13": 8
+  },
+  "baseline_certificate": "d2-stageA2-genus2-rankle1-14-closure-certificate.json",
+  "baseline_certificate_sha256": "sha256:1b375f3f52c489c196a5bc02bbcc336a8693b71025c47664bc16766d6c46261a",
+  "candidate_if_hostile_audit_passes": {
+    "closed_branch_ids": [
+      "6b3bcb70c4fda8e6f1e0",
+      "bb08690eaf9880e595ea",
+      "03f88290bf80ef2e6c98",
+      "231e60279b7c5627c085"
+    ],
+    "direct_closed": 2,
+    "remaining_branches": 26,
+    "remaining_by_q": {
+      "20/99": 6,
+      "24/7": 0,
+      "48/55": 2,
+      "60/11": 6,
+      "80/39": 4,
+      "84/13": 8
+    },
+    "sign_transfer_closed": 2
+  },
+  "credit": "Hostile-audit input only. The projected 26 is not authoritative before a separate audit PASS and explicit MAIN promotion.",
+  "direct_proofs": [
+    {
+      "certificate": "d2-stageA2-6b-uvb-rankzero-proof-certificate.json",
+      "certificate_sha256": "sha256:5d97a4e87194106dcbeedc590a4c89df5cb2289cb152aefc0bc04b83d2c6516b",
+      "method": "unused U*V*B genus-two quotient with exact rank zero, complete Chabauty0 set, exact four-factor parent pullback",
+      "nondegenerate_full_parent_lift_count": 0,
+      "partner": "bb08690eaf9880e595ea",
+      "q": "20/99",
+      "representative": "6b3bcb70c4fda8e6f1e0",
+      "status": "PASS_EXACT_6B_UVB_RANKZERO_PARENT_CLOSURE_PREAUDIT"
+    },
+    {
+      "certificate": "d2-stageA2-genus2-rankle1-gaussian-03f-proof-certificate.json",
+      "certificate_sha256": "sha256:62bc335d0087405ef32f7ee21f27e0d9c51cb4e0b7809c7c22ce2c6488afe625",
+      "method": "Q(i) degree-two elliptic quotient, exact rank one, 2-saturation, elliptic Chabauty, exact reverse parent pullback",
+      "nondegenerate_full_parent_lift_count": 0,
+      "partner": "231e60279b7c5627c085",
+      "q": "60/11",
+      "representative": "03f88290bf80ef2e6c98",
+      "status": "PASS_EXACT_GAUSSIAN_ELLIPTIC_PARENT_CLOSURE_03F_PREAUDIT"
+    }
+  ],
+  "firewalls": {
+    "R29_EXT_CHANG_C_closed": false,
+    "bundle_ready_is_hostile_audit_pass": false,
+    "candidate_remaining_26_is_authoritative": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "sign_transfer_authoritative_before_audit": false
+  },
+  "schema": "STAGE34_02B_D2_STAGEA2_RANKLE1_TWO_ORBIT_PREAUDIT_BUNDLE_V1",
+  "sign_adapter": {
+    "certificate": "d2-stageA2-sign-involution-remaining30-pair-certificate.json",
+    "certificate_declared_source_hash_matches": true,
+    "certificate_sha256": "sha256:73c07579b62daf3b40440c1de7f2ffe4744977bf6870f668eddfe882d5fdc234",
+    "exact_orbits": 15,
+    "lock": "d2-stageA2-sign-involution-remaining30-pair-lock.json",
+    "lock_sha256": "sha256:c8a1f1b8247c930d934a3a23a1aa3b640e7390b2294766e25e0b6268d4b4e456",
+    "verified_branch_count": 30
+  },
+  "status": "READY_FOR_HOSTILE_AUDIT_TWO_ORBIT_CLOSURE_PREAUDIT"
+}

@@ -1,0 +1,25 @@
+{
+  "schema": "STAGE34_02B_D2_STAGEA2_GENUS2_RANKLE1_THREE_ADAPTER_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION",
+  "baseline_remaining_branches": 30,
+  "source_targets": "d2-stageA2-genus2-rankle1-rationalpoints-lock.json",
+  "independent_rank_upper_bound_source": {
+    "run": 33560119321,
+    "job": 100030598459,
+    "artifact_id": 9820987789,
+    "artifact_digest": "sha256:abb84551f49ccfd2719baa990d7f84b0eb0afd5618d121d1f7dfd3a7464b7914"
+  },
+  "targets": [
+    {"branch_id":"6b3bcb70c4fda8e6f1e0","q":"20/99","model_id":97,"rank_bounds":[0,1],"factorization":"-11*x*(x-1)*(x+1)*(x+10)*(10*x-1)"},
+    {"branch_id":"bb08690eaf9880e595ea","q":"20/99","model_id":112,"rank_bounds":[0,1],"factorization":"11*x*(x-1)*(x+1)*(x+10)*(10*x-1)"},
+    {"branch_id":"03f88290bf80ef2e6c98","q":"60/11","model_id":113,"rank_bounds":[0,1],"factorization":"11*x*(x-1)*(x+1)*(x+11)*(11*x-1)"}
+  ],
+  "adapter": {
+    "intrinsic": "RationalPointsGenus2",
+    "parameters": {"RankBound":1,"Fast":true},
+    "justification": "RankBound=1 is not guessed: the independent branch-minimal RankBounds census certified upper bound one for each exact target. Magma V2.29 documents RankBound and Fast for RationalPointsGenus2; Fast reduces the search spent on 2-covering Mordell-Weil generation when it would otherwise be time-intensive.",
+    "documentation": "https://magma.maths.usyd.edu.au/magma/handbook/text/1613"
+  },
+  "credit": "Diagnostic adapter only. Even complete=true plus zero nondegenerate parent lifts is only a closure candidate until independently replayed under a proof lock.",
+  "firewalls": {"supplied_rank_bound_is_unproved":false,"diagnostic_candidate_is_parent_closure":false,"calculator_no_response_is_math_failure":false,"remaining_30_closed":false,"R29_EXT_CHANG_C_closed":false}
+}

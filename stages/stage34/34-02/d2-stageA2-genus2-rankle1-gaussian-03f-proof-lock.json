@@ -1,0 +1,65 @@
+{
+  "schema": "STAGE34_02B_D2_STAGEA2_GENUS2_RANKLE1_GAUSSIAN_03F_PROOF_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION_PROOF_REPLAY",
+  "target": {
+    "branch_id": "03f88290bf80ef2e6c98",
+    "q": "60/11",
+    "model_id": 113,
+    "delta": [330,2,22,30],
+    "genus2_polynomial": "121*x^5+1320*x^4-242*x^3-1320*x^2+121*x",
+    "genus2_factorization": "11*x*(x-1)*(x+1)*(x+11)*(11*x-1)",
+    "gaussian_field": "K=Q(i)",
+    "elliptic_curve": "Y^2=X^3+(1320-242*i)*X^2-319440*i*X",
+    "quotient_A": 121,
+    "quotient_u": "x-1/x",
+    "quotient_X": "121*(x-1/x)",
+    "fixed_free_point": ["96+1392*i","-17376+53808*i","1"],
+    "sign_partner": "231e60279b7c5627c085"
+  },
+  "diagnostic_provenance": {
+    "run": 33572548221,
+    "job": 100069459345,
+    "artifact_id": 9825461094,
+    "artifact_digest": "sha256:90648a44c5b55552120d733408269bbd2c1027a8eaaeba067bfadf3b1803bc54",
+    "raw_stdout_sha256": "84d326133eaae26d11f24004cb9b4ac0b85dfeecf4378a5fe126392a7b122bed",
+    "observed": {
+      "rank_bounds": [1,1],
+      "torsion_invariants": [2,2],
+      "sat2_unchanged": true,
+      "elliptic_chabauty_R": 4,
+      "elliptic_chabauty_count": 3,
+      "rational_quotient_X": [0,-1320],
+      "finite_parent_x": ["1","-1","1/11","-11"],
+      "nondegenerate_full_parent_lift_count": 0
+    }
+  },
+  "symbolic_proof_obligations": [
+    "For C: y^2=11*x*(x^2-1)*(x+11)*(11*x-1), sigma(x,y)=(-1/x,i*y/x^3) is an involution over Q(i).",
+    "u=x-1/x and v=y*(x-i)/x^2 are sigma-invariant and satisfy v^2=11*u*(11*u+120)*(u-2*i).",
+    "With X=121*u and Y=121*v this becomes the locked elliptic curve.",
+    "Every C(Q) point with x nonzero finite maps to E(Q(i)) with X in Q.",
+    "The omitted parent points x=0 and x=infinity have V=0 and are receiver-degenerate."
+  ],
+  "arithmetic_proof_obligations": [
+    "Recompute RankBounds(E)=[1,1] and exact TorsionSubgroup(E)=Z/2+Z/2.",
+    "Coerce the fixed free point and prove infinite order.",
+    "Saturate the fixed point at 2 and assert the returned torsion-free basis is exactly one generator; therefore the subgroup generated with full torsion has finite odd index in E(K).",
+    "Run elliptic Chabauty with IndexBound=2 and assert R=4 and exactly three abstract group elements.",
+    "Because the subgroup index is odd and R=4, the Chabauty set is complete for all E(K) points with Q-rational quotient X.",
+    "Assert the only finite rational quotient X values are 0 and -1320, reconstruct x=+-1,1/11,-11, and exact-test all four parent square conditions.",
+    "Assert every reconstructed parent point is receiver-degenerate and no nondegenerate full parent lift exists."
+  ],
+  "expected_result": {
+    "status": "PASS_EXACT_GAUSSIAN_ELLIPTIC_PARENT_CLOSURE_03F_PREAUDIT",
+    "closed_branch_if_audited": "03f88290bf80ef2e6c98",
+    "nondegenerate_full_parent_lift_count": 0
+  },
+  "credit": "A successful replay is exact pre-audit branch-closure evidence for 03f88290bf80ef2e6c98 only. Transfer to its sign partner requires separate audit promotion of the sign-involution adapter. R29 and all-multiples remain open.",
+  "firewalls": {
+    "proof_replay_success_is_hostile_audit_pass": false,
+    "sign_partner_closed_without_sign_adapter_audit": false,
+    "remaining_30_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "schema": "STAGE34_02B_D2_STAGEA2_GENUS2_RANKLE1_GAUSSIAN_ELLIPTIC_QUOTIENT_LOCK_V1",
+  "status": "SOURCE_LOCKED_PREEXECUTION_DIAGNOSTIC",
+  "purpose": "Replace the resource-walled genus-two Jacobian search on the two current sign-orbit representatives by an explicit degree-two elliptic quotient over K=Q(i), then use elliptic Chabauty to enumerate all quotient points with Q-rational x-coordinate.",
+  "prior_resource_walls": [
+    {
+      "run": 33569092667,
+      "artifact_id": 9824339538,
+      "digest": "sha256:25a3c926dcec8a8cc5f1f74cf46d7bc06dc63fde996f80d1d25600abdab60955",
+      "method": "Points(J:Bound=10000)+genus2 Chabauty"
+    },
+    {
+      "run": 33569995815,
+      "job": 100061698674,
+      "artifact_id": 9824621639,
+      "digest": "sha256:b89f021d13985864416696b2f2c6eff3d8dedb17c57b794a7e6f622bd45fb077",
+      "method": "MordellWeilGroupGenus2 RankOnly bounded effort",
+      "result": "Both representatives unresolved by external/resource termination; no mathematical credit."
+    }
+  ],
+  "generic_derivation": {
+    "field": "K=Q(i), i^2=-1",
+    "curve": "C_{n,c}: y^2 = c*x*(x^2-1)*(x+n)*(n*x-1)",
+    "involution": "sigma(x,y)=(-1/x, i*y/x^3)",
+    "involution_check": "f(-1/x)=-f(x)/x^6, so sigma has order two over K",
+    "invariants": {
+      "u": "x-1/x",
+      "v": "y*(x-i)/x^2"
+    },
+    "quotient_identity": "v^2 = c*u*(n*u+n^2-1)*(u-2*i)",
+    "weierstrass_scaling": {
+      "A": "c*n",
+      "X": "A*u",
+      "Y": "A*v",
+      "E": "Y^2 = X^3 + c*(n^2-1-2*i*n)*X^2 - 2*i*c^2*n*(n^2-1)*X"
+    },
+    "rationality_map": "For every nonexceptional C(Q) point, X=A*(x-1/x) is Q-rational. Therefore C(Q) maps into the subset of E(K) whose x-coordinate lies in Q.",
+    "reverse_filter": "For any finite rational quotient x-coordinate X, put u=X/A. A rational parent x can exist only if u^2+4 is a square in Q, since x^2-u*x-1=0. Each resulting rational x is then exact-tested on C and against U,V,A,B/delta.",
+    "exceptional_parent_points": "x=0 and x=infinity are outside the affine quotient formula and have V=0, hence are receiver-degenerate. The other rational Weierstrass x-values x=+-1,-n,1/n have one of the selected factors U,V,A/B equal to zero and are also receiver-degenerate."
+  },
+  "targets": [
+    {
+      "branch_id": "6b3bcb70c4fda8e6f1e0",
+      "q": "20/99",
+      "model_id": 97,
+      "delta": [-1,-55,-5,-11],
+      "selected_triple": "U*V*A",
+      "n": 10,
+      "c": -11,
+      "curve_factorization": "-11*x*(x-1)*(x+1)*(x+10)*(10*x-1)",
+      "A": -110,
+      "elliptic_a2": "-1089+220*i",
+      "elliptic_a4": "-239580*i",
+      "sign_partner": "bb08690eaf9880e595ea"
+    },
+    {
+      "branch_id": "03f88290bf80ef2e6c98",
+      "q": "60/11",
+      "model_id": 113,
+      "delta": [330,2,22,30],
+      "selected_triple": "U*V*B",
+      "n": 11,
+      "c": 11,
+      "curve_factorization": "11*x*(x-1)*(x+1)*(x+11)*(11*x-1)",
+      "A": 121,
+      "elliptic_a2": "1320-242*i",
+      "elliptic_a4": "-319440*i",
+      "sign_partner": "231e60279b7c5627c085"
+    }
+  ],
+  "magma_adapter": {
+    "mw": "PseudoMordellWeilGroup(E)",
+    "mw_success_semantics": "On success, the returned abstract group maps injectively to a subgroup of finite odd index in E(K).",
+    "chabauty": "Chabauty(MWmap, xcoord_map : IndexBound:=2)",
+    "completion_logic": "Elliptic Chabauty returns all points in the known subgroup with Q-rational x-coordinate and an integer R. With IndexBound=2, R has only 2-primary prime divisors; if PseudoMordellWeilGroup success gives odd index, gcd(index,R)=1 and the returned set is complete for E(K).",
+    "documentation": [
+      "https://docs.magma-maths.org/ArithmeticGeometry/EllipticCurvesOverQAndNumberFields/over_anf.html",
+      "https://magma.maths.usyd.edu.au/magma/handbook/text/1619"
+    ]
+  },
+  "resource_preflight": {
+    "planned_heavy_jobs": 1,
+    "effective_heavy_concurrency": 1,
+    "maximum_external_magma_requests_at_once": 1,
+    "expected_requests": 2,
+    "artifact_max_bytes": 1048576,
+    "retention_days": 1,
+    "projected_peak_new_artifact_bytes": 2097152,
+    "repo_operating_budget_bytes": 524288000
+  },
+  "credit": "Diagnostic until exact returned quotient x-values, rational parent reconstruction, four-factor pullback, and separate proof replay are persisted and hostile-audited. No sign-partner transfer is authoritative before audit of the sign adapter.",
+  "firewalls": {
+    "pseudo_MW_failure_is_math_failure": false,
+    "elliptic_chabauty_return_without_index_check_is_complete": false,
+    "quotient_point_is_parent_point": false,
+    "diagnostic_candidate_is_branch_closure": false,
+    "remaining_30_closed": false,
+    "R29_EXT_CHANG_C_closed": false
+  }
+}
