@@ -15,12 +15,14 @@ DO_NOT_MERGE=true
 
 Authoritative state is unchanged from the previous hostile-audit promotion: residual `22` d1 branches / `11` audited sign orbits, by-q `{20/99:4,24/7:0,48/55:0,60/11:6,80/39:4,84/13:8}`. Neither candidate family below is authoritative without its own separate hostile audit. Do **not** combine prospective counts as current state.
 
+Ordinary audit review `5085206299` at head `5504e131e798b841423eef5d0cfb187872787d7f` failed only because Candidate A's machine-readable q=20/99 exclusion set contained two mistyped branch IDs. The manifest is now repaired to the authoritative hard representatives `0de8f4d61c834bdf136b` and `6c9e0174b4ec2e232143`; no closure credit or MAIN promotion follows from this repair. A fresh separate audit is still required.
+
 ## Candidate A — five exact sign orbits
 
 Read first:
 
-1. `stages/stage34/34-02/d2-stageA2-five-exact-orbit-preaudit-manifest.json`
-2. `stages/stage34/34-02/d2-stageA2-five-exact-orbit-replay-lock.json`
+1. `stages/stage34/34-02/d2-stageA2-five-exact-orbit-preaudit-manifest.json` — blob `ed500535ab9258bbf3319ddfe520c29ca96840f1`;
+2. `stages/stage34/34-02/d2-stageA2-five-exact-orbit-replay-lock.json` — blob `9a1b13e5bf5be8b0f16a98df238a18e1cbf4a417`;
 3. only source evidence named there if deeper replay is required.
 
 Five direct representatives have complete exact quotient point sets plus exact parent pullback with zero nondegenerate full-parent lifts:
@@ -32,7 +34,7 @@ Their five listed sign partners are candidate-only. If and only if a separate ho
 
 The repaired generation-2 source is artifact `9828805411`, digest `sha256:e226ab93347c0ee0bfa3f3390f7c1c916d22df206507106482501edb677effab`; generation-1 six-adapter credit remains explicitly revoked. Four generation-2 compute-incomplete cases remain OPEN and are not mathematical failures: `169f94dd000a9c5c053f`, `40dc8f63e92a8a3a65e8`, `7a7ef1a67e794fe1651f`, `99448685b81e29427c3f`.
 
-The bounded retry run `33582894768` later completed operationally green but closed `0/4`: Magma rejected odd `RankBound:=1` and the other bounded variants timed out / returned no proof response. Do not promote those four.
+The bounded retry run `33582894768` completed operationally green but closed `0/4`; the retained certificate records HTTP 504 or missing `PROOF_REPLAY_COMPLETE`, so all four remain OPEN.
 
 ## Candidate B — hard q=20/99 receiver intersection, exact p=13 obstruction
 
