@@ -2,7 +2,7 @@
 
 ```text
 STAGE=Stage34
-STATUS=AUDITED_FINAL_PENDING_PR_MERGE
+STATUS=AUDITED_FINAL_MERGE_NOT_AUTHORIZED
 SOURCE_RECEIVER=R29-EXT-CHANG-C
 SOURCE_KERNEL=K16-C3-EXT-C-PRIMITIVE-DIVISOR
 PARENT_ROUTE=J12-PARAMETRIC
@@ -104,10 +104,15 @@ The complete factor-branch assembly was hostile-reaudited and promoted with zero
 ```text
 all_multiples_closed=true
 R29_EXT_CHANG_C_closed=true
+```
+
+for the authoritative Stage34 population. Independently, the promoted receiver state records
+
+```text
 receiver_face3_square_points_remaining=0
 ```
 
-for the authoritative Stage34 population.
+as the resulting receiver-level residual count.
 
 The mathematical evidence is frozen at
 
