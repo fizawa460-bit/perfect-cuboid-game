@@ -1,0 +1,51 @@
+{
+  "schema": "STAGE34_02B_D2_STAGEA2_TWO_RANKZERO_ALTERNATE_PROOF_LOCK_V1",
+  "status": "SOURCE_LOCKED_COLD_NOT_ARMED",
+  "sources": {
+    "alternate12_lock": "d2-stageA2-rank02-four-rep-alternate12-lock.json",
+    "alternate12_lock_blob_sha": "9801cc30a7998a00ae93539695d4c82d39279ac5",
+    "rank_probe_run": 33576964244,
+    "rank_probe_job": 100082990208,
+    "rank_probe_head": "235754962b7b356e0b1fb5820128878127222f25",
+    "rank_probe_artifact_id": 9826989525,
+    "rank_probe_artifact_digest": "sha256:c5208e98f5426e83d8db64827732b027f997fa5cfa7bce33b18266bfde42449b",
+    "rank_probe_payload_sha256": "sha256:9bd34b1ee60cb7dcf39b92cbd650c84f1802cea2302765a427af0c2d48573898",
+    "rank_probe_stdout_sha256": "sha256:ddd0da03404b58af0f43669524f605548216d034e1713e8b9c40900037f278dd",
+    "audited_sign_orbit_lock": "d2-stageA2-remaining26-sign-orbit-representatives-lock.json"
+  },
+  "expected_targets": 2,
+  "targets": [
+    {
+      "branch_id": "27b98521cb6b2c9975bd",
+      "partner": "4265b92734f955d3e137",
+      "q": "20/99",
+      "delta": [-11,5,517055,-9401],
+      "triple": "U*V*A",
+      "model_id": 43,
+      "squareclass": -9401,
+      "coefficients_desc_t_degree6": [0,-94010,-930699,188020,930699,-94010,0],
+      "diagnostic_rank_bounds": [0,0]
+    },
+    {
+      "branch_id": "3d6e27ebadc163bd6146",
+      "partner": "4741147bbf21a857c417",
+      "q": "48/55",
+      "delta": [-6,110,1442,-237930],
+      "triple": "U*V*B",
+      "model_id": 161,
+      "squareclass": 1442,
+      "coefficients_desc_t_degree6": [0,39655,69216,-79310,-69216,39655,0],
+      "diagnostic_rank_bounds": [0,0]
+    }
+  ],
+  "proof_protocol": "For each target independently rebuild the genus-two curve, recompute RankBounds(J) and require upper bound zero, enumerate the complete Chabauty0 point set, then for every projective point evaluate U,V,A,B and test all four exact rational-square conditions F_i/delta_i. Record receiver degeneracy and the count of nondegenerate full parent lifts.",
+  "candidate_promotion_if_proof_and_hostile_audit_pass": {
+    "direct_representatives": ["27b98521cb6b2c9975bd","3d6e27ebadc163bd6146"],
+    "audited_sign_partners": ["4265b92734f955d3e137","4741147bbf21a857c417"],
+    "candidate_closed_count": 4,
+    "candidate_remaining": 22
+  },
+  "resource_preflight": {"planned_heavy_jobs":1,"effective_heavy_concurrency":1,"maximum_external_magma_requests_at_once":1,"expected_requests":2,"artifact_max_bytes":1048576,"retention_days":1,"repository_operating_budget_bytes":524288000},
+  "credit": "Dedicated exact proof replay input. No branch closure or 26->22 promotion before successful replay plus separate hostile audit/promotion.",
+  "firewalls": {"proof_run_success_is_hostile_audit":false,"rankzero_alone_closes_parent":false,"candidate_22_is_authoritative":false,"remaining_26_closed":false,"D2_all_factor_branches_closed":false,"all_multiples_closed":false,"R29_EXT_CHANG_C_closed":false,"perfect_cuboid_nonexistence_claim":false}
+}
