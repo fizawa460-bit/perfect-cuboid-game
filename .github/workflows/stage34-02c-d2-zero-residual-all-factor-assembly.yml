@@ -5,7 +5,10 @@ on:
     types: [opened, synchronize, reopened]
     paths:
       - 'stages/stage34/34-02/verify_d2_stageA2_zero_residual_all_factor_closure.py'
+      - 'stages/stage34/34-02/verify_d2_stageA2_zero_residual_all_factor_closure_repair.py'
       - 'stages/stage34/34-02/d2-stageA2-zero-residual-all-factor-closure-assembly-certificate.json'
+      - 'stages/stage34/34-02/d2-stageA2-full-support-d1-survivor-id-commitment.json'
+      - 'stages/stage34/34-02/d2-stageA2-genus2-rankle1-14-hostile-audit-promotion-receipt.json'
       - 'stages/stage34/34-02/d2-stageA2-two-adic-pattern-lock.json'
       - 'stages/stage34/34-02/d2-stageA2-factor-branch-local-lock.json'
       - 'stages/stage34/34-02/d2-stageA2-factor-branch-support-lock.json'
@@ -33,7 +36,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-      - name: Verify exact cumulative closure assembly
+      - name: Verify exact cumulative closure assembly and audit repair
         run: |
           python3 -m py_compile stages/stage34/34-02/verify_d2_stageA2_zero_residual_all_factor_closure.py
-          python3 stages/stage34/34-02/verify_d2_stageA2_zero_residual_all_factor_closure.py
+          python3 -m py_compile stages/stage34/34-02/verify_d2_stageA2_zero_residual_all_factor_closure_repair.py
+          python3 stages/stage34/34-02/verify_d2_stageA2_zero_residual_all_factor_closure_repair.py
