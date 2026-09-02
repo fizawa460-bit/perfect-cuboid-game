@@ -1,0 +1,69 @@
+{
+  "schema": "STAGE34_02C_D2_STAGEA2_PR1489_Q8413_HOSTILE_AUDIT_READY_V1",
+  "status": "READY_FOR_INDEPENDENT_HOSTILE_AUDIT_NO_PROMOTION",
+  "pr": 1489,
+  "base_main": "97f3da5dfad72630aaf0f3b8088c85b7a285b01b",
+  "mathematical_evidence_frozen_head": "e0c08807bf0b3718d7724f0134cab942a12de6b2",
+  "exact_inputs": {
+    "rankzero_certificate": {
+      "path": "stages/stage34/34-02/d2-stageA2-q8413-two-quotient-rankzero-preaudit-certificate.json",
+      "blob_sha": "b3ff0e6681bafc80dd3050fd64782b5d01449006"
+    },
+    "gaussian_quotient_lock": {
+      "path": "stages/stage34/34-02/d2-stageA2-remaining-three-gaussian-elliptic-quotient-lock.json",
+      "blob_sha": "ce54e24b6f3b4157835a213d8004d542c61bfdf2"
+    },
+    "sign_involution_lock": {
+      "path": "stages/stage34/34-02/d2-stageA2-sign-involution-remaining30-pair-lock.json",
+      "blob_sha": "e1ba9439f2483371517aec029015a71e683e91ee"
+    }
+  },
+  "new_exact_evidence": {
+    "proof_script": {
+      "path": "stages/stage34/34-02/prove_d2_stageA2_q8413_torsion_parent_classification.py",
+      "blob_sha": "190cc266ac65bb3fc5e6c2ded06ff756060904a4"
+    },
+    "certificate": {
+      "path": "stages/stage34/34-02/d2-stageA2-q8413-torsion-parent-classification-certificate.json",
+      "blob_sha": "e6926bcebaa138265172b429e106708fb2fe0d23"
+    },
+    "fresh_exact_replay": {
+      "workflow_run": 33602732905,
+      "head": "e0c08807bf0b3718d7724f0134cab942a12de6b2",
+      "conclusion": "success"
+    }
+  },
+  "candidate_reduction_if_and_only_if_audit_passes": {
+    "from_authoritative_branches": 4,
+    "from_authoritative_sign_orbits": 2,
+    "direct_representatives": [
+      "40dc8f63e92a8a3a65e8",
+      "7a7ef1a67e794fe1651f"
+    ],
+    "sign_partners": [
+      "8a374a057daf5f92a87e",
+      "98b42307b3aa398f1e0c"
+    ],
+    "to_authoritative_branches": 0,
+    "to_authoritative_sign_orbits": 0
+  },
+  "audit_checklist": [
+    "Independently verify p=29 and p=37 define good split Gaussian reductions for both elliptic quotient models.",
+    "Independently recount reduced group orders 28/40 for model38 and 28/48 for model165 and justify torsion injection, hence torsion order exactly 4 from the known C2 x C2 subgroup.",
+    "Verify retained Mordell-Weil rank zero is source-locked for both quotient models, so the four torsion points exhaust E(Q(i)).",
+    "Verify the complete rational quotient-X subsets and exact inverse u=x-1/x reconstruction.",
+    "Verify every reconstructed genus-two point and all four U,V,A,B/delta square tests; confirm the only full-parent lifts are x=-7/6 with A=0 for model38 and x=-13 with B=0 for model165.",
+    "Verify quotient infinity is receiver-degenerate under the previously locked exceptional-locus adapter.",
+    "Verify the sign-involution lock pairs the two representatives with exactly 8a374a057daf5f92a87e and 98b42307b3aa398f1e0c and preserves parent-lift / receiver-degeneracy truth values."
+  ],
+  "firewalls": {
+    "hostile_audit_passed": false,
+    "authoritative_remaining_branches": 4,
+    "authoritative_remaining_sign_orbits": 2,
+    "D2_all_factor_branches_closed": false,
+    "R29_EXT_CHANG_C_closed": false,
+    "parent_route_closed": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
