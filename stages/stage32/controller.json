@@ -16,10 +16,11 @@
   "current_item": "O188_DEFECT_BRANCH_TO_RETAINED_BOUNDARY_NODE_BRIDGE",
   "current_leaf": {
     "obligation_path": "stages/stage32/residual-32-01-production/post1474-o188-defect-boundary-bridge-obligation.json",
-    "status": "OPEN_BLOCKED_MISSING_POINTWISE_PROVENANCE",
-    "target": "Identify q'=4 B/C defect support on the same source model, transport it to explicit retained boundary node(s), and prove the descended degree-2 ramification divisor is concentrated there.",
+    "status": "OPEN_BLOCKED_MISSING_DEFECT_NODE_AND_Q4_LABEL_TRANSPORT",
+    "target": "Instantiate the q'=4 B/C unique defect contact on the audited boundary source model and transport that stable source identifier to explicit retained boundary node/label identifiers.",
     "diagnostic_path": "stages/stage32/residual-32-01-production/post1484-o188-defect-boundary-bridge-obstruction.json",
-    "blocker": "The current exact q'=4 replay chain is histogram/profile-level by construction and contains neither an individual B/C source-branch identifier nor an authorized pointwise retained-boundary transport."
+    "local_saturation_path": "stages/stage32/residual-32-01-production/post1484-o188-q4-defect-local-saturation.json",
+    "blocker": "A provisional exact replay now proves B/C local-exponent saturation and complete ramification concentration on the abstract unique defect support; the remaining gap is the actual source-node/formal-branch identifier and an authorized q'=4 transport to retained boundary labels."
   },
   "firewalls": {
     "O188_closed": false,
@@ -36,13 +37,7 @@
     "e": 266,
     "genus": 1,
     "row_id": "g1-d186",
-    "z": [
-      -15,
-      62,
-      -44,
-      26,
-      32
-    ]
+    "z": [-15, 62, -44, 26, 32]
   },
   "hostile_audit_history": {
     "failed_head": "0c22165bbadcf2d5bc083d8404bd6b0cd274a902",
@@ -50,7 +45,7 @@
     "passed_head": "a2cd62cdcf8331827eca94453482244a2fd8bf0d",
     "passed_review_id": 5083834097,
     "verdict": "PASS_BOUNDED_FOUR_POINT_REPAIR",
-    "scope": "Historical #1474 bounded four-point repair only; do not treat as audit of the new defect-boundary bridge."
+    "scope": "Historical #1474 bounded four-point repair only; do not treat as audit of the new defect-boundary bridge or post1484 local-saturation replay."
   },
   "math_scope": {
     "fixed_z_O186_all_qprime": "CLOSED_AUDITED_EXCLUDED_DO_NOT_REOPEN",
@@ -62,7 +57,7 @@
     "receiver_theorem_endpoint": "OPEN"
   },
   "merge_allowed": false,
-  "next_expected_action": "BUILD_NEW_POINTWISE_Q4_GEOMETRY_ONLY: create source-preserving stable identifiers for the B m=3 and C m=4 defect contacts on the q'=4 geometric model, together with an authorized exact transport to retained boundary labels and a local ramification check proving complete descended degree-2 support. The existing histogram/profile replay chain cannot supply branch locations; do not infer them from counts, q'=2 labels, nodewise reachability, or symmetry. DO NOT REOPEN O186 OR CANONICAL 318ac76c. FULL178 remains inactive.",
+  "next_expected_action": "INSTANTIATE_ONLY_Q4_DEFECT_NODE_AND_LABEL_TRANSPORT: on the audited 48-node boundary source model, construct/source-lock a stable identifier for the unique B m=3 or C m=4 defect contact and transport it through an authorized q'=4 node-to-retained-label adapter. Reuse the provisional local-saturation replay eb860d29... for ramification concentration; do not infer location from counts, nodewise reachability, V4 symmetry, or q'=2 labels. After the pointwise bridge is complete, run a bounded hostile audit covering both the local-saturation replay and the transport. DO NOT REOPEN O186 OR CANONICAL 318ac76c. FULL178 remains inactive.",
   "operations": {
     "execution_class": "LIGHTWEIGHT_O188_GEOMETRY_BRIDGE",
     "full178_scaleout_authorized": false,
@@ -105,14 +100,24 @@
       "status": "RETAINED_AUDITED_INPUT"
     }
   },
+  "provisional_state_not_promoted": {
+    "qprime4_defect_local_saturation": {
+      "canonical_sha256": "eb860d29457a542b8f05b3d79bade963a44cf295a9807fe5ed66ef8ce23360fe",
+      "certificate_path": "stages/stage32/residual-32-01-production/post1484-o188-q4-defect-local-saturation.json",
+      "replay_path": "stages/stage32/residual-32-01-production/certify_stage32_post1484_o188_q4_defect_local_saturation.py",
+      "retained_if_audited": "B forces A1=A2=3 and C forces A1=A2=4; in either case the unique defect contact exhausts source ramification 8 on both projections and hence the descended degree-2 ramification is concentrated on the abstract defect support.",
+      "status": "PROVISIONAL_EXACT_REPLAY_PENDING_HOSTILE_AUDIT"
+    }
+  },
   "semantic_gap": {
     "boundary_to_weierstrass": "AUDITED_CLOSED",
-    "defect_branch_to_retained_boundary_node": "OPEN_BLOCKED_MISSING_POINTWISE_PROVENANCE",
-    "reason": "The q'=4 authority note and upstream O=188 profile explicitly firewall branch-location inference; the exact descent replay constructs B/C from histogram/profile data and consumes no pointwise branch identifier. A new pointwise geometric evidence layer is required.",
+    "abstract_defect_support_ramification_concentration": "PROVISIONAL_EXACT_REPLAY_PENDING_HOSTILE_AUDIT",
+    "defect_branch_to_retained_boundary_node": "OPEN_BLOCKED_MISSING_DEFECT_NODE_AND_Q4_LABEL_TRANSPORT",
+    "reason": "Local ramification saturation is now exact and location-independent, but the audited source chain still does not instantiate the unique B/C defect contact as a stable boundary node/formal branch or authorize a q'=4 transport of that identifier to retained labels.",
     "diagnostic_path": "stages/stage32/residual-32-01-production/post1484-o188-defect-boundary-bridge-obstruction.json"
   },
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V190_POST1474_O188_DEFECT_BOUNDARY_BRIDGE",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V191_POST1484_Q4_LOCAL_SATURATION",
   "stage": "32",
   "stage32_closed": false,
-  "status": "STAGE32_POST1474_O188_DEFECT_BOUNDARY_BRIDGE_BLOCKED_ON_POINTWISE_PROVENANCE"
+  "status": "STAGE32_POST1474_O188_DEFECT_BOUNDARY_BRIDGE_OPEN_AFTER_PROVISIONAL_LOCAL_SATURATION"
 }

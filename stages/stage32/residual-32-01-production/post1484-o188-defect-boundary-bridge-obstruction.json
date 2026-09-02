@@ -1,14 +1,13 @@
 {
-  "schema": "STAGE32_POST1484_O188_DEFECT_BOUNDARY_BRIDGE_OBSTRUCTION_V1",
+  "schema": "STAGE32_POST1484_O188_DEFECT_BOUNDARY_BRIDGE_OBSTRUCTION_V2",
   "stage": 32,
   "artifact_class": "diagnostic-nonclosure",
   "proof_status": "DIAGNOSTIC_NOT_CLOSURE",
-  "closure_status": "OPEN_BLOCKED_MISSING_POINTWISE_PROVENANCE",
+  "closure_status": "OPEN_BLOCKED_MISSING_DEFECT_NODE_AND_Q4_LABEL_TRANSPORT",
   "target_order": 188,
   "claim_scope": "q'=4 cases B/C defect-branch to retained-boundary bridge only",
   "active_pr": 1484,
   "active_branch": "stage32-post1474-o188-ramification-concentration",
-  "audited_head": "63dcbcb5fdd85c2936e786aa7ad4904417748c07",
   "source_authority": {
     "descent_certificate_path": "stages/stage32/residual-32-01-production/post1473-o188-q4-genus2-descent.json",
     "descent_certificate_blob_sha1": "4c5ed46de03eb0e74f7c54dd2c5adf8d6071602e",
@@ -28,46 +27,61 @@
     "cusp_budget_canonical_sha256": "318ac76ca5baf9e5f7f7a2300628b432f3b5fbb718f2bd21bc7a4f13b9cf3328",
     "upstream_o188_profile_path": "stages/stage32/residual-32-01-production/post1473-o188-product-cover-extremal-profile.json",
     "upstream_o188_profile_blob_sha1": "c3a434da20bdf038f8077a23c88fe3649b2474ba",
-    "upstream_o188_profile_canonical_sha256": "45775c816f7e3ba46c9c0ab81ff0646d41cbc7d5d5e9a623f8f43c04ccd36923"
+    "upstream_o188_profile_canonical_sha256": "45775c816f7e3ba46c9c0ab81ff0646d41cbc7d5d5e9a623f8f43c04ccd36923",
+    "local_saturation_replay_path": "stages/stage32/residual-32-01-production/certify_stage32_post1484_o188_q4_defect_local_saturation.py",
+    "local_saturation_certificate_path": "stages/stage32/residual-32-01-production/post1484-o188-q4-defect-local-saturation.json",
+    "local_saturation_canonical_sha256": "eb860d29457a542b8f05b3d79bade963a44cf295a9807fe5ed66ef8ce23360fe"
   },
   "exact_known": {
     "B": {
       "hyperelliptic_composite_special_cycle_type": "6^1 2^90",
       "unique_defect_contact_m": 3,
+      "provisional_exact_local_exponents_A1_A2": [3, 3],
       "descended_ramification_divisor": "2P",
       "local_degree": 3
     },
     "C": {
       "hyperelliptic_composite_special_cycle_type": "4^2 2^89",
       "unique_defect_contact_m": 4,
+      "provisional_exact_local_exponents_A1_A2": [4, 4],
       "descended_ramification_divisor": "P+P'",
-      "local_degrees": [
-        2,
-        2
-      ]
+      "local_degrees": [2, 2]
     }
   },
-  "audit_result": {
-    "pointwise_source_identifier_available_in_audited_evidence": false,
-    "qprime4_retained_boundary_label_transport_available_in_audited_evidence": false,
-    "full_ramification_concentration_on_named_retained_boundary_points_proved": false,
+  "provisional_progress": {
+    "status": "EXACT_LOCAL_SATURATION_REPLAY_PENDING_HOSTILE_AUDIT",
+    "canonical_sha256": "eb860d29457a542b8f05b3d79bade963a44cf295a9807fe5ed66ef8ce23360fe",
+    "full_source_ramification_concentrated_over_unique_defect_contact": true,
+    "full_descended_ramification_concentrated_on_abstract_defect_support": true,
+    "all_other_abstract_ramification_support_excluded": true,
+    "proof_summary": [
+      "B: m=3 is odd. For each projection A_i>=3 and forced source ramification is 4*(A_i-1). Since the whole projection has ramification 8, A_i<=3, hence A1=A2=3 and the defect contact alone contributes 8.",
+      "C: m=4 is even. For each projection A_i>=4 and forced source ramification is 4*(A_i-2). Since the whole projection has ramification 8, A_i<=4, hence A1=A2=4 and the defect contact alone contributes 8.",
+      "The audited Cartesian etale V4 descent pulls ramification back fourfold, so zero ramification away from the source defect contact implies zero ramification away from its abstract descended support."
+    ]
+  },
+  "remaining_obstruction": {
+    "stable_source_identifier_available": false,
+    "qprime4_retained_boundary_label_transport_available": false,
+    "named_retained_boundary_support_proved": false,
+    "source_chain_pointwise_provenance_status": "ABSENT_BY_CONSTRUCTION_IN_CURRENT_REPLAY_CHAIN",
     "findings": [
-      "The current q'=4 descent certificate V2 fixes the hyperelliptic-composite special cycle types (B: 6^1 2^90; C: 4^2 2^89), the unique defect-contact parameters, and the descended ramification-divisor shapes, but it does not carry an individual source-cycle or quotient-point identifier for the B/C defect contact.",
-      "The exact descent replay script constructs B/C from contact-histogram/profile data and does not consume any pointwise source-branch identifier or branch-to-boundary transport input.",
+      "The new local-saturation replay removes the ramification-concentration arithmetic gap without identifying where the unique B/C defect contact lies.",
+      "The exact descent replay constructs B/C from contact-histogram/profile data and consumes no pointwise source-branch identifier.",
       "The pinned upstream O=188 extremal-profile certificate explicitly firewalls that projection ramification totals are not branch-location data and that the coarse profile is not analytic realization.",
-      "The audited boundary-label adapter is certified for retained positive q'=2 rows and explicitly does not provide a pointwise retained-boundary label for the q'=4 B/C defect cases."
-    ],
-    "source_chain_pointwise_provenance_status": "ABSENT_BY_CONSTRUCTION_IN_CURRENT_REPLAY_CHAIN"
+      "The audited boundary-label adapter is certified for retained positive q'=2 rows and explicitly does not provide a pointwise retained-boundary label for q'=4 B/C."
+    ]
   },
   "non_inferences": [
-    "Do not infer a source branch identity from cycle counts or contact histograms alone.",
+    "Do not infer the source node/formal branch from local-exponent saturation, cycle counts, contact histograms, or nodewise totals.",
     "Do not reuse q'=2 retained boundary labels for q'=4 B/C by reinterpretation.",
+    "Do not promote the local-saturation replay before hostile audit.",
     "Do not promote the B/C defect-boundary bridge, O=188 closure, receiver credit, route credit, theorem credit, or endpoint credit from this diagnostic."
   ],
   "minimum_missing_evidence": [
-    "A source-preserving individual branch or quotient-point identifier for the B m=3 and C m=4 defect contacts under the same q'=4 source lock.",
-    "An authorized exact transport of those identifiers to retained boundary node or label identifiers.",
-    "A local ramification computation or exact replay proving that the entire descended degree-2 ramification divisor is supported exactly on the transported retained boundary point(s)."
+    "A source-preserving stable node/formal-branch identifier for the actual B m=3 and C m=4 defect contacts on the audited boundary model.",
+    "An authorized exact q'=4 transport of those identifiers to retained boundary node/label identifiers.",
+    "A bounded hostile audit covering the local-saturation replay and the completed pointwise transport before promotion."
   ],
-  "next_action": "Create new source-preserving pointwise q'=4 geometric evidence with stable branch identifiers; the existing histogram/profile replay chain cannot be upgraded to the defect-to-boundary bridge by reinterpretation."
+  "next_action": "Construct/source-lock only the actual defect-node/formal-branch instantiation and q'=4 retained-label transport. Ramification concentration is already available as provisional exact replay evidence and should not be re-derived from coarse location data."
 }
