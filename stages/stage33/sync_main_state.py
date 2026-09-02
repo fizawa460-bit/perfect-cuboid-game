@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Build/check compact Stage33 MAIN V11 after V10 hostile-audit PASS.
-
-The compact state projects the detailed controller and the two post-V10 audit
-receipts only. Older exact facts remain controller-locked and are not reopened.
-"""
+"""Build/check compact Stage33 MAIN V12 after #1485 v17-v20 hostile-audit PASS."""
 from __future__ import annotations
 
 import argparse
@@ -14,10 +10,12 @@ from pathlib import Path
 H = Path(__file__).resolve().parent
 OUT = H / "MAIN-STATE.json"
 
-AUDIT_PATH = H / "33-12/v10-hostile-audit-pass-receipt.json"
-AUDIT_SHA = "5bef940bf55dd480acb8fc3a75415470d28ee9eaa1473c3476d8bd6463ca89e1"
-GAP_PATH = H / "33-12/j2-named-order4-actual-s3-source-lock-gap-v10.json"
-GAP_SHA = "92502f0cb5d04cac6ed6b95270d9b844870a239dd5aaa2a3eeb535a74bac3f2e"
+V10_AUDIT_PATH = H / "33-12/v10-hostile-audit-pass-receipt.json"
+V10_AUDIT_SHA = "5bef940bf55dd480acb8fc3a75415470d28ee9eaa1473c3476d8bd6463ca89e1"
+V20_AUDIT_PATH = H / "33-12/v20-hostile-audit-pass-receipt.json"
+V20_AUDIT_SHA = "2d65169174d636a93d68f7c2fe4dd1fef322dcd7598459253460631648dd9927"
+V20_PATH = H / "33-12/j2-order4-named-functional-quotient-v20.json"
+V20_SHA = "1b53db254c381721c0c648bab41c276ec79f69f6e1f81235993936df3e25232e"
 
 
 def csha(x):
@@ -35,42 +33,53 @@ def load_canonical(path: Path, expected: str):
 
 
 c = json.loads((H / "controller.json").read_text())
-audit = load_canonical(AUDIT_PATH, AUDIT_SHA)
-gap = load_canonical(GAP_PATH, GAP_SHA)
+v10 = load_canonical(V10_AUDIT_PATH, V10_AUDIT_SHA)
+v20audit = load_canonical(V20_AUDIT_PATH, V20_AUDIT_SHA)
+v20 = load_canonical(V20_PATH, V20_SHA)
 s = c["stage33_12"]
 q = c["current"]
 
-assert c["schema"] == "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V55_V10_AUDIT_PASS_NAMED_ORDER4_SOURCE_GAP"
+assert c["schema"] == "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V56_V20_AUDIT_PASS_TWO_BIT_NAMED_ORDER4_GAP"
 assert c["stage33_progress"] == "6/11"
 assert q["unit"] == "33-12"
 assert q["logical_internal_branch"] == "33-13_FINITE_V4_KUMMER_MATRIX_REPAIR"
-assert q["substep"] == "IDENTIFY_NAMED_J2_ORDER4_LIFT_WITH_ACTUAL_S3_ACTION"
-assert q["active_missing_interface"] == "SOURCE_LOCKED_NAMED_J2_ORDER4_LIFT_IN_RETAINED_MIXED_248_BASIS_WITH_ACTUAL_SWAP_IMAGES_MISSING"
-assert q["next_exact_leaf"] == gap["next_exact_leaf"]
+assert q["substep"] == "SOURCE_LOCK_NAMED_J2_ORDER4_TWO_BIT_ACTUAL_SWAP_BEHAVIOR"
+assert q["active_missing_interface"] == "SOURCE_LOCKED_NAMED_J2_ORDER4_LIFT_TWO_BIT_QUOTIENT_VALUE_OR_ACTUAL_SWAP_IMAGES_MISSING"
+assert q["next_exact_leaf"] == v20audit["next_exact_leaf"]
 
-assert audit["status"] == "PASS_HOSTILE_AUDIT"
-assert audit["audit_review_id"] == 5083583438
-assert audit["audited_head_sha"] == "088a0e5e3b0baefc0be016a9ba70a00b31c7aedc"
-assert audit["merge_commit_sha"] == "9b97f0795d297e8afdbea56e3bf6ff3608c78639"
-assert audit["pass_boundary"]["named_j2_source_label_selected"] is False
-assert audit["pass_boundary"]["kummer_standard_columns_materialized"] == 0
+assert v10["status"] == "PASS_HOSTILE_AUDIT"
+assert v20audit["status"] == "PASS_HOSTILE_AUDIT"
+assert v20audit["audit_review_id"] == 5086169445
+assert v20audit["audited_pr"] == 1485
+assert v20audit["audited_head_sha"] == "2f3a511f945a22c1df58eaf68553cbb70d4a207c"
+assert v20audit["merge_commit_sha"] == "dc6b19ea5944c1c249f6d9534a095ffad9ae8f67"
+assert v20audit["pass_boundary"]["named_column_relevant_quotient_dimension_f2"] == 2
+assert v20audit["pass_boundary"]["named_column_candidate_masks_retained10"] == [4, 5, 6, 7]
+assert v20audit["pass_boundary"]["actual_s3_orbits_retained10"] == [[6], [4, 5, 7]]
+assert v20audit["pass_boundary"]["named_j2_source_label_selected"] is False
+assert v20audit["pass_boundary"]["named_75d_column_materialized"] is False
+assert v20audit["pass_boundary"]["kummer_standard_columns_materialized"] == 0
 
-assert gap["status"] == "PASS_EXACT_V10_POST_AUDIT_SOURCE_LOCK_GAP_REFINED_NO_LABEL_INFERENCE"
-assert gap["authoritative_v10_facts"]["unique_joint_s3_fixed_candidate_retained10_mask_decimal"] == 6
-assert gap["authoritative_v10_facts"]["unique_joint_s3_fixed_candidate_proper14_mask_decimal"] == 25
-assert gap["authoritative_v10_facts"]["named_j2_order4_lift_selected"] is False
-assert gap["no_inference"]["unique_joint_s3_fixed_candidate_implies_named_j2_mask6"] is False
-assert gap["no_inference"]["semantic_u1_fixed_implies_named_order4_lift_fixed"] is False
-assert gap["no_inference"]["target_compatibility_may_select_source_label"] is False
+assert v20["status"] == "PASS_EXACT_NAMED_COLUMN_GAP_REDUCED_TO_TWO_BITS"
+assert v20["exact_quotient"]["named_column_relevant_quotient_dimension_f2"] == 2
+assert [x["retained10_mask_decimal"] for x in v20["exact_quotient"]["affine_plane_records"]] == [4, 5, 6, 7]
+assert v20["actual_s3_action_on_two_bit_quotient"]["orbits"] == [[6], [4, 5, 7]]
+assert v20["actual_s3_action_on_two_bit_quotient"]["named_mask_selected"] is False
 
-assert s["v10_hostile_audit_pass_receipt_sha256"] == AUDIT_SHA
-assert s["v10_post_audit_named_order4_source_gap_sha256"] == GAP_SHA
-assert s["actual_indlist_to_magma_picard_basis_bridge_materialized"] is True
-assert s["actual_swap_mixed_discriminant_actions_materialized"] is True
-assert s["corrected_J2_order4_affine_candidate_count"] == 4
-assert s["corrected_J2_order4_unique_joint_s3_fixed_retained10_mask_decimal"] == 6
-assert s["corrected_J2_order4_unique_joint_s3_fixed_proper14_mask_decimal"] == 25
-assert s["historical_picard_adjoint_mask6_reused_as_named_J2_source"] is False
+assert s["v20_hostile_audit_pass_receipt_sha256"] == V20_AUDIT_SHA
+assert s["corrected_J2_order4_rows20_67_source_lock_sha256"] == "04b47064db73e02068aa51301c94ab0576d927c0b71b2d3df093012028f061d2"
+assert s["corrected_J2_order4_source_coordinate_v18_sha256"] == "a0378a7d7191d537347435d11002faa3692f91781dd15f53fe3063443e9d50d1"
+assert s["corrected_J2_order4_integral_correction_torsor_v19_sha256"] == "3ee11e0ecdc855083a4260c2ae4f24ef4c160a7e26a48fd3872369d117118576"
+assert s["corrected_J2_order4_named_functional_quotient_v20_sha256"] == V20_SHA
+assert s["corrected_J2_order4_missing_BigK_pullback_rows_1based"] == []
+assert s["corrected_J2_order4_correction_torsor_dimension_f2"] == 14
+assert s["corrected_J2_order4_correction_count"] == 16384
+assert s["corrected_J2_order4_distinct_proper14_functionals"] == 16
+assert s["corrected_J2_order4_preimages_per_proper14_functional"] == 1024
+assert s["corrected_J2_order4_named_column_relevant_quotient_dimension_f2"] == 2
+assert s["corrected_J2_order4_named_column_relevant_masks_retained10"] == [4, 5, 6, 7]
+assert s["corrected_J2_order4_named_column_relevant_s3_orbits"] == [[6], [4, 5, 7]]
+assert s["corrected_J2_order4_two_bit_value_source_locked"] is False
 assert s["corrected_J2_order4_lift_actual_s3_behavior_source_locked"] is False
 assert s["corrected_J2_proper_Br2_14D_coordinate_materialized"] is False
 assert s["corrected_J2_retained_10D_domain_coordinate_materialized"] is False
@@ -80,16 +89,16 @@ assert s["finite_v4_kummer_named_relation_rank_f2"] == 0
 
 assert c["audit_required"] is False
 assert c["audit_status"] == "PASS"
-assert c["audit_scope"] == audit["audit_scope"]
-assert c["audit_review_id"] == audit["audit_review_id"]
-assert c["audit_head_sha"] == audit["audited_head_sha"]
-assert c["last_completed_audit_scope"] == audit["audit_scope"]
-assert c["last_completed_audit_review_id"] == audit["audit_review_id"]
-assert c["last_completed_audit_head_sha"] == audit["audited_head_sha"]
+assert c["audit_scope"] == v20audit["audit_scope"]
+assert c["audit_review_id"] == v20audit["audit_review_id"]
+assert c["audit_head_sha"] == v20audit["audited_head_sha"]
+assert c["last_completed_audit_scope"] == v20audit["audit_scope"]
+assert c["last_completed_audit_review_id"] == v20audit["audit_review_id"]
+assert c["last_completed_audit_head_sha"] == v20audit["audited_head_sha"]
 assert c["current_exact_promotion_audit_required"] is False
 assert c["advance_allowed"] is True
-assert c["advance_scope"] == "STAGE33_12_NAMED_J2_ORDER4_SOURCE_LOCK_CONTINUATION_ONLY"
-assert c["next_item"] == gap["next_exact_leaf"]
+assert c["advance_scope"] == "STAGE33_12_NAMED_J2_ORDER4_TWO_BIT_SOURCE_LOCK_CONTINUATION_ONLY"
+assert c["next_item"] == v20audit["next_exact_leaf"]
 assert c["next_expected_command"] == "Stage33-main-batch"
 assert c["merge_allowed"] is False
 assert c["theorem_credit"] is False
@@ -99,7 +108,7 @@ assert c["perfect_cuboid_existence_claim"] is False
 assert c["perfect_cuboid_nonexistence_claim"] is False
 
 out = {
-    "schema": "STAGE33_MAIN_COMPACT_STATE_V11_V10_AUDIT_PASS_NAMED_ORDER4_SOURCE_GAP",
+    "schema": "STAGE33_MAIN_COMPACT_STATE_V12_V20_AUDIT_PASS_TWO_BIT_NAMED_ORDER4_GAP",
     "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
     "detailed_machine_authority": "stages/stage33/controller.json",
     "controller_schema": c["schema"],
@@ -116,42 +125,43 @@ out = {
     },
     "locked_facts": {
         "v10_hostile_audit": {
-            "status": audit["status"],
-            "review_id": audit["audit_review_id"],
-            "audited_head_sha": audit["audited_head_sha"],
-            "merge_commit_sha": audit["merge_commit_sha"],
-            "sha256": AUDIT_SHA,
+            "status": v10["status"],
+            "review_id": v10["audit_review_id"],
+            "audited_head_sha": v10["audited_head_sha"],
+            "merge_commit_sha": v10["merge_commit_sha"],
+            "sha256": V10_AUDIT_SHA,
+        },
+        "v20_hostile_audit": {
+            "status": v20audit["status"],
+            "review_id": v20audit["audit_review_id"],
+            "audited_pr": v20audit["audited_pr"],
+            "audited_head_sha": v20audit["audited_head_sha"],
+            "merge_commit_sha": v20audit["merge_commit_sha"],
+            "sha256": V20_AUDIT_SHA,
+        },
+        "order4_two_bit_quotient": {
+            "status": "HOSTILE_AUDITED_EXACT",
+            "correction_torsor_dimension_f2": s["corrected_J2_order4_correction_torsor_dimension_f2"],
+            "correction_count": s["corrected_J2_order4_correction_count"],
+            "distinct_proper14_functionals": s["corrected_J2_order4_distinct_proper14_functionals"],
+            "preimages_per_proper14_functional": s["corrected_J2_order4_preimages_per_proper14_functional"],
+            "named_column_relevant_quotient_dimension_f2": s["corrected_J2_order4_named_column_relevant_quotient_dimension_f2"],
+            "candidate_masks_retained10": s["corrected_J2_order4_named_column_relevant_masks_retained10"],
+            "actual_s3_orbits_retained10": s["corrected_J2_order4_named_column_relevant_s3_orbits"],
+            "unique_joint_fixed_retained10_mask_decimal": 6,
+            "named_J2_source_selected": False,
+            "sha256": V20_SHA,
         },
         "qpic_marked_picard_bridge": {
             "status": "SOURCE_LOCKED_CERTIFIED_EXACT",
-            "raw_bridge_sha256": s["actual_indlist_to_magma_picard_basis_bridge_raw_sha256"],
             "certified_bridge_sha256": s["actual_indlist_to_magma_picard_basis_bridge_certified_sha256"],
-            "receipt_sha256": s["qpic_bridge_local_recertification_receipt_sha256"],
         },
         "actual_swap_mixed_discriminant_descent": {
             "status": "MATERIALIZED_EXACT_HOSTILE_AUDITED",
-            "moduli": s["actual_swap_mixed_discriminant_moduli"],
-            "s3_braid_exact": s["actual_swap_mixed_discriminant_s3_braid_exact"],
-            "semantic_u1_fixed_by_both_swaps": True,
-            "candidate_count": s["corrected_J2_order4_affine_candidate_count"],
+            "candidate_count": 4,
             "unique_joint_fixed_retained10_mask_decimal": 6,
-            "unique_joint_fixed_proper14_mask_decimal": 25,
             "named_J2_source_selected": False,
             "sha256": s["actual_swap_mixed_discriminant_descent_certificate_sha256"],
-        },
-        "post_audit_named_order4_source_gap": {
-            "status": gap["status"],
-            "minimal_missing_object": gap["minimal_missing_object"]["primary"],
-            "targeted_pinned_source_cross_marking_found": gap["targeted_source_audit"]["literal_named_J2_cross_marking_found_in_pinned_cuboids_source"],
-            "sha256": GAP_SHA,
-        },
-        "historical_picard_adjoint_candidate": {
-            "mask_decimal": s["historical_picard_adjoint_mask_decimal"],
-            "proper14_f2": s["historical_picard_adjoint_proper_Br2_14D_coordinate_f2"],
-            "retained10_f2": s["historical_picard_adjoint_retained_10D_domain_coordinate_f2"],
-            "authoritative_named_J2_source": False,
-            "independently_rederived_as_unique_joint_s3_fixed_candidate": True,
-            "sha256": s["historical_picard_adjoint_proper_Br2_certificate_sha256"],
         },
         "named_J2_semantic_orientation": {
             "label": s["corrected_J2_named_semantic_discriminant_label"],
@@ -165,46 +175,43 @@ out = {
         },
     },
     "authority_changes": {
-        "v10_hostile_audit": "PASS_PROMOTED_TO_MACHINE_STATE",
-        "ordinary_main_gate": "RELEASED_FOR_NAMED_ORDER4_SOURCE_LOCK_CONTINUATION_ONLY",
-        "actual_INDLIST_to_historical_Magma_Picard_basis_bridge": "SOURCE_LOCKED_CERTIFIED_EXACT",
-        "actual_swap12_swap13_on_mixed_discriminant_basis": "MATERIALIZED_EXACT_HOSTILE_AUDITED",
+        "v20_v17_v20_chain": "PASS_PROMOTED_TO_MACHINE_STATE",
+        "named_order4_source_gap": "REDUCED_FROM_14_BIT_CORRECTION_SELECTOR_TO_TWO_BIT_QUOTIENT",
+        "ordinary_main_gate": "RELEASED_FOR_NAMED_ORDER4_TWO_BIT_SOURCE_LOCK_CONTINUATION_ONLY",
         "historical_mask6": "UNIQUE_JOINT_S3_FIXED_CANDIDATE_NOT_NAMED_SOURCE",
-        "J2_picard_adjoint_named_source_binding": "REVOKED_EXACT_DO_NOT_REVIVE_FROM_HISTORY",
         "J2_named_Kummer_source_target_relation": "REVOKED_EXACT_DO_NOT_USE",
     },
     "resolved_investigations": {
+        "rows20_67_reacquisition": "CLOSED_EXACT_DO_NOT_REPEAT",
+        "order4_correction_half_lift_enumeration": "CLOSED_EXACT_DO_NOT_REPEAT",
         "qpic_bridge_reacquisition": "CLOSED_EXACT_DO_NOT_REOPEN",
         "retained_smith_substitute_for_qpic": "REJECTED_DO_NOT_REOPEN",
         "geometric_sign_census_for_candidate_selection": "INSUFFICIENT_DO_NOT_REPEAT",
         "actual_s3_candidate_enumeration": "CLOSED_EXACT_DO_NOT_REPEAT",
-        "pinned_Verification_exact_name_search_Magma_interface_load_Qtriv": "DONE_NO_MATCH",
     },
     "do_not_use": [
-        "historical mask 6 as authoritative named J2 source without a new source-locked lift label",
+        "historical mask 6 as authoritative named J2 source without a new source-locked named order-4 lift action",
         "unique S3-fixed candidate implies named J2 unless named order-4 lift S3 behavior is proved",
         "semantic u1 invariance implies named J2 order-4 lift invariance",
         "target compatibility to select the source label",
         "C2+C3=h_J2",
         "mask 742 or 736 as J2 merely from compatibility",
         "A_T[2] coefficients copied directly as proper-Br2 dual coefficients",
-        "retained Smith V as the literal 64x64 qPic marking",
+        "the ten invisible correction-fiber bits as a reason to reopen the v19 enumeration",
     ],
     "open_datum": {
-        "named_J2_order4_to_mixed_248_cross_marking_source_locked": False,
+        "named_J2_order4_two_bit_value_source_locked": False,
         "named_J2_order4_lift_actual_s3_behavior_source_locked": False,
         "named_J2_proper_Br2_source_coordinate_materialized": False,
         "retained10_named_J2_source_coordinate_materialized": False,
         "named_J2_source_target_relation_materialized": False,
         "named_source_target_relation_rank_f2": 0,
         "matrix_standard_columns_materialized": 0,
-        "actual_indlist_to_magma_picard_basis_bridge_materialized": True,
-        "actual_swap_mixed_discriminant_actions_materialized": True,
     },
     "current_leaf_working_set": [
-        "stages/stage33/33-12/v10-hostile-audit-pass-receipt.json",
-        "stages/stage33/33-12/j2-named-order4-actual-s3-source-lock-gap-v10.json",
-        "stages/stage33/33-12/verify_j2_named_order4_actual_s3_source_lock_gap_v10.py",
+        "stages/stage33/33-12/v20-hostile-audit-pass-receipt.json",
+        "stages/stage33/33-12/j2-order4-named-functional-quotient-v20.json",
+        "stages/stage33/33-12/verify_j2_order4_named_functional_quotient_v20.py",
         "stages/stage33/33-12/j2-actual-swap-mixed-discriminant-descent.json",
         "stages/stage33/33-12/j2-marked-order4-lift-label-gap.json",
         "stages/stage33/33-12/j2-cv-d2-semantic-orientation.json",
@@ -212,14 +219,15 @@ out = {
     ],
     "anti_loop_reopen_policy": {
         "ordinary_main_rule": (
-            "V10 hostile audit passed the literal qPic bridge and actual mixed-discriminant S3 action. "
-            "Do not reacquire qPic, rerun Smith/sign/S3 substitutes, or select mask 6 from symmetry alone. "
-            "Proceed only from a genuinely new source-locked named-J2 order-4 cross-marking/direct source row."
+            "The #1485 hostile audit promoted the v17-v20 exact chain and reduced the named-column gap to two bits. "
+            "Do not reacquire source rows, rerun the correction/half-lift enumeration, reopen qPic/Smith/sign/S3 substitutes, "
+            "or select mask 6 from symmetry alone. Proceed only from a genuinely source-locked named J2 order-4 lift "
+            "swap12/swap13 behavior or equivalent two-bit value."
         ),
         "reopen_only_if": [
+            "a promoted v17-v20 source lock or the #1485 audit receipt fails replay",
             "the pinned upstream source lock changes",
-            "the V10 hostile-audit receipt or exact S3 certificate fails replay",
-            "a new source-locked named J2 order-4 cross-marking/direct row becomes available",
+            "a new exact adapter materially changes the named order-4 lift semantics",
             "the user explicitly requests hostile audit or historical revalidation",
         ],
     },
