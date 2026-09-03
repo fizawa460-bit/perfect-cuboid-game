@@ -1,0 +1,30 @@
+name: Stage35-EX E1 reduction audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage35-ex/**'
+      - '.github/workflows/stage35-ex-audit.yml'
+  workflow_dispatch:
+
+jobs:
+  verify-stage35-ex:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact PR head checkout
+        run: |
+          ACTUAL_HEAD_SHA="$(git rev-parse HEAD)"
+          echo "EXPECTED_HEAD_SHA=${EXPECTED_HEAD_SHA}"
+          echo "ACTUAL_HEAD_SHA=${ACTUAL_HEAD_SHA}"
+          test "${ACTUAL_HEAD_SHA}" = "${EXPECTED_HEAD_SHA}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage35-EX provisional reductions and firewalls
+        run: python -B stages/stage35-ex/verify_stage35_ex.py
