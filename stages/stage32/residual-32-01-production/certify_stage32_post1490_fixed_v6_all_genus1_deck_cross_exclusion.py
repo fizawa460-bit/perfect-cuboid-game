@@ -66,7 +66,7 @@ def main() -> None:
     common = load_json_lock(locks["common_double_cover"])
     square = common["group_quotient_square"]
     assert square["X"] == "P/H_diag (Beauville cover surface)"
-    assert "degree-two pullback" in square["normalization_statement"]
+    assert "generic degree two extension" in square["normalization_statement"]
     assert common["carrier_consequence"]["same_quadratic_extension"] is True
 
     pair = load_json_lock(locks["pair_map_reduction"])
@@ -97,10 +97,7 @@ def main() -> None:
 
     old_verifier = ROOT / locks["o210_exact_verifier"]["path"]
     old_cert = locks["equivariant_deck_cross"]["path"]
-    proc = subprocess.run(
-        [sys.executable, str(old_verifier), "--check", old_cert],
-        cwd=ROOT, text=True, capture_output=True, check=True, timeout=240,
-    )
+    proc = subprocess.run([sys.executable, str(old_verifier), "--check", old_cert], cwd=ROOT, text=True, capture_output=True, check=True, timeout=240)
     assert "PASS_EXACT_EQUIVARIANT_BEAUVILLE_DECK_CROSS_O210_Q4_EXCLUSION" in proc.stdout
 
     gamma_square = 2 * 105 * 81
