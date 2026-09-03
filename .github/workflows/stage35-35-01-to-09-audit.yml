@@ -1,14 +1,15 @@
-name: Stage35 35-01 to 35-10 aggregate audit
+name: Stage35 and Stage35-EX aggregate audit
 
 on:
   pull_request:
     paths:
       - 'stages/stage35/**'
+      - 'stages/stage35-ex/**'
       - '.github/workflows/stage35-35-01-to-09-audit.yml'
   workflow_dispatch:
 
 jobs:
-  verify-stage35-35-01-to-10:
+  verify-stage35-and-ex:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
@@ -32,3 +33,5 @@ jobs:
         run: python -B stages/stage35/verify_stage35_35_01_to_09.py
       - name: Verify Stage35 35-10 material routing firewalls
         run: python -B stages/stage35/35-10/verify_35_10.py
+      - name: Verify Stage35-EX provisional reductions and firewalls
+        run: python -B stages/stage35-ex/verify_stage35_ex.py
