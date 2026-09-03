@@ -1,0 +1,69 @@
+{
+  "schema": "STAGE35_35_04_MINIMAL_UNIFORM_THEOREM_V1",
+  "stage": "35",
+  "unit": "35-04_MINIMAL_UNIFORM_THEOREM_STATEMENT",
+  "status": "PASS_THEOREM_TARGET_LOCKED_NOT_PROVED",
+  "selected_fibration": "TS-S-R3-Q1",
+  "arsenal_workflow": {
+    "id": "S34-WF01",
+    "role": "CLASS3_RECEIVER_REPLACEMENT_THEOREM_PIPELINE",
+    "card_path": "docs/arsenal/cards/workflows/S34-WF01.md",
+    "card_blob_sha": "1ebba4ec402e14d536284a06c5ac32625c6b8cec",
+    "applicability": "APPLICABLE_AS_RECEIVER_REPLACEMENT_WORKFLOW",
+    "finite_cover_reducibility_assumed": false
+  },
+  "original_kernel_request": "uniform arithmetic/specialization theorem over the moving genus-3/genus-5 family, or a globally exhaustive reduction to finitely many fibers with exact lift reconstruction",
+  "replacement_theorem": {
+    "id": "T35-R3-PHYS-EMPTY",
+    "short_statement": "For every rational t>1, every rational point on C_t is physical-degenerate.",
+    "quantified_statement": "For all t in Q with t>1, U_t(Q)=empty, where U_t is the physical open of the exact genus-5 fiber C_t defined in stages/stage35/35-03/direct-endpoint-reconstruction.json.",
+    "parameter_base": "Q_{>1}",
+    "field": "Q",
+    "fiber_coordinates": ["x", "y", "p", "q", "d"],
+    "fiber_equations": [
+      "(t^2+1)^2*x^2+(t^2-1)^2*d^2=(t^2+1)^2*p^2",
+      "(t^2+1)^2*y^2+(t^2-1)^2*d^2=(t^2+1)^2*q^2",
+      "(t^2+1)^2*(x^2+y^2)=4*t^2*d^2"
+    ],
+    "physical_open": "x*y*p*q*d != 0, with e=((t^2-1)/(t^2+1))*d and z=(2t/(t^2+1))*d; after sign/scaling normalization the seven lengths are positive",
+    "equivalent_degenerate_form": "every C_t(Q) point for t>1 has at least one forbidden zero/degenerate physical coordinate",
+    "bad_fiber_policy": "the theorem quantifies over all rational t>1; any generic-fiber proof may exclude a bad locus only if 35-05 exhaustively discharges every excluded rational parameter"
+  },
+  "exact_receiver_match": {
+    "every_physical_endpoint_maps_to_some_t_in_Q_gt_1": true,
+    "every_physical_open_fiber_point_reconstructs_an_endpoint": true,
+    "requires_all_28_fibrations": false,
+    "requires_all_15_K3_fibrations": false,
+    "requires_historical_K3_residual_square_lift": false,
+    "if_replacement_theorem_proved_then_selected_global_endpoint_route_closed": true,
+    "if_replacement_theorem_proved_then_R29_FIB2_receiver_consequence_requires_hostile_audit": true,
+    "replacement_theorem_proves_original_named_uniform_specialization_theorem": false
+  },
+  "nearest_known_theorem_or_method": {
+    "status": "NOT_YET_SOURCE_LOCKED_AT_35_04",
+    "current_primary_source": "Testa-Stoll Section 5 supplies the exact genus-5 fibration geometry and bad-fiber structure but no uniform rational-point exclusion over all t in Q>1",
+    "search_owner": "35-06_UNIFORM_ARITHMETIC_ATTACK_BRANCHES",
+    "reason_deferred": "35-04 freezes the exact theorem obligation before literature/theorem search, per S34-WF01 and Stage35 anti-loop policy"
+  },
+  "cuboid_specific_structure": [
+    "diagonal complete intersection of three quadrics in P4 after direct rank-3 parametrization",
+    "full endpoint rather than marginal quotient family",
+    "parameter t is a rational Pythagorean-conic parameter with physical interval t>1",
+    "large coordinate sign symmetry inherited from the diagonal fiber equations",
+    "source reports structured finite bad-fiber decomposition for the rank-3 fibrations"
+  ],
+  "attack_decomposition_allowed": {
+    "generic_part": "prove U_t(Q)=empty for all rational t>1 outside an exact bad/exceptional set B",
+    "exceptional_part": "prove U_t(Q)=empty separately for every rational t in B intersect Q_{>1}",
+    "union_must_be_exhaustive": true
+  },
+  "credit_boundary": {
+    "minimal_uniform_theorem_statement_locked": true,
+    "replacement_theorem_proved": false,
+    "new_theorem_credit": false,
+    "R29_FIB2_closed": false,
+    "next_exact_leaf": "35-05_BAD_FIBER_AND_EXCEPTIONAL_LOCUS"
+  },
+  "perfect_cuboid_existence_claim": false,
+  "perfect_cuboid_nonexistence_claim": false
+}

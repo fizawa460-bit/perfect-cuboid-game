@@ -1,0 +1,51 @@
+{
+  "schema": "STAGE35_35_07_FINITE_REDUCTION_ASSESSMENT_V1",
+  "stage": "35",
+  "unit": "35-07_FINITE_EXHAUSTIVE_REDUCTION_FALLBACK",
+  "status": "NO_CERTIFIED_GLOBAL_FINITE_REDUCTION",
+  "target": "T35-R3-PHYS-EMPTY",
+  "physical_parameter_base": "Q_{>1}",
+  "current_exact_inputs": [
+    "single global Q-defined direct fibration TS-S-R3-Q1",
+    "exact point-level endpoint reconstruction",
+    "all physical rational parameters are smooth fibers",
+    "Stoll fixed-fiber and Q(t) arithmetic methods",
+    "S34-W01/S34-W02 formal Arsenal contracts"
+  ],
+  "S34_W01_assessment": {
+    "card_blob_sha": "01a8e90e34b4aa46edbfa825803d488e5230e9d0",
+    "applicable_now": false,
+    "reason": "the selected direct endpoint model has no remaining receiver condition of the form a factored product being a square whose exhaustive squareclasses would force the rational parameter t into finitely many fibers",
+    "finite_squareclass_branches_would_not_automatically_mean_finite_parameter_values": true
+  },
+  "S34_W02_assessment": {
+    "card_blob_sha": "13d41be776fcd2edcd258f11bd28c5a6596de45b",
+    "applicable_now": false,
+    "reason": "S34-W02 requires a certified full Mordell-Weil group of one exact elliptic quotient branch; Stage35 presently has a moving family of quotient elliptic curves and no global reduction to finitely many fixed fibers",
+    "using_bounded_many_fibers_as_proxy_for_global_coverage": false
+  },
+  "coverage_test": {
+    "proved_statement_every_receiver_point_lands_in_finite_parameter_set": false,
+    "proved_statement_every_receiver_point_lands_in_finite_fixed_curve_list": false,
+    "proved_global_height_bound_on_t": false,
+    "proved_thin_finite_parameter_reduction": false,
+    "bad_fiber_set_can_supply_finite_reduction": false,
+    "bad_fiber_reason": "physical base avoids the complete geometric bad set; perfect-cuboid candidates, if any, would lie on smooth fibers"
+  },
+  "forbidden_fallbacks": [
+    "enumerate |t| or numerator/denominator up to a bound and call it exhaustive",
+    "run Chabauty/MW on finitely many sample fibers and promote to uniform control",
+    "apply S34-W02 independently on selected fibers without first proving the finite list covers every receiver point",
+    "treat Q(t)-section classification as a finite specialization reduction"
+  ],
+  "outcome": {
+    "globally_exhaustive_finite_fiber_reduction_proved": false,
+    "reduced_to_class2": false,
+    "S34_W02_unlocked": false,
+    "new_theorem_credit": false,
+    "R29_FIB2_closed": false,
+    "next_exact_leaf": "35-08_PROOF_EXPERIMENTS_AND_COUNTEREXAMPLE_SEARCH"
+  },
+  "perfect_cuboid_existence_claim": false,
+  "perfect_cuboid_nonexistence_claim": false
+}
