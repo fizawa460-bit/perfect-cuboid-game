@@ -106,7 +106,7 @@ def main() -> None:
         assert cdoc["branch_pairs"] == branch_names
         assert cdoc["canonical_pair"] == zcanon
 
-    plane_pairs = [frozenset(x["pair_ids"]) for x in cert["torsor_plane"]["nonzero_classes"]
+    plane_pairs = [frozenset(x["pair_ids"]) for x in cert["torsor_plane"]["nonzero_classes"]]
     assert set(plane_pairs) == set(derived_pairs.values())
     assert all(len(p) == 2 for p in plane_pairs)
     assert set().union(*[set(p) for p in plane_pairs]) == universe
