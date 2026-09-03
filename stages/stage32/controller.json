@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V224_FIXED_V6_ALL_GENUS1_EXCLUSION_AUDIT_GATE",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V225_POST1500_AUDIT_FAIL_ROSATI_TRACE1204_REPAIR",
   "stage": 32,
-  "status": "STAGE32_FIXED_RECOVERED_V6_ALL_GENUS1_CARRIERS_PROVISIONALLY_EXCLUDED_PENDING_HOSTILE_AUDIT",
+  "status": "STAGE32_O210_REOPENED_ROSATI_TRACE_1204_Q602_BLOCKER",
   "stage32_closed": false,
   "advance_allowed": false,
   "merge_allowed": false,
@@ -16,109 +16,125 @@
     "degree": 186,
     "e": 266,
     "genus": 1,
-    "z": [-15, 62, -44, 26, 32],
-    "qprime_scope": [1, 2, 4],
-    "qprime4_overlap_scope": [210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266]
+    "z": [-15,62,-44,26,32],
+    "O": 210,
+    "qprime": 4
   },
-  "audited_baseline": {
+  "audited_baseline_retained": {
     "post1484_head": "78e41ef64f1fb8c4632ffd9604bbca26580f6de2",
     "post1484_review_id": 5086756888,
     "v6_modular_bidegree_canonical_sha256": "791870c37681702392e1e59d224f494ed791709d467efa68a20cf49bff4ab420",
-    "retained_facts": "Exact V6 modular factor degrees (105,81); qprime=1,2 excluded by integrality; qprime=4 requires O>=210; O186/O188 closed audited; cusp adapter 318ac76c closed."
+    "facts": "Exact V6 modular-factor degrees (105,81); qprime=1,2 excluded by integrality; qprime=4 requires O>=210. O186/O188 remain closed audited."
   },
-  "post1490_audited_promotion": {
+  "post1490_history_reopened": {
     "merged_pr": 1490,
     "merge_commit": "377273d24ea6b3aa661223ad38886012d8be7497",
-    "audited_exact_head": "86879a826b4a0b339e351267aaab030d621c7f2a",
-    "hostile_audit_review_id": 5097431566,
-    "exact_head_ci": {"run_id": 33709171710, "job_id": 100504788738, "all_21_steps_passed": true},
-    "exclusion_canonical_sha256": "8c32735092671d725034de8d14d09c09ac275517fa5f0e225791d2fc53eb5bf3",
-    "promoted_scope": "fixed recovered V6 class g1-d186 at O=210,qprime=4 only",
-    "status": "CLOSED_AUDITED_EXCLUDED"
+    "previous_audit_review_id": 5097431566,
+    "previous_exact_head": "86879a826b4a0b339e351267aaab030d621c7f2a",
+    "previous_exact_ci": {"run_id":33709171710,"job_id":100504788738,"success":true},
+    "previous_exclusion_canonical_sha256": "8c32735092671d725034de8d14d09c09ac275517fa5f0e225791d2fc53eb5bf3",
+    "current_authority": "EXCLUSION_DECISION_REOPENED_BY_POST1500_HOSTILE_AUDIT; retained class/deck arithmetic may be reused only through the post1500 repair certificate.",
+    "reason": "The O210 contradiction shared the later-invalid zero-Rosati specialization Gamma^2=2*105*81."
   },
-  "next_overlap_boundary": {
-    "path": "stages/stage32/residual-32-01-production/post1490-audit-promotion-next-overlap-boundary.json",
-    "canonical_sha256": "fbe7cb7b99e9c74f962f808cf8c0489dd159731e7cb60143752eb0115e9d4c27",
-    "source_locked_odd_branch_wall_blob": "cb20a9b287430c2e238f79d3151500c262905468",
-    "meaning": "O212 was the next admissible overlap after audited O210, but per-O iteration is superseded by the O-independent qprime=4 deck-cross contradiction below."
+  "post1500_hostile_audit_failure": {
+    "review_id": 5097587880,
+    "exact_head": "43a7a46cc7cd3e5ef1f5ae5cb31d17c45b10e9b9",
+    "exact_head_ci": {"run_id":33712731325,"job_id":100515467002,"success":true},
+    "verdict": "FAIL",
+    "mathematical_defect": "On C0 x C0 with genus(C0)=2, bidegree (105,81) does not determine Gamma^2. The omitted Rosati/correspondence contribution is sigma=1204, not a contradiction.",
+    "superseded_controller": "V224",
+    "superseded_all_genus1_certificate_canonical_sha256": "5a117c21bb3bdf6952a9ec4fdcf113352cc88ea0353b22d20095e482acd8ddb6"
   },
-  "current_item": "FIXED_V6_ALL_GENUS1_DECK_CROSS_EXCLUSION_HOSTILE_AUDIT",
+  "repair_boundary": {
+    "path": "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json",
+    "blob_sha1": "2ebe262fe76f2ceda371e018c107bcfb7d6f523b",
+    "canonical_sha256": "e28c7539e05b9c4836b9bc51c8f69316723eb8c368700a26706627045525fe07",
+    "source_note_path": "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md",
+    "source_note_blob_sha1": "b0ea281eae453929c292059a919bc1f68b3080b3",
+    "retained_exact": {
+      "projection_degrees": [105,81],
+      "D_square": 3874,
+      "deck_cross": [3892,4020,4020],
+      "deck_cross_sum": 11932,
+      "pair_map_birational": true,
+      "x_to_q_finite_etale_v4_degree": 4
+    },
+    "corrected": {
+      "Gamma_square": 15806,
+      "sigma_Gamma": 1204,
+      "Q_T": 602,
+      "O210_Gamma_arithmetic_genus": 8090,
+      "O210_Gamma_normalization_defect": 7984
+    },
+    "bounded_existing_asset_result": {
+      "D4_direct_sum_D4_represents_Q602": true,
+      "one_D4_norm602_shell_count": 8448,
+      "operator_bound_8505_excludes_Q602": false,
+      "weierstrass_delta_min": 1924,
+      "corrected_delta_7984_satisfies_weierstrass_bound": true,
+      "existing_Rosati_D4_Weierstrass_assets_exclude_Q602": false
+    }
+  },
+  "current_item": "O210_Q4_ROSATI_TRACE_1204_GEOMETRY",
   "current_leaf": {
-    "status": "PROVISIONAL_EXACT_FIXED_V6_ALL_GENUS1_EXCLUSION_AWAITING_HOSTILE_AUDIT",
-    "target": "Hostile-audit the O-independent generalization of the explicit Beauville/V4 deck-cross contradiction. In particular audit that the common quotient square, pair-map birationality, fixed X divisor class, q^*Gamma deck decomposition, and exact deck-cross pairings remain valid independently of O. Do not promote this fixed-V6 all-genus1 exclusion or advance to another receiver row before PASS.",
-    "certificate_path": "stages/stage32/residual-32-01-production/post1490-fixed-v6-all-genus1-deck-cross-exclusion.json",
-    "certificate_canonical_sha256": "5a117c21bb3bdf6952a9ec4fdcf113352cc88ea0353b22d20095e482acd8ddb6",
-    "source_note_path": "stages/stage32/residual-32-01-production/post1490-fixed-v6-q4-all-overlap-deck-cross-exclusion-source-note.md",
-    "source_note_blob_sha1": "58a59b7643bcfa26d2e93c99b2790bd85b15d331",
-    "qprime1_qprime2_retained_excluded": true,
-    "qprime4_all_admissible_overlaps_provisionally_excluded": true,
-    "pair_map_projection_degrees": [105, 81],
-    "gamma_square": 17010,
-    "D_square": 3874,
-    "required_translate_sum": 13136,
-    "exact_picard_deck_intersections": [3892, 4020, 4020],
-    "exact_picard_deck_sum": 11932,
-    "contradiction_gap": 1204,
-    "O_independent": true,
-    "fixed_V6_all_integral_genus1_carriers_provisionally_excluded": true,
-    "audit_gate": "HOSTILE_AUDIT_REQUIRED_BEFORE_PROMOTION_OR_NEXT_RECEIVER_ROW"
-  },
-  "pre_controller_mathematical_replay": {
-    "head": "ac0e3d1f686674fc3f2d2cecf41c00d455cbfd29",
-    "workflow": ".github/workflows/stage32-post1490-fixed-v6-all-genus1-exclusion.yml",
-    "run_id": 33712579577,
-    "job_id": 100515009275,
-    "result": "SUCCESS",
-    "note": "The verifier re-runs the hostile-audited O210 exact verifier, which reconstructs the recovered V6 class from all 140 pairings and reruns the composite deck actions; then it independently checks the O-independent quotient-square arithmetic and exhausts O=210,212,...,266."
+    "status": "EXACT_NONEXCLUSION_BOUNDARY_REPAIR_PENDING_HOSTILE_AUDIT",
+    "target": "Find a genuinely geometric, source-locked reason forcing sigma(Gamma)=0, or independently exclude sigma=1204 / Q(T)=602 for a correspondence arising from the common-cover/marked-branch geometry. Existing Rosati/D4/Weierstrass assets do not exclude Q=602.",
+    "next_checkpoint": "Hostile-audit the post1500 repair/nonexclusion boundary before any renewed geometric search or overlap advance.",
+    "O212_and_later_blocked": true
   },
   "anti_loop": {
     "do_not_reopen": [
       "O186 fixed-V6 exclusion",
       "O188 product-cover profiles",
       "canonical 318ac76c cusp adapter",
-      "O210 qprime=4 exact-V6 exclusion after hostile-audit PASS 5097431566",
-      "O210 Abel-Jacobi zero retest",
-      "O210 full Rosati/D4+D4 materialization",
-      "per-overlap O212/O214/... iteration while the provisional O-independent deck-cross exclusion is awaiting audit",
+      "qprime=1,2 modular-factor integrality exclusions",
+      "bounded Rosati/D4/Weierstrass check of Q=602 after repair e28c7539",
+      "full Rosati frontier enumeration merely to test Q=602",
       "B-side Picard64 treated as Pic(X) without explicit adapter",
       "post-21bl representative sample substituted for exact recovered V6 class",
       "relative-H u/v/uv node permutation search after d03cfe8c",
-      "local multiplicity factor-of-two question after 919f8bed",
-      "retained tangent/infinitely-near search after e876c51a",
-      "broad Hodge corridor search after exact delta_D adapter",
-      "rational Q(i)^3 character algebra promoted to integral NS(X)"
+      "retained tangent/infinitely-near search after e876c51a"
     ],
-    "asset_lookup_rule": "If the hostile audit or a later receiver leaf needs an already-existing weapon/evidence asset, route through docs/evidence-locator/query_evidence.py first and then recheck live Stage authority; a query miss is not repository absence."
+    "forbidden_inferences": [
+      "Gamma^2=2*d1*d2 from bidegree alone on a positive-genus product",
+      "sigma(Gamma)=0 without an independent geometric proof",
+      "delta_Gamma=8586 or zero-Rosati downstream simplex values without rederivation",
+      "exact-head CI success implies hostile-audit mathematical correctness"
+    ],
+    "asset_lookup_rule": "Use docs/evidence-locator/query_evidence.py first for already-existing evidence, then recheck live Stage authority; a query miss is not repository absence."
   },
   "math_scope": {
     "fixed_z_O186_all_qprime": "CLOSED_AUDITED_EXCLUDED_DO_NOT_REOPEN",
     "fixed_z_O188_all_profiles": "CLOSED_AUDITED_EXCLUDED_DO_NOT_REOPEN",
-    "fixed_z_O210_q4_exact_v6_carrier": "CLOSED_AUDITED_EXCLUDED",
     "fixed_z_qprime1_qprime2_exact_v6": "CLOSED_AUDITED_EXCLUDED_BY_MODULAR_FACTOR_INTEGRALITY",
-    "fixed_z_qprime4_all_admissible_overlaps": "PROVISIONAL_EXCLUDED_PENDING_HOSTILE_AUDIT",
-    "fixed_z_all_integral_genus1_carriers": "PROVISIONAL_EXCLUDED_PENDING_HOSTILE_AUDIT",
+    "fixed_z_O210_q4_exact_v6_carrier": "OPEN_REOPENED_AFTER_POST1500_HOSTILE_AUDIT_FAIL",
+    "fixed_z_O212_through_O266_qprime4": "BLOCKED_BEHIND_O210",
+    "fixed_z_all_integral_genus1_carriers": "OPEN",
     "full178_geometric_closure": "OPEN_NOT_ACTIVE",
     "receiver_theorem_endpoint": "OPEN"
   },
   "operations": {
-    "execution_class": "LIGHTWEIGHT_FIXED_V6_ALL_GENUS1_EXCLUSION_REPLAY",
+    "execution_class": "LIGHTWEIGHT_POST1500_ROSATI_TRACE_REPAIR_REPLAY",
     "full178_scaleout_authorized": false,
     "heavy_compute_authorized": false,
     "survivor_materialization_authorized": false,
     "retained_asset_research_authorized": false
   },
   "required_lightweight_verifier": {
-    "path": "stages/stage32/residual-32-01-production/certify_stage32_post1490_fixed_v6_all_genus1_deck_cross_exclusion.py",
-    "certificate_path": "stages/stage32/residual-32-01-production/post1490-fixed-v6-all-genus1-deck-cross-exclusion.json",
+    "path": "stages/stage32/residual-32-01-production/certify_stage32_post1500_hostile_audit_rosati_trace_repair.py",
+    "certificate_path": "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json",
     "workflow": ".github/workflows/stage32-post1490-fixed-v6-all-genus1-exclusion.yml",
-    "exact_head_success_required": true
+    "workflow_name": "Stage32 post1500 hostile-audit Rosati repair replay",
+    "pre_controller_success": {"head":"a357fa712562fad6cae543491394b9d846490c8b","run_id":33713838810,"job_id":100518754382,"result":"SUCCESS"},
+    "exact_controller_head_success_required": true
   },
   "audit_required_before_promotion": true,
-  "next_expected_action": "Obtain a hostile audit of the fixed-V6 all-genus1 O-independent deck-cross exclusion at the fresh final head. Do not advance to another receiver row, run heavy/FULL178 compute, merge, or grant downstream credit before PASS.",
+  "next_expected_action": "Hostile-audit the V225 repair/nonexclusion boundary at the fresh exact head. Do not advance O212, run heavy/FULL178 compute, merge, or grant downstream credit before PASS.",
   "firewalls": {
+    "O186_closed": true,
     "O188_closed": true,
-    "O210_closed_audited": true,
-    "fixed_V6_all_genus1_audited_closed": false,
+    "O210_closed": false,
+    "fixed_V6_all_genus1_closed": false,
     "effectivity_credit": false,
     "full178_geometric_closure": false,
     "receiver_credit": false,
@@ -129,10 +145,10 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "handoff": {
-    "batch": "20260903-stage32-post1490-fixed-v6-all-genus1-main-batch",
-    "continue_from": "FIXED_V6_ALL_GENUS1_DECK_CROSS_EXCLUSION_HOSTILE_AUDIT",
+    "batch": "20260903-stage32-post1500-rosati-trace-repair-main-batch",
+    "continue_from": "O210_Q4_ROSATI_TRACE_1204_GEOMETRY",
     "fresh_head_required": true,
     "do_not_merge": true,
-    "notes": "#1490 PASS is promoted for O210 only. The stronger new provisional certificate 5a117c21... shows the required V4 translate sum Gamma^2-D^2=17010-3874=13136 is O-independent, while exact fixed-class Picard/deck replay remains 11932, gap1204. qprime1/2 are already excluded; hence the exact recovered V6 class has no integral genus1 carrier provisionally, pending hostile audit."
+    "notes": "PR1500 hostile audit FAIL review 5097587880 reopens O210 and supersedes V224. Correct exact arithmetic is Gamma^2=15806, sigma=1204, Q=602. Retained D4 lattice represents Q602 and O210 Weierstrass delta bound is satisfied at delta=7984, so existing assets are exact nonexclusion. O212+ blocked until a new geometric sigma/Q constraint is audited."
   }
 }
