@@ -19,13 +19,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Materialize one-shot locator dependency inventory
+      - name: Materialize one-shot locator dependency filenames
         run: |
-          git grep -nIiE 'evidence[- _]?locator|docs/evidence-locator|query_evidence\.py|EVID-S3[23]|LOCATOR_FIRST|asset_locator_script|current_locator_registries|current_stage33_locator_registry|locator_before_deep_read_rule' -- . ':!.github/workflows/research-os-retirement-audit-tmp.yml' > research-os-retirement-inventory.tmp || true
+          git grep -IlE 'evidence[- _]?locator|docs/evidence-locator|query_evidence\.py|EVID-S3[23]|LOCATOR_FIRST|asset_locator_script|current_locator_registries|current_stage33_locator_registry|locator_before_deep_read_rule' -- . ':!.github/workflows/research-os-retirement-audit-tmp.yml' > research-os-retirement-inventory.tmp || true
           test -f docs/arsenal/index.json
           test -f docs/arsenal/sync_arsenal_catalog.py
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git add research-os-retirement-inventory.tmp
-          git commit -m 'chore: materialize locator retirement inventory' || true
+          git commit -m 'chore: compact locator retirement inventory' || true
           git push
