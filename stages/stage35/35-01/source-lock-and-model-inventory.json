@@ -1,0 +1,141 @@
+{
+  "schema": "STAGE35_35_01_SOURCE_LOCK_AND_MODEL_INVENTORY_V1",
+  "stage": "35",
+  "unit": "35-01_SOURCE_LOCK_AND_MODEL_INVENTORY",
+  "status": "PASS_SOURCE_LOCK_COMPLETE_MODEL_INVENTORY_BOUNDED",
+  "source_pr": 1506,
+  "entry_head": "993c1e6d8e81ec8f95333cf6d5dcb545f222a30b",
+  "target": {
+    "kernel": "K16-C3-MOVING-FIBER-ARITHMETIC",
+    "receiver": "R29-FIB2",
+    "parent_route": "J12-PARAMETRIC",
+    "execution_class": 3,
+    "needed": "uniform arithmetic/specialization theorem over the moving genus-3/genus-5 family, an exact receiver-matched replacement theorem, or a globally exhaustive reduction to finitely many fibers with exact lift reconstruction",
+    "endpoint_decision_capable": true
+  },
+  "source_locks": [
+    {
+      "path": "stages/stage29/29-16/active-kernel-ledger.json",
+      "blob_sha": "5d6d4c7709b57064aea5dc0ece672c5170c39550",
+      "role": "exact compressed Class-3 kernel contract"
+    },
+    {
+      "path": "stages/stage29/29-08/fibration-crosswalk.md",
+      "blob_sha": "de360854d63cf6a7462ae2a519861f45d058d899",
+      "role": "exact endpoint/K3/fibration/model crosswalk"
+    },
+    {
+      "path": "stages/stage29/29-14/theorem-dependency-ledger.json",
+      "blob_sha": "3978633fca1bd70d89709af49caa37171f649649",
+      "role": "audited open-receiver and pushforward frontier"
+    }
+  ],
+  "physical_endpoint_model": {
+    "projective_coordinates": ["e", "x", "y", "p", "q", "z", "d"],
+    "equations": [
+      "e^2+x^2=p^2",
+      "e^2+y^2=q^2",
+      "x^2+y^2=z^2",
+      "e^2+x^2+y^2=d^2"
+    ],
+    "source_field": "Q",
+    "endpoint_surface_dimension": 2
+  },
+  "model_inventory": {
+    "euler_k3_long_diagonal_sign_quotient": {
+      "source_name": "Kbar_c / Testa-Stoll normal Euler-brick K3 quotient / Stage20 third-face completion",
+      "quotient_direction": "forget only the sign of the space-root coordinate d",
+      "coordinates": ["e", "x", "y", "p", "q", "z"],
+      "equations": [
+        "e^2+x^2=p^2",
+        "e^2+y^2=q^2",
+        "x^2+y^2=z^2"
+      ],
+      "normal_and_minimal_resolution_adapter_over_Q": true,
+      "physical_hyperplane_system": "[e:x:y:p:q:z]",
+      "geometric_elliptic_fibration_count": 15,
+      "all_individual_fibrations_Q_defined_certified": false,
+      "rank4_rulings_may_require_splitting_field": true,
+      "receiver_dependencies": ["R29-FIB1", "R29-FIB2"],
+      "endpoint_lift_firewall": "a marginal elliptic-fibration rational point is not an endpoint point until the residual space condition is certified"
+    },
+    "peschmann_master_hit_total_fibration": {
+      "family_notation": "H_mn -> E_mn",
+      "parameter_base": "total (m,n) after gcd normalization",
+      "generic_fiber_type": "elliptic marginal fiber",
+      "global_marginal_coverage": true,
+      "global_endpoint_coverage": false,
+      "lift_domain": "P in E_mn(Q) minus ({O} union T_tau)",
+      "residual_lift_predicate_known_at_source_level": "tau(P) in Q_{>0}^square, followed by reduced Euclid positivity/parity/coprimality checks",
+      "bounded_MW_enumeration_global_coverage": false,
+      "relation_to_15_Testa_Stoll_pencils": "OPEN: one pencil, base change, or another elliptic pencil not yet certified"
+    },
+    "full_endpoint_genus5_fibration_atlas": {
+      "geometric_fibration_count": 28,
+      "construction_count": "6 from rank-3 quadrics plus 2 from each of 11 rank-4 quadrics",
+      "generic_fiber_genus": 5,
+      "all_individual_fibrations_Q_defined_certified": false,
+      "rank4_rulings_require_splitting_field": true,
+      "first_rank4_pair_field": "Q(i)",
+      "rational_section_coverage_proved": false,
+      "rational_point_exclusion_proved": false,
+      "coverage_firewall": "geometric surface atlas is not arithmetic coverage by rational sections or multisections"
+    },
+    "saunderson_endpoint_lift": {
+      "source_curve_on_X_face_dimension": 1,
+      "physical_M_face_degree": 6,
+      "endpoint_lift": "audited nonsplit genus-3 curve of canonical degree 12",
+      "global_coverage": false
+    },
+    "stageA2_minus18_family": {
+      "family_scope": "one specific -18 family",
+      "global_coverage": false
+    }
+  },
+  "receiver_frontier": {
+    "R29_FIB1": "OPEN: fibration physical class and field-of-definition ledger",
+    "R29_FIB2": "OPEN: arithmetic specialization and endpoint residual-space lift",
+    "every_physical_endpoint_Q_point_pushes_to_each_audited_Q_defined_coordinate_sign_K3_quotient_smooth_locus": true,
+    "converse_lift_from_K3_Q_point": false,
+    "quotient_emptiness_proved": false
+  },
+  "field_and_parameter_status_for_35_02": {
+    "known": [
+      "physical endpoint source field Q",
+      "Euler K3 exact model adapter is over Q",
+      "Peschmann total parameter base is (m,n) after gcd normalization",
+      "the first rank-4 full-endpoint ruling pair is over Q(i)"
+    ],
+    "not_yet_certified": [
+      "individual Q/splitting-field status for all 15 Euler K3 elliptic fibrations",
+      "individual Q/splitting-field status for all 28 full-endpoint genus-5 fibrations",
+      "physical-class adapter for each fibration actually selected for attack",
+      "exact parameter base and exceptional/degenerate locus for each selected fibration"
+    ]
+  },
+  "residual_lift_status_for_35_03": {
+    "peschmann_source_level_predicate_present": true,
+    "general_per_fibration_exact_residual_lift_interface_materialized": false,
+    "inverse_endpoint_reconstruction_materialized_for_every_retained_fibration": false,
+    "therefore_R29_FIB2_closed": false
+  },
+  "firewalls": {
+    "individual_fiber_arithmetic_implies_uniform_moving_base_control": false,
+    "geometric_fibration_count_implies_Q_defined_fibration_count": false,
+    "geometric_fibration_atlas_implies_rational_point_coverage": false,
+    "marginal_fiber_point_implies_endpoint_point": false,
+    "bounded_MW_enumeration_implies_global_coverage": false,
+    "family_closure_implies_endpoint_closure": false
+  },
+  "exit": {
+    "source_lock_complete": true,
+    "model_inventory_complete_for_stage35_entry": true,
+    "Q_field_and_physical_fibration_ledger_complete": false,
+    "residual_space_lift_interface_complete": false,
+    "new_theorem_credit": false,
+    "receiver_credit": false,
+    "next_exact_leaf": "35-02_Q_FIELD_PHYSICAL_FIBRATION_LEDGER"
+  },
+  "perfect_cuboid_existence_claim": false,
+  "perfect_cuboid_nonexistence_claim": false
+}
