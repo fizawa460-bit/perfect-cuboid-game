@@ -1,0 +1,41 @@
+name: Stage33 post-V36 authority sync
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/synchronize_post_v36_controller_v59.py'
+      - '.github/workflows/stage33-post-v36-authority-sync.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stage33-post-v36-authority-sync-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  synchronize:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Overlay V25-V36 authority and regenerate compact state
+        run: |
+          python stages/stage33/synchronize_post_v36_controller_v59.py
+          git diff --check
+          python stages/stage33/sync_main_state.py --check
+      - name: Commit synchronized projection
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add stages/stage33/controller.json stages/stage33/MAIN-STATE.json
+          git diff --cached --check
+          git commit -m "Stage33: synchronize post-V36 controller projection"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
