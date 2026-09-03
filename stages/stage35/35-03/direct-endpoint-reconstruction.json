@@ -1,0 +1,88 @@
+{
+  "schema": "STAGE35_35_03_DIRECT_ENDPOINT_RECONSTRUCTION_V1",
+  "stage": "35",
+  "unit": "35-03_RESIDUAL_SPACE_LIFT_INTERFACE",
+  "status": "PASS_DIRECT_FULL_ENDPOINT_RECONSTRUCTION",
+  "selected_fibration": "TS-S-R3-Q1",
+  "base_field": "Q",
+  "parameter_domain_for_physical_normalization": "t in Q, t>1",
+  "fiber_model": {
+    "projective_coordinates": ["x", "y", "p", "q", "d"],
+    "parameter": "t",
+    "equations": [
+      "(t^2+1)^2*x^2+(t^2-1)^2*d^2=(t^2+1)^2*p^2",
+      "(t^2+1)^2*y^2+(t^2-1)^2*d^2=(t^2+1)^2*q^2",
+      "(t^2+1)^2*(x^2+y^2)=4*t^2*d^2"
+    ],
+    "generic_genus": 5,
+    "source": "exact substitution into the selected Testa-Stoll rank-3 fiber"
+  },
+  "inverse_reconstruction": {
+    "input": "t in Q and [x:y:p:q:d] in C_t(Q)",
+    "domain_conditions": ["t^2+1 != 0", "d != 0"],
+    "formulas": {
+      "e": "((t^2-1)/(t^2+1))*d",
+      "z": "(2*t/(t^2+1))*d",
+      "x": "x",
+      "y": "y",
+      "p": "p",
+      "q": "q",
+      "d": "d"
+    },
+    "identities": [
+      "e^2+z^2=d^2 identically",
+      "fiber equation 1 iff e^2+x^2=p^2 after substitution",
+      "fiber equation 2 iff e^2+y^2=q^2 after substitution",
+      "fiber equation 3 iff x^2+y^2=z^2 after substitution"
+    ],
+    "endpoint_equations_reconstructed_exactly": true
+  },
+  "forward_parameterization": {
+    "input": "nondegenerate physical endpoint [e:x:y:p:q:z:d]",
+    "formula": "t=(e+d)/z",
+    "domain_conditions": ["z != 0", "e^2+z^2=d^2"],
+    "derived_identities": [
+      "(t^2+1)*e=(t^2-1)*d",
+      "(t^2+1)*z=2*t*d"
+    ],
+    "physical_positive_normalization_implies": "t>1",
+    "lands_on_fiber_model": true
+  },
+  "physical_open_filter": {
+    "projective_nonzero_required": ["e", "x", "y", "p", "q", "z", "d"],
+    "positive_length_representative": "after allowed coordinate sign choices/scaling, choose all physical lengths positive",
+    "selected_parameter_condition": "t>1",
+    "degenerate_t_equals_1": "e=0 and therefore excluded",
+    "t_infinity": "requires z=0 in this chart and is excluded from the physical open",
+    "base_singular_points": "excluded because physical endpoints have nonzero side coordinates and are smooth"
+  },
+  "residual_lift_contract": {
+    "historical_K3_marginal_residual_space_square_predicate": "NOT_APPLICABLE_TO_SELECTED_DIRECT_FULL_ENDPOINT_FIBRATION",
+    "additional_squareclass_condition_required": false,
+    "reason": "the selected genus-5 fiber already contains the long-diagonal coordinate d and lies directly on the full endpoint surface",
+    "exact_endpoint_reconstruction_required": true,
+    "exact_endpoint_reconstruction_complete": true
+  },
+  "arsenal_assessment": {
+    "router_consulted": true,
+    "S34_W01": {
+      "status": "NOT_APPLIED_AT_35_03",
+      "reason": "no residual squareclass predicate remains after selecting the direct full-endpoint fibration"
+    },
+    "S34_W03": {
+      "status": "NOT_APPLIED_AT_35_03",
+      "reason": "the current fiber model is already the exact receiver-side endpoint family, not a larger auxiliary factor cover B with an extra receiver condition K"
+    },
+    "next_relevant_card": "S34-WF01 at 35-04, because the historical R29-FIB2 wording can be discharged by a receiver-matched direct-fibration replacement theorem if its uniform quantifier is proved"
+  },
+  "credit_boundary": {
+    "direct_endpoint_lift_interface_complete": true,
+    "uniform_arithmetic_over_all_physical_t_proved": false,
+    "bad_fiber_exceptional_locus_complete": false,
+    "R29_FIB2_closed": false,
+    "new_theorem_credit": false,
+    "next_exact_leaf": "35-04_MINIMAL_UNIFORM_THEOREM_STATEMENT"
+  },
+  "perfect_cuboid_existence_claim": false,
+  "perfect_cuboid_nonexistence_claim": false
+}
