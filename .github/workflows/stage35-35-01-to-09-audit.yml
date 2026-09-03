@@ -1,0 +1,22 @@
+name: Stage35 35-01 to 35-09 aggregate audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage35/**'
+      - '.github/workflows/stage35-35-01-to-09-audit.yml'
+  workflow_dispatch:
+
+jobs:
+  verify-stage35-35-01-to-09:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install lightweight symbolic dependency
+        run: python -m pip install --disable-pip-version-check sympy
+      - name: Verify Stage35 promoted 35-01 through 35-09 authority
+        run: python -B stages/stage35/verify_stage35_35_01_to_09.py
