@@ -1,0 +1,29 @@
+name: Stage32 post1500 common-cover geometry negative replay
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1500-common-cover-marked-branch-geometry.yml'
+      - 'stages/stage32/controller.json'
+      - 'stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1500_hostile_audit_rosati_trace_repair.py'
+      - 'stages/stage32/residual-32-01-production/post1500-common-cover-marked-branch-geometry-audit.md'
+      - 'stages/stage32/residual-32-01-production/post1500-common-cover-marked-branch-geometry-certificate.json'
+      - 'stages/stage32/residual-32-01-production/verify_post1500_common_cover_marked_branch_geometry.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Replay audited post1500 Rosati repair boundary
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1500_hostile_audit_rosati_trace_repair.py --check stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json
+      - name: Verify post1500 common-cover geometry negative handoff
+        run: python stages/stage32/residual-32-01-production/verify_post1500_common_cover_marked_branch_geometry.py
