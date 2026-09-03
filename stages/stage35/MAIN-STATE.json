@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE35_MOVING_FIBER_MAIN_STATE_V13_POST_1506_HOSTILE_AUDIT_REPAIR",
+  "schema": "STAGE35_MOVING_FIBER_MAIN_STATE_V15_POST_35_10_MATERIAL_ROUTING",
   "stage": "35",
-  "status": "AWAITING_HOSTILE_REAUDIT_CLASS3_RETAINED_SHARPER",
+  "status": "AUDITED_CLASS3_RETAINED_SHARPER_PARKED",
   "mission": "Attack Stage29 kernel K16-C3-MOVING-FIBER-ARITHMETIC through the selected Q-defined direct full-endpoint diagonal genus-5 family and exact receiver-matched target T35-R3-PHYS-EMPTY.",
   "source_kernel": {"kernel":"K16-C3-MOVING-FIBER-ARITHMETIC","execution_class":3,"children":["R29-FIB2"],"parent_routes":["J12-PARAMETRIC"],"endpoint_decision_capable":true,"firewall":"individual-fiber Chabauty or Mordell-Weil computations do not quantify uniformly over the moving parameter base"},
   "source_locks": {
@@ -19,27 +19,49 @@
     "35-06": {"verdict":"CLASS3_WALL_RETAINED_SHARPER","certificate":"stages/stage35/35-06/uniform-attack-branch-ledger.json","source_note":"stages/stage35/35-06/stoll-2019-diagonal-genus5-source-note.md","result":"stages/stage35/35-06/result.md","applicable_uniform_closure_theorem_found_in_source_locked_material":false,"global_literature_absence_claim":false,"new_theorem_credit":false},
     "35-07": {"verdict":"NO_CERTIFIED_GLOBAL_FINITE_REDUCTION","certificate":"stages/stage35/35-07/finite-reduction-assessment.json","result":"stages/stage35/35-07/result.md","S34_W02_unlocked":false,"reduced_to_class2":false,"new_theorem_credit":false},
     "35-08": {"verdict":"NEW_EXACT_STRUCTURE_NO_CLOSURE","certificate":"stages/stage35/35-08/elliptic-quotient-structure.json","source_note":"stages/stage35/35-08/gonzalez-jimenez-2015-source-note.md","verifier":"stages/stage35/35-08/verify_35_08.py","result":"stages/stage35/35-08/result.md","five_elliptic_quotients_explicit":true,"cubic_rhs_discriminant_terminology_repaired":true,"counterexample_found":false,"new_theorem_credit":false},
-    "35-09": {"classification":"CLASS3_RETAINED_WITH_SHARPER_MINIMAL_THEOREM","certificate":"stages/stage35/35-09/decision-certificate.json","result":"stages/stage35/35-09/result.md","audit_status":"REPAIR_AFTER_HOSTILE_AUDIT_5100964131_NOT_STAGE_CLOSE","new_theorem_credit":false,"receiver_credit":false}
+    "35-09": {"classification":"CLASS3_RETAINED_WITH_SHARPER_MINIMAL_THEOREM","certificate":"stages/stage35/35-09/decision-certificate.json","result":"stages/stage35/35-09/result.md","audit_status":"ULTRA_HOSTILE_REAUDIT_PASS_5101690067","new_theorem_credit":false,"receiver_credit":false},
+    "35-10": {"verdict":"MATERIAL_INPUT_ASSESSED_ROUTE_TO_SIBLING_NO_STAGE35_REOPEN","certificate":"stages/stage35/35-10/material-reopen-routing.json","source_note":"stages/stage35/35-10/peschmann-material-source-note.md","verifier":"stages/stage35/35-10/verify_35_10.py","result":"stages/stage35/35-10/result.md","peschmann_E1_sibling_replacement_target":true,"fixed_fiber_torsion_intersection_proof_capable":true,"stage35_uniform_credit":false,"new_theorem_credit":false,"receiver_credit":false}
   },
   "selected_primary_route": {"id":"TS-S-R3-Q1","model":"direct full-endpoint rank-3 diagonal genus-5 fibration","base_field":"Q","parameter":"t=(e+d)/z","physical_parameter_domain":"t in Q, t>1","global_physical_endpoint_coverage":true,"direct_endpoint_reconstruction_complete":true,"all_physical_parameter_fibers_smooth":true,"five_elliptic_quotients_explicit":true},
   "minimal_theorem_target": {"id":"T35-R3-PHYS-EMPTY","statement":"for every t in Q with t>1, the physical open U_t(Q) of the exact smooth diagonal genus-5 fiber C_t is empty","proved":false},
   "sharpened_class3_wall": "uniformly exclude specialization-new rational points in the physical open of TS-S-R3-Q1 for every rational t>1, or prove a receiver-restricted obstruction with the same quantifier",
-  "decision": {"classification":"CLASS3_RETAINED_WITH_SHARPER_MINIMAL_THEOREM","certificate":"stages/stage35/35-09/decision-certificate.json","stage35_closed":false,"requires_hostile_reaudit":true},
+  "decision": {"classification":"CLASS3_RETAINED_WITH_SHARPER_MINIMAL_THEOREM","certificate":"stages/stage35/35-09/decision-certificate.json","stage35_closed":false,"requires_hostile_reaudit":false,"audit_verdict":"PASS_CLASS3_RETAINED_WITH_SHARPER_MINIMAL_THEOREM"},
   "audit_repair": {
     "failed_review": 5100964131,
     "failed_exact_head": "32e39d924c570e67f9b82009eb68ce6e4442ae1a",
+    "exact_head_ci_identity_failed_review": 5101628547,
+    "exact_head_ci_identity_failed_head": "03625079032bab18dd38f2ca78365f2fe915461b",
     "center_math_revoked": false,
     "repairs": {
       "discriminant_terminology": "REPAIRED_CUBIC_RHS_DISC_VS_WEIERSTRASS_DELTA",
       "aggregate_verifier": "stages/stage35/verify_stage35_35_01_to_09.py",
       "aggregate_ci": ".github/workflows/stage35-35-01-to-09-audit.yml",
-      "pr_body_current_scope": "REQUIRED_AND_UPDATED_OUTSIDE_STATE",
-      "literature_negative_scope": "BOUNDED_TO_SOURCE_LOCKED_STAGE35_MATERIAL_GLOBAL_ABSENCE_FALSE"
+      "pr_body_current_scope": "REPAIRED",
+      "literature_negative_scope": "BOUNDED_TO_SOURCE_LOCKED_STAGE35_MATERIAL_GLOBAL_ABSENCE_FALSE",
+      "exact_head_checkout": "REPAIRED_AND_ASSERTED"
+    },
+    "final_reaudit": {
+      "review": 5101690067,
+      "exact_head": "742daf8a0564c6c46b377172abc20120b757f98b",
+      "workflow_run": 33753309136,
+      "workflow_job": 100641668104,
+      "verdict": "PASS_CLASS3_RETAINED_WITH_SHARPER_MINIMAL_THEOREM",
+      "R29_FIB2_closed": false,
+      "stage35_closed": false
     }
   },
-  "current": {"unit":"HOSTILE_REAUDIT_35_09_DECISION","next_exact_leaf":"HOSTILE_REAUDIT_35_09_DECISION","next_owner":"HOSTILE_AUDITOR","why":"Audit repair only. Central selected-route mathematics remains retained; verify exact-head aggregate CI, corrected discriminant terminology, bounded literature scope, and no-credit boundary."},
-  "current_leaf_working_set": ["stages/stage35/verify_stage35_35_01_to_09.py",".github/workflows/stage35-35-01-to-09-audit.yml","stages/stage35/35-09/decision-certificate.json","stages/stage35/35-06/uniform-attack-branch-ledger.json","stages/stage35/35-08/elliptic-quotient-structure.json","stages/stage35/MAIN-STATE.json"],
+  "resolved_material_assessments": [
+    {
+      "unit": "35-10",
+      "input": "Peschmann 2026 master-tuple/blocker/torsion-intersection material outside Stage35's bounded Stoll-only literature check",
+      "result": "ROUTE_TO_SIBLING_PESCH_KERNEL_NO_STAGE35_REOPEN",
+      "positive_reusable_fact": "PESCH-CONJ-E1-BASIS-NONSQUARE is a weaker replacement target than exponent-one but would suffice for the sibling global blocker receiver if proved; fixed-fiber torsion-intersection is proof-capable after a future exhaustive finite reduction",
+      "reopen_if": "a theorem actually proves E1 in a way transported back to T35-R3-PHYS-EMPTY, a uniform all-t receiver obstruction appears, or a globally exhaustive Stage35 finite reduction makes the fixed-fiber terminal method applicable"
+    }
+  ],
+  "current": {"unit":"PARKED_CLASS3_RETAINED_SHARPER","next_exact_leaf":"MATERIAL_REOPEN_ONLY","next_owner":"STAGE35_MAIN","why":"35-01 through 35-09 passed ultra-hostile re-audit. 35-10 assessed Peschmann material and routed its strongest new target to sibling K16-C3-PESCH-EXPONENT-ONE; no theorem matched the remaining all-rational-t>1 Stage35 quantifier. Reopen only on a new material condition not already resolved."},
+  "current_leaf_working_set": ["stages/stage35/35-09/decision-certificate.json","stages/stage35/35-06/uniform-attack-branch-ledger.json","stages/stage35/35-08/elliptic-quotient-structure.json","stages/stage35/35-10/material-reopen-routing.json","stages/stage35/MAIN-STATE.json"],
   "promotion_gates": {"source_lock_complete":true,"Q_field_and_physical_fibration_ledger_complete":true,"residual_space_lift_interface_complete":true,"minimal_uniform_theorem_statement_locked":true,"bad_and_exceptional_locus_complete":true,"uniform_arithmetic_theorem_proved":false,"receiver_matched_replacement_theorem_proved":false,"globally_exhaustive_finite_fiber_reduction_proved":false,"R29_FIB2_closed":false,"J12_PARAMETRIC_closed":false,"parent_route_closed":false,"stage35_closed":false,"perfect_cuboid_existence_claim":false,"perfect_cuboid_nonexistence_claim":false},
-  "anti_loop": {"stage35_main_research_batch_paused_for_reaudit":true,"do_not_run_more_individual_fibers_without_a_named_new_reduction":true,"do_not_reclassify_Q_t_section_results_as_specialization_control":true,"do_not_unlock_S34_W02_without_global_finite_exhaustiveness":true,"do_not_expand_all_28_or_all_15_field_ledgers_for_selected_route_without_material_reason":true,"do_not_repeat_same_source_locked_literature_check_without_material_input":true,"broad_external_literature_search_is_not_declared_exhausted":true,"reopen_only_for_material_input_or_audit_repair":true},
+  "anti_loop": {"stage35_main_research_batch_paused_for_reaudit":false,"stage35_main_parked_class3_retained":true,"do_not_run_more_individual_fibers_without_a_named_new_reduction":true,"do_not_reclassify_Q_t_section_results_as_specialization_control":true,"do_not_unlock_S34_W02_without_global_finite_exhaustiveness":true,"do_not_expand_all_28_or_all_15_field_ledgers_for_selected_route_without_material_reason":true,"do_not_repeat_same_source_locked_literature_check_without_material_input":true,"do_not_reopen_peschmann_material_for_stage35_without_new_uniform_quantifier_match":true,"broad_external_literature_search_is_not_declared_exhausted":true,"reopen_only_for_material_input_or_audit_repair":true},
   "claims": {"new_theorem_credit":false,"R29_FIB2_closed":false,"J12_PARAMETRIC_closed":false,"stage35_closed":false,"perfect_cuboid_existence_claim":false,"perfect_cuboid_nonexistence_claim":false}
 }
