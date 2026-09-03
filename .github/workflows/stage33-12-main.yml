@@ -1,8 +1,8 @@
 name: Stage33-12 exact checkpoint replay
 
 # Historical R1-R4 certificates are replayed from immutable evidence. Current
-# Stage33 state is checked through the exact V21-V37 authority chain and the
-# post-V36 compact-state override validator.
+# Stage33 state is checked through the exact V21-V38 authority chain and the
+# synchronized V59 compact-state generator.
 on:
   pull_request:
     paths:
@@ -106,10 +106,10 @@ jobs:
           python stages/stage33/33-12/audit_j2_current_hs_d2_integral_lift_v33.py
           python stages/stage33/33-12/certify_j2_adapted_first_kummer_column_v34.py
 
-          # V35/V36 are handoff/STOP certificates; V37 is operational only.
-          # Verify their canonical source locks and all no-credit/no-inference
-          # firewalls rather than pretending they are new mathematical columns.
-          python stages/stage33/33-12/verify_j2_post_v36_authority_sync_v37.py
+          # V35/V36 are handoff/STOP certificates; V37 is the superseded
+          # operational repair receipt. V38 verifies the synchronized V59/V16
+          # controller-generator projection without granting mathematical credit.
+          python stages/stage33/33-12/verify_j2_post_v36_controller_generator_sync_v38.py
 
           # Historical assertions stay historical and do not duplicate current
           # MAIN routing/state.
@@ -133,8 +133,8 @@ jobs:
           print('historical R1-R4 replay PASS')
           PY
 
-          # Promotion audit remains read-only. sync_main_state.py is now a
-          # post-V36 gate validator and cannot regenerate the stale V24 state.
+          # Promotion audit remains historical/read-only. The synchronized V59
+          # generator must reproduce MAIN-STATE exactly.
           python stages/stage33/promote_post1485_v20_audit.py --continuation-pr 1488 --check
           python stages/stage33/sync_main_state.py --check
           git diff --check
