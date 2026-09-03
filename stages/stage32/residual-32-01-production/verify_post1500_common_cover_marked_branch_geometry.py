@@ -47,16 +47,16 @@ def main() -> None:
     require(controller["fixed_target"]["O"] == 210, "controller fixed target must remain O210")
     require(controller["current_leaf"]["O212_and_later_blocked"] is True, "O212+ firewall")
 
-    # #1501 is now a historical hostile-audited checkpoint.  Later Stage32
-    # lanes may replace active_pr/current_leaf/required_lightweight_verifier;
-    # this replay must verify that the #1501 negative authority remains
-    # preserved rather than pinning startup forever to PR #1501.
+    # #1501 is a historical hostile-audited checkpoint. Later Stage32 lanes
+    # may replace active startup fields. Replay the preserved negative lane
+    # and its current exact-provenance re-entry policy instead of pinning an
+    # obsolete boolean field from an earlier controller representation.
     negative_lane = controller.get("post1501_geometry_negative_lane", {})
     require(negative_lane.get("status") == "AUDITED_NEGATIVE", "historical #1501 negative-lane status")
     require(negative_lane.get("source_note_blob_sha1") == source_lock["git_blob_sha1"], "historical lane source lock")
     require("O210 remains open" in negative_lane.get("authority_effect", ""), "historical O210-open authority")
     require("O212+ remains blocked" in negative_lane.get("authority_effect", ""), "historical O212 firewall")
-    require(negative_lane.get("reentry_requires_new_source_locked_evidence") is True, "historical re-entry gate")
+    require(negative_lane.get("reentry_policy") == "REOPEN_ALLOWED_WITH_EXACT_PROVENANCE", "historical re-entry policy")
 
     reaudit = controller.get("post1501_hostile_reaudit_pass")
     require(reaudit is not None, "hostile re-audit PASS must remain recorded")
