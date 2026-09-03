@@ -1,6 +1,8 @@
 # Stage33 MAIN startup
 
-Ordinary `Stage33-main-batch` reads `AGENTS.md`, then `stages/stage33/MAIN-STATE.json`, then only the files in `current_leaf_working_set`.
+Ordinary `Stage33-main-batch` reads `AGENTS.md`, then `stages/stage33/MAIN-STATE.json`, then `stages/stage33/ROADMAP-33-12-MICROGOALS.md`, then only the files required by the first eligible unfinished micro-goal and the live `current_leaf_working_set`. The micro-roadmap is planning/execution structure only; controller/MAIN-STATE remain live authority.
+
+Every MAIN batch works in atomic commits: select the first micro-goal whose prerequisites are satisfied, produce its exact object or narrowly stated exact obstruction, run its verifier, commit it, and only then advance to the next micro-goal. Do not use a broad batch target such as "construct the remaining lift" when the roadmap provides a smaller acceptance-tested item.
 
 ## V39 locator-first construction constitution
 
@@ -10,15 +12,15 @@ V39 supersedes only V36's operational STOP. It does **not** change V25-V36 mathe
 
 For every unresolved evidence leaf:
 
-1. Identify the exact missing object from `MAIN-STATE.json`.
-2. Query #1498 first with `python3 -B docs/evidence-locator/query_evidence.py <terms>`.
+1. Identify the exact missing object from `MAIN-STATE.json` and the active micro-roadmap.
+2. Query #1498 first with `python3 -B docs/evidence-locator/query_evidence.py <terms>` when the micro-goal calls for an existing reusable asset.
 3. If there is a suitable candidate, inspect only that bounded candidate and recheck the live Stage authority before use.
 4. If there is no suitable candidate, record only `LOCATOR_MISS_NOT_REPO_ABSENCE` and proceed to construct/derive the missing exact object. Do **not** fall back to broad repository/history/origin search.
 5. After a newly constructed object is exactly verified and reusable, register it in the locator with its exact provenance and limitations.
 
 Anti-loop applies to repeated broad origin/history searches, repeated deep inspection of already-rejected candidates without a new signal, unsupported standard-column splitting, and guessed remaining columns. Anti-loop does **not** prohibit re-querying #1498 as the routing step and does **not** prohibit new mathematical construction after a locator miss.
 
-The current construction priority is `e3, e1, e4, e5, e6, e7, e8, e9, e10`. The next ordinary action is: query #1498 for a standalone genuine full-surface H2(mu2) lift for `e3`; if no suitable hit exists, construct the `e3` lift from current exact source data.
+The current construction priority is `e3, e1, e4, e5, e6, e7, e8, e9, e10`. Within each source, use the active micro-roadmap sequence rather than treating an entire lift/column as one batch.
 
 Do not infer `e3` by splitting `J2 = e2+e3`, do not split standard col2/col3 from the XOR relation, and do not guess any remaining Kummer column.
 
@@ -28,7 +30,7 @@ Controller V61 and `sync_main_state.py` generate `MAIN-STATE.json` V18. Mathemat
 
 `MAIN-BATCH-HANDOFF.md` is retired and must not be recreated.
 
-After writes, run:
+After writes, run the verifier for the selected micro-goal, then:
 
 - `python stages/stage33/33-12/verify_j2_post_v38_locator_first_construction_policy_v39.py`
 - `python stages/stage33/sync_main_state.py --check`
@@ -38,6 +40,6 @@ Commit and push the same branch. Do not merge without explicit authorization.
 
 ## Hostile-audit multi-registry repair
 
-Current-main locator routing means `index.json`, `stage32-post1498.json`, and `stage33.json` are all searched before construction. A nonempty candidate list is not a suitable-hit verdict: inspect only the bounded candidate limitations. The current Stage33 Gersten 26-column candidate is relevant but explicitly does not itself identify a standalone genuine remaining retained10 H2(mu2) lift, so construction is authorized only after that bounded classification.
+Current-main locator routing means `index.json`, `stage32-post1498.json`, and `stage33.json` are all searched before construction when the selected micro-goal requires locator routing. A nonempty candidate list is not a suitable-hit verdict: inspect only the bounded candidate limitations. The current Stage33 Gersten 26-column candidate is relevant but explicitly does not itself identify a standalone genuine remaining retained10 H2(mu2) lift, so construction is authorized only after that bounded classification.
 
-The one-shot hostile-audit synchronization runner and repair script were removed after their successful transition. Ordinary Stage33 routing now uses only the retained V39/V40 verifier, controller/generator state, and current multi-registry locator.
+The one-shot hostile-audit synchronization runner and repair script were removed after their successful transition. Ordinary Stage33 routing now uses only the retained V39/V40 verifier, controller/generator state, current multi-registry locator, and the active micro-roadmap for execution granularity.
