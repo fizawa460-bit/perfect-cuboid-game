@@ -69,7 +69,8 @@ def main() -> int:
     for asset in registry["assets"]:
         if args.stage is not None and asset["stage"] != args.stage:
             continue
-        if args.authority is not None and asset["authority"] != args.authority:
+        current_authority = asset["current_authority_snapshot"]
+        if args.authority is not None and current_authority["status"] != args.authority:
             continue
         score = 0
         matched = {}
@@ -84,18 +85,20 @@ def main() -> int:
                 "score": score,
                 "matched_terms": matched,
                 "stage": asset["stage"],
-                "authority": asset["authority"],
-                "status": asset["status"],
+                "artifact": asset["artifact"],
+                "current_authority_snapshot": current_authority,
+                "authority_snapshot_source": registry["current_authority_source"],
+                "evidence_commit_sha": asset["evidence_commit_sha"],
                 "objects": asset["objects"],
                 "relations": asset["relations"],
                 "outputs": asset["outputs"],
                 "limitations": asset["limitations"],
                 "files": asset["files"],
-                "source_refs": asset["source_refs"],
+                "historical_execution_refs": asset.get("historical_execution_refs", []),
             })
     matches.sort(key=lambda item: (-item["score"], item["asset_id"]))
     result = {
-        "schema": "PERFECT_CUBOID_EVIDENCE_QUERY_RESULT_V1",
+        "schema": "PERFECT_CUBOID_EVIDENCE_QUERY_RESULT_V2",
         "query": args.terms,
         "filters": {"stage": args.stage, "authority": args.authority},
         "registry_indexed_main_commit": registry["indexed_main_commit"],
@@ -104,7 +107,8 @@ def main() -> int:
         "firewalls": {
             "query_miss_proves_repo_absence": False,
             "locator_match_grants_mathematical_credit": False,
-            "live_stage_authority_must_be_checked": True
+            "artifact_status_is_current_authority": False,
+            "live_stage_authority_must_be_refetched": True
         }
     }
     print(json.dumps(result, indent=2, ensure_ascii=False))
