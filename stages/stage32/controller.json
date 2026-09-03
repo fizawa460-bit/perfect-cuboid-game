@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V225_POST1500_AUDIT_FAIL_ROSATI_TRACE1204_REPAIR",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V226_POST1500_REPAIR_AUDIT_PASS_CHECKPOINT",
   "stage": 32,
-  "status": "STAGE32_O210_REOPENED_ROSATI_TRACE_1204_Q602_BLOCKER",
+  "status": "STAGE32_O210_ROSATI_TRACE_1204_Q602_AUDITED_NONEXCLUSION_BOUNDARY",
   "stage32_closed": false,
   "advance_allowed": false,
-  "merge_allowed": false,
-  "checkpoint_merge_ready": false,
+  "merge_allowed": true,
+  "checkpoint_merge_ready": true,
   "active_pr": {
     "number": 1500,
     "branch": "stage32-post1490-o212-q4-continuation",
@@ -33,7 +33,7 @@
     "previous_exact_head": "86879a826b4a0b339e351267aaab030d621c7f2a",
     "previous_exact_ci": {"run_id":33709171710,"job_id":100504788738,"success":true},
     "previous_exclusion_canonical_sha256": "8c32735092671d725034de8d14d09c09ac275517fa5f0e225791d2fc53eb5bf3",
-    "current_authority": "EXCLUSION_DECISION_REOPENED_BY_POST1500_HOSTILE_AUDIT; retained class/deck arithmetic may be reused only through the post1500 repair certificate.",
+    "current_authority": "EXCLUSION_DECISION_REOPENED_BY_POST1500_HOSTILE_AUDIT; retained class/deck arithmetic may be reused only through the audited post1500 repair certificate.",
     "reason": "The O210 contradiction shared the later-invalid zero-Rosati specialization Gamma^2=2*105*81."
   },
   "post1500_hostile_audit_failure": {
@@ -75,11 +75,19 @@
       "existing_Rosati_D4_Weierstrass_assets_exclude_Q602": false
     }
   },
+  "post1500_repair_hostile_audit_pass": {
+    "review_id": 5097673453,
+    "audited_exact_head": "067eb659e97f6b65b02d5135e9bfd4cf8bc3d7ad",
+    "audited_exact_head_ci": {"run_id":33713913472,"job_id":100518980436,"success":true},
+    "verdict": "PASS",
+    "audited_scope": "V225 repair/nonexclusion boundary only; validates Gamma^2=15806, sigma=1204, Q=602, delta_Gamma=7984 and the exact nonexclusion of Q602 by retained D4/operator/Weierstrass assets. Does not exclude O210 and does not authorize O212+ advance.",
+    "authority_promotion": "AUDITED_EXACT_NONEXCLUSION_BOUNDARY"
+  },
   "current_item": "O210_Q4_ROSATI_TRACE_1204_GEOMETRY",
   "current_leaf": {
-    "status": "EXACT_NONEXCLUSION_BOUNDARY_REPAIR_PENDING_HOSTILE_AUDIT",
+    "status": "AUDITED_EXACT_NONEXCLUSION_BOUNDARY",
     "target": "Find a genuinely geometric, source-locked reason forcing sigma(Gamma)=0, or independently exclude sigma=1204 / Q(T)=602 for a correspondence arising from the common-cover/marked-branch geometry. Existing Rosati/D4/Weierstrass assets do not exclude Q=602.",
-    "next_checkpoint": "Hostile-audit the post1500 repair/nonexclusion boundary before any renewed geometric search or overlap advance.",
+    "next_checkpoint": "Merge PR #1500 as the audited repair checkpoint. Continue the O210_Q4_ROSATI_TRACE_1204_GEOMETRY search only in a fresh post-merge PR; O212 and later overlaps remain blocked.",
     "O212_and_later_blocked": true
   },
   "anti_loop": {
@@ -107,14 +115,14 @@
     "fixed_z_O186_all_qprime": "CLOSED_AUDITED_EXCLUDED_DO_NOT_REOPEN",
     "fixed_z_O188_all_profiles": "CLOSED_AUDITED_EXCLUDED_DO_NOT_REOPEN",
     "fixed_z_qprime1_qprime2_exact_v6": "CLOSED_AUDITED_EXCLUDED_BY_MODULAR_FACTOR_INTEGRALITY",
-    "fixed_z_O210_q4_exact_v6_carrier": "OPEN_REOPENED_AFTER_POST1500_HOSTILE_AUDIT_FAIL",
+    "fixed_z_O210_q4_exact_v6_carrier": "OPEN_AT_AUDITED_ROSATI_TRACE_1204_Q602_NONEXCLUSION_BOUNDARY",
     "fixed_z_O212_through_O266_qprime4": "BLOCKED_BEHIND_O210",
     "fixed_z_all_integral_genus1_carriers": "OPEN",
     "full178_geometric_closure": "OPEN_NOT_ACTIVE",
     "receiver_theorem_endpoint": "OPEN"
   },
   "operations": {
-    "execution_class": "LIGHTWEIGHT_POST1500_ROSATI_TRACE_REPAIR_REPLAY",
+    "execution_class": "LIGHTWEIGHT_POST1500_AUDITED_REPAIR_CHECKPOINT",
     "full178_scaleout_authorized": false,
     "heavy_compute_authorized": false,
     "survivor_materialization_authorized": false,
@@ -125,11 +133,11 @@
     "certificate_path": "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json",
     "workflow": ".github/workflows/stage32-post1490-fixed-v6-all-genus1-exclusion.yml",
     "workflow_name": "Stage32 post1500 hostile-audit Rosati repair replay",
-    "pre_controller_success": {"head":"a357fa712562fad6cae543491394b9d846490c8b","run_id":33713838810,"job_id":100518754382,"result":"SUCCESS"},
-    "exact_controller_head_success_required": true
+    "audited_head_success": {"head":"067eb659e97f6b65b02d5135e9bfd4cf8bc3d7ad","run_id":33713913472,"job_id":100518980436,"result":"SUCCESS"},
+    "promotion_head_exact_success_required": true
   },
-  "audit_required_before_promotion": true,
-  "next_expected_action": "Hostile-audit the V225 repair/nonexclusion boundary at the fresh exact head. Do not advance O212, run heavy/FULL178 compute, merge, or grant downstream credit before PASS.",
+  "audit_required_before_promotion": false,
+  "next_expected_action": "Run the repair verifier at the V226 promotion head. If SUCCESS, merge PR #1500 as the audited repair checkpoint. Do not advance O212 or grant downstream credit; continue O210 Rosati-trace geometry in a fresh post-merge PR.",
   "firewalls": {
     "O186_closed": true,
     "O188_closed": true,
@@ -145,10 +153,10 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "handoff": {
-    "batch": "20260903-stage32-post1500-rosati-trace-repair-main-batch",
+    "batch": "20260903-stage32-post1500-audited-repair-checkpoint",
     "continue_from": "O210_Q4_ROSATI_TRACE_1204_GEOMETRY",
     "fresh_head_required": true,
-    "do_not_merge": true,
-    "notes": "PR1500 hostile audit FAIL review 5097587880 reopens O210 and supersedes V224. Correct exact arithmetic is Gamma^2=15806, sigma=1204, Q=602. Retained D4 lattice represents Q602 and O210 Weierstrass delta bound is satisfied at delta=7984, so existing assets are exact nonexclusion. O212+ blocked until a new geometric sigma/Q constraint is audited."
+    "do_not_merge": false,
+    "notes": "V225 repair/nonexclusion boundary passed hostile audit review 5097673453 at exact head 067eb659e... with replay 33713913472/100518980436 SUCCESS. Authority is audited nonexclusion at Gamma^2=15806, sigma=1204, Q=602, delta=7984. #1490 O210 exclusion remains reopened; V224 remains superseded; O212+ blocked. This PR is merge-ready only as a repair checkpoint after the V226 promotion-head verifier passes."
   }
 }
