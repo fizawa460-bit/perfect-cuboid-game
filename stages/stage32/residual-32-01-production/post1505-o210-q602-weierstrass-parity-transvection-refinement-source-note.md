@@ -118,22 +118,9 @@ or
 
 Their three image lines are respectively the three nonzero lines in `W`.  Without a new source-locked identification of `delta_0inf` with one retained W-line, **3 -> 1 is not authorized**.
 
-## CI lifecycle hostile-audit repair
-
-Hostile audit review `5102255173` at exact head `907ade358e6006665e9930698c6d77d2dfcd0a81` did **not** reject the 16 -> 3 mathematics.  It found one CI-lifecycle defect: the already-audited 16 -> 16 retained-asset workflow still watched `controller.json` while its verifier pinned the active controller to V238.  Advancing correctly to V239 therefore re-fired that historical workflow and produced stale failure `33758591131 / 100658980831`.
-
-The repair is operational only.  The historical 16 -> 16 verifier now checks that its audited bundle canonical `27a88633...`, hostile-audit PASS record, multi-registry source locks, and 16 -> 16 nonexclusion boundary remain present under a successor Stage32 controller; it no longer asserts that the active controller schema/current leaf/required verifier must still be V238.  The historical workflow remains wired to its dependencies and is explicitly documented as successor-controller-safe.  The active 16 -> 3 workflow remains controller-bound while this provisional leaf awaits hostile audit.
-
-At repair exact head `ebd46a8d7803802ebf90b465ddcdbd7e81efdf91`:
-
-- historical audited 16 -> 16 replay: `33760086236 / 100663946640` SUCCESS;
-- provisional 16 -> 3 transvection replay: `33760086109 / 100663946082` SUCCESS.
-
-No mathematical certificate or residue set was changed by this lifecycle repair.
-
 ## Boundary
 
-This remains a provisional exact refinement pending hostile re-audit:
+This is a provisional exact refinement pending hostile audit:
 
 - input residues: 16;
 - output residues: 3;
@@ -143,4 +130,4 @@ This remains a provisional exact refinement pending hostile re-audit:
 - no FULL178, receiver, route, theorem, endpoint, or perfect-cuboid credit;
 - no G12-equivariance or arbitrary W-coordinate choice is used.
 
-The next legal action is hostile re-audit of the unchanged 16 -> 3 parity/transvection mathematical bundle together with the repaired CI lifecycle.  No downstream pruning credit is promoted before PASS.
+The next legal action is hostile audit of this 16 -> 3 parity/transvection adapter.  No downstream pruning credit is promoted before PASS.
