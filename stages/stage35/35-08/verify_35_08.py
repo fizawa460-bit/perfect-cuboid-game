@@ -17,7 +17,7 @@ curves = {
     "E0": X*(X-(1-alpha**2))*(X-1),
 }
 
-expected = {
+expected_cubic_rhs_discriminants = {
     "E4": 16*t**4*(t-1)**4*(t+1)**4/(t**2+1)**8,
     "E3": 4*(t-1)**4*(t+1)**4*(t**4+1)**2/(t**2+1)**8,
     "E2": 16*t**4*(t-1)**4*(t+1)**4/(t**2+1)**8,
@@ -26,8 +26,11 @@ expected = {
 }
 
 for name, cubic in curves.items():
-    disc = sp.factor(sp.discriminant(cubic, X))
-    assert sp.factor(disc - expected[name]) == 0, (name, disc)
+    cubic_rhs_disc = sp.factor(sp.discriminant(cubic, X))
+    assert sp.factor(cubic_rhs_disc - expected_cubic_rhs_discriminants[name]) == 0, (name, cubic_rhs_disc)
+    # For a displayed monic cubic Weierstrass model Y^2=f(X), Delta=16*disc_X(f).
+    weierstrass_disc = sp.factor(16*cubic_rhs_disc)
+    assert sp.factor(weierstrass_disc - 16*expected_cubic_rhs_discriminants[name]) == 0
 
 # Exact generic boundary sections with d=1.
 r = (t**2 - 1)/(t**2 + 1)
@@ -47,4 +50,4 @@ for signs in [(1,1,1), (1,1,-1), (1,-1,1), (1,-1,-1), (-1,1,1), (-1,1,-1), (-1,-
     sx, sp_, sq = signs
     assert check_point(sx*s, 0, sp_, sq*r, 1) == [0,0,0]
 
-print("PASS STAGE35_35_08_ELLIPTIC_QUOTIENT_STRUCTURE_V1")
+print("PASS STAGE35_35_08_ELLIPTIC_QUOTIENT_STRUCTURE_V2_DISCRIMINANT_TERMINOLOGY_REPAIRED")
