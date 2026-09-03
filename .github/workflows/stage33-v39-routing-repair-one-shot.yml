@@ -35,14 +35,16 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # GITHUB_TOKEN cannot update workflow files. The Stage33 exact workflow
+          # is patched separately after this state synchronization is committed.
+          git restore .github/workflows/stage33-12-main.yml
           git add \
             stages/stage33/controller.json \
             stages/stage33/sync_main_state.py \
             stages/stage33/MAIN-START-HERE.md \
-            stages/stage33/MAIN-STATE.json \
             stages/stage33/CURRENT.md \
-            stages/stage33/33-12/verify_j2_post_v36_controller_generator_sync_v38.py \
-            .github/workflows/stage33-12-main.yml
+            stages/stage33/33-12/verify_j2_post_v36_controller_generator_sync_v38.py
+          git add -f stages/stage33/MAIN-STATE.json
           if git diff --cached --quiet; then
             echo "No routing changes to commit"
             exit 1
