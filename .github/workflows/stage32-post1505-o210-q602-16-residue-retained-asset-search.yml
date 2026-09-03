@@ -1,0 +1,30 @@
+name: Stage32 post1505 O210 Q602 audited-16 retained-asset search
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1505-o210-q602-16-residue-retained-asset-search.yml'
+      - 'stages/stage32/controller.json'
+      - 'stages/stage32/residual-32-01-production/post1505-o210-q602-16-residue-retained-asset-search*'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q602_16_residue_retained_asset_search.py'
+      - 'stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter.json'
+      - 'docs/arsenal/index.json'
+      - 'docs/arsenal/cards/provisional/S32-PW03.md'
+      - 'docs/arsenal/cards/provisional/S32-PW04.md'
+      - 'docs/evidence-locator/index.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json'
+      - 'stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Certify bounded audited-16 retained-asset search boundary
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q602_16_residue_retained_asset_search.py --check stages/stage32/residual-32-01-production/post1505-o210-q602-16-residue-retained-asset-search.json
