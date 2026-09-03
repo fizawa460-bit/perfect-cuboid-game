@@ -1,36 +1,14 @@
 # Research OS
 
-This directory contains research-process rules that are useful beyond one Perfect Cuboid stage.
+Reusable repository-wide research-process policies. Do not preload this directory during ordinary Stage startup; follow the Stage-local startup contract first and open only the policy required by the active trigger.
 
-Stage29 is closed. Its concrete mathematical frontier remains under `stages/stage29/29-17/`; this folder is for the reusable operating method, not for pretending the old Stage16-29 controller is still active.
+## Trigger router
 
-## Current reusable policies
+- Artifact-producing/heavy workflow design, revision, authorization, rerun, or diagnosis -> `policies/actions-storage-and-evidence-safety.md`
+- Research-credit promotion, revocation, hostile audit, or load-bearing semantic/adapter question -> `policies/research-credit-and-promotion-firewalls.md`
+- Existing weapon/evidence lookup or catalog maintenance -> `policies/repository-asset-discovery.md`
+- Route broadening, parking, domination, reopening, or exhaustion decision -> `policies/cycle-exploration-safety-protocol.md`
+- Self-contained final mathematical review artifact -> `policies/self-contained-review-standard.md`
+- Bounded Codex task scope/stop decision -> `policies/codex-task-scope-stop-policy.md`
 
-- [`policies/actions-storage-and-evidence-safety.md`](policies/actions-storage-and-evidence-safety.md) — GitHub Actions storage/evidence safety and heavy-run authorization.
-- [`policies/research-credit-and-promotion-firewalls.md`](policies/research-credit-and-promotion-firewalls.md) — repo-wide research-credit and claim-promotion firewalls.
-- [`policies/repository-asset-discovery.md`](policies/repository-asset-discovery.md) — bounded lookup and maintenance rules for the Arsenal and the existing-evidence locator.
-- [`policies/cycle-exploration-safety-protocol.md`](policies/cycle-exploration-safety-protocol.md) — prevents premature narrowing, silent route deletion and Arsenal anchoring; includes blind rediscovery / exhaustive-view audit triggers.
-- [`policies/self-contained-review-standard.md`](policies/self-contained-review-standard.md) — standard for self-contained final mathematical review artifacts.
-- [`policies/codex-task-scope-stop-policy.md`](policies/codex-task-scope-stop-policy.md) — mandatory scope/stop rules for bounded Codex work.
-
-## Stage29-derived restart pattern
-
-The final Stage29 handoff recommends the recursion
-
-```text
-chosen kernel
-  -> dependency DAG
-  -> bounded work packages
-  -> leaf-level Class 1/2/3/4 reclassification
-```
-
-where:
-
-- Class 1: execute now;
-- Class 2: computational/model work, subdivide to exact CAS/code/certificate tasks;
-- Class 3: isolate the minimum missing theorem;
-- Class 4: dormant until an explicit trigger fires.
-
-Source: [`../../stages/stage29/29-17/post-stage29-research-os.md`](../../stages/stage29/29-17/post-stage29-research-os.md).
-
-The older Stage-specific execution templates and roadmap policies are archived rather than treated as generic OS rules. A later OS-extraction pass can promote only the parts that remain genuinely problem-independent.
+Read one matching policy first. Do not recursively load the other policies unless that policy or the active Stage contract makes another trigger load-bearing.
