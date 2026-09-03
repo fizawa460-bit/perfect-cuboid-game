@@ -1,8 +1,8 @@
 # Stage33 human current dashboard
 
 This file is a human dashboard only. Ordinary MAIN startup uses
-`MAIN-START-HERE.md` and `MAIN-STATE.json`; detailed exact machine authority is
-`controller.json` and the active certificates.
+`MAIN-START-HERE.md` and `MAIN-STATE.json`; exact mathematical authority is the
+active certificate chain.
 
 ## Current position
 
@@ -11,70 +11,49 @@ Stage33 progress = 6/11
 Stage33-05 = CLOSED_EXACT_ZERO_K3_BR2_Q_SURVIVAL
 active repair child = 33-12 OPEN
 active internal branch = 33-13 FINITE-V4-KUMMER-MATRIX
-matrix = 75x10
-standard columns materialized = 0/10
+J2-adapted Kummer columns materialized = 1/10
+original standard columns materialized = 0/10
 ```
 
-Stage33-09, 33-10, and 33-11 remain closed exact. Stage33-05 remains closed by
-exact zero K3 Br2 Q-survival. None of this closes the full-surface Stage33-12
-repair child.
-
-## Corrected J2 locked target
-
-The corrected J2 full-surface construction has a locked named finite-V4 H1
-target: nonzero 75D vector, weight 15. The semantic CV orientation is also
-locked:
+V25 materializes the genuine named-J2 full-surface H2(mu2) lift at retained10
+mask `6 = e2+e3`. V33 proves the current named-J2 HS d2 is nonzero. V34
+materializes only the first column in the J2-adapted source basis. In the
+original standard basis the only authorized relation is
 
 ```text
-marked Kc coordinate = [1,0]
-semantic discriminant label = u1
-target SHA256 = 4625b6d3ea19ec0e4d8a51471c7f60c0c1219de4672d84c64779c4213306f3b3
-orientation SHA256 = 0a5abe419c3bd2e4c523af50fd8f85858af6a0d957dcce1e3bdf2ff1430fed3e
+standard_col_2 XOR standard_col_3 = J2_adapted_col_1
 ```
 
-The historical named source-target relation is revoked. A locked target must not
-be used to choose its source label.
+Neither standard column 2 nor 3 is materialized individually.
 
-## Audited order-4 source reduction
+## Current stop
 
-PR #1485 hostile audit accepted the exact v17 -> v20 chain. Rows 20 and 67 are
-source-locked; the order-4 correction torsor has dimension 14 over F2 with
-16384 corrections, inducing 16 proper14 functionals with 1024 preimages each.
-For the named column the surviving information is only the exact two-bit affine
-plane with retained10 masks:
+V36 is the exact operational stop. The bounded #1498 evidence-locator reuse
+scan found no registered positive asset that directly supplies a standalone
+genuine full-surface H2(mu2) lift for any remaining adapted source direction.
+
+Priority remains:
 
 ```text
-[4,5,6,7]
-actual S3 orbits = [[6],[4,5,7]]
+e3, e1, e4, e5, e6, e7, e8, e9, e10
 ```
 
-Mask 6 is the unique joint-fixed candidate, but it is **not** the named J2
-source. No named order-4 two-bit value `(a,b)`, actual named lift S3 behavior,
-proper-Br2 source coordinate, retained10 source coordinate, or named 75D column
-has been source-locked/materialized yet.
+Proceed only from a newly derived genuine lift or a newly registered positive
+evidence asset source-locking one. Do not restart broad historical origin
+search, split col2/col3 from the XOR relation, or guess a remaining matrix
+column.
 
-## Current exact leaf
+## Startup projection repair
 
-```text
-SOURCE_LOCK_NAMED_J2_ORDER4_LIFT_ACTUAL_SWAP12_SWAP13_BEHAVIOR
-OR_EQUIVALENT_TWO_BIT_VALUE_A_B
-DO_NOT_SELECT_MASK6_WITHOUT_SOURCE
-```
+V37 records a non-mathematical startup repair checkpoint. `controller.json`,
+`sync_main_state.py`, and the previous compact/dashboard projection remained on
+the pre-V25 route even though exact certificates advanced through V36.
+`MAIN-STATE.json` now routes ordinary startup to V35/V36/V37 so it cannot roll
+back to V21.
 
-Do not reacquire rows 20/67, rerun the v19 correction/half-lift enumeration, or
-reopen qPic/Smith/sign/S3 candidate enumeration under the same premises.
-
-## Operational checkpoint
-
-`MAIN-STATE.json.work_checkpoint` currently contains an
-`ACTIVE_UNPROMOTED / OPERATIONAL_ONLY_NOT_PROOF` recovery checkpoint. It records
-only the last unpromoted narrowing: a source-first route had reached mask 6 as a
-candidate, the source/target discrepancy had narrowed to H1 coordinate 41, and
-the raw ct Pic/2 side to support `[9,11,19]`.
-
-Those observations are not mathematical authority. MAIN must replay the smallest
-exact certificate needed to validate or reject them before using them. The
-checkpoint exists only to prevent restarting broad origin/history searches.
+Until controller and generator are synchronized together, do not run the legacy
+`sync_main_state.py` to overwrite the compact state. This temporary gate grants
+no mathematical credit and changes no V25-V36 result.
 
 ## Release state
 
@@ -82,7 +61,7 @@ checkpoint exists only to prevent restarting broad origin/history searches.
 Stage33-12 closed exact = false
 Stage33-07 reclosed = false
 Stage33-08 released = false
-Stage33-40 released = false
+Stage33-13 released = false
 theorem / receiver / endpoint credit = false
 perfect cuboid existence/nonexistence claim = false
 merge allowed = false
