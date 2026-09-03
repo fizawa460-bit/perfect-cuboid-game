@@ -1,0 +1,61 @@
+{
+  "schema": "STAGE35_EX_05_REDUCTION_CERTIFICATE_V1",
+  "status": "PROVISIONAL_EXACT_REDUCTIONS_NO_PROMOTION",
+  "target": "PESCH-CONJ-E1-BASIS-NONSQUARE",
+  "proved_conditionally_on_counterexample": {
+    "canonical_gcd_split": {
+      "c": "gcd(U1,U2)",
+      "p": "gcd(W1,V2)",
+      "q": "gcd(V1,V2)",
+      "g0": "c*p",
+      "master_leg_gcd_h": "c*q",
+      "c_p_q_pairwise_coprime": true,
+      "c_and_p_odd": true
+    },
+    "master_2adic_dichotomy": {
+      "statement": "v2(V1) != v2(V2) for every Master-Hit",
+      "branches": ["L: v2(V1)<v2(V2)", "R: v2(V1)>v2(V2)"]
+    },
+    "e1_counterexample_normal_form": {
+      "e1_reduced_pair_primitive": true,
+      "e1_odd_leg": "(W1/p)*(U2/c)=r^2-s^2",
+      "e1_even_leg": "(U1/c)*(V2/p)=2*r*s",
+      "branch_L_cross": "p*r*s=q*u*v",
+      "branch_R_cross": "2*p*r*s=q*(u^2-v^2)"
+    },
+    "four_factor_square_receiver": {
+      "branch_L": [
+        "r*u+s*v",
+        "r*v-s*u",
+        "r*u-s*v",
+        "r*v+s*u"
+      ],
+      "branch_R": [
+        "r*(u-v)-s*(u+v)",
+        "r*(u+v)+s*(u-v)",
+        "r*(u-v)+s*(u+v)",
+        "r*(u+v)-s*(u-v)"
+      ],
+      "product_is_square_if_E1_counterexample": true,
+      "original_a_b_eliminated_from_square_receiver": true
+    }
+  },
+  "arsenal_assessment": {
+    "candidate_weapon": "S34-W01_SUCCESSIVE_EXACT_FACTOR_SQUARECLASS_DESCENT",
+    "factor_square_shape_matched": true,
+    "exact_pairwise_gcd_support_complete": false,
+    "finite_exhaustive_squareclass_family_proved": false,
+    "stage34_concrete_branch_data_transfer_allowed": false
+  },
+  "next_exact_leaf": "35EX-06_FOUR_FACTOR_GCD_AND_SQUARECLASS_SUPPORT",
+  "credit": {
+    "new_theorem_credit": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "hostile_audit_required_before_any_promotion": true
+  }
+}
