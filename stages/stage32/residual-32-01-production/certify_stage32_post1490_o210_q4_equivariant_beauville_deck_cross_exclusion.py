@@ -51,8 +51,13 @@ def main() -> None:
     assert sum(m*m for m in pairings[-48:]) == 2358
 
     rel = load_json_lock(locks["relative_h_node_action"])
-    assert rel["checks"]["candidate_actions_form_V4"] is True
-    assert rel["source_locks"]["modular_to_stoll"] == {"u":"g7*g9","v":"g7*g8","uv":"g8*g9"}
+    ma = rel["marked_node_action"]
+    assert ma["all_three_involutions"] is True
+    assert ma["u_v_commute_and_compose_to_uv"] is True
+    assert ma["all_nonidentity_fixed_point_free_on_48_nodes"] is True
+    assert rel["modular_to_stoll"]["u=TTprime"] == "g7*g9"
+    assert rel["modular_to_stoll"]["v=RT"] == "g7*g8"
+    assert rel["modular_to_stoll"]["uv=RTprime"] == "g8*g9"
 
     self_adapter = load_json_lock(locks["beauville_self_adapter"])
     assert self_adapter["x_side_exact_lock"]["D_square"] == 3874
@@ -78,8 +83,8 @@ def main() -> None:
         assert needle in note
 
     # Independent exact replay of the retained Picard reconstruction and the
-    # three composite deck actions.  The imported Stage33 helper prints its
-    # own audit block first; the diagnostic JSON is intentionally the final line.
+    # three composite deck actions. The imported Stage33 helper prints its own
+    # audit block first; the diagnostic JSON is intentionally the final line.
     diag_path = ROOT / locks["diagnostic"]["path"]
     proc = subprocess.run([sys.executable, str(diag_path)], cwd=ROOT, text=True, capture_output=True, check=True, timeout=180)
     lines = [line for line in proc.stdout.splitlines() if line.strip()]
@@ -98,8 +103,8 @@ def main() -> None:
         assert got["X_D_dot_tD"] == exp["D_dot_tD"]
         assert got["c_t"] == exp["c_t"]
 
-    computed_D_sum = sum(expected[t]["D_dot_tD"] for t in ["u","v","uv"])
-    computed_c_sum = sum(expected[t]["c_t"] for t in ["u","v","uv"])
+    computed_D_sum = sum(expected[t]["D_dot_tD"] for t in ["u", "v", "uv"])
+    computed_c_sum = sum(expected[t]["c_t"] for t in ["u", "v", "uv"])
     assert computed_D_sum == expected["computed_D_translate_sum"] == 11932
     assert computed_c_sum == expected["computed_c_sum"] == 5966
 
