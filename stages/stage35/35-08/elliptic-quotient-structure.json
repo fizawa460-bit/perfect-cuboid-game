@@ -1,0 +1,82 @@
+{
+  "schema": "STAGE35_35_08_ELLIPTIC_QUOTIENT_STRUCTURE_V1",
+  "stage": "35",
+  "unit": "35-08_PROOF_EXPERIMENTS_AND_COUNTEREXAMPLE_SEARCH",
+  "status": "NEW_EXACT_STRUCTURE_NO_CLOSURE",
+  "selected_fibration": "TS-S-R3-Q1",
+  "target": "T35-R3-PHYS-EMPTY",
+  "parameters": {
+    "alpha": "((t^2-1)/(t^2+1))^2",
+    "beta": "4*t^2/(t^2+1)^2",
+    "identity": "alpha+beta=1",
+    "physical_domain": "t in Q, t>1"
+  },
+  "standard_diagonal_model": {
+    "coordinates": ["X0=d", "X1=x", "X2=p", "X3=y", "X4=q"],
+    "coefficients": {"a":"alpha","b":"1","c":"beta","d":"-1","e":"1","f":"-1"},
+    "equations": [
+      "alpha*X0^2+X1^2=X2^2",
+      "beta*X0^2-X1^2=X3^2",
+      "X0^2-X1^2=X4^2"
+    ]
+  },
+  "five_elliptic_quotient_jacobians": {
+    "source": "Gonzalez-Jimenez 2015 diagonal genus-5 quotient formulas",
+    "E4": "Y^2=X*(X-alpha)*(X+beta)",
+    "E3": "Y^2=X*(X-alpha)*(X+1)",
+    "E2": "Y^2=X*(X-beta)*(X-1)",
+    "E1": "Y^2=X*(X-(alpha+1))*(X-1)",
+    "E0": "Y^2=X*(X-(1-alpha^2))*(X-1)",
+    "all_full_rational_2_torsion_over_Q_t": true,
+    "Jac_C_isogenous_to_product": true
+  },
+  "elliptic_discriminants": {
+    "E4": "16*t^4*(t-1)^4*(t+1)^4/(t^2+1)^8",
+    "E3": "4*(t-1)^4*(t+1)^4*(t^4+1)^2/(t^2+1)^8",
+    "E2": "16*t^4*(t-1)^4*(t+1)^4/(t^2+1)^8",
+    "E1": "4*(t-1)^4*(t+1)^4*(t^4+1)^2/(t^2+1)^8",
+    "E0": "64*t^4*(t-1)^8*(t+1)^8*(t^4+1)^2/(t^2+1)^16",
+    "all_nonzero_for_rational_t_gt_1": true
+  },
+  "obvious_generic_boundary_sections": {
+    "normalization": "d=1",
+    "x_zero_family": {
+      "coordinates": "[x:y:p:q:d]=[0, +/-sqrt(beta), +/-sqrt(alpha), +/-1, 1]",
+      "over_Q_t_rewrite": "[0, +/-2t/(t^2+1), +/-(t^2-1)/(t^2+1), +/-1, 1]",
+      "count_by_independent_signs": 8,
+      "physical_status": "DEGENERATE_x_zero"
+    },
+    "y_zero_family": {
+      "coordinates": "[x:y:p:q:d]=[+/-sqrt(beta), 0, +/-1, +/-sqrt(alpha), 1]",
+      "over_Q_t_rewrite": "[+/-2t/(t^2+1), 0, +/-1, +/-(t^2-1)/(t^2+1), 1]",
+      "count_by_independent_signs": 8,
+      "physical_status": "DEGENERATE_y_zero"
+    },
+    "at_least_16_explicit_Q_t_sections": true,
+    "these_are_all_Q_t_sections_claim": false
+  },
+  "proof_experiment_findings": {
+    "generic_diagonal_genus5_structure_is_more_rigid_than_original_stage29_wall": true,
+    "five_exact_elliptic_quotient_families_available": true,
+    "generic_boundary_sections_are_explicit": true,
+    "new_uniform_local_obstruction_found": false,
+    "generic_section_classification_completed": false,
+    "specialization_surjectivity_proved": false,
+    "counterexample_to_T35_R3_PHYS_EMPTY_found": false,
+    "bounded_fiber_search_performed": false
+  },
+  "load_bearing_gap": {
+    "statement": "Even complete knowledge of C(Q(t)) would not exclude rational points appearing only after specialization t=tau; Stage35 still needs uniform control of specialization-new physical points or a receiver-restricted obstruction valid for every rational tau>1.",
+    "class": "CLASS3_SPECIALIZATION_NEW_POINT_CONTROL"
+  },
+  "credit_boundary": {
+    "new_exact_structure": true,
+    "new_theorem_credit": false,
+    "uniform_arithmetic_theorem_proved": false,
+    "receiver_matched_replacement_theorem_proved": false,
+    "R29_FIB2_closed": false,
+    "next_exact_leaf": "35-09_DECISION_CERTIFICATE_OR_PARK"
+  },
+  "perfect_cuboid_existence_claim": false,
+  "perfect_cuboid_nonexistence_claim": false
+}
