@@ -14,9 +14,15 @@ They are residues of retained `End(J(C0)) = M2(Z[r])`, `r^2=-2`, in the ordered 
 
 where `W=ker(r)` and `dagger` is the exact principal Rosati involution.
 
+## Audit repair
+
+Hostile audit review `5100795695` at exact head `62978828a88978b362ed51eeaa1a150b6d914a0b` rejected the locator-search provenance only. The previous verifier source-locked `docs/evidence-locator/index.json` alone and incorrectly froze `registered_asset_count=5`, while repository policy routes evidence queries through `docs/evidence-locator/query_evidence.py`, whose current multi-registry path loads `index.json`, `stage32-post1498.json`, and `stage33.json` when present.
+
+This repair source-locks that query script and all three registry files, replays its Stage32 search path, and explicitly includes the Stage32 post-1498 extension asset. The audit did not reject the 16->16 mathematical conclusion.
+
 ## Search order and exact inspected classes
 
-Repository policy requires Arsenal first, then the evidence locator, then broader retained-source inspection.
+Repository policy requires Arsenal first, then the evidence locator through `query_evidence.py <terms>`, then broader retained-source inspection.
 
 ### 1. Arsenal
 
@@ -28,11 +34,19 @@ The relevant Stage32 provisional cards inspected were `S32-PW03` and `S32-PW04`.
 
 No explicit adapter from either Picard affine-lattice object to the current 8-bit `End(J)` operator residue object was found in these cards or their declared contracts. Therefore neither card is applied to the 16 residues here.
 
-### 2. Evidence locator
+### 2. Evidence locator: current multi-registry route
 
-The exact inspected evidence-locator snapshot is explicitly a positive-asset locator, not an absence oracle. Its registered Stage32 assets concern X(8)/V4 cusp quotient data, marked exceptional incidence, boundary-label/Weierstrass adapters, marked-node c-zero partition, and Satake boundary marking.
+The exact source-locked query implementation is `docs/evidence-locator/query_evidence.py`. Its `REGISTRY_PATHS` are:
 
-None of those registered entries declares an output/predicate on the current retained `End(J)` mod-2 operator residue object. This is only a statement about the exact inspected locator manifest; a locator miss is not repository-wide absence evidence.
+- `docs/evidence-locator/index.json`;
+- `docs/evidence-locator/stage32-post1498.json`;
+- `docs/evidence-locator/stage33.json`.
+
+The repair verifier executes the query script itself with a Stage32 filter and the search term `Q602`, rather than reconstructing an index-only surrogate. The replay must report all three registry sources and must return the Stage32 extension asset `EVID-S32-O210-ROSATI-TRACE-REPAIR-AUDITED` from `stage32-post1498.json`.
+
+That extension asset is the already-known post1500 Rosati-trace repair/nonexclusion boundary. It records `Q(T)=602` and states that retained Rosati/D4/operator/Weierstrass assets do not exclude Q602. Thus including the missing registry changes the search provenance, but supplies no new direct predicate on the audited 16 operator residues.
+
+The locator remains explicitly a positive-asset locator, not an absence oracle. A locator miss is not repository-wide absence evidence, and a locator match grants no mathematical credit without current authority/source-lock validation.
 
 ### 3. Retained CM/Rosati and prior Q602 boundary
 
@@ -42,11 +56,11 @@ The exact Bolza principal Rosati lock supplies the principal Hermitian form and
 
 That structure is already consumed by the audited 28->16 predicate `T|W=id and T^dagger|W=id`. The principal Rosati lock by itself supplies no additional independent residue predicate. In particular, the existence of the displayed G12 action does **not** authorize assuming that the current correspondence operator `T` commutes with G12 or is G12-equivariant; no such correspondence-specific theorem is source-locked here.
 
-The post1500 Rosati-trace repair fixes `Q(T)=602` and explicitly records that the retained D4/operator/Weierstrass assets do not exclude Q602. Those historical nonexclusion assets therefore are not promoted as a new pruning condition.
+The post1500 Rosati-trace repair is inspected both through the Stage32 locator extension and directly as authority. It fixes `Q(T)=602` and explicitly records that the retained D4/operator/Weierstrass assets do not exclude Q602. It therefore is not promoted as a new pruning condition.
 
 ## Bounded result
 
-Within the exact inspected asset classes above, no source-locked **direct new predicate** on the audited 16 retained `End(J)` mod-2 residues was identified beyond the already-audited W/Rosati condition.
+Within the exact inspected asset classes above, including the current multi-registry locator route and its Stage32 post-1498 extension, no source-locked **direct new predicate** on the audited 16 retained `End(J)` mod-2 residues was identified beyond the already-audited W/Rosati condition.
 
 Consequently this search boundary makes no mathematical pruning:
 
