@@ -50,11 +50,28 @@ def main() -> None:
         controller["active_pr"]["branch"] == "stage32-post1500-o210-rosati-geometry",
         "controller active branch",
     )
-    require(controller["merge_allowed"] is False, "merge must remain blocked before hostile re-audit PASS")
-    require(controller["checkpoint_merge_ready"] is False, "checkpoint must not be merge-ready")
-    require(controller["audit_required_before_promotion"] is True, "hostile re-audit must be required")
     require(controller["current_leaf"]["status"] == "AUDITED_NEGATIVE", "controller negative-lane status")
     require(controller["current_leaf"]["O212_and_later_blocked"] is True, "O212+ firewall")
+
+    reaudit = controller.get("post1501_hostile_reaudit_pass")
+    if reaudit is None:
+        require(controller["merge_allowed"] is False, "merge must remain blocked before hostile re-audit PASS")
+        require(controller["checkpoint_merge_ready"] is False, "checkpoint must not be merge-ready before PASS")
+        require(controller["audit_required_before_promotion"] is True, "hostile re-audit must be required before PASS")
+        require(controller["handoff"]["do_not_merge"] is True, "handoff must block merge before PASS")
+    else:
+        require(reaudit["review_id"] == 5098198995, "hostile re-audit review id")
+        require(reaudit["audited_exact_head"] == "d0150e6d5d409c04e98d4a13ce926f383447fe3b", "hostile re-audit exact head")
+        require(reaudit["verdict"] == "PASS", "hostile re-audit verdict")
+        require(reaudit["exact_head_ci"] == {
+            "run_id": 33719383384,
+            "job_id": 100535199478,
+            "result": "SUCCESS",
+        }, "hostile re-audit exact-head CI")
+        require(controller["merge_allowed"] is True, "merge should be allowed after hostile re-audit PASS")
+        require(controller["checkpoint_merge_ready"] is True, "checkpoint should be merge-ready after PASS")
+        require(controller["audit_required_before_promotion"] is False, "no further hostile audit required for promotion")
+        require(controller["handoff"]["do_not_merge"] is False, "handoff should permit merge after PASS")
 
     repair = controller["repair_boundary"]
     require(repair["source_note_path"] == str(SOURCE_NOTE_PATH.relative_to(ROOT)), "controller source-note path")
