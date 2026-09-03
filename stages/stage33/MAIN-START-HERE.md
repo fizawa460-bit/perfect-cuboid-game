@@ -24,7 +24,7 @@ Do not infer `e3` by splitting `J2 = e2+e3`, do not split standard col2/col3 fro
 
 ## Authority and release
 
-Controller V60 and `sync_main_state.py` generate `MAIN-STATE.json` V17. Mathematical authority remains the V25-V36 exact certificate chain; V39 is operational routing authority only. V38 remains the historical synchronization receipt. Dedicated current routing CI is `.github/workflows/stage33-v39-routing.yml`.
+Controller V61 and `sync_main_state.py` generate `MAIN-STATE.json` V18. Mathematical authority remains the V25-V36 exact certificate chain; V39/V40 is operational routing authority only. V38 remains the historical synchronization receipt. Dedicated current routing CI is `.github/workflows/stage33-v39-routing.yml`.
 
 `MAIN-BATCH-HANDOFF.md` is retired and must not be recreated.
 
@@ -39,3 +39,5 @@ Commit and push the same branch. Do not merge without explicit authorization.
 ## Hostile-audit multi-registry repair
 
 Current-main locator routing means `index.json`, `stage32-post1498.json`, and `stage33.json` are all searched before construction. A nonempty candidate list is not a suitable-hit verdict: inspect only the bounded candidate limitations. The current Stage33 Gersten 26-column candidate is relevant but explicitly does not itself identify a standalone genuine remaining retained10 H2(mu2) lift, so construction is authorized only after that bounded classification.
+
+The one-shot hostile-audit synchronization runner and repair script were removed after their successful transition. Ordinary Stage33 routing now uses only the retained V39/V40 verifier, controller/generator state, and current multi-registry locator.
