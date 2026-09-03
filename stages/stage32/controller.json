@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V231_POST1504_ANTILOOP_REMOVED",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V232_POST1505_W_PROVISIONAL_AUDIT_PENDING",
   "stage": 32,
-  "status": "STAGE32_O210_Q602_POST1504_ANTILOOP_REMOVED_CONTINUATION_OPEN",
+  "status": "STAGE32_O210_Q602_POST1505_W_PROVISIONAL_HOSTILE_AUDIT_PENDING",
   "stage32_closed": false,
   "advance_allowed": false,
   "merge_allowed": false,
@@ -146,7 +146,7 @@
     "audit_note_path": "stages/stage32/residual-32-01-production/post1500-common-cover-marked-branch-geometry-audit.md",
     "certificate_path": "stages/stage32/residual-32-01-production/post1500-common-cover-marked-branch-geometry-certificate.json",
     "source_note_blob_sha1": "b0ea281eae453929c292059a919bc1f68b3080b3",
-    "conclusion": "No admitted source-locked common-cover/marked-branch/ramification theorem or local certificate currently forces strict Rosati loss or otherwise excludes sigma(Gamma)=1204 / Q(T)=602.",
+    "conclusion": "No admitted source-locked common-cover/marked-branch/ramification theorem or local certificate currently forces strict Rosati loss or otherwise excludes sigma=1204 / Q(T)=602.",
     "authority_effect": "NONE; O210 remains open at the audited repaired nonexclusion boundary and O212+ remains blocked.",
     "reentry_policy": "REOPEN_ALLOWED_WITH_EXACT_PROVENANCE"
   },
@@ -167,56 +167,90 @@
     },
     "authority_effect": "AUDITED_NEW_COUPLING_EVIDENCE_ONLY; the 96->28 mod-2 residue pruning is promoted. Q602 and O210 remain open; O212+ remains blocked."
   },
-  "current_item": "O210_Q4_RELATIVE_V4_TORSOR_MOD2_COUPLING_AUDITED",
+  "post1505_hostile_audit_failure": {
+    "review_id": 5099743819,
+    "exact_head": "a7a5e6d6e1cc6d0b34ba68f3e551c4f91308bd9b",
+    "verdict": "FAIL",
+    "blocking_scope": "CONTROLLER_AUTHORITY_WIRING_ONLY",
+    "mathematics_retained": "The abstract W identification, three inertia-derived Weierstrass pair classes, Richelot three-pair interpretation, and dedicated replay are not rejected by this audit.",
+    "defects": [
+      "post1505 W bundle was not registered as the active provisional controller authority",
+      "current_item/current_leaf still pointed to the audited post1504 coupling",
+      "required_lightweight_verifier still pointed to the post1503 coupling verifier/workflow",
+      "audit_required_before_promotion was false despite the PR declaring post1505 W pending hostile audit",
+      "next action could incorrectly advance to the 28-residue pointwise test before W audit PASS"
+    ],
+    "repair_rule": "Wire only the post1505 authority boundary; do not alter the mathematical W bundle."
+  },
+  "post1505_x8_v4_torsor_plane_weierstrass_lock": {
+    "status": "PROVISIONAL_EXACT_PENDING_HOSTILE_AUDIT",
+    "source_note_path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock-source-note.md",
+    "source_note_blob_sha1": "5b51a7e274f58bb23a3a2cb4d0f77c1aaba1fc54",
+    "certificate_path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock.json",
+    "certificate_blob_sha1": "d645749ac13b26900df7f7ef39f1870a31222881",
+    "canonical_sha256": "c84242981cbf81c9935c6851d8a95dc4dc0f1d8afbdba7ba7bbe16385bf1282f",
+    "upstream_audited_coupling_canonical_sha256": "312aa78d5a89c7c4d48e0afc2988e5ecf2b605d68820d123fea8ca8c48f6d669",
+    "abstract_W_nonzero_classes": [
+      "[w1-w6] = [P_{+1}-P_{-1}]",
+      "[w3-w5] = [P_{+i}-P_{-i}]",
+      "[w2-w4] = [P_0-P_infinity]"
+    ],
+    "richelot_factorization": "x^5-x = x*(x^2-1)*(x^2+1)",
+    "retained_F2_4_coordinates_identified": false,
+    "pointwise_28_residue_test_authorized": false,
+    "pre_repair_dedicated_replay": {
+      "head": "a7a5e6d6e1cc6d0b34ba68f3e551c4f91308bd9b",
+      "run_id": 33733401408,
+      "job_id": 100578292498,
+      "result": "SUCCESS"
+    },
+    "authority_effect": "NONE_PENDING_HOSTILE_AUDIT; Q602 and O210 remain open, O212+ remains blocked, and no coordinate/pointwise/downstream credit is promoted."
+  },
+  "current_item": "O210_Q4_X8_V4_TORSOR_PLANE_WEIERSTRASS_LOCK_PROVISIONAL_AUDIT",
   "current_leaf": {
-    "status": "AUDITED_EXACT_NEW_COUPLING_NONEXCLUSION",
-    "target": "Preserve the hostile-audited 96->28 mod-2 pruning. Do not infer Q602 exclusion from common fixed-space dimension alone.",
-    "next_checkpoint": "Source-lock the exact X(8)->C0 V4 torsor two-plane W in a retained Bolza J(C0)[2] basis and test the 28 residue survivors pointwise. Previously audited lanes may be reopened when useful, but all promoted claims still require exact provenance/adapters and hostile audit. Only if survivors remain after exact-W testing consider a mod-4 refinement. O212 and later remain blocked.",
+    "status": "PROVISIONAL_EXACT_PENDING_HOSTILE_AUDIT",
+    "target": "Hostile-audit the post1505 abstract X(8)->C0 V4 torsor-plane W source-lock only. Preserve the audited post1504 96->28 residue pruning as upstream input.",
+    "next_checkpoint": "Obtain hostile-audit PASS for canonical c84242981cbf81c9935c6851d8a95dc4dc0f1d8afbdba7ba7bbe16385bf1282f. Only after PASS may MAIN build a source-locked adapter from the three locked Weierstrass pair classes to retained (e1,e2,r*e1,r*e2) mod 2 coordinates and then pointwise-test the 28 Q602 residues. No arbitrary symplectic basis substitution. O212 and later remain blocked.",
     "O212_and_later_blocked": true
   },
   "math_scope": {
     "fixed_z_O186_all_qprime": "CLOSED_AUDITED_EXCLUDED",
     "fixed_z_O188_all_profiles": "CLOSED_AUDITED_EXCLUDED",
     "fixed_z_qprime1_qprime2_exact_v6": "CLOSED_AUDITED_EXCLUDED_BY_MODULAR_FACTOR_INTEGRALITY",
-    "fixed_z_O210_q4_exact_v6_carrier": "OPEN_AT_AUDITED_Q602_BOUNDARY_WITH_AUDITED_RELATIVE_V4_MOD2_COUPLING_28_RESIDUE_SURVIVORS",
+    "fixed_z_O210_q4_exact_v6_carrier": "OPEN_AT_AUDITED_Q602_28_RESIDUE_BOUNDARY_WITH_POST1505_ABSTRACT_W_PROVISIONAL_PENDING_HOSTILE_AUDIT",
     "fixed_z_O212_through_O266_qprime4": "BLOCKED_BEHIND_O210",
     "fixed_z_all_integral_genus1_carriers": "OPEN",
     "full178_geometric_closure": "OPEN_NOT_ACTIVE",
     "receiver_theorem_endpoint": "OPEN"
   },
   "operations": {
-    "execution_class": "LIGHTWEIGHT_POST1504_EXACT_W_SOURCE_LOCK_CONTINUATION",
+    "execution_class": "LIGHTWEIGHT_POST1505_W_HOSTILE_AUDIT_BOUNDARY",
     "full178_scaleout_authorized": false,
     "heavy_compute_authorized": false,
     "survivor_materialization_authorized": false,
     "retained_asset_research_authorized": true
   },
   "required_lightweight_verifier": {
-    "path": "stages/stage32/residual-32-01-production/certify_stage32_post1503_o210_q4_relative_v4_torsor_mod2_coupling.py",
-    "certificate_path": "stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling.json",
-    "workflow": ".github/workflows/stage32-post1503-relative-v4-mod2-coupling.yml",
-    "workflow_name": "Stage32 post1503 relative-V4 mod2 coupling replay",
+    "path": "stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q4_x8_v4_torsor_plane_weierstrass_lock.py",
+    "certificate_path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock.json",
+    "workflow": ".github/workflows/stage32-post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock.yml",
+    "workflow_name": "Stage32 post1505 O210 X8 V4 torsor-plane Weierstrass lock",
     "required_checks": [
-      "source-lock audited repair Q602, X(8)->C0 etale V4 geometry, D4 direct-sum D4 trace lattice, and principal Rosati matrix",
-      "verify the relative-H isomorphism-torsor coupling gives a common two-dimensional fixed subspace for T and T^dagger mod 2",
-      "recompute the exact D4 direct-sum D4 norm-602 residue classes without full-frontier materialization",
-      "assert 96 realized mod-2 classes, dimension distribution 32/36/24/3/1, and exactly 28 common-fixed-dimension>=2 survivors",
-      "assert Q602 and O210 remain open and O212+ remain blocked"
+      "source-lock the audited X(8)->C0 connected etale V4 quotient, audited retained-boundary-to-Weierstrass adapter, Bolza principal lattice model, and audited post1504 relative-V4 coupling",
+      "replay the three inertia-derived character pushouts and recover exactly the three nonzero classes [w1-w6], [w3-w5], [w2-w4]",
+      "verify the three pair classes form the Richelot maximal isotropic subgroup for x^5-x = x*(x^2-1)*(x^2+1)",
+      "assert retained (e1,e2,r*e1,r*e2) mod 2 coordinates are still unidentified and no arbitrary symplectic basis is credited",
+      "assert pointwise testing of the 28 Q602 residues is still pending and Q602/O210 remain open with O212+ blocked"
     ],
-    "audited_head_success": {
-      "head": "e5efd9a871d0eab05b9e9dabeb17aea3f0d599ec",
-      "run_id": 33723706795,
-      "job_id": 100547994693,
-      "result": "SUCCESS"
-    },
-    "historical_successor_safe_success": {
-      "run_id": 33723706877,
-      "job_id": 100547994971,
+    "pre_repair_exact_head_success": {
+      "head": "a7a5e6d6e1cc6d0b34ba68f3e551c4f91308bd9b",
+      "run_id": 33733401408,
+      "job_id": 100578292498,
       "result": "SUCCESS"
     }
   },
-  "audit_required_before_promotion": false,
-  "next_expected_action": "On PR #1505, source-lock the exact X(8)->C0 V4 torsor plane W in the Bolza J(C0)[2] basis and pointwise-test the 28 Q602 residue survivors. Retained-asset re-query and reopening older lanes are permitted; provenance, semantic adapters, and hostile-audit requirements remain mandatory.",
+  "audit_required_before_promotion": true,
+  "next_expected_action": "Hostile re-audit the repaired post1505 W authority boundary on PR #1505. Do not start the retained-F2^4 coordinate adapter or the 28-residue pointwise test until this post1505 W bundle receives hostile-audit PASS.",
   "firewalls": {
     "O186_closed": true,
     "O188_closed": true,
@@ -232,11 +266,11 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "handoff": {
-    "batch": "20260903-stage32-post1504-antiloop-removed-resume",
-    "continue_from": "O210_Q4_IDENTIFY_EXACT_X8_V4_TORSOR_PLANE_W_IN_BOLZA_J2",
-    "fresh_head_required": false,
-    "do_not_merge": false,
-    "notes": "PR #1505 removes Stage32 anti-loop as an execution/validation gate while retaining provenance, research-credit, hostile-audit, and heavy-compute safety. Retained-asset lookup is authorized. Continue immediately from exact torsor-plane W identification and pointwise testing of the 28 post1504 survivors."
+    "batch": "20260903-stage32-post1505-authority-wiring-repair",
+    "continue_from": "O210_Q4_X8_V4_TORSOR_PLANE_WEIERSTRASS_LOCK_HOSTILE_REAUDIT",
+    "fresh_head_required": true,
+    "do_not_merge": true,
+    "notes": "Review 5099743819 failed authority wiring only. The post1505 abstract-W mathematics remains provisional. Current MAIN action is hostile re-audit of the controller-bound W bundle; retained F2^4 translation and 28-residue pointwise testing are post-PASS only. Anti-loop remains removed as an execution gate."
   },
   "post1504_hostile_audit_pass": {
     "review_id": 5098663903,
