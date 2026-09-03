@@ -36,4 +36,12 @@ Therefore the next exact leaf is
 35EX-06_FOUR_FACTOR_GCD_AND_SQUARECLASS_SUPPORT.
 ```
 
+Verification is wired into the existing exact-head workflow
+
+```text
+.github/workflows/stage35-35-01-to-09-audit.yml
+```
+
+which now replays the audited Stage35 35-01..35-10 checks and then runs `stages/stage35-ex/verify_stage35_ex.py`. This keeps Stage35-EX verification lightweight while detecting regressions in the parked Stage35 authority it must not alter.
+
 No Stage35 MAIN state, Stage29 receiver state, or endpoint claim is changed by this result.
