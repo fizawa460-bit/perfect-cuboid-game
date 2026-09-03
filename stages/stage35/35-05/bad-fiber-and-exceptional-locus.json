@@ -1,0 +1,84 @@
+{
+  "schema": "STAGE35_35_05_BAD_FIBER_EXCEPTIONAL_LOCUS_V1",
+  "stage": "35",
+  "unit": "35-05_BAD_FIBER_AND_EXCEPTIONAL_LOCUS",
+  "status": "PASS_PHYSICAL_BASE_AVOIDS_ALL_GEOMETRIC_BAD_FIBERS",
+  "selected_fibration": "TS-S-R3-Q1",
+  "parameter": {
+    "homogeneous": "[T:U] in P1",
+    "affine": "t=T/U",
+    "physical_domain": "t in Q, t>1"
+  },
+  "normalized_fiber_for_T2_plus_U2_nonzero": {
+    "alpha": "((T^2-U^2)/(T^2+U^2))^2",
+    "beta": "4*T^2*U^2/(T^2+U^2)^2",
+    "identity": "alpha+beta=1",
+    "equations": [
+      "x^2-p^2+alpha*d^2=0",
+      "y^2-q^2+alpha*d^2=0",
+      "x^2+y^2-beta*d^2=0"
+    ]
+  },
+  "jacobian_rank_drop_certificate": {
+    "multiplier_equations": [
+      "x*(lambda1+lambda3)=0",
+      "y*(lambda2+lambda3)=0",
+      "p*lambda1=0",
+      "q*lambda2=0",
+      "d*(alpha*lambda1+alpha*lambda2-beta*lambda3)=0"
+    ],
+    "support_exhaustion_result": "for T^2+U^2 != 0, a nonzero projective fiber point with dependent gradients exists iff alpha is one of {-1,0,1}",
+    "witness_supports": {
+      "alpha=-1": "p=q=0 with x,y,d nonzero",
+      "alpha=0": "y=q=0 with x,p,d nonzero, or symmetrically x=p=0 with y,q,d nonzero",
+      "alpha=1": "x=y=0 with p,q,d nonzero"
+    },
+    "no_other_support": "exhausting nonzero-coordinate supports in the multiplier equations leaves no additional alpha condition"
+  },
+  "bad_parameter_pullback": {
+    "normalization_failure": {
+      "condition": "T^2+U^2=0",
+      "affine_points": "t=+i,-i"
+    },
+    "alpha_zero": {
+      "condition": "T^2-U^2=0",
+      "affine_points": "t=+1,-1"
+    },
+    "alpha_one": {
+      "condition": "T*U=0",
+      "projective_points": "t=0,infinity"
+    },
+    "alpha_minus_one": {
+      "condition": "T^4+U^4=0",
+      "geometric_points": 4
+    },
+    "squarefree_bad_parameter_divisor": "T*U*(T^2-U^2)*(T^2+U^2)*(T^4+U^4)=0",
+    "geometric_bad_parameter_count": 10,
+    "source_crosscheck": "Testa-Stoll Section 5 states that each rank-3 fibration has 4+4+2=10 bad fibers",
+    "count_matches_source": true
+  },
+  "physical_rational_intersection": {
+    "T*U=0": "t=0 or infinity; neither lies in finite rational t>1 physical chart",
+    "T^2-U^2=0": "t=+1 or -1; neither satisfies t>1; t=1 also reconstructs e=0",
+    "T^2+U^2=0": "no Q-rational projective point",
+    "T^4+U^4=0": "no Q-rational projective point",
+    "bad_divisor_intersect_Q_gt_1": "empty",
+    "all_physical_parameter_fibers_smooth": true
+  },
+  "base_locus_exception": {
+    "geometric_base_points": "eight singular points of Sbar for this rank-3 projection",
+    "physical_endpoint_intersection": "empty",
+    "reason": "nondegenerate physical endpoint has all side coordinates nonzero and is smooth; z is nonzero in the selected affine parameter chart"
+  },
+  "consequence": {
+    "generic_vs_exceptional_split_needed_on_physical_base": false,
+    "uniform_arithmetic_target_may_quantify_over_all_Q_gt_1_smooth_fibers": true,
+    "bad_and_exceptional_locus_complete": true,
+    "uniform_arithmetic_theorem_proved": false,
+    "R29_FIB2_closed": false,
+    "new_theorem_credit": false,
+    "next_exact_leaf": "35-06_UNIFORM_ARITHMETIC_ATTACK_BRANCHES"
+  },
+  "perfect_cuboid_existence_claim": false,
+  "perfect_cuboid_nonexistence_claim": false
+}
