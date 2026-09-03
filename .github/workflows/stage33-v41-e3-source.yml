@@ -1,4 +1,4 @@
-name: Stage33 V41-V42 e3 source and lift-interface replay
+name: Stage33 V41-V43 e3 source and lift-interface replay
 
 on:
   pull_request:
@@ -8,11 +8,15 @@ on:
       - 'stages/stage33/33-12/j2-adapted-first-kummer-column-v34.json'
       - 'stages/stage33/33-12/j2-genuine-h2-mu2-kummer-adapter-v25.json'
       - 'stages/stage33/33-12/j2-corrected-explicit-cech-mu2-lift.json'
+      - 'stages/stage33/33-12/boundary-function-generator-source-lock.json'
+      - 'stages/stage33/33-12/boundary-function-scalar-descent-certificate.json'
       - 'stages/stage33/33-12/e3-independent-proper14-source-v41.json'
       - 'stages/stage33/33-12/certify_e3_independent_proper14_source_v41.py'
       - 'stages/stage33/33-12/verify_e3_independent_proper14_source_v41.py'
       - 'stages/stage33/33-12/e3-v25-transfer-obstruction-v42.json'
       - 'stages/stage33/33-12/verify_e3_v25_transfer_obstruction_v42.py'
+      - 'stages/stage33/33-12/e3-generic-cech-adapter-gap-v43.json'
+      - 'stages/stage33/33-12/verify_e3_generic_cech_adapter_gap_v43.py'
       - '.github/workflows/stage33-v41-e3-source.yml'
   workflow_dispatch:
 
@@ -20,7 +24,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v41-v42-e3-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v41-v43-e3-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -34,10 +38,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Verify V41 source and V42 V25-transfer obstruction
+      - name: Verify V41 source, V42 transfer obstruction, and V43 adapter gap
         run: |
           python stages/stage33/33-12/verify_e3_independent_proper14_source_v41.py
           python stages/stage33/33-12/verify_e3_v25_transfer_obstruction_v42.py
+          python stages/stage33/33-12/verify_e3_generic_cech_adapter_gap_v43.py
           python stages/stage33/33-12/verify_j2_post_v38_locator_first_construction_policy_v39.py
           python stages/stage33/sync_main_state.py --check
           git diff --check
