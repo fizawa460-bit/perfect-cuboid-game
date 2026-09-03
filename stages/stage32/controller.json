@@ -6,279 +6,43 @@
   "advance_allowed": false,
   "merge_allowed": false,
   "checkpoint_merge_ready": false,
-  "active_pr": {
-    "number": 1505,
-    "branch": "stage32-post1504-remove-antiloop-resume",
-    "automatic_merge_authorized": false
-  },
-  "fixed_target": {
-    "row_id": "g1-d186",
-    "degree": 186,
-    "e": 266,
-    "genus": 1,
-    "z": [-15,62,-44,26,32],
-    "O": 210,
-    "qprime": 4
-  },
-  "audited_baseline_retained": {
-    "post1484_head": "78e41ef64f1fb8c4632ffd9604bbca26580f6de2",
-    "post1484_review_id": 5086756888,
-    "v6_modular_bidegree_canonical_sha256": "791870c37681702392e1e59d224f494ed791709d467efa68a20cf49bff4ab420",
-    "facts": "Exact V6 modular-factor degrees (105,81); qprime=1,2 excluded by integrality; qprime=4 requires O>=210. O186/O188 remain closed audited."
-  },
-  "post1490_history_reopened": {
-    "merged_pr": 1490,
-    "merge_commit": "377273d24ea6b3aa661223ad38886012d8be7497",
-    "previous_audit_review_id": 5097431566,
-    "previous_exact_head": "86879a826b4a0b339e351267aaab030d621c7f2a",
-    "previous_exact_ci": {"run_id":33709171710,"job_id":100504788738,"success":true},
-    "previous_exclusion_canonical_sha256": "8c32735092671d725034de8d14d09c09ac275517fa5f0e225791d2fc53eb5bf3",
-    "current_authority": "EXCLUSION_DECISION_REOPENED_BY_POST1500_HOSTILE_AUDIT; retained class/deck arithmetic may be reused only through the audited post1500 repair certificate.",
-    "reason": "The O210 contradiction shared the later-invalid zero-Rosati specialization Gamma^2=2*105*81."
-  },
-  "post1500_hostile_audit_failure": {
-    "review_id": 5097587880,
-    "exact_head": "43a7a46cc7cd3e5ef1f5ae5cb31d17c45b10e9b9",
-    "exact_head_ci": {"run_id":33712731325,"job_id":100515467002,"success":true},
-    "verdict": "FAIL",
-    "mathematical_defect": "On C0 x C0 with genus(C0)=2, bidegree (105,81) does not determine Gamma^2. The omitted Rosati/correspondence contribution is sigma=1204, not a contradiction.",
-    "superseded_controller": "V224",
-    "superseded_all_genus1_certificate_canonical_sha256": "5a117c21bb3bdf6952a9ec4fdcf113352cc88ea0353b22d20095e482acd8ddb6"
-  },
-  "repair_boundary": {
-    "path": "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json",
-    "blob_sha1": "2ebe262fe76f2ceda371e018c107bcfb7d6f523b",
-    "canonical_sha256": "e28c7539e05b9c4836b9bc51c8f69316723eb8c368700a26706627045525fe07",
-    "source_note_path": "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md",
-    "source_note_blob_sha1": "b0ea281eae453929c292059a919bc1f68b3080b3",
-    "retained_exact": {
-      "projection_degrees": [105,81],
-      "D_square": 3874,
-      "deck_cross": [3892,4020,4020],
-      "deck_cross_sum": 11932,
-      "pair_map_birational": true,
-      "x_to_q_finite_etale_v4_degree": 4
-    },
-    "corrected": {
-      "Gamma_square": 15806,
-      "sigma_Gamma": 1204,
-      "Q_T": 602,
-      "O210_Gamma_arithmetic_genus": 8090,
-      "O210_Gamma_normalization_defect": 7984
-    },
-    "bounded_existing_asset_result": {
-      "D4_direct_sum_D4_represents_Q602": true,
-      "one_D4_norm602_shell_count": 8448,
-      "operator_bound_8505_excludes_Q602": false,
-      "weierstrass_delta_min": 1924,
-      "corrected_delta_7984_satisfies_weierstrass_bound": true,
-      "existing_Rosati_D4_Weierstrass_assets_exclude_Q602": false
-    }
-  },
-  "post1500_repair_hostile_audit_pass": {
-    "review_id": 5097673453,
-    "audited_exact_head": "067eb659e97f6b65b02d5135e9bfd4cf8bc3d7ad",
-    "audited_exact_head_ci": {"run_id":33713913472,"job_id":100518980436,"success":true},
-    "verdict": "PASS",
-    "audited_scope": "V225 repair/nonexclusion boundary only; validates Gamma^2=15806, sigma=1204, Q=602, delta_Gamma=7984 and the exact nonexclusion of Q602 by retained D4/operator/Weierstrass assets. Does not exclude O210 and does not authorize O212+ advance.",
-    "authority_promotion": "AUDITED_EXACT_NONEXCLUSION_BOUNDARY"
-  },
-  "promotion_head_replay": {
-    "head": "614d99ff01ec311c17b98f5506854cd73d5b71e7",
-    "run_id": 33714830176,
-    "job_id": 100521685882,
-    "result": "SUCCESS",
-    "scope": "Controller-only V226 audit promotion replay; mathematical repair certificate/verifier unchanged from the audited V225 boundary."
-  },
-  "post1501_hostile_audit_failure": {
-    "review_id": 5097957179,
-    "exact_head": "2ac50a1748a357a71783ab180e62295d5d3e6494",
-    "verdict": "FAIL",
-    "mechanically_mergeable": true,
-    "merge_authorized": false,
-    "defects": [
-      "#1501 incorrectly promoted the checkpoint label from O210 to O211 while controller/source authority remained O210.",
-      "#1501 claimed pair-operator bound 376 and W=128 -> p>=32 without source-lock in the admitted controller/source-note; the admitted repaired facts are T^dagger*T <= 8505 and delta_Gamma >= 1924.",
-      "The verifier asserted certificate constants instead of parsing controller/source-note content, and exact-head CI did not execute that verifier.",
-      "The AUDITED_NEGATIVE anti-loop handoff did not update controller startup authority and next action."
-    ],
-    "narrow_math_conclusion_retained": "Current admitted common-cover/marked-branch geometry does not by itself provide a source-locked strict Rosati improvement or other exclusion of sigma=1204 / Q(T)=602."
-  },
-  "post1501_hostile_reaudit_pass": {
-    "review_id": 5098198995,
-    "audited_exact_head": "d0150e6d5d409c04e98d4a13ce926f383447fe3b",
-    "exact_head_ci": {"run_id":33719383384,"job_id":100535199478,"result":"SUCCESS"},
-    "verdict": "PASS",
-    "audited_scope": "Negative closed-world handoff only: admitted common-cover/marked-branch/ramification evidence does not provide a new strict Rosati exclusion. O210 remains open; O212+ remains blocked; no downstream mathematical credit is promoted.",
-    "authority_promotion": "NONE"
-  },
-  "post1501_geometry_negative_lane": {
-    "status": "AUDITED_NEGATIVE",
-    "audit_note_path": "stages/stage32/residual-32-01-production/post1500-common-cover-marked-branch-geometry-audit.md",
-    "certificate_path": "stages/stage32/residual-32-01-production/post1500-common-cover-marked-branch-geometry-certificate.json",
-    "source_note_blob_sha1": "b0ea281eae453929c292059a919bc1f68b3080b3",
-    "conclusion": "No admitted source-locked common-cover/marked-branch/ramification theorem or local certificate currently forces strict Rosati loss or otherwise excludes sigma(Gamma)=1204 / Q(T)=602.",
-    "authority_effect": "NONE; O210 remains open at the audited repaired nonexclusion boundary and O212+ remains blocked.",
-    "reentry_policy": "REOPEN_ALLOWED_WITH_EXACT_PROVENANCE"
-  },
-  "post1504_relative_v4_mod2_coupling": {
-    "status": "AUDITED_EXACT_NEW_COUPLING_NONEXCLUSION",
-    "source_note_path": "stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling-source-note.md",
-    "source_note_blob_sha1": "429ea905cb1cb6354058461c3203de51c03e4106",
-    "certificate_path": "stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling.json",
-    "canonical_sha256": "312aa78d5a89c7c4d48e0afc2988e5ecf2b605d68820d123fea8ca8c48f6d669",
-    "new_coupling": "The lift Y->X=(ZxZ)/H_diag identifies f1^*Z and f2^*Z for the connected etale H~=V4 torsor Z=X(8)->C0. Hence a two-dimensional character plane W is fixed by both correspondence orientations modulo two.",
-    "q602_residue_preflight": {
-      "realized_mod2_residue_classes": 96,
-      "common_fixed_dimension_at_least_2_survivors": 28,
-      "removed_residue_classes": 68,
-      "total_integral_q602_vectors": 1312836096,
-      "surviving_integral_vectors": 382918016,
-      "Q602_excluded": false
-    },
-    "authority_effect": "AUDITED_NEW_COUPLING_EVIDENCE_ONLY; the 96->28 mod-2 residue pruning is promoted. Q602 and O210 remain open; O212+ remains blocked."
-  },
-  "post1505_hostile_audit_failure": {
-    "review_id": 5099743819,
-    "exact_head": "a7a5e6d6e1cc6d0b34ba68f3e551c4f91308bd9b",
-    "verdict": "FAIL",
-    "blocking_scope": "CONTROLLER_AUTHORITY_WIRING_ONLY",
-    "mathematics_retained": "The abstract W identification, three inertia-derived Weierstrass pair classes, Richelot three-pair interpretation, and dedicated replay are not rejected by this audit.",
-    "defects": [
-      "post1505 W bundle was not registered as the active provisional controller authority",
-      "current_item/current_leaf still pointed to the audited post1504 coupling",
-      "required_lightweight_verifier still pointed to the post1503 coupling verifier/workflow",
-      "audit_required_before_promotion was false despite the PR declaring post1505 W pending hostile audit",
-      "next action could incorrectly advance to the 28-residue pointwise test before W audit PASS"
-    ],
-    "repair_rule": "Wire only the post1505 authority boundary; do not alter the mathematical W bundle."
-  },
-  "post1505_x8_v4_torsor_plane_weierstrass_lock": {
-    "status": "AUDITED_EXACT_ABSTRACT_W_LOCK",
-    "source_note_path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock-source-note.md",
-    "source_note_blob_sha1": "5b51a7e274f58bb23a3a2cb4d0f77c1aaba1fc54",
-    "certificate_path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock.json",
-    "certificate_blob_sha1": "d645749ac13b26900df7f7ef39f1870a31222881",
-    "canonical_sha256": "c84242981cbf81c9935c6851d8a95dc4dc0f1d8afbdba7ba7bbe16385bf1282f",
-    "upstream_audited_coupling_canonical_sha256": "312aa78d5a89c7c4d48e0afc2988e5ecf2b605d68820d123fea8ca8c48f6d669",
-    "abstract_W_nonzero_classes": [
-      "[w1-w6] = [P_{+1}-P_{-1}]",
-      "[w3-w5] = [P_{+i}-P_{-i}]",
-      "[w2-w4] = [P_0-P_infinity]"
-    ],
-    "richelot_factorization": "x^5-x = x*(x^2-1)*(x^2+1)",
-    "retained_F2_4_coordinates_identified": false,
-    "pointwise_28_residue_test_authorized": false,
-    "pre_repair_dedicated_replay": {"head":"a7a5e6d6e1cc6d0b34ba68f3e551c4f91308bd9b","run_id":33733401408,"job_id":100578292498,"result":"SUCCESS"},
-    "authority_effect": "AUDITED_ABSTRACT_W_ONLY; the exact three nonzero W classes are promoted. Retained F2^4 coordinates and pointwise 28-residue consequences remain unpromoted until an explicit marked adapter is source-locked."
-  },
-  "post1505_hostile_reaudit_pass": {
-    "review_id": 5099888513,
-    "audited_exact_head": "2dacce9f98e4bed621df21e2d712b72930c3265b",
-    "exact_head_ci": {"run_id":33735567093,"job_id":100585190874,"result":"SUCCESS"},
-    "verdict": "PASS",
-    "audited_scope": "Authority-wiring repair plus unchanged post1505 abstract-W bundle. Promotes exactly W\\{0}={[w1-w6],[w3-w5],[w2-w4]} as the X(8)->C0 character plane / Richelot kernel. Does not identify retained F2^4 coordinates and does not exclude Q602/O210.",
-    "authority_promotion": "AUDITED_X8_V4_ABSTRACT_W_RICHELOT_KERNEL"
-  },
+  "active_pr": {"number":1505,"branch":"stage32-post1504-remove-antiloop-resume","automatic_merge_authorized":false},
+  "fixed_target": {"row_id":"g1-d186","degree":186,"e":266,"genus":1,"z":[-15,62,-44,26,32],"O":210,"qprime":4},
+  "audited_baseline_retained": {"post1484_head":"78e41ef64f1fb8c4632ffd9604bbca26580f6de2","post1484_review_id":5086756888,"v6_modular_bidegree_canonical_sha256":"791870c37681702392e1e59d224f494ed791709d467efa68a20cf49bff4ab420","facts":"Exact V6 modular-factor degrees (105,81); qprime=1,2 excluded by integrality; qprime=4 requires O>=210. O186/O188 remain closed audited."},
+  "post1490_history_reopened": {"merged_pr":1490,"merge_commit":"377273d24ea6b3aa661223ad38886012d8be7497","previous_audit_review_id":5097431566,"previous_exact_head":"86879a826b4a0b339e351267aaab030d621c7f2a","previous_exact_ci":{"run_id":33709171710,"job_id":100504788738,"success":true},"previous_exclusion_canonical_sha256":"8c32735092671d725034de8d14d09c09ac275517fa5f0e225791d2fc53eb5bf3","current_authority":"EXCLUSION_DECISION_REOPENED_BY_POST1500_HOSTILE_AUDIT; retained class/deck arithmetic may be reused only through the audited post1500 repair certificate.","reason":"The O210 contradiction shared the later-invalid zero-Rosati specialization Gamma^2=2*105*81."},
+  "post1500_hostile_audit_failure": {"review_id":5097587880,"exact_head":"43a7a46cc7cd3e5ef1f5ae5cb31d17c45b10e9b9","exact_head_ci":{"run_id":33712731325,"job_id":100515467002,"success":true},"verdict":"FAIL","mathematical_defect":"On C0 x C0 with genus(C0)=2, bidegree (105,81) does not determine Gamma^2. The omitted Rosati/correspondence contribution is sigma=1204, not a contradiction.","superseded_controller":"V224","superseded_all_genus1_certificate_canonical_sha256":"5a117c21bb3bdf6952a9ec4fdcf113352cc88ea0353b22d20095e482acd8ddb6"},
+  "repair_boundary": {"path":"stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json","blob_sha1":"2ebe262fe76f2ceda371e018c107bcfb7d6f523b","canonical_sha256":"e28c7539e05b9c4836b9bc51c8f69316723eb8c368700a26706627045525fe07","source_note_path":"stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md","source_note_blob_sha1":"b0ea281eae453929c292059a919bc1f68b3080b3","retained_exact":{"projection_degrees":[105,81],"D_square":3874,"deck_cross":[3892,4020,4020],"deck_cross_sum":11932,"pair_map_birational":true,"x_to_q_finite_etale_v4_degree":4},"corrected":{"Gamma_square":15806,"sigma_Gamma":1204,"Q_T":602,"O210_Gamma_arithmetic_genus":8090,"O210_Gamma_normalization_defect":7984},"bounded_existing_asset_result":{"D4_direct_sum_D4_represents_Q602":true,"one_D4_norm602_shell_count":8448,"operator_bound_8505_excludes_Q602":false,"weierstrass_delta_min":1924,"corrected_delta_7984_satisfies_weierstrass_bound":true,"existing_Rosati_D4_Weierstrass_assets_exclude_Q602":false}},
+  "post1500_repair_hostile_audit_pass": {"review_id":5097673453,"audited_exact_head":"067eb659e97f6b65b02d5135e9bfd4cf8bc3d7ad","audited_exact_head_ci":{"run_id":33713913472,"job_id":100518980436,"success":true},"verdict":"PASS","audited_scope":"V225 repair/nonexclusion boundary only; validates Gamma^2=15806, sigma=1204, Q=602, delta_Gamma=7984 and the exact nonexclusion of Q602 by retained D4/operator/Weierstrass assets. Does not exclude O210 and does not authorize O212+ advance.","authority_promotion":"AUDITED_EXACT_NONEXCLUSION_BOUNDARY"},
+  "promotion_head_replay": {"head":"614d99ff01ec311c17b98f5506854cd73d5b71e7","run_id":33714830176,"job_id":100521685882,"result":"SUCCESS","scope":"Controller-only V226 audit promotion replay; mathematical repair certificate/verifier unchanged from the audited V225 boundary."},
+  "post1501_hostile_audit_failure": {"review_id":5097957179,"exact_head":"2ac50a1748a357a71783ab180e62295d5d3e6494","verdict":"FAIL","mechanically_mergeable":true,"merge_authorized":false,"defects":["#1501 incorrectly promoted the checkpoint label from O210 to O211 while controller/source authority remained O210.","#1501 claimed pair-operator bound 376 and W=128 -> p>=32 without source-lock in the admitted controller/source-note; the admitted repaired facts are T^dagger*T <= 8505 and delta_Gamma >= 1924.","The verifier asserted certificate constants instead of parsing controller/source-note content, and exact-head CI did not execute that verifier.","The AUDITED_NEGATIVE anti-loop handoff did not update controller startup authority and next action."],"narrow_math_conclusion_retained":"Current admitted common-cover/marked-branch geometry does not by itself provide a source-locked strict Rosati improvement or other exclusion of sigma=1204 / Q(T)=602."},
+  "post1501_hostile_reaudit_pass": {"review_id":5098198995,"audited_exact_head":"d0150e6d5d409c04e98d4a13ce926f383447fe3b","exact_head_ci":{"run_id":33719383384,"job_id":100535199478,"result":"SUCCESS"},"verdict":"PASS","audited_scope":"Negative closed-world handoff only: admitted common-cover/marked-branch/ramification evidence does not provide a new strict Rosati exclusion. O210 remains open; O212+ remains blocked; no downstream mathematical credit is promoted.","authority_promotion":"NONE"},
+  "post1501_geometry_negative_lane": {"status":"AUDITED_NEGATIVE","audit_note_path":"stages/stage32/residual-32-01-production/post1500-common-cover-marked-branch-geometry-audit.md","certificate_path":"stages/stage32/residual-32-01-production/post1500-common-cover-marked-branch-geometry-certificate.json","source_note_blob_sha1":"b0ea281eae453929c292059a919bc1f68b3080b3","conclusion":"No admitted source-locked common-cover/marked-branch/ramification theorem or local certificate currently forces strict Rosati loss or otherwise excludes sigma(Gamma)=1204 / Q(T)=602.","authority_effect":"NONE; O210 remains open at the audited repaired nonexclusion boundary and O212+ remains blocked.","reentry_policy":"REOPEN_ALLOWED_WITH_EXACT_PROVENANCE"},
+  "post1504_relative_v4_mod2_coupling": {"status":"AUDITED_EXACT_NEW_COUPLING_NONEXCLUSION","source_note_path":"stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling-source-note.md","source_note_blob_sha1":"429ea905cb1cb6354058461c3203de51c03e4106","certificate_path":"stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling.json","canonical_sha256":"312aa78d5a89c7c4d48e0afc2988e5ecf2b605d68820d123fea8ca8c48f6d669","new_coupling":"The lift Y->X=(ZxZ)/H_diag identifies f1^*Z and f2^*Z for the connected etale H~=V4 torsor Z=X(8)->C0. Hence a two-dimensional character plane W is fixed by both correspondence orientations modulo two.","q602_residue_preflight":{"realized_mod2_residue_classes":96,"common_fixed_dimension_at_least_2_survivors":28,"removed_residue_classes":68,"total_integral_q602_vectors":1312836096,"surviving_integral_vectors":382918016,"Q602_excluded":false},"authority_effect":"AUDITED_NEW_COUPLING_EVIDENCE_ONLY; the 96->28 mod-2 residue pruning is promoted. Q602 and O210 remain open; O212+ remains blocked."},
+  "post1505_hostile_audit_failure": {"review_id":5099743819,"exact_head":"a7a5e6d6e1cc6d0b34ba68f3e551c4f91308bd9b","verdict":"FAIL","blocking_scope":"CONTROLLER_AUTHORITY_WIRING_ONLY","mathematics_retained":"The abstract W identification, three inertia-derived Weierstrass pair classes, Richelot three-pair interpretation, and dedicated replay are not rejected by this audit.","defects":["post1505 W bundle was not registered as the active provisional controller authority","current_item/current_leaf still pointed to the audited post1504 coupling","required_lightweight_verifier still pointed to the post1503 coupling verifier/workflow","audit_required_before_promotion was false despite the PR declaring post1505 W pending hostile audit","next action could incorrectly advance to the 28-residue pointwise test before W audit PASS"],"repair_rule":"Wire only the post1505 authority boundary; do not alter the mathematical W bundle."},
+  "post1505_x8_v4_torsor_plane_weierstrass_lock": {"status":"AUDITED_EXACT_ABSTRACT_W_LOCK","source_note_path":"stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock-source-note.md","source_note_blob_sha1":"5b51a7e274f58bb23a3a2cb4d0f77c1aaba1fc54","certificate_path":"stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock.json","certificate_blob_sha1":"d645749ac13b26900df7f7ef39f1870a31222881","canonical_sha256":"c84242981cbf81c9935c6851d8a95dc4dc0f1d8afbdba7ba7bbe16385bf1282f","upstream_audited_coupling_canonical_sha256":"312aa78d5a89c7c4d48e0afc2988e5ecf2b605d68820d123fea8ca8c48f6d669","abstract_W_nonzero_classes":["[w1-w6] = [P_{+1}-P_{-1}]","[w3-w5] = [P_{+i}-P_{-i}]","[w2-w4] = [P_0-P_infinity]"],"richelot_factorization":"x^5-x = x*(x^2-1)*(x^2+1)","retained_F2_4_coordinates_identified":false,"pointwise_28_residue_test_authorized":false,"pre_repair_dedicated_replay":{"head":"a7a5e6d6e1cc6d0b34ba68f3e551c4f91308bd9b","run_id":33733401408,"job_id":100578292498,"result":"SUCCESS"},"authority_effect":"AUDITED_ABSTRACT_W_ONLY; the exact three nonzero W classes are promoted. Retained F2^4 coordinates and pointwise 28-residue consequences remain unpromoted until an explicit marked adapter is source-locked."},
+  "post1505_hostile_reaudit_pass": {"review_id":5099888513,"audited_exact_head":"2dacce9f98e4bed621df21e2d712b72930c3265b","exact_head_ci":{"run_id":33735567093,"job_id":100585190874,"result":"SUCCESS"},"verdict":"PASS","audited_scope":"Authority-wiring repair plus unchanged post1505 abstract-W bundle. Promotes exactly W\\{0}={[w1-w6],[w3-w5],[w2-w4]} as the X(8)->C0 character plane / Richelot kernel. Does not identify retained F2^4 coordinates and does not exclude Q602/O210.","authority_promotion":"AUDITED_X8_V4_ABSTRACT_W_RICHELOT_KERNEL"},
   "post1505_retained_F2_4_adapter_provisional": {
-    "status": "PROVISIONAL_EXACT_PENDING_HOSTILE_AUDIT",
-    "source_note_path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter-source-note.md",
-    "source_note_blob_sha1": "33ed6a067b9ebb32c2a92772f98db7bb3f22fab8",
-    "certificate_path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter.json",
-    "certificate_blob_sha1": "a45e4725cf3354f7ed32ec6f7126326ca5492255",
-    "canonical_sha256": "eab4d86ffe89ff0e87d197cffb34e8b556ae530cab826dab34c1007664a4af28",
-    "external_source": {"arxiv":"2603.20754v1","locators":["Section 2.2 equation (2.9)","Proposition 2.3","Definition 2.4"]},
-    "provisional_exact_claims": {
-      "self_richelot_dual_scalar": "-1/2",
-      "transported_self_endomorphism": "[r], r^2=-2",
-      "W_equals_kernel_r": true,
-      "retained_W_basis": [[0,0,1,0],[0,0,0,1]],
-      "q602_residue_pruning": "28 -> 16",
-      "surviving_residues_decimal": [65,67,73,75,97,99,105,107,193,195,201,203,225,227,233,235]
-    },
-    "pre_controller_wire_replay": {"head":"d50672bc3b236f251b3b89e6416bd7bbc29a221d","run_id":33738915719,"job_id":100595981430,"verifier_step":"SUCCESS"},
-    "controller_bound_replay": {"head":"168e1cf3e46a7ebe591c6d64c89734c28529f167","run_id":33739155193,"job_id":100596740927,"result":"SUCCESS"},
-    "authority_effect": "NONE_PENDING_HOSTILE_AUDIT; Q602/O210 remain open and the 28->16 pruning is not promoted until audit PASS."
+    "status":"PROVISIONAL_EXACT_PENDING_HOSTILE_AUDIT",
+    "source_note_path":"stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter-source-note.md",
+    "source_note_blob_sha1":"33ed6a067b9ebb32c2a92772f98db7bb3f22fab8",
+    "certificate_path":"stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter.json",
+    "certificate_blob_sha1":"a45e4725cf3354f7ed32ec6f7126326ca5492255",
+    "canonical_sha256":"eab4d86ffe89ff0e87d197cffb34e8b556ae530cab826dab34c1007664a4af28",
+    "external_source":{"arxiv":"2603.20754v1","locators":["Section 2.2 equation (2.9)","Proposition 2.3","Definition 2.4"]},
+    "provisional_exact_claims":{"self_richelot_dual_scalar":"-1/2","transported_self_endomorphism":"[r], r^2=-2","W_equals_kernel_r":true,"retained_W_basis":[[0,0,1,0],[0,0,0,1]],"q602_residue_pruning":"28 -> 16","surviving_residues_decimal":[65,67,73,75,97,99,105,107,193,195,201,203,225,227,233,235]},
+    "pre_controller_wire_replay":{"head":"d50672bc3b236f251b3b89e6416bd7bbc29a221d","run_id":33738915719,"job_id":100595981430,"verifier_step":"SUCCESS"},
+    "controller_bound_replay":{"head":"168e1cf3e46a7ebe591c6d64c89734c28529f167","run_id":33739155193,"job_id":100596740927,"result":"SUCCESS"},
+    "authority_effect":"NONE_PENDING_HOSTILE_AUDIT; Q602/O210 remain open and the 28->16 pruning is not promoted until audit PASS."
   },
-  "current_item": "O210_Q4_RETAINED_F2_4_SELF_RICHELOT_ADAPTER_PENDING_HOSTILE_AUDIT",
-  "current_leaf": {
-    "status": "PROVISIONAL_EXACT_RETAINED_F2_4_ADAPTER_AND_28_TO_16_PENDING_HOSTILE_AUDIT",
-    "target": "Hostile-audit the self-Richelot identification W=ker(r) in retained (e1,e2,r*e1,r*e2) mod 2 coordinates and its exact pointwise Q602 pruning 28->16.",
-    "next_checkpoint": "Audit canonical eab4d86f... with its Smirnov Richelot source convention, exact Delta/bracket arithmetic, CM transport to multiplication by r, retained mod-2 kernel, and independent replay of the 28->16 filter. Do not refine the 16 survivors until PASS. O212 and later remain blocked.",
-    "O212_and_later_blocked": true
-  },
-  "math_scope": {
-    "fixed_z_O186_all_qprime": "CLOSED_AUDITED_EXCLUDED",
-    "fixed_z_O188_all_profiles": "CLOSED_AUDITED_EXCLUDED",
-    "fixed_z_qprime1_qprime2_exact_v6": "CLOSED_AUDITED_EXCLUDED_BY_MODULAR_FACTOR_INTEGRALITY",
-    "fixed_z_O210_q4_exact_v6_carrier": "OPEN_AT_AUDITED_Q602_28_RESIDUE_BOUNDARY_WITH_PROVISIONAL_RETAINED_F2_4_ADAPTER_28_TO_16_PENDING_AUDIT",
-    "fixed_z_O212_through_O266_qprime4": "BLOCKED_BEHIND_O210",
-    "fixed_z_all_integral_genus1_carriers": "OPEN",
-    "full178_geometric_closure": "OPEN_NOT_ACTIVE",
-    "receiver_theorem_endpoint": "OPEN"
-  },
-  "operations": {
-    "execution_class": "LIGHTWEIGHT_POST1505_RETAINED_F2_4_ADAPTER_HOSTILE_AUDIT_BOUNDARY",
-    "full178_scaleout_authorized": false,
-    "heavy_compute_authorized": false,
-    "survivor_materialization_authorized": false,
-    "retained_asset_research_authorized": true
-  },
-  "required_lightweight_verifier": {
-    "path": "stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q4_x8_v4_torsor_plane_retained_f2_4_adapter.py",
-    "certificate_path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter.json",
-    "workflow": ".github/workflows/stage32-post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter.yml",
-    "workflow_name": "Stage32 post1505 O210 retained F2^4 W adapter",
-    "required_checks": [
-      "source-lock audited post1505 abstract W, retained Bolza CM basis, and audited post1503 28-residue input",
-      "recompute Delta=2 and Richelot brackets for x*(x^2-1)*(x^2+1), giving fhat/f=-1/2",
-      "verify the exact r^2=-2 curve isomorphism transports the Richelot map to multiplication by r and hence W=ker(r)",
-      "derive W=span_F2{(0,0,1,0),(0,0,0,1)} in the retained post1503 module order without arbitrary basis change",
-      "pointwise replay T|W=T^dagger|W=id on the 28 audited residues and assert exactly 16 survive",
-      "assert Q602/O210 remain open and O212+ blocked"
-    ],
-    "pre_controller_wire_success": {"head":"d50672bc3b236f251b3b89e6416bd7bbc29a221d","run_id":33738915719,"job_id":100595981430,"result":"SUCCESS"},
-    "controller_bound_success": {"head":"168e1cf3e46a7ebe591c6d64c89734c28529f167","run_id":33739155193,"job_id":100596740927,"result":"SUCCESS"}
-  },
-  "audit_required_before_promotion": true,
-  "next_expected_action": "Hostile-audit the controller-bound retained-F2^4/self-Richelot adapter canonical eab4d86f... and exact-head dedicated replay. Do not advance to a new constraint on the 16 survivors before PASS.",
-  "firewalls": {
-    "O186_closed": true,
-    "O188_closed": true,
-    "O210_closed": false,
-    "fixed_V6_all_genus1_closed": false,
-    "effectivity_credit": false,
-    "full178_geometric_closure": false,
-    "receiver_credit": false,
-    "route_credit": false,
-    "theorem_credit": false,
-    "endpoint_credit": false,
-    "perfect_cuboid_existence_claim": false,
-    "perfect_cuboid_nonexistence_claim": false
-  },
-  "handoff": {
-    "batch": "20260903-stage32-post1505-retained-f2-4-adapter-audit",
-    "continue_from": "O210_Q4_RETAINED_F2_4_SELF_RICHELOT_ADAPTER_HOSTILE_AUDIT",
-    "fresh_head_required": false,
-    "do_not_merge": true,
-    "notes": "Abstract W is audited by review 5099888513. The new retained F2^4 adapter and 28->16 pointwise pruning are provisional only and must be hostile-audited before any further survivor refinement. Anti-loop remains removed as an execution gate."
-  },
-  "post1504_hostile_audit_pass": {
-    "review_id": 5098663903,
-    "audited_exact_head": "e5efd9a871d0eab05b9e9dabeb17aea3f0d599ec",
-    "exact_head_ci": {"run_id":33723706795,"job_id":100547994693,"result":"SUCCESS"},
-    "historical_post1501_successor_safe_ci": {"run_id":33723706877,"job_id":100547994971,"result":"SUCCESS"},
-    "verdict": "PASS",
-    "audited_scope": "Promotes only the relative-V4 torsor/mod-2 cohomological coupling and exact Q602 residue pruning 96->28. Q602 and O210 remain open; O212+ remains blocked; no downstream mathematical credit.",
-    "authority_promotion": "AUDITED_RELATIVE_V4_MOD2_COUPLING_96_TO_28_NONEXCLUSION"
-  },
-  "exploration_policy": {
-    "anti_loop_execution_gate": false,
-    "reopen_previous_routes_allowed": true,
-    "repeat_exact_calculation_allowed": true,
-    "retained_asset_requery_allowed": true,
-    "provenance_required_for_credit": true,
-    "historical_failures_remain_nonpromotable_without_new_exact_evidence": true,
-    "policy_note": "stages/stage32/post1504-antiloop-removal-policy.md"
-  }
+  "current_item":"O210_Q4_RETAINED_F2_4_SELF_RICHELOT_ADAPTER_PENDING_HOSTILE_AUDIT",
+  "current_leaf":{"status":"PROVISIONAL_EXACT_RETAINED_F2_4_ADAPTER_AND_28_TO_16_PENDING_HOSTILE_AUDIT","target":"Hostile-audit the self-Richelot identification W=ker(r) in retained (e1,e2,r*e1,r*e2) mod 2 coordinates and its exact pointwise Q602 pruning 28->16.","next_checkpoint":"Audit canonical eab4d86f... with its Smirnov Richelot source convention, exact Delta/bracket arithmetic, CM transport to multiplication by r, retained mod-2 kernel, and independent replay of the 28->16 filter. Do not refine the 16 survivors until PASS. O212 and later remain blocked.","O212_and_later_blocked":true},
+  "math_scope":{"fixed_z_O186_all_qprime":"CLOSED_AUDITED_EXCLUDED","fixed_z_O188_all_profiles":"CLOSED_AUDITED_EXCLUDED","fixed_z_qprime1_qprime2_exact_v6":"CLOSED_AUDITED_EXCLUDED_BY_MODULAR_FACTOR_INTEGRALITY","fixed_z_O210_q4_exact_v6_carrier":"OPEN_AT_AUDITED_Q602_28_RESIDUE_BOUNDARY_WITH_PROVISIONAL_RETAINED_F2_4_ADAPTER_28_TO_16_PENDING_AUDIT","fixed_z_O212_through_O266_qprime4":"BLOCKED_BEHIND_O210","fixed_z_all_integral_genus1_carriers":"OPEN","full178_geometric_closure":"OPEN_NOT_ACTIVE","receiver_theorem_endpoint":"OPEN"},
+  "operations":{"execution_class":"LIGHTWEIGHT_POST1505_RETAINED_F2_4_ADAPTER_HOSTILE_AUDIT_BOUNDARY","full178_scaleout_authorized":false,"heavy_compute_authorized":false,"survivor_materialization_authorized":false,"retained_asset_research_authorized":true},
+  "required_lightweight_verifier":{"path":"stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q4_x8_v4_torsor_plane_retained_f2_4_adapter.py","certificate_path":"stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter.json","workflow":".github/workflows/stage32-post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter.yml","workflow_name":"Stage32 post1505 O210 retained F2^4 W adapter","required_checks":["source-lock audited post1505 abstract W, retained Bolza CM basis, and audited post1503 28-residue input","recompute Delta=2 and Richelot brackets for x*(x^2-1)*(x^2+1), giving fhat/f=-1/2","verify the exact r^2=-2 curve isomorphism transports the Richelot map to multiplication by r and hence W=ker(r)","derive W=span_F2{(0,0,1,0),(0,0,0,1)} in the retained post1503 module order without arbitrary basis change","pointwise replay T|W=T^dagger|W=id on the 28 audited residues and assert exactly 16 survive","assert Q602/O210 remain open and O212+ blocked"],"pre_controller_wire_success":{"head":"d50672bc3b236f251b3b89e6416bd7bbc29a221d","run_id":33738915719,"job_id":100595981430,"result":"SUCCESS"},"controller_bound_success":{"head":"168e1cf3e46a7ebe591c6d64c89734c28529f167","run_id":33739155193,"job_id":100596740927,"result":"SUCCESS"}},
+  "audit_required_before_promotion":true,
+  "next_expected_action":"Hostile-audit the controller-bound retained-F2^4/self-Richelot adapter canonical eab4d86f... and exact-head dedicated replay. Do not advance to a new constraint on the 16 survivors before PASS.",
+  "firewalls":{"O186_closed":true,"O188_closed":true,"O210_closed":false,"fixed_V6_all_genus1_closed":false,"effectivity_credit":false,"full178_geometric_closure":false,"receiver_credit":false,"route_credit":false,"theorem_credit":false,"endpoint_credit":false,"perfect_cuboid_existence_claim":false,"perfect_cuboid_nonexistence_claim":false},
+  "handoff":{"batch":"20260903-stage32-post1505-retained-f2-4-adapter-audit","continue_from":"O210_Q4_RETAINED_F2_4_SELF_RICHELOT_ADAPTER_HOSTILE_AUDIT","fresh_head_required":false,"do_not_merge":true,"notes":"Abstract W is audited by review 5099888513. The new retained F2^4 adapter and 28->16 pointwise pruning are provisional only and must be hostile-audited before any further survivor refinement. Anti-loop remains removed as an execution gate."},
+  "post1504_hostile_audit_pass":{"review_id":5098663903,"audited_exact_head":"e5efd9a871d0eab05b9e9dabeb17aea3f0d599ec","exact_head_ci":{"run_id":33723706795,"job_id":100547994693,"result":"SUCCESS"},"historical_post1501_successor_safe_ci":{"run_id":33723706877,"job_id":100547994971,"result":"SUCCESS"},"verdict":"PASS","audited_scope":"Promotes only the relative-V4 torsor/mod-2 cohomological coupling and exact Q602 residue pruning 96->28. Q602 and O210 remain open; O212+ remains blocked; no downstream mathematical credit.","authority_promotion":"AUDITED_RELATIVE_V4_MOD2_COUPLING_96_TO_28_NONEXCLUSION"},
+  "exploration_policy":{"anti_loop_execution_gate":false,"reopen_previous_routes_allowed":true,"repeat_exact_calculation_allowed":true,"retained_asset_requery_allowed":true,"provenance_required_for_credit":true,"historical_failures_remain_nonpromotable_without_new_exact_evidence":true,"policy_note":"stages/stage32/post1504-antiloop-removal-policy.md"}
 }
