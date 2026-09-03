@@ -1,14 +1,14 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V226_POST1500_REPAIR_AUDIT_PASS_CHECKPOINT",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V227_POST1501_GEOMETRY_NEGATIVE_REPAIR",
   "stage": 32,
-  "status": "STAGE32_O210_ROSATI_TRACE_1204_Q602_AUDITED_NONEXCLUSION_BOUNDARY",
+  "status": "STAGE32_O210_ROSATI_TRACE_1204_Q602_GEOMETRY_AUDITED_NEGATIVE_AWAITING_HOSTILE_REAUDIT",
   "stage32_closed": false,
   "advance_allowed": false,
-  "merge_allowed": true,
-  "checkpoint_merge_ready": true,
+  "merge_allowed": false,
+  "checkpoint_merge_ready": false,
   "active_pr": {
-    "number": 1500,
-    "branch": "stage32-post1490-o212-q4-continuation",
+    "number": 1501,
+    "branch": "stage32-post1500-o210-rosati-geometry",
     "automatic_merge_authorized": false
   },
   "fixed_target": {
@@ -90,11 +90,34 @@
     "result": "SUCCESS",
     "scope": "Controller-only V226 audit promotion replay; mathematical repair certificate/verifier unchanged from the audited V225 boundary."
   },
-  "current_item": "O210_Q4_ROSATI_TRACE_1204_GEOMETRY",
+  "post1501_hostile_audit_failure": {
+    "review_id": 5097957179,
+    "exact_head": "2ac50a1748a357a71783ab180e62295d5d3e6494",
+    "verdict": "FAIL",
+    "mechanically_mergeable": true,
+    "merge_authorized": false,
+    "defects": [
+      "#1501 incorrectly promoted the checkpoint label from O210 to O211 while controller/source authority remained O210.",
+      "#1501 claimed pair-operator bound 376 and W=128 -> p>=32 without source-lock in the admitted controller/source-note; the admitted repaired facts are T^dagger*T <= 8505 and delta_Gamma >= 1924.",
+      "The verifier asserted certificate constants instead of parsing controller/source-note content, and exact-head CI did not execute that verifier.",
+      "The AUDITED_NEGATIVE anti-loop handoff did not update controller startup authority and next action."
+    ],
+    "narrow_math_conclusion_retained": "Current admitted common-cover/marked-branch geometry does not by itself provide a source-locked strict Rosati improvement or other exclusion of sigma=1204 / Q=602."
+  },
+  "post1501_geometry_negative_lane": {
+    "status": "AUDITED_NEGATIVE",
+    "audit_note_path": "stages/stage32/residual-32-01-production/post1500-common-cover-marked-branch-geometry-audit.md",
+    "certificate_path": "stages/stage32/residual-32-01-production/post1500-common-cover-marked-branch-geometry-certificate.json",
+    "source_note_blob_sha1": "b0ea281eae453929c292059a919bc1f68b3080b3",
+    "conclusion": "No admitted source-locked common-cover/marked-branch/ramification theorem or local certificate currently forces strict Rosati loss or otherwise excludes sigma(Gamma)=1204 / Q(T)=602.",
+    "authority_effect": "NONE; O210 remains open at the audited repaired nonexclusion boundary and O212+ remains blocked.",
+    "reentry_requires_new_source_locked_evidence": true
+  },
+  "current_item": "O210_Q4_ROSATI_TRACE_1204_GEOMETRY_AUDITED_NEGATIVE",
   "current_leaf": {
-    "status": "AUDITED_EXACT_NONEXCLUSION_BOUNDARY",
-    "target": "Find a genuinely geometric, source-locked reason forcing sigma(Gamma)=0, or independently exclude sigma=1204 / Q(T)=602 for a correspondence arising from the common-cover/marked-branch geometry. Existing Rosati/D4/Weierstrass assets do not exclude Q=602.",
-    "next_checkpoint": "Merge PR #1500 as the audited repair checkpoint. Continue the O210_Q4_ROSATI_TRACE_1204_GEOMETRY search only in a fresh post-merge PR; O212 and later overlaps remain blocked.",
+    "status": "AUDITED_NEGATIVE",
+    "target": "Do not repeat the exhausted common-cover/marked-branch generic inference. Re-enter only with a new source-locked coupling theorem/certificate, a local intersection/ramification calculation forcing strict Rosati loss, or a certified contribution identification/collision excluding sigma=1204 / Q=602.",
+    "next_checkpoint": "Hostile re-audit PR #1501 at the repaired exact head with the dedicated geometry verifier wired into exact-head CI. Until PASS, merge is forbidden. After a PASS/merge, O210 still remains open and O212+ remains blocked unless new qualifying evidence is admitted.",
     "O212_and_later_blocked": true
   },
   "anti_loop": {
@@ -105,6 +128,7 @@
       "qprime=1,2 modular-factor integrality exclusions",
       "bounded Rosati/D4/Weierstrass check of Q=602 after repair e28c7539",
       "full Rosati frontier enumeration merely to test Q=602",
+      "common-cover/marked-branch generic Rosati-strictness inference after the #1501 negative lane unless new source-locked coupling evidence is admitted",
       "B-side Picard64 treated as Pic(X) without explicit adapter",
       "post-21bl representative sample substituted for exact recovered V6 class",
       "relative-H u/v/uv node permutation search after d03cfe8c",
@@ -113,6 +137,7 @@
     "forbidden_inferences": [
       "Gamma^2=2*d1*d2 from bidegree alone on a positive-genus product",
       "sigma(Gamma)=0 without an independent geometric proof",
+      "shared-cover or marked-branch structure alone implies strict Rosati loss",
       "delta_Gamma=8586 or zero-Rosati downstream simplex values without rederivation",
       "exact-head CI success implies hostile-audit mathematical correctness"
     ],
@@ -122,29 +147,34 @@
     "fixed_z_O186_all_qprime": "CLOSED_AUDITED_EXCLUDED_DO_NOT_REOPEN",
     "fixed_z_O188_all_profiles": "CLOSED_AUDITED_EXCLUDED_DO_NOT_REOPEN",
     "fixed_z_qprime1_qprime2_exact_v6": "CLOSED_AUDITED_EXCLUDED_BY_MODULAR_FACTOR_INTEGRALITY",
-    "fixed_z_O210_q4_exact_v6_carrier": "OPEN_AT_AUDITED_ROSATI_TRACE_1204_Q602_NONEXCLUSION_BOUNDARY",
+    "fixed_z_O210_q4_exact_v6_carrier": "OPEN_AT_AUDITED_ROSATI_TRACE_1204_Q602_NONEXCLUSION_BOUNDARY_WITH_GEOMETRY_LANE_NEGATIVE",
     "fixed_z_O212_through_O266_qprime4": "BLOCKED_BEHIND_O210",
     "fixed_z_all_integral_genus1_carriers": "OPEN",
     "full178_geometric_closure": "OPEN_NOT_ACTIVE",
     "receiver_theorem_endpoint": "OPEN"
   },
   "operations": {
-    "execution_class": "LIGHTWEIGHT_POST1500_AUDITED_REPAIR_CHECKPOINT",
+    "execution_class": "LIGHTWEIGHT_POST1501_GEOMETRY_NEGATIVE_HANDOFF_REPAIR",
     "full178_scaleout_authorized": false,
     "heavy_compute_authorized": false,
     "survivor_materialization_authorized": false,
     "retained_asset_research_authorized": false
   },
   "required_lightweight_verifier": {
-    "path": "stages/stage32/residual-32-01-production/certify_stage32_post1500_hostile_audit_rosati_trace_repair.py",
-    "certificate_path": "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json",
-    "workflow": ".github/workflows/stage32-post1490-fixed-v6-all-genus1-exclusion.yml",
-    "workflow_name": "Stage32 post1500 hostile-audit Rosati repair replay",
-    "audited_head_success": {"head":"067eb659e97f6b65b02d5135e9bfd4cf8bc3d7ad","run_id":33713913472,"job_id":100518980436,"result":"SUCCESS"},
-    "promotion_head_success": {"head":"614d99ff01ec311c17b98f5506854cd73d5b71e7","run_id":33714830176,"job_id":100521685882,"result":"SUCCESS"}
+    "path": "stages/stage32/residual-32-01-production/verify_post1500_common_cover_marked_branch_geometry.py",
+    "certificate_path": "stages/stage32/residual-32-01-production/post1500-common-cover-marked-branch-geometry-certificate.json",
+    "workflow": ".github/workflows/stage32-post1500-common-cover-marked-branch-geometry.yml",
+    "workflow_name": "Stage32 post1500 common-cover geometry negative replay",
+    "required_checks": [
+      "parse live controller and assert fixed target O210 / active PR #1501 / O212+ blocked",
+      "recompute admitted repair source-note Git blob SHA-1",
+      "assert source-note and controller agree on Gamma^2=15806, sigma=1204, Q=602, operator bound 8505, Weierstrass delta minimum 1924",
+      "assert certificate authority_before equals authority_after at O210",
+      "assert #1501 negative handoff and anti-loop state are represented in controller"
+    ]
   },
-  "audit_required_before_promotion": false,
-  "next_expected_action": "Merge PR #1500 as the audited repair checkpoint. Do not advance O212 or grant downstream credit; continue O210 Rosati-trace geometry in a fresh post-merge PR.",
+  "audit_required_before_promotion": true,
+  "next_expected_action": "Run exact-head CI containing the dedicated #1501 geometry verifier, then hostile re-audit PR #1501. Do not merge before hostile-audit PASS. Do not resume O212+ or repeat the negative geometry lane without newly admitted source-locked coupling evidence.",
   "firewalls": {
     "O186_closed": true,
     "O188_closed": true,
@@ -160,10 +190,10 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "handoff": {
-    "batch": "20260903-stage32-post1500-audited-repair-checkpoint",
-    "continue_from": "O210_Q4_ROSATI_TRACE_1204_GEOMETRY",
-    "fresh_head_required": true,
-    "do_not_merge": false,
-    "notes": "V225 repair/nonexclusion boundary passed hostile audit review 5097673453 at exact head 067eb659e... with replay 33713913472/100518980436 SUCCESS. Authority is audited nonexclusion at Gamma^2=15806, sigma=1204, Q=602, delta=7984. #1490 O210 exclusion remains reopened; V224 remains superseded; O212+ blocked. V226 promotion head 614d99ff... replay 33714830176/100521685882 SUCCESS. PR #1500 is merge-ready as a repair checkpoint."
+    "batch": "20260903-stage32-post1501-geometry-negative-repair",
+    "continue_from": "O210_Q4_ROSATI_TRACE_1204_GEOMETRY_AUDITED_NEGATIVE",
+    "fresh_head_required": false,
+    "do_not_merge": true,
+    "notes": "Hostile audit review 5097957179 failed exact head 2ac50a1748... on authority/source-lock/verifier/handoff defects, not on the narrow negative geometry conclusion. The repaired #1501 lane stays at O210, removes unsupported 376 and W=128 claims, locks source-note blob b0ea281e..., parses controller/source content in its verifier, and requires a dedicated exact-head CI replay. O210 remains open at sigma=1204/Q=602; O212+ stays blocked. Re-enter the geometry lane only with new source-locked coupling evidence."
   }
 }
