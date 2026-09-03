@@ -1,0 +1,81 @@
+{
+  "schema": "STAGE35_35_02_Q_FIELD_PHYSICAL_FIBRATION_LEDGER_V1",
+  "stage": "35",
+  "unit": "35-02_Q_FIELD_PHYSICAL_FIBRATION_LEDGER",
+  "status": "PASS_SELECTED_GLOBAL_ENDPOINT_FIBRATION_LEDGER_COMPLETE",
+  "scope": "selected Stage35 attack fibration only; historical all-15/all-28 field ledger remains open",
+  "sources": {
+    "stage35_35_01": "stages/stage35/35-01/source-lock-and-model-inventory.json",
+    "stage29_crosswalk": {
+      "path": "stages/stage29/29-08/fibration-crosswalk.md",
+      "blob_sha": "de360854d63cf6a7462ae2a519861f45d058d899"
+    },
+    "external_primary_note": "stages/stage35/35-02/testa-stoll-source-note.md"
+  },
+  "physical_dictionary": {
+    "testa_stoll_coordinates": ["a1", "a2", "a3", "b1", "b2", "b3", "c"],
+    "stage29_coordinates": ["e", "x", "y", "p", "q", "z", "d"],
+    "mapping": {
+      "a1": "e",
+      "a2": "x",
+      "a3": "y",
+      "b1": "z",
+      "b2": "q",
+      "b3": "p",
+      "c": "d"
+    },
+    "equation_preserving": true
+  },
+  "selected_primary_attack_fibration": {
+    "id": "TS-S-R3-Q1",
+    "source_surface": "full cuboid endpoint canonical surface Sbar, with resolution only at singular base points",
+    "source_quadric_testa_stoll": "a1^2+b1^2=c^2",
+    "source_quadric_stage29": "e^2+z^2=d^2",
+    "rank": 3,
+    "base_field": "Q",
+    "splitting_field_required": false,
+    "base_parameter_space": "P1_Q",
+    "physical_affine_parameter": "t=(e+d)/z",
+    "physical_parameter_domain": "t in Q and t>1",
+    "generic_fiber_genus": 5,
+    "generic_fiber_canonical": true,
+    "Q_defined": true,
+    "construction": "project to the rank-3 conic, blow up the eight singular base points, then use the conic isomorphism with P1 available over Q",
+    "base_locus": "eight singular points of Sbar",
+    "physical_open_intersects_base_locus": false,
+    "physical_open_reason": "nondegenerate endpoint has all three side coordinates nonzero and is smooth; additionally z>0 so the selected affine parameter denominator is nonzero",
+    "endpoint_pushforward_scope": "every nondegenerate physical endpoint Q-point",
+    "endpoint_pushforward_formula": "[e:x:y:p:q:z:d] -> t=(e+d)/z",
+    "global_physical_endpoint_coverage": true,
+    "rational_point_exclusion_proved": false,
+    "uniform_arithmetic_proved": false,
+    "bad_fiber_count_from_source": 10,
+    "bad_fiber_exact_parameter_values_complete": false,
+    "bad_fiber_disposition_deferred_to": "35-05_BAD_FIBER_AND_EXCEPTIONAL_LOCUS"
+  },
+  "retained_field_firewall": {
+    "full_endpoint_geometric_genus5_count": 28,
+    "all_28_Q_defined_certified": false,
+    "rank4_requires_splitting_field_in_general": true,
+    "first_rank4_pair_field": "Q(i)",
+    "euler_k3_geometric_elliptic_count": 15,
+    "all_15_Q_defined_certified": false,
+    "R29_FIB1_historical_all_fibration_ledger_closed": false
+  },
+  "route_decision": {
+    "reason_for_single_selected_fibration": "one Q-defined fibration of the full endpoint surface already sends every physical endpoint Q-point to a rational base parameter, so Stage35 does not need all 28 field entries before attacking the moving-family quantifier",
+    "K3_marginal_route_required_for_primary_attack": false,
+    "Peschmann_marginal_route_required_for_primary_attack": false,
+    "other_fibrations_may_be_reopened": "only if the selected direct route is later parked and a materially new route is justified"
+  },
+  "promotion_boundary": {
+    "selected_attack_Q_field_and_physical_fibration_ledger_complete": true,
+    "historical_R29_FIB1_closed": false,
+    "residual_space_lift_interface_complete": false,
+    "R29_FIB2_closed": false,
+    "new_theorem_credit": false,
+    "next_exact_leaf": "35-03_RESIDUAL_SPACE_LIFT_INTERFACE"
+  },
+  "perfect_cuboid_existence_claim": false,
+  "perfect_cuboid_nonexistence_claim": false
+}
