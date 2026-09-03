@@ -153,27 +153,19 @@ def main() -> None:
     assert cert["schema"] == "STAGE32_POST1505_O210_Q602_WEIERSTRASS_PARITY_TRANSVECTION_REFINEMENT_V1"
     assert canonical_sha256(cert) == cert["canonical_sha256_without_this_field"] == EXPECTED_CANONICAL
 
-    # V239 controller wiring is part of the exact replay contract.
+    # Historical audited-bundle replay must remain valid under successor
+    # controllers.  Validate only the retained bundle identity and permanent
+    # safety firewalls; do not pin the active controller leaf or verifier.
     controller = json.loads((ROOT / "stages/stage32/controller.json").read_text())
-    assert controller["schema"] == "STAGE32_LOWGENUS_PICARD_CONTROLLER_V239_POST1505_Q602_WEIERSTRASS_TRANSVECTION_PROVISIONAL"
-    assert controller["status"] == "STAGE32_O210_Q602_PROVISIONAL_WEIERSTRASS_TRANSVECTION_16_TO_3_PENDING_HOSTILE_AUDIT"
-    assert controller["current_item"] == "O210_Q602_WEIERSTRASS_TRANSVECTION_16_TO_3_PENDING_HOSTILE_AUDIT"
-    leaf = controller["current_leaf"]
-    assert leaf["status"] == "PROVISIONAL_EXACT_WEIERSTRASS_PARITY_TRANSVECTION_16_TO_3_PENDING_HOSTILE_AUDIT"
-    assert leaf["O212_and_later_blocked"] is True
     bundle = controller["post1505_q602_weierstrass_parity_transvection_provisional"]
     assert bundle["certificate_path"] == args.check
     assert bundle["canonical_sha256"] == EXPECTED_CANONICAL
     assert bundle["q602_residue_pruning"] == "16 -> 3"
     assert bundle["surviving_residues_decimal"] == EXPECTED_3
-    required = controller["required_lightweight_verifier"]
-    assert required["path"] == "stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q602_weierstrass_parity_transvection_refinement.py"
-    assert required["certificate_path"] == args.check
-    assert required["workflow"] == ".github/workflows/stage32-post1505-o210-q602-weierstrass-parity-transvection-refinement.yml"
-    assert controller["audit_required_before_promotion"] is True
     assert controller["merge_allowed"] is False
-    assert controller["operations"]["retained_asset_research_authorized"] is False
     assert controller["operations"]["heavy_compute_authorized"] is False
+    assert controller["firewalls"]["O210_closed"] is False
+    assert controller["math_scope"]["fixed_z_O212_through_O266_qprime4"] == "BLOCKED_BEHIND_O210"
 
     locks = cert["source_locks"]
     adapter16 = load_locked_json(locks["audited_16_adapter"])
