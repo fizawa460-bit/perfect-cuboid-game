@@ -24,6 +24,9 @@ permissions:
 
 jobs:
   replay:
+    # Historical audited-bundle replay.  The verifier intentionally accepts
+    # successor Stage32 controllers while requiring the V238 16->16 bundle and
+    # its hostile-audit promotion record to remain intact.
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
