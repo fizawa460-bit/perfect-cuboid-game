@@ -1,0 +1,66 @@
+name: Stage32 post1490 O210 Bolza Rosati replay
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1490-o210-bolza-rosati.yml'
+      - 'stages/stage32/controller.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-*'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_*'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1490_o210_q4_*'
+      - 'stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-beauville-odd-branch-wall.md'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json'
+      - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
+      - 'stages/stage32/32-21/post-21bl-effectivity-gap-separation.json'
+      - 'stages/stage32/residual-32-01-production/post1473-x8-marked-exceptional-incidence.json'
+      - 'stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Replay Bolza correspondence Rosati frontier
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_correspondence_rosati_frontier.py --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-frontier.json
+      - name: Replay exact Bolza principal Rosati lock
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_principal_rosati_lock.py --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json
+      - name: Replay birational D4+D4 trace reduction
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_birational_d4d4_trace_reduction.py --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-birational-d4d4-trace-reduction.json
+      - name: Replay six-Weierstrass collision delta bound
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_weierstrass_collision_delta_bound.py --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-weierstrass-collision-delta-bound.json
+      - name: Replay V4 deck-translate defect decomposition
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_v4_deck_translate_defect_decomposition.py --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-v4-deck-translate-defect-decomposition.json
+      - name: Replay Picard64 deck-action partial source trace
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_picard64_deck_action_source_trace.py --check stages/stage32/residual-32-01-production/post1490-o210-q4-picard64-deck-action-source-trace.json
+      - name: Replay deck-action object mismatch correction
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_deck_action_object_mismatch_correction.py --check stages/stage32/residual-32-01-production/post1490-o210-q4-deck-action-object-mismatch-correction.json
+      - name: Replay X-side marked deck-difference information boundary
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_x_marked_deck_difference_information_boundary.py --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-marked-deck-difference-information-boundary.json
+      - name: Probe relative-H action on marked nodes
+        run: python stages/stage32/residual-32-01-production/diagnose_stage32_post1490_o210_q4_x_relative_h_node_action.py
+      - name: Replay exact relative-H marked-node action
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_x_relative_h_marked_node_action.py --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-relative-h-marked-node-action.json
+      - name: Replay exact X local multiplicity adapter
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_x_local_multiplicity_adapter.py --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-local-multiplicity-adapter.json
+      - name: Replay marked multiplicity-only nonexclusion boundary
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_marked_multiplicity_only_boundary.py --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-marked-multiplicity-only-boundary.json
+      - name: Replay retained tangent/infinitely-near information boundary
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_marked_tangent_information_boundary.py --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-marked-tangent-information-boundary.json
+      - name: Replay global-constraint/effective-carrier local-jet information boundary
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_global_or_carrier_local_jet_information_boundary.py --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-global-or-carrier-local-jet-information-boundary.json
+      - name: Replay V4-character Hodge-index global constraint
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_v4_character_hodge_index_global_constraint.py --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-v4-character-hodge-index-global-constraint.json
+      - name: Replay Beauville blow-up Picard adapter and exact delta lock
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_beauville_blowup_picard_adapter_delta_lock.py --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-beauville-blowup-picard-adapter-delta-lock.json
+      - name: Replay rational character algebra integral-index boundary
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_rational_character_algebra_integral_index_boundary.py --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-rational-character-algebra-integral-index-boundary.json
+      - name: Probe equivariant blow-up deck cross intersections
+        run: python stages/stage32/residual-32-01-production/diagnose_stage32_post1490_o210_q4_equivariant_blowup_deck_cross.py
+      - name: Replay exact equivariant Beauville deck-cross exclusion
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_equivariant_beauville_deck_cross_exclusion.py --check stages/stage32/residual-32-01-production/post1490-o210-q4-equivariant-beauville-deck-cross-exclusion.json

@@ -1,0 +1,162 @@
+{
+  "schema": "STAGE32_POST1490_O210_Q4_BOLZA_V4_CHARACTER_HODGE_INDEX_GLOBAL_CONSTRAINT_V1",
+  "stage": 32,
+  "leaf": "POST1490_O210_Q4_BOLZA_V4_CHARACTER_HODGE_INDEX_GLOBAL_CONSTRAINT",
+  "status": "PROVISIONAL_EXACT_HODGE_GLOBAL_CONSTRAINT_PENDING_HOSTILE_AUDIT",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "d": 186,
+    "e": 266,
+    "genus": 1,
+    "O": 210,
+    "qprime": 4
+  },
+  "source_locks": {
+    "v4_defect": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-v4-deck-translate-defect-decomposition.json",
+      "blob_sha1": "d7ac0791f7d2eadf6ee5b9780b1f89ef9a16b502",
+      "canonical_sha256": "cdc186f8da6eff760a79f98b50106de19d565ebf806dc58b00cc105e4d983af2"
+    },
+    "marked_multiplicity": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-marked-multiplicity-only-boundary.json",
+      "blob_sha1": "ca27edb72a42b64d782abc29c193e076a64e193b",
+      "canonical_sha256": "29afae4e789522162374baeaca89c860a1c6dac21ce77059e7fe06988e43bfcf"
+    },
+    "prior_information_wall": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-global-or-carrier-local-jet-information-boundary.json",
+      "blob_sha1": "6f74698131217bfe176b348d2f84d009534b6594",
+      "canonical_sha256": "96e28e71b6b8236a62d221e3a5082d31a51ef8880851fa9c095123fe569cfed0"
+    },
+    "external_hodge_index": {
+      "title": "Hodge Index Theorem",
+      "author": "Fei Ye",
+      "publication_date": "2020-11-20",
+      "url": "https://math.yfei.page/posts/2020-11-20-hodge-index/",
+      "locator": "Section 1, Lemma 1 / Theorem 1",
+      "standard_reference": "Hartshorne, Algebraic Geometry, Chapter V, Theorem 1.9",
+      "exact_supported_fact": "For a smooth projective surface and an ample divisor H, any divisor E with E.H=0 has E^2<=0; equivalently H-perp is negative definite modulo numerical triviality."
+    },
+    "source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-v4-character-hodge-index-source-note.md",
+      "blob_sha1": "4169c4fc0f1f44d9adea8df63b9985005a089cea"
+    }
+  },
+  "v4_orbit_intersection": {
+    "orbit_order": [
+      "D",
+      "uD",
+      "vD",
+      "uvD"
+    ],
+    "self_intersection": "s=-162+2*delta_D",
+    "off_diagonal": {
+      "a": "D.uD=2*c_u",
+      "b": "D.vD=2*c_v",
+      "c": "D.uvD=2*c_uv"
+    },
+    "gram_matrix": [
+      [
+        "s",
+        "a",
+        "b",
+        "c"
+      ],
+      [
+        "a",
+        "s",
+        "c",
+        "b"
+      ],
+      [
+        "b",
+        "c",
+        "s",
+        "a"
+      ],
+      [
+        "c",
+        "b",
+        "a",
+        "s"
+      ]
+    ],
+    "exact_defect_identity": "delta_D+c_u+c_v+c_uv=8586"
+  },
+  "hodge_character_argument": {
+    "v4_invariant_ample_class": "H=sum_{g in V4} g(H0) for any ample H0 on X",
+    "character_divisors": {
+      "u": "D+uD-vD-uvD",
+      "v": "D-uD+vD-uvD",
+      "uv": "D-uD-vD+uvD"
+    },
+    "orthogonal_to_H": true,
+    "hodge_square_nonpositive": true,
+    "character_eigenvalues": {
+      "u": "lambda_u=s+a-b-c=4*(delta_D+c_u)-17334",
+      "v": "lambda_v=s-a+b-c=4*(delta_D+c_v)-17334",
+      "uv": "lambda_uv=s-a-b+c=4*(delta_D+c_uv)-17334"
+    },
+    "character_square_formula": "E_chi^2=4*lambda_chi",
+    "lambda_mod4": 2,
+    "lambda_zero_impossible": true,
+    "lambda_upper_bound": -2
+  },
+  "new_global_constraints": {
+    "for_each_t": [
+      "delta_D+c_t<=4333",
+      "c_t>=delta_D-80"
+    ],
+    "pair_sum_lower_bound": 4253,
+    "delta_D_lower_bound_from_marked_intrinsic": 1046,
+    "delta_D_upper_bound": 2206,
+    "deck_half_intersection_universal_lower_bound": 966,
+    "deck_specific_old_lower_bounds": {
+      "u": 680,
+      "v": 898,
+      "uv": 726
+    },
+    "old_combined_component_lower_budget": 3350,
+    "new_combined_component_lower_budget": 3944,
+    "old_residual_slack": 5236,
+    "new_residual_slack": 4642,
+    "slack_improvement": 594,
+    "delta_2206_endpoint_ordered_triples": [
+      [
+        2126,
+        2127,
+        2127
+      ],
+      [
+        2127,
+        2126,
+        2127
+      ],
+      [
+        2127,
+        2127,
+        2126
+      ]
+    ]
+  },
+  "decision": {
+    "O210_excluded": false,
+    "independent_global_constraint_introduced": true,
+    "effectivity_proved": false,
+    "local_jet_materialized": false,
+    "result": "HODGE_V4_CHARACTER_GLOBAL_CORRIDOR_EXACT_NONEXCLUSION",
+    "next_exact_leaf": "O210_Q4_BOLZA_HODGE_CONSTRAINED_DEFECT_CORRIDOR"
+  },
+  "firewalls": {
+    "retained_source_search_reopened": false,
+    "picard64_promoted_to_picX": false,
+    "effectivity_credit": false,
+    "full178_authorized": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "b5d66b6adfe518880bc376825c4990197a8ba20786967ec260352346b06e7855"
+}

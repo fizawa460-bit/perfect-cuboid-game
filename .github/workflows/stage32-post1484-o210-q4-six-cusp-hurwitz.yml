@@ -1,0 +1,96 @@
+name: Stage32 post1484 O210 q4 six-cusp Hurwitz replay
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1484-o210-q4-six-cusp-hurwitz.yml'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_six_cusp_hurwitz_reduction.py'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-six-cusp-hurwitz-reduction.json'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-six-cusp-hurwitz-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_first_hurwitz_explicit_nonexclusion.py'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-first-hurwitz-explicit-nonexclusion.json'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-first-hurwitz-explicit-nonexclusion-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_common_double_cover_pic2_reduction.py'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-pic2-reduction.json'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-pic2-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_common_double_cover_cartesian_identity.py'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_second_projection_local_excess_decomposition.py'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-second-projection-local-excess-decomposition.json'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-second-projection-local-excess-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-second-projection-ramification-accounting.json'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_second_ramification_half_divisor_picard_identity.py'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-second-ramification-half-divisor-picard-identity.json'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-second-ramification-half-divisor-picard-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_half_ramification_abel_jacobi_reduction.py'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-half-ramification-abel-jacobi-reduction.json'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-half-ramification-abel-jacobi-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_abel_jacobi_closure_contract.py'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-abel-jacobi-closure-contract.json'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_abel_jacobi_equivalent_theorem_closure.py'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-abel-jacobi-equivalent-theorem-closure.json'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_correspondence_rosati_frontier.py'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-frontier.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-boundary.json'
+      - 'stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json'
+      - 'stages/stage32/residual-32-01-production/post1473-o188-q4-genus2-descent-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1473-o188-cusp-ramification-budget.json'
+      - 'stages/stage32/residual-32-01-production/post1473-x8-marked-exceptional-incidence.json'
+      - 'stages/stage32/residual-32-01-production/post1473-product-cover-v4-character-rank-reduction.json'
+      - 'stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-beauville-odd-branch-wall.md'
+      - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
+      - 'stages/stage32/controller.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Replay O210 six-cusp Hurwitz reduction
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_six_cusp_hurwitz_reduction.py
+          --check stages/stage32/residual-32-01-production/post1484-o210-q4-six-cusp-hurwitz-reduction.json
+      - name: Replay explicit first Hurwitz nonexclusion
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_first_hurwitz_explicit_nonexclusion.py
+          --check stages/stage32/residual-32-01-production/post1484-o210-q4-first-hurwitz-explicit-nonexclusion.json
+      - name: Replay common-cover Pic2 reduction
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_common_double_cover_pic2_reduction.py
+          --check stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-pic2-reduction.json
+      - name: Replay common-cover Cartesian identity
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_common_double_cover_cartesian_identity.py
+          --check stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json
+      - name: Replay second-projection 24-unit local excess decomposition
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_second_projection_local_excess_decomposition.py
+          --check stages/stage32/residual-32-01-production/post1484-o210-q4-second-projection-local-excess-decomposition.json
+      - name: Replay second-ramification half-divisor Picard identity
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_second_ramification_half_divisor_picard_identity.py
+          --check stages/stage32/residual-32-01-production/post1484-o210-q4-second-ramification-half-divisor-picard-identity.json
+      - name: Replay half-ramification Abel-Jacobi reduction
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_half_ramification_abel_jacobi_reduction.py
+          --check stages/stage32/residual-32-01-production/post1484-o210-q4-half-ramification-abel-jacobi-reduction.json
+      - name: Replay Abel-Jacobi closure contract
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_abel_jacobi_closure_contract.py
+          --check stages/stage32/residual-32-01-production/post1484-o210-q4-abel-jacobi-closure-contract.json
+      - name: Replay Abel-Jacobi equivalent-theorem zero closure
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1484_o210_q4_abel_jacobi_equivalent_theorem_closure.py
+          --check stages/stage32/residual-32-01-production/post1484-o210-q4-abel-jacobi-equivalent-theorem-closure.json
+      - name: Replay Bolza correspondence Rosati frontier
+        run: >-
+          python stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_bolza_correspondence_rosati_frontier.py
+          --check stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-frontier.json

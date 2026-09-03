@@ -1,0 +1,80 @@
+{
+  "schema": "STAGE32_POST1484_O210_Q4_HALF_RAMIFICATION_ABEL_JACOBI_REDUCTION_V1",
+  "stage": 32,
+  "leaf": "POST1484_O210_Q4_HALF_RAMIFICATION_ABEL_JACOBI_REDUCTION",
+  "status": "PROVISIONAL_EXACT_DIVISOR_CLASS_REDUCTION_PENDING_HOSTILE_AUDIT",
+  "fixed_target": {"row_id":"g1-d186","d":186,"e":266,"genus":1,"z":[-15,62,-44,26,32]},
+  "source_locks": {
+    "half_ramification_picard": {"path":"stages/stage32/residual-32-01-production/post1484-o210-q4-second-ramification-half-divisor-picard-identity.json","blob_sha1":"3d237e15f92ce8b599cba72ceddb67ef6c24de6b","canonical_sha256":"5705689b331d2c6749d6ca09f7187c75f65c2917668f65b643ce380fce51ff3d"},
+    "six_cusp_first_projection": {"path":"stages/stage32/residual-32-01-production/post1484-o210-q4-six-cusp-hurwitz-reduction.json","blob_sha1":"1f1b24eb09f48231a3897423c36f4e03095a6d75","canonical_sha256":"329cf00d5380f515386622f5b18bcf90e36a99c16715e462ef9219abe0d609e1"},
+    "source_note": {"path":"stages/stage32/residual-32-01-production/post1484-o210-q4-half-ramification-abel-jacobi-source-note.md","blob_sha1":"e85751a099c9b43383abb5862dd95412b1e1d689"}
+  },
+  "maps_on_normalization": {
+    "curve": "N",
+    "genus": 1,
+    "z": {"target":"P1=X(4)","degree":105},
+    "w": {"target":"P1=X(4)","degree":81}
+  },
+  "ramification_divisors": {
+    "R_z": {
+      "degree": 210,
+      "riemann_hurwitz_line_bundle": "O_N(R_z) ~= z^*O_P1(2)",
+      "support_locked": true,
+      "support_description": "210 simple ramification points over the six modular cusp values: 182 first-factor strict-boundary points plus 28 exceptional m=2 contacts."
+    },
+    "R_w": {
+      "degree": 162,
+      "riemann_hurwitz_line_bundle": "O_N(R_w) ~= w^*O_P1(2)",
+      "support_locked": false,
+      "support_description": "Support remains constrained by the same second-map local excess/common-cover geometry but is not pointwise Abel-Jacobi locked."
+    }
+  },
+  "half_ramification_input": {
+    "E_effective": true,
+    "degree_E": 24,
+    "line_bundle": "O_N(E) ~= z^*O_P1(1) tensor w^*O_P1(-1)",
+    "support_pattern": "exceptional endpoint excess k_P, strict-boundary tangency r_Q-1, and off-cusp ramification e_S-1"
+  },
+  "divisor_class_reduction": {
+    "squared_half_ramification_identity": "O_N(2E) ~= z^*O_P1(2) tensor w^*O_P1(-2)",
+    "exact_linear_equivalence": "2E ~ R_z - R_w",
+    "origin_free_pic0_condition": "[2E - R_z + R_w] = 0 in Pic^0(N)",
+    "degree_zero_check": "2*24-210+162=0",
+    "abel_jacobi_form": "After choosing an origin on N, the weighted group-law sum of 2E-R_z+R_w is zero.",
+    "differential_form": "R_z-R_w-2E is principal; equivalently compatible with div(dz/dw) and E~z^*(infinity)-w^*(infinity)."
+  },
+  "object_type_firewall": {
+    "surface_picard_preflight_applicable": false,
+    "reason": "The old preflights constrain a resolved-surface Picard class via exceptional-curve intersection pairings. They do not provide Pic^0/Abel-Jacobi classes of normalization points supporting E, R_z, or R_w.",
+    "pi_branch_points_equal_R_z_support": false,
+    "pi_branch_points": "210 odd m=1 contacts",
+    "R_z_support": "182 first strict-boundary points plus 28 exceptional m=2 contacts"
+  },
+  "retained_data_gap": {
+    "normalization_support_pic0_coordinates_available": false,
+    "one_sided_ramified_105_81_correspondence_theorem_retained": false,
+    "needed_next": "Source-lock Abel-Jacobi/Pic^0 data for allowed normalization support points, or prove a valid simultaneous degree-105 etale / degree-81 ramified correspondence theorem that supplies an equivalent restriction."
+  },
+  "decision": {
+    "O210_excluded": false,
+    "new_standalone_obstruction": false,
+    "exact_remaining_condition_identified": true,
+    "result": "SUPPORT_CONSTRAINED_ABEL_JACOBI_CONDITION_IDENTIFIED_NO_STANDALONE_EXCLUSION",
+    "next_exact_leaf": "O210_Q4_SUPPORT_CONSTRAINED_ABEL_JACOBI_REALIZATION_OF_HALF_RAMIFICATION_DIVISOR"
+  },
+  "firewalls": {
+    "O188_reopened": false,
+    "old_93_93_odd_etale_route_reopened": false,
+    "first_hurwitz_reopened": false,
+    "scalar_T_only_reopened": false,
+    "surface_picard_support_reused_for_E": false,
+    "carrier_existence_proved": false,
+    "full178_authorized": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "canonical_sha256_without_this_field": "3c58d7cc3d7faab1a59ff5cec793ebee57e69024f7ebee407f89dbb3f07328f2"
+}
