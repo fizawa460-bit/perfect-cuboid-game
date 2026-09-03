@@ -1,0 +1,73 @@
+{
+  "schema": "STAGE35_EX_10_BRIDGE_DESCENT_SPLIT_PRIME_V1",
+  "status": "PROVISIONAL_EXACT_CONDITIONAL_REDUCTION_NO_PROMOTION",
+  "target": "PESCH-CONJ-E1-BASIS-NONSQUARE",
+  "audited_parent_head": "3642810596eb1aa6e58a59fd6805e872b2ac8bc1",
+  "bridge_descent_test": {
+    "bridge_is_genuine_primitive_euclid_triple": true,
+    "U3": "U1*U2/(c*e)=U1*T/e",
+    "V3": "q*H/e",
+    "W3": "p*w/e",
+    "canonical_keep_original_second_triple_E1_obligation": "(W1*U2)^2+2*(U1*V2)^2 must be square",
+    "canonical_keep_original_second_triple_Master_obligation": "(V1*U2)^2+2*(U1*V2)^2 must be square",
+    "both_obligations_inherited_from_parent_system": false,
+    "new_successor_gcd_adapter_proved": false,
+    "uniform_height_decrease_proved": false,
+    "infinite_descent_proved": false
+  },
+  "split_prime_obstruction": {
+    "K": "(W1/p)*(V1/q)",
+    "branch_L": {
+      "cross_reservoir": "t=D*V2/(2*p*q)",
+      "split_prime_cross_condition": "ell|t and ell=1 mod4 implies Legendre(K,ell)=+1",
+      "split_prime_difference_condition": "ell|T and ell=1 mod4 implies Legendre(p*q,ell)=+1",
+      "bridge_support_condition": "ell|e implies ell=1 mod4 and Legendre(p*q,ell)=+1"
+    },
+    "branch_R": {
+      "cross_reservoir": "j=D*V2/(p*q)",
+      "split_prime_cross_condition": "ell|j and ell=1 mod4 implies Legendre(2*K,ell)=+1",
+      "split_prime_difference_condition": "ell|T and ell=1 mod4 implies Legendre(2*p*q,ell)=+1",
+      "bridge_support_condition": "ell|e implies ell=1 mod4 and Legendre(2*p*q,ell)=+1"
+    },
+    "source_only_kill_predicate_proved": true,
+    "universal_bad_split_prime_existence_proved": false,
+    "global_E1_proved": false
+  },
+  "regression_panel_non_theorem_evidence": {
+    "panel_size": 6,
+    "predicate_hits": [
+      {
+        "master_hit": [6, 5, 8, 5],
+        "branch": "L",
+        "channel": "T",
+        "prime": 13,
+        "symbol": "Legendre(p*q,13)=-1"
+      },
+      {
+        "master_hit": [13, 2, 17, 8],
+        "branch": "L",
+        "channel": "t",
+        "prime": 17,
+        "symbol": "Legendre(K,17)=-1"
+      }
+    ],
+    "finite_panel_is_global_theorem": false
+  },
+  "route": {
+    "bridge_infinite_descent_route": "FROZEN_NO_SELF_MAP_FROM_CURRENT_IDENTITIES",
+    "split_prime_route": "LIVE_PARTIAL_SOURCE_ONLY_SIEVE",
+    "next_missing_theorem": "force at least one bad split prime in t/j or T for every Master-Hit, or derive a reciprocity coupling among locally admissible reservoir primes",
+    "fixed_finite_squareclass_family_proved": false,
+    "stage34_concrete_branch_transfer_allowed": false
+  },
+  "credit": {
+    "new_theorem_credit": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "hostile_audit_required_before_any_promotion": true
+  }
+}
