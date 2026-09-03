@@ -4,22 +4,22 @@ Use this policy when an active research leaf needs an already-existing mathemati
 
 ## Stage-local retained evidence
 
-For an already-computed Stage-local fact, start from the Stage's canonical final handoff. Do not maintain or query a separate evidence-locator registry.
+For an already-computed Stage-local fact, start from that Stage's canonical final handoff. Do not maintain a second Stage-local discovery registry.
 
-1. For Stage16 and later, read that Stage's canonical final Markdown handoff (`FINAL.md` or `final.md`, using the filename retained by that Stage).
-2. For Stages12–15, use the canonical self-contained HTML handoff instead:
+1. For **Stage16 and later**, the first discovery surface is that Stage's canonical `FINAL.md` handoff. If a historical Stage retained the same filename with a case-only spelling variant, use that retained path; the semantic rule is still “final Markdown handoff first.”
+2. For **Stages12–15**, the first discovery surface is the canonical self-contained final HTML because those Stages predate the `FINAL.md` convention:
    - Stage12: `review/PC-N1-2-FINAL-SELF-CONTAINED-20260807-R09.html`
    - Stage13: `review/STAGE13-FINAL-SELF-CONTAINED-20260810-R07.html`
    - Stage14: `review/STAGE14-FINAL-SELF-CONTAINED-20260813-R06.html`
    - Stage15: `stages/stage15/stage15-final-self-contained.html`
-3. Follow only exact source, certificate, or provenance paths cited by that final handoff when the active leaf actually needs them.
-4. If the requested Stage-local item is absent from the canonical final handoff, treat it as **not retained for ordinary downstream reuse**. This is an operational discovery boundary, not a proof that the repository or mathematics lacks the object.
-5. Do not automatically broaden a miss into repeated repository-wide, branch-history, or keyword-expanded searches. A bounded repository search remains available when the active Stage has a concrete load-bearing reason to suspect an omitted asset; keep that search narrow and stop when that bounded question is answered.
-6. If such an exceptional search recovers a reusable Stage-local positive asset, fold it into that Stage's canonical final handoff at closeout rather than creating a second discovery registry.
+3. Follow exact source, certificate, or provenance paths cited by that final handoff when the active leaf actually needs them.
+4. If the requested Stage-local item is absent from the canonical final handoff, treat it as **not retained for ordinary downstream reuse**. This is an operational discovery boundary, not a mathematical claim that the repository lacks the object.
+5. Do not automatically broaden a miss into repeated repository-wide, branch-history, or keyword-expanded archaeology. A bounded repository search remains available when the active Stage has a concrete load-bearing reason to suspect an omitted asset; keep that search narrow and stop when that bounded question is answered.
+6. If such an exceptional search recovers a reusable Stage-local positive asset, fold it into that Stage's canonical final handoff at closeout rather than creating another discovery registry.
 
 ## Arsenal
 
-Use Arsenal for genuinely cross-Stage reusable weapons. Do not load the full Arsenal during ordinary Stage startup. First identify the active leaf's exact missing object or workflow type, then:
+Arsenal remains the independent mechanism for genuinely cross-Stage reusable weapons. Do not load the full Arsenal during ordinary Stage startup. First identify the active leaf's exact missing object or workflow type, then:
 
 1. Read `docs/arsenal/index.json` as the machine-readable registry.
 2. Select one matching ID and open only its generated file under `docs/arsenal/cards/`.
