@@ -1,21 +1,15 @@
 #!/usr/bin/env python3
-"""Build/check Stage33 MAIN state across the post-V36 authority migration.
-
-V58 + ACTIVE_POST_V36_OVERRIDE is transition/read-only mode.
-V59 is the synchronized canonical generator mode.
-"""
+"""Generate/check the synchronized post-V36 Stage33 MAIN compact state."""
 from __future__ import annotations
 import argparse
 import hashlib
 import json
-import runpy
 from pathlib import Path
 
 H = Path(__file__).resolve().parent
 D = H / "33-12"
 OUT = H / "MAIN-STATE.json"
 RETIRED_HANDOFF = H / "MAIN-BATCH-HANDOFF.md"
-V37_VERIFY = D / "verify_j2_post_v36_authority_sync_v37.py"
 REMAINING = ["e3", "e1", "e4", "e5", "e6", "e7", "e8", "e9", "e10"]
 NEXT = "WAIT_FOR_NEW_GENUINE_H2_MU2_LIFT_OR_REGISTERED_POSITIVE_EVIDENCE_ASSET"
 LOCKS = {
@@ -27,10 +21,8 @@ LOCKS = {
 }
 EMPTY_CHECKPOINT = {"status": "EMPTY", "authority": "OPERATIONAL_ONLY_NOT_PROOF"}
 
-
 def csha(obj):
     return hashlib.sha256(json.dumps(obj, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
-
 
 def locked(path, expected):
     obj = json.loads(path.read_text())
@@ -39,28 +31,11 @@ def locked(path, expected):
     assert claimed == expected == csha(body), path
     return obj
 
-
 ap = argparse.ArgumentParser()
 ap.add_argument("--check", action="store_true")
 a = ap.parse_args()
 assert not RETIRED_HANDOFF.exists(), "MAIN-BATCH-HANDOFF.md is retired"
 c = json.loads((H / "controller.json").read_text())
-
-# Safe transition behavior until controller V59 lands.
-if c["schema"] == "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V58_NAMED_J2_SOURCE_EXACT_GENUINE_KUMMER_ADAPTER_MISSING":
-    state = json.loads(OUT.read_text())
-    assert state["authority_sync"]["status"] == "ACTIVE_POST_V36_OVERRIDE"
-    assert state["authority_sync"]["legacy_generator_must_not_overwrite_main_state"] is True
-    runpy.run_path(str(V37_VERIFY), run_name="__main__")
-    print(json.dumps({
-        "success": True,
-        "mode": "transition-check" if a.check else "transition-validate-no-write",
-        "authority_sync": "ACTIVE_POST_V36_OVERRIDE",
-        "main_state_overwritten": False,
-        "marker": "V58_TRANSITION_SAFE",
-    }, sort_keys=True))
-    raise SystemExit(0)
-
 assert c["schema"] == "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V59_POST_V36_FIRST_ADAPTED_COLUMN_REUSE_STOP"
 cb = dict(c)
 controller_sha = cb.pop("projection_canonical_sha256")
@@ -83,7 +58,6 @@ assert z["v34"]["exact_information_boundary"]["adapted_kummer_columns_materializ
 assert z["v34"]["exact_information_boundary"]["original_standard_kummer_columns_materialized"] == 0
 assert z["v36"]["bounded_reuse_first_search"]["positive_asset_match_materialized"] is False
 assert z["v36"]["bounded_reuse_first_search"]["old_origin_search_restarted"] is False
-
 out = {
     "schema": "STAGE33_MAIN_COMPACT_STATE_V16_POST_V36_SYNCHRONIZED_REUSE_STOP",
     "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
@@ -98,7 +72,7 @@ out = {
         "controller_and_generator_synchronized": True,
         "mathematical_authority": "V25_V36_EXACT_CERTIFICATE_CHAIN",
         "synchronization_receipt": "stages/stage33/33-12/j2-post-v36-controller-generator-sync-v38.json",
-        "superseded_override_checkpoint": "stages/stage33/33-12/j2-post-v36-startup-authority-repair-v37.json",
+        "superseded_override_checkpoint": "stages/stage33/33-12/j2-post-v36-startup-authority-repair-v37.json"
     },
     "current_exact_frontier": {
         "current_named_J2_hs_d2_nonzero": True,
@@ -107,13 +81,13 @@ out = {
         "named_J2_retained10_standard_mask_decimal": 6,
         "named_J2_standard_support_1based": [2, 3],
         "original_standard_columns_materialized": 0,
-        "remaining_adapted_source_labels": REMAINING,
+        "remaining_adapted_source_labels": REMAINING
     },
     "locked_facts": {
         "v25_genuine_h2_mu2_adapter": {"retained10_mask_decimal": 6, "sha256": LOCKS["v25"][1], "status": "MATERIALIZED_GENUINE_FULL_SURFACE_H2_MU2_LIFT_FOR_NAMED_J2"},
         "v33_named_J2_hs_d2": {"nonzero": True, "sha256": LOCKS["v33"][1]},
         "v34_first_adapted_column": {"materialized": True, "adapted_columns_materialized": 1, "standard_columns_materialized": 0, "standard_col2_xor_col3_only": True, "sha256": LOCKS["v34"][1]},
-        "v36_reuse_first_stop": {"positive_asset_match_materialized": False, "old_origin_search_restarted": False, "sha256": LOCKS["v36"][1], "status": z["v36"]["status"]},
+        "v36_reuse_first_stop": {"positive_asset_match_materialized": False, "old_origin_search_restarted": False, "sha256": LOCKS["v36"][1], "status": z["v36"]["status"]}
     },
     "resolved_investigations": {
         "named_J2_genuine_h2_mu2_adapter": "CLOSED_EXACT_V25_DO_NOT_REOPEN",
@@ -121,39 +95,16 @@ out = {
         "first_J2_adapted_kummer_column": "CLOSED_EXACT_V34_DO_NOT_REOPEN",
         "registered_evidence_locator_reuse_first_scan": "BOUNDED_MISS_V36_DO_NOT_REPEAT_WITHOUT_NEW_REGISTERED_ASSET",
         "standard_col2_or_col3_from_J2_xor": "FORBIDDEN_INFERENCE_V34_V35",
-        "startup_authority_override": "CLEARED_BY_CONTROLLER_GENERATOR_SYNC_V38",
+        "startup_authority_override": "CLEARED_BY_CONTROLLER_GENERATOR_SYNC_V38"
     },
     "anti_loop_reopen_policy": {
         "ordinary_main_rule": "V36 is the current exact stop. Do not restart old origin/history search, split standard col2/col3 from their XOR, or guess remaining Kummer columns. Without a newly derived genuine lift or newly registered positive evidence asset, stop.",
-        "reopen_only_if": [
-            "a V25-V36 source lock or verifier fails replay",
-            "a newly derived genuine full-surface H2(mu2) lift is supplied",
-            "a newly registered positive evidence asset source-locks a remaining adapted source",
-            "the user explicitly requests hostile audit or historical revalidation",
-        ],
+        "reopen_only_if": ["a V25-V36 source lock or verifier fails replay", "a newly derived genuine full-surface H2(mu2) lift is supplied", "a newly registered positive evidence asset source-locks a remaining adapted source", "the user explicitly requests hostile audit or historical revalidation"]
     },
-    "current_leaf_working_set": [
-        "stages/stage33/33-12/j2-post-v34-main-handoff-v35.json",
-        "stages/stage33/33-12/j2-post-v35-evidence-locator-handoff-v36.json",
-    ],
-    "execution_gate": {
-        "advance_allowed": c["advance_allowed"],
-        "advance_scope": c["advance_scope"],
-        "next_expected_command": c["next_expected_command"],
-    },
-    "firewalls": {
-        "stage33_12_closed_exact": False,
-        "stage33_07_reclosed": False,
-        "stage33_08_released": False,
-        "stage33_13_released": False,
-        "theorem_credit": False,
-        "receiver_credit": False,
-        "endpoint_credit": False,
-        "perfect_cuboid_existence_claim": False,
-        "perfect_cuboid_nonexistence_claim": False,
-        "merge_allowed": False,
-    },
-    "work_checkpoint": EMPTY_CHECKPOINT,
+    "current_leaf_working_set": ["stages/stage33/33-12/j2-post-v34-main-handoff-v35.json", "stages/stage33/33-12/j2-post-v35-evidence-locator-handoff-v36.json"],
+    "execution_gate": {"advance_allowed": c["advance_allowed"], "advance_scope": c["advance_scope"], "next_expected_command": c["next_expected_command"]},
+    "firewalls": {"stage33_12_closed_exact": False, "stage33_07_reclosed": False, "stage33_08_released": False, "stage33_13_released": False, "theorem_credit": False, "receiver_credit": False, "endpoint_credit": False, "perfect_cuboid_existence_claim": False, "perfect_cuboid_nonexistence_claim": False, "merge_allowed": False},
+    "work_checkpoint": EMPTY_CHECKPOINT
 }
 out["canonical_sha256"] = csha(out)
 rendered = json.dumps(out, sort_keys=True, separators=(",", ":")) + "\n"
@@ -163,11 +114,4 @@ if a.check:
 else:
     OUT.write_text(rendered)
     mode = "write"
-print(json.dumps({
-    "success": True,
-    "mode": mode,
-    "canonical_sha256": out["canonical_sha256"],
-    "authority_sync": "SYNCHRONIZED_POST_V36",
-    "work_checkpoint_status": "EMPTY",
-    "marker": "MAIN_STATE_GENERATED_FROM_V59",
-}, sort_keys=True))
+print(json.dumps({"success": True, "mode": mode, "canonical_sha256": out["canonical_sha256"], "authority_sync": "SYNCHRONIZED_POST_V36", "work_checkpoint_status": "EMPTY", "marker": "MAIN_STATE_GENERATED_FROM_V59"}, sort_keys=True))
