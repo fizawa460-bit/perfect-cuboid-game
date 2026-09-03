@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE35_EX_PESCH_E1_STATE_V2_FOUR_FACTOR_REDUCTION",
+  "schema": "STAGE35_EX_PESCH_E1_STATE_V3_GCD_SUPPORT",
   "stage": "35-EX",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
-  "base_main_sha": "e01bafa0e74031454d24227831616a1f6fd2832b",
+  "base_main_sha": "ed5940413c11d8b4f315bed167702a0d5f23104f",
   "true_owner": {
     "kernel": "K16-C3-PESCH-EXPONENT-ONE",
     "receiver": "R29-PESCH-E1",
@@ -65,20 +65,37 @@
       "arsenal_candidate": "S34-W01",
       "finite_squareclass_reduction_proved": false,
       "audited_theorem_credit": false
+    },
+    "35EX-06": {
+      "status": "PROVISIONAL_EXACT_GCD_SUPPORT_DIRECT_S34_FINITE_TRANSFER_BLOCKED",
+      "artifact": "stages/stage35-ex/35ex-06/four-factor-gcd-support.md",
+      "certificate": "stages/stage35-ex/35ex-06/gcd-squareclass-certificate.json",
+      "result": "all pairwise gcd reservoirs and the complete 2-adic support are explicit; the 2-adic contribution is automatic, but odd-prime support remains parameter-dependent through U2/c, common-hypotenuse gcds, and live cross-gcd products",
+      "S34_W01_steps_1_to_3_available": true,
+      "S34_W01_finite_squareclass_enumeration_available": false,
+      "audited_theorem_credit": false
+    }
+  },
+  "resolved_investigations": {
+    "S34_W01_DIRECT_TRANSFER_AT_35EX_06": {
+      "status": "BLOCKED_BY_EXACT_DYNAMIC_ODD_PRIME_RESERVOIRS",
+      "reopen_condition": "prove an additional exact lemma forcing every reservoir prime to cancel in squareclass parity or lie in a fixed finite support set",
+      "not_a_claim": "does not prove that finite reduction is impossible after using additional branch equations"
     }
   },
   "current": {
-    "unit": "35EX-06_FOUR_FACTOR_GCD_AND_SQUARECLASS_SUPPORT",
-    "next_exact_leaf": "DERIVE_PAIRWISE_GCD_SUPPORT_AND_DECIDE_WHETHER_S34_W01_CAN_REACH_A_FINITE_EXHAUSTIVE_SQUARECLASS_FAMILY",
+    "unit": "35EX-07_DYNAMIC_ODD_PRIME_RESERVOIR_COLLAPSE",
+    "next_exact_leaf": "USE_THE_REMAINING_BRANCH_EQUATIONS_TO_COLLAPSE_OR_FREEZE_THE_DYNAMIC_ODD_PRIME_RESERVOIRS_BEFORE_ANY_LOW_GENUS_OR_LOCAL_BRANCH_CLOSURE",
     "working_set": [
-      "stages/stage35-ex/35ex-02/canonical-gcd-and-2adic-lemma.md",
       "stages/stage35-ex/35ex-03/double-primitive-counterexample-normal-form.md",
+      "stages/stage35-ex/35ex-04/product-rectangle-reduction.md",
       "stages/stage35-ex/35ex-05/four-factor-square-descent.md",
-      "stages/stage35-ex/35ex-05/reduction-certificate.json"
+      "stages/stage35-ex/35ex-06/four-factor-gcd-support.md",
+      "stages/stage35-ex/35ex-06/gcd-squareclass-certificate.json"
     ]
   },
   "arsenal": {
-    "S34_W01": "PARTIAL_MATCH_FACTOR_SQUARE_SHAPE_ONLY_PAIRWISE_GCD_AND_FINITE_SQUARECLASS_HYPOTHESES_PENDING",
+    "S34_W01": "EXACT_FACTOR_GCD_AND_2ADIC_STEPS_MATCHED_FINITE_SHARED_PRIME_SUPPORT_BLOCKED_BY_DYNAMIC_RESERVOIRS",
     "stage34_concrete_coefficients_branches_and_local_primes_transfer": false
   },
   "claims": {
