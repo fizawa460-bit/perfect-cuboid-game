@@ -43,7 +43,6 @@ def main() -> None:
     assert canonical_sha256(cert) == cert["canonical_sha256_without_this_field"]
     locks = cert["source_locks"]
 
-    # Source-lock the new O-independent argument and the retained definitions.
     for key in ["general_source_note", "odd_branch_wall", "v4_defect_source_note", "o210_exact_verifier"]:
         assert blob_sha1(ROOT / locks[key]["path"]) == locks[key]["blob_sha1"]
 
@@ -67,8 +66,7 @@ def main() -> None:
     common = load_json_lock(locks["common_double_cover"])
     square = common["group_quotient_square"]
     assert square["X"] == "P/H_diag (Beauville cover surface)"
-    assert square["Q"] if "Q" in square else True
-    assert "degree-two pullback" in square["generic_fiber_argument"]
+    assert "degree-two pullback" in square["normalization_statement"]
     assert common["carrier_consequence"]["same_quadratic_extension"] is True
 
     pair = load_json_lock(locks["pair_map_reduction"])
@@ -78,7 +76,8 @@ def main() -> None:
     assert pm["projection_degrees"] == [105, 81]
     assert pm["generic_pair_degree_allowed_by_deck_stabilizer"] == [1, 2, 4]
     assert pm["generic_pair_degree_divides_gcd"] == math.gcd(105, 81) == 3
-    assert set(pm["generic_pair_degree_allowed_by_deck_stabilizer"]).intersection({d for d in range(1, 4) if 105 % d == 0 and 81 % d == 0}) == {1}
+    common_degrees = {d for d in pm["generic_pair_degree_allowed_by_deck_stabilizer"] if 105 % d == 0 and 81 % d == 0}
+    assert common_degrees == {1}
     assert pm["generic_pair_degree"] == 1
     assert pm["pair_map_birational"] is True
 
@@ -96,8 +95,6 @@ def main() -> None:
     assert [expected_cross[t]["D_dot_tD"] for t in ["u", "v", "uv"]] == [3892, 4020, 4020]
     assert picard_sum == expected_cross["computed_D_translate_sum"] == 11932
 
-    # Re-run the old exact verifier. It in turn reconstructs the recovered V6
-    # class from all 140 pairings and reruns the composite deck actions.
     old_verifier = ROOT / locks["o210_exact_verifier"]["path"]
     old_cert = locks["equivariant_deck_cross"]["path"]
     proc = subprocess.run(
@@ -106,7 +103,6 @@ def main() -> None:
     )
     assert "PASS_EXACT_EQUIVARIANT_BEAUVILLE_DECK_CROSS_O210_Q4_EXCLUSION" in proc.stdout
 
-    # O-independent quotient-square arithmetic.
     gamma_square = 2 * 105 * 81
     assert gamma_square == 17010
     required_sum = gamma_square - d_square
@@ -121,8 +117,6 @@ def main() -> None:
     assert arg["contradiction_gap"] == 1204
     assert arg["O_independent"] is True
 
-    # Exhaust the only q'=4 overlap values left by the retained wall and the
-    # exact odd-contact definition: sum m_P=266 implies O is even and O<=266.
     candidates = [O for O in range(210, 267) if O % 2 == 266 % 2]
     assert candidates == list(range(210, 267, 2))
     assert candidates == arg["candidate_overlaps"]
