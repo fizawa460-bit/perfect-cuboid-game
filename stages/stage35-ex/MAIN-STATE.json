@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE35_EX_PESCH_E1_STATE_V3_GCD_SUPPORT",
+  "schema": "STAGE35_EX_PESCH_E1_STATE_V4_MOVING_SQUARECLASS",
   "stage": "35-EX",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
   "base_main_sha": "ed5940413c11d8b4f315bed167702a0d5f23104f",
@@ -70,32 +70,48 @@
       "status": "PROVISIONAL_EXACT_GCD_SUPPORT_DIRECT_S34_FINITE_TRANSFER_BLOCKED",
       "artifact": "stages/stage35-ex/35ex-06/four-factor-gcd-support.md",
       "certificate": "stages/stage35-ex/35ex-06/gcd-squareclass-certificate.json",
-      "result": "all pairwise gcd reservoirs and the complete 2-adic support are explicit; the 2-adic contribution is automatic, but odd-prime support remains parameter-dependent through U2/c, common-hypotenuse gcds, and live cross-gcd products",
+      "result": "all pairwise gcd reservoirs and the complete 2-adic support are explicit; the 2-adic contribution is automatic, but odd-prime support remains parameter-dependent",
       "S34_W01_steps_1_to_3_available": true,
+      "S34_W01_finite_squareclass_enumeration_available": false,
+      "audited_theorem_credit": false
+    },
+    "35EX-07": {
+      "status": "PROVISIONAL_EXACT_MOVING_SQUARECLASS_COLLAPSE_S34_ROUTE_FROZEN",
+      "artifact": "stages/stage35-ex/35ex-07/moving-squareclass-collapse.md",
+      "certificate": "stages/stage35-ex/35ex-07/moving-squareclass-certificate.json",
+      "result": "the 35EX-06 dynamic reservoirs collapse to two coprime live factors per branch and the 35EX-05 pair products share one moving squareclass dL=t*(U2/c) or dR=j*(U2/c); no fixed finite odd-prime support theorem follows",
+      "branch_L_moving_squareclass": "dL=(U1*U2*V2)/(2*c^2*p*q)",
+      "branch_R_moving_squareclass": "dR=(U1*U2*V2)/(c^2*p*q)",
       "S34_W01_finite_squareclass_enumeration_available": false,
       "audited_theorem_credit": false
     }
   },
   "resolved_investigations": {
     "S34_W01_DIRECT_TRANSFER_AT_35EX_06": {
-      "status": "BLOCKED_BY_EXACT_DYNAMIC_ODD_PRIME_RESERVOIRS",
-      "reopen_condition": "prove an additional exact lemma forcing every reservoir prime to cancel in squareclass parity or lie in a fixed finite support set",
-      "not_a_claim": "does not prove that finite reduction is impossible after using additional branch equations"
+      "status": "REFINED_BY_35EX_07_TO_SINGLE_MOVING_SQUARECLASS_OBSTRUCTION",
+      "reopen_condition": "prove a uniform fixed-support theorem for dL and dR or prove a stronger transformation that cancels their moving prime allocations",
+      "not_a_claim": "does not prove that a later finite reduction is impossible after additional mathematics"
+    },
+    "S34_W01_FINITE_ENUMERATION_AT_35EX_07": {
+      "status": "FROZEN_NO_EXHAUSTIVE_FIXED_SUPPORT",
+      "reason": "the pair products are exactly d*(a-b)^2 and d*(a+b)^2 with live d=dL or dR; current hypotheses do not bound the odd-prime support of d by a fixed finite coefficient set",
+      "forbidden_next_move": "do not import Stage34 branch counts, local primes, or low-genus closures as though the squareclass family were finite"
     }
   },
   "current": {
-    "unit": "35EX-07_DYNAMIC_ODD_PRIME_RESERVOIR_COLLAPSE",
-    "next_exact_leaf": "USE_THE_REMAINING_BRANCH_EQUATIONS_TO_COLLAPSE_OR_FREEZE_THE_DYNAMIC_ODD_PRIME_RESERVOIRS_BEFORE_ANY_LOW_GENUS_OR_LOCAL_BRANCH_CLOSURE",
+    "unit": "35EX-08_GAUSSIAN_DOUBLE_SQUARE_COMPATIBILITY",
+    "next_exact_leaf": "REPRESENT_THE_E1_AND_MASTER_PRIMITIVE_TRIPLES_AS_COPRIME_GAUSSIAN_SQUARES_AND_TEST_WHETHER_THE_SHARED_RAW_FACTORS_FORCE_A_NEW_UNIT_OR_PRIME_IDEAL_COMPATIBILITY_BEYOND_35EX_03_TO_07",
     "working_set": [
       "stages/stage35-ex/35ex-03/double-primitive-counterexample-normal-form.md",
       "stages/stage35-ex/35ex-04/product-rectangle-reduction.md",
       "stages/stage35-ex/35ex-05/four-factor-square-descent.md",
       "stages/stage35-ex/35ex-06/four-factor-gcd-support.md",
-      "stages/stage35-ex/35ex-06/gcd-squareclass-certificate.json"
+      "stages/stage35-ex/35ex-07/moving-squareclass-collapse.md",
+      "stages/stage35-ex/35ex-07/moving-squareclass-certificate.json"
     ]
   },
   "arsenal": {
-    "S34_W01": "EXACT_FACTOR_GCD_AND_2ADIC_STEPS_MATCHED_FINITE_SHARED_PRIME_SUPPORT_BLOCKED_BY_DYNAMIC_RESERVOIRS",
+    "S34_W01": "MATCHED_THROUGH_FACTOR_GCD_2ADIC_AND_RESERVOIR_COLLAPSE_BUT_FIXED_FINITE_SQUARECLASS_SUPPORT_NOT_PROVED_ROUTE_FROZEN",
     "stage34_concrete_coefficients_branches_and_local_primes_transfer": false
   },
   "claims": {
