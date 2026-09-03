@@ -13,9 +13,9 @@ ROOT = H.parent.parent
 OUT = H / "MAIN-STATE.json"
 RETIRED_HANDOFF = H / "MAIN-BATCH-HANDOFF.md"
 REMAINING = ["e3", "e1", "e4", "e5", "e6", "e7", "e8", "e9", "e10"]
-NEXT = "QUERY_EVIDENCE_LOCATOR_THEN_CONSTRUCT_REMAINING_GENUINE_H2_MU2_LIFT_IF_MISS"
-CONTROLLER_SCHEMA = "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V60_POST_V39_LOCATOR_FIRST_CONSTRUCTION_ACTIVE"
-POLICY_V39_SHA = "2fddd4bda3d853a42656b32483cefd116677e5bd70f633dc4791440b0269b230"
+NEXT = "QUERY_ALL_CURRENT_EVIDENCE_REGISTRIES_THEN_CONSTRUCT_REMAINING_GENUINE_H2_MU2_LIFT_IF_NO_SUITABLE_HIT"
+CONTROLLER_SCHEMA = "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V61_POST_V39_CURRENT_MULTI_REGISTRY_CONSTRUCTION_ACTIVE"
+POLICY_V39_SHA = "26e47d41b94caf1cb931f765468d6779a760adec434d4b1b6698f838b3db46b2"
 LOCKS = {
     "v25": (D / "j2-genuine-h2-mu2-kummer-adapter-v25.json", "d2f8e087939401e3427056d6deeffa5bdb3433ad6e1801993be4978c3baff65c"),
     "v33": (D / "j2-current-hs-d2-nonzero-v33.json", "59385430d2806fd600006b8bee1e02170f28d0a598912555d1e905e556c84b8f"),
@@ -26,7 +26,9 @@ LOCKS = {
 }
 LOCATOR_BLOBS = {
     ROOT / "docs/evidence-locator/index.json": "a32d83a0e5529b444f0d5f58dcad44517b5fe087",
-    ROOT / "docs/evidence-locator/query_evidence.py": "84fd86fce8e1bc5966d47d453ebd7b60aaba3a9f",
+    ROOT / "docs/evidence-locator/query_evidence.py": "306205983a30932f318e33a0e78c1c53b7233593",
+    ROOT / "docs/evidence-locator/stage32-post1498.json": "935bb4f0821af4fd451d45003d4e430a751e68ac",
+    ROOT / "docs/evidence-locator/stage33.json": "0ecf26acd08170cea09aba3a4972cdb44428ca6e",
     ROOT / "docs/research-os/policies/repository-asset-discovery.md": "12f35149db732f185c84a17d31f4c9b360624e6c",
 }
 EMPTY_CHECKPOINT = {"status": "EMPTY", "authority": "OPERATIONAL_ONLY_NOT_PROOF"}
@@ -53,6 +55,14 @@ for path, expected in LOCATOR_BLOBS.items():
     assert path.is_file(), path
     assert git_blob(path) == expected, path
 
+# HOSTILE_AUDIT_CURRENT_MULTI_REGISTRY_V40
+q = json.loads(subprocess.check_output(["python3", "-B", str(ROOT / "docs/evidence-locator/query_evidence.py"), "genuine full-surface H2(mu2) lift another retained10 adapted source e3 e1 e4 e5 e6 e7 e8 e9 e10", "--stage", "33", "--limit", "20"], cwd=ROOT, text=True))
+assert q["schema"] == "PERFECT_CUBOID_EVIDENCE_QUERY_RESULT_V3_MULTI_STAGE"
+assert {x["file"] for x in q["registry_sources"]} == {"index.json", "stage32-post1498.json", "stage33.json"}
+qm = next(x for x in q["matches"] if x["asset_id"] == "EVID-S33-GERSTEN-CONNECTING-26COL-AUDITED")
+assert "this asset does not itself identify a standalone genuine full-surface H2(mu2) lift for any remaining retained10 adapted source" in qm["limitations"]
+assert not [x for x in q["matches"] if "this asset does not itself identify a standalone genuine full-surface H2(mu2) lift for any remaining retained10 adapted source" not in x.get("limitations", [])]
+
 c = json.loads((H / "controller.json").read_text())
 assert c["schema"] == CONTROLLER_SCHEMA
 cb = dict(c)
@@ -67,7 +77,7 @@ assert p39["routing_contract"]["broad_repository_or_history_fallback_after_miss"
 assert p39["audit_finding"]["locator_miss_proves_repository_absence"] is False
 assert c["current"]["next_exact_leaf"] == c["next_item"] == c["execution"]["next_item"] == NEXT
 assert c["advance_allowed"] is True and c["execution"]["advance_allowed"] is True
-assert c["advance_scope"] == "LOCATOR_FIRST_THEN_CONSTRUCT_MISSING_GENUINE_H2_MU2_LIFT"
+assert c["advance_scope"] == "CURRENT_MULTI_REGISTRY_LOCATOR_FIRST_THEN_CONSTRUCT_MISSING_GENUINE_H2_MU2_LIFT"
 assert c["post_v39_routing"]["policy_v39_canonical_sha256"] == POLICY_V39_SHA
 assert c["post_v39_routing"]["broad_historical_search_permitted"] is False
 assert c["post_v39_routing"]["construction_authorized_after_locator_miss"] is True
@@ -83,7 +93,7 @@ assert z["v36"]["bounded_reuse_first_search"]["positive_asset_match_materialized
 assert z["v36"]["bounded_reuse_first_search"]["old_origin_search_restarted"] is False
 
 out = {
-    "schema": "STAGE33_MAIN_COMPACT_STATE_V17_POST_V39_LOCATOR_FIRST_CONSTRUCTION_ACTIVE",
+    "schema": "STAGE33_MAIN_COMPACT_STATE_V18_POST_V39_CURRENT_MULTI_REGISTRY_CONSTRUCTION_ACTIVE",
     "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
     "detailed_machine_authority": "stages/stage33/controller.json",
     "controller_schema": c["schema"],
@@ -135,6 +145,8 @@ out = {
     "current_leaf_working_set": [
         "docs/evidence-locator/index.json",
         "docs/evidence-locator/query_evidence.py",
+        "docs/evidence-locator/stage32-post1498.json",
+        "docs/evidence-locator/stage33.json",
         "stages/stage33/33-12/j2-post-v35-evidence-locator-handoff-v36.json",
         "stages/stage33/33-12/j2-post-v38-locator-first-construction-policy-v39.json"
     ],

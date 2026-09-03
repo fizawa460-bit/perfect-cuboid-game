@@ -35,3 +35,7 @@ After writes, run:
 - `git diff --check`
 
 Commit and push the same branch. Do not merge without explicit authorization.
+
+## Hostile-audit multi-registry repair
+
+Current-main locator routing means `index.json`, `stage32-post1498.json`, and `stage33.json` are all searched before construction. A nonempty candidate list is not a suitable-hit verdict: inspect only the bounded candidate limitations. The current Stage33 Gersten 26-column candidate is relevant but explicitly does not itself identify a standalone genuine remaining retained10 H2(mu2) lift, so construction is authorized only after that bounded classification.
