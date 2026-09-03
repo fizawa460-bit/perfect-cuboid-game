@@ -35,15 +35,51 @@ The current e3 branch begins after these exact checkpoints:
 
 ### A1 — materialize proper14 -> boundary-source coordinates
 
-Goal: construct the exact map taking e3 proper14 mask `20` to the boundary-function source data needed by the finite generator packages, or an equivalent exact global Gersten source coordinate.
+A1 is itself split because `proper14` and the finite boundary-function package are separately named 14-dimensional coordinate systems. They must not be identified by position without an exact bridge.
+
+#### A1.0 — lock both 14-dimensional basis definitions
+
+Goal: materialize the ordered basis metadata for (i) `proper-brauer2-from-discriminant.json` ext14/proper14 coordinates and (ii) the finite boundary-function retained-one source directions.
+
+Acceptance:
+- both 14-element ordered basis definitions are explicit;
+- provenance artifact and digest/commit are recorded for each;
+- no claim yet that the two orders are equal.
+
+#### A1.1 — construct or certify the exact change-of-basis bridge
+
+Goal: produce an exact GF(2) map from proper14/ext14 coordinates to boundary-function source coordinates.
+
+Acceptance PASS branch:
+- explicit 14x14 matrix or mechanically equivalent ordered-basis identification;
+- rank/invertibility checked when the intended map is an isomorphism;
+- each output coordinate has exact source provenance.
+
+Acceptance BLOCKED branch:
+- one certificate names the exact missing table/matrix/convention needed to define the bridge;
+- it records the two already-known basis definitions and proves why positional identification is not yet licensed;
+- the next micro-goal becomes construction of that one missing bridge from its immediate upstream provenance, not a broad repository search.
+
+#### A1.2 — apply the bridge to e3 proper14 mask `20`
+
+Goal: compute only the boundary-source coefficient vector for V41 e3.
 
 Acceptance:
 - exact input `proper14_mask=20` source-locked;
-- output coefficient/source vector explicitly materialized;
-- basis/order conventions mechanically checked;
-- no Cech/H2/Kummer-column claim yet.
+- exact output 14-bit vector and nonzero boundary source labels materialized;
+- replay recomputes output from A1.1 bridge.
 
-Blocked outcome allowed: a certificate identifying one specific missing matrix/table/convention required to define this map. "No adapter found" is not sufficient.
+#### A1.3 — bind the selected boundary generators
+
+Goal: resolve each nonzero A1.2 boundary-source coordinate to its exact finite boundary-function generator package and scalar-descent record.
+
+Acceptance:
+- every selected generator file/id and coefficient explicitly listed;
+- generator source-basis column/order checked;
+- scalar correction record linked for each selected generator;
+- no Gersten/Cech/H2/Kummer-column claim yet.
+
+A1 is complete only when A1.0-A1.3 pass.
 
 ### A2 — assemble the global Gersten 2-cochain for e3
 
@@ -115,8 +151,9 @@ Process sources in the locked priority order after e3:
 
 For each source `s`, use the same atomic sequence:
 
-- B(s).1 exact proper14/source coordinate;
-- B(s).2 instantiate the proper14 -> boundary/Gersten source map;
+- B(s).0 lock source proper14 coordinate and the reusable bridge version;
+- B(s).1 apply the proper14 -> boundary-source bridge;
+- B(s).2 bind selected boundary generators/scalar records;
 - B(s).3 assemble global Gersten 2-cochain;
 - B(s).4 residue audit;
 - B(s).5 independent Cech `H2(mu2)` lift;
