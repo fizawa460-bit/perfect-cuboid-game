@@ -1,6 +1,6 @@
 # Stage33 human current dashboard
 
-Ordinary MAIN startup uses `MAIN-START-HERE.md` and generated `MAIN-STATE.json`; exact mathematical authority is the V25-V36 certificate chain.
+Ordinary MAIN startup uses `MAIN-START-HERE.md` and generated `MAIN-STATE.json`. Exact mathematical authority remains V25-V36; V39 changes routing only.
 
 ## Current position
 
@@ -15,15 +15,28 @@ original standard columns materialized = 0/10
 
 V25 materializes the genuine named-J2 full-surface H2(mu2) lift at retained10 mask `6 = e2+e3`. V33 proves the current named-J2 HS d2 is nonzero. V34 materializes the first J2-adapted source-basis column. In the original standard basis the only authorized relation is `standard_col_2 XOR standard_col_3 = J2_adapted_col_1`; neither standard column is materialized individually.
 
-## Current stop
+## Current route
 
-V36 is the exact stop. The bounded #1498 evidence-locator reuse scan found no registered positive asset directly supplying a standalone genuine full-surface H2(mu2) lift for a remaining adapted direction. Priority remains `e3, e1, e4, e5, e6, e7, e8, e9, e10`.
+V36 remains the exact historical result of the bounded #1498 locator scan: no registered positive asset directly supplied a standalone genuine full-surface H2(mu2) lift for a remaining adapted direction. That miss is not a repository-absence claim.
 
-Do not restart broad historical origin search, split col2/col3 from the XOR relation, or guess a remaining matrix column. Proceed only from a newly derived genuine lift or newly registered positive asset source-locking one.
+V39 supersedes the old operational STOP:
+
+```text
+need existing evidence
+  -> query #1498
+  -> suitable hit: bounded reuse inspection + live authority check
+  -> no suitable hit: construct the missing exact object
+```
+
+A locator miss does not authorize broad repository/history/origin search. It authorizes new construction of the active missing object. Anti-loop blocks repeated broad search and unsupported inference, not construction.
+
+Current priority is `e3, e1, e4, e5, e6, e7, e8, e9, e10`. Ordinary MAIN therefore queries #1498 for `e3` first and, on no suitable hit, proceeds to construct a genuine `e3` full-surface H2(mu2) lift.
+
+Do not infer `e3` from `J2=e2+e3`, split col2/col3 from the XOR relation, or guess a remaining matrix column.
 
 ## Startup projection
 
-Controller V59 and the canonical generator are synchronized to V25-V36. `MAIN-STATE.json` V16 is generated with `authority_sync.override_active=false`; the work checkpoint is `EMPTY`. V37 is retained only as the superseded operational repair receipt. V38 records completed controller/generator synchronization with no mathematical change.
+Controller V60 and the canonical generator are synchronized to V25-V36 mathematics plus V39 operational routing. `MAIN-STATE.json` V17 has `advance_allowed=true` only for `LOCATOR_FIRST_THEN_CONSTRUCT_MISSING_GENUINE_H2_MU2_LIFT`. Broad historical search remains forbidden. The work checkpoint is `EMPTY`.
 
 ## Release state
 

@@ -14,6 +14,12 @@ REMAINING = ["e3", "e1", "e4", "e5", "e6", "e7", "e8", "e9", "e10"]
 def csha(obj):
     return hashlib.sha256(json.dumps(obj, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
+controller_schema_now = json.loads((STAGE33 / "controller.json").read_text())["schema"]
+if controller_schema_now == "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V60_POST_V39_LOCATOR_FIRST_CONSTRUCTION_ACTIVE":
+    import runpy
+    runpy.run_path(str(HERE / "verify_j2_post_v38_locator_first_construction_policy_v39.py"), run_name="__main__")
+    raise SystemExit(0)
+
 r = json.loads(RECEIPT.read_text())
 rb = dict(r)
 claimed = rb.pop("canonical_sha256")
