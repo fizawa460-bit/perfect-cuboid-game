@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "stage": 32,
+  "lane": "post1500-common-cover-marked-branch-geometry",
+  "base_pr": 1500,
+  "status": "AUDITED_NEGATIVE",
+  "authority_before": {
+    "checkpoint": "O211",
+    "sigma_gamma": 1204,
+    "q_total": 602,
+    "o212_plus_authorized": false
+  },
+  "target": {
+    "sigma_gamma": "<1204",
+    "q_total": "<602"
+  },
+  "admitted_inputs": [
+    "stages/stage32/controller.json",
+    "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md"
+  ],
+  "already_audited_compatible_constraints": {
+    "d4_psd": "Q=602 remains compatible",
+    "pair_operator_bound": {
+      "degrees": [105, 81],
+      "combined_upper_bound": 376
+    },
+    "weierstrass": {
+      "W": 128,
+      "p_lower_bound": 32
+    }
+  },
+  "geometry_question": "Does shared-cover / marked-branch / ramification geometry force a strict loss in the Rosati off-diagonal contribution, hence Q<602?",
+  "result": {
+    "strict_sigma_improvement_certified": false,
+    "strict_q_improvement_certified": false,
+    "reason": "No admitted theorem or local certificate currently couples the shared cover / marked branch / ramification data to a strict loss in a Rosati off-diagonal contribution."
+  },
+  "authority_after": {
+    "checkpoint": "O211",
+    "sigma_gamma": 1204,
+    "q_total": 602,
+    "o212_plus_authorized": false
+  },
+  "required_new_evidence": [
+    "shared-cover/branch/ramification to Rosati-entry coupling theorem or exact certificate",
+    "local intersection/multiplicity/ramification calculation forcing a strict off-diagonal loss",
+    "certified identification or collision among contributions previously counted independently"
+  ],
+  "anti_loop": [
+    "Do not rerun D4/PSD/operator/Weierstrass arithmetic without a new local coupling premise.",
+    "Do not resume O212+ while sigma_gamma remains 1204."
+  ]
+}
