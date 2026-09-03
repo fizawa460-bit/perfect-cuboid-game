@@ -6,7 +6,8 @@ ROOT_KERNEL=K16-C3-MOVING-FIBER-ARITHMETIC
 SOURCE_RECEIVER=R29-FIB2
 PARENT_ROUTE=J12-PARAMETRIC
 SOURCE_EXECUTION_CLASS=3
-INITIAL_STATUS=ROADMAP_ONLY_NO_NEW_THEOREM_CREDIT
+CURRENT_BATCH_STATUS=35_09_SUBMITTED_FOR_HOSTILE_AUDIT
+CURRENT_CLASSIFICATION=CLASS3_RETAINED_WITH_SHARPER_MINIMAL_THEOREM
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
@@ -21,7 +22,7 @@ Stage29 compresses the target to one child receiver:
 R29-FIB2 = ArithmeticRankSpecializationAndEndpointResidualSpaceSquareLiftPerFibration
 ```
 
-The missing result is exactly one of:
+The original missing result was one of:
 
 ```text
 A. a uniform arithmetic/specialization theorem over the moving genus-3/genus-5 family;
@@ -29,229 +30,167 @@ B. an exact receiver-matched replacement theorem with the same R29-FIB2 quantifi
 C. a globally exhaustive reduction to finitely many fibers, followed by exact lift reconstruction.
 ```
 
-The source firewall is binding:
+The source firewall remains binding:
 
 ```text
 INDIVIDUAL_FIBER_CHABAUTY_OR_MW_NE_UNIFORM_MOVING_BASE_CONTROL=true
 GEOMETRIC_FIBRATION_NE_RATIONAL_POINT_COVERAGE=true
-MARGINAL_FIBER_POINT_NE_ENDPOINT_POINT_WITHOUT_RESIDUAL_SPACE_LIFT=true
 BOUNDED_MW_ENUMERATION_NE_EXHAUSTIVE=true
 FIELD_OF_DEFINITION_MUST_BE_CERTIFIED_BEFORE_Q_ARITHMETIC=true
 ```
 
-Source-locked context entering Stage35:
-
-- the Euler K3 quotient has `15` geometric elliptic fibrations, but not all 15 are certified individually over `Q`;
-- the full endpoint surface has `28` geometric genus-5 fibrations, but not all 28 are certified individually over `Q`;
-- rank-4 rulings may require splitting fields;
-- `R29-FIB1` remains the field/physical-class ledger dependency;
-- the residual space-square condition remains after marginal elliptic arithmetic.
-
-## Operating objective
-
-Stage35 succeeds only by shrinking or closing the uniform moving-family wall. A valid outcome may still be `CLASS3_RETAINED` if the exact minimum theorem is isolated more sharply. A route may drop to Class 2 only when special structure converts the global theorem wall into a bounded exact computation with a reproducible certificate.
-
-No theorem credit is granted for numerical rank samples, finite fiber searches, heuristic specialization behavior, unsourced CAS output, or a finite list of failed endpoint lifts.
-
 ## Formal Stage34 Arsenal routing
 
-Stage35 does not preload Stage34 or the full Arsenal. Once an active leaf has identified the exact object and missing weapon type, it must consult the canonical router `docs/arsenal/index.json` before fresh literature search or invention of a new mathematical route. The formal Stage34 harvest is `docs/arsenal/stage34-formal-harvest.json`, hostile re-audited in PR #1496.
-
-The following audited Stage34 weapons/workflow are explicit Stage35 reuse candidates:
+Stage35 does not preload Stage34 or the full Arsenal. Once an active leaf identifies an exact missing weapon type, it consults `docs/arsenal/index.json` before new route invention.
 
 ```text
 S34-WF01 CLASS3_RECEIVER_REPLACEMENT_THEOREM_PIPELINE
-  PRIMARY_STAGE35_REUSE=true
-  LEAVES=35-04,35-06,35-07
-  ROLE=permit closure by a replacement theorem matching the exact R29-FIB2
-       quantifiers without proving the originally named general theorem species
+  role: permit an exact replacement theorem matching the receiver quantifiers
+  Stage35 outcome: USED
 
 S34-W01 SUCCESSIVE_EXACT_FACTOR_SQUARECLASS_DESCENT
-  PRIMARY_STAGE35_REUSE=true
-  LEAVES=35-03,35-07
-  ROLE=when the residual space-square/lift predicate factors, use exact
-       factor/gcd/resultant/valuation/2-adic descent to obtain a finite exhaustive
-       squareclass branch family
+  role: exhaustive finite squareclass reduction when an exact factored receiver square appears
+  Stage35 outcome: NOT APPLIED; selected direct route has no residual squareclass condition forcing finite t
 
 S34-W03 RECEIVER_RESTRICTED_INTERSECTION_EXCLUSION
-  PRIMARY_STAGE35_REUSE=true
-  LEAVES=35-03,35-06,35-07
-  ROLE=prove branch/fiber ∩ exact receiver condition empty or receiver-degenerate
-       without solving the full factor-cover/fiber rational-point set
+  role: close only branch/fiber intersect receiver condition when a uniform exact witness exists
+  Stage35 outcome: retained as a future candidate; no uniform witness found
 
 S34-W02 GLOBAL_MORDELL_WEIL_CONGRUENCE_EXCLUSION
-  PRIMARY_STAGE35_REUSE=false
-  LEAF=35-07_DOWNSTREAM_ONLY
-  ROLE=after globally exhaustive finite family/fiber reduction and certified full
-       MW group plus all torsion translates, use exact residue conditions and CRT
-       for global exclusion inside those certified cases
+  role: global exclusion on a fixed certified MW group after exhaustive finite reduction
+  Stage35 outcome: LOCKED; no global finite-fiber reduction proved
 ```
 
-Applicability is not automatic. Before importing any card, check the Stage35 object/model, base field, parameter quantifiers, exceptional locus, residual lift predicate, endpoint reconstruction, and all adapter hypotheses. `S34-W02` must not be used as a substitute for moving-base uniformity before finite exhaustiveness is proved.
-
-## Planned sequence
+## Executed sequence
 
 ```text
-35-01 SOURCE_LOCK_AND_MODEL_INVENTORY
-35-02 Q_FIELD_PHYSICAL_FIBRATION_LEDGER
-35-03 RESIDUAL_SPACE_LIFT_INTERFACE
-35-04 MINIMAL_UNIFORM_THEOREM_STATEMENT
-35-05 BAD_FIBER_AND_EXCEPTIONAL_LOCUS
-35-06 UNIFORM_ARITHMETIC_ATTACK_BRANCHES
-35-07 FINITE_EXHAUSTIVE_REDUCTION_FALLBACK
-35-08 PROOF_EXPERIMENTS_AND_COUNTEREXAMPLE_SEARCH
-35-09 DECISION_CERTIFICATE_OR_PARK
-35-close
+35-01 SOURCE_LOCK_AND_MODEL_INVENTORY                 PASS
+35-02 Q_FIELD_PHYSICAL_FIBRATION_LEDGER              PASS_SELECTED_ROUTE
+35-03 RESIDUAL_SPACE_LIFT_INTERFACE                  PASS_DIRECT_FULL_ENDPOINT_RECONSTRUCTION
+35-04 MINIMAL_UNIFORM_THEOREM_STATEMENT              PASS_TARGET_LOCKED_NOT_PROVED
+35-05 BAD_FIBER_AND_EXCEPTIONAL_LOCUS                PASS
+35-06 UNIFORM_ARITHMETIC_ATTACK_BRANCHES             CLASS3_WALL_RETAINED_SHARPER
+35-07 FINITE_EXHAUSTIVE_REDUCTION_FALLBACK           NO_CERTIFIED_GLOBAL_FINITE_REDUCTION
+35-08 PROOF_EXPERIMENTS_AND_COUNTEREXAMPLE_SEARCH    NEW_EXACT_STRUCTURE_NO_CLOSURE
+35-09 DECISION_CERTIFICATE_OR_PARK                   CLASS3_RETAINED_WITH_SHARPER_MINIMAL_THEOREM
+35-close                                              NOT AUTHORIZED; hostile audit required
 ```
 
-### 35-01 — SOURCE_LOCK_AND_MODEL_INVENTORY
+## Selected exact route
 
-Import only the exact Stage29 interfaces needed by this kernel. Freeze the source blobs, named fibrations/families, base fields, parameter bases, generic fiber genera, physical coordinates, quotient direction, and endpoint-lift predicates. Do not replay Stage29 literature scans or all 46 historical receivers.
+Stage35 selects one direct rank-3 genus-5 fibration of the full endpoint surface rather than attempting to classify all 28 geometric fibrations.
 
-Required source interfaces:
+With Stage29 coordinates `[e:x:y:p:q:z:d]` and Testa--Stoll coordinates `[a1:a2:a3:b1:b2:b3:c]`, use
 
 ```text
-stages/stage29/29-16/active-kernel-ledger.json
-stages/stage29/29-08/fibration-crosswalk.md
-stages/stage29/29-14/theorem-dependency-ledger.json
+[a1:a2:a3:b1:b2:b3:c]=[e:x:y:z:q:p:d].
 ```
 
-Exit only when Stage35 has a compact source-lock certificate whose statements are independently checkable against those exact blobs. Arsenal routing is registered at stage scope but is not part of this ordinary source-model preload.
-
-### 35-02 — Q_FIELD_PHYSICAL_FIBRATION_LEDGER
-
-Resolve the arithmetic domain before attempting uniform point arguments. For each fibration class actually used, record:
+The selected rank-3 quadric is
 
 ```text
-FIBRATION_ID
-SOURCE_MODEL
-BASE_FIELD
-BASE_PARAMETER_SPACE
-GENERIC_FIBER_GENUS
-Q_DEFINED=true/false
-SPLITTING_FIELD_IF_NEEDED
-PHYSICAL_CLASS_ADAPTER
-ENDPOINT_PUSHFORWARD_SCOPE
-EXCEPTIONAL_OR_DEGENERATE_LOCUS
+e^2+z^2=d^2,
 ```
 
-`15 geometric` and `28 geometric` are not permission to run `Q`-arithmetic on every pencil. If the field ledger needed for the chosen attack is unresolved, Stage35 stops here rather than silently treating geometric rulings as `Q`-defined.
-
-### 35-03 — RESIDUAL_SPACE_LIFT_INTERFACE
-
-For each retained marginal/fiber model, materialize the exact condition that turns a rational point on the marginal fiber or quotient into a physical endpoint candidate. Record the residual square/torsor condition, positivity/primitivity conditions where relevant, exceptional points, and the inverse reconstruction map.
-
-The target is a verifier-friendly interface:
+with rational parameter
 
 ```text
-FIBER_POINT
-  -> physical marginal data
-  -> residual space-square predicate
-  -> exact endpoint reconstruction or certified rejection.
+t=(e+d)/z.
 ```
 
-At this leaf, if the residual predicate factors into exact squareclass branches, route through `S34-W01`. If closing only `fiber/branch ∩ residual-receiver-condition` is enough, route through `S34-W03` rather than demanding a complete point set on the larger cover. Without an exact lift adapter, arithmetic on a quotient or marginal elliptic curve cannot close `R29-FIB2`.
+For a nondegenerate positive physical endpoint, `t in Q` and `t>1`. The rank-3 conic parameterization is over `Q`, its singular base points are outside the physical open, and every physical endpoint enters this selected fibration.
 
-### 35-04 — MINIMAL_UNIFORM_THEOREM_STATEMENT
+Thus the historical all-15/all-28 field ledger remains open, but it is not required for this selected Stage35 attack.
 
-State the smallest theorem that would actually close the selected moving-family route. The record must contain:
+## Exact direct endpoint family
+
+The selected fiber can be written in `[x:y:p:q:d]` as
 
 ```text
-MINIMAL_THEOREM_STATEMENT
-QUANTIFIED_PARAMETER_BASE
-EXCLUDED_BAD_LOCUS
-NEAREST_KNOWN_THEOREM_OR_METHOD
-HYPOTHESIS_MISMATCH
-CUBOID_SPECIFIC_STRUCTURE
-EXACT_RECEIVER_CONSEQUENCE
-ENDPOINT_DECISION_CONDITION
+(t^2+1)^2*x^2+(t^2-1)^2*d^2=(t^2+1)^2*p^2
+(t^2+1)^2*y^2+(t^2-1)^2*d^2=(t^2+1)^2*q^2
+(t^2+1)^2*(x^2+y^2)=4*t^2*d^2.
 ```
 
-Before broadening the theorem request, explicitly test `S34-WF01`: can the receiver be discharged by a narrower replacement theorem matching all exact `R29-FIB2` quantifiers? The originally named uniform theorem species is not mandatory if the replacement implication is exact. Do not weaken the quantifiers until only finitely many tested fibers remain.
-
-### 35-05 — BAD_FIBER_AND_EXCEPTIONAL_LOCUS
-
-Separate generic arithmetic from bad/singular/special fibers. Determine exactly which parameter values must be removed for the generic theorem and whether the removed locus is finite, thin, positive-dimensional, or itself moving. Every excluded locus needs its own exhaustive disposition before a global conclusion.
-
-A statement valid for generic fibers is not global until all exceptional parameter classes are certified.
-
-### 35-06 — UNIFORM_ARITHMETIC_ATTACK_BRANCHES
-
-Run theorem-forge branches only after 35-01 through 35-05 define the exact target. Candidate branches may include specialization/rank control, uniform descent/Selmer control, uniform height bounds, family-level Chabauty-type reductions, or another exact arithmetic mechanism. These are research branches, not assumed available theorems.
-
-Before inventing a new theorem architecture, consult the Arsenal router. `S34-WF01` is the default replacement-theorem workflow candidate. `S34-W03` is preferred when the exact receiver intersection can be excluded without full fiber-point classification.
-
-Every branch must end in one of:
+The inverse reconstruction is
 
 ```text
-UNIFORM_THEOREM_PROVED
-RECEIVER_MATCHED_REPLACEMENT_THEOREM_PROVED
-HYPOTHESIS_MISMATCH_CERTIFIED
-COUNTEREXAMPLE_TO_PROPOSED_UNIFORM_STATEMENT
-REDUCED_TO_CLASS2_FINITE_CERTIFICATION
-CLASS3_WALL_RETAINED_SHARPER
+e=((t^2-1)/(t^2+1))*d
+z=(2*t/(t^2+1))*d.
 ```
 
-Do not accumulate repeated finite fiber computations once the missing uniform quantifier is known.
+This reconstructs all four endpoint equations exactly. Therefore the selected route is already on the full endpoint surface: the historical K3-marginal residual space-square predicate is not an additional condition here.
 
-### 35-07 — FINITE_EXHAUSTIVE_REDUCTION_FALLBACK
+## Minimal receiver-matched theorem
 
-This branch is legal only if Stage35 first proves that every relevant endpoint candidate lands in a certified finite set of fibers/classes. The reduction must include exact coverage and inverse/lift reconstruction, not an empirical bound.
-
-This is also the main Stage34 replacement-pipeline branch. Use `S34-WF01` to ask whether the Class-3 receiver can be replaced by a theorem of the form "every receiver-compatible candidate lies in these exhaustive finite branches, and each branch has no admissible receiver intersection." Use `S34-W01` for exhaustive squareclass descent where the lift condition factors, and `S34-W03` when receiver-restricted intersection exclusion is sufficient.
-
-Only after finite exhaustiveness is proved may per-fiber exact tools such as Mordell--Weil determination, descent, Chabauty, integral-point computation, or finite rational-point certification be composed into global credit. `S34-W02` becomes available here only if the finite reduction produces genus-one/elliptic cases with a certified full MW group and all torsion translates; it does not itself prove the finite reduction.
+`S34-WF01` allows the original broad theorem species to be replaced by the exact receiver obligation. Stage35 freezes
 
 ```text
-FINITE_FIBER_LIST_WITHOUT_GLOBAL_EXHAUSTIVENESS=false
-FINITE_EXHAUSTIVE_REDUCTION_PLUS_EXACT_RECEIVER_INTERSECTION_CERTIFICATES=potentially_sufficient
-S34_W02_BEFORE_FINITE_EXHAUSTIVENESS=false
+T35-R3-PHYS-EMPTY:
+for every t in Q with t>1,
+the physical open U_t(Q) of the exact genus-5 fiber C_t is empty.
 ```
 
-### 35-08 — PROOF_EXPERIMENTS_AND_COUNTEREXAMPLE_SEARCH
+This theorem is **not proved**.
 
-Use finite computation only to test candidate lemmas, identify exceptional fibers, falsify overstrong uniform statements, or discover special structure that could lower the kernel from Class 3 to Class 2. Preserve exact inputs and compact deterministic certificates when computation becomes load-bearing.
+## Bad-fiber disposition
 
-Finite experiments alone do not advance receiver status.
-
-### 35-09 — DECISION_CERTIFICATE_OR_PARK
-
-Stage35 ends with exactly one audited classification:
+The exact squarefree bad-parameter divisor for the selected family is
 
 ```text
-CLOSED_UNIFORM_OBSTRUCTION
-CLOSED_BY_RECEIVER_MATCHED_REPLACEMENT_THEOREM
-CLOSED_BY_GLOBAL_FINITE_REDUCTION
-PARTIAL_THEOREM_RECEIVER_STILL_OPEN
-RECLASSIFIED_TO_CLASS2_WITH_EXACT_EXECUTION_DAG
-CLASS3_RETAINED_WITH_SHARPER_MINIMAL_THEOREM
-PARKED_NO_NEW_MATERIAL_INPUT
+T*U*(T^2-U^2)*(T^2+U^2)*(T^4+U^4)=0.
 ```
 
-Closure requires all of:
+It has 10 geometric bad fibers, matching the source count for a rank-3 fibration. Its intersection with the physical rational parameter base `Q_{>1}` is empty. Hence every physical rational parameter gives a smooth genus-5 fiber and no exceptional rational bad-fiber subproblem remains.
 
-1. exact source/model/field ledger;
-2. quantified global coverage for the moving parameter base actually used;
-3. a uniform arithmetic theorem, an exact receiver-matched replacement theorem, or a proved globally exhaustive finite reduction;
-4. exact residual-space lift/rejection reconstruction;
-5. complete exceptional-locus discharge;
-6. hostile audit of the implication back to `R29-FIB2`.
+## Exact diagonal genus-5 structure
 
-The Stage29 kernel is decision-capable only if the resulting obstructive output genuinely covers the endpoint candidates through the audited adapters. Receiver progress does not automatically imply parent-route closure or perfect-cuboid nonexistence.
-
-## Stop / anti-loop conditions
-
-Stop rather than broaden when any of the following occurs:
+Writing
 
 ```text
-ONLY_INDIVIDUAL_FIBER_RESULTS_AVAILABLE
-Q_FIELD_LEDGER_REQUIRED_BUT_UNRESOLVED
-RESIDUAL_ENDPOINT_LIFT_NOT_EXACT
-GENERIC_THEOREM_LEAVES_UNCONTROLLED_EXCEPTIONAL_LOCUS
-EXTERNAL_THEOREM_HYPOTHESES_DO_NOT_MATCH
-BOUNDED_SEARCH_IS_BEING_USED_AS_GLOBAL_COVERAGE
-ARSENAL_MATCH_EXISTS_BUT_IS_BEING_BYPASSED_FOR_DUPLICATE_ROUTE_INVENTION
-NO_NEW_MATERIAL_INPUT_AFTER_CLASS3_WALL_IS_EXPLICIT
+alpha=((t^2-1)/(t^2+1))^2
+beta=4*t^2/(t^2+1)^2=1-alpha,
 ```
 
-Reopen a stopped branch only for a new theorem/preprint, a new exact structural reduction, an audited contradiction, or a newly certified finite-exhaustive adapter. Renaming the same uniformity wall is not progress.
+the family is the diagonal genus-5 model
+
+```text
+alpha*d^2+x^2=p^2
+beta*d^2-x^2=y^2
+d^2-x^2=q^2.
+```
+
+Its five elliptic quotient Jacobians are explicit over `Q(t)` and have full rational 2-torsion. Fixed-fiber covering/elliptic-Chabauty methods and generic `Q(t)` Mordell--Weil/section methods are structurally applicable, but neither excludes rational points that appear only after specialization.
+
+## Current Class-3 wall
+
+Stage35 shrinks the original wall to:
+
+```text
+uniformly exclude specialization-new rational points in the physical open of
+TS-S-R3-Q1 for every rational t>1,
+or prove a receiver-restricted obstruction with exactly the same quantifier.
+```
+
+No applicable existing uniform closure theorem was source-locked. No globally exhaustive reduction to finitely many fibers was proved. No bounded fiber search is permitted to stand in for this quantifier.
+
+## Current decision / anti-loop
+
+```text
+CLASSIFICATION=CLASS3_RETAINED_WITH_SHARPER_MINIMAL_THEOREM
+R29_FIB2_CLOSED=false
+J12_PARAMETRIC_CLOSED=false
+STAGE35_CLOSED=false
+NEW_THEOREM_CREDIT=false
+```
+
+Reopen only for a material input:
+
+```text
+- a theorem controlling specialization-new points for this exact family/quotient system;
+- a uniform receiver-intersection obstruction valid for every rational t>1;
+- an exact globally exhaustive finite reduction;
+- an audited contradiction to the current model/coverage/reconstruction/bad-locus certificates.
+```
+
+Do not run additional individual fibers, expand all 28/15 field ledgers, or repeat the broad literature search without one of those triggers.
