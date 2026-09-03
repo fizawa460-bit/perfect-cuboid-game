@@ -72,15 +72,17 @@ def main() -> None:
     assert failure["scope"] == "LOCATOR_SEARCH_PROVENANCE_ONLY"
     assert failure["mathematical_16_to_16_rejected"] is False
 
-    # Current-head controller wiring is part of the replay contract.  V238 is
-    # the hostile-re-audit promotion of this unchanged V2 mathematical bundle.
+    # Historical-bundle lifecycle contract: this verifier replays the audited
+    # 16->16 bundle under successor controllers.  It must not pin the active
+    # controller schema/current leaf/required verifier to V238, because later
+    # controller promotions are allowed to advance while retaining this bundle.
     controller = json.loads((ROOT / "stages/stage32/controller.json").read_text())
-    assert controller["schema"] == "STAGE32_LOWGENUS_PICARD_CONTROLLER_V238_POST1505_Q602_16_MULTI_REGISTRY_SEARCH_AUDITED"
-    assert controller["status"] == "STAGE32_O210_Q602_AUDITED_16_MULTI_REGISTRY_SEARCH_NONEXCLUSION"
-    assert controller["current_item"] == "O210_Q602_AUDITED_16_RESIDUE_REFINEMENT"
-    ctl_leaf = controller["current_leaf"]
-    assert ctl_leaf["status"] == "AUDITED_EXACT_BOUNDED_NEGATIVE_MULTI_REGISTRY_SEARCH"
-    assert ctl_leaf["O212_and_later_blocked"] is True
+    assert controller["stage"] == 32
+    assert controller["merge_allowed"] is False
+    assert controller["operations"]["heavy_compute_authorized"] is False
+    assert controller["current_leaf"]["O212_and_later_blocked"] is True
+    assert controller["firewalls"]["O210_closed"] is False
+
     ctl_bundle = controller["post1505_q602_16_residue_retained_asset_search_provisional"]
     assert ctl_bundle["status"] == "AUDITED_EXACT_BOUNDED_NEGATIVE_SEARCH_AFTER_HOSTILE_REAUDIT"
     assert ctl_bundle["certificate_path"] == args.check
@@ -89,20 +91,13 @@ def main() -> None:
     assert ctl_bundle["surviving_residues_decimal"] == EXPECTED_16
     assert ctl_bundle["audit_failure_review_id"] == 5100795695
     assert ctl_bundle["multi_registry_locator_repaired"] is True
+
     audit_pass = controller["post1505_q602_16_residue_retained_asset_search_hostile_reaudit_pass"]
     assert audit_pass["review_id"] == 5101885156
     assert audit_pass["audited_exact_head"] == "b1d71cbae3f3d5bf3e7d2bf36c5a739acf475789"
     assert audit_pass["exact_head_ci"] == {"run_id":33754122329,"job_id":100644300234,"result":"SUCCESS"}
     assert audit_pass["verdict"] == "PASS"
     assert audit_pass["authority_promotion"] == "AUDITED_BOUNDED_NEGATIVE_MULTI_REGISTRY_16_TO_16_NONEXCLUSION"
-    required = controller["required_lightweight_verifier"]
-    assert required["path"] == "stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q602_16_residue_retained_asset_search.py"
-    assert required["certificate_path"] == args.check
-    assert required["workflow"] == ".github/workflows/stage32-post1505-o210-q602-16-residue-retained-asset-search.yml"
-    assert controller["audit_required_before_promotion"] is False
-    assert controller["merge_allowed"] is False
-    assert controller["operations"]["heavy_compute_authorized"] is False
-    assert controller["operations"]["retained_asset_research_authorized"] is True
 
     locks = cert["source_locks"]
     adapter = load_locked_json(locks["audited_16_adapter"])
@@ -225,9 +220,10 @@ def main() -> None:
         "schema": cert["schema"],
         "canonical": EXPECTED_CANONICAL,
         "controller": controller["schema"],
+        "lifecycle": "historical audited bundle replay under successor controller",
         "locator_registries": EXPECTED_REGISTRIES,
         "extension_asset": EXPECTED_EXTENSION_ASSET,
-        "bounded_search": "multi-registry route replayed and hostile-re-audit promoted",
+        "bounded_search": "multi-registry route replayed and hostile-re-audit promotion retained",
         "Q602_residues": {"input": 16, "output": 16, "values": EXPECTED_16},
         "new_pruning": False,
         "Q602_excluded": False,
