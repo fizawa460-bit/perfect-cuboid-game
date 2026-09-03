@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V233_POST1505_W_AUDITED_ADAPTER_OPEN",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V234_POST1505_RETAINED_F2_4_ADAPTER_PROVISIONAL",
   "stage": 32,
-  "status": "STAGE32_O210_Q602_POST1505_W_AUDITED_RETAINED_F2_4_ADAPTER_OPEN",
+  "status": "STAGE32_O210_Q602_POST1505_RETAINED_F2_4_ADAPTER_28_TO_16_PENDING_HOSTILE_AUDIT",
   "stage32_closed": false,
   "advance_allowed": false,
   "merge_allowed": false,
@@ -180,44 +180,66 @@
     "audited_scope": "Authority-wiring repair plus unchanged post1505 abstract-W bundle. Promotes exactly W\\{0}={[w1-w6],[w3-w5],[w2-w4]} as the X(8)->C0 character plane / Richelot kernel. Does not identify retained F2^4 coordinates and does not exclude Q602/O210.",
     "authority_promotion": "AUDITED_X8_V4_ABSTRACT_W_RICHELOT_KERNEL"
   },
-  "current_item": "O210_Q4_X8_V4_TORSOR_PLANE_WEIERSTRASS_LOCK_AUDITED_ADAPTER_OPEN",
+  "post1505_retained_F2_4_adapter_provisional": {
+    "status": "PROVISIONAL_EXACT_PENDING_HOSTILE_AUDIT",
+    "source_note_path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter-source-note.md",
+    "source_note_blob_sha1": "33ed6a067b9ebb32c2a92772f98db7bb3f22fab8",
+    "certificate_path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter.json",
+    "certificate_blob_sha1": "a45e4725cf3354f7ed32ec6f7126326ca5492255",
+    "canonical_sha256": "eab4d86ffe89ff0e87d197cffb34e8b556ae530cab826dab34c1007664a4af28",
+    "external_source": {"arxiv":"2603.20754v1","locators":["Section 2.2 equation (2.9)","Proposition 2.3","Definition 2.4"]},
+    "provisional_exact_claims": {
+      "self_richelot_dual_scalar": "-1/2",
+      "transported_self_endomorphism": "[r], r^2=-2",
+      "W_equals_kernel_r": true,
+      "retained_W_basis": [[0,0,1,0],[0,0,0,1]],
+      "q602_residue_pruning": "28 -> 16",
+      "surviving_residues_decimal": [65,67,73,75,97,99,105,107,193,195,201,203,225,227,233,235]
+    },
+    "pre_controller_wire_replay": {"head":"d50672bc3b236f251b3b89e6416bd7bbc29a221d","run_id":33738915719,"job_id":100595981430,"verifier_step":"SUCCESS"},
+    "authority_effect": "NONE_PENDING_HOSTILE_AUDIT; Q602/O210 remain open and the 28->16 pruning is not promoted until audit PASS."
+  },
+  "current_item": "O210_Q4_RETAINED_F2_4_SELF_RICHELOT_ADAPTER_PENDING_HOSTILE_AUDIT",
   "current_leaf": {
-    "status": "AUDITED_EXACT_ABSTRACT_W_LOCK_ADAPTER_OPEN",
-    "target": "Construct an exact marked adapter from the audited three Weierstrass pair classes of W to the retained (e1,e2,r*e1,r*e2) mod 2 coordinates. Do not choose an arbitrary symplectic basis.",
-    "next_checkpoint": "Source-lock the marked identification between the Bolza Weierstrass-pair J(C0)[2] presentation and the retained Z[sqrt(-2)]^2/2 lattice presentation. Once an exact adapter is certified, evaluate the 28 audited Q602 residue survivors pointwise on that exact W. O212 and later remain blocked.",
+    "status": "PROVISIONAL_EXACT_RETAINED_F2_4_ADAPTER_AND_28_TO_16_PENDING_HOSTILE_AUDIT",
+    "target": "Hostile-audit the self-Richelot identification W=ker(r) in retained (e1,e2,r*e1,r*e2) mod 2 coordinates and its exact pointwise Q602 pruning 28->16.",
+    "next_checkpoint": "Audit canonical eab4d86f... with its Smirnov Richelot source convention, exact Delta/bracket arithmetic, CM transport to multiplication by r, retained mod-2 kernel, and independent replay of the 28->16 filter. Do not refine the 16 survivors until PASS. O212 and later remain blocked.",
     "O212_and_later_blocked": true
   },
   "math_scope": {
     "fixed_z_O186_all_qprime": "CLOSED_AUDITED_EXCLUDED",
     "fixed_z_O188_all_profiles": "CLOSED_AUDITED_EXCLUDED",
     "fixed_z_qprime1_qprime2_exact_v6": "CLOSED_AUDITED_EXCLUDED_BY_MODULAR_FACTOR_INTEGRALITY",
-    "fixed_z_O210_q4_exact_v6_carrier": "OPEN_AT_AUDITED_Q602_28_RESIDUE_BOUNDARY_WITH_POST1505_ABSTRACT_W_AUDITED_F2_4_ADAPTER_OPEN",
+    "fixed_z_O210_q4_exact_v6_carrier": "OPEN_AT_AUDITED_Q602_28_RESIDUE_BOUNDARY_WITH_PROVISIONAL_RETAINED_F2_4_ADAPTER_28_TO_16_PENDING_AUDIT",
     "fixed_z_O212_through_O266_qprime4": "BLOCKED_BEHIND_O210",
     "fixed_z_all_integral_genus1_carriers": "OPEN",
     "full178_geometric_closure": "OPEN_NOT_ACTIVE",
     "receiver_theorem_endpoint": "OPEN"
   },
   "operations": {
-    "execution_class": "LIGHTWEIGHT_POST1505_RETAINED_F2_4_MARKED_ADAPTER",
+    "execution_class": "LIGHTWEIGHT_POST1505_RETAINED_F2_4_ADAPTER_HOSTILE_AUDIT_BOUNDARY",
     "full178_scaleout_authorized": false,
     "heavy_compute_authorized": false,
     "survivor_materialization_authorized": false,
     "retained_asset_research_authorized": true
   },
   "required_lightweight_verifier": {
-    "path": "stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q4_x8_v4_torsor_plane_weierstrass_lock.py",
-    "certificate_path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock.json",
-    "workflow": ".github/workflows/stage32-post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock.yml",
-    "workflow_name": "Stage32 post1505 O210 X8 V4 torsor-plane Weierstrass lock",
+    "path": "stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q4_x8_v4_torsor_plane_retained_f2_4_adapter.py",
+    "certificate_path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter.json",
+    "workflow": ".github/workflows/stage32-post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter.yml",
+    "workflow_name": "Stage32 post1505 O210 retained F2^4 W adapter",
     "required_checks": [
-      "preserve the audited exact abstract W source locks and Richelot three-pair identification",
-      "assert retained (e1,e2,r*e1,r*e2) mod 2 coordinates remain unidentified until the new marked adapter is separately certified",
+      "source-lock audited post1505 abstract W, retained Bolza CM basis, and audited post1503 28-residue input",
+      "recompute Delta=2 and Richelot brackets for x*(x^2-1)*(x^2+1), giving fhat/f=-1/2",
+      "verify the exact r^2=-2 curve isomorphism transports the Richelot map to multiplication by r and hence W=ker(r)",
+      "derive W=span_F2{(0,0,1,0),(0,0,0,1)} in the retained post1503 module order without arbitrary basis change",
+      "pointwise replay T|W=T^dagger|W=id on the 28 audited residues and assert exactly 16 survive",
       "assert Q602/O210 remain open and O212+ blocked"
     ],
-    "audited_exact_head_success": {"head":"2dacce9f98e4bed621df21e2d712b72930c3265b","run_id":33735567093,"job_id":100585190874,"result":"SUCCESS"}
+    "pre_controller_wire_success": {"head":"d50672bc3b236f251b3b89e6416bd7bbc29a221d","run_id":33738915719,"job_id":100595981430,"result":"SUCCESS"}
   },
-  "audit_required_before_promotion": false,
-  "next_expected_action": "On PR #1505, build a source-locked exact marked adapter from audited W={Weierstrass pair classes} to retained (e1,e2,r*e1,r*e2) mod 2 coordinates. Do not guess a symplectic basis. If a new adapter certificate is created, wire it as provisional and require hostile audit before promoting its pointwise 28-residue consequences.",
+  "audit_required_before_promotion": true,
+  "next_expected_action": "Hostile-audit the controller-bound retained-F2^4/self-Richelot adapter canonical eab4d86f... and exact-head dedicated replay. Do not advance to a new constraint on the 16 survivors before PASS.",
   "firewalls": {
     "O186_closed": true,
     "O188_closed": true,
@@ -233,11 +255,11 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "handoff": {
-    "batch": "20260903-stage32-post1505-w-audit-pass-adapter-open",
-    "continue_from": "O210_Q4_TRANSLATE_LOCKED_WEIERSTRASS_W_TO_RETAINED_E1_E2_R_E1_R_E2_MOD2",
+    "batch": "20260903-stage32-post1505-retained-f2-4-adapter-audit",
+    "continue_from": "O210_Q4_RETAINED_F2_4_SELF_RICHELOT_ADAPTER_HOSTILE_AUDIT",
     "fresh_head_required": false,
     "do_not_merge": true,
-    "notes": "Review 5099888513 PASS promotes the abstract post1505 W bundle only. Build the retained F2^4 marked adapter next, then pointwise-test the 28 residues only after the adapter has its own exact provenance/certification and required audit. Anti-loop remains removed as an execution gate."
+    "notes": "Abstract W is audited by review 5099888513. The new retained F2^4 adapter and 28->16 pointwise pruning are provisional only and must be hostile-audited before any further survivor refinement. Anti-loop remains removed as an execution gate."
   },
   "post1504_hostile_audit_pass": {
     "review_id": 5098663903,
