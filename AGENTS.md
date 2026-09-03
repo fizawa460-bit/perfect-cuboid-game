@@ -1,116 +1,38 @@
 # Repository agent instructions
 
-## CRITICAL repo-wide rule: bounded Actions storage before compute
+Keep this root file small. Stage-specific startup, history, and operating detail belong in the Stage entrypoint/state. Reusable research-process detail belongs under `docs/research-os/`.
 
-This rule has priority over stage-local speed, convenience, or batching preferences.
+## Repo-wide Actions safety
 
-Before launching any GitHub Actions workload that can create artifacts, the agent MUST treat Actions artifact/storage capacity as a hard execution constraint, separate from runner-minute or concurrency limits.
+- Treat GitHub Actions artifact/storage capacity as a hard execution constraint. The repository operating budget is **500 MB** unless explicitly revised.
+- Before artifact-producing compute, conservatively preflight peak stored footprint. For a new high-mass workflow, measure a representative shard before scaling.
+- Keep raw exhaustive evidence runner-local when possible; persist compact deterministic certificates only after verification. Use bounded waves and short retention for necessary intermediates.
+- Storage risk, upload failure, or materially larger-than-estimated artifacts are stop/cancel conditions. Do not trade mathematical exactness for storage.
+- Detailed policy: `docs/research-os/policies/actions-storage-and-evidence-safety.md`.
 
-1. **Preflight the storage peak before launch.** Estimate the worst-case simultaneous stored footprint of all still-required existing artifacts, all new intermediate artifacts, and the final evidence. If the available quota cannot be verified, use a conservative design that does not depend on having large spare storage. Do not start a batch whose projected peak can plausibly exhaust the account/repository storage budget. The repository operating budget is **500 MB** unless this policy is explicitly revised.
-2. **Measure one representative shard before scaling out.** For a new high-mass workflow, run or inspect a representative unit and use its actual artifact size to project the full batch. Do not extrapolate only from branch count or runtime.
-3. **Raw exhaustive evidence stays runner-local whenever possible.** Validate raw branch rows/logs on the runner, then persist compact deterministic certificates: source/raw SHA, exact coverage/partition evidence, UNKNOWN count, survivor set or survivor digest as appropriate, solver-completion flags, and required firewalls. Compaction MUST be post-verification only and MUST NOT weaken mathematical exactness.
-4. **Never require all large raw shards to coexist in artifact storage.** If raw intermediates are genuinely required, aggregate in bounded waves/chunks and discard superseded intermediates before proceeding to the next wave.
-5. **Set explicit short retention on intermediates.** Temporary shard artifacts should normally use the minimum practical `retention-days` (typically 1-3 days). Only final audit/manifest artifacts receive longer retention when justified.
-6. **Storage risk is a stop condition.** If projected peak storage becomes unsafe, artifact uploads begin failing, quota/usage is uncertain in a way that can invalidate the run, or observed shard size materially exceeds the preflight estimate, STOP/CANCEL before producing more large artifacts and redesign the evidence flow. Do not continue merely because compute jobs are succeeding.
-7. **Cancelled/non-credit production runs are cleanup obligations.** Once any evidence that must be retained has been compacted/source-locked elsewhere, delete the obsolete run/artifacts rather than leaving large abandoned intermediates resident.
-8. **Do not trade exactness for storage.** Any compact certificate used for theorem-facing or hostile-audit evidence must preserve enough deterministic commitments and invariants for independent verification of the claimed exact coverage/result. Storage optimization never grants theorem, receiver, effectivity, or endpoint credit by itself.
+## Heavy workflow rerun authorization
 
-## CRITICAL repo-wide rule: heavy Actions concurrency headroom
+Heavy PR workflows must not rerun merely because a PR was synchronized, reopened, or docs/controller/status/source files changed. Every heavy job must remain behind a cheap authorization gate and run only when its dedicated run key is explicitly and semantically advanced/armed in the triggering commit range. If authorization cannot be verified, fail closed and skip heavy compute.
 
-This rule is mandatory and has the same priority as the storage rule above.
+Detailed policy: `docs/research-os/policies/actions-storage-and-evidence-safety.md`.
 
-1. **A single Stage MUST NOT be designed to occupy more than 18 heavy compute runners concurrently.** This is a hard upper bound, not a target.
-2. **Count effective overlap, not individual YAML values.** If multiple matrix jobs or workflows from the same Stage can run at the same time, sum their concurrently runnable heavy jobs. For example, `max-parallel: 10` plus another overlapping `max-parallel: 10` is an effective 20 and is prohibited.
-3. **Do not evade the cap by splitting work across workflows/PRs.** Coordinated heavy workloads belonging to the same Stage are counted together.
-4. **Other Stages must retain runner headroom.** Heavy workflow design must deliberately leave capacity for independent Stage work, reconnaissance, audits, and lightweight Actions. Stage-local speed or earlier completion does not override this requirement.
-5. **Preflight before launch.** Every new or materially revised heavy workflow MUST record/verify `planned effective heavy concurrency <= 18` before it is armed. If the overlap cannot be bounded confidently, reduce `max-parallel` until the bound is guaranteed.
-6. **Absolute compliance.** Never knowingly launch a heavy configuration that can exceed 18 effective concurrent jobs for one Stage. Redesign or split in time instead.
+## Research credit and claim promotion
 
-## CRITICAL repo-wide rule: explicit authorization for heavy reruns
+Apply `docs/research-os/policies/research-credit-and-promotion-firewalls.md` before promoting any computation, bounded result, receiver, quotient/field/model result, or audited subclaim.
 
-`pull_request.paths` is only a coarse event filter. It MUST NOT be treated as proof that the dedicated heavy run key changed in the synchronization that triggered the workflow.
+At minimum:
 
-1. **Every new or materially revised PR-triggered heavy workflow MUST have a cheap authorization gate before any heavy job.** Every heavy matrix/job must depend on that gate and remain skipped unless it returns `authorized=true`.
-2. **On `synchronize`, authorize only from the actual commit range.** Fetch `github.event.before`, compare it with the current PR head, and require the dedicated run-key path itself to appear in that `BEFORE..HEAD` diff. If `before` is missing or cannot be verified, fail closed with `authorized=false`.
-3. **Require semantic arming, not a cosmetic touch.** A newly added key must have a positive generation/revision and its explicit armed flag set. An existing key must advance its generation/revision relative to the previous revision and validate all workflow-specific locked parameters. Merely rewriting unrelated files or touching the key without a valid new generation does not authorize heavy execution.
-4. **Audit/controller/docs/status/README/source edits never authorize a rerun by themselves.** A run key remaining somewhere in the cumulative PR diff is insufficient.
-5. **`reopened` is cold by default.** Reopening a PR must not restart heavy computation. A fresh run-key generation/revision on a later `synchronize` event is required. An initial `opened` event may authorize only when the dedicated key is newly introduced or changed relative to base and passes the same semantic validation; the safer pattern is to open the PR cold and arm it in a distinct follow-up commit.
-6. **Existing heavy workflows are migration obligations.** Before an existing heavy workflow is armed for another generation, bring it under this commit-range authorization rule. Do not claim repo-wide mechanical enforcement until those workflows have actually been migrated or linted.
-
-Detailed reusable policy: `docs/research-os/policies/actions-storage-and-evidence-safety.md`.
-Human-facing entrypoint: `docs/README.md`.
-
-## CRITICAL repo-wide rule: research credit and claim promotion
-
-Every agent must apply `docs/research-os/policies/research-credit-and-promotion-firewalls.md` before promoting a computation, bounded result, intermediate receiver, model result, quotient/field result, or audited subclaim into a stronger mathematical claim.
-
-The mandatory invariants are:
-
-1. **Finite/bounded/sample evidence is not a global or asymptotic theorem.** Do not infer full nonexistence, limiting behavior, true exponent, or unbounded classification from finite evidence alone.
-2. **Keep credit layers distinct.** Computational evidence, numerical credit, receiver discharge, theorem credit, effectivity/existence credit, and endpoint/final-problem credit require separate authorization.
-3. **Semantic transfer requires an adapter.** Do not silently change population, ratio meaning, measure, cutoff, multiplicity, primitivity, height, mask, field, quotient, or model.
-4. **Do not promote quotient/geometric/extension-field results automatically.** Finite-group, `Qbar`, `Q(i)`, quotient, cover, or simplified-model statements stay at that level until descent/lift/inflation back to the original global object is proved.
-5. **No double charge or fake product saving.** A restriction or saving is charged once unless genuine independence under the same measure/weights/masks/quantifiers is proved.
-6. **Effectivity/existence is separate.** Enumerating classes, lattice vectors, orbits, cohomology, or formal carriers does not by itself prove an actual curve/point/divisor/family exists.
-7. **Only the closure state required by the active controller releases downstream mathematical credit.** Successful Actions, READY, or pending-audit states do not suffice.
-8. **Hostile audit may revoke, downgrade, supersede, or reopen prior credit.** Never preserve an invalidated claim merely to keep downstream progress intact.
-9. **A blocked route or finite zero hit is not a proof of impossibility.** Apply the Cycle Exploration Safety Protocol before parking or declaring exhaustion.
-10. **No perfect-cuboid existence/nonexistence conclusion without an explicit audited full-endpoint certificate.**
+- finite/bounded/sample evidence is not a global theorem;
+- computational, numerical, receiver, theorem, effectivity/existence, and endpoint credit stay distinct;
+- changes of population, measure, field, quotient, model, mask, height, multiplicity, or other semantics require an exact adapter;
+- do not double-charge a restriction/saving or assume independence without proof;
+- formal classes/orbits/cohomology do not by themselves prove existence of the required geometric object;
+- only the active controller's required audited closure releases downstream credit, and hostile audit may revoke it;
+- a blocked route or finite zero hit is not impossibility;
+- never claim perfect-cuboid existence/nonexistence without an explicit audited full-endpoint certificate.
 
 Stage-local controllers may strengthen these firewalls but must not weaken them.
 
-## Repository-wide Arsenal lookup and maintenance
+## Repository-wide research routing
 
-Do not load the full research Arsenal during ordinary Stage startup. First identify the active leaf's exact missing object or workflow type, then:
-
-1. read `docs/arsenal/index.json` as the sole machine-readable registry;
-2. select one matching ID and open only its generated file under `docs/arsenal/cards/`;
-3. open the linked source document or proof certificate only when the card's exact contract requires it;
-4. treat every `PROVISIONAL` card as discovery routing only: the live Stage controller and current source locks always override its snapshot.
-
-To add or change an Arsenal weapon, edit its authoritative source section and registry entry, then run `python3 -B docs/arsenal/sync_arsenal_catalog.py`. Never hand-edit `docs/arsenal/catalog.md` or generated ID cards. Before commit, `python3 -B docs/arsenal/sync_arsenal_catalog.py --check` MUST pass; this checks registered paths, duplicate IDs, retired successors, catalog synchronization, and every generated card.
-
-## Repository-wide existing-evidence lookup
-
-Before a broad search across Stage history or branches for an already-computed certificate, basis, matrix, label map, adapter, producer, or artifact lock, query `docs/evidence-locator/index.json` with `python3 -B docs/evidence-locator/query_evidence.py <terms>`. Treat matches only as candidate locations and recheck the live Stage authority before use. A query miss never proves that the repository lacks the asset.
-
-If a necessary bounded search discovers a reusable positive asset that was not registered, add its exact path, Git blob SHA, authority/status, object aliases, relations, outputs, limitations, and source ref to the locator, then run `python3 -B docs/evidence-locator/verify_evidence_locator.py`. Do not centralize negative search conclusions: keep them in the relevant Stage's head-scoped `resolved_investigations` with explicit reopening conditions.
-
-## Stage34 MAIN context bootstrap
-
-For an ordinary `Stage34-main-batch`, after reading this file use
-`stages/stage34/MAIN-START-HERE.md` as the Stage34 entrypoint. Follow its bounded
-startup list and `MAIN-STATE.json`; do not automatically load Stage29 history,
-Stage32/33 mathematical state, the Stage34 roadmap, or a stage-wide certificate
-set. Historical EXT-C evidence is imported only when the current leaf requires
-one exact source and is then compacted into Stage34 source-lock files. This
-routing reduces context only; it does not weaken any source lock, theorem
-hypothesis, odd-multiplicity obligation, audit, closure, or promotion requirement.
-
-## Stage33 MAIN context bootstrap
-
-For an ordinary `Stage33-main-batch`, after reading this file use
-`stages/stage33/MAIN-START-HERE.md` as the Stage33 entrypoint. Follow its bounded
-startup list and its machine-checked `MAIN-STATE.json`; do not automatically
-load the full controller, compatibility shims, old repair state, roadmaps, or
-history. Detailed authority is loaded only when the entrypoint's named trigger
-applies. This routing reduces context only; it does not weaken any policy,
-source lock, audit, closure, or promotion requirement.
-
-## Stage14 automation PR contract
-
-Every pull request created for one of the recurring Stage14 batches must include exactly one safety marker and exactly one route marker in its body:
-
-```text
-STAGE14_AUTOMATION_SAFE=true
-STAGE14_ROUTE=<route>
-```
-
-Use the route corresponding to the requested batch:
-
-- `Stage14-main-batch` -> `main`
-- `Stage14-s-batch` -> `s`
-- `Stage14-t-batch` -> `t`
-- `Stage14-Work-toolbox-XQ` (integration batch) -> `xq`
-
-Do not set `STAGE14_AUTOMATION_SAFE=true` for unrelated PRs. Do not use a route other than `main`, `s`, `t`, or `xq`. If a batch is blocked, unsafe to merge, has unresolved conflicts, or needs manual review, omit the safety marker and state the blocker in the PR body.
+Do not preload repository-wide catalogs during ordinary Stage startup. When the active leaf needs an existing weapon or evidence asset, use `docs/research-os/policies/repository-asset-discovery.md` for bounded Arsenal/evidence-locator lookup. For route broadening or parking decisions, use `docs/research-os/policies/cycle-exploration-safety-protocol.md`.
