@@ -1,0 +1,31 @@
+name: Stage32 post1503 relative-V4 mod2 coupling replay
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1503-relative-v4-mod2-coupling.yml'
+      - 'stages/stage32/controller.json'
+      - 'stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling.json'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1503_o210_q4_relative_v4_torsor_mod2_coupling.py'
+      - 'stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json'
+      - 'stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-birational-d4d4-trace-reduction.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Replay relative-V4 torsor mod2 coupling
+        run: >-
+          python3 -B
+          stages/stage32/residual-32-01-production/certify_stage32_post1503_o210_q4_relative_v4_torsor_mod2_coupling.py
+          --check stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling.json
