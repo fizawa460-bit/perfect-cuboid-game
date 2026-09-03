@@ -10,7 +10,7 @@ import re
 
 
 HERE = Path(__file__).resolve().parent
-REGISTRY_PATHS = [HERE / "index.json", HERE / "stage33.json"]
+REGISTRY_PATHS = [HERE / "index.json", HERE / "stage32-post1498.json", HERE / "stage33.json"]
 
 
 def normalize(value: str) -> str:
