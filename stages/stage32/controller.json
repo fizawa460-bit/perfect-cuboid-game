@@ -1,14 +1,14 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V228_POST1501_GEOMETRY_NEGATIVE_AUDIT_PASS_CHECKPOINT",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V229_POST1504_RELATIVE_V4_MOD2_COUPLING",
   "stage": 32,
-  "status": "STAGE32_O210_ROSATI_TRACE_1204_Q602_GEOMETRY_AUDITED_NEGATIVE_HOSTILE_AUDIT_PASS_MERGE_READY",
+  "status": "STAGE32_O210_Q602_RELATIVE_V4_MOD2_COUPLING_PENDING_HOSTILE_AUDIT",
   "stage32_closed": false,
   "advance_allowed": false,
-  "merge_allowed": true,
-  "checkpoint_merge_ready": true,
+  "merge_allowed": false,
+  "checkpoint_merge_ready": false,
   "active_pr": {
-    "number": 1501,
-    "branch": "stage32-post1500-o210-rosati-geometry",
+    "number": 1504,
+    "branch": "stage32-post1503-v4-torsor-mod2-coupling",
     "automatic_merge_authorized": false
   },
   "fixed_target": {
@@ -121,11 +121,28 @@
     "authority_effect": "NONE; O210 remains open at the audited repaired nonexclusion boundary and O212+ remains blocked.",
     "reentry_requires_new_source_locked_evidence": true
   },
-  "current_item": "O210_Q4_ROSATI_TRACE_1204_GEOMETRY_AUDITED_NEGATIVE",
+  "post1504_relative_v4_mod2_coupling": {
+    "status": "PROVISIONAL_EXACT_NEW_COUPLING_NONEXCLUSION_PENDING_HOSTILE_AUDIT",
+    "source_note_path": "stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling-source-note.md",
+    "source_note_blob_sha1": "429ea905cb1cb6354058461c3203de51c03e4106",
+    "certificate_path": "stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling.json",
+    "canonical_sha256": "312aa78d5a89c7c4d48e0afc2988e5ecf2b605d68820d123fea8ca8c48f6d669",
+    "new_coupling": "The lift Y->X=(ZxZ)/H_diag identifies f1^*Z and f2^*Z for the connected etale H~=V4 torsor Z=X(8)->C0. Hence a two-dimensional character plane W is fixed by both correspondence orientations modulo two.",
+    "q602_residue_preflight": {
+      "realized_mod2_residue_classes": 96,
+      "common_fixed_dimension_at_least_2_survivors": 28,
+      "removed_residue_classes": 68,
+      "total_integral_q602_vectors": 1312836096,
+      "surviving_integral_vectors": 382918016,
+      "Q602_excluded": false
+    },
+    "authority_effect": "NEW_COUPLING_EVIDENCE_ONLY; O210 remains open and O212+ remains blocked pending hostile audit and exact-W refinement."
+  },
+  "current_item": "O210_Q4_RELATIVE_V4_TORSOR_MOD2_COUPLING",
   "current_leaf": {
-    "status": "AUDITED_NEGATIVE",
-    "target": "Do not repeat the exhausted common-cover/marked-branch generic inference. Re-enter only with a new source-locked coupling theorem/certificate, a local intersection/ramification calculation forcing strict Rosati loss, or a certified contribution identification/collision excluding sigma=1204 / Q=602.",
-    "next_checkpoint": "Merge PR #1501 as the hostile-audited negative checkpoint. After merge, O210 remains open at sigma=1204/Q=602; continue only from newly admitted qualifying source-locked evidence. O212 and later overlaps remain blocked.",
+    "status": "PROVISIONAL_EXACT_NEW_COUPLING_PENDING_HOSTILE_AUDIT",
+    "target": "Hostile-audit the new relative-V4 cohomological coupling and exact Q602 mod-2 residue preflight. Do not promote exclusion: 28 residue classes survive.",
+    "next_checkpoint": "Run exact-head CI and hostile audit PR #1504. If PASS, retain the 96->28 residue reduction and continue by identifying the exact X(8)->C0 V4 torsor two-plane W in the retained Bolza J(C0)[2] basis. O212 and later remain blocked.",
     "O212_and_later_blocked": true
   },
   "anti_loop": {
@@ -147,6 +164,7 @@
       "sigma(Gamma)=0 without an independent geometric proof",
       "shared-cover or marked-branch structure alone implies strict Rosati loss",
       "delta_Gamma=8586 or zero-Rosati downstream simplex values without rederivation",
+      "a common fixed two-plane exists implies Q602 is excluded; the post1504 preflight has 28 residue survivors",
       "exact-head CI success implies hostile-audit mathematical correctness"
     ],
     "asset_lookup_rule": "Use docs/evidence-locator/query_evidence.py first for already-existing evidence, then recheck live Stage authority; a query miss is not repository absence."
@@ -155,36 +173,34 @@
     "fixed_z_O186_all_qprime": "CLOSED_AUDITED_EXCLUDED_DO_NOT_REOPEN",
     "fixed_z_O188_all_profiles": "CLOSED_AUDITED_EXCLUDED_DO_NOT_REOPEN",
     "fixed_z_qprime1_qprime2_exact_v6": "CLOSED_AUDITED_EXCLUDED_BY_MODULAR_FACTOR_INTEGRALITY",
-    "fixed_z_O210_q4_exact_v6_carrier": "OPEN_AT_AUDITED_ROSATI_TRACE_1204_Q602_NONEXCLUSION_BOUNDARY_WITH_GEOMETRY_LANE_NEGATIVE",
+    "fixed_z_O210_q4_exact_v6_carrier": "OPEN_AT_AUDITED_Q602_BOUNDARY_WITH_NEW_RELATIVE_V4_MOD2_COUPLING_28_RESIDUE_SURVIVORS_PENDING_AUDIT",
     "fixed_z_O212_through_O266_qprime4": "BLOCKED_BEHIND_O210",
     "fixed_z_all_integral_genus1_carriers": "OPEN",
     "full178_geometric_closure": "OPEN_NOT_ACTIVE",
     "receiver_theorem_endpoint": "OPEN"
   },
   "operations": {
-    "execution_class": "LIGHTWEIGHT_POST1501_GEOMETRY_NEGATIVE_AUDIT_PASS_CHECKPOINT",
+    "execution_class": "LIGHTWEIGHT_POST1504_RELATIVE_V4_MOD2_COUPLING",
     "full178_scaleout_authorized": false,
     "heavy_compute_authorized": false,
     "survivor_materialization_authorized": false,
     "retained_asset_research_authorized": false
   },
   "required_lightweight_verifier": {
-    "path": "stages/stage32/residual-32-01-production/verify_post1500_common_cover_marked_branch_geometry.py",
-    "certificate_path": "stages/stage32/residual-32-01-production/post1500-common-cover-marked-branch-geometry-certificate.json",
-    "workflow": ".github/workflows/stage32-post1500-common-cover-marked-branch-geometry.yml",
-    "workflow_name": "Stage32 post1500 common-cover geometry negative replay",
-    "audited_head_success": {"head":"d0150e6d5d409c04e98d4a13ce926f383447fe3b","run_id":33719383384,"job_id":100535199478,"result":"SUCCESS"},
+    "path": "stages/stage32/residual-32-01-production/certify_stage32_post1503_o210_q4_relative_v4_torsor_mod2_coupling.py",
+    "certificate_path": "stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling.json",
+    "workflow": ".github/workflows/stage32-post1503-relative-v4-mod2-coupling.yml",
+    "workflow_name": "Stage32 post1503 relative-V4 mod2 coupling replay",
     "required_checks": [
-      "parse live controller and assert fixed target O210 / active PR #1501 / O212+ blocked",
-      "recompute admitted repair source-note Git blob SHA-1",
-      "assert source-note and controller agree on Gamma^2=15806, sigma=1204, Q=602, operator bound 8505, Weierstrass delta minimum 1924",
-      "assert certificate authority_before equals authority_after at O210",
-      "assert #1501 negative handoff and anti-loop state are represented in controller",
-      "when hostile PASS is registered, require review 5098198995 / audited head d0150e6d... / exact-head CI 33719383384 job 100535199478 before allowing merge-ready state"
+      "source-lock audited repair Q602, X(8)->C0 etale V4 geometry, D4 direct-sum D4 trace lattice, and principal Rosati matrix",
+      "verify the relative-H isomorphism-torsor coupling gives a common two-dimensional fixed subspace for T and T^dagger mod 2",
+      "recompute the exact D4 direct-sum D4 norm-602 residue classes without full-frontier materialization",
+      "assert 96 realized mod-2 classes, dimension distribution 32/36/24/3/1, and exactly 28 common-fixed-dimension>=2 survivors",
+      "assert Q602 and O210 remain open and O212+ remains blocked"
     ]
   },
-  "audit_required_before_promotion": false,
-  "next_expected_action": "Merge PR #1501 as the hostile-audited negative checkpoint. Do not advance O212 or grant downstream credit. After merge, continue O210 only from newly admitted source-locked evidence satisfying the recorded re-entry conditions.",
+  "audit_required_before_promotion": true,
+  "next_expected_action": "Run exact-head CI for PR #1504 and hostile-audit the new relative-V4 mod-2 coupling. Do not merge before hostile PASS. If PASS, identify the exact X(8)->C0 torsor plane W in the Bolza J(C0)[2] basis and test the 28 residue survivors; do not materialize the full Q602 frontier.",
   "firewalls": {
     "O186_closed": true,
     "O188_closed": true,
@@ -200,10 +216,10 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "handoff": {
-    "batch": "20260903-stage32-post1501-geometry-negative-audit-pass-checkpoint",
-    "continue_from": "O210_Q4_ROSATI_TRACE_1204_GEOMETRY_AUDITED_NEGATIVE",
+    "batch": "20260903-stage32-post1504-relative-v4-mod2-coupling",
+    "continue_from": "O210_Q4_RELATIVE_V4_TORSOR_MOD2_COUPLING",
     "fresh_head_required": true,
-    "do_not_merge": false,
-    "notes": "Hostile re-audit review 5098198995 PASSed exact head d0150e6d... with exact-head workflow 33719383384 / job 100535199478 SUCCESS. #1501 is merge-ready as a negative closed-world checkpoint only. Authority remains O210 open at sigma=1204/Q=602; O212+ remains blocked; no downstream credit is promoted. The common-cover/marked-branch generic lane is anti-loop closed and may be re-entered only with newly admitted source-locked coupling evidence."
+    "do_not_merge": true,
+    "notes": "Repository search is no longer the active lane. PR #1504 creates a new relative-V4 cohomological coupling: actual lift geometry forces a common fixed two-plane for T/T^dagger mod 2. Exact Q602 residue preflight prunes 96 classes to 28 but does not exclude O210. Hostile audit is required before promotion; after PASS, compute the exact torsor plane W rather than repeating generic common-cover, D4, or full-frontier searches."
   }
 }
