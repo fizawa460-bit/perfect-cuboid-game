@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - name: Certify marked W-line gauge orbit
         run: python stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q602_marked_w_line_gauge_orbit.py --check stages/stage32/residual-32-01-production/post1505-o210-q602-marked-w-line-gauge-orbit.json
       - name: Preserve audited predecessor replay
