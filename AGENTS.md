@@ -1,10 +1,8 @@
 # Repository agent instructions
 
-Keep this root file small. Stage-specific startup, history, and operating detail belong in the Stage entrypoint/state. Reusable research-process detail belongs under `docs/research-os/`.
+Keep this root file small. Stage-specific startup, history, and operating detail belong in the Stage entrypoint/state; reusable research-process detail belongs under `docs/research-os/`.
 
-## Ordinary Stage startup
-
-During ordinary Stage startup, **do not open Research OS policy files merely because they are linked from this root file**. Read the Stage's own startup contract/state first and stay within its bounded working set. Open a Research OS policy only when the current task hits the specific trigger named below, or when the Stage-local contract explicitly requires it.
+During ordinary Stage startup, do not preload Research OS. Follow the Stage-local startup contract and open Research OS only on the explicit triggers below.
 
 ## Repo-wide Actions safety
 
@@ -18,11 +16,7 @@ During ordinary Stage startup, **do not open Research OS policy files merely bec
 
 Heavy PR workflows must not rerun merely because a PR was synchronized, reopened, or docs/controller/status/source files changed. Every heavy job must remain behind a cheap authorization gate and run only when its dedicated run key is explicitly and semantically advanced/armed in the triggering commit range. If authorization cannot be verified, fail closed and skip heavy compute.
 
-The detailed Actions policy is on-demand under the trigger above; it is not an ordinary startup read.
-
 ## Research credit and claim promotion
-
-At minimum:
 
 - finite/bounded/sample evidence is not a global theorem;
 - computational, numerical, receiver, theorem, effectivity/existence, and endpoint credit stay distinct;
@@ -35,13 +29,9 @@ At minimum:
 
 Stage-local controllers may strengthen these firewalls but must not weaken them.
 
-- **On-demand trigger:** open `docs/research-os/policies/research-credit-and-promotion-firewalls.md` only when promoting, revoking, or auditing mathematical/research credit or when an adapter/semantic-scope question is actually load-bearing.
+- **On-demand trigger:** open `docs/research-os/policies/research-credit-and-promotion-firewalls.md` only when promoting, revoking, or auditing research credit or when an adapter/semantic-scope question is load-bearing.
 
 ## Repository-wide research routing
 
-Do not preload repository-wide catalogs or routing policies during ordinary Stage startup.
-
-- **Existing weapon/evidence lookup:** when the active leaf specifically needs an already-existing weapon, certificate, basis, matrix, label map, adapter, producer, or artifact lock, open `docs/research-os/policies/repository-asset-discovery.md` and perform bounded Arsenal/evidence-locator lookup.
-- **Route broadening/parking:** when deciding whether to broaden, park, dominate, reopen, or declare a route exhausted, open `docs/research-os/policies/cycle-exploration-safety-protocol.md`.
-
-Absent one of these triggers, remain inside the Stage-local startup/state/working-set chain.
+- **Existing weapon/evidence lookup:** open `docs/research-os/policies/repository-asset-discovery.md` only when the active leaf needs an already-existing weapon or evidence asset.
+- **Route broadening/parking:** open `docs/research-os/policies/cycle-exploration-safety-protocol.md` only when deciding whether to broaden, park, dominate, reopen, or declare a route exhausted.
