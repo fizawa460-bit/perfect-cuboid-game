@@ -4,87 +4,50 @@
 
 This is a mandatory repository-wide Research OS policy for any GitHub Actions workload that performs substantial computation, exhaustive search, proof/certificate generation, or large parallel batching.
 
-The top-level enforcement summary lives in `AGENTS.md`. The human-facing entrypoint is `docs/README.md`. This document gives the reusable operating standard.
+The top-level enforcement summary lives in `AGENTS.md`. This document gives the reusable operating standard.
 
-## Why this policy exists
+## Core constraints
 
-Runner availability, concurrency, rerun authorization, and artifact storage are different resources. A workflow can be mathematically correct and computationally healthy while still failing operationally because intermediate artifacts accumulate faster than the storage budget permits, one Stage monopolizes runner capacity needed by other work, or an unrelated PR synchronization accidentally relaunches heavy computation.
+Runner availability, rerun authorization, and artifact storage are distinct resources. A workflow can be mathematically correct while still failing operationally because artifacts exceed the storage budget or an unrelated PR synchronization accidentally relaunches heavy computation.
 
-A large batch is therefore not safe merely because:
+The repository operating budget for Actions artifact/storage is **500 MB** unless this policy is explicitly revised. Heavy reruns require explicit commit-range authorization; the mere continued presence of a run-key path in a PR diff is not authorization.
 
-- hosted runner minutes are available;
-- jobs are succeeding;
-- platform concurrency would permit more jobs;
-- each individual shard finishes within its timeout;
-- `pull_request.paths` matched the event.
-
-The repository operating budget for Actions artifact/storage is **500 MB** unless this policy is explicitly revised. Separately, one Stage's coordinated heavy Actions workload is capped at **18 effective concurrent heavy jobs**. Heavy reruns require explicit commit-range authorization; the mere continued presence of a run-key path in a PR diff is not authorization.
-
-## Mandatory concurrency-headroom gate
-
-Before launching or materially revising any heavy Actions workload:
-
-1. determine every heavy job/matrix/workflow from the same Stage that can overlap in time;
-2. compute the maximum **effective concurrent heavy-job count** across those overlapping components;
-3. require that total to be **<= 18**;
-4. leave runner headroom for other Stages, reconnaissance, audits, and lightweight Actions;
-5. if the overlap cannot be bounded confidently, reduce `max-parallel` until the bound is guaranteed.
-
-The cap applies to the coordinated Stage workload, not to each YAML matrix independently. For example, two overlapping matrices with `max-parallel: 10` each are an effective maximum of 20 and violate policy. Splitting the work across multiple workflows or PRs does not reset the count.
-
-**18 is a hard ceiling, not a utilization target.** Use fewer than 18 whenever that better preserves cross-Stage capacity. Stage-local speed, urgency, or a desire to consume otherwise-idle runners is not an exception. This rule is absolute unless the repository policy itself is explicitly revised.
+There is no repository-wide fixed per-Stage heavy-job concurrency ceiling. Choose workflow concurrency from the actual compute topology, platform limits, storage preflight, and Stage-local requirements. Concurrency is an execution parameter, not mathematical credit.
 
 ## Mandatory heavy-rerun authorization gate
 
-`pull_request.paths` is a useful coarse trigger filter but is **not** a proof that the dedicated run key changed in the event that caused the workflow run. A heavy workflow must therefore fail closed after the event fires unless a cheap authorization job proves that this event contains a fresh explicit arm.
+`pull_request.paths` is a coarse trigger filter, not proof that the dedicated run key changed in the event that caused the run. Every PR-triggered heavy workflow must fail closed unless a cheap authorization job proves a fresh explicit arm.
 
 For every new or materially revised PR-triggered heavy workflow:
 
-1. **Gate before heavy compute.** A cheap validation job must run first. Every heavy matrix/job must depend on it and use an `authorized` output (or equivalent) so the expensive jobs are skipped unless authorization succeeds.
-2. **For `synchronize`, inspect the actual event commit range.** Use `github.event.before` as the old revision and `github.event.pull_request.head.sha` as the new revision. Fetch the old revision and require the dedicated run-key path itself to appear in `git diff --name-only "$BEFORE" "$HEAD"`. If `before` is absent, cannot be fetched, or the diff cannot be verified, authorization is false.
-3. **Require semantic arming.** If the key is newly added, require a positive generation/revision and the workflow's explicit armed flag. If the key already existed, compare old and new key content and require the generation/revision to advance strictly, plus all workflow-specific source/artifact/parameter locks to validate. A whitespace-only/cosmetic edit or unrelated file change is not an arm.
-4. **Non-key bookkeeping is cold.** Audit records, controller/status changes, README/docs changes, source edits, formatting, review bookkeeping, and other unrelated synchronizations must not authorize heavy reruns merely because the run key remains in the cumulative PR diff.
-5. **`reopened` is cold by default.** Reopening an already-armed PR must not restart heavy computation. Require a fresh run-key generation/revision on a later `synchronize` event before heavy work can run again.
-6. **Initial `opened` is restricted.** It may authorize only if the dedicated run key is newly introduced or changed relative to the PR base and passes the same semantic validation. The safer preferred pattern is to open the PR cold, finish source/workflow edits, and arm exactly once in a distinct follow-up commit.
-7. **Existing heavy workflows are migration obligations.** Before an existing heavy workflow is armed for another generation, migrate it to this commit-range gate. Until the active set has been migrated or linted, do not claim repository-wide mechanical enforcement.
+1. Gate before heavy compute. Every heavy job depends on a cheap authorization result.
+2. For `synchronize`, inspect the actual `github.event.before..github.event.pull_request.head.sha` range and require the dedicated run-key path itself to have changed. If the range cannot be verified, authorization is false.
+3. Require semantic arming: generation/revision must advance and workflow-specific locks must validate. Cosmetic edits are not authorization.
+4. Audit/controller/status/docs/source bookkeeping is cold unless it explicitly and validly advances the dedicated run key.
+5. `reopened` is cold by default; require a fresh later run-key advance.
+6. Initial `opened` may authorize only when the dedicated key is newly introduced or changed relative to base and passes the same semantic checks.
+7. Existing heavy workflows must use this commit-range gate before another credited generation is armed.
 
-A representative `synchronize` gate has the following shape:
-
-```bash
-KEY='stages/<stage>/runkeys/<dedicated-key>.json'
-BEFORE='${{ github.event.before }}'
-HEAD='${{ github.event.pull_request.head.sha }}'
-authorized=false
-if [ -n "$BEFORE" ]; then
-  git fetch --no-tags --depth=1 origin "$BEFORE" || true
-  if git cat-file -e "$BEFORE^{commit}" 2>/dev/null \
-     && git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY"; then
-    authorized=true
-  fi
-fi
-```
-
-The shell diff check is necessary but not sufficient; the validation step must still parse the old/new key and prove the generation/revision and locked parameters are valid before emitting `authorized=true`.
+A shell diff check is necessary but not sufficient; validation must parse old/new key content and prove the semantic generation/revision and locked parameters before emitting authorization.
 
 ## Mandatory storage preflight gate
 
-Before launching a new high-mass batch, record or derive:
+Before a new high-mass batch, record or derive:
 
-1. the number of planned jobs/shards;
-2. the largest plausible artifact per shard;
-3. the measured artifact size of at least one representative shard when a comparable prior run is unavailable;
-4. the size of historical artifacts that must remain available until final aggregation/audit;
-5. the size and retention period of final outputs;
-6. the projected peak simultaneous storage against the 500 MB operating budget;
-7. the cleanup point at which intermediates become disposable;
-8. the planned effective heavy concurrency and confirmation that it is <=18;
-9. the dedicated run-key authorization method and the event/commit-range condition that permits a heavy rerun.
+1. planned jobs/shards;
+2. largest plausible artifact per shard;
+3. measured representative artifact size when comparable prior evidence is unavailable;
+4. historical artifacts that must coexist until aggregation/audit;
+5. final-output size and retention;
+6. projected peak simultaneous storage against the 500 MB budget;
+7. cleanup point for intermediates;
+8. dedicated run-key authorization method and event/commit-range condition.
 
-If the current storage quota cannot be read reliably, the workflow must be redesigned so that correctness does not depend on large spare capacity. Uncertainty is not permission to assume unlimited storage.
+If available storage cannot be read reliably, redesign so correctness does not depend on assumed spare capacity.
 
 ## Preferred evidence architecture
 
-For exhaustive numerical/proof workloads, prefer:
+Prefer:
 
 ```text
 exact raw computation on runner
@@ -95,97 +58,47 @@ exact raw computation on runner
   -> final parent/audit manifest
 ```
 
-The raw computation may be large. The persisted evidence should normally be small.
+Compaction happens only after exact validation. It must not omit unresolved branches, collapse UNKNOWN into UNSAT, weaken source locks, or discard information required by downstream audit.
 
-A compact certificate should preserve, as applicable:
-
-- exact parameter/source locks;
-- immutable cell/shard identity;
-- exact expected and executed branch counts;
-- proof that branch indices form the intended disjoint partition;
-- solver completion for every branch;
-- explicit node-budget/UNKNOWN count;
-- survivor list or a lossless/auditable survivor commitment;
-- deterministic raw-output SHA;
-- canonical branch-evidence-stream SHA or equivalent commitment;
-- deterministic compact-certificate SHA;
-- theorem/receiver/effectivity/firewall fields required by the stage contract.
-
-Compaction happens **after** exact validation. It is not permission to omit unresolved branches, collapse UNKNOWN into UNSAT, weaken source locks, or discard survivor information needed by downstream orbit/effectivity checks.
+A compact certificate should preserve the exact source/parameter locks, shard identity and partition/completion invariants, UNKNOWN/resource-wall counts, survivor data or auditable commitment, deterministic raw/evidence/certificate commitments, and Stage-required credit/firewall fields.
 
 ## Bounded-wave rule for unavoidable raw artifacts
 
-If downstream verification genuinely needs raw intermediate files, do not design one final job that requires every large shard artifact to coexist.
-
-Instead use bounded waves such as:
+If downstream verification genuinely requires raw intermediate files, use bounded waves rather than requiring every large shard artifact to coexist:
 
 ```text
-wave A shards -> verify/aggregate A -> compact A -> delete raw A
-wave B shards -> verify/aggregate B -> compact B -> delete raw B
+wave A -> verify/aggregate -> compact -> delete raw A
+wave B -> verify/aggregate -> compact -> delete raw B
 ...
 final aggregate from compact wave certificates
 ```
 
-The wave size must be chosen from measured artifact size, the 500 MB storage headroom, and the <=18 heavy-concurrency rule, not from convenience alone.
+Choose wave size from measured artifact size and the 500 MB storage budget, not convenience alone.
 
-## Retention policy
+## Retention and cleanup
 
-Every `actions/upload-artifact` for non-final evidence must specify an explicit retention period.
+Every non-final `actions/upload-artifact` must have explicit short retention. Use one day for transient shard/intermediate evidence where practical and 1-3 days for short-lived repair/audit inputs; retain final manifests longer only when justified.
 
-Default guidance:
-
-- transient shard/intermediate: `retention-days: 1` where practical;
-- short-lived repair/audit input: 1-3 days;
-- final parent/audit manifest: longer only when justified by the audit/reproducibility workflow.
-
-Do not leave default long retention on dozens of large intermediate artifacts.
+A cancelled, superseded, or non-credit production run is not operationally finished until unnecessary artifacts are removed after any unique evidence has been compacted/source-locked elsewhere.
 
 ## Runtime stop conditions
 
-Stop or cancel a live workflow before further uploads or scale-out when any of the following occurs:
+Stop or cancel before further upload/scale-out when artifact size materially exceeds preflight, projected storage approaches the 500 MB budget, quota uncertainty makes completion unsafe, uploads fail, the evidence topology needs more simultaneous raw storage than planned, or heavy compute lacks fresh valid run-key authorization.
 
-- measured artifact size materially exceeds the preflight estimate;
-- projected peak storage can approach/exhaust the 500 MB operating budget;
-- storage/quota uncertainty makes successful completion unsafe;
-- artifact upload starts failing or being rejected;
-- a cancelled/failed run has already produced large non-credit intermediates that should be cleaned before retry;
-- the evidence topology turns out to require more simultaneous raw artifacts than planned;
-- actual overlapping heavy jobs reveal that the Stage can exceed the <=18 concurrency bound;
-- a heavy run was triggered without a fresh valid commit-range run-key authorization.
-
-A storage/concurrency/authorization stop is an **execution-resource wall**, not a mathematical result. It grants no UNSAT, theorem, receiver, effectivity, or endpoint credit.
-
-## Cleanup obligation
-
-A cancelled, superseded, or non-credit production run is not finished operationally until its unnecessary artifacts are removed after any required evidence has been safely compacted/source-locked elsewhere.
-
-Before deleting a run that contains unique evidence, first preserve the deterministic commitments or compact certificate needed to reproduce/audit the result. Once the run is explicitly non-credit and no unique evidence is needed, delete it rather than carrying its storage indefinitely.
+These are execution-resource walls, not mathematical results. They grant no UNSAT, theorem, receiver, effectivity, or endpoint credit.
 
 ## Relationship to exactness and hostile audit
 
-Storage/concurrency/rerun optimization is allowed only when the final persisted evidence still supports the stage's exactness claim.
+Storage/rerun optimization is allowed only when final persisted evidence still supports the Stage's exactness claim. Hostile audit should be able to distinguish exact execution, raw verification before deletion, deterministic compact commitments, complete shard/cell coverage, explicit UNKNOWN/resource walls, unchanged mathematical firewalls, and valid heavy-run authorization.
 
-Hostile audit should be able to distinguish:
+Operational invariant:
 
-- computation executed exactly;
-- raw output was verified before deletion;
-- compact certificate commits deterministically to that verified output;
-- all expected shards/cells are present exactly once;
-- UNKNOWN/resource-wall states were not silently promoted;
-- mathematical firewalls remain unchanged;
-- heavy-run concurrency stayed within the repo-wide <=18 Stage cap;
-- every credited heavy run had an explicit valid run-key authorization rather than an accidental PR re-trigger.
+> Preflight storage before compute; require fresh commit-range run-key authorization for heavy reruns; verify raw before compacting; persist only what audit needs; stop before storage limits or accidental relaunches become a correctness risk.
 
-The operational rule is therefore:
+## Incident precedents
 
-> **Preflight storage and effective concurrency before compute; require fresh commit-range run-key authorization for heavy reruns; keep one Stage at <=18 heavy jobs; preserve runner headroom for other Stages; verify raw before compacting; persist only what the audit actually needs; stop before resource limits or accidental relaunches become a correctness risk.**
+Stage32-13 established the storage precedent: a 48-shard exact computation initially persisted very large raw shard JSONs. The run was cancelled and replaced by runner-local raw verification plus compact deterministic certificates, reducing persisted evidence dramatically without weakening exactness.
 
-## Incident precedent
-
-Stage32-13 established the motivating storage precedent: a 48-shard exact computation initially persisted raw shard JSONs of roughly tens of MiB each. The run was cancelled before the storage design became a failure mode. A representative raw shard was then independently compacted after full branch verification from roughly 159 MB uncompressed to roughly 2.3 KB while retaining deterministic raw/evidence commitments and exact completion invariants. The replacement workflow persists compact certificates only.
-
-Stage32-18T established the concurrency-headroom precedent: independently configured heavy matrices can overlap and accidentally consume essentially all available hosted runners even when each individual `max-parallel` value looks reasonable. Future heavy workflows must therefore bound the **sum of overlapping Stage-local heavy jobs** at <=18 rather than checking each matrix in isolation.
-
-The Stage32-18L audit established the rerun-authorization precedent: an audit/controller bookkeeping synchronization re-triggered the heavy production workflow even though its run-key file itself had not changed. This demonstrated that `pull_request.paths` can remain matched by the PR's cumulative changed-file set and is not a per-synchronization authorization proof. Subsequent Stage32 heavy workflows therefore use a commit-range gate that checks the actual `before..head` change before launching heavy jobs.
+Stage32-18L established the rerun-authorization precedent: audit/controller bookkeeping synchronization re-triggered heavy production even though its run key had not changed. This showed that `pull_request.paths` is not per-synchronization authorization; later heavy workflows use an actual `before..head` run-key gate.
 
 These precedents are operational guidance, not mathematical credit for the associated runs.
