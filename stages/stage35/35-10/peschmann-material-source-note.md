@@ -8,7 +8,7 @@ This note checks whether Peschmann's 2026 perfect-cuboid papers provide a **mate
 
 ### arXiv:2604.28072 — *A torsion-intersection proof of perfect-cuboid nonexistence on 1072 explicit master-tuple fibers*
 
-Current arXiv HTML identifies the paper as v1 submitted 2026-04-30 and displays manuscript date 2026-08-24.
+Current arXiv metadata identifies v1 as submitted 2026-04-30; the current HTML displays `Date: April 30, 2026`.
 
 Load-bearing source facts:
 
@@ -26,7 +26,7 @@ Load-bearing source facts:
 
 ### arXiv:2605.00573 — *Exponent-one blockers and a Mordell-Weil construction of Euler bricks*
 
-The arXiv abstract page records only v1, submitted 2026-05-01; the current experimental HTML displays manuscript date 2026-08-24. We do not infer a new arXiv version from that manuscript date.
+Current arXiv metadata records only v1, submitted 2026-05-01; no later arXiv version or 2026-08-24 manuscript date is asserted here.
 
 Load-bearing source facts:
 
