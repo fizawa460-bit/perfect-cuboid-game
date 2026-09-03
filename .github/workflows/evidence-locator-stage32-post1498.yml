@@ -1,0 +1,29 @@
+name: Evidence locator Stage32 post1498 extension
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/evidence-locator-stage32-post1498.yml'
+      - 'docs/evidence-locator/query_evidence.py'
+      - 'docs/evidence-locator/stage32-post1498.json'
+      - 'docs/evidence-locator/verify_stage32_post1498_evidence_locator.py'
+      - 'stages/stage32/controller.json'
+      - 'stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json'
+      - 'stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1500_hostile_audit_rosati_trace_repair.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Verify Stage32 post1498 evidence extension
+        run: python3 -B docs/evidence-locator/verify_stage32_post1498_evidence_locator.py
+      - name: Query registered Rosati asset
+        run: python3 -B docs/evidence-locator/query_evidence.py "O210 sigma1204 Q602" "Rosati trace" --stage 32 --limit 10
