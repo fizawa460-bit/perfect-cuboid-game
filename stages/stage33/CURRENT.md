@@ -1,8 +1,6 @@
 # Stage33 human current dashboard
 
-This file is a human dashboard only. Ordinary MAIN startup uses
-`MAIN-START-HERE.md` and `MAIN-STATE.json`; detailed exact machine authority is
-`controller.json` and the active certificates.
+Ordinary MAIN startup uses `MAIN-START-HERE.md` and generated `MAIN-STATE.json`. Exact mathematical authority remains V25-V36; V39 changes routing only.
 
 ## Current position
 
@@ -11,70 +9,34 @@ Stage33 progress = 6/11
 Stage33-05 = CLOSED_EXACT_ZERO_K3_BR2_Q_SURVIVAL
 active repair child = 33-12 OPEN
 active internal branch = 33-13 FINITE-V4-KUMMER-MATRIX
-matrix = 75x10
-standard columns materialized = 0/10
+J2-adapted Kummer columns materialized = 1/10
+original standard columns materialized = 0/10
 ```
 
-Stage33-09, 33-10, and 33-11 remain closed exact. Stage33-05 remains closed by
-exact zero K3 Br2 Q-survival. None of this closes the full-surface Stage33-12
-repair child.
+V25 materializes the genuine named-J2 full-surface H2(mu2) lift at retained10 mask `6 = e2+e3`. V33 proves the current named-J2 HS d2 is nonzero. V34 materializes the first J2-adapted source-basis column. In the original standard basis the only authorized relation is `standard_col_2 XOR standard_col_3 = J2_adapted_col_1`; neither standard column is materialized individually.
 
-## Corrected J2 locked target
+## Current route
 
-The corrected J2 full-surface construction has a locked named finite-V4 H1
-target: nonzero 75D vector, weight 15. The semantic CV orientation is also
-locked:
+V36 remains the exact historical result of the bounded #1498 locator scan: no registered positive asset directly supplied a standalone genuine full-surface H2(mu2) lift for a remaining adapted direction. That miss is not a repository-absence claim.
+
+V39 supersedes the old operational STOP:
 
 ```text
-marked Kc coordinate = [1,0]
-semantic discriminant label = u1
-target SHA256 = 4625b6d3ea19ec0e4d8a51471c7f60c0c1219de4672d84c64779c4213306f3b3
-orientation SHA256 = 0a5abe419c3bd2e4c523af50fd8f85858af6a0d957dcce1e3bdf2ff1430fed3e
+need existing evidence
+  -> query #1498
+  -> suitable hit: bounded reuse inspection + live authority check
+  -> no suitable hit: construct the missing exact object
 ```
 
-The historical named source-target relation is revoked. A locked target must not
-be used to choose its source label.
+A locator miss does not authorize broad repository/history/origin search. It authorizes new construction of the active missing object. Anti-loop blocks repeated broad search and unsupported inference, not construction.
 
-## Audited order-4 source reduction
+Current priority is `e3, e1, e4, e5, e6, e7, e8, e9, e10`. Ordinary MAIN therefore queries #1498 for `e3` first and, on no suitable hit, proceeds to construct a genuine `e3` full-surface H2(mu2) lift.
 
-PR #1485 hostile audit accepted the exact v17 -> v20 chain. Rows 20 and 67 are
-source-locked; the order-4 correction torsor has dimension 14 over F2 with
-16384 corrections, inducing 16 proper14 functionals with 1024 preimages each.
-For the named column the surviving information is only the exact two-bit affine
-plane with retained10 masks:
+Do not infer `e3` from `J2=e2+e3`, split col2/col3 from the XOR relation, or guess a remaining matrix column.
 
-```text
-[4,5,6,7]
-actual S3 orbits = [[6],[4,5,7]]
-```
+## Startup projection
 
-Mask 6 is the unique joint-fixed candidate, but it is **not** the named J2
-source. No named order-4 two-bit value `(a,b)`, actual named lift S3 behavior,
-proper-Br2 source coordinate, retained10 source coordinate, or named 75D column
-has been source-locked/materialized yet.
-
-## Current exact leaf
-
-```text
-SOURCE_LOCK_NAMED_J2_ORDER4_LIFT_ACTUAL_SWAP12_SWAP13_BEHAVIOR
-OR_EQUIVALENT_TWO_BIT_VALUE_A_B
-DO_NOT_SELECT_MASK6_WITHOUT_SOURCE
-```
-
-Do not reacquire rows 20/67, rerun the v19 correction/half-lift enumeration, or
-reopen qPic/Smith/sign/S3 candidate enumeration under the same premises.
-
-## Operational checkpoint
-
-`MAIN-STATE.json.work_checkpoint` currently contains an
-`ACTIVE_UNPROMOTED / OPERATIONAL_ONLY_NOT_PROOF` recovery checkpoint. It records
-only the last unpromoted narrowing: a source-first route had reached mask 6 as a
-candidate, the source/target discrepancy had narrowed to H1 coordinate 41, and
-the raw ct Pic/2 side to support `[9,11,19]`.
-
-Those observations are not mathematical authority. MAIN must replay the smallest
-exact certificate needed to validate or reject them before using them. The
-checkpoint exists only to prevent restarting broad origin/history searches.
+Controller V60 and the canonical generator are synchronized to V25-V36 mathematics plus V39 operational routing. `MAIN-STATE.json` V17 has `advance_allowed=true` only for `LOCATOR_FIRST_THEN_CONSTRUCT_MISSING_GENUINE_H2_MU2_LIFT`. Broad historical search remains forbidden. The work checkpoint is `EMPTY`.
 
 ## Release state
 
@@ -82,8 +44,12 @@ checkpoint exists only to prevent restarting broad origin/history searches.
 Stage33-12 closed exact = false
 Stage33-07 reclosed = false
 Stage33-08 released = false
-Stage33-40 released = false
+Stage33-13 released = false
 theorem / receiver / endpoint credit = false
 perfect cuboid existence/nonexistence claim = false
 merge allowed = false
 ```
+
+## Hostile-audit multi-registry repair
+
+Current-main locator routing means `index.json`, `stage32-post1498.json`, and `stage33.json` are all searched before construction. A nonempty candidate list is not a suitable-hit verdict: inspect only the bounded candidate limitations. The current Stage33 Gersten 26-column candidate is relevant but explicitly does not itself identify a standalone genuine remaining retained10 H2(mu2) lift, so construction is authorized only after that bounded classification.

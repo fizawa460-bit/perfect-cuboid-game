@@ -1,8 +1,8 @@
 name: Stage33-12 exact checkpoint replay
 
 # Historical R1-R4 certificates are replayed from immutable evidence. Current
-# Stage33 state is checked through the compact MAIN-STATE generator, the
-# read-only v20 promotion verifier, and the current v21-v24 authority chain.
+# Stage33 state is checked through the exact V21-V38 authority chain and the
+# synchronized V59 compact-state generator.
 on:
   pull_request:
     paths:
@@ -35,7 +35,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Replay immutable Stage33-05/R4 evidence and current compact state
+      - name: Replay immutable Stage33-05/R4 evidence and current exact state
         run: |
           cp stages/stage33/33-12/boundary-function-scalar-descent-certificate.json /tmp/expected-boundary-scalars.json
           python stages/stage33/33-12/certify_boundary_function_scalar_descent.py
@@ -81,22 +81,38 @@ jobs:
           python stages/stage33/33-12/verify_j2_actual_swap_mixed_discriminant_descent.py
           python stages/stage33/33-12/verify_j2_named_order4_actual_s3_source_lock_gap_v10.py
 
-          # PR #1485 frozen audit boundary: replay the exact v17-v20 chain.
+          # PR #1485 frozen audit boundary: replay the exact V17-V20 chain.
           python stages/stage33/33-12/verify_j2_order4_row20_row67_exact_source_lock_v17.py
           python stages/stage33/33-12/verify_j2_order4_source_coordinate_blocker_v18.py
           python stages/stage33/33-12/verify_j2_order4_integral_correction_torsor_v19.py
           python stages/stage33/33-12/verify_j2_order4_named_functional_quotient_v20.py
 
-          # PR #1488 current mathematical authority: exact source-first named J2
-          # plus the raw-H1/Kummer-target scope firewall. These must run on the
-          # checked-out PR head, not only exist as repository artifacts.
+          # PR #1488 source-first authority and raw-H1/Kummer-target firewall.
           python stages/stage33/33-12/verify_j2_order4_swap_functional_source_v21.py
           python stages/stage33/33-12/verify_j2_kummer_source_target_module_source_first_v22.py
           python stages/stage33/33-12/verify_j2_kummer_target_h1_coordinate41_trace_v23.py
           python stages/stage33/33-12/verify_j2_raw_h1_not_kummer_target_v24.py
 
+          # Current post-#1488 mathematical authority. V25 attaches the genuine
+          # H2(mu2) lift; V26-V34 derive the current Cech/Pic2/HS frontier.
+          python stages/stage33/33-12/certify_j2_genuine_h2_mu2_kummer_adapter_v25.py --check
+          python stages/stage33/33-12/certify_j2_ct_determinant_compactification_parity_frontier_v26.py --check
+          python stages/stage33/33-12/certify_j2_ct_norm_splitting_boundary_valuations_v27.py --check
+          python stages/stage33/33-12/certify_j2_post_v27_exceptional_overlap_inheritance_audit_v28.py --check
+          python stages/stage33/33-12/certify_j2_current_lambda_d_even_norm_rank2_lattices_v29.py --check
+          python stages/stage33/33-12/certify_j2_current_lambda_d_odd_ramified_cech_overlaps_v30.py --check
+          python stages/stage33/33-12/certify_j2_current_cc_global_square_cech_overlap_v31.py
+          python stages/stage33/33-12/audit_j2_current_v4_pic2_cocycle_v32.py
+          python stages/stage33/33-12/audit_j2_current_hs_d2_integral_lift_v33.py
+          python stages/stage33/33-12/certify_j2_adapted_first_kummer_column_v34.py
+
+          # V35/V36 are handoff/STOP certificates; V37 is the superseded
+          # operational repair receipt. V38 verifies the synchronized V59/V16
+          # controller-generator projection without granting mathematical credit.
+          python stages/stage33/33-12/verify_j2_post_v36_controller_generator_sync_v38.py
+
           # Historical assertions stay historical and do not duplicate current
-          # MAIN routing/state. Current v21-v24 authority is replayed above.
+          # MAIN routing/state.
           python - <<'PY'
           import json
           z=json.load(open('stages/stage33/33-05/j2-r4-tr-kernel-torsor-reduction.json'))
@@ -117,8 +133,8 @@ jobs:
           print('historical R1-R4 replay PASS')
           PY
 
-          # Single current-state authority checks. Do not hard-code a historical
-          # MAIN-STATE schema/current leaf in this workflow.
+          # Promotion audit remains historical/read-only. The synchronized V59
+          # generator must reproduce MAIN-STATE exactly.
           python stages/stage33/promote_post1485_v20_audit.py --continuation-pr 1488 --check
           python stages/stage33/sync_main_state.py --check
           git diff --check
