@@ -51,6 +51,28 @@ def main() -> None:
     assert canonical_sha256(cert) == cert["canonical_sha256_without_this_field"]
     assert cert["canonical_sha256_without_this_field"] == EXPECTED_CANONICAL
 
+    # Current-head controller wiring is part of the replay contract.
+    controller = json.loads((ROOT / "stages/stage32/controller.json").read_text())
+    assert controller["schema"] == "STAGE32_LOWGENUS_PICARD_CONTROLLER_V236_POST1505_Q602_16_RETAINED_ASSET_SEARCH_PROVISIONAL"
+    assert controller["status"] == "STAGE32_O210_Q602_AUDITED_16_RETAINED_ASSET_SEARCH_PENDING_HOSTILE_AUDIT"
+    assert controller["current_item"] == "O210_Q602_AUDITED_16_RETAINED_ASSET_SEARCH_PENDING_HOSTILE_AUDIT"
+    ctl_leaf = controller["current_leaf"]
+    assert ctl_leaf["status"] == "PROVISIONAL_EXACT_BOUNDED_NEGATIVE_RETAINED_ASSET_SEARCH_PENDING_HOSTILE_AUDIT"
+    assert ctl_leaf["O212_and_later_blocked"] is True
+    ctl_bundle = controller["post1505_q602_16_residue_retained_asset_search_provisional"]
+    assert ctl_bundle["certificate_path"] == args.check
+    assert ctl_bundle["canonical_sha256"] == EXPECTED_CANONICAL
+    assert ctl_bundle["q602_residue_pruning"] == "16 -> 16"
+    assert ctl_bundle["surviving_residues_decimal"] == EXPECTED_16
+    required = controller["required_lightweight_verifier"]
+    assert required["path"] == "stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q602_16_residue_retained_asset_search.py"
+    assert required["certificate_path"] == args.check
+    assert required["workflow"] == ".github/workflows/stage32-post1505-o210-q602-16-residue-retained-asset-search.yml"
+    assert controller["audit_required_before_promotion"] is True
+    assert controller["merge_allowed"] is False
+    assert controller["operations"]["heavy_compute_authorized"] is False
+    assert controller["operations"]["retained_asset_research_authorized"] is False
+
     locks = cert["source_locks"]
     adapter = load_locked_json(locks["audited_16_adapter"])
     arsenal = load_locked_json(locks["arsenal_index"])
@@ -141,6 +163,7 @@ def main() -> None:
     print(json.dumps({
         "schema": cert["schema"],
         "canonical": EXPECTED_CANONICAL,
+        "controller": controller["schema"],
         "bounded_search": "inspected retained asset classes only",
         "Q602_residues": {"input": 16, "output": 16, "values": EXPECTED_16},
         "new_pruning": False,
