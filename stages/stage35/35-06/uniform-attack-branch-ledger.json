@@ -1,0 +1,91 @@
+{
+  "schema": "STAGE35_35_06_UNIFORM_ATTACK_BRANCH_LEDGER_V1",
+  "stage": "35",
+  "unit": "35-06_UNIFORM_ARITHMETIC_ATTACK_BRANCHES",
+  "status": "CLASS3_WALL_RETAINED_SHARPER",
+  "target": "T35-R3-PHYS-EMPTY",
+  "target_statement": "for every t in Q with t>1, U_t(Q)=empty for the exact smooth diagonal genus-5 fiber C_t",
+  "sources": [
+    {
+      "id": "STOLL-2019-DIAGONAL-G5",
+      "path": "stages/stage35/35-06/stoll-2019-diagonal-genus5-source-note.md",
+      "role": "exact structural and fixed/function-field arithmetic method"
+    },
+    {
+      "id": "S34-WF01",
+      "path": "docs/arsenal/cards/workflows/S34-WF01.md",
+      "blob_sha": "1ebba4ec402e14d536284a06c5ac32625c6b8cec",
+      "role": "receiver-matched Class3 replacement-theorem workflow"
+    }
+  ],
+  "branches": {
+    "B1_FIXED_FIBER_DIAGONAL_G5_COVERING_CHABAUTY": {
+      "structure_match": true,
+      "method": "five elliptic quotients, 2-descent/covering collections, elliptic-curve Chabauty",
+      "what_it_can_prove": "complete C_t(Q) for an individual t when the required MW/Selmer/rank hypotheses and computations are certified",
+      "uniform_quantifier_match": false,
+      "failure": "running or proving the method fiber by fiber does not quantify over all rational t>1",
+      "classification": "HYPOTHESIS_MISMATCH_CERTIFIED"
+    },
+    "B2_FUNCTION_FIELD_MW_AND_GENERIC_SECTIONS": {
+      "structure_match": true,
+      "method": "determine elliptic quotient groups over Q(t) using full rational 2-torsion and injective specialization, then constrain C(Q(t))",
+      "what_it_can_prove": "generic rational sections/function-field points",
+      "uniform_quantifier_match": false,
+      "failure": "C(Q(t)) does not contain rational points that exist only after specialization; E(Q(t))->E_tau(Q) injectivity is not surjectivity",
+      "classification": "HYPOTHESIS_MISMATCH_CERTIFIED"
+    },
+    "B3_SILVERMAN_OR_GUSIC_TADIC_STYLE_SPECIALIZATION_INJECTIVITY": {
+      "structure_match": true,
+      "what_it_can_prove": "injectivity of the generic MW group into suitable or sufficiently large-height specializations",
+      "uniform_quantifier_match": false,
+      "failure": "injectivity preserves generic points but does not exclude new specialized MW points or new C_tau(Q) points",
+      "classification": "HYPOTHESIS_MISMATCH_CERTIFIED"
+    },
+    "B4_GENERIC_FALTINGS_FINITE_PER_FIBER": {
+      "structure_match": true,
+      "what_it_can_prove": "each fixed smooth genus-5 fiber has finitely many rational points",
+      "uniform_quantifier_match": false,
+      "failure": "non-effective/fiberwise finiteness gives neither emptiness nor a uniform exhaustive reduction over all t",
+      "classification": "HYPOTHESIS_MISMATCH_CERTIFIED"
+    },
+    "B5_RECEIVER_RESTRICTED_INTERSECTION_OBSTRUCTION": {
+      "arsenal_candidate": "S34-W03",
+      "status": "OPEN_NO_UNIFORM_WITNESS",
+      "potential": "a uniform local/global obstruction on the exact physical-open intersection could close T35-R3-PHYS-EMPTY without classifying every C_t(Q)",
+      "current_input": "no exact prime/residue/torsor obstruction valid for every rational t>1 is presently source-locked",
+      "classification": "CLASS3_WALL_RETAINED_SHARPER"
+    },
+    "B6_UNIFORM_SPECIALIZATION_NEW_POINT_CONTROL": {
+      "status": "MISSING_THEOREM",
+      "needed": "a theorem excluding specialization-new physical rational points on every C_t or on a proof-capable elliptic/cover quotient for all rational t>1",
+      "classification": "CLASS3_WALL_RETAINED_SHARPER"
+    }
+  },
+  "targeted_literature_scan": {
+    "through_date": "2026-09-03",
+    "closest_exact_source": "Stoll 2019",
+    "later_specialization_algorithm_direction": "available literature located for injectivity of specialization maps, not uniform surjectivity/exclusion of new specialized points",
+    "applicable_uniform_closure_theorem_found": false,
+    "broad_perfect_cuboid_search_replayed": false
+  },
+  "sharpened_class3_wall": {
+    "old": "uniform arithmetic/specialization theorem over a moving genus-3/genus-5 family",
+    "new": "for the single exact Q-defined smooth diagonal genus-5 family TS-S-R3-Q1, uniformly exclude specialization-new rational points in the physical open for every t in Q>1, or prove a receiver-restricted obstruction with the same quantifier",
+    "all_fibration_field_ledger_needed": false,
+    "bad_fiber_subproblem_needed": false,
+    "residual_K3_square_lift_needed": false,
+    "fixed_fiber_pointset_completion_needed": false
+  },
+  "outcome": {
+    "35_06_classification": "CLASS3_WALL_RETAINED_SHARPER",
+    "uniform_theorem_proved": false,
+    "receiver_matched_replacement_theorem_proved": false,
+    "reduced_to_class2": false,
+    "new_theorem_credit": false,
+    "R29_FIB2_closed": false,
+    "next_exact_leaf": "35-07_FINITE_EXHAUSTIVE_REDUCTION_FALLBACK"
+  },
+  "perfect_cuboid_existence_claim": false,
+  "perfect_cuboid_nonexistence_claim": false
+}
