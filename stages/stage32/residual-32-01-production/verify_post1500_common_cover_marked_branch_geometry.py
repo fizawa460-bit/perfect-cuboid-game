@@ -45,33 +45,43 @@ def main() -> None:
 
     require(controller["stage"] == 32, "controller stage")
     require(controller["fixed_target"]["O"] == 210, "controller fixed target must remain O210")
-    require(controller["active_pr"]["number"] == 1501, "controller active PR")
-    require(
-        controller["active_pr"]["branch"] == "stage32-post1500-o210-rosati-geometry",
-        "controller active branch",
-    )
-    require(controller["current_leaf"]["status"] == "AUDITED_NEGATIVE", "controller negative-lane status")
     require(controller["current_leaf"]["O212_and_later_blocked"] is True, "O212+ firewall")
 
+    # #1501 is now a historical hostile-audited checkpoint.  Later Stage32
+    # lanes may replace active_pr/current_leaf/required_lightweight_verifier;
+    # this replay must verify that the #1501 negative authority remains
+    # preserved rather than pinning startup forever to PR #1501.
+    negative_lane = controller.get("post1501_geometry_negative_lane", {})
+    require(negative_lane.get("status") == "AUDITED_NEGATIVE", "historical #1501 negative-lane status")
+    require(negative_lane.get("source_note_blob_sha1") == source_lock["git_blob_sha1"], "historical lane source lock")
+    require("O210 remains open" in negative_lane.get("authority_effect", ""), "historical O210-open authority")
+    require("O212+ remains blocked" in negative_lane.get("authority_effect", ""), "historical O212 firewall")
+    require(negative_lane.get("reentry_requires_new_source_locked_evidence") is True, "historical re-entry gate")
+
     reaudit = controller.get("post1501_hostile_reaudit_pass")
-    if reaudit is None:
-        require(controller["merge_allowed"] is False, "merge must remain blocked before hostile re-audit PASS")
-        require(controller["checkpoint_merge_ready"] is False, "checkpoint must not be merge-ready before PASS")
-        require(controller["audit_required_before_promotion"] is True, "hostile re-audit must be required before PASS")
-        require(controller["handoff"]["do_not_merge"] is True, "handoff must block merge before PASS")
+    require(reaudit is not None, "hostile re-audit PASS must remain recorded")
+    require(reaudit["review_id"] == 5098198995, "hostile re-audit review id")
+    require(reaudit["audited_exact_head"] == "d0150e6d5d409c04e98d4a13ce926f383447fe3b", "hostile re-audit exact head")
+    require(reaudit["verdict"] == "PASS", "hostile re-audit verdict")
+    require(reaudit["exact_head_ci"] == {
+        "run_id": 33719383384,
+        "job_id": 100535199478,
+        "result": "SUCCESS",
+    }, "hostile re-audit exact-head CI")
+
+    # If startup is still on #1501, retain the old promotion-state checks.
+    # On a later active PR, merge/audit flags belong to that later lane.
+    if controller.get("active_pr", {}).get("number") == 1501:
+        require(controller["active_pr"]["branch"] == "stage32-post1500-o210-rosati-geometry", "controller #1501 branch")
+        require(controller["current_leaf"]["status"] == "AUDITED_NEGATIVE", "controller #1501 current status")
+        require(controller["merge_allowed"] is True, "#1501 merge should be allowed after PASS")
+        require(controller["checkpoint_merge_ready"] is True, "#1501 checkpoint should be merge-ready after PASS")
+        require(controller["audit_required_before_promotion"] is False, "#1501 audit should be complete")
+        require(controller["handoff"]["do_not_merge"] is False, "#1501 handoff should permit merge after PASS")
     else:
-        require(reaudit["review_id"] == 5098198995, "hostile re-audit review id")
-        require(reaudit["audited_exact_head"] == "d0150e6d5d409c04e98d4a13ce926f383447fe3b", "hostile re-audit exact head")
-        require(reaudit["verdict"] == "PASS", "hostile re-audit verdict")
-        require(reaudit["exact_head_ci"] == {
-            "run_id": 33719383384,
-            "job_id": 100535199478,
-            "result": "SUCCESS",
-        }, "hostile re-audit exact-head CI")
-        require(controller["merge_allowed"] is True, "merge should be allowed after hostile re-audit PASS")
-        require(controller["checkpoint_merge_ready"] is True, "checkpoint should be merge-ready after PASS")
-        require(controller["audit_required_before_promotion"] is False, "no further hostile audit required for promotion")
-        require(controller["handoff"]["do_not_merge"] is False, "handoff should permit merge after PASS")
+        require(controller.get("active_pr", {}).get("number", 0) > 1501, "later controller must identify a post1501 active PR")
+        require(controller["math_scope"]["fixed_z_O212_through_O266_qprime4"] == "BLOCKED_BEHIND_O210", "later-lane O212+ scope")
+        require(controller["firewalls"]["O210_closed"] is False, "later lane must not silently close O210")
 
     repair = controller["repair_boundary"]
     require(repair["source_note_path"] == str(SOURCE_NOTE_PATH.relative_to(ROOT)), "controller source-note path")
@@ -134,14 +144,9 @@ def main() -> None:
     require(len(cert["required_new_evidence"]) == 3, "re-entry evidence count")
     require(len(cert["anti_loop"]) >= 3, "anti-loop rules")
 
-    required = controller["required_lightweight_verifier"]
-    require(required["path"] == str(Path(__file__).resolve().relative_to(ROOT)), "controller verifier path")
-    require(required["certificate_path"] == str(CERT_PATH.relative_to(ROOT)), "controller certificate path")
-    require(required["workflow"] == str(WORKFLOW_PATH.relative_to(ROOT)), "controller workflow path")
-
     print(
-        "PASS: post1500 common-cover/marked-branch lane is AUDITED_NEGATIVE; "
-        "O210 authority remains open at sigma=1204 / Q=602 and O212+ remains blocked"
+        "PASS: historical post1501 common-cover/marked-branch lane remains AUDITED_NEGATIVE; "
+        "O210 authority is still open at sigma=1204 / Q=602 and O212+ remains blocked"
     )
 
 
