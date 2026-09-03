@@ -22,7 +22,10 @@ on:
       - 'stages/stage33/33-12/certify_j2_current_cc_global_square_cech_overlap_v31.py'
       - 'stages/stage33/33-12/j2-current-v4-pic2-cocycle-v32.json'
       - 'stages/stage33/33-12/audit_j2_current_v4_pic2_cocycle_v32.py'
+      - 'stages/stage33/33-12/j2-current-hs-d2-nonzero-v33.json'
       - 'stages/stage33/33-12/audit_j2_current_hs_d2_integral_lift_v33.py'
+      - 'stages/stage33/33-12/j2-adapted-first-kummer-column-v34.json'
+      - 'stages/stage33/33-12/certify_j2_adapted_first_kummer_column_v34.py'
       - '.github/workflows/stage33-12-post1488-frontier.yml'
   workflow_dispatch:
 
@@ -44,7 +47,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Replay V26-V33 exact frontier
+      - name: Replay V26-V34 exact frontier
         run: |
           python stages/stage33/33-12/certify_j2_ct_determinant_compactification_parity_frontier_v26.py --check
           python stages/stage33/33-12/certify_j2_ct_norm_splitting_boundary_valuations_v27.py --check
@@ -54,4 +57,5 @@ jobs:
           python stages/stage33/33-12/certify_j2_current_cc_global_square_cech_overlap_v31.py
           python stages/stage33/33-12/audit_j2_current_v4_pic2_cocycle_v32.py
           python stages/stage33/33-12/audit_j2_current_hs_d2_integral_lift_v33.py
+          python stages/stage33/33-12/certify_j2_adapted_first_kummer_column_v34.py
           git diff --check
