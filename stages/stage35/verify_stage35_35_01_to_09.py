@@ -83,8 +83,8 @@ for m in minors:
 T, U = sp.symbols("T U")
 num = T**2 - U**2
 den = T**2 + U**2
-assert sp.factor(num**2 - den**2) == -4*T**2*U**2       # alpha=1
-assert sp.factor(num**2 + den**2) == 2*(T**4 + U**4)   # alpha=-1
+assert sp.factor((num**2 - den**2) - (-4*T**2*U**2)) == 0  # alpha=1
+assert sp.factor((num**2 + den**2) - 2*(T**4 + U**4)) == 0  # alpha=-1
 bad_divisor = sp.factor(T*U*(T**2-U**2)*(T**2+U**2)*(T**4+U**4))
 j05 = load("stages/stage35/35-05/bad-fiber-and-exceptional-locus.json")
 assert j05["bad_parameter_pullback"]["squarefree_bad_parameter_divisor"] == "T*U*(T^2-U^2)*(T^2+U^2)*(T^4+U^4)=0"
