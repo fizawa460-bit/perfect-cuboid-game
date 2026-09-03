@@ -1,0 +1,31 @@
+name: Stage32 post1505 O210 Q602 Weierstrass parity transvection refinement
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1505-o210-q602-weierstrass-parity-transvection-refinement.yml'
+      - 'stages/stage32/controller.json'
+      - 'stages/stage32/residual-32-01-production/post1505-o210-q602-weierstrass-parity-transvection-refinement*'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q602_weierstrass_parity_transvection_refinement.py'
+      - 'stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-frontier.json'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json'
+      - 'stages/stage32/residual-32-01-production/post1473-boundary-label-weierstrass-adapter.json'
+      - 'stages/stage32/residual-32-01-production/post1473-x8-marked-exceptional-incidence.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-weierstrass-collision-delta-bound.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-weierstrass-collision-delta-bound-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Certify Weierstrass parity transvection 16-to-3 refinement
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q602_weierstrass_parity_transvection_refinement.py --check stages/stage32/residual-32-01-production/post1505-o210-q602-weierstrass-parity-transvection-refinement.json
