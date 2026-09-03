@@ -1,0 +1,64 @@
+{
+  "schema": "STAGE35_EX_09_THREE_RESERVOIR_SQUARECLASS_GRAPH_V1",
+  "status": "PROVISIONAL_EXACT_REDUCTION_NO_PROMOTION",
+  "target": "PESCH-CONJ-E1-BASIS-NONSQUARE",
+  "branch_L": {
+    "reservoirs": ["t", "T", "e"],
+    "pairwise_coprime": true,
+    "pair_products": {
+      "12_34": "t*T",
+      "14_23": "t*e",
+      "13_24": "T*e"
+    },
+    "squarefree_splits": ["sf(t)=t13*t24", "sf(T)=T14*T23", "sf(e)=e12*e34"],
+    "vertex_squareclasses": [
+      "L1=t13*T14*e12",
+      "L2=t24*T23*e12",
+      "L3=t13*T23*e34",
+      "L4=t24*T14*e34"
+    ]
+  },
+  "branch_R": {
+    "reservoirs": ["j", "T", "e"],
+    "pairwise_coprime": true,
+    "pair_products": {
+      "12_34": "j*T",
+      "14_23": "j*e",
+      "13_24": "T*e"
+    },
+    "squarefree_splits": ["sf(j)=j13*j24", "sf(T)=T14*T23", "sf(e)=e12*e34"],
+    "vertex_squareclasses": [
+      "R1=j13*T14*e12",
+      "R2=j24*T23*e12",
+      "R3=j13*T23*e34",
+      "R4=j24*T14*e34"
+    ]
+  },
+  "common_hypotenuse_refinement": {
+    "squareclass_relevant_support": "e=gcd(c,H)",
+    "common_hypotenuse_primes_outside_e_individually_squareclass_neutral": true
+  },
+  "arsenal_decision": {
+    "S34_W01_factorwise_support_complete": true,
+    "fixed_finite_squareclass_family_proved": false,
+    "finite_enumeration_authorized": false,
+    "reason": "t/j, T, and e remain live parameter-dependent reservoirs with unbounded prime allocation data"
+  },
+  "descent": {
+    "bridge_factor_allocation": "(alpha-beta)*(alpha+beta)=U1*U2/(c*e)",
+    "new_factor_allocation": true,
+    "size_decreasing_admissible_counterexample_map_proved": false,
+    "infinite_descent_proved": false
+  },
+  "next_exact_leaf": "35EX-10_BRIDGE_DESCENT_MAP_OR_SPLIT_PRIME_OBSTRUCTION",
+  "credit": {
+    "new_theorem_credit": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "hostile_audit_required_before_any_promotion": true
+  }
+}

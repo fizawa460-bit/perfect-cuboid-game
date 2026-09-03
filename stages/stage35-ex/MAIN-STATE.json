@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE35_EX_PESCH_E1_STATE_V2_FOUR_FACTOR_REDUCTION",
+  "schema": "STAGE35_EX_PESCH_E1_STATE_V6_THREE_RESERVOIR_GRAPH",
   "stage": "35-EX",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
-  "base_main_sha": "e01bafa0e74031454d24227831616a1f6fd2832b",
+  "base_main_sha": "ed5940413c11d8b4f315bed167702a0d5f23104f",
   "true_owner": {
     "kernel": "K16-C3-PESCH-EXPONENT-ONE",
     "receiver": "R29-PESCH-E1",
@@ -20,65 +20,55 @@
     "proved": false,
     "relation_to_original_kernel": "strictly weaker replacement target than universal exponent-one blocker, but sufficient for the basis blocker implication if proved"
   },
-  "source_locks": [
-    "stages/stage29/29-16/active-kernel-ledger.json",
-    "stages/stage29/29-08/source-refresh.md",
-    "stages/stage29/29-08/peschmann-exact-crosswalk.md",
-    "stages/stage35/35-10/material-reopen-routing.json",
-    "stages/stage35/35-10/peschmann-material-source-note.md"
-  ],
   "research_credit_firewalls": {
     "policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
     "inherited": true,
     "stage_local_overrides_may_weaken": false
   },
   "completed_units": {
-    "35EX-01": {
-      "status": "PASS_ROADMAP_LOCKED_NO_CREDIT",
-      "artifact": "stages/stage35-ex/35ex-01/roadmap-and-view-audit.json",
-      "exhaustive_view_audit": true,
-      "blind_rediscovery": true
-    },
-    "35EX-02": {
-      "status": "PROVISIONAL_EXACT_LEMMA",
-      "artifact": "stages/stage35-ex/35ex-02/canonical-gcd-and-2adic-lemma.md",
-      "result": "g0=c*p, h=c*q with c,p,q pairwise coprime; every Master-Hit has v2(V1)!=v2(V2)",
-      "audited_theorem_credit": false
-    },
-    "35EX-03": {
-      "status": "PROVISIONAL_EXACT_COUNTEREXAMPLE_NORMAL_FORM",
-      "artifact": "stages/stage35-ex/35ex-03/double-primitive-counterexample-normal-form.md",
-      "result": "any E1 counterexample lies in exactly two 2-adic branches with simultaneous primitive Pythagorean parameterizations",
-      "audited_theorem_credit": false
-    },
-    "35EX-04": {
-      "status": "PROVISIONAL_EXACT_PRODUCT_RECTANGLE_REDUCTION",
-      "artifact": "stages/stage35-ex/35ex-04/product-rectangle-reduction.md",
-      "result": "after forced p,q support removal, the multiplicative cross-equation is a four-cell coprime product rectangle and is not alone an obstruction",
-      "audited_theorem_credit": false
-    },
-    "35EX-05": {
-      "status": "PROVISIONAL_EXACT_FOUR_FACTOR_SQUARE_REDUCTION",
-      "artifact": "stages/stage35-ex/35ex-05/four-factor-square-descent.md",
-      "certificate": "stages/stage35-ex/35ex-05/reduction-certificate.json",
-      "result": "using additive equations eliminates (a,b) from a necessary counterexample condition and gives one four-bilinear-factor square receiver in each branch",
-      "arsenal_candidate": "S34-W01",
-      "finite_squareclass_reduction_proved": false,
+    "35EX-01": {"status":"PASS_ROADMAP_LOCKED_NO_CREDIT","artifact":"stages/stage35-ex/35ex-01/roadmap-and-view-audit.json","audited_theorem_credit":false},
+    "35EX-02": {"status":"PROVISIONAL_EXACT_LEMMA","artifact":"stages/stage35-ex/35ex-02/canonical-gcd-and-2adic-lemma.md","audited_theorem_credit":false},
+    "35EX-03": {"status":"PROVISIONAL_EXACT_COUNTEREXAMPLE_NORMAL_FORM","artifact":"stages/stage35-ex/35ex-03/double-primitive-counterexample-normal-form.md","audited_theorem_credit":false},
+    "35EX-04": {"status":"PROVISIONAL_EXACT_PRODUCT_RECTANGLE_REDUCTION","artifact":"stages/stage35-ex/35ex-04/product-rectangle-reduction.md","audited_theorem_credit":false},
+    "35EX-05": {"status":"PROVISIONAL_EXACT_FOUR_FACTOR_SQUARE_REDUCTION","artifact":"stages/stage35-ex/35ex-05/four-factor-square-descent.md","certificate":"stages/stage35-ex/35ex-05/reduction-certificate.json","finite_squareclass_reduction_proved":false,"audited_theorem_credit":false},
+    "35EX-06": {"status":"PROVISIONAL_EXACT_GCD_SUPPORT_DIRECT_S34_FINITE_TRANSFER_BLOCKED","artifact":"stages/stage35-ex/35ex-06/four-factor-gcd-support.md","certificate":"stages/stage35-ex/35ex-06/gcd-squareclass-certificate.json","audited_theorem_credit":false},
+    "35EX-07": {"status":"PROVISIONAL_EXACT_MOVING_SQUARECLASS_COLLAPSE_S34_ROUTE_FROZEN","artifact":"stages/stage35-ex/35ex-07/moving-squareclass-collapse.md","certificate":"stages/stage35-ex/35ex-07/moving-squareclass-certificate.json","audited_theorem_credit":false},
+    "35EX-08": {"status":"PROVISIONAL_EXACT_THIRD_PRIMITIVE_HYPOTENUSE_BRIDGE","artifact":"stages/stage35-ex/35ex-08/hypotenuse-bridge-triple.md","certificate":"stages/stage35-ex/35ex-08/hypotenuse-bridge-certificate.json","third_primitive_parameter_pair_forced":true,"infinite_descent_proved":false,"audited_theorem_credit":false},
+    "35EX-09": {
+      "status": "PROVISIONAL_EXACT_COMPLETE_THREE_RESERVOIR_SQUARECLASS_GRAPH",
+      "artifact": "stages/stage35-ex/35ex-09/bridge-squareclass-graph.md",
+      "certificate": "stages/stage35-ex/35ex-09/bridge-squareclass-certificate.json",
+      "result": "all six pair-product squareclasses in both branches are generated by exactly three pairwise-coprime live reservoirs: cross=t or j, difference=T=U2/c, bridge=e=gcd(c,H); common-hypotenuse primes outside e are individually squareclass-neutral",
+      "factorwise_squareclass_support_complete": true,
+      "fixed_finite_squareclass_family_proved": false,
+      "infinite_descent_proved": false,
       "audited_theorem_credit": false
     }
   },
+  "resolved_investigations": {
+    "S34_W01_FIXED_FINITE_ENUMERATION": {
+      "status": "FROZEN_AFTER_COMPLETE_PARAMETRIC_SUPPORT_THEOREM",
+      "reason": "35EX-09 gives complete factorwise support, but the three reservoirs t/j, T, e remain parameter-dependent and their prime allocations are not a fixed finite coefficient family",
+      "reopen_condition": "prove uniform fixed support or an exact transformation eliminating the live reservoir allocations",
+      "forbidden_next_move": "do not import Stage34 concrete branch counts, local primes, or low-genus closures"
+    },
+    "NAIVE_BRIDGE_INFINITE_DESCENT": {
+      "status": "NOT_YET_PROVED",
+      "reason": "the third parameter pair alpha,beta supplies a new coprime factor allocation but no verified reconstruction of a smaller tuple satisfying the same Master-Hit plus E1-counterexample system"
+    }
+  },
   "current": {
-    "unit": "35EX-06_FOUR_FACTOR_GCD_AND_SQUARECLASS_SUPPORT",
-    "next_exact_leaf": "DERIVE_PAIRWISE_GCD_SUPPORT_AND_DECIDE_WHETHER_S34_W01_CAN_REACH_A_FINITE_EXHAUSTIVE_SQUARECLASS_FAMILY",
+    "unit": "35EX-10_BRIDGE_DESCENT_MAP_OR_SPLIT_PRIME_OBSTRUCTION",
+    "next_exact_leaf": "EITHER_CONSTRUCT_A_GENUINE_HEIGHT_DECREASING_SELF_MAP_OF_THE_FULL_COUNTEREXAMPLE_SYSTEM_FROM_THE_BRIDGE_PARAMETERS_OR_USE_THE_COMPLETE_THREE_RESERVOIR_GRAPH_TO_DERIVE_AN_ODD_SPLIT_PRIME_VALUATION_CONTRADICTION;_FREEZE_THE_ROUTE_IF_NEITHER_IS_OBTAINED",
     "working_set": [
-      "stages/stage35-ex/35ex-02/canonical-gcd-and-2adic-lemma.md",
       "stages/stage35-ex/35ex-03/double-primitive-counterexample-normal-form.md",
-      "stages/stage35-ex/35ex-05/four-factor-square-descent.md",
-      "stages/stage35-ex/35ex-05/reduction-certificate.json"
+      "stages/stage35-ex/35ex-08/hypotenuse-bridge-triple.md",
+      "stages/stage35-ex/35ex-09/bridge-squareclass-graph.md",
+      "stages/stage35-ex/35ex-09/bridge-squareclass-certificate.json"
     ]
   },
   "arsenal": {
-    "S34_W01": "PARTIAL_MATCH_FACTOR_SQUARE_SHAPE_ONLY_PAIRWISE_GCD_AND_FINITE_SQUARECLASS_HYPOTHESES_PENDING",
+    "S34_W01": "FACTORWISE_SUPPORT_COMPLETE_BUT_FIXED_FINITE_SQUARECLASS_ENUMERATION_NOT_AUTHORIZED",
     "stage34_concrete_coefficients_branches_and_local_primes_transfer": false
   },
   "claims": {

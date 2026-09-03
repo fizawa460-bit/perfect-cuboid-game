@@ -1,0 +1,88 @@
+{
+  "schema": "STAGE35_EX_06_GCD_SQUARECLASS_CERTIFICATE_V1",
+  "status": "EXACT_GCD_SUPPORT_DERIVED_DIRECT_S34_FINITE_TRANSFER_BLOCKED",
+  "target": "PESCH-CONJ-E1-BASIS-NONSQUARE",
+  "conditional_on_hypothetical_E1_counterexample": true,
+  "pairwise_support": {
+    "branch_L": {
+      "factors": ["L1=r*u+s*v", "L2=r*v-s*u", "L3=r*u-s*v", "L4=r*v+s*u"],
+      "odd_reservoirs": {
+        "Gplus": "gcd(r^2+s^2,u^2+v^2)",
+        "Gminus": "gcd(r^2-s^2,u^2-v^2)=U2/c",
+        "C13": "gcd(r,v)*gcd(s,u)",
+        "C24": "gcd(r,u)*gcd(s,v)"
+      },
+      "pair_table": {
+        "L1_L2": "divides Gplus",
+        "L3_L4": "divides Gplus",
+        "L1_L4": "divides Gminus",
+        "L2_L3": "divides Gminus",
+        "L1_L3_oddpart": "equals oddpart(C13)",
+        "L2_L4_oddpart": "equals oddpart(C24)"
+      },
+      "two_adic": {
+        "v2_rs": "k2-1",
+        "v2_uv": "k2-k1-1",
+        "exactly_one_same_coordinate_pair_even": true,
+        "each_even_factor_v2": "k2-k1-1",
+        "total_product_v2": "2*(k2-k1-1)",
+        "new_two_adic_squareclass_obstruction": false
+      }
+    },
+    "branch_R": {
+      "substitution": "x=u-v,y=u+v",
+      "facts": ["x,y odd", "gcd(x,y)=1", "all R_i odd"],
+      "factors": ["R1=r*x-s*y", "R2=r*y+s*x", "R3=r*x+s*y", "R4=r*y-s*x"],
+      "odd_reservoirs": {
+        "Hplus": "gcd(r^2+s^2,x^2+y^2)",
+        "Hminus": "gcd(r^2-s^2,x^2-y^2)",
+        "D13": "gcd(r,y)*gcd(s,x)",
+        "D24": "gcd(r,x)*gcd(s,y)"
+      },
+      "pair_table": {
+        "R1_R2": "divides Hplus",
+        "R3_R4": "divides Hplus",
+        "R1_R4": "divides Hminus",
+        "R2_R3": "divides Hminus",
+        "R1_R3": "equals D13",
+        "R2_R4": "equals D24"
+      },
+      "two_adic": {
+        "all_factors_odd": true,
+        "new_two_adic_squareclass_obstruction": false
+      }
+    }
+  },
+  "s34_w01_contract_check": {
+    "weapon": "S34-W01_SUCCESSIVE_EXACT_FACTOR_SQUARECLASS_DESCENT",
+    "factorization_hypothesis": true,
+    "pairwise_gcd_support_derived": true,
+    "sign_and_two_adic_bookkeeping": true,
+    "finite_shared_prime_support_proved": false,
+    "finite_exhaustive_squareclass_family_proved": false,
+    "direct_stage34_branch_transfer_allowed": false,
+    "blocking_reason": "odd-prime sharing is controlled only by live parameter-dependent reservoirs U2/c, common-hypotenuse gcds, and cross-gcd products; no fixed finite prime-support theorem has been derived",
+    "interpretation": "S34-W01 stops before finite squareclass enumeration; this is a missing-lemma obstruction, not proof that a later reservoir-collapse lemma is impossible"
+  },
+  "structural_nonuniformity_witness": {
+    "scope": "primitive-pair layer only; not a Master-Hit or E1-counterexample witness",
+    "statement": "for every odd prime ell, r=ell-1,s=1,u=ell+1,v=1 are primitive opposite-parity pairs and ell divides gcd(L1,L4)",
+    "identities": ["L1=ell^2", "L4=2*ell", "gcd(r^2-s^2,u^2-v^2)=ell"]
+  },
+  "next_exact_leaf": {
+    "unit": "35EX-07_DYNAMIC_ODD_PRIME_RESERVOIR_COLLAPSE",
+    "goal": "use the remaining branch equations to prove that every odd reservoir prime either cancels in squareclass parity or belongs to a fixed finite support set; otherwise freeze the surviving dynamic-prime obstruction",
+    "forbidden_shortcut": "do not invoke Stage34 low-genus/local branch closure before finite exhaustiveness is proved"
+  },
+  "credit": {
+    "new_theorem_credit": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "hostile_audit_required_before_any_promotion": true
+  }
+}

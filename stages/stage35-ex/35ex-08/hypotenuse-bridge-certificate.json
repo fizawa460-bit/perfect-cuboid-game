@@ -1,0 +1,59 @@
+{
+  "schema": "STAGE35_EX_08_HYPOTENUSE_BRIDGE_V1",
+  "status": "PROVISIONAL_EXACT_REDUCTION_NO_PROMOTION",
+  "target": "PESCH-CONJ-E1-BASIS-NONSQUARE",
+  "inputs": {
+    "E1_hypotenuse": "w=r^2+s^2",
+    "Master_hypotenuse": "H=u^2+v^2",
+    "raw_E1_hypotenuse": "c*p*w",
+    "raw_Master_hypotenuse": "c*q*H"
+  },
+  "bridge_identity": "(q*H)^2 + (U1*U2/c)^2 = (p*w)^2",
+  "bridge_gcd": {
+    "e": "gcd(c,H)",
+    "exact_leg_gcd": "gcd(q*H,U1*U2/c)=e",
+    "e_divides_w": true,
+    "odd_primes_of_e_are_1_mod_4": true
+  },
+  "primitive_bridge": {
+    "X": "q*H/e",
+    "Y": "U1*U2/(c*e)",
+    "Z": "p*w/e",
+    "gcd_X_Y": 1,
+    "orientation": "X even, Y and Z odd",
+    "parameterization": [
+      "q*H/e=2*alpha*beta",
+      "U1*U2/(c*e)=alpha^2-beta^2",
+      "p*w/e=alpha^2+beta^2"
+    ],
+    "alpha_beta_coprime_opposite_parity": true,
+    "even_parameter_v2": "v2(q)-1"
+  },
+  "double_square": {
+    "A": "alpha-beta",
+    "B": "alpha+beta",
+    "coprime_positive_odd": true,
+    "identities": [
+      "p*w-q*H=e*A^2",
+      "p*w+q*H=e*B^2",
+      "A*B=U1*U2/(c*e)"
+    ]
+  },
+  "assessment": {
+    "new_exact_constraint_beyond_separate_E1_and_Master_parametrizations": true,
+    "third_primitive_parameter_pair_forced": true,
+    "size_decreasing_counterexample_map_proved": false,
+    "E1_proved": false
+  },
+  "next_exact_leaf": "35EX-09_HYPOTENUSE_BRIDGE_FACTOR_ALLOCATION_AND_DESCENT_TEST",
+  "credit": {
+    "new_theorem_credit": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "hostile_audit_required_before_any_promotion": true
+  }
+}
