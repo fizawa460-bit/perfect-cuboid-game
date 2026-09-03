@@ -1,0 +1,87 @@
+{
+  "schema": "STAGE35_EX_01_ROADMAP_VIEW_AUDIT_V1",
+  "unit": "35EX-01_ROADMAP_AND_VIEW_AUDIT",
+  "target": "PESCH-CONJ-E1-BASIS-NONSQUARE",
+  "cycle_protocol": {
+    "exhaustive_view_audit": true,
+    "blind_rediscovery": true,
+    "split_triggered": false,
+    "active_receiver": "R29-PESCH-E1",
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW"
+  },
+  "blind_candidate_ledger": [
+    {
+      "id": "E1-GCD-SPLIT",
+      "status": "LIVE",
+      "view": "exact gcd and valuation decomposition of the Master and space-diagonal leg pairs",
+      "reason": "elementary exact reduction with no external theorem dependency"
+    },
+    {
+      "id": "E1-DOUBLE-PRIMITIVE-PYTH",
+      "status": "LIVE",
+      "view": "assume an E1 counterexample and parameterize both reduced square conditions as primitive Pythagorean triples",
+      "dependency": "E1-GCD-SPLIT"
+    },
+    {
+      "id": "E1-GAUSSIAN-DOUBLE-SQUARE",
+      "status": "UNTESTED",
+      "view": "simultaneous Gaussian-square compatibility for the Master norm and the reduced space norm"
+    },
+    {
+      "id": "E1-LOCAL-VALUATION",
+      "status": "UNTESTED",
+      "view": "2-adic and split-prime valuation incompatibility after canonical gcd removal"
+    },
+    {
+      "id": "E1-INFINITE-DESCENT",
+      "status": "UNTESTED",
+      "view": "construct a smaller admissible counterexample from the two primitive parameterizations if shared factors force descent"
+    },
+    {
+      "id": "E1-SUNIT-THUE",
+      "status": "UNTESTED",
+      "view": "convert a surviving factor-support branch into an S-unit/Thue-type equation with exact parameter support"
+    },
+    {
+      "id": "E1-ELLIPTIC-HEIGHT",
+      "status": "BLOCKED",
+      "view": "uniform height/discriminant contradiction on E_mn",
+      "block": "current Peschmann source explicitly identifies lack of general discriminant factor-control; no new theorem is supplied"
+    },
+    {
+      "id": "E1-FIXED-FIBER-TORSION",
+      "status": "BLOCKED",
+      "view": "rank-zero torsion-intersection on individual (m,n) fibers",
+      "block": "does not quantify over all Master-Hits without a globally exhaustive fiber reduction"
+    }
+  ],
+  "selected_sequence": [
+    {
+      "unit": "35EX-02",
+      "goal": "prove exact canonical gcd split and pairwise coprimality; derive the Master-Hit 2-adic dichotomy"
+    },
+    {
+      "unit": "35EX-03",
+      "goal": "derive the exact two-branch simultaneous primitive-Pythagorean counterexample normal form"
+    },
+    {
+      "unit": "35EX-04",
+      "goal": "extract shared-factor/divisibility equations from the two primitive parameterizations and compare with the Gaussian-square lens"
+    },
+    {
+      "unit": "35EX-05",
+      "goal": "attack the surviving branches by valuation, Gaussian support, or a genuine descent; freeze any failed route exactly"
+    },
+    {
+      "unit": "35EX-06",
+      "goal": "either produce a proof-capable replacement theorem/counterexample, or isolate the next exact missing theorem and park without credit"
+    }
+  ],
+  "promotion_firewall": {
+    "finite_evidence_is_theorem": false,
+    "stage35_main_reopened": false,
+    "R29_PESCH_E1_closed": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "hostile_audit_required_before_promotion": true
+  }
+}
