@@ -9,6 +9,7 @@ CERT05 = ROOT / "stages/stage35-ex/35ex-05/reduction-certificate.json"
 CERT06 = ROOT / "stages/stage35-ex/35ex-06/gcd-squareclass-certificate.json"
 CERT07 = ROOT / "stages/stage35-ex/35ex-07/moving-squareclass-certificate.json"
 CERT08 = ROOT / "stages/stage35-ex/35ex-08/hypotenuse-bridge-certificate.json"
+CERT09 = ROOT / "stages/stage35-ex/35ex-09/bridge-squareclass-certificate.json"
 
 
 def v2(n: int) -> int:
@@ -35,13 +36,14 @@ cert05 = json.loads(CERT05.read_text())
 cert06 = json.loads(CERT06.read_text())
 cert07 = json.loads(CERT07.read_text())
 cert08 = json.loads(CERT08.read_text())
+cert09 = json.loads(CERT09.read_text())
 
 assert state["stage"] == "35-EX"
 assert state["true_owner"]["kernel"] == "K16-C3-PESCH-EXPONENT-ONE"
 assert state["true_owner"]["receiver"] == "R29-PESCH-E1"
 assert state["stage35_main_firewall"]["stage35_ex_reopens_stage35_main"] is False
 
-for cert in (cert05, cert06, cert07, cert08):
+for cert in (cert05, cert06, cert07, cert08, cert09):
     credit = cert["credit"]
     for key in (
         "new_theorem_credit",
@@ -54,8 +56,6 @@ for cert in (cert05, cert06, cert07, cert08):
     ):
         assert credit[key] is False
 
-# Small fixed regression panel of genuine Master-Hits. This is not theorem evidence;
-# the proof is the exact argument in 35ex-02. The panel guards implementation drift.
 panel = [
     (4, 3, 16, 5),
     (5, 2, 8, 3),
@@ -83,7 +83,6 @@ for a, b, m, n in panel:
     q = gcd(V1, V2)
     g0 = gcd(W1*U2, U1*V2)
     h = gcd(V1*U2, U1*V2)
-
     assert g0 == c*p
     assert h == c*q
     assert gcd(c, p) == gcd(c, q) == gcd(p, q) == 1
@@ -104,7 +103,6 @@ for a, b, m, n in panel:
 
 assert seen_L and seen_R
 
-# Exact algebraic regression for the additive factorizations used in 35ex-05.
 for r, s, u, v in [(5, 2, 7, 4), (8, 3, 9, 2), (11, 4, 13, 6)]:
     lhs_minus = u*v*(r*r-s*s) - r*s*(u*u-v*v)
     rhs_minus = (r*u+s*v)*(r*v-s*u)
@@ -120,15 +118,16 @@ for r, s, u, v in [(5, 2, 7, 4), (8, 3, 9, 2), (11, 4, 13, 6)]:
     assert lhs_R_minus == rhs_R_minus
     assert lhs_R_plus == rhs_R_plus
 
-# 35EX-06 exact pairwise gcd support. These finite tuples are regression only;
-# the theorem content is the determinant/gcd argument in four-factor-gcd-support.md.
 structural_tuples = [(5, 2, 7, 4), (8, 3, 9, 2), (11, 4, 13, 6), (9, 2, 7, 4)]
 for r, s, u, v in structural_tuples:
     assert gcd(r, s) == gcd(u, v) == 1
     assert (r - s) % 2 == (u - v) % 2 == 1
+    w, H = r*r+s*s, u*u+v*v
+    rs, uv = r*s, u*v
+
     L1, L2 = r*u+s*v, r*v-s*u
     L3, L4 = r*u-s*v, r*v+s*u
-    Gplus = gcd(r*r+s*s, u*u+v*v)
+    Gplus = gcd(w, H)
     Gminus = gcd(r*r-s*s, u*u-v*v)
     C13 = gcd(r, v)*gcd(s, u)
     C24 = gcd(r, u)*gcd(s, v)
@@ -138,12 +137,21 @@ for r, s, u, v in structural_tuples:
     assert Gminus % gcd(L2, L3) == 0
     assert oddpart(gcd(L1, L3)) == oddpart(C13)
     assert oddpart(gcd(L2, L4)) == oddpart(C24)
+    assert L1*L4 == uv*w + rs*H
+    assert L2*L3 == uv*w - rs*H
+
+    t = gcd(rs, uv)
+    T_L = gcd(r*r-s*s, u*u-v*v)
+    assert C13*C24 == t
+    assert gcd(C13, C24) == 1
+    assert gcd(t, T_L) == 1
+    assert gcd(Gplus, t*T_L) == 1
 
     x, y = u-v, u+v
     assert x % 2 == y % 2 == 1 and gcd(x, y) == 1
     R1, R2 = r*x-s*y, r*y+s*x
     R3, R4 = r*x+s*y, r*y-s*x
-    Hplus = gcd(r*r+s*s, x*x+y*y)
+    Hplus = gcd(w, x*x+y*y)
     Hminus = gcd(r*r-s*s, x*x-y*y)
     D13 = gcd(r, y)*gcd(s, x)
     D24 = gcd(r, x)*gcd(s, y)
@@ -154,36 +162,17 @@ for r, s, u, v in structural_tuples:
     assert abs(Hminus) % gcd(R2, R3) == 0
     assert gcd(R1, R3) == D13
     assert gcd(R2, R4) == D24
+    assert R1*R4 == (u*u-v*v)*w - 2*rs*H
+    assert R2*R3 == (u*u-v*v)*w + 2*rs*H
 
-# 35EX-07 reservoir-collapse lemmas. These are structural identities for two
-# primitive opposite-parity pairs, independent of any bounded Master-Hit search.
-for r, s, u, v in structural_tuples:
-    rs, uv = r*s, u*v
-    t = gcd(rs, uv)
-    C13 = gcd(r, v)*gcd(s, u)
-    C24 = gcd(r, u)*gcd(s, v)
-    T_L = gcd(r*r-s*s, u*u-v*v)
-    Gplus = gcd(r*r+s*s, u*u+v*v)
-    assert C13*C24 == t
-    assert gcd(C13, C24) == 1
-    assert gcd(t, T_L) == 1
-    assert gcd(Gplus, t*T_L) == 1
-
-    x, y = u-v, u+v
     j = gcd(rs, x*y)
-    D13 = gcd(r, y)*gcd(s, x)
-    D24 = gcd(r, x)*gcd(s, y)
     T_R = gcd(r*r-s*s, u*v)
-    Hplus = gcd(r*r+s*s, x*x+y*y)
-    Hminus = gcd(r*r-s*s, x*x-y*y)
     assert D13*D24 == j
     assert gcd(D13, D24) == 1
     assert gcd(j, T_R) == 1
     assert gcd(Hplus, j*T_R) == 1
     assert Hminus == T_R
 
-# Primitive bridge-triple algebra used in 35EX-08: the odd hypotenuse plus/minus
-# the even leg are coprime odd squares, and their product is the odd leg squared.
 for alpha, beta in [(2, 1), (4, 1), (5, 2), (8, 3), (9, 4)]:
     assert alpha > beta > 0
     assert gcd(alpha, beta) == 1
@@ -197,8 +186,6 @@ for alpha, beta in [(2, 1), (4, 1), (5, 2), (8, 3), (9, 4)]:
     assert Z+X == (alpha+beta)**2
     assert gcd(alpha-beta, alpha+beta) == 1
 
-# Branch-L 2-adic support: e_r=e_u+k1 with k1>=2 makes one same-coordinate
-# pair exactly 2^e_u-divisible and the other pair odd.
 for r, s, u, v, e_u in [(8, 3, 6, 5, 1), (8, 3, 5, 2, 1)]:
     assert gcd(r, s) == gcd(u, v) == 1
     assert v2(r*s) > v2(u*v) == e_u
@@ -207,8 +194,6 @@ for r, s, u, v, e_u in [(8, 3, 6, 5, 1), (8, 3, 5, 2, 1)]:
     assert vals in ([0, e_u, 0, e_u], [e_u, 0, e_u, 0])
     assert sum(vals) == 2*e_u
 
-# Structural nonuniformity of the primitive-pair layer: arbitrary odd primes can
-# enter a pairwise gcd. This is not a Master-Hit/E1-counterexample witness.
 for ell in (3, 5, 7, 11, 13):
     r, s, u, v = ell-1, 1, ell+1, 1
     assert gcd(r, s) == gcd(u, v) == 1
@@ -234,7 +219,6 @@ arsenal07 = cert07["arsenal_decision"]
 assert arsenal07["dynamic_reservoirs_collapsed"] is True
 assert arsenal07["fixed_finite_squareclass_support_proved"] is False
 assert arsenal07["finite_enumeration_authorized"] is False
-assert arsenal07["stage34_concrete_branch_data_transfer_allowed"] is False
 
 bridge = cert08["primitive_bridge"]
 assert cert08["bridge_identity"] == "(q*H)^2 + (U1*U2/c)^2 = (p*w)^2"
@@ -242,6 +226,14 @@ assert bridge["gcd_X_Y"] == 1
 assert bridge["alpha_beta_coprime_opposite_parity"] is True
 assert cert08["assessment"]["third_primitive_parameter_pair_forced"] is True
 assert cert08["assessment"]["size_decreasing_counterexample_map_proved"] is False
-assert cert08["next_exact_leaf"] == "35EX-09_HYPOTENUSE_BRIDGE_FACTOR_ALLOCATION_AND_DESCENT_TEST"
 
-print("PASS STAGE35_EX_REDUCTION_V4_HYPOTENUSE_BRIDGE")
+assert cert09["branch_L"]["pairwise_coprime"] is True
+assert cert09["branch_R"]["pairwise_coprime"] is True
+assert cert09["common_hypotenuse_refinement"]["common_hypotenuse_primes_outside_e_individually_squareclass_neutral"] is True
+assert cert09["arsenal_decision"]["S34_W01_factorwise_support_complete"] is True
+assert cert09["arsenal_decision"]["fixed_finite_squareclass_family_proved"] is False
+assert cert09["arsenal_decision"]["finite_enumeration_authorized"] is False
+assert cert09["descent"]["size_decreasing_admissible_counterexample_map_proved"] is False
+assert cert09["next_exact_leaf"] == "35EX-10_BRIDGE_DESCENT_MAP_OR_SPLIT_PRIME_OBSTRUCTION"
+
+print("PASS STAGE35_EX_REDUCTION_V5_THREE_RESERVOIR_GRAPH")
