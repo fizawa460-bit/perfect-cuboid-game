@@ -1,14 +1,14 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V230_POST1504_RELATIVE_V4_MOD2_COUPLING_AUDIT_PASS",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V231_POST1504_ANTILOOP_REMOVED",
   "stage": 32,
-  "status": "STAGE32_O210_Q602_RELATIVE_V4_MOD2_COUPLING_HOSTILE_AUDIT_PASS_MERGE_READY",
+  "status": "STAGE32_O210_Q602_POST1504_ANTILOOP_REMOVED_CONTINUATION_OPEN",
   "stage32_closed": false,
   "advance_allowed": false,
-  "merge_allowed": true,
-  "checkpoint_merge_ready": true,
+  "merge_allowed": false,
+  "checkpoint_merge_ready": false,
   "active_pr": {
-    "number": 1504,
-    "branch": "stage32-post1503-v4-torsor-mod2-coupling",
+    "number": 1505,
+    "branch": "stage32-post1504-remove-antiloop-resume",
     "automatic_merge_authorized": false
   },
   "fixed_target": {
@@ -148,7 +148,7 @@
     "source_note_blob_sha1": "b0ea281eae453929c292059a919bc1f68b3080b3",
     "conclusion": "No admitted source-locked common-cover/marked-branch/ramification theorem or local certificate currently forces strict Rosati loss or otherwise excludes sigma(Gamma)=1204 / Q(T)=602.",
     "authority_effect": "NONE; O210 remains open at the audited repaired nonexclusion boundary and O212+ remains blocked.",
-    "reentry_requires_new_source_locked_evidence": true
+    "reentry_policy": "REOPEN_ALLOWED_WITH_EXACT_PROVENANCE"
   },
   "post1504_relative_v4_mod2_coupling": {
     "status": "AUDITED_EXACT_NEW_COUPLING_NONEXCLUSION",
@@ -171,36 +171,12 @@
   "current_leaf": {
     "status": "AUDITED_EXACT_NEW_COUPLING_NONEXCLUSION",
     "target": "Preserve the hostile-audited 96->28 mod-2 pruning. Do not infer Q602 exclusion from common fixed-space dimension alone.",
-    "next_checkpoint": "Merge PR #1504. On a fresh post-merge branch, source-lock the exact X(8)->C0 V4 torsor two-plane W in a retained Bolza J(C0)[2] basis and test the 28 residue survivors pointwise. Only if survivors remain after exact-W testing consider a mod-4 refinement. O212 and later remain blocked.",
+    "next_checkpoint": "Source-lock the exact X(8)->C0 V4 torsor two-plane W in a retained Bolza J(C0)[2] basis and test the 28 residue survivors pointwise. Previously audited lanes may be reopened when useful, but all promoted claims still require exact provenance/adapters and hostile audit. Only if survivors remain after exact-W testing consider a mod-4 refinement. O212 and later remain blocked.",
     "O212_and_later_blocked": true
   },
-  "anti_loop": {
-    "do_not_reopen": [
-      "O186 fixed-V6 exclusion",
-      "O188 product-cover profiles",
-      "canonical 318ac76c cusp adapter",
-      "qprime=1,2 modular-factor integrality exclusions",
-      "bounded Rosati/D4/Weierstrass check of Q=602 after repair e28c7539",
-      "full Rosati frontier enumeration merely to test Q=602",
-      "common-cover/marked-branch generic Rosati-strictness inference after the #1501 negative lane unless new source-locked coupling evidence is admitted",
-      "B-side Picard64 treated as Pic(X) without explicit adapter",
-      "post-21bl representative sample substituted for exact recovered V6 class",
-      "relative-H u/v/uv node permutation search after d03cfe8c",
-      "retained tangent/infinitely-near search after e876c51a"
-    ],
-    "forbidden_inferences": [
-      "Gamma^2=2*d1*d2 from bidegree alone on a positive-genus product",
-      "sigma(Gamma)=0 without an independent geometric proof",
-      "shared-cover or marked-branch structure alone implies strict Rosati loss",
-      "delta_Gamma=8586 or zero-Rosati downstream simplex values without rederivation",
-      "a common fixed two-plane exists implies Q602 is excluded; the post1504 preflight has 28 residue survivors",
-      "exact-head CI success implies hostile-audit mathematical correctness"
-    ],
-    "asset_lookup_rule": "Use docs/evidence-locator/query_evidence.py first for already-existing evidence, then recheck live Stage authority; a query miss is not repository absence."
-  },
   "math_scope": {
-    "fixed_z_O186_all_qprime": "CLOSED_AUDITED_EXCLUDED_DO_NOT_REOPEN",
-    "fixed_z_O188_all_profiles": "CLOSED_AUDITED_EXCLUDED_DO_NOT_REOPEN",
+    "fixed_z_O186_all_qprime": "CLOSED_AUDITED_EXCLUDED",
+    "fixed_z_O188_all_profiles": "CLOSED_AUDITED_EXCLUDED",
     "fixed_z_qprime1_qprime2_exact_v6": "CLOSED_AUDITED_EXCLUDED_BY_MODULAR_FACTOR_INTEGRALITY",
     "fixed_z_O210_q4_exact_v6_carrier": "OPEN_AT_AUDITED_Q602_BOUNDARY_WITH_AUDITED_RELATIVE_V4_MOD2_COUPLING_28_RESIDUE_SURVIVORS",
     "fixed_z_O212_through_O266_qprime4": "BLOCKED_BEHIND_O210",
@@ -209,11 +185,11 @@
     "receiver_theorem_endpoint": "OPEN"
   },
   "operations": {
-    "execution_class": "LIGHTWEIGHT_POST1504_RELATIVE_V4_MOD2_COUPLING_AUDIT_PASS_CHECKPOINT",
+    "execution_class": "LIGHTWEIGHT_POST1504_EXACT_W_SOURCE_LOCK_CONTINUATION",
     "full178_scaleout_authorized": false,
     "heavy_compute_authorized": false,
     "survivor_materialization_authorized": false,
-    "retained_asset_research_authorized": false
+    "retained_asset_research_authorized": true
   },
   "required_lightweight_verifier": {
     "path": "stages/stage32/residual-32-01-production/certify_stage32_post1503_o210_q4_relative_v4_torsor_mod2_coupling.py",
@@ -225,7 +201,7 @@
       "verify the relative-H isomorphism-torsor coupling gives a common two-dimensional fixed subspace for T and T^dagger mod 2",
       "recompute the exact D4 direct-sum D4 norm-602 residue classes without full-frontier materialization",
       "assert 96 realized mod-2 classes, dimension distribution 32/36/24/3/1, and exactly 28 common-fixed-dimension>=2 survivors",
-      "assert Q602 and O210 remain open and O212+ remains blocked"
+      "assert Q602 and O210 remain open and O212+ remain blocked"
     ],
     "audited_head_success": {
       "head": "e5efd9a871d0eab05b9e9dabeb17aea3f0d599ec",
@@ -240,7 +216,7 @@
     }
   },
   "audit_required_before_promotion": false,
-  "next_expected_action": "Merge PR #1504 as the hostile-audited new-coupling checkpoint. Do not advance O212 or grant downstream credit. After merge, open a fresh branch and source-lock the exact X(8)->C0 V4 torsor plane W in the Bolza J(C0)[2] basis, then pointwise-test the 28 Q602 residue survivors.",
+  "next_expected_action": "On PR #1505, source-lock the exact X(8)->C0 V4 torsor plane W in the Bolza J(C0)[2] basis and pointwise-test the 28 Q602 residue survivors. Retained-asset re-query and reopening older lanes are permitted; provenance, semantic adapters, and hostile-audit requirements remain mandatory.",
   "firewalls": {
     "O186_closed": true,
     "O188_closed": true,
@@ -256,11 +232,11 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "handoff": {
-    "batch": "20260903-stage32-post1504-relative-v4-mod2-coupling-audit-pass",
+    "batch": "20260903-stage32-post1504-antiloop-removed-resume",
     "continue_from": "O210_Q4_IDENTIFY_EXACT_X8_V4_TORSOR_PLANE_W_IN_BOLZA_J2",
-    "fresh_head_required": true,
+    "fresh_head_required": false,
     "do_not_merge": false,
-    "notes": "Hostile audit review 5098663903 PASSed exact head e5efd9a871d0eab05b9e9dabeb17aea3f0d599ec. Exact-head coupling CI 33723706795 / 100547994693 SUCCESS; historical #1501 successor-safe replay 33723706877 / 100547994971 SUCCESS. Promote only the relative-V4 mod-2 coupling and 96->28 residue pruning. Q602/O210 remain open and O212+ blocked. Next fresh leaf is exact torsor-plane W identification and pointwise testing of the 28 survivors; no full-frontier materialization."
+    "notes": "PR #1505 removes Stage32 anti-loop as an execution/validation gate while retaining provenance, research-credit, hostile-audit, and heavy-compute safety. Retained-asset lookup is authorized. Continue immediately from exact torsor-plane W identification and pointwise testing of the 28 post1504 survivors."
   },
   "post1504_hostile_audit_pass": {
     "review_id": 5098663903,
@@ -278,5 +254,14 @@
     "verdict": "PASS",
     "audited_scope": "Promotes only the relative-V4 torsor/mod-2 cohomological coupling and exact Q602 residue pruning 96->28. Q602 and O210 remain open; O212+ remains blocked; no downstream mathematical credit.",
     "authority_promotion": "AUDITED_RELATIVE_V4_MOD2_COUPLING_96_TO_28_NONEXCLUSION"
+  },
+  "exploration_policy": {
+    "anti_loop_execution_gate": false,
+    "reopen_previous_routes_allowed": true,
+    "repeat_exact_calculation_allowed": true,
+    "retained_asset_requery_allowed": true,
+    "provenance_required_for_credit": true,
+    "historical_failures_remain_nonpromotable_without_new_exact_evidence": true,
+    "policy_note": "stages/stage32/post1504-antiloop-removal-policy.md"
   }
 }
