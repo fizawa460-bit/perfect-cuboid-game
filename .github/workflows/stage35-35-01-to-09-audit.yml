@@ -11,8 +11,18 @@ jobs:
   verify-stage35-35-01-to-09:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact PR head checkout
+        run: |
+          ACTUAL_HEAD_SHA="$(git rev-parse HEAD)"
+          echo "EXPECTED_HEAD_SHA=${EXPECTED_HEAD_SHA}"
+          echo "ACTUAL_HEAD_SHA=${ACTUAL_HEAD_SHA}"
+          test "${ACTUAL_HEAD_SHA}" = "${EXPECTED_HEAD_SHA}"
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
