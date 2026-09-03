@@ -1,20 +1,21 @@
-name: Stage32 post1490 fixed V6 all-genus1 exclusion replay
+name: Stage32 post1500 hostile-audit Rosati repair replay
 
 on:
   pull_request:
     paths:
       - '.github/workflows/stage32-post1490-fixed-v6-all-genus1-exclusion.yml'
       - 'stages/stage32/controller.json'
-      - 'stages/stage32/residual-32-01-production/post1490-audit-promotion-next-overlap-boundary.json'
-      - 'stages/stage32/residual-32-01-production/post1490-fixed-v6-q4-all-overlap-deck-cross-exclusion-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1500_hostile_audit_rosati_trace_repair.py'
       - 'stages/stage32/residual-32-01-production/post1490-fixed-v6-all-genus1-deck-cross-exclusion.json'
-      - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_fixed_v6_all_genus1_deck_cross_exclusion.py'
-      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-*'
-      - 'stages/stage32/residual-32-01-production/certify_stage32_post1490_o210_q4_*'
-      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1490_o210_q4_*'
-      - 'stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-beauville-odd-branch-wall.md'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-equivariant-beauville-deck-cross-exclusion.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-beauville-blowup-picard-adapter-delta-lock.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-frontier.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-birational-d4d4-trace-reduction.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-weierstrass-collision-delta-bound.json'
       - 'stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-boundary.json'
-      - 'stages/stage33/33-07/certify_two_coordinate_swap_picard_rows.py'
   workflow_dispatch:
 
 permissions:
@@ -27,5 +28,5 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Replay provisional fixed-V6 all-genus1 deck-cross exclusion
-        run: python stages/stage32/residual-32-01-production/certify_stage32_post1490_fixed_v6_all_genus1_deck_cross_exclusion.py --check stages/stage32/residual-32-01-production/post1490-fixed-v6-all-genus1-deck-cross-exclusion.json
+      - name: Replay post1500 hostile-audit Rosati trace repair
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1500_hostile_audit_rosati_trace_repair.py --check stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json
