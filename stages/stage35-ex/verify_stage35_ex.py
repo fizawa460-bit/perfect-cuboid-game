@@ -8,6 +8,7 @@ STATE = ROOT / "stages/stage35-ex/MAIN-STATE.json"
 CERT05 = ROOT / "stages/stage35-ex/35ex-05/reduction-certificate.json"
 CERT06 = ROOT / "stages/stage35-ex/35ex-06/gcd-squareclass-certificate.json"
 CERT07 = ROOT / "stages/stage35-ex/35ex-07/moving-squareclass-certificate.json"
+CERT08 = ROOT / "stages/stage35-ex/35ex-08/hypotenuse-bridge-certificate.json"
 
 
 def v2(n: int) -> int:
@@ -33,13 +34,14 @@ state = json.loads(STATE.read_text())
 cert05 = json.loads(CERT05.read_text())
 cert06 = json.loads(CERT06.read_text())
 cert07 = json.loads(CERT07.read_text())
+cert08 = json.loads(CERT08.read_text())
 
 assert state["stage"] == "35-EX"
 assert state["true_owner"]["kernel"] == "K16-C3-PESCH-EXPONENT-ONE"
 assert state["true_owner"]["receiver"] == "R29-PESCH-E1"
 assert state["stage35_main_firewall"]["stage35_ex_reopens_stage35_main"] is False
 
-for cert in (cert05, cert06, cert07):
+for cert in (cert05, cert06, cert07, cert08):
     credit = cert["credit"]
     for key in (
         "new_theorem_credit",
@@ -72,7 +74,9 @@ for a, b, m, n in panel:
     assert U2*U2 + V2*V2 == W2*W2
 
     M = (V1*U2)**2 + (U1*V2)**2
+    Eraw_norm = (W1*U2)**2 + (U1*V2)**2
     assert square(M)
+    assert Eraw_norm - M == (U1*U2)**2
 
     c = gcd(U1, U2)
     p = gcd(W1, V2)
@@ -178,6 +182,21 @@ for r, s, u, v in structural_tuples:
     assert gcd(Hplus, j*T_R) == 1
     assert Hminus == T_R
 
+# Primitive bridge-triple algebra used in 35EX-08: the odd hypotenuse plus/minus
+# the even leg are coprime odd squares, and their product is the odd leg squared.
+for alpha, beta in [(2, 1), (4, 1), (5, 2), (8, 3), (9, 4)]:
+    assert alpha > beta > 0
+    assert gcd(alpha, beta) == 1
+    assert (alpha-beta) % 2 == 1
+    X = 2*alpha*beta
+    Y = alpha*alpha-beta*beta
+    Z = alpha*alpha+beta*beta
+    assert X*X + Y*Y == Z*Z
+    assert gcd(X, Y) == 1
+    assert Z-X == (alpha-beta)**2
+    assert Z+X == (alpha+beta)**2
+    assert gcd(alpha-beta, alpha+beta) == 1
+
 # Branch-L 2-adic support: e_r=e_u+k1 with k1>=2 makes one same-coordinate
 # pair exactly 2^e_u-divisible and the other pair odd.
 for r, s, u, v, e_u in [(8, 3, 6, 5, 1), (8, 3, 5, 2, 1)]:
@@ -216,6 +235,13 @@ assert arsenal07["dynamic_reservoirs_collapsed"] is True
 assert arsenal07["fixed_finite_squareclass_support_proved"] is False
 assert arsenal07["finite_enumeration_authorized"] is False
 assert arsenal07["stage34_concrete_branch_data_transfer_allowed"] is False
-assert cert07["route"]["next_exact_leaf"] == "35EX-08_GAUSSIAN_DOUBLE_SQUARE_COMPATIBILITY"
 
-print("PASS STAGE35_EX_REDUCTION_V3_MOVING_SQUARECLASS")
+bridge = cert08["primitive_bridge"]
+assert cert08["bridge_identity"] == "(q*H)^2 + (U1*U2/c)^2 = (p*w)^2"
+assert bridge["gcd_X_Y"] == 1
+assert bridge["alpha_beta_coprime_opposite_parity"] is True
+assert cert08["assessment"]["third_primitive_parameter_pair_forced"] is True
+assert cert08["assessment"]["size_decreasing_counterexample_map_proved"] is False
+assert cert08["next_exact_leaf"] == "35EX-09_HYPOTENUSE_BRIDGE_FACTOR_ALLOCATION_AND_DESCENT_TEST"
+
+print("PASS STAGE35_EX_REDUCTION_V4_HYPOTENUSE_BRIDGE")
