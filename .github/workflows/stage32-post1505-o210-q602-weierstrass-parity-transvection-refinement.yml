@@ -22,12 +22,12 @@ permissions:
 
 jobs:
   replay:
-    # Active provisional leaf: this verifier is intentionally controller-bound
-    # until hostile audit promotes or rejects the 16->3 transvection bundle.
+    # Hostile-audited historical bundle.  This replay intentionally remains
+    # valid under successor controllers while preserving the exact 16->3 math.
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Certify Weierstrass parity transvection 16-to-3 refinement
-        run: python stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q602_weierstrass_parity_transvection_refinement.py --check stages/stage32/residual-32-01-production/post1505-o210-q602-weierstrass-parity-transvection-refinement.json
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q602_weierstrass-parity-transvection-refinement.py --check stages/stage32/residual-32-01-production/post1505-o210-q602-weierstrass-parity-transvection-refinement.json
