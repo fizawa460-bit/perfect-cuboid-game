@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V227_POST1501_GEOMETRY_NEGATIVE_REPAIR",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V228_POST1501_GEOMETRY_NEGATIVE_AUDIT_PASS_CHECKPOINT",
   "stage": 32,
-  "status": "STAGE32_O210_ROSATI_TRACE_1204_Q602_GEOMETRY_AUDITED_NEGATIVE_AWAITING_HOSTILE_REAUDIT",
+  "status": "STAGE32_O210_ROSATI_TRACE_1204_Q602_GEOMETRY_AUDITED_NEGATIVE_HOSTILE_AUDIT_PASS_MERGE_READY",
   "stage32_closed": false,
   "advance_allowed": false,
-  "merge_allowed": false,
-  "checkpoint_merge_ready": false,
+  "merge_allowed": true,
+  "checkpoint_merge_ready": true,
   "active_pr": {
     "number": 1501,
     "branch": "stage32-post1500-o210-rosati-geometry",
@@ -104,6 +104,14 @@
     ],
     "narrow_math_conclusion_retained": "Current admitted common-cover/marked-branch geometry does not by itself provide a source-locked strict Rosati improvement or other exclusion of sigma=1204 / Q=602."
   },
+  "post1501_hostile_reaudit_pass": {
+    "review_id": 5098198995,
+    "audited_exact_head": "d0150e6d5d409c04e98d4a13ce926f383447fe3b",
+    "exact_head_ci": {"run_id":33719383384,"job_id":100535199478,"result":"SUCCESS"},
+    "verdict": "PASS",
+    "audited_scope": "Negative closed-world handoff only: admitted common-cover/marked-branch/ramification evidence does not provide a new strict Rosati exclusion. O210 remains open; O212+ remains blocked; no downstream mathematical credit is promoted.",
+    "authority_promotion": "NONE"
+  },
   "post1501_geometry_negative_lane": {
     "status": "AUDITED_NEGATIVE",
     "audit_note_path": "stages/stage32/residual-32-01-production/post1500-common-cover-marked-branch-geometry-audit.md",
@@ -117,7 +125,7 @@
   "current_leaf": {
     "status": "AUDITED_NEGATIVE",
     "target": "Do not repeat the exhausted common-cover/marked-branch generic inference. Re-enter only with a new source-locked coupling theorem/certificate, a local intersection/ramification calculation forcing strict Rosati loss, or a certified contribution identification/collision excluding sigma=1204 / Q=602.",
-    "next_checkpoint": "Hostile re-audit PR #1501 at the repaired exact head with the dedicated geometry verifier wired into exact-head CI. Until PASS, merge is forbidden. After a PASS/merge, O210 still remains open and O212+ remains blocked unless new qualifying evidence is admitted.",
+    "next_checkpoint": "Merge PR #1501 as the hostile-audited negative checkpoint. After merge, O210 remains open at sigma=1204/Q=602; continue only from newly admitted qualifying source-locked evidence. O212 and later overlaps remain blocked.",
     "O212_and_later_blocked": true
   },
   "anti_loop": {
@@ -154,7 +162,7 @@
     "receiver_theorem_endpoint": "OPEN"
   },
   "operations": {
-    "execution_class": "LIGHTWEIGHT_POST1501_GEOMETRY_NEGATIVE_HANDOFF_REPAIR",
+    "execution_class": "LIGHTWEIGHT_POST1501_GEOMETRY_NEGATIVE_AUDIT_PASS_CHECKPOINT",
     "full178_scaleout_authorized": false,
     "heavy_compute_authorized": false,
     "survivor_materialization_authorized": false,
@@ -165,16 +173,18 @@
     "certificate_path": "stages/stage32/residual-32-01-production/post1500-common-cover-marked-branch-geometry-certificate.json",
     "workflow": ".github/workflows/stage32-post1500-common-cover-marked-branch-geometry.yml",
     "workflow_name": "Stage32 post1500 common-cover geometry negative replay",
+    "audited_head_success": {"head":"d0150e6d5d409c04e98d4a13ce926f383447fe3b","run_id":33719383384,"job_id":100535199478,"result":"SUCCESS"},
     "required_checks": [
       "parse live controller and assert fixed target O210 / active PR #1501 / O212+ blocked",
       "recompute admitted repair source-note Git blob SHA-1",
       "assert source-note and controller agree on Gamma^2=15806, sigma=1204, Q=602, operator bound 8505, Weierstrass delta minimum 1924",
       "assert certificate authority_before equals authority_after at O210",
-      "assert #1501 negative handoff and anti-loop state are represented in controller"
+      "assert #1501 negative handoff and anti-loop state are represented in controller",
+      "when hostile PASS is registered, require review 5098198995 / audited head d0150e6d... / exact-head CI 33719383384 job 100535199478 before allowing merge-ready state"
     ]
   },
-  "audit_required_before_promotion": true,
-  "next_expected_action": "Run exact-head CI containing the dedicated #1501 geometry verifier, then hostile re-audit PR #1501. Do not merge before hostile-audit PASS. Do not resume O212+ or repeat the negative geometry lane without newly admitted source-locked coupling evidence.",
+  "audit_required_before_promotion": false,
+  "next_expected_action": "Merge PR #1501 as the hostile-audited negative checkpoint. Do not advance O212 or grant downstream credit. After merge, continue O210 only from newly admitted source-locked evidence satisfying the recorded re-entry conditions.",
   "firewalls": {
     "O186_closed": true,
     "O188_closed": true,
@@ -190,10 +200,10 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "handoff": {
-    "batch": "20260903-stage32-post1501-geometry-negative-repair",
+    "batch": "20260903-stage32-post1501-geometry-negative-audit-pass-checkpoint",
     "continue_from": "O210_Q4_ROSATI_TRACE_1204_GEOMETRY_AUDITED_NEGATIVE",
-    "fresh_head_required": false,
-    "do_not_merge": true,
-    "notes": "Hostile audit review 5097957179 failed exact head 2ac50a1748... on authority/source-lock/verifier/handoff defects, not on the narrow negative geometry conclusion. The repaired #1501 lane stays at O210, removes unsupported 376 and W=128 claims, locks source-note blob b0ea281e..., parses controller/source content in its verifier, and requires a dedicated exact-head CI replay. O210 remains open at sigma=1204/Q=602; O212+ stays blocked. Re-enter the geometry lane only with new source-locked coupling evidence."
+    "fresh_head_required": true,
+    "do_not_merge": false,
+    "notes": "Hostile re-audit review 5098198995 PASSed exact head d0150e6d... with exact-head workflow 33719383384 / job 100535199478 SUCCESS. #1501 is merge-ready as a negative closed-world checkpoint only. Authority remains O210 open at sigma=1204/Q=602; O212+ remains blocked; no downstream credit is promoted. The common-cover/marked-branch generic lane is anti-loop closed and may be re-entered only with newly admitted source-locked coupling evidence."
   }
 }
