@@ -83,6 +83,13 @@
     "audited_scope": "V225 repair/nonexclusion boundary only; validates Gamma^2=15806, sigma=1204, Q=602, delta_Gamma=7984 and the exact nonexclusion of Q602 by retained D4/operator/Weierstrass assets. Does not exclude O210 and does not authorize O212+ advance.",
     "authority_promotion": "AUDITED_EXACT_NONEXCLUSION_BOUNDARY"
   },
+  "promotion_head_replay": {
+    "head": "614d99ff01ec311c17b98f5506854cd73d5b71e7",
+    "run_id": 33714830176,
+    "job_id": 100521685882,
+    "result": "SUCCESS",
+    "scope": "Controller-only V226 audit promotion replay; mathematical repair certificate/verifier unchanged from the audited V225 boundary."
+  },
   "current_item": "O210_Q4_ROSATI_TRACE_1204_GEOMETRY",
   "current_leaf": {
     "status": "AUDITED_EXACT_NONEXCLUSION_BOUNDARY",
@@ -134,10 +141,10 @@
     "workflow": ".github/workflows/stage32-post1490-fixed-v6-all-genus1-exclusion.yml",
     "workflow_name": "Stage32 post1500 hostile-audit Rosati repair replay",
     "audited_head_success": {"head":"067eb659e97f6b65b02d5135e9bfd4cf8bc3d7ad","run_id":33713913472,"job_id":100518980436,"result":"SUCCESS"},
-    "promotion_head_exact_success_required": true
+    "promotion_head_success": {"head":"614d99ff01ec311c17b98f5506854cd73d5b71e7","run_id":33714830176,"job_id":100521685882,"result":"SUCCESS"}
   },
   "audit_required_before_promotion": false,
-  "next_expected_action": "Run the repair verifier at the V226 promotion head. If SUCCESS, merge PR #1500 as the audited repair checkpoint. Do not advance O212 or grant downstream credit; continue O210 Rosati-trace geometry in a fresh post-merge PR.",
+  "next_expected_action": "Merge PR #1500 as the audited repair checkpoint. Do not advance O212 or grant downstream credit; continue O210 Rosati-trace geometry in a fresh post-merge PR.",
   "firewalls": {
     "O186_closed": true,
     "O188_closed": true,
@@ -157,6 +164,6 @@
     "continue_from": "O210_Q4_ROSATI_TRACE_1204_GEOMETRY",
     "fresh_head_required": true,
     "do_not_merge": false,
-    "notes": "V225 repair/nonexclusion boundary passed hostile audit review 5097673453 at exact head 067eb659e... with replay 33713913472/100518980436 SUCCESS. Authority is audited nonexclusion at Gamma^2=15806, sigma=1204, Q=602, delta=7984. #1490 O210 exclusion remains reopened; V224 remains superseded; O212+ blocked. This PR is merge-ready only as a repair checkpoint after the V226 promotion-head verifier passes."
+    "notes": "V225 repair/nonexclusion boundary passed hostile audit review 5097673453 at exact head 067eb659e... with replay 33713913472/100518980436 SUCCESS. Authority is audited nonexclusion at Gamma^2=15806, sigma=1204, Q=602, delta=7984. #1490 O210 exclusion remains reopened; V224 remains superseded; O212+ blocked. V226 promotion head 614d99ff... replay 33714830176/100521685882 SUCCESS. PR #1500 is merge-ready as a repair checkpoint."
   }
 }
