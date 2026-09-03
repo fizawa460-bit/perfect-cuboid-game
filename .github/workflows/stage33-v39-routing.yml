@@ -1,0 +1,41 @@
+name: Stage33 V39 locator-first routing
+
+on:
+  pull_request:
+    paths:
+      - 'docs/evidence-locator/**'
+      - 'docs/research-os/policies/repository-asset-discovery.md'
+      - 'stages/stage33/33-12/j2-post-v38-locator-first-construction-policy-v39.json'
+      - 'stages/stage33/33-12/verify_j2_post_v38_locator_first_construction_policy_v39.py'
+      - 'stages/stage33/33-12/verify_j2_post_v36_controller_generator_sync_v38.py'
+      - 'stages/stage33/MAIN-START-HERE.md'
+      - 'stages/stage33/MAIN-STATE.json'
+      - 'stages/stage33/CURRENT.md'
+      - 'stages/stage33/controller.json'
+      - 'stages/stage33/sync_main_state.py'
+      - '.github/workflows/stage33-v39-routing.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage33-v39-routing-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-routing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify V39 locator-first construction contract
+        run: |
+          python stages/stage33/33-12/verify_j2_post_v38_locator_first_construction_policy_v39.py
+          python stages/stage33/sync_main_state.py --check
+          git diff --check
