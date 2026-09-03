@@ -48,7 +48,8 @@ GitHub Actions・大量並列・長時間計算・大量artifactを伴う作業�
 - [`frontier/13-active-kernels.md`](frontier/13-active-kernels.md) — Stage29-close後に残った13 kernelを、分類②/③・exact wall・既知入力・再開条件つきで一覧化。
 - [`frontier/11-route-to-13-kernel-map.md`](frontier/11-route-to-13-kernel-map.md) — 歴史的11 routeと現在の13 kernelの対応関係。
 - [`frontier/dormant-16-vault.md`](frontier/dormant-16-vault.md) — Class-4 dormant 16件の再起動条件つき保管庫。
-- [`arsenal/README.md`](arsenal/README.md) — 再利用可能な定理・構成・adapter・探索武器の入口。
+- [`arsenal/README.md`](arsenal/README.md) — Arsenal の短い入口と authority/maturity 規則。
+- [`arsenal/catalog.md`](arsenal/catalog.md) — ID・役割・Stage・成熟度から引く自動生成カタログ。
 - [`arsenal/deep-source-index.md`](arsenal/deep-source-index.md) — Stage14巨大Arsenal/Toolbox/数値ログ、StructureRadar、Stage20-28 promotionを「何を探したいか」から辿る深掘り索引。
 - [`research-os/README.md`](research-os/README.md) — 問題固有でない研究運用ルールの入口。
 - [`archive/README.md`](archive/README.md) — 旧CURRENT、roadmap、reentry、運用メモなどの履歴。

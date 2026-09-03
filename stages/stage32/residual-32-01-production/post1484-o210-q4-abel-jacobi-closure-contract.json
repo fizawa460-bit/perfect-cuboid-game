@@ -1,0 +1,88 @@
+{
+  "schema": "STAGE32_POST1490_O210_Q4_ABEL_JACOBI_CLOSURE_CONTRACT_V1",
+  "stage": 32,
+  "leaf": "POST1490_O210_Q4_ABEL_JACOBI_CLOSURE_CONTRACT",
+  "status": "OPEN_EXECUTABLE_DATA_CONTRACT_NO_TARGET_VERDICT",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "d": 186,
+    "e": 266,
+    "genus": 1,
+    "z": [-15, 62, -44, 26, 32]
+  },
+  "source_locks": {
+    "abel_jacobi_reduction": {
+      "path": "stages/stage32/residual-32-01-production/post1484-o210-q4-half-ramification-abel-jacobi-reduction.json",
+      "blob_sha1": "44b135bdda2575dd31de081a503d95a73214bb75",
+      "canonical_sha256": "3c58d7cc3d7faab1a59ff5cec793ebee57e69024f7ebee407f89dbb3f07328f2"
+    }
+  },
+  "retained_exact_input": {
+    "curve": "genus-one normalization N",
+    "map_degrees": {"z": 105, "w": 81},
+    "degree_E": 24,
+    "degree_R_z": 210,
+    "degree_R_w": 162,
+    "degree_zero_check": "2*24-210+162=0",
+    "class_condition": "[2E - R_z + R_w] = 0 in Pic^0(N)"
+  },
+  "closed_false_routes": {
+    "linear_equivalence_itself_is_obstruction": false,
+    "abstract_degree24_effectivity_is_obstruction": false,
+    "resolved_surface_picard_pairings_supply_normalization_pic0": false,
+    "known_marked_fiber_principal_relations_are_complete_principal_divisor_lattice": false,
+    "coarse_quotient_nonzero_certifies_nonprincipal": false
+  },
+  "coarse_relation_firewall": {
+    "statement": "A nonzero class after quotienting only by retained marked-fiber principal relations is inconclusive: additional principal divisors on N may kill it.",
+    "allowed_use": "Retained principal relations may certify a displayed equality when they explicitly generate it; they may not certify nonprincipality without completeness.",
+    "completeness_source_locked": false
+  },
+  "minimal_source_locked_instance": {
+    "purpose": "Make the support-constrained Pic^0 leaf decidable by exact replay instead of another source search.",
+    "required": [
+      "exact genus-one model N or exact Jacobian J",
+      "chosen origin / Pic^0 identification",
+      "exact Abel-Jacobi images of every point used by the decision divisor",
+      "integer multiplicities of the decision divisor",
+      "source provenance and model-change data sufficient to replay all coordinates"
+    ],
+    "decision_divisor": "2E - R_z + R_w",
+    "required_degree": 0,
+    "accepted_reference_backend": {
+      "profile": "short_weierstrass_Q_v1",
+      "equation": "y^2 = x^3 + A*x + B",
+      "coordinate_domain": "Q",
+      "point_encoding": "null for identity, otherwise [rational_x,rational_y] with rational as integer or p/q string",
+      "verdict": "exact elliptic-curve group sum of the declared degree-zero decision divisor"
+    },
+    "non_Q_or_other_model": "Requires an exact backend plus an explicit source-locked change-of-model/Pic^0 map; do not coerce silently."
+  },
+  "verifier_semantics": {
+    "contract_only_without_instance": "PASS means only that this closure contract is internally exact and source-locked; it is not an O210 verdict.",
+    "with_instance": "PASS reports whether the exact declared group sum is the identity; only a source-locked instance matching the required support/divisor semantics can be promoted.",
+    "target_exclusion_from_contract_only": false
+  },
+  "decision": {
+    "O210_excluded": false,
+    "exact_closure_interface_installed": true,
+    "source_locked_pic0_instance_available": false,
+    "result": "ABEL_JACOBI_CLOSURE_CONTRACT_INSTALLED_AWAITING_SOURCE_LOCKED_INSTANCE",
+    "next_exact_leaf": "O210_Q4_SOURCE_LOCKED_NORMALIZATION_PIC0_INSTANCE"
+  },
+  "firewalls": {
+    "O188_reopened": false,
+    "old_93_93_odd_etale_route_reopened": false,
+    "first_hurwitz_reopened": false,
+    "scalar_T_only_reopened": false,
+    "surface_picard_support_reused_for_E": false,
+    "carrier_existence_proved": false,
+    "full178_authorized": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "canonical_sha256_without_this_field": "730c2c704216911472f9a59f626b720931938827e433dc3a77fbf441d7c281ef"
+}

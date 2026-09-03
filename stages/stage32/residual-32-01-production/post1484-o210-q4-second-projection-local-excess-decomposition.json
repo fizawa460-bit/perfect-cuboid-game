@@ -1,0 +1,120 @@
+{
+  "schema": "STAGE32_POST1484_O210_Q4_SECOND_PROJECTION_LOCAL_EXCESS_DECOMPOSITION_V1",
+  "stage": 32,
+  "leaf": "POST1484_O210_Q4_SECOND_PROJECTION_LOCAL_EXCESS_DECOMPOSITION",
+  "status": "PROVISIONAL_EXACT_LOCAL_REDUCTION_PENDING_HOSTILE_AUDIT",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "d": 186,
+    "e": 266,
+    "genus": 1,
+    "z": [-15, 62, -44, 26, 32]
+  },
+  "source_locks": {
+    "audited_bidegree": {
+      "path": "stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-boundary.json",
+      "blob_sha1": "072266f2ac5386316adc99e35a6444d2449656c8",
+      "canonical_sha256": "791870c37681702392e1e59d224f494ed791709d467efa68a20cf49bff4ab420"
+    },
+    "local_parity_adapter": {
+      "path": "stages/stage32/residual-32-01-production/post1473-o188-cusp-ramification-budget.json",
+      "blob_sha1": "dd5fdb8d2553d25a1479c1e5cff68a201c8396e3",
+      "canonical_sha256": "318ac76ca5baf9e5f7f7a2300628b432f3b5fbb718f2bd21bc7a4f13b9cf3328"
+    },
+    "resolved_fiber_source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-source-note.md",
+      "blob_sha1": "deeecac5599f3b542b445cd87c2070dae488bc85"
+    },
+    "second_projection_accounting": {
+      "path": "stages/stage32/residual-32-01-production/post1484-o210-q4-second-projection-ramification-accounting.json",
+      "blob_sha1": "3f7f10d1c4135c08a18de88cec45735a6b355e35",
+      "canonical_sha256": "e209697af676d824508c7ee396434436d487fdf7644df97a916d7097307873fc"
+    },
+    "common_cover_cartesian": {
+      "path": "stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json",
+      "blob_sha1": "def8b60b726c02aa7ee97c0cc25b34f43525ec34",
+      "canonical_sha256": "eb31183bf519fec4ad5bb2d0799b3f0a64b7af893308e09ce0c33119b63440a1"
+    },
+    "source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1484-o210-q4-second-projection-local-excess-source-note.md",
+      "blob_sha1": "edd458c8059988ec56d2ea3754e2d390a6003ec1"
+    }
+  },
+  "audited_inputs": {
+    "qprime": 4,
+    "modular_factor_degrees_N_to_X4": [105, 81],
+    "descended_projection_degrees_Y_to_C0": [105, 81],
+    "descended_projection_ramification_totals": [0, 48],
+    "exceptional_contact_histogram": {"m1": 210, "m2": 28, "B": 238, "mass": 266},
+    "first_factor_C_dot_L_total": 182,
+    "second_factor_C_dot_L_total": 110,
+    "T_range": [86, 110]
+  },
+  "first_projection_rigidity": {
+    "reason": "The degree-105 descended first map Y->C0 has total ramification zero.",
+    "exceptional_contact_rule": "A1=m at every exceptional contact.",
+    "odd_m1": {"local_degree_on_Y": "A1", "etale_forces_A1": 1},
+    "even_m2": {"two_local_degrees_on_Y": "A1/2", "etale_forces_A1": 2},
+    "first_exceptional_endpoint_excess_units": 0,
+    "strict_boundary_only_rule": "If the first strict-boundary intersection multiplicity is r, the two descended local degrees are r; etaleness forces r=1.",
+    "first_strict_boundary_intersections_transverse": true,
+    "first_strict_boundary_distinct_points": 182
+  },
+  "second_projection_local_units": {
+    "exceptional": {
+      "exponent_form": "A2=m+2*k_P",
+      "k_P_nonnegative_integer": true,
+      "geometric_meaning": "k_P is the second strict-boundary intersection multiplicity at the exceptional endpoint in the A1-resolution chart.",
+      "descended_ramification_contribution": "2*k_P",
+      "unit_sum": "U_exc=sum_P k_P"
+    },
+    "strict_boundary_only": {
+      "intersection_multiplicity": "r_Q>=1",
+      "N_to_X4_local_degree": "2*r_Q",
+      "descended_ramification_contribution": "2*(r_Q-1)",
+      "unit_sum": "U_strict=sum_Q (r_Q-1)"
+    },
+    "away_from_cusps": {
+      "local_degree": "e_Q>=2",
+      "common_quadratic_cover_etale": true,
+      "descended_ramification_contribution": "2*(e_Q-1)",
+      "unit_sum": "U_away=sum_Q (e_Q-1)"
+    }
+  },
+  "global_unit_budget": {
+    "total_descended_second_ramification": 48,
+    "identity": "U_exc+U_strict+U_away=24",
+    "unit_budget": 24,
+    "strict_boundary_identity": "110=U_exc+T+U_strict",
+    "T_refinement": {
+      "U_exc_plus_U_strict": "110-T",
+      "U_away": "T-86",
+      "T_min": 86,
+      "T_max": 110
+    },
+    "extremes": {
+      "T86": {"cusp_excess_units": 24, "away_units": 0},
+      "T110": {"cusp_excess_units": 0, "away_units": 24}
+    }
+  },
+  "decision": {
+    "O210_excluded": false,
+    "standalone_scalar_budget_excludes": false,
+    "exact_localization_complete": true,
+    "result": "EXACT_24_UNIT_LOCAL_EXCESS_REDUCTION_NO_STANDALONE_EXCLUSION",
+    "meaning": "All second-map ramification is reduced to 24 nonnegative integral units distributed among exceptional endpoint excess, strict-boundary tangency, and off-cusp ramification on the same common-cover geometry.",
+    "next_exact_leaf": "O210_Q4_SIMULTANEOUS_105_81_CORRESPONDENCE_24_UNIT_EXCESS"
+  },
+  "firewalls": {
+    "O188_reopened": false,
+    "old_93_93_odd_etale_route_reopened": false,
+    "carrier_existence_proved": false,
+    "full178_authorized": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "canonical_sha256_without_this_field": "cb45edddd1f4439359f6e826d5dd0de9a1dfc1ee0bc81b6fcdd96f1fe39890a6"
+}

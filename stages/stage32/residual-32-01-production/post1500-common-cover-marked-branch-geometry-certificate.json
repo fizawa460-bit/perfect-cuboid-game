@@ -1,0 +1,76 @@
+{
+  "schema_version": 2,
+  "stage": 32,
+  "lane": "post1500-common-cover-marked-branch-geometry",
+  "base_pr": 1500,
+  "repair_pr": 1501,
+  "status": "AUDITED_NEGATIVE",
+  "authority_before": {
+    "checkpoint": "O210",
+    "fixed_overlap": 210,
+    "sigma_gamma": 1204,
+    "q_total": 602,
+    "o210_closed": false,
+    "o212_plus_authorized": false
+  },
+  "admitted_inputs": {
+    "controller": {
+      "path": "stages/stage32/controller.json",
+      "verification": "parse_live_content"
+    },
+    "repair_source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md",
+      "git_blob_sha1": "b0ea281eae453929c292059a919bc1f68b3080b3"
+    }
+  },
+  "source_locked_nonexclusion_facts": {
+    "gamma_square": 15806,
+    "sigma_gamma": 1204,
+    "q_total": 602,
+    "d4_direct_sum_d4_represents_q602": true,
+    "one_d4_norm602_shell_count": 8448,
+    "operator_constraint": {
+      "statement": "T^dagger*T <= 8505",
+      "bound": 8505,
+      "excludes_q602": false
+    },
+    "weierstrass": {
+      "delta_gamma_lower_bound": 1924,
+      "corrected_delta_gamma": 7984,
+      "excludes_corrected_delta": false
+    }
+  },
+  "geometry_question": "Does the already-admitted common-cover / marked-branch / ramification geometry itself force a strict Rosati loss or otherwise exclude sigma(Gamma)=1204 / Q(T)=602?",
+  "result": {
+    "new_geometric_exclusion_certified": false,
+    "strict_rosati_loss_certified": false,
+    "reason": "No admitted source-locked theorem or local certificate couples the shared-cover / marked-branch / ramification data to a strict Rosati loss or other exclusion of the exact required value."
+  },
+  "authority_after": {
+    "checkpoint": "O210",
+    "fixed_overlap": 210,
+    "sigma_gamma": 1204,
+    "q_total": 602,
+    "o210_closed": false,
+    "o212_plus_authorized": false
+  },
+  "required_new_evidence": [
+    "source-locked common-cover/branch/ramification to Rosati-entry coupling theorem or exact certificate",
+    "source-locked local intersection/multiplicity/ramification calculation forcing strict Rosati loss",
+    "source-locked contribution identification/collision excluding sigma=1204 or Q=602"
+  ],
+  "anti_loop": [
+    "Do not rerun the bounded D4/operator/Weierstrass nonexclusion checks without a new local coupling premise.",
+    "Do not treat shared-cover or marked-branch structure alone as a Rosati strictness theorem.",
+    "Do not resume O212+ while O210 remains open."
+  ],
+  "supersedes_failed_head_claims": {
+    "review_id": 5097957179,
+    "exact_head": "2ac50a1748a357a71783ab180e62295d5d3e6494",
+    "removed": [
+      "O211 checkpoint",
+      "pair-operator combined upper bound 376",
+      "W=128 -> p>=32 as an admitted source-note fact"
+    ]
+  }
+}

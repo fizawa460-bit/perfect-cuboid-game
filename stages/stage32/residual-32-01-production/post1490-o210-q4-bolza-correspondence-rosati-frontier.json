@@ -1,0 +1,150 @@
+{
+  "schema": "STAGE32_POST1490_O210_Q4_BOLZA_CORRESPONDENCE_ROSATI_FRONTIER_V1",
+  "stage": 32,
+  "leaf": "POST1490_O210_Q4_BOLZA_CORRESPONDENCE_ROSATI_FRONTIER",
+  "status": "PROVISIONAL_EXACT_TARGET_IDENTIFICATION_AND_ENDOMORPHISM_FRONTIER_PENDING_HOSTILE_AUDIT",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "d": 186,
+    "e": 266,
+    "genus": 1,
+    "z": [
+      -15,
+      62,
+      -44,
+      26,
+      32
+    ],
+    "O": 210,
+    "qprime": 4
+  },
+  "source_locks": {
+    "v4_cusp_quotient": {
+      "path": "stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json",
+      "blob_sha1": "00eaebc3c57f6b5e3696c7bcd60eac5a53121f72",
+      "canonical_sha256": "2869208e7509d7b79378264ea1982299b0f1745b1a54c5856cfbba0754567ce5"
+    },
+    "common_double_cover": {
+      "path": "stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json",
+      "blob_sha1": "def8b60b726c02aa7ee97c0cc25b34f43525ec34",
+      "canonical_sha256": "eb31183bf519fec4ad5bb2d0799b3f0a64b7af893308e09ce0c33119b63440a1"
+    },
+    "bidegree_boundary": {
+      "path": "stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-boundary.json",
+      "blob_sha1": "072266f2ac5386316adc99e35a6444d2449656c8",
+      "canonical_sha256": "791870c37681702392e1e59d224f494ed791709d467efa68a20cf49bff4ab420"
+    },
+    "retained_beauville_stage32_note": {
+      "path": "stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-beauville-odd-branch-wall.md",
+      "blob_sha1": "cb20a9b287430c2e238f79d3151500c262905468"
+    },
+    "source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-source-note.md",
+      "blob_sha1": "25e365475b41c917a4bab5acc06bda5e9738b8e7"
+    },
+    "beauville_external": {
+      "arxiv": "1303.1910v2",
+      "title": "A tale of two surfaces",
+      "section": "2",
+      "exact_supported_facts": [
+        "free even-sign V4 quotient of the genus-5 cuboid curve is genus 2",
+        "cuboid example quotient has equation s^2=x(x^4-1)",
+        "the example gives the surface of cuboids"
+      ]
+    },
+    "bolza_jacobian_external": {
+      "arxiv": "1904.00793v4",
+      "doi": "10.1307/mmj/1595405184",
+      "title": "The Bolza curve and some orbifold ball quotient surfaces",
+      "locators": [
+        "Introduction",
+        "Section 4"
+      ],
+      "exact_supported_facts": [
+        "A=E x E with E=C/Z[i*sqrt(2)]",
+        "A is the Jacobian of the Bolza genus-2 curve"
+      ]
+    }
+  },
+  "fixed_correspondence": {
+    "target_curve": {
+      "name": "C0",
+      "genus": 2,
+      "bolza_model": "s^2=x(x^4-1)",
+      "usual_model": "s^2=x^5-x",
+      "hyperelliptic_branch_values": [
+        "0",
+        "infinity",
+        "1",
+        "-1",
+        "i",
+        "-i"
+      ]
+    },
+    "source_curve": {
+      "name": "Y",
+      "genus": 106
+    },
+    "maps": {
+      "f1": {
+        "degree": 105,
+        "ramification_degree": 0,
+        "etale": true
+      },
+      "f2": {
+        "degree": 81,
+        "ramification_degree": 48,
+        "etale": false
+      }
+    },
+    "riemann_hurwitz_checks": {
+      "f1": "2*106-2=105*(2*2-2)+0=210",
+      "f2": "2*106-2=81*(2*2-2)+48=210"
+    }
+  },
+  "jacobian_lattice": {
+    "unpolarized_isomorphism": "J(C0) ~= E^2",
+    "E": "C/Z[sqrt(-2)]",
+    "endomorphism_ring": "M_2(Z[sqrt(-2)])",
+    "z_rank": 8,
+    "product_rosati_assumed": false,
+    "missing_exact_input": "principal-polarization/Rosati involution in the chosen E^2 coordinates"
+  },
+  "correspondence_endomorphism": {
+    "definition": "T=(f1)_*(f2)^* in End(J(C0))",
+    "diagonal_relations": [
+      "(f1)_*(f1)^*=[105]",
+      "(f2)_*(f2)^*=[81]"
+    ],
+    "rosati_gram_matrix": "[[105,T],[T^dagger,81]]=Phi^dagger Phi",
+    "positive_semidefinite": true,
+    "schur_bound": "T^dagger*T <= 8505",
+    "bound_scalar": 8505,
+    "finite_integral_frontier_after_rosati_lock": true,
+    "sufficient_for_geometric_realization": false
+  },
+  "decision": {
+    "O210_excluded": false,
+    "new_independent_correspondence_constraint": true,
+    "bolza_target_identified": true,
+    "finite_endomorphism_frontier_reduced": true,
+    "rosati_matrix_source_locked": false,
+    "result": "BOLZA_ENDOMORPHISM_LATTICE_FIXED_ROSATI_ENUMERATION_FRONTIER_OPEN",
+    "next_exact_leaf": "O210_Q4_BOLZA_ROSATI_LATTICE_ENUMERATION"
+  },
+  "firewalls": {
+    "O186_reopened": false,
+    "O188_reopened": false,
+    "abel_jacobi_zero_reopened": false,
+    "old_93_93_both_etale_route_reused": false,
+    "product_rosati_assumed": false,
+    "carrier_existence_proved": false,
+    "full178_authorized": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "canonical_sha256_without_this_field": "a565673dd6cc6c4b732a18f1e4adba4febbde497387b70e81cc4b64c29004ce3"
+}

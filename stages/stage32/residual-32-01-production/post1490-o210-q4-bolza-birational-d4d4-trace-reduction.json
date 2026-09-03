@@ -1,0 +1,126 @@
+{
+  "schema": "STAGE32_POST1490_O210_Q4_BOLZA_BIRATIONAL_D4D4_TRACE_REDUCTION_V1",
+  "stage": 32,
+  "leaf": "POST1490_O210_Q4_BOLZA_BIRATIONAL_D4D4_TRACE_REDUCTION",
+  "status": "PROVISIONAL_EXACT_ROSATI_ONLY_NONEXCLUSION_PENDING_HOSTILE_AUDIT",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "d": 186,
+    "e": 266,
+    "genus": 1,
+    "z": [-15,62,-44,26,32],
+    "O": 210,
+    "qprime": 4
+  },
+  "source_locks": {
+    "common_double_cover": {
+      "path": "stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json",
+      "blob_sha1": "def8b60b726c02aa7ee97c0cc25b34f43525ec34",
+      "canonical_sha256": "eb31183bf519fec4ad5bb2d0799b3f0a64b7af893308e09ce0c33119b63440a1"
+    },
+    "product_cover_v4": {
+      "path": "stages/stage32/residual-32-01-production/post1473-product-cover-v4-character-rank-reduction.json",
+      "blob_sha1": "01ab580662a76ccda0fc0e3cc44f09f705825942",
+      "canonical_sha256": "509635ab9964de7e7eecb41277b892589a7bb418676d8e76bd99b20607dac9dd"
+    },
+    "principal_rosati": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json",
+      "blob_sha1": "e28c4533883440ea0963d4d4e8859aa95409cf10",
+      "canonical_sha256": "8d828cdf6d1f5cb1d790c46292535dc252e503356e1047ce972c41e61f524529"
+    },
+    "source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-birational-d4d4-trace-reduction-source-note.md",
+      "blob_sha1": "358c1cffdb10d72191378b76f63efd2ef9f1881e"
+    },
+    "correspondence_intersection_external": {
+      "authors": ["Igor Dolgachev","Yuri G. Zarhin"],
+      "title": "Endomorphisms of Complex Abelian Varieties",
+      "version_date": "2025-04-08",
+      "locator": "Chapter 10, Section 10.1, equations (10.3)-(10.4) and Rosati factor-switch paragraph",
+      "exact_supported_fact": "For a correspondence D of bidegree (d1,d2), sigma(D)=2*d1*d2-D^2=2*d1*d2+(2g-2)(d1+d2)-2*p_a(D)+2, and sigma is the rational Rosati trace pairing."
+    },
+    "four_square_external": {
+      "author": "M. D. Hirschhorn",
+      "title": "A simple proof of Jacobi's four-square theorem",
+      "journal": "J. Austral. Math. Soc. (Series A) 32 (1982), 61-67",
+      "locator": "formula (1.1)",
+      "exact_supported_fact": "r4(n)=8*sum_{d|n,4 does not divide d} d."
+    }
+  },
+  "pair_map_birationality": {
+    "cover": "X=P/H_diag -> C0 x C0=P/(H x H)",
+    "deck_group": "(H x H)/H_diag ~= V4",
+    "finite_etale_degree": 4,
+    "projection_degrees": [105,81],
+    "generic_pair_degree_allowed_by_deck_stabilizer": [1,2,4],
+    "generic_pair_degree_divides_gcd": 3,
+    "generic_pair_degree": 1,
+    "pair_map_birational": true,
+    "image_integral": true,
+    "normalization_genus": 106
+  },
+  "correspondence_trace": {
+    "image_curve": "Gamma subset C0 x C0",
+    "arithmetic_genus": "106+delta",
+    "delta_nonnegative": true,
+    "rational_rosati_trace": "Tr_Q(T^dagger*T)=17172-2*delta",
+    "matrix_trace_definition": "Q(T)=tr_2(H^{-1}*bar(T)^t*H*T)",
+    "matrix_trace_relation": "Tr_Q(T^dagger*T)=2*Q(T)",
+    "exact_identity": "Q(T)=8586-delta",
+    "trace_upper_bound": 8586,
+    "trace_even": true,
+    "delta_even": true
+  },
+  "trace_lattice": {
+    "ring": "Z[r], r^2=-2",
+    "coordinate_order": ["t11.a","t11.b","t12.a","t12.b","t21.a","t21.b","t22.a","t22.b"],
+    "gram_matrix": [[4,0,-2,-4,2,-4,-3,0],[0,8,4,-4,4,4,0,-6],[-2,4,4,0,1,4,2,-4],[-4,-4,0,8,-4,2,4,4],[2,4,1,-4,4,0,-2,-4],[-4,4,4,2,0,8,4,-4],[-3,0,2,4,-2,4,4,0],[0,-6,-4,4,-4,-4,0,8]],
+    "gram_determinant": 16,
+    "minimum_norm": 2,
+    "root_count_norm2": 48,
+    "unimodular_change_of_basis_columns": [[1,1,0,1,-2,0,-1,-1],[-2,0,-1,-1,1,-1,1,0],[1,0,0,1,0,1,-1,0],[1,0,0,0,0,0,1,0],[1,1,0,1,-1,0,-1,0],[-2,0,-1,-1,1,-1,2,0],[1,0,0,1,-1,0,-1,-1],[1,0,0,0,-1,1,-1,0]],
+    "change_of_basis_determinant": 1,
+    "d4_gram": [[2,-1,0,0],[-1,2,-1,-1],[0,-1,2,0],[0,-1,0,2]],
+    "isometry": "U^t*A*U = D4 direct-sum D4"
+  },
+  "exact_preflight": {
+    "d4_shell_formula": "a(0)=1; a(m)=24*sum_{d|m,d odd} d for m>=1 counts D4 vectors of norm 2m",
+    "trace_limit": 8586,
+    "half_trace_limit": 4293,
+    "count_Q_le_8586": 5516362054085041,
+    "automatic_operator_survivor_trace_limit": 8504,
+    "automatic_operator_survivor_half_trace_limit": 4252,
+    "count_Q_le_8504": 5309821812906193,
+    "remaining_shell_low": 8506,
+    "remaining_shell_high": 8586,
+    "remaining_shell_count": 206540241178848,
+    "old_operator_bound": 8505,
+    "automatic_implication": "For A=T^dagger*T >=0, Q(T)=tr(A)<=8505 implies A<=8505*I; Q is even, so Q<=8504 is automatic.",
+    "shell_operator_equivalence": "For 8506<=Q<17010, A<=8505*I iff Norm(det T)>=8505*Q-8505^2.",
+    "frontier_materialization_safe": false,
+    "reason": "More than 5.3 quadrillion integral endomorphisms already satisfy both trace and old operator bounds before geometric common-cover/Weierstrass constraints."
+  },
+  "decision": {
+    "O210_excluded": false,
+    "rosati_only_route_excluding": false,
+    "pair_map_birational_exact": true,
+    "d4d4_trace_lattice_exact": true,
+    "full_rosati_frontier_materialization_authorized": false,
+    "result": "ROSATI_ONLY_EXACT_NONEXCLUSION_COMMON_COVER_CONSTRAINT_REQUIRED",
+    "next_exact_leaf": "O210_Q4_BOLZA_D4D4_COMMON_COVER_WEIERSTRASS_CONSTRAINT"
+  },
+  "firewalls": {
+    "O186_reopened": false,
+    "O188_reopened": false,
+    "abel_jacobi_zero_reopened": false,
+    "integral_endomorphism_is_geometric_correspondence": false,
+    "carrier_existence_proved": false,
+    "full178_authorized": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "canonical_sha256_without_this_field": "36317063d40d58ac893aac02da059f9150f835e94a214e4ac89b058d0b9f44d4"
+}

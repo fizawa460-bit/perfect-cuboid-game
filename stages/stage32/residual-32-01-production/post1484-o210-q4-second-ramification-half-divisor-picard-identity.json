@@ -1,0 +1,52 @@
+{
+  "schema": "STAGE32_POST1484_O210_Q4_SECOND_RAMIFICATION_HALF_DIVISOR_PICARD_IDENTITY_V1",
+  "stage": 32,
+  "leaf": "POST1484_O210_Q4_SECOND_RAMIFICATION_HALF_DIVISOR_PICARD_IDENTITY",
+  "status": "PROVISIONAL_EXACT_PICARD_REDUCTION_PENDING_HOSTILE_AUDIT",
+  "fixed_target": {"row_id":"g1-d186","d":186,"e":266,"genus":1,"z":[-15,62,-44,26,32]},
+  "source_locks": {
+    "local_excess_decomposition": {"path":"stages/stage32/residual-32-01-production/post1484-o210-q4-second-projection-local-excess-decomposition.json","blob_sha1":"b1d56519dadbd719887736b63a0d9a402b4274af","canonical_sha256":"cb45edddd1f4439359f6e826d5dd0de9a1dfc1ee0bc81b6fcdd96f1fe39890a6"},
+    "common_cover_cartesian": {"path":"stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json","blob_sha1":"def8b60b726c02aa7ee97c0cc25b34f43525ec34","canonical_sha256":"eb31183bf519fec4ad5bb2d0799b3f0a64b7af893308e09ce0c33119b63440a1"},
+    "v4_cusp_quotient": {"path":"stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json","blob_sha1":"00eaebc3c57f6b5e3696c7bcd60eac5a53121f72","canonical_sha256":"2869208e7509d7b79378264ea1982299b0f1745b1a54c5856cfbba0754567ce5"},
+    "audited_bidegree": {"path":"stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-boundary.json","blob_sha1":"072266f2ac5386316adc99e35a6444d2449656c8","canonical_sha256":"791870c37681702392e1e59d224f494ed791709d467efa68a20cf49bff4ab420"},
+    "source_note": {"path":"stages/stage32/residual-32-01-production/post1484-o210-q4-second-ramification-half-divisor-picard-source-note.md","blob_sha1":"f823e9bd538db2241280a6f82d16da8e54eb8f33"}
+  },
+  "geometry": {
+    "pi": {"map":"Y->N","degree":2,"connected":true,"ramified":true,"branch_points":210},
+    "first_descended": {"map":"f1:Y->C0","degree":105,"ramification_degree":0,"etale":true},
+    "second_descended": {"map":"f2:Y->C0","degree":81,"ramification_degree":48},
+    "hyperelliptic_quotient": {"map":"h:C0->X4=P1","degree":2,"genus_C0":2,"branch_points":6,"canonical_bundle":"K_C0 ~= h^*O_P1(1)"},
+    "commuting_squares": ["h o f1 = z o pi","h o f2 = w o pi"]
+  },
+  "half_ramification_divisor": {
+    "definition": "E=sum_exceptional k_P*P + sum_strict (r_Q-1)*Q + sum_away (e_S-1)*S",
+    "effective": true,
+    "degree": 24,
+    "local_pullback_checks": {
+      "exceptional_m1": "pi^*(k_P P) has coefficient 2*k_P at the unique ramified lift",
+      "exceptional_m2": "pi^*(k_P P) has coefficient k_P at each of two etale lifts",
+      "strict_only": "pi^*((r_Q-1)Q) has coefficient r_Q-1 at each of two lifts",
+      "away": "pi^*((e_S-1)S) has coefficient e_S-1 at each of two lifts"
+    },
+    "ramification_divisor_identity": "R_f2=pi^*E"
+  },
+  "canonical_bundle_comparison": {
+    "first": "K_Y ~= f1^*K_C0",
+    "second": "K_Y ~= f2^*K_C0 tensor O_Y(R_f2)",
+    "consequence_on_Y": "pi^*O_N(E) ~= pi^*(z^*O(1) tensor w^*O(-1))"
+  },
+  "picard_pullback_injectivity": {
+    "holds": true,
+    "reason": "For connected ramified quadratic pi, a nontrivial L in ker(pi^*) would be 2-torsion and define a connected etale quadratic cover of N that pi factors through; equal degree would force pi itself etale, contradiction."
+  },
+  "picard_identity": {
+    "identity": "O_N(E) ~= z^*O_P1(1) tensor w^*O_P1(-1)",
+    "degree_check": "24=105-81",
+    "degree": 24,
+    "support_constraint": "E must be supported with the exact exceptional-endpoint / strict-tangency / off-cusp coefficient pattern from the local-excess decomposition."
+  },
+  "genus_one_effectivity_firewall": {"abstract_degree24_effectivity_automatic":true,"riemann_roch_h0":24,"standalone_picard_degree_excludes":false},
+  "decision": {"O210_excluded":false,"exact_global_picard_class_identified":true,"result":"DEGREE24_HALF_RAMIFICATION_PICARD_CLASS_FIXED_NO_STANDALONE_EXCLUSION","next_exact_leaf":"O210_Q4_SUPPORT_CONSTRAINED_EFFECTIVE_DIVISOR_IN_DEGREE24_PICARD_CLASS"},
+  "firewalls": {"O188_reopened":false,"old_93_93_odd_etale_route_reopened":false,"carrier_existence_proved":false,"full178_authorized":false,"receiver_credit":false,"route_credit":false,"theorem_credit":false,"endpoint_credit":false,"perfect_cuboid_claim":false},
+  "canonical_sha256_without_this_field": "5705689b331d2c6749d6ca09f7187c75f65c2917668f65b643ce380fce51ff3d"
+}

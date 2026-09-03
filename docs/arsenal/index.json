@@ -1,9 +1,39 @@
 {
-  "schema": "RESEARCH_ARSENAL_V7_STAGE30_STAGE31_FORMAL_STAGE32_STAGE33_PROVISIONAL",
-  "status": "CURRENT_WITH_FORMAL_STAGE30_STAGE31_AND_CONSOLIDATED_STAGE32_STAGE33_PROVISIONAL_HARVEST",
+  "schema": "RESEARCH_ARSENAL_V8_STAGE30_STAGE31_STAGE34_FORMAL_STAGE32_STAGE33_PROVISIONAL",
+  "status": "CURRENT_WITH_FORMAL_STAGE30_STAGE31_STAGE34_AND_CONSOLIDATED_STAGE32_STAGE33_PROVISIONAL_HARVEST",
+  "registry_contract": {
+    "canonical_machine_registry": true,
+    "human_catalog": "catalog.md",
+    "catalog_generator": "sync_arsenal_catalog.py",
+    "generated_card_root": "cards",
+    "card_filename_rule": "one stable ID per <card-class>/<ID>.md",
+    "card_collections": {
+      "selectors": {"directory":"formal","maturity":"FORMAL","kind":"selector"},
+      "formal_router_weapons": {"directory":"formal","maturity":"FORMAL","kind":"weapon"},
+      "formal_workflows": {"directory":"workflows","maturity":"WORKFLOW","kind":"workflow"},
+      "provisional_harvests.active_cards": {"directory":"provisional","maturity":"PROVISIONAL","kind":"weapon"},
+      "provisional_harvests.retired_merged_ids": {"directory":"retired","maturity":"RETIRED","kind":"redirect"}
+    },
+    "card_source_contract": "generated exact section snapshot when a matching source heading exists; linked source remains authoritative",
+    "stable_source_paths_are_not_relocated": true,
+    "maturity_classes": {
+      "FORMAL": "closed-stage, audited reusable result; exact card contract still governs use",
+      "PROVISIONAL": "discovery and source routing only; live stage authority must be revalidated",
+      "WORKFLOW": "reusable audit or proof procedure; not a mathematical selector",
+      "HISTORICAL": "provenance or duplication/failure lookup; not current authority",
+      "RETIRED": "identifier retained only to route to its declared successor"
+    },
+    "authority_order": [
+      "active stage controller and current source locks",
+      "formal audited Arsenal card contract",
+      "provisional harvest snapshot",
+      "historical navigation record"
+    ]
+  },
   "stage29_closed": true,
   "stage30_closed": true,
   "stage31_closed": true,
+  "stage34_closed": true,
   "perfect_cuboid_problem_open": true,
   "pr1478_audit": {
     "path": "PR1478-AUDIT.md",
@@ -11,6 +41,13 @@
     "formal_selector_additions": 0,
     "active_stage_snapshot_policy_repaired": true
   },
+  "support_records": [
+    {"path":"PR1478-AUDIT.md","class":"HISTORICAL","role":"registry audit provenance; not current Stage authority"},
+    {"path":"STAGE34-PROMOTION-REVIEW.md","class":"HISTORICAL","role":"Stage34 promotion review provenance"},
+    {"path":"stage34-formal-harvest.json","class":"FORMAL","role":"machine-readable Stage34 formal harvest source"},
+    {"path":"stageA1-stageA2-class3-provisional-harvest.md","class":"HISTORICAL","role":"human historical Class-3 method harvest"},
+    {"path":"stageA1-stageA2-class3-provisional-harvest.json","class":"HISTORICAL","role":"machine historical Class-3 method harvest"}
+  ],
   "active_stage_snapshot_policy": {
     "harvest_snapshot_head_is_immutable_provenance": true,
     "latest_verified_active_head_is_informational_only": true,
@@ -22,16 +59,7 @@
   "lookup_policy": {
     "load_full_arsenal_at_ordinary_stage_startup": false,
     "consult_when": "after the active leaf exact object and missing weapon type are identified, before fresh literature search or invention of a new mathematical route",
-    "candidate_match_requires": [
-      "object_or_population",
-      "field",
-      "cutoff_if_any",
-      "canonicalization",
-      "multiplicity",
-      "measure_if_any",
-      "quantifiers",
-      "adapter_hypotheses"
-    ],
+    "candidate_match_requires": ["object_or_population", "field", "cutoff_if_any", "canonicalization", "multiplicity", "measure_if_any", "quantifiers", "adapter_hypotheses"],
     "if_no_applicable_card": "proceed to external literature or new-theorem work",
     "new_reusable_result": "submit through Arsenal promotion after source-lock and audit"
   },
@@ -46,115 +74,49 @@
     {"id":"S28-W04","role":"COMMON_POLARIZATION_FIXED_CURVE_DIFFERENTIAL","path":"../stage28-arsenal-promotion.md"}
   ],
   "formal_router_weapons": [
-    {
-      "id": "S30-W01",
-      "role": "FINITE_EQUIVARIANT_ACTION_IDENTIFICATION",
-      "path": "../stage30-arsenal-promotion.md",
-      "source_stage": "Stage30",
-      "source_stage_closed": true,
-      "formal_selector": false,
-      "router_only": true,
-      "summary": "reconstruct concrete finite actions, exhaust equivariant candidates, then require a common/source-derived semantic anchor before adapter credit"
-    },
-    {
-      "id": "S30-W02",
-      "role": "SEMILINEAR_GALOIS_DESCENT_ADAPTER",
-      "path": "../stage30-arsenal-promotion.md",
-      "source_stage": "Stage30",
-      "source_stage_closed": true,
-      "formal_selector": false,
-      "router_only": true,
-      "summary": "quadratic semilinear finite-action descent via explicit sigma, theta, cocycle/deck element and exhaustive exact compatibility"
-    },
-    {
-      "id": "S30-W03",
-      "role": "MARKED_DEFECT_EQUIVARIANT_DESCENT_CLASSIFIER",
-      "path": "../stage30-arsenal-promotion.md",
-      "source_stage": "Stage30",
-      "source_stage_closed": true,
-      "formal_selector": false,
-      "router_only": true,
-      "summary": "transport a complete finite defect set equivariantly and classify marked Galois-descent classes separately from ordinary group orbits"
-    },
-    {
-      "id": "S31-W01",
-      "role": "GENUS_ONE_QUARTIC_ELLIPTIC_BIRATIONAL_ADAPTER",
-      "path": "../stage31-arsenal-promotion.md",
-      "source_stage": "Stage31",
-      "source_stage_closed": true,
-      "formal_selector": false,
-      "router_only": true,
-      "summary": "explicit quartic-to-elliptic rational maps with exact inverse-domain, denominator, exceptional-locus and round-trip certification; no automatic integral-point transfer"
-    },
-    {
-      "id": "S31-W02",
-      "role": "DIRECT_INTEGRAL_MODEL_COMPLETENESS_TRANSFER",
-      "path": "../stage31-arsenal-promotion.md",
-      "source_stage": "Stage31",
-      "source_stage_closed": true,
-      "formal_selector": false,
-      "router_only": true,
-      "summary": "transfer complete integral-point enumeration through an exact integral model plus iff divisibility/congruence image condition instead of unsafe birational integrality"
-    },
-    {
-      "id": "S31-W03",
-      "role": "COMPLETE_POINT_SET_PARAMETER_PULLBACK",
-      "path": "../stage31-arsenal-promotion.md",
-      "source_stage": "Stage31",
-      "source_stage_closed": true,
-      "formal_selector": false,
-      "router_only": true,
-      "summary": "exhaustively pull a complete auxiliary curve point set back through a source-locked branch dictionary and exact family hypotheses, closing only the represented family"
-    }
+    {"id":"S30-W01","role":"FINITE_EQUIVARIANT_ACTION_IDENTIFICATION","path":"../stage30-arsenal-promotion.md","source_stage":"Stage30","source_stage_closed":true,"formal_selector":false,"router_only":true,"summary":"reconstruct concrete finite actions, exhaust equivariant candidates, then require a common/source-derived semantic anchor before adapter credit"},
+    {"id":"S30-W02","role":"SEMILINEAR_GALOIS_DESCENT_ADAPTER","path":"../stage30-arsenal-promotion.md","source_stage":"Stage30","source_stage_closed":true,"formal_selector":false,"router_only":true,"summary":"quadratic semilinear finite-action descent via explicit sigma, theta, cocycle/deck element and exhaustive exact compatibility"},
+    {"id":"S30-W03","role":"MARKED_DEFECT_EQUIVARIANT_DESCENT_CLASSIFIER","path":"../stage30-arsenal-promotion.md","source_stage":"Stage30","source_stage_closed":true,"formal_selector":false,"router_only":true,"summary":"transport a complete finite defect set equivariantly and classify marked Galois-descent classes separately from ordinary group orbits"},
+    {"id":"S31-W01","role":"GENUS_ONE_QUARTIC_ELLIPTIC_BIRATIONAL_ADAPTER","path":"../stage31-arsenal-promotion.md","source_stage":"Stage31","source_stage_closed":true,"formal_selector":false,"router_only":true,"summary":"explicit quartic-to-elliptic rational maps with exact inverse-domain, denominator, exceptional-locus and round-trip certification; no automatic integral-point transfer"},
+    {"id":"S31-W02","role":"DIRECT_INTEGRAL_MODEL_COMPLETENESS_TRANSFER","path":"../stage31-arsenal-promotion.md","source_stage":"Stage31","source_stage_closed":true,"formal_selector":false,"router_only":true,"summary":"transfer complete integral-point enumeration through an exact integral model plus iff divisibility/congruence image condition instead of unsafe birational integrality"},
+    {"id":"S31-W03","role":"COMPLETE_POINT_SET_PARAMETER_PULLBACK","path":"../stage31-arsenal-promotion.md","source_stage":"Stage31","source_stage_closed":true,"formal_selector":false,"router_only":true,"summary":"exhaustively pull a complete auxiliary curve point set back through a source-locked branch dictionary and exact family hypotheses, closing only the represented family"},
+    {"id":"S34-W01","role":"SUCCESSIVE_EXACT_FACTOR_SQUARECLASS_DESCENT","path":"../stage34-arsenal-promotion.md","source_stage":"Stage34","source_stage_closed":true,"formal_selector":false,"router_only":true,"summary":"repeated exact factor/gcd/resultant/valuation descent reduces a receiver square condition to a finite exhaustive squareclass branch family before low-genus closure"},
+    {"id":"S34-W02","role":"GLOBAL_MORDELL_WEIL_CONGRUENCE_EXCLUSION","path":"../stage34-arsenal-promotion.md","source_stage":"Stage34","source_stage_closed":true,"formal_selector":false,"router_only":true,"summary":"with a certified full MW group and all torsion translates, exact good-prime residue conditions plus generalized CRT can globally exclude all quotient points compatible with the parent receiver"},
+    {"id":"S34-W03","role":"RECEIVER_RESTRICTED_INTERSECTION_EXCLUSION","path":"../stage34-arsenal-promotion.md","source_stage":"Stage34","source_stage_closed":true,"formal_selector":false,"router_only":true,"summary":"close the exact receiver by proving branch plus receiver-condition intersection empty or degenerate, without claiming the larger factor-cover rational point set complete"}
   ],
   "formal_workflows": [
-    {
-      "id": "S30-WF01",
-      "name": "FINITE_EQUIVARIANT_IDENTIFICATION_AUDIT",
-      "path": "../stage30-arsenal-promotion.md",
-      "status": "FORMAL_CLOSED_STAGE_WORKFLOW",
-      "summary": "finite relabeling candidates require a source/common-model anchor and exact source-derived action before semantic adapter credit"
-    },
-    {
-      "id": "S30-WF02",
-      "name": "IMMUTABLE_LAYERED_CERTIFICATE_REPLAY",
-      "former_name": "IMMUTABLE_FINITE_CERTIFICATE_REPLAY",
-      "path": "../stage30-arsenal-promotion.md",
-      "status": "FORMAL_CLOSED_STAGE_WORKFLOW",
-      "summary": "pin immutable mathematical inputs, separate layer certificates, independently reconstruct cheap structure, bind audited expensive subcertificates by immutable provenance, and exclude mutable controller state from permanent mathematical identity"
-    },
-    {
-      "id": "S30-WF03",
-      "name": "ADAPTER_CREDIT_LAYER_FIREWALL",
-      "path": "../stage30-arsenal-promotion.md",
-      "status": "FORMAL_CLOSED_STAGE_WORKFLOW",
-      "summary": "typed credit DAG: finite PASS grants only its exact layer; adapter/receiver/route/theorem/endpoint promotions require explicit source-locked implications; reproducibility adds no new mathematical credit"
-    },
-    {
-      "id": "S31-WF01",
-      "name": "CAS_MW_FULL_GROUP_CERTIFICATION",
-      "path": "../stage31-arsenal-promotion.md",
-      "status": "FORMAL_CLOSED_STAGE_WORKFLOW",
-      "parent_workflow": "S30-WF02",
-      "summary": "pin CAS version/routine/documentation/artifact and distinguish rank proof from full Mordell-Weil group/saturation proof before granting full-basis credit"
-    }
+    {"id":"S30-WF01","name":"FINITE_EQUIVARIANT_IDENTIFICATION_AUDIT","path":"../stage30-arsenal-promotion.md","status":"FORMAL_CLOSED_STAGE_WORKFLOW","summary":"finite relabeling candidates require a source/common-model anchor and exact source-derived action before semantic adapter credit"},
+    {"id":"S30-WF02","name":"IMMUTABLE_LAYERED_CERTIFICATE_REPLAY","former_name":"IMMUTABLE_FINITE_CERTIFICATE_REPLAY","path":"../stage30-arsenal-promotion.md","status":"FORMAL_CLOSED_STAGE_WORKFLOW","summary":"pin immutable mathematical inputs, separate layer certificates, independently reconstruct cheap structure, bind audited expensive subcertificates by immutable provenance, and exclude mutable controller state from permanent mathematical identity"},
+    {"id":"S30-WF03","name":"ADAPTER_CREDIT_LAYER_FIREWALL","path":"../stage30-arsenal-promotion.md","status":"FORMAL_CLOSED_STAGE_WORKFLOW","summary":"typed credit DAG: finite PASS grants only its exact layer; adapter/receiver/route/theorem/endpoint promotions require explicit source-locked implications; reproducibility adds no new mathematical credit"},
+    {"id":"S31-WF01","name":"CAS_MW_FULL_GROUP_CERTIFICATION","path":"../stage31-arsenal-promotion.md","status":"FORMAL_CLOSED_STAGE_WORKFLOW","parent_workflow":"S30-WF02","summary":"pin CAS version/routine/documentation/artifact and distinguish rank proof from full Mordell-Weil group/saturation proof before granting full-basis credit"},
+    {"id":"S34-WF01","name":"CLASS3_RECEIVER_REPLACEMENT_THEOREM_PIPELINE","path":"../stage34-arsenal-promotion.md","status":"FORMAL_CLOSED_STAGE_WORKFLOW","summary":"discharge an exact Class3 receiver by a replacement theorem with matching quantifiers, using exhaustive finite reduction and proof-capable quotient closure; the originally named theorem species need not itself be proved"}
   ],
   "stage30_certificate_architecture": {
-    "path": "../stage30-arsenal-promotion.md",
-    "input_manifest": {"path":"../../stages/stage30/30-09/input-manifest.json","blob_sha":"87dd1576576c9b5e7995d3426dbf1426ac6ade82","mutable_controller_hash_pinned":false},
-    "independent_checker": {"path":"../../stages/stage30/30-09/verify_stage30.py","blob_sha":"58e41b524bf134a863696fea5184a45ff4b73961"},
-    "bound_upstream_certificate": {"path":"../../stages/stage30/30-06C/semilinear-certificate.json","blob_sha":"23338d990bc337f456967a5ab8d3b6d81a1b1769","recomputed_from_scratch_by_final_checker":false}
+    "path":"../stage30-arsenal-promotion.md",
+    "input_manifest":{"path":"../../stages/stage30/30-09/input-manifest.json","blob_sha":"87dd1576576c9b5e7995d3426dbf1426ac6ade82","mutable_controller_hash_pinned":false},
+    "independent_checker":{"path":"../../stages/stage30/30-09/verify_stage30.py","blob_sha":"58e41b524bf134a863696fea5184a45ff4b73961"},
+    "bound_upstream_certificate":{"path":"../../stages/stage30/30-06C/semilinear-certificate.json","blob_sha":"23338d990bc337f456967a5ab8d3b6d81a1b1769","recomputed_from_scratch_by_final_checker":false}
   },
   "stage31_certificate_architecture": {
-    "path": "../stage31-arsenal-promotion.md",
-    "source_lock": {"path":"../../stages/stage31/31-01/source-lock.json","blob_sha":"e3cb3c18a5cf9c9cbee3e9dd834c439924dbd3d7"},
-    "birational_map": {"path":"../../stages/stage31/31-01/birational-map.json","blob_sha":"973f61023b7b0b5d322168331b3ecc68a281ca25"},
-    "integrality_transfer": {"path":"../../stages/stage31/31-01/integrality-transfer.md","blob_sha":"1fca126abdcd36cbe9a12ce7b7ff856a196a4036"},
-    "integral_points_certificate": {"path":"../../stages/stage31/31-01/integral-points-certificate.json","blob_sha":"69eb32c5d93a9cee569e7ccd3767c4ac983421cc"},
-    "mordell_weil_certificate": {"path":"../../stages/stage31/31-01/mordell-weil-certificate.json","blob_sha":"d1cd25c7b660caf06f2074ee7d9439d3bcf64ce5"},
-    "reconstruction_ledger": {"path":"../../stages/stage31/31-01/reconstruction-ledger.json","blob_sha":"0b829208f4d2b9a67538adc4617af38addbeb00e"},
-    "independent_checker": {"path":"../../stages/stage31/31-01/verify_stage31.py","blob_sha":"92b956d570367d145d87692ae25c0da5da312233"},
-    "final_hostile_audit": {"path":"../../stages/stage31/31-06/audit.md","blob_sha":"149c9025752a8ee39f6a57f45d26f58385edf412"}
+    "path":"../stage31-arsenal-promotion.md",
+    "source_lock":{"path":"../../stages/stage31/31-01/source-lock.json","blob_sha":"e3cb3c18a5cf9c9cbee3e9dd834c439924dbd3d7"},
+    "birational_map":{"path":"../../stages/stage31/31-01/birational-map.json","blob_sha":"973f61023b7b0b5d322168331b3ecc68a281ca25"},
+    "integrality_transfer":{"path":"../../stages/stage31/31-01/integrality-transfer.md","blob_sha":"1fca126abdcd36cbe9a12ce7b7ff856a196a4036"},
+    "integral_points_certificate":{"path":"../../stages/stage31/31-01/integral-points-certificate.json","blob_sha":"69eb32c5d93a9cee569e7ccd3767c4ac983421cc"},
+    "mordell_weil_certificate":{"path":"../../stages/stage31/31-01/mordell-weil-certificate.json","blob_sha":"d1cd25c7b660caf06f2074ee7d9439d3bcf64ce5"},
+    "reconstruction_ledger":{"path":"../../stages/stage31/31-01/reconstruction-ledger.json","blob_sha":"0b829208f4d2b9a67538adc4617af38addbeb00e"},
+    "independent_checker":{"path":"../../stages/stage31/31-01/verify_stage31.py","blob_sha":"92b956d570367d145d87692ae25c0da5da312233"},
+    "final_hostile_audit":{"path":"../../stages/stage31/31-06/audit.md","blob_sha":"149c9025752a8ee39f6a57f45d26f58385edf412"}
+  },
+  "stage34_certificate_architecture": {
+    "path":"../stage34-arsenal-promotion.md",
+    "machine_harvest":{"path":"stage34-formal-harvest.json"},
+    "final_closeout":{"path":"../../stages/stage34/final.md","blob_sha":"860458982dddd8deb2fff804b18619a8aa27bc9d"},
+    "receiver_hostile_audit_review":5088591887,
+    "self_contained_closeout_pr":1492,
+    "self_contained_closeout_head":"00246e41849ba12550cd3a49a998328aa8b99bf4",
+    "receiver_closed":true,
+    "parent_route_closed":false
   },
   "cross_stage_relationships": [
     {"source":"S30-W01","target":"S33-PW05","relation":"FORMAL_PARENT_PATTERN_TO_PROVISIONAL_SPECIALIZATION","note":"Stage33 adds module-specific intertwiner/extension/reachability calculations"},
@@ -169,149 +131,58 @@
     {"source":"S30-WF02","target":"CANONICAL_EVIDENCE_CHAIN","relation":"FORMAL_SUPERSEDES_GENERIC_IMMUTABLE_REPLAY_PORTION"},
     {"source":"S30-WF02","target":"SPARSE_SOURCE_REPLAY","relation":"FORMAL_PARENT_FOR_IMMUTABLE_CERTIFICATE_BINDING_PORTION"},
     {"source":"S30-WF03","target":"SEMANTIC_PROMOTION_FIREWALL","relation":"FORMAL_SUPERSEDES_GENERIC_CREDIT_LADDER_PORTION"},
-    {"source":"S30-WF03","target":"ARITHMETIC_LIFT_FIREWALL","relation":"FORMAL_PARENT_TO_PROVISIONAL_ARITHMETIC_SPECIALIZATION"}
+    {"source":"S30-WF03","target":"ARITHMETIC_LIFT_FIREWALL","relation":"FORMAL_PARENT_TO_PROVISIONAL_ARITHMETIC_SPECIALIZATION"},
+    {"source":"A2-W01","target":"S34-W01","relation":"PROVISIONAL_HISTORICAL_TO_FORMAL_CURRENT_MAINLINE_SUCCESS","note":"Stage34 reused the factor/squareclass method on the audited EXT-C receiver and closed it"},
+    {"source":"A1-WF01","target":"S34-W02","relation":"QUARANTINED_HISTORICAL_METHOD_TO_FRESH_FORMAL_REALIZATION","note":"only the generic method is inherited; A1 -8 numerical results remain quarantined"},
+    {"source":"A2-C3P01","target":"S34-WF01","relation":"HISTORICAL_CLASS3_PRECEDENT_TO_FORMAL_VALIDATED_WORKFLOW","note":"Stage34 discharged an actual Stage29 Class3 kernel by a replacement receiver theorem"},
+    {"source":"S31-W01","target":"S34-W01","relation":"COMPLEMENTARY_REUSE","note":"Stage34 uses explicit genus-one quartic/Jacobian maps inside the larger squareclass descent funnel"},
+    {"source":"S31-W03","target":"S34-WF01","relation":"FORMAL_COMPONENT_REUSED","note":"complete quotient point sets are reverse-pulled into exact parent/receiver equations"},
+    {"source":"S30-WF03","target":"S34-W03","relation":"GENERIC_CREDIT_FIREWALL_PLUS_DISTINCT_MATHEMATICAL_WEAPON","note":"S34-W03 proves receiver intersection emptiness without claiming factor-cover point-set completion"}
   ],
   "provisional_harvests": [
     {
-      "source_stage": "Stage32",
-      "path": "../stage32-arsenal-promotion.md",
-      "source_pr": 1474,
-      "source_branch": "stage32-post1473-integral-picard-support-preflight",
-      "harvest_snapshot_head": "77ede66e92a46b3365a4ee43a265728665a0b17a",
-      "latest_verified_active_head_at_pr1478_audit": "4e7865599de58d184f160d8d779ef2a024216562",
-      "live_head_refetch_required_before_use": true,
-      "promotion_status": "PROVISIONAL_ACTIVE_STAGE_HARVEST",
-      "active_cards": ["S32-PW01", "S32-PW03", "S32-PW04", "S32-PW05"],
-      "retired_merged_ids": {"S32-PW02":"S32-PW01"},
-      "card_roles": {
-        "S32-PW01": "EXACT_ENUMERATION_COMPRESSION_AND_INDEXER",
-        "S32-PW03": "LATTICE_IMAGE_HNF_GATE",
-        "S32-PW04": "FINITE_LATTICE_QUOTIENT_BOUND",
-        "S32-PW05": "FINITE_GROUP_EQUIVARIANT_RECONSTRUCTION"
-      },
-      "workflow_candidates": ["NUMERICAL_CANDIDATE_EXACT_REPLAY","SOURCE_LOCKED_ADAPTER_WALL","SEMANTIC_PROMOTION_FIREWALL","CANONICAL_EVIDENCE_CHAIN"],
-      "provisional_card_count": 4,
-      "routeable_for_candidate_discovery": true,
-      "formal_selector": false,
-      "theorem_credit": false,
-      "final_review_required_at_stage_close": true
+      "source_stage":"Stage32","path":"../stage32-arsenal-promotion.md","source_pr":1474,"source_branch":"stage32-post1473-integral-picard-support-preflight",
+      "harvest_snapshot_head":"77ede66e92a46b3365a4ee43a265728665a0b17a","latest_verified_active_head_at_pr1478_audit":"4e7865599de58d184f160d8d779ef2a024216562","live_head_refetch_required_before_use":true,"promotion_status":"PROVISIONAL_ACTIVE_STAGE_HARVEST",
+      "active_cards":["S32-PW01","S32-PW03","S32-PW04","S32-PW05"],"retired_merged_ids":{"S32-PW02":"S32-PW01"},
+      "card_roles":{"S32-PW01":"EXACT_ENUMERATION_COMPRESSION_AND_INDEXER","S32-PW03":"LATTICE_IMAGE_HNF_GATE","S32-PW04":"FINITE_LATTICE_QUOTIENT_BOUND","S32-PW05":"FINITE_GROUP_EQUIVARIANT_RECONSTRUCTION"},
+      "workflow_candidates":["NUMERICAL_CANDIDATE_EXACT_REPLAY","SOURCE_LOCKED_ADAPTER_WALL","SEMANTIC_PROMOTION_FIREWALL","CANONICAL_EVIDENCE_CHAIN"],
+      "provisional_card_count":4,"routeable_for_candidate_discovery":true,"formal_selector":false,"theorem_credit":false,"final_review_required_at_stage_close":true
     },
     {
-      "source_stage": "Stage33",
-      "path": "../stage33-arsenal-promotion.md",
-      "source_pr": 1476,
-      "source_branch": "stage33-post1475-j2-v4-generator-adapter",
-      "harvest_snapshot_head": "b4ed4c898988975f485e48b3803e0f8753c65015",
-      "latest_verified_active_head_at_pr1478_audit": "18f6c64dde415c235b49f7458bf44afb1f2403b5",
-      "live_head_refetch_required_before_use": true,
-      "latest_hostile_audit_status_at_pr1478_audit": "FAIL_ACTIVE_MAIN_AUTHORITY_REPAIR_REQUIRED",
-      "promotion_status": "PROVISIONAL_ACTIVE_STAGE_HARVEST",
-      "active_cards": ["S33-PW01", "S33-PW02", "S33-PW04", "S33-PW05", "S33-PW06", "S33-PW07", "S33-PW08"],
-      "retired_merged_ids": {"S33-PW03":"S33-PW02"},
-      "card_roles": {
-        "S33-PW01": "ARITHMETIC_HS_CLASSIFIER",
-        "S33-PW02": "FINITE_MODULE_NORMAL_FORM_AND_EXTENSION_GATE",
-        "S33-PW04": "EXACT_MARKED_SOURCE_ADAPTER",
-        "S33-PW05": "EQUIVARIANT_SOURCE_TARGET_COMPATIBILITY_AUDIT",
-        "S33-PW06": "ABSOLUTE_COHOMOLOGY_RECEIVER_RECIPE",
-        "S33-PW07": "TORSOR_BRAUER_INTEGRAL_KERNEL_ADAPTER",
-        "S33-PW08": "GERSTEN_CONNECTING_LOCALIZATION_ADAPTER"
-      },
-      "workflow_candidates": ["SMITH_ROUNDTRIP","MIXED_ORDER_RESIDUE_TO_LOCALIZATION","BASIS_ADJOINT_AUDIT","V4_EQUIVARIANT_TRANSPORT_AUDIT","HS_ZERO_SURVIVAL_MATRIX","ABSOLUTE_H1_RECEIVER_DECOMPOSITION","TORSOR_SEMANTIC_VALIDATION","CONNECTING_MAP_FAIL_CLOSED","RESOLVED_VALUATION_ATTACHMENT","ARITHMETIC_LIFT_FIREWALL","SPARSE_SOURCE_REPLAY"],
-      "live_authority_overrides": {
-        "current_main_state_canonical_sha256": "7d52c93a517fc96050b2f78583ae05e5e4ff4f983c2533c673ca008060bd0226",
-        "historical_mask6_named_J2_source": "REOPENED_EXACT_DO_NOT_USE_AS_NAMED_SOURCE",
-        "J2_named_Kummer_source_target_relation": "REVOKED_EXACT_DO_NOT_USE"
-      },
-      "provisional_card_count": 7,
-      "routeable_for_candidate_discovery": true,
-      "formal_selector": false,
-      "theorem_credit": false,
-      "final_review_required_at_stage_close": true
+      "source_stage":"Stage33","path":"../stage33-arsenal-promotion.md","source_pr":1476,"source_branch":"stage33-post1475-j2-v4-generator-adapter",
+      "harvest_snapshot_head":"b4ed4c898988975f485e48b3803e0f8753c65015","latest_verified_active_head_at_pr1478_audit":"18f6c64dde415c235b49f7458bf44afb1f2403b5","live_head_refetch_required_before_use":true,"latest_hostile_audit_status_at_pr1478_audit":"FAIL_ACTIVE_MAIN_AUTHORITY_REPAIR_REQUIRED","promotion_status":"PROVISIONAL_ACTIVE_STAGE_HARVEST",
+      "active_cards":["S33-PW01","S33-PW02","S33-PW04","S33-PW05","S33-PW06","S33-PW07","S33-PW08"],"retired_merged_ids":{"S33-PW03":"S33-PW02"},
+      "card_roles":{"S33-PW01":"ARITHMETIC_HS_CLASSIFIER","S33-PW02":"FINITE_MODULE_NORMAL_FORM_AND_EXTENSION_GATE","S33-PW04":"EXACT_MARKED_SOURCE_ADAPTER","S33-PW05":"EQUIVARIANT_SOURCE_TARGET_COMPATIBILITY_AUDIT","S33-PW06":"ABSOLUTE_COHOMOLOGY_RECEIVER_RECIPE","S33-PW07":"TORSOR_BRAUER_INTEGRAL_KERNEL_ADAPTER","S33-PW08":"GERSTEN_CONNECTING_LOCALIZATION_ADAPTER"},
+      "workflow_candidates":["SMITH_ROUNDTRIP","MIXED_ORDER_RESIDUE_TO_LOCALIZATION","BASIS_ADJOINT_AUDIT","V4_EQUIVARIANT_TRANSPORT_AUDIT","HS_ZERO_SURVIVAL_MATRIX","ABSOLUTE_H1_RECEIVER_DECOMPOSITION","TORSOR_SEMANTIC_VALIDATION","CONNECTING_MAP_FAIL_CLOSED","RESOLVED_VALUATION_ATTACHMENT","ARITHMETIC_LIFT_FIREWALL","SPARSE_SOURCE_REPLAY"],
+      "live_authority_overrides":{"current_main_state_canonical_sha256":"7d52c93a517fc96050b2f78583ae05e5e4ff4f983c2533c673ca008060bd0226","historical_mask6_named_J2_source":"REOPENED_EXACT_DO_NOT_USE_AS_NAMED_SOURCE","J2_named_Kummer_source_target_relation":"REVOKED_EXACT_DO_NOT_USE"},
+      "provisional_card_count":7,"routeable_for_candidate_discovery":true,"formal_selector":false,"theorem_credit":false,"final_review_required_at_stage_close":true
     }
   ],
   "provisional_historical_harvests": [
     {
-      "source_stages": ["StageA1", "StageA2"],
-      "path": "stageA1-stageA2-class3-provisional-harvest.json",
-      "human_path": "stageA1-stageA2-class3-provisional-harvest.md",
-      "promotion_status": "PROVISIONAL_HISTORICAL_METHOD_HARVEST",
-      "routeable_for_candidate_discovery": true,
-      "candidate_ids": ["A2-C3P01", "A2-W01", "A2-W02", "A2-W03", "A1-WF01", "A1-WF02", "A1-WF03"],
-      "primary_routeable_candidates": {
-        "A2-C3P01": "CLASS3_THEOREM_CONSTRUCTION_PRECEDENT",
-        "A2-W01": "SUCCESSIVE_EXACT_FACTOR_SQUARECLASS_DESCENT"
-      },
-      "quarantine_records": ["A1-WF01", "A1-WF02", "A1-WF03", "A1-FAMILY-CONCLUSIONS-A1-3-A1-14"],
-      "formal_selector": false,
-      "theorem_credit": false,
-      "receiver_credit": false,
-      "class3_precedent_discovery_only": true,
-      "A2_family_theorem_transferred": false,
-      "A1_minus8_mainline_credit": false,
-      "stage34_live_source_revalidation_required_before_use": true,
-      "stage29_classification_authority": {
-        "result_path": "../../stages/stage29/29-16/result.md",
-        "result_blob_sha": "4abf29d9aa57a9e89c0e768edb6a2ee6c85fb14c",
-        "result_status": "SUBMITTED_PENDING_FRESH_AUDIT",
-        "audit_path": "../../stages/stage29/29-16/audit.md",
-        "audit_blob_sha": "e01249c73478f9269456c919b25a024e8eb61320",
-        "audit_verdict": "PASS_AFTER_BOUNDED_SEMANTIC_REPAIR",
-        "class2_class3_semantics_changed_by_repair": false
-      }
+      "source_stages":["StageA1","StageA2"],"path":"stageA1-stageA2-class3-provisional-harvest.json","human_path":"stageA1-stageA2-class3-provisional-harvest.md",
+      "promotion_status":"PROVISIONAL_HISTORICAL_METHOD_HARVEST_WITH_FORMAL_STAGE34_SUCCESSORS","routeable_for_candidate_discovery":true,
+      "candidate_ids":["A2-C3P01","A2-W01","A2-W02","A2-W03","A1-WF01","A1-WF02","A1-WF03"],
+      "primary_routeable_candidates":{"A2-C3P01":"USE_FORMAL_SUCCESSOR_S34-WF01","A2-W01":"USE_FORMAL_SUCCESSOR_S34-W01","A1-WF01":"USE_FORMAL_SUCCESSOR_S34-W02_METHOD_ONLY"},
+      "formal_successors":{"A2-C3P01":"S34-WF01","A2-W01":"S34-W01","A1-WF01":"S34-W02","A2-W02":"S31-W01+S31-WF01","A2-W03":"S31-W03"},
+      "quarantine_records":["A1-WF01_SOURCE_SPECIFIC_RESULTS","A1-WF02","A1-WF03","A1-FAMILY-CONCLUSIONS-A1-3-A1-14"],
+      "formal_selector":false,"theorem_credit":false,"receiver_credit":false,"class3_precedent_discovery_only":true,"A2_family_theorem_transferred":false,"A1_minus8_mainline_credit":false,"stage34_live_source_revalidation_required_before_use":false,
+      "stage29_classification_authority":{"result_path":"../../stages/stage29/29-16/result.md","result_blob_sha":"4abf29d9aa57a9e89c0e768edb6a2ee6c85fb14c","result_status":"SUBMITTED_PENDING_FRESH_AUDIT","audit_path":"../../stages/stage29/29-16/audit.md","audit_blob_sha":"e01249c73478f9269456c919b25a024e8eb61320","audit_verdict":"PASS_AFTER_BOUNDED_SEMANTIC_REPAIR","class2_class3_semantics_changed_by_repair":false}
     }
   ],
-  "stable_weapon_libraries": [
-    "../stage14-arsenal.md",
-    "../stage14-arsenal-index.md",
-    "../stage14-num-reuse-index.md",
-    "../stage14-toolbox/",
-    "../structure-radar/",
-    "../stage20-arsenal.md",
-    "../stage21-arsenal.md",
-    "../stage22-arsenal-promotion.md",
-    "../stage23-arsenal-promotion.md",
-    "../stage24-arsenal-promotion.md",
-    "../stage25-arsenal-promotion.md",
-    "../stage26-arsenal-promotion.md",
-    "../stage28-arsenal-promotion.md",
-    "../stage30-arsenal-promotion.md",
-    "../stage31-arsenal-promotion.md"
-  ],
+  "stable_weapon_libraries": ["../stage14-arsenal.md","../stage14-arsenal-index.md","../stage14-num-reuse-index.md","../stage14-toolbox/","../structure-radar/","../stage20-arsenal.md","../stage21-arsenal.md","../stage22-arsenal-promotion.md","../stage23-arsenal-promotion.md","../stage24-arsenal-promotion.md","../stage25-arsenal-promotion.md","../stage26-arsenal-promotion.md","../stage28-arsenal-promotion.md","../stage30-arsenal-promotion.md","../stage31-arsenal-promotion.md","../stage34-arsenal-promotion.md"],
   "stage29_frontier": {
-    "historical_checkpoint_active_kernel_count": 13,
-    "historical_checkpoint_class2_kernel_count": 4,
-    "historical_checkpoint_class3_kernel_count": 9,
-    "hidden_class1_pending_count": 0,
-    "authoritative_handoff": "../../stages/stage29/29-17/final-handoff.json",
-    "warning": "later closed stages change these historical counts; do not use the frozen Stage29 handoff as current frontier counts"
+    "historical_checkpoint_active_kernel_count":13,"historical_checkpoint_class2_kernel_count":4,"historical_checkpoint_class3_kernel_count":9,
+    "current_formal_active_kernel_count":10,"current_formal_class2_kernel_count":2,"current_formal_class3_kernel_count":8,"hidden_class1_pending_count":0,
+    "formal_closed_kernels_since_stage29":[
+      {"stage":"Stage30","kernel":"K16-C2-MODULAR-S4-ACTION","class":2},
+      {"stage":"Stage31","kernel":"K16-C2-EXT-E-INTEGRAL-CERTIFICATION","class":2},
+      {"stage":"Stage34","kernel":"K16-C3-EXT-C-PRIMITIVE-DIVISOR","class":3}
+    ],
+    "authoritative_handoff":"../../stages/stage29/29-17/final-handoff.json","stage34_authority":"../../stages/stage34/final.md","warning":"historical Stage29 counts are frozen history; current_formal_* composes the distinct formal closures from Stage30, Stage31, and Stage34"
   },
-  "superseded_indexes": [
-    "../archive/arsenal-index-history/research-arsenal-index.md",
-    "../archive/arsenal-index-history/research-arsenal-index.json",
-    "../archive/arsenal-index-history/stage27-arsenal-promotion.md"
-  ],
+  "superseded_indexes": ["../archive/arsenal-index-history/research-arsenal-index.md","../archive/arsenal-index-history/research-arsenal-index.json","../archive/arsenal-index-history/stage27-arsenal-promotion.md"],
   "firewalls": {
-    "multiply_alternative_completion_proofs_as_independent": false,
-    "family_closure_implies_endpoint_closure": false,
-    "finite_zero_implies_global_nonexistence": false,
-    "finite_exhaustive_identification_implies_unconditional_general_theorem": false,
-    "finite_certificate_pass_implies_global_theorem": false,
-    "adapter_closure_implies_endpoint_closure": false,
-    "adapter_completion_implies_receiver_closure_without_receiver_contract": false,
-    "reproducibility_pass_implies_new_mathematical_credit": false,
-    "bound_upstream_certificate_counts_as_recomputed": false,
-    "mutable_execution_state_is_permanent_math_input": false,
-    "abstract_finite_group_isomorphism_implies_concrete_action_adapter": false,
-    "ordinary_group_orbit_implies_marked_arithmetic_class": false,
-    "birational_equivalence_implies_integral_point_equivalence": false,
-    "cas_output_alone_is_independently_locked_proof_surface": false,
-    "rank_proved_implies_full_mordell_weil_group_proved": false,
-    "complete_auxiliary_points_imply_source_family_closure_without_pullback": false,
-    "thin_family_closure_implies_global_endpoint_closure": false,
-    "historical_green_means_endpoint_solved": false,
-    "provisional_card_implies_formal_selector": false,
-    "provisional_card_implies_theorem_credit": false,
-    "provisional_card_overrides_active_stage_source_lock": false
+    "multiply_alternative_completion_proofs_as_independent":false,"family_closure_implies_endpoint_closure":false,"finite_zero_implies_global_nonexistence":false,"finite_exhaustive_identification_implies_unconditional_general_theorem":false,"finite_certificate_pass_implies_global_theorem":false,"adapter_closure_implies_endpoint_closure":false,"adapter_completion_implies_receiver_closure_without_receiver_contract":false,"reproducibility_pass_implies_new_mathematical_credit":false,"bound_upstream_certificate_counts_as_recomputed":false,"mutable_execution_state_is_permanent_math_input":false,"abstract_finite_group_isomorphism_implies_concrete_action_adapter":false,"ordinary_group_orbit_implies_marked_arithmetic_class":false,"birational_equivalence_implies_integral_point_equivalence":false,"cas_output_alone_is_independently_locked_proof_surface":false,"rank_proved_implies_full_mordell_weil_group_proved":false,"complete_auxiliary_points_imply_source_family_closure_without_pullback":false,"thin_family_closure_implies_global_endpoint_closure":false,"historical_green_means_endpoint_solved":false,"provisional_card_implies_formal_selector":false,"provisional_card_implies_theorem_credit":false,"provisional_card_overrides_active_stage_source_lock":false,"factor_cover_pointset_completion_required_for_receiver_intersection_closure":false,"class3_kernel_requires_originally_named_theorem_species":false
   }
 }

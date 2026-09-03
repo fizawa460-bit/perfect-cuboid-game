@@ -1,0 +1,77 @@
+{
+  "schema": "STAGE32_POST1490_O210_Q4_X_RELATIVE_H_MARKED_NODE_ACTION_V1",
+  "stage": 32,
+  "leaf": "POST1490_O210_Q4_X_RELATIVE_H_MARKED_NODE_ACTION",
+  "status": "PROVISIONAL_EXACT_NODE_ACTION_SOURCE_LOCK_PENDING_HOSTILE_AUDIT",
+  "fixed_target": {"row_id": "g1-d186", "O": 210, "qprime": 4},
+  "geometry": {
+    "P": "X(8) x X(8)",
+    "H": "Gamma'[4]/Gamma[8] ~= V4",
+    "X": "P/H_diag",
+    "B": "P/G_diag, G=Gamma[4]/Gamma[8]",
+    "q_deck_group": "(H x H)/H_diag ~= H",
+    "x_to_b_degree": 2,
+    "x_to_b_node_lift": "each of the 48 nodes of B has one inverse-image point in X; blowing up those 48 points gives the double cover ramified on the 48 exceptional curves",
+    "equivariance": "first-factor (h,1), h in H, descends both to the q-deck action on X and to the corresponding modular automorphism on B; the unique X-point over each B node therefore has the same marked-node permutation"
+  },
+  "source_locks": {
+    "freitag_salvati_manni": {
+      "arxiv": "1303.6495",
+      "locators": ["Section 2 theta transformations and box coordinates", "Section 4 Lemma 4.1 and Beauville manifold discussion"],
+      "facts": ["H=Gamma'[4]/Gamma[8] is order 4 and acts freely on X(8)", "X=(X(8)xX(8))/H_diag is the Beauville manifold and X->B is the two-fold cover", "X is blown up at the 48 inverse images of the B nodes"]
+    },
+    "stoll_cuboids_blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+    "retained_marking_canonical_sha256": "e06291dddfc529fca2c0b0fe58dd43151faccd3d7997d9aa5797e1978227bb7c",
+    "marked_exceptional_incidence_canonical_sha256": "efdecb5d5cef219fc39d931521cbc1890a4830b5296e3c6ff7e93ccb6fa6b143",
+    "diagnostic_blob_sha1": "78b0f55490af271b0124a5e319c60b508408aa37",
+    "diagnostic_ci": {"run_id": 33696522871, "job_id": 100466451269, "head": "58989807ad090f93972ee683bc3b44d975dd9c10", "conclusion": "SUCCESS", "diagnostic_canonical_sha256": "59698dfcc3e7133611012ea689421e05acaf1a0bb93d1d3c0f085f5c23ad2760"}
+  },
+  "modular_to_stoll": {
+    "T": "g9 (b3 sign)",
+    "Tprime": "g7 (b1 sign)",
+    "R": "g7*g8*g9 (b1,b2,b3 signs projectively)",
+    "u=TTprime": "g7*g9",
+    "v=RT": "g7*g8",
+    "uv=RTprime": "g8*g9"
+  },
+  "marked_node_action": {
+    "exceptional_labels": [93, 140],
+    "nonidentity_permutations_images_of_93_to_140": {
+      "u": [95,96,93,94,99,100,97,98,104,103,102,101,108,107,106,105,110,109,112,111,114,113,116,115,124,123,122,121,120,119,118,117,131,132,129,130,127,128,125,126,134,133,136,135,138,137,140,139],
+      "v": [96,95,94,93,100,99,98,97,103,104,101,102,107,108,105,106,111,112,109,110,115,116,113,114,118,117,120,119,122,121,124,123,126,125,128,127,130,129,132,131,139,140,137,138,135,136,133,134],
+      "uv": [94,93,96,95,98,97,100,99,102,101,104,103,106,105,108,107,112,111,110,109,116,115,114,113,123,124,121,122,119,120,117,118,132,131,130,129,128,127,126,125,140,139,138,137,136,135,134,133]
+    },
+    "all_three_involutions": true,
+    "u_v_commute_and_compose_to_uv": true,
+    "all_nonidentity_fixed_point_free_on_48_nodes": true,
+    "all_12_realized_boundary_pair_fibers_invariant": true,
+    "each_four_node_fiber_is_regular_H_torsor": true
+  },
+  "interpretation": {
+    "ordered_deck_translation_pairs_on_marked_nodes_source_locked": true,
+    "absolute_origin_label_per_four_node_fiber_required": false,
+    "reason": "D.t(D) only needs the translation permutation for each named t, not an arbitrary absolute H-origin on each torsor.",
+    "picB_to_picX_divisor_action_claimed": false,
+    "exceptional_mass_is_local_D_multiplicity_claimed": false,
+    "individual_D_dot_tD_known": false
+  },
+  "decision": {
+    "O210_excluded": false,
+    "node_deck_difference_bridge_closed": true,
+    "next_exact_leaf": "O210_Q4_BOLZA_X_MARKED_BRANCH_LOCAL_MULTIPLICITY_ADAPTER",
+    "required_new_exact_datum": "Prove how the recovered V6 exceptional pairing/mass at each marked node relates to the local multiplicity of the upstairs carrier branch D at the unique X lift, and then apply the local intersection inequality to D and t(D)."
+  },
+  "firewalls": {
+    "no_B_picard64_to_X_picard_identification": true,
+    "node_permutation_only_use_of_B_automorphisms": true,
+    "visible_exceptional_mass_not_yet_c_t": true,
+    "do_not_rederive_total_8586": true,
+    "do_not_materialize_rosati_lattice": true,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "canonical_sha256_without_this_field": "d03cfe8c77614943e8d4ab190c046b801bb90aa18f5bb648973bda0a5300c269"
+}

@@ -1,0 +1,104 @@
+{
+  "schema": "STAGE32_POST1500_HOSTILE_AUDIT_ROSATI_TRACE_REPAIR_V1",
+  "stage": 32,
+  "status": "EXACT_AUDIT_REPAIR_NONEXCLUSION_BOUNDARY_PENDING_HOSTILE_AUDIT",
+  "fixed_target": {"row_id":"g1-d186","d":186,"e":266,"genus":1,"z":[-15,62,-44,26,32],"O":210,"qprime":4},
+  "audit_failure": {
+    "pr": 1500,
+    "review_id": 5097587880,
+    "exact_head": "43a7a46cc7cd3e5ef1f5ae5cb31d17c45b10e9b9",
+    "exact_head_ci_run_id": 33712731325,
+    "exact_head_ci_job_id": 100515467002,
+    "exact_head_ci_success": true,
+    "semantic_failure": "Bidegree (105,81) on C0 x C0 does not force Gamma^2=17010; the omitted correspondence/Rosati component is exactly sigma=1204."
+  },
+  "superseded_claims": {
+    "v224_all_genus1_fixed_v6_exclusion": true,
+    "post1490_all_overlap_certificate_canonical_sha256": "5a117c21bb3bdf6952a9ec4fdcf113352cc88ea0353b22d20095e482acd8ddb6",
+    "post1490_o210_exclusion_reopened": true,
+    "invalid_specializations": ["Gamma^2=17010 from bidegree alone","sigma(Gamma)=0","delta_Gamma=8586 forced by Gamma^2=17010","zero-Rosati downstream deck-defect/simplex specializations"],
+    "ci_success_is_not_semantic_audit_success": true
+  },
+  "retained_exact_inputs": {
+    "projection_degrees": [105,81],
+    "qprime_1_excluded_by_integrality": true,
+    "qprime_2_excluded_by_integrality": true,
+    "qprime_4_O_min": 210,
+    "pair_map_generic_degree": 1,
+    "pair_map_birational": true,
+    "x_to_q_degree": 4,
+    "x_to_q_deck_group": "V4",
+    "x_to_q_finite_etale": true,
+    "C_square": 758,
+    "exceptional_square_sum": 2358,
+    "D_square": 3874,
+    "deck_cross": {"u":3892,"v":4020,"uv":4020,"sum":11932}
+  },
+  "corrected_rosati_arithmetic": {
+    "pullback_square_relation": "Gamma^2=D^2+D.uD+D.vD+D.uvD",
+    "Gamma_square": 15806,
+    "sigma_formula": "sigma(Gamma)=2*d1*d2-Gamma^2",
+    "sigma": 1204,
+    "matrix_trace_relation": "Tr_Q(T^dagger*T)=2*Q(T)",
+    "Q": 602,
+    "former_gap_1204_interpretation": "required_nonzero_Rosati_trace_not_contradiction",
+    "O210_normalization_genus": 106,
+    "Gamma_arithmetic_genus": 8090,
+    "Gamma_normalization_defect": 7984,
+    "Q_delta_identity": "Q(T)=8586-delta_Gamma",
+    "Q_delta_replay": "602=8586-7984"
+  },
+  "bounded_retained_rosati_search": {
+    "operator_bound": 8505,
+    "Q_below_automatic_operator_bound": true,
+    "trace_lattice_isometry": "D4 direct-sum D4",
+    "Q_represented": true,
+    "D4_shell": {"target_norm":602,"m":301,"factorization":"301=7*43","shell_formula":"a(m)=24*sum_{d|m,d odd} d","odd_divisors":[1,7,43,301],"one_D4_shell_count":8448,"positive":true},
+    "weierstrass_collision_delta_lower_bound": 1924,
+    "corrected_delta": 7984,
+    "weierstrass_bound_satisfied": true,
+    "existing_assets_exclude_Q602": false,
+    "result": "EXACT_NONEXCLUSION_AT_ROSATI_TRACE_SIGMA1204_Q602"
+  },
+  "current_blocker": {
+    "item": "O210_Q4_ROSATI_TRACE_1204_GEOMETRY",
+    "required_new_input": "Prove sigma(Gamma)=0 from genuine geometry, or independently exclude sigma=1204 / Q(T)=602 for correspondences arising from the common-cover/marked-branch geometry.",
+    "O212_and_later_blocked": true,
+    "full_rosati_enumeration_authorized": false
+  },
+  "source_locks": {
+    "repair_source_note": {"path":"stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md","blob_sha1":"b0ea281eae453929c292059a919bc1f68b3080b3"},
+    "superseded_v224_certificate": {"path":"stages/stage32/residual-32-01-production/post1490-fixed-v6-all-genus1-deck-cross-exclusion.json","blob_sha1":"065587b60b5aea74035f26fb9bfb03f1106b52e1","canonical_sha256":"5a117c21bb3bdf6952a9ec4fdcf113352cc88ea0353b22d20095e482acd8ddb6"},
+    "modular_factor_boundary": {"path":"stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-boundary.json","blob_sha1":"072266f2ac5386316adc99e35a6444d2449656c8","canonical_sha256":"791870c37681702392e1e59d224f494ed791709d467efa68a20cf49bff4ab420"},
+    "beauville_self_adapter": {"path":"stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-beauville-blowup-picard-adapter-delta-lock.json","blob_sha1":"60d7f57b4cfb9817512d8c32b0b0669fff7b5a15","canonical_sha256":"240a5e63896fc936e45f32d274425ac3bc3cda00be584e1ce8e55a6add3f7ad9"},
+    "equivariant_deck_cross": {"path":"stages/stage32/residual-32-01-production/post1490-o210-q4-equivariant-beauville-deck-cross-exclusion.json","blob_sha1":"9cd6d7122b8a3149b8ab79396946d72b986649df","canonical_sha256":"8c32735092671d725034de8d14d09c09ac275517fa5f0e225791d2fc53eb5bf3"},
+    "correspondence_rosati_frontier": {"path":"stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-frontier.json","blob_sha1":"f8c941af0598b1e3e73e5adcc4773ac1b3cf9aea","canonical_sha256":"a565673dd6cc6c4b732a18f1e4adba4febbde497387b70e81cc4b64c29004ce3"},
+    "principal_rosati": {"path":"stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json","blob_sha1":"e28c4533883440ea0963d4d4e8859aa95409cf10","canonical_sha256":"8d828cdf6d1f5cb1d790c46292535dc252e503356e1047ce972c41e61f524529"},
+    "d4d4_trace_reduction": {"path":"stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-birational-d4d4-trace-reduction.json","blob_sha1":"d833f5c31fe9869e9128573517bc4a75875599fb","canonical_sha256":"36317063d40d58ac893aac02da059f9150f835e94a214e4ac89b058d0b9f44d4"},
+    "weierstrass_collision": {"path":"stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-weierstrass-collision-delta-bound.json","blob_sha1":"b357c1df85231cad05a2dbdffc9a60541ab32c3d","canonical_sha256":"7ccddb53c2f4b32979e5f728f974dfa58cf346c730fe7fe040f35cc31f0f4d5f"}
+  },
+  "decision": {
+    "O186_closed_audited": true,
+    "O188_closed_audited": true,
+    "O210_reopened": true,
+    "O210_excluded": false,
+    "O212_plus_advance_allowed": false,
+    "fixed_V6_all_integral_genus1_carriers_excluded": false,
+    "repair_is_exact_nonexclusion_boundary": true,
+    "promotion_requires_hostile_audit": true,
+    "stage32_closed": false
+  },
+  "firewalls": {
+    "Gamma_square_from_bidegree_alone_forbidden": true,
+    "zero_rosati_specialization_reuse_forbidden": true,
+    "effectivity_credit": false,
+    "full178_authorized": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "e28c7539e05b9c4836b9bc51c8f69316723eb8c368700a26706627045525fe07"
+}

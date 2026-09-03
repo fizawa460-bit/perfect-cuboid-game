@@ -1,0 +1,73 @@
+{
+  "schema": "STAGE32_POST1484_O210_Q4_ABEL_JACOBI_EQUIVALENT_THEOREM_CLOSURE_V1",
+  "stage": 32,
+  "leaf": "POST1484_O210_Q4_ABEL_JACOBI_EQUIVALENT_THEOREM_CLOSURE",
+  "status": "PROVISIONAL_EXACT_EQUIVALENT_THEOREM_NONEXCLUSION_PENDING_HOSTILE_AUDIT",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "d": 186,
+    "e": 266,
+    "genus": 1,
+    "z": [-15, 62, -44, 26, 32]
+  },
+  "source_locks": {
+    "abel_jacobi_reduction": {
+      "path": "stages/stage32/residual-32-01-production/post1484-o210-q4-half-ramification-abel-jacobi-reduction.json",
+      "blob_sha1": "44b135bdda2575dd31de081a503d95a73214bb75",
+      "canonical_sha256": "3c58d7cc3d7faab1a59ff5cec793ebee57e69024f7ebee407f89dbb3f07328f2"
+    },
+    "common_double_cover_cartesian_identity": {
+      "path": "stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json",
+      "blob_sha1": "def8b60b726c02aa7ee97c0cc25b34f43525ec34",
+      "canonical_sha256": "eb31183bf519fec4ad5bb2d0799b3f0a64b7af893308e09ce0c33119b63440a1"
+    }
+  },
+  "coordinate_free_closure": {
+    "source_locked_linear_equivalence": "2E ~ R_z - R_w",
+    "decision_divisor": "2E - R_z + R_w",
+    "pic0_definition": "Pic^0(N)=Div^0(N)/Prin(N)",
+    "theorem_step": "D1 ~ D2 iff D1-D2 is principal; therefore 2E-R_z+R_w is principal.",
+    "origin_free_conclusion": "[2E - R_z + R_w] = 0 in Pic^0(N)",
+    "abel_jacobi_conclusion": "For every choice of origin/Pic0 identification on genus-one N, the weighted Abel-Jacobi sum of 2E-R_z+R_w is zero.",
+    "normalization_model_required_for_zero_test": false,
+    "support_point_coordinates_required_for_zero_test": false,
+    "reason": "The zero class is forced by the already source-locked exact linear equivalence, so coordinates cannot turn this class nonzero."
+  },
+  "relation_to_closure_contract": {
+    "contract_instance_required_for_this_zero_verdict": false,
+    "contract_remains_valid_as_generic_replay_interface": true,
+    "contract_cannot_supply_new_exclusion_for_this_exact_class": true,
+    "superseded_live_action": "Instantiate Pic0 coordinates solely to decide whether [2E-R_z+R_w] is zero."
+  },
+  "verdict": {
+    "abel_jacobi_class_zero": true,
+    "O210_excluded": false,
+    "this_obstruction_closed": true,
+    "row_status": "OPEN",
+    "closure_mode": "SOURCE_LOCKED_EQUIVALENT_THEOREM",
+    "next_exact_leaf": "O210_Q4_SIMULTANEOUS_105_81_CORRESPONDENCE_GEOMETRY",
+    "next_geometry": {
+      "source_curve": "Y",
+      "target_curve": "C0",
+      "first_map": {"degree": 105, "etale": true},
+      "second_map": {"degree": 81, "ramification_total": 48},
+      "compatibility": "Both maps arise from the same N->B / resolved V6 carrier geometry."
+    }
+  },
+  "anti_loop": {
+    "repeat_same_pic0_coordinate_search_for_exclusion": false,
+    "use_incomplete_marked_fiber_principal_relation_quotient_for_nonprincipality": false,
+    "reopen_O186_or_O188": false,
+    "reason": "The exact Abel-Jacobi decision class is theorem-forced zero; only an independent simultaneous 105/81 compatibility can advance exclusion."
+  },
+  "firewalls": {
+    "carrier_existence_proved": false,
+    "full178_authorized": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "canonical_sha256_without_this_field": "78794afba5012d0da87fb524b3ed6ccba36894527cb44354eb22dd4264a1225a"
+}
