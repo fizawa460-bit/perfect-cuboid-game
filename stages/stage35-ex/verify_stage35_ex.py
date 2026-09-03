@@ -7,6 +7,7 @@ ROOT = Path(__file__).resolve().parents[2]
 STATE = ROOT / "stages/stage35-ex/MAIN-STATE.json"
 CERT05 = ROOT / "stages/stage35-ex/35ex-05/reduction-certificate.json"
 CERT06 = ROOT / "stages/stage35-ex/35ex-06/gcd-squareclass-certificate.json"
+CERT07 = ROOT / "stages/stage35-ex/35ex-07/moving-squareclass-certificate.json"
 
 
 def v2(n: int) -> int:
@@ -31,13 +32,14 @@ def square(n: int) -> bool:
 state = json.loads(STATE.read_text())
 cert05 = json.loads(CERT05.read_text())
 cert06 = json.loads(CERT06.read_text())
+cert07 = json.loads(CERT07.read_text())
 
 assert state["stage"] == "35-EX"
 assert state["true_owner"]["kernel"] == "K16-C3-PESCH-EXPONENT-ONE"
 assert state["true_owner"]["receiver"] == "R29-PESCH-E1"
 assert state["stage35_main_firewall"]["stage35_ex_reopens_stage35_main"] is False
 
-for cert in (cert05, cert06):
+for cert in (cert05, cert06, cert07):
     credit = cert["credit"]
     for key in (
         "new_theorem_credit",
@@ -116,7 +118,8 @@ for r, s, u, v in [(5, 2, 7, 4), (8, 3, 9, 2), (11, 4, 13, 6)]:
 
 # 35EX-06 exact pairwise gcd support. These finite tuples are regression only;
 # the theorem content is the determinant/gcd argument in four-factor-gcd-support.md.
-for r, s, u, v in [(5, 2, 7, 4), (8, 3, 9, 2), (11, 4, 13, 6), (9, 2, 7, 4)]:
+structural_tuples = [(5, 2, 7, 4), (8, 3, 9, 2), (11, 4, 13, 6), (9, 2, 7, 4)]
+for r, s, u, v in structural_tuples:
     assert gcd(r, s) == gcd(u, v) == 1
     assert (r - s) % 2 == (u - v) % 2 == 1
     L1, L2 = r*u+s*v, r*v-s*u
@@ -147,6 +150,33 @@ for r, s, u, v in [(5, 2, 7, 4), (8, 3, 9, 2), (11, 4, 13, 6), (9, 2, 7, 4)]:
     assert abs(Hminus) % gcd(R2, R3) == 0
     assert gcd(R1, R3) == D13
     assert gcd(R2, R4) == D24
+
+# 35EX-07 reservoir-collapse lemmas. These are structural identities for two
+# primitive opposite-parity pairs, independent of any bounded Master-Hit search.
+for r, s, u, v in structural_tuples:
+    rs, uv = r*s, u*v
+    t = gcd(rs, uv)
+    C13 = gcd(r, v)*gcd(s, u)
+    C24 = gcd(r, u)*gcd(s, v)
+    T_L = gcd(r*r-s*s, u*u-v*v)
+    Gplus = gcd(r*r+s*s, u*u+v*v)
+    assert C13*C24 == t
+    assert gcd(C13, C24) == 1
+    assert gcd(t, T_L) == 1
+    assert gcd(Gplus, t*T_L) == 1
+
+    x, y = u-v, u+v
+    j = gcd(rs, x*y)
+    D13 = gcd(r, y)*gcd(s, x)
+    D24 = gcd(r, x)*gcd(s, y)
+    T_R = gcd(r*r-s*s, u*v)
+    Hplus = gcd(r*r+s*s, x*x+y*y)
+    Hminus = gcd(r*r-s*s, x*x-y*y)
+    assert D13*D24 == j
+    assert gcd(D13, D24) == 1
+    assert gcd(j, T_R) == 1
+    assert gcd(Hplus, j*T_R) == 1
+    assert Hminus == T_R
 
 # Branch-L 2-adic support: e_r=e_u+k1 with k1>=2 makes one same-coordinate
 # pair exactly 2^e_u-divisible and the other pair odd.
@@ -180,6 +210,12 @@ assert check["sign_and_two_adic_bookkeeping"] is True
 assert check["finite_shared_prime_support_proved"] is False
 assert check["finite_exhaustive_squareclass_family_proved"] is False
 assert check["direct_stage34_branch_transfer_allowed"] is False
-assert cert06["next_exact_leaf"]["unit"] == "35EX-07_DYNAMIC_ODD_PRIME_RESERVOIR_COLLAPSE"
 
-print("PASS STAGE35_EX_REDUCTION_V2_GCD_SUPPORT")
+arsenal07 = cert07["arsenal_decision"]
+assert arsenal07["dynamic_reservoirs_collapsed"] is True
+assert arsenal07["fixed_finite_squareclass_support_proved"] is False
+assert arsenal07["finite_enumeration_authorized"] is False
+assert arsenal07["stage34_concrete_branch_data_transfer_allowed"] is False
+assert cert07["route"]["next_exact_leaf"] == "35EX-08_GAUSSIAN_DOUBLE_SQUARE_COMPATIBILITY"
+
+print("PASS STAGE35_EX_REDUCTION_V3_MOVING_SQUARECLASS")
