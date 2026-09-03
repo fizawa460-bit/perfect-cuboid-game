@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE35_EX_PESCH_E1_STATE_V1",
+  "schema": "STAGE35_EX_PESCH_E1_STATE_V2_FOUR_FACTOR_REDUCTION",
   "stage": "35-EX",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
   "base_main_sha": "e01bafa0e74031454d24227831616a1f6fd2832b",
@@ -32,11 +32,55 @@
     "inherited": true,
     "stage_local_overrides_may_weaken": false
   },
-  "current": {
-    "unit": "35EX-01_ROADMAP_AND_VIEW_AUDIT",
-    "next_exact_leaf": "LOCK_SMALL_PROOF_OBLIGATIONS_AND_SELECT_FIRST_EXACT_REDUCTION"
+  "completed_units": {
+    "35EX-01": {
+      "status": "PASS_ROADMAP_LOCKED_NO_CREDIT",
+      "artifact": "stages/stage35-ex/35ex-01/roadmap-and-view-audit.json",
+      "exhaustive_view_audit": true,
+      "blind_rediscovery": true
+    },
+    "35EX-02": {
+      "status": "PROVISIONAL_EXACT_LEMMA",
+      "artifact": "stages/stage35-ex/35ex-02/canonical-gcd-and-2adic-lemma.md",
+      "result": "g0=c*p, h=c*q with c,p,q pairwise coprime; every Master-Hit has v2(V1)!=v2(V2)",
+      "audited_theorem_credit": false
+    },
+    "35EX-03": {
+      "status": "PROVISIONAL_EXACT_COUNTEREXAMPLE_NORMAL_FORM",
+      "artifact": "stages/stage35-ex/35ex-03/double-primitive-counterexample-normal-form.md",
+      "result": "any E1 counterexample lies in exactly two 2-adic branches with simultaneous primitive Pythagorean parameterizations",
+      "audited_theorem_credit": false
+    },
+    "35EX-04": {
+      "status": "PROVISIONAL_EXACT_PRODUCT_RECTANGLE_REDUCTION",
+      "artifact": "stages/stage35-ex/35ex-04/product-rectangle-reduction.md",
+      "result": "after forced p,q support removal, the multiplicative cross-equation is a four-cell coprime product rectangle and is not alone an obstruction",
+      "audited_theorem_credit": false
+    },
+    "35EX-05": {
+      "status": "PROVISIONAL_EXACT_FOUR_FACTOR_SQUARE_REDUCTION",
+      "artifact": "stages/stage35-ex/35ex-05/four-factor-square-descent.md",
+      "certificate": "stages/stage35-ex/35ex-05/reduction-certificate.json",
+      "result": "using additive equations eliminates (a,b) from a necessary counterexample condition and gives one four-bilinear-factor square receiver in each branch",
+      "arsenal_candidate": "S34-W01",
+      "finite_squareclass_reduction_proved": false,
+      "audited_theorem_credit": false
+    }
   },
-  "completed_units": {},
+  "current": {
+    "unit": "35EX-06_FOUR_FACTOR_GCD_AND_SQUARECLASS_SUPPORT",
+    "next_exact_leaf": "DERIVE_PAIRWISE_GCD_SUPPORT_AND_DECIDE_WHETHER_S34_W01_CAN_REACH_A_FINITE_EXHAUSTIVE_SQUARECLASS_FAMILY",
+    "working_set": [
+      "stages/stage35-ex/35ex-02/canonical-gcd-and-2adic-lemma.md",
+      "stages/stage35-ex/35ex-03/double-primitive-counterexample-normal-form.md",
+      "stages/stage35-ex/35ex-05/four-factor-square-descent.md",
+      "stages/stage35-ex/35ex-05/reduction-certificate.json"
+    ]
+  },
+  "arsenal": {
+    "S34_W01": "PARTIAL_MATCH_FACTOR_SQUARE_SHAPE_ONLY_PAIRWISE_GCD_AND_FINITE_SQUARECLASS_HYPOTHESES_PENDING",
+    "stage34_concrete_coefficients_branches_and_local_primes_transfer": false
+  },
   "claims": {
     "new_theorem_credit": false,
     "R29_PESCH_E1_closed": false,
