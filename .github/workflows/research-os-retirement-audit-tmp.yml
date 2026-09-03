@@ -1,0 +1,28 @@
+name: research-os-retirement-audit-tmp
+
+on:
+  push:
+    branches:
+      - research-os-final-handoff-discovery
+    paths:
+      - '.github/workflows/research-os-retirement-audit-tmp.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: One-shot locator dependency inventory
+        run: |
+          echo '=== locator / locator asset references ==='
+          git grep -niE 'locator|EVID-S3[23]' -- . ':!.github/workflows/research-os-retirement-audit-tmp.yml' || true
+          echo '=== arsenal presence ==='
+          test -f docs/arsenal/index.json
+          test -f docs/arsenal/sync_arsenal_catalog.py
