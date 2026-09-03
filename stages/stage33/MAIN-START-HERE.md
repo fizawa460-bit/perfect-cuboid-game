@@ -24,7 +24,7 @@ Do not infer `e3` by splitting `J2 = e2+e3`, do not split standard col2/col3 fro
 
 ## Authority and release
 
-Controller V60 and `sync_main_state.py` generate `MAIN-STATE.json` V17. Mathematical authority remains the V25-V36 exact certificate chain; V39 is operational routing authority only. V38 remains the historical synchronization receipt.
+Controller V60 and `sync_main_state.py` generate `MAIN-STATE.json` V17. Mathematical authority remains the V25-V36 exact certificate chain; V39 is operational routing authority only. V38 remains the historical synchronization receipt. Dedicated current routing CI is `.github/workflows/stage33-v39-routing.yml`.
 
 `MAIN-BATCH-HANDOFF.md` is retired and must not be recreated.
 
