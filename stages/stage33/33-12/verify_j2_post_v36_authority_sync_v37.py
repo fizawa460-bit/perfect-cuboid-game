@@ -2,7 +2,7 @@
 """Verify the post-V36 Stage33 startup authority gate without changing math.
 
 This verifier source-locks the exact V25/V33/V34 frontier and the V35/V36/V37
-handoff chain.  It also checks that the compact MAIN projection cannot promote
+handoff chain. It also checks that the compact MAIN projection cannot promote
 closure/credit or synthesize a missing Kummer column.
 """
 from __future__ import annotations
@@ -44,9 +44,11 @@ z = {name: load_locked(path, digest) for name, (path, digest) in LOCKS.items()}
 
 assert z["v25"]["genuine_h2_mu2_adapter"]["full_surface_named_j2_h2_mu2_lift_materialized"] is True
 assert z["v25"]["promotion_firewall"]["standard_kummer_columns_materialized"] == 0
-assert z["v33"]["current_hs_d2"]["nonzero"] is True
-assert z["v34"]["adapted_source_basis"]["columns_materialized"] == 1
-assert z["v34"]["original_standard_basis"]["columns_materialized"] == 0
+assert z["v33"]["exact_information_boundary"]["current_hs_d2_nonzero_proved"] is True
+assert z["v33"]["kummer_hs_conclusion"]["named_J2_HS_d2_zero"] is False
+assert z["v34"]["exact_information_boundary"]["adapted_kummer_columns_materialized"] == 1
+assert z["v34"]["exact_information_boundary"]["original_standard_kummer_columns_materialized"] == 0
+assert z["v34"]["original_standard_basis_relation"]["no_individual_standard_column_inferred"] is True
 
 assert z["v35"]["current_exact_frontier"]["j2_adapted_columns_materialized"] == 1
 assert z["v35"]["current_exact_frontier"]["original_standard_columns_materialized"] == 0
