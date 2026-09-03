@@ -3,7 +3,7 @@
 ```text
 UNIT=35-09_DECISION_CERTIFICATE_OR_PARK
 CLASSIFICATION=CLASS3_RETAINED_WITH_SHARPER_MINIMAL_THEOREM
-AUDIT_STATUS=SUBMITTED_FOR_HOSTILE_AUDIT_NOT_STAGE_CLOSE
+AUDIT_STATUS=REPAIR_AFTER_HOSTILE_AUDIT_5100964131_NOT_STAGE_CLOSE
 TARGET=T35-R3-PHYS-EMPTY
 R29_FIB2_CLOSED=false
 J12_PARAMETRIC_CLOSED=false
@@ -31,6 +31,10 @@ T35-R3-PHYS-EMPTY:
 for every rational t>1, U_t(Q)=empty.
 ```
 
-Existing fixed-fiber covering/elliptic-Chabauty methods and generic `Q(t)` Mordell--Weil/section methods do not supply the missing quantifier: they do not exclude rational points appearing only after specialization. No exact globally exhaustive reduction to finitely many fibers was found, so `S34-W02` remains locked and bounded fiber computation remains non-credit-bearing.
+Existing source-locked fixed-fiber covering/elliptic-Chabauty methods and generic `Q(t)` Mordell--Weil/section methods do not supply the missing quantifier: they do not exclude rational points appearing only after specialization. Stage35 makes no global literature-absence claim. The negative result is only that the source-locked material checked in 35-06 contains no applicable uniform closure theorem. Broad external literature is not declared exhausted.
 
-The route must reopen only for a genuinely uniform specialization-new-point theorem, a uniform receiver-intersection obstruction, an exact global finite reduction, or an audited contradiction to the current certificates.
+No exact globally exhaustive reduction to finitely many fibers was obtained from the current exact inputs, so `S34-W02` remains locked and bounded fiber computation remains non-credit-bearing.
+
+Hostile audit `5100964131` accepted the central selected-route mathematics but required four bounded repairs: correct the 35-08 cubic-RHS-versus-Weierstrass discriminant terminology, add one lightweight aggregate 35-01--35-09 verifier wired to PR CI, update the PR body to the current research surface, and bound the literature-negative claim. These repairs do not promote receiver or theorem credit.
+
+The re-audit execution authority is `stages/stage35/verify_stage35_35_01_to_09.py` through `.github/workflows/stage35-35-01-to-09-audit.yml` at the exact PR head.
