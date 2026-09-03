@@ -43,7 +43,7 @@ def load_locked(path: Path, expected: str) -> dict:
 z = {name: load_locked(path, digest) for name, (path, digest) in LOCKS.items()}
 
 assert z["v25"]["genuine_h2_mu2_adapter"]["full_surface_named_j2_h2_mu2_lift_materialized"] is True
-assert z["v25"]["promotion_firewall"]["standard_kummer_columns_materialized"] == 0
+assert z["v25"]["remaining_interface"]["standard_kummer_columns_materialized"] == 0
 assert z["v33"]["exact_information_boundary"]["current_hs_d2_nonzero_proved"] is True
 assert z["v33"]["kummer_hs_conclusion"]["named_J2_HS_d2_zero"] is False
 assert z["v34"]["exact_information_boundary"]["adapted_kummer_columns_materialized"] == 1
