@@ -32,6 +32,7 @@ assert real["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
 assert real["base_main_sha"] in {
     "c20ee71d91af850103fd7406f9b1072448a11fcf",
     "5ed32fa53bdecb735f461d7c27e85851d9ad8c21",
+    "8c59c81bcf0bcd442705cfb7a3db297253b34679",
 }
 parent = real["parent_authority"]
 assert parent["unit"] == "35EX-23"
