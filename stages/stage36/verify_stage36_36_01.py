@@ -10,6 +10,7 @@ STATE_PATH = ROOT / "stages/stage36/MAIN-STATE.json"
 CERT_PATH = ROOT / "stages/stage36/36-01/source-authority-certificate.json"
 CERT_BASE = "5ed32fa53bdecb735f461d7c27e85851d9ad8c21"
 AUDITED_MERGE = "8c59c81bcf0bcd442705cfb7a3db297253b34679"
+AUDITED_CERT_BLOB = "946c3a27856bfe76c1a9a527ab23d490086ca83c"
 SOURCES = {
     "stage29_active_kernel_ledger": ("stages/stage29/29-16/active-kernel-ledger.json", "5d6d4c7709b57064aea5dc0ece672c5170c39550"),
     "stage29_endpoint_hub_graph": ("stages/stage29/29-06/endpoint-hub-graph.json", "7ea59474767f81fbaa4837c8cbc94b535560617b"),
@@ -36,6 +37,11 @@ def require(ok: bool, msg: str) -> None:
 
 
 def main() -> None:
+    # S30-WF02 fail-closed rule: the hostile-audited final 36-01 certificate is
+    # itself immutable authority. Successor-safe replay must reject *any* drift
+    # in that wrapper/final certificate, not merely changes to a semantic subset.
+    require(blob_sha(CERT_PATH) == AUDITED_CERT_BLOB, "36-01 audited certificate blob drift")
+
     state = json.loads(STATE_PATH.read_text())
     cert = json.loads(CERT_PATH.read_text())
 
@@ -70,6 +76,7 @@ def main() -> None:
     require(all(v is False for v in state.get("claims", {}).values()), "Stage36 higher claim leaked after 36-01")
 
     print("PASS STAGE36_36_01_AUDITED_SUCCESSOR_REPLAY")
+    print(f"audited_certificate_blob={AUDITED_CERT_BLOB}")
     print("hostile_audit_review=5112705173; audited_head=e2f6c5a2f34d76c1f17f90983a4e7fea62816621")
     print("source_authority_lock_complete=true; no theorem/receiver/endpoint credit")
 
