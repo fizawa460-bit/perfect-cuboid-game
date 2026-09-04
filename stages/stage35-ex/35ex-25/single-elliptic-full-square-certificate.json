@@ -1,0 +1,113 @@
+{
+  "schema": "STAGE35_EX_25_SINGLE_ELLIPTIC_FULL_SQUARE_RECEIVER_CERTIFICATE_V1",
+  "stage": "35-EX",
+  "unit": "35EX-25",
+  "status": "PROVISIONAL_EXACT_SINGLE_ELLIPTIC_FULL_SQUARE_RECEIVER_NO_CREDIT",
+  "authority": {
+    "parent_unit": "35EX-24",
+    "hostile_audit_review": 5112867152,
+    "audited_head_sha": "529c550c742e75025cdcc1a6b9666582f26697a1",
+    "merged_main_sha": "81569110952b348692e688c5e1d7148dca10b163",
+    "fresh_breadth_audit": "stages/stage35-ex/35ex-24/post-isogeny-compression-breadth-audit.json"
+  },
+  "base": {
+    "field": "K=Q(B1)",
+    "B1": "p^2=1+x^2",
+    "a": "x^2"
+  },
+  "generic_fiber": {
+    "C": [
+      "q^2=y^2+1",
+      "z^2=y^2+a",
+      "w^2=y^2+1+a"
+    ],
+    "Eplus": "Y^2=(X+1)*(X+a)*(X+1+a)",
+    "map": {
+      "X": "y^2",
+      "Y": "q*z*w"
+    }
+  },
+  "single_elliptic_receiver": {
+    "id": "R_plus(a)",
+    "conditions": [
+      "X in F^2",
+      "X+1 in F^2",
+      "X+a in F^2",
+      "X+1+a in F^2"
+    ],
+    "forward_square_roots": {
+      "X": "y",
+      "X+1": "q",
+      "X+a": "z",
+      "X+1+a": "w"
+    },
+    "converse_sign_reconstruction": "choose y,q,z,w square roots; because Y^2=(q*z*w)^2, change one of q,z,w signs if needed so Y=q*z*w",
+    "iff_C_lift": true,
+    "full_Eplus_pointset_classified": false
+  },
+  "pair_2isogeny_image_criterion": {
+    "Crs": "V^2=(y^2+r^2)*(y^2+s^2)",
+    "d": "r*s",
+    "c": "r^2+s^2",
+    "Q": "Y^2=T*((T-c)^2-4*d^2)",
+    "L": "W^2=Z^3+c*Z^2+d^2*Z",
+    "phi": {
+      "T": "W^2/Z^2",
+      "Y": "W*(d^2-Z^2)/Z^2"
+    },
+    "criterion_open": "T!=0",
+    "image_iff": "T in F^2",
+    "converse_lift": {
+      "assume": "T=t^2",
+      "Z": "(T-c-Y/t)/2",
+      "W": "t*Z"
+    }
+  },
+  "receiver_pair_square_coordinates": {
+    "general": "T=((r*q_s+s*q_r)/y)^2",
+    "E12": "T12=((z+x*q)/y)^2",
+    "E13": "T13=((w+p*q)/y)^2",
+    "E23": "T23=((x*w+p*z)/y)^2"
+  },
+  "reconstruction": {
+    "E12": "V12=q*z",
+    "E13": "V13=q*w",
+    "E23": "V23=z*w",
+    "Eminus_X": "y^2",
+    "Eminus_Y": "y*q*z*w",
+    "five_factor_compatibility_from_single_receiver": true
+  },
+  "arsenal": {
+    "selected_card": "S34-W03",
+    "path": "docs/arsenal/cards/formal/S34-W03.md",
+    "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96",
+    "role": "RECEIVER_RESTRICTED_INTERSECTION_EXCLUSION",
+    "single_elliptic_receiver_routing_match": true,
+    "receiver_intersection_closed": false,
+    "S34_W02_unlocked": false
+  },
+  "claims": {
+    "single_elliptic_receiver_reduction": true,
+    "Eplus_four_square_receiver_iff_C_lift": true,
+    "pair_2isogeny_image_iff_T_square_on_nonzero_open": true,
+    "three_pair_receiver_T_coordinates_square": true,
+    "five_factor_simultaneous_compatibility_reconstructed_from_Eplus_full_square_locus": true,
+    "uniform_receiver_emptiness": false,
+    "uniform_full_MW_group": false,
+    "uniform_Selmer_or_specialization_closure": false,
+    "new_Brauer_obstruction": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "audited_theorem_credit": false
+  },
+  "cycle": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "new_gate": "SINGLE_MOVING_EPLUS_FOUR_SQUARE_RECEIVER",
+    "fresh_breadth_audit_required_after_hostile_pass": true
+  }
+}
