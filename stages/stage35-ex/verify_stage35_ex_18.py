@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
+import json
 from math import gcd, isqrt
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DOC = ROOT / "stages/stage35-ex/35ex-18/gaussian-relative-orientation-and-master-unit-freeze.md"
+STATE = ROOT / "stages/stage35-ex/MAIN-STATE.json"
 
 def square(n):
     return n >= 0 and isqrt(n) ** 2 == n
@@ -54,6 +56,75 @@ def gaussian_orientation(x, y, p):
     minus = (x - r*y) % p == 0
     assert plus != minus
     return 1 if plus else -1
+
+state = json.loads(STATE.read_text())
+assert state["schema"] == "STAGE35_EX_PESCH_E1_STATE_V17_POST_35EX18_GAUSSIAN_RELATIVE_ORIENTATION_FREEZE"
+assert state["stage"] == "35-EX"
+assert state["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
+assert state["base_main_sha"] == "31e13d294c7130db2140bfab18b6d27b29ec3478"
+
+parent = state["parent_authority"]
+assert parent["unit"] == "35EX-17B"
+assert parent["status"] == "AUDITED_FRESH_GAUSSIAN_COORDINATE_GCD_HOOK_NO_CREDIT"
+assert parent["hostile_audit_verdict"] == "PASS"
+assert parent["audited_head_sha"] == "06a2fbf39f180cd4d083f95b0aa0bc42e827eaeb"
+assert parent["merged_main_sha"] == "31e13d294c7130db2140bfab18b6d27b29ec3478"
+assert parent["audited_theorem_credit"] is False
+
+unit17b = state["completed_units"]["35EX-17B"]
+assert unit17b["status"] == "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT"
+assert unit17b["hostile_audit_verdict"] == "PASS"
+assert unit17b["audited_head_sha"] == "06a2fbf39f180cd4d083f95b0aa0bc42e827eaeb"
+assert unit17b["merged_main_sha"] == "31e13d294c7130db2140bfab18b6d27b29ec3478"
+assert unit17b["selected_next_unit"] == "35EX-18_GAUSSIAN_COORDINATE_GCD_SPLIT_OR_MOVING_ORIENTATION"
+assert unit17b["selected_candidate"] == "E1-GAUSSIAN-COORDINATE-GCD-SPLIT"
+assert unit17b["audited_theorem_credit"] is False
+
+unit18 = state["completed_units"]["35EX-18"]
+assert unit18["status"] == "PROVISIONAL_EXACT_GAUSSIAN_RELATIVE_ORIENTATION_MASTER_UNIT_FREEZE_NO_CREDIT"
+assert unit18["artifact"] == "stages/stage35-ex/35ex-18/gaussian-relative-orientation-and-master-unit-freeze.md"
+assert unit18["verifier"] == "stages/stage35-ex/verify_stage35_ex_18.py"
+assert unit18["gaussian_relative_pd_orientation_proved"] is True
+assert unit18["p_odd_squareclass_primes_route_opposite"] is True
+assert unit18["d_odd_squareclass_primes_route_same"] is True
+assert unit18["master_gaussian_bilinear_coordinate_identity_proved"] is True
+assert unit18["master_gaussian_pd_valuation_contradiction"] is False
+assert unit18["master_pd_local_residue_table_proved"] is True
+assert unit18["master_pd_local_residue_table_orientation_blind"] is True
+assert unit18["absolute_pd_split_prime_orientation_uniformly_fixed"] is False
+assert unit18["all_deeper_gaussian_or_reciprocity_arguments_ruled_out"] is False
+assert unit18["audited_theorem_credit"] is False
+
+freeze = state["resolved_investigations"]["CURRENT_GAUSSIAN_COORDINATE_ORIENTATION"]
+assert freeze["status"] == "FROZEN_MOVING_ABSOLUTE_ORIENTATION_AND_SOURCE_UNITS"
+assert "absolute p*d Gaussian-prime choices" in freeze["reopen_condition"]
+assert "c*q Legendre table" in freeze["reopen_condition"]
+
+ledger = state["candidate_ledger_after_fresh_breadth_audit"]
+assert ledger["selected_live"] == "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION"
+assert ledger["untested"] == []
+assert "E1-GAUSSIAN-COORDINATE-GCD-SPLIT" in ledger["just_frozen"]
+assert "E1-GAUSSIAN-COORDINATE-GCD-SPLIT" in ledger["blocked"]
+
+current = state["current"]
+assert current["unit"] == "35EX-19_RECEIVER_SPECIFIC_GENUSONE_ADAPTER_OR_BLOCKER"
+assert current["status"] == "SELECTED_PRESERVED_UNTESTED_CANDIDATE_NO_CREDIT"
+assert "FIXED_RECEIVER_SPECIFIC_QUARTIC_OR_GENUS_ONE_MODEL" in current["next_exact_leaf"]
+assert "EXACT_SOURCE_TO_CURVE_ADAPTER" in current["next_exact_leaf"]
+
+assert state["arsenal"]["S31_W01"] == "SELECTED_ROUTING_PATTERN_ONLY_FOR_35EX19_REQUIRES_FIXED_QUARTIC_AND_EXACT_SOURCE_ADAPTER"
+assert state["stage35_main_firewall"]["stage35_ex_reopens_stage35_main"] is False
+
+for key in (
+    "new_theorem_credit",
+    "R29_PESCH_E1_closed",
+    "R29_FIB2_closed",
+    "J12_PARAMETRIC_closed",
+    "stage35_closed",
+    "perfect_cuboid_existence_claim",
+    "perfect_cuboid_nonexistence_claim",
+):
+    assert state["claims"][key] is False
 
 doc = DOC.read_text()
 for marker in (
