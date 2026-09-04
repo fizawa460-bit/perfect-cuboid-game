@@ -22,6 +22,9 @@ state = json.loads(STATE.read_text())
 doc = DOC.read_text()
 audit = json.loads(AUDIT.read_text())
 
+# Progression-safe: verify the recorded 35EX-14 result whether it is still
+# provisional at the exact audit head or has subsequently been promoted to its
+# hostile-audited no-credit authority. Do not pin the downstream current leaf.
 assert state["stage"] == "35-EX"
 unit13 = state["completed_units"]["35EX-13"]
 assert unit13["status"] == "AUDITED_EXACT_ALTERNATE_NORM_GAUSSIAN_COUPLING_NO_CREDIT"
@@ -31,14 +34,20 @@ assert unit13["merged_main_sha"] == "0dff1852f30f832e5fef104bcd143c0ee82365c0"
 assert unit13["audited_theorem_credit"] is False
 
 unit14 = state["completed_units"]["35EX-14"]
-assert unit14["status"] == "PROVISIONAL_EXACT_COPRIME_E1_RECEIVER_FACTORIZATION_NO_CREDIT"
+assert unit14["status"] in {
+    "PROVISIONAL_EXACT_COPRIME_E1_RECEIVER_FACTORIZATION_NO_CREDIT",
+    "AUDITED_EXACT_COPRIME_E1_RECEIVER_FACTORIZATION_NO_CREDIT",
+}
+if unit14["status"].startswith("AUDITED_"):
+    assert unit14["hostile_audit_review"] == 5108445565
+    assert unit14["audited_head_sha"] == "ff502d2c9455ce60b4030843947e16e5bc84057c"
+    assert unit14["merged_main_sha"] == "6d4354ca7e3d8162ad2f97d7aab086858c061503"
 assert unit14["coprime_e1_receiver_factorization_proved_conditionally"] is True
 assert unit14["gaussian_sieve_identified_with_Lminus_square"] is True
 assert unit14["S34_W03_exact_branch_receiver_adapter_matched"] is True
 assert unit14["S34_W03_receiver_intersection_closed"] is False
 assert unit14["audited_theorem_credit"] is False
 
-assert state["current"]["unit"] == "35EX-15_COPRIME_RECEIVER_JOINT_LOCAL_OR_FREE_SUPPORT"
 assert audit["cycle_exit"]["CYCLE_ROUTE_STATUS"] == "PASS_NEW_GATE_FROM_STRONGER_VIEW"
 assert audit["cycle_exit"]["CYCLE_EXHAUSTIVE_VIEW_AUDIT"] is True
 assert audit["cycle_exit"]["CYCLE_BLIND_REDISCOVERY"] is True
@@ -54,7 +63,6 @@ for text in (
     "<=> Lminus is an integer square",
     "S34_W03_EXACT_BRANCH_RECEIVER_ADAPTER_MATCHED=true",
     "S34_W03_RECEIVER_INTERSECTION_CLOSED=false",
-    "35EX-15_COPRIME_RECEIVER_JOINT_LOCAL_OR_FREE_SUPPORT",
 ):
     assert text in doc
 
@@ -152,4 +160,4 @@ for key in (
 ):
     assert state["claims"][key] is False
 
-print("PASS STAGE35_EX_14_COPRIME_E1_RECEIVER_FACTORIZATION_V1")
+print("PASS STAGE35_EX_14_COPRIME_E1_RECEIVER_FACTORIZATION_V2_PROGRESSION_SAFE")
