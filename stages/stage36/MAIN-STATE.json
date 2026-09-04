@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V3_36_01_AUDITED",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V4_36_02_PENDING_AUDIT",
   "stage": "36",
-  "status": "ACTIVE",
+  "status": "ACTIVE_PENDING_HOSTILE_AUDIT",
   "base_main_sha": "8c59c81bcf0bcd442705cfb7a3db297253b34679",
   "mission": "Attack Stage29 kernel K16-C3-CAMPEDELLI-UNIFORM-TORSOR through the audited R29-CAMP2 three-representative Q-defined Campedelli H-torsor receiver, seeking exact quotient emptiness or a receiver-matched replacement theorem.",
   "parent_bootstrap_authority": {
@@ -60,7 +60,12 @@
       "S30-WF02": {"path": "docs/arsenal/cards/workflows/S30-WF02.md", "blob_sha": "38e4625155eb079bbe3d50d663c6256559319886", "role": "IMMUTABLE_LAYERED_CERTIFICATE_REPLAY"},
       "S30-WF03": {"path": "docs/arsenal/cards/workflows/S30-WF03.md", "blob_sha": "12740198aba19ade18302819f8e890dbda4eb701", "role": "ADAPTER_CREDIT_LAYER_FIREWALL"}
     },
-    "S30_W01": "CANDIDATE_FOR_36_02_FINITE_Q_SYMMETRY_ORBIT_RECONSTRUCTION",
+    "applied_in_36_02": {
+      "S30-W01": {"path": "docs/arsenal/cards/formal/S30-W01.md", "blob_sha": "0b0d8871ce873896e62e841deb698f3c505abda5", "role": "FINITE_EQUIVARIANT_ACTION_IDENTIFICATION"},
+      "S30-WF02": {"path": "docs/arsenal/cards/workflows/S30-WF02.md", "blob_sha": "38e4625155eb079bbe3d50d663c6256559319886", "role": "IMMUTABLE_LAYERED_CERTIFICATE_REPLAY"},
+      "S30-WF03": {"path": "docs/arsenal/cards/workflows/S30-WF03.md", "blob_sha": "12740198aba19ade18302819f8e890dbda4eb701", "role": "ADAPTER_CREDIT_LAYER_FIREWALL"},
+      "S30-W02": "NOT_TRIGGERED_Q_FORM_ALREADY_EXACT"
+    },
     "S34_WF01": "PRE_REGISTERED_RECEIVER_REPLACEMENT",
     "S30_W02": "PRE_REGISTERED_IF_QFORM_SEMILINEAR_ADAPTER_NEEDED",
     "S34_W01": "LOCKED_UNTIL_EXACT_FINITE_SQUARECLASS_REDUCTION",
@@ -81,21 +86,38 @@
       "STAGE36_SOURCE_FRONTIER_LOCKED": true,
       "NEW_THEOREM_CREDIT": false,
       "promotion_status": "AUDITED"
+    },
+    "36-02": {
+      "leaf": "36-02_THREE_Q_REPRESENTATIVE_INVENTORY",
+      "status": "EXACT_THREE_Q_REPRESENTATIVES_PENDING_HOSTILE_AUDIT",
+      "certificate": "stages/stage36/36-02/representative-inventory.json",
+      "verifier": "stages/stage36/verify_stage36_36_02.py",
+      "THREE_CERTIFIED_Q_REPRESENTATIVES_EXACT": true,
+      "EXACT_Q_ISOMORPHISM_CLASS_COUNT_CLAIM": false,
+      "NEW_THEOREM_CREDIT": false,
+      "promotion_status": "PROVISIONAL_NOT_AUDITED"
     }
   },
   "current": {
     "unit": "36-02",
     "next_exact_leaf": "36-02_THREE_Q_REPRESENTATIVE_INVENTORY",
     "next_owner": "STAGE36_MAIN",
-    "why": "36-01 hostile audit PASS has been promoted. Materialize one exact kernel and quotient representative for each certified Q-symmetry orbit 6+2+2 without collapsing to the geometric Q(i) split 8+2."
+    "result": "EXACT_THREE_Q_REPRESENTATIVES_PENDING_HOSTILE_AUDIT",
+    "provisional_successor_after_hostile_audit": "36-03_PHYSICAL_OPEN_PUSH_AND_BOUNDARY",
+    "why": "Three exact Q-symmetry representatives have been reconstructed from the source-locked finite S3 action and given explicit Q-defined degree-8 function-field quotient models. Hostile audit is required before promotion or 36-03."
   },
   "current_leaf_working_set": [
     "stages/stage29/29-02hb/campedelli_kernel_check.py",
-    "stages/stage29/29-02hb/kernel-check-output.md",
-    "stages/stage29/29-02hb/route-contract.json",
+    "stages/stage29/29-02ha/result.md",
+    "stages/stage29/29-02ha/exact-sign-cover-model.md",
     "stages/stage29/29-02hb/campedelli-quotient-adapter.md",
+    "stages/stage29/29-02hb/route-contract.json",
     "docs/arsenal/index.json",
-    "docs/arsenal/cards/formal/S30-W01.md"
+    "docs/arsenal/cards/formal/S30-W01.md",
+    "docs/arsenal/cards/workflows/S30-WF02.md",
+    "docs/arsenal/cards/workflows/S30-WF03.md",
+    "stages/stage36/36-02/representative-inventory.json",
+    "stages/stage36/verify_stage36_36_02.py"
   ],
   "promotion_gates": {
     "source_authority_lock_complete": true,
