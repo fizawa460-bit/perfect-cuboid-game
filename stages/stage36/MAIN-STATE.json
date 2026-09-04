@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V2_36_01_PENDING_AUDIT",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V4_36_02_PENDING_AUDIT",
   "stage": "36",
   "status": "ACTIVE_PENDING_HOSTILE_AUDIT",
-  "base_main_sha": "5ed32fa53bdecb735f461d7c27e85851d9ad8c21",
+  "base_main_sha": "a873c8fca0074aa966a22e36475a3551a378560d",
   "mission": "Attack Stage29 kernel K16-C3-CAMPEDELLI-UNIFORM-TORSOR through the audited R29-CAMP2 three-representative Q-defined Campedelli H-torsor receiver, seeking exact quotient emptiness or a receiver-matched replacement theorem.",
   "parent_bootstrap_authority": {
     "pr": 1535,
@@ -13,11 +13,20 @@
     "exact_head_ci_job": 100997083897,
     "verdict": "PASS"
   },
-  "freshness_sync": {
-    "sync_pr": 1539,
-    "main_sha": "5ed32fa53bdecb735f461d7c27e85851d9ad8c21",
-    "merge_commit": "382a9bf00ea95012c220972f5e2682985ab175e4",
-    "scope": "Stage32-only main advance; no Stage36 or Campedelli source changes"
+  "stage36_36_01_authority": {
+    "pr": 1538,
+    "hostile_audit_review": 5112705173,
+    "audited_head": "e2f6c5a2f34d76c1f17f90983a4e7fea62816621",
+    "merged_main_sha": "8c59c81bcf0bcd442705cfb7a3db297253b34679",
+    "exact_head_ci_run": 33866017108,
+    "exact_head_ci_job": 101000945515,
+    "verdict": "PASS"
+  },
+  "freshness_sync_36_02": {
+    "sync_pr": 1545,
+    "main_sha": "a873c8fca0074aa966a22e36475a3551a378560d",
+    "merge_commit": "cd5624ce094ba98a38b605797cf8cc0afc99fbe4",
+    "scope": "AGENTS.md only via #1544; no Stage36, Stage29 Campedelli source, or Arsenal authority changes"
   },
   "source_kernel": {
     "kernel": "K16-C3-CAMPEDELLI-UNIFORM-TORSOR",
@@ -57,6 +66,12 @@
       "S30-WF02": {"path": "docs/arsenal/cards/workflows/S30-WF02.md", "blob_sha": "38e4625155eb079bbe3d50d663c6256559319886", "role": "IMMUTABLE_LAYERED_CERTIFICATE_REPLAY"},
       "S30-WF03": {"path": "docs/arsenal/cards/workflows/S30-WF03.md", "blob_sha": "12740198aba19ade18302819f8e890dbda4eb701", "role": "ADAPTER_CREDIT_LAYER_FIREWALL"}
     },
+    "applied_in_36_02": {
+      "S30-W01": {"path": "docs/arsenal/cards/formal/S30-W01.md", "blob_sha": "0b0d8871ce873896e62e841deb698f3c505abda5", "role": "FINITE_EQUIVARIANT_ACTION_IDENTIFICATION"},
+      "S30-WF02": {"path": "docs/arsenal/cards/workflows/S30-WF02.md", "blob_sha": "38e4625155eb079bbe3d50d663c6256559319886", "role": "IMMUTABLE_LAYERED_CERTIFICATE_REPLAY"},
+      "S30-WF03": {"path": "docs/arsenal/cards/workflows/S30-WF03.md", "blob_sha": "12740198aba19ade18302819f8e890dbda4eb701", "role": "ADAPTER_CREDIT_LAYER_FIREWALL"},
+      "S30-W02": "NOT_TRIGGERED_Q_FORM_ALREADY_EXACT"
+    },
     "S34_WF01": "PRE_REGISTERED_RECEIVER_REPLACEMENT",
     "S30_W02": "PRE_REGISTERED_IF_QFORM_SEMILINEAR_ADAPTER_NEEDED",
     "S34_W01": "LOCKED_UNTIL_EXACT_FINITE_SQUARECLASS_REDUCTION",
@@ -66,34 +81,52 @@
   "completed_units": {
     "36-01": {
       "leaf": "36-01_SOURCE_AUTHORITY_LOCK",
-      "status": "EXACT_SOURCE_FRONTIER_LOCK_PENDING_HOSTILE_AUDIT",
+      "status": "AUDITED_PASS",
       "certificate": "stages/stage36/36-01/source-authority-certificate.json",
       "verifier": "stages/stage36/verify_stage36_36_01.py",
+      "hostile_audit_review": 5112705173,
+      "audited_head": "e2f6c5a2f34d76c1f17f90983a4e7fea62816621",
+      "exact_head_ci_run": 33866017108,
+      "exact_head_ci_job": 101000945515,
+      "merged_main_sha": "8c59c81bcf0bcd442705cfb7a3db297253b34679",
       "STAGE36_SOURCE_FRONTIER_LOCKED": true,
+      "NEW_THEOREM_CREDIT": false,
+      "promotion_status": "AUDITED"
+    },
+    "36-02": {
+      "leaf": "36-02_THREE_Q_REPRESENTATIVE_INVENTORY",
+      "status": "EXACT_THREE_Q_REPRESENTATIVES_PENDING_HOSTILE_AUDIT",
+      "certificate": "stages/stage36/36-02/representative-inventory.json",
+      "verifier": "stages/stage36/verify_stage36_36_02.py",
+      "THREE_CERTIFIED_Q_REPRESENTATIVES_EXACT": true,
+      "EXACT_Q_ISOMORPHISM_CLASS_COUNT_CLAIM": false,
       "NEW_THEOREM_CREDIT": false,
       "promotion_status": "PROVISIONAL_NOT_AUDITED"
     }
   },
   "current": {
-    "unit": "36-01",
-    "next_exact_leaf": "36-01_SOURCE_AUTHORITY_LOCK",
+    "unit": "36-02",
+    "next_exact_leaf": "36-02_THREE_Q_REPRESENTATIVE_INVENTORY",
     "next_owner": "STAGE36_MAIN",
-    "result": "EXACT_SOURCE_FRONTIER_LOCK_PENDING_HOSTILE_AUDIT",
-    "provisional_successor_after_hostile_audit": "36-02_THREE_Q_REPRESENTATIVE_INVENTORY",
-    "why": "The six Stage29 source blobs and imported Campedelli frontier have been independently replayed and locked. Hostile audit is required before promotion or 36-02."
+    "result": "EXACT_THREE_Q_REPRESENTATIVES_PENDING_HOSTILE_AUDIT",
+    "provisional_successor_after_hostile_audit": "36-03_PHYSICAL_OPEN_PUSH_AND_BOUNDARY",
+    "why": "Three exact Q-symmetry representatives have been reconstructed from the source-locked finite S3 action and given explicit Q-defined degree-8 function-field quotient models. Hostile audit is required before promotion or 36-03."
   },
   "current_leaf_working_set": [
-    "stages/stage29/29-16/active-kernel-ledger.json",
-    "stages/stage29/29-06/endpoint-hub-graph.json",
-    "stages/stage29/29-02hb/route-contract.json",
-    "stages/stage29/29-02hb/arithmetic-routing.md",
+    "stages/stage29/29-02hb/campedelli_kernel_check.py",
+    "stages/stage29/29-02ha/result.md",
+    "stages/stage29/29-02ha/exact-sign-cover-model.md",
     "stages/stage29/29-02hb/campedelli-quotient-adapter.md",
-    "stages/stage29/29-02hb/source-lock.md",
-    "stages/stage36/36-01/source-authority-certificate.json",
-    "stages/stage36/verify_stage36_36_01.py"
+    "stages/stage29/29-02hb/route-contract.json",
+    "docs/arsenal/index.json",
+    "docs/arsenal/cards/formal/S30-W01.md",
+    "docs/arsenal/cards/workflows/S30-WF02.md",
+    "docs/arsenal/cards/workflows/S30-WF03.md",
+    "stages/stage36/36-02/representative-inventory.json",
+    "stages/stage36/verify_stage36_36_02.py"
   ],
   "promotion_gates": {
-    "source_authority_lock_complete": false,
+    "source_authority_lock_complete": true,
     "three_Q_representatives_exact": false,
     "physical_open_push_and_boundary_complete": false,
     "pointwise_H_torsor_class_explicit": false,
