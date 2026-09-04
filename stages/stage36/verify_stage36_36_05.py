@@ -100,12 +100,9 @@ def main():
  req(gap.get("PHYSICAL_RECEIVER_POINT_FAMILY_EXHIBITED") is False,"ambient family promoted to receiver family")
  fam=gap.get("ambient_square_coordinate_family",{})
  req(fam.get("family")=="q_n=[1:n^2:1]" and fam.get("B3_value")=="1+n^2","ambient family moved")
- # Exact algebra behind the ambient warning: on [1,n^2,1], all seven values are
- # 1,n^2,1,1+n^2,2,1+n^2,2+n^2, hence nonzero for every integer n>=1.
  for n in range(1,8):
   vals=[1,n*n,1,1+n*n,2,1+n*n,2+n*n]
   req(all(v!=0 for v in vals),"ambient square-coordinate family hit boundary")
- # The certificate's infinitude argument is quantified mathematically, not inferred from this bounded replay.
  req("finite prime set T" in fam.get("infinitely_many_prime_divisors_proof","") and "1+N^2" in fam.get("infinitely_many_prime_divisors_proof",""),"ambient infinitude proof record missing")
  missing=cert.get("exact_missing_theorem",{})
  req(missing.get("currently_proved") is False,"missing theorem prematurely proved")
