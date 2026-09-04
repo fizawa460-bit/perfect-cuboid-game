@@ -2,7 +2,7 @@
 """Replay historical Stage35-EX verifiers through the exact audited V24 projection.
 
 The real V25 state promotes user-confirmed hostile-PASS 35EX-25, records the
-mandatory 25B fresh breadth audit, and advances current to 35EX-26.  Historical
+mandatory 25B fresh breadth audit, and advances current to 35EX-26. Historical
 base/10--25 mathematics remains replayed against the exact V24 state that was
 certified at final 35EX-25 head 7a2d70e04dcd679881630267cb2e1810f209e44c.
 """
@@ -19,7 +19,7 @@ STATE = ROOT / "stages/stage35-ex/MAIN-STATE.json"
 V25 = "STAGE35_EX_PESCH_E1_STATE_V25_POST_35EX26_BASE_INVOLUTION_RECEIVER_DESCENT"
 V24 = "STAGE35_EX_PESCH_E1_STATE_V24_POST_35EX25_SINGLE_ELLIPTIC_FULL_SQUARE_RECEIVER"
 ALLOWED = {"base", *{str(i) for i in range(10, 26)}}
-CURRENT_MAIN = "3cadfd55d91f1e3267f31f9d7384b62d38678cc3"
+CURRENT_MAIN = "4ec2b9af886f9ac9be13c3324788c26625c9e5d9"
 AUDITED_V24_BASE = "0e7d0b282ec8b15c888a1efe4de43a114f4d5911"
 
 if len(sys.argv) != 2 or sys.argv[1] not in ALLOWED:
