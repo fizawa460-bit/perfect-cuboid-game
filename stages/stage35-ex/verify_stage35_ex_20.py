@@ -80,6 +80,7 @@ assert state["base_main_sha"] in {
     "ea51d06f3fe46b134e98a065332e9c70fcec57f0",
     "378096fa313b582b63553b395ec85a5c86de2685",
     "2e07dde92fdf270fff1233635a7cb4cea1427080",
+    "7a5d01b438c68c228ad73955f906f3128780d6ef",
 }
 
 unit19 = state["completed_units"]["35EX-19"]
@@ -151,7 +152,7 @@ else:
     assert parent["audited_head_sha"] == "f4276680239bb2b84687f8ba8ac8964de0613552"
     assert parent["merged_main_sha"] == "2e07dde92fdf270fff1233635a7cb4cea1427080"
     assert parent["audited_theorem_credit"] is False
-    assert state["base_main_sha"] == "2e07dde92fdf270fff1233635a7cb4cea1427080"
+    assert state["base_main_sha"] == "7a5d01b438c68c228ad73955f906f3128780d6ef"
 
 for old in (unit20, unit20b):
     if state["schema"] in {V20, V21, V22}:
