@@ -1,0 +1,112 @@
+{
+  "schema": "STAGE32_POST1555_B3_FULL_G_BOX_QUOTIENT_NORMALIZER_V1",
+  "stage": 32,
+  "leaf": "POST1555_B3_FULL_G_BOX_QUOTIENT_NORMALIZER",
+  "status": "EXACT_FULL_G_BOX_QUOTIENT_NORMALIZER_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "a96f1920977dd43194f60eb29487c0ec5deff711",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "O": 210,
+    "qprime": 4,
+    "Q": 602
+  },
+  "parent_authority": {
+    "pr": 1555,
+    "hostile_audit_verdict": "PASS",
+    "audited_exact_head": "ae1347827b0305a3b969bac4b89a975758d31ea3",
+    "merged_main_sha": "a96f1920977dd43194f60eb29487c0ec5deff711",
+    "scope": "principal b3 normalizes retained V4 character plane and lifts diagonally to X=(Z x Z)/H_diag"
+  },
+  "source_locks": {
+    "ambient_v4_normalizer": {
+      "path": "stages/stage32/residual-32-01-production/post1550-b3-v4-torsor-normalizer.json",
+      "blob_sha1": "163c42e1c2d671cc203a59621702776f376c4f9c",
+      "canonical_sha256": "1225ca34034f1f1dacb2f3e1f46e7f3d15a6008a5e6b03960109f7bc992b5e95"
+    },
+    "v4_cusp_quotient": {
+      "path": "stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json",
+      "blob_sha1": "00eaebc3c57f6b5e3696c7bcd60eac5a53121f72",
+      "canonical_sha256": "2869208e7509d7b79378264ea1982299b0f1745b1a54c5856cfbba0754567ce5"
+    },
+    "common_double_cover": {
+      "path": "stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json",
+      "blob_sha1": "def8b60b726c02aa7ee97c0cc25b34f43525ec34",
+      "canonical_sha256": "eb31183bf519fec4ad5bb2d0799b3f0a64b7af893308e09ce0c33119b63440a1"
+    },
+    "single_b3_reduction": {
+      "path": "stages/stage32/residual-32-01-production/post1532-q602-single-b3-commutator.json",
+      "blob_sha1": "8699cdf52bff82304485a0544131e461b78c1fa6",
+      "canonical_sha256": "a374defb3a888c131ce92db9416702f34a03eb780b76d1dd6c26ab019f3c5064"
+    },
+    "source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1555-b3-full-g-box-quotient-normalizer-source-note.md",
+      "blob_sha1": "88f5a34e05962b61f8079c147c5adc5a79ab6d2b"
+    }
+  },
+  "quotient_chain": {
+    "Z": "X(8)",
+    "H": "Gamma'[4]/Gamma[8] ~= V4, order 4",
+    "G": "Gamma[4]/Gamma[8], order 8",
+    "H_normal_index_in_G": 2,
+    "C0": "Z/H",
+    "X4": "Z/G",
+    "C0_genus": 2,
+    "X4_genus": 0,
+    "C0_to_X4_degree": 2,
+    "C0_to_X4_fixed_points": 6,
+    "deck_involution_is_hyperelliptic": true
+  },
+  "hyperelliptic_centrality": {
+    "reason": "the genus-2 hyperelliptic degree-2 map to genus 0 is unique, hence its deck involution is central in Aut(C0)",
+    "b3_is_automorphism_of_C0": true,
+    "b3_commutes_with_tau": true
+  },
+  "full_G_normalizer": {
+    "ambient_semilinear_lift_from_parent": true,
+    "tilde_b3_normalizes_H": true,
+    "choose_g_in_G_minus_H_lifting_tau": true,
+    "conjugate_of_g_descends_to_tau": true,
+    "conjugate_differs_from_g_by_H": true,
+    "tilde_b3_normalizes_G": true,
+    "same_lift_normalizes_G_diag": true,
+    "beta_B_exists": true,
+    "beta_X_exists": true,
+    "X_to_B_equivariant": true
+  },
+  "carrier_boundary": {
+    "N": "normalization of a hypothetical integral carrier mapping to B",
+    "Y": "normalization of N x_B X",
+    "beta_B_N_invariance_proved": false,
+    "beta_X_Y_invariance_proved": false,
+    "intrinsic_beta_Y_proved": false,
+    "Gamma_invariance_proved": false,
+    "conditional_chain": "beta_B(N)=N => beta_X(Y)=Y => [T,b3]=0 => Q(T)!=602",
+    "next_required_fact": "prove beta_B(N)=N from source-locked carrier geometry, or prove (b3 x b3)^*Gamma=Gamma directly"
+  },
+  "decision": {
+    "result": "PASS_EXACT_FULL_G_AND_BOX_QUOTIENT_NORMALIZER",
+    "full_G_normalizer_gate_closed_positive": true,
+    "box_quotient_descent_gate_closed_positive": true,
+    "carrier_invariance_proved": false,
+    "correspondence_invariance_proved": false,
+    "actual_T_b3_commutation_proved": false,
+    "actual_T_b3_noncommutation_proved": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "O212_plus_advance_allowed": false,
+    "controller_change_authorized": false,
+    "next_exact_leaf": "PROVE_HYPOTHETICAL_CARRIER_N_INVARIANT_UNDER_BETA_B_OR_DIRECT_GAMMA_INVARIANCE"
+  },
+  "firewalls": {
+    "ambient_box_lift_promoted_to_carrier_invariance": false,
+    "hypothetical_carrier_existence_proved": false,
+    "effectivity_credit": false,
+    "full178_closed": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false
+  },
+  "canonical_sha256_without_this_field": "4d2eacaca1ccb8db9bf0143e57fd39c9d8bb47a7180db8b9cd37533e5d5f7c38"
+}
