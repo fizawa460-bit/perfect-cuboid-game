@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Replay historical Stage35-EX verifiers through the audited V23 projection.
+"""Replay historical Stage35-EX verifiers through the exact audited V23 projection.
 
 The real V24 state promotes hostile-audited 35EX-24, records the mandatory 24B
 breadth audit, and advances current to 35EX-25. Historical base/10--24
 mathematics must remain replayable without weakening their original checks.
-This adapter first validates the real V24 successor authority, then projects
-only successor-routing fields to the exact V23 state audited for 35EX-24.
+This adapter first validates the real V24 successor authority, then restores
+all V24-mutated routing/authority fields to the exact V23 values audited at
+35EX-24 head 529c550c742e75025cdcc1a6b9666582f26697a1.
 """
 from __future__ import annotations
 
@@ -45,7 +46,6 @@ assert real["current"]["status"] == "PROVISIONAL_RESULT_PENDING_HOSTILE_AUDIT_NO
 assert real["claims"]["stage35_closed"] is False
 assert real["claims"]["E1_proved"] is False
 
-# Restore exactly the successor-routing state under which 35EX-24 was audited.
 projected = copy.deepcopy(real)
 projected["schema"] = V23
 projected["base_main_sha"] = "8c59c81bcf0bcd442705cfb7a3db297253b34679"
@@ -58,6 +58,14 @@ projected["parent_authority"] = {
     "merged_main_sha": "c20ee71d91af850103fd7406f9b1072448a11fcf",
     "audited_theorem_credit": False,
 }
+
+# 35EX-23B and 35EX-24 were still provisional at the exact audited V23 head.
+u23b = copy.deepcopy(projected["completed_units"]["35EX-23B"])
+u23b["status"] = "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT"
+for key in ("hostile_audit_verdict", "hostile_audit_review", "audited_head_sha", "merged_main_sha"):
+    u23b.pop(key, None)
+projected["completed_units"]["35EX-23B"] = u23b
+
 u24 = copy.deepcopy(projected["completed_units"]["35EX-24"])
 u24["status"] = "PROVISIONAL_EXACT_FIVE_ELLIPTIC_ISOGENY_TWIST_COMPRESSION_NO_CREDIT"
 for key in ("hostile_audit_verdict", "hostile_audit_review", "audited_head_sha", "merged_main_sha"):
@@ -65,6 +73,14 @@ for key in ("hostile_audit_verdict", "hostile_audit_review", "audited_head_sha",
 projected["completed_units"]["35EX-24"] = u24
 projected["completed_units"].pop("35EX-24B", None)
 projected["completed_units"].pop("35EX-25", None)
+
+# Restore the exact V23 investigation/ledger boundary.
+projected["resolved_investigations"]["CURRENT_FIVE_ELLIPTIC_ISOGENY_TWIST_COMPRESSION"] = {
+    "status": "PROVISIONAL_PASS_NEW_GATE_PENDING_HOSTILE_AUDIT",
+    "reason": "the five quotient factors are not five unrelated moving shapes: exact pair-quartic adapters and kernel-2 isogenies give two fixed minus-one twist pairs plus Eminus over K and multiplicities 2,2,1 over K(i); the three representatives remain nonisotrivial",
+    "reopen_condition": "hostile audit may revoke this provisional stronger gate; after PASS run the required fresh breadth audit before selecting an arithmetic successor",
+}
+projected["resolved_investigations"].pop("CURRENT_SINGLE_ELLIPTIC_FULL_SQUARE_RECEIVER", None)
 projected.pop("candidate_ledger_after_35ex24_breadth_audit", None)
 projected["current"] = {
     "unit": "35EX-24_FIVE_ELLIPTIC_ISOGENY_TWIST_COMPRESSION_OR_INDEPENDENT_CHANNEL_BLOCKER",
@@ -81,6 +97,22 @@ projected["current"] = {
         "docs/arsenal/cards/formal/S34-W03.md",
         "stages/stage35-ex/MAIN-STATE.json",
     ],
+}
+projected["arsenal"] = {
+    "S34_W01": "FIXED_FIRST_SOURCE_ROUTING_MATCH_GLOBAL_FINITE_FAMILY_BLOCKED_DYNAMIC_UV_SUPPORT",
+    "S34_W03": "EXACT_BRANCH_RECEIVER_ADAPTER_MATCHED_CURRENT_DIRECT_LOCAL_ROUTE_FROZEN_INTERSECTION_NOT_CLOSED",
+    "S31_W01": "GENUS_ONE_CHARACTER_QUOTIENT_FIBERWISE_ROUTING_ONLY_NO_UNIFORM_SURFACE_CLOSURE",
+    "S34_W02": "LOCKED_NO_GLOBAL_FINITE_REDUCTION",
+    "S33_PW07": "PROVISIONAL_ROUTING_ONLY_REQUIRES_EXISTING_BRAUER_REPRESENTATIVE_COMMON_COCYCLE_AND_TORSOR_NOT_A_CLASS_CONSTRUCTOR",
+    "matching_global_reciprocity_Hilbert_Jacobi_card_found": False,
+    "matching_formal_gaussian_coordinate_gcd_split_card_found": False,
+    "matching_formal_nonisotrivial_surface_closure_card_found": False,
+    "matching_formal_global_surface_classification_card_found": False,
+    "matching_formal_global_surface_or_brauer_closure_card_found": False,
+    "matching_formal_isogeny_twist_compression_card_found": False,
+    "matching_formal_uniform_elliptic_surface_specialization_card_found": False,
+    "S34_W03_simultaneous_kummer_router_after_dictionary": True,
+    "stage34_concrete_coefficients_branches_and_local_primes_transfer": False,
 }
 
 original_read_text = Path.read_text
