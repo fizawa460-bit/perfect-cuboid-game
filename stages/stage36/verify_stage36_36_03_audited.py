@@ -15,12 +15,12 @@ AUDIT_CI_RUN = 33880359998
 AUDIT_CI_JOB = 101047238497
 AUDITED_MERGE = "45f290a443cf71b1fc62f031994122c3fa58f0e9"
 PROMOTION_MERGE = "efe25f4ef74dc776da7ccad3f5cd786b0b2906e4"
-V8_BASE = "3cadfd55d91f1e3267f31f9d7384b62d38678cc3"
+V8_BASE = "4ec2b9af886f9ac9be13c3324788c26625c9e5d9"
 FRESHNESS_36_04 = {
-    "sync_pr": 1564,
+    "sync_pr": 1565,
     "main_sha": V8_BASE,
-    "merge_commit": "cfe189f38c818a72b32d65b44cd391522d0866a0",
-    "scope": "Stage35-EX-only advance via #1549; no Stage36, Stage29 Campedelli/sign-cover source, or Arsenal authority changes",
+    "merge_commit": "b900a925ce25556bf85c929b1c73aff414c77430",
+    "scope": "Stage32-only advance via #1563; no Stage36, Stage29 Campedelli/sign-cover source, or Arsenal authority changes",
 }
 
 
