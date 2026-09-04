@@ -16,7 +16,8 @@ state = json.loads(STATE.read_text())
 
 V20 = "STAGE35_EX_PESCH_E1_STATE_V20_POST_35EX21_GLOBAL_NORMALIZED_CUBOID_SURFACE"
 V21 = "STAGE35_EX_PESCH_E1_STATE_V21_POST_35EX22_OBVIOUS_BRAUER_SYMBOL_BLOCKER"
-assert state["schema"] in {V20, V21}
+V22 = "STAGE35_EX_PESCH_E1_STATE_V22_POST_35EX23_GENUS5_CHARACTER_QUOTIENT_UNIFORMITY_BLOCKER"
+assert state["schema"] in {V20, V21, V22}
 assert state["stage"] == "35-EX"
 assert state["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
 assert state["base_main_sha"] in {
@@ -24,6 +25,7 @@ assert state["base_main_sha"] in {
     "85e12c7b810eaafc13e663a0047111b7f3333e8b",
     "ea51d06f3fe46b134e98a065332e9c70fcec57f0",
     "378096fa313b582b63553b395ec85a5c86de2685",
+    "2e07dde92fdf270fff1233635a7cb4cea1427080",
 }
 
 for key in ("35EX-20", "35EX-20B"):
@@ -72,7 +74,7 @@ if state["schema"] == V20:
     assert state["base_main_sha"] == "24438151cf76be42612b7df83314630e51c61682"
     assert unit21["status"].startswith("PROVISIONAL_")
     assert unit21b["status"] == "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT"
-else:
+elif state["schema"] == V21:
     assert parent["unit"] == "35EX-21B"
     assert parent["status"] == "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT"
     assert parent["hostile_audit_verdict"] == "PASS"
@@ -80,6 +82,17 @@ else:
     assert parent["audited_head_sha"] == "35431061f571da5b425f30da7974c160685bf1a4"
     assert parent["merged_main_sha"] == "85e12c7b810eaafc13e663a0047111b7f3333e8b"
     assert state["base_main_sha"] == "378096fa313b582b63553b395ec85a5c86de2685"
+else:
+    assert parent["unit"] == "35EX-22"
+    assert parent["status"] == "AUDITED_EXACT_OBVIOUS_BRAUER_SYMBOL_LAYER_BLOCKER_NO_CREDIT"
+    assert parent["hostile_audit_verdict"] == "PASS"
+    assert parent["hostile_audit_review"] == 5111539148
+    assert parent["audited_head_sha"] == "f4276680239bb2b84687f8ba8ac8964de0613552"
+    assert parent["merged_main_sha"] == "2e07dde92fdf270fff1233635a7cb4cea1427080"
+    assert parent["audited_theorem_credit"] is False
+    assert state["base_main_sha"] == "2e07dde92fdf270fff1233635a7cb4cea1427080"
+
+if state["schema"] in {V21, V22}:
     for unit in (unit21, unit21b):
         assert unit["hostile_audit_verdict"] == "PASS"
         assert unit["hostile_audit_review"] == 5110646292
@@ -99,15 +112,20 @@ assert ledger["audit_artifact"] == "stages/stage35-ex/35ex-21/post-global-surfac
 assert state["completed_units"]["35EX-20B"]["preserved_untested_candidates"] == [unit21b["selected_candidate"]]
 assert unit21b["selected_candidate"] == ledger["selected_live"]
 current = state["current"]
-assert current["unit"] == "35EX-22_SURFACE_BRAUER_CLASS_OR_OBVIOUS_SYMBOL_BLOCKER"
 if state["schema"] == V20:
+    assert current["unit"] == "35EX-22_SURFACE_BRAUER_CLASS_OR_OBVIOUS_SYMBOL_BLOCKER"
     assert current["status"] == "SELECTED_BY_FRESH_POST_GLOBAL_SURFACE_BREADTH_AUDIT_NO_CREDIT"
     assert "QUATERNION_SYMBOLS" in current["next_exact_leaf"]
     assert "COMPUTE_RESIDUES_EXACTLY" in current["next_exact_leaf"]
-else:
+elif state["schema"] == V21:
+    assert current["unit"] == "35EX-22_SURFACE_BRAUER_CLASS_OR_OBVIOUS_SYMBOL_BLOCKER"
     assert current["status"] == "PROVISIONAL_RESULT_PENDING_HOSTILE_AUDIT_NO_CREDIT"
     assert current["candidate"] == "E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER"
     assert current["next_if_audited_pass"] == "35EX-23_GENUS5_MULTIQUADRATIC_CHARACTER_QUOTIENT_DESCENT_OR_UNIFORMITY_BLOCKER"
+else:
+    assert current["unit"] == "35EX-23_GENUS5_MULTIQUADRATIC_CHARACTER_QUOTIENT_DESCENT_OR_UNIFORMITY_BLOCKER"
+    assert current["status"] == "PROVISIONAL_RESULT_PENDING_HOSTILE_AUDIT_NO_CREDIT"
+    assert current["candidate"] == "E1-GENUS5-MULTIQUADRATIC-FIBER-CHARACTER-DESCENT"
 assert state["arsenal"]["S33_PW07"] == "PROVISIONAL_ROUTING_ONLY_REQUIRES_EXISTING_BRAUER_REPRESENTATIVE_COMMON_COCYCLE_AND_TORSOR_NOT_A_CLASS_CONSTRUCTOR"
 assert state["arsenal"]["matching_formal_global_surface_or_brauer_closure_card_found"] is False
 assert state["stage35_main_firewall"]["stage35_ex_reopens_stage35_main"] is False
