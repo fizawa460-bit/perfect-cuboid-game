@@ -7,9 +7,9 @@ ROOT=Path(__file__).resolve().parents[2]
 STATE=ROOT/"stages/stage36/MAIN-STATE.json"
 CERT=ROOT/"stages/stage36/36-05/uniform-ramification-support.json"
 PREV=ROOT/"stages/stage36/36-04/h-torsor-lift-class.json"
-CERT_BLOB="9a9bd65d63a273fda5f3c0992a67fa4fd058ecef"
+CERT_BLOB="193d0165b242d799bc981774783a5160c1ac58dc"
 PREV_BLOB="a06e201a9b554da71c5e75d8f8541e7284f8d020"
-BASE="74144644975d7800c6c5b529c5d8789f70366c2e"
+BASE="09d42186c06cd906042f2ca3f16a9deaf4f1b4a3"
 SOURCES={
  "stage36_roadmap":("stages/stage36/ROADMAP.md","eeedda0e89e24f851c989b5ec83e7b320e1ad99e"),
  "stage29_arithmetic_routing":("stages/stage29/29-02hb/arithmetic-routing.md","ff83f652e2c9e95b0670c0964b9c8cf0fbccd696"),
