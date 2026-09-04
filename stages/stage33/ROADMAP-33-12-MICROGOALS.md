@@ -3,7 +3,7 @@
 ```text
 ROLE=PLANNING_AND_EXECUTION_CHECKLIST_ONLY
 LIVE_AUTHORITY=stages/stage33/controller.json + stages/stage33/MAIN-STATE.json
-CURRENT_LOCKED_FRONTIER=V41_THROUGH_V53
+CURRENT_LOCKED_FRONTIER=V41_THROUGH_V54
 ATOMICITY_RULE=ONE_SMALL_VERIFIABLE_GOAL_PER_COMMIT
 MERGE_ALLOWED=false
 ```
@@ -45,7 +45,8 @@ The current e3 branch begins after these exact checkpoints:
 - V50 proves the decisive type correction: the boundary residue source is the Stage-A `F2^26` squareclass-tensor domain, not the coefficient module `K=Br(Sbar)[2]`; therefore the proposed working14-to-proper14 `P_W` is the wrong object type.
 - V51 rewires the active e3 route to the reusable V25 pattern: independent Brauer source -> concrete Cech `H2(mu2)` preimage -> exact marked Brauer-image binding -> exact pullback/naturality when available -> downstream Kummer computation.
 - V52 source-locks the bounded A2 miss: the current literal Cech object `{f2,g22}` and semantic orientation are J2-specific, while the marked Picard/adjoint interfaces do not materialize a literal function/divisor/transition preimage for e3 proper14 mask `20`. This is not a repository-absence or nonexistence claim.
-- V53 computes the exact degree-2 Picard-adjoint image of mask `20=axis3+axis5`: marked half-lattice numerator `[1,1,0,0,1,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0]` with semantic projection `[1,0]`. This is a marked adjoint candidate only, not a genuine full-surface Cech `H2(mu2)` lift; equality of the 2D projection with J2 does not identify e3 with J2.
+- V53 computes the exact degree-2 Picard-adjoint image of mask `20=axis3+axis5`: marked half-lattice numerator `[1,1,0,0,1,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0]` with semantic projection `[1,0]`. This is a marked adjoint candidate only, not a genuine full-surface Cech `H2(mu2)` lift.
+- V54 binds that exact 20D candidate to semantic discriminant label `u1`. J2 is also oriented to `u1`, but this common 2D target label is non-injective information and does not identify e3 with J2 or license reuse of `{f2,g22}`.
 - Stage33 remains at `6/11`; Stage33-12 is not exactly closed; Stage33-13 is not released.
 
 ## Phase A — finish one independent e3 column
@@ -109,27 +110,36 @@ Acceptance already certified:
 - exact degree-2 Picard-adjoint output is the 20D half-lattice numerator `[1,1,0,0,1,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0]`;
 - semantic projection is `[1,0]`;
 - the output scope is `DEGREE2_PICARD_ADJOINT_MARKED_CANDIDATE_ONLY`;
-- the coincident J2 semantic projection `[1,0]` is explicitly not promoted to an e3=J2 identification;
 - no literal function/divisor/transition data, genuine full-surface `H2(mu2)` lift, or e3 Kummer column is claimed.
 
-#### A2.2 — realize the V53 marked candidate as source-specific full-surface Cech geometry — CURRENT
+#### A2.2 — bind the V53 candidate to its semantic discriminant label — PASS V54
 
-Arsenal: `◎ S33-PW07 + S33-PW04`. PW07 governs literal transition/divisor/Cartier/common-cocycle realization; PW04 governs the exact marked binding back to V41 e3. `S30-WF03` blocks promotion across either missing layer.
+Arsenal: `◎ S33-PW04`, with `S30-WF03` enforcing the non-injective-target firewall.
 
-Goal: realize the exact V53 20D marked Picard-adjoint candidate by literal function/divisor/transition data, or a mechanically equivalent exact geometric adapter, and certify a genuine full-surface `H2(mu2)` preimage with Brauer image V41 e3.
+Acceptance already certified:
+- the V53 20D half-lattice numerator matches the source-locked semantic `u1` vector exactly;
+- semantic coordinate is `[1,0]`;
+- J2's named orientation is also `u1/[1,0]`;
+- this common target label is not promoted to e3=J2, because the semantic discriminant target is only 2-dimensional while the proper Br2 source is 14-dimensional;
+- J2 `{f2,g22}` is not reused as an e3 representative.
+
+#### A2.3 — construct source-specific geometry for mask20 inside the semantic u1 fiber — CURRENT
+
+Arsenal: `◎ S33-PW07 + S33-PW04`. PW07 governs literal transition/divisor/Cartier/common-cocycle realization; PW04 must bind the resulting class back to the exact V41 proper14 source, not merely to `u1`. `S30-WF03` blocks promotion from the 2D target alone.
+
+Goal: construct literal function/divisor/transition data, or a mechanically equivalent exact geometric adapter, that distinguishes V41 e3 proper14 mask `20` inside the semantic `u1` fiber and certifies a genuine full-surface `H2(mu2)` preimage.
 
 Acceptance:
 - concrete cocycle/symbol/overlap or mechanically equivalent geometric representative is materialized;
-- the construction maps to the exact V53 20D marked candidate under the source-locked marked Picard/adjoint interface;
 - full-surface scope, field, domains, branch/support data, and source locks are explicit;
-- exact Brauer image is proper14 mask `20` / retained10 mask `4`;
-- no J2 `{f2,g22}` relabelling, no `[1,0]` semantic-projection shortcut, no branch inference from axes 3/5, and no boundary-residue/proper14 positional identification;
+- exact Brauer image is proper14 mask `20` / retained10 mask `4`, not merely semantic `u1`;
+- no J2 `{f2,g22}` relabelling, no common-`u1` shortcut, no branch inference from axes 3/5, and no boundary-residue/proper14 positional identification;
 - if the realization exposes a smaller missing transition/divisor/function datum, name that datum exactly and make it the next leaf.
 
 Current next exact leaf:
-`E3_V25_S1B_REALIZE_MASK20_PICARD_ADJOINT_CANDIDATE_AS_SOURCE_SPECIFIC_FULL_SURFACE_CECH_H2_MU2_CLASS`.
+`E3_V25_S1B1_CONSTRUCT_SOURCE_SPECIFIC_GEOMETRIC_CECH_REALIZATION_FOR_MASK20_WITHIN_SEMANTIC_U1_FIBER`.
 
-A2 is not complete until A2.2 passes.
+A2 is not complete until A2.3 passes.
 
 ### A3 — residue and resolution audit of the concrete e3 representative
 
@@ -188,15 +198,16 @@ Process sources in the locked priority order after e3:
 
 `e1, e4, e5, e6, e7, e8, e9, e10`.
 
-For each source `s`, use the V50/V53-corrected atomic sequence. Do not recreate a proper14 -> boundary-source `P_W` bridge:
+For each source `s`, use the V50/V54-corrected atomic sequence. Do not recreate a proper14 -> boundary-source `P_W` bridge:
 
 - B(s).0 lock the independent proper14/retained10 source coordinate — `○ S33-PW04 + S30-WF02`;
 - B(s).1 materialize the exact marked Picard-adjoint candidate when the source-locked adjoint applies — `◎ S33-PW04`, with `S30-WF03`;
-- B(s).2 realize a concrete source-bound Cech `H2(mu2)` representative — `◎ S33-PW07 + S33-PW04`; `S33-PW08` conditional on a genuine Gersten construction;
-- B(s).3 residue/resolution audit — `◎ S33-PW07`, and `S33-PW08` when its valuation/purity hypotheses apply;
-- B(s).4 exact Brauer-image/full-surface-lift binding to `s` — `◎ S33-PW04 + S33-PW07`, with `S30-WF03`;
-- B(s).5 exact Kummer column — `◎ S33-PW05`, support `S33-PW02` where extension/liftability data are relevant;
-- B(s).6 frontier integration and exact-head replay — `△ S30-WF02 + S30-WF03`.
+- B(s).2 bind its semantic discriminant target label without treating that target as injective — `◎ S33-PW04 + S30-WF03`;
+- B(s).3 realize a concrete source-bound Cech `H2(mu2)` representative — `◎ S33-PW07 + S33-PW04`; `S33-PW08` conditional on a genuine Gersten construction;
+- B(s).4 residue/resolution audit — `◎ S33-PW07`, and `S33-PW08` when its valuation/purity hypotheses apply;
+- B(s).5 exact Brauer-image/full-surface-lift binding to `s` — `◎ S33-PW04 + S33-PW07`, with `S30-WF03`;
+- B(s).6 exact Kummer column — `◎ S33-PW05`, support `S33-PW02` where extension/liftability data are relevant;
+- B(s).7 frontier integration and exact-head replay — `△ S30-WF02 + S30-WF03`.
 
 If A2-A4 establish a genuinely linear reusable direct Cech/source-binding adapter for arbitrary proper14 inputs, later B(s) items may reuse it, but each source still requires a separate instantiation/binding/column certificate. Reuse must be explicit; do not infer a boundary-source basis identification and do not collapse multiple source credits into one batch.
 
