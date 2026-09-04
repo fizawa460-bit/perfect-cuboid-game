@@ -1,0 +1,108 @@
+{
+  "schema": "stage33.e3.b1_c22_j1_marked_kc_one_bit_transport_gate.v69",
+  "stage": "33-12",
+  "version": 69,
+  "status": "D2_OPEN_EXACT_ONE_BIT_MARKING_AMBIGUITY",
+  "microgoal": "REDUCE_C22_J1_TO_MARKED_KC_TRANSPORT_GAP_TO_EXACT_IDENTITY_VS_SHEAR_CHOICE",
+  "source_locks": {
+    "v63_literal_cech_lift": "stages/stage33/33-12/e3-b1-c22-kappa-a-literal-cech-lift-v63.json",
+    "v64_named_torsion_bridge": "stages/stage33/33-12/e3-b1-c22-named-torsion-normalization-bridge-v64.json",
+    "v65_one_bit_discriminator": "stages/stage33/33-12/e3-b1-j1-marked-kc-discriminator-gate-v65.json",
+    "v68_transport_gap": "stages/stage33/33-12/e3-b1-c22-j1-kummer-to-kc-transport-gap-v68.json",
+    "historical_named_cv_pairing_blob_sha1": "5ef1d0549cd0c2e48ae4ffd2af99b6b6577e5b27",
+    "j2_translation_torsor": "stages/stage33/33-05/j2-r4-correct-translation-torsor.json"
+  },
+  "source_side_exact_character_frame": {
+    "frame_name": "resolved-contact Weil-character frame (L,R)",
+    "class_coordinates": {
+      "0": [0, 0],
+      "J1": [1, 1],
+      "J2": [1, 0],
+      "J1+J2": [0, 1]
+    },
+    "bijection": true,
+    "cycle_basis": {
+      "L": "D_L=J1+J2",
+      "R": "D_R=J2"
+    },
+    "warning": "These contact-character coordinates are exact source-side labels but are not the fixed marked K_c Brauer coordinates."
+  },
+  "marked_kc_locked_data": {
+    "J2": {
+      "semantic": "u1",
+      "coordinate_f2": [1, 0]
+    },
+    "J1_candidates": {
+      "u2": [0, 1],
+      "u1+u2": [1, 1]
+    },
+    "remaining_bits": 1
+  },
+  "transport_reduction": {
+    "input_standard_axes": {
+      "eL": [1, 0],
+      "eR": [0, 1]
+    },
+    "identified_source_classes": {
+      "eL": "J2",
+      "eR": "J1+J2",
+      "J1": "eL+eR"
+    },
+    "forced_first_column": {
+      "image_of_eL": "u1",
+      "coordinate_f2": [1, 0]
+    },
+    "candidate_transports_contact_to_marked": [
+      {
+        "name": "identity",
+        "matrix_columns": [[1, 0], [0, 1]],
+        "image_of_eR": "u2",
+        "image_of_J1_eL_plus_eR": "u1+u2",
+        "J1_coordinate_f2": [1, 1],
+        "expected_twisted_kernel_minimum_norm_if_selected": 12
+      },
+      {
+        "name": "shear_fixing_u1",
+        "matrix_columns": [[1, 0], [1, 1]],
+        "image_of_eR": "u1+u2",
+        "image_of_J1_eL_plus_eR": "u2",
+        "J1_coordinate_f2": [0, 1],
+        "expected_twisted_kernel_minimum_norm_if_selected": 4
+      }
+    ],
+    "exact_conclusion": "After fixing J2->u1, the C22/contact-to-marked-K_c transport is reduced to exactly two GL2(F2) maps: identity or the unique nontrivial shear fixing u1. Equivalently, J1 remains exactly u1+u2 versus u2.",
+    "new_information_over_v68": "The missing bridge is not an unconstrained generic transport. Its first column is fixed by J2 and the exact contact-character frame fixes the source basis, leaving one binary shear bit only."
+  },
+  "translation_torsor_scope_check": {
+    "j2_torsor_fact": "The retained translation-descent construction starts after a marked two-torsion translation point Tr has been fixed; it does not by itself choose the image of J1.",
+    "j2_kernel_fingerprints": {
+      "u2": 4,
+      "u1": 8,
+      "u1+u2": 12
+    },
+    "j1_independent_fingerprint_available": false,
+    "consequence": "A J1-specific minimum norm 4 or 12 would select the shear bit, but no such independently source-locked J1 fingerprint is supplied by the retained J2 torsor artifact."
+  },
+  "rejected_shortcuts": [
+    "Do not identify (L,R) directly with the marked K_c coordinate basis.",
+    "Do not choose identity merely because it is the simpler matrix.",
+    "Do not choose the shear from naming conventions.",
+    "Do not relabel the J2 corrected CV cocycle or J2 translation torsor as J1.",
+    "Do not reopen D1 or #1529 equivariance search."
+  ],
+  "d2_verdict": "OPEN_ONE_BIT",
+  "next_exact_leaf": "SOURCE_LOCK_ONE_SECOND_AXIS_DATUM_SELECTING_IDENTITY_VS_SHEAR: EITHER AN_EXPLICIT_SECOND_COLUMN_OF_THE_NAMED_CV_TO_MARKED_KC_TRANSPORT OR_AN_INDEPENDENT_J1_TWISTED_KERNEL_MINIMUM_NORM_4_VS_12; THEN_DECODE_THE_J1_PROPER14_COLUMN",
+  "credit_firewall": {
+    "j1_marked_kc_coordinate_selected": false,
+    "new_marked_proper14_gysin_column_materialized": false,
+    "b1_14x4_matrix_materialized": false,
+    "e3_mask20_membership_computed": false,
+    "genuine_full_surface_H2_mu2_lift": false,
+    "e3_kummer_column": false,
+    "D2_closed": false,
+    "stage33_12_closed": false,
+    "stage33_13_released": false,
+    "perfect_cuboid_credit": false,
+    "merge_allowed": false
+  }
+}
