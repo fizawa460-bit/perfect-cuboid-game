@@ -1,0 +1,123 @@
+{
+  "schema": "STAGE35_EX_25B_POST_SINGLE_ELLIPTIC_RECEIVER_FRESH_BREADTH_AUDIT_V1",
+  "stage": "35-EX",
+  "status": "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT",
+  "trigger": "HOSTILE_PASS_AND_MERGE_OF_35EX25_SINGLE_MOVING_EPLUS_FOUR_SQUARE_RECEIVER_REQUIRES_FRESH_EXHAUSTIVE_VIEW_AUDIT",
+  "authority": {
+    "unit": "35EX-25",
+    "hostile_audit_verdict": "PASS",
+    "pass_source": "USER_CONFIRMED_AFTER_FRESHNESS_ONLY_REPAIR",
+    "audited_exact_head_sha": "7a2d70e04dcd679881630267cb2e1810f209e44c",
+    "exact_head_ci_run": 33922581520,
+    "exact_head_ci_job": 101183978655,
+    "merged_main_sha": "3cadfd55d91f1e3267f31f9d7384b62d38678cc3",
+    "mathematical_content_changed_after_prior_numbered_PASS": false
+  },
+  "active_receiver": {
+    "base": "K=Q(x,p), p^2=1+x^2, a=x^2",
+    "elliptic_family": "Eplus_a: Y^2=(X+1)(X+a)(X+1+a)",
+    "exact_receiver_condition": [
+      "X in K^2",
+      "X+1 in K^2",
+      "X+a in K^2",
+      "X+1+a in K^2"
+    ],
+    "audited_35ex25_statement": "C_a(K) is nonempty exactly when Eplus_a has a point satisfying all four square conditions",
+    "surviving_gap": "uniform emptiness or degeneration of this four-square locus is not proved"
+  },
+  "blind_rediscovery": {
+    "performed_before_arsenal_comparison": true,
+    "generation_input": "only the exact 35EX-25 one-elliptic four-square receiver, source-conic relation p^2=1+x^2, the known source involution x->1/x, and audited freeze boundaries; Arsenal cards were excluded until after candidate generation",
+    "generated": [
+      {
+        "id": "E1-BASE-INVOLUTION-A-INVERSE-DESCENT",
+        "status": "LIVE",
+        "view": "exploit sigma:(x,p)->(1/x,p/x), hence a->1/a, and test whether the complete Eplus four-square receiver is equivariant under an exact curve isomorphism rather than merely having invariant j-data",
+        "first_exact_test": "X' = X/a and Y' = Y/x^3 send Eplus_a to Eplus_(1/a); prove all four square conditions are permuted and construct invariant quotient coordinates",
+        "why_new_after_35ex25": "the single receiver gives a precise object on which the base involution can now be checked including its square-root lift data"
+      },
+      {
+        "id": "E1-DESCENDED-RECEIVER-JOINT-LOCAL-CLASSIFICATION",
+        "status": "UNTESTED",
+        "view": "after an exact base-involution descent, search for a local obstruction on the descended receiver rather than on all Eplus points",
+        "dependency": "requires a complete descended receiver dictionary including zero/pole/branch loci"
+      },
+      {
+        "id": "E1-UNIFORM-ELLIPTIC-SURFACE-SPECIALIZATION-HEIGHT",
+        "status": "UNTESTED",
+        "view": "prove uniform arithmetic on the one remaining moving Eplus family across every source-conic parameter",
+        "dependency": "must exceed generic function-field Mordell-Weil data and certify all receiver-relevant specializations"
+      },
+      {
+        "id": "E1-NONOBVIOUS-BRAUER-FROM-ELLIPTIC-FIBRATION",
+        "status": "UNTESTED",
+        "view": "construct a genuinely new Brauer/torsor class adapted to the exact one-elliptic four-square locus",
+        "dependency": "must lie outside the obvious symbol span frozen by 35EX-22 and include exact residue/evaluation proof"
+      },
+      {
+        "id": "E1-FURTHER-INTERFACTOR-ISOGENY-COMPRESSION",
+        "status": "DOMINATED",
+        "reason": "35EX-25 already reconstructs the former five-factor compatibility from one Eplus full-square point, so further relations among the discarded auxiliary factors do not make the exact receiver smaller unless they induce a new condition on Eplus itself"
+      },
+      {
+        "id": "E1-DIRECT-HYPERBOLA-PAIR-REPARAMETRIZATION",
+        "status": "DOMINATED",
+        "reason": "writing X=y^2, X+1=q^2, X+a=z^2, X+1+a=w^2 simply returns the normalized cuboid/conic surface already identified and frozen at 35EX-21"
+      },
+      {
+        "id": "E1-GENERIC-EPLUS-MW-ONLY",
+        "status": "BLOCKED",
+        "reason": "generic MW data alone does not classify all receiver-relevant rational specializations and was already excluded as sufficient closure"
+      }
+    ]
+  },
+  "arsenal_comparison": {
+    "performed_after_blind_generation": true,
+    "registry_path": "docs/arsenal/index.json",
+    "authority_order_respected": true,
+    "cards_checked": [
+      {
+        "id": "S30-W02",
+        "path": "docs/arsenal/cards/formal/S30-W02.md",
+        "blob_sha": "9960136fee2f5a7f884e12f7ac17bcb229f97442",
+        "role": "SEMILINEAR_GALOIS_DESCENT_ADAPTER",
+        "decision": "ADJACENT_PATTERN_ONLY_NOT_APPLICABLE_FOR_MATHEMATICAL_CREDIT",
+        "reason": "its audited contract concerns finite group actions across quadratic extensions; the present object is a moving elliptic receiver and its square-root cover"
+      },
+      {
+        "id": "S34-W03",
+        "path": "docs/arsenal/cards/formal/S34-W03.md",
+        "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96",
+        "role": "RECEIVER_RESTRICTED_INTERSECTION_EXCLUSION",
+        "decision": "DOWNSTREAM_ROUTER_AFTER_EXACT_DESCENT_DICTIONARY",
+        "reason": "once the descended receiver is exact, only its joint intersection need be excluded; the entire descended elliptic point set need not be classified"
+      },
+      {
+        "id": "S34-W02",
+        "decision": "LOCKED",
+        "reason": "no certified full Mordell-Weil group uniformly covering all receiver-relevant fibers"
+      }
+    ],
+    "matching_formal_base_involution_receiver_descent_card_found": false
+  },
+  "selection": {
+    "selected_candidate": "E1-BASE-INVOLUTION-A-INVERSE-DESCENT",
+    "selected_next_unit": "35EX-26_BASE_INVOLUTION_RECEIVER_DESCENT_OR_NO_REDUCTION_BLOCKER",
+    "instruction": "PROVE_THE_EXACT_SIGMA_ACTION_ON_SOURCE_BASE_EPLUS_AND_ALL_FOUR_SQUARE_ROOTS;_CONSTRUCT_INVARIANT_QUOTIENT_COORDINATES_AND_THEIR_EQUATIONS;_CLASSIFY_EXCEPTIONAL_X_OR_XPLUS1_DENOMINATORS;_STATE_EXACTLY_WHETHER_THIS_DESCENT_REDUCES_THE_ARITHMETIC_RECEIVER;_DO_NOT_INFER_EMPTINESS_FROM_SYMMETRY_ALONE"
+  },
+  "preserved_untested_candidates": [
+    "E1-DESCENDED-RECEIVER-JOINT-LOCAL-CLASSIFICATION",
+    "E1-UNIFORM-ELLIPTIC-SURFACE-SPECIALIZATION-HEIGHT",
+    "E1-NONOBVIOUS-BRAUER-FROM-ELLIPTIC-FIBRATION"
+  ],
+  "cycle_exit": {
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 3,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "new_theorem_credit": false,
+    "E1_proved": false,
+    "stage35_closed": false
+  }
+}
