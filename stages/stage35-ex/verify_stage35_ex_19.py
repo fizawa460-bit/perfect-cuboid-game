@@ -18,7 +18,7 @@ state = json.loads(STATE.read_text())
 assert state["schema"] == "STAGE35_EX_PESCH_E1_STATE_V18_POST_35EX19_NONISOTRIVIAL_GENUSONE_BLOCKER"
 assert state["stage"] == "35-EX"
 assert state["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
-assert state["base_main_sha"] == "cb3e36183f291ec5d96b440ff2287e3d009d9691"
+assert state["base_main_sha"] == "751ac2ed47843223340b2d9b09db3d5cca8c3464"
 
 parent = state["parent_authority"]
 assert parent["unit"] == "35EX-18"
