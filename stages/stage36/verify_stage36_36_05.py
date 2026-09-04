@@ -7,9 +7,9 @@ ROOT=Path(__file__).resolve().parents[2]
 STATE=ROOT/"stages/stage36/MAIN-STATE.json"
 CERT=ROOT/"stages/stage36/36-05/uniform-ramification-support.json"
 PREV=ROOT/"stages/stage36/36-04/h-torsor-lift-class.json"
-CERT_BLOB="621128511e72dc3ceca5e4ac6963b87ef29b1b3c"
+CERT_BLOB="9a9bd65d63a273fda5f3c0992a67fa4fd058ecef"
 PREV_BLOB="a06e201a9b554da71c5e75d8f8541e7284f8d020"
-BASE="dca962cdf37d4252316885dc57f3c0a591db4ecb"
+BASE="74144644975d7800c6c5b529c5d8789f70366c2e"
 SOURCES={
  "stage36_roadmap":("stages/stage36/ROADMAP.md","eeedda0e89e24f851c989b5ec83e7b320e1ad99e"),
  "stage29_arithmetic_routing":("stages/stage29/29-02hb/arithmetic-routing.md","ff83f652e2c9e95b0670c0964b9c8cf0fbccd696"),
@@ -27,7 +27,7 @@ LINES={
  "B3":(1,1,0),"B2":(1,0,1),"B1":(0,1,1),"C":(1,1,1),
 }
 FORMS={"A1":"x","A2":"y","A3":"z","B3":"x+y","B2":"x+z","B1":"y+z","C":"x+y+z"}
-PROMO={"pr":1568,"exact_head":"53b0c3b2a84ef200848d6b4b515c94589798d295","exact_head_ci_run":33924921726,"exact_head_ci_job":101191239139,"merged_main_sha":BASE,"scope":"mechanical audited-state promotion only","NEW_THEOREM_CREDIT":False}
+PROMO={"pr":1568,"exact_head":"53b0c3b2a84ef200848d6b4b515c94589798d295","exact_head_ci_run":33924921726,"exact_head_ci_job":101191239139,"merged_main_sha":"dca962cdf37d4252316885dc57f3c0a591db4ecb","scope":"mechanical audited-state promotion only","NEW_THEOREM_CREDIT":False}
 
 def blob_sha(path):
  data=path.read_bytes()
