@@ -96,14 +96,21 @@ def main() -> None:
         assert ctl["advance_allowed"] is False and ctl["merge_allowed"] is False and ctl["checkpoint_merge_ready"] is False
         assert ctl["active_pr"] == {"number":1520,"branch":"stage32-post1518-retained-geometry-18-bounded-test","automatic_merge_authorized":False}
         assert ctl["current_item"] == "O210_Q602_PROVISIONAL_RETAINED_GEOMETRY_18_TO_18_HOSTILE_AUDIT"
-        assert ctl["current_leaf"]["status"] == "PROVISIONAL_EXACT_BOUNDED_NEGATIVE_PENDING_HOSTILE_AUDIT"
-        assert ctl["current_leaf"]["O212_and_later_blocked"] is True
         successor = ctl["post1520_q602_18_diagonal_retained_geometry_test_provisional"]
         assert successor["pruning"] == "18 -> 18" and successor["surviving_diagonal_values"] == EXPECTED_VALUES
-        req = ctl["required_lightweight_verifier"]
-        assert req["path"] == SUCCESSOR_VERIFIER and req["workflow"] == SUCCESSOR_WORKFLOW
-        assert req["role"] == "ACTIVE_PROVISIONAL_CONTROLLER_BOUND_REPLAY"
         assert ctl["audit_required_before_promotion"] is True
+    elif schema == "STAGE32_LOWGENUS_PICARD_CONTROLLER_V247_POST1520_Q602_RETAINED_GEOMETRY_18_TO_18_AUDITED":
+        assert ctl["advance_allowed"] is True and ctl["merge_allowed"] is True and ctl["checkpoint_merge_ready"] is True
+        assert ctl["active_pr"] == {"number":1521,"branch":"stage32-post1520-audited-promotion","automatic_merge_authorized":False}
+        assert ctl["current_item"] == "O210_Q602_NEW_SCALAR_COUPLING_ROUTE_SELECTION"
+        successor = ctl["post1520_q602_18_diagonal_retained_geometry_test_provisional"]
+        assert successor["status"] == "AUDITED_EXACT_BOUNDED_NEGATIVE_AFTER_HOSTILE_AUDIT"
+        assert successor["pruning"] == "18 -> 18" and successor["surviving_diagonal_values"] == EXPECTED_VALUES
+        audit1520 = ctl["post1520_hostile_audit_pass"]
+        assert audit1520["review_id"] == 5109035402
+        assert audit1520["audited_exact_head"] == "316d509464a1c146824bd0717f54b4441e14dc59"
+        assert audit1520["verdict"] == "PASS"
+        assert ctl["audit_required_before_promotion"] is False
     else:
         raise AssertionError(f"unsupported successor controller: {schema}")
 
