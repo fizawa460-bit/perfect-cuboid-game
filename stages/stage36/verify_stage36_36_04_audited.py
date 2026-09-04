@@ -1,45 +1,40 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import hashlib, json
+import hashlib,json
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[2]
 STATE=ROOT/"stages/stage36/MAIN-STATE.json"
 CERT=ROOT/"stages/stage36/36-04/h-torsor-lift-class.json"
-
 CERT_BLOB="a06e201a9b554da71c5e75d8f8541e7284f8d020"
 AUTH={
- "pr":1560,
- "hostile_audit_review":5118098931,
+ "pr":1560,"hostile_audit_review":5118098931,
  "hostile_audited_head":"ce3eea151743b4ce031c84f09abd17221b7fe019",
- "hostile_audit_ci_run":33921903342,
- "hostile_audit_ci_job":101181884820,
+ "hostile_audit_ci_run":33921903342,"hostile_audit_ci_job":101181884820,
  "final_user_approved_head":"dcdae282120f29a42679b654e21bd35f843e4cbf",
- "final_exact_head_ci_run":33923997348,
- "final_exact_head_ci_job":101188362782,
+ "final_exact_head_ci_run":33923997348,"final_exact_head_ci_job":101188362782,
  "merged_main_sha":"de1df3d25c39306e5601646309b38aaad56967bd",
- "certificate_blob_sha":CERT_BLOB,
- "verdict":"PASS_WITH_FRESHNESS_ONLY_FINAL_HEAD_USER_APPROVED",
+ "certificate_blob_sha":CERT_BLOB,"verdict":"PASS_WITH_FRESHNESS_ONLY_FINAL_HEAD_USER_APPROVED",
 }
 UNIT={
- "leaf":"36-04_EXPLICIT_H_TORSOR_AND_LIFT_CLASS",
- "status":"AUDITED_PASS",
+ "leaf":"36-04_EXPLICIT_H_TORSOR_AND_LIFT_CLASS","status":"AUDITED_PASS",
  "certificate":"stages/stage36/36-04/h-torsor-lift-class.json",
  "verifier":"stages/stage36/verify_stage36_36_04.py",
  "successor_verifier":"stages/stage36/verify_stage36_36_04_audited.py",
  "hostile_audit_review":5118098931,
  "hostile_audited_head":"ce3eea151743b4ce031c84f09abd17221b7fe019",
- "hostile_audit_ci_run":33921903342,
- "hostile_audit_ci_job":101181884820,
+ "hostile_audit_ci_run":33921903342,"hostile_audit_ci_job":101181884820,
  "final_user_approved_head":"dcdae282120f29a42679b654e21bd35f843e4cbf",
- "final_exact_head_ci_run":33923997348,
- "final_exact_head_ci_job":101188362782,
+ "final_exact_head_ci_run":33923997348,"final_exact_head_ci_job":101188362782,
  "merged_main_sha":"de1df3d25c39306e5601646309b38aaad56967bd",
- "certificate_blob_sha":CERT_BLOB,
- "POINTWISE_H_TORSOR_CLASS_EXPLICIT":True,
- "FINITE_TWIST_FAMILY_PROVED":False,
- "NEW_THEOREM_CREDIT":False,
- "promotion_status":"AUDITED",
+ "certificate_blob_sha":CERT_BLOB,"POINTWISE_H_TORSOR_CLASS_EXPLICIT":True,
+ "FINITE_TWIST_FAMILY_PROVED":False,"NEW_THEOREM_CREDIT":False,"promotion_status":"AUDITED",
+}
+PROMO={
+ "pr":1568,"exact_head":"53b0c3b2a84ef200848d6b4b515c94589798d295",
+ "exact_head_ci_run":33924921726,"exact_head_ci_job":101191239139,
+ "merged_main_sha":"dca962cdf37d4252316885dc57f3c0a591db4ecb",
+ "scope":"mechanical audited-state promotion only","NEW_THEOREM_CREDIT":False,
 }
 V9="STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V9_36_04_AUDITED"
 V10="STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V10_36_05_PENDING_AUDIT"
@@ -47,7 +42,6 @@ V10="STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V10_36_05_PENDING_AUDIT"
 def blob_sha(path):
  data=path.read_bytes()
  return hashlib.sha1(b"blob "+str(len(data)).encode()+b"\0"+data).hexdigest()
-
 def req(x,msg):
  if not x: raise SystemExit(msg)
 
@@ -60,8 +54,7 @@ def main():
  req(cert.get("promotion",{}).get("hostile_audit_required") is True,"36-04 audit boundary moved")
  req(all(v is False for v in cert.get("claims",{}).values()),"36-04 cert leaked higher credit")
 
- s=json.loads(STATE.read_text())
- schema=s.get("schema")
+ s=json.loads(STATE.read_text()); schema=s.get("schema")
  req(schema in {V9,V10},"36-04 audited successor schema moved")
  req(s.get("stage36_36_04_authority")==AUTH,"36-04 authority block moved")
  req(s.get("completed_units",{}).get("36-04")==UNIT,"36-04 completed-unit provenance moved")
@@ -76,9 +69,15 @@ def main():
   req(s.get("current",{}).get("unit")=="36-05","V9 successor moved")
   req("36-05" not in s.get("completed_units",{}),"36-05 started inside 36-04 promotion")
  else:
-  req(s.get("status")=="ACTIVE_PENDING_HOSTILE_AUDIT","V10 lifecycle moved")
-  req(s.get("current",{}).get("unit")=="36-05","V10 current unit moved")
-  req(s.get("completed_units",{}).get("36-05",{}).get("promotion_status")=="PROVISIONAL_NOT_AUDITED","36-05 audit status moved")
+  req(s.get("status")=="ACTIVE_PENDING_HOSTILE_AUDIT" and s.get("base_main_sha")==PROMO["merged_main_sha"],"V10 lifecycle moved")
+  req(s.get("stage36_36_04_promotion")==PROMO,"36-04 promotion provenance moved")
+  u=s.get("completed_units",{}).get("36-05",{})
+  req(u.get("status")=="BLOCKED_MOVING_RAMIFICATION_SUPPORT_PENDING_HOSTILE_AUDIT","36-05 status moved")
+  req(u.get("legal_outcome")=="BLOCKED_MOVING_RAMIFICATION_SUPPORT","36-05 blocked outcome moved")
+  req(u.get("UNIFORM_FINITE_RAMIFICATION_SUPPORT_PROVED") is False and u.get("FINITE_EXHAUSTIVE_H_TWIST_FAMILY") is False,"36-05 credit moved")
+  req(u.get("promotion_status")=="PROVISIONAL_NOT_AUDITED","36-05 audit status moved")
+  req(s.get("current",{}).get("unit")=="36-05" and s.get("current",{}).get("36_06_entry_allowed") is False,"36-06 entry opened")
+  req("36-06" not in s.get("completed_units",{}),"36-06 started before uniform support proof")
  print("PASS STAGE36_36_04_AUDITED_SUCCESSOR_REPLAY")
  print(f"hostile_review={AUTH['hostile_audit_review']}; hostile_head={AUTH['hostile_audited_head']}")
  print(f"final_user_approved_head={AUTH['final_user_approved_head']}; final_ci={AUTH['final_exact_head_ci_run']}/{AUTH['final_exact_head_ci_job']}")
