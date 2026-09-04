@@ -1,0 +1,164 @@
+{
+  "schema": "STAGE36_36_02_THREE_Q_REPRESENTATIVE_INVENTORY_V1",
+  "stage": "36",
+  "unit": "36-02",
+  "leaf": "36-02_THREE_Q_REPRESENTATIVE_INVENTORY",
+  "status": "EXACT_THREE_Q_REPRESENTATIVES_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "8c59c81bcf0bcd442705cfb7a3db297253b34679",
+  "source_authority": {
+    "stage36_36_01_hostile_audit_review": 5112705173,
+    "stage36_36_01_audited_head": "e2f6c5a2f34d76c1f17f90983a4e7fea62816621",
+    "stage36_36_01_merge": "8c59c81bcf0bcd442705cfb7a3db297253b34679"
+  },
+  "source_locks": {
+    "stage29_kernel_checker": {"path": "stages/stage29/29-02hb/campedelli_kernel_check.py", "blob_sha": "0e44eea33eb696f32e556a893310a563ed31cb12"},
+    "stage29_q_qi_symmetry_result": {"path": "stages/stage29/29-02ha/result.md", "blob_sha": "b1ca15c16df1467c7cece4b78db4b2a41e147f90"},
+    "stage29_exact_sign_cover_model": {"path": "stages/stage29/29-02ha/exact-sign-cover-model.md", "blob_sha": "fc2d5284a259750f45d2d756a952002671e3bccc"},
+    "stage29_campedelli_quotient_adapter": {"path": "stages/stage29/29-02hb/campedelli-quotient-adapter.md", "blob_sha": "5f959d60106243bb31df06a3961ab04182d78fc7"},
+    "stage29_campedelli_route_contract": {"path": "stages/stage29/29-02hb/route-contract.json", "blob_sha": "75045d8f15786836e8a7383fc07ef95161fa86e7"}
+  },
+  "arsenal_locks": {
+    "router": {"path": "docs/arsenal/index.json", "blob_sha": "aa45d19c2f1d8970c7f142bf744c5c17e75abe5a"},
+    "S30-W01": {"path": "docs/arsenal/cards/formal/S30-W01.md", "blob_sha": "0b0d8871ce873896e62e841deb698f3c505abda5", "role": "FINITE_EQUIVARIANT_ACTION_IDENTIFICATION", "application": "Reconstruct the exact Q-liftable S3 action on the ten finite kernels, identify its complete 6+2+2 orbit partition, and bind the action to the source-derived coordinate permutation anchor."},
+    "S30-WF02": {"path": "docs/arsenal/cards/workflows/S30-WF02.md", "blob_sha": "38e4625155eb079bbe3d50d663c6256559319886", "role": "IMMUTABLE_LAYERED_CERTIFICATE_REPLAY"},
+    "S30-WF03": {"path": "docs/arsenal/cards/workflows/S30-WF03.md", "blob_sha": "12740198aba19ade18302819f8e890dbda4eb701", "role": "ADAPTER_CREDIT_LAYER_FIREWALL"},
+    "S30-W02": "NOT_TRIGGERED_Q_FORM_ALREADY_EXACT_FROM_CONSTANT_SIGN_GROUP_AND_Q_LIFTABLE_S3"
+  },
+  "conventions": {
+    "line_order": ["A1", "A2", "A3", "B3", "B2", "B1", "C"],
+    "base_coordinates": ["x", "y", "z"],
+    "line_forms": {
+      "A1": "x",
+      "A2": "y",
+      "A3": "z",
+      "B3": "x+y",
+      "B2": "x+z",
+      "B1": "y+z",
+      "C": "x+y+z"
+    },
+    "deck_group": "Gamma=F2^7/<1111111>",
+    "kernel_upstairs_convention": "rank-4 RREF subspace in F2^7 containing 1111111",
+    "gamma_basis_convention": "unique C=0 gauge followed by RREF on coordinates A1,A2,A3,B3,B2,B1",
+    "representative_canonicalization": "lexicographically minimal gamma_C0_basis signature inside each certified Q-symmetry orbit",
+    "q_action": "S3 simultaneously permutes A_i and B_i by i=1,2,3 and fixes C",
+    "canonical_quotient_model": "Cbar_H is the normalization of P2_Q in Q(P2)(sqrt(F1),sqrt(F2),sqrt(F3))",
+    "resolved_quotient_model": "C_H is the minimal resolution of Cbar_H; equivalently the audited resolved quotient S/H"
+  },
+  "finite_reconstruction": {
+    "raw_admissible_labelings": 1680,
+    "distinct_rank3_kernels": 10,
+    "q_liftable_group": "S3",
+    "q_liftable_group_order": 6,
+    "q_orbit_sizes": [6, 2, 2],
+    "geometric_qi_group": "S4",
+    "geometric_qi_group_order": 24,
+    "geometric_qi_orbit_sizes": [8, 2],
+    "q_to_geometric_refinement": ["Q6_GEOM8", "Q2_GEOM8", "Q2_GEOM2"],
+    "exact_Q_isomorphism_class_count_proved": false
+  },
+  "representatives": {
+    "Q6_GEOM8": {
+      "q_orbit_size": 6,
+      "geometric_qi_orbit_size": 8,
+      "label_map": {"A1":"001","A2":"010","A3":"100","B3":"101","B2":"110","B1":"111","C":"011"},
+      "kernel_upstairs_basis": ["1000110","0100111","0010011","0001101"],
+      "gamma_C0_basis": ["100011","010101","001111"],
+      "orbit_member_gamma_signatures": [
+        "100011/010101/001111",
+        "100101/010111/001011",
+        "100110/010011/001111",
+        "100110/010111/001101",
+        "100111/010101/001110",
+        "100111/010110/001011"
+      ],
+      "stabilizer_index_permutations": [[1,2,3]],
+      "character_supports": [
+        ["A3","B3","B2","B1"],
+        ["A2","B2","B1","C"],
+        ["A1","B3","B1","C"]
+      ],
+      "function_field_radicals": [
+        "z*(x+y)*(x+z)*(y+z)",
+        "y*(x+z)*(y+z)*(x+y+z)",
+        "x*(x+y)*(y+z)*(x+y+z)"
+      ],
+      "canonical_model": "normalization of P2_Q in Q(P2)(sqrt(F1),sqrt(F2),sqrt(F3)) with the listed radicals",
+      "resolved_model": "minimal resolution of Cbar_H",
+      "q_defined": true
+    },
+    "Q2_GEOM8": {
+      "q_orbit_size": 2,
+      "geometric_qi_orbit_size": 8,
+      "label_map": {"A1":"001","A2":"010","A3":"011","B3":"100","B2":"110","B1":"111","C":"101"},
+      "kernel_upstairs_basis": ["1000110","0100011","0010101","0001111"],
+      "gamma_C0_basis": ["100011","010110","001101"],
+      "orbit_member_gamma_signatures": [
+        "100011/010110/001101",
+        "100101/010011/001110"
+      ],
+      "stabilizer_index_permutations": [[1,2,3],[2,3,1],[3,1,2]],
+      "character_supports": [
+        ["B3","B2","B1","C"],
+        ["A2","A3","B2","B1"],
+        ["A1","A3","B1","C"]
+      ],
+      "function_field_radicals": [
+        "(x+y)*(x+z)*(y+z)*(x+y+z)",
+        "y*z*(x+z)*(y+z)",
+        "x*z*(y+z)*(x+y+z)"
+      ],
+      "canonical_model": "normalization of P2_Q in Q(P2)(sqrt(F1),sqrt(F2),sqrt(F3)) with the listed radicals",
+      "resolved_model": "minimal resolution of Cbar_H",
+      "q_defined": true
+    },
+    "Q2_GEOM2": {
+      "q_orbit_size": 2,
+      "geometric_qi_orbit_size": 2,
+      "label_map": {"A1":"001","A2":"010","A3":"100","B3":"110","B2":"011","B1":"101","C":"111"},
+      "kernel_upstairs_basis": ["1000111","0100011","0010101","0001110"],
+      "gamma_C0_basis": ["101001","011011","000111"],
+      "orbit_member_gamma_signatures": [
+        "101001/011011/000111",
+        "101011/011010/000111"
+      ],
+      "stabilizer_index_permutations": [[1,2,3],[2,3,1],[3,1,2]],
+      "character_supports": [
+        ["A3","B3","B1","C"],
+        ["A2","B3","B2","C"],
+        ["A1","B2","B1","C"]
+      ],
+      "function_field_radicals": [
+        "z*(x+y)*(y+z)*(x+y+z)",
+        "y*(x+y)*(x+z)*(x+y+z)",
+        "x*(x+z)*(y+z)*(x+y+z)"
+      ],
+      "canonical_model": "normalization of P2_Q in Q(P2)(sqrt(F1),sqrt(F2),sqrt(F3)) with the listed radicals",
+      "resolved_model": "minimal resolution of Cbar_H",
+      "q_defined": true
+    }
+  },
+  "degree_check": {
+    "three_character_support_vectors_independent_for_each_representative": true,
+    "generic_squareclass_rank": 3,
+    "canonical_quotient_degree": 8,
+    "resolved_etale_quotient_degree": 8
+  },
+  "pass_condition": {
+    "THREE_CERTIFIED_Q_REPRESENTATIVES_EXACT": true,
+    "EXACT_Q_ISOMORPHISM_CLASS_COUNT_CLAIM": false
+  },
+  "promotion": {
+    "hostile_audit_required": true,
+    "promoted_to_audited_authority": false,
+    "next_leaf_before_audit_allowed": false,
+    "provisional_successor_after_audit": "36-03_PHYSICAL_OPEN_PUSH_AND_BOUNDARY"
+  },
+  "claims": {
+    "new_theorem_credit": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
