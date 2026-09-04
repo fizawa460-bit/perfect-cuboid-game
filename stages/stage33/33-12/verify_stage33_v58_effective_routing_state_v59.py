@@ -53,10 +53,10 @@ assert state["firewalls"]["stage33_13_released"] is False
 assert state["firewalls"]["merge_allowed"] is False
 
 # V58 is an inherited operational routing lock, not a demand that the live
-# mathematical leaf remain frozen at V57.  The V65 startup may therefore be
-# later while preserving every V58 search firewall.
+# mathematical leaf remain frozen at V57. Later startup prose may be compressed;
+# the machine fields above are the exact no-cap/repeatability authority.
 assert "V58" in startup
-assert "repeatable bounded searches" in startup
+assert "repeatable bounded search" in startup
 assert "materially new mathematical signal" in startup
 assert "search miss never proves repository absence" in startup.lower()
 
