@@ -61,6 +61,7 @@ state = json.loads(STATE.read_text())
 assert state["schema"] in {
     "STAGE35_EX_PESCH_E1_STATE_V17_POST_35EX18_GAUSSIAN_RELATIVE_ORIENTATION_FREEZE",
     "STAGE35_EX_PESCH_E1_STATE_V18_POST_35EX19_NONISOTRIVIAL_GENUSONE_BLOCKER",
+    "STAGE35_EX_PESCH_E1_STATE_V19_POST_35EX20_PAIRED_SQUARECLASS_DYNAMIC_SUPPORT_BLOCKER",
 }
 assert state["stage"] == "35-EX"
 assert state["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
@@ -68,6 +69,7 @@ assert state["base_main_sha"] in {
     "d4190ea534610b49a7bb15e7b9d15d759dbcdc40",
     "cb3e36183f291ec5d96b440ff2287e3d009d9691",
     "751ac2ed47843223340b2d9b09db3d5cca8c3464",
+    "fd0986693a8806fb77083c862d0f939d23a05abb",
 }
 
 unit17b = state["completed_units"]["35EX-17B"]
@@ -112,12 +114,14 @@ assert "E1-GAUSSIAN-COORDINATE-GCD-SPLIT" in ledger["blocked"]
 assert ledger["selected_live"] in {
     "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION",
     "E1-PAIRED-SOURCE-FILTER-QUARTIC-INTERSECTION",
+    "E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY",
 }
 
 current = state["current"]
 assert current["unit"] in {
     "35EX-19_RECEIVER_SPECIFIC_GENUSONE_ADAPTER_OR_BLOCKER",
     "35EX-20_PAIRED_SOURCE_FILTER_QUARTIC_SQUARECLASS_OR_FREE_FAMILY",
+    "35EX-21_GLOBAL_BIQUADRATIC_SURFACE_MODEL_OR_GEOMETRY_BLOCKER",
 }
 
 assert state["stage35_main_firewall"]["stage35_ex_reopens_stage35_main"] is False
@@ -182,13 +186,11 @@ for a in range(2, 31):
                 a0,b0 = alpha//gminus, beta//gminus
                 g0,d0 = gamma//gplus, delta//gplus
 
-                # Exact normalized Gaussian product identities.
                 assert a0*g0-b0*d0 == (W1*U2)//c
                 assert a0*d0+b0*g0 == (U1*V2)//c
                 assert a0*g0+b0*d0 == (U1*W2)//c
                 assert a0*d0-b0*g0 == (V1*U2)//c
 
-                # Master bilinear identity: (raw Master)/c=(1+i)*(a0*d0+i*b0*g0).
                 Hre, Him = a0*d0, b0*g0
                 assert Hre-Him == (V1*U2)//c
                 assert Hre+Him == (U1*V2)//c
@@ -204,7 +206,6 @@ for a in range(2, 31):
                     assert v2(V1) != v2(V2)
                     for typ, val in (("p",p),("d",d)):
                         for ell in odd_prime_factors(val):
-                            # p*d primes are Master-unit primes.
                             assert master % ell != 0
                             assert c % ell != 0 and q % ell != 0
                             assert legendre(2, ell) in (-1,1)
@@ -220,7 +221,6 @@ for a in range(2, 31):
                     e1_square_pairs += 1
                     zm0 = (a0,b0)
                     zp0 = (g0,d0)
-                    # Full E1 square alone forces the relative p/d squareclass routing.
                     for ell in odd_prime_factors(pd):
                         if vp(pd,ell) % 2 == 0:
                             continue
@@ -237,7 +237,6 @@ assert master_pd_prime_checks > 0
 assert e1_square_pairs > 0
 assert relative_orientation_checks > 0
 
-# Four exact Master-Hit witnesses covering both branches and both p/d channels at ell=5.
 required = {
     ("L","p",5): (4,3,16,5),
     ("L","d",5): (6,5,9,8),
