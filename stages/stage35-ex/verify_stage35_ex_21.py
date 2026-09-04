@@ -38,6 +38,7 @@ for key in ("35EX-20", "35EX-20B"):
     assert unit["audited_theorem_credit"] is False
 assert state["completed_units"]["35EX-20"]["status"] == "AUDITED_EXACT_PAIRED_QUARTIC_SQUARECLASS_DYNAMIC_UV_SUPPORT_BLOCKER_NO_CREDIT"
 assert state["completed_units"]["35EX-20B"]["status"] == "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT"
+assert state["completed_units"]["35EX-20B"]["preserved_untested_candidates"] == ["E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER"]
 
 unit21 = state["completed_units"]["35EX-21"]
 assert unit21["status"] == "PROVISIONAL_EXACT_GLOBAL_NORMALIZED_CUBOID_SURFACE_GENUS5_FIBRATION_BLOCKER_NO_CREDIT"
@@ -61,7 +62,7 @@ assert unit21b["exhaustive_view_audit"] is True
 assert unit21b["blind_rediscovery"] is True
 assert unit21b["arsenal_comparison"] is True
 assert unit21b["historical_block_ledger_comparison"] is True
-assert unit21b["selected_candidate"] == "E1-SURFACE-LOCAL_GLOBAL-OR-BRAUER-LAYER"
+assert unit21b["selected_candidate"] == "E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER"
 assert unit21b["selected_next_unit"] == "35EX-22_SURFACE_BRAUER_CLASS_OR_OBVIOUS_SYMBOL_BLOCKER"
 assert unit21b["preserved_untested_candidates"] == ["E1-GENUS5-MULTIQUADRATIC-FIBER-CHARACTER-DESCENT"]
 assert unit21b["audited_theorem_credit"] is False
@@ -72,7 +73,7 @@ assert "normalized rational cuboid square surface" in freeze["reason"]
 assert "Brauer" in freeze["reopen_condition"]
 
 ledger = state["candidate_ledger_after_fresh_breadth_audit"]
-assert ledger["selected_live"] == "E1-SURFACE-LOCAL_GLOBAL-OR-BRAUER-LAYER"
+assert ledger["selected_live"] == "E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER"
 assert ledger["untested"] == ["E1-GENUS5-MULTIQUADRATIC-FIBER-CHARACTER-DESCENT"]
 assert "E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY" in ledger["just_frozen"]
 assert "E1-NORMALIZED-CUBOID-DIRECT-RATIONAL-POINT-CLASSIFICATION" in ledger["blocked"]
@@ -121,13 +122,14 @@ for marker in (
 assert audit["schema"] == "STAGE35_EX_21B_POST_GLOBAL_SURFACE_BREADTH_AUDIT_V1"
 assert audit["blind_rediscovery"]["performed_before_arsenal_comparison_for_this_audit"] is True
 assert audit["arsenal_comparison"]["performed_after_blind_generation"] is True
-assert audit["selection"]["selected_candidate"] == "E1-SURFACE-LOCAL_GLOBAL-OR-BRAUER-LAYER"
+assert audit["selection"]["selected_candidate"] == "E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER"
 assert audit["selection"]["selected_next_unit"] == "35EX-22_SURFACE_BRAUER_CLASS_OR_OBVIOUS_SYMBOL_BLOCKER"
 assert audit["selection"]["preserved_untested_candidates"] == ["E1-GENUS5-MULTIQUADRATIC-FIBER-CHARACTER-DESCENT"]
 allowed = {"LIVE", "UNTESTED", "EQUIVALENT", "DOMINATED", "BLOCKED"}
 assert all(c["status"] in allowed for c in audit["blind_rediscovery"]["generated"])
-assert next(c for c in audit["blind_rediscovery"]["generated"] if c["id"] == "E1-SURFACE-LOCAL_GLOBAL-OR-BRAUER-LAYER")["status"] == "LIVE"
+assert next(c for c in audit["blind_rediscovery"]["generated"] if c["id"] == "E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER")["status"] == "LIVE"
 assert next(c for c in audit["blind_rediscovery"]["generated"] if c["id"] == "E1-GENUS5-MULTIQUADRATIC-FIBER-CHARACTER-DESCENT")["status"] == "UNTESTED"
+assert audit["historical_ledger_comparison"]["E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER"].startswith("preserved as UNTESTED in 35EX-20B")
 cycle = audit["cycle_exit"]
 assert cycle["CYCLE_ROUTE_STATUS"] == "BLOCKED_NEW_PATTERN_ISOLATED"
 assert cycle["CYCLE_LIVE_CANDIDATES"] == 1
