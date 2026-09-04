@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Bounded interface diagnostic for transporting the exact #1529 S symmetry to Stage33 proper14.
 
-This leaf does not grant a new Brauer/Gysin column.  It only exposes the
-already source-locked retained Stage32 marking interface needed to decide
-whether the B1 -> B3 symmetry route can be made mechanically exact without a
-repository-wide search.
+This leaf does not grant a new Brauer/Gysin column. It exposes only the
+source-locked retained Stage32 marking interfaces needed to decide whether the
+B1 -> B3 symmetry route can be made mechanically exact without broad search.
 """
 from __future__ import annotations
 
@@ -55,12 +54,21 @@ assert S["stoll_word"] == "g2*g5"
 assert S["normalized_box_action"] == ["a3", "-a2", "a1", "b3", "b2", "b1", "c"]
 
 summary = {k: shape(v) for k, v in marking.items() if k != "canonical_sha256"}
-# Nested summaries only for exact interfaces plausibly useful to construct the
-# Picard/proper14 action; no payload values or recursive repo enumeration.
 nested = {}
 for k in ("picard", "picard_core", "all140", "known_classes", "aut_action", "marking"):
     if k in marking and isinstance(marking[k], dict):
         nested[k] = {kk: shape(vv) for kk, vv in marking[k].items()}
+
+htext = marking.get("hperp_text", "")
+assert isinstance(htext, str)
+lines = htext.splitlines()
+needle = ("pic", "basis", "known", "curve", "matrix", "hperp", "indlist", "coord", "big")
+interesting = [ln for ln in lines if any(x in ln.lower() for x in needle)]
+# Keep the diagnostic bounded: expose only short structural samples, not the
+# entire retained transcript/payload.
+structural_sample = [ln[:500] for ln in interesting[:30]]
+head_sample = [ln[:500] for ln in lines[:20]]
+tail_sample = [ln[:500] for ln in lines[-20:]]
 
 print(json.dumps({
     "success": True,
@@ -70,6 +78,10 @@ print(json.dumps({
     "S_maps_B1_to_B3": True,
     "top_level_interface": summary,
     "nested_candidate_interfaces": nested,
+    "hperp_line_count": len(lines),
+    "hperp_head_sample": head_sample,
+    "hperp_structural_sample": structural_sample,
+    "hperp_tail_sample": tail_sample,
     "proper14_action_materialized": False,
     "b3_gysin_image_materialized": False,
     "merge_allowed": False,
