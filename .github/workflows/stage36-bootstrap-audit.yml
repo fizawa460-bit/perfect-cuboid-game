@@ -1,4 +1,4 @@
-name: Stage36 bootstrap authority audit
+name: Stage36 authority audit
 
 on:
   pull_request:
@@ -11,13 +11,16 @@ on:
       - 'stages/stage29/29-02hb/arithmetic-routing.md'
       - 'stages/stage29/29-02hb/campedelli-quotient-adapter.md'
       - 'stages/stage29/29-02hb/source-lock.md'
+      - 'docs/arsenal/index.json'
+      - 'docs/arsenal/cards/workflows/S30-WF02.md'
+      - 'docs/arsenal/cards/workflows/S30-WF03.md'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  verify-bootstrap:
+  verify-stage36:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout exact PR head
@@ -35,10 +38,30 @@ jobs:
           test "$actual" = "$expected"
           echo "exact_head=$actual"
 
-      - name: Verify Stage36 bootstrap authority
+      - name: Assert current PR base lock
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected="${{ github.event.pull_request.base.sha }}"
+          python3 - "$expected" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          expected = sys.argv[1]
+          state = json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
+          actual = state['base_main_sha']
+          assert actual == expected, f'MAIN-STATE base_main_sha {actual} != PR base {expected}'
+          print(f'base_main_sha={actual}')
+          PY
+
+      - name: Replay Stage36 bootstrap authority
         run: python3 stages/stage36/verify_stage36_bootstrap.py
 
-      - name: Assert 36-01 has not started
+      - name: Verify Stage36 36-01 source authority lock
+        run: python3 stages/stage36/verify_stage36_36_01.py
+
+      - name: Assert hostile-audit boundary before 36-02
         shell: bash
         run: |
           set -euo pipefail
@@ -46,8 +69,11 @@ jobs:
           import json
           from pathlib import Path
           s = json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['status'] == 'PLANNED_NOT_STARTED'
-          assert s['completed_units'] == {}
+          assert s['status'] == 'ACTIVE_PENDING_HOSTILE_AUDIT'
+          assert s['current']['unit'] == '36-01'
           assert s['current']['next_exact_leaf'] == '36-01_SOURCE_AUTHORITY_LOCK'
-          print('36-01 not started')
+          assert s['current']['provisional_successor_after_hostile_audit'] == '36-02_THREE_Q_REPRESENTATIVE_INVENTORY'
+          assert all(v is False for v in s['promotion_gates'].values())
+          assert all(v is False for v in s['claims'].values())
+          print('36-01 pending hostile audit; 36-02 not started')
           PY
