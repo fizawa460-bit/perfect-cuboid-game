@@ -1,0 +1,105 @@
+{
+  "schema": "stage33.e3.mask20_b1_gysin_image_gate.v57",
+  "role": "EXACT_FINITE_GEOMETRIC_ROUTE_MEMBERSHIP_GATE",
+  "micro_goal": "E3_A2_4A_B1_BRANCH_GYSIN_IMAGE_MEMBERSHIP_GATE",
+  "parent_head": "7f9c2d8ed3ca69ac631ff68d1051430be2d5caac",
+  "source_locks": {
+    "v41_e3_source": {
+      "path": "stages/stage33/33-12/e3-independent-proper14-source-v41.json",
+      "git_blob_sha1": "bb0910f988b640130843348481909936948ff52e"
+    },
+    "v50_type_correction": {
+      "path": "stages/stage33/33-12/e3-a1-1-type-correction-v50.json",
+      "git_blob_sha1": "1aa59da6303b6f8b0286c9c32fdc72960bc0dc85"
+    },
+    "v52_literal_cech_gap": {
+      "path": "stages/stage33/33-12/e3-mask20-literal-cech-preimage-gap-v52.json",
+      "git_blob_sha1": "15ae7ebf8ddaf9d8771d48bc93caa0705e4ebf67"
+    },
+    "v56_geometry_gap": {
+      "path": "stages/stage33/33-12/e3-mask20-marked-picard-to-literal-geometry-bridge-gap-v56.json",
+      "git_blob_sha1": "251a5940672758c33eecff9656e7d57f4422f38b"
+    },
+    "j2_branch_surface_adapter": {
+      "path": "stages/stage33/33-12/j2-corrected-branch-surface-mu2-adapter.json",
+      "git_blob_sha1": "6d0bdebdc1ec5466517caace8191b2968747d2f5"
+    },
+    "j2_literal_cech": {
+      "path": "stages/stage33/33-12/j2-corrected-explicit-cech-mu2-lift.json",
+      "git_blob_sha1": "97261735968c07903f87370eb483df8d6475b67c"
+    }
+  },
+  "arsenal_routing": {
+    "primary": "S33-PW07:TORSOR_BRAUER_INTEGRAL_KERNEL_ADAPTER",
+    "marked_source_binding": "S33-PW04:EXACT_MARKED_SOURCE_ADAPTER",
+    "credit_firewall": "S30-WF03:ADAPTER_CREDIT_LAYER_FIREWALL",
+    "card_maturity": "PROVISIONAL_STAGE33_DISCOVERY_ONLY_LIVE_AUTHORITY_REVALIDATED",
+    "bounded_repository_search_for_this_missing_object": "CONSUMED_NO_HIT",
+    "broad_or_repeated_search_authorized": false
+  },
+  "exact_b1_route_geometry": {
+    "surface": "minimal resolution Kc_tilde_bar",
+    "quotient_branch": "C21_tilde disjoint_union C22_tilde",
+    "branch_component_count": 2,
+    "C22_genus": 1,
+    "C21_relation_to_C22": "complex-conjugate branch component under i -> -i",
+    "C21_genus": 1,
+    "H1_dimension_per_genus1_component_f2": 2,
+    "branch_H1_total_dimension_f2": 4,
+    "proper_geometric_Br2_dimension_f2": 14,
+    "canonical_route_map": "Phi_B1:H1(C21_tilde disjoint_union C22_tilde,F2)->Br(Kc_tilde_bar)[2]",
+    "required_marked_matrix_shape": [14, 4],
+    "image_rank_upper_bound_f2": 4,
+    "route_surjective_onto_full_proper14": false
+  },
+  "existing_exact_j2_point_in_route": {
+    "branch_input": "(0,kappa_D) with kappa_D on C22_tilde",
+    "literal_symbol": "{f2,g22}",
+    "proper14_brauer_image_mask_decimal": 25,
+    "surface_H2_mu2_lift_materialized": true,
+    "certifies_one_nonzero_route_image": true,
+    "certifies_full_14x4_route_matrix": false
+  },
+  "e3_membership_gate": {
+    "adapted_source": "e3",
+    "proper14_mask_decimal": 20,
+    "proper14_coordinate_f2": [0,0,1,0,1,0,0,0,0,0,0,0,0,0],
+    "semantic_u1_label_is_membership_proof": false,
+    "membership_in_im_Phi_B1": "OPEN_NOT_COMPUTED",
+    "j2_literal_symbol_reusable_without_membership_and_source_binding": false
+  },
+  "smallest_next_exact_object": {
+    "name": "B1_BRANCH_H1_TO_PROPER14_BRAUER_IMAGE_MATRIX",
+    "domain_basis_required": "explicit ordered F2 basis of H1(C21_tilde,F2) plus H1(C22_tilde,F2), equivalently source-locked Pic0[2] generators on both genus-one components",
+    "codomain_basis_required": "the exact V41/V50 proper14 marked Brauer basis",
+    "matrix_shape": [14,4],
+    "required_replay": "compute all four marked proper14 image columns from literal/Gysin geometric data, then solve M*x=e3_mask20 over F2",
+    "pass_branch": "if mask20 lies in im(M), materialize the unique/all branch Pic0[2] preimage solutions and construct a literal Cech representative using PW07",
+    "fail_branch": "if mask20 is not in im(M), freeze only this B1-quotient geometric route for e3 and construct a different source-bound geometric realization; do not infer nonexistence of an H2(mu2) lift"
+  },
+  "forbidden_shortcuts": [
+    "infer e3 B1-route membership from the common semantic u1 label",
+    "reuse the J2 branch input or {f2,g22} before solving the exact 14x4 membership problem",
+    "treat one known J2 image vector as a complete branch-to-proper14 matrix",
+    "treat the 4-dimensional B1 route as surjective onto the 14-dimensional proper Br2 module",
+    "claim repository-wide absence or mathematical nonexistence if mask20 is outside this one geometric route"
+  ],
+  "credit_firewall": {
+    "b1_branch_to_proper14_matrix_materialized": false,
+    "e3_b1_route_membership_computed": false,
+    "e3_literal_cech_preimage_materialized": false,
+    "genuine_full_surface_h2_mu2_lift_for_e3": false,
+    "e3_kummer_column_materialized": false,
+    "j2_adapted_columns_materialized": "1/10",
+    "standard_columns_materialized": "0/10",
+    "stage33_progress": "6/11",
+    "stage33_12_closed": false,
+    "stage33_13_released": false,
+    "merge_allowed": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "theorem_credit": false
+  },
+  "status": "PASS_EXACT_B1_GYSIN_ROUTE_REDUCED_TO_FINITE_14X4_MEMBERSHIP_GATE",
+  "next_exact_leaf": "MATERIALIZE_EXACT_B1_BRANCH_H1_TO_PROPER14_PHI_MATRIX_AND_SOLVE_E3_MASK20_MEMBERSHIP"
+}
