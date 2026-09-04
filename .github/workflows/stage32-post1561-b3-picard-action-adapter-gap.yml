@@ -1,0 +1,48 @@
+name: Stage32 post1561 b3 Picard action adapter gap
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1561-b3-picard-action-adapter-gap.yml'
+      - 'stages/stage32/controller.json'
+      - 'stages/stage32/residual-32-01-production/post1561-b3-picard-action-adapter-gap*'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1561_b3_picard_action_adapter_gap.py'
+      - 'stages/stage32/residual-32-01-production/post1556-carrier-invariance-source-gap.json'
+      - 'stages/stage32/residual-32-01-production/post1555-b3-full-g-box-quotient-normalizer.json'
+      - 'stages/stage32/residual-32-01-production/post1532-full-stoll-h-orbit-symmetry-negative.json'
+      - 'docs/arsenal/index.json'
+      - 'docs/arsenal/cards/provisional/S32-PW05.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-post1561-b3-picard-gap-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  certificate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Assert exact PR head
+        if: github.event_name == 'pull_request'
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Certify b3 Picard action adapter gap
+        run: python3 stages/stage32/residual-32-01-production/certify_stage32_post1561_b3_picard_action_adapter_gap.py
+      - name: Enforce no controller edit
+        if: github.event_name == 'pull_request'
+        run: |
+          if git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" | grep -qx 'stages/stage32/controller.json'; then
+            echo 'controller.json must remain unchanged in bounded adapter-gap leaf'
+            exit 1
+          fi
+      - name: Diff check
+        if: github.event_name == 'pull_request'
+        run: git diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
