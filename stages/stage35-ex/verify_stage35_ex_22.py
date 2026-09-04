@@ -15,6 +15,8 @@ doc = DOC.read_text()
 cert = json.loads(CERT.read_text())
 state = json.loads(STATE.read_text())
 
+V21 = "STAGE35_EX_PESCH_E1_STATE_V21_POST_35EX22_OBVIOUS_BRAUER_SYMBOL_BLOCKER"
+V22 = "STAGE35_EX_PESCH_E1_STATE_V22_POST_35EX23_GENUS5_CHARACTER_QUOTIENT_UNIFORMITY_BLOCKER"
 assert cert["schema"] == "STAGE35_EX_22_OBVIOUS_SURFACE_BRAUER_SYMBOL_BLOCKER_V2"
 assert cert["parent"] == {
     "pr": 1531,
@@ -22,16 +24,30 @@ assert cert["parent"] == {
     "audited_head_sha": "35431061f571da5b425f30da7974c160685bf1a4",
     "merged_main_sha": "85e12c7b810eaafc13e663a0047111b7f3333e8b",
 }
-assert state["schema"] == "STAGE35_EX_PESCH_E1_STATE_V21_POST_35EX22_OBVIOUS_BRAUER_SYMBOL_BLOCKER"
-assert state["base_main_sha"] == "378096fa313b582b63553b395ec85a5c86de2685"
+assert state["schema"] in {V21, V22}
+assert state["base_main_sha"] in {
+    "378096fa313b582b63553b395ec85a5c86de2685",
+    "2e07dde92fdf270fff1233635a7cb4cea1427080",
+}
 parent = state["parent_authority"]
-assert parent["unit"] == "35EX-21B"
-assert parent["status"] == "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT"
-assert parent["hostile_audit_verdict"] == "PASS"
-assert parent["hostile_audit_review"] == 5110646292
-assert parent["audited_head_sha"] == "35431061f571da5b425f30da7974c160685bf1a4"
-assert parent["merged_main_sha"] == "85e12c7b810eaafc13e663a0047111b7f3333e8b"
-assert parent["audited_theorem_credit"] is False
+if state["schema"] == V21:
+    assert state["base_main_sha"] == "378096fa313b582b63553b395ec85a5c86de2685"
+    assert parent["unit"] == "35EX-21B"
+    assert parent["status"] == "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT"
+    assert parent["hostile_audit_verdict"] == "PASS"
+    assert parent["hostile_audit_review"] == 5110646292
+    assert parent["audited_head_sha"] == "35431061f571da5b425f30da7974c160685bf1a4"
+    assert parent["merged_main_sha"] == "85e12c7b810eaafc13e663a0047111b7f3333e8b"
+    assert parent["audited_theorem_credit"] is False
+else:
+    assert state["base_main_sha"] == "2e07dde92fdf270fff1233635a7cb4cea1427080"
+    assert parent["unit"] == "35EX-22"
+    assert parent["status"] == "AUDITED_EXACT_OBVIOUS_BRAUER_SYMBOL_LAYER_BLOCKER_NO_CREDIT"
+    assert parent["hostile_audit_verdict"] == "PASS"
+    assert parent["hostile_audit_review"] == 5111539148
+    assert parent["audited_head_sha"] == "f4276680239bb2b84687f8ba8ac8964de0613552"
+    assert parent["merged_main_sha"] == "2e07dde92fdf270fff1233635a7cb4cea1427080"
+    assert parent["audited_theorem_credit"] is False
 for key in ("35EX-21", "35EX-21B"):
     u = state["completed_units"][key]
     assert u["hostile_audit_verdict"] == "PASS"
@@ -41,7 +57,10 @@ for key in ("35EX-21", "35EX-21B"):
     assert u["audited_theorem_credit"] is False
 
 unit = state["completed_units"]["35EX-22"]
-assert unit["status"] == "PROVISIONAL_EXACT_OBVIOUS_BRAUER_SYMBOL_LAYER_BLOCKER_NO_CREDIT"
+assert unit["status"] in {
+    "PROVISIONAL_EXACT_OBVIOUS_BRAUER_SYMBOL_LAYER_BLOCKER_NO_CREDIT",
+    "AUDITED_EXACT_OBVIOUS_BRAUER_SYMBOL_LAYER_BLOCKER_NO_CREDIT",
+}
 assert unit["artifact"] == "stages/stage35-ex/35ex-22/obvious-surface-brauer-symbol-blocker.md"
 assert unit["certificate"] == "stages/stage35-ex/35ex-22/obvious-brauer-symbol-certificate.json"
 assert unit["verifier"] == "stages/stage35-ex/verify_stage35_ex_22.py"
@@ -57,11 +76,22 @@ assert unit["Brauer_group_computed"] is False
 assert unit["Brauer_group_trivial"] is False
 assert unit["nonobvious_Brauer_classes_ruled_out"] is False
 assert unit["audited_theorem_credit"] is False
+if state["schema"] == V22:
+    assert unit["hostile_audit_verdict"] == "PASS"
+    assert unit["hostile_audit_review"] == 5111539148
+    assert unit["audited_head_sha"] == "f4276680239bb2b84687f8ba8ac8964de0613552"
+    assert unit["merged_main_sha"] == "2e07dde92fdf270fff1233635a7cb4cea1427080"
+
 current = state["current"]
-assert current["unit"] == "35EX-22_SURFACE_BRAUER_CLASS_OR_OBVIOUS_SYMBOL_BLOCKER"
-assert current["status"] == "PROVISIONAL_RESULT_PENDING_HOSTILE_AUDIT_NO_CREDIT"
-assert current["candidate"] == "E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER"
-assert current["next_if_audited_pass"] == "35EX-23_GENUS5_MULTIQUADRATIC_CHARACTER_QUOTIENT_DESCENT_OR_UNIFORMITY_BLOCKER"
+if state["schema"] == V21:
+    assert current["unit"] == "35EX-22_SURFACE_BRAUER_CLASS_OR_OBVIOUS_SYMBOL_BLOCKER"
+    assert current["status"] == "PROVISIONAL_RESULT_PENDING_HOSTILE_AUDIT_NO_CREDIT"
+    assert current["candidate"] == "E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER"
+    assert current["next_if_audited_pass"] == "35EX-23_GENUS5_MULTIQUADRATIC_CHARACTER_QUOTIENT_DESCENT_OR_UNIFORMITY_BLOCKER"
+else:
+    assert current["unit"] == "35EX-23_GENUS5_MULTIQUADRATIC_CHARACTER_QUOTIENT_DESCENT_OR_UNIFORMITY_BLOCKER"
+    assert current["status"] == "PROVISIONAL_RESULT_PENDING_HOSTILE_AUDIT_NO_CREDIT"
+    assert current["candidate"] == "E1-GENUS5-MULTIQUADRATIC-FIBER-CHARACTER-DESCENT"
 next_ledger = state["candidate_ledger_after_35ex22_provisional"]
 assert next_ledger["current_candidate"] == "E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER"
 assert next_ledger["next_if_hostile_audit_passes"] == "E1-GENUS5-MULTIQUADRATIC-FIBER-CHARACTER-DESCENT"
@@ -106,17 +136,17 @@ columns=[("-1",i) for i in range(7)]+[(i,j) for i,j in combinations(range(7),2)]
 rows=[]
 for eps,delta,eta in product((1,-1),repeat=3):
     U=[2*X if eps==1 else -1/(2*X),2*Y if delta==1 else -1/(2*Y),2*Z if eta==1 else -1/(2*Z),Z+X,Z+Y,eta*Z+eps*X,eta*Z+delta*Y]
-    residues=[sc(-1) if a=="-1" else sc(-U[a]*U[b]) for a,b in columns]
+    residues=[sc(-1) if aa=="-1" else sc(-U[aa]*U[bb]) for aa,bb in columns]
     for be in basis: rows.append([int(be in s) for s in residues])
 assert len(rows)==48 and all(len(row)==28 for row in rows)
-def rank_f2(a):
-    a=[row[:] for row in a]; rank=0
-    for col in range(len(a[0])):
-        pivot=next((r for r in range(rank,len(a)) if a[r][col]),None)
+def rank_f2(mat):
+    mat=[row[:] for row in mat]; rank=0
+    for col in range(len(mat[0])):
+        pivot=next((r for r in range(rank,len(mat)) if mat[r][col]),None)
         if pivot is None: continue
-        a[rank],a[pivot]=a[pivot],a[rank]
-        for r in range(len(a)):
-            if r!=rank and a[r][col]: a[r]=[u^v for u,v in zip(a[r],a[rank])]
+        mat[rank],mat[pivot]=mat[pivot],mat[rank]
+        for r in range(len(mat)):
+            if r!=rank and mat[r][col]: mat[r]=[u^v for u,v in zip(mat[r],mat[rank])]
         rank+=1
     return rank
 assert rank_f2(rows)==6
@@ -132,30 +162,30 @@ x0,y0,p0,q0,z0,w0=F(272,225),F(0),F(353,225),F(1),F(272,225),F(353,225)
 assert p0*p0==1+x0*x0 and q0*q0==1+y0*y0 and z0*z0==x0*x0+y0*y0 and w0*w0==1+x0*x0+y0*y0
 fvals=[p0+x0,q0+y0,w0+z0,z0+x0,z0+y0,w0+p0,w0+q0]
 assert [str(v) for v in fvals]==cert["common_zero_specialization"]["generator_values"]
-def vp(a,l):
-    a=F(a); n,d,e=a.numerator,a.denominator,0
+def vp(aa,l):
+    aa=F(aa); n,d,e=aa.numerator,aa.denominator,0
     while n and n%l==0: n//=l; e+=1
     while d%l==0: d//=l; e-=1
     return e
-def unit_mod(a,l,mod):
-    a=F(a); e=vp(a,l); u=F(a.numerator//(l**e),a.denominator) if e>=0 else F(a.numerator,a.denominator//(l**(-e))); return (u.numerator*pow(u.denominator,-1,mod))%mod
-def leg(a,l):
-    t=pow(a%l,(l-1)//2,l); assert t in (1,l-1); return 1 if t==1 else -1
-def hs_odd(a,b,l):
-    A,B=vp(a,l),vp(b,l); ua,ub=unit_mod(a,l,l),unit_mod(b,l,l); s=-1 if (A*B*((l-1)//2))%2 else 1
+def unit_mod(aa,l,mod):
+    aa=F(aa); e=vp(aa,l); u=F(aa.numerator//(l**e),aa.denominator) if e>=0 else F(aa.numerator,aa.denominator//(l**(-e))); return (u.numerator*pow(u.denominator,-1,mod))%mod
+def leg(aa,l):
+    t=pow(aa%l,(l-1)//2,l); assert t in (1,l-1); return 1 if t==1 else -1
+def hs_odd(aa,bb,l):
+    A,B=vp(aa,l),vp(bb,l); ua,ub=unit_mod(aa,l,l),unit_mod(bb,l,l); s=-1 if (A*B*((l-1)//2))%2 else 1
     if B%2: s*=leg(ua,l)
     if A%2: s*=leg(ub,l)
     return s
-def hs2(a,b):
-    A,B=vp(a,2),vp(b,2); u,v=unit_mod(a,2,8),unit_mod(b,2,8); e=(((u-1)//2)*((v-1)//2)+A*((v*v-1)//8)+B*((u*u-1)//8))%2; return -1 if e else 1
-def primes_for(a,b):
+def hs2(aa,bb):
+    A,B=vp(aa,2),vp(bb,2); u,v=unit_mod(aa,2,8),unit_mod(bb,2,8); e=(((u-1)//2)*((v-1)//2)+A*((v*v-1)//8)+B*((u*u-1)//8))%2; return -1 if e else 1
+def primes_for(aa,bb):
     ans={2}
-    for value in (F(a),F(b)):
+    for value in (F(aa),F(bb)):
         ans.update(sp.factorint(abs(value.numerator)).keys()); ans.update(sp.factorint(abs(value.denominator)).keys())
     return sorted(ans)
-def splits_everywhere(a,b):
-    if F(a)<0 and F(b)<0: return False
-    return all((hs2(a,b) if l==2 else hs_odd(a,b,l))==1 for l in primes_for(a,b))
+def splits_everywhere(aa,bb):
+    if F(aa)<0 and F(bb)<0: return False
+    return all((hs2(aa,bb) if l==2 else hs_odd(aa,bb,l))==1 for l in primes_for(aa,bb))
 for value in fvals: assert splits_everywhere(F(-1),value)
 for i,j in combinations(range(7),2): assert splits_everywhere(fvals[i],fvals[j])
 assert cert["common_zero_specialization"]["all_28_quaternion_generators_split_over_every_Q_v"] is True
@@ -194,13 +224,13 @@ assert len([1,1,1,y**2,x**2,y**2,x**2])==7
 def is_nonzero_square_mod(n,l):
     n%=l; return n!=0 and pow(n,(l-1)//2,l)==1
 l=173; found=None
-for a in range(1,l):
-    inv=pow(a,-1,l); xb=((a-inv)*pow(2,-1,l))%l; pb=((a+inv)*pow(2,-1,l))%l
+for aa in range(1,l):
+    inv=pow(aa,-1,l); xb=((aa-inv)*pow(2,-1,l))%l; pb=((aa+inv)*pow(2,-1,l))%l
     if xb==0 or pb==0 or xb*xb%l==1: continue
     for yb in range(1,l):
         r1=(1+yb*yb)%l; r2=(xb*xb+yb*yb)%l; r3=(1+xb*xb+yb*yb)%l
         if all(is_nonzero_square_mod(r,l) for r in (r1,r2,r3)):
-            found=(a,xb,pb,yb,r1,r2,r3); break
+            found=(aa,xb,pb,yb,r1,r2,r3); break
     if found: break
 assert found is not None
 assert hs_odd(F(1),F(1),173)==1
