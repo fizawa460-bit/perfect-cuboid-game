@@ -92,8 +92,6 @@ for text in (
 ):
     assert text in doc
 
-# Exact bounded regression on the canonical Master-Hit panel. This verifies the
-# formulas at all B35 survivors but is not theorem credit.
 pairs1 = [
     (a, b)
     for a in range(2, 51)
@@ -152,8 +150,8 @@ for a, b in pairs1:
                 assert jacobi(qo, S) == jacobi(S, qo) == 1
                 b35.append((a,b,m,n,Lminus,Lplus,c,p,q,d,D,T,S))
 
-        # Broader source-level regression for the q-odd formula. The proof in
-        # 35EX-16 uses only primitivity + Lminus square, not the Master square.
+        # The q-odd proof uses primitivity + Lminus square, not Master square;
+        # broaden the regression so a nontrivial q_odd case is exercised.
         if square(Lminus):
             qo = odd_part(q)
             if qo > 1:
@@ -161,14 +159,14 @@ for a, b in pairs1:
                 assert jacobi(Lplus, qo) == jacobi(qo, Lplus) == 1
                 qodd_regression_seen = True
 
-        # Primewise c sign-allocation identity is source-exact.
+        # Primewise c sign allocation. Here eps records a=eps*b and m=eps*n.
         for ell in factor(c):
             if ell == 2:
                 continue
             eps1 = 1 if (a-b) % ell == 0 else -1
             eps2 = 1 if (m-n) % ell == 0 else -1
-            assert (a + eps1*b) % ell == 0
-            assert (m + eps2*n) % ell == 0
+            assert (a - eps1*b) % ell == 0
+            assert (m - eps2*n) % ell == 0
             if eps1*eps2 == 1:
                 assert Pminus % ell == 0 and Pplus % ell != 0
             else:
@@ -184,7 +182,6 @@ assert [(r[0],r[1],r[2],r[3]) for r in b35] == [
 assert qodd_regression_seen
 assert c_allocation_seen
 
-# Credit firewall.
 for key in (
     "new_theorem_credit",
     "R29_PESCH_E1_closed",
@@ -196,4 +193,4 @@ for key in (
 ):
     assert state["claims"][key] is False
 
-print("PASS STAGE35_EX_16_GLOBAL_RECIPROCITY_MOVING_RAMIFICATION_FREEZE_V1")
+print("PASS STAGE35_EX_16_GLOBAL_RECIPROCITY_MOVING_RAMIFICATION_FREEZE_V2")
