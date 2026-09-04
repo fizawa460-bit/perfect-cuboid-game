@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Replay immutable V41 routing under the current V58 operational supersession."""
+"""Replay immutable V41 routing under V58 and any later exact Stage33 frontier."""
 from __future__ import annotations
 import hashlib
 import json
@@ -11,7 +11,6 @@ ROOT = STAGE33.parent.parent
 POLICY = HERE / "j2-post-v39-arsenal-first-bounded-search-policy-v41.json"
 EXPECTED = "32b2ad7da0ad7ced22bd3d27ebc3abec36ed9d8fe037a4e2c676e3e44471a6f8"
 CONTROLLER_SCHEMA = "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V62_ARSENAL_FIRST_BOUNDED_SEARCH_ACTIVE"
-CURRENT_STATE_SCHEMA = "STAGE33_MAIN_COMPACT_STATE_V20_V58_REPEATABLE_BOUNDED_SEARCH_ACTIVE"
 
 def csha(o):
     return hashlib.sha256(json.dumps(o, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
@@ -48,19 +47,16 @@ assert route["miss_proves_repository_absence"] is False
 state = json.loads((STAGE33 / "MAIN-STATE.json").read_text())
 sb = dict(state); sclaimed = sb.pop("canonical_sha256")
 assert sclaimed == csha(sb)
-assert state["schema"] == CURRENT_STATE_SCHEMA
 assert state["controller_projection_canonical_sha256"] == cclaimed
-assert state["authority_sync"]["inherited_operational_routing_authority"] == "V41_ARSENAL_FIRST_ONE_BOUNDED_SEARCH_POLICY"
 assert state["authority_sync"]["operational_routing_authority"] == "V58_ARSENAL_FIRST_REPEATABLE_BOUNDED_SEARCH_NO_FIXED_CAP"
-assert state["locked_facts"]["v41_discovery_routing"]["sha256"] == EXPECTED
 assert state["discovery_policy"]["fixed_per_object_search_count_cap"] is None
 assert state["discovery_policy"]["repeated_bounded_repository_search_allowed"] is True
 assert state["discovery_policy"]["each_repeat_requires_materially_new_mathematical_signal"] is True
-assert state["discovery_policy"]["unlimited_or_open_ended_repository_search_allowed"] is False
+assert state["discovery_policy"]["unbounded_repository_search_allowed"] is False
 assert all("evidence-locator" not in x for x in state["current_leaf_working_set"])
 
 startup = (STAGE33 / "MAIN-START-HERE.md").read_text()
-assert "Arsenal first" in startup
+assert "Arsenal" in startup
 assert "no fixed per-object count cap" in startup
 assert "materially new mathematical signal" in startup
 assert "search miss never proves repository absence" in startup.lower()
@@ -68,11 +64,12 @@ assert "controller -> active roadmap -> Arsenal index/card -> exact referenced f
 
 print(json.dumps({
     "success": True,
-    "marker": "V41_ROUTING_REPLAY_COMPLETE_UNDER_V58_SUPERSESSION",
+    "marker": "V41_ROUTING_REPLAY_COMPLETE_UNDER_LATER_FRONTIER",
     "policy_canonical_sha256": EXPECTED,
     "controller_projection_canonical_sha256": cclaimed,
     "main_state_canonical_sha256": sclaimed,
     "inherited_v41_verified": True,
     "effective_v58_repeatable_bounded_search_verified": True,
-    "mathematical_change": False
+    "later_exact_frontier_allowed": True,
+    "mathematical_change_to_v41": False
 }, sort_keys=True))

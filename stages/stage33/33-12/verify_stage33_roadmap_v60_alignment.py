@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Verify Stage33 micro-roadmap alignment through V58/V59 with A2.4B current."""
+"""Replay the historical V60 roadmap checkpoint without pinning the live frontier to V60."""
+import json
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -8,7 +9,7 @@ STATE = HERE.parent / "MAIN-STATE.json"
 
 def main():
     text = ROADMAP.read_text()
-    state = STATE.read_text()
+    state = json.loads(STATE.read_text())
     assert "CURRENT_LOCKED_FRONTIER=V41_THROUGH_V58" in text
     assert "EFFECTIVE_DISCOVERY_ROUTING=V58_ARSENAL_FIRST_REPEATABLE_BOUNDED_SEARCH_NO_FIXED_CAP" in text
     assert "CURRENT_LEAF=A2.4B_B1_BRANCH_H1_TO_PROPER14_BRAUER_IMAGE_MATRIX" in text
@@ -27,10 +28,14 @@ def main():
     assert "Stage33 remains `6/11`" in text
     assert "MERGE_ALLOWED=false" in text
     assert "S33-PW07" in text and "S33-PW04" in text and "S30-WF03" in text
-    assert "A2_4B_EXACT_B1_14X4_MATRIX_CONSTRUCTION_WITH_ARSENAL_FIRST_REPEATABLE_BOUNDED_SEARCH" in state
-    assert '"stage33_progress":"6/11"' in state
-    assert '"merge_allowed":false' in state
-    print("PASS: Stage33 roadmap aligned through V58/V59; A2.4B 14x4 B1 membership matrix is current")
+
+    # The roadmap above is an immutable V60 planning checkpoint.  A later live
+    # frontier is valid as long as the global credit firewalls are preserved.
+    assert state["stage33_progress"] == "6/11"
+    assert state["firewalls"]["merge_allowed"] is False
+    assert state["firewalls"]["stage33_12_closed_exact"] is False
+    assert state["authority_sync"]["frontier_authority"] == "V65_J1_ONE_BIT_DISCRIMINATOR_GATE"
+    print("PASS: historical V60 roadmap replayed; live frontier may advance beyond V60 under preserved firewalls")
 
 if __name__ == "__main__":
     main()
