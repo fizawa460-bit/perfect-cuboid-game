@@ -1,0 +1,155 @@
+{
+  "schema": "STAGE36_36_03_PHYSICAL_OPEN_PUSH_BOUNDARY_V1",
+  "stage": "36",
+  "unit": "36-03",
+  "leaf": "36-03_PHYSICAL_OPEN_PUSH_AND_BOUNDARY",
+  "status": "EXACT_PHYSICAL_OPEN_PUSH_BOUNDARY_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "26fb608cb2551ab2102ae36ad3b57c063959df58",
+  "source_authority": {
+    "stage36_36_02_hostile_audit_review": 5113379283,
+    "stage36_36_02_audited_head": "3a78f9ff156b53f509625d353df48d1b3e02b836",
+    "stage36_36_02_merge": "4c93ccb79e95cbcd9e2416ad3b6a3f4788d6f586",
+    "stage36_36_02_promotion_merge": "26fb608cb2551ab2102ae36ad3b57c063959df58",
+    "stage36_36_02_inventory": {
+      "path": "stages/stage36/36-02/representative-inventory.json",
+      "blob_sha": "88130b9380a677a191f91c24df87618e65be0a2f"
+    }
+  },
+  "source_locks": {
+    "stage36_roadmap": {"path": "stages/stage36/ROADMAP.md", "blob_sha": "eeedda0e89e24f851c989b5ec83e7b320e1ad99e"},
+    "stage29_endpoint_hub_graph": {"path": "stages/stage29/29-06/endpoint-hub-graph.json", "blob_sha": "7ea59474767f81fbaa4837c8cbc94b535560617b"},
+    "stage29_endpoint_source_crosswalk": {"path": "stages/stage29/29-06/source-crosswalk.md", "blob_sha": "30fe24229f14070f10234801b6a57a9ea6129052"},
+    "stage29_physical_open_audit": {"path": "stages/stage29/29-02f/audit.md", "blob_sha": "b72f61749bcf0c2535135da11f882560c3a01cce"},
+    "stage29_exact_sign_cover_model": {"path": "stages/stage29/29-02ha/exact-sign-cover-model.md", "blob_sha": "fc2d5284a259750f45d2d756a952002671e3bccc"},
+    "stage29_campedelli_quotient_adapter": {"path": "stages/stage29/29-02hb/campedelli-quotient-adapter.md", "blob_sha": "5f959d60106243bb31df06a3961ab04182d78fc7"},
+    "stage29_campedelli_arithmetic_routing": {"path": "stages/stage29/29-02hb/arithmetic-routing.md", "blob_sha": "ff83f652e2c9e95b0670c0964b9c8cf0fbccd696"}
+  },
+  "arsenal_locks": {
+    "router": {"path": "docs/arsenal/index.json", "blob_sha": "aa45d19c2f1d8970c7f142bf744c5c17e75abe5a"},
+    "S30-WF02": {"path": "docs/arsenal/cards/workflows/S30-WF02.md", "blob_sha": "38e4625155eb079bbe3d50d663c6256559319886", "role": "IMMUTABLE_LAYERED_CERTIFICATE_REPLAY"},
+    "S30-WF03": {"path": "docs/arsenal/cards/workflows/S30-WF03.md", "blob_sha": "12740198aba19ade18302819f8e890dbda4eb701", "role": "ADAPTER_CREDIT_LAYER_FIREWALL"},
+    "S34-W03": {
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96",
+      "role": "RECEIVER_RESTRICTED_INTERSECTION_EXCLUSION",
+      "application": "Prepare the exact physical-restricted quotient receiver and its deleted/branch/degenerate cases. No intersection-emptiness argument is executed in 36-03.",
+      "executed": false
+    }
+  },
+  "audited_Q_representatives": ["Q6_GEOM8", "Q2_GEOM8", "Q2_GEOM2"],
+  "physical_open": {
+    "canonical_open": "Ubar = Sbar intersect D_+(a1*a2*a3)",
+    "resolved_open": "U = rho^{-1}(Ubar) subset S",
+    "smooth": true,
+    "resolution_isomorphism_on_open": true,
+    "side_coordinates_nonzero": ["a1", "a2", "a3"],
+    "boundary_on_S_Qbar": {
+      "Q_defined_side_conics": 24,
+      "exceptional_curves": 48,
+      "geometric_irreducible_components": 72
+    },
+    "population_normalizations_not_part_of_algebraic_open": ["positivity", "canonical_ordering", "primitivity"]
+  },
+  "global_quotient_chain": {
+    "canonical": "Ubar -> Sbar -> Cbar_H -> P2",
+    "resolved": "U -> S -> C_H",
+    "H_group": "(Z/2)^3",
+    "H_action_free_on_all_Sbar": true,
+    "canonical_H_torsor_finite_etale": true,
+    "resolved_H_torsor_finite_etale": true,
+    "H_torsor_degree": 8,
+    "Q_defined": true,
+    "scope": "all ten audited kernels; execution uses the three audited Q-symmetry representatives",
+    "rational_point_pushforward": true,
+    "rational_point_lift_requires_H_torsor_descent": true
+  },
+  "seven_line_base": {
+    "coordinates": "[x:y:z]=[a1^2:a2^2:a3^2]",
+    "line_order": ["A1", "A2", "A3", "B3", "B2", "B1", "C"],
+    "line_coefficients": {
+      "A1": [1,0,0], "A2": [0,1,0], "A3": [0,0,1],
+      "B3": [1,1,0], "B2": [1,0,1], "B1": [0,1,1], "C": [1,1,1]
+    },
+    "branch_divisor": "x*y*z*(x+y)*(x+z)*(y+z)*(x+y+z)=0",
+    "triple_points": [
+      {"point": [0,0,1], "lines": ["A1","A2","B3"], "xyz_zero": true},
+      {"point": [0,1,0], "lines": ["A1","A3","B2"], "xyz_zero": true},
+      {"point": [1,0,0], "lines": ["A2","A3","B1"], "xyz_zero": true},
+      {"point": [0,1,-1], "lines": ["A1","B1","C"], "xyz_zero": true},
+      {"point": [1,0,-1], "lines": ["A2","B2","C"], "xyz_zero": true},
+      {"point": [1,-1,0], "lines": ["A3","B3","C"], "xyz_zero": true}
+    ],
+    "remaining_double_points": [
+      {"point": [1,-1,-1], "lines": ["B3","B2"], "xyz_nonzero": true},
+      {"point": [1,-1,1], "lines": ["B3","B1"], "xyz_nonzero": true},
+      {"point": [1,1,-1], "lines": ["B2","B1"], "xyz_nonzero": true}
+    ]
+  },
+  "canonical_resolution_boundary": {
+    "Cbar_H_A1_count": 6,
+    "Cbar_H_A1_points_are_over_six_triple_points": true,
+    "all_Cbar_H_A1_points_outside_physical_side_nonzero_open": true,
+    "Sbar_A1_count": 48,
+    "Sbar_A1_points_over_each_triple_point": 8,
+    "all_48_Sbar_A1_points_outside_Ubar": true,
+    "C_H_exceptional_minus2_curves_over_A1_count": 6,
+    "physical_image_avoids_C_H_exceptional_curves": true,
+    "canonical_and_resolved_targets_identical_on_physical_image": true
+  },
+  "physical_rational_image": {
+    "base_branch_free_open": "A = P2 minus D7",
+    "for_p_in_U_Q_base_point": "[a1^2:a2^2:a3^2]",
+    "all_seven_line_values_nonzero_for_Q_points": true,
+    "reason": "For rational nonzero a1,a2,a3, x=a1^2,y=a2^2,z=a3^2 are positive and x+y,x+z,y+z,x+y+z are positive.",
+    "endpoint_Q_point_to_each_representative_C_H_Q": true,
+    "endpoint_Q_point_to_each_representative_branch_free_quotient_open_Q": true,
+    "converse_lift_claim": false
+  },
+  "scheme_vs_rational_firewall": {
+    "Ubar_Qbar_subset_of_pi_inverse_A": false,
+    "witness": "The three non-coordinate double points lie on D7 with xyz != 0, so the side-nonzero algebraic open can meet the branch divisor geometrically.",
+    "quotient_open_definition": "U_H := q_H(U), an exact Q-defined open because U is H-invariant and q_H:S->C_H is finite.",
+    "q_H_inverse_U_H_equals_U": true,
+    "U_H_Q_equals_q_H_of_U_Q_claimed": false,
+    "meaning": "A rational quotient point in U_H(Q) need not lift to U(Q); the H-torsor class is deferred to 36-04."
+  },
+  "torsor_and_branch_behavior": {
+    "H_torsor_degenerates_on_boundary": false,
+    "H_torsor_is_global_etale_even_at_RDP": true,
+    "beta_H_to_P2_branched_on_D7": true,
+    "radical_squareclass_chart_requires_nonzero_line_values": true,
+    "radical_zero_branch_cases_require_separate_treatment": true,
+    "physical_rational_endpoint_image_avoids_those_zero_cases": true,
+    "global_C_H_Q_points_on_branch_are_not_ruled_out": true,
+    "global_C_H_Q_emptiness_claim": false
+  },
+  "restricted_receiver_preparation": {
+    "S34_W03_prepared": true,
+    "exact_restricted_open": "U_H=q_H(U) for each audited representative",
+    "target_point_image": "q_H(U(Q)) subset U_H(Q)",
+    "deleted_boundary": "C_H minus U_H; exact image of the H-invariant physical boundary, with no quotient component-count claim",
+    "receiver_intersection_exclusion_executed": false,
+    "receiver_closed": false
+  },
+  "pass_condition": {
+    "ENDPOINT_TO_EACH_Q_REPRESENTATIVE_PUSH_EXACT": true,
+    "CONVERSE_LIFT_CLAIM": false
+  },
+  "promotion": {
+    "hostile_audit_required": true,
+    "promoted_to_audited_authority": false,
+    "next_leaf_before_audit_allowed": false,
+    "provisional_successor_after_audit": "36-04_EXPLICIT_H_TORSOR_AND_LIFT_CLASS"
+  },
+  "claims": {
+    "new_theorem_credit": false,
+    "finite_twist_family_proved": false,
+    "quotient_Q_point_emptiness_proved": false,
+    "receiver_matched_replacement_theorem_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
