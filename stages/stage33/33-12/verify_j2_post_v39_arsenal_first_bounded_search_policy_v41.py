@@ -55,9 +55,13 @@ assert state["discovery_policy"]["each_repeat_requires_materially_new_mathematic
 assert state["discovery_policy"]["unbounded_repository_search_allowed"] is False
 assert all("evidence-locator" not in x for x in state["current_leaf_working_set"])
 
+# Startup prose is intentionally compact and may change wording. The exact
+# no-cap/repeatability semantics are asserted from MAIN-STATE above; here only
+# verify that the human routing handoff still exposes the same route and stops.
 startup = (STAGE33 / "MAIN-START-HERE.md").read_text()
 assert "Arsenal" in startup
-assert "no fixed per-object count cap" in startup
+assert "V58" in startup
+assert "repeatable bounded search" in startup
 assert "materially new mathematical signal" in startup
 assert "search miss never proves repository absence" in startup.lower()
 assert "controller -> active roadmap -> Arsenal index/card -> exact referenced files" in startup
