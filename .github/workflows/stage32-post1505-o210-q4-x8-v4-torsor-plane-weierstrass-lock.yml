@@ -1,0 +1,28 @@
+name: Stage32 post1505 O210 X8 V4 torsor-plane Weierstrass lock
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock.yml'
+      - 'stages/stage32/controller.json'
+      - 'stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock*'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q4_x8_v4_torsor_plane_weierstrass_lock.py'
+      - 'stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json'
+      - 'stages/stage32/residual-32-01-production/post1473-boundary-label-weierstrass-adapter.json'
+      - 'stages/stage32/residual-32-01-production/post1473-boundary-label-weierstrass-adapter-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json'
+      - 'stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Certify exact abstract X8 V4 torsor plane
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q4_x8_v4_torsor_plane_weierstrass_lock.py --check stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock.json
