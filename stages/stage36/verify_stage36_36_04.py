@@ -11,10 +11,10 @@ STATE_PATH = ROOT / "stages/stage36/MAIN-STATE.json"
 CERT_PATH = ROOT / "stages/stage36/36-04/h-torsor-lift-class.json"
 INV_PATH = ROOT / "stages/stage36/36-02/representative-inventory.json"
 PREV_PATH = ROOT / "stages/stage36/36-03/physical-open-boundary.json"
-BASE = "0e7d0b282ec8b15c888a1efe4de43a114f4d5911"
+BASE = "3cadfd55d91f1e3267f31f9d7384b62d38678cc3"
 INV_BLOB = "88130b9380a677a191f91c24df87618e65be0a2f"
 PREV_BLOB = "fc1947b2de08f7d8a104bdc91902b20e88635349"
-FRESHNESS = {"sync_pr":1562,"main_sha":BASE,"merge_commit":"fe79d53d6fd052805d4d16c6990a5ba6ed17622d","scope":"Stage32-only advance via #1561; no Stage36, Stage29 Campedelli/sign-cover source, or Arsenal authority changes"}
+FRESHNESS = {"sync_pr":1564,"main_sha":BASE,"merge_commit":"cfe189f38c818a72b32d65b44cd391522d0866a0","scope":"Stage35-EX-only advance via #1549; no Stage36, Stage29 Campedelli/sign-cover source, or Arsenal authority changes"}
 
 SOURCES = {
     "stage36_roadmap": ("stages/stage36/ROADMAP.md", "eeedda0e89e24f851c989b5ec83e7b320e1ad99e"),
@@ -66,7 +66,6 @@ def support_to_c6(supports):
     require(("C" in s)==(sum(c)%2==1),f"support not projective-even: {supports}")
     require(len(s)%2==0,f"support parity moved: {supports}")
     return c
-
 
 def pairing_vector(H,c): return tuple(dot(h,c) for h in H)
 
