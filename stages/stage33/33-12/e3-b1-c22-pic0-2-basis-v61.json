@@ -1,0 +1,107 @@
+{
+  "schema": "stage33.e3.b1_c22_pic0_2_basis.v61",
+  "role": "EXACT_B1_DOMAIN_BASIS_PARTIAL_C22_ONLY",
+  "microgoal": "E3_A2_4B_1_C22_ORDERED_PIC0_2_BASIS",
+  "source_locks": {
+    "j2_corrected_pre_kummer_descent_cochain": {
+      "path": "stages/stage33/33-05/j2-corrected-pre-kummer-descent-cochain.json",
+      "canonical_sha256": "940df53040c6f5245914effbfb7d752a08c61b6d593586952b322e4069415106",
+      "blob_sha1": "bb50257bd1cf51639ae53012d8189dda2367b851"
+    },
+    "j2_corrected_kc_branch_support": {
+      "path": "stages/stage33/33-12/j2-corrected-kc-branch-support.json",
+      "canonical_sha256": "a9eb7d4d3868581d88ff7ce88c23a42b7010c79c959ead1579738e4a0c56961a",
+      "blob_sha1": "60bf21201d8ca42857568edbfec0cb9092a2da5d"
+    },
+    "j2_corrected_branch_surface_mu2_adapter": {
+      "path": "stages/stage33/33-12/j2-corrected-branch-surface-mu2-adapter.json",
+      "canonical_sha256": "edb98c634c79c97c09b0ea4a14402f32d9c5900c63dd9584eca5ea91b91d6875",
+      "blob_sha1": "6d0bdebdc1ec5466517caace8191b2968747d2f5"
+    },
+    "v57_b1_gysin_gate": {
+      "path": "stages/stage33/33-12/e3-mask20-b1-gysin-image-gate-v57.json",
+      "blob_sha1": "3d7b6ad6b4355a0ed379553c4d5fa97fb3209e6e"
+    }
+  },
+  "arsenal_routing": {
+    "primary": "S33-PW07:TORSOR_BRAUER_INTEGRAL_KERNEL_ADAPTER",
+    "marked_source_binding": "S33-PW04:EXACT_MARKED_SOURCE_ADAPTER",
+    "credit_firewall": "S30-WF03",
+    "bounded_search_notes": [
+      "No repository card or code hit supplied the missing second C22 basis class directly.",
+      "The exact quartic roots in the locked pre-Kummer source are a materially new signal, so the second class is constructed rather than inferred from a search miss."
+    ]
+  },
+  "component": {
+    "name": "C22_tilde",
+    "equation": "z^2=t^4-6*t^2+1",
+    "smooth_genus": 1,
+    "coefficient_field": "Qbar",
+    "roots": {
+      "r1": "1+sqrt(2)",
+      "r2": "-(1+sqrt(2))",
+      "r3": "sqrt(2)-1",
+      "r4": "1-sqrt(2)"
+    },
+    "branch_points": ["P_r1", "P_r2", "P_r3", "P_r4"],
+    "base_point": "P_r4"
+  },
+  "exact_divisor_construction": {
+    "local_branch_valuation_fact": "For q'(rj)!=0 on z^2=q(t), z is a local parameter at P_rj and ord_P_rj(t-rj)=2.",
+    "ratio_infinity_cancellation": "For (t-ri)/(t-rj), numerator and denominator have the same pole divisor above infinity, so the poles cancel in the ratio.",
+    "consequence": "div((t-ri)/(t-rj))=2*(P_ri-P_rj)."
+  },
+  "ordered_c22_pic0_2_basis": [
+    {
+      "basis_index": 1,
+      "class_name": "kappa_A",
+      "half_divisor": "D_A=P_r1-P_r4",
+      "kummer_function": "f_A=(t-r1)/(t-r4)",
+      "divisor": "div(f_A)=2*D_A",
+      "two_torsion": true,
+      "newly_constructed_here": true
+    },
+    {
+      "basis_index": 2,
+      "class_name": "kappa_D",
+      "half_divisor": "D=P_r2-P_r4",
+      "kummer_function": "f2=(t-r2)/(t-r4)",
+      "divisor": "div(f2)=2*D",
+      "two_torsion": true,
+      "newly_constructed_here": false
+    }
+  ],
+  "basis_proof": {
+    "abel_jacobi_fact": "For a smooth genus-one curve over Qbar with base point P_r4, P -> [P-P_r4] is an isomorphism C22_tilde -> Pic0(C22_tilde).",
+    "distinct_points_imply_distinct_classes": true,
+    "nonzero_classes": ["kappa_A", "kappa_D"],
+    "pic0_2_dimension_f2": 2,
+    "independence_reason": "Two distinct nonzero elements of the two-dimensional F2-vector space Pic0(C22_tilde)[2] are linearly independent.",
+    "ordered_basis_complete_for_c22": true
+  },
+  "domain_progress": {
+    "c22_basis_dimension_materialized": 2,
+    "c21_basis_dimension_materialized": 0,
+    "b1_total_domain_dimension": 4,
+    "b1_ordered_basis_complete": false,
+    "proper14_image_columns_materialized": 1,
+    "note": "The previously known J2 image fixes only the kappa_D column. No proper14 image for kappa_A is promoted here."
+  },
+  "next_exact_leaf": "SOURCE_LOCK_C21_ORDERED_PIC0_2_BASIS_BY_EXACT_CONJUGATE_BRANCH_MODEL_THEN_BIND_ALL_FOUR_GYSIN_IMAGES",
+  "credit_firewall": {
+    "c21_basis_materialized": false,
+    "full_b1_domain_basis_materialized": false,
+    "new_proper14_gysin_column_for_kappa_A_materialized": false,
+    "b1_14x4_matrix_materialized": false,
+    "e3_mask20_membership_computed": false,
+    "literal_e3_cech_geometry_materialized": false,
+    "genuine_full_surface_h2_mu2_lift_for_e3": false,
+    "e3_kummer_column_materialized": false,
+    "stage33_progress": "6/11",
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "merge_allowed": false
+  },
+  "status": "PASS_EXACT_C22_PIC0_2_ORDERED_BASIS_MATERIALIZED_C21_AND_PROPER14_IMAGES_OPEN",
+  "canonical_sha256": "48ec6b2ffb91d549041ff5ec667ff88d493becf01d89e1bb5974134b3b0a53f6"
+}
