@@ -18,7 +18,7 @@ V23 = "STAGE35_EX_PESCH_E1_STATE_V23_POST_35EX24_FIVE_ELLIPTIC_ISOGENY_TWIST_COM
 assert state["schema"] == V23
 assert state["stage"] == "35-EX"
 assert state["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
-assert state["base_main_sha"] == "c20ee71d91af850103fd7406f9b1072448a11fcf"
+assert state["base_main_sha"] == "8c59c81bcf0bcd442705cfb7a3db297253b34679"
 
 parent = state["parent_authority"]
 assert parent["unit"] == "35EX-23"
@@ -117,7 +117,10 @@ jF = j_leg(-a)
 jminus = sp.factor(256*(a**4-a**2+1)**3/(a**4*(a-1)**2*(a+1)**2))
 expected = {"Eplus": jplus, "F": jF, "Eminus": jminus}
 for name, expr in expected.items():
-    stated = sp.sympify(cert["representative_j_invariants"][name].replace("^", "**"))
+    stated = sp.sympify(
+        cert["representative_j_invariants"][name].replace("^", "**"),
+        locals={"a": a},
+    )
     assert sp.factor(expr-stated) == 0
     assert sp.factor(sp.diff(expr, a)) != 0
 
