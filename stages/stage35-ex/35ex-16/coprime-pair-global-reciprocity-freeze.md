@@ -19,7 +19,7 @@ Lplus == 1 mod8.
 
 35EX-15 proved that any residual nonsquare squareclass of `Lplus` is supported only on moving `1 mod4` split primes. The fresh breadth audit retained a possible global Jacobi/Hilbert coupling as the next route.
 
-This leaf tests the natural global reciprocity relations supplied by the coprime pair and the source gcd channels. They do not close. The clean source channels are forced to Jacobi symbol `+1`, while the only potentially nontrivial local data remain on moving ramified primes in `c,p,d` and the residual split kernel.
+This leaf tests the natural global reciprocity relations supplied by the coprime pair and the source gcd channels. They do not close. The source pieces genuinely coprime to the common odd-leg gcd `c` are forced to Jacobi symbol `+1`, while primes shared by `c` with `D=U1/c` or `T=U2/c` remain in the moving `c`-ramified layer together with `p,d` and the residual split kernel.
 
 No E1 theorem or receiver-close credit is claimed.
 
@@ -58,7 +58,7 @@ PAIR_JACOBI_RELATION=+1_TAUTOLOGY.              (PAIR)
 
 There is no forced `-1` available from the pair itself.
 
-## 2. The clean U-channels D and T are automatically +1
+## 2. Only the c-coprime parts of D and T are clean
 
 Write
 
@@ -68,7 +68,45 @@ U2=c*T,
 gcd(D,T)=1.
 ```
 
-Let `ell` be an odd prime dividing `D`. Then `ell|U1` but `ell` does not divide `U2`, `p`, or `d`.
+There is no theorem here that `gcd(c,D)=gcd(c,T)=1`. In fact the bounded Master-Hit panel contains both phenomena:
+
+```text
+(a,b,m,n)=(11,2,8,5): c=39, D=3,
+(a,b,m,n)=(8,5,11,2): c=39, T=3.
+```
+
+Therefore define the exact clean parts by deleting every prime whose support meets `c`:
+
+```text
+D_clean = largest divisor of D coprime to c,
+T_clean = largest divisor of T coprime to c.
+```
+
+Equivalently, primewise,
+
+```text
+v_ell(D_clean)=v_ell(D) if ell does not divide c, and 0 otherwise,
+v_ell(T_clean)=v_ell(T) if ell does not divide c, and 0 otherwise.
+```
+
+Put also
+
+```text
+D_ram=D/D_clean,
+T_ram=T/T_clean.
+```
+
+Then every prime of `D_ram*T_ram` divides `c`; those primes are not treated as clean below.
+
+Let `ell` be an odd prime dividing `D_clean`. Then
+
+```text
+ell|U1,
+ell does not divide c,
+ell does not divide T,
+```
+
+so `ell` does not divide `U2=c*T`. Primitivity also gives `ell` coprime to `p*d`.
 
 Exactly one of
 
@@ -98,35 +136,35 @@ If `a=-b mod ell`, the same computation gives
 Pplus/Pminus = ((m-n)/(m+n))^2 mod ell.
 ```
 
-Since the normalization factor `p*d` is a unit modulo `ell`, the same ratio holds for `Lplus/Lminus`. On `B35`, `Lminus=x^2` is a nonzero square modulo `ell`. Therefore
+Since `p*d` is a unit modulo `ell`, the same ratio holds for `Lplus/Lminus`. On `B35`, `Lminus=x^2` is a nonzero square modulo `ell`. Therefore
 
 ```text
 (Lplus/ell)=+1
 ```
 
-for every odd `ell|D`.
+for every odd `ell|D_clean`.
 
-The argument is symmetric for every odd `ell|T`. Thus exactly
-
-```text
-(Lplus/D)=+1,
-(Lplus/T)=+1.                                  (DT-JACOBI)
-```
-
-The gcd conditions used above also show
+The argument is symmetric for every odd `ell|T_clean`. Thus exactly
 
 ```text
-gcd(Lplus,D*T)=1.
+(Lplus/D_clean)=+1,
+(Lplus/T_clean)=+1.                            (DT-CLEAN-JACOBI)
 ```
 
-Because `Lplus=1 mod4`, reciprocity returns the equally tautological relations
+and
 
 ```text
-(D/Lplus)=+1,
-(T/Lplus)=+1.                                  (DT-RECIP)
+gcd(Lplus,D_clean*T_clean)=1.
 ```
 
-No global sign defect appears.
+Because `Lplus=1 mod4`, reciprocity returns
+
+```text
+(D_clean/Lplus)=+1,
+(T_clean/Lplus)=+1.                            (DT-CLEAN-RECIP)
+```
+
+No claim is made for the full `D` or full `T`. The removed factors `D_ram,T_ram` remain in the `c`-ramified layer.
 
 ## 3. The common even-leg channel q is automatically +1
 
@@ -172,7 +210,7 @@ Again the second equality uses `Lplus=1 mod4`, so reciprocity contributes no sig
 
 Thus the old `q` source channel is globally neutral at this layer.
 
-## 4. Residual squarefree kernel and unramified source support
+## 4. Residual squarefree kernel and genuinely unramified source support
 
 Let
 
@@ -192,31 +230,31 @@ Since `Lplus=S*y^2` for an integer `y`, every source integer `M` coprime to `Lpl
 (M/Lplus)=(M/S).
 ```
 
-Applying this to the clean channels above gives
+Applying this only to the proved clean channels gives
 
 ```text
-(D/S)=+1,
-(T/S)=+1,
+(D_clean/S)=+1,
+(T_clean/S)=+1,
 (q_odd/S)=+1.
 ```
 
 Because all primes of `S` are `1 mod4`, reciprocity again has no sign:
 
 ```text
-(S/D)=+1,
-(S/T)=+1,
+(S/D_clean)=+1,
+(S/T_clean)=+1,
 (S/q_odd)=+1.                                 (S-CLEAN)
 ```
 
 These are compatibility identities, not contradictions.
 
-More generally, any odd source prime dividing exactly one of `U1,U2`, or dividing `V1V2` away from the cross-normalization primes `p,d`, lies in the same unramified `+1` layer whenever it is coprime to the receiver factors.
+No corresponding universal `+1` statement is asserted for `D_ram` or `T_ram`; their prime support lies inside `supp(c)` and remains ramified.
 
 ## 5. Where nontrivial ramification can still live
 
 The clean relations do not exhaust the source gcd data.
 
-### 5A. c is sign-ramified
+### 5A. c, including c-shared D/T support, is sign-ramified
 
 For an odd prime `ell|c`, write
 
@@ -233,9 +271,11 @@ eps1*eps2=+1  => ell|Pminus and ell does not divide Pplus,
 eps1*eps2=-1  => ell|Pplus  and ell does not divide Pminus.
 ```
 
-Since `p*d` is coprime to `c`, the same allocation holds for `Lminus,Lplus`.
+Since `p*d` is coprime to `c`, the same support allocation holds for `Lminus,Lplus`.
 
-Thus the prime support of `c` is itself split dynamically between the two receiver factors according to source sign choices. There is no fixed global symbol for the full `c` channel supplied by the current identities.
+A prime may also divide `D` or `T` after one copy of the common gcd has been removed; precisely those contributions lie in `D_ram` or `T_ram`. They are therefore retained in this same `c`-ramified layer rather than promoted to a clean Jacobi channel.
+
+Thus the prime support of `c` and its higher-valuation overlap with `D/T` is dynamically allocated by source signs and valuations. There is no fixed global symbol for this full layer supplied by the current identities.
 
 ### 5B. p and d are normalization-ramified split primes
 
@@ -263,16 +303,16 @@ outside the prior odd source support. No fixed finite support or fixed modulus f
 So the potentially nontrivial global reciprocity layer is confined to a moving ramified set built from
 
 ```text
-c, p, d, S,
+c (including D_ram,T_ram), p, d, S,
 ```
 
 with no source-locked parity relation coupling those split-prime allocations.
 
 ## 6. Hilbert/Jacobi route boundary
 
-The global product formula for Hilbert symbols is not itself a contradiction: it requires fixed local symbol information at all ramified places. Here the unramified source channels are already `+1`, while the remaining ramified places move with the source parameters and have no proved fixed local values.
+The global product formula for Hilbert symbols is not itself a contradiction: it requires fixed local symbol information at all ramified places. Here the genuinely unramified source channels are already `+1`, while the remaining ramified places move with the source parameters and have no proved fixed local values.
 
-Therefore the exact legal conclusion is only
+Restricting `D,T` to `D_clean,T_clean` enlarges, rather than shrinks, the unresolved ramified layer. Therefore the exact legal conclusion remains
 
 ```text
 CURRENT_COPRIME_PAIR_GLOBAL_JACOBI_LAYER_GIVES_NO_CONTRADICTION=true
@@ -280,7 +320,7 @@ ALL_GLOBAL_RECIPROCITY_OR_HILBERT_ARGUMENTS_RULED_OUT=false
 CURRENT_COPRIME_PAIR_GLOBAL_RECIPROCITY_ROUTE=FROZEN_MOVING_RAMIFICATION
 ```
 
-This does not assert that a deeper reciprocity theorem cannot exist. It freezes the current natural Jacobi/Hilbert layer because every clean source contribution is `+1` and all remaining nontrivial contributions are moving split-prime ramification.
+This does not assert that a deeper reciprocity theorem cannot exist. It freezes the current natural Jacobi/Hilbert layer because every proved clean source contribution is `+1` and all remaining nontrivial contributions are moving ramification.
 
 The current Arsenal registry has no formal card matching a new global Jacobi/Hilbert coupling theorem for this receiver.
 
@@ -312,6 +352,8 @@ and test whether it reconstructs a new admissible Master-Hit + E1-counterexample
 
 ```text
 PAIR_JACOBI_RELATION_TAUTOLOGICAL=true
+DT_CLEAN_MEANS_C_COPRIME_PARTS_ONLY=true
+D_RAM_T_RAM_RETAINED_IN_C_RAMIFIED_LAYER=true
 DT_AND_Q_CLEAN_CHANNELS_JACOBI_PLUS_ONE=true
 CURRENT_COPRIME_PAIR_GLOBAL_RECIPROCITY_ROUTE_FROZEN_MOVING_RAMIFICATION=true
 ALL_GLOBAL_RECIPROCITY_OR_HILBERT_ARGUMENTS_RULED_OUT=false
