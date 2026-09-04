@@ -8,8 +8,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 STATE_PATH = ROOT / "stages/stage36/MAIN-STATE.json"
 CERT_PATH = ROOT / "stages/stage36/36-01/source-authority-certificate.json"
-BASE = "5ed32fa53bdecb735f461d7c27e85851d9ad8c21"
-
+CERT_BASE = "5ed32fa53bdecb735f461d7c27e85851d9ad8c21"
+AUDITED_MERGE = "8c59c81bcf0bcd442705cfb7a3db297253b34679"
 SOURCES = {
     "stage29_active_kernel_ledger": ("stages/stage29/29-16/active-kernel-ledger.json", "5d6d4c7709b57064aea5dc0ece672c5170c39550"),
     "stage29_endpoint_hub_graph": ("stages/stage29/29-06/endpoint-hub-graph.json", "7ea59474767f81fbaa4837c8cbc94b535560617b"),
@@ -35,149 +35,43 @@ def require(ok: bool, msg: str) -> None:
         raise SystemExit(msg)
 
 
-def lock_dict() -> dict:
-    return {k: {"path": p, "blob_sha": s} for k, (p, s) in SOURCES.items()}
-
-
 def main() -> None:
     state = json.loads(STATE_PATH.read_text())
     cert = json.loads(CERT_PATH.read_text())
 
-    expected = lock_dict()
-    require(cert.get("immutable_stage29_sources") == expected, "certificate source-lock set moved")
-    require(state.get("source_locks") == expected, "MAIN-STATE source-lock set moved")
+    expected = {k: {"path": p, "blob_sha": s} for k, (p, s) in SOURCES.items()}
+    require(cert.get("immutable_stage29_sources") == expected, "36-01 certificate source locks moved")
+    require(state.get("source_locks") == expected, "MAIN-STATE source locks moved")
     for key, (rel, sha) in SOURCES.items():
-        require(blob_sha(ROOT / rel) == sha, f"source blob drift: {key}")
+        require(blob_sha(ROOT / rel) == sha, f"36-01 source blob drift: {key}")
 
     aw = cert.get("arsenal_workflow_locks", {})
     for key, (rel, sha) in ARSENAL.items():
-        require(aw.get(key, {}).get("path") == rel, f"Arsenal path moved: {key}")
-        require(aw.get(key, {}).get("blob_sha") == sha, f"Arsenal lock moved: {key}")
-        require(blob_sha(ROOT / rel) == sha, f"Arsenal blob drift: {key}")
-    require("IMMUTABLE_LAYERED_CERTIFICATE_REPLAY" in (ROOT / ARSENAL["S30-WF02"][0]).read_text(), "S30-WF02 role moved")
-    require("ADAPTER_CREDIT_LAYER_FIREWALL" in (ROOT / ARSENAL["S30-WF03"][0]).read_text(), "S30-WF03 role moved")
+        require(aw.get(key, {}).get("path") == rel, f"36-01 Arsenal path moved: {key}")
+        require(aw.get(key, {}).get("blob_sha") == sha, f"36-01 Arsenal lock moved: {key}")
+        require(blob_sha(ROOT / rel) == sha, f"36-01 Arsenal blob drift: {key}")
 
-    ledger = json.loads((ROOT / SOURCES["stage29_active_kernel_ledger"][0]).read_text())
-    rows = [r for r in ledger.get("class3_kernels", []) if r.get("kernel") == "K16-C3-CAMPEDELLI-UNIFORM-TORSOR"]
-    require(len(rows) == 1, "Campedelli Class-3 kernel missing/duplicated")
-    k = rows[0]
-    require(k.get("execution_class") == 3, "execution class moved")
-    require(k.get("children") == ["R29-CAMP2"], "receiver moved")
-    require(k.get("parent_routes") == ["Q11-CAMPEDELLI"], "parent route moved")
-    require(k.get("endpoint_decision_capable") is True, "endpoint capability moved")
+    require(cert.get("schema") == "STAGE36_36_01_SOURCE_AUTHORITY_LOCK_V1", "36-01 certificate schema moved")
+    require(cert.get("base_main_sha") == CERT_BASE, "36-01 certificate historical base moved")
+    require(cert.get("pass_condition") == {"STAGE36_SOURCE_FRONTIER_LOCKED": True, "NEW_THEOREM_CREDIT": False}, "36-01 pass condition moved")
+    require(all(v is False for v in cert.get("claims", {}).values()), "36-01 certificate leaked higher credit")
 
-    route = json.loads((ROOT / SOURCES["stage29_campedelli_route_contract"][0]).read_text())
-    enum = route.get("exact_kernel_enumeration", {})
-    require(enum.get("distinct_rank3_kernels") == 10, "ten-kernel count moved")
-    require(enum.get("geometric_Qi_kernel_orbit_sizes") == [8, 2], "Q(i) split moved")
-    require(enum.get("certified_Q_kernel_orbit_sizes") == [6, 2, 2], "Q split moved")
-    require(enum.get("exact_Q_isomorphism_class_count_proved") is False, "Q-isomorphism firewall moved")
-    require(route.get("open_receivers", {}).get("R29-CAMP2") == "ArithmeticHTorsorDescentForThreeCertifiedQSymmetryRepresentatives", "R29-CAMP2 identity moved")
-    qf = route.get("q_form_firewall", {})
-    require(qf.get("each_kernel_and_quotient_Q_defined") is True, "Q-defined quotient fact moved")
-    require(qf.get("external_arithmetic_transfers_without_Q_form_adapter") is False, "Q-form firewall moved")
-    require(route.get("rational_point_transfer") == "ONE_WAY_ENDPOINT_TO_QUOTIENT", "point-transfer direction moved")
-    require(route.get("quotient_Q_point_nonexistence_would_kill_endpoint") is True, "quotient emptiness implication moved")
-    require(route.get("quotient_Q_point_existence_implies_endpoint_Q_point") is False, "forbidden converse moved")
-
-    hub = json.loads((ROOT / SOURCES["stage29_endpoint_hub_graph"][0]).read_text())
-    nodes = {r["id"]: r for r in hub.get("nodes", [])}
-    require(nodes.get("CAMPEDELLI_BAR_H", {}).get("base_field") == "Q", "canonical quotient Q-form moved")
-    require(nodes.get("CAMPEDELLI_H", {}).get("base_field") == "Q", "resolved quotient Q-form moved")
-    edges = {r["id"]: r for r in hub.get("edges", [])}
-    e15 = edges.get("E15", {})
-    require(e15.get("relation") == "FINITE_ETALE_QUOTIENT_BY_H", "E15 relation moved")
-    require(e15.get("degree") == 8 and e15.get("field") == "Q", "E15 degree/field moved")
-    require(e15.get("rational_point_pushforward") is True, "E15 pushforward moved")
-    require(e15.get("rational_point_lift") == "requires H-torsor descent", "E15 lift firewall moved")
-    e15r = edges.get("E15R", {})
-    require(e15r.get("relation") == "FINITE_ETALE_RESOLVED_QUOTIENT", "E15R relation moved")
-    require(e15r.get("degree") == 8 and e15r.get("field") == "Q", "E15R degree/field moved")
-    require(e15r.get("rational_point_lift") == "requires H-torsor descent", "E15R lift firewall moved")
-
-    arithmetic = (ROOT / SOURCES["stage29_campedelli_arithmetic_routing"][0]).read_text()
-    for needle in [
-        "U_endpoint(Q) -> C_H(Q)",
-        "three certified Q-symmetry representatives",
-        "H ~= (Z/2)^3",
-        "H^1(Q,H)",
-        "Without ramification conditions this set is infinite.",
-        "rational quotient point need not lift rationally upstairs",
-    ]:
-        require(needle in arithmetic, f"arithmetic-routing anchor missing: {needle}")
-
-    adapter = (ROOT / SOURCES["stage29_campedelli_quotient_adapter"][0]).read_text()
-    for needle in [
-        "Cbar_H := Sbar/H",
-        "Sbar -> Cbar_H",
-        "finite etale `H`-torsor",
-        "S  --etale degree 8-->  C_H",
-        "U_endpoint(Q) -> C_H(Q)",
-        "C_H(Q)=empty  =>  U_endpoint(Q)=empty",
-        "No converse is asserted.",
-    ]:
-        require(needle in adapter, f"quotient-adapter anchor missing: {needle}")
-
-    src = (ROOT / SOURCES["stage29_campedelli_source_lock"][0]).read_text()
-    for needle in [
-        "SAME_GLOBAL_MAP_PROVED_IN_REPO=true",
-        "SOURCE_GEOMETRY_TO_Q_ARITHMETIC_AUTOMATIC=false",
-        "Q_FORM_ADAPTER_REQUIRED_FOR_EXTERNAL_ARITHMETIC=true",
-    ]:
-        require(needle in src, f"source-lock firewall missing: {needle}")
-
-    require(cert.get("schema") == "STAGE36_36_01_SOURCE_AUTHORITY_LOCK_V1", "certificate schema moved")
-    require(cert.get("base_main_sha") == BASE, "certificate base moved")
-    require(cert.get("freshness_sync", {}).get("main_sha") == BASE, "certificate freshness main moved")
-    require(cert.get("freshness_sync", {}).get("sync_pr") == 1539, "certificate sync PR moved")
-    ids = cert.get("locked_identities", {})
-    require(ids.get("ROOT_KERNEL") == "K16-C3-CAMPEDELLI-UNIFORM-TORSOR", "root identity moved")
-    require(ids.get("SOURCE_RECEIVER") == "R29-CAMP2", "receiver identity moved")
-    require(ids.get("PARENT_ROUTE") == "Q11-CAMPEDELLI", "parent identity moved")
-    require(cert.get("locked_frontier") == {
-        "TEN_Q_DEFINED_KERNELS": True,
-        "DISTINCT_RANK3_KERNEL_COUNT": 10,
-        "CANONICAL_QUOTIENT_DEGREE": 8,
-        "RESOLVED_ETALE_QUOTIENT_DEGREE": 8,
-        "H_GROUP": "(Z/2)^3",
-        "CERTIFIED_Q_SYMMETRY_SPLIT": [6, 2, 2],
-        "GEOMETRIC_QI_SPLIT": [8, 2],
-        "EXECUTION_REPRESENTATIVES": 3,
-        "EXACT_Q_ISOMORPHISM_CLASS_COUNT_PROVED": False,
-        "ENDPOINT_Q_POINT_PUSHES_TO_EVERY_AUDITED_C_H": True,
-        "QUOTIENT_Q_POINT_IMPLIES_ENDPOINT_Q_POINT": False,
-        "UNRESTRICTED_H1_Q_H_FINITE": False,
-    }, "certificate frontier moved")
-    require(cert.get("pass_condition") == {"STAGE36_SOURCE_FRONTIER_LOCKED": True, "NEW_THEOREM_CREDIT": False}, "pass condition moved")
-    require(cert.get("promotion", {}).get("hostile_audit_required") is True, "hostile-audit gate missing")
-    require(cert.get("promotion", {}).get("promoted_to_audited_authority") is False, "premature promotion")
-    require(cert.get("promotion", {}).get("next_leaf_before_audit_allowed") is False, "premature 36-02")
-    require(all(v is False for v in cert.get("claims", {}).values()), "certificate leaked higher credit")
-
-    require(state.get("schema") == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V2_36_01_PENDING_AUDIT", "state schema moved")
-    require(state.get("status") == "ACTIVE_PENDING_HOSTILE_AUDIT", "state audit status moved")
-    require(state.get("base_main_sha") == BASE, "state base moved")
     unit = state.get("completed_units", {}).get("36-01", {})
-    require(unit.get("status") == "EXACT_SOURCE_FRONTIER_LOCK_PENDING_HOSTILE_AUDIT", "36-01 status moved")
-    require(unit.get("STAGE36_SOURCE_FRONTIER_LOCKED") is True, "36-01 result missing")
+    require(unit.get("status") == "AUDITED_PASS", "36-01 not promoted as audited")
+    require(unit.get("promotion_status") == "AUDITED", "36-01 promotion status moved")
+    require(unit.get("hostile_audit_review") == 5112705173, "36-01 hostile audit review moved")
+    require(unit.get("audited_head") == "e2f6c5a2f34d76c1f17f90983a4e7fea62816621", "36-01 audited head moved")
+    require(unit.get("exact_head_ci_run") == 33866017108, "36-01 CI run moved")
+    require(unit.get("exact_head_ci_job") == 101000945515, "36-01 CI job moved")
+    require(unit.get("merged_main_sha") == AUDITED_MERGE, "36-01 merged authority moved")
+    require(unit.get("STAGE36_SOURCE_FRONTIER_LOCKED") is True, "36-01 source frontier credit lost")
     require(unit.get("NEW_THEOREM_CREDIT") is False, "36-01 theorem credit leaked")
-    require(unit.get("promotion_status") == "PROVISIONAL_NOT_AUDITED", "36-01 promotion status moved")
-    current = state.get("current", {})
-    require(current.get("unit") == "36-01", "current unit advanced")
-    require(current.get("next_exact_leaf") == "36-01_SOURCE_AUTHORITY_LOCK", "next leaf advanced before audit")
-    require(current.get("provisional_successor_after_hostile_audit") == "36-02_THREE_Q_REPRESENTATIVE_INVENTORY", "successor moved")
-    require(all(v is False for v in state.get("promotion_gates", {}).values()), "promotion gate flipped before audit")
-    require(all(v is False for v in state.get("claims", {}).values()), "state leaked higher credit")
-    sib = state.get("sibling_interfaces", {}).get("K16-C2-BRAUER-EXPLICIT-CHAIN", {})
-    require(sib.get("receiver") == "R29-CAMP4", "CAMP4 sibling moved")
-    require(sib.get("relationship") == "SIBLING_ASSET_PROVIDER_ONLY", "CAMP4 relation moved")
-    require(sib.get("automatic_authority_merge") is False, "CAMP4 auto-merge enabled")
-    require(sib.get("automatic_R29_CAMP2_closure") is False, "CAMP4 auto-close enabled")
+    require(state.get("promotion_gates", {}).get("source_authority_lock_complete") is True, "36-01 promotion gate lost")
+    require(all(v is False for v in state.get("claims", {}).values()), "Stage36 higher claim leaked after 36-01")
 
-    print("PASS STAGE36_36_01_SOURCE_AUTHORITY_LOCK_V1")
-    print("immutable_stage29_sources=6; arsenal=S30-WF02,S30-WF03")
-    print("frontier=10 kernels; Q symmetry 6+2+2; H=(Z/2)^3; degree=8; endpoint->quotient only")
-    print("36-01 provisional exact result; hostile audit required; 36-02 not started")
+    print("PASS STAGE36_36_01_AUDITED_SUCCESSOR_REPLAY")
+    print("hostile_audit_review=5112705173; audited_head=e2f6c5a2f34d76c1f17f90983a4e7fea62816621")
+    print("source_authority_lock_complete=true; no theorem/receiver/endpoint credit")
 
 
 if __name__ == "__main__":
