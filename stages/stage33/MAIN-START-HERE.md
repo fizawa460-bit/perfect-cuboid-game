@@ -10,7 +10,11 @@ For ordinary research/navigation use:
 
 The current branch-local roadmap is `stages/stage33/ROADMAP-33-12-V65-J1-DISCRIMINATOR.md`. The older `ROADMAP-33-12-MICROGOALS.md` is retained as the historical V60 planning checkpoint.
 
-Use known paths directly. Repository discovery is search-first. A search miss never proves repository absence or mathematical nonexistence. Do not use recursive repository enumeration or branch-history archaeology as ordinary discovery.
+Use known paths directly. Repository discovery is search-first. A search miss never proves repository absence or mathematical nonexistence.
+
+**Stage33 MAIN hard ban:** do not request, fetch, or dump a full/recursive repository tree, including GitHub recursive `git/trees` reads or equivalent whole-branch tree enumeration. Do not use a recursive tree as a convenience fallback after a search miss. Navigate only by exact-path fetches, targeted filename/code searches, and explicit controller/roadmap/Arsenal/source-lock references. If a future leaf genuinely requires exhaustive repository enumeration, that requirement must first be made explicit in the Stage33 roadmap/controller; it is not implicitly authorized by `Stage33-main-batch`.
+
+Do not use branch-history archaeology as ordinary discovery.
 
 ## Current exact frontier: V65
 
