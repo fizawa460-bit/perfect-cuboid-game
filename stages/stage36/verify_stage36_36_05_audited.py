@@ -8,13 +8,14 @@ STATE=ROOT/"stages/stage36/MAIN-STATE.json"
 CERT=ROOT/"stages/stage36/36-05/uniform-ramification-support.json"
 ROADMAP=ROOT/"stages/stage36/ROADMAP.md"
 CERT_BLOB="193d0165b242d799bc981774783a5160c1ac58dc"
-BASE="353d9057d1d5bd9b25a287672906a27c551dede9"
+AUDITED_MERGE="353d9057d1d5bd9b25a287672906a27c551dede9"
+CURRENT_BASE="ee3e7aafd1742c5d96e2871f117412ef0823d57e"
 SCHEMA="STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V11_36_05_AUDITED_BLOCKED"
 AUTH={
  "pr":1569,
  "hostile_audit_review":5118563918,
  "audited_head":"cf430199171c98ed5f9eaaadeb8d2d40268ca6ba",
- "merged_main_sha":BASE,
+ "merged_main_sha":AUDITED_MERGE,
  "exact_head_ci_run":33928640974,
  "exact_head_ci_job":101202500740,
  "certificate_blob_sha":CERT_BLOB,
@@ -59,14 +60,14 @@ def main():
 
  s=json.loads(STATE.read_text())
  req(s.get("schema")==SCHEMA and s.get("status")=="ACTIVE","36-05 audited lifecycle moved")
- req(s.get("base_main_sha")==BASE,"36-05 audited base moved")
+ req(s.get("base_main_sha")==CURRENT_BASE,"36-05 audited current base moved")
  req(s.get("stage36_36_05_authority")==AUTH,"36-05 audited authority block moved")
  u=s.get("completed_units",{}).get("36-05",{})
  req(u.get("status")=="AUDITED_BLOCKED_MOVING_RAMIFICATION_SUPPORT","36-05 audited unit status moved")
  req(u.get("certificate_blob_sha")==CERT_BLOB,"36-05 audited unit blob moved")
  req(u.get("hostile_audit_review")==5118563918 and u.get("audited_head")==AUTH["audited_head"],"36-05 audit provenance moved")
  req(u.get("exact_head_ci_run")==33928640974 and u.get("exact_head_ci_job")==101202500740,"36-05 audit CI provenance moved")
- req(u.get("merged_main_sha")==BASE and u.get("promotion_status")=="AUDITED","36-05 merge/promotion provenance moved")
+ req(u.get("merged_main_sha")==AUDITED_MERGE and u.get("promotion_status")=="AUDITED","36-05 merge/promotion provenance moved")
  req(u.get("UNIFORM_FINITE_RAMIFICATION_SUPPORT_PROVED") is False and u.get("FINITE_EXHAUSTIVE_H_TWIST_FAMILY") is False,"36-05 false gates moved")
  req(u.get("ARBITRARY_PRIME_PHYSICAL_RECEIVER_POINT_CLAIM") is False and u.get("NEW_THEOREM_CREDIT") is False,"36-05 credit firewall moved")
  g=s.get("promotion_gates",{})
@@ -79,7 +80,7 @@ def main():
  req(all(v is False for v in s.get("claims",{}).values()),"Stage36 higher claim leaked")
  print("PASS STAGE36_36_05_AUDITED_BLOCKED_SUCCESSOR_REPLAY")
  print(f"review={AUTH['hostile_audit_review']}; audited_head={AUTH['audited_head']}; exact_head_ci={AUTH['exact_head_ci_run']}/{AUTH['exact_head_ci_job']}")
- print(f"certificate_blob={CERT_BLOB}; merge={BASE}")
+ print(f"certificate_blob={CERT_BLOB}; audited_merge={AUDITED_MERGE}; current_base={CURRENT_BASE}")
  print("36-05 blocked audited; 36-06 forbidden; routed to unstarted 36-09; no higher credit")
 
 if __name__=="__main__":
