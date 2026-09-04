@@ -28,6 +28,7 @@ assert state["schema"] in {V21, V22}
 assert state["base_main_sha"] in {
     "378096fa313b582b63553b395ec85a5c86de2685",
     "2e07dde92fdf270fff1233635a7cb4cea1427080",
+    "7a5d01b438c68c228ad73955f906f3128780d6ef",
 }
 parent = state["parent_authority"]
 if state["schema"] == V21:
@@ -40,7 +41,7 @@ if state["schema"] == V21:
     assert parent["merged_main_sha"] == "85e12c7b810eaafc13e663a0047111b7f3333e8b"
     assert parent["audited_theorem_credit"] is False
 else:
-    assert state["base_main_sha"] == "2e07dde92fdf270fff1233635a7cb4cea1427080"
+    assert state["base_main_sha"] == "7a5d01b438c68c228ad73955f906f3128780d6ef"
     assert parent["unit"] == "35EX-22"
     assert parent["status"] == "AUDITED_EXACT_OBVIOUS_BRAUER_SYMBOL_LAYER_BLOCKER_NO_CREDIT"
     assert parent["hostile_audit_verdict"] == "PASS"
