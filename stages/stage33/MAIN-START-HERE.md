@@ -42,7 +42,7 @@ Read `docs/arsenal/index.json`, then only:
 - `S33-PW04` for exact marked-source / Picard-interface transport;
 - `S33-PW07` for torsor/Brauer/integral-kernel construction.
 
-These cards are PROVISIONAL routing aids; live Stage33 source locks override them. V58 still permits repeatable bounded searches when each repeat has a materially new mathematical signal. Unbounded/open-ended search remains forbidden.
+These cards are PROVISIONAL routing aids; live Stage33 source locks override them. V58 still permits repeatable bounded searches when each repeat has a materially new mathematical signal. There is no fixed per-object count cap. Unbounded/open-ended search remains forbidden.
 
 ## Release and verification
 
