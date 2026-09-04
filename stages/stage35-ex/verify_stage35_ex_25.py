@@ -27,7 +27,7 @@ V24 = "STAGE35_EX_PESCH_E1_STATE_V24_POST_35EX25_SINGLE_ELLIPTIC_FULL_SQUARE_REC
 assert state["schema"] == V24
 assert state["stage"] == "35-EX"
 assert state["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
-assert state["base_main_sha"] == "a96f1920977dd43194f60eb29487c0ec5deff711"
+assert state["base_main_sha"] == "45f290a443cf71b1fc62f031994122c3fa58f0e9"
 
 parent = state["parent_authority"]
 assert parent["unit"] == "35EX-24"
