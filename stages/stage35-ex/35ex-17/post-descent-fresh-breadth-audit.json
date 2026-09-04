@@ -1,0 +1,157 @@
+{
+  "schema": "STAGE35_EX_17B_POST_DESCENT_FRESH_BREADTH_AUDIT_V1",
+  "unit": "35EX-17B_FRESH_BREADTH_AUDIT",
+  "target": "PESCH-CONJ-E1-BASIS-NONSQUARE",
+  "trigger": {
+    "policy": "docs/research-os/policies/cycle-exploration-safety-protocol.md",
+    "reasons": [
+      "35EX-15, 35EX-16 and 35EX-17 are three materially distinct blocked routes since the 35EX-14 breadth audit",
+      "the last preserved 35EX-14 live/untested candidate would otherwise be exhausted and the receiver would be parked"
+    ],
+    "anti_optimization_triggers": [2, 5]
+  },
+  "receiver_snapshot": {
+    "source": "primitive Master-Hit",
+    "p": "gcd(W1,V2)",
+    "d": "gcd(V1,W2)",
+    "c": "gcd(U1,U2)",
+    "Lminus": "(W1*W2-V1*V2)/(p*d)",
+    "Lplus": "(W1*W2+V1*V2)/(p*d)",
+    "exact_counterexample_receiver": "Lminus=square AND Lplus=square",
+    "known_frozen_routes": [
+      "receiver-restricted local close at free moving split support",
+      "current coprime-pair global Jacobi/Hilbert layer at moving ramification",
+      "current product-hypotenuse same-type descent at missing two-triple reconstruction"
+    ]
+  },
+  "blind_pass": {
+    "generated_from_exact_receiver_before_arsenal_matching": true,
+    "candidates": [
+      {
+        "id": "E1-GAUSSIAN-COORDINATE-GCD-SPLIT",
+        "status": "LIVE",
+        "view": "Use zminus=(a*m-b*n)+i*(a*n-b*m) and zplus=(a*m+b*n)+i*(a*n+b*m). Their norms are p*d*Lminus and p*d*Lplus, while their coordinate gcds split c. Under the full receiver, divide by those gcds to obtain two primitive Gaussian integers of norm p*d times a square, then test whether the simultaneous Master Gaussian square fixes the remaining moving split-prime orientation bits.",
+        "why_distinct": "35EX-13 reduced the E1-orientation Gaussian quotient to the scalar Lminus square condition. It did not classify the coordinate-gcd split of both Pminus/Pplus Gaussian forms after imposing both exact receiver squares."
+      },
+      {
+        "id": "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION",
+        "status": "UNTESTED",
+        "view": "Eliminate one source ratio only after imposing both exact receiver squares and the Master square, seeking a receiver-specific quartic/genus-one model rather than a uniform family height theorem.",
+        "why_not_selected": "No fixed quartic, birational map, or exhaustive source-to-curve adapter has yet been derived; keep it explicitly untested rather than silently treating the old uniform-elliptic blocker as an equivalence."
+      },
+      {
+        "id": "E1-PRODUCT-RATIO-CONIC-REPARAMETRIZATION",
+        "status": "EQUIVALENT",
+        "view": "Set r=x/y from Lminus=x^2,Lplus=y^2 and reparameterize V1*V2/(W1*W2)=(1-r^2)/(1+r^2).",
+        "by": "35EX-14 product-hypotenuse primitive triple",
+        "reason": "This is exactly the rational slope form of the already-audited R,S product-hypotenuse triple and supplies no additional source reconstruction."
+      },
+      {
+        "id": "E1-COPRIME-RECEIVER-LOCAL-REFINEMENT",
+        "status": "BLOCKED",
+        "by": "35EX-15",
+        "reason": "The residual Lplus squareclass has moving 1 mod4 split-prime support; Q2 and R are automatic on B35 and the current receiver-specific local route is frozen."
+      },
+      {
+        "id": "E1-COPRIME-PAIR-GLOBAL-RECIPROCITY",
+        "status": "BLOCKED",
+        "by": "35EX-16",
+        "reason": "The current clean Jacobi layer gives +1 and the unresolved support remains moving ramification; no new fixed local-symbol theorem is present."
+      },
+      {
+        "id": "E1-PRODUCT-HYPOTENUSE-NONNAIVE-DESCENT",
+        "status": "BLOCKED",
+        "by": "35EX-17",
+        "reason": "The exact receiver produces only one canonical triple; the natural source-preserving successor pairs require new square obligations and no strict same-type height decrease is proved."
+      },
+      {
+        "id": "E1-SUNIT-THUE-DYNAMIC-SUPPORT",
+        "status": "BLOCKED",
+        "by": "35EX-12",
+        "reason": "No new fixed finite S or fixed coefficient family has been produced."
+      },
+      {
+        "id": "E1-UNIFORM-ELLIPTIC-HEIGHT",
+        "status": "BLOCKED",
+        "reason": "No uniform global model or uniform family theorem is supplied by the present receiver identities."
+      },
+      {
+        "id": "E1-FIXED-FIBER-TORSION",
+        "status": "BLOCKED",
+        "reason": "No globally exhaustive finite fiber reduction represents all primitive Master-Hits."
+      }
+    ]
+  },
+  "new_exact_hook_for_selected_candidate": {
+    "zminus": "(a*m-b*n)+i*(a*n-b*m)",
+    "zplus": "(a*m+b*n)+i*(a*n+b*m)",
+    "norm_zminus": "W1*W2-V1*V2=p*d*Lminus",
+    "norm_zplus": "W1*W2+V1*V2=p*d*Lplus",
+    "gminus": "gcd(a*m-b*n,a*n-b*m)",
+    "gplus": "gcd(a*m+b*n,a*n+b*m)",
+    "candidate_lemma_to_prove": "gminus*gplus=c and gcd(gminus,gplus)=1; under the full receiver gminus|sqrt(Lminus), gplus|sqrt(Lplus), so zminus/gminus and zplus/gplus are primitive Gaussian integers with norms p*d times squares",
+    "required_next_test": "combine the resulting p*d-twisted Gaussian squareclasses with the normalized Master Gaussian square and decide whether the split-prime orientation vector is forced, contradictory, or still moving"
+  },
+  "arsenal_comparison_after_blind_pass": {
+    "registry": "docs/arsenal/index.json",
+    "matches": [
+      {
+        "id": "S34-W01",
+        "role": "SUCCESSIVE_EXACT_FACTOR_SQUARECLASS_DESCENT",
+        "status": "ROUTING_PATTERN_ONLY_NOT_YET_UNLOCKED",
+        "reason": "the proposed Gaussian normalization may expose a sharper exact squareclass split, but p*d still has moving split-prime support and no finite exhaustive squareclass family has yet been proved"
+      },
+      {
+        "id": "S31-W01",
+        "role": "GENUS_ONE_QUARTIC_ELLIPTIC_BIRATIONAL_ADAPTER",
+        "status": "DORMANT_FOR_UNTESTED_GENUSONE_CANDIDATE",
+        "reason": "no fixed quartic or exact source-to-curve adapter exists yet"
+      },
+      {
+        "id": "S34-W03",
+        "role": "RECEIVER_RESTRICTED_INTERSECTION_EXCLUSION",
+        "status": "CURRENT_DIRECT_LOCAL_ADAPTER_ALREADY_FROZEN",
+        "reason": "35EX-15 exhausted the current direct local use; a genuinely new Gaussian receiver would require a new exact adapter before reuse"
+      }
+    ],
+    "matching_formal_gaussian_coordinate_gcd_split_card_found": false
+  },
+  "historical_ledger_reclassification": {
+    "E1-ALTERNATE-NORM-SYMMETRY": {
+      "status": "DOMINATED",
+      "reason": "plain index-swap and the 35EX-13 scalar Gaussian ratio remain dominated by the exact coprime receiver"
+    },
+    "E1-COPRIME-RECEIVER-JOINT-LOCAL": {"status": "BLOCKED", "by": "35EX-15"},
+    "E1-COPRIME-PAIR-GLOBAL-RECIPROCITY": {"status": "BLOCKED", "by": "35EX-16"},
+    "E1-PRODUCT-HYPOTENUSE-NONNAIVE-DESCENT": {"status": "BLOCKED", "by": "35EX-17"},
+    "E1-GAUSSIAN-COORDINATE-GCD-SPLIT": {"status": "LIVE"},
+    "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION": {"status": "UNTESTED"}
+  },
+  "selection": {
+    "selected_next_unit": "35EX-18_GAUSSIAN_COORDINATE_GCD_SPLIT_OR_MOVING_ORIENTATION",
+    "selected_candidate": "E1-GAUSSIAN-COORDINATE-GCD-SPLIT",
+    "reason": "It exposes a new exact source-level gcd invariant on both normalized receiver factors, is algebraically closer than deriving a new genus-one model, and can be audited without importing a new theorem.",
+    "selection_is_theorem_credit": false
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "CYCLE_ACTIVE_RECEIVER": "primitive Master-Hit + Lminus=square + Lplus=square with coprime exact receiver factors",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 1,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "coordinate-gcd split of the two Gaussian norm forms Pminus and Pplus, followed by primitive p*d-twisted squareclass coupling",
+    "CYCLE_NEW_VIEW_SOURCE": "BLIND"
+  },
+  "credit": {
+    "new_theorem_credit": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
