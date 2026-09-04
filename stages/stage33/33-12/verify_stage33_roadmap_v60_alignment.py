@@ -29,12 +29,16 @@ def main():
     assert "MERGE_ALLOWED=false" in text
     assert "S33-PW07" in text and "S33-PW04" in text and "S30-WF03" in text
 
-    # The roadmap above is an immutable V60 planning checkpoint.  A later live
-    # frontier is valid as long as the global credit firewalls are preserved.
+    # The roadmap above is an immutable V60 planning checkpoint. A later live
+    # frontier is valid as long as the controller/routing authority and global
+    # credit firewalls are preserved; do not pin this historical replay to V65.
     assert state["stage33_progress"] == "6/11"
+    assert state["authority_sync"]["controller_global_authority_locked"] is True
+    assert state["authority_sync"]["operational_routing_authority"] == "V58_ARSENAL_FIRST_REPEATABLE_BOUNDED_SEARCH_NO_FIXED_CAP"
+    assert state["current_exact_frontier"]["e3_b1_membership_status"] == "OPEN_NOT_COMPUTED"
     assert state["firewalls"]["merge_allowed"] is False
     assert state["firewalls"]["stage33_12_closed_exact"] is False
-    assert state["authority_sync"]["frontier_authority"] == "V65_J1_ONE_BIT_DISCRIMINATOR_GATE"
+    assert state["firewalls"]["stage33_13_released"] is False
     print("PASS: historical V60 roadmap replayed; live frontier may advance beyond V60 under preserved firewalls")
 
 if __name__ == "__main__":
