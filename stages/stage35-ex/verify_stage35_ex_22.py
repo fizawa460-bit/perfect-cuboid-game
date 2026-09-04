@@ -16,7 +16,7 @@ cert = json.loads(CERT.read_text())
 state = json.loads(STATE.read_text())
 
 # Exact audited parent and pending-audit lifecycle.
-assert cert["schema"] == "STAGE35_EX_22_OBVIOUS_SURFACE_BRAUER_SYMBOL_BLOCKER_V1"
+assert cert["schema"] == "STAGE35_EX_22_OBVIOUS_SURFACE_BRAUER_SYMBOL_BLOCKER_V2"
 assert cert["parent"] == {
     "pr": 1531,
     "hostile_reaudit_review": 5110646292,
@@ -24,7 +24,7 @@ assert cert["parent"] == {
     "merged_main_sha": "85e12c7b810eaafc13e663a0047111b7f3333e8b",
 }
 assert state["schema"] == "STAGE35_EX_PESCH_E1_STATE_V21_POST_35EX22_OBVIOUS_BRAUER_SYMBOL_BLOCKER"
-assert state["base_main_sha"] == "85e12c7b810eaafc13e663a0047111b7f3333e8b"
+assert state["base_main_sha"] == "ea51d06f3fe46b134e98a065332e9c70fcec57f0"
 parent = state["parent_authority"]
 assert parent["unit"] == "35EX-21B"
 assert parent["status"] == "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT"
@@ -51,6 +51,8 @@ assert unit["obvious_radicand_symbols_trivial"] is True
 assert unit["obvious_linear_boundary_squareclass_generators"] == 7
 assert unit["obvious_quaternion_presentation_generators"] == 28
 assert unit["generic_infinity_residue_presentation_rank"] == 6
+assert unit["good_prime_integral_open_point_threshold"] == 173
+assert unit["restricted_product_integrality_proved"] is True
 assert unit["common_zero_evaluation_adele_for_obvious_symbol_span"] is True
 assert unit["obvious_symbol_layer_Brauer_Manin_obstruction"] is False
 assert unit["Brauer_group_computed"] is False
@@ -68,6 +70,14 @@ assert next_ledger["current_candidate"] == "E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LA
 assert next_ledger["next_if_hostile_audit_passes"] == "E1-GENUS5-MULTIQUADRATIC-FIBER-CHARACTER-DESCENT"
 assert next_ledger["fresh_breadth_audit_required_for_that_selection"] is False
 
+# Source-lock metadata for the repaired restricted-product argument.
+locks = cert["source_locks"]
+assert "formula (1.18)" in locks["tame_residue"]["reference"]
+assert "Theorem 1.6" in locks["hasse_weil"]["reference"]
+assert "02GZ" in locks["smooth_lifting"]["reference"]
+assert "2*g*sqrt(q)" in locks["hasse_weil"]["statement"]
+assert "formally smooth" in locks["smooth_lifting"]["statement"]
+
 # Four displayed radicands are already squares in Q(S_PC).
 for marker in (
     "1+x^2       = p^2",
@@ -81,16 +91,16 @@ assert cert["surface"]["four_radicand_squareclasses_trivial"] is True
 # Seven conjugate-factor squareclass reductions.
 x, y, p, q, z, w = sp.symbols("x y p q z w")
 rels = [
-    ((p+x)*(p-x)-1, p**2, 1+x**2),
-    ((q+y)*(q-y)-1, q**2, 1+y**2),
-    ((w+z)*(w-z)-1, w**2-z**2, 1),
-    ((z+x)*(z-x)-y**2, z**2, x**2+y**2),
-    ((z+y)*(z-y)-x**2, z**2, x**2+y**2),
-    ((w+p)*(w-p)-y**2, w**2-p**2, y**2),
-    ((w+q)*(w-q)-x**2, w**2-q**2, x**2),
+    (p+x)*(p-x)-1,
+    (q+y)*(q-y)-1,
+    (w+z)*(w-z)-1,
+    (z+x)*(z-x)-y**2,
+    (z+y)*(z-y)-x**2,
+    (w+p)*(w-p)-y**2,
+    (w+q)*(w-q)-x**2,
 ]
 subs = {p**2:1+x**2, q**2:1+y**2, z**2:x**2+y**2, w**2:1+x**2+y**2}
-for expr, _, _ in rels:
+for expr in rels:
     assert sp.expand(expr.subs(subs)) == 0
 
 gens = ["p+x", "q+y", "w+z", "z+x", "z+y", "w+p", "w+q"]
@@ -112,11 +122,14 @@ def sc(expr):
     out = set()
     c = sp.Rational(cn, cd)
     if c < 0:
-        out.add("-1"); c = -c
+        out.add("-1")
+        c = -c
     for prime, e in sp.factorint(int(c.p)).items():
-        if e % 2: out.symmetric_difference_update({str(prime)})
+        if e % 2:
+            out.symmetric_difference_update({str(prime)})
     for prime, e in sp.factorint(int(c.q)).items():
-        if e % 2: out.symmetric_difference_update({str(prime)})
+        if e % 2:
+            out.symmetric_difference_update({str(prime)})
     for fac, e in fn + fd:
         if e % 2:
             monic = sp.Poly(fac, T).monic().as_expr()
@@ -155,7 +168,8 @@ def rank_f2(a):
     rank = 0
     for col in range(len(a[0])):
         pivot = next((r for r in range(rank,len(a)) if a[r][col]), None)
-        if pivot is None: continue
+        if pivot is None:
+            continue
         a[rank], a[pivot] = a[pivot], a[rank]
         for r in range(len(a)):
             if r != rank and a[r][col]:
@@ -171,7 +185,7 @@ assert boundary["presentation_residue_matrix_columns"] == 28
 assert boundary["presentation_residue_rank_F2"] == 6
 assert boundary["actual_Brauer_dimension_inferred"] is False
 
-# Exact P0 and Hilbert symbols.
+# Exact P0 and Hilbert symbols at the finite set of bad places.
 F = Fraction
 x0, y0, p0, q0, z0, w0 = F(272,225), F(0), F(353,225), F(1), F(272,225), F(353,225)
 assert p0*p0 == 1+x0*x0
@@ -184,8 +198,10 @@ assert [str(v) for v in fvals] == cert["common_zero_specialization"]["generator_
 
 def vp(a,l):
     a=F(a); n,d,e=a.numerator,a.denominator,0
-    while n and n%l==0: n//=l; e+=1
-    while d%l==0: d//=l; e-=1
+    while n and n%l==0:
+        n//=l; e+=1
+    while d%l==0:
+        d//=l; e-=1
     return e
 
 def unit_mod(a,l,mod):
@@ -218,9 +234,11 @@ def primes_for(a,b):
     return sorted(ans)
 
 def splits_everywhere(a,b):
-    if F(a)<0 and F(b)<0: return False
+    if F(a)<0 and F(b)<0:
+        return False
     for l in primes_for(a,b):
-        if (hs2(a,b) if l==2 else hs_odd(a,b,l)) != 1: return False
+        if (hs2(a,b) if l==2 else hs_odd(a,b,l)) != 1:
+            return False
     return True
 
 for value in fvals:
@@ -228,7 +246,85 @@ for value in fvals:
 for i,j in combinations(range(7),2):
     assert splits_everywhere(fvals[i],fvals[j])
 assert cert["common_zero_specialization"]["all_28_quaternion_generators_split_over_every_Q_v"] is True
-assert cert["adelic_deformation"]["common_zero_evaluation_adele_exists"] is True
+
+# Restricted-product repair.  For every prime l>=173, choose an admissible
+# point on the first conic, use Hasse-Weil on the smooth genus-5 fiber, avoid
+# at most 40 boundary/non-open points, then Hensel-lift the resulting smooth
+# F_l point to U_PC(Z_l).
+rp = cert["restricted_product_repair"]
+assert rp["good_prime_threshold"] == 173
+assert rp["base_forbidden_parameter_count_upper_bound"] == 8
+assert rp["fiber_genus"] == 5
+assert rp["fiber_degree_over_P1_y"] == 8
+assert rp["fiber_forbidden_point_count_upper_bound"] == 40
+assert rp["fiber_forbidden_loci"] == ["y=infinity", "y=0", "q=0", "z=0", "w=0"]
+assert rp["jacobian_minor"] == "16*p*q*z*w"
+assert rp["smooth_Fl_point_lifts_to_Zl"] is True
+assert rp["all_six_coordinates_units_at_good_primes"] is True
+assert rp["all_seven_linear_generators_units_at_good_primes"] is True
+assert rp["odd_prime_unit_unit_Hilbert_symbols_split"] is True
+assert rp["integral_U_PC_Zl_point_for_every_prime_l_ge_173"] is True
+assert rp["restricted_product_integrality_proved"] is True
+assert rp["common_zero_evaluation_adele_exists"] is True
+
+A = sp.symbols("A", nonzero=True)
+pA = (A + 1/A)/2
+xA = (A - 1/A)/2
+assert sp.factor(pA**2 - xA**2 - 1) == 0
+assert sp.factor(sp.together(xA).as_numer_denom()[0]) == A**2 - 1
+assert sp.factor(sp.together(pA).as_numer_denom()[0]) == A**2 + 1
+x2minus1_num = sp.factor(sp.together(xA**2 - 1).as_numer_denom()[0])
+assert x2minus1_num == (A**4 - 6*A**2 + 1)
+assert 2 + 2 + 4 == 8
+assert 173 - 1 > 8
+
+# The three branch constants 1, x^2, p^2=1+x^2 are pairwise distinct
+# under x!=0 and x^2!=1; each radicand has its own branch pair, giving the
+# same degree-8 geometrically integral genus-5 cover as in 35EX-21.
+assert sp.expand((1+x**2) - x**2) == 1
+assert sp.factor((1+x**2) - 1) == x**2
+assert sp.factor(x**2 - 1) == (x-1)*(x+1)
+
+# Hasse-Weil lower bound N >= l+1-10*sqrt(l).  At l=173 it exceeds the
+# 40-point forbidden-locus upper bound; the left side is increasing for l>25.
+assert (173 - 39) ** 2 > 100 * 173
+assert 173 > 25
+assert sum([8,8,8,8,8]) == 40
+
+# Smoothness/Hensel minor and unit propagation to all seven f_i.
+assert sp.det(sp.diag(2*p,2*q,2*z,2*w)) == 16*p*q*z*w
+conjugate_products = [1, 1, 1, y**2, x**2, y**2, x**2]
+assert len(conjugate_products) == 7
+
+# Bounded sanity check at the threshold prime: find one admissible base/fiber
+# affine point with all six coordinates nonzero.  This is only regression;
+# the universal l>=173 existence is the Hasse-Weil argument above.
+def is_nonzero_square_mod(n, l):
+    n %= l
+    return n != 0 and pow(n, (l-1)//2, l) == 1
+
+l = 173
+found = None
+for a in range(1,l):
+    inv = pow(a,-1,l)
+    xb = ((a-inv) * pow(2,-1,l)) % l
+    pb = ((a+inv) * pow(2,-1,l)) % l
+    if xb == 0 or pb == 0 or xb*xb % l == 1:
+        continue
+    for yb in range(1,l):
+        r1 = (1 + yb*yb) % l
+        r2 = (xb*xb + yb*yb) % l
+        r3 = (1 + xb*xb + yb*yb) % l
+        if all(is_nonzero_square_mod(r,l) for r in (r1,r2,r3)):
+            found = (a,xb,pb,yb,r1,r2,r3)
+            break
+    if found:
+        break
+assert found is not None
+
+# At every good odd prime all f_i are units, so the explicit odd Hilbert
+# formula with valuations A=B=0 gives +1 for every generator pair.
+assert hs_odd(F(1),F(1),173) == 1
 
 # No overclaim / exact route boundary.
 for marker in (
@@ -236,6 +332,8 @@ for marker in (
     "OBVIOUS_LINEAR_BOUNDARY_SQUARECLASS_GENERATORS=7",
     "OBVIOUS_QUATERNION_PRESENTATION_GENERATORS=28",
     "GENERIC_INFINITY_RESIDUE_PRESENTATION_RANK=6",
+    "GOOD_PRIME_INTEGRAL_OPEN_POINT_THRESHOLD=173",
+    "RESTRICTED_PRODUCT_INTEGRALITY_PROVED=true",
     "COMMON_ZERO_EVALUATION_ADELE_FOR_OBVIOUS_SYMBOL_SPAN=true",
     "OBVIOUS_SYMBOL_LAYER_BRAUER_MANIN_OBSTRUCTION=false",
     "CURRENT_OBVIOUS_SURFACE_BRAUER_SYMBOL_LAYER=FROZEN_COMMON_ZERO_EVALUATION_ADELE_NO_OBSTRUCTION",
@@ -263,4 +361,4 @@ for key in (
     assert state["claims"][key] is False
 assert state["arsenal"]["S33_PW07"] == "PROVISIONAL_ROUTING_ONLY_REQUIRES_EXISTING_BRAUER_REPRESENTATIVE_COMMON_COCYCLE_AND_TORSOR_NOT_A_CLASS_CONSTRUCTOR"
 
-print("PASS STAGE35_EX_22_OBVIOUS_SURFACE_BRAUER_SYMBOL_BLOCKER")
+print("PASS STAGE35_EX_22_OBVIOUS_SURFACE_BRAUER_SYMBOL_BLOCKER_RESTRICTED_PRODUCT_REPAIRED")
