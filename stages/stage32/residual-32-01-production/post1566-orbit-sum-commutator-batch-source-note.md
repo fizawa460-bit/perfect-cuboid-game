@@ -49,6 +49,12 @@ The retained Beauville quotient square is
 - `pi:X->B`,
 - `q:X->Q`, with q finite etale of degree four.
 
+The retained common-double-cover certificate identifies `H` as normal of index two in `G` and states that `X` is the normalization of the degree-two pullback of `C0->X4` over `B`; thus `pi:X->B` is the finite quotient of generic degree two on the retained normalization level. For a finite surjective degree-two morphism, the projection formula gives
+
+`pi_* pi^* = 2 id`
+
+on numerical divisor classes over `Q`. Hence `pi^*:N^1(B)_Q -> N^1(X)_Q` is injective. The retained resolved pullback `pi_tilde^* C` is the numerical realization used by the 140-class interface, so equality of the corresponding resolved pullback classes forces equality of the numerical classes on B. This injectivity is the only descent step used below.
+
 For a hypothetical actual carrier in the exact V6 class, the post-1500 hostile-audit repair retains the exact divisor identity
 
 `q^*Gamma = D + uD + vD + uvD`.
@@ -63,13 +69,17 @@ Merged #1556 constructs compatible automorphisms `beta_X` and `beta_B` from the 
 
 `q o beta_X = (b3 x b3) o q`.
 
-If `(b3 x b3)^*[Gamma]=[Gamma]` in `NS(Q)`, then pulling back by q and then resolving would force `beta_B^*[S_B]=[S_B]`, contradicting Route B. Therefore, conditional on existence of the exact carrier/correspondence,
+If `(b3 x b3)^*[Gamma]=[Gamma]` in `NS(Q)`, then q-pullback and the displayed equivariance give beta_X-invariance of the numerical resolved class of `q^*Gamma = pi^*S_B`. Using `pi o beta_X = beta_B o pi`, this says
+
+`pi^*(beta_B^*[S_B]) = pi^*[S_B]`.
+
+Injectivity of numerical `pi^*` then forces `beta_B^*[S_B]=[S_B]`, contradicting Route B. Therefore, conditional on existence of the exact carrier/correspondence,
 
 `(b3 x b3)^*[Gamma] != [Gamma]`
 
 already at the numerical Neron-Severi level.
 
-No injectivity of q-pullback is needed for this direction: equality downstairs would imply equality upstairs, and the latter is disproved.
+No injectivity of q-pullback is needed for this direction: equality downstairs would imply equality upstairs. The only reverse implication used is the explicitly fail-closed injectivity of finite degree-two `pi^*` above.
 
 ## Route D — correspondence class to Jacobian commutator
 
