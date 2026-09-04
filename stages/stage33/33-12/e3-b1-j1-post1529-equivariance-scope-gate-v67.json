@@ -1,0 +1,108 @@
+{
+  "schema": "stage33.e3.b1_j1_post1529_equivariance_scope_gate.v67",
+  "role": "EXACT_POST1529_NEW_SIGNAL_SCOPE_GATE_NO_J1_ORIENTATION_SELECTION",
+  "microgoal": "D1_POST1529_DIAGONAL_ACTION_SCOPE_AUDIT",
+  "source_locks": {
+    "v65_j1_discriminator_gate": {
+      "path": "stages/stage33/33-12/e3-b1-j1-marked-kc-discriminator-gate-v65.json",
+      "canonical_sha256": "7ebef9a6182522f772f198d8c1572acc48cd8441f6158312d1f3f3f2c7fcc01c",
+      "blob_sha1": "e3634d9c8ed0f4f58ff4132f7bd5822f60fa23c3"
+    },
+    "v63_kappa_a_literal_cech_lift": {
+      "path": "stages/stage33/33-12/e3-b1-c22-kappa-a-literal-cech-lift-v63.json",
+      "canonical_sha256": "7714c722f7f30cae1fac03edd34821d1e84372bf3d7663dc2c62a98fde6b186c",
+      "blob_sha1": "3a966544378e2302f5a591e2162c30dbb5a3732e"
+    },
+    "post1529_fsm_stoll_adapter": {
+      "repository": "fizawa460-bit/perfect-cuboid-game",
+      "commit": "ea51d06f3fe46b134e98a065332e9c70fcec57f0",
+      "merged_pr": 1529,
+      "path": "stages/stage32/residual-32-01-production/post1529-fsm-stoll-diagonal-action-source-lock.json",
+      "blob_sha1": "809d7096cf98cf94b37455b6281cb23cbdcc6b41",
+      "canonical_sha256_without_this_field": "5726289d8948beaaf3ed4e2dc260f49d1b3b3054642f3460b6b1e53c77ea23bc"
+    },
+    "j2_cocycle_template": {
+      "path": "stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json",
+      "canonical_sha256": "8440400fd7eff183830bb16e991a6fb6f253b1774a76384ed2a3dc8adc951312",
+      "blob_sha1": "5165ee50011382f6cbe34340d51538a35f9fc942"
+    },
+    "pw07": {
+      "path": "docs/arsenal/cards/provisional/S33-PW07.md",
+      "blob_sha1": "7f1337858bc6f9006e101d810dd72e67aef534fd"
+    }
+  },
+  "arsenal_routing": [
+    "S33-PW04:EXACT_MARKED_SOURCE_ADAPTER",
+    "S33-PW07:TORSOR_BRAUER_INTEGRAL_KERNEL_ADAPTER"
+  ],
+  "materially_new_signal": {
+    "origin": "main merge ea51d06f3fe46b134e98a065332e9c70fcec57f0 / PR #1529",
+    "adapter_scope": "ONLY_U_S_TO_STOLL_WORD_PROVENANCE",
+    "U_matrix": [[1, 2], [0, 1]],
+    "U_stoll_word": "g4*g5*g9",
+    "S_matrix": [[0, -1], [1, 0]],
+    "S_stoll_word": "g2*g5",
+    "verification_contract_no_other_fsm_claims": true
+  },
+  "exact_scope_test": {
+    "D1_requires": [
+      "exact named CV/contact -> fixed marked Kc transport witness",
+      "J2 -> u1 retained",
+      "mechanically replayable second transport column selecting J1"
+    ],
+    "D3_requires": [
+      "exact source action on named J1,J2",
+      "exact corresponding action in the fixed marked Kc frame",
+      "exact equivariance of the transport"
+    ],
+    "post1529_adapter_supplies": {
+      "U_S_to_stoll_word_provenance": true,
+      "named_J1_J2_action": false,
+      "fixed_marked_kc_action": false,
+      "second_transport_column": false,
+      "named_CV_to_fixed_marked_kc_equivariance": false
+    },
+    "D1_satisfied_by_post1529_signal": false,
+    "D3_satisfied_by_post1529_signal": false,
+    "scope_conclusion": "The pinned #1529 adapter is exact for U/S -> Stoll-word provenance only. It does not itself supply the named J1/J2 source action, fixed-marked-Kc target action, second transport column, or equivariance required by D1/D3."
+  },
+  "bounded_search_receipt": {
+    "new_signal": "post1529 U/S Stoll-word source lock",
+    "sharp_queries": [
+      "\"kappa_A\" \"g2*g5\"",
+      "\"J1\" \"g2*g5\"",
+      "\"C22\" \"g2*g5\""
+    ],
+    "direct_named_adapter_hit": false,
+    "search_miss_proves_repository_absence": false,
+    "search_miss_proves_mathematical_nonexistence": false,
+    "route_scope_closed": "POST1529_SIGNAL_ONLY"
+  },
+  "next_construction": {
+    "roadmap_leaf": "D2_INDEPENDENT_J1_SOURCE_FINGERPRINT",
+    "preferred_witness": "J1_TWISTED_KERNEL_MINIMUM_NORM",
+    "first_microgoal": "CONSTRUCT_J1_SPECIFIC_TRANSLATION_VALUED_E2_COCYCLE_FROM_V63_LAMBDA_A_WITHOUT_RELABELING_THE_J2_COCYCLE",
+    "literal_seed": {
+      "class": "lambda_A={f_A,g22}",
+      "f_A": "(t-(1+sqrt(2)))/(t-(1-sqrt(2)))",
+      "named_torsion": "J1"
+    },
+    "pw07_contract": "Brauer representative/class -> exact cohomological/translation-valued cocycle -> semilinear translation descent using the SAME cocycle -> genus-one torsor -> integral transcendental-kernel identification when hypotheses apply",
+    "j2_template_use": "METHOD_TEMPLATE_ONLY_NOT_A_J1_IDENTIFICATION"
+  },
+  "credit_firewall": {
+    "j1_marked_kc_coordinate_selected": false,
+    "j1_cocycle_materialized": false,
+    "j1_torsor_materialized": false,
+    "j1_twisted_kernel_minimum_norm_selected": false,
+    "new_marked_proper14_gysin_column_materialized": false,
+    "b1_14x4_matrix_materialized": false,
+    "e3_mask20_membership_computed": false,
+    "stage33_progress": "6/11",
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "merge_allowed": false
+  },
+  "status": "PASS_EXACT_POST1529_SCOPE_GATE_D1_D3_NOT_SATISFIED_BY_THIS_SIGNAL_D2_CONSTRUCT_NEXT",
+  "canonical_sha256": "8b52ab2f2bf57c068fb084035e36fc066806560fac6814c8d9bce9b26e7345de"
+}

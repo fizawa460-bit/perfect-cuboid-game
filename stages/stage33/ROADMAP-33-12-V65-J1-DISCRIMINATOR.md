@@ -47,6 +47,14 @@ Acceptance:
 
 If this is obtained, skip D2/D3 and proceed to D4.
 
+### V67 — #1529 new-signal scope receipt
+
+The exact #1529 adapter (`post1529-fsm-stoll-diagonal-action-source-lock.json`) was tested as a materially new signal. It source-locks only `U/S -> Stoll word` provenance (`U=g4*g5*g9`, `S=g2*g5`) and explicitly grants no other FSM claims. It does **not** supply a named `J1/J2` source action, a fixed-marked-Kc target action, a second transport column, or transport equivariance. Therefore #1529 by itself satisfies neither D1 nor D3.
+
+This closes only the #1529 signal route; it is not a repository-absence or mathematical-nonexistence claim. Exact receipt: `stages/stage33/33-12/e3-b1-j1-post1529-equivariance-scope-gate-v67.json`.
+
+With no current exact D1 witness from this signal, the next construction leaf is D2: construct a J1-specific translation-valued E[2] cocycle from the V63 `lambda_A={f_A,g22}` literal class, using S33-PW07 as method routing only and without relabelling the J2 cocycle.
+
 ## D2 — independent J1 source fingerprint
 
 Goal: construct one source-locked J1 invariant that distinguishes target minimum norm `4` from `12`.
