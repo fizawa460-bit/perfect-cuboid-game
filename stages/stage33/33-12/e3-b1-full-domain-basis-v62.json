@@ -1,0 +1,97 @@
+{
+  "schema": "stage33.e3.b1_full_domain_basis.v62",
+  "role": "EXACT_B1_DOMAIN_BASIS_COMPLETE_NO_NEW_CODOMAIN_IMAGES",
+  "microgoal": "E3_A2_4B_2_C21_CONJUGATE_BASIS_AND_FULL_B1_DOMAIN_ORDER",
+  "source_locks": {
+    "v61_c22_basis": {
+      "path": "stages/stage33/33-12/e3-b1-c22-pic0-2-basis-v61.json",
+      "canonical_sha256": "48ec6b2ffb91d549041ff5ec667ff88d493becf01d89e1bb5974134b3b0a53f6",
+      "blob_sha1": "e50bde0bd88f29ce4bbe16f8d48fe89a8c3ab4d9"
+    },
+    "v57_b1_gate": {
+      "path": "stages/stage33/33-12/e3-mask20-b1-gysin-image-gate-v57.json",
+      "blob_sha1": "3d7b6ad6b4355a0ed379553c4d5fa97fb3209e6e"
+    },
+    "branch_surface_adapter": {
+      "path": "stages/stage33/33-12/j2-corrected-branch-surface-mu2-adapter.json",
+      "canonical_sha256": "edb98c634c79c97c09b0ea4a14402f32d9c5900c63dd9584eca5ea91b91d6875",
+      "blob_sha1": "6d0bdebdc1ec5466517caace8191b2968747d2f5"
+    },
+    "pre_kummer_component_swap": {
+      "path": "stages/stage33/33-05/j2-corrected-pre-kummer-descent-cochain.json",
+      "canonical_sha256": "940df53040c6f5245914effbfb7d752a08c61b6d593586952b322e4069415106",
+      "blob_sha1": "bb50257bd1cf51639ae53012d8189dda2367b851"
+    }
+  },
+  "arsenal_routing": {
+    "primary": "S33-PW07:TORSOR_BRAUER_INTEGRAL_KERNEL_ADAPTER",
+    "marked_source_binding": "S33-PW04:EXACT_MARKED_SOURCE_ADAPTER",
+    "credit_firewall": "S30-WF03",
+    "construction_note": "No additional repository search is needed: V57 source-locks C21 as the complex-conjugate branch component and the pre-Kummer source-locks complex conjugation as component swap."
+  },
+  "conjugate_branch_identification": {
+    "C21_equation": "A3+i*A2=0",
+    "C22_equation": "A3-i*A2=0",
+    "automorphism": "cc: i -> -i, sqrt(2) fixed",
+    "component_action": "cc(C22_tilde)=C21_tilde and cc(C21_tilde)=C22_tilde",
+    "C21_relation_to_C22": "complex-conjugate branch component under i -> -i",
+    "C21_genus": 1,
+    "C22_genus": 1,
+    "normalization_parameter_action": "t and the real quartic z^2=t^4-6*t^2+1 are fixed as formulas; branch embedding is conjugated",
+    "pre_kummer_witness": "cc_action = component swap; cc(ell)=(1,f2)"
+  },
+  "ordered_c21_pic0_2_basis": [
+    {
+      "basis_index_on_C21": 1,
+      "class_name": "cc(kappa_A)",
+      "half_divisor": "cc(D_A)=cc(P_r1)-cc(P_r4)",
+      "kummer_function_on_conjugate_normalization": "cc(f_A)=f_A=(t-r1)/(t-r4)",
+      "source_class": "kappa_A on C22_tilde"
+    },
+    {
+      "basis_index_on_C21": 2,
+      "class_name": "cc(kappa_D)",
+      "half_divisor": "cc(D)=cc(P_r2)-cc(P_r4)",
+      "kummer_function_on_conjugate_normalization": "cc(f2)=f2=(t-r2)/(t-r4)",
+      "source_class": "kappa_D on C22_tilde"
+    }
+  ],
+  "basis_transfer_proof": {
+    "cc_is_curve_isomorphism": true,
+    "cc_induces_pic0_2_isomorphism": true,
+    "v61_ordered_basis_transfers_to_ordered_basis": true,
+    "c21_pic0_2_dimension_f2": 2
+  },
+  "ordered_b1_h1_basis": [
+    {"column_index": 1, "component": "C21_tilde", "class": "cc(kappa_A)"},
+    {"column_index": 2, "component": "C21_tilde", "class": "cc(kappa_D)"},
+    {"column_index": 3, "component": "C22_tilde", "class": "kappa_A"},
+    {"column_index": 4, "component": "C22_tilde", "class": "kappa_D"}
+  ],
+  "domain_progress": {
+    "c21_basis_dimension_materialized": 2,
+    "c22_basis_dimension_materialized": 2,
+    "b1_total_domain_dimension": 4,
+    "b1_ordered_basis_complete": true,
+    "required_proper14_matrix_shape": [14, 4],
+    "known_exact_image_columns": {
+      "column4": {"input": "(0,kappa_D)", "proper14_mask_decimal": 25, "source": "V57 existing exact J2 point"}
+    },
+    "unknown_image_columns": [1, 2, 3]
+  },
+  "next_exact_leaf": "MATERIALIZE_PROPER14_GYSIN_IMAGE_OF_C22_KAPPA_A_THEN_USE_CC_EQUIVARIANCE_IF_EXACTLY_SOURCE_LOCKED",
+  "credit_firewall": {
+    "new_proper14_gysin_columns_materialized": 0,
+    "b1_14x4_matrix_materialized": false,
+    "e3_mask20_membership_computed": false,
+    "literal_e3_cech_geometry_materialized": false,
+    "genuine_full_surface_h2_mu2_lift_for_e3": false,
+    "e3_kummer_column_materialized": false,
+    "stage33_progress": "6/11",
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "merge_allowed": false
+  },
+  "status": "PASS_EXACT_FULL_B1_ORDERED_H1_DOMAIN_BASIS_MATERIALIZED_ONLY_COLUMN4_IMAGE_KNOWN",
+  "canonical_sha256": "353e68438334a0da71dfdbc09a8bf60e7e511598cf54a173338735686f1c3f4c"
+}
