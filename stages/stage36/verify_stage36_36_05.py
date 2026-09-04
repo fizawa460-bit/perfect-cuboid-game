@@ -71,7 +71,7 @@ def main():
  req("BLOCKED_MOVING_RAMIFICATION_SUPPORT" in roadmap,"roadmap blocked outcome missing")
  req("A bounded prime experiment does not prove finite support" in roadmap,"roadmap bounded-prime firewall missing")
  w01=(ROOT/ARSENAL["S34-W01"][0]).read_text()
- for needle in ["SUCCESSIVE_EXACT_FACTOR_SQUARECLASS_DESCENT","primitive numerator coordinates","pairwise gcd/resultant","complete sign and 2-adic bookkeeping"]:
+ for needle in ["SUCCESSIVE_EXACT_FACTOR_SQUARECLASS_DESCENT","primitive numerator coordinate","pairwise gcd/resultant","complete sign and 2-adic bookkeeping"]:
   req(needle in w01,f"S34-W01 hypothesis anchor missing: {needle}")
  al=cert.get("arsenal_locks",{})
  req(al.get("S34-W01",{}).get("consulted") is True and al.get("S34-W01",{}).get("triggered") is False,"S34-W01 activation moved")
