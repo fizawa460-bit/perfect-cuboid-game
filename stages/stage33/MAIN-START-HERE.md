@@ -8,7 +8,7 @@ For ordinary research/navigation use:
 
 `controller -> active roadmap -> Arsenal index/card -> exact referenced files`
 
-The current branch-local roadmap is `stages/stage33/ROADMAP-33-12-V65-J1-DISCRIMINATOR.md`. The older `ROADMAP-33-12-MICROGOALS.md` is retained as the historical V60 planning checkpoint.
+The current branch-local roadmap is `stages/stage33/ROADMAP-33-12-V71-J1-TORSOR.md`. Older roadmaps remain historical planning checkpoints.
 
 Use known paths directly. Repository discovery is search-first. A search miss never proves repository absence or mathematical nonexistence.
 
@@ -16,37 +16,31 @@ Use known paths directly. Repository discovery is search-first. A search miss ne
 
 Do not use branch-history archaeology as ordinary discovery.
 
-## Current exact frontier: V65
+## Current exact frontier: V71
 
-The branch exact certificate chain has advanced beyond the inherited controller current-leaf text:
+- V61-V64 fix the B1 source basis, literal `lambda_A`, named `J1/J2`, and `J2 -> u1=[1,0]`.
+- V65 reduces J1 to `u2=[0,1]` versus `u1+u2=[1,1]`; the target fingerprints are minimum norm `4` versus `12`.
+- V67 shows the #1529 U/S-to-Stoll-word adapter does not supply the missing J1 transport/equivariance datum.
+- V68-V69 reduce the remaining transport to exactly identity versus the unique shear fixing `u1`; one bit remains. V70 replays this reduction immutably.
+- V71 constructs the J1-specific Creutz--Viray E[2] cocycle from the retained `(f1,1)` representative: splitting field `Kgeom(sqrt(f1))`, fixed translation value `rho_f1 -> Tr`. This is not a relabelled J2 class or kernel.
 
-- V61 fixes `[kappa_A,kappa_D]` on `Pic0(C22_tilde)[2]`.
-- V62 fixes the full B1 ordered basis `[cc(kappa_A),cc(kappa_D),kappa_A,kappa_D]`.
-- V63 materializes the literal Cech/surface `mu2` lift for `kappa_A` as B1 column 3, but not its marked proper14 coordinate.
-- V64 identifies `kappa_A=J1`, `kappa_D=J2`, fixes `J2 -> u1=[1,0]`, and reduces J1 to exactly `{u2=[0,1],u1+u2=[1,1]}`.
-- V65 freezes that one-bit gate. The fixed marked target fingerprints distinguish the candidates by minimum norm `4` versus `12`, but no independent source-locked J1 fingerprint or exact second transport column is yet materialized.
+The inherited `controller.json` remains the global/firewall authority. Its pre-V61 current-leaf fields are not the branch frontier; `MAIN-STATE.json` records this branch-local current-leaf supersession. No global credit is changed.
 
-The inherited `controller.json` remains the global/firewall authority. Its pre-V61 current-leaf fields are not the branch frontier; `MAIN-STATE.json` and V65 explicitly record this temporary branch-local current-leaf supersession. No global credit is changed.
+## Current leaf
 
-## STOP semantics
+`STOP` means **leaf gate only, not algorithm exhaustion**. `Stage33-main-batch` remains allowed.
 
-`STOP` at V65 means **leaf gate only, not algorithm exhaustion**. `Stage33-main-batch` remains allowed. Continue by constructing one exact discriminator; do not promote column 3 by guess.
+The next constructive leaf is D2.1: materialize the J1 translation torsor from the V71 cocycle with `d=f1`, using `S33-PW07` as the method route. Then D2.2 computes the J1-specific twisted-kernel minimum norm. Only `4` or `12` can close the remaining bit; `4` selects `u2`, `12` selects `u1+u2`.
 
-Admissible next witnesses:
-
-1. exact second column of the named CV/contact -> fixed marked Kc transport;
-2. independent source-locked J1 fingerprint, preferably a J1-specific twisted-kernel minimum norm;
-3. exact source and fixed-marked-Kc automorphism actions plus an equivariance proof.
-
-Historical contact bits are not marked Kc coordinates. An arbitrary GL2(F2) complement is forbidden. The J2-specific twisted kernel cannot be relabelled as J1. A source elliptic automorphism without an exact target action is insufficient.
+Historical contact/Weil pairing data have already been reevaluated at the V69 one-bit frontier and do not distinguish identity from shear. Do not reopen them without materially new target-side data.
 
 ## Arsenal-first routing
 
 Read `docs/arsenal/index.json`, then only:
-- `S33-PW04` for exact marked-source / Picard-interface transport;
-- `S33-PW07` for torsor/Brauer/integral-kernel construction.
+- `S33-PW07` for the active cocycle -> translation torsor -> integral/twisted-kernel construction;
+- `S33-PW04` for exact marked-source transport/firewall once an independent fingerprint is available.
 
-These cards are PROVISIONAL routing aids; live Stage33 source locks override them. V58 still permits repeatable bounded searches when each repeat has a materially new mathematical signal. There is no fixed per-object count cap. Unbounded/open-ended search remains forbidden.
+Cards are PROVISIONAL routing aids; live Stage33 source locks override them. V58 permits repeatable bounded search only when each repeat has a materially new mathematical signal. Unbounded/open-ended search remains forbidden.
 
 ## Release and verification
 
@@ -54,12 +48,11 @@ Stage33 remains `6/11`. Stage33-12 is not closed. Stage33-13 is not released. No
 
 After writes run at minimum:
 
-- `python stages/stage33/33-12/verify_e3_b1_c22_pic0_2_basis_v61.py`
-- `python stages/stage33/33-12/verify_e3_b1_full_domain_basis_v62.py`
-- `python stages/stage33/33-12/verify_e3_b1_c22_kappa_a_literal_cech_lift_v63.py`
-- `python stages/stage33/33-12/verify_e3_b1_c22_named_torsion_normalization_bridge_v64.py`
 - `python stages/stage33/33-12/verify_e3_b1_j1_marked_kc_discriminator_gate_v65.py`
-- `python stages/stage33/33-12/verify_stage33_v65_frontier_state_v66.py`
+- `python stages/stage33/33-12/verify_e3_b1_j1_post1529_equivariance_scope_gate_v67.py`
+- `python stages/stage33/33-12/verify_e3_b1_c22_j1_transport_gates_v70.py`
+- `python stages/stage33/33-12/verify_e3_b1_c22_j1_cv_e2_cocycle_v71.py`
+- `python stages/stage33/33-12/verify_stage33_v71_frontier_state_v72.py`
 - `python stages/stage33/sync_main_state.py --check`
 - `git diff --check`
 
