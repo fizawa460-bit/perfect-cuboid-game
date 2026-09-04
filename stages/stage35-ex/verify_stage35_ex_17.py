@@ -83,22 +83,25 @@ assert new_hook["gminus_gplus_coprime"] is True
 assert new_hook["full_receiver_primitive_pd_twisted_norms_proved"] is True
 assert new_hook["pd_odd_prime_support_split_only"] is True
 
-# Successor-safe routing assertions: the audited 35EX-17B result itself stays
-# fixed while later provisional leaves may advance the active route/ledger.
+# Successor-safe routing assertions only. The audited 35EX-17/17B mathematics
+# above remains fixed while later leaves may advance the active route/ledger.
 assert state["current"]["unit"] in {
     "35EX-18_GAUSSIAN_COORDINATE_GCD_SPLIT_OR_MOVING_ORIENTATION",
     "35EX-19_RECEIVER_SPECIFIC_GENUSONE_ADAPTER_OR_BLOCKER",
     "35EX-20_PAIRED_SOURCE_FILTER_QUARTIC_SQUARECLASS_OR_FREE_FAMILY",
+    "35EX-21_GLOBAL_BIQUADRATIC_SURFACE_MODEL_OR_GEOMETRY_BLOCKER",
 }
 assert state["candidate_ledger_after_fresh_breadth_audit"]["selected_live"] in {
     "E1-GAUSSIAN-COORDINATE-GCD-SPLIT",
     "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION",
     "E1-PAIRED-SOURCE-FILTER-QUARTIC-INTERSECTION",
+    "E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY",
 }
 assert tuple(state["candidate_ledger_after_fresh_breadth_audit"]["untested"]) in {
     ("E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION",),
     (),
     ("E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY",),
+    ("E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER",),
 }
 
 for text in (
@@ -122,9 +125,6 @@ for text in (
 ):
     assert text in hook
 
-# Deterministic exact regression for both the 35EX-17 identities and the fresh
-# 35EX-17B coordinate-gcd theorem. The algebraic proof is in the source note;
-# this panel protects signs, normalizations, and prime-support implementation.
 checked = 0
 product_triples = 0
 for a in range(2, 31):
@@ -147,12 +147,8 @@ for a in range(2, 31):
 
                 E2 = W1*W1*W2*W2 - V1*V1*V2*V2
                 assert E2 == (W1*U2)**2 + (U1*V2)**2
-
-                # Candidate A=(P,T2): after removing a rational square factor.
                 assert (V1*U2)**2 + E2 == (U1*W2)**2 + 2*(V1*U2)**2
                 assert (W1*W2*U2)**2 + E2*V2*V2 == (W1*W2*W2)**2 - (V1*V2*V2)**2
-
-                # Candidate B=(T1,P): likewise after removing a rational square.
                 assert E2 + (U1*V2)**2 == (W1*U2)**2 + 2*(U1*V2)**2
                 assert W1*W1*E2 + (U1*V1*V2)**2 == (W1*W1*W2)**2 - (V1*V1*V2)**2
 
@@ -171,8 +167,6 @@ for a in range(2, 31):
                 Lminus = Pminus // pd
                 Lplus = Pplus // pd
 
-                # Whenever the raw E1 norm is a square, reconstruct both the
-                # product triple and the exact primitive p*d-twisted norms.
                 if square(E2):
                     assert square(Lminus) and square(Lplus)
                     x, y = isqrt(Lminus), isqrt(Lplus)

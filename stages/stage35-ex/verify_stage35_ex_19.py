@@ -14,20 +14,17 @@ doc = DOC.read_text()
 audit = json.loads(AUDIT.read_text())
 state = json.loads(STATE.read_text())
 
-# Authority wiring.
-assert state["schema"] == "STAGE35_EX_PESCH_E1_STATE_V18_POST_35EX19_NONISOTRIVIAL_GENUSONE_BLOCKER"
+V18 = "STAGE35_EX_PESCH_E1_STATE_V18_POST_35EX19_NONISOTRIVIAL_GENUSONE_BLOCKER"
+V19 = "STAGE35_EX_PESCH_E1_STATE_V19_POST_35EX20_PAIRED_SQUARECLASS_DYNAMIC_SUPPORT_BLOCKER"
+assert state["schema"] in {V18, V19}
 assert state["stage"] == "35-EX"
 assert state["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
-assert state["base_main_sha"] == "751ac2ed47843223340b2d9b09db3d5cca8c3464"
+assert state["base_main_sha"] in {
+    "751ac2ed47843223340b2d9b09db3d5cca8c3464",
+    "fd0986693a8806fb77083c862d0f939d23a05abb",
+}
 
-parent = state["parent_authority"]
-assert parent["unit"] == "35EX-18"
-assert parent["status"] == "AUDITED_EXACT_GAUSSIAN_RELATIVE_ORIENTATION_MASTER_UNIT_FREEZE_NO_CREDIT"
-assert parent["hostile_audit_verdict"] == "PASS"
-assert parent["audited_head_sha"] == "4f271921e745e90ff9764c727d0d4234d2ae0b4a"
-assert parent["merged_main_sha"] == "cb3e36183f291ec5d96b440ff2287e3d009d9691"
-assert parent["audited_theorem_credit"] is False
-
+# Historical audited 35EX-18 authority must remain exact under successors.
 unit18 = state["completed_units"]["35EX-18"]
 assert unit18["status"] == "AUDITED_EXACT_GAUSSIAN_RELATIVE_ORIENTATION_MASTER_UNIT_FREEZE_NO_CREDIT"
 assert unit18["hostile_audit_verdict"] == "PASS"
@@ -36,7 +33,10 @@ assert unit18["merged_main_sha"] == "cb3e36183f291ec5d96b440ff2287e3d009d9691"
 assert unit18["audited_theorem_credit"] is False
 
 unit19 = state["completed_units"]["35EX-19"]
-assert unit19["status"] == "PROVISIONAL_EXACT_NONISOTRIVIAL_GENUSONE_FAMILY_BLOCKER_NEW_PAIRED_QUARTIC_HOOK_NO_CREDIT"
+assert unit19["status"] in {
+    "PROVISIONAL_EXACT_NONISOTRIVIAL_GENUSONE_FAMILY_BLOCKER_NEW_PAIRED_QUARTIC_HOOK_NO_CREDIT",
+    "AUDITED_EXACT_NONISOTRIVIAL_GENUSONE_FAMILY_BLOCKER_NEW_PAIRED_QUARTIC_HOOK_NO_CREDIT",
+}
 assert unit19["artifact"] == "stages/stage35-ex/35ex-19/receiver-specific-genusone-family-blocker.md"
 assert unit19["breadth_audit"] == "stages/stage35-ex/35ex-19/post-genusone-breadth-audit.json"
 assert unit19["verifier"] == "stages/stage35-ex/verify_stage35_ex_19.py"
@@ -51,7 +51,10 @@ assert unit19["paired_quartic_contradiction_proved"] is False
 assert unit19["audited_theorem_credit"] is False
 
 unit19b = state["completed_units"]["35EX-19B"]
-assert unit19b["status"] == "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT"
+assert unit19b["status"] in {
+    "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT",
+    "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT",
+}
 assert unit19b["exhaustive_view_audit"] is True
 assert unit19b["blind_rediscovery"] is True
 assert unit19b["arsenal_comparison"] is True
@@ -60,26 +63,59 @@ assert unit19b["selected_candidate"] == "E1-PAIRED-SOURCE-FILTER-QUARTIC-INTERSE
 assert unit19b["preserved_untested_candidates"] == ["E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY"]
 assert unit19b["audited_theorem_credit"] is False
 
+if state["schema"] == V18:
+    parent = state["parent_authority"]
+    assert parent["unit"] == "35EX-18"
+    assert parent["status"] == "AUDITED_EXACT_GAUSSIAN_RELATIVE_ORIENTATION_MASTER_UNIT_FREEZE_NO_CREDIT"
+    assert parent["hostile_audit_verdict"] == "PASS"
+    assert parent["audited_head_sha"] == "4f271921e745e90ff9764c727d0d4234d2ae0b4a"
+    assert parent["merged_main_sha"] == "cb3e36183f291ec5d96b440ff2287e3d009d9691"
+    assert state["base_main_sha"] == "751ac2ed47843223340b2d9b09db3d5cca8c3464"
+    assert unit19["status"].startswith("PROVISIONAL_")
+    assert unit19b["status"] == "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT"
+else:
+    parent = state["parent_authority"]
+    assert parent["unit"] == "35EX-19B"
+    assert parent["status"] == "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT"
+    assert parent["hostile_audit_verdict"] == "PASS"
+    assert parent["audited_head_sha"] == "b63fcf4f7888f86f6881d15f5e5bd9d3873dc1b5"
+    assert parent["merged_main_sha"] == "fd0986693a8806fb77083c862d0f939d23a05abb"
+    assert parent["audited_theorem_credit"] is False
+    assert state["base_main_sha"] == "fd0986693a8806fb77083c862d0f939d23a05abb"
+    for unit in (unit19, unit19b):
+        assert unit["hostile_audit_verdict"] == "PASS"
+        assert unit["audited_head_sha"] == "b63fcf4f7888f86f6881d15f5e5bd9d3873dc1b5"
+        assert unit["merged_main_sha"] == "fd0986693a8806fb77083c862d0f939d23a05abb"
+
 freeze = state["resolved_investigations"]["CURRENT_RECEIVER_SPECIFIC_FIXED_GENUSONE"]
 assert freeze["status"] == "FROZEN_NONISOTRIVIAL_MOVING_SOURCE_PARAMETER"
 assert "fixed source parameter" in freeze["reopen_condition"]
 assert "uniform" in freeze["reopen_condition"]
 
+# Successor-safe routing: 35EX-19's audited mathematical result remains exact
+# after 35EX-20 freezes and the fresh breadth audit queues 35EX-21.
 ledger = state["candidate_ledger_after_fresh_breadth_audit"]
-assert ledger["selected_live"] == "E1-PAIRED-SOURCE-FILTER-QUARTIC-INTERSECTION"
-assert ledger["untested"] == ["E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY"]
+assert ledger["selected_live"] in {
+    "E1-PAIRED-SOURCE-FILTER-QUARTIC-INTERSECTION",
+    "E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY",
+}
 assert "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION" in ledger["just_frozen"]
 assert "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION" in ledger["blocked"]
-assert ledger["audit_artifact"] == "stages/stage35-ex/35ex-19/post-genusone-breadth-audit.json"
+assert ledger["audit_artifact"] in {
+    "stages/stage35-ex/35ex-19/post-genusone-breadth-audit.json",
+    "stages/stage35-ex/35ex-20/post-paired-squareclass-breadth-audit.json",
+}
 
 current = state["current"]
-assert current["unit"] == "35EX-20_PAIRED_SOURCE_FILTER_QUARTIC_SQUARECLASS_OR_FREE_FAMILY"
-assert current["status"] == "SELECTED_BY_FRESH_POST_GENUSONE_BREADTH_AUDIT_NO_CREDIT"
-assert "PAIR_FACT" in current["next_exact_leaf"]
-assert "S34_W01" in current["next_exact_leaf"]
-
+assert current["unit"] in {
+    "35EX-20_PAIRED_SOURCE_FILTER_QUARTIC_SQUARECLASS_OR_FREE_FAMILY",
+    "35EX-21_GLOBAL_BIQUADRATIC_SURFACE_MODEL_OR_GEOMETRY_BLOCKER",
+}
 assert state["arsenal"]["S31_W01"] == "FIBERWISE_ROUTING_ONLY_GLOBAL_FIXED_CURVE_USE_BLOCKED_BY_NONISOTRIVIAL_K"
-assert state["arsenal"]["S34_W01"] == "SELECTED_ROUTING_PATTERN_FOR_35EX20_PAIRED_QUARTIC_NOT_YET_UNLOCKED"
+assert state["arsenal"]["S34_W01"] in {
+    "SELECTED_ROUTING_PATTERN_FOR_35EX20_PAIRED_QUARTIC_NOT_YET_UNLOCKED",
+    "FIXED_FIRST_SOURCE_ROUTING_MATCH_GLOBAL_FINITE_FAMILY_BLOCKED_DYNAMIC_UV_SUPPORT",
+}
 assert state["stage35_main_firewall"]["stage35_ex_reopens_stage35_main"] is False
 
 for key in (
@@ -93,7 +129,6 @@ for key in (
 ):
     assert state["claims"][key] is False
 
-# Artifact markers.
 for marker in (
     "FIXED_R_GENUS_ONE_QUARTIC_DERIVED=true",
     "FIXED_R_QUARTIC_SMOOTH_GENUS_ONE=true",
@@ -107,7 +142,7 @@ for marker in (
 ):
     assert marker in doc
 
-# Breadth-audit wiring.
+# Original 35EX-19B audit remains immutable and exact.
 assert audit["schema"] == "STAGE35_EX_19B_POST_GENUSONE_BLOCKER_BREADTH_AUDIT_V1"
 assert audit["blind_rediscovery"]["performed_before_arsenal_comparison_for_new_candidates"] is True
 assert audit["arsenal_comparison"]["performed_after_blind_generation"] is True
@@ -129,12 +164,10 @@ k = 1 - 2*r**2
 den = k - u**2
 t = 2*r*u/den
 mu = r*(k + u**2)/den
-
 assert sp.factor(mu**2 - (r**2 + k*t**2)) == 0
 
 quartic_plus = sp.expand(den**2 + 4*(1-r**2)*u**2)
 assert sp.factor(quartic_plus - (u**4 + 2*u**2 + k**2)) == 0
-
 quartic_minus = sp.expand(den**2 - 4*r**2*u**2)
 assert sp.factor(quartic_minus - (u**4 - 2*u**2 + k**2)) == 0
 assert sp.expand((u**4 + 2*u**2 + k**2) - (u**4 - 2*u**2 + k**2)) == 4*u**2
@@ -156,16 +189,14 @@ j = sp.factor(2**8 * I**3 / Delta)
 assert sp.factor(j - 64*(1+3*K**2)**3/(K**2*(1-K**2)**2)) == 0
 assert sp.diff(j, K) != 0
 
-# Exact non-isotrivial regression on two already-source-locked genuine Master-Hit first triples.
 def j_fraction(kv: Fraction) -> Fraction:
     return Fraction(64) * (1 + 3*kv*kv)**3 / (kv*kv * (1-kv*kv)**2)
 
-k43 = Fraction(527, 625)   # first pair (4,3)
-k85 = Fraction(4879, 7921) # first pair (8,5)
+k43 = Fraction(527, 625)
+k85 = Fraction(4879, 7921)
 assert k43 != k85
 assert j_fraction(k43) != j_fraction(k85)
 
-# Admissible-fiber degeneracies are impossible for rational 0<r<1 source ratios.
 for a, b in ((2,1), (4,3), (8,5), (9,8), (11,2)):
     rr = Fraction(a*a-b*b, a*a+b*b)
     assert 0 < rr < 1
