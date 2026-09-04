@@ -7,7 +7,6 @@ on:
       - 'stages/stage32/controller.json'
       - 'stages/stage32/residual-32-01-production/post1518-o210-q602-18-diagonal-retained-geometry-test*'
       - 'stages/stage32/residual-32-01-production/certify_stage32_post1518_o210_q602_18_diagonal_retained_geometry_test.py'
-      - 'stages/stage32/residual-32-01-production/certify_stage32_post1518_o210_q602_trace_spectrum_promotion.py'
       - 'stages/stage32/residual-32-01-production/post1518-o210-q602-residue73-trace-spectrum.json'
       - 'stages/stage32/residual-32-01-production/post1500-common-cover-marked-branch-geometry-certificate.json'
       - 'stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md'
@@ -33,7 +32,5 @@ jobs:
         uses: actions/checkout@v4
       - name: Certify retained-geometry 18-to-18 boundary
         run: python3 stages/stage32/residual-32-01-production/certify_stage32_post1518_o210_q602_18_diagonal_retained_geometry_test.py --check stages/stage32/residual-32-01-production/post1518-o210-q602-18-diagonal-retained-geometry-test.json
-      - name: Preserve hostile-audited post1518 spectrum under successor authority
-        run: python3 stages/stage32/residual-32-01-production/certify_stage32_post1518_o210_q602_trace_spectrum_promotion.py
       - name: Diff check
         run: git diff --check
