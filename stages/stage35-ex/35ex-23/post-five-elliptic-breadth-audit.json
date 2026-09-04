@@ -1,0 +1,174 @@
+{
+  "schema": "STAGE35_EX_23B_POST_FIVE_ELLIPTIC_FRESH_BREADTH_AUDIT_V1",
+  "stage": "35-EX",
+  "status": "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT",
+  "trigger": "HOSTILE_AUDITED_35EX23_FIVE_NONISOTRIVIAL_ELLIPTIC_FACTOR_PATTERN_REQUIRES_FRESH_EXHAUSTIVE_VIEW_AUDIT",
+  "authority": {
+    "unit": "35EX-23",
+    "hostile_audit_verdict": "PASS",
+    "hostile_audit_review": 5111910947,
+    "audited_head_sha": "77ff0a6cf51679bd64525a0be843fcd1eed77d8e",
+    "merged_main_sha": "c20ee71d91af850103fd7406f9b1072448a11fcf"
+  },
+  "active_receiver": {
+    "generic_fiber": "C/K with K=Q(B1), B1:p^2=1+x^2, a=x^2, q^2=y^2+1, z^2=y^2+a, w^2=y^2+1+a",
+    "audited_structure": "Jac(C) is generically isogenous to five nonisotrivial elliptic quotient factors E12,E13,E23,Eplus,Eminus",
+    "exact_positive_genus_models": [
+      "E12: V12^2=(y^2+1)(y^2+a)",
+      "E13: V13^2=(y^2+1)(y^2+1+a)",
+      "E23: V23^2=(y^2+a)(y^2+1+a)",
+      "Eplus: Yplus^2=(X+1)(X+a)(X+1+a)",
+      "Eminus: Yminus^2=X(X+1)(X+a)(X+1+a)"
+    ],
+    "frozen_naive_route": "one fixed elliptic curve or fixed finite constant list plus one replayable global Mordell-Weil computation"
+  },
+  "blind_rediscovery": {
+    "generation_input": "only the exact 35EX-23 equations, quotient maps, j-functions, source-conic relation p^2=1+x^2, and existing audited freeze boundaries; Arsenal recommendations were excluded from candidate generation and used only afterward for classification",
+    "generated": [
+      {
+        "id": "E1-FIVE-ELLIPTIC-ISOGENY-TWIST-COMPRESSION",
+        "status": "LIVE",
+        "view": "before doing arithmetic on five moving elliptic factors, compute the exact generic isogeny graph and fixed quadratic-twist relations among them; symmetric pair quartics have a canonical rational 2-isogeny source model, so the five-factor package may have fewer underlying variation channels than the five displayed j-functions suggest",
+        "why_distinct": "this is an exact structural compression of the new 35EX-23 factorization itself, not a Mordell-Weil computation, local obstruction, or return to the older factor-squareclass receiver",
+        "next_test": "derive explicit pair-quartic-to-cubic birational maps and explicit degree-2 isogenies over K; determine exactly which named factors or fixed twists share a source family; record the surviving independent moving channels without claiming rational-point closure"
+      },
+      {
+        "id": "E1-SIMULTANEOUS-ELLIPTIC-KUMMER-LIFT-COMPATIBILITY",
+        "status": "UNTESTED",
+        "view": "use the fact that a point coming from C is not an arbitrary point on any elliptic quotient: the constituent radicands y^2+1, y^2+a, y^2+1+a are individually squares, so the five quotient points satisfy simultaneous 2-cover/Kummer lift conditions",
+        "why_distinct": "it attacks the image of C inside the product of quotient curves rather than each quotient point set separately",
+        "dependency": "an exact quotient/Kummer dictionary is needed after the isogeny/twist compression; a generic Selmer computation without a receiver-lift theorem is insufficient"
+      },
+      {
+        "id": "E1-UNIFORM-ELLIPTIC-SURFACE-SPECIALIZATION-HEIGHT",
+        "status": "UNTESTED",
+        "view": "treat the surviving nonisotrivial elliptic factors as elliptic surfaces over the rational first-source base and seek a genuinely uniform section/specialization/height theorem strong enough to control all rational fibers relevant to the receiver",
+        "why_distinct": "this uses arithmetic of the total elliptic surfaces rather than one fixed fiber or only the generic Mordell-Weil group",
+        "dependency": "must include a proved specialization/completeness statement for all receiver-relevant rational base points; generic function-field Mordell-Weil data alone does not suffice"
+      },
+      {
+        "id": "E1-BASE-INVOLUTION-A-INVERSE-DESCENT",
+        "status": "UNTESTED",
+        "view": "exploit the exact source-conic involution (x,p)->(1/x,p/x), hence a->1/a on x!=0; the audited j-functions satisfy invariant/swap symmetries, so the five-factor package may descend to the quotient base parameter a+1/a with paired factor exchange",
+        "why_distinct": "this attacks the moving base itself, not the fibers",
+        "dependency": "must prove an exact descent of the quotient maps and receiver lift, not merely equality of j-invariants; a lower-degree coefficient presentation without arithmetic gain is not closure"
+      },
+      {
+        "id": "E1-NONOBVIOUS-BRAUER-FROM-ELLIPTIC-FIBRATION",
+        "status": "UNTESTED",
+        "view": "use the new elliptic-factor/isogeny package to search for a genuinely non-obvious Brauer or torsor class not contained in the 35EX-22 tested obvious 28-symbol span",
+        "why_distinct": "35EX-22 only froze the obvious boundary-symbol layer and explicitly left non-obvious classes open",
+        "dependency": "must construct an actual class with residue/unramified proof and source-compatible local evaluation; the factorization alone does not manufacture a Brauer class"
+      },
+      {
+        "id": "E1-GENERIC-FIBER-MW-ONLY",
+        "status": "BLOCKED",
+        "view": "compute only the Mordell-Weil group of one or more elliptic factors over K=Q(B1)",
+        "blocker": "35EX-21B and 35EX-23 already isolate the uniformity gap: generic sections do not classify all rational special fibers without a specialization/completeness theorem"
+      },
+      {
+        "id": "E1-OBVIOUS-SURFACE-BRAUER-SYMBOL-REPLAY",
+        "status": "BLOCKED",
+        "view": "repeat the seven-boundary-factor 28-symbol Brauer-Manin test",
+        "blocker": "35EX-22 hostile-audited a genuine restricted-product adele annihilating the full obvious symbol span; reopening requires a non-obvious class"
+      },
+      {
+        "id": "E1-PAIRED-FACTOR-SQUARECLASS-REPLAY",
+        "status": "BLOCKED",
+        "view": "return from the five quotient factors to fixed-source four-factor squareclass enumeration",
+        "blocker": "35EX-20 already proves only fixed-first-source finite over-covers while global squareclass support moves with U1*V1; the five-factor decomposition does not remove that support by itself"
+      },
+      {
+        "id": "E1-DIRECT-NORMALIZED-CUBOID-SURFACE-POINT-CLASSIFICATION",
+        "status": "BLOCKED",
+        "view": "classify all rational points on S_PC directly",
+        "blocker": "endpoint-scale and still lacks a smaller receiver or a complete source-population reverse adapter; no new direct surface classification theorem was produced by 35EX-23"
+      }
+    ]
+  },
+  "arsenal_comparison": {
+    "performed_after_blind_generation": true,
+    "registry": {
+      "path": "docs/arsenal/index.json",
+      "authority_order_respected": true,
+      "live_stage_authority_overrides_provisional_cards": true
+    },
+    "S31-W01": {
+      "path": "docs/arsenal/cards/formal/S31-W01.md",
+      "blob_sha": "122a6c1c5c871c1c7b797017e854de8ec55e7c50",
+      "role": "GENUS_ONE_QUARTIC_ELLIPTIC_BIRATIONAL_ADAPTER",
+      "match": "EXACT_MAP_CERTIFICATION_FOR_PAIR_QUARTIC_CUBIC_MODELS",
+      "decision": "APPLICABLE_AS_ADAPTER_ONLY",
+      "reason": "it can certify rational maps/exceptional loci but supplies no uniform MW or receiver closure"
+    },
+    "S34-W03": {
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96",
+      "role": "RECEIVER_RESTRICTED_INTERSECTION_EXCLUSION",
+      "match": "STRONG_MATCH_FOR_FUTURE_SIMULTANEOUS_KUMMER_LIFT_COMPATIBILITY",
+      "decision": "ROUTING_AVAILABLE_AFTER_EXACT_KUMMER_DICTIONARY",
+      "reason": "it permits closing only the quotient-plus-lift intersection, but does not itself provide the moving-family Kummer/Selmer theorem"
+    },
+    "S34-W02": {
+      "path": "docs/arsenal/cards/formal/S34-W02.md",
+      "blob_sha": "13d41be776fcd2edcd258f11bd28c5a6596de45b",
+      "role": "GLOBAL_MORDELL_WEIL_CONGRUENCE_EXCLUSION",
+      "match": "POTENTIAL_ONLY_AFTER_FIXED_OR_CERTIFIED_FULL_MW_INPUT",
+      "decision": "NOT_UNLOCKED",
+      "reason": "current factors move with a and no full MW basis for every receiver-relevant fiber is certified"
+    },
+    "S31-WF01": {
+      "path": "docs/arsenal/cards/workflows/S31-WF01.md",
+      "blob_sha": "feb9a0581d378beccd1dc58cf9dd20e6c41347bc",
+      "role": "CAS_MW_FULL_GROUP_CERTIFICATION",
+      "match": "WORKFLOW_ONLY_IF_A_LATER_LEAF_USES_FULL_MW_DATA",
+      "decision": "NOT_A_MATHEMATICAL_CLOSURE_THEOREM"
+    },
+    "matching_formal_isogeny_twist_compression_card_found": false,
+    "matching_formal_uniform_elliptic_surface_specialization_card_found": false,
+    "matching_formal_function_field_kummer_receiver_closure_card_found": false
+  },
+  "historical_ledger_comparison": {
+    "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION": "fixed-curve version remains blocked by 35EX-19 nonisotriviality; the new LIVE route does not assume a fixed curve",
+    "E1-PAIRED-SOURCE-FILTER-QUARTIC-INTERSECTION": "squareclass implementation remains blocked by 35EX-20 dynamic U1*V1 support; simultaneous quotient Kummer compatibility is retained only as a distinct future formulation",
+    "E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER": "obvious symbol layer is frozen by audited 35EX-22; only a genuinely non-obvious class may reopen it",
+    "E1-GENUS5-MULTIQUADRATIC-FIBER-CHARACTER-DESCENT": "35EX-23 completed the character quotient decomposition and exposed the new five-elliptic pattern",
+    "E1-FIVE-ELLIPTIC-ISOGENY-TWIST-COMPRESSION": "new exact candidate generated from the 35EX-23 equations; no prior audited route computes this generic isogeny/twist web"
+  },
+  "selection": {
+    "selected_candidate": "E1-FIVE-ELLIPTIC-ISOGENY-TWIST-COMPRESSION",
+    "selected_next_unit": "35EX-24_FIVE_ELLIPTIC_ISOGENY_TWIST_COMPRESSION_OR_INDEPENDENT_CHANNEL_BLOCKER",
+    "instruction": "DERIVE_THE_GENERIC_PAIR_QUARTIC_TO_CUBIC_MAP_AND_THE_STANDARD_KERNEL_(0,0)_2_ISOGENY_EXACTLY;_SPECIALIZE_TO_E12,E13,E23;_TRACK_FIXED_MINUS_ONE_TWISTS_OVER_K_NOT_ONLY_J_INVARIANTS;_STATE_THE_MINIMAL_SURVIVING_MOVING_CHANNEL_PACKAGE;_DO_NOT_CLAIM_K_ISOGENY_WHERE_ONLY_A_FIXED_TWIST_OR_K(i)_ISOGENY_IS_PROVED;_DO_NOT_PROMOTE_MW_OR_E1_CREDIT",
+    "preserved_untested_candidates": [
+      "E1-SIMULTANEOUS-ELLIPTIC-KUMMER-LIFT-COMPATIBILITY",
+      "E1-UNIFORM-ELLIPTIC-SURFACE-SPECIALIZATION-HEIGHT",
+      "E1-BASE-INVOLUTION-A-INVERSE-DESCENT",
+      "E1-NONOBVIOUS-BRAUER-FROM-ELLIPTIC-FIBRATION"
+    ],
+    "split_triggered": false,
+    "split_reason": "the exact isogeny/twist web is a cheap prerequisite-style compression that can change the object seen by every arithmetic successor; preserve the other distinct candidates but keep one active route"
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "CYCLE_ACTIVE_RECEIVER": "FIVE_NONISOTRIVIAL_ELLIPTIC_QUOTIENT_FACTORS_WITH_SIMULTANEOUS_C_LIFT_COMPATIBILITY",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 4,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "exact generic 2-isogeny plus fixed quadratic-twist compression of the five moving elliptic quotient factors",
+    "CYCLE_NEW_VIEW_SOURCE": "BLIND"
+  },
+  "credit": {
+    "new_theorem_credit": false,
+    "global_surface_rational_points_classified": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
