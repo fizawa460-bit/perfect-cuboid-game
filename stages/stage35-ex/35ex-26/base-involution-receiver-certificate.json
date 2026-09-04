@@ -1,0 +1,110 @@
+{
+  "schema": "STAGE35_EX_26_BASE_INVOLUTION_RECEIVER_DESCENT_CERTIFICATE_V1",
+  "stage": "35-EX",
+  "status": "PROVISIONAL_EXACT_BASE_INVOLUTION_RECEIVER_DESCENT_NO_CREDIT",
+  "authority": {
+    "parent_unit": "35EX-25",
+    "parent_pass_source": "USER_CONFIRMED_AFTER_FRESHNESS_ONLY_REPAIR",
+    "parent_audited_exact_head_sha": "7a2d70e04dcd679881630267cb2e1810f209e44c",
+    "parent_exact_head_ci_run": 33922581520,
+    "parent_exact_head_ci_job": 101183978655,
+    "parent_merged_main_sha": "3cadfd55d91f1e3267f31f9d7384b62d38678cc3"
+  },
+  "source_base": {
+    "field": "K=Q(x,p), p^2=1+x^2",
+    "a": "x^2",
+    "involution": {
+      "x": "1/x",
+      "p": "p/x",
+      "a": "1/a",
+      "order": 2
+    }
+  },
+  "elliptic_semilinear_equivalence": {
+    "source": "Eplus_a: Y^2=(X+1)(X+a)(X+1+a)",
+    "target": "Eplus_(1/a)",
+    "X_prime": "X/a",
+    "Y_prime": "Y/x^3",
+    "four_square_locus_preserved": true,
+    "square_root_action": ["y->y/x", "q->z/x", "z->q/x", "w->w/x"],
+    "square_root_action_order": 2
+  },
+  "fixed_field": {
+    "u": "x+1/x",
+    "h": "p*(x+1)/x",
+    "relation": "h^2=u*(u+2)",
+    "K0": "Q(u,h)",
+    "quadratic_reconstruction": "x^2-u*x+1=0",
+    "p_reconstruction": "p=h*x/(x+1)",
+    "quotient_base_dimension": 1,
+    "quotient_base_rational_conic": true
+  },
+  "descended_elliptic_model": {
+    "R": "X/x",
+    "V": "Y/(x*(x+1))",
+    "equation": "(u+2)*V^2=(R+u)*(R^2+u*R+1)",
+    "defined_over": "Q(u) subset K0",
+    "j_invariant": "256*(u^2-3)^3/(u^2-4)",
+    "j_nonconstant": true,
+    "fixed_elliptic_curve_reduction": false
+  },
+  "descended_receiver": {
+    "invariants": {
+      "r": "y/(x+1)",
+      "s": "w/(x+1)",
+      "B": "q*z/x",
+      "b": "(q+z)/(x+1)"
+    },
+    "equations": [
+      "R=(u+2)*r^2",
+      "R+u=(u+2)*s^2",
+      "B^2=R^2+u*R+1",
+      "b^2=(2*R+u+2*B)/(u+2)",
+      "V=B*s"
+    ],
+    "forward_map_exact": true,
+    "converse_reconstruction_exact": true,
+    "converse_q": "(b*(x+1)-(x-1)/b)/2",
+    "converse_z": "(b*(x+1)+(x-1)/b)/2",
+    "discriminant_identity": "Delta=((x-1)/b)^2",
+    "x_equals_1_fixed_locus_included": true,
+    "positive_chamber_denominators_nonzero": ["x", "x+1", "u+2", "b"]
+  },
+  "arsenal": {
+    "registry": "docs/arsenal/index.json",
+    "S30_W02": {
+      "path": "docs/arsenal/cards/formal/S30-W02.md",
+      "blob_sha": "9960136fee2f5a7f884e12f7ac17bcb229f97442",
+      "decision": "ADJACENT_PATTERN_ONLY_NOT_APPLICABLE_FOR_MATHEMATICAL_CREDIT"
+    },
+    "S34_W03": {
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96",
+      "decision": "DOWNSTREAM_ROUTER_AFTER_EXACT_DESCENT_DICTIONARY"
+    },
+    "S34_W02_unlocked": false
+  },
+  "result": {
+    "base_involution_full_receiver_equivariant": true,
+    "fixed_field_quotient_conic_exact": true,
+    "descended_elliptic_model_exact": true,
+    "descended_full_square_receiver_iff": true,
+    "reciprocal_source_fibers_identified": true,
+    "arithmetic_dimension_drop": false,
+    "descended_receiver_closed": false
+  },
+  "claims": {
+    "uniform_receiver_emptiness": false,
+    "uniform_full_MW_group": false,
+    "uniform_Selmer_or_specialization_closure": false,
+    "new_Brauer_obstruction": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "audited_theorem_credit": false
+  }
+}
