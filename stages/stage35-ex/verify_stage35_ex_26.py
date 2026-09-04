@@ -14,7 +14,7 @@ S30 = ROOT / "docs/arsenal/cards/formal/S30-W02.md"
 S34 = ROOT / "docs/arsenal/cards/formal/S34-W03.md"
 
 V25 = "STAGE35_EX_PESCH_E1_STATE_V25_POST_35EX26_BASE_INVOLUTION_RECEIVER_DESCENT"
-CURRENT_MAIN = "3cadfd55d91f1e3267f31f9d7384b62d38678cc3"
+CURRENT_MAIN = "4ec2b9af886f9ac9be13c3324788c26625c9e5d9"
 
 
 def git_blob_sha(path: Path) -> str:
@@ -113,7 +113,6 @@ assert cert["arsenal"]["S30_W02"]["decision"] == "ADJACENT_PATTERN_ONLY_NOT_APPL
 assert cert["arsenal"]["S34_W03"]["decision"] == "DOWNSTREAM_ROUTER_AFTER_EXACT_DESCENT_DICTIONARY"
 assert cert["arsenal"]["S34_W02_unlocked"] is False
 
-# Exact symbolic checks.
 x, p, X, Y = sp.symbols("x p X Y", nonzero=True)
 u = x + 1/x
 h = p*(x+1)/x
@@ -139,7 +138,6 @@ j_a = 256*(x**4-x**2+1)**3/(x**4*(x**2-1)**2)
 j_u = 256*(u**2-3)**3/(u**2-4)
 assert sp.factor(sp.together(j_a-j_u)) == 0
 
-# Forward receiver invariants.
 y, q, z, w = sp.symbols("y q z w", nonzero=True)
 Rr = y**2/x
 r = y/(x+1)
@@ -158,7 +156,6 @@ q4 = sp.together(b**2-(2*Rr+u+2*B)/(u+2))
 q4_num = sp.expand(q4.as_numer_denom()[0]).subs(q**2, q2).subs(z**2, z2)
 assert sp.factor(q4_num) == 0
 
-# Converse algebra: the b-condition plus B^2 relation forces a square discriminant.
 RR, BB, bb, uu = sp.symbols("R B b u", nonzero=True)
 prod = sp.expand((2*RR+uu+2*BB)*(2*RR+uu-2*BB)-(uu**2-4))
 prod = prod.subs(BB**2, RR**2+uu*RR+1)
@@ -172,7 +169,6 @@ assert sp.factor(recip_num) == 0
 assert sp.factor(sp.together(x*(u-2)-(x-1)**2)) == 0
 assert sp.factor(sp.together((x+1)**2-x*(u+2))) == 0
 
-# Named inverse orientation: q-z must have the sign giving q^2-z^2=1-x^2.
 S = bb*(x+1)
 D = -(x-1)/bb
 assert sp.factor(sp.together(S*D-(1-x**2))) == 0
