@@ -11,10 +11,10 @@ STATE_PATH = ROOT / "stages/stage36/MAIN-STATE.json"
 CERT_PATH = ROOT / "stages/stage36/36-04/h-torsor-lift-class.json"
 INV_PATH = ROOT / "stages/stage36/36-02/representative-inventory.json"
 PREV_PATH = ROOT / "stages/stage36/36-03/physical-open-boundary.json"
-BASE = "303c66cc4b2744222ee242d52c457948d587e32e"
+BASE = "0e7d0b282ec8b15c888a1efe4de43a114f4d5911"
 INV_BLOB = "88130b9380a677a191f91c24df87618e65be0a2f"
 PREV_BLOB = "fc1947b2de08f7d8a104bdc91902b20e88635349"
-FRESHNESS = {"sync_pr":1559,"main_sha":BASE,"merge_commit":"e25e6442e61967ed9e6bc16b04e9a4d7219b4e7d","scope":"Stage32-only advance via #1556; no Stage36, Stage29 Campedelli/sign-cover source, or Arsenal authority changes"}
+FRESHNESS = {"sync_pr":1562,"main_sha":BASE,"merge_commit":"fe79d53d6fd052805d4d16c6990a5ba6ed17622d","scope":"Stage32-only advance via #1561; no Stage36, Stage29 Campedelli/sign-cover source, or Arsenal authority changes"}
 
 SOURCES = {
     "stage36_roadmap": ("stages/stage36/ROADMAP.md", "eeedda0e89e24f851c989b5ec83e7b320e1ad99e"),
@@ -54,7 +54,6 @@ def bits(s: str) -> tuple[int,...]:
 def dot(a,b): return sum(x*y for x,y in zip(a,b))%2
 
 def xor(a,b): return tuple(x^y for x,y in zip(a,b))
-
 def support(c):
     out=[LINE6[i] for i,b in enumerate(c) if b]
     if sum(c)%2: out.append("C")
