@@ -1,10 +1,27 @@
 # Repository asset discovery
 
-Use this policy when an active research leaf needs an already-existing mathematical weapon, certificate, basis, matrix, label map, adapter, producer, or artifact lock. These lookup systems are routing aids, not proof authority; the live Stage controller and current source locks remain authoritative.
+Use this policy when an active research leaf needs an already-existing mathematical weapon, certificate, basis, matrix, label map, adapter, producer, or artifact lock. Discovery routes are routing aids, not proof authority; the live Stage controller and current source locks remain authoritative.
+
+Repository traversal itself follows the root `AGENTS.md` discipline: known paths are fetched directly, path/name discovery uses GitHub search, content discovery uses GitHub code search, and recursive repository-tree acquisition is not an ordinary discovery mechanism.
+
+## Stage-local retained evidence
+
+For an already-computed Stage-local fact, start from that Stage's canonical final handoff. Do not maintain a second Stage-local discovery registry.
+
+1. For **Stage16 and later**, the first discovery surface is that Stage's canonical `FINAL.md` handoff. If a historical Stage retained the same filename with a case-only spelling variant, use that retained path; the semantic rule is still “final Markdown handoff first.”
+2. For **Stages12–15**, the first discovery surface is the canonical self-contained final HTML because those Stages predate the `FINAL.md` convention:
+   - Stage12: `review/PC-N1-2-FINAL-SELF-CONTAINED-20260807-R09.html`
+   - Stage13: `review/STAGE13-FINAL-SELF-CONTAINED-20260810-R07.html`
+   - Stage14: `review/STAGE14-FINAL-SELF-CONTAINED-20260813-R06.html`
+   - Stage15: `stages/stage15/stage15-final-self-contained.html`
+3. Follow exact source, certificate, or provenance paths cited by that final handoff when the active leaf actually needs them.
+4. If the requested Stage-local item is absent from the canonical final handoff, treat it as **not retained for ordinary downstream reuse**. This is an operational discovery boundary, not a mathematical claim that the repository lacks the object.
+5. Do not automatically broaden a miss into repeated repository-wide, branch-history, or keyword-expanded archaeology. A bounded repository search remains available when the active Stage has a concrete load-bearing reason to suspect an omitted asset; keep that search narrow and stop when that bounded question is answered.
+6. If such an exceptional search recovers a reusable Stage-local positive asset, fold it into that Stage's canonical final handoff at closeout rather than creating another discovery registry.
 
 ## Arsenal
 
-Do not load the full Arsenal during ordinary Stage startup. First identify the active leaf's exact missing object or workflow type, then:
+Arsenal remains the independent mechanism for genuinely cross-Stage reusable weapons. Do not load the full Arsenal during ordinary Stage startup. First identify the active leaf's exact missing object or workflow type, then:
 
 1. Read `docs/arsenal/index.json` as the machine-readable registry.
 2. Select one matching ID and open only its generated file under `docs/arsenal/cards/`.
@@ -13,14 +30,4 @@ Do not load the full Arsenal during ordinary Stage startup. First identify the a
 
 To add or change an Arsenal weapon, edit its authoritative source section and registry entry, then run `python3 -B docs/arsenal/sync_arsenal_catalog.py`. Never hand-edit `docs/arsenal/catalog.md` or generated ID cards. Before commit, `python3 -B docs/arsenal/sync_arsenal_catalog.py --check` must pass.
 
-## Existing-evidence locator
-
-Before a broad search across Stage history or branches for an already-computed asset, query `docs/evidence-locator/index.json` with:
-
-`python3 -B docs/evidence-locator/query_evidence.py <terms>`
-
-Treat matches only as candidate locations and recheck live Stage authority before use. A query miss never proves that the repository lacks the asset.
-
-If a necessary bounded search discovers a reusable positive asset that was not registered, add its exact path, Git blob SHA, authority/status, object aliases, relations, outputs, limitations, and source ref to the locator, then run `python3 -B docs/evidence-locator/verify_evidence_locator.py`.
-
-Do not centralize negative search conclusions. Keep them in the relevant Stage's head-scoped `resolved_investigations` with explicit reopening conditions.
+If an exceptional bounded search discovers a genuinely cross-Stage reusable weapon, promote it through the normal Arsenal source/registry/sync workflow. Otherwise keep Stage-local evidence in the canonical final handoff.

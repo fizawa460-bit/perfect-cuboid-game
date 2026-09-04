@@ -1,14 +1,14 @@
 {
-  "schema": "STAGE35_EX_PESCH_E1_STATE_V12_COPRIME_E1_RECEIVER_FACTORIZATION",
+  "schema": "STAGE35_EX_PESCH_E1_STATE_V14_GLOBAL_RECIPROCITY_MOVING_RAMIFICATION_FREEZE",
   "stage": "35-EX",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
-  "base_main_sha": "0dff1852f30f832e5fef104bcd143c0ee82365c0",
+  "base_main_sha": "6d4354ca7e3d8162ad2f97d7aab086858c061503",
   "parent_authority": {
-    "unit": "35EX-13",
-    "status": "AUDITED_EXACT_ALTERNATE_NORM_GAUSSIAN_COUPLING_NO_CREDIT",
-    "hostile_reaudit_review": 5108343484,
-    "audited_head_sha": "6a2193c19cce6d9022764c2daf6a2431e2348c1f",
-    "merged_main_sha": "0dff1852f30f832e5fef104bcd143c0ee82365c0",
+    "unit": "35EX-14",
+    "status": "AUDITED_EXACT_COPRIME_E1_RECEIVER_FACTORIZATION_NO_CREDIT",
+    "hostile_audit_review": 5108445565,
+    "audited_head_sha": "ff502d2c9455ce60b4030843947e16e5bc84057c",
+    "merged_main_sha": "6d4354ca7e3d8162ad2f97d7aab086858c061503",
     "audited_theorem_credit": false
   },
   "true_owner": {
@@ -118,10 +118,13 @@
       "audited_theorem_credit": false
     },
     "35EX-14": {
-      "status": "PROVISIONAL_EXACT_COPRIME_E1_RECEIVER_FACTORIZATION_NO_CREDIT",
+      "status": "AUDITED_EXACT_COPRIME_E1_RECEIVER_FACTORIZATION_NO_CREDIT",
       "artifact": "stages/stage35-ex/35ex-14/coprime-e1-receiver-factorization.md",
       "breadth_audit": "stages/stage35-ex/35ex-14/fresh-receiver-breadth-audit.json",
       "verifier": "stages/stage35-ex/verify_stage35_ex_14.py",
+      "hostile_audit_review": 5108445565,
+      "audited_head_sha": "ff502d2c9455ce60b4030843947e16e5bc84057c",
+      "merged_main_sha": "6d4354ca7e3d8162ad2f97d7aab086858c061503",
       "result": "the raw E1 norm factors exactly as (p*d)^2*Lminus*Lplus with Lminus,Lplus positive odd coprime integers; E1 failure is exactly simultaneous squareness, and the 35EX-13 Gaussian sieve is exactly Lminus=square",
       "coprime_e1_receiver_factorization_proved_conditionally": true,
       "gaussian_sieve_identified_with_Lminus_square": true,
@@ -130,6 +133,41 @@
       "S34_W03_receiver_intersection_closed": false,
       "fresh_exhaustive_view_audit": true,
       "fresh_blind_rediscovery": true,
+      "audited_theorem_credit": false
+    },
+    "35EX-15": {
+      "status": "PROVISIONAL_EXACT_JOINT_LOCAL_FREE_SPLIT_SUPPORT_NO_CREDIT",
+      "artifact": "stages/stage35-ex/35ex-15/joint-local-free-split-support.md",
+      "verifier": "stages/stage35-ex/verify_stage35_ex_15.py",
+      "result": "the exact residual Lplus squareclass has no odd 3 mod4 support; on B35 the 2-adic and real places are automatically soluble, so any residual nonsquare valuation witness is a moving 1 mod4 split prime; the current S34-W03 local route is frozen at free split support",
+      "residual_squareclass_split_only": true,
+      "B35_implies_Lplus_Q2_square": true,
+      "real_place_automatic": true,
+      "fresh_split_support_witness": "(8,5,11,2): Lminus=39^2, Lplus=29*101",
+      "S34_W03_exact_branch_receiver_adapter_matched": true,
+      "S34_W03_receiver_intersection_closed": false,
+      "current_S34_W03_joint_local_route_frozen_free_split_support": true,
+      "all_future_local_global_arguments_ruled_out": false,
+      "audited_theorem_credit": false
+    },
+    "35EX-16": {
+      "status": "PROVISIONAL_EXACT_GLOBAL_RECIPROCITY_MOVING_RAMIFICATION_FREEZE_NO_CREDIT",
+      "artifact": "stages/stage35-ex/35ex-16/coprime-pair-global-reciprocity-freeze.md",
+      "verifier": "stages/stage35-ex/verify_stage35_ex_16.py",
+      "failed_hostile_audit_review": 5108674372,
+      "result": "on B35 the bare Lminus/Lplus Jacobi relation is tautological; only the c-coprime parts D_clean,T_clean and q_odd pair with Lplus by Jacobi symbol +1, while D/T prime support shared with c remains in the c-ramified layer together with moving p,d and the residual split kernel, so the current natural global reciprocity layer gives no contradiction",
+      "pair_jacobi_tautological": true,
+      "DT_clean_channel_jacobi_plus_one": true,
+      "DT_clean_means_c_coprime_parts_only": true,
+      "full_D_T_clean_channel_proved": false,
+      "D_ram_T_ram_retained_in_c_ramified_layer": true,
+      "q_clean_channel_jacobi_plus_one": true,
+      "residual_kernel_split_only_inherited": true,
+      "c_sign_ramified": true,
+      "p_d_normalization_ramified": true,
+      "current_global_jacobi_layer_gives_no_contradiction": true,
+      "all_global_reciprocity_or_Hilbert_arguments_ruled_out": false,
+      "route_frozen_moving_ramification": true,
       "audited_theorem_credit": false
     }
   },
@@ -166,31 +204,43 @@
     "GAUSSIAN_RATIO_PRESENTATION": {
       "status": "DOMINATED_BY_COPRIME_E1_RECEIVER_FACTORIZATION",
       "reason": "35EX-14 proves the 35EX-13 rational Gaussian square condition is exactly Lminus=square; the remaining E1 content is exactly Lplus=square"
+    },
+    "CURRENT_S34_W03_JOINT_LOCAL": {
+      "status": "FROZEN_FREE_SPLIT_SUPPORT",
+      "reason": "Lplus has split-only odd squareclass support, B35 makes the 2-adic and real places automatically soluble, and the residual odd-valuation witness support is moving rather than fixed by the existing source/reservoir routing layer",
+      "reopen_condition": "supply a new exact global relation, fixed-support theorem, or receiver-specific local classification that couples the moving 1 mod4 split-prime valuations"
+    },
+    "CURRENT_COPRIME_PAIR_GLOBAL_RECIPROCITY": {
+      "status": "FROZEN_MOVING_RAMIFICATION",
+      "reason": "the pair relation is a square tautology; only D_clean,T_clean and q_odd contribute Jacobi +1, while D_ram,T_ram remain inside the c-ramified layer and c,p,d plus the residual split kernel are moving ramified support with no proved fixed local symbols or parity relation",
+      "reopen_condition": "supply an exact receiver-specific theorem fixing the ramified local symbols or a global product relation coupling c (including D_ram,T_ram), p,d and the residual split kernel"
     }
   },
   "candidate_ledger_after_fresh_breadth_audit": {
-    "selected_live": "E1-COPRIME-RECEIVER-JOINT-LOCAL",
+    "selected_live": "E1-PRODUCT-HYPOTENUSE-NONNAIVE-DESCENT",
+    "just_frozen": ["E1-COPRIME-RECEIVER-JOINT-LOCAL","E1-COPRIME-PAIR-GLOBAL-RECIPROCITY"],
     "dominated": ["E1-ALTERNATE-NORM-SYMMETRY","E1-SIMULTANEOUS-GAUSSIAN-ORIENTATION"],
-    "untested": ["E1-PRODUCT-HYPOTENUSE-NONNAIVE-DESCENT","E1-COPRIME-PAIR-GLOBAL-RECIPROCITY"],
+    "untested": [],
     "blocked": ["E1-SUNIT-THUE-DYNAMIC-SUPPORT","E1-UNIFORM-ELLIPTIC-HEIGHT","E1-FIXED-FIBER-TORSION"],
     "audit_artifact": "stages/stage35-ex/35ex-14/fresh-receiver-breadth-audit.json"
   },
   "current": {
-    "unit": "35EX-15_COPRIME_RECEIVER_JOINT_LOCAL_OR_FREE_SUPPORT",
-    "status": "SELECTED_FROM_FRESH_RECEIVER_BREADTH_AUDIT_NO_CREDIT",
-    "next_exact_leaf": "TEST_THE_EXACT_S34_W03_JOINT_SYSTEM_B35_EQUALS_MASTER_HIT_PLUS_LMINUS_SQUARE_AND_K35_EQUALS_LPLUS_SQUARE_BY_EXHAUSTIVE_LOCAL_OR_GLOBAL_ARITHMETIC;_IF_FREE_SUPPORT_SURVIVES_FREEZE_THIS_LOCAL_ROUTE",
+    "unit": "35EX-17_PRODUCT_HYPOTENUSE_SUCCESSOR_OR_NO_SELF_MAP",
+    "status": "SELECTED_AFTER_GLOBAL_RECIPROCITY_MOVING_RAMIFICATION_FREEZE_NO_CREDIT",
+    "next_exact_leaf": "USE_THE_FULL_RECEIVER_PRODUCT_HYPOTENUSE_PRIMITIVE_TRIPLE_TO_TEST_FOR_A_SAME_TYPE_ADMISSIBLE_MASTER_HIT_PLUS_E1_COUNTEREXAMPLE_SUCCESSOR_WITH_STRICTLY_SMALLER_WELL_FOUNDED_HEIGHT;_IF_THE_TWO_ORIGINAL_EUCLID_TRIPLES_AND_CANONICAL_GCD_CHANNELS_CANNOT_BE_RECOVERED_FREEZE_DESCENT_AND_TRIGGER_THE_PARKING_BREADTH_PROTOCOL",
     "working_set": [
+      "stages/stage35-ex/35ex-16/coprime-pair-global-reciprocity-freeze.md",
+      "stages/stage35-ex/35ex-15/joint-local-free-split-support.md",
       "stages/stage35-ex/35ex-14/coprime-e1-receiver-factorization.md",
-      "stages/stage35-ex/35ex-14/fresh-receiver-breadth-audit.json",
-      "stages/stage35-ex/35ex-11/reciprocity-routing-and-local-route-freeze.md",
       "stages/stage35-ex/MAIN-STATE.json"
     ]
   },
   "arsenal": {
     "S34_W01": "NOT_UNLOCKED_DYNAMIC_SOURCE_SUPPORT_REMAINS",
-    "S34_W03": "EXACT_BRANCH_RECEIVER_ADAPTER_MATCHED_JOINT_TEST_NOT_YET_PROVED",
+    "S34_W03": "EXACT_BRANCH_RECEIVER_ADAPTER_MATCHED_CURRENT_LOCAL_ROUTE_FROZEN_INTERSECTION_NOT_CLOSED",
     "S31_W01": "DORMANT_NO_FIXED_QUARTIC_BRANCH",
     "S34_W02": "LOCKED_NO_GLOBAL_FINITE_REDUCTION",
+    "matching_global_reciprocity_Hilbert_Jacobi_card_found": false,
     "stage34_concrete_coefficients_branches_and_local_primes_transfer": false
   },
   "claims": {
