@@ -1,26 +1,26 @@
-name: Stage33 V39 locator-first routing
+name: Stage33 V41 Arsenal-first bounded-search routing
 
 on:
   pull_request:
     paths:
-      - 'docs/evidence-locator/**'
+      - 'AGENTS.md'
+      - 'docs/arsenal/**'
       - 'docs/research-os/policies/repository-asset-discovery.md'
-      - 'stages/stage33/33-12/j2-post-v38-locator-first-construction-policy-v39.json'
-      - 'stages/stage33/33-12/verify_j2_post_v38_locator_first_construction_policy_v39.py'
-      - 'stages/stage33/33-12/verify_j2_post_v36_controller_generator_sync_v38.py'
+      - 'stages/stage33/33-12/j2-post-v39-arsenal-first-bounded-search-policy-v41.json'
+      - 'stages/stage33/33-12/verify_j2_post_v39_arsenal_first_bounded_search_policy_v41.py'
       - 'stages/stage33/MAIN-START-HERE.md'
       - 'stages/stage33/MAIN-STATE.json'
       - 'stages/stage33/CURRENT.md'
       - 'stages/stage33/controller.json'
       - 'stages/stage33/sync_main_state.py'
-      - '.github/workflows/stage33-v39-routing.yml'
+      - '.github/workflows/stage33-v41-routing.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: stage33-v39-routing-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v41-routing-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -34,8 +34,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Verify V39 locator-first construction contract
+      - name: Verify V41 Arsenal-first bounded-search contract
         run: |
-          python stages/stage33/33-12/verify_j2_post_v38_locator_first_construction_policy_v39.py
+          python stages/stage33/33-12/verify_j2_post_v39_arsenal_first_bounded_search_policy_v41.py
           python stages/stage33/sync_main_state.py --check
           git diff --check
