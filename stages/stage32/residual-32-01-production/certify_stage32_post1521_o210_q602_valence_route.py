@@ -6,9 +6,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 CERT_PATH = "stages/stage32/residual-32-01-production/post1521-o210-q602-valence-route.json"
-EXPECTED_CANONICAL = "cfd490ca23c6498ae9236228206b69c11290b9a5381e42161e9389e02b71ebcc"
+EXPECTED_CANONICAL = "201d4418ff02411119f91db409cb97409da713148ab29c1407e6c8847ecda57b"
 EXPECTED_DIAGONAL = [118,126,134,142,150,158,166,174,182,190,198,206,214,222,230,238,246,254]
 EXPECTED_NU = [-17,-15,-13,-11,-9,-7,-5,-3,-1,1,3,5,7,9,11,13,15,17]
+EXPECTED_POST1490_ORIENTATION_PATH = "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-source-note.md"
+EXPECTED_POST1490_ORIENTATION_BLOB = "25e365475b41c917a4bab5acc06bda5e9738b8e7"
 
 
 def blob_sha1(path: Path) -> str:
@@ -48,6 +50,10 @@ def main() -> None:
     locks = cert["source_locks"]
     spectrum = load_lock(locks["post1518_trace_spectrum"])
     repair_note = load_lock(locks["post1500_repair_source_note"])
+    orientation_lock = locks["post1490_correspondence_orientation_source_note"]
+    assert orientation_lock["path"] == EXPECTED_POST1490_ORIENTATION_PATH
+    assert orientation_lock["blob_sha1"] == EXPECTED_POST1490_ORIENTATION_BLOB
+    orientation_note = load_lock(orientation_lock)
     arsenal_index = load_lock(locks["arsenal_index"])
     s34 = load_lock(locks["arsenal_s34_w03"])
     s32 = load_lock(locks["arsenal_s32_pw03"])
@@ -57,6 +63,10 @@ def main() -> None:
     assert spectrum["exact_spectrum"]["diagonal_intersection_values"] == EXPECTED_DIAGONAL
     assert spectrum["decision"]["Q602_excluded"] is False
     assert "Tr_Q(T^dagger*T)=2*Q(T)" in repair_note.replace(" ", "") or "Tr_Q(T^dagger*T) = 2*Q(T)" in repair_note
+
+    # Immutable retained Stage32 correspondence orientation / Rosati convention.
+    assert "T = (f1)_* (f2)^* in End(J)" in orientation_note
+    assert "Phi^dagger Phi = [[105, T], [T^dagger, 81]]" in orientation_note
 
     assert arsenal_index["registry_contract"]["authority_order"][0] == "active stage controller and current source locks"
     assert "RECEIVER_RESTRICTED_INTERSECTION_EXCLUSION" in s34
@@ -75,6 +85,19 @@ def main() -> None:
     fixed = cert["fixed_input"]
     assert fixed["O"] == 210 and fixed["Q"] == 602 and fixed["genus_C0"] == 2
     assert fixed["bidegree"] == [105,81] and fixed["diagonal_values"] == EXPECTED_DIAGONAL
+
+    # Load-bearing orientation adapter: Dolgachev first->second versus retained inverse orientation.
+    adapter = cert["orientation_adapter"]
+    assert adapter["dolgachev_phi_orientation"] == "first_to_second"
+    assert adapter["retained_operator"] == "T=(f1)_*(f2)^*"
+    assert adapter["retained_operator_orientation_relative_to_dolgachev_Gamma"] == "inverse_correspondence"
+    assert adapter["inverse_correspondence_same_valence_nu"] is True
+    assert adapter["conclusion_for_retained_operator"] == "T=-nu*id"
+    assert "Dolgachev's `phi_Gamma` is the homomorphism attached to the correspondence in the first-to-second direction" in route_note
+    assert "the retained Stage32 operator `T=(f1)_*(f2)^*` is the operator of the inverse correspondence `Gamma^{-1}`" in route_note
+    assert "The inverse correspondence has the same valence `nu`" in route_note
+    assert "Dolgachev Proposition 5.5.1 applies to `Gamma^{-1}`" in route_note
+    assert "`T = -nu * id_J(C0)`" in route_note
 
     # Recompute the conditional arithmetic independently.
     nu = [(m - 186) // 4 for m in EXPECTED_DIAGONAL]
@@ -104,7 +127,9 @@ def main() -> None:
     assert "does **not** prove that `Gamma` has valence" in route_note
     ext = locks["external_valence_source"]
     assert ext["author"] == "Igor Dolgachev" and ext["section"] == "5.5.1"
+    assert ext["title"] == "Classical Algebraic Geometry: a modern view"
     assert ext["proposition"] == "5.5.1" and "Cayley-Brill" in ext["corollary"]
+    assert "*Classical Algebraic Geometry: a modern view*" in route_note
 
     ctl = json.loads((ROOT / "stages/stage32/controller.json").read_text())
     assert ctl["schema"] == "STAGE32_LOWGENUS_PICARD_CONTROLLER_V247_POST1520_Q602_RETAINED_GEOMETRY_18_TO_18_AUDITED"
@@ -135,7 +160,7 @@ def main() -> None:
         "route_credit","theorem_credit","endpoint_credit","perfect_cuboid_claim"
     ])
 
-    print("PASS: Stage32 new valence route is source-routed and exact conditionally: valence => Q=2 nu^2, so Q602 impossible; actual Gamma valence remains unproved and O210 stays open.")
+    print("PASS: Stage32 valence route is source-routed with the explicit first-to-second/inverse-correspondence adapter; conditionally valence => Q=2 nu^2, so Q602 is impossible, while actual Gamma valence remains unproved and O210 stays open.")
 
 if __name__ == "__main__":
     main()
