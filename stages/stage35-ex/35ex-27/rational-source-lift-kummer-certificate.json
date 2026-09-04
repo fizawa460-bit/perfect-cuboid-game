@@ -1,0 +1,98 @@
+{
+  "schema": "STAGE35_EX_27_RATIONAL_SOURCE_LIFT_KUMMER_NORMAL_FORM_CERTIFICATE_V1",
+  "status": "PROVISIONAL_EXACT_RATIONAL_SOURCE_LIFT_KUMMER_NORMAL_FORM_NO_CREDIT",
+  "authority": {
+    "parent_unit": "35EX-26",
+    "parent_pass_source": "USER_CONFIRMED_HOSTILE_PASS",
+    "parent_audited_exact_head_sha": "d836c743628b47d62e4db18c344981be8fe839f4",
+    "parent_exact_head_ci_run": 33926330680,
+    "parent_exact_head_ci_job": 101195546705,
+    "parent_merged_main_sha": "74144644975d7800c6c5b529c5d8789f70366c2e",
+    "breadth_audit": "stages/stage35-ex/35ex-26/post-base-involution-breadth-audit.json"
+  },
+  "rational_source_lift": {
+    "quotient_base": "h^2=u*(u+2)",
+    "lift_discriminant": "k^2=u^2-4",
+    "forward_k": "x-1/x",
+    "converse_x": "(u+k)/2",
+    "converse_inverse_x": "(u-k)/2",
+    "converse_p": "h*x/(x+1)",
+    "rational_source_lift_iff": true,
+    "fixed_field_point_without_lift_is_overcover": true
+  },
+  "descended_receiver_input": {
+    "Q1": "R=(u+2)*r^2",
+    "Q2": "R+u=(u+2)*s^2",
+    "Q3": "B^2=R^2+u*R+1",
+    "Q4": "b^2=(2*R+u+2*B)/(u+2)"
+  },
+  "kummer_coordinates": {
+    "A": "alpha^2",
+    "alpha": "h*(s+r)/u",
+    "alpha_inverse": "h*(s-r)/u",
+    "C": "(u+2)*r*s",
+    "beta": "B+C",
+    "beta_inverse": "B-C",
+    "K1": "u=2*A*(beta^2-1)/(beta*(A^2-1))",
+    "K2": "b^2=(A*beta+1)/(A+beta)",
+    "kappa": "k*beta*(A^2-1)/(2*b*(A+beta))",
+    "K3": "kappa^2=(beta-A)*(A*beta-1)",
+    "exact": true
+  },
+  "fixed_alpha_genus_one": {
+    "t": "b^2",
+    "beta_from_K2": "(1-A*t)/(t-A)",
+    "W": "kappa*(t-A)",
+    "quartic": "W^2=(A^2+1-2*A*b^2)*(2*A-(A^2+1)*b^2)",
+    "binary_quartic_I": "A^8+60*A^6+134*A^4+60*A^2+1",
+    "binary_quartic_J": "2*(A^4+6*A^2+1)*(A^4-12*A^3+6*A^2-12*A+1)*(A^4+12*A^3+6*A^2+12*A+1)",
+    "four_I3_minus_J2": "1728*A^2*(A-1)^8*(A+1)^8*(A^2+1)^2",
+    "generic_smooth_on_retained_open": true,
+    "absolute_invariant_nonconstant": true,
+    "fixed_curve_reduction": false
+  },
+  "arsenal": {
+    "index": {
+      "path": "docs/arsenal/index.json",
+      "blob_sha": "aa45d19c2f1d8970c7f142bf744c5c17e75abe5a"
+    },
+    "S34_W03": {
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96",
+      "decision": "ROUTER_AFTER_EXACT_RATIONAL_SOURCE_LIFT_AND_KUMMER_DICTIONARY",
+      "receiver_intersection_closed": false
+    },
+    "S31_W01": {
+      "path": "docs/arsenal/cards/formal/S31-W01.md",
+      "blob_sha": "122a6c1c5c871c1c7b797017e854de8ec55e7c50",
+      "decision": "FIXED_ALPHA_GENUS_ONE_BIRATIONAL_ROUTER_ONLY",
+      "uniform_closure": false
+    },
+    "S34_W02_unlocked": false
+  },
+  "result": {
+    "rational_source_lift_discriminant_required": true,
+    "descended_kummer_normal_form_exact": true,
+    "q4_mobius_square_exact": true,
+    "source_lift_second_kummer_square_exact": true,
+    "fixed_alpha_genus_one_quartic_exact": true,
+    "fixed_alpha_family_nonisotrivial": true,
+    "arithmetic_dimension_drop_to_fixed_curve": false,
+    "receiver_intersection_closed": false,
+    "fresh_breadth_audit_required_after_hostile_pass": true
+  },
+  "claims": {
+    "new_theorem_credit": false,
+    "uniform_receiver_emptiness": false,
+    "uniform_full_MW_group": false,
+    "new_Brauer_obstruction": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "audited_theorem_credit": false
+  }
+}
