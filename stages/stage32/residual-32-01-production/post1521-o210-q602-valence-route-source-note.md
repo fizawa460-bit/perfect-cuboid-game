@@ -14,7 +14,7 @@ Therefore there is no direct applicable Arsenal card for the missing weapon type
 
 ## External source lock: valence
 
-Source: Igor Dolgachev, *Topics in Classical Algebraic Geometry*, Section 5.5.1, Proposition 5.5.1 and Corollary 5.5.2 (Cayley-Brill formula). Public course copy/search surface: `https://mathweb.ucsd.edu/~eizadi/207A-14/CAG.pdf` (Section 5.5.1).
+Source: Igor Dolgachev, *Classical Algebraic Geometry: a modern view*, Section 5.5.1, Proposition 5.5.1 and Corollary 5.5.2 (Cayley-Brill formula). Public course copy/search surface: `https://mathweb.ucsd.edu/~eizadi/207A-14/CAG.pdf` (Section 5.5.1).
 
 The source states that for a correspondence `R` of valence `nu` on a nonsingular curve `C`:
 
@@ -23,7 +23,29 @@ The source states that for a correspondence `R` of valence `nu` on a nonsingular
 
    `a + b + 2*nu*g`.
 
-For the present Stage32 object, if `Gamma` has valence `nu in Z`, then
+The orientation in this statement is load-bearing. Dolgachev's `phi_Gamma` is the homomorphism attached to the correspondence in the first-to-second direction. Stage32's retained operator convention was fixed earlier in the audited post1490 correspondence/Rosati source note:
+
+`stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-source-note.md`
+
+with immutable blob SHA-1
+
+`25e365475b41c917a4bab5acc06bda5e9738b8e7`.
+
+That note fixes
+
+`T = (f1)_* (f2)^* in End(J)`
+
+and the Rosati switch-of-factors relation inside
+
+`Phi^dagger Phi = [[105, T], [T^dagger, 81]]`.
+
+Thus, relative to Dolgachev's first-to-second convention for `Gamma`, the retained Stage32 operator `T=(f1)_*(f2)^*` is the operator of the inverse correspondence `Gamma^{-1}`. The inverse correspondence has the same valence `nu`. Therefore Dolgachev Proposition 5.5.1 applies to `Gamma^{-1}` and gives, in the retained Stage32 orientation,
+
+`T = -nu * id_J(C0)`.
+
+This is the required orientation adapter. The post1490 lock fixes the Stage32 operator/Rosati convention; it is not being used to manufacture valence for the actual `Gamma`.
+
+For the present Stage32 object, if `Gamma` has valence `nu in Z`, then the inverse has the same valence and hence
 
 `T = -nu * id_J(C0)`
 
