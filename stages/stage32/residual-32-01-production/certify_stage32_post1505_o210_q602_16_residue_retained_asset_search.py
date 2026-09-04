@@ -113,8 +113,9 @@ def main() -> None:
     assert "canonical final handoff" in policy
     assert "## Arsenal" in policy
     assert "not a mathematical claim that the repository lacks the object" in policy
-    assert "Recursive repository-tree acquisition is forbidden by default" in agents
-    assert "search miss never proves global repository absence" in agents.lower()
+    assert "search-first, not tree-first" in agents
+    assert "Do not acquire a recursive repository tree by default" in agents
+    assert "search miss never proves repository-wide absence" in agents.lower()
 
     audited = adapter["q602_pointwise_exact_W_test"]
     assert audited["surviving_residue_count"] == 16
