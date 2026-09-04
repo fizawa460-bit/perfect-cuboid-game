@@ -1,152 +1,84 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-
-import hashlib
-import json
+import hashlib,json
 from pathlib import Path
-
-ROOT = Path(__file__).resolve().parents[2]
-STATE_PATH = ROOT / "stages/stage36/MAIN-STATE.json"
-INITIAL_BASE = "c20ee71d91af850103fd7406f9b1072448a11fcf"
-PENDING_36_01_BASE = "5ed32fa53bdecb735f461d7c27e85851d9ad8c21"
-AUDITED_36_01_MERGE = "8c59c81bcf0bcd442705cfb7a3db297253b34679"
-PENDING_36_02_BASE = "a873c8fca0074aa966a22e36475a3551a378560d"
-AUDITED_36_02_PR_MERGE = "4c93ccb79e95cbcd9e2416ad3b6a3f4788d6f586"
-AUDITED_36_02_PROMOTION_MERGE = "26fb608cb2551ab2102ae36ad3b57c063959df58"
-PENDING_36_03_BASE = "bdd707e52ded061014bfbb6158762e8b997e7a38"
-AUDITED_36_03_MERGE = "45f290a443cf71b1fc62f031994122c3fa58f0e9"
-SOURCES = {
-    "stage29_active_kernel_ledger": ("stages/stage29/29-16/active-kernel-ledger.json", "5d6d4c7709b57064aea5dc0ece672c5170c39550"),
-    "stage29_endpoint_hub_graph": ("stages/stage29/29-06/endpoint-hub-graph.json", "7ea59474767f81fbaa4837c8cbc94b535560617b"),
-    "stage29_campedelli_route_contract": ("stages/stage29/29-02hb/route-contract.json", "75045d8f15786836e8a7383fc07ef95161fa86e7"),
-    "stage29_campedelli_arithmetic_routing": ("stages/stage29/29-02hb/arithmetic-routing.md", "ff83f652e2c9e95b0670c0964b9c8cf0fbccd696"),
-    "stage29_campedelli_quotient_adapter": ("stages/stage29/29-02hb/campedelli-quotient-adapter.md", "5f959d60106243bb31df06a3961ab04182d78fc7"),
-    "stage29_campedelli_source_lock": ("stages/stage29/29-02hb/source-lock.md", "713f22bb1347b8c6d5f8b32bfc2a24b3ce8b2e5d"),
-}
-FRONTIER = {
-    "ten_Q_defined_kernels": True,
-    "H_group": "(Z/2)^3",
-    "canonical_quotient_degree": 8,
-    "resolved_etale_quotient_degree": 8,
-    "certified_Q_symmetry_orbit_sizes": [6, 2, 2],
-    "geometric_Qi_orbit_sizes": [8, 2],
-    "exact_Q_isomorphism_class_count_proved": False,
-    "execution_representative_count": 3,
-    "endpoint_to_every_audited_quotient_Q_point_push": True,
-    "quotient_Q_point_implies_endpoint_Q_point": False,
-    "H1_without_ramification_is_finite": False,
-}
-
-
-def blob_sha(path: Path) -> str:
-    data = path.read_bytes()
-    return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
-
-
-def require(ok: bool, msg: str) -> None:
-    if not ok:
-        raise SystemExit(msg)
-
-
-def main() -> None:
-    state = json.loads(STATE_PATH.read_text())
-    require(state.get("stage") == "36", "Stage36 number moved")
-    schema = state.get("schema")
-    allowed = {
-        "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V1_INITIAL",
-        "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V2_36_01_PENDING_AUDIT",
-        "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V3_36_01_AUDITED",
-        "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V4_36_02_PENDING_AUDIT",
-        "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V5_36_02_AUDITED",
-        "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V6_36_03_PENDING_AUDIT",
-        "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V7_36_03_AUDITED",
-    }
-    require(schema in allowed, "unrecognized Stage36 successor schema")
-
-    k = state.get("source_kernel", {})
-    require(k.get("kernel") == "K16-C3-CAMPEDELLI-UNIFORM-TORSOR", "source kernel moved")
-    require(k.get("execution_class") == 3, "execution class moved")
-    require(k.get("children") == ["R29-CAMP2"], "source receiver moved")
-    require(k.get("parent_routes") == ["Q11-CAMPEDELLI"], "parent route moved")
-    require(k.get("endpoint_decision_capable") is True, "endpoint capability moved")
-
-    expected_locks = {key: {"path": rel, "blob_sha": sha} for key, (rel, sha) in SOURCES.items()}
-    require(state.get("source_locks") == expected_locks, "source-lock set moved")
-    for key, (rel, sha) in SOURCES.items():
-        require(blob_sha(ROOT / rel) == sha, f"source blob mismatch: {key}")
-    require(state.get("audited_frontier") == FRONTIER, "imported Stage29 Campedelli frontier moved")
-
-    sibling = state.get("sibling_interfaces", {}).get("K16-C2-BRAUER-EXPLICIT-CHAIN", {})
-    require(sibling.get("receiver") == "R29-CAMP4", "Campedelli sibling receiver moved")
-    require(sibling.get("relationship") == "SIBLING_ASSET_PROVIDER_ONLY", "Campedelli sibling relation moved")
-    require(sibling.get("automatic_authority_merge") is False, "sibling auto-merge enabled")
-    require(sibling.get("automatic_R29_CAMP2_closure") is False, "sibling auto-close enabled")
-    require(all(v is False for v in state.get("claims", {}).values()), "Stage36 higher credit is true")
-
-    if schema == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V1_INITIAL":
-        require(state.get("status") == "PLANNED_NOT_STARTED", "initial status moved")
-        require(state.get("base_main_sha") == INITIAL_BASE, "initial base lock moved")
-        require(state.get("completed_units") == {}, "36-01 started in initial schema")
-        return
-
-    if schema == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V2_36_01_PENDING_AUDIT":
-        require(state.get("status") == "ACTIVE_PENDING_HOSTILE_AUDIT", "36-01 pending status moved")
-        require(state.get("base_main_sha") == PENDING_36_01_BASE, "36-01 pending base moved")
-        require(state.get("completed_units", {}).get("36-01", {}).get("promotion_status") == "PROVISIONAL_NOT_AUDITED", "36-01 pending promotion moved")
-        return
-
-    u1 = state.get("completed_units", {}).get("36-01", {})
-    require(u1.get("status") == "AUDITED_PASS" and u1.get("promotion_status") == "AUDITED", "36-01 audited status moved")
-    require(u1.get("hostile_audit_review") == 5112705173 and u1.get("audited_head") == "e2f6c5a2f34d76c1f17f90983a4e7fea62816621", "36-01 audit identity moved")
-    require(u1.get("merged_main_sha") == AUDITED_36_01_MERGE, "36-01 merge authority moved")
-    require(state.get("promotion_gates", {}).get("source_authority_lock_complete") is True, "36-01 promotion gate lost")
-
-    if schema == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V3_36_01_AUDITED":
-        require(state.get("base_main_sha") == AUDITED_36_01_MERGE, "36-01 audited base moved")
-        return
-    if schema == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V4_36_02_PENDING_AUDIT":
-        require(state.get("base_main_sha") == PENDING_36_02_BASE, "36-02 pending base moved")
-        require(state.get("promotion_gates", {}).get("three_Q_representatives_exact") is False, "36-02 prematurely promoted")
-        return
-
-    a2 = state.get("stage36_36_02_authority", {})
-    require(a2.get("hostile_audit_review") == 5113379283 and a2.get("audited_head") == "3a78f9ff156b53f509625d353df48d1b3e02b836", "36-02 audit identity moved")
-    require(a2.get("merged_main_sha") == AUDITED_36_02_PR_MERGE, "36-02 audited PR merge moved")
-    require(state.get("promotion_gates", {}).get("three_Q_representatives_exact") is True, "36-02 audited gate lost")
-
-    if schema == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V5_36_02_AUDITED":
-        require(state.get("status") == "ACTIVE" and state.get("base_main_sha") == AUDITED_36_02_PR_MERGE, "36-02 promotion lifecycle moved")
-        return
-
-    promo = state.get("stage36_36_02_promotion", {})
-    require(promo.get("pr") == 1548 and promo.get("merged_main_sha") == AUDITED_36_02_PROMOTION_MERGE and promo.get("NEW_THEOREM_CREDIT") is False, "36-02 promotion provenance moved")
-
-    if schema == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V6_36_03_PENDING_AUDIT":
-        require(state.get("status") == "ACTIVE_PENDING_HOSTILE_AUDIT" and state.get("base_main_sha") == PENDING_36_03_BASE, "36-03 lifecycle/base moved")
-        require(state.get("freshness_sync_36_03") == {
-            "sync_pr": 1554,
-            "main_sha": PENDING_36_03_BASE,
-            "merge_commit": "a741d573da4045cdee984a0541d71a55a9d7c0a9",
-            "scope": "Stage32-only advance via #1550; no Stage36, Stage29 Campedelli/physical-open source, or Arsenal authority changes",
-        }, "36-03 freshness moved")
-        require(state.get("promotion_gates", {}).get("physical_open_push_and_boundary_complete") is False, "36-03 prematurely promoted")
-    else:
-        require(state.get("status") == "ACTIVE" and state.get("base_main_sha") == AUDITED_36_03_MERGE, "36-03 audited promotion lifecycle moved")
-        a3 = state.get("stage36_36_03_authority", {})
-        require(a3.get("hostile_audit_review") == 5113890803 and a3.get("audited_head") == "5fd7af75ede4cd2eceb70f9f21bd2b98ec5453a6", "36-03 audit identity moved")
-        require(a3.get("merged_main_sha") == AUDITED_36_03_MERGE, "36-03 merge authority moved")
-        require(state.get("promotion_gates", {}).get("physical_open_push_and_boundary_complete") is True, "36-03 audited gate lost")
-        require(state.get("current", {}).get("unit") == "36-04", "36-04 successor not active")
-        require("36-04" not in state.get("completed_units", {}), "36-04 started in promotion state")
-
-    for rel in ["stages/stage36/ROADMAP.md", "stages/stage36/MAIN-START-HERE.md", "stages/stage36/MAIN-BATCH-HANDOFF.md"]:
-        require((ROOT / rel).exists(), f"missing Stage36 bootstrap file: {rel}")
-
-    print("PASS STAGE36_BOOTSTRAP_AUTHORITY_SUCCESSOR_SAFE")
-    print(f"schema={schema}")
-    print("source_blob_locks=6; frontier=10 kernels; Q symmetry 6+2+2; H=(Z/2)^3")
-    print("no route/theorem/endpoint/perfect-cuboid credit")
-
-
-if __name__ == "__main__":
-    main()
+ROOT=Path(__file__).resolve().parents[2]
+STATE_PATH=ROOT/"stages/stage36/MAIN-STATE.json"
+INITIAL_BASE="c20ee71d91af850103fd7406f9b1072448a11fcf"
+PENDING_36_01_BASE="5ed32fa53bdecb735f461d7c27e85851d9ad8c21"
+AUDITED_36_01_MERGE="8c59c81bcf0bcd442705cfb7a3db297253b34679"
+PENDING_36_02_BASE="a873c8fca0074aa966a22e36475a3551a378560d"
+AUDITED_36_02_PR_MERGE="4c93ccb79e95cbcd9e2416ad3b6a3f4788d6f586"
+AUDITED_36_02_PROMOTION_MERGE="26fb608cb2551ab2102ae36ad3b57c063959df58"
+PENDING_36_03_BASE="bdd707e52ded061014bfbb6158762e8b997e7a38"
+AUDITED_36_03_MERGE="45f290a443cf71b1fc62f031994122c3fa58f0e9"
+AUDITED_36_03_PROMOTION_MERGE="efe25f4ef74dc776da7ccad3f5cd786b0b2906e4"
+SOURCES={
+"stage29_active_kernel_ledger":("stages/stage29/29-16/active-kernel-ledger.json","5d6d4c7709b57064aea5dc0ece672c5170c39550"),
+"stage29_endpoint_hub_graph":("stages/stage29/29-06/endpoint-hub-graph.json","7ea59474767f81fbaa4837c8cbc94b535560617b"),
+"stage29_campedelli_route_contract":("stages/stage29/29-02hb/route-contract.json","75045d8f15786836e8a7383fc07ef95161fa86e7"),
+"stage29_campedelli_arithmetic_routing":("stages/stage29/29-02hb/arithmetic-routing.md","ff83f652e2c9e95b0670c0964b9c8cf0fbccd696"),
+"stage29_campedelli_quotient_adapter":("stages/stage29/29-02hb/campedelli-quotient-adapter.md","5f959d60106243bb31df06a3961ab04182d78fc7"),
+"stage29_campedelli_source_lock":("stages/stage29/29-02hb/source-lock.md","713f22bb1347b8c6d5f8b32bfc2a24b3ce8b2e5d")}
+FRONTIER={"ten_Q_defined_kernels":True,"H_group":"(Z/2)^3","canonical_quotient_degree":8,"resolved_etale_quotient_degree":8,"certified_Q_symmetry_orbit_sizes":[6,2,2],"geometric_Qi_orbit_sizes":[8,2],"exact_Q_isomorphism_class_count_proved":False,"execution_representative_count":3,"endpoint_to_every_audited_quotient_Q_point_push":True,"quotient_Q_point_implies_endpoint_Q_point":False,"H1_without_ramification_is_finite":False}
+def blob_sha(p):
+ d=p.read_bytes(); return hashlib.sha1(b"blob "+str(len(d)).encode()+b"\0"+d).hexdigest()
+def require(ok,msg):
+ if not ok: raise SystemExit(msg)
+def main():
+ s=json.loads(STATE_PATH.read_text()); schema=s.get("schema")
+ allowed={"STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V1_INITIAL","STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V2_36_01_PENDING_AUDIT","STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V3_36_01_AUDITED","STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V4_36_02_PENDING_AUDIT","STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V5_36_02_AUDITED","STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V6_36_03_PENDING_AUDIT","STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V7_36_03_AUDITED","STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V8_36_04_PENDING_AUDIT"}
+ require(schema in allowed,"unrecognized Stage36 successor schema")
+ require(s.get("stage")=="36","Stage36 number moved")
+ k=s.get("source_kernel",{})
+ require(k.get("kernel")=="K16-C3-CAMPEDELLI-UNIFORM-TORSOR" and k.get("execution_class")==3,"source kernel moved")
+ require(k.get("children")==["R29-CAMP2"] and k.get("parent_routes")==["Q11-CAMPEDELLI"],"source route moved")
+ require(k.get("endpoint_decision_capable") is True,"endpoint capability moved")
+ expected={key:{"path":rel,"blob_sha":sha} for key,(rel,sha) in SOURCES.items()}
+ require(s.get("source_locks")==expected,"source-lock set moved")
+ for key,(rel,sha) in SOURCES.items(): require(blob_sha(ROOT/rel)==sha,f"source blob mismatch: {key}")
+ require(s.get("audited_frontier")==FRONTIER,"imported Stage29 frontier moved")
+ sibling=s.get("sibling_interfaces",{}).get("K16-C2-BRAUER-EXPLICIT-CHAIN",{})
+ require(sibling.get("receiver")=="R29-CAMP4" and sibling.get("relationship")=="SIBLING_ASSET_PROVIDER_ONLY","sibling interface moved")
+ require(sibling.get("automatic_authority_merge") is False and sibling.get("automatic_R29_CAMP2_closure") is False,"sibling auto-credit enabled")
+ require(all(v is False for v in s.get("claims",{}).values()),"Stage36 higher credit is true")
+ if schema.endswith("V1_INITIAL"):
+  require(s.get("status")=="PLANNED_NOT_STARTED" and s.get("base_main_sha")==INITIAL_BASE,"V1 lifecycle moved"); require(s.get("completed_units")=={},"36-01 started in V1"); return
+ if schema.endswith("V2_36_01_PENDING_AUDIT"):
+  require(s.get("status")=="ACTIVE_PENDING_HOSTILE_AUDIT" and s.get("base_main_sha")==PENDING_36_01_BASE,"V2 lifecycle moved"); require(s.get("completed_units",{}).get("36-01",{}).get("promotion_status")=="PROVISIONAL_NOT_AUDITED","36-01 promotion moved"); return
+ u1=s.get("completed_units",{}).get("36-01",{})
+ require(u1.get("status")=="AUDITED_PASS" and u1.get("promotion_status")=="AUDITED","36-01 audited status moved")
+ require(u1.get("hostile_audit_review")==5112705173 and u1.get("audited_head")=="e2f6c5a2f34d76c1f17f90983a4e7fea62816621" and u1.get("merged_main_sha")==AUDITED_36_01_MERGE,"36-01 authority moved")
+ g=s.get("promotion_gates",{}); require(g.get("source_authority_lock_complete") is True,"36-01 gate lost")
+ if schema.endswith("V3_36_01_AUDITED"):
+  require(s.get("base_main_sha")==AUDITED_36_01_MERGE,"V3 base moved"); return
+ if schema.endswith("V4_36_02_PENDING_AUDIT"):
+  require(s.get("base_main_sha")==PENDING_36_02_BASE and g.get("three_Q_representatives_exact") is False,"V4 boundary moved"); return
+ a2=s.get("stage36_36_02_authority",{})
+ require(a2.get("hostile_audit_review")==5113379283 and a2.get("audited_head")=="3a78f9ff156b53f509625d353df48d1b3e02b836" and a2.get("merged_main_sha")==AUDITED_36_02_PR_MERGE,"36-02 authority moved")
+ require(g.get("three_Q_representatives_exact") is True,"36-02 gate lost")
+ if schema.endswith("V5_36_02_AUDITED"):
+  require(s.get("status")=="ACTIVE" and s.get("base_main_sha")==AUDITED_36_02_PR_MERGE,"V5 lifecycle moved"); return
+ p2=s.get("stage36_36_02_promotion",{}); require(p2.get("pr")==1548 and p2.get("merged_main_sha")==AUDITED_36_02_PROMOTION_MERGE and p2.get("NEW_THEOREM_CREDIT") is False,"36-02 promotion moved")
+ if schema.endswith("V6_36_03_PENDING_AUDIT"):
+  require(s.get("status")=="ACTIVE_PENDING_HOSTILE_AUDIT" and s.get("base_main_sha")==PENDING_36_03_BASE,"V6 lifecycle moved")
+  require(s.get("freshness_sync_36_03",{}).get("sync_pr")==1554 and g.get("physical_open_push_and_boundary_complete") is False,"V6 freshness/gate moved"); return
+ a3=s.get("stage36_36_03_authority",{})
+ require(a3.get("hostile_audit_review")==5113890803 and a3.get("audited_head")=="5fd7af75ede4cd2eceb70f9f21bd2b98ec5453a6" and a3.get("merged_main_sha")==AUDITED_36_03_MERGE,"36-03 authority moved")
+ require(g.get("physical_open_push_and_boundary_complete") is True,"36-03 gate lost")
+ if schema.endswith("V7_36_03_AUDITED"):
+  require(s.get("status")=="ACTIVE" and s.get("base_main_sha")==AUDITED_36_03_MERGE,"V7 lifecycle moved")
+  require(s.get("current",{}).get("unit")=="36-04" and "36-04" not in s.get("completed_units",{}),"V7 successor moved")
+ else:
+  require(s.get("status")=="ACTIVE_PENDING_HOSTILE_AUDIT" and s.get("base_main_sha")==AUDITED_36_03_PROMOTION_MERGE,"V8 lifecycle moved")
+  p3=s.get("stage36_36_03_promotion",{}); require(p3.get("pr")==1557 and p3.get("exact_head")=="27f3374356282dae8c8ffb1cb8c3bd110e1d2b38","36-03 promotion identity moved")
+  require(p3.get("exact_head_ci_run")==33882496508 and p3.get("exact_head_ci_job")==101054258088 and p3.get("merged_main_sha")==AUDITED_36_03_PROMOTION_MERGE,"36-03 promotion CI/merge moved")
+  require(p3.get("NEW_THEOREM_CREDIT") is False,"36-03 promotion leaked theorem credit")
+  require(s.get("current",{}).get("unit")=="36-04" and g.get("pointwise_H_torsor_class_explicit") is False,"V8 36-04 boundary moved")
+  require(s.get("completed_units",{}).get("36-04",{}).get("promotion_status")=="PROVISIONAL_NOT_AUDITED","36-04 prematurely audited")
+  require("36-05" not in s.get("completed_units",{}),"36-05 started in V8")
+ for rel in ["stages/stage36/ROADMAP.md","stages/stage36/MAIN-START-HERE.md","stages/stage36/MAIN-BATCH-HANDOFF.md"]: require((ROOT/rel).exists(),f"missing Stage36 file: {rel}")
+ print("PASS STAGE36_BOOTSTRAP_AUTHORITY_SUCCESSOR_SAFE")
+ print(f"schema={schema}; source_blob_locks=6; Q symmetry 6+2+2; H=(Z/2)^3")
+ print("no route/theorem/endpoint/perfect-cuboid credit")
+if __name__=="__main__": main()
