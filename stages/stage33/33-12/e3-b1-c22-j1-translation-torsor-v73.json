@@ -1,0 +1,121 @@
+{
+  "canonical_sha256": "b6a8dd83cd83547525e8ff328cccc1572791c52bea6061137c2bc59a134fa09d",
+  "schema": "stage33.e3.b1_c22_j1_translation_torsor.v73",
+  "version": 73,
+  "stage": "33-12",
+  "role": "EXACT_J1_SPECIFIC_SEMILINEAR_TRANSLATION_TORSOR_JACOBIAN_E_KERNEL_FINGERPRINT_OPEN",
+  "status": "PASS_EXACT_D2_1_J1_TRANSLATION_TORSOR_D2_2_KERNEL_OPEN",
+  "base_main_sha": "0981f00bcafd8870508030c1b3733b28d5f36c05",
+  "microgoal": "D2_1_MATERIALIZE_J1_TRANSLATION_TORSOR_FROM_V71_COCYCLE_WITHOUT_REUSING_J2_KERNEL",
+  "source_locks": {
+    "v71_j1_cv_cocycle": {
+      "path": "stages/stage33/33-12/e3-b1-c22-j1-cv-e2-cocycle-v71.json",
+      "blob_sha1": "5073a38366aa8715b5ce27115a1d055386a0869a",
+      "canonical_sha256": "3e9409ee7537ab4edb12e2416745bbd074f1cc1b02a4fc8a92be643075b8569a"
+    },
+    "j2_translation_descent_method_template": {
+      "path": "stages/stage33/33-05/j2-r4-correct-translation-torsor.json",
+      "blob_sha1": "5a0ac87e7afc7b048d6bbe9c12bea7fe91a0348b",
+      "canonical_sha256": "ef72c43811428acb2d4c1ea58d4867d7bbcc5c20774b6724eb8b272450cd0725",
+      "reuse_scope": "formula and semilinear translation-descent method only; no J2 squareclass, minimum norm, or marked coordinate"
+    },
+    "arsenal_pw07": {
+      "path": "docs/arsenal/cards/provisional/S33-PW07.md",
+      "blob_sha1": "7f1337858bc6f9006e101d810dd72e67aef534fd",
+      "role": "TORSOR_BRAUER_INTEGRAL_KERNEL_ADAPTER"
+    },
+    "roadmap": {
+      "path": "stages/stage33/ROADMAP-33-12-V71-J1-TORSOR.md",
+      "blob_sha1": "b979b286c8d2c8f009989fa26e1e7d98c12d2b53"
+    }
+  },
+  "fixed_generic_fiber": {
+    "base_field": "Kgeom=Qbar(t)",
+    "equation_shifted": "E: y^2=x*(x^2+a*x+b)",
+    "Tr_shifted": "(0,0)",
+    "translation_by_Tr": "tau_Tr(x,y)=(b/x,-b*y/x^2)",
+    "a": "(t^2+1)^2",
+    "b": "[2*t*(t^2-1)]^2",
+    "q": "t^4-6*t^2+1",
+    "identity": "a^2-4*b=q^2"
+  },
+  "j1_cocycle_input": {
+    "named_class": "kappa_A=J1",
+    "full_L_pair": "(f1,1)",
+    "d": "f1=(t-r1)/(t-r4)",
+    "r1": "1+sqrt(2)",
+    "r4": "1-sqrt(2)",
+    "splitting_field": "L1=Kgeom(w), w^2=d",
+    "rho": "nontrivial element of Gal(L1/Kgeom)",
+    "rho_w": "rho(w)=-w",
+    "xi_rho": "Tr",
+    "cocycle_bits_in_fixed_E2_basis": [0, 1],
+    "semilinear_action": "tilde_rho=tau_Tr o rho"
+  },
+  "semilinear_invariant_derivation": {
+    "invariant_functions": {
+      "n": "w*y/x",
+      "u0": "x+b/x",
+      "v": "w*(x-b/x)"
+    },
+    "invariance_under_tilde_rho": [
+      "n -> (-w)*(-b*y/x^2)/(b/x)=w*y/x=n",
+      "u0 -> b/x+b/(b/x)=x+b/x=u0",
+      "v -> (-w)*(b/x-b/(b/x))=w*(x-b/x)=v"
+    ],
+    "relations": [
+      "y^2/x^2=x+a+b/x=u0+a",
+      "n^2=d*(u0+a)",
+      "(x-b/x)^2=(x+b/x)^2-4*b=u0^2-4*b",
+      "v^2=d*(u0^2-4*b)"
+    ],
+    "elimination": "u0=n^2/d-a and a^2-4*b=q^2 imply d*v^2=n^4-2*a*d*n^2+d^2*q^2"
+  },
+  "translation_torsor": {
+    "affine_quartic": "d*v^2=n^4-2*a*d*n^2+d^2*q^2",
+    "homogeneous_weighted_quartic": "d*V^2=N^4-2*a*d*N^2*Z^2+d^2*q^2*Z^4",
+    "twisting_squareclass": "d=f1",
+    "splitting_field": "Kgeom(sqrt(f1))",
+    "obvious_bisection_at_infinity": "d*V^2=N^4, hence V/N^2=+-1/sqrt(d)",
+    "bisection_branch_points": ["r1=1+sqrt(2)", "r4=1-sqrt(2)"],
+    "bisection_genus": 0,
+    "jacobian": "E: y^2=x*(x^2+a*x+b)",
+    "jacobian_reason": "The curve is the direct Galois descent of E_L1 by the translation-valued cocycle rho->Tr; translations act trivially on Pic^0, so the descended genus-one torsor has Jacobian E, not the Tr-isogenous comparison curve."
+  },
+  "independence_from_j2": {
+    "j2_squareclass_reused": false,
+    "j2_torsor_relabelled_as_j1": false,
+    "j2_minimum_norm_8_reused": false,
+    "j2_marked_coordinate_u1_reused": false,
+    "shared_data_reused": ["shifted generic fiber E", "translation formula tau_Tr", "semilinear invariant method"],
+    "j1_specific_data": ["d=f1", "L1=Kgeom(sqrt(f1))", "rho_f1", "bisection branch points r1,r4"]
+  },
+  "next_kernel_contract": {
+    "next_exact_leaf": "D2_2_COMPUTE_J1_TORSOR_NS_COMPONENT_GLUE_OR_EQUIVALENT_INTEGRAL_TWISTED_KERNEL_FINGERPRINT",
+    "allowed_minimum_norm_outcomes": [4, 12],
+    "decision": {
+      "4": "J1->u2; shear transport",
+      "12": "J1->u1+u2; identity transport"
+    },
+    "minimum_norm_materialized": false,
+    "marked_kc_coordinate_selected": false
+  },
+  "credit_firewall": {
+    "D2_1_closed": true,
+    "D2_2_closed": false,
+    "j1_translation_torsor_materialized": true,
+    "j1_twisted_kernel_minimum_norm_materialized": false,
+    "j1_marked_kc_coordinate_selected": false,
+    "identity_vs_shear_selected": false,
+    "e3_kummer_column_materialized": false,
+    "e3_mask20_membership_computed": false,
+    "genuine_full_surface_H2_mu2_lift_for_e3": false,
+    "stage33_12_closed": false,
+    "stage33_13_released": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false,
+    "merge_allowed": false
+  }
+}
