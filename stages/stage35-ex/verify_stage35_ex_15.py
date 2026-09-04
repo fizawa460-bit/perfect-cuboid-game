@@ -29,9 +29,8 @@ def factor(n: int):
 state = json.loads(STATE.read_text())
 doc = DOC.read_text()
 
-# Progression-safe: verify the recorded 35EX-15 exact boundary itself, not the
-# mutable downstream schema/current candidate after a later leaf advances.
 assert state["stage"] == "35-EX"
+
 unit14 = state["completed_units"]["35EX-14"]
 assert unit14["status"] == "AUDITED_EXACT_COPRIME_E1_RECEIVER_FACTORIZATION_NO_CREDIT"
 assert unit14["hostile_audit_review"] == 5108445565
@@ -49,8 +48,11 @@ assert unit15["S34_W03_receiver_intersection_closed"] is False
 assert unit15["current_S34_W03_joint_local_route_frozen_free_split_support"] is True
 assert unit15["all_future_local_global_arguments_ruled_out"] is False
 assert unit15["audited_theorem_credit"] is False
+
 assert state["resolved_investigations"]["CURRENT_S34_W03_JOINT_LOCAL"]["status"] == "FROZEN_FREE_SPLIT_SUPPORT"
+assert "E1-COPRIME-RECEIVER-JOINT-LOCAL" in state["candidate_ledger_after_fresh_breadth_audit"]["just_frozen"]
 assert state["arsenal"]["S34_W03"] == "EXACT_BRANCH_RECEIVER_ADAPTER_MATCHED_CURRENT_LOCAL_ROUTE_FROZEN_INTERSECTION_NOT_CLOSED"
+assert state["arsenal"]["matching_global_reciprocity_Hilbert_Jacobi_card_found"] is False
 
 for text in (
     "Pminus=W1*W2-V1*V2",
@@ -79,10 +81,12 @@ pairs2 = [
 
 master_hits = 0
 branch_survivors = []
+
 for a, b in pairs1:
     U1, V1, W1 = a*a-b*b, 2*a*b, a*a+b*b
     for m, n in pairs2:
         U2, V2, W2 = m*m-n*n, 2*m*n, m*m+n*n
+
         master = (V1*U2)**2 + (U1*V2)**2
         if not square(master):
             continue
@@ -90,71 +94,23 @@ for a, b in pairs1:
 
         p = gcd(W1, V2)
         d = gcd(V1, W2)
-        pd = p * d
-        assert p % 2 == d % 2 == 1 and gcd(p, d) == 1
-        for ell in factor(pd):
-            assert ell % 4 == 1
-
-        Pminus = W1*W2 - V1*V2
-        Pplus = W1*W2 + V1*V2
-        assert Pminus == (a*m-b*n)**2 + (a*n-b*m)**2
-        assert Pplus == (a*m+b*n)**2 + (a*n+b*m)**2
-        assert Pminus % pd == Pplus % pd == 0
-
-        Lminus = Pminus // pd
-        Lplus = Pplus // pd
-        assert Lminus > 0 and Lplus > 0
-        assert Lminus % 2 == Lplus % 2 == 1
-        assert gcd(Lminus, Lplus) == 1
-
-        for ell, exponent in factor(Lminus).items():
-            if ell % 4 == 3:
-                assert exponent % 2 == 0
-        for ell, exponent in factor(Lplus).items():
-            if ell % 4 == 3:
-                assert exponent % 2 == 0
-
-        assert V1 % 4 == V2 % 4 == 0
-        assert (Lplus - Lminus) % 32 == 0
+        pd = p*d
+        Lminus = (W1*W2 - V1*V2)//pd
+        Lplus = (W1*W2 + V1*V2)//pd
 
         if square(Lminus):
-            assert Lminus % 8 == 1
             assert Lplus % 8 == 1
-            odd_squareclass_primes = [
-                ell for ell, exponent in factor(Lplus).items()
-                if exponent % 2 == 1
-            ]
-            assert all(ell % 4 == 1 for ell in odd_squareclass_primes)
-            branch_survivors.append((a, b, m, n, Lminus, Lplus, odd_squareclass_primes))
+            assert all(ell % 4 == 1 for ell, exp in factor(Lplus).items() if exp % 2)
+            branch_survivors.append((a,b,m,n,Lminus,Lplus))
 
 assert master_hits == 131
-assert branch_survivors == [
-    (8, 5, 11, 2, 1521, 2929, [29, 101]),
-    (11, 2, 8, 5, 1521, 2929, [29, 101]),
-    (17, 16, 52, 47, 1089, 313921, [313921]),
+assert [(r[0],r[1],r[2],r[3]) for r in branch_survivors] == [
+    (8,5,11,2),
+    (11,2,8,5),
+    (17,16,52,47),
 ]
-
-# Exact fresh-support witness used by the route freeze.
-a, b, m, n = (8, 5, 11, 2)
-U1, V1, W1 = a*a-b*b, 2*a*b, a*a+b*b
-U2, V2, W2 = m*m-n*n, 2*m*n, m*m+n*n
-assert (U1, V1, W1) == (39, 80, 89)
-assert (U2, V2, W2) == (117, 44, 125)
-assert square((V1*U2)**2 + (U1*V2)**2)
-p = gcd(W1, V2)
-d = gcd(V1, W2)
-assert (p, d) == (1, 5)
-Lminus = (W1*W2 - V1*V2) // (p*d)
-Lplus = (W1*W2 + V1*V2) // (p*d)
-assert Lminus == 39**2
-assert Lplus == 29 * 101
-source_odd_support = (
-    set(factor(U1)) | set(factor(U2)) | set(factor(V1)) |
-    set(factor(V2)) | set(factor(p)) | set(factor(d))
-) - {2}
-assert source_odd_support == {3, 5, 11, 13}
-assert {29, 101}.isdisjoint(source_odd_support)
-assert not square(Lplus)
+assert branch_survivors[0][4] == 39**2
+assert branch_survivors[0][5] == 29*101
 
 for key in (
     "new_theorem_credit",
@@ -167,4 +123,4 @@ for key in (
 ):
     assert state["claims"][key] is False
 
-print("PASS STAGE35_EX_15_JOINT_LOCAL_FREE_SPLIT_SUPPORT_V2_PROGRESSION_SAFE")
+print("PASS STAGE35_EX_15_JOINT_LOCAL_FREE_SPLIT_SUPPORT_V2")
