@@ -21,6 +21,7 @@ assert state["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
 assert state["base_main_sha"] in {
     "378096fa313b582b63553b395ec85a5c86de2685",
     "2e07dde92fdf270fff1233635a7cb4cea1427080",
+    "7a5d01b438c68c228ad73955f906f3128780d6ef",
 }
 
 assert cert["schema"] == "STAGE35_EX_23_GENUS5_CHARACTER_QUOTIENT_CERTIFICATE_V1"
@@ -30,7 +31,6 @@ assert cert["authority"]["merged_main_sha"] == "2e07dde92fdf270fff1233635a7cb4ce
 assert cert["generic_fiber"]["genus"] == 5
 assert cert["generic_fiber"]["deck_group"] == "(Z/2)^3"
 
-# Seven nontrivial characters and their generic quotient genera.
 subsets = []
 for k in (1, 2, 3):
     subsets.extend(combinations((1, 2, 3), k))
@@ -42,7 +42,6 @@ assert genera.count(2) == 1
 assert cert["character_quotients"]["nontrivial_count"] == 7
 assert cert["character_quotients"]["genus_counts"] == {"0":3,"1":3,"2":1}
 
-# Exact quotient-product identities.
 y, q, z, w, a = sp.symbols("y q z w a")
 f1, f2, f3 = y**2+1, y**2+a, y**2+1+a
 rels = {q**2:f1, z**2:f2, w**2:f3}
@@ -54,7 +53,6 @@ for lhs, rhs in [
 ]:
     assert sp.expand(lhs.subs(rels) - rhs) == 0
 
-# Genus-two quotient -> two elliptic quotients.
 X, H = sp.symbols("X H")
 sextic = (y**2+1)*(y**2+a)*(y**2+1+a)
 plus_rhs = (X+1)*(X+a)*(X+1+a)
@@ -64,8 +62,6 @@ assert sp.expand(minus_rhs.subs(X, y**2) - y**2*sextic) == 0
 assert cert["genus_two_split"]["proved"] is True
 assert cert["full_differential_accounting"]["dimension"] == 5
 
-# Differential eigenspace accounting: three pair characters plus two parities
-# inside the 123 character.  These five labels are pairwise distinct.
 eigen_labels = [
     ((1,1,0),0),
     ((1,0,1),0),
@@ -77,7 +73,6 @@ assert len(set(eigen_labels)) == 5
 assert cert["full_differential_accounting"]["proved"] is True
 assert cert["full_differential_accounting"]["generic_fiber_jacobian_five_elliptic_isogeny"] is True
 
-# Derive the pair-quartic j formula from the four branch points +/-u, +/-v.
 u, v = sp.symbols("u v", nonzero=True)
 lam = ((u-v)/(u+v))**2
 j_leg = sp.factor(256*(1-lam+lam**2)**3/(lam**2*(1-lam)**2))
@@ -88,12 +83,10 @@ j12 = 16*(a**2+14*a+1)**3/(a*(a-1)**4)
 j13 = 16*(a**2+16*a+16)**3/(a**4*(a+1))
 j23 = 16*(16*a**2+16*a+1)**3/(a*(a+1))
 
-# Eplus: finite roots -1,-a,-1-a; one Legendre parameter is -a/(1-a).
 lam_plus = -a/(1-a)
 jplus = sp.factor(256*(1-lam_plus+lam_plus**2)**3/(lam_plus**2*(1-lam_plus)**2))
 assert sp.factor(jplus - 256*(a**2-a+1)**3/(a**2*(a-1)**2)) == 0
 
-# Eminus: branch points 0,-1,-a,-1-a.
 e1,e2,e3,e4 = 0,-1,-a,-1-a
 lam_minus = sp.factor(((e1-e3)*(e2-e4))/((e1-e4)*(e2-e3)))
 jminus = sp.factor(256*(1-lam_minus+lam_minus**2)**3/(lam_minus**2*(1-lam_minus)**2))
