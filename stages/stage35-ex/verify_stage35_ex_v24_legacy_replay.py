@@ -30,7 +30,7 @@ real = json.loads(STATE.read_text())
 assert real["schema"] == V24
 assert real["stage"] == "35-EX"
 assert real["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
-assert real["base_main_sha"] == "26fb608cb2551ab2102ae36ad3b57c063959df58"
+assert real["base_main_sha"] == "0981f00bcafd8870508030c1b3733b28d5f36c05"
 parent = real["parent_authority"]
 assert parent["unit"] == "35EX-24"
 assert parent["hostile_audit_verdict"] == "PASS"
@@ -59,7 +59,6 @@ projected["parent_authority"] = {
     "audited_theorem_credit": False,
 }
 
-# 35EX-23B and 35EX-24 were still provisional at the exact audited V23 head.
 u23b = copy.deepcopy(projected["completed_units"]["35EX-23B"])
 u23b["status"] = "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT"
 for key in ("hostile_audit_verdict", "hostile_audit_review", "audited_head_sha", "merged_main_sha"):
@@ -74,7 +73,6 @@ projected["completed_units"]["35EX-24"] = u24
 projected["completed_units"].pop("35EX-24B", None)
 projected["completed_units"].pop("35EX-25", None)
 
-# Restore the exact V23 investigation/ledger boundary.
 projected["resolved_investigations"]["CURRENT_FIVE_ELLIPTIC_ISOGENY_TWIST_COMPRESSION"] = {
     "status": "PROVISIONAL_PASS_NEW_GATE_PENDING_HOSTILE_AUDIT",
     "reason": "the five quotient factors are not five unrelated moving shapes: exact pair-quartic adapters and kernel-2 isogenies give two fixed minus-one twist pairs plus Eminus over K and multiplicities 2,2,1 over K(i); the three representatives remain nonisotrivial",

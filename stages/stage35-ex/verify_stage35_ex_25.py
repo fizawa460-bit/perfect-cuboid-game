@@ -27,7 +27,7 @@ V24 = "STAGE35_EX_PESCH_E1_STATE_V24_POST_35EX25_SINGLE_ELLIPTIC_FULL_SQUARE_REC
 assert state["schema"] == V24
 assert state["stage"] == "35-EX"
 assert state["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
-assert state["base_main_sha"] == "26fb608cb2551ab2102ae36ad3b57c063959df58"
+assert state["base_main_sha"] == "0981f00bcafd8870508030c1b3733b28d5f36c05"
 
 parent = state["parent_authority"]
 assert parent["unit"] == "35EX-24"
@@ -112,7 +112,6 @@ assert cert["arsenal"]["receiver_intersection_closed"] is False
 assert cert["arsenal"]["S34_W02_unlocked"] is False
 assert git_blob_sha(CARD) == cert["arsenal"]["blob_sha"]
 
-# Exact C -> Eplus identity.
 y, q, z, w, a = sp.symbols("y q z w a")
 X = y**2
 Yp = q*z*w
@@ -120,13 +119,11 @@ expr = sp.expand(Yp**2 - (X+1)*(X+a)*(X+1+a))
 expr = expr.subs(q**2, y**2+1).subs(z**2, y**2+a).subs(w**2, y**2+1+a)
 assert sp.expand(expr) == 0
 
-# The four receiver factors are exactly the defining squares.
 assert sp.expand(X - y**2) == 0
 assert sp.expand((X+1) - (y**2+1)) == 0
 assert sp.expand((X+a) - (y**2+a)) == 0
 assert sp.expand((X+1+a) - (y**2+1+a)) == 0
 
-# General pair receiver point has square T-coordinate.
 r, s, qr, qs, yy = sp.symbols("r s qr qs yy", nonzero=True)
 d = r*s
 c = r**2+s**2
@@ -137,7 +134,6 @@ diff = sp.expand((tpair2-Tpair)*yy**2)
 diff = diff.subs(qr**2, yy**2+r**2).subs(qs**2, yy**2+s**2)
 assert sp.expand(diff) == 0
 
-# Exact 2-isogeny image converse on T!=0.
 T, Y, t, cc, dd = sp.symbols("T Y t cc dd", nonzero=True)
 Z = (T-cc-Y/t)/2
 W = t*Z
@@ -145,19 +141,16 @@ quad = sp.expand(Z**2 + (cc-T)*Z + dd**2)
 quad = quad.subs(Y**2, T*((T-cc)**2-4*dd**2)).subs(T, t**2)
 assert sp.factor(quad) == 0
 
-# L equation follows from the same quadratic relation.
 Z0 = sp.symbols("Z0", nonzero=True)
 W0 = t*Z0
 Ldiff0 = sp.expand(W0**2 - (Z0**3+cc*Z0**2+dd**2*Z0))
 assert sp.factor(Ldiff0 - Z0*(t**2*Z0-Z0**2-cc*Z0-dd**2)) == 0
 
-# The chosen quadratic root reproduces the requested Q Y-coordinate.
 Yphi = sp.together(t*(dd**2/Z - Z) - Y)
 num = sp.factor(sp.together(Yphi).as_numer_denom()[0])
 num = num.subs(T, t**2).subs(Y**2, t**2*((t**2-cc)**2-4*dd**2))
 assert sp.factor(num) == 0
 
-# Exact named specializations of the square roots.
 x, p = sp.symbols("x p", nonzero=True)
 assert cert["receiver_pair_square_coordinates"]["E12"] == "T12=((z+x*q)/y)^2"
 assert cert["receiver_pair_square_coordinates"]["E13"] == "T13=((w+p*q)/y)^2"
