@@ -16,15 +16,14 @@ Use known paths directly. Repository discovery is search-first. A search miss ne
 
 V58 remains the operational routing authority: Arsenal first, then repeatable bounded search only when each repeat has a materially new mathematical signal. Unbounded/open-ended search remains forbidden.
 
-## Current exact frontier: V80
+## Current exact frontier: V85
 
 - V61-V64 fix the B1 source basis, literal `lambda_A={f_A,g22}`, `kappa_A=J1`, `kappa_D=J2`, and retained J2 geometry.
-- V71 constructs the nonzero J1 `H^1(E[2])` cocycle; V73 materializes the direct semilinear quartic torsor.
-- V77 wires in the exact x-alpha relation. J1 is zero in the geometric Brauer/Ogg-Shafarevich quotient, so the historical V65/V69 nonzero marked-Kc discriminator is not an active J1 decision gate.
-- V79 closes the full B1 Gysin matrix in ordered basis `[cc(kappa_A),cc(kappa_D),kappa_A,kappa_D]` with column masks `[0,25,0,25]`, rank `1`, image `{0,25}`.
-- The e3 target is proper14 mask `20`, so `20 notin {0,25}`. Therefore the B1 branch-Gysin route is **exactly frozen for e3**.
-- This is only a route-local negative result. It does **not** prove global nonexistence of an e3 `H2(mu2)` lift.
-- V80 promotes that boundary and returns CURRENT to the pre-existing V52/V56 source-specific marked-Picard-to-literal-geometry gap outside the frozen B1 route.
+- V71/V73 retain the literal J1 E[2] cocycle and semilinear quartic; V77 proves J1 is zero in the geometric Brauer/Ogg-Shafarevich quotient.
+- V79 closes the full B1 Gysin matrix with masks `[0,25,0,25]`, rank `1`, image `{0,25}`; e3 proper14 mask `20` is not in that image.
+- V84 descends the exact coordinate automorphism generators (`swap12`, `swap13`, seven coordinate signs) to proper14 and computes the orbit of mask25.
+- V85 certifies `orbit(mask25)={25}` under all nine generators. Hence the coordinate-conjugate B1/B2/B3 sign-quotient Gysin family has image `{0,25}` and **cannot realize mask20**.
+- V85 freezes exactly that coordinate-conjugate route family. It does **not** prove global nonexistence of an e3 `H2(mu2)` lift; arbitrary full-surface Cech/Gersten representatives remain open.
 
 The inherited `controller.json` remains the global/firewall authority. No global credit is changed.
 
@@ -34,18 +33,22 @@ The inherited `controller.json` remains the global/firewall authority. No global
 
 CURRENT:
 
-`SOURCE_SPECIFIC_FULL_SURFACE_CECH_H2_MU2_REALIZATION_FOR_E3_MASK20_OUTSIDE_B1_ROUTE`
+`NON_COORDINATE_CONJUGATE_FULL_SURFACE_CECH_OR_ACTUAL_GERSTEN_DATUM_WITH_EXACT_PROPER14_BRAUER_IMAGE_MASK20`
 
-Exact input already available:
+Required next object:
 
-- V41 e3 proper14 mask `20`;
-- V53 exact marked Picard-adjoint candidate for mask20;
-- V56 exact localization of the missing bridge;
-- V79 exact proof that the B1 route image is only `{0,25}` and therefore cannot realize mask20.
+`CONSTRUCT_NON_COORDINATE_CONJUGATE_FULL_SURFACE_CECH_OR_ACTUAL_GERSTEN_DATUM_WITH_EXACT_PROPER14_BRAUER_IMAGE_MASK20`
 
-Required next object: one source-locked literal Cech/function/divisor/transition datum, or actual Gersten datum with all adapter hypotheses checked, whose exact marked Brauer image is proper14 mask20. The retained J2 `{f2,g22}` object is a method/example only and must not be relabelled as e3.
+Acceptance requires one independently source-locked full-surface object outside the frozen coordinate-conjugate sign-quotient family:
 
-Do not reopen B1 membership after V79, and do not promote B1 nonmembership to global `H2(mu2)` nonexistence.
+- literal Cech/function/divisor/transition data, or actual Gersten height-one support/residue data;
+- exact marked Brauer image equal to proper14 mask20;
+- source binding to the V41 e3 class;
+- all residue/resolution/adapter hypotheses required by the selected route.
+
+The retained J2 `{f2,g22}` object is a method/example only and must not be relabelled as e3.
+
+Do not reopen B1/B2/B3 coordinate-conjugate Gysin membership after V85, and do not promote this route-family failure to global `H2(mu2)` nonexistence.
 
 ## Arsenal-first routing
 
@@ -53,7 +56,7 @@ Read `docs/arsenal/index.json`, then only:
 
 - `S33-PW04` for exact marked-source / Picard-adjoint binding;
 - `S33-PW07` for literal Cech/torsor/Brauer-layer construction patterns;
-- `S33-PW08` only conditionally if actual Gersten data are constructed and its hypotheses can be checked exactly.
+- `S33-PW08` conditionally for an actual Gersten construction, with height-one valuation attachment and residue hypotheses checked exactly.
 
 Cards are PROVISIONAL routing aids; live Stage33 source locks override them.
 
@@ -61,7 +64,7 @@ Cards are PROVISIONAL routing aids; live Stage33 source locks override them.
 
 V77 remains exact: J1 is zero in the geometric Brauer/Ogg-Shafarevich quotient. The V71 E[2] cocycle and V73 quartic remain valid historical objects; only the old nonzero-Brauer interpretation was superseded.
 
-Do not reopen the 4/12 minimum-norm discriminator and do not choose identity versus shear from that historical gate.
+Do not reopen the historical 4/12 minimum-norm discriminator and do not choose identity versus shear from that gate.
 
 ## Release and verification
 
@@ -69,8 +72,8 @@ Stage33 remains `6/11`. Stage33-12 is not closed. Stage33-13 is not released. No
 
 After writes run at minimum:
 
-- `python stages/stage33/33-12/verify_e3_b1_full_gysin_matrix_xalpha_correction_v79.py`
-- `python stages/stage33/33-12/verify_e3_b1_route_freeze_and_outside_cech_rewire_v80.py`
+- `python stages/stage33/33-12/verify_e3_coordinate_conjugate_sign_quotient_route_freeze_v85.py`
+- `python stages/stage33/33-12/verify_stage33_v85_frontier_state_v86.py`
 - `python stages/stage33/sync_main_state.py --check`
 - `git diff --check`
 
