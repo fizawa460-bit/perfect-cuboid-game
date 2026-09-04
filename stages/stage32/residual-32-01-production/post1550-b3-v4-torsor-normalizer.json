@@ -1,0 +1,109 @@
+{
+  "schema": "STAGE32_POST1550_B3_V4_TORSOR_NORMALIZER_V1",
+  "stage": 32,
+  "leaf": "POST1550_B3_V4_TORSOR_NORMALIZER",
+  "status": "EXACT_AMBIENT_V4_NORMALIZER_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "bdd707e52ded061014bfbb6158762e8b997e7a38",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "O": 210,
+    "qprime": 4,
+    "Q": 602
+  },
+  "parent_authority": {
+    "pr": 1550,
+    "hostile_audit_verdict": "PASS",
+    "audited_exact_head": "30cea7ce2a952f535bddd86a42ba95cc2115e46b",
+    "merged_main_sha": "bdd707e52ded061014bfbb6158762e8b997e7a38",
+    "scope": "retained common-cover predicates alone do not imply [T,b3]=0"
+  },
+  "source_locks": {
+    "retained_v4_plane_adapter": {
+      "path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter.json",
+      "blob_sha1": "a45e4725cf3354f7ed32ec6f7126326ca5492255",
+      "canonical_sha256": "eab4d86ffe89ff0e87d197cffb34e8b556ae530cab826dab34c1007664a4af28"
+    },
+    "single_b3_reduction": {
+      "path": "stages/stage32/residual-32-01-production/post1532-q602-single-b3-commutator.json",
+      "blob_sha1": "8699cdf52bff82304485a0544131e461b78c1fa6",
+      "canonical_sha256": "a374defb3a888c131ce92db9416702f34a03eb780b76d1dd6c26ab019f3c5064"
+    },
+    "relative_v4_coupling": {
+      "path": "stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling.json",
+      "blob_sha1": "b987bc0cc036d4b514458961c6a286318a918181",
+      "canonical_sha256": "312aa78d5a89c7c4d48e0afc2988e5ecf2b605d68820d123fea8ca8c48f6d669"
+    },
+    "post1550_boundary_note": {
+      "path": "stages/stage32/residual-32-01-production/post1536-intrinsic-b3-common-cover-reentry-negative-source-note.md",
+      "blob_sha1": "c6e802023ef5a79cfe6cfe26493801ce7f571ae0"
+    },
+    "source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1550-b3-v4-torsor-normalizer-source-note.md",
+      "blob_sha1": "40961ca32c22f04e3427f2f46bfcb46b65e1858d"
+    }
+  },
+  "retained_basis": [
+    "e1",
+    "e2",
+    "r*e1",
+    "r*e2"
+  ],
+  "v4_character_plane": {
+    "basis_vectors": [
+      [0, 0, 1, 0],
+      [0, 0, 0, 1]
+    ],
+    "dimension": 2,
+    "equals_kernel_r_mod2": true
+  },
+  "principal_b3": {
+    "matrix_mod2": [
+      [1, 1, 0, 0],
+      [1, 0, 0, 0],
+      [0, 0, 1, 1],
+      [0, 0, 1, 0]
+    ],
+    "restriction_to_W": [
+      [1, 1],
+      [1, 0]
+    ],
+    "restriction_determinant_mod2": 1,
+    "restriction_order": 3,
+    "W_invariant": true
+  },
+  "torsor_normalizer": {
+    "cover": "Z=X(8) -> C0=Z/H, H ~= F2^2",
+    "character_plane": "W=image(H^* -> H^1(C0,F2))",
+    "b3_pullback_preserves_cover_class_up_to_Aut_H": true,
+    "semilinear_lift_exists": true,
+    "same_lift_on_both_factors_normalizes_H_diag": true,
+    "ambient_relative_v4_torsor": "X=(Z x Z)/H_diag",
+    "diagonal_b3_lift_to_X_exists": true,
+    "covers": "b3 x b3 on C0 x C0"
+  },
+  "decision": {
+    "result": "PASS_EXACT_AMBIENT_V4_TORSOR_NORMALIZER",
+    "ambient_quotient_normalizer_gate_closed_positive": true,
+    "intrinsic_carrier_equivariance_proved": false,
+    "correspondence_invariance_proved": false,
+    "actual_T_b3_commutation_proved": false,
+    "actual_T_b3_noncommutation_proved": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "O212_plus_advance_allowed": false,
+    "controller_change_authorized": false,
+    "next_exact_leaf": "PROVE_CARRIER_OR_CORRESPONDENCE_INVARIANCE_UNDER_THE_AMBIENT_B3_LIFT"
+  },
+  "firewalls": {
+    "ambient_lift_promoted_to_carrier_lift": false,
+    "finite_action_promoted_without_semantic_torsor_anchor": false,
+    "effectivity_credit": false,
+    "full178_closed": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false
+  },
+  "canonical_sha256_without_this_field": "1225ca34034f1f1dacb2f3e1f46e7f3d15a6008a5e6b03960109f7bc992b5e95"
+}
