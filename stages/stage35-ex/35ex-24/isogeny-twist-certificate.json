@@ -1,0 +1,110 @@
+{
+  "schema": "STAGE35_EX_24_FIVE_ELLIPTIC_ISOGENY_TWIST_COMPRESSION_V1",
+  "status": "PROVISIONAL_EXACT_NO_CREDIT",
+  "authority": {
+    "parent_unit": "35EX-23",
+    "hostile_audit_review": 5111910947,
+    "audited_head_sha": "77ff0a6cf51679bd64525a0be843fcd1eed77d8e",
+    "merged_main_sha": "c20ee71d91af850103fd7406f9b1072448a11fcf"
+  },
+  "breadth_audit": {
+    "path": "stages/stage35-ex/35ex-23/post-five-elliptic-breadth-audit.json",
+    "selected_candidate": "E1-FIVE-ELLIPTIC-ISOGENY-TWIST-COMPRESSION",
+    "selected_next_unit": "35EX-24_FIVE_ELLIPTIC_ISOGENY_TWIST_COMPRESSION_OR_INDEPENDENT_CHANNEL_BLOCKER"
+  },
+  "field": {
+    "K": "Q(B1)",
+    "B1": "p^2=1+x^2",
+    "a": "x^2",
+    "p2": "1+a"
+  },
+  "general_pair_quartic": {
+    "model": "V^2=(y^2+r^2)(y^2+s^2)",
+    "c": "r^2+s^2",
+    "d": "r*s",
+    "weierstrass_target": "Y^2=T(T-(r+s)^2)(T-(r-s)^2)",
+    "forward": {
+      "U": "2*d*(V+d)/y^2",
+      "T": "U+c",
+      "Y": "y*(U^2-4*d^2)/(2*d)"
+    },
+    "inverse": {
+      "D": "(T-(r+s)^2)*(T-(r-s)^2)",
+      "y": "2*d*Y/D",
+      "U": "T-c",
+      "V": "U*y^2/(2*d)-d"
+    },
+    "exceptional_points": {
+      "(0,+d)": "O_Q",
+      "(0,-d)": "(0,0)",
+      "I_plus": "((r+s)^2,0)",
+      "I_minus": "((r-s)^2,0)"
+    },
+    "exact_adapter_proved": true
+  },
+  "kernel_two_isogeny": {
+    "source": "W^2=Z(Z+r^2)(Z+s^2)",
+    "kernel_generator": "(0,0)",
+    "translation_by_kernel": ["Z'=d^2/Z", "W'=-d^2*W/Z^2"],
+    "quotient_invariants": ["T=W^2/Z^2=Z+c+d^2/Z", "Y=W*(d^2-Z^2)/Z^2"],
+    "target": "Y^2=T(T-(r+s)^2)(T-(r-s)^2)",
+    "degree": 2,
+    "proved": true
+  },
+  "specializations": {
+    "E12": {
+      "pair": ["1", "x"],
+      "source": "L12:R^2=Z(Z+1)(Z+a)",
+      "relation": "E12 is K-2-isogenous to Eplus^(-1)",
+      "fixed_twist_minus_one_required": true
+    },
+    "E13": {
+      "pair": ["1", "p"],
+      "source": "F:R^2=Z(Z+1)(Z+p^2)",
+      "relation": "E13 is K-2-isogenous to F",
+      "fixed_twist_minus_one_required": false
+    },
+    "E23": {
+      "pair": ["x", "p"],
+      "source": "L23:R^2=Z(Z+a)(Z+p^2)",
+      "relation": "E23 is K-2-isogenous to F^(-1)",
+      "twist_isomorphism": ["U=-a*Z/(Z+1)", "W=a*R/(Z+1)^2"],
+      "fixed_twist_minus_one_required": true
+    }
+  },
+  "jacobian_compression": {
+    "over_K": "Jac(C) ~ Eplus * Eplus^(-1) * F * F^(-1) * Eminus",
+    "over_Ki": "Jac(C)_(K(i)) ~ Eplus^2 * F^2 * Eminus",
+    "Ki_multiplicities": [2, 2, 1],
+    "three_representative_compression_proved": true,
+    "three_representatives_pairwise_nonisogenous_all_degrees_proved": false
+  },
+  "representative_j_invariants": {
+    "Eplus": "256*(a^2-a+1)^3/(a^2*(a-1)^2)",
+    "F": "256*(a^2+a+1)^3/(a^2*(a+1)^2)",
+    "Eminus": "256*(a^4-a^2+1)^3/(a^4*(a-1)^2*(a+1)^2)"
+  },
+  "uniformity": {
+    "all_three_representatives_nonisotrivial": true,
+    "fixed_elliptic_curve_reduction_unlocked": false,
+    "uniform_MW_closure_unlocked": false,
+    "simultaneous_kummer_contradiction_proved": false,
+    "fresh_breadth_audit_required_after_hostile_pass": true
+  },
+  "arsenal": {
+    "S31_W01": {"path":"docs/arsenal/cards/formal/S31-W01.md","blob_sha":"122a6c1c5c871c1c7b797017e854de8ec55e7c50","use":"EXACT_QUARTIC_CUBIC_ADAPTER_DISCIPLINE_ONLY"},
+    "S34_W03": {"path":"docs/arsenal/cards/formal/S34-W03.md","blob_sha":"1d5275321f42768a6414d4610ac912c63be43f96","use":"FUTURE_SIMULTANEOUS_RECEIVER_INTERSECTION_ROUTER_ONLY"},
+    "S34_W02_unlocked": false
+  },
+  "claims": {
+    "new_theorem_credit": false,
+    "global_surface_rational_points_classified": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

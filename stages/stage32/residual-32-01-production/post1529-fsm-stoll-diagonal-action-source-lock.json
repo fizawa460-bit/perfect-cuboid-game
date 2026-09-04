@@ -1,0 +1,128 @@
+{
+  "schema": "STAGE32_POST1529_FSM_STOLL_DIAGONAL_ACTION_SOURCE_LOCK_V1",
+  "stage": 32,
+  "scope": "ONLY_U_S_TO_STOLL_WORD_PROVENANCE",
+  "source_locks": {
+    "freitag_salvati_manni": {
+      "title": "Parametrization of the box variety by theta functions",
+      "authors": [
+        "Eberhard Freitag",
+        "Riccardo Salvati Manni"
+      ],
+      "arxiv_version": "1303.6495v1",
+      "arxiv_submitted": "2013-03-26",
+      "journal": "Michigan Mathematical Journal 65 (2016), no. 4",
+      "doi": "10.1307/MMJ/1480734014",
+      "locator": "Section 2; theta-coordinate transformation formulas, restricted here to U=[[1,2],[0,1]] and S=[[0,-1],[1,0]]",
+      "lock_kind": "immutable_arxiv_version_plus_section_locator"
+    },
+    "stoll_cuboids_magma": {
+      "repository": "MichaelStollBayreuth/Verification",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/cuboids.magma",
+      "blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+      "locator": "The automorphism group (see Proposition 4), substs := [...]",
+      "lock_kind": "git_commit_plus_blob_sha1"
+    }
+  },
+  "coordinate_order": [
+    "a1",
+    "a2",
+    "a3",
+    "b1",
+    "b2",
+    "b3",
+    "c"
+  ],
+  "normalization": "Projective box-coordinate actions are normalized by the scalar making c map to c.",
+  "stoll_generators_used": {
+    "g2": [
+      "a3",
+      "a2",
+      "a1",
+      "b3",
+      "b2",
+      "b1",
+      "c"
+    ],
+    "g4": [
+      "-a1",
+      "a2",
+      "a3",
+      "b1",
+      "b2",
+      "b3",
+      "c"
+    ],
+    "g5": [
+      "a1",
+      "-a2",
+      "a3",
+      "b1",
+      "b2",
+      "b3",
+      "c"
+    ],
+    "g9": [
+      "a1",
+      "a2",
+      "a3",
+      "b1",
+      "b2",
+      "-b3",
+      "c"
+    ]
+  },
+  "fsm_section2_actions": {
+    "U": {
+      "matrix": [
+        [
+          1,
+          2
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "normalized_box_action": [
+        "-a1",
+        "-a2",
+        "a3",
+        "b1",
+        "b2",
+        "-b3",
+        "c"
+      ],
+      "stoll_word": "g4*g5*g9"
+    },
+    "S": {
+      "matrix": [
+        [
+          0,
+          -1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "normalized_box_action": [
+        "a3",
+        "-a2",
+        "a1",
+        "b3",
+        "b2",
+        "b1",
+        "c"
+      ],
+      "stoll_word": "g2*g5"
+    }
+  },
+  "verification_contract": {
+    "claim": "Only the two displayed FSM Section 2 actions are transcribed. Their normalized seven-coordinate substitutions must equal the compositions of the pinned Stoll generators.",
+    "no_other_fsm_claims": true,
+    "no_new_mathematical_credit": true
+  },
+  "canonical_sha256_without_this_field": "5726289d8948beaaf3ed4e2dc260f49d1b3b3054642f3460b6b1e53c77ea23bc"
+}

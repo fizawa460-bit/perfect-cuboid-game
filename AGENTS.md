@@ -6,7 +6,7 @@ During ordinary Stage startup, do not preload Research OS. Follow the Stage-loca
 
 ## Repository traversal discipline
 
-Repository discovery is search-first, not tree-first. Do not acquire a recursive repository tree by default. Fetch known paths directly; use GitHub search for filenames/paths and GitHub code search for terms, symbols, identifiers, or phrases; follow controller, roadmap, source-lock, certificate, or other authority references only to the exact targets needed for the active leaf. Use a recursive tree only when exhaustive file enumeration is itself an explicit research requirement. A search miss never proves repository-wide absence; broaden only under the active Stage/search policy.
+Repository discovery is search-first, not tree-first. **Never acquire a recursive/full repository tree, and never call a recursive tree endpoint (including `recursive=1`) for discovery, exhaustive enumeration, or as a fallback after any search miss. There is no Stage/task exception to this rule.** Fetch known paths directly; use GitHub search for filenames/paths and GitHub code search for terms, symbols, identifiers, or phrases; follow controller, roadmap, source-lock, certificate, index, or other authority references only to the exact targets needed for the active leaf. If exhaustive enumeration is genuinely required, use bounded/paginated targeted search, explicit non-recursive directory traversal, or a task-specific repository index instead; if those mechanisms cannot establish exhaustive coverage, stop and record that limitation rather than requesting a recursive/full tree. A search miss never proves repository-wide absence; broaden only under the active Stage/search policy.
 
 ## Repo-wide Actions safety
 

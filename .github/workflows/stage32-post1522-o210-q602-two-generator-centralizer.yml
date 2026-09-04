@@ -1,0 +1,34 @@
+name: Stage32 post1522 O210 Q602 two-generator centralizer CM norm
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1522-o210-q602-two-generator-centralizer.yml'
+      - 'stages/stage32/controller.json'
+      - 'stages/stage32/residual-32-01-production/post1522-o210-q602-two-generator-centralizer-cm-norm*'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1522_o210_q602_two_generator_centralizer_cm_norm.py'
+      - 'stages/stage32/residual-32-01-production/post1521-o210-q602-valence-route*'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-post1522-two-generator-centralizer-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Certify two-generator centralizer CM-norm route
+        run: python3 stages/stage32/residual-32-01-production/certify_stage32_post1522_o210_q602_two_generator_centralizer_cm_norm.py --check stages/stage32/residual-32-01-production/post1522-o210-q602-two-generator-centralizer-cm-norm.json
+      - name: Preserve post1521 conditional valence boundary
+        run: python3 stages/stage32/residual-32-01-production/certify_stage32_post1521_o210_q602_valence_route.py --check stages/stage32/residual-32-01-production/post1521-o210-q602-valence-route.json
+      - name: Diff check
+        run: git diff --check

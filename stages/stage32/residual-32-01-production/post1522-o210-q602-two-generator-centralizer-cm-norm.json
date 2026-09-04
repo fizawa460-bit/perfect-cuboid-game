@@ -1,0 +1,108 @@
+{
+  "schema": "STAGE32_POST1522_O210_Q602_TWO_GENERATOR_CENTRALIZER_CM_NORM_V1",
+  "stage": 32,
+  "leaf": "POST1522_O210_Q602_TWO_GENERATOR_CENTRALIZER_CM_NORM",
+  "status": "PROVISIONAL_CONDITIONAL_EXCLUSION_PENDING_HOSTILE_AUDIT",
+  "source_locks": {
+    "main_at_leaf_start": {
+      "head": "cb3e36183f291ec5d96b440ff2287e3d009d9691",
+      "note": "current main at exact leaf rebase; Stage35-only advancement after merged PR #1522"
+    },
+    "post1521_valence_route": {
+      "path": "stages/stage32/residual-32-01-production/post1521-o210-q602-valence-route.json",
+      "blob_sha1": "369b987f384521b956641b00066cd73edff0a639",
+      "canonical_sha256": "201d4418ff02411119f91db409cb97409da713148ab29c1407e6c8847ecda57b"
+    },
+    "post1490_bolza_endomorphism_source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-source-note.md",
+      "blob_sha1": "25e365475b41c917a4bab5acc06bda5e9738b8e7"
+    },
+    "post1500_q602_repair_source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md",
+      "blob_sha1": "b0ea281eae453929c292059a919bc1f68b3080b3"
+    },
+    "source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1522-o210-q602-two-generator-centralizer-cm-norm-source-note.md",
+      "blob_sha1": "10156b4f27e3598684980790bb034cf80afc969e"
+    }
+  },
+  "fixed_input": {
+    "O": 210,
+    "Q": 602,
+    "curve": "C0: y^2=x^5-x",
+    "endomorphism_ring": "End(J(C0)) ~= M_2(Z[sqrt(-2)])",
+    "retained_operator": "T=(f1)_*(f2)^*",
+    "rosati_trace_normalization": "Tr_Q(T^dagger*T)=2*Q(T)"
+  },
+  "automorphisms": {
+    "alpha": "(x,y)->(-x,i*y)",
+    "beta": "(x,y)->(1/x,i*y/x^3)",
+    "differential_basis": [
+      "dx/y",
+      "x*dx/y"
+    ],
+    "alpha_matrix": [
+      [
+        "i",
+        "0"
+      ],
+      [
+        "0",
+        "-i"
+      ]
+    ],
+    "beta_matrix": [
+      [
+        "0",
+        "i"
+      ],
+      [
+        "i",
+        "0"
+      ]
+    ],
+    "joint_centralizer": "C*I"
+  },
+  "conditional_cm_scalar_math": {
+    "hypothesis": "T commutes with alpha_* and beta_*",
+    "analytic_conclusion": "T=lambda*I",
+    "integral_cm_conclusion": "lambda=a+b*sqrt(-2), a,b in Z",
+    "rosati_scalar_norm": "T^dagger*T=(a^2+2*b^2)*I",
+    "Q_formula": "Q(T)=2*(a^2+2*b^2)",
+    "Q602_norm_equation": "a^2+2*b^2=301",
+    "norm_residues_mod8": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      6
+    ],
+    "target_residue_mod8": 5,
+    "integer_solution_exists": false,
+    "conditional_exclusion": true
+  },
+  "decision": {
+    "two_generator_commutation_proved_for_actual_T": false,
+    "actual_Gamma_valence_proved": false,
+    "Q602_excluded_unconditionally": false,
+    "O210_excluded_unconditionally": false,
+    "conditional_Q602_exclusion_if_two_generator_commutation": true,
+    "O212_plus_authorized": false,
+    "next_required_fact": "prove or refute [T,alpha_*]=[T,beta_*]=0 from exact carrier-map equivariance, quotient-normalizer data, or divisor/correspondence identity"
+  },
+  "firewalls": {
+    "conditional_implies_unconditional": false,
+    "rosati_self_adjoint_assumed": false,
+    "product_polarization_assumed": false,
+    "scalar_complex_implies_integer_scalar": false,
+    "q2_mod3_7adic_reopened": false,
+    "geometric_realization_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "canonical_sha256_without_this_field": "b45e8ea119ec5f6fe19c95e47316b102a95da896f90e843a199db720624d23de"
+}

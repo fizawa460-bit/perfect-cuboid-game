@@ -1,0 +1,104 @@
+{
+  "schema": "STAGE35_EX_19B_POST_GENUSONE_BLOCKER_BREADTH_AUDIT_V1",
+  "stage": "35-EX",
+  "trigger": "LAST_PRESERVED_UNTESTED_CANDIDATE_FIXED_CURVE_PLAN_BLOCKED_AND_WOULD_OTHERWISE_PARK",
+  "receiver": {
+    "name": "MASTER_HIT_PLUS_FULL_E1_RECEIVER",
+    "normalized_source": [
+      "r=U1/W1",
+      "t=U2/W2",
+      "r^2+(V1/W1)^2=1",
+      "t^2+(V2/W2)^2=1"
+    ],
+    "normalized_square_equations": [
+      "mu^2=r^2+t^2-2*r^2*t^2",
+      "nu^2=r^2+t^2-r^2*t^2"
+    ]
+  },
+  "blind_rediscovery": {
+    "performed_before_arsenal_comparison_for_new_candidates": true,
+    "generated": [
+      {
+        "id": "E1-PAIRED-SOURCE-FILTER-QUARTIC-INTERSECTION",
+        "status": "LIVE",
+        "view": "retain the second source-circle condition after the fixed-r genus-one parameterization; every source point satisfies Y^2=u^4+2u^2+k^2 and Z^2=u^4-2u^2+k^2 with k^2+sigma^2=1",
+        "why_distinct": "the failed fixed-curve route studied one genus-one cover C_k alone; this route restores the omitted source filter and couples two square covers through Y^2-Z^2=4u^2 and a common moving sigma",
+        "next_test": "factor both equations as (u^2+1-sigma)(u^2+1+sigma) and (u^2-1-sigma)(u^2-1+sigma), derive exact gcd/resultant/valuation support, and decide whether a finite exhaustive squareclass family exists or sigma keeps support moving"
+      },
+      {
+        "id": "E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY",
+        "status": "UNTESTED",
+        "view": "study the total two-source square-cover surface in r,t,mu,nu rather than freezing r; classify a compactification/elliptic-surface or related global geometry before any fiberwise theorem",
+        "why_preserved": "the non-isotrivial j calculation proves the global object is not one fixed elliptic curve, but does not classify or obstruct the total surface"
+      },
+      {
+        "id": "E1-SYMMETRIC-SUM-PRODUCT-QUOTIENT",
+        "status": "EQUIVALENT",
+        "view": "use S=r^2+t^2=2*nu^2-mu^2 and P=r^2*t^2=nu^2-mu^2 with square discriminant to recover r^2,t^2",
+        "exact_reduction": "this is the symmetric quotient of the same normalized biquadratic surface and introduces no new receiver condition"
+      },
+      {
+        "id": "E1-GENERIC-FIBER-MW-ONLY",
+        "status": "BLOCKED",
+        "view": "compute only the Mordell-Weil group of the generic C_k fiber over Q(k)",
+        "blocker": "a hypothetical counterexample is a rational point on one specialization and need not extend to a rational section; generic-section completeness alone does not exclude sporadic specialized points"
+      },
+      {
+        "id": "E1-FIXED-CURVE-S31-W01-CLOSURE",
+        "status": "BLOCKED",
+        "view": "send the whole receiver to one fixed elliptic curve and enumerate its rational points",
+        "blocker": "35EX-19 proves the exact quartic family has nonconstant j(k) with moving source k; no theorem fixes k on hypothetical counterexamples"
+      }
+    ]
+  },
+  "arsenal_comparison": {
+    "performed_after_blind_generation": true,
+    "S31-W01": {
+      "match": "FIBERWISE_ONLY",
+      "decision": "BLOCKED_FOR_GLOBAL_35EX19_CLOSURE",
+      "reason": "formal quartic-to-elliptic birational adapter requires an already-fixed quartic/model; it does not collapse a non-isotrivial family"
+    },
+    "S34-W01": {
+      "match": "ROUTING_PATTERN_FOR_SELECTED_PAIRED_QUARTIC",
+      "decision": "NOT_YET_UNLOCKED",
+      "reason": "PAIR-FACT gives exact low-degree factorization, but complete gcd/resultant support, 2-adic/sign bookkeeping, and a finite exhaustive squareclass branch theorem have not yet been proved"
+    },
+    "matching_formal_nonisotrivial_surface_closure_card_found": false
+  },
+  "historical_ledger_comparison": {
+    "E1-PRODUCT-RATIO-CONIC-REPARAMETRIZATION": "remains EQUIVALENT to prior receiver coordinates and is not promoted by the new quartic family",
+    "E1-SUNIT-THUE-DYNAMIC-SUPPORT": "remains BLOCKED; no fixed global finite S is supplied by the moving parameter k or sigma",
+    "E1-GAUSSIAN-COORDINATE-GCD-SPLIT": "remains BLOCKED at moving absolute orientation/source units",
+    "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION": "fixed-curve version now BLOCKED by non-isotrivial moving k; paired source-filter hook is a new route, not a claim that all genus-one/global-surface methods are impossible"
+  },
+  "selection": {
+    "selected_candidate": "E1-PAIRED-SOURCE-FILTER-QUARTIC-INTERSECTION",
+    "selected_next_unit": "35EX-20_PAIRED_SOURCE_FILTER_QUARTIC_SQUARECLASS_OR_FREE_FAMILY",
+    "instruction": "USE_PAIR_FACT_Y2_EQ_(U2PLUS1_MINUS_SIGMA)(U2PLUS1_PLUS_SIGMA)_AND_Z2_EQ_(U2MINUS1_MINUS_SIGMA)(U2MINUS1_PLUS_SIGMA)_WITH_SIGMA2_EQ_1_MINUS_K2;_DERIVE_EXACT_PAIRWISE_GCD_RESULTANT_AND_2ADIC_SUPPORT_AND_DECIDE_IF_S34_W01_FINITE_EXHAUSTIVE_SQUARECLASS_DESCENT_IS_UNLOCKED_OR_SIGMA_REMAINS_MOVING;_DO_NOT_IMPORT_STAGE34_BRANCH_COUNTS_OR_COEFFICIENTS",
+    "preserved_untested_candidates": [
+      "E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY"
+    ]
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "CYCLE_ACTIVE_RECEIVER": "MASTER_HIT_PLUS_LMINUS_SQUARE_PLUS_LPLUS_SQUARE_WITH_PRIMITIVE_TWO_SOURCE_CIRCLES",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 1,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "paired source-filter quartics with common moving sigma and fixed difference Y^2-Z^2=4u^2",
+    "CYCLE_NEW_VIEW_SOURCE": "BLIND_INTERNAL_DERIVATION"
+  },
+  "credit": {
+    "bounded_evidence_is_theorem": false,
+    "new_theorem_credit": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

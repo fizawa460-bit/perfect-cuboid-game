@@ -1,0 +1,43 @@
+name: Stage32 post1532 Q602 single b3 commutator
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1532-q602-single-b3-commutator.yml'
+      - 'stages/stage32/residual-32-01-production/post1532-q602-single-b3-commutator*'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1532_q602_single_b3_commutator.py'
+      - 'stages/stage32/residual-32-01-production/post1505-o210-q602-weierstrass-parity-transvection-refinement.json'
+      - 'stages/stage32/residual-32-01-production/post1505-o210-q602-marked-w-line-gauge-orbit.json'
+      - 'stages/stage32/controller.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certificate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Certify single-b3 conditional Q602 exclusion
+        run: >-
+          python3 stages/stage32/residual-32-01-production/certify_stage32_post1532_q602_single_b3_commutator.py
+          --check stages/stage32/residual-32-01-production/post1532-q602-single-b3-commutator.json
+      - name: Preserve hostile-audited transvection replay
+        run: >-
+          python3 stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q602_weierstrass_parity_transvection_refinement.py
+          --check stages/stage32/residual-32-01-production/post1505-o210-q602-weierstrass-parity-transvection-refinement.json
+      - name: Enforce no controller edit
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          if git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" | grep -qx 'stages/stage32/controller.json'; then
+            echo 'controller.json must remain unchanged in this conditional leaf'
+            exit 1
+          fi
+      - name: Diff check
+        if: github.event_name == 'pull_request'
+        run: git diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"

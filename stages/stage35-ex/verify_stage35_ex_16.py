@@ -68,10 +68,18 @@ def remove_shared_prime_support(n: int, c: int) -> int:
 state = json.loads(STATE.read_text())
 doc = DOC.read_text()
 
-assert state["schema"] == "STAGE35_EX_PESCH_E1_STATE_V14_GLOBAL_RECIPROCITY_MOVING_RAMIFICATION_FREEZE"
+assert state["stage"] == "35-EX"
+assert state["schema"].startswith("STAGE35_EX_PESCH_E1_STATE_")
 unit16 = state["completed_units"]["35EX-16"]
-assert unit16["status"] == "PROVISIONAL_EXACT_GLOBAL_RECIPROCITY_MOVING_RAMIFICATION_FREEZE_NO_CREDIT"
+assert unit16["status"] in {
+    "PROVISIONAL_EXACT_GLOBAL_RECIPROCITY_MOVING_RAMIFICATION_FREEZE_NO_CREDIT",
+    "AUDITED_EXACT_GLOBAL_RECIPROCITY_MOVING_RAMIFICATION_FREEZE_NO_CREDIT",
+}
 assert unit16["failed_hostile_audit_review"] == 5108674372
+if unit16["status"].startswith("AUDITED_"):
+    assert unit16["hostile_reaudit_review"] == 5108777053
+    assert unit16["audited_head_sha"] == "b2fbe5f30c93259440829c3f99715d8cc3f73aa7"
+    assert unit16["merged_main_sha"] == "b68af30918070f692d711e2cb377e750525e5e1e"
 assert unit16["pair_jacobi_tautological"] is True
 assert unit16["DT_clean_channel_jacobi_plus_one"] is True
 assert unit16["DT_clean_means_c_coprime_parts_only"] is True
@@ -88,9 +96,13 @@ assert unit16["audited_theorem_credit"] is False
 
 block = state["resolved_investigations"]["CURRENT_COPRIME_PAIR_GLOBAL_RECIPROCITY"]
 assert block["status"] == "FROZEN_MOVING_RAMIFICATION"
-assert state["candidate_ledger_after_fresh_breadth_audit"]["selected_live"] == "E1-PRODUCT-HYPOTENUSE-NONNAIVE-DESCENT"
-assert state["candidate_ledger_after_fresh_breadth_audit"]["untested"] == []
-assert state["current"]["unit"] == "35EX-17_PRODUCT_HYPOTENUSE_SUCCESSOR_OR_NO_SELF_MAP"
+# Progression-safe: once 35EX-16 is frozen, later breadth audits may move the
+# selected live/current leaf. Keep only the historical ledger assertion.
+ledger = state["candidate_ledger_after_fresh_breadth_audit"]
+assert (
+    "E1-COPRIME-PAIR-GLOBAL-RECIPROCITY" in ledger.get("just_frozen", [])
+    or "E1-COPRIME-PAIR-GLOBAL-RECIPROCITY" in ledger.get("blocked", [])
+)
 assert state["arsenal"]["matching_global_reciprocity_Hilbert_Jacobi_card_found"] is False
 
 for text in (
@@ -172,7 +184,6 @@ for a, b in pairs1:
                 assert jacobi(Lminus, Lplus) == 1
                 assert jacobi(Lplus, Lminus) == 1
 
-                # Only c-coprime parts of D,T are universally clean.
                 assert gcd(Lplus, D_clean*T_clean) == 1
                 assert jacobi(Lplus, D_clean) == jacobi(D_clean, Lplus) == 1
                 assert jacobi(Lplus, T_clean) == jacobi(T_clean, Lplus) == 1
@@ -188,9 +199,6 @@ for a, b in pairs1:
                 assert jacobi(qo, S) == jacobi(S, qo) == 1
                 b35.append((a,b,m,n,Lminus,Lplus,c,p,q,d,D,T,D_clean,T_clean,D_ram,T_ram,S))
 
-        # Broader source-level exercise of the repaired clean-channel lemma.
-        # Whenever Lminus is square, every prime of D_clean/T_clean is outside c
-        # and therefore outside the opposite U-leg, exactly as the proof requires.
         if square(Lminus):
             assert gcd(Lplus, D_clean*T_clean) == 1
             assert jacobi(Lplus, D_clean) == jacobi(D_clean, Lplus) == 1
@@ -204,8 +212,6 @@ for a, b in pairs1:
                 assert jacobi(Lplus, qo) == jacobi(qo, Lplus) == 1
                 qodd_regression_seen = True
 
-        # Primewise c sign allocation. Higher c-adic overlap with D/T is not
-        # declared clean; it stays in this ramified layer.
         for ell in factor(c):
             if ell == 2:
                 continue
@@ -243,4 +249,4 @@ for key in (
 ):
     assert state["claims"][key] is False
 
-print("PASS STAGE35_EX_16_GLOBAL_RECIPROCITY_C_COPRIME_CLEAN_REPAIR_V4")
+print("PASS STAGE35_EX_16_GLOBAL_RECIPROCITY_C_COPRIME_CLEAN_REPAIR_V5_PROGRESSION_SAFE")

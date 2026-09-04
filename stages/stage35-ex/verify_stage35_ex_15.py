@@ -38,8 +38,18 @@ assert unit14["audited_head_sha"] == "ff502d2c9455ce60b4030843947e16e5bc84057c"
 assert unit14["merged_main_sha"] == "6d4354ca7e3d8162ad2f97d7aab086858c061503"
 assert unit14["audited_theorem_credit"] is False
 
+# Progression-safe: 35EX-15 may be provisional at its audit head or promoted
+# after hostile re-audit/merge. Verify the recorded result, not the downstream
+# current leaf or cosmetic controller wording.
 unit15 = state["completed_units"]["35EX-15"]
-assert unit15["status"] == "PROVISIONAL_EXACT_JOINT_LOCAL_FREE_SPLIT_SUPPORT_NO_CREDIT"
+assert unit15["status"] in {
+    "PROVISIONAL_EXACT_JOINT_LOCAL_FREE_SPLIT_SUPPORT_NO_CREDIT",
+    "AUDITED_EXACT_JOINT_LOCAL_FREE_SPLIT_SUPPORT_NO_CREDIT",
+}
+if unit15["status"].startswith("AUDITED_"):
+    assert unit15["hostile_reaudit_review"] == 5108777053
+    assert unit15["audited_head_sha"] == "b2fbe5f30c93259440829c3f99715d8cc3f73aa7"
+    assert unit15["merged_main_sha"] == "b68af30918070f692d711e2cb377e750525e5e1e"
 assert unit15["residual_squareclass_split_only"] is True
 assert unit15["B35_implies_Lplus_Q2_square"] is True
 assert unit15["real_place_automatic"] is True
@@ -50,8 +60,15 @@ assert unit15["all_future_local_global_arguments_ruled_out"] is False
 assert unit15["audited_theorem_credit"] is False
 
 assert state["resolved_investigations"]["CURRENT_S34_W03_JOINT_LOCAL"]["status"] == "FROZEN_FREE_SPLIT_SUPPORT"
-assert "E1-COPRIME-RECEIVER-JOINT-LOCAL" in state["candidate_ledger_after_fresh_breadth_audit"]["just_frozen"]
-assert state["arsenal"]["S34_W03"] == "EXACT_BRANCH_RECEIVER_ADAPTER_MATCHED_CURRENT_LOCAL_ROUTE_FROZEN_INTERSECTION_NOT_CLOSED"
+ledger = state["candidate_ledger_after_fresh_breadth_audit"]
+assert (
+    "E1-COPRIME-RECEIVER-JOINT-LOCAL" in ledger.get("just_frozen", [])
+    or "E1-COPRIME-RECEIVER-JOINT-LOCAL" in ledger.get("blocked", [])
+)
+assert state["arsenal"]["S34_W03"] in {
+    "EXACT_BRANCH_RECEIVER_ADAPTER_MATCHED_CURRENT_LOCAL_ROUTE_FROZEN_INTERSECTION_NOT_CLOSED",
+    "EXACT_BRANCH_RECEIVER_ADAPTER_MATCHED_CURRENT_DIRECT_LOCAL_ROUTE_FROZEN_INTERSECTION_NOT_CLOSED",
+}
 assert state["arsenal"]["matching_global_reciprocity_Hilbert_Jacobi_card_found"] is False
 
 for text in (
@@ -123,4 +140,4 @@ for key in (
 ):
     assert state["claims"][key] is False
 
-print("PASS STAGE35_EX_15_JOINT_LOCAL_FREE_SPLIT_SUPPORT_V2")
+print("PASS STAGE35_EX_15_JOINT_LOCAL_FREE_SPLIT_SUPPORT_V3_PROGRESSION_SAFE")
