@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 STATE_PATH = ROOT / "stages/stage36/MAIN-STATE.json"
 INITIAL_BASE = "c20ee71d91af850103fd7406f9b1072448a11fcf"
-SUCCESSOR_BASE = "62c26297ebeb159e9cdd1e6b9c2129dff6a4acdc"
+SUCCESSOR_BASE = "5ed32fa53bdecb735f461d7c27e85851d9ad8c21"
 SOURCES = {
     "stage29_active_kernel_ledger": ("stages/stage29/29-16/active-kernel-ledger.json", "5d6d4c7709b57064aea5dc0ece672c5170c39550"),
     "stage29_endpoint_hub_graph": ("stages/stage29/29-06/endpoint-hub-graph.json", "7ea59474767f81fbaa4837c8cbc94b535560617b"),
