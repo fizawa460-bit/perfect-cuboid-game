@@ -11,7 +11,7 @@ AUDIT = ROOT / "stages/stage35-ex/35ex-25/post-single-elliptic-receiver-breadth-
 S30 = ROOT / "docs/arsenal/cards/formal/S30-W02.md"
 S34 = ROOT / "docs/arsenal/cards/formal/S34-W03.md"
 V25 = "STAGE35_EX_PESCH_E1_STATE_V25_POST_35EX26_BASE_INVOLUTION_RECEIVER_DESCENT"
-CURRENT_MAIN = "de1df3d25c39306e5601646309b38aaad56967bd"
+CURRENT_MAIN = "dca962cdf37d4252316885dc57f3c0a591db4ecb"
 def git_blob_sha(path: Path) -> str:
     data = path.read_bytes()
     return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
