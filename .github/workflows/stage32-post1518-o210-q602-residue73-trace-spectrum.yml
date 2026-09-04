@@ -1,0 +1,31 @@
+name: Stage32 post1518 O210 Q602 residue73 trace spectrum
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1518-o210-q602-residue73-trace-spectrum.yml'
+      - 'stages/stage32/controller.json'
+      - 'stages/stage32/residual-32-01-production/post1518-o210-q602-residue73-trace-spectrum*'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1518_o210_q602_residue73_trace_spectrum.py'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1518_o210_q602_trace_spectrum_promotion.py'
+      - 'stages/stage32/residual-32-01-production/post1505-o210-q602-marked-w-line-gauge-orbit.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Verify hostile-audited trace-spectrum promotion
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1518_o210_q602_trace_spectrum_promotion.py
+      - name: Preserve audited gauge-orbit baseline
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q602_marked_w_line_gauge_orbit.py --check stages/stage32/residual-32-01-production/post1505-o210-q602-marked-w-line-gauge-orbit.json
+      - name: Diff check
+        run: git diff --check HEAD^
