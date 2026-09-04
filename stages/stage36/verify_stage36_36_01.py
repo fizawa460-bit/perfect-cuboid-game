@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 STATE_PATH = ROOT / "stages/stage36/MAIN-STATE.json"
 CERT_PATH = ROOT / "stages/stage36/36-01/source-authority-certificate.json"
-BASE = "62c26297ebeb159e9cdd1e6b9c2129dff6a4acdc"
+BASE = "5ed32fa53bdecb735f461d7c27e85851d9ad8c21"
 
 SOURCES = {
     "stage29_active_kernel_ledger": ("stages/stage29/29-16/active-kernel-ledger.json", "5d6d4c7709b57064aea5dc0ece672c5170c39550"),
@@ -43,7 +43,6 @@ def main() -> None:
     state = json.loads(STATE_PATH.read_text())
     cert = json.loads(CERT_PATH.read_text())
 
-    # S30-WF02: immutable mathematical inputs, independently replay cheap structure.
     expected = lock_dict()
     require(cert.get("immutable_stage29_sources") == expected, "certificate source-lock set moved")
     require(state.get("source_locks") == expected, "MAIN-STATE source-lock set moved")
@@ -129,6 +128,8 @@ def main() -> None:
 
     require(cert.get("schema") == "STAGE36_36_01_SOURCE_AUTHORITY_LOCK_V1", "certificate schema moved")
     require(cert.get("base_main_sha") == BASE, "certificate base moved")
+    require(cert.get("freshness_sync", {}).get("main_sha") == BASE, "certificate freshness main moved")
+    require(cert.get("freshness_sync", {}).get("sync_pr") == 1539, "certificate sync PR moved")
     ids = cert.get("locked_identities", {})
     require(ids.get("ROOT_KERNEL") == "K16-C3-CAMPEDELLI-UNIFORM-TORSOR", "root identity moved")
     require(ids.get("SOURCE_RECEIVER") == "R29-CAMP2", "receiver identity moved")
