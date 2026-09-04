@@ -155,14 +155,14 @@ def main() -> None:
 
     # Historical audited-bundle replay must remain valid under successor
     # controllers.  Validate only the retained bundle identity and permanent
-    # safety firewalls; do not pin the active controller leaf or verifier.
+    # safety firewalls; do not pin the active controller leaf, verifier, or
+    # checkpoint merge-release state.
     controller = json.loads((ROOT / "stages/stage32/controller.json").read_text())
     bundle = controller["post1505_q602_weierstrass_parity_transvection_provisional"]
     assert bundle["certificate_path"] == args.check
     assert bundle["canonical_sha256"] == EXPECTED_CANONICAL
     assert bundle["q602_residue_pruning"] == "16 -> 3"
     assert bundle["surviving_residues_decimal"] == EXPECTED_3
-    assert controller["merge_allowed"] is False
     assert controller["operations"]["heavy_compute_authorized"] is False
     assert controller["firewalls"]["O210_closed"] is False
     assert controller["math_scope"]["fixed_z_O212_through_O266_qprime4"] == "BLOCKED_BEHIND_O210"
