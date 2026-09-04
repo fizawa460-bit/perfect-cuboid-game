@@ -1,0 +1,142 @@
+{
+  "schema": "STAGE35_EX_24B_POST_ISOGENY_COMPRESSION_FRESH_BREADTH_AUDIT_V1",
+  "stage": "35-EX",
+  "status": "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT",
+  "trigger": "HOSTILE_AUDITED_35EX24_TWO_FIXED_MINUS1_TWIST_PAIRS_PLUS_EMINUS_REQUIRES_FRESH_EXHAUSTIVE_VIEW_AUDIT",
+  "authority": {
+    "unit": "35EX-24",
+    "hostile_audit_verdict": "PASS",
+    "hostile_audit_review": 5112867152,
+    "audited_head_sha": "529c550c742e75025cdcc1a6b9666582f26697a1",
+    "merged_main_sha": "81569110952b348692e688c5e1d7148dca10b163",
+    "current_main_sha_at_audit_start": "a873c8fca0074aa966a22e36475a3551a378560d"
+  },
+  "active_receiver": {
+    "base": "K=Q(B1), B1:p^2=1+x^2, a=x^2",
+    "generic_fiber": "C/K: q^2=y^2+1, z^2=y^2+a, w^2=y^2+1+a",
+    "audited_35ex24_structure": "Jac(C) is K-isogenous to Eplus*Eplus^(-1)*F*F^(-1)*Eminus and over K(i) to Eplus^2*F^2*Eminus",
+    "surviving_gap": "receiver points are a special simultaneous lift locus inside the quotient factors; arithmetic closure of that lift locus is unknown"
+  },
+  "blind_rediscovery": {
+    "performed_before_arsenal_comparison": true,
+    "generation_input": "only the exact C equations, the 35EX-23 quotient maps, the 35EX-24 exact isogeny/twist formulas, source-conic relation p^2=1+a, and audited freeze boundaries; Arsenal route recommendations were excluded until after candidate generation",
+    "generated": [
+      {
+        "id": "E1-SIMULTANEOUS-ELLIPTIC-KUMMER-LIFT-COMPATIBILITY",
+        "status": "LIVE",
+        "view": "do not solve the moving elliptic factors separately; characterize exactly the image of C inside one or more elliptic quotients by the constituent square roots q,z,w,y, and reduce the receiver to the smallest quotient-plus-squareclass intersection possible",
+        "why_distinct": "it attacks the exact lift image rather than the whole quotient point set or generic Mordell-Weil group",
+        "next_test": "use Eplus:X=y^2,Y=qzw and the pair-quartic 2-isogeny formulas to derive an iff receiver-lift dictionary, including converse reconstruction and exceptional/degenerate loci"
+      },
+      {
+        "id": "E1-BASE-INVOLUTION-A-INVERSE-DESCENT",
+        "status": "UNTESTED",
+        "view": "use the source-conic involution (x,p)->(1/x,p/x), hence a->1/a, to descend the moving elliptic receiver to a quotient-base parameter such as a+1/a",
+        "why_distinct": "it reduces the moving base rather than the fiber point set",
+        "dependency": "must descend the actual receiver lift and not only the j-functions"
+      },
+      {
+        "id": "E1-UNIFORM-ELLIPTIC-SURFACE-SPECIALIZATION-HEIGHT",
+        "status": "UNTESTED",
+        "view": "treat the retained elliptic family as an elliptic surface and prove a genuinely uniform specialization/height/Selmer theorem over every receiver-relevant rational base point",
+        "why_distinct": "global arithmetic on the total elliptic surface rather than local lift compatibility",
+        "dependency": "generic function-field Mordell-Weil data alone remains insufficient"
+      },
+      {
+        "id": "E1-NONOBVIOUS-BRAUER-FROM-ELLIPTIC-FIBRATION",
+        "status": "UNTESTED",
+        "view": "construct a genuinely non-obvious unramified Brauer/torsor class from the elliptic fibration or quotient package and test its exact receiver evaluations",
+        "why_distinct": "35EX-22 froze only the obvious 28-symbol boundary span",
+        "dependency": "an actual class, residue proof and receiver-compatible local evaluation are required"
+      },
+      {
+        "id": "E1-FURTHER-INTERFACTOR-ISOGENY-COMPRESSION",
+        "status": "UNTESTED",
+        "view": "test whether Eplus,F,Eminus admit additional generic isogenies beyond the audited degree-2/fixed-twist graph",
+        "why_distinct": "further structural compression could change the arithmetic object before any Selmer/height computation",
+        "dependency": "must use explicit modular/isogeny data over the exact field and cannot infer isogeny from isolated j coincidences"
+      },
+      {
+        "id": "E1-GENERIC-FIBER-MW-ONLY",
+        "status": "BLOCKED",
+        "blocker": "audited 35EX-19/21/23/24 leave the same specialization/completeness gap; a generic MW computation does not classify all receiver-relevant rational fibers"
+      },
+      {
+        "id": "E1-OBVIOUS-SURFACE-BRAUER-SYMBOL-REPLAY",
+        "status": "BLOCKED",
+        "blocker": "35EX-22 produced a genuine restricted-product adele annihilating the full tested obvious symbol span"
+      },
+      {
+        "id": "E1-PAIRED-FACTOR-SQUARECLASS-REPLAY",
+        "status": "BLOCKED",
+        "blocker": "35EX-20 fixed-source squareclass support remains globally moving with U1*V1; 35EX-24 did not remove that support"
+      },
+      {
+        "id": "E1-DIRECT-NORMALIZED-CUBOID-SURFACE-POINT-CLASSIFICATION",
+        "status": "BLOCKED",
+        "blocker": "35EX-21 identifies the endpoint-scale surface but provides no smaller complete rational-point classification theorem or primitive reverse-population adapter"
+      }
+    ]
+  },
+  "arsenal_comparison": {
+    "performed_after_blind_generation": true,
+    "registry_path": "docs/arsenal/index.json",
+    "authority_order_respected": true,
+    "live_stage_authority_overrides_provisional_cards": true,
+    "selected_card": {
+      "id": "S34-W03",
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96",
+      "role": "RECEIVER_RESTRICTED_INTERSECTION_EXCLUSION",
+      "match": "STRONG_DIRECT_MATCH_FOR_SINGLE_QUOTIENT_PLUS_EXACT_SQUARE_LIFT_INTERSECTION",
+      "decision": "APPLICABLE_AFTER_EXACT_LIFT_DICTIONARY",
+      "reason": "it permits closure of the exact quotient-plus-receiver-condition intersection without requiring the entire moving elliptic point set to be classified"
+    },
+    "S34_W02": "NOT_UNLOCKED_NO_CERTIFIED_FULL_MW_GROUP_FOR_ALL_RECEIVER_RELEVANT_FIBERS",
+    "S31_W01": "ALREADY_CONSUMED_FOR_35EX24_EXACT_QUARTIC_CUBIC_ADAPTER_NO_ARITHMETIC_CLOSURE",
+    "matching_formal_uniform_moving_family_kummer_closure_card_found": false,
+    "matching_formal_nonobvious_brauer_constructor_found": false
+  },
+  "historical_ledger_comparison": {
+    "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION": "35EX-19 blocked only a one-fixed-curve interpretation; an exact receiver-restricted square-lift intersection on a moving elliptic family is distinct",
+    "E1-PAIRED-SOURCE-FILTER-QUARTIC-INTERSECTION": "35EX-20 squareclass branch enumeration is blocked by dynamic support; the new LIVE candidate keeps the exact quotient image instead of enumerating global squareclasses",
+    "E1-GENUS5-MULTIQUADRATIC-FIBER-CHARACTER-DESCENT": "35EX-23 supplied the elliptic quotients; the present candidate asks for the exact image of the original genus-5 cover in those quotients",
+    "E1-FIVE-ELLIPTIC-ISOGENY-TWIST-COMPRESSION": "35EX-24 is audited and merged; it changes the structural package but does not identify the smallest exact receiver-lift locus"
+  },
+  "selection": {
+    "selected_candidate": "E1-SIMULTANEOUS-ELLIPTIC-KUMMER-LIFT-COMPATIBILITY",
+    "selected_next_unit": "35EX-25_SINGLE_ELLIPTIC_FULL_SQUARE_RECEIVER_OR_KUMMER_INTERSECTION",
+    "instruction": "DERIVE_AN_EXACT_IFF_DICTIONARY_BETWEEN_C_AND_THE_SMALLEST_ELLIPTIC_QUOTIENT_PLUS_RECEIVER_SQUARE_CONDITIONS;_PROVE_THE_PAIR_2_ISOGENY_IMAGE_CRITERION_EXPLICITLY;_HANDLE_CONVERSE_SIGN_RECONSTRUCTION_AND_DEGENERATE_LOCI;_USE_S34_W03_ONLY_AS_ROUTER_AFTER_THE_DICTIONARY;_DO_NOT_CLAIM_FULL_ELLIPTIC_POINTSET_OR_E1_CLOSURE",
+    "preserved_untested_candidates": [
+      "E1-BASE-INVOLUTION-A-INVERSE-DESCENT",
+      "E1-UNIFORM-ELLIPTIC-SURFACE-SPECIALIZATION-HEIGHT",
+      "E1-NONOBVIOUS-BRAUER-FROM-ELLIPTIC-FIBRATION",
+      "E1-FURTHER-INTERFACTOR-ISOGENY-COMPRESSION"
+    ],
+    "split_triggered": false,
+    "split_reason": "the exact lift dictionary is the closest prerequisite and can strictly reduce the receiver seen by every later arithmetic route; preserve the other distinct candidates"
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "PASS_NEXT_GATE_UNCHANGED",
+    "CYCLE_ACTIVE_RECEIVER": "AUDITED_35EX24_THREE_REPRESENTATIVE_ELLIPTIC_PACKAGE_WITH_UNKNOWN_SIMULTANEOUS_C_LIFT_IMAGE",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 4,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "exact receiver image inside a minimal elliptic quotient via simultaneous square/Kummer lift conditions",
+    "CYCLE_NEW_VIEW_SOURCE": "BOTH"
+  },
+  "credit": {
+    "new_theorem_credit": false,
+    "global_surface_rational_points_classified": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
