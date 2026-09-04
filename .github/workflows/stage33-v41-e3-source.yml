@@ -1,4 +1,4 @@
-name: Stage33 V41-V55 e3 source and lift-route replay
+name: Stage33 V41-V56 e3 source and lift-route replay
 
 on:
   pull_request:
@@ -43,6 +43,8 @@ on:
       - 'stages/stage33/33-12/verify_e3_mask20_adjoint_u1_label_v54.py'
       - 'stages/stage33/33-12/e3-mask20-u1-fiber-cardinality-v55.json'
       - 'stages/stage33/33-12/verify_e3_mask20_u1_fiber_cardinality_v55.py'
+      - 'stages/stage33/33-12/e3-mask20-marked-picard-to-literal-geometry-bridge-gap-v56.json'
+      - 'stages/stage33/33-12/verify_e3_mask20_marked_picard_to_literal_geometry_bridge_gap_v56.py'
       - 'stages/stage33/33-12/verify_stage33_roadmap_v54_alignment.py'
       - 'stages/stage33/ROADMAP-33-12-MICROGOALS.md'
       - '.github/workflows/stage33-v41-e3-source.yml'
@@ -52,7 +54,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v41-v55-e3-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v41-v56-e3-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -66,7 +68,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Verify V41-V55 e3 source and lift route
+      - name: Verify V41-V56 e3 source and lift route
         run: |
           python stages/stage33/33-12/verify_e3_independent_proper14_source_v41.py
           python stages/stage33/33-12/verify_e3_v25_transfer_obstruction_v42.py
@@ -82,6 +84,7 @@ jobs:
           python stages/stage33/33-12/verify_e3_mask20_picard_adjoint_candidate_v53.py
           python stages/stage33/33-12/verify_e3_mask20_adjoint_u1_label_v54.py
           python stages/stage33/33-12/verify_e3_mask20_u1_fiber_cardinality_v55.py
+          python stages/stage33/33-12/verify_e3_mask20_marked_picard_to_literal_geometry_bridge_gap_v56.py
           python stages/stage33/33-12/verify_stage33_roadmap_v54_alignment.py
           python stages/stage33/33-12/verify_j2_post_v38_locator_first_construction_policy_v39.py
           python stages/stage33/sync_main_state.py --check
