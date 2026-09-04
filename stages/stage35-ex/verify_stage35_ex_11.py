@@ -165,23 +165,17 @@ assert t == 2
 assert [ell for ell in factor(t) if ell % 4 == 1] == []
 assert [ell for ell in factor(T) if ell % 4 == 1] == []
 
-# The two inert T-primes are source-oriented exactly as the 35EX-11 proof says.
 pq = p*q
 assert legendre(-1, 3) == -1
 assert legendre(-1, 11) == -1
 assert legendre(pq, 3) == 1
 assert legendre(pq, 11) == -1
 
-# e divides c, while every odd prime of e must be 1 mod4. Since c=7, this source
-# witness forces e=1 under any hypothetical counterexample based on this hit.
 assert factor(c) == {7: 1}
 assert 7 % 4 == 3
 
-# Blind alternate-norm candidate starts from an exact identity, but remains
-# explicitly UNTESTED beyond that identity.
 assert (W1*U2)**2 + (U1*V2)**2 == (U1*W2)**2 + (V1*U2)**2
 
-# Primewise routing truth-table sanity.
 for ell in (3, 7, 11, 19, 23, 31):
     assert ell % 4 == 3
     assert legendre(-1, ell) == -1
@@ -189,13 +183,13 @@ for ell in (5, 13, 17, 29, 37, 41):
     assert ell % 4 == 1
     assert legendre(-1, ell) == 1
 
-# Downstream-safe state checks: verify the 35EX-11 authority remains recorded,
-# without pinning the live current leaf after later audited progression.
+# Downstream-safe state checks: bind the immutable recorded 35EX-11/11B
+# authority, not the mutable current candidate ledger after later breadth audits.
 assert state["stage"] == "35-EX"
 assert state["stage35_main_firewall"]["stage35_ex_reopens_stage35_main"] is False
 assert state["completed_units"]["35EX-11"]["inert_prime_edge_routing_proved_conditionally"] is True
 assert state["completed_units"]["35EX-11B"]["exhaustive_view_audit"] is True
 assert state["completed_units"]["35EX-11B"]["blind_rediscovery"] is True
-assert state["candidate_ledger_after_fresh_breadth_audit"]["audit_artifact"] == "stages/stage35-ex/35ex-11/post-three-reservoir-breadth-audit.json"
+assert state["completed_units"]["35EX-11B"]["artifact"] == "stages/stage35-ex/35ex-11/post-three-reservoir-breadth-audit.json"
 
-print("PASS STAGE35_EX_11_RECIPROCITY_AND_FRESH_BREADTH_AUDIT_V3_PROGRESSION_SAFE")
+print("PASS STAGE35_EX_11_RECIPROCITY_AND_FRESH_BREADTH_AUDIT_V4_AUTHORITY_STABLE")
