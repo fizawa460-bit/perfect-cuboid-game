@@ -177,9 +177,12 @@ assert rp["restricted_product_integrality_proved"] is True
 assert rp["common_zero_evaluation_adele_exists"] is True
 A=sp.symbols("A",nonzero=True); pA=(A+1/A)/2; xA=(A-1/A)/2
 assert sp.factor(pA**2-xA**2-1)==0
-assert sp.factor(sp.together(xA).as_numer_denom()[0])==A**2-1
-assert sp.factor(sp.together(pA).as_numer_denom()[0])==A**2+1
-assert sp.factor(sp.together(xA**2-1).as_numer_denom()[0])==A**4-6*A**2+1
+x_num=sp.together(xA).as_numer_denom()[0]
+p_num=sp.together(pA).as_numer_denom()[0]
+x2m1_num=sp.together(xA**2-1).as_numer_denom()[0]
+assert sp.expand(x_num-(A**2-1))==0
+assert sp.expand(p_num-(A**2+1))==0
+assert sp.expand(x2m1_num-(A**4-6*A**2+1))==0
 assert 2+2+4==8 and 173-1>8
 assert sp.expand((1+x**2)-x**2)==1
 assert sp.factor((1+x**2)-1)==x**2
