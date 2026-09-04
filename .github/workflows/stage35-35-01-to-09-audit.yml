@@ -1,0 +1,52 @@
+name: Stage35 and Stage35-EX aggregate audit
+
+# Stage35-EX is an experimental sibling lane; this workflow must preserve the parked Stage35 authority while checking EX-only provisional reductions.
+on:
+  pull_request:
+    paths:
+      - 'stages/stage35/**'
+      - 'stages/stage35-ex/**'
+      - '.github/workflows/stage35-35-01-to-09-audit.yml'
+  workflow_dispatch:
+
+jobs:
+  verify-stage35-and-ex:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact PR head checkout
+        run: |
+          ACTUAL_HEAD_SHA="$(git rev-parse HEAD)"
+          echo "EXPECTED_HEAD_SHA=${EXPECTED_HEAD_SHA}"
+          echo "ACTUAL_HEAD_SHA=${ACTUAL_HEAD_SHA}"
+          test "${ACTUAL_HEAD_SHA}" = "${EXPECTED_HEAD_SHA}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install lightweight symbolic dependency
+        run: python -m pip install --disable-pip-version-check sympy
+      - name: Verify Stage35 promoted 35-01 through 35-09 authority
+        run: python -B stages/stage35/verify_stage35_35_01_to_09.py
+      - name: Verify Stage35 35-10 material routing firewalls
+        run: python -B stages/stage35/35-10/verify_35_10.py
+      - name: Verify Stage35-EX provisional reductions and firewalls
+        run: python -B stages/stage35-ex/verify_stage35_ex.py
+      - name: Verify Stage35-EX 35EX-10 split-prime obstruction
+        run: python -B stages/stage35-ex/verify_stage35_ex_10.py
+      - name: Verify Stage35-EX 35EX-11 reciprocity routing boundary
+        run: python -B stages/stage35-ex/verify_stage35_ex_11.py
+      - name: Verify Stage35-EX 35EX-12 dynamic-support S-unit boundary
+        run: python -B stages/stage35-ex/verify_stage35_ex_12.py
+      - name: Verify Stage35-EX 35EX-13 alternate-norm Gaussian coupling
+        run: python -B stages/stage35-ex/verify_stage35_ex_13.py
+      - name: Verify Stage35-EX 35EX-14 coprime E1 receiver factorization
+        run: python -B stages/stage35-ex/verify_stage35_ex_14.py
+      - name: Verify Stage35-EX 35EX-15 joint-local free split support
+        run: python -B stages/stage35-ex/verify_stage35_ex_15.py
+      - name: Verify Stage35-EX 35EX-16 global reciprocity moving ramification
+        run: python -B stages/stage35-ex/verify_stage35_ex_16.py

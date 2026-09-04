@@ -1,0 +1,158 @@
+{
+  "schema": "STAGE35_EX_14B_COPRIME_RECEIVER_FRESH_BREADTH_AUDIT_V1",
+  "unit": "35EX-14B_FRESH_RECEIVER_BREADTH_AUDIT",
+  "target": "PESCH-CONJ-E1-BASIS-NONSQUARE",
+  "trigger": {
+    "policy": "docs/research-os/policies/cycle-exploration-safety-protocol.md",
+    "reason": "35EX-14 proves the new exact invariant N=(p*d)^2*Lminus*Lplus with gcd(Lminus,Lplus)=1, materially replacing the Gaussian-ratio presentation by a coprime two-square receiver.",
+    "anti_optimization_trigger": 4,
+    "material_receiver_change": "MASTER_HIT_PLUS_LMINUS_SQUARE_PLUS_LPLUS_SQUARE"
+  },
+  "receiver_snapshot": {
+    "p": "gcd(W1,V2)",
+    "d": "gcd(V1,W2)",
+    "Lminus": "(W1*W2-V1*V2)/(p*d)",
+    "Lplus": "(W1*W2+V1*V2)/(p*d)",
+    "positive_odd_integers": true,
+    "coprime": true,
+    "raw_E1_norm": "(p*d)^2*Lminus*Lplus",
+    "E1_counterexample_iff": "Master-Hit AND Lminus=square AND Lplus=square",
+    "gaussian_35EX13_condition_exactly": "Lminus=square",
+    "residual_receiver": "Lplus=square"
+  },
+  "blind_pass": {
+    "generated_from_exact_receiver_before_candidate_matching": true,
+    "candidates": [
+      {
+        "id": "E1-COPRIME-RECEIVER-JOINT-LOCAL",
+        "status": "LIVE",
+        "view": "Treat Master-Hit + Lminus=square as the exact branch and Lplus=square as the residual receiver; exhaust joint local/projective residue cases instead of classifying the larger branch point set.",
+        "why_distinct": "Uses the newly proved coprime receiver split directly and asks only for the true intersection."
+      },
+      {
+        "id": "E1-PRODUCT-HYPOTENUSE-NONNAIVE-DESCENT",
+        "status": "UNTESTED",
+        "view": "Use the forced primitive triple 2RS=V1V2/(pd), R^2+S^2=W1W2/(pd), R^2-S^2=sqrt(N)/(pd) to seek a same-type reconstruction with a genuinely decreasing height.",
+        "why_distinct": "This successor candidate is different from the frozen 35EX-10 bridge successor and uses the product of the two original hypotenuses."
+      },
+      {
+        "id": "E1-COPRIME-PAIR-GLOBAL-RECIPROCITY",
+        "status": "UNTESTED",
+        "view": "Exploit gcd(Lminus,Lplus)=1 together with their simultaneous square requirement and source cross-gcd units p,d,c,q to seek a global Jacobi/Hilbert relation coupling prime allocations across both factors.",
+        "why_distinct": "35EX-11 treated the earlier three-reservoir primewise graph; it did not have the coprime Lminus/Lplus receiver."
+      },
+      {
+        "id": "E1-SIMULTANEOUS-GAUSSIAN-ORIENTATION",
+        "status": "DOMINATED",
+        "view": "Continue manipulating the 35EX-13 Gaussian ratio directly.",
+        "by": "35EX-14_COPRIME_RECEIVER_FACTORIZATION",
+        "reason": "The rational Gaussian square test is exactly equivalent to Lminus=square; the residual information needed for E1 is exactly Lplus=square, so the coprime receiver loses no hypothesis and is strictly cleaner."
+      },
+      {
+        "id": "E1-SUNIT-THUE-DYNAMIC-SUPPORT",
+        "status": "BLOCKED",
+        "view": "Normalize the new factors to one fixed finite support or fixed Thue family.",
+        "block": "No new theorem fixes the parameter-dependent prime support; 35EX-12 dynamic-support blocker remains applicable."
+      },
+      {
+        "id": "E1-UNIFORM-ELLIPTIC-HEIGHT",
+        "status": "BLOCKED",
+        "view": "Uniform height/discriminant contradiction on a varying low-genus family.",
+        "block": "No new uniform family theorem or fixed global model is supplied by the factorization alone."
+      },
+      {
+        "id": "E1-FIXED-FIBER-TORSION",
+        "status": "BLOCKED",
+        "view": "Close selected source fibers by rank-zero/torsion intersection.",
+        "block": "The universal Master-Hit quantifier remains; no globally exhaustive finite fiber reduction is proved."
+      }
+    ]
+  },
+  "arsenal_comparison_after_blind_pass": {
+    "registry": "docs/arsenal/index.json",
+    "asset_policy": "docs/research-os/policies/repository-asset-discovery.md",
+    "matches": [
+      {
+        "id": "S34-W03",
+        "role": "RECEIVER_RESTRICTED_INTERSECTION_EXCLUSION",
+        "status": "EXACT_ADAPTER_SHAPE_MATCHED_JOINT_TEST_NOT_YET_PROVED",
+        "mapping": {
+          "branch_B": "primitive Master-Hit source conditions + Lminus=square",
+          "receiver_K": "Lplus=square",
+          "field": "Q",
+          "quantifier": "all primitive Master-Hits",
+          "zero_pole_infinity_degenerate_locus": "EMPTY for Lminus,Lplus normalization"
+        },
+        "missing": "an exhaustive exact local/global test proving B intersect K empty or receiver-degenerate"
+      },
+      {
+        "id": "S34-W01",
+        "role": "SUCCESSIVE_EXACT_FACTOR_SQUARECLASS_DESCENT",
+        "status": "NOT_UNLOCKED_FOR_FINITE_ENUMERATION",
+        "reason": "Lminus,Lplus are exact coprime factors but their prime support is still source-dependent; no fixed finite squareclass family is proved."
+      },
+      {
+        "id": "S31-W01",
+        "role": "GENUS_ONE_QUARTIC_ELLIPTIC_BIRATIONAL_ADAPTER",
+        "status": "DORMANT",
+        "reason": "No fixed quartic/genus-one branch representing all current receiver points has been produced."
+      },
+      {
+        "id": "S34-W02",
+        "role": "GLOBAL_MORDELL_WEIL_CONGRUENCE_EXCLUSION",
+        "status": "LOCKED",
+        "reason": "No certified globally exhaustive finite quotient family or full Mordell-Weil group represents the active receiver."
+      }
+    ]
+  },
+  "historical_ledger_reclassification": {
+    "E1-ALTERNATE-NORM-SYMMETRY": {
+      "status": "DOMINATED",
+      "by": "35EX-14 coprime E1 receiver factorization",
+      "reason": "35EX-13 Gaussian condition is exactly Lminus=square and the remaining E1 content is exactly Lplus=square."
+    },
+    "E1-RECEIVER-RESTRICTED-JOINT-LOCAL": {
+      "status": "LIVE",
+      "reason": "The exact B+K adapter required by S34-W03 is now explicit."
+    },
+    "E1-NONNAIVE-DESCENT": {
+      "status": "UNTESTED_SHARPENED",
+      "reason": "The new product-hypotenuse primitive triple supplies a different successor object than the frozen naive bridge map."
+    },
+    "E1-GLOBAL-RECIPROCITY-BEYOND-LOCAL-GRAPH": {
+      "status": "UNTESTED_SHARPENED",
+      "reason": "The new coprime factor pair supplies a global coupling object unavailable to 35EX-11."
+    },
+    "E1-SUNIT-THUE-DYNAMIC-SUPPORT": {
+      "status": "BLOCKED",
+      "reason": "35EX-14 does not provide fixed finite prime support."
+    }
+  },
+  "selection": {
+    "selected_next_unit": "35EX-15_COPRIME_RECEIVER_JOINT_LOCAL_OR_FREE_SUPPORT",
+    "selected_candidate": "E1-COPRIME-RECEIVER-JOINT-LOCAL",
+    "reason": "It is closest to the exact receiver, consumes the new coprime factorization directly, and matches the formal S34-W03 proof pattern without requiring completion of the larger Lminus-square branch.",
+    "selection_is_theorem_credit": false
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "CYCLE_ACTIVE_RECEIVER": "primitive Master-Hit + Lminus=square + Lplus=square with gcd(Lminus,Lplus)=1",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 2,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "coprime two-square factorization of the exact E1 receiver",
+    "CYCLE_NEW_VIEW_SOURCE": "INTERNAL_DERIVATION"
+  },
+  "credit": {
+    "new_theorem_credit": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

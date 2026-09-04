@@ -1,0 +1,67 @@
+{
+  "schema": "STAGE32_POST1505_O210_Q4_X8_V4_TORSOR_PLANE_WEIERSTRASS_LOCK_V1",
+  "stage": 32,
+  "status": "PROVISIONAL_EXACT_ABSTRACT_W_LOCK_F2_COORDINATES_PENDING_HOSTILE_AUDIT",
+  "fixed_target": {"row_id":"g1-d186","d":186,"e":266,"genus":1,"z":[-15,62,-44,26,32],"O":210,"qprime":4},
+  "source_locks": {
+    "x8_v4_quotient": {"path":"stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json","blob_sha1":"00eaebc3c57f6b5e3696c7bcd60eac5a53121f72","canonical_sha256":"2869208e7509d7b79378264ea1982299b0f1745b1a54c5856cfbba0754567ce5"},
+    "weierstrass_adapter": {"path":"stages/stage32/residual-32-01-production/post1473-boundary-label-weierstrass-adapter.json","blob_sha1":"d3f9c82ab087ea4a2721737867159900a3f304c4","canonical_sha256":"b947be5a3677a9e0b46839241adc03004ee5221ee94d6371f165253281e2a81f","hostile_reaudit_review":5083834097,"audited_head":"a2cd62cdcf8331827eca94453482244a2fd8bf0d"},
+    "weierstrass_adapter_note": {"path":"stages/stage32/residual-32-01-production/post1473-boundary-label-weierstrass-adapter-source-note.md","blob_sha1":"e41abea3781536dc266be0782e6b0984f484c16b"},
+    "principal_rosati": {"path":"stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json","blob_sha1":"e28c4533883440ea0963d4d4e8859aa95409cf10","canonical_sha256":"8d828cdf6d1f5cb1d790c46292535dc252e503356e1047ce972c41e61f524529"},
+    "upstream_relative_v4_coupling": {"path":"stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling.json","blob_sha1":"b987bc0cc036d4b514458961c6a286318a918181","canonical_sha256":"312aa78d5a89c7c4d48e0afc2988e5ecf2b605d68820d123fea8ca8c48f6d669"},
+    "source_note": {"path":"stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock-source-note.md","blob_sha1":"5b51a7e274f58bb23a3a2cb4d0f77c1aaba1fc54"},
+    "richelot_reference": {"url":"https://magma-maths.org/documentation/text1614.htm","locator":"Richelot Isogenies; kernel from a three-factor splitting of the hyperelliptic branch polynomial"}
+  },
+  "weierstrass_model": {
+    "curve": "y^2=x^5-x",
+    "id_to_x": {"1":"+1","6":"-1","3":"+i","5":"-i","2":"0","4":"infinity"},
+    "factorization": "x^5-x = x*(x^2-1)*(x^2+1)",
+    "cusp_pairs": {"Z1":[1,6],"Z2":[3,5],"Z3":[2,4]},
+    "inertia": {"Z1":"tau*u","Z2":"tau*u*v","Z3":"tau"}
+  },
+  "character_pushouts": {
+    "H_basis": ["u","v"],
+    "tau_character_value": 0,
+    "characters": {
+      "chi_u": {"values":{"u":1,"v":0,"uv":1},"branch_pairs":["Z1","Z2"],"canonical_pair":"Z3"},
+      "chi_v": {"values":{"u":0,"v":1,"uv":1},"branch_pairs":["Z2"],"canonical_pair":"Z2"},
+      "chi_uv": {"values":{"u":1,"v":1,"uv":0},"branch_pairs":["Z1"],"canonical_pair":"Z1"}
+    }
+  },
+  "torsor_plane": {
+    "definition": "W=image(H^* -> H^1(C0,F2))",
+    "dimension": 2,
+    "nonzero_classes": [
+      {"name":"delta_pm1","pair_ids":[1,6],"pair_values":["+1","-1"]},
+      {"name":"delta_pmi","pair_ids":[3,5],"pair_values":["+i","-i"]},
+      {"name":"delta_0inf","pair_ids":[2,4],"pair_values":["0","infinity"]}
+    ],
+    "sum_of_three_nonzero_classes_zero": true,
+    "pairwise_weil_orthogonal": true,
+    "maximal_weil_isotropic": true,
+    "richelot_kernel_for_factorization": true,
+    "retained_F2_4_coordinates_identified": false
+  },
+  "decision": {
+    "actual_global_W_abstractly_identified": true,
+    "arbitrary_two_plane_search_authorized": false,
+    "exact_retained_F2_4_translation_pending": true,
+    "pointwise_28_residue_test_pending": true,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "O212_plus_authorized": false,
+    "next_exact_leaf": "O210_Q4_TRANSLATE_LOCKED_WEIERSTRASS_W_TO_RETAINED_E1_E2_R_E1_R_E2_MOD2"
+  },
+  "firewalls": {
+    "coordinate_guess_used": false,
+    "arbitrary_symplectic_basis_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "full178_authorized": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "c84242981cbf81c9935c6851d8a95dc4dc0f1d8afbdba7ba7bbe16385bf1282f"
+}

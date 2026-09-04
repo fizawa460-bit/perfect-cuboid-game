@@ -1,0 +1,69 @@
+{
+  "schema": "STAGE32_POST1505_O210_Q4_X8_V4_TORSOR_PLANE_RETAINED_F2_4_ADAPTER_V1",
+  "stage": 32,
+  "status": "PROVISIONAL_EXACT_RETAINED_F2_4_ADAPTER_AND_28_TO_16_PENDING_HOSTILE_AUDIT",
+  "fixed_target": {"row_id":"g1-d186","d":186,"e":266,"genus":1,"z":[-15,62,-44,26,32],"O":210,"qprime":4},
+  "source_locks": {
+    "audited_abstract_W": {"path":"stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock.json","blob_sha1":"d645749ac13b26900df7f7ef39f1870a31222881","canonical_sha256":"c84242981cbf81c9935c6851d8a95dc4dc0f1d8afbdba7ba7bbe16385bf1282f","hostile_reaudit_review":5099888513,"audited_head":"2dacce9f98e4bed621df21e2d712b72930c3265b"},
+    "principal_rosati": {"path":"stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json","blob_sha1":"e28c4533883440ea0963d4d4e8859aa95409cf10","canonical_sha256":"8d828cdf6d1f5cb1d790c46292535dc252e503356e1047ce972c41e61f524529"},
+    "upstream_relative_v4_coupling": {"path":"stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling.json","blob_sha1":"b987bc0cc036d4b514458961c6a286318a918181","canonical_sha256":"312aa78d5a89c7c4d48e0afc2988e5ecf2b605d68820d123fea8ca8c48f6d669"},
+    "source_note": {"path":"stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter-source-note.md","blob_sha1":"33ed6a067b9ebb32c2a92772f98db7bb3f22fab8"},
+    "richelot_reference": {"arxiv":"2603.20754v1","title":"An explicit expression of the Richelot isogeny through Kleinian hyperellyptic functions","locators":["Section 2.2 equation (2.9)","Proposition 2.3","Definition 2.4"],"facts_used":["[a,b]=a' b-b' a and fhat=[q,s][s,p][p,q]/(4 Delta)","R_{p,q,s}: Jac(X_fhat)->Jac(X_f) is induced by identity on C^2 differential coordinates","the dual Richelot isogeny is induced by multiplication by 2"]}
+  },
+  "self_richelot_calculation": {
+    "curve":"y^2=x^5-x",
+    "factors":{"p":"x","q":"x^2-1","s":"x^2+1"},
+    "Delta":2,
+    "brackets":{"[q,s]":"4*x","[s,p]":"x^2-1","[p,q]":"-(x^2+1)"},
+    "fhat_over_f":"-1/2",
+    "cm_element":"r",
+    "cm_relation":"r^2=-2",
+    "curve_isomorphism":"iota:(x,yhat)->(x,r*yhat)",
+    "iota_differential_scalar":"1/r",
+    "richelot_analytic_scalar":"1",
+    "transported_self_endomorphism":"[r]",
+    "kernel_equals_audited_W":true
+  },
+  "retained_F2_4_adapter": {
+    "ordered_basis":["e1","e2","r*e1","r*e2"],
+    "multiplication_by_r_integer_matrix_columns":[[0,0,1,0],[0,0,0,1],[-2,0,0,0],[0,-2,0,0]],
+    "multiplication_by_r_matrix":[[0,0,-2,0],[0,0,0,-2],[1,0,0,0],[0,1,0,0]],
+    "multiplication_by_r_mod2":[[0,0,0,0],[0,0,0,0],[1,0,0,0],[0,1,0,0]],
+    "W_basis_vectors":[[0,0,1,0],[0,0,0,1]],
+    "W_nonzero_vectors":[[0,0,1,0],[0,0,0,1],[0,0,1,1]],
+    "W_dimension":2,
+    "W_equals_kernel_r_mod2":true,
+    "arbitrary_symplectic_basis_used":false
+  },
+  "q602_pointwise_exact_W_test": {
+    "input_residue_count":28,
+    "input_residues_decimal":[20,60,65,67,69,73,75,77,81,97,99,105,107,113,150,190,193,195,199,201,203,207,211,225,227,233,235,243],
+    "condition":"T|W=id and T^dagger|W=id",
+    "surviving_residue_count":16,
+    "surviving_residues_decimal":[65,67,73,75,97,99,105,107,193,195,201,203,225,227,233,235],
+    "surviving_residues_hex":["0x41","0x43","0x49","0x4b","0x61","0x63","0x69","0x6b","0xc1","0xc3","0xc9","0xcb","0xe1","0xe3","0xe9","0xeb"],
+    "removed_residue_count":12,
+    "Q602_excluded":false
+  },
+  "decision": {
+    "retained_F2_4_adapter_identified":true,
+    "pointwise_28_to_16_pruning":true,
+    "Q602_excluded":false,
+    "O210_excluded":false,
+    "O212_plus_authorized":false,
+    "result":"SELF_RICHELOT_CM_IDENTIFIES_W_AS_KER_R_AND_PRUNES_Q602_RESIDUES_28_TO_16",
+    "next_exact_leaf":"O210_Q4_REFINE_16_EXACT_W_SURVIVORS_WITH_NEW_SOURCE_LOCKED_CONSTRAINT"
+  },
+  "firewalls": {
+    "coordinate_guess_used":false,
+    "arbitrary_symplectic_basis_credit":false,
+    "full178_authorized":false,
+    "receiver_credit":false,
+    "route_credit":false,
+    "theorem_credit":false,
+    "endpoint_credit":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  },
+  "canonical_sha256_without_this_field":"eab4d86ffe89ff0e87d197cffb34e8b556ae530cab826dab34c1007664a4af28"
+}

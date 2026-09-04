@@ -4,6 +4,10 @@ Keep this root file small. Stage-specific startup, history, and operating detail
 
 During ordinary Stage startup, do not preload Research OS. Follow the Stage-local startup contract and open Research OS only on the explicit triggers below.
 
+## Repository traversal discipline
+
+Repository discovery is search-first, not tree-first. Do not acquire a recursive repository tree by default. Fetch known paths directly; use GitHub search for filenames/paths and GitHub code search for terms, symbols, identifiers, or phrases; follow controller, roadmap, source-lock, certificate, or other authority references only to the exact targets needed for the active leaf. Use a recursive tree only when exhaustive file enumeration is itself an explicit research requirement. A search miss never proves repository-wide absence; broaden only under the active Stage/search policy.
+
 ## Repo-wide Actions safety
 
 - Treat GitHub Actions artifact/storage capacity as a hard execution constraint. The repository operating budget is **500 MB** unless explicitly revised.
