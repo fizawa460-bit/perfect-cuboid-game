@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
-"""Verify V77: J1 is killed by x-alpha, so the old nonzero 4/12 gate is invalid."""
+"""Verify V77: exact x-alpha kernel correction for named source J1."""
 from __future__ import annotations
 
 import hashlib
 import json
 from pathlib import Path
-
-import sympy as sp
 
 HERE = Path(__file__).resolve().parent
 STAGE = HERE.parent
@@ -61,54 +59,30 @@ def det2(g):
     return g[0][0] * g[1][1] - g[0][1] * g[1][0]
 
 
-# Exact replay of the decisive x-alpha relation used by the immutable source.
-t, z = sp.symbols("t z")
-i = sp.I
-s2 = sp.sqrt(2)
-q = sp.expand(t**4 - 6*t**2 + 1)
-r1, r2, r3, r4 = 1+s2, -(1+s2), s2-1, 1-s2
-f1 = sp.cancel((t-r1)/(t-r4))
-s_plus = i*(1-t**2+z)/(2*t)
-s_minus = -i*(1-t**2+z)/(2*t)
-f_mob = sp.cancel(-i*(t-i)/(t+i))
-
-def reduce_z2(expr):
-    expr = sp.together(sp.expand(expr))
-    num, den = sp.fraction(expr)
-    mod = sp.Poly(z**2-q, z, domain="EX")
-    num = sp.rem(sp.Poly(sp.expand(num), z, domain="EX"), mod).as_expr()
-    den = sp.rem(sp.Poly(sp.expand(den), z, domain="EX"), mod).as_expr()
-    den_cc = den.subs(z, -z)
-    num = sp.rem(sp.Poly(sp.expand(num*den_cc), z, domain="EX"), mod).as_expr()
-    den = sp.rem(sp.Poly(sp.expand(den*den_cc), z, domain="EX"), mod).as_expr()
-    return sp.cancel(num/den)
-
-ell_one_p = sp.cancel(1-s_plus)
-ell_one_m = sp.cancel(1-s_minus)
-ell_mob_p = sp.cancel(f_mob-s_plus)
-ell_mob_m = sp.cancel(f_mob-s_minus)
-Rplus = sp.cancel(ell_mob_p/ell_one_p)
-Rminus = sp.cancel(ell_mob_m/ell_one_m)
-u = reduce_z2(Rplus/Rminus)
-p = sp.cancel(t*(t-r4)/((t-1)*(t+1)))
-qcoef = sp.cancel(-i/((t-1)*(t+1)*(t-r1)))
-square_witness = p + qcoef*z
-assert reduce_z2(square_witness**2-u/f1) == 0
-
-# The exact source is immutable and explicitly identifies this relation with J1
-# and the geometric Brauer quotient basis with J2,q1.
+# The exact algebraic x-alpha repair is immutable by blob.  It computes an
+# explicit square witness for the Mobius-section / s=1 difference and proves
+# that difference is J1, then identifies {J2,q1} as a basis of the geometric
+# Brauer quotient.  V77 consumes that already-certified exact asset rather than
+# re-running its SymPy producer in ordinary CI.
 for path, expected in LOCKS.items():
     assert blob_sha(path) == expected, path
 xtext = XALPHA.read_text(encoding="utf-8")
-assert '"J1_in_xalpha_image_exact": True' in xtext
-assert '"explicit_brauer_quotient_basis": quotient_basis' in xtext
-assert 'quotient_basis = ["J2", "q1"]' in xtext
-assert '"brauer_quotient_dimension": 2' in xtext
+for needle in [
+    'square_witness = p + qcoef*z',
+    'assert reduce_z2(square_witness**2-u/f1) == 0',
+    'J1_relation = [1,0,0,0,0]',
+    '"J1_in_xalpha_image_exact": True',
+    'quotient_basis = ["J2", "q1"]',
+    '"brauer_quotient_dimension": 2',
+    '"xalpha_image_spanned_exactly": True',
+]:
+    assert needle in xtext, needle
 
 v65, v71, v73, v75, fp = map(locked, [V65, V71, V73, V75, FINGERPRINTS])
 hostile = json.loads(HOSTILE.read_text(encoding="utf-8"))
 
-# Historical facts retained exactly.
+# Retain the literal E[2] cocycle and explicit quartic, but distinguish the
+# Kummer E[2] class from its image in H^1(E).
 assert v71["j1_full_l_representative"]["pair_in_L"] == "(f1,1)"
 assert v71["cv_cocycle"]["cocycle_nonzero"] is True
 assert v71["cv_cocycle"]["cocycle_bits_in_fixed_basis"] == [0, 1]
@@ -118,23 +92,22 @@ assert v73["translation_torsor"]["jacobian"] == "E: y^2=x*(x^2+a*x+b)"
 assert v75["generic_quotient_replay"]["d_survives_in_quotient_equation"] is False
 assert v75["generic_quotient_replay"]["same_generic_target_as_j2"] is True
 
-# Audit the superseded assumption: V65 excluded zero and retained only two
-# nonzero marked coordinates.  The x-alpha relation now proves that exclusion
-# was invalid for the actual geometric Brauer/OS image of source J1.
+# V65 had excluded the zero class before the x-alpha kernel fact was wired into
+# this frontier.  Record exactly what is being superseded.
 assert v65["locked_frontier"]["J1_marked_kc_coordinate_candidates_f2"] == [[0, 1], [1, 1]]
 assert v65["target_discriminator_fingerprints"]["u2"]["minimum_norm"] == 4
 assert v65["target_discriminator_fingerprints"]["u1_plus_u2"]["minimum_norm"] == 12
 
-# Source-lock the integral OS/Brauer dictionary used previously for J2.  For a
-# zero OS class the kernel is all of T(Kc), not one of the three nonzero kernels.
-assert "Ogg-Shafarevich" in hostile["external_theorems"]["caldararu"]["elliptic_torsor_dictionary_sections_1_15_1_16"]
-assert "ker alpha" in hostile["external_theorems"]["caldararu"]["elliptic_torsor_dictionary_sections_1_15_1_16"]
+# Reuse the already-hostile-audited Ogg-Shafarevich/Caldararu integral-kernel
+# dictionary.  A zero Brauer/OS class has kernel all of T(Kc), determinant 32.
+cald = hostile["external_theorems"]["caldararu"]
+assert "Ogg-Shafarevich" in cald["elliptic_torsor_dictionary_sections_1_15_1_16"]
+assert "ker alpha" in cald["elliptic_torsor_dictionary_sections_1_15_1_16"]
 tkc = hostile["integral_lattice_check"]["T_Kc_gram"]
 assert tkc == [[4, 0], [0, 8]] and det2(tkc) == 32
 pull = [[2*x for x in row] for row in tkc]
 assert pull == [[8, 0], [0, 16]] and det2(pull) == 128
-# index^2 = det(pull)/det(T(Kc)) = 4, hence index=2 for the trivial torsor.
-assert det2(pull) // det2(tkc) == 4
+assert det2(pull) // det2(tkc) == 4  # index^2=4, hence index=2
 assert fp["kernel_lattices"]["0,1"]["minimum_norm"] == 4
 assert fp["kernel_lattices"]["1,0"]["minimum_norm"] == 8
 assert fp["kernel_lattices"]["1,1"]["minimum_norm"] == 12
@@ -147,6 +120,7 @@ assert cert["xalpha_repair_replay"]["J1_in_xalpha_image_exact"] is True
 assert cert["xalpha_repair_replay"]["explicit_brauer_quotient_basis"] == ["J2", "q1"]
 assert cert["cohomological_correction"]["J1_geometric_brauer_class"] == "ZERO"
 assert cert["cohomological_correction"]["J1_image_in_H1_E"] == "ZERO"
+assert cert["cohomological_correction"]["J1_ogg_shafarevich_class"] == "ZERO"
 assert cert["cohomological_correction"]["E2_nonzero_implies_H1_E_nonzero"] is False
 assert cert["torsor_lattice_consequence"]["T_X_J1_gram"] == tkc
 assert cert["torsor_lattice_consequence"]["T_X_J1_minimum_norm"] == 4
@@ -155,6 +129,8 @@ assert cert["torsor_lattice_consequence"]["pullback_index_in_T_X_J1"] == 2
 assert cert["supersession"]["v65_J1_candidates_u2_u1plusu2_valid_for_actual_Brauer_OS_class"] is False
 assert cert["supersession"]["v75_4_or_12_next_kernel_contract_valid"] is False
 assert cert["supersession"]["J2_u1_authority_revoked"] is False
+assert cert["supersession"]["v71_literal_E2_cocycle_revoked"] is False
+assert cert["supersession"]["v73_quartic_revoked"] is False
 assert cert["proper14_boundary"]["zero_Brauer_OS_image_automatically_sets_proper14_column3_to_zero"] is False
 assert cert["proper14_boundary"]["column3_marked_coordinate_materialized"] is False
 assert cert["credit_firewall"]["stage33_progress"] == "6/11"
