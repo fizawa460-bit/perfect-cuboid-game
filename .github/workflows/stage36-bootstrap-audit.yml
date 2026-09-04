@@ -23,6 +23,7 @@ on:
       - 'docs/arsenal/cards/workflows/S30-WF01.md'
       - 'docs/arsenal/cards/workflows/S30-WF02.md'
       - 'docs/arsenal/cards/workflows/S30-WF03.md'
+      - 'docs/arsenal/cards/workflows/S34-WF01.md'
   workflow_dispatch:
 
 permissions:
@@ -77,10 +78,10 @@ jobs:
       - name: Replay audited Stage36 36-04 authority
         run: python3 stages/stage36/verify_stage36_36_04_audited.py
 
-      - name: Verify Stage36 36-05 uniform ramification support wall
-        run: python3 stages/stage36/verify_stage36_36_05.py
+      - name: Replay audited Stage36 36-05 blocked authority
+        run: python3 stages/stage36/verify_stage36_36_05_audited.py
 
-      - name: Assert hostile-audit boundary with 36-06 locked
+      - name: Assert audited blocked promotion boundary before 36-09
         shell: bash
         run: |
           set -euo pipefail
@@ -88,8 +89,8 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V10_36_05_PENDING_AUDIT'
-          assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V11_36_05_AUDITED_BLOCKED'
+          assert s['status']=='ACTIVE'
           g=s['promotion_gates']
           assert g['source_authority_lock_complete'] is True
           assert g['three_Q_representatives_exact'] is True
@@ -98,14 +99,23 @@ jobs:
           assert g['uniform_finite_ramification_support_proved'] is False
           assert g['finite_exhaustive_H_twist_family_proved'] is False
           u=s['completed_units']['36-05']
+          assert u['status']=='AUDITED_BLOCKED_MOVING_RAMIFICATION_SUPPORT'
           assert u['legal_outcome']=='BLOCKED_MOVING_RAMIFICATION_SUPPORT'
+          assert u['hostile_audit_review']==5118563918
+          assert u['audited_head']=='cf430199171c98ed5f9eaaadeb8d2d40268ca6ba'
+          assert u['exact_head_ci_run']==33928640974
+          assert u['exact_head_ci_job']==101202500740
+          assert u['merged_main_sha']=='353d9057d1d5bd9b25a287672906a27c551dede9'
+          assert u['certificate_blob_sha']=='193d0165b242d799bc981774783a5160c1ac58dc'
           assert u['UNIFORM_FINITE_RAMIFICATION_SUPPORT_PROVED'] is False
           assert u['FINITE_EXHAUSTIVE_H_TWIST_FAMILY'] is False
-          assert u['ARBITRARY_PRIME_PHYSICAL_RECEIVER_POINT_CLAIM'] is False
-          assert u['promotion_status']=='PROVISIONAL_NOT_AUDITED'
-          assert s['current']['unit']=='36-05'
+          assert u['promotion_status']=='AUDITED'
+          assert s['current']['unit']=='36-09'
+          assert s['current']['next_exact_leaf']=='36-09_RECEIVER_MATCHED_REPLACEMENT_BREADTH_GATE'
           assert s['current']['36_06_entry_allowed'] is False
+          assert s['current']['36_09_entry_allowed'] is True
           assert '36-06' not in s['completed_units']
+          assert '36-09' not in s['completed_units']
           assert all(v is False for v in s['claims'].values())
-          print('36-05 blocked moving ramification support provisional; 36-06 locked')
+          print('36-05 audited BLOCKED; direct 36-06 remains locked; 36-09 routed but not started')
           PY
