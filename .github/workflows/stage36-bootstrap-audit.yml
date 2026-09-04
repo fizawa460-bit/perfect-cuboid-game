@@ -1,0 +1,53 @@
+name: Stage36 bootstrap authority audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage36/**'
+      - '.github/workflows/stage36-bootstrap-audit.yml'
+      - 'stages/stage29/29-16/active-kernel-ledger.json'
+      - 'stages/stage29/29-06/endpoint-hub-graph.json'
+      - 'stages/stage29/29-02hb/route-contract.json'
+      - 'stages/stage29/29-02hb/arithmetic-routing.md'
+      - 'stages/stage29/29-02hb/campedelli-quotient-adapter.md'
+      - 'stages/stage29/29-02hb/source-lock.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+
+      - name: Assert exact-head checkout
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected="${{ github.event.pull_request.head.sha || github.sha }}"
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$expected"
+          echo "exact_head=$actual"
+
+      - name: Verify Stage36 bootstrap authority
+        run: python3 stages/stage36/verify_stage36_bootstrap.py
+
+      - name: Assert 36-01 has not started
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          s = json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
+          assert s['status'] == 'PLANNED_NOT_STARTED'
+          assert s['completed_units'] == {}
+          assert s['current']['next_exact_leaf'] == '36-01_SOURCE_AUTHORITY_LOCK'
+          print('36-01 not started')
+          PY
