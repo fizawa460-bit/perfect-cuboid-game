@@ -11,7 +11,9 @@ Stage33 is stricter than the repo-wide traversal rule. For ordinary research/nav
 - Start from `stages/stage33/controller.json` and the active roadmap named or implied by the current leaf. Do not enumerate repository contents to rediscover state already named there.
 - For reusable cross-Stage weapons, read `docs/arsenal/index.json`, select only matching IDs, then read only the needed card and exact source/certificate paths referenced by that card.
 - Known paths are fetched directly. File/path discovery uses GitHub search. Term/content discovery uses GitHub code search.
-- A recursive repository tree is not an ordinary Stage33 discovery tool. Use it only if the active research task explicitly requires enumeration of the full file set itself.
+
+**Stage33 MAIN hard ban:** do not request, fetch, or dump a full/recursive repository tree, including GitHub recursive `git/trees` reads or equivalent whole-branch tree enumeration. Do not use a recursive tree as a convenience fallback after a search miss. Navigate only by exact-path fetches, targeted filename/code searches, and explicit controller/roadmap/Arsenal/source-lock references. If a future leaf genuinely requires exhaustive repository enumeration, that requirement must first be made explicit in the Stage33 roadmap/controller; it is not implicitly authorized by `Stage33-main-batch`.
+
 - A search miss never proves repository absence and must not be promoted to mathematical absence.
 
 ## V41 Arsenal-first bounded-search constitution
