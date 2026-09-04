@@ -14,7 +14,9 @@ AUDITED_HEAD = "3a78f9ff156b53f509625d353df48d1b3e02b836"
 AUDIT_REVIEW = 5113379283
 AUDIT_CI_RUN = 33876389406
 AUDIT_CI_JOB = 101034265419
-MERGED_MAIN = "4c93ccb79e95cbcd9e2416ad3b6a3f4788d6f586"
+AUDITED_PR_MERGE = "4c93ccb79e95cbcd9e2416ad3b6a3f4788d6f586"
+PROMOTION_MERGE = "26fb608cb2551ab2102ae36ad3b57c063959df58"
+V6_CURRENT_BASE = "bdd707e52ded061014bfbb6158762e8b997e7a38"
 HISTORICAL_BASE = "a873c8fca0074aa966a22e36475a3551a378560d"
 
 
@@ -29,17 +31,12 @@ def require(ok: bool, msg: str) -> None:
 
 
 def main() -> None:
-    # S30-WF02: the hostile-audited 36-02 final inventory is immutable authority.
     require(blob_sha(INV_PATH) == AUDITED_INVENTORY_BLOB, "36-02 audited inventory blob drift")
-
     inv = json.loads(INV_PATH.read_text())
     require(inv.get("schema") == "STAGE36_36_02_THREE_Q_REPRESENTATIVE_INVENTORY_V1", "36-02 inventory schema moved")
     require(inv.get("status") == "EXACT_THREE_Q_REPRESENTATIVES_PENDING_HOSTILE_AUDIT", "36-02 audited inventory historical status moved")
     require(inv.get("base_main_sha") == HISTORICAL_BASE, "36-02 audited inventory historical base moved")
-    require(inv.get("pass_condition") == {
-        "THREE_CERTIFIED_Q_REPRESENTATIVES_EXACT": True,
-        "EXACT_Q_ISOMORPHISM_CLASS_COUNT_CLAIM": False,
-    }, "36-02 audited pass condition moved")
+    require(inv.get("pass_condition") == {"THREE_CERTIFIED_Q_REPRESENTATIVES_EXACT": True, "EXACT_Q_ISOMORPHISM_CLASS_COUNT_CLAIM": False}, "36-02 audited pass condition moved")
     require(inv.get("finite_reconstruction", {}).get("q_orbit_sizes") == [6, 2, 2], "36-02 Q orbit split moved")
     require(inv.get("finite_reconstruction", {}).get("geometric_qi_orbit_sizes") == [8, 2], "36-02 Q(i) orbit split moved")
     require(inv.get("finite_reconstruction", {}).get("exact_Q_isomorphism_class_count_proved") is False, "36-02 Q-isomorphism firewall moved")
@@ -49,16 +46,13 @@ def main() -> None:
     require(all(v is False for v in inv.get("claims", {}).values()), "36-02 audited inventory leaked higher credit")
 
     state = json.loads(STATE_PATH.read_text())
-    require(state.get("schema") == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V5_36_02_AUDITED", "36-02 audited state schema moved")
-    require(state.get("status") == "ACTIVE", "36-02 audited state not active")
-    require(state.get("base_main_sha") == MERGED_MAIN, "36-02 audited promotion base moved")
-
-    auth = state.get("stage36_36_02_authority", {})
-    require(auth == {
+    schema = state.get("schema")
+    require(schema in {"STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V5_36_02_AUDITED", "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V6_36_03_PENDING_AUDIT"}, "36-02 audited successor schema moved")
+    require(state.get("stage36_36_02_authority") == {
         "pr": 1541,
         "hostile_audit_review": AUDIT_REVIEW,
         "audited_head": AUDITED_HEAD,
-        "merged_main_sha": MERGED_MAIN,
+        "merged_main_sha": AUDITED_PR_MERGE,
         "exact_head_ci_run": AUDIT_CI_RUN,
         "exact_head_ci_job": AUDIT_CI_JOB,
         "inventory_blob_sha": AUDITED_INVENTORY_BLOB,
@@ -66,35 +60,42 @@ def main() -> None:
     }, "36-02 authority block moved")
 
     unit = state.get("completed_units", {}).get("36-02", {})
-    require(unit.get("status") == "AUDITED_PASS", "36-02 unit not audited PASS")
-    require(unit.get("promotion_status") == "AUDITED", "36-02 unit promotion moved")
-    require(unit.get("hostile_audit_review") == AUDIT_REVIEW, "36-02 review moved")
-    require(unit.get("audited_head") == AUDITED_HEAD, "36-02 audited head moved")
-    require(unit.get("exact_head_ci_run") == AUDIT_CI_RUN, "36-02 CI run moved")
-    require(unit.get("exact_head_ci_job") == AUDIT_CI_JOB, "36-02 CI job moved")
-    require(unit.get("merged_main_sha") == MERGED_MAIN, "36-02 merged authority moved")
-    require(unit.get("inventory_blob_sha") == AUDITED_INVENTORY_BLOB, "36-02 inventory authority moved")
+    require(unit.get("status") == "AUDITED_PASS" and unit.get("promotion_status") == "AUDITED", "36-02 unit audit status moved")
+    require(unit.get("hostile_audit_review") == AUDIT_REVIEW and unit.get("audited_head") == AUDITED_HEAD, "36-02 audit identity moved")
+    require(unit.get("exact_head_ci_run") == AUDIT_CI_RUN and unit.get("exact_head_ci_job") == AUDIT_CI_JOB, "36-02 CI identity moved")
+    require(unit.get("merged_main_sha") == AUDITED_PR_MERGE and unit.get("inventory_blob_sha") == AUDITED_INVENTORY_BLOB, "36-02 immutable authority moved")
     require(unit.get("THREE_CERTIFIED_Q_REPRESENTATIVES_EXACT") is True, "36-02 exact representative credit lost")
-    require(unit.get("EXACT_Q_ISOMORPHISM_CLASS_COUNT_CLAIM") is False, "36-02 Q-isomorphism overclaim")
-    require(unit.get("NEW_THEOREM_CREDIT") is False, "36-02 theorem credit leaked")
+    require(unit.get("EXACT_Q_ISOMORPHISM_CLASS_COUNT_CLAIM") is False and unit.get("NEW_THEOREM_CREDIT") is False, "36-02 credit firewall moved")
 
     gates = state.get("promotion_gates", {})
-    require(gates.get("source_authority_lock_complete") is True, "36-01 authority gate lost")
-    require(gates.get("three_Q_representatives_exact") is True, "36-02 audited gate not promoted")
+    require(gates.get("source_authority_lock_complete") is True and gates.get("three_Q_representatives_exact") is True, "36-01/02 audited gates lost")
     for key, value in gates.items():
         if key not in {"source_authority_lock_complete", "three_Q_representatives_exact"}:
             require(value is False, f"later gate prematurely promoted: {key}")
+    require(all(v is False for v in state.get("claims", {}).values()), "Stage36 higher claim leaked")
 
     current = state.get("current", {})
-    require(current.get("unit") == "36-03", "current unit is not 36-03")
-    require(current.get("next_exact_leaf") == "36-03_PHYSICAL_OPEN_PUSH_AND_BOUNDARY", "36-03 successor moved")
-    require("36-03" not in state.get("completed_units", {}), "36-03 started inside promotion commit")
-    require(all(v is False for v in state.get("claims", {}).values()), "Stage36 higher claim leaked")
+    require(current.get("unit") == "36-03" and current.get("next_exact_leaf") == "36-03_PHYSICAL_OPEN_PUSH_AND_BOUNDARY", "36-03 successor moved")
+
+    if schema == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V5_36_02_AUDITED":
+        require(state.get("status") == "ACTIVE" and state.get("base_main_sha") == AUDITED_PR_MERGE, "36-02 promotion lifecycle moved")
+        require("36-03" not in state.get("completed_units", {}), "36-03 started inside 36-02 promotion state")
+    else:
+        require(state.get("status") == "ACTIVE_PENDING_HOSTILE_AUDIT" and state.get("base_main_sha") == V6_CURRENT_BASE, "36-03 successor lifecycle moved")
+        promo = state.get("stage36_36_02_promotion", {})
+        require(promo.get("pr") == 1548 and promo.get("merged_main_sha") == PROMOTION_MERGE and promo.get("NEW_THEOREM_CREDIT") is False, "36-02 promotion provenance moved")
+        require(state.get("freshness_sync_36_03") == {
+            "sync_pr": 1554,
+            "main_sha": V6_CURRENT_BASE,
+            "merge_commit": "a741d573da4045cdee984a0541d71a55a9d7c0a9",
+            "scope": "Stage32-only advance via #1550; no Stage36, Stage29 Campedelli/physical-open source, or Arsenal authority changes",
+        }, "36-03 current-main freshness moved")
+        require(state.get("completed_units", {}).get("36-03", {}).get("promotion_status") == "PROVISIONAL_NOT_AUDITED", "36-03 successor prematurely audited")
 
     print("PASS STAGE36_36_02_AUDITED_SUCCESSOR_REPLAY")
     print(f"hostile_audit_review={AUDIT_REVIEW}; audited_head={AUDITED_HEAD}")
     print(f"audited_inventory_blob={AUDITED_INVENTORY_BLOB}")
-    print("three_Q_representatives_exact=true; 36-03 ready but not started")
+    print(f"successor_schema={schema}; three_Q_representatives_exact=true")
     print("no theorem/receiver/endpoint/perfect-cuboid credit")
 
 
