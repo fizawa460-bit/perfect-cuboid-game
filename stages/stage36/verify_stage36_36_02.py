@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 STATE_PATH = ROOT / "stages/stage36/MAIN-STATE.json"
 INV_PATH = ROOT / "stages/stage36/36-02/representative-inventory.json"
-BASE = "81569110952b348692e688c5e1d7148dca10b163"
+BASE = "a873c8fca0074aa966a22e36475a3551a378560d"
 
 SOURCE_LOCKS = {
     "stage29_kernel_checker": ("stages/stage29/29-02hb/campedelli_kernel_check.py", "0e44eea33eb696f32e556a893310a563ed31cb12"),
