@@ -33,10 +33,15 @@ def prime_support(n: int):
 state = json.loads(STATE.read_text())
 doc = DOC.read_text()
 
-assert state["schema"] == "STAGE35_EX_PESCH_E1_STATE_V10_SUNIT_DYNAMIC_SUPPORT_FROZEN"
-assert state["base_main_sha"] == "f4ecaa756334eddc358424680ac4aa2d39e9fb6c"
+# Progression-safe: verify the recorded 35EX-12 audited authority/boundary,
+# not the downstream live schema/current leaf, which is expected to advance.
+assert state["stage"] == "35-EX"
+assert state["target"]["id"] == "PESCH-CONJ-E1-BASIS-NONSQUARE"
 unit = state["completed_units"]["35EX-12"]
-assert unit["status"] == "PROVISIONAL_EXACT_DYNAMIC_SUPPORT_BLOCKER_NO_CREDIT"
+assert unit["status"] == "AUDITED_EXACT_DYNAMIC_SUPPORT_BLOCKER_NO_CREDIT"
+assert unit["hostile_audit_review"] == 5108290559
+assert unit["audited_head_sha"] == "d652f912d660ef9e5ec0b0dfa29e8a4eac35766f"
+assert unit["merged_main_sha"] == "5436d56fd897426a3a0889874ada2aa6a42df9fd"
 assert unit["per_master_hit_finite_sunit_support_proved"] is True
 assert unit["uniform_fixed_finite_S_proved"] is False
 assert unit["fixed_finite_Thue_family_proved"] is False
@@ -44,18 +49,17 @@ assert unit["sunit_thue_finite_enumeration_authorized"] is False
 assert unit["route_frozen_dynamic_support"] is True
 assert unit["audited_theorem_credit"] is False
 
+parent = state["parent_authority"]
+assert parent["unit"] == "35EX-12"
+assert parent["hostile_audit_review"] == 5108290559
+assert parent["audited_head_sha"] == "d652f912d660ef9e5ec0b0dfa29e8a4eac35766f"
+assert parent["merged_main_sha"] == "5436d56fd897426a3a0889874ada2aa6a42df9fd"
+assert parent["audited_theorem_credit"] is False
+
 block = state["resolved_investigations"]["CURRENT_SUNIT_THUE_DYNAMIC_SUPPORT"]
 assert block["status"] == "FROZEN_NO_UNIFORM_FIXED_SUPPORT_ADAPTER_FROM_CURRENT_IDENTITIES"
-assert state["current"]["unit"] == "35EX-13_ALTERNATE_NORM_SYMMETRY_COMPATIBILITY"
-assert state["current"]["status"] == "SELECTED_FROM_FRESH_AUDITED_UNTESTED_LEDGER_NOT_YET_EXECUTED"
 ledger = state["candidate_ledger_after_fresh_breadth_audit"]
-assert ledger["selected_live"] == "E1-ALTERNATE-NORM-SYMMETRY"
 assert ledger["just_completed_and_frozen"] == "E1-SUNIT-THUE-DYNAMIC-SUPPORT"
-assert set(ledger["untested"]) == {
-    "E1-NONNAIVE-DESCENT",
-    "E1-GLOBAL-RECIPROCITY-BEYOND-LOCAL-GRAPH",
-    "E1-RECEIVER-RESTRICTED-JOINT-LOCAL",
-}
 
 for text in (
     "PER_MASTER_HIT_FINITE_SUNIT_SUPPORT_PROVED=true",
@@ -128,4 +132,4 @@ for key in (
 ):
     assert state["claims"][key] is False
 
-print("PASS STAGE35_EX_12_SUNIT_THUE_DYNAMIC_SUPPORT_BLOCKER_V1")
+print("PASS STAGE35_EX_12_AUDITED_SUNIT_THUE_DYNAMIC_SUPPORT_BLOCKER_V2")

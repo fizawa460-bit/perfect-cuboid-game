@@ -1,8 +1,16 @@
 {
-  "schema": "STAGE35_EX_PESCH_E1_STATE_V10_SUNIT_DYNAMIC_SUPPORT_FROZEN",
+  "schema": "STAGE35_EX_PESCH_E1_STATE_V11_ALTERNATE_NORM_GAUSSIAN_COUPLING",
   "stage": "35-EX",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
-  "base_main_sha": "f4ecaa756334eddc358424680ac4aa2d39e9fb6c",
+  "base_main_sha": "5436d56fd897426a3a0889874ada2aa6a42df9fd",
+  "parent_authority": {
+    "unit": "35EX-12",
+    "status": "AUDITED_EXACT_DYNAMIC_SUPPORT_BLOCKER_NO_CREDIT",
+    "hostile_audit_review": 5108290559,
+    "audited_head_sha": "d652f912d660ef9e5ec0b0dfa29e8a4eac35766f",
+    "merged_main_sha": "5436d56fd897426a3a0889874ada2aa6a42df9fd",
+    "audited_theorem_credit": false
+  },
   "true_owner": {
     "kernel": "K16-C3-PESCH-EXPONENT-ONE",
     "receiver": "R29-PESCH-E1",
@@ -80,14 +88,34 @@
       "audited_theorem_credit": false
     },
     "35EX-12": {
-      "status": "PROVISIONAL_EXACT_DYNAMIC_SUPPORT_BLOCKER_NO_CREDIT",
+      "status": "AUDITED_EXACT_DYNAMIC_SUPPORT_BLOCKER_NO_CREDIT",
       "artifact": "stages/stage35-ex/35ex-12/sunit-thue-dynamic-support-blocker.md",
+      "hostile_audit_review": 5108290559,
+      "audited_head_sha": "d652f912d660ef9e5ec0b0dfa29e8a4eac35766f",
+      "merged_main_sha": "5436d56fd897426a3a0889874ada2aa6a42df9fd",
       "result": "the three-reservoir graph gives finite squareclass support per Master-Hit, but current identities do not normalize supp(cross*T*c) to one fixed finite S or a fixed finite Thue/Thue-Mahler coefficient family over all Master-Hits",
       "per_master_hit_finite_sunit_support_proved": true,
       "uniform_fixed_finite_S_proved": false,
       "fixed_finite_Thue_family_proved": false,
       "sunit_thue_finite_enumeration_authorized": false,
       "route_frozen_dynamic_support": true,
+      "audited_theorem_credit": false
+    },
+    "35EX-13": {
+      "status": "PROVISIONAL_EXACT_ALTERNATE_NORM_GAUSSIAN_COUPLING_NO_CREDIT",
+      "artifact": "stages/stage35-ex/35ex-13/alternate-norm-gaussian-coupling.md",
+      "verifier": "stages/stage35-ex/verify_stage35_ex_13.py",
+      "result": "the unused W2/V1 channel is the exact index-swapped E1 orientation, so its mirrored four-factor receiver is not independent; however simultaneous original/swapped primitive Gaussian factorizations force a new source-only squareclass coupling Q=(d/p)Z1/Z2 in Q(i)^x2, equivalently S_plus=d(W1W2+V1V2)/(p*N) in Q^x2",
+      "alternate_gcd_factorization_proved": true,
+      "second_primitive_e1_triple_proved_conditionally": true,
+      "index_swap_dominates_mirrored_receiver": true,
+      "mirrored_four_factor_receiver_new_independent_theorem": false,
+      "gaussian_orientation_coupling_proved_conditionally": true,
+      "source_only_gaussian_square_sieve_proved_conditionally": true,
+      "bounded_panel_master_hits": 131,
+      "bounded_panel_gaussian_survivors": 3,
+      "bounded_panel_e1_counterexamples": 0,
+      "bounded_panel_is_theorem_credit": false,
       "audited_theorem_credit": false
     }
   },
@@ -116,6 +144,11 @@
       "status": "FROZEN_NO_UNIFORM_FIXED_SUPPORT_ADAPTER_FROM_CURRENT_IDENTITIES",
       "reason": "per-hit finite support is supp(2*c*cross*T), but cross*T*c equals D*V2*U2/(2*p*q) in Branch L or D*V2*U2/(p*q) in Branch R; current identities do not put these source-dependent primes in one fixed finite S or fixed finite coefficient family",
       "reopen_condition": "prove a fixed-support theorem, finite-normal-form theorem, uniform parameter-elimination theorem, or equivalent exact adapter"
+    },
+    "MIRRORED_ALTERNATE_FOUR_FACTOR_RECEIVER": {
+      "status": "DOMINATED_BY_EXACT_INDEX_SWAP_INVOLUTION",
+      "reason": "swapping the two primitive Euclid triples preserves the Master square and carries the E1 norm to the alternate norm; p and d swap and the L/R branch swaps, so a separately replayed four-factor receiver is not an independent theorem species",
+      "not_frozen": "the simultaneous Gaussian coupling between both orientations is new and remains live"
     }
   },
   "candidate_ledger_after_fresh_breadth_audit": {
@@ -130,19 +163,19 @@
     "audit_artifact": "stages/stage35-ex/35ex-11/post-three-reservoir-breadth-audit.json"
   },
   "current": {
-    "unit": "35EX-13_ALTERNATE_NORM_SYMMETRY_COMPATIBILITY",
-    "status": "SELECTED_FROM_FRESH_AUDITED_UNTESTED_LEDGER_NOT_YET_EXECUTED",
-    "next_exact_leaf": "TEST_WHETHER_THE_EXACT_ALTERNATE_NORM_IDENTITY_FORCES_A_SECOND_GENUINELY_NEW_PRIMITIVE_SQUARE_CONDITION_THROUGH_THE_UNUSED_W2_V1_CROSS_CHANNEL_OR_REDUCES_TO_ALREADY_AUDITED_DATA",
+    "unit": "35EX-14_GAUSSIAN_RATIO_SURVIVOR_STRUCTURE",
+    "status": "SELECTED_CONTINUATION_OF_ALTERNATE_NORM_ROUTE_NO_CREDIT",
+    "next_exact_leaf": "DERIVE_EXACT_PRIME_GCD_SUPPORT_OF_THE_SOURCE_ONLY_GAUSSIAN_SQUARE_CONDITION_AND_INTERSECT_IT_WITH_BOTH_ORIENTATIONS_OF_THE_THREE_RESERVOIR_ROUTING;_RECHECK_S34_W03_BEFORE_ANY_RECEIVER_RESTRICTED_LOCAL_CLOSE",
     "working_set": [
-      "stages/stage35-ex/35ex-11/post-three-reservoir-breadth-audit.json",
-      "stages/stage35-ex/35ex-12/sunit-thue-dynamic-support-blocker.md",
+      "stages/stage35-ex/35ex-13/alternate-norm-gaussian-coupling.md",
       "stages/stage35-ex/35ex-09/bridge-squareclass-graph.md",
-      "stages/stage35-ex/35ex-11/reciprocity-routing-and-local-route-freeze.md"
+      "stages/stage35-ex/35ex-11/reciprocity-routing-and-local-route-freeze.md",
+      "stages/stage35-ex/MAIN-STATE.json"
     ]
   },
   "arsenal": {
     "S34_W01": "FACTORWISE_SUPPORT_COMPLETE_BUT_FIXED_FINITE_SQUARECLASS_ENUMERATION_NOT_AUTHORIZED",
-    "S34_W03": "UNTESTED_RECEIVER_RESTRICTED_INTERSECTION_ADAPTER_CANDIDATE",
+    "S34_W03": "MATCHED_NEXT_LEAF_REQUIRES_EXACT_ADAPTER_RECHECK_BEFORE_JOINT_LOCAL_USE",
     "matching_SUNIT_THUE_card_found": false,
     "stage34_concrete_coefficients_branches_and_local_primes_transfer": false
   },
