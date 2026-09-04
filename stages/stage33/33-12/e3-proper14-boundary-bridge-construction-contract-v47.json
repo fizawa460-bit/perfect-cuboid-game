@@ -1,0 +1,99 @@
+{
+  "schema": "stage33.e3.proper14_boundary_bridge_construction_contract.v47",
+  "role": "EXACT_MICRO_GOAL_CONSTRUCTION_CONTRACT",
+  "micro_goal": "A1_1_DEFINE_FINITE_NEW_CONSTRUCTION_CONTRACT_FOR_P_W",
+  "parent_absence_lock_commit": "b4decf905bdca3045d5caf8889349ab4fe1a970c",
+  "bridge": {
+    "name": "P_W",
+    "field": "F2",
+    "matrix_shape": [14, 14],
+    "matrix_convention": "column_j_is_the_proper14_coordinate_vector_of_domain_basis_vector_j",
+    "materialized": false,
+    "usable_for_e3": false
+  },
+  "domain_order": [
+    "A2_02",
+    "A2_03",
+    "A2_24",
+    "A2_25",
+    "A2_26",
+    "A2_04",
+    "A2_01",
+    "A2_07",
+    "A2_05",
+    "A2_10",
+    "A2_08",
+    "A2_09",
+    "A2_16",
+    "A2_15"
+  ],
+  "codomain_order": [
+    "proper14_axis_1",
+    "proper14_axis_2",
+    "proper14_axis_3",
+    "proper14_axis_4",
+    "proper14_axis_5",
+    "proper14_axis_6",
+    "proper14_axis_7",
+    "proper14_axis_8",
+    "proper14_axis_9",
+    "proper14_axis_10",
+    "proper14_axis_11",
+    "proper14_axis_12",
+    "proper14_axis_13",
+    "proper14_axis_14"
+  ],
+  "required_columns": [
+    {"column": 1, "domain_label": "A2_02", "status": "UNMATERIALIZED"},
+    {"column": 2, "domain_label": "A2_03", "status": "UNMATERIALIZED"},
+    {"column": 3, "domain_label": "A2_24", "status": "UNMATERIALIZED"},
+    {"column": 4, "domain_label": "A2_25", "status": "UNMATERIALIZED"},
+    {"column": 5, "domain_label": "A2_26", "status": "UNMATERIALIZED"},
+    {"column": 6, "domain_label": "A2_04", "status": "UNMATERIALIZED"},
+    {"column": 7, "domain_label": "A2_01", "status": "UNMATERIALIZED"},
+    {"column": 8, "domain_label": "A2_07", "status": "UNMATERIALIZED"},
+    {"column": 9, "domain_label": "A2_05", "status": "UNMATERIALIZED"},
+    {"column": 10, "domain_label": "A2_10", "status": "UNMATERIALIZED"},
+    {"column": 11, "domain_label": "A2_08", "status": "UNMATERIALIZED"},
+    {"column": 12, "domain_label": "A2_09", "status": "UNMATERIALIZED"},
+    {"column": 13, "domain_label": "A2_16", "status": "UNMATERIALIZED"},
+    {"column": 14, "domain_label": "A2_15", "status": "UNMATERIALIZED"}
+  ],
+  "column_acceptance_contract": {
+    "proper14_image_f2_length": 14,
+    "entries_allowed": [0, 1],
+    "exact_provenance_required": true,
+    "positional_inference_forbidden": true,
+    "existing_bridge_search_forbidden_by_v46": true,
+    "allowed_evidence": [
+      "NEW_EXACT_DERIVATION_FROM_FROZEN_GEOMETRIC_DATA",
+      "NEW_NAMED_INPUT_ARTIFACT_ALLOWED_BY_V46_REOPEN_POLICY"
+    ]
+  },
+  "bridge_completion_gate": {
+    "all_14_columns_materialized": true,
+    "rank_14_required_before_treating_as_basis_identification": true,
+    "inverse_check_required_if_rank_14": true,
+    "source_provenance_required_for_every_column": true,
+    "a1_2_e3_mapping_allowed_only_after_gate": true
+  },
+  "e3_target_after_bridge_only": {
+    "proper14_mask_decimal": 20,
+    "proper14_support_one_based": [3, 5],
+    "mapping_executed": false
+  },
+  "non_credit": [
+    "NO_GERSTEN_CREDIT",
+    "NO_CECH_H2_MU2_CREDIT",
+    "NO_KUMMER_COLUMN_CREDIT",
+    "NO_STAGE33_12_CLOSE_CREDIT"
+  ],
+  "stage33_credit": {
+    "progress_big_tasks": "6/11",
+    "stage33_12_exact_closed": false,
+    "stage33_13_released": false,
+    "merge_allowed": false
+  },
+  "status": "PASS_EXACT_A1_1_FINITE_P_W_CONSTRUCTION_CONTRACT",
+  "next_exact_leaf": "A1_1_C1_CONSTRUCT_PROPER14_IMAGE_OF_A2_02_BY_NEW_EXACT_DERIVATION_NOT_BY_SEARCH"
+}
