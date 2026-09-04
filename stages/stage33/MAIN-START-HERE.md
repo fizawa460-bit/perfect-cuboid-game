@@ -16,44 +16,36 @@ Use known paths directly. Repository discovery is search-first. A search miss ne
 
 Do not use branch-history archaeology as ordinary discovery.
 
-## Current exact frontier: V75
+## Current exact frontier: V77
 
-- V61-V64 fix the B1 source basis, literal `lambda_A`, named `J1/J2`, and `J2 -> u1=[1,0]`.
-- V65 reduces J1 to `u2=[0,1]` versus `u1+u2=[1,1]`; the target fingerprints are minimum norm `4` versus `12`.
-- V68-V69 reduce the remaining transport to exactly identity versus the unique shear fixing `u1`; one bit remains. V70 replays this reduction immutably.
-- V71 constructs the J1-specific Creutz--Viray E[2] cocycle from `(f1,1)`: splitting field `Kgeom(sqrt(f1))`, fixed translation value `rho_f1 -> Tr`.
-- V73 applies S33-PW07 to that same J1 cocycle and materializes the direct semilinear translation torsor
-  `d*V^2=N^4-2*a*d*N^2*Z^2+d^2*q^2*Z^4` with `d=f1`.
-  Its Jacobian is the original `E: y^2=x*(x^2+a*x+b)`, and its genus-0 bisection is split over the `r1,r4` double cover.
-- V75 replays the degree-two quotient `X=n^2/d`, `Y=-n*v/d` and proves that `d` cancels, giving the same generic target
-  `E'_Tr: Y^2=X*(X^2-2*a*X+q^2)` as in J2.
-- Consequently the generic quotient alone is **not** a 4-vs-12 discriminator. Transplanting the J2 R4 lattice conclusion would force the J2 fingerprint `8 -> u1`, which is excluded by the locked V65 J1 gate. V75 therefore fail-closes that shortcut; it does not revoke V65 or V73 and does not select a J1 minimum norm.
+- V61-V64 fix the B1 source basis, literal `lambda_A={f_A,g22}`, `kappa_A=J1`, `kappa_D=J2`, and retained J2 marked/proper14 data.
+- V65/V68/V69 historically treated J1 as one of two nonzero marked-Kc candidates and reduced that conditional transport to identity versus shear.
+- V71 constructs the exact nonzero J1 E[2]-valued cocycle `(f1,1)`, splitting over `Kgeom(sqrt(f1))`, with `rho_f1 -> Tr`.
+- V73 materializes the direct semilinear quartic torsor from that E[2] cocycle.
+- V75 proves the degree-two quotient is independent of `d`.
+- V77 wires in the exact historical `xalpha_pair_galois_repair.py`: `J1` is itself an x-alpha relation, and the geometric Brauer quotient has basis `{J2,q1}`. Therefore source J1 is **zero in the geometric Brauer/Ogg-Shafarevich quotient**.
+- Thus V71 remains nonzero in `H^1(E[2])`, but its image in `H^1(E)` is zero. The V73 smooth projective torsor is the zero OS class with `T=<4>+<8>`, minimum norm `4`. This `4` is **not** the nonzero `u2` fingerprint.
+- The old V65/V69 J1 nonzero marked-Kc gate and V75 4-vs-12 next contract are superseded for J1. J2 -> `u1=[1,0]` remains intact.
 
-The inherited `controller.json` remains the global/firewall authority. Its pre-V61 current-leaf fields are not the branch frontier; `MAIN-STATE.json` records this branch-local current-leaf supersession. No global credit is changed.
+The inherited `controller.json` remains the global/firewall authority. Its pre-V61 current-leaf fields are not the branch frontier; `MAIN-STATE.json` records this branch-local supersession. No global credit is changed.
 
 ## Current leaf
 
 `STOP` means **leaf gate only, not algorithm exhaustion**. `Stage33-main-batch` remains allowed.
 
-D2.1 is PASS at V73. D2.2 remains CURRENT after V75. The exact missing interface is now:
+The active repair leaf is now the literal `lambda_A` -> proper14 column-3 binding. V63 already materializes the source-specific H2(mu2) symbol
 
-`J1_SPECIFIC_COMPACTIFIED_SURFACE_INTEGRAL_KERNEL_OR_PRIMITIVE_PULLBACK_IDENTIFICATION`
+`lambda_A=alpha({f_A,g22}),  f_A=(t-r1)/(t-r4)`.
 
-Admissible witnesses are an exact J1 NS/component-glue computation for the V73 compactified torsor, an equivalent integral transcendental-kernel computation tied to `lambda_A/J1`, an exact surface-level pullback/index computation including bad-fiber compactification data, or an independent marked transport witness.
+V57 defines `Phi_B1:H1(C21_tilde disjoint_union C22_tilde,F2)->Br(Kc_tilde_bar)[2]`. The next atomic check is whether V63 `Phi_B1(kappa_A)` is exactly the same geometric Brauer quotient class called `J1` in the locked x-alpha repair. If that exact same-codomain/source crosswalk holds, column3 is the zero proper14 vector. If not, stop at the missing adapter; name equality alone is insufficient.
 
-Only two final fingerprint outcomes remain admissible:
-- `4` => `J1 -> u2` => shear transport;
-- `12` => `J1 -> u1+u2` => identity transport.
-
-Do not reuse the retained J2 minimum norm `8`, and do not infer the J1 integral kernel from the `d`-independent generic quotient alone.
-
-Historical contact/Weil pairing data have already been reevaluated at the V69 one-bit frontier and do not distinguish identity from shear. Do not reopen them without materially new target-side data.
+Do not reopen the 4/12 minimum-norm discriminator and do not choose identity versus shear.
 
 ## Arsenal-first routing
 
 Read `docs/arsenal/index.json`, then only:
-- `S33-PW07` for the active torsor -> compactified NS/component glue -> integral/twisted-kernel construction;
-- `S33-PW04` for exact marked-source transport/firewall once an independent fingerprint is available.
+- `S33-PW04` for the current marked-source/Picard-adjoint binding and basis firewall;
+- `S33-PW07` only for the retained source/cocycle/torsor/Brauer-layer dictionary.
 
 Cards are PROVISIONAL routing aids; live Stage33 source locks override them. V58 permits repeatable bounded search only when each repeat has a materially new mathematical signal. Unbounded/open-ended search remains forbidden.
 
@@ -63,9 +55,8 @@ Stage33 remains `6/11`. Stage33-12 is not closed. Stage33-13 is not released. No
 
 After writes run at minimum:
 
-- `python stages/stage33/33-12/verify_e3_b1_c22_j1_translation_torsor_v73.py`
-- `python stages/stage33/33-12/verify_e3_b1_c22_j1_generic_quotient_discriminator_rejection_v75.py`
-- `python stages/stage33/33-12/verify_stage33_v75_frontier_state_v76.py`
+- `python stages/stage33/33-12/verify_e3_b1_c22_j1_xalpha_kernel_correction_v77.py`
+- `python stages/stage33/33-12/verify_stage33_v77_frontier_state_v78.py`
 - `python stages/stage33/sync_main_state.py --check`
 - `git diff --check`
 
