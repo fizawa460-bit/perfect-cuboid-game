@@ -1,4 +1,4 @@
-name: Stage33 V41-V51 e3 source and lift-route replay
+name: Stage33 V41-V52 e3 source and lift-route replay
 
 on:
   pull_request:
@@ -8,6 +8,9 @@ on:
       - 'stages/stage33/33-12/j2-adapted-first-kummer-column-v34.json'
       - 'stages/stage33/33-12/j2-genuine-h2-mu2-kummer-adapter-v25.json'
       - 'stages/stage33/33-12/j2-corrected-explicit-cech-mu2-lift.json'
+      - 'stages/stage33/33-12/j2-cv-d2-semantic-orientation.json'
+      - 'stages/stage33/33-12/j2-picard-adjoint-proper-br2.json'
+      - 'stages/stage33/33-09/marked-picard-basis-bridge-certified.json'
       - 'stages/stage33/33-12/boundary-function-generator-source-lock.json'
       - 'stages/stage33/33-12/boundary-function-scalar-descent-certificate.json'
       - 'stages/stage33/33-12/e3-independent-proper14-source-v41.json'
@@ -31,6 +34,8 @@ on:
       - 'stages/stage33/33-12/verify_e3_a1_1_type_correction_v50.py'
       - 'stages/stage33/33-12/e3-v25-method-rewire-v51.json'
       - 'stages/stage33/33-12/verify_e3_v25_method_rewire_v51.py'
+      - 'stages/stage33/33-12/e3-mask20-literal-cech-preimage-gap-v52.json'
+      - 'stages/stage33/33-12/verify_e3_mask20_literal_cech_preimage_gap_v52.py'
       - 'stages/stage33/33-12/verify_stage33_roadmap_v51_alignment.py'
       - 'stages/stage33/ROADMAP-33-12-MICROGOALS.md'
       - '.github/workflows/stage33-v41-e3-source.yml'
@@ -40,7 +45,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v41-v51-e3-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v41-v52-e3-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -54,7 +59,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Verify V41-V51 e3 source and lift route
+      - name: Verify V41-V52 e3 source and lift route
         run: |
           python stages/stage33/33-12/verify_e3_independent_proper14_source_v41.py
           python stages/stage33/33-12/verify_e3_v25_transfer_obstruction_v42.py
@@ -66,6 +71,7 @@ jobs:
           python stages/stage33/33-12/verify_e3_pw05_naive_divisor_module_bridge_rejection_v49.py
           python stages/stage33/33-12/verify_e3_a1_1_type_correction_v50.py
           python stages/stage33/33-12/verify_e3_v25_method_rewire_v51.py
+          python stages/stage33/33-12/verify_e3_mask20_literal_cech_preimage_gap_v52.py
           python stages/stage33/33-12/verify_stage33_roadmap_v51_alignment.py
           python stages/stage33/33-12/verify_j2_post_v38_locator_first_construction_policy_v39.py
           python stages/stage33/sync_main_state.py --check
