@@ -15,6 +15,13 @@ AUDIT_CI_RUN = 33880359998
 AUDIT_CI_JOB = 101047238497
 AUDITED_MERGE = "45f290a443cf71b1fc62f031994122c3fa58f0e9"
 PROMOTION_MERGE = "efe25f4ef74dc776da7ccad3f5cd786b0b2906e4"
+V8_BASE = "303c66cc4b2744222ee242d52c457948d587e32e"
+FRESHNESS_36_04 = {
+    "sync_pr": 1559,
+    "main_sha": V8_BASE,
+    "merge_commit": "e25e6442e61967ed9e6bc16b04e9a4d7219b4e7d",
+    "scope": "Stage32-only advance via #1556; no Stage36, Stage29 Campedelli/sign-cover source, or Arsenal authority changes",
+}
 
 
 def blob_sha(path: Path) -> str:
@@ -63,7 +70,8 @@ def main() -> None:
             if key not in {"source_authority_lock_complete","three_Q_representatives_exact","physical_open_push_and_boundary_complete"}:
                 require(value is False,f"later gate prematurely promoted: {key}")
     else:
-        require(state.get("status")=="ACTIVE_PENDING_HOSTILE_AUDIT" and state.get("base_main_sha")==PROMOTION_MERGE,"36-04 pending lifecycle moved")
+        require(state.get("status")=="ACTIVE_PENDING_HOSTILE_AUDIT" and state.get("base_main_sha")==V8_BASE,"36-04 pending lifecycle moved")
+        require(state.get("freshness_sync_36_04")==FRESHNESS_36_04,"36-04 freshness sync moved")
         promo=state.get("stage36_36_03_promotion",{})
         require(promo.get("pr")==1557 and promo.get("exact_head")=="27f3374356282dae8c8ffb1cb8c3bd110e1d2b38","36-03 promotion identity moved")
         require(promo.get("exact_head_ci_run")==33882496508 and promo.get("exact_head_ci_job")==101054258088,"36-03 promotion CI moved")
