@@ -154,7 +154,7 @@ assert sp.factor(Ldiff0 - Z0*(t**2*Z0-Z0**2-cc*Z0-dd**2)) == 0
 # The chosen quadratic root reproduces the requested Q Y-coordinate.
 Yphi = sp.together(t*(dd**2/Z - Z) - Y)
 num = sp.factor(sp.together(Yphi).as_numer_denom()[0])
-num = num.subs(Y**2, t**2*((t**2-cc)**2-4*dd**2))
+num = num.subs(T, t**2).subs(Y**2, t**2*((t**2-cc)**2-4*dd**2))
 assert sp.factor(num) == 0
 
 # Exact named specializations of the square roots.
