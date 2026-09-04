@@ -1,0 +1,87 @@
+{
+  "schema": "stage33.e3.mask20_marked_picard_to_literal_geometry_bridge_gap.v56",
+  "role": "EXACT_GEOMETRY_BRIDGE_GAP_LOCALIZATION_CERTIFICATE",
+  "micro_goal": "E3_V25_S1B1B_LOCALIZE_MARKED_PICARD_TO_LITERAL_GEOMETRY_BRIDGE_GAP",
+  "parent_head": "38b37b7ac847993f96d7fae92dd3bbd731444248",
+  "source_locks": {
+    "v52_literal_cech_gap": {
+      "path": "stages/stage33/33-12/e3-mask20-literal-cech-preimage-gap-v52.json",
+      "git_blob_sha1": "15ae7ebf8ddaf9d8771d48bc93caa0705e4ebf67"
+    },
+    "v53_picard_adjoint_candidate": {
+      "path": "stages/stage33/33-12/e3-mask20-picard-adjoint-candidate-v53.json",
+      "git_blob_sha1": "011c6ac6db793e2458622355f031e369f176973e"
+    },
+    "v54_semantic_u1_binding": {
+      "path": "stages/stage33/33-12/e3-mask20-adjoint-u1-label-v54.json",
+      "git_blob_sha1": "3bfefb4d10c29b4f2de175ef0d99d6768ee4fc4b"
+    },
+    "v55_u1_fiber_cardinality": {
+      "path": "stages/stage33/33-12/e3-mask20-u1-fiber-cardinality-v55.json",
+      "git_blob_sha1": "b12bf9bf4e5e78b78bd94e6286a97ad813fc426b"
+    }
+  },
+  "exact_chain_localization": {
+    "source_object": {
+      "proper14_mask_decimal": 20,
+      "proper14_support_one_based": [3, 5],
+      "marked_picard_adjoint_candidate_materialized": true,
+      "combined_source_T_mod_2_coordinate_f2": [1, 0],
+      "combined_source_half_lattice_numerator_mod2": [1,1,0,0,1,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0]
+    },
+    "semantic_quotient": {
+      "label": "u1",
+      "coordinate_f2": [1, 0],
+      "fiber_cardinality": 4096,
+      "other_marked_source_points_in_same_fiber": 4095,
+      "injective_for_source_identification": false
+    },
+    "required_geometry_output": {
+      "literal_function_divisor_transition_datum": true,
+      "full_surface_cech_h2_mu2_scope": true,
+      "exact_marked_brauer_image_proper14_mask_decimal": 20,
+      "source_specific_binding_to_v41_e3": true
+    },
+    "locked_chain_materializes_required_geometry_output": false,
+    "locked_chain_materializes_marked_picard_to_literal_geometry_adapter": false,
+    "repo_wide_absence_claim": false,
+    "mathematical_nonexistence_claim": false
+  },
+  "interface_gap": {
+    "name": "MASK20_MARKED_PICARD_ADJOINT_TO_LITERAL_FULL_SURFACE_CECH_GEOMETRY",
+    "input_already_exact": "V53 exact proper14 mask20 marked Picard-adjoint candidate, with V54 semantic u1 label and V55 4096-point fiber size",
+    "missing_map": "A source-locked mechanically checked map from the exact V53 marked candidate to literal function/divisor/transition data on the full surface",
+    "required_postcondition": "The resulting genuine H2(mu2) class has exact marked Brauer image V41 e3 proper14 mask20, rather than merely semantic label u1.",
+    "smallest_next_datum": "one literal geometric Cech/function/divisor/transition representative, or actual Gersten datum with all adapter hypotheses checked, whose marked Brauer image is mechanically verified to be mask20"
+  },
+  "forbidden_shortcuts": [
+    "treat semantic u1 as injective",
+    "identify e3 with J2 from the common u1 label",
+    "reuse J2 {f2,g22} as e3 without exact mask20 binding",
+    "infer literal branch or divisor support from proper14 axes 3 and 5",
+    "promote the V53 Picard-adjoint candidate itself to H2(mu2) without literal geometry or an exact adapter",
+    "claim repository-wide absence or mathematical nonexistence from the bounded locked-chain gap"
+  ],
+  "arsenal_routing": {
+    "literal_geometric_realization": "S33-PW07",
+    "marked_source_binding": "S33-PW04",
+    "credit_firewall": "S30-WF03",
+    "gersten_adapter": "S33-PW08_CONDITIONAL_ONLY_IF_ACTUAL_GERSTEN_DATA_ARE_CONSTRUCTED"
+  },
+  "credit_firewall": {
+    "e3_literal_cech_preimage_materialized": false,
+    "genuine_full_surface_h2_mu2_lift_for_e3": false,
+    "e3_kummer_column_materialized": false,
+    "j2_adapted_columns_materialized": "1/10",
+    "standard_columns_materialized": "0/10",
+    "stage33_progress": "6/11",
+    "stage33_12_closed": false,
+    "stage33_13_released": false,
+    "merge_allowed": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "theorem_credit": false
+  },
+  "status": "PASS_EXACT_GAP_LOCALIZED_TO_MASK20_MARKED_PICARD_TO_LITERAL_GEOMETRY_BRIDGE",
+  "next_exact_leaf": "E3_V25_S1B1C_CONSTRUCT_ONE_SOURCE_LOCKED_LITERAL_GEOMETRIC_DATUM_WITH_EXACT_MARKED_BRAUER_IMAGE_MASK20"
+}
