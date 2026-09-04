@@ -77,7 +77,10 @@ jobs:
       - name: Replay audited Stage36 36-04 authority
         run: python3 stages/stage36/verify_stage36_36_04_audited.py
 
-      - name: Assert promotion boundary before 36-05
+      - name: Verify Stage36 36-05 uniform ramification support wall
+        run: python3 stages/stage36/verify_stage36_36_05.py
+
+      - name: Assert hostile-audit boundary with 36-06 locked
         shell: bash
         run: |
           set -euo pipefail
@@ -85,8 +88,8 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V9_36_04_AUDITED'
-          assert s['status']=='ACTIVE'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V10_36_05_PENDING_AUDIT'
+          assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
           g=s['promotion_gates']
           assert g['source_authority_lock_complete'] is True
           assert g['three_Q_representatives_exact'] is True
@@ -94,11 +97,15 @@ jobs:
           assert g['pointwise_H_torsor_class_explicit'] is True
           assert g['uniform_finite_ramification_support_proved'] is False
           assert g['finite_exhaustive_H_twist_family_proved'] is False
-          assert s['completed_units']['36-04']['promotion_status']=='AUDITED'
-          assert s['completed_units']['36-04']['FINITE_TWIST_FAMILY_PROVED'] is False
+          u=s['completed_units']['36-05']
+          assert u['legal_outcome']=='BLOCKED_MOVING_RAMIFICATION_SUPPORT'
+          assert u['UNIFORM_FINITE_RAMIFICATION_SUPPORT_PROVED'] is False
+          assert u['FINITE_EXHAUSTIVE_H_TWIST_FAMILY'] is False
+          assert u['ARBITRARY_PRIME_PHYSICAL_RECEIVER_POINT_CLAIM'] is False
+          assert u['promotion_status']=='PROVISIONAL_NOT_AUDITED'
           assert s['current']['unit']=='36-05'
-          assert s['current']['next_exact_leaf']=='36-05_UNIFORM_RAMIFICATION_SUPPORT'
-          assert '36-05' not in s['completed_units']
+          assert s['current']['36_06_entry_allowed'] is False
+          assert '36-06' not in s['completed_units']
           assert all(v is False for v in s['claims'].values())
-          print('36-04 audited authority promoted; 36-05 not started')
+          print('36-05 blocked moving ramification support provisional; 36-06 locked')
           PY
