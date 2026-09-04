@@ -14,13 +14,13 @@ AUDITED_PR_MERGE="4c93ccb79e95cbcd9e2416ad3b6a3f4788d6f586"
 PROMOTION_MERGE="26fb608cb2551ab2102ae36ad3b57c063959df58"
 V6_BASE="bdd707e52ded061014bfbb6158762e8b997e7a38"
 V7_BASE="45f290a443cf71b1fc62f031994122c3fa58f0e9"
-V8_BASE="303c66cc4b2744222ee242d52c457948d587e32e"
+V8_BASE="0e7d0b282ec8b15c888a1efe4de43a114f4d5911"
 HISTORICAL_BASE="a873c8fca0074aa966a22e36475a3551a378560d"
 FRESHNESS_36_04={
- "sync_pr":1559,
+ "sync_pr":1562,
  "main_sha":V8_BASE,
- "merge_commit":"e25e6442e61967ed9e6bc16b04e9a4d7219b4e7d",
- "scope":"Stage32-only advance via #1556; no Stage36, Stage29 Campedelli/sign-cover source, or Arsenal authority changes",
+ "merge_commit":"fe79d53d6fd052805d4d16c6990a5ba6ed17622d",
+ "scope":"Stage32-only advance via #1561; no Stage36, Stage29 Campedelli/sign-cover source, or Arsenal authority changes",
 }
 def blob_sha(path):
  d=path.read_bytes(); return hashlib.sha1(b"blob "+str(len(d)).encode()+b"\0"+d).hexdigest()
