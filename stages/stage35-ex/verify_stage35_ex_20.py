@@ -68,12 +68,14 @@ state = json.loads(STATE.read_text())
 
 V19 = "STAGE35_EX_PESCH_E1_STATE_V19_POST_35EX20_PAIRED_SQUARECLASS_DYNAMIC_SUPPORT_BLOCKER"
 V20 = "STAGE35_EX_PESCH_E1_STATE_V20_POST_35EX21_GLOBAL_NORMALIZED_CUBOID_SURFACE"
-assert state["schema"] in {V19, V20}
+V21 = "STAGE35_EX_PESCH_E1_STATE_V21_POST_35EX22_OBVIOUS_BRAUER_SYMBOL_BLOCKER"
+assert state["schema"] in {V19, V20, V21}
 assert state["stage"] == "35-EX"
 assert state["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
 assert state["base_main_sha"] in {
     "fd0986693a8806fb77083c862d0f939d23a05abb",
     "24438151cf76be42612b7df83314630e51c61682",
+    "85e12c7b810eaafc13e663a0047111b7f3333e8b",
 }
 
 unit19 = state["completed_units"]["35EX-19"]
@@ -123,8 +125,8 @@ assert unit20b["selected_next_unit"] == "35EX-21_GLOBAL_BIQUADRATIC_SURFACE_MODE
 assert unit20b["preserved_untested_candidates"] == ["E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER"]
 assert unit20b["audited_theorem_credit"] is False
 
+parent = state["parent_authority"]
 if state["schema"] == V19:
-    parent = state["parent_authority"]
     assert parent["unit"] == "35EX-19B"
     assert parent["status"] == "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT"
     assert parent["hostile_audit_verdict"] == "PASS"
@@ -134,8 +136,7 @@ if state["schema"] == V19:
     assert state["base_main_sha"] == "fd0986693a8806fb77083c862d0f939d23a05abb"
     assert unit20["status"].startswith("PROVISIONAL_")
     assert unit20b["status"] == "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT"
-else:
-    parent = state["parent_authority"]
+elif state["schema"] == V20:
     assert parent["unit"] == "35EX-20B"
     assert parent["status"] == "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT"
     assert parent["hostile_audit_verdict"] == "PASS"
@@ -144,11 +145,22 @@ else:
     assert parent["merged_main_sha"] == "24438151cf76be42612b7df83314630e51c61682"
     assert parent["audited_theorem_credit"] is False
     assert state["base_main_sha"] == "24438151cf76be42612b7df83314630e51c61682"
-    for unit in (unit20, unit20b):
-        assert unit["hostile_audit_verdict"] == "PASS"
-        assert unit["hostile_audit_review"] == 5109942390
-        assert unit["audited_head_sha"] == "1a45fc6fca779cb22794e305e044aa37e62e76ef"
-        assert unit["merged_main_sha"] == "24438151cf76be42612b7df83314630e51c61682"
+else:
+    assert parent["unit"] == "35EX-21B"
+    assert parent["status"] == "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT"
+    assert parent["hostile_audit_verdict"] == "PASS"
+    assert parent["hostile_audit_review"] == 5110646292
+    assert parent["audited_head_sha"] == "35431061f571da5b425f30da7974c160685bf1a4"
+    assert parent["merged_main_sha"] == "85e12c7b810eaafc13e663a0047111b7f3333e8b"
+    assert parent["audited_theorem_credit"] is False
+    assert state["base_main_sha"] == "85e12c7b810eaafc13e663a0047111b7f3333e8b"
+
+for old in (unit20, unit20b):
+    if state["schema"] in {V20, V21}:
+        assert old["hostile_audit_verdict"] == "PASS"
+        assert old["hostile_audit_review"] == 5109942390
+        assert old["audited_head_sha"] == "1a45fc6fca779cb22794e305e044aa37e62e76ef"
+        assert old["merged_main_sha"] == "24438151cf76be42612b7df83314630e51c61682"
 
 freeze = state["resolved_investigations"]["CURRENT_PAIRED_QUARTIC_SQUARECLASS"]
 assert freeze["status"] == "FROZEN_DYNAMIC_UV_SUPPORT_NO_GLOBAL_FINITE_FAMILY"
@@ -166,9 +178,6 @@ assert ledger["audit_artifact"] in {
     "stages/stage35-ex/35ex-20/post-paired-squareclass-breadth-audit.json",
     "stages/stage35-ex/35ex-21/post-global-surface-breadth-audit.json",
 }
-
-# Explicit continuity lock: the audited 20B preserved candidate is the exact
-# machine identifier selected LIVE by 21B/state; no alias or silent rename.
 assert unit20b["preserved_untested_candidates"] == [ledger["selected_live"]]
 
 current = state["current"]
@@ -196,7 +205,6 @@ for key in (
 ):
     assert state["claims"][key] is False
 
-# Artifact markers.
 for marker in (
     "PAIR_SOURCE_SQUARE_IDENTITY_PROVED=true",
     "PRIMITIVE_INTEGER_FOUR_FACTOR_MODEL_PROVED=true",
@@ -212,7 +220,6 @@ for marker in (
 ):
     assert marker in doc
 
-# Original 35EX-20B audit remains immutable and exact.
 assert audit["schema"] == "STAGE35_EX_20B_POST_PAIRED_SQUARECLASS_BREADTH_AUDIT_V1"
 assert audit["blind_rediscovery"]["performed_before_arsenal_comparison_for_this_audit"] is True
 assert audit["arsenal_comparison"]["performed_after_blind_generation"] is True
@@ -237,7 +244,6 @@ assert cycle["CYCLE_SPLIT_TRIGGERED"] is False
 assert cycle["CYCLE_PARKING_AUDIT_COMPLETE"] is False
 assert cycle["CYCLE_NEW_VIEW_SOURCE"] == "BLIND"
 
-# Exact arithmetic regression for the source-square and gcd/resultant theorem.
 checked = 0
 split_checks = 0
 z_orientation_checks = 0
@@ -332,10 +338,9 @@ assert square_product_checks > 0
 assert split_checks > 0
 assert z_orientation_checks > 0
 
-# The primitive first-source support reservoir is not bounded by one fixed finite set.
 prod = 1
-for p in (3, 5, 7, 11, 13):
-    prod *= p
+for prime in (3, 5, 7, 11, 13):
+    prod *= prime
     aa = 2 * prod
     bb = 1
     assert gcd(aa, bb) == 1 and (aa - bb) % 2 == 1
@@ -343,7 +348,7 @@ for p in (3, 5, 7, 11, 13):
     V = 2 * aa
     W = aa * aa + 1
     assert gcd(U, V) == gcd(U, W) == gcd(V, W) == 1
-    for q in prime_factors(prod):
-        assert V % q == 0
+    for divisor in prime_factors(prod):
+        assert V % divisor == 0
 
 print("PASS STAGE35_EX_20_PAIRED_QUARTIC_SQUARECLASS_DYNAMIC_UV_SUPPORT_BLOCKER")
