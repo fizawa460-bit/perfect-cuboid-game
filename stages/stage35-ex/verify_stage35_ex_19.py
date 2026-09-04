@@ -18,7 +18,8 @@ V18 = "STAGE35_EX_PESCH_E1_STATE_V18_POST_35EX19_NONISOTRIVIAL_GENUSONE_BLOCKER"
 V19 = "STAGE35_EX_PESCH_E1_STATE_V19_POST_35EX20_PAIRED_SQUARECLASS_DYNAMIC_SUPPORT_BLOCKER"
 V20 = "STAGE35_EX_PESCH_E1_STATE_V20_POST_35EX21_GLOBAL_NORMALIZED_CUBOID_SURFACE"
 V21 = "STAGE35_EX_PESCH_E1_STATE_V21_POST_35EX22_OBVIOUS_BRAUER_SYMBOL_BLOCKER"
-assert state["schema"] in {V18, V19, V20, V21}
+V22 = "STAGE35_EX_PESCH_E1_STATE_V22_POST_35EX23_GENUS5_CHARACTER_QUOTIENT_UNIFORMITY_BLOCKER"
+assert state["schema"] in {V18, V19, V20, V21, V22}
 assert state["stage"] == "35-EX"
 assert state["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
 assert state["base_main_sha"] in {
@@ -28,6 +29,8 @@ assert state["base_main_sha"] in {
     "85e12c7b810eaafc13e663a0047111b7f3333e8b",
     "ea51d06f3fe46b134e98a065332e9c70fcec57f0",
     "378096fa313b582b63553b395ec85a5c86de2685",
+    "2e07dde92fdf270fff1233635a7cb4cea1427080",
+    "7a5d01b438c68c228ad73955f906f3128780d6ef",
 }
 
 unit18 = state["completed_units"]["35EX-18"]
@@ -89,11 +92,13 @@ elif state["schema"] == V19:
     assert state["base_main_sha"] == "fd0986693a8806fb77083c862d0f939d23a05abb"
 elif state["schema"] == V20:
     assert state["base_main_sha"] == "24438151cf76be42612b7df83314630e51c61682"
-else:
+elif state["schema"] == V21:
     assert state["base_main_sha"] == "378096fa313b582b63553b395ec85a5c86de2685"
+else:
+    assert state["base_main_sha"] == "7a5d01b438c68c228ad73955f906f3128780d6ef"
 
 for old in (unit19, unit19b):
-    if state["schema"] in {V19, V20, V21}:
+    if state["schema"] in {V19, V20, V21, V22}:
         assert old["hostile_audit_verdict"] == "PASS"
         assert old["audited_head_sha"] == "b63fcf4f7888f86f6881d15f5e5bd9d3873dc1b5"
         assert old["merged_main_sha"] == "fd0986693a8806fb77083c862d0f939d23a05abb"
@@ -122,6 +127,7 @@ assert current["unit"] in {
     "35EX-20_PAIRED_SOURCE_FILTER_QUARTIC_SQUARECLASS_OR_FREE_FAMILY",
     "35EX-21_GLOBAL_BIQUADRATIC_SURFACE_MODEL_OR_GEOMETRY_BLOCKER",
     "35EX-22_SURFACE_BRAUER_CLASS_OR_OBVIOUS_SYMBOL_BLOCKER",
+    "35EX-23_GENUS5_MULTIQUADRATIC_CHARACTER_QUOTIENT_DESCENT_OR_UNIFORMITY_BLOCKER",
 }
 assert state["arsenal"]["S31_W01"] in {
     "FIBERWISE_ROUTING_ONLY_GLOBAL_FIXED_CURVE_USE_BLOCKED_BY_NONISOTRIVIAL_K",
