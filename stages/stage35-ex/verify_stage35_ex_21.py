@@ -78,6 +78,8 @@ assert ledger["untested"] == ["E1-GENUS5-MULTIQUADRATIC-FIBER-CHARACTER-DESCENT"
 assert "E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY" in ledger["just_frozen"]
 assert "E1-NORMALIZED-CUBOID-DIRECT-RATIONAL-POINT-CLASSIFICATION" in ledger["blocked"]
 assert ledger["audit_artifact"] == "stages/stage35-ex/35ex-21/post-global-surface-breadth-audit.json"
+assert state["completed_units"]["35EX-20B"]["preserved_untested_candidates"] == [unit21b["selected_candidate"]]
+assert unit21b["selected_candidate"] == ledger["selected_live"]
 
 current = state["current"]
 assert current["unit"] == "35EX-22_SURFACE_BRAUER_CLASS_OR_OBVIOUS_SYMBOL_BLOCKER"
@@ -130,6 +132,7 @@ assert all(c["status"] in allowed for c in audit["blind_rediscovery"]["generated
 assert next(c for c in audit["blind_rediscovery"]["generated"] if c["id"] == "E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER")["status"] == "LIVE"
 assert next(c for c in audit["blind_rediscovery"]["generated"] if c["id"] == "E1-GENUS5-MULTIQUADRATIC-FIBER-CHARACTER-DESCENT")["status"] == "UNTESTED"
 assert audit["historical_ledger_comparison"]["E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER"].startswith("preserved as UNTESTED in 35EX-20B")
+assert audit["selection"]["selected_candidate"] == state["completed_units"]["35EX-20B"]["preserved_untested_candidates"][0]
 cycle = audit["cycle_exit"]
 assert cycle["CYCLE_ROUTE_STATUS"] == "BLOCKED_NEW_PATTERN_ISOLATED"
 assert cycle["CYCLE_LIVE_CANDIDATES"] == 1
