@@ -67,6 +67,7 @@ assert state["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
 assert state["base_main_sha"] in {
     "d4190ea534610b49a7bb15e7b9d15d759dbcdc40",
     "cb3e36183f291ec5d96b440ff2287e3d009d9691",
+    "751ac2ed47843223340b2d9b09db3d5cca8c3464",
 }
 
 unit17b = state["completed_units"]["35EX-17B"]
