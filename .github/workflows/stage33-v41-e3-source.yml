@@ -1,4 +1,4 @@
-name: Stage33 V41-V60 e3 source, geometry, routing, and roadmap replay
+name: Stage33 V41-V66 e3 source, geometry, routing, and frontier replay
 
 on:
   pull_request:
@@ -13,11 +13,11 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v41-v60-e3-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v41-v66-e3-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  verify-e3-source-geometry-routing-roadmap:
+  verify-e3-source-geometry-routing-frontier:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -27,7 +27,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Verify V41-V60 e3 chain and effective routing
+      - name: Verify V41-V66 e3 chain and current frontier
         run: |
           python stages/stage33/33-12/verify_e3_independent_proper14_source_v41.py
           python stages/stage33/33-12/verify_e3_v25_transfer_obstruction_v42.py
@@ -48,6 +48,12 @@ jobs:
           python stages/stage33/33-12/verify_e3_search_routing_supersession_v58.py
           python stages/stage33/33-12/verify_stage33_v58_effective_routing_state_v59.py
           python stages/stage33/33-12/verify_stage33_roadmap_v60_alignment.py
+          python stages/stage33/33-12/verify_e3_b1_c22_pic0_2_basis_v61.py
+          python stages/stage33/33-12/verify_e3_b1_full_domain_basis_v62.py
+          python stages/stage33/33-12/verify_e3_b1_c22_kappa_a_literal_cech_lift_v63.py
+          python stages/stage33/33-12/verify_e3_b1_c22_named_torsion_normalization_bridge_v64.py
+          python stages/stage33/33-12/verify_e3_b1_j1_marked_kc_discriminator_gate_v65.py
+          python stages/stage33/33-12/verify_stage33_v65_frontier_state_v66.py
           python stages/stage33/33-12/verify_j2_post_v39_arsenal_first_bounded_search_policy_v41.py
           python stages/stage33/sync_main_state.py --check
           git diff --check

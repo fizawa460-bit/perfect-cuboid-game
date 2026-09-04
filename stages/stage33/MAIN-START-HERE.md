@@ -4,46 +4,58 @@ Ordinary `Stage33-main-batch` reads `AGENTS.md`, then `stages/stage33/MAIN-STATE
 
 ## Stage33 repository-read discipline
 
-Stage33 is stricter than the repo-wide traversal rule. For ordinary research/navigation, follow exactly:
+For ordinary research/navigation use:
 
 `controller -> active roadmap -> Arsenal index/card -> exact referenced files`
 
-- Start from `stages/stage33/controller.json` and the active roadmap named or implied by the current leaf. Do not enumerate repository contents to rediscover state already named there.
-- For the current 33-12 microgoal, the active roadmap is `stages/stage33/ROADMAP-33-12-MICROGOALS.md`; keep the current leaf split into one tiny verifiable goal per commit.
-- For reusable cross-Stage weapons, read `docs/arsenal/index.json`, select only matching IDs, then read only the needed card and exact source/certificate paths referenced by that card.
-- Known paths are fetched directly. File/path discovery uses GitHub search. Term/content discovery uses GitHub code search.
-- A recursive repository tree is not an ordinary Stage33 discovery tool. Use it only if the active research task explicitly requires enumeration of the full file set itself.
-- A search miss never proves repository absence and must not be promoted to mathematical absence.
+The current branch-local roadmap is `stages/stage33/ROADMAP-33-12-V65-J1-DISCRIMINATOR.md`. The older `ROADMAP-33-12-MICROGOALS.md` is retained as the historical V60 planning checkpoint.
 
-## V58 Arsenal-first repeatable bounded-search constitution
+Use known paths directly. Repository discovery is search-first. A search miss never proves repository absence or mathematical nonexistence. Do not use recursive repository enumeration or branch-history archaeology as ordinary discovery.
 
-The exact mathematical frontier remains V25-V36 plus the branch-local e3 construction chain through V57. One J2-adapted Kummer column is materialized (`1/10`), original standard columns remain `0/10`. V58 changes operational discovery routing only and does not grant mathematical credit.
+## Current exact frontier: V65
 
-V58 (`stages/stage33/33-12/e3-search-routing-supersession-v58.json`) explicitly supersedes only the fixed one-search cap in main V41 routing. Until the compact controller/state projection is regenerated on this branch, V58 takes precedence over any inherited V41 field that says `one automatic bounded repository search` or budget `=1`.
+The branch exact certificate chain has advanced beyond the inherited controller current-leaf text:
 
-For every unresolved evidence leaf:
+- V61 fixes `[kappa_A,kappa_D]` on `Pic0(C22_tilde)[2]`.
+- V62 fixes the full B1 ordered basis `[cc(kappa_A),cc(kappa_D),kappa_A,kappa_D]`.
+- V63 materializes the literal Cech/surface `mu2` lift for `kappa_A` as B1 column 3, but not its marked proper14 coordinate.
+- V64 identifies `kappa_A=J1`, `kappa_D=J2`, fixes `J2 -> u1=[1,0]`, and reduces J1 to exactly `{u2=[0,1],u1+u2=[1,1]}`.
+- V65 freezes that one-bit gate. The fixed marked target fingerprints distinguish the candidates by minimum norm `4` versus `12`, but no independent source-locked J1 fingerprint or exact second transport column is yet materialized.
 
-1. Identify the exact missing object from the live Stage33 authority and active micro-roadmap.
-2. Use **Arsenal first**: read `docs/arsenal/index.json`, select only matching IDs, and inspect only the needed cards/source locks.
-3. If Arsenal has no suitable hit, run a bounded repository search tied to a concrete load-bearing subquestion and a narrow named scope.
-4. Additional bounded searches are allowed with **no fixed per-object count cap** only when the next query follows a materially new mathematical signal, alias, map/producer name, exact source path, or independently implicated candidate family.
-5. Stop when the bounded question is answered, the named candidate family is exhausted, the reusable asset is source-locked, or further search would require repository-wide enumeration, branch-history archaeology, unconstrained keyword expansion, or near-equivalent miss chasing.
-6. A miss in Arsenal or any bounded search is **not repository absence** and is not mathematical nonexistence.
-7. When the current leaf has enough exact information, construct/derive the missing object; search need not continue merely because more bounded queries are possible.
-8. Before reusing any hit, recheck live Stage authority and its exact limitations.
+The inherited `controller.json` remains the global/firewall authority. Its pre-V61 current-leaf fields are not the branch frontier; `MAIN-STATE.json` and V65 explicitly record this temporary branch-local current-leaf supersession. No global credit is changed.
 
-The current construction target is e3 A2.4: `B1_BRANCH_H1_TO_PROPER14_BRAUER_IMAGE_MATRIX`, a `14 x 4` exact matrix, followed by the membership solve `M*x = mask20`. Do not infer e3 by splitting `J2 = e2+e3`, do not split standard col2/col3 from the XOR relation, and do not guess any remaining Kummer column.
+## STOP semantics
 
-## Authority and release
+`STOP` at V65 means **leaf gate only, not algorithm exhaustion**. `Stage33-main-batch` remains allowed. Continue by constructing one exact discriminator; do not promote column 3 by guess.
 
-Current-main Research OS structure remains inherited from Controller V62. V58 is the branch-local operational supersession for the fixed search-count cap; mathematical authority remains the exact certificate chain and the e3 branch certificates through V57. No closure, receiver, endpoint, theorem, or merge credit is granted by this routing change.
+Admissible next witnesses:
 
-`MAIN-BATCH-HANDOFF.md` is retired and must not be recreated.
+1. exact second column of the named CV/contact -> fixed marked Kc transport;
+2. independent source-locked J1 fingerprint, preferably a J1-specific twisted-kernel minimum norm;
+3. exact source and fixed-marked-Kc automorphism actions plus an equivariance proof.
 
-After writes, run at minimum:
+Historical contact bits are not marked Kc coordinates. An arbitrary GL2(F2) complement is forbidden. The J2-specific twisted kernel cannot be relabelled as J1. A source elliptic automorphism without an exact target action is insufficient.
 
-- `python stages/stage33/33-12/verify_e3_search_routing_supersession_v58.py`
-- `python stages/stage33/33-12/verify_e3_mask20_b1_gysin_image_gate_v57.py`
+## Arsenal-first routing
+
+Read `docs/arsenal/index.json`, then only:
+- `S33-PW04` for exact marked-source / Picard-interface transport;
+- `S33-PW07` for torsor/Brauer/integral-kernel construction.
+
+These cards are PROVISIONAL routing aids; live Stage33 source locks override them. V58 still permits repeatable bounded searches when each repeat has a materially new mathematical signal. Unbounded/open-ended search remains forbidden.
+
+## Release and verification
+
+Stage33 remains `6/11`. Stage33-12 is not closed. Stage33-13 is not released. No receiver, endpoint, theorem, existence/nonexistence, or merge credit is granted.
+
+After writes run at minimum:
+
+- `python stages/stage33/33-12/verify_e3_b1_c22_pic0_2_basis_v61.py`
+- `python stages/stage33/33-12/verify_e3_b1_full_domain_basis_v62.py`
+- `python stages/stage33/33-12/verify_e3_b1_c22_kappa_a_literal_cech_lift_v63.py`
+- `python stages/stage33/33-12/verify_e3_b1_c22_named_torsion_normalization_bridge_v64.py`
+- `python stages/stage33/33-12/verify_e3_b1_j1_marked_kc_discriminator_gate_v65.py`
+- `python stages/stage33/33-12/verify_stage33_v65_frontier_state_v66.py`
 - `python stages/stage33/sync_main_state.py --check`
 - `git diff --check`
 

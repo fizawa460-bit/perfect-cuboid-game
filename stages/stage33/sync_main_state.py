@@ -1,209 +1,65 @@
 #!/usr/bin/env python3
-"""Generate/check Stage33 MAIN compact state with V58 repeatable bounded-search override."""
+"""Generate/check Stage33 MAIN compact state at the exact V65 J1 one-bit discriminator frontier."""
 from __future__ import annotations
-import argparse
-import hashlib
-import json
+import argparse, hashlib, json
 from pathlib import Path
 
-H = Path(__file__).resolve().parent
-D = H / "33-12"
-ROOT = H.parent.parent
-OUT = H / "MAIN-STATE.json"
-RETIRED_HANDOFF = H / "MAIN-BATCH-HANDOFF.md"
-V41 = D / "j2-post-v39-arsenal-first-bounded-search-policy-v41.json"
-V57 = D / "e3-mask20-b1-gysin-image-gate-v57.json"
-V58 = D / "e3-search-routing-supersession-v58.json"
-RESEARCH_POLICY = ROOT / "docs/research-os/policies/repository-asset-discovery.md"
-ARSENAL = ROOT / "docs/arsenal/index.json"
-REMAINING = ["e3", "e1", "e4", "e5", "e6", "e7", "e8", "e9", "e10"]
-INHERITED_NEXT = "ARSENAL_FIRST_THEN_ONE_BOUNDED_SEARCH_THEN_CONSTRUCT_OR_REQUEST_USER_AUTHORIZATION"
-CONTROLLER_SCHEMA = "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V62_ARSENAL_FIRST_BOUNDED_SEARCH_ACTIVE"
-V41_SHA = "32b2ad7da0ad7ced22bd3d27ebc3abec36ed9d8fe037a4e2c676e3e44471a6f8"
-LOCKS = {
-    "v25": (D / "j2-genuine-h2-mu2-kummer-adapter-v25.json", "d2f8e087939401e3427056d6deeffa5bdb3433ad6e1801993be4978c3baff65c"),
-    "v33": (D / "j2-current-hs-d2-nonzero-v33.json", "59385430d2806fd600006b8bee1e02170f28d0a598912555d1e905e556c84b8f"),
-    "v34": (D / "j2-adapted-first-kummer-column-v34.json", "eb53bd545626efe3b32d407eccd2788e991494203acd718d88100ee7233b909e"),
-}
-EMPTY_CHECKPOINT = {"status": "EMPTY", "authority": "OPERATIONAL_ONLY_NOT_PROOF"}
+H=Path(__file__).resolve().parent
+D=H/"33-12"
+ROOT=H.parent.parent
+OUT=H/"MAIN-STATE.json"
+CONTROLLER_SCHEMA="STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V62_ARSENAL_FIRST_BOUNDED_SEARCH_ACTIVE"
+CONTROLLER_SHA="18d8aa4e0ab7a946f5ae5205de2cfddc4b55f867338e92242e5db7cac6f87554"
+LOCKS={
+"v61":(D/"e3-b1-c22-pic0-2-basis-v61.json","48ec6b2ffb91d549041ff5ec667ff88d493becf01d89e1bb5974134b3b0a53f6"),
+"v62":(D/"e3-b1-full-domain-basis-v62.json","353e68438334a0da71dfdbc09a8bf60e7e511598cf54a173338735686f1c3f4c"),
+"v63":(D/"e3-b1-c22-kappa-a-literal-cech-lift-v63.json","7714c722f7f30cae1fac03edd34821d1e84372bf3d7663dc2c62a98fde6b186c"),
+"v64":(D/"e3-b1-c22-named-torsion-normalization-bridge-v64.json","55679ba16710e3b78ab46ab699ea73ecc3fc56faab4cb7edc5a02e487df3de38"),
+"v65":(D/"e3-b1-j1-marked-kc-discriminator-gate-v65.json","7ebef9a6182522f772f198d8c1572acc48cd8441f6158312d1f3f3f2c7fcc01c"),
+"j2":(D/"j2-cv-d2-semantic-orientation.json","0a5abe419c3bd2e4c523af50fd8f85858af6a0d957dcce1e3bdf2ff1430fed3e")}
 
-def csha(obj):
-    return hashlib.sha256(json.dumps(obj, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+def csha(o): return hashlib.sha256(json.dumps(o,sort_keys=True,separators=(",",":")).encode()).hexdigest()
+def locked(path,expected):
+    o=json.loads(path.read_text()); b=dict(o); claimed=b.pop("canonical_sha256")
+    assert claimed==expected==csha(b),path
+    return o
 
-def locked(path, expected):
-    obj = json.loads(path.read_text())
-    body = dict(obj)
-    claimed = body.pop("canonical_sha256")
-    assert claimed == expected == csha(body), path
-    return obj
+ap=argparse.ArgumentParser(); ap.add_argument("--check",action="store_true"); a=ap.parse_args()
+assert not (H/"MAIN-BATCH-HANDOFF.md").exists()
+assert (ROOT/"docs/research-os/policies/repository-asset-discovery.md").is_file()
+arsenal=json.loads((ROOT/"docs/arsenal/index.json").read_text())
+assert str(arsenal.get("schema","")).startswith("RESEARCH_ARSENAL_")
 
-ap = argparse.ArgumentParser()
-ap.add_argument("--check", action="store_true")
-a = ap.parse_args()
+c=json.loads((H/"controller.json").read_text()); cb=dict(c); controller_sha=cb.pop("projection_canonical_sha256")
+assert c["schema"]==CONTROLLER_SCHEMA and controller_sha==CONTROLLER_SHA==csha(cb)
+assert c["merge_allowed"] is False and c["execution"]["merge_allowed"] is False
 
-assert not RETIRED_HANDOFF.exists(), "MAIN-BATCH-HANDOFF.md is retired"
-assert not (ROOT / "docs/evidence-locator").exists(), "retired evidence-locator directory must stay absent"
-assert RESEARCH_POLICY.is_file() and ARSENAL.is_file()
-rp = RESEARCH_POLICY.read_text()
-assert "Stage16 and later" in rp and "Stages12–15" in rp and "## Arsenal" in rp
-arsenal = json.loads(ARSENAL.read_text())
-assert str(arsenal.get("schema", "")).startswith("RESEARCH_ARSENAL_")
+z={k:locked(p,h) for k,(p,h) in LOCKS.items()}
+assert [x["class_name"] for x in z["v61"]["ordered_c22_pic0_2_basis"]]==["kappa_A","kappa_D"]
+assert [x["class"] for x in z["v62"]["ordered_b1_h1_basis"]]==["cc(kappa_A)","cc(kappa_D)","kappa_A","kappa_D"]
+assert z["v63"]["surface_mu2_lift"]["surface_mu2_lift_materialized"] is True
+assert z["v63"]["proper14_coordinate_interface"]["column_index"]==3
+assert z["v64"]["exact_bridge"]["kappa_A"]["named_torsion"]=="J1"
+assert z["v64"]["exact_bridge"]["kappa_D"]["named_torsion"]=="J2"
+assert z["v64"]["marked_kc_interface"]["kappa_D"]["coordinate_f2"]==[1,0]
+assert z["v64"]["marked_kc_interface"]["kappa_A"]["coordinate_candidates_f2"]==[[0,1],[1,1]]
+assert z["v65"]["locked_frontier"]["remaining_ambiguity_bits"]==1
+assert z["v65"]["credit_firewall"]["j1_marked_kc_coordinate_selected"] is False
+mn=z["j2"]["kernel_fingerprint_identification"]["minimum_norm_to_functional"]
+assert mn["4"]==[0,1] and mn["12"]==[1,1]
 
-p41 = locked(V41, V41_SHA)
-r41 = p41["routing_contract"]
-assert r41["one_automatic_bounded_repository_search_after_arsenal_miss"] is True
-assert p41["anti_loop"]["automatic_bounded_search_budget_per_missing_object"] == 1
-assert r41["arsenal_miss_proves_repository_absence"] is False
-assert r41["bounded_search_miss_proves_repository_absence"] is False
+p58=json.loads((D/"e3-search-routing-supersession-v58.json").read_text())
+assert p58["routing_contract"]["arsenal_first"] is True
+assert p58["routing_contract"]["fixed_per_object_search_count_cap"] is None
+assert p58["routing_contract"]["repeated_bounded_repository_search_allowed"] is True
 
-p58 = json.loads(V58.read_text())
-assert p58["schema"] == "stage33.search_routing_supersession.v58"
-assert p58["role"] == "OPERATIONAL_ROUTING_ONLY_NO_MATHEMATICAL_CHANGE"
-r58 = p58["routing_contract"]
-assert r58["arsenal_first"] is True
-assert r58["fixed_per_object_search_count_cap"] is None
-assert r58["repeated_bounded_repository_search_allowed"] is True
-assert r58["search_miss_proves_repository_absence"] is False
-assert r58["search_miss_proves_mathematical_nonexistence"] is False
-assert "unlimited or open-ended repository search" in r58["forbidden"]
-assert p58["credit_firewall"]["genuine_full_surface_h2_mu2_lift_for_e3"] is False
-assert p58["credit_firewall"]["merge_allowed"] is False
-
-p57 = json.loads(V57.read_text())
-assert p57["schema"] == "stage33.e3.mask20_b1_gysin_image_gate.v57"
-assert p57["exact_b1_route_geometry"]["branch_H1_total_dimension_f2"] == 4
-assert p57["exact_b1_route_geometry"]["proper_geometric_Br2_dimension_f2"] == 14
-assert p57["exact_b1_route_geometry"]["required_marked_matrix_shape"] == [14, 4]
-assert p57["e3_membership_gate"]["proper14_mask_decimal"] == 20
-assert p57["e3_membership_gate"]["membership_in_im_Phi_B1"] == "OPEN_NOT_COMPUTED"
-assert p57["next_exact_leaf"] == "MATERIALIZE_EXACT_B1_BRANCH_H1_TO_PROPER14_PHI_MATRIX_AND_SOLVE_E3_MASK20_MEMBERSHIP"
-
-z = {name: locked(path, digest) for name, (path, digest) in LOCKS.items()}
-assert z["v25"]["genuine_h2_mu2_adapter"]["full_surface_named_j2_h2_mu2_lift_materialized"] is True
-assert z["v33"]["exact_information_boundary"]["current_hs_d2_nonzero_proved"] is True
-assert z["v34"]["exact_information_boundary"]["adapted_kummer_columns_materialized"] == 1
-assert z["v34"]["exact_information_boundary"]["original_standard_kummer_columns_materialized"] == 0
-
-c = json.loads((H / "controller.json").read_text())
-assert c["schema"] == CONTROLLER_SCHEMA
-cb = dict(c)
-controller_sha = cb.pop("projection_canonical_sha256")
-assert controller_sha == csha(cb)
-assert c["current"]["next_exact_leaf"] == c["next_item"] == c["execution"]["next_item"] == INHERITED_NEXT
-assert c["post_v41_routing"]["automatic_bounded_search_budget_per_missing_object"] == 1
-assert c["stage33_12"]["finite_v4_kummer_adapted_columns_materialized"] == 1
-assert c["stage33_12"]["finite_v4_kummer_columns_materialized"] == 0
-
-out = {
-    "schema": "STAGE33_MAIN_COMPACT_STATE_V20_V58_REPEATABLE_BOUNDED_SEARCH_ACTIVE",
-    "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
-    "detailed_machine_authority": "stages/stage33/controller.json",
-    "controller_schema": c["schema"],
-    "controller_projection_canonical_sha256": controller_sha,
-    "stage33_progress": c["stage33_progress"],
-    "current": {
-        "unit": "33-12",
-        "logical_internal_branch": "33-13_FINITE_V4_KUMMER_MATRIX_REPAIR",
-        "substep": "E3_A2_4B_MATERIALIZE_B1_BRANCH_H1_TO_PROPER14_MATRIX",
-        "active_missing_interface": "B1_BRANCH_H1_TO_PROPER14_BRAUER_IMAGE_MATRIX",
-        "next_exact_leaf": p57["next_exact_leaf"],
-    },
-    "authority_sync": {
-        "status": "SYNCHRONIZED_V58_REPEATABLE_BOUNDED_SEARCH_OVERRIDE",
-        "controller_and_generator_synchronized": True,
-        "mathematical_authority": "V25_V36_EXACT_CERTIFICATE_CHAIN_PLUS_BRANCH_E3_V41_V57",
-        "inherited_operational_routing_authority": "V41_ARSENAL_FIRST_ONE_BOUNDED_SEARCH_POLICY",
-        "operational_routing_authority": "V58_ARSENAL_FIRST_REPEATABLE_BOUNDED_SEARCH_NO_FIXED_CAP",
-        "inherited_routing_policy": "stages/stage33/33-12/j2-post-v39-arsenal-first-bounded-search-policy-v41.json",
-        "routing_policy": "stages/stage33/33-12/e3-search-routing-supersession-v58.json",
-        "supersession_scope": "FIXED_SEARCH_COUNT_CAP_ONLY_NO_MATHEMATICAL_CHANGE",
-    },
-    "current_exact_frontier": {
-        "current_named_J2_hs_d2_nonzero": True,
-        "j2_adapted_columns_materialized": 1,
-        "j2_adapted_columns_total": 10,
-        "named_J2_retained10_standard_mask_decimal": 6,
-        "named_J2_standard_support_1based": [2, 3],
-        "original_standard_columns_materialized": 0,
-        "remaining_adapted_source_labels": REMAINING,
-        "e3_proper14_mask_decimal": 20,
-        "e3_b1_branch_h1_dimension": 4,
-        "e3_b1_to_proper14_matrix_shape": [14, 4],
-        "e3_b1_membership_status": "OPEN_NOT_COMPUTED",
-        "e3_genuine_full_surface_h2_mu2_lift_materialized": False,
-    },
-    "locked_facts": {
-        "v25_genuine_h2_mu2_adapter": {"retained10_mask_decimal": 6, "sha256": LOCKS["v25"][1], "status": "MATERIALIZED_GENUINE_FULL_SURFACE_H2_MU2_LIFT_FOR_NAMED_J2"},
-        "v33_named_J2_hs_d2": {"nonzero": True, "sha256": LOCKS["v33"][1]},
-        "v34_first_adapted_column": {"materialized": True, "adapted_columns_materialized": 1, "standard_columns_materialized": 0, "standard_col2_xor_col3_only": True, "sha256": LOCKS["v34"][1]},
-        "v41_discovery_routing": {"sha256": V41_SHA, "status": p41["status"], "mathematical_change": False},
-        "v57_b1_gysin_gate": {"status": p57["status"], "proper14_target_mask_decimal": 20, "matrix_shape": [14, 4], "membership_computed": False, "mathematical_change_after_v57": False},
-        "v58_discovery_routing": {"path": "stages/stage33/33-12/e3-search-routing-supersession-v58.json", "status": p58["status"], "fixed_per_object_search_count_cap": None, "repeated_bounded_repository_search_allowed": True, "mathematical_change": False},
-    },
-    "resolved_investigations": {
-        "named_J2_genuine_h2_mu2_adapter": "CLOSED_EXACT_V25_DO_NOT_REOPEN",
-        "named_J2_current_hs_d2": "CLOSED_EXACT_NONZERO_V33_DO_NOT_REOPEN",
-        "first_J2_adapted_kummer_column": "CLOSED_EXACT_V34_DO_NOT_REOPEN",
-        "historical_bounded_reuse_scan": "NO_DIRECT_HIT_HISTORICAL_NOT_REPOSITORY_ABSENCE",
-        "standard_col2_or_col3_from_J2_xor": "FORBIDDEN_INFERENCE_V34_V35",
-    },
-    "discovery_policy": {
-        "ordinary_order": ["ARSENAL", "REPEATABLE_BOUNDED_REPOSITORY_SEARCH_WHEN_MATERIALLY_NEW_SIGNAL", "CONSTRUCT_WHEN_CURRENT_LEAF_HAS_ENOUGH_INFORMATION"],
-        "arsenal_index": "docs/arsenal/index.json",
-        "repository_asset_policy": "docs/research-os/policies/repository-asset-discovery.md",
-        "effective_routing_override": "stages/stage33/33-12/e3-search-routing-supersession-v58.json",
-        "fixed_per_object_search_count_cap": None,
-        "repeated_bounded_repository_search_allowed": True,
-        "each_repeat_requires_materially_new_mathematical_signal": True,
-        "unlimited_or_open_ended_repository_search_allowed": False,
-        "recursive_repository_wide_enumeration_as_ordinary_discovery_allowed": False,
-        "automatic_branch_history_archaeology_after_miss_allowed": False,
-        "unconstrained_keyword_expansion_allowed": False,
-        "near_equivalent_miss_chasing_allowed": False,
-        "miss_proves_repository_absence": False,
-        "miss_proves_mathematical_nonexistence": False,
-        "live_stage_authority_recheck_required_before_reuse": True,
-    },
-    "anti_loop_policy": {
-        "repeat_bounded_search_without_materially_new_signal": False,
-        "unbounded_repository_search": False,
-        "do_not_split_standard_col2_col3_from_xor": True,
-        "do_not_guess_remaining_columns": True,
-    },
-    "current_leaf_working_set": [
-        "docs/research-os/policies/repository-asset-discovery.md",
-        "docs/arsenal/index.json",
-        "stages/stage33/ROADMAP-33-12-MICROGOALS.md",
-        "stages/stage33/33-12/j2-post-v39-arsenal-first-bounded-search-policy-v41.json",
-        "stages/stage33/33-12/e3-mask20-b1-gysin-image-gate-v57.json",
-        "stages/stage33/33-12/e3-search-routing-supersession-v58.json",
-    ],
-    "execution_gate": {
-        "advance_allowed": c["advance_allowed"],
-        "advance_scope": "A2_4B_EXACT_B1_14X4_MATRIX_CONSTRUCTION_WITH_ARSENAL_FIRST_REPEATABLE_BOUNDED_SEARCH",
-        "next_expected_command": "SOURCE_LOCK_B1_PIC0_2_DOMAIN_BASIS_AND_PROPER14_GYSIN_PRODUCER_THEN_BUILD_14X4_MATRIX",
-        "construction_priority": REMAINING,
-    },
-    "firewalls": {
-        "stage33_12_closed_exact": False,
-        "stage33_07_reclosed": False,
-        "stage33_08_released": False,
-        "stage33_13_released": False,
-        "theorem_credit": False,
-        "receiver_credit": False,
-        "endpoint_credit": False,
-        "perfect_cuboid_existence_claim": False,
-        "perfect_cuboid_nonexistence_claim": False,
-        "merge_allowed": False,
-    },
-    "work_checkpoint": EMPTY_CHECKPOINT,
-}
-out["canonical_sha256"] = csha(out)
-rendered = json.dumps(out, sort_keys=True, separators=(",", ":")) + "\n"
+out=json.loads(r"""{"anti_loop_policy":{"do_not_relabel_j2_specific_twisted_kernel_as_j1":true,"do_not_reuse_contact_bits_as_marked_kc_bits":true,"do_not_use_arbitrary_gl2_complement":true,"do_not_use_source_automorphism_without_exact_target_action":true},"authority_sync":{"controller_current_leaf_is_pre_v61_legacy":true,"controller_current_leaf_projection_synchronized":false,"controller_global_authority_locked":true,"frontier_authority":"V65_J1_ONE_BIT_DISCRIMINATOR_GATE","mathematical_authority":"V25_V36_EXACT_CERTIFICATE_CHAIN_PLUS_BRANCH_E3_V41_V57_V61_V65","operational_routing_authority":"V58_ARSENAL_FIRST_REPEATABLE_BOUNDED_SEARCH_NO_FIXED_CAP","status":"V65_BRANCH_EXACT_FRONTIER_PROJECTED_CONTROLLER_GLOBAL_FIREWALLS_LOCKED","supersession_scope":"BRANCH_CURRENT_LEAF_ONLY_NO_CONTROLLER_GLOBAL_CREDIT_CHANGE"},"branch_exact_frontier_authority":"stages/stage33/33-12/e3-b1-j1-marked-kc-discriminator-gate-v65.json","controller_projection_canonical_sha256":"18d8aa4e0ab7a946f5ae5205de2cfddc4b55f867338e92242e5db7cac6f87554","controller_schema":"STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V62_ARSENAL_FIRST_BOUNDED_SEARCH_ACTIVE","current":{"active_missing_interface":"J1_MARKED_KC_IMAGE_ONE_BIT_DISCRIMINATOR","logical_internal_branch":"33-13_FINITE_V4_KUMMER_MATRIX_REPAIR","next_exact_leaf":"RESOLVE_J1_IMAGE_BETWEEN_u2_AND_u1_PLUS_u2_BY_ONE_EXACT_MARKED_TRANSPORT_OR_INDEPENDENT_SOURCE_SIDE_FINGERPRINT_THEN_DECODE_PROPER14_COLUMN3","substep":"E3_A2_4B_RESOLVE_C22_KAPPA_A_MARKED_KC_COLUMN3","unit":"33-12"},"current_exact_frontier":{"J1_marked_kc_coordinate_candidates_f2":[[0,1],[1,1]],"J1_marked_kc_remaining_ambiguity_bits":1,"J2_marked_kc_coordinate_f2":[1,0],"e3_b1_branch_h1_dimension":4,"e3_b1_column3_literal_symbol_materialized":true,"e3_b1_column3_marked_coordinate_materialized":false,"e3_b1_column4_proper14_mask_decimal":25,"e3_b1_membership_status":"OPEN_NOT_COMPUTED","e3_b1_ordered_domain_basis":["cc(kappa_A)","cc(kappa_D)","kappa_A","kappa_D"],"e3_genuine_full_surface_h2_mu2_lift_materialized":false,"e3_proper14_mask_decimal":20,"j2_adapted_columns_materialized":1,"j2_adapted_columns_total":10,"kappa_A_named_torsion":"J1","kappa_D_named_torsion":"J2","original_standard_columns_materialized":0,"target_minimum_norm_fingerprint":{"u1+u2":12,"u2":4}},"current_leaf_working_set":["docs/research-os/policies/repository-asset-discovery.md","docs/arsenal/index.json","docs/arsenal/cards/provisional/S33-PW04.md","docs/arsenal/cards/provisional/S33-PW07.md","stages/stage33/ROADMAP-33-12-V65-J1-DISCRIMINATOR.md","stages/stage33/33-12/e3-b1-j1-marked-kc-discriminator-gate-v65.json","stages/stage33/33-12/e3-b1-c22-named-torsion-normalization-bridge-v64.json","stages/stage33/33-12/j2-cv-d2-semantic-orientation.json"],"detailed_machine_authority":"stages/stage33/controller.json","discovery_policy":{"arsenal_index":"docs/arsenal/index.json","current_arsenal_cards":["S33-PW04","S33-PW07"],"each_repeat_requires_materially_new_mathematical_signal":true,"effective_routing_override":"stages/stage33/33-12/e3-search-routing-supersession-v58.json","fixed_per_object_search_count_cap":null,"ordinary_order":["ARSENAL","REPEATABLE_BOUNDED_REPOSITORY_SEARCH_WHEN_MATERIALLY_NEW_SIGNAL","CONSTRUCT"],"repeated_bounded_repository_search_allowed":true,"search_miss_proves_mathematical_nonexistence":false,"search_miss_proves_repository_absence":false,"unbounded_repository_search_allowed":false},"execution_gate":{"advance_allowed":true,"advance_scope":"A2_4B_J1_ONE_BIT_DISCRIMINATOR_WITH_EXACT_TRANSPORT_OR_INDEPENDENT_SOURCE_FINGERPRINT","next_expected_command":"ARSENAL_FIRST_FOR_EXACT_J1_DISCRIMINATOR_THEN_CONSTRUCT_ONE_SOURCE_LOCKED_TRANSPORT_OR_FINGERPRINT","stop_semantics":"LEAF_GATE_ONLY_NOT_ALGORITHM_EXHAUSTION"},"firewalls":{"endpoint_credit":false,"merge_allowed":false,"perfect_cuboid_existence_claim":false,"perfect_cuboid_nonexistence_claim":false,"receiver_credit":false,"stage33_07_reclosed":false,"stage33_08_released":false,"stage33_12_closed_exact":false,"stage33_13_released":false,"theorem_credit":false},"locked_facts":{"v61":{"sha256":"48ec6b2ffb91d549041ff5ec667ff88d493becf01d89e1bb5974134b3b0a53f6"},"v62":{"sha256":"353e68438334a0da71dfdbc09a8bf60e7e511598cf54a173338735686f1c3f4c"},"v63":{"sha256":"7714c722f7f30cae1fac03edd34821d1e84372bf3d7663dc2c62a98fde6b186c"},"v64":{"sha256":"55679ba16710e3b78ab46ab699ea73ecc3fc56faab4cb7edc5a02e487df3de38"},"v65":{"sha256":"7ebef9a6182522f772f198d8c1572acc48cd8441f6158312d1f3f3f2c7fcc01c"}},"resolved_investigations":{"b1_c22_pic0_2_basis":"CLOSED_EXACT_V61_DO_NOT_REOPEN","b1_full_ordered_domain_basis":"CLOSED_EXACT_V62_DO_NOT_REOPEN","j1_marked_kc_image":"OPEN_EXACTLY_ONE_BIT_V65","kappa_A_literal_cech_surface_lift":"CLOSED_EXACT_V63_DO_NOT_REOPEN","kappa_A_named_torsion":"CLOSED_EXACT_J1_V64_DO_NOT_REOPEN","kappa_D_named_torsion_and_marked_orientation":"CLOSED_EXACT_J2_TO_U1_V64_DO_NOT_REOPEN"},"role":"ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE","schema":"STAGE33_MAIN_COMPACT_STATE_V21_V65_J1_ONE_BIT_DISCRIMINATOR_ACTIVE","stage33_progress":"6/11","work_checkpoint":{"authority":"OPERATIONAL_ONLY_NOT_PROOF","status":"EMPTY"}}""")
+assert out["controller_projection_canonical_sha256"]==controller_sha
+out["canonical_sha256"]=csha(out)
+rendered=json.dumps(out,sort_keys=True,separators=(",",":"))+"\n"
 if a.check:
-    assert OUT.exists() and OUT.read_text() == rendered, "MAIN-STATE.json is stale; run sync_main_state.py"
-    mode = "check"
+    assert OUT.exists() and OUT.read_text()==rendered,"MAIN-STATE.json is stale; run sync_main_state.py"
+    mode="check"
 else:
-    OUT.write_text(rendered)
-    mode = "write"
-print(json.dumps({"success": True, "mode": mode, "canonical_sha256": out["canonical_sha256"], "authority_sync": out["authority_sync"]["status"], "work_checkpoint_status": "EMPTY", "mathematical_change": False}, sort_keys=True))
+    OUT.write_text(rendered); mode="write"
+print(json.dumps({"success":True,"mode":mode,"canonical_sha256":out["canonical_sha256"],"current_leaf":out["current"]["active_missing_interface"],"stop_semantics":out["execution_gate"]["stop_semantics"],"merge_allowed":False},sort_keys=True))
