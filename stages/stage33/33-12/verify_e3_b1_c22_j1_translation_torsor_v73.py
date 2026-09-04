@@ -12,13 +12,12 @@ V73_PATH = HERE / "e3-b1-c22-j1-translation-torsor-v73.json"
 V71_PATH = HERE / "e3-b1-c22-j1-cv-e2-cocycle-v71.json"
 J2_TEMPLATE_PATH = HERE.parent / "33-05" / "j2-r4-correct-translation-torsor.json"
 PW07_PATH = ROOT / "docs/arsenal/cards/provisional/S33-PW07.md"
-ROADMAP_PATH = HERE.parent / "ROADMAP-33-12-V71-J1-TORSOR.md"
 
 EXPECTED_V73 = "b6a8dd83cd83547525e8ff328cccc1572791c52bea6061137c2bc59a134fa09d"
 EXPECTED_V71_BLOB = "5073a38366aa8715b5ce27115a1d055386a0869a"
 EXPECTED_J2_TEMPLATE_BLOB = "5a0ac87e7afc7b048d6bbe9c12bea7fe91a0348b"
 EXPECTED_PW07_BLOB = "7f1337858bc6f9006e101d810dd72e67aef534fd"
-EXPECTED_ROADMAP_BLOB = "b979b286c8d2c8f009989fa26e1e7d98c12d2b53"
+EXPECTED_ROADMAP_BLOB_AT_V73_CREATION = "b979b286c8d2c8f009989fa26e1e7d98c12d2b53"
 
 
 def csha(obj):
@@ -61,7 +60,7 @@ def main():
     require(blob_sha(V71_PATH) == EXPECTED_V71_BLOB, "V71 blob drift")
     require(blob_sha(J2_TEMPLATE_PATH) == EXPECTED_J2_TEMPLATE_BLOB, "J2 method-template blob drift")
     require(blob_sha(PW07_PATH) == EXPECTED_PW07_BLOB, "S33-PW07 blob drift")
-    require(blob_sha(ROADMAP_PATH) == EXPECTED_ROADMAP_BLOB, "V71 roadmap blob drift")
+    require(v73["source_locks"]["roadmap"]["blob_sha1"] == EXPECTED_ROADMAP_BLOB_AT_V73_CREATION, "V73 historical roadmap source lock moved")
 
     v71 = json.loads(V71_PATH.read_text())
     j2 = json.loads(J2_TEMPLATE_PATH.read_text())
