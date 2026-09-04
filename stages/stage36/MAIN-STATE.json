@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V4_36_02_PENDING_AUDIT",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V5_36_02_AUDITED",
   "stage": "36",
-  "status": "ACTIVE_PENDING_HOSTILE_AUDIT",
-  "base_main_sha": "a873c8fca0074aa966a22e36475a3551a378560d",
+  "status": "ACTIVE",
+  "base_main_sha": "4c93ccb79e95cbcd9e2416ad3b6a3f4788d6f586",
   "mission": "Attack Stage29 kernel K16-C3-CAMPEDELLI-UNIFORM-TORSOR through the audited R29-CAMP2 three-representative Q-defined Campedelli H-torsor receiver, seeking exact quotient emptiness or a receiver-matched replacement theorem.",
   "parent_bootstrap_authority": {
     "pr": 1535,
@@ -20,6 +20,16 @@
     "merged_main_sha": "8c59c81bcf0bcd442705cfb7a3db297253b34679",
     "exact_head_ci_run": 33866017108,
     "exact_head_ci_job": 101000945515,
+    "verdict": "PASS"
+  },
+  "stage36_36_02_authority": {
+    "pr": 1541,
+    "hostile_audit_review": 5113379283,
+    "audited_head": "3a78f9ff156b53f509625d353df48d1b3e02b836",
+    "merged_main_sha": "4c93ccb79e95cbcd9e2416ad3b6a3f4788d6f586",
+    "exact_head_ci_run": 33876389406,
+    "exact_head_ci_job": 101034265419,
+    "inventory_blob_sha": "88130b9380a677a191f91c24df87618e65be0a2f",
     "verdict": "PASS"
   },
   "freshness_sync_36_02": {
@@ -95,39 +105,39 @@
     },
     "36-02": {
       "leaf": "36-02_THREE_Q_REPRESENTATIVE_INVENTORY",
-      "status": "EXACT_THREE_Q_REPRESENTATIVES_PENDING_HOSTILE_AUDIT",
+      "status": "AUDITED_PASS",
       "certificate": "stages/stage36/36-02/representative-inventory.json",
       "verifier": "stages/stage36/verify_stage36_36_02.py",
+      "successor_verifier": "stages/stage36/verify_stage36_36_02_audited.py",
+      "hostile_audit_review": 5113379283,
+      "audited_head": "3a78f9ff156b53f509625d353df48d1b3e02b836",
+      "exact_head_ci_run": 33876389406,
+      "exact_head_ci_job": 101034265419,
+      "merged_main_sha": "4c93ccb79e95cbcd9e2416ad3b6a3f4788d6f586",
+      "inventory_blob_sha": "88130b9380a677a191f91c24df87618e65be0a2f",
       "THREE_CERTIFIED_Q_REPRESENTATIVES_EXACT": true,
       "EXACT_Q_ISOMORPHISM_CLASS_COUNT_CLAIM": false,
       "NEW_THEOREM_CREDIT": false,
-      "promotion_status": "PROVISIONAL_NOT_AUDITED"
+      "promotion_status": "AUDITED"
     }
   },
   "current": {
-    "unit": "36-02",
-    "next_exact_leaf": "36-02_THREE_Q_REPRESENTATIVE_INVENTORY",
+    "unit": "36-03",
+    "next_exact_leaf": "36-03_PHYSICAL_OPEN_PUSH_AND_BOUNDARY",
     "next_owner": "STAGE36_MAIN",
-    "result": "EXACT_THREE_Q_REPRESENTATIVES_PENDING_HOSTILE_AUDIT",
-    "provisional_successor_after_hostile_audit": "36-03_PHYSICAL_OPEN_PUSH_AND_BOUNDARY",
-    "why": "Three exact Q-symmetry representatives have been reconstructed from the source-locked finite S3 action and given explicit Q-defined degree-8 function-field quotient models. Hostile audit is required before promotion or 36-03."
+    "why": "36-02 hostile re-audit PASS has been promoted. Replay the exact physical endpoint-to-C_H map for the three audited Q representatives and identify every deleted, exceptional, branch, canonical/resolution, and torsor-degeneration locus before any H^1 arithmetic."
   },
   "current_leaf_working_set": [
-    "stages/stage29/29-02hb/campedelli_kernel_check.py",
-    "stages/stage29/29-02ha/result.md",
-    "stages/stage29/29-02ha/exact-sign-cover-model.md",
-    "stages/stage29/29-02hb/campedelli-quotient-adapter.md",
-    "stages/stage29/29-02hb/route-contract.json",
-    "docs/arsenal/index.json",
-    "docs/arsenal/cards/formal/S30-W01.md",
-    "docs/arsenal/cards/workflows/S30-WF02.md",
-    "docs/arsenal/cards/workflows/S30-WF03.md",
+    "stages/stage36/ROADMAP.md",
     "stages/stage36/36-02/representative-inventory.json",
-    "stages/stage36/verify_stage36_36_02.py"
+    "stages/stage29/29-06/endpoint-hub-graph.json",
+    "stages/stage29/29-02hb/campedelli-quotient-adapter.md",
+    "stages/stage29/29-02hb/arithmetic-routing.md",
+    "docs/arsenal/index.json"
   ],
   "promotion_gates": {
     "source_authority_lock_complete": true,
-    "three_Q_representatives_exact": false,
+    "three_Q_representatives_exact": true,
     "physical_open_push_and_boundary_complete": false,
     "pointwise_H_torsor_class_explicit": false,
     "uniform_finite_ramification_support_proved": false,
