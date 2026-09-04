@@ -12,42 +12,56 @@ The current branch-local roadmap is `stages/stage33/ROADMAP-33-12-V71-J1-TORSOR.
 
 Use known paths directly. Repository discovery is search-first. A search miss never proves repository absence or mathematical nonexistence.
 
-**Stage33 MAIN hard ban:** do not request, fetch, or dump a full/recursive repository tree, including GitHub recursive `git/trees` reads or equivalent whole-branch tree enumeration. Do not use a recursive tree as a convenience fallback after a search miss. Navigate only by exact-path fetches, targeted filename/code searches, and explicit controller/roadmap/Arsenal/source-lock references. If a future leaf genuinely requires exhaustive repository enumeration, that requirement must first be made explicit in the Stage33 roadmap/controller; it is not implicitly authorized by `Stage33-main-batch`.
+**Stage33 MAIN hard ban:** do not request, fetch, or dump a full/recursive repository tree, including GitHub recursive `git/trees` reads or equivalent whole-branch tree enumeration. Navigate only by exact-path fetches, targeted filename/code searches, and explicit controller/roadmap/Arsenal/source-lock references.
 
-Do not use branch-history archaeology as ordinary discovery.
+V58 remains the operational routing authority: Arsenal first, then repeatable bounded search only when each repeat has a materially new mathematical signal. Unbounded/open-ended search remains forbidden.
 
-## Current exact frontier: V77
+## Current exact frontier: V80
 
-- V61-V64 fix the B1 source basis, literal `lambda_A={f_A,g22}`, `kappa_A=J1`, `kappa_D=J2`, and retained J2 marked/proper14 data.
-- V65/V68/V69 historically treated J1 as one of two nonzero marked-Kc candidates and reduced that conditional transport to identity versus shear.
-- V71 constructs the exact nonzero J1 E[2]-valued cocycle `(f1,1)`, splitting over `Kgeom(sqrt(f1))`, with `rho_f1 -> Tr`.
-- V73 materializes the direct semilinear quartic torsor from that E[2] cocycle.
-- V75 proves the degree-two quotient is independent of `d`.
-- V77 wires in the exact historical `xalpha_pair_galois_repair.py`: `J1` is itself an x-alpha relation, and the geometric Brauer quotient has basis `{J2,q1}`. Therefore source J1 is **zero in the geometric Brauer/Ogg-Shafarevich quotient**.
-- Thus V71 remains nonzero in `H^1(E[2])`, but its image in `H^1(E)` is zero. The V73 smooth projective torsor is the zero OS class with `T=<4>+<8>`, minimum norm `4`. This `4` is **not** the nonzero `u2` fingerprint.
-- The old V65/V69 J1 nonzero marked-Kc gate and V75 4-vs-12 next contract are superseded for J1. J2 -> `u1=[1,0]` remains intact.
+- V61-V64 fix the B1 source basis, literal `lambda_A={f_A,g22}`, `kappa_A=J1`, `kappa_D=J2`, and retained J2 geometry.
+- V71 constructs the nonzero J1 `H^1(E[2])` cocycle; V73 materializes the direct semilinear quartic torsor.
+- V77 wires in the exact x-alpha relation. J1 is zero in the geometric Brauer/Ogg-Shafarevich quotient, so the historical V65/V69 nonzero marked-Kc discriminator is not an active J1 decision gate.
+- V79 closes the full B1 Gysin matrix in ordered basis `[cc(kappa_A),cc(kappa_D),kappa_A,kappa_D]` with column masks `[0,25,0,25]`, rank `1`, image `{0,25}`.
+- The e3 target is proper14 mask `20`, so `20 notin {0,25}`. Therefore the B1 branch-Gysin route is **exactly frozen for e3**.
+- This is only a route-local negative result. It does **not** prove global nonexistence of an e3 `H2(mu2)` lift.
+- V80 promotes that boundary and returns CURRENT to the pre-existing V52/V56 source-specific marked-Picard-to-literal-geometry gap outside the frozen B1 route.
 
-The inherited `controller.json` remains the global/firewall authority. Its pre-V61 current-leaf fields are not the branch frontier; `MAIN-STATE.json` records this branch-local supersession. No global credit is changed.
+The inherited `controller.json` remains the global/firewall authority. No global credit is changed.
 
 ## Current leaf
 
 `STOP` means **leaf gate only, not algorithm exhaustion**. `Stage33-main-batch` remains allowed.
 
-The active repair leaf is now the literal `lambda_A` -> proper14 column-3 binding. V63 already materializes the source-specific H2(mu2) symbol
+CURRENT:
 
-`lambda_A=alpha({f_A,g22}),  f_A=(t-r1)/(t-r4)`.
+`SOURCE_SPECIFIC_FULL_SURFACE_CECH_H2_MU2_REALIZATION_FOR_E3_MASK20_OUTSIDE_B1_ROUTE`
 
-V57 defines `Phi_B1:H1(C21_tilde disjoint_union C22_tilde,F2)->Br(Kc_tilde_bar)[2]`. The next atomic check is whether V63 `Phi_B1(kappa_A)` is exactly the same geometric Brauer quotient class called `J1` in the locked x-alpha repair. If that exact same-codomain/source crosswalk holds, column3 is the zero proper14 vector. If not, stop at the missing adapter; name equality alone is insufficient.
+Exact input already available:
 
-Do not reopen the 4/12 minimum-norm discriminator and do not choose identity versus shear.
+- V41 e3 proper14 mask `20`;
+- V53 exact marked Picard-adjoint candidate for mask20;
+- V56 exact localization of the missing bridge;
+- V79 exact proof that the B1 route image is only `{0,25}` and therefore cannot realize mask20.
+
+Required next object: one source-locked literal Cech/function/divisor/transition datum, or actual Gersten datum with all adapter hypotheses checked, whose exact marked Brauer image is proper14 mask20. The retained J2 `{f2,g22}` object is a method/example only and must not be relabelled as e3.
+
+Do not reopen B1 membership after V79, and do not promote B1 nonmembership to global `H2(mu2)` nonexistence.
 
 ## Arsenal-first routing
 
 Read `docs/arsenal/index.json`, then only:
-- `S33-PW04` for the current marked-source/Picard-adjoint binding and basis firewall;
-- `S33-PW07` only for the retained source/cocycle/torsor/Brauer-layer dictionary.
 
-Cards are PROVISIONAL routing aids; live Stage33 source locks override them. V58 permits repeatable bounded search only when each repeat has a materially new mathematical signal. Unbounded/open-ended search remains forbidden.
+- `S33-PW04` for exact marked-source / Picard-adjoint binding;
+- `S33-PW07` for literal Cech/torsor/Brauer-layer construction patterns;
+- `S33-PW08` only conditionally if actual Gersten data are constructed and its hypotheses can be checked exactly.
+
+Cards are PROVISIONAL routing aids; live Stage33 source locks override them.
+
+## Historical correction retained
+
+V77 remains exact: J1 is zero in the geometric Brauer/Ogg-Shafarevich quotient. The V71 E[2] cocycle and V73 quartic remain valid historical objects; only the old nonzero-Brauer interpretation was superseded.
+
+Do not reopen the 4/12 minimum-norm discriminator and do not choose identity versus shear from that historical gate.
 
 ## Release and verification
 
@@ -55,8 +69,8 @@ Stage33 remains `6/11`. Stage33-12 is not closed. Stage33-13 is not released. No
 
 After writes run at minimum:
 
-- `python stages/stage33/33-12/verify_e3_b1_c22_j1_xalpha_kernel_correction_v77.py`
-- `python stages/stage33/33-12/verify_stage33_v77_frontier_state_v78.py`
+- `python stages/stage33/33-12/verify_e3_b1_full_gysin_matrix_xalpha_correction_v79.py`
+- `python stages/stage33/33-12/verify_e3_b1_route_freeze_and_outside_cech_rewire_v80.py`
 - `python stages/stage33/sync_main_state.py --check`
 - `git diff --check`
 
