@@ -19,7 +19,8 @@ V19 = "STAGE35_EX_PESCH_E1_STATE_V19_POST_35EX20_PAIRED_SQUARECLASS_DYNAMIC_SUPP
 V20 = "STAGE35_EX_PESCH_E1_STATE_V20_POST_35EX21_GLOBAL_NORMALIZED_CUBOID_SURFACE"
 V21 = "STAGE35_EX_PESCH_E1_STATE_V21_POST_35EX22_OBVIOUS_BRAUER_SYMBOL_BLOCKER"
 V22 = "STAGE35_EX_PESCH_E1_STATE_V22_POST_35EX23_GENUS5_CHARACTER_QUOTIENT_UNIFORMITY_BLOCKER"
-assert state["schema"] in {V18, V19, V20, V21, V22}
+V23 = "STAGE35_EX_PESCH_E1_STATE_V23_POST_35EX24_FIVE_ELLIPTIC_ISOGENY_TWIST_COMPRESSION"
+assert state["schema"] in {V18, V19, V20, V21, V22, V23}
 assert state["stage"] == "35-EX"
 assert state["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
 assert state["base_main_sha"] in {
@@ -31,6 +32,8 @@ assert state["base_main_sha"] in {
     "378096fa313b582b63553b395ec85a5c86de2685",
     "2e07dde92fdf270fff1233635a7cb4cea1427080",
     "7a5d01b438c68c228ad73955f906f3128780d6ef",
+    "c20ee71d91af850103fd7406f9b1072448a11fcf",
+    "5ed32fa53bdecb735f461d7c27e85851d9ad8c21",
 }
 
 unit18 = state["completed_units"]["35EX-18"]
@@ -94,11 +97,19 @@ elif state["schema"] == V20:
     assert state["base_main_sha"] == "24438151cf76be42612b7df83314630e51c61682"
 elif state["schema"] == V21:
     assert state["base_main_sha"] == "378096fa313b582b63553b395ec85a5c86de2685"
-else:
+elif state["schema"] == V22:
     assert state["base_main_sha"] == "7a5d01b438c68c228ad73955f906f3128780d6ef"
+else:
+    parent = state["parent_authority"]
+    assert parent["unit"] == "35EX-23"
+    assert parent["hostile_audit_verdict"] == "PASS"
+    assert parent["hostile_audit_review"] == 5111910947
+    assert parent["audited_head_sha"] == "77ff0a6cf51679bd64525a0be843fcd1eed77d8e"
+    assert parent["merged_main_sha"] == "c20ee71d91af850103fd7406f9b1072448a11fcf"
+    assert state["base_main_sha"] in {"c20ee71d91af850103fd7406f9b1072448a11fcf", "5ed32fa53bdecb735f461d7c27e85851d9ad8c21"}
 
 for old in (unit19, unit19b):
-    if state["schema"] in {V19, V20, V21, V22}:
+    if state["schema"] in {V19, V20, V21, V22, V23}:
         assert old["hostile_audit_verdict"] == "PASS"
         assert old["audited_head_sha"] == "b63fcf4f7888f86f6881d15f5e5bd9d3873dc1b5"
         assert old["merged_main_sha"] == "fd0986693a8806fb77083c862d0f939d23a05abb"
@@ -128,6 +139,7 @@ assert current["unit"] in {
     "35EX-21_GLOBAL_BIQUADRATIC_SURFACE_MODEL_OR_GEOMETRY_BLOCKER",
     "35EX-22_SURFACE_BRAUER_CLASS_OR_OBVIOUS_SYMBOL_BLOCKER",
     "35EX-23_GENUS5_MULTIQUADRATIC_CHARACTER_QUOTIENT_DESCENT_OR_UNIFORMITY_BLOCKER",
+    "35EX-24_FIVE_ELLIPTIC_ISOGENY_TWIST_COMPRESSION_OR_INDEPENDENT_CHANNEL_BLOCKER",
 }
 assert state["arsenal"]["S31_W01"] in {
     "FIBERWISE_ROUTING_ONLY_GLOBAL_FIXED_CURVE_USE_BLOCKED_BY_NONISOTRIVIAL_K",
