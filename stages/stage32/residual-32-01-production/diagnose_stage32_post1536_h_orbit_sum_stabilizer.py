@@ -22,6 +22,7 @@ EXPECTED_H_GROUP_ORDER = 4
 EXPECTED_H_DECK_CANONICAL = "8c32735092671d725034de8d14d09c09ac275517fa5f0e225791d2fc53eb5bf3"
 EXPECTED_POST1536_CANONICAL = "3637db0c1e2acda7132b5b4fdc8ba4ee731230c160fa599dbdfeae993fb9e8ba"
 SECOND_BOUNDARIES = [33, 36, 37, 40, 41, 44]
+EXPECTED_WEIERSTRASS_MAP = {"33": 6, "36": 1, "37": 5, "40": 3, "41": 4, "44": 2}
 
 
 def canonical_sha(obj: dict) -> str:
@@ -128,7 +129,11 @@ def main() -> None:
     if canonical_sha(post1536) != EXPECTED_POST1536_CANONICAL:
         raise SystemExit("post1536 canonical moved")
     anchor = post1536["semantic_anchor"]
-    if anchor["second_boundary_labels"] != SECOND_BOUNDARIES:
+    if anchor["second_boundary_to_weierstrass_id"] != EXPECTED_WEIERSTRASS_MAP:
+        raise SystemExit("post1536 boundary/Weierstrass map moved")
+    if anchor["weierstrass_id_set"] != [1, 2, 3, 4, 5, 6]:
+        raise SystemExit("post1536 Weierstrass id set moved")
+    if post1536["finite_result"]["second_factor_boundary_labels"] != SECOND_BOUNDARIES:
         raise SystemExit("post1536 second-boundary labels moved")
     if not anchor["bijection_verified"]:
         raise SystemExit("post1536 Weierstrass adapter no longer verified")
