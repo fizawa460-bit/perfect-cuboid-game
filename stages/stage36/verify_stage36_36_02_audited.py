@@ -12,8 +12,14 @@ AUDITED_PR_MERGE="4c93ccb79e95cbcd9e2416ad3b6a3f4788d6f586"
 PROMOTION_MERGE="26fb608cb2551ab2102ae36ad3b57c063959df58"
 V6_BASE="bdd707e52ded061014bfbb6158762e8b997e7a38"
 V7_BASE="45f290a443cf71b1fc62f031994122c3fa58f0e9"
-V8_BASE="efe25f4ef74dc776da7ccad3f5cd786b0b2906e4"
+V8_BASE="303c66cc4b2744222ee242d52c457948d587e32e"
 HISTORICAL_BASE="a873c8fca0074aa966a22e36475a3551a378560d"
+FRESHNESS_36_04={
+ "sync_pr":1559,
+ "main_sha":V8_BASE,
+ "merge_commit":"e25e6442e61967ed9e6bc16b04e9a4d7219b4e7d",
+ "scope":"Stage32-only advance via #1556; no Stage36, Stage29 Campedelli/sign-cover source, or Arsenal authority changes",
+}
 def blob_sha(path):
  d=path.read_bytes(); return hashlib.sha1(b"blob "+str(len(d)).encode()+b"\0"+d).hexdigest()
 def require(ok,msg):
@@ -53,6 +59,7 @@ def main():
   require("36-04" not in s.get("completed_units",{}),"36-04 started in V7")
  else:
   require(s.get("status")=="ACTIVE_PENDING_HOSTILE_AUDIT" and s.get("base_main_sha")==V8_BASE,"V8 lifecycle moved")
+  require(s.get("freshness_sync_36_04")==FRESHNESS_36_04,"V8 freshness sync moved")
   require(g.get("physical_open_push_and_boundary_complete") is True and g.get("pointwise_H_torsor_class_explicit") is False,"V8 gate boundary moved")
   require(s.get("current",{}).get("unit")=="36-04","V8 current unit moved")
   require(s.get("completed_units",{}).get("36-04",{}).get("promotion_status")=="PROVISIONAL_NOT_AUDITED","36-04 prematurely audited")
