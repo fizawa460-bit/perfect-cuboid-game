@@ -27,7 +27,7 @@ V24 = "STAGE35_EX_PESCH_E1_STATE_V24_POST_35EX25_SINGLE_ELLIPTIC_FULL_SQUARE_REC
 assert state["schema"] == V24
 assert state["stage"] == "35-EX"
 assert state["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
-assert state["base_main_sha"] == "a873c8fca0074aa966a22e36475a3551a378560d"
+assert state["base_main_sha"] == "26fb608cb2551ab2102ae36ad3b57c063959df58"
 
 parent = state["parent_authority"]
 assert parent["unit"] == "35EX-24"
@@ -146,10 +146,10 @@ quad = quad.subs(Y**2, T*((T-cc)**2-4*dd**2)).subs(T, t**2)
 assert sp.factor(quad) == 0
 
 # L equation follows from the same quadratic relation.
-Ldiff = sp.expand(W**2 - (Z**3+cc*Z**2+dd**2*Z))
-# W^2=T Z^2, and the quadratic says T=Z+cc+dd^2/Z.
-Lreduced = sp.factor(Ldiff.subs(T, t**2) - Z*(t**2*Z - Z**2-cc*Z-dd**2))
-assert Lreduced == 0
+Z0 = sp.symbols("Z0", nonzero=True)
+W0 = t*Z0
+Ldiff0 = sp.expand(W0**2 - (Z0**3+cc*Z0**2+dd**2*Z0))
+assert sp.factor(Ldiff0 - Z0*(t**2*Z0-Z0**2-cc*Z0-dd**2)) == 0
 
 # The chosen quadratic root reproduces the requested Q Y-coordinate.
 Yphi = sp.together(t*(dd**2/Z - Z) - Y)
