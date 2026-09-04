@@ -29,9 +29,9 @@ def factor(n: int):
 state = json.loads(STATE.read_text())
 doc = DOC.read_text()
 
-assert state["schema"] == "STAGE35_EX_PESCH_E1_STATE_V13_JOINT_LOCAL_FREE_SPLIT_SUPPORT"
+# Progression-safe: verify the recorded 35EX-15 exact boundary itself, not the
+# mutable downstream schema/current candidate after a later leaf advances.
 assert state["stage"] == "35-EX"
-
 unit14 = state["completed_units"]["35EX-14"]
 assert unit14["status"] == "AUDITED_EXACT_COPRIME_E1_RECEIVER_FACTORIZATION_NO_CREDIT"
 assert unit14["hostile_audit_review"] == 5108445565
@@ -49,13 +49,8 @@ assert unit15["S34_W03_receiver_intersection_closed"] is False
 assert unit15["current_S34_W03_joint_local_route_frozen_free_split_support"] is True
 assert unit15["all_future_local_global_arguments_ruled_out"] is False
 assert unit15["audited_theorem_credit"] is False
-
 assert state["resolved_investigations"]["CURRENT_S34_W03_JOINT_LOCAL"]["status"] == "FROZEN_FREE_SPLIT_SUPPORT"
-assert state["candidate_ledger_after_fresh_breadth_audit"]["selected_live"] == "E1-COPRIME-PAIR-GLOBAL-RECIPROCITY"
-assert state["candidate_ledger_after_fresh_breadth_audit"]["just_frozen"] == "E1-COPRIME-RECEIVER-JOINT-LOCAL"
-assert state["current"]["unit"] == "35EX-16_COPRIME_PAIR_GLOBAL_RECIPROCITY_OR_INDEPENDENT_SPLIT_ORIENTATIONS"
 assert state["arsenal"]["S34_W03"] == "EXACT_BRANCH_RECEIVER_ADAPTER_MATCHED_CURRENT_LOCAL_ROUTE_FROZEN_INTERSECTION_NOT_CLOSED"
-assert state["arsenal"]["matching_global_reciprocity_Hilbert_Jacobi_card_found"] is False
 
 for text in (
     "Pminus=W1*W2-V1*V2",
@@ -69,9 +64,6 @@ for text in (
 ):
     assert text in doc
 
-# Deterministic regression only. The universal split-support statement is the
-# elementary sum-of-two-squares valuation argument recorded in the proof text;
-# this bounded replay checks the exact formulas and representative arithmetic.
 pairs1 = [
     (a, b)
     for a in range(2, 51)
@@ -87,12 +79,10 @@ pairs2 = [
 
 master_hits = 0
 branch_survivors = []
-
 for a, b in pairs1:
     U1, V1, W1 = a*a-b*b, 2*a*b, a*a+b*b
     for m, n in pairs2:
         U2, V2, W2 = m*m-n*n, 2*m*n, m*m+n*n
-
         master = (V1*U2)**2 + (U1*V2)**2
         if not square(master):
             continue
@@ -102,8 +92,6 @@ for a, b in pairs1:
         d = gcd(V1, W2)
         pd = p * d
         assert p % 2 == d % 2 == 1 and gcd(p, d) == 1
-
-        # Every prime in p*d comes from a primitive Pythagorean hypotenuse.
         for ell in factor(pd):
             assert ell % 4 == 1
 
@@ -119,8 +107,6 @@ for a, b in pairs1:
         assert Lminus % 2 == Lplus % 2 == 1
         assert gcd(Lminus, Lplus) == 1
 
-        # Regression of the split-only squareclass theorem on the full
-        # deterministic Master-Hit panel.
         for ell, exponent in factor(Lminus).items():
             if ell % 4 == 3:
                 assert exponent % 2 == 0
@@ -128,7 +114,6 @@ for a, b in pairs1:
             if ell % 4 == 3:
                 assert exponent % 2 == 0
 
-        # V1,V2 are each divisible by 4, so Lplus-Lminus is divisible by 32.
         assert V1 % 4 == V2 % 4 == 0
         assert (Lplus - Lminus) % 32 == 0
 
@@ -171,7 +156,6 @@ assert source_odd_support == {3, 5, 11, 13}
 assert {29, 101}.isdisjoint(source_odd_support)
 assert not square(Lplus)
 
-# Credit firewall.
 for key in (
     "new_theorem_credit",
     "R29_PESCH_E1_closed",
@@ -183,4 +167,4 @@ for key in (
 ):
     assert state["claims"][key] is False
 
-print("PASS STAGE35_EX_15_JOINT_LOCAL_FREE_SPLIT_SUPPORT_V1")
+print("PASS STAGE35_EX_15_JOINT_LOCAL_FREE_SPLIT_SUPPORT_V2_PROGRESSION_SAFE")
