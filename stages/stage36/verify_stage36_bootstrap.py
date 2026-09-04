@@ -13,13 +13,15 @@ AUDITED_36_02_PROMOTION_MERGE="26fb608cb2551ab2102ae36ad3b57c063959df58"
 PENDING_36_03_BASE="bdd707e52ded061014bfbb6158762e8b997e7a38"
 AUDITED_36_03_MERGE="45f290a443cf71b1fc62f031994122c3fa58f0e9"
 AUDITED_36_03_PROMOTION_MERGE="efe25f4ef74dc776da7ccad3f5cd786b0b2906e4"
+PENDING_36_04_BASE="303c66cc4b2744222ee242d52c457948d587e32e"
+FRESHNESS_36_04={"sync_pr":1559,"main_sha":PENDING_36_04_BASE,"merge_commit":"e25e6442e61967ed9e6bc16b04e9a4d7219b4e7d","scope":"Stage32-only advance via #1556; no Stage36, Stage29 Campedelli/sign-cover source, or Arsenal authority changes"}
 SOURCES={
 "stage29_active_kernel_ledger":("stages/stage29/29-16/active-kernel-ledger.json","5d6d4c7709b57064aea5dc0ece672c5170c39550"),
 "stage29_endpoint_hub_graph":("stages/stage29/29-06/endpoint-hub-graph.json","7ea59474767f81fbaa4837c8cbc94b535560617b"),
 "stage29_campedelli_route_contract":("stages/stage29/29-02hb/route-contract.json","75045d8f15786836e8a7383fc07ef95161fa86e7"),
 "stage29_campedelli_arithmetic_routing":("stages/stage29/29-02hb/arithmetic-routing.md","ff83f652e2c9e95b0670c0964b9c8cf0fbccd696"),
 "stage29_campedelli_quotient_adapter":("stages/stage29/29-02hb/campedelli-quotient-adapter.md","5f959d60106243bb31df06a3961ab04182d78fc7"),
-"stage29_campedelli_source_lock":("stages/stage29/29-02hb/source-lock.md","713f22bb1347b8c6d5f8b32bfc2a24b3ce8b2e5d")}
+"stage29_campedelli_source_lock":("stages/stage29/29-02hb/source-lock.md","713f22bb1347b8c6d5f8b32bfc2a24b3ce8b2e5")}
 FRONTIER={"ten_Q_defined_kernels":True,"H_group":"(Z/2)^3","canonical_quotient_degree":8,"resolved_etale_quotient_degree":8,"certified_Q_symmetry_orbit_sizes":[6,2,2],"geometric_Qi_orbit_sizes":[8,2],"exact_Q_isomorphism_class_count_proved":False,"execution_representative_count":3,"endpoint_to_every_audited_quotient_Q_point_push":True,"quotient_Q_point_implies_endpoint_Q_point":False,"H1_without_ramification_is_finite":False}
 def blob_sha(p):
  d=p.read_bytes(); return hashlib.sha1(b"blob "+str(len(d)).encode()+b"\0"+d).hexdigest()
@@ -70,7 +72,8 @@ def main():
   require(s.get("status")=="ACTIVE" and s.get("base_main_sha")==AUDITED_36_03_MERGE,"V7 lifecycle moved")
   require(s.get("current",{}).get("unit")=="36-04" and "36-04" not in s.get("completed_units",{}),"V7 successor moved")
  else:
-  require(s.get("status")=="ACTIVE_PENDING_HOSTILE_AUDIT" and s.get("base_main_sha")==AUDITED_36_03_PROMOTION_MERGE,"V8 lifecycle moved")
+  require(s.get("status")=="ACTIVE_PENDING_HOSTILE_AUDIT" and s.get("base_main_sha")==PENDING_36_04_BASE,"V8 lifecycle moved")
+  require(s.get("freshness_sync_36_04")==FRESHNESS_36_04,"V8 freshness sync moved")
   p3=s.get("stage36_36_03_promotion",{}); require(p3.get("pr")==1557 and p3.get("exact_head")=="27f3374356282dae8c8ffb1cb8c3bd110e1d2b38","36-03 promotion identity moved")
   require(p3.get("exact_head_ci_run")==33882496508 and p3.get("exact_head_ci_job")==101054258088 and p3.get("merged_main_sha")==AUDITED_36_03_PROMOTION_MERGE,"36-03 promotion CI/merge moved")
   require(p3.get("NEW_THEOREM_CREDIT") is False,"36-03 promotion leaked theorem credit")
