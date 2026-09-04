@@ -1,0 +1,56 @@
+name: Stage32 post1536 intrinsic-b3 common-cover re-entry negative
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1536-intrinsic-b3-common-cover-reentry-negative.yml'
+      - 'stages/stage32/residual-32-01-production/post1536-intrinsic-b3-common-cover-reentry-negative*'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1536_intrinsic_b3_common_cover_reentry_negative.py'
+      - 'stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling.json'
+      - 'stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1500-common-cover-marked-branch-geometry-certificate.json'
+      - 'stages/stage32/residual-32-01-production/post1500-common-cover-marked-branch-geometry-audit.md'
+      - 'stages/stage32/residual-32-01-production/post1532-q602-single-b3-commutator.json'
+      - 'stages/stage32/residual-32-01-production/post1532-q602-single-b3-commutator-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1536-b3-cusp-orbit-ambient-equivariance-negative-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-global-or-carrier-local-jet-information-boundary-source-note.md'
+      - 'docs/arsenal/cards/formal/S30-W01.md'
+      - 'docs/arsenal/cards/provisional/S32-PW05.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certificate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Assert exact PR head
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Certify bounded common-cover b3 nonimplication
+        run: >-
+          python3 stages/stage32/residual-32-01-production/certify_stage32_post1536_intrinsic_b3_common_cover_reentry_negative.py
+          --check stages/stage32/residual-32-01-production/post1536-intrinsic-b3-common-cover-reentry-negative.json
+      - name: Preserve single-b3 conditional reduction
+        run: >-
+          python3 stages/stage32/residual-32-01-production/certify_stage32_post1532_q602_single_b3_commutator.py
+          --check stages/stage32/residual-32-01-production/post1532-q602-single-b3-commutator.json
+      - name: Check Arsenal generated cards
+        run: python3 -B docs/arsenal/sync_arsenal_catalog.py --check
+      - name: Enforce no controller edit
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          if git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" | grep -qx 'stages/stage32/controller.json'; then
+            echo 'controller.json must remain unchanged in this bounded negative leaf'
+            exit 1
+          fi
+      - name: Diff check
+        if: github.event_name == 'pull_request'
+        run: git diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
