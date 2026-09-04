@@ -1,0 +1,87 @@
+{
+  "schema": "stage33.e3.v25_method_rewire.v51",
+  "role": "EXACT_MICRO_GOAL_ROUTE_REWIRE_CERTIFICATE",
+  "micro_goal": "REWIRE_E3_ROUTE_TO_DIRECT_SOURCE_BOUND_KUMMER_CECH_LIFT_CONSTRUCTION_USING_V25_METHOD_WITHOUT_A2_TO_K_IDENTIFICATION",
+  "parent_head": "ab0a86527e76e955a951bd90d5db37283bc5a303",
+  "source_locks": {
+    "v50_type_correction": {
+      "path": "stages/stage33/33-12/e3-a1-1-type-correction-v50.json",
+      "git_blob_sha1": "1aa59da6303b6f8b0286c9c32fdc72960bc0dc85"
+    },
+    "v41_e3_source": {
+      "path": "stages/stage33/33-12/e3-independent-proper14-source-v41.json",
+      "git_blob_sha1": "bb0910f988b640130843348481909936948ff52e",
+      "canonical_sha256": "04c6ead2226c87defff085fc641ee80867e1fdf4b07baa28c5e97d2c5e534ac6"
+    },
+    "v25_j2_method": {
+      "path": "stages/stage33/33-12/j2-genuine-h2-mu2-kummer-adapter-v25.json",
+      "git_blob_sha1": "ac34f0177e3f7427f74a1d798a99fc51afdf4e66",
+      "canonical_sha256": "d2f8e087939401e3427056d6deeffa5bdb3433ad6e1801993be4978c3baff65c"
+    },
+    "j2_explicit_cech": {
+      "path": "stages/stage33/33-12/j2-corrected-explicit-cech-mu2-lift.json",
+      "git_blob_sha1": "97261735968c07903f87370eb483df8d6475b67c",
+      "canonical_sha256": "6c9333f564637c362b026596833acd26ad2abff27e9c9d75d82ee5c6991cb76b"
+    }
+  },
+  "exact_rewire": {
+    "retired_route": "WORKING_14_BOUNDARY_DIRECTIONS_TO_PROPER14_P_W",
+    "retired_route_remains_forbidden": true,
+    "reason": "V50 proves the boundary residue directions live in the Stage-A residue/squareclass domain rather than the coefficient module K=Br(Sbar)[2]; therefore no 14x14 A2-to-K basis bridge may be used as the e3 lift interface.",
+    "e3_source": {
+      "coefficient_module": "K=Br(Sbar)[2]",
+      "proper14_mask_decimal": 20,
+      "proper14_coordinate_f2": [0,0,1,0,1,0,0,0,0,0,0,0,0,0],
+      "retained10_standard_mask_decimal": 4,
+      "derived_from_j2_xor_split": false
+    },
+    "v25_reusable_pattern": [
+      "START_FROM_AN_INDEPENDENTLY_NAMED_BRAUER_SOURCE",
+      "MATERIALIZE_A_CONCRETE_CECH_H2_MU2_PREIMAGE",
+      "BIND_SOURCE_AND_LIFT_BY_AN_EXACT_MARKED_BRAUER_IDENTIFICATION",
+      "USE_EXACT_GEOMETRIC_PULLBACK_NATURALITY_WHEN_AVAILABLE",
+      "ONLY_AFTER_THAT_COMPUTE_DOWNSTREAM_KUMMER_COHOMOLOGY"
+    ],
+    "j2_specific_data_not_reusable_for_e3": {
+      "named_binary_functional": "beta1",
+      "marked_brauer_coordinate_f2": [1,0],
+      "proper14_mask_decimal": 25,
+      "cech_class": "lambda_D=alpha(e_D), represented generically by {f2,g22}",
+      "brauer_image": "corrected J2=(f2,1)"
+    },
+    "e3_minimal_missing_object": {
+      "name": "SOURCE_BOUND_EXPLICIT_CECH_H2_MU2_PREIMAGE_FOR_E3",
+      "required_brauer_image_proper14_mask_decimal": 20,
+      "required_retained10_standard_mask_decimal": 4,
+      "required_properties": [
+        "explicit geometric/Cech representative or mechanically equivalent H2(mu2) object",
+        "complete source lock and full-surface scope",
+        "exact marked Brauer-image binding to V41 e3",
+        "codimension-one/resolution residue checks sufficient for the chosen representative",
+        "independence from J2=e2+e3 splitting and from positional boundary/proper14 identification"
+      ],
+      "materialized": false
+    }
+  },
+  "arsenal_routing": {
+    "primary": "S33-PW07:TORSOR_BRAUER_INTEGRAL_KERNEL_ADAPTER",
+    "source_binding": "S33-PW04:EXACT_MARKED_SOURCE_ADAPTER",
+    "credit_firewall": "S30-WF03:ADAPTER_CREDIT_LAYER_FIREWALL",
+    "conditional_residue_protocol": "S33-PW08:GERSTEN_CONNECTING_LOCALIZATION_ADAPTER",
+    "pw08_scope_note": "Use PW08 only if the selected e3 representative is constructed through Gersten/residue data; PW08 does not identify boundary residue coordinates with K.",
+    "pw05_direct_14d_bridge_route": false
+  },
+  "credit_firewall": {
+    "e3_cech_h2_mu2_lift_materialized": false,
+    "e3_kummer_column_materialized": false,
+    "j2_specific_v25_lift_relabelled_as_e3": false,
+    "stage33_12_closed": false,
+    "stage33_13_released": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "merge_allowed": false,
+    "stage33_progress": "6/11"
+  },
+  "status": "PASS_EXACT_E3_V25_METHOD_REWIRED_SOURCE_BOUND_CECH_LIFT_STILL_OPEN",
+  "next_exact_leaf": "E3_V25_S1_MATERIALIZE_EXPLICIT_CECH_H2_MU2_PREIMAGE_WITH_EXACT_BRAUER_IMAGE_PROPER14_MASK20"
+}
