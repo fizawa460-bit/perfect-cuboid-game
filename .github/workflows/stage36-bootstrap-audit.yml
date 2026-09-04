@@ -65,10 +65,26 @@ jobs:
       - name: Replay audited Stage36 36-01 authority
         run: python3 stages/stage36/verify_stage36_36_01.py
 
-      - name: Verify Stage36 36-02 three Q representatives
-        run: python3 stages/stage36/verify_stage36_36_02.py
+      - name: Replay Stage36 36-02 authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          schema="$(python3 - <<'PY'
+          import json
+          from pathlib import Path
+          print(json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())['schema'])
+          PY
+          )"
+          if [ "$schema" = "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V4_36_02_PENDING_AUDIT" ]; then
+            python3 stages/stage36/verify_stage36_36_02.py
+          elif [ "$schema" = "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V5_36_02_AUDITED" ]; then
+            python3 stages/stage36/verify_stage36_36_02_audited.py
+          else
+            echo "unsupported Stage36 schema for 36-02 replay: $schema" >&2
+            exit 1
+          fi
 
-      - name: Assert hostile-audit boundary before 36-03
+      - name: Assert 36-03 boundary
         shell: bash
         run: |
           set -euo pipefail
@@ -76,15 +92,27 @@ jobs:
           import json
           from pathlib import Path
           s = json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['status'] == 'ACTIVE_PENDING_HOSTILE_AUDIT'
-          assert s['current']['unit'] == '36-02'
-          assert s['current']['next_exact_leaf'] == '36-02_THREE_Q_REPRESENTATIVE_INVENTORY'
-          assert s['current']['provisional_successor_after_hostile_audit'] == '36-03_PHYSICAL_OPEN_PUSH_AND_BOUNDARY'
+          schema = s['schema']
+          gates = s['promotion_gates']
           assert s['promotion_gates']['source_authority_lock_complete'] is True
-          assert s['promotion_gates']['three_Q_representatives_exact'] is False
-          for key, value in s['promotion_gates'].items():
-              if key != 'source_authority_lock_complete':
-                  assert value is False, (key, value)
           assert all(v is False for v in s['claims'].values())
-          print('36-02 pending hostile audit; 36-03 not started')
+          if schema == 'STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V4_36_02_PENDING_AUDIT':
+              assert s['status'] == 'ACTIVE_PENDING_HOSTILE_AUDIT'
+              assert s['current']['unit'] == '36-02'
+              assert s['current']['next_exact_leaf'] == '36-02_THREE_Q_REPRESENTATIVE_INVENTORY'
+              assert gates['three_Q_representatives_exact'] is False
+              print('36-02 pending hostile audit; 36-03 not started')
+          elif schema == 'STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V5_36_02_AUDITED':
+              assert s['status'] == 'ACTIVE'
+              assert s['current']['unit'] == '36-03'
+              assert s['current']['next_exact_leaf'] == '36-03_PHYSICAL_OPEN_PUSH_AND_BOUNDARY'
+              assert gates['three_Q_representatives_exact'] is True
+              assert gates['physical_open_push_and_boundary_complete'] is False
+              assert '36-03' not in s['completed_units']
+              for key, value in gates.items():
+                  if key not in {'source_authority_lock_complete', 'three_Q_representatives_exact'}:
+                      assert value is False, (key, value)
+              print('36-02 audited and promoted; 36-03 ready but not started')
+          else:
+              raise AssertionError(schema)
           PY
