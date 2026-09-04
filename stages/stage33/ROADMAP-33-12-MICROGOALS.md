@@ -3,7 +3,7 @@
 ```text
 ROLE=PLANNING_AND_EXECUTION_CHECKLIST_ONLY
 LIVE_AUTHORITY=stages/stage33/controller.json + stages/stage33/MAIN-STATE.json
-CURRENT_LOCKED_FRONTIER=V41_THROUGH_V51
+CURRENT_LOCKED_FRONTIER=V41_THROUGH_V52
 ATOMICITY_RULE=ONE_SMALL_VERIFIABLE_GOAL_PER_COMMIT
 MERGE_ALLOWED=false
 ```
@@ -44,6 +44,7 @@ The current e3 branch begins after these exact checkpoints:
 - V48-V49 test the PW05/equivariant interpretation and reject the naive divisor-package bridge.
 - V50 proves the decisive type correction: the boundary residue source is the Stage-A `F2^26` squareclass-tensor domain, not the coefficient module `K=Br(Sbar)[2]`; therefore the proposed working14-to-proper14 `P_W` is the wrong object type.
 - V51 rewires the active e3 route to the reusable V25 pattern: independent Brauer source -> concrete Cech `H2(mu2)` preimage -> exact marked Brauer-image binding -> exact pullback/naturality when available -> downstream Kummer computation.
+- V52 source-locks the bounded A2 miss: the current literal Cech object `{f2,g22}` and semantic orientation are J2-specific, while the marked Picard/adjoint interfaces do not materialize a literal function/divisor/transition preimage for e3 proper14 mask `20`. This is not a repository-absence or nonexistence claim.
 - Stage33 remains at `6/11`; Stage33-12 is not exactly closed; Stage33-13 is not released.
 
 ## Phase A — finish one independent e3 column
@@ -80,7 +81,6 @@ Arsenal: `◎ S33-PW07 + S33-PW04`, `△ S30-WF03`; `S33-PW08` is conditional on
 Acceptance already certified:
 - reusable V25 pattern is separated from J2-specific data;
 - J2-specific `beta1`, marked coordinate `[1,0]`, proper14 mask `25`, and `{f2,g22}`/`lambda_D` are not reusable as e3 data;
-- the exact missing e3 object is `SOURCE_BOUND_EXPLICIT_CECH_H2_MU2_PREIMAGE_FOR_E3`;
 - the required Brauer image is proper14 mask `20` / retained10 standard mask `4`;
 - direct PW05 14D bridge routing remains disabled.
 
@@ -90,18 +90,30 @@ A1 is complete at V51.
 
 Arsenal: `◎ S33-PW07 + S33-PW04`, with `S33-PW08` only when the construction genuinely factors through Gersten/residue data. `S30-W02` may be used only if a semilinear descent step satisfies its exact hypotheses.
 
-Goal: construct one concrete geometric/Cech `H2(mu2)` object whose Brauer image can be checked against the independently locked V41 e3 source.
+#### A2.0 — bounded literal/marked interface classification — PASS-BLOCKED V52
+
+V52 certifies the exact current obstruction without promoting an absence theorem:
+- J2 has a literal source-bound Cech representative `{f2,g22}` with its own residue/resolution audit;
+- J2 semantic orientation is source-specific and cannot bind e3 mask `20` by relabelling;
+- exact Picard adjoint/marked-Picard data exist but do not materialize the required e3 literal function/divisor/transition representative;
+- proper14 action-axis positions do not license reconstruction of a branch subset `D`;
+- the smallest missing datum is one source-specific marked geometric Cech preimage whose exact Brauer image is proper14 mask `20` / retained10 mask `4`.
+
+#### A2.1 — construct the source-specific marked geometric preimage for mask20 — CURRENT
+
+Goal: construct one explicit function/divisor/transition datum, or mechanically equivalent geometric `H2(mu2)` representative, together with an exact marked Brauer-image computation equal to V41 e3.
 
 Acceptance:
-- explicit cocycle/symbol/overlap or mechanically equivalent `H2(mu2)` representative is materialized;
+- concrete cocycle/symbol/overlap or equivalent geometric representative is materialized;
 - full-surface scope, field, domains, branch/support data, and source locks are explicit;
-- the proposed Brauer image is stated as proper14 mask `20` / retained10 mask `4`;
-- no J2-specific `{f2,g22}` object is relabelled as e3;
-- no boundary-residue coordinate is treated as a proper14 coordinate;
-- if construction is blocked, the certificate names the smallest missing geometric function/divisor/transition datum.
+- exact Brauer image is proper14 mask `20` / retained10 mask `4`;
+- no J2 `{f2,g22}` relabelling, no `beta1=[1,0]` shortcut, and no boundary-residue/proper14 positional identification;
+- if the construction itself exposes a smaller missing geometric datum, name that datum exactly and make it the next leaf.
 
 Current next exact leaf:
-`E3_V25_S1_MATERIALIZE_EXPLICIT_CECH_H2_MU2_PREIMAGE_WITH_EXACT_BRAUER_IMAGE_PROPER14_MASK20`.
+`E3_V25_S1A_CONSTRUCT_SOURCE_SPECIFIC_MARKED_GEOMETRIC_CECH_PREIMAGE_FOR_PROPER14_MASK20`.
+
+A2 is not complete until A2.1 passes.
 
 ### A3 — residue and resolution audit of the concrete e3 representative
 
@@ -160,7 +172,7 @@ Process sources in the locked priority order after e3:
 
 `e1, e4, e5, e6, e7, e8, e9, e10`.
 
-For each source `s`, use the V50/V51-corrected atomic sequence. Do not recreate a proper14 -> boundary-source `P_W` bridge:
+For each source `s`, use the V50/V52-corrected atomic sequence. Do not recreate a proper14 -> boundary-source `P_W` bridge:
 
 - B(s).0 lock the independent proper14/retained10 source coordinate — `○ S33-PW04 + S30-WF02`;
 - B(s).1 materialize a concrete source-bound Cech `H2(mu2)` representative — `◎ S33-PW07 + S33-PW04`; `S33-PW08` conditional on a genuine Gersten construction;
