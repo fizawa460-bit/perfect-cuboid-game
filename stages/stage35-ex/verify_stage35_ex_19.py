@@ -151,9 +151,9 @@ assert disc == 256*K**2*(K-1)**2*(K+1)**2
 I = 4*(1+3*K**2)
 J = 16*(9*K**2-1)
 Delta = sp.factor((4*I**3-J**2)/27)
-assert Delta == 256*K**2*(1-K**2)**2
+assert sp.factor(Delta - 256*K**2*(1-K**2)**2) == 0
 j = sp.factor(2**8 * I**3 / Delta)
-assert j == 64*(1+3*K**2)**3/(K**2*(1-K**2)**2)
+assert sp.factor(j - 64*(1+3*K**2)**3/(K**2*(1-K**2)**2)) == 0
 assert sp.diff(j, K) != 0
 
 # Exact non-isotrivial regression on two already-source-locked genuine Master-Hit first triples.
