@@ -176,8 +176,6 @@ for a, b in pairs1:
                 assert gcd(Lplus, D_clean*T_clean) == 1
                 assert jacobi(Lplus, D_clean) == jacobi(D_clean, Lplus) == 1
                 assert jacobi(Lplus, T_clean) == jacobi(T_clean, Lplus) == 1
-                clean_D_nontrivial_seen |= D_clean > 1
-                clean_T_nontrivial_seen |= T_clean > 1
 
                 qo = odd_part(q)
                 assert gcd(Lplus, qo) == 1
@@ -197,6 +195,8 @@ for a, b in pairs1:
             assert gcd(Lplus, D_clean*T_clean) == 1
             assert jacobi(Lplus, D_clean) == jacobi(D_clean, Lplus) == 1
             assert jacobi(Lplus, T_clean) == jacobi(T_clean, Lplus) == 1
+            clean_D_nontrivial_seen |= D_clean > 1
+            clean_T_nontrivial_seen |= T_clean > 1
 
             qo = odd_part(q)
             if qo > 1:
@@ -243,4 +243,4 @@ for key in (
 ):
     assert state["claims"][key] is False
 
-print("PASS STAGE35_EX_16_GLOBAL_RECIPROCITY_C_COPRIME_CLEAN_REPAIR_V3")
+print("PASS STAGE35_EX_16_GLOBAL_RECIPROCITY_C_COPRIME_CLEAN_REPAIR_V4")
