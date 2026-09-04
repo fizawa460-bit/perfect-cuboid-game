@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE35_EX_22_OBVIOUS_SURFACE_BRAUER_SYMBOL_BLOCKER_V1",
+  "schema": "STAGE35_EX_22_OBVIOUS_SURFACE_BRAUER_SYMBOL_BLOCKER_V2",
   "stage": "35-EX",
   "unit": "35EX-22",
   "status": "PROVISIONAL_NO_CREDIT_PENDING_HOSTILE_AUDIT",
@@ -19,9 +19,19 @@
     "open": "x*y*p*q*z*w!=0",
     "four_radicand_squareclasses_trivial": true
   },
-  "residue_source_lock": {
-    "reference": "Colliot-Thelene--Skorobogatov, The Brauer--Grothendieck Group (2021), formula (1.18); reproduced in Brauer groups of conic bundles over elliptic curves (2026), Remark 2.2",
-    "formula": "res_v((f,g))=[(-1)^(v(f)v(g))*g^v(f)/f^v(g)]"
+  "source_locks": {
+    "tame_residue": {
+      "reference": "Colliot-Thelene--Skorobogatov, The Brauer--Grothendieck Group (2021), formula (1.18); reproduced in Brauer groups of conic bundles over elliptic curves (2026), Remark 2.2",
+      "formula": "res_v((f,g))=[(-1)^(v(f)v(g))*g^v(f)/f^v(g)]"
+    },
+    "hasse_weil": {
+      "reference": "Rachel Pries et al., A New Construction of Maximal Curves, Theorem 1.6",
+      "statement": "for a nonsingular projective genus-g curve over F_q, abs(#C(F_q)-(q+1)) <= 2*g*sqrt(q)"
+    },
+    "smooth_lifting": {
+      "reference": "Stacks Project Tag 02GZ, Lemma 37.11.7",
+      "statement": "smooth morphisms are formally smooth; apply successive lifts over Z_l/l^n and completeness of Z_l"
+    }
   },
   "linear_squareclass_generators": [
     "p+x",
@@ -99,17 +109,27 @@
     "all_28_quaternion_generators_split_over_every_Q_v": true,
     "verification_method": "exact rational Hilbert symbols at infinity, 2, and all odd primes dividing numerators or denominators"
   },
-  "adelic_deformation": {
-    "fixed": ["x=272/225", "p=353/225"],
-    "vary": "nonzero y_v sufficiently close to 0 at each place",
-    "recovered_roots": [
-      "q_v^2=1+y_v^2 near 1",
-      "z_v^2=(272/225)^2+y_v^2 near 272/225",
-      "w_v^2=(353/225)^2+y_v^2 near 353/225"
-    ],
-    "enters_open": true,
-    "all_28_evaluations_remain_zero": true,
-    "restricted_product_integrality_available_almost_everywhere": true,
+  "restricted_product_repair": {
+    "finite_bad_places": "infinity and primes l<173",
+    "bad_place_method": "P0-local nonzero-y deformation with local constancy of all 28 split Hilbert symbols",
+    "good_prime_threshold": 173,
+    "base_conic_parameter": "p=(a+a^-1)/2, x=(a-a^-1)/2",
+    "base_forbidden_parameter_equations": ["a^2=1", "a^2=-1", "a^4-6*a^2+1=0"],
+    "base_forbidden_parameter_count_upper_bound": 8,
+    "fiber": "q^2=y^2+1, z^2=y^2+x^2, w^2=y^2+p^2",
+    "fiber_genus": 5,
+    "fiber_degree_over_P1_y": 8,
+    "fiber_forbidden_point_count_upper_bound": 40,
+    "fiber_forbidden_loci": ["y=infinity", "y=0", "q=0", "z=0", "w=0"],
+    "hasse_weil_lower_bound": "l+1-10*sqrt(l)",
+    "threshold_check": "174-10*sqrt(173)>40",
+    "jacobian_minor": "16*p*q*z*w",
+    "smooth_Fl_point_lifts_to_Zl": true,
+    "all_six_coordinates_units_at_good_primes": true,
+    "all_seven_linear_generators_units_at_good_primes": true,
+    "odd_prime_unit_unit_Hilbert_symbols_split": true,
+    "integral_U_PC_Zl_point_for_every_prime_l_ge_173": true,
+    "restricted_product_integrality_proved": true,
     "common_zero_evaluation_adele_exists": true
   },
   "result": {
