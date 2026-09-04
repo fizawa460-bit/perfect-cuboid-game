@@ -15,9 +15,9 @@ AUDITED_36_03_MERGE="45f290a443cf71b1fc62f031994122c3fa58f0e9"
 AUDITED_36_03_PROMOTION_MERGE="efe25f4ef74dc776da7ccad3f5cd786b0b2906e4"
 PENDING_36_04_BASE="4ec2b9af886f9ac9be13c3324788c26625c9e5d9"
 AUDITED_36_04_MERGE="de1df3d25c39306e5601646309b38aaad56967bd"
-PENDING_36_05_BASE="dca962cdf37d4252316885dc57f3c0a591db4ecb"
+PENDING_36_05_BASE="74144644975d7800c6c5b529c5d8789f70366c2e"
 FRESHNESS_36_04={"sync_pr":1565,"main_sha":PENDING_36_04_BASE,"merge_commit":"b900a925ce25556bf85c929b1c73aff414c77430","scope":"Stage32-only advance via #1563; no Stage36, Stage29 Campedelli/sign-cover source, or Arsenal authority changes"}
-PROMO_36_04={"pr":1568,"exact_head":"53b0c3b2a84ef200848d6b4b515c94589798d295","exact_head_ci_run":33924921726,"exact_head_ci_job":101191239139,"merged_main_sha":PENDING_36_05_BASE,"scope":"mechanical audited-state promotion only","NEW_THEOREM_CREDIT":False}
+PROMO_36_04={"pr":1568,"exact_head":"53b0c3b2a84ef200848d6b4b515c94589798d295","exact_head_ci_run":33924921726,"exact_head_ci_job":101191239139,"merged_main_sha":"dca962cdf37d4252316885dc57f3c0a591db4ecb","scope":"mechanical audited-state promotion only","NEW_THEOREM_CREDIT":False}
 SOURCES={
 "stage29_active_kernel_ledger":("stages/stage29/29-16/active-kernel-ledger.json","5d6d4c7709b57064aea5dc0ece672c5170c39550"),
 "stage29_endpoint_hub_graph":("stages/stage29/29-06/endpoint-hub-graph.json","7ea59474767f81fbaa4837c8cbc94b535560617b"),
