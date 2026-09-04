@@ -83,19 +83,22 @@ assert new_hook["gminus_gplus_coprime"] is True
 assert new_hook["full_receiver_primitive_pd_twisted_norms_proved"] is True
 assert new_hook["pd_odd_prime_support_split_only"] is True
 
-# Successor-safe routing assertions: the audited 35EX-17B selection remains
-# exact even after 35EX-18 records its provisional result and queues 35EX-19.
+# Successor-safe routing assertions: the audited 35EX-17B result itself stays
+# fixed while later provisional leaves may advance the active route/ledger.
 assert state["current"]["unit"] in {
     "35EX-18_GAUSSIAN_COORDINATE_GCD_SPLIT_OR_MOVING_ORIENTATION",
     "35EX-19_RECEIVER_SPECIFIC_GENUSONE_ADAPTER_OR_BLOCKER",
+    "35EX-20_PAIRED_SOURCE_FILTER_QUARTIC_SQUARECLASS_OR_FREE_FAMILY",
 }
 assert state["candidate_ledger_after_fresh_breadth_audit"]["selected_live"] in {
     "E1-GAUSSIAN-COORDINATE-GCD-SPLIT",
     "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION",
+    "E1-PAIRED-SOURCE-FILTER-QUARTIC-INTERSECTION",
 }
 assert tuple(state["candidate_ledger_after_fresh_breadth_audit"]["untested"]) in {
     ("E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION",),
     (),
+    ("E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY",),
 }
 
 for text in (
