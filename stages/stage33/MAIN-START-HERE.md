@@ -2,42 +2,46 @@
 
 Ordinary `Stage33-main-batch` reads `AGENTS.md`, then `stages/stage33/MAIN-STATE.json`, then only the files in `current_leaf_working_set`.
 
-## V39 locator-first construction constitution
+## Stage33 repository-read discipline
 
-The exact mathematical frontier remains V25-V36: one J2-adapted Kummer column is materialized (`1/10`), original standard columns remain `0/10`, and V36 remains the exact record that the bounded #1498 scan found no registered positive asset directly supplying another standalone genuine full-surface H2(mu2) lift.
+Stage33 is stricter than the repo-wide traversal rule. For ordinary research/navigation, follow exactly:
 
-V39 supersedes only V36's operational STOP. It does **not** change V25-V36 mathematics or grant any mathematical credit.
+`controller -> active roadmap -> Arsenal index/card -> exact referenced files`
+
+- Start from `stages/stage33/controller.json` and the active roadmap named or implied by the current leaf. Do not enumerate repository contents to rediscover state already named there.
+- For reusable cross-Stage weapons, read `docs/arsenal/index.json`, select only matching IDs, then read only the needed card and exact source/certificate paths referenced by that card.
+- Known paths are fetched directly. File/path discovery uses GitHub search. Term/content discovery uses GitHub code search.
+- A recursive repository tree is not an ordinary Stage33 discovery tool. Use it only if the active research task explicitly requires enumeration of the full file set itself.
+- A search miss never proves repository absence and must not be promoted to mathematical absence.
+
+## V41 Arsenal-first bounded-search constitution
+
+The exact mathematical frontier remains V25-V36: one J2-adapted Kummer column is materialized (`1/10`), original standard columns remain `0/10`, and the historical bounded reuse scan did not materialize another standalone genuine full-surface H2(mu2) lift. V41 changes operational discovery routing only. It does **not** change V25-V36 mathematics or grant mathematical credit.
 
 For every unresolved evidence leaf:
 
 1. Identify the exact missing object from `MAIN-STATE.json`.
-2. Query #1498 first with `python3 -B docs/evidence-locator/query_evidence.py <terms>`.
-3. If there is a suitable candidate, inspect only that bounded candidate and recheck the live Stage authority before use.
-4. If there is no suitable candidate, record only `LOCATOR_MISS_NOT_REPO_ABSENCE` and proceed to construct/derive the missing exact object. Do **not** fall back to broad repository/history/origin search.
-5. After a newly constructed object is exactly verified and reusable, register it in the locator with its exact provenance and limitations.
+2. Open `docs/research-os/policies/repository-asset-discovery.md` and use **Arsenal first** for an already-existing cross-Stage weapon: read `docs/arsenal/index.json`, select only matching IDs, and inspect only the needed cards/source locks.
+3. If Arsenal has no suitable hit, **one automatic bounded repository search is authorized** for that missing object. Keep it narrow: canonical Stage `FINAL.md` handoffs (Stage16+), canonical final HTML handoffs (Stages12-15), directly implicated report/directory paths, and exact missing-object terms.
+4. A miss in Arsenal or that bounded search is **not repository absence**.
+5. Any broader repository/history/origin archaeology, repeated bounded search, or expansion beyond that one-search budget requires **explicit user authorization**.
+6. If there is still no suitable hit and no broader search is authorized, proceed to construct/derive the missing exact object from current exact source data.
+7. Before reusing any hit, recheck live Stage authority and its exact limitations.
 
-Anti-loop applies to repeated broad origin/history searches, repeated deep inspection of already-rejected candidates without a new signal, unsupported standard-column splitting, and guessed remaining columns. Anti-loop does **not** prohibit re-querying #1498 as the routing step and does **not** prohibit new mathematical construction after a locator miss.
-
-The current construction priority is `e3, e1, e4, e5, e6, e7, e8, e9, e10`. The next ordinary action is: query #1498 for a standalone genuine full-surface H2(mu2) lift for `e3`; if no suitable hit exists, construct the `e3` lift from current exact source data.
+The current construction/search priority remains `e3, e1, e4, e5, e6, e7, e8, e9, e10`.
 
 Do not infer `e3` by splitting `J2 = e2+e3`, do not split standard col2/col3 from the XOR relation, and do not guess any remaining Kummer column.
 
 ## Authority and release
 
-Controller V61 and `sync_main_state.py` generate `MAIN-STATE.json` V18. Mathematical authority remains the V25-V36 exact certificate chain; V39/V40 is operational routing authority only. V38 remains the historical synchronization receipt. Dedicated current routing CI is `.github/workflows/stage33-v39-routing.yml`.
+Controller V62 and `sync_main_state.py` generate the compact MAIN projection. Mathematical authority remains the V25-V36 exact certificate chain. V41 is operational routing authority only.
 
 `MAIN-BATCH-HANDOFF.md` is retired and must not be recreated.
 
 After writes, run:
 
-- `python stages/stage33/33-12/verify_j2_post_v38_locator_first_construction_policy_v39.py`
+- `python stages/stage33/33-12/verify_j2_post_v39_arsenal_first_bounded_search_policy_v41.py`
 - `python stages/stage33/sync_main_state.py --check`
 - `git diff --check`
 
 Commit and push the same branch. Do not merge without explicit authorization.
-
-## Hostile-audit multi-registry repair
-
-Current-main locator routing means `index.json`, `stage32-post1498.json`, and `stage33.json` are all searched before construction. A nonempty candidate list is not a suitable-hit verdict: inspect only the bounded candidate limitations. The current Stage33 Gersten 26-column candidate is relevant but explicitly does not itself identify a standalone genuine remaining retained10 H2(mu2) lift, so construction is authorized only after that bounded classification.
-
-The one-shot hostile-audit synchronization runner and repair script were removed after their successful transition. Ordinary Stage33 routing now uses only the retained V39/V40 verifier, controller/generator state, and current multi-registry locator.
