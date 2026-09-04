@@ -1,0 +1,104 @@
+{
+  "schema": "STAGE35_EX_27B_POST_RATIONAL_SOURCE_KUMMER_FRESH_BREADTH_AUDIT_V1",
+  "status": "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT",
+  "authority": {
+    "unit": "35EX-27",
+    "pass_source": "USER_CONFIRMED_HOSTILE_PASS",
+    "audited_exact_head_sha": "dc1930632304d2c47e5583e4d8cb324cbbd73e15",
+    "exact_head_ci_run": 33929237884,
+    "exact_head_ci_job": 101204270892,
+    "merged_main_sha": "ee3e7aafd1742c5d96e2871f117412ef0823d57e"
+  },
+  "protocol": {
+    "fresh_exhaustive_view_audit": true,
+    "blind_rediscovery": true,
+    "blind_generation_performed_before_arsenal_comparison": true,
+    "historical_block_ledger_comparison_after_blind_generation": true,
+    "arsenal_index_checked_after_blind_generation": true,
+    "no_successor_selected_before_breadth_audit": true
+  },
+  "blind_rediscovery": {
+    "input_object": "35EX-27 exact rational-source Kummer receiver: K1 u(A,beta), K2 b^2=(A*beta+1)/(A+beta), K3 kappa^2=(beta-A)(A*beta-1), with quotient-base h^2=u(u+2) still retained externally",
+    "generated_candidates": [
+      {
+        "id": "E1-FULL-RATIONAL-SOURCE-KUMMER-COMPLETION",
+        "status_before_comparison": "LIVE",
+        "reason": "the source-lift square u^2-4 was absorbed into K3, but the equally mandatory quotient-base square h^2=u(u+2) is still outside K1--K3; substituting K1 and K2 may absorb it into one additional exact Kummer square before any local exclusion is attempted"
+      },
+      {
+        "id": "E1-DESCENDED-RECEIVER-JOINT-LOCAL-CLASSIFICATION",
+        "status_before_comparison": "UNTESTED",
+        "reason": "once every rational-source gate is internalized, S34-W03-style local testing of the exact joint receiver becomes legitimate"
+      },
+      {
+        "id": "E1-PAIRED-KUMMER-ELLIPTIC-CORRESPONDENCE",
+        "status_before_comparison": "UNTESTED",
+        "reason": "K3 plus K2 gives the fixed-A genus-one quartic G_A, while the missing quotient-base square may generate a second fixed-A genus-one channel on the same beta parameter"
+      },
+      {
+        "id": "E1-UNIFORM-ELLIPTIC-SURFACE-SPECIALIZATION-HEIGHT",
+        "status_before_comparison": "UNTESTED",
+        "reason": "all current elliptic/genus-one fibers move with A, so genuine uniform surface arithmetic remains a possible later route"
+      },
+      {
+        "id": "E1-NONOBVIOUS-BRAUER-FROM-ELLIPTIC-FIBRATION",
+        "status_before_comparison": "UNTESTED",
+        "reason": "35EX-22 froze only the obvious symbol span and did not compute or kill all non-obvious Brauer classes"
+      }
+    ]
+  },
+  "historical_comparison": {
+    "E1-DIRECT-HYPERBOLA-PAIR-REPARAMETRIZATION": "DOMINATED_AS_STANDALONE_ROUTE; hyperbola coordinates remain allowed only as exact internal coordinates of a stronger receiver",
+    "E1-FIXED-ALPHA-GENUSONE-CLOSE": "ROUTING_ONLY; 35EX-19 and 35EX-27 already show that moving-parameter genus-one fibers do not authorize one fixed Mordell-Weil computation",
+    "E1-DESCENDED-RECEIVER-JOINT-LOCAL-CLASSIFICATION": "PRESERVED_UNTESTED_BUT_LOGICALLY_DOWNSTREAM_OF_FULL_RATIONAL_SOURCE_KUMMER_COMPLETION",
+    "E1-UNIFORM-ELLIPTIC-SURFACE-SPECIALIZATION-HEIGHT": "PRESERVED_UNTESTED",
+    "E1-NONOBVIOUS-BRAUER-FROM-ELLIPTIC-FIBRATION": "PRESERVED_UNTESTED"
+  },
+  "arsenal_comparison": {
+    "index": {
+      "path": "docs/arsenal/index.json",
+      "blob_sha": "aa45d19c2f1d8970c7f142bf744c5c17e75abe5a"
+    },
+    "S34-W03": {
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96",
+      "decision": "STRONG_ROUTER_ONLY_AFTER_ALL_RATIONAL_SOURCE_GATES_ARE_IN_THE_JOINT_SYSTEM",
+      "credit": "receiver-intersection exclusion only; no factor-cover or endpoint completeness"
+    },
+    "S31-W01": {
+      "path": "docs/arsenal/cards/formal/S31-W01.md",
+      "blob_sha": "122a6c1c5c871c1c7b797017e854de8ec55e7c50",
+      "decision": "FIXED_FIBER_GENUS_ONE_ADAPTER_ONLY_NO_UNIFORM_CLOSURE",
+      "credit": "birational adapter only; moving-A arithmetic remains separate"
+    },
+    "S34-W02": {
+      "decision": "LOCKED",
+      "reason": "no certified uniform full Mordell-Weil computation for the moving Kummer/genus-one families"
+    }
+  },
+  "selection": {
+    "selected_candidate": "E1-FULL-RATIONAL-SOURCE-KUMMER-COMPLETION",
+    "selected_next_unit": "35EX-28_FULL_RATIONAL_SOURCE_KUMMER_COMPLETION_OR_JOINT_LOCAL_FIREWALL",
+    "reason": "joint local/global exclusion is unsound on an over-cover; the remaining mandatory quotient-base square must first be expressed inside the same Kummer coordinates"
+  },
+  "preserved_untested_candidates": [
+    "E1-DESCENDED-RECEIVER-JOINT-LOCAL-CLASSIFICATION",
+    "E1-PAIRED-KUMMER-ELLIPTIC-CORRESPONDENCE",
+    "E1-UNIFORM-ELLIPTIC-SURFACE-SPECIALIZATION-HEIGHT",
+    "E1-NONOBVIOUS-BRAUER-FROM-ELLIPTIC-FIBRATION"
+  ],
+  "cycle_exit": {
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 4,
+    "fresh_breadth_audit_required_after_35ex28_hostile_pass": true
+  },
+  "claims": {
+    "audited_theorem_credit": false,
+    "E1_proved": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
