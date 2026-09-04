@@ -106,7 +106,7 @@ ledger = state["candidate_ledger_after_fresh_breadth_audit"]
 assert ledger["selected_live"] in {
     "E1-PAIRED-SOURCE-FILTER-QUARTIC-INTERSECTION",
     "E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY",
-    "E1-SURFACE-LOCAL_GLOBAL-OR-BRAUER-LAYER",
+    "E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER",
 }
 assert "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION" in ledger["just_frozen"]
 assert "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION" in ledger["blocked"]
