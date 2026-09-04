@@ -42,7 +42,7 @@ cert = json.loads(CERT.read_text())
 breadth = json.loads(BREADTH.read_text())
 state = json.loads(STATE.read_text())
 
-# 35EX-11 mathematics is unchanged by the hostile-audit repair.
+# 35EX-11 mathematics is unchanged by downstream progression.
 assert cert["unit"] == "35EX-11_RECIPROCITY_COUPLING_OR_BAD_SPLIT_PRIME_EXISTENCE"
 assert cert["routing_consequence"]["inert_primes_source_oriented"] is True
 assert cert["routing_consequence"]["bad_split_primes_impossible_under_counterexample"] is True
@@ -65,7 +65,7 @@ for key in (
     assert cert["credit"][key] is False
 
 # Hostile-audit repair: a fresh Cycle Exploration Safety Protocol breadth audit
-# must intervene between the post-35EX-09 route freezes and theorem-species change.
+# intervened between the post-35EX-09 route freezes and theorem-species change.
 assert breadth["unit"] == "35EX-11B_FRESH_BREADTH_AUDIT"
 assert breadth["trigger"]["material_receiver_change"] == "35EX-09_COMPLETE_THREE_RESERVOIR_SQUARECLASS_GRAPH"
 assert breadth["trigger"]["old_35ex01_snapshot_sufficient"] is False
@@ -169,8 +169,8 @@ assert [ell for ell in factor(T) if ell % 4 == 1] == []
 pq = p*q
 assert legendre(-1, 3) == -1
 assert legendre(-1, 11) == -1
-assert legendre(pq, 3) == 1       # 3 -> T23
-assert legendre(pq, 11) == -1     # 11 -> T14
+assert legendre(pq, 3) == 1
+assert legendre(pq, 11) == -1
 
 # e divides c, while every odd prime of e must be 1 mod4. Since c=7, this source
 # witness forces e=1 under any hypothetical counterexample based on this hit.
@@ -189,8 +189,13 @@ for ell in (5, 13, 17, 29, 37, 41):
     assert ell % 4 == 1
     assert legendre(-1, ell) == 1
 
+# Downstream-safe state checks: verify the 35EX-11 authority remains recorded,
+# without pinning the live current leaf after later audited progression.
 assert state["stage"] == "35-EX"
 assert state["stage35_main_firewall"]["stage35_ex_reopens_stage35_main"] is False
-assert state["current"]["status"] == "RESELECTED_AFTER_FRESH_BREADTH_AUDIT_NOT_YET_EXECUTED"
+assert state["completed_units"]["35EX-11"]["inert_prime_edge_routing_proved_conditionally"] is True
+assert state["completed_units"]["35EX-11B"]["exhaustive_view_audit"] is True
+assert state["completed_units"]["35EX-11B"]["blind_rediscovery"] is True
+assert state["candidate_ledger_after_fresh_breadth_audit"]["audit_artifact"] == "stages/stage35-ex/35ex-11/post-three-reservoir-breadth-audit.json"
 
-print("PASS STAGE35_EX_11_RECIPROCITY_AND_FRESH_BREADTH_AUDIT_V2")
+print("PASS STAGE35_EX_11_RECIPROCITY_AND_FRESH_BREADTH_AUDIT_V3_PROGRESSION_SAFE")
