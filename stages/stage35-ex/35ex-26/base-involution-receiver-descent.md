@@ -257,14 +257,21 @@ we get
 Delta=((x-1)/b)^2.
 ```
 
-Hence one may reconstruct
+To preserve the original names `q^2=X+1` and `z^2=X+x^2`, take
 
 ```text
-q = ( b*(x+1) + (x-1)/b )/2,
-z = ( b*(x+1) - (x-1)/b )/2,
+q = ( b*(x+1) - (x-1)/b )/2,
+z = ( b*(x+1) + (x-1)/b )/2.
 ```
 
-up to interchange.  Their sum and product are the prescribed values, and direct substitution gives
+Then `q+z` and `q*z` are the prescribed values and
+
+```text
+q^2-z^2=1-x^2,
+q^2+z^2=2X+1+x^2,
+```
+
+so exactly
 
 ```text
 q^2=X+1,
