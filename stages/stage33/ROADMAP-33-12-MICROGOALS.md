@@ -3,7 +3,7 @@
 ```text
 ROLE=PLANNING_AND_EXECUTION_CHECKLIST_ONLY
 LIVE_AUTHORITY=stages/stage33/controller.json + stages/stage33/MAIN-STATE.json
-CURRENT_LOCKED_FRONTIER=V41_V42_V43
+CURRENT_LOCKED_FRONTIER=V41_THROUGH_V51
 ATOMICITY_RULE=ONE_SMALL_VERIFIABLE_GOAL_PER_COMMIT
 MERGE_ALLOWED=false
 ```
@@ -38,137 +38,115 @@ The current e3 branch begins after these exact checkpoints:
 
 - V41 independently materializes `e3` as retained10 standard mask `4`, proper14 mask `20`, without using `J2=e2+e3` splitting.
 - V42 blocks relabelling/reusing the J2-specific V25 lift as an e3 lift.
-- V43 records that reviewed boundary-function / scalar-descent / J2-Cech interfaces do not yet provide an exact reusable proper14-to-Cech or full-surface `H2(mu2)` adapter for e3.
+- V43 records that reviewed interfaces do not yet provide an exact reusable proper14-to-Cech/full-surface `H2(mu2)` adapter for e3.
+- V45 locks the proper14 and working-boundary 14-element ordered lists as two separate presentations only.
+- V47's proposed 14x14 `P_W` construction is historical and superseded.
+- V48-V49 test the PW05/equivariant interpretation and reject the naive divisor-package bridge.
+- V50 proves the decisive type correction: the boundary residue source is the Stage-A `F2^26` squareclass-tensor domain, not the coefficient module `K=Br(Sbar)[2]`; therefore the proposed working14-to-proper14 `P_W` is the wrong object type.
+- V51 rewires the active e3 route to the reusable V25 pattern: independent Brauer source -> concrete Cech `H2(mu2)` preimage -> exact marked Brauer-image binding -> exact pullback/naturality when available -> downstream Kummer computation.
 - Stage33 remains at `6/11`; Stage33-12 is not exactly closed; Stage33-13 is not released.
 
 ## Phase A — finish one independent e3 column
 
-### A1 — materialize proper14 -> boundary-source coordinates
+### A1 — lock the e3 source and the valid lift-construction route
 
-A1 is itself split because `proper14` and the finite boundary-function package are separately named 14-dimensional coordinate systems. They must not be identified by position without an exact bridge.
+#### A1.0 — independent e3 proper14 source lock — PASS V41
 
-#### A1.0 — lock both 14-dimensional basis definitions
+Arsenal: `○ S33-PW04 + S30-WF02`. Use only for marked-coordinate/provenance discipline; no boundary-source bridge is implied.
 
-Arsenal: `○ S33-PW04 + S30-WF02`. Use PW04 for marked-basis/adapter conventions and WF02 for immutable provenance/certificate binding; neither by itself constructs the bridge.
+Acceptance already certified:
+- retained10 standard mask `4`;
+- proper14 mask `20`, support `{3,5}`;
+- source derived independently from the exact V4-fixed proper Br[2] basis;
+- no `J2=e2+e3` split.
 
-Goal: materialize the ordered basis metadata for (i) `proper-brauer2-from-discriminant.json` ext14/proper14 coordinates and (ii) the finite boundary-function retained-one source directions.
+#### A1.1 — retire the invalid boundary14 -> proper14 bridge route — PASS V45-V50
+
+Arsenal: `◎ S33-PW05 + S30-W01/S30-WF01 + S33-PW04` was tested only as a candidate identification route. V50 controls the final type judgment. `S30-WF03` prevents finite/zero connecting data from being promoted across semantic layers.
+
+Acceptance already certified:
+- V45 keeps the two 14-element ordered lists separate;
+- V49 rejects the naive divisor-package equivariant isomorphism;
+- V50 proves `P_W` is `RETIRED_WRONG_OBJECT_TYPE`;
+- V47's 14-column construction contract is superseded;
+- no positional identification or arbitrary equivariant intertwiner is authorized.
+
+Historical note: the V45 basis metadata remains valid provenance. It must not be read as a basis identification.
+
+#### A1.2 — rewire to the direct V25 source-bound Cech route — PASS V51
+
+Arsenal: `◎ S33-PW07 + S33-PW04`, `△ S30-WF03`; `S33-PW08` is conditional only if the chosen representative is actually constructed through Gersten/residue data.
+
+Acceptance already certified:
+- reusable V25 pattern is separated from J2-specific data;
+- J2-specific `beta1`, marked coordinate `[1,0]`, proper14 mask `25`, and `{f2,g22}`/`lambda_D` are not reusable as e3 data;
+- the exact missing e3 object is `SOURCE_BOUND_EXPLICIT_CECH_H2_MU2_PREIMAGE_FOR_E3`;
+- the required Brauer image is proper14 mask `20` / retained10 standard mask `4`;
+- direct PW05 14D bridge routing remains disabled.
+
+A1 is complete at V51.
+
+### A2 — materialize an explicit source-bound e3 Cech `H2(mu2)` preimage
+
+Arsenal: `◎ S33-PW07 + S33-PW04`, with `S33-PW08` only when the construction genuinely factors through Gersten/residue data. `S30-W02` may be used only if a semilinear descent step satisfies its exact hypotheses.
+
+Goal: construct one concrete geometric/Cech `H2(mu2)` object whose Brauer image can be checked against the independently locked V41 e3 source.
 
 Acceptance:
-- both 14-element ordered basis definitions are explicit;
-- provenance artifact and digest/commit are recorded for each;
-- no claim yet that the two orders are equal.
+- explicit cocycle/symbol/overlap or mechanically equivalent `H2(mu2)` representative is materialized;
+- full-surface scope, field, domains, branch/support data, and source locks are explicit;
+- the proposed Brauer image is stated as proper14 mask `20` / retained10 mask `4`;
+- no J2-specific `{f2,g22}` object is relabelled as e3;
+- no boundary-residue coordinate is treated as a proper14 coordinate;
+- if construction is blocked, the certificate names the smallest missing geometric function/divisor/transition datum.
 
-#### A1.1 — construct or certify the exact change-of-basis bridge
+Current next exact leaf:
+`E3_V25_S1_MATERIALIZE_EXPLICIT_CECH_H2_MU2_PREIMAGE_WITH_EXACT_BRAUER_IMAGE_PROPER14_MASK20`.
 
-Arsenal: `◎ S33-PW05 -> S30-W01/S30-WF01 -> S33-PW04`. First materialize exact finite actions in both 14D presentations; use PW05 to solve the exact intertwiner/compatible-extension space; use S30-W01/WF01 to require a common/source-derived semantic anchor rather than finite matching alone; only then certify the unique marked adapter with PW04. Do not hand-build 14 columns before exhausting this exact route.
+### A3 — residue and resolution audit of the concrete e3 representative
 
-Goal: produce an exact GF(2) map from proper14/ext14 coordinates to boundary-function source coordinates.
+Arsenal: `◎ S33-PW07`; `◎ S33-PW08` only for an actual Gersten/residue realization.
+
+Goal: verify that the A2 object extends with the required full-surface unramified scope.
 
 Acceptance PASS branch:
-- explicit 14x14 matrix or mechanically equivalent ordered-basis identification;
-- rank/invertibility checked when the intended map is an isomorphism;
-- each output coordinate has exact source provenance;
-- exact source/target actions used by PW05 and the semantic anchor used by S30-W01/WF01 are source-locked;
-- finite equivariance alone is not promoted to geometric/semantic identification.
-
-Acceptance BLOCKED branch:
-- one certificate names the exact missing table/matrix/convention/action/semantic anchor needed to define the bridge;
-- it records the two already-known basis definitions and proves why positional identification is not yet licensed;
-- it records which Arsenal route stage failed (`PW05`, semantic anchor, or `PW04`) and the smallest missing input;
-- the next micro-goal becomes construction of that one missing bridge input from its immediate upstream provenance, not a broad repository search.
-
-#### A1.2 — apply the bridge to e3 proper14 mask `20`
-
-Arsenal: `○ S33-PW04`. Once A1.1 is certified this should be exact GF(2) transport through the marked adapter, not a new semantic identification problem.
-
-Goal: compute only the boundary-source coefficient vector for V41 e3.
-
-Acceptance:
-- exact input `proper14_mask=20` source-locked;
-- exact output 14-bit vector and nonzero boundary source labels materialized;
-- replay recomputes output from A1.1 bridge.
-
-#### A1.3 — bind the selected boundary generators
-
-Arsenal: `○ S33-PW04 + S30-WF02`. Use PW04 for exact marked source binding and WF02 for immutable generator/scalar provenance.
-
-Goal: resolve each nonzero A1.2 boundary-source coordinate to its exact finite boundary-function generator package and scalar-descent record.
-
-Acceptance:
-- every selected generator file/id and coefficient explicitly listed;
-- generator source-basis column/order checked;
-- scalar correction record linked for each selected generator;
-- no Gersten/Cech/H2/Kummer-column claim yet.
-
-A1 is complete only when A1.0-A1.3 pass.
-
-### A2 — assemble the global Gersten 2-cochain for e3
-
-Arsenal: `◎ S33-PW08`. Follow its locked Gersten/source-basis -> representative lift -> actual height-one valuation attachment -> purity correction construction protocol; use only the portion applicable before the residue/localization audit.
-
-Goal: use A1 plus the locked boundary-function generator packages and finite scalar table to assemble a concrete global Gersten 2-cochain candidate representing e3.
-
-Acceptance:
-- every nonzero generator contribution is listed with coefficient and source lock;
-- constant/scalar corrections are explicit;
-- no J2-specific symbol is silently relabelled;
-- candidate is deterministic and replayable.
-
-### A3 — residue audit the e3 Gersten candidate
-
-Arsenal: `◎ S33-PW08`. Require actual valuation attachment, exceptional contributions where present, purity/off-boundary correction, complete residue-index coverage, and exact verification. Never infer a global-Q lift merely from zero localization/residues.
-
-Goal: compute the codimension-one residue vector of the A2 candidate over the complete locked boundary index.
-
-Acceptance PASS branch:
-- complete residue index coverage is certified;
-- all required residues vanish exactly;
-- candidate is certified unramified in the required full-surface scope.
+- complete relevant codimension-one/resolution support is certified;
+- every required residue/square trivialization is exact;
+- exceptional contributions are included where applicable.
 
 Acceptance FAIL branch:
-- nonzero residue support is exactly listed;
-- the next goal is a finite correction problem on that support, not a new broad search.
+- exact nonzero residue support is listed;
+- the next item is the finite correction problem on that support, not broad search.
 
-### A4 — materialize an independent e3 Cech `H2(mu2)` representative
+### A4 — bind the residue-clean lift to exact e3
 
-Arsenal: `○ S33-PW07 + S30-W02`. PW07 supplies literal transition/divisor/Cartier and common-cocycle semantics; S30-W02 may support exact semilinear descent. No generic completed Gersten->Cech adapter is currently granted by these cards, so the actual adapter still requires exact construction/certification.
+Arsenal: `◎ S33-PW04 + S33-PW07`, with `S30-WF03` enforcing the credit boundary. Use `S33-PW05` only if an independently defined source-target module compatibility check is genuinely required; do not resurrect the retired 14D bridge.
 
-Goal: convert the residue-clean A2/A3 object into an explicit full-surface Cech `H2(mu2)` lift.
-
-Acceptance:
-- explicit cocycle/overlap data materialized;
-- cocycle condition checked exactly;
-- square/constant corrections checked;
-- full-surface scope and source locks explicit.
-
-### A5 — bind the Cech lift back to exact e3
-
-Arsenal: `◎ S33-PW04 + S33-PW05 + S33-PW07`. Combine exact marked-source coordinates, independently checked source-target compatibility, and literal Brauer/Cech semantics. No dimension-only, nonzero-only, or J2-related identification is sufficient.
-
-Goal: prove that the A4 lift maps to the exact V41 e3 Brauer source and not merely to some nonzero or J2-related class.
+Goal: prove that the A2/A3 lift maps to V41 e3, not merely to a nonzero Brauer class or a J2-related class.
 
 Acceptance:
-- Brauer image equals retained10 mask `4` / proper14 mask `20` under an explicit checked adapter;
-- independence from the forbidden `J2=e2+e3` split is certified;
+- Brauer image equals proper14 mask `20` / retained10 mask `4` under an explicit checked marked adapter;
+- independence from `J2=e2+e3` splitting is certified;
+- the full-surface `H2(mu2)` scope is exact;
 - this is the first point at which `GENUINE_FULL_SURFACE_H2_MU2_LIFT_FOR_E3=true` may be recorded.
 
-### A6 — compute the e3 Kummer column
+### A5 — compute the e3 Kummer column
 
-Arsenal: `◎ S33-PW05`, with `S33-PW02` as extension/liftability support where mixed-order source data enter. PW05 must check the exact source-target module relation; PW02 does not itself grant a global-Q or Brauer lift.
+Arsenal: `◎ S33-PW05`, with `S33-PW02` as extension/liftability support where mixed-order source data enter.
 
-Goal: apply the exact Kummer target map to the A5 lift and materialize the second J2-adapted source column.
+Goal: apply the exact Kummer target map to the A4 source-bound lift.
 
 Acceptance:
 - target basis/order locked;
 - full target column explicit;
-- replay recomputes the column from the A5 lift;
+- replay recomputes the column from the A4 lift;
 - no guessed standard col2/col3 decomposition.
 
-### A7 — integrate and audit the `2/10` adapted-column frontier
+### A6 — integrate and audit the `2/10` adapted-column frontier
 
-Arsenal: `△ S30-WF02 + S30-WF03`. Use immutable layered replay and the adapter/credit firewall; these workflows validate integration/credit boundaries but add no mathematical column by themselves.
+Arsenal: `△ S30-WF02 + S30-WF03`.
 
-Goal: update the live Stage33 frontier only after A1-A6 pass.
+Goal: update the live Stage33 frontier only after A1-A5 pass.
 
 Acceptance:
 - J2-adapted columns materialized becomes `2/10`;
@@ -182,19 +160,16 @@ Process sources in the locked priority order after e3:
 
 `e1, e4, e5, e6, e7, e8, e9, e10`.
 
-For each source `s`, use the same atomic sequence and consult the listed Arsenal route before new construction:
+For each source `s`, use the V50/V51-corrected atomic sequence. Do not recreate a proper14 -> boundary-source `P_W` bridge:
 
-- B(s).0 lock source proper14 coordinate and the reusable bridge version — `○ S33-PW04 + S33-PW05`;
-- B(s).1 apply the proper14 -> boundary-source bridge — `○ S33-PW04`, then exact GF(2) transport;
-- B(s).2 bind selected boundary generators/scalar records — `○ S33-PW04 + S30-WF02`;
-- B(s).3 assemble global Gersten 2-cochain — `◎ S33-PW08`;
-- B(s).4 residue audit — `◎ S33-PW08`;
-- B(s).5 independent Cech `H2(mu2)` lift — `○ S33-PW07`, with `S30-W02` only when its semilinear hypotheses match;
-- B(s).6 exact Brauer-image binding to `s` — `◎ S33-PW04 + S33-PW05 + S33-PW07`;
-- B(s).7 exact Kummer column — `◎ S33-PW05`, support `S33-PW02` where extension/liftability data are relevant;
-- B(s).8 frontier integration and exact-head replay — `△ S30-WF02 + S30-WF03`.
+- B(s).0 lock the independent proper14/retained10 source coordinate — `○ S33-PW04 + S30-WF02`;
+- B(s).1 materialize a concrete source-bound Cech `H2(mu2)` representative — `◎ S33-PW07 + S33-PW04`; `S33-PW08` conditional on a genuine Gersten construction;
+- B(s).2 residue/resolution audit — `◎ S33-PW07`, and `S33-PW08` when its valuation/purity hypotheses apply;
+- B(s).3 exact Brauer-image/full-surface-lift binding to `s` — `◎ S33-PW04 + S33-PW07`, with `S30-WF03`;
+- B(s).4 exact Kummer column — `◎ S33-PW05`, support `S33-PW02` where extension/liftability data are relevant;
+- B(s).5 frontier integration and exact-head replay — `△ S30-WF02 + S30-WF03`.
 
-If A1-A5 establish a genuinely linear reusable adapter for arbitrary proper14 inputs, later B(s) items may reuse it, but each source still requires a separate instantiation/binding/column certificate. Reuse must be explicit; do not collapse multiple source credits into one inferred batch.
+If A2-A4 establish a genuinely linear reusable direct Cech/source-binding adapter for arbitrary proper14 inputs, later B(s) items may reuse it, but each source still requires a separate instantiation/binding/column certificate. Reuse must be explicit; do not infer a boundary-source basis identification and do not collapse multiple source credits into one batch.
 
 ## Phase C — close the finite V4 Kummer matrix repair
 
