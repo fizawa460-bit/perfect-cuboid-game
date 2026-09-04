@@ -11,7 +11,9 @@ on:
       - 'stages/stage32/residual-32-01-production/post1563-ambient-symmetry-exhaustion-batch.json'
       - 'stages/stage32/residual-32-01-production/post1532-q602-single-b3-commutator.json'
       - 'stages/stage32/residual-32-01-production/post1490-o210-q4-equivariant-beauville-deck-cross-exclusion.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-relative-h-marked-node-action.json'
       - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
+      - 'stages/stage33/33-07/certify_two_coordinate_swap_picard_rows.py'
       - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
   workflow_dispatch:
 
@@ -47,12 +49,10 @@ jobs:
             expected_base="$current_main"
           fi
           echo "STAGE32_EXPECTED_BASE_SHA=$expected_base" >> "$GITHUB_ENV"
-      - name: Recompute orbit-sum stabilizer
+      - name: Recompute resolved and blowdown orbit-sum stabilizers
         run: python3 stages/stage32/residual-32-01-production/diagnose_stage32_post1566_orbit_sum_commutator.py
-      - name: Certify batch when certificate exists
-        run: |
-          certifier=stages/stage32/residual-32-01-production/certify_stage32_post1566_orbit_sum_commutator_batch.py
-          if [ -f "$certifier" ]; then python3 "$certifier"; fi
+      - name: Certify blowdown Route C repair
+        run: python3 stages/stage32/residual-32-01-production/certify_stage32_post1566_orbit_sum_commutator_batch.py
       - name: Enforce no controller edit
         if: github.event_name == 'pull_request'
         run: |
