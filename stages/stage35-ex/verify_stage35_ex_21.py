@@ -22,9 +22,9 @@ assert state["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
 assert state["base_main_sha"] in {
     "24438151cf76be42612b7df83314630e51c61682",
     "85e12c7b810eaafc13e663a0047111b7f3333e8b",
+    "ea51d06f3fe46b134e98a065332e9c70fcec57f0",
 }
 
-# 20/20B remain immutable audited predecessors.
 for key in ("35EX-20", "35EX-20B"):
     unit = state["completed_units"][key]
     assert unit["hostile_audit_verdict"] == "PASS"
@@ -87,7 +87,7 @@ else:
     assert parent["hostile_audit_review"] == 5110646292
     assert parent["audited_head_sha"] == "35431061f571da5b425f30da7974c160685bf1a4"
     assert parent["merged_main_sha"] == "85e12c7b810eaafc13e663a0047111b7f3333e8b"
-    assert state["base_main_sha"] == "85e12c7b810eaafc13e663a0047111b7f3333e8b"
+    assert state["base_main_sha"] == "ea51d06f3fe46b134e98a065332e9c70fcec57f0"
     for unit in (unit21, unit21b):
         assert unit["hostile_audit_verdict"] == "PASS"
         assert unit["hostile_audit_review"] == 5110646292
@@ -174,7 +174,6 @@ assert cycle["CYCLE_SPLIT_TRIGGERED"] is False
 assert cycle["CYCLE_PARKING_AUDIT_COMPLETE"] is False
 assert cycle["CYCLE_NEW_VIEW_SOURCE"] == "BOTH"
 
-# Symbolic forward adapter from normalized receiver to S_PC.
 r, t, s1, s2 = sp.symbols("r t s1 s2", nonzero=True)
 master2 = r**2 + t**2 - 2*r**2*t**2
 e12 = r**2 + t**2 - r**2*t**2
@@ -184,7 +183,6 @@ assert sp.expand((1/t**2 - 1 - s2**2/t**2).subs(source_sub)) == 0
 assert sp.expand((master2/(r**2*t**2) - s1**2/r**2 - s2**2/t**2).subs(source_sub)) == 0
 assert sp.expand((e12/(r**2*t**2) - 1 - s1**2/r**2 - s2**2/t**2).subs(source_sub)) == 0
 
-# Symbolic inverse adapter on p*q != 0.
 x, y, p, q, z, w = sp.symbols("x y p q z w", nonzero=True)
 r_inv = 1/p
 s1_inv = x/p
@@ -202,7 +200,6 @@ e1_num = sp.factor(e1_res.as_numer_denom()[0].subs(rel))
 assert master_num == 0
 assert e1_num == 0
 
-# Generic genus-5 fibration.
 X, Y = sp.symbols("X Y")
 f1 = Y**2 + 1
 f2 = Y**2 + X**2
