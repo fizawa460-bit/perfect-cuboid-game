@@ -93,7 +93,7 @@ assert state["candidate_ledger_after_fresh_breadth_audit"]["selected_live"] in {
     "E1-GAUSSIAN-COORDINATE-GCD-SPLIT",
     "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION",
 }
-assert state["candidate_ledger_after_fresh_breadth_audit"]["untested"] in {
+assert tuple(state["candidate_ledger_after_fresh_breadth_audit"]["untested"]) in {
     ("E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION",),
     (),
 }
