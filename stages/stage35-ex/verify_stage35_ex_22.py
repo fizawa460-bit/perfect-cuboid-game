@@ -80,7 +80,7 @@ x,y,p,q,z,w = sp.symbols("x y p q z w")
 rels=[(p+x)*(p-x)-1,(q+y)*(q-y)-1,(w+z)*(w-z)-1,(z+x)*(z-x)-y**2,(z+y)*(z-y)-x**2,(w+p)*(w-p)-y**2,(w+q)*(w-q)-x**2]
 subs={p**2:1+x**2,q**2:1+y**2,z**2:x**2+y**2,w**2:1+x**2+y**2}
 for expr in rels:
-    assert sp.expand(expr.subs(subs))==0
+    assert sp.expand(sp.expand(expr).subs(subs))==0
 gens=["p+x","q+y","w+z","z+x","z+y","w+p","w+q"]
 assert cert["linear_squareclass_generators"]==gens
 pres=cert["obvious_quaternion_presentation"]
