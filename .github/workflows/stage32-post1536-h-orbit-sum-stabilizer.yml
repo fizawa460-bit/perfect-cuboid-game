@@ -7,6 +7,11 @@ on:
       - 'stages/stage32/controller.json'
       - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
       - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1536_h_orbit_sum_stabilizer.py'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1547_h_orbit_sum_stabilizer_negative.py'
+      - 'stages/stage32/residual-32-01-production/post1547-h-orbit-sum-stabilizer-negative.json'
+      - 'stages/stage32/residual-32-01-production/post1547-h-orbit-sum-stabilizer-negative-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1532-full-stoll-h-orbit-symmetry-negative.json'
       - 'stages/stage32/residual-32-01-production/post1490-o210-q4-equivariant-beauville-deck-cross-exclusion.json'
       - 'stages/stage32/residual-32-01-production/post1536-b3-cusp-orbit-ambient-equivariance-negative.json'
       - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
@@ -20,15 +25,18 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Checkout exact head
+      - name: Checkout exact head with base history
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
       - name: Assert exact PR head
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
       - name: Run H-orbit sum stabilizer diagnostic
         run: python3 stages/stage32/residual-32-01-production/diagnose_stage32_post1536_h_orbit_sum_stabilizer.py
+      - name: Run hostile-ready certificate replay
+        run: python3 stages/stage32/residual-32-01-production/certify_stage32_post1547_h_orbit_sum_stabilizer_negative.py
       - name: Enforce no controller edit
         if: github.event_name == 'pull_request'
         run: |
