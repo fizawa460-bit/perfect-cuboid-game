@@ -8,6 +8,8 @@ INV_PATH=ROOT/"stages/stage36/36-02/representative-inventory.json"
 AUDITED_INVENTORY_BLOB="88130b9380a677a191f91c24df87618e65be0a2f"
 AUDITED_HEAD="3a78f9ff156b53f509625d353df48d1b3e02b836"
 AUDIT_REVIEW=5113379283
+AUDIT_CI_RUN=33876389406
+AUDIT_CI_JOB=101034265419
 AUDITED_PR_MERGE="4c93ccb79e95cbcd9e2416ad3b6a3f4788d6f586"
 PROMOTION_MERGE="26fb608cb2551ab2102ae36ad3b57c063959df58"
 V6_BASE="bdd707e52ded061014bfbb6158762e8b997e7a38"
@@ -38,12 +40,34 @@ def main():
  s=json.loads(STATE_PATH.read_text()); schema=s.get("schema")
  allowed={"STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V5_36_02_AUDITED","STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V6_36_03_PENDING_AUDIT","STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V7_36_03_AUDITED","STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V8_36_04_PENDING_AUDIT"}
  require(schema in allowed,"36-02 audited successor schema moved")
- a=s.get("stage36_36_02_authority",{})
- require(a.get("pr")==1541 and a.get("hostile_audit_review")==AUDIT_REVIEW and a.get("audited_head")==AUDITED_HEAD,"36-02 authority identity moved")
- require(a.get("merged_main_sha")==AUDITED_PR_MERGE and a.get("inventory_blob_sha")==AUDITED_INVENTORY_BLOB and a.get("verdict")=="PASS","36-02 immutable authority moved")
+ require(s.get("stage36_36_02_authority")=={
+  "pr":1541,
+  "hostile_audit_review":AUDIT_REVIEW,
+  "audited_head":AUDITED_HEAD,
+  "merged_main_sha":AUDITED_PR_MERGE,
+  "exact_head_ci_run":AUDIT_CI_RUN,
+  "exact_head_ci_job":AUDIT_CI_JOB,
+  "inventory_blob_sha":AUDITED_INVENTORY_BLOB,
+  "verdict":"PASS",
+ },"36-02 authority block moved")
  u=s.get("completed_units",{}).get("36-02",{})
- require(u.get("status")=="AUDITED_PASS" and u.get("promotion_status")=="AUDITED","36-02 audit status moved")
- require(u.get("THREE_CERTIFIED_Q_REPRESENTATIVES_EXACT") is True and u.get("EXACT_Q_ISOMORPHISM_CLASS_COUNT_CLAIM") is False and u.get("NEW_THEOREM_CREDIT") is False,"36-02 credit firewall moved")
+ require(u=={
+  "leaf":"36-02_THREE_Q_REPRESENTATIVE_INVENTORY",
+  "status":"AUDITED_PASS",
+  "certificate":"stages/stage36/36-02/representative-inventory.json",
+  "verifier":"stages/stage36/verify_stage36_36_02.py",
+  "successor_verifier":"stages/stage36/verify_stage36_36_02_audited.py",
+  "hostile_audit_review":AUDIT_REVIEW,
+  "audited_head":AUDITED_HEAD,
+  "exact_head_ci_run":AUDIT_CI_RUN,
+  "exact_head_ci_job":AUDIT_CI_JOB,
+  "merged_main_sha":AUDITED_PR_MERGE,
+  "inventory_blob_sha":AUDITED_INVENTORY_BLOB,
+  "THREE_CERTIFIED_Q_REPRESENTATIVES_EXACT":True,
+  "EXACT_Q_ISOMORPHISM_CLASS_COUNT_CLAIM":False,
+  "NEW_THEOREM_CREDIT":False,
+  "promotion_status":"AUDITED",
+ },"36-02 completed-unit provenance moved")
  g=s.get("promotion_gates",{})
  require(g.get("source_authority_lock_complete") is True and g.get("three_Q_representatives_exact") is True,"36-01/02 gates lost")
  require(all(v is False for v in s.get("claims",{}).values()),"Stage36 higher claim leaked")
@@ -68,6 +92,7 @@ def main():
   p=s.get("stage36_36_02_promotion",{})
   require(p.get("pr")==1548 and p.get("merged_main_sha")==PROMOTION_MERGE and p.get("NEW_THEOREM_CREDIT") is False,"36-02 promotion provenance moved")
  print("PASS STAGE36_36_02_AUDITED_SUCCESSOR_REPLAY")
+ print(f"hostile_audit_review={AUDIT_REVIEW}; audited_head={AUDITED_HEAD}; exact_head_ci={AUDIT_CI_RUN}/{AUDIT_CI_JOB}")
  print(f"audited_inventory_blob={AUDITED_INVENTORY_BLOB}; successor_schema={schema}")
  print("no theorem/receiver/endpoint/perfect-cuboid credit")
 if __name__=="__main__": main()
