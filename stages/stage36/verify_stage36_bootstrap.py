@@ -13,8 +13,8 @@ AUDITED_36_02_PROMOTION_MERGE="26fb608cb2551ab2102ae36ad3b57c063959df58"
 PENDING_36_03_BASE="bdd707e52ded061014bfbb6158762e8b997e7a38"
 AUDITED_36_03_MERGE="45f290a443cf71b1fc62f031994122c3fa58f0e9"
 AUDITED_36_03_PROMOTION_MERGE="efe25f4ef74dc776da7ccad3f5cd786b0b2906e4"
-PENDING_36_04_BASE="3cadfd55d91f1e3267f31f9d7384b62d38678cc3"
-FRESHNESS_36_04={"sync_pr":1564,"main_sha":PENDING_36_04_BASE,"merge_commit":"cfe189f38c818a72b32d65b44cd391522d0866a0","scope":"Stage35-EX-only advance via #1549; no Stage36, Stage29 Campedelli/sign-cover source, or Arsenal authority changes"}
+PENDING_36_04_BASE="4ec2b9af886f9ac9be13c3324788c26625c9e5d9"
+FRESHNESS_36_04={"sync_pr":1565,"main_sha":PENDING_36_04_BASE,"merge_commit":"b900a925ce25556bf85c929b1c73aff414c77430","scope":"Stage32-only advance via #1563; no Stage36, Stage29 Campedelli/sign-cover source, or Arsenal authority changes"}
 SOURCES={
 "stage29_active_kernel_ledger":("stages/stage29/29-16/active-kernel-ledger.json","5d6d4c7709b57064aea5dc0ece672c5170c39550"),
 "stage29_endpoint_hub_graph":("stages/stage29/29-06/endpoint-hub-graph.json","7ea59474767f81fbaa4837c8cbc94b535560617b"),
