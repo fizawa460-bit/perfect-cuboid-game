@@ -1,0 +1,61 @@
+{
+  "schema": "STAGE32_POST1532_Q602_SINGLE_B3_COMMUTATOR_REDUCTION_V1",
+  "stage": 32,
+  "status": "EXACT_CONDITIONAL_SINGLE_B3_COMMUTATOR_EXCLUSION_PENDING_HOSTILE_AUDIT",
+  "fixed_target": {"row_id":"g1-d186","d":186,"e":266,"genus":1,"O":210,"qprime":4,"Q":602},
+  "source_locks": {
+    "audited_transvection": {"path":"stages/stage32/residual-32-01-production/post1505-o210-q602-weierstrass-parity-transvection-refinement.json","blob_sha1":"8e9a402706921c71217fc275be6b9885feea8bee","canonical_sha256":"83fd16fdaac674a3f63b4b2dac498136f1bc584c9e06d89f1aa1a7bdc4c30386","hostile_reaudit_review":5102652713,"audited_exact_head":"efb26374a5d46dd6118428306ae6dcee417a1041"},
+    "audited_marked_gauge": {"path":"stages/stage32/residual-32-01-production/post1505-o210-q602-marked-w-line-gauge-orbit.json","blob_sha1":"2b790882222656f65ed7ea4bdc2336553890b6a1","canonical_sha256":"7ad84e3c0a567119933ee0941b3b125ebcdb80651973033e13dbf12b553bfc92","hostile_reaudit_review":5108049622,"audited_exact_head":"9e0bda4767de2246f526ea459b17deecb295fa19"},
+    "source_note": {"path":"stages/stage32/residual-32-01-production/post1532-q602-single-b3-commutator-source-note.md","blob_sha1":"262508216f539ae7b5eccee0885360f110493efd"}
+  },
+  "retained_basis": ["e1","e2","r*e1","r*e2"],
+  "quadratic_order": {"symbol":"r","relation":"r^2=-2","mod2_symbol":"eps","mod2_relation":"eps^2=0"},
+  "audited_q602_residues": [73,97,235],
+  "principal_automorphisms": {
+    "b3_Zr": [["-1","-1"],["1","0"]],
+    "b4_Zr": [["1","1+r"],["0","-1"]],
+    "b3_mod2_4x4": [[1,1,0,0],[1,0,0,0],[0,0,1,1],[0,0,1,0]],
+    "b4_mod2_4x4": [[1,1,0,0],[0,1,0,0],[0,1,1,1],[0,0,0,1]]
+  },
+  "finite_mod2_check": {
+    "residue_matrices": {
+      "73": [[1,0,0,0],[0,1,0,0],[0,1,1,0],[0,0,0,1]],
+      "97": [[1,0,0,0],[0,1,0,0],[0,0,1,0],[1,0,0,1]],
+      "235": [[1,0,0,0],[0,1,0,0],[1,1,1,0],[1,1,0,1]]
+    },
+    "b3_commutators": {
+      "73": [[0,0,0,0],[0,0,0,0],[1,1,0,0],[0,1,0,0]],
+      "97": [[0,0,0,0],[0,0,0,0],[1,0,0,0],[1,1,0,0]],
+      "235": [[0,0,0,0],[0,0,0,0],[0,1,0,0],[1,0,0,0]]
+    },
+    "b3_commuting_residues": [],
+    "b4_commuting_residues": [73],
+    "all_audited_q602_residues_fail_b3_commutation": true
+  },
+  "decision": {
+    "conditional_implication": "[T,b3]=0 => Q(T)!=602",
+    "single_commutator_sufficient_condition": true,
+    "b3_equivariance_proved_for_actual_correspondence": false,
+    "Q602_excluded_unconditionally": false,
+    "O210_excluded_unconditionally": false,
+    "O212_plus_authorized": false,
+    "next_required_fact": "prove or refute [T,b3]=0 from source-locked carrier-map equivariance, quotient-normalizer data, or an exact correspondence/divisor identity"
+  },
+  "firewalls": {
+    "canonical_73_only_used": false,
+    "gauge_representatives_arithmetically_excluded": false,
+    "b4_single_commutator_claimed_sufficient": false,
+    "scalarity_assumed": false,
+    "valence_assumed": false,
+    "carrier_b3_equivariance_assumed": false,
+    "controller_change_authorized": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "full178_credit": false,
+    "effectivity_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "canonical_sha256_without_this_field": "a374defb3a888c131ce92db9416702f34a03eb780b76d1dd6c26ab019f3c5064"
+}
