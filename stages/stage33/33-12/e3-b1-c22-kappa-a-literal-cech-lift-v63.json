@@ -1,0 +1,180 @@
+{
+  "schema": "stage33.e3.b1_c22_kappa_a_literal_cech_lift.v63",
+  "role": "EXACT_C22_KAPPA_A_LITERAL_CECH_SURFACE_MU2_LIFT_PROPER14_COORDINATE_OPEN",
+  "microgoal": "E3_A2_4B_3_C22_KAPPA_A_LITERAL_CECH_PREIMAGE_WITHOUT_MARKED_PROPER14_COORDINATE",
+  "source_locks": {
+    "v61_c22_basis": {
+      "path": "stages/stage33/33-12/e3-b1-c22-pic0-2-basis-v61.json",
+      "canonical_sha256": "48ec6b2ffb91d549041ff5ec667ff88d493becf01d89e1bb5974134b3b0a53f6",
+      "blob_sha1": "e50bde0bd88f29ce4bbe16f8d48fe89a8c3ab4d9"
+    },
+    "v62_full_domain": {
+      "path": "stages/stage33/33-12/e3-b1-full-domain-basis-v62.json",
+      "canonical_sha256": "353e68438334a0da71dfdbc09a8bf60e7e511598cf54a173338735686f1c3f4c",
+      "blob_sha1": "781549b869dbb0e143d982c9b67523f2336225e4"
+    },
+    "j2_explicit_cech_template": {
+      "path": "stages/stage33/33-12/j2-corrected-explicit-cech-mu2-lift.json",
+      "canonical_sha256": "6c9333f564637c362b026596833acd26ad2abff27e9c9d75d82ee5c6991cb76b",
+      "blob_sha1": "97261735968c07903f87370eb483df8d6475b67c"
+    },
+    "proper14_marked_adjoint": {
+      "path": "stages/stage33/33-12/j2-picard-adjoint-proper-br2.json",
+      "canonical_sha256": "066e6b039eb7b67c6dfc44a7af1459254c190ebfa5376e89b8e97fad1c8cb9f8",
+      "blob_sha1": "2e70dc274afbbd20aefbb0a87409d66d6ac183bc"
+    }
+  },
+  "arsenal_routing": {
+    "primary": "S33-PW07:TORSOR_BRAUER_INTEGRAL_KERNEL_ADAPTER",
+    "marked_source_binding": "S33-PW04:EXACT_MARKED_SOURCE_ADAPTER",
+    "credit_firewall": "S30-WF03",
+    "bounded_search_result": {
+      "question": "Can an existing producer bind the C22 kappa_A branch class or its literal symbol directly to the marked proper14 coordinate basis?",
+      "outcome": "NO_DIRECT_BINDING_FOUND_IN_INSPECTED_EXACT_PROPER14_ADJOINT_PRODUCER",
+      "scope_note": "This is a bounded-search result, not a repository-wide absence theorem. The exact marked adjoint decodes supplied Picard-dual covectors but does not itself manufacture the covector for kappa_A."
+    }
+  },
+  "literal_symbol": {
+    "branch_component": "C22_tilde",
+    "branch_input": "kappa_A=[P_r1-P_r4]",
+    "f_A": "(t-r1)/(t-r4)",
+    "r1": "1+sqrt(2)",
+    "r4": "1-sqrt(2)",
+    "g22": "1-s^2+i*s*(1-t^2)/t",
+    "class": "e_A={f_A,g22}=kum(f_A) cup kum(g22) in H^2(Ubar,mu_2)",
+    "open": "Ubar=Sprime_bar-(C21_tilde disjoint_union C22_tilde)",
+    "boundary_on_C21_C22": [
+      "0",
+      "kappa_A represented by f_A"
+    ]
+  },
+  "exact_identity_audit": {
+    "r1_square": "r1^2=3+2*sqrt(2)",
+    "r4_square": "r4^2=3-2*sqrt(2)",
+    "g22_at_r1": "g22(r1,s)=(1-i*s)^2",
+    "g22_at_r4": "g22(r4,s)=(1-i*s)^2",
+    "f_A_at_zero": "f_A(0)=-(1+sqrt(2))^2=(i*(1+sqrt(2)))^2",
+    "f_A_at_infinity": "f_A(infinity)=1"
+  },
+  "codimension_one_residue_audit": {
+    "formula": "partial_v{a,b}=(-1)^(v(a)v(b))*a^v(b)/b^v(a) mod squares",
+    "rows": [
+      {
+        "divisor": "C22",
+        "valuations": [
+          0,
+          1
+        ],
+        "residue": "f_A",
+        "role": "required boundary kappa_A"
+      },
+      {
+        "divisor": "C21",
+        "valuations": [
+          0,
+          0
+        ],
+        "residue": "1",
+        "role": "zero boundary"
+      },
+      {
+        "divisor": "t=r1",
+        "valuations": [
+          1,
+          0
+        ],
+        "residue_square_witness": "g22(r1,s)=(1-i*s)^2"
+      },
+      {
+        "divisor": "t=r4",
+        "valuations": [
+          -1,
+          0
+        ],
+        "residue_square_witness": "g22(r4,s)=(1-i*s)^2"
+      },
+      {
+        "divisor": "t=0",
+        "valuations": [
+          0,
+          -1
+        ],
+        "residue_square_witness": "f_A(0)=(i*(1+sqrt(2)))^2"
+      },
+      {
+        "divisor": "t=infinity",
+        "valuations": [
+          0,
+          -1
+        ],
+        "residue_square_witness": "f_A(infinity)=1"
+      },
+      {
+        "divisor": "s=infinity",
+        "valuations": [
+          0,
+          -2
+        ],
+        "residue": "f_A^-2 is a square"
+      }
+    ],
+    "other_prime_divisors_have_both_valuations_zero": true,
+    "all_nonboundary_residues_zero": true
+  },
+  "resolution_residue_audit": {
+    "branch_crossing_exceptionals": "the branch-crossing centers have t=0 or t=infinity; the exceptional residues are killed by the displayed square values f_A(0) and f_A(infinity)",
+    "all_exceptional_residues_zero": true
+  },
+  "surface_mu2_lift": {
+    "concrete_Cech_preimage_e_A_materialized": true,
+    "surface_mu2_lift_materialized": true,
+    "class": "lambda_A=alpha(e_A), represented generically by {f_A,g22}",
+    "maps_to_branch_input": "C22:kappa_A",
+    "ramification_check": "pi^*g22 has valuation 2 along the ramification curve over C22, so the required surface residue is trivial",
+    "historical_j2_mask_relabel_used": false
+  },
+  "proper14_coordinate_interface": {
+    "symbolic_gysin_image_class_materialized": true,
+    "marked_proper14_14bit_coordinate_materialized": false,
+    "column_index": 3,
+    "column3_mask_decimal": null,
+    "existing_marked_adjoint_capability": "Given an exact marked Picard-dual covector, the proper14 machinery can decode it into the proper Brauer target basis.",
+    "missing_exact_input": "MARKED_PICARD_DUAL_COVECTOR_FOR_LAMBDA_A_OR_EQUIVALENT_EXACT_SYMBOL_TO_PROPER14_BINDING",
+    "membership_effect": "No e3 mask20 membership conclusion follows until the marked column is computed."
+  },
+  "matrix_progress": {
+    "required_shape": [
+      14,
+      4
+    ],
+    "known_marked_coordinate_columns": [
+      4
+    ],
+    "literal_symbol_columns_materialized": [
+      3,
+      4
+    ],
+    "unknown_marked_coordinate_columns": [
+      1,
+      2,
+      3
+    ],
+    "column4_mask_decimal": 25,
+    "column3_marked_coordinate_open": true
+  },
+  "next_exact_leaf": "BIND_LAMBDA_A_SYMBOL_TO_EXACT_MARKED_PICARD_DUAL_COVECTOR_AND_DECODE_PROPER14_COLUMN3",
+  "credit_firewall": {
+    "new_marked_proper14_gysin_columns_materialized": 0,
+    "b1_14x4_matrix_materialized": false,
+    "e3_mask20_membership_computed": false,
+    "literal_e3_cech_geometry_materialized": false,
+    "genuine_full_surface_h2_mu2_lift_for_e3": false,
+    "e3_kummer_column_materialized": false,
+    "stage33_progress": "6/11",
+    "stage33_12_closed_exact": false,
+    "stage33_13_released": false,
+    "merge_allowed": false
+  },
+  "status": "PASS_EXACT_C22_KAPPA_A_LITERAL_CECH_SURFACE_LIFT_MARKED_PROPER14_COLUMN3_OPEN",
+  "canonical_sha256": "7714c722f7f30cae1fac03edd34821d1e84372bf3d7663dc2c62a98fde6b186c"
+}
