@@ -78,6 +78,7 @@ assert state["base_main_sha"] in {
     "ea51d06f3fe46b134e98a065332e9c70fcec57f0",
     "378096fa313b582b63553b395ec85a5c86de2685",
     "2e07dde92fdf270fff1233635a7cb4cea1427080",
+    "7a5d01b438c68c228ad73955f906f3128780d6ef",
 }
 
 unit17b = state["completed_units"]["35EX-17B"]
