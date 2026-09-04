@@ -29,7 +29,7 @@ real = json.loads(STATE.read_text())
 assert real["schema"] == V24
 assert real["stage"] == "35-EX"
 assert real["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
-assert real["base_main_sha"] == "4c93ccb79e95cbcd9e2416ad3b6a3f4788d6f586"
+assert real["base_main_sha"] == "26fb608cb2551ab2102ae36ad3b57c063959df58"
 parent = real["parent_authority"]
 assert parent["unit"] == "35EX-24"
 assert parent["hostile_audit_verdict"] == "PASS"
