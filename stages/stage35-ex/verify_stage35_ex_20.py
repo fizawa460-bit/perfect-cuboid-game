@@ -171,21 +171,30 @@ for marker in (
 ):
     assert marker in doc
 
-# Breadth audit wiring.
+# Breadth audit wiring and protocol enum lock.
 assert audit["schema"] == "STAGE35_EX_20B_POST_PAIRED_SQUARECLASS_BREADTH_AUDIT_V1"
 assert audit["blind_rediscovery"]["performed_before_arsenal_comparison_for_this_audit"] is True
 assert audit["arsenal_comparison"]["performed_after_blind_generation"] is True
 assert audit["selection"]["selected_candidate"] == "E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY"
 assert audit["selection"]["selected_next_unit"] == "35EX-21_GLOBAL_BIQUADRATIC_SURFACE_MODEL_OR_GEOMETRY_BLOCKER"
 assert audit["selection"]["preserved_untested_candidates"] == ["E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER"]
+
+generated = audit["blind_rediscovery"]["generated"]
+allowed_candidate_statuses = {"LIVE", "UNTESTED", "EQUIVALENT", "DOMINATED", "BLOCKED"}
+assert all(candidate["status"] in allowed_candidate_statuses for candidate in generated)
+dependent = next(candidate for candidate in generated if candidate["id"] == "E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER")
+assert dependent["status"] == "UNTESTED"
+assert "requires the LIVE global-surface model" in dependent["dependency"]
+
 cycle = audit["cycle_exit"]
-assert cycle["CYCLE_ROUTE_STATUS"] == "BLOCKED_NO_NEW_INFORMATION"
+assert cycle["CYCLE_ROUTE_STATUS"] == "BLOCKED_NEW_PATTERN_ISOLATED"
 assert cycle["CYCLE_LIVE_CANDIDATES"] == 1
 assert cycle["CYCLE_UNTESTED_CANDIDATES"] == 1
 assert cycle["CYCLE_EXHAUSTIVE_VIEW_AUDIT"] is True
 assert cycle["CYCLE_BLIND_REDISCOVERY"] is True
 assert cycle["CYCLE_SPLIT_TRIGGERED"] is False
 assert cycle["CYCLE_PARKING_AUDIT_COMPLETE"] is False
+assert cycle["CYCLE_NEW_VIEW_SOURCE"] == "BLIND"
 
 # Exact arithmetic regression for the source-square and gcd/resultant theorem.
 checked = 0
