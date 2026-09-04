@@ -33,8 +33,10 @@ def prime_support(n: int):
 state = json.loads(STATE.read_text())
 doc = DOC.read_text()
 
-assert state["schema"] == "STAGE35_EX_PESCH_E1_STATE_V10_SUNIT_DYNAMIC_SUPPORT_FROZEN"
-assert state["base_main_sha"] == "f4ecaa756334eddc358424680ac4aa2d39e9fb6c"
+# Progression-safe: verify the recorded 35EX-12 authority/boundary, not the
+# downstream live schema/current leaf, which is expected to advance.
+assert state["stage"] == "35-EX"
+assert state["target"]["id"] == "PESCH-CONJ-E1-BASIS-NONSQUARE"
 unit = state["completed_units"]["35EX-12"]
 assert unit["status"] == "PROVISIONAL_EXACT_DYNAMIC_SUPPORT_BLOCKER_NO_CREDIT"
 assert unit["per_master_hit_finite_sunit_support_proved"] is True
@@ -46,16 +48,8 @@ assert unit["audited_theorem_credit"] is False
 
 block = state["resolved_investigations"]["CURRENT_SUNIT_THUE_DYNAMIC_SUPPORT"]
 assert block["status"] == "FROZEN_NO_UNIFORM_FIXED_SUPPORT_ADAPTER_FROM_CURRENT_IDENTITIES"
-assert state["current"]["unit"] == "35EX-13_ALTERNATE_NORM_SYMMETRY_COMPATIBILITY"
-assert state["current"]["status"] == "SELECTED_FROM_FRESH_AUDITED_UNTESTED_LEDGER_NOT_YET_EXECUTED"
 ledger = state["candidate_ledger_after_fresh_breadth_audit"]
-assert ledger["selected_live"] == "E1-ALTERNATE-NORM-SYMMETRY"
 assert ledger["just_completed_and_frozen"] == "E1-SUNIT-THUE-DYNAMIC-SUPPORT"
-assert set(ledger["untested"]) == {
-    "E1-NONNAIVE-DESCENT",
-    "E1-GLOBAL-RECIPROCITY-BEYOND-LOCAL-GRAPH",
-    "E1-RECEIVER-RESTRICTED-JOINT-LOCAL",
-}
 
 for text in (
     "PER_MASTER_HIT_FINITE_SUNIT_SUPPORT_PROVED=true",
