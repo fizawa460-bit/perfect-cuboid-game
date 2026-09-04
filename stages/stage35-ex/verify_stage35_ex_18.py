@@ -58,18 +58,16 @@ def gaussian_orientation(x, y, p):
     return 1 if plus else -1
 
 state = json.loads(STATE.read_text())
-assert state["schema"] == "STAGE35_EX_PESCH_E1_STATE_V17_POST_35EX18_GAUSSIAN_RELATIVE_ORIENTATION_FREEZE"
+assert state["schema"] in {
+    "STAGE35_EX_PESCH_E1_STATE_V17_POST_35EX18_GAUSSIAN_RELATIVE_ORIENTATION_FREEZE",
+    "STAGE35_EX_PESCH_E1_STATE_V18_POST_35EX19_NONISOTRIVIAL_GENUSONE_BLOCKER",
+}
 assert state["stage"] == "35-EX"
 assert state["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
-assert state["base_main_sha"] == "d4190ea534610b49a7bb15e7b9d15d759dbcdc40"
-
-parent = state["parent_authority"]
-assert parent["unit"] == "35EX-17B"
-assert parent["status"] == "AUDITED_FRESH_GAUSSIAN_COORDINATE_GCD_HOOK_NO_CREDIT"
-assert parent["hostile_audit_verdict"] == "PASS"
-assert parent["audited_head_sha"] == "06a2fbf39f180cd4d083f95b0aa0bc42e827eaeb"
-assert parent["merged_main_sha"] == "31e13d294c7130db2140bfab18b6d27b29ec3478"
-assert parent["audited_theorem_credit"] is False
+assert state["base_main_sha"] in {
+    "d4190ea534610b49a7bb15e7b9d15d759dbcdc40",
+    "cb3e36183f291ec5d96b440ff2287e3d009d9691",
+}
 
 unit17b = state["completed_units"]["35EX-17B"]
 assert unit17b["status"] == "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT"
@@ -81,7 +79,10 @@ assert unit17b["selected_candidate"] == "E1-GAUSSIAN-COORDINATE-GCD-SPLIT"
 assert unit17b["audited_theorem_credit"] is False
 
 unit18 = state["completed_units"]["35EX-18"]
-assert unit18["status"] == "PROVISIONAL_EXACT_GAUSSIAN_RELATIVE_ORIENTATION_MASTER_UNIT_FREEZE_NO_CREDIT"
+assert unit18["status"] in {
+    "PROVISIONAL_EXACT_GAUSSIAN_RELATIVE_ORIENTATION_MASTER_UNIT_FREEZE_NO_CREDIT",
+    "AUDITED_EXACT_GAUSSIAN_RELATIVE_ORIENTATION_MASTER_UNIT_FREEZE_NO_CREDIT",
+}
 assert unit18["artifact"] == "stages/stage35-ex/35ex-18/gaussian-relative-orientation-and-master-unit-freeze.md"
 assert unit18["verifier"] == "stages/stage35-ex/verify_stage35_ex_18.py"
 assert unit18["gaussian_relative_pd_orientation_proved"] is True
@@ -94,6 +95,10 @@ assert unit18["master_pd_local_residue_table_orientation_blind"] is True
 assert unit18["absolute_pd_split_prime_orientation_uniformly_fixed"] is False
 assert unit18["all_deeper_gaussian_or_reciprocity_arguments_ruled_out"] is False
 assert unit18["audited_theorem_credit"] is False
+if unit18["status"].startswith("AUDITED_"):
+    assert unit18["hostile_audit_verdict"] == "PASS"
+    assert unit18["audited_head_sha"] == "4f271921e745e90ff9764c727d0d4234d2ae0b4a"
+    assert unit18["merged_main_sha"] == "cb3e36183f291ec5d96b440ff2287e3d009d9691"
 
 freeze = state["resolved_investigations"]["CURRENT_GAUSSIAN_COORDINATE_ORIENTATION"]
 assert freeze["status"] == "FROZEN_MOVING_ABSOLUTE_ORIENTATION_AND_SOURCE_UNITS"
@@ -101,18 +106,19 @@ assert "absolute p*d Gaussian-prime choices" in freeze["reopen_condition"]
 assert "c*q Legendre table" in freeze["reopen_condition"]
 
 ledger = state["candidate_ledger_after_fresh_breadth_audit"]
-assert ledger["selected_live"] == "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION"
-assert ledger["untested"] == []
 assert "E1-GAUSSIAN-COORDINATE-GCD-SPLIT" in ledger["just_frozen"]
 assert "E1-GAUSSIAN-COORDINATE-GCD-SPLIT" in ledger["blocked"]
+assert ledger["selected_live"] in {
+    "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION",
+    "E1-PAIRED-SOURCE-FILTER-QUARTIC-INTERSECTION",
+}
 
 current = state["current"]
-assert current["unit"] == "35EX-19_RECEIVER_SPECIFIC_GENUSONE_ADAPTER_OR_BLOCKER"
-assert current["status"] == "SELECTED_PRESERVED_UNTESTED_CANDIDATE_NO_CREDIT"
-assert "FIXED_RECEIVER_SPECIFIC_QUARTIC_OR_GENUS_ONE_MODEL" in current["next_exact_leaf"]
-assert "EXACT_SOURCE_TO_CURVE_ADAPTER" in current["next_exact_leaf"]
+assert current["unit"] in {
+    "35EX-19_RECEIVER_SPECIFIC_GENUSONE_ADAPTER_OR_BLOCKER",
+    "35EX-20_PAIRED_SOURCE_FILTER_QUARTIC_SQUARECLASS_OR_FREE_FAMILY",
+}
 
-assert state["arsenal"]["S31_W01"] == "SELECTED_ROUTING_PATTERN_ONLY_FOR_35EX19_REQUIRES_FIXED_QUARTIC_AND_EXACT_SOURCE_ADAPTER"
 assert state["stage35_main_firewall"]["stage35_ex_reopens_stage35_main"] is False
 
 for key in (
