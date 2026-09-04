@@ -33,18 +33,28 @@ def prime_support(n: int):
 state = json.loads(STATE.read_text())
 doc = DOC.read_text()
 
-# Progression-safe: verify the recorded 35EX-12 authority/boundary, not the
-# downstream live schema/current leaf, which is expected to advance.
+# Progression-safe: verify the recorded 35EX-12 audited authority/boundary,
+# not the downstream live schema/current leaf, which is expected to advance.
 assert state["stage"] == "35-EX"
 assert state["target"]["id"] == "PESCH-CONJ-E1-BASIS-NONSQUARE"
 unit = state["completed_units"]["35EX-12"]
-assert unit["status"] == "PROVISIONAL_EXACT_DYNAMIC_SUPPORT_BLOCKER_NO_CREDIT"
+assert unit["status"] == "AUDITED_EXACT_DYNAMIC_SUPPORT_BLOCKER_NO_CREDIT"
+assert unit["hostile_audit_review"] == 5108290559
+assert unit["audited_head_sha"] == "d652f912d660ef9e5ec0b0dfa29e8a4eac35766f"
+assert unit["merged_main_sha"] == "5436d56fd897426a3a0889874ada2aa6a42df9fd"
 assert unit["per_master_hit_finite_sunit_support_proved"] is True
 assert unit["uniform_fixed_finite_S_proved"] is False
 assert unit["fixed_finite_Thue_family_proved"] is False
 assert unit["sunit_thue_finite_enumeration_authorized"] is False
 assert unit["route_frozen_dynamic_support"] is True
 assert unit["audited_theorem_credit"] is False
+
+parent = state["parent_authority"]
+assert parent["unit"] == "35EX-12"
+assert parent["hostile_audit_review"] == 5108290559
+assert parent["audited_head_sha"] == "d652f912d660ef9e5ec0b0dfa29e8a4eac35766f"
+assert parent["merged_main_sha"] == "5436d56fd897426a3a0889874ada2aa6a42df9fd"
+assert parent["audited_theorem_credit"] is False
 
 block = state["resolved_investigations"]["CURRENT_SUNIT_THUE_DYNAMIC_SUPPORT"]
 assert block["status"] == "FROZEN_NO_UNIFORM_FIXED_SUPPORT_ADAPTER_FROM_CURRENT_IDENTITIES"
@@ -122,4 +132,4 @@ for key in (
 ):
     assert state["claims"][key] is False
 
-print("PASS STAGE35_EX_12_SUNIT_THUE_DYNAMIC_SUPPORT_BLOCKER_V1")
+print("PASS STAGE35_EX_12_AUDITED_SUNIT_THUE_DYNAMIC_SUPPORT_BLOCKER_V2")
