@@ -17,12 +17,23 @@ def csha(obj):
 
 
 controller_schema_now = json.loads((STAGE33 / "controller.json").read_text())["schema"]
+
+# V38 is a historical synchronization receipt.  On successor operational
+# controllers, delegate to the current routing verifier rather than comparing
+# the live controller projection against the frozen V38 projection hash.
+if controller_schema_now == "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V62_ARSENAL_FIRST_BOUNDED_SEARCH_ACTIVE":
+    import runpy
+    runpy.run_path(str(HERE / "verify_j2_post_v39_arsenal_first_bounded_search_policy_v41.py"), run_name="__main__")
+    raise SystemExit(0)
+
 if controller_schema_now in {
     "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V60_POST_V39_LOCATOR_FIRST_CONSTRUCTION_ACTIVE",
     "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V61_POST_V39_CURRENT_MULTI_REGISTRY_CONSTRUCTION_ACTIVE",
 }:
+    legacy = HERE / "verify_j2_post_v38_locator_first_construction_policy_v39.py"
+    assert legacy.is_file(), "V39 compatibility verifier is required only on a V60/V61 tree"
     import runpy
-    runpy.run_path(str(HERE / "verify_j2_post_v38_locator_first_construction_policy_v39.py"), run_name="__main__")
+    runpy.run_path(str(legacy), run_name="__main__")
     raise SystemExit(0)
 
 r = json.loads(RECEIPT.read_text())
