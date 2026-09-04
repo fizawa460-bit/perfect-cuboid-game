@@ -28,9 +28,16 @@ def v2(n: int) -> int:
 state = json.loads(STATE.read_text())
 doc = DOC.read_text()
 
-assert state["schema"] == "STAGE35_EX_PESCH_E1_STATE_V11_ALTERNATE_NORM_GAUSSIAN_COUPLING"
+# Progression-safe: verify the recorded audited 35EX-13 authority and its
+# mathematics, not the mutable downstream schema/current leaf.
+assert state["stage"] == "35-EX"
+assert state["target"]["id"] == "PESCH-CONJ-E1-BASIS-NONSQUARE"
 unit = state["completed_units"]["35EX-13"]
-assert unit["status"] == "PROVISIONAL_EXACT_ALTERNATE_NORM_GAUSSIAN_COUPLING_NO_CREDIT"
+assert unit["status"] == "AUDITED_EXACT_ALTERNATE_NORM_GAUSSIAN_COUPLING_NO_CREDIT"
+assert unit["failed_hostile_audit_review"] == 5108306912
+assert unit["hostile_reaudit_review"] == 5108343484
+assert unit["audited_head_sha"] == "6a2193c19cce6d9022764c2daf6a2431e2348c1f"
+assert unit["merged_main_sha"] == "0dff1852f30f832e5fef104bcd143c0ee82365c0"
 assert unit["alternate_gcd_factorization_proved"] is True
 assert unit["second_primitive_e1_triple_proved_conditionally"] is True
 assert unit["index_swap_dominates_mirrored_receiver"] is True
@@ -42,9 +49,6 @@ assert unit["bounded_panel_gaussian_survivors"] == 3
 assert unit["bounded_panel_e1_counterexamples"] == 0
 assert unit["audited_theorem_credit"] is False
 
-assert state["current"]["unit"] == "35EX-14_GAUSSIAN_RATIO_SURVIVOR_STRUCTURE"
-assert state["current"]["status"] == "SELECTED_CONTINUATION_OF_ALTERNATE_NORM_ROUTE_NO_CREDIT"
-
 for text in (
     "g1 = c*d",
     "p*w = d*z",
@@ -53,11 +57,9 @@ for text in (
     "SOURCE_ONLY_GAUSSIAN_SQUARE_SIEVE_PROVED_CONDITIONALLY=true",
     "GAUSSIAN_SOURCE_SIEVE_KILLS_128_OF_131=true",
     "GAUSSIAN_SOURCE_SIEVE_PROVES_E1=false",
-    "35EX-14_GAUSSIAN_RATIO_SURVIVOR_STRUCTURE",
 ):
     assert text in doc
 
-# Exact algebra/gcd regression on the bounded primitive source population.
 pairs1 = [
     (a, b)
     for a in range(2, 51)
@@ -81,7 +83,6 @@ for a, b in pairs1:
     for m, n in pairs2:
         U2, V2, W2 = m*m-n*n, 2*m*n, m*m+n*n
 
-        # Alternate norm identity is source-exact, before any square assumption.
         N1 = (W1*U2)**2 + (U1*V2)**2
         N2 = (U1*W2)**2 + (V1*U2)**2
         assert N1 == N2
@@ -101,8 +102,6 @@ for a, b in pairs1:
         master_hits += 1
         branches.add("L" if v2(V1) < v2(V2) else "R")
 
-        # Source-only Gaussian square sieve.  By 35EX-13, every E1
-        # counterexample must make this rational number a square.
         S_plus = Fraction(d * (W1*W2 + V1*V2), p * N1)
         if is_square_fraction(S_plus):
             gaussian_survivors.append((a, b, m, n))
@@ -120,7 +119,6 @@ assert gaussian_survivors == [
 ]
 assert e1_counterexamples == []
 
-# Credit firewall.
 for key in (
     "new_theorem_credit",
     "R29_PESCH_E1_closed",
@@ -132,4 +130,4 @@ for key in (
 ):
     assert state["claims"][key] is False
 
-print("PASS STAGE35_EX_13_ALTERNATE_NORM_GAUSSIAN_COUPLING_V1")
+print("PASS STAGE35_EX_13_ALTERNATE_NORM_GAUSSIAN_COUPLING_AUDITED_V2")

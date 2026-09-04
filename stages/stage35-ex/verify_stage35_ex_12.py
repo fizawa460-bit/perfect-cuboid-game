@@ -33,8 +33,9 @@ def prime_support(n: int):
 state = json.loads(STATE.read_text())
 doc = DOC.read_text()
 
-# Progression-safe: verify the recorded 35EX-12 audited authority/boundary,
-# not the downstream live schema/current leaf, which is expected to advance.
+# Authority-stable: verify the immutable recorded 35EX-12 audit/boundary only.
+# Do not pin parent_authority or the mutable latest candidate ledger, both of
+# which legitimately advance after later audited leaves.
 assert state["stage"] == "35-EX"
 assert state["target"]["id"] == "PESCH-CONJ-E1-BASIS-NONSQUARE"
 unit = state["completed_units"]["35EX-12"]
@@ -49,17 +50,8 @@ assert unit["sunit_thue_finite_enumeration_authorized"] is False
 assert unit["route_frozen_dynamic_support"] is True
 assert unit["audited_theorem_credit"] is False
 
-parent = state["parent_authority"]
-assert parent["unit"] == "35EX-12"
-assert parent["hostile_audit_review"] == 5108290559
-assert parent["audited_head_sha"] == "d652f912d660ef9e5ec0b0dfa29e8a4eac35766f"
-assert parent["merged_main_sha"] == "5436d56fd897426a3a0889874ada2aa6a42df9fd"
-assert parent["audited_theorem_credit"] is False
-
 block = state["resolved_investigations"]["CURRENT_SUNIT_THUE_DYNAMIC_SUPPORT"]
 assert block["status"] == "FROZEN_NO_UNIFORM_FIXED_SUPPORT_ADAPTER_FROM_CURRENT_IDENTITIES"
-ledger = state["candidate_ledger_after_fresh_breadth_audit"]
-assert ledger["just_completed_and_frozen"] == "E1-SUNIT-THUE-DYNAMIC-SUPPORT"
 
 for text in (
     "PER_MASTER_HIT_FINITE_SUNIT_SUPPORT_PROVED=true",
@@ -70,9 +62,6 @@ for text in (
 ):
     assert text in doc
 
-# Regression only: verify the exact source formulas on the existing genuine
-# Master-Hit panel. Variation of these finite support sets is evidence only;
-# it is NOT used to prove that no deeper uniform theorem exists.
 panel = [
     (4, 3, 16, 5),
     (5, 2, 8, 3),
@@ -120,7 +109,6 @@ for a, b, m, n in panel:
 assert branches == {"L", "R"}
 assert len(set(supports)) > 1
 
-# Credit firewall.
 for key in (
     "new_theorem_credit",
     "R29_PESCH_E1_closed",
@@ -132,4 +120,4 @@ for key in (
 ):
     assert state["claims"][key] is False
 
-print("PASS STAGE35_EX_12_AUDITED_SUNIT_THUE_DYNAMIC_SUPPORT_BLOCKER_V2")
+print("PASS STAGE35_EX_12_AUDITED_SUNIT_THUE_DYNAMIC_SUPPORT_BLOCKER_V3_AUTHORITY_STABLE")

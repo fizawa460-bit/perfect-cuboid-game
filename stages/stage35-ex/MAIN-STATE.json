@@ -1,14 +1,14 @@
 {
-  "schema": "STAGE35_EX_PESCH_E1_STATE_V11_ALTERNATE_NORM_GAUSSIAN_COUPLING",
+  "schema": "STAGE35_EX_PESCH_E1_STATE_V12_COPRIME_E1_RECEIVER_FACTORIZATION",
   "stage": "35-EX",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
-  "base_main_sha": "5436d56fd897426a3a0889874ada2aa6a42df9fd",
+  "base_main_sha": "0dff1852f30f832e5fef104bcd143c0ee82365c0",
   "parent_authority": {
-    "unit": "35EX-12",
-    "status": "AUDITED_EXACT_DYNAMIC_SUPPORT_BLOCKER_NO_CREDIT",
-    "hostile_audit_review": 5108290559,
-    "audited_head_sha": "d652f912d660ef9e5ec0b0dfa29e8a4eac35766f",
-    "merged_main_sha": "5436d56fd897426a3a0889874ada2aa6a42df9fd",
+    "unit": "35EX-13",
+    "status": "AUDITED_EXACT_ALTERNATE_NORM_GAUSSIAN_COUPLING_NO_CREDIT",
+    "hostile_reaudit_review": 5108343484,
+    "audited_head_sha": "6a2193c19cce6d9022764c2daf6a2431e2348c1f",
+    "merged_main_sha": "0dff1852f30f832e5fef104bcd143c0ee82365c0",
     "audited_theorem_credit": false
   },
   "true_owner": {
@@ -79,12 +79,7 @@
       "arsenal_comparison": true,
       "historical_block_ledger_comparison": true,
       "selected_next_unit": "35EX-12_SUNIT_THUE_ADAPTER_OR_DYNAMIC_SUPPORT_BLOCKER",
-      "preserved_untested_candidates": [
-        "E1-ALTERNATE-NORM-SYMMETRY",
-        "E1-NONNAIVE-DESCENT",
-        "E1-GLOBAL-RECIPROCITY-BEYOND-LOCAL-GRAPH",
-        "E1-RECEIVER-RESTRICTED-JOINT-LOCAL"
-      ],
+      "preserved_untested_candidates": ["E1-ALTERNATE-NORM-SYMMETRY","E1-NONNAIVE-DESCENT","E1-GLOBAL-RECIPROCITY-BEYOND-LOCAL-GRAPH","E1-RECEIVER-RESTRICTED-JOINT-LOCAL"],
       "audited_theorem_credit": false
     },
     "35EX-12": {
@@ -102,10 +97,14 @@
       "audited_theorem_credit": false
     },
     "35EX-13": {
-      "status": "PROVISIONAL_EXACT_ALTERNATE_NORM_GAUSSIAN_COUPLING_NO_CREDIT",
+      "status": "AUDITED_EXACT_ALTERNATE_NORM_GAUSSIAN_COUPLING_NO_CREDIT",
       "artifact": "stages/stage35-ex/35ex-13/alternate-norm-gaussian-coupling.md",
       "verifier": "stages/stage35-ex/verify_stage35_ex_13.py",
-      "result": "the unused W2/V1 channel is the exact index-swapped E1 orientation, so its mirrored four-factor receiver is not independent; however simultaneous original/swapped primitive Gaussian factorizations force a new source-only squareclass coupling Q=(d/p)Z1/Z2 in Q(i)^x2, equivalently S_plus=d(W1W2+V1V2)/(p*N) in Q^x2",
+      "failed_hostile_audit_review": 5108306912,
+      "hostile_reaudit_review": 5108343484,
+      "audited_head_sha": "6a2193c19cce6d9022764c2daf6a2431e2348c1f",
+      "merged_main_sha": "0dff1852f30f832e5fef104bcd143c0ee82365c0",
+      "result": "the unused W2/V1 channel is the exact index-swapped E1 orientation; simultaneous original/swapped primitive Gaussian factorizations force Q=(d/p)Z1/Z2 in Q(i)^x2, equivalently the source-only rational-square sieve later identified exactly with Lminus=square",
       "alternate_gcd_factorization_proved": true,
       "second_primitive_e1_triple_proved_conditionally": true,
       "index_swap_dominates_mirrored_receiver": true,
@@ -116,6 +115,21 @@
       "bounded_panel_gaussian_survivors": 3,
       "bounded_panel_e1_counterexamples": 0,
       "bounded_panel_is_theorem_credit": false,
+      "audited_theorem_credit": false
+    },
+    "35EX-14": {
+      "status": "PROVISIONAL_EXACT_COPRIME_E1_RECEIVER_FACTORIZATION_NO_CREDIT",
+      "artifact": "stages/stage35-ex/35ex-14/coprime-e1-receiver-factorization.md",
+      "breadth_audit": "stages/stage35-ex/35ex-14/fresh-receiver-breadth-audit.json",
+      "verifier": "stages/stage35-ex/verify_stage35_ex_14.py",
+      "result": "the raw E1 norm factors exactly as (p*d)^2*Lminus*Lplus with Lminus,Lplus positive odd coprime integers; E1 failure is exactly simultaneous squareness, and the 35EX-13 Gaussian sieve is exactly Lminus=square",
+      "coprime_e1_receiver_factorization_proved_conditionally": true,
+      "gaussian_sieve_identified_with_Lminus_square": true,
+      "product_hypotenuse_primitive_triple_proved_conditionally": true,
+      "S34_W03_exact_branch_receiver_adapter_matched": true,
+      "S34_W03_receiver_intersection_closed": false,
+      "fresh_exhaustive_view_audit": true,
+      "fresh_blind_rediscovery": true,
       "audited_theorem_credit": false
     }
   },
@@ -142,41 +156,41 @@
     },
     "CURRENT_SUNIT_THUE_DYNAMIC_SUPPORT": {
       "status": "FROZEN_NO_UNIFORM_FIXED_SUPPORT_ADAPTER_FROM_CURRENT_IDENTITIES",
-      "reason": "per-hit finite support is supp(2*c*cross*T), but cross*T*c equals D*V2*U2/(2*p*q) in Branch L or D*V2*U2/(p*q) in Branch R; current identities do not put these source-dependent primes in one fixed finite S or fixed finite coefficient family",
+      "reason": "per-hit finite support is supp(2*c*cross*T), but current identities do not put these source-dependent primes in one fixed finite S or fixed finite coefficient family",
       "reopen_condition": "prove a fixed-support theorem, finite-normal-form theorem, uniform parameter-elimination theorem, or equivalent exact adapter"
     },
     "MIRRORED_ALTERNATE_FOUR_FACTOR_RECEIVER": {
       "status": "DOMINATED_BY_EXACT_INDEX_SWAP_INVOLUTION",
-      "reason": "swapping the two primitive Euclid triples preserves the Master square and carries the E1 norm to the alternate norm; p and d swap and the L/R branch swaps, so a separately replayed four-factor receiver is not an independent theorem species",
-      "not_frozen": "the simultaneous Gaussian coupling between both orientations is new and remains live"
+      "reason": "swapping the primitive Euclid triples preserves the Master square and carries the E1 norm to the alternate norm; the separately replayed four-factor receiver is not independent"
+    },
+    "GAUSSIAN_RATIO_PRESENTATION": {
+      "status": "DOMINATED_BY_COPRIME_E1_RECEIVER_FACTORIZATION",
+      "reason": "35EX-14 proves the 35EX-13 rational Gaussian square condition is exactly Lminus=square; the remaining E1 content is exactly Lplus=square"
     }
   },
   "candidate_ledger_after_fresh_breadth_audit": {
-    "selected_live": "E1-ALTERNATE-NORM-SYMMETRY",
-    "just_completed_and_frozen": "E1-SUNIT-THUE-DYNAMIC-SUPPORT",
-    "untested": [
-      "E1-NONNAIVE-DESCENT",
-      "E1-GLOBAL-RECIPROCITY-BEYOND-LOCAL-GRAPH",
-      "E1-RECEIVER-RESTRICTED-JOINT-LOCAL"
-    ],
-    "blocked": ["E1-UNIFORM-ELLIPTIC-HEIGHT", "E1-FIXED-FIBER-TORSION"],
-    "audit_artifact": "stages/stage35-ex/35ex-11/post-three-reservoir-breadth-audit.json"
+    "selected_live": "E1-COPRIME-RECEIVER-JOINT-LOCAL",
+    "dominated": ["E1-ALTERNATE-NORM-SYMMETRY","E1-SIMULTANEOUS-GAUSSIAN-ORIENTATION"],
+    "untested": ["E1-PRODUCT-HYPOTENUSE-NONNAIVE-DESCENT","E1-COPRIME-PAIR-GLOBAL-RECIPROCITY"],
+    "blocked": ["E1-SUNIT-THUE-DYNAMIC-SUPPORT","E1-UNIFORM-ELLIPTIC-HEIGHT","E1-FIXED-FIBER-TORSION"],
+    "audit_artifact": "stages/stage35-ex/35ex-14/fresh-receiver-breadth-audit.json"
   },
   "current": {
-    "unit": "35EX-14_GAUSSIAN_RATIO_SURVIVOR_STRUCTURE",
-    "status": "SELECTED_CONTINUATION_OF_ALTERNATE_NORM_ROUTE_NO_CREDIT",
-    "next_exact_leaf": "DERIVE_EXACT_PRIME_GCD_SUPPORT_OF_THE_SOURCE_ONLY_GAUSSIAN_SQUARE_CONDITION_AND_INTERSECT_IT_WITH_BOTH_ORIENTATIONS_OF_THE_THREE_RESERVOIR_ROUTING;_RECHECK_S34_W03_BEFORE_ANY_RECEIVER_RESTRICTED_LOCAL_CLOSE",
+    "unit": "35EX-15_COPRIME_RECEIVER_JOINT_LOCAL_OR_FREE_SUPPORT",
+    "status": "SELECTED_FROM_FRESH_RECEIVER_BREADTH_AUDIT_NO_CREDIT",
+    "next_exact_leaf": "TEST_THE_EXACT_S34_W03_JOINT_SYSTEM_B35_EQUALS_MASTER_HIT_PLUS_LMINUS_SQUARE_AND_K35_EQUALS_LPLUS_SQUARE_BY_EXHAUSTIVE_LOCAL_OR_GLOBAL_ARITHMETIC;_IF_FREE_SUPPORT_SURVIVES_FREEZE_THIS_LOCAL_ROUTE",
     "working_set": [
-      "stages/stage35-ex/35ex-13/alternate-norm-gaussian-coupling.md",
-      "stages/stage35-ex/35ex-09/bridge-squareclass-graph.md",
+      "stages/stage35-ex/35ex-14/coprime-e1-receiver-factorization.md",
+      "stages/stage35-ex/35ex-14/fresh-receiver-breadth-audit.json",
       "stages/stage35-ex/35ex-11/reciprocity-routing-and-local-route-freeze.md",
       "stages/stage35-ex/MAIN-STATE.json"
     ]
   },
   "arsenal": {
-    "S34_W01": "FACTORWISE_SUPPORT_COMPLETE_BUT_FIXED_FINITE_SQUARECLASS_ENUMERATION_NOT_AUTHORIZED",
-    "S34_W03": "MATCHED_NEXT_LEAF_REQUIRES_EXACT_ADAPTER_RECHECK_BEFORE_JOINT_LOCAL_USE",
-    "matching_SUNIT_THUE_card_found": false,
+    "S34_W01": "NOT_UNLOCKED_DYNAMIC_SOURCE_SUPPORT_REMAINS",
+    "S34_W03": "EXACT_BRANCH_RECEIVER_ADAPTER_MATCHED_JOINT_TEST_NOT_YET_PROVED",
+    "S31_W01": "DORMANT_NO_FIXED_QUARTIC_BRANCH",
+    "S34_W02": "LOCKED_NO_GLOBAL_FINITE_REDUCTION",
     "stage34_concrete_coefficients_branches_and_local_primes_transfer": false
   },
   "claims": {
