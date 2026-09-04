@@ -16,11 +16,14 @@ HERE = Path(__file__).resolve().parent
 WITNESS = ROOT / "stages/stage32/32-21/post1473-v6-witness-body-recovered.json"
 H_DECK = HERE / "post1490-o210-q4-equivariant-beauville-deck-cross-exclusion.json"
 GAUGE = HERE / "post1505-o210-q602-marked-w-line-gauge-orbit.json"
+TRANSVECTION = HERE / "post1505-o210-q602-weierstrass-parity-transvection-refinement.json"
 
 EXPECTED_WITNESS_CANONICAL = "d0c1c8bddfe3950737ed6f87ffa74acd850c736298bd12ec1eceac609625b8a8"
 EXPECTED_H_CANONICAL = "8c32735092671d725034de8d14d09c09ac275517fa5f0e225791d2fc53eb5bf3"
 EXPECTED_GAUGE_CANONICAL = "7ad84e3c0a567119933ee0941b3b125ebcdb80651973033e13dbf12b553bfc92"
-SECOND_BOUNDARIES = [33, 36, 37, 40, 41, 44]
+EXPECTED_TRANSVECTION_CANONICAL = "83fd16fdaac674a3f63b4b2dac498136f1bc584c9e06d89f1aa1a7bdc4c30386"
+EXPECTED_SECOND_TO_WEIERSTRASS = {33: 6, 36: 1, 37: 5, 40: 3, 41: 4, 44: 2}
+SECOND_BOUNDARIES = list(EXPECTED_SECOND_TO_WEIERSTRASS)
 
 
 def canonical_sha(obj: dict) -> str:
@@ -97,12 +100,25 @@ def main() -> None:
     witness = json.loads(WITNESS.read_text())
     hdeck = json.loads(H_DECK.read_text())
     gauge = json.loads(GAUGE.read_text())
+    transvection = json.loads(TRANSVECTION.read_text())
     if canonical_sha(witness) != EXPECTED_WITNESS_CANONICAL:
         raise SystemExit("V6 witness canonical moved")
     if canonical_sha(hdeck) != EXPECTED_H_CANONICAL:
         raise SystemExit("H-deck canonical moved")
     if canonical_sha(gauge) != EXPECTED_GAUGE_CANONICAL:
         raise SystemExit("marked gauge canonical moved")
+    if canonical_sha(transvection) != EXPECTED_TRANSVECTION_CANONICAL:
+        raise SystemExit("audited transvection canonical moved")
+
+    boundary_map = {
+        int(label): int(wid)
+        for label, wid in transvection["weierstrass_parity_action"]["boundary_label_to_weierstrass_id"].items()
+    }
+    second_to_weierstrass = {label: boundary_map[label] for label in SECOND_BOUNDARIES}
+    if second_to_weierstrass != EXPECTED_SECOND_TO_WEIERSTRASS:
+        raise SystemExit(f"second-boundary/Weierstrass adapter moved: {second_to_weierstrass}")
+    if set(second_to_weierstrass.values()) != set(range(1, 7)) or len(set(second_to_weierstrass.values())) != 6:
+        raise SystemExit("six retained second boundaries no longer give a bijection to Weierstrass ids 1..6")
 
     if gauge["source_locks"]["external_bolza_g12"]["arxiv"] != "2509.24605v1":
         raise SystemExit("Cecotti source lock moved")
@@ -154,10 +170,12 @@ def main() -> None:
         raise SystemExit("an H-translate unexpectedly admits a (3,3)-cycle invariant cusp profile")
 
     result = {
-        "schema": "STAGE32_POST1534_B3_CUSP_ORBIT_DIAGNOSTIC_V1",
+        "schema": "STAGE32_POST1534_B3_CUSP_ORBIT_DIAGNOSTIC_V2",
         "fixed_target": {"row_id": "g1-d186", "O": 210, "Q": 602},
         "b3_order": 3,
         "second_factor_boundary_labels": SECOND_BOUNDARIES,
+        "second_boundary_to_weierstrass_id": second_to_weierstrass,
+        "six_second_boundaries_biject_weierstrass_ids_1_through_6": True,
         "two_3cycle_permutation_count": len(cycle33),
         "h_orbit_rows": orbit_rows,
         "all_h_translates_reject_two_3cycle_invariance": True,
