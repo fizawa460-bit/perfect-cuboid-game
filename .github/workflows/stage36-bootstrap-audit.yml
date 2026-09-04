@@ -7,6 +7,8 @@ on:
       - '.github/workflows/stage36-bootstrap-audit.yml'
       - 'stages/stage29/29-16/active-kernel-ledger.json'
       - 'stages/stage29/29-06/endpoint-hub-graph.json'
+      - 'stages/stage29/29-06/source-crosswalk.md'
+      - 'stages/stage29/29-02f/audit.md'
       - 'stages/stage29/29-02ha/result.md'
       - 'stages/stage29/29-02ha/exact-sign-cover-model.md'
       - 'stages/stage29/29-02hb/campedelli_kernel_check.py'
@@ -16,6 +18,7 @@ on:
       - 'stages/stage29/29-02hb/source-lock.md'
       - 'docs/arsenal/index.json'
       - 'docs/arsenal/cards/formal/S30-W01.md'
+      - 'docs/arsenal/cards/formal/S34-W03.md'
       - 'docs/arsenal/cards/workflows/S30-WF02.md'
       - 'docs/arsenal/cards/workflows/S30-WF03.md'
   workflow_dispatch:
@@ -49,8 +52,7 @@ jobs:
           set -euo pipefail
           expected="${{ github.event.pull_request.base.sha }}"
           python3 - "$expected" <<'PY'
-          import json
-          import sys
+          import json, sys
           from pathlib import Path
           expected = sys.argv[1]
           state = json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
@@ -65,7 +67,10 @@ jobs:
       - name: Replay audited Stage36 36-01 authority
         run: python3 stages/stage36/verify_stage36_36_01.py
 
-      - name: Replay Stage36 36-02 authority
+      - name: Replay audited Stage36 36-02 authority
+        run: python3 stages/stage36/verify_stage36_36_02_audited.py
+
+      - name: Replay Stage36 36-03 authority
         shell: bash
         run: |
           set -euo pipefail
@@ -75,16 +80,16 @@ jobs:
           print(json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())['schema'])
           PY
           )"
-          if [ "$schema" = "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V4_36_02_PENDING_AUDIT" ]; then
-            python3 stages/stage36/verify_stage36_36_02.py
-          elif [ "$schema" = "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V5_36_02_AUDITED" ]; then
-            python3 stages/stage36/verify_stage36_36_02_audited.py
+          if [ "$schema" = "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V6_36_03_PENDING_AUDIT" ]; then
+            python3 stages/stage36/verify_stage36_36_03.py
+          elif [ "$schema" = "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V7_36_03_AUDITED" ]; then
+            python3 stages/stage36/verify_stage36_36_03_audited.py
           else
-            echo "unsupported Stage36 schema for 36-02 replay: $schema" >&2
+            echo "unsupported Stage36 schema for 36-03 replay: $schema" >&2
             exit 1
           fi
 
-      - name: Assert 36-03 boundary
+      - name: Assert 36-04 boundary
         shell: bash
         run: |
           set -euo pipefail
@@ -94,25 +99,28 @@ jobs:
           s = json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
           schema = s['schema']
           gates = s['promotion_gates']
-          assert s['promotion_gates']['source_authority_lock_complete'] is True
+          assert gates['source_authority_lock_complete'] is True
+          assert gates['three_Q_representatives_exact'] is True
           assert all(v is False for v in s['claims'].values())
-          if schema == 'STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V4_36_02_PENDING_AUDIT':
+          if schema == 'STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V6_36_03_PENDING_AUDIT':
               assert s['status'] == 'ACTIVE_PENDING_HOSTILE_AUDIT'
-              assert s['current']['unit'] == '36-02'
-              assert s['current']['next_exact_leaf'] == '36-02_THREE_Q_REPRESENTATIVE_INVENTORY'
-              assert gates['three_Q_representatives_exact'] is False
-              print('36-02 pending hostile audit; 36-03 not started')
-          elif schema == 'STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V5_36_02_AUDITED':
-              assert s['status'] == 'ACTIVE'
               assert s['current']['unit'] == '36-03'
-              assert s['current']['next_exact_leaf'] == '36-03_PHYSICAL_OPEN_PUSH_AND_BOUNDARY'
-              assert gates['three_Q_representatives_exact'] is True
               assert gates['physical_open_push_and_boundary_complete'] is False
-              assert '36-03' not in s['completed_units']
+              assert s['completed_units']['36-03']['promotion_status'] == 'PROVISIONAL_NOT_AUDITED'
+              assert '36-04' not in s['completed_units']
+              print('36-03 pending hostile audit; 36-04 not started')
+          elif schema == 'STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V7_36_03_AUDITED':
+              assert s['status'] == 'ACTIVE'
+              assert s['current']['unit'] == '36-04'
+              assert s['current']['next_exact_leaf'] == '36-04_EXPLICIT_H_TORSOR_AND_LIFT_CLASS'
+              assert gates['physical_open_push_and_boundary_complete'] is True
+              assert gates['pointwise_H_torsor_class_explicit'] is False
+              assert s['completed_units']['36-03']['promotion_status'] == 'AUDITED'
+              assert '36-04' not in s['completed_units']
               for key, value in gates.items():
-                  if key not in {'source_authority_lock_complete', 'three_Q_representatives_exact'}:
+                  if key not in {'source_authority_lock_complete','three_Q_representatives_exact','physical_open_push_and_boundary_complete'}:
                       assert value is False, (key, value)
-              print('36-02 audited and promoted; 36-03 ready but not started')
+              print('36-03 audited and promoted; 36-04 ready but not started')
           else:
               raise AssertionError(schema)
           PY
