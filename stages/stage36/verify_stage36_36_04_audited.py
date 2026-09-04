@@ -36,6 +36,7 @@ PROMO={
  "merged_main_sha":"dca962cdf37d4252316885dc57f3c0a591db4ecb",
  "scope":"mechanical audited-state promotion only","NEW_THEOREM_CREDIT":False,
 }
+V10_BASE="74144644975d7800c6c5b529c5d8789f70366c2e"
 V9="STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V9_36_04_AUDITED"
 V10="STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V10_36_05_PENDING_AUDIT"
 
@@ -69,7 +70,7 @@ def main():
   req(s.get("current",{}).get("unit")=="36-05","V9 successor moved")
   req("36-05" not in s.get("completed_units",{}),"36-05 started inside 36-04 promotion")
  else:
-  req(s.get("status")=="ACTIVE_PENDING_HOSTILE_AUDIT" and s.get("base_main_sha")==PROMO["merged_main_sha"],"V10 lifecycle moved")
+  req(s.get("status")=="ACTIVE_PENDING_HOSTILE_AUDIT" and s.get("base_main_sha")==V10_BASE,"V10 lifecycle moved")
   req(s.get("stage36_36_04_promotion")==PROMO,"36-04 promotion provenance moved")
   u=s.get("completed_units",{}).get("36-05",{})
   req(u.get("status")=="BLOCKED_MOVING_RAMIFICATION_SUPPORT_PENDING_HOSTILE_AUDIT","36-05 status moved")
