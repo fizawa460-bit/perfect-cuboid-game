@@ -1,0 +1,41 @@
+name: Stage32 post1529 diagonal theta H-orbit source-lock repair
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1526-diagonal-theta-picard-diagnostic.yml'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1526_diagonal_theta_picard_equivariance.py'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1526_diagonal_theta_h_orbit_symmetry_negative.py'
+      - 'stages/stage32/residual-32-01-production/post1526-diagonal-theta-h-orbit-symmetry-negative.json'
+      - 'stages/stage32/residual-32-01-production/post1526-diagonal-theta-h-orbit-symmetry-negative-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1529-fsm-stoll-diagonal-action-source-lock.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-equivariant-beauville-deck-cross-exclusion.json'
+      - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+      - 'stages/stage32/controller.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify-negative:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Replay exact source-locked Picard diagnostic V4
+        run: python3 stages/stage32/residual-32-01-production/diagnose_stage32_post1526_diagonal_theta_picard_equivariance.py
+      - name: Certify bounded negative symmetry route with external provenance locks
+        run: python3 stages/stage32/residual-32-01-production/certify_stage32_post1526_diagonal_theta_h_orbit_symmetry_negative.py
+      - name: Enforce no controller edit in this PR
+        shell: bash
+        run: |
+          if git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" | grep -qx 'stages/stage32/controller.json'; then
+            echo 'controller.json must remain unchanged in this bounded negative leaf'
+            exit 1
+          fi
+      - name: Diff check
+        run: git diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
