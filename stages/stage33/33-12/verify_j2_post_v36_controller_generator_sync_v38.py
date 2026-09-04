@@ -102,13 +102,18 @@ elif controller_schema_now in {V60, V61}:
     live_layer = "V39_SUCCESSOR_ROUTING"
 
 elif controller_schema_now == V62:
-    # Preserve the V38 frontier under the current controller without pretending
-    # that V62 should equal the frozen V38 projection.
+    # Preserve the immutable V38 frontier under the current compact controller
+    # without requiring successor MAIN-state projections to retain redundant
+    # historical convenience keys.  The immutable receipt above remains the
+    # authority for the exact historical REMAINING list.
     assert controller["stage33_12"]["finite_v4_kummer_adapted_columns_materialized"] == 1
     assert controller["stage33_12"]["finite_v4_kummer_columns_materialized"] == 0
-    assert state["current_exact_frontier"]["j2_adapted_columns_materialized"] == 1
-    assert state["current_exact_frontier"]["original_standard_columns_materialized"] == 0
-    assert state["current_exact_frontier"]["remaining_adapted_source_labels"] == REMAINING
+    live_frontier = state["current_exact_frontier"]
+    assert live_frontier["j2_adapted_columns_materialized"] == 1
+    assert live_frontier["j2_adapted_columns_total"] == 10
+    assert live_frontier["original_standard_columns_materialized"] == 0
+    if "remaining_adapted_source_labels" in live_frontier:
+        assert live_frontier["remaining_adapted_source_labels"] == REMAINING
     runpy.run_path(str(HERE / "verify_j2_post_v39_arsenal_first_bounded_search_policy_v41.py"), run_name="__main__")
     live_layer = "V41_ARSENAL_FIRST_ROUTING"
 

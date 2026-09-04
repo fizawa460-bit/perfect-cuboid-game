@@ -1,0 +1,95 @@
+{
+  "schema": "stage33.e3.mask20_picard_adjoint_candidate.v53",
+  "role": "EXACT_MARKED_PICARD_ADJOINT_CANDIDATE_CERTIFICATE",
+  "micro_goal": "E3_V25_S1A_MATERIALIZE_EXACT_MASK20_MARKED_PICARD_ADJOINT_CANDIDATE",
+  "parent_head": "a3188ad5f5c1b722499dd95a6ab910102c7b2803",
+  "source_locks": {
+    "v41_e3_source": {
+      "path": "stages/stage33/33-12/e3-independent-proper14-source-v41.json",
+      "git_blob_sha1": "bb0910f988b640130843348481909936948ff52e",
+      "canonical_sha256": "04c6ead2226c87defff085fc641ee80867e1fdf4b07baa28c5e97d2c5e534ac6"
+    },
+    "v52_gap": {
+      "path": "stages/stage33/33-12/e3-mask20-literal-cech-preimage-gap-v52.json",
+      "git_blob_sha1": "15ae7ebf8ddaf9d8771d48bc93caa0705e4ebf67"
+    },
+    "proper14_picard_adjoint": {
+      "path": "stages/stage33/33-12/j2-picard-adjoint-proper-br2.json",
+      "git_blob_sha1": "2e70dc274afbbd20aefbb0a87409d66d6ac183bc",
+      "canonical_sha256": "066e6b039eb7b67c6dfc44a7af1459254c190ebfa5376e89b8e97fad1c8cb9f8"
+    },
+    "proper14_picard_adjoint_verifier": {
+      "path": "stages/stage33/33-12/verify_j2_picard_adjoint_proper_br2.py",
+      "git_blob_sha1": "2c8b3cad26dfb1c9e538e10ad01320292ec41328"
+    },
+    "j2_semantic_orientation": {
+      "path": "stages/stage33/33-12/j2-cv-d2-semantic-orientation.json",
+      "git_blob_sha1": "140acdc9896d1d87a82a1807fd92ce276a620d75"
+    }
+  },
+  "exact_computation": {
+    "input_proper14_mask_decimal": 20,
+    "input_proper14_coordinate_f2": [0,0,1,0,1,0,0,0,0,0,0,0,0,0],
+    "input_support_one_based": [3,5],
+    "operation": "coordinatewise XOR over F2 of decoded proper14 target-basis columns 3 and 5 in the exact degree-2 Picard adjoint",
+    "axis_3": {
+      "source_T_mod_2_coordinate_f2": [0,1],
+      "source_half_lattice_numerator_mod2": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0]
+    },
+    "axis_5": {
+      "source_T_mod_2_coordinate_f2": [1,1],
+      "source_half_lattice_numerator_mod2": [1,1,0,0,1,1,0,0,0,0,0,0,0,1,1,1,1,0,0,0]
+    },
+    "combined": {
+      "source_T_mod_2_coordinate_f2": [1,0],
+      "source_half_lattice_numerator_mod2": [1,1,0,0,1,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0]
+    },
+    "candidate_scope": "DEGREE2_PICARD_ADJOINT_MARKED_CANDIDATE_ONLY"
+  },
+  "semantic_projection_firewall": {
+    "e3_mask20_projection_f2": [1,0],
+    "j2_named_orientation_f2": [1,0],
+    "projection_coordinates_equal": true,
+    "e3_identified_with_j2": false,
+    "reason": "Equality after the 2-dimensional semantic projection is not an injective marked Brauer identification and does not license relabelling the J2 Cech representative as e3."
+  },
+  "geometric_realization_boundary": {
+    "literal_function_divisor_transition_data_for_mask20_materialized": false,
+    "source_specific_cech_h2_mu2_preimage_materialized": false,
+    "full_surface_h2_mu2_scope_certified": false,
+    "brauer_image_binding_to_v41_e3_certified_from_literal_geometry": false,
+    "e3_kummer_column_materialized": false,
+    "picard_adjoint_candidate_materialized": true
+  },
+  "exact_blocker": {
+    "name": "SOURCE_SPECIFIC_GEOMETRIC_REALIZATION_OF_MASK20_PICARD_ADJOINT_CANDIDATE_AS_FULL_SURFACE_CECH_H2_MU2_CLASS",
+    "smallest_missing_datum": "An exact source-locked geometric realization of the displayed 20D marked Picard-adjoint candidate by literal function/divisor/transition data, or a mechanically equivalent exact adapter whose hypotheses certify a genuine full-surface H2(mu2) preimage with Brauer image V41 e3 proper14 mask 20.",
+    "forbidden_shortcuts": [
+      "infer branch/divisor support from proper14 axis numbers 3 and 5",
+      "identify e3 with J2 because both project to [1,0]",
+      "relabel the J2 {f2,g22} representative as e3",
+      "promote the degree-2 Picard adjoint candidate itself to a genuine full-surface H2(mu2) class without a geometric realization contract"
+    ]
+  },
+  "arsenal_routing": {
+    "literal_geometric_realization": "S33-PW07",
+    "marked_source_binding": "S33-PW04",
+    "credit_firewall": "S30-WF03"
+  },
+  "credit_firewall": {
+    "e3_literal_cech_preimage_materialized": false,
+    "genuine_full_surface_h2_mu2_lift_for_e3": false,
+    "e3_kummer_column_materialized": false,
+    "j2_adapted_columns_materialized": "1/10",
+    "standard_columns_materialized": "0/10",
+    "stage33_progress": "6/11",
+    "stage33_12_closed": false,
+    "stage33_13_released": false,
+    "merge_allowed": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "theorem_credit": false
+  },
+  "status": "PASS_EXACT_MASK20_PICARD_ADJOINT_CANDIDATE_GEOMETRIC_REALIZATION_STILL_OPEN",
+  "next_exact_leaf": "E3_V25_S1B_REALIZE_MASK20_PICARD_ADJOINT_CANDIDATE_AS_SOURCE_SPECIFIC_FULL_SURFACE_CECH_H2_MU2_CLASS"
+}

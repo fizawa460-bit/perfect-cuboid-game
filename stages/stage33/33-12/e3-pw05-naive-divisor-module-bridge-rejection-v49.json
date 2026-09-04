@@ -1,0 +1,72 @@
+{
+  "schema": "stage33.e3.pw05_naive_divisor_module_bridge_rejection.v49",
+  "role": "EXACT_MICRO_GOAL_ROUTE_REJECTION_CERTIFICATE",
+  "micro_goal": "A1_1_TEST_ARSENAL_PW05_DIRECT_14D_EQUIVARIANT_BRIDGE_ON_WORKING_DIVISOR_PACKAGES",
+  "parent_v48_commit": "8f25d594b6e435359d0455bb0ca7db0ebc017037",
+  "semantic_anchor": {
+    "path": "stages/stage33/33-11e/stage33-11e-prime-galois-transport-certificate.json",
+    "canonical_sha256": "1f76cec8b74a5d5122e3d83057472bfdf9447ed0817474a8b3405078b770c426",
+    "working_generators": 14,
+    "actions": ["cc", "ct"],
+    "exact_fact": "For every working generator package and for both cc and ct, the prime-level divisor difference g(D)-D is exactly zero."
+  },
+  "naive_source_module": {
+    "description": "F2 span of the fourteen named working divisor packages, if one incorrectly treats those package coordinates themselves as the PW05 source module",
+    "dimension": 14,
+    "cc_action": "I14",
+    "ct_action": "I14",
+    "reason": "each basis divisor package is individually fixed at exact refined-prime level by both actions"
+  },
+  "proper14_target": {
+    "path": "stages/stage33/33-07/proper-brauer2-from-discriminant.json",
+    "canonical_sha256": "c86f6e838d072816426e4a2b0eb738f44e8632dd1ab4f3e6fdccd161ec41b5bf",
+    "dimension": 14,
+    "cc_matrix_key": "proper_Br2_cc_action_f2",
+    "ct_matrix_key": "proper_Br2_ct_action_f2",
+    "joint_action_is_not_trivial": true
+  },
+  "exact_obstruction": {
+    "invertible_equivariant_map_from_naive_source_to_proper14_exists": false,
+    "proof": "If P is invertible and the source action is I14, equivariance gives M_cc P=P and M_ct P=P. Multiplying by P^{-1} forces M_cc=M_ct=I14. The locked proper14 action is nontrivial, so no such invertible P exists.",
+    "pw05_direct_basis_identification_route_authorized": false,
+    "p_w_nonexistence_claimed": false,
+    "meaning": "The boundary-function directions cannot be identified with proper14 merely as the 14D span of their invariant divisor packages. The missing map must use the cohomological/function/scalar data beyond divisor-package coordinates."
+  },
+  "v48_resolution": {
+    "common_cc_ct_semantic_anchor_found": true,
+    "nine_generator_word_reconstruction_required": false,
+    "v48_generator_alignment_gap_for_divisor_packages_resolved_by": "stage33-11e exact cc/ct prime transport",
+    "result_of_pw05_test": "DIRECT_14D_EQUIVARIANT_ISOMORPHISM_REJECTED"
+  },
+  "forbidden_inferences": [
+    "DO_NOT_TREAT_PRIME_LEVEL_DIVISOR_INVARIANCE_AS_FUNCTION_OR_COHOMOLOGY_CLASS_INVARIANCE",
+    "DO_NOT_FORCE_AN_INTERTWINER_BY_RELABELLING",
+    "DO_NOT_IDENTIFY_THE_TWO_14D_COORDINATE_SYSTEMS_BY_POSITION",
+    "DO_NOT_CLAIM_P_W_DOES_NOT_EXIST_IN_ANY_COHOMOLOGICAL_SENSE"
+  ],
+  "next_exact_leaf": {
+    "name": "A1_1_H1_DEFINE_THE_ACTUAL_COHOMOLOGICAL_BOUNDARY_SOURCE_TO_PROPER_BR2_MAP",
+    "required_scope": "Use the locked boundary functions, scalar corrections, Gersten/connecting data and exact quotient conventions to define the linear map whose domain is the fourteen working source directions and whose codomain is proper14. Do not begin by assigning fourteen arbitrary image columns.",
+    "first_acceptance": [
+      "domain and quotient-by-constants/coboundaries convention explicit",
+      "codomain proper14 convention explicit",
+      "map formula/connecting morphism source-locked",
+      "scalar/function data distinguished from divisor data"
+    ],
+    "arsenal": ["S33-PW08", "S33-PW04", "S30-WF03"]
+  },
+  "p_w": {
+    "materialized": false,
+    "columns_materialized": 0,
+    "e3_mask20_mapped": false
+  },
+  "stage33_credit": {
+    "progress_big_tasks": "6/11",
+    "stage33_12_exact_closed": false,
+    "stage33_13_released": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "merge_allowed": false
+  },
+  "status": "PASS_EXACT_A1_1_NAIVE_DIVISOR_PACKAGE_EQUIVARIANT_BRIDGE_REJECTED_ROUTE_REFINED"
+}
