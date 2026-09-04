@@ -69,7 +69,8 @@ state = json.loads(STATE.read_text())
 V19 = "STAGE35_EX_PESCH_E1_STATE_V19_POST_35EX20_PAIRED_SQUARECLASS_DYNAMIC_SUPPORT_BLOCKER"
 V20 = "STAGE35_EX_PESCH_E1_STATE_V20_POST_35EX21_GLOBAL_NORMALIZED_CUBOID_SURFACE"
 V21 = "STAGE35_EX_PESCH_E1_STATE_V21_POST_35EX22_OBVIOUS_BRAUER_SYMBOL_BLOCKER"
-assert state["schema"] in {V19, V20, V21}
+V22 = "STAGE35_EX_PESCH_E1_STATE_V22_POST_35EX23_GENUS5_CHARACTER_QUOTIENT_UNIFORMITY_BLOCKER"
+assert state["schema"] in {V19, V20, V21, V22}
 assert state["stage"] == "35-EX"
 assert state["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
 assert state["base_main_sha"] in {
@@ -78,6 +79,7 @@ assert state["base_main_sha"] in {
     "85e12c7b810eaafc13e663a0047111b7f3333e8b",
     "ea51d06f3fe46b134e98a065332e9c70fcec57f0",
     "378096fa313b582b63553b395ec85a5c86de2685",
+    "2e07dde92fdf270fff1233635a7cb4cea1427080",
 }
 
 unit19 = state["completed_units"]["35EX-19"]
@@ -133,7 +135,7 @@ elif state["schema"] == V20:
     assert parent["audited_head_sha"] == "1a45fc6fca779cb22794e305e044aa37e62e76ef"
     assert parent["merged_main_sha"] == "24438151cf76be42612b7df83314630e51c61682"
     assert state["base_main_sha"] == "24438151cf76be42612b7df83314630e51c61682"
-else:
+elif state["schema"] == V21:
     assert parent["unit"] == "35EX-21B"
     assert parent["status"] == "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT"
     assert parent["hostile_audit_verdict"] == "PASS"
@@ -141,9 +143,18 @@ else:
     assert parent["audited_head_sha"] == "35431061f571da5b425f30da7974c160685bf1a4"
     assert parent["merged_main_sha"] == "85e12c7b810eaafc13e663a0047111b7f3333e8b"
     assert state["base_main_sha"] == "378096fa313b582b63553b395ec85a5c86de2685"
+else:
+    assert parent["unit"] == "35EX-22"
+    assert parent["status"] == "AUDITED_EXACT_OBVIOUS_BRAUER_SYMBOL_LAYER_BLOCKER_NO_CREDIT"
+    assert parent["hostile_audit_verdict"] == "PASS"
+    assert parent["hostile_audit_review"] == 5111539148
+    assert parent["audited_head_sha"] == "f4276680239bb2b84687f8ba8ac8964de0613552"
+    assert parent["merged_main_sha"] == "2e07dde92fdf270fff1233635a7cb4cea1427080"
+    assert parent["audited_theorem_credit"] is False
+    assert state["base_main_sha"] == "2e07dde92fdf270fff1233635a7cb4cea1427080"
 
 for old in (unit20, unit20b):
-    if state["schema"] in {V20, V21}:
+    if state["schema"] in {V20, V21, V22}:
         assert old["hostile_audit_verdict"] == "PASS"
         assert old["hostile_audit_review"] == 5109942390
         assert old["audited_head_sha"] == "1a45fc6fca779cb22794e305e044aa37e62e76ef"
@@ -160,7 +171,7 @@ assert "E1-PAIRED-SOURCE-FILTER-QUARTIC-INTERSECTION" in ledger["blocked"]
 assert ledger["audit_artifact"] in {"stages/stage35-ex/35ex-20/post-paired-squareclass-breadth-audit.json","stages/stage35-ex/35ex-21/post-global-surface-breadth-audit.json"}
 assert unit20b["preserved_untested_candidates"] == [ledger["selected_live"]]
 current = state["current"]
-assert current["unit"] in {"35EX-21_GLOBAL_BIQUADRATIC_SURFACE_MODEL_OR_GEOMETRY_BLOCKER","35EX-22_SURFACE_BRAUER_CLASS_OR_OBVIOUS_SYMBOL_BLOCKER"}
+assert current["unit"] in {"35EX-21_GLOBAL_BIQUADRATIC_SURFACE_MODEL_OR_GEOMETRY_BLOCKER","35EX-22_SURFACE_BRAUER_CLASS_OR_OBVIOUS_SYMBOL_BLOCKER","35EX-23_GENUS5_MULTIQUADRATIC_CHARACTER_QUOTIENT_DESCENT_OR_UNIFORMITY_BLOCKER"}
 assert state["arsenal"]["S34_W01"] == "FIXED_FIRST_SOURCE_ROUTING_MATCH_GLOBAL_FINITE_FAMILY_BLOCKED_DYNAMIC_UV_SUPPORT"
 assert state["arsenal"]["S31_W01"] in {"FIBERWISE_ROUTING_ONLY_GLOBAL_FIXED_CURVE_USE_BLOCKED_BY_NONISOTRIVIAL_K","GENUS_ONE_CHARACTER_QUOTIENT_FIBERWISE_ROUTING_ONLY_NO_UNIFORM_SURFACE_CLOSURE"}
 assert state["arsenal"]["matching_formal_global_surface_classification_card_found"] is False
