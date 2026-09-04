@@ -4,6 +4,23 @@ Ordinary `Stage33-main-batch` reads `AGENTS.md`, then `stages/stage33/MAIN-STATE
 
 Every MAIN batch works in atomic commits: select the first micro-goal whose prerequisites are satisfied, produce its exact object or narrowly stated exact obstruction, run its verifier, commit it, and only then advance to the next micro-goal. Do not use a broad batch target such as "construct the remaining lift" when the roadmap provides a smaller acceptance-tested item.
 
+## V58 bounded-search routing supersession
+
+For the active Stage33 branch, `stages/stage33/33-12/e3-search-routing-supersession-v58.json` supersedes the fixed one-search budget and any historical wording that treats one bounded-search miss as exhaustion of the search allowance. This is an operational routing change only; V57 and all prior mathematical certificates remain unchanged.
+
+Current discovery order is:
+
+1. Identify the exact missing object from the active micro-goal.
+2. Consult `docs/arsenal/index.json` first and inspect only matching cards.
+3. Run bounded repository searches as needed. There is **no fixed per-object query-count cap**.
+4. Every additional search must answer a concrete load-bearing subquestion, remain within a named narrow scope, and be justified by a new mathematical alias, candidate family, implicated path, producer, source/certificate path, or other materially new signal.
+5. Stop when the bounded question is answered, the identified candidate family is exhausted, the asset is source-locked, or the next move would become repository-wide enumeration, branch-history archaeology, unconstrained keyword expansion, or near-equivalent miss-chasing.
+6. A search miss proves neither repository absence nor mathematical nonexistence. Construction may begin whenever the current leaf has enough information; it is not gated by an arbitrary search count.
+
+Research OS still forbids unlimited/open-ended discovery. Recursive repository-wide enumeration, automatic branch-history/origin archaeology, unconstrained keyword expansion, and repeated near-equivalent searches solely to chase a negative result remain prohibited.
+
+The V39 locator-first section below is retained for historical compatibility with the branch's pre-main-sync controller. Where its locator ordering or single-miss construction wording conflicts with V58, V58 governs current Stage33 MAIN execution. The forthcoming current-main controller synchronization must preserve V58 semantics rather than restore a one-search budget.
+
 ## V39 locator-first construction constitution
 
 The exact mathematical frontier remains V25-V36: one J2-adapted Kummer column is materialized (`1/10`), original standard columns remain `0/10`, and V36 remains the exact record that the bounded #1498 scan found no registered positive asset directly supplying another standalone genuine full-surface H2(mu2) lift.
@@ -32,6 +49,7 @@ Controller V61 and `sync_main_state.py` generate `MAIN-STATE.json` V18. Mathemat
 
 After writes, run the verifier for the selected micro-goal, then:
 
+- `python stages/stage33/33-12/verify_e3_search_routing_supersession_v58.py`
 - `python stages/stage33/33-12/verify_j2_post_v38_locator_first_construction_policy_v39.py`
 - `python stages/stage33/sync_main_state.py --check`
 - `git diff --check`
