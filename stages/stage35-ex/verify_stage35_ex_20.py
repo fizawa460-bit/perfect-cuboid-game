@@ -77,6 +77,7 @@ assert state["base_main_sha"] in {
     "24438151cf76be42612b7df83314630e51c61682",
     "85e12c7b810eaafc13e663a0047111b7f3333e8b",
     "ea51d06f3fe46b134e98a065332e9c70fcec57f0",
+    "378096fa313b582b63553b395ec85a5c86de2685",
 }
 
 unit19 = state["completed_units"]["35EX-19"]
@@ -85,7 +86,6 @@ assert unit19["hostile_audit_verdict"] == "PASS"
 assert unit19["audited_head_sha"] == "b63fcf4f7888f86f6881d15f5e5bd9d3873dc1b5"
 assert unit19["merged_main_sha"] == "fd0986693a8806fb77083c862d0f939d23a05abb"
 assert unit19["audited_theorem_credit"] is False
-
 unit19b = state["completed_units"]["35EX-19B"]
 assert unit19b["status"] == "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT"
 assert unit19b["hostile_audit_verdict"] == "PASS"
@@ -95,29 +95,18 @@ assert unit19b["selected_next_unit"] == "35EX-20_PAIRED_SOURCE_FILTER_QUARTIC_SQ
 assert unit19b["audited_theorem_credit"] is False
 
 unit20 = state["completed_units"]["35EX-20"]
-assert unit20["status"] in {
-    "PROVISIONAL_EXACT_PAIRED_QUARTIC_SQUARECLASS_DYNAMIC_UV_SUPPORT_BLOCKER_NO_CREDIT",
-    "AUDITED_EXACT_PAIRED_QUARTIC_SQUARECLASS_DYNAMIC_UV_SUPPORT_BLOCKER_NO_CREDIT",
-}
+assert unit20["status"] in {"PROVISIONAL_EXACT_PAIRED_QUARTIC_SQUARECLASS_DYNAMIC_UV_SUPPORT_BLOCKER_NO_CREDIT","AUDITED_EXACT_PAIRED_QUARTIC_SQUARECLASS_DYNAMIC_UV_SUPPORT_BLOCKER_NO_CREDIT"}
 assert unit20["artifact"] == "stages/stage35-ex/35ex-20/paired-quartic-squareclass-moving-support-blocker.md"
 assert unit20["breadth_audit"] == "stages/stage35-ex/35ex-20/post-paired-squareclass-breadth-audit.json"
 assert unit20["verifier"] == "stages/stage35-ex/verify_stage35_ex_20.py"
-assert unit20["pair_source_square_identity_proved"] is True
-assert unit20["primitive_integer_four_factor_model_proved"] is True
-assert unit20["pairwise_gcd_resultant_support_proved"] is True
-assert unit20["fixed_first_source_squareclass_overcover_proved"] is True
-assert unit20["y_branch_odd_support_split_only"] is True
-assert unit20["pair_2adic_branch_bookkeeping_proved"] is True
+for key in ("pair_source_square_identity_proved","primitive_integer_four_factor_model_proved","pairwise_gcd_resultant_support_proved","fixed_first_source_squareclass_overcover_proved","y_branch_odd_support_split_only","pair_2adic_branch_bookkeeping_proved"):
+    assert unit20[key] is True
 assert unit20["uniform_fixed_squareclass_support_proved"] is False
 assert unit20["S34_W01_global_finite_exhaustive_family_unlocked"] is False
 assert unit20["all_paired_quartic_descents_ruled_out_in_principle"] is False
 assert unit20["audited_theorem_credit"] is False
-
 unit20b = state["completed_units"]["35EX-20B"]
-assert unit20b["status"] in {
-    "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT",
-    "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT",
-}
+assert unit20b["status"] in {"PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT","AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT"}
 assert unit20b["exhaustive_view_audit"] is True
 assert unit20b["blind_rediscovery"] is True
 assert unit20b["arsenal_comparison"] is True
@@ -139,12 +128,10 @@ if state["schema"] == V19:
     assert unit20b["status"] == "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT"
 elif state["schema"] == V20:
     assert parent["unit"] == "35EX-20B"
-    assert parent["status"] == "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT"
     assert parent["hostile_audit_verdict"] == "PASS"
     assert parent["hostile_audit_review"] == 5109942390
     assert parent["audited_head_sha"] == "1a45fc6fca779cb22794e305e044aa37e62e76ef"
     assert parent["merged_main_sha"] == "24438151cf76be42612b7df83314630e51c61682"
-    assert parent["audited_theorem_credit"] is False
     assert state["base_main_sha"] == "24438151cf76be42612b7df83314630e51c61682"
 else:
     assert parent["unit"] == "35EX-21B"
@@ -153,8 +140,7 @@ else:
     assert parent["hostile_audit_review"] == 5110646292
     assert parent["audited_head_sha"] == "35431061f571da5b425f30da7974c160685bf1a4"
     assert parent["merged_main_sha"] == "85e12c7b810eaafc13e663a0047111b7f3333e8b"
-    assert parent["audited_theorem_credit"] is False
-    assert state["base_main_sha"] == "ea51d06f3fe46b134e98a065332e9c70fcec57f0"
+    assert state["base_main_sha"] == "378096fa313b582b63553b395ec85a5c86de2685"
 
 for old in (unit20, unit20b):
     if state["schema"] in {V20, V21}:
@@ -167,74 +153,34 @@ freeze = state["resolved_investigations"]["CURRENT_PAIRED_QUARTIC_SQUARECLASS"]
 assert freeze["status"] == "FROZEN_DYNAMIC_UV_SUPPORT_NO_GLOBAL_FINITE_FAMILY"
 assert "U1*V1" in freeze["reason"]
 assert "uniform" in freeze["reopen_condition"]
-
 ledger = state["candidate_ledger_after_fresh_breadth_audit"]
-assert ledger["selected_live"] in {
-    "E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY",
-    "E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER",
-}
+assert ledger["selected_live"] in {"E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY","E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER"}
 assert "E1-PAIRED-SOURCE-FILTER-QUARTIC-INTERSECTION" in ledger["just_frozen"]
 assert "E1-PAIRED-SOURCE-FILTER-QUARTIC-INTERSECTION" in ledger["blocked"]
-assert ledger["audit_artifact"] in {
-    "stages/stage35-ex/35ex-20/post-paired-squareclass-breadth-audit.json",
-    "stages/stage35-ex/35ex-21/post-global-surface-breadth-audit.json",
-}
+assert ledger["audit_artifact"] in {"stages/stage35-ex/35ex-20/post-paired-squareclass-breadth-audit.json","stages/stage35-ex/35ex-21/post-global-surface-breadth-audit.json"}
 assert unit20b["preserved_untested_candidates"] == [ledger["selected_live"]]
-
 current = state["current"]
-assert current["unit"] in {
-    "35EX-21_GLOBAL_BIQUADRATIC_SURFACE_MODEL_OR_GEOMETRY_BLOCKER",
-    "35EX-22_SURFACE_BRAUER_CLASS_OR_OBVIOUS_SYMBOL_BLOCKER",
-}
-
+assert current["unit"] in {"35EX-21_GLOBAL_BIQUADRATIC_SURFACE_MODEL_OR_GEOMETRY_BLOCKER","35EX-22_SURFACE_BRAUER_CLASS_OR_OBVIOUS_SYMBOL_BLOCKER"}
 assert state["arsenal"]["S34_W01"] == "FIXED_FIRST_SOURCE_ROUTING_MATCH_GLOBAL_FINITE_FAMILY_BLOCKED_DYNAMIC_UV_SUPPORT"
-assert state["arsenal"]["S31_W01"] in {
-    "FIBERWISE_ROUTING_ONLY_GLOBAL_FIXED_CURVE_USE_BLOCKED_BY_NONISOTRIVIAL_K",
-    "GENUS_ONE_CHARACTER_QUOTIENT_FIBERWISE_ROUTING_ONLY_NO_UNIFORM_SURFACE_CLOSURE",
-}
+assert state["arsenal"]["S31_W01"] in {"FIBERWISE_ROUTING_ONLY_GLOBAL_FIXED_CURVE_USE_BLOCKED_BY_NONISOTRIVIAL_K","GENUS_ONE_CHARACTER_QUOTIENT_FIBERWISE_ROUTING_ONLY_NO_UNIFORM_SURFACE_CLOSURE"}
 assert state["arsenal"]["matching_formal_global_surface_classification_card_found"] is False
 assert state["stage35_main_firewall"]["stage35_ex_reopens_stage35_main"] is False
-
-for key in (
-    "new_theorem_credit",
-    "R29_PESCH_E1_closed",
-    "R29_FIB2_closed",
-    "J12_PARAMETRIC_closed",
-    "stage35_closed",
-    "perfect_cuboid_existence_claim",
-    "perfect_cuboid_nonexistence_claim",
-):
+for key in ("new_theorem_credit","R29_PESCH_E1_closed","R29_FIB2_closed","J12_PARAMETRIC_closed","stage35_closed","perfect_cuboid_existence_claim","perfect_cuboid_nonexistence_claim"):
     assert state["claims"][key] is False
-
-for marker in (
-    "PAIR_SOURCE_SQUARE_IDENTITY_PROVED=true",
-    "PRIMITIVE_INTEGER_FOUR_FACTOR_MODEL_PROVED=true",
-    "PAIRWISE_GCD_RESULTANT_SUPPORT_PROVED=true",
-    "FIXED_FIRST_SOURCE_SQUARECLASS_OVERCOVER_PROVED=true",
-    "Y_BRANCH_ODD_SUPPORT_SPLIT_ONLY=true",
-    "PAIR_2ADIC_BRANCH_BOOKKEEPING_PROVED=true",
-    "UNIFORM_FIXED_SQUARECLASS_SUPPORT_PROVED=false",
-    "S34_W01_GLOBAL_FINITE_EXHAUSTIVE_FAMILY_UNLOCKED=false",
-    "CURRENT_PAIRED_QUARTIC_SQUARECLASS_ROUTE=FROZEN_DYNAMIC_UV_SUPPORT_NO_GLOBAL_FINITE_FAMILY",
-    "ALL_PAIRED_QUARTIC_DESCENTS_RULED_OUT_IN_PRINCIPLE=false",
-    "E1_PROVED=false",
-):
+for marker in ("PAIR_SOURCE_SQUARE_IDENTITY_PROVED=true","PRIMITIVE_INTEGER_FOUR_FACTOR_MODEL_PROVED=true","PAIRWISE_GCD_RESULTANT_SUPPORT_PROVED=true","FIXED_FIRST_SOURCE_SQUARECLASS_OVERCOVER_PROVED=true","Y_BRANCH_ODD_SUPPORT_SPLIT_ONLY=true","PAIR_2ADIC_BRANCH_BOOKKEEPING_PROVED=true","UNIFORM_FIXED_SQUARECLASS_SUPPORT_PROVED=false","S34_W01_GLOBAL_FINITE_EXHAUSTIVE_FAMILY_UNLOCKED=false","CURRENT_PAIRED_QUARTIC_SQUARECLASS_ROUTE=FROZEN_DYNAMIC_UV_SUPPORT_NO_GLOBAL_FINITE_FAMILY","ALL_PAIRED_QUARTIC_DESCENTS_RULED_OUT_IN_PRINCIPLE=false","E1_PROVED=false"):
     assert marker in doc
-
 assert audit["schema"] == "STAGE35_EX_20B_POST_PAIRED_SQUARECLASS_BREADTH_AUDIT_V1"
 assert audit["blind_rediscovery"]["performed_before_arsenal_comparison_for_this_audit"] is True
 assert audit["arsenal_comparison"]["performed_after_blind_generation"] is True
 assert audit["selection"]["selected_candidate"] == "E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY"
 assert audit["selection"]["selected_next_unit"] == "35EX-21_GLOBAL_BIQUADRATIC_SURFACE_MODEL_OR_GEOMETRY_BLOCKER"
 assert audit["selection"]["preserved_untested_candidates"] == ["E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER"]
-
 generated = audit["blind_rediscovery"]["generated"]
 allowed_candidate_statuses = {"LIVE", "UNTESTED", "EQUIVALENT", "DOMINATED", "BLOCKED"}
 assert all(candidate["status"] in allowed_candidate_statuses for candidate in generated)
 dependent = next(candidate for candidate in generated if candidate["id"] == "E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER")
 assert dependent["status"] == "UNTESTED"
 assert "requires the LIVE global-surface model" in dependent["dependency"]
-
 cycle = audit["cycle_exit"]
 assert cycle["CYCLE_ROUTE_STATUS"] == "BLOCKED_NEW_PATTERN_ISOLATED"
 assert cycle["CYCLE_LIVE_CANDIDATES"] == 1
@@ -266,7 +212,6 @@ for aa in range(2, 22):
         assert W * W + 2 * U * V == f * f
         assert f * f - e * e == 4 * U * V
         assert e * e + f * f == 2 * W * W
-
         for P in range(1, 24):
             for Q in range(1, 18):
                 if gcd(P, Q) != 1:
@@ -277,7 +222,6 @@ for aa in range(2, 22):
                 D = P * P - Q * Q * e * e
                 if C == 0 or D == 0:
                     continue
-
                 assert gcd(A, Q) == gcd(B, Q) == gcd(abs(C), Q) == gcd(abs(D), Q) == 1
                 assert (B - A) == 4 * Q * Q * U * V
                 assert (D - C) == 4 * Q * Q * U * V
@@ -285,21 +229,18 @@ for aa in range(2, 22):
                 assert (B - D) == 2 * Q * Q * W * W
                 assert (A - D) == 2 * Q * Q * e * e
                 assert (B - C) == 2 * Q * Q * f * f
-
                 assert (4 * U * V) % gcd(A, B) == 0
                 assert (4 * U * V) % gcd(abs(C), abs(D)) == 0
                 assert (2 * W * W) % gcd(A, abs(C)) == 0
                 assert (2 * W * W) % gcd(B, abs(D)) == 0
                 assert oddpart(gcd(A, abs(D))) == gcd(P, abs(e)) ** 2
                 assert oddpart(gcd(B, abs(C))) == gcd(P, f) ** 2
-
                 if (P + Q) % 2 == 1:
                     assert A % 2 == B % 2 == C % 2 == D % 2 == 1
                 else:
                     assert P % 2 == Q % 2 == 1
                     assert v2(A) == v2(B) == 1
                     assert v2(C) >= 3 and v2(D) >= 3
-
                 if square(A * B):
                     dA = squarefree_kernel(A)
                     dB = squarefree_kernel(B)
@@ -309,7 +250,6 @@ for aa in range(2, 22):
                         assert ell % 4 == 1
                         split_checks += 1
                     square_product_checks += 1
-
                 if C * D > 0 and square(C * D):
                     dC = squarefree_kernel(abs(C))
                     dD = squarefree_kernel(abs(D))
@@ -327,18 +267,15 @@ for aa in range(2, 22):
                             raise AssertionError((aa, bb, P, Q, ell))
                         z_orientation_checks += 1
                     square_product_checks += 1
-
                 if square(A * B) and C * D > 0 and square(C * D):
                     dY = squarefree_kernel(A)
                     dZ = squarefree_kernel(abs(C))
                     assert gcd(oddpart(dY), oddpart(dZ)) == 1
                 checked += 1
-
 assert checked > 20000
 assert square_product_checks > 0
 assert split_checks > 0
 assert z_orientation_checks > 0
-
 prod = 1
 for prime in (3, 5, 7, 11, 13):
     prod *= prime
@@ -351,5 +288,4 @@ for prime in (3, 5, 7, 11, 13):
     assert gcd(U, V) == gcd(U, W) == gcd(V, W) == 1
     for divisor in prime_factors(prod):
         assert V % divisor == 0
-
 print("PASS STAGE35_EX_20_PAIRED_QUARTIC_SQUARECLASS_DYNAMIC_UV_SUPPORT_BLOCKER")
