@@ -74,11 +74,11 @@ def main() -> None:
 
     # Historical-bundle lifecycle contract: this verifier replays the audited
     # 16->16 bundle under successor controllers.  It must not pin the active
-    # controller schema/current leaf/required verifier to V238, because later
-    # controller promotions are allowed to advance while retaining this bundle.
+    # controller schema/current leaf/required verifier or checkpoint merge-release
+    # state, because later controller promotions are allowed to advance while
+    # retaining this bundle.
     controller = json.loads((ROOT / "stages/stage32/controller.json").read_text())
     assert controller["stage"] == 32
-    assert controller["merge_allowed"] is False
     assert controller["operations"]["heavy_compute_authorized"] is False
     assert controller["current_leaf"]["O212_and_later_blocked"] is True
     assert controller["firewalls"]["O210_closed"] is False
