@@ -51,8 +51,9 @@ x=(u+k)/2
 p=h*x/(x+1)
 inv=sp.factor(x*(u-k)/2-1).subs(k**2,u**2-4)
 assert sp.factor(inv)==0
-pnum=sp.expand(sp.together(p**2-(1+x**2)).as_numer_denom()[0]).subs(h**2,u*(u+2)).subs(k**2,u**2-4)
-assert sp.factor(pnum)==0
+pnum=sp.expand(sp.together(p**2-(1+x**2)).as_numer_denom()[0]).subs(h**2,u*(u+2))
+krel=sp.Poly(k**2-(u**2-4),k)
+assert sp.factor(sp.rem(sp.Poly(sp.expand(pnum),k),krel).as_expr())==0
 
 # K1, K2 and K3 exact algebra.
 A,beta=sp.symbols('A beta', nonzero=True)
