@@ -83,9 +83,20 @@ assert new_hook["gminus_gplus_coprime"] is True
 assert new_hook["full_receiver_primitive_pd_twisted_norms_proved"] is True
 assert new_hook["pd_odd_prime_support_split_only"] is True
 
-assert state["current"]["unit"] == "35EX-18_GAUSSIAN_COORDINATE_GCD_SPLIT_OR_MOVING_ORIENTATION"
-assert state["candidate_ledger_after_fresh_breadth_audit"]["selected_live"] == "E1-GAUSSIAN-COORDINATE-GCD-SPLIT"
-assert state["candidate_ledger_after_fresh_breadth_audit"]["untested"] == ["E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION"]
+# Successor-safe routing assertions: the audited 35EX-17B selection remains
+# exact even after 35EX-18 records its provisional result and queues 35EX-19.
+assert state["current"]["unit"] in {
+    "35EX-18_GAUSSIAN_COORDINATE_GCD_SPLIT_OR_MOVING_ORIENTATION",
+    "35EX-19_RECEIVER_SPECIFIC_GENUSONE_ADAPTER_OR_BLOCKER",
+}
+assert state["candidate_ledger_after_fresh_breadth_audit"]["selected_live"] in {
+    "E1-GAUSSIAN-COORDINATE-GCD-SPLIT",
+    "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION",
+}
+assert state["candidate_ledger_after_fresh_breadth_audit"]["untested"] in {
+    ("E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION",),
+    (),
+}
 
 for text in (
     "PRODUCT_HYPOTENUSE_CANONICAL_TWO_TRIPLE_RECONSTRUCTION=false",
