@@ -14,8 +14,9 @@ sys.path.insert(0, str(HELPER))
 from stage32_picard_marking_retained import load as load_marking  # type: ignore
 
 CERT_PATH = "stages/stage32/residual-32-01-production/post1536-b3-cusp-orbit-ambient-equivariance-negative.json"
-EXPECTED_CANONICAL = "865ccbe0961e56ae39b9e4624462589ed1169c8fa336977254b5c5fca4d9e5c7"
-SECOND_BOUNDARIES = [33, 36, 37, 40, 41, 44]
+EXPECTED_CANONICAL = "3637db0c1e2acda7132b5b4fdc8ba4ee731230c160fa599dbdfeae993fb9e8ba"
+EXPECTED_SECOND_TO_WEIERSTRASS = {33: 6, 36: 1, 37: 5, 40: 3, 41: 4, 44: 2}
+SECOND_BOUNDARIES = list(EXPECTED_SECOND_TO_WEIERSTRASS)
 EXPECTED_PROFILE = [11, 22, 16, 11, 28, 22]
 
 
@@ -127,6 +128,22 @@ def main() -> None:
     hdeck = load_locked_json(locks["h_deck"])
     gauge = load_locked_json(locks["marked_gauge"])
     predecessor = load_locked_json(locks["single_b3_predecessor"])
+    transvection = load_locked_json(locks["audited_weierstrass_transvection"])
+    assert locks["audited_weierstrass_transvection"]["hostile_reaudit_review"] == 5102652713
+    assert locks["audited_weierstrass_transvection"]["audited_exact_head"] == "efb26374a5d46dd6118428306ae6dcee417a1041"
+
+    boundary_map = {
+        int(label): int(wid)
+        for label, wid in transvection["weierstrass_parity_action"]["boundary_label_to_weierstrass_id"].items()
+    }
+    second_to_weierstrass = {label: boundary_map[label] for label in SECOND_BOUNDARIES}
+    assert second_to_weierstrass == EXPECTED_SECOND_TO_WEIERSTRASS
+    assert set(second_to_weierstrass.values()) == set(range(1, 7))
+    assert len(set(second_to_weierstrass.values())) == 6
+    semantic = cert["semantic_anchor"]
+    assert {int(k): int(v) for k, v in semantic["second_boundary_to_weierstrass_id"].items()} == EXPECTED_SECOND_TO_WEIERSTRASS
+    assert semantic["weierstrass_id_set"] == [1, 2, 3, 4, 5, 6]
+    assert semantic["bijection_verified"] is True
 
     diag_path = ROOT / locks["diagnostic"]["path"]
     assert blob_sha1(diag_path) == locks["diagnostic"]["blob_sha1"]
@@ -194,12 +211,15 @@ def main() -> None:
     assert all(v is False for v in cert["firewalls"].values())
 
     assert "does **not** prove or refute the actual Jacobian commutator `[T,b3]`" in note
+    assert "33 -> 6" in note and "44 -> 2" in note
+    assert "map bijectively onto the six Weierstrass ids `{1,2,3,4,5,6}`" in note
     assert "There are exactly 40 permutations of six labels with cycle type `(3,3)`" in note
     assert "DIRECT_AMBIENT_B3_CUSP_PROFILE_EQUIVARIANCE_FOR_V6_H_ORBIT" in note
     assert "`O210/Q602` remain OPEN and `O212+` remains blocked" in note
 
     print("PASS STAGE32_POST1536_B3_CUSP_ORBIT_AMBIENT_EQUIVARIANCE_NEGATIVE_V1")
     print("canonical_sha256=" + EXPECTED_CANONICAL)
+    print("audited cusp adapter: 33->6 36->1 37->5 40->3 41->4 44->2; bijection={1,...,6}")
     print("b3_order=3 cycle_type=(3,3) permutations=40")
     print("H={id,u,v,uv}; profile=[11,22,16,11,28,22]; preserving_counts=[0,0,0,0]")
     print("closed only: DIRECT_AMBIENT_B3_CUSP_PROFILE_EQUIVARIANCE_FOR_V6_H_ORBIT")
