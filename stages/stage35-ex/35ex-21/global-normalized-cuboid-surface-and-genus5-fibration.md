@@ -223,7 +223,7 @@ The identification of the receiver with the exact normalized cuboid square surfa
 The previously preserved
 
 ```text
-E1-SURFACE-LOCAL_GLOBAL-OR-BRAUER-LAYER
+E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER
 ```
 
 is now dependency-eligible at the object-definition level, but remains unproved and receives no credit merely from this surface construction.
