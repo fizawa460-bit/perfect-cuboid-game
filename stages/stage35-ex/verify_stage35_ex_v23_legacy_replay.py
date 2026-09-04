@@ -3,9 +3,9 @@
 
 The V23 state changes only the active parent/current route after 35EX-23 audit.
 Historical completed_units, freezes, ledgers and artifacts remain the real V23
-payload.  This adapter projects only schema/base/parent/current back to the
-last state understood by the legacy 20/21/22 verifiers, then runs their full
-original code unchanged.  It first verifies the real V23 successor authority.
+payload. This adapter projects only schema/base/parent/current back to the
+last state understood by legacy 20/21/22/23 verifiers, then runs their full
+original code unchanged. It first verifies the real V23 successor authority.
 """
 from __future__ import annotations
 
@@ -19,10 +19,10 @@ ROOT = Path(__file__).resolve().parents[2]
 STATE = ROOT / "stages/stage35-ex/MAIN-STATE.json"
 V23 = "STAGE35_EX_PESCH_E1_STATE_V23_POST_35EX24_FIVE_ELLIPTIC_ISOGENY_TWIST_COMPRESSION"
 V22 = "STAGE35_EX_PESCH_E1_STATE_V22_POST_35EX23_GENUS5_CHARACTER_QUOTIENT_UNIFORMITY_BLOCKER"
-ALLOWED = {"20", "21", "22"}
+ALLOWED = {"20", "21", "22", "23"}
 
 if len(sys.argv) != 2 or sys.argv[1] not in ALLOWED:
-    raise SystemExit("usage: verify_stage35_ex_v23_legacy_replay.py {20|21|22}")
+    raise SystemExit("usage: verify_stage35_ex_v23_legacy_replay.py {20|21|22|23}")
 
 target = sys.argv[1]
 real = json.loads(STATE.read_text())
@@ -46,8 +46,8 @@ assert real["current"]["status"] == "PROVISIONAL_RESULT_PENDING_HOSTILE_AUDIT_NO
 assert real["claims"]["stage35_closed"] is False
 assert real["claims"]["E1_proved"] is False
 
-# Project only the successor-routing fields.  All historical mathematics and
-# artifacts remain the values from the real V23 state.
+# Project only successor-routing fields. All historical mathematics and
+# artifacts remain values from the real V23 state.
 projected = copy.deepcopy(real)
 projected["schema"] = V22
 projected["base_main_sha"] = "7a5d01b438c68c228ad73955f906f3128780d6ef"
