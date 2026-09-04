@@ -37,8 +37,10 @@ PROMO={
  "scope":"mechanical audited-state promotion only","NEW_THEOREM_CREDIT":False,
 }
 V10_BASE="09d42186c06cd906042f2ca3f16a9deaf4f1b4a3"
+V11_BASE="ee3e7aafd1742c5d96e2871f117412ef0823d57e"
 V9="STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V9_36_04_AUDITED"
 V10="STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V10_36_05_PENDING_AUDIT"
+V11="STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V11_36_05_AUDITED_BLOCKED"
 
 def blob_sha(path):
  data=path.read_bytes()
@@ -54,9 +56,8 @@ def main():
  req(cert.get("pointwise_class",{}).get("degree")==8,"36-04 torsor degree moved")
  req(cert.get("promotion",{}).get("hostile_audit_required") is True,"36-04 audit boundary moved")
  req(all(v is False for v in cert.get("claims",{}).values()),"36-04 cert leaked higher credit")
-
  s=json.loads(STATE.read_text()); schema=s.get("schema")
- req(schema in {V9,V10},"36-04 audited successor schema moved")
+ req(schema in {V9,V10,V11},"36-04 audited successor schema moved")
  req(s.get("stage36_36_04_authority")==AUTH,"36-04 authority block moved")
  req(s.get("completed_units",{}).get("36-04")==UNIT,"36-04 completed-unit provenance moved")
  g=s.get("promotion_gates",{})
@@ -67,18 +68,20 @@ def main():
  req(all(v is False for v in s.get("claims",{}).values()),"Stage36 higher claim leaked")
  if schema==V9:
   req(s.get("status")=="ACTIVE" and s.get("base_main_sha")==AUTH["merged_main_sha"],"V9 lifecycle moved")
-  req(s.get("current",{}).get("unit")=="36-05","V9 successor moved")
-  req("36-05" not in s.get("completed_units",{}),"36-05 started inside 36-04 promotion")
- else:
+  req(s.get("current",{}).get("unit")=="36-05" and "36-05" not in s.get("completed_units",{}),"V9 successor moved")
+ elif schema==V10:
   req(s.get("status")=="ACTIVE_PENDING_HOSTILE_AUDIT" and s.get("base_main_sha")==V10_BASE,"V10 lifecycle moved")
   req(s.get("stage36_36_04_promotion")==PROMO,"36-04 promotion provenance moved")
   u=s.get("completed_units",{}).get("36-05",{})
-  req(u.get("status")=="BLOCKED_MOVING_RAMIFICATION_SUPPORT_PENDING_HOSTILE_AUDIT","36-05 status moved")
-  req(u.get("legal_outcome")=="BLOCKED_MOVING_RAMIFICATION_SUPPORT","36-05 blocked outcome moved")
-  req(u.get("UNIFORM_FINITE_RAMIFICATION_SUPPORT_PROVED") is False and u.get("FINITE_EXHAUSTIVE_H_TWIST_FAMILY") is False,"36-05 credit moved")
-  req(u.get("promotion_status")=="PROVISIONAL_NOT_AUDITED","36-05 audit status moved")
-  req(s.get("current",{}).get("unit")=="36-05" and s.get("current",{}).get("36_06_entry_allowed") is False,"36-06 entry opened")
-  req("36-06" not in s.get("completed_units",{}),"36-06 started before uniform support proof")
+  req(u.get("status")=="BLOCKED_MOVING_RAMIFICATION_SUPPORT_PENDING_HOSTILE_AUDIT" and u.get("promotion_status")=="PROVISIONAL_NOT_AUDITED","V10 36-05 boundary moved")
+  req(s.get("current",{}).get("unit")=="36-05" and s.get("current",{}).get("36_06_entry_allowed") is False,"V10 36-06 boundary moved")
+ else:
+  req(s.get("status")=="ACTIVE" and s.get("base_main_sha")==V11_BASE,"V11 lifecycle moved")
+  req(s.get("stage36_36_04_promotion")==PROMO,"36-04 promotion provenance moved in V11")
+  u=s.get("completed_units",{}).get("36-05",{})
+  req(u.get("status")=="AUDITED_BLOCKED_MOVING_RAMIFICATION_SUPPORT" and u.get("promotion_status")=="AUDITED","V11 36-05 audit promotion moved")
+  req(u.get("hostile_audit_review")==5118563918 and u.get("audited_head")=="cf430199171c98ed5f9eaaadeb8d2d40268ca6ba","V11 36-05 audit provenance moved")
+  req(s.get("current",{}).get("unit")=="36-09" and s.get("current",{}).get("36_06_entry_allowed") is False,"V11 blocked-route successor moved")
  print("PASS STAGE36_36_04_AUDITED_SUCCESSOR_REPLAY")
  print(f"hostile_review={AUTH['hostile_audit_review']}; hostile_head={AUTH['hostile_audited_head']}")
  print(f"final_user_approved_head={AUTH['final_user_approved_head']}; final_ci={AUTH['final_exact_head_ci_run']}/{AUTH['final_exact_head_ci_job']}")
