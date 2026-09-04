@@ -56,14 +56,27 @@ def odd_part(n: int) -> int:
     return n
 
 
+def remove_shared_prime_support(n: int, c: int) -> int:
+    """Largest divisor of n coprime to c."""
+    out = n
+    for ell in factor(c):
+        while out % ell == 0:
+            out //= ell
+    return out
+
+
 state = json.loads(STATE.read_text())
 doc = DOC.read_text()
 
 assert state["schema"] == "STAGE35_EX_PESCH_E1_STATE_V14_GLOBAL_RECIPROCITY_MOVING_RAMIFICATION_FREEZE"
 unit16 = state["completed_units"]["35EX-16"]
 assert unit16["status"] == "PROVISIONAL_EXACT_GLOBAL_RECIPROCITY_MOVING_RAMIFICATION_FREEZE_NO_CREDIT"
+assert unit16["failed_hostile_audit_review"] == 5108674372
 assert unit16["pair_jacobi_tautological"] is True
 assert unit16["DT_clean_channel_jacobi_plus_one"] is True
+assert unit16["DT_clean_means_c_coprime_parts_only"] is True
+assert unit16["full_D_T_clean_channel_proved"] is False
+assert unit16["D_ram_T_ram_retained_in_c_ramified_layer"] is True
 assert unit16["q_clean_channel_jacobi_plus_one"] is True
 assert unit16["residual_kernel_split_only_inherited"] is True
 assert unit16["c_sign_ramified"] is True
@@ -82,8 +95,11 @@ assert state["arsenal"]["matching_global_reciprocity_Hilbert_Jacobi_card_found"]
 
 for text in (
     "PAIR_JACOBI_RELATION=+1_TAUTOLOGY",
-    "(Lplus/D)=+1",
-    "(Lplus/T)=+1",
+    "D_clean = largest divisor of D coprime to c",
+    "T_clean = largest divisor of T coprime to c",
+    "(Lplus/D_clean)=+1",
+    "(Lplus/T_clean)=+1",
+    "D_RAM_T_RAM_RETAINED_IN_C_RAMIFIED_LAYER=true",
     "(Lplus/q_odd)=+1",
     "CURRENT_COPRIME_PAIR_GLOBAL_JACOBI_LAYER_GIVES_NO_CONTRADICTION=true",
     "CURRENT_COPRIME_PAIR_GLOBAL_RECIPROCITY_ROUTE=FROZEN_MOVING_RAMIFICATION",
@@ -109,6 +125,10 @@ master_hits = 0
 b35 = []
 qodd_regression_seen = False
 c_allocation_seen = False
+c_D_overlap_witness = False
+c_T_overlap_witness = False
+clean_D_nontrivial_seen = False
+clean_T_nontrivial_seen = False
 
 for a, b in pairs1:
     U1, V1, W1 = a*a-b*b, 2*a*b, a*a+b*b
@@ -120,6 +140,23 @@ for a, b in pairs1:
         d = gcd(V1, W2)
         pd = p*d
         D, T = U1//c, U2//c
+        D_clean = remove_shared_prime_support(D, c)
+        T_clean = remove_shared_prime_support(T, c)
+        D_ram = D // D_clean
+        T_ram = T // T_clean
+
+        assert gcd(D, T) == 1
+        assert gcd(D_clean, c) == gcd(T_clean, c) == 1
+        assert gcd(D_clean, T_clean) == 1
+        assert all(ell in factor(c) for ell in factor(D_ram))
+        assert all(ell in factor(c) for ell in factor(T_ram))
+
+        if (a,b,m,n) == (11,2,8,5):
+            assert c == 39 and D == 3 and D_clean == 1 and D_ram == 3
+            c_D_overlap_witness = True
+        if (a,b,m,n) == (8,5,11,2):
+            assert c == 39 and T == 3 and T_clean == 1 and T_ram == 3
+            c_T_overlap_witness = True
 
         Pminus = W1*W2 - V1*V2
         Pplus = W1*W2 + V1*V2
@@ -135,9 +172,12 @@ for a, b in pairs1:
                 assert jacobi(Lminus, Lplus) == 1
                 assert jacobi(Lplus, Lminus) == 1
 
-                assert gcd(Lplus, D*T) == 1
-                assert jacobi(Lplus, D) == jacobi(D, Lplus) == 1
-                assert jacobi(Lplus, T) == jacobi(T, Lplus) == 1
+                # Only c-coprime parts of D,T are universally clean.
+                assert gcd(Lplus, D_clean*T_clean) == 1
+                assert jacobi(Lplus, D_clean) == jacobi(D_clean, Lplus) == 1
+                assert jacobi(Lplus, T_clean) == jacobi(T_clean, Lplus) == 1
+                clean_D_nontrivial_seen |= D_clean > 1
+                clean_T_nontrivial_seen |= T_clean > 1
 
                 qo = odd_part(q)
                 assert gcd(Lplus, qo) == 1
@@ -145,21 +185,27 @@ for a, b in pairs1:
 
                 S = sf(Lplus)
                 assert all(ell % 4 == 1 for ell in factor(S))
-                assert jacobi(D, S) == jacobi(S, D) == 1
-                assert jacobi(T, S) == jacobi(S, T) == 1
+                assert jacobi(D_clean, S) == jacobi(S, D_clean) == 1
+                assert jacobi(T_clean, S) == jacobi(S, T_clean) == 1
                 assert jacobi(qo, S) == jacobi(S, qo) == 1
-                b35.append((a,b,m,n,Lminus,Lplus,c,p,q,d,D,T,S))
+                b35.append((a,b,m,n,Lminus,Lplus,c,p,q,d,D,T,D_clean,T_clean,D_ram,T_ram,S))
 
-        # The q-odd proof uses primitivity + Lminus square, not Master square;
-        # broaden the regression so a nontrivial q_odd case is exercised.
+        # Broader source-level exercise of the repaired clean-channel lemma.
+        # Whenever Lminus is square, every prime of D_clean/T_clean is outside c
+        # and therefore outside the opposite U-leg, exactly as the proof requires.
         if square(Lminus):
+            assert gcd(Lplus, D_clean*T_clean) == 1
+            assert jacobi(Lplus, D_clean) == jacobi(D_clean, Lplus) == 1
+            assert jacobi(Lplus, T_clean) == jacobi(T_clean, Lplus) == 1
+
             qo = odd_part(q)
             if qo > 1:
                 assert gcd(Lplus, qo) == 1
                 assert jacobi(Lplus, qo) == jacobi(qo, Lplus) == 1
                 qodd_regression_seen = True
 
-        # Primewise c sign allocation. Here eps records a=eps*b and m=eps*n.
+        # Primewise c sign allocation. Higher c-adic overlap with D/T is not
+        # declared clean; it stays in this ramified layer.
         for ell in factor(c):
             if ell == 2:
                 continue
@@ -179,6 +225,10 @@ assert [(r[0],r[1],r[2],r[3]) for r in b35] == [
     (11,2,8,5),
     (17,16,52,47),
 ]
+assert c_D_overlap_witness
+assert c_T_overlap_witness
+assert clean_D_nontrivial_seen
+assert clean_T_nontrivial_seen
 assert qodd_regression_seen
 assert c_allocation_seen
 
@@ -193,4 +243,4 @@ for key in (
 ):
     assert state["claims"][key] is False
 
-print("PASS STAGE35_EX_16_GLOBAL_RECIPROCITY_MOVING_RAMIFICATION_FREEZE_V2")
+print("PASS STAGE35_EX_16_GLOBAL_RECIPROCITY_C_COPRIME_CLEAN_REPAIR_V3")
