@@ -10,6 +10,9 @@ EXPECTED_CANONICAL = "4925170377af7c77a97d36e562cdabd58241030f22a9644f1fa2a8ee62
 EXPECTED_TRACE_VALUES = [-68,-60,-52,-44,-36,-28,-20,-12,-4,4,12,20,28,36,44,52,60,68]
 EXPECTED_TRACE_COUNTS = [512,50688,205568,451200,716800,1036288,1320448,1442560,1613312,1613312,1442560,1320448,1036288,716800,451200,205568,50688,512]
 EXPECTED_DIAGONAL = [118,126,134,142,150,158,166,174,182,190,198,206,214,222,230,238,246,254]
+VERIFIER_PATH = "stages/stage32/residual-32-01-production/certify_stage32_post1518_o210_q602_residue73_trace_spectrum.py"
+CERTIFICATE_PATH = "stages/stage32/residual-32-01-production/post1518-o210-q602-residue73-trace-spectrum.json"
+WORKFLOW_PATH = ".github/workflows/stage32-post1518-o210-q602-residue73-trace-spectrum.yml"
 
 
 def blob_sha1(path: Path) -> str:
@@ -31,6 +34,70 @@ def load_json(lock: dict) -> dict:
     if "canonical_sha256" in lock:
         assert canonical_sha256(d) == lock["canonical_sha256"], p
     return d
+
+
+def assert_active_controller(cert: dict, check_path: str) -> None:
+    controller_path = ROOT / "stages/stage32/controller.json"
+    assert controller_path.is_file()
+    controller = json.loads(controller_path.read_text())
+    assert controller["schema"] == "STAGE32_LOWGENUS_PICARD_CONTROLLER_V244_POST1518_Q602_RESIDUE73_TRACE_SPECTRUM_PROVISIONAL"
+    assert controller["stage"] == 32 and controller["stage32_closed"] is False
+    assert controller["status"] == "STAGE32_O210_Q602_PROVISIONAL_RESIDUE73_TRACE_AND_DIAGONAL_SPECTRUM_PENDING_HOSTILE_AUDIT"
+    assert controller["advance_allowed"] is False
+    assert controller["merge_allowed"] is False
+    assert controller["checkpoint_merge_ready"] is False
+
+    active = controller["active_pr"]
+    assert active == {"number":1518,"branch":"stage32-post1505-trace-parity-bridge","automatic_merge_authorized":False}
+    fixed = controller["fixed_target"]
+    assert fixed["O"] == 210 and fixed["qprime"] == 4 and fixed["Q"] == 602
+
+    bundle = controller["post1518_q602_residue73_trace_spectrum_provisional"]
+    assert bundle["status"] == "PROVISIONAL_EXACT_PENDING_HOSTILE_AUDIT"
+    assert bundle["certificate_path"] == CERTIFICATE_PATH == check_path
+    assert bundle["canonical_sha256"] == EXPECTED_CANONICAL == cert["canonical_sha256_without_this_field"]
+    assert bundle["certificate_blob_sha1"] == blob_sha1(ROOT / CERTIFICATE_PATH)
+    assert bundle["source_note_blob_sha1"] == blob_sha1(ROOT / bundle["source_note_path"])
+    assert bundle["verifier_path"] == VERIFIER_PATH
+    assert bundle["verifier_blob_sha1"] == blob_sha1(ROOT / VERIFIER_PATH)
+    assert bundle["workflow"] == WORKFLOW_PATH
+    assert bundle["workflow_blob_sha1"] == blob_sha1(ROOT / WORKFLOW_PATH)
+    assert bundle["authority_effect"].startswith("NONE_UNTIL_HOSTILE_AUDIT")
+
+    assert controller["current_item"] == "O210_Q602_PROVISIONAL_CANONICAL_RESIDUE73_TRACE_DIAGONAL_SPECTRUM_HOSTILE_AUDIT"
+    leaf = controller["current_leaf"]
+    assert leaf["status"] == "PROVISIONAL_EXACT_PENDING_HOSTILE_AUDIT"
+    assert leaf["O212_and_later_blocked"] is True
+    assert "Do not promote" in leaf["target"]
+
+    req = controller["required_lightweight_verifier"]
+    assert req["path"] == VERIFIER_PATH
+    assert req["certificate_path"] == CERTIFICATE_PATH
+    assert req["workflow"] == WORKFLOW_PATH
+    assert req["workflow_name"] == "Stage32 post1518 O210 Q602 residue73 trace spectrum"
+    assert req["role"] == "ACTIVE_PROVISIONAL_CONTROLLER_BOUND_REPLAY"
+    assert controller["audit_required_before_promotion"] is True
+
+    scope = controller["math_scope"]
+    assert scope["fixed_z_O210_q4_exact_v6_carrier"].startswith("OPEN_AT_AUDITED_Q602")
+    assert scope["fixed_z_O212_through_O266_qprime4"] == "BLOCKED_BEHIND_O210"
+    ops = controller["operations"]
+    assert ops["heavy_compute_authorized"] is False
+    assert ops["full178_scaleout_authorized"] is False
+    assert ops["survivor_materialization_authorized"] is False
+    assert ops["retained_asset_research_authorized"] is False
+
+    fw = controller["firewalls"]
+    assert fw["O210_closed"] is False and fw["Q602_excluded"] is False
+    assert fw["effectivity_credit"] is False
+    assert fw["geometric_realization_of_lattice_points_inferred"] is False
+    assert fw["full178_geometric_closure"] is False
+    assert fw["receiver_credit"] is False and fw["route_credit"] is False
+    assert fw["theorem_credit"] is False and fw["endpoint_credit"] is False
+    assert fw["perfect_cuboid_existence_claim"] is False
+    assert fw["perfect_cuboid_nonexistence_claim"] is False
+    handoff = controller["handoff"]
+    assert handoff["fresh_head_required"] is True and handoff["do_not_merge"] is True
 
 
 def transpose(M):
@@ -88,9 +155,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", required=True)
     args = ap.parse_args()
-    cert = json.loads((ROOT / args.check).read_text())
+    check_path = Path(args.check).as_posix()
+    cert = json.loads((ROOT / check_path).read_text())
     assert cert["schema"] == "STAGE32_POST1518_O210_Q602_RESIDUE73_TRACE_SPECTRUM_V1"
     assert canonical_sha256(cert) == cert["canonical_sha256_without_this_field"] == EXPECTED_CANONICAL
+    assert_active_controller(cert, check_path)
 
     locks = cert["source_locks"]
     gauge = load_json(locks["audited_marked_gauge_orbit"])
@@ -107,7 +176,6 @@ def main():
     tl = tr["trace_lattice"]
     assert tl["coordinate_order"] == cert["audited_input"]["coordinate_order"]
     A = tl["gram_matrix"]
-    # JSON records columns; turn them into the matrix U.
     U = transpose(tl["unimodular_change_of_basis_columns"])
     D4 = tl["d4_gram"]
     zero = [[0]*4 for _ in range(4)]
@@ -120,12 +188,10 @@ def main():
     ypar = mv_mod2(inv_mod2(U), xpar)
     assert ypar == cert["d4d4_reduction"]["y_parity"] == [1,0,0,0,1,0,1,0]
 
-    # Tr_Q(T)=2*(t11.a+t22.a), pulled through x=U*y.
     ell = [2,0,0,0,0,0,2,0]
     ell_y = [sum(ell[i] * U[i][j] for i in range(8)) for j in range(8)]
     assert ell_y == [0,-2,0,4,0,0,0,0]
 
-    # Pure congruence proof: m2=2 mod4, m1=3 mod4, hence y2=2 mod4 and trace=4 mod8.
     for a in range(4):
         for b in range(4):
             for c in range(4):
@@ -141,7 +207,6 @@ def main():
     assert cert["rational_trace"]["trace_mod8"] == 4
     assert cert["diagonal_intersection"]["mod8"] == (186 - 4) % 8 == 6
 
-    # Exact 4+4 shell spectrum.
     b1 = enumerate_block((1,0,0,0), True)
     b2 = enumerate_block((1,0,1,0), False)
     trace_counts = Counter()
@@ -171,7 +236,7 @@ def main():
     assert fw["geometric_realization_of_lattice_points_inferred"] is False
     assert fw["old_rosati_nonexclusion_reopened"] is False and fw["locator_search_reopened"] is False
     assert fw["heavy_compute_authorized"] is False and fw["receiver_credit"] is False and fw["theorem_credit"] is False
-    print("PASS: Stage32 canonical residue 73 at Q602 has exact trace spectrum +/-{4,12,...,68}; Tr=4 mod8 and (Gamma,Delta)=6 mod8; no O210 exclusion.")
+    print("PASS: Stage32 canonical residue 73 at Q602 has exact trace spectrum +/-{4,12,...,68}; Tr=4 mod8 and (Gamma,Delta)=6 mod8; active V244 controller/firewalls bound; no O210 exclusion.")
 
 
 if __name__ == "__main__":
