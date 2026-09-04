@@ -10,7 +10,7 @@ STATE_PATH = ROOT / "stages/stage36/MAIN-STATE.json"
 INITIAL_BASE = "c20ee71d91af850103fd7406f9b1072448a11fcf"
 PENDING_36_01_BASE = "5ed32fa53bdecb735f461d7c27e85851d9ad8c21"
 AUDITED_36_01_MERGE = "8c59c81bcf0bcd442705cfb7a3db297253b34679"
-POST_36_01_CURRENT_BASE = "81569110952b348692e688c5e1d7148dca10b163"
+POST_36_01_CURRENT_BASE = "a873c8fca0074aa966a22e36475a3551a378560d"
 SOURCES = {
     "stage29_active_kernel_ledger": ("stages/stage29/29-16/active-kernel-ledger.json", "5d6d4c7709b57064aea5dc0ece672c5170c39550"),
     "stage29_endpoint_hub_graph": ("stages/stage29/29-06/endpoint-hub-graph.json", "7ea59474767f81fbaa4837c8cbc94b535560617b"),
