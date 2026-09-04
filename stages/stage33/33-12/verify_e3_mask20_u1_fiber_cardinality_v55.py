@@ -39,8 +39,11 @@ def main() -> None:
     ex53 = v53["exact_computation"]
     assert ex53["input_proper14_mask_decimal"] == 20
     assert ex53["input_support_one_based"] == [3, 5]
+    assert len(ex53["input_proper14_coordinate_f2"]) == 14
+    assert "coordinatewise XOR over F2" in ex53["operation"]
     c3 = ex53["axis_3"]["source_T_mod_2_coordinate_f2"]
     c5 = ex53["axis_5"]["source_T_mod_2_coordinate_f2"]
+    assert len(c3) == len(c5) == 2
     assert c3 == [0, 1]
     assert c5 == [1, 1]
     assert ex53["combined"]["source_T_mod_2_coordinate_f2"] == [1, 0]
@@ -52,8 +55,8 @@ def main() -> None:
     assert bind54["exact_vector_match"] is True
 
     la = d["exact_linear_algebra"]
-    assert la["proper14_source_dimension_f2"] == 14
-    assert la["semantic_target_dimension_f2"] == 2
+    assert la["proper14_source_dimension_f2"] == len(ex53["input_proper14_coordinate_f2"]) == 14
+    assert la["semantic_target_dimension_f2"] == len(c3) == 2
     assert la["independent_source_axes_one_based"] == [3, 5]
     assert la["axis_3_semantic_column_f2"] == c3
     assert la["axis_5_semantic_column_f2"] == c5
