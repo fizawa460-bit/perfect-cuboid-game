@@ -1,0 +1,115 @@
+{
+  "schema": "STAGE35_EX_20B_POST_PAIRED_SQUARECLASS_BREADTH_AUDIT_V1",
+  "stage": "35-EX",
+  "trigger": "SAME_ESSENTIAL_FULL_E1_RECEIVER_SURVIVED_35EX19_AND_35EX20_CONSECUTIVE_REFORMULATIONS",
+  "receiver": {
+    "name": "MASTER_HIT_PLUS_FULL_E1_RECEIVER_WITH_TWO_PRIMITIVE_SOURCE_CIRCLES",
+    "normalized_equations": [
+      "mu^2=r^2+t^2-2*r^2*t^2",
+      "nu^2=r^2+t^2-r^2*t^2",
+      "r^2+s1^2=1",
+      "t^2+s2^2=1"
+    ],
+    "paired_squareclass_view": [
+      "Y^2=u^4+2*u^2+k^2",
+      "Z^2=u^4-2*u^2+k^2",
+      "k^2+sigma^2=1",
+      "fixed-first-source branch kernels dY,dZ are disjoint on odd support and supported on rad_odd(U1*V1)",
+      "global finite squareclass family not derived because U1*V1 support moves"
+    ]
+  },
+  "blind_rediscovery": {
+    "performed_before_arsenal_comparison_for_this_audit": true,
+    "generated": [
+      {
+        "id": "E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY",
+        "status": "LIVE",
+        "view": "stop freezing either source parameter; compactify and classify the total rational surface/covers defined by the two normalized square equations together with both source circles, then determine whether it is rational, ruled, elliptic/K3-type, or carries a lower-genus fibration with a source-exact adapter",
+        "why_distinct": "35EX-19 studied one moving genus-one fiber and 35EX-20 studied factor squareclasses after a fiber parameterization; this view treats the total two-source geometric object before specialization or prime-support splitting",
+        "next_test": "derive one explicit projective or affine total-surface model with exact inverse to the normalized receiver on a stated open; compute dimension, singular/degenerate boundary, and at least one intrinsic fibration or birational invariant before invoking any surface theorem"
+      },
+      {
+        "id": "E1-PAIR-DIFFERENCE-PYTHAGOREAN-REPARAMETRIZATION",
+        "status": "EQUIVALENT",
+        "view": "parameterize Y^2-Z^2=4*u^2 by Y=u*(h+h^-1), Z=u*(h-h^-1)",
+        "exact_reduction": "substitution gives k^2=u^2*h^2+u^2/h^2-u^4; setting A=u*h and B=u/h yields k^2=A^2+B^2-A^2*B^2, the same normalized biquadratic square surface in new coordinates rather than a new receiver condition"
+      },
+      {
+        "id": "E1-PAIRED-FACTOR-SQUARECLASS-DESCENT",
+        "status": "BLOCKED",
+        "view": "continue S34-style factor squareclass descent on the four paired factors",
+        "blocker": "35EX-20 proves only a fixed-first-source over-cover with kernels supported on moving rad_odd(U1*V1); no source-independent finite exhaustive branch family is available"
+      },
+      {
+        "id": "E1-GENERIC-FIBER-MW-ONLY",
+        "status": "BLOCKED",
+        "view": "compute only generic sections of the non-isotrivial genus-one family",
+        "blocker": "generic-section completeness does not exclude sporadic rational points on special rational source fibers"
+      },
+      {
+        "id": "E1-MIXED-GAUSSIAN-SPLIT-FACTOR_ORIENTATION",
+        "status": "DOMINATED",
+        "view": "combine the Y-side sums of two squares with the Z-side differences of squares prime by prime",
+        "domination": "the exact 35EX-20 dY/dZ theorem already records all odd shared support visible from these four factors: dY is split-only, dZ has the ± source orientation, their odd supports are disjoint, and both remain supported on moving U1*V1; no additional cross-factor relation is introduced by merely renaming the same factors as norm/split orientations"
+      },
+      {
+        "id": "E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER",
+        "status": "UNTESTED_DEPENDENT",
+        "view": "after an exact global surface model is identified, test whether its fibration or compactification carries a receiver-specific local-global/Brauer obstruction not visible in the prior primewise squareclass graph",
+        "dependency": "requires the LIVE global-surface model and boundary dictionary first; do not split or invoke Brauer machinery before that adapter exists"
+      }
+    ]
+  },
+  "arsenal_comparison": {
+    "performed_after_blind_generation": true,
+    "S34-W01": {
+      "match": "FIXED_FIRST_SOURCE_ONLY",
+      "decision": "BLOCKED_FOR_GLOBAL_FINITE_FAMILY_AT_DYNAMIC_UV_SUPPORT",
+      "reason": "35EX-20 proves the factor/gcd/2-adic layer but the squareclass labels remain divisors of moving U1*V1"
+    },
+    "S31-W01": {
+      "match": "FIBERWISE_ONLY",
+      "decision": "UNCHANGED_BLOCKED_FOR_GLOBAL_FIXED_CURVE_CLOSURE",
+      "reason": "35EX-19 non-isotrivial k remains authoritative"
+    },
+    "matching_formal_global_surface_classification_card_found": false
+  },
+  "historical_ledger_comparison": {
+    "E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY": "retained from 35EX-19B and promoted from UNTESTED to LIVE after the paired-squareclass route freezes",
+    "E1-PRODUCT-RATIO-CONIC-REPARAMETRIZATION": "remains equivalent to the normalized receiver coordinates",
+    "E1-SUNIT-THUE-DYNAMIC-SUPPORT": "remains blocked; moving U1*V1 is another dynamic support manifestation, not a fixed global S",
+    "E1-GAUSSIAN-COORDINATE-GCD-SPLIT": "remains blocked at moving absolute orientation/source units",
+    "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION": "fixed-curve version remains blocked by non-isotrivial k"
+  },
+  "selection": {
+    "selected_candidate": "E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY",
+    "selected_next_unit": "35EX-21_GLOBAL_BIQUADRATIC_SURFACE_MODEL_OR_GEOMETRY_BLOCKER",
+    "instruction": "BUILD_ONE_EXACT_TOTAL_SURFACE_MODEL_FOR_THE_NORMALIZED_MASTER_PLUS_E1_SQUARE_RECEIVER_WITH_BOTH_SOURCE_CIRCLES;_PROVE_A_BIRATIONAL_OR_EXACT_OPEN_ADAPTER_BACK_TO_(r,t,mu,nu);_COMPUTE_DIMENSION_BOUNDARY_AND_AN_INTRINSIC_FIBRATION_OR_BIRATIONAL_INVARIANT;_ONLY_THEN_DECIDE_WHETHER_A_GLOBAL_SURFACE_THEOREM_ROUTE_IS_LEGAL_OR_THE_MODEL_REMAINS_TOO_FREE",
+    "preserved_untested_candidates": [
+      "E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER"
+    ],
+    "split_triggered": false,
+    "split_reason": "the local-global/Brauer layer depends on first constructing the global surface and boundary adapter"
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "BLOCKED_NO_NEW_INFORMATION",
+    "CYCLE_ACTIVE_RECEIVER": "MASTER_HIT_PLUS_FULL_E1_RECEIVER_WITH_TWO_PRIMITIVE_SOURCE_CIRCLES",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 1,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "global total-surface geometry retained as the next active scale after fixed-fiber and moving-squareclass views both block",
+    "CYCLE_NEW_VIEW_SOURCE": "BLIND_AND_PRESERVED_PRIOR_LEDGER"
+  },
+  "credit": {
+    "new_theorem_credit": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
