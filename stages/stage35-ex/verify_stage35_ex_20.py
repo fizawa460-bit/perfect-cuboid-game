@@ -167,6 +167,10 @@ assert ledger["audit_artifact"] in {
     "stages/stage35-ex/35ex-21/post-global-surface-breadth-audit.json",
 }
 
+# Explicit continuity lock: the audited 20B preserved candidate is the exact
+# machine identifier selected LIVE by 21B/state; no alias or silent rename.
+assert unit20b["preserved_untested_candidates"] == [ledger["selected_live"]]
+
 current = state["current"]
 assert current["unit"] in {
     "35EX-21_GLOBAL_BIQUADRATIC_SURFACE_MODEL_OR_GEOMETRY_BLOCKER",
