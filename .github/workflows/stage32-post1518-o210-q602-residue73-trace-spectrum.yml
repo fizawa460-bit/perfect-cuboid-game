@@ -7,8 +7,8 @@ on:
       - 'stages/stage32/controller.json'
       - 'stages/stage32/residual-32-01-production/post1518-o210-q602-residue73-trace-spectrum*'
       - 'stages/stage32/residual-32-01-production/certify_stage32_post1518_o210_q602_residue73_trace_spectrum.py'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1518_o210_q602_trace_spectrum_promotion.py'
       - 'stages/stage32/residual-32-01-production/post1505-o210-q602-marked-w-line-gauge-orbit.json'
-      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-birational-d4d4-trace-reduction.json'
   workflow_dispatch:
 
 permissions:
@@ -23,8 +23,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
-      - name: Certify residue73 trace spectrum
-        run: python stages/stage32/residual-32-01-production/certify_stage32_post1518_o210_q602_residue73_trace_spectrum.py --check stages/stage32/residual-32-01-production/post1518-o210-q602-residue73-trace-spectrum.json
+      - name: Verify hostile-audited trace-spectrum promotion
+        run: python stages/stage32/residual-32-01-production/certify_stage32_post1518_o210_q602_trace_spectrum_promotion.py
       - name: Preserve audited gauge-orbit baseline
         run: python stages/stage32/residual-32-01-production/certify_stage32_post1505_o210_q602_marked_w_line_gauge_orbit.py --check stages/stage32/residual-32-01-production/post1505-o210-q602-marked-w-line-gauge-orbit.json
       - name: Diff check
