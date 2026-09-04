@@ -66,19 +66,15 @@ doc = DOC.read_text()
 audit = json.loads(AUDIT.read_text())
 state = json.loads(STATE.read_text())
 
-# Authority wiring.
-assert state["schema"] == "STAGE35_EX_PESCH_E1_STATE_V19_POST_35EX20_PAIRED_SQUARECLASS_DYNAMIC_SUPPORT_BLOCKER"
+V19 = "STAGE35_EX_PESCH_E1_STATE_V19_POST_35EX20_PAIRED_SQUARECLASS_DYNAMIC_SUPPORT_BLOCKER"
+V20 = "STAGE35_EX_PESCH_E1_STATE_V20_POST_35EX21_GLOBAL_NORMALIZED_CUBOID_SURFACE"
+assert state["schema"] in {V19, V20}
 assert state["stage"] == "35-EX"
 assert state["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
-assert state["base_main_sha"] == "fd0986693a8806fb77083c862d0f939d23a05abb"
-
-parent = state["parent_authority"]
-assert parent["unit"] == "35EX-19B"
-assert parent["status"] == "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT"
-assert parent["hostile_audit_verdict"] == "PASS"
-assert parent["audited_head_sha"] == "b63fcf4f7888f86f6881d15f5e5bd9d3873dc1b5"
-assert parent["merged_main_sha"] == "fd0986693a8806fb77083c862d0f939d23a05abb"
-assert parent["audited_theorem_credit"] is False
+assert state["base_main_sha"] in {
+    "fd0986693a8806fb77083c862d0f939d23a05abb",
+    "24438151cf76be42612b7df83314630e51c61682",
+}
 
 unit19 = state["completed_units"]["35EX-19"]
 assert unit19["status"] == "AUDITED_EXACT_NONISOTRIVIAL_GENUSONE_FAMILY_BLOCKER_NEW_PAIRED_QUARTIC_HOOK_NO_CREDIT"
@@ -96,7 +92,10 @@ assert unit19b["selected_next_unit"] == "35EX-20_PAIRED_SOURCE_FILTER_QUARTIC_SQ
 assert unit19b["audited_theorem_credit"] is False
 
 unit20 = state["completed_units"]["35EX-20"]
-assert unit20["status"] == "PROVISIONAL_EXACT_PAIRED_QUARTIC_SQUARECLASS_DYNAMIC_UV_SUPPORT_BLOCKER_NO_CREDIT"
+assert unit20["status"] in {
+    "PROVISIONAL_EXACT_PAIRED_QUARTIC_SQUARECLASS_DYNAMIC_UV_SUPPORT_BLOCKER_NO_CREDIT",
+    "AUDITED_EXACT_PAIRED_QUARTIC_SQUARECLASS_DYNAMIC_UV_SUPPORT_BLOCKER_NO_CREDIT",
+}
 assert unit20["artifact"] == "stages/stage35-ex/35ex-20/paired-quartic-squareclass-moving-support-blocker.md"
 assert unit20["breadth_audit"] == "stages/stage35-ex/35ex-20/post-paired-squareclass-breadth-audit.json"
 assert unit20["verifier"] == "stages/stage35-ex/verify_stage35_ex_20.py"
@@ -112,7 +111,10 @@ assert unit20["all_paired_quartic_descents_ruled_out_in_principle"] is False
 assert unit20["audited_theorem_credit"] is False
 
 unit20b = state["completed_units"]["35EX-20B"]
-assert unit20b["status"] == "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT"
+assert unit20b["status"] in {
+    "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT",
+    "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT",
+}
 assert unit20b["exhaustive_view_audit"] is True
 assert unit20b["blind_rediscovery"] is True
 assert unit20b["arsenal_comparison"] is True
@@ -121,26 +123,61 @@ assert unit20b["selected_next_unit"] == "35EX-21_GLOBAL_BIQUADRATIC_SURFACE_MODE
 assert unit20b["preserved_untested_candidates"] == ["E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER"]
 assert unit20b["audited_theorem_credit"] is False
 
+if state["schema"] == V19:
+    parent = state["parent_authority"]
+    assert parent["unit"] == "35EX-19B"
+    assert parent["status"] == "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT"
+    assert parent["hostile_audit_verdict"] == "PASS"
+    assert parent["audited_head_sha"] == "b63fcf4f7888f86f6881d15f5e5bd9d3873dc1b5"
+    assert parent["merged_main_sha"] == "fd0986693a8806fb77083c862d0f939d23a05abb"
+    assert parent["audited_theorem_credit"] is False
+    assert state["base_main_sha"] == "fd0986693a8806fb77083c862d0f939d23a05abb"
+    assert unit20["status"].startswith("PROVISIONAL_")
+    assert unit20b["status"] == "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT"
+else:
+    parent = state["parent_authority"]
+    assert parent["unit"] == "35EX-20B"
+    assert parent["status"] == "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT"
+    assert parent["hostile_audit_verdict"] == "PASS"
+    assert parent["hostile_audit_review"] == 5109942390
+    assert parent["audited_head_sha"] == "1a45fc6fca779cb22794e305e044aa37e62e76ef"
+    assert parent["merged_main_sha"] == "24438151cf76be42612b7df83314630e51c61682"
+    assert parent["audited_theorem_credit"] is False
+    assert state["base_main_sha"] == "24438151cf76be42612b7df83314630e51c61682"
+    for unit in (unit20, unit20b):
+        assert unit["hostile_audit_verdict"] == "PASS"
+        assert unit["hostile_audit_review"] == 5109942390
+        assert unit["audited_head_sha"] == "1a45fc6fca779cb22794e305e044aa37e62e76ef"
+        assert unit["merged_main_sha"] == "24438151cf76be42612b7df83314630e51c61682"
+
 freeze = state["resolved_investigations"]["CURRENT_PAIRED_QUARTIC_SQUARECLASS"]
 assert freeze["status"] == "FROZEN_DYNAMIC_UV_SUPPORT_NO_GLOBAL_FINITE_FAMILY"
 assert "U1*V1" in freeze["reason"]
 assert "uniform" in freeze["reopen_condition"]
 
 ledger = state["candidate_ledger_after_fresh_breadth_audit"]
-assert ledger["selected_live"] == "E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY"
-assert ledger["untested"] == ["E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER"]
+assert ledger["selected_live"] in {
+    "E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY",
+    "E1-SURFACE-LOCAL_GLOBAL-OR-BRAUER-LAYER",
+}
 assert "E1-PAIRED-SOURCE-FILTER-QUARTIC-INTERSECTION" in ledger["just_frozen"]
 assert "E1-PAIRED-SOURCE-FILTER-QUARTIC-INTERSECTION" in ledger["blocked"]
-assert ledger["audit_artifact"] == "stages/stage35-ex/35ex-20/post-paired-squareclass-breadth-audit.json"
+assert ledger["audit_artifact"] in {
+    "stages/stage35-ex/35ex-20/post-paired-squareclass-breadth-audit.json",
+    "stages/stage35-ex/35ex-21/post-global-surface-breadth-audit.json",
+}
 
 current = state["current"]
-assert current["unit"] == "35EX-21_GLOBAL_BIQUADRATIC_SURFACE_MODEL_OR_GEOMETRY_BLOCKER"
-assert current["status"] == "SELECTED_BY_FRESH_POST_SQUARECLASS_BREADTH_AUDIT_NO_CREDIT"
-assert "TOTAL_SURFACE_MODEL" in current["next_exact_leaf"]
-assert "BIRATIONAL_OR_EXACT_OPEN_ADAPTER" in current["next_exact_leaf"]
+assert current["unit"] in {
+    "35EX-21_GLOBAL_BIQUADRATIC_SURFACE_MODEL_OR_GEOMETRY_BLOCKER",
+    "35EX-22_SURFACE_BRAUER_CLASS_OR_OBVIOUS_SYMBOL_BLOCKER",
+}
 
 assert state["arsenal"]["S34_W01"] == "FIXED_FIRST_SOURCE_ROUTING_MATCH_GLOBAL_FINITE_FAMILY_BLOCKED_DYNAMIC_UV_SUPPORT"
-assert state["arsenal"]["S31_W01"] == "FIBERWISE_ROUTING_ONLY_GLOBAL_FIXED_CURVE_USE_BLOCKED_BY_NONISOTRIVIAL_K"
+assert state["arsenal"]["S31_W01"] in {
+    "FIBERWISE_ROUTING_ONLY_GLOBAL_FIXED_CURVE_USE_BLOCKED_BY_NONISOTRIVIAL_K",
+    "GENUS_ONE_CHARACTER_QUOTIENT_FIBERWISE_ROUTING_ONLY_NO_UNIFORM_SURFACE_CLOSURE",
+}
 assert state["arsenal"]["matching_formal_global_surface_classification_card_found"] is False
 assert state["stage35_main_firewall"]["stage35_ex_reopens_stage35_main"] is False
 
@@ -171,7 +208,7 @@ for marker in (
 ):
     assert marker in doc
 
-# Breadth audit wiring and protocol enum lock.
+# Original 35EX-20B audit remains immutable and exact.
 assert audit["schema"] == "STAGE35_EX_20B_POST_PAIRED_SQUARECLASS_BREADTH_AUDIT_V1"
 assert audit["blind_rediscovery"]["performed_before_arsenal_comparison_for_this_audit"] is True
 assert audit["arsenal_comparison"]["performed_after_blind_generation"] is True
@@ -252,8 +289,6 @@ for aa in range(2, 22):
                     assert v2(A) == v2(B) == 1
                     assert v2(C) >= 3 and v2(D) >= 3
 
-                # Whenever one pair is actually a square product, its
-                # squarefree kernels coincide and obey the claimed support.
                 if square(A * B):
                     dA = squarefree_kernel(A)
                     dB = squarefree_kernel(B)
@@ -282,7 +317,6 @@ for aa in range(2, 22):
                         z_orientation_checks += 1
                     square_product_checks += 1
 
-                # If both kernels occur, their odd supports are disjoint.
                 if square(A * B) and C * D > 0 and square(C * D):
                     dY = squarefree_kernel(A)
                     dZ = squarefree_kernel(abs(C))
@@ -294,9 +328,7 @@ assert square_product_checks > 0
 assert split_checks > 0
 assert z_orientation_checks > 0
 
-# Exact regression that the primitive first-source support reservoir is not
-# bounded by one fixed finite prime set: V=2*a with b=1 can carry any chosen
-# finite set of distinct odd prime factors while preserving primitivity.
+# The primitive first-source support reservoir is not bounded by one fixed finite set.
 prod = 1
 for p in (3, 5, 7, 11, 13):
     prod *= p
