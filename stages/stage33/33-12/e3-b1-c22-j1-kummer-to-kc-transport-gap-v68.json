@@ -1,0 +1,71 @@
+{
+  "artifact": "e3-b1-c22-j1-kummer-to-kc-transport-gap-v68",
+  "stage": "33-12",
+  "version": 68,
+  "status": "D2_OPEN_TRANSPORT_BRIDGE_REQUIRED",
+  "scope": {
+    "roadmap_gate": "D2_J1_SPECIFIC_TRANSLATION_TORSOR_OR_KERNEL_INVARIANT",
+    "source_branch": "C22 normalization",
+    "source_class": "kappa_A = P_r1 - P_r4 = J1",
+    "source_lift": "lambda_A = {f_A, g_22}",
+    "target": "marked generic-fiber K_c[2] translation cocycle/torsor"
+  },
+  "source_locked_inputs": [
+    {
+      "path": "stages/stage33/33-12/e3-b1-c22-kappa-a-literal-cech-lift-v63.json",
+      "locked_fact": "div(f_A)=2(P_r1-P_r4), so the branch-side Kummer/Cech class is kappa_A=P_r1-P_r4."
+    },
+    {
+      "path": "stages/stage33/33-12/e3-b1-c22-named-torsion-normalization-bridge-v64.json",
+      "locked_fact": "On the normalized C22 elliptic model, kappa_A is the named two-torsion point J1=(0,0)."
+    },
+    {
+      "path": "stages/stage33/33-05/j2-corrected-cv-e2-cocycle.json",
+      "locked_fact": "The fixed E[2] basis and corrected Creutz-Viray cocycle recorded there belong to the J2/generic-fiber construction and are not a J1 identification."
+    },
+    {
+      "path": "stages/stage33/33-05/j2-r4-correct-translation-torsor.json",
+      "locked_fact": "The translation-torsor/twisted-kernel method is available once a source-locked E[2]-valued cocycle in the relevant marked basis has been fixed."
+    }
+  ],
+  "targeted_repository_check": {
+    "purpose": "Determine whether an already-retained authority explicitly transports the C22-normalization class J1 into the marked generic-fiber K_c[2] basis required by D2.",
+    "queries": [
+      "kappa_A J1 Kc",
+      "J1 translation cocycle",
+      "P_r1 P_r4 Kc"
+    ],
+    "result": "NO_EXPLICIT_TRANSPORT_AUTHORITY_FOUND",
+    "scope_note": "This was a D2-local source-lock check only. D1 and broad positive-evidence/origin searches were not reopened."
+  },
+  "result": {
+    "established": [
+      "The source-side branch Kummer/Cech class for lambda_A is fixed as kappa_A=P_r1-P_r4.",
+      "The normalized C22 elliptic model names this class J1=(0,0).",
+      "The repository contains a translation-torsor/twisted-kernel mechanism for a source-locked marked E[2] cocycle."
+    ],
+    "not_established": [
+      "An explicit normalization-to-generic-fiber transport carrying C22 J1 to a coordinate in the fixed marked K_c[2] basis.",
+      "A J1-specific marked K_c[2]-valued 1-cocycle.",
+      "A J1 translation torsor in that marked basis.",
+      "A J1 twisted-kernel lattice or minimum-norm fingerprint."
+    ],
+    "forbidden_shortcut": "Do not relabel or reuse the J2 corrected Creutz-Viray E[2] cocycle/basis as J1. The branch-normalization name J1 alone does not source-lock a marked generic-fiber K_c[2] coordinate.",
+    "d2_verdict": "OPEN"
+  },
+  "next_gate": "Construct or source-lock an explicit C22-normalization-to-generic-fiber transport identifying J1 in the fixed marked K_c[2] basis. Only after that transport is fixed may Stage33 compute the J1 translation torsor/twisted-kernel invariant for D2.",
+  "anti_loop": [
+    "Do not reopen D1 or broad evidence search.",
+    "Do not recompute the already-retained J2 hostile kernel.",
+    "Do not infer a target fingerprint from the branch-side name J1 alone.",
+    "Do not promote D2 to PASS until the marked K_c[2] transport is source-locked."
+  ],
+  "credit_firewall": {
+    "genuine_full_surface_H2_mu2_lift": false,
+    "e3_kummer_column": false,
+    "D2_closed": false,
+    "stage33_12_closed": false,
+    "stage33_13_released": false,
+    "perfect_cuboid_credit": false
+  }
+}
