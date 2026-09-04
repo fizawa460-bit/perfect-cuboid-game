@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V5_36_02_AUDITED",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V6_36_03_PENDING_AUDIT",
   "stage": "36",
-  "status": "ACTIVE",
-  "base_main_sha": "4c93ccb79e95cbcd9e2416ad3b6a3f4788d6f586",
+  "status": "ACTIVE_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "bdd707e52ded061014bfbb6158762e8b997e7a38",
   "mission": "Attack Stage29 kernel K16-C3-CAMPEDELLI-UNIFORM-TORSOR through the audited R29-CAMP2 three-representative Q-defined Campedelli H-torsor receiver, seeking exact quotient emptiness or a receiver-matched replacement theorem.",
   "parent_bootstrap_authority": {
     "pr": 1535,
@@ -32,11 +32,26 @@
     "inventory_blob_sha": "88130b9380a677a191f91c24df87618e65be0a2f",
     "verdict": "PASS"
   },
+  "stage36_36_02_promotion": {
+    "pr": 1548,
+    "exact_head": "f2f56f29fe5b5d33e5dc4d32e9e8dc75c2ddcc08",
+    "exact_head_ci_run": 33877571293,
+    "exact_head_ci_job": 101038103247,
+    "merged_main_sha": "26fb608cb2551ab2102ae36ad3b57c063959df58",
+    "scope": "mechanical audited-state promotion only",
+    "NEW_THEOREM_CREDIT": false
+  },
   "freshness_sync_36_02": {
     "sync_pr": 1545,
     "main_sha": "a873c8fca0074aa966a22e36475a3551a378560d",
     "merge_commit": "cd5624ce094ba98a38b605797cf8cc0afc99fbe4",
     "scope": "AGENTS.md only via #1544; no Stage36, Stage29 Campedelli source, or Arsenal authority changes"
+  },
+  "freshness_sync_36_03": {
+    "sync_pr": 1554,
+    "main_sha": "bdd707e52ded061014bfbb6158762e8b997e7a38",
+    "merge_commit": "a741d573da4045cdee984a0541d71a55a9d7c0a9",
+    "scope": "Stage32-only advance via #1550; no Stage36, Stage29 Campedelli/physical-open source, or Arsenal authority changes"
   },
   "source_kernel": {
     "kernel": "K16-C3-CAMPEDELLI-UNIFORM-TORSOR",
@@ -82,10 +97,15 @@
       "S30-WF03": {"path": "docs/arsenal/cards/workflows/S30-WF03.md", "blob_sha": "12740198aba19ade18302819f8e890dbda4eb701", "role": "ADAPTER_CREDIT_LAYER_FIREWALL"},
       "S30-W02": "NOT_TRIGGERED_Q_FORM_ALREADY_EXACT"
     },
+    "applied_in_36_03": {
+      "S30-WF02": {"path": "docs/arsenal/cards/workflows/S30-WF02.md", "blob_sha": "38e4625155eb079bbe3d50d663c6256559319886", "role": "IMMUTABLE_LAYERED_CERTIFICATE_REPLAY"},
+      "S30-WF03": {"path": "docs/arsenal/cards/workflows/S30-WF03.md", "blob_sha": "12740198aba19ade18302819f8e890dbda4eb701", "role": "ADAPTER_CREDIT_LAYER_FIREWALL"},
+      "S34-W03": {"path": "docs/arsenal/cards/formal/S34-W03.md", "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96", "role": "RECEIVER_RESTRICTED_INTERSECTION_EXCLUSION", "application": "PREPARE_EXACT_PHYSICAL_RESTRICTED_RECEIVER_ONLY", "executed": false}
+    },
     "S34_WF01": "PRE_REGISTERED_RECEIVER_REPLACEMENT",
     "S30_W02": "PRE_REGISTERED_IF_QFORM_SEMILINEAR_ADAPTER_NEEDED",
     "S34_W01": "LOCKED_UNTIL_EXACT_FINITE_SQUARECLASS_REDUCTION",
-    "S34_W03": "PRE_REGISTERED_IF_RECEIVER_INTERSECTION_MATCHES",
+    "S34_W03": "PREPARED_IN_36_03_NOT_EXECUTED",
     "S34_W02": "LOCKED_UNTIL_GLOBALLY_EXHAUSTIVE_FINITE_CURVE_REDUCTION"
   },
   "completed_units": {
@@ -119,21 +139,41 @@
       "EXACT_Q_ISOMORPHISM_CLASS_COUNT_CLAIM": false,
       "NEW_THEOREM_CREDIT": false,
       "promotion_status": "AUDITED"
+    },
+    "36-03": {
+      "leaf": "36-03_PHYSICAL_OPEN_PUSH_AND_BOUNDARY",
+      "status": "EXACT_PHYSICAL_OPEN_PUSH_BOUNDARY_PENDING_HOSTILE_AUDIT",
+      "certificate": "stages/stage36/36-03/physical-open-boundary.json",
+      "verifier": "stages/stage36/verify_stage36_36_03.py",
+      "ENDPOINT_TO_EACH_Q_REPRESENTATIVE_PUSH_EXACT": true,
+      "CONVERSE_LIFT_CLAIM": false,
+      "NEW_THEOREM_CREDIT": false,
+      "promotion_status": "PROVISIONAL_NOT_AUDITED"
     }
   },
   "current": {
     "unit": "36-03",
     "next_exact_leaf": "36-03_PHYSICAL_OPEN_PUSH_AND_BOUNDARY",
     "next_owner": "STAGE36_MAIN",
-    "why": "36-02 hostile re-audit PASS has been promoted. Replay the exact physical endpoint-to-C_H map for the three audited Q representatives and identify every deleted, exceptional, branch, canonical/resolution, and torsor-degeneration locus before any H^1 arithmetic."
+    "result": "EXACT_PHYSICAL_OPEN_PUSH_BOUNDARY_PENDING_HOSTILE_AUDIT",
+    "provisional_successor_after_hostile_audit": "36-04_EXPLICIT_H_TORSOR_AND_LIFT_CLASS",
+    "why": "The physical side-nonzero open, its 72-component resolved boundary, the global etale H quotient, six quotient A1 points, branch/radical zero cases, and the scheme-versus-rational branch-free distinction are now exact. Hostile audit is required before promotion or 36-04."
   },
   "current_leaf_working_set": [
     "stages/stage36/ROADMAP.md",
     "stages/stage36/36-02/representative-inventory.json",
+    "stages/stage36/36-03/physical-open-boundary.json",
+    "stages/stage36/verify_stage36_36_03.py",
     "stages/stage29/29-06/endpoint-hub-graph.json",
+    "stages/stage29/29-06/source-crosswalk.md",
+    "stages/stage29/29-02f/audit.md",
+    "stages/stage29/29-02ha/exact-sign-cover-model.md",
     "stages/stage29/29-02hb/campedelli-quotient-adapter.md",
     "stages/stage29/29-02hb/arithmetic-routing.md",
-    "docs/arsenal/index.json"
+    "docs/arsenal/index.json",
+    "docs/arsenal/cards/workflows/S30-WF02.md",
+    "docs/arsenal/cards/workflows/S30-WF03.md",
+    "docs/arsenal/cards/formal/S34-W03.md"
   ],
   "promotion_gates": {
     "source_authority_lock_complete": true,
@@ -169,6 +209,8 @@
     "do_not_repeat_literature_search_without_changed_exact_theorem_target": true,
     "do_not_promote_quotient_Q_point_to_endpoint_Q_point": true,
     "do_not_promote_bounded_computation_without_exhaustive_provenance": true,
+    "do_not_treat_U_H_Q_as_q_H_U_Q_without_torsor_lift": true,
+    "do_not_treat_side_nonzero_U_Qbar_as_branch_free_scheme": true,
     "cycle_protocol_required_before_parking_after_repeated_distinct_blocks": true
   },
   "claims": {
