@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE35_EX_17B_POST_DESCENT_FRESH_BREADTH_AUDIT_V1",
+  "schema": "STAGE35_EX_17B_POST_DESCENT_FRESH_BREADTH_AUDIT_V2",
   "unit": "35EX-17B_FRESH_BREADTH_AUDIT",
   "target": "PESCH-CONJ-E1-BASIS-NONSQUARE",
   "trigger": {
@@ -83,13 +83,17 @@
     ]
   },
   "new_exact_hook_for_selected_candidate": {
+    "artifact": "stages/stage35-ex/35ex-17/post-descent-gaussian-coordinate-gcd-hook.md",
     "zminus": "(a*m-b*n)+i*(a*n-b*m)",
     "zplus": "(a*m+b*n)+i*(a*n+b*m)",
     "norm_zminus": "W1*W2-V1*V2=p*d*Lminus",
     "norm_zplus": "W1*W2+V1*V2=p*d*Lplus",
     "gminus": "gcd(a*m-b*n,a*n-b*m)",
     "gplus": "gcd(a*m+b*n,a*n+b*m)",
-    "candidate_lemma_to_prove": "gminus*gplus=c and gcd(gminus,gplus)=1; under the full receiver gminus|sqrt(Lminus), gplus|sqrt(Lplus), so zminus/gminus and zplus/gplus are primitive Gaussian integers with norms p*d times squares",
+    "gminus_gplus_equals_c": true,
+    "gminus_gplus_coprime": true,
+    "full_receiver_primitive_pd_twisted_norms_proved": true,
+    "pd_odd_prime_support_split_only": true,
     "required_next_test": "combine the resulting p*d-twisted Gaussian squareclasses with the normalized Master Gaussian square and decide whether the split-prime orientation vector is forced, contradictory, or still moving"
   },
   "arsenal_comparison_after_blind_pass": {
@@ -99,7 +103,7 @@
         "id": "S34-W01",
         "role": "SUCCESSIVE_EXACT_FACTOR_SQUARECLASS_DESCENT",
         "status": "ROUTING_PATTERN_ONLY_NOT_YET_UNLOCKED",
-        "reason": "the proposed Gaussian normalization may expose a sharper exact squareclass split, but p*d still has moving split-prime support and no finite exhaustive squareclass family has yet been proved"
+        "reason": "the Gaussian normalization exposes a sharper exact squareclass split, but p*d still has moving split-prime support and no finite exhaustive squareclass family has yet been proved"
       },
       {
         "id": "S31-W01",
