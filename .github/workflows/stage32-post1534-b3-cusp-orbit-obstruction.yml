@@ -1,0 +1,37 @@
+name: Stage32 post1534 b3 cusp-orbit obstruction
+
+on:
+  push:
+    branches:
+      - stage32-post1534-b3-cusp-orbit-obstruction
+    paths:
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1534_b3_cusp_orbit_obstruction.py'
+      - '.github/workflows/stage32-post1534-b3-cusp-orbit-obstruction.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1534_b3_cusp_orbit_obstruction.py'
+      - 'stages/stage32/residual-32-01-production/post1534-b3-cusp-orbit-obstruction*'
+      - '.github/workflows/stage32-post1534-b3-cusp-orbit-obstruction.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run b3 cusp-orbit obstruction diagnostic
+        run: python3 stages/stage32/residual-32-01-production/diagnose_stage32_post1534_b3_cusp_orbit_obstruction.py
+      - name: Enforce no controller edit
+        shell: bash
+        run: |
+          if git diff --name-only "${{ github.event.pull_request.base.sha || '7a5d01b438c68c228ad73955f906f3128780d6ef' }}" HEAD | grep -qx 'stages/stage32/controller.json'; then
+            echo 'controller.json must remain unchanged in this bounded diagnostic leaf'
+            exit 1
+          fi
+      - name: Diff check
+        run: git diff --check
