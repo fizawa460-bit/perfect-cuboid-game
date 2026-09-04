@@ -11,7 +11,7 @@ AUDIT=ROOT/'stages/stage35-ex/35ex-27/post-rational-source-kummer-breadth-audit.
 S31=ROOT/'docs/arsenal/cards/formal/S31-W01.md'
 S34=ROOT/'docs/arsenal/cards/formal/S34-W03.md'
 V27='STAGE35_EX_PESCH_E1_STATE_V27_POST_35EX28_FULL_RATIONAL_SOURCE_KUMMER_COMPLETION'
-CURRENT_MAIN='ee3e7aafd1742c5d96e2871f117412ef0823d57e'
+CURRENT_MAIN='99c5f1634dd59d4bc5698cbb775801dd9d000827'
 
 def blob(path):
     data=path.read_bytes()
