@@ -14,6 +14,7 @@ PENDING_36_02_BASE = "a873c8fca0074aa966a22e36475a3551a378560d"
 AUDITED_36_02_PR_MERGE = "4c93ccb79e95cbcd9e2416ad3b6a3f4788d6f586"
 AUDITED_36_02_PROMOTION_MERGE = "26fb608cb2551ab2102ae36ad3b57c063959df58"
 PENDING_36_03_BASE = "bdd707e52ded061014bfbb6158762e8b997e7a38"
+AUDITED_36_03_MERGE = "45f290a443cf71b1fc62f031994122c3fa58f0e9"
 SOURCES = {
     "stage29_active_kernel_ledger": ("stages/stage29/29-16/active-kernel-ledger.json", "5d6d4c7709b57064aea5dc0ece672c5170c39550"),
     "stage29_endpoint_hub_graph": ("stages/stage29/29-06/endpoint-hub-graph.json", "7ea59474767f81fbaa4837c8cbc94b535560617b"),
@@ -58,6 +59,7 @@ def main() -> None:
         "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V4_36_02_PENDING_AUDIT",
         "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V5_36_02_AUDITED",
         "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V6_36_03_PENDING_AUDIT",
+        "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V7_36_03_AUDITED",
     }
     require(schema in allowed, "unrecognized Stage36 successor schema")
 
@@ -85,41 +87,57 @@ def main() -> None:
         require(state.get("status") == "PLANNED_NOT_STARTED", "initial status moved")
         require(state.get("base_main_sha") == INITIAL_BASE, "initial base lock moved")
         require(state.get("completed_units") == {}, "36-01 started in initial schema")
-    elif schema == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V2_36_01_PENDING_AUDIT":
+        return
+
+    if schema == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V2_36_01_PENDING_AUDIT":
         require(state.get("status") == "ACTIVE_PENDING_HOSTILE_AUDIT", "36-01 pending status moved")
         require(state.get("base_main_sha") == PENDING_36_01_BASE, "36-01 pending base moved")
         require(state.get("completed_units", {}).get("36-01", {}).get("promotion_status") == "PROVISIONAL_NOT_AUDITED", "36-01 pending promotion moved")
+        return
+
+    u1 = state.get("completed_units", {}).get("36-01", {})
+    require(u1.get("status") == "AUDITED_PASS" and u1.get("promotion_status") == "AUDITED", "36-01 audited status moved")
+    require(u1.get("hostile_audit_review") == 5112705173 and u1.get("audited_head") == "e2f6c5a2f34d76c1f17f90983a4e7fea62816621", "36-01 audit identity moved")
+    require(u1.get("merged_main_sha") == AUDITED_36_01_MERGE, "36-01 merge authority moved")
+    require(state.get("promotion_gates", {}).get("source_authority_lock_complete") is True, "36-01 promotion gate lost")
+
+    if schema == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V3_36_01_AUDITED":
+        require(state.get("base_main_sha") == AUDITED_36_01_MERGE, "36-01 audited base moved")
+        return
+    if schema == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V4_36_02_PENDING_AUDIT":
+        require(state.get("base_main_sha") == PENDING_36_02_BASE, "36-02 pending base moved")
+        require(state.get("promotion_gates", {}).get("three_Q_representatives_exact") is False, "36-02 prematurely promoted")
+        return
+
+    a2 = state.get("stage36_36_02_authority", {})
+    require(a2.get("hostile_audit_review") == 5113379283 and a2.get("audited_head") == "3a78f9ff156b53f509625d353df48d1b3e02b836", "36-02 audit identity moved")
+    require(a2.get("merged_main_sha") == AUDITED_36_02_PR_MERGE, "36-02 audited PR merge moved")
+    require(state.get("promotion_gates", {}).get("three_Q_representatives_exact") is True, "36-02 audited gate lost")
+
+    if schema == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V5_36_02_AUDITED":
+        require(state.get("status") == "ACTIVE" and state.get("base_main_sha") == AUDITED_36_02_PR_MERGE, "36-02 promotion lifecycle moved")
+        return
+
+    promo = state.get("stage36_36_02_promotion", {})
+    require(promo.get("pr") == 1548 and promo.get("merged_main_sha") == AUDITED_36_02_PROMOTION_MERGE and promo.get("NEW_THEOREM_CREDIT") is False, "36-02 promotion provenance moved")
+
+    if schema == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V6_36_03_PENDING_AUDIT":
+        require(state.get("status") == "ACTIVE_PENDING_HOSTILE_AUDIT" and state.get("base_main_sha") == PENDING_36_03_BASE, "36-03 lifecycle/base moved")
+        require(state.get("freshness_sync_36_03") == {
+            "sync_pr": 1554,
+            "main_sha": PENDING_36_03_BASE,
+            "merge_commit": "a741d573da4045cdee984a0541d71a55a9d7c0a9",
+            "scope": "Stage32-only advance via #1550; no Stage36, Stage29 Campedelli/physical-open source, or Arsenal authority changes",
+        }, "36-03 freshness moved")
+        require(state.get("promotion_gates", {}).get("physical_open_push_and_boundary_complete") is False, "36-03 prematurely promoted")
     else:
-        u1 = state.get("completed_units", {}).get("36-01", {})
-        require(u1.get("status") == "AUDITED_PASS" and u1.get("promotion_status") == "AUDITED", "36-01 audited status moved")
-        require(u1.get("hostile_audit_review") == 5112705173 and u1.get("audited_head") == "e2f6c5a2f34d76c1f17f90983a4e7fea62816621", "36-01 audit identity moved")
-        require(u1.get("merged_main_sha") == AUDITED_36_01_MERGE, "36-01 merge authority moved")
-        require(state.get("promotion_gates", {}).get("source_authority_lock_complete") is True, "36-01 promotion gate lost")
-
-        if schema == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V3_36_01_AUDITED":
-            require(state.get("base_main_sha") == AUDITED_36_01_MERGE, "36-01 audited base moved")
-        elif schema == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V4_36_02_PENDING_AUDIT":
-            require(state.get("base_main_sha") == PENDING_36_02_BASE, "36-02 pending base moved")
-            require(state.get("promotion_gates", {}).get("three_Q_representatives_exact") is False, "36-02 prematurely promoted")
-        else:
-            a2 = state.get("stage36_36_02_authority", {})
-            require(a2.get("hostile_audit_review") == 5113379283 and a2.get("audited_head") == "3a78f9ff156b53f509625d353df48d1b3e02b836", "36-02 audit identity moved")
-            require(a2.get("merged_main_sha") == AUDITED_36_02_PR_MERGE, "36-02 audited PR merge moved")
-            require(state.get("promotion_gates", {}).get("three_Q_representatives_exact") is True, "36-02 audited gate lost")
-
-            if schema == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V5_36_02_AUDITED":
-                require(state.get("status") == "ACTIVE" and state.get("base_main_sha") == AUDITED_36_02_PR_MERGE, "36-02 promotion lifecycle moved")
-            else:
-                require(state.get("status") == "ACTIVE_PENDING_HOSTILE_AUDIT" and state.get("base_main_sha") == PENDING_36_03_BASE, "36-03 lifecycle/base moved")
-                promo = state.get("stage36_36_02_promotion", {})
-                require(promo.get("pr") == 1548 and promo.get("merged_main_sha") == AUDITED_36_02_PROMOTION_MERGE and promo.get("NEW_THEOREM_CREDIT") is False, "36-02 promotion provenance moved")
-                require(state.get("freshness_sync_36_03") == {
-                    "sync_pr": 1554,
-                    "main_sha": PENDING_36_03_BASE,
-                    "merge_commit": "a741d573da4045cdee984a0541d71a55a9d7c0a9",
-                    "scope": "Stage32-only advance via #1550; no Stage36, Stage29 Campedelli/physical-open source, or Arsenal authority changes",
-                }, "36-03 freshness moved")
-                require(state.get("promotion_gates", {}).get("physical_open_push_and_boundary_complete") is False, "36-03 prematurely promoted")
+        require(state.get("status") == "ACTIVE" and state.get("base_main_sha") == AUDITED_36_03_MERGE, "36-03 audited promotion lifecycle moved")
+        a3 = state.get("stage36_36_03_authority", {})
+        require(a3.get("hostile_audit_review") == 5113890803 and a3.get("audited_head") == "5fd7af75ede4cd2eceb70f9f21bd2b98ec5453a6", "36-03 audit identity moved")
+        require(a3.get("merged_main_sha") == AUDITED_36_03_MERGE, "36-03 merge authority moved")
+        require(state.get("promotion_gates", {}).get("physical_open_push_and_boundary_complete") is True, "36-03 audited gate lost")
+        require(state.get("current", {}).get("unit") == "36-04", "36-04 successor not active")
+        require("36-04" not in state.get("completed_units", {}), "36-04 started in promotion state")
 
     for rel in ["stages/stage36/ROADMAP.md", "stages/stage36/MAIN-START-HERE.md", "stages/stage36/MAIN-BATCH-HANDOFF.md"]:
         require((ROOT / rel).exists(), f"missing Stage36 bootstrap file: {rel}")
