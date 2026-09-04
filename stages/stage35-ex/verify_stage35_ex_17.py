@@ -97,7 +97,7 @@ assert state["candidate_ledger_after_fresh_breadth_audit"]["selected_live"] in {
     "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION",
     "E1-PAIRED-SOURCE-FILTER-QUARTIC-INTERSECTION",
     "E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY",
-    "E1-SURFACE-LOCAL_GLOBAL-OR-BRAUER-LAYER",
+    "E1-SURFACE-LOCAL_GLOBAL_OR_BRAUER_LAYER",
 }
 assert tuple(state["candidate_ledger_after_fresh_breadth_audit"]["untested"]) in {
     ("E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION",),
