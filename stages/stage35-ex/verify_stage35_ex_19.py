@@ -16,12 +16,14 @@ state = json.loads(STATE.read_text())
 
 V18 = "STAGE35_EX_PESCH_E1_STATE_V18_POST_35EX19_NONISOTRIVIAL_GENUSONE_BLOCKER"
 V19 = "STAGE35_EX_PESCH_E1_STATE_V19_POST_35EX20_PAIRED_SQUARECLASS_DYNAMIC_SUPPORT_BLOCKER"
-assert state["schema"] in {V18, V19}
+V20 = "STAGE35_EX_PESCH_E1_STATE_V20_POST_35EX21_GLOBAL_NORMALIZED_CUBOID_SURFACE"
+assert state["schema"] in {V18, V19, V20}
 assert state["stage"] == "35-EX"
 assert state["status"] == "ACTIVE_RESEARCH_NO_CREDIT"
 assert state["base_main_sha"] in {
     "751ac2ed47843223340b2d9b09db3d5cca8c3464",
     "fd0986693a8806fb77083c862d0f939d23a05abb",
+    "24438151cf76be42612b7df83314630e51c61682",
 }
 
 # Historical audited 35EX-18 authority must remain exact under successors.
@@ -73,7 +75,7 @@ if state["schema"] == V18:
     assert state["base_main_sha"] == "751ac2ed47843223340b2d9b09db3d5cca8c3464"
     assert unit19["status"].startswith("PROVISIONAL_")
     assert unit19b["status"] == "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT"
-else:
+elif state["schema"] == V19:
     parent = state["parent_authority"]
     assert parent["unit"] == "35EX-19B"
     assert parent["status"] == "AUDITED_FRESH_BREADTH_AUDIT_NO_CREDIT"
@@ -86,32 +88,44 @@ else:
         assert unit["hostile_audit_verdict"] == "PASS"
         assert unit["audited_head_sha"] == "b63fcf4f7888f86f6881d15f5e5bd9d3873dc1b5"
         assert unit["merged_main_sha"] == "fd0986693a8806fb77083c862d0f939d23a05abb"
+else:
+    # V20 promotes 35EX-20/20B, but historical 35EX-19/19B provenance remains exact.
+    assert state["base_main_sha"] == "24438151cf76be42612b7df83314630e51c61682"
+    for unit in (unit19, unit19b):
+        assert unit["hostile_audit_verdict"] == "PASS"
+        assert unit["audited_head_sha"] == "b63fcf4f7888f86f6881d15f5e5bd9d3873dc1b5"
+        assert unit["merged_main_sha"] == "fd0986693a8806fb77083c862d0f939d23a05abb"
 
 freeze = state["resolved_investigations"]["CURRENT_RECEIVER_SPECIFIC_FIXED_GENUSONE"]
 assert freeze["status"] == "FROZEN_NONISOTRIVIAL_MOVING_SOURCE_PARAMETER"
 assert "fixed source parameter" in freeze["reopen_condition"]
 assert "uniform" in freeze["reopen_condition"]
 
-# Successor-safe routing: 35EX-19's audited mathematical result remains exact
-# after 35EX-20 freezes and the fresh breadth audit queues 35EX-21.
+# Successor-safe routing only; 35EX-19 mathematics above remains immutable.
 ledger = state["candidate_ledger_after_fresh_breadth_audit"]
 assert ledger["selected_live"] in {
     "E1-PAIRED-SOURCE-FILTER-QUARTIC-INTERSECTION",
     "E1-GLOBAL-BIQUADRATIC-SURFACE-GEOMETRY",
+    "E1-SURFACE-LOCAL_GLOBAL-OR-BRAUER-LAYER",
 }
 assert "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION" in ledger["just_frozen"]
 assert "E1-RECEIVER-SPECIFIC-GENUSONE-ELIMINATION" in ledger["blocked"]
 assert ledger["audit_artifact"] in {
     "stages/stage35-ex/35ex-19/post-genusone-breadth-audit.json",
     "stages/stage35-ex/35ex-20/post-paired-squareclass-breadth-audit.json",
+    "stages/stage35-ex/35ex-21/post-global-surface-breadth-audit.json",
 }
 
 current = state["current"]
 assert current["unit"] in {
     "35EX-20_PAIRED_SOURCE_FILTER_QUARTIC_SQUARECLASS_OR_FREE_FAMILY",
     "35EX-21_GLOBAL_BIQUADRATIC_SURFACE_MODEL_OR_GEOMETRY_BLOCKER",
+    "35EX-22_SURFACE_BRAUER_CLASS_OR_OBVIOUS_SYMBOL_BLOCKER",
 }
-assert state["arsenal"]["S31_W01"] == "FIBERWISE_ROUTING_ONLY_GLOBAL_FIXED_CURVE_USE_BLOCKED_BY_NONISOTRIVIAL_K"
+assert state["arsenal"]["S31_W01"] in {
+    "FIBERWISE_ROUTING_ONLY_GLOBAL_FIXED_CURVE_USE_BLOCKED_BY_NONISOTRIVIAL_K",
+    "GENUS_ONE_CHARACTER_QUOTIENT_FIBERWISE_ROUTING_ONLY_NO_UNIFORM_SURFACE_CLOSURE",
+}
 assert state["arsenal"]["S34_W01"] in {
     "SELECTED_ROUTING_PATTERN_FOR_35EX20_PAIRED_QUARTIC_NOT_YET_UNLOCKED",
     "FIXED_FIRST_SOURCE_ROUTING_MATCH_GLOBAL_FINITE_FAMILY_BLOCKED_DYNAMIC_UV_SUPPORT",
