@@ -1,0 +1,133 @@
+{
+  "schema": "STAGE35_EX_22_OBVIOUS_SURFACE_BRAUER_SYMBOL_BLOCKER_V1",
+  "stage": "35-EX",
+  "unit": "35EX-22",
+  "status": "PROVISIONAL_NO_CREDIT_PENDING_HOSTILE_AUDIT",
+  "parent": {
+    "pr": 1531,
+    "hostile_reaudit_review": 5110646292,
+    "audited_head_sha": "35431061f571da5b425f30da7974c160685bf1a4",
+    "merged_main_sha": "85e12c7b810eaafc13e663a0047111b7f3333e8b"
+  },
+  "surface": {
+    "equations": [
+      "p^2=1+x^2",
+      "q^2=1+y^2",
+      "z^2=x^2+y^2",
+      "w^2=1+x^2+y^2"
+    ],
+    "open": "x*y*p*q*z*w!=0",
+    "four_radicand_squareclasses_trivial": true
+  },
+  "residue_source_lock": {
+    "reference": "Colliot-Thelene--Skorobogatov, The Brauer--Grothendieck Group (2021), formula (1.18); reproduced in Brauer groups of conic bundles over elliptic curves (2026), Remark 2.2",
+    "formula": "res_v((f,g))=[(-1)^(v(f)v(g))*g^v(f)/f^v(g)]"
+  },
+  "linear_squareclass_generators": [
+    "p+x",
+    "q+y",
+    "w+z",
+    "z+x",
+    "z+y",
+    "w+p",
+    "w+q"
+  ],
+  "conjugate_products": {
+    "(p+x)(p-x)": "1",
+    "(q+y)(q-y)": "1",
+    "(w+z)(w-z)": "1",
+    "(z+x)(z-x)": "y^2",
+    "(z+y)(z-y)": "x^2",
+    "(w+p)(w-p)": "y^2",
+    "(w+q)(w-q)": "x^2"
+  },
+  "obvious_quaternion_presentation": {
+    "constant_generator": "-1",
+    "minus_one_symbols": 7,
+    "pair_symbols": 21,
+    "total_nonconstant_generator_symbols": 28,
+    "independence_claimed": false
+  },
+  "infinity_boundary": {
+    "projective_equations": [
+      "p^2=h^2+x^2",
+      "q^2=h^2+y^2",
+      "z^2=x^2+y^2",
+      "w^2=h^2+x^2+y^2"
+    ],
+    "generic_components": 8,
+    "component_signs": ["eps", "delta", "eta"],
+    "component_equations": "h=0,p=eps*x,q=delta*y,w=eta*z,z^2=x^2+y^2",
+    "parameterization": {
+      "x": "1-T^2",
+      "y": "2*T",
+      "z": "1+T^2"
+    },
+    "squareclass_coordinate_count": 6,
+    "presentation_residue_matrix_rows": 48,
+    "presentation_residue_matrix_columns": 28,
+    "presentation_residue_rank_F2": 6,
+    "actual_Brauer_dimension_inferred": false
+  },
+  "common_zero_specialization": {
+    "point": {
+      "x": "272/225",
+      "y": "0",
+      "p": "353/225",
+      "q": "1",
+      "z": "272/225",
+      "w": "353/225"
+    },
+    "smooth_on_affine_surface": true,
+    "outside_selected_open_only_because": "y=0",
+    "generator_values": [
+      "25/9",
+      "1",
+      "25/9",
+      "544/225",
+      "272/225",
+      "706/225",
+      "578/225"
+    ],
+    "generator_squareclasses": ["1", "1", "1", "34", "17", "706", "2"],
+    "factor_squareclasses": {
+      "34": "2*17",
+      "17": "17",
+      "706": "2*353",
+      "2": "2"
+    },
+    "all_28_quaternion_generators_split_over_every_Q_v": true,
+    "verification_method": "exact rational Hilbert symbols at infinity, 2, and all odd primes dividing numerators or denominators"
+  },
+  "adelic_deformation": {
+    "fixed": ["x=272/225", "p=353/225"],
+    "vary": "nonzero y_v sufficiently close to 0 at each place",
+    "recovered_roots": [
+      "q_v^2=1+y_v^2 near 1",
+      "z_v^2=(272/225)^2+y_v^2 near 272/225",
+      "w_v^2=(353/225)^2+y_v^2 near 353/225"
+    ],
+    "enters_open": true,
+    "all_28_evaluations_remain_zero": true,
+    "restricted_product_integrality_available_almost_everywhere": true,
+    "common_zero_evaluation_adele_exists": true
+  },
+  "result": {
+    "obvious_radicand_symbols_trivial": true,
+    "obvious_symbol_layer_Brauer_Manin_obstruction": false,
+    "current_route": "FROZEN_COMMON_ZERO_EVALUATION_ADELE_NO_OBSTRUCTION",
+    "Brauer_group_computed": false,
+    "Brauer_group_trivial": false,
+    "nonobvious_Brauer_classes_ruled_out": false,
+    "Brauer_obstruction_proved": false,
+    "global_surface_rational_points_classified": false,
+    "E1_proved": false,
+    "stage35_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "next": {
+    "candidate": "E1-GENUS5-MULTIQUADRATIC-FIBER-CHARACTER-DESCENT",
+    "unit": "35EX-23_GENUS5_MULTIQUADRATIC_CHARACTER_QUOTIENT_DESCENT_OR_UNIFORMITY_BLOCKER",
+    "source": "preserved UNTESTED candidate from hostile-audited 35EX-21B"
+  }
+}
