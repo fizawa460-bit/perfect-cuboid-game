@@ -98,7 +98,7 @@ assert blind["E1-FIXED-FIBER-TORSION"]["status"] == "BLOCKED"
 historical = {row["id"]: row for row in breadth["historical_route_reclassification"]}
 assert historical["E1-GCD-SPLIT"]["status"] == "DOMINATED"
 assert historical["E1-DOUBLE-PRIMITIVE-PYTH"]["status"] == "DOMINATED"
-assert historical["E1-GAUSSIAN-DOUBLE-SQUARE"]["status"] == "DOMINATED"
+assert historical["E1-GAUSSIAN-DOUBLE-SQUARE"]["status"] == "UNTESTED"
 assert historical["E1-LOCAL-VALUATION"]["status"] == "DOMINATED"
 assert historical["E1-INFINITE-DESCENT"]["status"] == "UNTESTED"
 assert historical["E1-SUNIT-THUE"]["status"] == "UNTESTED"
@@ -123,6 +123,11 @@ assert set(selection["other_untested_candidates_preserved"]) == {
     "E1-GLOBAL-RECIPROCITY-BEYOND-LOCAL-GRAPH",
     "E1-RECEIVER-RESTRICTED-JOINT-LOCAL",
 }
+cycle_exit = breadth["cycle_exit"]
+assert cycle_exit["CYCLE_LIVE_CANDIDATES"] == 1
+assert cycle_exit["CYCLE_UNTESTED_CANDIDATES"] == 4
+assert cycle_exit["CYCLE_EXHAUSTIVE_VIEW_AUDIT"] is True
+assert cycle_exit["CYCLE_BLIND_REDISCOVERY"] is True
 for key in (
     "new_theorem_credit",
     "R29_PESCH_E1_closed",
@@ -186,5 +191,6 @@ for ell in (5, 13, 17, 29, 37, 41):
 
 assert state["stage"] == "35-EX"
 assert state["stage35_main_firewall"]["stage35_ex_reopens_stage35_main"] is False
+assert state["current"]["status"] == "RESELECTED_AFTER_FRESH_BREADTH_AUDIT_NOT_YET_EXECUTED"
 
 print("PASS STAGE35_EX_11_RECIPROCITY_AND_FRESH_BREADTH_AUDIT_V2")
