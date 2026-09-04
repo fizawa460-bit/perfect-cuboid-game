@@ -2,10 +2,10 @@
 """Replay historical Stage35-EX verifiers through the audited V23 projection.
 
 The real V24 state promotes hostile-audited 35EX-24, records the mandatory 24B
-breadth audit, and advances current to 35EX-25. Historical 17--24 mathematics
-must remain replayable without weakening their original assertions. This
-adapter first validates the real V24 successor authority, then projects only
-successor-routing fields to the exact V23 state audited for 35EX-24.
+breadth audit, and advances current to 35EX-25. Historical base/10--24
+mathematics must remain replayable without weakening their original checks.
+This adapter first validates the real V24 successor authority, then projects
+only successor-routing fields to the exact V23 state audited for 35EX-24.
 """
 from __future__ import annotations
 
@@ -19,10 +19,10 @@ ROOT = Path(__file__).resolve().parents[2]
 STATE = ROOT / "stages/stage35-ex/MAIN-STATE.json"
 V24 = "STAGE35_EX_PESCH_E1_STATE_V24_POST_35EX25_SINGLE_ELLIPTIC_FULL_SQUARE_RECEIVER"
 V23 = "STAGE35_EX_PESCH_E1_STATE_V23_POST_35EX24_FIVE_ELLIPTIC_ISOGENY_TWIST_COMPRESSION"
-ALLOWED = {"17", "18", "19", "20", "21", "22", "23", "24"}
+ALLOWED = {"base", *{str(i) for i in range(10, 25)}}
 
 if len(sys.argv) != 2 or sys.argv[1] not in ALLOWED:
-    raise SystemExit("usage: verify_stage35_ex_v24_legacy_replay.py {17|18|19|20|21|22|23|24}")
+    raise SystemExit("usage: verify_stage35_ex_v24_legacy_replay.py {base|10|...|24}")
 
 target = sys.argv[1]
 real = json.loads(STATE.read_text())
@@ -93,7 +93,9 @@ def projected_read_text(self: Path, *args, **kwargs):
 
 Path.read_text = projected_read_text
 try:
-    if target in {"20", "21", "22", "23"}:
+    if target == "base":
+        runpy.run_path(str(ROOT / "stages/stage35-ex/verify_stage35_ex.py"), run_name="__main__")
+    elif target in {"20", "21", "22", "23"}:
         old_argv = sys.argv[:]
         try:
             sys.argv = ["verify_stage35_ex_v23_legacy_replay.py", target]
