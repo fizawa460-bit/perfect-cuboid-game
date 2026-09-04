@@ -11,10 +11,10 @@ STATE_PATH = ROOT / "stages/stage36/MAIN-STATE.json"
 CERT_PATH = ROOT / "stages/stage36/36-04/h-torsor-lift-class.json"
 INV_PATH = ROOT / "stages/stage36/36-02/representative-inventory.json"
 PREV_PATH = ROOT / "stages/stage36/36-03/physical-open-boundary.json"
-BASE = "3cadfd55d91f1e3267f31f9d7384b62d38678cc3"
+BASE = "4ec2b9af886f9ac9be13c3324788c26625c9e5d9"
 INV_BLOB = "88130b9380a677a191f91c24df87618e65be0a2f"
 PREV_BLOB = "fc1947b2de08f7d8a104bdc91902b20e88635349"
-FRESHNESS = {"sync_pr":1564,"main_sha":BASE,"merge_commit":"cfe189f38c818a72b32d65b44cd391522d0866a0","scope":"Stage35-EX-only advance via #1549; no Stage36, Stage29 Campedelli/sign-cover source, or Arsenal authority changes"}
+FRESHNESS = {"sync_pr":1565,"main_sha":BASE,"merge_commit":"b900a925ce25556bf85c929b1c73aff414c77430","scope":"Stage32-only advance via #1563; no Stage36, Stage29 Campedelli/sign-cover source, or Arsenal authority changes"}
 
 SOURCES = {
     "stage36_roadmap": ("stages/stage36/ROADMAP.md", "eeedda0e89e24f851c989b5ec83e7b320e1ad99e"),
