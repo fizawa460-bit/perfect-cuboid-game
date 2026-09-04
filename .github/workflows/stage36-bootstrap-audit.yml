@@ -74,10 +74,10 @@ jobs:
       - name: Replay audited Stage36 36-03 authority
         run: python3 stages/stage36/verify_stage36_36_03_audited.py
 
-      - name: Verify Stage36 36-04 explicit H torsor and lift class
-        run: python3 stages/stage36/verify_stage36_36_04.py
+      - name: Replay audited Stage36 36-04 authority
+        run: python3 stages/stage36/verify_stage36_36_04_audited.py
 
-      - name: Assert hostile-audit boundary before 36-05
+      - name: Assert promotion boundary before 36-05
         shell: bash
         run: |
           set -euo pipefail
@@ -85,22 +85,20 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V8_36_04_PENDING_AUDIT'
-          assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V9_36_04_AUDITED'
+          assert s['status']=='ACTIVE'
           g=s['promotion_gates']
           assert g['source_authority_lock_complete'] is True
           assert g['three_Q_representatives_exact'] is True
           assert g['physical_open_push_and_boundary_complete'] is True
-          assert g['pointwise_H_torsor_class_explicit'] is False
+          assert g['pointwise_H_torsor_class_explicit'] is True
           assert g['uniform_finite_ramification_support_proved'] is False
           assert g['finite_exhaustive_H_twist_family_proved'] is False
-          assert s['completed_units']['36-04']['POINTWISE_H_TORSOR_CLASS_EXPLICIT'] is True
+          assert s['completed_units']['36-04']['promotion_status']=='AUDITED'
           assert s['completed_units']['36-04']['FINITE_TWIST_FAMILY_PROVED'] is False
-          assert s['completed_units']['36-04']['promotion_status']=='PROVISIONAL_NOT_AUDITED'
-          assert s['current']['unit']=='36-04'
-          assert s['current']['next_exact_leaf']=='36-04_EXPLICIT_H_TORSOR_AND_LIFT_CLASS'
-          assert s['current']['provisional_successor_after_hostile_audit']=='36-05_UNIFORM_RAMIFICATION_SUPPORT'
+          assert s['current']['unit']=='36-05'
+          assert s['current']['next_exact_leaf']=='36-05_UNIFORM_RAMIFICATION_SUPPORT'
           assert '36-05' not in s['completed_units']
           assert all(v is False for v in s['claims'].values())
-          print('36-04 pointwise H-torsor class provisional; 36-05 not started')
+          print('36-04 audited authority promoted; 36-05 not started')
           PY
