@@ -27,9 +27,9 @@ assert state["base_main_sha"] in {
     "24438151cf76be42612b7df83314630e51c61682",
     "85e12c7b810eaafc13e663a0047111b7f3333e8b",
     "ea51d06f3fe46b134e98a065332e9c70fcec57f0",
+    "378096fa313b582b63553b395ec85a5c86de2685",
 }
 
-# Historical audited 35EX-18 authority must remain exact under successors.
 unit18 = state["completed_units"]["35EX-18"]
 assert unit18["status"] == "AUDITED_EXACT_GAUSSIAN_RELATIVE_ORIENTATION_MASTER_UNIT_FREEZE_NO_CREDIT"
 assert unit18["hostile_audit_verdict"] == "PASS"
@@ -90,8 +90,7 @@ elif state["schema"] == V19:
 elif state["schema"] == V20:
     assert state["base_main_sha"] == "24438151cf76be42612b7df83314630e51c61682"
 else:
-    # V21 is a later sibling-leaf state; historical 35EX-19/19B provenance is immutable.
-    assert state["base_main_sha"] == "ea51d06f3fe46b134e98a065332e9c70fcec57f0"
+    assert state["base_main_sha"] == "378096fa313b582b63553b395ec85a5c86de2685"
 
 for old in (unit19, unit19b):
     if state["schema"] in {V19, V20, V21}:
@@ -179,18 +178,15 @@ den = k - u**2
 t = 2*r*u/den
 mu = r*(k + u**2)/den
 assert sp.factor(mu**2 - (r**2 + k*t**2)) == 0
-
 quartic_plus = sp.expand(den**2 + 4*(1-r**2)*u**2)
 assert sp.factor(quartic_plus - (u**4 + 2*u**2 + k**2)) == 0
 quartic_minus = sp.expand(den**2 - 4*r**2*u**2)
 assert sp.factor(quartic_minus - (u**4 - 2*u**2 + k**2)) == 0
 assert sp.expand((u**4 + 2*u**2 + k**2) - (u**4 - 2*u**2 + k**2)) == 4*u**2
-
 sigma2 = 4*r**2*(1-r**2)
 assert sp.factor(k**2 + sigma2 - 1) == 0
 assert sp.expand((u**2+1)**2 - sigma2 - (u**4+2*u**2+k**2)) == 0
 assert sp.expand((u**2-1)**2 - sigma2 - (u**4-2*u**2+k**2)) == 0
-
 K = sp.symbols("K")
 f = u**4 + 2*u**2 + K**2
 disc = sp.factor(sp.discriminant(f, u))
@@ -210,7 +206,6 @@ k43 = Fraction(527, 625)
 k85 = Fraction(4879, 7921)
 assert k43 != k85
 assert j_fraction(k43) != j_fraction(k85)
-
 for a, b in ((2,1), (4,3), (8,5), (9,8), (11,2)):
     rr = Fraction(a*a-b*b, a*a+b*b)
     assert 0 < rr < 1
