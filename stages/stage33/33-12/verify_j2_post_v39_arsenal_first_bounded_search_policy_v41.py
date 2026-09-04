@@ -40,14 +40,14 @@ ai = json.loads(arsenal.read_text())
 assert str(ai.get("schema", "")).startswith("RESEARCH_ARSENAL_")
 
 agents = (ROOT / "AGENTS.md").read_text()
-assert "Recursive repository-tree acquisition is forbidden by default" in agents
-assert "known path is already known" not in agents
-assert "If an exact path is already known, fetch that path directly" in agents
-assert "use GitHub search rather than recursive tree enumeration" in agents
-assert "use GitHub code search" in agents
-assert "enumerating the full file set is itself an explicit research requirement" in agents
-assert "Stage33 is stricter" in agents
-assert "search miss never proves global repository absence" in agents.lower()
+assert "search-first, not tree-first" in agents
+assert "Do not acquire a recursive repository tree by default" in agents
+assert "Fetch known paths directly" in agents
+assert "GitHub search for filenames/paths" in agents
+assert "GitHub code search for terms" in agents
+assert "exhaustive file enumeration is itself an explicit research requirement" in agents
+assert "search miss never proves repository-wide absence" in agents.lower()
+assert "Stage33 is stricter" not in agents
 
 c = json.loads((STAGE33 / "controller.json").read_text())
 cb = dict(c)
