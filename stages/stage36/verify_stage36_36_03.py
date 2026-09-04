@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[2]
 STATE_PATH = ROOT / "stages/stage36/MAIN-STATE.json"
 CERT_PATH = ROOT / "stages/stage36/36-03/physical-open-boundary.json"
 INVENTORY_PATH = ROOT / "stages/stage36/36-02/representative-inventory.json"
-BASE = "0981f00bcafd8870508030c1b3733b28d5f36c05"
+BASE = "bdd707e52ded061014bfbb6158762e8b997e7a38"
 PROMOTION_MERGE = "26fb608cb2551ab2102ae36ad3b57c063959df58"
 AUDITED_36_02_INVENTORY_BLOB = "88130b9380a677a191f91c24df87618e65be0a2f"
 
@@ -94,10 +94,10 @@ def main() -> None:
     require(cert.get("status") == "EXACT_PHYSICAL_OPEN_PUSH_BOUNDARY_PENDING_HOSTILE_AUDIT", "36-03 certificate status moved")
     require(cert.get("base_main_sha") == BASE, "36-03 certificate base moved")
     require(cert.get("freshness_sync") == {
-        "sync_pr": 1551,
+        "sync_pr": 1554,
         "main_sha": BASE,
-        "merge_commit": "a6b9995cd4f32a7947e8a70f88ed05580ea02634",
-        "scope": "Stage33-only advance via #1507; no Stage36, Stage29 Campedelli/physical-open source, or Arsenal authority changes",
+        "merge_commit": "a741d573da4045cdee984a0541d71a55a9d7c0a9",
+        "scope": "Stage32-only advance via #1550; no Stage36, Stage29 Campedelli/physical-open source, or Arsenal authority changes",
     }, "36-03 freshness sync moved")
 
     # Bind the hostile-audited 36-02 mathematical inventory byte-for-byte.
@@ -215,10 +215,10 @@ def main() -> None:
     require(state.get("schema") == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V6_36_03_PENDING_AUDIT", "Stage36 V6 state schema moved")
     require(state.get("status") == "ACTIVE_PENDING_HOSTILE_AUDIT" and state.get("base_main_sha") == BASE, "Stage36 36-03 state lifecycle moved")
     require(state.get("freshness_sync_36_03") == {
-        "sync_pr": 1551,
+        "sync_pr": 1554,
         "main_sha": BASE,
-        "merge_commit": "a6b9995cd4f32a7947e8a70f88ed05580ea02634",
-        "scope": "Stage33-only advance via #1507; no Stage36, Stage29 Campedelli/physical-open source, or Arsenal authority changes",
+        "merge_commit": "a741d573da4045cdee984a0541d71a55a9d7c0a9",
+        "scope": "Stage32-only advance via #1550; no Stage36, Stage29 Campedelli/physical-open source, or Arsenal authority changes",
     }, "36-03 state freshness moved")
     gates = state.get("promotion_gates", {})
     require(gates.get("source_authority_lock_complete") is True and gates.get("three_Q_representatives_exact") is True, "audited predecessor gates lost")

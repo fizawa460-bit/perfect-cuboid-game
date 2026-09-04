@@ -13,7 +13,7 @@ AUDITED_36_01_MERGE = "8c59c81bcf0bcd442705cfb7a3db297253b34679"
 PENDING_36_02_BASE = "a873c8fca0074aa966a22e36475a3551a378560d"
 AUDITED_36_02_PR_MERGE = "4c93ccb79e95cbcd9e2416ad3b6a3f4788d6f586"
 AUDITED_36_02_PROMOTION_MERGE = "26fb608cb2551ab2102ae36ad3b57c063959df58"
-PENDING_36_03_BASE = "0981f00bcafd8870508030c1b3733b28d5f36c05"
+PENDING_36_03_BASE = "bdd707e52ded061014bfbb6158762e8b997e7a38"
 SOURCES = {
     "stage29_active_kernel_ledger": ("stages/stage29/29-16/active-kernel-ledger.json", "5d6d4c7709b57064aea5dc0ece672c5170c39550"),
     "stage29_endpoint_hub_graph": ("stages/stage29/29-06/endpoint-hub-graph.json", "7ea59474767f81fbaa4837c8cbc94b535560617b"),
@@ -113,8 +113,12 @@ def main() -> None:
                 require(state.get("status") == "ACTIVE_PENDING_HOSTILE_AUDIT" and state.get("base_main_sha") == PENDING_36_03_BASE, "36-03 lifecycle/base moved")
                 promo = state.get("stage36_36_02_promotion", {})
                 require(promo.get("pr") == 1548 and promo.get("merged_main_sha") == AUDITED_36_02_PROMOTION_MERGE and promo.get("NEW_THEOREM_CREDIT") is False, "36-02 promotion provenance moved")
-                fresh = state.get("freshness_sync_36_03", {})
-                require(fresh.get("sync_pr") == 1551 and fresh.get("main_sha") == PENDING_36_03_BASE, "36-03 freshness moved")
+                require(state.get("freshness_sync_36_03") == {
+                    "sync_pr": 1554,
+                    "main_sha": PENDING_36_03_BASE,
+                    "merge_commit": "a741d573da4045cdee984a0541d71a55a9d7c0a9",
+                    "scope": "Stage32-only advance via #1550; no Stage36, Stage29 Campedelli/physical-open source, or Arsenal authority changes",
+                }, "36-03 freshness moved")
                 require(state.get("promotion_gates", {}).get("physical_open_push_and_boundary_complete") is False, "36-03 prematurely promoted")
 
     for rel in ["stages/stage36/ROADMAP.md", "stages/stage36/MAIN-START-HERE.md", "stages/stage36/MAIN-BATCH-HANDOFF.md"]:

@@ -16,7 +16,7 @@ AUDIT_CI_RUN = 33876389406
 AUDIT_CI_JOB = 101034265419
 AUDITED_PR_MERGE = "4c93ccb79e95cbcd9e2416ad3b6a3f4788d6f586"
 PROMOTION_MERGE = "26fb608cb2551ab2102ae36ad3b57c063959df58"
-V6_CURRENT_BASE = "0981f00bcafd8870508030c1b3733b28d5f36c05"
+V6_CURRENT_BASE = "bdd707e52ded061014bfbb6158762e8b997e7a38"
 HISTORICAL_BASE = "a873c8fca0074aa966a22e36475a3551a378560d"
 
 
@@ -84,8 +84,12 @@ def main() -> None:
         require(state.get("status") == "ACTIVE_PENDING_HOSTILE_AUDIT" and state.get("base_main_sha") == V6_CURRENT_BASE, "36-03 successor lifecycle moved")
         promo = state.get("stage36_36_02_promotion", {})
         require(promo.get("pr") == 1548 and promo.get("merged_main_sha") == PROMOTION_MERGE and promo.get("NEW_THEOREM_CREDIT") is False, "36-02 promotion provenance moved")
-        freshness = state.get("freshness_sync_36_03", {})
-        require(freshness.get("sync_pr") == 1551 and freshness.get("main_sha") == V6_CURRENT_BASE, "36-03 current-main freshness moved")
+        require(state.get("freshness_sync_36_03") == {
+            "sync_pr": 1554,
+            "main_sha": V6_CURRENT_BASE,
+            "merge_commit": "a741d573da4045cdee984a0541d71a55a9d7c0a9",
+            "scope": "Stage32-only advance via #1550; no Stage36, Stage29 Campedelli/physical-open source, or Arsenal authority changes",
+        }, "36-03 current-main freshness moved")
         require(state.get("completed_units", {}).get("36-03", {}).get("promotion_status") == "PROVISIONAL_NOT_AUDITED", "36-03 successor prematurely audited")
 
     print("PASS STAGE36_36_02_AUDITED_SUCCESSOR_REPLAY")
