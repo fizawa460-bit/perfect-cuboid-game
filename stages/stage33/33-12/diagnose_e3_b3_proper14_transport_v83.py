@@ -31,6 +31,9 @@ def csha(o):
 def mm(A,B):
  return [[sum(A[i][k]*B[k][j] for k in range(len(B))) for j in range(len(B[0]))] for i in range(len(A))]
 
+def mm2(A,B):
+ return [[sum(A[i][k]*B[k][j] for k in range(len(B)))&1 for j in range(len(B[0]))] for i in range(len(A))]
+
 def inv(A):
  n=len(A); m=[[Fraction(A[i][j]) for j in range(n)]+[Fraction(int(i==j)) for j in range(n)] for i in range(n)]
  for c in range(n):
@@ -106,7 +109,7 @@ for u in ubasis:
  coeff=solve_f2(ubasis,up); assert coeff is not None
  M.append(coeff)
 I14=[[int(i==j) for j in range(14)] for i in range(14)]
-assert mm(M,M)==I14
+assert mm2(M,M)==I14
 beta25=v79['b1_matrix']['columns_f2'][3]
 assert bits_to_mask(beta25)==25
 # Contragradient action on a Brauer functional. S is an involution, hence
