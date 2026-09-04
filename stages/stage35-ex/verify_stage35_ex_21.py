@@ -172,12 +172,12 @@ X, Y = sp.symbols("X Y")
 f1 = Y**2 + 1
 f2 = Y**2 + X**2
 f3 = Y**2 + 1 + X**2
-assert sp.factor(sp.discriminant(f1, Y)) == -4
-assert sp.factor(sp.discriminant(f2, Y)) == -4*X**2
-assert sp.factor(sp.discriminant(f3, Y)) == -4*(1+X**2)
-assert sp.factor(sp.resultant(f1, f2, Y)) == (X-1)**2*(X+1)**2
-assert sp.factor(sp.resultant(f1, f3, Y)) == X**4
-assert sp.factor(sp.resultant(f2, f3, Y)) == 1
+assert sp.factor(sp.discriminant(f1, Y) - (-4)) == 0
+assert sp.factor(sp.discriminant(f2, Y) - (-4*X**2)) == 0
+assert sp.factor(sp.discriminant(f3, Y) - (-4*(1+X**2))) == 0
+assert sp.factor(sp.resultant(f1, f2, Y) - (X-1)**2*(X+1)**2) == 0
+assert sp.factor(sp.resultant(f1, f3, Y) - X**4) == 0
+assert sp.factor(sp.resultant(f2, f3, Y) - 1) == 0
 cover_degree = 8
 simple_branch_points = 6
 inertia = 2
