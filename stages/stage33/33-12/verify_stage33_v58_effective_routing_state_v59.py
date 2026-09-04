@@ -18,7 +18,6 @@ startup = (H / "MAIN-START-HERE.md").read_text()
 
 assert v41["routing_contract"]["one_automatic_bounded_repository_search_after_arsenal_miss"] is True
 assert v41["anti_loop"]["automatic_bounded_search_budget_per_missing_object"] == 1
-
 r = v58["routing_contract"]
 assert v58["schema"] == "stage33.search_routing_supersession.v58"
 assert r["arsenal_first"] is True
@@ -38,8 +37,7 @@ assert v57["credit_firewall"]["stage33_progress"] == "6/11"
 assert v57["credit_firewall"]["merge_allowed"] is False
 
 claimed = state["canonical_sha256"]
-body = dict(state)
-body.pop("canonical_sha256")
+body = dict(state); body.pop("canonical_sha256")
 assert claimed == csha(body)
 assert state["schema"] == "STAGE33_MAIN_COMPACT_STATE_V20_V58_REPEATABLE_BOUNDED_SEARCH_ACTIVE"
 assert state["stage33_progress"] == "6/11"
@@ -60,7 +58,8 @@ assert state["firewalls"]["stage33_13_released"] is False
 assert state["firewalls"]["merge_allowed"] is False
 
 assert "no fixed per-object count cap" in startup
-assert "unlimited" in startup.lower()
+assert "Additional bounded searches are allowed" in startup
+assert "materially new mathematical signal" in startup
 assert "B1_BRANCH_H1_TO_PROPER14_BRAUER_IMAGE_MATRIX" in startup
 
 print(json.dumps({"success": True, "schema": state["schema"], "effective_routing": state["authority_sync"]["operational_routing_authority"], "stage33_progress": state["stage33_progress"], "mathematical_change": False, "merge_allowed": False}, sort_keys=True))
