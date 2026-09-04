@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE35_EX_PESCH_E1_STATE_V13_JOINT_LOCAL_FREE_SPLIT_SUPPORT",
+  "schema": "STAGE35_EX_PESCH_E1_STATE_V14_GLOBAL_RECIPROCITY_MOVING_RAMIFICATION_FREEZE",
   "stage": "35-EX",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
   "base_main_sha": "6d4354ca7e3d8162ad2f97d7aab086858c061503",
@@ -149,6 +149,22 @@
       "current_S34_W03_joint_local_route_frozen_free_split_support": true,
       "all_future_local_global_arguments_ruled_out": false,
       "audited_theorem_credit": false
+    },
+    "35EX-16": {
+      "status": "PROVISIONAL_EXACT_GLOBAL_RECIPROCITY_MOVING_RAMIFICATION_FREEZE_NO_CREDIT",
+      "artifact": "stages/stage35-ex/35ex-16/coprime-pair-global-reciprocity-freeze.md",
+      "verifier": "stages/stage35-ex/verify_stage35_ex_16.py",
+      "result": "on B35 the bare Lminus/Lplus Jacobi relation is tautological; D=U1/c, T=U2/c, and the odd part of q all pair with Lplus by Jacobi symbol +1, while nontrivial ramification remains only in moving c,p,d and residual split kernel support, so the current natural global reciprocity layer gives no contradiction",
+      "pair_jacobi_tautological": true,
+      "DT_clean_channel_jacobi_plus_one": true,
+      "q_clean_channel_jacobi_plus_one": true,
+      "residual_kernel_split_only_inherited": true,
+      "c_sign_ramified": true,
+      "p_d_normalization_ramified": true,
+      "current_global_jacobi_layer_gives_no_contradiction": true,
+      "all_global_reciprocity_or_Hilbert_arguments_ruled_out": false,
+      "route_frozen_moving_ramification": true,
+      "audited_theorem_credit": false
     }
   },
   "resolved_investigations": {
@@ -189,24 +205,29 @@
       "status": "FROZEN_FREE_SPLIT_SUPPORT",
       "reason": "Lplus has split-only odd squareclass support, B35 makes the 2-adic and real places automatically soluble, and the residual odd-valuation witness support is moving rather than fixed by the existing source/reservoir routing layer",
       "reopen_condition": "supply a new exact global relation, fixed-support theorem, or receiver-specific local classification that couples the moving 1 mod4 split-prime valuations"
+    },
+    "CURRENT_COPRIME_PAIR_GLOBAL_RECIPROCITY": {
+      "status": "FROZEN_MOVING_RAMIFICATION",
+      "reason": "the pair relation is a square tautology; D,T and q_odd contribute Jacobi +1, while c,p,d and the residual split kernel are moving ramified support with no proved fixed local symbols or parity relation",
+      "reopen_condition": "supply an exact receiver-specific theorem fixing the ramified local symbols or a global product relation coupling c,p,d and the residual split kernel"
     }
   },
   "candidate_ledger_after_fresh_breadth_audit": {
-    "selected_live": "E1-COPRIME-PAIR-GLOBAL-RECIPROCITY",
-    "just_frozen": "E1-COPRIME-RECEIVER-JOINT-LOCAL",
+    "selected_live": "E1-PRODUCT-HYPOTENUSE-NONNAIVE-DESCENT",
+    "just_frozen": ["E1-COPRIME-RECEIVER-JOINT-LOCAL","E1-COPRIME-PAIR-GLOBAL-RECIPROCITY"],
     "dominated": ["E1-ALTERNATE-NORM-SYMMETRY","E1-SIMULTANEOUS-GAUSSIAN-ORIENTATION"],
-    "untested": ["E1-PRODUCT-HYPOTENUSE-NONNAIVE-DESCENT"],
+    "untested": [],
     "blocked": ["E1-SUNIT-THUE-DYNAMIC-SUPPORT","E1-UNIFORM-ELLIPTIC-HEIGHT","E1-FIXED-FIBER-TORSION"],
     "audit_artifact": "stages/stage35-ex/35ex-14/fresh-receiver-breadth-audit.json"
   },
   "current": {
-    "unit": "35EX-16_COPRIME_PAIR_GLOBAL_RECIPROCITY_OR_INDEPENDENT_SPLIT_ORIENTATIONS",
-    "status": "SELECTED_AFTER_JOINT_LOCAL_FREE_SPLIT_SUPPORT_NO_CREDIT",
-    "next_exact_leaf": "TEST_WHETHER_GCD_LMINUS_LPLUS_EQUALS_1_TOGETHER_WITH_SOURCE_UNITS_P_D_C_Q_AND_PRODUCT_HYPOTENUSE_STRUCTURE_FORCES_A_NONTRIVIAL_GLOBAL_JACOBI_OR_HILBERT_RELATION_ON_THE_MOVING_1_MOD4_SPLIT_PRIME_ALLOCATIONS;_IF_NOT_FREEZE_GLOBAL_RECIPROCITY_AND_ROUTE_TO_PRODUCT_HYPOTENUSE_NONNAIVE_DESCENT",
+    "unit": "35EX-17_PRODUCT_HYPOTENUSE_SUCCESSOR_OR_NO_SELF_MAP",
+    "status": "SELECTED_AFTER_GLOBAL_RECIPROCITY_MOVING_RAMIFICATION_FREEZE_NO_CREDIT",
+    "next_exact_leaf": "USE_THE_FULL_RECEIVER_PRODUCT_HYPOTENUSE_PRIMITIVE_TRIPLE_TO_TEST_FOR_A_SAME_TYPE_ADMISSIBLE_MASTER_HIT_PLUS_E1_COUNTEREXAMPLE_SUCCESSOR_WITH_STRICTLY_SMALLER_WELL_FOUNDED_HEIGHT;_IF_THE_TWO_ORIGINAL_EUCLID_TRIPLES_AND_CANONICAL_GCD_CHANNELS_CANNOT_BE_RECOVERED_FREEZE_DESCENT_AND_TRIGGER_THE_PARKING_BREADTH_PROTOCOL",
     "working_set": [
+      "stages/stage35-ex/35ex-16/coprime-pair-global-reciprocity-freeze.md",
       "stages/stage35-ex/35ex-15/joint-local-free-split-support.md",
       "stages/stage35-ex/35ex-14/coprime-e1-receiver-factorization.md",
-      "stages/stage35-ex/35ex-11/reciprocity-routing-and-local-route-freeze.md",
       "stages/stage35-ex/MAIN-STATE.json"
     ]
   },
