@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE35_EX_PESCH_E1_STATE_V7_SPLIT_PRIME_SIEVE",
+  "schema": "STAGE35_EX_PESCH_E1_STATE_V9_FRESH_BREADTH_AUDIT_RESELECTED",
   "stage": "35-EX",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
-  "base_main_sha": "17d0bc0ed2296105630ac2e29145f97a016e8781",
+  "base_main_sha": "3abd038e55ef986221256f1264f12f46084636cd",
   "true_owner": {
     "kernel": "K16-C3-PESCH-EXPONENT-ONE",
     "receiver": "R29-PESCH-E1",
@@ -22,6 +22,7 @@
   },
   "research_credit_firewalls": {
     "policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
+    "cycle_policy": "docs/research-os/policies/cycle-exploration-safety-protocol.md",
     "inherited": true,
     "stage_local_overrides_may_weaken": false
   },
@@ -36,16 +37,50 @@
     "35EX-08": {"status":"AUDITED_CONDITIONAL_EXACT_THIRD_PRIMITIVE_HYPOTENUSE_BRIDGE","artifact":"stages/stage35-ex/35ex-08/hypotenuse-bridge-triple.md","certificate":"stages/stage35-ex/35ex-08/hypotenuse-bridge-certificate.json","hostile_audit_review":5107581005,"infinite_descent_proved":false,"audited_theorem_credit":false},
     "35EX-09": {"status":"AUDITED_CONDITIONAL_EXACT_COMPLETE_THREE_RESERVOIR_GRAPH","artifact":"stages/stage35-ex/35ex-09/bridge-squareclass-graph.md","certificate":"stages/stage35-ex/35ex-09/bridge-squareclass-certificate.json","hostile_audit_review":5107581005,"factorwise_squareclass_support_complete":true,"fixed_finite_squareclass_family_proved":false,"infinite_descent_proved":false,"audited_theorem_credit":false},
     "35EX-10": {
-      "status": "PROVISIONAL_EXACT_SPLIT_PRIME_SOURCE_ONLY_SIEVE",
+      "status": "AUDITED_CONDITIONAL_EXACT_SPLIT_PRIME_SOURCE_ONLY_SIEVE",
       "artifacts": [
         "stages/stage35-ex/35ex-10/bridge-successor-descent-test.md",
         "stages/stage35-ex/35ex-10/split-prime-obstruction.md"
       ],
       "certificate": "stages/stage35-ex/35ex-10/split-prime-certificate.json",
-      "result": "the bridge gives a genuine third Euclid triple but the natural successor does not inherit the two required squares; split primes in the live cross/difference reservoirs obey exact Legendre-symbol conditions computable from the original Master-Hit, yielding a proof-capable per-Master-Hit E1 kill predicate",
+      "hostile_audit_review": 5107921932,
+      "audited_head_sha": "9499fd4d83e70ed85d309db156a6b3444d7bf945",
       "source_only_split_prime_kill_predicate_proved": true,
       "universal_bad_split_prime_existence_proved": false,
       "infinite_descent_proved": false,
+      "audited_theorem_credit": false
+    },
+    "35EX-11": {
+      "status": "PROVISIONAL_EXACT_MATH_ACCEPTED_AUDIT_REPAIR_PENDING_BREADTH_PROTOCOL",
+      "artifact": "stages/stage35-ex/35ex-11/reciprocity-routing-and-local-route-freeze.md",
+      "certificate": "stages/stage35-ex/35ex-11/reciprocity-routing-certificate.json",
+      "failed_hostile_audit_review": 5107987306,
+      "failed_audit_exact_head": "455969c36c144085042b9647ad2e10428b263d96",
+      "failed_audit_scope": "mathematics accepted; protocol failure only: theorem-species change after materially new receiver and multiple route freezes lacked fresh EXHAUSTIVE_VIEW_AUDIT plus BLIND_REDISCOVERY plus Arsenal/BLOCK comparison",
+      "result": "inert reservoir primes are source-oriented by Legendre symbols; locally-good split primes retain a binary edge choice; the source-only theorem that every Master-Hit has a split prime in cross or T is false, witnessed by genuine Master-Hit (4,3,16,5)",
+      "inert_prime_edge_routing_proved_conditionally": true,
+      "universal_source_only_bad_split_prime_existence": false,
+      "current_three_reservoir_local_symbol_layer_global_contradiction": false,
+      "stronger_reciprocity_relation_ruled_out_in_principle": false,
+      "audited_theorem_credit": false
+    },
+    "35EX-11B": {
+      "status": "PROVISIONAL_FRESH_BREADTH_AUDIT_REPAIR_COMPLETE_NO_CREDIT",
+      "artifact": "stages/stage35-ex/35ex-11/post-three-reservoir-breadth-audit.json",
+      "trigger": "material 35EX-09 receiver plus multiple route freezes before theorem-species change",
+      "exhaustive_view_audit": true,
+      "blind_rediscovery": true,
+      "arsenal_comparison": true,
+      "historical_block_ledger_comparison": true,
+      "old_35ex01_snapshot_sufficient": false,
+      "selected_next_unit": "35EX-12_SUNIT_THUE_ADAPTER_OR_DYNAMIC_SUPPORT_BLOCKER",
+      "reselected_after_fresh_breadth_audit": true,
+      "preserved_untested_candidates": [
+        "E1-ALTERNATE-NORM-SYMMETRY",
+        "E1-NONNAIVE-DESCENT",
+        "E1-GLOBAL-RECIPROCITY-BEYOND-LOCAL-GRAPH",
+        "E1-RECEIVER-RESTRICTED-JOINT-LOCAL"
+      ],
       "audited_theorem_credit": false
     }
   },
@@ -59,19 +94,48 @@
       "status": "FROZEN_NO_SELF_MAP_FROM_CURRENT_IDENTITIES",
       "reason": "the bridge triple is genuine, but keeping the original second triple introduces two new X^2+2Y^2 square obligations and no transported canonical c3,p3,q3; no uniform decreasing height is proved",
       "reopen_condition": "supply a same-type successor reconstruction with both squares, canonical gcd adapter, and a strictly decreasing well-founded height"
+    },
+    "UNIVERSAL_SOURCE_ONLY_BAD_SPLIT_PRIME_EXISTENCE": {
+      "status": "REFUTED_BY_GENUINE_MASTER_HIT",
+      "witness": "(a,b,m,n)=(4,3,16,5), Branch L, t=2, T=33=3*11, so neither source-known reservoir contains an odd 1 mod4 prime",
+      "not_a_claim": "the witness is not an E1 counterexample and does not refute a stronger theorem using additional E1-counterexample structure"
+    },
+    "CURRENT_THREE_RESERVOIR_LOCAL_RECIPROCITY_CLOSE": {
+      "status": "FROZEN_AT_PRIMEWISE_ROUTING_LAYER",
+      "reason": "inert primes are uniquely oriented, bad split primes are excluded, but locally-good split primes retain independent binary edge choices because the three reservoirs are pairwise coprime",
+      "reopen_condition": "supply an additional global relation coupling the surviving split-prime orientation bits or source units"
     }
   },
+  "candidate_ledger_after_fresh_breadth_audit": {
+    "selected_live": "E1-SUNIT-THUE-DYNAMIC-SUPPORT",
+    "untested": [
+      "E1-ALTERNATE-NORM-SYMMETRY",
+      "E1-NONNAIVE-DESCENT",
+      "E1-GLOBAL-RECIPROCITY-BEYOND-LOCAL-GRAPH",
+      "E1-RECEIVER-RESTRICTED-JOINT-LOCAL"
+    ],
+    "blocked": [
+      "E1-UNIFORM-ELLIPTIC-HEIGHT",
+      "E1-FIXED-FIBER-TORSION"
+    ],
+    "audit_artifact": "stages/stage35-ex/35ex-11/post-three-reservoir-breadth-audit.json"
+  },
   "current": {
-    "unit": "35EX-11_RECIPROCITY_COUPLING_OR_BAD_SPLIT_PRIME_EXISTENCE",
-    "next_exact_leaf": "USE_THE_35EX_10_SOURCE_ONLY_LEGENDRE_SIEVE_TO_PROVE_EVERY_MASTER_HIT_HAS_A_BAD_SPLIT_PRIME_IN_CROSS_OR_T_OR_DERIVE_A_GLOBAL_RECIPROCITY_COUPLING_AMONG_LOCALLY_ADMISSIBLE_RESERVOIR_PRIMES;_OTHERWISE_FREEZE_THE_LOCAL_ROUTE_BEFORE_CHANGING_THEOREM_SPECIES",
+    "unit": "35EX-12_SUNIT_THUE_ADAPTER_OR_DYNAMIC_SUPPORT_BLOCKER",
+    "status": "RESELECTED_AFTER_FRESH_BREADTH_AUDIT_NOT_YET_EXECUTED",
+    "next_exact_leaf": "TEST_WHETHER_PER_MASTER_HIT_FINITE_SOURCE_SUPPORT_SUPP_CROSS_TIMES_T_TIMES_C_CAN_BE_NORMALIZED_TO_A_GENUINELY_FIXED_FINITE_S_OR_FIXED_THUE_FAMILY_OVER_ALL_MASTER_HITS;_IF_SUPPORT_REMAINS_SOURCE_DEPENDENT_FREEZE_THE_ROUTE_BEFORE_FINITE_ENUMERATION",
     "working_set": [
+      "stages/stage35-ex/35ex-11/post-three-reservoir-breadth-audit.json",
+      "stages/stage35-ex/35ex-09/bridge-squareclass-graph.md",
       "stages/stage35-ex/35ex-10/split-prime-obstruction.md",
-      "stages/stage35-ex/35ex-10/split-prime-certificate.json",
-      "stages/stage35-ex/35ex-09/bridge-squareclass-graph.md"
+      "stages/stage35-ex/35ex-11/reciprocity-routing-and-local-route-freeze.md",
+      "stages/stage35-ex/35ex-11/reciprocity-routing-certificate.json"
     ]
   },
   "arsenal": {
     "S34_W01": "FACTORWISE_SUPPORT_COMPLETE_BUT_FIXED_FINITE_SQUARECLASS_ENUMERATION_NOT_AUTHORIZED",
+    "S34_W03": "UNTESTED_RECEIVER_RESTRICTED_INTERSECTION_ADAPTER_CANDIDATE",
+    "matching_SUNIT_THUE_card_found": false,
     "stage34_concrete_coefficients_branches_and_local_primes_transfer": false
   },
   "claims": {
