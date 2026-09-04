@@ -11,7 +11,7 @@ AUDIT=ROOT/'stages/stage35-ex/35ex-26/post-base-involution-breadth-audit.json'
 S31=ROOT/'docs/arsenal/cards/formal/S31-W01.md'
 S34=ROOT/'docs/arsenal/cards/formal/S34-W03.md'
 V26='STAGE35_EX_PESCH_E1_STATE_V26_POST_35EX27_RATIONAL_SOURCE_LIFT_KUMMER_NORMAL_FORM'
-CURRENT_MAIN='74144644975d7800c6c5b529c5d8789f70366c2e'
+CURRENT_MAIN='09d42186c06cd906042f2ca3f16a9deaf4f1b4a3'
 
 def blob(path):
     data=path.read_bytes(); return hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
