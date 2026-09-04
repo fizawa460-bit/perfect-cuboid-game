@@ -189,7 +189,7 @@ def main() -> None:
 
     fw = cert["firewalls"]
     assert all(v is False for v in fw.values())
-    assert "This leaf does not prove that the carrier or correspondence is `b3`-equivariant." in note
+    assert "It does not prove that the carrier or correspondence is `b3`-equivariant." in note
     assert "`[T,b3]=0  =>  Q(T) != 602`" in note
     assert "residue `73` commutes with `b4 mod 2`" in note
 
