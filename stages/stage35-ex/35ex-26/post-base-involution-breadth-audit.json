@@ -1,0 +1,103 @@
+{
+  "schema": "STAGE35_EX_26B_POST_BASE_INVOLUTION_FRESH_BREADTH_AUDIT_V1",
+  "status": "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT",
+  "authority": {
+    "unit": "35EX-26",
+    "pass_source": "USER_CONFIRMED_HOSTILE_PASS",
+    "audited_exact_head_sha": "d836c743628b47d62e4db18c344981be8fe839f4",
+    "exact_head_ci_run": 33926330680,
+    "exact_head_ci_job": 101195546705,
+    "merged_main_sha": "74144644975d7800c6c5b529c5d8789f70366c2e"
+  },
+  "protocol": {
+    "fresh_exhaustive_view_audit": true,
+    "blind_rediscovery": true,
+    "blind_generation_performed_before_arsenal_comparison": true,
+    "historical_block_ledger_comparison_after_blind_generation": true,
+    "arsenal_index_checked_after_blind_generation": true,
+    "no_successor_selected_before_breadth_audit": true
+  },
+  "blind_rediscovery": {
+    "input_object": "35EX-26 descended full receiver over K0=Q(u,h), h^2=u(u+2), with Q1--Q4 and reciprocal-fiber quotient",
+    "generated_candidates": [
+      {
+        "id": "E1-RATIONAL-SOURCE-LIFT-KUMMER-NORMAL-FORM",
+        "status_before_comparison": "LIVE",
+        "reason": "fixed-field descent is exact over K/K0, but rational Master-Hit use must retain the rational lift discriminant u^2-4=square; combining that lift with Q1--Q4 may produce a smaller exact receiver normal form"
+      },
+      {
+        "id": "E1-DESCENDED-RECEIVER-JOINT-LOCAL-CLASSIFICATION",
+        "status_before_comparison": "UNTESTED",
+        "reason": "the descended receiver gives a sharper joint system on which local residue tests could be run only after its rational-source population is exact"
+      },
+      {
+        "id": "E1-FIXED-ALPHA-GENUSONE-CLOSE",
+        "status_before_comparison": "UNTESTED",
+        "reason": "hyperbola coordinates on Q1--Q3 suggest a fixed-alpha genus-one quartic after the source-lift square is restored"
+      },
+      {
+        "id": "E1-UNIFORM-ELLIPTIC-SURFACE-SPECIALIZATION-HEIGHT",
+        "status_before_comparison": "UNTESTED",
+        "reason": "the descended elliptic family remains nonisotrivial and could in principle require genuinely uniform surface arithmetic"
+      },
+      {
+        "id": "E1-NONOBVIOUS-BRAUER-FROM-ELLIPTIC-FIBRATION",
+        "status_before_comparison": "UNTESTED",
+        "reason": "35EX-22 froze only the obvious symbol span, not all non-obvious classes"
+      }
+    ]
+  },
+  "historical_comparison": {
+    "E1-DIRECT-HYPERBOLA-PAIR-REPARAMETRIZATION": "DOMINATED_AS_STANDALONE_ROUTE_BY_35EX25_LEDGER; hyperbola coordinates may be used only inside a genuinely new exact rational-lift normal form",
+    "E1-FIXED-ALPHA-GENUSONE-CLOSE": "ROUTING_ONLY_UNLESS_PARAMETER_IS_FIXED_OR_UNIFORM_ARITHMETIC_IS_SUPPLIED; 35EX-19 already blocks fixed-fiber genus-one closure from a moving source parameter",
+    "E1-DESCENDED-RECEIVER-JOINT-LOCAL-CLASSIFICATION": "PRESERVED_UNTESTED_AFTER_EXACT_RATIONAL_SOURCE_POPULATION_IS_RESTORED",
+    "E1-UNIFORM-ELLIPTIC-SURFACE-SPECIALIZATION-HEIGHT": "PRESERVED_UNTESTED",
+    "E1-NONOBVIOUS-BRAUER-FROM-ELLIPTIC-FIBRATION": "PRESERVED_UNTESTED"
+  },
+  "arsenal_comparison": {
+    "index": {
+      "path": "docs/arsenal/index.json",
+      "blob_sha": "aa45d19c2f1d8970c7f142bf744c5c17e75abe5a"
+    },
+    "S34-W03": {
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96",
+      "decision": "STRONG_ROUTER_AFTER_EXACT_RATIONAL_SOURCE_LIFT_DICTIONARY_ONLY",
+      "credit": "receiver-intersection exclusion only; no factor-cover completeness or endpoint credit"
+    },
+    "S31-W01": {
+      "path": "docs/arsenal/cards/formal/S31-W01.md",
+      "blob_sha": "122a6c1c5c871c1c7b797017e854de8ec55e7c50",
+      "decision": "FIXED_ALPHA_GENUS_ONE_ADAPTER_ONLY_NO_UNIFORM_CLOSURE",
+      "credit": "birational adapter only; moving-alpha arithmetic remains separate"
+    },
+    "S34-W02": {
+      "decision": "LOCKED",
+      "reason": "no certified full Mordell-Weil group uniformly for the moving descended/fixed-alpha family"
+    }
+  },
+  "selection": {
+    "selected_candidate": "E1-RATIONAL-SOURCE-LIFT-KUMMER-NORMAL-FORM",
+    "selected_next_unit": "35EX-27_RATIONAL_SOURCE_LIFT_KUMMER_NORMAL_FORM_OR_DESCENDED_OVERCOVER_FIREWALL",
+    "reason": "this is logically prior to any S34-W03 local exclusion: K0-rational quotient points are an over-cover of rational source points unless u^2-4=square is retained; the new gate can be combined exactly with Q1--Q4"
+  },
+  "preserved_untested_candidates": [
+    "E1-DESCENDED-RECEIVER-JOINT-LOCAL-CLASSIFICATION",
+    "E1-UNIFORM-ELLIPTIC-SURFACE-SPECIALIZATION-HEIGHT",
+    "E1-NONOBVIOUS-BRAUER-FROM-ELLIPTIC-FIBRATION"
+  ],
+  "cycle_exit": {
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 3,
+    "fresh_breadth_audit_required_after_35ex27_hostile_pass": true
+  },
+  "claims": {
+    "audited_theorem_credit": false,
+    "E1_proved": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
