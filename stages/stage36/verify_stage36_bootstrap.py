@@ -17,6 +17,7 @@ PENDING_36_04_BASE="4ec2b9af886f9ac9be13c3324788c26625c9e5d9"
 AUDITED_36_04_MERGE="de1df3d25c39306e5601646309b38aaad56967bd"
 PENDING_36_05_BASE="09d42186c06cd906042f2ca3f16a9deaf4f1b4a3"
 AUDITED_36_05_MERGE="353d9057d1d5bd9b25a287672906a27c551dede9"
+V11_BASE="ee3e7aafd1742c5d96e2871f117412ef0823d57e"
 FRESHNESS_36_04={"sync_pr":1565,"main_sha":PENDING_36_04_BASE,"merge_commit":"b900a925ce25556bf85c929b1c73aff414c77430","scope":"Stage32-only advance via #1563; no Stage36, Stage29 Campedelli/sign-cover source, or Arsenal authority changes"}
 PROMO_36_04={"pr":1568,"exact_head":"53b0c3b2a84ef200848d6b4b515c94589798d295","exact_head_ci_run":33924921726,"exact_head_ci_job":101191239139,"merged_main_sha":"dca962cdf37d4252316885dc57f3c0a591db4ecb","scope":"mechanical audited-state promotion only","NEW_THEOREM_CREDIT":False}
 SOURCES={
@@ -64,7 +65,7 @@ def main():
   u5=s.get("completed_units",{}).get("36-05",{}); req(u5.get("legal_outcome")=="BLOCKED_MOVING_RAMIFICATION_SUPPORT" and u5.get("promotion_status")=="PROVISIONAL_NOT_AUDITED","V10 blocked outcome moved")
   req(s.get("current",{}).get("unit")=="36-05" and s.get("current",{}).get("36_06_entry_allowed") is False,"V10 36-06 boundary moved")
  else:
-  req(s.get("status")=="ACTIVE" and s.get("base_main_sha")==AUDITED_36_05_MERGE,"V11 lifecycle moved")
+  req(s.get("status")=="ACTIVE" and s.get("base_main_sha")==V11_BASE,"V11 lifecycle moved")
   a5=s.get("stage36_36_05_authority",{}); req(a5.get("pr")==1569 and a5.get("hostile_audit_review")==5118563918 and a5.get("audited_head")=="cf430199171c98ed5f9eaaadeb8d2d40268ca6ba","36-05 authority moved")
   req(a5.get("merged_main_sha")==AUDITED_36_05_MERGE and a5.get("exact_head_ci_run")==33928640974 and a5.get("exact_head_ci_job")==101202500740,"36-05 merge/CI authority moved")
   req(a5.get("certificate_blob_sha")=="193d0165b242d799bc981774783a5160c1ac58dc" and a5.get("legal_outcome")=="BLOCKED_MOVING_RAMIFICATION_SUPPORT" and a5.get("verdict")=="PASS","36-05 authority semantics moved")
