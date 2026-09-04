@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Bounded interface diagnostic for transporting the exact #1529 S symmetry to Stage33 proper14.
 
-This leaf does not grant a new Brauer/Gysin column. It exposes only the
-source-locked retained Stage32 marking interfaces needed to decide whether the
-B1 -> B3 symmetry route can be made mechanically exact without broad search.
+This leaf grants no new Brauer/Gysin column. It exposes only structural metadata
+from the source-locked retained Stage32 Hperp transcript needed to decide
+whether B1 -> B3 transport can be made mechanically exact.
 """
 from __future__ import annotations
 
+import collections
 import hashlib
 import json
 import sys
@@ -45,6 +46,14 @@ def shape(x):
     return type(x).__name__
 
 
+def ints(line: str):
+    toks = line.split()
+    try:
+        return [int(x) for x in toks]
+    except ValueError:
+        return None
+
+
 marking = load_marking()
 assert marking["canonical_sha256"] == MARKING_SHA
 adapter = json.loads(ADAPTER.read_text(encoding="utf-8"))
@@ -62,13 +71,34 @@ for k in ("picard", "picard_core", "all140", "known_classes", "aut_action", "mar
 htext = marking.get("hperp_text", "")
 assert isinstance(htext, str)
 lines = htext.splitlines()
-needle = ("pic", "basis", "known", "curve", "matrix", "hperp", "indlist", "coord", "big")
-interesting = [ln for ln in lines if any(x in ln.lower() for x in needle)]
-# Keep the diagnostic bounded: expose only short structural samples, not the
-# entire retained transcript/payload.
-structural_sample = [ln[:500] for ln in interesting[:30]]
-head_sample = [ln[:500] for ln in lines[:20]]
-tail_sample = [ln[:500] for ln in lines[-20:]]
+parsed = [ints(ln) for ln in lines]
+count_hist = collections.Counter(len(v) for v in parsed if v is not None)
+dimension_like = [
+    {"line_1based": i + 1, "values": v}
+    for i, v in enumerate(parsed)
+    if v is not None and 1 <= len(v) <= 4
+]
+non_numeric = [
+    {"line_1based": i + 1, "prefix": lines[i][:120]}
+    for i, v in enumerate(parsed)
+    if v is None
+]
+# Identify run boundaries of equal numeric token count. This reveals matrix
+# blocks without dumping their entries.
+runs = []
+i = 0
+while i < len(lines):
+    v = parsed[i]
+    kind = "non_numeric" if v is None else f"numeric_{len(v)}"
+    j = i + 1
+    while j < len(lines):
+        w = parsed[j]
+        k2 = "non_numeric" if w is None else f"numeric_{len(w)}"
+        if k2 != kind:
+            break
+        j += 1
+    runs.append({"start_1based": i + 1, "end_1based": j, "kind": kind, "count": j - i})
+    i = j
 
 print(json.dumps({
     "success": True,
@@ -79,9 +109,10 @@ print(json.dumps({
     "top_level_interface": summary,
     "nested_candidate_interfaces": nested,
     "hperp_line_count": len(lines),
-    "hperp_head_sample": head_sample,
-    "hperp_structural_sample": structural_sample,
-    "hperp_tail_sample": tail_sample,
+    "hperp_numeric_token_count_histogram": dict(sorted(count_hist.items())),
+    "hperp_dimension_like_lines": dimension_like,
+    "hperp_non_numeric_lines": non_numeric,
+    "hperp_block_runs": runs,
     "proper14_action_materialized": False,
     "b3_gysin_image_materialized": False,
     "merge_allowed": False,
