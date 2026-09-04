@@ -70,7 +70,7 @@ assert full["exact_information_boundary"]["kummer_extension_class_missing"] is T
 # The corrected J2 example proves the layer ordering used by V88: the genuine
 # geometric surface H2(mu2) lift is already materialized at the literal symbol
 # + complete residue audit layer, while integral Pic/Galois-descent data remain
-# open there.  Later cc/ct overlap certificates therefore belong downstream.
+# open there. Later cc/ct overlap certificates therefore belong downstream.
 j2 = load_json(HERE / "j2-corrected-explicit-cech-mu2-lift.json")
 assert j2["schema"] == "STAGE33_12_J2_CORRECTED_EXPLICIT_CECH_MU2_LIFT_V1"
 assert j2["explicit_cech_preimage"]["concrete_Cech_preimage_e_D_materialized"] is True
@@ -91,8 +91,9 @@ assert v88["template_extraction"]["arithmetic_galois_overlap_not_required_for_cu
 # V87 remains route-local and supplies no ready exact mask20 Gersten class.
 v87 = load_json(HERE / "e3-legacy-gersten-mask20-source-binding-gap-v87.json")
 assert v87["canonical_sha256"] == "c7daf46a4e05d4692f1065e8ed677d5be9a172126952e93207a26d5b2c839447"
-assert v87["legacy_gersten_exact_status"]["exact_connecting_columns"] == 0
-assert v87["credit_firewall"]["global_H2_mu2_nonexistence_claim"] is False
+assert v87["exact_legacy_pipeline_status"]["exact_connecting_columns_certified"] == 0
+assert v87["exact_conclusion"]["global_H2_mu2_nonexistence_claim"] is False
+assert v87["exact_conclusion"]["route_local_only"] is True
 
 neg = v88["bounded_negative_findings"]
 assert neg["current_locked_chain_supplies_v88_seed"] is False
