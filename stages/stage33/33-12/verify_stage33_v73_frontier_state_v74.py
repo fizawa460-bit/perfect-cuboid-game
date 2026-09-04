@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Replay historical V74 while allowing successor live frontiers after V73."""
+"""Replay historical V74/V73 while allowing successor live frontiers."""
 from __future__ import annotations
 import hashlib
 import json
@@ -36,7 +36,7 @@ v69 = json.loads(V69.read_text(encoding="utf-8"))
 assert git_blob_sha(V73) == V73_BLOB
 v73 = locked(V73, V73_SHA)
 
-# Immutable historical V73/V74 mathematical boundary.
+# Immutable historical V73 boundary.
 assert v69["d2_verdict"] == "OPEN_ONE_BIT"
 assert v73["translation_torsor"]["twisting_squareclass"] == "d=f1"
 assert v73["translation_torsor"]["jacobian"] == "E: y^2=x*(x^2+a*x+b)"
@@ -46,18 +46,16 @@ assert v73["credit_firewall"]["j1_twisted_kernel_minimum_norm_materialized"] is 
 assert v73["credit_firewall"]["j1_marked_kc_coordinate_selected"] is False
 assert v73["credit_firewall"]["identity_vs_shear_selected"] is False
 
-# Successor-safe live-state checks: later exact frontiers may supersede V73,
-# but they must preserve the V73 credit and the global firewalls until the
-# independent J1 fingerprint is actually materialized.
+# Later live frontiers may materialize or reinterpret the kernel invariant.
+# Preserve only the V73 source object plus global firewalls; do not pin the
+# successor state to V73's then-open minimum-norm flag.
 assert state["stage33_progress"] == "6/11"
 assert state["authority_sync"]["controller_global_authority_locked"] is True
 assert state["authority_sync"]["operational_routing_authority"] == "V58_ARSENAL_FIRST_REPEATABLE_BOUNDED_SEARCH_NO_FIXED_CAP"
-assert state["current_exact_frontier"]["J1_marked_kc_coordinate_candidates_f2"] == [[0, 1], [1, 1]]
-assert state["current_exact_frontier"]["J1_marked_kc_remaining_ambiguity_bits"] == 1
 assert state["current_exact_frontier"]["j1_translation_torsor_materialized"] is True
 assert state["current_exact_frontier"]["j1_translation_torsor_equation"].endswith("d=f1")
 assert state["current_exact_frontier"]["j1_translation_torsor_splitting_field"] == "Kgeom(sqrt(f1))"
-assert state["current_exact_frontier"]["j1_twisted_kernel_minimum_norm_materialized"] is False
+assert state["locked_facts"]["v73"]["sha256"] == V73_SHA
 assert state["execution_gate"]["advance_allowed"] is True
 assert state["firewalls"]["stage33_12_closed_exact"] is False
 assert state["firewalls"]["stage33_13_released"] is False
@@ -68,8 +66,7 @@ print(json.dumps({
     "marker": "V74_HISTORICAL_V73_FRONTIER_SUCCESSOR_SAFE_REPLAY",
     "v73_canonical_sha256": V73_SHA,
     "live_frontier": state["authority_sync"]["frontier_authority"],
-    "remaining_transport_bits": 1,
     "j1_translation_torsor_materialized": True,
-    "j1_twisted_kernel_minimum_norm_materialized": False,
+    "live_kernel_norm_materialized": state["current_exact_frontier"].get("j1_twisted_kernel_minimum_norm_materialized"),
     "merge_allowed": False
 }, sort_keys=True))
