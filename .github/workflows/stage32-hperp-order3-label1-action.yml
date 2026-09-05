@@ -4,21 +4,70 @@ on:
   pull_request:
     paths:
       - 'stages/stage32/residual-32-01-production/diagnose_stage32_hperp_order3_label1_action.py'
-      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1566_orbit_sum_commutator.py'
-      - 'stages/stage33/33-07/**'
+      - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
+      - 'stages/stage32/residual-32-01-production/pairing_prefix_engine.py'
+      - 'stages/stage32/residual-32-01-production/post1588-hperp-nonexceptional-mod2-witness.json'
+      - 'stages/stage32/residual-32-01-production/post1563-ambient-symmetry-exhaustion-batch.json'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
       - '.github/workflows/stage32-hperp-order3-label1-action.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: stage32-hperp-order3-label1-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   diagnose:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+      - name: Assert exact PR head
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
+      - name: Resolve current-main freshness
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main:refs/remotes/origin/main --no-tags --depth=1
+          current_main="$(git rev-parse origin/main)"
+          test "${{ github.event.pull_request.base.sha }}" = "$current_main"
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Run exact order-3 action sweep
-        run: python3 stages/stage32/residual-32-01-production/diagnose_stage32_hperp_order3_label1_action.py
+      - name: Install pinned algebra dependency
+        run: python3 -m pip install --disable-pip-version-check sympy==1.14.0
+      - name: Run exact retained-basis order-3 action sweep
+        id: sweep
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage32/residual-32-01-production/diagnose_stage32_hperp_order3_label1_action.py | tee /tmp/stage32-order3.json
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          d=json.load(open('/tmp/stage32-order3.json'))
+          o=d['order3_sweep']
+          print(f"order3={o['order3_element_count']}")
+          print(f"images={len(o['label1_image_set'])}")
+          print(f"fix={o['fix_label1_count']}")
+          print(f"qfix={o['fix_label1_mod_exceptional_span_count']}")
+          print(f"same={o['separator_same_count']}")
+          PY
+      - name: Upload compact finite result
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-o3-${{ steps.sweep.outputs.order3 }}-img${{ steps.sweep.outputs.images }}-fix${{ steps.sweep.outputs.fix }}-qfix${{ steps.sweep.outputs.qfix }}-same${{ steps.sweep.outputs.same }}
+          path: /tmp/stage32-order3.json
+          if-no-files-found: error
+      - name: Diff check
+        if: github.event_name == 'pull_request'
+        run: git diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
