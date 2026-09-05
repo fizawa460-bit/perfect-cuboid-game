@@ -1,0 +1,176 @@
+{
+  "schema": "STAGE36_36_09F_PAIRED_LEGENDRE_RECEIVER_INTERSECTION_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09F",
+  "leaf": "36-09F_PAIRED_LEGENDRE_RECEIVER_INTERSECTION_PREFLIGHT",
+  "status": "EXACT_PAIRED_RECEIVER_EQUALS_FULL_ENDPOINT_KUMMER_CONDITION_BLOCK_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "3b4b5969330ae89a41899598fbdf17e76be76f72",
+  "entry_authority": {
+    "stage36_36_09E_promotion_pr": 1595,
+    "promotion_exact_head": "f75830b2fd54031c1af05e2377a9da365a4d7fdf",
+    "promotion_exact_head_ci_run": 33957789368,
+    "promotion_exact_head_ci_job": 101284151736,
+    "promotion_merged_main_sha": "3b4b5969330ae89a41899598fbdf17e76be76f72",
+    "selected_route": "B6_FIBRATION_TO_CURVE_BASE"
+  },
+  "source_locks": {
+    "stage36_36_09E_preflight": {
+      "path": "stages/stage36/36-09E/character-elliptic-quotient-arithmetic-preflight.json",
+      "blob_sha": "081b704fecaa3bd39e6a523ee7beaefe706683f4"
+    },
+    "stage36_36_03_physical_receiver": {
+      "path": "stages/stage36/36-03/physical-open-boundary.json",
+      "blob_sha": "fc1947b2de08f7d8a104bdc91902b20e88635349"
+    },
+    "stage29_exact_sign_cover_model": {
+      "path": "stages/stage29/29-02ha/exact-sign-cover-model.md",
+      "blob_sha": "fc2d5284a259750f45d2d756a952002671e3bccc"
+    },
+    "cycle_exploration_safety_protocol": {
+      "path": "docs/research-os/policies/cycle-exploration-safety-protocol.md",
+      "blob_sha": "4e911c4fc7e4ea7a2b5f96733a90b986ef8d9a37"
+    }
+  },
+  "arsenal_locks": {
+    "S34_W03": {
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96",
+      "application": "PAIRED_RECEIVER_INTERSECTION_IS_EXACTLY_ENDPOINT_KUMMER_CONDITION_ON_PHYSICAL_BASE; NO_SHORTCUT_EXCLUSION_EXECUTED"
+    },
+    "S34_W01": {
+      "path": "docs/arsenal/cards/formal/S34-W01.md",
+      "blob_sha": "01a8e90e34b4aa46edbfa825803d488e5230e9d0",
+      "application": "NOT_TRIGGERED_RANK4_SQUARECLASS_SYSTEM_COLLAPSES_DIRECTLY_NO_FINITE_BRANCH_FAMILY_NEEDED"
+    },
+    "S34_W02": {
+      "path": "docs/arsenal/cards/formal/S34-W02.md",
+      "blob_sha": "13d41be776fcd2edcd258f11bd28c5a6596de45b",
+      "application": "NOT_TRIGGERED_NO_CERTIFIED_UNIFORM_FULL_MW_SPECIALIZATION_PACKAGE"
+    }
+  },
+  "moving_line_variables": {
+    "A": "s",
+    "B": "s+1",
+    "C": "s+t",
+    "D": "s+t+1",
+    "physical_branch_free": "A*B*C*D != 0"
+  },
+  "four_paired_legendre_equations": {
+    "E_t_PLUS": {
+      "X": "s+t+1",
+      "rhs": "B*C*D",
+      "equation": "Y_t_plus^2=B*C*D"
+    },
+    "E_t_MINUS": {
+      "X": "-s",
+      "rhs": "A*B*C",
+      "equation": "Y_t_minus^2=A*B*C"
+    },
+    "E_t1_PLUS": {
+      "X": "s+t+1",
+      "rhs": "A*C*D",
+      "equation": "Y_t1_plus^2=A*C*D"
+    },
+    "E_t1_MINUS": {
+      "X": "-s",
+      "rhs": "A*B*D",
+      "equation": "Y_t1_minus^2=A*B*D"
+    }
+  },
+  "squareclass_linear_system": {
+    "variable_order": ["A", "B", "C", "D"],
+    "row_order": ["E_t_PLUS", "E_t_MINUS", "E_t1_PLUS", "E_t1_MINUS"],
+    "matrix_F2": [[0,1,1,1],[1,1,1,0],[1,0,1,1],[1,1,0,1]],
+    "rank_F2": 4,
+    "kernel_dimension": 0,
+    "only_squareclass_solution": ["0", "0", "0", "0"],
+    "elementary_proof": [
+      "(BCD)/(ABC)=D/A is a square",
+      "(ACD)/(ABC)=D/B is a square",
+      "(ABD)/(ABC)=D/C is a square",
+      "therefore A,B,C,D have one common squareclass q",
+      "ABC square gives q^3=q=1, so each A,B,C,D is a square"
+    ],
+    "equivalence": "the four paired Legendre RHS are rational squares iff A,B,C,D are individually rational squares on the branch-free locus"
+  },
+  "seven_line_reconstruction": {
+    "normalized_chart": "y=1, x=t, z=s",
+    "seven_line_values": {
+      "A1": "t",
+      "A2": "1",
+      "A3": "A=s",
+      "B3": "t+1",
+      "B2": "C=s+t",
+      "B1": "B=s+1",
+      "C": "D=s+t+1"
+    },
+    "physical_base_from_36_09E": {
+      "t_is_square": true,
+      "t_plus_1_is_square": true
+    },
+    "paired_four_equations_force_all_moving_line_values_square": true,
+    "therefore_all_seven_line_values_square": true,
+    "sign_cover_lift_criterion_applies": true,
+    "exact_equivalence": "physical genus-0 base condition plus the four paired prescribed-X Legendre conditions iff the normalized seven-line sign/Kummer base point lifts rationally to the full sign cover on the physical branch-free open",
+    "converse_checked": true,
+    "scope_firewall": "this is an exact reformulation/equivalence of the endpoint-open lift condition, not a proof that the condition has or lacks rational solutions"
+  },
+  "route_decision": {
+    "B6_FIBRATION_TO_CURVE_BASE": "BLOCKED_BY_EXACT_ENDPOINT_EQUIVALENCE_NO_PROPER_RECEIVER_GAIN",
+    "cycle_route_status": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "new_pattern": "the combined four character quotients with shared X reconstruct the full four moving-line square conditions; with the physical t,t+1 base this is exactly the original seven-line Kummer lift condition",
+    "S34_W03": "FORMALLY_MATCHED_BUT_NO_PROPER_RECEIVER_SHORTCUT_GAIN",
+    "S34_W03_INTERSECTION_EXCLUSION_EXECUTED": false,
+    "S34_W01_TRIGGERED": false,
+    "S34_W02_TRIGGERED": false,
+    "paired_receiver_intersection_empty_proved": false,
+    "endpoint_condition_solved": false,
+    "next_route_after_hostile_audit": "36-09G_ENDPOINT_EQUIVALENCE_BREADTH_REFRESH"
+  },
+  "cycle_update": {
+    "new_material_block": true,
+    "fresh_breadth_audit_required_now": true,
+    "trigger_reason": "the same essential endpoint receiver survived the B6 fibration/character reformulations and the active B6 route is now proved exactly endpoint-equivalent rather than a proper simplifying receiver",
+    "B6_was_sole_live_before_block": true,
+    "live_candidates_after_block": 0,
+    "untested_candidates_preserved": ["B3_FINITE_CURVE_OR_COVER_DECOMPOSITION","B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER","B10_INTERMEDIATE_SIGN_QUOTIENT_OR_CHARACTER","B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY"],
+    "fresh_EXHAUSTIVE_VIEW_AUDIT_after_36_09F": false,
+    "fresh_BLIND_REDISCOVERY_after_36_09F": false,
+    "split_triggered": false,
+    "parking_audit_complete": false,
+    "provisional_successor_after_hostile_audit": "36-09G_ENDPOINT_EQUIVALENCE_BREADTH_REFRESH"
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "CYCLE_ACTIVE_RECEIVER": "PHYSICAL_PAIRED_LEGENDRE_RECEIVER_EQUIVALENT_TO_FULL_SEVEN_LINE_KUMMER_LIFT",
+    "CYCLE_LIVE_CANDIDATES": 0,
+    "CYCLE_UNTESTED_CANDIDATES": 4,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": false,
+    "CYCLE_BLIND_REDISCOVERY": false,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "four prescribed-X Legendre square conditions form a rank-4 F2 system equivalent to all four moving line values being squares",
+    "CYCLE_NEW_VIEW_SOURCE": "INTERNAL_DERIVATION"
+  },
+  "pass_condition": {
+    "FOUR_PAIRED_LEGENDRE_RHS_EXACT": true,
+    "SQUARECLASS_MATRIX_RANK4": true,
+    "FOUR_PRODUCTS_IFF_FOUR_MOVING_LINES_SQUARE": true,
+    "PHYSICAL_BASE_PLUS_PAIRED_RECEIVER_IFF_FULL_SEVEN_LINE_LIFT": true,
+    "B6_PROPER_RECEIVER_GAIN": false,
+    "GLOBAL_RECEIVER_CLOSED": false
+  },
+  "claims": {
+    "new_theorem_credit": false,
+    "paired_legendre_receiver_intersection_empty_proved": false,
+    "uniform_mordell_weil_control_proved": false,
+    "generic_or_special_fiber_rational_points_exhausted": false,
+    "quotient_Q_point_emptiness_proved": false,
+    "receiver_matched_replacement_theorem_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
