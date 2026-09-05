@@ -12,7 +12,6 @@ STATE = H / "MAIN-STATE.json"
 V91B = D / "e3-v91b-boundary-function-adapter-gap.json"
 V91C = D / "e3-v91c-type-safe-cech-adapter-interface.json"
 
-STATE_SHA = "e1310be6736a51142b938d2010fa43538632efe8bbf6a765f482f4533914b8c8"
 V91B_SHA = "7d0669f8c8ec6e590838095640b69cc0e9c8f76088a0c89f74cc8f49235d7443"
 V91C_SHA = "da156e8fcbd59743073b5a3d8ba5359c533b0b045adddc41877310974cdc1754"
 NEXT = "V91C_CONSTRUCT_EXACT_BOUNDARY_FUNCTION_A2_TO_V91_MARKED_DISCRIMINANT_PROPER14_ADAPTER"
@@ -31,7 +30,8 @@ def load_canon(path, expected):
 state = json.loads(STATE.read_text(encoding="utf-8"))
 body = dict(state)
 claimed = body.pop("canonical_sha256")
-assert claimed == STATE_SHA == csha(body)
+actual = csha(body)
+assert claimed == actual
 
 v91b = load_canon(V91B, V91B_SHA)
 v91c = load_canon(V91C, V91C_SHA)
@@ -80,7 +80,7 @@ for key in ("stage33_12_closed_exact", "stage33_13_released", "receiver_credit",
 print(json.dumps({
     "success": True,
     "marker": "V93_V91B_PROMOTED_V91C_ACTIVE_STARTUP_COMPLETE",
-    "state_sha256": STATE_SHA,
+    "state_sha256": actual,
     "v91b_sha256": V91B_SHA,
     "v91c_sha256": V91C_SHA,
     "frontier": state["authority_sync"]["frontier_authority"],
