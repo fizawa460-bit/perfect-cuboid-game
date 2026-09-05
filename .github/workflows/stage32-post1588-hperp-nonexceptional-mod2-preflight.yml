@@ -28,17 +28,19 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          fetch-depth: 0
+          fetch-depth: 1
       - name: Assert exact PR head
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
       - name: Resolve freshness authority
         run: |
-          git fetch origin main --no-tags
+          git fetch origin main:refs/remotes/origin/main --no-tags --depth=1
           current_main="$(git rev-parse origin/main)"
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             test "${{ github.event.pull_request.base.sha }}" = "$current_main"
           fi
+      - name: Install exact algebra dependency
+        run: python3 -m pip install --disable-pip-version-check sympy
       - name: Run exact all140 mod2 rank preflight
         run: python3 stages/stage32/residual-32-01-production/diagnose_stage32_post1588_hperp_nonexceptional_mod2.py
       - name: Diff check
