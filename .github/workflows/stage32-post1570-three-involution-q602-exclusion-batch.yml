@@ -6,7 +6,7 @@ on:
       - '.github/workflows/stage32-post1570-three-involution-q602-exclusion-batch.yml'
       - 'stages/stage32/controller.json'
       - 'stages/stage32/residual-32-01-production/post1570-three-involution-q602-exclusion-batch*'
-      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1570_three_involution_q602.py'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1570_three-involution-q602.py'
       - 'stages/stage32/residual-32-01-production/certify_stage32_post1570_three_involution_q602_exclusion_batch.py'
       - 'stages/stage32/residual-32-01-production/post1505-o210-q602-marked-w-line-gauge-orbit.json'
       - 'stages/stage32/residual-32-01-production/post1532-q602-single-b3-commutator.json'
@@ -60,7 +60,18 @@ jobs:
       - name: Recompute three-involution and mod2 blowdown diagnostic
         run: python3 stages/stage32/residual-32-01-production/diagnose_stage32_post1570_three_involution_q602.py
       - name: Certify terminal symmetry-parity batch
-        run: python3 stages/stage32/residual-32-01-production/certify_stage32_post1570_three_involution_q602_exclusion_batch.py
+        shell: bash
+        run: |
+          set -o pipefail
+          python3 stages/stage32/residual-32-01-production/certify_stage32_post1570_three_involution_q602_exclusion_batch.py 2>&1 | tee stage32-post1570-certifier.log
+      - name: Retain certifier log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-post1570-certifier-log
+          path: stage32-post1570-certifier.log
+          if-no-files-found: error
+          retention-days: 1
       - name: Enforce no controller edit
         if: github.event_name == 'pull_request'
         run: |
