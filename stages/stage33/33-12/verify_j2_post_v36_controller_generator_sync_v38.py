@@ -21,9 +21,6 @@ def csha(obj):
     return hashlib.sha256(json.dumps(obj, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
-# Immutable historical V38 receipt: always replay this first, regardless of the
-# current successor controller.  Live operational promotion must never bypass
-# the receipt that the V38 verifier is named to preserve.
 r = json.loads(RECEIPT.read_text())
 rb = dict(r)
 claimed = rb.pop("canonical_sha256")
@@ -62,9 +59,6 @@ assert locks["v35_handoff_canonical_sha256"] == "4837ebeb0dd4ea97f196f6e4a405923
 assert locks["v36_handoff_canonical_sha256"] == "065c0ca8a92ad0994a88b2a62337a0ceb33af9823e746590e7de590676d6db7c"
 assert locks["v37_operational_repair_canonical_sha256"] == "8b3da6a1b747a39a54f329959d3cac0073ec1bc57c21acf9a71f979194de8dcf"
 
-# Mutable live layer.  Frozen V38 controller/MAIN-state hashes are compared only
-# on the exact V59 projection.  Successor controllers must instead prove their
-# own self-consistency and then run their own operational routing verifier.
 controller = json.loads((STAGE33 / "controller.json").read_text())
 cb = dict(controller)
 controller_sha = cb.pop("projection_canonical_sha256")
@@ -93,21 +87,20 @@ if controller_schema_now == V59:
     live_layer = "V59_FROZEN_PROJECTION"
 
 elif controller_schema_now in {V60, V61}:
-    # Historical successor compatibility: the immutable V38 receipt above has
-    # already been replayed.  A V60/V61 tree must additionally carry its own V39
-    # live-routing verifier; do not compare its live hashes to frozen V38 hashes.
     legacy = HERE / "verify_j2_post_v38_locator_first_construction_policy_v39.py"
     assert legacy.is_file(), "V39 compatibility verifier required on a V60/V61 tree"
     runpy.run_path(str(legacy), run_name="__main__")
     live_layer = "V39_SUCCESSOR_ROUTING"
 
 elif controller_schema_now == V62:
-    # Preserve the immutable V38 frontier under the current compact controller
-    # without requiring successor MAIN-state projections to retain redundant
-    # historical convenience keys.  The immutable receipt above is the authority
-    # for the exact historical adapted-column counts and REMAINING list.
     assert controller["stage33_12"]["finite_v4_kummer_adapted_columns_materialized"] == 1
     assert controller["stage33_12"]["finite_v4_kummer_columns_materialized"] == 0
+    live_frontier = state["current_exact_frontier"]
+    assert live_frontier["j2_adapted_columns_materialized"] == 1
+    assert live_frontier["j2_adapted_columns_total"] == 10
+    assert live_frontier["original_standard_columns_materialized"] == 0
+    if "remaining_adapted_source_labels" in live_frontier:
+        assert live_frontier["remaining_adapted_source_labels"] == REMAINING
     runpy.run_path(str(HERE / "verify_j2_post_v39_arsenal_first_bounded_search_policy_v41.py"), run_name="__main__")
     live_layer = "V41_ARSENAL_FIRST_ROUTING"
 
