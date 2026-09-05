@@ -19,6 +19,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          # V29 historical replay reads the immutable V28 MAIN-STATE snapshot at
+          # merge commit 38434ea3...; keep enough parent history for git show.
+          fetch-depth: 32
       - name: Assert exact PR head checkout
         run: |
           ACTUAL_HEAD_SHA="$(git rev-parse HEAD)"
@@ -34,45 +37,47 @@ jobs:
         run: python -B stages/stage35/verify_stage35_35_01_to_09.py
       - name: Verify Stage35 35-10 material routing firewalls
         run: python -B stages/stage35/35-10/verify_35_10.py
-      - name: Replay Stage35-EX base through audited V27 projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py base
-      - name: Replay Stage35-EX 35EX-10 through audited V27 projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py 10
-      - name: Replay Stage35-EX 35EX-11 through audited V27 projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py 11
-      - name: Replay Stage35-EX 35EX-12 through audited V27 projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py 12
-      - name: Replay Stage35-EX 35EX-13 through audited V27 projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py 13
-      - name: Replay Stage35-EX 35EX-14 through audited V27 projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py 14
-      - name: Replay Stage35-EX 35EX-15 through audited V27 projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py 15
-      - name: Replay Stage35-EX 35EX-16 through audited V27 projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py 16
-      - name: Replay Stage35-EX 35EX-17 through audited V27 projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py 17
-      - name: Replay Stage35-EX 35EX-18 through audited V27 projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py 18
-      - name: Replay Stage35-EX 35EX-19 through audited V27 projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py 19
-      - name: Replay Stage35-EX 35EX-20 through nested audited projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py 20
-      - name: Replay Stage35-EX 35EX-21 through nested audited projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py 21
-      - name: Replay Stage35-EX 35EX-22 through nested audited projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py 22
-      - name: Replay Stage35-EX 35EX-23 through nested audited projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py 23
-      - name: Replay Stage35-EX 35EX-24 through audited V27 projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py 24
-      - name: Replay Stage35-EX 35EX-25 through audited V27 projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py 25
-      - name: Replay Stage35-EX 35EX-26 through audited V27 projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py 26
-      - name: Replay Stage35-EX 35EX-27 through audited V27 projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py 27
-      - name: Replay Stage35-EX 35EX-28 through audited V27 projection
-        run: python -B stages/stage35-ex/verify_stage35_ex_v28_legacy_replay.py 28
-      - name: Verify Stage35-EX 35EX-29 reciprocal common-factor Kummer compression
-        run: python -B stages/stage35-ex/verify_stage35_ex_29.py
+      - name: Replay Stage35-EX base through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py base
+      - name: Replay Stage35-EX 35EX-10 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 10
+      - name: Replay Stage35-EX 35EX-11 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 11
+      - name: Replay Stage35-EX 35EX-12 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 12
+      - name: Replay Stage35-EX 35EX-13 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 13
+      - name: Replay Stage35-EX 35EX-14 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 14
+      - name: Replay Stage35-EX 35EX-15 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 15
+      - name: Replay Stage35-EX 35EX-16 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 16
+      - name: Replay Stage35-EX 35EX-17 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 17
+      - name: Replay Stage35-EX 35EX-18 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 18
+      - name: Replay Stage35-EX 35EX-19 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 19
+      - name: Replay Stage35-EX 35EX-20 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 20
+      - name: Replay Stage35-EX 35EX-21 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 21
+      - name: Replay Stage35-EX 35EX-22 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 22
+      - name: Replay Stage35-EX 35EX-23 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 23
+      - name: Replay Stage35-EX 35EX-24 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 24
+      - name: Replay Stage35-EX 35EX-25 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 25
+      - name: Replay Stage35-EX 35EX-26 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 26
+      - name: Replay Stage35-EX 35EX-27 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 27
+      - name: Replay Stage35-EX 35EX-28 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 28
+      - name: Replay Stage35-EX 35EX-29 through immutable V28 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v29_legacy_replay.py 29
+      - name: Verify Stage35-EX 35EX-30 endpoint-gauge return firewall
+        run: python -B stages/stage35-ex/verify_stage35_ex_30.py
