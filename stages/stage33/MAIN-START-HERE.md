@@ -8,7 +8,7 @@ For ordinary research/navigation use:
 
 `controller -> active roadmap -> Arsenal index/card -> exact referenced files`
 
-The current branch-local roadmap is `stages/stage33/ROADMAP-33-12-V71-J1-TORSOR.md`. Superseded planning is recovered from Git history; do not load stale root roadmaps.
+The current branch-local roadmap is `stages/stage33/33-12/ROADMAP-V71-J1-TORSOR.md`. Superseded planning is recovered from Git history; do not load stale root roadmaps.
 
 Repository traversal itself follows `AGENTS.md`; Stage33 does not define a separate tree/search policy.
 
