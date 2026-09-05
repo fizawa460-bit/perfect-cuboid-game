@@ -8,6 +8,12 @@ During ordinary Stage startup, do not preload Research OS. Follow the Stage-loca
 
 Repository discovery is search-first, not tree-first. **Never acquire a recursive/full repository tree, and never call a recursive tree endpoint (including `recursive=1`) for discovery, exhaustive enumeration, or as a fallback after any search miss. There is no Stage/task exception to this rule.** Fetch known paths directly; use GitHub search for filenames/paths and GitHub code search for terms, symbols, identifiers, or phrases; follow controller, roadmap, source-lock, certificate, index, or other authority references only to the exact targets needed for the active leaf. If exhaustive enumeration is genuinely required, use bounded/paginated targeted search, explicit non-recursive directory traversal, or a task-specific repository index instead; if those mechanisms cannot establish exhaustive coverage, stop and record that limitation rather than requesting a recursive/full tree. A search miss never proves repository-wide absence; broaden only under the active Stage/search policy.
 
+## Retained / opaque payload read safety
+
+Source-locked retained assets that embed large compressed, encoded, generated, or otherwise opaque payloads are **execution/source-lock inputs, not routine conversational discovery material**. Do not fetch or print their full payload merely to inspect metadata, discover neighboring assets, or understand an adapter. Prefer exact consumers/adapters, certificates, source notes, hashes, small metadata fields, or bounded line/range reads. If the exact payload is genuinely required for a computation, load it in the repository execution path and persist only compact deterministic outputs; do not expand the payload into chat/context unless the payload itself is the explicit audit target.
+
+Do not split, re-encode, reformat, recompress, or relocate a retained/source-locked payload merely to make it easier to read. Such structural changes require a dedicated reference/source-lock audit and migration that regenerates every affected hash, locator, verifier, and certificate. Ordinary Stage work must treat the existing retained bytes as immutable unless that migration is itself the authorized task.
+
 ## Repo-wide Actions safety
 
 - Treat GitHub Actions artifact/storage capacity as a hard execution constraint. The repository operating budget is **500 MB** unless explicitly revised.
