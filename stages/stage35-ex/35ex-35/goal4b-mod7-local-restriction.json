@@ -1,0 +1,91 @@
+{
+  "schema": "STAGE35_EX_35_GOAL4B_MOD7_ODD_PRIME_LOCAL_RESTRICTION_V1",
+  "stage": "35-EX",
+  "unit": "35EX-35_GOAL4B_MOD7_ODD_PRIME_LOCAL_RESTRICTION",
+  "status": "PROVISIONAL_EXACT_MOD7_LOCAL_RESTRICTION_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT",
+  "base_main_sha": "d761baa2d2d5e69479ef191041c5e2f017a50283",
+  "parent_goal4a_authority": {
+    "promotion_pr": 1618,
+    "hostile_review_id": 5121443297,
+    "exact_head_sha": "8a84f61e5b0cdc54430ca77e6d2e00e9ef682798",
+    "exact_head_ci_run": 33969337207,
+    "exact_head_ci_job": 101314947704,
+    "merge_sha": "7ce9edb2652a044fd6140e0f45b87026eefcf319",
+    "goal4b_ready": true
+  },
+  "population": {
+    "A_B_C": "positive integers with gcd(A,B,C)=1",
+    "face_square_conditions": [
+      "A^2+B^2 is a square",
+      "A^2+C^2 is a square",
+      "B^2+C^2 is a square"
+    ],
+    "fourth_square_condition": "A^2+B^2+C^2 is a square",
+    "mod7_projective_reduction_valid": "gcd(A,B,C)=1 implies A,B,C are not all 0 modulo 7"
+  },
+  "mod7_square_structure": {
+    "quadratic_residues": [0, 1, 2, 4],
+    "nonzero_quadratic_residues": [1, 2, 4],
+    "pair_sum_lemma": "for nonzero quadratic residues u,v modulo 7, u+v is a quadratic residue iff u=v",
+    "pair_sum_table": {
+      "1+1": 2,
+      "2+2": 4,
+      "4+4": 1,
+      "1+2": 3,
+      "1+4": 5,
+      "2+4": 6
+    }
+  },
+  "face_locus_classification": {
+    "square_coordinates": "u=A^2, v=B^2, w=C^2 modulo 7",
+    "description": "on the three-face-square locus, every pair of nonzero entries among u,v,w is equal",
+    "support1_projective_classes": 3,
+    "support2_projective_classes": 6,
+    "support3_projective_classes": 4,
+    "total_projective_classes": 13,
+    "total_nonzero_vector_residues": 78
+  },
+  "fourth_square_cut": {
+    "full_projective_classes": 9,
+    "full_nonzero_vector_residues": 54,
+    "rejected_projective_classes": 4,
+    "rejected_nonzero_vector_residues": 24,
+    "rejected_projective_representatives": [
+      [1, 1, 1],
+      [1, 1, 6],
+      [1, 6, 1],
+      [1, 6, 6]
+    ],
+    "exact_equivalence_on_face_locus": "A^2+B^2+C^2 is a square modulo 7 iff A*B*C is 0 modulo 7",
+    "integer_conclusion": "every primitive integer endpoint satisfying all three face squares and the space square obeys 7|A*B*C",
+    "genuine_new_restriction_witness": "A=B=C=1 modulo 7 satisfies all three face-square residue conditions because 1+1=2 is a square, but the space residue 1+1+1=3 is nonsquare"
+  },
+  "six_variable_boundary": {
+    "reconstruction": ["A=x*y*a", "B=x*z*b", "C=y*z*c"],
+    "immediate_lift": "7|A*B*C implies 7|x*y*z*a*b*c",
+    "private_gcd_support_classification_completed": false,
+    "finite_exhaustive_squareclass_family_obtained": false,
+    "next_unit": "35EX-35_GOAL4C_PRIVATE_GCD_LIFT_OF_MOD7_BRANCH_AND_FINITE_RECEIVER_TEST"
+  },
+  "arsenal": {
+    "S34_W03": "EXACT_LOCAL_WITNESS_AVAILABLE_FOR_FACE_BRANCH_7_NOT_DIVIDE_ABC_BUT_PARENT_ROUTE_NOT_CLOSED",
+    "S34_W01": "PREFLIGHT_ONLY_NO_FINITE_EXHAUSTIVE_GLOBAL_SQUARECLASS_FAMILY",
+    "S31_W01": "GATED_NO_EXACT_GENUS_ONE_QUARTIC_ADAPTER"
+  },
+  "credit_firewall": {
+    "odd_prime_local_restriction_p7_obtained": true,
+    "new_fourth_square_restriction_obtained": true,
+    "receiver_branch_7_not_divide_ABC_locally_closed": true,
+    "all_odd_prime_local_conditions_classified": false,
+    "goal4_full_test_completed": false,
+    "finite_squareclass_receiver_obtained": false,
+    "universal_torsor_constructed": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
