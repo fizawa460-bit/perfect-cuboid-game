@@ -1,0 +1,126 @@
+{
+  "schema": "STAGE35_EX_29B_POST_RECIPROCAL_COMMON_FACTOR_FRESH_BREADTH_AUDIT_V1",
+  "stage": "35-EX",
+  "status": "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT",
+  "authority": {
+    "unit": "35EX-29",
+    "hostile_audit_verdict": "PASS",
+    "hostile_audit_review_node_id": "PRR_kwDOTr52Y88AAAABMS3Ipg",
+    "audited_exact_head_sha": "21ce592d3f30fd10b421ed0d3be68a702c26c65a",
+    "exact_head_ci_run": 33946860829,
+    "exact_head_ci_job": 101254427135,
+    "merged_main_sha": "38434ea3c4124efd1cc04a228e85b2fd207f2c14"
+  },
+  "protocol": {
+    "policy": "docs/research-os/policies/cycle-exploration-safety-protocol.md",
+    "fresh_exhaustive_view_audit": true,
+    "blind_rediscovery": true,
+    "blind_generation_performed_before_arsenal_comparison": true,
+    "historical_comparison_performed_after_blind_generation": true,
+    "split_triggered": false,
+    "parking_audit_complete": false
+  },
+  "exact_receiver": {
+    "A": "alpha^2",
+    "s": "b^2",
+    "c": "(A^2+1)/(2*A)",
+    "physical_order": "1 < c < s < A",
+    "R1": "r^2=(s-c)*(c*s-1)",
+    "R2": "ell^2=2*(c*s-1)*(s^2-1)"
+  },
+  "blind_candidates": [
+    {
+      "id": "E1-MOBIUS-SQUARE-PAIR-CAYLEY-NORMAL-FORM",
+      "lens": "exact algebra / involution / Cayley coordinates",
+      "blind_observation": "with W=w^2=(c*s-1)/(s-c), R1 is square-to-square under a Mobius involution with fixed points A and 1/A; Cayley coordinates conjugate the involution to reciprocal multiplication",
+      "classification_before_history": "LIVE"
+    },
+    {
+      "id": "E1-RATIO-DISCRIMINANT-QUARTIC-QUOTIENT",
+      "lens": "eliminate the shared Kummer factor by t=ell/r",
+      "blind_observation": "t^2=2*(s^2-1)/(s-c)=2*(s+W); eliminating s gives a quartic/discriminant quotient with physical inequality t^2>4*A",
+      "classification_before_history": "UNTESTED"
+    },
+    {
+      "id": "E1-SYMMETRIC-THREE-SQUARE-CUBOID-GAUGE",
+      "lens": "symmetric square identities / norm geometry",
+      "blind_observation": "after P=((A+1)/(2*alpha))*t and Q=((A-1)/(2*alpha))*t, the receiver has P^2=(s+1)(W+1), Q^2=(s-1)(W-1), t^2=2*(s+W), P^2-Q^2=t^2; edges w-b,w+b,Q have all three face diagonals and the space diagonal rational",
+      "classification_before_history": "LIVE"
+    },
+    {
+      "id": "E1-PRIMITIVE-SOURCE-MARKING-ON-COMPRESSED-CUBOID-GAUGE",
+      "lens": "retain source arithmetic lost by endpoint-scale projection",
+      "blind_observation": "transport primitive Euclid orientation, canonical cross-gcd channels, parity and source labels through the exact K1-K4 -> R1/R2 -> cuboid gauge map and test whether they cut out a strict sublocus",
+      "classification_before_history": "LIVE"
+    },
+    {
+      "id": "E1-DESCENDED-RECEIVER-JOINT-LOCAL-CLASSIFICATION",
+      "lens": "receiver-restricted local/global intersection",
+      "blind_observation": "search for a local witness on the exact compressed intersection rather than classify the larger moving factors",
+      "classification_before_history": "UNTESTED"
+    },
+    {
+      "id": "E1-UNIFORM-ELLIPTIC-SURFACE-SPECIALIZATION-HEIGHT",
+      "lens": "elliptic surface / specialization / height",
+      "blind_observation": "seek a genuinely uniform theorem on the moving elliptic representatives rather than fixed-fiber Mordell-Weil replay",
+      "classification_before_history": "UNTESTED"
+    },
+    {
+      "id": "E1-NONOBVIOUS-BRAUER-FROM-ELLIPTIC-FIBRATION",
+      "lens": "adelic / Brauer beyond the tested obvious span",
+      "blind_observation": "construct a non-obvious class tied to the fibration or source marking; do not replay the already-frozen natural boundary-symbol span",
+      "classification_before_history": "UNTESTED"
+    }
+  ],
+  "historical_comparison": {
+    "E1-MOBIUS-SQUARE-PAIR-CAYLEY-NORMAL-FORM": "EQUIVALENT_AS_ENDPOINT_SCALE_REPARAMETRIZATION_ONCE_THE_CUBOID_GAUGE_IS_EXPOSED; no independent closure credit",
+    "E1-SYMMETRIC-THREE-SQUARE-CUBOID-GAUGE": "EQUIVALENT_IN_ROUTE_SPECIES_TO_35EX21_NORMALIZED_CUBOID_ENDPOINT_SCALE_SURFACE; the new identities give a clean exact forward gauge but do not create a smaller arithmetic object",
+    "E1-RATIO-DISCRIMINANT-QUARTIC-QUOTIENT": "UNTESTED_QUOTIENT_VIEW; insufficient by itself because quotient elimination may forget simultaneous lift/source marking",
+    "E1-PRIMITIVE-SOURCE-MARKING-ON-COMPRESSED-CUBOID-GAUGE": "LIVE_AND_NOT_SUPPLIED_BY_35EX21; 35EX21 explicitly left primitive/source-population reverse marking unproved",
+    "E1-DESCENDED-RECEIVER-JOINT-LOCAL-CLASSIFICATION": "PRESERVED_UNTESTED_FROM_PRIOR_LEDGER",
+    "E1-UNIFORM-ELLIPTIC-SURFACE-SPECIALIZATION-HEIGHT": "PRESERVED_UNTESTED",
+    "E1-NONOBVIOUS-BRAUER-FROM-ELLIPTIC-FIBRATION": "PRESERVED_UNTESTED; obvious symbol replay remains blocked"
+  },
+  "arsenal_comparison": {
+    "registry": "docs/arsenal/index.json",
+    "S34-W03": {
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96",
+      "classification": "ROUTER_ONLY",
+      "reason": "it permits receiver-restricted intersection exclusion after an exact adapter but supplies no primitive-source marking or obstruction"
+    },
+    "S34-W01": {
+      "classification": "HISTORICAL_FACTOR_DESCENT_PATTERN_ONLY",
+      "reason": "the earlier Stage35 use remains frozen at moving source-dependent support and does not transport the missing endpoint marking"
+    },
+    "S34-W02": {
+      "classification": "LOCKED",
+      "reason": "no certified uniform full Mordell-Weil group for the moving family"
+    },
+    "matching_formal_primitive_source_marking_card_found": false,
+    "matching_formal_endpoint_surface_classification_card_found": false
+  },
+  "selection": {
+    "cycle_route_status": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "selected_candidate": "E1-PRIMITIVE-SOURCE-MARKING-ON-COMPRESSED-CUBOID-GAUGE",
+    "selected_next_unit": "35EX-31_PRIMITIVE_SOURCE_MARKING_ON_COMPRESSED_CUBOID_GAUGE",
+    "reason": "the strongest blind reparameterization returns to the already-audited endpoint-scale cuboid surface; the highest-information next question is therefore the exact source arithmetic discarded by that projection, not another direct attack on the same endpoint surface",
+    "split_triggered": false
+  },
+  "preserved_untested_candidates": [
+    "E1-RATIO-DISCRIMINANT-QUARTIC-QUOTIENT",
+    "E1-DESCENDED-RECEIVER-JOINT-LOCAL-CLASSIFICATION",
+    "E1-UNIFORM-ELLIPTIC-SURFACE-SPECIALIZATION-HEIGHT",
+    "E1-NONOBVIOUS-BRAUER-FROM-ELLIPTIC-FIBRATION"
+  ],
+  "claims": {
+    "endpoint_surface_new_credit": false,
+    "primitive_source_population_reverse_adapter_proved": false,
+    "receiver_intersection_closed": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
