@@ -11,23 +11,23 @@ ART = ROOT / 'stages/stage35-ex/35ex-35/goal4e-all-odd-prime-zero-support-classi
 state = json.loads(STATE.read_text())
 art = json.loads(ART.read_text())
 
-BASE = '2949391d032a9014b0e9ffebce78be84a93d1d8a'
+LIVE_BASE = 'e2103a2de367a0a6d0826b044b6bb83d24ad6f6f'
+G4D_MERGE = '2949391d032a9014b0e9ffebce78be84a93d1d8a'
 HEAD4D = '6684b731fcca201bee1af96d868eaf74a0b62574'
 REVIEW4D = 5123225301
 assert state['schema'] == 'STAGE35_EX_PESCH_E1_STATE_V42_GOAL4E_ALL_ODD_PRIME_ZERO_SUPPORT_CLASSIFICATION_PENDING_AUDIT'
-assert state['base_main_sha'] == BASE
+assert state['base_main_sha'] == LIVE_BASE
 assert state['parent_authority']['pr'] == 1631
 assert state['parent_authority']['hostile_review_id'] == REVIEW4D
 assert state['parent_authority']['exact_head_sha'] == HEAD4D
 assert state['parent_authority']['exact_head_ci_run'] == 33995239057
 assert state['parent_authority']['exact_head_ci_job'] == 101384520908
-assert state['parent_authority']['merge_sha'] == BASE
-assert art['base_main_sha'] == BASE
+assert state['parent_authority']['merge_sha'] == G4D_MERGE
+assert art['base_main_sha'] == LIVE_BASE
 assert art['parent_goal4d_authority']['hostile_review_id'] == REVIEW4D
 assert art['parent_goal4d_authority']['exact_head_sha'] == HEAD4D
-assert art['parent_goal4d_authority']['merge_sha'] == BASE
+assert art['parent_goal4d_authority']['merge_sha'] == G4D_MERGE
 
-# Small-prime exact projective census.  On the all-edge-nonzero branch scale A=1.
 def qset(p: int) -> set[int]:
     return {x*x % p for x in range(p)}
 
@@ -35,7 +35,7 @@ def nonzero_projective_counts(p: int) -> tuple[int,int]:
     Q = qset(p)
     face = full = 0
     for B,C in itertools.product(range(1,p), repeat=2):
-        vals = ((1+B*B)%p, (1+C*C)%p, (B*B+C*C)%p)
+        vals = ((1+B*B)%p,(1+C*C)%p,(B*B+C*C)%p)
         if not all(v in Q for v in vals):
             continue
         face += 1
@@ -54,7 +54,6 @@ assert face_forced == [3,5,11]
 assert fourth_new == [7,19]
 assert forced == art['all_odd_prime_zero_support_theorem']['exact_forced_prime_set']
 
-# Exact exceptional projective zero-edge patterns, using first-nonzero normalization.
 def normalize_projective(v: tuple[int,int,int], p: int) -> tuple[int,int,int]:
     for x in v:
         if x % p:
@@ -81,7 +80,6 @@ for p in forced:
     assert zero_sizes == ({2} if p == 3 else {1,2})
     assert all(any(x==0 for x in v) for v in cls)
 
-# Saunderson specialization. All identities and smoothness data are verified symbolically.
 s = sp.symbols('s')
 a = 6*s**5 - 20*s**3 + 6*s
 b = -s**6 + 15*s**4 - 15*s**2 + 1
@@ -91,43 +89,30 @@ assert sp.expand(a*a+b*b-(s*s+1)**6) == 0
 assert sp.expand(a*a+c*c-4*(5*s**5-6*s**3+5*s)**2) == 0
 assert sp.expand(b*b+c*c-(s**6+17*s**4-17*s**2-1)**2) == 0
 assert sp.expand(a*a+b*b+c*c-(s*s+1)**2*F) == 0
-disc = int(sp.discriminant(F,s))
-assert sp.factorint(disc) == {2:72,5:4}
+assert sp.factorint(int(sp.discriminant(F,s))) == {2:72,5:4}
 assert sp.degree(F,s) == 8
-# Smooth y^2=F(s), degree 2g+2=8 => genus 3 for odd p !=5.
 assert art['large_prime_completion']['smooth_genus'] == 3
-# Bad s are roots of a*b*c: at most deg(a)+deg(b)+deg(c)=16; each has <=2 curve points.
 assert sp.degree(a,s)+sp.degree(b,s)+sp.degree(c,s) == 16
 assert art['large_prime_completion']['bad_affine_points_upper_bound'] == 32
-# Two points at infinity for even degree with square leading coefficient.
 assert art['large_prime_completion']['points_at_infinity'] == 2
-# Hasse-Weil lower bound p+1-2g sqrt(p); verify the stated uniform threshold.
+
 def lower(p: int) -> float:
     return p + 1 - 6*math.sqrt(p)
 assert lower(89) <= 34 < lower(97)
 assert all(lower(p) > 34 for p in sp.primerange(97,1000))
-# Standard Hasse-Weil then supplies >34 total points for every prime p>=97;
-# after removing <=2 infinity and <=32 edge-zero points, a good all-edge-unit point remains.
-
-# Small nonexceptional primes are already witnessed directly by the census.
 assert all(full > 0 for p,face,full in rows if p not in forced)
 
-# Global integer consequence.
 assert art['global_integer_consequence']['combined_divisor'] == 65835
 assert 3**2 * 5 * 7 * 11 * 19 == 65835
 
-# Finite joint edge-support receiver and exact S3 orbit census.
 edges = (0,1,2)
 single = [frozenset([i]) for i in edges]
 double = [frozenset(set(edges)-{i}) for i in edges]
-opts3 = double
-opts = single + double
-assignments = list(itertools.product(opts3,opts,opts,opts,opts))
+assignments = list(itertools.product(double,single+double,single+double,single+double,single+double))
 assert len(assignments) == 3888
 perms = list(itertools.permutations(edges))
 def act(S,p): return frozenset(p[i] for i in S)
-def canon(asg):
-    return min(tuple(tuple(sorted(act(S,p))) for S in asg) for p in perms)
+def canon(asg): return min(tuple(tuple(sorted(act(S,p))) for S in asg) for p in perms)
 orbits = {canon(a0) for a0 in assignments}
 assert len(orbits) == 656
 assert art['finite_global_forced_prime_support_receiver']['labeled_joint_support_assignments'] == 3888
@@ -138,7 +123,6 @@ assert boundary['all_odd_primes_classified_for_universal_edge_zero_obstruction']
 assert boundary['all_odd_prime_Qp_local_conditions_classified'] is False
 assert boundary['finite_global_forced_prime_support_receiver_obtained'] is True
 assert boundary['finite_exhaustive_global_squareclass_family_obtained'] is False
-
 assert state['current']['unit'] == '35EX-35_GOAL4E_ODD_PRIME_LOCAL_BREADTH_AND_FINITE_GLOBAL_RECEIVER_TEST'
 assert state['current']['status'] == 'PROVISIONAL_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT'
 assert state['claims']['goal4e_executed'] is True
