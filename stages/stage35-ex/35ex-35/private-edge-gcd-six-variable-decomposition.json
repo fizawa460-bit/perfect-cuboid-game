@@ -1,0 +1,147 @@
+{
+  "schema": "STAGE35_EX_35_PRIVATE_EDGE_GCD_SIX_VARIABLE_DECOMPOSITION_V1",
+  "stage": "35-EX",
+  "unit": "35EX-35_PRIVATE_EDGE_GCD_SIX_VARIABLE_DECOMPOSITION_PREFLIGHT",
+  "status": "PROVISIONAL_EXACT_GOALS_1_TO_3_NO_E1_CREDIT",
+  "base_main_sha": "c8a876838882c91c078c85da5c88d131b151ac40",
+  "parent_35ex34": {
+    "pr": 1600,
+    "hostile_review_id": 5120821124,
+    "exact_head_sha": "f381177b10f709dccfb9628e56d2dbdf5d811e3d",
+    "exact_head_ci_run": 33960030022,
+    "exact_head_ci_job": 101290193422,
+    "merge_sha": "c8a876838882c91c078c85da5c88d131b151ac40",
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "selected_route": "PRIVATE_EDGE_GCD_SIX_VARIABLE_DECOMPOSITION_PREFLIGHT"
+  },
+  "population": {
+    "A_B_C": "positive integers with gcd(A,B,C)=1",
+    "face_squares": [
+      "D_AB^2=A^2+B^2",
+      "D_AC^2=A^2+C^2",
+      "D_BC^2=B^2+C^2"
+    ],
+    "space_square": "W^2=A^2+B^2+C^2",
+    "note": "goals 1-3 use the exact primitive endpoint population; the space-square rewrite is recorded but no new restriction from it is credited yet"
+  },
+  "definitions": {
+    "x": "gcd(A,B)",
+    "y": "gcd(A,C)",
+    "z": "gcd(B,C)",
+    "a": "A/(x*y)",
+    "b": "B/(x*z)",
+    "c": "C/(y*z)"
+  },
+  "goal1_exact_decomposition": {
+    "pairwise_gcds": [
+      "gcd(x,y)=1",
+      "gcd(x,z)=1",
+      "gcd(y,z)=1"
+    ],
+    "proof": "a prime dividing two of x,y,z divides all of A,B,C, contradicting gcd(A,B,C)=1; hence xy|A, xz|B, yz|C",
+    "reconstruction": [
+      "A=x*y*a",
+      "B=x*z*b",
+      "C=y*z*c"
+    ],
+    "universal_torsor_constructed": false
+  },
+  "goal2_primitive_parity_coprimality_dictionary": {
+    "reduced_face_pairs": [
+      {
+        "face": "AB",
+        "pair": ["y*a", "z*b"],
+        "identity": ["A/x=y*a", "B/x=z*b"],
+        "gcd": "1"
+      },
+      {
+        "face": "AC",
+        "pair": ["x*a", "z*c"],
+        "identity": ["A/y=x*a", "C/y=z*c"],
+        "gcd": "1"
+      },
+      {
+        "face": "BC",
+        "pair": ["x*b", "y*c"],
+        "identity": ["B/z=x*b", "C/z=y*c"],
+        "gcd": "1"
+      }
+    ],
+    "derived_coprimalities": [
+      "gcd(a,b)=gcd(a,c)=gcd(b,c)=1",
+      "gcd(a,z)=1",
+      "gcd(b,y)=1",
+      "gcd(c,x)=1"
+    ],
+    "not_claimed_coprimalities": [
+      "gcd(a,x)=1",
+      "gcd(a,y)=1",
+      "gcd(b,x)=1",
+      "gcd(b,z)=1",
+      "gcd(c,y)=1",
+      "gcd(c,z)=1"
+    ],
+    "primitive_pythagorean_fact": "each reduced face pair is a primitive Pythagorean leg pair, so its legs have opposite parity and its even leg is divisible by 4",
+    "edge_parity_theorem": "exactly one of A,B,C is odd; the two even edges are divisible by 4",
+    "branches": [
+      {
+        "odd_edge": "A",
+        "forced": ["x odd", "y odd", "a odd", "4|z", "b and c have opposite parity"]
+      },
+      {
+        "odd_edge": "B",
+        "forced": ["x odd", "z odd", "b odd", "4|y", "a and c have opposite parity"]
+      },
+      {
+        "odd_edge": "C",
+        "forced": ["y odd", "z odd", "c odd", "4|x", "a and b have opposite parity"]
+      }
+    ],
+    "valuation_note": "for the two even edges, their 2-adic valuations are unequal because their primitive reduced face pair has opposite parity"
+  },
+  "goal3_exact_square_rewrite": {
+    "reduced_face_hypotenuses": {
+      "r_AB": "D_AB/x",
+      "r_AC": "D_AC/y",
+      "r_BC": "D_BC/z"
+    },
+    "primitive_face_equations": [
+      "r_AB^2=(y*a)^2+(z*b)^2",
+      "r_AC^2=(x*a)^2+(z*c)^2",
+      "r_BC^2=(x*b)^2+(y*c)^2"
+    ],
+    "space_equation": "W^2=(x*y*a)^2+(x*z*b)^2+(y*z*c)^2",
+    "equivalent_space_face_couplings": [
+      "W^2=(x*r_AB)^2+(y*z*c)^2",
+      "W^2=(y*r_AC)^2+(x*z*b)^2",
+      "W^2=(z*r_BC)^2+(x*y*a)^2"
+    ]
+  },
+  "goal4_boundary": {
+    "status": "NOT_EXECUTED_IN_THIS_LEAF",
+    "question": "does the fourth square force a new finite squareclass or valuation restriction beyond the three primitive face equations?",
+    "next_unit": "35EX-35_GOAL4_FOURTH_SQUARE_RESTRICTION_TEST",
+    "finite_squareclass_receiver_obtained": false,
+    "new_valuation_restriction_from_space_square_claimed": false
+  },
+  "arsenal": {
+    "S34_W01_path": "docs/arsenal/cards/formal/S34-W01.md",
+    "S34_W01_blob": "01a8e90e34b4aa46edbfa825803d488e5230e9d0",
+    "status": "PREFLIGHT_ONLY_NOT_TRIGGERED",
+    "reason": "exact factor/gcd/parity control is now available, but no finite exhaustive squareclass branch family has been proved"
+  },
+  "credit_firewall": {
+    "six_variable_exact_decomposition": true,
+    "primitive_face_dictionary": true,
+    "three_face_and_space_exact_rewrite": true,
+    "universal_torsor_constructed": false,
+    "finite_squareclass_receiver_obtained": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
