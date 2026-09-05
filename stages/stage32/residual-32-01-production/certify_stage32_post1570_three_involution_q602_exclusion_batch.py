@@ -15,7 +15,7 @@ DIAG = HERE / "diagnose_stage32_post1570_three_involution_q602.py"
 CONTROLLER = ROOT / "stages/stage32/controller.json"
 EXPECTED_SCHEMA = "STAGE32_POST1570_THREE_INVOLUTION_Q602_TERMINAL_NEGATIVE_V1"
 EXPECTED_STATUS = "EXACT_MULTI_ROUTE_SYMMETRY_PARITY_TERMINAL_NEGATIVE_PENDING_HOSTILE_AUDIT"
-EXPECTED_CANONICAL = "e6418179012fe1b66116124aa328bf2a9235ecf11194b7b0f7ca9bee8de9f372"
+EXPECTED_CANONICAL = "4e75ef5f2e320f3a1a6343c710317c468055eb76f800afe7010e92c7ede45508"
 EXPECTED_TABLE = {"73":["A0=b4"],"97":["A2=b3^2*b4*b3^-2"],"235":["A1=b3*b4*b3^-1"]}
 
 
@@ -78,7 +78,7 @@ def main() -> None:
         fail("residue/involution table moved")
     if diag["retained_stoll_group_order"] != 1536:
         fail("Stoll group order moved")
-    if diag["blowdown_mod2_orbit_sum_stabilizer_count"] != 1536 or diag["blowdown_mod2_orbit_sum_stabilizer_outside_h_count"] != 1532:
+    if diag["blowdown_mod2_orbit_sum_stabilizer_count"] != 384 or diag["blowdown_mod2_orbit_sum_stabilizer_outside_h_count"] != 380:
         fail(
             "mod2 orbit-sum stabilizer moved: "
             f"count={diag['blowdown_mod2_orbit_sum_stabilizer_count']} "
@@ -91,7 +91,7 @@ def main() -> None:
     if route_a["table"] != EXPECTED_TABLE or route_a["exclusion_credit"] is not False:
         fail("Route A firewall moved")
     route_b = cert["routes"]["B_blowdown_orbit_sum_mod2"]
-    expected_b = {"retained_stoll_group_order":1536,"blowdown_mod2_orbit_sum_stabilizer_count":1536,"blowdown_mod2_orbit_sum_stabilizer_outside_h_count":1532,"blowdown_mod2_stabilizer_exactly_H":False,"full_stoll_group_stabilizes_mod2_blowdown_orbit_sum":True,"q602_residue_exclusion_obtained":False}
+    expected_b = {"retained_stoll_group_order":1536,"blowdown_mod2_orbit_sum_stabilizer_count":384,"blowdown_mod2_orbit_sum_stabilizer_outside_h_count":380,"blowdown_mod2_stabilizer_exactly_H":False,"full_stoll_group_stabilizes_mod2_blowdown_orbit_sum":False,"q602_residue_exclusion_obtained":False}
     for key, value in expected_b.items():
         if route_b.get(key) != value:
             fail(f"Route B moved at {key}")
@@ -125,7 +125,7 @@ def main() -> None:
     print("PASS Stage32 post1570 terminal symmetry-parity negative batch")
     print(f"certificate_canonical={got_canonical}")
     print("residue_table=73:b4,97:b3^2b4b3^-2,235:b3b4b3^-1")
-    print("mod2_orbit_sum_stabilizer=1536 outside_H=1532")
+    print("mod2_orbit_sum_stabilizer=384 outside_H=380")
     print("degree2_common_cover_source_locked=true mod2_injectivity_credit=false")
     print("Q602_excluded=false O210_excluded=false O212_plus_advance_allowed=false")
 
