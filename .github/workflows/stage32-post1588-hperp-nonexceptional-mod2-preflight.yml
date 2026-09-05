@@ -1,4 +1,4 @@
-name: Stage32 post1588 Hperp nonexceptional mod2 preflight
+name: Stage32 post1588 Hperp nonexceptional mod2 witness
 
 on:
   pull_request:
@@ -6,6 +6,9 @@ on:
       - '.github/workflows/stage32-post1588-hperp-nonexceptional-mod2-preflight.yml'
       - 'stages/stage32/MAIN-STATE.json'
       - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1588_hperp_nonexceptional_mod2.py'
+      - 'stages/stage32/residual-32-01-production/post1588-hperp-nonexceptional-mod2-witness.json'
+      - 'stages/stage32/residual-32-01-production/post1588-hperp-nonexceptional-mod2-witness-source-note.md'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1588_hperp_nonexceptional_mod2_witness.py'
       - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
       - 'stages/stage32/residual-32-01-production/pairing_prefix_engine.py'
       - 'stages/stage33/33-07/picard_base_rows_retained.py'
@@ -20,7 +23,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  preflight:
+  witness:
     runs-on: ubuntu-latest
     timeout-minutes: 4
     steps:
@@ -39,10 +42,10 @@ jobs:
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             test "${{ github.event.pull_request.base.sha }}" = "$current_main"
           fi
-      - name: Install exact algebra dependency
-        run: python3 -m pip install --disable-pip-version-check sympy
-      - name: Run exact all140 mod2 rank preflight
-        run: python3 stages/stage32/residual-32-01-production/diagnose_stage32_post1588_hperp_nonexceptional_mod2.py
+      - name: Install pinned algebra dependency
+        run: python3 -m pip install --disable-pip-version-check sympy==1.14.0
+      - name: Verify exact source-bound nonexceptional witness
+        run: python3 stages/stage32/residual-32-01-production/verify_stage32_post1588_hperp_nonexceptional_mod2_witness.py
       - name: Diff check
         if: github.event_name == 'pull_request'
         run: git diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
