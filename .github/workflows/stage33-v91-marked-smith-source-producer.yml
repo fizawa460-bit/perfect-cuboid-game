@@ -1,0 +1,39 @@
+name: Stage33 V91 marked Picard dual retained replay
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'stages/stage33/33-12/e3-retained-at-marked-picard-dual-source-v91.json'
+      - 'stages/stage33/33-12/verify_e3_retained_at_marked_picard_dual_source_v91.py'
+      - 'stages/stage33/33-12/materialize_e3_retained_at_marked_picard_dual_source_v91.py'
+      - 'stages/stage33/33-12/e3-proper14-dual-to-discriminant-quotient-bridge-v89.json'
+      - 'stages/stage33/33-07/picard-discriminant-compact.json'
+      - 'stages/stage33/33-07/retained-q256-geometric-sign-endpoint.json'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/picard_coordinate_sign_rows_retained.py'
+      - 'stages/stage33/33-09/marked-picard-basis-bridge-certified.json'
+      - 'stages/stage33/33-09/certify_stage33_09_exit.py'
+      - '.github/workflows/stage33-v91-marked-smith-source-producer.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  retained-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    defaults:
+      run:
+        working-directory: stages/stage33/33-12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Replay Stage33-09 marked Picard bridge locally
+        run: python ../33-09/certify_stage33_09_exit.py
+      - name: Replay retained V91 marked Picard-dual source binding locally
+        run: python verify_e3_retained_at_marked_picard_dual_source_v91.py
+      - name: Diff hygiene
+        working-directory: .
+        run: git diff --check
