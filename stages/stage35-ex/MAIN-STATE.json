@@ -1,33 +1,35 @@
 {
-  "schema": "STAGE35_EX_PESCH_E1_STATE_V31_POST_35EX32_ENDPOINT_POPULATION_BREADTH_AUDIT",
+  "schema": "STAGE35_EX_PESCH_E1_STATE_V32_POST_35EX32_USER_APPROVED_MERGE_ROUTE_SELECTION",
   "stage": "35-EX",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
-  "base_main_sha": "bd402241fa69ea00d00b48695c883d1cbdbc2dbb",
+  "base_main_sha": "3ec32ee3647d8c2a9350b1aea5aca1f8cee617a8",
   "history_snapshot": {
     "path": "stages/stage35-ex/MAIN-STATE.json",
-    "commit_sha": "8211bb0ef80de61ecf39c3b97743c58f1193187a",
-    "schema": "STAGE35_EX_PESCH_E1_STATE_V30_POST_35EX31_PRIMITIVE_SOURCE_MARKING_ENDPOINT_EQUIVALENCE",
-    "role": "IMMUTABLE_COMPLETE_V30_HISTORY_THROUGH_35EX31_PROVISIONAL",
-    "contains_completed_units_through": "35EX-31_PROVISIONAL",
-    "current_v31_delta_overrides_snapshot_for_35EX_31_32": true,
-    "historical_replay_verifier": "stages/stage35-ex/verify_stage35_ex_v31_legacy_replay.py",
+    "commit_sha": "3fbcecfb17c8eadde6479ee4c6f55c80be32cf42",
+    "schema": "STAGE35_EX_PESCH_E1_STATE_V31_POST_35EX32_ENDPOINT_POPULATION_BREADTH_AUDIT",
+    "role": "IMMUTABLE_COMPLETE_V31_HISTORY_THROUGH_35EX32_MERGED_PROVISIONAL",
+    "contains_completed_units_through": "35EX-32_MERGED_PROVISIONAL",
+    "historical_replay_verifier": "stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py",
     "history_dropped": false
   },
   "parent_authority": {
-    "unit": "35EX-31",
-    "status": "AUDITED_EXACT_PRIMITIVE_SOURCE_REVERSE_ADAPTER_ENDPOINT_EQUIVALENCE_NO_E1_CREDIT",
-    "hostile_audit_verdict": "PASS_USER_APPROVED",
-    "pass_source": "USER_APPROVED_PASS_AFTER_FRESHNESS_REPAIR",
-    "initial_hostile_audit_review_id": 5120314137,
-    "initial_hostile_audit_verdict": "FAIL_FRESHNESS_ONLY_MATHEMATICS_PASS",
-    "initial_audited_head_sha": "32ea39de62643a70569ba13eb23fc1b435adf62f",
-    "final_exact_head_sha": "9f1d3d73f41377bddb1296a3e6fc95b5e2fd8dd7",
-    "final_exact_head_ci_run": 33953462420,
-    "final_exact_head_ci_job": 101272407623,
-    "merged_main_sha": "8211bb0ef80de61ecf39c3b97743c58f1193187a",
-    "audited_adapter_credit": true,
-    "audited_population_equivalence_credit": true,
-    "E1_theorem_credit": false
+    "unit": "35EX-32",
+    "status": "USER_APPROVED_MERGED_ROUTE_SELECTION_NO_THEOREM_CREDIT",
+    "merge_authorization": "USER_DIRECT_MERGE_AFTER_REPEATED_FRESHNESS_ONLY_HOSTILE_FAILS",
+    "historical_repair_review_id": 5120424968,
+    "freshness_only_review_ids": [5120542777, 5120615203],
+    "latest_hostile_review_id": 5120615203,
+    "latest_hostile_verdict": "FAIL_FRESHNESS_ONLY_MATHEMATICS_PASS",
+    "hostile_audit_pass": false,
+    "final_exact_head_sha": "eeae79b8678ab23d92b01d7f749025e164eeaf45",
+    "final_exact_head_ci_run": 33956976310,
+    "final_exact_head_ci_job": 101281958689,
+    "merged_main_sha": "3fbcecfb17c8eadde6479ee4c6f55c80be32cf42",
+    "mathematics_passed_by_latest_hostile_review": true,
+    "historical_gaussian_no_recharge_passed": true,
+    "selected_candidate_historical_classification": "DISTINCT_PREFLIGHT_ROUTE_NO_NEW_GAUSSIAN_CREDIT_YET",
+    "route_selection_authorized_by_user_merge": true,
+    "theorem_credit": false
   },
   "true_owner": {
     "kernel": "K16-C3-PESCH-EXPONENT-ONE",
@@ -44,135 +46,70 @@
     "id": "PESCH-CONJ-E1-BASIS-NONSQUARE",
     "statement": "for every Master-Hit, xi^2+eta^2 is not a square, where g0=gcd(W1*U2,U1*V2), xi=W1*U2/g0, eta=U1*V2/g0",
     "proved": false,
-    "audited_endpoint_relation": "E1 counterexamples modulo source-pair swap are exactly positive rational perfect cuboids modulo positive scaling and edge permutation",
-    "relation_to_original_kernel": "strictly weaker replacement target than universal exponent-one blocker, but sufficient for the basis blocker implication if proved"
-  },
-  "research_credit_firewalls": {
-    "policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
-    "cycle_policy": "docs/research-os/policies/cycle-exploration-safety-protocol.md",
-    "adapter_workflow": "docs/arsenal/cards/workflows/S30-WF03.md",
-    "inherited": true,
-    "stage_local_overrides_may_weaken": false
+    "audited_endpoint_relation": "E1 counterexamples modulo source-pair swap are exactly positive rational perfect cuboids modulo positive scaling and edge permutation"
   },
   "completed_units_delta": {
-    "35EX-31": {
-      "status": "AUDITED_EXACT_PRIMITIVE_SOURCE_REVERSE_ADAPTER_ENDPOINT_EQUIVALENCE_NO_E1_CREDIT",
-      "artifact": "stages/stage35-ex/35ex-31/primitive-source-marking-endpoint-equivalence.md",
-      "certificate": "stages/stage35-ex/35ex-31/primitive-source-marking-certificate.json",
-      "verifier": "stages/stage35-ex/verify_stage35_ex_31.py",
-      "pass_source": "USER_APPROVED_PASS_AFTER_FRESHNESS_REPAIR",
-      "initial_hostile_audit_review_id": 5120314137,
-      "final_exact_head_sha": "9f1d3d73f41377bddb1296a3e6fc95b5e2fd8dd7",
-      "exact_head_ci_run": 33953462420,
-      "exact_head_ci_job": 101272407623,
-      "merged_main_sha": "8211bb0ef80de61ecf39c3b97743c58f1193187a",
-      "source_to_35ex30_branchwise_label_map_exact": true,
-      "source_reciprocal_branch_recovered_by_v2": true,
-      "primitive_source_reverse_adapter_audited": true,
-      "canonical_gcd_channels_reconstructed_from_endpoint": true,
-      "master_2adic_dichotomy_recovered_from_endpoint": true,
-      "unique_minimum_v2_edge_for_rational_cuboid": true,
-      "source_marking_reduces_unlabeled_endpoint_population": false,
-      "E1_counterexample_rational_PC_population_equivalence_audited": true,
-      "E1_theorem_credit": false
-    },
     "35EX-32": {
-      "status": "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT",
+      "status": "USER_APPROVED_MERGED_ROUTE_SELECTION_NO_THEOREM_CREDIT",
       "artifact": "stages/stage35-ex/35ex-32/post-population-equivalence-breadth-audit.json",
       "verifier": "stages/stage35-ex/verify_stage35_ex_32.py",
-      "fresh_exhaustive_view_audit": true,
-      "blind_rediscovery": true,
-      "blind_generation_before_arsenal_comparison": true,
-      "historical_gaussian_no_recharge_repair_review_id": 5120424968,
+      "merge_sha": "3fbcecfb17c8eadde6479ee4c6f55c80be32cf42",
+      "latest_hostile_review_id": 5120615203,
+      "latest_hostile_verdict": "FAIL_FRESHNESS_ONLY_MATHEMATICS_PASS",
+      "user_approved_merge": true,
       "historical_gaussian_no_recharge_comparison_complete": true,
       "old_gaussian_orientation_credit_recharged": false,
       "selected_candidate": "E1-GAUSSIAN-THREE-FACE-COMPATIBILITY-DESCENT",
       "selected_candidate_historical_classification": "DISTINCT_PREFLIGHT_ROUTE_NO_NEW_GAUSSIAN_CREDIT_YET",
       "selected_next_unit": "35EX-33_GAUSSIAN_THREE_FACE_COMPATIBILITY_PREFLIGHT",
-      "successor_selection_provisional_pending_hostile_audit": true,
-      "audited_theorem_credit": false
+      "theorem_credit": false
     }
   },
   "resolved_investigations": {
-    "INHERITED_RESOLVED_INVESTIGATIONS": {
-      "status": "LOCKED_IN_V30_HISTORY_SNAPSHOT",
-      "snapshot_commit_sha": "8211bb0ef80de61ecf39c3b97743c58f1193187a"
-    },
     "CURRENT_ENDPOINT_GAUGE_RETURN": {
-      "status": "AUDITED_EXACT_RETURN_TO_35EX21_ENDPOINT_SURFACE_NO_CLOSURE",
-      "reopen_condition": "only reopen if prior authority is revoked"
+      "status": "AUDITED_EXACT_RETURN_TO_35EX21_ENDPOINT_SURFACE_NO_CLOSURE"
     },
     "CURRENT_PRIMITIVE_SOURCE_MARKING": {
-      "status": "AUDITED_EXACT_REVERSE_ADAPTER_AND_ENDPOINT_POPULATION_EQUIVALENCE_NO_E1_CREDIT",
-      "reason": "source marking is exactly recoverable from a canonical 2-adic endpoint gauge and does not reduce the unlabeled endpoint population",
-      "reopen_condition": "only reopen if 35EX-31 authority is revoked"
+      "status": "AUDITED_EXACT_REVERSE_ADAPTER_AND_ENDPOINT_POPULATION_EQUIVALENCE_NO_E1_CREDIT"
     },
     "SOURCE_MARKING_AS_STRICT_ENDPOINT_RESTRICTION": {
-      "status": "BLOCKED_EQUIVALENT_TO_GAUGE",
-      "reason": "35EX-31 population equivalence forbids recharging primitive source marking as a new endpoint restriction"
+      "status": "BLOCKED_EQUIVALENT_TO_GAUGE"
     },
     "HISTORICAL_GAUSSIAN_ORIENTATION_ROUTE_35EX13_17B_18": {
       "status": "FROZEN_NO_RECHARGE",
-      "reason": "35EX-13 owns the source E1 orientation Gaussian ratio/scalar sieve; 35EX-17B owns gminus*gplus=c and the common p*d twist; 35EX-18 owns p/d relative split-prime orientation and proves the Master Gaussian cannot fix the remaining absolute p*d orientation, leaving only moving c*q source-unit residue data",
-      "new_route_boundary": "35EX-33 may only test simultaneous endpoint-level pairwise Gaussian gcd/support of the three literal face norms; if it reduces to the frozen p*d/Lminus/Lplus/c*q data it must stop EQUIVALENT/BLOCKED"
+      "reason": "35EX-13 owns Q/S_plus; 35EX-17B owns gminus*gplus=c and moving p*d twist; 35EX-18 owns p=OPPOSITE/d=SAME relative orientation and Master-Gaussian freeze with moving c*q data",
+      "new_route_boundary": "35EX-33 may only test simultaneous endpoint-level pairwise Gaussian gcd/support of F_AB=A+iB, F_AC=A+iC, F_BC=B+iC; if it reduces to Q/S_plus, p*d, relative orientation, or moving c*q data it must stop EQUIVALENT/BLOCKED"
     }
   },
-  "candidate_ledger_after_35ex32_provisional": {
-    "current_candidate": "E1-GAUSSIAN-THREE-FACE-COMPATIBILITY-DESCENT",
-    "current_status": "LIVE_SELECTED_PENDING_35EX32_HOSTILE_AUDIT",
-    "historical_gaussian_classification": "DISTINCT_PREFLIGHT_ROUTE_NO_NEW_GAUSSIAN_CREDIT_YET",
-    "preserved_untested": [
-      "E1-ENDPOINT-UNIVERSAL-TORSOR-SQUARECLASS-SPLIT",
-      "E1-ENDPOINT-JOINT-LOCAL-HILBERT-PROFILE",
-      "E1-ENDPOINT-GENUINE-V2-INFINITE-DESCENT",
-      "E1-LINKED-CONGRUENT-NUMBER-SELMER-COUPLING",
-      "E1-RATIO-DISCRIMINANT-BIQUARTIC-QUOTIENT",
-      "E1-UNIFORM-ENDPOINT-ELLIPTIC-SURFACE-HEIGHT",
-      "E1-NONOBVIOUS-VERTICAL-BRAUER-ENDPOINT-FIBRATION",
-      "E1-ENDPOINT-SPINOR-NORM-TERNARY-FORM"
-    ],
-    "equivalent_or_low_information": [
-      "E1-S3-SYMMETRIC-ENDPOINT-INVARIANTS_WITHOUT_STRICT_ARITHMETIC_REDUCTION"
-    ],
-    "split_triggered": false
-  },
   "current": {
-    "unit": "35EX-32_POST_POPULATION_EQUIVALENCE_FRESH_BREADTH_AUDIT",
-    "status": "PROVISIONAL_RESULT_PENDING_HOSTILE_AUDIT_NO_CREDIT",
+    "unit": "35EX-33_GAUSSIAN_THREE_FACE_COMPATIBILITY_PREFLIGHT",
+    "status": "READY_UNSTARTED_NO_CREDIT",
     "candidate": "E1-GAUSSIAN-THREE-FACE-COMPATIBILITY-DESCENT",
-    "result": "PASS_FRESH_BLIND_BREADTH_PLUS_HISTORICAL_GAUSSIAN_NO_RECHARGE_REPAIR_SELECT_DISTINCT_PREFLIGHT_PENDING_HOSTILE_AUDIT",
-    "next_if_audited_pass": "START_35EX33_GAUSSIAN_THREE_FACE_COMPATIBILITY_PREFLIGHT",
+    "small_goals": [
+      "primitive integral endpoint normalization invariant under positive rational scaling",
+      "three exact Gaussian norm factorizations",
+      "complete pairwise Gaussian gcd/shared-prime support identities",
+      "test whether a finite compatibility squareclass receiver is genuinely distinct from 35EX-13/17B/18 and generic S34-W01 descent",
+      "otherwise stop with an exact EQUIVALENT/BLOCKED certificate"
+    ],
+    "next_action": "PROVE_SMALL_GOAL_1_PRIMITIVE_INTEGRAL_ENDPOINT_NORMALIZATION",
     "working_set": [
       "stages/stage35-ex/35ex-32/post-population-equivalence-breadth-audit.json",
-      "stages/stage35-ex/verify_stage35_ex_32.py",
-      "stages/stage35-ex/35ex-31/primitive-source-marking-endpoint-equivalence.md",
       "stages/stage35-ex/35ex-13/alternate-norm-gaussian-coupling.md",
       "stages/stage35-ex/35ex-17/post-descent-gaussian-coordinate-gcd-hook.md",
       "stages/stage35-ex/35ex-18/gaussian-relative-orientation-and-master-unit-freeze.md",
       "docs/arsenal/cards/formal/S34-W01.md",
-      "docs/arsenal/cards/formal/S34-W03.md",
-      "docs/arsenal/cards/formal/S31-W01.md",
-      "docs/arsenal/cards/formal/S34-W02.md",
       "stages/stage35-ex/MAIN-STATE.json"
     ]
   },
-  "arsenal": {
-    "S34_W01": "PARTIAL_ROUTER_ONLY_FOR_FACTOR_SUPPORT_AFTER_EXACT_ENDPOINT_ADAPTER",
-    "S34_W03": "DIRECT_ROUTER_ONLY_FOR_JOINT_RECEIVER_INTERSECTION_IF_LOCAL_WITNESS_IS_DERIVED",
-    "S31_W01": "QUARTIC_BIRATIONAL_ADAPTER_ONLY_NO_UNIFORM_FAMILY_CREDIT",
-    "S34_W02": "LOCKED_WITHOUT_CERTIFIED_FULL_MOVING_MW_GROUP",
-    "matching_formal_gaussian_three_face_compatibility_card_found": false,
-    "matching_formal_endpoint_universal_torsor_card_found": false,
-    "matching_formal_linked_selmer_card_found": false,
-    "matching_formal_genuine_v2_descent_card_found": false
-  },
   "claims": {
-    "new_E1_theorem_credit": false,
-    "audited_primitive_source_population_reverse_adapter": true,
-    "audited_E1_endpoint_population_equivalence": true,
-    "audited_35ex32_breadth_audit": false,
+    "35ex32_hostile_audit_pass": false,
+    "35ex32_user_approved_merge": true,
+    "35ex32_route_selection_authorized": true,
+    "35ex32_theorem_credit": false,
     "historical_gaussian_no_recharge_comparison_complete": true,
     "old_gaussian_orientation_credit_recharged": false,
+    "gaussian_three_face_preflight_started": false,
     "gaussian_compatibility_theorem_proved": false,
     "E1_proved": false,
     "R29_PESCH_E1_closed": false,
