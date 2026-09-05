@@ -24,14 +24,14 @@ This is a positive finite identification, not an exclusion. Any residue-specific
 
 The #1570 characteristic-zero orbit-sum argument is recomputed from the retained 140-class marking and the full Stoll group of order 1536. The exceptional block is quotiented modulo 2 before testing the H-orbit-sum class.
 
-The result is terminal for this detector:
+The exact result is terminal for this detector:
 
 - retained Stoll group order: `1536`;
-- mod-2 blow-down orbit-sum stabilizer count: `1536`;
-- stabilizer elements outside H: `1532`;
-- hence the mod-2 stabilizer is the full Stoll group, not H.
+- mod-2 blow-down orbit-sum stabilizer count: `384`;
+- stabilizer elements outside H: `380`;
+- hence the mod-2 stabilizer strictly contains H and is far too large to recover H exactly.
 
-Thus the numerical noninvariance that powered #1570 in characteristic zero disappears completely after the mod-2 exceptional quotient. It cannot certify `[T,Ai] != 0 (mod 2)` for any of the three residue-specific involutions.
+Thus the characteristic-zero exact-H stabilizer property that powered #1570 is lost after the mod-2 exceptional quotient. The orbit-sum detector alone cannot certify `[T,Ai] != 0 (mod 2)` for any of the three residue-specific involutions: modulo 2 it admits 380 additional ambient symmetries outside H. No claim is made that the entire Stoll group fixes the mod-2 class.
 
 ## Route C — retained degree-two cover does not restore mod-2 injectivity
 
@@ -51,7 +51,7 @@ Accordingly, these cards validate the finite reconstruction workflow but do not 
 
 ## Decision / lane closure
 
-The symmetry-parity route has now been tested at the exact point required to eliminate `73,97,235`: the commutator modulo 2. The retained #1570 blow-down detector collapses under that reduction, the exact retained degree-two cover plus standard push-pull identity gives no mod-2 injectivity bridge, and the applicable Arsenal cards do not create the missing semantic invariant.
+The symmetry-parity route has now been tested at the exact point required to eliminate `73,97,235`: the commutator modulo 2. The retained #1570 blow-down detector no longer has exact-H stabilizer after that reduction (its stabilizer has order 384, with 380 elements outside H), the exact retained degree-two cover plus standard push-pull identity gives no mod-2 injectivity bridge, and the applicable Arsenal cards do not create the missing semantic invariant.
 
 Therefore this leaf freezes further retries of the same ambient-symmetry / orbit-sum / parity detector. Reentry requires genuinely new input, for example a direct mod-2 divisor/correspondence identity, an independently proved primitive/odd commutator invariant, or another non-automorphism geometric invariant that survives the exceptional quotient.
 
