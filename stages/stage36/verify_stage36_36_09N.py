@@ -16,7 +16,7 @@ M_CERT = ROOT / "stages" / "stage36" / "36-09M" / "universal-order4-2isogeny-phy
 
 BASE = "824355f591f8f951fda9f2a7c1f4e3e66d4e1e9a"
 V39_BLOB = "74d95adfcf7ebb5c6876758044844092145939f7"
-CERT_BLOB = "ad66f3849b496b56e1cbeea1f46ba1f8bf967164"
+CERT_BLOB = "02a14439d94d7f6e5ac2f65e995e8acfb6845788"
 SOURCE_BLOB = "e7c98981fbb1d523fd7db54478dc09aa87b547e8"
 M_CERT_BLOB = "470e87d3e48c857b99793bd8ac0d01eff75eb727"
 
@@ -78,14 +78,6 @@ def pw(a: Poly, n: int) -> Poly:
     return out
 
 
-def peval(a: Poly, x: int | Fraction) -> Fraction:
-    xx = Fraction(x)
-    out = Fraction(0)
-    for c in reversed(a):
-        out = out * xx + c
-    return out
-
-
 def is_square_q(x: Fraction | int) -> bool:
     x = Fraction(x)
     if x < 0:
@@ -120,9 +112,19 @@ def no_primitive_solution_mod(A: int, B: int, d: int, mod: int, prime: int) -> b
     return True
 
 
+def count_curve_mod_p(A: int, B: int, p: int) -> int:
+    # y^2=x^3+A*x^2+B*x, including the point at infinity.
+    squares = [0] * p
+    for y in range(p):
+        squares[(y * y) % p] += 1
+    n = 1
+    for x in range(p):
+        rhs = (x**3 + A*x*x + B*x) % p
+        n += squares[rhs]
+    return n
+
+
 def check_gt_q6() -> None:
-    # Complete square-free divisor supports for the three Gusic-Tadic products.
-    # The factor 2 is optional only in the latter two products (their content is 8).
     groups = [
         ([23, 47], False),
         ([23, 6, 5, 7], True),
@@ -145,8 +147,6 @@ def check_gt_q6() -> None:
 def check_E6_descent() -> None:
     A = 2738
     B = 1081 ** 2
-
-    # Realized alpha classes.
     points = [
         (-529, 0),
         (1081, 75670),
@@ -155,8 +155,6 @@ def check_E6_descent() -> None:
     for x, y in points:
         assert y * y == x ** 3 + A * x * x + B * x
 
-    # The only remaining square-free classes are +/-23 and +/-47.
-    # For every primitive pair mod 5 the RHS is 2 or 3, never a square.
     for d in (23, -23, 47, -47):
         residues = set()
         for m in range(5):
@@ -168,17 +166,15 @@ def check_E6_descent() -> None:
         assert residues.isdisjoint({0, 1, 4})
 
 
-def check_E6prime_descent() -> None:
+def check_E6prime_descent_and_nontorsion(mcert: dict) -> None:
     A = -5476
     B = 1680 ** 2
     candidates = sqfree_candidates([2, 3, 5, 7])
     assert len(candidates) == 32
 
-    # Every negative d has a strictly negative real RHS for any primitive (M,e).
     for d in [x for x in candidates if x < 0]:
         assert d < 0 and A < 0 and B // d < 0
 
-    # d=2 is globally realized.
     Z, W, d = 10, 940, 2
     assert W * W == d * Z ** 4 + A * Z * Z + (B // d)
     X, Y = d * Z * Z, d * Z * W
@@ -206,6 +202,22 @@ def check_E6prime_descent() -> None:
     for d0, (mod, prime) in obstruction.items():
         assert no_primitive_solution_mod(A, B, d0, mod, prime)
 
+    # Full torsion control at q=6: good reduction at 11 and 17 gives
+    # torsion order dividing gcd(16,24)=8. 36-09M already proves the exact
+    # 2-primary torsion is (Z/2)^2, order 4, so no order-8 torsion remains;
+    # and the gcd has no odd factor. Hence full torsion has order exactly 4.
+    for p, expected in [(11, 16), (17, 24)]:
+        assert B % p != 0
+        assert (A*A - 4*B) % p != 0
+        assert count_curve_mod_p(A, B, p) == expected
+    assert gcd(16, 24) == 8
+    assert mcert["two_primary_torsion_Ek_prime"]["conclusion"] == (
+        "E'_k(Q)[2^infinity] is exactly (Z/2)^2 on every retained physical fiber"
+    )
+    # The section has nonzero Y, hence is not among the four rational 2-torsion
+    # points; since those exhaust the full torsion at q=6, it is nontorsion.
+    assert Y != 0
+
 
 def check_relative_identities() -> None:
     q = P(0, 1)
@@ -214,39 +226,45 @@ def check_relative_identities() -> None:
     Np = sub(add(pw(q, 2), scale(2, q)), one)
     C = mul(Nm, Np)
     q2p1 = add(pw(q, 2), one)
+    q2m1 = sub(pw(q, 2), one)
 
     assert C == P(1, 0, -6, 0, 1)
     A = add(pw(Nm, 2), pw(Np, 2))
     assert A == scale(2, pw(q2p1, 2))
     D = sub(pw(Np, 2), pw(Nm, 2))
-    assert D == scale(8, mul(q, sub(pw(q, 2), one)))
+    assert D == scale(8, mul(q, q2m1))
     B = pw(C, 2)
     Aprime = scale(-2, A)
     Bprime = pw(D, 2)
     assert Bprime == sub(pw(A, 2), scale(4, B))
 
-    # d=2 relative homogeneous-space point.
     Z = scale(2, sub(q, one))
     W = scale(4, mul(sub(q, one), Np))
     rhs = add(add(scale(2, pw(Z, 4)), mul(Aprime, pw(Z, 2))), scale(Fraction(1, 2), Bprime))
     assert pw(W, 2) == rhs
 
-    # Induced section on E'_q.
     X = scale(2, pw(Z, 2))
     Y = scale(2, mul(Z, W))
-    e1 = scale(4, pw(sub(pw(q, 2), one), 2))
+    e1 = scale(4, pw(q2m1, 2))
     e2 = scale(16, pw(q, 2))
     assert pw(Y, 2) == mul(mul(X, sub(X, e1)), sub(X, e2))
     assert X == scale(8, pw(sub(q, one), 2))
     assert Y == scale(16, mul(pw(sub(q, one), 2), Np))
 
-    # Dual section on E_q.
     x = pw(Np, 2)
     y = scale(-2, mul(q2p1, pw(Np, 2)))
     assert pw(y, 2) == mul(mul(x, add(x, pw(Nm, 2))), add(x, pw(Np, 2)))
 
-    # Distinct generic Kummer classes: C has odd valuations at the two
-    # irreducible quadratics (discriminant 8), while -1 and 2 are nonsquares in Q(q).
+    # Explicit alpha lower classes on E_q.
+    for x0, y0 in [
+        (neg(pw(Nm, 2)), P(0)),
+        (C, scale(2, mul(C, q2m1))),
+        (neg(C), scale(4, mul(q, C))),
+    ]:
+        assert pw(y0, 2) == mul(mul(x0, add(x0, pw(Nm, 2))), add(x0, pw(Np, 2)))
+
+    # C has odd valuations at the two irreducible quadratics; -1 and 2 are
+    # nonsquares in Q(q), so the displayed lower Kummer classes are distinct.
     assert 8 not in {n * n for n in range(4)}
     assert not is_square_q(Fraction(-1))
     assert not is_square_q(Fraction(2))
@@ -256,8 +274,9 @@ def main() -> None:
     c = json.loads(CERT.read_text())
     s = json.loads(STATE.read_text())
     source = SOURCE.read_text()
+    mcert = json.loads(M_CERT.read_text())
 
-    assert c["schema"] == "STAGE36_36_09N_RELATIVE_2ISOGENY_KUMMER_RANK1_PREFLIGHT_V1"
+    assert c["schema"] == "STAGE36_36_09N_RELATIVE_2ISOGENY_KUMMER_RANK1_PREFLIGHT_V2"
     assert c["base_main_sha"] == BASE
     assert blob(CERT) == CERT_BLOB
     assert blob(SOURCE) == SOURCE_BLOB
@@ -276,17 +295,21 @@ def main() -> None:
     check_relative_identities()
     check_gt_q6()
     check_E6_descent()
-    check_E6prime_descent()
+    check_E6prime_descent_and_nontorsion(mcert)
 
-    sp6 = c["specialized_rank"]
+    sp6 = c["specialized_rank_and_section_nontorsion"]
     assert sp6["rank_E6_Q"] == 1
     assert sp6["rank_E6prime_Q"] == 1
+    assert sp6["good_reduction_point_counts_E6prime"] == {"11": 16, "17": 24}
+    assert sp6["full_torsion_order_E6prime"] == 4
+    assert sp6["specialized_section_nontorsion"] is True
     assert 4 * 2 // 4 == 2
 
-    gen = c["generic_rank_and_exact_images"]
+    gen = c["function_field_index_argument"]
     assert gen["generic_rank"] == 1
     assert gen["exact_alpha_image"] == ["[1]", "[-1]", "[C]", "[-C]"]
     assert gen["exact_beta_image"] == ["[1]", "[2]"]
+    assert gen["product_at_rank1"] == "|Im(alpha)|*|Im(beta)|=8"
 
     fw = c["scope_firewalls"]
     assert fw["generic_function_field_MW_rank_proved"] is True
@@ -312,7 +335,7 @@ def main() -> None:
     assert s["promotion_gates"]["receiver_emptiness_proved"] is False
     assert s["promotion_gates"]["R29_CAMP2_closed"] is False
 
-    print("36-09N exact relative Kummer images and generic rank 1 verified; q0=6 injective specialization/descent replayed; 36-09O locked")
+    print("36-09N exact relative Kummer images and generic rank 1 verified; q0=6 injective specialization/descent and nontorsion specialization replayed; 36-09O locked")
 
 
 if __name__ == "__main__":
