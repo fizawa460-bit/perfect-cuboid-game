@@ -44,7 +44,7 @@ A larger d16 bound is permitted only if the feasibility gate itself identifies o
 
 ## Post-b16 literature-receiver reduction gate — highest priority
 
-After audited d16/b16 calibration closes, and before a large 183-window production campaign or the resource feasibility gate, Stage32-main must execute `stages/stage32/POST_B16_LITERATURE_RECEIVER_ROADMAP.md` under `stages/stage32/post-b16-literature-receiver-contract.json`.
+After audited d16/b16 calibration closes, and before a large 183-window production campaign or the resource feasibility gate, Stage32-main must execute `stages/stage32/archive/legacy-root/POST_B16_LITERATURE_RECEIVER_ROADMAP.md` under `stages/stage32/archive/legacy-root/post-b16-literature-receiver-contract.json`.
 
 The four receiver families are:
 
