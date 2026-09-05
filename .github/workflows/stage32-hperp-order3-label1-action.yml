@@ -7,11 +7,18 @@ on:
       - 'stages/stage32/residual-32-01-production/diagnose_stage32_hperp_b3_h_normalizer_action.py'
       - 'stages/stage32/residual-32-01-production/certify_stage32_post1629_hperp_order3_membership_insufficiency.py'
       - 'stages/stage32/residual-32-01-production/post1629-hperp-order3-membership-insufficiency.json'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1629_b3_h_normalizer_zero_pruning.py'
+      - 'stages/stage32/residual-32-01-production/post1629-b3-h-normalizer-zero-pruning.json'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1629_full_g_retained_stoll_extra_involution_gap.py'
+      - 'stages/stage32/residual-32-01-production/post1629-full-g-retained-stoll-extra-involution-gap.json'
+      - 'stages/stage32/residual-32-01-production/post1629-full-g-retained-stoll-extra-involution-gap-source-note.md'
       - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
       - 'stages/stage32/residual-32-01-production/pairing_prefix_engine.py'
       - 'stages/stage32/residual-32-01-production/post1588-hperp-nonexceptional-mod2-witness.json'
       - 'stages/stage32/residual-32-01-production/post1563-ambient-symmetry-exhaustion-batch.json'
       - 'stages/stage32/residual-32-01-production/post1550-b3-v4-torsor-normalizer.json'
+      - 'stages/stage32/residual-32-01-production/post1555-b3-full-g-box-quotient-normalizer.json'
+      - 'stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json'
       - 'stages/stage32/residual-32-01-production/post1532-full-stoll-h-orbit-symmetry-negative.json'
       - 'stages/stage33/33-07/picard_base_rows_retained.py'
       - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
@@ -86,6 +93,10 @@ jobs:
           print(f"qfix={f['fix_label1_mod_exceptional_span_count']}")
           print(f"same={f['separator_same_count']}")
           PY
+      - name: Verify frozen H-normalizer zero-pruning certificate
+        run: python3 stages/stage32/residual-32-01-production/certify_stage32_post1629_b3_h_normalizer_zero_pruning.py
+      - name: Verify full-G to retained-Stoll interface gap
+        run: python3 stages/stage32/residual-32-01-production/certify_stage32_post1629_full_g_retained_stoll_extra_involution_gap.py
       - name: Upload compact finite results
         uses: actions/upload-artifact@v4
         with:
