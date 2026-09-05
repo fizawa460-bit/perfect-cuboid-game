@@ -66,67 +66,38 @@ jobs:
           import json,sys
           from pathlib import Path
           expected=sys.argv[1]
-          actual=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())['base_main_sha']
-          assert actual==expected, f'MAIN-STATE base_main_sha {actual} != PR base {expected}'
-          print(f'base_main_sha={actual}')
+          s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V16_36_09B_PENDING_HOSTILE_AUDIT'
+          assert s['base_main_sha']==expected, f"MAIN-STATE base {s['base_main_sha']} != PR base {expected}"
+          print(f"base_main_sha={expected}")
           PY
 
-      - name: Assert PR base is merged into exact PR head
-        if: github.event_name == 'pull_request'
+      - name: Assert PR base and immutable predecessor heads are ancestors
         shell: bash
         run: |
           set -euo pipefail
-          current="${{ github.event.pull_request.base.sha }}"
-          git merge-base --is-ancestor "$current" HEAD
-          test "$(git merge-base "$current" HEAD)" = "$current"
-          echo "pr_base_ancestor=$current"
+          base="${{ github.event.pull_request.base.sha || '32d35dd4372ceab3d67704290d48f6b6df8912bb' }}"
+          for c in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 bc94e9c7aa8be2cd1c14dec63d001282cb6bb781 2af6edb984e0c0a51e945f886939a09b442c3218; do
+            git merge-base --is-ancestor "$c" HEAD
+          done
+          test "$(git merge-base "$base" HEAD)" = "$base"
+          echo "base_and_predecessor_heads_are_ancestors"
 
-      - name: Prepare historical V14 36-09A mathematical replay projection
+      - name: Save current V16 state
+        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v16-state.json
+
+      - name: Restore immutable 36-09A mathematical state
         shell: bash
         run: |
           set -euo pipefail
-          cp stages/stage36/MAIN-STATE.json /tmp/stage36-current-state.json
+          git show d0f3de51b86cda9199a55e89757ae6887f572ea3:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
           python3 - <<'PY'
           import json
           from pathlib import Path
-          p=Path('stages/stage36/MAIN-STATE.json')
-          s=json.loads(p.read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V15_36_09A_AUDITED_USER_APPROVED'
-          assert s['status']=='ACTIVE'
-          s['schema']='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V14_36_09A_PENDING_HOSTILE_AUDIT'
-          s['status']='ACTIVE_PENDING_HOSTILE_AUDIT'
-          s['base_main_sha']='5fa33e600b81fc34f4be9b22761c8079b31d7806'
-          s.pop('stage36_36_09A_authority',None)
-          s['completed_units']['36-09A']={
-            'leaf':'36-09A_CAMP4_BRAUER_COMPATIBILITY_PREFLIGHT',
-            'status':'BLOCKED_UPSTREAM_BR2A_BR2B_INCOMPLETE_PENDING_HOSTILE_AUDIT',
-            'certificate':'stages/stage36/36-09A/camp4-brauer-compatibility-preflight.json',
-            'certificate_blob_sha':'66f31c03e5a978783a60b036322538f173a2f411',
-            'verifier':'stages/stage36/verify_stage36_36_09A.py',
-            'legal_outcome':'BLOCKED_UPSTREAM_BR2A_BR2B_INCOMPLETE',
-            'CAMP2_QFORM_OPEN_BRIDGE_EXACT':True,
-            'CAMP4_TO_CAMP2_BRAUER_COMPATIBILITY_PROVED':False,
-            'CAMP4_TO_CAMP2_BRAUER_INCOMPATIBILITY_PROVED':False,
-            'NEXT_ROUTE_AFTER_AUDIT':'36-09B_RECEIVER_RESTRICTED_BRANCH_INTERSECTION_PREFLIGHT',
-            'NEW_THEOREM_CREDIT':False,
-            'promotion_status':'PROVISIONAL_NOT_AUDITED'
-          }
-          s['current']={
-            'unit':'36-09A',
-            'next_exact_leaf':'36-09A_CAMP4_BRAUER_COMPATIBILITY_PREFLIGHT',
-            'next_owner':'STAGE36_MAIN',
-            'result':'BLOCKED_UPSTREAM_BR2A_BR2B_INCOMPLETE_PENDING_HOSTILE_AUDIT',
-            '36_06_entry_allowed':False,
-            '36_09_entry_allowed':False,
-            '36_09A_entry_allowed':True,
-            '36_09B_entry_allowed':False,
-            'provisional_successor_after_hostile_audit':'36-09B_RECEIVER_RESTRICTED_BRANCH_INTERSECTION_PREFLIGHT',
-            'why':'CAMP2 Q-form/open bridge is exact, but retained K16-C2-BRAUER-EXPLICIT-CHAIN authority leaves BR2A explicit classes and BR2B local evaluations open, so Campedelli pull-push compatibility cannot yet be certified. Neither compatibility nor incompatibility is claimed.'
-          }
-          s['anti_loop'].pop('do_not_start_36_09B_before_36_09A_authority_resolution',None)
-          s['anti_loop']['do_not_start_36_09B_before_36_09A_hostile_audit']=True
-          p.write_text(json.dumps(s,indent=2,separators=(',', ': '))+'\n')
-          print('historical V14 36-09A projection prepared')
+          s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V14_36_09A_PENDING_HOSTILE_AUDIT'
+          assert s['base_main_sha']=='5fa33e600b81fc34f4be9b22761c8079b31d7806'
+          print('restored exact initial 36-09A mathematical state')
           PY
 
       - name: Replay Stage36 bootstrap authority
@@ -153,16 +124,30 @@ jobs:
       - name: Replay immutable Stage36 36-09A mathematical preflight
         run: python3 stages/stage36/verify_stage36_36_09A.py
 
-      - name: Restore V15 audited promotion state
+      - name: Restore exact V15 36-09A promotion state
         shell: bash
         run: |
           set -euo pipefail
-          cp /tmp/stage36-current-state.json stages/stage36/MAIN-STATE.json
+          git show 2af6edb984e0c0a51e945f886939a09b442c3218:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V15_36_09A_AUDITED_USER_APPROVED'
+          assert s['base_main_sha']=='05c229420a7c73886fedbece2d746b36ed3d91d5'
+          print('restored exact #1582 V15 promotion state')
+          PY
 
       - name: Replay Stage36 36-09A user-approved audited authority
         run: python3 stages/stage36/verify_stage36_36_09A_audited.py
 
-      - name: Assert 36-09B authorized but unstarted
+      - name: Restore current V16 state
+        run: cp /tmp/stage36-v16-state.json stages/stage36/MAIN-STATE.json
+
+      - name: Verify Stage36 36-09B receiver-restricted branch preflight
+        run: python3 stages/stage36/verify_stage36_36_09B.py
+
+      - name: Assert hostile-audit boundary before 36-09C
         shell: bash
         run: |
           set -euo pipefail
@@ -170,22 +155,27 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V15_36_09A_AUDITED_USER_APPROVED'
-          assert s['status']=='ACTIVE'
-          u=s['completed_units']['36-09A']
-          assert u['promotion_status']=='AUDITED'
-          assert u['verdict']=='USER_APPROVED_PASS_AFTER_FRESHNESS_ONLY_FAIL'
-          assert u['final_freshness_only_fail_review']==5120235515
-          assert u['final_user_approved_head']=='bc94e9c7aa8be2cd1c14dec63d001282cb6bb781'
-          assert u['final_exact_head_ci_run']==33950158090
-          assert u['final_exact_head_ci_job']==101263286962
-          assert u['certificate_blob_sha']=='66f31c03e5a978783a60b036322538f173a2f411'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V16_36_09B_PENDING_HOSTILE_AUDIT'
+          assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
+          assert s['base_main_sha']=='${{ github.event.pull_request.base.sha }}'
+          p=s['stage36_36_09A_promotion']
+          assert p['pr']==1582
+          assert p['exact_head']=='2af6edb984e0c0a51e945f886939a09b442c3218'
+          assert p['exact_head_ci_run']==33951928420
+          assert p['exact_head_ci_job']==101268232176
+          assert p['merged_main_sha']=='32d35dd4372ceab3d67704290d48f6b6df8912bb'
+          u=s['completed_units']['36-09B']
+          assert u['promotion_status']=='PROVISIONAL_NOT_AUDITED'
+          assert u['certificate_blob_sha']=='da9143e587506522ed966d380d9980ff1875db0d'
+          assert u['legal_outcome']=='BLOCKED_NO_PROOF_CAPABLE_B_PLUS_K_JOINT_TEST'
+          assert u['S34_W03_EXECUTABLE_NOW'] is False
+          assert u['NEXT_ROUTE_AFTER_AUDIT']=='36-09C_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION_PREFLIGHT'
           assert s['current']['unit']=='36-09B'
           assert s['current']['36_09B_entry_allowed'] is True
-          assert s['current']['36_06_entry_allowed'] is False
-          assert '36-09B' not in s['completed_units']
+          assert s['current']['36_09C_entry_allowed'] is False
+          assert '36-09C' not in s['completed_units']
           assert s['promotion_gates']['receiver_matched_replacement_theorem_proved'] is False
           assert s['promotion_gates']['R29_CAMP2_closed'] is False
           assert all(v is False for v in s['claims'].values())
-          print('36-09A user-approved authority promoted; 36-09B authorized but unstarted')
+          print('36-09B provisional blocked preflight exact; 36-09C locked pending hostile audit')
           PY
