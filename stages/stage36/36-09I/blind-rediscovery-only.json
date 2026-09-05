@@ -1,0 +1,114 @@
+{
+  "schema": "STAGE36_36_09I_BLIND_REDISCOVERY_ONLY_V1",
+  "stage": "36",
+  "unit": "36-09I",
+  "status": "BLIND_ONLY_IMMUTABLE_SNAPSHOT",
+  "base_main_sha": "2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc",
+  "input_scope": {
+    "receiver": "the exact physical common-two-character receiver after the audited four-factor normalization",
+    "known_new_block": "the first primitive four-factor valuation-support attempt admits arbitrarily large shared odd primes with parity pattern (1,1,0,0)",
+    "forbidden_during_generation": [
+      "repository route labels",
+      "weapon-card names or recommendations",
+      "prior breadth selections"
+    ]
+  },
+  "exact_receiver_rederivation": {
+    "variables": {
+      "x": "q^2",
+      "z": "r^2",
+      "X": "x+1/x",
+      "Z": "z+1/z"
+    },
+    "four_factor_product": [
+      "F1=x+z",
+      "F2=x*z+1",
+      "F3*F4=(x+1)^2*(z-1)^2+16*x*z"
+    ],
+    "reciprocal_identities": [
+      "(x+z)*(x*z+1)=x*z*(X+Z)",
+      "F3*F4=x*z*((Z-2)*X+2*(Z+6))"
+    ],
+    "square_equivalence": "F1*F2*F3*F4 is a rational square iff (X+Z)*((Z-2)*X+2*(Z+6)) is a rational square",
+    "reason": "the discarded factor x^2*z^2 is itself a rational square",
+    "physical_reconstruction_conditions": [
+      "X-2 is a rational square",
+      "X+2 is a rational square",
+      "Z-2 is a rational square",
+      "Z+2 is a rational square",
+      "X!=2",
+      "Z!=2"
+    ],
+    "reconstruction_note": "if U^2=X-2 and V^2=X+2 then V^2-U^2=4 and q=(V+U)/2, 1/q=(V-U)/2 after compatible sign choice; similarly for r from Z"
+  },
+  "two_linear_factor_parameterization": {
+    "G1": "X+Z",
+    "G2": "(Z-2)*X+2*(Z+6)",
+    "nonvanishing_on_physical_positive_locus": true,
+    "ratio_parameter": "k with G1/G2=k^2",
+    "X_formula": "(2*k^2*(Z+6)-Z)/(1-k^2*(Z-2))",
+    "derived_formulas": [
+      "X-2=(Z+2)*(4*k^2-1)/(1-k^2*(Z-2))",
+      "X+2=(16*k^2-(Z-2))/(1-k^2*(Z-2))"
+    ],
+    "exceptional_denominator": "1-k^2*(Z-2)=0 must be handled separately before any global equivalence claim"
+  },
+  "blind_candidates": [
+    {
+      "id": "C1_RECIPROCAL_INVOLUTION_TWO_LINEAR_QUOTIENT",
+      "idea": "use the exact reciprocal involutions x<->1/x and z<->1/z before any denominator-cleared factor descent; the four factors collapse to two linear factors in X",
+      "new_information_used": "palindromic quartic structure invisible in the primitive N1..N4 presentation",
+      "first_test": "complete exceptional-locus handling and determine the exact tower of double covers imposed by X±2 and Z±2 being squares",
+      "priority": "HIGH"
+    },
+    {
+      "id": "C2_GAUSSIAN_NORM_COMPRESSION",
+      "idea": "treat each quadratic factor as a norm from Q(i), multiply the corresponding Gaussian linear forms first, and study parity of split prime ideals rather than rational shared-prime support",
+      "new_information_used": "the obstructing odd primes are precisely compatible with split behavior and may retain directional ideal data lost after taking norms",
+      "first_test": "compute exact Gaussian gcd/resultant relations among the four linear forms and check whether unit/conjugation ambiguity remains finite",
+      "priority": "HIGH"
+    },
+    {
+      "id": "C3_RECIPROCAL_QUOTIENT_FIBER_GEOMETRY",
+      "idea": "view the two-linear equation as a conic in X over Z, then restore X±2 and Z±2 through explicit double covers",
+      "new_information_used": "the quotient equation is degree two rather than the original degree-eight equation in q",
+      "first_test": "classify the generic cover genera and identify whether any finite low-genus decomposition appears after quotienting the reciprocal symmetries",
+      "priority": "HIGH"
+    },
+    {
+      "id": "C4_VARIABLE_PRIME_RECIPROCITY",
+      "idea": "accept the unbounded split-prime support and seek a global parity/reciprocity relation coupling all surviving primes instead of trying to bound the support",
+      "new_information_used": "the local pattern (1,1,0,0) preserves total parity but may contribute nontrivially to pairwise Hilbert-symbol data",
+      "first_test": "derive exact local symbol contributions for the two-factor reciprocal normalization and test whether their global product can be forced nontrivial",
+      "priority": "MEDIUM"
+    },
+    {
+      "id": "C5_RATIONAL_STRICTNESS_WITNESS_SEARCH",
+      "idea": "use the reciprocal normalization to search for and then certify a rational point satisfying the common receiver but not all original moving-line square conditions",
+      "new_information_used": "a certified witness would settle whether the receiver is genuinely rationally weaker, independently of endpoint closure",
+      "first_test": "bounded exact search followed only by symbolic certification if a witness appears",
+      "priority": "MEDIUM"
+    },
+    {
+      "id": "C6_CHARACTER_LINEAR_REFINEMENT_EXHAUSTION",
+      "idea": "enumerate all squareclass-linear combinations of the remaining character conditions and test whether any refinement lies strictly between the common rank-two system and full rank three",
+      "new_information_used": "this is a finite algebraic exhaustion that can prevent cycling back to character-linear refinements",
+      "first_test": "compute the quotient of the full rank-three row space by the common rank-two subspace",
+      "priority": "MEDIUM"
+    }
+  ],
+  "blind_preference": {
+    "primary": "C1_RECIPROCAL_INVOLUTION_TWO_LINEAR_QUOTIENT",
+    "secondary": "C2_GAUSSIAN_NORM_COMPRESSION",
+    "reason": "C1 gives an exact algebraic simplification that directly changes the failed four-factor normalization, while C2 retains split-prime directional data discarded by rational norms"
+  },
+  "claims": {
+    "receiver_emptiness_proved": false,
+    "rational_strictness_proved": false,
+    "finite_squareclass_family_proved": false,
+    "uniform_rational_points_exhausted": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
