@@ -1,0 +1,63 @@
+{
+  "schema":"STAGE35_EX_35_GOAL4K_RATIO_DISCRIMINANT_BIQUARTIC_QUOTIENT_PREFLIGHT_V1",
+  "stage":"35-EX",
+  "unit":"35EX-35_GOAL4K_RATIO_DISCRIMINANT_BIQUARTIC_QUOTIENT_PREFLIGHT",
+  "status":"PROVISIONAL_EXACT_NEW_GENUS_ONE_QUOTIENT_PENDING_LATER_AUDIT_NO_E1_CREDIT",
+  "base_main_sha":"824355f591f8f951fda9f2a7c1f4e3e66d4e1e9a",
+  "stacked_parent":{"schema":"STAGE35_EX_PESCH_E1_STATE_V47_GOAL4J_LINKED_CONGRUENT_NUMBER_SELMER_PREFLIGHT_PENDING_LATER_AUDIT","hostile_audited":false},
+  "normalization":{
+    "scale":"divide by A>0",
+    "ratios":"x=B/A, y=C/A, t=D_BC/A, w=W/A",
+    "equations":["t^2=x^2+y^2","w^2=1+t^2","1+x^2 is square","1+y^2 is square"]
+  },
+  "nested_pythagorean_parameterization":{
+    "hyperbola":"t=2u/(1-u^2), w=(1+u^2)/(1-u^2)",
+    "circle":"x=t*(1-v^2)/(1+v^2), y=t*(2v)/(1+v^2)",
+    "retained_open":["u!=0","u^2!=1","v!=0","v^2!=1"],
+    "completeness_scope":"after harmless edge swap/sign choices on the positive rational physical open"
+  },
+  "denominator_cleared_face_squares":{
+    "U":"u^2",
+    "V":"v^2",
+    "A_V":"(1+V)^2",
+    "B_V":"V^2-6V+1",
+    "F_plus":"A_V*(U^2+1)+2*B_V*U",
+    "F_minus":"A_V*(U^2+1)-2*B_V*U",
+    "meaning":"the two remaining face-square conditions are R^2=F_plus and S^2=F_minus"
+  },
+  "ratio_discriminant_elimination":{
+    "ratio":"z=R/S",
+    "physical_nonexception":"z^2!=1 because F_plus-F_minus=4*B_V*U, U!=0, and B_V has no rational zero for rational V",
+    "quadratic_for_U":"U^2-L*U+1=0 with L=2*B_V*(z^2+1)/(A_V*(z^2-1))",
+    "discriminant_square_condition":"B_V^2*(z^2+1)^2-A_V^2*(z^2-1)^2 is a square",
+    "exact_factorization":"B_V^2*(z^2+1)^2-A_V^2*(z^2-1)^2 = 4*((V-1)^2-4*V*z^2)*((V-1)^2*z^2-4*V)"
+  },
+  "genus_one_receiver":{
+    "curve":"C_V: H^2=((V-1)^2-4*V*z^2)*((V-1)^2*z^2-4*V)",
+    "quartic_discriminant_in_z":"256*V^2*(V-1)^4*(V+1)^8*(V^2-6V+1)^4",
+    "physical_nonsingularity":"for V=v^2 in Q on retained open, V!=0,1; V+1!=0; V^2-6V+1 has no rational zero",
+    "rational_basepoints":["(z,H)=(1, +(V^2-6V+1))","(1, -(V^2-6V+1))","and z=-1 analogues"],
+    "basepoints_physical":false,
+    "genus":1,
+    "S31_W01_triggered_for_next_adapter":true
+  },
+  "converse_boundary":{
+    "receiver_is_necessary_for_endpoint":true,
+    "physical_receiver_alone_sufficiency_proved":false,
+    "generic_quotient_forgets_common_squareclass":true,
+    "generic_nonphysical_witness":{"V":"3/7","z":"-1/2","H":"20/49","U":"3/5","F_plus":"272/245","F_minus":"1088/245","both_F_values_nonsquare":true},
+    "witness_scope":"this witness proves only that the algebraic quotient generically forgets the common F_plus/F_minus squareclass; V=3/7 is not on the physical subbase V=v^2",
+    "reconstruction_formula":"U=(B_V*(z^2+1) +/- 2*H)/(A_V*(z^2-1))",
+    "no_endpoint_equivalence_claim":true
+  },
+  "credit_firewall":{
+    "new_exact_genus_one_receiver_obtained":true,
+    "finite_squareclass_receiver_obtained":false,
+    "receiver_rational_points_complete":false,
+    "uniform_MW_group_computed":false,
+    "E1_proved":false,
+    "stage35_closed":false,
+    "perfect_cuboid_nonexistence_claim":false,
+    "next_unit":"35EX-35_GOAL4L_S31W01_ELLIPTIC_ADAPTER_AND_MOVING_FAMILY_TEST"
+  }
+}
