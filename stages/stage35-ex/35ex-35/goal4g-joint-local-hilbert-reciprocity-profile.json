@@ -1,0 +1,101 @@
+{
+  "schema": "STAGE35_EX_35_GOAL4G_JOINT_LOCAL_HILBERT_RECIPROCITY_PROFILE_V1",
+  "stage": "35-EX",
+  "unit": "35EX-35_GOAL4G_JOINT_LOCAL_HILBERT_RECIPROCITY_PROFILE_TEST",
+  "status": "PROVISIONAL_EXACT_NATURAL_HILBERT_PROFILE_NEGATIVE_PENDING_LATER_HOSTILE_AUDIT_NO_E1_CREDIT",
+  "stacked_on_pr": 1637,
+  "last_audited_authority": {
+    "unit": "35EX-35_GOAL4E_ODD_PRIME_LOCAL_BREADTH_AND_FINITE_GLOBAL_RECEIVER_TEST",
+    "pr": 1633,
+    "hostile_review_id": 5123284301,
+    "exact_head_sha": "fcedffa7f2d768ee8b1bc78b04611e1f0a401e77",
+    "merge_sha": "6fa39f76be24b55153f118812b1bd7f41c43e399"
+  },
+  "provisional_parent_goal4f": {
+    "snapshot_commit": "1ec7218615a3e45949d5b4dd8c21f59824a45112",
+    "schema": "STAGE35_EX_PESCH_E1_STATE_V43_GOAL4F_FORCED_PRIME_SQUARECLASS_PARITY_LIFT_PENDING_AUDIT",
+    "hostile_audited": false,
+    "forced_prime_parity_labeled_states": 1259712,
+    "forced_prime_parity_S3_orbits": 210208,
+    "forced_prime_parity_pruning_obtained": false
+  },
+  "standard_hilbert_source_lock": {
+    "product_formula": {
+      "source": "J. S. Milne, Class Field Theory, v4.03, Example 5.4 / Hilbert-symbol product formula",
+      "url": "https://www.jmilne.org/math/CourseNotes/CFTc.pdf",
+      "statement_used": "for a,b in Q^*, product over all places v of (a,b)_v equals 1"
+    },
+    "odd_prime_formula": {
+      "source": "standard explicit Hilbert-symbol formula over Q_p for odd p (Serre Local Fields convention; independently revalidated against explicit-formula notes)",
+      "statement_used": "if a=p^alpha u and b=p^beta v with p-adic units u,v, then (a,b)_p=(-1)^(alpha*beta*(p-1)/2)*(u/p)^beta*(v/p)^alpha; in particular (p^m,u)_p=(u/p)^m"
+    }
+  },
+  "equation_generated_norm_symbols": {
+    "symbols": [
+      "(-1,D_AB^2)_v",
+      "(-1,D_AC^2)_v",
+      "(-1,D_BC^2)_v",
+      "(-1,W^2)_v"
+    ],
+    "status": "IDENTICALLY_TRIVIAL_AT_EVERY_PLACE",
+    "reason": "the second Hilbert-symbol entry is a rational square",
+    "branch_pruning_obtained": false
+  },
+  "coordinate_pair_local_sign_flexibility": {
+    "statement": "for every odd prime q>=11 and either sigma in {+1,-1}, there is a full Q_q-local four-square endpoint with singleton q-support on A, odd v_q(A), and Hilbert symbol (A,B)_q=sigma",
+    "construction": {
+      "choose_t_mod_q": "choose nonzero t with t!=+/-1, t^2!=-1, and Legendre(2t/q)=sigma",
+      "existence_count": "each prescribed quadratic-character class has (q-1)/2>=5 elements while the excluded set {+1,-1} union roots(t^2+1) has at most 4 elements",
+      "coordinates": "A=q^m, B=2t, C=t^2-1 with m positive odd",
+      "pythagorean_identity": "B^2+C^2=(t^2+1)^2",
+      "local_square_checks": [
+        "A^2+B^2 is a Q_q square since its unit residue is B^2",
+        "A^2+C^2 is a Q_q square since its unit residue is C^2",
+        "B^2+C^2=(t^2+1)^2 exactly",
+        "A^2+B^2+C^2 is a Q_q square since its unit residue is (t^2+1)^2"
+      ],
+      "hilbert_value": "(A,B)_q=(q^m,B)_q=Legendre(B/q)=sigma for odd m"
+    },
+    "S3_consequence": "by edge permutation the same +/- local freedom holds for any coordinate-pair Hilbert symbol",
+    "global_endpoint_existence_claimed": false
+  },
+  "reciprocity_profile_result": {
+    "forced_prime_receiver_alone_determines_global_hilbert_product": false,
+    "reason": "Goal4F leaves arbitrary nonforced odd primes available and Goal4G shows their coordinate-pair Hilbert signs are not fixed by the local four-square equations; the p=2 contribution is also not encoded by the 210208 forced-prime parity states",
+    "product_formula_itself": "UNIVERSAL_IDENTITY_NOT_NEW_ENDPOINT_CREDIT",
+    "certified_branch_pruning_from_natural_pairwise_hilbert_symbols": false,
+    "natural_pairwise_hilbert_route_closed": true
+  },
+  "exact_boundary": {
+    "obtained": [
+      "source-locked Hilbert product formula and odd-prime specialization",
+      "equation-generated norm symbols proved tautologically trivial",
+      "coordinate-pair local Hilbert sign surjectivity at every q>=11",
+      "proof that Goal4F forced-prime parity receiver does not by itself determine a reciprocity profile"
+    ],
+    "not_obtained": [
+      "nonconstant Brauer class on the endpoint variety/fibration",
+      "Brauer-Manin obstruction",
+      "finite exhaustive global squareclass family",
+      "cross-prime branch elimination",
+      "universal torsor",
+      "E1 or Stage35 closure"
+    ]
+  },
+  "arsenal": {
+    "S34_W01": "STILL_GATED_NO_FINITE_EXHAUSTIVE_GLOBAL_SQUARECLASS_FAMILY",
+    "S34_W03": "LOCAL_WITNESS_STYLE_ONLY_NO_PARENT_CLOSE",
+    "S33_PW07": "DISCOVERY_ONLY_POSSIBLE_BRAUER_TORSOR_SEMANTICS_REQUIRES_STAGE35_SPECIFIC_SOURCE_LOCK_AND_ADAPTER"
+  },
+  "credit_firewall": {
+    "goal4f_hostile_audit_pass_claimed": false,
+    "natural_pairwise_hilbert_route_closed": true,
+    "nonobvious_vertical_brauer_route_closed": false,
+    "finite_exhaustive_global_squareclass_family_obtained": false,
+    "E1_proved": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "next_unit": "35EX-35_GOAL4H_NONOBVIOUS_VERTICAL_BRAUER_ENDPOINT_FIBRATION_SOURCE_LOCK_PREFLIGHT"
+}
