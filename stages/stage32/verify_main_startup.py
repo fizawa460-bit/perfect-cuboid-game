@@ -75,10 +75,11 @@ def assert_startup_contract_has_no_mutable_current_literals(startup: str, state:
         state["cleanup_gate"],
     ]
 
-    # Exact machine field names are never allowed in the fixed prose contract.
+    # Reject distinctive machine field names, but not generic one-letter keys such as
+    # e/O/Q that naturally occur in prose. Their current values are checked separately.
     for section in mutable_sections:
         for key in section:
-            if key in startup:
+            if len(key) >= 4 and key in startup:
                 fail(f"mutable MAIN-STATE field leaked into MAIN-START-HERE: {key}")
 
     # Exact route/frontier/cleanup identifiers are also forbidden. Generic prose such as
