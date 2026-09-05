@@ -1,15 +1,21 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V22_36_09E_PENDING_HOSTILE_AUDIT",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V23_THIN_36_09E_AUDITED",
   "stage": "36",
-  "status": "ACTIVE_PENDING_HOSTILE_AUDIT",
-  "base_main_sha": "bd402241fa69ea00d00b48695c883d1cbdbc2dbb",
+  "status": "ACTIVE",
+  "base_main_sha": "98764e37e408866386ef41cc526d830a6092462b",
   "mission": "Attack Stage29 kernel K16-C3-CAMPEDELLI-UNIFORM-TORSOR through the audited R29-CAMP2 three-representative Q-defined Campedelli H-torsor receiver, seeking exact quotient emptiness or a receiver-matched replacement theorem.",
   "legacy_authority_snapshot": {
-    "commit": "bd402241fa69ea00d00b48695c883d1cbdbc2dbb",
+    "commit": "98764e37e408866386ef41cc526d830a6092462b",
     "path": "stages/stage36/MAIN-STATE.json",
-    "blob_sha": "4efdcbeb5082dde8764da7f1926547cc8e29310a",
-    "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V21_THIN_36_09D_AUDITED",
-    "scope": "immutable hostile-audited authority through 36-09D; V22 adds provisional 36-09E only"
+    "blob_sha": "c15b6fe94742b9c9571c3810f3429be1d6e85a73",
+    "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V22_36_09E_PENDING_HOSTILE_AUDIT",
+    "scope": "immutable detailed authority through provisional 36-09E; V23 promotes only the exact hostile-audited 36-09E result and successor gate"
+  },
+  "freshness_sync_36_09E_promotion": {
+    "audit_base_main_sha": "bd402241fa69ea00d00b48695c883d1cbdbc2dbb",
+    "intervening_main_sha": "3ec32ee3647d8c2a9350b1aea5aca1f8cee617a8",
+    "merged_main_sha": "98764e37e408866386ef41cc526d830a6092462b",
+    "scope": "Between hostile-audit request/base and merge, main advanced only in Stage32 and Stage35-EX / their dedicated workflows. No Stage36, locked Stage29 Campedelli/sign-cover source, Arsenal, or Research OS authority changed; #1593 then merged the exact audited head."
   },
   "source_kernel": {
     "kernel": "K16-C3-CAMPEDELLI-UNIFORM-TORSOR",
@@ -30,6 +36,28 @@
     "endpoint_pushes_to_every_audited_quotient": true,
     "quotient_Q_point_implies_endpoint_Q_point": false
   },
+  "source_locks": {
+    "stage36_36_09E_preflight": {
+      "path": "stages/stage36/36-09E/character-elliptic-quotient-arithmetic-preflight.json",
+      "blob_sha": "081b704fecaa3bd39e6a523ee7beaefe706683f4"
+    },
+    "stage36_36_09D_preflight": {
+      "path": "stages/stage36/36-09D/q-defined-pencil-fibration-preflight.json",
+      "blob_sha": "7fb67b8bf5a37d16ef527aea6109eb0782d61201"
+    },
+    "stage36_36_02_representatives": {
+      "path": "stages/stage36/36-02/representative-inventory.json",
+      "blob_sha": "88130b9380a677a191f91c24df87618e65be0a2f"
+    },
+    "stage36_36_03_physical_receiver": {
+      "path": "stages/stage36/36-03/physical-open-boundary.json",
+      "blob_sha": "fc1947b2de08f7d8a104bdc91902b20e88635349"
+    },
+    "stage29_exact_sign_cover_model": {
+      "path": "stages/stage29/29-02ha/exact-sign-cover-model.md",
+      "blob_sha": "fc2d5284a259750f45d2d756a952002671e3bccc"
+    }
+  },
   "authority_frontier": {
     "36-09D": {
       "status": "AUDITED_EXACT_GENUS3_PENCIL_WITH_THREE_MOVING_ELLIPTIC_CHARACTER_QUOTIENTS",
@@ -46,11 +74,14 @@
       "NEW_THEOREM_CREDIT": false
     },
     "36-09E": {
-      "status": "EXACT_PHYSICAL_LEGENDRE_TWIST_COLLAPSE_AND_PAIRED_RECEIVER_PENDING_HOSTILE_AUDIT",
+      "status": "AUDITED_EXACT_PHYSICAL_LEGENDRE_TWIST_COLLAPSE_AND_PAIRED_RECEIVER",
+      "pr": 1593,
+      "hostile_audit_review": 5120645782,
+      "audited_head": "51efa8394c45bc60a4b482c4f6f94f7826eb9d20",
+      "exact_head_ci": "33956972053/101281945982",
       "certificate": "stages/stage36/36-09E/character-elliptic-quotient-arithmetic-preflight.json",
       "certificate_blob_sha": "081b704fecaa3bd39e6a523ee7beaefe706683f4",
-      "verifier": "stages/stage36/verify_stage36_36_09E.py",
-      "verifier_blob_sha": "0b40cb2b9d053c952ab460155794ee6e88ccc1dd",
+      "merged_main_sha": "98764e37e408866386ef41cc526d830a6092462b",
       "PHYSICAL_T_AND_TPLUS1_SQUARES": true,
       "PHYSICAL_T1_ELIMINATED": true,
       "NINE_TO_FOUR_LEGENDRE_TWIST_COLLAPSE": true,
@@ -58,30 +89,13 @@
       "PAIRED_SHARED_X_RECEIVER_EXACT": true,
       "S34_W03_APPLICABILITY_MATCHED": true,
       "S34_W03_INTERSECTION_EXCLUSION_EXECUTED": false,
-      "S34_W02_TRIGGERED": false,
       "S34_W01_TRIGGERED": false,
+      "S34_W02_TRIGGERED": false,
       "B6_STATUS": "LIVE_PAIRED_LEGENDRE_PLUS_MINUS_RECEIVER_OVER_GENUS0_PHYSICAL_BASE",
-      "NEXT_ROUTE_AFTER_AUDIT": "36-09F_PAIRED_LEGENDRE_RECEIVER_INTERSECTION_PREFLIGHT",
-      "promotion_status": "PROVISIONAL_NOT_AUDITED",
+      "NEXT_ROUTE": "36-09F_PAIRED_LEGENDRE_RECEIVER_INTERSECTION_PREFLIGHT",
+      "promotion_status": "HOSTILE_AUDIT_PASS",
+      "verdict": "HOSTILE_AUDIT_PASS",
       "NEW_THEOREM_CREDIT": false
-    }
-  },
-  "source_locks": {
-    "stage36_36_09D_preflight": {
-      "path": "stages/stage36/36-09D/q-defined-pencil-fibration-preflight.json",
-      "blob_sha": "7fb67b8bf5a37d16ef527aea6109eb0782d61201"
-    },
-    "stage36_36_02_representatives": {
-      "path": "stages/stage36/36-02/representative-inventory.json",
-      "blob_sha": "88130b9380a677a191f91c24df87618e65be0a2f"
-    },
-    "stage36_36_03_physical_receiver": {
-      "path": "stages/stage36/36-03/physical-open-boundary.json",
-      "blob_sha": "fc1947b2de08f7d8a104bdc91902b20e88635349"
-    },
-    "stage29_exact_sign_cover_model": {
-      "path": "stages/stage29/29-02ha/exact-sign-cover-model.md",
-      "blob_sha": "fc2d5284a259750f45d2d756a952002671e3bccc"
     }
   },
   "arsenal": {
@@ -127,20 +141,19 @@
     "parking_audit_complete": false
   },
   "current": {
-    "unit": "36-09E",
-    "next_exact_leaf": "36-09E_CHARACTER_ELLIPTIC_QUOTIENT_ARITHMETIC_PREFLIGHT",
+    "unit": "36-09F",
+    "next_exact_leaf": "36-09F_PAIRED_LEGENDRE_RECEIVER_INTERSECTION_PREFLIGHT",
     "next_owner": "STAGE36_MAIN",
-    "result": "EXACT_PHYSICAL_LEGENDRE_TWIST_COLLAPSE_AND_PAIRED_RECEIVER_PENDING_HOSTILE_AUDIT",
+    "result": "READY_UNSTARTED_AFTER_36_09E_HOSTILE_PASS",
     "36_09E_entry_allowed": true,
-    "36_09F_entry_allowed": false,
-    "provisional_successor_after_hostile_audit": "36-09F_PAIRED_LEGENDRE_RECEIVER_INTERSECTION_PREFLIGHT",
-    "why": "On the exact endpoint squareclass locus, t, s, and t+1 are rational squares. This absorbs all t/t+1 character twists, eliminates the retained special t=1 endpoint case, parameterizes the physical t-base by one rational r, and collapses nine genus-1 occurrences to four paired Legendre/-1-twist point types with X_plus+X_minus=t+1. No joint intersection exclusion is yet proved."
+    "36_09F_entry_allowed": true,
+    "why": "36-09E hostile audit PASS is exact and merged. The endpoint-relevant family is reduced to four paired Legendre/-1-twist point types over a genus-0 r-base with X_plus+X_minus=t+1. S34-W03 is applicability-matched but no joint receiver-intersection exclusion has yet been executed."
   },
   "current_leaf_working_set": [
     "stages/stage36/36-09E/character-elliptic-quotient-arithmetic-preflight.json",
     "stages/stage36/verify_stage36_36_09E.py",
+    "stages/stage36/verify_stage36_36_09E_audited.py",
     "stages/stage36/36-09D/q-defined-pencil-fibration-preflight.json",
-    "stages/stage36/verify_stage36_36_09D_audited.py",
     "stages/stage36/36-02/representative-inventory.json",
     "stages/stage36/36-03/physical-open-boundary.json",
     "stages/stage29/29-02ha/exact-sign-cover-model.md",
@@ -177,9 +190,10 @@
     "do_not_treat_j_invariant_as_Q_isomorphism_class": true,
     "do_not_absorb_t_or_tplus1_twists_before_restricting_to_exact_physical_squareclass_locus": true,
     "do_not_treat_individual_elliptic_Q_points_as_paired_receiver_points": true,
-    "do_not_apply_S34_W02_without_certified_uniform_full_MW_and_specialization": true,
     "do_not_claim_t1_global_quotient_absence_only_endpoint_image_elimination": true,
-    "do_not_start_36_09F_before_36_09E_hostile_audit": true,
+    "do_not_treat_S34_W03_applicability_as_intersection_exclusion": true,
+    "do_not_apply_S34_W02_without_certified_uniform_full_MW_and_specialization": true,
+    "do_not_start_36_09F_before_36_09E_authority_resolution": true,
     "cycle_protocol_required_before_parking_after_repeated_distinct_blocks": true
   },
   "claims": {
