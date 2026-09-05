@@ -10,8 +10,22 @@ H = Path(__file__).resolve().parent
 STATE = H / "MAIN-STATE.json"
 START = H / "MAIN-START-HERE.md"
 
-EXPECTED_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V1_POST1588_DIRECT_MOD2_EXCEPTIONAL_ONLY"
-EXPECTED_CANONICAL = "7896726df9bb9858c972460d88e94e1b73b235e2e4f892445915a7072a605719"
+EXPECTED_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V1_POST1621_HPERP_NONEXCEPTIONAL_MOD2_WITNESS"
+EXPECTED_CANONICAL = "e32c083169bda203ab39b5f34cbc311743af478d0536153c15a9cd49c831c700"
+EXPECTED_AUTHORITY = {
+    "startup_authority": "stages/stage32/MAIN-STATE.json",
+    "latest_audited_stage32_leaf": "POST1617_HPERP_NONEXCEPTIONAL_MOD2_WITNESS_FRESHNESS_REPAIRED",
+    "latest_audited_stage32_pr": 1621,
+    "latest_hostile_audit_review_id": 5121480477,
+    "latest_audited_exact_head": "62582d1cd58384a798d86421e33da1ed3f1ce9d9",
+    "latest_exact_head_ci": {
+        "run_id": 33970172455,
+        "job_id": 101317154930,
+        "result": "SUCCESS",
+    },
+    "latest_stage32_merge_commit": "d761baa2d2d5e69479ef191041c5e2f017a50283",
+    "legacy_detailed_files_are_not_ordinary_startup_authority": True,
+}
 EXPECTED_TARGET = {
     "row_id": "g1-d186", "degree": 186, "e": 266, "genus": 1,
     "O": 210, "qprime": 4, "Q": 602,
@@ -32,8 +46,16 @@ EXPECTED_FRONTIER = {
     "direct_mod2_fiber_divisor_identity_obtained": True,
     "direct_mod2_fiber_divisor_identity_support": "EXCEPTIONAL_SPAN_ONLY",
     "image_in_mod2_quotient_by_exceptional_span": "0",
-    "nonexceptional_mod2_class_obtained": False,
+    "nonexceptional_mod2_class_obtained": True,
+    "nonexceptional_mod2_witness_source_bound": True,
+    "nonexceptional_mod2_witness_normal_curve_label_1based": 1,
+    "nonexceptional_mod2_witness_separator_support_1based": [1],
     "q602_residue_specific_commutator_obtained": False,
+}
+EXPECTED_CURRENT = {
+    "active_missing_interface": "ACTION_OR_COMMUTATOR_OF_SOURCE_BOUND_NONEXCEPTIONAL_WITNESS_ON_AUDITED_Q602_SURVIVORS_73_97_235",
+    "next_exact_route": "COMPUTE_ACTION_OR_COMMUTATOR_OF_SOURCE_BOUND_NONEXCEPTIONAL_WITNESS_ON_AUDITED_Q602_SURVIVORS_73_97_235",
+    "stop_semantics": "LEAF_GATE_ONLY_NOT_STAGE_EXHAUSTION",
 }
 EXPECTED_FIREWALLS = {
     "Q602_excluded": False,
@@ -122,6 +144,8 @@ def main() -> None:
         fail("MAIN-STATE role moved")
     if canonical_sha(state) != EXPECTED_CANONICAL or state.get("canonical_sha256_without_this_field") != EXPECTED_CANONICAL:
         fail("MAIN-STATE canonical mismatch")
+    if state.get("authority_sync") != EXPECTED_AUTHORITY:
+        fail("audited authority synchronization moved")
     if state.get("fixed_target") != EXPECTED_TARGET:
         fail("fixed target moved")
 
@@ -149,22 +173,56 @@ def main() -> None:
         fail("ordinary startup exclusion set moved")
 
     locks = state["source_locks"]
-    latest_path = assert_blob(locks["post1588_direct_mod2"])
-    assert_blob(locks["post1588_source_note"])
+    if set(locks) != {
+        "post1621_hperp_witness", "post1621_freshness_verifier",
+        "post1588_direct_mod2", "post1577_terminal_negative",
+    }:
+        fail("MAIN source-lock set moved")
+
+    hperp_path = assert_blob(locks["post1621_hperp_witness"])
+    assert_blob(locks["post1621_freshness_verifier"])
+    direct_path = assert_blob(locks["post1588_direct_mod2"])
     terminal_path = assert_blob(locks["post1577_terminal_negative"])
-    assert_blob(locks["post1484_fiber_divisor_source"])
-    latest = assert_json_canonical(latest_path, locks["post1588_direct_mod2"]["canonical_sha256"])
+
+    hperp = assert_json_canonical(hperp_path, locks["post1621_hperp_witness"]["canonical_sha256"])
+    direct = assert_json_canonical(direct_path, locks["post1588_direct_mod2"]["canonical_sha256"])
     terminal = assert_json_canonical(terminal_path, locks["post1577_terminal_negative"]["canonical_sha256"])
-    if latest["fixed_target"]["surviving_residues_decimal"] != [73, 97, 235]:
-        fail("latest survivor set moved")
-    if latest["exceptional_quotient_preflight"] != {
+
+    if hperp["fixed_target"]["surviving_residues_decimal"] != [73, 97, 235]:
+        fail("Hperp audited survivor set moved")
+    if hperp["mod2_rank_test"]["exceptional_rank_F2"] != 38:
+        fail("Hperp exceptional rank moved")
+    if hperp["mod2_rank_test"]["normal_rank_F2"] != 44:
+        fail("Hperp normal rank moved")
+    if hperp["mod2_rank_test"]["all140_rank_F2"] != 64:
+        fail("Hperp all140 rank moved")
+    if hperp["mod2_rank_test"]["escaping_normal_count"] != 92:
+        fail("Hperp escaping-normal count moved")
+    witness = hperp["deterministic_witness"]
+    if witness["normal_curve_label_1based"] != 1:
+        fail("Hperp witness label moved")
+    if witness["separator_support_retained_picard_coordinates_1based"] != [1]:
+        fail("Hperp separator support moved")
+    if not witness["separator_annihilates_all_48_exceptional_classes"] or not witness["separator_detects_witness_class"]:
+        fail("Hperp separator replay credit moved")
+    decision = hperp["decision"]
+    if not decision["missing_input_subgoal_obtained"]:
+        fail("Hperp missing-input subgoal credit missing")
+    if decision["q602_residue_specific_commutator_obtained"] or decision["Q602_excluded"] or decision["O210_excluded"]:
+        fail("Hperp exclusion firewall moved")
+    if decision["next_exact_route"] != EXPECTED_CURRENT["next_exact_route"]:
+        fail("Hperp next exact route moved")
+
+    if direct["fixed_target"]["surviving_residues_decimal"] != [73, 97, 235]:
+        fail("direct-mod2 survivor set moved")
+    if direct["exceptional_quotient_preflight"] != {
         "mod2_fiber_class_lies_in_exceptional_span": True,
         "image_in_mod2_quotient_by_exceptional_span": "0",
         "nonexceptional_mod2_class_obtained": False,
         "q602_residue_specific_commutator_obtained": False,
     }:
         fail("post1588 bounded conclusion moved")
-    if latest["decision"]["Q602_excluded"] is not False or latest["decision"]["O210_excluded"] is not False:
+    if direct["decision"]["Q602_excluded"] or direct["decision"]["O210_excluded"]:
         fail("post1588 exclusion firewall moved")
     if terminal["lane_closure"]["symmetry_parity_orbit_sum_lane_exhausted"] is not True:
         fail("post1577 lane closure moved")
@@ -173,6 +231,8 @@ def main() -> None:
 
     if state["current_exact_frontier"] != EXPECTED_FRONTIER:
         fail("compact current frontier moved")
+    if state["current"] != EXPECTED_CURRENT:
+        fail("compact current route moved")
     if state["firewalls"] != EXPECTED_FIREWALLS:
         fail("startup firewalls moved")
     if state["cleanup_gate"] != EXPECTED_CLEANUP:
@@ -181,8 +241,10 @@ def main() -> None:
     print("PASS Stage32 MAIN startup authority")
     print(f"main_state_canonical={EXPECTED_CANONICAL}")
     print("startup_chain=AGENTS->MAIN-START-HERE->MAIN-STATE->current_leaf_working_set")
-    print("main_start_here_mutable_current_literals=false")
-    print("legacy_controller_state_runkey_in_ordinary_startup=false")
+    print("latest_audited_stage32_pr=1621 hostile_review=5121480477")
+    print("audited_survivors=73,97,235")
+    print("nonexceptional_mod2_witness=normal_label_1 separator_support=1")
+    print("q602_residue_specific_commutator_obtained=false")
     print("Q602_excluded=false O210_excluded=false O212_plus_advance_allowed=false")
     print("stage32_root_cleanup_phase=PHASE_B_PENDING_HOSTILE_AUDIT")
 
