@@ -1,0 +1,147 @@
+{
+  "schema": "STAGE35_EX_33_PAIRWISE_GAUSSIAN_GCD_SUPPORT_ROUTE_BLOCKER_V1",
+  "stage": "35-EX",
+  "unit": "35EX-33_GAUSSIAN_THREE_FACE_COMPATIBILITY_PREFLIGHT",
+  "small_goals_closed": [3,4,5],
+  "status": "PROVISIONAL_EXACT_ROUTE_BLOCKER_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT",
+  "source_locks": {
+    "goal1_normalization": {
+      "path": "stages/stage35-ex/35ex-33/primitive-integral-endpoint-normalization.json",
+      "blob_sha": "8cc50527127b3124c69c60930f32ec6de36ad3fd"
+    },
+    "goal2_norms": {
+      "path": "stages/stage35-ex/35ex-33/three-face-gaussian-norm-factorizations.json",
+      "blob_sha": "763ed7d8816989d928e73c71a4bd7e635ca1dd77"
+    },
+    "old_35ex13": {
+      "path": "stages/stage35-ex/35ex-13/alternate-norm-gaussian-coupling.md",
+      "blob_sha": "196d2be1bbfbcb2b416535d7bb051a9b2ec93104"
+    },
+    "old_35ex17B": {
+      "path": "stages/stage35-ex/35ex-17/post-descent-gaussian-coordinate-gcd-hook.md",
+      "blob_sha": "914c4143c41723ab30c6ad6379b7baccc39be23e"
+    },
+    "old_35ex18": {
+      "path": "stages/stage35-ex/35ex-18/gaussian-relative-orientation-and-master-unit-freeze.md",
+      "blob_sha": "9387364200169cacbfa5fe932df353aabe862351"
+    },
+    "arsenal_S34_W01": {
+      "path": "docs/arsenal/cards/formal/S34-W01.md",
+      "blob_sha": "01a8e90e34b4aa46edbfa825803d488e5230e9d0"
+    },
+    "cycle_policy": {
+      "path": "docs/research-os/policies/cycle-exploration-safety-protocol.md",
+      "blob_sha": "4e911c4fc7e4ea7a2b5f96733a90b986ef8d9a37"
+    }
+  },
+  "endpoint_hypotheses": {
+    "edges": "A,B,C are positive integers with gcd(A,B,C)=1",
+    "face_squares": [
+      "A^2+B^2=D_AB^2",
+      "A^2+C^2=D_AC^2",
+      "B^2+C^2=D_BC^2"
+    ],
+    "space_square_retained_but_not_used_in_this_blocker": "A^2+B^2+C^2=D_ABC^2",
+    "gaussians": ["F_AB=A+iB","F_AC=A+iC","F_BC=B+iC"]
+  },
+  "individual_face_factorization": {
+    "definitions": [
+      "g_AB=gcd(A,B)",
+      "g_AC=gcd(A,C)",
+      "g_BC=gcd(B,C)"
+    ],
+    "pairwise_coprime_edge_gcds": "gcd(g_AB,g_AC)=gcd(g_AB,g_BC)=gcd(g_AC,g_BC)=1",
+    "exact_factorizations": [
+      "F_AB=epsilon_AB*g_AB*Z_AB^2",
+      "F_AC=epsilon_AC*g_AC*Z_AC^2",
+      "F_BC=epsilon_BC*g_BC*Z_BC^2"
+    ],
+    "units": "each epsilon_jk is in {1,-1,i,-i}",
+    "proof": "For one face write A=g_AB*a, B=g_AB*b with gcd(a,b)=1. The face-square identity gives (D_AB/g_AB)^2=a^2+b^2 and D_AB/g_AB is integral. Coprime a,b have opposite parity, so a+ib and a-ib are coprime in Z[i]: any common odd Gaussian prime would force a common rational prime divisor of a,b, while 1+i would force equal parity. Their product is an integer square. Unique factorization in Z[i] therefore gives a+ib=epsilon_AB*Z_AB^2. The other two faces are identical cyclically.",
+    "self_conjugate_gcd_ideals": [
+      "(F_AB,conj(F_AB))=(g_AB)",
+      "(F_AC,conj(F_AC))=(g_AC)",
+      "(F_BC,conj(F_BC))=(g_BC)"
+    ]
+  },
+  "two_adic_bookkeeping": {
+    "exact_parity": "exactly one of A,B,C is odd",
+    "proof": "no face can have two odd legs because 1+1=2 mod 4 is not a square; primitivity excludes all three edges even",
+    "consequence": "the Gaussian prime 1+i is supported in at most one rational edge-gcd factor g_AB,g_AC,g_BC and is absent from every gcd between two distinct face Gaussians or their conjugates"
+  },
+  "private_edge_gcd_support": {
+    "statement": "every Gaussian prime dividing g_AB is absent from F_AC,conj(F_AC),F_BC,conj(F_BC), and cyclically for g_AC and g_BC",
+    "proof": "For odd underlying p, p|g_AB gives p|A,B and primitivity gives p not dividing C, so the other two face Gaussians reduce to nonzero multiples of C modulo any Gaussian prime over p. For p=2, A,B even forces C odd, so A+/-iC and B+/-iC have opposite coordinate parity and are not divisible by 1+i."
+  },
+  "exact_distinct_face_gcd_locator_ideals": [
+    "(F_AB,F_AC)=(F_AB,B-C)",
+    "(F_AB,conj(F_AC))=(F_AB,B+C)",
+    "(F_AB,F_BC)=(F_AB,A+C)",
+    "(F_AB,conj(F_BC))=(F_AB,A-C)",
+    "(F_AC,F_BC)=(F_AC,A-B)",
+    "(F_AC,conj(F_BC))=(F_AC,A+B)"
+  ],
+  "locator_proof": "Each ideal equality follows by adding/subtracting one generator after multiplication by the unit i where needed; e.g. F_AB-i*F_BC=A+C. Conjugating the six identities gives all remaining orientations.",
+  "cross_face_square_gcd_theorem": {
+    "statement": "for any two distinct literal face Gaussians, with either one independently conjugated, their gcd ideal in Z[i] is a square ideal; moreover 1+i does not divide that gcd",
+    "proof": "Use F_jk=epsilon_jk*g_jk*Z_jk^2. By private_edge_gcd_support no Gaussian prime from either rational g_jk can divide the other distinct face. Hence every common Gaussian prime occurs in both elements only through square factors, so the minimum valuation in the gcd is even. The 1+i case is excluded explicitly by the two-adic bookkeeping.",
+    "generator_form": "because Z[i] is a PID, every such gcd generator is a unit times H^2 for some H in Z[i]",
+    "odd_shared_prime_locator": "odd shared primes may lie only over rational primes dividing the corresponding A+/-B, A+/-C, or B+/-C locator, but every shared Gaussian-prime exponent in the gcd is even"
+  },
+  "squareclass_output": {
+    "individual_classes": [
+      "[F_AB]=[epsilon_AB*g_AB] in Q(i)^*/Q(i)^{*2}",
+      "[F_AC]=[epsilon_AC*g_AC] in Q(i)^*/Q(i)^{*2}",
+      "[F_BC]=[epsilon_BC*g_BC] in Q(i)^*/Q(i)^{*2}"
+    ],
+    "cross_face_shared_squareclass": "trivial: every distinct-face gcd is square and contributes no shared prime squareclass",
+    "remaining_support": "the three rational edge-gcd squareclasses g_AB,g_AC,g_BC are pairwise coprime, private to their own faces, and remain moving symbolic endpoint quantities at this layer",
+    "finite_receiver_obtained": false
+  },
+  "historical_no_recharge_comparison": {
+    "35EX13": "DISTINCT_BLOCKER: this endpoint proof does not reprove or reuse Q/S_plus as new credit",
+    "35EX17B": "DISTINCT_BLOCKER: private endpoint edge-gcd factors are not the source-derived common moving p*d twist of zminus0,zplus0",
+    "35EX18": "DISTINCT_BLOCKER: no attempt is made to recharge p=OPPOSITE/d=SAME relative orientation, absolute-orientation freeze, or moving c*q data",
+    "old_credit_recharged": false
+  },
+  "arsenal_comparison": {
+    "S34_W01_classification": "PARTIAL_ROUTER_MATCH_THEN_BLOCKED_BEFORE_FINITE_BRANCH_TRIGGER",
+    "matched_steps": "exact primitive factorization and pairwise gcd/valuation-support control are now available",
+    "blocking_reason": "the gcd layer leaves three private moving rational squareclasses g_AB,g_AC,g_BC and derives no fixed finite support or finite exhaustive squareclass branch list; therefore the S34-W01 finite-branch output is not triggered by this preflight alone",
+    "S34_W01_receiver_credit": false
+  },
+  "route_decision": {
+    "cycle_route_status": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "exact_blocker": "DISTINCT_FACE_GAUSSIAN_GCDS_ARE_SQUARE_AND_ONLY_PRIVATE_MOVING_EDGE_GCD_SQUARECLASSES_REMAIN",
+    "selected_gaussian_three_face_shared_support_route_live": false,
+    "all_deeper_gaussian_or_reciprocity_arguments_ruled_out": false,
+    "E1_route_impossible": false,
+    "new_pattern": "literal endpoint face Gaussians have no nonsquare cross-face gcd support; any future endpoint Gaussian argument must use information beyond pairwise shared-prime squareclass coupling",
+    "breadth_trigger": "new exact gcd/squareclass invariant materially changes the active Gaussian view, triggering EXHAUSTIVE_VIEW_AUDIT plus BLIND_REDISCOVERY under cycle policy",
+    "next_if_hostile_audit_pass": "35EX-34_POST_GAUSSIAN_BLOCK_FRESH_BREADTH_AUDIT"
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "CYCLE_ACTIVE_RECEIVER": "positive rational perfect-cuboid endpoint modulo scaling/permutation, represented primitively by A,B,C",
+    "CYCLE_LIVE_CANDIDATES": 0,
+    "CYCLE_UNTESTED_CANDIDATES": 8,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": false,
+    "CYCLE_BLIND_REDISCOVERY": false,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "cross-face Gaussian gcds are square; only private moving edge-gcd squareclasses remain",
+    "CYCLE_NEW_VIEW_SOURCE": "INTERNAL_DERIVATION"
+  },
+  "credit_firewall": {
+    "pairwise_gaussian_gcd_support_exact": true,
+    "finite_squareclass_receiver_obtained": false,
+    "gaussian_compatibility_theorem_proved": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

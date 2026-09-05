@@ -1,0 +1,51 @@
+{
+  "schema": "STAGE35_EX_33_THREE_FACE_GAUSSIAN_NORM_FACTORIZATIONS_V1",
+  "stage": "35-EX",
+  "unit": "35EX-33_GAUSSIAN_THREE_FACE_COMPATIBILITY_PREFLIGHT",
+  "small_goal": 2,
+  "status": "PROVISIONAL_EXACT_IDENTITIES_NO_GCD_SUPPORT_CREDIT",
+  "input_lock": {
+    "artifact": "stages/stage35-ex/35ex-33/primitive-integral-endpoint-normalization.json",
+    "required_fact": "primitive endpoint edges A,B,C and face diagonals D_AB,D_AC,D_BC are positive integers"
+  },
+  "definitions": {
+    "F_AB": "A+iB",
+    "F_AC": "A+iC",
+    "F_BC": "B+iC",
+    "conj_F_AB": "A-iB",
+    "conj_F_AC": "A-iC",
+    "conj_F_BC": "B-iC"
+  },
+  "exact_norm_factorizations": [
+    "F_AB*conj(F_AB)=A^2+B^2=D_AB^2",
+    "F_AC*conj(F_AC)=A^2+C^2=D_AC^2",
+    "F_BC*conj(F_BC)=B^2+C^2=D_BC^2"
+  ],
+  "proof": "Each identity is the literal Gaussian norm formula (X+iY)(X-iY)=X^2+Y^2, followed by the corresponding integral face-diagonal identity obtained in small goal 1.",
+  "exact_consequence": "all three literal endpoint face Gaussians have square integer norm simultaneously in one primitive integral endpoint normalization",
+  "non_consequences": [
+    "square Gaussian norm alone does not imply the Gaussian integer is a square up to a unit",
+    "no self-conjugate gcd has been classified",
+    "no gcd between two distinct face Gaussians or their conjugates has been classified",
+    "no odd shared-prime support relation has been proved",
+    "no finite squareclass receiver has been obtained"
+  ],
+  "counterexample_to_forbidden_shortcut": "the Gaussian integer 5 has square norm 25 but is not a Gaussian square up to a unit; therefore small goal 2 must not promote square norm to element-square credit",
+  "historical_no_recharge_firewall": {
+    "old_35EX13_Q_S_plus_reused_as_new": false,
+    "old_35EX17B_p_d_twist_reused_as_new": false,
+    "old_35EX18_relative_orientation_reused_as_new": false,
+    "old_35EX18_moving_c_q_reused_as_new": false,
+    "next_legal_question": "classify pairwise Gaussian gcd/shared-prime support of F_AB,F_AC,F_BC and their conjugates; stop EQUIVALENT/BLOCKED if this collapses to old frozen invariants"
+  },
+  "credit_firewall": {
+    "three_face_norm_identities_exact": true,
+    "gaussian_element_square_claim": false,
+    "gaussian_gcd_support_classified": false,
+    "finite_squareclass_receiver_obtained": false,
+    "gaussian_compatibility_theorem_proved": false,
+    "E1_proved": false,
+    "stage35_closed": false,
+    "perfect_cuboid_nonexistence_proved": false
+  }
+}
