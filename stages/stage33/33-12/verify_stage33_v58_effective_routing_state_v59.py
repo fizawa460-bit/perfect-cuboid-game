@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 H = Path(__file__).resolve().parents[1]
+ROOT = H.parent.parent
 D = H / "33-12"
 
 def csha(obj):
@@ -15,6 +16,7 @@ v57 = json.loads((D / "e3-mask20-b1-gysin-image-gate-v57.json").read_text())
 v58 = json.loads((D / "e3-search-routing-supersession-v58.json").read_text())
 state = json.loads((H / "MAIN-STATE.json").read_text())
 startup = (H / "MAIN-START-HERE.md").read_text()
+agents = (ROOT / "AGENTS.md").read_text()
 
 assert v41["routing_contract"]["one_automatic_bounded_repository_search_after_arsenal_miss"] is True
 assert v41["anti_loop"]["automatic_bounded_search_budget_per_missing_object"] == 1
@@ -57,7 +59,8 @@ assert state["firewalls"]["merge_allowed"] is False
 assert "V58" in startup
 assert "repeatable bounded search" in startup
 assert "materially new mathematical signal" in startup
-assert "search miss never proves repository absence" in startup.lower()
+assert "Repository traversal itself follows `AGENTS.md`" in startup
+assert "a search miss never proves repository-wide absence" in agents.lower()
 
 print(json.dumps({
     "success": True,
