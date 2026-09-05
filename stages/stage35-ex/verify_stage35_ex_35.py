@@ -105,9 +105,11 @@ assert sp.expand(A**2+B**2-x**2*((y*a)**2+(z*b)**2))==0
 assert sp.expand(A**2+C**2-y**2*((x*a)**2+(z*c)**2))==0
 assert sp.expand(B**2+C**2-z**2*((x*b)**2+(y*c)**2))==0
 space=sp.expand(A**2+B**2+C**2)
-assert sp.expand(space-((x*rab)**2+C**2)).subs(rab**2,(y*a)**2+(z*b)**2)==0
-assert sp.expand(space-((y*rac)**2+B**2)).subs(rac**2,(x*a)**2+(z*c)**2)==0
-assert sp.expand(space-((z*rbc)**2+A**2)).subs(rbc**2,(x*b)**2+(y*c)**2)==0
+# Each space/face coupling differs from zero by the corresponding primitive
+# face relation multiplied by the exact edge gcd squared.
+assert sp.expand(space-((x*rab)**2+C**2)-x**2*((y*a)**2+(z*b)**2-rab**2))==0
+assert sp.expand(space-((y*rac)**2+B**2)-y**2*((x*a)**2+(z*c)**2-rac**2))==0
+assert sp.expand(space-((z*rbc)**2+A**2)-z**2*((x*b)**2+(y*c)**2-rbc**2))==0
 
 cf=art['credit_firewall']
 assert cf['six_variable_exact_decomposition'] is True
