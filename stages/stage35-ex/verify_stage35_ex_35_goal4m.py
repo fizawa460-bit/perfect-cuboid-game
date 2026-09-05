@@ -9,6 +9,7 @@ STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
 FINAL=ROOT/'stages/stage14/final.md'
 G4L=ROOT/'stages/stage35-ex/35ex-35/goal4l-stage14-pythagorean-elliptic-rankjump-receiver.json'
 AUDITED='6fa39f76be24b55153f118812b1bd7f41c43e399'
+S3='46e5b7cf383d2455ac9b51c35c2452a662beb532'
 
 def blob(path: Path) -> str:
     return subprocess.check_output(['git','hash-object',str(path.relative_to(ROOT))],cwd=ROOT,text=True).strip()
@@ -33,6 +34,12 @@ assert g4l['rank_jump_receiver']['new_receiver_obtained'] is True
 assert 'positive Mordell-Weil rank' in g4l['rank_jump_receiver']['endpoint_consequence']
 assert g4l['credit_boundary']['uniform_rank_jump_exclusion_obtained'] is False
 
+s3_text=subprocess.check_output(['git','show',f'{S3}:stages/stage14/14-s3/result.md'],cwd=ROOT,text=True)
+assert subprocess.check_output(['git','rev-parse',f'{S3}:stages/stage14/14-s3/result.md'],cwd=ROOT,text=True).strip()=='830f124e3b22e47693eec101f407e7d402b437d9'
+assert 'physical hit below B' in s3_text
+assert 'canonical height O(log B + log H)' in s3_text
+assert 'UNIFORM_FIRST_GENERATOR_DISTRIBUTION_PROVED=false' in s3_text
+
 old_text=subprocess.check_output(['git','show',f'{AUDITED}:stages/stage35-ex/MAIN-STATE.json'],cwd=ROOT,text=True)
 old=json.loads(old_text)
 assert old['target']['audited_endpoint_relation']=='E1 counterexamples modulo source-pair swap are exactly positive rational perfect cuboids modulo positive scaling and edge permutation'
@@ -48,6 +55,8 @@ assert a['derived_triple_population_corollary']['perfect_cuboid_nonexistence_obt
 assert a['stage35_e1_class_transfer']['audited_equivalence_used'] is True
 assert a['stage35_e1_class_transfer']['finite_total_class_count_proved'] is False
 assert a['stage35_e1_class_transfer']['zero_class_count_proved'] is False
+assert a['rankjump_height_interpretation']['stage14_logarithmic_canonical_height_window_imported'] is True
+assert a['rankjump_height_interpretation']['uniform_distribution_of_least_nontorsion_heights_proved'] is False
 assert a['route_decision']['new_global_population_theorem_obtained'] is True
 assert a['route_decision']['exact_endpoint_elimination_obtained'] is False
 
@@ -56,6 +65,7 @@ assert s['current']['unit']=='35EX-35_GOAL4M_UNIFORM_RANK_JUMP_FIRST_SMALL_POINT
 assert s['claims']['goal4m_executed'] is True
 assert s['claims']['perfect_cuboid_triple_sqrt_upper_bound_obtained'] is True
 assert s['claims']['E1_counterexample_class_sqrt_upper_bound_obtained'] is True
+assert s['claims']['first_nontorsion_point_height_bound_obtained'] is True
 assert s['claims']['strict_subsqrt_power_saving_obtained'] is False
 assert s['claims']['finite_height_reduction_obtained'] is False
 assert s['claims']['E1_proved'] is False and s['claims']['stage35_closed'] is False
