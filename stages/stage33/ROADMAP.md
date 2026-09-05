@@ -16,16 +16,16 @@ This file is the **plan**, not the live status or policy authority.
 Use:
 
 ```text
-stable Stage33 rules     -> stages/stage33/RULES.md
-human current state      -> stages/stage33/CURRENT.md
-machine current state    -> stages/stage33/controller.json
-history/evidence index   -> stages/stage33/HISTORY.md
-unit closure details     -> stages/stage33/33-00/unit-closure-contract.md
-active J2 repair plan    -> stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md
-33-07 repair-band plan   -> stages/stage33/ROADMAP-33-07-REPAIR-BAND.md
+stable Stage33 rules       -> stages/stage33/RULES.md
+ordinary current state     -> stages/stage33/MAIN-STATE.json
+detailed machine state     -> stages/stage33/controller.json
+history/evidence index     -> stages/stage33/HISTORY.md
+unit closure details       -> stages/stage33/33-00/unit-closure-contract.md
+historical J2 repair plan  -> stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md
+33-07 repair-band plan     -> stages/stage33/ROADMAP-33-07-REPAIR-BAND.md
 ```
 
-Do not add mutable `STAGE33_STATUS`, current receiver, live-route ledger, or batch progress here. Those belong in CURRENT/controller/active state. Historical route decisions belong in HISTORY/results/Git history.
+Do not add mutable `STAGE33_STATUS`, current receiver, live-route ledger, or batch progress here. Those belong in MAIN-STATE/controller/active state. Historical route decisions belong in HISTORY/results/Git history.
 
 ## Purpose
 
@@ -44,7 +44,7 @@ BR0G/BR2A -> NF-PHYS2 when invoked
 BR2A/BR2B -> CAMP4 when invoked
 ```
 
-This dependency sketch is planning structure only; the current reopened/repair state is read from CURRENT/controller.
+This dependency sketch is planning structure only; the current reopened/repair state is read from MAIN-STATE/controller.
 
 ## Eleven big tasks
 
@@ -70,7 +70,7 @@ Account exactly for the frozen physical boundary, residue/incidence maps, multiq
 
 Start from the geometric two-dimensional Br[2] space and determine the exact Q-relevant arithmetic survival/descent data. Every surviving class needs an explicit arithmetic representative or an exact zero-survival certificate.
 
-The present J2 representative repair is a repair of this task; its live R5e/R5f/R5g state is deliberately not repeated here.
+The historical J2 representative repair is retained only as planning/provenance; live state is read from MAIN-STATE/controller and exact 33-05/33-12 state/certificates.
 
 ### Stage33-06 — seven-line endpoint survival / multiquadratic pullback
 
@@ -102,7 +102,7 @@ Possible mathematical outcomes are represented by the unit-closure contract; thi
 
 ## Repair address space
 
-`33-09..33-39` is repair address space rather than additional denominator tasks. Which repair children are active, closed, blocked, or released is a **current-state** matter and must be read from controller/CURRENT and the repair-band roadmap/state.
+`33-09..33-39` is repair address space rather than additional denominator tasks. Which repair children are active, closed, blocked, or released is a **current-state** matter and must be read from MAIN-STATE/controller and the repair-band roadmap/state.
 
 Repair-child completion never changes the Stage33 numerator by itself. It may enable hostile recertification and closure of a reopened parent big task according to the unit-closure contract.
 
@@ -119,6 +119,6 @@ Those live in:
 - `RULES.md` for stable Stage33 policy;
 - `33-00/unit-closure-contract.md` for exact unit acceptance/release gates;
 - Research OS for repo-wide evidence/credit/Actions rules;
-- CURRENT/controller/active unit state for live execution state.
+- MAIN-STATE/controller/active unit state for live execution state.
 
 The pre-migration detailed roadmap and its old `ROADMAP_CREATED_NOT_EXECUTED` header remain recoverable in Git history and are indexed conceptually by `HISTORY.md`.

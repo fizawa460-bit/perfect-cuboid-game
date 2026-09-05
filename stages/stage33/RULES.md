@@ -13,7 +13,7 @@ Use current material in this order:
 3. `MAIN-STATE.json` for ordinary MAIN routing and compact current state;
 4. `controller.json`, active unit state, and exact certificates for detailed
    machine/mathematical authority;
-5. CURRENT/HISTORY/roadmaps/Git for dashboard, provenance, and history.
+5. `HISTORY.md`, roadmaps, and Git for provenance and history.
 
 Historical status never overrides current exact authority. Certificate credit is
 limited to the certificate's declared interface and scope.
@@ -41,9 +41,17 @@ A Stage33 mathematical line may stop only as:
 A durable operational checkpoint does not itself authorize stopping.
 
 Respect `MAIN-STATE.resolved_investigations`,
-`MAIN-STATE.anti_loop_reopen_policy`, and any active `work_checkpoint`.
+`MAIN-STATE.anti_loop_policy`, and any active `work_checkpoint`.
 Do not repeat a closed investigation under the same effective premises.
 Reopen only for a listed condition or a materially changed exact interface.
+
+If two consecutive MAIN batches leave the same effective receiver/missing
+interface and candidate information unchanged, with no independent observation,
+no candidate or materially distinct route removed, and no missing interface
+constructed, a third same-route continuation requires a breadth/route audit
+first. Bookkeeping, controller edits, verifier wiring, CI status, source-lock
+restatement, renaming, or an equivalent reformulation do not count as new exact
+information by themselves.
 
 ## Ordinary MAIN routing
 
@@ -76,6 +84,7 @@ may recreate or reset a separate handoff file.
 - `MAIN-STATE.json`: compact startup projection plus the one operational checkpoint.
 - `controller.json`: detailed current mathematical/release machine state.
 - active unit state/certificates/verifiers: exact mathematics and evidence.
-- CURRENT/HISTORY/roadmaps/Git: non-routine dashboard/provenance/history.
+- `CURRENT.md`: compatibility pointer only; it must not duplicate mutable state.
+- `HISTORY.md` and roadmaps: non-routine provenance/planning.
 
 Do not duplicate mutable current state across additional operational documents.
