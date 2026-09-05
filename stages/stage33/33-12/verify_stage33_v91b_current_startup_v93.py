@@ -32,6 +32,7 @@ body = dict(state)
 claimed = body.pop("canonical_sha256")
 actual = csha(body)
 print(json.dumps({"mutable_state_claimed_sha256": claimed, "mutable_state_actual_sha256": actual, "self_hash_match": claimed == actual}, sort_keys=True))
+assert claimed == actual
 
 v91b = load_canon(V91B, V91B_SHA)
 v91c = load_canon(V91C, V91C_SHA)
@@ -79,9 +80,8 @@ for key in ("stage33_12_closed_exact", "stage33_13_released", "receiver_credit",
 
 print(json.dumps({
     "success": True,
-    "marker": "V93_V91B_PROMOTED_V91C_ACTIVE_STARTUP_CONTENT_COMPLETE",
+    "marker": "V93_V91B_PROMOTED_V91C_ACTIVE_STARTUP_COMPLETE",
     "state_sha256": actual,
-    "state_self_hash_match": claimed == actual,
     "v91b_sha256": V91B_SHA,
     "v91c_sha256": V91C_SHA,
     "frontier": state["authority_sync"]["frontier_authority"],
