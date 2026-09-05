@@ -1,0 +1,174 @@
+{
+  "schema": "STAGE36_36_09G_ENDPOINT_EQUIVALENCE_BREADTH_REFRESH_V2",
+  "stage": "36",
+  "unit": "36-09G",
+  "leaf": "36-09G_ENDPOINT_EQUIVALENCE_BREADTH_REFRESH",
+  "status": "FRESH_BREADTH_REFRESH_SELECTS_COMMON_JMINUS_SUBRECEIVER_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "9309801b9caffa857adc5599ad5dd686d84d47d8",
+  "entry_authority": {
+    "stage36_36_09F_promotion_pr": 1599,
+    "promotion_exact_head": "cf6ada6bf53ee29c04751dfae427a96252c98e9c",
+    "promotion_exact_head_ci_run": 33959104843,
+    "promotion_exact_head_ci_job": 101287696925,
+    "promotion_merged_main_sha": "384983771ad076b58e94640c6b178a3f7ad6bc55",
+    "intervening_main_after_promotion": "9309801b9caffa857adc5599ad5dd686d84d47d8",
+    "intervening_scope": "Stage32 legacy-root archival plus Stage33 V91A only; no Stage36, locked Stage29 sign-cover, Arsenal, or Research OS source used here changed"
+  },
+  "blind_provenance": {
+    "snapshot_path": "stages/stage36/36-09G/blind-rediscovery-only.json",
+    "snapshot_commit": "30c37a19053638cdf806e88fa726f8d099146306",
+    "snapshot_blob_sha": "3f00245edc26394d43a16a699d99634eed831909",
+    "snapshot_expected_parent": "9309801b9caffa857adc5599ad5dd686d84d47d8",
+    "full_comparison_certificate_absent_at_snapshot_commit": true,
+    "snapshot_contains_route_ledger_mapping": false,
+    "snapshot_contains_reusable_method_comparison": false,
+    "snapshot_contains_selected_route": false,
+    "chronology": "immutable blind-only snapshot first; route-ledger and Arsenal comparison only in this descendant commit"
+  },
+  "source_locks": {
+    "stage36_36_09F_preflight": {"path":"stages/stage36/36-09F/paired-legendre-receiver-intersection-preflight.json","blob_sha":"0615844de212eb3644f15cd3f5577b37ccc3855a"},
+    "stage36_36_09E_preflight": {"path":"stages/stage36/36-09E/character-elliptic-quotient-arithmetic-preflight.json","blob_sha":"081b704fecaa3bd39e6a523ee7beaefe706683f4"},
+    "stage36_36_03_physical_receiver": {"path":"stages/stage36/36-03/physical-open-boundary.json","blob_sha":"fc1947b2de08f7d8a104bdc91902b20e88635349"},
+    "stage29_exact_sign_cover_model": {"path":"stages/stage29/29-02ha/exact-sign-cover-model.md","blob_sha":"fc2d5284a259750f45d2d756a952002671e3bccc"},
+    "cycle_exploration_safety_protocol": {"path":"docs/research-os/policies/cycle-exploration-safety-protocol.md","blob_sha":"4e911c4fc7e4ea7a2b5f96733a90b986ef8d9a37"}
+  },
+  "blind_snapshot_import": {
+    "COMMON_TWO_JMINUS": {
+      "reduced_conditions": ["D=s+t+1 is a rational square","B*C=(s+1)*(s+t) is a rational square"],
+      "matrix_BCD": [[1,1,1],[1,1,0]],
+      "rank_F2": 2,
+      "kernel_dimension": 1,
+      "kernel_generator": [1,1,0]
+    },
+    "SINGLE_REP_THREE_CHARACTER": {
+      "rank_F2_each": 3,
+      "conclusion": "each retained representative's full three-character system reconstructs all remaining B,C,D squareclasses"
+    },
+    "other_blind_views": ["FULL_FOUR_CHARACTER","CONIC_CHAIN","STANDARD_CAMPEDELLI_TRANSFER","MULTIPLACE_RECIPROCITY","MOVING_FAMILY_MW_CONGRUENCE","ASYMPTOTIC_SIEVE"]
+  },
+  "common_jminus_exact_reduction": {
+    "variables": {"A":"s","B":"s+1","C":"s+t","D":"s+t+1"},
+    "physical_known_squareclasses": ["A=s","t","t+1"],
+    "common_curve_types_each_representative": ["E_t_PLUS","E_t_MINUS"],
+    "prescribed_X_square_conditions": {
+      "E_t_PLUS": "B*C*D is a rational square",
+      "E_t_MINUS": "A*B*C is a rational square"
+    },
+    "deductions_using_A_square": [
+      "(B*C*D)/(A*B*C)=D/A square, hence D is square",
+      "(A*B*C)/A=B*C square"
+    ],
+    "converse": "A square together with D square and B*C square makes both B*C*D and A*B*C squares",
+    "reduced_receiver": ["D=s+t+1 is a rational square","B*C=(s+1)*(s+t) is a rational square"],
+    "squareclass_variable_order": ["B","C","D"],
+    "common_pair_matrix_F2": [[1,1,1],[1,1,0]],
+    "rank_F2": 2,
+    "kernel_dimension": 1,
+    "kernel_generator": [1,1,0],
+    "meaning": "D is forced square while B and C are forced only to have the same squareclass",
+    "endpoint_pushes_to_common_subreceiver": true,
+    "strict_rational_properness_witness_obtained": false,
+    "scope_firewall": "the squareclass system is algebraically weaker than the full endpoint system, but existence of a rational non-endpoint point on this subreceiver is not claimed"
+  },
+  "single_representative_full_character_check": {
+    "row_dictionary_in_BCD_after_A_square": {
+      "E_t_PLUS": [1,1,1],
+      "E_t_MINUS": [1,1,0],
+      "E_t1_PLUS": [0,1,1],
+      "E_t1_MINUS": [1,0,1]
+    },
+    "representatives": {
+      "Q6_GEOM8": {"rows":["E_t_PLUS","E_t_MINUS","E_t1_PLUS"],"rank_F2":3},
+      "Q2_GEOM8": {"rows":["E_t_PLUS","E_t_MINUS","E_t1_MINUS"],"rank_F2":3},
+      "Q2_GEOM2": {"rows":["E_t_PLUS","E_t_MINUS","E_t1_MINUS"],"rank_F2":3}
+    },
+    "conclusion": "using all three genus-1 character conditions from any one retained representative is already endpoint-squareclass equivalent on the physical locus; only the shared two-J_MINUS truncation preserves a residual squareclass"
+  },
+  "route_ledger_mapping_after_blind_snapshot": {
+    "COMMON_TWO_JMINUS": {"mapped_ledger":"B10_INTERMEDIATE_SIGN_QUOTIENT_OR_CHARACTER","status":"LIVE"},
+    "SINGLE_REP_THREE_CHARACTER": {"mapped_ledger":"B10_INTERMEDIATE_SIGN_QUOTIENT_OR_CHARACTER","status":"EQUIVALENT"},
+    "FULL_FOUR_CHARACTER": {"mapped_ledger":"B6_FIBRATION_TO_CURVE_BASE","status":"EQUIVALENT"},
+    "CONIC_CHAIN": {"mapped_ledger":"B3_FINITE_CURVE_OR_COVER_DECOMPOSITION","status":"UNTESTED"},
+    "STANDARD_CAMPEDELLI_TRANSFER": {"mapped_ledger":"B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER","status":"UNTESTED"},
+    "MULTIPLACE_RECIPROCITY": {"mapped_ledger":"B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY","status":"UNTESTED"},
+    "MOVING_FAMILY_MW_CONGRUENCE": {"mapped_ledger":"B6_FIBRATION_TO_CURVE_BASE","status":"BLOCKED"},
+    "ASYMPTOTIC_SIEVE": {"mapped_ledger":"B9_ASYMPTOTIC_OR_SIEVE_SPARSITY","status":"DOMINATED"}
+  },
+  "arsenal_comparison_after_blind_snapshot": {
+    "S34_W01": {
+      "path":"docs/arsenal/cards/formal/S34-W01.md",
+      "blob_sha":"01a8e90e34b4aa46edbfa825803d488e5230e9d0",
+      "status":"APPLICABILITY_CANDIDATE_PREFLIGHT_REQUIRED",
+      "match":"the surviving condition (s+1)*(s+t) square is an exact two-factor square condition",
+      "missing_before_trigger":"primitive denominator-cleared coordinates, exact gcd/resultant shared-prime support, complete sign/2-adic bookkeeping, exhaustive squareclass branch proof and boundary handling"
+    },
+    "S34_W03": {
+      "path":"docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha":"1d5275321f42768a6414d4610ac912c63be43f96",
+      "status":"NOT_EXECUTED_ON_NEW_SUBRECEIVER",
+      "reason":"no intersection-emptiness test for the common-J_MINUS subreceiver has been performed"
+    },
+    "S34_W02": {
+      "path":"docs/arsenal/cards/formal/S34-W02.md",
+      "blob_sha":"13d41be776fcd2edcd258f11bd28c5a6596de45b",
+      "status":"NOT_TRIGGERED",
+      "reason":"no certified uniform full Mordell-Weil plus specialization package"
+    }
+  },
+  "refreshed_candidate_ledger": {
+    "B1_DIRECT_UNIFORM_H1_SELMER": "BLOCKED",
+    "B2_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION": "BLOCKED_BY_EXPLICIT_ALL_PLACE_LOCAL_POINTS",
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "UNTESTED",
+    "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION": "BLOCKED_NO_PROOF_CAPABLE_B_PLUS_K_JOINT_TEST",
+    "B5_CAMPEDELLI_BRAUER_ETALE_BRAUER": "BLOCKED_UPSTREAM_BR2A_BR2B_INCOMPLETE",
+    "B6_FIBRATION_TO_CURVE_BASE": "BLOCKED_BY_EXACT_ENDPOINT_EQUIVALENCE_NO_PROPER_RECEIVER_GAIN",
+    "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER": "UNTESTED",
+    "B8_GEOMETRIC_TOPOLOGICAL_CLASSIFICATION": "BLOCKED",
+    "B9_ASYMPTOTIC_OR_SIEVE_SPARSITY": "DOMINATED",
+    "B10_INTERMEDIATE_SIGN_QUOTIENT_OR_CHARACTER": "LIVE_COMMON_TWO_JMINUS_SUBRECEIVER",
+    "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY": "UNTESTED",
+    "counts": {"live":1,"untested":3,"blocked":6,"dominated":1}
+  },
+  "route_selection": {
+    "cycle_route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "selected_route": "B10_INTERMEDIATE_SIGN_QUOTIENT_OR_CHARACTER",
+    "selected_receiver": "PHYSICAL_COMMON_TWO_JMINUS_SUBRECEIVER",
+    "exact_receiver_conditions": [
+      "t,s,t+1 are rational squares",
+      "s+t+1 is a rational square",
+      "(s+1)*(s+t) is a rational square",
+      "physical branch-free/nonzero conditions"
+    ],
+    "why_selected": "it is common to all three audited representatives, keeps one residual squareclass instead of immediately reconstructing the endpoint, and exposes an exact two-factor square condition suitable for an S34-W01 applicability preflight",
+    "S34_W01_TRIGGERED": false,
+    "S34_W01_PREFLIGHT_REQUIRED": true,
+    "next_route_after_hostile_audit": "36-09H_COMMON_JMINUS_FACTOR_SQUARECLASS_DESCENT_PREFLIGHT"
+  },
+  "cycle_update": {
+    "fresh_EXHAUSTIVE_VIEW_AUDIT_after_36_09F": true,
+    "fresh_BLIND_REDISCOVERY_after_36_09F": true,
+    "blind_snapshot_precedes_ledger_and_arsenal_commit": true,
+    "split_triggered": false,
+    "parking_audit_complete": false,
+    "parking_not_allowed_because_live_candidate_exists": true,
+    "CYCLE_NEW_VIEW": "common two-J_MINUS prescribed-X receiver leaves exactly one B=C squareclass degree of freedom",
+    "CYCLE_NEW_VIEW_SOURCE": "BOTH",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 3
+  },
+  "claims": {
+    "new_theorem_credit": false,
+    "common_jminus_subreceiver_rational_strictness_proved": false,
+    "S34_W01_finite_squareclass_branch_family_proved": false,
+    "paired_legendre_receiver_intersection_empty_proved": false,
+    "uniform_mordell_weil_control_proved": false,
+    "generic_or_special_fiber_rational_points_exhausted": false,
+    "quotient_Q_point_emptiness_proved": false,
+    "receiver_matched_replacement_theorem_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
