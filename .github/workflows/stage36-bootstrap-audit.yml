@@ -47,10 +47,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          base="${{ github.event.pull_request.base.sha || '17c53d659e8d5d49b6e2bfca5c65c38a8658ac0d' }}"
-          for x in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 2af6edb984e0c0a51e945f886939a09b442c3218 fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 1d29735f3f50c6918a32b2542de8364b86568396 ac5a7c81d3f268bebbc2a9de8e658b23c97d5649 6e0c40eeb7a533b47aba0d224c34e85822db373c f22d67dda4183c3bfd39710ebb4083f5185f3f49 631d773a0f341954507eacf303f0c5f7cbdc836a 51efa8394c45bc60a4b482c4f6f94f7826eb9d20 f75830b2fd54031c1af05e2377a9da365a4d7fdf a3f6380a89e627a9fa36915466a901361e0cb175 cf6ada6bf53ee29c04751dfae427a96252c98e9c 4ed21de07a935ed848400515a44f53aba49234c7 c8b6bca818697125ef75a85527e282c15c6bd8f3; do git merge-base --is-ancestor "$x" HEAD; done
-      - name: Save current V29 state
-        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v29.json
+          base="${{ github.event.pull_request.base.sha || '2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc' }}"
+          for x in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 2af6edb984e0c0a51e945f886939a09b442c3218 fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 1d29735f3f50c6918a32b2542de8364b86568396 ac5a7c81d3f268bebbc2a9de8e658b23c97d5649 6e0c40eeb7a533b47aba0d224c34e85822db373c f22d67dda4183c3bfd39710ebb4083f5185f3f49 631d773a0f341954507eacf303f0c5f7cbdc836a 51efa8394c45bc60a4b482c4f6f94f7826eb9d20 f75830b2fd54031c1af05e2377a9da365a4d7fdf a3f6380a89e627a9fa36915466a901361e0cb175 cf6ada6bf53ee29c04751dfae427a96252c98e9c 4ed21de07a935ed848400515a44f53aba49234c7 c8b6bca818697125ef75a85527e282c15c6bd8f3 2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc; do git merge-base --is-ancestor "$x" HEAD; done
+      - name: Save current V30 state
+        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v30.json
       - name: Restore immutable 36-09A mathematical state
         run: git show d0f3de51b86cda9199a55e89757ae6887f572ea3:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
       - name: Replay Stage36 bootstrap authority
@@ -121,35 +121,45 @@ jobs:
         run: git show c8b6bca818697125ef75a85527e282c15c6bd8f3:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
       - name: Replay Stage36 36-09H exact preflight
         run: python3 stages/stage36/verify_stage36_36_09H.py
-      - name: Restore current V29 state
-        run: cp /tmp/stage36-v29.json stages/stage36/MAIN-STATE.json
+      - name: Restore exact V29 36-09H audited state
+        run: git show 2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
       - name: Replay Stage36 36-09H hostile-audited promotion
         run: python3 stages/stage36/verify_stage36_36_09H_audited.py
-      - name: Assert 36-09I ready-unstarted boundary
+      - name: Restore current V30 state
+        run: cp /tmp/stage36-v30.json stages/stage36/MAIN-STATE.json
+      - name: Verify Stage36 36-09I post-W01 breadth refresh
+        run: python3 stages/stage36/verify_stage36_36_09I.py
+      - name: Assert hostile-audit boundary before 36-09J
         shell: bash
         run: |
           python3 - <<'PY'
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V29_THIN_36_09H_AUDITED'
-          assert s['status']=='ACTIVE'
-          a=s['authority_frontier']['36-09H']
-          assert a['promotion_status']=='HOSTILE_AUDIT_PASS'
-          assert a['hostile_audit_review']==5120981814
-          assert a['audited_head']=='025cd5069eef938a42a5fd9cae0d2a4217ef8192'
-          assert a['certificate_blob_sha']=='08e7e87f866aebbc92b7d5cd776ce8b5fe60744d'
-          assert a['UNBOUNDED_SHARED_ODD_PRIME_SUPPORT_PROVED'] is True
-          assert a['LOCAL_SUPPORT_CONSTRUCTION_IS_GLOBAL_RECEIVER_POINT'] is False
-          assert a['S34_W01_TRIGGERED'] is False
-          assert a['B10_STATUS']=='LIVE_RECEIVER_S34_W01_FIRST_LAYER_BLOCKED'
-          assert a['FRESH_BREADTH_REQUIRED'] is True
-          assert s['cycle_ledger']['fresh_EXHAUSTIVE_VIEW_AUDIT_after_36_09H'] is False
-          assert s['cycle_ledger']['fresh_BLIND_REDISCOVERY_after_36_09H'] is False
-          assert s['current']['unit']=='36-09I'
-          assert s['current']['36_09I_entry_allowed'] is True
-          assert s['promotion_gates']['S34_W01_finite_squareclass_branch_family_proved'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V30_36_09I_PENDING_HOSTILE_AUDIT'
+          assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
+          a=s['authority_frontier']['36-09I']
+          assert a['promotion_status']=='PROVISIONAL_NOT_AUDITED'
+          assert a['blind_snapshot_commit']=='aedd6245f27166fd77072af1dbc12e63dc796ddf'
+          assert a['comparison_commit']=='c440b5ba219b9e2832b471a8b069be35a5bb2d48'
+          assert a['comparison_certificate_blob_sha']=='81d211b8f02c104b5d16074c2f6c37a01a64e298'
+          assert a['certificate_blob_sha']=='f9bf252f3be47f606a3b270961df3b5943fa1909'
+          assert a['BLIND_PROVENANCE_FAIL_CLOSED'] is True
+          assert a['FRESH_EXHAUSTIVE_VIEW_AUDIT'] is True
+          assert a['FRESH_BLIND_REDISCOVERY'] is True
+          assert a['RECIPROCAL_TWO_LINEAR_REDUCTION_EXACT'] is True
+          assert a['CHARACTER_LINEAR_INTERMEDIATE_REFINEMENT_EXISTS'] is False
+          assert a['B3_STATUS']=='LIVE_RECIPROCAL_INVOLUTION_COVER_PREFLIGHT'
+          assert a['B7_STATUS']=='UNTESTED_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER'
+          assert a['C2_GAUSSIAN_NORM_COMPRESSION_STATUS']=='UNTESTED_DISTINCT_FROM_B7_NO_EXACT_EQUIVALENCE'
+          assert a['B7_C2_EXACT_EQUIVALENCE_PROVED'] is False
+          assert a['B11_STATUS']=='UNTESTED_VARIABLE_PRIME_RECIPROCITY'
+          assert s['cycle_ledger']['counts']=={'live':1,'untested':3,'blocked':6,'dominated':2}
+          assert s['cycle_ledger']['distinct_unmapped_candidates']==['C2_GAUSSIAN_NORM_COMPRESSION']
+          assert s['current']['36_09J_entry_allowed'] is False
+          assert s['promotion_gates']['distinct_untested_candidate_preservation_fail_closed'] is True
+          assert s['promotion_gates']['receiver_emptiness_proved'] is False
           assert s['promotion_gates']['R29_CAMP2_closed'] is False
           assert all(v is False for v in s['claims'].values())
-          print('36-09H hostile audit PASS promoted; B10 live; 36-09I ready-unstarted')
+          print('36-09I repaired breadth frozen; B3 live; B7, C2 Gaussian, B11 separately untested; 36-09J locked')
           PY
