@@ -7,7 +7,6 @@ BRANCH_EXACT_FRONTIER=stages/stage33/33-12/e3-coordinate-conjugate-sign-quotient
 CURRENT_LOCKED_FRONTIER=V61_THROUGH_V85_WITH_V65_V69_V75_HISTORICAL_SUPERSESSION_AND_V85_COORDINATE_CONJUGATE_GYSIN_FAMILY_FREEZE
 EFFECTIVE_DISCOVERY_ROUTING=V58_ARSENAL_FIRST_REPEATABLE_BOUNDED_SEARCH_NO_FIXED_CAP
 CURRENT_LEAF=E3_NON_COORDINATE_CONJUGATE_FULL_SURFACE_CECH_OR_ACTUAL_GERSTEN_MASK20
-ATOMICITY_RULE=ONE_SMALL_VERIFIABLE_GOAL_PER_COMMIT
 MERGE_ALLOWED=false
 ```
 
@@ -98,4 +97,4 @@ Forbidden: reopening coordinate-conjugate B1/B2/B3 Gysin membership after V85; p
 
 ## Batch rule
 
-Each `stage33main batch` works the first unfinished leaf, uses Arsenal first, constructs/replays one exact object per commit, and reevaluates this roadmap.
+Each `stage33main batch` works the first unfinished leaf, uses Arsenal first, and reevaluates this roadmap as the frontier changes.

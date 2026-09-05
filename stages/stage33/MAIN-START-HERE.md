@@ -10,9 +10,7 @@ For ordinary research/navigation use:
 
 The current branch-local roadmap is `stages/stage33/ROADMAP-33-12-V71-J1-TORSOR.md`. Older roadmaps remain historical planning checkpoints.
 
-Use known paths directly. Repository discovery is search-first. A search miss never proves repository absence or mathematical nonexistence.
-
-**Stage33 MAIN hard ban:** do not request, fetch, or dump a full/recursive repository tree, including GitHub recursive `git/trees` reads or equivalent whole-branch tree enumeration. Navigate only by exact-path fetches, targeted filename/code searches, and explicit controller/roadmap/Arsenal/source-lock references.
+Repository traversal itself follows `AGENTS.md`; Stage33 does not define a separate tree/search policy.
 
 V58 remains the operational routing authority: Arsenal first, then repeatable bounded search only when each repeat has a materially new mathematical signal. Unbounded/open-ended search remains forbidden.
 
