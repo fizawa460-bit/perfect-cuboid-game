@@ -1,0 +1,107 @@
+{
+  "schema": "STAGE36_36_09G_BLIND_REDISCOVERY_ONLY_V1",
+  "stage": "36",
+  "unit": "36-09G",
+  "status": "IMMUTABLE_BLIND_ONLY_SNAPSHOT",
+  "base_main_sha": "9309801b9caffa857adc5599ad5dd686d84d47d8",
+  "chronology_contract": {
+    "purpose": "freeze mathematical rediscovery before any route-ledger mapping or reusable-method comparison is recorded",
+    "contains_route_ledger_mapping": false,
+    "contains_reusable_method_comparison": false,
+    "contains_selected_route": false
+  },
+  "mathematical_starting_point": {
+    "chart": "y=1, x=t, z=s",
+    "moving_variables": {
+      "A": "s",
+      "B": "s+1",
+      "C": "s+t",
+      "D": "s+t+1"
+    },
+    "physical_square_facts_used": [
+      "A=s is a rational square",
+      "t is a rational square",
+      "t+1 is a rational square"
+    ],
+    "four_prescribed_X_square_conditions": {
+      "E_t_PLUS": "B*C*D is a rational square",
+      "E_t_MINUS": "A*B*C is a rational square",
+      "E_t1_PLUS": "A*C*D is a rational square",
+      "E_t1_MINUS": "A*B*D is a rational square"
+    }
+  },
+  "blind_generated_views": [
+    {
+      "id": "COMMON_TWO_JMINUS",
+      "construction": "retain only the two t-parameter character conditions shared by all three retained representatives",
+      "exact_algebra": [
+        "BCD square and ABC square with A square imply D square",
+        "ABC square with A square implies B*C square",
+        "conversely A square, D square and B*C square imply both BCD and ABC square"
+      ],
+      "reduced_conditions": [
+        "D=s+t+1 is a rational square",
+        "B*C=(s+1)*(s+t) is a rational square"
+      ],
+      "squareclass_matrix_BCD": [[1,1,1],[1,1,0]],
+      "rank_F2": 2,
+      "kernel_dimension": 1,
+      "kernel_generator": [1,1,0],
+      "observation": "D is forced square while B and C retain one common squareclass"
+    },
+    {
+      "id": "SINGLE_REP_THREE_CHARACTER",
+      "construction": "for each retained representative, add its third genus-1 character condition to the common two-condition system",
+      "row_dictionary_BCD_after_A_square": {
+        "E_t_PLUS": [1,1,1],
+        "E_t_MINUS": [1,1,0],
+        "E_t1_PLUS": [0,1,1],
+        "E_t1_MINUS": [1,0,1]
+      },
+      "representative_row_sets": {
+        "Q6_GEOM8": ["E_t_PLUS","E_t_MINUS","E_t1_PLUS"],
+        "Q2_GEOM8": ["E_t_PLUS","E_t_MINUS","E_t1_MINUS"],
+        "Q2_GEOM2": ["E_t_PLUS","E_t_MINUS","E_t1_MINUS"]
+      },
+      "rank_F2_each": 3,
+      "observation": "all remaining B,C,D squareclasses are killed; this reconstruction returns to the full moving-line square condition"
+    },
+    {
+      "id": "FULL_FOUR_CHARACTER",
+      "construction": "retain all four prescribed-X character conditions simultaneously",
+      "observation": "the resulting squareclass system reconstructs all four moving-line square conditions"
+    },
+    {
+      "id": "CONIC_CHAIN",
+      "construction": "parameterize successive rational-square relations among t,s,t+1,s+t+1 before imposing the remaining product-square condition",
+      "observation": "explicit genus-zero parameterizations are available, but no finite exhaustive decomposition is obtained at this snapshot"
+    },
+    {
+      "id": "STANDARD_CAMPEDELLI_TRANSFER",
+      "construction": "seek an arithmetic transfer from the retained model to a standard Campedelli model",
+      "observation": "no exact receiver-matched transfer theorem is part of this snapshot"
+    },
+    {
+      "id": "MULTIPLACE_RECIPROCITY",
+      "construction": "seek a direct several-place Hilbert-symbol or reciprocity constraint",
+      "observation": "no exact several-place class is produced in this snapshot"
+    },
+    {
+      "id": "MOVING_FAMILY_MW_CONGRUENCE",
+      "construction": "seek congruence exclusion on the moving Legendre families",
+      "observation": "no certified uniform full Mordell-Weil plus specialization package is part of this snapshot"
+    },
+    {
+      "id": "ASYMPTOTIC_SIEVE",
+      "construction": "seek sparsity of rational parameters satisfying the square conditions",
+      "observation": "no exact emptiness conclusion is produced in this snapshot"
+    }
+  ],
+  "credit_firewall": {
+    "common_two_jminus_rational_strict_properness_proved": false,
+    "finite_squareclass_branch_family_proved": false,
+    "receiver_emptiness_proved": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_claim": false
+  }
+}
