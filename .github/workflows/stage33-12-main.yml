@@ -12,7 +12,6 @@ on:
       - 'stages/stage33/MAIN-STATE.json'
       - 'stages/stage33/RULES.md'
       - 'stages/stage33/controller.json'
-      - 'stages/stage33/promote_post1485_v20_audit.py'
       - 'stages/stage33/sync_main_state.py'
       - '.github/workflows/stage33-12-main.yml'
   workflow_dispatch:
@@ -133,8 +132,8 @@ jobs:
           print('historical R1-R4 replay PASS')
           PY
 
-          # Promotion audit remains historical/read-only. The synchronized V59
-          # generator must reproduce MAIN-STATE exactly.
-          python stages/stage33/promote_post1485_v20_audit.py --continuation-pr 1488 --check
+          # The V17-V20 promotion wrapper was a one-shot read-only historical
+          # helper. Its exact verifiers are replayed above; current state is
+          # reproduced by the synchronized compact-state generator.
           python stages/stage33/sync_main_state.py --check
           git diff --check
