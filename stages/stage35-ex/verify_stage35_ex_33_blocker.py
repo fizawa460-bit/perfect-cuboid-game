@@ -10,7 +10,7 @@ ROOT=Path(__file__).resolve().parents[2]
 STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
 ART=ROOT/'stages/stage35-ex/35ex-33/pairwise-gaussian-gcd-support-route-blocker.json'
 SCHEMA='STAGE35_EX_PESCH_E1_STATE_V32_POST_35EX32_USER_APPROVED_MERGE_ROUTE_SELECTION'
-BASE_MAIN='3ec32ee3647d8c2a9350b1aea5aca1f8cee617a8'
+BASE_MAIN='3b4b5969330ae89a41899598fbdf17e76be76f72'
 
 def git_blob_sha(path:Path)->str:
     data=path.read_bytes()
@@ -133,7 +133,6 @@ def is_unit_square(z):
 
 def gdivmod(z,w):
     a,b=z; c,d=w; n=c*c+d*d
-    # nearest Gaussian integer quotient; four floor/ceil candidates suffice
     from math import floor, ceil
     xr=(a*c+b*d)/n; yi=(b*c-a*d)/n
     best=None
@@ -147,13 +146,11 @@ def ggcd(z,w):
     while w!=(0,0): z,w=w,gdivmod(z,w)
     return z
 
-# Primitive Pythagorean faces: after removing the ordinary edge gcd, the Gaussian is unit*square.
 for x,y in ((3,4),(5,12),(7,24),(20,21),(9,40),(11,60)):
     for g in (1,2,3,5,6):
         F=(g*x,g*y)
         assert is_unit_square((F[0]//g,F[1]//g))
 
-# Primitive Euler-brick regression fixtures; space diagonal is intentionally irrelevant to this blocker.
 fixtures=((44,117,240),(85,132,720),(140,480,693),(160,231,792),(240,252,275))
 for a,b,c in fixtures:
     assert gcd(gcd(a,b),c)==1
