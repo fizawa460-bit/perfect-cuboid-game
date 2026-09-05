@@ -10,11 +10,14 @@ CERT_BLOB="193d0165b242d799bc981774783a5160c1ac58dc"
 AUDITED_MERGE="353d9057d1d5bd9b25a287672906a27c551dede9"
 V11_BASE="ee3e7aafd1742c5d96e2871f117412ef0823d57e"
 V12_BASE="dc5898281a7ccea25d8ee0c1ae9953a18941ec08"
+V13_BASE="05bc30f346e56ab5e13a54c6da6cab67f528fbaa"
 PROMO_MERGE="99c5f1634dd59d4bc5698cbb775801dd9d000827"
 V11="STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V11_36_05_AUDITED_BLOCKED"
 V12="STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V12_36_09_BREADTH_GATE_PENDING_AUDIT"
+V13="STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V13_36_09_AUDITED"
 AUTH={"pr":1569,"hostile_audit_review":5118563918,"audited_head":"cf430199171c98ed5f9eaaadeb8d2d40268ca6ba","merged_main_sha":AUDITED_MERGE,"exact_head_ci_run":33928640974,"exact_head_ci_job":101202500740,"certificate_blob_sha":CERT_BLOB,"legal_outcome":"BLOCKED_MOVING_RAMIFICATION_SUPPORT","verdict":"PASS"}
 PROMO={"pr":1573,"exact_head":"741eb0ef6f07ef6551602c84a1b7493977023feb","exact_head_ci_run":33930463014,"exact_head_ci_job":101207828353,"merged_main_sha":PROMO_MERGE,"scope":"mechanical audited-state promotion of blocked 36-05 authority only; route to unstarted 36-09","NEW_THEOREM_CREDIT":False}
+AUTH_36_09={"pr":1575,"hostile_audit_review":5118953320,"audited_head":"2f9562775aa386fdc547c0f4dcf87c81abae3663","merged_main_sha":V13_BASE,"exact_head_ci_run":33932204413,"exact_head_ci_job":101212944063,"certificate_blob_sha":"0c6019d70346b531a9b703d6f74e346302273655","selected_next_route":"36-09A_CAMP4_BRAUER_COMPATIBILITY_PREFLIGHT","verdict":"PASS"}
 LINES={"A1":(1,0,0),"A2":(0,1,0),"A3":(0,0,1),"B3":(1,1,0),"B2":(1,0,1),"B1":(0,1,1),"C":(1,1,1)}
 def blob_sha(path):
  data=path.read_bytes(); return hashlib.sha1(b"blob "+str(len(data)).encode()+b"\0"+data).hexdigest()
@@ -36,19 +39,21 @@ def main():
  req(cert.get("arsenal_locks",{}).get("S34-W01",{}).get("triggered") is False,"S34-W01 falsely triggered")
  req(all(v is False for v in cert.get("claims",{}).values()),"36-05 certificate leaked higher credit")
  roadmap=ROADMAP.read_text(); req("BLOCKED_MOVING_RAMIFICATION_SUPPORT" in roadmap and "36-09 — RECEIVER-MATCHED REPLACEMENT / BREADTH GATE" in roadmap,"36-05 blocked routing authority moved")
- s=json.loads(STATE.read_text()); schema=s.get("schema"); req(schema in {V11,V12},"36-05 audited successor schema moved")
+ s=json.loads(STATE.read_text()); schema=s.get("schema"); req(schema in {V11,V12,V13},"36-05 audited successor schema moved")
  req(s.get("stage36_36_05_authority")==AUTH,"36-05 audited authority block moved")
  expected_unit={"leaf":"36-05_UNIFORM_RAMIFICATION_SUPPORT","status":"AUDITED_BLOCKED_MOVING_RAMIFICATION_SUPPORT","certificate":"stages/stage36/36-05/uniform-ramification-support.json","certificate_blob_sha":CERT_BLOB,"verifier":"stages/stage36/verify_stage36_36_05.py","legal_outcome":"BLOCKED_MOVING_RAMIFICATION_SUPPORT","UNIFORM_FINITE_RAMIFICATION_SUPPORT_PROVED":False,"FINITE_EXHAUSTIVE_H_TWIST_FAMILY":False,"ARBITRARY_PRIME_PHYSICAL_RECEIVER_POINT_CLAIM":False,"NEW_THEOREM_CREDIT":False,"promotion_status":"AUDITED","successor_verifier":"stages/stage36/verify_stage36_36_05_audited.py","hostile_audit_review":5118563918,"audited_head":AUTH["audited_head"],"exact_head_ci_run":33928640974,"exact_head_ci_job":101202500740,"merged_main_sha":AUDITED_MERGE}
  req(s.get("completed_units",{}).get("36-05")==expected_unit,"36-05 completed-unit provenance moved")
  g=s.get("promotion_gates",{})
  for key in ["uniform_finite_ramification_support_proved","finite_exhaustive_H_twist_family_proved","local_solubility_filter_exhaustive","all_global_survivors_closed","quotient_Q_point_emptiness_proved","receiver_matched_replacement_theorem_proved","R29_CAMP2_closed","Q11_CAMPEDELLI_closed","endpoint_closed","perfect_cuboid_existence_claim","perfect_cuboid_nonexistence_claim"]: req(g.get(key) is False,f"later gate prematurely promoted: {key}")
- cur=s.get("current",{}); req(cur.get("unit")=="36-09" and cur.get("next_exact_leaf")=="36-09_RECEIVER_MATCHED_REPLACEMENT_BREADTH_GATE","36-09 routing moved"); req(cur.get("36_06_entry_allowed") is False and cur.get("36_09_entry_allowed") is True,"36-05 blocked routing gate moved")
+ cur=s.get("current",{})
  if schema==V11:
-  req(s.get("status")=="ACTIVE" and s.get("base_main_sha")==V11_BASE,"V11 lifecycle moved"); req("36-09" not in s.get("completed_units",{}),"36-09 started inside V11 promotion")
- else:
+  req(s.get("status")=="ACTIVE" and s.get("base_main_sha")==V11_BASE,"V11 lifecycle moved"); req(cur.get("unit")=="36-09" and cur.get("36_06_entry_allowed") is False and cur.get("36_09_entry_allowed") is True,"V11 blocked routing gate moved"); req("36-09" not in s.get("completed_units",{}),"36-09 started inside V11 promotion")
+ elif schema==V12:
   req(s.get("status")=="ACTIVE_PENDING_HOSTILE_AUDIT" and s.get("base_main_sha")==V12_BASE,"V12 lifecycle moved"); req(s.get("stage36_36_05_promotion")==PROMO,"36-05 promotion provenance moved")
-  b=s.get("completed_units",{}).get("36-09",{}); req(b.get("promotion_status")=="PROVISIONAL_NOT_AUDITED" and b.get("SELECTED_NEXT_ROUTE")=="36-09A_CAMP4_BRAUER_COMPATIBILITY_PREFLIGHT","36-09 breadth gate moved")
-  req(b.get("RECEIVER_MATCHED_REPLACEMENT_THEOREM_PROVED") is False,"36-09 replacement credit leaked"); req(cur.get("36_09A_entry_allowed") is False and "36-09A" not in s.get("completed_units",{}),"36-09A started before hostile audit")
+  b=s.get("completed_units",{}).get("36-09",{}); req(b.get("promotion_status")=="PROVISIONAL_NOT_AUDITED" and b.get("SELECTED_NEXT_ROUTE")=="36-09A_CAMP4_BRAUER_COMPATIBILITY_PREFLIGHT","36-09 breadth gate moved"); req(b.get("RECEIVER_MATCHED_REPLACEMENT_THEOREM_PROVED") is False,"36-09 replacement credit leaked"); req(cur.get("unit")=="36-09" and cur.get("36_09A_entry_allowed") is False and "36-09A" not in s.get("completed_units",{}),"36-09A started before hostile audit")
+ else:
+  req(s.get("status")=="ACTIVE" and s.get("base_main_sha")==V13_BASE,"V13 lifecycle moved"); req(s.get("stage36_36_05_promotion")==PROMO,"36-05 promotion provenance moved in V13"); req(s.get("stage36_36_09_authority")==AUTH_36_09,"36-09 audited authority moved")
+  b=s.get("completed_units",{}).get("36-09",{}); req(b.get("promotion_status")=="AUDITED" and b.get("hostile_audit_review")==5118953320 and b.get("exact_head_ci_run")==33932204413 and b.get("exact_head_ci_job")==101212944063,"36-09 audited promotion moved"); req(b.get("RECEIVER_MATCHED_REPLACEMENT_THEOREM_PROVED") is False,"36-09 audited replacement credit leaked"); req(cur.get("unit")=="36-09A" and cur.get("36_09A_entry_allowed") is True and "36-09A" not in s.get("completed_units",{}),"36-09A promotion boundary moved")
  req(all(v is False for v in s.get("claims",{}).values()),"Stage36 higher claim leaked")
  print("PASS STAGE36_36_05_AUDITED_BLOCKED_SUCCESSOR_REPLAY"); print(f"review={AUTH['hostile_audit_review']}; audited_head={AUTH['audited_head']}; exact_head_ci={AUTH['exact_head_ci_run']}/{AUTH['exact_head_ci_job']}"); print(f"certificate_blob={CERT_BLOB}; audited_merge={AUDITED_MERGE}; successor_schema={schema}"); print("36-05 blocked audited; 36-06 forbidden; no higher credit")
 if __name__=="__main__": main()
