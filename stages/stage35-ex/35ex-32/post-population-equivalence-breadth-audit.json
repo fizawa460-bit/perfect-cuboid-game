@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE35_EX_32_POST_POPULATION_EQUIVALENCE_FRESH_BREADTH_AUDIT_V1",
+  "schema": "STAGE35_EX_32_POST_POPULATION_EQUIVALENCE_FRESH_BREADTH_AUDIT_V2",
   "stage": "35-EX",
   "status": "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT",
   "authority": {
@@ -18,12 +18,21 @@
     "merged_main_sha": "8211bb0ef80de61ecf39c3b97743c58f1193187a",
     "scope": "primitive-source reverse adapter and endpoint population equivalence only; no E1 or perfect-cuboid existence/nonexistence theorem"
   },
+  "hostile_audit_repair": {
+    "review_id": 5120424968,
+    "failed_exact_head_sha": "1729003067bd208fdcf64f7ed28d79b1e563643e",
+    "failure_class": "HISTORICAL_NO_RECHARGE_COMPARISON_INCOMPLETE_NOT_FRESHNESS",
+    "blind_generation_repeated": false,
+    "mathematics_changed": false,
+    "repair_scope": "source-lock and classify 35EX-13, 35EX-17B, and 35EX-18 against the selected Gaussian three-face candidate"
+  },
   "protocol": {
     "policy": "docs/research-os/policies/cycle-exploration-safety-protocol.md",
     "fresh_exhaustive_view_audit": true,
     "blind_rediscovery": true,
     "blind_generation_performed_before_arsenal_comparison": true,
     "historical_comparison_performed_after_blind_generation": true,
+    "historical_block_ledger_gaussian_recheck_complete": true,
     "split_triggered": false,
     "parking_audit_complete": false
   },
@@ -39,6 +48,18 @@
     "prior_breadth_audit": {
       "path": "stages/stage35-ex/35ex-29/post-reciprocal-common-factor-breadth-audit.json",
       "blob_sha": "a095dc64d0802cca2d1829fafe2b3ce058015a2c"
+    },
+    "stage35_ex_13_gaussian_orientation_coupling": {
+      "path": "stages/stage35-ex/35ex-13/alternate-norm-gaussian-coupling.md",
+      "blob_sha": "196d2be1bbfbcb2b416535d7bb051a9b2ec93104"
+    },
+    "stage35_ex_17B_gaussian_coordinate_gcd_hook": {
+      "path": "stages/stage35-ex/35ex-17/post-descent-gaussian-coordinate-gcd-hook.md",
+      "blob_sha": "914c4143c41723ab30c6ad6379b7baccc39be23e"
+    },
+    "stage35_ex_18_gaussian_relative_orientation_freeze": {
+      "path": "stages/stage35-ex/35ex-18/gaussian-relative-orientation-and-master-unit-freeze.md",
+      "blob_sha": "9387364200169cacbfa5fe932df353aabe862351"
     },
     "cycle_policy": {
       "path": "docs/research-os/policies/cycle-exploration-safety-protocol.md",
@@ -146,11 +167,43 @@
     "E1-UNIFORM-ENDPOINT-ELLIPTIC-SURFACE-HEIGHT": "MATCHES_THE_PRESERVED_UNIFORM_ELLIPTIC_SURFACE_SPECIALIZATION_HEIGHT_ROUTE_SPECIES; remains untested",
     "E1-NONOBVIOUS-VERTICAL-BRAUER-ENDPOINT-FIBRATION": "MATCHES_THE_PRESERVED_NONOBVIOUS_BRAUER_ROUTE_SPECIES; obvious-symbol Brauer replay remains frozen",
     "E1-S3-SYMMETRIC-ENDPOINT-INVARIANTS": "LOW_INFORMATION_UNLESS_A_STRICTLY_SMALLER_ARITHMETIC_RECEIVER_IS_PROVED; finite symmetry quotient alone is endpoint-equivalent",
-    "E1-GAUSSIAN-THREE-FACE-COMPATIBILITY-DESCENT": "NO_MATCHING_PRIOR_STAGE35_EX_CANDIDATE_FOUND_IN_THE_POST_35EX29_LEDGER; preserves all three face equations simultaneously and is not merely source marking",
+    "E1-GAUSSIAN-THREE-FACE-COMPATIBILITY-DESCENT": "DISTINCT_PREFLIGHT_ROUTE_FROM_35EX13_17B_18: old Gaussian work controls the two source-derived E1 orientations and then the relative p*d split-prime orientation of zminus0,zplus0, freezing attempts to recover their remaining absolute p*d orientation from the Master Gaussian. The new candidate instead starts from one primitive endpoint normalization and studies the Gaussian factorization classes and pairwise Gaussian gcd/support of all three literal face norms A+iB, A+iC, B+iC. No new invariant is credited yet; 35EX-33 must stop as EQUIVALENT or BLOCKED if its support reduces to the old p*d orientation, Lminus/Lplus scalar sieve, or moving c*q source-unit data.",
     "E1-ENDPOINT-UNIVERSAL-TORSOR-SQUARECLASS-SPLIT": "NEW_AS_ENDPOINT_LEVEL_FORMULATION; partially overlaps the generic factor-squareclass method but no endpoint torsor adapter is present",
     "E1-ENDPOINT-GENUINE-V2-INFINITE-DESCENT": "DISTINCT_FROM_35EX31: the audited v2 result gives only a canonical gauge and no decreasing-height map; genuine descent remains unproved",
     "E1-LINKED-CONGRUENT-NUMBER-SELMER-COUPLING": "NO_MATCHING_PRIOR_STAGE35_EX_CANDIDATE_IN_THE_POST_35EX29_LEDGER",
     "E1-ENDPOINT-SPINOR-NORM-TERNARY-FORM": "NO_MATCHING_PRIOR_STAGE35_EX_CANDIDATE_IN_THE_POST_35EX29_LEDGER; relation to joint-local route not yet proved"
+  },
+  "historical_gaussian_no_recharge": {
+    "overall_classification": "DISTINCT_PREFLIGHT_ROUTE_NO_NEW_GAUSSIAN_CREDIT_YET",
+    "stage35_ex_13": {
+      "classification": "DISTINCT_OBJECT_AND_TEST_SCOPE_NOT_RECHARGEABLE",
+      "old_object": "Z1=W1*U2+i*U1*V2 and Z2=U1*W2+i*V1*U2, comparing the two source E1 orientations",
+      "old_exact_credit": "Q=(d/p)*(Z1/Z2) is a Gaussian square; equivalently the scalar S_plus source-only square test; mirrored four-factor receiver is index-swap dominated",
+      "new_difference": "35EX-33 will not retest Q or S_plus. It asks for simultaneous factorization compatibility of the three literal endpoint face Gaussians after one primitive integral endpoint normalization."
+    },
+    "stage35_ex_17B": {
+      "classification": "DISTINCT_OBJECT_AND_SUPPORT_SCOPE_NOT_RECHARGEABLE",
+      "old_object": "zminus0,zplus0 built from bilinear Euclid-parameter coordinates after gminus*gplus=c",
+      "old_exact_credit": "Norm(zminus0)=p*d*X^2 and Norm(zplus0)=p*d*Y^2 with moving split-prime support p*d",
+      "new_difference": "35EX-33 must compute pairwise Gaussian gcd/support directly among A+iB, A+iC, B+iC; it may use S34-W01 only after proving a new endpoint support theorem and may not rename the existing p*d twist as new squareclass information."
+    },
+    "stage35_ex_18": {
+      "classification": "DISTINCT_PREFLIGHT_BEYOND_FROZEN_ORIENTATION_QUESTION",
+      "old_object": "relative split-prime orientation of zminus0,zplus0 over odd squareclass support of p*d, plus the normalized Master Gaussian",
+      "old_exact_credit": "p-support gives OPPOSITE relative orientation, d-support gives SAME; Master Gaussian is a unit at every p*d prime and its remaining c*q Legendre table is orientation-blind; absolute p*d orientation route is frozen",
+      "new_difference": "35EX-33 does not try to use the Master Gaussian to fix that frozen absolute p*d bit. Its only legal novelty is a compatibility relation that arises from the three endpoint face-factorization classes and their pairwise Gaussian gcds outside, or strictly finer than, the already-accounted p*d orientation/source-unit data."
+    },
+    "exact_new_test_not_previously_credited": "Given primitive integer endpoint edges A,B,C with all three face norms square, classify the simultaneous Gaussian factorization data of F_AB=A+iB, F_AC=A+iC, F_BC=B+iC together with gcd_Zi(F_jk,F_lm), gcd_Zi(F_jk,conj(F_lm)), unit choices, the prime above 2, and odd shared-prime support. Determine whether these three linked face classes force a finite compatibility squareclass receiver. The old route did not certify this endpoint-level three-object gcd/support classification.",
+    "forbidden_recharges": [
+      "35EX-13 Q or S_plus scalar square sieve",
+      "35EX-13 mirrored receiver under source-pair swap",
+      "35EX-17B gminus*gplus=c",
+      "35EX-17B common p*d twist support",
+      "35EX-18 p-support OPPOSITE / d-support SAME relative orientation",
+      "35EX-18 Master c*q Legendre table",
+      "35EX-18 unresolved absolute p*d split-prime orientation"
+    ],
+    "preflight_fail_close": "If the endpoint three-face support theorem reduces exactly to any forbidden recharge above, classify the selected route EQUIVALENT or BLOCKED and stop; do not claim a new Gaussian invariant."
   },
   "arsenal_comparison": {
     "registry": "docs/arsenal/index.json",
@@ -179,13 +232,13 @@
     "cycle_route_status": "BLOCKED_NEW_PATTERN_ISOLATED",
     "selected_candidate": "E1-GAUSSIAN-THREE-FACE-COMPATIBILITY-DESCENT",
     "selected_next_unit": "35EX-33_GAUSSIAN_THREE_FACE_COMPATIBILITY_PREFLIGHT",
-    "reason": "35EX-31 proves that source restoration is only endpoint gauge, so the next route must add arithmetic rather than labels. The Gaussian route is closest to the exact endpoint, uses all three face-square identities simultaneously, has no matching formal Arsenal theorem, and admits small exact preflight obligations before any heavy curve computation.",
+    "reason": "After blind generation, the full historical Gaussian ledger was rechecked. 35EX-13/17B/18 already own the source-orientation scalar sieve, the gminus/gplus primitive p*d twist, and the p/d relative-orientation plus Master-unit/source-unit analysis. Those credits are frozen and cannot be recharged. The selected route remains worth one small preflight only because it asks a different endpoint-level question: simultaneous Gaussian gcd/support compatibility of all three literal face norms in one primitive endpoint normalization. It receives no new invariant credit unless 35EX-33 proves a support relation not reducible to the old p*d/Lminus/Lplus/c*q data.",
     "next_unit_small_goals": [
       "derive a primitive integral endpoint normalization invariant under positive rational scaling",
       "write the three face equations as exact Gaussian norm factorizations",
       "compute all pairwise Gaussian gcd/support identities forced by primitive integer edges",
-      "determine whether the shared-prime compatibility yields a finite squareclass receiver not already equivalent to S34-W01 source descent",
-      "stop with an exact blocker if no genuinely new compatibility invariant survives"
+      "determine whether the shared-prime compatibility yields a finite squareclass receiver not equivalent to 35EX-13/17B/18 or the generic S34-W01 source descent",
+      "stop with an exact EQUIVALENT/BLOCKED certificate if no genuinely new compatibility invariant survives"
     ],
     "split_triggered": false
   },
@@ -208,11 +261,13 @@
     "CYCLE_BLIND_REDISCOVERY": true,
     "CYCLE_SPLIT_TRIGGERED": false,
     "CYCLE_PARKING_AUDIT_COMPLETE": false,
-    "CYCLE_NEW_VIEW": "simultaneous Gaussian-prime compatibility across all three face norms",
+    "CYCLE_NEW_VIEW": "simultaneous Gaussian-prime compatibility across all three face norms, historical 35EX-13/17B/18 no-recharge checked",
     "CYCLE_NEW_VIEW_SOURCE": "BLIND"
   },
   "claims": {
     "audited_35ex31_population_equivalence": true,
+    "historical_gaussian_no_recharge_comparison_complete": true,
+    "old_gaussian_orientation_credit_recharged": false,
     "gaussian_compatibility_theorem_proved": false,
     "endpoint_receiver_closed": false,
     "E1_proved": false,
