@@ -63,8 +63,6 @@ def blob_sha(path:Path)->str:
  data=path.read_bytes(); return hashlib.sha1(b"blob "+str(len(data)).encode()+b"\0"+data).hexdigest()
 def req(ok:bool,msg:str)->None:
  if not ok: raise SystemExit(msg)
-def git(*args:str)->str:
- return subprocess.check_output(["git",*args],cwd=ROOT,text=True).strip()
 
 def main()->None:
  req(blob_sha(CERT)==CERT_BLOB,"36-09A audited certificate blob drift")
@@ -82,12 +80,11 @@ def main()->None:
  req(s.get("status")=="ACTIVE" and s.get("base_main_sha")==BASE,"36-09A audited lifecycle/base moved")
  req(s.get("stage36_36_09A_authority")==AUTH,"36-09A user-approved authority block moved")
  req(s.get("completed_units",{}).get("36-09A")==UNIT,"36-09A completed-unit authority moved")
- # The final hostile result was freshness-only FAIL. Do not rewrite it into a hostile PASS.
+ # Final hostile verdict is freshness-only FAIL. Do not rewrite it into a hostile PASS.
  req("hostile_audit_review" not in AUTH,"36-09A falsely recorded a hostile PASS review")
  req(AUTH["verdict"]=="USER_APPROVED_PASS_AFTER_FRESHNESS_ONLY_FAIL","36-09A user-approved verdict moved")
 
  # Merge ancestry must retain both the unrelated latest main and the exact user-approved Stage36 head.
- req(git("merge-base","--is-ancestor",PREMERGE_UNRELATED_MAIN,MERGE)=="","unreachable") if False else None
  subprocess.check_call(["git","merge-base","--is-ancestor",PREMERGE_UNRELATED_MAIN,MERGE],cwd=ROOT)
  subprocess.check_call(["git","merge-base","--is-ancestor",FINAL_HEAD,MERGE],cwd=ROOT)
 
