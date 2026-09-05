@@ -1,0 +1,107 @@
+{
+  "schema": "STAGE36_36_09B_RECEIVER_RESTRICTED_BRANCH_INTERSECTION_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09B",
+  "leaf": "36-09B_RECEIVER_RESTRICTED_BRANCH_INTERSECTION_PREFLIGHT",
+  "status": "BLOCKED_NO_PROOF_CAPABLE_B_PLUS_K_JOINT_TEST_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "32d35dd4372ceab3d67704290d48f6b6df8912bb",
+  "entry_authority": {
+    "stage36_36_09A_promotion_pr": 1582,
+    "promotion_exact_head": "2af6edb984e0c0a51e945f886939a09b442c3218",
+    "promotion_exact_head_ci_run": 33951928420,
+    "promotion_exact_head_ci_job": 101268232176,
+    "promotion_merged_main_sha": "32d35dd4372ceab3d67704290d48f6b6df8912bb",
+    "selected_route": "36-09B_RECEIVER_RESTRICTED_BRANCH_INTERSECTION_PREFLIGHT"
+  },
+  "source_locks": {
+    "stage36_roadmap": {"path": "stages/stage36/ROADMAP.md", "blob_sha": "eeedda0e89e24f851c989b5ec83e7b320e1ad99e"},
+    "stage36_36_02_representatives": {"path": "stages/stage36/36-02/representative-inventory.json", "blob_sha": "88130b9380a677a191f91c24df87618e65be0a2f"},
+    "stage36_36_03_physical_receiver": {"path": "stages/stage36/36-03/physical-open-boundary.json", "blob_sha": "fc1947b2de08f7d8a104bdc91902b20e88635349"},
+    "stage36_36_04_torsor_class": {"path": "stages/stage36/36-04/h-torsor-lift-class.json", "blob_sha": "a06e201a9b554da71c5e75d8f8541e7284f8d020"},
+    "stage36_36_05_ramification_block": {"path": "stages/stage36/36-05/uniform-ramification-support.json", "blob_sha": "193d0165b242d799bc981774783a5160c1ac58dc"},
+    "stage36_36_09_breadth_gate": {"path": "stages/stage36/36-09/replacement-breadth-gate.json", "blob_sha": "0c6019d70346b531a9b703d6f74e346302273655"},
+    "stage36_36_09A_camp4_preflight": {"path": "stages/stage36/36-09A/camp4-brauer-compatibility-preflight.json", "blob_sha": "66f31c03e5a978783a60b036322538f173a2f411"},
+    "cycle_safety_protocol": {"path": "docs/research-os/policies/cycle-exploration-safety-protocol.md", "blob_sha": "4e911c4fc7e4ea7a2b5f96733a90b986ef8d9a37"}
+  },
+  "arsenal_locks": {
+    "router": {"path": "docs/arsenal/index.json", "blob_sha": "aa45d19c2f1d8970c7f142bf744c5c17e75abe5a"},
+    "S30-WF02": {"path": "docs/arsenal/cards/workflows/S30-WF02.md", "blob_sha": "38e4625155eb079bbe3d50d663c6256559319886", "application": "IMMUTABLE_PREDECESSOR_REPLAY"},
+    "S30-WF03": {"path": "docs/arsenal/cards/workflows/S30-WF03.md", "blob_sha": "12740198aba19ade18302819f8e890dbda4eb701", "application": "RECEIVER_BRANCH_CREDIT_FIREWALL"},
+    "S34-WF01": {"path": "docs/arsenal/cards/workflows/S34-WF01.md", "blob_sha": "1ebba4ec402e14d536284a06c5ac32625c6b8cec", "application": "CONTINUE_REPLACEMENT_ROUTING_ONLY"},
+    "S34-W03": {"path": "docs/arsenal/cards/formal/S34-W03.md", "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96", "application": "PREFLIGHT_REQUIRED_HYPOTHESES_AUDITED_NOT_EXECUTED"}
+  },
+  "exact_receiver_contract": {
+    "audited_representatives": ["Q6_GEOM8", "Q2_GEOM8", "Q2_GEOM2"],
+    "restricted_open": "U_H=q_H(U) for each audited representative",
+    "endpoint_push": "q_H(U(Q)) subset U_H(Q)",
+    "sufficient_target": "prove q_H(U(Q))=empty for any one audited H; proving all U_H(Q)=empty is stronger than required",
+    "quotient_Q_point_lifts_automatically": false
+  },
+  "exact_receiver_condition_K": {
+    "available": true,
+    "source": "audited 36-04 pointwise H-torsor lift class",
+    "chartwise_definition": "for P in U_H(Q), use its exact zero stratum and the three canonical dual characters; K(P) means G_c1(beta_H(P)), G_c2(beta_H(P)), G_c3(beta_H(P)) are all rational squares",
+    "equivalence": "P lies in q_H(U(Q)) iff K(P) holds",
+    "zero_pole_degenerate_handling": "coordinate-zero strata excluded; allowed noncoordinate zero strata are handled by exact chart switching; exceptional quotient curves are outside the physical image"
+  },
+  "S34_W03_hypothesis_audit": {
+    "EXACT_SOURCE_RECEIVER_CONTRACT": true,
+    "EXACT_ADDITIONAL_RECEIVER_CONDITION_K": true,
+    "EXHAUSTIVE_AUXILIARY_BRANCH_B_SOURCE_LOCKED": false,
+    "B_IS_PROOF_CAPABLE_REDUCTION_RATHER_THAN_ORIGINAL_SURFACE_IN_DISGUISE": false,
+    "EXACT_JOINT_B_PLUS_K_LOCAL_OR_GLOBAL_TEST": false,
+    "EXHAUSTIVE_RELEVANT_PROJECTIVE_RESIDUES_OR_QUOTIENT_POINTS": false,
+    "ZERO_POLE_INFINITY_DEGENERATE_CLASSIFICATION_FOR_JOINT_SYSTEM": false,
+    "SCOPE_FIREWALL_AVAILABLE": true,
+    "S34_W03_EXECUTABLE_NOW": false
+  },
+  "why_pointwise_torsor_equations_do_not_complete_B4": {
+    "pointwise_degree8_cover_available": true,
+    "finite_chart_selection_available": true,
+    "finite_exhaustive_arithmetic_twist_or_squareclass_family_available": false,
+    "uniform_specialization_prime_support_available": false,
+    "proof_capable_lower_dimensional_or_locally_closed_branch_family_available": false,
+    "reason": "the three square equations exactly characterize rational lifting, but without a proof-capable auxiliary branch reduction or an exhaustive joint local/global test they merely restate the endpoint-cover rational-point problem; audited 36-05 also forbids promoting the moving pointwise squareclasses to a finite arithmetic branch list"
+  },
+  "bounded_repository_search": {
+    "queries": ["receiver intersection factor cover U_H", "auxiliary factor cover Campedelli", "G_c square branch receiver", "S34_W03_prepared"],
+    "matching_post_36_04_receiver_wide_B_plus_K_adapter_found": false,
+    "search_miss_treated_as_repository_wide_nonexistence_proof": false,
+    "authority_for_block": "positive retained source contracts above, not search absence"
+  },
+  "legal_outcome": "BLOCKED_NO_PROOF_CAPABLE_B_PLUS_K_JOINT_TEST",
+  "cycle_update": {
+    "route_status": "BLOCKED_NO_NEW_INFORMATION",
+    "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION": "BLOCKED_NO_PROOF_CAPABLE_B_PLUS_K_JOINT_TEST",
+    "B2_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION": "LIVE",
+    "selection_reason": "B2 attacks the exact receiver directly and does not require a finite twist family or auxiliary branch decomposition; it is the lowest-cost remaining distinct candidate and can be preflighted against the explicit audited quotient models",
+    "live_candidate_count": 1,
+    "untested_candidate_count": 4,
+    "blocked_candidate_count": 4,
+    "dominated_candidate_count": 1,
+    "split_triggered": false,
+    "parking_audit_complete": false,
+    "selected_next_route_after_hostile_audit": "36-09C_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION_PREFLIGHT"
+  },
+  "pass_condition": {
+    "EXACT_RECEIVER_K_IDENTIFIED": true,
+    "S34_W03_EXECUTABLE_NOW": false,
+    "B4_BLOCK_REASON_FROZEN": true,
+    "ONE_NEXT_ROUTE_SELECTED": true,
+    "NEXT_ROUTE": "36-09C_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION_PREFLIGHT",
+    "RECEIVER_MATCHED_REPLACEMENT_THEOREM_PROVED": false
+  },
+  "claims": {
+    "new_theorem_credit": false,
+    "S34_W03_receiver_branch_closed": false,
+    "single_place_receiver_obstruction_proved": false,
+    "finite_exhaustive_H_twist_family_proved": false,
+    "quotient_Q_point_emptiness_proved": false,
+    "receiver_matched_replacement_theorem_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
