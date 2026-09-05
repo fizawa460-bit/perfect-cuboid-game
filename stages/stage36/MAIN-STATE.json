@@ -1,20 +1,23 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V28_36_09H_PENDING_HOSTILE_AUDIT",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V29_THIN_36_09H_AUDITED",
   "stage": "36",
-  "status": "ACTIVE_PENDING_HOSTILE_AUDIT",
-  "base_main_sha": "29ce620a693f7cbdec48bce9b720cc02dfe5fa74",
+  "status": "ACTIVE",
+  "base_main_sha": "17c53d659e8d5d49b6e2bfca5c65c38a8658ac0d",
   "mission": "Attack Stage29 kernel K16-C3-CAMPEDELLI-UNIFORM-TORSOR through exact proper-or-candidate-proper receivers without granting endpoint credit unless a receiver-matched closure theorem is proved.",
   "legacy_authority_snapshot": {
-    "commit": "4ed21de07a935ed848400515a44f53aba49234c7",
+    "commit": "c8b6bca818697125ef75a85527e282c15c6bd8f3",
     "path": "stages/stage36/MAIN-STATE.json",
-    "blob_sha": "ce29944aa3e1aa1a7a4623e56bd725a2ac12faa0",
-    "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V27_THIN_36_09G_AUDITED",
-    "scope": "immutable hostile-re-audited authority through 36-09G; V28 adds provisional 36-09H only"
+    "blob_sha": "874a304ab20666451d9542f1c8dd71bc33ae68e2",
+    "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V28_36_09H_PENDING_HOSTILE_AUDIT",
+    "scope": "immutable 36-09H provisional state as squash-merged after hostile PASS; V29 only promotes the audited result and unlocks 36-09I"
   },
-  "freshness_sync_36_09H_entry": {
-    "promotion_merged_main_sha": "4ed21de07a935ed848400515a44f53aba49234c7",
-    "current_base_main_sha": "29ce620a693f7cbdec48bce9b720cc02dfe5fa74",
-    "scope": "current main advanced after the 36-09G audited promotion only through Stage33 V91B; no Stage36, locked Stage29 sign-cover, Arsenal, or Research OS source used by 36-09H changed"
+  "freshness_sync_36_09H_promotion": {
+    "audit_base_main_sha": "29ce620a693f7cbdec48bce9b720cc02dfe5fa74",
+    "audit_merge_parent_sha": "5e99bea45f495e9129e67af7bf0f2b43e7f14500",
+    "merged_main_sha": "c8b6bca818697125ef75a85527e282c15c6bd8f3",
+    "current_base_main_sha": "17c53d659e8d5d49b6e2bfca5c65c38a8658ac0d",
+    "merge_style": "SQUASH_CONTENT_PRESERVING",
+    "scope": "audit-base to merge-parent changed Stage33 V91C only; merge to current base changed Stage35-EX only; no Stage36, locked Stage29 sign-cover, Arsenal, or Research OS source used by 36-09H changed"
   },
   "source_kernel": {
     "kernel": "K16-C3-CAMPEDELLI-UNIFORM-TORSOR",
@@ -33,25 +36,23 @@
       "pr": 1602,
       "hostile_reaudit_review": 5120849260,
       "audited_head": "400237172efffe75232d485d0ce96e4643002a72",
-      "exact_head_ci": "33960137385/101290482391",
       "certificate_blob_sha": "bae34622d8ab7f94fafab4a290e770a3830e47fc",
-      "blind_snapshot_blob_sha": "3f00245edc26394d43a16a699d99634eed831909",
       "promotion_pr": 1606,
-      "promotion_head": "bb793831be80d5c5b98d1878dc8ff5212a239037",
-      "promotion_ci": "33960848351/101292353340",
       "promotion_merged_main_sha": "4ed21de07a935ed848400515a44f53aba49234c7",
       "B10_STATUS": "LIVE_COMMON_TWO_JMINUS_SUBRECEIVER",
-      "S34_W01_STATUS": "APPLICABILITY_CANDIDATE_PREFLIGHT_REQUIRED",
-      "S34_W01_TRIGGERED": false,
-      "COMMON_SUBRECEIVER_RATIONAL_STRICTNESS_PROVED": false,
       "NEW_THEOREM_CREDIT": false
     },
     "36-09H": {
-      "status": "EXACT_FOUR_FACTOR_S34_W01_FIRST_LAYER_BLOCK_PENDING_HOSTILE_AUDIT",
+      "status": "AUDITED_EXACT_FOUR_FACTOR_S34_W01_FIRST_LAYER_BLOCK",
+      "pr": 1607,
+      "hostile_audit_review": 5120981814,
+      "audited_head": "025cd5069eef938a42a5fd9cae0d2a4217ef8192",
+      "exact_head_ci": "33961255962/101293415845",
       "certificate": "stages/stage36/36-09H/common-jminus-factor-squareclass-descent-preflight.json",
       "certificate_blob_sha": "08e7e87f866aebbc92b7d5cd776ce8b5fe60744d",
       "verifier": "stages/stage36/verify_stage36_36_09H.py",
       "verifier_blob_sha": "b9a3b1db57e8d9260922d29cf676d63f4a95bebc",
+      "merged_main_sha": "c8b6bca818697125ef75a85527e282c15c6bd8f3",
       "TWO_CONIC_PARAMETERIZATION_EXACT": true,
       "FOUR_FACTOR_REDUCTION_EXACT": true,
       "PRIMITIVE_DENOMINATOR_CLEARING_EXACT": true,
@@ -63,27 +64,21 @@
       "S34_W01_FINITE_BRANCH_FAMILY_PROVED": false,
       "B10_STATUS": "LIVE_RECEIVER_S34_W01_FIRST_LAYER_BLOCKED",
       "NEW_MATERIAL_BLOCK": true,
-      "FRESH_BREADTH_REQUIRED_AFTER_AUDIT": true,
-      "NEXT_ROUTE_AFTER_AUDIT": "36-09I_COMMON_JMINUS_POST_W01_BREADTH_REFRESH",
-      "promotion_status": "PROVISIONAL_NOT_AUDITED",
+      "FRESH_BREADTH_REQUIRED": true,
+      "NEXT_ROUTE": "36-09I_COMMON_JMINUS_POST_W01_BREADTH_REFRESH",
+      "promotion_status": "HOSTILE_AUDIT_PASS",
       "NEW_THEOREM_CREDIT": false
     }
   },
   "source_locks": {
-    "stage36_v27_audited_state": {"path": "stages/stage36/MAIN-STATE.json", "commit": "4ed21de07a935ed848400515a44f53aba49234c7", "blob_sha": "ce29944aa3e1aa1a7a4623e56bd725a2ac12faa0"},
+    "stage36_v28_merged_state": {"path": "stages/stage36/MAIN-STATE.json", "commit": "c8b6bca818697125ef75a85527e282c15c6bd8f3", "blob_sha": "874a304ab20666451d9542f1c8dd71bc33ae68e2"},
     "stage36_36_09H_preflight": {"path": "stages/stage36/36-09H/common-jminus-factor-squareclass-descent-preflight.json", "blob_sha": "08e7e87f866aebbc92b7d5cd776ce8b5fe60744d"},
     "stage36_36_09G_breadth_refresh": {"path": "stages/stage36/36-09G/endpoint-equivalence-breadth-refresh.json", "blob_sha": "bae34622d8ab7f94fafab4a290e770a3830e47fc"},
-    "stage36_36_09E_character_arithmetic": {"path": "stages/stage36/36-09E/character-elliptic-quotient-arithmetic-preflight.json", "blob_sha": "081b704fecaa3bd39e6a523ee7beaefe706683f4"},
     "S34_W01": {"path": "docs/arsenal/cards/formal/S34-W01.md", "blob_sha": "01a8e90e34b4aa46edbfa825803d488e5230e9d0"},
     "cycle_exploration_safety_protocol": {"path": "docs/research-os/policies/cycle-exploration-safety-protocol.md", "blob_sha": "4e911c4fc7e4ea7a2b5f96733a90b986ef8d9a37"}
   },
   "arsenal": {
-    "S34-W01": {
-      "path": "docs/arsenal/cards/formal/S34-W01.md",
-      "blob_sha": "01a8e90e34b4aa46edbfa825803d488e5230e9d0",
-      "status": "NOT_TRIGGERED_FIRST_LAYER_UNBOUNDED_SHARED_ODD_PRIME_SUPPORT",
-      "global_blacklisted": false
-    }
+    "S34-W01": {"path": "docs/arsenal/cards/formal/S34-W01.md", "blob_sha": "01a8e90e34b4aa46edbfa825803d488e5230e9d0", "status": "NOT_TRIGGERED_FIRST_LAYER_UNBOUNDED_SHARED_ODD_PRIME_SUPPORT", "global_blacklisted": false}
   },
   "cycle_ledger": {
     "B1_DIRECT_UNIFORM_H1_SELMER": "BLOCKED",
@@ -105,20 +100,18 @@
     "parking_audit_complete": false
   },
   "current": {
-    "unit": "36-09H",
-    "next_exact_leaf": "36-09H_COMMON_JMINUS_FACTOR_SQUARECLASS_DESCENT_PREFLIGHT",
+    "unit": "36-09I",
+    "next_exact_leaf": "36-09I_COMMON_JMINUS_POST_W01_BREADTH_REFRESH",
     "next_owner": "STAGE36_MAIN",
-    "result": "EXACT_FOUR_FACTOR_S34_W01_FIRST_LAYER_BLOCK_PENDING_HOSTILE_AUDIT",
+    "result": "READY_UNSTARTED_AFTER_36_09H_HOSTILE_AUDIT_PASS",
     "36_09H_entry_allowed": true,
-    "36_09I_entry_allowed": false,
-    "provisional_successor_after_hostile_audit": "36-09I_COMMON_JMINUS_POST_W01_BREADTH_REFRESH",
-    "why": "36-09H obtains an exact two-conic/four-factor normalization, but proves arbitrarily large p congruent 1 mod 4 can appear with odd valuation vector (1,1,0,0). Hence the current S34-W01 first layer does not yield a finite fixed squareclass family; the B10 receiver itself remains live and requires a fresh breadth refresh after audit."
+    "36_09I_entry_allowed": true,
+    "why": "36-09H hostile audit PASS certifies the exact four-factor reduction and the unbounded shared odd-prime blocker for the current S34-W01 first layer. B10 remains live, but cycle policy now requires fresh exhaustive-view audit plus blind rediscovery before choosing the next weapon."
   },
   "current_leaf_working_set": [
     "stages/stage36/36-09H/common-jminus-factor-squareclass-descent-preflight.json",
     "stages/stage36/verify_stage36_36_09H.py",
     "stages/stage36/36-09G/endpoint-equivalence-breadth-refresh.json",
-    "stages/stage36/36-09E/character-elliptic-quotient-arithmetic-preflight.json",
     "docs/arsenal/cards/formal/S34-W01.md",
     "docs/research-os/policies/cycle-exploration-safety-protocol.md"
   ],
@@ -146,7 +139,7 @@
     "do_not_treat_four_factor_shape_as_finite_squareclass_theorem": true,
     "do_not_retry_same_S34_W01_first_layer_without_new_normalization_or_extra_receiver_condition": true,
     "do_not_global_blacklist_S34_W01": true,
-    "do_not_start_36_09I_before_36_09H_hostile_audit": true
+    "do_not_skip_fresh_blind_rediscovery_after_36_09H": true
   },
   "claims": {
     "new_theorem_credit": false,
