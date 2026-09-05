@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Replay immutable in-PR V43 Goal4F snapshot while V44 Goal4G is stacked provisionally."""
 from __future__ import annotations
-import json, runpy, subprocess, sys
+import json, runpy, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 STATE = ROOT / 'stages/stage35-ex/MAIN-STATE.json'
+SNAPSHOT_FILE = ROOT / 'stages/stage35-ex/snapshots/MAIN-STATE-V43-1ec7218615a3.json'
 V44 = 'STAGE35_EX_PESCH_E1_STATE_V44_GOAL4G_NATURAL_HILBERT_RECIPROCITY_PROFILE_PENDING_LATER_AUDIT'
 V43 = 'STAGE35_EX_PESCH_E1_STATE_V43_GOAL4F_FORCED_PRIME_SQUARECLASS_PARITY_LIFT_PENDING_AUDIT'
 SNAPSHOT = '1ec7218615a3e45949d5b4dd8c21f59824a45112'
@@ -29,9 +30,9 @@ assert real['claims']['goal4f_hostile_audit_pass'] is False
 assert real['claims']['goal4g_executed'] is True
 assert real['claims']['E1_proved'] is False and real['claims']['stage35_closed'] is False
 
-snapshot_text = subprocess.check_output(
-    ['git','show',f'{SNAPSHOT}:stages/stage35-ex/MAIN-STATE.json'], cwd=ROOT, text=True, stderr=subprocess.STDOUT
-)
+# Persisted exact copy of MAIN-STATE.json from source commit SNAPSHOT.
+# This avoids shallow-checkout ancestry dependence after freshness rebases while keeping the source commit id explicit.
+snapshot_text = SNAPSHOT_FILE.read_text()
 snapshot = json.loads(snapshot_text)
 assert snapshot['schema'] == V43
 assert snapshot['current']['unit'] == '35EX-35_GOAL4F_FORCED_PRIME_SUPPORT_656_ORBITS_SQUARECLASS_PARITY_LIFT_TEST'
