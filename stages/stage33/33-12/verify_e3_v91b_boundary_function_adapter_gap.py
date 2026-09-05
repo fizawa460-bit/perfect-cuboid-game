@@ -53,7 +53,7 @@ scalar = load_locked(SCALAR)
 assert cert["schema"] == "stage33.e3.v91b.boundary_function_adapter_gap.v1"
 assert cert["status"] == "PASS_EXACT_V91B_LITERAL_BOUNDARY_FUNCTION_ASSET_LIVE_PROPER14_ADAPTER_STILL_MISSING"
 assert cert["entry_authority"] == {
-    "audited_head": "175c40def5815f8e8d55910685c9c15471e",
+    "audited_head": "175c40def5815f8e8cd35d1e60c8d5fc5715bbac",
     "exact_head_ci_job": 101288960143,
     "exact_head_ci_run": 33959570974,
     "merged_main": "9309801b9caffa857adc5599ad5dd686d84d47d8",
