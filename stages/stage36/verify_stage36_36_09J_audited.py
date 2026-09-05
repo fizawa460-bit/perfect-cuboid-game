@@ -6,9 +6,9 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-STATE = ROOT / "stage36" / "MAIN-STATE.json"
-CERT = ROOT / "stage36" / "36-09J" / "reciprocal-involution-two-linear-cover-preflight.json"
-VERIFY = ROOT / "stage36" / "verify_stage36_36_09J.py"
+STATE = ROOT / "stages" / "stage36" / "MAIN-STATE.json"
+CERT = ROOT / "stages" / "stage36" / "36-09J" / "reciprocal-involution-two-linear-cover-preflight.json"
+VERIFY = ROOT / "stages" / "stage36" / "verify_stage36_36_09J.py"
 AUDITED_HEAD = "6ede28751914a881a5ddaca7691538a8a3e4780c"
 AUDIT_BASE = "d761baa2d2d5e69479ef191041c5e2f017a50283"
 MERGE_PARENT = "ab01a77fbedf2efba21a7744ccc798201c0cc672"
@@ -21,10 +21,10 @@ VERIFY_BLOB = "b5357a344ffab51118f4f1ec92904367c79c6541"
 V32_BLOB = "936b0282a6e0f37c6ac8b81683a00cdaeecdce2e"
 
 def git(*args: str) -> str:
-    return subprocess.check_output(["git", *args], cwd=ROOT.parent, text=True).strip()
+    return subprocess.check_output(["git", *args], cwd=ROOT, text=True).strip()
 
 def blob(path: Path) -> str:
-    return git("hash-object", str(path.relative_to(ROOT.parent)))
+    return git("hash-object", str(path.relative_to(ROOT)))
 
 def main() -> None:
     s = json.loads(STATE.read_text())
