@@ -21,7 +21,8 @@ assert real['history_snapshot']['commit_sha']==SNAPSHOT
 assert real['history_snapshot']['schema']==V32
 assert real['history_snapshot']['history_dropped'] is False
 assert real['parent_authority']['unit']=='35EX-33'
-assert real['parent_authority']['audit_verdict']=='PASS_USER_APPROVED'
+assert real['parent_authority']['audit_verdict']=='HOSTILE_AUDIT_PASS'
+assert real['parent_authority']['hostile_review_id']==5120722298
 assert real['parent_authority']['route_status']=='BLOCKED_NEW_PATTERN_ISOLATED'
 assert real['current']['unit']=='35EX-34_POST_GAUSSIAN_BLOCK_FRESH_BREADTH_AUDIT'
 assert real['claims']['E1_proved'] is False and real['claims']['stage35_closed'] is False
