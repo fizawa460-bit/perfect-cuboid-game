@@ -87,10 +87,10 @@ jobs:
       - name: Replay audited Stage36 36-05 blocked authority
         run: python3 stages/stage36/verify_stage36_36_05_audited.py
 
-      - name: Verify Stage36 36-09 replacement breadth gate
-        run: python3 stages/stage36/verify_stage36_36_09.py
+      - name: Replay audited Stage36 36-09 breadth authority
+        run: python3 stages/stage36/verify_stage36_36_09_audited.py
 
-      - name: Assert hostile-audit boundary before 36-09A
+      - name: Assert mechanical promotion boundary before 36-09A
         shell: bash
         run: |
           set -euo pipefail
@@ -98,34 +98,26 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V12_36_09_BREADTH_GATE_PENDING_AUDIT'
-          assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
-          g=s['promotion_gates']
-          assert g['source_authority_lock_complete'] is True
-          assert g['three_Q_representatives_exact'] is True
-          assert g['physical_open_push_and_boundary_complete'] is True
-          assert g['pointwise_H_torsor_class_explicit'] is True
-          assert g['uniform_finite_ramification_support_proved'] is False
-          assert g['finite_exhaustive_H_twist_family_proved'] is False
-          assert g['receiver_matched_replacement_theorem_proved'] is False
-          u5=s['completed_units']['36-05']
-          assert u5['promotion_status']=='AUDITED'
-          assert u5['legal_outcome']=='BLOCKED_MOVING_RAMIFICATION_SUPPORT'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V13_36_09_AUDITED'
+          assert s['status']=='ACTIVE'
+          assert s['base_main_sha']=='05bc30f346e56ab5e13a54c6da6cab67f528fbaa'
           u9=s['completed_units']['36-09']
-          assert u9['status']=='BREADTH_GATE_SELECTS_CAMP4_BRAUER_COMPATIBILITY_PREFLIGHT_PENDING_HOSTILE_AUDIT'
+          assert u9['promotion_status']=='AUDITED'
+          assert u9['hostile_audit_review']==5118953320
+          assert u9['audited_head']=='2f9562775aa386fdc547c0f4dcf87c81abae3663'
+          assert u9['exact_head_ci_run']==33932204413
+          assert u9['exact_head_ci_job']==101212944063
+          assert u9['merged_main_sha']=='05bc30f346e56ab5e13a54c6da6cab67f528fbaa'
           assert u9['certificate_blob_sha']=='0c6019d70346b531a9b703d6f74e346302273655'
-          assert u9['EXHAUSTIVE_VIEW_AUDIT'] is True
-          assert u9['BLIND_REDISCOVERY'] is True
-          assert u9['CANDIDATE_LEDGER_CLASSIFIED'] is True
-          assert u9['SELECTED_NEXT_ROUTE']=='36-09A_CAMP4_BRAUER_COMPATIBILITY_PREFLIGHT'
           assert u9['RECEIVER_MATCHED_REPLACEMENT_THEOREM_PROVED'] is False
-          assert u9['promotion_status']=='PROVISIONAL_NOT_AUDITED'
-          assert s['current']['unit']=='36-09'
+          assert s['stage36_36_09_authority']['verdict']=='PASS'
+          assert s['current']['unit']=='36-09A'
           assert s['current']['36_06_entry_allowed'] is False
-          assert s['current']['36_09A_entry_allowed'] is False
-          assert s['current']['provisional_successor_after_hostile_audit']=='36-09A_CAMP4_BRAUER_COMPATIBILITY_PREFLIGHT'
-          assert '36-06' not in s['completed_units']
+          assert s['current']['36_09_entry_allowed'] is False
+          assert s['current']['36_09A_entry_allowed'] is True
           assert '36-09A' not in s['completed_units']
+          assert s['promotion_gates']['receiver_matched_replacement_theorem_proved'] is False
+          assert s['promotion_gates']['R29_CAMP2_closed'] is False
           assert all(v is False for v in s['claims'].values())
-          print('36-09 breadth gate provisional; 36-09A selected but not started; no replacement/receiver/endpoint credit')
+          print('36-09 audited authority promoted mechanically; 36-09A authorized but not started; no higher credit')
           PY
