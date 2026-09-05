@@ -1,0 +1,74 @@
+{
+  "schema": "STAGE35_EX_29_RECIPROCAL_COMMON_FACTOR_KUMMER_CERTIFICATE_V1",
+  "status": "PROVISIONAL_EXACT_NO_CREDIT",
+  "authority": {
+    "parent_unit": "35EX-28",
+    "hostile_audit_verdict": "PASS",
+    "hostile_audit_review_node_id": "PRR_kwDOTr52Y88AAAABMR185Q",
+    "audited_exact_head_sha": "908047d41b3f856cb5e6083793fb4815666b64b3",
+    "exact_head_ci_run": 33932898366,
+    "exact_head_ci_job": 101215004429,
+    "merged_main_sha": "0ebf2cfec83a39b016f61b996a0dd533d242de87"
+  },
+  "source_locks": {
+    "stage35_ex_28_doc": {
+      "path": "stages/stage35-ex/35ex-28/full-rational-source-kummer-completion.md",
+      "blob_sha": "099ffb07f6d63fa4a26d58e28e62ab7fd652be9f"
+    },
+    "stage35_ex_28_certificate": {
+      "path": "stages/stage35-ex/35ex-28/full-rational-source-kummer-certificate.json",
+      "blob_sha": "3e000f5580ac9342de8a7c036e03d0d803c706b3"
+    },
+    "arsenal_S34_W03": {
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96"
+    }
+  },
+  "coordinates": {
+    "A": "alpha^2",
+    "s": "b^2",
+    "c": "(A^2+1)/(2*A)",
+    "beta": "(A*s-1)/(A-s)",
+    "u": "2*A*(s^2-1)/((A-s)*(A*s-1))"
+  },
+  "positive_chamber": {
+    "order": "1 < c < s < A < beta",
+    "nonzero_denominators": ["A", "A-s", "A*s-1", "A^2-1", "alpha", "b", "c*s-1"]
+  },
+  "compressed_receiver": {
+    "R1": "r^2=(s-c)*(c*s-1)",
+    "R1_forward_scale": "r=kappa*(A-s)/(2*A)",
+    "R1_inverse_scale": "kappa=2*A*r/(A-s)",
+    "R2": "ell^2=2*(c*s-1)*(s^2-1)",
+    "R2_forward_scale": "ell=lambda*(A-s)^2/(alpha*b*(A^2-1))",
+    "R2_inverse_scale": "lambda=alpha*b*(A^2-1)*ell/(A-s)^2",
+    "third_character": "rho^2=2*(s-c)*(s^2-1), rho=r*ell/(c*s-1)",
+    "full_K1_K4_iff": true
+  },
+  "reciprocal_symmetry": {
+    "branch_set": ["0", "infinity", "-1", "1", "c", "1/c"],
+    "s_map": "1/s",
+    "R1_multiplier": "1/s^2",
+    "R2_maps_to_R3_multiplier": "1/s^3",
+    "s_is_square": true,
+    "physical_positive_chamber_preserved": false
+  },
+  "historical_firewall": {
+    "genus5_character_decomposition_new_credit": false,
+    "five_elliptic_isogeny_new_credit": false,
+    "historical_sources": ["35EX-23", "35EX-24"]
+  },
+  "claims": {
+    "joint_local_obstruction_proved": false,
+    "receiver_intersection_closed": false,
+    "uniform_full_MW_proved": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "audited_theorem_credit": false
+  }
+}
