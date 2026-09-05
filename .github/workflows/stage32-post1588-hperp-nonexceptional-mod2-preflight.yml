@@ -1,0 +1,51 @@
+name: Stage32 post1588 Hperp nonexceptional mod2 witness
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1588-hperp-nonexceptional-mod2-preflight.yml'
+      - 'stages/stage32/MAIN-STATE.json'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1588_hperp_nonexceptional_mod2.py'
+      - 'stages/stage32/residual-32-01-production/post1588-hperp-nonexceptional-mod2-witness.json'
+      - 'stages/stage32/residual-32-01-production/post1588-hperp-nonexceptional-mod2-witness-source-note.md'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1588_hperp_nonexceptional_mod2_witness.py'
+      - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
+      - 'stages/stage32/residual-32-01-production/pairing_prefix_engine.py'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-post1588-hperp-nonexceptional-mod2-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  witness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+      - name: Assert exact PR head
+        if: github.event_name == 'pull_request'
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Resolve freshness authority
+        run: |
+          git fetch origin main:refs/remotes/origin/main --no-tags --depth=1
+          current_main="$(git rev-parse origin/main)"
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            test "${{ github.event.pull_request.base.sha }}" = "$current_main"
+          fi
+      - name: Install pinned algebra dependency
+        run: python3 -m pip install --disable-pip-version-check sympy==1.14.0
+      - name: Verify exact source-bound nonexceptional witness
+        run: python3 stages/stage32/residual-32-01-production/verify_stage32_post1588_hperp_nonexceptional_mod2_witness.py
+      - name: Diff check
+        if: github.event_name == 'pull_request'
+        run: git diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
