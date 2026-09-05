@@ -1,0 +1,72 @@
+name: Stage32 post1570 three-involution Q602 batch
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1570-three-involution-q602-exclusion-batch.yml'
+      - 'stages/stage32/controller.json'
+      - 'stages/stage32/residual-32-01-production/post1570-three-involution-q602-exclusion-batch*'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1570_three_involution_q602.py'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1570_three_involution_q602_exclusion_batch.py'
+      - 'stages/stage32/residual-32-01-production/post1505-o210-q602-marked-w-line-gauge-orbit.json'
+      - 'stages/stage32/residual-32-01-production/post1532-q602-single-b3-commutator.json'
+      - 'stages/stage32/residual-32-01-production/post1550-b3-v4-torsor-normalizer.json'
+      - 'stages/stage32/residual-32-01-production/post1555-b3-full-g-box-quotient-normalizer.json'
+      - 'stages/stage32/residual-32-01-production/post1563-ambient-symmetry-exhaustion-batch.json'
+      - 'stages/stage32/residual-32-01-production/post1566-orbit-sum-commutator-batch.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-equivariant-beauville-deck-cross-exclusion.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-relative-h-marked-node-action.json'
+      - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
+      - 'stages/stage33/33-07/certify_two_coordinate_swap_picard_rows.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+      - 'docs/arsenal/index.json'
+      - 'docs/arsenal/cards/formal/S30-W01.md'
+      - 'docs/arsenal/cards/provisional/S32-PW05.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-post1570-three-involution-q602-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  certificate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Assert exact PR head
+        if: github.event_name == 'pull_request'
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Resolve freshness authority
+        run: |
+          git fetch origin main --no-tags
+          current_main="$(git rev-parse origin/main)"
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            pr_base="${{ github.event.pull_request.base.sha }}"
+            test "$pr_base" = "$current_main"
+            expected_base="$pr_base"
+          else
+            expected_base="$current_main"
+          fi
+          echo "STAGE32_EXPECTED_BASE_SHA=$expected_base" >> "$GITHUB_ENV"
+      - name: Recompute three-involution and mod2 blowdown diagnostic
+        run: python3 stages/stage32/residual-32-01-production/diagnose_stage32_post1570_three_involution_q602.py
+      - name: Certify terminal symmetry-parity batch
+        run: python3 stages/stage32/residual-32-01-production/certify_stage32_post1570_three_involution_q602_exclusion_batch.py
+      - name: Enforce no controller edit
+        if: github.event_name == 'pull_request'
+        run: |
+          if git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" | grep -qx 'stages/stage32/controller.json'; then
+            echo 'controller.json must remain unchanged in post1570 batch'
+            exit 1
+          fi
+      - name: Diff check
+        if: github.event_name == 'pull_request'
+        run: git diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
