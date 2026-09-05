@@ -145,12 +145,14 @@ jobs:
           assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V40_36_09N_PENDING_HOSTILE_AUDIT'
           assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
           N=s['authority_frontier']['36-09N']
-          assert N['certificate_blob_sha']=='ad66f3849b496b56e1cbeea1f46ba1f8bf967164'
-          assert N['verifier_blob_sha']=='e86b9fa5b01f9421839c9d05a3f63c8db29549cf'
+          assert N['certificate_blob_sha']=='02a14439d94d7f6e5ac2f65e995e8acfb6845788'
+          assert N['verifier_blob_sha']=='e7effbe9ee6106505db013f326ec653627885054'
           assert N['source_lock_blob_sha']=='e7c98981fbb1d523fd7db54478dc09aa87b547e8'
           assert N['SPECIALIZATION_Q0']==6
           assert N['SPECIALIZATION_INJECTIVE'] is True
           assert N['SPECIALIZED_RANK']==1
+          assert N['SPECIALIZED_EPRIME_FULL_TORSION_ORDER']==4
+          assert N['SPECIALIZED_RELATIVE_SECTION_NONTORSION'] is True
           assert N['GENERIC_FUNCTION_FIELD_MW_RANK']==1
           assert N['EXACT_ALPHA_IMAGE']==['[1]','[-1]','[C]','[-C]']
           assert N['EXACT_BETA_IMAGE']==['[1]','[2]']
