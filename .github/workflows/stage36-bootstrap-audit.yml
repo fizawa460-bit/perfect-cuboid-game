@@ -47,13 +47,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          base="${{ github.event.pull_request.base.sha || '40cd38c5f5d2679874ce3be882cc67d17d4c7558' }}"
-          for x in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 2af6edb984e0c0a51e945f886939a09b442c3218 fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 1d29735f3f50c6918a32b2542de8364b86568396 ac5a7c81d3f268bebbc2a9de8e658b23c97d5649 6e0c40eeb7a533b47aba0d224c34e85822db373c f22d67dda4183c3bfd39710ebb4083f5185f3f49 631d773a0f341954507eacf303f0c5f7cbdc836a 51efa8394c45bc60a4b482c4f6f94f7826eb9d20 f75830b2fd54031c1af05e2377a9da365a4d7fdf a3f6380a89e627a9fa36915466a901361e0cb175 cf6ada6bf53ee29c04751dfae427a96252c98e9c 4ed21de07a935ed848400515a44f53aba49234c7 c8b6bca818697125ef75a85527e282c15c6bd8f3 2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc dbd9ab95f1cf248a8a4704b205f62b8b96b1aefa fc5886d62b78d8dcb21824ff02419a3e3b7634c8 8ff10455b27a789a6ba71c354042be0f79a2b3a6 0bc325f9b9db817193bc271121d19cb04970c5b9 40cd38c5f5d2679874ce3be882cc67d17d4c7558; do
+          base="${{ github.event.pull_request.base.sha || 'f91c045796cba859ec1dd172cf7871fcac5f6d8a' }}"
+          for x in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 2af6edb984e0c0a51e945f886939a09b442c3218 fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 1d29735f3f50c6918a32b2542de8364b86568396 ac5a7c81d3f268bebbc2a9de8e658b23c97d5649 6e0c40eeb7a533b47aba0d224c34e85822db373c f22d67dda4183c3bfd39710ebb4083f5185f3f49 631d773a0f341954507eacf303f0c5f7cbdc836a 51efa8394c45bc60a4b482c4f6f94f7826eb9d20 f75830b2fd54031c1af05e2377a9da365a4d7fdf a3f6380a89e627a9fa36915466a901361e0cb175 cf6ada6bf53ee29c04751dfae427a96252c98e9c 4ed21de07a935ed848400515a44f53aba49234c7 c8b6bca818697125ef75a85527e282c15c6bd8f3 2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc dbd9ab95f1cf248a8a4704b205f62b8b96b1aefa fc5886d62b78d8dcb21824ff02419a3e3b7634c8 8ff10455b27a789a6ba71c354042be0f79a2b3a6 0bc325f9b9db817193bc271121d19cb04970c5b9 40cd38c5f5d2679874ce3be882cc67d17d4c7558 f91c045796cba859ec1dd172cf7871fcac5f6d8a; do
             git merge-base --is-ancestor "$x" HEAD
           done
 
-      - name: Save current V35 state
-        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v35.json
+      - name: Save current V36 state
+        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v36.json
 
       - name: Replay Stage36 authority chain through 36-09J
         shell: bash
@@ -68,7 +68,6 @@ jobs:
           python3 stages/stage36/verify_stage36_36_05_audited.py
           python3 stages/stage36/verify_stage36_36_09_audited.py
           python3 stages/stage36/verify_stage36_36_09A.py
-
           git show 2af6edb984e0c0a51e945f886939a09b442c3218:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
           python3 stages/stage36/verify_stage36_36_09A_audited.py
           git show fd7b5d9dfef272bee2b6676797e6d12d8b07bde0:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
@@ -97,22 +96,14 @@ jobs:
           python3 stages/stage36/verify_stage36_36_09H.py
           git show 2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
           python3 stages/stage36/verify_stage36_36_09H_audited.py
-
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" 476829b39679f4c380fe0458e37c28745e5f5621
-          python3 "$tmp/stages/stage36/verify_stage36_36_09I.py"
-          git worktree remove --force "$tmp"
+          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" 476829b39679f4c380fe0458e37c28745e5f5621; python3 "$tmp/stages/stage36/verify_stage36_36_09I.py"; git worktree remove --force "$tmp"
           git show fc5886d62b78d8dcb21824ff02419a3e3b7634c8:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
           python3 stages/stage36/verify_stage36_36_09I_audited.py
-
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" 6ede28751914a881a5ddaca7691538a8a3e4780c
-          python3 "$tmp/stages/stage36/verify_stage36_36_09J.py"
-          git worktree remove --force "$tmp"
+          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" 6ede28751914a881a5ddaca7691538a8a3e4780c; python3 "$tmp/stages/stage36/verify_stage36_36_09J.py"; git worktree remove --force "$tmp"
           git show 0bc325f9b9db817193bc271121d19cb04970c5b9:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
           python3 stages/stage36/verify_stage36_36_09J_audited.py
 
-      - name: Replay Stage36 36-09K at exact audited head
+      - name: Replay Stage36 36-09K exact and audited authority
         shell: bash
         run: |
           set -euo pipefail
@@ -120,33 +111,38 @@ jobs:
           git worktree add --detach "$tmp" e10530918619cea1fc1720a6074ea0ca0499f904
           python3 "$tmp/stages/stage36/verify_stage36_36_09K.py"
           git worktree remove --force "$tmp"
+          git show f91c045796cba859ec1dd172cf7871fcac5f6d8a:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
+          python3 stages/stage36/verify_stage36_36_09K_audited.py
 
-      - name: Restore V35 and replay hostile-audited 36-09K promotion
+      - name: Restore V36 and verify Stage36 36-09L exact preflight
         shell: bash
         run: |
           set -euo pipefail
-          cp /tmp/stage36-v35.json stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09K_audited.py
+          cp /tmp/stage36-v36.json stages/stage36/MAIN-STATE.json
+          python3 stages/stage36/verify_stage36_36_09L.py
 
-      - name: Assert 36-09L ready boundary
+      - name: Assert hostile-audit boundary before 36-09M
         shell: bash
         run: |
           python3 - <<'PY'
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V35_THIN_36_09K_AUDITED'
-          assert s['status']=='ACTIVE'
-          k=s['authority_frontier']['36-09K']
-          assert k['hostile_audit_review']==5123183075
-          assert k['S31_W01_PROMOTED_TRIGGER'] is True
-          assert k['PHYSICAL_FULL_RATIONAL_2_TORSION'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V36_36_09L_PENDING_HOSTILE_AUDIT'
+          assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
+          L=s['authority_frontier']['36-09L']
+          assert L['certificate_blob_sha']=='56fd432a3ae6046bc4643b56bf562660af49fe89'
+          assert L['verifier_blob_sha']=='d59215520dd5c5ef265672b60681df65ef7b0292'
+          assert L['UNIVERSAL_RATIONAL_ORDER4_POINT'] is True
+          assert L['CERTIFIED_TORSION_SUBGROUP']=='Z/4 x Z/2'
+          assert L['FULL_TORSION_SUBGROUP_PROVED'] is False
+          assert L['FIXED_S_UNIFORM_FULL2_DESCENT']=='BLOCKED'
+          assert L['B3_TORSION_ENHANCED_2_ISOGENY_FAMILY']=='LIVE'
           assert s['cycle_ledger']['counts']=={'live':1,'untested':3,'blocked':6,'dominated':2}
-          assert s['current']['unit']=='36-09L'
-          assert s['current']['36_09L_entry_allowed'] is True
-          assert s['promotion_gates']['genus_one_quartic_adapter_triggered'] is True
+          assert s['current']['36_09M_entry_allowed'] is False
+          assert s['promotion_gates']['full_2_Selmer_group_computed'] is False
           assert s['promotion_gates']['uniform_Mordell_Weil_group_proved'] is False
           assert s['promotion_gates']['receiver_emptiness_proved'] is False
           assert s['promotion_gates']['R29_CAMP2_closed'] is False
-          print('36-09K hostile PASS promoted; 36-09L descent preflight unlocked with no higher closure credit')
+          print('36-09L frozen pending hostile audit; universal order4 exact; fixed-S descent subroute blocked; B3 2-isogeny family live; 36-09M locked')
           PY
