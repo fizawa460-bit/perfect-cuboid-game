@@ -1,0 +1,192 @@
+{
+  "schema": "STAGE36_36_09N_RELATIVE_2ISOGENY_KUMMER_RANK1_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09N",
+  "status": "EXACT_RELATIVE_KUMMER_AND_GENERIC_RANK1_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "824355f591f8f951fda9f2a7c1f4e3e66d4e1e9a",
+  "entry_authority": {
+    "36_09M_user_pass_promotion_pr": 1638,
+    "promotion_repair_exact_head": "4a8fbd2d7f71c52113778509894e760479ec2609",
+    "promotion_repair_ci": "33997412299/101390246860",
+    "promotion_merged_main_sha": "824355f591f8f951fda9f2a7c1f4e3e66d4e1e9a",
+    "hostile_audit_pass_claimed_for_36_09M": false
+  },
+  "source_locks": {
+    "stage36_v39_state": {
+      "path": "stages/stage36/MAIN-STATE.json",
+      "commit": "824355f591f8f951fda9f2a7c1f4e3e66d4e1e9a",
+      "blob_sha": "74d95adfcf7ebb5c6876758044844092145939f7"
+    },
+    "descent_and_specialization": {
+      "path": "stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md",
+      "blob_sha": "e7c98981fbb1d523fd7db54478dc09aa87b547e8",
+      "uses": [
+        "standard descent-by-2-isogeny map, homogeneous quartic and rank formula",
+        "Gusic-Tadic sufficient criterion for injective specialization"
+      ]
+    },
+    "stage36_36_09M_certificate": {
+      "path": "stages/stage36/36-09M/universal-order4-2isogeny-physical-family-preflight.json",
+      "blob_sha": "470e87d3e48c857b99793bd8ac0d01eff75eb727"
+    }
+  },
+  "physical_q_parameterization": {
+    "parameter": "q",
+    "Nminus": "q^2-2*q-1",
+    "Nplus": "q^2+2*q-1",
+    "C": "Nminus*Nplus=q^4-6*q^2+1",
+    "k": "Nplus/Nminus",
+    "identities": [
+      "1+k^2=2*(q^2+1)^2/Nminus^2",
+      "k+1=2*(q^2-1)/Nminus",
+      "k-1=4*q/Nminus",
+      "1-k^2=-8*q*(q^2-1)/Nminus^2"
+    ]
+  },
+  "relative_isogenous_pair": {
+    "E_q": "y^2=x*(x+Nminus^2)*(x+Nplus^2)",
+    "E_coefficients": {
+      "a": "Nminus^2+Nplus^2=2*(q^2+1)^2",
+      "b": "C^2"
+    },
+    "Eprime_q": "Y^2=X*(X-4*(q^2-1)^2)*(X-16*q^2)",
+    "Eprime_coefficients": {
+      "a_prime": "-4*(q^2+1)^2",
+      "b_prime": "64*q^2*(q^2-1)^2=(8*q*(q^2-1))^2"
+    },
+    "exact_2isogeny_relation": "a_prime=-2*a and b_prime=a^2-4*b"
+  },
+  "relative_kummer_maps": {
+    "alpha_on_E": "alpha(O)=1; alpha((0,0))=[b]=1; alpha((x,y))=[x] otherwise",
+    "beta_on_Eprime": "beta(O)=1; beta((0,0))=[b_prime]=1; beta((X,Y))=[X] otherwise",
+    "generic_E_cover": "W^2=d*Z^4+2*(q^2+1)^2*Z^2+C^2/d",
+    "generic_Eprime_cover": "W^2=d*Z^4-4*(q^2+1)^2*Z^2+64*q^2*(q^2-1)^2/d"
+  },
+  "explicit_relative_non_torsion_section": {
+    "cover_class": "[2] in beta(Eprime_q(Q(q)))",
+    "cover_point": {
+      "d": 2,
+      "Z": "2*(q-1)",
+      "W": "4*(q-1)*Nplus"
+    },
+    "factor_identity": "W^2=2*Z^4-4*(q^2+1)^2*Z^2+32*q^2*(q^2-1)^2",
+    "Eprime_section": [
+      "X=8*(q-1)^2",
+      "Y=16*(q-1)^2*Nplus"
+    ],
+    "beta_class": "[2]",
+    "dual_E_section": [
+      "x=Nplus^2",
+      "y=-2*(q^2+1)*Nplus^2"
+    ]
+  },
+  "specialization_q0_6": {
+    "q0": 6,
+    "values": {
+      "Nminus": 23,
+      "Nplus": 47,
+      "C": 1081
+    },
+    "E6": "y^2=x^3+2738*x^2+1081^2*x",
+    "E6prime": "Y^2=X^3-5476*X^2+1680^2*X"
+  },
+  "gusic_tadic_injectivity_check": {
+    "roots": [
+      "e1=0",
+      "e2=-Nminus^2",
+      "e3=-Nplus^2"
+    ],
+    "squarefree_support_sets": [
+      ["Nminus", "Nplus"],
+      ["Nminus", "q", "q-1", "q+1", "optional constant factor 2"],
+      ["Nplus", "q", "q-1", "q+1", "optional constant factor 2"]
+    ],
+    "values_at_6": {
+      "Nminus": 23,
+      "Nplus": 47,
+      "q": 6,
+      "q-1": 5,
+      "q+1": 7,
+      "constant_2": 2
+    },
+    "complete_nonconstant_squarefree_divisor_check": true,
+    "all_values_nonsquare_in_Q": true,
+    "specialization_E_Qq_to_E6_Q_injective": true
+  },
+  "E6_descent": {
+    "squarefree_candidates": [1, -1, 23, -23, 47, -47, 1081, -1081],
+    "realized_classes": ["[1]", "[-1]", "[1081]", "[-1081]"],
+    "realizing_points": [
+      "O",
+      "(-529,0)",
+      "(1081,75670)",
+      "(-1081,25944)"
+    ],
+    "excluded_candidates": {
+      "23": "mod 5 primitive quartic RHS is always 2 or 3",
+      "-23": "mod 5 primitive quartic RHS is always 2 or 3",
+      "47": "mod 5 primitive quartic RHS is always 2 or 3",
+      "-47": "mod 5 primitive quartic RHS is always 2 or 3"
+    },
+    "image_size": 4,
+    "exact_image": ["[1]", "[-1]", "[1081]", "[-1081]"]
+  },
+  "E6prime_descent": {
+    "squarefree_prime_support": [2, 3, 5, 7],
+    "candidate_count": 32,
+    "negative_candidates": "all 16 negative d are excluded over R because d<0, a_prime<0 and b_prime/d<0",
+    "positive_realized": {
+      "1": "O",
+      "2": "cover point (Z,W)=(10,940), giving (X,Y)=(200,18800)"
+    },
+    "positive_exclusion_table": {
+      "mod_9": [3, 6],
+      "mod_23": [5, 7, 10, 14, 15, 21, 30, 42],
+      "mod_47": [35, 70, 105, 210]
+    },
+    "image_size": 2,
+    "exact_image": ["[1]", "[2]"]
+  },
+  "specialized_rank": {
+    "rank_formula": "2^r=|Im(alpha)|*|Im(beta)|/4",
+    "calculation": "2^r=4*2/4=2",
+    "rank_E6_Q": 1,
+    "rank_E6prime_Q": 1
+  },
+  "generic_rank_and_exact_images": {
+    "upper_bound": "injective specialization at q=6 gives rank E_q(Q(q)) <= 1",
+    "lower_bound": "explicit beta-class [2] section specializes to a non-torsion point and gives rank >=1",
+    "generic_rank": 1,
+    "alpha_lower_classes": ["[1]", "[-1]", "[C]", "[-C]"],
+    "beta_lower_classes": ["[1]", "[2]"],
+    "rank_formula_for_function_field": "product of image sizes is 8; lower bounds already have product 8",
+    "exact_alpha_image": ["[1]", "[-1]", "[C]", "[-C]"],
+    "exact_beta_image": ["[1]", "[2]"]
+  },
+  "route_update": {
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_GENERIC_RANK1_EXACT_RELATIVE_2ISOGENY_KUMMER_IMAGES",
+    "B3_FIXED_S_UNIFORM_FULL2_DESCENT_SUBROUTE": "BLOCKED_BY_UNBOUNDED_PHYSICAL_BASE_SQUARECLASS_SUPPORT",
+    "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER": "UNTESTED",
+    "C2_GAUSSIAN_NORM_COMPRESSION": "UNTESTED",
+    "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY": "UNTESTED",
+    "next_after_hostile_pass": "36-09O_PHYSICAL_RANK_JUMP_LOCUS_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "generic_function_field_MW_rank_proved": true,
+    "generic_function_field_MW_rank": 1,
+    "exact_generic_kummer_images_proved": true,
+    "fiberwise_rank_one_for_every_rational_q_proved": false,
+    "uniform_Mordell_Weil_group_proved": false,
+    "specialization_rank_jumps_excluded": false,
+    "full_torsion_subgroup_proved": false,
+    "isogeny_Selmer_groups_computed": false,
+    "receiver_rational_points_exhausted": false,
+    "receiver_emptiness_proved": false,
+    "quotient_Q_point_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
