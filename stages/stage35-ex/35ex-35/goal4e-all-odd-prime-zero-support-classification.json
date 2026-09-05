@@ -3,7 +3,7 @@
   "stage": "35-EX",
   "unit": "35EX-35_GOAL4E_ODD_PRIME_LOCAL_BREADTH_AND_FINITE_GLOBAL_RECEIVER_TEST",
   "status": "PROVISIONAL_EXACT_ALL_ODD_PRIME_ZERO_SUPPORT_CLASSIFICATION_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT",
-  "base_main_sha": "2949391d032a9014b0e9ffebce78be84a93d1d8a",
+  "base_main_sha": "e2103a2de367a0a6d0826b044b6bb83d24ad6f6f",
   "parent_goal4d_authority": {
     "pr": 1631,
     "hostile_review_id": 5123225301,
@@ -17,11 +17,7 @@
   },
   "population": {
     "primitive": "gcd(A,B,C)=1",
-    "face_square_equations": [
-      "D_AB^2=A^2+B^2",
-      "D_AC^2=A^2+C^2",
-      "D_BC^2=B^2+C^2"
-    ],
+    "face_square_equations": ["D_AB^2=A^2+B^2","D_AC^2=A^2+C^2","D_BC^2=B^2+C^2"],
     "fourth_square_equation": "W^2=A^2+B^2+C^2"
   },
   "all_odd_prime_zero_support_theorem": {
@@ -36,12 +32,7 @@
     "range": "all odd primes p<97",
     "projective_normalization": "A=1 on the all-edge-nonzero branch",
     "columns": ["p","face_nonzero_projective_classes","full_nonzero_projective_classes"],
-    "rows": [
-      [3,0,0],[5,0,0],[7,4,0],[11,0,0],[13,8,8],[17,40,24],[19,24,0],
-      [23,52,16],[29,96,72],[31,100,36],[37,152,80],[41,208,120],[43,168,72],
-      [47,244,100],[53,312,192],[59,360,144],[61,440,248],[67,456,216],[71,580,256],
-      [73,672,336],[79,724,324],[83,720,360],[89,1024,576]
-    ],
+    "rows": [[3,0,0],[5,0,0],[7,4,0],[11,0,0],[13,8,8],[17,40,24],[19,24,0],[23,52,16],[29,96,72],[31,100,36],[37,152,80],[41,208,120],[43,168,72],[47,244,100],[53,312,192],[59,360,144],[61,440,248],[67,456,216],[71,580,256],[73,672,336],[79,724,324],[83,720,360],[89,1024,576]],
     "exceptional_full_zero_set": [3,5,7,11,19]
   },
   "large_prime_completion": {
@@ -49,11 +40,7 @@
     "a": "6*s^5-20*s^3+6*s",
     "b": "-s^6+15*s^4-15*s^2+1",
     "c": "8*s^5-8*s",
-    "face_identities": [
-      "a^2+b^2=(s^2+1)^6",
-      "a^2+c^2=4*(5*s^5-6*s^3+5*s)^2",
-      "b^2+c^2=(s^6+17*s^4-17*s^2-1)^2"
-    ],
+    "face_identities": ["a^2+b^2=(s^2+1)^6","a^2+c^2=4*(5*s^5-6*s^3+5*s)^2","b^2+c^2=(s^6+17*s^4-17*s^2-1)^2"],
     "space_identity": "a^2+b^2+c^2=(s^2+1)^2*F(s)",
     "F": "s^8+68*s^6-122*s^4+68*s^2+1",
     "hyperelliptic_curve": "Y^2=F(s)",
@@ -69,36 +56,14 @@
     "conclusion": "for every prime p>=97 there is a curve point with a*b*c nonzero, hence a full mod-p four-square solution with all three edges nonzero"
   },
   "exceptional_prime_zero_patterns": {
-    "3": {
-      "allowed_zero_edge_support_sizes": [2],
-      "projective_full_classes": 3,
-      "consequence": "3 divides exactly at least two endpoint edges modulo 3, so v3(A*B*C)>=2"
-    },
-    "5": {
-      "allowed_zero_edge_support_sizes": [1,2],
-      "projective_full_classes": 9
-    },
-    "7": {
-      "allowed_zero_edge_support_sizes": [1,2],
-      "projective_full_classes": 9
-    },
-    "11": {
-      "allowed_zero_edge_support_sizes": [1,2],
-      "projective_full_classes": 15
-    },
-    "19": {
-      "allowed_zero_edge_support_sizes": [1,2],
-      "projective_full_classes": 27
-    }
+    "3": {"allowed_zero_edge_support_sizes":[2],"projective_full_classes":3,"consequence":"3 divides at least two endpoint edges, so v3(A*B*C)>=2"},
+    "5": {"allowed_zero_edge_support_sizes":[1,2],"projective_full_classes":9},
+    "7": {"allowed_zero_edge_support_sizes":[1,2],"projective_full_classes":9},
+    "11": {"allowed_zero_edge_support_sizes":[1,2],"projective_full_classes":15},
+    "19": {"allowed_zero_edge_support_sizes":[1,2],"projective_full_classes":27}
   },
   "global_integer_consequence": {
-    "forced_odd_prime_divisibility": [
-      "v3(A*B*C)>=2",
-      "5|A*B*C",
-      "7|A*B*C",
-      "11|A*B*C",
-      "19|A*B*C"
-    ],
+    "forced_odd_prime_divisibility": ["v3(A*B*C)>=2","5|A*B*C","7|A*B*C","11|A*B*C","19|A*B*C"],
     "combined_divisor": 65835,
     "combined_statement": "65835 divides A*B*C for every primitive integer endpoint satisfying all four square equations"
   },
@@ -124,14 +89,6 @@
     "S34_W03": "P7_LOCAL_WITNESS_SUBSUMED_IN_EXACT_ALL_ODD_PRIME_ZERO_SUPPORT_CLASSIFICATION",
     "S31_W01": "GATED_NO_STAGE35_EX_GENUS_ONE_QUARTIC_ADAPTER"
   },
-  "credit_firewall": {
-    "E1_proved": false,
-    "R29_PESCH_E1_closed": false,
-    "R29_FIB2_closed": false,
-    "J12_PARAMETRIC_closed": false,
-    "stage35_closed": false,
-    "perfect_cuboid_existence_claim": false,
-    "perfect_cuboid_nonexistence_claim": false
-  },
+  "credit_firewall": {"E1_proved":false,"R29_PESCH_E1_closed":false,"R29_FIB2_closed":false,"J12_PARAMETRIC_closed":false,"stage35_closed":false,"perfect_cuboid_existence_claim":false,"perfect_cuboid_nonexistence_claim":false},
   "next_unit_if_hostile_audit_pass": "35EX-35_GOAL4F_FORCED_PRIME_SUPPORT_656_ORBITS_SQUARECLASS_PARITY_LIFT_TEST"
 }
