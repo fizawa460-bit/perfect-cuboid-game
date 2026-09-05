@@ -1,0 +1,119 @@
+{
+  "schema": "STAGE35_EX_34_BLIND_POST_GAUSSIAN_BLOCK_CANDIDATES_V1",
+  "stage": "35-EX",
+  "unit": "35EX-34_POST_GAUSSIAN_BLOCK_FRESH_BREADTH_AUDIT",
+  "phase": "BLIND_REDISCOVERY_BEFORE_ARSENAL_OR_HISTORY_COMPARISON",
+  "input_only": {
+    "population": "positive rational perfect-cuboid endpoint modulo positive scaling and edge permutation",
+    "primitive_model": "A,B,C positive integers with gcd(A,B,C)=1",
+    "square_conditions": [
+      "A^2+B^2=D_AB^2",
+      "A^2+C^2=D_AC^2",
+      "B^2+C^2=D_BC^2",
+      "A^2+B^2+C^2=D_ABC^2"
+    ],
+    "new_35ex33_invariant": [
+      "g_AB=gcd(A,B), g_AC=gcd(A,C), g_BC=gcd(B,C) are pairwise coprime",
+      "F_jk=epsilon_jk*g_jk*Z_jk^2 in Z[i]",
+      "every gcd ideal between distinct face Gaussians, with independent conjugation, is a square ideal",
+      "only the three private moving edge-gcd squareclasses remain at pairwise shared-prime level"
+    ]
+  },
+  "blind_generation_rule": "The candidates below were generated from the displayed endpoint equations and the 35EX-33 invariant only. Repository route names, historical route labels, and Arsenal recommendations were not consulted for candidate generation.",
+  "blind_candidates": [
+    {
+      "id": "B34-01",
+      "name": "PRIVATE_EDGE_GCD_TORSOR_DECOMPOSITION",
+      "lens": "exact gcd factorization / universal-torsor style",
+      "derivation": "Set x=g_AB, y=g_AC, z=g_BC. Pairwise coprimality suggests the exact primitive decomposition A=x*y*a, B=x*z*b, C=y*z*c. Dividing the three face-square equations by x^2,y^2,z^2 gives three simultaneously primitive Pythagorean equations in y*a,z*b; x*a,z*c; x*b,y*c. The space-square condition then couples all six variables.",
+      "test": "prove the full coprimality dictionary for a,b,c,x,y,z and determine whether the fourth square forces a finite squareclass, parity, or descent condition not visible in pairwise Gaussian gcds",
+      "blind_status": "LIVE_HIGH_INFORMATION"
+    },
+    {
+      "id": "B34-02",
+      "name": "JOINT_LOCAL_HILBERT_PROFILE_ON_PRIVATE_GCDS",
+      "lens": "local-global / Hilbert symbols",
+      "derivation": "The three private squareclasses have disjoint rational support. Evaluate the three face equations plus the space equation simultaneously over Q_p at p|2xyz instead of pairwise Gaussian gcds.",
+      "test": "derive a source-independent product formula or incompatible local profile across all four quadratic equations",
+      "blind_status": "UNTESTED"
+    },
+    {
+      "id": "B34-03",
+      "name": "GENUINE_V2_PROPAGATION_DESCENT",
+      "lens": "2-adic valuation / infinite descent",
+      "derivation": "Exactly one primitive edge is odd. The gcd of the two even edges carries the unique even private gcd channel. Track exact v2 through the three primitive face triples and the space-diagonal triple.",
+      "test": "prove a strict valuation increase under a canonical reconstruction, or else freeze the absence of a monotone descent quantity",
+      "blind_status": "UNTESTED"
+    },
+    {
+      "id": "B34-04",
+      "name": "LINKED_TWO_COVERS_FROM_THREE_FACE_TRIPLES",
+      "lens": "2-descent / Selmer coupling",
+      "derivation": "After private-gcd decomposition, three primitive Pythagorean triples share the six factors x,y,z,a,b,c. Their standard conic/2-cover parameters are therefore not independent.",
+      "test": "construct the linked 2-cover classes and ask whether the simultaneous image intersection is empty or smaller than the individual local images",
+      "blind_status": "UNTESTED"
+    },
+    {
+      "id": "B34-05",
+      "name": "RATIO_BIQUARTIC_QUOTIENT",
+      "lens": "exact parametrization / low-genus quotient",
+      "derivation": "Normalize one edge to 1 and parameterize one face Pythagorean condition. The other two face squares and the space square become coupled rational square conditions in the remaining ratio parameter(s), naturally producing biquadratic/biquartic quotients.",
+      "test": "find a quotient whose rational points exactly represent the endpoint receiver rather than a loose over-cover",
+      "blind_status": "UNTESTED"
+    },
+    {
+      "id": "B34-06",
+      "name": "UNIFORM_ELLIPTIC_SURFACE_HEIGHT",
+      "lens": "elliptic surface / height",
+      "derivation": "Fix one Pythagorean face parameter and retain another ratio as base. The remaining square conditions can produce genus-one fibers varying with the base.",
+      "test": "obtain a genuine nonisotrivial family with a source-locked endpoint section/cover and a uniform height or Mordell-Weil obstruction",
+      "blind_status": "UNTESTED"
+    },
+    {
+      "id": "B34-07",
+      "name": "NONOBVIOUS_VERTICAL_BRAUER_ON_ENDPOINT_FIBRATION",
+      "lens": "adelic / Brauer-Manin",
+      "derivation": "The four-square endpoint surface can be fibered by one ratio; pairwise Gaussian squareclasses being trivial does not preclude a vertical class depending on the private gcd/torsor coordinates.",
+      "test": "derive an explicit nonconstant class and compute its local evaluation on the exact endpoint image",
+      "blind_status": "UNTESTED"
+    },
+    {
+      "id": "B34-08",
+      "name": "TERNARY_SPINOR_NORM_COMPATIBILITY",
+      "lens": "quadratic forms / spinor norms",
+      "derivation": "The space square represents A^2+B^2+C^2 as a square while all three binary subforms are squares. This may impose a spinor-norm compatibility invisible to pairwise gcd support.",
+      "test": "construct an exact ternary-form obstruction with the face-square conditions retained, not merely the ambient sum-of-three-squares form",
+      "blind_status": "UNTESTED"
+    },
+    {
+      "id": "B34-09",
+      "name": "SYMMETRIC_DIAGONAL_RATIO_INVARIANTS",
+      "lens": "S3-symmetric algebraic invariants",
+      "derivation": "Use normalized face/space diagonal ratios and elementary symmetric functions to quotient edge permutation before further descent.",
+      "test": "check whether the symmetric quotient lowers dimension or creates a strict arithmetic constraint rather than repackaging the same endpoint surface",
+      "blind_status": "LOW_INFORMATION_UNTIL_EXACT_REDUCTION"
+    },
+    {
+      "id": "B34-10",
+      "name": "MINIMUM_V2_EDGE_RECONSTRUCTION_DESCENT",
+      "lens": "canonical gauge / arithmetic dynamics",
+      "derivation": "The endpoint has a canonical parity ordering: one odd edge and two even edges. Combine the unique parity gauge with rational reciprocal/Pythagorean reconstruction maps to seek a size- or valuation-decreasing self-map.",
+      "test": "prove an exact self-map preserving the endpoint population and a strictly decreasing positive invariant; otherwise block as gauge-only",
+      "blind_status": "UNTESTED"
+    }
+  ],
+  "blind_selection": {
+    "candidate": "B34-01_PRIVATE_EDGE_GCD_TORSOR_DECOMPOSITION",
+    "reason": "it directly attacks the exact residual information isolated by 35EX-33: the three private moving edge-gcd squareclasses. It also exposes the full simultaneous three-face structure before importing local, elliptic, or adelic machinery.",
+    "selection_is_final_before_history_comparison": false
+  },
+  "credit_firewall": {
+    "blind_pass_completed": true,
+    "arsenal_consulted_for_generation": false,
+    "history_consulted_for_generation": false,
+    "new_theorem_credit": false,
+    "E1_proved": false,
+    "stage35_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

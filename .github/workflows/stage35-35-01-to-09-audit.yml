@@ -19,9 +19,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          # V32 replay reads immutable V31 state at #1586 merge 3fbcecfb...;
-          # nested V31/V30 replay reaches earlier retained snapshots.
-          fetch-depth: 96
+          # V33 replay reads immutable V32 state at #1598 merge e21378e5...;
+          # nested V32/V31/V30 replay reaches earlier retained snapshots.
+          fetch-depth: 128
       - name: Assert exact PR head checkout
         run: |
           ACTUAL_HEAD_SHA="$(git rev-parse HEAD)"
@@ -37,59 +37,20 @@ jobs:
         run: python -B stages/stage35/verify_stage35_35_01_to_09.py
       - name: Verify Stage35 35-10 material routing firewalls
         run: python -B stages/stage35/35-10/verify_35_10.py
-      - name: Replay Stage35-EX base through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py base
-      - name: Replay Stage35-EX 35EX-10 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 10
-      - name: Replay Stage35-EX 35EX-11 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 11
-      - name: Replay Stage35-EX 35EX-12 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 12
-      - name: Replay Stage35-EX 35EX-13 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 13
-      - name: Replay Stage35-EX 35EX-14 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 14
-      - name: Replay Stage35-EX 35EX-15 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 15
-      - name: Replay Stage35-EX 35EX-16 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 16
-      - name: Replay Stage35-EX 35EX-17 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 17
-      - name: Replay Stage35-EX 35EX-18 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 18
-      - name: Replay Stage35-EX 35EX-19 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 19
-      - name: Replay Stage35-EX 35EX-20 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 20
-      - name: Replay Stage35-EX 35EX-21 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 21
-      - name: Replay Stage35-EX 35EX-22 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 22
-      - name: Replay Stage35-EX 35EX-23 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 23
-      - name: Replay Stage35-EX 35EX-24 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 24
-      - name: Replay Stage35-EX 35EX-25 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 25
-      - name: Replay Stage35-EX 35EX-26 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 26
-      - name: Replay Stage35-EX 35EX-27 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 27
-      - name: Replay Stage35-EX 35EX-28 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 28
-      - name: Replay Stage35-EX 35EX-29 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 29
-      - name: Replay Stage35-EX 35EX-30 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 30
-      - name: Replay Stage35-EX 35EX-31 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 31
-      - name: Replay Stage35-EX 35EX-32 through immutable V31 snapshot
-        run: python -B stages/stage35-ex/verify_stage35_ex_v32_legacy_replay.py 32
-      - name: Verify Stage35-EX 35EX-32 user-approved merged route-selection promotion
-        run: python -B stages/stage35-ex/verify_stage35_ex_32_merged_promotion.py
-      - name: Verify Stage35-EX 35EX-33 small goal 1 primitive integral normalization
-        run: python -B stages/stage35-ex/verify_stage35_ex_33_goal1.py
-      - name: Verify Stage35-EX 35EX-33 small goal 2 Gaussian norm identities
-        run: python -B stages/stage35-ex/verify_stage35_ex_33_goal2.py
-      - name: Verify Stage35-EX 35EX-33 pairwise Gaussian gcd route blocker
-        run: python -B stages/stage35-ex/verify_stage35_ex_33_blocker.py
+      - name: Replay Stage35-EX base and 35EX-10 through 32 against immutable V32 snapshot
+        run: |
+          set -euo pipefail
+          python -B stages/stage35-ex/verify_stage35_ex_v33_legacy_replay.py base
+          for n in $(seq 10 32); do
+            python -B stages/stage35-ex/verify_stage35_ex_v33_legacy_replay.py "$n"
+          done
+      - name: Replay Stage35-EX 35EX-32 merged-route promotion against immutable V32 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v33_legacy_replay.py 32p
+      - name: Replay Stage35-EX 35EX-33 goal 1 against immutable V32 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v33_legacy_replay.py 33g1
+      - name: Replay Stage35-EX 35EX-33 goal 2 against immutable V32 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v33_legacy_replay.py 33g2
+      - name: Replay Stage35-EX 35EX-33 Gaussian blocker against immutable V32 snapshot
+        run: python -B stages/stage35-ex/verify_stage35_ex_v33_legacy_replay.py 33
+      - name: Verify Stage35-EX 35EX-34 fresh breadth audit and blind rediscovery
+        run: python -B stages/stage35-ex/verify_stage35_ex_34.py
