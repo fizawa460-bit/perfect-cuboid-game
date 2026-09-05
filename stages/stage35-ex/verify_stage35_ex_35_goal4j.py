@@ -34,7 +34,6 @@ assert sp.rem(sp.Poly(sp.together((X*(X-N)*(X+N)-Y**2)*8), D), sp.Poly(face_rel,
 A,B,C = sp.symbols('A B C')
 Nab,Nac,Nbc = A*B/2, A*C/2, B*C/2
 assert sp.factor(Nab*Nac*Nbc - (A*B*C)**2/8) == 0
-# ratio to 2 is a rational square: product / 2 = (ABC/4)^2.
 assert sp.factor(Nab*Nac*Nbc/2 - (A*B*C/4)**2) == 0
 
 # F2 edge-parity -> twist-parity map.
@@ -46,18 +45,16 @@ image = {mv(e) for e in allv}
 kernel = {e for e in allv if mv(e)==(0,0,0)}
 assert image == {(0,0,0),(1,1,0),(1,0,1),(0,1,1)}
 assert kernel == {(0,0,0),(1,1,1)}
-# primitive-support domain excludes 111; singleton/complementary-doubleton collide.
 primitive = [e for e in allv if e != (1,1,1)]
 pre = {t:[e for e in primitive if mv(e)==t] for t in image}
-assert pre[(1,1,0)] == [(0,1,1),(1,0,0)] or set(pre[(1,1,0)]) == {(1,0,0),(0,1,1)}
+assert set(pre[(1,1,0)]) == {(1,0,0),(0,1,1)}
 assert set(pre[(1,0,1)]) == {(0,1,0),(1,0,1)}
 assert set(pre[(0,1,1)]) == {(0,0,1),(1,1,0)}
 assert pre[(0,0,0)] == [(0,0,0)]
-# F2 rank is 2.
-assert sp.Matrix(M).rank(iszerofunc=lambda x: x % 2 == 0) >= 2
-# direct row dependence and two independent rows certify exact rank 2 over F2.
+# Exact rank 2 over F2: all three rows sum to zero, while first two are independent.
 assert tuple((M[0][i]+M[1][i]+M[2][i])%2 for i in range(3)) == (0,0,0)
 assert M[0] != M[1] and M[0] != (0,0,0) and M[1] != (0,0,0)
+# Over F2 two distinct nonzero vectors are dependent only if equal, hence rank >=2; row relation gives rank <=2.
 
 # At 2 division by 2 adds affine 111; total twist parity is odd.
 for e in allv:
