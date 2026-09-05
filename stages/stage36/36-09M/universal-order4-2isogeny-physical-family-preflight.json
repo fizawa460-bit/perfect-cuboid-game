@@ -1,0 +1,141 @@
+{
+  "schema": "STAGE36_36_09M_ORDER4_2ISOGENY_PHYSICAL_FAMILY_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09M",
+  "status": "EXACT_PHYSICAL_TORSION_GROWTH_PREFLIGHT_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "dd0fab674db9a10d6494590c1987333aa338a37e",
+  "entry_authority": {
+    "36_09L_hostile_audit_review": 5123231006,
+    "36_09L_promotion_pr": 1635,
+    "promotion_exact_head": "c6adca15a1103047f924899b83cd9be0a34d0f37",
+    "promotion_exact_head_ci": "33996244799/101387191990",
+    "promotion_merged_main_sha": "dd0fab674db9a10d6494590c1987333aa338a37e"
+  },
+  "source_locks": {
+    "stage36_v37_audited_state": {
+      "path": "stages/stage36/MAIN-STATE.json",
+      "commit": "dd0fab674db9a10d6494590c1987333aa338a37e",
+      "blob_sha": "af9edd74876f9792772bf8f32167f5e76a21905b"
+    },
+    "stage36_36_09L_certificate": {
+      "path": "stages/stage36/36-09L/physical-base-full2-descent-preflight.json",
+      "blob_sha": "56fd432a3ae6046bc4643b56bf562660af49fe89"
+    },
+    "lmfdb_32a3_source_lock": {
+      "path": "stages/stage36/36-09M/lmfdb-32a3-source-lock.md",
+      "blob_sha": "e820cc4e73af3be46f60f92aede8c076a92504df",
+      "url": "https://www.lmfdb.org/EllipticCurve/Q/32/a/",
+      "facts_used": [
+        "32.a3 has equation y^2=x^3-x",
+        "rank 0",
+        "torsion structure [2,2]"
+      ]
+    }
+  },
+  "normalized_physical_family": {
+    "curve_Ek": "V^2=U*(U+1)*(U+k^2)",
+    "physical_conic": "rho^2=2*(k^2+1)",
+    "retained_exclusions": ["k!=0", "k!=1", "k!=-1"],
+    "universal_order4_points": [
+      "Pplus=(k,k*(k+1))",
+      "Pminus=(-k,k*(k-1))"
+    ],
+    "common_double": "2*Pplus=2*Pminus=T0=(0,0)"
+  },
+  "exact_2_isogenous_quotient": {
+    "curve_Ek_prime": "Y^2=X*(X-(k+1)^2)*(X-(k-1)^2)",
+    "derivation": "from A=1+k^2, B=k^2, quotient y^2=x^3-2*A*x^2+(A^2-4*B)*x",
+    "factor_identity": "x^2-2*(1+k^2)*x+(1-k^2)^2=(x-(k+1)^2)*(x-(k-1)^2)",
+    "image_of_Pplus": "phi(Pplus)=((k+1)^2,0)",
+    "image_of_Pminus": "phi(Pminus)=((k-1)^2,0)"
+  },
+  "square_gate_quartic_C8": {
+    "curve": "w^2=2*(z^4+1)",
+    "positive_gate": "k=z^2 together with physical rho^2=2*(k^2+1) gives C8",
+    "negative_gate": "-k=z^2 together with physical rho^2=2*(k^2+1) gives the same C8",
+    "rational_points_at_infinity": 0,
+    "infinity_reason": "at projective infinity one would need (w/z^2)^2=2, impossible over Q"
+  },
+  "C8_to_32a3_birational_adapter": {
+    "first_step": [
+      "u=(z-1)/(z+1)",
+      "v=2*w/(z+1)^2",
+      "v^2=u^4+6*u^2+1"
+    ],
+    "second_step_on_u_nonzero": [
+      "A=(v+1)/u^2",
+      "B=u*(A^2-1)",
+      "B^2=(2*A+6)*(A^2-1)"
+    ],
+    "elliptic_coordinates": [
+      "x=(A+1)/2",
+      "y=B/4"
+    ],
+    "elliptic_model": "y^2=x^3-x",
+    "inverse_open": [
+      "A=2*x-1",
+      "u=y/(x*(x-1))",
+      "v=A*u^2-1",
+      "z=(1+u)/(1-u)",
+      "w=2*v/(1-u)^2"
+    ],
+    "projective_exception_correspondence": [
+      "(z,w)=(1,2) -> O",
+      "(z,w)=(1,-2) -> (-1,0)",
+      "(z,w)=(-1,2) -> (1,0)",
+      "(z,w)=(-1,-2) -> (0,0)"
+    ],
+    "source_locked_target_group": "E_32a3(Q)={O,(-1,0),(0,0),(1,0)}"
+  },
+  "C8_rational_point_exhaustion": {
+    "result": ["(1,2)", "(1,-2)", "(-1,2)", "(-1,-2)"],
+    "proof": "the exact birational adapter accounts for all affine/projective exceptions, C8 has no rational infinity, and source-locked 32.a3 has rank 0 with torsion [2,2]",
+    "conclusion": "C8(Q) consists exactly of the four displayed points"
+  },
+  "physical_nonsquare_gate": {
+    "k_square": "if k is a rational square then C8 forces k=1",
+    "minus_k_square": "if -k is a rational square then C8 forces k=-1",
+    "boundary_exclusion": "k=1 and k=-1 are both outside the retained physical domain",
+    "conclusion": ["k is not a rational square", "-k is not a rational square"]
+  },
+  "two_primary_torsion_Ek": {
+    "rational_2_torsion": ["(0,0)", "(-1,0)", "(-k^2,0)"],
+    "divisible_2_torsion": "only (0,0) is rationally 2-divisible; the other two require -1 to be a rational square",
+    "order4_above_T0": ["x=k", "x=-k"],
+    "duplication_square_identity": "for y^2=x^3+A*x^2+B*x, x(2Q)=((x(Q)^2-B)/(2*y(Q)))^2",
+    "no_order8": "if an order-4 point above T0 were itself doubled from Q, its x-coordinate k or -k would be a rational square, excluded by the physical nonsquare gate",
+    "conclusion": "E_k(Q)[2^infinity] is exactly Z/4 x Z/2 on every retained physical fiber"
+  },
+  "two_primary_torsion_Ek_prime": {
+    "rational_2_torsion": ["(0,0)", "((k+1)^2,0)", "((k-1)^2,0)"],
+    "halving_criterion": "a rational 2-torsion root e_i is divisible by 2 iff both root differences e_i-e_j and e_i-e_l are rational squares",
+    "root0": "requires -(k+1)^2 and -(k-1)^2 to be squares; impossible on the retained domain",
+    "root_plus": "requires 4*k to be a square, equivalently k square",
+    "root_minus": "requires -4*k to be a square, equivalently -k square",
+    "conclusion": "E'_k(Q)[2^infinity] is exactly (Z/2)^2 on every retained physical fiber"
+  },
+  "route_update": {
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_EXACT_RELATIVE_2_ISOGENY_WITH_PHYSICAL_2PRIMARY_TORSION_CONTROL",
+    "B3_FIXED_S_UNIFORM_FULL2_DESCENT_SUBROUTE": "BLOCKED_BY_UNBOUNDED_PHYSICAL_BASE_SQUARECLASS_SUPPORT",
+    "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER": "UNTESTED",
+    "C2_GAUSSIAN_NORM_COMPRESSION": "UNTESTED",
+    "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY": "UNTESTED",
+    "next_after_hostile_pass": "36-09N_RELATIVE_2_ISOGENY_KUMMER_IMAGE_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "full_torsion_subgroup_proved": false,
+    "two_primary_torsion_subgroups_proved": true,
+    "uniform_Mordell_Weil_group_proved": false,
+    "isogeny_Selmer_groups_computed": false,
+    "quartic_rational_points_exhausted_only_for_C8_gate": true,
+    "Stage36_receiver_rational_points_exhausted": false,
+    "top_genus3_rational_points_exhausted": false,
+    "receiver_emptiness_proved": false,
+    "quotient_Q_point_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
