@@ -9,6 +9,7 @@ on:
       - 'stages/stage32/residual-32-01-production/post1588-hperp-nonexceptional-mod2-witness.json'
       - 'stages/stage32/residual-32-01-production/post1588-hperp-nonexceptional-mod2-witness-source-note.md'
       - 'stages/stage32/residual-32-01-production/verify_stage32_post1588_hperp_nonexceptional_mod2_witness.py'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1617_freshness_repair.py'
       - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
       - 'stages/stage32/residual-32-01-production/pairing_prefix_engine.py'
       - 'stages/stage33/33-07/picard_base_rows_retained.py'
@@ -44,8 +45,8 @@ jobs:
           fi
       - name: Install pinned algebra dependency
         run: python3 -m pip install --disable-pip-version-check sympy==1.14.0
-      - name: Verify exact source-bound nonexceptional witness
-        run: python3 stages/stage32/residual-32-01-production/verify_stage32_post1588_hperp_nonexceptional_mod2_witness.py
+      - name: Verify exact source-bound nonexceptional witness and post1617 freshness repair
+        run: python3 stages/stage32/residual-32-01-production/verify_stage32_post1617_freshness_repair.py
       - name: Diff check
         if: github.event_name == 'pull_request'
         run: git diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
