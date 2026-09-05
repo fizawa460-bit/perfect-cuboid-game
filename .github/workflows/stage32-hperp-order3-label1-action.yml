@@ -1,0 +1,24 @@
+name: Stage32 Hperp order3 label1 action
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_hperp_order3_label1_action.py'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1566_orbit_sum_commutator.py'
+      - 'stages/stage33/33-07/**'
+      - '.github/workflows/stage32-hperp-order3-label1-action.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run exact order-3 action sweep
+        run: python3 stages/stage32/residual-32-01-production/diagnose_stage32_hperp_order3_label1_action.py
