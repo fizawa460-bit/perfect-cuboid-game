@@ -10,17 +10,19 @@ ROOT = Path(__file__).resolve().parents[2]
 H = Path(__file__).resolve().parent
 MANIFEST = H / "archive" / "legacy-root" / "manifest.json"
 STATE = H / "MAIN-STATE.json"
-EXPECTED_MANIFEST_CANONICAL = "8bbc6435cace28874ed46d21b2b4dd80773bef04f003cac6eb92e093439d436d"
+EXPECTED_MANIFEST_CANONICAL = "37b8ff643fadba586384fd40efa76dd4f6beee86c6ee75b87614c4b43e2274ce"
 EXPECTED_RELOCATIONS = {
     "stages/stage32/POST_B16_LITERATURE_RECEIVER_ROADMAP.md": ("stages/stage32/archive/legacy-root/POST_B16_LITERATURE_RECEIVER_ROADMAP.md", "d852e82372f45df920530bded3c426a017578734"),
     "stages/stage32/POST_B16_RELEASE_CONTRACT.md": ("stages/stage32/archive/legacy-root/POST_B16_RELEASE_CONTRACT.md", "7d5de7d8870b9722cb28e4eddcd4960434eec0d6"),
     "stages/stage32/controller-history-through-32-21ad.json": ("stages/stage32/archive/legacy-root/controller-history-through-32-21ad.json", "1f89f1722fb4c34c932128f6d2cc2286b4918a65"),
-    "stages/stage32/controller-v243-post1505-gauge-merge-released.json": ("stages/stage32/archive/legacy-root/controller-v243-post1505-gauge-merge-released.json", "a9c468260d86b90ca7ea9ff73a5293a17babc7a8"),
     "stages/stage32/controller-v246-post1520-retained-geometry-18-to-18-provisional.json": ("stages/stage32/archive/legacy-root/controller-v246-post1520-retained-geometry-18-to-18-provisional.json", "e0ed6329d654583a5aa63f7e93ed7a2300ea358a"),
     "stages/stage32/goal-and-stop-contract.json": ("stages/stage32/archive/legacy-root/goal-and-stop-contract.json", "430e37f9e002aa3d975f0ecb970e2d60932e145f"),
     "stages/stage32/post-b16-literature-receiver-contract.json": ("stages/stage32/archive/legacy-root/post-b16-literature-receiver-contract.json", "46acc2d3f11c855f7652625effe6e102d3730f8a"),
-    "stages/stage32/post1504-antiloop-removal-policy.md": ("stages/stage32/archive/legacy-root/post1504-antiloop-removal-policy.md", "e2946c7c4d8d26ef4eedf70d1a9ce07e818f15b1"),
     "stages/stage32/post1505-trace-parity-bridge.md": ("stages/stage32/archive/legacy-root/post1505-trace-parity-bridge.md", "0b34468dda2d37608667653dbf0dcb5c6a33ec02"),
+}
+EXPECTED_RETAINED_REFERENCED = {
+    "stages/stage32/controller-v243-post1505-gauge-merge-released.json": ("a9c468260d86b90ca7ea9ff73a5293a17babc7a8", "stages/stage32/controller.json"),
+    "stages/stage32/post1504-antiloop-removal-policy.md": ("e2946c7c4d8d26ef4eedf70d1a9ce07e818f15b1", "stages/stage32/controller.json"),
 }
 
 
@@ -57,6 +59,9 @@ def main() -> None:
     got = {x["old_path"]: (x["new_path"], x["blob_sha1"]) for x in manifest["relocated"]}
     if got != EXPECTED_RELOCATIONS:
         fail("relocation inventory moved")
+    retained = {x["path"]: (x["blob_sha1"], x["referrer"]) for x in manifest["retained_due_live_reference"]}
+    if retained != EXPECTED_RETAINED_REFERENCED:
+        fail("live-reference retention inventory moved")
 
     for old, (new, blob) in EXPECTED_RELOCATIONS.items():
         if (ROOT / old).exists():
@@ -66,6 +71,14 @@ def main() -> None:
             fail(f"archived path missing: {new}")
         if git_blob_sha(new_path) != blob:
             fail(f"archived blob changed: {new}")
+
+    for rel, (blob, referrer) in EXPECTED_RETAINED_REFERENCED.items():
+        path = ROOT / rel
+        if not path.is_file() or git_blob_sha(path) != blob:
+            fail(f"controller-referenced root asset moved: {rel}")
+        ref_data = (ROOT / referrer).read_bytes()
+        if rel.encode() not in ref_data:
+            fail(f"declared live reference not found: {rel} in {referrer}")
 
     # These three files are the audit/control layer for this relocation and are
     # intentionally allowed to name the old paths. All other tracked files must not.
@@ -112,6 +125,7 @@ def main() -> None:
     print("PASS Stage32 root cleanup phase B")
     print(f"manifest_canonical={EXPECTED_MANIFEST_CANONICAL}")
     print(f"relocated_file_count={len(EXPECTED_RELOCATIONS)}")
+    print(f"retained_live_reference_count={len(EXPECTED_RETAINED_REFERENCED)}")
     print("byte_identical_relocation=true")
     print("old_full_path_reference_outside_archive=false")
     print("mathematical_credit_changed=false")
