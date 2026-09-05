@@ -10,7 +10,7 @@ HERE = Path(__file__).resolve().parent
 STAGE = HERE.parent
 STATE = STAGE / "MAIN-STATE.json"
 START = STAGE / "MAIN-START-HERE.md"
-ROADMAP = STAGE / "ROADMAP-33-12-V71-J1-TORSOR.md"
+ROADMAP = HERE / "ROADMAP-V71-J1-TORSOR.md"
 V77 = HERE / "e3-b1-c22-j1-xalpha-kernel-correction-v77.json"
 
 V77_SHA = "d2f803ab0cb394389c1fedf8f94e237ce82702743d0240a4f4b2fe73a44d5e98"
