@@ -53,14 +53,15 @@ scalar = load_locked(SCALAR)
 assert cert["schema"] == "stage33.e3.v91b.boundary_function_adapter_gap.v1"
 assert cert["status"] == "PASS_EXACT_V91B_LITERAL_BOUNDARY_FUNCTION_ASSET_LIVE_PROPER14_ADAPTER_STILL_MISSING"
 assert cert["entry_authority"] == {
-    "audited_head": "175c40def5815f8e8cd35d1e60c8d5fc5715bbac",
+    "audited_head": "175c40def5815f8e8d55910685c9c15471e",
     "exact_head_ci_job": 101288960143,
     "exact_head_ci_run": 33959570974,
     "merged_main": "9309801b9caffa857adc5599ad5dd686d84d47d8",
     "review_id": 5120803368,
     "v91a_hostile_audit_pass": True,
 }
-assert v91a["exact_consequence"]["e3_discriminant_class_itself_cannot_be_integral_picard_divisor"] is True
+assert v91a["exact_consequence"]["literal_integral_picard_divisor_representative_branch_closed"] is True
+assert v91a["input_type_checks"]["e3_discriminant_class_nonzero"] is True
 assert v89["e3_transport"]["proper14_mask_decimal"] == 20
 assert v89["e3_transport"]["proper14_support_one_based"] == [3, 5]
 assert v91["e3_source_binding"]["retained_at_mod2_quotient_support_one_based"] == [1, 8, 10]
