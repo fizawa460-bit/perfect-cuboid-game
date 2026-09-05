@@ -11,7 +11,9 @@ HERE = Path(__file__).resolve().parent
 ROOT = Path(__file__).resolve().parents[3]
 CERT_PATH = HERE / "post1588-hperp-nonexceptional-mod2-witness.json"
 DIAG_PATH = HERE / "diagnose_stage32_post1588_hperp_nonexceptional_mod2.py"
-EXPECTED_CANONICAL = "a81b679286be37cb47b3a96607694b265ea36fb7ba5c5aaf046e4119451f7c1a"
+EXPECTED_CANONICAL = "13929f37516962131c78c1cd5765c7af5ad653c299afd9041036e203dfab9d32"
+EXPECTED_SURVIVORS = [73, 97, 235]
+EXPECTED_NEXT_ROUTE = "COMPUTE_ACTION_OR_COMMUTATOR_OF_SOURCE_BOUND_NONEXCEPTIONAL_WITNESS_ON_AUDITED_Q602_SURVIVORS_73_97_235"
 
 
 def csha(value: object) -> str:
@@ -25,6 +27,16 @@ def git_blob_sha1(path: Path) -> str:
     return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
 
 
+def load_locked_json_canonical(lock: dict, label: str) -> dict:
+    path = ROOT / lock["path"]
+    value = json.loads(path.read_text())
+    claimed = value.pop("canonical_sha256_without_this_field")
+    if claimed != lock["canonical_sha256"] or csha(value) != claimed:
+        raise SystemExit(f"{label} canonical regression")
+    value["canonical_sha256_without_this_field"] = claimed
+    return value
+
+
 def main() -> None:
     cert = json.loads(CERT_PATH.read_text())
     claimed = cert.pop("canonical_sha256_without_this_field")
@@ -36,6 +48,26 @@ def main() -> None:
         path = ROOT / lock["path"]
         if git_blob_sha1(path) != lock["blob_sha1"]:
             raise SystemExit(f"source blob moved: {lock['path']}")
+
+    audited_frontier = load_locked_json_canonical(
+        cert["source_locks"]["audited_q602_survivor_frontier"],
+        "audited Q602 survivor frontier",
+    )
+    if audited_frontier["fixed_target"]["surviving_residues_decimal"] != EXPECTED_SURVIVORS:
+        raise SystemExit("audited Q602 survivor frontier moved")
+    if audited_frontier["decision"]["Q602_excluded"] or audited_frontier["decision"]["O210_excluded"]:
+        raise SystemExit("audited survivor source unexpectedly claims exclusion")
+
+    post1577 = load_locked_json_canonical(
+        cert["source_locks"]["post1577_direct_mod2_identity"],
+        "post1577 direct mod2 identity",
+    )
+    if post1577["fixed_target"]["surviving_residues_decimal"] != EXPECTED_SURVIVORS:
+        raise SystemExit("post1577 survivor frontier moved")
+    if post1577["exceptional_quotient_preflight"]["q602_residue_specific_commutator_obtained"]:
+        raise SystemExit("post1577 unexpectedly gained residue-specific commutator")
+    if post1577["decision"]["Q602_excluded"] or post1577["decision"]["O210_excluded"]:
+        raise SystemExit("post1577 unexpectedly claims exclusion")
 
     proc = subprocess.run(
         [sys.executable, str(DIAG_PATH)],
@@ -85,8 +117,17 @@ def main() -> None:
 
     target = cert["fixed_target"]
     decision = cert["decision"]
-    if target["Q"] != 602 or target["surviving_residues_decimal"] != [73]:
-        raise SystemExit("fixed Stage32 frontier moved inside certificate")
+    repair = cert["authority_repair"]
+    if target["Q"] != 602 or target["surviving_residues_decimal"] != EXPECTED_SURVIVORS:
+        raise SystemExit("fixed Stage32 audited survivor frontier moved inside certificate")
+    if decision["next_exact_route"] != EXPECTED_NEXT_ROUTE:
+        raise SystemExit("next exact route does not cover all audited survivors")
+    if repair["defect"] != "UNAUDITED_SURVIVOR_CONTRACTION_73_97_235_TO_73":
+        raise SystemExit("authority repair defect marker moved")
+    if repair["repaired_survivors_decimal"] != EXPECTED_SURVIVORS:
+        raise SystemExit("authority repair survivor set moved")
+    if repair["hperp_geometry_changed"] or repair["q602_residue_elimination_added"]:
+        raise SystemExit("authority repair improperly changed mathematical credit")
     if not decision["missing_input_subgoal_obtained"]:
         raise SystemExit("missing-input subgoal credit missing")
     for forbidden in ("q602_residue_specific_commutator_obtained", "Q602_excluded", "O210_excluded", "controller_change_authorized"):
@@ -97,9 +138,11 @@ def main() -> None:
             raise SystemExit(f"credit firewall violated: {forbidden}")
 
     print(json.dumps({
-        "verdict": "PASS_STAGE32_POST1588_HPERP_NONEXCEPTIONAL_MOD2_WITNESS",
+        "verdict": "PASS_STAGE32_POST1612_SURVIVOR_AUTHORITY_REPAIR",
         "certificate_canonical_sha256": claimed,
+        "audited_survivors_decimal": EXPECTED_SURVIVORS,
         "exceptional_rank_F2": ranks["exceptional_rank_F2"],
+        "normal_rank_F2": ranks["normal_rank_F2"],
         "all140_rank_F2": ranks["all140_rank_F2"],
         "escaping_normal_count": ranks["escaping_normal_count"],
         "first_witness_label_1based": witness["normal_curve_label_1based"],
