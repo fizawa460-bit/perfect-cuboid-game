@@ -12,7 +12,8 @@ STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
 ART=ROOT/'stages/stage35-ex/35ex-35/private-edge-gcd-six-variable-decomposition.json'
 ARS=ROOT/'docs/arsenal/cards/formal/S34-W01.md'
 SCHEMA='STAGE35_EX_PESCH_E1_STATE_V34_POST_35EX34_HOSTILE_AUDITED_PRIVATE_GCD_PREFLIGHT'
-BASE='c8a876838882c91c078c85da5c88d131b151ac40'
+BASE='605ef83aae1ba2804537eb6dc36695ca80ade412'
+PARENT_MERGE='c8a876838882c91c078c85da5c88d131b151ac40'
 PARENT_REVIEW=5120821124
 PARENT_HEAD='f381177b10f709dccfb9628e56d2dbdf5d811e3d'
 PARENT_RUN=33960030022
@@ -37,20 +38,30 @@ state=json.loads(STATE.read_text())
 art=json.loads(ART.read_text())
 assert state['schema']==SCHEMA and state['stage']=='35-EX' and state['status']=='ACTIVE_RESEARCH_NO_CREDIT'
 assert state['base_main_sha']==BASE
+assert state['history_snapshot']['commit_sha']==PARENT_MERGE
 pa=state['parent_authority']
 assert pa['unit']=='35EX-34' and pa['audit_verdict']=='HOSTILE_AUDIT_PASS'
 assert pa['hostile_review_id']==PARENT_REVIEW and pa['exact_head_sha']==PARENT_HEAD
 assert pa['exact_head_ci_run']==PARENT_RUN and pa['exact_head_ci_job']==PARENT_JOB
-assert pa['merged_main_sha']==BASE
+assert pa['merged_main_sha']==PARENT_MERGE
 assert pa['route_status']=='PASS_NEW_GATE_FROM_STRONGER_VIEW'
 assert state['current']['unit']=='35EX-35_PRIVATE_EDGE_GCD_SIX_VARIABLE_DECOMPOSITION_PREFLIGHT'
 assert state['current']['status']=='PROVISIONAL_EXACT_GOALS_1_TO_3_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT'
+ri=state['resolved_investigations']
+assert ri['CURRENT_PRIMITIVE_SOURCE_MARKING']['status']=='AUDITED_EXACT_REVERSE_ADAPTER_AND_ENDPOINT_POPULATION_EQUIVALENCE_NO_E1_CREDIT'
+assert ri['SOURCE_MARKING_AS_STRICT_ENDPOINT_RESTRICTION']['status']=='BLOCKED_EQUIVALENT_TO_GAUGE'
+assert ri['HISTORICAL_GAUSSIAN_ORIENTATION_ROUTE_35EX13_17B_18']['status']=='FROZEN_NO_RECHARGE'
+assert ri['ENDPOINT_THREE_FACE_SHARED_GAUSSIAN_SUPPORT_35EX33']['all_deeper_gaussian_arguments_ruled_out'] is False
+ledger=state['candidate_ledger']
+assert ledger['untested_count']==8 and ledger['split_triggered'] is False
+assert 'E1-GAUSSIAN-THREE-FACE-COMPATIBILITY-DESCENT' in ledger['blocked']
+assert 'E1-S3-SYMMETRIC-ENDPOINT-INVARIANTS_WITHOUT_STRICT_ARITHMETIC_REDUCTION' in ledger['blocked']
 
 assert art['schema']=='STAGE35_EX_35_PRIVATE_EDGE_GCD_SIX_VARIABLE_DECOMPOSITION_V1'
 assert art['status']=='PROVISIONAL_EXACT_GOALS_1_TO_3_NO_E1_CREDIT'
 assert art['base_main_sha']==BASE
 assert art['parent_35ex34']['hostile_review_id']==PARENT_REVIEW
-assert art['parent_35ex34']['merge_sha']==BASE
+assert art['parent_35ex34']['merge_sha']==PARENT_MERGE
 assert git_blob_sha(ARS)==ARS_BLOB==art['arsenal']['S34_W01_blob']
 assert art['arsenal']['status']=='PREFLIGHT_ONLY_NOT_TRIGGERED'
 assert art['goal4_boundary']['status']=='NOT_EXECUTED_IN_THIS_LEAF'
