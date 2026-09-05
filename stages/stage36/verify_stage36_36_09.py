@@ -8,9 +8,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 STATE = ROOT / "stages/stage36/MAIN-STATE.json"
 CERT = ROOT / "stages/stage36/36-09/replacement-breadth-gate.json"
-CERT_BLOB = "f7eb66245d24e9d463cb98d82d56daa86ebb5772"
-BASE = "99c5f1634dd59d4bc5698cbb775801dd9d000827"
+CERT_BLOB = "0c6019d70346b531a9b703d6f74e346302273655"
+BASE = "dc5898281a7ccea25d8ee0c1ae9953a18941ec08"
+PROMO_36_05_MERGE = "99c5f1634dd59d4bc5698cbb775801dd9d000827"
 SCHEMA = "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V12_36_09_BREADTH_GATE_PENDING_AUDIT"
+FRESHNESS = {"sync_pr":1574,"main_sha":BASE,"merge_commit":"4e0010b26f6b0a59e50234d6f1b35b7a78360fff","scope":"Stage32-only advance via #1570; no Stage36, Stage29 Campedelli/Brauer source, Research OS policy, or Arsenal authority changes"}
 
 SOURCES = {
     "stage36_roadmap": ("stages/stage36/ROADMAP.md", "eeedda0e89e24f851c989b5ec83e7b320e1ad99e"),
@@ -57,16 +59,11 @@ EXPECTED_STATUS = {
     "B10_INTERMEDIATE_SIGN_QUOTIENT_OR_CHARACTER": "UNTESTED",
 }
 
-
 def blob_sha(path: Path) -> str:
     data = path.read_bytes()
     return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
-
-
 def req(ok: bool, msg: str) -> None:
-    if not ok:
-        raise SystemExit(msg)
-
+    if not ok: raise SystemExit(msg)
 
 def main() -> None:
     req(blob_sha(CERT) == CERT_BLOB, "36-09 certificate blob drift")
@@ -74,6 +71,7 @@ def main() -> None:
     req(cert.get("schema") == "STAGE36_36_09_RECEIVER_MATCHED_REPLACEMENT_BREADTH_GATE_V1", "36-09 schema moved")
     req(cert.get("status") == "BREADTH_GATE_PENDING_HOSTILE_AUDIT", "36-09 status moved")
     req(cert.get("base_main_sha") == BASE, "36-09 base moved")
+    req(cert.get("freshness_sync") == FRESHNESS, "36-09 freshness provenance moved")
 
     for key, (rel, sha) in SOURCES.items():
         req(cert.get("source_locks", {}).get(key) == {"path": rel, "blob_sha": sha}, f"source declaration moved: {key}")
@@ -150,24 +148,17 @@ def main() -> None:
     req(ce.get("CYCLE_EXHAUSTIVE_VIEW_AUDIT") is True and ce.get("CYCLE_BLIND_REDISCOVERY") is True, "cycle exit audit flags moved")
     req(ce.get("CYCLE_SPLIT_TRIGGERED") is False and ce.get("CYCLE_PARKING_AUDIT_COMPLETE") is False, "cycle exit split/parking moved")
 
-    req(cert.get("pass_condition") == {
-        "RECEIVER_QUANTIFIERS_FROZEN": True,
-        "EXHAUSTIVE_VIEW_AUDIT": True,
-        "BLIND_REDISCOVERY": True,
-        "CANDIDATE_LEDGER_CLASSIFIED": True,
-        "ONE_ACTIVE_ROUTE_SELECTED": True,
-        "SELECTED_NEXT_ROUTE": "36-09A_CAMP4_BRAUER_COMPATIBILITY_PREFLIGHT",
-        "RECEIVER_MATCHED_REPLACEMENT_THEOREM_PROVED": False,
-    }, "36-09 pass condition moved")
+    req(cert.get("pass_condition") == {"RECEIVER_QUANTIFIERS_FROZEN":True,"EXHAUSTIVE_VIEW_AUDIT":True,"BLIND_REDISCOVERY":True,"CANDIDATE_LEDGER_CLASSIFIED":True,"ONE_ACTIVE_ROUTE_SELECTED":True,"SELECTED_NEXT_ROUTE":"36-09A_CAMP4_BRAUER_COMPATIBILITY_PREFLIGHT","RECEIVER_MATCHED_REPLACEMENT_THEOREM_PROVED":False}, "36-09 pass condition moved")
     req(all(v is False for v in cert.get("claims", {}).values()), "36-09 certificate leaked higher credit")
 
     s = json.loads(STATE.read_text())
     req(s.get("schema") == SCHEMA and s.get("status") == "ACTIVE_PENDING_HOSTILE_AUDIT", "V12 lifecycle moved")
     req(s.get("base_main_sha") == BASE, "V12 base moved")
+    req(s.get("freshness_sync_36_09") == FRESHNESS, "V12 freshness provenance moved")
     promo = s.get("stage36_36_05_promotion", {})
     req(promo.get("pr") == 1573 and promo.get("exact_head") == "741eb0ef6f07ef6551602c84a1b7493977023feb", "36-05 promotion identity moved")
     req(promo.get("exact_head_ci_run") == 33930463014 and promo.get("exact_head_ci_job") == 101207828353, "36-05 promotion CI moved")
-    req(promo.get("merged_main_sha") == BASE and promo.get("NEW_THEOREM_CREDIT") is False, "36-05 promotion provenance moved")
+    req(promo.get("merged_main_sha") == PROMO_36_05_MERGE and promo.get("NEW_THEOREM_CREDIT") is False, "36-05 promotion provenance moved")
     u = s.get("completed_units", {}).get("36-09", {})
     req(u.get("certificate_blob_sha") == CERT_BLOB and u.get("promotion_status") == "PROVISIONAL_NOT_AUDITED", "36-09 provisional authority moved")
     req(u.get("EXHAUSTIVE_VIEW_AUDIT") is True and u.get("BLIND_REDISCOVERY") is True, "36-09 state breadth flags moved")
@@ -187,6 +178,4 @@ def main() -> None:
     print("candidate ledger=1 LIVE, 6 UNTESTED, 2 BLOCKED, 1 DOMINATED; split=false; parking=false")
     print("selected=36-09A CAMP4 Brauer compatibility preflight; no Brauer/replacement/receiver/endpoint credit")
 
-
-if __name__ == "__main__":
-    main()
+if __name__ == "__main__": main()
