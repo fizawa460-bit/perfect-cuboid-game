@@ -65,6 +65,44 @@ def assert_json_canonical(path: Path, expected: str) -> dict:
     return obj
 
 
+def assert_startup_contract_has_no_mutable_current_literals(startup: str, state: dict) -> None:
+    """MAIN-START-HERE is a fixed contract; mutable current data lives only in MAIN-STATE."""
+    mutable_sections = [
+        state["fixed_target"],
+        state["current_exact_frontier"],
+        state["current"],
+        state["firewalls"],
+        state["cleanup_gate"],
+    ]
+
+    # Exact machine field names are never allowed in the fixed prose contract.
+    for section in mutable_sections:
+        for key in section:
+            if key in startup:
+                fail(f"mutable MAIN-STATE field leaked into MAIN-START-HERE: {key}")
+
+    # Exact route/frontier/cleanup identifiers are also forbidden. Generic prose such as
+    # "current target" or "current firewall values" is allowed and should point to MAIN-STATE.
+    for section in mutable_sections:
+        for value in section.values():
+            if isinstance(value, str) and len(value) >= 8 and value in startup:
+                fail(f"mutable MAIN-STATE literal leaked into MAIN-START-HERE: {value}")
+
+    target = state["fixed_target"]
+    forbidden_renderings = {
+        str(target["row_id"]),
+        f"O={target['O']}",
+        f"Q={target['Q']}",
+        f"qprime={target['qprime']}",
+        ",".join(str(x) for x in target["surviving_residues_decimal"]),
+        ", ".join(str(x) for x in target["surviving_residues_decimal"]),
+        str(target["surviving_residues_decimal"]),
+    }
+    for literal in forbidden_renderings:
+        if literal in startup:
+            fail(f"mutable target literal leaked into MAIN-START-HERE: {literal}")
+
+
 def main() -> None:
     state = json.loads(STATE.read_text(encoding="utf-8"))
     if state.get("schema") != EXPECTED_SCHEMA:
@@ -84,11 +122,13 @@ def main() -> None:
         "`AGENTS.md`",
         "`stages/stage32/MAIN-STATE.json`",
         "only the paths listed in `MAIN-STATE.json.current_leaf_working_set`",
+        "Read all such current values only from `MAIN-STATE.json`.",
         "Do not merge without explicit user authorization.",
     ]
     for fragment in required_startup_fragments:
         if fragment not in startup:
             fail(f"startup contract fragment missing: {fragment}")
+    assert_startup_contract_has_no_mutable_current_literals(startup, state)
 
     working = state.get("current_leaf_working_set")
     if not isinstance(working, list) or not working:
@@ -166,6 +206,7 @@ def main() -> None:
     print("PASS Stage32 MAIN startup authority")
     print(f"main_state_canonical={EXPECTED_CANONICAL}")
     print("startup_chain=AGENTS->MAIN-START-HERE->MAIN-STATE->current_leaf_working_set")
+    print("main_start_here_mutable_current_literals=false")
     print("legacy_controller_state_runkey_in_ordinary_startup=false")
     print("Q602_excluded=false O210_excluded=false O212_plus_advance_allowed=false")
     print("stage32_root_cleanup_started=false")
