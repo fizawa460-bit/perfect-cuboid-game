@@ -21,7 +21,7 @@ For an existing weapon/evidence lookup or named expansion, the stable navigation
 
 For ordinary startup, do not open controller/roadmap unless a named reason requires that expansion; follow `MAIN-STATE.current_leaf_working_set` first.
 
-V58 remains the stable operational routing rule: Arsenal first; bounded repository search may repeat only when each repeat has a materially new mathematical signal. Unbounded/open-ended search is forbidden, and a search miss never proves repository-wide or mathematical absence.
+V58 remains the stable operational routing rule: Arsenal first, then repeatable bounded search only when each repeat has a materially new mathematical signal. Unbounded/open-ended search is forbidden, and a search miss never proves repository-wide or mathematical absence.
 
 Do not preload Research OS. Open `docs/research-os/policies/repository-asset-discovery.md` only when the active `current_leaf_working_set` includes it or another explicit Research OS trigger applies.
 
