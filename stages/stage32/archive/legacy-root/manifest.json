@@ -1,7 +1,7 @@
 {
   "schema": "STAGE32_ROOT_CLEANUP_PHASE_B_V1",
   "role": "BYTE_IDENTICAL_RELOCATION_INVENTORY_NOT_MATHEMATICAL_AUTHORITY",
-  "scope": "LOOSE_STAGE32_ROOT_LEGACY_FILES_WITH_NO_CURRENT_STARTUP_OR_ON_DEMAND_AUTHORITY_ROLE",
+  "scope": "LOOSE_STAGE32_ROOT_LEGACY_FILES_AFTER_LIVE_REFERENCE_AUDIT",
   "relocation_only": true,
   "deletion_of_content": false,
   "reference_audit": {
@@ -9,6 +9,18 @@
     "exact_head_tracked_file_old_full_path_scan_required": true,
     "search_miss_not_repository_wide_nonexistence": true
   },
+  "retained_due_live_reference": [
+    {
+      "path": "stages/stage32/controller-v243-post1505-gauge-merge-released.json",
+      "blob_sha1": "a9c468260d86b90ca7ea9ff73a5293a17babc7a8",
+      "referrer": "stages/stage32/controller.json"
+    },
+    {
+      "path": "stages/stage32/post1504-antiloop-removal-policy.md",
+      "blob_sha1": "e2946c7c4d8d26ef4eedf70d1a9ce07e818f15b1",
+      "referrer": "stages/stage32/controller.json"
+    }
+  ],
   "relocated": [
     {
       "old_path": "stages/stage32/POST_B16_LITERATURE_RECEIVER_ROADMAP.md",
@@ -26,11 +38,6 @@
       "blob_sha1": "1f89f1722fb4c34c932128f6d2cc2286b4918a65"
     },
     {
-      "old_path": "stages/stage32/controller-v243-post1505-gauge-merge-released.json",
-      "new_path": "stages/stage32/archive/legacy-root/controller-v243-post1505-gauge-merge-released.json",
-      "blob_sha1": "a9c468260d86b90ca7ea9ff73a5293a17babc7a8"
-    },
-    {
       "old_path": "stages/stage32/controller-v246-post1520-retained-geometry-18-to-18-provisional.json",
       "new_path": "stages/stage32/archive/legacy-root/controller-v246-post1520-retained-geometry-18-to-18-provisional.json",
       "blob_sha1": "e0ed6329d654583a5aa63f7e93ed7a2300ea358a"
@@ -46,11 +53,6 @@
       "blob_sha1": "46acc2d3f11c855f7652625effe6e102d3730f8a"
     },
     {
-      "old_path": "stages/stage32/post1504-antiloop-removal-policy.md",
-      "new_path": "stages/stage32/archive/legacy-root/post1504-antiloop-removal-policy.md",
-      "blob_sha1": "e2946c7c4d8d26ef4eedf70d1a9ce07e818f15b1"
-    },
-    {
       "old_path": "stages/stage32/post1505-trace-parity-bridge.md",
       "new_path": "stages/stage32/archive/legacy-root/post1505-trace-parity-bridge.md",
       "blob_sha1": "0b34468dda2d37608667653dbf0dcb5c6a33ec02"
@@ -61,6 +63,8 @@
     "stages/stage32/MAIN-STATE.json",
     "stages/stage32/verify_main_startup.py",
     "stages/stage32/controller.json",
+    "stages/stage32/controller-v243-post1505-gauge-merge-released.json",
+    "stages/stage32/post1504-antiloop-removal-policy.md",
     "stages/stage32/ROADMAP.md",
     "stages/stage32/GOAL_AND_STOP_CONTRACT.md",
     "stages/stage32/HEAVY_WORKFLOW_POLICY.md",
@@ -75,5 +79,5 @@
     "mathematical_credit_changed": false,
     "heavy_compute_authorized": false
   },
-  "canonical_sha256_without_this_field": "8bbc6435cace28874ed46d21b2b4dd80773bef04f003cac6eb92e093439d436d"
+  "canonical_sha256_without_this_field": "37b8ff643fadba586384fd40efa76dd4f6beee86c6ee75b87614c4b43e2274ce"
 }
