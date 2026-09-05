@@ -65,16 +65,22 @@
       "theorem_credit": false
     },
     "35EX-33": {
-      "status": "PROVISIONAL_SMALL_GOAL_1_COMPLETE_NO_RECEIVER_CREDIT",
+      "status": "PROVISIONAL_EXACT_ROUTE_BLOCKER_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT",
       "goal1_artifact": "stages/stage35-ex/35ex-33/primitive-integral-endpoint-normalization.json",
       "goal1_verifier": "stages/stage35-ex/verify_stage35_ex_33_goal1.py",
+      "goal2_artifact": "stages/stage35-ex/35ex-33/three-face-gaussian-norm-factorizations.json",
+      "goal2_verifier": "stages/stage35-ex/verify_stage35_ex_33_goal2.py",
+      "blocker_artifact": "stages/stage35-ex/35ex-33/pairwise-gaussian-gcd-support-route-blocker.json",
+      "blocker_verifier": "stages/stage35-ex/verify_stage35_ex_33_blocker.py",
+      "completed_small_goals": [1,2,3,4,5],
       "primitive_integral_endpoint_normalization_exact": true,
-      "positive_rational_scaling_invariance_exact": true,
-      "primitive_ray_representative_unique": true,
-      "edge_permutation_equivariance_exact": true,
-      "rational_face_and_space_diagonals_become_integral": true,
-      "gaussian_gcd_support_credit": false,
-      "finite_squareclass_receiver_credit": false
+      "three_face_gaussian_norm_identities_exact": true,
+      "pairwise_gaussian_gcd_support_exact": true,
+      "distinct_face_gaussian_gcds_square_ideals": true,
+      "private_moving_edge_gcd_squareclasses_only": true,
+      "finite_squareclass_receiver_credit": false,
+      "route_status": "BLOCKED_NEW_PATTERN_ISOLATED",
+      "theorem_credit": false
     }
   },
   "resolved_investigations": {
@@ -89,33 +95,63 @@
     },
     "HISTORICAL_GAUSSIAN_ORIENTATION_ROUTE_35EX13_17B_18": {
       "status": "FROZEN_NO_RECHARGE",
-      "reason": "35EX-13 owns Q/S_plus; 35EX-17B owns gminus*gplus=c and moving p*d twist; 35EX-18 owns p=OPPOSITE/d=SAME relative orientation and Master-Gaussian freeze with moving c*q data",
-      "new_route_boundary": "35EX-33 may only test simultaneous endpoint-level pairwise Gaussian gcd/support of F_AB=A+iB, F_AC=A+iC, F_BC=B+iC; if it reduces to Q/S_plus, p*d, relative orientation, or moving c*q data it must stop EQUIVALENT/BLOCKED"
+      "reason": "35EX-13 owns Q/S_plus; 35EX-17B owns gminus*gplus=c and moving p*d twist; 35EX-18 owns p=OPPOSITE/d=SAME relative orientation and Master-Gaussian freeze with moving c*q data"
+    },
+    "ENDPOINT_THREE_FACE_SHARED_GAUSSIAN_SUPPORT_35EX33": {
+      "status": "BLOCKED_NEW_PATTERN_ISOLATED",
+      "exact_blocker": "DISTINCT_FACE_GAUSSIAN_GCDS_ARE_SQUARE_AND_ONLY_PRIVATE_MOVING_EDGE_GCD_SQUARECLASSES_REMAIN",
+      "all_deeper_gaussian_arguments_ruled_out": false,
+      "reopen_condition": "only if a new endpoint invariant couples the private edge-gcd squareclasses beyond pairwise Gaussian shared-prime support"
     }
+  },
+  "candidate_ledger": {
+    "blocked_current": "E1-GAUSSIAN-THREE-FACE-COMPATIBILITY-DESCENT",
+    "blocked_reason": "pairwise cross-face Gaussian gcds are square ideals and produce no nonsquare shared-prime compatibility; only private moving edge-gcd squareclasses remain",
+    "preserved_untested": [
+      "E1-ENDPOINT-UNIVERSAL-TORSOR-SQUARECLASS-SPLIT",
+      "E1-ENDPOINT-JOINT-LOCAL-HILBERT-PROFILE",
+      "E1-ENDPOINT-GENUINE-V2-INFINITE-DESCENT",
+      "E1-LINKED-CONGRUENT-NUMBER-SELMER-COUPLING",
+      "E1-RATIO-DISCRIMINANT-BIQUARTIC-QUOTIENT",
+      "E1-UNIFORM-ENDPOINT-ELLIPTIC-SURFACE-HEIGHT",
+      "E1-NONOBVIOUS-VERTICAL-BRAUER-ENDPOINT-FIBRATION",
+      "E1-ENDPOINT-SPINOR-NORM-TERNARY-FORM"
+    ],
+    "untested_count": 8,
+    "next_selection_requires_fresh_breadth_audit": true
   },
   "current": {
     "unit": "35EX-33_GAUSSIAN_THREE_FACE_COMPATIBILITY_PREFLIGHT",
-    "status": "PROVISIONAL_SMALL_GOAL_1_COMPLETE_NO_RECEIVER_CREDIT",
+    "status": "PROVISIONAL_EXACT_ROUTE_BLOCKER_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT",
     "candidate": "E1-GAUSSIAN-THREE-FACE-COMPATIBILITY-DESCENT",
-    "small_goals": [
-      "primitive integral endpoint normalization invariant under positive rational scaling",
-      "three exact Gaussian norm factorizations",
-      "complete pairwise Gaussian gcd/shared-prime support identities",
-      "test whether a finite compatibility squareclass receiver is genuinely distinct from 35EX-13/17B/18 and generic S34-W01 descent",
-      "otherwise stop with an exact EQUIVALENT/BLOCKED certificate"
-    ],
-    "completed_small_goals": [1],
-    "next_action": "PROVE_SMALL_GOAL_2_THREE_EXACT_GAUSSIAN_NORM_FACTORIZATIONS",
+    "result": "BLOCKED_NEW_PATTERN_ISOLATED_DISTINCT_FACE_GAUSSIAN_GCDS_SQUARE_PRIVATE_MOVING_EDGE_GCD_CLASSES_REMAIN",
+    "completed_small_goals": [1,2,3,4,5],
+    "next_if_hostile_audit_pass": "RUN_35EX34_POST_GAUSSIAN_BLOCK_EXHAUSTIVE_VIEW_AUDIT_PLUS_BLIND_REDISCOVERY",
     "working_set": [
       "stages/stage35-ex/35ex-33/primitive-integral-endpoint-normalization.json",
+      "stages/stage35-ex/35ex-33/three-face-gaussian-norm-factorizations.json",
+      "stages/stage35-ex/35ex-33/pairwise-gaussian-gcd-support-route-blocker.json",
       "stages/stage35-ex/verify_stage35_ex_33_goal1.py",
-      "stages/stage35-ex/35ex-32/post-population-equivalence-breadth-audit.json",
+      "stages/stage35-ex/verify_stage35_ex_33_goal2.py",
+      "stages/stage35-ex/verify_stage35_ex_33_blocker.py",
       "stages/stage35-ex/35ex-13/alternate-norm-gaussian-coupling.md",
       "stages/stage35-ex/35ex-17/post-descent-gaussian-coordinate-gcd-hook.md",
       "stages/stage35-ex/35ex-18/gaussian-relative-orientation-and-master-unit-freeze.md",
       "docs/arsenal/cards/formal/S34-W01.md",
+      "docs/research-os/policies/cycle-exploration-safety-protocol.md",
       "stages/stage35-ex/MAIN-STATE.json"
     ]
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "CYCLE_LIVE_CANDIDATES": 0,
+    "CYCLE_UNTESTED_CANDIDATES": 8,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": false,
+    "CYCLE_BLIND_REDISCOVERY": false,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "cross-face Gaussian gcds are square; only private moving edge-gcd squareclasses remain",
+    "CYCLE_NEW_VIEW_SOURCE": "INTERNAL_DERIVATION"
   },
   "claims": {
     "35ex32_hostile_audit_pass": false,
@@ -124,9 +160,10 @@
     "35ex32_theorem_credit": false,
     "historical_gaussian_no_recharge_comparison_complete": true,
     "old_gaussian_orientation_credit_recharged": false,
-    "gaussian_three_face_preflight_started": true,
     "primitive_integral_endpoint_normalization_exact_provisional": true,
-    "gaussian_gcd_support_classified": false,
+    "three_face_gaussian_norm_identities_exact_provisional": true,
+    "pairwise_gaussian_gcd_support_exact_provisional": true,
+    "distinct_face_gaussian_gcds_square_ideals_provisional": true,
     "finite_squareclass_receiver_obtained": false,
     "gaussian_compatibility_theorem_proved": false,
     "E1_proved": false,
