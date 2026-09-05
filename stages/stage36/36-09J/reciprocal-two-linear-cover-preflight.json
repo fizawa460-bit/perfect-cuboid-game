@@ -1,0 +1,195 @@
+{
+  "schema": "STAGE36_36_09J_RECIPROCAL_TWO_LINEAR_COVER_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09J",
+  "status": "PROVISIONAL_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "a1951b714e321aea1fc88cb806ed6796e4ce621a",
+  "parent_promotion_main_sha": "fc5886d62b78d8dcb21824ff02419a3e3b7634c8",
+  "target": "Classify exactly the remaining X-reconstruction cover after the audited 36-09I reciprocal two-linear receiver parameterization, including branch collisions and generic/physical-fiber genera, without claiming rational-point exhaustion or receiver emptiness.",
+  "source_locks": {
+    "stage36_v31_main_state": {
+      "path": "stages/stage36/MAIN-STATE.json",
+      "commit": "a1951b714e321aea1fc88cb806ed6796e4ce621a",
+      "blob_sha": "c94c56ef18cd914fe0e89032bab182eb0c69d61d"
+    },
+    "stage36_36_09I_certificate": {
+      "path": "stages/stage36/36-09I/post-w01-breadth-refresh.json",
+      "commit": "476829b39679f4c380fe0458e37c28745e5f5621",
+      "blob_sha": "f9bf252f3be47f606a3b270961df3b5943fa1909"
+    },
+    "S31_W01": {
+      "path": "docs/arsenal/cards/formal/S31-W01.md",
+      "blob_sha": "122a6c1c5c871c1c7b797017e854de8ec55e7c50"
+    },
+    "S34_W01": {
+      "path": "docs/arsenal/cards/formal/S34-W01.md",
+      "blob_sha": "01a8e90e34b4aa46edbfa825803d488e5230e9d0"
+    },
+    "S34_W03": {
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96"
+    },
+    "cycle_exploration_safety_protocol": {
+      "path": "docs/research-os/policies/cycle-exploration-safety-protocol.md",
+      "blob_sha": "4e911c4fc7e4ea7a2b5f96733a90b986ef8d9a37"
+    },
+    "research_credit_and_promotion_firewalls": {
+      "path": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
+      "blob_sha": "7a3de0b2692afe4fb25b6825b31bd0384a118a41"
+    }
+  },
+  "audited_input": {
+    "variables": {
+      "x": "q^2",
+      "z": "r^2",
+      "X": "x+1/x",
+      "Z": "z+1/z"
+    },
+    "physical_Z_reconstruction": [
+      "Z-2=(r-1/r)^2",
+      "Z+2=(r+1/r)^2",
+      "r in Q^x",
+      "Z!=2"
+    ],
+    "receiver_ratio_parameter": "k in Q with G1/G2=k^2",
+    "D": "1-(Z-2)*k^2",
+    "X": "(2*k^2*(Z+6)-Z)/D",
+    "remaining_reconstruction": [
+      "X-2=(Z+2)*(4*k^2-1)/D",
+      "X+2=(16*k^2-(Z-2))/D"
+    ],
+    "physical_D_zero_points": 0
+  },
+  "exact_cover": {
+    "abbreviations": {
+      "a": "Z-2",
+      "P": "4*k^2-1",
+      "Q": "16*k^2-a",
+      "D": "1-a*k^2"
+    },
+    "model": [
+      "C_Z: y1^2=P*D",
+      "C_Z: y2^2=Q*D"
+    ],
+    "equivalence_on_physical_Z": {
+      "X_minus_2": "because Z+2=(r+1/r)^2 is already a rational square and D!=0, X-2 square iff P/D square iff P*D square",
+      "X_plus_2": "because D!=0, X+2 square iff Q/D square iff Q*D square",
+      "scope": "fixed rational physical Z (equivalently fixed r in Q^x with Z=r^2+r^-2 and Z!=2) after the 36-09I common-receiver ratio parameterization"
+    },
+    "kummer_squareclasses": [
+      "[P*D]",
+      "[Q*D]",
+      "[P*Q]"
+    ],
+    "geometric_group": "(Z/2)^2 when the three squareclasses are nontrivial",
+    "degree_over_k_line": 4
+  },
+  "branch_audit": {
+    "branch_pairs": {
+      "P": "k^2=1/4",
+      "D": "k^2=1/(Z-2)",
+      "Q": "k^2=(Z-2)/16"
+    },
+    "pairwise_resultants": {
+      "Res_k(P,D)": "(Z-6)^2",
+      "Res_k(P,Q)": "16*(Z-6)^2",
+      "Res_k(Q,D)": "(Z-6)^2*(Z+2)^2"
+    },
+    "quartic_discriminants": {
+      "Disc_k(P*D)": "64*(Z-6)^4*(Z-2)",
+      "Disc_k(Q*D)": "256*(Z-6)^4*(Z-2)^2*(Z+2)^4",
+      "Disc_k(P*Q)": "262144*(Z-6)^4*(Z-2)"
+    },
+    "collision_or_degeneracy_values": [-2, 2, 6],
+    "infinity_branch": false,
+    "generic_distinct_branch_points": 6
+  },
+  "physical_collision_exclusion": {
+    "Z_eq_2": "excluded by the audited physical boundary Z!=2",
+    "Z_eq_6": "physical reconstruction would require Z+2=8 to be a rational square, impossible",
+    "Z_eq_minus_2": "physical reconstruction would require Z-2=-4 to be a rational square, impossible over Q",
+    "conclusion": "every rational physical base Z has six distinct geometric branch points; the three Kummer squareclasses are nontrivial and independent"
+  },
+  "genus_classification": {
+    "connected_cover": true,
+    "cover_degree": 4,
+    "branch_points": 6,
+    "inertia_order_each": 2,
+    "riemann_hurwitz": "2*g(C_Z)-2=4*(-2)+6*2=4",
+    "cover_genus": 3,
+    "character_quotients": [
+      {
+        "id": "chi_P_D",
+        "model": "u1^2=(4*k^2-1)*(1-(Z-2)*k^2)",
+        "branch_points": 4,
+        "genus": 1
+      },
+      {
+        "id": "chi_Q_D",
+        "model": "u2^2=(16*k^2-(Z-2))*(1-(Z-2)*k^2)",
+        "branch_points": 4,
+        "genus": 1
+      },
+      {
+        "id": "chi_P_Q",
+        "model": "u12^2=(4*k^2-1)*(16*k^2-(Z-2))",
+        "branch_points": 4,
+        "genus": 1
+      }
+    ],
+    "scope": "uniform for every rational physical Z; equivalently the generic physical-Z fiber is a smooth connected genus-3 V4 cover with three genus-one character quotients"
+  },
+  "arsenal_routing": {
+    "S31_W01": {
+      "status": "FORMALLY_MATCHED_QUARTIC_SIDE_NOT_TRIGGERED",
+      "matched": "three exact genus-one quartic character models are now derived",
+      "missing": [
+        "exact elliptic model for each selected quartic",
+        "explicit forward rational map quartic -> elliptic",
+        "explicit inverse on a stated open",
+        "denominator and exceptional-locus audit",
+        "exact round-trip certification"
+      ],
+      "credit": false
+    },
+    "S34_W01": {
+      "status": "NOT_RETRIED_CURRENT_FIRST_LAYER_REMAINS_BLOCKED",
+      "credit": false
+    },
+    "S34_W03": {
+      "status": "NOT_TRIGGERED_NO_JOINT_INTERSECTION_EXCLUSION_YET",
+      "credit": false
+    }
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "PASS_NEXT_GATE_UNCHANGED",
+    "CYCLE_ACTIVE_RECEIVER": "B3_RECIPROCAL_INVOLUTION_TWO_LINEAR_COVER",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 3,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "the exact remaining reconstruction is a uniform genus-3 V4 cover with three genus-one quartic character quotients",
+    "CYCLE_NEW_VIEW_SOURCE": "BLIND"
+  },
+  "proposed_successor_after_audit": "36-09K_CHARACTER_QUARTIC_ELLIPTIC_ADAPTER_PREFLIGHT",
+  "credit_firewall": {
+    "generic_cover_genera_candidate_classified": true,
+    "audited_generic_cover_genera_credit": false,
+    "S31_W01_triggered": false,
+    "elliptic_models_derived": false,
+    "quartic_elliptic_birational_maps_derived": false,
+    "uniform_Mordell_Weil_control": false,
+    "rational_points_exhausted": false,
+    "receiver_restricted_intersection_exclusion_triggered": false,
+    "receiver_emptiness_proved": false,
+    "quotient_Q_point_emptiness_proved": false,
+    "receiver_matched_replacement_theorem_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
