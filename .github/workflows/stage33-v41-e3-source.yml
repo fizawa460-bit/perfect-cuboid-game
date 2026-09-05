@@ -1,4 +1,4 @@
-name: Stage33 V41-V91C1A e3 exact chain and V94 current-startup replay
+name: Stage33 V41-V91C1C e3 exact chain and V95 candidate-startup replay
 
 on:
   pull_request:
@@ -13,13 +13,13 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v41-v91c1a-v94-e3-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v41-v91c1c-v95-e3-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
   verify-e3-source-geometry-routing-frontier:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
         with:
@@ -27,7 +27,16 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Replay immutable V41-V91C chain, V91C1A localization, and V94/V91C1A startup projection
+      - name: Install exact retained Stage33-07 dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' z3-solver
+      - name: Rebuild retained Stage33-07 ambient localization inputs
+        working-directory: stages/stage33/33-07
+        run: |
+          python materialize_order2_localization_receiver.py
+          python certify_order2_quotient_raw_order4_bockstein.py
+          python materialize_mixed_order_side_ambient_function_lifts.py
+          python materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py
+      - name: Replay immutable V41-V91C chain, V91C1A localization, V91C1B carrier preflight, V91C1C prime refinement, and V95 candidate startup
         run: |
           python stages/stage33/33-12/verify_e3_independent_proper14_source_v41.py
           python stages/stage33/33-12/verify_e3_v25_transfer_obstruction_v42.py
@@ -71,7 +80,9 @@ jobs:
           python stages/stage33/33-12/verify_e3_v91b_boundary_function_adapter_gap.py
           python stages/stage33/33-12/verify_e3_v91c_type_safe_cech_adapter_interface.py
           python stages/stage33/33-12/verify_e3_v91c1a_a2_02_literal_boundary_seed_localization.py
-          python stages/stage33/33-12/verify_stage33_v91c1a_current_startup_v94.py
+          python stages/stage33/33-12/verify_e3_v91c1b_a2_02_resolved_valuation_carrier_preflight.py
+          python stages/stage33/33-12/verify_e3_v91c1c_a2_02_strict_transform_prime_refinement.py
+          python stages/stage33/33-12/verify_stage33_v91c1c_candidate_current_startup_v95.py
           python stages/stage33/33-12/verify_j2_post_v39_arsenal_first_bounded_search_policy_v41.py
           python stages/stage33/sync_main_state.py --check
           git diff --check
