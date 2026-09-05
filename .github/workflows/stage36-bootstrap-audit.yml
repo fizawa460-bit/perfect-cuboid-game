@@ -53,13 +53,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          base="${{ github.event.pull_request.base.sha || 'a306fc15578bb7eac8d0fd43bbc6b7be9f9c3d33' }}"
-          for x in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 2af6edb984e0c0a51e945f886939a09b442c3218 fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 1d29735f3f50c6918a32b2542de8364b86568396 ac5a7c81d3f268bebbc2a9de8e658b23c97d5649 6e0c40eeb7a533b47aba0d224c34e85822db373c f22d67dda4183c3bfd39710ebb4083f5185f3f49; do
+          base="${{ github.event.pull_request.base.sha || 'bd402241fa69ea00d00b48695c883d1cbdbc2dbb' }}"
+          for x in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 2af6edb984e0c0a51e945f886939a09b442c3218 fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 1d29735f3f50c6918a32b2542de8364b86568396 ac5a7c81d3f268bebbc2a9de8e658b23c97d5649 6e0c40eeb7a533b47aba0d224c34e85822db373c f22d67dda4183c3bfd39710ebb4083f5185f3f49 631d773a0f341954507eacf303f0c5f7cbdc836a; do
             git merge-base --is-ancestor "$x" HEAD
           done
 
-      - name: Save current V21 state
-        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v21.json
+      - name: Save current V22 state
+        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v22.json
 
       - name: Restore immutable 36-09A mathematical state
         run: git show d0f3de51b86cda9199a55e89757ae6887f572ea3:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
@@ -110,12 +110,17 @@ jobs:
       - name: Replay Stage36 36-09D Q-defined pencil fibration preflight
         run: python3 stages/stage36/verify_stage36_36_09D.py
 
-      - name: Restore current V21 state
-        run: cp /tmp/stage36-v21.json stages/stage36/MAIN-STATE.json
+      - name: Restore exact V21 36-09D promotion state
+        run: git show 631d773a0f341954507eacf303f0c5f7cbdc836a:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
       - name: Replay Stage36 36-09D hostile-audited successor authority
         run: python3 stages/stage36/verify_stage36_36_09D_audited.py
 
-      - name: Assert 36-09E ready-unstarted boundary
+      - name: Restore current V22 state
+        run: cp /tmp/stage36-v22.json stages/stage36/MAIN-STATE.json
+      - name: Verify Stage36 36-09E character elliptic quotient arithmetic preflight
+        run: python3 stages/stage36/verify_stage36_36_09E.py
+
+      - name: Assert hostile-audit boundary before 36-09F
         shell: bash
         run: |
           set -euo pipefail
@@ -123,21 +128,22 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V21_THIN_36_09D_AUDITED'
-          assert s['status']=='ACTIVE'
-          a=s['authority_frontier']['36-09D']
-          assert a['promotion_status']=='HOSTILE_AUDIT_PASS'
-          assert a['hostile_audit_review']==5120566848
-          assert a['audited_head']=='f22d67dda4183c3bfd39710ebb4083f5185f3f49'
-          assert a['certificate_blob_sha']=='7fb67b8bf5a37d16ef527aea6109eb0782d61201'
-          assert a['PHYSICAL_SPECIAL_T1_RETAINED'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V22_36_09E_PENDING_HOSTILE_AUDIT'
+          assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
+          a=s['authority_frontier']['36-09E']
+          assert a['promotion_status']=='PROVISIONAL_NOT_AUDITED'
+          assert a['PHYSICAL_T_AND_TPLUS1_SQUARES'] is True
+          assert a['PHYSICAL_T1_ELIMINATED'] is True
+          assert a['NINE_TO_FOUR_LEGENDRE_TWIST_COLLAPSE'] is True
+          assert a['PHYSICAL_BASE_GENUS0_PARAMETERIZED'] is True
+          assert a['PAIRED_SHARED_X_RECEIVER_EXACT'] is True
+          assert a['S34_W03_APPLICABILITY_MATCHED'] is True
+          assert a['S34_W03_INTERSECTION_EXCLUSION_EXECUTED'] is False
           assert a['S34_W02_TRIGGERED'] is False
-          assert s['cycle_ledger']['B6_FIBRATION_TO_CURVE_BASE']=='LIVE_GENUS3_WITH_THREE_MOVING_ELLIPTIC_CHARACTER_QUOTIENTS'
-          assert s['current']['unit']=='36-09E'
-          assert s['current']['next_exact_leaf']=='36-09E_CHARACTER_ELLIPTIC_QUOTIENT_ARITHMETIC_PREFLIGHT'
-          assert s['current']['36_09E_entry_allowed'] is True
-          assert s['promotion_gates']['uniform_mordell_weil_control_proved'] is False
+          assert s['cycle_ledger']['B6_FIBRATION_TO_CURVE_BASE']=='LIVE_PAIRED_LEGENDRE_PLUS_MINUS_RECEIVER_OVER_GENUS0_PHYSICAL_BASE'
+          assert s['current']['36_09F_entry_allowed'] is False
+          assert s['promotion_gates']['paired_legendre_receiver_intersection_empty_proved'] is False
           assert s['promotion_gates']['R29_CAMP2_closed'] is False
           assert all(v is False for v in s['claims'].values())
-          print('36-09D hostile-audited authority frozen; 36-09E ready-unstarted')
+          print('36-09E physical Legendre/twist collapse frozen; 36-09F locked pending hostile audit')
           PY
