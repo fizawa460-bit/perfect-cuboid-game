@@ -9,6 +9,7 @@ on:
       - 'stages/stage29/29-06/endpoint-hub-graph.json'
       - 'stages/stage29/29-06/source-crosswalk.md'
       - 'stages/stage29/29-02f/audit.md'
+      - 'stages/stage29/29-02f/open-algebraic-brauer-adapter.md'
       - 'stages/stage29/29-02ha/result.md'
       - 'stages/stage29/29-02ha/exact-sign-cover-model.md'
       - 'stages/stage29/29-02hb/campedelli_kernel_check.py'
@@ -19,11 +20,16 @@ on:
       - 'docs/arsenal/index.json'
       - 'docs/arsenal/cards/formal/S30-W01.md'
       - 'docs/arsenal/cards/formal/S34-W01.md'
+      - 'docs/arsenal/cards/formal/S34-W02.md'
       - 'docs/arsenal/cards/formal/S34-W03.md'
+      - 'docs/arsenal/cards/provisional/S33-PW07.md'
+      - 'docs/arsenal/cards/provisional/S33-PW08.md'
       - 'docs/arsenal/cards/workflows/S30-WF01.md'
       - 'docs/arsenal/cards/workflows/S30-WF02.md'
       - 'docs/arsenal/cards/workflows/S30-WF03.md'
       - 'docs/arsenal/cards/workflows/S34-WF01.md'
+      - 'docs/research-os/policies/repository-asset-discovery.md'
+      - 'docs/research-os/policies/cycle-exploration-safety-protocol.md'
   workflow_dispatch:
 
 permissions:
@@ -81,7 +87,10 @@ jobs:
       - name: Replay audited Stage36 36-05 blocked authority
         run: python3 stages/stage36/verify_stage36_36_05_audited.py
 
-      - name: Assert audited blocked promotion boundary before 36-09
+      - name: Verify Stage36 36-09 replacement breadth gate
+        run: python3 stages/stage36/verify_stage36_36_09.py
+
+      - name: Assert hostile-audit boundary before 36-09A
         shell: bash
         run: |
           set -euo pipefail
@@ -89,8 +98,8 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V11_36_05_AUDITED_BLOCKED'
-          assert s['status']=='ACTIVE'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V12_36_09_BREADTH_GATE_PENDING_AUDIT'
+          assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
           g=s['promotion_gates']
           assert g['source_authority_lock_complete'] is True
           assert g['three_Q_representatives_exact'] is True
@@ -98,24 +107,25 @@ jobs:
           assert g['pointwise_H_torsor_class_explicit'] is True
           assert g['uniform_finite_ramification_support_proved'] is False
           assert g['finite_exhaustive_H_twist_family_proved'] is False
-          u=s['completed_units']['36-05']
-          assert u['status']=='AUDITED_BLOCKED_MOVING_RAMIFICATION_SUPPORT'
-          assert u['legal_outcome']=='BLOCKED_MOVING_RAMIFICATION_SUPPORT'
-          assert u['hostile_audit_review']==5118563918
-          assert u['audited_head']=='cf430199171c98ed5f9eaaadeb8d2d40268ca6ba'
-          assert u['exact_head_ci_run']==33928640974
-          assert u['exact_head_ci_job']==101202500740
-          assert u['merged_main_sha']=='353d9057d1d5bd9b25a287672906a27c551dede9'
-          assert u['certificate_blob_sha']=='193d0165b242d799bc981774783a5160c1ac58dc'
-          assert u['UNIFORM_FINITE_RAMIFICATION_SUPPORT_PROVED'] is False
-          assert u['FINITE_EXHAUSTIVE_H_TWIST_FAMILY'] is False
-          assert u['promotion_status']=='AUDITED'
+          assert g['receiver_matched_replacement_theorem_proved'] is False
+          u5=s['completed_units']['36-05']
+          assert u5['promotion_status']=='AUDITED'
+          assert u5['legal_outcome']=='BLOCKED_MOVING_RAMIFICATION_SUPPORT'
+          u9=s['completed_units']['36-09']
+          assert u9['status']=='BREADTH_GATE_SELECTS_CAMP4_BRAUER_COMPATIBILITY_PREFLIGHT_PENDING_HOSTILE_AUDIT'
+          assert u9['certificate_blob_sha']=='0c6019d70346b531a9b703d6f74e346302273655'
+          assert u9['EXHAUSTIVE_VIEW_AUDIT'] is True
+          assert u9['BLIND_REDISCOVERY'] is True
+          assert u9['CANDIDATE_LEDGER_CLASSIFIED'] is True
+          assert u9['SELECTED_NEXT_ROUTE']=='36-09A_CAMP4_BRAUER_COMPATIBILITY_PREFLIGHT'
+          assert u9['RECEIVER_MATCHED_REPLACEMENT_THEOREM_PROVED'] is False
+          assert u9['promotion_status']=='PROVISIONAL_NOT_AUDITED'
           assert s['current']['unit']=='36-09'
-          assert s['current']['next_exact_leaf']=='36-09_RECEIVER_MATCHED_REPLACEMENT_BREADTH_GATE'
           assert s['current']['36_06_entry_allowed'] is False
-          assert s['current']['36_09_entry_allowed'] is True
+          assert s['current']['36_09A_entry_allowed'] is False
+          assert s['current']['provisional_successor_after_hostile_audit']=='36-09A_CAMP4_BRAUER_COMPATIBILITY_PREFLIGHT'
           assert '36-06' not in s['completed_units']
-          assert '36-09' not in s['completed_units']
+          assert '36-09A' not in s['completed_units']
           assert all(v is False for v in s['claims'].values())
-          print('36-05 audited BLOCKED; direct 36-06 remains locked; 36-09 routed but not started')
+          print('36-09 breadth gate provisional; 36-09A selected but not started; no replacement/receiver/endpoint credit')
           PY
