@@ -47,10 +47,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          base="${{ github.event.pull_request.base.sha || 'cc27e6d6146e93e1928b467cda3464845350b7c1' }}"
-          for x in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 2af6edb984e0c0a51e945f886939a09b442c3218 fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 1d29735f3f50c6918a32b2542de8364b86568396 ac5a7c81d3f268bebbc2a9de8e658b23c97d5649 6e0c40eeb7a533b47aba0d224c34e85822db373c f22d67dda4183c3bfd39710ebb4083f5185f3f49 631d773a0f341954507eacf303f0c5f7cbdc836a 51efa8394c45bc60a4b482c4f6f94f7826eb9d20 f75830b2fd54031c1af05e2377a9da365a4d7fdf a3f6380a89e627a9fa36915466a901361e0cb175 cf6ada6bf53ee29c04751dfae427a96252c98e9c 4ed21de07a935ed848400515a44f53aba49234c7 c8b6bca818697125ef75a85527e282c15c6bd8f3 2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc dbd9ab95f1cf248a8a4704b205f62b8b96b1aefa fc5886d62b78d8dcb21824ff02419a3e3b7634c8 8ff10455b27a789a6ba71c354042be0f79a2b3a6; do git merge-base --is-ancestor "$x" HEAD; done
-      - name: Save current V33 state
-        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v33.json
+          base="${{ github.event.pull_request.base.sha || '0bc325f9b9db817193bc271121d19cb04970c5b9' }}"
+          for x in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 2af6edb984e0c0a51e945f886939a09b442c3218 fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 1d29735f3f50c6918a32b2542de8364b86568396 ac5a7c81d3f268bebbc2a9de8e658b23c97d5649 6e0c40eeb7a533b47aba0d224c34e85822db373c f22d67dda4183c3bfd39710ebb4083f5185f3f49 631d773a0f341954507eacf303f0c5f7cbdc836a 51efa8394c45bc60a4b482c4f6f94f7826eb9d20 f75830b2fd54031c1af05e2377a9da365a4d7fdf a3f6380a89e627a9fa36915466a901361e0cb175 cf6ada6bf53ee29c04751dfae427a96252c98e9c 4ed21de07a935ed848400515a44f53aba49234c7 c8b6bca818697125ef75a85527e282c15c6bd8f3 2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc dbd9ab95f1cf248a8a4704b205f62b8b96b1aefa fc5886d62b78d8dcb21824ff02419a3e3b7634c8 8ff10455b27a789a6ba71c354042be0f79a2b3a6 0bc325f9b9db817193bc271121d19cb04970c5b9; do git merge-base --is-ancestor "$x" HEAD; done
+      - name: Save current V34 state
+        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v34.json
       - name: Restore immutable 36-09A mathematical state
         run: git show d0f3de51b86cda9199a55e89757ae6887f572ea3:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
       - name: Replay Stage36 bootstrap authority
@@ -145,36 +145,38 @@ jobs:
           git worktree add --detach "$tmp" 6ede28751914a881a5ddaca7691538a8a3e4780c
           python3 "$tmp/stages/stage36/verify_stage36_36_09J.py"
           git worktree remove --force "$tmp"
-      - name: Restore current V33 state
-        run: cp /tmp/stage36-v33.json stages/stage36/MAIN-STATE.json
+      - name: Restore exact V33 36-09J audited state
+        run: git show 0bc325f9b9db817193bc271121d19cb04970c5b9:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
       - name: Replay Stage36 36-09J hostile-audited promotion
         run: python3 stages/stage36/verify_stage36_36_09J_audited.py
-      - name: Assert 36-09K ready boundary
+      - name: Restore current V34 state
+        run: cp /tmp/stage36-v34.json stages/stage36/MAIN-STATE.json
+      - name: Verify Stage36 36-09K exact quartic-to-elliptic adapter
+        run: python3 stages/stage36/verify_stage36_36_09K.py
+      - name: Assert hostile-audit boundary before 36-09L
         shell: bash
         run: |
           python3 - <<'PY'
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V33_THIN_36_09J_AUDITED'
-          assert s['status']=='ACTIVE'
-          a=s['authority_frontier']['36-09J']
-          assert a['hostile_audit_review']==5123112446
-          assert a['audited_head']=='6ede28751914a881a5ddaca7691538a8a3e4780c'
-          assert a['exact_head_ci']=='33971092160/101319624484'
-          assert a['certificate_blob_sha']=='72e9ca86f726f2ff286c983138d9381acdd97e62'
-          assert a['verifier_blob_sha']=='b5357a344ffab51118f4f1ec92904367c79c6541'
-          assert a['PHYSICAL_FIBER_GENUS_SEQUENCE']==[3,1,0]
-          assert a['S31_W01_TYPE_MATCH'] is True
-          assert a['S31_W01_TRIGGERED'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V34_36_09K_PENDING_HOSTILE_AUDIT'
+          assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
+          k=s['authority_frontier']['36-09K']
+          assert k['certificate_blob_sha']=='1a838c473343eb0eac0a0a871c95fdf207475d53'
+          assert k['verifier_blob_sha']=='fdf02d8fcf4c095661e4ad0a35f1f94e46b70f9c'
+          assert k['FORWARD_INVERSE_RATIONAL_MAPS_CERTIFIED'] is True
+          assert k['PROJECTIVE_EXCEPTIONAL_LOCUS_COMPLETE'] is True
+          assert k['INVERSE_DENOMINATOR_PHYSICAL_COLLISIONS']==0
+          assert k['PHYSICAL_FULL_RATIONAL_2_TORSION'] is True
+          assert k['S31_W01_ADAPTER_CERTIFICATE_COMPLETE'] is True
+          assert k['S31_W01_PROMOTED_TRIGGER'] is False
           assert s['cycle_ledger']['counts']=={'live':1,'untested':3,'blocked':6,'dominated':2}
-          assert s['current']['unit']=='36-09K'
-          assert s['current']['36_09K_entry_allowed'] is True
-          assert s['current']['next_exact_leaf']=='36-09K_GENUS_ONE_QUARTIC_ELLIPTIC_ADAPTER_PREFLIGHT'
-          assert s['promotion_gates']['generic_cover_genera_classified'] is True
+          assert s['current']['36_09L_entry_allowed'] is False
+          assert s['promotion_gates']['genus_one_quartic_adapter_certificate_complete'] is True
           assert s['promotion_gates']['genus_one_quartic_adapter_triggered'] is False
           assert s['promotion_gates']['receiver_emptiness_proved'] is False
           assert s['promotion_gates']['R29_CAMP2_closed'] is False
-          assert all(v is False for v in s['claims'].values())
-          print('36-09J hostile audit promoted; genus 3->1->0 tower audited; 36-09K unlocked')
+          assert all(v is False for k,v in s['claims'].items() if k not in ())
+          print('36-09K exact elliptic adapter frozen pending hostile audit; full 2-torsion certified; 36-09L locked')
           PY
