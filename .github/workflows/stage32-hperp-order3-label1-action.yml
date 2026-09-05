@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'stages/stage32/residual-32-01-production/diagnose_stage32_hperp_order3_label1_action.py'
+      - 'stages/stage32/residual-32-01-production/certify_stage32_post1629_hperp_order3_membership_insufficiency.py'
+      - 'stages/stage32/residual-32-01-production/post1629-hperp-order3-membership-insufficiency.json'
       - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
       - 'stages/stage32/residual-32-01-production/pairing_prefix_engine.py'
       - 'stages/stage32/residual-32-01-production/post1588-hperp-nonexceptional-mod2-witness.json'
@@ -62,6 +64,8 @@ jobs:
           print(f"qfix={o['fix_label1_mod_exceptional_span_count']}")
           print(f"same={o['separator_same_count']}")
           PY
+      - name: Verify frozen bounded negative certificate
+        run: python3 stages/stage32/residual-32-01-production/certify_stage32_post1629_hperp_order3_membership_insufficiency.py
       - name: Upload compact finite result
         uses: actions/upload-artifact@v4
         with:
