@@ -32,7 +32,7 @@ v69 = json.loads(V69.read_text(encoding="utf-8"))
 v71 = locked(V71, V71_SHA)
 state = json.loads((STAGE / "MAIN-STATE.json").read_text(encoding="utf-8"))
 start = (STAGE / "MAIN-START-HERE.md").read_text(encoding="utf-8")
-roadmap = (STAGE / "ROADMAP-33-12-V71-J1-TORSOR.md").read_text(encoding="utf-8")
+roadmap = (HERE / "ROADMAP-V71-J1-TORSOR.md").read_text(encoding="utf-8")
 
 assert v69["d2_verdict"] == "OPEN_ONE_BIT"
 assert len(v69["transport_reduction"]["candidate_transports_contact_to_marked"]) == 2
