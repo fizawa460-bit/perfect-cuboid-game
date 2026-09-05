@@ -17,7 +17,7 @@ The original roadmap also accumulated execution policy and a mutable status head
 
 Stage33-07 was reopened and repair children 33-09 through 33-12 were introduced. Their historical development and child-level evidence remain in:
 
-- `ROADMAP-33-07-REPAIR-BAND.md`
+- `33-07/ROADMAP-REPAIR-BAND.md`
 - `33-09/` through `33-12/`
 - `33-00/unit-closure-contract.md`
 
@@ -37,7 +37,7 @@ Use this section as the first lookup table when a later Stage33 leaf needs an al
 | physical-boundary residues / Gersten | `33-04/result.md` | 72 components, 144 crossings; exact residue/incidence data; `(Z/2)^49 + (Z/4)^12` finite ramified two-primary module; odd-primary character factors; exponent-two residual data | Stage33-04 does not itself provide final duplicate-integrated Q-defined class inventory |
 | corrected K3 J2 / q1 geometric invariant block | `33-05/result.md`, `33-05/j2-representative-repair-state.json` | corrected `J2=(f2,1)`; invariant basis `{J2,q1}`; exact HS d2 classification; exact zero Q-survival; hostile replay certificate | historical `ell_J2` / `ell_Q` Q-defined witness is revoked; corrected J2 has no Q-defined Brauer preimage |
 | seven-line/Ford source at endpoint | `33-06/result.md` | exact 9D source basis and exact zero endpoint pullback because all ambient Ford symbols become squares | zero is specific to the seven-line source; any stale references in older result text to a surviving J2 are superseded by current 33-05/controller state |
-| integrated Stage33 class inventory / relation-symbol layer | `33-07/`, `ROADMAP-33-07-REPAIR-BAND.md` | historical integration work plus the repair obligations that led to 33-09..33-12 | 33-07 is currently blocked on repair child 33-12; never treat an old closed-looking artifact as current closure authority |
+| integrated Stage33 class inventory / relation-symbol layer | `33-07/`, `33-07/ROADMAP-REPAIR-BAND.md` | historical integration work plus the repair obligations that led to 33-09..33-12 | 33-07 is currently blocked on repair child 33-12; never treat an old closed-looking artifact as current closure authority |
 | explicit endpoint representatives | `33-08/` | historical BR2B representative work | currently blocked by 33-07; reuse formulas only after checking current inventory identity |
 | Picard-equivariant transport repair | `33-09/` | exact closed Picard-equivariant transport interface | current controller records `CLOSED_EXACT`; canonical digest is in controller |
 | absolute H1 receiver repair | `33-10/` | exact closed absolute H1 receiver | current controller records `CLOSED_EXACT`; canonical digest is in controller |
@@ -190,7 +190,7 @@ In the August 2026 Stage33 cleanup:
 - the J2 repair roadmap was reduced to the current R5a-R5g structure;
 - the Stage33-12 roadmap role was separated from the active 33-05 arithmetic repair;
 - `controller.json` was compacted around current execution state;
-- `controller-post-r5-hs-d2-override.json` became a compatibility shim;
+- `compat/post-r5-d2-controller-shim.json` became a compatibility shim;
 - `33-05/j2-post-r5-hs-d2-state.json` became a compatibility shim;
 - `33-05/j2-representative-repair-state.json` became the single authoritative detailed R5 mathematics state;
 - `33-12/result.md` was updated to the corrected R5e/R5f/R5g sequence;
@@ -216,7 +216,7 @@ Stable Stage33 rules:
 High-level plan:
   ROADMAP.md
   ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md
-  ROADMAP-33-07-REPAIR-BAND.md
+  33-07/ROADMAP-REPAIR-BAND.md
 
 Per-unit historical summaries:
   33-xx/result.md

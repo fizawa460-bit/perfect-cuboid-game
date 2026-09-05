@@ -1,4 +1,4 @@
-name: Stage33 V41-V72 e3 source, geometry, routing, and frontier replay
+name: Stage33 V41-V89 e3 exact chain and V90 current-startup replay
 
 on:
   pull_request:
@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v41-v72-e3-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v41-v90-e3-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -27,7 +27,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Verify V41-V72 e3 chain and current frontier
+      - name: Replay immutable V41-V89 chain and verify the single live V90 startup projection
         run: |
           python stages/stage33/33-12/verify_e3_independent_proper14_source_v41.py
           python stages/stage33/33-12/verify_e3_v25_transfer_obstruction_v42.py
@@ -47,7 +47,6 @@ jobs:
           python stages/stage33/33-12/verify_e3_mask20_b1_gysin_image_gate_v57.py
           python stages/stage33/33-12/verify_e3_search_routing_supersession_v58.py
           python stages/stage33/33-12/verify_stage33_v58_effective_routing_state_v59.py
-          python stages/stage33/33-12/verify_stage33_roadmap_v60_alignment.py
           python stages/stage33/33-12/verify_e3_b1_c22_pic0_2_basis_v61.py
           python stages/stage33/33-12/verify_e3_b1_full_domain_basis_v62.py
           python stages/stage33/33-12/verify_e3_b1_c22_kappa_a_literal_cech_lift_v63.py
@@ -56,7 +55,19 @@ jobs:
           python stages/stage33/33-12/verify_e3_b1_j1_post1529_equivariance_scope_gate_v67.py
           python stages/stage33/33-12/verify_e3_b1_c22_j1_transport_gates_v70.py
           python stages/stage33/33-12/verify_e3_b1_c22_j1_cv_e2_cocycle_v71.py
-          python stages/stage33/33-12/verify_stage33_v71_frontier_state_v72.py
+          python stages/stage33/33-12/verify_e3_b1_c22_j1_translation_torsor_v73.py
+          python stages/stage33/33-12/verify_e3_b1_c22_j1_generic_quotient_discriminator_rejection_v75.py
+          python stages/stage33/33-12/verify_e3_b1_c22_j1_xalpha_kernel_correction_v77.py
+          python stages/stage33/33-12/verify_e3_b1_full_gysin_matrix_xalpha_correction_v79.py
+          python stages/stage33/33-12/verify_e3_b1_route_freeze_and_outside_cech_rewire_v80.py
+          python stages/stage33/33-12/diagnose_e3_outside_b1_s_transport_v82.py
+          python stages/stage33/33-12/diagnose_e3_b3_proper14_transport_v83.py
+          python stages/stage33/33-12/diagnose_e3_coordinate_automorphism_orbit_v84.py
+          python stages/stage33/33-12/verify_e3_coordinate_conjugate_sign_quotient_route_freeze_v85.py
+          python stages/stage33/33-12/verify_e3_legacy_gersten_mask20_source_binding_gap_v87.py
+          python stages/stage33/33-12/verify_e3_direct_cech_seed_contract_v88.py
+          python stages/stage33/33-12/verify_e3_proper14_dual_to_discriminant_quotient_bridge_v89.py
+          python stages/stage33/33-12/verify_stage33_v89_current_startup_v90.py
           python stages/stage33/33-12/verify_j2_post_v39_arsenal_first_bounded_search_policy_v41.py
           python stages/stage33/sync_main_state.py --check
           git diff --check

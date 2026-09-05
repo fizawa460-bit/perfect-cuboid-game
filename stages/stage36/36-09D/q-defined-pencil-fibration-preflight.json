@@ -1,0 +1,137 @@
+{
+  "schema": "STAGE36_36_09D_Q_DEFINED_PENCIL_FIBRATION_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09D",
+  "leaf": "36-09D_Q_DEFINED_PENCIL_FIBRATION_PREFLIGHT",
+  "status": "EXACT_GENUS3_PENCIL_WITH_THREE_MOVING_ELLIPTIC_CHARACTER_QUOTIENTS_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "591e513ad5d7f3f8824f14c6ce529125b0a4f193",
+  "entry_authority": {
+    "stage36_36_09C_promotion_pr": 1589,
+    "promotion_exact_head": "6e0c40eeb7a533b47aba0d224c34e85822db373c",
+    "promotion_exact_head_ci_run": 33955369695,
+    "promotion_exact_head_ci_job": 101277643284,
+    "promotion_merged_main_sha": "591e513ad5d7f3f8824f14c6ce529125b0a4f193",
+    "selected_route": "B6_FIBRATION_TO_CURVE_BASE"
+  },
+  "source_locks": {
+    "stage36_36_02_representatives": {"path":"stages/stage36/36-02/representative-inventory.json","blob_sha":"88130b9380a677a191f91c24df87618e65be0a2f"},
+    "stage36_36_03_physical_receiver": {"path":"stages/stage36/36-03/physical-open-boundary.json","blob_sha":"fc1947b2de08f7d8a104bdc91902b20e88635349"},
+    "stage29_campedelli_quotient_adapter": {"path":"stages/stage29/29-02hb/campedelli-quotient-adapter.md","blob_sha":"5f959d60106243bb31df06a3961ab04182d78fc7"},
+    "stage36_36_09C_preflight": {"path":"stages/stage36/36-09C/single-place-direct-receiver-obstruction-preflight.json","blob_sha":"67fd5cd61ef35582dce32811aac4bebdb9356138"}
+  },
+  "arsenal_locks": {
+    "router": {"path":"docs/arsenal/index.json","blob_sha":"aa45d19c2f1d8970c7f142bf744c5c17e75abe5a"},
+    "S30_WF02": {"path":"docs/arsenal/cards/workflows/S30-WF02.md","blob_sha":"38e4625155eb079bbe3d50d663c6256559319886","application":"IMMUTABLE_PREDECESSOR_REPLAY"},
+    "S30_WF03": {"path":"docs/arsenal/cards/workflows/S30-WF03.md","blob_sha":"12740198aba19ade18302819f8e890dbda4eb701","application":"GENERIC_FIBER_AND_ELLIPTIC_QUOTIENTS_DO_NOT_PROMOTE_TO_GLOBAL_RECEIVER_CLOSURE"},
+    "S34_WF01": {"path":"docs/arsenal/cards/workflows/S34-WF01.md","blob_sha":"1ebba4ec402e14d536284a06c5ac32625c6b8cec","application":"KEEP_B6_AS_RECEIVER_MATCHED_REPLACEMENT_ROUTE"},
+    "S34_W02": {"path":"docs/arsenal/cards/formal/S34-W02.md","blob_sha":"13d41be776fcd2edcd258f11bd28c5a6596de45b","application":"CONSULTED_NOT_TRIGGERED_NO_CERTIFIED_FULL_MW_AND_THIS_IS_A_MOVING_FAMILY"}
+  },
+  "q_defined_pencil": {
+    "map": "t=x/y on the exact quotient-to-P2 base",
+    "q_defined": true,
+    "physical_y_nonzero": true,
+    "physical_parameter": "t=(a1/a2)^2",
+    "physical_parameter_is_positive_rational_square": true,
+    "generic_affine_chart": "y=1, x=t, z=s",
+    "generic_smooth_base": "P1_t minus {0,1,-1,infinity}",
+    "special_parameters_requiring_separate_treatment": ["0","1","-1","infinity"],
+    "physical_special_parameters_not_automatically_eliminated": ["1"],
+    "firewall": "generic-fiber analysis does not discard the t=1 physical fiber"
+  },
+  "generic_fiber_common_geometry": {
+    "moving_branch_lines_in_s": ["A3","B2","B1","C"],
+    "finite_branch_points": {"A3":"0","B2":"-t","B1":"-1","C":"-(t+1)"},
+    "constant_in_s_lines": ["A1","A2","B3"],
+    "degree": 8,
+    "deck_group": "(Z/2)^3",
+    "finite_inertia_rank": 3,
+    "branch_point_count_including_infinity": 5,
+    "all_nontrivial_ramification_indices": 2,
+    "riemann_hurwitz": "2g-2=8*(-2)+5*8*(1-1/2)=4",
+    "generic_fiber_genus": 3,
+    "connected_generic_fiber": true
+  },
+  "representative_fibers": {
+    "Q6_GEOM8": {
+      "finite_inertia": {"A3":"100","B2":"110","B1":"111","C":"011"},
+      "infinity_inertia": "110",
+      "genus1_characters": [
+        {"character":"010","branch_lines":["B2","B1","C","INF"],"j_type":"J_MINUS"},
+        {"character":"100","branch_lines":["A3","B2","B1","INF"],"j_type":"J_MINUS"},
+        {"character":"101","branch_lines":["A3","B2","C","INF"],"j_type":"J_PLUS"}
+      ]
+    },
+    "Q2_GEOM8": {
+      "finite_inertia": {"A3":"011","B2":"110","B1":"111","C":"101"},
+      "infinity_inertia": "111",
+      "genus1_characters": [
+        {"character":"001","branch_lines":["A3","B1","C","INF"],"j_type":"J_PLUS"},
+        {"character":"010","branch_lines":["A3","B2","B1","INF"],"j_type":"J_MINUS"},
+        {"character":"100","branch_lines":["B2","B1","C","INF"],"j_type":"J_MINUS"}
+      ]
+    },
+    "Q2_GEOM2": {
+      "finite_inertia": {"A3":"100","B2":"011","B1":"101","C":"111"},
+      "infinity_inertia": "101",
+      "genus1_characters": [
+        {"character":"001","branch_lines":["B2","B1","C","INF"],"j_type":"J_MINUS"},
+        {"character":"100","branch_lines":["A3","B1","C","INF"],"j_type":"J_PLUS"},
+        {"character":"110","branch_lines":["A3","B2","B1","INF"],"j_type":"J_MINUS"}
+      ]
+    }
+  },
+  "character_quotient_inventory": {
+    "nontrivial_characters_each": 7,
+    "genus1_character_quotients_each": 3,
+    "genus0_character_quotients_each": 4,
+    "genus1_branch_set_types": {
+      "J_MINUS_1": ["B2","B1","C","INF"],
+      "J_MINUS_2": ["A3","B2","B1","INF"],
+      "J_PLUS_1": ["A3","B2","C","INF"],
+      "J_PLUS_2": ["A3","B1","C","INF"]
+    },
+    "j_functions": {
+      "J_MINUS": "256*(t^2-t+1)^3/(t^2*(t-1)^2)",
+      "J_PLUS": "256*(t^2+t+1)^3/(t^2*(t+1)^2)"
+    },
+    "j_multiset_each_representative": ["J_MINUS","J_MINUS","J_PLUS"],
+    "both_j_functions_nonconstant": true,
+    "fixed_elliptic_curve_reduction_obtained": false,
+    "jacobian_product_isogeny_claimed": false
+  },
+  "route_decision": {
+    "B6_FIBRATION_TO_CURVE_BASE": "LIVE_GENUS3_WITH_THREE_MOVING_ELLIPTIC_CHARACTER_QUOTIENTS",
+    "exact_progress": "The Q-defined pencil reduces the generic quotient-surface fiber to a connected genus-3 (Z/2)^3 cover with three explicit elliptic character quotients, uniformly for all three audited representatives.",
+    "current_blocker": "No certified theorem or full Mordell-Weil/specialization package presently controls all rational points across the moving t-family and the simultaneous character-quotient compatibility; the physical special fiber t=1 is also still separate.",
+    "S34_W02_TRIGGERED": false,
+    "reason_S34_W02_not_triggered": "S34-W02 requires a certified full Mordell-Weil group for the exact auxiliary elliptic quotient and receiver predicates; here the elliptic quotients vary nonisotrivially with t and no such full uniform arithmetic authority is source-locked.",
+    "next_route_after_hostile_audit": "36-09E_CHARACTER_ELLIPTIC_QUOTIENT_ARITHMETIC_PREFLIGHT"
+  },
+  "cycle_update": {
+    "new_material_block": false,
+    "fresh_breadth_audit_required_now": false,
+    "reason": "36-09D makes exact structural progress inside the already selected B6 route rather than blocking it or selecting a new route.",
+    "B6_remains_sole_live": true
+  },
+  "pass_condition": {
+    "Q_DEFINED_PENCIL_EXACT": true,
+    "GENERIC_FIBER_CONNECTED_DEGREE8_GENUS3": true,
+    "THREE_ELLIPTIC_CHARACTER_QUOTIENTS_EACH": true,
+    "J_MULTISET_TWO_MINUS_ONE_PLUS_EACH": true,
+    "MOVING_NONISOTRIVIAL_ELLIPTIC_FAMILIES": true,
+    "SPECIAL_T1_RETAINED": true,
+    "GLOBAL_RECEIVER_CLOSED": false
+  },
+  "claims": {
+    "new_theorem_credit": false,
+    "uniform_mordell_weil_control_proved": false,
+    "generic_or_special_fiber_rational_points_exhausted": false,
+    "quotient_Q_point_emptiness_proved": false,
+    "receiver_matched_replacement_theorem_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

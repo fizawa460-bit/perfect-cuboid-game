@@ -53,13 +53,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          base="${{ github.event.pull_request.base.sha || '5ab9318d9d8845b8dd48ffb08ac460691cc9ddb4' }}"
-          for x in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 2af6edb984e0c0a51e945f886939a09b442c3218 fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 1d29735f3f50c6918a32b2542de8364b86568396 ac5a7c81d3f268bebbc2a9de8e658b23c97d5649; do
+          base="${{ github.event.pull_request.base.sha || '591e513ad5d7f3f8824f14c6ce529125b0a4f193' }}"
+          for x in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 2af6edb984e0c0a51e945f886939a09b442c3218 fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 1d29735f3f50c6918a32b2542de8364b86568396 ac5a7c81d3f268bebbc2a9de8e658b23c97d5649 6e0c40eeb7a533b47aba0d224c34e85822db373c; do
             git merge-base --is-ancestor "$x" HEAD
           done
 
-      - name: Save current V19 state
-        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v19.json
+      - name: Save current V20 state
+        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v20.json
 
       - name: Restore immutable 36-09A mathematical state
         run: git show d0f3de51b86cda9199a55e89757ae6887f572ea3:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
@@ -100,12 +100,17 @@ jobs:
       - name: Replay Stage36 36-09C all-place local-solubility preflight
         run: python3 stages/stage36/verify_stage36_36_09C.py
 
-      - name: Restore current V19 state
-        run: cp /tmp/stage36-v19.json stages/stage36/MAIN-STATE.json
+      - name: Restore exact V19 36-09C promotion state
+        run: git show 6e0c40eeb7a533b47aba0d224c34e85822db373c:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
       - name: Replay Stage36 36-09C hostile-audited authority
         run: python3 stages/stage36/verify_stage36_36_09C_audited.py
 
-      - name: Assert successor boundary before 36-09D execution
+      - name: Restore current V20 state
+        run: cp /tmp/stage36-v20.json stages/stage36/MAIN-STATE.json
+      - name: Verify Stage36 36-09D Q-defined pencil fibration preflight
+        run: python3 stages/stage36/verify_stage36_36_09D.py
+
+      - name: Assert hostile-audit boundary before 36-09E
         shell: bash
         run: |
           set -euo pipefail
@@ -113,21 +118,19 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V19_THIN_36_09C_AUDITED'
-          assert s['status']=='ACTIVE'
-          a=s['authority_frontier']['36-09C']
-          assert a['verdict']=='HOSTILE_AUDIT_PASS'
-          assert a['hostile_audit_review']==5120420108
-          assert a['audited_head']=='ac5a7c81d3f268bebbc2a9de8e658b23c97d5649'
-          assert a['certificate_blob_sha']=='67fd5cd61ef35582dce32811aac4bebdb9356138'
-          assert a['ALL_PLACES_ENDPOINT_OPEN_LOCALLY_SOLUBLE'] is True
-          assert a['SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION_POSSIBLE'] is False
-          assert s['cycle_ledger']['B2_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION']=='BLOCKED_BY_EXPLICIT_ALL_PLACE_LOCAL_POINTS'
-          assert s['cycle_ledger']['B6_FIBRATION_TO_CURVE_BASE']=='LIVE'
-          assert s['current']['unit']=='36-09D'
-          assert s['current']['next_exact_leaf']=='36-09D_Q_DEFINED_PENCIL_FIBRATION_PREFLIGHT'
-          assert s['current']['36_09D_entry_allowed'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V20_36_09D_PENDING_HOSTILE_AUDIT'
+          assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
+          a=s['authority_frontier']['36-09D']
+          assert a['promotion_status']=='PROVISIONAL_NOT_AUDITED'
+          assert a['Q_DEFINED_PENCIL_EXACT'] is True
+          assert a['GENERIC_FIBER_CONNECTED_DEGREE8_GENUS3'] is True
+          assert a['GENUS1_CHARACTER_QUOTIENTS_EACH']==3
+          assert a['J_MULTISET_EACH']==['J_MINUS','J_MINUS','J_PLUS']
+          assert a['PHYSICAL_SPECIAL_T1_RETAINED'] is True
+          assert a['S34_W02_TRIGGERED'] is False
+          assert s['cycle_ledger']['B6_FIBRATION_TO_CURVE_BASE']=='LIVE_GENUS3_WITH_THREE_MOVING_ELLIPTIC_CHARACTER_QUOTIENTS'
+          assert s['current']['36_09E_entry_allowed'] is False
           assert s['promotion_gates']['R29_CAMP2_closed'] is False
           assert all(v is False for v in s['claims'].values())
-          print('36-09C hostile-audited authority frozen; 36-09D authorized but unstarted')
+          print('36-09D exact genus-3/elliptic-character fibration frozen; 36-09E locked pending hostile audit')
           PY
