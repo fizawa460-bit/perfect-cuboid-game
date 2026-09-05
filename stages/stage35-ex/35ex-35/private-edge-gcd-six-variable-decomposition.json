@@ -3,7 +3,7 @@
   "stage": "35-EX",
   "unit": "35EX-35_PRIVATE_EDGE_GCD_SIX_VARIABLE_DECOMPOSITION_PREFLIGHT",
   "status": "PROVISIONAL_EXACT_GOALS_1_TO_3_NO_E1_CREDIT",
-  "base_main_sha": "605ef83aae1ba2804537eb6dc36695ca80ade412",
+  "base_main_sha": "29ce620a693f7cbdec48bce9b720cc02dfe5fa74",
   "parent_35ex34": {
     "pr": 1600,
     "hostile_review_id": 5120821124,
@@ -16,106 +16,39 @@
   },
   "population": {
     "A_B_C": "positive integers with gcd(A,B,C)=1",
-    "face_squares": [
-      "D_AB^2=A^2+B^2",
-      "D_AC^2=A^2+C^2",
-      "D_BC^2=B^2+C^2"
-    ],
+    "face_squares": ["D_AB^2=A^2+B^2", "D_AC^2=A^2+C^2", "D_BC^2=B^2+C^2"],
     "space_square": "W^2=A^2+B^2+C^2",
     "note": "goals 1-3 use the exact primitive endpoint population; the space-square rewrite is recorded but no new restriction from it is credited yet"
   },
-  "definitions": {
-    "x": "gcd(A,B)",
-    "y": "gcd(A,C)",
-    "z": "gcd(B,C)",
-    "a": "A/(x*y)",
-    "b": "B/(x*z)",
-    "c": "C/(y*z)"
-  },
+  "definitions": {"x":"gcd(A,B)","y":"gcd(A,C)","z":"gcd(B,C)","a":"A/(x*y)","b":"B/(x*z)","c":"C/(y*z)"},
   "goal1_exact_decomposition": {
-    "pairwise_gcds": [
-      "gcd(x,y)=1",
-      "gcd(x,z)=1",
-      "gcd(y,z)=1"
-    ],
+    "pairwise_gcds": ["gcd(x,y)=1","gcd(x,z)=1","gcd(y,z)=1"],
     "proof": "a prime dividing two of x,y,z divides all of A,B,C, contradicting gcd(A,B,C)=1; hence xy|A, xz|B, yz|C",
-    "reconstruction": [
-      "A=x*y*a",
-      "B=x*z*b",
-      "C=y*z*c"
-    ],
+    "reconstruction": ["A=x*y*a","B=x*z*b","C=y*z*c"],
     "universal_torsor_constructed": false
   },
   "goal2_primitive_parity_coprimality_dictionary": {
     "reduced_face_pairs": [
-      {
-        "face": "AB",
-        "pair": ["y*a", "z*b"],
-        "identity": ["A/x=y*a", "B/x=z*b"],
-        "gcd": "1"
-      },
-      {
-        "face": "AC",
-        "pair": ["x*a", "z*c"],
-        "identity": ["A/y=x*a", "C/y=z*c"],
-        "gcd": "1"
-      },
-      {
-        "face": "BC",
-        "pair": ["x*b", "y*c"],
-        "identity": ["B/z=x*b", "C/z=y*c"],
-        "gcd": "1"
-      }
+      {"face":"AB","pair":["y*a","z*b"],"identity":["A/x=y*a","B/x=z*b"],"gcd":"1"},
+      {"face":"AC","pair":["x*a","z*c"],"identity":["A/y=x*a","C/y=z*c"],"gcd":"1"},
+      {"face":"BC","pair":["x*b","y*c"],"identity":["B/z=x*b","C/z=y*c"],"gcd":"1"}
     ],
-    "derived_coprimalities": [
-      "gcd(a,b)=gcd(a,c)=gcd(b,c)=1",
-      "gcd(a,z)=1",
-      "gcd(b,y)=1",
-      "gcd(c,x)=1"
-    ],
-    "not_claimed_coprimalities": [
-      "gcd(a,x)=1",
-      "gcd(a,y)=1",
-      "gcd(b,x)=1",
-      "gcd(b,z)=1",
-      "gcd(c,y)=1",
-      "gcd(c,z)=1"
-    ],
+    "derived_coprimalities": ["gcd(a,b)=gcd(a,c)=gcd(b,c)=1","gcd(a,z)=1","gcd(b,y)=1","gcd(c,x)=1"],
+    "not_claimed_coprimalities": ["gcd(a,x)=1","gcd(a,y)=1","gcd(b,x)=1","gcd(b,z)=1","gcd(c,y)=1","gcd(c,z)=1"],
     "primitive_pythagorean_fact": "each reduced face pair is a primitive Pythagorean leg pair, so its legs have opposite parity and its even leg is divisible by 4",
     "edge_parity_theorem": "exactly one of A,B,C is odd; the two even edges are divisible by 4",
     "branches": [
-      {
-        "odd_edge": "A",
-        "forced": ["x odd", "y odd", "a odd", "4|z", "b and c have opposite parity"]
-      },
-      {
-        "odd_edge": "B",
-        "forced": ["x odd", "z odd", "b odd", "4|y", "a and c have opposite parity"]
-      },
-      {
-        "odd_edge": "C",
-        "forced": ["y odd", "z odd", "c odd", "4|x", "a and b have opposite parity"]
-      }
+      {"odd_edge":"A","forced":["x odd","y odd","a odd","4|z","b and c have opposite parity"]},
+      {"odd_edge":"B","forced":["x odd","z odd","b odd","4|y","a and c have opposite parity"]},
+      {"odd_edge":"C","forced":["y odd","z odd","c odd","4|x","a and b have opposite parity"]}
     ],
     "valuation_note": "for the two even edges, their 2-adic valuations are unequal because their primitive reduced face pair has opposite parity"
   },
   "goal3_exact_square_rewrite": {
-    "reduced_face_hypotenuses": {
-      "r_AB": "D_AB/x",
-      "r_AC": "D_AC/y",
-      "r_BC": "D_BC/z"
-    },
-    "primitive_face_equations": [
-      "r_AB^2=(y*a)^2+(z*b)^2",
-      "r_AC^2=(x*a)^2+(z*c)^2",
-      "r_BC^2=(x*b)^2+(y*c)^2"
-    ],
+    "reduced_face_hypotenuses": {"r_AB":"D_AB/x","r_AC":"D_AC/y","r_BC":"D_BC/z"},
+    "primitive_face_equations": ["r_AB^2=(y*a)^2+(z*b)^2","r_AC^2=(x*a)^2+(z*c)^2","r_BC^2=(x*b)^2+(y*c)^2"],
     "space_equation": "W^2=(x*y*a)^2+(x*z*b)^2+(y*z*c)^2",
-    "equivalent_space_face_couplings": [
-      "W^2=(x*r_AB)^2+(y*z*c)^2",
-      "W^2=(y*r_AC)^2+(x*z*b)^2",
-      "W^2=(z*r_BC)^2+(x*y*a)^2"
-    ]
+    "equivalent_space_face_couplings": ["W^2=(x*r_AB)^2+(y*z*c)^2","W^2=(y*r_AC)^2+(x*z*b)^2","W^2=(z*r_BC)^2+(x*y*a)^2"]
   },
   "goal4_boundary": {
     "status": "NOT_EXECUTED_IN_THIS_LEAF",
