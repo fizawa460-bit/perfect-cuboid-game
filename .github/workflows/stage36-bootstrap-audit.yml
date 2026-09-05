@@ -142,18 +142,24 @@ jobs:
           assert a['promotion_status']=='PROVISIONAL_NOT_AUDITED'
           assert a['blind_snapshot_commit']=='aedd6245f27166fd77072af1dbc12e63dc796ddf'
           assert a['comparison_commit']=='c440b5ba219b9e2832b471a8b069be35a5bb2d48'
+          assert a['comparison_certificate_blob_sha']=='81d211b8f02c104b5d16074c2f6c37a01a64e298'
+          assert a['certificate_blob_sha']=='f9bf252f3be47f606a3b270961df3b5943fa1909'
           assert a['BLIND_PROVENANCE_FAIL_CLOSED'] is True
           assert a['FRESH_EXHAUSTIVE_VIEW_AUDIT'] is True
           assert a['FRESH_BLIND_REDISCOVERY'] is True
           assert a['RECIPROCAL_TWO_LINEAR_REDUCTION_EXACT'] is True
           assert a['CHARACTER_LINEAR_INTERMEDIATE_REFINEMENT_EXISTS'] is False
           assert a['B3_STATUS']=='LIVE_RECIPROCAL_INVOLUTION_COVER_PREFLIGHT'
-          assert a['B7_STATUS']=='UNTESTED_GAUSSIAN_NORM_COMPRESSION_CANDIDATE'
+          assert a['B7_STATUS']=='UNTESTED_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER'
+          assert a['C2_GAUSSIAN_NORM_COMPRESSION_STATUS']=='UNTESTED_DISTINCT_FROM_B7_NO_EXACT_EQUIVALENCE'
+          assert a['B7_C2_EXACT_EQUIVALENCE_PROVED'] is False
           assert a['B11_STATUS']=='UNTESTED_VARIABLE_PRIME_RECIPROCITY'
-          assert s['cycle_ledger']['counts']=={'live':1,'untested':2,'blocked':6,'dominated':2}
+          assert s['cycle_ledger']['counts']=={'live':1,'untested':3,'blocked':6,'dominated':2}
+          assert s['cycle_ledger']['distinct_unmapped_candidates']==['C2_GAUSSIAN_NORM_COMPRESSION']
           assert s['current']['36_09J_entry_allowed'] is False
+          assert s['promotion_gates']['distinct_untested_candidate_preservation_fail_closed'] is True
           assert s['promotion_gates']['receiver_emptiness_proved'] is False
           assert s['promotion_gates']['R29_CAMP2_closed'] is False
           assert all(v is False for v in s['claims'].values())
-          print('36-09I fresh breadth frozen; B3 reciprocal cover live; B7/B11 untested; 36-09J locked pending hostile audit')
+          print('36-09I repaired breadth frozen; B3 live; B7, C2 Gaussian, B11 separately untested; 36-09J locked')
           PY
