@@ -10,7 +10,7 @@ STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
 BLIND=ROOT/'stages/stage35-ex/35ex-34/blind-post-gaussian-block-candidate-generation.json'
 AUDIT=ROOT/'stages/stage35-ex/35ex-34/post-gaussian-block-exhaustive-view-audit.json'
 SCHEMA='STAGE35_EX_PESCH_E1_STATE_V33_POST_35EX33_USER_APPROVED_ROUTE_BLOCKER'
-BASE_MAIN='7b3a5f54b63f52a8707d85003024f6dfafb580fd'
+BASE_MAIN='384983771ad076b58e94640c6b178a3f7ad6bc55'
 PARENT_MERGE='e21378e59f7f1076a7ad71d34cee1fd0ac3a5cb3'
 BLIND_COMMIT='f80d0321549d120a6f4d8a0713ec1100fc4ca6e5'
 AUDIT_COMMIT='e073c322d52122de10791bb8174c62bd696bf037'
@@ -119,8 +119,6 @@ assert state['candidate_ledger']['live']==['E1-ENDPOINT-UNIVERSAL-TORSOR-SQUAREC
 assert state['candidate_ledger']['untested_count']==8
 assert state['candidate_ledger']['split_triggered'] is False
 
-# Regression only: the selected private-gcd decomposition is algebraically legal
-# for every primitive integer triple in this bounded grid. This grants no 35EX-35 credit.
 for A in range(1,18):
   for B in range(1,18):
     for C in range(1,18):
