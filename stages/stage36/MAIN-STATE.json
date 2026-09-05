@@ -1,15 +1,15 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V39_36_09M_USER_PASS_PROMOTED",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V40_36_09N_PENDING_HOSTILE_AUDIT",
   "stage": "36",
-  "status": "ACTIVE",
-  "base_main_sha": "cf5389b857ee52225ed44543ff7ac8d05387583a",
+  "status": "ACTIVE_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "824355f591f8f951fda9f2a7c1f4e3e66d4e1e9a",
   "mission": "Attack Stage29 kernel K16-C3-CAMPEDELLI-UNIFORM-TORSOR through exact proper-or-candidate-proper receivers without granting endpoint credit unless a receiver-matched closure theorem is proved.",
   "legacy_authority_snapshot": {
-    "commit": "8607da00e76f9f0ff1759c04b983ba329cca5de6",
+    "commit": "824355f591f8f951fda9f2a7c1f4e3e66d4e1e9a",
     "path": "stages/stage36/MAIN-STATE.json",
-    "blob_sha": "6fa174d77f2b5e1d131fae289af79cf522885b15",
-    "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V38_36_09M_PENDING_HOSTILE_AUDIT",
-    "scope": "merged 36-09M mathematical state; V39 repairs verifier coverage, records explicit user PASS, promotes only exact 36-09M mathematics, and unlocks 36-09N"
+    "blob_sha": "74d95adfcf7ebb5c6876758044844092145939f7",
+    "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V39_36_09M_USER_PASS_PROMOTED",
+    "scope": "user-passed 36-09M authority after verifier repair; V40 adds provisional 36-09N relative Kummer images and generic function-field rank only"
   },
   "source_kernel": {
     "kernel": "K16-C3-CAMPEDELLI-UNIFORM-TORSOR",
@@ -17,88 +17,55 @@
     "parent": "Q11-CAMPEDELLI",
     "H": "(Z/2)^3",
     "quotient_degree": 8,
-    "execution_representatives": [
-      "Q6_GEOM8",
-      "Q2_GEOM8",
-      "Q2_GEOM2"
-    ],
+    "execution_representatives": ["Q6_GEOM8", "Q2_GEOM8", "Q2_GEOM2"],
     "endpoint_pushes_to_every_audited_quotient": true,
     "quotient_Q_point_implies_endpoint_Q_point": false
   },
   "authority_frontier": {
-    "36-09L": {
-      "status": "AUDITED_PHYSICAL_BASE_FULL2_DESCENT_PREFLIGHT",
-      "pr": 1632,
-      "hostile_audit_review": 5123231006,
-      "audited_head": "98d057a47fc37a897fb14e904cdf9d52913f082b",
-      "promotion_pr": 1635,
-      "promotion_merged_main_sha": "dd0fab674db9a10d6494590c1987333aa338a37e",
-      "UNIVERSAL_RATIONAL_ORDER4_POINT": true,
-      "EXACT_2_ISOGENY_FAMILY_ADAPTER": true,
-      "B3_TORSION_ENHANCED_2_ISOGENY_FAMILY": "LIVE"
-    },
     "36-09M": {
       "status": "USER_PASS_PROMOTED_AFTER_HOSTILE_MATH_PASS_AND_VERIFIER_REPAIR",
       "pr": 1636,
-      "original_exact_head": "5e8d79347e9b8fcf9746c52d011d152e8c0809ac",
-      "original_exact_head_ci": "33996669430/101388297907",
-      "merged_main_sha": "8607da00e76f9f0ff1759c04b983ba329cca5de6",
+      "promotion_repair_pr": 1638,
+      "promotion_merged_main_sha": "824355f591f8f951fda9f2a7c1f4e3e66d4e1e9a",
       "hostile_audit_outcome": "FAIL_VERIFIER_COVERAGE_ONLY_MATHEMATICS_PASS",
-      "hostile_audit_submitted_at": "2026-09-05T22:48:05Z",
       "user_pass_override": true,
-      "user_pass_note": "User explicitly promoted this leaf by user-pass after the hostile audit reported mathematics PASS and verifier-coverage-only FAIL.",
-      "certificate": "stages/stage36/36-09M/universal-order4-2isogeny-physical-family-preflight.json",
-      "certificate_blob_sha": "470e87d3e48c857b99793bd8ac0d01eff75eb727",
-      "original_verifier_blob_sha": "e24d45de55dac71400bcd7e0d3c038404c700ec6",
-      "repaired_verifier": "stages/stage36/verify_stage36_36_09M.py",
       "repaired_verifier_blob_sha": "5fa2b4c0d57ac50c14dfdb05fc03f2b848967d25",
-      "source_lock": "stages/stage36/36-09M/lmfdb-32a3-source-lock.md",
-      "source_lock_blob_sha": "e820cc4e73af3be46f60f92aede8c076a92504df",
-      "C8_GATE": "w^2=2*(z^4+1)",
-      "C8_TARGET": "LMFDB_32.a3_y2=x3-x",
-      "C8_RATIONAL_POINTS_EXHAUSTED": true,
-      "PHYSICAL_K_AND_MINUS_K_NONSQUARE": true,
       "E_K_2PRIMARY_TORSION": "Z/4 x Z/2",
       "E_K_PRIME_2PRIMARY_TORSION": "(Z/2)^2",
-      "FULL_TORSION_SUBGROUP_PROVED": false,
+      "B3_RELATIVE_2_ISOGENY_ROUTE": "LIVE"
+    },
+    "36-09N": {
+      "status": "EXACT_RELATIVE_KUMMER_AND_GENERIC_RANK1_PENDING_HOSTILE_AUDIT",
+      "certificate": "stages/stage36/36-09N/relative-2isogeny-kummer-image-rank1-preflight.json",
+      "certificate_blob_sha": "02a14439d94d7f6e5ac2f65e995e8acfb6845788",
+      "verifier": "stages/stage36/verify_stage36_36_09N.py",
+      "verifier_blob_sha": "e7effbe9ee6106505db013f326ec653627885054",
+      "source_lock": "stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md",
+      "source_lock_blob_sha": "e7c98981fbb1d523fd7db54478dc09aa87b547e8",
+      "SPECIALIZATION_Q0": 6,
+      "SPECIALIZATION_INJECTIVE": true,
+      "SPECIALIZED_RANK": 1,
+      "SPECIALIZED_EPRIME_FULL_TORSION_ORDER": 4,
+      "SPECIALIZED_RELATIVE_SECTION_NONTORSION": true,
+      "GENERIC_FUNCTION_FIELD_MW_RANK": 1,
+      "EXACT_ALPHA_IMAGE": ["[1]", "[-1]", "[C]", "[-C]"],
+      "EXACT_BETA_IMAGE": ["[1]", "[2]"],
+      "FIBERWISE_RANK_ONE_FOR_EVERY_RATIONAL_Q_PROVED": false,
+      "SPECIALIZATION_RANK_JUMPS_EXCLUDED": false,
       "B3_RELATIVE_2_ISOGENY_ROUTE": "LIVE",
-      "NEXT": "36-09N_RELATIVE_2_ISOGENY_KUMMER_IMAGE_PREFLIGHT"
+      "NEXT_AFTER_HOSTILE_PASS": "36-09O_PHYSICAL_RANK_JUMP_LOCUS_PREFLIGHT"
     }
   },
   "source_locks": {
-    "stage36_v38_merged_state": {
-      "path": "stages/stage36/MAIN-STATE.json",
-      "commit": "8607da00e76f9f0ff1759c04b983ba329cca5de6",
-      "blob_sha": "6fa174d77f2b5e1d131fae289af79cf522885b15"
-    },
-    "stage36_36_09M_certificate": {
-      "path": "stages/stage36/36-09M/universal-order4-2isogeny-physical-family-preflight.json",
-      "blob_sha": "470e87d3e48c857b99793bd8ac0d01eff75eb727"
-    },
-    "stage36_36_09M_repaired_verifier": {
-      "path": "stages/stage36/verify_stage36_36_09M.py",
-      "blob_sha": "5fa2b4c0d57ac50c14dfdb05fc03f2b848967d25"
-    },
-    "lmfdb_32a3_source_lock": {
-      "path": "stages/stage36/36-09M/lmfdb-32a3-source-lock.md",
-      "blob_sha": "e820cc4e73af3be46f60f92aede8c076a92504df",
-      "facts": "32.a3 y^2=x^3-x; rank 0; torsion [2,2]"
-    }
-  },
-  "freshness": {
-    "audit_base": "dd0fab674db9a10d6494590c1987333aa338a37e",
-    "merge_parent": "6fa39f76be24b55153f118812b1bd7f41c43e399",
-    "intervening_commits": 1,
-    "allowed_prefixes": [
-      "stages/stage35-ex/",
-      ".github/workflows/stage35-35-01-to-09-audit.yml"
-    ],
-    "stage36_or_source_intersection": false
+    "stage36_v39_state": {"path":"stages/stage36/MAIN-STATE.json","commit":"824355f591f8f951fda9f2a7c1f4e3e66d4e1e9a","blob_sha":"74d95adfcf7ebb5c6876758044844092145939f7"},
+    "stage36_36_09N_certificate": {"path":"stages/stage36/36-09N/relative-2isogeny-kummer-image-rank1-preflight.json","blob_sha":"02a14439d94d7f6e5ac2f65e995e8acfb6845788"},
+    "stage36_36_09N_verifier": {"path":"stages/stage36/verify_stage36_36_09N.py","blob_sha":"e7effbe9ee6106505db013f326ec653627885054"},
+    "descent_and_specialization_source": {"path":"stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md","blob_sha":"e7c98981fbb1d523fd7db54478dc09aa87b547e8"}
   },
   "cycle_ledger": {
     "B1_DIRECT_UNIFORM_H1_SELMER": "BLOCKED",
     "B2_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION": "BLOCKED_BY_EXPLICIT_ALL_PLACE_LOCAL_POINTS",
-    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_EXACT_RELATIVE_2_ISOGENY_WITH_PHYSICAL_2PRIMARY_TORSION_CONTROL",
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_GENERIC_RANK1_EXACT_RELATIVE_2ISOGENY_KUMMER_IMAGES_PENDING_AUDIT",
     "B3_FIXED_S_UNIFORM_FULL2_DESCENT_SUBROUTE": "BLOCKED_BY_UNBOUNDED_PHYSICAL_BASE_SQUARECLASS_SUPPORT",
     "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION": "BLOCKED_NO_PROOF_CAPABLE_B_PLUS_K_JOINT_TEST",
     "B5_CAMPEDELLI_BRAUER_ETALE_BRAUER": "BLOCKED_UPSTREAM_BR2A_BR2B_INCOMPLETE",
@@ -109,39 +76,35 @@
     "B10_INTERMEDIATE_SIGN_QUOTIENT_OR_CHARACTER": "DOMINATED_RETAINED_RECEIVER_CHARACTER_LINEAR_EXHAUSTED_W01_FIRST_LAYER_BLOCKED",
     "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY": "UNTESTED_VARIABLE_PRIME_RECIPROCITY",
     "C2_GAUSSIAN_NORM_COMPRESSION": "UNTESTED_DISTINCT_FROM_B7_NO_EXACT_EQUIVALENCE",
-    "counts": {
-      "live": 1,
-      "untested": 3,
-      "blocked": 6,
-      "dominated": 2
-    },
+    "counts": {"live":1,"untested":3,"blocked":6,"dominated":2},
     "counts_exclude_named_B3_subroutes": true
   },
   "current": {
     "unit": "36-09N",
-    "next_exact_leaf": "36-09N_RELATIVE_2_ISOGENY_KUMMER_IMAGE_PREFLIGHT",
-    "next_owner": "STAGE36_MAIN",
-    "result": "36-09M_USER_PASS_PROMOTED_AFTER_VERIFIER_REPAIR; RELATIVE_2_ISOGENY_KUMMER_IMAGE_ROUTE_UNLOCKED",
-    "36_09M_entry_allowed": true,
-    "36_09N_entry_allowed": true
+    "next_exact_leaf": "HOSTILE_AUDIT_36_09N",
+    "next_owner": "HOSTILE_AUDITOR",
+    "result": "RELATIVE_2ISOGENY_KUMMER_IMAGES_AND_GENERIC_FUNCTION_FIELD_RANK1_PENDING_HOSTILE_AUDIT",
+    "36_09N_entry_allowed": true,
+    "36_09O_entry_allowed": false,
+    "why": "36-09N gives exact relative 2-isogeny models and Kummer images and proves generic function-field rank 1 via q=6 injective specialization, complete fixed-fiber 2-isogeny descent, good-reduction torsion control and an explicit section specializing to a nontorsion point. Fiberwise rank jumps remain unresolved."
   },
   "current_leaf_working_set": [
+    "stages/stage36/36-09N/relative-2isogeny-kummer-image-rank1-preflight.json",
+    "stages/stage36/verify_stage36_36_09N.py",
+    "stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md",
     "stages/stage36/36-09M/universal-order4-2isogeny-physical-family-preflight.json",
-    "stages/stage36/verify_stage36_36_09M.py",
-    "stages/stage36/36-09M/lmfdb-32a3-source-lock.md",
-    "stages/stage36/36-09L/physical-base-full2-descent-preflight.json",
     "docs/research-os/policies/research-credit-and-promotion-firewalls.md"
   ],
   "promotion_gates": {
     "source_authority_lock_complete": true,
-    "universal_order4_promoted": true,
-    "exact_2_isogeny_family_adapter_promoted": true,
-    "fixed_S_uniform_full2_descent_blocked": true,
-    "C8_gate_certificate_complete": true,
-    "C8_rational_points_exhausted": true,
-    "physical_k_and_minus_k_nonsquare_certified": true,
     "two_primary_torsion_control_promoted": true,
-    "verifier_coverage_repaired": true,
+    "relative_2isogeny_kummer_certificate_complete": true,
+    "generic_function_field_rank1_certificate_complete": true,
+    "generic_function_field_rank1_promoted": false,
+    "exact_generic_kummer_images_certificate_complete": true,
+    "exact_generic_kummer_images_promoted": false,
+    "fiberwise_rank_one_for_every_rational_q_proved": false,
+    "specialization_rank_jumps_excluded": false,
     "full_torsion_subgroup_proved": false,
     "full_2_Selmer_group_computed": false,
     "isogeny_Selmer_groups_computed": false,
@@ -157,34 +120,22 @@
   "anti_loop": {
     "do_not_claim_hostile_audit_pass_for_36_09M": true,
     "record_user_pass_distinctly_from_hostile_audit": true,
-    "do_not_treat_2primary_torsion_as_full_torsion": true,
-    "do_not_treat_C8_point_exhaustion_as_Stage36_receiver_point_exhaustion": true,
-    "do_not_treat_LMFDB_32a3_rank0_as_any_Stage36_family_MW_rank": true,
-    "do_not_claim_fixed_S_uniform_2_descent_after_unbounded_support_obstruction": true
+    "do_not_treat_generic_rank1_as_fiberwise_rank1": true,
+    "do_not_treat_exact_generic_kummer_images_as_all_specialized_kummer_images": true,
+    "do_not_claim_uniform_MW_group_from_injective_specialization_at_one_fiber": true,
+    "do_not_start_36_09O_before_36_09N_hostile_audit_PASS": true
   },
   "claims": {
     "new_theorem_credit": false,
-    "two_primary_torsion_control_promoted": true,
-    "full_torsion_subgroup_proved": false,
-    "full_2_Selmer_group_computed": false,
-    "isogeny_Selmer_groups_computed": false,
+    "generic_function_field_rank1_provisional": true,
+    "exact_generic_kummer_images_provisional": true,
+    "fiberwise_rank_one_for_every_rational_q_proved": false,
     "uniform_Mordell_Weil_group_proved": false,
     "receiver_emptiness_proved": false,
-    "quotient_Q_point_emptiness_proved": false,
     "R29_CAMP2_closed": false,
     "Q11_CAMPEDELLI_closed": false,
     "endpoint_closed": false,
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
-  },
-  "base_sync": {
-    "from": "8607da00e76f9f0ff1759c04b983ba329cca5de6",
-    "to": "cf5389b857ee52225ed44543ff7ac8d05387583a",
-    "intervening_commits": 1,
-    "allowed_prefixes": [
-      "stages/stage33/",
-      ".github/workflows/stage33-v41-e3-source.yml"
-    ],
-    "stage36_or_source_intersection": false
   }
 }
