@@ -7,53 +7,30 @@ Ordinary `Stage32-main-batch` reads, in this order:
 3. `stages/stage32/MAIN-STATE.json`;
 4. only the paths listed in `MAIN-STATE.json.current_leaf_working_set`.
 
-This is the ordinary startup contract. Do not preload the Stage32 root directory, historical roadmaps, controller history, production state, runkeys, audits, or Research OS beyond an explicit trigger below.
+This file is the fixed ordinary startup contract. It does not contain the mutable Stage32 frontier, current target, survivor set, next route, current firewall values, or cleanup progress. Read all such current values only from `MAIN-STATE.json`.
+
+Do not preload the Stage32 root directory, historical roadmaps, controller history, production state, runkeys, audits, or Research OS unless `MAIN-STATE.json`, `AGENTS.md`, or the active task explicitly requires them.
 
 ## Authority split
 
-`MAIN-STATE.json` is the current mutable **ordinary startup projection**. It is not a proof certificate and does not rewrite historical evidence.
+`MAIN-STATE.json` is the current mutable ordinary startup projection. It is not a proof certificate and does not rewrite historical evidence.
 
-Exact mathematical claims remain grounded in hostile-audited certificates/source locks. Historical files such as `controller.json`, `residual-32-01-production/state.json`, old FULL178 runkeys, and old roadmaps remain retained evidence/operational history but are not current-leaf startup authority.
+Exact mathematical claims remain grounded in the hostile-audited certificates and source locks referenced by `MAIN-STATE.json`. Historical controller, production-state, runkey, roadmap, audit, and history files remain evidence or operational history; they are not ordinary current-leaf startup authority merely because they exist.
 
-If a historical file conflicts with `MAIN-STATE.json` about the current leaf or next route, use `MAIN-STATE.json` for ordinary routing and use the exact referenced certificate chain for mathematical claims. Do not infer new credit from the compact state.
-
-## Current Stage32 frontier
-
-The fixed target remains `g1-d186`, `O=210`, `qprime=4`, `Q=602`, with surviving residues `73,97,235`.
-
-The #1577 ambient-symmetry / orbit-sum / parity detector lane is closed. #1588 obtained a genuine direct mod-2 fiber-divisor identity, but its mod-2 class is supported entirely in the exceptional span and maps to zero in the quotient by that span.
-
-Therefore the next admissible constructive input is either:
-
-- a direct mod-2 divisor/correspondence class with a proved nonexceptional component; or
-- an independent primitive/odd commutator invariant.
-
-Do not repeat the closed symmetry/parity detector without materially new input.
+If historical material conflicts with `MAIN-STATE.json` about current routing, use `MAIN-STATE.json` for ordinary routing and use the exact referenced certificate chain for mathematical claims. Do not infer new mathematical credit from the compact state itself.
 
 ## Search and Arsenal routing
 
-Repository discovery is search-first; never request a recursive/full tree. For an existing weapon/evidence lookup, read `docs/research-os/policies/repository-asset-discovery.md`, then `docs/arsenal/index.json`, then only the relevant card(s) and exact referenced assets.
+Repository discovery is search-first; never request a recursive/full repository tree. For an existing weapon or evidence lookup, follow the repository discovery policy referenced by `AGENTS.md`, then `docs/arsenal/index.json`, then only the relevant card(s) and exact referenced assets.
 
 A search miss is not repository-wide absence and is not mathematical nonexistence.
 
-## On-demand files, not ordinary startup
+## On-demand history
 
-Open these only when the active task requires them:
+Historical Stage32 files may be opened only when the current state or active task requires their exact semantics, provenance, heavy-workflow history, source lock, audit record, or cleanup-reference analysis. Their presence does not authorize heavy compute or change current credit.
 
-- inherited finite target / receiver semantics: `ROADMAP.md`, `GOAL_AND_STOP_CONTRACT.md`;
-- heavy workflow design/rerun/diagnosis: `HEAVY_WORKFLOW_POLICY.md` plus the Actions-safety policy triggered by `AGENTS.md`;
-- historical FULL178 execution: `residual-32-01-production/state.json`, `runkeys/residual32-01-full178-production.json`, `ROADMAP-32-19-21-REANCHOR.md`;
-- historical detailed controller chronology: `controller.json` and its exact archives;
-- history/old planning: only when explicitly needed for provenance or cleanup-reference audit.
+## Write and merge discipline
 
-None of these historical files authorizes heavy compute merely by being present.
-
-## Firewalls
-
-At startup: `Q602_excluded=false`, `O210_excluded=false`, `O212+` advance is unauthorized, and no controller/receiver/route/theorem/endpoint/perfect-cuboid credit is granted.
+Before writes, follow the current gate and firewalls in `MAIN-STATE.json`. Proof/source-locked assets must not be deleted or relocated without an explicit reference audit authorized by the current state.
 
 Do not merge without explicit user authorization.
-
-## Root-cleanup sequencing
-
-Do not delete or relocate Stage32 proof/source-locked assets merely because they are not in ordinary startup. First hostile-audit this startup authority split. Then perform a bounded root reference inventory and classify each direct-root item as startup-required, proof/source-locked, archive-candidate, or delete-candidate before any cleanup deletion.
