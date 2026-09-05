@@ -10,7 +10,8 @@ STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
 BLIND=ROOT/'stages/stage35-ex/35ex-34/blind-post-gaussian-block-candidate-generation.json'
 AUDIT=ROOT/'stages/stage35-ex/35ex-34/post-gaussian-block-exhaustive-view-audit.json'
 SCHEMA='STAGE35_EX_PESCH_E1_STATE_V33_POST_35EX33_USER_APPROVED_ROUTE_BLOCKER'
-BASE_MAIN='e21378e59f7f1076a7ad71d34cee1fd0ac3a5cb3'
+BASE_MAIN='7b3a5f54b63f52a8707d85003024f6dfafb580fd'
+PARENT_MERGE='e21378e59f7f1076a7ad71d34cee1fd0ac3a5cb3'
 BLIND_COMMIT='f80d0321549d120a6f4d8a0713ec1100fc4ca6e5'
 AUDIT_COMMIT='e073c322d52122de10791bb8174c62bd696bf037'
 
@@ -23,6 +24,7 @@ blind=json.loads(BLIND.read_text())
 audit=json.loads(AUDIT.read_text())
 assert state['schema']==SCHEMA and state['stage']=='35-EX' and state['status']=='ACTIVE_RESEARCH_NO_CREDIT'
 assert state['base_main_sha']==BASE_MAIN
+assert state['history_snapshot']['commit_sha']==PARENT_MERGE
 assert blind['schema']=='STAGE35_EX_34_BLIND_POST_GAUSSIAN_BLOCK_CANDIDATES_V1'
 assert blind['phase']=='BLIND_REDISCOVERY_BEFORE_ARSENAL_OR_HISTORY_COMPARISON'
 assert blind['credit_firewall']['blind_pass_completed'] is True
@@ -39,7 +41,7 @@ assert parent['pr']==1598 and parent['pass_source']=='USER_APPROVED_PASS'
 assert parent['hostile_review_id'] is None
 assert parent['exact_head_sha']=='2fa20cabe38bd4003187757921389f9623e6e260'
 assert parent['exact_head_ci_run']==33958273867 and parent['exact_head_ci_job']==101285448666
-assert parent['merge_sha']==BASE_MAIN
+assert parent['merge_sha']==PARENT_MERGE
 assert parent['audited_route_status']=='BLOCKED_NEW_PATTERN_ISOLATED'
 assert parent['E1_credit'] is False
 
@@ -48,7 +50,6 @@ for key,lock in audit['source_locks'].items():
     actual=git_blob_sha(p)
     assert actual==lock['blob_sha'], (key,actual,lock['blob_sha'])
 
-# The blind artifact must be committed before the comparison artifact.
 subprocess.run(['git','merge-base','--is-ancestor',BLIND_COMMIT,AUDIT_COMMIT],cwd=ROOT,check=True)
 assert audit['protocol_order']['blind_generation_committed_before_history_and_arsenal_comparison'] is True
 assert audit['protocol_order']['blind_generation_commit']==BLIND_COMMIT
@@ -101,7 +102,7 @@ assert exit_['CYCLE_NEW_VIEW_SOURCE']=='BLIND'
 pa=state['parent_authority']
 assert pa['unit']=='35EX-33' and pa['audit_verdict']=='PASS_USER_APPROVED'
 assert pa['hostile_review_id'] is None
-assert pa['exact_head_sha']==parent['exact_head_sha'] and pa['merged_main_sha']==BASE_MAIN
+assert pa['exact_head_sha']==parent['exact_head_sha'] and pa['merged_main_sha']==PARENT_MERGE
 assert pa['route_status']=='BLOCKED_NEW_PATTERN_ISOLATED'
 u34=state['completed_units_delta']['35EX-34']
 assert u34['status']=='PROVISIONAL_FRESH_BREADTH_AUDIT_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT'
