@@ -125,10 +125,14 @@ jobs:
         run: git show 2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
       - name: Replay Stage36 36-09H hostile-audited promotion
         run: python3 stages/stage36/verify_stage36_36_09H_audited.py
-      - name: Restore exact V30 36-09I mathematical state
-        run: git show dbd9ab95f1cf248a8a4704b205f62b8b96b1aefa:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-      - name: Verify Stage36 36-09I post-W01 breadth refresh
-        run: python3 stages/stage36/verify_stage36_36_09I.py
+      - name: Replay Stage36 36-09I at exact audited head
+        shell: bash
+        run: |
+          set -euo pipefail
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" 476829b39679f4c380fe0458e37c28745e5f5621
+          python3 "$tmp/stages/stage36/verify_stage36_36_09I.py"
+          git worktree remove --force "$tmp"
       - name: Restore current V31 state
         run: cp /tmp/stage36-v31.json stages/stage36/MAIN-STATE.json
       - name: Replay Stage36 36-09I hostile-re-audited promotion
