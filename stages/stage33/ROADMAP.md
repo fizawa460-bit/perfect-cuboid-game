@@ -22,7 +22,7 @@ detailed machine state     -> stages/stage33/controller.json
 history/evidence index     -> stages/stage33/HISTORY.md
 unit closure details       -> stages/stage33/33-00/unit-closure-contract.md
 historical J2 repair plan  -> stages/stage33/ROADMAP-33-05-J2-REPRESENTATIVE-REPAIR.md
-33-07 repair-band plan     -> stages/stage33/ROADMAP-33-07-REPAIR-BAND.md
+33-07 repair-band plan     -> stages/stage33/33-07/ROADMAP-REPAIR-BAND.md
 ```
 
 Do not add mutable `STAGE33_STATUS`, current receiver, live-route ledger, or batch progress here. Those belong in MAIN-STATE/controller/active state. Historical route decisions belong in HISTORY/results/Git history.
@@ -80,7 +80,7 @@ Transport the geometric nine-dimensional line-complement Br[2] source through en
 
 Integrate BR0B, BR0G, K3, line-arrangement, relation, symbol, and descent data into one complete relevant Q-defined Stage33 class inventory, with order and provenance for every class.
 
-If hostile review reopens this task, repair children are governed by `ROADMAP-33-07-REPAIR-BAND.md`; the roadmap does not duplicate their current status.
+If hostile review reopens this task, repair children are governed by `33-07/ROADMAP-REPAIR-BAND.md`; the roadmap does not duplicate their current status.
 
 ### Stage33-08 — BR2B explicit endpoint representatives
 
