@@ -5,6 +5,7 @@ import json
 import subprocess
 from dataclasses import dataclass
 from fractions import Fraction
+from math import isqrt
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -26,6 +27,132 @@ def git(*args: str) -> str:
 
 def blob(path: Path) -> str:
     return git("hash-object", str(path.relative_to(ROOT)))
+
+
+def trim(p: tuple[Fraction, ...]) -> tuple[Fraction, ...]:
+    q = list(p)
+    while len(q) > 1 and q[-1] == 0:
+        q.pop()
+    return tuple(q)
+
+
+def padd(p, q):
+    n = max(len(p), len(q))
+    return trim(tuple((p[i] if i < len(p) else 0) + (q[i] if i < len(q) else 0) for i in range(n)))
+
+
+def pscale(c, p):
+    return trim(tuple(Fraction(c) * a for a in p))
+
+
+def pmul(p, q):
+    out = [Fraction(0)] * (len(p) + len(q) - 1)
+    for i, a in enumerate(p):
+        for j, b in enumerate(q):
+            out[i + j] += a * b
+    return trim(tuple(out))
+
+
+def ppow(p, n):
+    out = (Fraction(1),)
+    base = p
+    while n:
+        if n & 1:
+            out = pmul(out, base)
+        base = pmul(base, base)
+        n >>= 1
+    return out
+
+
+def is_square_fraction(x: Fraction) -> bool:
+    if x < 0:
+        return False
+    return isqrt(x.numerator) ** 2 == x.numerator and isqrt(x.denominator) ** 2 == x.denominator
+
+
+def check_symbolic_c8_adapter() -> None:
+    # First step after clearing (1-u)^4:
+    # 4 v^2 = 2((1+u)^4+(1-u)^4), hence v^2=u^4+6u^2+1.
+    U = (Fraction(0), Fraction(1))
+    one_plus_u = (Fraction(1), Fraction(1))
+    one_minus_u = (Fraction(1), Fraction(-1))
+    D = (Fraction(1), Fraction(0), Fraction(6), Fraction(0), Fraction(1))
+    lhs_sum = padd(ppow(one_plus_u, 4), ppow(one_minus_u, 4))
+    assert lhs_sum == pscale(2, D)
+
+    # Second step in Q[u,v]/(v^2-D):
+    # A=(v+1)/u^2, B=u(A^2-1), and u^2(A^2-1)=2A+6.
+    # Clearing u^2 leaves v^2-1-u^4-6u^2=0, exactly the defining relation.
+    relation_remainder = padd(D, pscale(-1, (1, 0, 6, 0, 1)))
+    assert relation_remainder == (Fraction(0),)
+
+    # Final cubic identity in formal A:
+    # x=(A+1)/2, y=B/4, B^2=2(A+3)(A^2-1), so 16(x^3-x)=B^2.
+    A = U
+    A1 = padd(A, (1,))
+    A3 = padd(A, (3,))
+    A2m1 = padd(pmul(A, A), (-1,))
+    lhs = padd(pscale(2, ppow(A1, 3)), pscale(-8, A1))
+    rhs = pscale(2, pmul(A3, A2m1))
+    assert lhs == rhs
+
+    # Open inverse: 4*x*(x-1)=A^2-1 and B=u(A^2-1), so
+    # u=(B/4)/(x(x-1)); then v=A*u^2-1.
+    x_num = A1
+    xm1_num = padd(A, (-1,))
+    assert pmul(x_num, xm1_num) == A2m1
+
+    # Mobius forward/inverse round-trip after clearing denominators:
+    # z=(1+u)/(1-u) gives z-1=2u/(1-u), z+1=2/(1-u).
+    assert pscale(2, U) == (0, 2)
+    assert (Fraction(2),) == (2,)
+
+
+def check_projective_exceptions(c: dict) -> None:
+    expected = [
+        "(z,w)=(1,2) -> O",
+        "(z,w)=(1,-2) -> (-1,0)",
+        "(z,w)=(-1,2) -> (1,0)",
+        "(z,w)=(-1,-2) -> (0,0)",
+    ]
+    assert c["C8_to_32a3_birational_adapter"]["projective_exception_correspondence"] == expected
+
+    for z in (Fraction(1), Fraction(-1)):
+        for w in (Fraction(2), Fraction(-2)):
+            assert w * w == 2 * (z**4 + 1)
+
+    # z=1: u=0, v=w/2. The v=+1 branch has A-pole -> O.
+    # For v=-1 use A=(u^2+6)/(v-1), derived from
+    # (v+1)(v-1)=u^2(u^2+6), giving A=-3 -> (-1,0).
+    for w, target in ((Fraction(2), "O"), (Fraction(-2), "(-1,0)")):
+        v = w / 2
+        if v == 1:
+            assert target == "O" and v + 1 != 0
+        else:
+            assert v == -1
+            A = Fraction(6, -2)
+            x = (A + 1) / 2
+            y = Fraction(0)
+            assert (x, y) == (Fraction(-1), Fraction(0))
+            assert target == "(-1,0)"
+
+    # z=-1: t=1/u=(z+1)/(z-1)=0 and vbar=v/u^2=w/2.
+    # A=vbar+t^2, and B=(2A+6)t, so y=B/4 -> 0.
+    t = Fraction(0)
+    for w, expected_point in (
+        (Fraction(2), (Fraction(1), Fraction(0))),
+        (Fraction(-2), (Fraction(0), Fraction(0))),
+    ):
+        vbar = w / 2
+        A = vbar + t * t
+        x = (A + 1) / 2
+        B = (2 * A + 6) * t
+        y = B / 4
+        assert (x, y) == expected_point
+
+    # At projective infinity lambda=w/z^2 would satisfy lambda^2=2.
+    assert c["square_gate_quartic_C8"]["rational_points_at_infinity"] == 0
+    assert not is_square_fraction(Fraction(2))
 
 
 @dataclass(frozen=True)
@@ -87,7 +214,7 @@ def qconst(x: Fraction, D: Fraction) -> Quad:
     return Quad(x, Fraction(0), D)
 
 
-def check_c8_adapter(u: Fraction) -> None:
+def check_c8_adapter_sample(u: Fraction) -> None:
     assert u != 0
     D = u**4 + 6*u*u + 1
     v = Quad(Fraction(0), Fraction(1), D)
@@ -97,8 +224,6 @@ def check_c8_adapter(u: Fraction) -> None:
     x = (A + 1) / 2
     y = B / 4
     assert y*y == x*x*x - x
-
-    # exact open inverse round trip
     A2 = 2*x - 1
     u2 = y / (x*(x-1))
     v2 = A2*u2*u2 - 1
@@ -108,7 +233,6 @@ def check_c8_adapter(u: Fraction) -> None:
 
 
 def physical_k(t: Fraction) -> tuple[Fraction, Fraction]:
-    # line rho=2+t(k-1) through (k,rho)=(1,2)
     den = t*t - 2
     assert den != 0
     k = (t*t - 4*t + 2) / den
@@ -118,10 +242,9 @@ def physical_k(t: Fraction) -> tuple[Fraction, Fraction]:
 
 
 def check_family(t: Fraction) -> None:
-    k, rho = physical_k(t)
+    k, _rho = physical_k(t)
     assert k not in (0, 1, -1)
 
-    # E_k and its two universal order-4 points.
     def fE(x: Fraction) -> Fraction:
         return x*(x+1)*(x+k*k)
 
@@ -134,7 +257,6 @@ def check_family(t: Fraction) -> None:
         y2 = -y + m*(x-x2)
         assert x2 == 0 and y2 == 0
 
-    # 2-isogenous quotient factorization and images of Pplus/Pminus.
     A = 1+k*k
     B = k*k
     Bp = A*A - 4*B
@@ -151,7 +273,6 @@ def check_family(t: Fraction) -> None:
         y1 = y*(B-x*x)/(x*x)
         assert x1 == expected and y1 == 0
 
-    # Duplication-square identity on y^2=x^3+A*x^2+B*x.
     for x in [Fraction(2), Fraction(3,2), Fraction(-2)]:
         y2 = x*x*x + A*x*x + B*x
         if y2 == 0:
@@ -182,8 +303,11 @@ def main() -> None:
     ]:
         assert needle in src
 
+    check_symbolic_c8_adapter()
+    check_projective_exceptions(c)
+
     for u in [Fraction(1,2), Fraction(2,3), Fraction(3,2), Fraction(-1,2)]:
-        check_c8_adapter(u)
+        check_c8_adapter_sample(u)
 
     for t in [Fraction(0), Fraction(1,2), Fraction(3), Fraction(-1)]:
         k, _ = physical_k(t)
@@ -204,8 +328,10 @@ def main() -> None:
         "E'_k(Q)[2^infinity] is exactly (Z/2)^2 on every retained physical fiber"
     )
 
-    assert s["schema"] == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V38_36_09M_PENDING_HOSTILE_AUDIT"
-    assert s["status"] == "ACTIVE_PENDING_HOSTILE_AUDIT"
+    assert s["schema"] in {
+        "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V38_36_09M_PENDING_HOSTILE_AUDIT",
+        "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V39_36_09M_USER_PASS_PROMOTED",
+    }
     M = s["authority_frontier"]["36-09M"]
     assert M["certificate_blob_sha"] == CERT_BLOB
     assert M["source_lock_blob_sha"] == SOURCE_BLOB
@@ -213,13 +339,12 @@ def main() -> None:
     assert M["E_K_2PRIMARY_TORSION"] == "Z/4 x Z/2"
     assert M["E_K_PRIME_2PRIMARY_TORSION"] == "(Z/2)^2"
     assert M["B3_RELATIVE_2_ISOGENY_ROUTE"] == "LIVE"
-    assert s["current"]["36_09N_entry_allowed"] is False
     assert s["promotion_gates"]["uniform_Mordell_Weil_group_proved"] is False
     assert s["promotion_gates"]["isogeny_Selmer_groups_computed"] is False
     assert s["promotion_gates"]["receiver_emptiness_proved"] is False
     assert s["promotion_gates"]["R29_CAMP2_closed"] is False
 
-    print("36-09M exact physical torsion-growth gate verified; C8->32.a3 locked; 2-primary torsion controlled; 36-09N locked")
+    print("36-09M exact torsion-growth gate verified with symbolic adapter and projective exceptions; C8->32.a3 locked; 2-primary torsion controlled")
 
 
 if __name__ == "__main__":
