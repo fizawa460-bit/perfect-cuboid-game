@@ -67,7 +67,10 @@ def main() -> None:
         if git_blob_sha(new_path) != blob:
             fail(f"archived blob changed: {new}")
 
+    # These three files are the audit/control layer for this relocation and are
+    # intentionally allowed to name the old paths. All other tracked files must not.
     skip = {
+        ".github/workflows/stage32-root-cleanup-phase-b.yml",
         "stages/stage32/verify_root_cleanup_phase_b.py",
         "stages/stage32/archive/legacy-root/manifest.json",
     }
