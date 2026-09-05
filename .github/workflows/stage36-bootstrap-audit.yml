@@ -71,6 +71,32 @@ jobs:
           print(f'base_main_sha={actual}')
           PY
 
+      - name: Assert current main is merged into exact PR head
+        shell: bash
+        run: |
+          set -euo pipefail
+          current='38434ea3c4124efd1cc04a228e85b2fd207f2c14'
+          git merge-base --is-ancestor "$current" HEAD
+          test "$(git merge-base "$current" HEAD)" = "$current"
+          echo "current_main_ancestor=$current"
+
+      - name: Prepare historical V14 mathematical replay projection
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp stages/stage36/MAIN-STATE.json /tmp/stage36-current-state.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('stages/stage36/MAIN-STATE.json')
+          s=json.loads(p.read_text())
+          assert s['base_main_sha']=='38434ea3c4124efd1cc04a228e85b2fd207f2c14'
+          s['base_main_sha']='5fa33e600b81fc34f4be9b22761c8079b31d7806'
+          s.pop('freshness_sync_36_09A',None)
+          p.write_text(json.dumps(s,indent=2,separators=(',', ': '))+'\n')
+          print('historical V14 projection prepared for immutable mathematical replay')
+          PY
+
       - name: Replay Stage36 bootstrap authority
         run: python3 stages/stage36/verify_stage36_bootstrap.py
 
@@ -92,8 +118,17 @@ jobs:
       - name: Replay audited Stage36 36-09 breadth authority
         run: python3 stages/stage36/verify_stage36_36_09_audited.py
 
-      - name: Verify Stage36 36-09A CAMP4 Brauer compatibility preflight
+      - name: Replay Stage36 36-09A mathematical preflight
         run: python3 stages/stage36/verify_stage36_36_09A.py
+
+      - name: Restore current freshness state
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp /tmp/stage36-current-state.json stages/stage36/MAIN-STATE.json
+
+      - name: Verify Stage36 36-09A current-main freshness
+        run: python3 stages/stage36/verify_stage36_36_09A_freshness.py
 
       - name: Assert hostile-audit boundary before 36-09B
         shell: bash
@@ -105,7 +140,11 @@ jobs:
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
           assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V14_36_09A_PENDING_HOSTILE_AUDIT'
           assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
-          assert s['base_main_sha']=='5fa33e600b81fc34f4be9b22761c8079b31d7806'
+          assert s['base_main_sha']=='38434ea3c4124efd1cc04a228e85b2fd207f2c14'
+          f=s['freshness_sync_36_09A']
+          assert f['sync_pr']==1579
+          assert f['main_sha']=='38434ea3c4124efd1cc04a228e85b2fd207f2c14'
+          assert f['merge_commit']=='0d35b0cba86ec1bb940dabe36df672385e20f6da'
           assert s['stage36_36_09_promotion']['pr']==1578
           assert s['stage36_36_09_promotion']['exact_head']=='7adf76985ad8e56487292f42c7681d9cdf9d821c'
           assert s['stage36_36_09_promotion']['exact_head_ci_run']==33946402867
@@ -127,5 +166,5 @@ jobs:
           assert s['promotion_gates']['receiver_matched_replacement_theorem_proved'] is False
           assert s['promotion_gates']['R29_CAMP2_closed'] is False
           assert all(v is False for v in s['claims'].values())
-          print('36-09A preflight blocked on upstream BR2A/BR2B; neither compatibility nor incompatibility claimed; 36-09B locked pending hostile audit')
+          print('36-09A math payload unchanged; current main freshness repaired; 36-09B locked pending hostile re-audit')
           PY
