@@ -1,0 +1,226 @@
+{
+  "schema": "STAGE35_EX_32_POST_POPULATION_EQUIVALENCE_FRESH_BREADTH_AUDIT_V1",
+  "stage": "35-EX",
+  "status": "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT",
+  "authority": {
+    "unit": "35EX-31",
+    "initial_hostile_audit": {
+      "review_id": 5120314137,
+      "verdict": "FAIL_FRESHNESS_ONLY",
+      "exact_head_sha": "32ea39de62643a70569ba13eb23fc1b435adf62f",
+      "mathematics_passed": true,
+      "credit_firewall_passed": true
+    },
+    "final_pass_source": "USER_APPROVED_PASS_AFTER_FRESHNESS_REPAIR",
+    "final_exact_head_sha": "9f1d3d73f41377bddb1296a3e6fc95b5e2fd8dd7",
+    "final_exact_head_ci_run": 33953462420,
+    "final_exact_head_ci_job": 101272407623,
+    "merged_main_sha": "8211bb0ef80de61ecf39c3b97743c58f1193187a",
+    "scope": "primitive-source reverse adapter and endpoint population equivalence only; no E1 or perfect-cuboid existence/nonexistence theorem"
+  },
+  "protocol": {
+    "policy": "docs/research-os/policies/cycle-exploration-safety-protocol.md",
+    "fresh_exhaustive_view_audit": true,
+    "blind_rediscovery": true,
+    "blind_generation_performed_before_arsenal_comparison": true,
+    "historical_comparison_performed_after_blind_generation": true,
+    "split_triggered": false,
+    "parking_audit_complete": false
+  },
+  "source_locks": {
+    "stage35_ex_31_endpoint_equivalence": {
+      "path": "stages/stage35-ex/35ex-31/primitive-source-marking-endpoint-equivalence.md",
+      "blob_sha": "01aa855c32289a467fb66759e25dc90f18df9f80"
+    },
+    "stage35_ex_31_certificate": {
+      "path": "stages/stage35-ex/35ex-31/primitive-source-marking-certificate.json",
+      "blob_sha": "9f28f4aaeccf3a48cf8c02745708845783dc1788"
+    },
+    "prior_breadth_audit": {
+      "path": "stages/stage35-ex/35ex-29/post-reciprocal-common-factor-breadth-audit.json",
+      "blob_sha": "a095dc64d0802cca2d1829fafe2b3ce058015a2c"
+    },
+    "cycle_policy": {
+      "path": "docs/research-os/policies/cycle-exploration-safety-protocol.md",
+      "blob_sha": "4e911c4fc7e4ea7a2b5f96733a90b986ef8d9a37"
+    },
+    "arsenal_index": {
+      "path": "docs/arsenal/index.json",
+      "blob_sha": "aa45d19c2f1d8970c7f142bf744c5c17e75abe5a"
+    },
+    "arsenal_S34_W01": {
+      "path": "docs/arsenal/cards/formal/S34-W01.md",
+      "blob_sha": "01a8e90e34b4aa46edbfa825803d488e5230e9d0"
+    },
+    "arsenal_S34_W03": {
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96"
+    },
+    "arsenal_S31_W01": {
+      "path": "docs/arsenal/cards/formal/S31-W01.md",
+      "blob_sha": "122a6c1c5c871c1c7b797017e854de8ec55e7c50"
+    },
+    "arsenal_S34_W02": {
+      "path": "docs/arsenal/cards/formal/S34-W02.md",
+      "blob_sha": "13d41be776fcd2edcd258f11bd28c5a6596de45b"
+    }
+  },
+  "exact_receiver": {
+    "population": "positive rational perfect cuboids modulo positive scaling and edge permutation",
+    "normalized_chart": "choose any positive edge as scale and write the other two as x,y",
+    "equations": [
+      "p^2=1+x^2",
+      "q^2=1+y^2",
+      "z^2=x^2+y^2",
+      "w^2=1+x^2+y^2"
+    ],
+    "audited_source_equivalence": "Stage35 E1 counterexamples modulo source-pair swap are equivalent to this population",
+    "canonical_2adic_fact": "the three edge v2-valuations are pairwise distinct, so every endpoint orbit has a unique minimum-v2 edge",
+    "forbidden_shortcut": "source marking is only a gauge choice and may not be recharged as an additional endpoint restriction"
+  },
+  "blind_candidates": [
+    {
+      "id": "E1-GAUSSIAN-THREE-FACE-COMPATIBILITY-DESCENT",
+      "lens": "Gaussian norm factorization / simultaneous face compatibility",
+      "blind_observation": "after clearing denominators to a primitive integer cuboid candidate, the three face equations are simultaneous norms in Z[i]; analyze units, conjugate gcds and shared Gaussian-prime support across a+ib, a+ic and b+ic rather than treating the three Pythagorean faces independently",
+      "classification_before_history": "LIVE"
+    },
+    {
+      "id": "E1-ENDPOINT-UNIVERSAL-TORSOR-SQUARECLASS-SPLIT",
+      "lens": "intersection of quadrics / universal torsor",
+      "blind_observation": "build an integral torsor for the four square equations and isolate finite squarefree kernels using exact gcd/resultant support before any curve-by-curve closure",
+      "classification_before_history": "UNTESTED"
+    },
+    {
+      "id": "E1-ENDPOINT-JOINT-LOCAL-HILBERT-PROFILE",
+      "lens": "local squareclasses / Hilbert symbols / reciprocity",
+      "blind_observation": "classify the simultaneous local conditions imposed by all four squares, with the canonical minimum-v2 edge fixed only as a gauge, and search for a joint local or reciprocity obstruction invisible on any single face",
+      "classification_before_history": "UNTESTED"
+    },
+    {
+      "id": "E1-ENDPOINT-GENUINE-V2-INFINITE-DESCENT",
+      "lens": "2-adic minimal-edge descent",
+      "blind_observation": "test whether the unique minimum-v2 edge can be combined with exact primitive factorization to construct a strictly smaller-height endpoint orbit; gauge normalization alone is insufficient, so a genuine descent must exhibit a monotone integral height decrease",
+      "classification_before_history": "UNTESTED"
+    },
+    {
+      "id": "E1-LINKED-CONGRUENT-NUMBER-SELMER-COUPLING",
+      "lens": "linked elliptic curves / simultaneous Selmer conditions",
+      "blind_observation": "interpret pairs of Pythagorean sections as linked congruent-number elliptic data and seek a compatibility condition on their Selmer or isogeny classes forced by the common space diagonal",
+      "classification_before_history": "UNTESTED"
+    },
+    {
+      "id": "E1-RATIO-DISCRIMINANT-BIQUARTIC-QUOTIENT",
+      "lens": "Pythagorean parametrization / elimination / discriminant",
+      "blind_observation": "parameterize p^2=1+x^2 and q^2=1+y^2 independently, then eliminate one slope from the remaining z,w square equations to expose a biquartic or discriminant quotient; every quotient point still requires an exact simultaneous-lift check",
+      "classification_before_history": "UNTESTED"
+    },
+    {
+      "id": "E1-UNIFORM-ENDPOINT-ELLIPTIC-SURFACE-HEIGHT",
+      "lens": "genus-one fibration / specialization / canonical height",
+      "blind_observation": "choose a rational endpoint invariant as base parameter and seek a uniform Mordell-Weil or height theorem for the moving genus-one fibers, not a collection of fixed-fiber computations",
+      "classification_before_history": "UNTESTED"
+    },
+    {
+      "id": "E1-NONOBVIOUS-VERTICAL-BRAUER-ENDPOINT-FIBRATION",
+      "lens": "adelic / vertical Brauer group",
+      "blind_observation": "compute Brauer classes arising from a chosen endpoint fibration rather than the already-tested obvious boundary-symbol span, and evaluate them on the exact receiver adelic set",
+      "classification_before_history": "UNTESTED"
+    },
+    {
+      "id": "E1-S3-SYMMETRIC-ENDPOINT-INVARIANTS",
+      "lens": "finite symmetry quotient / invariant theory",
+      "blind_observation": "pass to elementary symmetric functions of the three squared edges and their square pair-sums to test whether the unordered endpoint admits a lower-degree arithmetic model; finite quotienting alone does not reduce dimension",
+      "classification_before_history": "UNTESTED"
+    },
+    {
+      "id": "E1-ENDPOINT-SPINOR-NORM-TERNARY-FORM",
+      "lens": "ternary quadratic forms / spinor norms",
+      "blind_observation": "view the squared edge lengths as a diagonal ternary form whose three pair sums and total sum are squares, then test whether local spinor-norm compatibility yields a global obstruction distinct from coordinatewise Hilbert tests",
+      "classification_before_history": "UNTESTED"
+    }
+  ],
+  "historical_comparison": {
+    "E1-RATIO-DISCRIMINANT-BIQUARTIC-QUOTIENT": "MATCHES_THE_PRESERVED_E1_RATIO_DISCRIMINANT_QUARTIC_QUOTIENT_ROUTE_SPECIES; remains untested and requires exact lift preservation",
+    "E1-ENDPOINT-JOINT-LOCAL-HILBERT-PROFILE": "MATCHES_THE_PRESERVED_DESCENDED_RECEIVER_JOINT_LOCAL_CLASSIFICATION_ROUTE_SPECIES; remains untested",
+    "E1-UNIFORM-ENDPOINT-ELLIPTIC-SURFACE-HEIGHT": "MATCHES_THE_PRESERVED_UNIFORM_ELLIPTIC_SURFACE_SPECIALIZATION_HEIGHT_ROUTE_SPECIES; remains untested",
+    "E1-NONOBVIOUS-VERTICAL-BRAUER-ENDPOINT-FIBRATION": "MATCHES_THE_PRESERVED_NONOBVIOUS_BRAUER_ROUTE_SPECIES; obvious-symbol Brauer replay remains frozen",
+    "E1-S3-SYMMETRIC-ENDPOINT-INVARIANTS": "LOW_INFORMATION_UNLESS_A_STRICTLY_SMALLER_ARITHMETIC_RECEIVER_IS_PROVED; finite symmetry quotient alone is endpoint-equivalent",
+    "E1-GAUSSIAN-THREE-FACE-COMPATIBILITY-DESCENT": "NO_MATCHING_PRIOR_STAGE35_EX_CANDIDATE_FOUND_IN_THE_POST_35EX29_LEDGER; preserves all three face equations simultaneously and is not merely source marking",
+    "E1-ENDPOINT-UNIVERSAL-TORSOR-SQUARECLASS-SPLIT": "NEW_AS_ENDPOINT_LEVEL_FORMULATION; partially overlaps the generic factor-squareclass method but no endpoint torsor adapter is present",
+    "E1-ENDPOINT-GENUINE-V2-INFINITE-DESCENT": "DISTINCT_FROM_35EX31: the audited v2 result gives only a canonical gauge and no decreasing-height map; genuine descent remains unproved",
+    "E1-LINKED-CONGRUENT-NUMBER-SELMER-COUPLING": "NO_MATCHING_PRIOR_STAGE35_EX_CANDIDATE_IN_THE_POST_35EX29_LEDGER",
+    "E1-ENDPOINT-SPINOR-NORM-TERNARY-FORM": "NO_MATCHING_PRIOR_STAGE35_EX_CANDIDATE_IN_THE_POST_35EX29_LEDGER; relation to joint-local route not yet proved"
+  },
+  "arsenal_comparison": {
+    "registry": "docs/arsenal/index.json",
+    "S34-W01": {
+      "classification": "PARTIAL_ROUTER_FOR_UNIVERSAL_TORSOR_AND_GAUSSIAN_FACTOR_SUPPORT",
+      "reason": "it supplies a successive factor/gcd/resultant/squareclass workflow once an exact low-degree factorization and complete support theorem are derived; it does not supply the endpoint Gaussian compatibility theorem or torsor adapter"
+    },
+    "S34-W03": {
+      "classification": "DIRECT_ROUTER_FOR_JOINT_LOCAL_INTERSECTION",
+      "reason": "it can close an exact receiver branch from a joint B+K local obstruction, but supplies no such obstruction for this endpoint"
+    },
+    "S31-W01": {
+      "classification": "ADAPTER_ONLY_FOR_GENUS_ONE_QUARTIC_BRANCHES",
+      "reason": "useful after a quartic branch is derived; it grants no uniform family or integral-point transfer"
+    },
+    "S34-W02": {
+      "classification": "LOCKED_UNTIL_FULL_MOVING_MW_INPUT_EXISTS",
+      "reason": "global MW congruence exclusion requires a certified full MW group; no uniform full group for the moving endpoint family is currently supplied"
+    },
+    "matching_formal_gaussian_three_face_compatibility_card_found": false,
+    "matching_formal_endpoint_universal_torsor_card_found": false,
+    "matching_formal_linked_selmer_card_found": false,
+    "matching_formal_genuine_v2_descent_card_found": false
+  },
+  "selection": {
+    "cycle_route_status": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "selected_candidate": "E1-GAUSSIAN-THREE-FACE-COMPATIBILITY-DESCENT",
+    "selected_next_unit": "35EX-33_GAUSSIAN_THREE_FACE_COMPATIBILITY_PREFLIGHT",
+    "reason": "35EX-31 proves that source restoration is only endpoint gauge, so the next route must add arithmetic rather than labels. The Gaussian route is closest to the exact endpoint, uses all three face-square identities simultaneously, has no matching formal Arsenal theorem, and admits small exact preflight obligations before any heavy curve computation.",
+    "next_unit_small_goals": [
+      "derive a primitive integral endpoint normalization invariant under positive rational scaling",
+      "write the three face equations as exact Gaussian norm factorizations",
+      "compute all pairwise Gaussian gcd/support identities forced by primitive integer edges",
+      "determine whether the shared-prime compatibility yields a finite squareclass receiver not already equivalent to S34-W01 source descent",
+      "stop with an exact blocker if no genuinely new compatibility invariant survives"
+    ],
+    "split_triggered": false
+  },
+  "preserved_untested_candidates": [
+    "E1-ENDPOINT-UNIVERSAL-TORSOR-SQUARECLASS-SPLIT",
+    "E1-ENDPOINT-JOINT-LOCAL-HILBERT-PROFILE",
+    "E1-ENDPOINT-GENUINE-V2-INFINITE-DESCENT",
+    "E1-LINKED-CONGRUENT-NUMBER-SELMER-COUPLING",
+    "E1-RATIO-DISCRIMINANT-BIQUARTIC-QUOTIENT",
+    "E1-UNIFORM-ENDPOINT-ELLIPTIC-SURFACE-HEIGHT",
+    "E1-NONOBVIOUS-VERTICAL-BRAUER-ENDPOINT-FIBRATION",
+    "E1-ENDPOINT-SPINOR-NORM-TERNARY-FORM"
+  ],
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "CYCLE_ACTIVE_RECEIVER": "positive rational perfect-cuboid endpoint surface modulo scaling and edge permutation",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 8,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "simultaneous Gaussian-prime compatibility across all three face norms",
+    "CYCLE_NEW_VIEW_SOURCE": "BLIND"
+  },
+  "claims": {
+    "audited_35ex31_population_equivalence": true,
+    "gaussian_compatibility_theorem_proved": false,
+    "endpoint_receiver_closed": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
