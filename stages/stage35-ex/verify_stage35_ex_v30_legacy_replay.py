@@ -8,6 +8,7 @@ ROOT=Path(__file__).resolve().parents[2]
 STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
 V30='STAGE35_EX_PESCH_E1_STATE_V30_POST_35EX31_PRIMITIVE_SOURCE_MARKING_ENDPOINT_EQUIVALENCE'
 V29='STAGE35_EX_PESCH_E1_STATE_V29_POST_35EX30_ENDPOINT_GAUGE_RETURN_FIREWALL'
+BASE_MAIN='05c229420a7c73886fedbece2d746b36ed3d91d5'
 V29_COMMIT='3d63864b0a10a53549f64a9e0dc3acf6f59ef9c0'
 ALLOWED={'base', *{str(i) for i in range(10,31)}}
 
@@ -17,7 +18,7 @@ target=sys.argv[1]
 
 real=json.loads(STATE.read_text())
 assert real['schema']==V30 and real['stage']=='35-EX' and real['status']=='ACTIVE_RESEARCH_NO_CREDIT'
-assert real['base_main_sha']==V29_COMMIT
+assert real['base_main_sha']==BASE_MAIN
 hs=real['history_snapshot']
 assert hs['commit_sha']==V29_COMMIT and hs['schema']==V29
 assert hs['role']=='IMMUTABLE_COMPLETE_V29_HISTORY_AND_AUTHORITY_SNAPSHOT'
