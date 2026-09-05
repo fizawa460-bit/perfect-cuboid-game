@@ -12,7 +12,7 @@ STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
 ART=ROOT/'stages/stage35-ex/35ex-35/private-edge-gcd-six-variable-decomposition.json'
 ARS=ROOT/'docs/arsenal/cards/formal/S34-W01.md'
 SCHEMA='STAGE35_EX_PESCH_E1_STATE_V34_POST_35EX34_HOSTILE_AUDITED_PRIVATE_GCD_PREFLIGHT'
-BASE='605ef83aae1ba2804537eb6dc36695ca80ade412'
+BASE='29ce620a693f7cbdec48bce9b720cc02dfe5fa74'
 PARENT_MERGE='c8a876838882c91c078c85da5c88d131b151ac40'
 PARENT_REVIEW=5120821124
 PARENT_HEAD='f381177b10f709dccfb9628e56d2dbdf5d811e3d'
@@ -68,12 +68,10 @@ assert art['goal4_boundary']['status']=='NOT_EXECUTED_IN_THIS_LEAF'
 assert art['goal4_boundary']['finite_squareclass_receiver_obtained'] is False
 assert art['goal4_boundary']['new_valuation_restriction_from_space_square_claimed'] is False
 
-# Goal 1/2 exact integer gcd identities: exhaustive regression over primitive triples.
 for A in range(1,42):
   for B in range(1,42):
     for C in range(1,42):
-      if gcd(gcd(A,B),C)!=1:
-        continue
+      if gcd(gcd(A,B),C)!=1: continue
       x,y,z=gcd(A,B),gcd(A,C),gcd(B,C)
       assert gcd(x,y)==gcd(x,z)==gcd(y,z)==1
       assert A%(x*y)==B%(x*z)==C%(y*z)==0
@@ -85,39 +83,30 @@ for A in range(1,42):
       assert gcd(a,b)==gcd(a,c)==gcd(b,c)==1
       assert gcd(a,z)==gcd(b,y)==gcd(c,x)==1
 
-# Exact parity lemmas used in the proof.
 SQ4={i*i%4 for i in range(4)}
 SQ8={i*i%8 for i in range(8)}
-assert 2 not in SQ4                     # two odd legs cannot have square hypotenuse
-assert 5 not in SQ8                     # primitive odd leg + v2(even leg)=1 is impossible
+assert 2 not in SQ4
+assert 5 not in SQ8
 
-# Non-vacuous regression on primitive Euler bricks, including all edge placements.
 for A,B,C in set(permutations((44,117,240))) | set(permutations((85,132,720))):
     assert gcd(gcd(A,B),C)==1
     assert is_square(A*A+B*B) and is_square(A*A+C*C) and is_square(B*B+C*C)
-    odds=[A%2,B%2,C%2]
-    assert sum(odds)==1
+    assert sum([A%2,B%2,C%2])==1
     evens=[q for q in (A,B,C) if q%2==0]
     assert all(q%4==0 for q in evens)
     assert v2(evens[0])!=v2(evens[1])
     x,y,z=gcd(A,B),gcd(A,C),gcd(B,C)
     a,b,c=A//(x*y),B//(x*z),C//(y*z)
-    if A%2:
-        assert x%2 and y%2 and a%2 and z%4==0 and (b%2)!=(c%2)
-    elif B%2:
-        assert x%2 and z%2 and b%2 and y%4==0 and (a%2)!=(c%2)
-    else:
-        assert y%2 and z%2 and c%2 and x%4==0 and (a%2)!=(b%2)
+    if A%2: assert x%2 and y%2 and a%2 and z%4==0 and (b%2)!=(c%2)
+    elif B%2: assert x%2 and z%2 and b%2 and y%4==0 and (a%2)!=(c%2)
+    else: assert y%2 and z%2 and c%2 and x%4==0 and (a%2)!=(b%2)
 
-# Goal 3 symbolic identities.
 x,y,z,a,b,c,rab,rac,rbc,W=sp.symbols('x y z a b c r_AB r_AC r_BC W')
 A=x*y*a; B=x*z*b; C=y*z*c
 assert sp.expand(A**2+B**2-x**2*((y*a)**2+(z*b)**2))==0
 assert sp.expand(A**2+C**2-y**2*((x*a)**2+(z*c)**2))==0
 assert sp.expand(B**2+C**2-z**2*((x*b)**2+(y*c)**2))==0
 space=sp.expand(A**2+B**2+C**2)
-# Each space/face coupling differs from zero by the corresponding primitive
-# face relation multiplied by the exact edge gcd squared.
 assert sp.expand(space-((x*rab)**2+C**2)-x**2*((y*a)**2+(z*b)**2-rab**2))==0
 assert sp.expand(space-((y*rac)**2+B**2)-y**2*((x*a)**2+(z*c)**2-rac**2))==0
 assert sp.expand(space-((z*rbc)**2+A**2)-z**2*((x*b)**2+(y*c)**2-rbc**2))==0
