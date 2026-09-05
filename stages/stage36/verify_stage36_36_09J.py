@@ -10,7 +10,8 @@ ROOT = Path(__file__).resolve().parents[2]
 CERT = ROOT / "stages/stage36/36-09J/reciprocal-two-linear-cover-preflight.json"
 STATE = ROOT / "stages/stage36/MAIN-STATE.json"
 
-BASE = "a1951b714e321aea1fc88cb806ed6796e4ce621a"
+SOURCE_BASE = "a1951b714e321aea1fc88cb806ed6796e4ce621a"
+PR_BASE = "7ce9edb2652a044fd6140e0f45b87026eefcf319"
 PARENT_PROMOTION = "fc5886d62b78d8dcb21824ff02419a3e3b7634c8"
 PARENT_STATE_BLOB = "c94c56ef18cd914fe0e89032bab182eb0c69d61d"
 PARENT_CERT_COMMIT = "476829b39679f4c380fe0458e37c28745e5f5621"
@@ -21,6 +22,11 @@ S34_W01_BLOB = "01a8e90e34b4aa46edbfa825803d488e5230e9d0"
 S34_W03_BLOB = "1d5275321f42768a6414d4610ac912c63be43f96"
 CYCLE_BLOB = "4e911c4fc7e4ea7a2b5f96733a90b986ef8d9a37"
 FIREWALL_BLOB = "7a3de0b2692afe4fb25b6825b31bd0384a118a41"
+FRESHNESS_PATHS = {
+    ".github/workflows/stage35-35-01-to-09-audit.yml",
+    "stages/stage35-ex/MAIN-STATE.json",
+    "stages/stage35-ex/verify_stage35_ex_v37_legacy_replay.py",
+}
 
 
 def req(ok: bool, msg: str) -> None:
@@ -36,17 +42,16 @@ def out(*args: str) -> str:
     return git(*args).stdout.strip()
 
 
+def changed(a: str, b: str) -> set[str]:
+    return {p for p in out("diff", "--name-only", a, b).splitlines() if p}
+
+
 # Sparse Z-polynomials as tuples c_0 + c_1 Z + ... .
 def ztrim(p: tuple[int, ...]) -> tuple[int, ...]:
     q = list(p)
     while len(q) > 1 and q[-1] == 0:
         q.pop()
     return tuple(q)
-
-
-def zadd(a: tuple[int, ...], b: tuple[int, ...]) -> tuple[int, ...]:
-    n = max(len(a), len(b))
-    return ztrim(tuple((a[i] if i < len(a) else 0) + (b[i] if i < len(b) else 0) for i in range(n)))
 
 
 def zscale(a: tuple[int, ...], c: int) -> tuple[int, ...]:
@@ -99,11 +104,15 @@ def bmul(a: Bi, b: Bi) -> Bi:
 def main() -> None:
     req(git("merge-base", "--is-ancestor", PARENT_PROMOTION, "HEAD", check=False).returncode == 0,
         "36-09I audited promotion is not an ancestor")
-    req(git("merge-base", "--is-ancestor", BASE, "HEAD", check=False).returncode == 0,
-        "36-09J base is not an ancestor")
+    req(git("merge-base", "--is-ancestor", SOURCE_BASE, "HEAD", check=False).returncode == 0,
+        "36-09J source base is not an ancestor")
+    req(git("merge-base", "--is-ancestor", PR_BASE, "HEAD", check=False).returncode == 0,
+        "36-09J current PR base is not an ancestor")
+    req(changed(SOURCE_BASE, PR_BASE) == FRESHNESS_PATHS,
+        f"36-09J source-to-PR-base freshness moved: {sorted(changed(SOURCE_BASE, PR_BASE))}")
 
     # Immutable source locks.
-    req(out("rev-parse", f"{BASE}:stages/stage36/MAIN-STATE.json") == PARENT_STATE_BLOB,
+    req(out("rev-parse", f"{SOURCE_BASE}:stages/stage36/MAIN-STATE.json") == PARENT_STATE_BLOB,
         "V31 parent state blob moved")
     req(out("rev-parse", f"{PARENT_CERT_COMMIT}:stages/stage36/36-09I/post-w01-breadth-refresh.json") == PARENT_CERT_BLOB,
         "36-09I audited certificate moved")
@@ -120,8 +129,8 @@ def main() -> None:
 
     c = json.loads(CERT.read_text())
     req(c["schema"] == "STAGE36_36_09J_RECIPROCAL_TWO_LINEAR_COVER_PREFLIGHT_V1", "certificate schema moved")
-    req(c["base_main_sha"] == BASE and c["parent_promotion_main_sha"] == PARENT_PROMOTION,
-        "certificate base lock moved")
+    req(c["base_main_sha"] == SOURCE_BASE and c["parent_promotion_main_sha"] == PARENT_PROMOTION,
+        "certificate source-base lock moved")
 
     # Recompute the 36-09I X reconstruction identities exactly.
     one: Bi = {(0, 0): 1}
@@ -215,8 +224,8 @@ def main() -> None:
     s = json.loads(STATE.read_text())
     req(s["schema"] == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V32_36_09J_PENDING_HOSTILE_AUDIT",
         "V32 state schema moved")
-    req(s["status"] == "ACTIVE_PENDING_HOSTILE_AUDIT" and s["base_main_sha"] == BASE,
-        "V32 state/base moved")
+    req(s["status"] == "ACTIVE_PENDING_HOSTILE_AUDIT" and s["base_main_sha"] == PR_BASE,
+        "V32 state/current-base moved")
     j = s["authority_frontier"]["36-09J"]
     req(j["status"] == "PROVISIONAL_EXACT_RECIPROCAL_V4_GENUS3_COVER_PENDING_HOSTILE_AUDIT", "36-09J authority status moved")
     req(j["certificate_blob_sha"] == CERT_BLOB, "36-09J state certificate lock moved")
