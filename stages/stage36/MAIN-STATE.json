@@ -1,23 +1,20 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V31_THIN_36_09I_AUDITED",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V32_36_09J_PENDING_HOSTILE_AUDIT",
   "stage": "36",
-  "status": "ACTIVE",
-  "base_main_sha": "af2bcbe67f8ea71238829877c04a054d49ba2f11",
+  "status": "ACTIVE_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "a1951b714e321aea1fc88cb806ed6796e4ce621a",
   "mission": "Attack Stage29 kernel K16-C3-CAMPEDELLI-UNIFORM-TORSOR through exact proper-or-candidate-proper receivers without granting endpoint credit unless a receiver-matched closure theorem is proved.",
   "legacy_authority_snapshot": {
-    "commit": "dbd9ab95f1cf248a8a4704b205f62b8b96b1aefa",
+    "commit": "fc5886d62b78d8dcb21824ff02419a3e3b7634c8",
     "path": "stages/stage36/MAIN-STATE.json",
-    "blob_sha": "475c4c92a519b645a680527c043781f91f0ca5f9",
-    "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V30_36_09I_PENDING_HOSTILE_AUDIT",
-    "scope": "immutable squash-merged provisional 36-09I state after hostile re-audit PASS; V31 only promotes that audited result and unlocks 36-09J"
+    "blob_sha": "c94c56ef18cd914fe0e89032bab182eb0c69d61d",
+    "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V31_THIN_36_09I_AUDITED",
+    "scope": "immutable hostile-re-audited 36-09I promotion authority; 36-09J is a new provisional mathematical leaf"
   },
-  "freshness_sync_36_09I_promotion": {
-    "audit_base_main_sha": "2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc",
-    "audit_merge_parent_sha": "d6d49a7a5b7678442d5c26080926f3f80032c4d4",
-    "merged_main_sha": "dbd9ab95f1cf248a8a4704b205f62b8b96b1aefa",
-    "current_base_main_sha": "af2bcbe67f8ea71238829877c04a054d49ba2f11",
-    "merge_style": "SQUASH_CONTENT_PRESERVING",
-    "scope": "audit-base to merge-parent changed Stage33 V91C1A only; merge to current base changed Stage32, Stage33, Stage35-EX and context-safe repository operating docs only; no Stage36, locked Arsenal card/index, cycle-exploration policy, or 36-09I source content changed"
+  "freshness_sync_36_09J_entry": {
+    "stage36_v31_promotion_main_sha": "fc5886d62b78d8dcb21824ff02419a3e3b7634c8",
+    "current_base_main_sha": "a1951b714e321aea1fc88cb806ed6796e4ce621a",
+    "scope": "one intervening Stage32-only commit changed exactly three Stage32 residual files; no Stage36, locked Arsenal, or Research OS policy source changed"
   },
   "research_credit_firewalls": {
     "policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
@@ -67,6 +64,10 @@
       "verifier": "stages/stage36/verify_stage36_36_09I.py",
       "verifier_blob_sha": "8b6265849150519022e96a1f0c39e91eccfb32f0",
       "merged_main_sha": "dbd9ab95f1cf248a8a4704b205f62b8b96b1aefa",
+      "promotion_pr": 1619,
+      "promotion_exact_head": "4d7ed6339f59c4decd1511a3afb1b1b1b47fc824",
+      "promotion_exact_head_ci": "33969650358/101315779849",
+      "promotion_merged_main_sha": "fc5886d62b78d8dcb21824ff02419a3e3b7634c8",
       "BLIND_PROVENANCE_FAIL_CLOSED": true,
       "FRESH_EXHAUSTIVE_VIEW_AUDIT": true,
       "FRESH_BLIND_REDISCOVERY": true,
@@ -85,29 +86,54 @@
       "S31_W01_TRIGGERED": false,
       "S34_W01_TRIGGERED": false,
       "S34_W03_TRIGGERED": false,
-      "NEXT_ROUTE": "36-09J_RECIPROCAL_INVOLUTION_TWO_LINEAR_COVER_PREFLIGHT",
       "promotion_status": "HOSTILE_REAUDIT_PASS",
+      "NEW_THEOREM_CREDIT": false
+    },
+    "36-09J": {
+      "status": "PROVISIONAL_EXACT_RECIPROCAL_V4_GENUS3_COVER_PENDING_HOSTILE_AUDIT",
+      "certificate": "stages/stage36/36-09J/reciprocal-two-linear-cover-preflight.json",
+      "certificate_blob_sha": "36dab291a9be311fb60db6e919e4fc0bf1b2dc27",
+      "verifier": "stages/stage36/verify_stage36_36_09J.py",
+      "verifier_blob_sha": "d16b0720c1ed41d30586a8af27d2c715e61624bb",
+      "EXACT_REMAINING_X_RECONSTRUCTION_COVER": true,
+      "GEOMETRIC_GROUP_CANDIDATE": "(Z/2)^2",
+      "COVER_DEGREE_CANDIDATE": 4,
+      "PHYSICAL_BRANCH_COLLISIONS_EXCLUDED": true,
+      "GENERIC_DISTINCT_BRANCH_POINTS_CANDIDATE": 6,
+      "COVER_GENUS_CANDIDATE": 3,
+      "CHARACTER_QUOTIENT_GENERA_CANDIDATE": [1, 1, 1],
+      "S31_W01_STATUS": "FORMALLY_MATCHED_QUARTIC_SIDE_NOT_TRIGGERED",
+      "S31_W01_TRIGGERED": false,
+      "S34_W01_TRIGGERED": false,
+      "S34_W03_TRIGGERED": false,
+      "B3_STATUS": "LIVE_RECIPROCAL_V4_GENUS3_COVER",
+      "B7_STATUS": "UNTESTED_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER",
+      "C2_GAUSSIAN_NORM_COMPRESSION_STATUS": "UNTESTED_DISTINCT_FROM_B7_NO_EXACT_EQUIVALENCE",
+      "B11_STATUS": "UNTESTED_VARIABLE_PRIME_RECIPROCITY",
+      "proposed_successor_after_audit": "36-09K_CHARACTER_QUARTIC_ELLIPTIC_ADAPTER_PREFLIGHT",
+      "promotion_status": "PENDING_HOSTILE_AUDIT",
       "NEW_THEOREM_CREDIT": false
     }
   },
   "source_locks": {
-    "stage36_v30_merged_state": {"path":"stages/stage36/MAIN-STATE.json","commit":"dbd9ab95f1cf248a8a4704b205f62b8b96b1aefa","blob_sha":"475c4c92a519b645a680527c043781f91f0ca5f9"},
+    "stage36_v31_audited_state": {"path":"stages/stage36/MAIN-STATE.json","commit":"a1951b714e321aea1fc88cb806ed6796e4ce621a","blob_sha":"c94c56ef18cd914fe0e89032bab182eb0c69d61d"},
     "stage36_36_09I_blind_snapshot": {"path":"stages/stage36/36-09I/blind-rediscovery-only.json","commit":"aedd6245f27166fd77072af1dbc12e63dc796ddf","blob_sha":"decf74e9566a58e02dc160cac339fb96482c264e"},
-    "stage36_36_09I_historical_comparison": {"path":"stages/stage36/36-09I/post-w01-breadth-refresh.json","commit":"c440b5ba219b9e2832b471a8b069be35a5bb2d48","blob_sha":"81d211b8f02c104b5d16074c2f6c37a01a64e298"},
     "stage36_36_09I_audited_certificate": {"path":"stages/stage36/36-09I/post-w01-breadth-refresh.json","commit":"476829b39679f4c380fe0458e37c28745e5f5621","blob_sha":"f9bf252f3be47f606a3b270961df3b5943fa1909"},
     "stage36_36_09I_audited_verifier": {"path":"stages/stage36/verify_stage36_36_09I.py","commit":"476829b39679f4c380fe0458e37c28745e5f5621","blob_sha":"8b6265849150519022e96a1f0c39e91eccfb32f0"},
+    "stage36_36_09J_certificate": {"path":"stages/stage36/36-09J/reciprocal-two-linear-cover-preflight.json","blob_sha":"36dab291a9be311fb60db6e919e4fc0bf1b2dc27"},
+    "stage36_36_09J_verifier": {"path":"stages/stage36/verify_stage36_36_09J.py","blob_sha":"d16b0720c1ed41d30586a8af27d2c715e61624bb"},
     "cycle_exploration_safety_protocol": {"path":"docs/research-os/policies/cycle-exploration-safety-protocol.md","blob_sha":"4e911c4fc7e4ea7a2b5f96733a90b986ef8d9a37"},
     "research_credit_and_promotion_firewalls": {"path":"docs/research-os/policies/research-credit-and-promotion-firewalls.md","blob_sha":"7a3de0b2692afe4fb25b6825b31bd0384a118a41"}
   },
   "arsenal": {
-    "S31-W01": {"path":"docs/arsenal/cards/formal/S31-W01.md","blob_sha":"122a6c1c5c871c1c7b797017e854de8ec55e7c50","status":"DOWNSTREAM_ONLY_NOT_TRIGGERED"},
+    "S31-W01": {"path":"docs/arsenal/cards/formal/S31-W01.md","blob_sha":"122a6c1c5c871c1c7b797017e854de8ec55e7c50","status":"FORMALLY_MATCHED_QUARTIC_SIDE_NOT_TRIGGERED_MISSING_EXACT_ELLIPTIC_ADAPTER"},
     "S34-W01": {"path":"docs/arsenal/cards/formal/S34-W01.md","blob_sha":"01a8e90e34b4aa46edbfa825803d488e5230e9d0","status":"CURRENT_FIRST_LAYER_BLOCKED_NOT_RETRIED"},
-    "S34-W03": {"path":"docs/arsenal/cards/formal/S34-W03.md","blob_sha":"1d5275321f42768a6414d4610ac912c63be43f96","status":"POTENTIAL_DOWNSTREAM_NOT_TRIGGERED"}
+    "S34-W03": {"path":"docs/arsenal/cards/formal/S34-W03.md","blob_sha":"1d5275321f42768a6414d4610ac912c63be43f96","status":"POTENTIAL_DOWNSTREAM_NOT_TRIGGERED_NO_INTERSECTION_EXCLUSION"}
   },
   "cycle_ledger": {
     "B1_DIRECT_UNIFORM_H1_SELMER": "BLOCKED",
     "B2_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION": "BLOCKED_BY_EXPLICIT_ALL_PLACE_LOCAL_POINTS",
-    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_RECIPROCAL_INVOLUTION_COVER_PREFLIGHT",
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_RECIPROCAL_V4_GENUS3_COVER",
     "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION": "BLOCKED_NO_PROOF_CAPABLE_B_PLUS_K_JOINT_TEST",
     "B5_CAMPEDELLI_BRAUER_ETALE_BRAUER": "BLOCKED_UPSTREAM_BR2A_BR2B_INCOMPLETE",
     "B6_FIBRATION_TO_CURVE_BASE": "BLOCKED_BY_EXACT_ENDPOINT_EQUIVALENCE_NO_PROPER_RECEIVER_GAIN",
@@ -128,17 +154,18 @@
   },
   "current": {
     "unit": "36-09J",
-    "next_exact_leaf": "36-09J_RECIPROCAL_INVOLUTION_TWO_LINEAR_COVER_PREFLIGHT",
-    "next_owner": "STAGE36_MAIN",
-    "result": "READY_UNSTARTED_AFTER_36_09I_HOSTILE_REAUDIT_PASS",
-    "36_09I_entry_allowed": true,
+    "next_exact_leaf": "36-09J_HOSTILE_AUDIT",
+    "next_owner": "STAGE36_AUDIT",
+    "result": "PENDING_HOSTILE_AUDIT",
     "36_09J_entry_allowed": true,
-    "why": "Hostile re-audit PASS promotes the repaired fresh breadth result. B3 reciprocal-involution two-linear cover is the sole LIVE attack; B7 standard Campedelli transfer, C2 Gaussian norm compression, and B11 variable-prime reciprocity remain three distinct UNTESTED candidates."
+    "36_09K_entry_allowed": false,
+    "successor_after_pass": "36-09K_CHARACTER_QUARTIC_ELLIPTIC_ADAPTER_PREFLIGHT",
+    "why": "36-09J provisionally derives the exact remaining physical reconstruction as a connected genus-3 V4 cover with three genus-one quartic character quotients. Independent hostile audit is required before any generic-cover genus credit or S31-W01 adapter work."
   },
   "current_leaf_working_set": [
-    "stages/stage36/36-09I/blind-rediscovery-only.json",
+    "stages/stage36/36-09J/reciprocal-two-linear-cover-preflight.json",
+    "stages/stage36/verify_stage36_36_09J.py",
     "stages/stage36/36-09I/post-w01-breadth-refresh.json",
-    "stages/stage36/verify_stage36_36_09I.py",
     "docs/arsenal/cards/formal/S31-W01.md",
     "docs/arsenal/cards/formal/S34-W01.md",
     "docs/arsenal/cards/formal/S34-W03.md",
@@ -152,6 +179,7 @@
     "distinct_untested_candidate_preservation_fail_closed": true,
     "reciprocal_two_linear_reduction_exact": true,
     "character_linear_intermediate_refinement_exists": false,
+    "candidate_generic_cover_genera_classified": true,
     "generic_cover_genera_classified": false,
     "genus_one_quartic_adapter_triggered": false,
     "receiver_restricted_intersection_exclusion_triggered": false,
@@ -172,9 +200,11 @@
     "do_not_treat_B10_dominated_attack_status_as_receiver_invalidity": true,
     "do_not_collapse_distinct_untested_candidate_without_exact_equivalence_or_dominance": true,
     "do_not_map_C2_Gaussian_norm_compression_to_B7_without_exact_standard_model_transfer": true,
-    "do_not_trigger_S31_W01_before_exact_genus_one_quartic_and_maps": true,
+    "do_not_trigger_S31_W01_without_exact_elliptic_model_both_maps_denominators_and_exceptional_locus": true,
     "do_not_trigger_S34_W03_before_exact_joint_intersection_obstruction": true,
-    "do_not_treat_36_09I_reciprocal_reduction_as_cover_genus_classification": true
+    "do_not_treat_genus3_cover_classification_as_rational_point_exhaustion": true,
+    "do_not_treat_character_genus1_quotients_as_uniform_MW_control": true,
+    "do_not_enter_36_09K_before_36_09J_hostile_audit_PASS": true
   },
   "claims": {
     "new_theorem_credit": false,
