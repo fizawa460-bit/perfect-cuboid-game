@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Replay Stage35-EX history through user-approved merged 35EX-33 against immutable V32 snapshot."""
+"""Replay Stage35-EX history through hostile-audited merged 35EX-33 against immutable V32 snapshot."""
 from __future__ import annotations
 import json, runpy, subprocess, sys
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[2]
 STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
-V33='STAGE35_EX_PESCH_E1_STATE_V33_POST_35EX33_USER_APPROVED_ROUTE_BLOCKER'
+V33='STAGE35_EX_PESCH_E1_STATE_V33_POST_35EX33_HOSTILE_AUDITED_ROUTE_BLOCKER'
 V32='STAGE35_EX_PESCH_E1_STATE_V32_POST_35EX32_USER_APPROVED_MERGE_ROUTE_SELECTION'
 SNAPSHOT='e21378e59f7f1076a7ad71d34cee1fd0ac3a5cb3'
 ALLOWED={'base', *{str(i) for i in range(10,33)}, '32p', '33g1', '33g2', '33'}
