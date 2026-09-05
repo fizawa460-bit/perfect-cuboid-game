@@ -1,0 +1,139 @@
+{
+  "schema": "STAGE36_36_09I_POST_W01_BREADTH_REFRESH_V1",
+  "stage": "36",
+  "unit": "36-09I",
+  "status": "FRESH_BREADTH_SELECTS_RECIPROCAL_INVOLUTION_COVER_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc",
+  "entry_authority": {
+    "stage36_36_09H_promotion_pr": 1610,
+    "promotion_exact_head": "783aab7717997736bfa15d352acca631e3591547",
+    "promotion_exact_head_ci": "33964246122/101301385671",
+    "promotion_merged_main_sha": "2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc",
+    "36_09H_hostile_audit_review": 5120981814
+  },
+  "blind_provenance": {
+    "blind_snapshot": "stages/stage36/36-09I/blind-rediscovery-only.json",
+    "blind_snapshot_commit": "aedd6245f27166fd77072af1dbc12e63dc796ddf",
+    "blind_snapshot_blob_sha": "decf74e9566a58e02dc160cac339fb96482c264e",
+    "comparison_commit_parent_must_equal_blind_snapshot_commit": true,
+    "blind_snapshot_contains_history_or_arsenal_mapping": false
+  },
+  "reciprocal_quotient_exact": {
+    "variables": {"x":"q^2","z":"r^2","X":"x+1/x","Z":"z+1/z"},
+    "identities": [
+      "(x+z)*(x*z+1)=x*z*(X+Z)",
+      "F3*F4=x*z*((Z-2)*X+2*(Z+6))"
+    ],
+    "two_linear_product": "(X+Z)*((Z-2)*X+2*(Z+6))",
+    "equivalence": "the audited common-Jminus four-factor product is square iff the two-linear product is square",
+    "discarded_square": "x^2*z^2",
+    "physical_reconstruction": {
+      "required_squares": ["X-2","X+2","Z-2","Z+2"],
+      "required_nonzero_boundaries": ["X!=2","Z!=2"],
+      "q_reconstruction": "if U^2=X-2,V^2=X+2 then q=(V+U)/2 and 1/q=(V-U)/2 after compatible signs",
+      "r_reconstruction": "identical formula with Z in place of X"
+    }
+  },
+  "ratio_parameterization": {
+    "G1":"X+Z",
+    "G2":"(Z-2)*X+2*(Z+6)",
+    "physical_nonvanishing": true,
+    "equation":"G1=k^2*G2",
+    "X":"(2*k^2*(Z+6)-Z)/(1-k^2*(Z-2))",
+    "X_minus_2":"(Z+2)*(4*k^2-1)/(1-k^2*(Z-2))",
+    "X_plus_2":"(16*k^2-(Z-2))/(1-k^2*(Z-2))",
+    "exceptional_denominator_audit": {
+      "condition":"1-k^2*(Z-2)=0",
+      "compatibility_forces":["Z=6","k^2=1/4"],
+      "physical_exclusion":"Z+2=8 would have to be a rational square",
+      "physical_exceptional_points":0
+    }
+  },
+  "character_linear_refinement_exhaustion": {
+    "ambient_squareclass_variables":["B","C","D"],
+    "common_rank":2,
+    "full_endpoint_rank":3,
+    "common_row_space_example":[[1,1,1],[1,1,0]],
+    "quotient_dimension":1,
+    "result":"every additional character-linear row is either already in the common rank-two span and adds nothing, or lies outside it and raises the rank to three, reconstructing the full endpoint squareclass system",
+    "strictly_intermediate_character_linear_refinement_exists":false,
+    "consequence":"do not recycle another character-linear refinement as a new proper receiver between the common receiver and endpoint"
+  },
+  "arsenal_comparison_after_blind_pass": {
+    "arsenal_index": {"path":"docs/arsenal/index.json","blob_sha":"aa45d19c2f1d8970c7f142bf744c5c17e75abe5a"},
+    "S31_W01": {
+      "path":"docs/arsenal/cards/formal/S31-W01.md",
+      "blob_sha":"122a6c1c5c871c1c7b797017e854de8ec55e7c50",
+      "status":"DOWNSTREAM_ONLY_IF_GENUS_ONE_QUARTIC_MODEL_IS_EXACTLY_DERIVED",
+      "triggered":false,
+      "reason":"the reciprocal quotient is not yet certified as a genus-one quartic with explicit birational maps"
+    },
+    "S34_W01": {
+      "path":"docs/arsenal/cards/formal/S34-W01.md",
+      "blob_sha":"01a8e90e34b4aa46edbfa825803d488e5230e9d0",
+      "status":"CURRENT_FIRST_LAYER_BLOCKED_NO_SAME_NORMALIZATION_RETRY",
+      "triggered":false
+    },
+    "S34_W03": {
+      "path":"docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha":"1d5275321f42768a6414d4610ac912c63be43f96",
+      "status":"POTENTIAL_DOWNSTREAM_IF_EXACT_JOINT_BRANCH_PLUS_RECONSTRUCTION_OBSTRUCTION_APPEARS",
+      "triggered":false
+    },
+    "direct_existing_card_for_reciprocal_involution_quotient":false,
+    "direct_existing_card_for_gaussian_prime_ideal_compression":false
+  },
+  "blind_candidate_mapping": [
+    {"blind_id":"C1_RECIPROCAL_INVOLUTION_TWO_LINEAR_QUOTIENT","mapped_ledger":"B3_FINITE_CURVE_OR_COVER_DECOMPOSITION","classification":"LIVE","reason":"the reciprocal involution gives a new exact quotient and an explicit tower of physical double-cover reconstruction conditions"},
+    {"blind_id":"C2_GAUSSIAN_NORM_COMPRESSION","mapped_ledger":"B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER","classification":"UNTESTED","reason":"no exact standard-model transfer has yet been derived; retain as a distinct arithmetic normalization candidate rather than forcing an Arsenal match"},
+    {"blind_id":"C3_RECIPROCAL_QUOTIENT_FIBER_GEOMETRY","mapped_ledger":"B3_FINITE_CURVE_OR_COVER_DECOMPOSITION","classification":"EQUIVALENT_TO_SELECTED_C1_NEXT_PREFLIGHT","reason":"same reciprocal quotient object; its first task is exactly the cover/genus classification selected under C1"},
+    {"blind_id":"C4_VARIABLE_PRIME_RECIPROCITY","mapped_ledger":"B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY","classification":"UNTESTED","reason":"distinct global reciprocity attack accepting unbounded split-prime support"},
+    {"blind_id":"C5_RATIONAL_STRICTNESS_WITNESS_SEARCH","mapped_ledger":"B10_INTERMEDIATE_SIGN_QUOTIENT_OR_CHARACTER","classification":"DOMINATED_DIAGNOSTIC","reason":"useful diagnostic only; it does not itself supply an emptiness proof and the reciprocal quotient is the higher-information active attack"},
+    {"blind_id":"C6_CHARACTER_LINEAR_REFINEMENT_EXHAUSTION","mapped_ledger":"B10_INTERMEDIATE_SIGN_QUOTIENT_OR_CHARACTER","classification":"BLOCKS_FURTHER_CHARACTER_LINEAR_REFINEMENT","reason":"finite rank exhaustion proves there is no strictly intermediate character-linear squareclass receiver"}
+  ],
+  "cycle_ledger_after_comparison": {
+    "B1_DIRECT_UNIFORM_H1_SELMER":"BLOCKED",
+    "B2_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION":"BLOCKED_BY_EXPLICIT_ALL_PLACE_LOCAL_POINTS",
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION":"LIVE_RECIPROCAL_INVOLUTION_COVER_PREFLIGHT",
+    "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION":"BLOCKED_NO_PROOF_CAPABLE_B_PLUS_K_JOINT_TEST",
+    "B5_CAMPEDELLI_BRAUER_ETALE_BRAUER":"BLOCKED_UPSTREAM_BR2A_BR2B_INCOMPLETE",
+    "B6_FIBRATION_TO_CURVE_BASE":"BLOCKED_BY_EXACT_ENDPOINT_EQUIVALENCE_NO_PROPER_RECEIVER_GAIN",
+    "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER":"UNTESTED_GAUSSIAN_NORM_COMPRESSION_CANDIDATE",
+    "B8_GEOMETRIC_TOPOLOGICAL_CLASSIFICATION":"BLOCKED",
+    "B9_ASYMPTOTIC_OR_SIEVE_SPARSITY":"DOMINATED",
+    "B10_INTERMEDIATE_SIGN_QUOTIENT_OR_CHARACTER":"DOMINATED_RETAINED_RECEIVER_CHARACTER_LINEAR_EXHAUSTED_W01_FIRST_LAYER_BLOCKED",
+    "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY":"UNTESTED_VARIABLE_PRIME_RECIPROCITY",
+    "counts":{"live":1,"untested":2,"blocked":6,"dominated":2},
+    "B10_receiver_remains_exact_infrastructure":true
+  },
+  "route_decision": {
+    "CYCLE_ROUTE_STATUS":"PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "CYCLE_ACTIVE_RECEIVER":"RECIPROCAL_INVOLUTION_TWO_LINEAR_COVER_OF_COMMON_JMINUS_RECEIVER",
+    "CYCLE_LIVE_CANDIDATES":1,
+    "CYCLE_UNTESTED_CANDIDATES":2,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT":true,
+    "CYCLE_BLIND_REDISCOVERY":true,
+    "CYCLE_SPLIT_TRIGGERED":false,
+    "CYCLE_PARKING_AUDIT_COMPLETE":false,
+    "CYCLE_NEW_VIEW":"reciprocal involution collapses four-factor square condition to a two-linear-factor quotient with four exact reconstruction square conditions",
+    "CYCLE_NEW_VIEW_SOURCE":"BLIND",
+    "selected_route":"B3_FINITE_CURVE_OR_COVER_DECOMPOSITION",
+    "next_leaf_after_hostile_audit":"36-09J_RECIPROCAL_INVOLUTION_TWO_LINEAR_COVER_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "reciprocal_quotient_rational_points_exhausted":false,
+    "generic_cover_genera_classified":false,
+    "genus_one_quartic_adapter_triggered":false,
+    "receiver_restricted_intersection_exclusion_triggered":false,
+    "gaussian_norm_route_resolved":false,
+    "variable_prime_reciprocity_route_resolved":false,
+    "common_jminus_rational_strictness_proved":false,
+    "receiver_emptiness_proved":false,
+    "quotient_Q_point_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
