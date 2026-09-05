@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -21,6 +22,7 @@ def load_module(path: Path, name: str):
     if spec is None or spec.loader is None:
         raise RuntimeError(f"cannot import {path}")
     mod = importlib.util.module_from_spec(spec)
+    sys.modules[name] = mod
     spec.loader.exec_module(mod)
     return mod
 
