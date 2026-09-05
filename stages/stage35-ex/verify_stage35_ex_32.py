@@ -9,7 +9,8 @@ STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
 AUDIT=ROOT/'stages/stage35-ex/35ex-32/post-population-equivalence-breadth-audit.json'
 
 SCHEMA='STAGE35_EX_PESCH_E1_STATE_V31_POST_35EX32_ENDPOINT_POPULATION_BREADTH_AUDIT'
-BASE_MAIN='8211bb0ef80de61ecf39c3b97743c58f1193187a'
+BASE_MAIN='7b7971cc12bb0c9046a13a9ba956d73392178d72'
+V30_COMMIT='8211bb0ef80de61ecf39c3b97743c58f1193187a'
 FINAL_HEAD='9f1d3d73f41377bddb1296a3e6fc95b5e2fd8dd7'
 
 def git_blob_sha(path:Path)->str:
@@ -22,7 +23,7 @@ audit=json.loads(AUDIT.read_text())
 assert state['schema']==SCHEMA and state['stage']=='35-EX' and state['status']=='ACTIVE_RESEARCH_NO_CREDIT'
 assert state['base_main_sha']==BASE_MAIN
 hs=state['history_snapshot']
-assert hs['commit_sha']==BASE_MAIN
+assert hs['commit_sha']==V30_COMMIT
 assert hs['schema']=='STAGE35_EX_PESCH_E1_STATE_V30_POST_35EX31_PRIMITIVE_SOURCE_MARKING_ENDPOINT_EQUIVALENCE'
 assert hs['role']=='IMMUTABLE_COMPLETE_V30_HISTORY_THROUGH_35EX31_PROVISIONAL'
 assert hs['historical_replay_verifier']=='stages/stage35-ex/verify_stage35_ex_v31_legacy_replay.py'
@@ -36,7 +37,7 @@ assert parent['initial_hostile_audit_review_id']==5120314137
 assert parent['initial_hostile_audit_verdict']=='FAIL_FRESHNESS_ONLY_MATHEMATICS_PASS'
 assert parent['final_exact_head_sha']==FINAL_HEAD
 assert parent['final_exact_head_ci_run']==33953462420 and parent['final_exact_head_ci_job']==101272407623
-assert parent['merged_main_sha']==BASE_MAIN
+assert parent['merged_main_sha']==V30_COMMIT
 assert parent['audited_adapter_credit'] is True
 assert parent['audited_population_equivalence_credit'] is True
 assert parent['E1_theorem_credit'] is False
@@ -73,7 +74,7 @@ assert auth['initial_hostile_audit']['mathematics_passed'] is True
 assert auth['final_pass_source']=='USER_APPROVED_PASS_AFTER_FRESHNESS_REPAIR'
 assert auth['final_exact_head_sha']==FINAL_HEAD
 assert auth['final_exact_head_ci_run']==33953462420 and auth['final_exact_head_ci_job']==101272407623
-assert auth['merged_main_sha']==BASE_MAIN
+assert auth['merged_main_sha']==V30_COMMIT
 
 protocol=audit['protocol']
 assert protocol['fresh_exhaustive_view_audit'] is True
