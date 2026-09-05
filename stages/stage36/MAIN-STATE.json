@@ -1,15 +1,29 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V30_36_09I_PENDING_HOSTILE_AUDIT",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V31_THIN_36_09I_AUDITED",
   "stage": "36",
-  "status": "ACTIVE_PENDING_HOSTILE_AUDIT",
-  "base_main_sha": "2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc",
+  "status": "ACTIVE",
+  "base_main_sha": "af2bcbe67f8ea71238829877c04a054d49ba2f11",
   "mission": "Attack Stage29 kernel K16-C3-CAMPEDELLI-UNIFORM-TORSOR through exact proper-or-candidate-proper receivers without granting endpoint credit unless a receiver-matched closure theorem is proved.",
   "legacy_authority_snapshot": {
-    "commit": "2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc",
+    "commit": "dbd9ab95f1cf248a8a4704b205f62b8b96b1aefa",
     "path": "stages/stage36/MAIN-STATE.json",
-    "blob_sha": "7cca4edb4870cb25fb902657c9001aefe94374dc",
-    "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V29_THIN_36_09H_AUDITED",
-    "scope": "immutable hostile-audited authority through 36-09H; V30 adds provisional 36-09I only"
+    "blob_sha": "475c4c92a519b645a680527c043781f91f0ca5f9",
+    "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V30_36_09I_PENDING_HOSTILE_AUDIT",
+    "scope": "immutable squash-merged provisional 36-09I state after hostile re-audit PASS; V31 only promotes that audited result and unlocks 36-09J"
+  },
+  "freshness_sync_36_09I_promotion": {
+    "audit_base_main_sha": "2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc",
+    "audit_merge_parent_sha": "d6d49a7a5b7678442d5c26080926f3f80032c4d4",
+    "merged_main_sha": "dbd9ab95f1cf248a8a4704b205f62b8b96b1aefa",
+    "current_base_main_sha": "af2bcbe67f8ea71238829877c04a054d49ba2f11",
+    "merge_style": "SQUASH_CONTENT_PRESERVING",
+    "scope": "audit-base to merge-parent changed Stage33 V91C1A only; merge to current base changed Stage32, Stage33, Stage35-EX and context-safe repository operating docs only; no Stage36, locked Arsenal card/index, cycle-exploration policy, or 36-09I source content changed"
+  },
+  "research_credit_firewalls": {
+    "policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
+    "blob_sha": "7a3de0b2692afe4fb25b6825b31bd0384a118a41",
+    "inherited": true,
+    "stage_local_overrides_may_weaken": false
   },
   "source_kernel": {
     "kernel": "K16-C3-CAMPEDELLI-UNIFORM-TORSOR",
@@ -30,26 +44,29 @@
       "exact_head_ci": "33961255962/101293415845",
       "certificate_blob_sha": "08e7e87f866aebbc92b7d5cd776ce8b5fe60744d",
       "promotion_pr": 1610,
-      "promotion_head": "783aab7717997736bfa15d352acca631e3591547",
-      "promotion_ci": "33964246122/101301385671",
       "promotion_merged_main_sha": "2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc",
       "B10_STATUS": "LIVE_RECEIVER_S34_W01_FIRST_LAYER_BLOCKED",
       "S34_W01_TRIGGERED": false,
       "NEW_THEOREM_CREDIT": false
     },
     "36-09I": {
-      "status": "FRESH_BREADTH_RECIPROCAL_INVOLUTION_TWO_LINEAR_COVER_PENDING_HOSTILE_REAUDIT",
+      "status": "AUDITED_FRESH_BREADTH_RECIPROCAL_INVOLUTION_TWO_LINEAR_COVER",
+      "pr": 1611,
+      "hostile_audit_fail_review": 5121228524,
+      "hostile_reaudit_review": 5121286430,
+      "audited_head": "476829b39679f4c380fe0458e37c28745e5f5621",
+      "exact_head_ci": "33965406417/101304528893",
       "blind_snapshot": "stages/stage36/36-09I/blind-rediscovery-only.json",
       "blind_snapshot_commit": "aedd6245f27166fd77072af1dbc12e63dc796ddf",
       "blind_snapshot_blob_sha": "decf74e9566a58e02dc160cac339fb96482c264e",
       "comparison_commit": "c440b5ba219b9e2832b471a8b069be35a5bb2d48",
       "comparison_certificate_blob_sha": "81d211b8f02c104b5d16074c2f6c37a01a64e298",
-      "hostile_audit_fail_review": 5121228524,
       "audit_repair_commit": "2b258166b82873e8cb04f932b9ddb1572418656f",
       "certificate": "stages/stage36/36-09I/post-w01-breadth-refresh.json",
       "certificate_blob_sha": "f9bf252f3be47f606a3b270961df3b5943fa1909",
       "verifier": "stages/stage36/verify_stage36_36_09I.py",
       "verifier_blob_sha": "8b6265849150519022e96a1f0c39e91eccfb32f0",
+      "merged_main_sha": "dbd9ab95f1cf248a8a4704b205f62b8b96b1aefa",
       "BLIND_PROVENANCE_FAIL_CLOSED": true,
       "FRESH_EXHAUSTIVE_VIEW_AUDIT": true,
       "FRESH_BLIND_REDISCOVERY": true,
@@ -68,18 +85,19 @@
       "S31_W01_TRIGGERED": false,
       "S34_W01_TRIGGERED": false,
       "S34_W03_TRIGGERED": false,
-      "NEXT_ROUTE_AFTER_AUDIT": "36-09J_RECIPROCAL_INVOLUTION_TWO_LINEAR_COVER_PREFLIGHT",
-      "promotion_status": "PROVISIONAL_NOT_AUDITED",
+      "NEXT_ROUTE": "36-09J_RECIPROCAL_INVOLUTION_TWO_LINEAR_COVER_PREFLIGHT",
+      "promotion_status": "HOSTILE_REAUDIT_PASS",
       "NEW_THEOREM_CREDIT": false
     }
   },
   "source_locks": {
-    "stage36_v29_audited_state": {"path":"stages/stage36/MAIN-STATE.json","commit":"2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc","blob_sha":"7cca4edb4870cb25fb902657c9001aefe94374dc"},
-    "stage36_36_09H_preflight": {"path":"stages/stage36/36-09H/common-jminus-factor-squareclass-descent-preflight.json","blob_sha":"08e7e87f866aebbc92b7d5cd776ce8b5fe60744d"},
+    "stage36_v30_merged_state": {"path":"stages/stage36/MAIN-STATE.json","commit":"dbd9ab95f1cf248a8a4704b205f62b8b96b1aefa","blob_sha":"475c4c92a519b645a680527c043781f91f0ca5f9"},
     "stage36_36_09I_blind_snapshot": {"path":"stages/stage36/36-09I/blind-rediscovery-only.json","commit":"aedd6245f27166fd77072af1dbc12e63dc796ddf","blob_sha":"decf74e9566a58e02dc160cac339fb96482c264e"},
-    "stage36_36_09I_comparison_certificate": {"path":"stages/stage36/36-09I/post-w01-breadth-refresh.json","commit":"c440b5ba219b9e2832b471a8b069be35a5bb2d48","blob_sha":"81d211b8f02c104b5d16074c2f6c37a01a64e298","scope":"immutable post-blind comparison chronology evidence before hostile-audit ledger repair"},
-    "stage36_36_09I_repaired_certificate": {"path":"stages/stage36/36-09I/post-w01-breadth-refresh.json","commit":"2b258166b82873e8cb04f932b9ddb1572418656f","blob_sha":"f9bf252f3be47f606a3b270961df3b5943fa1909","scope":"current candidate-separation repair after hostile audit FAIL"},
-    "cycle_exploration_safety_protocol": {"path":"docs/research-os/policies/cycle-exploration-safety-protocol.md","blob_sha":"4e911c4fc7e4ea7a2b5f96733a90b986ef8d9a37"}
+    "stage36_36_09I_historical_comparison": {"path":"stages/stage36/36-09I/post-w01-breadth-refresh.json","commit":"c440b5ba219b9e2832b471a8b069be35a5bb2d48","blob_sha":"81d211b8f02c104b5d16074c2f6c37a01a64e298"},
+    "stage36_36_09I_audited_certificate": {"path":"stages/stage36/36-09I/post-w01-breadth-refresh.json","commit":"476829b39679f4c380fe0458e37c28745e5f5621","blob_sha":"f9bf252f3be47f606a3b270961df3b5943fa1909"},
+    "stage36_36_09I_audited_verifier": {"path":"stages/stage36/verify_stage36_36_09I.py","commit":"476829b39679f4c380fe0458e37c28745e5f5621","blob_sha":"8b6265849150519022e96a1f0c39e91eccfb32f0"},
+    "cycle_exploration_safety_protocol": {"path":"docs/research-os/policies/cycle-exploration-safety-protocol.md","blob_sha":"4e911c4fc7e4ea7a2b5f96733a90b986ef8d9a37"},
+    "research_credit_and_promotion_firewalls": {"path":"docs/research-os/policies/research-credit-and-promotion-firewalls.md","blob_sha":"7a3de0b2692afe4fb25b6825b31bd0384a118a41"}
   },
   "arsenal": {
     "S31-W01": {"path":"docs/arsenal/cards/formal/S31-W01.md","blob_sha":"122a6c1c5c871c1c7b797017e854de8ec55e7c50","status":"DOWNSTREAM_ONLY_NOT_TRIGGERED"},
@@ -109,24 +127,23 @@
     "parking_audit_complete": false
   },
   "current": {
-    "unit": "36-09I",
-    "next_exact_leaf": "36-09I_COMMON_JMINUS_POST_W01_BREADTH_REFRESH",
+    "unit": "36-09J",
+    "next_exact_leaf": "36-09J_RECIPROCAL_INVOLUTION_TWO_LINEAR_COVER_PREFLIGHT",
     "next_owner": "STAGE36_MAIN",
-    "result": "FRESH_BREADTH_RECIPROCAL_INVOLUTION_TWO_LINEAR_COVER_PENDING_HOSTILE_REAUDIT",
+    "result": "READY_UNSTARTED_AFTER_36_09I_HOSTILE_REAUDIT_PASS",
     "36_09I_entry_allowed": true,
-    "36_09J_entry_allowed": false,
-    "provisional_successor_after_hostile_audit": "36-09J_RECIPROCAL_INVOLUTION_TWO_LINEAR_COVER_PREFLIGHT",
-    "why": "The reciprocal-involution B3 cover route remains the sole LIVE attack. Hostile audit repair preserves the preexisting B7 standard Campedelli transfer, new C2 Gaussian norm compression, and B11 variable-prime reciprocity as three distinct UNTESTED candidates; no B7/C2 equivalence or implication is granted."
+    "36_09J_entry_allowed": true,
+    "why": "Hostile re-audit PASS promotes the repaired fresh breadth result. B3 reciprocal-involution two-linear cover is the sole LIVE attack; B7 standard Campedelli transfer, C2 Gaussian norm compression, and B11 variable-prime reciprocity remain three distinct UNTESTED candidates."
   },
   "current_leaf_working_set": [
     "stages/stage36/36-09I/blind-rediscovery-only.json",
     "stages/stage36/36-09I/post-w01-breadth-refresh.json",
     "stages/stage36/verify_stage36_36_09I.py",
-    "stages/stage36/36-09H/common-jminus-factor-squareclass-descent-preflight.json",
     "docs/arsenal/cards/formal/S31-W01.md",
     "docs/arsenal/cards/formal/S34-W01.md",
     "docs/arsenal/cards/formal/S34-W03.md",
-    "docs/research-os/policies/cycle-exploration-safety-protocol.md"
+    "docs/research-os/policies/cycle-exploration-safety-protocol.md",
+    "docs/research-os/policies/research-credit-and-promotion-firewalls.md"
   ],
   "promotion_gates": {
     "source_authority_lock_complete": true,
@@ -157,7 +174,7 @@
     "do_not_map_C2_Gaussian_norm_compression_to_B7_without_exact_standard_model_transfer": true,
     "do_not_trigger_S31_W01_before_exact_genus_one_quartic_and_maps": true,
     "do_not_trigger_S34_W03_before_exact_joint_intersection_obstruction": true,
-    "do_not_start_36_09J_before_36_09I_hostile_audit": true
+    "do_not_treat_36_09I_reciprocal_reduction_as_cover_genus_classification": true
   },
   "claims": {
     "new_theorem_credit": false,

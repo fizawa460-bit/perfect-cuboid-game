@@ -1,15 +1,15 @@
 {
-  "schema": "STAGE32_POST1588_HPERP_NONEXCEPTIONAL_MOD2_WITNESS_V1",
+  "schema": "STAGE32_POST1612_HPERP_NONEXCEPTIONAL_MOD2_WITNESS_AUTHORITY_REPAIR_V1",
   "stage": 32,
-  "leaf": "POST1588_HPERP_SOURCE_BOUND_NONEXCEPTIONAL_MOD2_WITNESS",
-  "status": "EXACT_SOURCE_BOUND_NONEXCEPTIONAL_MOD2_WITNESS_PENDING_HOSTILE_AUDIT",
-  "base_main_sha": "2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc",
+  "leaf": "POST1612_HPERP_NONEXCEPTIONAL_MOD2_WITNESS_SURVIVOR_AUTHORITY_REPAIR",
+  "status": "EXACT_HPERP_WITNESS_SURVIVOR_AUTHORITY_REPAIR_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "7ce9edb2652a044fd6140e0f45b87026eefcf319",
   "fixed_target": {
     "row_id": "g1-d186",
     "O": 210,
     "qprime": 4,
     "Q": 602,
-    "surviving_residues_decimal": [73]
+    "surviving_residues_decimal": [73, 97, 235]
   },
   "source_locks": {
     "hperp_integral_adapter": {
@@ -27,6 +27,16 @@
     "retained_picard_marking": {
       "path": "stages/stage33/33-07/stage32_picard_marking_retained.py",
       "blob_sha1": "5a0708a4ddb171e30d85c5a768e0f14ee0eb05f7"
+    },
+    "audited_q602_survivor_frontier": {
+      "path": "stages/stage32/residual-32-01-production/post1570-three-involution-q602-exclusion-batch.json",
+      "blob_sha1": "255fc831031474ba725e5ea188e829afd62473f6",
+      "canonical_sha256": "8af12197316f8d23b7fa94fa7d064fded355a59d5c0cd5adef47e13826643538"
+    },
+    "post1577_direct_mod2_identity": {
+      "path": "stages/stage32/residual-32-01-production/post1577-mod2-fiber-divisor-identity.json",
+      "blob_sha1": "b031d82fe1ccd0324a6fbdf3ea4a096f15661197",
+      "canonical_sha256": "2aff96ee259e895c2acaa1777a9c214b32187fb0a6a4b489708ed544d0111830"
     }
   },
   "geometry": {
@@ -64,7 +74,7 @@
     "Q602_excluded": false,
     "O210_excluded": false,
     "controller_change_authorized": false,
-    "next_exact_route": "COMPUTE_ACTION_OR_COMMUTATOR_OF_SOURCE_BOUND_NONEXCEPTIONAL_WITNESS_ON_SURVIVING_Q602_RESIDUE_73"
+    "next_exact_route": "COMPUTE_ACTION_OR_COMMUTATOR_OF_SOURCE_BOUND_NONEXCEPTIONAL_WITNESS_ON_AUDITED_Q602_SURVIVORS_73_97_235"
   },
   "firewalls": {
     "known_picard_class_promoted_to_q602_exclusion": false,
@@ -83,5 +93,13 @@
     "exact_head_sha": "493840409aa797141d814de4e46de664fe9f781b",
     "conclusion": "success"
   },
-  "canonical_sha256_without_this_field": "a81b679286be37cb47b3a96607694b265ea36fb7ba5c5aaf046e4119451f7c1a"
+  "authority_repair": {
+    "merged_pr": 1612,
+    "merged_commit_sha": "29ba60e69549a89eba7fab936516d17fa517dd2c",
+    "defect": "UNAUDITED_SURVIVOR_CONTRACTION_73_97_235_TO_73",
+    "repaired_survivors_decimal": [73, 97, 235],
+    "hperp_geometry_changed": false,
+    "q602_residue_elimination_added": false
+  },
+  "canonical_sha256_without_this_field": "6adc55114e29720f2a89649d71381228711a58b80677d3cc6b753f54daa4b8c8"
 }
