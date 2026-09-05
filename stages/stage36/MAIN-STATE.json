@@ -1,15 +1,15 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V40_36_09N_PENDING_HOSTILE_AUDIT",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V41_THIN_36_09N_AUDITED",
   "stage": "36",
-  "status": "ACTIVE_PENDING_HOSTILE_AUDIT",
-  "base_main_sha": "824355f591f8f951fda9f2a7c1f4e3e66d4e1e9a",
+  "status": "ACTIVE",
+  "base_main_sha": "2b0516975cda83df31a0a6b247a7d2b81ba550fe",
   "mission": "Attack Stage29 kernel K16-C3-CAMPEDELLI-UNIFORM-TORSOR through exact proper-or-candidate-proper receivers without granting endpoint credit unless a receiver-matched closure theorem is proved.",
   "legacy_authority_snapshot": {
-    "commit": "824355f591f8f951fda9f2a7c1f4e3e66d4e1e9a",
+    "commit": "2b0516975cda83df31a0a6b247a7d2b81ba550fe",
     "path": "stages/stage36/MAIN-STATE.json",
-    "blob_sha": "74d95adfcf7ebb5c6876758044844092145939f7",
-    "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V39_36_09M_USER_PASS_PROMOTED",
-    "scope": "user-passed 36-09M authority after verifier repair; V40 adds provisional 36-09N relative Kummer images and generic function-field rank only"
+    "blob_sha": "ab619d48917321194676ec7544d4abad05e42011",
+    "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V40_36_09N_PENDING_HOSTILE_AUDIT",
+    "scope": "merged mathematical 36-09N state; V41 promotes only hostile-audited generic rank/Kummer-image results and unlocks 36-09O"
   },
   "source_kernel": {
     "kernel": "K16-C3-CAMPEDELLI-UNIFORM-TORSOR",
@@ -24,24 +24,25 @@
   "authority_frontier": {
     "36-09M": {
       "status": "USER_PASS_PROMOTED_AFTER_HOSTILE_MATH_PASS_AND_VERIFIER_REPAIR",
-      "pr": 1636,
-      "promotion_repair_pr": 1638,
       "promotion_merged_main_sha": "824355f591f8f951fda9f2a7c1f4e3e66d4e1e9a",
-      "hostile_audit_outcome": "FAIL_VERIFIER_COVERAGE_ONLY_MATHEMATICS_PASS",
-      "user_pass_override": true,
-      "repaired_verifier_blob_sha": "5fa2b4c0d57ac50c14dfdb05fc03f2b848967d25",
       "E_K_2PRIMARY_TORSION": "Z/4 x Z/2",
       "E_K_PRIME_2PRIMARY_TORSION": "(Z/2)^2",
       "B3_RELATIVE_2_ISOGENY_ROUTE": "LIVE"
     },
     "36-09N": {
-      "status": "EXACT_RELATIVE_KUMMER_AND_GENERIC_RANK1_PENDING_HOSTILE_AUDIT",
+      "status": "AUDITED_EXACT_RELATIVE_KUMMER_AND_GENERIC_RANK1",
+      "pr": 1640,
+      "hostile_audit_review": 5123389934,
+      "audited_head": "8ca23e42a057af260c7051c20dd8f608067efefd",
+      "exact_head_ci": "33998632868/101393423222",
+      "merged_main_sha": "2b0516975cda83df31a0a6b247a7d2b81ba550fe",
       "certificate": "stages/stage36/36-09N/relative-2isogeny-kummer-image-rank1-preflight.json",
       "certificate_blob_sha": "02a14439d94d7f6e5ac2f65e995e8acfb6845788",
       "verifier": "stages/stage36/verify_stage36_36_09N.py",
       "verifier_blob_sha": "e7effbe9ee6106505db013f326ec653627885054",
-      "source_lock": "stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md",
-      "source_lock_blob_sha": "e7c98981fbb1d523fd7db54478dc09aa87b547e8",
+      "audited_source_lock_blob_sha": "e7c98981fbb1d523fd7db54478dc09aa87b547e8",
+      "corrected_source_lock_blob_sha": "a562d7053a6f04deff4473067777b7cfd538ea8a",
+      "SOURCE_ATTRIBUTION_CORRECTED_POST_AUDIT": true,
       "SPECIALIZATION_Q0": 6,
       "SPECIALIZATION_INJECTIVE": true,
       "SPECIALIZED_RANK": 1,
@@ -53,19 +54,26 @@
       "FIBERWISE_RANK_ONE_FOR_EVERY_RATIONAL_Q_PROVED": false,
       "SPECIALIZATION_RANK_JUMPS_EXCLUDED": false,
       "B3_RELATIVE_2_ISOGENY_ROUTE": "LIVE",
-      "NEXT_AFTER_HOSTILE_PASS": "36-09O_PHYSICAL_RANK_JUMP_LOCUS_PREFLIGHT"
+      "NEXT": "36-09O_PHYSICAL_RANK_JUMP_LOCUS_PREFLIGHT"
     }
   },
   "source_locks": {
-    "stage36_v39_state": {"path":"stages/stage36/MAIN-STATE.json","commit":"824355f591f8f951fda9f2a7c1f4e3e66d4e1e9a","blob_sha":"74d95adfcf7ebb5c6876758044844092145939f7"},
+    "stage36_v40_merged_state": {"path":"stages/stage36/MAIN-STATE.json","commit":"2b0516975cda83df31a0a6b247a7d2b81ba550fe","blob_sha":"ab619d48917321194676ec7544d4abad05e42011"},
     "stage36_36_09N_certificate": {"path":"stages/stage36/36-09N/relative-2isogeny-kummer-image-rank1-preflight.json","blob_sha":"02a14439d94d7f6e5ac2f65e995e8acfb6845788"},
     "stage36_36_09N_verifier": {"path":"stages/stage36/verify_stage36_36_09N.py","blob_sha":"e7effbe9ee6106505db013f326ec653627885054"},
-    "descent_and_specialization_source": {"path":"stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md","blob_sha":"e7c98981fbb1d523fd7db54478dc09aa87b547e8"}
+    "descent_and_specialization_source_audited": {"path":"stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md","audited_blob_sha":"e7c98981fbb1d523fd7db54478dc09aa87b547e8","corrected_blob_sha":"a562d7053a6f04deff4473067777b7cfd538ea8a"}
+  },
+  "freshness": {
+    "audit_base": "824355f591f8f951fda9f2a7c1f4e3e66d4e1e9a",
+    "merge_parent": "dbcff26c0267416caa4fdd0515293396d0f86887",
+    "intervening_commits": 1,
+    "allowed_prefixes": ["stages/stage33/", ".github/workflows/stage33-v41-e3-source.yml"],
+    "stage36_or_source_intersection": false
   },
   "cycle_ledger": {
     "B1_DIRECT_UNIFORM_H1_SELMER": "BLOCKED",
     "B2_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION": "BLOCKED_BY_EXPLICIT_ALL_PLACE_LOCAL_POINTS",
-    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_GENERIC_RANK1_EXACT_RELATIVE_2ISOGENY_KUMMER_IMAGES_PENDING_AUDIT",
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_AUDITED_GENERIC_RANK1_EXACT_RELATIVE_2ISOGENY_KUMMER_IMAGES",
     "B3_FIXED_S_UNIFORM_FULL2_DESCENT_SUBROUTE": "BLOCKED_BY_UNBOUNDED_PHYSICAL_BASE_SQUARECLASS_SUPPORT",
     "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION": "BLOCKED_NO_PROOF_CAPABLE_B_PLUS_K_JOINT_TEST",
     "B5_CAMPEDELLI_BRAUER_ETALE_BRAUER": "BLOCKED_UPSTREAM_BR2A_BR2B_INCOMPLETE",
@@ -80,13 +88,12 @@
     "counts_exclude_named_B3_subroutes": true
   },
   "current": {
-    "unit": "36-09N",
-    "next_exact_leaf": "HOSTILE_AUDIT_36_09N",
-    "next_owner": "HOSTILE_AUDITOR",
-    "result": "RELATIVE_2ISOGENY_KUMMER_IMAGES_AND_GENERIC_FUNCTION_FIELD_RANK1_PENDING_HOSTILE_AUDIT",
+    "unit": "36-09O",
+    "next_exact_leaf": "36-09O_PHYSICAL_RANK_JUMP_LOCUS_PREFLIGHT",
+    "next_owner": "STAGE36_MAIN",
+    "result": "36-09N_HOSTILE_AUDIT_PASS_PROMOTED; PHYSICAL_RANK_JUMP_LOCUS_ROUTE_UNLOCKED",
     "36_09N_entry_allowed": true,
-    "36_09O_entry_allowed": false,
-    "why": "36-09N gives exact relative 2-isogeny models and Kummer images and proves generic function-field rank 1 via q=6 injective specialization, complete fixed-fiber 2-isogeny descent, good-reduction torsion control and an explicit section specializing to a nontorsion point. Fiberwise rank jumps remain unresolved."
+    "36_09O_entry_allowed": true
   },
   "current_leaf_working_set": [
     "stages/stage36/36-09N/relative-2isogeny-kummer-image-rank1-preflight.json",
@@ -100,9 +107,9 @@
     "two_primary_torsion_control_promoted": true,
     "relative_2isogeny_kummer_certificate_complete": true,
     "generic_function_field_rank1_certificate_complete": true,
-    "generic_function_field_rank1_promoted": false,
+    "generic_function_field_rank1_promoted": true,
     "exact_generic_kummer_images_certificate_complete": true,
-    "exact_generic_kummer_images_promoted": false,
+    "exact_generic_kummer_images_promoted": true,
     "fiberwise_rank_one_for_every_rational_q_proved": false,
     "specialization_rank_jumps_excluded": false,
     "full_torsion_subgroup_proved": false,
@@ -122,13 +129,12 @@
     "record_user_pass_distinctly_from_hostile_audit": true,
     "do_not_treat_generic_rank1_as_fiberwise_rank1": true,
     "do_not_treat_exact_generic_kummer_images_as_all_specialized_kummer_images": true,
-    "do_not_claim_uniform_MW_group_from_injective_specialization_at_one_fiber": true,
-    "do_not_start_36_09O_before_36_09N_hostile_audit_PASS": true
+    "do_not_claim_uniform_MW_group_from_injective_specialization_at_one_fiber": true
   },
   "claims": {
     "new_theorem_credit": false,
-    "generic_function_field_rank1_provisional": true,
-    "exact_generic_kummer_images_provisional": true,
+    "generic_function_field_rank1_promoted": true,
+    "exact_generic_kummer_images_promoted": true,
     "fiberwise_rank_one_for_every_rational_q_proved": false,
     "uniform_Mordell_Weil_group_proved": false,
     "receiver_emptiness_proved": false,
