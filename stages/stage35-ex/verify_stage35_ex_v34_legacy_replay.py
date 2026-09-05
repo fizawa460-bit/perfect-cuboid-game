@@ -9,6 +9,7 @@ STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
 V34='STAGE35_EX_PESCH_E1_STATE_V34_POST_35EX34_HOSTILE_AUDITED_PRIVATE_GCD_PREFLIGHT'
 V33='STAGE35_EX_PESCH_E1_STATE_V33_POST_35EX33_HOSTILE_AUDITED_ROUTE_BLOCKER'
 SNAPSHOT='c8a876838882c91c078c85da5c88d131b151ac40'
+AUDIT_COMMIT='e073c322d52122de10791bb8174c62bd696bf037'
 OLD_ALLOWED={'base', *{str(i) for i in range(10,33)}, '32p', '33g1', '33g2', '33'}
 ALLOWED=OLD_ALLOWED|{'34'}
 
@@ -36,6 +37,22 @@ snapshot=json.loads(snapshot_text)
 assert snapshot['schema']==V33
 assert snapshot['current']['unit']=='35EX-34_POST_GAUSSIAN_BLOCK_FRESH_BREADTH_AUDIT'
 assert snapshot['current']['status']=='PROVISIONAL_FRESH_BREADTH_AUDIT_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT'
+
+# #1600 was squash-merged, so its blind/comparison commits are not ancestors of
+# the merge commit. The audited 35EX-34 verifier still checks their exact
+# ancestor order. Fetch only the comparison commit at depth 2; its direct
+# parent is the blind-generation commit, restoring the two immutable objects
+# without changing any mathematical or authority content.
+if target=='34':
+    have=subprocess.run(
+        ['git','cat-file','-e',f'{AUDIT_COMMIT}^{{commit}}'], cwd=ROOT,
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+    ).returncode==0
+    if not have:
+        subprocess.run(
+            ['git','fetch','--no-tags','--depth=2','origin',AUDIT_COMMIT],
+            cwd=ROOT,check=True,
+        )
 
 original_read_text=Path.read_text
 state_resolved=STATE.resolve()
