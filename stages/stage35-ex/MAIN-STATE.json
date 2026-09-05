@@ -1,32 +1,30 @@
 {
-  "schema": "STAGE35_EX_PESCH_E1_STATE_V37_POST_GOAL4A_HOSTILE_AUDITED_GOAL4B_READY",
+  "schema": "STAGE35_EX_PESCH_E1_STATE_V38_GOAL4B_MOD7_LOCAL_RESTRICTION_PENDING_AUDIT",
   "stage": "35-EX",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
-  "base_main_sha": "af2bcbe67f8ea71238829877c04a054d49ba2f11",
+  "base_main_sha": "7ce9edb2652a044fd6140e0f45b87026eefcf319",
   "history_snapshot": {
     "path": "stages/stage35-ex/MAIN-STATE.json",
-    "commit_sha": "2365d4bce49faf2822be2a3ff7d841af9a14820c",
-    "schema": "STAGE35_EX_PESCH_E1_STATE_V36_GOAL4A_TWO_ADIC_AUTOMATIC_SQUARE_PENDING_AUDIT",
-    "role": "IMMUTABLE_COMPLETE_V36_HISTORY_THROUGH_GOAL4A_MERGED_PROVISIONAL",
-    "contains_completed_units_through": "35EX-35_GOAL4A_MERGED_PROVISIONAL",
-    "historical_replay_verifier": "stages/stage35-ex/verify_stage35_ex_v37_legacy_replay.py",
+    "commit_sha": "7ce9edb2652a044fd6140e0f45b87026eefcf319",
+    "schema": "STAGE35_EX_PESCH_E1_STATE_V37_POST_GOAL4A_HOSTILE_AUDITED_GOAL4B_READY",
+    "role": "IMMUTABLE_COMPLETE_V37_HISTORY_THROUGH_GOAL4A_AUDITED_GOAL4B_READY",
+    "contains_completed_units_through": "35EX-35_GOAL4A_HOSTILE_AUDITED_AND_PROMOTED",
+    "historical_replay_verifier": "stages/stage35-ex/verify_stage35_ex_v38_legacy_replay.py",
     "history_dropped": false
   },
   "parent_authority": {
-    "unit": "35EX-35_GOAL4A_TWO_ADIC_AUTOMATIC_SQUARE_TEST",
-    "status": "AUDITED_HOSTILE_PASS_NO_NEW_P2_RECEIVER_NO_E1_CREDIT",
+    "unit": "35EX-35_GOAL4A_AUTHORITY_PROMOTION",
+    "status": "AUDITED_HOSTILE_PASS_GOAL4B_READY_NO_E1_CREDIT",
     "audit_verdict": "HOSTILE_AUDIT_PASS",
-    "hostile_review_id": 5121404951,
-    "pr": 1615,
-    "exact_head_sha": "df72152df049b765d42bb9aecc1d5637e3fb0b68",
-    "exact_head_ci_run": 33968754649,
-    "exact_head_ci_job": 101313405862,
-    "merge_sha": "2365d4bce49faf2822be2a3ff7d841af9a14820c",
-    "two_adic_space_square_condition_automatic": true,
-    "new_two_adic_valuation_restriction": false,
-    "new_two_adic_squareclass_receiver": false,
-    "odd_prime_local_conditions_tested": false,
-    "global_integer_space_square_tested": false
+    "hostile_review_id": 5121443297,
+    "pr": 1618,
+    "exact_head_sha": "8a84f61e5b0cdc54430ca77e6d2e00e9ef682798",
+    "exact_head_ci_run": 33969337207,
+    "exact_head_ci_job": 101314947704,
+    "merge_sha": "7ce9edb2652a044fd6140e0f45b87026eefcf319",
+    "goal4a_audited": true,
+    "goal4b_ready": true,
+    "goal4b_executed_at_parent": false
   },
   "true_owner": {
     "kernel": "K16-C3-PESCH-EXPONENT-ONE",
@@ -57,15 +55,31 @@
       "status": "AUDITED_HOSTILE_PASS_NO_NEW_P2_RECEIVER_NO_E1_CREDIT",
       "source_pr": 1615,
       "hostile_review_id": 5121404951,
-      "exact_head_sha": "df72152df049b765d42bb9aecc1d5637e3fb0b68",
-      "exact_head_ci_run": 33968754649,
-      "exact_head_ci_job": 101313405862,
-      "merge_sha": "2365d4bce49faf2822be2a3ff7d841af9a14820c",
+      "promotion_pr": 1618,
+      "promotion_hostile_review_id": 5121443297,
+      "source_exact_head_sha": "df72152df049b765d42bb9aecc1d5637e3fb0b68",
+      "source_exact_head_ci_run": 33968754649,
+      "source_exact_head_ci_job": 101313405862,
+      "source_merge_sha": "2365d4bce49faf2822be2a3ff7d841af9a14820c",
+      "promotion_merge_sha": "7ce9edb2652a044fd6140e0f45b87026eefcf319",
       "artifact": "stages/stage35-ex/35ex-35/goal4a-two-adic-automatic-square.json",
       "verifier": "stages/stage35-ex/verify_stage35_ex_35_goal4a.py",
       "two_adic_space_square_condition_automatic": true,
       "new_two_adic_valuation_restriction": false,
       "new_two_adic_squareclass_receiver": false
+    },
+    "35EX-35-GOAL4B": {
+      "status": "PROVISIONAL_EXACT_MOD7_GENUINE_LOCAL_RESTRICTION_PENDING_HOSTILE_AUDIT",
+      "artifact": "stages/stage35-ex/35ex-35/goal4b-mod7-local-restriction.json",
+      "verifier": "stages/stage35-ex/verify_stage35_ex_35_goal4b.py",
+      "modulus": 7,
+      "face_locus_projective_classes": 13,
+      "full_locus_projective_classes": 9,
+      "rejected_projective_classes": 4,
+      "exact_local_equivalence": "on the three-face-square mod7 locus, the space square holds iff 7|A*B*C",
+      "odd_prime_local_restriction_p7_obtained": true,
+      "new_fourth_square_restriction_obtained": true,
+      "finite_squareclass_receiver_obtained": false
     }
   },
   "resolved_investigations": {
@@ -76,6 +90,11 @@
     "FOURTH_SQUARE_TWO_ADIC_RECEIVER": {
       "status": "AUDITED_BLOCKED_AUTOMATIC_Q2_SQUARE_AFTER_FACE_PARITY",
       "reason": "after choosing the unique odd edge A, both other edges are divisible by 4 and (A^2+B^2+C^2)/A^2 lies in 1+16 Z_2 subset 1+8 Z_2"
+    },
+    "FOURTH_SQUARE_MOD7_BRANCH_7_NOT_DIVIDE_ABC": {
+      "status": "PROVISIONAL_LOCALLY_CLOSED_BY_EXACT_MOD7_RECEIVER_WITNESS",
+      "reason": "on the three-face-square mod7 locus with A,B,C all nonzero, their nonzero square residues are equal and the space residue is 3 times a square, hence nonsquare modulo 7",
+      "parent_route_closed": false
     }
   },
   "candidate_ledger": {
@@ -97,22 +116,24 @@
       "E1-S3-SYMMETRIC-ENDPOINT-INVARIANTS_WITHOUT_STRICT_ARITHMETIC_REDUCTION",
       "FOURTH-SQUARE-PURE-TWO-ADIC-VALUATION-RECEIVER"
     ],
+    "local_receiver_witnesses": ["MOD7_FACE_BRANCH_7_NOT_DIVIDE_ABC"],
     "split_triggered": false
   },
   "arsenal": {
     "S34_W01": "PREFLIGHT_ONLY_NO_FINITE_EXHAUSTIVE_GLOBAL_SQUARECLASS_FAMILY",
-    "S34_W03": "GATED_NO_EXACT_JOINT_LOCAL_WITNESS",
+    "S34_W03": "EXACT_LOCAL_WITNESS_AVAILABLE_FOR_BRANCH_7_NOT_DIVIDE_ABC_BUT_PARENT_ROUTE_NOT_CLOSED",
     "S31_W01": "GATED_NO_EXACT_GENUS_ONE_QUARTIC_ADAPTER"
   },
   "current": {
-    "unit": "35EX-35_GOAL4B_ODD_PRIME_OR_FINITE_SQUARECLASS_RECEIVER_TEST",
-    "status": "READY_AFTER_HOSTILE_AUDITED_GOAL4A_NO_E1_CREDIT",
-    "result": "GOAL4A_AUDITED_P2_ROUTE_BLOCKED_ODD_PRIME_COMPONENT_UNTESTED",
-    "operational_scope": "TEST_ODD_PRIME_LOCAL_RESTRICTIONS_AND_WHETHER_THEY_LIFT_TO_A_FINITE_EXHAUSTIVE_RECEIVER",
-    "next_action": "EXECUTE_GOAL4B_ODD_PRIME_LOCAL_RECEIVER_TEST",
+    "unit": "35EX-35_GOAL4B_MOD7_ODD_PRIME_LOCAL_RESTRICTION",
+    "status": "PROVISIONAL_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT",
+    "result": "GENUINE_MOD7_FOURTH_SQUARE_RESTRICTION_7_DIVIDES_ABC_NO_FINITE_GLOBAL_RECEIVER_YET",
+    "operational_scope": "EXACT_P7_LOCAL_RECEIVER_ONLY_NOT_ALL_ODD_PRIMES_OR_GLOBAL_SQUARECLASS_CLOSURE",
+    "next_if_hostile_audit_pass": "CONTINUE_35EX35_GOAL4C_PRIVATE_GCD_LIFT_OF_MOD7_BRANCH_AND_FINITE_RECEIVER_TEST",
     "working_set": [
-      "stages/stage35-ex/35ex-35/goal4a-two-adic-automatic-square.json",
-      "stages/stage35-ex/verify_stage35_ex_35_goal4a.py",
+      "stages/stage35-ex/35ex-35/goal4b-mod7-local-restriction.json",
+      "stages/stage35-ex/verify_stage35_ex_35_goal4b.py",
+      "stages/stage35-ex/verify_stage35_ex_v38_legacy_replay.py",
       "docs/arsenal/cards/formal/S34-W01.md",
       "docs/arsenal/cards/formal/S34-W03.md",
       "stages/stage35-ex/MAIN-STATE.json"
@@ -121,14 +142,18 @@
   "claims": {
     "35ex35_goals_1_to_3_hostile_audited_and_promoted": true,
     "goal4a_hostile_audit_pass": true,
-    "goal4a_hostile_review_id": 5121404951,
-    "goal4a_two_adic_test_completed": true,
+    "goal4a_authority_promoted": true,
+    "goal4b_mod7_test_completed": true,
     "goal4_full_test_completed": false,
     "two_adic_space_square_condition_automatic": true,
     "new_two_adic_valuation_restriction": false,
     "new_two_adic_squareclass_receiver": false,
-    "odd_prime_local_conditions_tested": false,
-    "new_fourth_square_restriction_obtained": false,
+    "odd_prime_local_condition_p7_tested": true,
+    "all_odd_prime_local_conditions_classified": false,
+    "odd_prime_local_restriction_p7_obtained": true,
+    "new_fourth_square_restriction_obtained": true,
+    "receiver_branch_7_not_divide_ABC_locally_closed": true,
+    "private_gcd_mod7_lift_completed": false,
     "finite_squareclass_receiver_obtained": false,
     "universal_torsor_constructed": false,
     "E1_proved": false,
