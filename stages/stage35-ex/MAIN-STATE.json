@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE35_EX_PESCH_E1_STATE_V39_POST_GOAL4B_HOSTILE_AUDITED_GOAL4C_READY",
+  "schema": "STAGE35_EX_PESCH_E1_STATE_V40_GOAL4C_MOD7_PRIVATE_GCD_SUPPORT_RECEIVER_PENDING_AUDIT",
   "stage": "35-EX",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
   "base_main_sha": "cc27e6d6146e93e1928b467cda3464845350b7c1",
@@ -7,9 +7,9 @@
     "path": "stages/stage35-ex/MAIN-STATE.json",
     "commit_sha": "cc27e6d6146e93e1928b467cda3464845350b7c1",
     "schema": "STAGE35_EX_PESCH_E1_STATE_V38_GOAL4B_MOD7_LOCAL_RESTRICTION_PENDING_AUDIT",
-    "role": "IMMUTABLE_COMPLETE_V38_HISTORY_THROUGH_GOAL4B_MERGED_PROVISIONAL",
+    "role": "IMMUTABLE_COMPLETE_V38_HISTORY_THROUGH_GOAL4B_MERGED_PROVISIONAL_WITH_EXTERNAL_HOSTILE_PASS_LOCKED_BELOW",
     "contains_completed_units_through": "35EX-35_GOAL4B_MERGED_PROVISIONAL",
-    "historical_replay_verifier": "stages/stage35-ex/verify_stage35_ex_v39_legacy_replay.py",
+    "historical_replay_verifier": "stages/stage35-ex/verify_stage35_ex_v40_legacy_replay.py",
     "history_dropped": false
   },
   "parent_authority": {
@@ -51,7 +51,10 @@
     "35EX-35_GOALS_1_TO_3": {
       "status": "AUDITED_AND_AUTHORITY_PROMOTED_NO_E1_CREDIT",
       "source_pr": 1603,
-      "promotion_pr": 1609
+      "promotion_pr": 1609,
+      "six_variable_exact_decomposition": true,
+      "primitive_face_dictionary": true,
+      "three_face_and_space_exact_rewrite": true
     },
     "35EX-35-GOAL4A": {
       "status": "AUDITED_AND_AUTHORITY_PROMOTED_NO_NEW_P2_RECEIVER_NO_E1_CREDIT",
@@ -73,11 +76,21 @@
       "artifact": "stages/stage35-ex/35ex-35/goal4b-mod7-local-restriction.json",
       "verifier": "stages/stage35-ex/verify_stage35_ex_35_goal4b.py",
       "modulus": 7,
-      "face_locus_projective_classes": 13,
-      "full_locus_projective_classes": 9,
-      "rejected_projective_classes": 4,
       "odd_prime_local_restriction_p7_obtained": true,
       "new_fourth_square_restriction_obtained": true,
+      "finite_squareclass_receiver_obtained": false
+    },
+    "35EX-35-GOAL4C": {
+      "status": "PROVISIONAL_EXACT_MOD7_FINITE_SUPPORT_RECEIVER_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT",
+      "artifact": "stages/stage35-ex/35ex-35/goal4c-mod7-private-gcd-support-receiver.json",
+      "verifier": "stages/stage35-ex/verify_stage35_ex_35_goal4c.py",
+      "modulus": 7,
+      "exact_support_pattern_count": 12,
+      "S3_orbit_count": 3,
+      "surviving_assignment_count_mod7": 38880,
+      "private_gcd_mod7_lift_completed": true,
+      "finite_mod7_source_support_receiver_obtained": true,
+      "strict_additional_mod7_elimination_beyond_goal4b": false,
       "finite_squareclass_receiver_obtained": false
     }
   },
@@ -92,6 +105,12 @@
     "FOURTH_SQUARE_MOD7_BRANCH_7_NOT_DIVIDE_ABC": {
       "status": "AUDITED_LOCALLY_CLOSED_BY_EXACT_MOD7_RECEIVER_WITNESS",
       "reason": "on the three-face-square mod7 locus, the space square holds iff 7 divides A*B*C",
+      "parent_route_closed": false
+    },
+    "MOD7_PRIVATE_GCD_SIX_VARIABLE_SUPPORT_SPLIT": {
+      "status": "PROVISIONAL_EXACT_FINITE_12_SUPPORT_PATTERNS_3_S3_ORBITS_PENDING_HOSTILE_AUDIT",
+      "all_support_patterns_realized": true,
+      "strict_additional_mod7_elimination": false,
       "parent_route_closed": false
     }
   },
@@ -114,23 +133,31 @@
       "E1-S3-SYMMETRIC-ENDPOINT-INVARIANTS_WITHOUT_STRICT_ARITHMETIC_REDUCTION",
       "FOURTH-SQUARE-PURE-TWO-ADIC-VALUATION-RECEIVER"
     ],
-    "local_receiver_witnesses": ["MOD7_FACE_BRANCH_7_NOT_DIVIDE_ABC"],
+    "local_receiver_witnesses": [
+      "MOD7_FACE_BRANCH_7_NOT_DIVIDE_ABC",
+      "MOD7_PRIVATE_GCD_12_SUPPORT_PATTERN_ROUTING"
+    ],
+    "local_support_split_triggered": true,
+    "global_squareclass_split_triggered": false,
     "split_triggered": false
   },
   "arsenal": {
-    "S34_W01": "PREFLIGHT_ONLY_NO_FINITE_EXHAUSTIVE_GLOBAL_SQUARECLASS_FAMILY",
-    "S34_W03": "AUDITED_EXACT_LOCAL_WITNESS_FOR_BRANCH_7_NOT_DIVIDE_ABC_BUT_PARENT_ROUTE_NOT_CLOSED",
+    "S34_W01": "STILL_GATED_MOD7_SUPPORT_SPLIT_IS_NOT_A_FINITE_EXHAUSTIVE_GLOBAL_SQUARECLASS_FAMILY",
+    "S34_W03": "AUDITED_GOAL4B_LOCAL_WITNESS_RETAINED_GOAL4C_ADDS_PROVISIONAL_EXACT_SOURCE_SUPPORT_ROUTING",
     "S31_W01": "GATED_NO_EXACT_GENUS_ONE_QUARTIC_ADAPTER"
   },
   "current": {
     "unit": "35EX-35_GOAL4C_PRIVATE_GCD_LIFT_OF_MOD7_BRANCH_AND_FINITE_RECEIVER_TEST",
-    "status": "READY_AFTER_HOSTILE_AUDITED_GOAL4B_NO_E1_CREDIT",
-    "result": "GOAL4B_AUDITED_MOD7_LOCAL_RESTRICTION_PROMOTED_GOAL4C_NOT_YET_EXECUTED",
-    "operational_scope": "LIFT_7_DIVIDES_ABC_TO_PRIVATE_GCD_SUPPORT_AND_TEST_FOR_STRICT_FINITE_RECEIVER_GAIN",
-    "next_action": "EXECUTE_35EX35_GOAL4C_PRIVATE_GCD_LIFT_OF_MOD7_BRANCH_AND_FINITE_RECEIVER_TEST",
+    "status": "PROVISIONAL_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT",
+    "result": "EXACT_MOD7_SIX_VARIABLE_SUPPORT_RECEIVER_12_PATTERNS_3_S3_ORBITS_ALL_REALIZED_NO_EXTRA_MOD7_ELIMINATION",
+    "operational_scope": "SOURCE_LEVEL_P7_DIVISIBILITY_SUPPORT_FINITEIZATION_ONLY_NOT_GLOBAL_SQUARECLASS_CLOSURE",
+    "next_if_hostile_audit_pass": "35EX-35_GOAL4D_MOD7_SUPPORT_BRANCH_VALUATION_LIFT_AND_CROSS_FACE_COUPLING_TEST",
     "working_set": [
+      "stages/stage35-ex/35ex-35/private-edge-gcd-six-variable-decomposition.json",
       "stages/stage35-ex/35ex-35/goal4b-mod7-local-restriction.json",
-      "stages/stage35-ex/verify_stage35_ex_35_goal4b.py",
+      "stages/stage35-ex/35ex-35/goal4c-mod7-private-gcd-support-receiver.json",
+      "stages/stage35-ex/verify_stage35_ex_35_goal4c.py",
+      "stages/stage35-ex/verify_stage35_ex_v40_legacy_replay.py",
       "docs/arsenal/cards/formal/S34-W01.md",
       "docs/arsenal/cards/formal/S34-W03.md",
       "stages/stage35-ex/MAIN-STATE.json"
@@ -142,9 +169,11 @@
     "goal4a_authority_promoted": true,
     "goal4b_hostile_audit_pass": true,
     "goal4b_hostile_review_id": 5123108516,
-    "goal4b_authority_promoted": true,
     "goal4b_mod7_test_completed": true,
-    "goal4c_executed": false,
+    "goal4c_executed": true,
+    "private_gcd_mod7_lift_completed": true,
+    "finite_mod7_source_support_receiver_obtained": true,
+    "strict_additional_mod7_elimination_beyond_goal4b": false,
     "goal4_full_test_completed": false,
     "two_adic_space_square_condition_automatic": true,
     "new_two_adic_valuation_restriction": false,
@@ -154,7 +183,6 @@
     "odd_prime_local_restriction_p7_obtained": true,
     "new_fourth_square_restriction_obtained": true,
     "receiver_branch_7_not_divide_ABC_locally_closed": true,
-    "private_gcd_mod7_lift_completed": false,
     "finite_squareclass_receiver_obtained": false,
     "universal_torsor_constructed": false,
     "E1_proved": false,
