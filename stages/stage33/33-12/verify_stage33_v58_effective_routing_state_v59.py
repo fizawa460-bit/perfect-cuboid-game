@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 H = Path(__file__).resolve().parents[1]
+ROOT = H.parent.parent
 D = H / "33-12"
 
 def csha(obj):
@@ -15,6 +16,7 @@ v57 = json.loads((D / "e3-mask20-b1-gysin-image-gate-v57.json").read_text())
 v58 = json.loads((D / "e3-search-routing-supersession-v58.json").read_text())
 state = json.loads((H / "MAIN-STATE.json").read_text())
 startup = (H / "MAIN-START-HERE.md").read_text()
+agents = (ROOT / "AGENTS.md").read_text()
 
 assert v41["routing_contract"]["one_automatic_bounded_repository_search_after_arsenal_miss"] is True
 assert v41["anti_loop"]["automatic_bounded_search_budget_per_missing_object"] == 1
@@ -28,6 +30,7 @@ assert r["search_miss_proves_mathematical_nonexistence"] is False
 assert "unlimited or open-ended repository search" in r["forbidden"]
 assert v58["supersedes_operationally"]["mathematical_content_of_v57"] == "UNCHANGED"
 
+# Immutable V57 historical boundary.
 assert v57["exact_b1_route_geometry"]["required_marked_matrix_shape"] == [14, 4]
 assert v57["e3_membership_gate"]["proper14_mask_decimal"] == 20
 assert v57["e3_membership_gate"]["membership_in_im_Phi_B1"] == "OPEN_NOT_COMPUTED"
@@ -36,6 +39,8 @@ assert v57["credit_firewall"]["e3_kummer_column_materialized"] is False
 assert v57["credit_firewall"]["stage33_progress"] == "6/11"
 assert v57["credit_firewall"]["merge_allowed"] is False
 
+# Successor-safe live-state checks.  V79 may have computed and frozen the B1
+# membership gate; V59 must not force the live state back to V57 OPEN status.
 claimed = state["canonical_sha256"]
 body = dict(state); body.pop("canonical_sha256")
 assert claimed == csha(body)
@@ -46,19 +51,16 @@ assert state["discovery_policy"]["repeated_bounded_repository_search_allowed"] i
 assert state["discovery_policy"]["each_repeat_requires_materially_new_mathematical_signal"] is True
 assert state["discovery_policy"]["unbounded_repository_search_allowed"] is False
 assert state["current_exact_frontier"]["e3_b1_branch_h1_dimension"] == 4
-assert state["current_exact_frontier"]["e3_b1_membership_status"] == "OPEN_NOT_COMPUTED"
 assert state["current_exact_frontier"]["e3_genuine_full_surface_h2_mu2_lift_materialized"] is False
 assert state["firewalls"]["stage33_12_closed_exact"] is False
 assert state["firewalls"]["stage33_13_released"] is False
 assert state["firewalls"]["merge_allowed"] is False
 
-# V58 is an inherited operational routing lock, not a demand that the live
-# mathematical leaf remain frozen at V57. Later startup prose may be compressed;
-# the machine fields above are the exact no-cap/repeatability authority.
 assert "V58" in startup
 assert "repeatable bounded search" in startup
 assert "materially new mathematical signal" in startup
-assert "search miss never proves repository absence" in startup.lower()
+assert "Repository traversal itself follows `AGENTS.md`" in startup
+assert "a search miss never proves repository-wide absence" in agents.lower()
 
 print(json.dumps({
     "success": True,

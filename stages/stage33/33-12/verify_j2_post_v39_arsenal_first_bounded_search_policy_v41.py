@@ -30,7 +30,8 @@ assert p["mathematical_authority"] == "V25_V36_EXACT_CERTIFICATE_CHAIN_UNCHANGED
 assert not (ROOT / "docs/evidence-locator").exists()
 research = ROOT / "docs/research-os/policies/repository-asset-discovery.md"
 arsenal = ROOT / "docs/arsenal/index.json"
-assert research.is_file() and arsenal.is_file()
+agents = ROOT / "AGENTS.md"
+assert research.is_file() and arsenal.is_file() and agents.is_file()
 assert str(json.loads(arsenal.read_text()).get("schema", "")).startswith("RESEARCH_ARSENAL_")
 
 c = json.loads((STAGE33 / "controller.json").read_text())
@@ -55,15 +56,17 @@ assert state["discovery_policy"]["each_repeat_requires_materially_new_mathematic
 assert state["discovery_policy"]["unbounded_repository_search_allowed"] is False
 assert all("evidence-locator" not in x for x in state["current_leaf_working_set"])
 
-# Startup prose is intentionally compact and may change wording. The exact
-# no-cap/repeatability semantics are asserted from MAIN-STATE above; here only
-# verify that the human routing handoff still exposes the same route and stops.
+# Stage33 startup owns only Stage-local routing. Repository traversal/search-miss
+# safety is repo-wide authority in AGENTS.md and is verified there rather than
+# duplicated in Stage33 prose.
 startup = (STAGE33 / "MAIN-START-HERE.md").read_text()
+agents_text = agents.read_text()
 assert "Arsenal" in startup
 assert "V58" in startup
 assert "repeatable bounded search" in startup
 assert "materially new mathematical signal" in startup
-assert "search miss never proves repository absence" in startup.lower()
+assert "Repository traversal itself follows `AGENTS.md`" in startup
+assert "a search miss never proves repository-wide absence" in agents_text.lower()
 assert "controller -> active roadmap -> Arsenal index/card -> exact referenced files" in startup
 
 print(json.dumps({
