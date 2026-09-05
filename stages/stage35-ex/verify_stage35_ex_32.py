@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify Stage35-EX 35EX-32 promotion, breadth audit, and route-selection firewalls."""
+"""Verify Stage35-EX 35EX-32 promotion, breadth audit, historical no-recharge, and route-selection firewalls."""
 from __future__ import annotations
 import hashlib, json
 from pathlib import Path
@@ -65,7 +65,7 @@ assert cur['status']=='PROVISIONAL_RESULT_PENDING_HOSTILE_AUDIT_NO_CREDIT'
 assert cur['candidate']=='E1-GAUSSIAN-THREE-FACE-COMPATIBILITY-DESCENT'
 assert cur['next_if_audited_pass']=='START_35EX33_GAUSSIAN_THREE_FACE_COMPATIBILITY_PREFLIGHT'
 
-assert audit['schema']=='STAGE35_EX_32_POST_POPULATION_EQUIVALENCE_FRESH_BREADTH_AUDIT_V1'
+assert audit['schema']=='STAGE35_EX_32_POST_POPULATION_EQUIVALENCE_FRESH_BREADTH_AUDIT_V2'
 assert audit['status']=='PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT'
 auth=audit['authority']
 assert auth['initial_hostile_audit']['review_id']==5120314137
@@ -76,16 +76,32 @@ assert auth['final_exact_head_sha']==FINAL_HEAD
 assert auth['final_exact_head_ci_run']==33953462420 and auth['final_exact_head_ci_job']==101272407623
 assert auth['merged_main_sha']==V30_COMMIT
 
+repair=audit['hostile_audit_repair']
+assert repair['review_id']==5120424968
+assert repair['failed_exact_head_sha']=='1729003067bd208fdcf64f7ed28d79b1e563643e'
+assert repair['failure_class']=='HISTORICAL_NO_RECHARGE_COMPARISON_INCOMPLETE_NOT_FRESHNESS'
+assert repair['blind_generation_repeated'] is False
+assert repair['mathematics_changed'] is False
+
 protocol=audit['protocol']
 assert protocol['fresh_exhaustive_view_audit'] is True
 assert protocol['blind_rediscovery'] is True
 assert protocol['blind_generation_performed_before_arsenal_comparison'] is True
 assert protocol['historical_comparison_performed_after_blind_generation'] is True
+assert protocol['historical_block_ledger_gaussian_recheck_complete'] is True
 assert protocol['split_triggered'] is False
 
 for key,lock in audit['source_locks'].items():
     p=ROOT/lock['path']
     assert git_blob_sha(p)==lock['blob_sha'], (key,git_blob_sha(p),lock['blob_sha'])
+
+expected_gaussian_locks={
+    'stage35_ex_13_gaussian_orientation_coupling': '196d2be1bbfbcb2b416535d7bb051a9b2ec93104',
+    'stage35_ex_17B_gaussian_coordinate_gcd_hook': '914c4143c41723ab30c6ad6379b7baccc39be23e',
+    'stage35_ex_18_gaussian_relative_orientation_freeze': '9387364200169cacbfa5fe932df353aabe862351',
+}
+for key,sha in expected_gaussian_locks.items():
+    assert audit['source_locks'][key]['blob_sha']==sha
 
 receiver=audit['exact_receiver']
 assert receiver['population']=='positive rational perfect cuboids modulo positive scaling and edge permutation'
@@ -120,6 +136,19 @@ for k in (
  'E1-LINKED-CONGRUENT-NUMBER-SELMER-COUPLING',
 ):
     assert k in hist
+assert hist['E1-GAUSSIAN-THREE-FACE-COMPATIBILITY-DESCENT'].startswith('DISTINCT_PREFLIGHT_ROUTE_FROM_35EX13_17B_18')
+
+ng=audit['historical_gaussian_no_recharge']
+assert ng['overall_classification']=='DISTINCT_PREFLIGHT_ROUTE_NO_NEW_GAUSSIAN_CREDIT_YET'
+assert ng['stage35_ex_13']['classification']=='DISTINCT_OBJECT_AND_TEST_SCOPE_NOT_RECHARGEABLE'
+assert ng['stage35_ex_17B']['classification']=='DISTINCT_OBJECT_AND_SUPPORT_SCOPE_NOT_RECHARGEABLE'
+assert ng['stage35_ex_18']['classification']=='DISTINCT_PREFLIGHT_BEYOND_FROZEN_ORIENTATION_QUESTION'
+assert 'F_AB=A+iB' in ng['exact_new_test_not_previously_credited']
+assert 'F_AC=A+iC' in ng['exact_new_test_not_previously_credited']
+assert 'F_BC=B+iC' in ng['exact_new_test_not_previously_credited']
+assert len(ng['forbidden_recharges'])==7
+assert 'EQUIVALENT or BLOCKED' in ng['preflight_fail_close']
+
 ars=audit['arsenal_comparison']
 assert ars['matching_formal_gaussian_three_face_compatibility_card_found'] is False
 assert ars['matching_formal_endpoint_universal_torsor_card_found'] is False
@@ -134,7 +163,11 @@ sel=audit['selection']
 assert sel['cycle_route_status']=='BLOCKED_NEW_PATTERN_ISOLATED'
 assert sel['selected_candidate']=='E1-GAUSSIAN-THREE-FACE-COMPATIBILITY-DESCENT'
 assert sel['selected_next_unit']=='35EX-33_GAUSSIAN_THREE_FACE_COMPATIBILITY_PREFLIGHT'
+assert '35EX-13/17B/18' in sel['reason']
+assert 'cannot be recharged' in sel['reason']
 assert len(sel['next_unit_small_goals'])==5
+assert '35EX-13/17B/18' in sel['next_unit_small_goals'][3]
+assert 'EQUIVALENT/BLOCKED' in sel['next_unit_small_goals'][4]
 assert sel['split_triggered'] is False
 assert len(audit['preserved_untested_candidates'])==8
 exit_=audit['cycle_exit']
@@ -145,6 +178,8 @@ assert exit_['CYCLE_LIVE_CANDIDATES']==1
 assert exit_['CYCLE_UNTESTED_CANDIDATES']==8
 assert exit_['CYCLE_NEW_VIEW_SOURCE']=='BLIND'
 
+assert audit['claims']['historical_gaussian_no_recharge_comparison_complete'] is True
+assert audit['claims']['old_gaussian_orientation_credit_recharged'] is False
 claims=state['claims']
 assert claims['audited_primitive_source_population_reverse_adapter'] is True
 assert claims['audited_E1_endpoint_population_equivalence'] is True
@@ -155,4 +190,4 @@ for key in (
 ):
     assert claims[key] is False, key
 
-print('PASS STAGE35_EX_32_POST_POPULATION_EQUIVALENCE_BREADTH_AUDIT')
+print('PASS STAGE35_EX_32_POST_POPULATION_EQUIVALENCE_BREADTH_AUDIT_HISTORICAL_GAUSSIAN_REPAIRED')
