@@ -9,6 +9,8 @@ on:
       - 'stages/stage29/29-06/endpoint-hub-graph.json'
       - 'stages/stage29/29-06/source-crosswalk.md'
       - 'stages/stage29/29-02f/audit.md'
+      - 'stages/stage29/29-02f/route-contract.json'
+      - 'stages/stage29/29-02f/boundary-gersten-receiver.md'
       - 'stages/stage29/29-02f/open-algebraic-brauer-adapter.md'
       - 'stages/stage29/29-02ha/result.md'
       - 'stages/stage29/29-02ha/exact-sign-cover-model.md'
@@ -90,7 +92,10 @@ jobs:
       - name: Replay audited Stage36 36-09 breadth authority
         run: python3 stages/stage36/verify_stage36_36_09_audited.py
 
-      - name: Assert mechanical promotion boundary before 36-09A
+      - name: Verify Stage36 36-09A CAMP4 Brauer compatibility preflight
+        run: python3 stages/stage36/verify_stage36_36_09A.py
+
+      - name: Assert hostile-audit boundary before 36-09B
         shell: bash
         run: |
           set -euo pipefail
@@ -98,26 +103,29 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V13_36_09_AUDITED'
-          assert s['status']=='ACTIVE'
-          assert s['base_main_sha']=='05bc30f346e56ab5e13a54c6da6cab67f528fbaa'
-          u9=s['completed_units']['36-09']
-          assert u9['promotion_status']=='AUDITED'
-          assert u9['hostile_audit_review']==5118953320
-          assert u9['audited_head']=='2f9562775aa386fdc547c0f4dcf87c81abae3663'
-          assert u9['exact_head_ci_run']==33932204413
-          assert u9['exact_head_ci_job']==101212944063
-          assert u9['merged_main_sha']=='05bc30f346e56ab5e13a54c6da6cab67f528fbaa'
-          assert u9['certificate_blob_sha']=='0c6019d70346b531a9b703d6f74e346302273655'
-          assert u9['RECEIVER_MATCHED_REPLACEMENT_THEOREM_PROVED'] is False
-          assert s['stage36_36_09_authority']['verdict']=='PASS'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V14_36_09A_PENDING_HOSTILE_AUDIT'
+          assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
+          assert s['base_main_sha']=='5fa33e600b81fc34f4be9b22761c8079b31d7806'
+          assert s['stage36_36_09_promotion']['pr']==1578
+          assert s['stage36_36_09_promotion']['exact_head']=='7adf76985ad8e56487292f42c7681d9cdf9d821c'
+          assert s['stage36_36_09_promotion']['exact_head_ci_run']==33946402867
+          assert s['stage36_36_09_promotion']['exact_head_ci_job']==101253172465
+          assert s['stage36_36_09_promotion']['merged_main_sha']=='5fa33e600b81fc34f4be9b22761c8079b31d7806'
+          u=s['completed_units']['36-09A']
+          assert u['promotion_status']=='PROVISIONAL_NOT_AUDITED'
+          assert u['certificate_blob_sha']=='66f31c03e5a978783a60b036322538f173a2f411'
+          assert u['legal_outcome']=='BLOCKED_UPSTREAM_BR2A_BR2B_INCOMPLETE'
+          assert u['CAMP2_QFORM_OPEN_BRIDGE_EXACT'] is True
+          assert u['CAMP4_TO_CAMP2_BRAUER_COMPATIBILITY_PROVED'] is False
+          assert u['CAMP4_TO_CAMP2_BRAUER_INCOMPATIBILITY_PROVED'] is False
+          assert u['NEXT_ROUTE_AFTER_AUDIT']=='36-09B_RECEIVER_RESTRICTED_BRANCH_INTERSECTION_PREFLIGHT'
           assert s['current']['unit']=='36-09A'
           assert s['current']['36_06_entry_allowed'] is False
-          assert s['current']['36_09_entry_allowed'] is False
           assert s['current']['36_09A_entry_allowed'] is True
-          assert '36-09A' not in s['completed_units']
+          assert s['current']['36_09B_entry_allowed'] is False
+          assert '36-09B' not in s['completed_units']
           assert s['promotion_gates']['receiver_matched_replacement_theorem_proved'] is False
           assert s['promotion_gates']['R29_CAMP2_closed'] is False
           assert all(v is False for v in s['claims'].values())
-          print('36-09 audited authority promoted mechanically; 36-09A authorized but not started; no higher credit')
+          print('36-09A preflight blocked on upstream BR2A/BR2B; neither compatibility nor incompatibility claimed; 36-09B locked pending hostile audit')
           PY
