@@ -4,6 +4,7 @@ Reusable repository-wide research-process policies. Do not preload this director
 
 ## Trigger router
 
+- Context-heavy repository file inspection, unknown file size, encoded/compressed/minified/opaque payload, or permanent denylist hit -> `policies/context-safe-file-inspection.md`
 - Artifact-producing/heavy workflow design, revision, authorization, rerun, or diagnosis -> `policies/actions-storage-and-evidence-safety.md`
 - Research-credit promotion, revocation, hostile audit, or load-bearing semantic/adapter question -> `policies/research-credit-and-promotion-firewalls.md`
 - Existing weapon/evidence lookup or catalog maintenance -> `policies/repository-asset-discovery.md`

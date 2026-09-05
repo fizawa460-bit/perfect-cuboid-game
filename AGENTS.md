@@ -8,6 +8,16 @@ During ordinary Stage startup, do not preload Research OS. Follow the Stage-loca
 
 Repository discovery is search-first, not tree-first. **Never acquire a recursive/full repository tree, and never call a recursive tree endpoint (including `recursive=1`) for discovery, exhaustive enumeration, or as a fallback after any search miss. There is no Stage/task exception to this rule.** Fetch known paths directly; use GitHub search for filenames/paths and GitHub code search for terms, symbols, identifiers, or phrases; follow controller, roadmap, source-lock, certificate, index, or other authority references only to the exact targets needed for the active leaf. If exhaustive enumeration is genuinely required, use bounded/paginated targeted search, explicit non-recursive directory traversal, or a task-specific repository index instead; if those mechanisms cannot establish exhaustive coverage, stop and record that limitation rather than requesting a recursive/full tree. A search miss never proves repository-wide absence; broaden only under the active Stage/search policy.
 
+## Context-safe file inspection
+
+Before any whole-file read, establish byte size from metadata without reading the target contents. Unknown size is unsafe; files `>= 65536` bytes must not be whole-fetched into assistant/chat context. **Size alone is not sufficient:** generated, encoded, compressed, minified, binary-like, single-line, or opaque-payload files must be handled through compact repo-side loaders/adapters/verifiers or bounded structured output. Do not use line-range fetching to bypass this rule and never expand Base64/Base85/compressed retained payloads into context merely to inspect them.
+
+Permanent whole-fetch denylist:
+- `stages/stage33/33-07/picard_base_rows_retained.py`
+- `stages/stage33/33-07/stage32_picard_marking_retained.py`
+
+- **On-demand trigger:** open `docs/research-os/policies/context-safe-file-inspection.md` before inspecting a file when size/representation may be context-heavy, or whenever one of the denylisted files is relevant.
+
 ## Repo-wide Actions safety
 
 - Treat GitHub Actions artifact/storage capacity as a hard execution constraint. The repository operating budget is **500 MB** unless explicitly revised.
