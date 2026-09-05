@@ -11,7 +11,7 @@ CERT = ROOT / "stages/stage36/36-09J/reciprocal-two-linear-cover-preflight.json"
 STATE = ROOT / "stages/stage36/MAIN-STATE.json"
 
 SOURCE_BASE = "a1951b714e321aea1fc88cb806ed6796e4ce621a"
-PR_BASE = "7ce9edb2652a044fd6140e0f45b87026eefcf319"
+PR_BASE = "d761baa2d2d5e69479ef191041c5e2f017a50283"
 PARENT_PROMOTION = "fc5886d62b78d8dcb21824ff02419a3e3b7634c8"
 PARENT_STATE_BLOB = "c94c56ef18cd914fe0e89032bab182eb0c69d61d"
 PARENT_CERT_COMMIT = "476829b39679f4c380fe0458e37c28745e5f5621"
@@ -26,6 +26,9 @@ FRESHNESS_PATHS = {
     ".github/workflows/stage35-35-01-to-09-audit.yml",
     "stages/stage35-ex/MAIN-STATE.json",
     "stages/stage35-ex/verify_stage35_ex_v37_legacy_replay.py",
+    ".github/workflows/stage32-post1588-hperp-nonexceptional-mod2-preflight.yml",
+    "stages/stage32/residual-32-01-production/post1588-hperp-nonexceptional-mod2-witness.json",
+    "stages/stage32/residual-32-01-production/verify_stage32_post1617_freshness_repair.py",
 }
 
 
@@ -46,7 +49,6 @@ def changed(a: str, b: str) -> set[str]:
     return {p for p in out("diff", "--name-only", a, b).splitlines() if p}
 
 
-# Sparse Z-polynomials as tuples c_0 + c_1 Z + ... .
 def ztrim(p: tuple[int, ...]) -> tuple[int, ...]:
     q = list(p)
     while len(q) > 1 and q[-1] == 0:
@@ -73,7 +75,6 @@ def zpow(a: tuple[int, ...], n: int) -> tuple[int, ...]:
     return q
 
 
-# Sparse bivariate polynomials in Z,k for exact cross-multiplied identities.
 Bi = dict[tuple[int, int], int]
 
 
@@ -108,10 +109,10 @@ def main() -> None:
         "36-09J source base is not an ancestor")
     req(git("merge-base", "--is-ancestor", PR_BASE, "HEAD", check=False).returncode == 0,
         "36-09J current PR base is not an ancestor")
-    req(changed(SOURCE_BASE, PR_BASE) == FRESHNESS_PATHS,
-        f"36-09J source-to-PR-base freshness moved: {sorted(changed(SOURCE_BASE, PR_BASE))}")
+    actual_freshness = changed(SOURCE_BASE, PR_BASE)
+    req(actual_freshness == FRESHNESS_PATHS,
+        f"36-09J source-to-PR-base freshness moved: {sorted(actual_freshness)}")
 
-    # Immutable source locks.
     req(out("rev-parse", f"{SOURCE_BASE}:stages/stage36/MAIN-STATE.json") == PARENT_STATE_BLOB,
         "V31 parent state blob moved")
     req(out("rev-parse", f"{PARENT_CERT_COMMIT}:stages/stage36/36-09I/post-w01-breadth-refresh.json") == PARENT_CERT_BLOB,
@@ -132,7 +133,6 @@ def main() -> None:
     req(c["base_main_sha"] == SOURCE_BASE and c["parent_promotion_main_sha"] == PARENT_PROMOTION,
         "certificate source-base lock moved")
 
-    # Recompute the 36-09I X reconstruction identities exactly.
     one: Bi = {(0, 0): 1}
     Z: Bi = {(1, 0): 1}
     k2: Bi = {(0, 2): 1}
@@ -142,21 +142,17 @@ def main() -> None:
     P = badd(bscale(k2, 4), bscale(one, -1))
     Q = badd(bscale(k2, 16), bscale(a, -1))
     N = badd(bscale(bmul(k2, badd(Z, bscale(one, 6))), 2), bscale(Z, -1))
-    lhs_minus = badd(N, bscale(D, -2))
-    rhs_minus = bmul(badd(Z, two), P)
-    lhs_plus = badd(N, bscale(D, 2))
-    req(lhs_minus == rhs_minus, "X-2 cross-multiplied identity failed")
-    req(lhs_plus == Q, "X+2 cross-multiplied identity failed")
+    req(badd(N, bscale(D, -2)) == bmul(badd(Z, two), P), "X-2 cross-multiplied identity failed")
+    req(badd(N, bscale(D, 2)) == Q, "X+2 cross-multiplied identity failed")
 
     ec = c["exact_cover"]
     req(ec["model"] == ["C_Z: y1^2=P*D", "C_Z: y2^2=Q*D"], "cover model moved")
     req(ec["kummer_squareclasses"] == ["[P*D]", "[Q*D]", "[P*Q]"], "Kummer classes moved")
     req(ec["degree_over_k_line"] == 4, "cover degree moved")
 
-    # Recompute pairwise resultants using Res_k(A k^2+B, C k^2+D)=(A D-B C)^2.
-    zm6 = (-6, 1)  # Z-6
-    zp2 = (2, 1)   # Z+2
-    zm2 = (-2, 1)  # Z-2
+    zm6 = (-6, 1)
+    zp2 = (2, 1)
+    zm2 = (-2, 1)
     res_PD = zpow(zm6, 2)
     res_PQ = zscale(zpow(zm6, 2), 16)
     res_QD = zmul(zpow(zm6, 2), zpow(zp2, 2))
@@ -164,8 +160,6 @@ def main() -> None:
     req(res_PQ == (576, -192, 16), "Res(P,Q) recomputation failed")
     req(res_QD == zmul((36, -12, 1), (4, 4, 1)), "Res(Q,D) recomputation failed")
 
-    # Discriminant product identity Disc(fg)=Disc(f)Disc(g)Res(f,g)^2.
-    # Disc(P)=16, Disc(D)=4(Z-2), Disc(Q)=64(Z-2).
     disc_PD = zmul(zscale(zm2, 64), zpow(zm6, 4))
     disc_QD = zmul(zscale(zpow(zm2, 2), 256), zmul(zpow(zm6, 4), zpow(zp2, 4)))
     disc_PQ = zmul(zscale(zm2, 262144), zpow(zm6, 4))
@@ -176,15 +170,12 @@ def main() -> None:
     req(ba["generic_distinct_branch_points"] == 6 and ba["infinity_branch"] is False,
         "branch count/infinity status moved")
 
-    # Physical collision exclusion: Z=2 is boundary; 8 is not a rational square; -4 cannot be a rational square.
     req(math.isqrt(8) ** 2 != 8, "unexpected square test failure for 8")
     req(-4 < 0, "unexpected sign test failure for -4")
     pe = c["physical_collision_exclusion"]
     req("Z!=2" in pe["Z_eq_2"], "Z=2 boundary firewall moved")
     req("8" in pe["Z_eq_6"] and "-4" in pe["Z_eq_minus_2"], "physical collision explanations moved")
 
-    # Connected V4 cover: outside collision set, P*D has P-only branch points,
-    # Q*D has Q-only branch points, and P*Q has both, so all three classes are nontrivial.
     gc = c["genus_classification"]
     req(gc["connected_cover"] is True and gc["cover_degree"] == 4 and gc["branch_points"] == 6,
         "connected V4 cover classification moved")
