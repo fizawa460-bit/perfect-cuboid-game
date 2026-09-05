@@ -25,6 +25,12 @@ V58 remains the stable operational routing rule: Arsenal first, then repeatable 
 
 Do not preload Research OS. Open `docs/research-os/policies/repository-asset-discovery.md` only when the active `current_leaf_working_set` includes it or another explicit Research OS trigger applies.
 
+### Known retained-payload context hazard
+
+`stages/stage33/33-07/picard_base_rows_retained.py` contains an inline compressed retained Picard payload. Treat it as an **execution/source-lock asset**, not an ordinary read target. Do not fetch or paste the full file for startup, discovery, or adapter inspection. Prefer its exact consumers/adapters, certificate/hash metadata, source notes, or bounded metadata reads; when numerical contents are genuinely required, call its `load()` through repository execution and consume the structured result without expanding the encoded `PAYLOAD` into conversational context.
+
+Do not split/recompress/reformat this retained file during ordinary Stage33 MAIN work. Any structural decomposition must be a dedicated migration with a complete reference/source-lock audit and regenerated hashes/verifiers/certificates. Until such a migration is explicitly authorized and audited, the retained bytes are immutable.
+
 ## Promotion synchronization rule
 
 A new Stage33 exact frontier is not operationally promoted until the same change updates:
