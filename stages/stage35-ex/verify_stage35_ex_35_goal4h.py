@@ -20,7 +20,7 @@ assert state['schema'] == 'STAGE35_EX_PESCH_E1_STATE_V45_GOAL4H_VERTICAL_BRAUER_
 assert art['schema'] == 'STAGE35_EX_35_GOAL4H_VERTICAL_BRAUER_SOURCE_LOCK_PREFLIGHT_V1'
 assert art['stacked_on_pr'] == 1637
 assert art['provisional_parent_goal4g_snapshot'] == '8c96c43a3e39732f2c93cfa871855ccc96ff534e'
-assert art['live_stage33_revalidation']['main_sha'] == S33_SOURCE
+assert art['live_stage33_revalidation']['main_sha_checked'] == S33_SOURCE
 
 for needle in (
     'Maturity | **PROVISIONAL**','TORSOR_BRAUER_INTEGRAL_KERNEL_ADAPTER','exact common cocycle',
