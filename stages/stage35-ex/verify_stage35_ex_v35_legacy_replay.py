@@ -8,6 +8,7 @@ ROOT=Path(__file__).resolve().parents[2]
 STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
 V35='STAGE35_EX_PESCH_E1_STATE_V35_POST_35EX35_HOSTILE_AUDITED_GOAL4_READY'
 V34='STAGE35_EX_PESCH_E1_STATE_V34_POST_35EX34_HOSTILE_AUDITED_PRIVATE_GCD_PREFLIGHT'
+LIVE_BASE='2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc'
 SNAPSHOT='17c53d659e8d5d49b6e2bfca5c65c38a8658ac0d'
 OLD_ALLOWED={'base', *{str(i) for i in range(10,33)}, '32p', '33g1', '33g2', '33', '34'}
 ALLOWED=OLD_ALLOWED|{'35'}
@@ -18,7 +19,7 @@ target=sys.argv[1]
 
 real=json.loads(STATE.read_text())
 assert real['schema']==V35 and real['stage']=='35-EX' and real['status']=='ACTIVE_RESEARCH_NO_CREDIT'
-assert real['base_main_sha']==SNAPSHOT
+assert real['base_main_sha']==LIVE_BASE
 assert real['history_snapshot']['commit_sha']==SNAPSHOT
 assert real['history_snapshot']['schema']==V34
 assert real['history_snapshot']['history_dropped'] is False
