@@ -8,6 +8,23 @@ During ordinary Stage startup, do not preload Research OS. Follow the Stage-loca
 
 Repository discovery is search-first, not tree-first. **Never acquire a recursive/full repository tree, and never call a recursive tree endpoint (including `recursive=1`) for discovery, exhaustive enumeration, or as a fallback after any search miss. There is no Stage/task exception to this rule.** Fetch known paths directly; use GitHub search for filenames/paths and GitHub code search for terms, symbols, identifiers, or phrases; follow controller, roadmap, source-lock, certificate, index, or other authority references only to the exact targets needed for the active leaf. If exhaustive enumeration is genuinely required, use bounded/paginated targeted search, explicit non-recursive directory traversal, or a task-specific repository index instead; if those mechanisms cannot establish exhaustive coverage, stop and record that limitation rather than requesting a recursive/full tree. A search miss never proves repository-wide absence; broaden only under the active Stage/search policy.
 
+## Large-file / context-safety gate
+
+**Never whole-fetch or whole-open a repository file before checking its byte size from metadata.** This is a hard context-safety rule, not an optimization. Determine size without reading file contents: in a local clone use metadata commands such as `git cat-file -s <ref>:<path>` or `git ls-tree -l`; through GitHub use an immediate-parent directory listing or non-recursive tree metadata and inspect the entry's `size`. Do not fetch the target file itself merely to learn its size.
+
+- If byte size is unknown, treat the file as unsafe and do not whole-fetch it.
+- **Files >= 65536 bytes (64 KiB) must not be whole-fetched into assistant/chat context.** Use a repo-side script, import, hash check, exact locator, bounded structured output, or another compact adapter instead.
+- Generated, encoded, minified, compressed, vendored, binary-like, or opaque-payload files must not be whole-fetched when a compact adapter can answer the active question, even below the threshold.
+- A line-range request is **not** a valid safety preflight for a suspected encoded/minified/single-line payload: one logical line may contain the entire large object. Do not request a line that may contain such a payload.
+- When inspection is necessary, make the repository/runner perform the heavy read and emit only small deterministic JSON/text containing the required fields, ranks, hashes, witnesses, locators, or summaries.
+- Never expand Base64/Base85/compressed retained payloads into assistant context merely to inspect their contents.
+
+**Permanent whole-fetch denylist:**
+- `stages/stage33/33-07/picard_base_rows_retained.py`
+- `stages/stage33/33-07/stage32_picard_marking_retained.py`
+
+For these denylisted files, use their existing loaders/adapters, locked hashes/metadata, or a lightweight repo-side verifier. Do not whole-fetch them and do not use line-range fetching as a workaround.
+
 ## Repo-wide Actions safety
 
 - Treat GitHub Actions artifact/storage capacity as a hard execution constraint. The repository operating budget is **500 MB** unless explicitly revised.
