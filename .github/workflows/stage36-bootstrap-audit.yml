@@ -26,41 +26,31 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 0
-
       - name: Assert exact-head checkout
         shell: bash
         run: |
           set -euo pipefail
           expected="${{ github.event.pull_request.head.sha || github.sha }}"
           test "$(git rev-parse HEAD)" = "$expected"
-          echo "exact_head=$expected"
-
       - name: Assert current PR base lock
         if: github.event_name == 'pull_request'
         shell: bash
         run: |
-          set -euo pipefail
           expected="${{ github.event.pull_request.base.sha }}"
           python3 - "$expected" <<'PY'
           import json,sys
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['base_main_sha']==sys.argv[1], (s['base_main_sha'],sys.argv[1])
-          print('base_main_sha='+s['base_main_sha'])
+          assert s['base_main_sha']==sys.argv[1]
           PY
-
       - name: Assert PR base and immutable predecessor heads are ancestors
         shell: bash
         run: |
           set -euo pipefail
-          base="${{ github.event.pull_request.base.sha || '98764e37e408866386ef41cc526d830a6092462b' }}"
-          for x in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 2af6edb984e0c0a51e945f886939a09b442c3218 fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 1d29735f3f50c6918a32b2542de8364b86568396 ac5a7c81d3f268bebbc2a9de8e658b23c97d5649 6e0c40eeb7a533b47aba0d224c34e85822db373c f22d67dda4183c3bfd39710ebb4083f5185f3f49 631d773a0f341954507eacf303f0c5f7cbdc836a 51efa8394c45bc60a4b482c4f6f94f7826eb9d20; do
-            git merge-base --is-ancestor "$x" HEAD
-          done
-
-      - name: Save current V23 state
-        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v23.json
-
+          base="${{ github.event.pull_request.base.sha || '3b4b5969330ae89a41899598fbdf17e76be76f72' }}"
+          for x in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 2af6edb984e0c0a51e945f886939a09b442c3218 fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 1d29735f3f50c6918a32b2542de8364b86568396 ac5a7c81d3f268bebbc2a9de8e658b23c97d5649 6e0c40eeb7a533b47aba0d224c34e85822db373c f22d67dda4183c3bfd39710ebb4083f5185f3f49 631d773a0f341954507eacf303f0c5f7cbdc836a 51efa8394c45bc60a4b482c4f6f94f7826eb9d20 f75830b2fd54031c1af05e2377a9da365a4d7fdf; do git merge-base --is-ancestor "$x" HEAD; done
+      - name: Save current V24 state
+        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v24.json
       - name: Restore immutable 36-09A mathematical state
         run: git show d0f3de51b86cda9199a55e89757ae6887f572ea3:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
       - name: Replay Stage36 bootstrap authority
@@ -79,76 +69,68 @@ jobs:
         run: python3 stages/stage36/verify_stage36_36_09_audited.py
       - name: Replay immutable Stage36 36-09A mathematical preflight
         run: python3 stages/stage36/verify_stage36_36_09A.py
-
       - name: Restore exact V15 36-09A promotion state
         run: git show 2af6edb984e0c0a51e945f886939a09b442c3218:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-      - name: Replay Stage36 36-09A user-approved audited authority
+      - name: Replay Stage36 36-09A audited authority
         run: python3 stages/stage36/verify_stage36_36_09A_audited.py
-
       - name: Restore exact V16 36-09B mathematical state
         run: git show fd7b5d9dfef272bee2b6676797e6d12d8b07bde0:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-      - name: Replay Stage36 36-09B receiver-restricted branch preflight
+      - name: Replay Stage36 36-09B preflight
         run: python3 stages/stage36/verify_stage36_36_09B.py
-
       - name: Restore exact V17 36-09B promotion state
         run: git show 1d29735f3f50c6918a32b2542de8364b86568396:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-      - name: Replay Stage36 36-09B user-approved audited authority
+      - name: Replay Stage36 36-09B audited authority
         run: python3 stages/stage36/verify_stage36_36_09B_audited.py
-
       - name: Restore exact V18 36-09C mathematical state
         run: git show ac5a7c81d3f268bebbc2a9de8e658b23c97d5649:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-      - name: Replay Stage36 36-09C all-place local-solubility preflight
+      - name: Replay Stage36 36-09C preflight
         run: python3 stages/stage36/verify_stage36_36_09C.py
-
       - name: Restore exact V19 36-09C promotion state
         run: git show 6e0c40eeb7a533b47aba0d224c34e85822db373c:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-      - name: Replay Stage36 36-09C hostile-audited authority
+      - name: Replay Stage36 36-09C audited authority
         run: python3 stages/stage36/verify_stage36_36_09C_audited.py
-
       - name: Restore exact V20 36-09D mathematical state
         run: git show f22d67dda4183c3bfd39710ebb4083f5185f3f49:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-      - name: Replay Stage36 36-09D Q-defined pencil fibration preflight
+      - name: Replay Stage36 36-09D preflight
         run: python3 stages/stage36/verify_stage36_36_09D.py
-
       - name: Restore exact V21 36-09D promotion state
         run: git show 631d773a0f341954507eacf303f0c5f7cbdc836a:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-      - name: Replay Stage36 36-09D hostile-audited successor authority
+      - name: Replay Stage36 36-09D audited authority
         run: python3 stages/stage36/verify_stage36_36_09D_audited.py
-
       - name: Restore exact V22 36-09E mathematical state
         run: git show 51efa8394c45bc60a4b482c4f6f94f7826eb9d20:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-      - name: Replay Stage36 36-09E character elliptic quotient arithmetic preflight
+      - name: Replay Stage36 36-09E preflight
         run: python3 stages/stage36/verify_stage36_36_09E.py
-
-      - name: Restore current V23 state
-        run: cp /tmp/stage36-v23.json stages/stage36/MAIN-STATE.json
-      - name: Replay Stage36 36-09E hostile-audited successor authority
+      - name: Restore exact V23 36-09E promotion state
+        run: git show f75830b2fd54031c1af05e2377a9da365a4d7fdf:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
+      - name: Replay Stage36 36-09E audited authority
         run: python3 stages/stage36/verify_stage36_36_09E_audited.py
-
-      - name: Assert 36-09F ready-unstarted boundary
+      - name: Restore current V24 state
+        run: cp /tmp/stage36-v24.json stages/stage36/MAIN-STATE.json
+      - name: Verify Stage36 36-09F paired receiver preflight
+        run: python3 stages/stage36/verify_stage36_36_09F.py
+      - name: Assert hostile-audit boundary before 36-09G
         shell: bash
         run: |
-          set -euo pipefail
           python3 - <<'PY'
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V23_THIN_36_09E_AUDITED'
-          assert s['status']=='ACTIVE'
-          a=s['authority_frontier']['36-09E']
-          assert a['promotion_status']=='HOSTILE_AUDIT_PASS'
-          assert a['hostile_audit_review']==5120645782
-          assert a['audited_head']=='51efa8394c45bc60a4b482c4f6f94f7826eb9d20'
-          assert a['certificate_blob_sha']=='081b704fecaa3bd39e6a523ee7beaefe706683f4'
-          assert a['PHYSICAL_T1_ELIMINATED'] is True
-          assert a['NINE_TO_FOUR_LEGENDRE_TWIST_COLLAPSE'] is True
-          assert a['S34_W03_APPLICABILITY_MATCHED'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V24_36_09F_PENDING_HOSTILE_AUDIT'
+          assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
+          a=s['authority_frontier']['36-09F']
+          assert a['promotion_status']=='PROVISIONAL_NOT_AUDITED'
+          assert a['SQUARECLASS_MATRIX_RANK4'] is True
+          assert a['FOUR_PRODUCTS_IFF_FOUR_MOVING_LINES_SQUARE'] is True
+          assert a['PHYSICAL_BASE_PLUS_PAIRED_RECEIVER_IFF_FULL_SEVEN_LINE_LIFT'] is True
+          assert a['B6_STATUS']=='BLOCKED_BY_EXACT_ENDPOINT_EQUIVALENCE_NO_PROPER_RECEIVER_GAIN'
+          assert a['FRESH_BREADTH_AUDIT_REQUIRED'] is True
           assert a['S34_W03_INTERSECTION_EXCLUSION_EXECUTED'] is False
-          assert s['current']['unit']=='36-09F'
-          assert s['current']['next_exact_leaf']=='36-09F_PAIRED_LEGENDRE_RECEIVER_INTERSECTION_PREFLIGHT'
-          assert s['current']['36_09F_entry_allowed'] is True
-          assert s['promotion_gates']['paired_legendre_receiver_intersection_empty_proved'] is False
+          assert s['cycle_ledger']['counts']=={'live':0,'untested':4,'blocked':6,'dominated':1}
+          assert s['cycle_ledger']['fresh_breadth_audit_required_now'] is True
+          assert s['cycle_ledger']['fresh_EXHAUSTIVE_VIEW_AUDIT_after_36_09F'] is False
+          assert s['current']['36_09G_entry_allowed'] is False
           assert s['promotion_gates']['R29_CAMP2_closed'] is False
           assert all(v is False for v in s['claims'].values())
-          print('36-09E hostile-audited authority frozen; 36-09F ready-unstarted')
+          print('36-09F endpoint-equivalence block frozen; 36-09G breadth refresh locked pending hostile audit')
           PY
