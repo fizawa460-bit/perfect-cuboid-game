@@ -8,12 +8,12 @@ CERT=ROOT/'stages/stage36/36-09B/receiver-restricted-branch-intersection-preflig
 CERT_BLOB='da9143e587506522ed966d380d9980ff1875db0d'
 LEGACY_COMMIT='125504622b46e462bd5fe8d7016f18d59717d696'
 LEGACY_BLOB='96a25875ddc9e98f4261f2d494f38229bd354152'
+CURRENT_BASE='8211bb0ef80de61ecf39c3b97743c58f1193187a'
 SCHEMA='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V17_THIN_36_09B_AUDITED_USER_APPROVED'
 HEAD='fd7b5d9dfef272bee2b6676797e6d12d8b07bde0'
 CI_RUN=33952496327
 CI_JOB=101269772315
 AUDIT_REQUEST=5120319439
-MERGE=LEGACY_COMMIT
 LEGAL='BLOCKED_NO_PROOF_CAPABLE_B_PLUS_K_JOINT_TEST'
 
 def blob_bytes(b:bytes)->str:
@@ -49,11 +49,13 @@ def main()->None:
  req(oc.get('unit')=='36-09B' and oc.get('36_09C_entry_allowed') is False,'legacy hostile boundary moved')
 
  s=json.loads(STATE.read_text())
- req(s.get('schema')==SCHEMA and s.get('status')=='ACTIVE' and s.get('base_main_sha')==MERGE,'V17 lifecycle/base moved')
+ req(s.get('schema')==SCHEMA and s.get('status')=='ACTIVE' and s.get('base_main_sha')==CURRENT_BASE,'V17 lifecycle/base moved')
  ls=s.get('legacy_authority_snapshot',{})
  req(ls.get('commit')==LEGACY_COMMIT and ls.get('blob_sha')==LEGACY_BLOB,'V17 legacy snapshot lock moved')
+ fs=s.get('freshness_sync_36_09B_promotion',{})
+ req(fs.get('main_sha')==CURRENT_BASE and fs.get('advanced_from')==LEGACY_COMMIT,'36-09B promotion freshness sync moved')
  a=s.get('authority_frontier',{}).get('36-09B',{})
- expected={'status':'AUDITED_BLOCKED_NO_PROOF_CAPABLE_B_PLUS_K_JOINT_TEST_USER_APPROVED','pr':1584,'hostile_audit_request_review':AUDIT_REQUEST,'final_user_approved_head':HEAD,'exact_head_ci':f'{CI_RUN}/{CI_JOB}','certificate_blob_sha':CERT_BLOB,'merged_main_sha':MERGE,'legal_outcome':LEGAL,'S34_W03_EXECUTABLE_NOW':False,'verdict':'USER_APPROVED_PASS'}
+ expected={'status':'AUDITED_BLOCKED_NO_PROOF_CAPABLE_B_PLUS_K_JOINT_TEST_USER_APPROVED','pr':1584,'hostile_audit_request_review':AUDIT_REQUEST,'final_user_approved_head':HEAD,'exact_head_ci':f'{CI_RUN}/{CI_JOB}','certificate_blob_sha':CERT_BLOB,'merged_main_sha':LEGACY_COMMIT,'legal_outcome':LEGAL,'S34_W03_EXECUTABLE_NOW':False,'verdict':'USER_APPROVED_PASS'}
  req(a==expected,'36-09B user-approved authority block moved')
  req('hostile_audit_review' not in a,'36-09B falsely recorded hostile PASS')
  cyc=s.get('cycle_ledger',{})
@@ -68,6 +70,6 @@ def main()->None:
   req(g.get(k) is False,f'promotion gate leaked: {k}')
  req(all(v is False for v in s.get('claims',{}).values()),'V17 higher claim leaked')
  print('PASS STAGE36_36_09B_AUDITED_USER_APPROVED_SUCCESSOR_REPLAY')
- print(f'head={HEAD}; exact_head_ci={CI_RUN}/{CI_JOB}; merge={MERGE}; cert={CERT_BLOB}')
+ print(f'head={HEAD}; exact_head_ci={CI_RUN}/{CI_JOB}; authority_merge={LEGACY_COMMIT}; current_base={CURRENT_BASE}; cert={CERT_BLOB}')
  print('authority=USER_APPROVED_PASS; no hostile PASS fabricated; next=36-09C unstarted')
 if __name__=='__main__': main()
