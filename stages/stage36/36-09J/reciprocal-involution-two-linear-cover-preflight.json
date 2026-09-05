@@ -1,0 +1,152 @@
+{
+  "schema": "STAGE36_36_09J_RECIPROCAL_INVOLUTION_TWO_LINEAR_COVER_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09J",
+  "status": "PHYSICAL_FIBER_TOWER_GENUS_3_1_0_AND_GENUS_ONE_QUARTIC_ADAPTER_TARGET_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "d761baa2d2d5e69479ef191041c5e2f017a50283",
+  "entry_authority": {
+    "36_09I_promotion_pr": 1619,
+    "36_09I_promotion_exact_head": "4d7ed6339f59c4decd1511a3afb1b1b1b47fc824",
+    "36_09I_promotion_exact_head_ci": "33969650358/101315779849",
+    "36_09I_promotion_merged_main_sha": "fc5886d62b78d8dcb21824ff02419a3e3b7634c8",
+    "36_09I_hostile_reaudit_review": 5121286430,
+    "freshness_to_current_base": {
+      "compare_base": "fc5886d62b78d8dcb21824ff02419a3e3b7634c8",
+      "compare_head": "d761baa2d2d5e69479ef191041c5e2f017a50283",
+      "ahead_by": 3,
+      "scope": "Stage32 and Stage35-EX only; no Stage36, Arsenal, or Research OS source used by 36-09J changed"
+    }
+  },
+  "source_locks": {
+    "stage36_36_09I_audited_certificate": {
+      "path": "stages/stage36/36-09I/post-w01-breadth-refresh.json",
+      "blob_sha": "f9bf252f3be47f606a3b270961df3b5943fa1909"
+    },
+    "S31_W01": {
+      "path": "docs/arsenal/cards/formal/S31-W01.md",
+      "blob_sha": "122a6c1c5c871c1c7b797017e854de8ec55e7c50",
+      "role": "GENUS_ONE_QUARTIC_ELLIPTIC_BIRATIONAL_ADAPTER"
+    },
+    "cycle_exploration_safety_protocol": {
+      "path": "docs/research-os/policies/cycle-exploration-safety-protocol.md",
+      "blob_sha": "4e911c4fc7e4ea7a2b5f96733a90b986ef8d9a37"
+    },
+    "research_credit_and_promotion_firewalls": {
+      "path": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
+      "blob_sha": "7a3de0b2692afe4fb25b6825b31bd0384a118a41"
+    }
+  },
+  "input_reciprocal_receiver": {
+    "variables": {
+      "x": "q^2",
+      "X": "x+1/x",
+      "Z": "z+1/z"
+    },
+    "physical_Z_conditions": [
+      "Z-2 is a rational square",
+      "Z+2 is a rational square",
+      "Z!=2"
+    ],
+    "two_linear_factors": {
+      "G1": "X+Z",
+      "G2": "(Z-2)*X+2*(Z+6)"
+    },
+    "base_square_condition": "V^2=G1*G2"
+  },
+  "exact_cover_tower": {
+    "base_conic_C0": {
+      "model": "V^2=(X+Z)*((Z-2)*X+2*(Z+6))",
+      "polynomial_degree_in_X": 2,
+      "quadratic_discriminant": "(Z-6)^2*(Z+2)^2",
+      "genus_on_physical_Z": 0
+    },
+    "middle_quartic_C1": {
+      "coordinate": "x=q^2",
+      "A": "x^2+Z*x+1",
+      "B": "(Z-2)*x^2+2*(Z+6)*x+(Z-2)",
+      "model": "W^2=A*B",
+      "identities": [
+        "A=x*(X+Z)",
+        "B=x*((Z-2)*X+2*(Z+6))",
+        "A*B=x^2*G1*G2"
+      ],
+      "map_to_C0": {
+        "X": "x+1/x",
+        "V": "W/x",
+        "degree": 2,
+        "deck_involution": "(x,W)->(1/x,W/x^2)"
+      },
+      "factor_discriminants_and_resultant": {
+        "disc_A": "(Z-2)*(Z+2)",
+        "disc_B": "64*(Z+2)",
+        "resultant_A_B": "(Z-6)^2*(Z+2)^2"
+      },
+      "quartic_discriminant": "64*(Z-6)^4*(Z-2)*(Z+2)^6",
+      "genus_on_physical_Z": 1,
+      "rational_boundary_basepoint": {
+        "x": "1",
+        "W": "+/-2*(Z+2)",
+        "reason": "A(1)=Z+2 and B(1)=4*(Z+2)",
+        "physical_receiver_point_credit": false,
+        "boundary_reason": "x=1 gives X=2, excluded by the physical open condition"
+      }
+    },
+    "top_q_cover_C3": {
+      "coordinate": "q",
+      "model": "Y^2=A(q^2)*B(q^2)",
+      "degree_in_q": 8,
+      "map_to_C1": {
+        "x": "q^2",
+        "W": "Y",
+        "degree": 2,
+        "deck_involution": "q->-q"
+      },
+      "squarefree_reason": "the quartic A*B has four distinct nonzero roots on physical Z, so pullback by q^2 has eight distinct roots",
+      "genus_on_physical_Z": 3
+    },
+    "fiber_genus_sequence": [3, 1, 0],
+    "classification_scope": "fiberwise over every rational Z satisfying the retained physical Z conditions; no rational-point exhaustion is claimed"
+  },
+  "degeneracy_audit": {
+    "algebraic_bad_Z": ["-2", "2", "6"],
+    "physical_exclusions": {
+      "Z=-2": "Z-2=-4 cannot be a rational square",
+      "Z=2": "explicit physical boundary exclusion",
+      "Z=6": "Z+2=8 cannot be a rational square"
+    },
+    "all_algebraic_degeneracies_removed_on_physical_Z": true
+  },
+  "arsenal_routing": {
+    "S31_W01_type_match": true,
+    "S31_W01_triggered": false,
+    "why_not_triggered": "36-09J derives the exact smooth genus-one quartic family and a rational boundary basepoint, but has not yet produced an explicit elliptic Weierstrass model, forward and inverse rational maps, denominator audit, exceptional-locus accounting, or exact round-trip certificate required by S31-W01",
+    "S34_W01_retried": false,
+    "S34_W03_triggered": false,
+    "next_exact_leaf_after_hostile_audit": "36-09K_GENUS_ONE_QUARTIC_ELLIPTIC_ADAPTER_PREFLIGHT"
+  },
+  "cycle_ledger_update": {
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_EXACT_PHYSICAL_FIBER_TOWER_GENUS_3_1_0_WITH_GENUS_ONE_MIDDLE_ADAPTER_TARGET",
+    "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER": "UNTESTED_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER",
+    "C2_GAUSSIAN_NORM_COMPRESSION": "UNTESTED_DISTINCT_FROM_B7_NO_EXACT_EQUIVALENCE",
+    "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY": "UNTESTED_VARIABLE_PRIME_RECIPROCITY",
+    "counts": {"live": 1, "untested": 3, "blocked": 6, "dominated": 2},
+    "new_route_broadening_required": false,
+    "reason": "B3 remains LIVE and has gained an exact genus-one intermediate family; proceed within the same route before any new breadth cycle"
+  },
+  "scope_firewalls": {
+    "generic_cover_genera_classified": true,
+    "fiberwise_physical_genus_tower_classified": true,
+    "S31_W01_birational_adapter_triggered": false,
+    "explicit_elliptic_model_derived": false,
+    "quartic_rational_points_exhausted": false,
+    "top_genus3_rational_points_exhausted": false,
+    "receiver_emptiness_proved": false,
+    "quotient_Q_point_emptiness_proved": false,
+    "receiver_matched_replacement_theorem_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
