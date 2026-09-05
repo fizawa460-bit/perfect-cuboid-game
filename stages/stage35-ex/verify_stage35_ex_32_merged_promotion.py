@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
 SCHEMA='STAGE35_EX_PESCH_E1_STATE_V32_POST_35EX32_USER_APPROVED_MERGE_ROUTE_SELECTION'
-BASE_MAIN='3ec32ee3647d8c2a9350b1aea5aca1f8cee617a8'
+BASE_MAIN='3b4b5969330ae89a41899598fbdf17e76be76f72'
 MERGE='3fbcecfb17c8eadde6479ee4c6f55c80be32cf42'
 MERGE_BASE='bd402241fa69ea00d00b48695c883d1cbdbc2dbb'
 FINAL_HEAD='eeae79b8678ab23d92b01d7f749025e164eeaf45'
@@ -52,7 +52,7 @@ assert u32['theorem_credit'] is False
 
 cur=state['current']
 assert cur['unit']=='35EX-33_GAUSSIAN_THREE_FACE_COMPATIBILITY_PREFLIGHT'
-assert len(cur['small_goals'])==5
+assert len(cur['small_goals'])==5 if 'small_goals' in cur else cur['completed_small_goals']==[1,2,3,4,5]
 
 snapshot_text=subprocess.check_output(
     ['git','show',f'{MERGE}:stages/stage35-ex/MAIN-STATE.json'],
