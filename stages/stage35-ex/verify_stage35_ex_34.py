@@ -9,9 +9,10 @@ ROOT=Path(__file__).resolve().parents[2]
 STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
 BLIND=ROOT/'stages/stage35-ex/35ex-34/blind-post-gaussian-block-candidate-generation.json'
 AUDIT=ROOT/'stages/stage35-ex/35ex-34/post-gaussian-block-exhaustive-view-audit.json'
-SCHEMA='STAGE35_EX_PESCH_E1_STATE_V33_POST_35EX33_USER_APPROVED_ROUTE_BLOCKER'
+SCHEMA='STAGE35_EX_PESCH_E1_STATE_V33_POST_35EX33_HOSTILE_AUDITED_ROUTE_BLOCKER'
 BASE_MAIN='83a268c667a1217151ee9358bae710d73f39a0d3'
 PARENT_MERGE='e21378e59f7f1076a7ad71d34cee1fd0ac3a5cb3'
+PARENT_HOSTILE_REVIEW=5120722298
 BLIND_COMMIT='f80d0321549d120a6f4d8a0713ec1100fc4ca6e5'
 AUDIT_COMMIT='e073c322d52122de10791bb8174c62bd696bf037'
 
@@ -37,8 +38,8 @@ assert blind['blind_selection']['selection_is_final_before_history_comparison'] 
 assert audit['schema']=='STAGE35_EX_34_POST_GAUSSIAN_BLOCK_EXHAUSTIVE_VIEW_AUDIT_V1'
 assert audit['status']=='PROVISIONAL_FRESH_BREADTH_AUDIT_SELECT_PRIVATE_GCD_PREFLIGHT_NO_E1_CREDIT'
 parent=audit['parent_35ex33']
-assert parent['pr']==1598 and parent['pass_source']=='USER_APPROVED_PASS'
-assert parent['hostile_review_id'] is None
+assert parent['pr']==1598 and parent['pass_source']=='HOSTILE_AUDIT_PASS'
+assert parent['hostile_review_id']==PARENT_HOSTILE_REVIEW
 assert parent['exact_head_sha']=='2fa20cabe38bd4003187757921389f9623e6e260'
 assert parent['exact_head_ci_run']==33958273867 and parent['exact_head_ci_job']==101285448666
 assert parent['merge_sha']==PARENT_MERGE
@@ -100,10 +101,13 @@ assert exit_['CYCLE_SPLIT_TRIGGERED'] is False
 assert exit_['CYCLE_NEW_VIEW_SOURCE']=='BLIND'
 
 pa=state['parent_authority']
-assert pa['unit']=='35EX-33' and pa['audit_verdict']=='PASS_USER_APPROVED'
-assert pa['hostile_review_id'] is None
+assert pa['unit']=='35EX-33' and pa['audit_verdict']=='HOSTILE_AUDIT_PASS'
+assert pa['pass_source']=='HOSTILE_AUDIT_REVIEW'
+assert pa['hostile_review_id']==PARENT_HOSTILE_REVIEW
 assert pa['exact_head_sha']==parent['exact_head_sha'] and pa['merged_main_sha']==PARENT_MERGE
 assert pa['route_status']=='BLOCKED_NEW_PATTERN_ISOLATED'
+u33=state['completed_units_delta']['35EX-33']
+assert u33['audit_verdict']=='HOSTILE_AUDIT_PASS' and u33['hostile_review_id']==PARENT_HOSTILE_REVIEW
 u34=state['completed_units_delta']['35EX-34']
 assert u34['status']=='PROVISIONAL_FRESH_BREADTH_AUDIT_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT'
 assert u34['blind_rediscovery'] is True and u34['exhaustive_view_audit'] is True
@@ -137,6 +141,8 @@ assert cf['audited_35ex33_route_blocker_recorded'] is True
 for key in ('selected_private_gcd_route_theorem_credit','universal_torsor_constructed','finite_squareclass_receiver_obtained','E1_proved','R29_PESCH_E1_closed','R29_FIB2_closed','J12_PARAMETRIC_closed','stage35_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim'):
     assert cf[key] is False, key
 claims=state['claims']
+assert claims['35ex33_hostile_audit_pass'] is True
+assert claims['35ex33_hostile_review_id']==PARENT_HOSTILE_REVIEW
 for key in ('universal_torsor_constructed','finite_squareclass_receiver_obtained','E1_proved','R29_PESCH_E1_closed','R29_FIB2_closed','J12_PARAMETRIC_closed','stage35_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim'):
     assert claims[key] is False, key
 
