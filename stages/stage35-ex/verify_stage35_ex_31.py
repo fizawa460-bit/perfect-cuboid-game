@@ -11,7 +11,8 @@ DOC=ROOT/'stages/stage35-ex/35ex-31/primitive-source-marking-endpoint-equivalenc
 CERT=ROOT/'stages/stage35-ex/35ex-31/primitive-source-marking-certificate.json'
 
 SCHEMA='STAGE35_EX_PESCH_E1_STATE_V30_POST_35EX31_PRIMITIVE_SOURCE_MARKING_ENDPOINT_EQUIVALENCE'
-MAIN='3d63864b0a10a53549f64a9e0dc3acf6f59ef9c0'
+BASE_MAIN='05c229420a7c73886fedbece2d746b36ed3d91d5'
+HISTORY_MAIN='3d63864b0a10a53549f64a9e0dc3acf6f59ef9c0'
 AUDITED_HEAD='00d6199c0df611b0606b15b8a46897629363cb10'
 REVIEW_NODE='PRR_kwDOTr52Y88AAAABMS_hqA'
 
@@ -24,9 +25,9 @@ cert=json.loads(CERT.read_text())
 doc=DOC.read_text()
 
 assert state['schema']==SCHEMA and state['stage']=='35-EX' and state['status']=='ACTIVE_RESEARCH_NO_CREDIT'
-assert state['base_main_sha']==MAIN
+assert state['base_main_sha']==BASE_MAIN
 hs=state['history_snapshot']
-assert hs['commit_sha']==MAIN
+assert hs['commit_sha']==HISTORY_MAIN
 assert hs['schema']=='STAGE35_EX_PESCH_E1_STATE_V29_POST_35EX30_ENDPOINT_GAUGE_RETURN_FIREWALL'
 assert hs['role']=='IMMUTABLE_COMPLETE_V29_HISTORY_AND_AUTHORITY_SNAPSHOT'
 assert hs['history_dropped'] is False
@@ -40,7 +41,7 @@ assert parent['pass_source']=='HOSTILE_AUDIT_REVIEW_ON_PR1581'
 assert parent['hostile_audit_review_node_id']==REVIEW_NODE
 assert parent['audited_head_sha']==AUDITED_HEAD
 assert parent['exact_head_ci_run']==33950151293 and parent['exact_head_ci_job']==101263267837
-assert parent['merged_main_sha']==MAIN
+assert parent['merged_main_sha']==HISTORY_MAIN
 assert parent['audited_theorem_credit'] is False
 
 delta=state['completed_units_delta']
@@ -67,7 +68,7 @@ assert cur['next_if_audited_pass']=='FRESH_EXHAUSTIVE_VIEW_AUDIT_REQUIRED_BEFORE
 assert cert['schema']=='STAGE35_EX_31_PRIMITIVE_SOURCE_MARKING_ENDPOINT_EQUIVALENCE_CERTIFICATE_V1'
 assert cert['authority']['audited_exact_head_sha']==AUDITED_HEAD
 assert cert['authority']['hostile_audit_review_node_id']==REVIEW_NODE
-assert cert['authority']['merged_main_sha']==MAIN
+assert cert['authority']['merged_main_sha']==HISTORY_MAIN
 for key in (
     'stage35_ex_02_gcd_parity','stage35_ex_19_source_normalization',
     'stage35_ex_21_endpoint_surface','stage35_ex_26_source_quotient',
