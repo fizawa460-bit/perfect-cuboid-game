@@ -1,0 +1,109 @@
+{
+  "schema": "STAGE35_EX_28B_POST_FULL_RATIONAL_SOURCE_KUMMER_FRESH_BREADTH_AUDIT_V1",
+  "stage": "35-EX",
+  "status": "PROVISIONAL_FRESH_BREADTH_AUDIT_NO_CREDIT",
+  "trigger": "HOSTILE_AUDITED_35EX28_FULL_K1_K4_RECEIVER_REQUIRES_FRESH_EXHAUSTIVE_VIEW_AUDIT",
+  "authority": {
+    "unit": "35EX-28",
+    "hostile_audit_verdict": "PASS",
+    "pass_source": "HOSTILE_AUDIT_REVIEW_ON_PR1576",
+    "hostile_audit_review_node_id": "PRR_kwDOTr52Y88AAAABMR185Q",
+    "audited_exact_head_sha": "908047d41b3f856cb5e6083793fb4815666b64b3",
+    "exact_head_ci_run": 33932898366,
+    "exact_head_ci_job": 101215004429,
+    "merged_main_sha": "0ebf2cfec83a39b016f61b996a0dd533d242de87"
+  },
+  "protocol": {
+    "fresh_exhaustive_view_audit": true,
+    "blind_rediscovery": true,
+    "blind_generation_performed_before_arsenal_comparison": true,
+    "historical_block_ledger_comparison_after_blind_generation": true,
+    "arsenal_index_checked_after_blind_generation": true,
+    "no_successor_selected_before_breadth_audit": true
+  },
+  "active_receiver": {
+    "coordinates": "A=alpha^2, K1 u(A,beta), K2 b^2=(A*beta+1)/(A+beta), K3 kappa^2=(beta-A)(A*beta-1), K4 lambda^2=(beta^2-1)(A^2*beta^2-1)",
+    "positive_order": "1 < (A^2+1)/(2*A) < b^2 < A < beta",
+    "status": "AUDITED_FULL_RATIONAL_SOURCE_K1_K4_RECEIVER_NO_CLOSURE"
+  },
+  "blind_rediscovery": {
+    "input_object": "exact K1-K4 receiver only; Arsenal route recommendations withheld during generation",
+    "generated_candidates": [
+      {
+        "id": "E1-RECIPROCAL-COMMON-FACTOR-KUMMER-COMPRESSION",
+        "status_before_comparison": "LIVE",
+        "reason": "eliminate beta through K2 by s=b^2; K3 and K4 acquire a shared linear factor, so the exact full receiver may compress to two explicit square equations over the reciprocal branch set {0,infinity,+/-1,c,1/c}"
+      },
+      {
+        "id": "E1-DESCENDED-RECEIVER-JOINT-LOCAL-CLASSIFICATION",
+        "status_before_comparison": "LIVE",
+        "reason": "K1-K4 are finally complete, so exact receiver-restricted local intersection tests are now logically sound"
+      },
+      {
+        "id": "E1-K1-K4-CHARACTER-QUOTIENT-RECOMPOSITION",
+        "status_before_comparison": "UNTESTED",
+        "reason": "the simultaneous square system can be viewed again as a multiquadratic cover and decomposed by deck characters"
+      },
+      {
+        "id": "E1-UNIFORM-ELLIPTIC-SURFACE-SPECIALIZATION-HEIGHT",
+        "status_before_comparison": "UNTESTED",
+        "reason": "moving genus-one factors remain and a genuinely uniform surface theorem could still close them"
+      },
+      {
+        "id": "E1-NONOBVIOUS-BRAUER-FROM-ELLIPTIC-FIBRATION",
+        "status_before_comparison": "UNTESTED",
+        "reason": "35EX-22 killed only the obvious boundary-symbol span, not all non-obvious Brauer classes"
+      }
+    ]
+  },
+  "historical_comparison": {
+    "E1-K1-K4-CHARACTER-QUOTIENT-RECOMPOSITION": "EQUIVALENT_AS_STANDALONE_ROUTE_TO_AUDITED_35EX23_24_CHARACTER_AND_ISOGENY_PACKAGE; no new five-elliptic credit",
+    "E1-PAIRED-KUMMER-ELLIPTIC-CORRESPONDENCE": "DOMINATED_AS_NEXT_GATE_BY_COMMON_FACTOR_COMPRESSION; the post-28 pair should first be simplified jointly rather than treated as independent quartics",
+    "E1-DESCENDED-RECEIVER-JOINT-LOCAL-CLASSIFICATION": "PRESERVED_LIVE_BUT_DOWNSTREAM_OF_EXACT_ALGEBRAIC_COMPRESSION",
+    "E1-UNIFORM-ELLIPTIC-SURFACE-SPECIALIZATION-HEIGHT": "PRESERVED_UNTESTED",
+    "E1-NONOBVIOUS-BRAUER-FROM-ELLIPTIC-FIBRATION": "PRESERVED_UNTESTED"
+  },
+  "arsenal_comparison": {
+    "performed_after_blind_generation": true,
+    "registry_path": "docs/arsenal/index.json",
+    "S34-W03": {
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96",
+      "decision": "ROUTER_ONLY_AFTER_EXACT_COMPRESSION",
+      "reason": "receiver-restricted intersection exclusion is applicable to the compressed joint system but supplies no obstruction by itself"
+    },
+    "S31-W01": "FIBERWISE_BIRATIONAL_ROUTER_ONLY_NO_UNIFORM_CLOSURE",
+    "S34-W02": "LOCKED_NO_CERTIFIED_UNIFORM_FULL_MW_GROUP",
+    "matching_formal_common_factor_kummer_compression_card_found": false,
+    "stage34_concrete_coefficients_branches_and_local_primes_transfer": false
+  },
+  "selection": {
+    "selected_candidate": "E1-RECIPROCAL-COMMON-FACTOR-KUMMER-COMPRESSION",
+    "selected_next_unit": "35EX-29_RECIPROCAL_COMMON_FACTOR_KUMMER_COMPRESSION_OR_JOINT_LOCAL_FIREWALL",
+    "reason": "it is an exact, source-internal algebraic reduction that strictly simplifies the complete K1-K4 receiver before any local/global test; it also prevents duplicate five-elliptic rediscovery"
+  },
+  "preserved_untested_candidates": [
+    "E1-DESCENDED-RECEIVER-JOINT-LOCAL-CLASSIFICATION",
+    "E1-UNIFORM-ELLIPTIC-SURFACE-SPECIALIZATION-HEIGHT",
+    "E1-NONOBVIOUS-BRAUER-FROM-ELLIPTIC-FIBRATION"
+  ],
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "CYCLE_ACTIVE_RECEIVER": "AUDITED_FULL_RATIONAL_SOURCE_K1_K4_RECEIVER",
+    "CYCLE_LIVE_CANDIDATES": 2,
+    "CYCLE_UNTESTED_CANDIDATES": 3,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "K2 elimination exposes a reciprocal common-factor two-square normalization of K3+K4",
+    "CYCLE_NEW_VIEW_SOURCE": "BLIND"
+  },
+  "claims": {
+    "new_theorem_credit": false,
+    "E1_proved": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

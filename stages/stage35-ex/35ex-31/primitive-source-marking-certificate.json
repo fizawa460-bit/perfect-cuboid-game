@@ -1,0 +1,135 @@
+{
+  "schema": "STAGE35_EX_31_PRIMITIVE_SOURCE_MARKING_ENDPOINT_EQUIVALENCE_CERTIFICATE_V1",
+  "stage": "35-EX",
+  "unit": "35EX-31",
+  "status": "PROVISIONAL_NO_CREDIT",
+  "authority": {
+    "parent_unit": "35EX-30",
+    "hostile_audit_verdict": "PASS",
+    "pass_source": "HOSTILE_AUDIT_REVIEW_ON_PR1581",
+    "hostile_audit_review_node_id": "PRR_kwDOTr52Y88AAAABMS_hqA",
+    "audited_exact_head_sha": "00d6199c0df611b0606b15b8a46897629363cb10",
+    "exact_head_ci_run": 33950151293,
+    "exact_head_ci_job": 101263267837,
+    "merged_main_sha": "3d63864b0a10a53549f64a9e0dc3acf6f59ef9c0"
+  },
+  "source_locks": {
+    "stage35_ex_02_gcd_parity": {
+      "path": "stages/stage35-ex/35ex-02/canonical-gcd-and-2adic-lemma.md",
+      "blob_sha": "9df24c83ed23e5d13397a2971706a5ac7def9461"
+    },
+    "stage35_ex_19_source_normalization": {
+      "path": "stages/stage35-ex/35ex-19/receiver-specific-genusone-family-blocker.md",
+      "blob_sha": "01434b7d68f2c7cff0991671b9c14a0a3855d89d"
+    },
+    "stage35_ex_21_endpoint_surface": {
+      "path": "stages/stage35-ex/35ex-21/global-normalized-cuboid-surface-and-genus5-fibration.md",
+      "blob_sha": "6a8d8c71d50d9667330badca914a8967b4f87577"
+    },
+    "stage35_ex_26_source_quotient": {
+      "path": "stages/stage35-ex/35ex-26/base-involution-receiver-descent.md",
+      "blob_sha": "09be1e8edf30052750e68d04ea21821b8ffdb794"
+    },
+    "stage35_ex_27_rational_lift": {
+      "path": "stages/stage35-ex/35ex-27/rational-source-lift-kummer-normal-form.md",
+      "blob_sha": "0c2e2ae3aa9624e6022ef02d5ede2f4ede303b1f"
+    },
+    "stage35_ex_30_endpoint_gauge": {
+      "path": "stages/stage35-ex/35ex-30/endpoint-gauge-return-firewall.md",
+      "blob_sha": "e6db9d64941faafa8c906389f99ec3089e425576"
+    },
+    "arsenal_S30_WF03": {
+      "path": "docs/arsenal/cards/workflows/S30-WF03.md",
+      "blob_sha": "12740198aba19ade18302819f8e890dbda4eb701"
+    },
+    "arsenal_S34_W03": {
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96"
+    }
+  },
+  "source_endpoint": {
+    "x": "V1/U1",
+    "y": "V2/U2",
+    "d1": "W1/U1",
+    "d2": "W2/U2",
+    "equations": [
+      "d1^2=1+x^2",
+      "d2^2=1+y^2",
+      "d3^2=x^2+y^2",
+      "d4^2=1+x^2+y^2"
+    ],
+    "source_parity": ["v2(x)>0", "v2(y)>0"],
+    "master_v2_dichotomy": "v2(x)!=v2(y)"
+  },
+  "source_to_late_kummer": {
+    "alpha": "(d4+y)/d1",
+    "b": "(d2+d3)/(x+1)",
+    "c": "(d2^2+d3^2)/d1^2",
+    "omega_square": "((d2+d3)/(x-1))^2",
+    "x_equal_1_excluded": true
+  },
+  "branchwise_35ex30_label_map": {
+    "x_gt_1": {
+      "X": "x",
+      "Y": "y",
+      "D1": "d1",
+      "D2": "d2",
+      "D3": "d3",
+      "D4": "d4"
+    },
+    "x_lt_1": {
+      "X": "1/x",
+      "Y": "y/x",
+      "D1": "d1/x",
+      "D2": "d3/x",
+      "D3": "d2/x",
+      "D4": "d4/x"
+    },
+    "first_edge_swap_only": true
+  },
+  "v2_marking_on_35ex30_gauge": {
+    "branch_A": "v2(X)>0 and v2(Y)>0",
+    "branch_B": "v2(X)<0 and v2(Y)>v2(X)",
+    "equivalent_statement": "the unique minimum among v2(1),v2(X),v2(Y) is not the Y edge",
+    "source_reconstruction_A": "x=X,y=Y",
+    "source_reconstruction_B": "x=1/X,y=Y/X"
+  },
+  "reverse_adapter": {
+    "marked_endpoint_to_two_primitive_euclid_triples": true,
+    "marked_endpoint_to_master_hit": true,
+    "marked_endpoint_to_E1_counterexample": true,
+    "canonical_g0_and_h_reconstructed": true,
+    "primitive_source_population_reverse_adapter_provisional": true
+  },
+  "canonical_gcd_sections": {
+    "c0": "gcd(U1,U2)",
+    "p0": "gcd(W1,V2)",
+    "q0": "gcd(V1,V2)",
+    "g0": "c0*p0",
+    "h": "c0*q0",
+    "master_section_primitive": "((V1*U2)/h,(U1*V2)/h,M0/h)",
+    "E1_section_primitive": "((W1*U2)/g0,(U1*V2)/g0,E0/g0)"
+  },
+  "endpoint_population": {
+    "rational_face_diagonals_force_pairwise_distinct_edge_v2": true,
+    "unique_minimum_v2_edge": true,
+    "minimum_edge_normalization_satisfies_source_marking": true,
+    "source_marking_reduces_unlabeled_endpoint_population": false,
+    "population_equivalence_provisional": "Stage35 E1 counterexamples/source-pair-swap <=> positive rational perfect cuboids/positive-scaling-and-edge-permutation"
+  },
+  "cycle": {
+    "new_structural_information": true,
+    "fresh_breadth_audit_required_after_hostile_pass": true,
+    "successor_selected": false
+  },
+  "firewall": {
+    "audited_adapter_credit": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
