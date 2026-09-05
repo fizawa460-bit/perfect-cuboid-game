@@ -182,7 +182,7 @@ def main() -> None:
             "surviving_residues_decimal": [73, 97, 235],
         },
     }
-    print(json.dumps(result, sort_keys=True, separators=(",", ",")))
+    print(json.dumps(result, sort_keys=True, separators=(",", ":")))
 
 
 if __name__ == "__main__":
