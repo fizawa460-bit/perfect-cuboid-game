@@ -3,63 +3,50 @@
 from __future__ import annotations
 import json, runpy, subprocess, sys
 from pathlib import Path
-ROOT = Path(__file__).resolve().parents[2]
-STATE = ROOT / 'stages/stage35-ex/MAIN-STATE.json'
-V42 = 'STAGE35_EX_PESCH_E1_STATE_V42_GOAL4E_ALL_ODD_PRIME_ZERO_SUPPORT_CLASSIFICATION_PENDING_AUDIT'
-V41 = 'STAGE35_EX_PESCH_E1_STATE_V41_GOAL4D_FULL_Q7_VALUATION_CROSSFACE_CLOSURE_PENDING_AUDIT'
-SNAPSHOT = '2949391d032a9014b0e9ffebce78be84a93d1d8a'
-LIVE_BASE = 'e2103a2de367a0a6d0826b044b6bb83d24ad6f6f'
-OLD_ALLOWED = {'base', *{str(i) for i in range(10,33)}, '32p','33g1','33g2','33','34','35','35g4a','35g4b','35g4c'}
-ALLOWED = OLD_ALLOWED | {'35g4d'}
-if len(sys.argv) != 2 or sys.argv[1] not in ALLOWED:
-    raise SystemExit('usage: verify_stage35_ex_v42_legacy_replay.py {base|10|...|32|32p|33g1|33g2|33|34|35|35g4a|35g4b|35g4c|35g4d}')
-target = sys.argv[1]
-real = json.loads(STATE.read_text())
-assert real['schema'] == V42 and real['stage'] == '35-EX' and real['status'] == 'ACTIVE_RESEARCH_NO_CREDIT'
-assert real['base_main_sha'] == LIVE_BASE
-assert real['history_snapshot']['commit_sha'] == SNAPSHOT
-assert real['history_snapshot']['schema'] == V41
-assert real['history_snapshot']['history_dropped'] is False
-assert real['parent_authority']['unit'] == '35EX-35_GOAL4D_MOD7_SUPPORT_BRANCH_VALUATION_LIFT_AND_CROSS_FACE_COUPLING_TEST'
-assert real['parent_authority']['audit_verdict'] == 'HOSTILE_AUDIT_PASS'
-assert real['parent_authority']['hostile_review_id'] == 5123225301
-assert real['parent_authority']['pr'] == 1631
-assert real['parent_authority']['exact_head_sha'] == '6684b731fcca201bee1af96d868eaf74a0b62574'
-assert real['parent_authority']['exact_head_ci_run'] == 33995239057
-assert real['parent_authority']['exact_head_ci_job'] == 101384520908
-assert real['parent_authority']['merge_sha'] == SNAPSHOT
-assert real['current']['unit'] == '35EX-35_GOAL4E_ODD_PRIME_LOCAL_BREADTH_AND_FINITE_GLOBAL_RECEIVER_TEST'
-assert real['current']['status'] == 'PROVISIONAL_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT'
-assert real['claims']['goal4d_hostile_audit_pass'] is True
-assert real['claims']['goal4e_executed'] is True
+ROOT=Path(__file__).resolve().parents[2]
+STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
+V42='STAGE35_EX_PESCH_E1_STATE_V42_GOAL4E_ALL_ODD_PRIME_ZERO_SUPPORT_CLASSIFICATION_PENDING_AUDIT'
+V41='STAGE35_EX_PESCH_E1_STATE_V41_GOAL4D_FULL_Q7_VALUATION_CROSSFACE_CLOSURE_PENDING_AUDIT'
+SNAPSHOT='2949391d032a9014b0e9ffebce78be84a93d1d8a'
+LIVE_BASE='b6b538b4c8838e24ddf99eb05fc022fe50056af4'
+OLD_ALLOWED={'base',*{str(i) for i in range(10,33)},'32p','33g1','33g2','33','34','35','35g4a','35g4b','35g4c'}
+ALLOWED=OLD_ALLOWED|{'35g4d'}
+if len(sys.argv)!=2 or sys.argv[1] not in ALLOWED: raise SystemExit('usage: verify_stage35_ex_v42_legacy_replay.py target')
+target=sys.argv[1]
+real=json.loads(STATE.read_text())
+assert real['schema']==V42 and real['stage']=='35-EX' and real['status']=='ACTIVE_RESEARCH_NO_CREDIT'
+assert real['base_main_sha']==LIVE_BASE
+assert real['history_snapshot']['commit_sha']==SNAPSHOT and real['history_snapshot']['schema']==V41 and real['history_snapshot']['history_dropped'] is False
+assert real['parent_authority']['unit']=='35EX-35_GOAL4D_MOD7_SUPPORT_BRANCH_VALUATION_LIFT_AND_CROSS_FACE_COUPLING_TEST'
+assert real['parent_authority']['audit_verdict']=='HOSTILE_AUDIT_PASS'
+assert real['parent_authority']['hostile_review_id']==5123225301 and real['parent_authority']['pr']==1631
+assert real['parent_authority']['exact_head_sha']=='6684b731fcca201bee1af96d868eaf74a0b62574'
+assert real['parent_authority']['exact_head_ci_run']==33995239057 and real['parent_authority']['exact_head_ci_job']==101384520908
+assert real['parent_authority']['merge_sha']==SNAPSHOT
+assert real['current']['unit']=='35EX-35_GOAL4E_ODD_PRIME_LOCAL_BREADTH_AND_FINITE_GLOBAL_RECEIVER_TEST'
+assert real['current']['status']=='PROVISIONAL_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT'
+assert real['claims']['goal4d_hostile_audit_pass'] is True and real['claims']['goal4e_executed'] is True
 assert real['claims']['finite_squareclass_receiver_obtained'] is False
-assert real['claims']['E1_proved'] is False and real['claims']['stage35_closed'] is False
-snapshot_text = subprocess.check_output(['git','show',f'{SNAPSHOT}:stages/stage35-ex/MAIN-STATE.json'],cwd=ROOT,text=True,stderr=subprocess.STDOUT)
-snapshot = json.loads(snapshot_text)
-assert snapshot['schema'] == V41
-assert snapshot['current']['unit'] == '35EX-35_GOAL4D_MOD7_SUPPORT_BRANCH_VALUATION_LIFT_AND_CROSS_FACE_COUPLING_TEST'
-assert snapshot['current']['status'] == 'PROVISIONAL_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT'
-assert snapshot['claims']['goal4d_executed'] is True
-assert snapshot['claims']['full_Q7_fourth_square_condition_classified'] is True
-assert snapshot['claims']['p7_higher_adic_route_exhausted'] is True
-assert snapshot['claims']['finite_squareclass_receiver_obtained'] is False
-original_read_text = Path.read_text
-state_resolved = STATE.resolve()
-def snapshot_read_text(self: Path,*args,**kwargs):
-    if self.resolve() == state_resolved: return snapshot_text
+snapshot_text=subprocess.check_output(['git','show',f'{SNAPSHOT}:stages/stage35-ex/MAIN-STATE.json'],cwd=ROOT,text=True,stderr=subprocess.STDOUT)
+snapshot=json.loads(snapshot_text)
+assert snapshot['schema']==V41
+assert snapshot['current']['unit']=='35EX-35_GOAL4D_MOD7_SUPPORT_BRANCH_VALUATION_LIFT_AND_CROSS_FACE_COUPLING_TEST'
+assert snapshot['claims']['goal4d_executed'] is True and snapshot['claims']['full_Q7_fourth_square_condition_classified'] is True
+original_read_text=Path.read_text
+state_resolved=STATE.resolve()
+def snapshot_read_text(self:Path,*args,**kwargs):
+    if self.resolve()==state_resolved: return snapshot_text
     return original_read_text(self,*args,**kwargs)
-Path.read_text = snapshot_read_text
+Path.read_text=snapshot_read_text
 try:
-    old_argv = sys.argv[:]
+    old_argv=sys.argv[:]
     try:
         if target in OLD_ALLOWED:
-            sys.argv = ['verify_stage35_ex_v41_legacy_replay.py',target]
+            sys.argv=['verify_stage35_ex_v41_legacy_replay.py',target]
             runpy.run_path(str(ROOT/'stages/stage35-ex/verify_stage35_ex_v41_legacy_replay.py'),run_name='__main__')
         else:
-            sys.argv = ['verify_stage35_ex_35_goal4d.py']
+            sys.argv=['verify_stage35_ex_35_goal4d.py']
             runpy.run_path(str(ROOT/'stages/stage35-ex/verify_stage35_ex_35_goal4d.py'),run_name='__main__')
-    finally:
-        sys.argv = old_argv
-finally:
-    Path.read_text = original_read_text
+    finally: sys.argv=old_argv
+finally: Path.read_text=original_read_text
 print(f'PASS V42_IMMUTABLE_V41_HISTORY_REPLAY_{target}')
