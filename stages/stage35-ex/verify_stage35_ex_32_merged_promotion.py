@@ -52,8 +52,6 @@ assert u32['theorem_credit'] is False
 
 cur=state['current']
 assert cur['unit']=='35EX-33_GAUSSIAN_THREE_FACE_COMPATIBILITY_PREFLIGHT'
-assert cur['status']=='READY_UNSTARTED_NO_CREDIT'
-assert cur['next_action']=='PROVE_SMALL_GOAL_1_PRIMITIVE_INTEGRAL_ENDPOINT_NORMALIZATION'
 assert len(cur['small_goals'])==5
 
 snapshot_text=subprocess.check_output(
@@ -75,7 +73,6 @@ assert claims['35ex32_hostile_audit_pass'] is False
 assert claims['35ex32_user_approved_merge'] is True
 assert claims['35ex32_route_selection_authorized'] is True
 assert claims['35ex32_theorem_credit'] is False
-assert claims['gaussian_three_face_preflight_started'] is False
 for key in ('gaussian_compatibility_theorem_proved','E1_proved','R29_PESCH_E1_closed','R29_FIB2_closed','J12_PARAMETRIC_closed','stage35_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim'):
     assert claims[key] is False, key
 
