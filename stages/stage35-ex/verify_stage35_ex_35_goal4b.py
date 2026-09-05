@@ -13,7 +13,7 @@ art = json.loads(ART.read_text())
 
 assert state['schema'] == 'STAGE35_EX_PESCH_E1_STATE_V38_GOAL4B_MOD7_LOCAL_RESTRICTION_PENDING_AUDIT'
 assert state['stage'] == '35-EX' and state['status'] == 'ACTIVE_RESEARCH_NO_CREDIT'
-assert state['base_main_sha'] == '7ce9edb2652a044fd6140e0f45b87026eefcf319'
+assert state['base_main_sha'] == 'd761baa2d2d5e69479ef191041c5e2f017a50283'
 assert state['parent_authority']['unit'] == '35EX-35_GOAL4A_AUTHORITY_PROMOTION'
 assert state['parent_authority']['hostile_review_id'] == 5121443297
 assert state['parent_authority']['pr'] == 1618
