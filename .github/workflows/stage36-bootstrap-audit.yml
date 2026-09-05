@@ -53,13 +53,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          base="${{ github.event.pull_request.base.sha || '7b7971cc12bb0c9046a13a9ba956d73392178d72' }}"
-          for x in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 2af6edb984e0c0a51e945f886939a09b442c3218 fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 1d29735f3f50c6918a32b2542de8364b86568396; do
+          base="${{ github.event.pull_request.base.sha || '5ab9318d9d8845b8dd48ffb08ac460691cc9ddb4' }}"
+          for x in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 2af6edb984e0c0a51e945f886939a09b442c3218 fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 1d29735f3f50c6918a32b2542de8364b86568396 ac5a7c81d3f268bebbc2a9de8e658b23c97d5649; do
             git merge-base --is-ancestor "$x" HEAD
           done
 
-      - name: Save current V18 state
-        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v18.json
+      - name: Save current V19 state
+        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v19.json
 
       - name: Restore immutable 36-09A mathematical state
         run: git show d0f3de51b86cda9199a55e89757ae6887f572ea3:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
@@ -95,12 +95,17 @@ jobs:
       - name: Replay Stage36 36-09B user-approved audited authority
         run: python3 stages/stage36/verify_stage36_36_09B_audited.py
 
-      - name: Restore current V18 state
-        run: cp /tmp/stage36-v18.json stages/stage36/MAIN-STATE.json
-      - name: Verify Stage36 36-09C all-place local-solubility preflight
+      - name: Restore exact V18 36-09C mathematical state
+        run: git show ac5a7c81d3f268bebbc2a9de8e658b23c97d5649:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
+      - name: Replay Stage36 36-09C all-place local-solubility preflight
         run: python3 stages/stage36/verify_stage36_36_09C.py
 
-      - name: Assert hostile-audit boundary before 36-09D
+      - name: Restore current V19 state
+        run: cp /tmp/stage36-v19.json stages/stage36/MAIN-STATE.json
+      - name: Replay Stage36 36-09C hostile-audited authority
+        run: python3 stages/stage36/verify_stage36_36_09C_audited.py
+
+      - name: Assert successor boundary before 36-09D execution
         shell: bash
         run: |
           set -euo pipefail
@@ -108,16 +113,21 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V18_36_09C_PENDING_HOSTILE_AUDIT'
-          assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
-          assert s['authority_frontier']['36-09C']['promotion_status']=='PROVISIONAL_NOT_AUDITED'
-          assert s['authority_frontier']['36-09C']['ALL_PLACES_ENDPOINT_OPEN_LOCALLY_SOLUBLE'] is True
-          assert s['authority_frontier']['36-09C']['SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION_POSSIBLE'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V19_THIN_36_09C_AUDITED'
+          assert s['status']=='ACTIVE'
+          a=s['authority_frontier']['36-09C']
+          assert a['verdict']=='HOSTILE_AUDIT_PASS'
+          assert a['hostile_audit_review']==5120420108
+          assert a['audited_head']=='ac5a7c81d3f268bebbc2a9de8e658b23c97d5649'
+          assert a['certificate_blob_sha']=='67fd5cd61ef35582dce32811aac4bebdb9356138'
+          assert a['ALL_PLACES_ENDPOINT_OPEN_LOCALLY_SOLUBLE'] is True
+          assert a['SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION_POSSIBLE'] is False
+          assert s['cycle_ledger']['B2_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION']=='BLOCKED_BY_EXPLICIT_ALL_PLACE_LOCAL_POINTS'
           assert s['cycle_ledger']['B6_FIBRATION_TO_CURVE_BASE']=='LIVE'
-          assert s['cycle_ledger']['EXHAUSTIVE_VIEW_AUDIT'] is True
-          assert s['cycle_ledger']['BLIND_REDISCOVERY'] is True
-          assert s['current']['36_09D_entry_allowed'] is False
+          assert s['current']['unit']=='36-09D'
+          assert s['current']['next_exact_leaf']=='36-09D_Q_DEFINED_PENCIL_FIBRATION_PREFLIGHT'
+          assert s['current']['36_09D_entry_allowed'] is True
           assert s['promotion_gates']['R29_CAMP2_closed'] is False
           assert all(v is False for v in s['claims'].values())
-          print('36-09C exact local-solubility lemma frozen; 36-09D locked pending hostile audit')
+          print('36-09C hostile-audited authority frozen; 36-09D authorized but unstarted')
           PY
