@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE36_36_09N_RELATIVE_2ISOGENY_KUMMER_RANK1_PREFLIGHT_V1",
+  "schema": "STAGE36_36_09N_RELATIVE_2ISOGENY_KUMMER_RANK1_PREFLIGHT_V2",
   "stage": "36",
   "unit": "36-09N",
   "status": "EXACT_RELATIVE_KUMMER_AND_GENERIC_RANK1_PENDING_HOSTILE_AUDIT",
@@ -21,7 +21,7 @@
       "path": "stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md",
       "blob_sha": "e7c98981fbb1d523fd7db54478dc09aa87b547e8",
       "uses": [
-        "standard descent-by-2-isogeny map, homogeneous quartic and rank formula",
+        "standard descent-by-2-isogeny map, homogeneous quartic and rank formula at q=6",
         "Gusic-Tadic sufficient criterion for injective specialization"
       ]
     },
@@ -62,14 +62,12 @@
     "generic_E_cover": "W^2=d*Z^4+2*(q^2+1)^2*Z^2+C^2/d",
     "generic_Eprime_cover": "W^2=d*Z^4-4*(q^2+1)^2*Z^2+64*q^2*(q^2-1)^2/d"
   },
-  "explicit_relative_non_torsion_section": {
-    "cover_class": "[2] in beta(Eprime_q(Q(q)))",
-    "cover_point": {
+  "explicit_relative_sections_and_lower_kummer_classes": {
+    "beta_class_2_cover_point": {
       "d": 2,
       "Z": "2*(q-1)",
       "W": "4*(q-1)*Nplus"
     },
-    "factor_identity": "W^2=2*Z^4-4*(q^2+1)^2*Z^2+32*q^2*(q^2-1)^2",
     "Eprime_section": [
       "X=8*(q-1)^2",
       "Y=16*(q-1)^2*Nplus"
@@ -78,7 +76,14 @@
     "dual_E_section": [
       "x=Nplus^2",
       "y=-2*(q^2+1)*Nplus^2"
-    ]
+    ],
+    "alpha_realizing_points": [
+      "(-Nminus^2,0) realizes [-1]",
+      "(C,2*C*(q^2-1)) realizes [C]",
+      "(-C,4*q*C) realizes [-C]"
+    ],
+    "alpha_lower_classes": ["[1]", "[-1]", "[C]", "[-C]"],
+    "beta_lower_classes": ["[1]", "[2]"]
   },
   "specialization_q0_6": {
     "q0": 6,
@@ -147,19 +152,25 @@
     "image_size": 2,
     "exact_image": ["[1]", "[2]"]
   },
-  "specialized_rank": {
+  "specialized_rank_and_section_nontorsion": {
     "rank_formula": "2^r=|Im(alpha)|*|Im(beta)|/4",
     "calculation": "2^r=4*2/4=2",
     "rank_E6_Q": 1,
-    "rank_E6prime_Q": 1
+    "rank_E6prime_Q": 1,
+    "good_reduction_point_counts_E6prime": {"11": 16, "17": 24},
+    "torsion_order_divides": 8,
+    "stage36_36_09M_exact_2primary_torsion_order": 4,
+    "full_torsion_order_E6prime": 4,
+    "specialized_section": "(200,18800)",
+    "specialized_section_nontorsion": true
   },
-  "generic_rank_and_exact_images": {
-    "upper_bound": "injective specialization at q=6 gives rank E_q(Q(q)) <= 1",
-    "lower_bound": "explicit beta-class [2] section specializes to a non-torsion point and gives rank >=1",
+  "function_field_index_argument": {
+    "rank_upper_bound": "Gusic-Tadic injectivity at q=6 gives rank E_q(Q(q))<=1",
+    "rank_lower_bound": "the explicit Eprime section specializes to the certified nontorsion point (200,18800), hence the generic section is nontorsion and rank>=1",
     "generic_rank": 1,
-    "alpha_lower_classes": ["[1]", "[-1]", "[C]", "[-C]"],
-    "beta_lower_classes": ["[1]", "[2]"],
-    "rank_formula_for_function_field": "product of image sizes is 8; lower bounds already have product 8",
+    "index_identity_scope": "for the 2-isogeny/dual pair over K=Q(q), the standard kernel/index identity gives 2^r=|Im(alpha)|*|Im(beta)|/4; this is used only after finite rank and full rational 2-torsion are established",
+    "lower_image_sizes": "|Im(alpha)|>=4 and |Im(beta)|>=2 from explicit realizing points",
+    "product_at_rank1": "|Im(alpha)|*|Im(beta)|=8",
     "exact_alpha_image": ["[1]", "[-1]", "[C]", "[-C]"],
     "exact_beta_image": ["[1]", "[2]"]
   },
@@ -178,7 +189,7 @@
     "fiberwise_rank_one_for_every_rational_q_proved": false,
     "uniform_Mordell_Weil_group_proved": false,
     "specialization_rank_jumps_excluded": false,
-    "full_torsion_subgroup_proved": false,
+    "full_torsion_subgroup_proved_for_family": false,
     "isogeny_Selmer_groups_computed": false,
     "receiver_rational_points_exhausted": false,
     "receiver_emptiness_proved": false,
