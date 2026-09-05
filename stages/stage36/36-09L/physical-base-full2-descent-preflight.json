@@ -1,0 +1,157 @@
+{
+  "schema": "STAGE36_36_09L_PHYSICAL_BASE_FULL2_DESCENT_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09L",
+  "status": "EXACT_DESCENT_PREFLIGHT_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "f91c045796cba859ec1dd172cf7871fcac5f6d8a",
+  "entry_authority": {
+    "36_09K_hostile_audit_review": 5123183075,
+    "36_09K_promotion_pr": 1630,
+    "promotion_exact_head": "8ccf3c519e8c713e03ae990637d8b0bf2acbd29e",
+    "promotion_exact_head_ci": "33994977388/101383821582",
+    "promotion_merged_main_sha": "f91c045796cba859ec1dd172cf7871fcac5f6d8a"
+  },
+  "source_locks": {
+    "stage36_v35_audited_state": {
+      "path": "stages/stage36/MAIN-STATE.json",
+      "commit": "f91c045796cba859ec1dd172cf7871fcac5f6d8a",
+      "blob_sha": "eba95aaf3cfc27853793474e479792626cc9840b"
+    },
+    "stage36_36_09K_certificate": {
+      "path": "stages/stage36/36-09K/genus-one-quartic-elliptic-adapter.json",
+      "blob_sha": "1a838c473343eb0eac0a0a871c95fdf207475d53"
+    },
+    "stage36_36_09K_verifier": {
+      "path": "stages/stage36/verify_stage36_36_09K.py",
+      "blob_sha": "fdf02d8fcf4c095661e4ad0a35f1f94e46b70f9c"
+    },
+    "arsenal_lookup": {
+      "index_path": "docs/arsenal/index.json",
+      "result": "NO_FORMAL_CARD_FOR_FULL_RATIONAL_2_TORSION_DESCENT_OR_UNIVERSAL_ORDER4_FAMILY",
+      "S31_W01_used_only_for_prior_birational_adapter": true,
+      "fresh_mathematics_required": true
+    }
+  },
+  "physical_base": {
+    "relations": [
+      "s=Z+2=r^2",
+      "h^2=Z-2",
+      "r^2-h^2=4",
+      "h*r*(h-2)*(h+2)!=0"
+    ],
+    "rational_parameterization": [
+      "q=(r+h)/2",
+      "q^(-1)=(r-h)/2",
+      "r=q+q^(-1)",
+      "h=q-q^(-1)"
+    ]
+  },
+  "elliptic_roots": {
+    "model": "eta^2=(xi-e0)*(xi-eplus)*(xi-eminus)",
+    "e0": "s^2",
+    "eplus": "4*s*h",
+    "eminus": "-4*s*h",
+    "full_rational_2_torsion": true
+  },
+  "root_difference_collapse": {
+    "a": "r*(h-2)",
+    "b": "r*(h+2)",
+    "identities": [
+      "e0-eplus=a^2=s*(h-2)^2",
+      "e0-eminus=b^2=s*(h+2)^2",
+      "eplus-eminus=8*s*h"
+    ],
+    "squareclasses": {
+      "[e0-eplus]": "1",
+      "[e0-eminus]": "1",
+      "[eplus-eminus]": "[2*h]"
+    },
+    "conclusion": "two of the three root-difference squareclasses vanish identically on the physical base; the only nontrivial moving root-difference squareclass is [2*h]"
+  },
+  "translated_full2_model": {
+    "coordinates": "X=xi-s^2, Y=eta",
+    "model": "Y^2=X*(X+a^2)*(X+b^2)",
+    "expanded_model": "Y^2=X^3+2*s^2*X^2+s^2*(h^2-4)^2*X",
+    "generic_kummer_map": "delta(P)=([X],[X+a^2],[X+b^2]) in (Q*/Q*^2)^3 with product 1; any two coordinates determine the third",
+    "credit": "EXACT_GENERIC_FULL2_KUMMER_PREFLIGHT_NOT_A_SELMER_GROUP_COMPUTATION"
+  },
+  "universal_rational_order4_point": {
+    "translated_point": {
+      "X4": "a*b=s*(h^2-4)",
+      "Y4": "a*b*(a+b)=2*r*s*h*(h^2-4)"
+    },
+    "original_point": {
+      "xi4": "s^2+s*(h^2-4)=2*s*h^2",
+      "eta4": "2*r*s*h*(h^2-4)"
+    },
+    "doubling_certificate": [
+      "for Y^2=X^3+A*X^2+B*X with A=a^2+b^2 and B=a^2*b^2, the tangent slope at P4 is m=a+b",
+      "x(2*P4)=m^2-A-2*a*b=0",
+      "y(2*P4)=-a*b*(a+b)+m*a*b=0",
+      "therefore 2*P4=T0=(X,Y)=(0,0)"
+    ],
+    "nondegeneracy": "a*b*(a+b)!=0 follows from h!=0, r!=0, h!=+/-2",
+    "conclusion": "P4 has exact order 4 on every retained physical fiber",
+    "torsion_credit": "E_Z(Q) contains Z/4 x Z/2; no claim that this is the full torsion subgroup"
+  },
+  "normalized_order4_family": {
+    "k": "b/a=(h+2)/(h-2)",
+    "coordinates": ["U=X/a^2", "V=Y/a^3"],
+    "model": "V^2=U*(U+1)*(U+k^2)",
+    "order4_point": "P4=(k,k*(k+1))",
+    "physical_base_in_k": [
+      "h=2*(k+1)/(k-1)",
+      "rho=r*(k-1)/2",
+      "rho^2=2*(k^2+1)"
+    ],
+    "interpretation": "the elliptic family is a rational-order4 family restricted to a rational conic in its k-parameter"
+  },
+  "two_isogeny_quotient": {
+    "kernel": "<T0> where T0=(0,0) in the translated model",
+    "A": "2*s^2",
+    "B": "s^2*(h^2-4)^2",
+    "quotient_model": "Y1^2=X1^3-4*s^2*X1^2+64*s^2*h^2*X1 = X1*(X1-4*s*h^2)*(X1-16*s)",
+    "forward_open_map": [
+      "X1=Y^2/X^2=X+A+B/X",
+      "Y1=Y*(B-X^2)/X^2"
+    ],
+    "identity": "A^2-4*B=64*s^2*h^2",
+    "credit": "EXACT_2_ISOGENY_FAMILY_ADAPTER_ONLY; NO_ISOGENY_SELMER_GROUP_OR_MW_RANK_CREDIT"
+  },
+  "fixed_S_uniform_descent_obstruction": {
+    "claim": "there is no fixed finite prime set S supporting the moving squareclass [2*h] over all retained physical fibers",
+    "proof_family": "take q=p for any odd prime p; then h=(p^2-1)/p and v_p(h)=-1 because p does not divide p^2-1",
+    "consequence": "for every fixed finite S one may choose an odd prime p outside S; the retained physical fiber q=p has p in the support of [2*h]",
+    "excluded_values_check": "for integer prime p>=3, h!=0 and h^2!=4, hence Z!=2,6; Z=-2 is impossible over Q",
+    "route_effect": "BLOCK_FIXED_S_UNIFORM_FULL2_SELMER_ENUMERATION_FROM_CURRENT_DATA",
+    "does_not_block": [
+      "fiberwise 2-descent with parameter-dependent bad-prime set",
+      "relative 2-isogeny descent over the physical base",
+      "elliptic-surface or conic-base analysis",
+      "later MW or specialization methods if separately certified"
+    ]
+  },
+  "route_update": {
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_TORSION_ENHANCED_2_ISOGENY_FAMILY",
+    "B3_FIXED_S_UNIFORM_FULL2_DESCENT": "BLOCKED_BY_UNBOUNDED_PHYSICAL_BASE_SQUARECLASS_SUPPORT",
+    "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER": "UNTESTED",
+    "C2_GAUSSIAN_NORM_COMPRESSION": "UNTESTED",
+    "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY": "UNTESTED",
+    "next_after_hostile_pass": "36-09M_UNIVERSAL_ORDER4_2_ISOGENY_PHYSICAL_FAMILY_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "full_2_Selmer_group_computed": false,
+    "uniform_finite_squareclass_support_proved": false,
+    "full_torsion_subgroup_proved": false,
+    "uniform_Mordell_Weil_group_proved": false,
+    "quartic_rational_points_exhausted": false,
+    "top_genus3_rational_points_exhausted": false,
+    "receiver_emptiness_proved": false,
+    "quotient_Q_point_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
