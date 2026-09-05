@@ -36,9 +36,10 @@ snapshot_text = SNAPSHOT_FILE.read_text()
 snapshot = json.loads(snapshot_text)
 assert snapshot['schema'] == V43
 assert snapshot['current']['unit'] == '35EX-35_GOAL4F_FORCED_PRIME_SUPPORT_656_ORBITS_SQUARECLASS_PARITY_LIFT_TEST'
+assert snapshot['current']['status'] == 'PROVISIONAL_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT'
 assert snapshot['claims']['goal4f_executed'] is True
 assert snapshot['claims']['forced_prime_parity_S3_orbits'] == 210208
-assert snapshot['claims']['goal4f_hostile_audit_pass'] is False
+assert snapshot['completed_units_delta']['35EX-35-GOAL4F']['status'].startswith('PROVISIONAL_')
 assert snapshot['claims']['finite_squareclass_receiver_obtained'] is False
 
 original_read_text = Path.read_text
