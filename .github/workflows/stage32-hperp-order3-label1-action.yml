@@ -4,12 +4,15 @@ on:
   pull_request:
     paths:
       - 'stages/stage32/residual-32-01-production/diagnose_stage32_hperp_order3_label1_action.py'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_hperp_b3_h_normalizer_action.py'
       - 'stages/stage32/residual-32-01-production/certify_stage32_post1629_hperp_order3_membership_insufficiency.py'
       - 'stages/stage32/residual-32-01-production/post1629-hperp-order3-membership-insufficiency.json'
       - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
       - 'stages/stage32/residual-32-01-production/pairing_prefix_engine.py'
       - 'stages/stage32/residual-32-01-production/post1588-hperp-nonexceptional-mod2-witness.json'
       - 'stages/stage32/residual-32-01-production/post1563-ambient-symmetry-exhaustion-batch.json'
+      - 'stages/stage32/residual-32-01-production/post1550-b3-v4-torsor-normalizer.json'
+      - 'stages/stage32/residual-32-01-production/post1532-full-stoll-h-orbit-symmetry-negative.json'
       - 'stages/stage33/33-07/picard_base_rows_retained.py'
       - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
       - '.github/workflows/stage32-hperp-order3-label1-action.yml'
@@ -66,11 +69,30 @@ jobs:
           PY
       - name: Verify frozen bounded negative certificate
         run: python3 stages/stage32/residual-32-01-production/certify_stage32_post1629_hperp_order3_membership_insufficiency.py
-      - name: Upload compact finite result
+      - name: Run source-bound H-normalizer constrained b3 sweep
+        id: hnorm
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage32/residual-32-01-production/diagnose_stage32_hperp_b3_h_normalizer_action.py | tee /tmp/stage32-hnorm.json
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          d=json.load(open('/tmp/stage32-hnorm.json'))
+          f=d['finite_filter']
+          print(f"hnorm={f['H_normalizing_order3_count']}")
+          print(f"candidates={f['H_cycling_order3_candidate_count']}")
+          print(f"images={f['label1_image_cardinality']}")
+          print(f"fix={f['fix_label1_count']}")
+          print(f"qfix={f['fix_label1_mod_exceptional_span_count']}")
+          print(f"same={f['separator_same_count']}")
+          PY
+      - name: Upload compact finite results
         uses: actions/upload-artifact@v4
         with:
-          name: stage32-o3-${{ steps.sweep.outputs.order3 }}-img${{ steps.sweep.outputs.images }}-fix${{ steps.sweep.outputs.fix }}-qfix${{ steps.sweep.outputs.qfix }}-same${{ steps.sweep.outputs.same }}
-          path: /tmp/stage32-order3.json
+          name: stage32-o3-${{ steps.sweep.outputs.order3 }}-hn${{ steps.hnorm.outputs.hnorm }}-cand${{ steps.hnorm.outputs.candidates }}-img${{ steps.hnorm.outputs.images }}-fix${{ steps.hnorm.outputs.fix }}-qfix${{ steps.hnorm.outputs.qfix }}-same${{ steps.hnorm.outputs.same }}
+          path: |
+            /tmp/stage32-order3.json
+            /tmp/stage32-hnorm.json
           if-no-files-found: error
       - name: Diff check
         if: github.event_name == 'pull_request'
