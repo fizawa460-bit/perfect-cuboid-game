@@ -1,0 +1,182 @@
+{
+  "schema": "STAGE36_36_09K_GENUS_ONE_QUARTIC_ELLIPTIC_ADAPTER_V1",
+  "stage": "36",
+  "unit": "36-09K",
+  "status": "EXACT_S31_W01_BIRATIONAL_ADAPTER_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "0bc325f9b9db817193bc271121d19cb04970c5b9",
+  "entry_authority": {
+    "36_09J_audited_promotion_pr": 1626,
+    "promotion_exact_head": "08d6fd14a42c75c5ba49dffdc2e9dedf49d3f3b5",
+    "promotion_exact_head_ci": "33993913489/101380867060",
+    "promotion_merged_main_sha": "0bc325f9b9db817193bc271121d19cb04970c5b9",
+    "36_09J_hostile_audit_review": 5123112446
+  },
+  "source_locks": {
+    "stage36_v33_audited_state": {
+      "path": "stages/stage36/MAIN-STATE.json",
+      "commit": "0bc325f9b9db817193bc271121d19cb04970c5b9",
+      "blob_sha": "b4aa2e3e163ee65931f272075887bc010f7b9429"
+    },
+    "stage36_36_09J_audited_certificate": {
+      "path": "stages/stage36/36-09J/reciprocal-involution-two-linear-cover-preflight.json",
+      "blob_sha": "72e9ca86f726f2ff286c983138d9381acdd97e62"
+    },
+    "S31_W01": {
+      "path": "docs/arsenal/cards/formal/S31-W01.md",
+      "blob_sha": "122a6c1c5c871c1c7b797017e854de8ec55e7c50",
+      "role": "GENUS_ONE_QUARTIC_ELLIPTIC_BIRATIONAL_ADAPTER"
+    }
+  },
+  "physical_parameter_domain": {
+    "conditions": [
+      "Z-2=h^2 with h in Q and h!=0",
+      "Z+2=r^2 with r in Q and r!=0",
+      "Z is not -2, 2, or 6"
+    ],
+    "notation": "s=Z+2=r^2",
+    "difference_identity": "r^2-h^2=4"
+  },
+  "source_quartic_Cx": {
+    "model": "W^2=(x^2+Z*x+1)*((Z-2)*x^2+2*(Z+6)*x+(Z-2))",
+    "genus": 1,
+    "boundary_basepoint": "(x,W)=(1,+2*(Z+2))",
+    "boundary_basepoint_is_physical_receiver_point": false
+  },
+  "mobius_biquadratic_model_Cu": {
+    "forward": [
+      "u=(x-1)/(x+1)",
+      "y=2*W/(x+1)^2"
+    ],
+    "inverse": [
+      "x=(1+u)/(1-u)",
+      "W=2*y/(1-u)^2"
+    ],
+    "projective_exception_correspondence": [
+      "x=-1 corresponds to u=infinity",
+      "x=infinity corresponds to u=1"
+    ],
+    "model": "y^2=s^2-s^2*u^2+4*(Z-2)*u^4",
+    "factor_form": "y^2=(s-4*u^2)*(s+(2-Z)*u^2)",
+    "basepoint": "(u,y)=(0,+s)"
+  },
+  "elliptic_model_EZ": {
+    "intermediate_coordinates": [
+      "P=(y+s)/u^2",
+      "Q=u*(P^2-4*(Z-2))"
+    ],
+    "intermediate_equation": "Q^2=(2*s*P-s^2)*(P^2-4*(Z-2))",
+    "weierstrass_coordinates": [
+      "xi=2*s*P",
+      "eta=2*s*Q"
+    ],
+    "weierstrass_equation": "eta^2=(xi-s^2)*(xi^2-16*s^2*(Z-2))",
+    "cubic_polynomial_discriminant": "64*s^6*(Z-2)*(Z-6)^4",
+    "weierstrass_discriminant": "1024*s^6*(Z-2)*(Z-6)^4",
+    "smooth_on_physical_domain": true
+  },
+  "forward_map_Cu_to_EZ_open": {
+    "domain": ["u!=0", "u is finite"],
+    "formulas": [
+      "P=(y+s)/u^2",
+      "Q=u*(P^2-4*(Z-2))",
+      "xi=2*s*P",
+      "eta=2*s*Q"
+    ],
+    "identity_certificate": "substituting y=P*u^2-s into Cu gives (P^2-4*(Z-2))*u^2=2*s*P-s^2; multiplying by P^2-4*(Z-2) gives the elliptic equation"
+  },
+  "inverse_map_EZ_to_Cu_open": {
+    "notation": "D=P^2-4*(Z-2)",
+    "domain": ["P is finite", "D!=0", "Q may be zero only away from the exceptional 2-torsion point P=s/2"],
+    "formulas": [
+      "P=xi/(2*s)",
+      "Q=eta/(2*s)",
+      "u=Q/D",
+      "y=P*u^2-s"
+    ],
+    "direct_weierstrass_formula_for_u": "u=2*s*eta/(xi^2-16*s^2*(Z-2))",
+    "round_trip_identity": "the elliptic equation gives D*u^2=2*s*P-s^2; hence y^2-(4*(Z-2)*u^4-s^2*u^2+s^2)=u^2*(D*u^2-(2*s*P-s^2))=0",
+    "denominator_fail_close": "for a finite Cu point with u!=0, D=0 would force P=s/2 and s^2=16*(Z-2), equivalently (Z-6)^2=0; physical Z=6 is excluded"
+  },
+  "complete_projective_exceptional_locus": {
+    "Cu_points": [
+      {
+        "point": "Bplus=(u,y)=(0,+s)",
+        "image": "O_E",
+        "role": "chosen rational origin; original x=1 boundary"
+      },
+      {
+        "point": "Bminus=(u,y)=(0,-s)",
+        "image": "T0=(xi,eta)=(s^2,0)",
+        "role": "second point above u=0"
+      },
+      {
+        "point": "Iplus: u=infinity with y/u^2=+2*h",
+        "image": "Tplus=(xi,eta)=(+4*s*h,0)",
+        "role": "first projective infinity; original x=-1 point with W=+4*h"
+      },
+      {
+        "point": "Iminus: u=infinity with y/u^2=-2*h",
+        "image": "Tminus=(xi,eta)=(-4*s*h,0)",
+        "role": "second projective infinity; original x=-1 point with W=-4*h"
+      }
+    ],
+    "elliptic_exceptional_points": ["O_E", "T0", "Tplus", "Tminus"],
+    "all_inverse_denominator_zero_points_accounted_for": true,
+    "all_forward_u_zero_or_infinity_points_accounted_for": true
+  },
+  "physical_full_rational_2_torsion": {
+    "E_Z_2_torsion": [
+      "O_E",
+      "T0=(s^2,0)",
+      "Tplus=(4*s*h,0)",
+      "Tminus=(-4*s*h,0)"
+    ],
+    "all_defined_over_Q_on_physical_domain": true,
+    "distinctness_fail_close": [
+      "h!=0 excludes Tplus=Tminus",
+      "s!=0 excludes collapse at Z=-2",
+      "s^2=16*h^2 is equivalent to Z=6 and is physically excluded"
+    ],
+    "conclusion": "E_Z(Q)[2] is exactly (Z/2)^2 on every retained physical smooth fiber"
+  },
+  "S31_W01_applicability": {
+    "type_match": true,
+    "triggered_at_adapter_credit": true,
+    "requirements_discharged": [
+      "exact genus-one quartic model",
+      "exact elliptic Weierstrass model",
+      "explicit forward rational map on stated open",
+      "explicit inverse rational map on stated open",
+      "exact algebraic identity verification",
+      "inverse denominator fail-close on physical open",
+      "complete projective exceptional-locus accounting",
+      "symbolic round-trip identities"
+    ],
+    "integral_or_S_integral_transfer_credit": false,
+    "rational_point_completeness_credit": false,
+    "receiver_closure_credit": false
+  },
+  "route_update": {
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_EXACT_ELLIPTIC_ADAPTER_WITH_FULL_PHYSICAL_RATIONAL_2_TORSION",
+    "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER": "UNTESTED_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER",
+    "C2_GAUSSIAN_NORM_COMPRESSION": "UNTESTED_DISTINCT_FROM_B7_NO_EXACT_EQUIVALENCE",
+    "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY": "UNTESTED_VARIABLE_PRIME_RECIPROCITY",
+    "counts": {"live": 1, "untested": 3, "blocked": 6, "dominated": 2},
+    "next_exact_leaf_after_hostile_audit": "36-09L_PHYSICAL_BASE_FULL_2_TORSION_DESCENT_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "S31_W01_birational_adapter_triggered": true,
+    "integral_point_transfer_proved": false,
+    "uniform_Mordell_Weil_group_proved": false,
+    "quartic_rational_points_exhausted": false,
+    "top_genus3_rational_points_exhausted": false,
+    "receiver_emptiness_proved": false,
+    "quotient_Q_point_emptiness_proved": false,
+    "receiver_matched_replacement_theorem_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
