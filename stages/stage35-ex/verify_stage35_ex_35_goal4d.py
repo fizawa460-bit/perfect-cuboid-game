@@ -15,7 +15,7 @@ art = json.loads(ART.read_text())
 g4b = json.loads(G4B.read_text())
 g4c = json.loads(G4C.read_text())
 
-LIVE_BASE = '40cd38c5f5d2679874ce3be882cc67d17d4c7558'
+LIVE_BASE = 'f91c045796cba859ec1dd172cf7871fcac5f6d8a'
 G4C_MERGE = '12f0adb9a70e387f0a3ad6c37d6f22a3fb78cda6'
 G4C_HEAD = 'c5337c2998f6f9148dae50df5fe33db0cfad1a5b'
 G4C_REVIEW = 5123181794
@@ -52,14 +52,11 @@ assert Q == {0,1,2,4}
 assert (-1) % p not in Q
 assert {1,2} <= QNZ
 
-# Odd-prime Hensel gate: each nonzero square residue has a simple square root.
 for q in QNZ:
     roots = [r for r in range(1,p) if r*r % p == q]
     assert len(roots) == 2
     assert all((2*r) % p != 0 for r in roots)
 
-# Independently replay the exact Goal4B residue theorem and strengthen its
-# forward branch to a nonzero unit-square residue, which is enough for Q_7.
 face_count = full_count = 0
 for A,B,C in itertools.product(range(p), repeat=3):
     if A == B == C == 0:
@@ -79,23 +76,18 @@ for A,B,C in itertools.product(range(p), repeat=3):
 assert face_count == 78
 assert full_count == 54
 
-# Goal4C's 12 source supports map exactly to the three valuation-cone types.
 singletons = {tuple(x) for x in g4c['mod7_support_receiver']['singleton_patterns']}
 doubletons = {tuple(x) for x in g4c['mod7_support_receiver']['doubleton_patterns']}
 assert singletons == {('x',),('y',),('z',),('a',),('b',),('c',)}
-assert doubletons == {
-    ('x','a'),('x','b'),('y','a'),('y','c'),('z','b'),('z','c')
-}
+assert doubletons == {('x','a'),('x','b'),('y','a'),('y','c'),('z','b'),('z','c')}
 
 def edge_vals(v: dict[str,int]) -> tuple[int,int,int]:
     return (v['x']+v['y']+v['a'], v['x']+v['z']+v['b'], v['y']+v['z']+v['c'])
 
-# Positive magnitudes are symbolic parameters; these representatives check the
-# exact additive formula that determines equality/inequality for each support.
 for s in singletons | doubletons:
     v = {k:0 for k in 'xyzabc'}
     for j,k in enumerate(s):
-        v[k] = 2 + j  # positive, and distinct on a doubleton
+        v[k] = 2 + j
     alpha,beta,gamma = edge_vals(v)
     positives = [t for t in (alpha,beta,gamma) if t > 0]
     assert min(alpha,beta,gamma) == 0 and max(alpha,beta,gamma) > 0
@@ -106,17 +98,11 @@ for s in singletons | doubletons:
     else:
         assert len(positives) == 2 and positives[0] != positives[1]
 
-# General Q_7 realization proof reduces to the finite residue cases below.
-# For two powers 7^u,7^v, after factoring 7^(2 min(u,v)), the unit residue is
-# 2 if u=v and 1 otherwise. Both are nonzero squares mod 7.
-for relation,residue in [('equal',2),('unequal',1)]:
+for _,residue in [('equal',2),('unequal',1)]:
     assert residue in QNZ
-# For a primitive nontrivial valuation triple, the number of zero valuations is
-# exactly 1 or 2, so the space unit residue of the explicit model is 1 or 2.
 for zero_count in (1,2):
     assert zero_count in QNZ
 
-# Exhaust a finite window as a regression check on the general case formula.
 for alpha,beta,gamma in itertools.product(range(5), repeat=3):
     if min(alpha,beta,gamma) != 0 or max(alpha,beta,gamma) == 0:
         continue
@@ -127,17 +113,12 @@ for alpha,beta,gamma in itertools.product(range(5), repeat=3):
         assert residue in QNZ
     assert sum(t == 0 for t in exps) in QNZ
 
-# Face-diagonal valuation rule. If edge valuations are equal, cancellation of
-# the leading unit squares is impossible because -1 is a nonresidue mod 7.
 for u,v in itertools.product(range(1,p), repeat=2):
     assert (u*u + v*v) % p != 0
 assert art['face_and_cross_face_valuation_coupling']['face_diagonal_rule'] == (
     'v7(D_ij)=min(v7(edge_i),v7(edge_j))'
 )
 
-# Cross-face sign uniqueness: for unit W,D with W^2=D^2 mod 7, exactly one of
-# W-D and W+D vanishes mod 7. Combined with
-# (W-D)(W+D)=A_i^2 this gives exact gap valuation 2*v7(A_i).
 for W,D in itertools.product(range(1,p), repeat=2):
     if (W*W-D*D) % p != 0:
         continue
