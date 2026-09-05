@@ -15,7 +15,7 @@ DIAG = HERE / "diagnose_stage32_post1570_three_involution_q602.py"
 CONTROLLER = ROOT / "stages/stage32/controller.json"
 EXPECTED_SCHEMA = "STAGE32_POST1570_THREE_INVOLUTION_Q602_TERMINAL_NEGATIVE_V1"
 EXPECTED_STATUS = "EXACT_MULTI_ROUTE_SYMMETRY_PARITY_TERMINAL_NEGATIVE_PENDING_HOSTILE_AUDIT"
-EXPECTED_CANONICAL = "ad80c6132a64d8359b609d0af158841a2d1df298d5799b41216c43784e1270e6"
+EXPECTED_CANONICAL = "c9f2ff61c3c9ddd1f159fb65fd3483908c00015e5e429de6dc328c6f48f920ff"
 EXPECTED_TABLE = {"73":["A0=b4"],"97":["A2=b3^2*b4*b3^-2"],"235":["A1=b3*b4*b3^-1"]}
 
 
@@ -104,7 +104,7 @@ def main() -> None:
     if not (route_d["S30_W01_requires_source_common_model_semantic_anchor"] and route_d["S32_PW05_requires_proved_action_and_invariance"] and route_d["S32_PW05_semantic_geometric_identification_forbidden"]):
         fail("Arsenal semantic firewall moved")
 
-    for name in ("source_note","common_double_cover_degree2","arsenal_index","arsenal_S30_W01","arsenal_S32_PW05"):
+    for name in ("source_note","common_double_cover_degree2","post1566_orbit_sum_diagnostic","arsenal_index","arsenal_S30_W01","arsenal_S32_PW05"):
         assert_blob(cert["source_locks"][name])
     common = json.loads((ROOT / cert["source_locks"]["common_double_cover_degree2"]["path"]).read_text())
     if canonical_sha(common) != cert["source_locks"]["common_double_cover_degree2"]["canonical_sha256"]:
