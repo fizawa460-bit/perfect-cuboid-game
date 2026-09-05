@@ -79,7 +79,11 @@ def main() -> None:
     if diag["retained_stoll_group_order"] != 1536:
         fail("Stoll group order moved")
     if diag["blowdown_mod2_orbit_sum_stabilizer_count"] != 1536 or diag["blowdown_mod2_orbit_sum_stabilizer_outside_h_count"] != 1532:
-        fail("mod2 orbit-sum stabilizer moved")
+        fail(
+            "mod2 orbit-sum stabilizer moved: "
+            f"count={diag['blowdown_mod2_orbit_sum_stabilizer_count']} "
+            f"outside_H={diag['blowdown_mod2_orbit_sum_stabilizer_outside_h_count']}"
+        )
     if diag["blowdown_mod2_stabilizer_exactly_H"] is not False:
         fail("mod2 detector unexpectedly recovered exact-H stabilizer")
 
