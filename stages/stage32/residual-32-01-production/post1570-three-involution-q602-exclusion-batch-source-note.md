@@ -33,11 +33,13 @@ The result is terminal for this detector:
 
 Thus the numerical noninvariance that powered #1570 in characteristic zero disappears completely after the mod-2 exceptional quotient. It cannot certify `[T,Ai] != 0 (mod 2)` for any of the three residue-specific involutions.
 
-## Route C — degree-2 push-pull does not restore mod-2 injectivity
+## Route C — retained degree-two cover does not restore mod-2 injectivity
 
-The common-cover route supplies degree-2 pullback/pushforward relations. Formally, `push_* pull^* = 2 id` on the relevant divisor-class layer. After reduction mod 2 this composite is zero. Therefore degree 2 alone gives no injectivity statement for the mod-2 pullback. This leaf does **not** claim that a kernel is nonzero; it records the narrower exact obstruction that the standard push-pull identity cannot transfer #1570 noninvariance injectively in characteristic 2.
+The exact retained geometry is source-locked by `post1484-o210-q4-common-double-cover-cartesian-identity.json` (blob `def8b60b726c02aa7ee97c0cc25b34f43525ec34`, canonical `eb31183bf519fec4ad5bb2d0799b3f0a64b7af893308e09ce0c33119b63440a1`). Its `group_quotient_square` states that `X` is the normalization of `B x_{X4} C0` for either factor and that the finite covers have the same generic degree-two extension. This is the exact Stage32 source for the degree-two input used here.
 
-So the failed mod-2 detector cannot be rescued merely by moving to the retained degree-2 common cover.
+For a finite degree-two map, the standard divisor-class push-pull identity is `push_* pull^* = 2 id`. Reducing this identity modulo 2 makes the composite zero. Therefore the degree-two geometry alone does not prove injectivity of the mod-2 pullback. This leaf does **not** claim that the pullback kernel is nonzero; it records only the fail-closed conclusion that the standard degree-two push-pull identity supplies no injectivity bridge capable of transferring #1570 characteristic-zero noninvariance to characteristic 2.
+
+So the failed mod-2 detector cannot be rescued merely by moving to the retained degree-two common cover.
 
 ## Route D — Arsenal routing
 
@@ -49,7 +51,7 @@ Accordingly, these cards validate the finite reconstruction workflow but do not 
 
 ## Decision / lane closure
 
-The symmetry-parity route has now been tested at the exact point required to eliminate `73,97,235`: the commutator modulo 2. The retained #1570 blow-down detector collapses under that reduction, degree-2 push-pull does not provide a mod-2 injectivity bridge, and the applicable Arsenal cards do not create the missing semantic invariant.
+The symmetry-parity route has now been tested at the exact point required to eliminate `73,97,235`: the commutator modulo 2. The retained #1570 blow-down detector collapses under that reduction, the exact retained degree-two cover plus standard push-pull identity gives no mod-2 injectivity bridge, and the applicable Arsenal cards do not create the missing semantic invariant.
 
 Therefore this leaf freezes further retries of the same ambient-symmetry / orbit-sum / parity detector. Reentry requires genuinely new input, for example a direct mod-2 divisor/correspondence identity, an independently proved primitive/odd commutator invariant, or another non-automorphism geometric invariant that survives the exceptional quotient.
 

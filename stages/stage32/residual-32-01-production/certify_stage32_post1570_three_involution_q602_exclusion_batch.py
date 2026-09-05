@@ -13,15 +13,10 @@ HERE = Path(__file__).resolve().parent
 CERT = HERE / "post1570-three-involution-q602-exclusion-batch.json"
 DIAG = HERE / "diagnose_stage32_post1570_three_involution_q602.py"
 CONTROLLER = ROOT / "stages/stage32/controller.json"
-
 EXPECTED_SCHEMA = "STAGE32_POST1570_THREE_INVOLUTION_Q602_TERMINAL_NEGATIVE_V1"
 EXPECTED_STATUS = "EXACT_MULTI_ROUTE_SYMMETRY_PARITY_TERMINAL_NEGATIVE_PENDING_HOSTILE_AUDIT"
-EXPECTED_CANONICAL = "bd40782aebaadef4e77717874e9206c6f97e529a7f6e61fea72f922cb4aba871"
-EXPECTED_TABLE = {
-    "73": ["A0=b4"],
-    "97": ["A2=b3^2*b4*b3^-2"],
-    "235": ["A1=b3*b4*b3^-1"],
-}
+EXPECTED_CANONICAL = "e5e076ba126fcf95bda1b60cae31e0a5424d3094cd1b27f6342fa9360f30d320"
+EXPECTED_TABLE = {"73":["A0=b4"],"97":["A2=b3^2*b4*b3^-2"],"235":["A1=b3*b4*b3^-1"]}
 
 
 def fail(msg: str) -> None:
@@ -51,10 +46,8 @@ def assert_blob(lock: dict) -> None:
 
 def main() -> None:
     cert = json.loads(CERT.read_text())
-    if cert["schema"] != EXPECTED_SCHEMA:
-        fail("certificate schema moved")
-    if cert["status"] != EXPECTED_STATUS:
-        fail("certificate status moved")
+    if cert["schema"] != EXPECTED_SCHEMA or cert["status"] != EXPECTED_STATUS:
+        fail("certificate schema/status moved")
     if cert.get("canonical_sha256_without_this_field") != EXPECTED_CANONICAL:
         fail("recorded certificate canonical moved")
     got_canonical = canonical_sha(cert)
@@ -67,31 +60,17 @@ def main() -> None:
     if cert["base_main_sha"] != expected_base:
         fail(f"stale base_main_sha: cert={cert['base_main_sha']} expected={expected_base}")
 
-    target = cert["fixed_target"]
-    if target != {
-        "row_id": "g1-d186",
-        "O": 210,
-        "qprime": 4,
-        "Q": 602,
-        "surviving_residues_decimal": [73, 97, 235],
-    }:
+    if cert["fixed_target"] != {"row_id":"g1-d186","O":210,"qprime":4,"Q":602,"surviving_residues_decimal":[73,97,235]}:
         fail("fixed target moved")
-
     controller = json.loads(CONTROLLER.read_text())
     if controller.get("stage32_closed") is not False:
         fail("controller stage32_closed moved")
     ctarget = controller.get("fixed_target", {})
-    for key, value in {"row_id": "g1-d186", "O": 210, "qprime": 4, "Q": 602}.items():
+    for key, value in {"row_id":"g1-d186","O":210,"qprime":4,"Q":602}.items():
         if ctarget.get(key) != value:
             fail(f"controller fixed target moved at {key}")
 
-    proc = subprocess.run(
-        [sys.executable, str(DIAG)],
-        cwd=ROOT,
-        text=True,
-        capture_output=True,
-        check=True,
-    )
+    proc = subprocess.run([sys.executable, str(DIAG)], cwd=ROOT, text=True, capture_output=True, check=True)
     diag = json.loads(proc.stdout)
     if diag["schema"] != "STAGE32_POST1570_THREE_INVOLUTION_Q602_DIAGNOSTIC_V1":
         fail("diagnostic schema moved")
@@ -99,10 +78,8 @@ def main() -> None:
         fail("residue/involution table moved")
     if diag["retained_stoll_group_order"] != 1536:
         fail("Stoll group order moved")
-    if diag["blowdown_mod2_orbit_sum_stabilizer_count"] != 1536:
-        fail("mod2 orbit-sum stabilizer no longer full Stoll group")
-    if diag["blowdown_mod2_orbit_sum_stabilizer_outside_h_count"] != 1532:
-        fail("outside-H mod2 stabilizer count moved")
+    if diag["blowdown_mod2_orbit_sum_stabilizer_count"] != 1536 or diag["blowdown_mod2_orbit_sum_stabilizer_outside_h_count"] != 1532:
+        fail("mod2 orbit-sum stabilizer moved")
     if diag["blowdown_mod2_stabilizer_exactly_H"] is not False:
         fail("mod2 detector unexpectedly recovered exact-H stabilizer")
 
@@ -110,56 +87,34 @@ def main() -> None:
     if route_a["table"] != EXPECTED_TABLE or route_a["exclusion_credit"] is not False:
         fail("Route A firewall moved")
     route_b = cert["routes"]["B_blowdown_orbit_sum_mod2"]
-    for key, value in {
-        "retained_stoll_group_order": 1536,
-        "blowdown_mod2_orbit_sum_stabilizer_count": 1536,
-        "blowdown_mod2_orbit_sum_stabilizer_outside_h_count": 1532,
-        "blowdown_mod2_stabilizer_exactly_H": False,
-        "full_stoll_group_stabilizes_mod2_blowdown_orbit_sum": True,
-        "q602_residue_exclusion_obtained": False,
-    }.items():
+    expected_b = {"retained_stoll_group_order":1536,"blowdown_mod2_orbit_sum_stabilizer_count":1536,"blowdown_mod2_orbit_sum_stabilizer_outside_h_count":1532,"blowdown_mod2_stabilizer_exactly_H":False,"full_stoll_group_stabilizes_mod2_blowdown_orbit_sum":True,"q602_residue_exclusion_obtained":False}
+    for key, value in expected_b.items():
         if route_b.get(key) != value:
             fail(f"Route B moved at {key}")
 
     route_c = cert["routes"]["C_degree2_pushpull_mod2"]
-    if route_c != {
-        "result": "NO_INJECTIVITY_CREDIT_FROM_STANDARD_DEGREE2_PUSH_PULL",
-        "formal_identity": "push_* pull^* = 2 id",
-        "mod2_composite": "0",
-        "kernel_nonzero_claimed": False,
-        "mod2_pullback_injective_proved": False,
-        "rescue_of_route_B_obtained": False,
-    }:
+    if route_c != {"result":"NO_INJECTIVITY_CREDIT_FROM_STANDARD_DEGREE2_PUSH_PULL","retained_degree2_geometry_source_locked":True,"formal_identity":"push_* pull^* = 2 id","mod2_composite":"0","kernel_nonzero_claimed":False,"mod2_pullback_injective_proved":False,"rescue_of_route_B_obtained":False}:
         fail("Route C push-pull firewall moved")
 
     route_d = cert["routes"]["D_arsenal"]
-    if not (
-        route_d["S30_W01_requires_source_common_model_semantic_anchor"]
-        and route_d["S32_PW05_requires_proved_action_and_invariance"]
-        and route_d["S32_PW05_semantic_geometric_identification_forbidden"]
-    ):
+    if not (route_d["S30_W01_requires_source_common_model_semantic_anchor"] and route_d["S32_PW05_requires_proved_action_and_invariance"] and route_d["S32_PW05_semantic_geometric_identification_forbidden"]):
         fail("Arsenal semantic firewall moved")
 
-    for name in ("source_note", "arsenal_index", "arsenal_S30_W01", "arsenal_S32_PW05"):
+    for name in ("source_note","common_double_cover_degree2","arsenal_index","arsenal_S30_W01","arsenal_S32_PW05"):
         assert_blob(cert["source_locks"][name])
+    common = json.loads((ROOT / cert["source_locks"]["common_double_cover_degree2"]["path"]).read_text())
+    if canonical_sha(common) != cert["source_locks"]["common_double_cover_degree2"]["canonical_sha256"]:
+        fail("common double-cover canonical moved")
+    square = common.get("group_quotient_square", {})
+    if "degree-two" not in square.get("generic_fiber_argument", "") and "degree two" not in square.get("generic_fiber_argument", ""):
+        fail("common double-cover degree-two statement missing")
 
     decision = cert["decision"]
-    if decision != {
-        "result": "PASS_EXACT_TERMINAL_NEGATIVE_SYMMETRY_PARITY_BATCH",
-        "Q602_excluded": False,
-        "O210_excluded": False,
-        "O212_plus_advance_allowed": False,
-        "controller_change_authorized": False,
-        "next_exact_route": "NEW_NON_AUTOMORPHISM_MOD2_GEOMETRIC_INPUT_ONLY",
-    }:
+    if decision != {"result":"PASS_EXACT_TERMINAL_NEGATIVE_SYMMETRY_PARITY_BATCH","Q602_excluded":False,"O210_excluded":False,"O212_plus_advance_allowed":False,"controller_change_authorized":False,"next_exact_route":"NEW_NON_AUTOMORPHISM_MOD2_GEOMETRIC_INPUT_ONLY"}:
         fail("decision/firewall moved")
-
     closure = cert["lane_closure"]
-    if closure["symmetry_parity_orbit_sum_lane_exhausted"] is not True:
-        fail("lane closure missing")
-    if closure["no_further_same_detector_gap_localization_only"] is not True:
-        fail("same-detector freeze missing")
-
+    if closure["symmetry_parity_orbit_sum_lane_exhausted"] is not True or closure["no_further_same_detector_gap_localization_only"] is not True:
+        fail("lane closure moved")
     if any(cert["firewalls"].values()):
         fail("credit firewall promoted unexpectedly")
 
@@ -167,6 +122,7 @@ def main() -> None:
     print(f"certificate_canonical={got_canonical}")
     print("residue_table=73:b4,97:b3^2b4b3^-2,235:b3b4b3^-1")
     print("mod2_orbit_sum_stabilizer=1536 outside_H=1532")
+    print("degree2_common_cover_source_locked=true mod2_injectivity_credit=false")
     print("Q602_excluded=false O210_excluded=false O212_plus_advance_allowed=false")
 
 
