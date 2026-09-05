@@ -63,7 +63,7 @@ The next meaningful datum is therefore a source-locked geometric adapter that co
 - exact symbolic terminal count `688101306360803751427719294`;
 - exact unrank/inverse-rank interface available.
 
-Detailed pre-21ad history: `stages/stage32/controller-history-through-32-21ad.json`.
+Detailed pre-21ad history: `stages/stage32/archive/legacy-root/controller-history-through-32-21ad.json`.
 
 ## 32-21aa through 21ad
 
