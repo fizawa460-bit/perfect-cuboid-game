@@ -31,7 +31,9 @@ def load_canon(path, expected):
 state = json.loads(STATE.read_text(encoding="utf-8"))
 body = dict(state)
 claimed = body.pop("canonical_sha256")
-assert claimed == STATE_SHA == csha(body)
+actual = csha(body)
+print(json.dumps({"state_sha_claimed": claimed, "state_sha_actual": actual}, sort_keys=True))
+assert claimed == STATE_SHA == actual
 
 v91b = load_canon(V91B, V91B_SHA)
 v91c = load_canon(V91C, V91C_SHA)
