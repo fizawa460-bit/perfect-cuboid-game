@@ -1,0 +1,61 @@
+name: Stage32 root cleanup phase B
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-root-cleanup-phase-b.yml'
+      - 'stages/stage32/MAIN-STATE.json'
+      - 'stages/stage32/verify_main_startup.py'
+      - 'stages/stage32/verify_root_cleanup_phase_b.py'
+      - 'stages/stage32/archive/legacy-root/**'
+      - 'stages/stage32/POST_B16_LITERATURE_RECEIVER_ROADMAP.md'
+      - 'stages/stage32/POST_B16_RELEASE_CONTRACT.md'
+      - 'stages/stage32/controller-history-through-32-21ad.json'
+      - 'stages/stage32/controller-v243-post1505-gauge-merge-released.json'
+      - 'stages/stage32/controller-v246-post1520-retained-geometry-18-to-18-provisional.json'
+      - 'stages/stage32/goal-and-stop-contract.json'
+      - 'stages/stage32/post-b16-literature-receiver-contract.json'
+      - 'stages/stage32/post1504-antiloop-removal-policy.md'
+      - 'stages/stage32/post1505-trace-parity-bridge.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-root-cleanup-phase-b-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cleanup-phase-b:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+
+      - name: Assert exact PR head
+        if: github.event_name == 'pull_request'
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+
+      - name: Resolve freshness authority
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch origin main --no-tags
+          current_main="$(git rev-parse origin/main)"
+          test "${{ github.event.pull_request.base.sha }}" = "$current_main"
+          merge_base="$(git merge-base HEAD "$current_main")"
+          test "$merge_base" = "$current_main"
+
+      - name: Verify MAIN startup authority remains exact
+        run: python3 stages/stage32/verify_main_startup.py
+
+      - name: Verify root cleanup relocation
+        run: python3 stages/stage32/verify_root_cleanup_phase_b.py
+
+      - name: Diff check
+        if: github.event_name == 'pull_request'
+        run: git diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
