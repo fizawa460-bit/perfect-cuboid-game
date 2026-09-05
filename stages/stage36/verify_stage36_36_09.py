@@ -86,7 +86,7 @@ def main() -> None:
     req("EXHAUSTIVE_VIEW_AUDIT" in road and "BLIND_REDISCOVERY" in road, "36-09 roadmap breadth requirements missing")
     cycle = (ROOT / SOURCES["cycle_safety_protocol"][0]).read_text()
     req("the active route would otherwise be parked at an external theorem gate" in cycle, "cycle trigger anchor missing")
-    req("Every `EXHAUSTIVE_VIEW_AUDIT` must contain a blind pass" in cycle, "blind-pass policy anchor missing")
+    req("every `EXHAUSTIVE_VIEW_AUDIT` must contain a blind pass" in cycle, "blind-pass policy anchor missing")
     discovery = (ROOT / SOURCES["asset_discovery_policy"][0]).read_text()
     req("Read `docs/arsenal/index.json` as the machine-readable registry" in discovery, "Arsenal discovery route moved")
 
