@@ -1,4 +1,4 @@
-name: Stage33 V41-V91C1C e3 exact chain and V96 user-authorized startup replay
+name: Stage33 V41-V91C1D e3 exact chain and V97 candidate-startup replay
 
 on:
   pull_request:
@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v41-v91c1c-v96-e3-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v41-v91c1d-v97-e3-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -36,7 +36,7 @@ jobs:
           python certify_order2_quotient_raw_order4_bockstein.py
           python materialize_mixed_order_side_ambient_function_lifts.py
           python materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py
-      - name: Replay immutable V41-V91C chain, V91C1C authority, and V91C1D selector
+      - name: Replay immutable V41-V91C chain, V91C1C authority, V91C1D Cech-Cartier candidate, and V97 startup
         run: |
           python stages/stage33/33-12/verify_e3_independent_proper14_source_v41.py
           python stages/stage33/33-12/verify_e3_v25_transfer_obstruction_v42.py
@@ -82,8 +82,9 @@ jobs:
           python stages/stage33/33-12/verify_e3_v91c1a_a2_02_literal_boundary_seed_localization.py
           python stages/stage33/33-12/verify_e3_v91c1b_a2_02_resolved_valuation_carrier_preflight.py
           python stages/stage33/33-12/verify_e3_v91c1c_a2_02_strict_transform_prime_refinement.py
-          python stages/stage33/33-12/verify_stage33_v91c1c_user_authorized_current_startup_v96.py
           python stages/stage33/33-12/diagnose_e3_v91c1d_a2_02_v4_transition_selector.py
+          python stages/stage33/33-12/verify_e3_v91c1d_a2_02_purity_cech_cartier_assembly.py
+          python stages/stage33/33-12/verify_stage33_v91c1d_candidate_current_startup_v97.py
           python stages/stage33/33-12/verify_j2_post_v39_arsenal_first_bounded_search_policy_v41.py
           python stages/stage33/sync_main_state.py --check
           git diff --check
