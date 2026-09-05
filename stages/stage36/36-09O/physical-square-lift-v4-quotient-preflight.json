@@ -1,0 +1,214 @@
+{
+  "schema": "STAGE36_36_09O_PHYSICAL_SQUARE_LIFT_V4_QUOTIENT_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09O",
+  "status": "EXACT_PHYSICAL_SQUARE_LIFT_AND_V4_JACOBIAN_DECOMPOSITION_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "26e25b64b6cdc8e4d1f26d33a665f42df8253200",
+  "entry_authority": {
+    "36_09N_hostile_audit_pr": 1640,
+    "36_09N_hostile_audit_review": 5123389934,
+    "36_09N_audited_head": "8ca23e42a057af260c7051c20dd8f608067efefd",
+    "36_09N_exact_head_ci": "33998632868/101393423222",
+    "36_09N_promotion_pr": 1641,
+    "36_09N_promotion_exact_head": "e752b3b4a8ae0a74c31da0eb988bebea997d6e41",
+    "36_09N_promotion_ci": "33999240128",
+    "36_09N_promotion_merged_main_sha": "26e25b64b6cdc8e4d1f26d33a665f42df8253200"
+  },
+  "source_locks": {
+    "stage36_v41_audited_state": {
+      "path": "stages/stage36/MAIN-STATE.json",
+      "commit": "26e25b64b6cdc8e4d1f26d33a665f42df8253200",
+      "blob_sha": "c54c66747e412d3c23de85e2718a10e2a1e996b0"
+    },
+    "stage36_36_09J_cover_tower": {
+      "path": "stages/stage36/36-09J/reciprocal-involution-two-linear-cover-preflight.json",
+      "blob_sha": "72e9ca86f726f2ff286c983138d9381acdd97e62"
+    },
+    "stage36_36_09K_elliptic_adapter": {
+      "path": "stages/stage36/36-09K/genus-one-quartic-elliptic-adapter.json",
+      "blob_sha": "1a838c473343eb0eac0a0a871c95fdf207475d53"
+    },
+    "stage36_36_09N_rank1_kummer": {
+      "path": "stages/stage36/36-09N/relative-2isogeny-kummer-image-rank1-preflight.json",
+      "blob_sha": "02a14439d94d7f6e5ac2f65e995e8acfb6845788"
+    },
+    "kani_rosen_v4": {
+      "path": "stages/stage36/36-09O/kani-rosen-v4-jacobian-source-lock.md",
+      "blob_sha": "5b5957843933b487bb9cae3acd22bb7737f37392"
+    },
+    "S34_W03": {
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96"
+    }
+  },
+  "notation_separation": {
+    "base_parameter": "p",
+    "note": "36-09N used q for this physical base parameter; 36-09O alpha-renames it to p so that the top genus-three coordinate can remain t",
+    "top_coordinate": "t",
+    "middle_coordinate": "x=t^2",
+    "physical_base_quantities": {
+      "h": "p-1/p",
+      "r": "p+1/p",
+      "Z": "p^2+1/p^2=h^2+2=r^2-2",
+      "c": "(p+1)/(p-1)",
+      "relations": [
+        "r^2-h^2=4",
+        "c-1/c=4/h",
+        "c+1/c=2*r/h"
+      ]
+    },
+    "physical_exclusions": ["p=0", "p=1", "p=-1", "t=0", "t=1", "t=-1", "t=infinity"]
+  },
+  "top_genus3_exact_factorization": {
+    "original_36_09J_model": "Y^2=A(t^2)*B(t^2)",
+    "factorization": [
+      "A(t^2)=(t^2+p^2)*(t^2+p^(-2))",
+      "B(t^2)=h^2*(t^2+c^2)*(t^2+c^(-2))"
+    ],
+    "normalized_ordinate": "y=Y/h",
+    "normalized_model": "C3_p: y^2=(t^2+p^2)*(t^2+p^(-2))*(t^2+c^2)*(t^2+c^(-2))",
+    "genus": 3,
+    "palindromic_even_polynomial": true
+  },
+  "middle_elliptic_physical_square_lift": {
+    "normalized_middle_model": "E_k: V^2=U*(U+1)*(U+k^2)",
+    "base_functions": {
+      "Nminus": "p^2-2*p-1",
+      "Nplus": "p^2+2*p-1",
+      "k": "Nplus/Nminus",
+      "rho": "2*(p^2+1)/Nminus",
+      "rho_relation": "rho^2=2*(k^2+1)"
+    },
+    "quartic_mobius_coordinate": "u=(x-1)/(x+1)",
+    "elliptic_inverse_identity_on_open": "u=rho*U/V",
+    "top_square_coordinate": "x=t^2=(V+rho*U)/(V-rho*U)",
+    "physical_lift_condition": "(V+rho*U)/(V-rho*U) is a nonzero rational square",
+    "branch_boundaries": {
+      "V+rho*U=0": "x=0, top t=0 boundary",
+      "V-rho*U=0": "x=infinity, top t=infinity boundary",
+      "x=1": "u=0; handled by the 36-09K exceptional locus and corresponds to top t=+/-1 boundary"
+    }
+  },
+  "generic_rank1_section_boundary_diagnosis": {
+    "36_09N_generic_section_on_Ek": ["U=k^2", "V=-rho*k^2"],
+    "computed_u": "-1",
+    "computed_x": "0",
+    "conclusion": "the audited generic non-torsion rank-one section itself is a top-cover branch/boundary section and gives no physical receiver point",
+    "negative_section": "V=+rho*k^2 gives u=+1 and x=infinity, also excluded",
+    "rank1_credit_not_receiver_credit": true
+  },
+  "rank_jump_route_correction": {
+    "old_candidate_label": "36-09O_PHYSICAL_RANK_JUMP_LOCUS_PREFLIGHT",
+    "exact_issue": "a physical lift need not be caused by a rank jump: it can arise when a specialization of an already-existing generic Mordell-Weil point or finite-index saturation point satisfies the square-lift condition",
+    "required_cases_before_receiver_close": [
+      "square-lifts from the specialized generic subgroup",
+      "finite-index/saturation enlargement at specialization without rank increase",
+      "genuine Mordell-Weil rank jumps"
+    ],
+    "conclusion": "RANK_JUMP_ONLY_IS_NOT_A_COMPLETE_RECEIVER_ROUTE",
+    "fiberwise_rank_jump_exclusion_credit": false
+  },
+  "first_nontrivial_existing_section_lift_locus": {
+    "point": "2*P where P=(k^2,-rho*k^2)",
+    "top_x": "((p^4-4*p-1)*(p^4-4*p^3-1))/((p^4+4*p-1)*(p^4+4*p^3-1))",
+    "square_lift_curve": "H2: w^2=(p^4-4*p-1)*(p^4+4*p-1)*(p^4-4*p^3-1)*(p^4+4*p^3-1)",
+    "degree": 16,
+    "squarefree": true,
+    "generic_genus": 7,
+    "credit": "exact first nonboundary multiple-lift locus only; H2(Q) is not exhausted",
+    "anti_loop": "do not replace the fixed top genus-three receiver by an unbounded multiple-by-multiple family of growing auxiliary curves"
+  },
+  "klein_four_action": {
+    "sigma": "(t,y)->(-t,y)",
+    "tau": "(t,y)->(1/t,y/t^4)",
+    "sigma_tau": "(t,y)->(-1/t,y/t^4)",
+    "group": "V4",
+    "full_quotient_invariants": ["T=t^2+t^(-2)", "v=y/t^2"],
+    "full_quotient_genus": 0
+  },
+  "three_genus1_quotients": {
+    "E_sigma_middle": {
+      "map": ["x=t^2", "w=y"],
+      "model": "w^2=(x+p^2)*(x+p^(-2))*(x+c^2)*(x+c^(-2))",
+      "relation_to_36_09J": "rational scaling by h identifies this with the audited middle quartic C1"
+    },
+    "E_tau": {
+      "map": ["R=t+1/t", "v=y/t^2"],
+      "model": "v^2=(R^2+h^2)*(R^2+16/h^2)",
+      "rational_basepoint": "R=0, v=+/-4"
+    },
+    "E_sigma_tau": {
+      "map": ["S=t-1/t", "v=y/t^2"],
+      "model": "v^2=(S^2+r^2)*(S^2+4*r^2/h^2)",
+      "rational_basepoint": "S=0, v=+/-2*r^2/h"
+    },
+    "top_compatibility": [
+      "R^2-S^2=4",
+      "t=(R+S)/2",
+      "1/t=(R-S)/2"
+    ],
+    "rhs_compatibility_identity": "after S^2=R^2-4 and r^2=h^2+4, the E_sigma_tau right-hand side equals the E_tau right-hand side exactly"
+  },
+  "jacobian_isogeny": {
+    "source": "Kani-Rosen V4 idempotent relation",
+    "formula_before_genus0_simplification": "Jac(C3)*Jac(C3/V4)^2 ~ E_sigma*E_tau*E_sigma_tau",
+    "full_quotient_genus_zero": true,
+    "conclusion": "Jac(C3) ~ E_sigma*E_tau*E_sigma_tau",
+    "direct_differential_check": {
+      "genus3_basis": ["dt/y", "t*dt/y", "t^2*dt/y"],
+      "sigma_quotient_pullback": "t*dt/y",
+      "tau_quotient_pullback": "(1-t^2)*dt/y",
+      "sigma_tau_quotient_pullback": "(1+t^2)*dt/y",
+      "independent_and_spanning": true
+    },
+    "new_credit_relative_to_36_09D": "EXPLICIT_JACOBIAN_PRODUCT_ISOGENY_NOW_CERTIFIED",
+    "new_quotient_family_ranks_computed": false
+  },
+  "receiver_restricted_intersection_adapter": {
+    "branch_variety": "E_tau: v^2=(R^2+h^2)*(R^2+16/h^2)",
+    "exact_receiver_condition_K": "R^2-4 is a nonzero rational square",
+    "reconstruction": "choose S with S^2=R^2-4, then t=(R+S)/2 and y=t^2*v; this reconstructs the top cover away from the explicitly excluded boundaries",
+    "boundary_conditions": ["S!=0", "R!=2", "R!=-2", "t!=0", "t!=infinity"],
+    "S34_W03_applicability": "EXACT_ADAPTER_READY",
+    "S34_W03_intersection_exclusion_executed": false,
+    "receiver_closed": false
+  },
+  "gaussian_bridge_note": {
+    "identity": "v^2=Norm_Q(i)/Q((R+i*h)*(R+4*i/h))",
+    "meaning": "the previously distinct C2 Gaussian-norm candidate now has an exact expression on the E_tau receiver adapter",
+    "C2_status": "UNTESTED_DISTINCT_ROUTE; exact norm identity alone is not a Gaussian squareclass/prime-ideal compression theorem",
+    "B7_equivalence_claimed": false
+  },
+  "bounded_local_diagnostic": {
+    "primes_checked": [5, 7, 11, 13, 17, 19, 23, 29, 31],
+    "result": "for every nonboundary base residue p modulo each checked prime, the top cover has at least one nonzero non-+/-1 residue t with nonzero square RHS",
+    "scope": "bounded diagnostic only",
+    "consequence": "do not expect a naive single-small-prime universal receiver obstruction from these primes",
+    "all_place_local_solvability_claim": false
+  },
+  "route_update": {
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_EXACT_TOP_GENUS3_V4_ELLIPTIC_QUOTIENT_RECEIVER_INTERSECTION",
+    "B3_RANK_JUMP_ONLY_SUBROUTE": "DOMINATED_INCOMPLETE_WITHOUT_EXISTING_SUBGROUP_AND_SATURATION_LIFT_CASES",
+    "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER": "UNTESTED",
+    "C2_GAUSSIAN_NORM_COMPRESSION": "UNTESTED_DISTINCT_WITH_EXACT_E_TAU_NORM_ADAPTER",
+    "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY": "UNTESTED",
+    "next_after_hostile_pass": "36-09P_V4_ELLIPTIC_QUOTIENT_RECEIVER_INTERSECTION_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "top_genus3_jacobian_product_isogeny_proved": true,
+    "middle_generic_rank1_promoted": true,
+    "new_two_quotient_generic_ranks_computed": false,
+    "fiberwise_rank_one_for_every_rational_base_proved": false,
+    "rank_jumps_excluded": false,
+    "H2_rational_points_exhausted": false,
+    "top_genus3_rational_points_exhausted": false,
+    "S34_W03_receiver_intersection_empty": false,
+    "gaussian_norm_route_resolved": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
