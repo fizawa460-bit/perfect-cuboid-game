@@ -7,31 +7,11 @@ on:
       - '.github/workflows/stage36-bootstrap-audit.yml'
       - 'stages/stage29/29-16/active-kernel-ledger.json'
       - 'stages/stage29/29-06/endpoint-hub-graph.json'
-      - 'stages/stage29/29-06/source-crosswalk.md'
-      - 'stages/stage29/29-02f/audit.md'
-      - 'stages/stage29/29-02f/route-contract.json'
-      - 'stages/stage29/29-02f/boundary-gersten-receiver.md'
-      - 'stages/stage29/29-02f/open-algebraic-brauer-adapter.md'
-      - 'stages/stage29/29-02ha/result.md'
-      - 'stages/stage29/29-02ha/exact-sign-cover-model.md'
-      - 'stages/stage29/29-02hb/campedelli_kernel_check.py'
-      - 'stages/stage29/29-02hb/route-contract.json'
-      - 'stages/stage29/29-02hb/arithmetic-routing.md'
-      - 'stages/stage29/29-02hb/campedelli-quotient-adapter.md'
-      - 'stages/stage29/29-02hb/source-lock.md'
-      - 'docs/arsenal/index.json'
-      - 'docs/arsenal/cards/formal/S30-W01.md'
-      - 'docs/arsenal/cards/formal/S34-W01.md'
-      - 'docs/arsenal/cards/formal/S34-W02.md'
-      - 'docs/arsenal/cards/formal/S34-W03.md'
-      - 'docs/arsenal/cards/provisional/S33-PW07.md'
-      - 'docs/arsenal/cards/provisional/S33-PW08.md'
-      - 'docs/arsenal/cards/workflows/S30-WF01.md'
-      - 'docs/arsenal/cards/workflows/S30-WF02.md'
-      - 'docs/arsenal/cards/workflows/S30-WF03.md'
-      - 'docs/arsenal/cards/workflows/S34-WF01.md'
-      - 'docs/research-os/policies/repository-asset-discovery.md'
-      - 'docs/research-os/policies/cycle-exploration-safety-protocol.md'
+      - 'stages/stage29/29-02f/**'
+      - 'stages/stage29/29-02ha/**'
+      - 'stages/stage29/29-02hb/**'
+      - 'docs/arsenal/**'
+      - 'docs/research-os/policies/**'
   workflow_dispatch:
 
 permissions:
@@ -52,9 +32,8 @@ jobs:
         run: |
           set -euo pipefail
           expected="${{ github.event.pull_request.head.sha || github.sha }}"
-          actual="$(git rev-parse HEAD)"
-          test "$actual" = "$expected"
-          echo "exact_head=$actual"
+          test "$(git rev-parse HEAD)" = "$expected"
+          echo "exact_head=$expected"
 
       - name: Assert current PR base lock
         if: github.event_name == 'pull_request'
@@ -65,89 +44,60 @@ jobs:
           python3 - "$expected" <<'PY'
           import json,sys
           from pathlib import Path
-          expected=sys.argv[1]
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V16_36_09B_PENDING_HOSTILE_AUDIT'
-          assert s['base_main_sha']==expected, f"MAIN-STATE base {s['base_main_sha']} != PR base {expected}"
-          print(f"base_main_sha={expected}")
+          assert s['base_main_sha']==sys.argv[1], (s['base_main_sha'],sys.argv[1])
+          print('base_main_sha='+s['base_main_sha'])
           PY
 
-      - name: Assert PR base and immutable predecessor heads are ancestors
+      - name: Assert PR base and predecessor heads are ancestors
         shell: bash
         run: |
           set -euo pipefail
-          base="${{ github.event.pull_request.base.sha || '32d35dd4372ceab3d67704290d48f6b6df8912bb' }}"
-          for c in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 bc94e9c7aa8be2cd1c14dec63d001282cb6bb781 2af6edb984e0c0a51e945f886939a09b442c3218; do
-            git merge-base --is-ancestor "$c" HEAD
-          done
-          test "$(git merge-base "$base" HEAD)" = "$base"
-          echo "base_and_predecessor_heads_are_ancestors"
+          base="${{ github.event.pull_request.base.sha || '125504622b46e462bd5fe8d7016f18d59717d696' }}"
+          git merge-base --is-ancestor "$base" HEAD
+          git merge-base --is-ancestor d0f3de51b86cda9199a55e89757ae6887f572ea3 HEAD
+          git merge-base --is-ancestor 2af6edb984e0c0a51e945f886939a09b442c3218 HEAD
+          git merge-base --is-ancestor fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 HEAD
 
-      - name: Save current V16 state
-        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v16-state.json
+      - name: Save current V17 state
+        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v17.json
 
       - name: Restore immutable 36-09A mathematical state
-        shell: bash
-        run: |
-          set -euo pipefail
-          git show d0f3de51b86cda9199a55e89757ae6887f572ea3:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 - <<'PY'
-          import json
-          from pathlib import Path
-          s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V14_36_09A_PENDING_HOSTILE_AUDIT'
-          assert s['base_main_sha']=='5fa33e600b81fc34f4be9b22761c8079b31d7806'
-          print('restored exact initial 36-09A mathematical state')
-          PY
+        run: git show d0f3de51b86cda9199a55e89757ae6887f572ea3:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
 
       - name: Replay Stage36 bootstrap authority
         run: python3 stages/stage36/verify_stage36_bootstrap.py
-
       - name: Replay audited Stage36 36-01 authority
         run: python3 stages/stage36/verify_stage36_36_01.py
-
       - name: Replay audited Stage36 36-02 authority
         run: python3 stages/stage36/verify_stage36_36_02_audited.py
-
       - name: Replay audited Stage36 36-03 authority
         run: python3 stages/stage36/verify_stage36_36_03_audited.py
-
       - name: Replay audited Stage36 36-04 authority
         run: python3 stages/stage36/verify_stage36_36_04_audited.py
-
       - name: Replay audited Stage36 36-05 blocked authority
         run: python3 stages/stage36/verify_stage36_36_05_audited.py
-
       - name: Replay audited Stage36 36-09 breadth authority
         run: python3 stages/stage36/verify_stage36_36_09_audited.py
-
       - name: Replay immutable Stage36 36-09A mathematical preflight
         run: python3 stages/stage36/verify_stage36_36_09A.py
 
       - name: Restore exact V15 36-09A promotion state
-        shell: bash
-        run: |
-          set -euo pipefail
-          git show 2af6edb984e0c0a51e945f886939a09b442c3218:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 - <<'PY'
-          import json
-          from pathlib import Path
-          s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V15_36_09A_AUDITED_USER_APPROVED'
-          assert s['base_main_sha']=='05c229420a7c73886fedbece2d746b36ed3d91d5'
-          print('restored exact #1582 V15 promotion state')
-          PY
-
+        run: git show 2af6edb984e0c0a51e945f886939a09b442c3218:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
       - name: Replay Stage36 36-09A user-approved audited authority
         run: python3 stages/stage36/verify_stage36_36_09A_audited.py
 
-      - name: Restore current V16 state
-        run: cp /tmp/stage36-v16-state.json stages/stage36/MAIN-STATE.json
-
-      - name: Verify Stage36 36-09B receiver-restricted branch preflight
+      - name: Restore exact V16 36-09B mathematical state
+        run: git show fd7b5d9dfef272bee2b6676797e6d12d8b07bde0:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
+      - name: Replay Stage36 36-09B receiver-restricted branch preflight
         run: python3 stages/stage36/verify_stage36_36_09B.py
 
-      - name: Assert hostile-audit boundary before 36-09C
+      - name: Restore current V17 state
+        run: cp /tmp/stage36-v17.json stages/stage36/MAIN-STATE.json
+      - name: Replay Stage36 36-09B user-approved audited authority
+        run: python3 stages/stage36/verify_stage36_36_09B_audited.py
+
+      - name: Assert 36-09C authorized but unstarted
         shell: bash
         run: |
           set -euo pipefail
@@ -155,27 +105,12 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V16_36_09B_PENDING_HOSTILE_AUDIT'
-          assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
-          assert s['base_main_sha']=='${{ github.event.pull_request.base.sha }}'
-          p=s['stage36_36_09A_promotion']
-          assert p['pr']==1582
-          assert p['exact_head']=='2af6edb984e0c0a51e945f886939a09b442c3218'
-          assert p['exact_head_ci_run']==33951928420
-          assert p['exact_head_ci_job']==101268232176
-          assert p['merged_main_sha']=='32d35dd4372ceab3d67704290d48f6b6df8912bb'
-          u=s['completed_units']['36-09B']
-          assert u['promotion_status']=='PROVISIONAL_NOT_AUDITED'
-          assert u['certificate_blob_sha']=='da9143e587506522ed966d380d9980ff1875db0d'
-          assert u['legal_outcome']=='BLOCKED_NO_PROOF_CAPABLE_B_PLUS_K_JOINT_TEST'
-          assert u['S34_W03_EXECUTABLE_NOW'] is False
-          assert u['NEXT_ROUTE_AFTER_AUDIT']=='36-09C_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION_PREFLIGHT'
-          assert s['current']['unit']=='36-09B'
-          assert s['current']['36_09B_entry_allowed'] is True
-          assert s['current']['36_09C_entry_allowed'] is False
-          assert '36-09C' not in s['completed_units']
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V17_THIN_36_09B_AUDITED_USER_APPROVED'
+          assert s['current']['unit']=='36-09C'
+          assert s['current']['36_09C_entry_allowed'] is True
+          assert s['cycle_ledger']['B2_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION']=='LIVE'
           assert s['promotion_gates']['receiver_matched_replacement_theorem_proved'] is False
           assert s['promotion_gates']['R29_CAMP2_closed'] is False
           assert all(v is False for v in s['claims'].values())
-          print('36-09B provisional blocked preflight exact; 36-09C locked pending hostile audit')
+          print('36-09B user-approved authority promoted; 36-09C authorized but unstarted')
           PY
