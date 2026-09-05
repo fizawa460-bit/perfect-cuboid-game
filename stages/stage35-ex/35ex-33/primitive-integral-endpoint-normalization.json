@@ -1,0 +1,60 @@
+{
+  "schema": "STAGE35_EX_33_PRIMITIVE_INTEGRAL_ENDPOINT_NORMALIZATION_V1",
+  "stage": "35-EX",
+  "unit": "35EX-33_GAUSSIAN_THREE_FACE_COMPATIBILITY_PREFLIGHT",
+  "small_goal": 1,
+  "status": "PROVISIONAL_EXACT_LEMMA_NO_RECEIVER_CREDIT",
+  "statement": {
+    "population": "positive rational edge triples modulo positive rational scaling, with edge permutation retained as a separate symmetry",
+    "normalization": "for e=(a,b,c) in Q_{>0}^3, choose L=lcm(den(a),den(b),den(c)), put X=La,Y=Lb,Z=Lc, g=gcd(X,Y,Z), and Prim(e)=(A,B,C)=(X/g,Y/g,Z/g)",
+    "claims": [
+      "Prim(e) is primitive: gcd(A,B,C)=1",
+      "Prim(lambda*e)=Prim(e) for every lambda in Q_{>0}",
+      "the primitive positive integer representative of a positive rational ray is unique",
+      "Prim is equivariant for permutations of the three edge coordinates",
+      "if all three pairwise edge-square sums and the total edge-square sum are rational squares, then after primitive normalization their four square roots are integers"
+    ]
+  },
+  "proof": {
+    "common_denominator_independence": "If D is any other positive common denominator, then (Da,Db,Dc)=k(X,Y,Z) for some positive integer k after replacing D by a common multiple if necessary; dividing by the coordinate gcd removes k, so the primitive triple is independent of the chosen common denominator.",
+    "scaling_invariance": "Write lambda=m/n with gcd(m,n)=1. Starting from integer lift (X,Y,Z), the common denominator nL gives integer lift m(X,Y,Z) for lambda*e. Its coordinate gcd is m*g, hence Prim(lambda*e)=(X/g,Y/g,Z/g)=Prim(e).",
+    "uniqueness": "If primitive positive integer triples u=(A,B,C) and v=(A',B',C') lie on the same positive rational ray, v=(p/q)u with gcd(p,q)=1. Integrality of v gives q divides pA,pB,pC; gcd(p,q)=1 implies q divides gcd(A,B,C)=1, so q=1. Applying the same argument to u=(1/p)v gives p=1. Thus u=v.",
+    "permutation_equivariance": "LCM of denominators and coordinate gcd are symmetric in the coordinates, so Prim(sigma(e))=sigma(Prim(e)) for every sigma in S3.",
+    "rational_square_integrality": "If N is a nonnegative integer and r in Q satisfies r^2=N, write r=u/v in lowest terms. Then u^2=N*v^2, hence v^2 divides u^2; gcd(u,v)=1 forces v=1. Therefore every rational square root of an integer is an integer.",
+    "cuboid_transfer": "For primitive (A,B,C)=Prim(e), positive rational scaling multiplies every face/space diagonal by the same rational factor used on the edges. Thus A^2+B^2, A^2+C^2, B^2+C^2, and A^2+B^2+C^2 are integers that remain rational squares; by rational_square_integrality their square roots D_AB,D_AC,D_BC,D_ABC are integers."
+  },
+  "gaussian_handoff": {
+    "legal_next_objects": [
+      "F_AB=A+iB",
+      "F_AC=A+iC",
+      "F_BC=B+iC"
+    ],
+    "exact_norms_available_next": [
+      "Norm(F_AB)=D_AB^2",
+      "Norm(F_AC)=D_AC^2",
+      "Norm(F_BC)=D_BC^2"
+    ],
+    "not_yet_claimed": "no Gaussian gcd/support classification, no finite squareclass receiver, and no incompatibility theorem are obtained by small goal 1"
+  },
+  "historical_no_recharge_firewall": {
+    "forbidden_as_new_credit": [
+      "35EX-13 Q/S_plus",
+      "35EX-17B gminus*gplus=c",
+      "35EX-17B moving p*d twist",
+      "35EX-18 p-support OPPOSITE relative orientation",
+      "35EX-18 d-support SAME relative orientation",
+      "35EX-18 Master-Gaussian absolute-orientation freeze",
+      "35EX-18 moving c*q source-unit data"
+    ],
+    "fail_close": "if later 35EX-33 Gaussian support analysis reduces to the frozen old invariants, classify the route EQUIVALENT or BLOCKED and stop"
+  },
+  "credit_firewall": {
+    "primitive_integral_normalization_exact": true,
+    "perfect_cuboid_exists": false,
+    "perfect_cuboid_nonexistence_proved": false,
+    "gaussian_compatibility_theorem_proved": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "stage35_closed": false
+  }
+}
