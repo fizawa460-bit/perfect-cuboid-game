@@ -1,0 +1,154 @@
+{
+  "schema": "STAGE36_36_09C_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09C",
+  "leaf": "36-09C_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION_PREFLIGHT",
+  "status": "SINGLE_PLACE_ROUTE_IMPOSSIBLE_BY_EXPLICIT_ALL_PLACE_LOCAL_POINTS_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "7b7971cc12bb0c9046a13a9ba956d73392178d72",
+  "entry_authority": {
+    "stage36_36_09B_promotion_pr": 1585,
+    "promotion_exact_head": "1d29735f3f50c6918a32b2542de8364b86568396",
+    "promotion_exact_head_ci_run": 33953819230,
+    "promotion_exact_head_ci_job": 101273378060,
+    "promotion_merged_main_sha": "7b7971cc12bb0c9046a13a9ba956d73392178d72",
+    "selected_route": "36-09C_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION_PREFLIGHT"
+  },
+  "source_locks": {
+    "stage29_exact_sign_cover_model": {"path":"stages/stage29/29-02ha/exact-sign-cover-model.md","blob_sha":"fc2d5284a259750f45d2d756a952002671e3bccc"},
+    "stage36_36_02_representatives": {"path":"stages/stage36/36-02/representative-inventory.json","blob_sha":"88130b9380a677a191f91c24df87618e65be0a2f"},
+    "stage36_36_03_physical_receiver": {"path":"stages/stage36/36-03/physical-open-boundary.json","blob_sha":"fc1947b2de08f7d8a104bdc91902b20e88635349"},
+    "stage36_36_04_torsor_class": {"path":"stages/stage36/36-04/h-torsor-lift-class.json","blob_sha":"a06e201a9b554da71c5e75d8f8541e7284f8d020"},
+    "stage36_36_09_breadth_gate": {"path":"stages/stage36/36-09/replacement-breadth-gate.json","blob_sha":"0c6019d70346b531a9b703d6f74e346302273655"},
+    "stage36_36_09B_preflight": {"path":"stages/stage36/36-09B/receiver-restricted-branch-intersection-preflight.json","blob_sha":"da9143e587506522ed966d380d9980ff1875db0d"},
+    "cycle_safety_protocol": {"path":"docs/research-os/policies/cycle-exploration-safety-protocol.md","blob_sha":"4e911c4fc7e4ea7a2b5f96733a90b986ef8d9a37"}
+  },
+  "arsenal_locks": {
+    "router": {"path":"docs/arsenal/index.json","blob_sha":"aa45d19c2f1d8970c7f142bf744c5c17e75abe5a"},
+    "S30-WF02": {"path":"docs/arsenal/cards/workflows/S30-WF02.md","blob_sha":"38e4625155eb079bbe3d50d663c6256559319886","application":"IMMUTABLE_PREDECESSOR_REPLAY"},
+    "S30-WF03": {"path":"docs/arsenal/cards/workflows/S30-WF03.md","blob_sha":"12740198aba19ade18302819f8e890dbda4eb701","application":"ALL_PLACE_LOCAL_SOLUBILITY_DOES_NOT_PROMOTE_TO_GLOBAL_Q_POINT_OR_BRAUER_MANIN_NONOBSTRUCTION"},
+    "S34-WF01": {"path":"docs/arsenal/cards/workflows/S34-WF01.md","blob_sha":"1ebba4ec402e14d536284a06c5ac32625c6b8cec","application":"REPLACEMENT_ROUTING_AND_POST_BLOCK_BREADTH_REFRESH"}
+  },
+  "exact_receiver": {
+    "endpoint_open": "U subset S",
+    "audited_representatives": ["Q6_GEOM8","Q2_GEOM8","Q2_GEOM2"],
+    "quotient_open": "U_H=q_H(U)",
+    "target_local_image": "q_H(U(Q_v)) subset U_H(Q_v)",
+    "single_place_obstruction_target": "find one place v with q_H(U(Q_v)) empty for one audited H",
+    "why_sufficient_if_it_existed": "a global endpoint Q-point would localize to U(Q_v) and push into q_H(U(Q_v)) at every place"
+  },
+  "all_place_local_point_lemma": {
+    "statement": "For every place v of Q, U(Q_v) is nonempty. Consequently q_H(U(Q_v)) is nonempty for every audited H and every v.",
+    "real_place": {
+      "base_point": [1,1,1],
+      "seven_line_values": [1,1,1,2,2,2,3],
+      "reason": "all seven values are positive real numbers and therefore have nonzero real square roots"
+    },
+    "odd_prime_place": {
+      "prime_quantifier": "every odd rational prime p",
+      "base_point": "[x:y:z]=[p^4:p^2:1]",
+      "side_roots": ["a1=p^2","a2=p","a3=1"],
+      "remaining_line_values": {
+        "x+y": "p^2*(1+p^2)",
+        "x+z": "1+p^4",
+        "y+z": "1+p^2",
+        "x+y+z": "1+p^2+p^4"
+      },
+      "square_unit_lemma": "For odd p, every u in Z_p^* with u=1 mod p is a square in Q_p: apply Hensel to T^2-u at T=1, since f(1)=0 mod p and f'(1)=2 is nonzero mod p.",
+      "unit_residues_mod_p": {"1+p^2":1,"1+p^4":1,"1+p^2+p^4":1},
+      "all_seven_values_nonzero": true,
+      "branch_free": true
+    },
+    "prime_2_place": {
+      "base_point": [256,16,1],
+      "side_roots": ["a1=16","a2=4","a3=1"],
+      "remaining_line_values": {"x+y":"16*17","x+z":257,"y+z":17,"x+y+z":273},
+      "odd_unit_residues_mod_8": {"17":1,"257":1,"273":1},
+      "square_unit_lemma": "An odd 2-adic unit is a square in Q_2 iff it is 1 mod 8.",
+      "all_seven_values_nonzero": true,
+      "branch_free": true
+    },
+    "scheme_link": "The exact sign-cover model adjoins square roots of x,y,z,x+y,x+z,y+z,x+y+z. The displayed local square roots therefore give points of the branch-free endpoint open U(Q_v).",
+    "quotient_push": "Audited 36-03 gives Q-defined finite etale q_H:U->U_H for every audited representative, so each displayed local endpoint point pushes to q_H(U(Q_v)).",
+    "torsor_K_check": "Because each quotient local point is obtained by an actual lift in U(Q_v), its localized H-torsor class is trivial; this is the local analogue of the exact 36-04 lifting criterion.",
+    "ALL_PLACES_ENDPOINT_OPEN_LOCALLY_SOLUBLE": true,
+    "ALL_PLACES_EACH_AUDITED_RECEIVER_IMAGE_LOCALLY_NONEMPTY": true
+  },
+  "single_place_route_decision": {
+    "SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION_POSSIBLE": false,
+    "reason": "for every place v and every audited H an explicit point of q_H(U(Q_v)) exists, so no fixed place can make the exact local receiver image empty",
+    "legal_outcome": "BLOCKED_SINGLE_PLACE_ROUTE_BY_EXPLICIT_ALL_PLACE_LOCAL_POINTS"
+  },
+  "local_global_firewall": {
+    "ONE_GLOBAL_Q_POINT_CONSTRUCTED": false,
+    "SAME_RATIONAL_POINT_USED_AT_ALL_PLACES": false,
+    "BRAUER_MANIN_NONOBSTRUCTION_PROVED": false,
+    "ETALE_BRAUER_NONOBSTRUCTION_PROVED": false,
+    "QUOTIENT_Q_POINT_EXISTENCE_PROVED": false,
+    "ENDPOINT_Q_POINT_EXISTENCE_PROVED": false,
+    "meaning": "independent local points at every completion exclude a one-place emptiness argument only; they do not settle any global reciprocity or rational-point question"
+  },
+  "post_block_cycle_audit": {
+    "trigger": "Since the 36-09 breadth audit, three materially distinct active routes have now blocked: B5 Campedelli Brauer compatibility, B4 receiver-restricted branch intersection, and B2 single-place direct obstruction.",
+    "EXHAUSTIVE_VIEW_AUDIT": true,
+    "BLIND_REDISCOVERY": true,
+    "blind_generation_before_arsenal_comparison": true,
+    "blind_candidates": [
+      {"blind_id":"C1_Q_DEFINED_PENCIL_FIBRATION","description":"compose the exact quotient map to P2 with a Q-defined pencil such as t=x/y, reducing the surface problem to arithmetic of one-dimensional fibers","matched_ledger_id":"B6_FIBRATION_TO_CURVE_BASE","status":"LIVE"},
+      {"blind_id":"C2_INTERMEDIATE_CHARACTER_QUOTIENT","description":"pass through an exact order-2/order-4 sign-character quotient and test whether an additional invariant lowers dimension or yields proof-capable curves","matched_ledger_id":"B10_INTERMEDIATE_SIGN_QUOTIENT_OR_CHARACTER","status":"UNTESTED"},
+      {"blind_id":"C3_FINITE_ARITHMETIC_CURVE_DECOMPOSITION","description":"seek an exact arithmetic theorem forcing all target rational points into finitely many curves or finite covers","matched_ledger_id":"B3_FINITE_CURVE_OR_COVER_DECOMPOSITION","status":"UNTESTED"},
+      {"blind_id":"C4_STANDARD_Q_MODEL_TRANSFER","description":"identify an exact standard Campedelli Q-form/twist and transfer a proof-capable arithmetic theorem through a certified adapter","matched_ledger_id":"B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER","status":"UNTESTED"},
+      {"blind_id":"C5_DIRECT_MULTIPLACE_RECIPROCITY","description":"use a genuinely multi-place adelic/reciprocity obstruction directly on R29-CAMP2, distinct from one-place emptiness and from the currently blocked CAMP4 payload","matched_ledger_id":"B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY","status":"UNTESTED"},
+      {"blind_id":"C6_GEOMETRIC_CLASSIFICATION_ONLY","description":"use geometric Campedelli/topological classification without an arithmetic adapter","matched_ledger_id":"B8_GEOMETRIC_TOPOLOGICAL_CLASSIFICATION","status":"BLOCKED"}
+    ],
+    "arsenal_comparison_after_blind_pass": {
+      "S34_WF01": "applicable as replacement-routing workflow",
+      "S34_W02": "not triggered: no certified exhaustive elliptic quotient/MW reduction yet",
+      "S34_W03": "already blocked in 36-09B by absence of proof-capable B+K joint test",
+      "new_B11_formal_arsenal_card": false,
+      "new_B11_status": "UNTESTED_ONLY_NO_CREDIT"
+    },
+    "selected_next_candidate": "B6_FIBRATION_TO_CURVE_BASE",
+    "selection_reason": "Unlike B3/B7/B10/B11, B6 already has an exact retained geometric foothold: beta_H:C_H->P2 and y!=0 on the physical open make t=x/y a Q-defined rational pencil on every target point. The next preflight can therefore compute the generic fiber exactly before any external theorem search.",
+    "ledger_after_refresh": {
+      "B1_DIRECT_UNIFORM_H1_SELMER":"BLOCKED",
+      "B2_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION":"BLOCKED_BY_EXPLICIT_ALL_PLACE_LOCAL_POINTS",
+      "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION":"UNTESTED",
+      "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION":"BLOCKED_NO_PROOF_CAPABLE_B_PLUS_K_JOINT_TEST",
+      "B5_CAMPEDELLI_BRAUER_ETALE_BRAUER":"BLOCKED_UPSTREAM_BR2A_BR2B_INCOMPLETE",
+      "B6_FIBRATION_TO_CURVE_BASE":"LIVE",
+      "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER":"UNTESTED",
+      "B8_GEOMETRIC_TOPOLOGICAL_CLASSIFICATION":"BLOCKED",
+      "B9_ASYMPTOTIC_OR_SIEVE_SPARSITY":"DOMINATED",
+      "B10_INTERMEDIATE_SIGN_QUOTIENT_OR_CHARACTER":"UNTESTED",
+      "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY":"UNTESTED",
+      "counts":{"live":1,"untested":4,"blocked":5,"dominated":1},
+      "split_triggered": false,
+      "parking_audit_complete": false
+    },
+    "next_route_after_hostile_audit": "36-09D_Q_DEFINED_PENCIL_FIBRATION_PREFLIGHT"
+  },
+  "pass_condition": {
+    "ALL_PLACES_ENDPOINT_OPEN_LOCALLY_SOLUBLE": true,
+    "ALL_PLACES_EACH_AUDITED_RECEIVER_IMAGE_LOCALLY_NONEMPTY": true,
+    "SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION_POSSIBLE": false,
+    "EXHAUSTIVE_VIEW_AUDIT": true,
+    "BLIND_REDISCOVERY": true,
+    "ONE_NEXT_ROUTE_SELECTED": true,
+    "NEXT_ROUTE": "36-09D_Q_DEFINED_PENCIL_FIBRATION_PREFLIGHT",
+    "GLOBAL_RECEIVER_CLOSED": false
+  },
+  "claims": {
+    "new_theorem_credit": false,
+    "global_Q_point_constructed": false,
+    "brauer_manin_nonobstruction_proved": false,
+    "etale_brauer_nonobstruction_proved": false,
+    "finite_exhaustive_H_twist_family_proved": false,
+    "quotient_Q_point_emptiness_proved": false,
+    "receiver_matched_replacement_theorem_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

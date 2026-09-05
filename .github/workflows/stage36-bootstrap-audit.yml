@@ -49,22 +49,20 @@ jobs:
           print('base_main_sha='+s['base_main_sha'])
           PY
 
-      - name: Assert PR base and predecessor heads are ancestors
+      - name: Assert PR base and immutable predecessor heads are ancestors
         shell: bash
         run: |
           set -euo pipefail
-          base="${{ github.event.pull_request.base.sha || '125504622b46e462bd5fe8d7016f18d59717d696' }}"
-          git merge-base --is-ancestor "$base" HEAD
-          git merge-base --is-ancestor d0f3de51b86cda9199a55e89757ae6887f572ea3 HEAD
-          git merge-base --is-ancestor 2af6edb984e0c0a51e945f886939a09b442c3218 HEAD
-          git merge-base --is-ancestor fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 HEAD
+          base="${{ github.event.pull_request.base.sha || '7b7971cc12bb0c9046a13a9ba956d73392178d72' }}"
+          for x in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 2af6edb984e0c0a51e945f886939a09b442c3218 fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 1d29735f3f50c6918a32b2542de8364b86568396; do
+            git merge-base --is-ancestor "$x" HEAD
+          done
 
-      - name: Save current V17 state
-        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v17.json
+      - name: Save current V18 state
+        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v18.json
 
       - name: Restore immutable 36-09A mathematical state
         run: git show d0f3de51b86cda9199a55e89757ae6887f572ea3:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-
       - name: Replay Stage36 bootstrap authority
         run: python3 stages/stage36/verify_stage36_bootstrap.py
       - name: Replay audited Stage36 36-01 authority
@@ -92,12 +90,17 @@ jobs:
       - name: Replay Stage36 36-09B receiver-restricted branch preflight
         run: python3 stages/stage36/verify_stage36_36_09B.py
 
-      - name: Restore current V17 state
-        run: cp /tmp/stage36-v17.json stages/stage36/MAIN-STATE.json
+      - name: Restore exact V17 36-09B promotion state
+        run: git show 1d29735f3f50c6918a32b2542de8364b86568396:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
       - name: Replay Stage36 36-09B user-approved audited authority
         run: python3 stages/stage36/verify_stage36_36_09B_audited.py
 
-      - name: Assert 36-09C authorized but unstarted
+      - name: Restore current V18 state
+        run: cp /tmp/stage36-v18.json stages/stage36/MAIN-STATE.json
+      - name: Verify Stage36 36-09C all-place local-solubility preflight
+        run: python3 stages/stage36/verify_stage36_36_09C.py
+
+      - name: Assert hostile-audit boundary before 36-09D
         shell: bash
         run: |
           set -euo pipefail
@@ -105,12 +108,16 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V17_THIN_36_09B_AUDITED_USER_APPROVED'
-          assert s['current']['unit']=='36-09C'
-          assert s['current']['36_09C_entry_allowed'] is True
-          assert s['cycle_ledger']['B2_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION']=='LIVE'
-          assert s['promotion_gates']['receiver_matched_replacement_theorem_proved'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V18_36_09C_PENDING_HOSTILE_AUDIT'
+          assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
+          assert s['authority_frontier']['36-09C']['promotion_status']=='PROVISIONAL_NOT_AUDITED'
+          assert s['authority_frontier']['36-09C']['ALL_PLACES_ENDPOINT_OPEN_LOCALLY_SOLUBLE'] is True
+          assert s['authority_frontier']['36-09C']['SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION_POSSIBLE'] is False
+          assert s['cycle_ledger']['B6_FIBRATION_TO_CURVE_BASE']=='LIVE'
+          assert s['cycle_ledger']['EXHAUSTIVE_VIEW_AUDIT'] is True
+          assert s['cycle_ledger']['BLIND_REDISCOVERY'] is True
+          assert s['current']['36_09D_entry_allowed'] is False
           assert s['promotion_gates']['R29_CAMP2_closed'] is False
           assert all(v is False for v in s['claims'].values())
-          print('36-09B user-approved authority promoted; 36-09C authorized but unstarted')
+          print('36-09C exact local-solubility lemma frozen; 36-09D locked pending hostile audit')
           PY
