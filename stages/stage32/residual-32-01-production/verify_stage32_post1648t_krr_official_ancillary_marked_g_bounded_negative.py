@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 HERE = Path(__file__).resolve().parent
 CERT_PATH = HERE / "post1648t-krr-official-ancillary-marked-g-bounded-negative.json"
-EXPECTED = "aaebaf390c2c7b72800762a5c655456b8088435259533a806657a2d29b02e1f6"
+EXPECTED = "32526ad10b38309fc7e4f27ed0228c6272775898add4ef8dc2136262cbdf4f23"
 
 
 def blob_sha1(path: Path) -> str:
