@@ -18,7 +18,7 @@ def main():
  out,t,c09,b09,e11,nodes=map(load,[OUT,T,C09,B09,E11,NODES])
  assert t['exact_consequence']['literal_swap23_full_codim1_difference_materialized'] is True
  assert t['exact_consequence']['literal_swap23_full_codim1_difference_nonzero'] is True
- assert t['exact_consequence']['a2_02_swap23_actual_divisor_to_retained_picard64_adapter_materialized'] is False
+ assert t['evaluated_adapter_inventory']['source_bound_swap23_actual_divisor_to_retained_picard64_adapter_materialized'] is False
  assert c09['historical_q256_basis_marking_exact'] is True
  assert c09['exit_condition']['HISTORICAL_RETAINED_PICARD_MARKING_BRIDGE_CERTIFIED'] is True
  assert c09['source_locks']['marked_picard_bridge_certificate_sha256']==SHA[B09]
