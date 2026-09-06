@@ -1,0 +1,51 @@
+name: Stage32 post1623 Hperp V6 H-deck character preflight
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1623-hperp-v6-hdeck-anchor-preflight.yml'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1623_hperp_v6_hdeck_anchor.py'
+      - 'stages/stage32/residual-32-01-production/post1623-hperp-v6-hdeck-character-preflight.json'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1623_hperp_v6_hdeck_character_preflight.py'
+      - 'stages/stage32/residual-32-01-production/post1588-hperp-nonexceptional-mod2-witness.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-equivariant-beauville-deck-cross-exclusion.json'
+      - 'stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling.json'
+      - 'stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock.json'
+      - 'stages/stage32/residual-32-01-production/post1505-o210-q602-marked-w-line-gauge-orbit.json'
+      - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1566_orbit_sum_commutator.py'
+      - 'stages/stage32/MAIN-STATE.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-post1623-hperp-v6-hdeck-character-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  character-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+      - name: Assert exact PR head and current main freshness
+        if: github.event_name == 'pull_request'
+        run: |
+          test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+          git fetch origin main:refs/remotes/origin/main --no-tags --depth=1
+          test "${{ github.event.pull_request.base.sha }}" = "$(git rev-parse origin/main)"
+      - name: Install pinned exact algebra dependency
+        run: python3 -m pip install --disable-pip-version-check sympy==1.14.0
+      - name: Replay current Stage32 startup authority
+        run: python3 stages/stage32/verify_main_startup.py
+      - name: Verify source-bound H-character preflight
+        run: python3 stages/stage32/residual-32-01-production/verify_stage32_post1623_hperp_v6_hdeck_character_preflight.py
+      - name: Diff check
+        if: github.event_name == 'pull_request'
+        run: git diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
