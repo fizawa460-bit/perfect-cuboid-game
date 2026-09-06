@@ -52,8 +52,8 @@ jobs:
             git merge-base --is-ancestor "$x" HEAD
           done
 
-      - name: Save current V52 state
-        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v52.json
+      - name: Save current V53 state
+        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v53.json
 
       - name: Replay Stage36 authority chain through 36-09J
         shell: bash
@@ -186,33 +186,38 @@ jobs:
           git worktree add --detach "$tmp" 27d5479fd10627076f5cf2c5f952f4759b1ec6da
           python3 "$tmp/stages/stage36/verify_stage36_36_09S.py"
           git worktree remove --force "$tmp"
-          cp /tmp/stage36-v52.json stages/stage36/MAIN-STATE.json
+          git show 8a04691d03f8ec17cf2236aab3d0f0d2dbde3fc3:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
           python3 stages/stage36/verify_stage36_36_09S_audited.py
 
-      - name: Assert audited 36-09S boundary and 36-09T unlock
+      - name: Restore V53 candidate and verify 36-09T
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp /tmp/stage36-v53.json stages/stage36/MAIN-STATE.json
+          python3 stages/stage36/verify_stage36_36_09T.py
+
+      - name: Assert 36-09T pending-audit boundary and 36-09U lock
         shell: bash
         run: |
           python3 - <<'PY'
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V52_THIN_36_09S_AUDITED'
-          assert s['status']=='ACTIVE'
-          S=s['authority_frontier']['36-09S']
-          assert S['hostile_audit_review']==5124402673
-          assert S['audited_head']=='27d5479fd10627076f5cf2c5f952f4759b1ec6da'
-          assert S['certificate_blob_sha']=='3af506b590c5e4d7499c203651c0bf4ef31ec767'
-          assert S['verifier_blob_sha']=='ef3faf907fceb6d31aa1e1f4299f0dcbb62f9e46'
-          assert S['E_SIGMA_TAU_TORSION_GROWTH_EXCLUDED'] is True
-          assert S['E_SIGMA_TAU_RETAINED_TORSION']=='Z/2 x Z/2'
-          assert S['ONLY_REMAINING_E_SIGMA_TAU_MW_GROWTH_SPECIES']=='positive rank jump'
-          assert S['RECEIVER_FORCES_E_SIGMA_TAU_POSITIVE_RANK_JUMP'] is True
-          assert S['INDEPENDENCE_CLAIMED'] is False
-          assert S['SIMULTANEOUS_POSITIVE_RANK_LOCUS_EMPTY'] is False
-          assert S['RECEIVER_CLOSED'] is False
-          assert s['current']['36_09T_entry_allowed'] is True
-          assert s['promotion_gates']['E_sigma_tau_torsion_growth_exclusion_promoted'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V53_36_09T_PENDING_HOSTILE_AUDIT'
+          assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
+          assert s['base_main_sha']=='7a608ee2511192af8e293d88f8a7117aa5ad19d9'
+          T=s['authority_frontier']['36-09T']
+          assert T['RECEIVER_FORCES_QI_RANK_JUMP'] is True
+          assert T['GENERIC_E_SIGMA_QI_RANK']==1
+          assert T['RECEIVER_FORCES_E_SIGMA_QI_RANK_AT_LEAST']==2
+          assert T['TWO_QUOTIENT_RANK_OBLIGATIONS_INDEPENDENT'] is False
+          assert T['CANDIDATE_SET_SHRUNK'] is False
+          assert T['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09T'
+          assert s['current']['next_exact_leaf']=='HOSTILE_AUDIT_36_09T'
+          assert s['current']['36_09U_entry_allowed'] is False
+          assert s['promotion_gates']['Qi_rankjump_gate_promoted'] is False
           assert s['promotion_gates']['receiver_emptiness_proved'] is False
           assert s['promotion_gates']['R29_CAMP2_closed'] is False
-          print('36-09S hostile-audited authority promoted; 36-09T unlocked with simultaneous positive-rank locus still open')
+          print('36-09T Q(i) twist-eigenspace rankjump gate exact; hostile audit pending; 36-09U locked')
           PY
