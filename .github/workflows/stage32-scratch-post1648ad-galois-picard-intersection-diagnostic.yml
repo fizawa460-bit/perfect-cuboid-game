@@ -1,11 +1,17 @@
-name: Stage32 scratch post1648AD Galois Picard intersection diagnostic
+name: Stage32 scratch post1648AD Galois Picard conjugate intersection
 
 on:
   push:
     branches:
       - stage32-scratch-post1648ad-galois-picard-intersection
     paths:
-      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1648ad_galois_picard_intersection.py'
+      - 'stages/stage32/residual-32-01-production/post1648z-galois-factor-swap-asymmetric-bidegree-descent-gate.json'
+      - 'stages/stage32/residual-32-01-production/post1648ad-galois-picard-conjugate-intersection-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1648ad-galois-picard-conjugate-intersection.json'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648ad_galois_picard_conjugate_intersection.py'
+      - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/galois-known-class-permutations.json'
       - '.github/workflows/stage32-scratch-post1648ad-galois-picard-intersection-diagnostic.yml'
   workflow_dispatch:
 
@@ -13,7 +19,7 @@ permissions:
   contents: read
 
 jobs:
-  diagnose:
+  verify:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -21,11 +27,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Compute exact complex-conjugate Picard class and intersection
-        run: python stages/stage32/residual-32-01-production/diagnose_stage32_post1648ad_galois_picard_intersection.py
+      - name: Verify exact complex-conjugate Picard class and intersection number
+        run: python stages/stage32/residual-32-01-production/verify_stage32_post1648ad_galois_picard_conjugate_intersection.py
+      - name: Ensure verifier is read-only
+        run: git diff --exit-code
       - uses: actions/upload-artifact@v4
         with:
-          name: stage32-post1648ad-galois-picard-intersection-diagnostic
-          path: /tmp/stage32-post1648ad-galois-picard-intersection-diagnostic.json
-          retention-days: 3
+          name: stage32-post1648ad-galois-picard-conjugate-intersection
+          path: stages/stage32/residual-32-01-production/post1648ad-galois-picard-conjugate-intersection.json
+          retention-days: 5
           if-no-files-found: error
