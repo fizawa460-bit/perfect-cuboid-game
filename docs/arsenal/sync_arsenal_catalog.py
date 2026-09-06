@@ -38,9 +38,20 @@ def collect(data: dict) -> tuple[list[dict], list[str]]:
             entries.append({
                 "id": card_id,
                 "role": harvest.get("card_roles", {}).get(card_id, ""),
+                "summary": harvest.get("card_summaries", {}).get(card_id, ""),
                 "path": harvest["path"],
                 "maturity": "PROVISIONAL",
                 "kind": "weapon",
+                "source_stage": harvest["source_stage"],
+            })
+        for workflow_id in harvest.get("active_workflows", []):
+            entries.append({
+                "id": workflow_id,
+                "role": harvest.get("workflow_roles", {}).get(workflow_id, ""),
+                "summary": harvest.get("workflow_summaries", {}).get(workflow_id, ""),
+                "path": harvest["path"],
+                "maturity": "PROVISIONAL",
+                "kind": "workflow",
                 "source_stage": harvest["source_stage"],
             })
         retired.update(harvest.get("retired_merged_ids", {}))
@@ -52,6 +63,8 @@ def collect(data: dict) -> tuple[list[dict], list[str]]:
 
     active_ids = set(ids)
     for old, successor in sorted(retired.items()):
+        if old in active_ids:
+            errors.append(f"retired ID {old} is active/reused")
         if successor not in active_ids:
             errors.append(f"retired ID {old} has missing successor {successor}")
 
@@ -95,7 +108,7 @@ def source_stage(entry: dict) -> str:
 
 
 def card_class(entry: dict) -> str:
-    if entry["maturity"] == "WORKFLOW":
+    if entry["kind"] == "workflow":
         return "workflows"
     if entry["maturity"] == "PROVISIONAL":
         return "provisional"
@@ -254,7 +267,7 @@ def render(data: dict, entries: list[dict]) -> str:
     sections = [
         ("Formal selectors", lambda e: e["kind"] == "selector"),
         ("Formal reusable weapons", lambda e: e["kind"] == "weapon" and e["maturity"] == "FORMAL"),
-        ("Formal workflows", lambda e: e["kind"] == "workflow"),
+        ("Formal workflows", lambda e: e["kind"] == "workflow" and e["maturity"] == "WORKFLOW"),
         ("Provisional active-stage snapshots", lambda e: e["maturity"] == "PROVISIONAL"),
     ]
     for title, predicate in sections:
