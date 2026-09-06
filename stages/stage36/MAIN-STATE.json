@@ -1,15 +1,15 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V46_36_09Q_PENDING_HOSTILE_AUDIT",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V47_THIN_36_09Q_AUDITED",
   "stage": "36",
-  "status": "ACTIVE_PENDING_HOSTILE_AUDIT",
-  "base_main_sha": "43f3f3b135a2f5664cb8cc736d6db0b37d7b79da",
+  "status": "ACTIVE",
+  "base_main_sha": "aabe5d9d01f74ed2d68d27edaee7635af7c89ecf",
   "mission": "Attack Stage29 kernel K16-C3-CAMPEDELLI-UNIFORM-TORSOR through exact proper-or-candidate-proper receivers without granting endpoint credit unless a receiver-matched closure theorem is proved.",
   "legacy_authority_snapshot": {
-    "commit": "c17f1a681c220292f93880a726f1f571174f53b9",
+    "commit": "aabe5d9d01f74ed2d68d27edaee7635af7c89ecf",
     "path": "stages/stage36/MAIN-STATE.json",
-    "blob_sha": "313f70b43cd7ab7eaeb2a240027f9f9137492222",
-    "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V45_THIN_36_09P_AUDITED",
-    "scope": "hostile-audited authority through 36-09P; V46 adds provisional torsion-growth exclusion and exact Stage14 second-Pythagorean rank-jump reduction only"
+    "blob_sha": "dcdba98f4a7f103c2f409e1d5b3ee2885bbdf290",
+    "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V46_36_09Q_PENDING_HOSTILE_AUDIT",
+    "scope": "merged 36-09Q mathematical state; V47 promotes only hostile-audited torsion-growth exclusion and exact Stage14 second-Pythagorean base-change reduction"
   },
   "source_kernel": {
     "kernel": "K16-C3-CAMPEDELLI-UNIFORM-TORSOR",
@@ -33,11 +33,15 @@
       "E_TAU_GENERIC_TORSION": "Z/4 x Z/2",
       "E_TAU_GENERIC_RECEIVER_COMPATIBLE_POINTS": 0,
       "SPECIALIZED_RECEIVER_POINT_REQUIRES_MW_GROWTH": true,
-      "MW_GROWTH_SPECIES": ["positive rank jump", "torsion growth"],
       "RECEIVER_CLOSED": false
     },
     "36-09Q": {
-      "status": "EXACT_TORSION_GROWTH_EXCLUDED_AND_RANKJUMP_SECOND_BASECHANGE_REDUCTION_PENDING_HOSTILE_AUDIT",
+      "status": "AUDITED_EXACT_TORSION_GROWTH_EXCLUDED_AND_RANKJUMP_SECOND_BASECHANGE_REDUCTION",
+      "pr": 1652,
+      "hostile_audit_review": 5123710654,
+      "audited_head": "fa93c23842a272251a88066d9d31d321f28db288",
+      "exact_head_ci": "34003813914/101407291515",
+      "merged_main_sha": "aabe5d9d01f74ed2d68d27edaee7635af7c89ecf",
       "certificate": "stages/stage36/36-09Q/etau-torsion-growth-stage14-second-basechange-preflight.json",
       "certificate_blob_sha": "36b24b1a42231ccfec9364df6a8d52af13ceb6de",
       "verifier": "stages/stage36/verify_stage36_36_09Q.py",
@@ -53,24 +57,30 @@
       "POSITIVE_RANK_JUMPS_EXCLUDED": false,
       "S34_W03_INTERSECTION_EXECUTED": false,
       "RECEIVER_CLOSED": false,
-      "NEXT_AFTER_HOSTILE_PASS": "36-09R_E_TAU_SECOND_PYTHAGOREAN_RANKJUMP_RECEIVER_INTERSECTION_PREFLIGHT"
+      "NEXT": "36-09R_E_TAU_SECOND_PYTHAGOREAN_RANKJUMP_RECEIVER_INTERSECTION_PREFLIGHT"
     }
   },
   "source_locks": {
-    "stage36_v45_audited_state": {"path":"stages/stage36/MAIN-STATE.json","commit":"c17f1a681c220292f93880a726f1f571174f53b9","blob_sha":"313f70b43cd7ab7eaeb2a240027f9f9137492222"},
-    "stage36_36_09P_certificate": {"path":"stages/stage36/36-09P/etau-generic-mw-zero-exceptional-growth-preflight.json","blob_sha":"a611b698fccfbd29a971ccede5c77b6832101c77"},
+    "stage36_v46_merged_state": {"path":"stages/stage36/MAIN-STATE.json","commit":"aabe5d9d01f74ed2d68d27edaee7635af7c89ecf","blob_sha":"dcdba98f4a7f103c2f409e1d5b3ee2885bbdf290"},
     "stage36_36_09Q_certificate": {"path":"stages/stage36/36-09Q/etau-torsion-growth-stage14-second-basechange-preflight.json","blob_sha":"36b24b1a42231ccfec9364df6a8d52af13ceb6de"},
     "stage36_36_09Q_verifier": {"path":"stages/stage36/verify_stage36_36_09Q.py","blob_sha":"d56f1b83663165952dfdb4dc240f916fb6e33558"},
     "stage36_36_09Q_stage14_source_lock": {"path":"stages/stage36/36-09Q/stage14-pythagorean-basechange-source-lock.md","blob_sha":"cb231b7d1351a9787c3da2e187c4bd0e67adf7c9"},
     "stage14_4af": {"path":"stages/stage14/archive/stage14-4af-specialization-triple.md","blob_sha":"f14d6840d10aaa36df63b2d4a70a07d509b596ce"},
-    "S34_W03": {"path":"docs/arsenal/cards/formal/S34-W03.md","blob_sha":"1d5275321f42768a6414d4610ac912c63be43f96"}
+    "S34_W03": {"path":"docs/arsenal/cards/formal/S34-W03.md","blob_sha":"1d5275321f42768a6414d4610ac912c63be43f96"},
+    "research_credit_policy": {"path":"docs/research-os/policies/research-credit-and-promotion-firewalls.md"}
+  },
+  "freshness": {
+    "audit_pr_base": "43f3f3b135a2f5664cb8cc736d6db0b37d7b79da",
+    "audit_merge_parent": "43f3f3b135a2f5664cb8cc736d6db0b37d7b79da",
+    "merged_stage36_main": "aabe5d9d01f74ed2d68d27edaee7635af7c89ecf",
+    "audit_base_to_merge_parent_scope": "empty; no intervening drift"
   },
   "cycle_ledger": {
     "B1_DIRECT_UNIFORM_H1_SELMER": "BLOCKED",
     "B2_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION": "BLOCKED_BY_EXPLICIT_ALL_PLACE_LOCAL_POINTS",
-    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_E_TAU_SECOND_PYTHAGOREAN_RANKJUMP_RECEIVER_INTERSECTION_PENDING_AUDIT",
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_AUDITED_E_TAU_SECOND_PYTHAGOREAN_RANKJUMP_RECEIVER_INTERSECTION",
     "B3_FIXED_S_UNIFORM_FULL2_DESCENT_SUBROUTE": "BLOCKED_BY_UNBOUNDED_PHYSICAL_BASE_SQUARECLASS_SUPPORT",
-    "B3_TORSION_GROWTH_SUBROUTE": "CLOSED_PROVISIONAL_BY_STAGE14_EXACT_FIBERWISE_TORSION_TRANSFER",
+    "B3_TORSION_GROWTH_SUBROUTE": "CLOSED_AUDITED_BY_STAGE14_EXACT_FIBERWISE_TORSION_TRANSFER",
     "B3_POSITIVE_RANK_JUMP_SUBROUTE": "LIVE_ON_SECOND_PYTHAGOREAN_CONIC_BASE_CHANGE",
     "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION": "BLOCKED_NO_COMPLETE_JOINT_RANKJUMP_PLUS_RECEIVER_TEST_YET",
     "B5_CAMPEDELLI_BRAUER_ETALE_BRAUER": "BLOCKED_UPSTREAM_BR2A_BR2B_INCOMPLETE",
@@ -85,19 +95,18 @@
     "counts_exclude_named_B3_subroutes": true
   },
   "current": {
-    "unit": "36-09Q",
-    "next_exact_leaf": "HOSTILE_AUDIT_36_09Q",
-    "next_owner": "HOSTILE_AUDITOR",
-    "result": "E_TAU_TORSION_GROWTH_EXCLUDED; EXACT_STAGE14_SECOND_PYTHAGOREAN_BASECHANGE; ONLY_POSITIVE_RANK_JUMP_REMAINS; PENDING_HOSTILE_AUDIT",
+    "unit": "36-09R",
+    "next_exact_leaf": "36-09R_E_TAU_SECOND_PYTHAGOREAN_RANKJUMP_RECEIVER_INTERSECTION_PREFLIGHT",
+    "next_owner": "STAGE36_MAIN",
+    "result": "36-09Q_HOSTILE_AUDIT_PASS_PROMOTED; TORSION_GROWTH_CLOSED; ONLY_POSITIVE_RANK_JUMP_REMAINS_ON_SECOND_PYTHAGOREAN_BASE",
     "36_09Q_entry_allowed": true,
-    "36_09R_entry_allowed": false
+    "36_09R_entry_allowed": true
   },
   "current_leaf_working_set": [
     "stages/stage36/36-09Q/etau-torsion-growth-stage14-second-basechange-preflight.json",
     "stages/stage36/verify_stage36_36_09Q.py",
     "stages/stage36/36-09Q/stage14-pythagorean-basechange-source-lock.md",
     "stages/stage14/archive/stage14-4af-specialization-triple.md",
-    "stages/stage36/36-09P/etau-generic-mw-zero-exceptional-growth-preflight.json",
     "docs/arsenal/cards/formal/S34-W03.md",
     "docs/research-os/policies/research-credit-and-promotion-firewalls.md"
   ],
@@ -107,9 +116,9 @@
     "E_tau_generic_torsion_promoted": true,
     "E_tau_generic_receiver_points_excluded_promoted": true,
     "E_tau_torsion_growth_exclusion_certificate_complete": true,
-    "E_tau_torsion_growth_exclusion_promoted": false,
+    "E_tau_torsion_growth_exclusion_promoted": true,
     "E_tau_stage14_second_basechange_adapter_complete": true,
-    "E_tau_stage14_second_basechange_adapter_promoted": false,
+    "E_tau_stage14_second_basechange_adapter_promoted": true,
     "specialization_rank_jumps_excluded": false,
     "S34_W03_receiver_intersection_executed": false,
     "top_genus3_rational_points_exhausted": false,
@@ -125,13 +134,12 @@
     "do_not_claim_positive_rank_jump_exclusion_from_generic_rank_zero": true,
     "do_not_treat_stage14_rankjump_frequency_as_solved": true,
     "do_not_claim_S34_W03_close_before_joint_rankjump_receiver_exclusion": true,
-    "do_not_claim_top_C3_Q_point_exhaustion_from_one_quotient": true,
-    "do_not_start_36_09R_before_36_09Q_hostile_audit_PASS": true
+    "do_not_claim_top_C3_Q_point_exhaustion_from_one_quotient": true
   },
   "claims": {
     "new_theorem_credit": false,
-    "E_tau_torsion_growth_excluded_provisional": true,
-    "E_tau_stage14_second_basechange_adapter_provisional": true,
+    "E_tau_torsion_growth_excluded_promoted": true,
+    "E_tau_stage14_second_basechange_adapter_promoted": true,
     "positive_rank_jumps_excluded": false,
     "S34_W03_receiver_intersection_executed": false,
     "receiver_emptiness_proved": false,
