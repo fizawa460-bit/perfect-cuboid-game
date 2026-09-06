@@ -125,3 +125,145 @@ The E-records are anti-loop/history assets. In particular: moving specialization
 - Upper bound basis: `main` exactly at Harvest-start observation.
 - U-AA source candidates use PR #1664 hostile-audited batch head `25229e7b0dfbbc5524266ce49e8edaf217841701`; their mutable promotion remains outside the frozen upper-state authority.
 - Candidate-level source PR/head/path/blob, certificate blob, verifier/source-lock, audit status, field, quantifiers, exceptions and credit boundaries are in the JSON companion.
+
+# Harvest 2 / Mathematical Abstraction
+
+**DISCOVERY + ABSTRACTION COMPLETE**
+
+**HOSTILE DEDUP NOT YET COMPLETE**
+
+**ARSENAL PROMOTION NOT PERFORMED**
+
+The frozen harvest range remains exactly:
+
+```text
+HARVEST_LOWER_BOUND=62c26297ebeb159e9cdd1e6b9c2129dff6a4acdc
+HARVEST_UPPER_BOUND=07a465cb5025e7c0188fb63610bb40e4b54e7a84
+RANGE_EXPANDED=false
+```
+
+Harvest 2 removes Stage36 labels, concrete variable names, fixed exceptional constants, concrete primes, the particular quadratic extension, and receiver names only where the source proves an invariant contract. It does not turn one Stage36 instance into a general theorem. Exact per-candidate abstraction sheets are in `docs/arsenal/stage36-initial-abstraction.json`; Harvest 1 remains the provenance source for PR/head/path/blob/certificate/verifier/audit locators.
+
+## Harvest 2 classification
+
+- **ABSTRACTABLE: 12** — `DISC-S36-A01`, `A03`, `A04`, `A05`, `A06`, `B03`, `B05`, `B09`, `B10`, `B11`, `B12`, `B13`.
+- **PARTIALLY_ABSTRACTABLE: 8** — `DISC-S36-A02`, `A07`, `B01`, `B02`, `B06`, `B08`, `B14`, `F01`.
+- **STAGE36_SPECIFIC: 2** — `DISC-S36-D01`, `D02`.
+- **NEGATIVE_ONLY: 10** — `DISC-S36-B07`, `E01`, `E02`, `E03`, `E04`, `E05`, `E06`, `E07`, `E08`, `E09`.
+- **WORKFLOW_ONLY: 4** — `DISC-S36-B04`, `C01`, `C02`, `C03`.
+
+`DISC-S36-F01` is mathematically abstractable only as a candidate gate. Its positive use remains blocked because the hostile audit found verifier-coverage failure; Harvest 2 does not upgrade the later user-pass repair into hostile-audit credit.
+
+## Main abstraction results
+
+### Kernel inventory chain
+
+The reusable chain is not the Stage36 numerical inventory. The abstract pieces are:
+
+```text
+complete finite labelled population
+-> exact symmetry/action and source-derived kernel semantics
+-> kernel + stabilizer + radical + squareclass invariants
+-> deterministic symmetry quotient
+-> canonical representatives with orbit/degree metadata
+```
+
+This is only **partially** independent of `S30-W01`: finite enumeration/canonical symmetry identification is existing territory, while the Stage36 kernel/squareclass decoration requires a source-defined invariant. Extension-field orbit merging is explicitly not base-field descent.
+
+### Reciprocal route
+
+`DISC-S36-A03` survives payload stripping as:
+
+```text
+reciprocal-symmetric nonzero product-square receiver
+-> quotient by coordinate inversion using u + u^-1 invariants
+-> cancel only an exact square factor
+-> retain reconstruction-square conditions for each original coordinate
+-> isolate denominator/fixed-locus exceptions
+-> independently close every exceptional compatibility branch
+-> exact lower-complexity iff receiver on the audited open
+```
+
+This is not automatically `S35-PW04`. `S35-PW04` compresses a **completed simultaneous square receiver by a shared reciprocal factor with forward/inverse square-root scalings**; Stage36 A03 instead quotients by reciprocal involutions and carries separate reconstruction-square data. Harvest 3 must decide whether this operational difference warrants a new contract or an extension.
+
+### Character and squareclass route
+
+`DISC-S36-B05` abstracts to exact F2 row-space reduction of a complete squareclass-character system. It may yield a proper intermediate receiver or prove endpoint equivalence. It does **not** create finite prime support. `DISC-S36-B07` is demoted to `NEGATIVE_ONLY`: once the legal character universe is complete, exhaustive row-space comparison can prove there is no strictly intermediate **linear** character receiver, but says nothing about nonlinear refinements.
+
+`DISC-S36-B14` is only partially abstractable. What transfers is the construction procedure
+
+```text
+source-derived coprime prime reservoirs
++ selected Kummer classes
+-> self-prime / cross-prime / dyadic / real local character rows
+-> exact local admissibility matrix
+```
+
+The particular number of reservoirs and residue formulas are payload. This output is local-only and is not `S35-PW05`, which completes an all-prime finite exceptional set by small-prime census plus a large-prime Weil argument.
+
+### Hilbert / reciprocity route
+
+The Stage36 source reaches exact local character/Hilbert rows and some complete placewise criteria, but not a global receiver obstruction. The negative boundary is load-bearing:
+
+```text
+parameter-only product formula != receiver obstruction
+locally admissible Kummer class != global Selmer/MW class
+local compatibility != receiver rational point
+```
+
+Accordingly the positive local-matrix construction remains partial (`B14`), while the product-formula and pure-local closure failures are `NEGATIVE_ONLY` (`E06`, `E07`).
+
+### Twist / rank-jump route
+
+The reusable part of `DISC-S36-A06` does not depend on the particular quadratic extension. For an explicit quadratic extension `L/K` and twist isomorphism, an anti-invariant `L`-point direction corresponds to a rational point on the quadratic twist. If a source receiver forces an independent anti-invariant direction beyond a certified generic baseline, this gives a **necessary** twist rank/Kummer-image growth obligation. It gives no converse receiver existence.
+
+`B11` abstracts the proof pattern for establishing a generic relative-2-isogeny Kummer/rank baseline from one injective specialization plus complete fixed-fiber descent. `B12` then converts a certified generic MW baseline into a necessary specialization-growth obligation. Neither supplies uniform fiber rank or receiver emptiness.
+
+### Source-lift adapters
+
+Two distinct reusable objects remain for Harvest 3 comparison:
+
+- `A04`: a quotient point lifts through a quadratic/top cover iff one exact rational lift function is a nonzero square, with zero/pole divisor and converse reconstruction audited.
+- `B03`: a finite elementary-2 torsor point carries a tuple of chartwise character squareclasses; the source fiber is rationally nonempty iff the pointwise H1 class is trivial.
+
+These must be compared with `S35-PW03` and `S33-PW09` by object type and marking, not by the word “Kummer”.
+
+### Elliptic and exceptional-locus pieces
+
+`B09` is fully abstractable but already matches `S31-W01` at the interface level: exact quartic/elliptic maps, inverse denominators, projective exceptions and round trips. Harvest 3 should therefore expect duplicate/extension routing rather than a new weapon.
+
+`B10` leaves a clean source-independent lemma: for a split full-2 model `y^2=x(x+a^2)(x+b^2)`, the explicit point `(ab,ab(a+b))` halves the selected rational 2-torsion point and feeds the standard 2-isogeny normalization, subject to nondegeneracy. Higher 2-power torsion still requires a separate halving gate.
+
+Generic exceptional-locus methodology is retained throughout: a generic reduction is not legal until denominators, fixed loci, singular fibers, branch points and reconstruction failures are isolated. A Stage36-specific exceptional constant is provenance, not a reusable theorem constant.
+
+## Strongest reusable contracts entering Harvest 3
+
+1. `DISC-S36-A03` — reciprocal involution receiver reduction with exact reconstruction-square and exceptional-locus audit.
+2. `DISC-S36-A06` — quadratic-extension anti-invariant twist descent as a necessary rank/Kummer growth gate.
+3. `DISC-S36-A05` — V4 curve/Jacobian quotient decomposition with independent differential-span certification.
+4. `DISC-S36-A04` — exact quotient-point squarefunction lift criterion with converse reconstruction.
+5. `DISC-S36-B03` — pointwise elementary-2 torsor H1 lift-class chart adapter.
+6. `DISC-S36-B10` — split-full-2 order-4 half plus exact 2-isogeny normalization.
+7. `DISC-S36-B11` — relative 2-isogeny Kummer baseline from complete specialization descent plus injectivity.
+8. `DISC-S36-B12` — generic MW subgroup to necessary receiver specialization-growth obligation.
+9. `DISC-S36-A01` — complete elementary-abelian character quotient genus inventory.
+10. `DISC-S36-B14` — dynamic directional prime-reservoir local character matrix, partial only.
+
+## Harvest 3 exact handoff
+
+Harvest 3 must keep the exact same lower/upper bounds and hostile-dedup the 36 abstraction sheets by source object, target object, population, field, quantifiers, primitive/coprime hypotheses, squareclass assumptions, markedness, local/global scope, reconstruction, finiteness, failure mode, semantic credit boundary and source-lock requirement.
+
+Priority comparisons:
+
+- `A03` vs `S35-PW04`.
+- `A04` and `B03` vs `S35-PW03` and `S33-PW09`.
+- `A06` vs `S30-W02` and `S34-W02`.
+- `A07` vs `S34-W03` and `S35-PW04`.
+- `B01` vs `S30-W01/S30-W02`.
+- `B05` vs `S35-PW01/S34-W01`.
+- `B09` vs `S31-W01`.
+- `B11/B12/B13` vs `S34-W02/S31-W03`.
+- `B14` vs `S35-PW01/S35-PW05`.
+- `C01` vs `S30-WF02/S30-WF03`; `C02/C03` vs Research OS and `S34-WF01`.
+
+Do not promote `NEGATIVE_ONLY`, do not force `WORKFLOW_ONLY` into the mathematical weapon namespace, keep `D01/D02` Stage36-specific unless a genuinely source-independent interface appears, and retain the `F01` audit-maturity hold. No stable IDs, registry changes, cards/catalog generation, Stage36 authority changes, or merge are authorized in Harvest 2.
