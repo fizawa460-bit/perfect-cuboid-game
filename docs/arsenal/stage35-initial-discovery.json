@@ -1,0 +1,419 @@
+{
+  "schema": "arsenal.stage35.initial.discovery.v1",
+  "status": "DISCOVERY_ONLY_NOT_ARSENAL_PROMOTION",
+  "harvest_stage": "Stage35_and_Stage35-EX",
+  "bounds": {
+    "stage35_canonical_inception": "43b5cc4a655cf68e9bdefad22800071d6f8d9fa0",
+    "stage35_inception_pr": 1506,
+    "stage35_ex_canonical_inception": "7423eab4043f2846ca54d02c4323dce40eaac105",
+    "stage35_ex_inception_basis": "oldest authoritative main-path commit introducing stages/stage35-ex startup charter; old working SOURCE_HEAD not used as ancestry premise",
+    "harvest_upper_bound": "9184c7ab694415592cc428a675c0ebed27cac510",
+    "scope_rule": "Stage35 inception -> upper bound, union Stage35-EX inception -> upper bound; read at exact upper-bound snapshot"
+  },
+  "firewall": {
+    "arsenal_index_modified": false,
+    "generated_cards_modified": false,
+    "catalog_modified": false,
+    "stable_id_assignment": false,
+    "stage35_main_state_modified": false,
+    "stage35_ex_authority_modified": false,
+    "theorem_credit_added": false,
+    "receiver_credit_added": false,
+    "endpoint_credit_added": false,
+    "stage35_closed": false,
+    "merge_authorized": false
+  },
+  "arsenal_lookup_rule": "docs/arsenal/index.json first, then semantic near-neighbor cards only",
+  "near_neighbors": ["S34-W01", "S34-W03", "S34-WF01", "S33-PW04", "S33-PW07"],
+  "classification_summary": {"total": 36, "A": 11, "B": 7, "C": 6, "D": 3, "E": 6, "F": 3},
+  "classification_meaning": {
+    "A": "probable NEW_WEAPON",
+    "B": "probable EXTEND_EXISTING",
+    "C": "probable NEW_WORKFLOW",
+    "D": "STAGE35_SPECIFIC",
+    "E": "HISTORICAL_OR_NEGATIVE",
+    "F": "unresolved"
+  },
+  "canonical_sha256_policy": "canonical_sha256 is source-published digest when located. null means the source artifact did not expose a canonical SHA256 during Harvest 1; do not invent one. Exact snapshot commit and Git blob SHA remain mandatory provenance.",
+  "candidates": [
+    {
+      "temporary_id": "DISC-S35-A01", "classification": "A", "source_cluster": "A:E1_REDUCTION", "polarity": "positive",
+      "title": "primitive counterexample to double-Pythagorean product-rectangle reduction",
+      "reusable_input": "primitive counterexample data after gcd normalization", "reusable_output": "two primitive Pythagorean branches plus a coprime product rectangle",
+      "hypotheses": "integral primitive source; exact gcd split; parity branch fixed", "quantifiers": "every source satisfying the locked counterexample hypotheses", "field": "Q/Z",
+      "exact_reduction": "gcd decomposition -> primitive normalization -> two Pythagorean parameterizations -> cross-equation -> coprime product rectangle",
+      "applicability": "coupled Diophantine square/norm systems producing two primitive Pythagorean equations", "failure_boundary": "does not force factorwise squares or contradiction", "semantic_credit_boundary": "reduction only; no E1/R29/FIB2/Stage35/endpoint closure",
+      "nearest_arsenal_card": "S34-W01", "suspected_overlap": "upstream structural precursor to factor-square/squareclass descent",
+      "source_pr": 1509, "exact_source_head_or_commit": "9184c7ab694415592cc428a675c0ebed27cac510", "certificate_path": "stages/stage35-ex/35ex-04/product-rectangle-reduction.md", "verifier": null, "blob_sha": "186226223798e89e97d504ead7931b8209d63282", "canonical_sha256": null, "hostile_audit_status": "PASS in #1509 aggregate hostile audit"
+    },
+    {
+      "temporary_id": "DISC-S35-A02", "classification": "A", "source_cluster": "B:SQUARECLASS", "polarity": "positive",
+      "title": "pairwise gcd reservoir support decomposition",
+      "reusable_input": "four bilinear factors on each primitive branch", "reusable_output": "exact pairwise gcd-support reservoirs and 2-adic bookkeeping",
+      "hypotheses": "primitive opposite-parity parameter pairs; locked branch formulas", "quantifiers": "all factor pairs on both branches", "field": "Q/Z",
+      "exact_reduction": "reduce each pairwise gcd to Gplus/Gminus or cross-coordinate gcd reservoirs and separate the 2-adic part",
+      "applicability": "factor-square descents with parameter-dependent prime sharing", "failure_boundary": "reservoir primes remain dynamic; no fixed finite support theorem", "semantic_credit_boundary": "support theorem only; S34-W01 finite enumeration remains gated",
+      "nearest_arsenal_card": "S34-W01", "suspected_overlap": "strong precondition extension, not the exhaustive descent itself",
+      "source_pr": null, "exact_source_head_or_commit": "9184c7ab694415592cc428a675c0ebed27cac510", "certificate_path": "stages/stage35-ex/35ex-06/gcd-squareclass-certificate.json", "verifier": null, "blob_sha": "380d2ab51c4b1a646b4b5c3ba6aae5914ba02252", "canonical_sha256": null, "hostile_audit_status": "promoted in later authority; exact review not re-resolved in Harvest 1"
+    },
+    {
+      "temporary_id": "DISC-S35-A03", "classification": "A", "source_cluster": "B:SQUARECLASS", "polarity": "positive",
+      "title": "complete bridge squareclass graph / reservoir decomposition",
+      "reusable_input": "coupled branch factors with gcd support", "reusable_output": "complete squareclass sharing graph retaining live reservoirs",
+      "hypotheses": "exact factorization and pairwise gcd identities", "quantifiers": "all branch factors and all pairwise sharing channels", "field": "Q/Z",
+      "exact_reduction": "encode factor nodes, sharing edges, parity labels, and reservoir ownership as one complete graph",
+      "applicability": "multi-factor squareclass problems requiring an auditable map of admissible prime sharing", "failure_boundary": "graph completeness does not imply finite support or solvability", "semantic_credit_boundary": "receiver description only",
+      "nearest_arsenal_card": "S34-W01", "suspected_overlap": "graph-construction extension; not finite exhaustive squareclass descent",
+      "source_pr": null, "exact_source_head_or_commit": "9184c7ab694415592cc428a675c0ebed27cac510", "certificate_path": "stages/stage35-ex/35ex-09/bridge-squareclass-certificate.json", "verifier": null, "blob_sha": "000f32599d404e5b5ea0a3a3b8495d14405a8e5e", "canonical_sha256": null, "hostile_audit_status": "promoted in later authority; exact review not re-resolved in Harvest 1"
+    },
+    {
+      "temporary_id": "DISC-S35-A04", "classification": "A", "source_cluster": "C:GAUSSIAN_NORM", "polarity": "positive",
+      "title": "dual-orientation Gaussian squareclass coupling",
+      "reusable_input": "a norm-form receiver with two Gaussian orientations", "reusable_output": "coupled squareclass constraints modulo unit/conjugation ambiguity",
+      "hypotheses": "primitive norm inputs; both orientations source-locked", "quantifiers": "every source in the locked alternate-norm receiver", "field": "Q(i) with rational source",
+      "exact_reduction": "factor in Z[i] in both orientations, quotient units/conjugates, intersect induced rational squareclass conditions",
+      "applicability": "norm-form problems where a second orientation gives independent coupling", "failure_boundary": "standalone alternate norm may be mirror-equivalent", "semantic_credit_boundary": "coupling only; no global obstruction automatically follows",
+      "nearest_arsenal_card": null, "suspected_overlap": "possible future Gaussian/norm card; no exact current card identified",
+      "source_pr": 1515, "exact_source_head_or_commit": "0dff1852f30f832e5fef104bcd143c0ee82365c0", "certificate_path": "stages/stage35-ex/35ex-13/alternate-norm-gaussian-coupling.md", "verifier": "35EX-13 verifier exists; exact path to re-resolve in Harvest 2", "blob_sha": "196d2be1bbfbcb2b416535d7bb051a9b2ec93104", "canonical_sha256": null, "hostile_audit_status": "PASS/promoted; merge #1515"
+    },
+    {
+      "temporary_id": "DISC-S35-A05", "classification": "A", "source_cluster": "D:KUMMER", "polarity": "positive",
+      "title": "base-involution receiver descent",
+      "reusable_input": "reciprocal/base involution on a rational-source receiver", "reusable_output": "lower-dimensional invariant receiver with exact inverse-orbit accounting",
+      "hypotheses": "exact involution; fixed and boundary loci classified", "quantifiers": "all rational source points off explicit exceptional loci", "field": "Q",
+      "exact_reduction": "pass to invariant coordinates and prove converse reconstruction up to the involution",
+      "applicability": "families with a rational involution preserving the receiver", "failure_boundary": "fixed/boundary points require separate discharge; quotient points need not lift uniquely", "semantic_credit_boundary": "adapter only; no receiver emptiness",
+      "nearest_arsenal_card": null, "suspected_overlap": "generic quotient/involution pattern but no exact current card located",
+      "source_pr": 1567, "exact_source_head_or_commit": "74144644975d7800c6c5b529c5d8789f70366c2e", "certificate_path": "stages/stage35-ex/35ex-26/base-involution-receiver-certificate.json", "verifier": null, "blob_sha": "ec3df8ed179295097878b1d8817edbf446418f2a", "canonical_sha256": null, "hostile_audit_status": "PASS/promoted; merge #1567"
+    },
+    {
+      "temporary_id": "DISC-S35-A06", "classification": "A", "source_cluster": "D:KUMMER", "polarity": "positive",
+      "title": "rational-source lift to Kummer normal form",
+      "reusable_input": "rational-source quotient receiver with exact converse data", "reusable_output": "explicit Kummer-style normal form preserving rational-source lift semantics",
+      "hypotheses": "35EX-26 quotient receiver; nondegenerate denominators; source orientation fixed", "quantifiers": "all rational-source points in the locked open", "field": "Q",
+      "exact_reduction": "introduce rational lift variables, normalize square equations, prove forward/converse maps",
+      "applicability": "Diophantine receivers admitting a Kummer surface/cover normal form", "failure_boundary": "Kummer form alone gives no MW/Brauer/point-set closure", "semantic_credit_boundary": "normal-form equivalence only",
+      "nearest_arsenal_card": "S33-PW04", "suspected_overlap": "marked-source provenance philosophy overlaps; mathematical construction differs",
+      "source_pr": 1571, "exact_source_head_or_commit": "dc1930632304d2c47e5583e4d8cb324cbbd73e15", "certificate_path": "stages/stage35-ex/35ex-27/rational-source-lift-kummer-certificate.json", "verifier": null, "blob_sha": "df6637ce8b5a4127edb70d5d1f1d973ee300a9ca", "canonical_sha256": null, "hostile_audit_status": "PASS; merge commit ee3e7aafd1742c5d96e2871f117412ef0823d57e"
+    },
+    {
+      "temporary_id": "DISC-S35-A07", "classification": "A", "source_cluster": "D:KUMMER", "polarity": "positive",
+      "title": "full rational-source Kummer completion",
+      "reusable_input": "partial Kummer normal form with residual square conditions", "reusable_output": "complete finite K1-K4 rational-source receiver with exact reconstruction",
+      "hypotheses": "35EX-27 normal form; all denominator/boundary cases controlled", "quantifiers": "all locked rational-source points", "field": "Q",
+      "exact_reduction": "complete missing Kummer coordinates/equations and prove equivalence in both directions",
+      "applicability": "systems where an initial Kummer reduction leaves finitely many coupled square conditions", "failure_boundary": "does not prove rational-point emptiness or uniform MW closure", "semantic_credit_boundary": "complete receiver model only",
+      "nearest_arsenal_card": "S33-PW04", "suspected_overlap": "marked-source overlap only; not a Picard/Brauer adapter",
+      "source_pr": 1576, "exact_source_head_or_commit": "0ebf2cfec83a39b016f61b996a0dd533d242de87", "certificate_path": "stages/stage35-ex/35ex-28/full-rational-source-kummer-certificate.json", "verifier": null, "blob_sha": "3e000f5580ac9342de8a7c036e03d0d803c706b3", "canonical_sha256": null, "hostile_audit_status": "PASS/promoted; merge #1576"
+    },
+    {
+      "temporary_id": "DISC-S35-A08", "classification": "A", "source_cluster": "C/D:NORM_KUMMER", "polarity": "positive",
+      "title": "reciprocal common-factor Kummer compression",
+      "reusable_input": "completed multi-equation Kummer receiver with reciprocal structure", "reusable_output": "shared-factor compressed receiver reducing duplicated square conditions",
+      "hypotheses": "full K1-K4 receiver; reciprocal identities source-locked", "quantifiers": "all points on the completed receiver in the locked open", "field": "Q",
+      "exact_reduction": "factor reciprocal pairs, extract common factor, replace K1-K4 by the smaller equivalent shared-factor system",
+      "applicability": "multi-norm or Kummer systems with reciprocal polynomial pairs", "failure_boundary": "compression may expose no contradiction; shared factor can remain dynamic", "semantic_credit_boundary": "equivalent compression only",
+      "nearest_arsenal_card": null, "suspected_overlap": "potential general norm/Kummer compression card",
+      "source_pr": 1579, "exact_source_head_or_commit": "38434ea3c4124efd1cc04a228e85b2fd207f2c14", "certificate_path": "stages/stage35-ex/35ex-29/reciprocal-common-factor-kummer-certificate.json", "verifier": "35EX-29 symbolic verifier exists; exact path to re-resolve in Harvest 2", "blob_sha": "2f9f89d0571753e5885cf37b64de5f9367146d4d", "canonical_sha256": null, "hostile_audit_status": "PASS/promoted; merge #1579"
+    },
+    {
+      "temporary_id": "DISC-S35-A09", "classification": "A", "source_cluster": "B:SQUARECLASS", "polarity": "positive",
+      "title": "primitive edge-gcd six-variable decomposition",
+      "reusable_input": "primitive triple A,B,C with three pairwise face equations", "reusable_output": "A=xy*a, B=xz*b, C=yz*c plus exact coprimality/parity dictionary",
+      "hypotheses": "gcd(A,B,C)=1; positive integral endpoint triple", "quantifiers": "every primitive integral triple satisfying three face-square equations", "field": "Z",
+      "exact_reduction": "x=gcd(A,B), y=gcd(A,C), z=gcd(B,C); divide to private cofactors and derive only justified coprimalities",
+      "applicability": "three-variable Diophantine systems controlled by pairwise gcds", "failure_boundary": "not a universal torsor; several cofactor/gcd pairs remain unrestricted", "semantic_credit_boundary": "decomposition/parity only; no fourth-square restriction",
+      "nearest_arsenal_card": "S34-W01", "suspected_overlap": "prepares squareclass descent but lacks finite exhaustive support",
+      "source_pr": 1603, "exact_source_head_or_commit": "17c53d659e8d5d49b6e2bfca5c65c38a8658ac0d", "certificate_path": "stages/stage35-ex/35ex-35/private-edge-gcd-six-variable-decomposition.json", "verifier": null, "blob_sha": "d0cd03a5ff744d5f6536b6d2784c0e0d543fea48", "canonical_sha256": null, "hostile_audit_status": "merged after hostile-audit gate; exact review to re-resolve in Harvest 2"
+    },
+    {
+      "temporary_id": "DISC-S35-A10", "classification": "A", "source_cluster": "F:LOCAL_ARITHMETIC", "polarity": "positive",
+      "title": "finite exceptional-prime classification by exact census plus Weil completion",
+      "reusable_input": "polynomial local-solution family and a prime-wise support-degeneration question", "reusable_output": "finite exact exceptional-prime set plus constructive nondegenerate solutions for all large primes",
+      "hypotheses": "smooth auxiliary curve outside explicit bad primes; exact small-prime census", "quantifiers": "all odd primes", "field": "F_p / Q_p routing",
+      "exact_reduction": "exhaust small primes; for large p bound bad affine points on a smooth genus-g curve and apply Weil lower bound to force a good point",
+      "applicability": "local-obstruction classifications where an explicit family covers all sufficiently large primes", "failure_boundary": "classifies only the chosen local support obstruction, not all Q_p conditions", "semantic_credit_boundary": "local theorem only; no global contradiction",
+      "nearest_arsenal_card": "S34-W03", "suspected_overlap": "receiver-intersection philosophy overlaps; prime-classification mechanism is distinct",
+      "source_pr": 1633, "exact_source_head_or_commit": "fcedffa7f2d768ee8b1bc78b04611e1f0a401e77", "certificate_path": "stages/stage35-ex/35ex-35/goal4e-all-odd-prime-zero-support-classification.json", "verifier": null, "blob_sha": "58ffdb975e95ba1d636ab8ff3b364d5042fe94a7", "canonical_sha256": null, "hostile_audit_status": "reported later hostile-audited authority; certificate text itself retains provisional wording"
+    },
+    {
+      "temporary_id": "DISC-S35-A11", "classification": "A", "source_cluster": "F:LOCAL_ARITHMETIC", "polarity": "positive",
+      "title": "p-adic valuation cone and cross-face gap coupling",
+      "reusable_input": "local square system at an odd prime with forced coordinate divisibility", "reusable_output": "valuation cone, diagonal valuation rule, signed gap identity, and cross-face congruence",
+      "hypotheses": "primitive source; prime-specific residue hypotheses such as -1 nonsquare in the instantiated route", "quantifiers": "all local solutions in the locked p=7 branches", "field": "Q_7",
+      "exact_reduction": "compare valuations in sums of two squares, Hensel-lift unit squares, use (W-D)(W+D)=A_i^2 for exact signed gaps",
+      "applicability": "local norm/square systems with opposite-diagonal gap products", "failure_boundary": "p=7 gives no extra elimination beyond the mod-p cut; generalization is prime-dependent", "semantic_credit_boundary": "local coupling only",
+      "nearest_arsenal_card": "S34-W03", "suspected_overlap": "exact local receiver analysis extension",
+      "source_pr": null, "exact_source_head_or_commit": "9184c7ab694415592cc428a675c0ebed27cac510", "certificate_path": "stages/stage35-ex/35ex-35/goal4d-full-q7-valuation-crossface-closure.json", "verifier": null, "blob_sha": "e339e553841ec698d569a79b3acefbab5f6d2dba", "canonical_sha256": null, "hostile_audit_status": "source certificate says pending hostile audit; later promotion status to verify"
+    },
+
+    {
+      "temporary_id": "DISC-S35-B01", "classification": "B", "source_cluster": "A/B:E1_SQUARECLASS", "polarity": "positive",
+      "title": "four-bilinear-factor product-square receiver",
+      "reusable_input": "coprime product rectangle plus additive relation", "reusable_output": "product of four explicit bilinear factors is a square on each branch",
+      "hypotheses": "35EX-04 rectangle and primitive branch equations", "quantifiers": "every hypothetical counterexample branch", "field": "Q/Z",
+      "exact_reduction": "substitute additive relation and factor the square target into four bilinear factors",
+      "applicability": "factor-square descent pipelines", "failure_boundary": "no factorwise-square conclusion without gcd support", "semantic_credit_boundary": "receiver only; direct Stage34 transfer forbidden until finite support",
+      "nearest_arsenal_card": "S34-W01", "suspected_overlap": "high; probable extension rather than new weapon",
+      "source_pr": 1509, "exact_source_head_or_commit": "9184c7ab694415592cc428a675c0ebed27cac510", "certificate_path": "stages/stage35-ex/35ex-05/reduction-certificate.json", "verifier": null, "blob_sha": "b86c434d1ff48021ac123c16610177f5dfc294df", "canonical_sha256": null, "hostile_audit_status": "PASS in #1509"
+    },
+    {
+      "temporary_id": "DISC-S35-B02", "classification": "B", "source_cluster": "D:GENUS5", "polarity": "positive",
+      "title": "direct full-endpoint fibration reconstruction adapter",
+      "reusable_input": "selected genus-5 fiber point or nondegenerate endpoint", "reusable_output": "exact bidirectional fiber<->endpoint reconstruction with no residual K3 square predicate",
+      "hypotheses": "t in Q, t>1 for physical normalization; nonzero denominators/coordinates", "quantifiers": "all physical endpoints and all fiber points in the physical open", "field": "Q",
+      "exact_reduction": "t=(e+d)/z forward; e=((t^2-1)/(t^2+1))d and z=2td/(t^2+1) converse",
+      "applicability": "receiver replacement where a direct fibration absorbs a historical residual lift condition", "failure_boundary": "uniform rational-point emptiness remains unproved", "semantic_credit_boundary": "adapter only",
+      "nearest_arsenal_card": "S34-WF01", "suspected_overlap": "strong workflow overlap; concrete exact adapter instance",
+      "source_pr": 1506, "exact_source_head_or_commit": "43b5cc4a655cf68e9bdefad22800071d6f8d9fa0", "certificate_path": "stages/stage35/35-03/direct-endpoint-reconstruction.json", "verifier": "stages/stage35/verify_stage35_35_01_to_09.py", "blob_sha": "8b491e681243af3b2fe21c2133d5106b4de0daa4", "canonical_sha256": null, "hostile_audit_status": "PASS in Stage35 35-01..09 hostile re-audit"
+    },
+    {
+      "temporary_id": "DISC-S35-B03", "classification": "B", "source_cluster": "E:PICARD_BRAUER", "polarity": "positive",
+      "title": "full marked Picard/Galois module adapter on proper model",
+      "reusable_input": "source-locked divisor basis and Galois action", "reusable_output": "full Picard lattice/Galois module in the correct marking",
+      "hypotheses": "proper smooth compactification; exact source marking and rank lock", "quantifiers": "locked proper surface model", "field": "Qbar/Q",
+      "exact_reduction": "transport coordinate ramification divisors into rank-64 source marking and verify Galois matrices",
+      "applicability": "proper-surface arithmetic requiring identification with a known Picard lattice", "failure_boundary": "does not describe open-boundary Picard or integral-point Brauer groups", "semantic_credit_boundary": "proper marked Picard adapter only",
+      "nearest_arsenal_card": "S33-PW04", "suspected_overlap": "very high; likely extend existing exact-marked-source adapter",
+      "source_pr": null, "exact_source_head_or_commit": "9184c7ab694415592cc428a675c0ebed27cac510", "certificate_path": "stages/stage35-ex/35ex-35/goal4v-full-picard-galois-module-adapter.json", "verifier": null, "blob_sha": "b8e48f76f6b1b1d904337581d2debf45747ed77f", "canonical_sha256": null, "hostile_audit_status": "provisional/authority status requires Harvest 2 verification"
+    },
+    {
+      "temporary_id": "DISC-S35-B04", "classification": "B", "source_cluster": "E:PICARD_BRAUER", "polarity": "positive",
+      "title": "proper Picard H1 to algebraic-Brauer computation",
+      "reusable_input": "fully source-locked Picard Galois module", "reusable_output": "exact H^1(G,Pic) / algebraic Brauer result for proper model",
+      "hypotheses": "full Picard module correct; Hochschild-Serre hypotheses", "quantifiers": "locked proper compactification", "field": "Q",
+      "exact_reduction": "compute group cohomology on exact Picard G-module and interpret via Br_1/Br_0",
+      "applicability": "proper varieties with explicit Galois Picard module", "failure_boundary": "proper result does not settle open receiver or transcendental Brauer", "semantic_credit_boundary": "proper algebraic Brauer only",
+      "nearest_arsenal_card": "S33-PW07", "suspected_overlap": "Brauer/cohomology semantics overlap; exact role differs",
+      "source_pr": null, "exact_source_head_or_commit": "9184c7ab694415592cc428a675c0ebed27cac510", "certificate_path": "stages/stage35-ex/35ex-35/goal4w-full-picard-h1-algebraic-brauer.json", "verifier": null, "blob_sha": "f4d09daf2961a9cd2a82bba1ce4ce47939f7fadb", "canonical_sha256": null, "hostile_audit_status": "provisional/authority status requires Harvest 2 verification"
+    },
+    {
+      "temporary_id": "DISC-S35-B05", "classification": "B", "source_cluster": "F:LOCAL_ARITHMETIC", "polarity": "positive",
+      "title": "finite forced-prime support receiver",
+      "reusable_input": "finite forced primes with per-prime nonempty proper coordinate-zero supports", "reusable_output": "finite labeled support assignments and symmetry orbits",
+      "hypotheses": "exact forced-prime classification and primitive source", "quantifiers": "all global primitive integer endpoints, restricted to forced-prime support data", "field": "Z",
+      "exact_reduction": "cartesian product of per-prime support options, then quotient by S3/Burnside",
+      "applicability": "global routing after exact local support classifications", "failure_boundary": "does not control valuation parity at arbitrary other primes", "semantic_credit_boundary": "not a finite exhaustive squareclass family",
+      "nearest_arsenal_card": "S34-W01", "suspected_overlap": "strictly weaker finite-support receiver",
+      "source_pr": 1633, "exact_source_head_or_commit": "fcedffa7f2d768ee8b1bc78b04611e1f0a401e77", "certificate_path": "stages/stage35-ex/35ex-35/goal4e-all-odd-prime-zero-support-classification.json", "verifier": null, "blob_sha": "58ffdb975e95ba1d636ab8ff3b364d5042fe94a7", "canonical_sha256": null, "hostile_audit_status": "reported later hostile-audited authority; certificate text provisional"
+    },
+    {
+      "temporary_id": "DISC-S35-B06", "classification": "B", "source_cluster": "G:SOURCE_MARKING", "polarity": "positive",
+      "title": "primitive source-marking endpoint equivalence",
+      "reusable_input": "normalized primitive endpoint and historical/source coordinate presentation", "reusable_output": "exact population equivalence and orientation-safe source marking",
+      "hypotheses": "primitive normalization; sign/scale gauges enumerated", "quantifiers": "all nondegenerate primitive endpoints in locked population", "field": "Q/Z",
+      "exact_reduction": "prove forward/inverse coordinate maps, normalize gcd/sign, record residual gauge group",
+      "applicability": "cross-paper/source adapters for equivalent Diophantine populations", "failure_boundary": "population equivalence does not automatically transport theorem credit", "semantic_credit_boundary": "adapter only",
+      "nearest_arsenal_card": "S33-PW04", "suspected_overlap": "strong marked-source overlap; probable extension/worked example",
+      "source_pr": null, "exact_source_head_or_commit": "9184c7ab694415592cc428a675c0ebed27cac510", "certificate_path": "stages/stage35-ex/35ex-31/primitive-source-marking-certificate.json", "verifier": null, "blob_sha": "9f28f4aaeccf3a48cf8c02745708845783dc1788", "canonical_sha256": null, "hostile_audit_status": "promoted later; exact hostile review not re-resolved"
+    },
+    {
+      "temporary_id": "DISC-S35-B07", "classification": "B", "source_cluster": "D:ELLIPTIC", "polarity": "positive",
+      "title": "elliptic quotient structure inventory for diagonal genus-5 family",
+      "reusable_input": "diagonal genus-5 complete intersection with sign involutions", "reusable_output": "explicit elliptic quotient Jacobians over Q(t), full rational 2-torsion, degenerate generic sections",
+      "hypotheses": "smooth generic fiber; quotient involutions exact", "quantifiers": "generic parameter t", "field": "Q(t)",
+      "exact_reduction": "take sign-involution quotients, derive cubic models, compute discriminants and generic sections",
+      "applicability": "high-genus diagonal families where elliptic quotients organize arithmetic attacks", "failure_boundary": "quotients/sections do not control specialization-new points", "semantic_credit_boundary": "structure only; no uniform closure",
+      "nearest_arsenal_card": null, "suspected_overlap": "generic elliptic-quotient methods may overlap, no exact indexed card identified",
+      "source_pr": 1506, "exact_source_head_or_commit": "43b5cc4a655cf68e9bdefad22800071d6f8d9fa0", "certificate_path": "stages/stage35/35-08/elliptic-quotient-structure.json", "verifier": "stages/stage35/35-08/verify_35_08.py", "blob_sha": "94967ca2b0a360d11e702106b437899865a4bf4f", "canonical_sha256": null, "hostile_audit_status": "PASS in Stage35 aggregate"
+    },
+
+    {
+      "temporary_id": "DISC-S35-C01", "classification": "C", "source_cluster": "G:WORKFLOW", "polarity": "workflow",
+      "title": "post-new-receiver breadth re-audit",
+      "reusable_input": "materially new receiver/reduction obtained mid-search", "reusable_output": "fresh route census and explicit next-route selection",
+      "hypotheses": "new receiver changes enabled methods or old route ranking", "quantifiers": "after every materially new receiver before further narrowing", "field": "field-agnostic",
+      "exact_reduction": "freeze receiver -> rescan route families -> record newly enabled/disabled routes -> select successor with reasons",
+      "applicability": "long proof searches with evolving receiver structure", "failure_boundary": "not a mathematical theorem", "semantic_credit_boundary": "workflow only",
+      "nearest_arsenal_card": "S34-WF01", "suspected_overlap": "complementary anti-tunnel workflow",
+      "source_pr": 1600, "exact_source_head_or_commit": "f381177b10f709dccfb9628e56d2dbdf5d811e3d", "certificate_path": "stages/stage35-ex/35ex-34/post-gaussian-block-exhaustive-view-audit.json", "verifier": null, "blob_sha": "9d575f75bc8403f400c28185f0dc7c5f9ec8c255", "canonical_sha256": null, "hostile_audit_status": "#1600 hostile audit PASS after provenance repair"
+    },
+    {
+      "temporary_id": "DISC-S35-C02", "classification": "C", "source_cluster": "G:WORKFLOW", "polarity": "workflow",
+      "title": "negative-route ledger and anti-loop freeze",
+      "reusable_input": "route tested to exact failure boundary", "reusable_output": "immutable negative result with explicit reopen conditions",
+      "hypotheses": "failure is bounded and source provenance retained", "quantifiers": "each tested route independently", "field": "field-agnostic",
+      "exact_reduction": "record attempted contract, blocker, what was not disproved, and evidence required to reopen",
+      "applicability": "research programs with many plausible but repeatedly failing routes", "failure_boundary": "must not turn bounded failure into impossibility theorem", "semantic_credit_boundary": "workflow only",
+      "nearest_arsenal_card": null, "suspected_overlap": "likely Research OS anti-loop practice; exact card not identified",
+      "source_pr": 1506, "exact_source_head_or_commit": "43b5cc4a655cf68e9bdefad22800071d6f8d9fa0", "certificate_path": "stages/stage35/35-06/uniform-attack-branch-ledger.json", "verifier": null, "blob_sha": "1965d39aa2cb80721b8fb4aa0b3e032293cb0431", "canonical_sha256": null, "hostile_audit_status": "PASS as part of Stage35 aggregate"
+    },
+    {
+      "temporary_id": "DISC-S35-C03", "classification": "C", "source_cluster": "G:WORKFLOW", "polarity": "workflow",
+      "title": "source-lock validation chain",
+      "reusable_input": "load-bearing external/source formula or coordinate identification", "reusable_output": "exact source locator -> local adapter -> verifier -> immutable blob provenance",
+      "hypotheses": "source statement materially used", "quantifiers": "every load-bearing source dependency", "field": "field-agnostic",
+      "exact_reduction": "lock exact edition/location/definitions; build minimal adapter; verify transported identities; retain blob/head provenance",
+      "applicability": "proofs combining literature formulas with repo-local coordinates", "failure_boundary": "source lock does not validate downstream theorem logic", "semantic_credit_boundary": "workflow only",
+      "nearest_arsenal_card": "S33-PW04", "suspected_overlap": "high provenance-method overlap; likely extension rather than entirely new",
+      "source_pr": null, "exact_source_head_or_commit": "9184c7ab694415592cc428a675c0ebed27cac510", "certificate_path": "stages/stage35-ex/35ex-35/goal4u-picard-rank64-source-lock.md", "verifier": null, "blob_sha": "df8cd9e374d868a2dd29762ea116d1f54b739241", "canonical_sha256": null, "hostile_audit_status": "provisional; Harvest 2 compare to S33-PW04 exact scope"
+    },
+    {
+      "temporary_id": "DISC-S35-C04", "classification": "C", "source_cluster": "G:WORKFLOW", "polarity": "workflow",
+      "title": "receiver replacement discipline",
+      "reusable_input": "historical named theorem request stronger/different from actual receiver", "reusable_output": "minimal replacement theorem exactly matching receiver quantifiers",
+      "hypotheses": "receiver population and quantifiers frozen first", "quantifiers": "each Class3-style theorem-shaped residual", "field": "field-agnostic",
+      "exact_reduction": "separate theorem species from obligation; replacement allowed only if conclusion exactly discharges receiver; preserve bad loci",
+      "applicability": "proof design where inherited theorem names distract from the true target", "failure_boundary": "replacement theorem cannot claim stronger named theorem", "semantic_credit_boundary": "workflow only",
+      "nearest_arsenal_card": "S34-WF01", "suspected_overlap": "essentially an application/extension candidate",
+      "source_pr": 1506, "exact_source_head_or_commit": "43b5cc4a655cf68e9bdefad22800071d6f8d9fa0", "certificate_path": "stages/stage35/35-04/minimal-uniform-theorem.json", "verifier": null, "blob_sha": "fc5817bb524df2db783777501f6561c80e09bf66", "canonical_sha256": null, "hostile_audit_status": "PASS target-lock only; theorem unproved"
+    },
+    {
+      "temporary_id": "DISC-S35-C05", "classification": "C", "source_cluster": "G:WORKFLOW", "polarity": "workflow",
+      "title": "endpoint gauge return firewall",
+      "reusable_input": "long transformed/quotiented route returning to endpoint variables", "reusable_output": "explicit circularity check for original endpoint assumptions",
+      "hypotheses": "endpoint source contract frozen; transformed provenance complete", "quantifiers": "whenever route returns to endpoint coordinates", "field": "field-agnostic",
+      "exact_reduction": "list endpoint predicates; mark inherited/derived/forbidden-to-reuse; fail-close circular returns",
+      "applicability": "descent chains with multiple coordinate systems and reconstructions", "failure_boundary": "detects circularity but is not a mathematical obstruction", "semantic_credit_boundary": "workflow only",
+      "nearest_arsenal_card": null, "suspected_overlap": "possible new Research OS workflow",
+      "source_pr": 1581, "exact_source_head_or_commit": "3d63864b0a10a53549f64a9e0dc3acf6f59ef9c0", "certificate_path": "stages/stage35-ex/35ex-30/endpoint-gauge-return-certificate.json", "verifier": null, "blob_sha": "3057e494c8dbea2bfce8d636ead0fbcb962efff4", "canonical_sha256": null, "hostile_audit_status": "PASS/promoted; merge #1581"
+    },
+    {
+      "temporary_id": "DISC-S35-C06", "classification": "C", "source_cluster": "G:WORKFLOW", "polarity": "workflow",
+      "title": "exact-head hostile-audit provenance discipline",
+      "reusable_input": "candidate PR containing mathematical credit", "reusable_output": "auditable exact head/base/CI/blob/certificate provenance without moving-target credit",
+      "hypotheses": "hostile audit performed on immutable head", "quantifiers": "every promotion candidate PR", "field": "field-agnostic",
+      "exact_reduction": "pin head/base -> verify file scope -> replay certificates/verifiers -> record review/CI -> only then promote",
+      "applicability": "all theorem/receiver promotion PRs", "failure_boundary": "does not establish mathematics beyond replay", "semantic_credit_boundary": "workflow only",
+      "nearest_arsenal_card": null, "suspected_overlap": "general repo audit policy; promote only if not already catalogued elsewhere",
+      "source_pr": 1506, "exact_source_head_or_commit": "43b5cc4a655cf68e9bdefad22800071d6f8d9fa0", "certificate_path": "stages/stage35/35-01/verify_35_01.py", "verifier": "stages/stage35/35-01/verify_35_01.py", "blob_sha": "81368190e2c50ed841fd796bc8dbb48c03da44a3", "canonical_sha256": null, "hostile_audit_status": "workflow evidenced repeatedly across Stage35/EX"
+    },
+
+    {
+      "temporary_id": "DISC-S35-D01", "classification": "D", "source_cluster": "D:GENUS5", "polarity": "positive",
+      "title": "specific Testa-Stoll rank-3 full-endpoint genus-5 route",
+      "reusable_input": "perfect-cuboid endpoint surface", "reusable_output": "selected TS-S-R3-Q1 genus-5 family over t>1",
+      "hypotheses": "exact cuboid endpoint equations and Testa-Stoll model", "quantifiers": "all physical endpoints", "field": "Q",
+      "exact_reduction": "specialized fibration selection and cuboid coordinate reconstruction",
+      "applicability": "Stage35 unless another problem shares the same surface/fibration", "failure_boundary": "object-specific", "semantic_credit_boundary": "no general theorem credit",
+      "nearest_arsenal_card": "S34-WF01", "suspected_overlap": "workflow reusable, mathematical object not",
+      "source_pr": 1506, "exact_source_head_or_commit": "43b5cc4a655cf68e9bdefad22800071d6f8d9fa0", "certificate_path": "stages/stage35/35-03/direct-endpoint-reconstruction.json", "verifier": null, "blob_sha": "8b491e681243af3b2fe21c2133d5106b4de0daa4", "canonical_sha256": null, "hostile_audit_status": "PASS"
+    },
+    {
+      "temporary_id": "DISC-S35-D02", "classification": "D", "source_cluster": "E:PICARD_BRAUER", "polarity": "positive",
+      "title": "proper Stage35 surface algebraic Brauer result",
+      "reusable_input": "specific Stage35 proper compactification Picard module", "reusable_output": "specific H^1(G,Pic)/algebraic Brauer conclusion",
+      "hypotheses": "exact Stage35 compactification", "quantifiers": "specific surface only", "field": "Q",
+      "exact_reduction": "group-cohomology computation on the specific module",
+      "applicability": "primarily Stage35 proper surface", "failure_boundary": "open receiver and other varieties not covered", "semantic_credit_boundary": "object-specific result, not generic weapon",
+      "nearest_arsenal_card": "S33-PW07", "suspected_overlap": "method overlaps; result specific",
+      "source_pr": null, "exact_source_head_or_commit": "9184c7ab694415592cc428a675c0ebed27cac510", "certificate_path": "stages/stage35-ex/35ex-35/goal4w-full-picard-h1-algebraic-brauer.json", "verifier": null, "blob_sha": "f4d09daf2961a9cd2a82bba1ce4ce47939f7fadb", "canonical_sha256": null, "hostile_audit_status": "provisional/needs authority verification"
+    },
+    {
+      "temporary_id": "DISC-S35-D03", "classification": "D", "source_cluster": "C:GAUSSIAN_NORM", "polarity": "positive",
+      "title": "three-face Gaussian norm factorizations for Stage35 endpoint",
+      "reusable_input": "primitive perfect-cuboid face equations", "reusable_output": "three explicit Gaussian factorizations tied to endpoint coordinates",
+      "hypotheses": "Stage35 endpoint variables", "quantifiers": "specific endpoint population", "field": "Q(i)",
+      "exact_reduction": "factor each face square as Gaussian conjugate factors",
+      "applicability": "internal Stage35 source formulas", "failure_boundary": "exact formulas are object-specific; generic method is classical", "semantic_credit_boundary": "do not weaponize standalone",
+      "nearest_arsenal_card": null, "suspected_overlap": "too close to classical Gaussian factorization",
+      "source_pr": 1598, "exact_source_head_or_commit": "9184c7ab694415592cc428a675c0ebed27cac510", "certificate_path": "stages/stage35-ex/35ex-33/three-face-gaussian-norm-factorizations.json", "verifier": null, "blob_sha": "763ed7d8816989d928e73c71a4bd7e635ca1dd77", "canonical_sha256": null, "hostile_audit_status": "35EX-33 later merged; exact review not re-resolved"
+    },
+
+    {
+      "temporary_id": "DISC-S35-E01", "classification": "E", "source_cluster": "B:SQUARECLASS", "polarity": "negative",
+      "title": "dynamic support blocks fixed S-unit/Thue closure",
+      "reusable_input": "parameter-dependent gcd reservoirs", "reusable_output": "bounded negative: current identities do not imply uniform fixed finite prime support",
+      "hypotheses": "only currently derived reservoir identities", "quantifiers": "whole current primitive-pair layer", "field": "Q/Z",
+      "exact_reduction": "exhibit live reservoir primes depending on parameters; reject fixed-S reduction",
+      "applicability": "prevents invalid S-unit/Thue shortcuts", "failure_boundary": "does not rule out a later reservoir-collapse lemma", "semantic_credit_boundary": "negative route only",
+      "nearest_arsenal_card": "S34-W01", "suspected_overlap": "explains exactly why its finite-support hypothesis is not met",
+      "source_pr": null, "exact_source_head_or_commit": "9184c7ab694415592cc428a675c0ebed27cac510", "certificate_path": "stages/stage35-ex/35ex-12/sunit-thue-dynamic-support-blocker.md", "verifier": null, "blob_sha": "8e982b6332c3e95af221f16a88e01e478c7d5490", "canonical_sha256": null, "hostile_audit_status": "promoted bounded negative route; exact review not re-resolved"
+    },
+    {
+      "temporary_id": "DISC-S35-E02", "classification": "E", "source_cluster": "A/B:E1_SQUARECLASS", "polarity": "negative",
+      "title": "naive bridge descent does not close complete squareclass receiver",
+      "reusable_input": "bridge squareclass graph", "reusable_output": "bounded failure of naive factorwise descent",
+      "hypotheses": "current gcd/support information only", "quantifiers": "all current bridge branches", "field": "Q/Z",
+      "exact_reduction": "attempt factorwise square descent and retain unresolved shared-prime channels",
+      "applicability": "anti-loop record for similar factor graphs", "failure_boundary": "new coprimality/support theorem can reopen route", "semantic_credit_boundary": "negative route only",
+      "nearest_arsenal_card": "S34-W01", "suspected_overlap": "negative precondition failure",
+      "source_pr": null, "exact_source_head_or_commit": "9184c7ab694415592cc428a675c0ebed27cac510", "certificate_path": "stages/stage35-ex/35ex-09/bridge-squareclass-graph.md", "verifier": null, "blob_sha": "1cbd3fdf4891ffabc1911ae19632f593a87b5d14", "canonical_sha256": null, "hostile_audit_status": "historical negative branch retained"
+    },
+    {
+      "temporary_id": "DISC-S35-E03", "classification": "E", "source_cluster": "F/D:DESCENT", "polarity": "negative",
+      "title": "no v2/product-hypotenuse self-map from current receiver",
+      "reusable_input": "primitive endpoint plus parity dictionary", "reusable_output": "bounded failure to obtain a strict infinite-descent self-map",
+      "hypotheses": "current normalization and tested transformation only", "quantifiers": "current receiver population", "field": "Q/Z",
+      "exact_reduction": "test integrality, primitiveness, receiver preservation, strict height/v2 decrease",
+      "applicability": "preflight for infinite descent claims", "failure_boundary": "failure of tested map is not impossibility of all descents", "semantic_credit_boundary": "negative route only",
+      "nearest_arsenal_card": null, "suspected_overlap": "generic descent workflow, result negative",
+      "source_pr": null, "exact_source_head_or_commit": "9184c7ab694415592cc428a675c0ebed27cac510", "certificate_path": "stages/stage35-ex/35ex-35/goal4i-v2-infinite-descent-self-map-preflight.json", "verifier": null, "blob_sha": "d9121d2fdb9b202bc0ffc72678e74e9ccb5a87c2", "canonical_sha256": null, "hostile_audit_status": "provisional negative preflight"
+    },
+    {
+      "temporary_id": "DISC-S35-E04", "classification": "E", "source_cluster": "D:GENUS5", "polarity": "negative",
+      "title": "genus-one/elliptic quotient structure insufficient for uniform moving-family closure",
+      "reusable_input": "moving genus-5 family and elliptic quotients", "reusable_output": "bounded negative: fixed-fiber/function-field information does not control specialization-new points for all t",
+      "hypotheses": "current source-locked quotient information", "quantifiers": "all rational t>1 target", "field": "Q(t)->Q",
+      "exact_reduction": "compare generic MW/sections with forall-t receiver emptiness obligation",
+      "applicability": "guards against conflating generic/fixed-fiber arithmetic with uniform specialization theorems", "failure_boundary": "stronger specialization/unlikely-intersection theorem could reopen", "semantic_credit_boundary": "negative route only",
+      "nearest_arsenal_card": "S34-WF01", "suspected_overlap": "workflow-compatible failure boundary",
+      "source_pr": 1506, "exact_source_head_or_commit": "43b5cc4a655cf68e9bdefad22800071d6f8d9fa0", "certificate_path": "stages/stage35/35-06/uniform-attack-branch-ledger.json", "verifier": null, "blob_sha": "1965d39aa2cb80721b8fb4aa0b3e032293cb0431", "canonical_sha256": null, "hostile_audit_status": "PASS bounded negative statement"
+    },
+    {
+      "temporary_id": "DISC-S35-E05", "classification": "E", "source_cluster": "D:GENUS5", "polarity": "negative",
+      "title": "no certified globally exhaustive finite-fiber reduction",
+      "reusable_input": "moving genus-5 receiver", "reusable_output": "bounded negative: sampled/special fibers cannot replace the all-t problem",
+      "hypotheses": "current Stage35 reductions only", "quantifiers": "all rational t>1", "field": "Q",
+      "exact_reduction": "audit finite-reduction proposals against full parameter-line coverage and exact reconstruction",
+      "applicability": "anti-shortcut rule in moving-family problems", "failure_boundary": "future global argument may still produce finite reduction", "semantic_credit_boundary": "negative route only",
+      "nearest_arsenal_card": "S34-W02", "suspected_overlap": "explicitly keeps S34-W02 locked",
+      "source_pr": 1506, "exact_source_head_or_commit": "43b5cc4a655cf68e9bdefad22800071d6f8d9fa0", "certificate_path": "stages/stage35/35-07/finite-reduction-assessment.json", "verifier": null, "blob_sha": "fa0d3e891fdeffe01cd8a4fef840074a10407820", "canonical_sha256": null, "hostile_audit_status": "PASS bounded negative"
+    },
+    {
+      "temporary_id": "DISC-S35-E06", "classification": "E", "source_cluster": "F:LOCAL_ARITHMETIC", "polarity": "negative",
+      "title": "fourth-square condition is 2-adically automatic under three-face parity",
+      "reusable_input": "primitive three-face-square parity dictionary", "reusable_output": "Q_2 result that the space-square unit condition adds no new 2-adic restriction",
+      "hypotheses": "exactly one edge odd; both even edges divisible by 4", "quantifiers": "all three parity branches", "field": "Q_2",
+      "exact_reduction": "normalize S by odd-edge square and show S/A^2 in 1+16Z_2 subset of unit squares",
+      "applicability": "eliminates futile 2-adic receiver searches in analogous parity situations", "failure_boundary": "does not make global fourth square redundant", "semantic_credit_boundary": "negative local result only",
+      "nearest_arsenal_card": null, "suspected_overlap": "could become a local lemma, but harvested value is mainly route-negative",
+      "source_pr": null, "exact_source_head_or_commit": "9184c7ab694415592cc428a675c0ebed27cac510", "certificate_path": "stages/stage35-ex/35ex-35/goal4a-two-adic-automatic-square.json", "verifier": null, "blob_sha": "7b71cb62109bc9ab74fbc354c7c7a9f821a73d7d", "canonical_sha256": null, "hostile_audit_status": "provisional exact negative result at source snapshot"
+    },
+
+    {
+      "temporary_id": "DISC-S35-F01", "classification": "F", "source_cluster": "E:PICARD_BRAUER", "polarity": "unresolved",
+      "title": "open-receiver boundary Picard/Brauer adapter",
+      "reusable_input": "proper Picard/Galois data plus deleted boundary divisors", "reusable_output": "exact Picard/open-Brauer sequence for actual open receiver",
+      "hypotheses": "compactification and every boundary component/source marking exact", "quantifiers": "target open receiver", "field": "Q",
+      "exact_reduction": "compute boundary divisor lattice, map to proper Picard, derive open Picard/algebraic Brauer exact sequence",
+      "applicability": "integral/open Diophantine receivers where proper Brauer is insufficient", "failure_boundary": "not completed at Harvest 1; proper H1 cannot be silently reused", "semantic_credit_boundary": "no credit until exact open-boundary adapter exists",
+      "nearest_arsenal_card": "S33-PW04", "suspected_overlap": "marked-source overlap likely; open-boundary extension may be new",
+      "source_pr": null, "exact_source_head_or_commit": "9184c7ab694415592cc428a675c0ebed27cac510", "certificate_path": "stages/stage35-ex/35ex-35/goal4q-compactification-picard-galois-brauer-candidate-preflight.json", "verifier": null, "blob_sha": "b1795368ad35e357f7ce5a544c871c665e7b59f9", "canonical_sha256": null, "hostile_audit_status": "unresolved/provisional"
+    },
+    {
+      "temporary_id": "DISC-S35-F02", "classification": "F", "source_cluster": "F:LOCAL_ARITHMETIC", "polarity": "unresolved",
+      "title": "forced-prime squareclass parity lift",
+      "reusable_input": "656 forced-prime support orbits", "reusable_output": "valuation-parity/squareclass constraints attached to forced-prime supports",
+      "hypotheses": "Goal4E support theorem plus exact local valuation data", "quantifiers": "all support orbits", "field": "Q_p/Z",
+      "exact_reduction": "lift zero-support to valuation parity in private-gcd variables and test compatibility across primes",
+      "applicability": "possible bridge from local support routing to global squareclass enumeration", "failure_boundary": "Harvest 1 did not establish hostile-audited authority or finite global exhaustiveness", "semantic_credit_boundary": "no S34-W01 trigger until arbitrary-prime parity controlled",
+      "nearest_arsenal_card": "S34-W01", "suspected_overlap": "potential extension if it closes missing finite-support hypothesis",
+      "source_pr": null, "exact_source_head_or_commit": "9184c7ab694415592cc428a675c0ebed27cac510", "certificate_path": "stages/stage35-ex/35ex-35/goal4f-forced-prime-squareclass-parity-lift.json", "verifier": null, "blob_sha": "61760ef52c84f7202567cc3ca85245fa8c17e74c", "canonical_sha256": null, "hostile_audit_status": "unresolved/provisional"
+    },
+    {
+      "temporary_id": "DISC-S35-F03", "classification": "F", "source_cluster": "F/E:LOCAL_BRAUER", "polarity": "unresolved",
+      "title": "joint local Hilbert reciprocity profile / vertical Brauer source lock",
+      "reusable_input": "local squareclass profiles at forced primes plus candidate global Brauer symbol", "reusable_output": "exact joint Hilbert-symbol reciprocity obstruction if nonconstant and source-locked",
+      "hypotheses": "local symbols/divisors exact; candidate class unramified on target open", "quantifiers": "all relevant places", "field": "Q_v/Q",
+      "exact_reduction": "compute local Hilbert invariants, test reciprocity sum, source-lock vertical Brauer class and boundary ramification",
+      "applicability": "globalizing local filters into a Brauer-Manin obstruction", "failure_boundary": "current obvious-symbol/preflight work did not establish a closing global obstruction", "semantic_credit_boundary": "no Brauer credit without exact unramified class and nonconstant evaluation",
+      "nearest_arsenal_card": "S33-PW07", "suspected_overlap": "high Brauer-semantics overlap; Stage35 open-boundary instantiation unresolved",
+      "source_pr": null, "exact_source_head_or_commit": "9184c7ab694415592cc428a675c0ebed27cac510", "certificate_path": "stages/stage35-ex/35ex-35/goal4g-joint-local-hilbert-reciprocity-profile.json", "verifier": null, "blob_sha": "6291421100b1bb955f25b06f5abf2f352305bcb8", "canonical_sha256": null, "hostile_audit_status": "unresolved/provisional"
+    }
+  ],
+  "harvest2_handoff": {
+    "range_must_remain_frozen": true,
+    "priority_revalidation": ["DISC-S35-A04", "DISC-S35-A05", "DISC-S35-A06", "DISC-S35-A07", "DISC-S35-A08", "DISC-S35-A10", "DISC-S35-A11", "DISC-S35-B03", "DISC-S35-B04", "DISC-S35-F01", "DISC-S35-F02", "DISC-S35-F03"],
+    "semantic_dedup_priority": ["S34-W01", "S34-W03", "S34-WF01", "S33-PW04", "S33-PW07"],
+    "tasks": [
+      "resolve missing source PR/head/review/verifier/canonical SHA256 only for retained A/B/C and unresolved F candidates",
+      "split or merge candidates only by semantic contract, not Stage35 leaf numbering",
+      "do not promote negative E items into weapons",
+      "decide whether C01/C03/C05/C06 already exist as Research OS workflows before any new workflow ID",
+      "for B03/B04/F01 distinguish proper Picard/Brauer from open-boundary Picard/Brauer and do not transfer proper credit to the open receiver",
+      "for A02/A03/B01/B05/F02 test exact overlap against S34-W01 finite-exhaustive-squareclass hypothesis",
+      "no index/cards/catalog/stable-ID edits until a later promotion harvest"
+    ]
+  }
+}
