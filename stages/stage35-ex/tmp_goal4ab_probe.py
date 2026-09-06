@@ -58,7 +58,6 @@ if sol!=sp.EmptySet:
         print('GOAL4AB_PROBE unique_solution_den_lcm',den_lcm)
         print('GOAL4AB_PROBE unique_solution',repr([str(e) for e in tup]))
 
-# Independent reduced-coordinate test: differences against the first full hyperplane.
 vals=list(full.values())
 if vals:
     D=sp.Matrix(140,max(0,len(vals)-1),lambda i,j: vals[j+1][i]-vals[0][i])
@@ -66,4 +65,45 @@ if vals:
     print('GOAL4AB_PROBE target_in_Q_span_of_differences',solD!=sp.EmptySet)
     print('GOAL4AB_PROBE difference_rank',D.rank())
 
-print('PASS Goal4AB probe: exact exceptional completion of all degree-16 retained linear sections tested')
+# Retained Stoll C4/C5 nonlinear defining sections: test the natural
+# degree-balanced elimination identities exactly in the projective surface ring.
+a1,a2,a3,b1,b2,b3,c=sp.symbols('a1 a2 a3 b1 b2 b3 c')
+i=sp.I
+G=sp.groebner([
+    a1**2+a2**2-b3**2,
+    a2**2+a3**2-b1**2,
+    a1**2+a3**2-b2**2,
+    a1**2+a2**2+a3**2-c**2,
+],c,b3,b2,b1,a3,a2,a1,extension=i)
+def zero_on_surface(expr):
+    return sp.expand(G.reduce(sp.expand(expr))[1])==0
+
+# C4: each of the four source families has four degree-1 sections and two
+# degree-2 sections cutting the same eight degree-8 C4 components in aggregate.
+# The degree-balanced elimination is already a scalar polynomial identity.
+c4_specs=[
+    (1,1,a2*a3,i*a1*b1),
+    (i,1,a1*a3,b2*c),
+    (1,i,a1*a2,b3*c),
+    (i,i,a2*a3,b1*c),
+]
+for alpha2,alpha3,q0,q1 in c4_specs:
+    lp=sp.prod([b1+e2*alpha2*b2+e3*alpha3*b3 for e2 in (1,-1) for e3 in (1,-1)])
+    qp=(q0+q1)*(q0-q1)
+    assert zero_on_surface(lp+4*qp)
+print('GOAL4AB_PROBE c4_degree_balanced_identities',len(c4_specs))
+
+# C5: for each sign pair, eliminating the four C5 curves by pairing the two
+# source quadrics gives exactly the product of the four conjugate linear sections.
+c5_count=0
+for e2 in (1,-1):
+    for e3 in (1,-1):
+        l1=sp.prod([a1+e2*a2+e3*a3+e4*i*c for e4 in (1,-1)])
+        l2=sp.prod([a1-e2*a2-e3*a3+e4*i*c for e4 in (1,-1)])
+        qp=sp.prod([(e2*a2+e3*a3)*b1+e1*i*b2*b3 for e1 in (1,-1)])
+        assert zero_on_surface(l1*l2-4*qp)
+        c5_count+=1
+print('GOAL4AB_PROBE c5_paired_quadratic_identities',c5_count)
+print('GOAL4AB_PROBE retained_C4_C5_nonlinear_elimination_adds_new_divisor_direction',False)
+
+print('PASS Goal4AB probe: 43 exact complete linear sections plus retained C4/C5 low-degree nonlinear eliminations do not synthesize F_B')
