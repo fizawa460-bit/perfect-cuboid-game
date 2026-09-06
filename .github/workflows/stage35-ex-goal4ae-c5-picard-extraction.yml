@@ -68,14 +68,14 @@ jobs:
           mat=Path('stages/stage35-ex/materialize_stage35_ex_35_goal4ae_local_cfixed.py')
           new=json.loads(key.read_text())
           assert new['schema']=='STAGE35_EX_GOAL4AE_C5_PICARD_EXTRACTION_RUNKEY_V1'
-          assert new['armed'] is True and new['generation']==5
+          assert new['armed'] is True and new['generation']==6
           assert new['route']=='CFIXED_HPERP_NORM20_PARIFP'
           assert new['upstream_git_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
           assert new['goal4ad_blob_sha1']=='6cedfed8d5944a3a93ddfe106f488c2a75670c92'
           def blob(p):
               raw=p.read_bytes()
               return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
-          assert blob(diag)==new['local_diagnostic_blob_sha1']=='b92bff0f01d98815214d439cffba974d570910ba'
+          assert blob(diag)==new['local_diagnostic_blob_sha1']=='ba3a8c3aba36a56457e6428981498fa4235cde8e'
           assert blob(mat)==new['local_materializer_blob_sha1']=='c925c1ce79f10157ff1c8f3d09a6954533797f1f'
           assert new['planned_jobs']==1 and new['planned_shards']==1
           assert new['persisted_output_upper_bound_bytes']<=65536
