@@ -1,0 +1,132 @@
+name: Arsenal Stage33 Harvest3 finalize
+
+on:
+  push:
+    branches:
+      - stage33-arsenal-post1478-harvest-promotion
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stage33-arsenal-post1478-harvest-promotion
+          fetch-depth: 0
+      - name: Print exact checkout head
+        run: |
+          echo "EXACT_CHECKOUT_HEAD=$(git rev-parse HEAD)"
+          git status --short
+      - name: Lock refreshed discovery provenance
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          discovery_head = "4fb7d980be0452277aab9d5b96e64fabf4d5e9a7"
+          synced_main = "f8522bd1a38fa551186ad370f51d17c73c7927e2"
+          frozen_upper = "a3c64f5704f3d1fd297e3b95377ba1938d277178"
+
+          prom = Path("docs/stage33-arsenal-promotion.md")
+          s = prom.read_text()
+          if "DISCOVERY_DEDUP_EXACT_HEAD=" not in s:
+              anchor = "DISCOVERY_DEDUP_PR=1665\n"
+              assert s.count(anchor) == 1
+              extra = (
+                  f"DISCOVERY_DEDUP_EXACT_HEAD={discovery_head}\n"
+                  f"DISCOVERY_DEDUP_FRESHNESS_SYNC_COMMIT={discovery_head}\n"
+                  f"DISCOVERY_DEDUP_SYNCED_MAIN_HEAD={synced_main}\n"
+                  "DISCOVERY_DEDUP_STATE_AT_HARVEST3=OPEN_NOT_MERGED\n"
+              )
+              s = s.replace(anchor, anchor + extra, 1)
+          note = (
+              "Freshness synchronization of PR `#1665` changed only its ancestry against current main "
+              f"`{synced_main}`. The immutable harvest upper bound remains `{frozen_upper}`; "
+              "the later `#1663` main commit is not harvested by this promotion."
+          )
+          if note not in s:
+              anchor = "The discovery PR is provenance, not Stage33 MAIN authority."
+              assert s.count(anchor) == 1
+              s = s.replace(anchor, note + "\n\n" + anchor, 1)
+          prom.write_text(s)
+
+          idx = Path("docs/arsenal/index.json")
+          s = idx.read_text()
+          if '"discovery_dedup_exact_head"' not in s:
+              anchor = '"discovery_dedup_pr": 1665,\n'
+              assert s.count(anchor) == 1
+              extra = (
+                  f'        "discovery_dedup_exact_head": "{discovery_head}",\n'
+                  f'        "discovery_dedup_freshness_sync_commit": "{discovery_head}",\n'
+                  f'        "discovery_dedup_synced_main_head": "{synced_main}",\n'
+                  '        "discovery_dedup_state_at_harvest3": "OPEN_NOT_MERGED",\n'
+              )
+              s = s.replace(anchor, anchor + extra, 1)
+          idx.write_text(s)
+          PY
+      - name: Generate and verify Arsenal registry
+        run: |
+          python3 -B docs/arsenal/sync_arsenal_catalog.py
+          python3 -B docs/arsenal/sync_arsenal_catalog.py --check
+          git diff --check
+      - name: Assert frozen range provenance and scope
+        run: |
+          git fetch origin main
+          python3 - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+
+          main = "f8522bd1a38fa551186ad370f51d17c73c7927e2"
+          discovery = "4fb7d980be0452277aab9d5b96e64fabf4d5e9a7"
+          upper = "a3c64f5704f3d1fd297e3b95377ba1938d277178"
+          data = json.loads(Path("docs/arsenal/index.json").read_text())
+          h = next(x for x in data["provisional_harvests"] if x["source_stage"] == "Stage33")
+          p = h["post1478_harvest"]
+          assert p["harvest_upper_bound"] == upper
+          assert p["range_expanded_after_harvest1"] is False
+          assert p["discovery_dedup_exact_head"] == discovery
+          assert p["discovery_dedup_freshness_sync_commit"] == discovery
+          assert p["discovery_dedup_synced_main_head"] == main
+          assert p["discovery_dedup_state_at_harvest3"] == "OPEN_NOT_MERGED"
+          assert p["new_weapon_ids"] == ["S33-PW09", "S33-PW10"]
+          assert p["extended_ids"] == ["S33-PW04"]
+          assert p["new_workflow_ids"] == ["S33-WF01", "S33-WF02"]
+
+          changed = set(subprocess.check_output(
+              ["git", "diff", "--name-only", "origin/main...HEAD"], text=True
+          ).splitlines())
+          allowed = {
+              "docs/stage33-arsenal-promotion.md",
+              "docs/arsenal/index.json",
+              "docs/arsenal/sync_arsenal_catalog.py",
+              "docs/arsenal/catalog.md",
+              "docs/arsenal/cards/provisional/S33-PW04.md",
+              "docs/arsenal/cards/provisional/S33-PW09.md",
+              "docs/arsenal/cards/provisional/S33-PW10.md",
+              "docs/arsenal/cards/workflows/S33-WF01.md",
+              "docs/arsenal/cards/workflows/S33-WF02.md",
+              ".github/workflows/arsenal-stage33-harvest3-finalize.yml",
+          }
+          assert changed <= allowed, sorted(changed - allowed)
+          assert not any(x.startswith("stages/stage33/") for x in changed)
+          print("ARSENAL_SCOPE_ASSERTION=PASS")
+          print("HARVEST_UPPER_BOUND=" + upper)
+          print("DISCOVERY_DEDUP_EXACT_HEAD=" + discovery)
+          print("CHANGED_FILES=" + ",".join(sorted(changed)))
+          PY
+      - name: Commit provenance materialization if needed
+        run: |
+          if ! git diff --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add docs/stage33-arsenal-promotion.md docs/arsenal/index.json docs/arsenal/catalog.md docs/arsenal/cards
+            git commit -m 'Arsenal: lock freshness-synced Stage33 discovery provenance'
+            git push origin HEAD:stage33-arsenal-post1478-harvest-promotion
+          fi
+          echo "POST_MATERIALIZATION_HEAD=$(git rev-parse HEAD)"
+          python3 -B docs/arsenal/sync_arsenal_catalog.py --check
+          git diff --check
