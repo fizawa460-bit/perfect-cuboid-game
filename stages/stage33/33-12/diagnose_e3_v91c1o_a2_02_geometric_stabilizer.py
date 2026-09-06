@@ -6,7 +6,7 @@ fixing the 26D residue-source basis vector fixes the full A2_02 Cech H2 class;
 that requires a later source-bound seed-level transport check.
 """
 from __future__ import annotations
-import hashlib,json,runpy
+import hashlib,json,os,runpy
 from pathlib import Path
 D=Path(__file__).resolve().parent
 S33=D.parent
@@ -53,6 +53,12 @@ aug_dim=nullity(eq,n)
 e3=[0]*14; e3[2]=1; e3[4]=1
 def colact(M,v): return [sum(M[i][j]*v[j] for j in range(n))&1 for i in range(n)]
 e3_fixed_names=[name for name in fixed_names if colact(gens14[name],e3)==e3]
-result={'success':True,'marker':'V91C1O_A2_02_GEOMETRIC_STABILIZER_DIAGNOSTIC','source_basis':'A2_02','source_generator_fixed_names':fixed_names,'source_generator_fixed_count':len(fixed_names),'joint_v4_fixed_dimension_before':base_dim,'candidate_dimension_if_full_seed_fixed_under_source_generator_stabilizers':aug_dim,'e3_mask20_fixed_by_source_generator_stabilizers':len(e3_fixed_names)==len(fixed_names),'e3_fixed_names':e3_fixed_names,'seed_level_geometric_transport_materialized':False,'credit':False}
+e3_all_fixed=len(e3_fixed_names)==len(fixed_names)
+result={'success':True,'marker':'V91C1O_A2_02_GEOMETRIC_STABILIZER_DIAGNOSTIC','source_basis':'A2_02','source_generator_fixed_names':fixed_names,'source_generator_fixed_count':len(fixed_names),'joint_v4_fixed_dimension_before':base_dim,'candidate_dimension_if_full_seed_fixed_under_source_generator_stabilizers':aug_dim,'e3_mask20_fixed_by_source_generator_stabilizers':e3_all_fixed,'e3_fixed_names':e3_fixed_names,'seed_level_geometric_transport_materialized':False,'credit':False}
 print(json.dumps(result,sort_keys=True))
+if os.environ.get('GITHUB_ENV'):
+ with open(os.environ['GITHUB_ENV'],'a',encoding='utf-8') as out:
+  out.write(f'V91C1O_AUG_DIM={aug_dim}\n')
+  out.write('V91C1O_E3_FIXED='+('true' if e3_all_fixed else 'false')+'\n')
+  out.write('V91C1O_FIXED_COUNT='+str(len(fixed_names))+'\n')
 print('::notice title=V91C1O_GEOMETRIC_STABILIZER::'+json.dumps(result,sort_keys=True,separators=(',',':')))
