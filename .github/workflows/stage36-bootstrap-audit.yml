@@ -71,10 +71,21 @@ jobs:
           python3 "$tmp/stages/stage36/verify_stage36_36_09AC.py"
           git worktree remove --force "$tmp"
 
-      - name: Verify current 36-09AD coupled parity skeleton
-        run: python3 stages/stage36/verify_stage36_36_09AD.py
+      - name: Replay exact 36-09AD candidate parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          H=ebb280e5f1c56372fa3494799506d2242ff2ec31
+          git merge-base --is-ancestor "$H" HEAD
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AD.py"
+          git worktree remove --force "$tmp"
 
-      - name: Assert 36-09AD firewalls and 36-09AE unlock
+      - name: Verify current 36-09AE Jacobi coupling
+        run: python3 stages/stage36/verify_stage36_36_09AE.py
+
+      - name: Assert 36-09AE firewalls and 36-09AF unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -82,25 +93,25 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V65_36_09AD_CANDIDATE'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V66_36_09AE_CANDIDATE'
           assert s['status']=='ACTIVE_BATCHING_SUBSTANTIVE_PR'
-          assert s['base_main_sha']=='${{ github.event.pull_request.base.sha }}'
-          ad=s['authority_frontier']['36-09AD']
-          assert ad['COMPLETE_ODD_PARITY_SKELETON'] is True
-          assert ad['AGGREGATE_ODD_SQUARECLASS_COUNT']==4
-          assert ad['DIRECTIONAL_RESERVOIR_SLOT_COUNT']==10
-          assert ad['V2_U_V_EVEN'] is True
-          assert ad['COUPLED_SQUARECLASS_CONIC_SKELETON'] is True
-          assert ad['FINITE_SQUARECLASS_FAMILY'] is False
-          assert ad['S34_W01_FULL_OUTPUT_OBTAINED'] is False
-          assert ad['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert ad['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09AE'
-          assert s['current']['36_09AE_entry_allowed'] is True
-          assert s['promotion_gates']['36_09AD_hostile_audit_passed'] is False
+          ae=s['authority_frontier']['36-09AE']
+          assert ae['JACOBI_ROW_COUNT']==8
+          assert ae['PAIR_SYMBOL_MATRIX_RANK']==5
+          assert ae['RECIPROCITY_CONSISTENCY_RELATIONS']==3
+          assert ae['MOD8_SKELETON_NAIVE']==512
+          assert ae['MOD8_SKELETON_SURVIVORS']==128
+          assert ae['BRANCH_RESIDUE_SKELETON_SHRUNK'] is True
+          assert ae['PAIR_SYMBOL_REALIZABILITY_PROVED'] is False
+          assert ae['FINITE_Q_SQUARECLASS_FAMILY'] is False
+          assert ae['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert ae['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09AF'
+          assert s['current']['36_09AF_entry_allowed'] is True
+          assert s['promotion_gates']['36_09AE_hostile_audit_passed'] is False
           assert s['claims']['candidate_parameter_set_shrunk'] is False
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09AD coupled six-reservoir parity skeleton verified; 36-09AE unlocked; no finite squareclass family or receiver closure')
+          print('36-09AE Jacobi coupling verified; 512-to-128 residue skeleton pruning exact; actual variable-prime squareclasses unresolved; 36-09AF unlocked')
           PY
           git diff --check
