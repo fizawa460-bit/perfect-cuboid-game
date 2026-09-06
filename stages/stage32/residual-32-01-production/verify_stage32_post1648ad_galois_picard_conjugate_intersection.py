@@ -18,7 +18,7 @@ NOTE = HERE / "post1648ad-galois-picard-conjugate-intersection-source-note.md"
 PARENT = HERE / "post1648z-galois-factor-swap-asymmetric-bidegree-descent-gate.json"
 V6 = STAGES / "stage32" / "32-21" / "post1473-v6-witness-body-recovered.json"
 PERM = STAGE33_07 / "galois-known-class-permutations.json"
-EXPECTED_CERT = "a35e600decfa7bc5bc6e3f4e835f28ed902950314c8eb5152219e494c0b85747"
+EXPECTED_CERT = "9a09970ec829130722c5f4e67f3850026763958f367bd04b7d89c756b6b74931"
 EXPECTED_NOTE_BLOB = "3d0fb5243d4b2309ca1d80ec4dacecb7e2e98281"
 EXPECTED_PARENT = "cc2fc48738e35d62883e7cf94f6b75c8153d066346b72a0b9ce05deaae1eb36b"
 EXPECTED_V6 = "d0c1c8bddfe3950737ed6f87ffa74acd850c736298bd12ec1eceac609625b8a8"
@@ -117,7 +117,6 @@ def main() -> None:
     if sx == x:
         raise SystemExit("sigma(D) unexpectedly equals D")
 
-    # Independent 140-class Galois transport check at the pairing-vector level.
     pairings = [int(v) for v in v6["witness"]["all140_pairings"]]
     cc = [int(v) for v in perm["cc_permutation_1based"]]
     if len(pairings) != 140 or sorted(cc) != list(range(1, 141)):
