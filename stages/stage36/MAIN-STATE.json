@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V48_36_09R_PENDING_HOSTILE_AUDIT",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V49_36_09R_REPAIRED_PENDING_HOSTILE_REAUDIT",
   "stage": "36",
-  "status": "ACTIVE_PENDING_HOSTILE_AUDIT",
+  "status": "ACTIVE_PENDING_HOSTILE_REAUDIT",
   "base_main_sha": "69ac6635fb7a7808bca7aad72c5b7e61bcb5cbb6",
   "mission": "Attack Stage29 kernel K16-C3-CAMPEDELLI-UNIFORM-TORSOR through exact proper-or-candidate-proper receivers without granting endpoint credit unless a receiver-matched closure theorem is proved.",
   "legacy_authority_snapshot": {
@@ -9,7 +9,7 @@
     "path": "stages/stage36/MAIN-STATE.json",
     "blob_sha": "0340f31e0378138830df9e02f77a69ec54446c1f",
     "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V47_THIN_36_09Q_AUDITED",
-    "scope": "hostile-audited authority through 36-09Q; V48 adds provisional E_tau rankjump redundancy diagnosis, exact E_sigma_tau generic MW computation, and distinct quotient-growth obligation only"
+    "scope": "hostile-audited authority through 36-09Q; 36-09R is repaired after hostile-audit FAIL and remains provisional"
   },
   "source_kernel": {
     "kernel": "K16-C3-CAMPEDELLI-UNIFORM-TORSOR",
@@ -28,25 +28,29 @@
       "hostile_audit_review": 5123710654,
       "audited_head": "fa93c23842a272251a88066d9d31d321f28db288",
       "promotion_pr": 1654,
-      "promotion_exact_head": "e22753be888280dc03b31a9f84e075aebd1b4dd3",
-      "promotion_ci": "34004501090/101409147436",
       "promotion_merged_main_sha": "69ac6635fb7a7808bca7aad72c5b7e61bcb5cbb6",
       "E_TAU_TORSION_GROWTH_EXCLUDED": true,
       "ONLY_REMAINING_E_TAU_MW_GROWTH_SPECIES": "positive rank jump",
       "RECEIVER_CLOSED": false
     },
     "36-09R": {
-      "status": "EXACT_E_TAU_RANKJUMP_REDUNDANCY_AND_E_SIGMA_TAU_GENERIC_MW_GROWTH_REDUCTION_PENDING_HOSTILE_AUDIT",
+      "status": "REPAIRED_COMPLETE_SPECIALIZATION_CRITERION_PENDING_HOSTILE_REAUDIT",
+      "pr": 1655,
+      "PREVIOUS_FAILED_HEAD": "e32ee51a99d5035d891a8ce376886d92948d2252",
+      "PREVIOUS_HOSTILE_AUDIT_FAIL_REVIEW": 5123795153,
+      "PREVIOUS_FAIL_REASON": "p0=3/2 missed square-free divisor 2*(p-1), which specialized to square 1",
       "certificate": "stages/stage36/36-09R/etau-rankjump-receiver-esigmatau-growth-preflight.json",
-      "certificate_blob_sha": "265edaa03a4fac77de4206f2a31d0b8e439451bd",
+      "certificate_blob_sha": "b55d042ede01032ff8c8b0d872510a53cb857969",
       "verifier": "stages/stage36/verify_stage36_36_09R.py",
-      "verifier_blob_sha": "8ac66b235ba25ca015e6a9a7d402f4ad00dfa194",
+      "verifier_blob_sha": "62707dc5126e9ea6caad5fd41834cab488b29945",
       "descent_source_lock": "stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md",
       "descent_source_lock_blob_sha": "a562d7053a6f04deff4473067777b7cfd538ea8a",
       "E_TAU_RANKJUMP_PLUS_K_REDUNDANT": true,
       "RECEIVER_K_IMPLIES_E_TAU_POSITIVE_RANK": true,
       "E_SIGMA_TAU_POLYNOMIAL_MODEL": "y^2=x*(x-(p^2-2p-1)^2)*(x-(p^2+2p-1)^2)",
-      "SPECIALIZATION_P0": "3/2",
+      "SPECIALIZATION_P0": "2/3",
+      "COMPLETE_GUSIC_TADIC_DIVISOR_CRITERION": true,
+      "COMPLETE_SPECIALIZATION_SUPPORT": ["Nminus", "Nplus", "p", "p-1", "p+1", "constant squareclass 2 where content 8 occurs"],
       "SPECIALIZED_MODEL": "y^2=x*(x-49)*(x-289)",
       "SPECIALIZED_RANK": 0,
       "SPECIALIZED_TORSION": "Z/2 x Z/2",
@@ -70,9 +74,10 @@
   "source_locks": {
     "stage36_v47_audited_state": {"path":"stages/stage36/MAIN-STATE.json","commit":"69ac6635fb7a7808bca7aad72c5b7e61bcb5cbb6","blob_sha":"0340f31e0378138830df9e02f77a69ec54446c1f"},
     "stage36_36_09O_certificate": {"path":"stages/stage36/36-09O/physical-square-lift-v4-quotient-preflight.json","blob_sha":"6a2678ebedba40e13277100441361039ee47ca28"},
+    "stage36_36_09P_certificate": {"path":"stages/stage36/36-09P/etau-generic-mw-zero-exceptional-growth-preflight.json","blob_sha":"a611b698fccfbd29a971ccede5c77b6832101c77"},
     "stage36_36_09Q_certificate": {"path":"stages/stage36/36-09Q/etau-torsion-growth-stage14-second-basechange-preflight.json","blob_sha":"36b24b1a42231ccfec9364df6a8d52af13ceb6de"},
-    "stage36_36_09R_certificate": {"path":"stages/stage36/36-09R/etau-rankjump-receiver-esigmatau-growth-preflight.json","blob_sha":"265edaa03a4fac77de4206f2a31d0b8e439451bd"},
-    "stage36_36_09R_verifier": {"path":"stages/stage36/verify_stage36_36_09R.py","blob_sha":"8ac66b235ba25ca015e6a9a7d402f4ad00dfa194"},
+    "stage36_36_09R_certificate": {"path":"stages/stage36/36-09R/etau-rankjump-receiver-esigmatau-growth-preflight.json","blob_sha":"b55d042ede01032ff8c8b0d872510a53cb857969"},
+    "stage36_36_09R_verifier": {"path":"stages/stage36/verify_stage36_36_09R.py","blob_sha":"62707dc5126e9ea6caad5fd41834cab488b29945"},
     "descent_and_injective_specialization": {"path":"stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md","blob_sha":"a562d7053a6f04deff4473067777b7cfd538ea8a"},
     "S34_W03": {"path":"docs/arsenal/cards/formal/S34-W03.md","blob_sha":"1d5275321f42768a6414d4610ac912c63be43f96"},
     "research_credit_policy": {"path":"docs/research-os/policies/research-credit-and-promotion-firewalls.md"}
@@ -80,7 +85,7 @@
   "cycle_ledger": {
     "B1_DIRECT_UNIFORM_H1_SELMER": "BLOCKED",
     "B2_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION": "BLOCKED_BY_EXPLICIT_ALL_PLACE_LOCAL_POINTS",
-    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_RECEIVER_FORCES_E_TAU_RANKJUMP_AND_E_SIGMA_TAU_MW_GROWTH_PENDING_AUDIT",
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_RECEIVER_FORCES_E_TAU_RANKJUMP_AND_E_SIGMA_TAU_MW_GROWTH_REPAIRED_PENDING_REAUDIT",
     "B3_FIXED_S_UNIFORM_FULL2_DESCENT_SUBROUTE": "BLOCKED_BY_UNBOUNDED_PHYSICAL_BASE_SQUARECLASS_SUPPORT",
     "B3_TORSION_GROWTH_SUBROUTE": "CLOSED_AUDITED_BY_STAGE14_EXACT_FIBERWISE_TORSION_TRANSFER",
     "B3_E_TAU_RANKJUMP_PLUS_K_RESTATEMENT": "DOMINATED_REDUNDANT_BECAUSE_K_IMPLIES_E_TAU_RANKJUMP",
@@ -99,18 +104,18 @@
   },
   "current": {
     "unit": "36-09R",
-    "next_exact_leaf": "HOSTILE_AUDIT_36_09R",
+    "next_exact_leaf": "HOSTILE_REAUDIT_36_09R",
     "next_owner": "HOSTILE_AUDITOR",
-    "result": "E_TAU_RANKJUMP_PLUS_K_REDUNDANT; E_SIGMA_TAU_GENERIC_MW_EXACT_Z2xZ2; RECEIVER_FORCES_DISTINCT_E_SIGMA_TAU_MW_GROWTH_OBLIGATION; NO_INDEPENDENCE_OR_CANDIDATE_SET_SHRINK_CLAIM; PENDING_HOSTILE_AUDIT",
+    "result": "36-09R_REPAIRED_AT_P0_2_OVER_3_WITH_COMPLETE_SPECIALIZATION_SUPPORT; GENERIC_E_SIGMA_TAU_MW_PROVISIONAL_PENDING_REAUDIT",
     "36_09R_entry_allowed": true,
     "36_09S_entry_allowed": false
   },
   "current_leaf_working_set": [
     "stages/stage36/36-09R/etau-rankjump-receiver-esigmatau-growth-preflight.json",
     "stages/stage36/verify_stage36_36_09R.py",
+    "stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md",
     "stages/stage36/36-09O/physical-square-lift-v4-quotient-preflight.json",
     "stages/stage36/36-09Q/etau-torsion-growth-stage14-second-basechange-preflight.json",
-    "stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md",
     "docs/arsenal/cards/formal/S34-W03.md",
     "docs/research-os/policies/research-credit-and-promotion-firewalls.md"
   ],
@@ -120,6 +125,7 @@
     "E_tau_stage14_second_basechange_adapter_promoted": true,
     "E_tau_rankjump_plus_K_redundancy_certificate_complete": true,
     "E_tau_rankjump_plus_K_redundancy_promoted": false,
+    "E_sigma_tau_complete_specialization_criterion_repaired": true,
     "E_sigma_tau_generic_MW_certificate_complete": true,
     "E_sigma_tau_generic_MW_promoted": false,
     "E_sigma_tau_exceptional_growth_reduction_complete": true,
@@ -137,6 +143,8 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "anti_loop": {
+    "do_not_reuse_failed_p0_3_over_2_specialization_criterion": true,
+    "do_not_omit_constant_squareclass_2_from_complete_Gusic_Tadic_support": true,
     "do_not_treat_E_tau_rankjump_as_extra_filter_after_K": true,
     "do_not_claim_independence_between_receiver_K_and_derived_E_sigma_tau_growth": true,
     "do_not_claim_candidate_set_shrink_from_a_derived_necessary_condition": true,
