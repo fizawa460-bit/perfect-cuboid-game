@@ -55,8 +55,8 @@ assert m['coordinate_map']=={'a1':'h','a2':'x','a3':'y','b1':'z','b2':'q','b3':'
 assert m['same_projective_surface'] is True and m['birational_only'] is False
 assert set(m['stage35ex_equations'])=={
     'p^2=h^2+x^2','q^2=h^2+y^2','z^2=x^2+y^2','w^2=h^2+x^2+y^2'}
-assert q['projective_closure']['ambient']=='P^6'
 assert q['projective_closure']['complete_intersection_type']=='(2,2,2,2)'
+assert q['projective_closure']['degree']==16
 assert q['singular_locus']['geometric_node_count']==48
 
 # Coordinate/ramification bridge: useful for object identification, but not
