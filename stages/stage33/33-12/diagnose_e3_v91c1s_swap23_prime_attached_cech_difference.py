@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
-"""V91C1S NONCREDIT diagnostic: lift the V91C1Q/R swap23 word to actual
-height-one primes and the 48 resolution exceptional primes, then materialize
-acted-minus-original divisor vectors for the eight literal A2_02 Cech packages.
+"""V91C1S NONCREDIT diagnostic for the V91C1Q/R swap23 word.
 
-This intentionally stops before Pic/2 unless an exact Cech/Cartier-to-Picard
-class reduction is actually present.  A zero package divisor is not promoted
-to equality of H^2(mu2) classes.
+Materialize acted-minus-original divisor vectors on actual strict-transform
+height-one primes and all 48 resolution exceptional primes.  The acted primes
+are canonicalized as ideals even when swap23 leaves the retained 30-carrier
+inventory.  This deliberately does not identify the resulting Cech/Cartier
+difference with zero in Pic/2 without an explicit class reduction.
 """
 from __future__ import annotations
 
 import hashlib
 import json
 import runpy
-from collections import defaultdict
 from fractions import Fraction
 from pathlib import Path
 
@@ -48,8 +47,7 @@ def csha(obj):
 
 def load_checked(path: Path, expected: str | None = None):
     obj = json.loads(path.read_text(encoding="utf-8"))
-    body = dict(obj)
-    claimed = body.pop("canonical_sha256")
+    body = dict(obj); claimed = body.pop("canonical_sha256")
     assert csha(body) == claimed, path
     if expected is not None:
         assert claimed == expected, path
@@ -77,7 +75,7 @@ def sum_vectors(vectors):
     return dict(sorted(out.items()))
 
 
-# Reuse the exact V91C1R coordinate word and literal A2_02 package source.
+# Exact coordinate word and literal package source from V91C1R.
 rns = runpy.run_path(str(R_PATH))
 assert rns["result"]["success"] is True
 assert rns["result"]["composed_coordinate_permutation"] == PERM23
@@ -85,7 +83,7 @@ assert rns["WORD"] == WORD
 packages = rns["packages"]
 assert sorted(packages) == sorted(EXPECTED_COMPONENTS)
 
-# Reuse the audited 33-11d / exact 33-11e prime-refinement inventory.
+# Audited 33-11d / exact 33-11e actual-prime data.
 ens = runpy.run_path(str(E11_PATH))
 e11 = load_checked(E11_CERT, E11_CERT_SHA)
 e11_source = load_checked(E11_SOURCE, E11_SOURCE_SHA)
@@ -104,78 +102,74 @@ assert len(inventory) == len(by_sig) == 30
 perms = d11_source["certified_actions"]
 assert perms["swap12"] == [1, 0, 2, 4, 3, 5, 6]
 assert perms["swap13"] == [2, 1, 0, 5, 4, 3, 6]
-
-carrier_action = {}
-for carrier_id, sig in inventory.items():
-    image_sig = ens["apply_word_signature"](sig, WORD)
-    image_id = by_sig.get(image_sig)
-    if image_id is None:
-        raise SystemExit(f"swap23 carrier image absent: {carrier_id}")
-    carrier_action[carrier_id] = image_id
-assert all(carrier_action[carrier_action[h]] == h for h in carrier_action)
-
-prime_inventory = e11["prime_inventory"]
-refinements = prime_inventory["carrier_refinements"]
-prime_records = {row["prime_id"]: row for row in prime_inventory["records"]}
-assert set(refinements) == set(inventory)
-
-variables = sp.symbols("a1 a2 a3 b1 b2 b3 c")
-local = {str(x): x for x in variables} | {"i": sp.I}
-exact_ids = {p for p, row in prime_records.items() if row["kind"] == "EXACT_REDUCED_PRIME_IDEAL"}
-direct_ids = set(prime_records) - exact_ids
-
-# Exact algebraic primes: act on the canonical ideal itself and re-canonicalize.
-prime_action = {}
-for prime_id in sorted(exact_ids):
-    row = prime_records[prime_id]
-    generators = [sp.sympify(text, locals=local) for text in row["canonical_groebner_basis"]]
-    acted = [ens["apply_word_expr"](poly, WORD, variables) for poly in generators]
-    image_id, _basis = ens["canonical_ideal"](acted, variables)
-    if image_id not in exact_ids:
-        raise SystemExit(f"swap23 exact-prime image absent: {prime_id} -> {image_id}")
-    prime_action[prime_id] = image_id
-
-# Direct supports use the audited carrier+support ID convention from 33-11e.
-direct_lookup = {
-    (row["carrier_id"], row["reduced_support"]): prime_id
-    for prime_id, row in prime_records.items()
-    if prime_id in direct_ids
+carrier_images = {
+    h: by_sig.get(ens["apply_word_signature"](sig, WORD))
+    for h, sig in inventory.items()
 }
-for prime_id in sorted(direct_ids):
-    row = prime_records[prime_id]
-    support = ens["parse_poly"](row["reduced_support"], local)
-    acted_support = ens["canonical_linear"](
-        ens["apply_word_expr"](support, WORD, variables), variables
-    )
-    target_carrier = carrier_action[row["carrier_id"]]
-    image_id = direct_lookup.get((target_carrier, acted_support))
-    if image_id is None:
-        raise SystemExit(
-            f"swap23 direct-prime image absent: {prime_id}; "
-            f"target_carrier={target_carrier}; support={acted_support}"
-        )
-    prime_action[prime_id] = image_id
+missing_carrier_images = sorted(h for h, image in carrier_images.items() if image is None)
 
-assert set(prime_action) == set(prime_records)
-assert all(prime_action[prime_action[p]] == p for p in prime_action)
+prime_records = {
+    row["prime_id"]: row for row in e11["prime_inventory"]["records"]
+}
+variables = sp.symbols("a1 a2 a3 b1 b2 b3 c")
+a1, a2v, a3, b1, b2, b3, c = variables
+local = {str(x): x for x in variables} | {"i": sp.I}
+Q = [
+    a1**2 + a2v**2 - b3**2,
+    a2v**2 + a3**2 - b1**2,
+    a1**2 + a3**2 - b2**2,
+    a1**2 + a2v**2 + a3**2 - c**2,
+]
 
-# Prime-refinement equivariance is checked independently of A2_02 packages.
-for carrier_id, pieces in refinements.items():
-    acted = sorted(
-        (prime_action[piece["prime_id"]], int(piece["multiplicity"]))
-        for piece in pieces
-    )
-    target = sorted(
-        (piece["prime_id"], int(piece["multiplicity"]))
-        for piece in refinements[carrier_action[carrier_id]]
-    )
-    if acted != target:
-        raise SystemExit(f"swap23 carrier refinement mismatch: {carrier_id}")
+# Put every retained actual prime into one canonical-ideal namespace.  The
+# direct-support records need their carrier equation restored first.
+old_to_canonical = {}
+canonical_generators = {}
+for old_id, row in prime_records.items():
+    if row["kind"] == "EXACT_REDUCED_PRIME_IDEAL":
+        generators = [sp.sympify(text, locals=local) for text in row["canonical_groebner_basis"]]
+    elif row["kind"] == "AUDITED_33_11D_DIRECT_PRIME_SUPPORT":
+        carrier_sig = inventory[row["carrier_id"]]
+        carrier = ens["linear_from_signature"](carrier_sig, variables)
+        support = ens["parse_poly"](row["reduced_support"], local)
+        generators = Q + [carrier, support]
+    else:
+        raise SystemExit(f"unknown prime kind: {row['kind']}")
+    canonical_id, _basis = ens["canonical_ideal"](generators, variables)
+    old_to_canonical[old_id] = canonical_id
+    canonical_generators.setdefault(canonical_id, generators)
 
-# Consume the already-materialized A2_02 signed actual-prime vectors.
-a2 = next(row for row in e11["generator_records"] if row["source_direction"] == "A2_02")
-strict_original = a2["component_signed_prime_vectors"]
-assert sorted(strict_original) == sorted(EXPECTED_COMPONENTS)
+retained_canonical_primes = set(canonical_generators)
+assert set(old_to_canonical) == set(prime_records)
+
+# Act on each actual prime ideal directly.  Images need not belong to the old
+# 30-carrier universe; they remain exact height-one primes by surface automorphism.
+prime_action = {}
+for canonical_id, generators in canonical_generators.items():
+    acted_generators = [
+        ens["apply_word_expr"](poly, WORD, variables) for poly in generators
+    ]
+    image_id, _basis = ens["canonical_ideal"](acted_generators, variables)
+    twice = [
+        ens["apply_word_expr"](poly, WORD, variables) for poly in acted_generators
+    ]
+    twice_id, _basis2 = ens["canonical_ideal"](twice, variables)
+    if twice_id != canonical_id:
+        raise SystemExit(f"swap23 actual-prime involution failed: {canonical_id}")
+    prime_action[canonical_id] = image_id
+acted_prime_ids = set(prime_action.values())
+acted_outside_retained = sorted(acted_prime_ids - retained_canonical_primes)
+
+# Convert A2_02's checked-in prime vectors to the canonical-ideal namespace.
+a2row = next(row for row in e11["generator_records"] if row["source_direction"] == "A2_02")
+raw_strict = a2row["component_signed_prime_vectors"]
+assert sorted(raw_strict) == sorted(EXPECTED_COMPONENTS)
+strict_original = {}
+for cid, vector in raw_strict.items():
+    out = {}
+    for old_id, coeff in vector.items():
+        add(out, old_to_canonical[old_id], coeff)
+    strict_original[cid] = dict(sorted(out.items()))
 strict_acted = {}
 strict_difference = {}
 for cid, vector in strict_original.items():
@@ -188,20 +182,19 @@ strict_package_original = sum_vectors(strict_original.values())
 strict_package_acted = sum_vectors(strict_acted.values())
 strict_package_difference = subtract(strict_package_acted, strict_package_original)
 
-# Resolution exceptional primes: act directly on the 48 source-locked node points
-# and evaluate each acted Q(i)-linear factor there.  This does not reuse cc/ct zero.
+# Resolution exceptional primes: compute the swap23 permutation of all 48
+# frozen node centers, then evaluate each acted literal Q(i)-linear factor.
 nodes = json.loads(NODES.read_text(encoding="utf-8"))
 if "canonical_sha256" in nodes:
     body = dict(nodes); claimed = body.pop("canonical_sha256")
     assert claimed == csha(body)
 models = nodes["exceptional_models"]
 assert len(models) == 48
-
 qi = rns["qi"]
-qadd = lambda x, y: (x[0] + y[0], x[1] + y[1])
 qmul = rns["qmul"]
 zero = (Fraction(0), Fraction(0))
 
+def qadd(x, y): return x[0] + y[0], x[1] + y[1]
 def point_signature(raw):
     norm, _pivot = rns["normalize_signature"](raw)
     return tuple(tuple(z) for z in norm)
@@ -215,11 +208,10 @@ for row in models:
     assert sig not in node_by_sig
     node_by_sig[sig] = eid
     node_points[eid] = [qi(z) for z in raw]
-
 node_action = {}
 for sig, eid in node_by_sig.items():
-    acted_sig = tuple(sig[j] for j in PERM23)
-    norm, _pivot = rns["normalize_signature"]([list(z) for z in acted_sig])
+    acted = [list(sig[j]) for j in PERM23]
+    norm, _pivot = rns["normalize_signature"](acted)
     image = node_by_sig.get(tuple(tuple(z) for z in norm))
     if image is None:
         raise SystemExit(f"swap23 exceptional node image absent: {eid}")
@@ -228,40 +220,34 @@ assert all(node_action[node_action[eid]] == eid for eid in node_action)
 
 def dot(form, point):
     out = zero
-    for a, b in zip(form, point):
-        out = qadd(out, qmul(a, b))
+    for x, y in zip(form, point): out = qadd(out, qmul(x, y))
     return out
 
-def package_atoms(package, acted=False):
-    atoms = []
+def atoms(package, acted=False):
+    out = []
     for factor in package["numerator_factors"]:
         sig = factor["coefficients_Qi"]
-        if acted:
-            sig = [sig[j] for j in PERM23]
-        atoms.append((sig, int(factor["exponent"])))
+        if acted: sig = [sig[j] for j in PERM23]
+        out.append((sig, int(factor["exponent"])))
     den = package["denominator"]
     sig = den["coefficients_Qi"]
-    if acted:
-        sig = [sig[j] for j in PERM23]
-    atoms.append((sig, -int(den["exponent"])))
-    return atoms
+    if acted: sig = [sig[j] for j in PERM23]
+    out.append((sig, -int(den["exponent"])))
+    return out
 
 def exceptional_vector(package, acted=False):
     out = {eid: 0 for eid in node_points}
-    for sig, exponent in package_atoms(package, acted=acted):
+    for sig, exponent in atoms(package, acted):
         form = [qi(z) for z in sig]
         for eid, point in node_points.items():
-            if dot(form, point) == zero:
-                out[eid] += exponent
-    return {eid: coeff for eid, coeff in sorted(out.items()) if coeff}
+            if dot(form, point) == zero: out[eid] += exponent
+    return {eid: v for eid, v in sorted(out.items()) if v}
 
 exceptional_original = {cid: exceptional_vector(pkg) for cid, pkg in packages.items()}
-exceptional_acted = {cid: exceptional_vector(pkg, acted=True) for cid, pkg in packages.items()}
-# Independent covariance check: direct evaluation of g(f) equals transport of f's node valuations.
+exceptional_acted = {cid: exceptional_vector(pkg, True) for cid, pkg in packages.items()}
 for cid, vector in exceptional_original.items():
     transported = {}
-    for eid, coeff in vector.items():
-        add(transported, node_action[eid], coeff)
+    for eid, coeff in vector.items(): add(transported, node_action[eid], coeff)
     if dict(sorted(transported.items())) != exceptional_acted[cid]:
         raise SystemExit(f"swap23 exceptional valuation covariance failed: {cid}")
 exceptional_difference = {
@@ -270,23 +256,24 @@ exceptional_difference = {
 }
 exceptional_package_original = sum_vectors(exceptional_original.values())
 exceptional_package_acted = sum_vectors(exceptional_acted.values())
-exceptional_package_difference = subtract(
-    exceptional_package_acted, exceptional_package_original
-)
+exceptional_package_difference = subtract(exceptional_package_acted, exceptional_package_original)
 
-component_summary = {}
-for cid in EXPECTED_COMPONENTS:
-    component_summary[cid] = {
+component_summary = {
+    cid: {
         "strict_prime_difference_nonzero_coefficients": len(strict_difference[cid]),
         "exceptional_prime_difference_nonzero_coefficients": len(exceptional_difference[cid]),
         "full_attached_divisor_difference_zero": not strict_difference[cid] and not exceptional_difference[cid],
         "strict_prime_difference_sha256": csha(strict_difference[cid]),
         "exceptional_prime_difference_sha256": csha(exceptional_difference[cid]),
     }
-
-full_package_zero = not strict_package_difference and not exceptional_package_difference
+    for cid in EXPECTED_COMPONENTS
+}
+strict_package_zero = not strict_package_difference
+exceptional_package_zero = not exceptional_package_difference
+full_package_zero = strict_package_zero and exceptional_package_zero
 full_component_zero_count = sum(
-    1 for row in component_summary.values() if row["full_attached_divisor_difference_zero"]
+    int(row["full_attached_divisor_difference_zero"])
+    for row in component_summary.values()
 )
 result = {
     "success": True,
@@ -294,18 +281,23 @@ result = {
     "role": "EXACT_NONCREDIT_SWAP23_FULL_CODIM1_ATTACHMENT_DIAGNOSTIC",
     "q_word": WORD,
     "coordinate_permutation": PERM23,
-    "carrier_inventory_closed_under_swap23": True,
-    "carrier_count": len(inventory),
-    "actual_prime_inventory_closed_under_swap23": True,
-    "actual_prime_count": len(prime_records),
-    "carrier_refinement_equivariant_under_swap23": True,
+    "retained_carrier_count": len(inventory),
+    "retained_carrier_inventory_closed_under_swap23": not missing_carrier_images,
+    "retained_carrier_images_missing_count": len(missing_carrier_images),
+    "retained_carrier_images_missing_sha256": csha(missing_carrier_images),
+    "retained_actual_prime_record_count": len(prime_records),
+    "canonical_retained_actual_prime_count": len(retained_canonical_primes),
+    "swap23_actual_prime_transport_materialized": True,
+    "acted_actual_primes_outside_retained_inventory_count": len(acted_outside_retained),
+    "acted_actual_primes_outside_retained_inventory_sha256": csha(acted_outside_retained),
+    "swap23_actual_prime_involution_verified": True,
     "exceptional_node_inventory_closed_under_swap23": True,
     "exceptional_prime_count": len(node_points),
     "component_differences": component_summary,
     "components_with_zero_full_attached_divisor_difference": full_component_zero_count,
     "component_count": len(EXPECTED_COMPONENTS),
-    "strict_transform_package_difference_zero": not strict_package_difference,
-    "exceptional_package_difference_zero": not exceptional_package_difference,
+    "strict_transform_package_difference_zero": strict_package_zero,
+    "exceptional_package_difference_zero": exceptional_package_zero,
     "full_codim1_package_difference_zero": full_package_zero,
     "strict_package_difference_nonzero_coefficients": len(strict_package_difference),
     "exceptional_package_difference_nonzero_coefficients": len(exceptional_package_difference),
@@ -317,6 +309,7 @@ result = {
     "a2_02_marked_brauer_image_excluded_from_mask20": False,
     "remaining_blocker_code": "EXPLICIT_SWAP23_CECH_CARTIER_DIFFERENCE_REDUCTION_INTO_RETAINED_PIC_OVER_2",
     "anti_inference": {
+        "retained_carrier_inventory_miss_used_as_absence_proof": False,
         "zero_total_divisor_promoted_to_h2_seed_fixedness": False,
         "principal_divisor_promoted_to_cech_pic2_zero": False,
         "target_mask20_used_as_source_data": False,
@@ -329,7 +322,8 @@ print(json.dumps(result, sort_keys=True))
 print(
     "::warning file=stages/stage33/33-12/diagnose_e3_v91c1s_swap23_prime_attached_cech_difference.py,"
     "title=V91C1S_SWAP23_PRIME_ATTACHED_CECH_DIFFERENCE::"
+    + f"carrier_misses={len(missing_carrier_images)};"
+    + f"new_prime_images={len(acted_outside_retained)};"
     + f"full_package_zero={str(full_package_zero).lower()};"
-    + f"component_zero={full_component_zero_count}/{len(EXPECTED_COMPONENTS)};"
-    + "pic2=false"
+    + f"component_zero={full_component_zero_count}/{len(EXPECTED_COMPONENTS)};pic2=false"
 )
