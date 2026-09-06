@@ -1,4 +1,4 @@
-name: Stage33 V91C1N-O fixed-space and geometric-stabilizer diagnostic
+name: Stage33 V91C1N-P fixed-space and residue-stabilizer diagnostics
 
 on:
   pull_request:
@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v91c1n-o-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1n-p-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -27,46 +27,101 @@ jobs:
           python-version: '3.11'
       - name: Verify V91C1N minimal fixed-space discriminator
         run: python stages/stage33/33-12/verify_e3_v91c1n_minimal_joint_v4_fixed_coordinate_discriminator.py
-      - name: Diagnose V91C1O A2_02 geometric stabilizer
+      - name: Diagnose V91C1O A2_02 generator stabilizers
         run: python stages/stage33/33-12/diagnose_e3_v91c1o_a2_02_geometric_stabilizer.py
-      - name: Observed augmented dimension 0
-        if: env.V91C1O_AUG_DIM == '0'
-        run: echo V91C1O_AUG_DIM=0
-      - name: Observed augmented dimension 1
-        if: env.V91C1O_AUG_DIM == '1'
-        run: echo V91C1O_AUG_DIM=1
-      - name: Observed augmented dimension 2
-        if: env.V91C1O_AUG_DIM == '2'
-        run: echo V91C1O_AUG_DIM=2
-      - name: Observed augmented dimension 3
-        if: env.V91C1O_AUG_DIM == '3'
-        run: echo V91C1O_AUG_DIM=3
-      - name: Observed augmented dimension 4
-        if: env.V91C1O_AUG_DIM == '4'
-        run: echo V91C1O_AUG_DIM=4
-      - name: Observed augmented dimension 5
-        if: env.V91C1O_AUG_DIM == '5'
-        run: echo V91C1O_AUG_DIM=5
-      - name: Observed augmented dimension 6
-        if: env.V91C1O_AUG_DIM == '6'
-        run: echo V91C1O_AUG_DIM=6
-      - name: Observed augmented dimension 7
-        if: env.V91C1O_AUG_DIM == '7'
-        run: echo V91C1O_AUG_DIM=7
-      - name: Observed augmented dimension 8
-        if: env.V91C1O_AUG_DIM == '8'
-        run: echo V91C1O_AUG_DIM=8
-      - name: Observed augmented dimension 9
-        if: env.V91C1O_AUG_DIM == '9'
-        run: echo V91C1O_AUG_DIM=9
-      - name: Observed augmented dimension 10
-        if: env.V91C1O_AUG_DIM == '10'
-        run: echo V91C1O_AUG_DIM=10
-      - name: Observed e3 fixed by residue stabilizer generators
-        if: env.V91C1O_E3_FIXED == 'true'
-        run: echo V91C1O_E3_FIXED=true
-      - name: Observed e3 not fixed by residue stabilizer generators
-        if: env.V91C1O_E3_FIXED == 'false'
-        run: echo V91C1O_E3_FIXED=false
+      - name: Verify V91C1O preflight certificate
+        run: python stages/stage33/33-12/verify_e3_v91c1o_a2_02_generator_stabilizer_preflight.py
+      - name: Diagnose V91C1P full generated residue stabilizer
+        run: python stages/stage33/33-12/diagnose_e3_v91c1p_a2_02_full_residue_stabilizer.py
+      - name: P observed augmented dimension 0
+        if: env.V91C1P_AUG_DIM == '0'
+        run: echo V91C1P_AUG_DIM=0
+      - name: P observed augmented dimension 1
+        if: env.V91C1P_AUG_DIM == '1'
+        run: echo V91C1P_AUG_DIM=1
+      - name: P observed augmented dimension 2
+        if: env.V91C1P_AUG_DIM == '2'
+        run: echo V91C1P_AUG_DIM=2
+      - name: P observed augmented dimension 3
+        if: env.V91C1P_AUG_DIM == '3'
+        run: echo V91C1P_AUG_DIM=3
+      - name: P observed augmented dimension 4
+        if: env.V91C1P_AUG_DIM == '4'
+        run: echo V91C1P_AUG_DIM=4
+      - name: P observed augmented dimension 5
+        if: env.V91C1P_AUG_DIM == '5'
+        run: echo V91C1P_AUG_DIM=5
+      - name: P observed augmented dimension 6
+        if: env.V91C1P_AUG_DIM == '6'
+        run: echo V91C1P_AUG_DIM=6
+      - name: P observed augmented dimension 7
+        if: env.V91C1P_AUG_DIM == '7'
+        run: echo V91C1P_AUG_DIM=7
+      - name: P observed augmented dimension 8
+        if: env.V91C1P_AUG_DIM == '8'
+        run: echo V91C1P_AUG_DIM=8
+      - name: P observed augmented dimension 9
+        if: env.V91C1P_AUG_DIM == '9'
+        run: echo V91C1P_AUG_DIM=9
+      - name: P observed augmented dimension 10
+        if: env.V91C1P_AUG_DIM == '10'
+        run: echo V91C1P_AUG_DIM=10
+      - name: P e3 fixed by full residue stabilizer target actions
+        if: env.V91C1P_E3_FIXED == 'true'
+        run: echo V91C1P_E3_FIXED=true
+      - name: P e3 not fixed by full residue stabilizer target actions
+        if: env.V91C1P_E3_FIXED == 'false'
+        run: echo V91C1P_E3_FIXED=false
+      - name: P source orbit size 1
+        if: env.V91C1P_ORBIT_SIZE == '1'
+        run: echo V91C1P_ORBIT_SIZE=1
+      - name: P source orbit size 2
+        if: env.V91C1P_ORBIT_SIZE == '2'
+        run: echo V91C1P_ORBIT_SIZE=2
+      - name: P source orbit size 3
+        if: env.V91C1P_ORBIT_SIZE == '3'
+        run: echo V91C1P_ORBIT_SIZE=3
+      - name: P source orbit size 4
+        if: env.V91C1P_ORBIT_SIZE == '4'
+        run: echo V91C1P_ORBIT_SIZE=4
+      - name: P source orbit size 6
+        if: env.V91C1P_ORBIT_SIZE == '6'
+        run: echo V91C1P_ORBIT_SIZE=6
+      - name: P source orbit size 8
+        if: env.V91C1P_ORBIT_SIZE == '8'
+        run: echo V91C1P_ORBIT_SIZE=8
+      - name: P source orbit size 12
+        if: env.V91C1P_ORBIT_SIZE == '12'
+        run: echo V91C1P_ORBIT_SIZE=12
+      - name: P source orbit size 16
+        if: env.V91C1P_ORBIT_SIZE == '16'
+        run: echo V91C1P_ORBIT_SIZE=16
+      - name: P source orbit size 24
+        if: env.V91C1P_ORBIT_SIZE == '24'
+        run: echo V91C1P_ORBIT_SIZE=24
+      - name: P source orbit size 32
+        if: env.V91C1P_ORBIT_SIZE == '32'
+        run: echo V91C1P_ORBIT_SIZE=32
+      - name: P source orbit size 48
+        if: env.V91C1P_ORBIT_SIZE == '48'
+        run: echo V91C1P_ORBIT_SIZE=48
+      - name: P source orbit size 64
+        if: env.V91C1P_ORBIT_SIZE == '64'
+        run: echo V91C1P_ORBIT_SIZE=64
+      - name: P source orbit size 96
+        if: env.V91C1P_ORBIT_SIZE == '96'
+        run: echo V91C1P_ORBIT_SIZE=96
+      - name: P source orbit size 128
+        if: env.V91C1P_ORBIT_SIZE == '128'
+        run: echo V91C1P_ORBIT_SIZE=128
+      - name: P source orbit size 192
+        if: env.V91C1P_ORBIT_SIZE == '192'
+        run: echo V91C1P_ORBIT_SIZE=192
+      - name: P source orbit size 384
+        if: env.V91C1P_ORBIT_SIZE == '384'
+        run: echo V91C1P_ORBIT_SIZE=384
+      - name: P source orbit size 768
+        if: env.V91C1P_ORBIT_SIZE == '768'
+        run: echo V91C1P_ORBIT_SIZE=768
       - name: Diff hygiene
         run: git diff --check
