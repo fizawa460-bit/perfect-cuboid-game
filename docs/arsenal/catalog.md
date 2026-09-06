@@ -60,6 +60,10 @@ Active Stage controllers and current source locks override every snapshot here. 
 | [`S33-PW06`](cards/provisional/S33-PW06.md) | `ABSOLUTE_COHOMOLOGY_RECEIVER_RECIPE` | Stage33 | [../stage33-arsenal-promotion.md](../stage33-arsenal-promotion.md) |
 | [`S33-PW07`](cards/provisional/S33-PW07.md) | `TORSOR_BRAUER_INTEGRAL_KERNEL_ADAPTER` | Stage33 | [../stage33-arsenal-promotion.md](../stage33-arsenal-promotion.md) |
 | [`S33-PW08`](cards/provisional/S33-PW08.md) | `GERSTEN_CONNECTING_LOCALIZATION_ADAPTER` | Stage33 | [../stage33-arsenal-promotion.md](../stage33-arsenal-promotion.md) |
+| [`S33-PW09`](cards/provisional/S33-PW09.md) | `MARKED_KUMMER_LIFT_BINDING_ADAPTER` | Stage33 | [../stage33-arsenal-promotion.md](../stage33-arsenal-promotion.md) |
+| [`S33-PW10`](cards/provisional/S33-PW10.md) | `RESOLVED_PURITY_CECH_CARTIER_SEED_ASSEMBLER` | Stage33 | [../stage33-arsenal-promotion.md](../stage33-arsenal-promotion.md) |
+| [`S33-WF01`](cards/workflows/S33-WF01.md) | `FIRST_MISSING_WITNESS_TYPE_PROVENANCE_GATE` | Stage33 | [../stage33-arsenal-promotion.md](../stage33-arsenal-promotion.md) |
+| [`S33-WF02`](cards/workflows/S33-WF02.md) | `MARKED_QUOTIENT_EVALUATION_OBLIGATION_DECOMPOSITION` | Stage33 | [../stage33-arsenal-promotion.md](../stage33-arsenal-promotion.md) |
 
 ## Retired IDs
 
