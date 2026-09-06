@@ -1,15 +1,15 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V51_36_09S_PENDING_HOSTILE_AUDIT",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V52_THIN_36_09S_AUDITED",
   "stage": "36",
-  "status": "ACTIVE_PENDING_HOSTILE_AUDIT",
-  "base_main_sha": "a53cd347f83ae47687254430ee25c98d841dc52b",
+  "status": "ACTIVE",
+  "base_main_sha": "87a1c4e6268f76c642964dbcb5d0cd4be4e7c425",
   "mission": "Attack Stage29 kernel K16-C3-CAMPEDELLI-UNIFORM-TORSOR through exact proper-or-candidate-proper receivers without granting endpoint credit unless a receiver-matched closure theorem is proved.",
   "legacy_authority_snapshot": {
-    "commit": "a53cd347f83ae47687254430ee25c98d841dc52b",
+    "commit": "bf7399e69c36cadf9d52684821332a235b3e6237",
     "path": "stages/stage36/MAIN-STATE.json",
-    "blob_sha": "f34cd4df8cca7232fae5c307f398fb97ac310058",
-    "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V50_THIN_36_09R_AUDITED",
-    "scope": "hostile-reaudited authority through 36-09R; V51 adds only provisional E_sigma_tau fiberwise torsion-growth exclusion and positive-rank-jump reduction"
+    "blob_sha": "d403689921bff2a9679e459ce3bd7ba9db249e58",
+    "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V51_36_09S_PENDING_HOSTILE_AUDIT",
+    "scope": "merged 36-09S candidate state; V52 promotes only the exact hostile-audited torsion-growth exclusion and the already-derived positive-rank obligation"
   },
   "source_kernel": {
     "kernel": "K16-C3-CAMPEDELLI-UNIFORM-TORSOR",
@@ -17,7 +17,11 @@
     "parent": "Q11-CAMPEDELLI",
     "H": "(Z/2)^3",
     "quotient_degree": 8,
-    "execution_representatives": ["Q6_GEOM8", "Q2_GEOM8", "Q2_GEOM2"],
+    "execution_representatives": [
+      "Q6_GEOM8",
+      "Q2_GEOM8",
+      "Q2_GEOM2"
+    ],
     "endpoint_pushes_to_every_audited_quotient": true,
     "quotient_Q_point_implies_endpoint_Q_point": false
   },
@@ -35,7 +39,12 @@
       "RECEIVER_CLOSED": false
     },
     "36-09S": {
-      "status": "EXACT_E_SIGMA_TAU_TORSION_GROWTH_EXCLUSION_PENDING_HOSTILE_AUDIT",
+      "status": "AUDITED_E_SIGMA_TAU_TORSION_GROWTH_EXCLUSION_AND_POSITIVE_RANK_REDUCTION",
+      "pr": 1657,
+      "hostile_audit_review": 5124402673,
+      "audited_head": "27d5479fd10627076f5cf2c5f952f4759b1ec6da",
+      "exact_head_ci": "34012855886/101431530393",
+      "merged_main_sha": "bf7399e69c36cadf9d52684821332a235b3e6237",
       "certificate": "stages/stage36/36-09S/esigmatau-torsion-growth-exclusion-preflight.json",
       "certificate_blob_sha": "3af506b590c5e4d7499c203651c0bf4ef31ec767",
       "verifier": "stages/stage36/verify_stage36_36_09S.py",
@@ -60,28 +69,57 @@
       "SIMULTANEOUS_POSITIVE_RANK_LOCUS_EMPTY": false,
       "S34_W03_INTERSECTION_EXECUTED": false,
       "RECEIVER_CLOSED": false,
-      "NEXT_AFTER_HOSTILE_PASS": "36-09T_SIMULTANEOUS_TWO_QUOTIENT_POSITIVE_RANK_RECEIVER_PREFLIGHT"
+      "NEXT": "36-09T_SIMULTANEOUS_TWO_QUOTIENT_POSITIVE_RANK_RECEIVER_PREFLIGHT"
     }
   },
   "source_locks": {
-    "stage36_v50_audited_state": {"path":"stages/stage36/MAIN-STATE.json","commit":"a53cd347f83ae47687254430ee25c98d841dc52b","blob_sha":"f34cd4df8cca7232fae5c307f398fb97ac310058"},
-    "stage36_36_09R_certificate": {"path":"stages/stage36/36-09R/etau-rankjump-receiver-esigmatau-growth-preflight.json","blob_sha":"b55d042ede01032ff8c8b0d872510a53cb857969"},
-    "stage36_36_09S_certificate": {"path":"stages/stage36/36-09S/esigmatau-torsion-growth-exclusion-preflight.json","blob_sha":"3af506b590c5e4d7499c203651c0bf4ef31ec767"},
-    "stage36_36_09S_verifier": {"path":"stages/stage36/verify_stage36_36_09S.py","blob_sha":"ef3faf907fceb6d31aa1e1f4299f0dcbb62f9e46"},
-    "stage36_36_09S_external_source_lock": {"path":"stages/stage36/36-09S/torsion-growth-lmfdb-mazur-source-lock.md","blob_sha":"3549b92406ead4ff846153c5444559ddeac245a7"},
-    "S34_W03": {"path":"docs/arsenal/cards/formal/S34-W03.md","blob_sha":"1d5275321f42768a6414d4610ac912c63be43f96"},
-    "research_credit_policy": {"path":"docs/research-os/policies/research-credit-and-promotion-firewalls.md"}
+    "stage36_v51_merged_state": {
+      "path": "stages/stage36/MAIN-STATE.json",
+      "commit": "bf7399e69c36cadf9d52684821332a235b3e6237",
+      "blob_sha": "d403689921bff2a9679e459ce3bd7ba9db249e58"
+    },
+    "stage36_36_09R_certificate": {
+      "path": "stages/stage36/36-09R/etau-rankjump-receiver-esigmatau-growth-preflight.json",
+      "blob_sha": "b55d042ede01032ff8c8b0d872510a53cb857969"
+    },
+    "stage36_36_09S_certificate": {
+      "path": "stages/stage36/36-09S/esigmatau-torsion-growth-exclusion-preflight.json",
+      "blob_sha": "3af506b590c5e4d7499c203651c0bf4ef31ec767"
+    },
+    "stage36_36_09S_verifier": {
+      "path": "stages/stage36/verify_stage36_36_09S.py",
+      "blob_sha": "ef3faf907fceb6d31aa1e1f4299f0dcbb62f9e46"
+    },
+    "stage36_36_09S_external_source_lock": {
+      "path": "stages/stage36/36-09S/torsion-growth-lmfdb-mazur-source-lock.md",
+      "blob_sha": "3549b92406ead4ff846153c5444559ddeac245a7"
+    },
+    "S34_W03": {
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96"
+    },
+    "research_credit_policy": {
+      "path": "docs/research-os/policies/research-credit-and-promotion-firewalls.md"
+    }
+  },
+  "freshness": {
+    "audit_pr_base": "a53cd347f83ae47687254430ee25c98d841dc52b",
+    "audit_merge_parent": "a53cd347f83ae47687254430ee25c98d841dc52b",
+    "merged_stage36_main": "bf7399e69c36cadf9d52684821332a235b3e6237",
+    "promotion_base_main": "87a1c4e6268f76c642964dbcb5d0cd4be4e7c425",
+    "stage36_drift_after_36_09S_merge": false,
+    "intervening_scope": "non-Stage36 only"
   },
   "cycle_ledger": {
     "B1_DIRECT_UNIFORM_H1_SELMER": "BLOCKED",
     "B2_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION": "BLOCKED_BY_EXPLICIT_ALL_PLACE_LOCAL_POINTS",
-    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_RECEIVER_FORCES_TWO_QUOTIENT_POSITIVE_RANK_JUMPS_PENDING_36_09S_AUDIT",
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_AUDITED_RECEIVER_FORCES_TWO_QUOTIENT_POSITIVE_RANK_JUMPS",
     "B3_FIXED_S_UNIFORM_FULL2_DESCENT_SUBROUTE": "BLOCKED_BY_UNBOUNDED_PHYSICAL_BASE_SQUARECLASS_SUPPORT",
     "B3_E_TAU_TORSION_GROWTH": "CLOSED_AUDITED",
-    "B3_E_SIGMA_TAU_TORSION_GROWTH": "CLOSED_PENDING_HOSTILE_AUDIT",
+    "B3_E_SIGMA_TAU_TORSION_GROWTH": "CLOSED_AUDITED",
     "B3_E_TAU_POSITIVE_RANK_JUMP": "LIVE_DERIVED_FROM_RECEIVER_K",
     "B3_E_SIGMA_TAU_POSITIVE_RANK_JUMP": "LIVE_DERIVED_FROM_RECEIVER_K",
-    "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION": "BLOCKED_NO_SIMULTANEOUS_POSITIVE_RANK_EXCLUSION_YET",
+    "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION": "LIVE_SIMULTANEOUS_TWO_QUOTIENT_POSITIVE_RANK_RECEIVER_PREFLIGHT",
     "B5_CAMPEDELLI_BRAUER_ETALE_BRAUER": "BLOCKED_UPSTREAM_BR2A_BR2B_INCOMPLETE",
     "B6_FIBRATION_TO_CURVE_BASE": "BLOCKED_BY_EXACT_ENDPOINT_EQUIVALENCE_NO_PROPER_RECEIVER_GAIN",
     "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER": "UNTESTED_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER",
@@ -90,16 +128,21 @@
     "B10_INTERMEDIATE_SIGN_QUOTIENT_OR_CHARACTER": "DOMINATED_RETAINED_RECEIVER_CHARACTER_LINEAR_EXHAUSTED_W01_FIRST_LAYER_BLOCKED",
     "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY": "UNTESTED_VARIABLE_PRIME_RECIPROCITY",
     "C2_GAUSSIAN_NORM_COMPRESSION": "UNTESTED_DISTINCT_WITH_EXACT_E_TAU_NORM_ADAPTER",
-    "counts": {"live":1,"untested":3,"blocked":6,"dominated":2},
+    "counts": {
+      "live": 2,
+      "untested": 3,
+      "blocked": 5,
+      "dominated": 2
+    },
     "counts_exclude_named_B3_subroutes": true
   },
   "current": {
-    "unit": "36-09S",
-    "next_exact_leaf": "HOSTILE_AUDIT_36_09S",
-    "next_owner": "HOSTILE_AUDITOR",
-    "result": "E_SIGMA_TAU_TORSION_GROWTH_EXCLUDED_PENDING_AUDIT; RECEIVER_FORCES_E_SIGMA_TAU_POSITIVE_RANK_JUMP; SIMULTANEOUS_POSITIVE_RANK_LOCUS_NOT_CLOSED",
+    "unit": "36-09T",
+    "next_exact_leaf": "36-09T_SIMULTANEOUS_TWO_QUOTIENT_POSITIVE_RANK_RECEIVER_PREFLIGHT",
+    "next_owner": "STAGE36_MAIN",
+    "result": "36-09S_HOSTILE_AUDIT_PASS_PROMOTED; BOTH_RETAINED_QUOTIENT_OBLIGATIONS_REDUCED_TO_POSITIVE_RANK_JUMPS; SIMULTANEOUS_LOCUS_NOT_CLOSED",
     "36_09S_entry_allowed": true,
-    "36_09T_entry_allowed": false
+    "36_09T_entry_allowed": true
   },
   "current_leaf_working_set": [
     "stages/stage36/36-09S/esigmatau-torsion-growth-exclusion-preflight.json",
@@ -114,7 +157,7 @@
     "E_tau_torsion_growth_exclusion_promoted": true,
     "E_sigma_tau_generic_MW_promoted": true,
     "E_sigma_tau_torsion_growth_exclusion_certificate_complete": true,
-    "E_sigma_tau_torsion_growth_exclusion_promoted": false,
+    "E_sigma_tau_torsion_growth_exclusion_promoted": true,
     "E_sigma_tau_positive_rank_jumps_excluded": false,
     "E_tau_positive_rank_jumps_excluded": false,
     "simultaneous_positive_rank_locus_empty": false,
@@ -129,17 +172,16 @@
   },
   "anti_loop": {
     "do_not_reopen_E_tau_torsion_growth": true,
-    "do_not_claim_E_sigma_tau_torsion_growth_closed_before_36_09S_hostile_PASS": true,
+    "do_not_reopen_E_sigma_tau_torsion_growth": true,
     "do_not_treat_two_positive_rank_obligations_as_independent": true,
     "do_not_claim_candidate_set_shrink_from_derived_quotient_obligations": true,
     "do_not_claim_simultaneous_positive_rank_locus_empty_before_proof": true,
-    "do_not_claim_S34_W03_close_before_actual_intersection_exclusion": true,
-    "do_not_start_36_09T_before_36_09S_hostile_audit_PASS": true
+    "do_not_claim_S34_W03_close_before_actual_intersection_exclusion": true
   },
   "claims": {
     "new_theorem_credit": false,
-    "E_sigma_tau_torsion_growth_excluded_provisional": true,
-    "receiver_forces_E_sigma_tau_positive_rank_jump_provisional": true,
+    "E_sigma_tau_torsion_growth_excluded_promoted": true,
+    "receiver_forces_E_sigma_tau_positive_rank_jump_promoted": true,
     "receiver_forces_E_tau_positive_rank_jump_promoted": true,
     "independence_claimed": false,
     "candidate_set_shrunk": false,
