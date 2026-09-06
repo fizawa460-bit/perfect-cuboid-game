@@ -73,6 +73,9 @@ def total_transform(curves):
         if any(pair(i-1,j-1)!=0 for i in curves):vec[j-1]+=1
     return vec
 
+def picclass(vec):
+    return [sum(vec[j]*known[j][i] for j in range(140)) for i in range(64)]
+
 Z=(Fraction(0),)*4; ONE=(Fraction(1),Fraction(0),Fraction(0),Fraction(0))
 II=(Fraction(0),Fraction(1),Fraction(0),Fraction(0)); SS=(Fraction(0),Fraction(0),Fraction(1),Fraction(0))
 def add(x,y):return tuple(x[i]+y[i] for i in range(4))
@@ -139,11 +142,16 @@ assert idx==93
 groups=defaultdict(set)
 for ci,fs in curve_forms.items():
     for L in fs:groups[L].add(ci)
-complete={L:sorted(cs) for L,cs in groups.items() if sum(degrees[i] for i in cs)==16}
-H={L:total_transform(cs) for L,cs in complete.items()}
-hclasses=[]
-for L,vec in H.items():hclasses.append([sum(vec[j]*known[j][i] for j in range(140)) for i in range(64)])
-assert H and all(x==hclasses[0] for x in hclasses)
+raw_degree16={L:sorted(cs) for L,cs in groups.items() if sum(degrees[i] for i in cs)==16}
+# a1=0 is source-explicit as C1 indices 1..8 and fixes the hyperplane class on the resolution.
+anchor=total_transform(list(range(1,9))); anchor_class=picclass(anchor)
+complete={}
+H={}
+for L,cs in raw_degree16.items():
+    vec=total_transform(cs)
+    if picclass(vec)==anchor_class:
+        complete[L]=cs; H[L]=vec
+assert H
 
 names=list(H); M=sp.Matrix(140,len(names),lambda i,j:H[names[j]][i]); v=sp.Matrix(formal)
 sol=sp.linsolve((M,v)); in_span=sol!=sp.EmptySet
@@ -171,7 +179,8 @@ out={
  'formal_target_support_count':len(V_sparse),
  'formal_target_picard_class_zero':True,
  'retained_curve_linear_form_count':len(groups),
- 'degree16_complete_hyperplane_library_size':len(H),
+ 'raw_degree16_linear_form_candidate_count':len(raw_degree16),
+ 'picard_certified_complete_hyperplane_library_size':len(H),
  'complete_hyperplane_span_contains_target':in_span,
  'complete_hyperplane_rational_solution_at_zero_parameters':solution_rational,
  'complete_hyperplane_integer_solution':solution,
