@@ -20,9 +20,9 @@ LOCKS={
  HERE/'e3-proper14-dual-to-discriminant-quotient-bridge-v89.json':'26bf699fd92e261e1ae40066ad0fd5aece9cb896f28a385367786de1d0460639',
  HERE/'e3-retained-at-marked-picard-dual-source-v91.json':'729f296c1495d9ba600b085a6e9a5a0b53f8968a7997af4774fa11dc2d0215e9'}
 HISTORICAL_CARD_BLOBS={
- 'S33-PW04':'1702de010168d91d587bb6fb0966358c76e6e505',
- 'S33-PW07':'7f1337858bc6f9006e101d810dd72e67aef534fd',
- 'S33-PW08':'c9e13a917811581578f833ea93619d85f717be6d'}
+ 'PW04':'1702de010168d91d587bb6fb0966358c76e6e505',
+ 'PW07':'7f1337858bc6f9006e101d810dd72e67aef534fd',
+ 'PW08':'c9e13a917811581578f833ea93619d85f717be6d'}
 CURRENT_CARD_BLOBS={
  'docs/arsenal/cards/provisional/S33-PW04.md':'ba4ee397738aa0f3afef7c77bb7d5e2c19134076',
  'docs/arsenal/cards/provisional/S33-PW07.md':'7f1337858bc6f9006e101d810dd72e67aef534fd',
