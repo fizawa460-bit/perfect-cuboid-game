@@ -1,0 +1,30 @@
+name: Stage32 scratch post1648V retained target theta normalization
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648n-marked-ppav-basis
+    paths:
+      - '.github/workflows/stage32-scratch-post1648v-target-theta-normalization.yml'
+      - 'stages/stage32/residual-32-01-production/post1648v-retained-target-theta-normalization-circularity.json'
+      - 'stages/stage32/residual-32-01-production/post1648v-retained-target-theta-normalization-circularity-source-note.md'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648v_retained_target_theta_normalization_circularity.py'
+      - 'stages/stage32/residual-32-01-production/post1648u-kkk-delta0inf-explicit-half-period-nonpruning.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json'
+      - 'docs/arsenal/cards/formal/S30-W01.md'
+      - 'docs/research-os/policies/cycle-exploration-safety-protocol.md'
+      - 'docs/research-os/policies/research-credit-and-promotion-firewalls.md'
+
+permissions:
+  contents: read
+
+jobs:
+  retained-target-theta-normalization:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify retained target theta normalization circularity
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648v_retained_target_theta_normalization_circularity.py
+      - name: Diff check
+        run: git diff --check
