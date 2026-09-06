@@ -1,0 +1,62 @@
+from pathlib import Path
+import json
+
+IDX=Path('docs/arsenal/index.json')
+PROM=Path('docs/stage33-arsenal-promotion.md')
+
+d=json.loads(IDX.read_text())
+d['schema']='RESEARCH_ARSENAL_V9_STAGE30_STAGE31_STAGE34_FORMAL_STAGE32_STAGE33_POST1478_PROVISIONAL'
+d['status']='CURRENT_WITH_FORMAL_STAGE30_STAGE31_STAGE34_AND_STAGE32_STAGE33_PROVISIONAL_POST1478_HARVEST'
+d['registry_contract']['card_collections']['provisional_harvests.active_workflows']={'directory':'workflows','maturity':'PROVISIONAL','kind':'workflow'}
+rels=[
+ {'source':'S33-PW04','target':'S33-PW09','relation':'MARKED_SOURCE_COORDINATE_TO_SOURCE_BOUND_LIFT_BINDING','note':'PW04 constructs/orients marked coordinates; PW09 additionally binds an independently named Br[2] source to a concrete full-surface H2(mu2) lift and does not replace PW04.'},
+ {'source':'S33-PW07','target':'S33-PW09','relation':'COMPLEMENTARY_NOT_DUPLICATE','note':'PW07 validates Brauer/cocycle/torsor and literal representatives; PW09 stops at source-bound marked Kummer lift identity before downstream cocycle/torsor semantics.'},
+ {'source':'S33-PW10','target':'S33-PW08','relation':'UPSTREAM_SEED_ASSEMBLER_TO_LOCALIZATION_ADAPTER','note':'PW10 outputs a literal full-surface Cech-Cartier seed; PW08 consumes explicit residue representatives to construct arithmetic connecting/localization columns.'},
+ {'source':'S30-WF03','target':'S33-WF01','relation':'FORMAL_PARENT_CREDIT_FIREWALL_TO_PROVISIONAL_FIRST_MISSING_WITNESS_SPECIALIZATION','note':'WF01 localizes the first missing typed witness and acceptable witness forms; it does not change the generic Stage30 credit DAG.'},
+ {'source':'S33-PW04','target':'S33-WF02','relation':'WEAPON_TO_PROVISIONAL_EVALUATION_WORKFLOW','note':'WF02 decomposes a missing source-bound marked quotient map into finite evaluation obligations; it computes no marked vector by itself.'},
+]
+seen={(r.get('source'),r.get('target'),r.get('relation')) for r in d['cross_stage_relationships']}
+for r in rels:
+    k=(r['source'],r['target'],r['relation'])
+    if k not in seen: d['cross_stage_relationships'].append(r)
+for h in d['provisional_harvests']:
+    if h['source_stage']!='Stage33': continue
+    h['active_cards']=['S33-PW01','S33-PW02','S33-PW04','S33-PW05','S33-PW06','S33-PW07','S33-PW08','S33-PW09','S33-PW10']
+    h['card_roles'].update({'S33-PW09':'MARKED_KUMMER_LIFT_BINDING_ADAPTER','S33-PW10':'RESOLVED_PURITY_CECH_CARTIER_SEED_ASSEMBLER'})
+    h['active_workflows']=['S33-WF01','S33-WF02']
+    h['workflow_roles']={'S33-WF01':'FIRST_MISSING_WITNESS_TYPE_PROVENANCE_GATE','S33-WF02':'MARKED_QUOTIENT_EVALUATION_OBLIGATION_DECOMPOSITION'}
+    h['workflow_summaries']={
+      'S33-WF01':'identify the first missing typed load-bearing witness, enumerate acceptable witness forms, and fail-close downstream credit without turning a bounded search miss into absence or nonexistence',
+      'S33-WF02':'decompose a marked quotient gap into finite source-derived evaluation obligations with locked basis order, representative invariance, quotient descent, equivariance checks, and no copied target bits'}
+    h['card_summaries']={
+      'S33-PW09':'bind an independently named Brauer source to a concrete genuine full-surface H2(mu2) lift by exact source-locked marked Brauer identity before downstream Kummer computations',
+      'S33-PW10':'assemble resolved height-one and exceptional residue data plus exact prime transport into a literal full-surface Cech-Cartier seed with derived purity correction, without marked Brauer or Kummer-column credit'}
+    h['live_authority_overrides']['snapshot_semantics']='HISTORICAL_PR1478_INFORMATIONAL_ONLY_REFETCH_CURRENT_STAGE_AUTHORITY_BEFORE_USE'
+    h['post1478_harvest']={
+      'previous_arsenal_integration_pr':1478,
+      'previous_arsenal_merge_commit':'b5b810be420eedc74cfa8074ae043d681598b412',
+      'discovery_dedup_pr':1665,
+      'discovery_lower_bound':'b5b810be420eedc74cfa8074ae043d681598b412',
+      'harvest_upper_bound':'a3c64f5704f3d1fd297e3b95377ba1938d277178',
+      'range_expanded_after_harvest1':False,
+      'new_weapon_ids':['S33-PW09','S33-PW10'],
+      'extended_ids':['S33-PW04'],
+      'new_workflow_ids':['S33-WF01','S33-WF02'],
+      'rejected_duplicates':['DISC-S33-B02','DISC-S33-B03','DISC-S33-B04','DISC-S33-C04'],
+      'historical_or_negative_count':10,
+      'stage33_specific_nonpromoted_count':3,
+      'promotion_status':'PROVISIONAL_POST1478_HARVEST_PENDING_HOSTILE_AUDIT',
+      'arsenal_registration_adds_stage33_mathematical_credit':False}
+    h['provisional_card_count']=9
+    h['provisional_workflow_count']=2
+    h['provisional_active_entry_count']=11
+fw=d['firewalls']
+fw['arsenal_registration_implies_stage33_progress_increment']=False
+fw['arsenal_registration_implies_stage33_main_authority_change']=False
+fw['provisional_workflow_implies_formal_workflow']=False
+IDX.write_text(json.dumps(d,indent=2)+"\n")
+
+s=PROM.read_text()
+if '## Post-#1478 second provisional harvest provenance' not in s:
+    intro='This file is the consolidated Stage33 provisional Arsenal record. It folds the former Gersten/localization and catch-all/dedup supplements into one source-routing document. Active `MAIN-STATE`, source locks, and hostile reopenings always override these provisional cards.\n\n'
+    assert intro in s
