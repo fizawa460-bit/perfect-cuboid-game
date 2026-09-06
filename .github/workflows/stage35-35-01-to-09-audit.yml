@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          # V50 -> persisted V49 -> persisted V48/V47/V46/V43 and retained audited history.
+          # V52 -> persisted V51/V50/V49 -> retained audited history.
           fetch-depth: 320
       - name: Assert exact PR head checkout
         run: |
@@ -36,48 +36,52 @@ jobs:
         run: python -B stages/stage35/verify_stage35_35_01_to_09.py
       - name: Verify Stage35 35-10 material routing firewalls
         run: python -B stages/stage35/35-10/verify_35_10.py
-      - name: Replay Stage35-EX base and 35EX-10 through 32 against V50 history
+      - name: Replay Stage35-EX base and 35EX-10 through 32 against V52 history
         run: |
           set -euo pipefail
-          python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py base
+          python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py base
           for n in $(seq 10 32); do
-            python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py "$n"
+            python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py "$n"
           done
       - name: Replay Stage35-EX 35EX-32 merged-route promotion
-        run: python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py 32p
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 32p
       - name: Replay Stage35-EX 35EX-33 goal 1
-        run: python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py 33g1
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 33g1
       - name: Replay Stage35-EX 35EX-33 goal 2
-        run: python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py 33g2
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 33g2
       - name: Replay Stage35-EX 35EX-33 Gaussian blocker
-        run: python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py 33
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 33
       - name: Replay Stage35-EX 35EX-34 fresh breadth audit
-        run: python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py 34
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 34
       - name: Replay hostile-audited Stage35-EX 35EX-35 goals 1-3 authority
-        run: python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py 35
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 35
       - name: Replay hostile-audited Goal4A
-        run: python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py 35g4a
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 35g4a
       - name: Replay hostile-audited Goal4B
-        run: python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py 35g4b
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 35g4b
       - name: Replay hostile-audited Goal4C
-        run: python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py 35g4c
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 35g4c
       - name: Replay hostile-audited Goal4D
-        run: python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py 35g4d
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 35g4d
       - name: Replay hostile-audited Goal4E
-        run: python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py 35g4e
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 35g4e
       - name: Replay provisional Goal4F
-        run: python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py 35g4f
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 35g4f
       - name: Replay provisional Goal4G
-        run: python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py 35g4g
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 35g4g
       - name: Replay provisional Goal4H
-        run: python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py 35g4h
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 35g4h
       - name: Replay provisional Goal4I
-        run: python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py 35g4i
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 35g4i
       - name: Replay provisional Goal4J
-        run: python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py 35g4j
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 35g4j
       - name: Replay provisional Goal4K
-        run: python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py 35g4k
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 35g4k
       - name: Replay provisional Goal4L
-        run: python -B stages/stage35-ex/verify_stage35_ex_v50_legacy_replay.py 35g4l
-      - name: Verify stacked Stage35-EX Goal4M Stage14 triple-population sqrt transfer
-        run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4m.py
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 35g4l
+      - name: Replay provisional Goal4M
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 35g4m
+      - name: Replay provisional Goal4N
+        run: python -B stages/stage35-ex/verify_stage35_ex_v52_legacy_replay.py 35g4n
+      - name: Verify stacked Stage35-EX Goal4O ternary spinor preflight
+        run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4o.py
