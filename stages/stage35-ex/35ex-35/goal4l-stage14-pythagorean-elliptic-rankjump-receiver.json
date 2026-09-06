@@ -1,0 +1,64 @@
+{
+  "schema":"STAGE35_EX_35_GOAL4L_STAGE14_PYTHAGOREAN_ELLIPTIC_RANKJUMP_RECEIVER_V1",
+  "stage":"35-EX",
+  "unit":"35EX-35_GOAL4L_S31W01_ELLIPTIC_ADAPTER_AND_MOVING_FAMILY_TEST",
+  "status":"PROVISIONAL_EXACT_PHYSICAL_ENDPOINT_TO_NONTORSION_RANKJUMP_RECEIVER_PENDING_LATER_AUDIT_NO_E1_CREDIT",
+  "base_main_sha":"26e25b64b6cdc8e4d1f26d33a665f42df8253200",
+  "stacked_parent":{"schema":"STAGE35_EX_PESCH_E1_STATE_V48_GOAL4K_RATIO_DISCRIMINANT_GENUS_ONE_QUOTIENT_PENDING_LATER_AUDIT","hostile_audited":false},
+  "source_locks":{
+    "S31_W01":{"path":"docs/arsenal/cards/formal/S31-W01.md","blob_sha":"122a6c1c5c871c1c7b797017e854de8ec55e7c50","role":"formal exact birational-adapter procedure only"},
+    "stage14_4af":{"path":"stages/stage14/archive/stage14-4af-specialization-triple.md","blob_sha":"f14d6840d10aaa36df63b2d4a70a07d509b596ce","role":"canonical Pythagorean-base E_t family; generic geometric rank zero; exact torsion Z/2 x Z/4 on genuine rational Pythagorean bases"}
+  },
+  "physical_base_reparameterization":{
+    "Goal4K_base":"V=v^2",
+    "p":"(v^2-1)/(2v)",
+    "eta":"H/(2v(v^2-1))",
+    "scaled_quartic":"eta^2=(p^2-z^2)*(z^2-p^(-2))",
+    "q":"(p^2-1)/(2p)",
+    "h_q":"(p^2+1)/(2p)",
+    "pythagorean_identity":"1+q^2=h_q^2",
+    "stage14_base_parameter":"u14=(p-1)/(p+1), so q=2*u14/(1-u14^2)",
+    "retained_open":"rational physical v gives p,q nonzero and not +/-1"
+  },
+  "birational_adapter":{
+    "elliptic_curve":"E_q: Y^2=X*(X-1)*(X+q^2)",
+    "c":"(p^2-1)/(2p^2)",
+    "forward_X":"c*(z-p)/(z+1/p)",
+    "forward_Y":"(p^4-1)/(4p^3)*eta/(z+1/p)^2",
+    "inverse_z":"-(X+(p^2-1)/2)/(p*(X-c))",
+    "inverse_eta":"Y*(z+1/p)^2*4p^3/(p^4-1)",
+    "exceptional_correspondence":["z=p -> (0,0)","z=-p -> (1,0)","z=1/p -> (-q^2,0)","z=-1/p -> O"],
+    "inverse_denominator_X_eq_c":"E_q RHS at X=c is -((p^2-1)(p^2+1)/(4p^3))^2, so no rational E_q point has X=c",
+    "quartic_points_at_infinity":"not rational because the scaled quartic has leading coefficient -1",
+    "rational_point_transport_complete":true,
+    "integral_point_transfer_claimed":false
+  },
+  "torsion_exclusion_on_physical_endpoint":{
+    "Goal4K_ratio_quadratic":"U^2-LU+1=0 with U=u^2>0 and U!=1",
+    "z_squared_p_squared":"forces L=2 and hence U=1",
+    "z_squared_p_inverse_squared":"forces L=-2 and hence U=-1",
+    "two_torsion":"all E_q 2-torsion corresponds to z^2 in {p^2,p^(-2)} and is excluded by physical U",
+    "stage14_order4_X":"X=1+/-h_q",
+    "inverse_images":"X=1-h_q -> z=1; X=1+h_q -> z=-1",
+    "order4_exclusion":"Goal4K physical open has z^2!=1",
+    "stage14_full_torsion":"Z/2 x Z/4, so the above exhausts all rational torsion",
+    "conclusion":"every physical endpoint maps to a non-torsion E_q(Q) point"
+  },
+  "rank_jump_receiver":{
+    "stage14_generic_geometric_rank":0,
+    "stage14_pythagorean_surface":"elliptic K3 with I4^6 and trivial lattice rank 20",
+    "endpoint_consequence":"a physical endpoint forces a rational Pythagorean base q whose specialized E_q has positive Mordell-Weil rank",
+    "equivalently":"physical endpoint lies over a rank-jump specialization of a generic-rank-zero Pythagorean-base elliptic K3 family",
+    "new_receiver_obtained":true
+  },
+  "credit_boundary":{
+    "uniform_rank_jump_exclusion_obtained":false,
+    "first_nontorsion_point_height_bound_obtained":false,
+    "receiver_rational_points_complete":false,
+    "Goal4K_receiver_endpoint_equivalence_claimed":false,
+    "E1_proved":false,
+    "stage35_closed":false,
+    "perfect_cuboid_nonexistence_claim":false,
+    "next_unit":"35EX-35_GOAL4M_UNIFORM_RANK_JUMP_FIRST_SMALL_POINT_HEIGHT_PREFLIGHT"
+  }
+}

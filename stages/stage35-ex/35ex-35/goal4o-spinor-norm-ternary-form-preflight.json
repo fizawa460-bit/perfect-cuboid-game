@@ -1,0 +1,66 @@
+{
+  "schema":"STAGE35_EX_35_GOAL4O_SPINOR_NORM_TERNARY_FORM_PREFLIGHT_V1",
+  "stage":"35-EX",
+  "unit":"35EX-35_GOAL4O_SPINOR_NORM_TERNARY_FORM_PREFLIGHT",
+  "status":"PROVISIONAL_EXACT_OBVIOUS_TERNARY_SPINOR_ROUTE_TAUTOLOGICAL_PENDING_LATER_AUDIT_NO_E1_CREDIT",
+  "base_main_sha":"26e25b64b6cdc8e4d1f26d33a665f42df8253200",
+  "stacked_parent":{"schema":"STAGE35_EX_PESCH_E1_STATE_V51_GOAL4N_POST_SQRT_ZERO_CONVERSION_FAILCLOSE_PENDING_LATER_AUDIT","source_commit_sha":"a1f00d5e852581a6c4277da0a00c761107ed92a4","hostile_audited":false},
+  "endpoint_equations":{
+    "faces":["D_AB^2=A^2+B^2","D_AC^2=A^2+C^2","D_BC^2=B^2+C^2"],
+    "space":"W^2=A^2+B^2+C^2",
+    "primitive":"gcd(A,B,C)=1"
+  },
+  "obvious_ternary_forms_checked":[
+    {
+      "form":"q3(X,Y,Z)=X^2+Y^2+Z^2",
+      "target":"W^2",
+      "endpoint_representation":"q3(A,B,C)=W^2",
+      "spinor_or_genus_representation_obstruction_can_exclude_endpoint":false,
+      "reason":"the endpoint already supplies an explicit integral representation by the exact form, so every necessary genus/local/spinor condition for representability is automatically satisfied"
+    },
+    {
+      "form":"q_AB(X,Y,Z)=X^2+Y^2-Z^2",
+      "target":"0",
+      "endpoint_representation":"q_AB(A,B,D_AB)=0",
+      "spinor_or_genus_isotropy_obstruction_can_exclude_endpoint":false,
+      "reason":"the endpoint already supplies a nonzero integral isotropic vector"
+    },
+    {
+      "form":"q_AC(X,Y,Z)=X^2+Y^2-Z^2",
+      "target":"0",
+      "endpoint_representation":"q_AC(A,C,D_AC)=0",
+      "spinor_or_genus_isotropy_obstruction_can_exclude_endpoint":false,
+      "reason":"the endpoint already supplies a nonzero integral isotropic vector"
+    },
+    {
+      "form":"q_BC(X,Y,Z)=X^2+Y^2-Z^2",
+      "target":"0",
+      "endpoint_representation":"q_BC(B,C,D_BC)=0",
+      "spinor_or_genus_isotropy_obstruction_can_exclude_endpoint":false,
+      "reason":"the endpoint already supplies a nonzero integral isotropic vector"
+    }
+  ],
+  "exact_boundary":{
+    "obvious_single_form_spinor_route_closed":true,
+    "new_local_or_spinor_branch_pruning_obtained":false,
+    "cross_face_lattice_or_spinor_correspondence_constructed":false,
+    "cross_face_spinor_method_proved_impossible":false,
+    "reason":"a nontrivial spinor attack would need a new lattice/form whose representability encodes compatibility among multiple face equations rather than restating one equation already represented by the endpoint"
+  },
+  "route_decision":{
+    "spinor_norm_ternary_form_route":"FAIL_CLOSE_OBVIOUS_TERNARY_FORMS_TAUTOLOGICAL_CROSS_FACE_LATTICE_UNCONSTRUCTED",
+    "next_unit":"35EX-35_GOAL4P_STAGE35_SPECIFIC_VERTICAL_BRAUER_FROM_SCRATCH_PREFLIGHT",
+    "next_route":"E1-NONOBVIOUS-VERTICAL-BRAUER-ENDPOINT-FIBRATION_FROM_SCRATCH"
+  },
+  "credit_boundary":{
+    "Goal4O_executed":true,
+    "obvious_ternary_spinor_route_closed":true,
+    "nontrivial_spinor_obstruction_obtained":false,
+    "brauer_manin_obstruction_obtained":false,
+    "E1_proved":false,
+    "R29_PESCH_E1_closed":false,
+    "stage35_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
