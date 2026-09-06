@@ -21,6 +21,10 @@ This section records the second Stage33 provisional harvest implemented after th
 PREVIOUS_ARSENAL_INTEGRATION_PR=1478
 PREVIOUS_ARSENAL_MERGE_COMMIT=b5b810be420eedc74cfa8074ae043d681598b412
 DISCOVERY_DEDUP_PR=1665
+DISCOVERY_DEDUP_EXACT_HEAD=4fb7d980be0452277aab9d5b96e64fabf4d5e9a7
+DISCOVERY_DEDUP_FRESHNESS_SYNC_COMMIT=4fb7d980be0452277aab9d5b96e64fabf4d5e9a7
+DISCOVERY_DEDUP_SYNCED_MAIN_HEAD=f8522bd1a38fa551186ad370f51d17c73c7927e2
+DISCOVERY_DEDUP_STATE_AT_HARVEST3=OPEN_NOT_MERGED
 DISCOVERY_LOWER_BOUND=b5b810be420eedc74cfa8074ae043d681598b412
 HARVEST_UPPER_BOUND=a3c64f5704f3d1fd297e3b95377ba1938d277178
 EXACT_COMPARISON_RULE=#1478 merge -> Harvest 1 upper bound
@@ -45,6 +49,8 @@ Harvest 2 classification implemented here:
 - rejected duplicates: `DISC-S33-B02`, `DISC-S33-B03`, `DISC-S33-B04`, `DISC-S33-C04`;
 - historical/negative only: 10 classification units;
 - Stage33-specific/nonpromoted: J2/V25 concrete labels and masks, e3/mask20/fixed-space numerics, and swap23 package counts.
+
+Freshness synchronization of PR `#1665` changed only its ancestry against current main `f8522bd1a38fa551186ad370f51d17c73c7927e2`. The immutable harvest upper bound remains `a3c64f5704f3d1fd297e3b95377ba1938d277178`; the later `#1663` main commit is not harvested by this promotion.
 
 The discovery PR is provenance, not Stage33 MAIN authority. Active `stages/stage33/MAIN-STATE.json` and controller/source locks must be refetched at card use. The mutable live Stage state is deliberately not part of the permanent mathematical identity of these cards.
 
