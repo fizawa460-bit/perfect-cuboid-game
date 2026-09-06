@@ -1,4 +1,4 @@
-name: Stage33 V91C1N-Q fixed-space and residue-stabilizer diagnostics
+name: Stage33 V91C1N-R fixed-space and source-bound transport diagnostics
 
 on:
   pull_request:
@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v91c1n-q-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1n-r-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -37,5 +37,7 @@ jobs:
         run: python stages/stage33/33-12/verify_e3_v91c1p_a2_02_full_residue_stabilizer_preflight.py
       - name: Diagnose V91C1Q shortest mask20-moving stabilizer word
         run: python stages/stage33/33-12/diagnose_e3_v91c1q_shortest_mask20_moving_stabilizer_word.py
+      - name: Diagnose V91C1R source-bound swap23 boundary-function package transport
+        run: python stages/stage33/33-12/diagnose_e3_v91c1r_swap23_boundary_function_package_transport.py
       - name: Diff hygiene
         run: git diff --check
