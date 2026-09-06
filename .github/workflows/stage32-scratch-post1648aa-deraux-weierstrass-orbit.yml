@@ -1,0 +1,27 @@
+name: Stage32 scratch post1648AA Deraux Weierstrass orbit B9 nonselection
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648aa-deraux-weierstrass-orbit
+    paths:
+      - '.github/workflows/stage32-scratch-post1648aa-deraux-weierstrass-orbit.yml'
+      - 'stages/stage32/residual-32-01-production/post1648aa-deraux-weierstrass-orbit-b9-fixed-pair-nonselection.json'
+      - 'stages/stage32/residual-32-01-production/post1648aa-deraux-weierstrass-orbit-b9-fixed-pair-nonselection-source-note.md'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648aa_deraux_weierstrass_orbit_b9_fixed_pair_nonselection.py'
+      - 'stages/stage32/residual-32-01-production/post1648z-kkk-full-bolza-homology-marking-nonselection.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json'
+
+permissions:
+  contents: read
+
+jobs:
+  deraux-weierstrass-orbit-b9-nonselection:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify Deraux-KRR six-point B9 fixed-pair nonselection
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648aa_deraux_weierstrass_orbit_b9_fixed_pair_nonselection.py
+      - name: Diff check
+        run: git diff --check
