@@ -1,0 +1,98 @@
+{
+  "schema": "STAGE32_POST1648N_CANONICAL_PERIOD_MARKED_PPAV_TORSOR_OBSTRUCTION_V1",
+  "stage": 32,
+  "role": "SCRATCH_EXACT_NONCREDIT_MARKED_PPAV_TORSOR_OBSTRUCTION",
+  "status": "SCRATCH_PASS_EXACT_PERIOD_BASIS_STILL_THREE_W_LINE_AMBIGUOUS",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "O": 210,
+    "qprime": 4,
+    "Q": 602,
+    "surviving_residues_decimal": [73, 97, 235]
+  },
+  "external_source_locks": {
+    "klein_kokotov_korotkin": {
+      "title": "Extremal properties of the determinant of the Laplacian in the Bergman metric on the moduli space of genus two Riemann surfaces",
+      "journal": "Math. Z. 261 (2009), 73-108",
+      "locator": "Section 3.2.4, equations (3.39)-(3.44)",
+      "exact_supported_facts": [
+        "Burnside/Bolza curve y^2=z(z^4-1)",
+        "mu1 acts by z->i*z",
+        "canonical cycle basis ordered (b1,b2,a1,a2)",
+        "mu1 cycle-action matrix T_mu1 is the displayed first matrix in (3.43)",
+        "normalized b-period matrix is [[(-1+r)/2,1/2],[1/2,(-1+r)/2]] with r=i*sqrt(2)"
+      ]
+    },
+    "cecotti": {
+      "arxiv": "2509.24605v1",
+      "title": "Symplectic Singularities, Color Confinement, and the Quantum Dirac Sheaf",
+      "locator": "Appendix B, equations (B.1)-(B.9), especially Fact 18 and (B.9)",
+      "exact_supported_facts": [
+        "retained lattice is Z[r]^2 with r^2=-2 and G12 matrices b1,b2,b3,b4",
+        "S=b4 and T=-b3",
+        "the ppav is the Jacobian of y^2=x^5-x",
+        "B.9 is the order-8 automorphism (x,y)->(i*x,exp(i*pi/4)*y)"
+      ]
+    }
+  },
+  "repo_source_lock": {
+    "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json",
+    "git_blob_sha1": "e28c4533883440ea0963d4d4e8859aa95409cf10",
+    "canonical_sha256": "8d828cdf6d1f5cb1d790c46292535dc252e503356e1047ce972c41e61f524529"
+  },
+  "source_marking": {
+    "r_relation": "r^2=-2",
+    "cycle_basis_order": ["b1", "b2", "a1", "a2"],
+    "period_matrix": [["(-1+r)/2", "1/2"], ["1/2", "(-1+r)/2"]],
+    "mu1_x_map": "x->i*x",
+    "mu1_cycle_action_matrix": [[0, -1, 1, -1], [0, 1, 0, 1], [-1, 1, -1, 1], [-1, -1, 0, 0]],
+    "coordinate_action_convention": "transpose of displayed cycle-basis action matrix",
+    "W_pair_action": {"Z1": "Z2", "Z2": "Z1", "Z3": "Z3"},
+    "Z3": "delta_0inf"
+  },
+  "target_marking": {
+    "lattice_basis": ["e1", "e2", "r*e1", "r*e2"],
+    "riemann_form_matrix": [[0, 1, 2, 1], [-1, 0, 1, 2], [-2, -1, 0, 2], [-1, -2, -2, 0]],
+    "W_lines": {"L1": [0, 0, 1, 0], "L2": [0, 0, 0, 1], "L3": [0, 0, 1, 1]},
+    "residue_by_line": {"L1": 73, "L2": 97, "L3": 235}
+  },
+  "exact_enumeration": {
+    "search_coefficients_for_A_entries": "a+b*r with a,b in [-2,2]",
+    "determinant_condition": "det(A)=+2 or -2",
+    "integral_unimodular_period_lattice_maps_found": 48,
+    "principal_polarization_maps_found": 48,
+    "exhaustive_not_bounded_only": true,
+    "exhaustivity_reason": "Once one ppav isomorphism exists, Isom_ppav(source,target) is a torsor under Aut_ppav(target). The retained G12 ppav automorphism group has order 48; 48 distinct valid polarized complex-linear lattice isomorphisms were materialized, so the list is exhaustive.",
+    "distinct_target_mu1_images": 6,
+    "target_mu1_image_order": 8,
+    "isomorphisms_per_target_mu1_image": 8,
+    "delta0inf_fixed_line_counts": {"L1": 16, "L2": 16, "L3": 16},
+    "short_target_words_by_fixed_line": {
+      "L1": ["S*T*S*T*S", "T*S*T"],
+      "L2": ["S*T*T", "T*S"],
+      "L3": ["S*T", "T*T*S"]
+    }
+  },
+  "decision": {
+    "canonical_period_basis_breaks_inner_conjugacy_ambiguity": false,
+    "B9_mu1_marked_homology_anchor_breaks_W_line_ambiguity": false,
+    "absolute_delta0inf_retained_W_line_identified": false,
+    "survivors_current_credit": [73, 97, 235],
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "next_exact_route": "SOURCE_BIND_ONE_ADDITIONAL_NORMALIZATION_SELECTING_A_SINGLE_POLARIZED_PERIOD_LATTICE_ISOMORPHISM_FROM_THE_48_ELEMENT_TORSOR; PERIOD_MATRIX_PLUS_NAMED_B9_MU1_HOMOLOGY_ACTION_ALONE_IS_EXACTLY_NONPRUNING"
+  },
+  "firewalls": {
+    "scratch_result_promoted_to_MAIN_authority": false,
+    "scratch_result_promoted_to_current_credit": false,
+    "period_matrix_isomorphism_class_treated_as_marked_isomorphism": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false
+  },
+  "canonical_sha256_without_this_field": "060d940626cd59b00efb67db7f27914e6a440c92968600a3d82a208d5a5d76ba"
+}
