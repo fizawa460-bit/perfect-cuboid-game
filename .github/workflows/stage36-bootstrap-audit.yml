@@ -47,13 +47,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          base="${{ github.event.pull_request.base.sha || 'aabe5d9d01f74ed2d68d27edaee7635af7c89ecf' }}"
-          for x in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 2af6edb984e0c0a51e945f886939a09b442c3218 fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 1d29735f3f50c6918a32b2542de8364b86568396 ac5a7c81d3f268bebbc2a9de8e658b23c97d5649 6e0c40eeb7a533b47aba0d224c34e85822db373c f22d67dda4183c3bfd39710ebb4083f5185f3f49 631d773a0f341954507eacf303f0c5f7cbdc836a 51efa8394c45bc60a4b482c4f6f94f7826eb9d20 f75830b2fd54031c1af05e2377a9da365a4d7fdf a3f6380a89e627a9fa36915466a901361e0cb175 cf6ada6bf53ee29c04751dfae427a96252c98e9c 4ed21de07a935ed848400515a44f53aba49234c7 c8b6bca818697125ef75a85527e282c15c6bd8f3 2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc dbd9ab95f1cf248a8a4704b205f62b8b96b1aefa fc5886d62b78d8dcb21824ff02419a3e3b7634c8 8ff10455b27a789a6ba71c354042be0f79a2b3a6 0bc325f9b9db817193bc271121d19cb04970c5b9 40cd38c5f5d2679874ce3be882cc67d17d4c7558 f91c045796cba859ec1dd172cf7871fcac5f6d8a b6b538b4c8838e24ddf99eb05fc022fe50056af4 dd0fab674db9a10d6494590c1987333aa338a37e 8607da00e76f9f0ff1759c04b983ba329cca5de6 824355f591f8f951fda9f2a7c1f4e3e66d4e1e9a 2b0516975cda83df31a0a6b247a7d2b81ba550fe 26e25b64b6cdc8e4d1f26d33a665f42df8253200 b97673ec1c058e4e39bad24b68c036e721a97462 911418e205349e55fb2b4c828a309fbf55afcc47 54610c016ef6a27977e382998734982c98d6a191 c17f1a681c220292f93880a726f1f571174f53b9 aabe5d9d01f74ed2d68d27edaee7635af7c89ecf; do
+          base="${{ github.event.pull_request.base.sha || '69ac6635fb7a7808bca7aad72c5b7e61bcb5cbb6' }}"
+          for x in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 2af6edb984e0c0a51e945f886939a09b442c3218 fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 1d29735f3f50c6918a32b2542de8364b86568396 ac5a7c81d3f268bebbc2a9de8e658b23c97d5649 6e0c40eeb7a533b47aba0d224c34e85822db373c f22d67dda4183c3bfd39710ebb4083f5185f3f49 631d773a0f341954507eacf303f0c5f7cbdc836a 51efa8394c45bc60a4b482c4f6f94f7826eb9d20 f75830b2fd54031c1af05e2377a9da365a4d7fdf a3f6380a89e627a9fa36915466a901361e0cb175 cf6ada6bf53ee29c04751dfae427a96252c98e9c 4ed21de07a935ed848400515a44f53aba49234c7 c8b6bca818697125ef75a85527e282c15c6bd8f3 2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc dbd9ab95f1cf248a8a4704b205f62b8b96b1aefa fc5886d62b78d8dcb21824ff02419a3e3b7634c8 8ff10455b27a789a6ba71c354042be0f79a2b3a6 0bc325f9b9db817193bc271121d19cb04970c5b9 40cd38c5f5d2679874ce3be882cc67d17d4c7558 f91c045796cba859ec1dd172cf7871fcac5f6d8a b6b538b4c8838e24ddf99eb05fc022fe50056af4 dd0fab674db9a10d6494590c1987333aa338a37e 8607da00e76f9f0ff1759c04b983ba329cca5de6 824355f591f8f951fda9f2a7c1f4e3e66d4e1e9a 2b0516975cda83df31a0a6b247a7d2b81ba550fe 26e25b64b6cdc8e4d1f26d33a665f42df8253200 b97673ec1c058e4e39bad24b68c036e721a97462 911418e205349e55fb2b4c828a309fbf55afcc47 54610c016ef6a27977e382998734982c98d6a191 c17f1a681c220292f93880a726f1f571174f53b9 aabe5d9d01f74ed2d68d27edaee7635af7c89ecf 69ac6635fb7a7808bca7aad72c5b7e61bcb5cbb6; do
             git merge-base --is-ancestor "$x" HEAD
           done
 
-      - name: Save current V47 state
-        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v47.json
+      - name: Save current V49 state
+        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v49.json
 
       - name: Replay Stage36 authority chain through 36-09J
         shell: bash
@@ -156,7 +156,7 @@ jobs:
           git show c17f1a681c220292f93880a726f1f571174f53b9:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
           python3 stages/stage36/verify_stage36_36_09P_audited.py
 
-      - name: Replay Stage36 36-09Q exact audited head
+      - name: Replay Stage36 36-09Q exact and audited authority
         shell: bash
         run: |
           set -euo pipefail
@@ -164,41 +164,46 @@ jobs:
           git worktree add --detach "$tmp" fa93c23842a272251a88066d9d31d321f28db288
           python3 "$tmp/stages/stage36/verify_stage36_36_09Q.py"
           git worktree remove --force "$tmp"
+          git show 69ac6635fb7a7808bca7aad72c5b7e61bcb5cbb6:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
+          python3 stages/stage36/verify_stage36_36_09Q_audited.py
 
-      - name: Restore V47 and verify Stage36 36-09Q audited promotion
+      - name: Restore V49 and verify repaired Stage36 36-09R exact preflight
         shell: bash
         run: |
           set -euo pipefail
-          cp /tmp/stage36-v47.json stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09Q_audited.py
+          cp /tmp/stage36-v49.json stages/stage36/MAIN-STATE.json
+          python3 stages/stage36/verify_stage36_36_09R.py
 
-      - name: Assert 36-09R ready boundary
+      - name: Assert hostile-reaudit boundary before 36-09S
         shell: bash
         run: |
           python3 - <<'PY'
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V47_THIN_36_09Q_AUDITED'
-          assert s['status']=='ACTIVE'
-          Q=s['authority_frontier']['36-09Q']
-          assert Q['hostile_audit_review']==5123710654
-          assert Q['audited_head']=='fa93c23842a272251a88066d9d31d321f28db288'
-          assert Q['certificate_blob_sha']=='36b24b1a42231ccfec9364df6a8d52af13ceb6de'
-          assert Q['verifier_blob_sha']=='d56f1b83663165952dfdb4dc240f916fb6e33558'
-          assert Q['source_lock_blob_sha']=='cb231b7d1351a9787c3da2e187c4bd0e67adf7c9'
-          assert Q['E_TAU_TORSION_GROWTH_EXCLUDED'] is True
-          assert Q['ONLY_REMAINING_MW_GROWTH_SPECIES']=='positive rank jump'
-          assert Q['POSITIVE_RANK_JUMPS_EXCLUDED'] is False
-          assert Q['S34_W03_INTERSECTION_EXECUTED'] is False
-          assert Q['RECEIVER_CLOSED'] is False
-          assert s['cycle_ledger']['B3_TORSION_GROWTH_SUBROUTE'].startswith('CLOSED_AUDITED')
-          assert s['current']['unit']=='36-09R'
-          assert s['current']['36_09R_entry_allowed'] is True
-          assert s['promotion_gates']['E_tau_torsion_growth_exclusion_promoted'] is True
-          assert s['promotion_gates']['E_tau_stage14_second_basechange_adapter_promoted'] is True
-          assert s['promotion_gates']['specialization_rank_jumps_excluded'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V49_36_09R_REPAIRED_PENDING_HOSTILE_REAUDIT'
+          assert s['status']=='ACTIVE_PENDING_HOSTILE_REAUDIT'
+          R=s['authority_frontier']['36-09R']
+          assert R['PREVIOUS_HOSTILE_AUDIT_FAIL_REVIEW']==5123795153
+          assert R['certificate_blob_sha']=='b55d042ede01032ff8c8b0d872510a53cb857969'
+          assert R['verifier_blob_sha']=='62707dc5126e9ea6caad5fd41834cab488b29945'
+          assert R['SPECIALIZATION_P0']=='2/3'
+          assert R['COMPLETE_GUSIC_TADIC_DIVISOR_CRITERION'] is True
+          assert R['E_TAU_RANKJUMP_PLUS_K_REDUNDANT'] is True
+          assert R['E_SIGMA_TAU_GENERIC_RANK']==0
+          assert R['E_SIGMA_TAU_GENERIC_TORSION']=='Z/2 x Z/2'
+          assert R['RECEIVER_FORCES_E_SIGMA_TAU_MW_GROWTH'] is True
+          assert R['CANDIDATE_SET_SHRUNK_BY_DERIVED_GROWTH'] is False
+          assert R['INDEPENDENCE_CLAIMED'] is False
+          assert R['SIMULTANEOUS_GROWTH_LOCUS_EMPTY'] is False
+          assert R['S34_W03_INTERSECTION_EXECUTED'] is False
+          assert R['RECEIVER_CLOSED'] is False
+          assert s['cycle_ledger']['counts']=={'live':1,'untested':3,'blocked':6,'dominated':2}
+          assert s['current']['36_09S_entry_allowed'] is False
+          assert s['promotion_gates']['E_sigma_tau_generic_MW_promoted'] is False
+          assert s['promotion_gates']['E_sigma_tau_rank_jumps_excluded'] is False
+          assert s['promotion_gates']['E_sigma_tau_torsion_growth_excluded'] is False
           assert s['promotion_gates']['receiver_emptiness_proved'] is False
           assert s['promotion_gates']['R29_CAMP2_closed'] is False
-          print('36-09Q hostile-audited authority promoted; 36-09R second-Pythagorean rank-jump/receiver intersection unlocked')
+          print('36-09R repaired complete specialization criterion frozen pending hostile re-audit; 36-09S locked')
           PY
