@@ -49,10 +49,21 @@ jobs:
           python3 "$tmp/stages/stage36/verify_stage36_36_09AA_audited.py"
           git worktree remove --force "$tmp"
 
-      - name: Verify current 36-09AB product-square diagnosis
-        run: python3 stages/stage36/verify_stage36_36_09AB.py
+      - name: Replay exact 36-09AB candidate parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          H=f729993d52a441632b3566c5d08b06c2672d4ae6
+          git merge-base --is-ancestor "$H" HEAD
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AB.py"
+          git worktree remove --force "$tmp"
 
-      - name: Assert 36-09AB firewalls and 36-09AC unlock
+      - name: Verify current 36-09AC separate-squareclass factor support
+        run: python3 stages/stage36/verify_stage36_36_09AC.py
+
+      - name: Assert 36-09AC firewalls and 36-09AD unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -60,22 +71,25 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V63_36_09AB_CANDIDATE'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V64_36_09AC_CANDIDATE'
           assert s['status']=='ACTIVE_BATCHING_SUBSTANTIVE_PR'
           assert s['promotion_gates']['36_09AA_hostile_audit_passed'] is True
           assert s['promotion_gates']['36_09AA_promoted'] is True
-          ab=s['authority_frontier']['36-09AB']
-          assert ab['PRODUCT_QUOTIENT_BIRATIONAL_TO_E_TAU'] is True
-          assert ab['PRODUCT_QUOTIENT_CANDIDATE_SHRINK'] is False
-          assert ab['SAME_X_SEPARATE_SQUARE_DATA_PRESERVED_BY_PRODUCT'] is False
-          assert ab['S34_W03_INTERSECTION_EXCLUSION_EXECUTED'] is False
-          assert ab['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09AC'
-          assert s['current']['36_09AC_entry_allowed'] is True
-          assert s['promotion_gates']['36_09AB_hostile_audit_passed'] is False
+          ac=s['authority_frontier']['36-09AC']
+          assert ac['GENUS3_SAME_X_V4_COVER'] is True
+          assert ac['BIRATIONAL_TO_AUDITED_TOP_RECEIVER_ON_OPEN'] is True
+          assert ac['ODD_SQUARECLASS_SUPPORT_REDUCES_TO_SIX_RESERVOIRS'] is True
+          assert ac['NEW_DYNAMIC_UV_PRIME_RESERVOIR'] is False
+          assert ac['FIXED_FINITE_S_RECOVERED'] is False
+          assert ac['S34_W01_PARTIAL_EXACT_ADAPTER_READY'] is True
+          assert ac['S34_W01_FULL_OUTPUT_OBTAINED'] is False
+          assert ac['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09AD'
+          assert s['current']['36_09AD_entry_allowed'] is True
+          assert s['promotion_gates']['36_09AC_hostile_audit_passed'] is False
           assert s['claims']['candidate_parameter_set_shrunk'] is False
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('audited U-AA promotion replayed; 36-09AB product quotient dominated by E_tau; 36-09AC separate-squareclass double cover unlocked')
+          print('36-09AC exact genus-3 same-x cover verified; odd squareclass support reduces to six audited reservoirs; fixed finite-S remains false; 36-09AD unlocked')
           PY
           git diff --check
