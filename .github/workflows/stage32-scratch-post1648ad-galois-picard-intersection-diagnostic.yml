@@ -1,0 +1,31 @@
+name: Stage32 scratch post1648AD Galois Picard intersection diagnostic
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648ad-galois-picard-intersection
+    paths:
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1648ad_galois_picard_intersection.py'
+      - '.github/workflows/stage32-scratch-post1648ad-galois-picard-intersection-diagnostic.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compute exact complex-conjugate Picard class and intersection
+        run: python stages/stage32/residual-32-01-production/diagnose_stage32_post1648ad_galois_picard_intersection.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-post1648ad-galois-picard-intersection-diagnostic
+          path: /tmp/stage32-post1648ad-galois-picard-intersection-diagnostic.json
+          retention-days: 3
+          if-no-files-found: error
