@@ -36,14 +36,19 @@ jobs:
           git cat-file -e "${BEFORE}^{commit}" 2>/dev/null || exit 0
           git diff --name-only "${BEFORE}" "${HEAD_SHA}" | grep -Fxq "${KEY}" || exit 0
           python - <<'PY'
-          import json,subprocess
+          import hashlib,json,subprocess
           from pathlib import Path
           key=Path('stages/stage35-ex/runkeys/goal4ae-c5-picard-extraction.json')
+          producer=Path('stages/stage35-ex/probe_stage35_ex_35_goal4ae_c5_pick_to_pics.py')
           new=json.loads(key.read_text())
           assert new['schema']=='STAGE35_EX_GOAL4AE_C5_PICARD_EXTRACTION_RUNKEY_V1'
           assert new['armed'] is True and new['generation']==2
           assert new['upstream_git_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
           assert new['goal4ad_blob_sha1']=='6cedfed8d5944a3a93ddfe106f488c2a75670c92'
+          raw=producer.read_bytes()
+          pblob=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+          assert pblob==new['producer_blob_sha1']=='632d4329974a24dce202981b86787df6b969a59d'
+          assert new['source_slice_mode']=='S_PICARD_CORE_PLUS_K_THROUGH_PICKTOPICS'
           assert new['planned_jobs']==1
           assert new['persisted_output_upper_bound_bytes']<=65536
           assert new['projected_peak_actions_storage_bytes']<=1048576
