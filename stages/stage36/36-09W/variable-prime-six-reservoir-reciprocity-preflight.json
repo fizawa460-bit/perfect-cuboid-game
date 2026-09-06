@@ -1,0 +1,152 @@
+{
+  "schema": "STAGE36_36_09W_VARIABLE_PRIME_SIX_RESERVOIR_RECIPROCITY_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09W",
+  "status": "PARAMETER_ONLY_HILBERT_CHECKSUM_EXACT_DIRECTION_ONLY_RECIPROCITY_BLOCKED_KUMMER_COUPLED_B11_REMAINS_LIVE_PENDING_BATCH_AUDIT",
+  "base_main_sha": "f8522bd1a38fa551186ad370f51d17c73c7927e2",
+  "batch_parent": {
+    "pr": 1664,
+    "36_09V_exact_head": "117cdb991a29706b7b9e79485c5b9f19a6f09552",
+    "36_09V_ci": "34029907907/101477417084",
+    "36_09V_certificate": "stages/stage36/36-09V/gaussian-directional-prime-support-preflight.json",
+    "36_09V_certificate_blob_sha": "9fdec16f920104cc6c1961fb092185a0371258d5",
+    "36_09V_verifier": "stages/stage36/verify_stage36_36_09V.py",
+    "36_09V_verifier_blob_sha": "d7b497c1ae7e8a1d484084c6aa20d38b5bc09078",
+    "authority_scope": "provisional same-PR batch interface only; hostile audit remains deferred"
+  },
+  "source_locks": {
+    "hilbert_reciprocity": {
+      "path": "stages/stage36/36-09W/hilbert-reciprocity-source-lock.md",
+      "blob_sha": "52952e2afd1db636a236c6bd254acadc779fe09f",
+      "uses": [
+        "odd-prime local quadratic Hilbert-symbol formula",
+        "global product formula product_v (x,y)_v=1"
+      ]
+    },
+    "stage36_36_09V": {
+      "path": "stages/stage36/36-09V/gaussian-directional-prime-support-preflight.json",
+      "blob_sha": "9fdec16f920104cc6c1961fb092185a0371258d5"
+    },
+    "stage36_36_09U": {
+      "path": "stages/stage36/36-09U/qi-antiinvariant-rankjump-descent-preflight.json",
+      "blob_sha": "a1f0c924d267ab4f45aaada6c9bcb3a5f544f284"
+    }
+  },
+  "parameter_pair": {
+    "p": "a/b",
+    "primitive_conditions": ["gcd(a,b)=1", "b!=0", "a!=0", "a!=b", "a!=-b"],
+    "C0": "a^4-6*a^2*b^2+b^4",
+    "D0": "a*b*(a-b)*(a+b)",
+    "Aminus": "a^2-2*a*b-b^2",
+    "Aplus": "a^2+2*a*b-b^2",
+    "odd_gcd_C0_D0": 1,
+    "meaning": "36-09V pairwise-odd-disjoint reservoir partition implies no odd prime divides both C0 and D0"
+  },
+  "odd_place_hilbert_table_for_C0_D0": {
+    "charge": "(C0,D0)_q",
+    "rule": "because q divides exactly one of C0,D0, the local symbol is the Legendre symbol of the unit argument raised to the parity of the nonunit valuation",
+    "reservoir_rows": [
+      {
+        "id": "B0",
+        "condition": "q|a",
+        "unit_congruence": "C0=b^4 mod q",
+        "symbol": "+1"
+      },
+      {
+        "id": "BINF",
+        "condition": "q|b",
+        "unit_congruence": "C0=a^4 mod q",
+        "symbol": "+1"
+      },
+      {
+        "id": "BPLUS",
+        "condition": "q|(a-b)",
+        "unit_congruence": "C0=-4*b^4 mod q",
+        "symbol": "(-1/q)^v_q(D0)"
+      },
+      {
+        "id": "BMINUS",
+        "condition": "q|(a+b)",
+        "unit_congruence": "C0=-4*b^4 mod q",
+        "symbol": "(-1/q)^v_q(D0)"
+      },
+      {
+        "id": "AMINUS",
+        "condition": "q|Aminus",
+        "unit_congruence": "D0=2*(a*b)^2 mod q and 2 is a square mod q",
+        "symbol": "+1"
+      },
+      {
+        "id": "APLUS",
+        "condition": "q|Aplus",
+        "unit_congruence": "D0=-2*(a*b)^2 mod q and 2 is a square mod q",
+        "symbol": "(-1/q)^v_q(C0)"
+      }
+    ],
+    "only_nontrivial_odd_parameter_charge_sources": ["BPLUS", "BMINUS", "APLUS"],
+    "remaining_completion_places": ["2", "infinity"],
+    "global_product": "product_v (C0,D0)_v=1"
+  },
+  "parameter_only_checksum_firewall": {
+    "holds_for_every_retained_parameter_pair": true,
+    "depends_on_receiver_point": false,
+    "depends_on_alpha_kummer_class_d": false,
+    "depends_on_beta_kummer_class_e": false,
+    "depends_on_cover_variables_Z_W": false,
+    "therefore_receiver_obstruction": false,
+    "reason": "Hilbert reciprocity for the base pair (C0,D0) is an identity on the parameter line before the receiver/rank-jump condition is imposed; it can only check arithmetic bookkeeping, not exclude receiver fibers"
+  },
+  "direction_internal_symbol_freedom": {
+    "statement": "the six direction labels do not prescribe all odd local quadratic unit characters needed for a proof-capable Hilbert evaluation",
+    "witnesses": [
+      {"reservoir":"B0","q":5,"unit":"b","plus_pair":[5,1],"minus_pair":[5,2],"legendre_values":[1,-1]},
+      {"reservoir":"BINF","q":5,"unit":"a","plus_pair":[1,5],"minus_pair":[2,5],"legendre_values":[1,-1]},
+      {"reservoir":"BPLUS","q":5,"unit":"b","plus_pair":[6,1],"minus_pair":[7,2],"legendre_values":[1,-1]},
+      {"reservoir":"BMINUS","q":5,"unit":"b","plus_pair":[4,1],"minus_pair":[3,2],"legendre_values":[1,-1]},
+      {"reservoir":"AMINUS","q":7,"unit":"b","plus_pair":[4,1],"minus_pair":[5,3],"legendre_values":[1,-1]},
+      {"reservoir":"APLUS","q":7,"unit":"b","plus_pair":[3,1],"minus_pair":[2,3],"legendre_values":[1,-1]}
+    ],
+    "all_witness_pairs_primitive_and_retained": true,
+    "same_reservoir_direction_preserved_within_each_witness_pair": true,
+    "consequence": "a direction-only assignment of fixed local signs cannot encode the full local quadratic data"
+  },
+  "B11_preflight_result": {
+    "coarse_parameter_only_multiplace_reciprocity": "BLOCKED_AS_TAUTOLOGICAL_CHECKSUM",
+    "direction_only_fixed_sign_reciprocity": "BLOCKED_BY_EXACT_INTERNAL_LEGENDRE_FREEDOM",
+    "full_B11_route": "REMAINS_LIVE_ONLY_AFTER_COUPLING_TO_KUMMER_CLASS_OR_COVER_LOCAL_SOLVABILITY",
+    "required_new_input": [
+      "alpha candidate class d or beta candidate class e",
+      "local solvability of the corresponding 2-isogeny homogeneous quartic",
+      "a receiver-forced nontrivial local-evaluation pattern whose global Hilbert product would be incompatible"
+    ],
+    "candidate_set_shrunk": false,
+    "Qi_rankjump_locus_empty": false,
+    "multiplace_reciprocity_obstruction_proved": false
+  },
+  "cycle_route_result": {
+    "CYCLE_ROUTE_STATUS": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY": "LIVE_REFINED_TO_KUMMER_CLASS_COUPLED_HILBERT_EVALUATION",
+    "B11_PARAMETER_ONLY_SUBROUTE": "BLOCKED_TAUTOLOGICAL_GLOBAL_PRODUCT",
+    "B11_DIRECTION_ONLY_SUBROUTE": "BLOCKED_LOCAL_UNIT_CHARACTER_NOT_FIXED_BY_DIRECTION",
+    "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER": "UNTESTED",
+    "split_triggered": false,
+    "why_continue_B11": "36-09U gives actual Kummer classes d/e and homogeneous quartics; those data were absent from the failed parameter-only checksum and are exactly what can make local evaluations receiver-sensitive"
+  },
+  "next_leaf": "36-09X_KUMMER_CLASS_COUPLED_HILBERT_LOCAL_SOLVABILITY_PREFLIGHT",
+  "scope_firewalls": {
+    "parameter_Hilbert_table_proved": true,
+    "global_parameter_checksum_proved": true,
+    "direction_internal_symbol_freedom_proved_for_declared_witnesses": true,
+    "Kummer_class_coupled_Hilbert_obstruction_proved": false,
+    "multiplace_reciprocity_obstruction_proved": false,
+    "alpha_or_beta_growth_excluded": false,
+    "candidate_set_shrunk": false,
+    "Qi_rankjump_locus_empty": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

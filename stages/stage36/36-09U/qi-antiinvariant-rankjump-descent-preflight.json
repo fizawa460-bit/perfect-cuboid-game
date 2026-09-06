@@ -1,0 +1,153 @@
+{
+  "schema": "STAGE36_36_09U_QI_ANTIINVARIANT_RANKJUMP_DESCENT_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09U",
+  "status": "EXACT_ANTIINVARIANT_2ISOGENY_KUMMER_DICHOTOMY_AND_GAUSSIAN_FOURTH_POWER_BRIDGE_BATCHED_PENDING_AUDIT",
+  "base_main_sha": "a3c64f5704f3d1fd297e3b95377ba1938d277178",
+  "entry_authority": {
+    "stage36_v54_schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V54_THIN_36_09T_AUDITED",
+    "stage36_v54_main": "a3c64f5704f3d1fd297e3b95377ba1938d277178",
+    "stage36_v54_state_blob": "e94e6dd4ca25dd5da20acf8d97fd54d967048727",
+    "36_09T_pr": 1660,
+    "36_09T_hostile_audit_review": 5124828133,
+    "36_09T_audited_head": "1515be28ce81aca49adb18cd3532f0597a55e69f",
+    "36_09T_exact_head_ci": "34023508761/101460296380",
+    "36_09T_candidate_merge": "266f1b24bea60744bc688afc40482090f7026ce0",
+    "36_09T_promotion_pr": 1662,
+    "36_09T_promotion_merge": "a3c64f5704f3d1fd297e3b95377ba1938d277178"
+  },
+  "source_locks": {
+    "stage36_v54_state": {
+      "path": "stages/stage36/MAIN-STATE.json",
+      "commit": "a3c64f5704f3d1fd297e3b95377ba1938d277178",
+      "blob_sha": "e94e6dd4ca25dd5da20acf8d97fd54d967048727"
+    },
+    "stage36_36_09T": {
+      "path": "stages/stage36/36-09T/simultaneous-two-quotient-qi-rankjump-preflight.json",
+      "blob_sha": "1191de3e0176aac4ad10bd7b346830279ce12805"
+    },
+    "stage36_36_09R": {
+      "path": "stages/stage36/36-09R/etau-rankjump-receiver-esigmatau-growth-preflight.json",
+      "blob_sha": "b55d042ede01032ff8c8b0d872510a53cb857969"
+    },
+    "stage36_36_09S": {
+      "path": "stages/stage36/36-09S/esigmatau-torsion-growth-exclusion-preflight.json",
+      "blob_sha": "3af506b590c5e4d7499c203651c0bf4ef31ec767"
+    },
+    "stage36_36_09O": {
+      "path": "stages/stage36/36-09O/physical-square-lift-v4-quotient-preflight.json",
+      "blob_sha": "6a2678ebedba40e13277100441361039ee47ca28"
+    },
+    "stage36_36_09I_breadth": {
+      "path": "stages/stage36/36-09I/post-w01-breadth-refresh.json",
+      "blob_sha": "f9bf252f3be47f606a3b270961df3b5943fa1909"
+    },
+    "standard_2isogeny_descent": {
+      "path": "stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md",
+      "blob_sha": "a562d7053a6f04deff4473067777b7cfd538ea8a"
+    }
+  },
+  "physical_parameterization": {
+    "parameter": "p",
+    "Nminus": "p^2-2*p-1",
+    "Nplus": "p^2+2*p-1",
+    "s": "p^2+1",
+    "C": "Nminus*Nplus=p^4-6*p^2+1",
+    "D": "p*(p^2-1)",
+    "retained_exclusions": ["p=0", "p=1", "p=-1"],
+    "identities": [
+      "Nminus^2+Nplus^2=2*s^2",
+      "Nplus^2-Nminus^2=8*D",
+      "C^2+16*D^2=s^4"
+    ]
+  },
+  "antiinvariant_twist_descent": {
+    "middle_curve": "E_sigma: y^2=x*(x+Nminus^2)*(x+Nplus^2)",
+    "minus_twist": "E_minus=E_sigma_tau: y^2=x*(x-Nminus^2)*(x-Nplus^2)",
+    "Qi_isomorphism": "phi:E_minus(Q)->E_sigma(Q(i)), phi(x,y)=(-x,i*y)",
+    "image_eigenspace": "complex conjugation anti-invariant",
+    "exact_equivalence": "a non-torsion anti-invariant Q(i)-point is exactly the image under phi of a non-torsion rational point on E_minus",
+    "consequence": "standard anti-invariant descent over Q(i) gives no extra independent rank condition beyond rational descent on E_minus"
+  },
+  "relative_2isogeny_pair": {
+    "E_minus": "y^2=x^3-2*s^2*x^2+C^2*x",
+    "kernel": "(0,0)",
+    "dual_curve": "E_minus_prime: Y^2=X^3+4*s^2*X^2+64*D^2*X",
+    "dual_factorization": "E_minus_prime: Y^2=X*(X+16*p^2)*(X+4*(p^2-1)^2)",
+    "coefficient_check": "(-2*s^2)^2-4*C^2=64*D^2"
+  },
+  "kummer_maps": {
+    "alpha": "alpha(O)=1; alpha((0,0))=[C^2]=1; alpha((x,y))=[x] otherwise",
+    "beta": "beta(O)=1; beta((0,0))=[64*D^2]=1; beta((X,Y))=[X] otherwise",
+    "alpha_homogeneous_quartic": "W^2=d*Z^4-2*s^2*Z^2+C^2/d",
+    "beta_homogeneous_quartic": "W^2=e*Z^4+4*s^2*Z^2+64*D^2/e"
+  },
+  "generic_kummer_baseline": {
+    "audited_generic_E_minus_rank": 0,
+    "audited_generic_E_minus_torsion": "Z/2 x Z/2",
+    "visible_beta_2torsion_class": "[-1] from X=-16*p^2 or X=-4*(p^2-1)^2",
+    "visible_order4_halves": [
+      "A=4*p, B=2*(p^2-1), X=A*B=8*D, Y=A*B*(A+B)",
+      "A=4*p, B=2*(p^2-1), X=-A*B=-8*D, Y=A*B*(A-B)"
+    ],
+    "visible_order4_kummer_classes": ["[2*D]", "[-2*D]"],
+    "retained_distinctness": "36-09S excludes both 2*D and -2*D from being rational squares on the retained base",
+    "beta_baseline": ["[1]", "[-1]", "[2*D]", "[-2*D]"],
+    "beta_baseline_size": 4,
+    "rank_formula": "2^r=|Im(alpha)|*|Im(beta)|/4",
+    "generic_exact_alpha_image": ["[1]"],
+    "generic_exact_beta_image": ["[1]", "[-1]", "[2*D]", "[-2*D]"]
+  },
+  "receiver_rankjump_dichotomy": {
+    "audited_input": "36-09T: every retained receiver fiber forces rank E_sigma(Q(i))>=2 while generic Q(i)-rank is 1; equivalently E_minus has positive rational rank on the receiver fiber",
+    "positive_rank_implication": "|Im(alpha)|*|Im(beta)|>=8",
+    "exact_dichotomy": [
+      "ALPHA_GROWTH: Im(alpha) contains a nontrivial class d!=1",
+      "BETA_GROWTH: Im(beta) strictly contains <[-1],[2*D]>={1,-1,2D,-2D}"
+    ],
+    "alpha_squarefree_support": "d may be represented by a squarefree signed divisor supported on primes dividing C",
+    "beta_squarefree_support": "e may be represented by a squarefree signed divisor supported on primes dividing 2*D",
+    "dichotomy_is_equivalent_to_positive_rank_via_index_formula": true,
+    "candidate_set_shrunk": false,
+    "rankjump_locus_empty": false
+  },
+  "gaussian_fourth_power_bridge": {
+    "identity": "C+4*i*D=(p+i)^4 in Q(i)",
+    "conjugate_identity": "C-4*i*D=(p-i)^4",
+    "norm_identity": "C^2+16*D^2=(p^2+1)^4=s^4",
+    "meaning": "the two variable Kummer-support reservoirs C and D are coupled as the real and quarter-imaginary parts of one Gaussian fourth power; they are not independent reservoirs",
+    "relation_to_36_09O": "compatible with the earlier exact Q(i)-norm expression on the E_tau receiver adapter",
+    "C2_GAUSSIAN_NORM_COMPRESSION_status": "EXACT_GAUSSIAN_FOURTH_POWER_ADAPTER_READY_BUT_NO_PRIME_IDEAL_COMPRESSION_THEOREM_YET",
+    "fixed_finite_S_recovered": false
+  },
+  "route_update": {
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_EXACT_ANTIINVARIANT_KUMMER_GROWTH_DICHOTOMY",
+    "B3_FIXED_S_UNIFORM_FULL2_DESCENT_SUBROUTE": "BLOCKED_VARIABLE_C_OR_D_SUPPORT_NOT_COMPRESSED",
+    "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION": "BLOCKED_RANK_ONLY_COMPATIBILITY_REMAINS_ORIGINAL_RECEIVER",
+    "C2_GAUSSIAN_NORM_COMPRESSION": "LIVE_NEXT_EXACT_GAUSSIAN_FOURTH_POWER_PRIME_IDEAL_DIRECTIONAL_PREFLIGHT",
+    "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER": "UNTESTED",
+    "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY": "UNTESTED",
+    "next_leaf": "36-09V_GAUSSIAN_FOURTH_POWER_PRIME_IDEAL_DIRECTIONAL_COMPRESSION_PREFLIGHT"
+  },
+  "batch_policy": {
+    "substantive_pr_may_continue_across_multiple_leaves": true,
+    "hostile_audit_requested_now": false,
+    "audit_checkpoint": "DEFERRED_TO_LATER_SUBSTANTIVE_BATCH_CHECKPOINT",
+    "promotion_before_audit": false
+  },
+  "scope_firewalls": {
+    "new_rankjump_exclusion_proved": false,
+    "fixed_finite_S_Selmer_family_proved": false,
+    "Gaussian_prime_ideal_compression_proved": false,
+    "candidate_set_shrunk": false,
+    "Qi_rankjump_locus_empty": false,
+    "S34_W03_receiver_intersection_empty": false,
+    "top_genus3_rational_points_exhausted": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

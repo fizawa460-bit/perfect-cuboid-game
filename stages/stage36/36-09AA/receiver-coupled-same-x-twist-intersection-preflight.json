@@ -1,0 +1,135 @@
+{
+  "schema": "STAGE36_36_09AA_RECEIVER_COUPLED_SAME_X_TWIST_INTERSECTION_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AA",
+  "status": "EXACT_RECEIVER_SAME_X_PLUS_MINUS_TWIST_INTERSECTION_AND_Z_WITNESS_SEPARATION_PENDING_BATCH_HOSTILE_AUDIT",
+  "base_main_sha": "9184c7ab694415592cc428a675c0ebed27cac510",
+  "batch_parent": {
+    "pr": 1664,
+    "36_09Z_exact_head": "718dc86903cf6e1264b78800f2ef6e813abcf6c5",
+    "36_09Z_exact_head_ci": "34036358345/101495047243",
+    "36_09Z_certificate": "stages/stage36/36-09Z/explicit-mw-rankjump-witness-preflight.json",
+    "36_09Z_certificate_blob_sha": "6a3b05e70fb146eff576df17142547b11679cf65",
+    "36_09Z_verifier_blob_sha": "6f12de6f9e5e60dee70fc0c5bcd491105f8ee627",
+    "authority_scope": "provisional same-PR batch interface only"
+  },
+  "freshness_sync": {
+    "previous_base_main_sha": "714bd143f0c20082edcbb81c3905a86b1a56b4bf",
+    "current_base_main_sha": "9184c7ab694415592cc428a675c0ebed27cac510",
+    "intervening_commit_count": 1,
+    "intervening_scope": "Stage32 Arsenal only; no Stage36 source drift",
+    "sync_merge_commit": "deb16e9f06bb572bbf5a90041236b60f500569ef"
+  },
+  "source_locks": {
+    "stage36_36_09R_receiver_adapter": {
+      "path": "stages/stage36/36-09R/etau-rankjump-receiver-esigmatau-growth-preflight.json",
+      "blob_sha": "b55d042ede01032ff8c8b0d872510a53cb857969",
+      "use": "E_sigma_tau quartic-to-polynomial adapter and exact receiver condition R^2-S^2=4"
+    },
+    "stage36_36_09Z": {
+      "path": "stages/stage36/36-09Z/explicit-mw-rankjump-witness-preflight.json",
+      "blob_sha": "6a3b05e70fb146eff576df17142547b11679cf65"
+    },
+    "standard_2isogeny_descent": {
+      "path": "stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md",
+      "blob_sha": "a562d7053a6f04deff4473067777b7cfd538ea8a",
+      "use": "dual 2-isogeny normalization for the beta witness"
+    },
+    "S34_W03": {
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96",
+      "use": "receiver-restricted intersection exclusion contract only"
+    }
+  },
+  "affine_twist_pair": {
+    "Nminus": "p^2-2*p-1",
+    "Nplus": "p^2+2*p-1",
+    "s": "p^2+1",
+    "A": "Nminus^2",
+    "B": "Nplus^2",
+    "E_minus": "y_minus^2=x*(x-A)*(x-B)",
+    "E_plus": "y_plus^2=x*(x+A)*(x+B)",
+    "interpretation": "E_minus is the audited E_sigma_tau polynomial model; E_plus is the E_sigma polynomial model"
+  },
+  "receiver_square_on_E_minus": {
+    "open_hypotheses": ["retained p", "x not in {0,A,B}", "y_minus nonzero"],
+    "from_36_09R_inverse_adapter": "S_v4=4*(p^2+1)*x/y_minus",
+    "derived_S_square": "S_v4^2=16*x*(p^2+1)^2/((x-A)*(x-B))",
+    "derived_receiver_square": "R^2=S_v4^2+4=4*(x+A)*(x+B)/((x-A)*(x-B))",
+    "using_E_minus": "R^2=4*x*(x+A)*(x+B)/y_minus^2",
+    "exact_same_x_equivalence": "receiver K (R is a nonzero rational square-root with S_v4 nonzero) iff x*(x+A)*(x+B) is a nonzero rational square, equivalently there is y_plus in Q^* with (x,y_plus) on E_plus",
+    "reconstruction": "given y_plus choose R=2*y_plus/y_minus; then R^2-S_v4^2=4 and the audited 36-09R reconstruction returns the top receiver point",
+    "meaning": "positive rank on E_minus alone is strictly weaker than receiver compatibility; the receiver needs a same-x rational point on the plus and minus twists"
+  },
+  "generic_boundary_check": {
+    "audited_generic_E_minus_group": "Z/2 x Z/2",
+    "generic_x_values": ["infinity", "0", "A", "B"],
+    "x_0": "corresponds to S_v4=0 / R^2=4 boundary after the original quotient reconstruction",
+    "x_A_or_B": "y_minus=0 and the receiver rational function has a pole; these are quotient boundary/torsion points",
+    "infinity": "outside the affine nonzero-S receiver reconstruction",
+    "conclusion": "generic same-x/torsion intersections grant no physical receiver point; any retained receiver specialization must use a genuinely new non-torsion E_minus point satisfying the extra E_plus same-x square"
+  },
+  "Z_alpha_witness_receiver_test": {
+    "parameter": "p=14/13",
+    "homogeneous_E_minus_point": ["x_h=97393", "y_h=9349728"],
+    "affine_scaling": ["x=x_h/13^4=97393/28561", "y_minus=y_h/13^6=9349728/4826809"],
+    "S_v4": "365/24",
+    "R_squared": "135529/576=(313*433)/24^2",
+    "receiver_square": false,
+    "same_x_E_plus_point_exists_for_this_E_minus_point": false,
+    "scope": "this excludes the explicit Z alpha MW point from the receiver; it does not prove the whole p=14/13 receiver fiber empty"
+  },
+  "Z_beta_witness_receiver_test": {
+    "parameter": "p=5/2",
+    "dual_point_from_Z": ["X=245", "Y=30135"],
+    "dual_to_E_minus": [
+      "x_h=Y^2/(4*X^2)=15129/4",
+      "y_h=Y*(64*D0^2-X^2)/(8*X^2)=1386825/8"
+    ],
+    "affine_scaling": ["x=x_h/2^4=15129/64", "y_minus=y_h/2^6=1386825/512"],
+    "S_v4": "696/275",
+    "R_squared": "786916/75625=(4*13*37*409)/275^2",
+    "receiver_square": false,
+    "same_x_E_plus_point_exists_for_this_E_minus_point": false,
+    "scope": "this excludes the explicit Z beta-derived MW point from the receiver; it does not prove the whole p=5/2 receiver fiber empty"
+  },
+  "joint_product_square_quotient": {
+    "definition": "zeta=y_plus*y_minus/x",
+    "equation": "zeta^2=(x^2-A^2)*(x^2-B^2)",
+    "normalized_equation": "after X=x/A and Z=zeta/A^2: Z^2=(X^2-1)*(X^2-k^4), k=Nplus/Nminus",
+    "credit": "exact receiver-coupled genus-one product-square quotient interface only",
+    "complete_rational_point_set": false,
+    "receiver_intersection_empty": false
+  },
+  "route_result": {
+    "Qi_rankjump_locus_nonempty": true,
+    "rankjump_implies_receiver": false,
+    "explicit_Z_rankjump_points_are_receiver_compatible": false,
+    "candidate_parameter_set_shrunk": false,
+    "S34_W03_exact_joint_adapter_ready": true,
+    "S34_W03_intersection_exclusion_executed": false,
+    "receiver_rankjump_intersection_empty": false,
+    "receiver_closed": false,
+    "next_mathematical_leaf_after_audit": "36-09AB_SAME_X_PLUS_MINUS_TWIST_PRODUCT_SQUARE_DESCENT_PREFLIGHT"
+  },
+  "audit_checkpoint": {
+    "natural_batch_checkpoint_reached": true,
+    "reason": "U-Z closed or delimited the global rankjump/finite-S/Hilbert/Cassels routes; AA is the first exact receiver-specific replacement interface and changes the legal next route",
+    "hostile_audit_required_before_treating_U_through_AA_as_MAIN_authority": true,
+    "hostile_audit_passed": false,
+    "promotion_granted": false
+  },
+  "scope_firewalls": {
+    "same_x_receiver_equivalence_proved": true,
+    "explicit_Z_points_receiver_incompatible_proved": true,
+    "whole_p_14_13_receiver_fiber_empty": false,
+    "whole_p_5_2_receiver_fiber_empty": false,
+    "receiver_rankjump_intersection_empty": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
