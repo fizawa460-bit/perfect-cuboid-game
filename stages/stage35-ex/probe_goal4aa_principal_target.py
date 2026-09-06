@@ -22,7 +22,6 @@ try:
 finally:
     Path.read_text=orig
 
-# Exact class-B cyclic boundary lift.
 f,_=core['h1_generator'](13)
 Pact=core['Pact']; Dact=core['Dact']; liftP=core['liftP']; liftD=core['liftD']
 S=core['S']; Sinv=core['Sinv']; A2=core['A2']; solve_integral=core['solve_integral']
@@ -45,8 +44,6 @@ Bmat=sp.Matrix(core['ns']['B']); delta=lp[1]*Pact[1]+lp[1]
 assert E*Bmat==delta
 bidx=[int(x)+1 for x in core['ns']['bidx']]
 
-# The Goal4Y Smith solution is highly nonminimal.  Add an exact boundary-kernel
-# combination (divisors of global units) to keep the same Picard class and residue parity.
 K=sp.Matrix(core['kernel_basis_old'])
 assert K*Bmat==sp.zeros(3,64)
 unit_adjust=[4,218,-12]
@@ -56,7 +53,6 @@ assert max(abs(int(x)) for x in Es)<=36
 assert all((int(Es[0,j])-int(E[0,j]))%2==0 for j in range(NBD))
 E_sparse={str(bidx[j]):int(Es[0,j]) for j in range(NBD) if Es[0,j]}
 
-# Formal principal divisor V = D_B + cc(D_B) - E_B on the retained 140 divisors.
 a=json.loads(GOAL4Z.read_text()); perm=json.loads(PERMS.read_text())['cc_permutation_1based']
 formal=[0]*140
 for k,v in a['class_B']['picard_lift_cc_indlist_coefficients'].items():
@@ -67,7 +63,6 @@ cls=[sum(formal[j]*known[j][i] for j in range(140)) for i in range(64)]
 assert cls==[0]*64
 V_sparse={str(i+1):formal[i] for i in range(140) if formal[i]}
 
-# Exact total transforms of complete hyperplane sections.
 gram=core['ns']['gram']
 def pair(i,j):
     return sum(known[i][u]*gram[u][v]*known[j][v] for u in range(64) for v in range(64))
@@ -78,15 +73,12 @@ def total_transform(curves):
         if any(pair(i-1,j-1)!=0 for i in curves):vec[j-1]+=1
     return vec
 
-# Tiny exact Q(i,sqrt(2)) coefficient arithmetic, only to identify scalar-equivalent linear forms.
 Z=(Fraction(0),)*4; ONE=(Fraction(1),Fraction(0),Fraction(0),Fraction(0))
 II=(Fraction(0),Fraction(1),Fraction(0),Fraction(0)); SS=(Fraction(0),Fraction(0),Fraction(1),Fraction(0))
 def add(x,y):return tuple(x[i]+y[i] for i in range(4))
 def neg(x):return tuple(-z for z in x)
 def mul(x,y):
-    out=[Fraction(0)]*4
-    # basis i^a s^b, slots (0,0),(1,0),(0,1),(1,1)
-    mons=[(0,0),(1,0),(0,1),(1,1)]
+    out=[Fraction(0)]*4; mons=[(0,0),(1,0),(0,1),(1,1)]
     for r,(ai,as_) in enumerate(mons):
       for t,(bi,bs) in enumerate(mons):
         ci=ai+bi; cs=as_+bs; c=x[r]*y[t]
@@ -94,9 +86,11 @@ def mul(x,y):
         if cs>=2:c*=2; cs-=2
         out[mons.index((ci,cs))]+=c
     return tuple(out)
+IS=mul(II,SS)
 def inv_pivot(x):
-    candidates=[ONE,neg(ONE),II,neg(II),SS,neg(SS)]
-    inverses=[ONE,neg(ONE),neg(II),II,tuple(z/Fraction(2) for z in SS),tuple(-z/Fraction(2) for z in SS)]
+    candidates=[ONE,neg(ONE),II,neg(II),SS,neg(SS),IS,neg(IS)]
+    halfS=tuple(z/Fraction(2) for z in SS); minusHalfIS=tuple(-z/Fraction(2) for z in IS)
+    inverses=[ONE,neg(ONE),neg(II),II,halfS,neg(halfS),minusHalfIS,neg(minusHalfIS)]
     for q,r in zip(candidates,inverses):
         if x==q:return r
     raise AssertionError(('unexpected pivot',x))
@@ -104,54 +98,42 @@ def coeff(unit,sign=1):
     q={'1':ONE,'i':II,'s':SS}[unit]
     return q if sign==1 else neg(q)
 def form(*terms):
-    # term=(coord0, coefftuple)
     v=[Z]*7
     for j,c in terms:v[j]=add(v[j],c)
     p=next(x for x in v if x!=Z); pinv=inv_pivot(p)
     n=[mul(x,pinv) for x in v]
     return tuple(tuple((z.numerator,z.denominator) for z in x) for x in n)
-
 def f1(j,u='1',sgn=1):return form((j,coeff(u,sgn)))
 def f2(j,u,j2,u2='1',sgn2=1):return form((j,coeff(u)),(j2,coeff(u2,sgn2)))
 
 curve_forms={}; degrees={}
 def addcurve(idx,deg,forms):curve_forms[idx]=forms;degrees[idx]=deg
 idx=1
-# C1 blocks 1-3, sign order e1,e2,e3.
-for base, specs in [
- (0,[(1,5),(2,4),(3,6)]),
- (1,[(2,3),(0,5),(4,6)]),
- (2,[(0,4),(1,3),(5,6)])]:
+for base,specs in [(0,[(1,5),(2,4),(3,6)]),(1,[(2,3),(0,5),(4,6)]),(2,[(0,4),(1,3),(5,6)])]:
   for e1 in [1,-1]:
    for e2 in [1,-1]:
     for e3 in [1,-1]:
-     es=[e1,e2,e3]
-     fs=[f1(base)]+[f2(a,'1',b,'1',es[t]) for t,(a,b) in enumerate(specs)]
-     addcurve(idx,2,fs);idx+=1
-# C1 c-block, source order e3,e2,e1.
+     es=[e1,e2,e3]; addcurve(idx,2,[f1(base)]+[f2(x,'1',y,'1',es[t]) for t,(x,y) in enumerate(specs)]);idx+=1
 for e3 in [1,-1]:
  for e2 in [1,-1]:
   for e1 in [1,-1]:
    addcurve(idx,2,[f1(6),f2(0,'i',3,'1',e1),f2(1,'i',4,'1',e2),f2(2,'i',5,'1',e3)]);idx+=1
 assert idx==33
-# C2 three blocks, e1,e2.
-for b,(a,a2,c0) in [(3,(1,2,0)),(4,(2,0,1)),(5,(0,1,2))]:
+for b,(x,y,c0) in [(3,(1,2,0)),(4,(2,0,1)),(5,(0,1,2))]:
  for e1 in [1,-1]:
   for e2 in [1,-1]:
-   addcurve(idx,4,[f1(b),f2(a,'i',a2,'1',e1),f2(c0,'1',6,'1',e2)]);idx+=1
+   addcurve(idx,4,[f1(b),f2(x,'i',y,'1',e1),f2(c0,'1',6,'1',e2)]);idx+=1
 assert idx==45
-# C3 first three blocks, e1,e2,e3.
-for a,a2,b3,b1,b2 in [(0,1,5,3,4),(1,2,3,4,5),(2,0,4,5,3)]:
+for x,y,b3,b1,b2 in [(0,1,5,3,4),(1,2,3,4,5),(2,0,4,5,3)]:
  for e1 in [1,-1]:
   for e2 in [1,-1]:
    for e3 in [1,-1]:
-    addcurve(idx,4,[f2(a,'1',a2,'1',e1),f2(a,'s',b3,'1',e2),f2(b1,'1',b2,'1',e3)]);idx+=1
-# C3 last three blocks, source order e3,e2,e1.
-for a,b2,b3,b1 in [(0,4,5,3),(1,5,3,4),(2,3,4,5)]:
+    addcurve(idx,4,[f2(x,'1',y,'1',e1),f2(x,'s',b3,'1',e2),f2(b1,'1',b2,'1',e3)]);idx+=1
+for x,b2,b3,b1 in [(0,4,5,3),(1,5,3,4),(2,3,4,5)]:
  for e3 in [1,-1]:
   for e2 in [1,-1]:
    for e1 in [1,-1]:
-    addcurve(idx,4,[f2(a,'i',6,'1',e1),f2(b2,'i',b3,'1',e2),f2(a,'i',b1,'1',e3) if False else form((a,mul(II,SS)),(b1,coeff('1',e3))) ]);idx+=1
+    addcurve(idx,4,[f2(x,'i',6,'1',e1),f2(b2,'i',b3,'1',e2),form((x,IS),(b1,coeff('1',e3)))]);idx+=1
 assert idx==93
 
 groups=defaultdict(set)
@@ -159,7 +141,6 @@ for ci,fs in curve_forms.items():
     for L in fs:groups[L].add(ci)
 complete={L:sorted(cs) for L,cs in groups.items() if sum(degrees[i] for i in cs)==16}
 H={L:total_transform(cs) for L,cs in complete.items()}
-# Degree exhaustion plus exact Picard equality certifies these are complete hyperplane sections.
 hclasses=[]
 for L,vec in H.items():hclasses.append([sum(vec[j]*known[j][i] for j in range(140)) for i in range(64)])
 assert H and all(x==hclasses[0] for x in hclasses)
@@ -171,15 +152,12 @@ if in_span:
     tup=next(iter(sol)); subs={s:0 for x in tup for s in x.free_symbols}; cand=[sp.simplify(x.subs(subs)) for x in tup]
     solution_rational={str(j):str(x) for j,x in enumerate(cand) if x}
     if all(x.q==1 for x in cand):
-        ivec=[int(x) for x in cand]
-        assert M*sp.Matrix(ivec)==v
+        ivec=[int(x) for x in cand]; assert M*sp.Matrix(ivec)==v
         solution={str(j):ivec[j] for j in range(len(ivec)) if ivec[j]}
-
-def enc_form(L):
-    # compact coefficient vector in coordinate order a1,a2,a3,b1,b2,b3,c.
-    return [[[a,b] for a,b in slot] for slot in L]
+def enc_form(L):return [[[aa,bb] for aa,bb in slot] for slot in L]
 solution_forms=None
-if solution is not None:solution_forms=[{'exponent':e,'coefficients_QiS2':enc_form(names[int(j)]),'curve_components_1based':complete[names[int(j)]]} for j,e in solution.items()]
+if solution is not None:
+    solution_forms=[{'exponent':e,'coefficients_QiS2':enc_form(names[int(j)]),'curve_components_1based':complete[names[int(j)]]} for j,e in solution.items()]
 
 out={
  'success':True,
