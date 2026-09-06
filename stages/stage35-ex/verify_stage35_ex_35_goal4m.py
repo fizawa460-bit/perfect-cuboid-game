@@ -14,8 +14,7 @@ AUDITED='6fa39f76be24b55153f118812b1bd7f41c43e399'
 def blob(path: Path) -> str:
     return subprocess.check_output(['git','hash-object',str(path.relative_to(ROOT))],cwd=ROOT,text=True).strip()
 
-a=json.loads(ART.read_text())
-s=json.loads(STATE.read_text())
+a=json.loads(ART.read_text()); s=json.loads(STATE.read_text())
 assert a['schema']=='STAGE35_EX_35_GOAL4M_STAGE14_GLOBAL_TRIPLE_POPULATION_HEIGHT_TRANSFER_V1'
 assert a['base_main_sha']==s['base_main_sha']
 assert a['stacked_parent']['hostile_audited'] is False
@@ -37,7 +36,8 @@ assert g4l['credit_boundary']['uniform_rank_jump_exclusion_obtained'] is False
 
 s3_text=S3SNAP.read_text()
 assert 'physical hit below B' in s3_text
-assert 'canonical height O(log B + log H)' in s3_text
+assert r'\hat h(P)=O(\log B+\log H)' in s3_text
+assert 'PHYSICAL_HIT_IMPLIES_LOGARITHMIC_CANONICAL_HEIGHT_WINDOW=true' in s3_text
 assert 'UNIFORM_FIRST_GENERATOR_DISTRIBUTION_PROVED=false' in s3_text
 
 old_text=subprocess.check_output(['git','show',f'{AUDITED}:stages/stage35-ex/MAIN-STATE.json'],cwd=ROOT,text=True)
