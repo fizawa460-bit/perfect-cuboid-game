@@ -44,7 +44,7 @@ def action_from_perm(p):
 
 actions = [action_from_perm(p) for p in perms]
 # Pinned Stoll source substs[4..9] are the six independent sign changes
-# a1,a2,a3,b1,b2,b3 with c fixed.  Their product is projectively sigma_c.
+# a1,a2,a3,b1,b2,b3 with c fixed. Their product is projectively sigma_c.
 c_action = I
 for A in actions[3:9]:
     c_action = mm(c_action, A)
@@ -55,10 +55,10 @@ if row_times_matrix(hyperplane, c_action) != hyperplane:
 if mm(mm(c_action, gram), transpose(c_action)) != gram:
     raise SystemExit('c action is not a Gram isometry')
 
-# Source order: 92 curves followed by 48 exceptional classes.  In the
-# quotient pull-back block, pinned cuboids.magma explicitly treats pts[25..]
-# as the exceptional curves on S contracted by S/<sigma_c> -> K_c and indexes
-# them as #Cs+24+k.  Hence these are exactly the final 24 known140 rows.
+# Source order: 92 curves followed by 48 exceptional classes. In the quotient
+# pull-back block, pinned cuboids.magma treats pts[25..] as the exceptional
+# curves on S contracted by S/<sigma_c> -> K_c and indexes them #Cs+24+k.
+# Hence these are exactly the final 24 known140 rows.
 if len(known) != 140:
     raise SystemExit('known140 width regression')
 contracted_exceptionals = known[116:140]
@@ -102,12 +102,8 @@ if mm(Ac, Ac) != I63:
 if mm(mm(Ac, q), transpose(Ac)) != q:
     raise SystemExit('Hperp c action does not preserve q')
 
-# The quotient map pi:S->K_c is not obtained by taking the entire fixed
-# lattice: after S/<sigma_c>, 24 exceptional curves are contracted.  Pullbacks
-# from Pic(K_c) are sigma_c-fixed and orthogonal to all 24 contracted curves.
-# We therefore reconstruct the saturated integral lattice
-#   Pic(S)^sigma_c cap E_pi^perp.
-# Its source-expected rank is 20; the Hperp slice has rank 19.
+# Pullbacks from Pic(K_c) are sigma_c-fixed and orthogonal to all 24 contracted
+# curves. Reconstruct the saturated lattice Pic(S)^sigma_c cap E_pi^perp.
 def gp_matrix(M):
     return '[' + ';'.join(','.join(str(int(x)) for x in row) for row in M) + ']'
 
@@ -116,7 +112,6 @@ def pairing_column(e):
 
 full_constraints = transpose(mat_sub(c_action, I))
 full_constraints += [pairing_column(e) for e in contracted_exceptionals]
-
 hp_constraints = transpose(mat_sub(Ac, I63))
 hp_constraints += [[pairing(hp_basis[i], e, gram) for i in range(HP)] for e in contracted_exceptionals]
 
@@ -143,8 +138,9 @@ try:
 finally:
     Path(gp_path).unlink(missing_ok=True)
 if cp.returncode != 0:
-    print(cp.stdout); print(cp.stderr)
-    raise SystemExit('PARI descent/qfminim failed')
+    print('PARI_STDOUT_TAIL=' + json.dumps(cp.stdout[-4096:]))
+    print('PARI_STDERR_TAIL=' + json.dumps(cp.stderr[-4096:]))
+    raise SystemExit('PARI descent/qfminim process failed')
 
 desc_full_rank = None; desc_full_det = None; desc_hperp_rank = None; desc_hperp_qdet = None
 enum_total = None; stored = None; half = []
@@ -164,13 +160,18 @@ if desc_full_rank != 20:
     raise SystemExit(f'expected descended PicK pullback rank 20, got {desc_full_rank}')
 if desc_hperp_rank != 19:
     raise SystemExit(f'expected descended Hperp rank 19, got {desc_hperp_rank}')
-# Pic(K_c) has discriminant -32 in the pinned source. Pullback under the
-# generically degree-2 quotient scales the rank-20 pairing determinant by 2^20.
-# Equality with the saturated fixed/orthogonal lattice proves no extra index.
 expected_pullback_det = -(1 << 25)
 if desc_full_det != expected_pullback_det:
     raise SystemExit(f'descended lattice determinant mismatch: {desc_full_det} != {expected_pullback_det}')
 if enum_total is None or stored is None or desc_hperp_qdet is None:
+    missing = [name for name,val in (
+        ('DESC_HPERP_QDET',desc_hperp_qdet),
+        ('ENUM_TOTAL_SIGNED',enum_total),
+        ('ENUM_STORED_MOD_SIGN',stored),
+    ) if val is None]
+    print('PARI_METADATA_MISSING=' + json.dumps(missing))
+    print('PARI_STDOUT_TAIL=' + json.dumps(cp.stdout[-4096:]))
+    print('PARI_STDERR_TAIL=' + json.dumps(cp.stderr[-4096:]))
     raise SystemExit('missing PARI enumeration/descent metadata')
 
 xs = []
@@ -202,10 +203,6 @@ for x in xs:
 raw_set={tuple(d) for d in candidates}
 if len(raw_set)!=len(candidates): raise SystemExit('candidate duplicate regression')
 
-# Source-bound numerical-effectivity receivers. For sigma_c-fixed D, testing
-# D against C+sigma_c(C) has the same sign as testing D against C. The first
-# 92 rows are source curves; the last 48 are exceptional classes. The <=2
-# pullback bound corresponds to multiplicity <=1 at K_c singular points.
 def csum(v): return add(v,row_times_matrix(v,c_action))
 def uniq(rows):
     out=[]; seen=set()
@@ -231,9 +228,6 @@ sets={
     'all_nonnegative_exceptional_le2': {tuple(d) for d in candidates if nonnegative(d,all_receivers) and exceptional_le2(d)},
 }
 
-# Pinned K_c source uses seven generators:
-# swap12, swap13, sign(a1), sign(a2), sign(a3), sign(b1), sign(b2).
-# In the retained S generator order these are 1,2,4,5,6,7,8.
 orbit_action_indices_1based = [1,2,4,5,6,7,8]
 orbit_actions = [actions[i-1] for i in orbit_action_indices_1based]
 
