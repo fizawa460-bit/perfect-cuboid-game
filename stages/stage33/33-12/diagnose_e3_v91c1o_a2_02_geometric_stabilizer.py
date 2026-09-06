@@ -19,6 +19,7 @@ V84_BLOB='e9c7e81cc59fb5203482071208d25ff1447edeb2'
 def csha(o): return hashlib.sha256(json.dumps(o,sort_keys=True,separators=(',',':')).encode()).hexdigest()
 def load(p,h):
  o=json.loads(p.read_text(encoding='utf-8')); b=dict(o); q=b.pop('canonical_sha256'); assert q==h==csha(b),p; return o
+def git_blob_sha(data): return hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
 def rowmul(v,M): return [sum(v[i]*M[i][j] for i in range(len(v)))&1 for j in range(len(v))]
 def rref(rows,n):
  a=[[x&1 for x in r] for r in rows if any(x&1 for x in r)]; piv=[]; rr=0
@@ -33,7 +34,7 @@ def rref(rows,n):
  return a[:rr],piv
 def nullity(eq,n): return n-len(rref(eq,n)[1])
 src=load(SRC,SRC_SHA); br=load(BR,BR_SHA)
-assert hashlib.sha1(V84.read_bytes()).hexdigest()==V84_BLOB
+assert git_blob_sha(V84.read_bytes())==V84_BLOB
 ns=runpy.run_path(str(V84)); gens14=ns['gens14']
 names=src['exact_source_actions']['action_names']; acts=src['exact_source_actions']['matrices']
 assert names==['sign_a1','sign_a2','sign_a3','sign_b1','sign_b2','sign_b3','sign_c','swap12','swap13']
