@@ -29,6 +29,10 @@ A search miss is not repository-wide absence and is not mathematical nonexistenc
 
 Historical Stage32 files may be opened only when the current state or active task requires their exact semantics, provenance, heavy-workflow history, source lock, audit record, or cleanup-reference analysis. Their presence does not authorize heavy compute or change current credit.
 
+## Timeout-safe batch execution
+
+For exploratory or micro-diagnostic Stage32 MAIN work, do not push every narrow experiment directly onto a large shared PR when that push would re-trigger the PR-wide Stage32 workflow set. Prefer a scratch branch or equivalent isolated working branch, keep scratch results non-authoritative, and consolidate only successful retained leaves into the shared PR at an audit-ready checkpoint. Perform freshness synchronization/rebase and broad exact-head CI verification at that consolidation checkpoint rather than after every micro-diagnostic. This execution rule changes workflow cadence only; it does not weaken source locks, credit firewalls, hostile-audit requirements, or merge gates.
+
 ## Write and merge discipline
 
 Before writes, follow the current gate and firewalls in `MAIN-STATE.json`. Proof/source-locked assets must not be deleted or relocated without an explicit reference audit authorized by the current state.
