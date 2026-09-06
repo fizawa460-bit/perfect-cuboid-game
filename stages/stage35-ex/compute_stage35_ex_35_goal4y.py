@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
 SNAP=ROOT/'stages/stage35-ex/snapshots/MAIN-STATE-V61-0a8af929e004.json'
-CORE=ROOT/'stages/stage35-ex/probe_goal4y_two_class_lift.py'
+CORE=ROOT/'stages/stage35-ex/stage35_ex_35_goal4y_core.py'
 snaptext=SNAP.read_text()
 orig=Path.read_text
 sr=STATE.resolve()
