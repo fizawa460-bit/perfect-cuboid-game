@@ -68,7 +68,7 @@ jobs:
           mat=Path('stages/stage35-ex/materialize_stage35_ex_35_goal4ae_local_cfixed.py')
           new=json.loads(key.read_text())
           assert new['schema']=='STAGE35_EX_GOAL4AE_C5_PICARD_EXTRACTION_RUNKEY_V1'
-          assert new['armed'] is True and new['generation']==7
+          assert new['armed'] is True and new['generation']==8
           assert new['route']=='CFIXED_HPERP_NORM20_PARIFP'
           assert new['upstream_git_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
           assert new['goal4ad_blob_sha1']=='6cedfed8d5944a3a93ddfe106f488c2a75670c92'
@@ -102,7 +102,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install exact local lattice enumerator with bounded large stack
+      - name: Install exact local lattice enumerator with auto-growing bounded stack
         run: |
           set -euo pipefail
           sudo apt-get update -qq
@@ -110,7 +110,7 @@ jobs:
           mkdir -p /tmp/goal4ae-bin
           cat > /tmp/goal4ae-bin/gp <<'SH'
           #!/usr/bin/env bash
-          exec /usr/bin/gp -s 256M "$@"
+          exec /usr/bin/gp -s 64M -D parisizemax=2G "$@"
           SH
           chmod +x /tmp/goal4ae-bin/gp
           echo '/tmp/goal4ae-bin' >> "$GITHUB_PATH"
