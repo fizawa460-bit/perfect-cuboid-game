@@ -6,7 +6,7 @@ from pathlib import Path
 D=Path(__file__).resolve().parent
 C=D/'e3-v91c1p-a2-02-full-residue-stabilizer-preflight.json'
 DIAG=D/'diagnose_e3_v91c1p_a2_02_full_residue_stabilizer.py'
-C_SHA='7e1455f071c36d8e79651f5d0aa70d6f5e0a2ab7406e2fbe2e492d7b43f94545'
+C_SHA='0bb6642a7f825a2d74a8cd0f80ab923b1ad88819ce4d422b6413cecccb9f189d'
 def csha(o): return hashlib.sha256(json.dumps(o,sort_keys=True,separators=(',',':')).encode()).hexdigest()
 o=json.loads(C.read_text()); b=dict(o); q=b.pop('canonical_sha256'); assert q==C_SHA==csha(b)
 r=runpy.run_path(str(DIAG))['result']
