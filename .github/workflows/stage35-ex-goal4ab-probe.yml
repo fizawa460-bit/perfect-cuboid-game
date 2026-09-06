@@ -1,0 +1,25 @@
+name: Stage35-EX Goal4AB probe
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage35-ex/tmp_goal4ab_probe.py'
+      - '.github/workflows/stage35-ex-goal4ab-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check sympy
+      - name: Run Goal4AB exact exceptional-completion probe
+        run: python -B stages/stage35-ex/tmp_goal4ab_probe.py
