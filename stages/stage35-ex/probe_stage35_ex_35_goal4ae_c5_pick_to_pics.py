@@ -28,6 +28,8 @@ INDLIST = [
     93,94,95,96,97,98,99,101,102,103,104,105,106,107,109,110,111,113,
     117,118,119,120,121,125,126,127,129,133,135,
 ]
+K_START = "// Now repeat this for the K3 quotient obtained by forgetting c. See Section 6."
+K_END = "// action of sign change of c"
 
 
 def git_blob(path: Path) -> str:
@@ -88,7 +90,7 @@ if marked["indlist_1based"] != INDLIST:
 if marked["source"]["git_blob_sha1"] != SOURCE_BLOB:
     raise SystemExit("Stage33 marked source upstream blob moved")
 
-full_source, _, upstream_blob, source_attempt = load_pinned_source()
+full_source, surface_core, upstream_blob, source_attempt = load_pinned_source()
 if upstream_blob != SOURCE_BLOB:
     raise SystemExit("pinned upstream source blob moved")
 for needle in [
@@ -97,12 +99,38 @@ for needle in [
     "MatKtoS := Matrix(Integers()",
     "C5K := Curve(IrreducibleComponents(Scheme(K, B1+B2+B3))[1]);",
     "until #C5sK eq 8;",
+    K_START,
+    K_END,
 ]:
     if needle not in full_source:
         raise SystemExit(f"upstream C5/PicK route regression: {needle}")
 
+# Generation 1 submitted all 42 kB of cuboids.magma to the public calculator
+# and received an empty response before any mathematical assertion ran.  Reuse
+# the established Stage33 source slicer for S, then append only the exact K/PicK
+# setup through PicKtoPicS.  Aut/Gal, H-perp, low-degree enumeration and all
+# later expensive source blocks are intentionally excluded.
+k_start = full_source.index(K_START)
+k_end = full_source.index(K_END, k_start)
+k_core = full_source[k_start:k_end]
+source_slice = surface_core + "\n" + k_core
+for forbidden in ("CloseVectors(", "SmithForm(", "Setting up the action of Aut and Gal on Pic(K)"):
+    if forbidden in source_slice:
+        raise SystemExit(f"Goal4AE source slice unexpectedly contains heavy block: {forbidden}")
+for required in (
+    "function imageinPic(C)",
+    "function imageinPicK(C)",
+    "PicKtoPicS := hom<PicK -> Pic",
+    "assert MatKtoS*MatStoK eq 2*IdentityMatrix(Integers(), 20);",
+):
+    if required not in source_slice:
+        raise SystemExit(f"Goal4AE source slice lost required construction: {required}")
+
 extra = r'''
 // Stage35-EX Goal4AE: materialize the eight sign-labelled C5 pair pullbacks.
+// For fixed (e1,e2,e3), the e4=+/- C5 curves have the same image on K.
+// Pulling that K curve back by the pinned PicKtoPicS map gives the exact pair
+// class on the minimal resolution, including exceptional total-transform terms.
 indMat35 := Matrix(Rationals(), [Eltseq(qPic(Big.j)) : j in indlist]);
 indInv35 := indMat35^-1;
 for e1 in [1,-1] do
@@ -136,12 +164,12 @@ for e1 in [1,-1] do
 end for;
 printf "GOAL4AE_DONE\n";
 '''
-code = "SetColumns(0);\nquick := true;\n" + full_source + "\n" + extra
+code = "SetColumns(0);\nquick := true;\n" + source_slice + "\n" + extra
 stdout, magma_attempt = run_magma(
     code,
     300,
-    "Stage35-EX Goal4AE C5 PicK-to-PicS extraction",
-    user_agent="perfect-cuboid-stage35ex/4ae",
+    "Stage35-EX Goal4AE sliced C5 PicK-to-PicS extraction",
+    user_agent="perfect-cuboid-stage35ex/4ae-g2",
 )
 if "GOAL4AE_DONE" not in stdout or any(x in stdout for x in ("Runtime error", "Internal error", "User error", "Assertion failed")):
     print(stdout)
@@ -159,8 +187,8 @@ for r in rows:
         raise SystemExit("PicS row width regression")
 
 # Independent local replay of the S-side lattice invariants in the retained
-# primitive INDLIST basis.  The large retained payloads are loaded runner-side
-# by the established Stage33 adapter and are never emitted into chat/context.
+# primitive INDLIST basis.  Large retained payloads remain runner-side behind
+# the established Stage33 adapter and are not copied into this certificate.
 rec = runpy.run_path(str(REC))
 gram = [[int(x) for x in row] for row in rec["gram"]]
 hyperplane = [int(x) for x in rec["hyperplane"]]
@@ -204,13 +232,18 @@ out = {
         "stage33_INDLIST_1based": INDLIST,
         "stage33_source_helper_blob_sha1": git_blob(S33_07 / "stoll_cuboid_source.py"),
         "stage33_known140_reconstruction_blob_sha1": git_blob(REC),
+        "surface_core_sha256": hashlib.sha256(surface_core.encode()).hexdigest(),
+        "k_picard_core_sha256": hashlib.sha256(k_core.encode()).hexdigest(),
         "submitted_magma_code_sha256": hashlib.sha256(code.encode()).hexdigest(),
     },
     "execution": {
         "source_fetch_attempt": source_attempt,
         "magma_request_attempt": magma_attempt,
         "remote_cas_used": True,
-        "remote_cas_role": "evaluate the pinned upstream C5K imageinPicK and PicKtoPicS constructions and emit exact integral coordinates",
+        "remote_cas_role": "evaluate the pinned source C5 projection through imageinPicK and PicKtoPicS and emit exact integral coordinates",
+        "source_slice_used": True,
+        "submitted_magma_code_bytes": len(code.encode()),
+        "excluded_heavy_source_blocks": ["AutGal_S", "AutGal_K", "Hperp_low_degree_enumeration", "SmithForm", "CloseVectors"],
         "bounded_single_job": True,
         "raw_large_artifact_persisted": False,
     },
