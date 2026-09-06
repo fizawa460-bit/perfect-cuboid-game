@@ -1,4 +1,4 @@
-name: Stage33 V91C1N-R fixed-space and source-bound transport diagnostics
+name: Stage33 V91C1N-S fixed-space and source-bound transport diagnostics
 
 on:
   pull_request:
@@ -11,13 +11,13 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v91c1n-r-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1n-s-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
   exact-diagnostic:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
@@ -25,6 +25,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Install pinned exact local algebra
+        run: python -m pip install 'sympy==1.14.0'
       - name: Verify V91C1N minimal fixed-space discriminator
         run: python stages/stage33/33-12/verify_e3_v91c1n_minimal_joint_v4_fixed_coordinate_discriminator.py
       - name: Diagnose V91C1O A2_02 generator stabilizers
@@ -39,5 +41,9 @@ jobs:
         run: python stages/stage33/33-12/diagnose_e3_v91c1q_shortest_mask20_moving_stabilizer_word.py
       - name: Diagnose V91C1R source-bound swap23 boundary-function package transport
         run: python stages/stage33/33-12/diagnose_e3_v91c1r_swap23_boundary_function_package_transport.py
+      - name: Diagnose V91C1S swap23 actual-prime attached Cech difference
+        run: python stages/stage33/33-12/diagnose_e3_v91c1s_swap23_prime_attached_cech_difference.py
+      - name: Verify Stage33 startup authority remains unchanged
+        run: python stages/stage33/sync_main_state.py --check
       - name: Diff hygiene
         run: git diff --check
