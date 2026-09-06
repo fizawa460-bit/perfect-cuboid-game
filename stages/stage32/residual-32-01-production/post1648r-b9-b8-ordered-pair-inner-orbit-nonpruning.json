@@ -41,16 +41,23 @@
       "arxiv": "2509.24605v1",
       "locator": "Appendix B, equations (B.8)-(B.9)",
       "exact_supported_facts": [
-        "B.8 phi6 has trace 1 and phi6^3=-I on holomorphic differentials as locked in post1648J",
+        "B.8 phi6 has holomorphic-pullback trace 1 and phi6^3=-I as locked in post1648J",
         "B.9 is (x,y)->(i*x,exp(i*pi/4)*y) and has order 8"
       ]
     }
   },
+  "representation_convention": {
+    "retained_G12_and_post1648N": "homology/torus lattice action",
+    "post1648J_trace_matrices": "holomorphic differential pullback action",
+    "conversion": "homology/torus action is contragredient to holomorphic pullback; for a 2x2 pullback matrix with trace t and determinant d, inverse has trace t/d",
+    "B9_trace_conversion": "+r with determinant -1 becomes -r",
+    "B8_trace_conversion": "1 with determinant 1 remains 1"
+  },
   "source_named_pair_invariants": {
-    "A": "B9",
-    "B": "B8_phi6",
+    "A": "B9_homology_torus_action",
+    "B": "B8_phi6_homology_torus_action",
     "A_fourth": "-I",
-    "A_trace": "r",
+    "A_trace": "-r",
     "A_determinant": "-1",
     "B_cubed": "-I",
     "B_trace": "1",
@@ -64,6 +71,7 @@
     "target_group": "G12=<S=b4,T=-b3>",
     "target_group_order": 48,
     "B9_candidates_with_full_invariants": 6,
+    "B9_candidates_equal_post1648N_six_images": true,
     "B8_candidates_with_full_invariants": 8,
     "ordered_pairs_satisfying_all_source_pair_invariants": 24,
     "all_24_pairs_generate_G12": true,
@@ -93,5 +101,5 @@
     "endpoint_credit": false,
     "perfect_cuboid_credit": false
   },
-  "canonical_sha256_without_this_field": "9e38168bc32fbaf38449620c49997dcbcf0c197140229e001a2f7c683bef1931"
+  "canonical_sha256_without_this_field": "41974bb8c5b4f36a9cf5895fa52a5af81b17aa8bd4d9ced1915173573a0bad9a"
 }
