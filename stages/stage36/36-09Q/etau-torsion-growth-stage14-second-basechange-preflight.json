@@ -1,0 +1,164 @@
+{
+  "schema": "STAGE36_36_09Q_E_TAU_TORSION_GROWTH_STAGE14_SECOND_BASECHANGE_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09Q",
+  "status": "EXACT_TORSION_GROWTH_EXCLUDED_AND_RANKJUMP_SECOND_BASECHANGE_REDUCTION_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "c17f1a681c220292f93880a726f1f571174f53b9",
+  "entry_authority": {
+    "36_09P_hostile_audit_pr": 1647,
+    "36_09P_hostile_audit_review": 5123601403,
+    "36_09P_audited_head": "5a349a03f0b825f4bb557c08754e271715a4810a",
+    "36_09P_exact_head_ci": "34002056730/101402561271",
+    "36_09P_promotion_pr": 1651,
+    "36_09P_promotion_exact_head": "9a3f3bf1e7349b9f0a7e2edfd8bf40aac02e0e76",
+    "36_09P_promotion_ci": "34003197394/101405624673",
+    "36_09P_promotion_merged_main_sha": "c17f1a681c220292f93880a726f1f571174f53b9"
+  },
+  "source_locks": {
+    "stage36_v45_audited_state": {
+      "path": "stages/stage36/MAIN-STATE.json",
+      "commit": "c17f1a681c220292f93880a726f1f571174f53b9",
+      "blob_sha": "313f70b43cd7ab7eaeb2a240027f9f9137492222"
+    },
+    "stage36_36_09P_certificate": {
+      "path": "stages/stage36/36-09P/etau-generic-mw-zero-exceptional-growth-preflight.json",
+      "blob_sha": "a611b698fccfbd29a971ccede5c77b6832101c77"
+    },
+    "stage14_4af": {
+      "path": "stages/stage14/archive/stage14-4af-specialization-triple.md",
+      "blob_sha": "f14d6840d10aaa36df63b2d4a70a07d509b596ce",
+      "facts_used": [
+        "signed family E_t: Y^2=X(X-1)(X+t^2)",
+        "Pythagorean base t=2u/(1-u^2), h=(1+u^2)/(1-u^2)",
+        "geometric generic rank zero on the Pythagorean base change",
+        "fiberwise rational torsion exactly Z/2 x Z/4 on every genuine rational Pythagorean base",
+        "uniform positive-rank specialization exclusion is not proved"
+      ]
+    },
+    "stage14_adapter_source_lock": {
+      "path": "stages/stage36/36-09Q/stage14-pythagorean-basechange-source-lock.md",
+      "blob_sha": "cb231b7d1351a9787c3da2e187c4bd0e67adf7c9"
+    },
+    "S34_W03": {
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96"
+    }
+  },
+  "stage36_E_tau_input": {
+    "polynomial_model": "E_tau: y^2=x*(x-C^2)*(x-H^2)",
+    "D": "p*(p^2-1)",
+    "C": "p^4-6*p^2+1",
+    "H": "(p^2+1)^2",
+    "Nminus": "p^2-2*p-1",
+    "Nplus": "p^2+2*p-1",
+    "identities": [
+      "H^2-C^2=(4D)^2",
+      "H+4D=Nplus^2",
+      "H-4D=Nminus^2",
+      "C=Nminus*Nplus"
+    ],
+    "retained_p_exclusions": ["p=0", "p=1", "p=-1"],
+    "rational_denominator_safety": [
+      "D!=0 on the retained p-open",
+      "Nplus!=0 and Nminus!=0 for rational p because each zero would require sqrt(2)",
+      "C!=0 for rational p because C=0 would require p^2=3+/-2*sqrt(2)"
+    ]
+  },
+  "exact_isomorphism_to_stage14_signed_family": {
+    "normalized_coordinates": [
+      "X0=x/H^2",
+      "Y0=y/H^3",
+      "a=C/H",
+      "b=4D/H"
+    ],
+    "normalized_equation": "Y0^2=X0*(X0-1)*(X0-a^2)",
+    "pythagorean_identity": "a^2+b^2=1",
+    "stage14_parameter": "t=a/b=C/(4D)",
+    "forward_open_map": [
+      "X14=X0/(X0-1)=x/(x-H^2)",
+      "Y14=Y0/(b*(X0-1)^2)=y*H^2/(4D*(x-H^2)^2)"
+    ],
+    "target_equation": "Y14^2=X14*(X14-1)*(X14+t^2)",
+    "inverse_open_map": [
+      "X0=X14/(X14-1)",
+      "x=H^2*X14/(X14-1)",
+      "Y0=b*Y14/(X14-1)^2",
+      "y=4D*H^2*Y14/(X14-1)^2"
+    ],
+    "projective_exceptional_correspondence": [
+      "x=0 <-> X14=0",
+      "x=C^2 <-> X14=-t^2",
+      "x=H^2 <-> Stage14 origin at infinity",
+      "E_tau origin at infinity <-> X14=1"
+    ],
+    "birational_isomorphism_over_Qp": true
+  },
+  "stage14_pythagorean_base_adapter": {
+    "h14": "H/(4D)",
+    "identity": "h14^2=1+t^2",
+    "u14": "t/(h14+1)=C/(H+4D)=Nminus/Nplus",
+    "stage14_formula": "t=2*u14/(1-u14^2)",
+    "stage14_h_formula": "h14=(1+u14^2)/(1-u14^2)",
+    "second_basechange_square_identity": "2*(1+u14^2)=(2*(p^2+1)/Nplus)^2",
+    "converse_p_equation": "(u14-1)*p^2+2*(u14+1)*p+(1-u14)=0",
+    "converse_discriminant": "8*(u14^2+1)",
+    "conclusion": "the Stage36 p-line maps exactly to the rational conic sublocus 2*(1+u14^2) square inside the Stage14 Pythagorean u14-line, away from retained boundaries",
+    "description": "SECOND_PYTHAGOREAN_CONIC_BASE_CHANGE"
+  },
+  "torsion_growth_exclusion": {
+    "stage14_fiberwise_theorem_applies": true,
+    "reason": "every retained rational p gives a genuine rational Stage14 Pythagorean base and the displayed maps are Q-rational isomorphisms",
+    "specialized_torsion_for_every_retained_p": "Z/4 x Z/2",
+    "torsion_growth_possible": false,
+    "torsion_growth_excluded": true,
+    "stronger_than_36_09P": "36-09P left torsion growth as one of two exceptional MW-growth species; 36-09Q removes it globally on the retained physical base"
+  },
+  "remaining_rankjump_reduction": {
+    "generic_E_tau_rank": 0,
+    "generic_receiver_compatible_points": 0,
+    "only_remaining_MW_growth_species": "positive rank jump",
+    "necessary_conditions_for_a_receiver_point": [
+      "u14 is a rational Stage14 Pythagorean-base parameter",
+      "2*(1+u14^2) is a rational square so u14 lifts to a rational retained Stage36 p",
+      "the specialized Stage14-signed elliptic fiber has positive Mordell-Weil rank",
+      "the corresponding E_tau point additionally satisfies the Stage36 receiver condition R^2-4 in Q^{x2}"
+    ],
+    "stage14_uniform_rankjump_exclusion_available": false,
+    "rankjump_excluded": false,
+    "joint_rankjump_receiver_intersection_executed": false,
+    "receiver_closed": false
+  },
+  "bounded_diagnostic": {
+    "source": "stages/stage14/data/14-4/specialization_triple_audit.json",
+    "source_blob_sha": "d0d9d8ececd2432bedc94511e94ed3da11ec2d91",
+    "sample_first_face_u_values_checked": ["1/4", "4/5", "3/11", "5/11", "3/13"],
+    "all_displayed_samples_fail_second_basechange_square_condition": true,
+    "scope": "diagnostic only; the Stage14 file exposes only displayed samples here, not an exhaustive Stage36 rank-jump theorem",
+    "credit": "NONE"
+  },
+  "route_update": {
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_E_TAU_SECOND_PYTHAGOREAN_RANKJUMP_RECEIVER_INTERSECTION",
+    "B3_TORSION_GROWTH_SUBROUTE": "CLOSED_BY_EXACT_STAGE14_FIBERWISE_TORSION_TRANSFER",
+    "B3_POSITIVE_RANK_JUMP_SUBROUTE": "LIVE_ON_SECOND_PYTHAGOREAN_CONIC_BASE_CHANGE",
+    "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER": "UNTESTED",
+    "C2_GAUSSIAN_NORM_COMPRESSION": "UNTESTED_DISTINCT_WITH_EXACT_E_TAU_NORM_ADAPTER",
+    "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY": "UNTESTED",
+    "next_after_hostile_pass": "36-09R_E_TAU_SECOND_PYTHAGOREAN_RANKJUMP_RECEIVER_INTERSECTION_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "E_tau_torsion_growth_excluded": true,
+    "E_tau_positive_rank_jumps_excluded": false,
+    "stage14_whole_rankjump_problem_solved": false,
+    "second_basechange_rankjump_locus_empty": false,
+    "S34_W03_receiver_intersection_empty": false,
+    "top_genus3_rational_points_exhausted": false,
+    "E_sigma_tau_generic_rank_computed": false,
+    "gaussian_norm_route_resolved": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
