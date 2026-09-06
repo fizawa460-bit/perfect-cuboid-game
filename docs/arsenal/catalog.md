@@ -53,6 +53,7 @@ Active Stage controllers and current source locks override every snapshot here. 
 | [`S32-PW03`](cards/provisional/S32-PW03.md) | `LATTICE_IMAGE_HNF_GATE` | Stage32 | [../stage32-arsenal-promotion.md](../stage32-arsenal-promotion.md) |
 | [`S32-PW04`](cards/provisional/S32-PW04.md) | `FINITE_LATTICE_QUOTIENT_BOUND` | Stage32 | [../stage32-arsenal-promotion.md](../stage32-arsenal-promotion.md) |
 | [`S32-PW05`](cards/provisional/S32-PW05.md) | `FINITE_GROUP_EQUIVARIANT_RECONSTRUCTION` | Stage32 | [../stage32-arsenal-promotion.md](../stage32-arsenal-promotion.md) |
+| [`S32-PW06`](cards/provisional/S32-PW06.md) | `BASIS_INDEPENDENT_SYMPLECTIC_TRANSVECTION_PRUNER` | Stage32 | [../stage32-arsenal-promotion.md](../stage32-arsenal-promotion.md) |
 | [`S33-PW01`](cards/provisional/S33-PW01.md) | `ARITHMETIC_HS_CLASSIFIER` | Stage33 | [../stage33-arsenal-promotion.md](../stage33-arsenal-promotion.md) |
 | [`S33-PW02`](cards/provisional/S33-PW02.md) | `FINITE_MODULE_NORMAL_FORM_AND_EXTENSION_GATE` | Stage33 | [../stage33-arsenal-promotion.md](../stage33-arsenal-promotion.md) |
 | [`S33-PW04`](cards/provisional/S33-PW04.md) | `EXACT_MARKED_SOURCE_ADAPTER` | Stage33 | [../stage33-arsenal-promotion.md](../stage33-arsenal-promotion.md) |
