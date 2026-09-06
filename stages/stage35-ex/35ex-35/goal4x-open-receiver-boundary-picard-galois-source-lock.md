@@ -4,7 +4,7 @@ Scope: the Stage35 receiver is the smooth open surface `U = {h != 0}` inside the
 
 ## Exact retained geometry
 
-Current batch base main: `87a1c4e6268f76c642964dbcb5d0cd4be4e7c425`.
+Current batch base main: `8a04691d03f8ec17cf2236aab3d0f0d2dbde3fc3`.
 
 Goal4Q artifact: `stages/stage35-ex/35ex-35/goal4q-compactification-picard-galois-brauer-candidate-preflight.json`, git blob `b1795368ad35e357f7ce5a544c871c665e7b59f9`.
 
