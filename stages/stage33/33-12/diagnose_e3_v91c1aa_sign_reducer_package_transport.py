@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import os
 from collections import defaultdict
 from fractions import Fraction
 from pathlib import Path
@@ -21,7 +20,7 @@ BOUNDARY = HERE / "boundary-function-generator-source-lock.json"
 Z = HERE / "diagnose_e3_v91c1z_next_stabilizer_reducers.py"
 
 BOUNDARY_SHA = "aaacc000f2e5fbbe733789f5f2a19d6c2cb14b5d3a26d0b8e508eea1f3bc8c96"
-Z_BLOB = "PLACEHOLDER_Z_BLOB"
+Z_BLOB = "1a17331e2b939389075be2571e21c2619ea2d704"
 COORD_NAMES = ["a1", "a2", "a3", "b1", "b2", "b3", "c"]
 ACTIONS = {
     "sign_a2": [1, -1, 1, 1, 1, 1, 1],
@@ -140,10 +139,6 @@ def candidates_for(acted_div, acted_scalar, inventory):
 
 
 boundary = load(BOUNDARY, BOUNDARY_SHA)
-# Z is the immediately preceding branch diagnostic.  Pin its blob after the
-# file exists; until then fail closed rather than silently using a moved script.
-if Z_BLOB == "PLACEHOLDER_Z_BLOB":
-    raise SystemExit("V91C1AA_REQUIRES_Z_BLOB_LOCK")
 assert gitblob(Z.read_bytes()) == Z_BLOB
 
 row = next(r for r in boundary["generator_records"] if r["source_direction"] == "A2_02")
