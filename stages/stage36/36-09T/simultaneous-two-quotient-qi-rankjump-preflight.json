@@ -1,0 +1,121 @@
+{
+  "schema": "STAGE36_36_09T_SIMULTANEOUS_TWO_QUOTIENT_QI_RANKJUMP_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09T",
+  "status": "EXACT_QI_TWIST_EIGENSPACE_RANKJUMP_REDUCTION_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "7a608ee2511192af8e293d88f8a7117aa5ad19d9",
+  "entry_authority": {
+    "36_09S_pr": 1657,
+    "36_09S_hostile_audit_review": 5124402673,
+    "36_09S_audited_head": "27d5479fd10627076f5cf2c5f952f4759b1ec6da",
+    "36_09S_promotion_pr": 1658,
+    "36_09S_promotion_merged_main_sha": "8a04691d03f8ec17cf2236aab3d0f0d2dbde3fc3"
+  },
+  "source_locks": {
+    "stage36_v52_audited_state": {"path":"stages/stage36/MAIN-STATE.json","commit":"8a04691d03f8ec17cf2236aab3d0f0d2dbde3fc3","blob_sha":"dfe27e24af76c0cfbd494c686287fd1faa9fd1c8"},
+    "stage36_36_09M": {"path":"stages/stage36/36-09M/universal-order4-2isogeny-physical-family-preflight.json","blob_sha":"470e87d3e48c857b99793bd8ac0d01eff75eb727"},
+    "stage36_36_09N": {"path":"stages/stage36/36-09N/relative-2isogeny-kummer-image-rank1-preflight.json","blob_sha":"02a14439d94d7f6e5ac2f65e995e8acfb6845788"},
+    "stage36_36_09O": {"path":"stages/stage36/36-09O/physical-square-lift-v4-quotient-preflight.json","blob_sha":"6a2678ebedba40e13277100441361039ee47ca28"},
+    "stage36_36_09S": {"path":"stages/stage36/36-09S/esigmatau-torsion-growth-exclusion-preflight.json","blob_sha":"3af506b590c5e4d7499c203651c0bf4ef31ec767"},
+    "mazur_source_lock": {"path":"stages/stage36/36-09S/torsion-growth-lmfdb-mazur-source-lock.md","blob_sha":"3549b92406ead4ff846153c5444559ddeac245a7"},
+    "S34_W03": {"path":"docs/arsenal/cards/formal/S34-W03.md","blob_sha":"1d5275321f42768a6414d4610ac912c63be43f96"},
+    "S34_W02": {"path":"docs/arsenal/cards/formal/S34-W02.md","blob_sha":"13d41be776fcd2edcd258f11bd28c5a6596de45b"},
+    "cycle_protocol": {"path":"docs/research-os/policies/cycle-exploration-safety-protocol.md","blob_sha":"4e911c4fc7e4ea7a2b5f96733a90b986ef8d9a37"},
+    "proof_note": {"path":"stages/stage36/36-09T/qi-twist-rankjump-proof-note.md","blob_sha":"9d8d7e397aa71a38fa9daf6ebce0d8aa599e2691"}
+  },
+  "physical_parameterization": {
+    "Nminus": "p^2-2*p-1",
+    "Nplus": "p^2+2*p-1",
+    "k": "Nplus/Nminus",
+    "rho": "2*(p^2+1)/Nminus",
+    "retained_p_exclusions": ["p=0","p=1","p=-1"],
+    "retained_k_exclusions": ["k=0","k=1","k=-1"],
+    "rho_identity": "rho^2=2*(k^2+1)"
+  },
+  "middle_E_sigma": {
+    "normalized_curve": "V^2=U*(U+1)*(U+k^2)",
+    "polynomial_curve": "y^2=x*(x+Nminus^2)*(x+Nplus^2)",
+    "scaling": ["x=Nminus^2*U","y=Nminus^3*V"],
+    "retained_two_primary_torsion": "Z/4 x Z/2",
+    "retained_full_torsion_from_Mazur": "Z/4 x Z/2",
+    "torsion_x_inventory": ["0","-1","-k^2","k","-k"],
+    "section": "P_sigma=(k^2,-rho*k^2)",
+    "section_fiberwise_nontorsion": true,
+    "retained_rank_lower_bound_over_Q": 1,
+    "generic_rank_over_Qp": 1
+  },
+  "minus_one_twist": {
+    "E_sigma_tau": "y^2=x*(x-Nminus^2)*(x-Nplus^2)",
+    "twist_relation": "E_sigma_tau is the quadratic twist of E_sigma by -1",
+    "Qi_isomorphism": "phi(x,y)=(-x,i*y)",
+    "generic_rank_E_sigma_tau_over_Qp": 0,
+    "generic_rank_E_sigma_over_Qi_p": 1,
+    "eigenspace_decomposition": "rank E_sigma(Q(i)(p)) = rank E_sigma(Q(p)) + rank E_sigma_tau(Q(p))"
+  },
+  "receiver_rankjump_consequence": {
+    "receiver_forces_E_sigma_tau_nontorsion_point": true,
+    "receiver_twist_point_is_anti_invariant_over_Qi": true,
+    "P_sigma_is_invariant_over_Qi": true,
+    "invariant_and_anti_invariant_nontorsion_points_independent_mod_torsion": true,
+    "receiver_forces_E_sigma_rank_over_Qi_at_least": 2,
+    "generic_E_sigma_rank_over_Qi_p": 1,
+    "receiver_forces_genuine_Qi_rank_jump": true
+  },
+  "compatible_pair_audit": {
+    "E_tau_map": "R=t+1/t",
+    "E_sigma_tau_map": "S=t-1/t",
+    "common_ordinate": "v=y/t^2",
+    "compatibility": "R^2-S^2=4",
+    "inverse": ["t=(R+S)/2","1/t=(R-S)/2","y=t^2*v"],
+    "compatible_pair_fiber_product_equals_top_receiver_open": true,
+    "two_positive_rank_conditions_claimed_independent": false,
+    "candidate_set_shrunk_by_rank_intersection": false,
+    "S34_W03_rank_only_close_valid": false,
+    "S34_W03_intersection_executed": false
+  },
+  "cycle_audit": {
+    "CYCLE_ROUTE_STATUS": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "CYCLE_ACTIVE_RECEIVER": "retained top genus-3 receiver open / equivalently compatible E_tau-E_sigma_tau point fiber product",
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "single middle E_sigma family over Q(i): receiver forces anti-invariant rank jump from generic rank 1 to specialized rank >=2",
+    "CYCLE_NEW_VIEW_SOURCE": "BLIND",
+    "candidate_ledger": {
+      "compatible_two_quotient_point_fiber_product": "EQUIVALENT",
+      "rank_only_S34_W03_intersection": "BLOCKED",
+      "S34_W02_variable_fiber_MW_congruence": "BLOCKED",
+      "Qi_twist_eigenspace_rankjump": "LIVE",
+      "C2_GAUSSIAN_NORM_COMPRESSION": "UNTESTED",
+      "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY": "UNTESTED",
+      "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER": "UNTESTED",
+      "B3_FIXED_S_UNIFORM_FULL2_DESCENT": "BLOCKED"
+    }
+  },
+  "route_update": {
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_QI_TWIST_EIGENSPACE_RANKJUMP_GATE",
+    "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION": "BLOCKED_RANK_ONLY_INTERSECTION_RETURNS_ORIGINAL_COMPATIBLE_POINT_RECEIVER",
+    "C2_GAUSSIAN_NORM_COMPRESSION": "UNTESTED_ADJACENT_TO_QI_TWIST_GATE",
+    "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY": "UNTESTED_VARIABLE_PRIME_RECIPROCITY",
+    "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER": "UNTESTED_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER",
+    "next_after_hostile_pass": "36-09U_QI_ANTIINVARIANT_RANKJUMP_DESCENT_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "E_sigma_fiberwise_rank_at_least_one_proved": true,
+    "E_sigma_fiberwise_exact_rank_proved": false,
+    "E_sigma_Qi_generic_rank_one_proved": true,
+    "receiver_forces_E_sigma_Qi_rank_at_least_two": true,
+    "Qi_rankjump_locus_empty": false,
+    "E_tau_and_E_sigma_tau_rank_conditions_independent": false,
+    "candidate_set_shrunk": false,
+    "S34_W03_receiver_intersection_empty": false,
+    "top_genus3_rational_points_exhausted": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
