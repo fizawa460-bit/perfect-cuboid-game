@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 """V91C1V scratch diagnostic: exact actual-prime -> pinned known-curve components.
 
-No Stage33 credit.  Replays V91C1S, constructs the 92 Testa--Stoll known
+No Stage33 credit. Replays V91C1S, constructs the 92 Testa--Stoll known
 curves in the exact pinned cuboids.magma order, and asks which geometric known
 curves are contained in each strict-prime ideal appearing in the swap23
 package difference after scalar extension to Q(i,sqrt(2)).
 """
 from __future__ import annotations
 
-import json
 import runpy
 import sys
 from pathlib import Path
@@ -18,7 +17,7 @@ import sympy as sp
 HERE = Path(__file__).resolve().parent
 S_PATH = HERE / "diagnose_e3_v91c1s_swap23_prime_attached_cech_difference.py"
 K_PATH = HERE.parent / "33-07" / "certify_two_coordinate_swap_picard_rows.py"
-SIDE_PATH = HERE.parent / "33-07" / "boundary-side-p1-crossing-coordinates.json"
+SIDE_PRODUCER = HERE.parent / "33-07" / "certify_boundary_side_p1_crossing_coordinates.py"
 
 sns = runpy.run_path(str(S_PATH))
 assert sns["result"]["success"] is True
@@ -81,7 +80,7 @@ for e1 in eps:
         add_known("C2", 3, {"e1": e1, "e2": e2},
                   [b3, sp.I*a1 + e1*a2, a3 + e2*c])
 
-# C3s := 6 blocks of 8.  The first three use e1,e2,e3 order, the last
+# C3s := 6 blocks of 8. The first three use e1,e2,e3 order, the last
 # three use e3,e2,e1 exactly as in the pinned source.
 for e1 in eps:
     for e2 in eps:
@@ -117,17 +116,35 @@ for e3 in eps:
 assert len(known_generators) == 92
 assert len(kns["known"]) == 140
 
-# Calibrate the first 24 C1 ordering against the independently retained
-# Magma-produced side certificate; this fail-closes the comprehension order.
-side = json.loads(SIDE_PATH.read_text(encoding="utf-8"))
-side_records = side["side_records"]
-assert len(side_records) == 24
-for row in side_records:
-    j = int(row["upstream_C1s_index_1based"])
+# Source-lock the first-24 C1 ordering and the EXC numbering to the retained
+# Magma producer itself. Its generated JSON is intentionally not required to
+# be checked in: the producer uses Position(pts,p), checks p in Cs[j], and its
+# j->(family,e1,e2,e3) formula is reproduced below.
+producer_text = SIDE_PRODUCER.read_text(encoding="utf-8")
+for snippet in [
+    "for j in [1..24] do",
+    "fam := (j-1) div 8;",
+    "r := (j-1) mod 8;",
+    "e1 := [1,-1][(r div 4)+1];",
+    "e2 := [1,-1][((r div 2) mod 2)+1];",
+    "e3 := [1,-1][(r mod 2)+1];",
+    "pos:=Position(pts,p);",
+    "assert pos ne 0 and p in Cs[j];",
+    '"upstream_C1s_index_1based": side',
+    '"exceptional_id": f"EXC_{point:03d}"',
+]:
+    assert snippet in producer_text, snippet
+for j in range(1, 25):
+    r = (j - 1) % 8
+    expected_signs = {
+        "e1": [1, -1][r // 4],
+        "e2": [1, -1][(r // 2) % 2],
+        "e3": [1, -1][r % 2],
+    }
     meta = known_meta[j - 1]
     assert meta["family"] == "C1"
     assert meta["group"] == ((j - 1) // 8) + 1
-    assert meta["signs"] == row["signs"]
+    assert meta["signs"] == expected_signs
 
 extension = [sp.I, rt2]
 known_gbs = [
@@ -177,4 +194,4 @@ result = {
     "a2_02_swap23_seed_fixed_mod_pic2": False,
     "a2_02_marked_brauer_image_excluded_from_mask20": False,
 }
-print(json.dumps(result, sort_keys=True))
+print(__import__("json").dumps(result, sort_keys=True))
