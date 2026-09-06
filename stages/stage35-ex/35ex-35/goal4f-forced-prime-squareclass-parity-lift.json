@@ -1,0 +1,112 @@
+{
+  "schema": "STAGE35_EX_35_GOAL4F_FORCED_PRIME_SQUARECLASS_PARITY_LIFT_V1",
+  "stage": "35-EX",
+  "unit": "35EX-35_GOAL4F_FORCED_PRIME_SUPPORT_656_ORBITS_SQUARECLASS_PARITY_LIFT_TEST",
+  "status": "PROVISIONAL_EXACT_FORCED_PRIME_PARITY_LIFT_NEGATIVE_FOR_GLOBAL_SQUARECLASS_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT",
+  "base_main_sha": "cf5389b857ee52225ed44543ff7ac8d05387583a",
+  "parent_goal4e_authority": {
+    "pr": 1633,
+    "hostile_review_id": 5123284301,
+    "exact_head_sha": "fcedffa7f2d768ee8b1bc78b04611e1f0a401e77",
+    "exact_head_ci_run": 33996269618,
+    "exact_head_ci_job": 101387257990,
+    "merge_sha": "6fa39f76be24b55153f118812b1bd7f41c43e399",
+    "forced_odd_prime_set": [3,5,7,11,19],
+    "forced_ABC_divisor": 65835,
+    "forced_prime_support_S3_orbits": 656
+  },
+  "parity_state_encoding": {
+    "0": "valuation zero / edge unit",
+    "E": "positive even valuation",
+    "O": "positive odd valuation"
+  },
+  "forced_prime_local_parity_theorem": {
+    "p3": {
+      "allowed_support_size": 2,
+      "support_count": 3,
+      "parity_patterns_per_support": 4,
+      "local_states": 12,
+      "model": "up to edge permutation, (A,B,C)=(3^m,3^n,1) with m,n>=1 and m!=n",
+      "parity_surjectivity": "all EE, EO, OE, OO patterns occur by choosing unequal positive exponents of the requested parities"
+    },
+    "p5": {
+      "allowed_support_sizes": [1,2],
+      "local_states": 18,
+      "singleton_model": "up to edge permutation, (5^m,3,4), m>=2",
+      "doubleton_model": "up to edge permutation, (5^m,5^n,1), m,n>=1, m!=n",
+      "parity_surjectivity": true
+    },
+    "p7": {
+      "allowed_support_sizes": [1,2],
+      "local_states": 18,
+      "singleton_model": "up to edge permutation, (7^m,1,1), m>=1",
+      "doubleton_model": "up to edge permutation, (7^m,7^n,1), m,n>=1, m!=n",
+      "parity_surjectivity": true
+    },
+    "p11": {
+      "allowed_support_sizes": [1,2],
+      "local_states": 18,
+      "singleton_model": "up to edge permutation, (11^m,1,2), m>=1",
+      "doubleton_model": "up to edge permutation, (11^m,11^n,1), m,n>=1, m!=n",
+      "parity_surjectivity": true
+    },
+    "p19": {
+      "allowed_support_sizes": [1,2],
+      "local_states": 18,
+      "singleton_model": "up to edge permutation, (19^m,1,2), m>=1",
+      "doubleton_model": "up to edge permutation, (19^m,19^n,1), m,n>=1, m!=n",
+      "parity_surjectivity": true
+    },
+    "interpretation": "the forced-prime support receiver imposes positivity support but no additional valuation-parity restriction"
+  },
+  "joint_forced_prime_parity_receiver": {
+    "prime_order": [3,5,7,11,19],
+    "labeled_states": 1259712,
+    "formula": "12*18^4",
+    "S3_fixed_counts": {
+      "identity": 1259712,
+      "each_transposition": 512,
+      "each_3cycle": 0
+    },
+    "S3_orbits": 210208,
+    "burnside_check": "(1259712+3*512+2*0)/6=210208",
+    "relation_to_goal4e": "the 656 support orbits lift to a larger finite parity-tagged receiver; no branch is eliminated by forced-prime parity"
+  },
+  "arbitrary_nonforced_prime_injection": {
+    "statement": "for every odd prime q other than 3 and 5, and every m>=1, (A,B,C)=(q^m,3,4) is a full Q_q-local four-square endpoint",
+    "checks": [
+      "A^2+B^2=q^(2m)+9 is a Q_q square because its unit residue is 9",
+      "A^2+C^2=q^(2m)+16 is a Q_q square because its unit residue is 16",
+      "B^2+C^2=25 is an exact square",
+      "A^2+B^2+C^2=q^(2m)+25 is a Q_q square because its unit residue is 25"
+    ],
+    "consequence": "arbitrarily large odd primes can enter an edge with either valuation parity without a local obstruction from the four-square equations",
+    "global_existence_not_claimed": true
+  },
+  "exact_boundary": {
+    "forced_prime_valuation_parity_classified": true,
+    "forced_prime_parity_pruning_obtained": false,
+    "finite_forced_prime_parity_receiver_obtained": true,
+    "finite_forced_prime_parity_S3_orbits": 210208,
+    "arbitrary_nonforced_prime_local_odd_valuation_injection_obtained": true,
+    "finite_exhaustive_global_squareclass_family_obtained": false,
+    "reason_squareclass_not_closed": "forced-prime parity is free and arbitrary nonforced odd primes can enter edge squareclasses locally; no theorem bounds global odd-prime support or valuation parity"
+  },
+  "arsenal": {
+    "S34_W01": "GATED_FORCED_PRIME_PARITY_LIFT_IS_FINITE_BUT_NOT_EXHAUSTIVE_GLOBAL_SQUARECLASS_CONTROL",
+    "S34_W03": "LOCAL_WITNESS_METHOD_USED_ONLY_AS_BRANCH_NONOBSTRUCTION",
+    "S31_W01": "GATED_NO_STAGE35_EX_GENUS_ONE_QUARTIC_ADAPTER"
+  },
+  "credit_firewall": {
+    "finite_exhaustive_global_squareclass_family_obtained": false,
+    "universal_torsor_constructed": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "J12_PARAMETRIC_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "next_unit_if_hostile_audit_pass": "35EX-35_GOAL4G_JOINT_LOCAL_HILBERT_RECIPROCITY_PROFILE_TEST"
+}
