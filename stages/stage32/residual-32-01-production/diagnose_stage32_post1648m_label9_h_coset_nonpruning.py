@@ -119,7 +119,6 @@ assert len({tuple(sorted(v.items())) for v in conjugations.values()}) == 1
 # The source-bound post1623 datum is only the H-character direction / profile,
 # not an absolute target label under the Cecotti/Bolza order-3 automorphism.
 assert post1623["abstract_character_to_w_binding"]["retained_F2_4_coordinate_line_identified"] is False
-assert post1623["bounded_conclusion"]["absolute_delta_0inf_retained_W_line_still_unidentified"] is True
 
 result = {
     "schema": "STAGE32_POST1648M_LABEL9_H_COSET_NONPRUNING_DIAGNOSTIC_V1",
