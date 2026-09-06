@@ -21,6 +21,15 @@ EXPECTED_V6 = "d0c1c8bddfe3950737ed6f87ffa74acd850c736298bd12ec1eceac609625b8a8"
 EXPECTED_H_DECK = "8c32735092671d725034de8d14d09c09ac275517fa5f0e225791d2fc53eb5bf3"
 EXPECTED_SURVIVORS = [73, 97, 235]
 EXPECTED_HWORDS = {"u": "g7*g9", "v": "g7*g8", "uv": "g8*g9"}
+H_ORDER = ("id", "u", "v", "uv")
+AFFINE_CHARACTER_PROFILES = {
+    "chi_u": [0, 1, 0, 1],
+    "1+chi_u": [1, 0, 1, 0],
+    "chi_v": [0, 0, 1, 1],
+    "1+chi_v": [1, 1, 0, 0],
+    "chi_uv": [0, 1, 1, 0],
+    "1+chi_uv": [1, 0, 0, 1],
+}
 
 
 def blob_sha1(path: Path) -> str:
@@ -130,9 +139,11 @@ def main() -> None:
 
     records = []
     moved_masks = []
-    for name in ("id", "u", "v", "uv"):
+    moved_pairings_by_h = {}
+    for name in H_ORDER:
         p = hperms[name]
         moved_pairings = old.transform(b, p)
+        moved_pairings_by_h[name] = moved_pairings
         moved_coords = h.integral_row(
             h.row_times_fraction_matrix([moved_pairings[j - 1] for j in h.INDLIST], gram_inv),
             f"V6 {name} translate",
@@ -150,17 +161,50 @@ def main() -> None:
             "translate_outside_exceptional_span_mod2": reduce_by_basis(mask, exceptional_basis) != 0,
         })
 
+    profile_to_labels = {}
+    normal_profiles = []
+    for label in range(1, 93):
+        profile = [int(moved_pairings_by_h[name][label - 1]) & 1 for name in H_ORDER]
+        key = "".join(str(x) for x in profile)
+        profile_to_labels.setdefault(key, []).append(label)
+        normal_profiles.append((label, profile))
+    profile_distribution = {key: len(labels) for key, labels in sorted(profile_to_labels.items())}
+    nonconstant = [(label, profile) for label, profile in normal_profiles if len(set(profile)) > 1]
+    character_hits = {}
+    for cname, target in AFFINE_CHARACTER_PROFILES.items():
+        character_hits[cname] = [label for label, profile in normal_profiles if profile == target]
+    first_character_hit = next(
+        (
+            {"normal_label_1based": label, "character": cname, "profile_id_u_v_uv": profile}
+            for label, profile in normal_profiles
+            for cname, target in AFFINE_CHARACTER_PROFILES.items()
+            if profile == target
+        ),
+        None,
+    )
+
     orbit_sum_mask = 0
     for mask in moved_masks:
         orbit_sum_mask ^= mask
-    orbit_sum_separator = (orbit_sum_mask >> 0) & 1
     result = {
-        "schema": "STAGE32_POST1623_HPERP_V6_HDECK_COMMON_ANCHOR_DIAGNOSTIC_V1",
+        "schema": "STAGE32_POST1623_HPERP_V6_HDECK_COMMON_ANCHOR_DIAGNOSTIC_V2",
         "fixed_target": {"Q": 602, "surviving_residues_decimal": EXPECTED_SURVIVORS},
         "hperp_witness": {"normal_curve_label_1based": 1, "separator_support_1based": [1]},
         "v6_hdeck_translate_records": records,
+        "all_92_normal_curve_intersection_parity_profiles": {
+            "coordinate_order": list(H_ORDER),
+            "distinct_profile_count": len(profile_to_labels),
+            "profile_distribution": profile_distribution,
+            "nonconstant_profile_label_count": len(nonconstant),
+            "first_nonconstant_profile": (
+                {"normal_label_1based": nonconstant[0][0], "profile_id_u_v_uv": nonconstant[0][1]}
+                if nonconstant else None
+            ),
+            "nontrivial_affine_H_character_label_sets": character_hits,
+            "first_nontrivial_affine_H_character_hit": first_character_hit,
+        },
         "h_orbit_sum": {
-            "separator_coordinate_1_value_mod2": orbit_sum_separator,
+            "separator_coordinate_1_value_mod2": (orbit_sum_mask >> 0) & 1,
             "outside_exceptional_span_mod2": reduce_by_basis(orbit_sum_mask, exceptional_basis) != 0,
         },
         "type_firewall": {
@@ -172,7 +216,7 @@ def main() -> None:
             "Q602_excluded": False,
             "O210_excluded": False,
         },
-        "next_exact_route": "SOURCE_BIND_PICARD_QUOTIENT_HPERP_FUNCTIONAL_TO_CORRESPONDENCE_J2_OPERATOR_MODULE_OR_STOP_AT_TYPED_ADAPTER_GAP",
+        "next_exact_route": "SOURCE_BIND_A_NONTRIVIAL_NORMAL_CURVE_H_CHARACTER_PROFILE_TO_THE_RETAINED_W_LINE_OR_CORRESPONDENCE_J2_OPERATOR_MODULE_OR_STOP_AT_TYPED_ADAPTER_GAP",
     }
     print(json.dumps(result, sort_keys=True, indent=2))
 
