@@ -21,7 +21,6 @@ assert len(known)==140 and len(known[0])==64
 def pair(u,v):
     return sum(u[i]*gram[i][j]*v[j] for i in range(64) for j in range(64))
 
-# Goal4U source-lock: known classes 1..8 are the a1=0 = h=0 C1 strict transforms.
 strict=list(range(8))
 exc=[]
 incidence={}
@@ -37,7 +36,6 @@ bidx=strict+exc
 B=[known[i] for i in bidx]
 assert len(B)==32
 
-# Smith decomposition of boundary class map Z^32 -> Pic(Sbar)=Z^64.
 def dm(a):
     return DomainMatrix([[ZZ(int(x)) for x in row] for row in a], (len(a),len(a[0])), ZZ)
 D,S,T=smith_normal_decomp(dm(B))
@@ -58,6 +56,7 @@ res={
  'pic_U_free_rank':64-r if primitive else None,
  'incidence':incidence,
 }
+print('GOAL4X_INTERIM '+json.dumps(res,sort_keys=True))
 
 if primitive:
     Tm=sp.Matrix(T.to_Matrix())
@@ -73,7 +72,6 @@ if primitive:
     Acm=sp.Matrix(Ac); Atm=sp.Matrix(At)
     assert Acm*Acm==I and Atm*Atm==I and Acm*Atm==Atm*Acm
 
-    # Z^1(V4,M): x(1+cc)=0, y(1+ct)=0, x(1-ct)=y(1-cc).
     K=sp.zeros(2*q,3*q)
     K[:q,:q]=I+Acm
     K[q:,q:2*q]=I+Atm
@@ -88,7 +86,7 @@ if primitive:
     C=(Acm-I).row_join(Atm-I)
     coords=[]
     for row in C.tolist():
-        z=Tkinv*sp.Matrix(row).T
+        z=Tkinv*sp.Matrix(row)
         assert all(z[i]==0 for i in range(rk))
         coords.append([int(z[i]) for i in range(rk,2*q)])
     if k:
