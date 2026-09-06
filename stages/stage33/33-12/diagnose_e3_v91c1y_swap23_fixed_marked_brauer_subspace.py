@@ -7,6 +7,11 @@ by cc, ct, and the exact swap23 word.  This diagnostic computes that exact
 intersection and a minimal coordinate discriminator.  It does not compute any
 source evaluation bit and grants no marked-image, theorem, receiver, endpoint,
 or merge credit.
+
+Convention firewall: the retained proper-brauer2 cc/ct matrices use the row-
+vector convention already used by V91C1M/N, while the V84 coordinate-
+automorphism matrices use the column-vector convention used by V91C1Q.  The
+two conventions are kept explicit rather than silently transposed.
 """
 from __future__ import annotations
 
@@ -81,6 +86,13 @@ def nullspace(equations, n):
     return out
 
 
+def rowact(vector, matrix):
+    return tuple(
+        sum(int(vector[i]) * int(matrix[i][j]) for i in range(len(vector))) & 1
+        for j in range(len(vector))
+    )
+
+
 def colact(matrix, vector):
     return tuple(
         sum(int(matrix[i][j]) * int(vector[j]) for j in range(len(vector))) & 1
@@ -96,7 +108,7 @@ def apply_target(vector, word, generators):
 
 
 def target_matrix(word, generators, n=N):
-    # Columns are images of the standard column basis.
+    # V84/Q convention: columns are images of the standard column basis.
     cols = [
         apply_target([int(i == j) for i in range(n)], word, generators)
         for j in range(n)
@@ -104,8 +116,16 @@ def target_matrix(word, generators, n=N):
     return [[cols[j][i] for j in range(n)] for i in range(n)]
 
 
-def fixed_equations(matrix, n=N):
-    # Column-vector convention: (M-I)v=0.
+def row_fixed_equations(matrix, n=N):
+    # proper-brauer2 cc/ct convention: v*(M-I)=0, one equation/output column.
+    return [
+        [int(matrix[i][j]) ^ (1 if i == j else 0) for i in range(n)]
+        for j in range(n)
+    ]
+
+
+def col_fixed_equations(matrix, n=N):
+    # V84/Q convention: (M-I)*v=0, one equation/output row.
     return [
         [int(matrix[i][j]) ^ (1 if i == j else 0) for j in range(n)]
         for i in range(n)
@@ -133,23 +153,24 @@ cc = br["proper_Br2_cc_action_f2"]
 ct = br["proper_Br2_ct_action_f2"]
 
 mask20 = tuple([0, 0, 1, 0, 1] + [0] * 9)
-assert colact(cc, mask20) == mask20
-assert colact(ct, mask20) == mask20
+assert rowact(mask20, cc) == mask20
+assert rowact(mask20, ct) == mask20
 assert colact(swap23, mask20) != mask20
 assert colact(swap23, mask20) == tuple([0, 1, 1, 0, 1] + [0] * 9)
 
-v4_eq = fixed_equations(cc) + fixed_equations(ct)
+v4_eq = row_fixed_equations(cc) + row_fixed_equations(ct)
 v4_basis = nullspace(v4_eq, N)
 assert len(v4_basis) == 10 == br["proper_Br2_joint_v4_fixed_dimension_f2"]
 
-fixed_eq = v4_eq + fixed_equations(swap23)
+fixed_eq = v4_eq + col_fixed_equations(swap23)
 fixed_basis = nullspace(fixed_eq, N)
 fixed_dim = len(fixed_basis)
 assert fixed_dim < 10
-assert all(colact(cc, v) == tuple(v) for v in fixed_basis)
-assert all(colact(ct, v) == tuple(v) for v in fixed_basis)
+assert all(rowact(v, cc) == tuple(v) for v in fixed_basis)
+assert all(rowact(v, ct) == tuple(v) for v in fixed_basis)
 assert all(colact(swap23, v) == tuple(v) for v in fixed_basis)
-assert mask20 not in [tuple(v) for v in fixed_basis]
+# mask20 is not in this subspace because the exact swap23 action moves it.
+assert colact(swap23, mask20) != mask20
 
 # Pivot coordinate functionals on a basis matrix give a minimal injective
 # coordinate projection on the fixed subspace.
@@ -163,6 +184,10 @@ result = {
     "success": True,
     "marker": "V91C1Y_SWAP23_FIXED_MARKED_BRAUER_SUBSPACE_PREFLIGHT",
     "source_bound_input": "V91C1X_SWAP23_LITERAL_H2_SEED_FIXEDNESS",
+    "action_conventions": {
+        "cc_ct": "ROW_VECTOR_PROPER_BRAUER2",
+        "swap23": "COLUMN_VECTOR_V84_Q"
+    },
     "proper14_dimension_f2": N,
     "joint_cc_ct_fixed_dimension_f2": len(v4_basis),
     "joint_cc_ct_swap23_fixed_dimension_f2": fixed_dim,
