@@ -82,39 +82,42 @@ jobs:
           python3 "$tmp/stages/stage36/verify_stage36_36_09X.py"
           git worktree remove --force "$tmp"
 
-      - name: Verify current batched 36-09Y
-        run: python3 stages/stage36/verify_stage36_36_09Y.py
+      - name: Replay exact 36-09Y batch parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          H=9816546d9f7148b8b3e347f2000308ee3597a582
+          git merge-base --is-ancestor "$H" HEAD
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09Y.py"
+          git worktree remove --force "$tmp"
 
-      - name: Assert 36-09Y firewalls and 36-09Z unlock
+      - name: Verify current batched 36-09Z
+        run: python3 stages/stage36/verify_stage36_36_09Z.py
+
+      - name: Assert 36-09Z firewalls and 36-09AA unlock
         shell: bash
         run: |
           python3 - <<'PY'
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V59_36_09Y_BATCHED'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V60_36_09Z_BATCHED'
           assert s['status']=='ACTIVE_BATCHING_SUBSTANTIVE_PR'
-          Y=s['authority_frontier']['36-09Y']
-          assert Y['COMPLETE_ODD_LOCAL_MATRIX'] is True
-          assert Y['ALPHA_CROSS_D0_ROW']=='(d/r)=+1'
-          assert Y['BETA_CROSS_C0_ROW']=='(e/r)=+1'
-          assert Y['ALPHA_Q2_INFINITY_CLASSIFIED'] is True
-          assert Y['BETA_COMPLETE_Q2_IMAGE_CLASSIFIED'] is False
-          assert Y['B11_LOCAL_SOLVABILITY_ONLY_UNIFORM_CLOSURE_BLOCKED'] is True
-          assert Y['GLOBAL_SELMER_TO_MW_DISTINCTION_LIVE'] is True
-          assert Y['MULTIPLACE_RECIPROCITY_OBSTRUCTION_PROVED'] is False
-          assert Y['ALPHA_GROWTH_EXCLUDED'] is False
-          assert Y['BETA_GROWTH_EXCLUDED'] is False
-          assert Y['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert Y['QI_RANKJUMP_LOCUS_EMPTY'] is False
-          assert Y['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09Z'
-          assert s['current']['36_09Z_entry_allowed'] is True
+          Z=s['authority_frontier']['36-09Z']
+          assert Z['QI_RANKJUMP_LOCUS_NONEMPTY'] is True
+          assert Z['QI_RANKJUMP_LOCUS_EMPTY'] is False
+          assert Z['GLOBAL_CASSELS_RANKJUMP_EMPTY_ROUTE_BLOCKED'] is True
+          assert Z['RECEIVER_SPECIFIC_INTERSECTION_ROUTE_LIVE'] is True
+          assert Z['RECEIVER_RANKJUMP_INTERSECTION_EMPTY'] is False
+          assert Z['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09AA'
+          assert s['current']['36_09AA_entry_allowed'] is True
           assert s['current']['hostile_audit_checkpoint_reached'] is False
-          assert s['promotion_gates']['36_09Y_hostile_audit_passed'] is False
-          assert s['promotion_gates']['multiplace_reciprocity_obstruction_proved'] is False
-          assert s['claims']['candidate_parameter_set_shrunk'] is False
+          assert s['promotion_gates']['36_09Z_hostile_audit_passed'] is False
+          assert s['claims']['Qi_rankjump_locus_nonempty_provisional'] is True
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09Y odd cross-sector local matrix and alpha Q2/infinity boundary verified; pure-local B11 closure blocked; 36-09Z Selmer-to-MW/Cassels preflight unlocked; hostile audit deferred')
+          print('36-09Z explicit MW rankjump witnesses verified; global rankjump-empty/Cassels route blocked; receiver-coupled 36-09AA unlocked; hostile audit deferred')
           PY
