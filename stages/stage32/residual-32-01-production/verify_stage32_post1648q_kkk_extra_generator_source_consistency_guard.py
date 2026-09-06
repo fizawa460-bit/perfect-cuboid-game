@@ -50,9 +50,10 @@ def main():
     # Printed reduced maps: mu2=(z+1)/(z-1), mu3=-1/z.
     m2=[[1,1],[1,-1]]; m3=[[0,-1],[1,0]]
     p23=mm(m2,m3); p32=mm(m3,m2)
-    assert p23==p32
+    assert p32 == [[-x for x in row] for row in p23]  # same PGL2 element
     assert not proj_scalar_identity_2(p23)
     assert proj_scalar_identity_2(mm(p23,p23))
+    assert proj_scalar_identity_2(mm(p32,p32))
 
     T2=[[-1,0,0,0],[1,1,0,0],[0,1,-1,1],[-1,0,0,1]]
     T3=[[0,1,0,0],[1,0,0,0],[0,0,0,1],[0,0,1,0]]
