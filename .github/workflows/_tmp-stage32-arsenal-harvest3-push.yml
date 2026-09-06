@@ -24,7 +24,13 @@ jobs:
           test "$(git rev-parse origin/main)" = "714bd143f0c20082edcbb81c3905a86b1a56b4bf"
           test "$(git rev-parse HEAD)" = "${{ github.sha }}"
       - name: Materialize Stage32 Harvest 3 registry update
-        run: python3 docs/arsenal/_tmp_stage32_arsenal_harvest3.py
+        run: |
+          python3 docs/arsenal/_tmp_stage32_arsenal_harvest3.py
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('docs/stage32-arsenal-promotion.md')
+          p.write_text(p.read_text().rstrip() + '\n')
+          PY
       - name: Remove all temporary materialization files
         run: |
           git rm .github/workflows/_tmp-stage32-arsenal-harvest3.yml
