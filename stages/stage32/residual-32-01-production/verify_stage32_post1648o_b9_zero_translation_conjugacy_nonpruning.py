@@ -10,7 +10,7 @@ CERT = HERE / "post1648o-b9-zero-translation-conjugacy-nonpruning.json"
 N_PATH = HERE / "post1648n-canonical-period-marked-ppav-torsor-obstruction.json"
 D_PATH = HERE / "post1648d-deraux-affine-sixpoint-orbit-absolute-line-obstruction.json"
 
-EXPECTED_CERT = "945c778b1a27444b00266787f4e9ce33837c635d072de49e0a0e00e146402653"
+EXPECTED_CERT = "6ad188aaf14aa9998ac27efc5737e79666b300cdccf2312d9c2b250f8e8a02ef"
 EXPECTED_N = "060d940626cd59b00efb67db7f27914e6a440c92968600a3d82a208d5a5d76ba"
 EXPECTED_D = "598f3557d84423702be97a6fc942cf3254e68c57b3ccb1950f4d29c3fb3a69f0"
 EXPECTED_N_BLOB = "0ee05f679c7706113feed2c217e08a95b3bd6f06"
