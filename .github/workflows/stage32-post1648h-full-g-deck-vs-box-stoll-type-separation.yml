@@ -1,0 +1,31 @@
+name: Stage32 post1648H full-G deck vs box-Stoll type separation
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1648h-full-g-deck-vs-box-stoll-type-separation.yml'
+      - 'stages/stage32/residual-32-01-production/post1648h-full-g-deck-vs-box-stoll-type-separation*'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648h_full_g_deck_vs_box_stoll_type_separation.py'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json'
+      - 'stages/stage32/residual-32-01-production/post1555-b3-full-g-box-quotient-normalizer.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-equivariant-beauville-deck-cross-exclusion.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  type-separation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact PR head
+        if: github.event_name == 'pull_request'
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Verify full-G deck versus box-Stoll type separation
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648h_full_g_deck_vs_box_stoll_type_separation.py
+      - name: Diff check
+        run: git diff --check
