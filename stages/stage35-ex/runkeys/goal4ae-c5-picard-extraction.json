@@ -1,12 +1,12 @@
 {
   "schema": "STAGE35_EX_GOAL4AE_C5_PICARD_EXTRACTION_RUNKEY_V1",
-  "generation": 3,
+  "generation": 4,
   "armed": true,
   "purpose": "one-shot exact local reconstruction of the c-fixed degree-16 square-minus-4 Picard candidates, with Fincke-Pohst norm-20 enumeration and recovery of the upstream 48+8 orbit split if present",
   "route": "CFIXED_HPERP_NORM20_PARIFP",
   "upstream_git_blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
   "goal4ad_blob_sha1": "6cedfed8d5944a3a93ddfe106f488c2a75670c92",
-  "local_diagnostic_blob_sha1": "0fada4dc92fe1d7ea55d551d54e12391c3751e3f",
+  "local_diagnostic_blob_sha1": "7442da2a281263097cd3213599b31f6f304ca463",
   "local_materializer_blob_sha1": "0dd357613ef97162c5ac18f1ea6b96cce723a79f",
   "planned_jobs": 1,
   "planned_shards": 1,
@@ -19,5 +19,7 @@
   "generation_1_result": "transport failure before mathematical assertions: public Magma returned empty response to full upstream-source submission",
   "generation_2_result": "transport failure before mathematical assertions persisted after source slicing; full-source-size hypothesis rejected",
   "generation_3_strategy": "remote CAS removed; reconstruct primitive INDLIST64 Picard lattice locally, restrict to the rank-19 c-fixed H-perp lattice, and enumerate q-norm 20 exactly with PARI qfminim",
+  "generation_3_result": "implementation failure before lattice assertions: runpy execution of the Stage33 Picard certifier did not put its sibling module directory on sys.path, causing ModuleNotFoundError for picard_base_rows_retained",
+  "generation_4_strategy": "same exact local c-fixed Fincke-Pohst route as generation 3, with only the Stage33 sibling-import path adapter repaired; no mathematical invariant or receiver filter changed",
   "firewall": "numeric source reconstruction only; orbit-size recovery alone does not align Goal4AC sign labels and gives no hostile-audit, target-span, Brauer-Manin, E1, Stage35, R29, or perfect-cuboid credit"
 }
