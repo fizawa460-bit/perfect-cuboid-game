@@ -45,7 +45,11 @@ jobs:
         run: python stages/stage33/33-12/diagnose_e3_v91c1s_swap23_prime_attached_cech_difference.py
       - name: Diagnose V91C1V actual-prime to known140 locator
         run: python stages/stage33/33-12/diagnose_e3_v91c1v_actual_prime_known140_locator.py
-      - name: Verify Stage33 startup authority remains unchanged
-        run: python stages/stage33/sync_main_state.py --check
+      - name: Verify V91C1V bounded locator certificate
+        run: python stages/stage33/33-12/verify_e3_v91c1v_a2_02_actual_prime_known140_locator_bounded_result.py
+      - name: Verify Stage33 startup authority and V91C1V audit gate
+        run: |
+          python stages/stage33/33-12/verify_stage33_v91c1v_candidate_current_startup_v106.py
+          python stages/stage33/sync_main_state.py --check
       - name: Diff hygiene
         run: git diff --check
