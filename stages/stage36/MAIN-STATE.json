@@ -1,15 +1,15 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V42_36_09O_PENDING_HOSTILE_AUDIT",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V43_THIN_36_09O_AUDITED",
   "stage": "36",
-  "status": "ACTIVE_PENDING_HOSTILE_AUDIT",
-  "base_main_sha": "26e25b64b6cdc8e4d1f26d33a665f42df8253200",
+  "status": "ACTIVE",
+  "base_main_sha": "b97673ec1c058e4e39bad24b68c036e721a97462",
   "mission": "Attack Stage29 kernel K16-C3-CAMPEDELLI-UNIFORM-TORSOR through exact proper-or-candidate-proper receivers without granting endpoint credit unless a receiver-matched closure theorem is proved.",
   "legacy_authority_snapshot": {
-    "commit": "26e25b64b6cdc8e4d1f26d33a665f42df8253200",
+    "commit": "b97673ec1c058e4e39bad24b68c036e721a97462",
     "path": "stages/stage36/MAIN-STATE.json",
-    "blob_sha": "c54c66747e412d3c23de85e2718a10e2a1e996b0",
-    "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V41_THIN_36_09N_AUDITED",
-    "scope": "hostile-audited authority through 36-09N; V42 adds provisional 36-09O physical square-lift/V4 quotient mathematics only"
+    "blob_sha": "6973beebc15fc945e4f9f2eb6489dccf964781c0",
+    "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V42_36_09O_PENDING_HOSTILE_AUDIT",
+    "scope": "merged mathematical 36-09O state; V43 promotes only hostile-audited physical square-lift/V4/Jacobian-product/adapter results and unlocks 36-09P"
   },
   "source_kernel": {
     "kernel": "K16-C3-CAMPEDELLI-UNIFORM-TORSOR",
@@ -26,7 +26,6 @@
       "status": "AUDITED_EXACT_RELATIVE_KUMMER_AND_GENERIC_RANK1",
       "pr": 1640,
       "hostile_audit_review": 5123389934,
-      "audited_head": "8ca23e42a057af260c7051c20dd8f608067efefd",
       "promotion_pr": 1641,
       "promotion_merged_main_sha": "26e25b64b6cdc8e4d1f26d33a665f42df8253200",
       "GENERIC_FUNCTION_FIELD_MW_RANK": 1,
@@ -37,7 +36,12 @@
       "B3_RELATIVE_2_ISOGENY_ROUTE": "LIVE"
     },
     "36-09O": {
-      "status": "EXACT_PHYSICAL_SQUARE_LIFT_AND_V4_JACOBIAN_DECOMPOSITION_PENDING_HOSTILE_AUDIT",
+      "status": "AUDITED_EXACT_PHYSICAL_SQUARE_LIFT_AND_V4_JACOBIAN_DECOMPOSITION",
+      "pr": 1642,
+      "hostile_audit_review": 5123512777,
+      "audited_head": "be979251c6e3d7a2431fb56537520afd2596c7d9",
+      "exact_head_ci": "34000052247/101397173180",
+      "merged_main_sha": "b97673ec1c058e4e39bad24b68c036e721a97462",
       "certificate": "stages/stage36/36-09O/physical-square-lift-v4-quotient-preflight.json",
       "certificate_blob_sha": "6a2678ebedba40e13277100441361039ee47ca28",
       "verifier": "stages/stage36/verify_stage36_36_09O.py",
@@ -55,11 +59,11 @@
       "NEW_TWO_QUOTIENT_GENERIC_RANKS_COMPUTED": false,
       "RECEIVER_CLOSED": false,
       "B3_RELATIVE_ROUTE": "LIVE",
-      "NEXT_AFTER_HOSTILE_PASS": "36-09P_V4_ELLIPTIC_QUOTIENT_RECEIVER_INTERSECTION_PREFLIGHT"
+      "NEXT": "36-09P_V4_ELLIPTIC_QUOTIENT_RECEIVER_INTERSECTION_PREFLIGHT"
     }
   },
   "source_locks": {
-    "stage36_v41_audited_state": {"path":"stages/stage36/MAIN-STATE.json","commit":"26e25b64b6cdc8e4d1f26d33a665f42df8253200","blob_sha":"c54c66747e412d3c23de85e2718a10e2a1e996b0"},
+    "stage36_v42_merged_state": {"path":"stages/stage36/MAIN-STATE.json","commit":"b97673ec1c058e4e39bad24b68c036e721a97462","blob_sha":"6973beebc15fc945e4f9f2eb6489dccf964781c0"},
     "stage36_36_09O_certificate": {"path":"stages/stage36/36-09O/physical-square-lift-v4-quotient-preflight.json","blob_sha":"6a2678ebedba40e13277100441361039ee47ca28"},
     "stage36_36_09O_verifier": {"path":"stages/stage36/verify_stage36_36_09O.py","blob_sha":"ed0ae786505e3443226eaed6e61b7c78ee389191"},
     "kani_rosen_v4": {"path":"stages/stage36/36-09O/kani-rosen-v4-jacobian-source-lock.md","blob_sha":"5b5957843933b487bb9cae3acd22bb7737f37392"},
@@ -68,7 +72,7 @@
   "cycle_ledger": {
     "B1_DIRECT_UNIFORM_H1_SELMER": "BLOCKED",
     "B2_SINGLE_PLACE_DIRECT_RECEIVER_OBSTRUCTION": "BLOCKED_BY_EXPLICIT_ALL_PLACE_LOCAL_POINTS",
-    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_EXACT_TOP_GENUS3_V4_ELLIPTIC_QUOTIENT_RECEIVER_INTERSECTION_PENDING_AUDIT",
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_AUDITED_TOP_GENUS3_V4_ELLIPTIC_QUOTIENT_RECEIVER_INTERSECTION",
     "B3_FIXED_S_UNIFORM_FULL2_DESCENT_SUBROUTE": "BLOCKED_BY_UNBOUNDED_PHYSICAL_BASE_SQUARECLASS_SUPPORT",
     "B3_RANK_JUMP_ONLY_SUBROUTE": "DOMINATED_INCOMPLETE_WITHOUT_EXISTING_SUBGROUP_AND_SATURATION_LIFT_CASES",
     "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION": "BLOCKED_NO_PROOF_CAPABLE_B_PLUS_K_JOINT_TEST",
@@ -84,12 +88,12 @@
     "counts_exclude_named_B3_subroutes": true
   },
   "current": {
-    "unit": "36-09O",
-    "next_exact_leaf": "HOSTILE_AUDIT_36_09O",
-    "next_owner": "HOSTILE_AUDITOR",
-    "result": "PHYSICAL_SQUARE_LIFT_EXACT; TOP_GENUS3_V4_JACOBIAN_SPLIT; RANK_JUMP_ONLY_ROUTE_CORRECTED; PENDING_HOSTILE_AUDIT",
+    "unit": "36-09P",
+    "next_exact_leaf": "36-09P_V4_ELLIPTIC_QUOTIENT_RECEIVER_INTERSECTION_PREFLIGHT",
+    "next_owner": "STAGE36_MAIN",
+    "result": "36-09O_HOSTILE_AUDIT_PASS_PROMOTED; V4_ELLIPTIC_QUOTIENT_RECEIVER_INTERSECTION_UNLOCKED",
     "36_09O_entry_allowed": true,
-    "36_09P_entry_allowed": false
+    "36_09P_entry_allowed": true
   },
   "current_leaf_working_set": [
     "stages/stage36/36-09O/physical-square-lift-v4-quotient-preflight.json",
@@ -97,7 +101,6 @@
     "stages/stage36/36-09O/kani-rosen-v4-jacobian-source-lock.md",
     "stages/stage36/36-09N/relative-2isogeny-kummer-image-rank1-preflight.json",
     "stages/stage36/36-09K/genus-one-quartic-elliptic-adapter.json",
-    "stages/stage36/36-09J/reciprocal-involution-two-linear-cover-preflight.json",
     "docs/arsenal/cards/formal/S34-W03.md",
     "docs/research-os/policies/research-credit-and-promotion-firewalls.md"
   ],
@@ -106,9 +109,11 @@
     "generic_function_field_rank1_promoted": true,
     "exact_generic_kummer_images_promoted": true,
     "physical_square_lift_adapter_certificate_complete": true,
+    "physical_square_lift_adapter_promoted": true,
     "top_genus3_v4_action_certificate_complete": true,
+    "top_genus3_v4_action_promoted": true,
     "top_genus3_jacobian_product_isogeny_certificate_complete": true,
-    "top_genus3_jacobian_product_isogeny_promoted": false,
+    "top_genus3_jacobian_product_isogeny_promoted": true,
     "S34_W03_adapter_ready": true,
     "S34_W03_receiver_intersection_executed": false,
     "new_two_quotient_generic_ranks_computed": false,
@@ -130,14 +135,14 @@
     "do_not_treat_rank_jump_exclusion_as_receiver_closure_without_existing_subgroup_lifts": true,
     "do_not_enumerate_generic_generator_multiples_unboundedly_after_H2_genus7_warning": true,
     "do_not_claim_S34_W03_close_before_joint_intersection_test": true,
-    "do_not_merge_C2_Gaussian_with_B7_standard_transfer": true,
-    "do_not_start_36_09P_before_36_09O_hostile_audit_PASS": true
+    "do_not_merge_C2_Gaussian_with_B7_standard_transfer": true
   },
   "claims": {
     "new_theorem_credit": false,
-    "top_genus3_jacobian_product_isogeny_provisional": true,
-    "physical_square_lift_adapter_provisional": true,
+    "top_genus3_jacobian_product_isogeny_promoted": true,
+    "physical_square_lift_adapter_promoted": true,
     "rank_jump_only_route_corrected": true,
+    "S34_W03_receiver_intersection_executed": false,
     "receiver_emptiness_proved": false,
     "R29_CAMP2_closed": false,
     "Q11_CAMPEDELLI_closed": false,
