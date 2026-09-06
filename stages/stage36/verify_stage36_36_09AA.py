@@ -15,9 +15,9 @@ R_CERT = ROOT / "stages" / "stage36" / "36-09R" / "etau-rankjump-receiver-esigma
 S34 = ROOT / "docs" / "arsenal" / "cards" / "formal" / "S34-W03.md"
 STATE = ROOT / "stages" / "stage36" / "MAIN-STATE.json"
 
-BASE = "714bd143f0c20082edcbb81c3905a86b1a56b4bf"
+BASE = "9184c7ab694415592cc428a675c0ebed27cac510"
 Z_HEAD = "718dc86903cf6e1264b78800f2ef6e813abcf6c5"
-CERT_BLOB = "01ece4524dfce77769c9b5382af291f68894523a"
+CERT_BLOB = "be447726a97158849c67ed6d57d6d3c35d6ba20f"
 Z_CERT_BLOB = "6a3b05e70fb146eff576df17142547b11679cf65"
 Z_VERIFIER_BLOB = "6f12de6f9e5e60dee70fc0c5bcd491105f8ee627"
 R_CERT_BLOB = "b55d042ede01032ff8c8b0d872510a53cb857969"
@@ -71,19 +71,18 @@ def main() -> None:
     c = json.loads(CERT.read_text())
     assert c["schema"] == "STAGE36_36_09AA_RECEIVER_COUPLED_SAME_X_TWIST_INTERSECTION_PREFLIGHT_V1"
     assert c["base_main_sha"] == BASE
+    assert c["freshness_sync"]["current_base_main_sha"] == BASE
+    assert c["freshness_sync"]["sync_merge_commit"] == "deb16e9f06bb572bbf5a90041236b60f500569ef"
     assert c["route_result"]["rankjump_implies_receiver"] is False
     assert c["route_result"]["S34_W03_exact_joint_adapter_ready"] is True
     assert c["route_result"]["S34_W03_intersection_exclusion_executed"] is False
 
-    # Exact coefficient identity behind the same-x receiver equivalence.
     for pn, pd in ((2, 3), (5, 2), (14, 13), (7, 4)):
         p = Fraction(pn, pd)
         nm, np, s, A, B = affine_data(p)
         assert A + B == 2 * s * s
-        # 4*s^2*x + (x-A)(x-B) = (x+A)(x+B), coefficientwise.
         assert 4 * s * s - A - B == A + B
 
-    # Z alpha witness, converted from the homogeneous model to the affine p-model.
     p = Fraction(14, 13)
     x = Fraction(97393, 13**4)
     y = Fraction(9349728, 13**6)
@@ -93,7 +92,6 @@ def main() -> None:
     assert 135529 == 313 * 433
     assert not sq(R2)
 
-    # Z beta witness: map the dual point to E_minus, then homogenized -> affine.
     S0, C0, D0 = 29, 41, 210
     X, Y = Fraction(245), Fraction(30135)
     xh = Y * Y / (4 * X * X)
@@ -110,7 +108,6 @@ def main() -> None:
     assert 786916 == 4 * 13 * 37 * 409
     assert not sq(R2)
 
-    # The product-square quotient identity is exact on the open same-x system.
     for p in (Fraction(2, 3), Fraction(5, 2), Fraction(14, 13)):
         _, _, _, A, B = affine_data(p)
         for x in (Fraction(2), Fraction(7, 3)):
@@ -128,6 +125,7 @@ def main() -> None:
 
     st = json.loads(STATE.read_text())
     assert st["schema"] == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V61_36_09AA_BATCH_AUDIT_CHECKPOINT"
+    assert st["base_main_sha"] == BASE
     aa = st["authority_frontier"]["36-09AA"]
     assert aa["SAME_X_RECEIVER_EQUIVALENCE"] is True
     assert aa["EXPLICIT_Z_POINTS_RECEIVER_INCOMPATIBLE"] is True
