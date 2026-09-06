@@ -1,0 +1,259 @@
+{
+  "schema": "STAGE36_36_09P_E_TAU_GENERIC_MW_ZERO_EXCEPTIONAL_GROWTH_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09P",
+  "status": "EXACT_E_TAU_GENERIC_MW_ZERO_AND_EXCEPTIONAL_GROWTH_REDUCTION_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "911418e205349e55fb2b4c828a309fbf55afcc47",
+  "entry_authority": {
+    "36_09O_hostile_audit_pr": 1642,
+    "36_09O_hostile_audit_review": 5123512777,
+    "36_09O_audited_head": "be979251c6e3d7a2431fb56537520afd2596c7d9",
+    "36_09O_exact_head_ci": "34000052247/101397173180",
+    "36_09O_promotion_pr": 1644,
+    "36_09O_promotion_exact_head": "ecf2bcda206cb3b5f2edb9bca36c035f28148376",
+    "36_09O_promotion_ci": "34000690952/101398897157",
+    "36_09O_promotion_merged_main_sha": "911418e205349e55fb2b4c828a309fbf55afcc47"
+  },
+  "source_locks": {
+    "stage36_v43_audited_state": {
+      "path": "stages/stage36/MAIN-STATE.json",
+      "commit": "911418e205349e55fb2b4c828a309fbf55afcc47",
+      "blob_sha": "80bed5d8d6d51c2a8e6864a9f83cf405d7cd3659"
+    },
+    "stage36_36_09O_certificate": {
+      "path": "stages/stage36/36-09O/physical-square-lift-v4-quotient-preflight.json",
+      "blob_sha": "6a2678ebedba40e13277100441361039ee47ca28"
+    },
+    "descent_and_injective_specialization_corrected": {
+      "path": "stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md",
+      "blob_sha": "a562d7053a6f04deff4473067777b7cfd538ea8a",
+      "uses": [
+        "standard descent-by-2-isogeny homogeneous quartic and rank formula at the fixed specialization p=3/2",
+        "square-free-divisor sufficient criterion for injective specialization"
+      ]
+    },
+    "S34_W03": {
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96"
+    }
+  },
+  "input_E_tau": {
+    "physical_base_parameter": "p",
+    "h": "p-1/p",
+    "quartic_model": "v^2=(R^2+h^2)*(R^2+16/h^2)",
+    "expanded_model": "v^2=R^4+A*R^2+16",
+    "A": "h^2+16/h^2",
+    "receiver_condition": "R^2-4 is a nonzero rational square",
+    "physical_boundaries": ["p=0", "p=1", "p=-1", "R=2", "R=-2", "R=infinity"]
+  },
+  "quartic_to_polynomial_elliptic_adapter": {
+    "open_condition": "R!=0",
+    "forward": [
+      "z=(v+4)/R^2",
+      "R^2=(8*z+A)/(z^2-1)",
+      "w=R*(z^2-1)",
+      "X=8*z",
+      "Y=8*w"
+    ],
+    "cubic_before_scaling": "Y^2=(X-8)*(X+8)*(X+A)",
+    "base_polynomials": {
+      "D": "p*(p^2-1)",
+      "Q": "(p^2-1)^4+16*p^4",
+      "C": "p^4-6*p^2+1",
+      "H": "(p^2+1)^2"
+    },
+    "identities": [
+      "A=Q/D^2",
+      "Q+8*D^2=H^2",
+      "Q-8*D^2=C^2",
+      "H^2-C^2=(4*D)^2"
+    ],
+    "shift_and_scale": ["u=X+A", "x=D^2*u", "y=D^3*Y"],
+    "polynomial_model": "E_tau_poly: y^2=x*(x-C^2)*(x-H^2)",
+    "pythagorean_identity": "C^2+(4*D)^2=H^2",
+    "boundary_note": "R=0 is handled separately on the quartic; the polynomial model is used for generic MW control and its missing quartic points are explicitly restored in the final eight-point inventory"
+  },
+  "injective_specialization_p0": {
+    "p0": "3/2",
+    "cleared_values": {
+      "C_times_16": -119,
+      "H_times_16": 169,
+      "fourD_times_16": 120
+    },
+    "pythagorean_check": "119^2+120^2=169^2",
+    "integral_specialized_model": "E_star: y^2=x*(x-119^2)*(x-169^2)",
+    "root_difference_irreducible_support_sets": [
+      ["Nminus=p^2-2*p-1", "Nplus=p^2+2*p-1", "p^2+1"],
+      ["Nminus=p^2-2*p-1", "Nplus=p^2+2*p-1", "p", "p-1", "p+1"],
+      ["p^2+1", "p", "p-1", "p+1"]
+    ],
+    "squareclasses_at_p0": {
+      "Nminus": "[-7]",
+      "Nplus": "[17]",
+      "p": "[6]",
+      "p-1": "[2]",
+      "p+1": "[10]",
+      "p^2+1": "[13]"
+    },
+    "support_independence": {
+      "Nminus_Nplus_p2plus1": true,
+      "Nminus_Nplus_p_pminus1_pplus1": true,
+      "p2plus1_p_pminus1_pplus1": true
+    },
+    "complete_nonconstant_squarefree_divisor_check": true,
+    "all_required_values_nonsquare": true,
+    "specialization_E_tau_Qp_to_E_star_Q_injective": true
+  },
+  "specialized_2isogeny_descent": {
+    "E_star_coefficients": {
+      "a": -42722,
+      "b": 404452321,
+      "b_factor": "(119*169)^2"
+    },
+    "dual_coefficients": {
+      "a_prime": 85444,
+      "b_prime": 207360000,
+      "b_prime_factor": "14400^2",
+      "factorized_model": "E_star_prime: y^2=x*(x+50^2)*(x+288^2)"
+    },
+    "alpha": {
+      "squarefree_prime_support": [7, 13, 17],
+      "candidate_count": 16,
+      "negative_candidates": "all 8 negative classes excluded over R because d<0, a<0 and b/d<0",
+      "positive_realized": {"1": "identity class"},
+      "positive_exclusions": {
+        "7": "mod 5",
+        "13": "mod 5",
+        "91": "mod 16",
+        "17": "mod 3",
+        "119": "mod 3",
+        "221": "mod 3",
+        "1547": "mod 3"
+      },
+      "exact_image": ["[1]"],
+      "image_size": 1
+    },
+    "beta": {
+      "squarefree_prime_support": [2, 3, 5],
+      "candidate_count": 16,
+      "local_exclusions": {
+        "+/-2": "mod 13",
+        "+/-3": "mod 17",
+        "+/-5": "mod 13",
+        "+/-6": "mod 13",
+        "+/-10": "mod 17",
+        "+/-15": "mod 13"
+      },
+      "realized_classes": {
+        "1": "primitive quartic solution (M,e,N)=(0,1,14400)",
+        "-1": "primitive quartic solution (M,e,N)=(-50,1,0)",
+        "30": "primitive quartic solution (M,e,N)=(-60,1,26520)",
+        "-30": "primitive quartic solution (M,e,N)=(-40,1,7280)"
+      },
+      "exact_image": ["[1]", "[-1]", "[30]", "[-30]"],
+      "image_size": 4
+    },
+    "rank_formula": "2^r=|Im(alpha)|*|Im(beta)|/4",
+    "rank_calculation": "2^r=1*4/4=1",
+    "rank_E_star_Q": 0
+  },
+  "specialized_torsion": {
+    "full_rational_2_torsion": true,
+    "unique_divisible_nonzero_2torsion": "(169^2,0)",
+    "halving_square_differences": ["169^2", "169^2-119^2=120^2"],
+    "order4_x_coordinates": [48841, 8281],
+    "order4_points": [
+      "(48841,+/-5860920)",
+      "(8281,+/-993720)"
+    ],
+    "no_order8": {
+      "x_48841": "x-119^2=34680 and x-169^2=20280 are nonsquares",
+      "x_8281": "x-169^2<0",
+      "conclusion": "no rational order-4 point is 2-divisible"
+    },
+    "good_reduction_point_counts": {"11": 16, "19": 16},
+    "good_prime_check": "11 and 19 do not divide the specialized discriminant support {2,3,5,7,13,17}",
+    "torsion_order_divides": 16,
+    "torsion_order_at_least": 8,
+    "odd_torsion_excluded": true,
+    "exact_torsion": "Z/4 x Z/2",
+    "exact_torsion_order": 8
+  },
+  "generic_MW_deduction": {
+    "rank_upper_bound": "injective specialization into rank-zero E_star(Q)",
+    "generic_rank": 0,
+    "generic_full_2torsion": true,
+    "generic_order4_halving": {
+      "divisible_2torsion": "(H^2,0)",
+      "identities": [
+        "H^2-C^2=(4D)^2",
+        "H+4D=Nplus^2",
+        "H-4D=Nminus^2"
+      ],
+      "generic_torsion_subgroup_order_at_least": 8
+    },
+    "specialization_torsion_order": 8,
+    "injectivity_forces_generic_torsion_order": 8,
+    "exact_generic_torsion": "Z/4 x Z/2",
+    "exact_generic_MW_group": "Z/4 x Z/2"
+  },
+  "quartic_generic_point_inventory_and_receiver_test": {
+    "generic_rational_points_count": 8,
+    "points": [
+      "R=0, v=+4",
+      "R=0, v=-4",
+      "R=2, v=+2*r^2/h",
+      "R=2, v=-2*r^2/h",
+      "R=-2, v=+2*r^2/h",
+      "R=-2, v=-2*r^2/h",
+      "infinity_plus",
+      "infinity_minus"
+    ],
+    "receiver_failures": {
+      "R=0": "R^2-4=-4 is not a rational square",
+      "R=+/-2": "R^2-4=0 is the excluded top boundary",
+      "infinities": "excluded by the affine physical receiver adapter"
+    },
+    "generic_receiver_compatible_points": 0
+  },
+  "exceptional_MW_growth_reduction": {
+    "statement": "For every retained rational physical specialization p0, a receiver-compatible E_tau,p0(Q) point can exist only if the specialized Mordell-Weil group is strictly larger than the specialization of the generic group.",
+    "growth_species": [
+      "positive Mordell-Weil rank (rank jump from generic rank 0)",
+      "torsion growth beyond Z/4 x Z/2"
+    ],
+    "rank0_no_torsion_growth_case": "if the specialized group still has rank 0 and torsion order 8, injectivity maps the eight generic points bijectively onto the entire fiber group, and every point is one of the known nonreceiver/boundary specializations",
+    "receiver_exceptional_growth_locus_empty_proved": false,
+    "rank_jumps_excluded": false,
+    "torsion_growth_excluded": false,
+    "S34_W03_receiver_intersection_executed": false,
+    "receiver_closed": false
+  },
+  "route_update": {
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_E_TAU_GENERIC_MW_ZERO_EXCEPTIONAL_GROWTH_REDUCTION",
+    "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER": "UNTESTED",
+    "C2_GAUSSIAN_NORM_COMPRESSION": "UNTESTED_DISTINCT_WITH_EXACT_E_TAU_NORM_ADAPTER",
+    "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY": "UNTESTED",
+    "next_after_hostile_pass": "36-09Q_E_TAU_EXCEPTIONAL_MW_GROWTH_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "E_tau_generic_rank_computed": true,
+    "E_tau_generic_rank": 0,
+    "E_tau_generic_torsion_computed": true,
+    "E_tau_generic_torsion": "Z/4 x Z/2",
+    "E_tau_generic_receiver_compatible_points_excluded": true,
+    "E_sigma_tau_generic_rank_computed": false,
+    "all_specialized_E_tau_groups_computed": false,
+    "rank_jumps_excluded": false,
+    "torsion_growth_excluded": false,
+    "S34_W03_receiver_intersection_empty": false,
+    "top_genus3_rational_points_exhausted": false,
+    "gaussian_norm_route_resolved": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
