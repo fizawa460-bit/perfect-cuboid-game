@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import json
 import subprocess
-from fractions import Fraction
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -29,7 +28,6 @@ def blob(path: Path) -> str:
     return git("hash-object", str(path.relative_to(ROOT)))
 
 
-# Sparse Z[a,b] polynomials keyed by (deg_a, deg_b).
 def padd(x: dict[tuple[int, int], int], y: dict[tuple[int, int], int]) -> dict[tuple[int, int], int]:
     z = dict(x)
     for k, v in y.items():
@@ -65,7 +63,6 @@ def gmul(z1, z2):
     return padd(pmul(a, c), pscale(pmul(b, d), -1)), padd(pmul(a, d), pmul(b, c))
 
 
-# Univariate integer resultant via Sylvester matrix + Bareiss determinant.
 def trim(p: list[int]) -> list[int]:
     while len(p) > 1 and p[-1] == 0:
         p.pop()
@@ -153,7 +150,6 @@ def main() -> None:
     assert z4[1] == pscale(D0, 4)
     assert padd(ppow(C0, 2), pscale(ppow(D0, 2), 16)) == ppow(norm, 4)
 
-    # Pairwise odd disjointness on the affine chart b != 0. Coefficients low-to-high.
     affine = {
         "a": [0, 1],
         "a-b": [-1, 1],
@@ -169,12 +165,10 @@ def main() -> None:
             results[(k1, k2)] = R
             assert only_two_power(R)
     assert results[("Aminus", "Aplus")] == -16
-    # The projective b=0 direction is disjoint from all other reservoirs at odd primes
-    # because every other homogeneous factor has leading coefficient 1 in a.
 
     part = c["odd_prime_reservoir_partition"]
     assert part["pairwise_odd_disjoint"] is True
-    assert part["Aminus_Aplus_resultant"] == -16
+    assert part["affine_pairwise_resultants"]["Aminus_Aplus_resultant"] == -16
     assert len(part["reservoirs"]) == 6
 
     gauss = c["gaussian_direction_adapter"]
@@ -188,12 +182,9 @@ def main() -> None:
     }
     assert gauss["alpha_extra_residue_identity"] == "2=((a^2+b^2)/(2*a*b))^2 mod q"
 
-    # Exact finite-S obstruction: for every odd prime ell, (a,b)=(ell,1).
-    # D0=ell*(ell-1)*(ell+1), while C0=ell^4-6ell^2+1 == 1 (mod ell).
     fs = c["finite_S_obstruction"]
     assert fs["uniform_fixed_finite_rational_prime_support_recovered"] is False
     assert fs["witness_family"] == "for every odd prime ell choose (a,b)=(ell,1), hence p=ell is retained"
-    # Direction is B0 because a == 0 modulo ell, hence u=(i)/(-i)=-1.
     assert "u_ell=-1" in fs["witness_calculation"][2]
 
     dc = c["descent_consequence"]
