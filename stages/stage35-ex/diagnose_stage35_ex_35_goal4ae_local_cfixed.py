@@ -5,12 +5,16 @@ import ast
 import json
 import runpy
 import subprocess
+import sys
 import tempfile
 from fractions import Fraction
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 PIC = ROOT / 'stages/stage33/33-07/certify_two_coordinate_swap_picard_rows.py'
+PIC_DIR = str(PIC.parent)
+if PIC_DIR not in sys.path:
+    sys.path.insert(0, PIC_DIR)
 ns = runpy.run_path(str(PIC))
 
 RANK = 64
