@@ -1,16 +1,21 @@
-name: Stage35-EX Goal4AE C5 Picard extraction
+name: Stage35-EX Goal4AE C5 local c-fixed Picard extraction
 
 on:
   pull_request:
     types: [synchronize]
     paths:
-      - 'stages/stage35-ex/probe_stage35_ex_35_goal4ae_c5_pick_to_pics.py'
+      - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4ae_local_cfixed.py'
+      - 'stages/stage35-ex/materialize_stage35_ex_35_goal4ae_local_cfixed.py'
       - 'stages/stage35-ex/runkeys/goal4ae-c5-picard-extraction.json'
       - '.github/workflows/stage35-ex-goal4ae-c5-picard-extraction.yml'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+
+concurrency:
+  group: stage35-ex-goal4ae-c5-local-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
 
 jobs:
   authorize:
@@ -26,11 +31,15 @@ jobs:
         env:
           BEFORE: ${{ github.event.before }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_REF: ${{ github.head_ref }}
         run: |
           set -euo pipefail
           KEY='stages/stage35-ex/runkeys/goal4ae-c5-picard-extraction.json'
           echo 'authorized=false' >> "$GITHUB_OUTPUT"
           test '${{ github.event_name }}' = 'pull_request' || exit 0
+          test "${PR_NUMBER}" = '1659' || exit 0
+          test "${HEAD_REF}" = 'stage35-ex-goal4x-open-receiver-boundary-picard' || exit 0
           test -n "${BEFORE}" || exit 0
           git fetch --no-tags --depth=1 origin "${BEFORE}" || exit 0
           git cat-file -e "${BEFORE}^{commit}" 2>/dev/null || exit 0
@@ -39,28 +48,28 @@ jobs:
           import hashlib,json,subprocess
           from pathlib import Path
           key=Path('stages/stage35-ex/runkeys/goal4ae-c5-picard-extraction.json')
-          producer=Path('stages/stage35-ex/probe_stage35_ex_35_goal4ae_c5_pick_to_pics.py')
+          diag=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4ae_local_cfixed.py')
+          mat=Path('stages/stage35-ex/materialize_stage35_ex_35_goal4ae_local_cfixed.py')
           new=json.loads(key.read_text())
           assert new['schema']=='STAGE35_EX_GOAL4AE_C5_PICARD_EXTRACTION_RUNKEY_V1'
-          assert new['armed'] is True and new['generation']==2
+          assert new['armed'] is True and new['generation']==3
+          assert new['route']=='CFIXED_HPERP_NORM20_PARIFP'
           assert new['upstream_git_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
           assert new['goal4ad_blob_sha1']=='6cedfed8d5944a3a93ddfe106f488c2a75670c92'
-          raw=producer.read_bytes()
-          pblob=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
-          assert pblob==new['producer_blob_sha1']=='632d4329974a24dce202981b86787df6b969a59d'
-          assert new['source_slice_mode']=='S_PICARD_CORE_PLUS_K_THROUGH_PICKTOPICS'
-          assert new['planned_jobs']==1
+          def blob(p):
+              raw=p.read_bytes()
+              return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+          assert blob(diag)==new['local_diagnostic_blob_sha1']=='0fada4dc92fe1d7ea55d551d54e12391c3751e3f'
+          assert blob(mat)==new['local_materializer_blob_sha1']=='0dd357613ef97162c5ac18f1ea6b96cce723a79f'
+          assert new['planned_jobs']==1 and new['planned_shards']==1
           assert new['persisted_output_upper_bound_bytes']<=65536
           assert new['projected_peak_actions_storage_bytes']<=1048576
+          assert new['actions_artifact_upload'] is False
           before='${{ github.event.before }}'
-          try:
-              oldtxt=subprocess.check_output(['git','show',f'{before}:{key.as_posix()}'],text=True,stderr=subprocess.DEVNULL)
-          except subprocess.CalledProcessError:
-              oldtxt=None
-          if oldtxt is not None:
-              old=json.loads(oldtxt)
-              assert new['generation']>int(old.get('generation',0))
-          print('GOAL4AE_RUNKEY_AUTHORIZED=true')
+          oldtxt=subprocess.check_output(['git','show',f'{before}:{key.as_posix()}'],text=True)
+          old=json.loads(oldtxt)
+          assert new['generation']>int(old.get('generation',0))
+          print('GOAL4AE_LOCAL_RUNKEY_AUTHORIZED=true')
           PY
           echo 'authorized=true' >> "$GITHUB_OUTPUT"
 
@@ -77,33 +86,22 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Materialize exact C5 PicK to PicS to INDLIST64 rows
-        run: python -B stages/stage35-ex/probe_stage35_ex_35_goal4ae_c5_pick_to_pics.py
-      - name: Verify compact certificate before retention
+      - name: Install exact local lattice enumerator
         run: |
-          python - <<'PY'
-          import hashlib,json
-          p='stages/stage35-ex/35ex-35/goal4ae-c5-direct-pick-to-pics-indlist64.json'
-          x=json.load(open(p)); b=dict(x); h=b.pop('canonical_sha256')
-          assert h==hashlib.sha256(json.dumps(b,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-          assert x['schema']=='STAGE35_EX_35_GOAL4AE_C5_DIRECT_PICK_TO_PICS_INDLIST64_V1'
-          assert len(x['c5_pair_rows'])==8 and len(x['goal4ac_residual_pairs'])==4
-          assert x['execution']['source_slice_used'] and x['execution']['submitted_magma_code_bytes']<65536
-          assert x['exact_checks']['all_rows_integral'] and x['exact_checks']['all_rows_distinct']
-          assert x['exact_checks']['antipodal_pair_sum_equals_2H_for_all_8_labels']
-          assert not x['semantic_firewall']['target_span_with_C5_pairs_computed']
-          assert not x['semantic_firewall']['E1_proved'] and not x['semantic_firewall']['stage35_closed']
-          print('GOAL4AE_COMPACT_CERTIFICATE=PASS_EXACT')
-          print('CERTIFICATE_SHA256='+h)
-          PY
-      - name: Persist compact exact certificate on PR branch
-        env:
-          HEAD_BRANCH: ${{ github.head_ref }}
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends pari-gp
+      - name: Enumerate c-fixed norm-20 Picard candidates and materialize size-8 orbit
         run: |
           set -euo pipefail
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add stages/stage35-ex/35ex-35/goal4ae-c5-direct-pick-to-pics-indlist64.json
-          git diff --cached --quiet && exit 0
-          git commit -m 'Stage35-EX Goal4AE materialize exact C5 Picard rows'
-          git push origin "HEAD:${HEAD_BRANCH}"
+          python -B stages/stage35-ex/materialize_stage35_ex_35_goal4ae_local_cfixed.py | tee /tmp/goal4ae-local.log
+          grep -q '^GOAL4AE_LOCAL_MATERIALIZATION_JSON=' /tmp/goal4ae-local.log
+      - name: Enforce compact no-credit boundary
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          s=Path('/tmp/goal4ae-local.log').read_text()
+          assert '"remote_cas_used": false' in s or '"remote_cas_used":false' in s
+          assert '"theorem_credit": false' in s or '"theorem_credit":false' in s
+          assert '"endpoint_credit": false' in s or '"endpoint_credit":false' in s
+          print('GOAL4AE_LOCAL_DIAGNOSTIC_BOUNDARY=PASS')
+          PY
