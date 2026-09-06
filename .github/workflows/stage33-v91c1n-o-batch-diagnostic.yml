@@ -1,0 +1,33 @@
+name: Stage33 V91C1N-O fixed-space and geometric-stabilizer diagnostic
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/**'
+      - '.github/workflows/stage33-v91c1n-o-batch-diagnostic.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage33-v91c1n-o-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  exact-diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify V91C1N minimal fixed-space discriminator
+        run: python stages/stage33/33-12/verify_e3_v91c1n_minimal_joint_v4_fixed_coordinate_discriminator.py
+      - name: Diagnose V91C1O A2_02 geometric stabilizer
+        run: python stages/stage33/33-12/diagnose_e3_v91c1o_a2_02_geometric_stabilizer.py
+      - name: Diff hygiene
+        run: git diff --check
