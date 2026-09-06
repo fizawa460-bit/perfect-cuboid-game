@@ -1,0 +1,242 @@
+name: Stage35 Arsenal Harvest4 materialize
+
+on:
+  push:
+    branches:
+      - stage35-arsenal-initial-provisional-harvest-promotion
+    paths:
+      - .github/workflows/stage35-arsenal-harvest4-materialize.yml
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 64
+
+      - name: Register frozen Stage35 harvest
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          p = Path('docs/arsenal/index.json')
+          data = json.loads(p.read_text())
+          raw = json.dumps(data)
+          assert 'S35-PW01' not in raw and 'S35-WF01' not in raw, 'Stage35 IDs already registered'
+
+          data['schema'] = 'RESEARCH_ARSENAL_V10_STAGE30_STAGE31_STAGE34_FORMAL_STAGE32_STAGE33_STAGE35_PROVISIONAL'
+          data['status'] = 'CURRENT_WITH_FORMAL_STAGE30_STAGE31_STAGE34_AND_STAGE32_STAGE33_STAGE35_PROVISIONAL_HARVESTS'
+
+          support = {
+              'path': '../stage35-arsenal-promotion.md',
+              'class': 'PROVISIONAL',
+              'role': 'Stage35 / Stage35-EX initial provisional harvest promotion provenance; active Stage authority remains higher'
+          }
+          assert all(r.get('path') != support['path'] for r in data.get('support_records', []))
+          data.setdefault('support_records', []).append(support)
+
+          data.setdefault('cross_stage_relationships', []).extend([
+              {
+                  'source': 'Stage35 initial harvest DISC-S35-A02',
+                  'target': 'S34-W01',
+                  'relation': 'PROVISIONAL_PREFLIGHT_EXTENSION_TO_EXISTING_FORMAL_INTERFACE',
+                  'note': 'complete dynamic gcd-reservoir support may still fail the fixed finite squareclass-family gate; no new ID and no new formal credit'
+              },
+              {
+                  'source': 'Stage35 initial harvest DISC-S35-A09',
+                  'target': 'S34-W01',
+                  'relation': 'PROVISIONAL_PREPROCESSOR_EXTENSION_TO_EXISTING_FORMAL_INTERFACE',
+                  'note': 'primitive pair-gcd skeleton broadens the legal preprocessing interface without changing S34-W01 terminal output'
+              },
+              {
+                  'source': 'Stage35 initial harvest DISC-S35-A04',
+                  'target': 'AR-017/AR-018',
+                  'relation': 'PROVISIONAL_MULTI_ORIENTATION_INDEPENDENCE_EXTENSION',
+                  'note': 'mirrors/relabelings must be quotiented and unit/conjugation ambiguity fixed before two Gaussian orientations count as independent'
+              }
+          ])
+
+          data['provisional_extensions'] = data.get('provisional_extensions', []) + [
+              {
+                  'target_id': 'S34-W01',
+                  'source_stage': 'Stage35 / Stage35-EX',
+                  'source_candidate': 'DISC-S35-A02',
+                  'path': '../stage35-arsenal-promotion.md',
+                  'maturity': 'PROVISIONAL',
+                  'role': 'DYNAMIC_RESERVOIR_PREFLIGHT_EXTENSION'
+              },
+              {
+                  'target_id': 'S34-W01',
+                  'source_stage': 'Stage35 / Stage35-EX',
+                  'source_candidate': 'DISC-S35-A09',
+                  'path': '../stage35-arsenal-promotion.md',
+                  'maturity': 'PROVISIONAL',
+                  'role': 'PAIR_GCD_SKELETON_PREPROCESSOR_EXTENSION'
+              },
+              {
+                  'target_id': 'AR-017/AR-018',
+                  'source_stage': 'Stage35 / Stage35-EX',
+                  'source_candidate': 'DISC-S35-A04',
+                  'path': '../stage35-arsenal-promotion.md',
+                  'maturity': 'PROVISIONAL',
+                  'role': 'GAUSSIAN_MULTI_ORIENTATION_INDEPENDENCE_EXTENSION'
+              }
+          ]
+
+          harvest = {
+              'source_stage': 'Stage35 / Stage35-EX',
+              'path': '../stage35-arsenal-promotion.md',
+              'source_pr': 1672,
+              'source_branch': 'stage35-arsenal-initial-provisional-harvest-promotion',
+              'harvest_snapshot_head': '9184c7ab694415592cc428a675c0ebed27cac510',
+              'live_head_refetch_required_before_use': True,
+              'promotion_status': 'PROVISIONAL_INITIAL_HARVEST_PENDING_HOSTILE_AUDIT',
+              'active_cards': ['S35-PW01','S35-PW02','S35-PW03','S35-PW04','S35-PW05'],
+              'retired_merged_ids': {},
+              'card_roles': {
+                  'S35-PW01': 'PARAMETRIC_SQUARECLASS_COMPATIBILITY_GRAPH',
+                  'S35-PW02': 'EXACT_RECEIVER_INVOLUTION_QUOTIENT_ADAPTER',
+                  'S35-PW03': 'RATIONAL_SOURCE_LIFT_PRESERVING_KUMMER_NORMAL_FORM',
+                  'S35-PW04': 'RECIPROCAL_SHARED_FACTOR_RECEIVER_COMPRESSION',
+                  'S35-PW05': 'FINITE_EXCEPTIONAL_PRIME_CLASSIFICATION_BY_CENSUS_WEIL_COMPLETION'
+              },
+              'card_summaries': {
+                  'S35-PW01': 'solve a complete factor squareclass compatibility graph in terms of live parameter-dependent reservoirs without claiming a fixed finite squareclass family',
+                  'S35-PW02': 'descend a full receiver through an exact involution with fixed/boundary audit and converse reconstruction',
+                  'S35-PW03': 'restore a rational-source lift lost by quotienting and encode the exact lift as a Kummer-style square system with converse reconstruction',
+                  'S35-PW04': 'compress a completed simultaneous square receiver through an exact reciprocal shared factor using forward/inverse square-root scalings',
+                  'S35-PW05': 'classify all exceptional primes by exhaustive small-prime census plus a smooth bounded-genus large-prime Weil completion'
+              },
+              'active_workflows': ['S35-WF01'],
+              'workflow_roles': {'S35-WF01': 'ENDPOINT_RETURN_CIRCULARITY_FIREWALL'},
+              'workflow_summaries': {
+                  'S35-WF01': 'when a transformed proof chain returns to an endpoint-like model, classify returned predicates and require a reverse/source adapter before re-importing source-only hypotheses'
+              },
+              'provisional_card_count': 5,
+              'provisional_workflow_count': 1,
+              'provisional_active_entry_count': 6,
+              'routeable_for_candidate_discovery': True,
+              'formal_selector': False,
+              'theorem_credit': False,
+              'final_review_required_at_stage_close': True,
+              'initial_harvest': {
+                  'INITIAL_HARVEST': True,
+                  'discovery_pr': 1669,
+                  'discovery_exact_head': '28282d3f01a47bfedb4290c6219b36dbde89c784',
+                  'stage35_canonical_inception': '43b5cc4a655cf68e9bdefad22800071d6f8d9fa0',
+                  'stage35_ex_canonical_inception': '7423eab4f153df7e58c3c9aa7ef3ecdf3f53c4f8',
+                  'harvest_lower_bound': '43b5cc4a655cf68e9bdefad22800071d6f8d9fa0',
+                  'harvest_upper_bound': '9184c7ab694415592cc428a675c0ebed27cac510',
+                  'range_expanded_after_harvest1': False,
+                  'inspected_scope': 'Stage35 canonical inception and Stage35-EX canonical inception through frozen harvest upper bound',
+                  'new_weapon_ids': ['S35-PW01','S35-PW02','S35-PW03','S35-PW04','S35-PW05'],
+                  'extended_ids': ['S34-W01','AR-017/AR-018'],
+                  'extended_items': [
+                      {'candidate':'DISC-S35-A02','target':'S34-W01'},
+                      {'candidate':'DISC-S35-A09','target':'S34-W01'},
+                      {'candidate':'DISC-S35-A04','target':'AR-017/AR-018'}
+                  ],
+                  'new_workflow_ids': ['S35-WF01'],
+                  'negative_exclusions': ['DISC-S35-E01','DISC-S35-E02','DISC-S35-E03','DISC-S35-E04','DISC-S35-E05','DISC-S35-E06','DISC-S35-F01','DISC-S35-F02','DISC-S35-F03'],
+                  'stage35_specific_exclusions': ['DISC-S35-A07','DISC-S35-A11','DISC-S35-B02','DISC-S35-B07','DISC-S35-D01','DISC-S35-D02','DISC-S35-D03'],
+                  'rejected_duplicates': ['DISC-S35-A01','DISC-S35-B01','DISC-S35-B03','DISC-S35-B04','DISC-S35-B05','DISC-S35-B06','DISC-S35-C01','DISC-S35-C02','DISC-S35-C03','DISC-S35-C04','DISC-S35-C06'],
+                  'promotion_status': 'PROVISIONAL_INITIAL_HARVEST_PENDING_HOSTILE_AUDIT',
+                  'arsenal_registration_adds_stage35_mathematical_credit': False,
+                  'arsenal_registration_adds_stage35_ex_mathematical_credit': False
+              }
+          }
+          assert all(h.get('source_stage') != harvest['source_stage'] for h in data.get('provisional_harvests', []))
+          data.setdefault('provisional_harvests', []).append(harvest)
+
+          data.setdefault('firewalls', {})['arsenal_registration_implies_stage35_progress_increment'] = False
+          data['firewalls']['arsenal_registration_implies_stage35_ex_progress_increment'] = False
+          data['firewalls']['arsenal_registration_implies_stage35_main_authority_change'] = False
+          data['firewalls']['arsenal_registration_implies_stage35_ex_authority_change'] = False
+          data['firewalls']['arsenal_registration_implies_stage35_or_e1_closure'] = False
+
+          p.write_text(json.dumps(data, indent=2) + '\n')
+
+          promo = Path('docs/stage35-arsenal-promotion.md')
+          text = promo.read_text()
+          needle = 'DISCOVERY_EXACT_HEAD=28282d3f01a47bfedb4290c6219b36dbde89c784\n'
+          assert needle in text
+          text = text.replace(needle, needle + 'IMPLEMENTATION_PR=1672\nIMPLEMENTATION_BRANCH=stage35-arsenal-initial-provisional-harvest-promotion\n', 1)
+          promo.write_text(text)
+          PY
+
+      - name: Generate Arsenal catalog and cards
+        run: python3 -B docs/arsenal/sync_arsenal_catalog.py
+
+      - name: Precommit validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B docs/arsenal/sync_arsenal_catalog.py --check
+          git diff --check
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          data=json.loads(Path('docs/arsenal/index.json').read_text())
+          ids=[]; retired={}
+          for h in data.get('provisional_harvests',[]):
+              ids += h.get('active_cards',[]) + h.get('active_workflows',[])
+              retired.update(h.get('retired_merged_ids',{}))
+          for x in ['S35-PW01','S35-PW02','S35-PW03','S35-PW04','S35-PW05','S35-WF01']:
+              assert ids.count(x)==1 and x not in retired
+          h=next(h for h in data['provisional_harvests'] if h['source_stage']=='Stage35 / Stage35-EX')
+          assert h['initial_harvest']['harvest_upper_bound']=='9184c7ab694415592cc428a675c0ebed27cac510'
+          assert h['theorem_credit'] is False
+          for x in ['S35-PW01','S35-PW02','S35-PW03','S35-PW04','S35-PW05']:
+              card=Path(f'docs/arsenal/cards/provisional/{x}.md').read_text()
+              assert '| Maturity | **PROVISIONAL** |' in card and '## Exact source section snapshot' in card
+          wf=Path('docs/arsenal/cards/workflows/S35-WF01.md').read_text()
+          assert '| Maturity | **PROVISIONAL** |' in wf and '| Kind | `workflow` |' in wf
+          assert data['firewalls']['arsenal_registration_implies_stage35_progress_increment'] is False
+          PY
+          git diff --exit-code bd1f40297f8dcf79e5bb4ef0b8cdc13fdb844177 -- stages/stage35 stages/stage35-ex
+
+      - name: Commit materialized registry and remove one-shot workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/stage35-arsenal-harvest4-materialize.yml
+          git add docs/stage35-arsenal-promotion.md docs/arsenal/index.json docs/arsenal/catalog.md docs/arsenal/cards
+          git commit -m 'arsenal: register Stage35 initial provisional harvest'
+
+      - name: Exact-head validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "EXACT_FINAL_HEAD=$(git rev-parse HEAD)"
+          python3 -B docs/arsenal/sync_arsenal_catalog.py --check
+          git diff --check HEAD^ HEAD
+          git diff --exit-code bd1f40297f8dcf79e5bb4ef0b8cdc13fdb844177 -- stages/stage35 stages/stage35-ex
+          python3 - <<'PY'
+          import subprocess
+          allowed={
+            'docs/stage35-arsenal-promotion.md',
+            'docs/arsenal/index.json',
+            'docs/arsenal/catalog.md',
+            'docs/arsenal/cards/provisional/S35-PW01.md',
+            'docs/arsenal/cards/provisional/S35-PW02.md',
+            'docs/arsenal/cards/provisional/S35-PW03.md',
+            'docs/arsenal/cards/provisional/S35-PW04.md',
+            'docs/arsenal/cards/provisional/S35-PW05.md',
+            'docs/arsenal/cards/workflows/S35-WF01.md',
+          }
+          got=set(subprocess.check_output(['git','diff','--name-only','bd1f40297f8dcf79e5bb4ef0b8cdc13fdb844177','HEAD'], text=True).splitlines())
+          assert got == allowed, (got-allowed, allowed-got)
+          print('PASS_SCOPE_ASSERTION', len(got))
+          PY
+
+      - name: Push exact validated head
+        run: git push origin HEAD:stage35-arsenal-initial-provisional-harvest-promotion
