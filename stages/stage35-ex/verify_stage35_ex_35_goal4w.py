@@ -55,8 +55,11 @@ assert u['git_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
 assert u['cohomology_assertion']=='assert #H1 eq 1;'
 assert 'H^1(Q,Pic(Sbar)) = 0' in s
 assert 'Br_1(S)/Br_0(S) = 0' in s
-assert 'Br_1(U)/Br_0(U) = 0' not in s
-assert 'open-receiver algebraic Brauer route remains untested' in s
+# The open quotient may appear textually only as an explicitly unproved target;
+# the machine certificate below is the authoritative fail-close on its status.
+assert 'It does not compute `Pic(Ubar)` or `Br_1(U)/Br_0(U)`' in s
+assert 'Goal4W does **not** prove any of the following:' in s
+assert 'Stage35 open-receiver algebraic Brauer route remains untested' in s
 
 p=a['proper_surface']
 assert p['kind']=='SMOOTH_PROPER_MINIMAL_RESOLUTION'
@@ -97,5 +100,6 @@ assert st['claims']['proper_surface_algebraic_brauer_quotient_trivial'] is True
 assert st['claims']['open_receiver_Picard_group_computed'] is False
 assert st['claims']['open_receiver_algebraic_brauer_group_computed'] is False
 assert st['claims']['nonconstant_stage35_open_receiver_algebraic_brauer_class_exists'] is None
+assert st['claims']['B7_vertical_brauer_obstruction_status']=='UNTESTED'
 assert st['claims']['E1_proved'] is False
 print('PASS Stage35-EX Goal4W scope repair: proper S has H1=0 and Br1/Br0=0; open U algebraic Brauer remains UNTESTED')
