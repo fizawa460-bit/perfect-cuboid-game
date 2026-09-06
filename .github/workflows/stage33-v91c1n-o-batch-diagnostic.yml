@@ -49,11 +49,11 @@ jobs:
         run: python stages/stage33/33-12/diagnose_e3_v91c1w_all8_strict_scheme_provenance.py
       - name: Diagnose V91C1W all-eight Picard64 reduction v2
         run: python stages/stage33/33-12/diagnose_e3_v91c1w_all8_picard64_reduction_v2.py
-      - name: Verify V91C1V bounded locator certificate
-        run: python stages/stage33/33-12/verify_e3_v91c1v_a2_02_actual_prime_known140_locator_bounded_result.py
-      - name: Verify Stage33 startup authority and V91C1V audit gate
+      - name: Verify V91C1W all-eight Picard64 reduction
+        run: python stages/stage33/33-12/verify_e3_v91c1w_a2_02_all8_picard64_reduction.py
+      - name: Verify Stage33 startup authority and V91C1W audit gate
         run: |
-          python stages/stage33/33-12/verify_stage33_v91c1v_candidate_current_startup_v106.py
+          python stages/stage33/33-12/verify_stage33_v91c1w_candidate_current_startup_v107.py
           python stages/stage33/sync_main_state.py --check
       - name: Diff hygiene
         run: git diff --check
