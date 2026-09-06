@@ -1,0 +1,25 @@
+name: Stage32 scratch post1648AC KKK Deraux sixpoint equivariant matching
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648ac-sixpoint-equivariant-matching
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sixpoint-equivariant-matching:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replay AA Deraux six-point anchor
+        run: python stages/stage32/residual-32-01-production/verify_stage32_post1648aa_deraux_weierstrass_orbit_b9_fixed_pair_nonselection.py
+      - name: Verify full six-point equivariant matching
+        run: python stages/stage32/residual-32-01-production/verify_stage32_post1648ac_kkk_deraux_sixpoint_equivariant_matching_nonselection.py
+      - name: Diff check
+        run: |
+          git diff --exit-code
+          git status --short

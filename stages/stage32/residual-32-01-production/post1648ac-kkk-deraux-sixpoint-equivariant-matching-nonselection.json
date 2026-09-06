@@ -1,0 +1,101 @@
+{
+  "schema": "STAGE32_POST1648AC_KKK_DERAUX_SIXPOINT_EQUIVARIANT_MATCHING_NONSELECTION_V1",
+  "stage": 32,
+  "role": "SCRATCH_EXACT_NONCREDIT_FULL_SIXPOINT_EQUIVARIANT_MATCHING_NONSELECTION",
+  "status": "SCRATCH_PASS_FULL_SIXPOINT_EQUIVARIANT_MATCHING_48_CANDIDATES_W_LINE_BALANCED",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "O": 210,
+    "qprime": 4,
+    "Q": 602,
+    "surviving_residues_decimal": [73, 97, 235]
+  },
+  "source_locks": {
+    "post1648AB": {
+      "path": "stages/stage32/residual-32-01-production/post1648ab-popov-k12-affine-class-pointwise-nonselection.json",
+      "canonical_sha256": "84ce4096aac5adf829df9bf001a28b7b92a7e0e513d122e5f55ce49b77825874",
+      "git_blob_sha1": "9cbd036d5a3a342f88215f935e2cbf159e90f6f4"
+    },
+    "post1648AA": {
+      "path": "stages/stage32/residual-32-01-production/post1648aa-deraux-weierstrass-orbit-b9-fixed-pair-nonselection.json",
+      "canonical_sha256": "a0ca0342db4902e737f28aa5f0de447cca2a2fce71f8cf0cdd2775d51804f7c7",
+      "git_blob_sha1": "c989058beb079cc36fb1d52f58707986e8b4320b"
+    },
+    "post1648Z": {
+      "path": "stages/stage32/residual-32-01-production/post1648z-kkk-full-bolza-homology-marking-nonselection.json",
+      "canonical_sha256": "b8db79100ebc404a497e64e973fce7f631f6475b3fc220c32874f07095a6576e",
+      "git_blob_sha1": "da3d30630698fc77098b3316c4ea4f19bc8258ef"
+    },
+    "source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1648ac-kkk-deraux-sixpoint-equivariant-matching-nonselection-source-note.md",
+      "git_blob_sha1": "d2b68b248d3a489a7d6cbde75915ed6c8db7d053"
+    }
+  },
+  "source_sixpoint_action": {
+    "ordered_points": ["0", "infinity", "1", "-1", "i", "-i"],
+    "mu1_image_indices_0based": [0, 1, 4, 5, 3, 2],
+    "mu2_image_indices_0based": [3, 2, 1, 0, 5, 4],
+    "mu3_image_indices_0based": [1, 0, 3, 2, 4, 5],
+    "permutation_group_order": 24
+  },
+  "target_sixpoint_action": {
+    "basis": ["e1", "e2", "r*e1", "r*e2"],
+    "ordered_points": [[0,0,1,0],[0,0,1,1],[1,0,0,0],[1,0,1,1],[1,1,0,1],[1,1,1,1]],
+    "affine_group_order": 48,
+    "permutation_image_order": 24
+  },
+  "exact_equivariant_matching": {
+    "all_bijections_tested": 720,
+    "criterion": "phi * source_S4 * phi^-1 == target_affine_permutation_image",
+    "surviving_equivariant_bijections": 48,
+    "source_pair": ["0", "infinity"],
+    "target_pair_difference_counts": {"L1": 16, "L2": 16, "L3": 16},
+    "line_vectors": {"L1": [0,0,1,0], "L2": [0,0,0,1], "L3": [0,0,1,1]},
+    "residue_by_line": {"L1": 73, "L2": 97, "L3": 235},
+    "absolute_W_line_selected": false
+  },
+  "semantic_boundary": {
+    "full_sixpoint_set_level_action_matched_exactly": true,
+    "equivariant_candidates_are_pointwise_bijections_but_not_source_locked": true,
+    "actual_integral_conjugating_g_materialized": false,
+    "specific_source_branch_to_specific_target_point_materialized": false,
+    "reason": "Full S4-equivariance leaves 48 pointwise bijection candidates. No checked source selects one candidate, and the image of the source pair {0,infinity} remains balanced 16/16/16 across the three retained W-lines."
+  },
+  "candidate_ledger_update": {
+    "closed_this_leaf": {
+      "candidate": "Reconstruct the full KKK six-Weierstrass permutation action and exact-match it to the Deraux explicit six-point affine action",
+      "status": "EXACT_NONPRUNING_FULL_EQUIVARIANT_MATCHING",
+      "bounded_reason": "48 of 720 pointwise bijections conjugate the full source S4 action onto the target affine permutation image, and delta_0inf differences are L1/L2/L3 with multiplicity 16 each"
+    },
+    "remaining_untested": [
+      "actual integral marked ppav isomorphism / conjugating g from another external source",
+      "extra pointwise datum not determined by the six-point permutation representation, such as a source-locked theta characteristic/semicharacter or retained lattice-word identification"
+    ],
+    "receiver_parked": false
+  },
+  "decision": {
+    "full_sixpoint_equivariant_matching_materialized": true,
+    "full_sixpoint_equivariant_matching_prunes": false,
+    "absolute_delta0inf_retained_W_line_identified": false,
+    "survivors_current_credit": [73, 97, 235],
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "O212_plus_advance_allowed": false,
+    "next_exact_route": "DO_NOT_REPEAT_SIXPOINT_PERMUTATION_OR_CYCLE_MATCHING; SEEK_AN_ACTUAL_EXPLICIT_MARKED_PPAV_CONJUGATOR_G_OR_A_NONPERMUTATION_POINTWISE_DATUM_SUCH_AS_A_SOURCE_LOCKED_THETA_CHARACTERISTIC_OR_RETAINED_LATTICE_WORD_BINDING"
+  },
+  "firewalls": {
+    "scratch_result_promoted_to_MAIN_authority": false,
+    "scratch_result_promoted_to_current_credit": false,
+    "equivariant_candidate_promoted_to_source_locked_pointwise_adapter": false,
+    "full_S4_action_promoted_to_absolute_marking": false,
+    "bounded_nonselection_promoted_to_global_nonexistence": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false
+  },
+  "canonical_sha256_without_this_field": "b04491c310cae6427511c58a76eed9fc166ad8f43c86a1d140d46b60f5f46a3f"
+}
