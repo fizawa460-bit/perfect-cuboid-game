@@ -1,4 +1,4 @@
-name: Stage33 V91C1N-S fixed-space and source-bound transport diagnostics
+name: Stage33 V91C1N-V fixed-space and source-bound transport diagnostics
 
 on:
   pull_request:
@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v91c1n-s-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1n-v-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -43,7 +43,13 @@ jobs:
         run: python stages/stage33/33-12/diagnose_e3_v91c1r_swap23_boundary_function_package_transport.py
       - name: Diagnose V91C1S swap23 actual-prime attached Cech difference
         run: python stages/stage33/33-12/diagnose_e3_v91c1s_swap23_prime_attached_cech_difference.py
-      - name: Verify Stage33 startup authority remains unchanged
-        run: python stages/stage33/sync_main_state.py --check
+      - name: Diagnose V91C1V actual-prime to known140 locator
+        run: python stages/stage33/33-12/diagnose_e3_v91c1v_actual_prime_known140_locator.py
+      - name: Verify V91C1V bounded locator certificate
+        run: python stages/stage33/33-12/verify_e3_v91c1v_a2_02_actual_prime_known140_locator_bounded_result.py
+      - name: Verify Stage33 startup authority and V91C1V audit gate
+        run: |
+          python stages/stage33/33-12/verify_stage33_v91c1v_candidate_current_startup_v106.py
+          python stages/stage33/sync_main_state.py --check
       - name: Diff hygiene
         run: git diff --check

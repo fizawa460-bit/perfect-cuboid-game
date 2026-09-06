@@ -1,0 +1,112 @@
+{
+  "schema": "STAGE36_36_09Z_EXPLICIT_MW_RANKJUMP_WITNESS_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09Z",
+  "status": "EXACT_RATIONAL_KUMMER_WITNESSES_PROVE_QI_RANKJUMP_LOCUS_NONEMPTY_AND_BLOCK_GLOBAL_CASSELS_ELIMINATION_PENDING_BATCH_AUDIT",
+  "batch_parent": {
+    "pr": 1664,
+    "36_09Y_exact_head": "9816546d9f7148b8b3e347f2000308ee3597a582",
+    "36_09Y_ci": "34033433237/101487099451",
+    "36_09Y_certificate": "stages/stage36/36-09Y/kummer-complement-prime-2adic-hilbert-preflight.json",
+    "36_09Y_certificate_blob_sha": "20c6d782e59bff820392731ec81653d15b2d1921",
+    "36_09Y_verifier": "stages/stage36/verify_stage36_36_09Y.py",
+    "36_09Y_verifier_blob_sha": "63b4cc43e91c18a8ff295b288995e23395de8539",
+    "authority_scope": "provisional same-PR batch interface only; hostile audit remains deferred"
+  },
+  "source_locks": {
+    "standard_2isogeny_descent": {
+      "path": "stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md",
+      "blob_sha": "a562d7053a6f04deff4473067777b7cfd538ea8a",
+      "uses": ["homogeneous quartic criterion", "Kummer map", "rank formula"]
+    },
+    "stage36_36_09U": {
+      "path": "stages/stage36/36-09U/qi-antiinvariant-rankjump-descent-preflight.json",
+      "blob_sha": "a1f0c924d267ab4f45aaada6c9bcb3a5f544f284",
+      "uses": ["generic alpha/beta baseline", "positive-rank dichotomy", "Q(i) anti-invariant interpretation"]
+    },
+    "stage36_36_09Y": {
+      "path": "stages/stage36/36-09Y/kummer-complement-prime-2adic-hilbert-preflight.json",
+      "blob_sha": "20c6d782e59bff820392731ec81653d15b2d1921",
+      "uses": ["explicit locally admissible alpha/beta witness parameters"]
+    }
+  },
+  "homogeneous_curves": {
+    "E_minus": "y^2=x^3-2*S^2*x^2+C0^2*x",
+    "E_minus_prime": "Y^2=X^3+4*S^2*X^2+64*D0^2*X",
+    "alpha_cover": "w^2=d*z^4-2*S^2*z^2+C0^2/d",
+    "alpha_to_curve": "x=d*z^2, y=d*z*w",
+    "beta_cover": "w^2=e*z^4+4*S^2*z^2+64*D0^2/e",
+    "beta_to_dual_curve": "X=e*z^2, Y=e*z*w"
+  },
+  "alpha_actual_kummer_growth_witness": {
+    "parameter": {"a": 14, "b": 13, "p": "14/13"},
+    "retained_physical_open": true,
+    "S": 365,
+    "C0": -131767,
+    "D0": 4914,
+    "class_d": 337,
+    "quartic_point": {"z": 17, "w": 1632},
+    "quartic_identity": "1632^2 = 337*17^4 - 2*365^2*17^2 + (-131767)^2/337",
+    "curve_point": {"x": 97393, "y": 9349728},
+    "curve_identity": "9349728^2 = 97393^3 - 2*365^2*97393^2 + (-131767)^2*97393",
+    "kummer_class": "alpha(P)=[337]",
+    "nontrivial_against_generic_alpha_baseline": true,
+    "consequence": "|Im(alpha)|>=2; retained beta torsion baseline has size 4, so 2^rank=|Im(alpha)||Im(beta)|/4 >=2 and rank E_minus(Q)>=1"
+  },
+  "beta_actual_kummer_growth_witness": {
+    "parameter": {"a": 5, "b": 2, "p": "5/2"},
+    "retained_physical_open": true,
+    "S": 29,
+    "C0": 41,
+    "D0": 210,
+    "class_e": 5,
+    "quartic_point": {"z": 7, "w": 861},
+    "quartic_identity": "861^2 = 5*7^4 + 4*29^2*7^2 + 64*210^2/5",
+    "dual_curve_point": {"X": 245, "Y": 30135},
+    "dual_curve_identity": "30135^2 = 245^3 + 4*29^2*245^2 + 64*210^2*245",
+    "retained_beta_baseline_squareclasses": ["[1]", "[-1]", "[105]", "[-105]"],
+    "kummer_class": "beta(P')=[5]",
+    "nonbaseline": true,
+    "consequence": "Im(beta) strictly exceeds the size-4 torsion baseline, hence rank E_minus(Q)>=1 by the 2-isogeny rank formula"
+  },
+  "qi_rankjump_consequence": {
+    "generic_rank_E_sigma_over_Qi": 1,
+    "specialized_E_minus_positive_rank_examples": ["p=14/13", "p=5/2"],
+    "antiinvariant_embedding": "E_minus(Q) maps to the anti-invariant eigenspace of E_sigma(Q(i))",
+    "retained_invariant_section": "P_sigma supplies an invariant nontorsion point on every retained rational physical fiber",
+    "independence": "invariant and anti-invariant nontorsion points are independent modulo torsion by conjugation",
+    "conclusion": "rank E_sigma,p(Q(i))>=2 at p=14/13 and p=5/2",
+    "Qi_rankjump_locus_nonempty": true,
+    "Qi_rankjump_locus_empty": false
+  },
+  "cassels_route_boundary": {
+    "original_36_09Y_next_question": "can locally admissible 2-isogeny classes be killed uniformly as Sha rather than Mordell-Weil by a Cassels pairing?",
+    "answer": "NO_AS_A_GLOBAL_RANKJUMP_LOCUS_ELIMINATION_ROUTE",
+    "reason": "the two retained explicit classes above already lie in the rational Kummer images, so they are Mordell-Weil witnesses rather than Sha-only Selmer classes",
+    "Cassels_pairing_computation_needed_for_these_witnesses": false,
+    "uniform_rankjump_locus_emptiness_via_Cassels_impossible": true,
+    "receiver_specific_Cassels_or_Selmer_analysis_still_possible": true
+  },
+  "route_update": {
+    "CYCLE_ROUTE_STATUS": "BLOCKED_GLOBAL_RANKJUMP_EMPTY_ROUTE_BY_EXPLICIT_MW_WITNESSES",
+    "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY": "BLOCKED_AS_UNIFORM_CLOSURE",
+    "B3_ANTIINVARIANT_KUMMER_GROWTH": "CONFIRMED_NONEMPTY_ON_RETAINED_BASE",
+    "GLOBAL_CASSELS_ELIMINATION_OF_ALL_RANKJUMP": "BLOCKED_BY_EXPLICIT_MORDELL_WEIL_WITNESSES",
+    "receiver_specific_intersection_route": "LIVE_NEXT",
+    "next_reason": "receiver closure can no longer come from proving the full Q(i) rank-jump locus empty; it must use an additional receiver equation/constraint to exclude the receiver from the now-certified nonempty rank-jump locus"
+  },
+  "next_leaf": "36-09AA_RECEIVER_COUPLED_RANKJUMP_LOCUS_INTERSECTION_PREFLIGHT",
+  "scope_firewalls": {
+    "explicit_alpha_MW_growth_witness_proved": true,
+    "explicit_beta_MW_growth_witness_proved": true,
+    "Qi_rankjump_locus_nonempty_proved": true,
+    "receiver_parameter_set_intersected_with_witnesses": false,
+    "receiver_rankjump_intersection_empty": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
