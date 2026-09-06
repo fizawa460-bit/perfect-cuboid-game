@@ -1,0 +1,110 @@
+{
+  "schema": "STAGE36_36_09S_E_SIGMA_TAU_TORSION_GROWTH_EXCLUSION_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09S",
+  "status": "EXACT_E_SIGMA_TAU_TORSION_GROWTH_EXCLUSION_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "a53cd347f83ae47687254430ee25c98d841dc52b",
+  "entry_authority": {
+    "36_09R_pr": 1655,
+    "36_09R_hostile_reaudit_review": 5124114645,
+    "36_09R_audited_head": "f48184e2ab7fabe6fd07b553aa1cda507874569d",
+    "36_09R_promotion_pr": 1656,
+    "36_09R_promotion_ci": "34012315269/101430128739",
+    "36_09R_promotion_merged_main_sha": "a53cd347f83ae47687254430ee25c98d841dc52b"
+  },
+  "source_locks": {
+    "stage36_v50_audited_state": {"path":"stages/stage36/MAIN-STATE.json","commit":"a53cd347f83ae47687254430ee25c98d841dc52b","blob_sha":"f34cd4df8cca7232fae5c307f398fb97ac310058"},
+    "stage36_36_09R_certificate": {"path":"stages/stage36/36-09R/etau-rankjump-receiver-esigmatau-growth-preflight.json","blob_sha":"b55d042ede01032ff8c8b0d872510a53cb857969"},
+    "torsion_growth_external_source_lock": {"path":"stages/stage36/36-09S/torsion-growth-lmfdb-mazur-source-lock.md","blob_sha":"3549b92406ead4ff846153c5444559ddeac245a7"},
+    "S34_W03": {"path":"docs/arsenal/cards/formal/S34-W03.md","blob_sha":"1d5275321f42768a6414d4610ac912c63be43f96"}
+  },
+  "family": {
+    "Nminus":"p^2-2*p-1",
+    "Nplus":"p^2+2*p-1",
+    "D":"p*(p^2-1)",
+    "difference_identity":"Nplus^2-Nminus^2=8*D",
+    "curve":"E_sigma_tau,p: y^2=x*(x-Nminus^2)*(x-Nplus^2)",
+    "retained_p_exclusions":["p=0","p=1","p=-1"],
+    "audited_generic_MW":"Z/2 x Z/2"
+  },
+  "mazur_reduction": {
+    "full_rational_2torsion_already_present":true,
+    "strict_torsion_growth_candidates":["Z/2 x Z/4","Z/2 x Z/6","Z/2 x Z/8"],
+    "suffices_to_exclude":["rational point of order 4","rational point of order 3"]
+  },
+  "order4_exclusion": {
+    "halving_0_torsion":"(0,0) cannot be 2-divisible on retained fibers because both -Nminus^2 and -Nplus^2 would have to be rational squares",
+    "halving_Nminus_torsion":"(Nminus^2,0) is 2-divisible iff -8*D is a rational square, equivalently -2*D is a rational square",
+    "halving_Nplus_torsion":"(Nplus^2,0) is 2-divisible iff 8*D is a rational square, equivalently 2*D is a rational square",
+    "positive_gate":"w^2=2*p*(p^2-1)",
+    "positive_adapter":["X=2*p","Y=2*w"],
+    "negative_gate":"w^2=-2*p*(p^2-1)",
+    "negative_adapter":["X=-2*p","Y=2*w"],
+    "common_target":"E4: Y^2=X^3-4*X",
+    "LMFDB_label":"64.a3",
+    "target_rank":0,
+    "target_torsion":"Z/2 x Z/2",
+    "target_rational_X":["0","2","-2"],
+    "pulled_back_p":["0","1","-1"],
+    "all_pulled_back_values_are_boundary":true,
+    "retained_order4_exists":false
+  },
+  "order3_exclusion": {
+    "normalized_legendre":"E_lambda: y^2=x*(x-1)*(x-lambda)",
+    "lambda":"(Nplus/Nminus)^2",
+    "retained_lambda_nonzero_nonone":true,
+    "division_polynomial":"psi3=3*x^4-4*(1+lambda)*x^3+6*lambda*x^2-lambda^2",
+    "as_quadratic_in_lambda":"lambda^2+(4*x^3-6*x^2)*lambda-3*x^4+4*x^3=0",
+    "lambda_discriminant":"16*x^3*(x-1)^3",
+    "necessary_conic":"w^2=x*(x-1)",
+    "conic_parameter":["m=w/x","x=1/(1-m^2)"],
+    "lambda_branches":["-(2*m+1)/((m-1)*(m+1)^3)","(2*m-1)/((m-1)^3*(m+1))"],
+    "branch_symmetry":"the two branches are exchanged by m -> -m",
+    "square_lambda_gate":"z^2=(2*m-1)*(m^2-1)",
+    "gate_adapter":["X=2*m","Y=2*z"],
+    "gate_curve":"E3: Y^2=X^3-X^2-4*X+4=(X-2)*(X-1)*(X+2)",
+    "LMFDB_label":"24.a4",
+    "gate_rank":0,
+    "gate_torsion":"Z/2 x Z/4",
+    "gate_rational_points":["O","(-2,0)","(1,0)","(2,0)","(0,2)","(0,-2)","(4,6)","(4,-6)"],
+    "pullback_audit":[
+      {"X":"O","result":"m=infinity, outside finite conic parameter"},
+      {"X":"-2","result":"m=-1, denominator boundary"},
+      {"X":"2","result":"m=1, denominator boundary"},
+      {"X":"1","result":"m=1/2 gives relevant lambda=0, singular Legendre boundary"},
+      {"X":"0","result":"m=0 gives relevant lambda=1, singular Legendre boundary"},
+      {"X":"4","result":"m=2 gives relevant lambda=1, singular Legendre boundary"}
+    ],
+    "retained_order3_exists":false
+  },
+  "conclusion": {
+    "E_SIGMA_TAU_TORSION_GROWTH_EXCLUDED":true,
+    "retained_fiber_torsion_exact":"Z/2 x Z/2",
+    "only_remaining_E_sigma_tau_MW_growth_species":"positive rank jump",
+    "receiver_forces_E_sigma_tau_positive_rank_jump":true,
+    "receiver_forces_E_tau_positive_rank_jump":true,
+    "two_positive_rank_obligations_claimed_independent":false,
+    "candidate_set_shrunk_by_rephrasing_derived_obligations":false
+  },
+  "route_update": {
+    "B3_E_SIGMA_TAU_TORSION_GROWTH":"CLOSED_PENDING_HOSTILE_AUDIT",
+    "B3_E_SIGMA_TAU_POSITIVE_RANK_JUMP":"LIVE",
+    "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION":"BLOCKED_NO_SIMULTANEOUS_POSITIVE_RANK_EXCLUSION_YET",
+    "next_after_hostile_pass":"36-09T_SIMULTANEOUS_TWO_QUOTIENT_POSITIVE_RANK_RECEIVER_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "E_sigma_tau_positive_rank_jumps_excluded":false,
+    "E_tau_positive_rank_jumps_excluded":false,
+    "simultaneous_positive_rank_locus_empty":false,
+    "independence_claimed":false,
+    "candidate_set_shrunk":false,
+    "S34_W03_receiver_intersection_executed":false,
+    "top_genus3_rational_points_exhausted":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
