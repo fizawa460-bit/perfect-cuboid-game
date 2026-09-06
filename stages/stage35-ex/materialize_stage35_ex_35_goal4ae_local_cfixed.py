@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[2]
 DIAG = ROOT / 'stages/stage35-ex/diagnose_stage35_ex_35_goal4ae_local_cfixed.py'
 ns = runpy.run_path(str(DIAG))
 sets = ns['sets']
-actions = ns['actions']
+orbit_actions = ns['orbit_actions']
 row_times_matrix = ns['row_times_matrix']
 
 
@@ -23,7 +23,7 @@ def orbit_partition(S):
         stable = True
         while queue:
             v = queue.pop()
-            for A in actions:
+            for A in orbit_actions:
                 w = tuple(row_times_matrix(v, A))
                 if w not in S:
                     stable = False
@@ -55,7 +55,7 @@ for name, S in sets.items():
         })
 
 out = {
-    'schema': 'STAGE35_EX_GOAL4AE_LOCAL_CFIXED_MATERIALIZATION_DIAGNOSTIC_V1',
+    'schema': 'STAGE35_EX_GOAL4AE_LOCAL_PICk_PULLBACK_MATERIALIZATION_DIAGNOSTIC_V2',
     'expected_8_plus_48_reproduced': bool(matches),
     'matching_filter_count': len(matches),
     'matches': matches,
