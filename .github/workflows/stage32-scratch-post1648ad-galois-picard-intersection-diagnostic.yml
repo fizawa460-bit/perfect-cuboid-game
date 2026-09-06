@@ -28,7 +28,27 @@ jobs:
         with:
           python-version: '3.12'
       - name: Verify exact complex-conjugate Picard class and intersection number
-        run: python stages/stage32/residual-32-01-production/verify_stage32_post1648ad_galois_picard_conjugate_intersection.py
+        id: exact
+        continue-on-error: true
+        run: |
+          set +e
+          python stages/stage32/residual-32-01-production/verify_stage32_post1648ad_galois_picard_conjugate_intersection.py > /tmp/post1648ad-verifier.log 2>&1
+          CODE=$?
+          cat /tmp/post1648ad-verifier.log
+          echo "$CODE" > /tmp/post1648ad-verifier-exit-code
+          exit "$CODE"
+      - name: Upload verifier diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-post1648ad-verifier-diagnostic
+          path: |
+            /tmp/post1648ad-verifier.log
+            /tmp/post1648ad-verifier-exit-code
+          retention-days: 1
+          if-no-files-found: error
+      - name: Enforce exact verifier success
+        run: test "$(cat /tmp/post1648ad-verifier-exit-code)" = 0
       - name: Ensure verifier is read-only
         run: git diff --exit-code
       - uses: actions/upload-artifact@v4
