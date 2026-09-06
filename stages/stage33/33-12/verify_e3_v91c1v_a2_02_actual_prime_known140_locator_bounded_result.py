@@ -12,10 +12,12 @@ KNOWN=S33/"33-07"/"certify_two_coordinate_swap_picard_rows.py"
 SIDE=S33/"33-07"/"certify_boundary_side_p1_crossing_coordinates.py"
 HELPER=S33/"33-07"/"stoll_cuboid_source.py"
 
-CERT_SHA="555c6d966ebca22536173839fda3100f2ea1fac1c10912b6a45c8833d5c0c293"
+CERT_SHA="60f41e8e324e5fb29d1b109adb860b947308b521f677e49c4965e337a0c2d2d2"
 U_SHA="7480d0d77cc70762cb80e08081f49a5895bb21a46a99dfd699fe63980a977a34"
 EXPECTED_MATCHES={"3f129d2be07133cdb60a167d2a199790a6fcdc95ae0b066eda2400bb0d2aa8c9":[10,12,14,16],"67c6a26f2b3d76d4659f5d7a04cc076f1ffdf95856508d26d34805f66367202e":[37,38],"8353da8852818df4bc17a94369d69e658aa8b2897cf073dfb18f2e6c26318bdc":[],"95524417ccf00758f884a4f1c70f29be551965a922afaacce78a5d5399ea4ad2":[18,20,22,24],"b22fc5b3b8096029b2d5b5930b30045b7eec7ec5aa5fc38f064569d9ab8ccf39":[41,42],"c452f68857bb9f03cacc1e774162c4c909ffb2aa1ad064e64527c0e8cb2d7de8":[43,44],"e5235f980a52e408098a096dfeb1c428babf7af9bf61d7b737d5b38a297a81d2":[],"f57b48e51f1e4162dc464579951ffbf930a4b8b4295292a0aecdf4d77537f03c":[39,40]}
 UNMATCHED=["8353da8852818df4bc17a94369d69e658aa8b2897cf073dfb18f2e6c26318bdc","e5235f980a52e408098a096dfeb1c428babf7af9bf61d7b737d5b38a297a81d2"]
+NEXT="V91C1W_SOURCE_BIND_ALL_EIGHT_STRICT_DIVISOR_SCHEMES_TO_PICARD64_CLASSES_OR_DIVISOR_RELATIONS_WITH_EXACT_DECOMPOSITION_EXHAUSTIVITY_AND_MULTIPLICITY_THEN_REDUCE_COMPLETE_SWAP23_DIFFERENCE_MOD2"
+BLOCKER="SOURCE_BOUND_PICARD64_CLASS_OR_DIVISOR_RELATION_FOR_ALL_EIGHT_V91C1S_STRICT_DIVISOR_SCHEMES_INCLUDING_SIX_MULTI_MATCH_AND_TWO_ZERO_MATCH_THEN_COMPLETE_SWAP23_DIFFERENCE_MOD2"
 
 def csha(o):
     return hashlib.sha256(json.dumps(o,sort_keys=True,separators=(",",":")).encode()).hexdigest()
@@ -33,6 +35,7 @@ def load(path,expected):
 def main():
     ca=load(CERT,CERT_SHA)
     load(U,U_SHA)
+    assert ca["schema"]=="stage33.e3.v91c1v.a2_02_actual_prime_known140_locator_bounded_result.v2"
     assert ca["entry_authority"]["authority_certificate_sha256"]==U_SHA
     assert ca["entry_authority"]["exact_audited_head"]=="4f9b6643081b32256e7cef2696bfba2dc1ece1b9"
     assert ca["entry_authority"]["hostile_audit_review"]==5124997953
@@ -57,23 +60,36 @@ def main():
     assert r["match_count_histogram"]=={"0":2,"2":4,"4":2}
     assert r["all_needed_primes_have_known_components"] is False
     assert sorted(p for p,v in EXPECTED_MATCHES.items() if not v)==UNMATCHED
+    assert sum(1 for v in EXPECTED_MATCHES.values() if len(v)==1)==0
+    assert sum(1 for v in EXPECTED_MATCHES.values() if len(v)>1)==6
     x=ca["exact_result"]
     assert x["strict_difference_prime_known_component_matches"]==EXPECTED_MATCHES
     assert x["matched_strict_prime_count"]==6
     assert x["unmatched_strict_prime_count"]==2
     assert x["unmatched_strict_prime_ids"]==UNMATCHED
+    assert x["unique_match_strict_prime_count"]==0
+    assert x["multi_match_strict_prime_count"]==6
+    assert x["multi_match_picard64_class_materialized"] is False
+    assert x["all_eight_strict_divisor_schemes_source_bound_to_picard64"] is False
+    assert x["all_eight_strict_divisor_schemes_picard64_resolution_status"]=="0/8"
     assert x["exceptional_locator_materialized"] is True
     assert x["strict_locator_complete"] is False
     assert x["actual_divisor_to_picard64_adapter_materialized"] is False
     q=ca["exact_consequence"]
     assert q["a2_02_swap23_exceptional_id_to_known140_locator_materialized"] is True
     assert q["a2_02_swap23_strict_prime_to_known140_locator_materialized"] is False
+    assert q["a2_02_swap23_strict_divisor_scheme_picard64_classes_materialized"] is False
+    assert q["a2_02_swap23_strict_divisor_scheme_multi_match_count"]==6
+    assert q["a2_02_swap23_strict_divisor_scheme_zero_match_count"]==2
+    assert q["current_blocker"]==BLOCKER
     assert q["pic2_cech_difference_class_computed"] is False
     assert q["a2_02_swap23_seed_fixed_mod_pic2"] is False
     assert q["a2_02_marked_brauer_image_computed"] is False
     assert q["a2_02_marked_brauer_image_excluded_from_mask20"] is False
+    assert ca["anti_inference"]["multi_match_known_components_treated_as_resolved_picard64_class"] is False
+    assert ca["next_exact_leaf"]==NEXT
     assert ca["credit_firewall"]["merge_allowed"] is False
-    print(json.dumps({"success":True,"marker":"V91C1V_ACTUAL_PRIME_KNOWN140_LOCATOR_BOUNDED_RESULT","certificate_sha256":CERT_SHA,"matched_strict_primes":6,"unmatched_strict_primes":2,"next_exact_leaf":ca["next_exact_leaf"]},sort_keys=True))
+    print(json.dumps({"success":True,"marker":"V91C1V_ACTUAL_PRIME_KNOWN140_LOCATOR_BOUNDED_RESULT_REPAIRED","certificate_sha256":CERT_SHA,"unique_strict_primes":0,"multi_match_strict_primes":6,"zero_match_strict_primes":2,"all_eight_picard64_resolved":False,"next_exact_leaf":NEXT},sort_keys=True))
 
 if __name__=="__main__":
     main()
