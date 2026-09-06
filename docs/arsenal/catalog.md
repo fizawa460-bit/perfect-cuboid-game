@@ -65,6 +65,12 @@ Active Stage controllers and current source locks override every snapshot here. 
 | [`S33-PW10`](cards/provisional/S33-PW10.md) | `RESOLVED_PURITY_CECH_CARTIER_SEED_ASSEMBLER` | Stage33 | [../stage33-arsenal-promotion.md](../stage33-arsenal-promotion.md) |
 | [`S33-WF01`](cards/workflows/S33-WF01.md) | `FIRST_MISSING_WITNESS_TYPE_PROVENANCE_GATE` | Stage33 | [../stage33-arsenal-promotion.md](../stage33-arsenal-promotion.md) |
 | [`S33-WF02`](cards/workflows/S33-WF02.md) | `MARKED_QUOTIENT_EVALUATION_OBLIGATION_DECOMPOSITION` | Stage33 | [../stage33-arsenal-promotion.md](../stage33-arsenal-promotion.md) |
+| [`S35-PW01`](cards/provisional/S35-PW01.md) | `PARAMETRIC_SQUARECLASS_COMPATIBILITY_GRAPH` | Stage35 / Stage35-EX | [../stage35-arsenal-promotion.md](../stage35-arsenal-promotion.md) |
+| [`S35-PW02`](cards/provisional/S35-PW02.md) | `EXACT_RECEIVER_INVOLUTION_QUOTIENT_ADAPTER` | Stage35 / Stage35-EX | [../stage35-arsenal-promotion.md](../stage35-arsenal-promotion.md) |
+| [`S35-PW03`](cards/provisional/S35-PW03.md) | `RATIONAL_SOURCE_LIFT_PRESERVING_KUMMER_NORMAL_FORM` | Stage35 / Stage35-EX | [../stage35-arsenal-promotion.md](../stage35-arsenal-promotion.md) |
+| [`S35-PW04`](cards/provisional/S35-PW04.md) | `RECIPROCAL_SHARED_FACTOR_RECEIVER_COMPRESSION` | Stage35 / Stage35-EX | [../stage35-arsenal-promotion.md](../stage35-arsenal-promotion.md) |
+| [`S35-PW05`](cards/provisional/S35-PW05.md) | `FINITE_EXCEPTIONAL_PRIME_CLASSIFICATION_BY_CENSUS_WEIL_COMPLETION` | Stage35 / Stage35-EX | [../stage35-arsenal-promotion.md](../stage35-arsenal-promotion.md) |
+| [`S35-WF01`](cards/workflows/S35-WF01.md) | `ENDPOINT_RETURN_CIRCULARITY_FIREWALL` | Stage35 / Stage35-EX | [../stage35-arsenal-promotion.md](../stage35-arsenal-promotion.md) |
 
 ## Retired IDs
 
@@ -101,6 +107,7 @@ Active Stage controllers and current source locks override every snapshot here. 
 | **FORMAL** | [stage34-formal-harvest.json](stage34-formal-harvest.json) | machine-readable Stage34 formal harvest source |
 | **HISTORICAL** | [stageA1-stageA2-class3-provisional-harvest.md](stageA1-stageA2-class3-provisional-harvest.md) | human historical Class-3 method harvest |
 | **HISTORICAL** | [stageA1-stageA2-class3-provisional-harvest.json](stageA1-stageA2-class3-provisional-harvest.json) | machine historical Class-3 method harvest |
+| **PROVISIONAL** | [../stage35-arsenal-promotion.md](../stage35-arsenal-promotion.md) | Stage35 / Stage35-EX initial provisional harvest promotion provenance; active Stage authority remains higher |
 
 ## Historical and deep lookup
 
