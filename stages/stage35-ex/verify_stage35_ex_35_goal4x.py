@@ -13,8 +13,9 @@ ART=ROOT/'stages/stage35-ex/35ex-35/goal4x-open-receiver-boundary-picard-galois-
 STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
 a=json.loads(ART.read_text())
 st=json.loads(STATE.read_text())
+CURRENT_MAIN='8a04691d03f8ec17cf2236aab3d0f0d2dbde3fc3'
 assert a['schema']=='STAGE35_EX_35_GOAL4X_OPEN_RECEIVER_BOUNDARY_PICARD_GALOIS_H1_V1'
-assert a['base_main_sha']=='87a1c4e6268f76c642964dbcb5d0cd4be4e7c425'
+assert a['base_main_sha']==CURRENT_MAIN
 assert a['parent']['source_head_sha']=='87a1c4e6268f76c642964dbcb5d0cd4be4e7c425'
 assert a['parent']['snapshot_blob_sha']=='9a071c9d3c5436831550502091b677601dce0650'
 
@@ -66,16 +67,13 @@ assert all(x.q==1 for x in Tinv)
 def induced(A):
     Ap=Tinv*sp.Matrix(A)*Tm
     assert all(x.q==1 for x in Ap)
-    # Boundary image is the killed first-rank summand and must be Galois-stable.
     assert Ap[:r,r:]==sp.zeros(r,q)
-    Q=Ap[r:,r:]
-    return Q
+    return Ap[r:,r:]
 Ac=induced(cc); At=induced(ct); I=sp.eye(q)
 assert Ac*Ac==I and At*At==I and Ac*At==At*Ac
 assert a['galois_module']['boundary_image_stable'] is True
 assert a['galois_module']['induced_action_dimension']==35
 
-# Exact integral group cohomology for V4=<cc,ct> in row-action convention.
 K=sp.zeros(2*q,3*q)
 K[:q,:q]=I+Ac
 K[q:,q:2*q]=I+At
@@ -104,7 +102,6 @@ assert a['cohomology']['torsion_invariants']==[2,2]
 assert a['cohomology']['structure']=='Z/2 x Z/2'
 assert a['cohomology']['trivial'] is False
 
-# Deliberate firewall: this leaf computes geometric Picard H1 but not the explicit Brauer lift/residue/evaluation layer.
 br=a['brauer_route']
 assert br['open_receiver_H1_Pic_nontrivial'] is True
 assert br['open_receiver_Br1_mod_Br0_fully_materialized'] is False
@@ -112,6 +109,7 @@ assert br['explicit_brauer_class_constructed'] is False
 assert br['purity_localization_residue_representatives_computed'] is False
 assert br['brauer_manin_obstruction_obtained'] is False
 assert st['schema']=='STAGE35_EX_PESCH_E1_STATE_V61_GOAL4X_OPEN_PICARD_H1_Z2_SQUARED_PENDING_BRAUER_LIFT_AND_AUDIT'
+assert st['base_main_sha']==CURRENT_MAIN
 assert st['current']['unit']=='35EX-35_GOAL4X_OPEN_RECEIVER_BOUNDARY_PICARD_GALOIS_AND_ALGEBRAIC_BRAUER_PREFLIGHT'
 assert st['claims']['open_receiver_Picard_rank']==35
 assert st['claims']['open_receiver_H1_Pic_structure']=='Z/2 x Z/2'
