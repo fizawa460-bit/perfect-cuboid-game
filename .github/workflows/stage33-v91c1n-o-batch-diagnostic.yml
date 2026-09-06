@@ -29,5 +29,44 @@ jobs:
         run: python stages/stage33/33-12/verify_e3_v91c1n_minimal_joint_v4_fixed_coordinate_discriminator.py
       - name: Diagnose V91C1O A2_02 geometric stabilizer
         run: python stages/stage33/33-12/diagnose_e3_v91c1o_a2_02_geometric_stabilizer.py
+      - name: Observed augmented dimension 0
+        if: env.V91C1O_AUG_DIM == '0'
+        run: echo V91C1O_AUG_DIM=0
+      - name: Observed augmented dimension 1
+        if: env.V91C1O_AUG_DIM == '1'
+        run: echo V91C1O_AUG_DIM=1
+      - name: Observed augmented dimension 2
+        if: env.V91C1O_AUG_DIM == '2'
+        run: echo V91C1O_AUG_DIM=2
+      - name: Observed augmented dimension 3
+        if: env.V91C1O_AUG_DIM == '3'
+        run: echo V91C1O_AUG_DIM=3
+      - name: Observed augmented dimension 4
+        if: env.V91C1O_AUG_DIM == '4'
+        run: echo V91C1O_AUG_DIM=4
+      - name: Observed augmented dimension 5
+        if: env.V91C1O_AUG_DIM == '5'
+        run: echo V91C1O_AUG_DIM=5
+      - name: Observed augmented dimension 6
+        if: env.V91C1O_AUG_DIM == '6'
+        run: echo V91C1O_AUG_DIM=6
+      - name: Observed augmented dimension 7
+        if: env.V91C1O_AUG_DIM == '7'
+        run: echo V91C1O_AUG_DIM=7
+      - name: Observed augmented dimension 8
+        if: env.V91C1O_AUG_DIM == '8'
+        run: echo V91C1O_AUG_DIM=8
+      - name: Observed augmented dimension 9
+        if: env.V91C1O_AUG_DIM == '9'
+        run: echo V91C1O_AUG_DIM=9
+      - name: Observed augmented dimension 10
+        if: env.V91C1O_AUG_DIM == '10'
+        run: echo V91C1O_AUG_DIM=10
+      - name: Observed e3 fixed by residue stabilizer generators
+        if: env.V91C1O_E3_FIXED == 'true'
+        run: echo V91C1O_E3_FIXED=true
+      - name: Observed e3 not fixed by residue stabilizer generators
+        if: env.V91C1O_E3_FIXED == 'false'
+        run: echo V91C1O_E3_FIXED=false
       - name: Diff hygiene
         run: git diff --check
