@@ -112,7 +112,6 @@ def main() -> None:
     assert mul(root1, root2) == scale(powp(D, 2), 64)
 
     # Gaussian fourth-power identity: (p+i)^4 = C + 4 i D.
-    # Pair multiplication (real polynomial, imaginary polynomial).
     def gmul(z1: tuple[list[int], list[int]], z2: tuple[list[int], list[int]]) -> tuple[list[int], list[int]]:
         a, b = z1
         c2, d = z2
@@ -129,9 +128,9 @@ def main() -> None:
     assert r["generic_E_sigma_tau_MW"]["exact_generic_torsion"] == "Z/2 x Z/2"
     assert s36["conclusion"]["E_SIGMA_TAU_TORSION_GROWTH_EXCLUDED"] is True
     assert s36["conclusion"]["retained_fiber_torsion_exact"] == "Z/2 x Z/2"
-    assert t["rankjump_gate"]["generic_E_sigma_Qi_rank"] == 1
-    assert t["rankjump_gate"]["receiver_forces_E_sigma_Qi_rank_at_least"] == 2
-    assert t["rankjump_gate"]["receiver_forces_Qi_rank_jump"] is True
+    assert t["minus_one_twist"]["generic_rank_E_sigma_over_Qi_p"] == 1
+    assert t["receiver_rankjump_consequence"]["receiver_forces_E_sigma_rank_over_Qi_at_least"] == 2
+    assert t["receiver_rankjump_consequence"]["receiver_forces_genuine_Qi_rank_jump"] is True
 
     kb = c["generic_kummer_baseline"]
     assert kb["beta_baseline_size"] == 4
