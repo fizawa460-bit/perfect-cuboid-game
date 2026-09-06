@@ -1,0 +1,27 @@
+name: Stage32 scratch post1648Z Galois factor-swap descent gate
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648n-marked-ppav-basis
+    paths:
+      - stages/stage32/residual-32-01-production/post1648z-galois-factor-swap-asymmetric-bidegree-descent-source-note.md
+      - stages/stage32/residual-32-01-production/post1648z-galois-factor-swap-asymmetric-bidegree-descent-gate.json
+      - stages/stage32/residual-32-01-production/verify_stage32_post1648z_galois_factor_swap_asymmetric_bidegree_descent_gate.py
+      - .github/workflows/stage32-scratch-post1648z-galois-factor-swap-asymmetric-bidegree-descent.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify post1648Z Galois factor-swap descent gate
+        run: python stages/stage32/residual-32-01-production/verify_stage32_post1648z_galois_factor_swap_asymmetric_bidegree_descent_gate.py

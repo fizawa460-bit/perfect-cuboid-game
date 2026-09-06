@@ -1,0 +1,135 @@
+{
+  "schema": "STAGE32_POST1648Z_GALOIS_FACTOR_SWAP_ASYMMETRIC_BIDEGREE_DESCENT_GATE_V1",
+  "stage": 32,
+  "role": "SCRATCH_EXACT_NONCREDIT_THIRD_PERSPECTIVE_GALOIS_DESCENT_GATE",
+  "status": "SCRATCH_PASS_ASYMMETRIC_BIDEGREE_PROVES_FIXED_V6_CLASS_NOT_Q_GALOIS_FIXED",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "d": 186,
+    "e": 266,
+    "genus": 1,
+    "O": 210,
+    "qprime": 4,
+    "Q": 602,
+    "surviving_residues_decimal": [
+      73,
+      97,
+      235
+    ]
+  },
+  "source_locks": {
+    "post1484_bidegree": {
+      "path": "stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-boundary.json",
+      "canonical_sha256": "791870c37681702392e1e59d224f494ed791709d467efa68a20cf49bff4ab420",
+      "git_blob_sha1": "072266f2ac5386316adc99e35a6444d2449656c8"
+    },
+    "post1473_v6_witness": {
+      "path": "stages/stage32/32-21/post1473-v6-witness-body-recovered.json",
+      "canonical_sha256": "d0c1c8bddfe3950737ed6f87ffa74acd850c736298bd12ec1eceac609625b8a8",
+      "git_blob_sha1": "dae90ed19395355bebeebe2a6aa6bb1c6e53c244"
+    },
+    "source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1648z-galois-factor-swap-asymmetric-bidegree-descent-source-note.md",
+      "git_blob_sha1": "4ce77ed7aed56364a4a120980ac6de3be81cfbb9"
+    }
+  },
+  "external_source_lock": {
+    "stoll_testa": {
+      "arxiv": "1009.0388",
+      "title": "The surface parametrizing cuboids",
+      "current_manuscript_date": "2025-02-24",
+      "locator": "Section 4, paragraph spanning pp. 8-9 on the modular Q-model and Weil restriction",
+      "exact_supported_facts": [
+        "over a field containing sqrt(-1), the cuboid surface is the diagonal quotient of X(8) x X(8) by G_0 and maps to X(4) x X(4)",
+        "the sign change a3 -> -a3 lifts to the automorphism of X x X that switches the two factors",
+        "over Q the cuboid surface is the quotient of Res_{Q(i)/Q}(X_{Q(i)}) by G_0",
+        "the quadric factor base over Q is Res_{Q(i)/Q}(X(4)_{Q(i)})",
+        "therefore the nontrivial Gal(Q(i)/Q) element exchanges the two geometric X(4) factor fibrations"
+      ]
+    },
+    "stoll_verification": {
+      "repository": "MichaelStollBayreuth/Verification",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/cuboids.magma",
+      "exact_supported_fact": "the verification script explicitly sets up complex conjugation i -> -i and descends its action to Pic(S)"
+    }
+  },
+  "route_broadening": {
+    "user_requested_third_perspective": true,
+    "marking_routes_paused": true,
+    "blind_rediscovery_performed": true,
+    "arsenal_checked": true,
+    "rejected_as_not_new": [
+      "global Rosati norm/trace shell alone: post1490 already shows Q=602 is represented",
+      "simultaneous-inner-conjugacy invariants: post1648S already closes them",
+      "source-only branch/theta marking: post1648U/Y already nonpruning/subsumed"
+    ],
+    "selected_route": "Q_GALOIS_FACTOR_SWAP_OF_MODULAR_FIBRATIONS_AND_ASYMMETRIC_BIDEGREE"
+  },
+  "exact_derivation": {
+    "factor_fiber_classes": [
+      "F1",
+      "F2"
+    ],
+    "fixed_class_symbol": "D",
+    "fixed_bidegree": [
+      105,
+      81
+    ],
+    "galois_generator": "sigma in Gal(Q(i)/Q), sigma(i)=-i",
+    "galois_factor_action": {
+      "sigma(F1)": "F2",
+      "sigma(F2)": "F1"
+    },
+    "conjugate_class_bidegree": [
+      81,
+      105
+    ],
+    "bidegrees_equal": false,
+    "sigma_D_equals_D": false,
+    "fixed_V6_class_Q_galois_fixed": false,
+    "fixed_V6_class_defined_over_Q": false,
+    "proof": "If sigma(D)=D then Galois invariance of intersection gives D.F1=D.sigma(F1)=D.F2, contradicting 105!=81."
+  },
+  "rational_point_consequence": {
+    "Q_defined_integral_irreducible_curve_in_exact_class_D_possible": false,
+    "geometrically_irreducible_curve_in_D_can_have_infinite_Q_rational_subset": false,
+    "reason": "Infinitely many Q-points lie on both C and sigma(C); distinct irreducible curves have finite intersection, hence C=sigma(C), contradicting sigma(D)!=D.",
+    "isolated_Q_rational_points_excluded": false,
+    "remaining_possible_location_for_Q_points": "C intersect sigma(C)"
+  },
+  "next_interface": {
+    "name": "EXACT_PICARD_COMPLEX_CONJUGATE_CLASS_AND_RATIONAL_INTERSECTION_SUPPORT",
+    "available_adapter": "Stoll-Testa cuboids.magma complex-conjugation action on Pic(S)",
+    "next_exact_route": "COMPUTE_sigma(D)_AND_D_dot_sigma(D)_THEN_IDENTIFY_THE_Q_RATIONAL_PART_OF_C_INTERSECT_sigma(C)_AND_TEST_IF_IT_IS_BOUNDARY_OR_DEGENERATE"
+  },
+  "decision": {
+    "new_third_perspective_route_obtained": true,
+    "absolute_delta0inf_retained_W_line_identified": false,
+    "q602_residue_specific_commutator_obtained": false,
+    "survivors_current_credit": [
+      73,
+      97,
+      235
+    ],
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "O212_plus_advance_allowed": false,
+    "result": "NEW_GALOIS_DESCENT_BOUNDARY_FIXED_V6_CLASS_NOT_Q_DEFINED_ISOLATED_RATIONAL_INTERSECTION_REMAINS"
+  },
+  "firewalls": {
+    "scratch_result_promoted_to_MAIN_authority": false,
+    "scratch_result_promoted_to_current_credit": false,
+    "non_Q_fixed_class_promoted_to_geometric_nonexistence": false,
+    "infinite_Q_point_obstruction_promoted_to_isolated_Q_point_obstruction": false,
+    "intersection_support_computed": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false
+  },
+  "canonical_sha256_without_this_field": "cc2fc48738e35d62883e7cf94f6b75c8153d066346b72a0b9ce05deaae1eb36b"
+}
