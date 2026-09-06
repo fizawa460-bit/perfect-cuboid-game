@@ -12,15 +12,16 @@ HERE = Path(__file__).resolve().parent
 STATE = HERE / "MAIN-STATE.json"
 START = HERE / "MAIN-START-HERE.md"
 
-EXPECTED_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V1_POST1643_HPERP_V6_HDECK_CHARACTER_PREFLIGHT"
-EXPECTED_CANONICAL = "e44eed469d36f8d98151372a36da99ca65e0918a127606d25721a03612b71ca3"
-EXPECTED_ROUTE = "SOURCE_BIND_DELTA_0INF_TO_ONE_RETAINED_W_LINE_BY_EQUIVARIANT_PRINCIPAL_BOLZA_ACTION_OR_AN_EQUIVALENT_ABSOLUTE_TORSOR_TO_J2_ADAPTER"
+EXPECTED_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V1_POST1648J_TRACE_ORIENTATION_CANDIDATE"
+EXPECTED_CANONICAL = "48c1c6cf67a7f96fe691b95d4180a4d72cdf819fd5485dd0178df8fd2c4f9c64"
+EXPECTED_ROUTE = "SOURCE_BIND_THE_INNER_CONJUGATING_ELEMENT_FOR_CECOTTI_B7_B8_TO_THE_RETAINED_G12_MARKING_OR_EXPLICITLY_IDENTIFY_B7_WITH_S_AND_B8_WITH_T_INVERSE_ON_THE_MARKED_PPAV"
 EXPECTED_WORKING_SET = [
-    "stages/stage32/residual-32-01-production/post1623-hperp-v6-hdeck-character-preflight.json",
-    "stages/stage32/residual-32-01-production/verify_stage32_post1623_hperp_v6_hdeck_character_preflight.py",
+    "stages/stage32/residual-32-01-production/post1648j-cecotti-trace-orientation-correction.json",
+    "stages/stage32/residual-32-01-production/verify_stage32_post1648j_cecotti_trace_orientation_correction.py",
+    "stages/stage32/residual-32-01-production/post1648b-cecotti-generator-pair-absolute-marking-preflight.json",
+    "stages/stage32/residual-32-01-production/post1648-delta0inf-retained-w-absolute-marking-localization.json",
+    "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json",
     "stages/stage32/residual-32-01-production/post1505-o210-q602-marked-w-line-gauge-orbit.json",
-    "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock.json",
-    "stages/stage32/residual-32-01-production/post1588-hperp-nonexceptional-mod2-witness.json",
 ]
 
 
@@ -53,6 +54,12 @@ def load_locked_json(lock: dict) -> dict:
     return obj
 
 
+def run_marker(path: Path, marker: str) -> None:
+    proc = subprocess.run([sys.executable, str(path)], check=True, text=True, capture_output=True)
+    if marker not in proc.stdout:
+        fail(f"verifier completion marker missing: {marker}")
+
+
 def main() -> None:
     state = json.loads(STATE.read_text(encoding="utf-8"))
     if state.get("schema") != EXPECTED_SCHEMA:
@@ -83,12 +90,26 @@ def main() -> None:
     frontier = state["current_exact_frontier"]
     required = {
         "nonexceptional_mod2_witness_source_bound": True,
-        "nonexceptional_mod2_witness_normal_curve_label_1based": 1,
         "source_bound_nonexceptional_H_character_probe_obtained": True,
         "source_bound_H_character_probe_normal_curve_label_1based": 9,
         "source_bound_H_character_probe_character": "chi_u",
         "source_bound_H_character_probe_profile_id_u_v_uv": [0, 1, 0, 1],
         "abstract_delta_0inf_direction_recovered": True,
+        "delta0inf_source_bound_to_Z3_b3_retained_boundary_block": True,
+        "delta0inf_retained_boundary_labels_1based": [41, 42, 43, 44],
+        "principal_b3_stoll_candidates_after_boundary_weierstrass_filter": 32,
+        "unmarked_full_J2_group_matching_closed_nonpruning": True,
+        "deraux_affine_sixpoint_matching_closed_nonpruning": True,
+        "central_r_operator_matching_closed_nonpruning": True,
+        "full_G_deck_as_nontrivial_Stoll_B_route_closed_type_mismatch": True,
+        "cecotti_B7_B8_trace_orientation_exact": True,
+        "cecotti_B7_B8_trace_phi2_phi6": "+r",
+        "cecotti_named_S_T_trace": "-r",
+        "cecotti_named_S_T_orientation_ruled_out_for_specific_B7_B8": True,
+        "cecotti_compatible_ordered_pair_orbit": "INNER_CONJUGATES_OF_S_T_INVERSE",
+        "literal_S_T_inverse_representative_conditional_residue_decimal": 97,
+        "literal_S_T_inverse_representative_promoted": False,
+        "plus_r_inner_conjugates_W_line_bijections": 6,
         "absolute_delta0inf_retained_W_line_identified": False,
         "q602_residue_specific_commutator_obtained": False,
     }
@@ -97,12 +118,14 @@ def main() -> None:
             fail(f"frontier moved: {key}")
 
     current = state["current"]
-    if current["active_missing_interface"] != "ABSOLUTE_ADAPTER_DELTA_0INF_TO_ONE_RETAINED_W_LINE":
+    if current["active_missing_interface"] != "DISTINGUISHED_INNER_CONJUGATING_ELEMENT_FOR_CECOTTI_B7_B8_TO_RETAINED_G12_MARKING":
         fail("active missing interface moved")
     if current["next_exact_route"] != EXPECTED_ROUTE:
         fail("next exact route moved")
     if current["stop_semantics"] != "LEAF_GATE_ONLY_NOT_STAGE_EXHAUSTION":
         fail("stop semantics moved")
+    if current["stacked_candidate_audit_status"] != "PENDING_BATCH_HOSTILE_AUDIT":
+        fail("batch audit status moved")
 
     if state["current_leaf_working_set"] != EXPECTED_WORKING_SET:
         fail("current leaf working set moved")
@@ -120,42 +143,35 @@ def main() -> None:
             fail(f"startup contract fragment missing: {fragment}")
 
     locks = state["source_locks"]
+    j = load_locked_json(locks["post1648j_trace_orientation"])
+    j_verifier = ROOT / locks["post1648j_trace_orientation_verifier"]["path"]
+    if git_blob_sha(j_verifier) != locks["post1648j_trace_orientation_verifier"]["blob_sha1"]:
+        fail("post1648J verifier blob moved")
+    run_marker(j_verifier, "POST1648J_CECOTTI_TRACE_ORIENTATION_CORRECTION_COMPLETE")
+
     char = load_locked_json(locks["post1643_hdeck_character_preflight"])
-    leaf_verifier_path = ROOT / locks["post1643_hdeck_character_verifier"]["path"]
-    if git_blob_sha(leaf_verifier_path) != locks["post1643_hdeck_character_verifier"]["blob_sha1"]:
+    char_verifier = ROOT / locks["post1643_hdeck_character_verifier"]["path"]
+    if git_blob_sha(char_verifier) != locks["post1643_hdeck_character_verifier"]["blob_sha1"]:
         fail("post1643 verifier blob moved")
+    run_marker(char_verifier, "POST1623_HPERP_V6_HDECK_CHARACTER_PREFLIGHT_COMPLETE")
+
     load_locked_json(locks["post1621_hperp_witness"])
     load_locked_json(locks["post1588_direct_mod2"])
     load_locked_json(locks["post1577_terminal_negative"])
 
-    proc = subprocess.run([sys.executable, str(leaf_verifier_path)], check=True, text=True, capture_output=True)
-    if "POST1623_HPERP_V6_HDECK_CHARACTER_PREFLIGHT_COMPLETE" not in proc.stdout:
-        fail("post1643 leaf verifier completion marker missing")
+    if j["decision"]["survivors_current_credit"] != [73, 97, 235]:
+        fail("post1648J survivor set moved")
+    if j["decision"]["absolute_delta0inf_retained_W_line_identified"]:
+        fail("post1648J absolute line firewall moved")
+    if j["correction_to_post1648b"]["new_exact_status"] != "RULED_OUT_FOR_THE_SPECIFIC_CECOTTI_B7_B8_PAIR_BY_HOLOMORPHIC_DIFFERENTIAL_TRACE":
+        fail("post1648J correction moved")
+    if j["W_line_consequence"]["literal_plus_r_conditional_delta0inf_residue_decimal"] != 97:
+        fail("post1648J literal plus-r diagnostic moved")
+    if j["W_line_consequence"]["all_plus_r_inner_conjugates"]["distinct_W_line_bijections"] != 6:
+        fail("post1648J inner-conjugacy ambiguity moved")
 
     if char["fixed_target"]["surviving_residues_decimal"] != [73, 97, 235]:
-        fail("post1643 survivor set moved")
-    probe = char["exact_hdeck_probe"]["source_bound_nontrivial_character"]
-    if probe != {
-        "character_name": "chi_u",
-        "chi_u_labels_1based": [9, 14, 85, 88, 89, 92],
-        "chi_uv_single_normal_labels_1based": [],
-        "chi_v_single_normal_labels_1based": [],
-        "normal_curve_label_1based": 9,
-        "one_plus_chi_u_labels_1based": [12, 15, 86, 87, 90, 91],
-        "profile": [0, 1, 0, 1],
-    }:
-        fail("post1643 chi_u probe moved")
-    bounded = char["bounded_conclusion"]
-    if bounded["next_exact_route"] != EXPECTED_ROUTE:
-        fail("post1643 route moved")
-    if not bounded["abstract_delta_0inf_direction_recovered"]:
-        fail("abstract delta_0inf credit missing")
-    if not bounded["absolute_delta0inf_retained_W_line_still_unidentified"]:
-        fail("absolute W-line gap moved")
-    if not bounded["audited_three_residues_still_not_arithmetically_contracted"]:
-        fail("survivor firewall moved")
-    if bounded["q602_residue_specific_commutator_obtained"]:
-        fail("commutator firewall moved")
+        fail("audited post1643 survivor set moved")
 
     fw = state["firewalls"]
     for key in [
@@ -170,10 +186,11 @@ def main() -> None:
     print("PASS Stage32 MAIN startup authority")
     print(f"main_state_canonical={EXPECTED_CANONICAL}")
     print("latest_audited_stage32_pr=1643 hostile_review=5123545511")
+    print("stacked_candidate=post1648J pending_batch_hostile_audit")
+    print("cecotti_B7_B8_trace=+r named_ST_trace=-r compatible_orbit=conjugates_of_S_Tinv")
+    print("literal_plus_r_conditional_residue=97 not_promoted=true")
+    print("inner_conjugates_W_line_bijections=6 absolute_delta0inf_retained_W_line_identified=false")
     print("audited_survivors=73,97,235")
-    print("source_bound_H_character_probe=normal_label_9 profile_0101=chi_u")
-    print("abstract_delta_0inf_direction_recovered=true")
-    print("absolute_delta0inf_retained_W_line_identified=false")
     print("Q602_excluded=false O210_excluded=false O212_plus_advance_allowed=false")
 
 
