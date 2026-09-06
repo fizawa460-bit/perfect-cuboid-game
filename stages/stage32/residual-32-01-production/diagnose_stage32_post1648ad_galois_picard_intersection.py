@@ -4,17 +4,15 @@ from __future__ import annotations
 import hashlib
 import json
 import sys
+import traceback
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 STAGE33_07 = ROOT / "stage33" / "33-07"
 sys.path.insert(0, str(STAGE33_07))
-
-from picard_base_rows_retained import load as load_picard  # noqa: E402
-
-V6 = ROOT / "stage32" / "32-21" / "post1473-v6-witness-body-recovered.json"
 OUT = Path("/tmp/stage32-post1648ad-galois-picard-intersection-diagnostic.json")
+V6 = ROOT / "stage32" / "32-21" / "post1473-v6-witness-body-recovered.json"
 EXPECTED_V6_CANONICAL = "d0c1c8bddfe3950737ed6f87ffa74acd850c736298bd12ec1eceac609625b8a8"
 EXPECTED_RETAINED_CANONICAL = "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c"
 EXPECTED_SOURCE_BLOB = "0422b69847f2afb97cb7b3ed02ebef91279f61b1"
@@ -43,7 +41,9 @@ def dot(x: list[int], G: list[list[int]], y: list[int]) -> int:
     return sum(int(a) * int(b) for a, b in zip(x, Gy))
 
 
-def main() -> None:
+def compute() -> dict:
+    from picard_base_rows_retained import load as load_picard
+
     v6 = json.loads(V6.read_text(encoding="utf-8"))
     body = dict(v6)
     claimed = body.pop("canonical_sha256_without_this_field")
@@ -64,8 +64,8 @@ def main() -> None:
     assert mm(A, A) == I
     assert mm(mm(A, G), AT) == G
 
-    # retained action is on the ordered Picard basis (row convention), hence
-    # divisor coordinate columns transform by A^T.
+    # The retained action is on basis rows, so divisor coordinate columns
+    # transform by A^T.
     sx = mv(AT, x)
     ssx = mv(AT, sx)
     assert ssx == x
@@ -73,13 +73,14 @@ def main() -> None:
     sd2 = dot(sx, G, sx)
     cross = dot(x, G, sx)
     assert d2 == sd2 == 758
-
     diff = [a - b for a, b in zip(x, sx)]
     summ = [a + b for a, b in zip(x, sx)]
-    result = {
+    return {
+        "success": True,
         "schema": "STAGE32_POST1648AD_GALOIS_PICARD_INTERSECTION_DIAGNOSTIC_V1",
         "retained_picard_bundle_canonical_sha256": retained["canonical_sha256"],
         "retained_upstream_git_blob_sha1": retained["upstream_git_blob_sha1"],
+        "retained_keys": sorted(retained.keys()),
         "basis": "historical retained Magma Basis(Pic), row-action convention",
         "D_self_intersection": d2,
         "sigma_D_self_intersection": sd2,
@@ -91,6 +92,20 @@ def main() -> None:
         "involution_exact": ssx == x,
         "gram_isometry_exact": True,
     }
+
+
+def main() -> None:
+    try:
+        result = compute()
+    except Exception as exc:
+        result = {
+            "success": False,
+            "exception_type": type(exc).__name__,
+            "exception": str(exc),
+            "traceback": traceback.format_exc(),
+            "stage33_07_exists": STAGE33_07.exists(),
+            "v6_exists": V6.exists(),
+        }
     OUT.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps(result, sort_keys=True))
 
