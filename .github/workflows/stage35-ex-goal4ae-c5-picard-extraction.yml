@@ -41,7 +41,7 @@ jobs:
           key=Path('stages/stage35-ex/runkeys/goal4ae-c5-picard-extraction.json')
           new=json.loads(key.read_text())
           assert new['schema']=='STAGE35_EX_GOAL4AE_C5_PICARD_EXTRACTION_RUNKEY_V1'
-          assert new['armed'] is True and new['generation']==1
+          assert new['armed'] is True and new['generation']==2
           assert new['upstream_git_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
           assert new['goal4ad_blob_sha1']=='6cedfed8d5944a3a93ddfe106f488c2a75670c92'
           assert new['planned_jobs']==1
@@ -83,6 +83,7 @@ jobs:
           assert h==hashlib.sha256(json.dumps(b,sort_keys=True,separators=(',',':')).encode()).hexdigest()
           assert x['schema']=='STAGE35_EX_35_GOAL4AE_C5_DIRECT_PICK_TO_PICS_INDLIST64_V1'
           assert len(x['c5_pair_rows'])==8 and len(x['goal4ac_residual_pairs'])==4
+          assert x['execution']['source_slice_used'] and x['execution']['submitted_magma_code_bytes']<65536
           assert x['exact_checks']['all_rows_integral'] and x['exact_checks']['all_rows_distinct']
           assert x['exact_checks']['antipodal_pair_sum_equals_2H_for_all_8_labels']
           assert not x['semantic_firewall']['target_span_with_C5_pairs_computed']
