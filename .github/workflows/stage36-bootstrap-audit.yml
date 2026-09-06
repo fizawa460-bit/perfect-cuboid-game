@@ -49,34 +49,48 @@ jobs:
           python3 "$tmp/stages/stage36/verify_stage36_36_09U.py"
           git worktree remove --force "$tmp"
 
-      - name: Verify current batched 36-09V
-        run: python3 stages/stage36/verify_stage36_36_09V.py
+      - name: Replay exact 36-09V batch parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          V_HEAD=117cdb991a29706b7b9e79485c5b9f19a6f09552
+          git merge-base --is-ancestor "$V_HEAD" HEAD
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$V_HEAD"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09V.py"
+          git worktree remove --force "$tmp"
 
-      - name: Assert 36-09V firewalls and 36-09W unlock
+      - name: Verify current batched 36-09W
+        run: python3 stages/stage36/verify_stage36_36_09W.py
+
+      - name: Assert 36-09W firewalls and 36-09X unlock
         shell: bash
         run: |
           python3 - <<'PY'
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V56_36_09V_BATCHED'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V57_36_09W_BATCHED'
           assert s['status']=='ACTIVE_BATCHING_SUBSTANTIVE_PR'
-          V=s['authority_frontier']['36-09V']
-          assert V['SIX_RESERVOIR_DIRECTIONAL_PARTITION'] is True
-          assert V['FIXED_FINITE_S_RECOVERED'] is False
-          assert V['C2_FIXED_FINITE_S_COMPRESSION_BLOCKED'] is True
-          assert V['B11_SELECTED_NEXT'] is True
-          assert V['CANDIDATE_SET_SHRUNK'] is False
-          assert V['QI_RANKJUMP_LOCUS_EMPTY'] is False
-          assert V['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09W'
-          assert s['current']['36_09W_entry_allowed'] is True
+          W=s['authority_frontier']['36-09W']
+          assert W['PARAMETER_HILBERT_TABLE_EXACT'] is True
+          assert W['GLOBAL_PARAMETER_CHECKSUM_EXACT'] is True
+          assert W['PARAMETER_ONLY_RECIPROCITY_BLOCKED'] is True
+          assert W['DIRECTION_INTERNAL_LEGENDRE_FREEDOM'] is True
+          assert W['DIRECTION_ONLY_RECIPROCITY_BLOCKED'] is True
+          assert W['KUMMER_COUPLED_B11_REMAINS_LIVE'] is True
+          assert W['MULTIPLACE_RECIPROCITY_OBSTRUCTION_PROVED'] is False
+          assert W['CANDIDATE_SET_SHRUNK'] is False
+          assert W['QI_RANKJUMP_LOCUS_EMPTY'] is False
+          assert W['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09X'
+          assert s['current']['36_09X_entry_allowed'] is True
           assert s['current']['hostile_audit_checkpoint_reached'] is False
-          assert s['promotion_gates']['36_09U_hostile_audit_passed'] is False
-          assert s['promotion_gates']['36_09V_hostile_audit_passed'] is False
+          assert s['promotion_gates']['36_09W_hostile_audit_passed'] is False
           assert s['promotion_gates']['multiplace_reciprocity_obstruction_proved'] is False
-          assert s['promotion_gates']['receiver_emptiness_proved'] is False
+          assert s['promotion_gates']['Kummer_class_coupled_Hilbert_obstruction_proved'] is False
           assert s['claims']['candidate_set_shrunk'] is False
+          assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09V exact batched directional support verified; fixed finite-S blocked; 36-09W unlocked; hostile audit deferred')
+          print('36-09W exact parameter Hilbert checksum verified; coarse reciprocity blocked; Kummer-coupled B11 remains live; 36-09X unlocked; hostile audit deferred')
           PY
