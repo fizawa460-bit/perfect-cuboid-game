@@ -1,13 +1,15 @@
-name: Stage33 V91C1Y-Z cheap fixed-subspace preflight
+name: Stage33 V91C1Y-AA cheap fixed-subspace preflight
 
 on:
   pull_request:
     paths:
       - 'stages/stage33/33-12/diagnose_e3_v91c1y_swap23_fixed_marked_brauer_subspace.py'
       - 'stages/stage33/33-12/diagnose_e3_v91c1z_next_stabilizer_reducers.py'
+      - 'stages/stage33/33-12/diagnose_e3_v91c1aa_sign_reducer_package_transport.py'
       - 'stages/stage33/33-12/e3-v91c1x-a2-02-kummer-naturality-mask20-exclusion.json'
       - 'stages/stage33/33-12/diagnose_e3_v91c1q_shortest_mask20_moving_stabilizer_word.py'
       - 'stages/stage33/33-12/diagnose_e3_coordinate_automorphism_orbit_v84.py'
+      - 'stages/stage33/33-12/boundary-function-generator-source-lock.json'
       - 'stages/stage33/33-11f/stage33-11f-source-lock.json'
       - 'stages/stage33/33-07/proper-brauer2-from-discriminant.json'
       - '.github/workflows/stage33-v91c1y-cheap-preflight.yml'
@@ -17,7 +19,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v91c1yz-cheap-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1yaa-cheap-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -35,5 +37,7 @@ jobs:
         run: python stages/stage33/33-12/diagnose_e3_v91c1y_swap23_fixed_marked_brauer_subspace.py
       - name: Diagnose V91C1Z next residue-stabilizer reducers
         run: python stages/stage33/33-12/diagnose_e3_v91c1z_next_stabilizer_reducers.py
+      - name: Diagnose V91C1AA sign_a2/sign_b1 literal package transport
+        run: python stages/stage33/33-12/diagnose_e3_v91c1aa_sign_reducer_package_transport.py
       - name: Diff hygiene
         run: git diff --check
