@@ -52,8 +52,8 @@ jobs:
             git merge-base --is-ancestor "$x" HEAD
           done
 
-      - name: Save current V48 state
-        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v48.json
+      - name: Save current V49 state
+        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v49.json
 
       - name: Replay Stage36 authority chain through 36-09J
         shell: bash
@@ -167,25 +167,28 @@ jobs:
           git show 69ac6635fb7a7808bca7aad72c5b7e61bcb5cbb6:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
           python3 stages/stage36/verify_stage36_36_09Q_audited.py
 
-      - name: Restore V48 and verify Stage36 36-09R exact preflight
+      - name: Restore V49 and verify repaired Stage36 36-09R exact preflight
         shell: bash
         run: |
           set -euo pipefail
-          cp /tmp/stage36-v48.json stages/stage36/MAIN-STATE.json
+          cp /tmp/stage36-v49.json stages/stage36/MAIN-STATE.json
           python3 stages/stage36/verify_stage36_36_09R.py
 
-      - name: Assert hostile-audit boundary before 36-09S
+      - name: Assert hostile-reaudit boundary before 36-09S
         shell: bash
         run: |
           python3 - <<'PY'
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V48_36_09R_PENDING_HOSTILE_AUDIT'
-          assert s['status']=='ACTIVE_PENDING_HOSTILE_AUDIT'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V49_36_09R_REPAIRED_PENDING_HOSTILE_REAUDIT'
+          assert s['status']=='ACTIVE_PENDING_HOSTILE_REAUDIT'
           R=s['authority_frontier']['36-09R']
-          assert R['certificate_blob_sha']=='265edaa03a4fac77de4206f2a31d0b8e439451bd'
-          assert R['verifier_blob_sha']=='8ac66b235ba25ca015e6a9a7d402f4ad00dfa194'
+          assert R['PREVIOUS_HOSTILE_AUDIT_FAIL_REVIEW']==5123795153
+          assert R['certificate_blob_sha']=='b55d042ede01032ff8c8b0d872510a53cb857969'
+          assert R['verifier_blob_sha']=='62707dc5126e9ea6caad5fd41834cab488b29945'
+          assert R['SPECIALIZATION_P0']=='2/3'
+          assert R['COMPLETE_GUSIC_TADIC_DIVISOR_CRITERION'] is True
           assert R['E_TAU_RANKJUMP_PLUS_K_REDUNDANT'] is True
           assert R['E_SIGMA_TAU_GENERIC_RANK']==0
           assert R['E_SIGMA_TAU_GENERIC_TORSION']=='Z/2 x Z/2'
@@ -202,5 +205,5 @@ jobs:
           assert s['promotion_gates']['E_sigma_tau_torsion_growth_excluded'] is False
           assert s['promotion_gates']['receiver_emptiness_proved'] is False
           assert s['promotion_gates']['R29_CAMP2_closed'] is False
-          print('36-09R exact E_sigma_tau generic-MW/distinct-growth-obligation preflight frozen pending hostile audit; 36-09S locked')
+          print('36-09R repaired complete specialization criterion frozen pending hostile re-audit; 36-09S locked')
           PY
