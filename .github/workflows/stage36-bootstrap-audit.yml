@@ -38,100 +38,44 @@ jobs:
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
 
-      - name: Replay exact 36-09U batch parent
+      - name: Replay exact hostile-audited U-AA promotion checkpoint
         shell: bash
         run: |
           set -euo pipefail
-          H=dfbd0ddff789b9e1a6f3b8033e553fd3d7bd56b4
+          H=d5c212d9be970dc31a28d50db926f4cfac34c561
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09U.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AA_audited.py"
           git worktree remove --force "$tmp"
 
-      - name: Replay exact 36-09V batch parent
+      - name: Verify current 36-09AB product-square diagnosis
+        run: python3 stages/stage36/verify_stage36_36_09AB.py
+
+      - name: Assert 36-09AB firewalls and 36-09AC unlock
         shell: bash
         run: |
           set -euo pipefail
-          H=117cdb991a29706b7b9e79485c5b9f19a6f09552
-          git merge-base --is-ancestor "$H" HEAD
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09V.py"
-          git worktree remove --force "$tmp"
-
-      - name: Replay exact 36-09W batch parent
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=84a60e2c74b90eb51c55cf871ad1305e0684e548
-          git merge-base --is-ancestor "$H" HEAD
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09W.py"
-          git worktree remove --force "$tmp"
-
-      - name: Replay exact 36-09X batch parent
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=fbb418d7cc2a5a58cf79391d90ff71a4017f72cd
-          git merge-base --is-ancestor "$H" HEAD
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09X.py"
-          git worktree remove --force "$tmp"
-
-      - name: Replay exact 36-09Y batch parent
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=9816546d9f7148b8b3e347f2000308ee3597a582
-          git merge-base --is-ancestor "$H" HEAD
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09Y.py"
-          git worktree remove --force "$tmp"
-
-      - name: Replay exact 36-09Z batch parent
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=718dc86903cf6e1264b78800f2ef6e813abcf6c5
-          git merge-base --is-ancestor "$H" HEAD
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09Z.py"
-          git worktree remove --force "$tmp"
-
-      - name: Verify current batched 36-09AA
-        run: python3 stages/stage36/verify_stage36_36_09AA.py
-
-      - name: Assert 36-09AA firewalls and hostile-audit checkpoint
-        shell: bash
-        run: |
           python3 - <<'PY'
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V61_36_09AA_BATCH_AUDIT_CHECKPOINT'
-          assert s['status']=='ACTIVE_BATCH_HOSTILE_AUDIT_CHECKPOINT'
-          A=s['authority_frontier']['36-09AA']
-          assert A['SAME_X_RECEIVER_EQUIVALENCE'] is True
-          assert A['RECEIVER_REQUIRES_E_PLUS_AND_E_MINUS_SAME_X'] is True
-          assert A['EXPLICIT_Z_POINTS_RECEIVER_INCOMPATIBLE'] is True
-          assert A['S34_W03_EXACT_JOINT_ADAPTER_READY'] is True
-          assert A['S34_W03_INTERSECTION_EXCLUSION_EXECUTED'] is False
-          assert A['RECEIVER_RANKJUMP_INTERSECTION_EMPTY'] is False
-          assert A['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09AA-AUDIT-CHECKPOINT'
-          assert s['current']['next_owner']=='HOSTILE_AUDIT'
-          assert s['current']['hostile_audit_checkpoint_reached'] is True
-          assert s['current']['36_09AB_entry_allowed'] is False
-          assert s['promotion_gates']['36_09AA_hostile_audit_passed'] is False
-          assert s['promotion_gates']['36_09AA_promoted'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V63_36_09AB_CANDIDATE'
+          assert s['status']=='ACTIVE_BATCHING_SUBSTANTIVE_PR'
+          assert s['promotion_gates']['36_09AA_hostile_audit_passed'] is True
+          assert s['promotion_gates']['36_09AA_promoted'] is True
+          ab=s['authority_frontier']['36-09AB']
+          assert ab['PRODUCT_QUOTIENT_BIRATIONAL_TO_E_TAU'] is True
+          assert ab['PRODUCT_QUOTIENT_CANDIDATE_SHRINK'] is False
+          assert ab['SAME_X_SEPARATE_SQUARE_DATA_PRESERVED_BY_PRODUCT'] is False
+          assert ab['S34_W03_INTERSECTION_EXCLUSION_EXECUTED'] is False
+          assert ab['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09AC'
+          assert s['current']['36_09AC_entry_allowed'] is True
+          assert s['promotion_gates']['36_09AB_hostile_audit_passed'] is False
           assert s['claims']['candidate_parameter_set_shrunk'] is False
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09AA same-x receiver adapter verified; explicit Z rankjump points fail receiver K; U-AA hostile-audit checkpoint reached; 36-09AB remains locked')
+          print('audited U-AA promotion replayed; 36-09AB product quotient dominated by E_tau; 36-09AC separate-squareclass double cover unlocked')
           PY
+          git diff --check
