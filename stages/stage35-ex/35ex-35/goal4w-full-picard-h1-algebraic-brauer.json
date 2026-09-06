@@ -1,0 +1,89 @@
+{
+  "schema": "STAGE35_EX_35_GOAL4W_FULL_PICARD_H1_ALGEBRAIC_BRAUER_V1",
+  "stage": "35-EX",
+  "unit": "35EX-35_GOAL4W_FULL_PICARD_H1_AND_ALGEBRAIC_BRAUER_PREFLIGHT",
+  "status": "PROVISIONAL_EXACT_FULL_PICARD_H1_ZERO_ALGEBRAIC_BRAUER_CONSTANT_ONLY_PENDING_LATER_HOSTILE_AUDIT_NO_E1_CREDIT",
+  "base_main_sha": "69ac6635fb7a7808bca7aad72c5b7e61bcb5cbb6",
+  "parent": {
+    "schema": "STAGE35_EX_PESCH_E1_STATE_V59_GOAL4V_FULL_PICARD_GALOIS_MODULE_PENDING_LATER_AUDIT",
+    "source_head_sha": "67db3d433102bf00ca686427a29e5c835cf997ac",
+    "snapshot_path": "stages/stage35-ex/snapshots/MAIN-STATE-V59-67db3d433102.json",
+    "snapshot_blob_sha": "51b047e5da7c9898abc0198cbd36f8929d0f6834",
+    "hostile_audited": false
+  },
+  "source_locks": {
+    "goal4w_source_lock": {
+      "path": "stages/stage35-ex/35ex-35/goal4w-full-picard-h1-algebraic-brauer-source-lock.md",
+      "blob_sha": "faf95df4153d83c7483463c9d3f3c73139ec74b2"
+    },
+    "goal4v": {
+      "path": "stages/stage35-ex/35ex-35/goal4v-full-picard-galois-module-adapter.json",
+      "blob_sha": "b8e48f76f6b1b1d904337581d2debf45747ed77f"
+    },
+    "stage33_picard_transport_closure": {
+      "path": "stages/stage33/33-09/stage33-09-closure.json",
+      "blob_sha": "0e388cac1d5287ee5b2a3288c10153c16e99fb2a",
+      "canonical_sha256": "6c3ff8f7ca7d1bbd4084da0cc77ca6d43b31b32566a3bbb2c2103b7c2e9548b7"
+    },
+    "upstream_computation": {
+      "repository": "MichaelStollBayreuth/Verification",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/cuboids.magma",
+      "git_blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+      "group_definition": "Gal=<ccPic,ctPic> on Picard rank 64",
+      "cohomology_assertion": "assert #H1 eq 1;"
+    },
+    "stoll_testa_theorem": {
+      "title": "The surface parametrizing cuboids",
+      "authors": ["Michael Stoll", "Damiano Testa"],
+      "arxiv_id": "1009.0388v2",
+      "revision_date": "2025-02-24",
+      "load_bearing_result": "Theorem 10",
+      "theorem_consequence": "H^1(Q,Pic(Xbar))=0 and Br_1(X)/Br_0(X)=0"
+    }
+  },
+  "full_picard_module_input": {
+    "rank": 64,
+    "discriminant": "-2^28",
+    "integrally_generated_by_known_divisors": true,
+    "torsion_free": true,
+    "splitting_field": "Q(i,sqrt(2))",
+    "finite_galois_quotient": "C2 x C2",
+    "integral_action_generators": ["cc", "ct"],
+    "same_module_as_pinned_upstream_cohomology_computation": true
+  },
+  "cohomology": {
+    "finite_quotient_group": "Gal(Q(i,sqrt(2))/Q)",
+    "finite_quotient_H1_order": 1,
+    "finite_quotient_H1_trivial": true,
+    "absolute_H1_identified_with_finite_quotient_H1": true,
+    "H1_Q_Pic_trivial": true,
+    "H1_Q_Pic_structure": "0"
+  },
+  "algebraic_brauer": {
+    "hochshild_serre_quotient": "Br_1(X)/Br_0(X)",
+    "quotient_isomorphic_to_H1_Q_Pic": true,
+    "quotient_trivial": true,
+    "nonconstant_algebraic_brauer_class_exists": false,
+    "algebraic_brauer_manin_obstruction_available": false,
+    "transcendental_brauer_quotient_computed": false
+  },
+  "route_result": {
+    "algebraic_brauer_route": "CLOSED_NEGATIVELY_TRIVIAL_QUOTIENT",
+    "visible_configuration_H1_zero_was_not_sufficient_before_goal4v": true,
+    "full_picard_H1_zero_now_certified": true,
+    "any_future_brauer_route_must_be_transcendental": true
+  },
+  "credit_firewall": {
+    "transcendental_brauer_group_computed": false,
+    "nonconstant_transcendental_brauer_class_constructed": false,
+    "brauer_manin_obstruction_obtained": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "next": "35EX-35_GOAL4X_ROUTE_SELECTION_AFTER_ALGEBRAIC_BRAUER_ZERO"
+}
