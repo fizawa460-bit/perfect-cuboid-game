@@ -8,8 +8,8 @@ ART=ROOT/'stages/stage35-ex/35ex-35/goal4m-stage14-global-triple-population-heig
 STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
 FINAL=ROOT/'stages/stage14/final.md'
 G4L=ROOT/'stages/stage35-ex/35ex-35/goal4l-stage14-pythagorean-elliptic-rankjump-receiver.json'
+S3SNAP=ROOT/'stages/stage35-ex/snapshots/STAGE14-S3-result-46e5b7cf383d.md'
 AUDITED='6fa39f76be24b55153f118812b1bd7f41c43e399'
-S3='46e5b7cf383d2455ac9b51c35c2452a662beb532'
 
 def blob(path: Path) -> str:
     return subprocess.check_output(['git','hash-object',str(path.relative_to(ROOT))],cwd=ROOT,text=True).strip()
@@ -21,6 +21,7 @@ assert a['base_main_sha']==s['base_main_sha']
 assert a['stacked_parent']['hostile_audited'] is False
 assert blob(FINAL)=='f6520537c05a0e537d587a8c7777bb75d420c379'
 assert blob(G4L)=='0717ca307162d5559a005801848288daa91285fd'
+assert blob(S3SNAP)=='830f124e3b22e47693eec101f407e7d402b437d9'
 
 final=FINAL.read_text()
 assert 'E(B)=N_2(B)+3T(B)' in final
@@ -34,8 +35,7 @@ assert g4l['rank_jump_receiver']['new_receiver_obtained'] is True
 assert 'positive Mordell-Weil rank' in g4l['rank_jump_receiver']['endpoint_consequence']
 assert g4l['credit_boundary']['uniform_rank_jump_exclusion_obtained'] is False
 
-s3_text=subprocess.check_output(['git','show',f'{S3}:stages/stage14/14-s3/result.md'],cwd=ROOT,text=True)
-assert subprocess.check_output(['git','rev-parse',f'{S3}:stages/stage14/14-s3/result.md'],cwd=ROOT,text=True).strip()=='830f124e3b22e47693eec101f407e7d402b437d9'
+s3_text=S3SNAP.read_text()
 assert 'physical hit below B' in s3_text
 assert 'canonical height O(log B + log H)' in s3_text
 assert 'UNIFORM_FIRST_GENERATOR_DISTRIBUTION_PROVED=false' in s3_text
@@ -45,9 +45,6 @@ old=json.loads(old_text)
 assert old['target']['audited_endpoint_relation']=='E1 counterexamples modulo source-pair swap are exactly positive rational perfect cuboids modulo positive scaling and edge permutation'
 assert subprocess.check_output(['git','rev-parse',f'{AUDITED}:stages/stage35-ex/MAIN-STATE.json'],cwd=ROOT,text=True).strip()=='5030d3e67914f8fd34c0175f8497ccc222c81011'
 
-# Exact logical transfer from the Stage14 proof chain:
-# E=N2+3T with N2,T>=0 gives 3T<=E; E<=V*B^o and V<=B^(1/2+o)
-# gives T<=B^(1/2+o).  The verifier locks the premises and all non-claims.
 assert a['derived_triple_population_corollary']['conclusion']=='T(B)<<B^{1/2+o(1)}'
 assert a['derived_triple_population_corollary']['strict_subsqrt_power_saving_obtained'] is False
 assert a['derived_triple_population_corollary']['eventual_emptiness_obtained'] is False
