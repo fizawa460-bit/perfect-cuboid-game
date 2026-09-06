@@ -1,4 +1,4 @@
-name: Stage33 V41-V91C1G e3 exact chain and V102 candidate startup replay
+name: Stage33 V41-V91C1M e3 combined-batch diagnostic replay
 
 on:
   pull_request:
@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v41-v91c1g-v102-e3-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v41-v91c1m-combined-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -36,7 +36,7 @@ jobs:
           python certify_order2_quotient_raw_order4_bockstein.py
           python materialize_mixed_order_side_ambient_function_lifts.py
           python materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py
-      - name: Replay immutable V41-V91C chain, V91C1F authority, V91C1G candidate, and V102 startup
+      - name: Replay immutable V41-V91C chain and combined V91C1H-M batch
         run: |
           python stages/stage33/33-12/verify_e3_independent_proper14_source_v41.py
           python stages/stage33/33-12/verify_e3_v25_transfer_obstruction_v42.py
@@ -87,7 +87,13 @@ jobs:
           python stages/stage33/33-12/verify_e3_v91c1e_a2_02_marked_brauer_image_adapter_preflight.py
           python stages/stage33/33-12/verify_e3_v91c1f_a2_02_source_bound_kummer_quotient_marking_obstruction.py
           python stages/stage33/33-12/verify_e3_v91c1g_a2_02_v4_naturality_fixed_subspace_preflight.py
-          python stages/stage33/33-12/verify_stage33_v91c1g_candidate_current_startup_v102.py
+          python stages/stage33/33-12/verify_e3_v91c1h_a2_02_stage33_07_localization_quotient_preflight.py
+          python stages/stage33/33-12/verify_e3_v91c1i_a2_02_audited_localization_zero_fingerprint.py
+          python stages/stage33/33-12/verify_e3_v91c1j_a2_02_global_hs_d2_scope_firewall.py
+          python stages/stage33/33-12/verify_e3_v91c1k_a2_02_arsenal_applicability_matrix.py
+          python stages/stage33/33-12/verify_e3_v91c1l_a2_02_cech_to_marked_discriminant_dual_evaluation_contract.py
+          python stages/stage33/33-12/diagnose_e3_v91c1m_joint_fixed_coordinate_discriminator.py
+          python stages/stage33/33-12/verify_stage33_v91c1h_candidate_current_startup_v103.py
           python stages/stage33/33-12/verify_j2_post_v39_arsenal_first_bounded_search_policy_v41.py
           python stages/stage33/sync_main_state.py --check
           git diff --check
