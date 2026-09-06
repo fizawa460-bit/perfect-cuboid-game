@@ -1,0 +1,74 @@
+name: Stage36 Arsenal Harvest1 finalize
+on:
+  push:
+    branches: [stage36-arsenal-initial-harvest-discovery]
+permissions:
+  contents: write
+jobs:
+  finalize:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 256
+      - name: Reuse frozen materializer and normalize markdown
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('.github/workflows/stage36-arsenal-harvest1-materialize.yml')
+          lines=p.read_text().splitlines()
+          start=next(i for i,x in enumerate(lines) if x.strip()=="python3 - <<'PY'")
+          indent=len(lines[start])-len(lines[start].lstrip())
+          end=next(i for i in range(start+1,len(lines)) if lines[i].strip()=='PY' and (len(lines[i])-len(lines[i].lstrip()))==indent)
+          code='\n'.join(x[indent:] if x.startswith(' '*indent) else x for x in lines[start+1:end])+'\n'
+          Path('/tmp/stage36_h1_materialize.py').write_text(code)
+          PY
+          python3 /tmp/stage36_h1_materialize.py
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('docs/arsenal/stage36-initial-discovery.md')
+          lines=[x.rstrip() for x in p.read_text().splitlines()]
+          p.write_text('\n'.join(lines).rstrip()+'\n')
+          PY
+          git diff --check
+      - name: Commit only final discovery artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/stage36-arsenal-harvest1-materialize.yml .github/workflows/stage36-arsenal-harvest1-finalize.yml
+          git rm -f docs/arsenal/stage36-initial-source-index.tmp.json docs/arsenal/stage36-initial-cert-metadata.tmp.json
+          git add docs/arsenal/stage36-initial-discovery.md docs/arsenal/stage36-initial-discovery.json
+          git commit -m 'arsenal: add Stage36 initial harvest discovery ledger'
+      - name: Exact final-head validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          UPPER=07a465cb5025e7c0188fb63610bb40e4b54e7a84
+          echo "EXACT_DISCOVERY_HEAD=$(git rev-parse HEAD)"
+          git diff --check "$UPPER" HEAD
+          python3 - <<'PY'
+          import json,subprocess
+          from pathlib import Path
+          upper='07a465cb5025e7c0188fb63610bb40e4b54e7a84'
+          allowed={'docs/arsenal/stage36-initial-discovery.md','docs/arsenal/stage36-initial-discovery.json'}
+          got=set(subprocess.check_output(['git','diff','--name-only',upper,'HEAD'],text=True).splitlines())
+          assert got==allowed,(got-allowed,allowed-got)
+          d=json.loads(Path('docs/arsenal/stage36-initial-discovery.json').read_text())
+          assert d['marker']=='DISCOVERY_ONLY_NOT_ARSENAL_PROMOTION'
+          assert d['frozen_bounds']['harvest_lower_bound']=='62c26297ebeb159e9cdd1e6b9c2129dff6a4acdc'
+          assert d['frozen_bounds']['harvest_upper_bound']==upper
+          assert d['classification_summary']=={'total':36,'A':7,'B':14,'C':3,'D':2,'E':9,'F':1}
+          assert len(d['candidates'])==36
+          assert 'DISCOVERY_ONLY_NOT_ARSENAL_PROMOTION' in Path('docs/arsenal/stage36-initial-discovery.md').read_text()
+          print('PASS_STAGE36_HARVEST1_SCOPE',len(got))
+          print('PASS_STAGE36_HARVEST1_COUNTS',d['classification_summary'])
+          PY
+          git diff --exit-code "$UPPER" HEAD -- docs/arsenal/index.json docs/arsenal/catalog.md docs/arsenal/cards
+          git diff --exit-code "$UPPER" HEAD -- stages/stage36/MAIN-STATE.json stages/stage36/MAIN-START-HERE.md stages/stage36/ROADMAP.md stages/stage36/MAIN-BATCH-HANDOFF.md
+      - name: Push exact validated head
+        run: git push origin HEAD:stage36-arsenal-initial-harvest-discovery
