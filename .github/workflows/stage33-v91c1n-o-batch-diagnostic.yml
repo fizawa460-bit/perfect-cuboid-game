@@ -1,4 +1,4 @@
-name: Stage33 V91C1N-X fixed-space and source-bound transport diagnostics
+name: Stage33 V91C1N-Y fixed-space and source-bound transport diagnostics
 
 on:
   pull_request:
@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v91c1n-x-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1n-y-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -53,6 +53,8 @@ jobs:
         run: python stages/stage33/33-12/verify_e3_v91c1w_a2_02_all8_picard64_reduction.py
       - name: Verify V91C1X Kummer action-difference and mask20 exclusion
         run: python stages/stage33/33-12/verify_e3_v91c1x_a2_02_kummer_naturality_mask20_exclusion.py
+      - name: Diagnose V91C1Y swap23-fixed marked Brauer subspace
+        run: python stages/stage33/33-12/diagnose_e3_v91c1y_swap23_fixed_marked_brauer_subspace.py
       - name: Verify Stage33 grouped-audit startup checkpoint
         run: |
           python stages/stage33/33-12/verify_stage33_v91c1x_grouped_audit_current_startup_v108.py
