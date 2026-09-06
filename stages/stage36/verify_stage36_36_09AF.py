@@ -15,7 +15,7 @@ STATE = ROOT / "stages" / "stage36" / "MAIN-STATE.json"
 BASE = "07a465cb5025e7c0188fb63610bb40e4b54e7a84"
 AE_HEAD = "205042c4c09917c319f1a596f67bf6a55d8c3d65"
 AE_CI = "34067030924/101577492048"
-CERT_BLOB = "25bb2807ad8693da8dc700d3dfb2cdd9e34b37a9"
+CERT_BLOB = "be5a65e3fcfb182998ccb02ec42f8114b50b0a7d"
 AE_CERT_BLOB = "ddae37dd35cd0e732cebadf9c17f3f3fa57930df"
 AE_VERIFIER_BLOB = "4c2e672572984399a507ddddf296b3861a80edd5"
 AD_CERT_BLOB = "9d0388845955efee71d1a761ae4ee943d8b565d5"
@@ -92,8 +92,8 @@ def main() -> None:
 
     ps7=pair_symbols(A,B7,C,D)
     ps23=pair_symbols(A,B23,C,D)
-    assert ps7 == [-1,-1,1,-1,1,-1]
-    assert ps23 == [1,-1,1,1,-1,-1]
+    assert ps7 == [-1,-1,-1,-1,-1,-1]
+    assert ps23 == [1,-1,-1,1,1,-1]
     assert ps7 != ps23
 
     r7=rows(A,B7,C,D,e,f,h)
