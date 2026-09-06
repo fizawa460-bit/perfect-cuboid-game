@@ -93,33 +93,45 @@ jobs:
           python3 "$tmp/stages/stage36/verify_stage36_36_09Y.py"
           git worktree remove --force "$tmp"
 
-      - name: Verify current batched 36-09Z
-        run: python3 stages/stage36/verify_stage36_36_09Z.py
+      - name: Replay exact 36-09Z batch parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          H=718dc86903cf6e1264b78800f2ef6e813abcf6c5
+          git merge-base --is-ancestor "$H" HEAD
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09Z.py"
+          git worktree remove --force "$tmp"
 
-      - name: Assert 36-09Z firewalls and 36-09AA unlock
+      - name: Verify current batched 36-09AA
+        run: python3 stages/stage36/verify_stage36_36_09AA.py
+
+      - name: Assert 36-09AA firewalls and hostile-audit checkpoint
         shell: bash
         run: |
           python3 - <<'PY'
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V60_36_09Z_BATCHED'
-          assert s['status']=='ACTIVE_BATCHING_SUBSTANTIVE_PR'
-          Z=s['authority_frontier']['36-09Z']
-          assert Z['QI_RANKJUMP_LOCUS_NONEMPTY'] is True
-          assert Z['QI_RANKJUMP_LOCUS_EMPTY'] is False
-          assert Z['GLOBAL_CASSELS_RANKJUMP_EMPTY_ROUTE_BLOCKED'] is True
-          assert Z['RECEIVER_SPECIFIC_INTERSECTION_ROUTE_LIVE'] is True
-          assert Z['RECEIVER_RANKJUMP_INTERSECTION_EMPTY'] is False
-          assert Z['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09AA'
-          assert s['current']['36_09AA_entry_allowed'] is True
-          assert s['current']['hostile_audit_checkpoint_reached'] is False
-          assert s['promotion_gates']['36_09Z_hostile_audit_passed'] is False
-          assert s['claims']['Qi_rankjump_locus_nonempty_provisional'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V61_36_09AA_BATCH_AUDIT_CHECKPOINT'
+          assert s['status']=='ACTIVE_BATCH_HOSTILE_AUDIT_CHECKPOINT'
+          A=s['authority_frontier']['36-09AA']
+          assert A['SAME_X_RECEIVER_EQUIVALENCE'] is True
+          assert A['RECEIVER_REQUIRES_E_PLUS_AND_E_MINUS_SAME_X'] is True
+          assert A['EXPLICIT_Z_POINTS_RECEIVER_INCOMPATIBLE'] is True
+          assert A['S34_W03_EXACT_JOINT_ADAPTER_READY'] is True
+          assert A['S34_W03_INTERSECTION_EXCLUSION_EXECUTED'] is False
+          assert A['RECEIVER_RANKJUMP_INTERSECTION_EMPTY'] is False
+          assert A['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09AA-AUDIT-CHECKPOINT'
+          assert s['current']['next_owner']=='HOSTILE_AUDIT'
+          assert s['current']['hostile_audit_checkpoint_reached'] is True
+          assert s['current']['36_09AB_entry_allowed'] is False
+          assert s['promotion_gates']['36_09AA_hostile_audit_passed'] is False
+          assert s['promotion_gates']['36_09AA_promoted'] is False
+          assert s['claims']['candidate_parameter_set_shrunk'] is False
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09Z explicit MW rankjump witnesses verified; global rankjump-empty/Cassels route blocked; receiver-coupled 36-09AA unlocked; hostile audit deferred')
+          print('36-09AA same-x receiver adapter verified; explicit Z rankjump points fail receiver K; U-AA hostile-audit checkpoint reached; 36-09AB remains locked')
           PY
-
-# Exact-head replay trigger after consolidated freshness/mode normalization.
