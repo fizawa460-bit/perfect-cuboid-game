@@ -1,0 +1,54 @@
+name: Stage36 Arsenal harvest certificate metadata
+on:
+  push:
+    branches: [stage36-arsenal-initial-harvest-discovery]
+permissions:
+  contents: write
+jobs:
+  metadata:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Extract bounded certificate metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          ROOT=Path('stages/stage36')
+          KEYS={'canonical_sha256','canonical_sha','source_pr','source_exact_head','exact_source_head','exact_head','audited_head','hostile_audit_review','hostile_audit_status','status','schema','unit','stage'}
+          def walk(obj, prefix='', out=None):
+              if out is None: out={}
+              if isinstance(obj,dict):
+                  for k,v in obj.items():
+                      p=f'{prefix}.{k}' if prefix else k
+                      if k in KEYS or 'canonical_sha256' in k.lower() or k.lower().endswith('_review') or k.lower().endswith('_exact_head'):
+                          if isinstance(v,(str,int,float,bool)) or v is None: out[p]=v
+                      walk(v,p,out)
+              elif isinstance(obj,list):
+                  for i,v in enumerate(obj): walk(v,f'{prefix}[{i}]',out)
+              return out
+          rows=[]
+          for d in sorted([p for p in ROOT.iterdir() if p.is_dir()],key=lambda p:p.name):
+              for f in sorted(d.iterdir(),key=lambda p:p.name):
+                  if not f.is_file() or f.suffix!='.json': continue
+                  try: obj=json.loads(f.read_text())
+                  except Exception: continue
+                  meta=walk(obj)
+                  rows.append({'cluster':d.name,'path':str(f),'metadata':meta})
+          Path('docs/arsenal/stage36-initial-cert-metadata.tmp.json').write_text(json.dumps({'schema':'STAGE36_INITIAL_CERT_METADATA_V1','rows':rows},indent=2)+'\n')
+          PY
+          git diff --check
+      - name: Commit metadata and remove workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/stage36-arsenal-harvest-cert-metadata.yml
+          git add docs/arsenal/stage36-initial-cert-metadata.tmp.json
+          git commit -m 'arsenal: extract Stage36 harvest certificate metadata'
+          git push origin HEAD:stage36-arsenal-initial-harvest-discovery
