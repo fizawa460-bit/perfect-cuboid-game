@@ -1,0 +1,103 @@
+{
+  "schema": "STAGE35_EX_35_GOAL4W_PROPER_SURFACE_H1_ALGEBRAIC_BRAUER_V2",
+  "stage": "35-EX",
+  "unit": "35EX-35_GOAL4W_FULL_PICARD_H1_AND_ALGEBRAIC_BRAUER_PREFLIGHT",
+  "status": "PROVISIONAL_EXACT_PROPER_SURFACE_H1_ZERO_BR1_MOD_BR0_ZERO_OPEN_RECEIVER_BRAUER_UNTESTED_PENDING_LATER_HOSTILE_AUDIT_NO_E1_CREDIT",
+  "base_main_sha": "7aa230172497311267daa0451189377fbf8eba30",
+  "parent": {
+    "schema": "STAGE35_EX_PESCH_E1_STATE_V59_GOAL4V_FULL_PICARD_GALOIS_MODULE_PENDING_LATER_AUDIT",
+    "source_head_sha": "67db3d433102bf00ca686427a29e5c835cf997ac",
+    "snapshot_path": "stages/stage35-ex/snapshots/MAIN-STATE-V59-67db3d433102.json",
+    "snapshot_blob_sha": "51b047e5da7c9898abc0198cbd36f8929d0f6834",
+    "hostile_audited": false
+  },
+  "hostile_audit_repair": {
+    "review_id": 5124106960,
+    "failed_exact_head_sha": "24cc2973fc022c89cd240fd4a26c92637e1d2e78",
+    "verdict": "FAIL_SCOPE",
+    "mathematics_through_goal4v": "PASS",
+    "goal4w_proper_surface_statement": "PASS",
+    "failed_promotion": "PROPER_S_TO_STAGE35_OPEN_RECEIVER_ALGEBRAIC_BRAUER",
+    "repair_choice": "SHRINK_GOAL4W_TO_PROPER_S_AND_RESTORE_OPEN_RECEIVER_TO_UNTESTED"
+  },
+  "source_locks": {
+    "goal4w_source_lock": {
+      "path": "stages/stage35-ex/35ex-35/goal4w-full-picard-h1-algebraic-brauer-source-lock.md",
+      "blob_sha": "10cc7f44549ddf0b84f7ba9d07cec671394e1877"
+    },
+    "goal4v": {
+      "path": "stages/stage35-ex/35ex-35/goal4v-full-picard-galois-module-adapter.json",
+      "blob_sha": "b8e48f76f6b1b1d904337581d2debf45747ed77f"
+    },
+    "stage33_picard_transport_closure": {
+      "path": "stages/stage33/33-09/stage33-09-closure.json",
+      "blob_sha": "0e388cac1d5287ee5b2a3288c10153c16e99fb2a",
+      "canonical_sha256": "6c3ff8f7ca7d1bbd4084da0cc77ca6d43b31b32566a3bbb2c2103b7c2e9548b7"
+    },
+    "upstream_computation": {
+      "repository": "MichaelStollBayreuth/Verification",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/cuboids.magma",
+      "git_blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+      "group_definition": "Gal=<ccPic,ctPic> on proper Picard rank 64",
+      "cohomology_assertion": "assert #H1 eq 1;"
+    },
+    "stoll_testa_theorem": {
+      "title": "The surface parametrizing cuboids",
+      "authors": ["Michael Stoll", "Damiano Testa"],
+      "arxiv_id": "1009.0388v2",
+      "revision_date": "2025-02-24",
+      "load_bearing_result": "Theorem 10",
+      "theorem_consequence": "H^1(Q,Pic(Sbar))=0 and Br_1(S)/Br_0(S)=0 for the smooth proper minimal resolution S"
+    }
+  },
+  "proper_surface": {
+    "name": "S",
+    "kind": "SMOOTH_PROPER_MINIMAL_RESOLUTION",
+    "picard_rank": 64,
+    "picard_discriminant": "-2^28",
+    "integrally_generated_by_known_divisors": true,
+    "splitting_field": "Q(i,sqrt(2))",
+    "finite_galois_quotient": "C2 x C2",
+    "integral_action_generators": ["cc", "ct"],
+    "H1_Q_Pic_structure": "0",
+    "Br1_mod_Br0_structure": "0",
+    "nonconstant_algebraic_brauer_class_exists": false,
+    "algebraic_brauer_route": "CLOSED_NEGATIVELY_FOR_PROPER_S_ONLY"
+  },
+  "stage35_open_receiver": {
+    "name": "U",
+    "relation_to_proper_surface": "U subset S; retained Stage35 open locus h != 0",
+    "boundary_name": "D=S\\U",
+    "boundary_divisor_complex_source_locked": false,
+    "Pic_Ubar_computed": false,
+    "Pic_Ubar_galois_module_computed": false,
+    "purity_localization_residues_computed": false,
+    "H1_Q_Pic_Ubar_computed": false,
+    "Br1_U_mod_Br0_U_computed": false,
+    "nonconstant_algebraic_brauer_class_exists": null,
+    "algebraic_brauer_manin_obstruction_available": null,
+    "B7_vertical_brauer_obstruction_status": "UNTESTED_NOT_BLOCKED_BY_PROPER_S_H1_ZERO",
+    "algebraic_brauer_route": "UNTESTED_BOUNDARY_LOCALIZATION_ADAPTER_REQUIRED"
+  },
+  "route_result": {
+    "proper_surface_algebraic_brauer_route": "CLOSED_NEGATIVELY_TRIVIAL_QUOTIENT",
+    "stage35_open_receiver_algebraic_brauer_route": "UNTESTED",
+    "any_future_brauer_route_must_be_transcendental": false,
+    "proper_to_open_promotion_allowed": false,
+    "missing_adapter": "exact U subset S and D=S\\U boundary divisor complex, Pic(Ubar) Galois module, and purity/localization residue computation"
+  },
+  "credit_firewall": {
+    "open_receiver_algebraic_brauer_group_computed": false,
+    "transcendental_brauer_group_computed": false,
+    "nonconstant_stage35_brauer_class_constructed": false,
+    "brauer_manin_obstruction_obtained": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "R29_FIB2_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "next": "35EX-35_GOAL4X_OPEN_RECEIVER_BOUNDARY_PICARD_GALOIS_AND_ALGEBRAIC_BRAUER_PREFLIGHT"
+}

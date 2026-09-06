@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Replay immutable in-PR V44 Goal4G snapshot while V45 Goal4H is stacked provisionally."""
 from __future__ import annotations
-import json, runpy, subprocess, sys
+import json, runpy, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 STATE = ROOT / 'stages/stage35-ex/MAIN-STATE.json'
+SNAPSHOT_FILE = ROOT / 'stages/stage35-ex/snapshots/MAIN-STATE-V44-8c96c43a3e39.json'
 V45 = 'STAGE35_EX_PESCH_E1_STATE_V45_GOAL4H_VERTICAL_BRAUER_ADAPTER_PREFLIGHT_PENDING_LATER_AUDIT'
 V44 = 'STAGE35_EX_PESCH_E1_STATE_V44_GOAL4G_NATURAL_HILBERT_RECIPROCITY_PROFILE_PENDING_LATER_AUDIT'
 SNAPSHOT = '8c96c43a3e39732f2c93cfa871855ccc96ff534e'
@@ -25,9 +26,9 @@ assert real['claims']['goal4f_hostile_audit_pass'] is False
 assert real['claims']['goal4h_executed'] is True
 assert real['claims']['E1_proved'] is False
 
-snapshot_text = subprocess.check_output(
-    ['git','show',f'{SNAPSHOT}:stages/stage35-ex/MAIN-STATE.json'], cwd=ROOT, text=True, stderr=subprocess.STDOUT
-)
+# Exact blob copy of MAIN-STATE.json from source commit SNAPSHOT.  This avoids
+# dependence on dangling in-PR commit objects after #1637 was squash-merged.
+snapshot_text = SNAPSHOT_FILE.read_text()
 snapshot = json.loads(snapshot_text)
 assert snapshot['schema'] == V44
 assert snapshot['current']['unit'] == '35EX-35_GOAL4G_JOINT_LOCAL_HILBERT_RECIPROCITY_PROFILE_TEST'
