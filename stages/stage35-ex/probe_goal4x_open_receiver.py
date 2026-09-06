@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import json, runpy
+import json, runpy, sys
 from pathlib import Path
 import sympy as sp
 from sympy import ZZ
@@ -8,7 +8,9 @@ from sympy.polys.matrices import DomainMatrix
 from sympy.polys.matrices.normalforms import smith_normal_decomp
 
 ROOT=Path(__file__).resolve().parents[2]
-GAL=ROOT/'stages/stage33/33-07/certify_actual_galois_at2_actions.py'
+GAL_DIR=ROOT/'stages/stage33/33-07'
+sys.path.insert(0,str(GAL_DIR))
+GAL=GAL_DIR/'certify_actual_galois_at2_actions.py'
 gal=runpy.run_path(str(GAL))
 known=[[int(x) for x in r] for r in gal['known']]
 gram=[[int(x) for x in r] for r in gal['gram']]
@@ -64,7 +66,6 @@ if primitive:
     def induced(A):
         Ap=Tinv*sp.Matrix(A)*Tm
         assert all(x.q==1 for x in Ap)
-        # killed coordinates 0..r-1; lower-right block is quotient action.
         Q=Ap[r:,r:]
         return [[int(x) for x in row] for row in Q.tolist()]
     Ac=induced(cc); At=induced(ct); q=len(Ac)
@@ -84,7 +85,6 @@ if primitive:
     Tkm=sp.Matrix(Tk.to_Matrix()); Tkinv=Tkm.inv()
     assert all(x.q==1 for x in Tkinv)
     k=2*q-rk
-    # Coboundaries m -> (m(cc-1),m(ct-1)), expressed in the integral kernel basis.
     C=(Acm-I).row_join(Atm-I)
     coords=[]
     for row in C.tolist():
