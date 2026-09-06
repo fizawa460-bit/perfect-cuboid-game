@@ -21,7 +21,8 @@ s=LOCK.read_text()
 st=json.loads(STATE.read_text())
 
 assert a['schema']=='STAGE35_EX_35_GOAL4W_PROPER_SURFACE_H1_ALGEBRAIC_BRAUER_V2'
-assert a['base_main_sha']=='69ac6635fb7a7808bca7aad72c5b7e61bcb5cbb6'
+assert a['base_main_sha']=='7aa230172497311267daa0451189377fbf8eba30'
+assert st['base_main_sha']==a['base_main_sha']
 assert a['parent']['schema']=='STAGE35_EX_PESCH_E1_STATE_V59_GOAL4V_FULL_PICARD_GALOIS_MODULE_PENDING_LATER_AUDIT'
 assert a['parent']['source_head_sha']=='67db3d433102bf00ca686427a29e5c835cf997ac'
 assert a['parent']['snapshot_blob_sha']=='51b047e5da7c9898abc0198cbd36f8929d0f6834'
