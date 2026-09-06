@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import runpy
+import sys
 from pathlib import Path
 
 import sympy as sp
@@ -21,6 +22,7 @@ SIDE_PATH = HERE.parent / "33-07" / "boundary-side-p1-crossing-coordinates.json"
 
 sns = runpy.run_path(str(S_PATH))
 assert sns["result"]["success"] is True
+sys.path.insert(0, str(K_PATH.parent))
 kns = runpy.run_path(str(K_PATH))
 
 variables = sns["variables"]
