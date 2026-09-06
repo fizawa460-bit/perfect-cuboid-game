@@ -8,11 +8,11 @@ import traceback
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[2]
-STAGE33_07 = ROOT / "stage33" / "33-07"
+STAGES = HERE.parents[1]
+STAGE33_07 = STAGES / "stage33" / "33-07"
 sys.path.insert(0, str(STAGE33_07))
 OUT = Path("/tmp/stage32-post1648ad-galois-picard-intersection-diagnostic.json")
-V6 = ROOT / "stage32" / "32-21" / "post1473-v6-witness-body-recovered.json"
+V6 = STAGES / "stage32" / "32-21" / "post1473-v6-witness-body-recovered.json"
 EXPECTED_V6_CANONICAL = "d0c1c8bddfe3950737ed6f87ffa74acd850c736298bd12ec1eceac609625b8a8"
 EXPECTED_RETAINED_CANONICAL = "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c"
 EXPECTED_SOURCE_BLOB = "0422b69847f2afb97cb7b3ed02ebef91279f61b1"
@@ -64,8 +64,6 @@ def compute() -> dict:
     assert mm(A, A) == I
     assert mm(mm(A, G), AT) == G
 
-    # The retained action is on basis rows, so divisor coordinate columns
-    # transform by A^T.
     sx = mv(AT, x)
     ssx = mv(AT, sx)
     assert ssx == x
