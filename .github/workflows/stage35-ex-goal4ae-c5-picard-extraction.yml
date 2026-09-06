@@ -5,6 +5,7 @@ on:
     types: [synchronize]
     paths:
       - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4ae_local_cfixed.py'
+      - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4ae_aut_source_map.py'
       - 'stages/stage35-ex/materialize_stage35_ex_35_goal4ae_local_cfixed.py'
       - 'stages/stage35-ex/runkeys/goal4ae-c5-picard-extraction.json'
       - '.github/workflows/stage35-ex-goal4ae-c5-picard-extraction.yml'
@@ -18,6 +19,21 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  diagnose-aut-source-map:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Emit bounded retained Aut generator metadata
+        run: |
+          set -euo pipefail
+          python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4ae_aut_source_map.py
+
   authorize:
     runs-on: ubuntu-latest
     outputs:
