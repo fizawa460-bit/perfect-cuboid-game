@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 """Exact source-bound diagnostic for the V91C1Q swap12-swap13-swap12 word.
 
-The purpose is deliberately narrow: act on the retained A2_02 boundary-function
-packages in their literal seven-coordinate Q(i) linear-form representation and
-ask whether the acted packages close on the same eight literal component
-packages before any Pic/2 correction is introduced.
+Act on the retained A2_02 boundary-function packages in their literal seven-
+coordinate Q(i) linear-form representation.  First test literal closure on the
+same eight A2_02 packages; then fingerprint every acted package against the
+full retained 14-generator / 134-package function inventory.
 
 This does NOT identify equal 26D residue coordinates with equal H^2(mu_2)
-classes, and it does NOT infer a Brauer coordinate.  If literal closure fails,
-the remaining object is an explicit Pic/2/Cech correction, not an unknown
-coordinate-swap action.
+classes and does NOT infer a Brauer coordinate.  Failure of literal closure
+means that an explicit Pic/2/Cech correction is still required.
 """
 from __future__ import annotations
 
@@ -113,8 +112,7 @@ def permute_signature(sig, perm):
 def package_data(package, perm=None):
     divisor = defaultdict(int)
     scalar = ONE
-    pieces = list(package["numerator_factors"])
-    for factor in pieces:
+    for factor in package["numerator_factors"]:
         sig = factor["coefficients_Qi"]
         if perm is not None:
             sig = permute_signature(sig, perm)
@@ -135,6 +133,21 @@ def package_data(package, perm=None):
     return tuple(sorted((k, v) for k, v in divisor.items() if v)), scalar
 
 
+def candidates_for(acted_div, acted_scalar, inventory):
+    out = []
+    for rec in inventory:
+        if acted_div != rec["divisor"]:
+            continue
+        ratio = qmul(acted_scalar, qinv(rec["scalar"]))
+        out.append({
+            "source_direction": rec["source_direction"],
+            "target_component": rec["component_id"],
+            "kind": rec["kind"],
+            "function_scalar_ratio_Qi": qenc(ratio),
+        })
+    return sorted(out, key=lambda x: (x["source_direction"], x["target_component"], x["kind"]))
+
+
 boundary = load(BOUNDARY, BOUNDARY_SHA)
 swap_source = load(SWAP_SOURCE, SWAP_SOURCE_SHA)
 assert git_blob_sha(SWAP_VERIFIER.read_bytes()) == SWAP_VERIFIER_BLOB
@@ -152,32 +165,41 @@ assert row["raw_order"] == 2
 packages = {p["component_id"]: p for p in row["component_packages"]}
 assert sorted(packages) == sorted(EXPECTED_COMPONENTS)
 
-original = {cid: package_data(p) for cid, p in packages.items()}
+inventory = []
+for grow in boundary["generator_records"]:
+    for package in grow["component_packages"]:
+        div, scalar = package_data(package)
+        inventory.append({
+            "source_direction": grow["source_direction"],
+            "component_id": package["component_id"],
+            "kind": package["kind"],
+            "divisor": div,
+            "scalar": scalar,
+        })
+assert len(inventory) == 134
+
+a2_inventory = [x for x in inventory if x["source_direction"] == "A2_02"]
 transport = {}
+global_transport = {}
 all_candidates = True
 all_unique = True
 all_unit = True
 for cid, package in packages.items():
     acted_div, acted_scalar = package_data(package, perm)
-    candidates = []
-    for target, (target_div, target_scalar) in original.items():
-        if acted_div != target_div:
-            continue
-        ratio = qmul(acted_scalar, qinv(target_scalar))
-        candidates.append({
-            "target_component": target,
-            "function_scalar_ratio_Qi": qenc(ratio),
-        })
-    candidates.sort(key=lambda x: x["target_component"])
-    all_candidates &= bool(candidates)
-    all_unique &= len(candidates) == 1
-    all_unit &= bool(candidates) and all(x["function_scalar_ratio_Qi"] == [1, 1, 0, 1] for x in candidates)
-    transport[cid] = candidates
+    local_candidates = candidates_for(acted_div, acted_scalar, a2_inventory)
+    global_candidates = candidates_for(acted_div, acted_scalar, inventory)
+    transport[cid] = local_candidates
+    global_transport[cid] = global_candidates
+    all_candidates &= bool(local_candidates)
+    all_unique &= len(local_candidates) == 1
+    all_unit &= bool(local_candidates) and all(x["function_scalar_ratio_Qi"] == [1, 1, 0, 1] for x in local_candidates)
 
 literal_identity = all_unique and all(
     transport[cid][0]["target_component"] == cid for cid in EXPECTED_COMPONENTS
 )
 literal_permutation = all_unique and len({transport[cid][0]["target_component"] for cid in EXPECTED_COMPONENTS}) == len(EXPECTED_COMPONENTS)
+global_candidate_counts = {cid: len(global_transport[cid]) for cid in EXPECTED_COMPONENTS}
+side_global_candidates = {cid: global_transport[cid] for cid in EXPECTED_COMPONENTS if cid.startswith("SIDE_")}
 
 result = {
     "success": True,
@@ -186,13 +208,16 @@ result = {
     "coordinate_order": COORD_NAMES,
     "composed_coordinate_permutation": perm,
     "composed_coordinate_action": "a2<->a3,b2<->b3,a1/b1/c fixed",
+    "retained_global_package_inventory_count": len(inventory),
     "a2_02_component_count": len(packages),
     "every_acted_package_has_original_a2_02_divisor_candidate": all_candidates,
     "every_acted_package_has_unique_original_a2_02_divisor_candidate": all_unique,
     "all_candidate_function_scalar_ratios_one": all_unit,
     "literal_package_action_is_identity": literal_identity,
     "literal_package_action_is_permutation_of_same_eight": literal_permutation,
-    "component_candidate_transport": transport,
+    "component_candidate_transport_within_a2_02": transport,
+    "global_candidate_counts": global_candidate_counts,
+    "side_component_global_candidate_transport": side_global_candidates,
     "pic2_cech_correction_computed": False,
     "seed_fixed_mod_pic2": False,
     "a2_02_marked_brauer_image_excluded_from_mask20": False,
@@ -203,6 +228,6 @@ print(
     "::warning file=stages/stage33/33-12/diagnose_e3_v91c1r_swap23_boundary_function_package_transport.py,"
     "title=V91C1R_SWAP23_PACKAGE_TRANSPORT::"
     + "all_candidates=" + str(all_candidates).lower()
-    + ";all_unique=" + str(all_unique).lower()
     + ";literal_permutation=" + str(literal_permutation).lower()
+    + ";side_global_counts=" + ",".join(f"{k}:{global_candidate_counts[k]}" for k in EXPECTED_COMPONENTS if k.startswith("SIDE_"))
 )
