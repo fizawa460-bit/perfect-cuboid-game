@@ -1,0 +1,30 @@
+name: Stage32 scratch post1648AB Popov K12 affine class nonselection
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648ab-popov-k12-affine-class
+    paths:
+      - '.github/workflows/stage32-scratch-post1648ab-popov-k12-affine-class.yml'
+      - 'stages/stage32/residual-32-01-production/post1648ab-popov-k12-affine-class-pointwise-nonselection.json'
+      - 'stages/stage32/residual-32-01-production/post1648ab-popov-k12-affine-class-pointwise-nonselection-source-note.md'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648ab_popov_k12_affine_class_pointwise_nonselection.py'
+      - 'stages/stage32/residual-32-01-production/post1648aa-deraux-weierstrass-orbit-b9-fixed-pair-nonselection.json'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648aa_deraux_weierstrass_orbit_b9_fixed_pair_nonselection.py'
+      - 'stages/stage32/residual-32-01-production/post1648w-rains-st12-theta-torsor-cohomology-nonselection.json'
+
+permissions:
+  contents: read
+
+jobs:
+  popov-k12-affine-class-nonselection:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replay AA Deraux set-level anchor
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648aa_deraux_weierstrass_orbit_b9_fixed_pair_nonselection.py
+      - name: Verify Popov K12 affine-class pointwise nonselection
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648ab_popov_k12_affine_class_pointwise_nonselection.py
+      - name: Diff check
+        run: git diff --check

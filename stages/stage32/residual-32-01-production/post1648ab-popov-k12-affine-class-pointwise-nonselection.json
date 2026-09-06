@@ -1,0 +1,130 @@
+{
+  "schema": "STAGE32_POST1648AB_POPOV_K12_AFFINE_CLASS_POINTWISE_NONSELECTION_V1",
+  "stage": 32,
+  "role": "SCRATCH_EXACT_NONCREDIT_EXTERNAL_AFFINE_CLASS_POINTWISE_NONSELECTION",
+  "status": "SCRATCH_PASS_POPOV_K12_STAR_AFFINE_CLASS_EXPLICIT_BUT_POINTWISE_G_STILL_UNMATERIALIZED",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "O": 210,
+    "qprime": 4,
+    "Q": 602,
+    "surviving_residues_decimal": [73, 97, 235]
+  },
+  "source_locks": {
+    "post1648AA": {
+      "path": "stages/stage32/residual-32-01-production/post1648aa-deraux-weierstrass-orbit-b9-fixed-pair-nonselection.json",
+      "canonical_sha256": "a0ca0342db4902e737f28aa5f0de447cca2a2fce71f8cf0cdd2775d51804f7c7",
+      "git_blob_sha1": "c989058beb079cc36fb1d52f58707986e8b4320b"
+    },
+    "post1648W": {
+      "path": "stages/stage32/residual-32-01-production/post1648w-rains-st12-theta-torsor-cohomology-nonselection.json",
+      "canonical_sha256": "af2fa5b0f5e64a33040f2135015745aeb22ea7f94a1c454730e00bab7a4c3aad",
+      "git_blob_sha1": "5a3e5c6292f93d463e540f4c88f7c00f64a2c476"
+    },
+    "source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1648ab-popov-k12-affine-class-pointwise-nonselection-source-note.md",
+      "git_blob_sha1": "e38996abe3bc587c82aa0390bf3b7defc22a01ca"
+    }
+  },
+  "external_source_lock": {
+    "popov": {
+      "title": "Discrete complex reflection groups",
+      "modern_publication": "Communications in Mathematics 30 (2022), 303-375",
+      "arxiv": "2304.08941",
+      "locators": [
+        "Section 1.6.2 and Table 1, No. 12",
+        "Section 2.4 Cohomology",
+        "Table 2 entries [K12] and [K12]*",
+        "Theorems 2.8.1-2.8.2"
+      ],
+      "exact_supported_facts": [
+        "Popov numbering agrees with Shephard-Todd numbering",
+        "No. 12 is GL(2,3), dimension 2, over the ring Z[i*sqrt(2)]",
+        "Table 2 gives [K12] with translation lattice [1,i*sqrt(2)]e1 + [1,i*sqrt(2)]e2 and cocycle c=0",
+        "Table 2 gives [K12]* with c(r1)=c(r2)=0 and c(r3)=((1+i)/2)e3",
+        "for fixed linear group K and translation lattice T, an affine extension defines a class in H^1(K,V/T)",
+        "changing the chosen base point changes the cocycle by a 1-coboundary",
+        "the crystallographic reflection-group extension classes form a subgroup of H^1(K,V/T) of order at most 2",
+        "[K12]* is one of the non-semidirect crystallographic reflection groups"
+      ]
+    },
+    "krr": {
+      "title": "The Bolza curve and some orbifold ball quotient surfaces",
+      "arxiv": "1904.00793v4",
+      "locators": [
+        "Section 4, Lemma 5 and Corollary 6",
+        "Section 4 discussion immediately before Lemma 5",
+        "Section 4 after Proposition 7"
+      ],
+      "exact_supported_facts": [
+        "the Bolza branch set is {0,infinity,+/-1,+/-i}",
+        "up to conjugation there are two GL2(F3) actions on A: the affine G48 action with no global fixed point and its linear part with translations forgotten, fixing 0",
+        "the Abel-Jacobi embedding alpha sends infinity to 0 before the later conjugating automorphism is applied",
+        "the curve-preserving affine action has translation term [g(infinity)]-[infinity]",
+        "there exists an automorphism g of A with H48=g G48 g^-1",
+        "the checked source changes the embedding by composing with this g before identifying H48 and G48, but does not materialize g pointwise on the six Weierstrass points"
+      ]
+    }
+  },
+  "class_level_bridge": {
+    "shephard_todd_group_number": 12,
+    "abstract_group": "GL(2,F3)",
+    "quadratic_ring": "Z[i*sqrt(2)]",
+    "popov_split_class": "[K12], c=0",
+    "popov_nonsplit_class": "[K12]*, c(r1)=c(r2)=0, c(r3)=((1+i)/2)e3",
+    "krr_two_action_classification_consistent_with_split_vs_affine_distinction": true,
+    "popov_affine_class_materialized": true,
+    "actual_integral_conjugating_g_materialized": false,
+    "pointwise_image_of_source_infinity_materialized": false,
+    "pointwise_image_of_source_zero_materialized": false
+  },
+  "semantic_boundary": {
+    "popov_cocycle_is_a_cohomology_representative_not_a_pointwise_bolza_marking": true,
+    "basepoint_change_is_coboundary": true,
+    "popov_table_basis_explicitly_bound_to_stage32_retained_basis": false,
+    "popov_reflection_generators_explicitly_bound_to_kkk_named_curve_generators": false,
+    "krr_alpha_infinity_equals_zero_promoted_through_unspecified_conjugating_g": false,
+    "post1648AA_set_level_six_point_anchor_upgraded_to_pointwise_anchor": false,
+    "rains_H1_class_identified_with_popov_H1_class": false,
+    "reason": "Popov resolves the affine extension class up to the cohomological/conjugacy equivalence used in its classification. KRR supplies existence of a conjugating automorphism between the curve-preserving affine action and Deraux G48, but the checked sources do not bind Popov's cocycle basis/generators or KRR infinity/zero to one retained Deraux six-point coordinate. Thus no pointwise source-to-target marking is obtained."
+  },
+  "candidate_ledger_update": {
+    "closed_this_leaf": {
+      "candidate": "Popov explicit [K12]* affine cocycle class + KRR two-action classification -> pointwise source infinity/zero to a retained Deraux six-point coordinate",
+      "status": "BOUNDED_CLASS_LEVEL_NONSELECTION",
+      "bounded_reason": "the non-split affine extension class is explicit, but changing base point changes cocycle representative by a coboundary and no checked source materializes the conjugating g or a pointwise six-Weierstrass correspondence"
+    },
+    "remaining_untested": [
+      "actual integral marked ppav isomorphism / conjugating g from another external source",
+      "reconstruct the full source affine cocycle / Weierstrass characteristic marking in the KKK canonical basis and perform exact affine equivariant matching against Deraux"
+    ],
+    "receiver_parked": false
+  },
+  "decision": {
+    "popov_k12_star_affine_class_materialized": true,
+    "popov_k12_star_route_selects_pointwise_weierstrass_image": false,
+    "absolute_delta0inf_retained_W_line_identified": false,
+    "survivors_current_credit": [73, 97, 235],
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "O212_plus_advance_allowed": false,
+    "next_exact_route": "DO_NOT_PROMOTE_POPOV_AFFINE_H1_CLASS_TO_A_POINTWISE_G; EITHER_FIND_AN_ACTUAL_EXPLICIT_INTEGRAL_CONJUGATING_G_OR_RECONSTRUCT_THE_SOURCE_AFFINE_WEIERSTRASS_COCYCLE_IN_KKK_COORDINATES_AND_MATCH_IT_EXACTLY_TO_DERAUX"
+  },
+  "firewalls": {
+    "scratch_result_promoted_to_MAIN_authority": false,
+    "scratch_result_promoted_to_current_credit": false,
+    "cohomology_class_promoted_to_pointwise_marking": false,
+    "popov_basis_promoted_to_retained_basis": false,
+    "popov_generators_promoted_to_kkk_generators": false,
+    "unspecified_krr_g_promoted_to_explicit_adapter": false,
+    "bounded_route_block_promoted_to_global_nonexistence": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false
+  },
+  "canonical_sha256_without_this_field": "84ce4096aac5adf829df9bf001a28b7b92a7e0e513d122e5f55ce49b77825874"
+}
