@@ -1,0 +1,135 @@
+{
+  "schema": "STAGE36_36_09AE_SIX_RESERVOIR_SQUARECLASS_CONIC_COUPLING_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AE",
+  "status": "EXACT_JACOBI_COUPLING_AND_MOD8_BRANCH_SKELETON_PRUNING_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "07a465cb5025e7c0188fb63610bb40e4b54e7a84",
+  "batch_parent": {
+    "pr": 1670,
+    "36_09AD_exact_head": "ebb280e5f1c56372fa3494799506d2242ff2ec31",
+    "36_09AD_exact_head_ci": "34066782657/101576826714",
+    "authority_scope": "36-09AB through 36-09AD are provisional same-PR inputs; 36-09U through 36-09AA are hostile-audited authority"
+  },
+  "source_locks": {
+    "stage36_36_09AD": {
+      "path": "stages/stage36/36-09AD/coupled-six-reservoir-factor-squareclass-parity-preflight.json",
+      "blob_sha": "9d0388845955efee71d1a761ae4ee943d8b565d5"
+    },
+    "stage36_36_09V": {
+      "path": "stages/stage36/36-09V/gaussian-directional-prime-support-preflight.json",
+      "blob_sha": "9fdec16f920104cc6c1961fb092185a0371258d5"
+    },
+    "S34_W01": {
+      "path": "docs/arsenal/cards/formal/S34-W01.md",
+      "blob_sha": "01a8e90e34b4aa46edbfa825803d488e5230e9d0"
+    }
+  },
+  "squareclass_variables": {
+    "A": "delta_P",
+    "B": "delta_M",
+    "C": "delta_minus",
+    "D": "delta_plus",
+    "eta": "+1 or -1",
+    "h": "0 when eta=+1, 1 when eta=-1",
+    "e": "eps_minus=v2(U-V) mod 2",
+    "f": "eps_plus=v2(U+V) mod 2",
+    "properties": ["A,B,C,D are positive odd squarefree", "pairwise gcd(A,B)=gcd(A,C)=...=1", "A|rad_odd(P)", "B|rad_odd(M)", "C,D|rad_odd(D0)", "gcd(C,D)=1"]
+  },
+  "coupled_conics": [
+    "A*u^2-B*v^2=eta*2^e*C*r^2",
+    "A*u^2+B*v^2=2^f*D*s^2"
+  ],
+  "selected_prime_local_rows": {
+    "q_divides_A": ["(-eta*2^e*B*C/q)=+1", "(2^f*B*D/q)=+1"],
+    "q_divides_B": ["(eta*2^e*A*C/q)=+1", "(2^f*A*D/q)=+1"],
+    "q_divides_C": ["(A*B/q)=+1", "(2^(1-f)*A*D/q)=+1"],
+    "q_divides_D": ["(-A*B/q)=+1", "(eta*2^(1-e)*A*C/q)=+1"],
+    "unit_justification": "pairwise squareclass coprimality plus gcd(U,V)=1 and gcd(U-V,U+V)|2 makes the divided square representatives units at the selected odd prime"
+  },
+  "aggregate_jacobi_rows": [
+    "(-eta*2^e*B*C/A)=+1",
+    "(2^f*B*D/A)=+1",
+    "(eta*2^e*A*C/B)=+1",
+    "(2^f*A*D/B)=+1",
+    "(A*B/C)=+1",
+    "(2^(1-f)*A*D/C)=+1",
+    "(-A*B/D)=+1",
+    "(eta*2^(1-e)*A*C/D)=+1"
+  ],
+  "reciprocity_linearization": {
+    "m_n": "(n-1)/2 mod 2, so (-1/n)=(-1)^m_n",
+    "t_n": "(n^2-1)/8 mod 2, so (2/n)=(-1)^t_n",
+    "pair_symbol_variables": ["pAB", "pAC", "pAD", "pBC", "pBD", "pCD"],
+    "quadratic_reciprocity": "pXY+pYX=m_X*m_Y mod 2",
+    "eight_by_six_coefficient_rank": 5,
+    "left_nullity": 3,
+    "left_nullspace_basis_rows_over_eight_jacobi_equations": [
+      [0,0,1,1,1,1,1,1],
+      [0,1,0,1,0,0,1,0],
+      [1,0,0,1,0,1,1,1]
+    ],
+    "meaning": "three independent reciprocity-consistency constraints are necessary before any actual pairwise Jacobi-symbol assignment can satisfy all eight selected-prime rows"
+  },
+  "alpha_two_residue_input": {
+    "audited_36_09V_fact": "every odd q dividing C0=M*P has (2/q)=+1",
+    "consequence": ["(2/A)=+1", "(2/B)=+1", "A mod 8 is in {1,7}", "B mod 8 is in {1,7}"]
+  },
+  "UV_two_adic_compatibility": {
+    "AD_input": "v2(U) and v2(V) are even",
+    "opposite_parity_case": "if exactly one of U,V is even then e=f=0",
+    "both_odd_same_AB_mod8": "if U,V odd and A=B mod 8 then f=1 and e is unrestricted by mod-8 data",
+    "both_odd_different_AB_mod8": "if U,V odd and A!=B mod 8 then e=1 and f is unrestricted by mod-8 data",
+    "combined_rule": "for A=B, (e,f)=(1,0) is impossible; for A!=B, (e,f)=(0,1) is impossible"
+  },
+  "finite_mod8_skeleton": {
+    "coordinates": ["A_mod8", "B_mod8", "C_mod8", "D_mod8", "e", "f", "h"],
+    "naive_after_alpha_two_residue_count": 512,
+    "survivor_count_after_reciprocity_and_UV_2adic_compatibility": 128,
+    "eliminated_count": 384,
+    "survivor_fraction": "1/4",
+    "survivor_sha256": "b2c4eceb909cdefd18e3075d5223a95af6fcd029b623eeae557fe92f83e90721",
+    "digest_encoding": "lexicographically sorted CSV lines A,B,C,D,e,f,h with trailing newline",
+    "eta_counts": {"eta_plus":64,"eta_minus":64},
+    "each_AB_residue_pair_survivor_count": 32,
+    "branch_residue_skeleton_shrunk": true,
+    "candidate_parameter_set_shrunk": false
+  },
+  "interpretation": {
+    "what_is_pruned": "the finite mod-8/sign/2-adic skeleton of the four aggregate squareclass branches",
+    "what_is_not_pruned": "the actual variable odd prime identities inside A,B,C,D and therefore the Stage36 parameter p population",
+    "fixed_finite_S_recovered": false,
+    "finite_exhaustive_Q_squareclass_family": false,
+    "reason": "the 128 residue patterns still contain arbitrary squarefree divisors of the variable six parameter reservoirs"
+  },
+  "S34_W01_progress": {
+    "exact_factorization": true,
+    "odd_support_control": true,
+    "odd_squareclass_parity_skeleton": true,
+    "real_sign_bookkeeping": true,
+    "two_adic_parity_reduction": true,
+    "quadratic_reciprocity_consistency": true,
+    "finite_mod8_branch_skeleton": true,
+    "finite_exhaustive_Q_squareclass_branch_family": false,
+    "full_S34_W01_output": false
+  },
+  "route_result": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "candidate_parameter_set_shrunk": false,
+    "receiver_rankjump_intersection_empty": false,
+    "receiver_closed": false,
+    "next_leaf": "36-09AF_VARIABLE_PRIME_JACOBI_MATRIX_REALIZABILITY_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "mod8_128_patterns_are_complete_Q_squareclasses": false,
+    "pair_symbol_assignment_realizability_proved": false,
+    "finite_exhaustive_squareclass_branch_family": false,
+    "S34_W01_full_output_obtained": false,
+    "S34_W03_intersection_exclusion_executed": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

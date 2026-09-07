@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Replay immutable in-PR V45 Goal4H snapshot while V46 Goal4I is stacked provisionally."""
 from __future__ import annotations
-import json, runpy, subprocess, sys
+import json, runpy, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 STATE = ROOT / 'stages/stage35-ex/MAIN-STATE.json'
+SNAPSHOT_FILE = ROOT / 'stages/stage35-ex/snapshots/MAIN-STATE-V45-ec4d078984bf.json'
 V46 = 'STAGE35_EX_PESCH_E1_STATE_V46_GOAL4I_V2_SELF_MAP_PREFLIGHT_PENDING_LATER_AUDIT'
 V45 = 'STAGE35_EX_PESCH_E1_STATE_V45_GOAL4H_VERTICAL_BRAUER_ADAPTER_PREFLIGHT_PENDING_LATER_AUDIT'
 SNAPSHOT = 'ec4d078984bf1ce6b5b8707615c1690eaa62e512'
@@ -24,9 +25,9 @@ assert real['current']['unit'] == '35EX-35_GOAL4I_GENUINE_V2_INFINITE_DESCENT_SE
 assert real['claims']['goal4i_executed'] is True
 assert real['claims']['E1_proved'] is False
 
-snapshot_text = subprocess.check_output(
-    ['git','show',f'{SNAPSHOT}:stages/stage35-ex/MAIN-STATE.json'], cwd=ROOT, text=True, stderr=subprocess.STDOUT
-)
+# Exact blob copy of MAIN-STATE.json from source commit SNAPSHOT.  This avoids
+# dependence on dangling in-PR commit objects after #1637 was squash-merged.
+snapshot_text = SNAPSHOT_FILE.read_text()
 snapshot = json.loads(snapshot_text)
 assert snapshot['schema'] == V45
 assert snapshot['current']['unit'] == '35EX-35_GOAL4H_NONOBVIOUS_VERTICAL_BRAUER_ENDPOINT_FIBRATION_SOURCE_LOCK_PREFLIGHT'

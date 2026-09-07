@@ -1,0 +1,143 @@
+{
+  "schema": "STAGE36_36_09X_KUMMER_CLASS_COUPLED_HILBERT_LOCAL_SOLVABILITY_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09X",
+  "status": "EXACT_SELECTED_PRIME_LOCAL_SOLVABILITY_ALPHA_PRUNING_BETA_SELFPLACE_NEUTRAL_PENDING_BATCH_AUDIT",
+  "base_main_sha": "f8522bd1a38fa551186ad370f51d17c73c7927e2",
+  "batch_parent": {
+    "pr": 1664,
+    "36_09W_exact_head": "84a60e2c74b90eb51c55cf871ad1305e0684e548",
+    "36_09W_ci": "34031245641/101481029517",
+    "36_09W_certificate": "stages/stage36/36-09W/variable-prime-six-reservoir-reciprocity-preflight.json",
+    "36_09W_certificate_blob_sha": "ddeed22ffdad51e6ba409396f82026680c46e8ab",
+    "36_09W_verifier": "stages/stage36/verify_stage36_36_09W.py",
+    "36_09W_verifier_blob_sha": "20ae2258443828004971a006842f467f29dc56ea",
+    "authority_scope": "provisional same-PR batch interface only; hostile audit remains deferred"
+  },
+  "source_locks": {
+    "standard_2isogeny_descent": {
+      "path": "stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md",
+      "blob_sha": "a562d7053a6f04deff4473067777b7cfd538ea8a",
+      "uses": ["homogeneous quartic criterion for a 2-isogeny Kummer class"]
+    },
+    "hilbert_reciprocity": {
+      "path": "stages/stage36/36-09W/hilbert-reciprocity-source-lock.md",
+      "blob_sha": "52952e2afd1db636a236c6bd254acadc779fe09f",
+      "uses": ["odd local Hilbert/Legendre interpretation", "global product formula only as a firewall/checksum"]
+    },
+    "stage36_36_09U": {
+      "path": "stages/stage36/36-09U/qi-antiinvariant-rankjump-descent-preflight.json",
+      "blob_sha": "a1f0c924d267ab4f45aaada6c9bcb3a5f544f284"
+    },
+    "stage36_36_09V": {
+      "path": "stages/stage36/36-09V/gaussian-directional-prime-support-preflight.json",
+      "blob_sha": "9fdec16f920104cc6c1961fb092185a0371258d5"
+    },
+    "stage36_36_09W": {
+      "path": "stages/stage36/36-09W/variable-prime-six-reservoir-reciprocity-preflight.json",
+      "blob_sha": "ddeed22ffdad51e6ba409396f82026680c46e8ab"
+    }
+  },
+  "homogeneous_model": {
+    "p": "a/b",
+    "primitive_conditions": ["gcd(a,b)=1", "b!=0", "a!=0", "a!=b", "a!=-b"],
+    "S": "a^2+b^2",
+    "C0": "a^4-6*a^2*b^2+b^4",
+    "D0": "a*b*(a-b)*(a+b)",
+    "alpha_cover": "w^2=d*z^4-2*S^2*z^2+C0^2/d",
+    "beta_cover": "w^2=e*z^4+4*S^2*z^2+64*D0^2/e",
+    "alpha_class_scope": "d is a squarefree signed representative supported on primes dividing C0",
+    "beta_class_scope": "e is a squarefree signed representative supported on primes dividing 2*D0",
+    "odd_selected_prime_definition": "q is selected when v_q(d)=1 for alpha or v_q(e)=1 for beta"
+  },
+  "selected_alpha_prime_lemma": {
+    "hypotheses": [
+      "q is odd",
+      "q divides C0",
+      "v_q(d)=1",
+      "q does not divide S"
+    ],
+    "q_not_divide_S_source": "36-09V odd-reservoir disjointness plus C0^2+16*D0^2=S^4",
+    "term_valuations_for_t=v_q(z)": [
+      "v_q(d*z^4)=1+4*t",
+      "v_q(-2*S^2*z^2)=2*t",
+      "v_q(C0^2/d)=2*v_q(C0)-1"
+    ],
+    "negative_t": "if t<0, 1+4*t is the unique minimum and is odd, impossible for w^2",
+    "nonnegative_t": "if t>=0, either the last term is the unique odd minimum (impossible) or the middle term is the unique minimum; then the unit residue of w^2 is -2 times a square",
+    "necessary_condition": "(-2/q)=+1",
+    "sufficiency": "if (-2/q)=+1, take z=1; modulo q the RHS is -2*S^2, a nonzero square, and Hensel lifts using derivative 2*w nonzero mod q",
+    "exact_selected_prime_equivalence": "alpha cover has a Q_q-point iff (-2/q)=+1"
+  },
+  "alpha_gaussian_combination": {
+    "36_09V_alpha_prime_condition": "if odd q divides C0 then (2/q)=+1",
+    "combined_with_selected_alpha_lemma": "selected alpha q must satisfy both (2/q)=+1 and (-2/q)=+1",
+    "equivalent_congruence": "q=1 mod 8",
+    "forbidden_selected_alpha_primes": "every q=7 mod 8 dividing C0 is forbidden from the support of a locally soluble alpha Kummer class",
+    "explicit_forbidden_witness": {
+      "parameter": [4,1],
+      "reservoir": "AMINUS",
+      "q": 7,
+      "Aminus": 7,
+      "conclusion": "q=7 cannot be selected in d"
+    },
+    "explicit_allowed_local_witness": {
+      "parameter": [5,1],
+      "reservoir": "APLUS",
+      "q": 17,
+      "Aplus": 34,
+      "conclusion": "q=17 passes the selected-prime local condition; this does not assert a global alpha class"
+    },
+    "alpha_selected_support_pruned": true,
+    "alpha_growth_excluded": false
+  },
+  "selected_beta_prime_lemma": {
+    "hypotheses": [
+      "q is odd",
+      "q divides D0",
+      "v_q(e)=1",
+      "q does not divide S"
+    ],
+    "construction": "take z=1; modulo q the beta RHS is 4*S^2, with roots w=+/-2*S; derivative 2*w is nonzero mod q, so Hensel gives a Q_q-point",
+    "result": "every odd selected beta prime is automatically locally soluble at its own q-place",
+    "selected_beta_selfplace_character_restriction": false,
+    "beta_growth_excluded": false
+  },
+  "receiver_sensitive_reciprocity_status": {
+    "Kummer_class_has_entered_local_analysis": true,
+    "alpha_selected_prime_filter": "q=1 mod 8 only",
+    "beta_selected_prime_filter": "none at the selected prime itself",
+    "global_Hilbert_contradiction_from_selected_primes_alone": false,
+    "reason": "alpha selected-prime symbols are forced trivial while beta selected self-places are locally soluble without a character restriction; any proof-capable global obstruction must use complementary reservoir primes and/or the 2-adic/infinite places together with the chosen d/e class",
+    "multiplace_reciprocity_obstruction_proved": false,
+    "candidate_parameter_set_shrunk": false,
+    "Kummer_candidate_support_pruned": true,
+    "Qi_rankjump_locus_empty": false
+  },
+  "cycle_route_result": {
+    "CYCLE_ROUTE_STATUS": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY": "LIVE_KUMMER_COUPLED_SELECTED_PRIME_FILTER_EXACT_COMPLEMENT_AND_2ADIC_CHARGE_PENDING",
+    "B11_ALPHA_SELECTED_PRIME_SUBROUTE": "LIVE_PRUNES_ALPHA_SUPPORT_TO_Q_EQ_1_MOD_8_BUT_DOES_NOT_CLOSE_ALPHA_GROWTH",
+    "B11_BETA_SELECTED_SELFPLACE_SUBROUTE": "BLOCKED_AS_AUTOMATICALLY_LOCAL_SOLUBLE_NO_CHARACTER_CHARGE",
+    "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER": "UNTESTED",
+    "split_triggered": false
+  },
+  "next_leaf": "36-09Y_KUMMER_COMPLEMENT_PRIME_AND_2ADIC_HILBERT_PREFLIGHT",
+  "scope_firewalls": {
+    "selected_alpha_local_equivalence_proved": true,
+    "selected_alpha_q_mod8_pruning_proved": true,
+    "selected_beta_selfplace_local_solubility_proved": true,
+    "alpha_growth_excluded": false,
+    "beta_growth_excluded": false,
+    "Kummer_class_coupled_global_Hilbert_obstruction_proved": false,
+    "multiplace_reciprocity_obstruction_proved": false,
+    "candidate_parameter_set_shrunk": false,
+    "Qi_rankjump_locus_empty": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
