@@ -39,18 +39,17 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay exact 36-09CH green checkpoint evidence
+      - name: Replay immutable 36-09CH mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
           H=59de2d2ad03fd33e893ef250698ca9459dd3a5a0
-          git cat-file -e "$H^{commit}"
-          git merge-base --is-ancestor "$H" HEAD
+          git cat-file -e "$H^{commit}" || git fetch origin "$H" --depth=1
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CH.py"
           git worktree remove --force "$tmp"
-      - name: Assert CH hostile-audit checkpoint and CI lock
+      - name: Assert PR1699 audit consumption and CI unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -58,32 +57,34 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V127_36_09CH_HOSTILE_AUDIT_CHECKPOINT'
-          assert s['status']=='HOSTILE_AUDIT_CHECKPOINT_PENDING'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V128_36_09CI_PROMOTION'
+          assert s['status']=='ACTIVE_MAIN_CONTINUATION'
+          a=s['audited_history']['36-09CC-CH']
+          assert a['status']=='AUDITED_MERGED_AUTHORITY'
+          assert a['pr']==1699
+          assert a['hostile_audit_review']==5135648704
+          assert a['audited_exact_head']=='70a8cca6d2c4116eccb2d8d2150244973e09515a'
+          assert a['exact_head_ci']=='34168010675/101882797978'
+          assert a['merged_main_sha']=='f4edee85e7350c6e62579aca6cad74dcd0d1cebb'
           ch=s['authority_frontier']['36-09CH']
-          assert ch['status']=='PROVISIONAL_EXACT_GREEN_CHECKPOINT_PENDING_HOSTILE_AUDIT'
-          assert ch['exact_head']=='59de2d2ad03fd33e893ef250698ca9459dd3a5a0'
-          assert ch['exact_head_ci']=='34167900207/101882487436'
+          assert ch['status']=='AUDITED_MERGED_INPUT'
           assert ch['ALL_OLD_SIX_LOCAL_REALIZATION_COMPLETE'] is True
-          assert ch['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
-          assert ch['RECEIVER_CLOSED'] is False
           cur=s['current']
-          assert cur['unit']=='36-09CH-HOSTILE-AUDIT-CHECKPOINT'
           assert cur['next_exact_leaf']=='36-09CI_GENERAL_Q_RESERVOIR_LOCAL_REALIZATION_PREFLIGHT'
-          assert cur['next_owner']=='HOSTILE_AUDIT_PR_1699'
-          assert cur['substantive_batch_pr_continues'] is False
-          assert cur['hostile_audit_checkpoint_reached'] is True
-          assert cur['36_09CI_entry_allowed'] is False
+          assert cur['next_owner']=='MAIN'
+          assert cur['substantive_batch_pr_continues'] is True
+          assert cur['hostile_audit_checkpoint_reached'] is False
+          assert cur['36_09CI_entry_allowed'] is True
           pg=s['promotion_gates']
-          assert pg['36_09CH_exact_head_ci_passed'] is True
-          assert pg['36_09CH_hostile_audit_passed'] is False
-          assert pg['36_09CI_unlocked'] is False
+          assert pg['36_09CH_hostile_audit_passed'] is True
+          assert pg['36_09CI_unlocked'] is True
+          assert pg['36_09CI_entry_allowed'] is True
           assert pg['all_old_six_local_realization_complete'] is True
           assert pg['general_Q_reservoir_local_realization_complete'] is False
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('36-09CH hostile-audit checkpoint verified: exact old-six local-realization evidence is green and CI Q-reservoir continuation is fail-closed pending hostile audit PASS.')
+          print('Stage36 promotion verified: PR #1699 hostile-audit PASS is consumed and 36-09CI is unlocked without additional mathematical credit.')
           PY
           git diff --check
