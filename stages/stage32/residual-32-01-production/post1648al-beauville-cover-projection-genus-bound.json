@@ -1,0 +1,96 @@
+{
+  "canonical_sha256_without_this_field": "ce2eafff49e379b87b8bc4d753dc28811b738becce32caf2f90b7495c6d6c316",
+  "schema": "STAGE32_POST1648AL_BEAUVILLE_COVER_PROJECTION_GENUS_BOUND_V1",
+  "stage": 32,
+  "leaf": "POST1648AL_BEAUVILLE_COVER_PROJECTION_GENUS_BOUND",
+  "status": "EXACT_NECESSARY_BEAUVILLE_COVER_RAMIFICATION_AND_MULTIBRANCH_LOWER_BOUNDS_CONDITIONAL_ON_V6_CARRIER_EXISTENCE",
+  "parent": {
+    "ak_head": "66ea87f15abdf4177aee3a778192c489cff2c9fa",
+    "ak_canonical": "242c2702505b0839901b329b3dbed09b8f652f4814a3758a5e1ca00ed5333c30",
+    "ak_ci": {
+      "run_id": 34081865302,
+      "job_id": 101618534153,
+      "result": "SUCCESS"
+    },
+    "aj_head": "ba2fdb2644938cb398a064449bec27b472e2864d",
+    "aj_canonical": "499cae84c4f945f38fa75bbb93f4b65c259f56f383c1be2a304b1a3f057fd7f7"
+  },
+  "source_locks": {
+    "fsm_title": "Parametrization of the box variety by theta functions",
+    "fsm_authors": [
+      "Eberhard Freitag",
+      "Riccardo Salvati Manni"
+    ],
+    "fsm_doi": "10.1307/mmj/1480734014",
+    "fsm_preprint_url": "https://www.mathi.uni-heidelberg.de/~freitag/preprints/box.pdf",
+    "locators": [
+      "Section 2 printed p.8: H*/Gamma[8] has genus 5",
+      "Section 3 printed p.10: projective degree equals canonical intersection",
+      "Section 4 Lemma 4.1 printed p.12: Gamma'[4]/Gamma[8] is (Z/2)^2 and acts freely",
+      "Section 4 printed pp.12-13: X is nonsingular, X->B is two-fold, local C^2->C^2/+-, resolved cover ramifies along 48 exceptional lines"
+    ],
+    "source_note_path": "stages/stage32/residual-32-01-production/post1648al-beauville-cover-projection-genus-bound-source-note.md",
+    "source_note_sha256": "1c84750b0bd20ced60271bce5bc221d68e1acda2dcb7c27073ca49d2cd1840f6",
+    "v6_witness_path": "stages/stage32/32-21/post1473-v6-witness-body-recovered.json",
+    "v6_witness_canonical_sha256": "d0c1c8bddfe3950737ed6f87ffa74acd850c736298bd12ec1eceac609625b8a8",
+    "aj_certificate_path": "stages/stage32/residual-32-01-production/post1648aj-v6-multibranch-node-fiber-lower-bounds.json"
+  },
+  "source_locked_inputs": {
+    "C8_genus": 5,
+    "H_order": 4,
+    "H_action_free": true,
+    "beauville_cover_degree": 2,
+    "resolved_cover_branch_divisor_is_48_exceptional_lines": true,
+    "v6_degree": 186,
+    "v6_geometric_genus": 1,
+    "v6_exceptional_mass": 266,
+    "v6_positive_exceptional_support": 47,
+    "aj_required_minimal_branches": 47
+  },
+  "proof_adapter": {
+    "factor_quotient_genus_Y": 2,
+    "canonical_decomposition": "K_X = f1^*K_Y + f2^*K_Y numerically",
+    "local_ramification_rule": "branch with exceptional intersection multiplicity m ramifies iff m is odd",
+    "connectedness_reason": "AJ supplies at least 47 multiplicity-one minimal branches, so the induced degree-two cover is ramified and connected",
+    "projection_degree_sum": "n1+n2=d=186",
+    "double_cover_riemann_hurwitz": "2*g(Dbar)-2=r",
+    "projection_hurwitz": "r>=2*n_i for every positive n_i"
+  },
+  "exact_results": {
+    "projection_degree_sum": 186,
+    "minimum_max_projection_degree": 93,
+    "minimum_ramification_points": 186,
+    "maximum_ramification_points_from_exceptional_mass": 266,
+    "lift_genus_minimum": 94,
+    "lift_genus_maximum": 134,
+    "projection_degree_minimum_each": 53,
+    "projection_degree_maximum_each": 133,
+    "minimum_total_normalization_preimages_over_met_surface_nodes": 186,
+    "minimum_normalization_branch_excess_over_47_met_nodes": 139,
+    "odd_mass_unibranch_ramification_capacity": 26,
+    "largest_14_multibranch_capacity_increment_sum": 152,
+    "ramification_capacity_with_at_most_14_multibranch_nodes": 178,
+    "largest_15_multibranch_capacity_increment_sum": 160,
+    "ramification_capacity_with_15_multibranch_nodes": 186,
+    "minimum_distinct_multibranch_surface_nodes": 15
+  },
+  "decision": {
+    "conditional_on_integral_geometric_genus1_v6_carrier_existence": true,
+    "v6_carrier_excluded": false,
+    "stronger_than_AJ": true,
+    "next_exact_route": "SOURCE_LOCK_INDIVIDUAL_BEAUVILLE_PROJECTION_DEGREES_N1_N2_FROM_RETAINED_PICARD_OR_FIBRATION_CLASSES"
+  },
+  "firewalls": {
+    "integral_genus1_member_materialized": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "O212_plus_advance_allowed": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "controller_promotion_granted": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
