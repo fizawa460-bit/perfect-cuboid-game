@@ -11,7 +11,7 @@ STATE = HERE / "MAIN-STATE.json"
 START = HERE / "MAIN-START-HERE.md"
 
 EXPECTED_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V1_POST1648AH_CONSOLIDATION_CANDIDATE"
-EXPECTED_CANONICAL = "50927c683c2f5bc140ea56959764e7888ecd28171f3f3169271fdcc365679c88"
+EXPECTED_CANONICAL = "23a414013341eb99a8aa71d5b2216f92188f70892c25dc424b52ca0f2061b81a"
 EXPECTED_ROUTE = "QUANTIFY_MULTIBRANCH_LOCAL_TYPES_USING_EXCEPTIONAL_PAIRINGS_AND_FSM_CUSP_POLE_BUDGET"
 EXPECTED_WORKING_SET = [
     "stages/stage32/residual-32-01-production/post1648ah-fsm-unibranch-v6-exclusion.json",
@@ -72,7 +72,7 @@ def main() -> None:
         "latest_stage32_merge_commit": "dc244645097809948f118d915534a92e56ab60ec",
         "legacy_detailed_files_are_not_ordinary_startup_authority": True,
         "consolidation_candidate_pr": 1648,
-        "consolidation_base_main_sha": "d620871bcadc0fe92af8e44e541fcb4c20197349",
+        "consolidation_base_main_sha": "652cbd51cd6b546f2a178597f7f2d3474c92b1c6",
         "consolidation_hostile_audit_status": "PENDING",
     }
     if authority != required_authority:
@@ -182,7 +182,7 @@ def main() -> None:
     print("PASS Stage32 MAIN startup authority")
     print(f"main_state_canonical={EXPECTED_CANONICAL}")
     print("latest_audited_stage32_pr=1643 hostile_review=5123545511")
-    print("consolidation_candidate_pr=1648 hostile_audit=PENDING base_main=d620871bcadc0fe92af8e44e541fcb4c20197349")
+    print("consolidation_candidate_pr=1648 hostile_audit=PENDING base_main=652cbd51cd6b546f2a178597f7f2d3474c92b1c6")
     print("v6_effective=true h0_lower_bound=294 known140_explicit=true terms=61 multiplicity=155")
     print("v6_unibranch_genus1_excluded=true remaining_case=multibranch_at_one_or_more_of_47_nodes")
     print("survivors=73,97,235 Q602_excluded=false O210_excluded=false O212_plus_advance_allowed=false")
