@@ -49,25 +49,33 @@ def package_expression(package, X):
     return atlas.clean(numerator / denominator)
 
 
-def e_order_poly(poly, e, u):
+def leading_e_poly(poly, e, u):
     P = sp.Poly(sp.expand(poly), e, *u, extension=I)
     terms = P.terms()
     if not terms:
-        raise SystemExit("zero polynomial while taking exceptional order")
-    return min(int(mon[0]) for mon, _coeff in terms)
+        raise SystemExit("zero polynomial while taking exceptional leading term")
+    order = min(int(mon[0]) for mon, _coeff in terms)
+    leading = sp.Integer(0)
+    for mon, coeff in terms:
+        if int(mon[0]) != order:
+            continue
+        term = coeff
+        for j, uj in enumerate(u):
+            term *= uj ** int(mon[j + 1])
+        leading += term
+    leading = atlas.clean(leading)
+    if leading == 0:
+        raise SystemExit("exceptional leading polynomial vanished")
+    return order, leading
 
 
 def exceptional_leading_record(expr, e, u):
     num, den = sp.fraction(sp.cancel(expr))
-    num = sp.expand(num)
-    den = sp.expand(den)
-    on = e_order_poly(num, e, u)
-    od = e_order_poly(den, e, u)
-    lead_num = atlas.clean((num / (e ** on)).subs(e, 0))
-    lead_den = atlas.clean((den / (e ** od)).subs(e, 0))
+    on, lead_num = leading_e_poly(num, e, u)
+    od, lead_den = leading_e_poly(den, e, u)
     if lead_num == 0 or lead_den == 0:
-        raise SystemExit("leading exceptional residue vanished after exact order removal")
-    lead = atlas.encode_rational(atlas.clean(lead_num / lead_den), list(u))
+        raise SystemExit("leading exceptional residue vanished")
+    lead = atlas.encode_rational(sp.cancel(lead_num / lead_den), list(u))
     return on - od, lead
 
 
