@@ -42,19 +42,20 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay audited 36-09BP-BX exact head
+      - name: Replay exact 36-09BY green parent
         shell: bash
         run: |
           set -euo pipefail
-          H=11e1152a2de6df17c7354ab48f33f25865dd0ae5
+          H=98f247ffa5b37e637097cdedd034674f727bfc54
           git cat-file -e "$H^{commit}"
+          git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BX.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BY.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09BY
-        run: python3 stages/stage36/verify_stage36_36_09BY.py
-      - name: Assert BY firewalls and BZ selection
+      - name: Verify current 36-09BZ
+        run: python3 stages/stage36/verify_stage36_36_09BZ.py
+      - name: Assert BZ firewalls and CA selection
         shell: bash
         run: |
           set -euo pipefail
@@ -62,27 +63,28 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V115_36_09BY_ALPHA_PULLBACK'
-          assert s['status']=='36_09BY_PROVISIONAL_CANDIDATE_BZ_SELECTED'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V116_36_09BZ_ALPHA_FILTER_INTEGRATION'
+          assert s['status']=='36_09BZ_PROVISIONAL_CANDIDATE_CA_SELECTED'
           h=s['audited_history']['36-09BP-BX']
           assert h['hostile_reaudit_review']==5132705989
-          assert h['audited_exact_head']=='11e1152a2de6df17c7354ab48f33f25865dd0ae5'
           assert h['merged_main_sha']=='af40c029a8721755b39dad13be452a2a74540c4e'
           by=s['authority_frontier']['36-09BY']
-          assert by['status']=='PROVISIONAL_CANDIDATE_PENDING_EXACT_HEAD_CI'
-          assert by['SOURCE_ALPHA_PULLBACK_EXACT'] is True
-          assert by['NEW_POINT_INDEPENDENT_BRANCH_ROWS']==2
-          assert by['NEW_ROWS_NONREDUNDANT_AGAINST_BX'] is True
-          assert by['REMAINING_TIE_UNIT_GATE_POINT_DEPENDENT'] is True
-          assert by['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
-          assert s['current']['next_exact_leaf']=='36-09BZ_FIXED_P_ALPHA_PULLBACK_FILTER_INTEGRATION_PREFLIGHT'
-          assert s['current']['36_09BZ_entry_allowed'] is True
-          assert s['promotion_gates']['36_09BX_hostile_reaudit_passed'] is True
-          assert s['promotion_gates']['36_09BY_certificate_complete'] is True
-          assert s['promotion_gates']['36_09BY_exact_head_ci_passed'] is False
-          assert s['promotion_gates']['36_09BZ_unlocked'] is True
+          assert by['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
+          assert by['exact_head']=='98f247ffa5b37e637097cdedd034674f727bfc54'
+          assert by['exact_head_ci']=='34132943006/101777172748'
+          bz=s['authority_frontier']['36-09BZ']
+          assert bz['FIXED_P_ALPHA_FILTER_INTEGRATION_COMPLETE'] is True
+          assert bz['SOUND_ZERO_SURVIVOR_EXCLUSION_RULE'] is True
+          assert bz['NEW_ROWS_INTEGRATED']==2
+          assert bz['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
+          assert s['current']['next_exact_leaf']=='36-09CA_GENERAL_TIE_UNIT_SOURCE_PULLBACK_PREFLIGHT'
+          assert s['current']['36_09CA_entry_allowed'] is True
+          assert s['promotion_gates']['36_09BY_exact_head_ci_passed'] is True
+          assert s['promotion_gates']['36_09BZ_certificate_complete'] is True
+          assert s['promotion_gates']['36_09BZ_exact_head_ci_passed'] is False
+          assert s['promotion_gates']['36_09CA_unlocked'] is True
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('36-09BY candidate verified; two new alpha-pullback branch-only Q2 exclusions are exact, tie-unit remains point-dependent, and BZ is selected with no closure credit.')
+          print('36-09BZ candidate verified: the two BY alpha rows are integrated into the fixed-p exhaustive outer family; CA is selected and no closure credit is promoted.')
           PY
           git diff --check
