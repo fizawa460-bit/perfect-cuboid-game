@@ -91,10 +91,22 @@ jobs:
           test "$(git rev-parse "$H":stages/stage36/36-09AO/monsky-stage36-full2-class-adapter-preflight.json)" = "a26991cb071e086d3cbc36b8c9d2db329a14e5b1"
           test "$(git rev-parse HEAD:stages/stage36/36-09AO/monsky-stage36-full2-class-adapter-preflight.json)" = "a26991cb071e086d3cbc36b8c9d2db329a14e5b1"
 
-      - name: Verify current reconciled 36-09AP two-gate adapter
-        run: python3 stages/stage36/verify_stage36_36_09AP.py
+      - name: Replay exact 36-09AP provisional parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          H=ce04f0158633f4fa935fb0949238d5b8d0ce10a2
+          git cat-file -e "$H^{commit}"
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AP.py"
+          git worktree remove --force "$tmp"
+          test "$(git rev-parse "$H":stages/stage36/36-09AP/retained-open-tunnell-monsky-two-gate-preflight.json)" = "354b2922cb633518c6cf7b47e7afb216481d2968"
 
-      - name: Assert 36-09AP firewalls and 36-09AQ unlock
+      - name: Verify current 36-09AQ odd eta-plus adapter
+        run: python3 stages/stage36/verify_stage36_36_09AQ.py
+
+      - name: Assert 36-09AQ firewalls and 36-09AR unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -102,20 +114,19 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V78_36_09AP_RECONCILED_CANDIDATE'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V79_36_09AQ_CANDIDATE'
           assert s['status']=='ACTIVE_BATCHING_SUBSTANTIVE_PR'
-          ap=s['authority_frontier']['36-09AP']
-          assert ap['RETAINED_RECEIVER_TWO_GATE_FILTER'] is True
-          assert ap['ODD_ETA_MINUS_MONSKY_COORDINATE_ADAPTER'] is True
-          assert ap['ODD_ETA_PLUS_MONSKY_COORDINATE_ADAPTER'] is False
-          assert ap['EVEN_MONSKY_COORDINATE_ADAPTER'] is False
-          assert ap['TWO_GATE_CONVERSE'] is False
-          assert ap['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert ap['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09AQ'
-          assert s['current']['36_09AQ_entry_allowed'] is True
+          aq=s['authority_frontier']['36-09AQ']
+          assert aq['ODD_ETA_PLUS_MONSKY_COORDINATE_ADAPTER'] is True
+          assert aq['ODD_N_ALL_ETA_MONSKY_COORDINATE_ADAPTER'] is True
+          assert aq['EVEN_MONSKY_COORDINATE_ADAPTER'] is False
+          assert aq['TWO_GATE_CONVERSE'] is False
+          assert aq['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert aq['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09AR'
+          assert s['current']['36_09AR_entry_allowed'] is True
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09AP reconciled two-gate adapter verified; odd eta-minus complete; AQ unlocked')
+          print('36-09AQ verified; both odd eta signs adapted; even-N AR unlocked')
           PY
           git diff --check
