@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX1_MAIN_COMPACT_STATE_V15_05C_REPAIR_AWAITING_EXACT_HEAD_CI_REAUDIT",
+  "schema": "STAGE32EX1_MAIN_COMPACT_STATE_V16_05C_AND_DIGEST_REPAIR_AWAITING_CI_REAUDIT",
   "role": "ORDINARY_STAGE32EX1_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX1",
   "execution": {
@@ -52,10 +52,7 @@
     "mathematical_candidate_state": "AUDIT_READY_FULL_TARGET_CLOSURE",
     "audited_success_state": "FULL_TARGET_CLOSURE",
     "full_target_closure_is_decision_state": true,
-    "allowed_terminal_outcomes": [
-      "ALL_V6_GENUS1_CARRIERS_EXCLUDED",
-      "GENUINE_SURVIVING_CARRIER_ESTABLISHED"
-    ],
+    "allowed_terminal_outcomes": ["ALL_V6_GENUS1_CARRIERS_EXCLUDED", "GENUINE_SURVIVING_CARRIER_ESTABLISHED"],
     "terminal_outcome": null,
     "exclusion_requires_all_residual_configurations_disposed": true,
     "exclusion_requires_full_population_exhaustiveness_adapter": true,
@@ -70,7 +67,7 @@
     "status": "REPAIR_COMPLETE_AWAITING_EXACT_HEAD_CI_AND_REAUDIT",
     "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
     "subroute": "EX1-05G_H4_COMMON_COVER_CORRESPONDENCE_COUPLING",
-    "objective": "Do not enter EX1-05G yet. The failed hostile audit at 9f88c89e identified an incomplete h=2 subgroup exhaustion and missing exact-head CI. The six-subgroup 05C repair is now retained; run read-only exact-head replay for EX1-00 through EX1-05F plus verify_main_state.py, then hostile re-audit the new exact head.",
+    "objective": "Do not enter EX1-05G yet. The failed hostile audit at 9f88c89e identified incomplete h=2 subgroup exhaustion and missing exact-head CI. The six-subgroup 05C repair and the CI-discovered digest/source-lock-chain repair are now retained. Run read-only exact-head replay for EX1-00 through EX1-05F plus verify_main_state.py, then hostile re-audit the new exact head.",
     "resume_05g_before_reaudit": false,
     "next_route_after_reaudit_pass": "EX1-05G_H4_COMMON_COVER_CORRESPONDENCE_COUPLING",
     "next_route_after_reaudit_fail": "REPAIR_EXACT_FAILED_FINDING_ON_SAME_PR",
@@ -78,6 +75,7 @@
   },
   "current_leaf_working_set": [
     "stages/stage32-ex1/AUDIT-CONTRACT.md",
+    "stages/stage32-ex1/ex1-05a-product-cover-ramification.json",
     "stages/stage32-ex1/ex1-05b-inertia-parity-stabilizer.json",
     "stages/stage32-ex1/ex1-05c-inertia-class-capacity.json",
     "stages/stage32-ex1/ex1-05c-inertia-class-capacity.md",
@@ -125,12 +123,12 @@
     {"leaf": "EX1-02", "canonical_sha256": "810315e98eff224089d56c7f646a32c07177878ce2b05b988bef0665c5aa012a"},
     {"leaf": "EX1-03", "canonical_sha256": "4324234386213810a6de8f7ef2e32712006e628d80291dad4f9d74e6c1e03ac5"},
     {"leaf": "EX1-04", "canonical_sha256": "c4ecc0f23704f81dab66e805de72a2c72eafce1b9760e38908daf109688800db"},
-    {"leaf": "EX1-05A", "canonical_sha256": "ef3c630d7a31ad4e96cc0d0e5e36a961e080ca14adaa8e0a116ac64e6780a01f"},
-    {"leaf": "EX1-05B", "canonical_sha256": "a80e2c079b31b5e0a4e256825acb9307dd424c8e26b5e19e48ae55596e18f720"},
+    {"leaf": "EX1-05A", "canonical_sha256": "b5b3a2b26d4ac7f14ebcb8670f0176363bd1c7921266a1693642638145d61a21"},
+    {"leaf": "EX1-05B", "canonical_sha256": "c0532ef30aee662954f035a0dc5c87f4cfa8ff7f471632efa7d266a8152405f1"},
     {"leaf": "EX1-05C", "canonical_sha256": "51464451c233eaee4148ded8c6dbb38e84944c01677eced9d6dc8af7219b846f"},
-    {"leaf": "EX1-05D", "canonical_sha256": "6c432739b1e02c58ddfc8f9e0ca3d9695604e84e5dbc12f407185074ae174612"},
-    {"leaf": "EX1-05E", "canonical_sha256": "0f7c63f90ace7974249aae2f387ff8a49650d6fba489923bd13f48d28e431701"},
-    {"leaf": "EX1-05F", "canonical_sha256": "ad116cc0729f0200bf578b363a47a5a166651e9e1dab215529d8cc6a64562778"}
+    {"leaf": "EX1-05D", "canonical_sha256": "ee3d86380cdedce792cf0b90061e2ee02e67f453e1b834c5908fc3e287c73b28"},
+    {"leaf": "EX1-05E", "canonical_sha256": "bdd1a6a84c10cf124d5ceaf75f3de234659f5d0433cbd1c859a3da65328342df"},
+    {"leaf": "EX1-05F", "canonical_sha256": "8b8ee58b63078b48389cb817ea6b6bf0171c9a323b5705dcdbc99242a27958ef"}
   ],
   "credit": {
     "level": "EX1_00_THROUGH_EX1_05F_REPAIRED_CANDIDATE_UNAUDITED",
@@ -161,6 +159,8 @@
       ]
     },
     "repair_05c_six_subgroup_exhaustion_complete": true,
+    "digest_chain_repaired_after_ci_discovery": true,
+    "digest_chain_repair_note": "The new replay exposed a pre-existing EX1-05A canonical digest mismatch present since its creation commit. The mathematical payload was unchanged; the canonical was recomputed from the retained JSON and downstream 05B/05D/05E/05F source-lock hashes were cascaded deterministically.",
     "exact_head_ci_required": true,
     "exact_head_ci_observed_success": false,
     "exact_head_for_reaudit": null,
