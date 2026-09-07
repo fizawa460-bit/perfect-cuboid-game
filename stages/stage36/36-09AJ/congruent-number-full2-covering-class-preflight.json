@@ -1,0 +1,114 @@
+{
+  "schema": "STAGE36_36_09AJ_CONGRUENT_NUMBER_FULL2_COVERING_CLASS_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AJ",
+  "status": "EXACT_H1_FULL2_HOMOGENEOUS_SPACE_CLASS_IDENTIFIED_PENDING_BATCH_AUDIT",
+  "base_main_sha": "4e6708cb807cc37bea6509245447a5817965256f",
+  "freshness_sync": {
+    "previous_base": "652cbd51cd6b546f2a178597f7f2d3474c92b1c6",
+    "current_main": "4e6708cb807cc37bea6509245447a5817965256f",
+    "sync_merge_commit": "21fca939e600be128781741f31f5991960d57825",
+    "intervening_drift": "Stage36 Arsenal provisional harvest only",
+    "stage36_source_drift": false
+  },
+  "audited_parent": {
+    "pr": 1674,
+    "hostile_audit_review": 5127180987,
+    "audited_exact_head": "4bfec87e1ce85608f87fc57e884fc026b5a715b8",
+    "exact_head_ci": "34070010830/101585489611",
+    "merged_main_sha": "652cbd51cd6b546f2a178597f7f2d3474c92b1c6",
+    "scope": "36-09AG through 36-09AI"
+  },
+  "source_locks": {
+    "stage36_36_09AI": {
+      "path": "stages/stage36/36-09AI/j1728-congruent-number-jacobian-preflight.json",
+      "blob_sha": "c5af6c4dde67532ea8d592e74aed187c72bbed4e"
+    },
+    "stage36_36_09AH": {
+      "path": "stages/stage36/36-09AH/common-uv-two-quadric-genusone-preflight.json",
+      "blob_sha": "732431bef8dfafe25cbdeb005c4237d72a40ae4b"
+    },
+    "full2_source": {
+      "path": "stages/stage36/36-09AJ/full2-homogeneous-space-source-lock.md",
+      "blob_sha": "cc16ef3a9ed5ca5d8924ddb9fd531197d68c2f0d"
+    }
+  },
+  "notation": {
+    "c": "eta*2^e*C",
+    "d": "2^f*D",
+    "L": "A*c*d",
+    "T": "A*B*c*d = eta*2^(e+f)*A*B*C*D",
+    "raw_jacobian": "E_T: y^2=x*(x-T)*(x+T)",
+    "normalized_jacobian": "E_n: Y^2=X^3-n^2*X, n=2^((e+f) mod 2)*A*B*C*D"
+  },
+  "exact_homogeneous_space_rewrite": {
+    "input_equations": [
+      "A*u^2-B*v^2=c*r^2",
+      "A*u^2+B*v^2=d*s^2"
+    ],
+    "common_multiplier": "L=A*c*d",
+    "D1": "A^2*c*d",
+    "D2": "A*c^2*d",
+    "D3": "A*c*d^2",
+    "rewritten_equations": [
+      "D1*u^2-D2*r^2=T*v^2",
+      "D1*u^2-D3*s^2=-T*v^2"
+    ],
+    "ordered_roots": ["e1=0", "e2=T", "e3=-T"],
+    "product_identity": "D1*D2*D3=(A*c*d)^4=L^4"
+  },
+  "full2_squareclass": {
+    "ordered_triple_raw_ET": ["[c*d]", "[A*d]", "[A*c]"],
+    "expanded": [
+      "[eta*2^(e+f)*C*D]",
+      "[2^f*A*D]",
+      "[eta*2^e*A*C]"
+    ],
+    "product_trivial_in_Qstar_mod_squares": true,
+    "class_object": "H^1(Q,E_T[2]) full-rational-2-torsion homogeneous-space class",
+    "normalized_En_transport": "rational square scaling preserves squareclasses; eta=-1 swaps the two nonzero ordered roots and therefore may transpose components 2 and 3",
+    "unordered_class_transport_exact": true
+  },
+  "support_structure": {
+    "d1_support": "2/sign plus C,D reservoirs",
+    "d2_support": "2 plus A,D reservoirs",
+    "d3_support": "2/sign plus A,C reservoirs",
+    "B_occurs_in_class_components": false,
+    "B_role": "B changes the ambient Jacobian twist T/n; it does not enter the three homogeneous-space squareclass components",
+    "new_dynamic_UV_prime_support": false,
+    "fixed_finite_S_recovered": false,
+    "reason_fixed_S_still_false": "A,C,D remain variable squarefree products drawn from parameter-dependent six-reservoir prime support"
+  },
+  "AF_same_skeleton_examples": {
+    "shared_branch": {"A":73,"C":11,"D":13,"eta":-1,"e":1,"f":1},
+    "shared_squareclass_triple_representatives": [-143,1898,-1606],
+    "B7": {"B":7,"T":-292292,"normalized_n":73073},
+    "B23": {"B":23,"T":-960388,"normalized_n":240097},
+    "interpretation": "same numerical full-2 class components live on different congruent-number Jacobians when the actual B prime identity changes"
+  },
+  "route_result": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "H1_full2_class_identified": true,
+    "Selmer_membership_proved": false,
+    "covering_locally_solvable_everywhere_proved": false,
+    "covering_class_trivialized": false,
+    "common_uv_rational_point_obtained": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_closed": false,
+    "next_leaf": "36-09AK_FULL2_COVERING_LOCAL_SOLVABILITY_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "H1_class_identified_implies_Selmer": false,
+    "individual_conic_Q_points_imply_covering_local_solubility": false,
+    "Selmer_class_implies_MW_image": false,
+    "covering_class_trivialized": false,
+    "finite_exhaustive_Q_squareclass_family": false,
+    "S34_W03_intersection_exclusion_executed": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

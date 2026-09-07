@@ -38,7 +38,7 @@ jobs:
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
 
-      - name: Assert hostile-audited PR1670 authority promotion
+      - name: Assert hostile-audited PR1674 authority
         shell: bash
         run: |
           set -euo pipefail
@@ -47,27 +47,28 @@ jobs:
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
           a=s['audited_batch_promotion']
-          assert a['candidate_pr']==1670
-          assert a['audited_head']=='f2922c992ab1e056fa03932ba017d0dfdae845cb'
-          assert a['hostile_audit_review']==5127056767
-          assert a['merged_main_sha']=='9306238c7ada55e31311245019d6b7e474ad837f'
+          assert a['candidate_pr']==1674
+          assert a['audited_head']=='4bfec87e1ce85608f87fc57e884fc026b5a715b8'
+          assert a['hostile_audit_review']==5127180987
+          assert a['exact_head_ci']=='34070010830/101585489611'
+          assert a['merged_main_sha']=='652cbd51cd6b546f2a178597f7f2d3474c92b1c6'
           PY
 
-      - name: Replay exact 36-09AI candidate checkpoint
+      - name: Replay exact 36-09AK candidate parent
         shell: bash
         run: |
           set -euo pipefail
-          H=8c84ca4ea7676029d6580ae433b506eaa9cc067b
+          H=df566ff40260dad7a11067782841e521d33cf4cd
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AI.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AK.py"
           git worktree remove --force "$tmp"
 
-      - name: Verify AG-AI hostile-audit checkpoint state
-        run: python3 stages/stage36/verify_stage36_36_09AI_checkpoint.py
+      - name: Verify current 36-09AL nontrivial Sha2 class
+        run: python3 stages/stage36/verify_stage36_36_09AL.py
 
-      - name: Assert checkpoint firewalls and AJ lock
+      - name: Assert 36-09AL firewalls and hostile-audit checkpoint
         shell: bash
         run: |
           set -euo pipefail
@@ -75,17 +76,26 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V71_36_09AI_BATCH_AUDIT_CHECKPOINT'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V74_36_09AL_BATCH_AUDIT_CHECKPOINT'
           assert s['status']=='ACTIVE_BATCH_HOSTILE_AUDIT_CHECKPOINT'
-          assert s['current']['unit']=='36-09AI-AUDIT-CHECKPOINT'
+          al=s['authority_frontier']['36-09AL']
+          assert al['B7_TUNNELL_NONCONGRUENT'] is True
+          assert al['B7_MW_RANK']==0
+          assert al['B7_CLASS_IN_2SELMER'] is True
+          assert al['B7_CLASS_IN_MW_KUMMER_IMAGE'] is False
+          assert al['B7_SHA2_NONTRIVIAL'] is True
+          assert al['B7_COVERING_Q_POINT_EXISTS'] is False
+          assert al['B7_EXPLICIT_BRANCH_GLOBALLY_EXCLUDED'] is True
+          assert al['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert al['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09AL-AUDIT-CHECKPOINT'
           assert s['current']['next_owner']=='HOSTILE_AUDIT'
           assert s['current']['hostile_audit_checkpoint_reached'] is True
-          assert s['current']['36_09AJ_entry_allowed'] is False
-          assert s['promotion_gates']['36_09AI_hostile_audit_passed'] is False
-          assert s['claims']['covering_class_trivialized'] is False
+          assert s['current']['36_09AM_entry_allowed'] is False
+          assert s['promotion_gates']['36_09AL_hostile_audit_passed'] is False
           assert s['claims']['candidate_parameter_set_shrunk'] is False
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('AG-AI hostile-audit checkpoint reached; AJ locked; receiver and endpoint firewalls remain closed')
+          print('36-09AL exact B7 Sha[2] obstruction verified; explicit B7 branch globally excluded; uniform family remains open; AJ-AL hostile-audit checkpoint reached; AM locked')
           PY
           git diff --check
