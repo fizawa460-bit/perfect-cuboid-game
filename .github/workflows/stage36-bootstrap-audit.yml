@@ -53,21 +53,21 @@ jobs:
           assert a['merged_main_sha']=='9306238c7ada55e31311245019d6b7e474ad837f'
           PY
 
-      - name: Replay exact 36-09AH candidate parent
+      - name: Replay exact 36-09AI candidate checkpoint
         shell: bash
         run: |
           set -euo pipefail
-          H=ab90853e74735a367faa4d98e5c249de3c3a9cd5
+          H=8c84ca4ea7676029d6580ae433b506eaa9cc067b
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AH.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AI.py"
           git worktree remove --force "$tmp"
 
-      - name: Verify current 36-09AI congruent-number Jacobian
-        run: python3 stages/stage36/verify_stage36_36_09AI.py
+      - name: Verify AG-AI hostile-audit checkpoint state
+        run: python3 stages/stage36/verify_stage36_36_09AI_checkpoint.py
 
-      - name: Assert 36-09AI firewalls and 36-09AJ unlock
+      - name: Assert checkpoint firewalls and AJ lock
         shell: bash
         run: |
           set -euo pipefail
@@ -75,23 +75,17 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V70_36_09AI_CANDIDATE'
-          ai=s['authority_frontier']['36-09AI']
-          assert ai['Q_JACOBIAN_FAMILY']=='CONGRUENT_NUMBER_J1728'
-          assert ai['NORMALIZED_MODEL']=='E_n: Y^2=X^3-n^2*X'
-          assert ai['n_positive_squarefree'] is True
-          assert ai['TWO_COVERING_STRUCTURE_IDENTIFIED'] is True
-          assert ai['COVERING_CLASS_TRIVIALIZED'] is False
-          assert ai['MORDELL_WEIL_RANK_CLASSIFIED'] is False
-          assert ai['COMMON_UV_RATIONAL_POINT_OBTAINED'] is False
-          assert ai['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert ai['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09AJ'
-          assert s['current']['36_09AJ_entry_allowed'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V71_36_09AI_BATCH_AUDIT_CHECKPOINT'
+          assert s['status']=='ACTIVE_BATCH_HOSTILE_AUDIT_CHECKPOINT'
+          assert s['current']['unit']=='36-09AI-AUDIT-CHECKPOINT'
+          assert s['current']['next_owner']=='HOSTILE_AUDIT'
+          assert s['current']['hostile_audit_checkpoint_reached'] is True
+          assert s['current']['36_09AJ_entry_allowed'] is False
           assert s['promotion_gates']['36_09AI_hostile_audit_passed'] is False
           assert s['claims']['covering_class_trivialized'] is False
+          assert s['claims']['candidate_parameter_set_shrunk'] is False
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09AI exact: common-u:v curve is a 2-covering of squarefree congruent-number E_n with j=1728; covering class not trivialized; 36-09AJ unlocked')
+          print('AG-AI hostile-audit checkpoint reached; AJ locked; receiver and endpoint firewalls remain closed')
           PY
           git diff --check
