@@ -39,7 +39,9 @@ Therefore the universal local adapter
 
 is **locally false** in the retained endpoint model. This does not construct a global V6 carrier and does not exclude O266; it removes one naive route to the Riemann–Hurwitz contradiction.
 
-The quantitative budget is now also fixed. Once those 140 locally-zeroable contacts receive zero forced ramification, only `266-140=126` O-contacts remain. A degree-113 genus-one map has exact total ramification `226`, so contradiction needs a forced lower bound at least `227`. Charging at most one unit to every remaining contact gives only `126`, leaving an exact deficit of `101`. Thus the bounded route “zero credit on the 140 locally avoidable contacts + no independent ramification lower bound + at most one forced unit on each remaining contact” is `NUMERICALLY_INSUFFICIENT`. Any re-entry through that contact-sum architecture must supply at least 101 additional forced ramification units beyond the one-unit ledger, or recover equivalent positive forced credit from the 140 locally-zeroable contacts / an independent ramification source.
+The quantitative budget is now also fixed. Once those 140 locally-zeroable contacts receive zero forced ramification, only `266-140=126` O-contacts remain. A degree-113 genus-one map has exact total ramification `226`, so contradiction needs a forced lower bound at least `227`. Charging at most one unit to every remaining contact gives only `126`, leaving an exact deficit of `101`. Thus the bounded route “zero credit on the 140 locally avoidable contacts + no independent ramification lower bound + at most one forced unit on each remaining contact” is `NUMERICALLY_INSUFFICIENT`.
+
+The machine-readable re-entry threshold is now explicit: continuation through this same contact-sum architecture must supply at least `101` additional forced ramification units beyond the one-unit remaining-contact ledger, by extra ramification multiplicity, recovered positive forced credit from the 140 locally-zeroable contacts, an independent ramification source, or a different simultaneous-fibration/correspondence inequality.
 
 Retained files:
 
