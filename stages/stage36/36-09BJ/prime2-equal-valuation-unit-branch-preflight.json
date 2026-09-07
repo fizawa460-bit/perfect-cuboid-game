@@ -1,0 +1,69 @@
+{
+  "schema":"STAGE36_36_09BJ_PRIME2_EQUAL_VALUATION_UNIT_BRANCH_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09BJ",
+  "status":"EXACT_Q2_EQUAL_VALUATION_UNIT_BRANCH_COMPLETE_CRITERION_PENDING_BATCH_AUDIT",
+  "base_main_sha":"e758e05953df2cf8cd4ab26ac1e9d72374e99760",
+  "batch_parent":{"pr":1691,"36_09BI_exact_head":"090276d2752d6cd4b290128e66df724f73ac1b73","36_09BI_exact_head_ci":"34104344303/101685789266"},
+  "source_locks":{
+    "stage36_36_09BI":{"path":"stages/stage36/36-09BI/prime2-full-cover-congruence-preflight.json","blob_sha":"ba6a705ce61b14e640b2c400d42dded60097b406"},
+    "stage36_36_09BI_verifier":{"path":"stages/stage36/verify_stage36_36_09BI.py","blob_sha":"acc439a5a19d9886dfc7559fe29a0cd1dbf13787"},
+    "stage36_36_09BH":{"path":"stages/stage36/36-09BH/bad-place-full-cover-valuation-preflight.json","blob_sha":"76487371ed363868af18a9fa0f6f7e1367d28f27"},
+    "stage36_36_09BB":{"path":"stages/stage36/36-09BB/ay-receiver-scaled-self-intersection-preflight.json","blob_sha":"e4b63fd500d05ff5dc704e0c08409edee5895053"}
+  },
+  "equality_branch_input":{
+    "BI_condition":"h=0, equivalently alpha=delta+3-2*sigma",
+    "equal_valuations":"v2(Qsum*r)=v2(2*T*s)=X",
+    "normalized_units":"x=(Qsum*r)/2^X and y=(2*T*s)/2^X are in Z2^*",
+    "normalized_ratio":"z=x/y in Z2^*",
+    "minus_root_equivalence":"the h=0 minus root exists over Q2 iff z^2-1 is a Q2-square",
+    "source_variable_square":"z^2=Qsum^2*(u^2-v^2)/(4*D0*(u^2+v^2))"
+  },
+  "complete_Q2_unit_criterion":{
+    "epsilon_definition":"epsilon=+1 when z=1 mod4 and epsilon=-1 when z=-1 mod4",
+    "n_definition":"n=v2(z-epsilon), so n>=2",
+    "q_definition":"q=(z-epsilon)/2^n is odd",
+    "factorization":"z^2-1=2^(n+1)*epsilon*q*(1+epsilon*2^(n-1)*q)",
+    "square_criterion":"n is odd and epsilon*q*(1+epsilon*2^(n-1)*q)=1 mod8",
+    "n_equal_3":"epsilon*q=5 mod8",
+    "n_at_least_5_odd":"epsilon*q=1 mod8",
+    "even_n":"impossible because v2(z^2-1)=n+1 is odd",
+    "completeness":"these cases are necessary and sufficient by the Q2 square criterion: even valuation and odd unit congruent to 1 mod8"
+  },
+  "congruence_form":{
+    "n_equal_3":"z is congruent to +23 or -23 modulo 64",
+    "n_at_least_5_odd":"z is congruent to epsilon*(1+2^n) modulo 2^(n+3)",
+    "first_examples":["n=3: z=+/-23 mod64","n=5: z=+/-33 mod256","n=7: z=+/-129 mod1024"],
+    "surviving_unit_branches_nonempty":true
+  },
+  "interpretation":{
+    "equality_unit_branch_completely_classified":true,
+    "new_receiver_2adic_unit_gate":true,
+    "universal_Q2_contradiction":false,
+    "parameter_p_population_shrunk":false,
+    "reason_no_parameter_shrink":"the exact surviving criterion is on the auxiliary AY/full-cover unit ratio z; BJ does not yet prove which z-neighborhoods are realizable or impossible for each parameter class"
+  },
+  "route_result":{
+    "route_status":"PASS_COMPLETE_Q2_EQUAL_VALUATION_UNIT_CRITERION",
+    "prime2_equal_valuation_branch_classified":true,
+    "prime2_full_cover_local_gate_complete_at_valuation_and_unit_layers":true,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09BK_PRIME2_UNIT_GATE_PULLBACK_TO_PARAMETER_RESIDUES_PREFLIGHT",
+    "selection_reason":"BJ gives a complete local criterion in the auxiliary unit ratio z; the next unspent question is whether its exact source-variable expression forces or excludes any parameter residue class without confusing receiver-branch shrink with parameter shrink"
+  },
+  "scope_firewalls":{
+    "every_surviving_z_realized_by_AY":false,
+    "parameter_residue_classification_complete":false,
+    "prime2_global_receiver_closed":false,
+    "fixed_uniform_ramification_set_recovered":false,
+    "finite_exhaustive_squareclass_family":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
