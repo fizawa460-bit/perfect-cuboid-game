@@ -25,10 +25,7 @@ Module MJ=image(GJ);
 Module HT=hom(MI,MJ);
 matrix hgm=HT.generators.hom;
 if (ncols(hgm)<=0) { ERROR("toy Hom has no generators"); }
-vector hv=0;
-int kk;
-for (kk=1;kk<=nrows(hgm);kk++) { hv[kk]=hgm[kk,1]; }
-Vector HV=makeVector(hv,HT);
+Vector HV=makeVector([hgm[1..nrows(hgm),1]],HT);
 def HF=interpret(HV);
 if (typeof(HF)!="Homomorphism") { ERROR("toy Hom interpretation failed"); }
 if (nrows(HF.rule)<=0 || ncols(HF.rule)<=0) { ERROR("toy Hom rule empty"); }
@@ -54,9 +51,7 @@ Module MC=image(GC);
 Module HC=hom(MC,MC);
 matrix hcm=HC.generators.hom;
 if (ncols(hcm)<=0) { ERROR("cuboid C1 self-Hom has no generators"); }
-vector cv=0;
-for (kk=1;kk<=nrows(hcm);kk++) { cv[kk]=hcm[kk,1]; }
-Vector CV=makeVector(cv,HC);
+Vector CV=makeVector([hcm[1..nrows(hcm),1]],HC);
 def CF=interpret(CV);
 if (typeof(CF)!="Homomorphism") { ERROR("cuboid C1 Hom interpretation failed"); }
 if (nrows(CF.rule)<=0 || ncols(CF.rule)<=0) { ERROR("cuboid C1 Hom rule empty"); }
