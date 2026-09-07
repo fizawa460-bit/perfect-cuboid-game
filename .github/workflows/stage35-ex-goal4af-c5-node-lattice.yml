@@ -6,7 +6,6 @@ on:
     paths:
       - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_local_node_lattice.py'
       - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer.py'
-      - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer_v2.py'
       - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_galois_stabilizer.py'
       - 'stages/stage35-ex/runkeys/goal4af-c5-node-lattice.json'
       - '.github/workflows/stage35-ex-goal4af-c5-node-lattice.yml'
@@ -51,30 +50,18 @@ jobs:
           from pathlib import Path
           key=Path('stages/stage35-ex/runkeys/goal4af-c5-node-lattice.json')
           diag=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_galois_stabilizer.py')
-          sign=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer.py')
-          node=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_local_node_lattice.py')
-          gal=Path('stages/stage33/33-07/galois-known-class-permutations.json')
           new=json.loads(key.read_text())
           assert new['schema']=='STAGE35_EX_GOAL4AF_C5_NODE_LATTICE_RUNKEY_V1'
-          assert new['armed'] is True and new['generation']==5
-          assert new['route']=='LOCAL_SOURCE_SIGN_PLUS_GALOIS_STABILIZER'
-          assert new['upstream_git_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
+          assert new['armed'] is True and new['generation']==6
+          assert new['route']=='LOCAL_FINAL_NULL_RECEIVER_LOCATOR'
           def blob(p):
-              raw=p.read_bytes()
-              return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
-          assert blob(node)==new['generation1_diagnostic_blob_sha1']=='aa43bc38d799ab78cf0252830718979b15fa54fc'
-          assert blob(sign)==new['generation2_diagnostic_blob_sha1']=='732332e94f1346b03d91425bb664905d3f440c44'
-          assert blob(gal)==new['stage33_galois_permutation_blob_sha1']=='f277939b7f258928f484d2b970d4dfb2ec6133a8'
-          assert blob(diag)==new['diagnostic_blob_sha1']=='09888a5163e9613ed4969678d4f6e4034e16802e'
-          assert new['planned_jobs']==1 and new['planned_shards']==1
-          assert new['persisted_output_upper_bound_bytes']<=65536
-          assert new['projected_peak_actions_storage_bytes']<=1048576
-          assert new['actions_artifact_upload'] is False
+              raw=p.read_bytes(); return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+          assert blob(diag)==new['diagnostic_blob_sha1']=='59859e620f65555234fdc5176338281a191dac17'
           before='${{ github.event.before }}'
-          oldtxt=subprocess.check_output(['git','show',f'{before}:{key.as_posix()}'],text=True)
-          old=json.loads(oldtxt)
-          assert int(old['generation'])==4 and new['generation']>int(old['generation'])
-          print('GOAL4AF_GALOIS_STABILIZER_G5_RUNKEY_AUTHORIZED=true')
+          old=json.loads(subprocess.check_output(['git','show',f'{before}:{key.as_posix()}'],text=True))
+          assert old['generation']==5
+          assert new['planned_jobs']==1 and new['actions_artifact_upload'] is False
+          print('GOAL4AF_NULL_RECEIVER_G6_AUTHORIZED=true')
           PY
           echo 'authorized=true' >> "$GITHUB_OUTPUT"
 
@@ -91,36 +78,26 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Add source-literal cc/ct stabilizer constraints to the C5 pair Picard solve
+      - name: Locate retained curves detecting the final one-dimensional ambiguity
         run: |
           set -euo pipefail
-          python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_galois_stabilizer.py | tee /tmp/goal4af-galois-stabilizer.log
-          grep -q '^GOAL4AF_SIGN_STABILIZER_JSON=' /tmp/goal4af-galois-stabilizer.log
-          test "$(wc -c </tmp/goal4af-galois-stabilizer.log)" -le 65536
-      - name: Enforce diagnostic no-credit boundary
+          python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_galois_stabilizer.py | tee /tmp/goal4af-null-receiver.log
+          grep -q '^GOAL4AF_SIGN_STABILIZER_JSON=' /tmp/goal4af-null-receiver.log
+          test "$(wc -c </tmp/goal4af-null-receiver.log)" -le 65536
+      - name: Enforce locator-only boundary
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          s=Path('/tmp/goal4af-galois-stabilizer.log').read_text()
-          line=next(x for x in s.splitlines() if x.startswith('GOAL4AF_SIGN_STABILIZER_JSON='))
-          d=json.loads(line.split('=',1)[1])
-          assert d['base_pair_characterization_rank']==57
-          assert d['base_pair_characterization_nullity']==7
-          assert d['sign_stabilizer_augmented_rank']==60
-          assert d['sign_stabilizer_augmented_nullity']==4
-          assert d['remote_cas_used'] is False
+          s=Path('/tmp/goal4af-null-receiver.log').read_text()
+          d=json.loads(next(x for x in s.splitlines() if x.startswith('GOAL4AF_SIGN_STABILIZER_JSON=')).split('=',1)[1])
+          assert d['galois_stabilizer_augmented_rank']==63
+          assert d['galois_stabilizer_augmented_nullity']==1
+          assert len(d['final_free_columns_0based'])==1
+          assert len(d['final_null_direction_INDLIST64'])==64
+          assert d['known_curve_receiver_count_detecting_null']>0
+          assert d['pair_rows_materialized'] is False
           assert d['target_span_computed'] is False
           assert d['theorem_credit'] is False
-          assert d['endpoint_credit'] is False
-          if d['pair_rows_materialized']:
-              assert d['galois_stabilizer_augmented_rank']==64
-              assert d['galois_stabilizer_augmented_nullity']==0
-              assert d['pair_count']==8
-              assert d['goal4ac_residual_pair_count']==4
-          else:
-              assert d['galois_stabilizer_augmented_rank']<64
-              assert d['pair_count']==0
-              assert d['goal4ac_residual_pair_count']==0
-          print('GOAL4AF_GALOIS_STABILIZER_G5_DIAGNOSTIC_BOUNDARY=PASS')
+          print('GOAL4AF_NULL_RECEIVER_G6_BOUNDARY=PASS')
           PY
