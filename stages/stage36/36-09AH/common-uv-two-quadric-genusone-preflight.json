@@ -1,0 +1,101 @@
+{
+  "schema": "STAGE36_36_09AH_COMMON_UV_TWO_QUADRIC_GENUSONE_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AH",
+  "status": "EXACT_SMOOTH_GENUSONE_TWO_QUADRIC_INTERSECTION_WITH_FIXED_PENCIL_DIRECTIONS_PENDING_BATCH_AUDIT",
+  "base_main_sha": "9306238c7ada55e31311245019d6b7e474ad837f",
+  "batch_parent": {
+    "pr": 1674,
+    "36_09AG_exact_head": "6ef7635a92bc5e9440ed527c60ea871d0c3216fc",
+    "36_09AG_exact_head_ci": "34069292996",
+    "authority_scope": "36-09AB through 36-09AF are hostile-audited merged authority; 36-09AG is provisional same-PR input"
+  },
+  "source_locks": {
+    "stage36_36_09AG": {
+      "path": "stages/stage36/36-09AG/individual-conic-hasse-solubility-preflight.json",
+      "blob_sha": "b40a525e739d6021c07d364a243c0d7653350abe"
+    },
+    "stage36_36_09AG_verifier": {
+      "path": "stages/stage36/verify_stage36_36_09AG.py",
+      "blob_sha": "800d40dfb2371dd548dc8f827dad44b652baa2be"
+    },
+    "stage36_36_09AH_geometry_source": {
+      "path": "stages/stage36/36-09AH/two-quadric-genusone-source-lock.md",
+      "blob_sha": "f23393668c810bf53ec6a6fbb0fb11642d73c5c3"
+    },
+    "S31_W01": {
+      "path": "docs/arsenal/cards/formal/S31-W01.md",
+      "blob_sha": "122a6c1c5c871c1c7b797017e854de8ec55e7c50"
+    }
+  },
+  "curve": {
+    "ambient": "P^3_Q with homogeneous coordinates [u:v:r:s]",
+    "Qminus": "A*u^2-B*v^2-eta*2^e*C*r^2=0",
+    "Qplus": "A*u^2+B*v^2-2^f*D*s^2=0",
+    "coefficient_hypotheses": "A,B,C,D are nonzero positive odd squarefree and pairwise coprime; eta=+/-1; e,f in {0,1}",
+    "meaning": "exact common-u:v intersection left after 36-09AG proves each diagonal conic separately Q-soluble"
+  },
+  "quadric_pencil": {
+    "member": "lambda*Qminus+mu*Qplus",
+    "diagonal_coefficients": [
+      "A*(lambda+mu)",
+      "B*(mu-lambda)",
+      "-eta*2^e*C*lambda",
+      "-2^f*D*mu"
+    ],
+    "determinant": "eta*2^(e+f)*A*B*C*D*lambda*mu*(mu^2-lambda^2)",
+    "singular_projective_directions_lambda_mu": ["[0:1]","[1:0]","[1:1]","[1:-1]"],
+    "directions_parameter_independent": true,
+    "four_directions_distinct_in_characteristic_zero": true
+  },
+  "direct_smoothness": {
+    "criterion": "a singular point of the base intersection would lie in the kernel of a singular pencil member",
+    "kernel_checks": {
+      "lambda_0": "Qplus kernel is r-axis [0:0:1:0], but Qminus there is -eta*2^e*C != 0",
+      "mu_0": "Qminus kernel is s-axis [0:0:0:1], but Qplus there is -2^f*D != 0",
+      "lambda_eq_mu": "pencil kernel is v-axis [0:1:0:0], but Qminus there is -B != 0",
+      "lambda_eq_minus_mu": "pencil kernel is u-axis [1:0:0:0], but Qminus there is A != 0"
+    },
+    "base_intersection_smooth": true
+  },
+  "genus_one_classification": {
+    "complete_intersection_type": "(2,2) in P^3",
+    "connected": true,
+    "canonical_bundle": "O_C(2+2-3-1)=O_C",
+    "genus": 1,
+    "source": "36-09AH two-quadric genus-one source lock"
+  },
+  "fixed_pencil_geometry": {
+    "discriminant_binary_quartic_up_to_nonzero_scalar": "lambda*mu*(mu^2-lambda^2)",
+    "branch_direction_set": ["0","infinity","1","-1"],
+    "geometric_shape_fixed": true,
+    "Q_jacobian_identified": false,
+    "Q_twist_squareclass_identified": false,
+    "explicit_quartic_to_elliptic_adapter_built": false,
+    "reason_for_firewall": "fixed singular pencil directions alone do not provide the explicit Q-rational forward/inverse genus-one-to-elliptic adapter required by S31-W01"
+  },
+  "route_result": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "common_uv_intersection_is_genus_one": true,
+    "pencil_singular_directions_fixed": true,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_closed": false,
+    "next_leaf": "36-09AI_J1728_TWIST_JACOBIAN_ADAPTER_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "fixed_pencil_directions_imply_Q_isomorphic_curve": false,
+    "j1728_Q_model_promoted": false,
+    "Q_jacobian_model_promoted": false,
+    "Mordell_Weil_group_known": false,
+    "common_uv_rational_point_obtained": false,
+    "coupled_intersection_empty_proved": false,
+    "candidate_parameter_set_shrunk": false,
+    "S34_W03_intersection_exclusion_executed": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
