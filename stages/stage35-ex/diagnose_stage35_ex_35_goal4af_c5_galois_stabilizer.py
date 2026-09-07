@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generation4: add source-literal Galois stabilizers to the C5 pair solve.
+"""Generation5: add source-literal Galois stabilizers to the C5 pair solve.
 
 This replays the pinned generation2 sign-stabilizer diagnostic with the illegal
 node-union locator gate removed, then adds only symmetries whose action on the
@@ -99,16 +99,13 @@ if text.count(old_rank) != 1:
     raise SystemExit("Goal4AF stabilizer rank injection target regression")
 text = text.replace(old_rank, new_rank)
 
-old_summary = '''        "sign_stabilizer_augmented_rank": augmented_rank,\n        "sign_stabilizer_augmented_nullity": nullity,\n'''
-new_summary = '''        "sign_stabilizer_augmented_rank": augmented_rank,\n        "sign_stabilizer_augmented_nullity": nullity,\n        "galois_stabilizer_augmented_rank": galois_augmented_rank,\n        "galois_stabilizer_augmented_nullity": galois_augmented_nullity,\n        "galois_stabilizers": ["ct", "cc_then_g8_sign_b2"],\n'''
+old_summary = '''    "sign_stabilizer_augmented_rank": augmented_rank,\n    "sign_stabilizer_augmented_nullity": nullity,\n'''
+new_summary = '''    "sign_stabilizer_augmented_rank": augmented_rank,\n    "sign_stabilizer_augmented_nullity": nullity,\n    "galois_stabilizer_augmented_rank": galois_augmented_rank,\n    "galois_stabilizer_augmented_nullity": galois_augmented_nullity,\n    "galois_stabilizers": ["ct", "cc_then_g8_sign_b2"],\n'''
 if text.count(old_summary) != 1:
     raise SystemExit("Goal4AF summary injection target regression")
 text = text.replace(old_summary, new_summary)
 
-# The old exploratory script used antipodal total-pair sum=2H only as a final
-# consistency assertion.  That exceptional correction has not been source-
-# established for Goal4AC, so generation4 records it if observed but never uses
-# it to determine the rows and never fails on it.
+# Do not use the provisional antipodal total-pair 2H relation to determine rows.
 old_anti_fail = '''if not all(anti_checks.values()):\n    raise SystemExit("unique sign-stabilized rows fail Goal4AC antipodal 2H relation")\n'''
 new_anti_fail = '''antipodal_total_pair_sum_equals_2H_observed = all(anti_checks.values())\n'''
 if text.count(old_anti_fail) != 1:
