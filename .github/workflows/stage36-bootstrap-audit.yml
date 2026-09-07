@@ -75,20 +75,20 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09BH.py"
           git worktree remove --force "$tmp"
-      - name: Replay exact 36-09BI parent
+      - name: Replay exact 36-09BJ parent
         shell: bash
         run: |
           set -euo pipefail
-          H=090276d2752d6cd4b290128e66df724f73ac1b73
+          H=89d22a0fa48c4c33d67cb9db1dc084ca4756171a
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BI.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BJ.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09BJ
-        run: python3 stages/stage36/verify_stage36_36_09BJ.py
-      - name: Assert BJ firewalls and BK unlock
+      - name: Verify current 36-09BK
+        run: python3 stages/stage36/verify_stage36_36_09BK.py
+      - name: Assert BK firewalls and BL unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -96,18 +96,18 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V98_36_09BJ_Q2_EQUAL_UNIT_CRITERION'
-          bj=s['authority_frontier']['36-09BJ']
-          assert bj['EQUALITY_UNIT_BRANCH_COMPLETELY_CLASSIFIED'] is True
-          assert bj['NEW_RECEIVER_2ADIC_UNIT_GATE'] is True
-          assert bj['UNIVERSAL_Q2_CONTRADICTION'] is False
-          assert bj['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert bj['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09BJ'
-          assert s['current']['next_exact_leaf']=='36-09BK_PRIME2_UNIT_GATE_PULLBACK_TO_PARAMETER_RESIDUES_PREFLIGHT'
-          assert s['current']['36_09BK_entry_allowed'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V99_36_09BK_Q2_SAME_PARAMETER_SEPARATION'
+          bk=s['authority_frontier']['36-09BK']
+          assert bk['SAME_PARAMETER_BJ_PASS_FAIL_SEPARATION'] is True
+          assert bk['PRIME2_PARAMETER_ONLY_FILTER'] is False
+          assert bk['PRIME2_RECEIVER_POINT_GATE_RETAINED'] is True
+          assert bk['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert bk['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09BK'
+          assert s['current']['next_exact_leaf']=='36-09BL_OLD_SIX_HIGHER_QADIC_FULL_COVER_PREFLIGHT'
+          assert s['current']['36_09BL_entry_allowed'] is True
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('36-09BJ verified; Q2 equality unit branch completely classified, surviving neighborhoods nonempty, BK source pullback selected next')
+          print('36-09BK verified; prime 2 blocked as standalone parameter-only filter, receiver-point gate retained, old-six higher-qadic layer selected next')
           PY
           git diff --check
