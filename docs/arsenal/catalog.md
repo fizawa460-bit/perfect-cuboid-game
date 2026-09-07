@@ -71,6 +71,13 @@ Active Stage controllers and current source locks override every snapshot here. 
 | [`S35-PW04`](cards/provisional/S35-PW04.md) | `RECIPROCAL_SHARED_FACTOR_RECEIVER_COMPRESSION` | Stage35 / Stage35-EX | [../stage35-arsenal-promotion.md](../stage35-arsenal-promotion.md) |
 | [`S35-PW05`](cards/provisional/S35-PW05.md) | `FINITE_EXCEPTIONAL_PRIME_CLASSIFICATION_BY_CENSUS_WEIL_COMPLETION` | Stage35 / Stage35-EX | [../stage35-arsenal-promotion.md](../stage35-arsenal-promotion.md) |
 | [`S35-WF01`](cards/workflows/S35-WF01.md) | `ENDPOINT_RETURN_CIRCULARITY_FIREWALL` | Stage35 / Stage35-EX | [../stage35-arsenal-promotion.md](../stage35-arsenal-promotion.md) |
+| [`S36-PW01`](cards/provisional/S36-PW01.md) | `ELEMENTARY_ABELIAN_COVER_CHARACTER_QUOTIENT_GENUS_INVENTORY` | Stage36 | [../stage36-arsenal-promotion.md](../stage36-arsenal-promotion.md) |
+| [`S36-PW02`](cards/provisional/S36-PW02.md) | `V4_CURVE_JACOBIAN_QUOTIENT_DECOMPOSITION` | Stage36 | [../stage36-arsenal-promotion.md](../stage36-arsenal-promotion.md) |
+| [`S36-PW03`](cards/provisional/S36-PW03.md) | `QUADRATIC_EXTENSION_ANTIINVARIANT_TWIST_DESCENT_GROWTH_GATE` | Stage36 | [../stage36-arsenal-promotion.md](../stage36-arsenal-promotion.md) |
+| [`S36-PW04`](cards/provisional/S36-PW04.md) | `POINTWISE_ELEMENTARY_2_TORSOR_LIFT_CLASS_CHART_ADAPTER` | Stage36 | [../stage36-arsenal-promotion.md](../stage36-arsenal-promotion.md) |
+| [`S36-PW05`](cards/provisional/S36-PW05.md) | `SPLIT_FULL2_ORDER4_HALF_AND_2ISOGENY_NORMALIZATION` | Stage36 | [../stage36-arsenal-promotion.md](../stage36-arsenal-promotion.md) |
+| [`S36-PW06`](cards/provisional/S36-PW06.md) | `RELATIVE_2ISOGENY_KUMMER_SPECIALIZATION_BASELINE` | Stage36 | [../stage36-arsenal-promotion.md](../stage36-arsenal-promotion.md) |
+| [`S36-PW07`](cards/provisional/S36-PW07.md) | `DIRECTIONAL_PRIME_RESERVOIR_LOCAL_CHARACTER_MATRIX` | Stage36 | [../stage36-arsenal-promotion.md](../stage36-arsenal-promotion.md) |
 
 ## Retired IDs
 
@@ -108,6 +115,7 @@ Active Stage controllers and current source locks override every snapshot here. 
 | **HISTORICAL** | [stageA1-stageA2-class3-provisional-harvest.md](stageA1-stageA2-class3-provisional-harvest.md) | human historical Class-3 method harvest |
 | **HISTORICAL** | [stageA1-stageA2-class3-provisional-harvest.json](stageA1-stageA2-class3-provisional-harvest.json) | machine historical Class-3 method harvest |
 | **PROVISIONAL** | [../stage35-arsenal-promotion.md](../stage35-arsenal-promotion.md) | Stage35 / Stage35-EX initial provisional harvest promotion provenance; active Stage authority remains higher |
+| **PROVISIONAL** | [../stage36-arsenal-promotion.md](../stage36-arsenal-promotion.md) | Stage36 initial provisional harvest promotion provenance; active Stage36 authority remains higher |
 
 ## Historical and deep lookup
 
