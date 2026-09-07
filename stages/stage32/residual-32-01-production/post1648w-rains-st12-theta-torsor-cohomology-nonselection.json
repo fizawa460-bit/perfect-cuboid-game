@@ -1,0 +1,232 @@
+{
+  "schema": "STAGE32_POST1648W_RAINS_ST12_THETA_TORSOR_COHOMOLOGY_NONSELECTION_V1",
+  "stage": 32,
+  "role": "SCRATCH_EXACT_NONCREDIT_TARGET_THETA_TORSOR_COHOMOLOGY_NONSELECTION",
+  "status": "SCRATCH_PASS_RAINS_THETA_TORSOR_CLASS_EXPLICIT_BUT_NO_CHARACTERISTIC_POINT_SELECTED",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "O": 210,
+    "qprime": 4,
+    "Q": 602,
+    "surviving_residues_decimal": [
+      73,
+      97,
+      235
+    ]
+  },
+  "source_locks": {
+    "post1648V": {
+      "path": "stages/stage32/residual-32-01-production/post1648v-retained-target-theta-normalization-circularity.json",
+      "canonical_sha256": "17f53e4ee5d2eb632b9c1e6c188fd9d0ab3ae36de5681df508df09c0e25de351",
+      "git_blob_sha1": "ef2dbcb3b20794e0ac54aff7df361cb52d96ec16"
+    },
+    "post1648J": {
+      "path": "stages/stage32/residual-32-01-production/post1648j-cecotti-trace-orientation-correction.json",
+      "canonical_sha256": "3f6fd55ced259c6f28949df61865e22d43a669a50bdaf2adf5ddcd88411a48ec",
+      "git_blob_sha1": "17641753c33ae46e9b7517dc85a915edd70d2057"
+    },
+    "source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1648w-rains-st12-theta-torsor-cohomology-nonselection-source-note.md",
+      "git_blob_sha1": "7dc213b5144979e1f868f6a67f0372e917e348d4"
+    }
+  },
+  "external_source_lock": {
+    "rains": {
+      "arxiv": "2303.04786v2",
+      "title": "Quotients of abelian varieties by reflection groups",
+      "locators": [
+        "Section 4.2 primitive-case discussion and ST12 table",
+        "ST12 torsor paragraph immediately before the primitive-case table",
+        "Section 6.3 ST12 and 2.S5"
+      ],
+      "exact_supported_facts": [
+        "for ST12 the pointed/non-torsor minimal polarization has degree 1 and invariant degrees 2,4,6",
+        "the nontrivial ST12 torsor action is classified through H^1(G/[mu2];A[2]) and is identified with the restriction of the natural theta torsor",
+        "the torsor ST12 row has degree 1* and invariant degrees 1,3,8",
+        "the pointed ST12 Kummer is the 2Theta quartic with quotient action through S4",
+        "in the torsor normalization the divisor e1=0 has multiplicity 2 and sqrt(e1) is a section of L(Theta)"
+      ]
+    },
+    "cecotti": {
+      "arxiv": "2509.24605v1",
+      "title": "Symplectic Singularities, Color Confinement, and the Quantum Dirac Sheaf",
+      "locator": "Appendix B equations (B.1)-(B.4)",
+      "exact_supported_facts": [
+        "retained generators are S=b4 and T=-b3",
+        "S^2=1, T^3=-1, (ST)^4=-1"
+      ]
+    }
+  },
+  "retained_mod2_action": {
+    "basis": [
+      "e1",
+      "e2",
+      "r*e1",
+      "r*e2"
+    ],
+    "S_mod2": [
+      [
+        1,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        1,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        1
+      ]
+    ],
+    "T_mod2": [
+      [
+        1,
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        1
+      ],
+      [
+        0,
+        0,
+        1,
+        0
+      ]
+    ],
+    "quotient_group_order_on_A2": 24,
+    "relations": [
+      "S^2=I",
+      "T^3=I",
+      "(S*T)^4=I"
+    ]
+  },
+  "H1_exact_calculation": {
+    "module": "A[2] ~= F2^4",
+    "group": "G12/<-I> ~= S4",
+    "cocycle_coordinates": [
+      "a=z(S)",
+      "b=z(T)"
+    ],
+    "constraint_matrix_shape": [
+      12,
+      8
+    ],
+    "constraint_rank": 3,
+    "Z1_dimension": 5,
+    "Z1_count": 32,
+    "coboundary_map": "v -> ((I+S)v,(I+T)v)",
+    "B1_dimension": 4,
+    "B1_count": 16,
+    "H1_dimension": 1,
+    "H1_count": 2,
+    "unique_nonzero_class_representative_count": 16,
+    "I_plus_T_rank": 4,
+    "I_plus_T_invertible": true,
+    "nonzero_class_T_component_range": "ALL_16_VECTORS_OF_A2",
+    "retained_W_lines_occurring_as_T_component": [
+      {
+        "line": "L1",
+        "vector": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "residue": 73
+      },
+      {
+        "line": "L2",
+        "vector": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "residue": 97
+      },
+      {
+        "line": "L3",
+        "vector": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "residue": 235
+      }
+    ]
+  },
+  "semantic_boundary": {
+    "rains_canonical_object": "NATURAL_THETA_TORSOR_COHOMOLOGY_CLASS",
+    "distinguished_theta_characteristic_point_obtained": false,
+    "distinguished_semicharacter_in_retained_basis_obtained": false,
+    "distinguished_cocycle_representative_obtained": false,
+    "reason": "the unique nonzero H1 class has 16 cocycle representatives; coboundary/origin change makes the T-component range over all A[2], including all three retained W-lines",
+    "translation_gauge_relation": "choosing a representative is a coboundary/origin normalization, already nonselecting in post1648O/post1648Q"
+  },
+  "candidate_ledger_update": {
+    "closed_this_leaf": {
+      "candidate": "Rains natural theta torsor -> explicit retained half-characteristic/semicharacter",
+      "status": "BLOCKED_NEW_PATTERN_ISOLATED",
+      "bounded_reason": "Rains gives the canonical torsor class but not a distinguished point; exact retained H1 representative ambiguity covers all three W-lines"
+    },
+    "remaining_untested": [
+      "actual marked ppav isomorphism / conjugating g from an external source",
+      "new common branch-labelled source/target geometric anchor"
+    ],
+    "receiver_parked": false
+  },
+  "decision": {
+    "rains_natural_theta_torsor_class_materialized": true,
+    "rains_theta_torsor_route_selects_absolute_W_line": false,
+    "explicit_target_half_characteristic_or_semicharacter_materialized": false,
+    "absolute_delta0inf_retained_W_line_identified": false,
+    "survivors_current_credit": [
+      73,
+      97,
+      235
+    ],
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "O212_plus_advance_allowed": false,
+    "next_exact_route": "SEEK_AN_ACTUAL_MARKED_PPAV_ISOMORPHISM_OR_CONJUGATING_G_FROM_AN_EXTERNAL_SOURCE, OR A_NEW_COMMON_BRANCH-LABELLED_SOURCE-TARGET_GEOMETRIC_ANCHOR; DO_NOT_PROMOTE_THE_RAINS_THETA_TORSOR_CLASS_TO_A_DISTINGUISHED_CHARACTERISTIC_POINT"
+  },
+  "firewalls": {
+    "scratch_result_promoted_to_MAIN_authority": false,
+    "scratch_result_promoted_to_current_credit": false,
+    "theta_torsor_class_promoted_to_theta_characteristic_point": false,
+    "cohomology_class_representative_promoted_to_canonical_origin": false,
+    "bounded_route_block_promoted_to_global_nonexistence": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false
+  },
+  "canonical_sha256_without_this_field": "af2fa5b0f5e64a33040f2135015745aeb22ea7f94a1c454730e00bab7a4c3aad"
+}

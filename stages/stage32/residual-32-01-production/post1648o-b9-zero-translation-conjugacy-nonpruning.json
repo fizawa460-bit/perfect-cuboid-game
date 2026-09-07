@@ -1,0 +1,52 @@
+{
+  "schema": "STAGE32_POST1648O_B9_ZERO_TRANSLATION_CONJUGACY_NONPRUNING_V1",
+  "stage": 32,
+  "role": "SCRATCH_EXACT_NONCREDIT_AFFINE_TRANSLATION_CONJUGACY_OBSTRUCTION",
+  "status": "SCRATCH_PASS_EXACT_B9_ZERO_TRANSLATION_STILL_SIX_W_LINE_AMBIGUOUS",
+  "fixed_target": {"row_id":"g1-d186","O":210,"qprime":4,"Q":602,"surviving_residues_decimal":[73,97,235]},
+  "source_locks": {
+    "post1648N": {"path":"stages/stage32/residual-32-01-production/post1648n-canonical-period-marked-ppav-torsor-obstruction.json","git_blob_sha1":"0ee05f679c7706113feed2c217e08a95b3bd6f06","canonical_sha256":"060d940626cd59b00efb67db7f27914e6a440c92968600a3d82a208d5a5d76ba"},
+    "post1648D": {"path":"stages/stage32/residual-32-01-production/post1648d-deraux-affine-sixpoint-orbit-absolute-line-obstruction.json","git_blob_sha1":"1ab58cba29ed94e0eaf7e646a8e6ed6a536dde41","canonical_sha256":"598f3557d84423702be97a6fc942cf3254e68c57b3ccb1950f4d29c3fb3a69f0"}
+  },
+  "external_source_lock": {
+    "koziarz_rito_roulleau": {
+      "title":"The Bolza curve and some orbifold ball quotient surfaces",
+      "arxiv":"1904.00793v4",
+      "locator":"Section 4, Abel-Jacobi action formula preceding Lemma 5 and Corollary 6",
+      "exact_supported_facts":[
+        "for alpha sending infinity to 0, the curve-preserving action has translation [g(infinity)]-[infinity]",
+        "B9/mu1 x->i*x fixes infinity, hence has zero translation in that Abel-Jacobi embedding",
+        "H48 is identified with Deraux G48 only after conjugating the embedding by an automorphism g of A",
+        "the cited passage does not source-bind that conjugating g"
+      ]
+    }
+  },
+  "finite_mod2_translation_audit": {
+    "conjugation_formula":"tau_s o (A,0) o tau_s^-1 = (A,(I-A)s) over A[2]",
+    "candidate_count":6,
+    "all_candidate_translations_in_image_I_minus_A":true,
+    "solutions_per_candidate":2,
+    "candidates":[
+      {"retained_linear_word":"S*T*S*T*S","fixed_W_line":"L1","deraux_affine_word":"R1*R2*R3","translation_f2":[1,0,1,0],"translation_conjugator_solutions_f2":[[1,1,0,1],[1,1,1,1]]},
+      {"retained_linear_word":"T*S*T","fixed_W_line":"L1","deraux_affine_word":"R3*R1*R2","translation_f2":[1,0,0,1],"translation_conjugator_solutions_f2":[[1,1,0,1],[1,1,1,1]]},
+      {"retained_linear_word":"S*T*T","fixed_W_line":"L2","deraux_affine_word":"R1*R3*R1*R2*R3","translation_f2":[0,0,0,1],"translation_conjugator_solutions_f2":[[0,0,1,0],[0,0,1,1]]},
+      {"retained_linear_word":"T*S","fixed_W_line":"L2","deraux_affine_word":"R2*R3*R1*R2*R3","translation_f2":[0,0,0,1],"translation_conjugator_solutions_f2":[[0,0,1,0],[0,0,1,1]]},
+      {"retained_linear_word":"S*T","fixed_W_line":"L3","deraux_affine_word":"R2*R3*R1","translation_f2":[1,1,1,0],"translation_conjugator_solutions_f2":[[1,0,0,0],[1,0,1,1]]},
+      {"retained_linear_word":"T*T*S","fixed_W_line":"L3","deraux_affine_word":"R1*R3*R2","translation_f2":[1,1,0,0],"translation_conjugator_solutions_f2":[[1,0,0,0],[1,0,1,1]]}
+    ],
+    "fixed_line_counts":{"L1":2,"L2":2,"L3":2},
+    "possible_delta0inf_lines":["L1","L2","L3"],
+    "possible_delta0inf_residues_decimal":[73,97,235]
+  },
+  "decision": {
+    "B9_zero_translation_survives_unknown_embedding_conjugacy":true,
+    "B9_zero_translation_breaks_period_torsor_ambiguity":false,
+    "absolute_delta0inf_retained_W_line_identified":false,
+    "survivors_current_credit":[73,97,235],
+    "Q602_excluded":false,
+    "O210_excluded":false,
+    "next_exact_route":"SOURCE_BIND_THE_ACTUAL_KRR_CONJUGATING_G_OR_AN_EQUIVALENT_MARKED_THETA_DIVISOR_OR_HALF_PERIOD_NORMALIZATION; ZERO_TRANSLATION_OF_B9_BEFORE_UNKNOWN_CONJUGACY_IS_EXACTLY_NONPRUNING"
+  },
+  "firewalls": {"scratch_result_promoted_to_MAIN_authority":false,"scratch_result_promoted_to_current_credit":false,"zero_translation_promoted_across_unknown_conjugacy":false,"one_of_six_B9_linear_images_selected_without_source":false,"Q602_excluded":false,"O210_excluded":false,"receiver_credit":false,"route_credit":false,"theorem_credit":false,"endpoint_credit":false,"perfect_cuboid_credit":false},
+  "canonical_sha256_without_this_field":"6ad188aaf14aa9998ac27efc5737e79666b300cdccf2312d9c2b250f8e8a02ef"
+}
