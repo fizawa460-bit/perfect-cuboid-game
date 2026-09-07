@@ -21,25 +21,30 @@ jobs:
         run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
       - name: Install exact diagnostic dependency
         run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Run AQ residual-G action and conductor diagnostic
+      - name: Run AQ residual-G exceptional correction diagnostic
         run: |
           python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648aq_residual_g_action_preflight.py | tee /tmp/post1648aq.json
           python3 - <<'PY'
           import json
           x=json.load(open('/tmp/post1648aq.json'))
-          assert x['mode']=='SCRATCH_POST1648AQ_RESIDUAL_G_ACTION_AND_CONDUCTOR_IDENTITY'
+          assert x['mode']=='SCRATCH_POST1648AQ_RESIDUAL_G_ACTION_EXCEPTIONAL_CORRECTION'
           assert x['boundary_anchor']['candidate_exact_order_and_exponent_match'] is True
           assert x['v6_residual_orbit']['class_stabilizer_trivial_in_candidate_G'] is True
-          assert x['quotient_intersection_identity']['square_identity_holds'] is True
-          assert x['canonical_ramification_correction']['exactly_matches_AP_demand'] is True
+          assert x['factor_pullback']['P_square']==x['factor_pullback']['degree_8_image_square']
+          assert x['factor_pullback']['C_dot_P']==x['factor_pullback']['image_square']
           assert x['firewalls']['residual_G_semantic_identification_granted'] is False
+          c=x['exceptional_correction']['correct_orientation']
           print(json.dumps({
               'full_group_order':x['full_retained_group']['order'],
               'boundary_pointwise_stabilizer_order':x['boundary_anchor']['pointwise_stabilizer_order'],
               'nontrivial_C_dot_gC':x['v6_residual_orbit']['nontrivial_C_dot_gC_sorted'],
               'sum_nontrivial_C_dot_gC':x['v6_residual_orbit']['sum_nontrivial_C_dot_gC'],
-              'R_dot_C':x['canonical_ramification_correction']['R_dot_C'],
-              'conductor':x['canonical_ramification_correction']['conductor_length_from_action'],
+              'exceptional_span':c.get('in_exceptional_span'),
+              'exceptional_integral':c.get('integral'),
+              'exceptional_nonnegative':c.get('nonnegative'),
+              'exceptional_coeff_sum':c.get('coefficient_sum'),
+              'exceptional_coeff_max':c.get('coefficient_max'),
+              'C_dot_T':c.get('C_dot_exceptional_correction_direct'),
           }, sort_keys=True))
           PY
       - name: Diff hygiene
