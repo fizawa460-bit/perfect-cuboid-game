@@ -1,0 +1,44 @@
+name: Stage32 post1648AS residual inertia tangent preflight
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648as-residual-inertia-tangent-preflight
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-as-residual-inertia:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run AS residual inertia tangent diagnostic
+        run: |
+          python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648as_residual_inertia_tangent_preflight.py | tee /tmp/post1648as.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/post1648as.json'))
+          assert x['mode']=='SCRATCH_POST1648AS_RESIDUAL_INERTIA_TANGENT_PREFLIGHT'
+          assert x['residual_group']['order']==8
+          assert x['node_stabilizers']['exceptional_orbit_count']==12
+          assert x['AR_minimal_branch_pressure']['minimum_FSM_minimal_branches']==186
+          assert x['firewalls']['Q602_excluded'] is False
+          print(json.dumps({
+              'distinct_node_stabilizers':x['node_stabilizers']['distinct_nontrivial_stabilizer_count'],
+              'inertia_rows':x['node_stabilizers']['inertia_rows'],
+              'non_node_elements':x['node_stabilizers']['non_node_element_rows'],
+              'some_target_cusp_minimal_lb':x['AR_minimal_branch_pressure']['minimum_on_some_target_cusp_by_12_point_pigeonhole'],
+              'some_exceptional_minimal_lb':x['AR_minimal_branch_pressure']['minimum_on_some_exceptional_curve_by_48_curve_pigeonhole'],
+          }, sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
