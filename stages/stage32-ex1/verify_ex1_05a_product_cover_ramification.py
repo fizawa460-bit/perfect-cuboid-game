@@ -8,11 +8,12 @@ CERT = HERE / "ex1-05a-product-cover-ramification.json"
 
 data = json.loads(CERT.read_text(encoding="utf-8"))
 
-# Canonical digest with the digest field omitted.
+# This retained leaf was frozen with the pretty-JSON digest convention used by
+# EX1-04/05A. Replay that exact convention; do not rewrite the proof artifact.
 claimed = data["canonical_sha256_without_this_field"]
 payload = dict(data)
 payload.pop("canonical_sha256_without_this_field")
-canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+canonical = json.dumps(payload, ensure_ascii=False, indent=2).encode("utf-8")
 actual = hashlib.sha256(canonical).hexdigest()
 assert actual == claimed, (actual, claimed)
 
@@ -27,7 +28,6 @@ assert len(unit_labels) == 9
 nonunit = [m for m in pairings if m >= 2]
 assert len(nonunit) == 38
 
-# Stoll-Testa product quotient adapter arithmetic.
 assert 2 * 5 - 2 == 4 * (2 * 2 - 2) == 8
 assert data["derived_cover_adapter"]["X_to_C2_degree"] == 4
 assert data["derived_cover_adapter"]["Y_to_C2xC2_degree"] == 4
