@@ -39,60 +39,7 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Assert hostile-audited merged AV-AY authority
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          import json
-          from pathlib import Path
-          a=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())['audited_history']['36-09AV-AY']
-          assert a['pr']==1683 and a['hostile_audit_review']==5128446584
-          assert a['merged_main_sha']=='b7a045b7c910a3e01d3826556cd71019af15418f'
-          PY
-      - name: Replay exact 36-09AZ
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=70d242588f4ae1b56dfc80e7c634e1f666ff57fd
-          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AZ.py"
-          git worktree remove --force "$tmp"
-      - name: Replay exact 36-09BA
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=a4fde9a55b6483018ffb4be49ffbc758939b7e22
-          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BA.py"
-          git worktree remove --force "$tmp"
-      - name: Replay exact 36-09BB
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=72441c82f2c146c63ebde6459b18789e33c6dddb
-          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BB.py"
-          git worktree remove --force "$tmp"
-      - name: Replay repaired exact 36-09BC
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=c8acd051f3d6b5537c9bd7220909b2f71306a870
-          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BC.py"
-          git worktree remove --force "$tmp"
-      - name: Replay repaired exact 36-09BD
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=03e1a03c84afcceb7b034b3326aef989baafe621
-          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BD.py"
-          git worktree remove --force "$tmp"
-      - name: Verify current repaired 36-09BE
-        run: python3 stages/stage36/verify_stage36_36_09BE.py
-      - name: Assert repaired BE checkpoint firewalls
+      - name: Assert hostile-reaudited merged AZ-BE authority
         shell: bash
         run: |
           set -euo pipefail
@@ -100,25 +47,45 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V93_36_09BE_AUDIT_CHECKPOINT'
-          assert s['failed_audit']['review']==5128976664
-          bc=s['authority_frontier']['36-09BC']; bd=s['authority_frontier']['36-09BD']; be=s['authority_frontier']['36-09BE']
-          assert bc['JACOBIAN_MINOR']=='32*R0*S0*kappa*lambda'
-          assert bc['exact_head']=='c8acd051f3d6b5537c9bd7220909b2f71306a870'
-          assert bd['exact_head']=='03e1a03c84afcceb7b034b3326aef989baafe621'
-          assert be['FULL_COVER_GENUS']==17
-          assert be['CHARACTER_QUOTIENT_INVENTORY_COMPLETE'] is True
-          assert be['WEIGHT2_ELLIPTIC_QUOTIENT_COUNT']==6
-          assert be['NEW_CROSS_ELLIPTIC_QUOTIENT_COUNT']==2
-          assert be['FULL_JACOBIAN_Q_ISOGENY_DECOMPOSITION_PROVED'] is False
-          assert be['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert be['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09BE-AUDIT-CHECKPOINT'
-          assert s['current']['36_09BF_entry_allowed'] is False
+          a=s['audited_history']['36-09AZ-BE']
+          assert a['pr']==1686
+          assert a['failed_audit_review']==5128976664
+          assert a['hostile_reaudit_review']==5129219368
+          assert a['audited_exact_head']=='52161f9872d7748bd3a4dcba346f7fd42d68edd9'
+          assert a['exact_head_ci']=='34095467995/101658038311'
+          assert a['merged_main_sha']=='386b6a52d7bfec2e8903412c7ca56976b46c288b'
+          PY
+          git merge-base --is-ancestor 386b6a52d7bfec2e8903412c7ca56976b46c288b HEAD
+      - name: Replay audited merged 36-09BE checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          H=386b6a52d7bfec2e8903412c7ca56976b46c288b
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BE.py"
+          git worktree remove --force "$tmp"
+      - name: Verify current 36-09BF
+        run: python3 stages/stage36/verify_stage36_36_09BF.py
+      - name: Assert BF firewalls and BG unlock
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V94_36_09BF_CANDIDATE'
+          bf=s['authority_frontier']['36-09BF']
+          assert bf['WEIGHT2_PULLBACK_COLLAPSE_COMPLETE'] is True
+          assert bf['CROSS_ELLIPTIC_RECEIVER_PREDICATE_NEW'] is False
+          assert bf['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert bf['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09BG' and s['current']['36_09BG_entry_allowed'] is True
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['R29_CAMP2_closed'] is False
           assert s['claims']['Q11_CAMPEDELLI_closed'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('AZ-BE repaired broad replay passed; BF remains locked pending hostile re-audit')
+          print('36-09BF verified; cross weight-2 quotients add no AY-restricted receiver predicate; BG unlocked')
           PY
           git diff --check
