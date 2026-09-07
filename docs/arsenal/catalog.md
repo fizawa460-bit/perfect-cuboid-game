@@ -78,6 +78,22 @@ Active Stage controllers and current source locks override every snapshot here. 
 | [`S36-PW05`](cards/provisional/S36-PW05.md) | `SPLIT_FULL2_ORDER4_HALF_AND_2ISOGENY_NORMALIZATION` | Stage36 | [../stage36-arsenal-promotion.md](../stage36-arsenal-promotion.md) |
 | [`S36-PW06`](cards/provisional/S36-PW06.md) | `RELATIVE_2ISOGENY_KUMMER_SPECIALIZATION_BASELINE` | Stage36 | [../stage36-arsenal-promotion.md](../stage36-arsenal-promotion.md) |
 | [`S36-PW07`](cards/provisional/S36-PW07.md) | `DIRECTIONAL_PRIME_RESERVOIR_LOCAL_CHARACTER_MATRIX` | Stage36 | [../stage36-arsenal-promotion.md](../stage36-arsenal-promotion.md) |
+| [`LIT-PW01`](cards/provisional/LIT-PW01.md) | `GENERAL_FINITE_QUOTIENT_MORDELL_WEIL_SIEVE` | Literature Strengthening | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) |
+| [`LIT-PW02`](cards/provisional/LIT-PW02.md) | `REPO_QUOTIENT_TO_ELLIPTIC_CHABAUTY_ADAPTER` | Literature Strengthening | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) |
+| [`LIT-PW03`](cards/provisional/LIT-PW03.md) | `FINITE_BRANCH_TO_N_COVER_SELMER_ADAPTER` | Literature Strengthening | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) |
+| [`LIT-PW04`](cards/provisional/LIT-PW04.md) | `SOURCE_BOUND_BRAUER_LOCAL_EVALUATION_ADAPTER` | Literature Strengthening | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) |
+| [`LIT-PW05`](cards/provisional/LIT-PW05.md) | `KUMMER_2PRIMARY_BRAUER_RELEVANCE_GATE` | Literature Strengthening | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) |
+| [`LIT-PW06`](cards/provisional/LIT-PW06.md) | `BRAUER_RELEVANT_PLACE_CERTIFICATE` | Literature Strengthening | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) |
+| [`LIT-PW07`](cards/provisional/LIT-PW07.md) | `COMPLETE_ELLIPTIC_S_INTEGRAL_POINT_TERMINAL` | Literature Strengthening | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) |
+| [`LIT-PW08`](cards/provisional/LIT-PW08.md) | `EXPLICIT_CHABAUTY_POINT_COMPLETENESS_TERMINAL` | Literature Strengthening | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) |
+| [`LIT-PW09`](cards/provisional/LIT-PW09.md) | `QUADRATIC_CHABAUTY_INTEGRAL_POINT_TERMINAL` | Literature Strengthening | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) |
+| [`LIT-PW10`](cards/provisional/LIT-PW10.md) | `EXHAUSTIVE_COVERING_COLLECTION_TERMINAL` | Literature Strengthening | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) |
+| [`LIT-PW11`](cards/provisional/LIT-PW11.md) | `COMPLETE_FIXED_THUE_MAHLER_TERMINAL` | Literature Strengthening | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) |
+| [`LIT-PW12`](cards/provisional/LIT-PW12.md) | `COMPLETE_FIXED_S_UNIT_TERMINAL` | Literature Strengthening | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) |
+| [`LIT-PW13`](cards/provisional/LIT-PW13.md) | `COMPLETE_FIXED_THUE_TERMINAL` | Literature Strengthening | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) |
+| [`LIT-PW14`](cards/provisional/LIT-PW14.md) | `BRAUER_MANIN_ADELIC_EMPTYNESS_TERMINAL` | Literature Strengthening | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) |
+| [`LIT-PW15`](cards/provisional/LIT-PW15.md) | `OPEN_VARIETY_DESCENT_ETALE_BRAUER_TERMINAL` | Literature Strengthening | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) |
+| [`LIT-WF01`](cards/workflows/LIT-WF01.md) | `BOUND_REDUCTION_ENUMERATION_REPLAY_WORKFLOW` | Literature Strengthening | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) |
 
 ## Retired IDs
 
@@ -116,6 +132,7 @@ Active Stage controllers and current source locks override every snapshot here. 
 | **HISTORICAL** | [stageA1-stageA2-class3-provisional-harvest.json](stageA1-stageA2-class3-provisional-harvest.json) | machine historical Class-3 method harvest |
 | **PROVISIONAL** | [../stage35-arsenal-promotion.md](../stage35-arsenal-promotion.md) | Stage35 / Stage35-EX initial provisional harvest promotion provenance; active Stage authority remains higher |
 | **PROVISIONAL** | [../stage36-arsenal-promotion.md](../stage36-arsenal-promotion.md) | Stage36 initial provisional harvest promotion provenance; active Stage36 authority remains higher |
+| **PROVISIONAL** | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) | Phase7 literature-backed strengthening promotion provenance; no Stage mathematical authority change |
 
 ## Historical and deep lookup
 
