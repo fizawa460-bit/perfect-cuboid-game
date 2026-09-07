@@ -36,12 +36,13 @@ jobs:
       - name: Commit compact R5B1 certificate
         shell: bash
         run: |
-          if git diff --quiet -- stages/stage33/33-12/e3-v91c1x-r5b1-a2-02-exceptional-basepoint-free-cover.json; then
+          CERT='stages/stage33/33-12/e3-v91c1x-r5b1-a2-02-exceptional-basepoint-free-cover.json'
+          if [ -z "$(git status --porcelain -- "$CERT")" ]; then
             echo 'R5B1 certificate already materialized'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add stages/stage33/33-12/e3-v91c1x-r5b1-a2-02-exceptional-basepoint-free-cover.json
+          git add "$CERT"
           git commit -m '[Stage33] materialize R5B1 exceptional basepoint-free cover'
           git push origin HEAD:${GITHUB_REF_NAME}
