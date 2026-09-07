@@ -1,0 +1,73 @@
+name: Stage32EX1 05D b3 index scratch
+
+on:
+  push:
+    branches:
+      - stage32ex1-scratch-05d-b3-index
+    paths:
+      - '.github/workflows/stage32ex1-05d-b3-index-scratch.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  b3-index-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Replay Stoll verification singular-point order in public Magma
+        shell: python
+        run: |
+          import urllib.parse
+          import urllib.request
+          import xml.etree.ElementTree as ET
+
+          code = r'''
+          SetColumns(0);
+          L<i,s> := ext<Rationals() | Polynomial([1,0,1]), Polynomial([-2,0,1])>;
+          Pr6<a1,a2,a3,b1,b2,b3,c> := ProjectiveSpace(L, 6);
+          eqns := [a1^2 + a2^2 - b3^2, a2^2 + a3^2 - b1^2, a1^2 + a3^2 - b2^2, a1^2 + a2^2 + a3^2 - c^2];
+          S := Scheme(Pr6, eqns);
+          pts := Points(SingularSubscheme(S));
+          assert #pts eq 48;
+          I1 := [k : k in [1..#pts] | pts[k][4] eq 0];
+          I2 := [k : k in [1..#pts] | pts[k][5] eq 0];
+          I3 := [k : k in [1..#pts] | pts[k][6] eq 0];
+          assert #I1 eq 16 and #I2 eq 16 and #I3 eq 16;
+          assert Seqset(I1) meet Seqset(I2) eq {};
+          assert Seqset(I1) meet Seqset(I3) eq {};
+          assert Seqset(I2) meet Seqset(I3) eq {};
+          assert Seqset(I1 cat I2 cat I3) eq Seqset([1..48]);
+          print "STAGE32EX1_05D_B1_INDICES", I1;
+          print "STAGE32EX1_05D_B2_INDICES", I2;
+          print "STAGE32EX1_05D_B3_INDICES", I3;
+          print "STAGE32EX1_05D_CLASS_TABLE", [<k, k in I1 select 1 else (k in I2 select 2 else 3)> : k in [1..48]];
+          print "STAGE32EX1_05D_END";
+          '''
+
+          url = 'https://magma.maths.usyd.edu.au/xml/calculator.xml'
+          data = urllib.parse.urlencode({'input': code}).encode('utf-8')
+          req = urllib.request.Request(
+              url,
+              data=data,
+              headers={
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'Accept': 'text/html, application/xml, application/xhtml+xml',
+                  'Referer': 'https://magma.maths.usyd.edu.au/calc/',
+                  'User-Agent': 'perfect-cuboid-stage32ex1/05d-scratch',
+              },
+              method='POST',
+          )
+          with urllib.request.urlopen(req, timeout=150) as resp:
+              raw = resp.read().decode('utf-8', errors='replace')
+              assert resp.status == 200
+          root = ET.fromstring(raw)
+          lines = []
+          for result in root.findall('.//results'):
+              for line in result.findall('.//line'):
+                  lines.append(''.join(line.itertext()))
+          stdout = '\n'.join(lines)
+          print(stdout)
+          bad = any(x in stdout for x in ('Runtime error', 'Internal error', 'User error', 'Assertion failed'))
+          if 'STAGE32EX1_05D_END' not in stdout or bad:
+              raise SystemExit('Magma replay failed')
