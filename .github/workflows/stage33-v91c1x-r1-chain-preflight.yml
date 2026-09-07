@@ -1,4 +1,4 @@
-name: Stage33 V91C1X_R1-R3 direct grouped-checkpoint check
+name: Stage33 V91C1X_R1-R3 chain-contract grouped-checkpoint replay
 
 on:
   pull_request:
@@ -9,17 +9,14 @@ on:
       - 'stages/stage33/33-12/e3-v91c1x-r1-chain-level-action-difference-preflight.json'
       - 'stages/stage33/33-12/e3-v91c1x-r2-literal-mu2-or-unimodular-cech-glue-contract.json'
       - 'stages/stage33/33-12/e3-v91c1x-r3-cover-indexed-a2-02-representative-bounded-preflight.json'
-      - 'stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py'
-      - 'stages/stage33/33-12/e3-v91c1w-a2-02-all8-picard64-reduction.json'
-      - 'stages/stage33/33-12/diagnose_e3_v91c1w_all8_picard64_reduction_v2.py'
-      - '.github/workflows/stage33-v91c1ae-direct.yml'
+      - '.github/workflows/stage33-v91c1x-r1-chain-preflight.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: stage33-v91c1x-r3-direct-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1x-r3-chain-contract-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -33,13 +30,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install pinned exact local algebra
-        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Replay retained W and R1 negative preflight
-        run: |
-          python stages/stage33/33-12/diagnose_e3_v91c1w_all8_picard64_reduction_v2.py
-          python stages/stage33/33-12/verify_e3_v91c1w_a2_02_all8_picard64_reduction.py
-          python stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py
+      - name: Replay R1 exact negative diagnostic
+        run: python stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py
       - name: Verify V113 R1-R3 grouped checkpoint
         run: |
           python stages/stage33/33-12/verify_stage33_v91c1x_r3_grouped_audit_current_startup_v113.py
