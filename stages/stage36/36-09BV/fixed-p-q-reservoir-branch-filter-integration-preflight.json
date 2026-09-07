@@ -1,0 +1,68 @@
+{
+  "schema":"STAGE36_36_09BV_FIXED_P_Q_RESERVOIR_BRANCH_FILTER_INTEGRATION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09BV",
+  "status":"EXACT_FIXED_P_OUTER_Q_FILTER_INTEGRATION_AND_SOUND_ZERO_SURVIVOR_EXCLUSION_RULE",
+  "base_main_sha":"eb11c6a7fef1d25d9188ecd1be6a856f109e7f39",
+  "batch_parent":{"pr":1693,"36_09BU_exact_head":"72252b9e891d7986813c9e81706958970a754331","36_09BU_exact_head_ci":"34120012847/101735669506"},
+  "source_locks":{
+    "stage36_36_09BU":{"path":"stages/stage36/36-09BU/general-aw-branch-bad-place-valuation-taxonomy-preflight.json","blob_sha":"a8f3fb880b83aac2240ce299fe8a8fa42e044093"},
+    "stage36_36_09BU_verifier":{"path":"stages/stage36/verify_stage36_36_09BU.py","blob_sha":"64b889c2dde22d021fb2933b976311d903f57dce"},
+    "stage36_36_09AW":{"path":"stages/stage36/36-09AW/fixed-p-finite-squareclass-tunnell-branch-sieve-preflight.json","blob_sha":"c1970a020803275ba87b249229e319367fa8f811"}
+  },
+  "integrated_fixed_p_outer_enumerator":{
+    "input":"primitive retained p=a/b",
+    "step1":"enumerate the audited AW support-compatible squareclass outer family A,B,C,D,eta,e,f",
+    "step2":"retain the audited UV mod-8 compatibility and all eight AE selected-prime Jacobi rows",
+    "step3":"compute H=odd_sf(D0*C*D), g=(v2(D0)+e+f) mod2, mu=eta*sign(D0)*2^g*H",
+    "step4":"for every odd prime q dividing Q=a^2+b^2 require Legendre(mu*A*B,q)=+1",
+    "output":"Q-admissible fixed-p outer branch family",
+    "finite_for_each_fixed_p":true,
+    "uniform_single_finite_Q_squareclass_family":false
+  },
+  "sound_fixed_p_exclusion_rule":{
+    "statement":"if the integrated Q-admissible outer branch family is empty for a fixed retained p, then the Stage36 receiver over that p is empty",
+    "unconditional":true,
+    "proof":"AW covers every receiver point by a finite fixed-p outer squareclass branch, and BU proves the Q-reservoir row is necessary for every receiver point on each such branch; therefore an actual receiver point would produce an integrated survivor",
+    "converse":false,
+    "surviving_branch_implies_receiver":false,
+    "surviving_branch_implies_local_point_everywhere":false
+  },
+  "exact_diagnostics":{
+    "p_1_over_2":{"AW_AE_local_outer_branches":14,"Q_admissible_outer_branches":8,"eliminated_branches":6,"fixed_p_excluded":false},
+    "p_2_over_11":{"AW_AE_local_outer_branches":158,"Q_admissible_outer_branches":77,"eliminated_branches":81,"fixed_p_excluded":false}
+  },
+  "credit_boundary":{
+    "new_exact_fixed_p_exclusion_interface":true,
+    "fixed_p_parameter_exclusion_obtained_in_certified_diagnostics":false,
+    "candidate_parameter_set_shrunk":false,
+    "general_prime2_branch_taxonomy_complete":false,
+    "old_six_point_dependent_gates_fully_integrated_into_outer_enumerator":false,
+    "uniform_parameter_theorem":false
+  },
+  "route_result":{
+    "route_status":"PASS_FIXED_P_Q_FILTER_EXCLUSION_INTERFACE_NO_PARAMETER_ZERO_YET",
+    "fixed_p_Q_filter_integration_complete":true,
+    "sound_zero_survivor_exclusion_rule":true,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09BW_GENERAL_AW_BRANCH_PRIME2_TAXONOMY_PREFLIGHT",
+    "selection_reason":"the new odd Q-reservoir branch-only filter is now attached to the exhaustive fixed-p outer family; prime 2 is the remaining general-branch bad-place layer not yet transferred beyond AY"
+  },
+  "scope_firewalls":{
+    "fixed_p_branch_pruning_is_parameter_exclusion":false,
+    "Q_admissible_outer_survivor_is_receiver":false,
+    "bounded_or_sampled_nonzero_survivors_are_uniform_survival_theorem":false,
+    "general_prime2_branch_taxonomy_complete":false,
+    "local_parameter_elimination_route_exhausted":false,
+    "uniform_finite_Q_squareclass_family":false,
+    "finite_exhaustive_H1_twist_family":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "schema":"STAGE36_36_09BT_GENERAL_AW_SQUARECLASS_BRANCH_FULL_COVER_LOCAL_MODEL_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09BT",
+  "status":"EXACT_GENERAL_AW_BRANCH_FOUR_SQUARE_MODEL_AND_BH_ELIMINATION_OBTAINED",
+  "base_main_sha":"eb11c6a7fef1d25d9188ecd1be6a856f109e7f39",
+  "freshness_sync":{
+    "previous_base":"727b3f34c4d850e868aff64483aeb99861b13c7c",
+    "current_main":"eb11c6a7fef1d25d9188ecd1be6a856f109e7f39",
+    "sync_merge_commit":"451d2c2a36f953ad60e9731c0b7ca29717b05f3f",
+    "intervening_drift":"PR #1692 Arsenal/Literature Stage36 provisional strengthening only",
+    "stage36_source_drift":false
+  },
+  "batch_parent":{"pr":1693,"36_09BS_exact_head":"14dc92d94dd81d01f0b84070070410ad4c3ecca9","36_09BS_exact_head_ci":"34114221064/101717172157"},
+  "source_locks":{
+    "stage36_36_09BS":{"path":"stages/stage36/36-09BS/fixed-p-outer-branch-full-cover-local-gate-adapter-preflight.json","blob_sha":"273f3f33762861fe809929bd8e32dd5153c0a781"},
+    "stage36_36_09BS_verifier":{"path":"stages/stage36/verify_stage36_36_09BS.py","blob_sha":"0a1b1396f6f2ecbf3b19e417182d25b7c300acdf"},
+    "stage36_36_09AD":{"path":"stages/stage36/36-09AD/coupled-six-reservoir-factor-squareclass-parity-preflight.json","blob_sha":"9d0388845955efee71d1a761ae4ee943d8b565d5"},
+    "stage36_36_09BB":{"path":"stages/stage36/36-09BB/ay-receiver-scaled-self-intersection-preflight.json","blob_sha":"e4b63fd500d05ff5dc704e0c08409edee5895053"},
+    "stage36_36_09BH":{"path":"stages/stage36/36-09BH/bad-place-full-cover-valuation-preflight.json","blob_sha":"76487371ed363868af18a9fa0f6f7e1367d28f27"}
+  },
+  "notation":{
+    "parameter":"p=a/b primitive retained open",
+    "P":"a^2+2ab-b^2",
+    "M":"a^2-2ab-b^2",
+    "D0":"a*b*(a-b)*(a+b)",
+    "Q":"a^2+b^2",
+    "lambda":"P/M",
+    "AW_branch":"A,B,C,D positive odd squarefree; eta in {+1,-1}; e,f in {0,1}, with audited support/compatibility conditions",
+    "kappa":"eta*2^e*C",
+    "rho":"2^f*D"
+  },
+  "AD_squareclass_reconstruction":{
+    "U":"A*u^2",
+    "V":"B*v^2",
+    "UminusV":"kappa*r^2",
+    "UplusV":"rho*s^2",
+    "Lminus":"M^2*U-P^2*V=kappa*A*B*c^2",
+    "Lplus":"M^2*U+P^2*V=rho*A*B*d^2",
+    "meaning":"c,d exist exactly when the original receiver Fminus/Fplus square conditions hold on this AW branch"
+  },
+  "general_t_line_four_square_model":{
+    "t":"v/u, with u and v nonzero on the retained receiver open",
+    "equations":[
+      "A-B*t^2=kappa*(r/u)^2",
+      "A+B*t^2=rho*(s/u)^2",
+      "A-lambda^2*B*t^2=kappa*A*B*(c/(M*u))^2",
+      "A+lambda^2*B*t^2=rho*A*B*(d/(M*u))^2"
+    ],
+    "normalized_square_root_version":[
+      "R^2=kappa*(A-B*t^2)",
+      "S^2=rho*(A+B*t^2)",
+      "Zminus^2=kappa*A*B*(A-lambda^2*B*t^2)",
+      "Zplus^2=rho*A*B*(A+lambda^2*B*t^2)"
+    ],
+    "normalizations":"R=kappa*r/u; S=rho*s/u; Zminus=kappa*A*B*c/(M*u); Zplus=rho*A*B*d/(M*u)",
+    "open_conditions":["t!=0","A-B*t^2!=0","A-lambda^2*B*t^2!=0"],
+    "general_AW_branch_full_cover_local_model_obtained":true
+  },
+  "general_BH_elimination":{
+    "identities":["P^2-M^2=8*D0","P^2+M^2=2*Q^2"],
+    "minus":"A*B*c^2=Q^2*r^2-(4*D0*rho/kappa)*s^2",
+    "plus":"A*B*d^2=Q^2*s^2-(4*D0*kappa/rho)*r^2",
+    "derivation":"substitute A*u^2=(kappa*r^2+rho*s^2)/2 and B*v^2=(rho*s^2-kappa*r^2)/2 into Lminus and Lplus, then use the two parameter identities",
+    "potential_odd_coefficient_support":"contained in P,M,a,b,a-b,a+b,Q because A,B,C,D are supported in the audited old-six reservoirs and kappa,rho add no new odd prime identity",
+    "seven_reservoir_upper_support_retained":true
+  },
+  "AY_specialization_check":{
+    "substitution":"A=B=D=1, rho=2, kappa=eta*2^e*C",
+    "BB_recovered":["R^2=kappa*(1-t^2)","S^2=2*(1+t^2)","Zminus^2=kappa*(1-lambda^2*t^2)","Zplus^2=2*(1+lambda^2*t^2)"],
+    "BH_T":"T^2=2*D0/kappa",
+    "BH_elimination_recovered":["c^2=Q^2*r^2-4*T^2*s^2","d^2=Q^2*s^2-kappa^2*T^2*r^2"],
+    "exact_specialization":true
+  },
+  "credit_boundary":{
+    "population_adapter_gap_from_BS_resolved_at_equation_level":true,
+    "BH_BO_local_taxonomy_transfers_unchanged_to_general_branch":false,
+    "reason":"the general coefficients A,B,kappa,rho change dominance, valuation, and normalized residue data at reservoir primes; the equations transfer, not the AY-specific case split",
+    "general_branch_bad_place_taxonomy_complete":false,
+    "whole_fixed_p_parameter_elimination_interface_complete":false,
+    "candidate_parameter_set_shrunk":false
+  },
+  "route_result":{
+    "route_status":"PASS_GENERAL_BRANCH_FULL_COVER_MODEL_OBTAINED_LOCAL_TAXONOMY_NEXT",
+    "general_AW_branch_full_cover_local_model_obtained":true,
+    "seven_reservoir_odd_support_upper_bound":true,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09BU_GENERAL_AW_BRANCH_BAD_PLACE_VALUATION_TAXONOMY_PREFLIGHT"
+  },
+  "scope_firewalls":{
+    "general_equations_imply_general_local_solubility":false,
+    "AY_taxonomy_reused_without_rederivation":false,
+    "seven_reservoir_support_is_fixed_finite_S":false,
+    "whole_AW_family_parameter_elimination_complete":false,
+    "local_parameter_elimination_route_exhausted":false,
+    "uniform_finite_Q_squareclass_family":false,
+    "finite_exhaustive_H1_twist_family":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

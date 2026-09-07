@@ -1,0 +1,100 @@
+{
+  "schema":"STAGE36_36_09BU_GENERAL_AW_BRANCH_BAD_PLACE_VALUATION_TAXONOMY_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09BU",
+  "status":"EXACT_GENERAL_AW_ODD_BAD_PLACE_TAXONOMY_AND_NEW_Q_RESERVOIR_BRANCH_FILTER",
+  "base_main_sha":"eb11c6a7fef1d25d9188ecd1be6a856f109e7f39",
+  "batch_parent":{"pr":1693,"36_09BT_exact_head":"53c8d2fecff7e63ddfaef76de4387365f0ed2e28","36_09BT_exact_head_ci":"34119039258/101732546834"},
+  "source_locks":{
+    "stage36_36_09BT":{"path":"stages/stage36/36-09BT/general-aw-squareclass-branch-full-cover-local-model-preflight.json","blob_sha":"e58c417ddfa340d96b2ac1fbae9e7da7c5224d78"},
+    "stage36_36_09BT_verifier":{"path":"stages/stage36/verify_stage36_36_09BT.py","blob_sha":"3b9a1c2ceba0ed4091bc373ebf3d4a76025feec3"},
+    "stage36_36_09AD":{"path":"stages/stage36/36-09AD/coupled-six-reservoir-factor-squareclass-parity-preflight.json","blob_sha":"9d0388845955efee71d1a761ae4ee943d8b565d5"},
+    "stage36_36_09AW":{"path":"stages/stage36/36-09AW/fixed-p-finite-squareclass-tunnell-branch-sieve-preflight.json","blob_sha":"c1970a020803275ba87b249229e319367fa8f811"},
+    "stage36_36_09BM":{"path":"stages/stage36/36-09BM/old-six-full-cover-degenerate-cancellation-residue-preflight.json","blob_sha":"4fae43a7ebc9022acb4283a40f6eb95cb88d2aa5"},
+    "stage36_36_09BN":{"path":"stages/stage36/36-09BN/old-six-tie-normalized-unit-residue-preflight.json","blob_sha":"c64ad051bb1466aa05dfb0cf638b9e7759766ed9"},
+    "stage36_36_09BO":{"path":"stages/stage36/36-09BO/q-reservoir-full-qq-cancellation-preflight.json","blob_sha":"138749fde9766cd217fcb4622ccdebcb45730c2e"},
+    "LIT_WF02":{"path":"docs/arsenal/cards/workflows/LIT-WF02.md","blob_sha":"a1e3e922ce3b2e26bfc5897fb1c1e2e82e3d6105","use_status":"FAIL_CLOSED_NOT_USED_FOR_MATHEMATICAL_CREDIT"}
+  },
+  "residual_squareclass_normalization":{
+    "delta":"v2(D0)",
+    "H":"odd_sf(D0*C*D), the positive odd squarefree kernel after toggling the C and D support bits against D0",
+    "g":"(delta+e+f) mod 2",
+    "mu":"eta*sign(D0)*2^g*H",
+    "Tminus_square":"Tminus^2=(4*D0*rho/kappa)/mu",
+    "Tplus_square":"Tplus^2=(4*D0*kappa/rho)/mu",
+    "Tminus_Tplus_rational_nonzero":true,
+    "proof":"the two coefficients have the same sign eta*sign(D0), the same dyadic parity delta+e+f, and at every odd prime the exponent parity is v_q(D0)+1_{q|C}+1_{q|D}; removing mu leaves an even valuation at every place"
+  },
+  "generalized_norm_equations":{
+    "minus":"A*B*c^2=(Q*r)^2-mu*(Tminus*s)^2",
+    "plus":"A*B*d^2=(Q*s)^2-mu*(Tplus*r)^2",
+    "AY_specialization":"A=B=1 and mu=1 recovers the BH difference-of-squares equations"
+  },
+  "old_six_universal_odd_q_taxonomy":{
+    "setup":"q is an odd prime in P,M,a,b,a-b,a+b, hence q does not divide Q",
+    "hAB":"v_q(A*B) in {0,1}",
+    "hmu":"v_q(mu) in {0,1}",
+    "AB0":"A*B/q^hAB, a q-unit",
+    "mu0":"mu/q^hmu, a q-unit",
+    "Lminus":"v_q(Tminus)",
+    "Lplus":"v_q(Tplus)",
+    "minus_term_valuations":["2*R","hmu+2*Lminus+2*S"],
+    "plus_term_valuations":["2*S","hmu+2*Lplus+2*R"],
+    "first_square_term_strictly_dominates":"the corresponding full-cover square equation is Q_q-soluble iff hAB=0 and Legendre(AB0,q)=+1",
+    "negative_mu_term_strictly_dominates":"the corresponding full-cover square equation is Q_q-soluble iff hAB=hmu and Legendre(-mu0*AB0,q)=+1",
+    "tie_possible_only_if":"hmu=0",
+    "tie_normalization":"after extracting the common even q-power and a square unit, write the remaining factor as z^2-mu0; let n=v_q(z^2-mu0), w0=(z^2-mu0)/q^n",
+    "tie_square_criterion":"n mod 2 must equal hAB and Legendre(w0*AB0,q)=+1",
+    "completeness":"necessary and sufficient for the individual odd-q square equation; there is no later Hensel digit obstruction once valuation parity and normalized unit residue are fixed"
+  },
+  "Q_reservoir_generalization":{
+    "setup":"q is an odd prime dividing Q=a^2+b^2; q divides none of P,M,a,b,a-b,a+b,A,B,mu,Tminus,Tplus",
+    "h":"v_q(Q)>=1",
+    "r_s_not_both_q_divisible":true,
+    "reason":"if q divided both r and s, the two coupled conics would force q to divide both primitive U=A*u^2 and V=B*v^2",
+    "minus_term_valuations":["2*h+2*R","2*S"],
+    "plus_term_valuations":["2*h+2*S","2*R"],
+    "branch_only_first_residue_row":"Legendre(mu*A*B,q)=+1 for every odd q|Q",
+    "derivation":"at least one of r,s is a q-unit; reducing the corresponding full-cover equation modulo q gives A*B times a square equal to -mu times a square, while q|a^2+b^2 makes -1 a q-square",
+    "failure_consequence":"if the row fails for one odd q|Q, the entire AW squareclass branch has no Q_q receiver point, independently of the receiver-point ratio",
+    "nontie_after_row":"negative-mu-leading cases pass the leading residue gate; square-leading cases additionally require Legendre(A*B,q)=+1",
+    "tie_after_row":"the generalized tie criterion above applies with hAB=hmu=0; n must be even and Legendre(w0*A*B,q)=+1",
+    "AY_reason_old_row_was_automatic":"AY has A=B=mu=1"
+  },
+  "exact_fixed_p_diagnostics":{
+    "p_1_over_2":{"a":1,"b":2,"AW_AE_local_outer_branches":14,"after_Q_reservoir_branch_row":8,"explicit_fail_branch":{"A":1,"B":1,"C":1,"D":1,"eta":-1,"e":0,"f":1,"mu":3,"q":5,"Legendre_muAB_q":-1},"explicit_pass_branch":{"A":1,"B":1,"C":1,"D":1,"eta":-1,"e":0,"f":0,"mu":6,"q":5,"Legendre_muAB_q":1}},
+    "p_2_over_11":{"a":2,"b":11,"AW_AE_local_outer_branches":158,"after_Q_reservoir_branch_row":77,"odd_Q_primes":[5]},
+    "interpretation":"the new row is not implied by the existing AE local-row filter and gives exact branch pruning, but neither diagnostic parameter is completely eliminated"
+  },
+  "route_result":{
+    "route_status":"PASS_GENERAL_ODD_BAD_PLACE_TAXONOMY_NEW_Q_BRANCH_FILTER",
+    "general_old_six_odd_square_taxonomy_complete":true,
+    "general_Q_reservoir_odd_square_taxonomy_complete":true,
+    "new_Q_reservoir_branch_only_filter":true,
+    "Q_filter_nonredundant_against_AW_AE_rows":true,
+    "general_prime2_branch_taxonomy_complete":false,
+    "whole_fixed_p_parameter_elimination_interface_complete":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09BV_FIXED_P_Q_RESERVOIR_BRANCH_FILTER_INTEGRATION_PREFLIGHT"
+  },
+  "scope_firewalls":{
+    "Q_branch_row_is_local_point_existential_sufficiency":false,
+    "Q_branch_row_survivor_is_receiver":false,
+    "fixed_p_branch_pruning_is_parameter_exclusion":false,
+    "two_fixed_p_diagnostics_are_uniform_theorem":false,
+    "LIT_WF02_applicability_pass":false,
+    "global_H1_localization_adapter_obtained":false,
+    "general_prime2_branch_taxonomy_complete":false,
+    "local_parameter_elimination_route_exhausted":false,
+    "uniform_finite_Q_squareclass_family":false,
+    "finite_exhaustive_H1_twist_family":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
