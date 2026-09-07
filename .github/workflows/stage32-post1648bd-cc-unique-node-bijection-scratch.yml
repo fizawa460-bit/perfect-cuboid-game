@@ -1,0 +1,49 @@
+name: Stage32 post1648BD cc-equivariant node bijection
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648bd-cc-unique-node-bijection
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-bd-cc-node-bijection:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run BD cc-equivariant node bijection recovery
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648bd_cc_unique_node_bijection.py | tee /tmp/bd.json
+      - name: Assert bounded exact recovery
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/bd.json'))
+          assert x['mode']=='SCRATCH_POST1648BD_CC_EQUIVARIANT_NODE_BIJECTION'
+          assert x['source_node_count']==48
+          assert x['aut_equivariant_distinct_bijection_count']>0
+          assert x['cc_equivariant_bijection_count']>0
+          assert x['source_Q_defined_node_count']==24
+          assert x['retained_cc_fixed_exceptional_count']==24
+          assert x['retained_ct_fixed_exceptional_count']==48
+          assert x['v6']['exceptional_mass_total']==266
+          assert x['firewalls']['v6_carrier_excluded'] is False
+          print(json.dumps({
+            'aut_bijections':x['aut_equivariant_distinct_bijection_count'],
+            'cc_bijections':x['cc_equivariant_bijection_count'],
+            'unique':x['unique_full_aut_plus_cc_bijection_obtained'],
+            'v6':x['v6'],
+            'next':x['decision']['next_exact_route'],
+          },sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
