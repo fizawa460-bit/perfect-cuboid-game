@@ -6,6 +6,7 @@ on:
       - 'stages/stage36/**'
       - '.github/workflows/stage36-bootstrap-audit.yml'
       - 'docs/research-os/policies/**'
+      - 'docs/arsenal/cards/formal/S34-W01.md'
   workflow_dispatch:
 
 permissions:
@@ -39,7 +40,7 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Assert hostile-audited merged BF-BG authority
+      - name: Assert hostile-reaudited merged BH-BO authority
         shell: bash
         run: |
           set -euo pipefail
@@ -47,37 +48,28 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          a=s['audited_history']['36-09BF-BG']
-          assert a['pr']==1689
-          assert a['hostile_audit_review']==5129489415
-          assert a['audited_exact_head']=='731265665feb2bed991cf912b89431bb35ce65ad'
-          assert a['exact_head_ci']=='34098010028/101665838247'
-          assert a['merged_main_sha']=='e758e05953df2cf8cd4ab26ac1e9d72374e99760'
+          a=s['audited_history']['36-09BH-BO']
+          assert a['pr']==1691
+          assert a['failed_audit_review']==5130678946
+          assert a['hostile_reaudit_review']==5130920000
+          assert a['audited_exact_head']=='40210e1f9225c792eca479f3f56bed73f550e024'
+          assert a['exact_head_ci']=='34111088276/101707255576'
+          assert a['merged_main_sha']=='727b3f34c4d850e868aff64483aeb99861b13c7c'
+          assert a['accepted_aggregate']=='NO_PARAMETER_SHRINK_ESTABLISHED_AT_CURRENT_CHECKPOINT'
           PY
-      - name: Replay hostile-audited exact 36-09BG head
+      - name: Replay hostile-reaudited exact 36-09BO head
         shell: bash
         run: |
           set -euo pipefail
-          H=731265665feb2bed991cf912b89431bb35ce65ad
+          H=40210e1f9225c792eca479f3f56bed73f550e024
           git cat-file -e "$H^{commit}"
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BG.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BO.py"
           git worktree remove --force "$tmp"
-      - name: Replay exact 36-09BN parent
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=7d9d6e3b1011715c5884a2da0a642892d8cf3984
-          git cat-file -e "$H^{commit}"
-          git merge-base --is-ancestor "$H" HEAD
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BN.py"
-          git worktree remove --force "$tmp"
-      - name: Verify current repaired 36-09BO
-        run: python3 stages/stage36/verify_stage36_36_09BO.py
-      - name: Assert BO quantifier-repair firewalls and BP lock
+      - name: Verify current 36-09BP
+        run: python3 stages/stage36/verify_stage36_36_09BP.py
+      - name: Assert BP router firewalls and BQ unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -85,29 +77,23 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V104_36_09BO_QUANTIFIER_REPAIR'
-          fail=s['audited_history']['36-09BH-BO_failed_audit']
-          assert fail['review']==5130678946
-          assert fail['audited_exact_head']=='48a57145c54b3cea1e68c6894ab2839fa9d05749'
-          bo=s['authority_frontier']['36-09BO']
-          assert bo['Q_RESERVOIR_LOCAL_LAYER_COMPLETE'] is True
-          assert bo['ALL_BAD_PLACE_LOCAL_SQUARE_LAYERS_CLASSIFIED'] is True
-          assert bo['NO_PARAMETER_SHRINK_ESTABLISHED_AT_CURRENT_CHECKPOINT'] is True
-          assert bo['LOCAL_PARAMETER_ELIMINATION_ROUTE_EXHAUSTED'] is False
-          assert bo['LOCAL_PARAMETER_ELIMINATION_ROUTE_STATUS']=='LIVE_UNTESTED_UNIFORMLY'
-          assert bo['UNIFORM_LOCAL_SURVIVOR_EXISTS_FOR_EVERY_PARAMETER_PROVED'] is False
-          assert bo['LOCAL_RECEIVER_POINT_GATES_RETAINED'] is True
-          assert bo['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert bo['RECEIVER_CLOSED'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V105_36_09BP_GLOBAL_DESCENT_ROUTER'
+          bp=s['authority_frontier']['36-09BP']
+          assert bp['SELECTED_WEAPON']=='S34-W01'
+          assert bp['S34_W01_SHAPE_MATCH'] is True
+          assert bp['EXHAUSTIVE_BRANCH_ADAPTER_MISSING'] is True
+          assert bp['FINITE_EXHAUSTIVE_SQUARECLASS_FAMILY'] is False
+          assert bp['FINITE_EXHAUSTIVE_H1_TWIST_FAMILY'] is False
           assert s['cycle_ledger']['B4_BAD_PRIME_LOCAL']=='LIVE_PARAMETER_ELIMINATION_UNTESTED_UNIFORMLY_RETAINS_RECEIVER_POINT_GATES'
-          assert s['current']['unit']=='36-09BO-REAUDIT-CHECKPOINT'
-          assert s['current']['hostile_audit_checkpoint_reached'] is True
-          assert s['current']['36_09BP_entry_allowed'] is False
-          assert s['promotion_gates']['36_09BO_hostile_reaudit_passed'] is False
-          assert s['promotion_gates']['local_parameter_elimination_route_exhausted'] is False
-          assert s['promotion_gates']['36_09BP_unlocked'] is False
+          assert s['current']['unit']=='36-09BP'
+          assert s['current']['next_exact_leaf']=='36-09BQ_RELATIVE_FACTOR_SQUARECLASS_BRANCH_EXHAUSTIVENESS_PREFLIGHT'
+          assert s['current']['36_09BQ_entry_allowed'] is True
+          assert s['promotion_gates']['36_09BO_hostile_reaudit_passed'] is True
+          assert s['promotion_gates']['36_09BO_merged'] is True
+          assert s['promotion_gates']['finite_exhaustive_squareclass_family'] is False
+          assert s['promotion_gates']['finite_exhaustive_H1_twist_family'] is False
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('36-09BO quantifier repair verified; fixed-p witnesses establish receiver-point dependence only. No parameter shrink at current checkpoint; local parameter elimination remains live/untested uniformly; BP remains re-audit-locked.')
+          print('36-09BP router verified; audited BH-BO promoted, S34-W01 selected only as shape match, exhaustive receiver branch adapter remains BQ, local parameter elimination stays live.')
           PY
           git diff --check
