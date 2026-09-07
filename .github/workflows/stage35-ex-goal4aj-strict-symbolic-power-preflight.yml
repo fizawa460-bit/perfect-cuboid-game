@@ -52,9 +52,9 @@ jobs:
           blob=subprocess.check_output(['git','hash-object',str(probe)],text=True).strip()
           ok=(k.get('schema')=='STAGE35_EX_GOAL4AJ_STRICT_SYMBOLIC_POWER_PREFLIGHT_RUNKEY_V1' and
               k.get('armed') is True and old.get('armed') is False and
-              old.get('generation')==0 and k.get('generation')==1 and
+              old.get('generation')==1 and k.get('generation')==2 and
               k.get('armed_from_head_sha')==os.environ['BEFORE'] and
-              blob==k.get('probe_blob_sha1')=='9a096fad0bd8e90f7f40c54cdce0adbefddad524' and
+              blob==k.get('probe_blob_sha1')=='c04d30af6257ecd82e0334e9bf3143d06f993eba' and
               k.get('planned_jobs')==1 and k.get('planned_shards')==1 and
               k.get('persisted_output_upper_bound_bytes')==32768 and
               k.get('actions_artifact_upload') is False)
