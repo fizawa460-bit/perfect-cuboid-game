@@ -1,0 +1,42 @@
+name: Stage33 V91C1X R5B2D2 swap23 317-cover common-refinement materialize
+
+on:
+  push:
+    branches:
+      - stage33-v91c1x-r5b2d0-swap23-source-lock
+    paths:
+      - '.github/workflows/stage33-v91c1x-r5b2d2-swap23-317-cover-common-refinement-materialize.yml'
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b2d2_swap23_317_cover_common_refinement.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stage33-v91c1x-r5b2d0-swap23-source-lock
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Materialize R5B2D2 common refinement
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b2d2_swap23_317_cover_common_refinement.py --write
+      - name: Bound generated delta
+        run: |
+          git diff --check
+          test "$(git status --porcelain | wc -l)" -eq 1
+          git status --porcelain | grep 'stages/stage33/33-12/e3-v91c1x-r5b2d2-swap23-317-cover-common-refinement.json'
+      - name: Commit exact generated certificate
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add stages/stage33/33-12/e3-v91c1x-r5b2d2-swap23-317-cover-common-refinement.json
+          git commit -m '[Stage33] materialize R5B2D2 swap23 317-cover common refinement'
+          git push origin HEAD:stage33-v91c1x-r5b2d0-swap23-source-lock
