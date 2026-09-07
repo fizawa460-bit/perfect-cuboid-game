@@ -1,0 +1,102 @@
+{
+  "schema": "STAGE36_36_09AI_J1728_CONGRUENT_NUMBER_JACOBIAN_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AI",
+  "status": "EXACT_Q_JACOBIAN_AS_SQUAREFREE_CONGRUENT_NUMBER_CURVE_AND_TWO_COVERING_PENDING_BATCH_AUDIT",
+  "base_main_sha": "9306238c7ada55e31311245019d6b7e474ad837f",
+  "batch_parent": {
+    "pr": 1674,
+    "36_09AH_exact_head": "ab90853e74735a367faa4d98e5c249de3c3a9cd5",
+    "36_09AH_exact_head_ci": "34069620942/101584427296",
+    "authority_scope": "36-09AG and 36-09AH are provisional same-PR inputs; 36-09AB through AF are hostile-audited merged authority"
+  },
+  "source_locks": {
+    "stage36_36_09AH": {
+      "path": "stages/stage36/36-09AH/common-uv-two-quadric-genusone-preflight.json",
+      "blob_sha": "732431bef8dfafe25cbdeb005c4237d72a40ae4b"
+    },
+    "stage36_36_09AH_verifier": {
+      "path": "stages/stage36/verify_stage36_36_09AH.py",
+      "blob_sha": "f5889e32fdeea06e9287e86f45c694df9815dabf"
+    },
+    "stage36_36_09AI_jacobian_source": {
+      "path": "stages/stage36/36-09AI/quadric-intersection-jacobian-source-lock.md",
+      "blob_sha": "5f119e0563f1d60fa4e4c0ee6781d71c0bb6d817"
+    },
+    "S31_W01": {
+      "path": "docs/arsenal/cards/formal/S31-W01.md",
+      "blob_sha": "122a6c1c5c871c1c7b797017e854de8ec55e7c50",
+      "use_status": "NOT_INVOKED_FOR_BIRATIONALITY; current result is a Jacobian/2-covering identification, not C birational E over Q"
+    }
+  },
+  "fisher_specialization": {
+    "rank3_form": "Qminus",
+    "rank_Qminus": 3,
+    "smooth_intersection": true,
+    "coefficient_matrix_determinant": "delta*x*(1-x^2)",
+    "second_derivative_matrix_factor": 16,
+    "factor_16_is_rational_square": true,
+    "delta": "eta*2^(e+f)*A*B*C*D",
+    "two_covering_of_jacobian": true
+  },
+  "jacobian_models": {
+    "pencil_model": "y^2=delta*x*(1-x^2)",
+    "first_change": {"X":"-delta*x","Y":"delta*y"},
+    "short_weierstrass": "Y^2=X^3-delta^2*X",
+    "sign_eta_drops_from_coefficient": true,
+    "short_weierstrass_j": 1728
+  },
+  "squarefree_normalization": {
+    "N": "A*B*C*D",
+    "N_positive_odd_squarefree": true,
+    "g": "(e+f) mod 2",
+    "n": "2^g*A*B*C*D",
+    "n_positive_squarefree": true,
+    "k": "2^floor((e+f)/2)",
+    "absolute_delta": "k^2*n",
+    "scaling_to_normalized_model": {"X":"k^2*X0","Y":"k^3*Y0"},
+    "normalized_jacobian": "E_n: Y0^2=X0^3-n^2*X0",
+    "rational_2torsion_x_coordinates": ["0","n","-n"],
+    "family_type": "squarefree congruent-number elliptic curve family"
+  },
+  "AF_examples": {
+    "B7_branch": {
+      "A":73,"B":7,"C":11,"D":13,"e":1,"f":1,
+      "N":73073,"g":0,"n":73073,
+      "jacobian":"Y^2=X^3-73073^2*X"
+    },
+    "B23_branch": {
+      "A":73,"B":23,"C":11,"D":13,"e":1,"f":1,
+      "N":240097,"g":0,"n":240097,
+      "jacobian":"Y^2=X^3-240097^2*X"
+    },
+    "interpretation": "same mod-8/reservoir skeleton can lead to different squarefree congruent-number Jacobians because actual prime identity is load-bearing"
+  },
+  "route_result": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "Q_jacobian_identified": true,
+    "Q_jacobian_family_fixed": "CONGRUENT_NUMBER_J1728",
+    "two_covering_structure_identified": true,
+    "covering_class_trivialized": false,
+    "Mordell_Weil_rank_classified": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_closed": false,
+    "next_leaf": "36-09AJ_CONGRUENT_NUMBER_2SELMER_COVERING_CLASS_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "Jacobian_has_point_implies_torsor_has_point": false,
+    "Jacobian_positive_rank_implies_torsor_has_point": false,
+    "two_covering_class_trivial": false,
+    "explicit_covering_map_to_E_n_certified": false,
+    "common_uv_rational_point_obtained": false,
+    "coupled_intersection_empty_proved": false,
+    "candidate_parameter_set_shrunk": false,
+    "S34_W03_intersection_exclusion_executed": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

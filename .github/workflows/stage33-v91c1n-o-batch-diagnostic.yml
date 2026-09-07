@@ -1,4 +1,4 @@
-name: Stage33 V91C1N-V fixed-space and source-bound transport diagnostics
+name: Stage33 V91C1N-W retained transport diagnostics
 
 on:
   pull_request:
@@ -11,13 +11,13 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v91c1n-v-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1n-w-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
   exact-diagnostic:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -45,11 +45,15 @@ jobs:
         run: python stages/stage33/33-12/diagnose_e3_v91c1s_swap23_prime_attached_cech_difference.py
       - name: Diagnose V91C1V actual-prime to known140 locator
         run: python stages/stage33/33-12/diagnose_e3_v91c1v_actual_prime_known140_locator.py
-      - name: Verify V91C1V bounded locator certificate
-        run: python stages/stage33/33-12/verify_e3_v91c1v_a2_02_actual_prime_known140_locator_bounded_result.py
-      - name: Verify Stage33 startup authority and V91C1V audit gate
+      - name: Diagnose V91C1W all-eight strict-scheme provenance
+        run: python stages/stage33/33-12/diagnose_e3_v91c1w_all8_strict_scheme_provenance.py
+      - name: Diagnose V91C1W all-eight Picard64 reduction v2
+        run: python stages/stage33/33-12/diagnose_e3_v91c1w_all8_picard64_reduction_v2.py
+      - name: Verify retained V91C1W all-eight Picard64 reduction
+        run: python stages/stage33/33-12/verify_e3_v91c1w_a2_02_all8_picard64_reduction.py
+      - name: Verify Stage33 #1671 audit-repair startup checkpoint
         run: |
-          python stages/stage33/33-12/verify_stage33_v91c1v_candidate_current_startup_v106.py
+          python stages/stage33/33-12/verify_stage33_v91c1w_semantic_bridge_audit_repair_v110.py
           python stages/stage33/sync_main_state.py --check
       - name: Diff hygiene
         run: git diff --check
