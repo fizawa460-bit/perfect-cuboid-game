@@ -1,0 +1,40 @@
+name: Stage32 post1648AZ retained generator inventory
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648az-source-projective-aut-node-adapter
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-az-generator-inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run AZ retained generator inventory
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648az_retained_generator_inventory.py | tee /tmp/az-gens.json
+      - name: Assert bounded inventory
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/az-gens.json'))
+          assert x['mode']=='SCRATCH_POST1648AZ_RETAINED_GENERATOR_INVENTORY'
+          assert x['retained_generator_count']==9
+          assert x['retained_group_order']==1536
+          assert x['sign_kernel_order']==64
+          assert x['firewalls']['raw_generator_semantic_names_assumed'] is False
+          assert x['firewalls']['explicit_48_node_bijection_obtained'] is False
+          print(json.dumps(x['records'],sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
