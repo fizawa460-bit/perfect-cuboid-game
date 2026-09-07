@@ -1,0 +1,35 @@
+name: Stage32 EX6 rank4 fibration orbit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32-ex6/diagnose_stage32_ex6_rank4_fibration_orbit.py'
+      - '.github/workflows/stage32-ex6-rank4-fibration-orbit.yml'
+  workflow_dispatch:
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Run exact rank4 fibration orbit diagnostic
+        run: python3 stages/stage32-ex6/diagnose_stage32_ex6_rank4_fibration_orbit.py | tee /tmp/ex6-rank4.json
+      - name: Show compact decision fields
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/ex6-rank4.json'))
+          print(json.dumps({
+            'representative': x['representative'],
+            'aut_orbit': x['aut_orbit'],
+            'firewalls': x['firewalls'],
+          }, indent=2, sort_keys=True))
+          PY
+      - name: Enforce read-only replay
+        run: git diff --exit-code && test -z "$(git status --porcelain)"
