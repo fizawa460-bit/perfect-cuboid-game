@@ -1,0 +1,34 @@
+name: Stage32 post1648AM Beauville fibration Picard source-lock verifier
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648am-beauville-fibration-picard-recovery
+    paths:
+      - 'stages/stage32/residual-32-01-production/post1648am-beauville-fibration-picard-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1648am-beauville-fibration-picard-source-lock.json'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648am_beauville_fibration_picard_source_lock.py'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1648am_beauville_fibration_picard_recovery.py'
+      - 'stages/stage32/residual-32-01-production/post1648am-beauville-fibration-picard-recovery-diagnostic.json'
+      - '.github/workflows/stage32-post1648am-beauville-fibration-picard-source-lock-scratch.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-am-source-lock:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+      - name: Install exact verifier dependency
+        run: python3 -m pip install sympy
+      - name: Verify AM semantic fibre-class lock
+        run: python3 stages/stage32/residual-32-01-production/verify_stage32_post1648am_beauville_fibration_picard_source_lock.py
+      - name: Diff hygiene
+        run: git diff --check
