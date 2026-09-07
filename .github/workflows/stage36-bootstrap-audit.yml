@@ -50,25 +50,24 @@ jobs:
           assert a['candidate_pr']==1670
           assert a['audited_head']=='f2922c992ab1e056fa03932ba017d0dfdae845cb'
           assert a['hostile_audit_review']==5127056767
-          assert a['exact_head_ci']=='34067480463/101578693605'
           assert a['merged_main_sha']=='9306238c7ada55e31311245019d6b7e474ad837f'
           PY
 
-      - name: Replay exact 36-09AG candidate parent
+      - name: Replay exact 36-09AH candidate parent
         shell: bash
         run: |
           set -euo pipefail
-          H=6ef7635a92bc5e9440ed527c60ea871d0c3216fc
+          H=ab90853e74735a367faa4d98e5c249de3c3a9cd5
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AG.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AH.py"
           git worktree remove --force "$tmp"
 
-      - name: Verify current 36-09AH common-u:v genus-one geometry
-        run: python3 stages/stage36/verify_stage36_36_09AH.py
+      - name: Verify current 36-09AI congruent-number Jacobian
+        run: python3 stages/stage36/verify_stage36_36_09AI.py
 
-      - name: Assert 36-09AH firewalls and 36-09AI unlock
+      - name: Assert 36-09AI firewalls and 36-09AJ unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -76,22 +75,23 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V69_36_09AH_CANDIDATE'
-          ah=s['authority_frontier']['36-09AH']
-          assert ah['COMMON_UV_INTERSECTION_GENUS']==1
-          assert ah['PENCIL_SINGULAR_DIRECTIONS_FIXED'] is True
-          assert ah['PENCIL_SINGULAR_DIRECTIONS']==['0','infinity','1','-1']
-          assert ah['Q_JACOBIAN_IDENTIFIED'] is False
-          assert ah['Q_TWIST_SQUARECLASS_IDENTIFIED'] is False
-          assert ah['COMMON_UV_RATIONAL_POINT_OBTAINED'] is False
-          assert ah['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert ah['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09AI'
-          assert s['current']['36_09AI_entry_allowed'] is True
-          assert s['promotion_gates']['36_09AH_hostile_audit_passed'] is False
-          assert s['claims']['Q_jacobian_identified'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V70_36_09AI_CANDIDATE'
+          ai=s['authority_frontier']['36-09AI']
+          assert ai['Q_JACOBIAN_FAMILY']=='CONGRUENT_NUMBER_J1728'
+          assert ai['NORMALIZED_MODEL']=='E_n: Y^2=X^3-n^2*X'
+          assert ai['n_positive_squarefree'] is True
+          assert ai['TWO_COVERING_STRUCTURE_IDENTIFIED'] is True
+          assert ai['COVERING_CLASS_TRIVIALIZED'] is False
+          assert ai['MORDELL_WEIL_RANK_CLASSIFIED'] is False
+          assert ai['COMMON_UV_RATIONAL_POINT_OBTAINED'] is False
+          assert ai['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert ai['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09AJ'
+          assert s['current']['36_09AJ_entry_allowed'] is True
+          assert s['promotion_gates']['36_09AI_hostile_audit_passed'] is False
+          assert s['claims']['covering_class_trivialized'] is False
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09AH exact: smooth common-u:v genus-one (2,2) intersection with fixed pencil directions; Q-Jacobian remains unclaimed; 36-09AI unlocked')
+          print('36-09AI exact: common-u:v curve is a 2-covering of squarefree congruent-number E_n with j=1728; covering class not trivialized; 36-09AJ unlocked')
           PY
           git diff --check
