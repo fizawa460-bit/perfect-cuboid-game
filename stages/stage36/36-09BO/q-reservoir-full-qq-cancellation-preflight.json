@@ -1,10 +1,11 @@
 {
-  "schema":"STAGE36_36_09BO_Q_RESERVOIR_FULL_QQ_CANCELLATION_PREFLIGHT_V1",
+  "schema":"STAGE36_36_09BO_Q_RESERVOIR_FULL_QQ_CANCELLATION_PREFLIGHT_V2",
   "stage":"36",
   "unit":"36-09BO",
-  "status":"EXACT_Q_RESERVOIR_FULL_QQ_LOCAL_LAYER_COMPLETE_PARAMETER_ONLY_FILTER_BLOCKED_AUDIT_CHECKPOINT",
+  "status":"EXACT_Q_RESERVOIR_FULL_QQ_LOCAL_LAYER_COMPLETE_NO_PARAMETER_SHRINK_CURRENT_CHECKPOINT_PENDING_REAUDIT",
   "base_main_sha":"e758e05953df2cf8cd4ab26ac1e9d72374e99760",
   "batch_parent":{"pr":1691,"36_09BN_exact_head":"7d9d6e3b1011715c5884a2da0a642892d8cf3984","36_09BN_exact_head_ci":"34108363855/101698552520"},
+  "hostile_audit_repair":{"failed_review":5130678946,"failed_exact_head":"48a57145c54b3cea1e68c6894ab2839fa9d05749","failure":"fixed-parameter pass/fail separation proves receiver-point dependence but does not prove uniform survival for every parameter and therefore does not exhaust local parameter elimination","repair":"retain every local taxonomy and gate; weaken only the aggregate quantifier and route status"},
   "source_locks":{
     "stage36_36_09BN":{"path":"stages/stage36/36-09BN/old-six-tie-normalized-unit-residue-preflight.json","blob_sha":"c64ad051bb1466aa05dfb0cf638b9e7759766ed9"},
     "stage36_36_09BN_verifier":{"path":"stages/stage36/verify_stage36_36_09BN.py","blob_sha":"1013bad8244708d84aa99908c1fcbeb2c7af6353"},
@@ -42,27 +43,35 @@
     "pass":{"u":26,"v":1,"R":1,"S":0,"tie":"Gplus","AY_minus":"-225","AY_plus":"677/2","Gminus":"-11041","Gplus":"33125/2","both_full_cover_Q5_squares":true,"zplus2_minus_1":"-1325/648","diagnostic":"v5=2 and normalized unit is a residue"},
     "fail":{"u":1,"v":18,"R":0,"S":1,"tie":"Gminus","AY_minus":"323/3","AY_plus":"325/2","Gminus":"275/3","Gplus":"373/2","Gminus_Q5_square":false,"Gplus_Q5_square":true,"zminus2_minus_1":"11/312","diagnostic":"v5=0 and normalized unit is a nonresidue"},
     "same_parameter_Q_reservoir_has_pass_and_fail":true,
+    "proved_quantifier":"for p=1/2, the Q-reservoir local gate is not determined by the parameter alone; it depends on the retained local receiver branch",
+    "not_proved_quantifier":"for every retained parameter p there exists a retained local receiver branch satisfying all relevant local gates",
     "retained_open_checked":"both witnesses have t=v/u not in {0,+1,-1} and lambda*t not in {+1,-1} for lambda=-1/7"
   },
   "combined_bad_place_local_status":{
     "good_odd_primes":"BC proves punctured boundary-neighborhood Q_ell points exist at good odd primes",
-    "prime2":"BI/BJ give complete valuation+unit receiver gates; BK blocks standalone parameter-only use by same-parameter separation",
-    "old_six_odd":"BM/BN complete non-tie and tie square criteria; BN blocks standalone parameter-only use by same-parameter alpha/beta separation",
-    "Q_reservoir_odd":"BO completes non-tie and tie square criteria; same-parameter q=5 separation blocks standalone parameter-only use",
-    "bad_place_parameter_only_local_route_status":"BLOCKED",
+    "prime2":"BI/BJ classify valuation+unit receiver gates; BK gives fixed-p pass/fail separation and therefore receiver-point dependence, but no uniform theorem deciding parameter elimination",
+    "old_six_odd":"BM/BN classify non-tie and tie square criteria; fixed-p alpha/beta separation proves receiver-point dependence, not uniform survival for every parameter",
+    "Q_reservoir_odd":"BO classifies non-tie and tie square criteria; fixed-p q=5 separation proves receiver-point dependence, not uniform survival for every parameter",
+    "no_parameter_shrink_established_at_current_checkpoint":true,
+    "local_parameter_elimination_route_status":"LIVE_UNTESTED_UNIFORMLY",
+    "uniform_local_survivor_existence_for_every_parameter_proved":false,
     "local_receiver_point_gates_retained":true,
     "all_bad_place_local_square_layers_classified":true
   },
   "route_result":{
-    "route_status":"BLOCKED_AS_STANDALONE_PARAMETER_FILTER_ALL_BAD_PLACE_LOCAL_LAYERS_CLASSIFIED",
+    "route_status":"NO_PARAMETER_SHRINK_ESTABLISHED_AT_CURRENT_CHECKPOINT",
+    "local_parameter_elimination_route_exhausted":false,
+    "local_parameter_elimination_route_status":"LIVE_UNTESTED_UNIFORMLY",
     "candidate_parameter_set_shrunk":false,
     "receiver_closed":false,
     "natural_hostile_audit_checkpoint":true,
     "next_leaf_after_audit":"36-09BP_FULL_COVER_GLOBAL_DESCENT_ROUTER_PREFLIGHT",
-    "selection_reason":"good-prime, prime-2, old-six odd, and Q-reservoir odd local square layers are now exact; all surviving local conditions depend on receiver points rather than yielding a standalone parameter exclusion, so any next advance must combine them with global full-cover/AY point control or another receiver-matched global method"
+    "selection_reason":"all currently targeted local square layers are classified and no parameter shrink has been obtained at this checkpoint; BP is prioritized as the next global receiver-control route, without claiming that a future uniform local parameter elimination argument is impossible or exhausted"
   },
   "scope_firewalls":{
     "all_parameters_locally_soluble_everywhere":false,
+    "uniform_local_survivor_exists_for_every_parameter":false,
+    "local_parameter_elimination_exhausted":false,
     "local_receiver_point_gates_useless":false,
     "adelic_combination_exhausted":false,
     "full_cover_global_descent_executed":false,
