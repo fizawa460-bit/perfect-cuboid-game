@@ -19,6 +19,8 @@ jobs:
           fetch-depth: 1
       - name: Assert exact head
         run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
       - name: Run AW retained exceptional action preflight
         run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648aw_retained_exceptional_action_preflight.py | tee /tmp/aw.json
       - name: Assert bounded output
