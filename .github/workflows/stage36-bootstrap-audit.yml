@@ -35,59 +35,30 @@ jobs:
           assert s['base_main_sha']==sys.argv[1]
           assert s['freshness']['current_main']==sys.argv[1]
           assert s['freshness']['stage36_source_drift'] is False
-          assert s['freshness']['sync_required_before_audit'] is False
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Assert hostile-audited merged AP-AU authority
+      - name: Assert hostile-audited merged AV-AY authority
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
           import json
           from pathlib import Path
-          a=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())['audited_history']['36-09AP-AU']
-          assert a['pr']==1680
-          assert a['audited_head']=='9aa2e4c06240bbf1f6260dd2c11c3d622119f16f'
-          assert a['hostile_audit_review']==5128229756
-          assert a['exact_head_ci']=='34085000175/101627220799'
-          assert a['merged_main_sha']=='d43db1874b0e657143fa07b1a16eb87fc27e0238'
+          a=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())['audited_history']['36-09AV-AY']
+          assert a['pr']==1683
+          assert a['audited_head']=='c09f264e4becbc4c7f06145b32ce366b2d4d7a4f'
+          assert a['hostile_audit_review']==5128446584
+          assert a['exact_head_ci']=='34087344920/101633809000'
+          assert a['merged_main_sha']=='b7a045b7c910a3e01d3826556cd71019af15418f'
           PY
-          git merge-base --is-ancestor d43db1874b0e657143fa07b1a16eb87fc27e0238 HEAD
-          test "$(git rev-parse HEAD:stages/stage36/36-09AD/coupled-six-reservoir-factor-squareclass-parity-preflight.json)" = "9d0388845955efee71d1a761ae4ee943d8b565d5"
-      - name: Replay exact 36-09AV checkpoint
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=b1b716f955d1a0b50bb5633364896b2f140d3f00
-          git cat-file -e "$H^{commit}"
-          git merge-base --is-ancestor "$H" HEAD
-          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AV.py"
-          git worktree remove --force "$tmp"
-      - name: Replay exact 36-09AW checkpoint
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=40befe5dc8362444a127e066d6cfdbe4a6171943
-          git cat-file -e "$H^{commit}"
-          git merge-base --is-ancestor "$H" HEAD
-          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AW.py"
-          git worktree remove --force "$tmp"
-      - name: Replay exact 36-09AX checkpoint
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=97e3f4bfc4345b05b74e9baf780ed8ff1baf38cb
-          git cat-file -e "$H^{commit}"
-          git merge-base --is-ancestor "$H" HEAD
-          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AX.py"
-          git worktree remove --force "$tmp"
-      - name: Verify current 36-09AY universal boundary survivor
-        run: python3 stages/stage36/verify_stage36_36_09AY.py
-      - name: Assert AY audit checkpoint firewalls
+          git merge-base --is-ancestor b7a045b7c910a3e01d3826556cd71019af15418f HEAD
+          test "$(git rev-parse HEAD:stages/stage36/36-09AY/universal-boundary-tunnell-survivor-preflight.json)" = "add18004debf95a218a6393f6c2f18f2bd4f7e10"
+          test "$(git rev-parse HEAD:stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json)" = "ddae37dd35cd0e732cebadf9c17f3f3fa57930df"
+          test "$(git rev-parse HEAD:stages/stage36/36-09AC/same-x-separate-squareclass-double-cover-preflight.json)" = "3e95cc443bb9de9e0d2b14d6d9c32ea7c1953021"
+      - name: Verify current 36-09AZ coordinate-level open refinement
+        run: python3 stages/stage36/verify_stage36_36_09AZ.py
+      - name: Assert AZ firewalls and BA unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -95,22 +66,19 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V87_36_09AY_AUDIT_CHECKPOINT'
-          assert s['status']=='ACTIVE_BATCH_HOSTILE_AUDIT_CHECKPOINT'
-          ay=s['authority_frontier']['36-09AY']
-          assert ay['UNIVERSAL_BOUNDARY_TUNNELL_SURVIVOR'] is True
-          assert ay['AW_ZERO_SURVIVOR_FIXED_P_EXCLUSION_STRUCTURALLY_IMPOSSIBLE'] is True
-          assert ay['BOUNDARY_SURVIVOR_IS_RETAINED_RECEIVER'] is False
-          assert ay['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert ay['RECEIVER_CLOSED'] is False
-          assert ay['HOSTILE_AUDIT_PASSED'] is False
-          assert s['current']['unit']=='36-09AY-AUDIT-CHECKPOINT'
-          assert s['current']['next_owner']=='HOSTILE_AUDIT'
-          assert s['current']['hostile_audit_checkpoint_reached'] is True
-          assert s['current']['36_09AZ_entry_allowed'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V88_36_09AZ_CANDIDATE'
+          assert s['status']=='ACTIVE_BATCHING_SUBSTANTIVE_PR'
+          az=s['authority_frontier']['36-09AZ']
+          assert az['UNIQUE_PRIMITIVE_LMINUS_BOUNDARY'] is True
+          assert az['COORDINATE_LEVEL_OPEN_REFINEMENT'] is True
+          assert az['BRANCH_LABEL_DELETION_VALID'] is False
+          assert az['TUNNELL_DETECTS_OPEN_INEQUALITY'] is False
+          assert az['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert az['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09BA'
+          assert s['current']['36_09BA_entry_allowed'] is True
           assert s['claims']['receiver_emptiness_proved'] is False
-          assert s['claims']['R29_CAMP2_closed'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09AY checkpoint verified; universal X=K boundary survivor blocks Tunnell-only fixed-p zero sieve; AZ locked pending hostile audit')
+          print('36-09AZ verified; one primitive X=K boundary point is classified, but the AY squareclass tuple cannot be deleted; BA open rational-point classification unlocked')
           PY
           git diff --check
