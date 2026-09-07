@@ -38,36 +38,31 @@ jobs:
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
 
-      - name: Assert hostile-audited PR1670 authority promotion
+      - name: Assert hostile-audited PR1674 promotion authority
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import json
+          import json,subprocess
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
           a=s['audited_batch_promotion']
-          assert a['candidate_pr']==1670
-          assert a['audited_head']=='f2922c992ab1e056fa03932ba017d0dfdae845cb'
-          assert a['hostile_audit_review']==5127056767
-          assert a['merged_main_sha']=='9306238c7ada55e31311245019d6b7e474ad837f'
+          assert a['candidate_pr']==1674
+          assert a['audited_head']=='4bfec87e1ce85608f87fc57e884fc026b5a715b8'
+          assert a['hostile_audit_review']==5127180987
+          assert a['exact_head_ci']=='34070010830/101585489611'
+          assert a['merged_main_sha']=='652cbd51cd6b546f2a178597f7f2d3474c92b1c6'
+          base=a['merged_main_sha']
+          def rev(path):
+              return subprocess.check_output(['git','rev-parse',f'{base}:{path}'],text=True).strip()
+          assert rev('stages/stage36/36-09AI/j1728-congruent-number-jacobian-preflight.json')=='c5af6c4dde67532ea8d592e74aed187c72bbed4e'
+          assert rev('stages/stage36/36-09AH/common-uv-two-quadric-genusone-preflight.json')=='732431bef8dfafe25cbdeb005c4237d72a40ae4b'
           PY
 
-      - name: Replay exact 36-09AI candidate checkpoint
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=8c84ca4ea7676029d6580ae433b506eaa9cc067b
-          git merge-base --is-ancestor "$H" HEAD
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AI.py"
-          git worktree remove --force "$tmp"
+      - name: Verify current 36-09AJ exact full-2 covering class
+        run: python3 stages/stage36/verify_stage36_36_09AJ.py
 
-      - name: Verify AG-AI hostile-audit checkpoint state
-        run: python3 stages/stage36/verify_stage36_36_09AI_checkpoint.py
-
-      - name: Assert checkpoint firewalls and AJ lock
+      - name: Assert 36-09AJ firewalls and 36-09AK unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -75,17 +70,19 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V71_36_09AI_BATCH_AUDIT_CHECKPOINT'
-          assert s['status']=='ACTIVE_BATCH_HOSTILE_AUDIT_CHECKPOINT'
-          assert s['current']['unit']=='36-09AI-AUDIT-CHECKPOINT'
-          assert s['current']['next_owner']=='HOSTILE_AUDIT'
-          assert s['current']['hostile_audit_checkpoint_reached'] is True
-          assert s['current']['36_09AJ_entry_allowed'] is False
-          assert s['promotion_gates']['36_09AI_hostile_audit_passed'] is False
-          assert s['claims']['covering_class_trivialized'] is False
-          assert s['claims']['candidate_parameter_set_shrunk'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V72_36_09AJ_CANDIDATE'
+          assert s['status']=='ACTIVE_BATCHING_SUBSTANTIVE_PR'
+          aj=s['authority_frontier']['36-09AJ']
+          assert aj['H1_FULL2_CLASS_IDENTIFIED'] is True
+          assert aj['SELMER_MEMBERSHIP_PROVED'] is False
+          assert aj['COVERING_LOCALLY_SOLVABLE_EVERYWHERE_PROVED'] is False
+          assert aj['COVERING_CLASS_TRIVIALIZED'] is False
+          assert aj['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert aj['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09AK'
+          assert s['current']['36_09AK_entry_allowed'] is True
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('AG-AI hostile-audit checkpoint reached; AJ locked; receiver and endpoint firewalls remain closed')
+          print('36-09AJ exact H1/full-2 class verified; Selmer/MW/receiver firewalls intact; 36-09AK unlocked')
           PY
           git diff --check
