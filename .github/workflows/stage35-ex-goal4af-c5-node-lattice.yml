@@ -56,7 +56,7 @@ jobs:
           gal=Path('stages/stage33/33-07/galois-known-class-permutations.json')
           new=json.loads(key.read_text())
           assert new['schema']=='STAGE35_EX_GOAL4AF_C5_NODE_LATTICE_RUNKEY_V1'
-          assert new['armed'] is True and new['generation']==4
+          assert new['armed'] is True and new['generation']==5
           assert new['route']=='LOCAL_SOURCE_SIGN_PLUS_GALOIS_STABILIZER'
           assert new['upstream_git_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
           def blob(p):
@@ -65,7 +65,7 @@ jobs:
           assert blob(node)==new['generation1_diagnostic_blob_sha1']=='aa43bc38d799ab78cf0252830718979b15fa54fc'
           assert blob(sign)==new['generation2_diagnostic_blob_sha1']=='732332e94f1346b03d91425bb664905d3f440c44'
           assert blob(gal)==new['stage33_galois_permutation_blob_sha1']=='f277939b7f258928f484d2b970d4dfb2ec6133a8'
-          assert blob(diag)==new['diagnostic_blob_sha1']=='3073aa3ff1d40f1f05276034c9490c4bfa6ae55a'
+          assert blob(diag)==new['diagnostic_blob_sha1']=='09888a5163e9613ed4969678d4f6e4034e16802e'
           assert new['planned_jobs']==1 and new['planned_shards']==1
           assert new['persisted_output_upper_bound_bytes']<=65536
           assert new['projected_peak_actions_storage_bytes']<=1048576
@@ -73,9 +73,8 @@ jobs:
           before='${{ github.event.before }}'
           oldtxt=subprocess.check_output(['git','show',f'{before}:{key.as_posix()}'],text=True)
           old=json.loads(oldtxt)
-          assert int(old['generation'])==3 and new['generation']>int(old['generation'])
-          assert old['diagnostic_blob_sha1']=='122731f6c9cb63471ab584eb6d25aecb33d4481f'
-          print('GOAL4AF_GALOIS_STABILIZER_RUNKEY_AUTHORIZED=true')
+          assert int(old['generation'])==4 and new['generation']>int(old['generation'])
+          print('GOAL4AF_GALOIS_STABILIZER_G5_RUNKEY_AUTHORIZED=true')
           PY
           echo 'authorized=true' >> "$GITHUB_OUTPUT"
 
@@ -123,5 +122,5 @@ jobs:
               assert d['galois_stabilizer_augmented_rank']<64
               assert d['pair_count']==0
               assert d['goal4ac_residual_pair_count']==0
-          print('GOAL4AF_GALOIS_STABILIZER_DIAGNOSTIC_BOUNDARY=PASS')
+          print('GOAL4AF_GALOIS_STABILIZER_G5_DIAGNOSTIC_BOUNDARY=PASS')
           PY
