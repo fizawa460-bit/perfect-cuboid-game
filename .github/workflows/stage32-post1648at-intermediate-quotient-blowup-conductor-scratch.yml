@@ -1,0 +1,25 @@
+name: Stage32 post1648AT intermediate quotient blowup conductor
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648at-intermediate-quotient-blowup-conductor
+
+permissions:
+  contents: read
+
+jobs:
+  verify-at-intermediate-quotient:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Run AT final verifier
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648at_intermediate_quotient_blowup_conductor.py
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
