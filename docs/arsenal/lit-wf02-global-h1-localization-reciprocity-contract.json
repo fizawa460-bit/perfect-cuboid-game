@@ -1,5 +1,7 @@
 {
-  "schema": "LIT-WF02-GLOBAL-H1-LOCALIZATION-RECIPROCITY-CONTRACT-V1",
+  "schema": "LIT-WF02-GLOBAL-H1-LOCALIZATION-RECIPROCITY-CONTRACT-V2",
+  "package_schema": "LIT-WF02-GLOBAL-H1-LOCALIZATION-PACKAGE-V2",
+  "immutable_pass_evidence_schema": "LIT-WF02-IMMUTABLE-MATHEMATICAL-PASS-EVIDENCE-V1",
   "stable_id": "LIT-WF02",
   "candidate_id": "GLOBAL-H1-LOCALIZATION-RECIPROCITY-AUDIT",
   "role": "GLOBAL_H1_LOCALIZATION_RECIPROCITY_APPLICABILITY_WORKFLOW",
@@ -8,21 +10,28 @@
   "source_stage": "Stage36 Literature Strengthening",
   "discovery_pr": 1690,
   "discovery_exact_head": "f1a2d3074e802b0fd4555cb827e165c3de2bdfc9",
+  "phase3_freeze_path": "docs/arsenal/literature-stage36-hostile-freeze.json",
+  "phase3_freeze_blob_sha": "d3f90093c0a6655da9874c9141b15ab4682c4409",
   "arsenal_base_main": "386b6a52d7bfec2e8903412c7ca56976b46c288b",
   "stage36_arsenal_source_head": "2fc3f4b8afb28bb23765bd861cbd7c52aafd6563",
-  "contract": "repo local rows/charts -> identify one fixed global H1/Kummer module/class system -> prove every retained local row/chart is its exact localization/evaluation -> certify field, finite-support-if-used, dyadic, real and exceptional-place normalization -> bind exact literature theorem inputs -> emit PASS typed global-local package or FAIL_CLOSED at the first missing obligation",
+  "phase3_exact_reusable_contract": "proposed global module/class + repo local rows/charts -> verify one global class identity, every localization, 2/infinity normalization, support/field/theorem hypotheses -> PASS typed package or FAIL_CLOSED layer",
+  "contract": "repo local rows/charts -> bind one fixed global H1/Kummer module/class to immutable construction evidence -> execute its mathematical verifier -> bind every retained local row/chart to immutable localization evidence -> execute every localization verifier -> execute an independently source-derived required-place inventory verifier -> certify field/support/dyadic/real normalization -> bind Serre/Milne exactly to the Phase3 freeze and execute theorem-hypothesis verifiers -> execute the global adapter mathematical verifier -> only then emit PASS; otherwise FAIL_CLOSED at the first missing or mismatched obligation",
   "hypotheses": [
-    "one named global finite module/class over one fixed global field",
-    "source-to-global construction is explicitly bound",
-    "every retained local row/chart is bound to an exact localization/evaluation",
-    "all required finite, dyadic and real places are accounted for",
-    "finite-support assumptions are proved when invoked",
+    "one named global finite module/class over one fixed global field with immutable construction evidence",
+    "source-to-global construction mathematical verifier executes successfully at its exact committed blob/head",
+    "every retained local row/chart has immutable localization evidence and its mathematical verifier executes successfully",
+    "an independently verified required-place inventory exactly equals the localization place set",
+    "all required finite, dyadic and real places are explicitly accounted for",
+    "finite-support assumptions have immutable proof evidence and an executed verifier when invoked",
     "field-change semantics are explicit",
-    "the selected literature theorem hypotheses are checked independently of repo adapter provenance"
+    "Serre/Milne theorem locators and hypotheses match the Phase3 freeze",
+    "literature-hypothesis evidence is immutable and each hypothesis verifier executes successfully",
+    "the separately bound global adapter mathematical verifier executes successfully"
   ],
   "applicability": "repo branches attempting to upgrade local character/Kummer data to Hilbert reciprocity, Selmer conditions or global-duality theorem inputs",
   "do_not_use_for": [
     "constructing a missing global H1/Kummer class from local compatibility",
+    "treating path strings, 40-character strings or boolean true flags as proof evidence",
     "calling the Hilbert product formula a contradiction",
     "turning local admissibility into a rational point",
     "descending extension-field data without a descent proof",
@@ -41,7 +50,7 @@
       "year": 1973,
       "doi": "10.1007/978-1-4684-9884-4",
       "canonical_url": "https://doi.org/10.1007/978-1-4684-9884-4",
-      "theorem_identifier": "Chapter III, Theorems 2-4",
+      "theorem_identifier": "Chapter III Theorems 2-4",
       "conclusion_summary": "Hilbert pairing, product formula and simultaneous global realizability/compatibility statements for fixed global squareclass data.",
       "source_type": "authoritative monograph",
       "journal_or_publisher": "Springer, Graduate Texts in Mathematics 7",
@@ -68,17 +77,61 @@
     "global_field",
     "global_module_or_class",
     "source_binding",
+    "required_place_inventory",
     "localizations",
     "required_places_complete",
     "dyadic_handled",
     "real_places_handled",
     "field_change_semantics",
     "literature_bindings",
-    "adapter_mathematical_verifier"
+    "adapter_mathematical_verifier",
+    "adapter_mathematical_evidence",
+    "adapter_subject",
+    "claims"
   ],
-  "pass_semantics": "PASS certifies only that a separately proved repo global-class/localization adapter has been packaged with the exact literature-theorem inputs. PASS does not prove the adapter mathematics, the cited theorem, a reciprocity contradiction, a Selmer obstruction, a rational-point statement or a Stage36 endpoint.",
-  "fail_semantics": "Any missing global object, localization, place, support proof, field binding, theorem-hypothesis check or adapter mathematical verifier yields FAIL_CLOSED with the first missing obligation.",
-  "repo_adapter": "The workflow audits adapter readiness and typed theorem input. It does not construct DYNAMIC_RESERVOIR_ROWS_TO_GLOBAL_KUMMER_LOCALIZATION_SYSTEM or POINTWISE_CHART_TUPLE_TO_GLOBAL_KUMMER_OR_TORSOR_CLASS.",
+  "immutable_binding_requirements": {
+    "source_binding": [
+      "path",
+      "blob_sha",
+      "exact_head"
+    ],
+    "proof_evidence": [
+      "path",
+      "blob_sha",
+      "exact_head"
+    ],
+    "mathematical_verifier": [
+      "path",
+      "blob_sha",
+      "exact_head"
+    ],
+    "blob_rule": "claimed blob_sha must equal git rev-parse <exact_head>:<path>; a syntactically valid 40-hex string is never sufficient",
+    "verifier_evidence_head_rule": "each proof verifier and its evidence must be committed at the same exact_head"
+  },
+  "mathematical_verifier_protocol": {
+    "invocation": "python <bound verifier blob> --verify-evidence <bound immutable JSON evidence blob> --json",
+    "timeout_seconds": 120,
+    "required_final_json": {
+      "schema": "LIT-WF02-IMMUTABLE-MATHEMATICAL-PASS-EVIDENCE-V1",
+      "status": "PASS",
+      "subject": "must equal the package-bound subject",
+      "verifier_path": "must equal the bound verifier path",
+      "verifier_blob_sha": "must equal the Git-resolved verifier blob",
+      "evidence_path": "must equal the bound evidence path",
+      "evidence_blob_sha": "must equal the Git-resolved evidence blob",
+      "exact_head": "must equal the bound verifier/evidence exact head"
+    },
+    "nonzero_exit_or_output_mismatch": "FAIL_CLOSED"
+  },
+  "literature_binding_rule": "PASS requires both Phase3-frozen entries (Serre Chapter III Theorems 2-4 and Milne Theorem I.4.10), exact title/theorem/canonical locator/DOI/hypothesis/conditional-assumption equality, plus immutable hypothesis evidence whose mathematical verifier executes successfully.",
+  "place_completeness_rule": "required_places_complete=true is necessary but never sufficient: an independently verified immutable required-place inventory must exist and its exact place set must equal the localization set, with dyadic and real/archimedean places explicitly named.",
+  "self_check_is_applicability_pass": false,
+  "self_check_semantics": "--self-check validates contract/freeze/provenance machinery and adversarial fake-SHA rejection only; it emits SELF_CHECK_OK, never applicability PASS.",
+  "current_stage36_applicability_status": "FAIL_CLOSED_MISSING_GLOBAL_CLASS_AND_LOCALIZATION_ADAPTER_EVIDENCE",
+  "current_stage36_status_reason": "Phase3 explicitly freezes the Stage36 chart-to-global-H1 adapter and dynamic-reservoir-to-global-localization system as missing. #1692 therefore registers the workflow but does not contain a Stage36 LIT-WF02 PASS package.",
+  "pass_semantics": "PASS certifies that the repo has supplied immutable evidence for one global class/module, exact localizations and required-place completeness, that all bound method-specific mathematical verifiers executed successfully from the claimed Git blobs, and that literature theorem bindings/hypotheses match the Phase3 freeze. PASS still does not re-prove the literature theorem or grant receiver/local-global/endpoint credit.",
+  "fail_semantics": "Any missing or mismatched Git object, unexecuted/failing evidence verifier, missing global object, localization, place, support proof, field binding, theorem-hypothesis evidence, literature-freeze mismatch or adapter mathematical verifier yields FAIL_CLOSED with the first missing obligation.",
+  "repo_adapter": "The workflow verifies an already-implemented adapter through immutable evidence and executable mathematical verifiers. It does not construct DYNAMIC_RESERVOIR_ROWS_TO_GLOBAL_KUMMER_LOCALIZATION_SYSTEM or POINTWISE_CHART_TUPLE_TO_GLOBAL_KUMMER_OR_TORSOR_CLASS.",
   "verifier": "docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py",
   "credit_firewall": {
     "repo_theorem_credit": false,
