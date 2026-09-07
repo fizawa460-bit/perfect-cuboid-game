@@ -1,52 +1,141 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V76_36_09AN_BATCH_AUDIT_CHECKPOINT",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V78_36_09AP_RECONCILED_CANDIDATE",
   "stage": "36",
-  "status": "ACTIVE_BATCH_HOSTILE_AUDIT_CHECKPOINT",
-  "base_main_sha": "24215fa27a631cd3cb370c0dfd76866dd2e916f1",
+  "status": "ACTIVE_BATCHING_SUBSTANTIVE_PR",
+  "base_main_sha": "6b6c541d1a6bbe229381ac0400148bd17523ca06",
   "mission": "Attack K16-C3-CAMPEDELLI-UNIFORM-TORSOR through exact receiver-matched arithmetic; keep receiver/theorem/endpoint credit behind hostile audit.",
-  "previous_audited_promotion": {"candidate_pr":1674,"audited_head":"4bfec87e1ce85608f87fc57e884fc026b5a715b8","hostile_audit_review":5127180987,"merged_main_sha":"652cbd51cd6b546f2a178597f7f2d3474c92b1c6"},
-  "audited_batch_promotion": {"candidate_pr":1677,"audited_head":"56f815b9bc25ca91a2ba6e0c0291664bfeac733d","hostile_audit_review":5127436589,"exact_head_ci":"34074355295/101597480228","merged_main_sha":"58e81a647b63bcea17ab396409c2813b667f45e2","scope":"36-09AJ through 36-09AL"},
+  "audited_history": {
+    "36-09U-AF": {"status":"AUDITED_MERGED_AUTHORITY"},
+    "36-09AG-AI": {"status":"AUDITED_MERGED_AUTHORITY"},
+    "36-09AJ-AL": {"status":"AUDITED_MERGED_AUTHORITY","pr":1677,"hostile_audit_review":5127436589,"merged_main_sha":"58e81a647b63bcea17ab396409c2813b667f45e2"},
+    "36-09AM-AN": {"status":"AUDITED_MERGED_AUTHORITY_POST_MERGE_AUDIT","pr":1679,"audited_head":"12716259951f02589ecfaf6ac8f9670b7a23f06f","hostile_audit_review":5127771308,"exact_head_ci":"34076440104/101603376687","merged_main_sha":"6b6c541d1a6bbe229381ac0400148bd17523ca06"},
+    "parallel-36-09AO": {"status":"AUDITED_EXACT_PAYLOAD_RECONCILED","pr":1680,"audited_head":"f5db4fc0aafdc61f931b6499afb18c1966c1f99d","hostile_audit_review":5127677576,"exact_head_ci":"34077287921/101605797971","reconcile_merge_commit":"7c0059ccfd67dbf939a36b083fe3ba70d64a42b5","controller_precedence":"current-main PR1679 AM/AN semantics dominate; only exact AO certificate/source payload is imported"}
+  },
   "source_kernel": {"kernel":"K16-C3-CAMPEDELLI-UNIFORM-TORSOR","receiver":"R29-CAMP2","parent":"Q11-CAMPEDELLI","H":"(Z/2)^3","quotient_degree":8},
   "authority_frontier": {
-    "36-09U-AF":{"status":"AUDITED_MERGED_AUTHORITY"},
-    "36-09AG-AI":{"status":"AUDITED_MERGED_AUTHORITY"},
-    "36-09AJ-AL":{"status":"AUDITED_MERGED_AUTHORITY","hostile_audit_review":5127436589,"merged_main_sha":"58e81a647b63bcea17ab396409c2813b667f45e2"},
-    "36-09AM":{"status":"EXACT_TUNNELL_FAIL_RANKZERO_SHA2_SIEVE_WITH_FOUR_TORSION_SECTORS_PENDING_BATCH_AUDIT","exact_head":"46b426a393ee2eb027305f9c45f248008ff02fec","exact_head_ci":"34075630812","certificate_blob_sha":"6d9e9392df8fc70a90a356932724e0a589b6b446","verifier_blob_sha":"9d8b97cc96d6ca6b5d462d74340081f9d83d6149","UNIFORM_RANKZERO_TUNNELL_FAIL_CLASSIFIER":true,"TORSION_SHAPED_EXCEPTION_SECTOR_COUNT":4,"TUNNELL_EQUALITY_SIDE_CLASSIFIED":false,"RECEIVER_CLOSED":false},
-    "36-09AN": {
-      "status":"EXACT_RETAINED_OPEN_NON2TORSION_CONGRUENT_NUMBER_TUNNELL_NECESSARY_GATE_BATCH_AUDIT_CHECKPOINT",
-      "certificate":"stages/stage36/36-09AN/retained-open-tunnell-necessary-gate-preflight.json",
-      "certificate_blob_sha":"76c55e89505b081c487749f4d7ab4d80e9d38a1f",
-      "verifier":"stages/stage36/verify_stage36_36_09AN.py",
-      "verifier_blob_sha":"dc5b4190c9b37078dd767753811fdf4471143e99",
-      "source_lock":"stages/stage36/36-09AN/retained-open-congruent-number-rank-gate-source-lock.md",
-      "source_lock_blob_sha":"1486507569cd9b6263ff46c5db263fbbc198e87c",
+    "36-09AM-AN": {
+      "status":"AUDITED_MERGED_AUTHORITY_POST_MERGE_AUDIT",
       "RETAINED_OPEN_MAP_EXACT":true,
       "RETAINED_IMAGE_NON2TORSION":true,
       "RETAINED_RECEIVER_IMPLIES_POSITIVE_RANK":true,
       "RETAINED_RECEIVER_IMPLIES_N_CONGRUENT":true,
       "RETAINED_RECEIVER_IMPLIES_TUNNELL_EQUALITY":true,
       "TUNNELL_FAIL_RETAINED_RECEIVER_EMPTY":true,
-      "AM_TORSION_EXCEPTION_SECTORS_REMAIN_ON_RETAINED_OPEN":false,
-      "TUNNELL_FAIL_RETAINED_OPEN_EXCEPTION_SECTOR_COUNT":0,
-      "TUNNELL_EQUALITY_SIDE_CLASSIFIED":false,
+      "TUNNELL_EQUALITY_SIDE_CLASSIFIED":false
+    },
+    "36-09AO": {
+      "status":"AUDITED_EXACT_MONSKY_PAYLOAD_RECONCILED_FROM_PARALLEL_PR",
+      "certificate_blob_sha":"a26991cb071e086d3cbc36b8c9d2db329a14e5b1",
+      "source_lock_blob_sha":"9f22dfe19d42d7104d30d219aac1cfd72a67c72a",
+      "MONSKY_MATRIX_CONSTRUCTION_ADAPTED":true,
+      "B7_ODD_STAGE36_CLASS_TO_KERNEL_ADAPTED":true,
+      "EVEN_STAGE36_CLASS_EXAMPLE_ADAPTED":false,
+      "UNIFORM_MW_VS_SHA_CLASSIFIED":false
+    },
+    "36-09AP": {
+      "status":"EXACT_RECONCILED_RETAINED_OPEN_TUNNELL_AND_ODD_ETA_MINUS_MONSKY_NECESSARY_GATES_PENDING_BATCH_AUDIT",
+      "certificate":"stages/stage36/36-09AP/retained-open-tunnell-monsky-two-gate-preflight.json",
+      "certificate_blob_sha":"354b2922cb633518c6cf7b47e7afb216481d2968",
+      "verifier":"stages/stage36/verify_stage36_36_09AP.py",
+      "verifier_blob_sha":"7ecacbdd2ec364d8fd79028b868b4867327bd62b",
+      "source_lock":"stages/stage36/36-09AP/retained-open-tunnell-monsky-two-gate-source-lock.md",
+      "source_lock_blob_sha":"7fceb4a822cae8b7e33401919733cbe81677b730",
+      "RETAINED_RECEIVER_TWO_GATE_FILTER":true,
+      "ODD_ETA_MINUS_MONSKY_COORDINATE_ADAPTER":true,
+      "ODD_ETA_PLUS_MONSKY_COORDINATE_ADAPTER":false,
+      "EVEN_MONSKY_COORDINATE_ADAPTER":false,
+      "TWO_GATE_CONVERSE":false,
       "CANDIDATE_PARAMETER_SET_SHRUNK":false,
       "RECEIVER_CLOSED":false
     }
   },
   "source_locks": {
-    "stage36_36_09AD":{"path":"stages/stage36/36-09AD/coupled-six-reservoir-factor-squareclass-parity-preflight.json","blob_sha":"9d0388845955efee71d1a761ae4ee943d8b565d5"},
-    "stage36_36_09AJ":{"path":"stages/stage36/36-09AJ/congruent-number-full2-covering-class-preflight.json","blob_sha":"27950f53a89e28d02d04f2c19628504561c206e7"},
-    "stage36_36_09AM":{"path":"stages/stage36/36-09AM/uniform-rankzero-tunnell-sha2-sieve-preflight.json","blob_sha":"6d9e9392df8fc70a90a356932724e0a589b6b446"},
-    "stage36_36_09AN":{"path":"stages/stage36/36-09AN/retained-open-tunnell-necessary-gate-preflight.json","blob_sha":"76c55e89505b081c487749f4d7ab4d80e9d38a1f"},
-    "stage36_36_09AN_source":{"path":"stages/stage36/36-09AN/retained-open-congruent-number-rank-gate-source-lock.md","blob_sha":"1486507569cd9b6263ff46c5db263fbbc198e87c"},
-    "S34_W03":{"path":"docs/arsenal/cards/formal/S34-W03.md","blob_sha":"1d5275321f42768a6414d4610ac912c63be43f96"}
+    "main_36_09AN":{"path":"stages/stage36/36-09AN/retained-open-tunnell-necessary-gate-preflight.json","blob_sha":"76c55e89505b081c487749f4d7ab4d80e9d38a1f"},
+    "main_36_09AN_source":{"path":"stages/stage36/36-09AN/retained-open-congruent-number-rank-gate-source-lock.md","blob_sha":"1486507569cd9b6263ff46c5db263fbbc198e87c"},
+    "audited_parallel_36_09AO":{"path":"stages/stage36/36-09AO/monsky-stage36-full2-class-adapter-preflight.json","blob_sha":"a26991cb071e086d3cbc36b8c9d2db329a14e5b1"},
+    "audited_parallel_36_09AO_source":{"path":"stages/stage36/36-09AO/monsky-full2-kernel-source-lock.md","blob_sha":"9f22dfe19d42d7104d30d219aac1cfd72a67c72a"},
+    "stage36_36_09AP":{"path":"stages/stage36/36-09AP/retained-open-tunnell-monsky-two-gate-preflight.json","blob_sha":"354b2922cb633518c6cf7b47e7afb216481d2968"},
+    "stage36_36_09AP_source":{"path":"stages/stage36/36-09AP/retained-open-tunnell-monsky-two-gate-source-lock.md","blob_sha":"7fceb4a822cae8b7e33401919733cbe81677b730"}
   },
-  "freshness": {"current_main":"24215fa27a631cd3cb370c0dfd76866dd2e916f1","previous_base":"58e81a647b63bcea17ab396409c2813b667f45e2","intervening_drift":"Stage32/Stage33 only","stage36_source_drift":false,"sync_merge_commit":"022f1a0fdea0bfc0ca7cd480ac0dbfe72d6d994a"},
-  "cycle_ledger": {"B3_FINITE_CURVE_OR_COVER_DECOMPOSITION":"LIVE_ONLY_ON_TUNNELL_EQUALITY_SIDE_AFTER_RETAINED_OPEN_RANK_GATE","B3_FULL2_LOCAL_OBSTRUCTION_SUBROUTE":"BLOCKED_BY_EXPLICIT_EVERYWHERE_LOCAL_B7_COVERING","B3_TUNNELL_FAIL_RANKZERO_SUBROUTE":"CLOSED_FOR_RETAINED_RECEIVER_WITHOUT_SELMER_HYPOTHESIS","B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION":"LIVE_ONLY_ON_TUNNELL_EQUALITY_SIDE","B4_RESIDUE_ONLY_SQUARECLASS_COMPRESSION_SUBROUTE":"BLOCKED_PRIME_IDENTITY_LOAD_BEARING","B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER":"UNTESTED"},
-  "cycle_audit": {"CYCLE_ROUTE_STATUS":"PASS_NEW_GATE_FROM_STRONGER_VIEW","CYCLE_ACTIVE_RECEIVER":"variable congruent-number full-2 coverings restricted to the parity-appropriate Tunnell-equality side","CYCLE_SPLIT_TRIGGERED":false,"CYCLE_NEW_VIEW":"AN gives an explicit retained-open covering map to E_n avoiding all rational torsion, so any receiver point forces positive rank and therefore Tunnell's necessary equality; AM's four rank-zero torsion sectors are boundary-only and disappear on the retained open","CYCLE_NEW_VIEW_SOURCE":"36-09AN"},
-  "current": {"unit":"36-09AN-AUDIT-CHECKPOINT","next_exact_leaf":"HOSTILE_AUDIT_PR1679_AM_THROUGH_AN","next_owner":"HOSTILE_AUDIT","result":"36-09AN_EXACT: RETAINED_RECEIVER_IMPLIES_NON2TORSION_E_n_POINT_IMPLIES_POSITIVE_RANK_IMPLIES_CONGRUENT_n_IMPLIES_TUNNELL_EQUALITY; TUNNELL_FAIL_SIDE_EMPTY_WITH_ZERO_RETAINED_EXCEPTIONS","substantive_batch_pr_continues":true,"hostile_audit_checkpoint_reached":true,"36_09AM_entry_allowed":true,"36_09AN_entry_allowed":true,"36_09AO_entry_allowed":false,"next_after_pass":"36-09AO_TUNNELL_EQUALITY_STAGE36_N_ARITHMETIC_PREFLIGHT"},
-  "current_leaf_working_set": ["stages/stage36/36-09AN/retained-open-tunnell-necessary-gate-preflight.json","stages/stage36/verify_stage36_36_09AN.py","stages/stage36/36-09AN/retained-open-congruent-number-rank-gate-source-lock.md","stages/stage36/36-09AM/uniform-rankzero-tunnell-sha2-sieve-preflight.json","stages/stage36/36-09AJ/congruent-number-full2-covering-class-preflight.json"],
-  "promotion_gates": {"36_09AJ_hostile_audit_passed":true,"36_09AK_hostile_audit_passed":true,"36_09AL_hostile_audit_passed":true,"36_09AL_promoted_to_main":true,"36_09AM_certificate_complete":true,"36_09AM_hostile_audit_passed":false,"36_09AN_certificate_complete":true,"36_09AN_hostile_audit_passed":false,"retained_open_map_exact":true,"Tunnell_fail_retained_receiver_excluded":true,"Tunnell_equality_side_classified":false,"common_uv_intersection_closed_uniformly":false,"receiver_emptiness_proved":false,"R29_CAMP2_closed":false,"Q11_CAMPEDELLI_closed":false,"endpoint_closed":false},
-  "anti_loop": ["do not use the BSD converse when Tunnell equality holds","do not reopen AM's four torsion-shaped sectors on the retained open; AN proves every retained image is non-torsion","do not require ELS/Selmer membership to exclude a Tunnell-fail retained branch after AN","do not infer candidate-parameter shrink until Tunnell equality is evaluated or structurally constrained across the parameter population","do not enter 36-09AO before hostile audit PASS of PR1679 AM-AN"],
-  "claims": {"new_theorem_credit":false,"Q_jacobian_identified_audited":true,"AJ_AL_hostile_audited_and_merged":true,"uniform_rankzero_Tunnell_fail_classifier_provisional":true,"retained_receiver_implies_Tunnell_equality_provisional":true,"Tunnell_fail_retained_receiver_empty_provisional":true,"candidate_parameter_set_shrunk":false,"receiver_emptiness_proved":false,"R29_CAMP2_closed":false,"Q11_CAMPEDELLI_closed":false,"endpoint_closed":false,"perfect_cuboid_existence_claim":false,"perfect_cuboid_nonexistence_claim":false}
+  "freshness": {
+    "current_main":"6b6c541d1a6bbe229381ac0400148bd17523ca06",
+    "stage36_source_drift_detected_and_reconciled":true,
+    "reconcile_merge_commit":"7c0059ccfd67dbf939a36b083fe3ba70d64a42b5",
+    "reconciled_histories":["PR1679 retained-open AM-AN","PR1680 audited AO payload"]
+  },
+  "cycle_ledger": {
+    "B3_TUNNELL_FAIL_RANKZERO_SUBROUTE":"AUDITED_CLOSED_FOR_RETAINED_RECEIVER",
+    "B3_TUNNELL_EQUALITY_SIDE":"LIVE_WITH_ADDITIONAL_MONSKY_CLASS_GATE",
+    "B3_MONSKY_CLASS_GATE":"LIVE_ODD_ETA_MINUS_ADAPTED",
+    "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION":"LIVE_ONLY_AFTER_TUNNELL_AND_MONSKY_NECESSARY_GATES",
+    "B4_RESIDUE_ONLY_COMPRESSION":"BLOCKED_ACTUAL_PRIME_IDENTITY_LOAD_BEARING",
+    "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER":"UNTESTED"
+  },
+  "cycle_audit": {
+    "CYCLE_ROUTE_STATUS":"PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "CYCLE_ACTIVE_RECEIVER":"retained full-2 covering branches satisfying Tunnell equality and, where adapted, the Stage36 Monsky-kernel condition",
+    "CYCLE_SPLIT_TRIGGERED":false,
+    "CYCLE_NEW_VIEW":"AP reconciles the retained-open Tunnell gate with actual-prime Monsky class coordinates; B7 and B23 show the two necessary gates are logically distinct",
+    "CYCLE_NEW_VIEW_SOURCE":"36-09AP"
+  },
+  "current": {
+    "unit":"36-09AQ",
+    "next_exact_leaf":"36-09AQ_ODD_ETA_PLUS_MONSKY_CLASS_COORDINATE_ADAPTER_PREFLIGHT",
+    "next_owner":"STAGE36_MAIN_BATCH",
+    "result":"36-09AP_EXACT: RETAINED_RECEIVER_REQUIRES_TUNNELL_EQUALITY_AND_MONSKY_KERNEL_MEMBERSHIP; ODD_ETA_MINUS_COORDINATE_ADAPTER_COMPLETE; B7_FAILS_TUNNELL_BUT_PASSES_MONSKY; B23_PASSES_TUNNELL_BUT_FAILS_MONSKY",
+    "substantive_batch_pr_continues":true,
+    "hostile_audit_checkpoint_reached":false,
+    "36_09AP_entry_allowed":true,
+    "36_09AQ_entry_allowed":true,
+    "36_09AR_entry_allowed":false
+  },
+  "current_leaf_working_set": [
+    "stages/stage36/36-09AP/retained-open-tunnell-monsky-two-gate-preflight.json",
+    "stages/stage36/verify_stage36_36_09AP.py",
+    "stages/stage36/36-09AP/retained-open-tunnell-monsky-two-gate-source-lock.md",
+    "stages/stage36/36-09AN/retained-open-tunnell-necessary-gate-preflight.json",
+    "stages/stage36/36-09AO/monsky-stage36-full2-class-adapter-preflight.json"
+  ],
+  "promotion_gates": {
+    "36_09AM_AN_hostile_audit_passed":true,
+    "36_09AM_AN_promoted_to_main":true,
+    "36_09AO_payload_hostile_audit_passed":true,
+    "36_09AO_payload_reconciled":true,
+    "36_09AP_certificate_complete":true,
+    "36_09AP_hostile_audit_passed":false,
+    "retained_receiver_implies_Tunnell_equality_audited":true,
+    "odd_eta_minus_Monsky_adapter_complete":true,
+    "odd_eta_plus_Monsky_adapter_complete":false,
+    "even_Monsky_adapter_complete":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false
+  },
+  "anti_loop": [
+    "current-main PR1679 AM/AN semantics dominate the older parallel PR1680 AM/AN controller",
+    "do not use the BSD converse from Tunnell equality",
+    "do not infer MW image or receiver existence from Monsky kernel membership",
+    "do not treat the B23 equality diagnostic as a local or receiver survivor",
+    "do not reopen the Tunnell-fail retained side; audited AN closes it",
+    "do not claim parameter shrink until the necessary gates are evaluated or structurally constrained on the actual parameter population"
+  ],
+  "claims": {
+    "new_theorem_credit":false,
+    "AJ_AL_hostile_audited_and_merged":true,
+    "AM_AN_hostile_audited_and_merged":true,
+    "retained_receiver_implies_Tunnell_equality_audited":true,
+    "Tunnell_fail_retained_receiver_empty_audited":true,
+    "Monsky_payload_audited_reconciled":true,
+    "retained_receiver_two_gate_filter_provisional":true,
+    "odd_eta_minus_Monsky_adapter_provisional":true,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
 }
