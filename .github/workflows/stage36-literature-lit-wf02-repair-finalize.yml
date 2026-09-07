@@ -1,0 +1,201 @@
+name: Stage36 literature LIT-WF02 repair finalizer
+
+on:
+  push:
+    branches:
+      - arsenal-stage36-literature-strengthening-implementation
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Materialize fail-closed workflow documentation and registry metadata
+        run: |
+          python3 - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+
+          idx_path = Path('docs/arsenal/index.json')
+          contract_path = Path('docs/arsenal/lit-wf02-global-h1-localization-reciprocity-contract.json')
+          verifier_path = Path('docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py')
+          promo_path = Path('docs/stage36-literature-strengthening-promotion.md')
+
+          contract_blob = subprocess.check_output(['git','hash-object',str(contract_path)], text=True).strip()
+          verifier_blob = subprocess.check_output(['git','hash-object',str(verifier_path)], text=True).strip()
+          assert contract_blob == '6fc62623ee59b4aaf1fc053ad42df2dcbba0855b'
+          assert verifier_blob == 'ee066a55f95184916c02dc1f1bbd9f07d1840dc8'
+
+          idx = json.loads(idx_path.read_text())
+          s = idx['stage36_literature_strengthening']
+          wf = s['workflow_metadata']['LIT-WF02']
+          wf['support_artifact_blob_sha'] = contract_blob
+          wf['verifier_blob_sha'] = verifier_blob
+          wf['repo_adapter_contract'] = 'STAGE36_SOURCE_RESULT -> IMMUTABLY_BOUND_GLOBAL_CLASS_CONSTRUCTION + REQUIRED_PLACE_INVENTORY + EACH_LOCALIZATION + SERRE/MILNE_HYPOTHESIS_EVIDENCE -> EXECUTE_EACH_BOUND_MATHEMATICAL_VERIFIER_AT_EXACT_GIT_BLOB -> TYPED_GLOBAL_LOCAL_PACKAGE; any missing/mismatched/unexecuted obligation fails closed'
+          wf['adapter_source_verifier'] = 'no Stage36 adapter PASS evidence is registered; a future PASS package must bind and execute method-specific global-class/localization/adapter verifiers with immutable evidence'
+          wf['output'] = 'PASS only after exact Git-object resolution plus executable immutable mathematical evidence chain; otherwise first FAIL_CLOSED obligation'
+          wf['adapter_status'] = 'FAIL_CLOSED_MISSING_GLOBAL_CLASS_AND_LOCALIZATION_ADAPTER_EVIDENCE'
+          wf['package_schema'] = 'LIT-WF02-GLOBAL-H1-LOCALIZATION-PACKAGE-V2'
+          wf['immutable_pass_evidence_schema'] = 'LIT-WF02-IMMUTABLE-MATHEMATICAL-PASS-EVIDENCE-V1'
+          wf['self_check_is_applicability_pass'] = False
+          wf['boolean_flags_are_proof_evidence'] = False
+          idx_path.write_text(json.dumps(idx, indent=2, ensure_ascii=False) + '\n')
+
+          promo = promo_path.read_text()
+          start = promo.index('## LIT-WF02 GLOBAL_H1_LOCALIZATION_RECIPROCITY_APPLICABILITY_WORKFLOW')
+          end = promo.index('## Rejected duplicates and research gap', start)
+          section = f'''## LIT-WF02 GLOBAL_H1_LOCALIZATION_RECIPROCITY_APPLICABILITY_WORKFLOW
+
+**Maturity recommendation:** PROVISIONAL. **Kind:** workflow, not a theorem or selector.
+
+Reusable workflow contract:
+
+```text
+repo local rows/charts
+-> bind one fixed global H1/Kummer module/class to immutable construction evidence
+-> execute the bound construction verifier at its exact Git blob/head
+-> bind every retained local row/chart to immutable localization evidence
+-> execute every bound localization verifier at its exact Git blob/head
+-> independently verify the complete required-place inventory and exact place-set equality
+-> certify field, finite-support-if-used, dyadic and real normalization
+-> bind Serre/Milne exactly to the Phase3 freeze and execute theorem-hypothesis verifiers
+-> execute the separately bound global adapter mathematical verifier
+-> emit PASS only if every obligation succeeds; otherwise FAIL_CLOSED at the first gap
+```
+
+`path`, a syntactically valid 40-character SHA, `required_places_complete=true`, `dyadic_handled=true`, `real_places_handled=true`, or a theorem `hypotheses_checked=true` flag is **never proof evidence by itself**. Every claimed `path/blob_sha/exact_head` is resolved against Git; every proof-bearing verifier is materialized from its claimed immutable blob and executed against immutable JSON evidence. The verifier/evidence pair must emit the frozen `LIT-WF02-IMMUTABLE-MATHEMATICAL-PASS-EVIDENCE-V1` JSON PASS record with matching subject/path/blob/head fields.
+
+The Phase3 literature binding is also executable/fail-closed: discovery head `f1a2d3074e802b0fd4555cb827e165c3de2bdfc9`, `docs/arsenal/literature-stage36-hostile-freeze.json`, blob `d3f90093c0a6655da9874c9141b15ab4682c4409` is read from Git and the workflow candidate plus Serre/Milne theorem locators must match it exactly. Literature anchors remain Serre, *A Course in Arithmetic*, Chapter III Theorems 2-4, DOI `10.1007/978-1-4684-9884-4`; Milne, *Arithmetic Duality Theorems*, Theorem I.4.10, https://www.jmilne.org/math/Books/ADTnot.pdf.
+
+Current Stage36 applicability is **`FAIL_CLOSED_MISSING_GLOBAL_CLASS_AND_LOCALIZATION_ADAPTER_EVIDENCE`**. Phase3 already records the missing `POINTWISE_CHART_TUPLE_TO_GLOBAL_KUMMER_OR_TORSOR_CLASS` and `DYNAMIC_RESERVOIR_ROWS_TO_GLOBAL_KUMMER_LOCALIZATION_SYSTEM`; #1692 does not manufacture either and registers no Stage36 LIT-WF02 PASS package. `--self-check` emits only `SELF_CHECK_OK` after contract/freeze/provenance and adversarial fake-SHA checks; it is explicitly **not** applicability PASS.
+
+HYPOTHESES: named global finite module/class with immutable construction evidence; exact source binding; independently verified required-place inventory; immutable evidence and executable verifier for every localization; finite-support proof when used; explicit field-change semantics; exact Phase3 Serre/Milne binding plus executable theorem-hypothesis evidence; separately proved adapter verifier/evidence. APPLICABILITY: any repo branch attempting to upgrade local character/Kummer data to reciprocity, Selmer or global-duality input. DO_NOT_USE_FOR: constructing the missing global class; accepting metadata/boolean declarations as proof; treating Hilbert reciprocity as a contradiction; converting local admissibility into a rational point; granting theorem/receiver/local-global/endpoint credit.
+
+Workflow support artifact: `docs/arsenal/lit-wf02-global-h1-localization-reciprocity-contract.json`, blob `{contract_blob}`. Fail-closed applicability verifier: `docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py`, blob `{verifier_blob}`. Mathematical credit remains zero.
+
+'''
+          promo_path.write_text(promo[:start] + section + promo[end:])
+          print('PASS: LIT-WF02 fail-close documentation and registry metadata materialized')
+          print('CONTRACT_BLOB=' + contract_blob)
+          print('VERIFIER_BLOB=' + verifier_blob)
+          PY
+
+      - name: Regenerate Arsenal card and catalog
+        run: |
+          python3 -B docs/arsenal/sync_arsenal_catalog.py
+
+      - name: LIT-WF02 adversarial self-check
+        run: |
+          python3 -m py_compile docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py
+          out="$(python3 -B docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py --self-check)"
+          echo "$out"
+          echo "$out" | grep -q '^SELF_CHECK_OK:'
+          ! echo "$out" | grep -q '^PASS:'
+
+      - name: Remove temporary repair workflow
+        run: |
+          rm -f .github/workflows/stage36-literature-lit-wf02-repair-finalize.yml
+
+      - name: Validate repaired materialized tree before commit
+        run: |
+          python3 -B docs/arsenal/sync_arsenal_catalog.py --check
+          git diff --check
+          python3 - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          BASE='e758e05953df2cf8cd4ab26ac1e9d72374e99760'
+          idx=json.loads(Path('docs/arsenal/index.json').read_text())
+          c=json.loads(Path('docs/arsenal/lit-wf02-global-h1-localization-reciprocity-contract.json').read_text())
+          s=idx['stage36_literature_strengthening']
+          wf=s['workflow_metadata']['LIT-WF02']
+
+          assert c['schema']=='LIT-WF02-GLOBAL-H1-LOCALIZATION-RECIPROCITY-CONTRACT-V2'
+          assert c['package_schema']=='LIT-WF02-GLOBAL-H1-LOCALIZATION-PACKAGE-V2'
+          assert c['self_check_is_applicability_pass'] is False
+          assert c['current_stage36_applicability_status']=='FAIL_CLOSED_MISSING_GLOBAL_CLASS_AND_LOCALIZATION_ADAPTER_EVIDENCE'
+          assert c['phase3_freeze_blob_sha']=='d3f90093c0a6655da9874c9141b15ab4682c4409'
+          assert wf['support_artifact_blob_sha']=='6fc62623ee59b4aaf1fc053ad42df2dcbba0855b'
+          assert wf['verifier_blob_sha']=='ee066a55f95184916c02dc1f1bbd9f07d1840dc8'
+          assert wf['adapter_status']=='FAIL_CLOSED_MISSING_GLOBAL_CLASS_AND_LOCALIZATION_ADAPTER_EVIDENCE'
+          assert wf['self_check_is_applicability_pass'] is False
+          assert wf['boolean_flags_are_proof_evidence'] is False
+          assert s['implementation_manifest']['research_gaps']==[
+              'GLOBAL-HILBERT-SELMER-COMPATIBILITY-TERMINAL',
+              'S36-PW03/B12 exact Loughran-Salgado hypothesis match',
+              'S36-PW04 chart-to-global-H1 adapter',
+              'S36-PW06 full-MW basis/saturation only if stronger claim attempted',
+              'B01 source subgroup equivalence'
+          ]
+          f=s['credit_firewall']
+          for k in ['STAGE36_PROGRESS_INCREMENT','STAGE36_THEOREM_CREDIT_INCREMENT','RECEIVER_CLOSURE_INCREMENT','MW_CLOSURE_INCREMENT','LOCAL_GLOBAL_OBSTRUCTION_INCREMENT','ENDPOINT_CREDIT_INCREMENT']:
+              assert f[k]==0
+
+          card=Path('docs/arsenal/cards/workflows/LIT-WF02.md').read_text()
+          assert 'FAIL_CLOSED_MISSING_GLOBAL_CLASS_AND_LOCALIZATION_ADAPTER_EVIDENCE' in card
+          assert 'SELF_CHECK_OK' in card
+          assert 'never proof evidence by itself' in card
+
+          changed=set(subprocess.check_output(['git','diff','--name-only',BASE], text=True).splitlines())
+          expected={
+              'docs/arsenal/cards/workflows/LIT-WF02.md',
+              'docs/arsenal/catalog.md',
+              'docs/arsenal/index.json',
+              'docs/arsenal/lit-wf02-global-h1-localization-reciprocity-contract.json',
+              'docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py',
+              'docs/stage36-literature-strengthening-promotion.md',
+          }
+          assert changed==expected, (changed, expected)
+          assert not any(p.startswith('stages/stage36/') for p in changed)
+          assert not any(p.startswith('.github/workflows/') for p in changed)
+          print('PASS: repaired LIT-WF02 final scope and credit firewall')
+          PY
+
+      - name: Commit repaired final state
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -A
+          git commit -m '[Arsenal][Literature][Stage36] repair LIT-WF02 fail-close evidence gate'
+
+      - name: Exact committed-head validation
+        run: |
+          python3 -B docs/arsenal/sync_arsenal_catalog.py --check
+          python3 -m py_compile docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py
+          out="$(python3 -B docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py --self-check)"
+          echo "$out"
+          echo "$out" | grep -q '^SELF_CHECK_OK:'
+          ! echo "$out" | grep -q '^PASS:'
+          git diff --check HEAD^ HEAD
+          test -z "$(git status --porcelain)"
+          test ! -e .github/workflows/stage36-literature-lit-wf02-repair-finalize.yml
+          python3 - <<'PY'
+          import subprocess
+          BASE='e758e05953df2cf8cd4ab26ac1e9d72374e99760'
+          changed=set(subprocess.check_output(['git','diff','--name-only',BASE,'HEAD'], text=True).splitlines())
+          expected={
+              'docs/arsenal/cards/workflows/LIT-WF02.md',
+              'docs/arsenal/catalog.md',
+              'docs/arsenal/index.json',
+              'docs/arsenal/lit-wf02-global-h1-localization-reciprocity-contract.json',
+              'docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py',
+              'docs/stage36-literature-strengthening-promotion.md',
+          }
+          assert changed==expected, (changed, expected)
+          print('PASS: exact repaired committed head')
+          print('EXACT_HEAD=' + subprocess.check_output(['git','rev-parse','HEAD'], text=True).strip())
+          PY
+
+      - name: Push exact validated repair head
+        run: |
+          git push origin HEAD:arsenal-stage36-literature-strengthening-implementation
