@@ -48,7 +48,7 @@ jobs:
           def blob(q):
               b=q.read_bytes(); return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
           ok=(k.get('schema')=='STAGE35_EX_GOAL4AH_MAGMA_RAW_RUNKEY_V1' and k.get('armed') is True and
-              k.get('generation')==1 and blob(p)==k.get('probe_blob_sha1')=='d10f3fadc6359539c7373ccf7786b53b8dfb7472' and
+              k.get('generation')==2 and blob(p)==k.get('probe_blob_sha1')=='d10f3fadc6359539c7373ccf7786b53b8dfb7472' and
               k.get('planned_jobs')==1 and k.get('actions_artifact_upload') is False)
           print('true' if ok else 'false')
           PY
