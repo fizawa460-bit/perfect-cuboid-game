@@ -42,20 +42,20 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay exact 36-09BU parent
+      - name: Replay exact 36-09BV fresh parent
         shell: bash
         run: |
           set -euo pipefail
-          H=72252b9e891d7986813c9e81706958970a754331
+          H=9bc6a455a3d9eacf54db5dbcd60ef3ce732c8b18
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BU.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BV.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09BV
-        run: python3 stages/stage36/verify_stage36_36_09BV.py
-      - name: Assert BV integration firewalls and BW unlock
+      - name: Verify current 36-09BW
+        run: python3 stages/stage36/verify_stage36_36_09BW.py
+      - name: Assert BW Q2 taxonomy firewalls and BX unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -63,16 +63,16 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V111_36_09BV_FIXED_P_Q_FILTER_INTEGRATION'
-          bv=s['authority_frontier']['36-09BV']
-          assert bv['FIXED_P_Q_FILTER_INTEGRATION_COMPLETE'] is True
-          assert bv['SOUND_ZERO_SURVIVOR_EXCLUSION_RULE'] is True
-          assert bv['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
-          assert bv['GENERAL_PRIME2_BRANCH_TAXONOMY_COMPLETE'] is False
-          assert s['current']['next_exact_leaf']=='36-09BW_GENERAL_AW_BRANCH_PRIME2_TAXONOMY_PREFLIGHT'
-          assert s['current']['36_09BW_entry_allowed'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V112_36_09BW_GENERAL_Q2_TAXONOMY'
+          bw=s['authority_frontier']['36-09BW']
+          assert bw['GENERAL_PRIME2_BRANCH_TAXONOMY_COMPLETE'] is True
+          assert bw['AB_MOD8_BRANCH_FILTER'] is True
+          assert bw['CRITICAL_DEEP_BRANCH_FILTER'] is True
+          assert bw['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
+          assert s['current']['next_exact_leaf']=='36-09BX_FIXED_P_Q2_BRANCH_FILTER_INTEGRATION_PREFLIGHT'
+          assert s['current']['36_09BX_entry_allowed'] is True
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('36-09BV verified; Q-reservoir branch filter is integrated into the exhaustive fixed-p outer family with a sound zero-survivor exclusion rule. BW prime-2 generalization selected.')
+          print('36-09BW verified; general AW Q2 taxonomy and two point-independent branch filters are exact. No Q2-point/receiver/parameter credit; BX selected.')
           PY
           git diff --check
