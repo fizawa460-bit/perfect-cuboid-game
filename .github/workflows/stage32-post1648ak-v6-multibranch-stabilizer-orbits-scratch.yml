@@ -1,0 +1,29 @@
+name: Stage32 post1648AK V6 multibranch stabilizer-orbit diagnostic
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648ak-v6-multibranch-stabilizer-orbits
+    paths:
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1648ak_v6_multibranch_stabilizer_orbits.py'
+      - '.github/workflows/stage32-post1648ak-v6-multibranch-stabilizer-orbits-scratch.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic-ak:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Assert exact head
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+      - name: Run exact V6 stabilizer/orbit diagnostic
+        run: python3 stages/stage32/residual-32-01-production/diagnose_stage32_post1648ak_v6_multibranch_stabilizer_orbits.py
+      - name: Diff hygiene
+        run: git diff --check
