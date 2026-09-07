@@ -30,7 +30,7 @@ jobs:
       - name: Run fail-closed adversarial self-check
         shell: bash
         run: |
-          python3 -m py_compile docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py
+          python3 -B -c "compile(open('docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py', encoding='utf-8').read(), 'verify_lit_wf02_global_h1_localization_reciprocity.py', 'exec')"
           out="$(python3 -B docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py --self-check)"
           echo "$out"
           grep -q '^SELF_CHECK_OK:' <<<"$out"
@@ -43,11 +43,13 @@ jobs:
         run: |
           rm -f docs/arsenal/_lit_wf02_repair_finalize.py
           rm -f .github/workflows/stage36-literature-lit-wf02-repair-finalize.yml
+          rm -rf docs/arsenal/__pycache__
 
       - name: Validate repaired tree
         run: |
           python3 -B docs/arsenal/sync_arsenal_catalog.py --check
           git diff --check
+          test ! -d docs/arsenal/__pycache__
           python3 - <<'PY'
           import json, subprocess
           from pathlib import Path
@@ -94,6 +96,7 @@ jobs:
 
       - name: Commit repaired final state
         run: |
+          test ! -d docs/arsenal/__pycache__
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git add -A
@@ -103,13 +106,14 @@ jobs:
         shell: bash
         run: |
           python3 -B docs/arsenal/sync_arsenal_catalog.py --check
-          python3 -m py_compile docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py
+          python3 -B -c "compile(open('docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py', encoding='utf-8').read(), 'verify_lit_wf02_global_h1_localization_reciprocity.py', 'exec')"
           out="$(python3 -B docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py --self-check)"
           echo "$out"
           grep -q '^SELF_CHECK_OK:' <<<"$out"
           if grep -q '^PASS:' <<<"$out"; then exit 1; fi
           git diff --check HEAD^ HEAD
           test -z "$(git status --porcelain)"
+          test ! -d docs/arsenal/__pycache__
           test ! -e docs/arsenal/_lit_wf02_repair_finalize.py
           test ! -e .github/workflows/stage36-literature-lit-wf02-repair-finalize.yml
           python3 - <<'PY'
