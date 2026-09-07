@@ -10,10 +10,10 @@ AC=ROOT/'stages/stage36/36-09AC/same-x-separate-squareclass-double-cover-preflig
 AY=ROOT/'stages/stage36/36-09AY/universal-boundary-tunnell-survivor-preflight.json'
 W03=ROOT/'docs/arsenal/cards/formal/S34-W03.md'
 STATE=ROOT/'stages/stage36/MAIN-STATE.json'
-BASE='b7a045b7c910a3e01d3826556cd71019af15418f'
+BASE='fe7ef406a9987981fe5f79267f3f8a39f37a61e4'
 BA_HEAD='a4fde9a55b6483018ffb4be49ffbc758939b7e22'
 BA_CI='34090570732/101643008125'
-CERT_BLOB='80c9f1b8dcb7745ccfeeb2231879770cab83a2e8'
+CERT_BLOB='e4b63fd500d05ff5dc704e0c08409edee5895053'
 LOCKS={BA:'2f31c89b2760f2270fa0ea21106ef97a3ec0840b',AC:'3e95cc443bb9de9e0d2b14d6d9c32ea7c1953021',AY:'add18004debf95a218a6393f6c2f18f2bd4f7e10',W03:'1d5275321f42768a6414d4610ac912c63be43f96'}
 def git(*a): return subprocess.check_output(['git',*a],cwd=ROOT,text=True).strip()
 def blob(p): return git('hash-object',str(p.relative_to(ROOT)))
@@ -39,9 +39,6 @@ def check_boundary_scaled(a,b):
     C=odd_sf(D0); eta=1 if D0>0 else -1; e=(1+v2(D0))&1
     kappa=eta*(2**e)*C
     u=Fraction(P,h); v=Fraction(M,h)
-    U=u*u; V=v*v
-    rr=abs(int(U-V.numerator//V.denominator if False else 0)) # dead branch guards accidental float use
-    # obtain exact positive square roots from integer U,V representation
     Ui=(P//h)**2; Vi=(M//h)**2
     r2=abs(Ui-Vi)//((2**e)*C); r=math.isqrt(r2); assert r*r==r2
     s2=(Ui+Vi)//2; s=math.isqrt(s2); assert s*s==s2
@@ -57,8 +54,6 @@ def check_boundary_scaled(a,b):
     assert Zp*Zp==2*(1+q*q)
     Lm=M*M*Ui-P*P*Vi; Lp=M*M*Ui+P*P*Vi
     assert Lm==0 and Lp>0
-    # exact factor-square reduction for any AY coordinate is algebraic:
-    # F-=kappa*(uvr)^2*L-, F+=2*(uvs)^2*L+.
     assert Ui*Vi*(Ui-Vi)*Lm==0
     assert Ui*Vi*(Ui+Vi)*Lp==(2*Lp)*(abs(P//h)*abs(M//h)*s)**2
 
@@ -68,6 +63,7 @@ def main():
     subprocess.check_call(['git','merge-base','--is-ancestor',BASE,'HEAD'],cwd=ROOT)
     subprocess.check_call(['git','merge-base','--is-ancestor',BA_HEAD,'HEAD'],cwd=ROOT)
     c=json.loads(CERT.read_text())
+    assert c['base_main_sha']==BASE
     assert c['batch_parent']['36_09BA_exact_head']==BA_HEAD
     assert c['batch_parent']['36_09BA_exact_head_ci']==BA_CI
     m=c['receiver_restricted_intersection']
@@ -79,11 +75,11 @@ def main():
     assert b['naive_closed_mod_prime_zero_residue_strategy']=='STRUCTURALLY_BLOCKED'
     tested=0
     for a in range(1,31):
-      for bb in range(1,31):
-        if a==bb or math.gcd(a,bb)!=1: continue
-        P=a*a+2*a*bb-bb*bb; M=a*a-2*a*bb-bb*bb
+      for bb0 in range(1,31):
+        if a==bb0 or math.gcd(a,bb0)!=1: continue
+        P=a*a+2*a*bb0-bb0*bb0; M=a*a-2*a*bb0-bb0*bb0
         if P==0 or M==0: continue
-        check_boundary_scaled(a,bb); tested+=1
+        check_boundary_scaled(a,bb0); tested+=1
     assert tested>500
     st=json.loads(STATE.read_text())
     assert st['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V90_36_09BB_CANDIDATE'
