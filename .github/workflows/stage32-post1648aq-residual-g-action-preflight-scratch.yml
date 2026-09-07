@@ -19,19 +19,25 @@ jobs:
           fetch-depth: 1
       - name: Assert exact head
         run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
-      - name: Run AQ residual-G action preflight
+      - name: Run AQ residual-G action and conductor diagnostic
         run: |
           python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648aq_residual_g_action_preflight.py | tee /tmp/post1648aq.json
           python3 - <<'PY'
           import json
           x=json.load(open('/tmp/post1648aq.json'))
-          assert x['mode']=='SCRATCH_POST1648AQ_RESIDUAL_G_ACTION_PREFLIGHT'
+          assert x['mode']=='SCRATCH_POST1648AQ_RESIDUAL_G_ACTION_AND_CONDUCTOR_IDENTITY'
+          assert x['boundary_anchor']['candidate_exact_order_and_exponent_match'] is True
+          assert x['v6_residual_orbit']['class_stabilizer_trivial_in_candidate_G'] is True
+          assert x['quotient_intersection_identity']['square_identity_holds'] is True
+          assert x['canonical_ramification_correction']['exactly_matches_AP_demand'] is True
           assert x['firewalls']['residual_G_semantic_identification_granted'] is False
           print(json.dumps({
-              'closed_group_order':x['closed_group_order'],
-              'stored_generator_count':x['stored_generator_count'],
-              'aut_action_keys':x['aut_action_keys'],
-              'top_level_keys':x['top_level_keys'],
+              'full_group_order':x['full_retained_group']['order'],
+              'boundary_pointwise_stabilizer_order':x['boundary_anchor']['pointwise_stabilizer_order'],
+              'nontrivial_C_dot_gC':x['v6_residual_orbit']['nontrivial_C_dot_gC_sorted'],
+              'sum_nontrivial_C_dot_gC':x['v6_residual_orbit']['sum_nontrivial_C_dot_gC'],
+              'R_dot_C':x['canonical_ramification_correction']['R_dot_C'],
+              'conductor':x['canonical_ramification_correction']['conductor_length_from_action'],
           }, sort_keys=True))
           PY
       - name: Diff hygiene
