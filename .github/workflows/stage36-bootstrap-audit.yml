@@ -42,23 +42,23 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay exact 36-09CD green parent
+      - name: Replay exact 36-09CE green parent
         shell: bash
         run: |
           set -euo pipefail
-          H=c17277966766a6c0260504a08bdc6df783e26af2
+          H=13ba3948b114ec6323ee12097d17b6f22379aaf6
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CD.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09CE.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09CE
+      - name: Verify current 36-09CF
         shell: bash
         run: |
           set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09CE.py
-      - name: Assert CE firewalls and CF selection
+          python3 stages/stage36/verify_stage36_36_09CF.py
+      - name: Assert CF firewalls and CG selection
         shell: bash
         run: |
           set -euo pipefail
@@ -66,33 +66,33 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V123_36_09CE_SELECTED_BETA_HMU0_REALIZATION'
-          cd=s['authority_frontier']['36-09CD']
-          assert cd['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert cd['exact_head']=='c17277966766a6c0260504a08bdc6df783e26af2'
-          assert cd['exact_head_ci']=='34165069696/101874394471'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V124_36_09CF_UNUSED_ALPHA_HMU0_REALIZATION'
           ce=s['authority_frontier']['36-09CE']
-          assert ce['certificate_blob_sha']=='fcad703975f2ea39a8306846284791c05b17bd7b'
-          assert ce['verifier_blob_sha']=='8eefd1d859b71d33693d85e5f03e4cdeb0ccf0cc'
-          assert ce['SELECTED_BETA_HMU0_REALIZATION_COMPLETE'] is True
-          assert ce['NEW_POINT_INDEPENDENT_BRANCH_ROWS']==2
-          assert ce['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
+          assert ce['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
+          assert ce['exact_head']=='13ba3948b114ec6323ee12097d17b6f22379aaf6'
+          assert ce['exact_head_ci']=='34166897443/101879629715'
+          cf=s['authority_frontier']['36-09CF']
+          assert cf['certificate_blob_sha']=='37ae40020c829498f23fa38e3203e382115fd134'
+          assert cf['verifier_blob_sha']=='195741b765957a2b3c014eaab2c38ef1d6ad0a30'
+          assert cf['UNUSED_ALPHA_HMU0_REALIZATION_COMPLETE'] is True
+          assert cf['NEW_POINT_INDEPENDENT_BRANCH_FILTER'] is True
+          assert cf['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
           cur=s['current']
-          assert cur['next_exact_leaf']=='36-09CF_UNUSED_OLD_SIX_HMU0_LOCAL_REALIZATION_PREFLIGHT'
+          assert cur['next_exact_leaf']=='36-09CG_BETA_EVEN_M_UNUSED_HMU0_LOCAL_REALIZATION_PREFLIGHT'
           assert cur['next_owner']=='MAIN'
           assert cur['substantive_batch_pr_continues'] is True
           assert cur['hostile_audit_checkpoint_reached'] is False
-          assert cur['36_09CF_entry_allowed'] is True
+          assert cur['36_09CG_entry_allowed'] is True
           pg=s['promotion_gates']
-          assert pg['36_09CD_exact_head_ci_passed'] is True
-          assert pg['36_09CE_certificate_complete'] is True
-          assert pg['36_09CF_unlocked'] is True
-          assert pg['selected_beta_hmu0_realization_complete'] is True
-          assert pg['unused_old_six_hmu0_realization_complete'] is False
+          assert pg['36_09CE_exact_head_ci_passed'] is True
+          assert pg['36_09CF_certificate_complete'] is True
+          assert pg['36_09CG_unlocked'] is True
+          assert pg['unused_alpha_hmu0_realization_complete'] is True
+          assert pg['beta_even_m_unused_hmu0_realization_complete'] is False
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('36-09CE workflow verified: selected beta hmu=0 realization is exact; CF unused hmu=0 species selected with no parameter/global credit.')
+          print('36-09CF workflow verified: unused-alpha hmu=0 realization is exact; CG even-m unused beta selected with no parameter/global credit.')
           PY
           git diff --check

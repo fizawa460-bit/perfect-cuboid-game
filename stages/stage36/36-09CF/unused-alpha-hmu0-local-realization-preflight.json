@@ -1,0 +1,55 @@
+{
+  "schema":"STAGE36_36_09CF_UNUSED_ALPHA_HMU0_LOCAL_REALIZATION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09CF",
+  "status":"EXACT_UNUSED_ALPHA_HMU0_VALUATION_SECTOR_CRITERION_AND_BRANCH_PRUNING",
+  "base_main_sha":"6431ec2a90ed9260d4362d7146a9788cbc21c8d1",
+  "batch_parent":{"pr":1699,"36_09CE_exact_green_head":"13ba3948b114ec6323ee12097d17b6f22379aaf6","36_09CE_exact_head_ci":"34166897443/101879629715"},
+  "source_locks":{
+    "stage36_36_09CE":{"path":"stages/stage36/36-09CE/general-old-six-hmu0-tie-realization-preflight.json","blob_sha":"fcad703975f2ea39a8306846284791c05b17bd7b"},
+    "stage36_36_09CE_verifier":{"path":"stages/stage36/verify_stage36_36_09CE.py","blob_sha":"8eefd1d859b71d33693d85e5f03e4cdeb0ccf0cc"},
+    "stage36_36_09CC":{"path":"stages/stage36/36-09CC/general-old-six-qq-source-pullback-preflight.json","blob_sha":"5067d1723952edce9f4bab55cc427eb1745211cc"},
+    "stage36_36_09BT":{"path":"stages/stage36/36-09BT/general-aw-squareclass-branch-full-cover-local-model-preflight.json","blob_sha":"e58c417ddfa340d96b2ac1fbae9e7da7c5224d78"},
+    "stage36_36_09V":{"path":"stages/stage36/36-09V/gaussian-directional-prime-support-preflight.json","blob_sha":"9fdec16f920104cc6c1961fb092185a0371258d5"}
+  },
+  "small_lambda_model":{
+    "setup":"q is an odd alpha-reservoir prime with q|P and q not selected into A; m=v_q(P)>=1; q divides none of B,C,D,M,D0,Q; lambda=P/M has v_q(lambda)=m",
+    "characters":{"epsilon":"Legendre(-1,q)","K":"Legendre(kappa*B,q)","R":"Legendre(rho*B,q)","d":"Legendre(A*B,q)"},
+    "stage36_V_input":"Legendre(2,q)=+1, hence q is 1 or 7 modulo 8",
+    "valuation_coordinate":"k=-v_q(t) for pole sectors; finite sectors have v_q(t)>=0",
+    "finite_positive_sector":"v_q(t)>0 is realizable exactly when K=R=d=+1",
+    "finite_unit_sector":"v_q(t)=0 is realizable exactly when K=R=+1 and there exists y in F_q minus {0,+1,-1} with Legendre(y,q)=d and Legendre(1-y,q)=Legendre(1+y,q)=d",
+    "intermediate_pole_sector":"1<=k<m exists only when m>=2 and is realizable exactly when epsilon=K=R=+1",
+    "tie_sector":"k=m is realizable exactly when epsilon*K=R=+1 and there exists y in F_q minus {0,+1,-1} with Legendre(y,q)=d, Legendre(1-y,q)=epsilon, Legendre(1+y,q)=+1",
+    "deep_pole_sector":"k>m is realizable exactly when epsilon*K=R=d=+1",
+    "completeness":"the five sectors exhaust v_q(t) relative to 0 and -m; each condition is the exact odd-q valuation parity plus normalized residue criterion, so their disjunction is necessary and sufficient for a Q_q point on the four-square branch model at this unused P-prime",
+    "point_independent":"the finite-field existential depends only on q and the branch characters K,R,d, not on a putative receiver point"
+  },
+  "M_side_adapter":{
+    "setup":"q|M and q not selected into B",
+    "change_of_coordinate":"use w=u/v and lambda'=M/P; then the model is the same small-lambda model with A'=B, B'=A, kappa'=-kappa, rho'=rho",
+    "characters_for_small_lambda_test":{"K":"Legendre(-kappa*A,q)","R":"Legendre(rho*A,q)","d":"Legendre(A*B,q)"},
+    "exact":true
+  },
+  "unused_alpha_filter":{
+    "rule":"for every odd q|P not dividing A, apply the five-sector small-lambda criterion; for every odd q|M not dividing B, apply the M-side transformed criterion",
+    "selected_alpha_primes":"remain governed by the audited/provisional CC selected-alpha row and are not retested here",
+    "unused_alpha_hmu0_local_realization_complete_after_rule":true,
+    "new_filter_is_branch_only":true
+  },
+  "exact_fixed_p_diagnostics":{
+    "p_1_over_2":{"CE_survivors":3,"after_CF_unused_alpha":3,"fixed_p_excluded":false},
+    "p_2_over_11":{"CE_survivors":16,"after_CF_unused_alpha":6,"removed":10,"failure_support":["unused q=73 on the P side","unused q=7 on the M side"],"fixed_p_excluded":false},
+    "diagnostic_p_3_over_4":{"scope":"same exact generator; not a retained-candidate membership claim","CE_survivors":5,"after_CF_unused_alpha":5},
+    "diagnostic_p_1_over_8":{"scope":"same exact generator; not a retained-candidate membership claim","CE_survivors":4,"after_CF_unused_alpha":4}
+  },
+  "remaining_hmu0_boundary":{
+    "selected_beta_hmu0_realization_complete":true,
+    "unused_alpha_hmu0_realization_complete":true,
+    "beta_even_m_unused_hmu0_realization_complete":false,
+    "all_old_six_local_realization_complete":false,
+    "next_question":"classify even-multiplicity beta primes unused in C,D, where lambda^2 is congruent 1 modulo q^m and source/full-cover roots coalesce modulo q"
+  },
+  "route_result":{"route_status":"PASS_UNUSED_ALPHA_HMU0_EXACT_FINITE_FIELD_VALUATION_CRITERION","unused_alpha_hmu0_realization_complete":true,"new_point_independent_branch_filter":true,"fixed_p_parameter_exclusion_obtained":false,"candidate_parameter_set_shrunk":false,"receiver_closed":false,"next_leaf":"36-09CG_BETA_EVEN_M_UNUSED_HMU0_LOCAL_REALIZATION_PREFLIGHT"},
+  "scope_firewalls":{"CF_survivor_is_all_old_six_local_point":false,"beta_even_m_unused_hmu0_realization_complete":false,"fixed_p_parameter_exclusion_obtained":false,"candidate_parameter_set_shrunk":false,"local_parameter_elimination_exhausted":false,"uniform_finite_Q_squareclass_family":false,"finite_exhaustive_H1_twist_family":false,"receiver_emptiness_proved":false,"R29_CAMP2_closed":false,"Q11_CAMPEDELLI_closed":false,"endpoint_closed":false,"perfect_cuboid_existence_claim":false,"perfect_cuboid_nonexistence_claim":false}
+}
