@@ -9,7 +9,9 @@
     "stage36_36_09BX":{"path":"stages/stage36/36-09BX/fixed-p-q2-branch-filter-integration-preflight.json","blob_sha":"9edd1343c38005d2d47954e2652b43b02079c160"},
     "stage36_36_09BW":{"path":"stages/stage36/36-09BW/general-aw-branch-prime2-taxonomy-preflight.json","blob_sha":"d7feb3e6b86c5c93bae999f8836840e64fbd5fb5"},
     "stage36_36_09BU":{"path":"stages/stage36/36-09BU/general-aw-branch-bad-place-valuation-taxonomy-preflight.json","blob_sha":"a8f3fb880b83aac2240ce299fe8a8fa42e044093"},
+    "stage36_36_09BU_verifier":{"path":"stages/stage36/verify_stage36_36_09BU.py","blob_sha":"64b889c2dde22d021fb2933b976311d903f57dce"},
     "stage36_36_09AE":{"path":"stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json","blob_sha":"ddae37dd35cd0e732cebadf9c17f3f3fa57930df"},
+    "stage36_36_09AE_verifier":{"path":"stages/stage36/verify_stage36_36_09AE.py","blob_sha":"4c2e672572984399a507ddddf296b3861a80edd5"},
     "stage36_36_09BI":{"path":"stages/stage36/36-09BI/prime2-full-cover-congruence-preflight.json","blob_sha":"ba6a705ce61b14e640b2c400d42dded60097b406"},
     "stage36_36_09BJ":{"path":"stages/stage36/36-09BJ/prime2-equal-valuation-unit-branch-preflight.json","blob_sha":"f9ef3dde7b756470f2fc882327a67d72db7902f1"}
   },
@@ -33,7 +35,8 @@
     "n_equal_2":"alpha=3, (y^2+1)/2 congruent 5 modulo 8, hence D/B congruent 5 modulo 8 and e=1",
     "n_at_least_3":"alpha>=4, (y^2+1)/2 congruent 1 modulo 8, hence D/B congruent 1 modulo 8",
     "necessary_alpha_families":{"D_over_B_5_mod8":"e=1 and alpha=3","D_over_B_1_mod8_e0":"alpha in {4,6,8,...}","D_over_B_1_mod8_e1":"alpha in {5,7,9,...}"},
-    "other_D_over_B_residues_have_no_deep_coupled_conic_Q2_point":true
+    "other_D_over_B_residues_have_no_deep_coupled_conic_Q2_point":true,
+    "AE_BX_redundancy":"replay of the exact AE 128-state mod-8 skeleton shows that after A=B and f=1 the only (D/B mod8,e) combinations are (1,0),(1,1),(5,1); therefore these structural residue prerequisites are already implicit before BY and are not counted as new rows"
   },
   "post_BX_new_branch_only_exclusions":{
     "prior_critical_rows":"BX already removes e=0,drel=2 and e=1,drel=1 in f=1 branches",
