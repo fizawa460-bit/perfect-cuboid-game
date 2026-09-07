@@ -1,0 +1,107 @@
+{
+  "schema": "STAGE32EX1_EX1_04_GLOBAL_COUPLING_LEDGER_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-04_GLOBAL_DELTA_CONTACT_INTERSECTION_COUPLING",
+  "status": "PASS_EXACT_GLOBAL_COUPLING_RESIDUAL_LEDGER_CANDIDATE",
+  "dependency_status": "PROVISIONAL_SAME_PR_DEPENDS_ON_UNAUDITED_EX1_00_THROUGH_EX1_03_CANDIDATES",
+  "fixed_global_equalities": {
+    "D_square": 758,
+    "K_dot_D": 186,
+    "arithmetic_genus": 473,
+    "normalization_genus": 1,
+    "total_delta": 472,
+    "delta_partition": "delta_E + delta_U = 472",
+    "exceptional_contact_mass": 266,
+    "positive_exceptional_support": 47,
+    "node_fiber_excess_upper_bound": 219
+  },
+  "normalization_nonbijectivity_coupling": {
+    "required": "N_to_B_nonbijective_somewhere",
+    "exhaustive_disjunction": "NODE_MULTIBRANCH or SMOOTH_LOCUS_MULTIBRANCH",
+    "node_multibranch_implies": "some one of the 38 nonunit-contact nodes has r_i>=2",
+    "smooth_multibranch_implies": "delta_U>=1",
+    "if_no_node_multibranch": "smooth-locus multibranch is required, hence delta_U>=1",
+    "if_delta_U_zero": "node multibranch is required at one of the 38 nonunit-contact nodes",
+    "node_multibranch_does_not_imply": "delta_E>0",
+    "reason": "distinct smooth points of Gamma on one E_i may be identified only after contraction"
+  },
+  "surface_node_interface": {
+    "nonunit_candidate_nodes": 38,
+    "labeled_local_contact_envelopes": 1188,
+    "unit_contact_nodes": 9,
+    "unit_contact_nodes_delta_E": 0,
+    "contact_mass_bounds_delta_E": false,
+    "node_fiber_excess_is_delta": false
+  },
+  "smooth_locus_interface": {
+    "delta_U_range": [0, 472],
+    "singular_point_count_upper_bound": 472,
+    "total_branch_excess_upper_bound": 472,
+    "coarse_delta_branch_pair_envelope_count": 112100,
+    "coarse_multibranch_pair_envelope_count": 111628,
+    "canonical_six_point_multiplicity_budget": 186,
+    "multiplicity_budget_converted_to_delta_bound": false
+  },
+  "known140_interface": {
+    "effective_decomposition_exists": true,
+    "nonzero_terms": 61,
+    "total_multiplicity": 155,
+    "role": "class-level effectivity/source lock only",
+    "member_level_singularity_constraint_obtained": false,
+    "reason": "a decomposition of the Picard class does not determine local analytic data of a different hypothetical integral irreducible member"
+  },
+  "global_budget_result": {
+    "contradiction_obtained": false,
+    "positive_member_obtained": false,
+    "global_coupling_ledger_complete": true,
+    "global_delta_contact_intersection_budget_closed_for_terminal_exclusion": false,
+    "current_class_level_data_forces_delta_split": false,
+    "delta_split_range_numerically_open": "0<=delta_E<=472, delta_U=472-delta_E",
+    "additional_exact_boundary_cases": [
+      "delta_U=0 forces NODE_MULTIBRANCH",
+      "NO_NODE_MULTIBRANCH forces delta_U>=1"
+    ],
+    "why_no_scalar_contradiction": "266 is contact mass, 219 is canonical-image fibre excess capacity, and neither is an intrinsic delta budget; smooth and exceptional intrinsic delta remain analytically unconstrained enough to absorb the required total 472 at the present class-level resolution."
+  },
+  "arsenal_check": {
+    "policy_followed": true,
+    "directly_applicable_formal_card_found": false,
+    "checked_missing_weapon_type": "V6 linear-system singularity/global-delta/contact coupling theorem",
+    "nearby_formal_cards": ["S34-W01", "S34-W02", "S34-W03"],
+    "nonapplicability": "factor-square/Mordell-Weil/receiver-restricted intersection workflows do not supply member-level plane-curve singularity bounds for the V6 linear system"
+  },
+  "residual_for_EX1_05": {
+    "exact_blocker": "Need a global member-level theorem or data coupling V6 linear-system geometry to local analytic singularities; current class/intersection/contact invariants alone do not force exclusion.",
+    "legal_next_routes": [
+      "source-lock a V6 linear-system singularity theorem (jet separation, Seshadri/Reider-type, equisingular codimension, or comparable exact bound) and adapt it",
+      "materialize an actual V6 member/section and compute local jets",
+      "derive a new global intersection/linear-system inequality that bounds delta_E or delta_U beyond the current scalar ledgers",
+      "search Arsenal/literature only for the exact missing member-level coupling, not generic descent weapons"
+    ],
+    "next_leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE"
+  },
+  "exit": {
+    "global_coupling_ledger_complete": true,
+    "global_budget_contradiction": false,
+    "global_delta_contact_intersection_budget_closed": false,
+    "finite_residual_ledger_complete": false,
+    "branch_exclusion_credit": false,
+    "credit_ceiling": "NECESSARY_CONDITION_ONLY_UNAUDITED",
+    "full_target_closure": false,
+    "next_leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE"
+  },
+  "firewalls": {
+    "exceptional_mass_identified_with_delta": false,
+    "node_fiber_excess_identified_with_delta": false,
+    "known140_decomposition_promoted_to_member_singularity_data": false,
+    "arsenal_nonmatch_treated_as_repository_absence": false,
+    "numerical_residual_ledger_promoted_to_realizability": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "c4ecc0f23704f81dab66e805de72a2c72eafce1b9760e38908daf109688800db"
+}
