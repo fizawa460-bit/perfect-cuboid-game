@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX1_MAIN_COMPACT_STATE_V12_EX1_05E_Q210_REDUCTION_CANDIDATE",
+  "schema": "STAGE32EX1_MAIN_COMPACT_STATE_V13_EX1_05F_LOCAL_CUSP_BLOCKER_CANDIDATE",
   "role": "ORDINARY_STAGE32EX1_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX1",
   "execution": {
@@ -16,13 +16,13 @@
     "merge_authorized": false
   },
   "freshness": {
-    "current_main_sha_observed": "a0c25bb7027d6facdbe447d00f01dd83560a8315",
-    "candidate_head_before_state_update": "5f4840e9ff5c4e2d9cb28b90e331c5145cb0aee3",
+    "current_main_sha_observed": "af40c029a8721755b39dad13be452a2a74540c4e",
+    "candidate_head_before_state_update": "71bdc40ae1a65a96d2e6edebf23a25ee93f60ce1",
     "compare_status": "diverged",
-    "ahead": 48,
-    "behind": 7,
+    "ahead": 52,
+    "behind": 8,
     "merge_base": "c52f88a671503ac9eb25c20186b4fb7729ba9112",
-    "behind_scope": "seven current-main commits since the fixed merge-base; no freshness sync is performed at this non-audit checkpoint",
+    "behind_scope": "eight current-main commits since the fixed merge-base; no freshness sync is performed at this non-audit checkpoint",
     "freshness_sync_deferred_to_audit_ready_checkpoint": true
   },
   "authority": {
@@ -53,7 +53,10 @@
     "mathematical_candidate_state": "AUDIT_READY_FULL_TARGET_CLOSURE",
     "audited_success_state": "FULL_TARGET_CLOSURE",
     "full_target_closure_is_decision_state": true,
-    "allowed_terminal_outcomes": ["ALL_V6_GENUS1_CARRIERS_EXCLUDED", "GENUINE_SURVIVING_CARRIER_ESTABLISHED"],
+    "allowed_terminal_outcomes": [
+      "ALL_V6_GENUS1_CARRIERS_EXCLUDED",
+      "GENUINE_SURVIVING_CARRIER_ESTABLISHED"
+    ],
     "terminal_outcome": null,
     "exclusion_requires_all_residual_configurations_disposed": true,
     "exclusion_requires_full_population_exhaustiveness_adapter": true,
@@ -67,20 +70,20 @@
   "current": {
     "status": "ACTIVE",
     "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
-    "subroute": "EX1-05F_H4_PROJECTION_RAMIFICATION_TO_LOCAL_CONTACT_COUPLING",
-    "objective": "With h=4 forced and the exact fixed-V6 projection degrees 105/81 now adapted, source-lock how the two projection ramification divisors couple to local node/contact multiplicities. Use that adapter to dispose additional Q=210..266 states or isolate an exact remaining realizability interface; do not identify projection ramification with intrinsic delta without proof.",
+    "subroute": "EX1-05G_H4_COMMON_COVER_CORRESPONDENCE_COUPLING",
+    "objective": "The exact 05F local cusp adapter removes none of the 29 Q states because special-cusp projection ramification can vanish at current class/contact resolution. Adapt the common h=4 cover globally and test whether the two degree-105/81 maps are coupled by a torsor/correspondence/Rosati condition for every residual Q, separating Q-independent cover geometry from O210-specific arithmetic.",
     "next_route_if_success": "CONTINUE_EX1_05_UNTIL_ALL_RESIDUALS_DISPOSED_OR_POSITIVE_WITNESS_VERIFIED",
-    "audit_gate": "EX1_00_THROUGH_EX1_05E_CANDIDATES_UNAUDITED_NO_AUTHORITY_CREDIT",
+    "audit_gate": "EX1_00_THROUGH_EX1_05F_CANDIDATES_UNAUDITED_NO_AUTHORITY_CREDIT",
     "stop_semantics": "LEAF_GATE_ONLY_NOT_STAGE_EXHAUSTION"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex1/stage32-ex1.md",
-    "stages/stage32-ex1/ex1-05b-inertia-parity-stabilizer.json",
-    "stages/stage32-ex1/ex1-05d-b3-node-parity-h4-forcing.json",
     "stages/stage32-ex1/ex1-05e-h4-modular-factor-projection-reduction.json",
-    "stages/stage32-ex1/ex1-05e-h4-modular-factor-projection-reduction.md",
-    "stages/stage32-ex1/verify_ex1_05e_h4_modular_factor_projection_reduction.py",
-    "stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-source-note.md"
+    "stages/stage32-ex1/ex1-05f-h4-local-cusp-projection-ramification-adapter.json",
+    "stages/stage32-ex1/ex1-05f-h4-local-cusp-projection-ramification-adapter.md",
+    "stages/stage32-ex1/verify_ex1_05f_h4_local_cusp_projection_ramification_adapter.py",
+    "stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json",
+    "stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling-source-note.md"
   ],
   "frontier": {
     "source_lock_complete": true,
@@ -88,22 +91,22 @@
     "surface_node_multibranch_exactly_accounted_candidate": true,
     "smooth_ambient_branch_exactly_accounted_candidate": true,
     "global_coupling_ledger_complete_candidate": true,
-    "product_cover_member_level_constraint_proved_candidate": true,
-    "odd_contact_ramification_adapter_proved_candidate": true,
     "component_stabilizer_h_allowed": [4],
     "h2_excluded": true,
     "h4_forced": true,
-    "h4_forcing_scope": "COMPONENT_STABILIZER_LAYER_ONLY",
     "fixed_v6_projection_degrees_D_to_C2": [105, 81],
     "projection_105_ramification_formula": "R_105=Q-210",
     "projection_81_ramification_formula": "R_81=Q-162",
     "ramification_Q_even": true,
     "ramification_Q_range": [210, 266],
     "ramification_Q_state_count": 29,
-    "old_slack_s_range": [12, 40],
     "new_slack_r_range": [0, 28],
     "ramified_surface_node_count_lower_bound": 33,
     "minimum_multibranch_nonunit_nodes": 19,
+    "local_cusp_projection_adapter_locked_candidate": true,
+    "special_cusp_ramification_forced_lower_bound_each_projection": 0,
+    "Q_states_excluded_by_EX1_05F": 0,
+    "off_cusp_common_map_compatibility_open": true,
     "Q_slack_residual_ledger_complete_candidate": true,
     "finite_residual_configuration_ledger_complete": false,
     "global_delta_contact_intersection_budget_closed": false,
@@ -118,16 +121,19 @@
     "exhaustive_view_audit": true,
     "blind_rediscovery": true,
     "split_triggered": false,
-    "active_route": "PRODUCT_COVER_H4_PROJECTION_RAMIFICATION_LOCAL_CONTACT_COUPLING",
-    "route_status": "PASS_H4_Q210_REDUCTION_LOCAL_COUPLING_OPEN",
+    "active_route": "H4_COMMON_COVER_CORRESPONDENCE_COUPLING",
+    "route_status": "BLOCKED_NEW_PATTERN_ISOLATED_THEN_REROUTED",
     "arsenal_direct_match": false,
+    "live_candidates": ["H4_COMMON_COVER_CORRESPONDENCE_COUPLING"],
     "untested_candidates": [
-      "H4_LOCAL_CUSP_PROJECTION_RAMIFICATION_ADAPTER",
       "SYMMETRIC_DIFFERENTIALS_BTVA22_GFU20",
       "JET_SEPARATION_SESHADRI_REIDER_EQUISINGULAR",
       "ACTUAL_V6_SECTION_MATERIALIZATION"
     ],
-    "blocked_candidates": ["MIYAOKA_ORBIBUNDLE_LOW_GENUS_BOUND_AT_CURRENT_V6_INVARIANTS"]
+    "blocked_candidates": [
+      "H4_LOCAL_CUSP_PROJECTION_RAMIFICATION_ADAPTER_AT_CLASS_CONTACT_RESOLUTION",
+      "MIYAOKA_ORBIBUNDLE_LOW_GENUS_BOUND_AT_CURRENT_V6_INVARIANTS"
+    ]
   },
   "route_history": [
     {"leaf": "EX1-00", "result": "PASS_EXACT_SOURCE_LOCK_TARGET_ADAPTER_CANDIDATE", "artifact_canonical_sha256": "783526a604572a4a81a314c59db1a399d38209ee159352106d7c5f6b5e71fa6c", "credit_ceiling": "SOURCE_LOCK_AND_TARGET_ADAPTER_ONLY"},
@@ -135,16 +141,18 @@
     {"leaf": "EX1-02", "result": "PASS_EXACT_PARAMETERIZED_SURFACE_NODE_RESIDUAL_LEDGER_CANDIDATE", "artifact_canonical_sha256": "810315e98eff224089d56c7f646a32c07177878ce2b05b988bef0665c5aa012a", "credit_ceiling": "NECESSARY_CONDITION_ONLY_UNAUDITED"},
     {"leaf": "EX1-03", "result": "PASS_EXACT_SMOOTH_LOCUS_NUMERICAL_RESIDUAL_LEDGER_CANDIDATE", "artifact_canonical_sha256": "4324234386213810a6de8f7ef2e32712006e628d80291dad4f9d74e6c1e03ac5", "credit_ceiling": "NECESSARY_CONDITION_ONLY_UNAUDITED"},
     {"leaf": "EX1-04", "result": "PASS_EXACT_GLOBAL_COUPLING_RESIDUAL_LEDGER_CANDIDATE", "artifact_canonical_sha256": "c4ecc0f23704f81dab66e805de72a2c72eafce1b9760e38908daf109688800db", "credit_ceiling": "NECESSARY_CONDITION_ONLY_UNAUDITED"},
-    {"leaf": "EX1-05A", "result": "PASS_NEW_MEMBER_LEVEL_NODE_RAMIFICATION_CONSTRAINT_CANDIDATE", "artifact_canonical_sha256": "ef3c630d7a31ad4e96cc0d0e5e36a961e080ca14adaa8e0a116ac64e6780a01f", "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED", "key_result": "Q>=186; no-node-multibranch excluded"},
-    {"leaf": "EX1-05B", "result": "PASS_PARITY_STABILIZER_REFINEMENT_CANDIDATE", "artifact_canonical_sha256": "a80e2c079b31b5e0a4e256825acb9307dd424c8e26b5e19e48ae55596e18f720", "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED", "key_result": "odd contact iff ramified; >=30 ramified nodes; >=15 multibranch nodes; h=1 excluded"},
-    {"leaf": "EX1-05C", "result": "PASS_INERTIA_CLASS_MASS_CAPACITY_REDUCTION_WITH_16_NODE_PARITY_ADAPTER_OPEN_CANDIDATE", "artifact_canonical_sha256": "9359008927cd9458c111c128424b9a0f00134109c77ca1bd29a6847404c3518f", "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED", "key_result": "h=2 capacity leaves only subgroup forbidding w/b3"},
-    {"leaf": "EX1-05D", "result": "PASS_EXACT_B3_NODE_PARITY_ADAPTER_H2_EXCLUDED_H4_FORCED_CANDIDATE", "artifact_canonical_sha256": "6c432739b1e02c58ddfc8f9e0ca3d9695604e84e5dbc12f407185074ae174612", "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED", "key_result": "eight odd b3 witnesses exclude last h=2; h=4 forced"},
-    {"leaf": "EX1-05E", "result": "PASS_H4_EXACT_MODULAR_FACTOR_DEGREES_Q_GE_210_29_Q_STATE_REDUCTION_CANDIDATE", "artifact": "stages/stage32-ex1/ex1-05e-h4-modular-factor-projection-reduction.json", "artifact_canonical_sha256": "0f7c63f90ace7974249aae2f387ff8a49650d6fba489923bd13f48d28e431701", "proof_note": "stages/stage32-ex1/ex1-05e-h4-modular-factor-projection-reduction.md", "verifier": "stages/stage32-ex1/verify_ex1_05e_h4_modular_factor_projection_reduction.py", "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED", "key_result": "fixed V6 degrees 105/81 force Q>=210; 29 Q-slack states remain; ramified nodes>=33; multibranch nodes>=19", "next_subroute": "EX1-05F_H4_PROJECTION_RAMIFICATION_TO_LOCAL_CONTACT_COUPLING"}
+    {"leaf": "EX1-05A", "result": "PASS_NEW_MEMBER_LEVEL_NODE_RAMIFICATION_CONSTRAINT_CANDIDATE", "artifact_canonical_sha256": "ef3c630d7a31ad4e96cc0d0e5e36a961e080ca14adaa8e0a116ac64e6780a01f", "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED"},
+    {"leaf": "EX1-05B", "result": "PASS_PARITY_STABILIZER_REFINEMENT_CANDIDATE", "artifact_canonical_sha256": "a80e2c079b31b5e0a4e256825acb9307dd424c8e26b5e19e48ae55596e18f720", "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED"},
+    {"leaf": "EX1-05C", "result": "PASS_INERTIA_CLASS_MASS_CAPACITY_REDUCTION_WITH_16_NODE_PARITY_ADAPTER_OPEN_CANDIDATE", "artifact_canonical_sha256": "9359008927cd9458c111c128424b9a0f00134109c77ca1bd29a6847404c3518f", "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED"},
+    {"leaf": "EX1-05D", "result": "PASS_EXACT_B3_NODE_PARITY_ADAPTER_H2_EXCLUDED_H4_FORCED_CANDIDATE", "artifact_canonical_sha256": "6c432739b1e02c58ddfc8f9e0ca3d9695604e84e5dbc12f407185074ae174612", "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED"},
+    {"leaf": "EX1-05E", "result": "PASS_H4_EXACT_MODULAR_FACTOR_DEGREES_Q_GE_210_29_Q_STATE_REDUCTION_CANDIDATE", "artifact_canonical_sha256": "0f7c63f90ace7974249aae2f387ff8a49650d6fba489923bd13f48d28e431701", "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED", "key_result": "fixed V6 degrees 105/81 force Q>=210; 29 Q states; ramified nodes>=33; multibranch nodes>=19"},
+    {"leaf": "EX1-05F", "result": "BLOCKED_NEW_PATTERN_ISOLATED_EXACT_LOCAL_CUSP_ADAPTER_NONPRUNING_CANDIDATE", "artifact": "stages/stage32-ex1/ex1-05f-h4-local-cusp-projection-ramification-adapter.json", "artifact_canonical_sha256": "ad116cc0729f0200bf578b363a47a5a166651e9e1dab215529d8cc6a64562778", "proof_note": "stages/stage32-ex1/ex1-05f-h4-local-cusp-projection-ramification-adapter.md", "verifier": "stages/stage32-ex1/verify_ex1_05f_h4_local_cusp_projection_ramification_adapter.py", "credit_ceiling": "EXACT_BLOCKER_AND_LOCAL_ADAPTER_CANDIDATE_UNAUDITED", "key_result": "rho(k)=k-gcd(k,2); exact coarse local valuation witnesses give zero special-cusp projection ramification for all 29 Q states; 0 states removed", "next_subroute": "EX1-05G_H4_COMMON_COVER_CORRESPONDENCE_COUPLING"}
   ],
   "credit": {
-    "level": "EX1_05E_Q210_H4_BRANCH_EXCLUSION_CANDIDATE_UNAUDITED",
+    "level": "EX1_05F_LOCAL_CUSP_EXACT_BLOCKER_CANDIDATE_UNAUDITED",
     "candidate_necessary_condition_only": true,
     "candidate_branch_exclusion": true,
+    "candidate_exact_blocker": true,
     "necessary_condition_only": false,
     "branch_exclusion": false,
     "all_v6_genus1_carriers_excluded": false,
@@ -160,9 +168,14 @@
     "exact_head": null,
     "review_id": null,
     "result": null,
-    "candidate_leaf": "EX1-00_THROUGH_EX1-05E_ACCUMULATED_CANDIDATE",
+    "candidate_leaf": "EX1-00_THROUGH_EX1-05F_ACCUMULATED_CANDIDATE",
     "candidate_pr": 1688,
-    "last_failed_audit": {"review_id": 5128737733, "exact_head": "4fef4efb54e35991b08a1637e47e2c049637e2e3", "result": "FAIL", "reason": "STATE_MACHINE_MISSING_POSITIVE_TERMINAL_OUTCOME_FOR_GENUINE_V6_GENUS1_CARRIER"},
+    "last_failed_audit": {
+      "review_id": 5128737733,
+      "exact_head": "4fef4efb54e35991b08a1637e47e2c049637e2e3",
+      "result": "FAIL",
+      "reason": "STATE_MACHINE_MISSING_POSITIVE_TERMINAL_OUTCOME_FOR_GENUINE_V6_GENUS1_CARRIER"
+    },
     "failure_repair_returns_to_mainbatch": true,
     "pass_auto_merges": false,
     "pass_auto_promotes_to_stage32_main": false
@@ -171,10 +184,12 @@
     "exceptional_mass_identified_with_total_delta": false,
     "ramification_degree_identified_with_total_delta": false,
     "projection_ramification_identified_with_intrinsic_delta": false,
+    "special_cusp_ramification_assumed_to_equal_total_projection_ramification": false,
+    "coarse_local_valuation_witness_promoted_to_global_curve": false,
+    "off_cusp_ramification_numerical_assignment_promoted_to_map_existence": false,
     "stage32_unaudited_candidate_inherited_as_theorem": false,
-    "Q210_extremal_histogram_imported_without_local_adapter": false,
     "finite_Q_state_ledger_promoted_to_configuration_realizability": false,
-    "h4_refinement_promoted_to_full_v6_exclusion": false,
+    "blocked_route_treated_as_stage_exhaustion": false,
     "smooth_locus_singularities_discarded": false,
     "formal_V6_divisor_materializes_integral_irreducible_genus1_member": false,
     "positive_terminal_without_verified_actual_target_member": false,
