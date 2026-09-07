@@ -1,0 +1,37 @@
+name: Stage32 post1648AJ V6 multibranch-node fiber lower bounds scratch
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648aj-v6-multibranch-node-fiber-lower-bounds
+    paths:
+      - 'stages/stage32/residual-32-01-production/post1648aj-v6-multibranch-node-fiber-lower-bounds-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1648aj-v6-multibranch-node-fiber-lower-bounds.json'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648aj_v6_multibranch_node_fiber_lower_bounds.py'
+      - '.github/workflows/stage32-post1648aj-v6-multibranch-node-fiber-lower-bounds-scratch.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-aj:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Assert exact head
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+
+      - name: Replay exact multibranch-node and fiber lower bounds
+        run: python3 stages/stage32/residual-32-01-production/verify_stage32_post1648aj_v6_multibranch_node_fiber_lower_bounds.py
+
+      - name: Enforce immutable certificate and diff hygiene
+        shell: bash
+        run: |
+          git diff --exit-code -- stages/stage32/residual-32-01-production/post1648aj-v6-multibranch-node-fiber-lower-bounds.json
+          git diff --check
