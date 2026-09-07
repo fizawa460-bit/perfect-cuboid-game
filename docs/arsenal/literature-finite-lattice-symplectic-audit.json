@@ -1,0 +1,198 @@
+{
+  "schema": "ARSENAL-LITERATURE-FINITE-LATTICE-SYMPLECTIC-AUDIT-PHASE5-R01",
+  "status": "DISCOVERY_ONLY",
+  "repository": "fizawa460-bit/perfect-cuboid-game",
+  "ARSENAL_BASE_MAIN": "9306238c7ada55e31311245019d6b7e474ad837f",
+  "STAGE36_EXCLUDED": true,
+  "STAGE35_PROVISIONAL_COMPARISON_HEAD": "3fc684677ef1570a820420079088667f558e0983",
+  "LITERATURE_DISCOVERY_ONLY": true,
+  "ARSENAL_AUTHORITY_CHANGED": false,
+  "STABLE_ID_CREATED": false,
+  "reviewed_cards": [
+    {"id":"S30-W01","role":"FINITE_EQUIVARIANT_ACTION_IDENTIFICATION"},
+    {"id":"S30-W02","role":"SEMILINEAR_GALOIS_DESCENT_ADAPTER"},
+    {"id":"S30-W03","role":"MARKED_DEFECT_EQUIVARIANT_DESCENT_CLASSIFIER"},
+    {"id":"S32-PW03","role":"LATTICE_IMAGE_HNF_GATE"},
+    {"id":"S32-PW04","role":"FINITE_LATTICE_QUOTIENT_BOUND"},
+    {"id":"S32-PW05","role":"FINITE_GROUP_EQUIVARIANT_RECONSTRUCTION"},
+    {"id":"S32-PW06","role":"BASIS_INDEPENDENT_SYMPLECTIC_TRANSVECTION_PRUNER"},
+    {"id":"S33-PW02","role":"FINITE_MODULE_NORMAL_FORM_AND_EXTENSION_GATE"},
+    {"id":"S33-PW04","role":"EXACT_MARKED_SOURCE_ADAPTER"},
+    {"id":"S33-PW05","role":"EQUIVARIANT_SOURCE_TARGET_COMPATIBILITY_AUDIT"}
+  ],
+  "frozen_instance_sizes": {
+    "S30":{"arrangement_group_order":24,"modular_psl2_z4_order":24,"modular_sl2_z4_order":48,"endpoint_equivariance_checks":"24x8","defect_population":8,"ordinary_orbit_sizes":[1,3,3,1],"marked_q_descent_classes":8},
+    "S32_PW03":{"picard_rank":64,"known_curve_count":140},
+    "S32_PW04":{"smith_diagonal":[1,2,2],"generator_orders":[20,20,40],"reachable_class_count":640},
+    "S32_PW05":{"labels":140,"group_order":1536,"ordered_pairs":19600},
+    "S32_PW06":{"candidate_pruning":"16->3","provenance_only":true},
+    "S33_PW05":{"equations_f2":2688,"variables":1792,"rank_f2":781,"nullity_f2":1011,"nonzero_retained_sources":1023,"target_unreachable_sources":23,"target_reachable_sources":1000}
+  },
+  "literature": [
+    {
+      "key":"KANNAN_BACHEM_1979",
+      "authors":["Ravindran Kannan","Achim Bachem"],
+      "title":"Polynomial Algorithms for Computing the Smith and Hermite Normal Forms of an Integer Matrix",
+      "year":1979,
+      "venue":"SIAM Journal on Computing 8(4), 499-507",
+      "doi":"10.1137/0208040",
+      "exact_number":"paper-level HNF/SNF algorithms; numbered theorem not promoted in Phase5",
+      "object":"integer matrix A",
+      "ring":"Z",
+      "output":"HNF/SNF plus multiplier matrices giving reversible coordinate transforms",
+      "complexity":"algebraic operation count and intermediate bit lengths polynomial in binary input length",
+      "targets":["S32-PW03","S32-PW04","S33-PW02"],
+      "classification":["ALGORITHM_STRENGTHENING","NEW_GENERIC_ADAPTER"]
+    },
+    {
+      "key":"ILIOPOULOS_1989",
+      "authors":["Costas S. Iliopoulos"],
+      "title":"Worst-Case Complexity Bounds on Algorithms for Computing the Canonical Structure of Finite Abelian Groups and the Hermite and Smith Normal Forms of an Integer Matrix",
+      "year":1989,
+      "venue":"SIAM Journal on Computing 18(4), 658-669",
+      "doi":"10.1137/0218045",
+      "exact_number":"paper algorithm complexity statements",
+      "object":"square integer matrix / finitely presented finite abelian group",
+      "ring":"Z",
+      "output":"SNF canonical structure and HNF",
+      "complexity":"SNF O(s^5 M(s^2)); HNF O(s^3 M(s^2))",
+      "targets":["S32-PW03","S32-PW04","S33-PW02"],
+      "classification":["ALGORITHM_STRENGTHENING"]
+    },
+    {
+      "key":"SERESS_2003",
+      "authors":["Akos Seress"],
+      "title":"Permutation Group Algorithms",
+      "year":2003,
+      "venue":"Cambridge Tracts in Mathematics 152",
+      "doi":"10.1017/CBO9780511546549",
+      "exact_number":"Chs.4-6,9 algorithm families",
+      "object":"finite permutation group G<=Sym(Omega) via generators",
+      "output":"strong generating sets, stabilizers, orbits, transporters, backtracking/orbital infrastructure",
+      "targets":["S30-W01","S30-W03","S32-PW05"],
+      "classification":["ALGORITHM_STRENGTHENING","ENUMERATION_REPLACEMENT"]
+    },
+    {
+      "key":"CIK_1997",
+      "authors":["Alexander Chistov","Gabor Ivanyos","Marek Karpinski"],
+      "title":"Polynomial time algorithms for modules over finite dimensional algebras",
+      "year":1997,
+      "venue":"ISSAC 1997, 68-74",
+      "doi":"10.1145/258726.258751",
+      "exact_number":"constructive module-isomorphism algorithm; numbered item not source-locked in Phase5",
+      "object":"finite-dimensional algebra modules represented by matrix families",
+      "field":"field; finite-field instances included",
+      "output":"decide module isomorphism and construct invertible intertwiner when it exists",
+      "complexity":"polynomial time in the stated module model",
+      "targets":["S33-PW05"],
+      "classification":["ALGORITHM_STRENGTHENING","ENUMERATION_REPLACEMENT","NEW_GENERIC_ADAPTER"]
+    },
+    {
+      "key":"RONYAI_1990",
+      "authors":["Lajos Ronyai"],
+      "title":"Computing the structure of finite algebras",
+      "year":1990,
+      "venue":"Journal of Symbolic Computation 9(3), 355-373",
+      "doi":"10.1016/S0747-7171(08)80017-X",
+      "exact_number":"paper structural algorithms",
+      "object":"finite-dimensional associative algebra over finite field",
+      "output":"radical/simple decomposition infrastructure and constructive matrix-algebra isomorphisms",
+      "targets":["S33-PW05"],
+      "classification":["SOURCE_ANCHOR_ONLY","ALGORITHM_STRENGTHENING"]
+    },
+    {
+      "key":"BROOKSBANK_2003",
+      "authors":["Peter A. Brooksbank"],
+      "title":"Constructive recognition of classical groups in their natural representation",
+      "year":2003,
+      "venue":"Journal of Symbolic Computation 35(2), 195-239",
+      "doi":"10.1016/S0747-7171(02)00132-3",
+      "exact_number":"paper constructive-recognition algorithm",
+      "object":"G<=GL(V) from generators, V over finite field, natural representation",
+      "output":"constructive recognition of covered classical groups including Sp(V)",
+      "complexity":"polynomial in input length assuming a discrete-logarithm oracle",
+      "targets":["S30-W01","S32-PW06"],
+      "classification":["ALGORITHM_STRENGTHENING","NOT_APPLICABLE"]
+    },
+    {
+      "key":"MCLAUGHLIN_1967",
+      "authors":["Jack McLaughlin"],
+      "title":"Some groups generated by transvections",
+      "year":1967,
+      "venue":"Archiv der Mathematik 18(4), 364-368",
+      "doi":"10.1007/BF01898827",
+      "exact_number":"main classification result; exact theorem number not recovered in indexed source",
+      "object":"groups generated by transvections",
+      "targets":["S32-PW06"],
+      "classification":["STRUCTURE_THEOREM_STRENGTHENING","RESEARCH_GAP"]
+    },
+    {
+      "key":"POLLATSEK_1976",
+      "authors":["Harriet S. Pollatsek"],
+      "title":"Irreducible groups generated by transvections over finite fields of characteristic two",
+      "year":1976,
+      "venue":"Journal of Algebra 39, 328-333",
+      "doi":"10.1016/0021-8693(76)90080-6",
+      "exact_number":"main characteristic-two classification result; exact theorem number must be locked from original text before promotion",
+      "object":"irreducible finite groups generated by transvections over characteristic-two finite fields",
+      "targets":["S32-PW06"],
+      "classification":["STRUCTURE_THEOREM_STRENGTHENING","RESEARCH_GAP"]
+    }
+  ],
+  "derived_exact_structures": [
+    {
+      "name":"F2_SYMPLECTIC_RANK_ONE_NORMAL_FORM",
+      "hypotheses":"(V,B) nondegenerate symplectic over F2; T symplectic; T!=I; rank(T-I)=1",
+      "conclusion":"unique v!=0 with im(T-I)=<v> and T(x)=x+B(x,v)v",
+      "corollary":"im(T-I)<=W iff v in W minus {0}; candidate transvections parameterized by at most 2^dim(W)-1 directions",
+      "credit_boundary":"does not identify an absolute source W-line or prove the geometric action without source lock"
+    },
+    {
+      "name":"GENERATOR_EQUALITY_FOR_SEMILINEAR_ACTIONS",
+      "hypotheses":"beta1,beta2 are certified homomorphisms from the same finitely generated/presented group",
+      "conclusion":"equality on a generating set implies equality on all group elements",
+      "credit_boundary":"sigma, theta, cocycle/deck element and homomorphism certification remain source-derived"
+    },
+    {
+      "name":"TRANSITIVE_G_SET_STABILIZER_MODEL",
+      "hypotheses":"exact finite G-action",
+      "conclusion":"transitive orbit is G/H; equivariant isomorphism candidates reduce to stabilizer conjugacy/transporter data",
+      "credit_boundary":"abstract G-set equivalence does not supply semantic source marking"
+    }
+  ],
+  "card_verdicts": [
+    {"id":"S30-W01","classifications":["STRUCTURE_THEOREM_STRENGTHENING","ENUMERATION_REPLACEMENT","EXTEND_EXISTING","SOURCE_ANCHOR_REMAINS_REQUIRED"],"expected_reduction":"raw equivariant relabeling candidates -> orbit/stabilizer/transporter matching","source_anchor_required":true},
+    {"id":"S30-W02","classifications":["ALGORITHM_STRENGTHENING","ENUMERATION_REPLACEMENT","EXTEND_EXISTING","SOURCE_ANCHOR_REMAINS_REQUIRED"],"expected_reduction":"all-element compatibility scan -> generator/presentation verification after homomorphism certification","source_anchor_required":true},
+    {"id":"S30-W03","classifications":["ALGORITHM_STRENGTHENING","ENUMERATION_REPLACEMENT","SOURCE_ANCHOR_REMAINS_REQUIRED"],"expected_reduction":"literal GxD scan -> orbit/stabilizer + generator-level equivariance","source_anchor_required":true},
+    {"id":"S32-PW03","classifications":["ALGORITHM_STRENGTHENING","NEW_GENERIC_ADAPTER","EXTEND_EXISTING"],"expected_reduction":"bespoke congruence gate -> canonical reversible integer-module image membership"},
+    {"id":"S32-PW04","classifications":["STRUCTURE_THEOREM_STRENGTHENING","ALGORITHM_STRENGTHENING","NEW_GENERIC_ADAPTER"],"expected_reduction":"materialized quotient classes may reduce to invariant-factor/reachable-subgroup computation when classwise bound permits","firewall":"finite quotient bound != quotient enumeration; lower bound != exact CVP"},
+    {"id":"S32-PW05","classifications":["ALGORITHM_STRENGTHENING","EXTEND_EXISTING","SOURCE_ANCHOR_ONLY"],"expected_reduction":"19600 pair materialization for orbit discovery -> orbital/double-coset representatives; materialization remains optional/certified"},
+    {"id":"S32-PW06","classifications":["STRUCTURE_THEOREM_STRENGTHENING","ENUMERATION_REPLACEMENT","EXTEND_EXISTING","SOURCE_ANCHOR_REMAINS_REQUIRED"],"expected_reduction":"arbitrary symplectic operator candidates -> nonzero transvection directions in W","research_gap":"group-generation classification needs multiple source-locked transvections and irreducibility"},
+    {"id":"S33-PW02","classifications":["ALGORITHM_STRENGTHENING","EXTEND_EXISTING","SOURCE_ANCHOR_ONLY"],"expected_reduction":"share reversible SNF layer; raw extension/Bockstein gate remains irreducible semantic data"},
+    {"id":"S33-PW04","classifications":["SOURCE_ANCHOR_REMAINS_REQUIRED"],"expected_reduction":"canonical forms may reduce coordinate ambiguity but cannot identify marked geometric source"},
+    {"id":"S33-PW05","classifications":["ALGORITHM_STRENGTHENING","ENUMERATION_REPLACEMENT","NEW_GENERIC_ADAPTER","SOURCE_ANCHOR_REMAINS_REQUIRED"],"expected_reduction":"future brute matrix-intertwiner search -> constructive module-isomorphism solver; current 2688x1792 linear audit already substantially structured","source_anchor_required":true}
+  ],
+  "firewalls": [
+    "abstract conjugacy/classification != source marking",
+    "existence of intertwiner != semantically correct adapter",
+    "basis-independent predicate != absolute source identification",
+    "normal form != theorem/endpoint credit",
+    "finite quotient bound != actual quotient enumeration",
+    "transvection classification != given geometric action is that transvection without source lock",
+    "SNF quotient != reachable subgroup without exact map/image proof",
+    "orbit representative != source-derived semantic label",
+    "constructive classical-group recognition != geometric/moduli identification"
+  ],
+  "phase6_freeze_manifest": [
+    {"priority":"P0","candidate":"F2_SYMPLECTIC_TRANSVECTION_DIRECTION_NORMAL_FORM","targets":["S32-PW06"],"classification":["STRUCTURE_THEOREM_STRENGTHENING","ENUMERATION_REPLACEMENT"],"gate":"exact nondegenerate F2 symplectic form; source action proved nonidentity rank-one symplectic; source-bound W; no absolute W-line credit"},
+    {"priority":"P0","candidate":"FINITE_ACTION_STABILIZER_TRANSPORTER_EQUIVARIANT_MATCHER","targets":["S30-W01"],"classification":["STRUCTURE_THEOREM_STRENGTHENING","ENUMERATION_REPLACEMENT"],"gate":"exact common acting group/actions; complete orbit/stabilizer/transporter logic; source/common semantic anchor mandatory"},
+    {"priority":"P0","candidate":"GENERATOR_COMPLETE_SEMILINEAR_COMPATIBILITY_VERIFIER","targets":["S30-W02"],"classification":["ALGORITHM_STRENGTHENING","ENUMERATION_REPLACEMENT"],"gate":"both sides certified homomorphisms from same generated/presented group; exact sigma/theta/cocycle/deck; generator and relator replay"},
+    {"priority":"P1","candidate":"REVERSIBLE_INTEGER_MODULE_NORMAL_FORM_ADAPTER","targets":["S32-PW03","S32-PW04","S33-PW02"],"classification":["NEW_GENERIC_ADAPTER","ALGORITHM_STRENGTHENING"],"gate":"exact HNF/SNF with unimodular multipliers and locked bases"},
+    {"priority":"P1","candidate":"FINITE_LATTICE_QUOTIENT_SATURATION_ADAPTER","targets":["S32-PW03","S32-PW04"],"classification":["NEW_GENERIC_ADAPTER","STRUCTURE_THEOREM_STRENGTHENING"],"gate":"exact lattice homomorphism, quotient presentation, reachable-image proof; no CVP/classwise-bound overclaim"},
+    {"priority":"P1","candidate":"FINITE_MODULE_INTERTWINER_ISOMORPHISM_SOLVER","targets":["S33-PW05"],"classification":["NEW_GENERIC_ADAPTER","ALGORITHM_STRENGTHENING"],"gate":"exact module generator matrices over fixed field; constructive invertible intertwiner; semantic adapter separate"},
+    {"priority":"P2","candidate":"ORBITAL_DOUBLE_COSET_RECONSTRUCTION_ENGINE","targets":["S32-PW05","S30-W03"],"classification":["ALGORITHM_STRENGTHENING"],"gate":"validated finite action, strong generating set, complete orbital coverage and source seed/conflict checks"},
+    {"priority":"P2","candidate":"CLASSICAL_GROUP_CONSTRUCTIVE_RECOGNITION_GATE","targets":["S30-W01","S32-PW06"],"classification":["ALGORITHM_STRENGTHENING","NOT_APPLICABLE"],"gate":"natural finite-field representation of whole claimed classical group; oracle assumptions recorded; no semantic marking credit"},
+    {"priority":"P2","candidate":"TRANSVECTION_GENERATED_SUBGROUP_CLASSIFIER","targets":["S32-PW06"],"classification":["RESEARCH_GAP"],"gate":"multiple source-locked transvections, exact generated subgroup, irreducibility and exact characteristic-two theorem statement"}
+  ],
+  "stop_boundary":"No card promoted/retired/deduplicated/weakened. Structure/algorithm literature may replace enumeration but never the source marking/common geometric anchor."
+}
