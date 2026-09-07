@@ -4,7 +4,7 @@ from __future__ import annotations
 import importlib.util
 import json
 import sys
-from collections import Counter
+from collections import Counter, defaultdict
 from math import gcd
 from pathlib import Path
 
@@ -129,8 +129,43 @@ def bounded_meta(v: object) -> object:
 
 
 def action_matrix(g: tuple[int, ...], coords: Matrix, basis_indices: list[int]) -> Matrix:
+    # Rows of M are images of retained basis curves; row-vector classes act by C -> C*M.
     rows = [list(coords.row(g[i])) for i in basis_indices]
-    return Matrix(rows)
+    M = Matrix(rows)
+    all_images = Matrix.vstack(*[coords.row(g[i]) for i in range(coords.rows)])
+    if coords * M != all_images:
+        raise ValueError("Picard action orientation does not reproduce all 140 curve images")
+    return M
+
+
+def row_key(v: Matrix) -> tuple[int, ...]:
+    return tuple(int(v[0, j]) for j in range(v.cols))
+
+
+def solve_exceptional_span(T: Matrix, exceptional_coords: Matrix) -> dict:
+    # Solve E^T m = T^T. The 48 exceptional curves are expected independent.
+    A = exceptional_coords.T
+    try:
+        sol, params = A.gauss_jordan_solve(T.T)
+    except ValueError:
+        return {"in_exceptional_span": False}
+    if params.rows != 0:
+        return {"in_exceptional_span": True, "unique": False, "parameter_count": params.rows}
+    vals = []
+    for x in sol:
+        if getattr(x, "q", 1) != 1:
+            return {"in_exceptional_span": True, "unique": True, "integral": False}
+        vals.append(int(x))
+    return {
+        "in_exceptional_span": True,
+        "unique": True,
+        "integral": True,
+        "nonnegative": all(x >= 0 for x in vals),
+        "coefficients_exceptional_labels_93_to_140": vals,
+        "coefficient_sum": sum(vals),
+        "coefficient_max": max(vals),
+        "positive_support": sum(x > 0 for x in vals),
+    }
 
 
 def main() -> None:
@@ -141,6 +176,7 @@ def main() -> None:
     gram = Matrix(bundle["picard_gram_64x64"])
     if coords.shape != (140, 64) or gram.shape != (64, 64):
         raise ValueError("retained Picard shape regression")
+    full = coords * gram * coords.T
 
     aut = marking.get("aut_action")
     if not isinstance(aut, dict):
@@ -154,29 +190,18 @@ def main() -> None:
         raise ValueError("generator permutation degree regression")
     group = close(gens)
 
-    generator_summaries = [
-        {"index_1based": i + 1, "order": order(g), "cycle_profile": cycle_profile(g)}
-        for i, g in enumerate(gens)
-    ]
-
-    # Recover the unique 12-element degree-4 normal-curve orbit used by AM.
     _, degree, _, _, _ = _parse_hperp(marking["hperp_text"])
     degrees = [int(degree[i, 0]) for i in range(140)]
     normal_orbits = orbit_partition(set(range(92)), group)
     boundary_candidates = [o for o in normal_orbits if len(o) == 12 and {degrees[i] for i in o} == {4}]
     if len(boundary_candidates) != 1:
-        raise ValueError(f"unique boundary orbit regression: {[(len(o), sorted({degrees[i] for i in o})) for o in normal_orbits]}")
+        raise ValueError("unique boundary orbit regression")
     boundary = boundary_candidates[0]
 
-    # Source residual deck G acts trivially on Z x Z, hence fixes each of the
-    # six special fibres in both directions and therefore each of the twelve
-    # AM-source-bound boundary elliptics. Compute the pointwise stabilizer of
-    # those 12 labels inside the retained geometric automorphism group.
     boundary_pointwise = [g for g in group if all(g[i] == i for i in boundary)]
     boundary_setwise = [g for g in group if {g[i] for i in boundary} == set(boundary)]
     bp_orders = Counter(order(g) for g in boundary_pointwise)
 
-    # Build exact Picard action matrices and evaluate the V6 orbit.
     basis_indices = [j - 1 for j in RETAINED_BASIS_KNOWN_LABELS_1BASED]
     v6 = json.loads(V6_PATH.read_text())
     C = Matrix([[int(x) for x in v6["witness"]["picard_coordinates"]]])
@@ -187,6 +212,7 @@ def main() -> None:
     ident = tuple(range(140))
     residual_rows = []
     orbit_classes: set[tuple[int, ...]] = set()
+    S = Matrix([[0] * 64])
     for g in boundary_pointwise:
         M = action_matrix(g, coords, basis_indices)
         if M * gram * M.T != gram:
@@ -194,8 +220,8 @@ def main() -> None:
         Cg = C * M
         if int((Cg * gram * Cg.T)[0, 0]) != C2:
             raise ValueError("V6 translate self-intersection moved")
-        key = tuple(int(x) for x in Cg)
-        orbit_classes.add(key)
+        S += Cg
+        orbit_classes.add(row_key(Cg))
         residual_rows.append({
             "identity": g == ident,
             "element_order": order(g),
@@ -207,22 +233,65 @@ def main() -> None:
     nontriv_intersections = sorted(r["C_dot_gC"] for r in residual_rows if not r["identity"])
     sum_nontriv = sum(nontriv_intersections)
 
-    # AP image D has bidegree (81,105), so D^2=2*81*105.
-    image_square = 2 * 81 * 105
-    pullback_square = 8 * image_square
-    orbit_square_from_intersections = 8 * (C2 + sum_nontriv)
+    # Reconstruct the two AM fibre classes directly from the 12 source-bound boundary elliptics.
+    fibre_classes: dict[tuple[int, ...], list[int]] = defaultdict(list)
+    for i in boundary:
+        inc = [int(full[i, j]) for j in range(92, 140)]
+        if sum(inc) != 8 or sum(x > 0 for x in inc) != 8 or any(x not in (0, 1) for x in inc):
+            raise ValueError("boundary exceptional incidence regression")
+        B = 2 * coords.row(i)
+        for off, mult in enumerate(inc):
+            if mult:
+                B += coords.row(92 + off)
+        fibre_classes[row_key(B)].append(i + 1)
+    if len(fibre_classes) != 2 or sorted(map(len, fibre_classes.values())) != [6, 6]:
+        raise ValueError("AM 6+6 fibre-class regression")
 
-    # Canonical ramification correction for Phi:B~ -> P1xP1.
-    # K_B.C=186 from V6; Phi^*K_(P1xP1).C=-2*(81+105)=-372.
-    K_dot_C = 186
-    pullback_base_K_dot_C = -2 * (81 + 105)
-    ramification_dot_C = K_dot_C - pullback_base_K_dot_C
-    conductor_from_orbit_and_ramification = (sum_nontriv - ramification_dot_C) // 2
-    if (sum_nontriv - ramification_dot_C) % 2:
-        raise ValueError("conductor correction parity regression")
+    fibres = []
+    for k, labels in sorted(fibre_classes.items(), key=lambda kv: kv[1]):
+        F = Matrix([list(k)])
+        fibres.append({
+            "F": F,
+            "labels_1based": labels,
+            "C_dot_F": int((C * gram * F.T)[0, 0]),
+            "F_square": int((F * gram * F.T)[0, 0]),
+        })
+    if sorted(f["C_dot_F"] for f in fibres) != [81, 105]:
+        raise ValueError("AM V6 factor-degree regression")
+    F81 = next(f["F"] for f in fibres if f["C_dot_F"] == 81)
+    F105 = next(f["F"] for f in fibres if f["C_dot_F"] == 105)
+
+    # For a bidegree-(81,105) image, the base divisor class pulls back with the
+    # opposite fibre coefficients relative to projection degrees: P=105*F81+81*F105.
+    P = 105 * F81 + 81 * F105
+    P_wrong = 81 * F81 + 105 * F105
+    image_square = 2 * 81 * 105
+    pullback_square = int((P * gram * P.T)[0, 0])
+    if pullback_square != 8 * image_square:
+        raise ValueError("factor pullback square regression")
+    if int((C * gram * P.T)[0, 0]) != image_square:
+        raise ValueError("opposite-coefficient bidegree orientation regression")
+
+    E = coords[92:140, :]
+    T = P - S
+    T_wrong = P_wrong - S
+    exc_solution = solve_exceptional_span(T, E)
+    exc_solution_wrong = solve_exceptional_span(T_wrong, E)
+    if exc_solution.get("in_exceptional_span") and exc_solution.get("integral"):
+        m = exc_solution["coefficients_exceptional_labels_93_to_140"]
+        e = [int(x) for x in v6["witness"]["all140_pairings"][92:]]
+        exc_solution["C_dot_exceptional_correction_from_coefficients"] = sum(mi * ei for mi, ei in zip(m, e))
+        exc_solution["C_dot_exceptional_correction_direct"] = int((C * gram * T.T)[0, 0])
+        exc_solution["T_square"] = int((T * gram * T.T)[0, 0])
+        exc_solution["S_dot_T"] = int((S * gram * T.T)[0, 0])
+        exc_solution["S_square"] = int((S * gram * S.T)[0, 0])
+        exc_solution["P_square"] = int((P * gram * P.T)[0, 0])
+        exc_solution["square_decomposition_holds"] = (
+            exc_solution["P_square"] == exc_solution["S_square"] + 2 * exc_solution["S_dot_T"] + exc_solution["T_square"]
+        )
 
     out = {
-        "mode": "SCRATCH_POST1648AQ_RESIDUAL_G_ACTION_AND_CONDUCTOR_IDENTITY",
+        "mode": "SCRATCH_POST1648AQ_RESIDUAL_G_ACTION_EXCEPTIONAL_CORRECTION",
         "retained_marking_path": str(MARKING_PATH.relative_to(ROOT)),
         "retained_aut_source": bounded_meta(aut.get("source")),
         "retained_aut_source_splice": bounded_meta(aut.get("source_splice")),
@@ -230,7 +299,6 @@ def main() -> None:
         "full_retained_group": {
             "order": len(group),
             "stored_generator_count": len(gens),
-            "stored_generator_summaries": generator_summaries,
             "element_order_histogram": dict(sorted(Counter(order(g) for g in group).items())),
         },
         "boundary_anchor": {
@@ -248,30 +316,33 @@ def main() -> None:
             "rows": residual_rows,
             "nontrivial_C_dot_gC_sorted": nontriv_intersections,
             "sum_nontrivial_C_dot_gC": sum_nontriv,
+            "orbit_sum_square": int((S * gram * S.T)[0, 0]),
+            "C_dot_orbit_sum": int((C * gram * S.T)[0, 0]),
         },
-        "quotient_intersection_identity": {
-            "C_square": C2,
+        "factor_pullback": {
+            "fibre_classes": [
+                {"labels_1based": f["labels_1based"], "C_dot_F": f["C_dot_F"], "F_square": f["F_square"]}
+                for f in fibres
+            ],
             "image_bidegree": [81, 105],
             "image_square": image_square,
-            "degree_8_pullback_square_expected": pullback_square,
-            "orbit_square_from_C_and_pairwise_intersections": orbit_square_from_intersections,
-            "square_identity_holds": pullback_square == orbit_square_from_intersections,
+            "full_pullback_class_formula": "P=105*F_(C.F=81)+81*F_(C.F=105)",
+            "P_square": pullback_square,
+            "C_dot_P": int((C * gram * P.T)[0, 0]),
+            "degree_8_image_square": 8 * image_square,
         },
-        "canonical_ramification_correction": {
-            "K_B_dot_C": K_dot_C,
-            "Phi_pullback_K_P1xP1_dot_C": pullback_base_K_dot_C,
-            "R_dot_C": ramification_dot_C,
-            "half_sum_C_dot_gC": sum_nontriv // 2 if sum_nontriv % 2 == 0 else None,
-            "conductor_length_formula": "(sum_{g!=1} C.gC - R.C)/2",
-            "conductor_length_from_action": conductor_from_orbit_and_ramification,
-            "AP_required_conductor_length": 7847,
-            "exactly_matches_AP_demand": conductor_from_orbit_and_ramification == 7847,
+        "exceptional_correction": {
+            "T_formula": "T=P-sum_{h in H} hC",
+            "correct_orientation": exc_solution,
+            "same_orientation_control": exc_solution_wrong,
         },
         "decision": {
-            "candidate_residual_G_semantic_anchor_complete_if_source_inclusion_verified": len(boundary_pointwise) == 8 and bp_orders == Counter({2: 7, 1: 1}),
-            "naive_global_conductor_budget_excludes_V6": False,
-            "global_intersection_budget_is_adjunction_quotient_identity": conductor_from_orbit_and_ramification == 7847 and pullback_square == orbit_square_from_intersections,
-            "next_missing_input": "LOCAL_FIXED_LOCUS_AND_BRANCH_INTERSECTION_ALLOCATION_BEYOND_GLOBAL_INTERSECTION_NUMBERS",
+            "candidate_subgroup_has_residual_G_numerical_signature": len(boundary_pointwise) == 8 and bp_orders == Counter({2: 7, 1: 1}),
+            "strict_transform_orbit_alone_is_full_pullback": T == Matrix([[0] * 64]),
+            "full_pullback_minus_orbit_is_exact_exceptional_class": bool(exc_solution.get("in_exceptional_span") and exc_solution.get("unique") and exc_solution.get("integral")),
+            "full_pullback_minus_orbit_is_effective_exceptional": bool(exc_solution.get("nonnegative")),
+            "naive_AP_conductor_upper_bound_route_closes": False,
+            "next_missing_input": "INTERPRET_EXCEPTIONAL_CORRECTION_LOCALLY_AND_SOURCE_BIND_BOUNDARY_POINTWISE_SUBGROUP_TO_RESIDUAL_G",
         },
         "firewalls": {
             "scratch_only": True,
