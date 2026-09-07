@@ -1,4 +1,4 @@
-name: Stage33 V91C1Y-AC bounded preflight
+name: Stage33 V91C1Y-AD bounded preflight
 
 on:
   pull_request:
@@ -8,8 +8,11 @@ on:
       - 'stages/stage33/33-12/diagnose_e3_v91c1aa_sign_reducer_package_transport.py'
       - 'stages/stage33/33-12/diagnose_e3_v91c1ab_sign_prime_attached_cech_difference.py'
       - 'stages/stage33/33-12/diagnose_e3_v91c1ac_sign_b1_seed_fixed_subspace.py'
+      - 'stages/stage33/33-12/diagnose_e3_v91c1ad_sign_a2_picard64_locator_preflight.py'
       - 'stages/stage33/33-12/e3-v91c1ac-kummer-sign-b1-source-lock.md'
       - 'stages/stage33/33-12/diagnose_e3_v91c1s_swap23_prime_attached_cech_difference.py'
+      - 'stages/stage33/33-12/diagnose_e3_v91c1v_actual_prime_known140_locator.py'
+      - 'stages/stage33/33-12/diagnose_e3_v91c1w_all8_picard64_reduction_v2.py'
       - 'stages/stage33/33-12/e3-v91c1x-a2-02-kummer-naturality-mask20-exclusion.json'
       - 'stages/stage33/33-12/diagnose_e3_v91c1q_shortest_mask20_moving_stabilizer_word.py'
       - 'stages/stage33/33-12/diagnose_e3_coordinate_automorphism_orbit_v84.py'
@@ -17,8 +20,7 @@ on:
       - 'stages/stage33/33-11f/stage33-11f-source-lock.json'
       - 'stages/stage33/33-11e/**'
       - 'stages/stage33/33-11d/**'
-      - 'stages/stage33/33-07/proper-brauer2-from-discriminant.json'
-      - 'stages/stage33/33-07/exceptional-p1-tangent-coordinates.json'
+      - 'stages/stage33/33-07/**'
       - '.github/workflows/stage33-v91c1y-cheap-preflight.yml'
   workflow_dispatch:
 
@@ -26,13 +28,13 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v91c1yac-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1yad-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
   exact-preflight:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
         with:
@@ -52,5 +54,7 @@ jobs:
         run: python stages/stage33/33-12/diagnose_e3_v91c1ab_sign_prime_attached_cech_difference.py
       - name: Diagnose V91C1AC source-bound sign_b1 seed fixedness
         run: python stages/stage33/33-12/diagnose_e3_v91c1ac_sign_b1_seed_fixed_subspace.py
+      - name: Diagnose V91C1AD sign_a2 Picard64 locator preflight
+        run: python stages/stage33/33-12/diagnose_e3_v91c1ad_sign_a2_picard64_locator_preflight.py
       - name: Diff hygiene
         run: git diff --check
