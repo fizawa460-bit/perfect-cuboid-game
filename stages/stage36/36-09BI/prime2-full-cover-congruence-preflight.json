@@ -1,0 +1,79 @@
+{
+  "schema":"STAGE36_36_09BI_PRIME2_FULL_COVER_CONGRUENCE_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09BI",
+  "status":"EXACT_Q2_MINUS_ROOT_VALUATION_GATE_PLUS_ROOT_AUTOMATIC_PENDING_BATCH_AUDIT",
+  "base_main_sha":"e758e05953df2cf8cd4ab26ac1e9d72374e99760",
+  "batch_parent":{"pr":1691,"36_09BH_exact_head":"9f6e7da25e70aaf86c3051e8823a4ce380fe518f","36_09BH_exact_head_ci":"34101682021/101677315243"},
+  "source_locks":{
+    "stage36_36_09BH":{"path":"stages/stage36/36-09BH/bad-place-full-cover-valuation-preflight.json","blob_sha":"76487371ed363868af18a9fa0f6f7e1367d28f27"},
+    "stage36_36_09BH_verifier":{"path":"stages/stage36/verify_stage36_36_09BH.py","blob_sha":"c6f8d064f3d2829459d74d39095671bab152580e"},
+    "stage36_36_09AD":{"path":"stages/stage36/36-09AD/coupled-six-reservoir-factor-squareclass-parity-preflight.json","blob_sha":"9d0388845955efee71d1a761ae4ee943d8b565d5"},
+    "stage36_36_09BA":{"path":"stages/stage36/36-09BA/ay-auxiliary-genusone-open-points-preflight.json","blob_sha":"2f31c89b2760f2270fa0ea21106ef97a3ec0840b"},
+    "stage36_36_09BB":{"path":"stages/stage36/36-09BB/ay-receiver-scaled-self-intersection-preflight.json","blob_sha":"e4b63fd500d05ff5dc704e0c08409edee5895053"}
+  },
+  "notation":{
+    "D0":"a*b*(a-b)*(a+b)","Qsum":"a^2+b^2","P":"a^2+2*a*b-b^2","M":"a^2-2*a*b-b^2",
+    "delta":"v2(D0)","sigma":"v2(Qsum)=v2(P)=v2(M)","sigma_cases":"0 for opposite parity a,b; 1 for both odd",
+    "kappa":"eta*2^e*C on AY, with C odd and e=(1+delta) mod 2","T":"T^2=2*D0/kappa","m":"v2(T)=(1+delta-e)/2",
+    "alpha":"v2(u^2-v^2)","rho":"v2(r)=(alpha-e)/2"
+  },
+  "primitive_AY_Q2_normalization":{
+    "equations":["u^2-v^2=kappa*r^2","u^2+v^2=2*s^2"],
+    "primitive_integral_scaling":"u,v in Z2 and not both even",
+    "forced_units":["u","v","s"],
+    "alpha_lower_bound":3,
+    "alpha_parity":"alpha == e mod 2"
+  },
+  "full_cover_extra_roots":{
+    "minus":"c^2=Qsum^2*r^2-4*T^2*s^2",
+    "plus":"d^2=Qsum^2*s^2-kappa^2*T^2*r^2"
+  },
+  "minus_root_valuation_gate":{
+    "X":"v2(Qsum*r)=sigma+rho","Y":"v2(2*T*s)=1+m","h":"Y-X=(delta+3-2*sigma-alpha)/2",
+    "case_h_at_least_2":"automatic Q2 square: factor (Qsum*r)^2 and the unit is 1 mod 8",
+    "case_h_equal_1":"impossible: residual unit is 5 mod 8",
+    "case_h_less_than_0":"impossible: after factoring (2*T*s)^2 the residual unit is 3 mod 8 for h=-1 and 7 mod 8 for h<=-2",
+    "case_h_equal_0":"survives only through the exact odd-unit equation c0^2=x0^2-y0^2 with x0,y0 in Z2^*; not classified in BI",
+    "equivalent_survivor_valuation_condition":"alpha <= delta-1-2*sigma OR alpha = delta+3-2*sigma",
+    "excluded_near_equality":"alpha = delta+1-2*sigma",
+    "all_alpha_above_equality_excluded":true,
+    "receiver_2adic_branch_shrunk":true
+  },
+  "plus_root_Q2_automatic":{
+    "g":"v2(kappa*T*r)-v2(Qsum*s)=(1+delta+alpha-2*sigma)/2",
+    "uniform_lower_bound":3,
+    "consequence":"d^2=(Qsum*s)^2*(1-z^2) with v2(z)>=3, so 1-z^2 == 1 mod 8 and the plus root exists over Q2",
+    "new_plus_root_2adic_filter":false
+  },
+  "parameter_cases":{
+    "opposite_parity_ab":{"sigma":0,"delta_min":1,"equality_alpha":"delta+3","automatic_lower_branch":"alpha<=delta-1"},
+    "both_odd_ab":{"sigma":1,"delta_min":3,"equality_alpha":"delta+1","automatic_lower_branch":"alpha<=delta-3"},
+    "parameter_p_population_shrunk":false,
+    "reason":"BI restricts the receiver's auxiliary 2-adic valuation alpha but does not eliminate any parameter delta/sigma class by itself"
+  },
+  "route_result":{
+    "route_status":"PASS_NEW_Q2_RECEIVER_VALUATION_GATE",
+    "prime2_full_cover_first_valuation_layer_classified":true,
+    "minus_root_new_2adic_gate":true,
+    "plus_root_new_2adic_gate":false,
+    "equality_unit_branch_open":true,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09BJ_PRIME2_EQUAL_VALUATION_UNIT_BRANCH_PREFLIGHT"
+  },
+  "scope_firewalls":{
+    "prime2_full_cover_completely_classified":false,
+    "equality_unit_branch_classified":false,
+    "automatic_lower_branch_globally_realized":false,
+    "fixed_uniform_ramification_set_recovered":false,
+    "finite_exhaustive_squareclass_family":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
