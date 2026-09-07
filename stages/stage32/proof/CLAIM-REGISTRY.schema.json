@@ -1,0 +1,183 @@
+{
+  "$id": "STAGE32_CLAIM_REGISTRY_SCHEMA_V1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authority_status_contract": {
+      "additionalProperties": true,
+      "properties": {
+        "allowed": {
+          "items": {
+            "enum": [
+              "SCRATCH",
+              "PROVISIONAL",
+              "AUDITED",
+              "DECLARED_GOAL",
+              "SUPERSEDED",
+              "REVOKED"
+            ]
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "dependency_rules": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "allowed",
+        "dependency_rules"
+      ],
+      "type": "object"
+    },
+    "claim_id_contract": {
+      "additionalProperties": true,
+      "properties": {
+        "immutability_rule": {
+          "type": "string"
+        },
+        "pattern": {
+          "const": "^S32\\.[A-Z0-9_]+(?:\\.[A-Z0-9_]+)*\\.V[1-9][0-9]*$"
+        }
+      },
+      "required": [
+        "pattern",
+        "immutability_rule"
+      ],
+      "type": "object"
+    },
+    "claims": {
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "audit_receipt": {
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "authority_status": {
+            "enum": [
+              "SCRATCH",
+              "PROVISIONAL",
+              "AUDITED",
+              "DECLARED_GOAL",
+              "SUPERSEDED",
+              "REVOKED"
+            ]
+          },
+          "bridges": {
+            "type": "object"
+          },
+          "claim_core_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "claim_id": {
+            "pattern": "^S32\\.[A-Z0-9_]+(?:\\.[A-Z0-9_]+)*\\.V[1-9][0-9]*$",
+            "type": "string"
+          },
+          "does_not_prove": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "kind": {
+            "enum": [
+              "authority_snapshot",
+              "mathematical_claim",
+              "lane_contract",
+              "adapter_contract"
+            ]
+          },
+          "proves": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "replay_verifier": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "requires": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "scope": {
+            "type": "object"
+          },
+          "scope_key": {
+            "pattern": "^S32\\.[A-Z0-9_]+(?:\\.[A-Z0-9_]+)*$",
+            "type": "string"
+          },
+          "source_locks": {
+            "items": {
+              "additionalProperties": true,
+              "properties": {
+                "blob_sha1": {
+                  "pattern": "^[0-9a-f]{40}$",
+                  "type": "string"
+                },
+                "canonical_sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                },
+                "path": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "path"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "statement": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "claim_id",
+          "kind",
+          "statement",
+          "scope_key",
+          "scope",
+          "proves",
+          "does_not_prove",
+          "requires",
+          "claim_core_sha256",
+          "authority_status",
+          "source_locks",
+          "audit_receipt"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "schema": {
+      "const": "STAGE32_CLAIM_REGISTRY_V1"
+    },
+    "stage": {
+      "const": 32
+    }
+  },
+  "required": [
+    "schema",
+    "stage",
+    "claim_id_contract",
+    "authority_status_contract",
+    "claims"
+  ],
+  "title": "Stage32 claim registry",
+  "type": "object"
+}
