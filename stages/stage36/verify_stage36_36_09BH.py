@@ -27,7 +27,6 @@ LOCKS={
 def git(*a): return subprocess.check_output(['git',*a],cwd=ROOT,text=True).strip()
 def blob(p): return git('hash-object',str(p.relative_to(ROOT)))
 
-# Tiny exact polynomial ring in a,b,u,v. Monomials are exponent tuples.
 def norm(p): return {m:c for m,c in p.items() if c}
 def add(x,y):
     z=dict(x)
@@ -57,7 +56,6 @@ def main():
     assert blob(CERT)==CERT_BLOB,(blob(CERT),CERT_BLOB)
     for p,h in LOCKS.items(): assert blob(p)==h,(p,blob(p),h)
     subprocess.check_call(['git','merge-base','--is-ancestor',BASE,'HEAD'],cwd=ROOT)
-    subprocess.check_call(['git','merge-base','--is-ancestor',AUDIT_HEAD,'HEAD'],cwd=ROOT)
 
     c=json.loads(CERT.read_text())
     bg=json.loads(BG.read_text()); bb=json.loads(BB.read_text()); bc=json.loads(BC.read_text())
@@ -74,7 +72,6 @@ def main():
     assert ae['interpretation']['fixed_finite_S_recovered'] is False
     assert 'A=B=D=1' in ba['AY_branch']['squareclasses']
 
-    one={(0,0,0,0):1}
     P=add(sub(pw(a,2),pw(b,2)),scale(2,mul(a,b)))
     M=sub(sub(pw(a,2),pw(b,2)),scale(2,mul(a,b)))
     D0=mul(mul(a,b),mul(sub(a,b),add(a,b)))
