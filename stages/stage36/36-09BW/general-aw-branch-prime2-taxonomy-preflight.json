@@ -1,0 +1,105 @@
+{
+  "schema":"STAGE36_36_09BW_GENERAL_AW_BRANCH_PRIME2_TAXONOMY_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09BW",
+  "status":"EXACT_GENERAL_AW_Q2_VALUATION_UNIT_TAXONOMY_AND_BRANCH_ONLY_FILTERS",
+  "base_main_sha":"e6fd1aec8391c2e9a82eab45c3498afcec99ad44",
+  "batch_parent":{"pr":1693,"36_09BV_fresh_exact_head":"9bc6a455a3d9eacf54db5dbcd60ef3ce732c8b18","36_09BV_fresh_exact_head_ci":"34121263304/101739583607"},
+  "source_locks":{
+    "stage36_36_09BV":{"path":"stages/stage36/36-09BV/fixed-p-q-reservoir-branch-filter-integration-preflight.json","blob_sha":"11b2b927f04c6a7ad151d2456fc79d27329b8dad"},
+    "stage36_36_09BV_verifier":{"path":"stages/stage36/verify_stage36_36_09BV.py","blob_sha":"345fdf7c8133883c3eb261e1313ee56a7b9d7f7f"},
+    "stage36_36_09BU":{"path":"stages/stage36/36-09BU/general-aw-branch-bad-place-valuation-taxonomy-preflight.json","blob_sha":"a8f3fb880b83aac2240ce299fe8a8fa42e044093"},
+    "stage36_36_09AE":{"path":"stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json","blob_sha":"ddae37dd35cd0e732cebadf9c17f3f3fa57930df"},
+    "stage36_36_09BI":{"path":"stages/stage36/36-09BI/prime2-full-cover-congruence-preflight.json","blob_sha":"ba6a705ce61b14e640b2c400d42dded60097b406"},
+    "stage36_36_09BJ":{"path":"stages/stage36/36-09BJ/prime2-equal-valuation-unit-branch-preflight.json","blob_sha":"f9ef3dde7b756470f2fc882327a67d72db7902f1"}
+  },
+  "notation":{
+    "delta":"v2(D0)",
+    "sigma":"v2(Q), equal to 0 for opposite-parity a,b and 1 for both odd a,b",
+    "primitive_parameter_bound":"delta>=2*sigma+1",
+    "A_B_residues":"AE gives A mod8,B mod8 in {1,7}",
+    "kappa":"eta*2^e*C",
+    "rho":"2^f*D",
+    "mu":"2^g*mu0 with mu0 odd and g=(delta+e+f) mod2",
+    "Lminus":"v2(Tminus)=(2+delta+f-e-g)/2",
+    "Lplus":"v2(Tplus)=(2+delta+e-f-g)/2",
+    "general_norm_minus":"A*B*c^2=(Q*r)^2-mu*(Tminus*s)^2",
+    "general_norm_plus":"A*B*d^2=(Q*s)^2-mu*(Tplus*r)^2"
+  },
+  "primitive_source_Q2_cases":{
+    "normalization":"scale so min(v2(u),v2(v))=0",
+    "mixed_parity_u_v":{"condition":"exactly one of u,v is a 2-adic unit","forced":"e=f=0 and r,s are 2-adic units"},
+    "both_units_A_equal_B_mod8":{"forced":"f=1, s is a unit","alpha":"v2(A*u^2-B*v^2)>=3 with alpha=e mod2","R":"v2(r)=(alpha-e)/2"},
+    "both_units_A_not_equal_B_mod8":{"forced":"e=1, r is a unit","beta":"v2(A*u^2+B*v^2)>=3 with beta=f mod2","S":"v2(s)=(beta-f)/2"},
+    "exhaustive_relative_to_AE":"these are the only primitive parity cases compatible with the two coupled conics"
+  },
+  "generic_two_term_Q2_square_rule":{
+    "form":"F=a^{-1}*(x^2-2^g*mu0*y^2), where a=A*B mod8 is 1 or 7 and x,y have odd unit parts",
+    "E1":"2*v2(x)",
+    "E2":"g+2*v2(y)",
+    "square_term_dominates_E1_less_E2":{"gap_h":"E2-E1","h_at_least_3":"F is a Q2-square iff a=1 mod8","h_equal_2":"impossible for a in {1,7}","h_equal_1":"F is a Q2-square iff a=7 mod8 and mu0=1 mod4"},
+    "negative_mu_term_dominates_E1_greater_E2":{"g_equal_1":"impossible because v2(F) is odd","g_equal_0_h_equal_2":"F is a Q2-square iff mu0=3*a mod8","g_equal_0_h_at_least_4":"F is a Q2-square iff mu0=-a mod8"},
+    "tie_E1_equal_E2":{"possible_only_if":"g=0","normalized_ratio":"z=x0/y0 is odd and z^2!=mu0 on the retained nonzero square open","n":"v2(z^2-mu0)","w0":"(z^2-mu0)/2^n odd","criterion":"F is a Q2-square iff n is even and w0=a mod8"},
+    "completeness":"necessary and sufficient by the Q2 square criterion: even valuation and odd unit congruent to 1 mod8"
+  },
+  "branch_only_prime2_filters":{
+    "AB_residue_filter":{
+      "statement":"every full receiver branch must have A=B mod8, equivalently A*B=1 mod8",
+      "proof_mixed":"if A!=B and e=f=0, both extra roots are square-term-leading with gap delta+2-2*sigma>=3, so division by A*B leaves leading unit 7 mod8",
+      "proof_both_units":"if A!=B, e=1 and the minus extra root is square-term-leading with gap delta+1+beta-2*sigma>=5, again leaving leading unit 7 mod8",
+      "point_independent":true
+    },
+    "critical_deep_branch_filter":{
+      "setup":"assume A=B mod8 and f=1",
+      "alpha_min":"4 when e=0 and 3 when e=1",
+      "Delta":"delta+3-2*sigma-alpha, the second-minus-term exponent minus the first-minus-term exponent",
+      "Delta_max":"delta+3-2*sigma-alpha_min",
+      "critical_condition":"delta=2*sigma+2-e, equivalently Delta_max=1",
+      "statement":"under the critical condition the branch has no Q2 full-cover point: allowed Delta values are 1,-1,-3,...; Delta=1 fails the gap-1 rule for a=1, while every negative Delta has g=1 and hence odd output valuation",
+      "point_independent":true
+    }
+  },
+  "remaining_same_AB_taxonomy":{
+    "mixed_e0_f0":"both extra roots are Q2-automatic at the full-cover layer because A*B=1 and their square-leading gaps are at least 3",
+    "deep_f1_plus_root":"the plus extra root is Q2-automatic; its square-leading gap is delta+1+alpha-2*sigma>=5",
+    "deep_f1_minus_root":{"Delta_at_least_3":"automatic","Delta_2_or_1":"impossible","Delta_0":"g=0 tie; use the generic n-even and w0=1 mod8 criterion","Delta_negative_g1":"impossible","Delta_minus2_g0":"survives iff mu0=3 mod8","Delta_at_most_minus4_g0":"survives iff mu0=7 mod8"},
+    "no_additional_point_independent_filter_claimed":"outside the two branch-only filters above, survival can depend on alpha and/or the normalized tie unit; no branch existence is asserted"
+  },
+  "AY_specialization_check":{
+    "substitution":"A=B=1, f=1, mu0=1, g=0, e=(1+delta) mod2",
+    "Delta":"delta+3-2*sigma-alpha=2*h_BI",
+    "BI_recovered":"Delta>=4 automatic, Delta=2 impossible, Delta<0 impossible",
+    "BJ_recovered":"Delta=0 is exactly the z^2-1 equality branch and the generic tie criterion specializes to the BJ Q2 unit criterion",
+    "exact_specialization":true
+  },
+  "exact_fixed_p_diagnostics":{
+    "p_1_over_2":{"sigma":0,"delta":1,"AW_AE_outer":14,"after_Q_row":8,"after_AB_residue_filter":6,"after_critical_deep_filter":4,"fixed_p_excluded":false},
+    "p_2_over_11":{"sigma":0,"delta":1,"AW_AE_outer":158,"after_Q_row":77,"after_AB_residue_filter":52,"after_critical_deep_filter":30,"fixed_p_excluded":false},
+    "interpretation":"the prime-2 branch-only rows are nonredundant with AE and the BU Q row, but the two certified parameters retain outer branches"
+  },
+  "route_result":{
+    "route_status":"PASS_GENERAL_Q2_TAXONOMY_NEW_BRANCH_ONLY_FILTERS",
+    "general_prime2_branch_taxonomy_complete_at_valuation_unit_layer":true,
+    "new_AB_mod8_branch_filter":true,
+    "new_critical_deep_branch_filter":true,
+    "fixed_p_parameter_exclusion_obtained_in_diagnostics":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09BX_FIXED_P_Q2_BRANCH_FILTER_INTEGRATION_PREFLIGHT"
+  },
+  "scope_firewalls":{
+    "remaining_outer_branch_has_Q2_point":false,
+    "Q2_branch_filter_survivor_is_receiver":false,
+    "two_diagnostics_are_uniform_parameter_theorem":false,
+    "local_parameter_elimination_route_exhausted":false,
+    "uniform_finite_Q_squareclass_family":false,
+    "finite_exhaustive_H1_twist_family":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
