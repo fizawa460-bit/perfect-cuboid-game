@@ -63,8 +63,8 @@ def main():
     assert c['base_main_sha']==BASE
     assert c['batch_parent']=={'pr':1693,'36_09BV_fresh_exact_head':PARENT,'36_09BV_fresh_exact_head_ci':PARENT_CI}
     assert bv['route_result']['next_leaf']=='36-09BW_GENERAL_AW_BRANCH_PRIME2_TAXONOMY_PREFLIGHT'
-    assert ae['alpha_two_residue_constraints']['consequences'][1]=='A mod8 belongs to {1,7}'
-    assert ae['alpha_two_residue_constraints']['consequences'][2]=='B mod8 belongs to {1,7}'
+    assert ae['alpha_two_residue_input']['consequence'][2]=='A mod 8 is in {1,7}'
+    assert ae['alpha_two_residue_input']['consequence'][3]=='B mod 8 is in {1,7}'
     for a0 in range(-15,16):
       for b0 in range(-15,16):
         if not a0 or not b0 or gcd(a0,b0)!=1 or a0 in (b0,-b0):continue
