@@ -1,0 +1,43 @@
+name: Stage33 V91C1X R5B3A A2_02 317/1757 literal package check
+
+on:
+  push:
+    branches:
+      - stage33-v91c1x-r5b2d0-swap23-source-lock
+    paths:
+      - '.github/workflows/stage33-v91c1x-r5b3a-a2-02-317-1757-literal-package-check.yml'
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b3a_a2_02_317_1757_literal_package_pullbacks.py'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3a-a2-02-317-1757-literal-package-pullbacks.json'
+      - 'stages/stage33/33-12/verify_stage33_v91c1x_r5b3a_a2_02_317_1757_literal_package_pullbacks_v131.py'
+  pull_request:
+    paths:
+      - '.github/workflows/stage33-v91c1x-r5b3a-a2-02-317-1757-literal-package-check.yml'
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b3a_a2_02_317_1757_literal_package_pullbacks.py'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3a-a2-02-317-1757-literal-package-pullbacks.json'
+      - 'stages/stage33/33-12/verify_stage33_v91c1x_r5b3a_a2_02_317_1757_literal_package_pullbacks_v131.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Replay R5B2D2 exact common refinement
+        run: python stages/stage33/33-12/verify_stage33_v91c1x_r5b2d2_swap23_317_cover_common_refinement_v130.py
+      - name: Replay R5B3A exact A2_02 package pullbacks
+        run: python stages/stage33/33-12/verify_stage33_v91c1x_r5b3a_a2_02_317_1757_literal_package_pullbacks_v131.py
+      - name: Check Stage33 MAIN state synchronization contract
+        run: python stages/stage33/sync_main_state.py --check
+      - name: Diff hygiene
+        run: git diff --check
