@@ -52,11 +52,11 @@ Check that `MAIN-START-HERE.md`, `MAIN-STATE.json`, and `stage32-ex1.md` agree o
 
 - the `stage32ex1-mainbatch` / `stage32ex1-audit` separation;
 - the current leaf and working set;
-- the final `FULL_TARGET_CLOSURE` target;
-- the fact that finite ledger, data-gap diagnosis, and one-branch exclusion are not terminal success;
+- `FULL_TARGET_CLOSURE` as an umbrella decision state with exactly two allowed terminal outcomes: `ALL_V6_GENUS1_CARRIERS_EXCLUDED` and `GENUINE_SURVIVING_CARRIER_ESTABLISHED`;
+- the fact that finite ledger, data-gap diagnosis, one-branch exclusion, and a merely formal/effective divisor class are not terminal success;
 - no automatic merge or Stage32 MAIN promotion.
 
-Mutable state may route work but may not silently weaken the roadmap completion contract.
+Mutable state may route work but may not silently weaken the roadmap completion contract or delete either terminal outcome from the state machine.
 
 ### C. Source and population lock
 
@@ -64,7 +64,7 @@ For every promoted mathematical statement, verify the exact population, field, P
 
 ### D. Normalization-location exhaustiveness
 
-Hostile-test the central scope boundary:
+Hostile-test the central scope boundary on the exclusion route:
 
 - normalization non-bijectivity must not be localized to the `47` met surface nodes without proof;
 - the surface-node multibranch branch and smooth-ambient curve-singularity branch must remain distinct until an exhaustive adapter joins them;
@@ -72,6 +72,8 @@ Hostile-test the central scope boundary:
 - a globally non-bijective normalization statement alone does not choose a local branch.
 
 Premature localization is FAIL.
+
+These population-wide exhaustiveness requirements are required for the exclusion terminal, not for a positive terminal backed by one fully verified actual target member.
 
 ### E. Delta/contact bookkeeping
 
@@ -85,17 +87,24 @@ Verify locally and globally that:
 
 Any unsupported `266 -> delta` identification is FAIL.
 
-### F. Credit ceiling and closure adapter
+### F. Credit ceiling and terminal-decision adapter
 
 Classify the strongest supported result by name, not roadmap number:
 
 - `NO_CREDIT`;
 - `NECESSARY_CONDITION_ONLY`;
 - `BRANCH_EXCLUSION`;
-- `AUDIT_READY_FULL_TARGET_CLOSURE`;
-- `FULL_TARGET_CLOSURE` only after exact-head hostile-audit PASS of the complete exhaustiveness certificate.
+- `AUDIT_READY_FULL_TARGET_CLOSURE` with one declared terminal outcome;
+- `FULL_TARGET_CLOSURE / ALL_V6_GENUS1_CARRIERS_EXCLUDED` only after exact-head hostile-audit PASS of the complete exclusion/exhaustiveness certificate;
+- `FULL_TARGET_CLOSURE / GENUINE_SURVIVING_CARRIER_ESTABLISHED` only after exact-head hostile-audit PASS of a complete positive witness certificate.
 
-A finite table, sample zero-hit, missing-data diagnosis, blocked route, or formal divisor/class cannot be promoted to full closure. For full closure, verify that every integral irreducible V6 genus-1 carrier in the fixed target is covered and every residual configuration is disposed.
+A finite table, sample zero-hit, missing-data diagnosis, blocked route, or formal divisor/class cannot be promoted to full closure.
+
+For `ALL_V6_GENUS1_CARRIERS_EXCLUDED`, verify that every integral irreducible V6 genus-1 carrier in the fixed target is covered and every residual configuration is disposed.
+
+For `GENUINE_SURVIVING_CARRIER_ESTABLISHED`, verify one actual target member end-to-end: exact construction or identification, Picard class V6, field, integrality, irreducibility, geometric genus `1`, and the target-membership adapter. Population-wide disposal of unrelated residual configurations is **not** required for this positive terminal. A formal V6 divisor, Riemann--Roch effectivity statement, reducible member, nonintegral scheme, wrong-field member, or genus not exactly `1` is insufficient.
+
+If `FULL_TARGET_CLOSURE` is asserted without exactly one valid terminal outcome, FAIL.
 
 ### G. Replay/verifier integrity
 
@@ -107,6 +116,6 @@ Verify that the candidate does not, by Stage32EX1 assertion alone, change Stage3
 
 ## Required audit output
 
-Return one unambiguous result: `PASS` or `FAIL`. Record the exact head, current main, PR state, reviewed scope, exact-head CI status, strongest supported credit ceiling, and every blocking finding. When repository review posting is available, place one hostile-audit review/comment anchored to the exact candidate head.
+Return one unambiguous result: `PASS` or `FAIL`. Record the exact head, current main, PR state, reviewed scope, exact-head CI status, strongest supported credit ceiling, the selected terminal outcome if any, and every blocking finding. When repository review posting is available, place one hostile-audit review/comment anchored to the exact candidate head.
 
 `PASS` means only that the stated Stage32EX1 claim survives this contract at that exact head. It does not merge and does not automatically promote to Stage32 MAIN. `FAIL` must state the smallest concrete repair or missing proof boundary and then stop; implementation belongs to `stage32ex1-mainbatch`.
