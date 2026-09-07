@@ -238,7 +238,7 @@ HYPOTHESES: named global finite module/class; exact localization maps; complete 
 
 Literature anchors: Serre, *A Course in Arithmetic*, Chapter III Theorems 2–4, DOI `10.1007/978-1-4684-9884-4`; Milne, *Arithmetic Duality Theorems*, Theorem I.4.10, https://www.jmilne.org/math/Books/ADTnot.pdf; standard Kummer/Selmer local-condition semantics as routed through existing provisional `LIT-PW03`.
 
-Stage36 seed input: `S36-PW04` chart tuple and `S36-PW07` local-character matrix. Repo adapter output is only a typed theorem-input package. Adapter source/verifier: **not yet present**; the workflow itself is the fail-closed applicability procedure and carries zero mathematical credit.
+Stage36 seed input: `S36-PW04` chart tuple and `S36-PW07` local-character matrix. Repo adapter output is only a typed theorem-input package. Workflow support artifact: `docs/arsenal/lit-wf02-global-h1-localization-reciprocity-contract.json`, blob `bbf17d8fea0db65cb4a555f7eff03b747a4c8ee1`. Structural verifier: `docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py`, blob `7c38432bbace0f4408204dcd75b58d5d48f3bf19`. These audit typed readiness only; a separate mathematical adapter is still required for theorem use and mathematical credit remains zero.
 
 ## Rejected duplicates and research gap
 
@@ -252,4 +252,12 @@ No new literature weapon is created.
 - factor/squareclass linearization -> `S34-W01/S35-PW01`
 - Gaussian/norm lineage -> Stage14 `AR-017/AR-018` plus Stage35 extensions
 
-`GLOBAL-HILBERT-SELMER-COMPATIBILITY-TERMINAL` remains **RESEARCH_GAP**. Required missing adapter: `DYNAMIC_RESERVOIR_ROWS_TO_GLOBAL_KUMMER_LOCALIZATION_SYSTEM`. No `POSSIBLY_NOVEL` item is activated; the Phase3 novelty flag list is empty.
+Phase3 freezes the following research gaps; none is activated as a weapon:
+
+- `GLOBAL-HILBERT-SELMER-COMPATIBILITY-TERMINAL` — missing `DYNAMIC_RESERVOIR_ROWS_TO_GLOBAL_KUMMER_LOCALIZATION_SYSTEM`.
+- `S36-PW03/B12 exact Loughran-Salgado hypothesis match`.
+- `S36-PW04 chart-to-global-H1 adapter`.
+- `S36-PW06 full-MW basis/saturation only if stronger claim attempted`.
+- `B01 source subgroup equivalence`.
+
+No `POSSIBLY_NOVEL` item is activated; the Phase3 novelty flag list is empty.
