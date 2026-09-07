@@ -1,4 +1,4 @@
-name: Stage33 V91C1N-Y fixed-space and source-bound transport diagnostics
+name: Stage33 V91C1N-AF fixed-space and source-bound transport diagnostics
 
 on:
   pull_request:
@@ -11,13 +11,13 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v91c1n-y-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1n-af-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
   exact-diagnostic:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -55,9 +55,15 @@ jobs:
         run: python stages/stage33/33-12/verify_e3_v91c1w_a2_02_all8_picard64_reduction.py
       - name: Verify V91C1X Kummer action-difference and mask20 exclusion
         run: python stages/stage33/33-12/verify_e3_v91c1x_a2_02_kummer_naturality_mask20_exclusion.py
-      - name: Verify Stage33 grouped-audit startup checkpoint
+      - name: Diagnose V91C1AC source-bound sign_b1 fixedness
+        run: python stages/stage33/33-12/diagnose_e3_v91c1ac_sign_b1_seed_fixed_subspace.py
+      - name: Diagnose V91C1AE sign_a2 Picard64/Pic2 reduction
+        run: python stages/stage33/33-12/diagnose_e3_v91c1ae_sign_a2_picard64_reduction.py
+      - name: Diagnose V91C1AF sign_a2 seed fixedness and dim5 subspace
+        run: python stages/stage33/33-12/diagnose_e3_v91c1af_sign_a2_seed_fixed_subspace.py
+      - name: Verify Stage33 V91C1AF grouped-audit startup checkpoint
         run: |
-          python stages/stage33/33-12/verify_stage33_v91c1x_grouped_audit_current_startup_v108.py
+          python stages/stage33/33-12/verify_stage33_v91c1af_grouped_audit_current_startup_v109.py
           python stages/stage33/sync_main_state.py --check
       - name: Diff hygiene
         run: git diff --check
