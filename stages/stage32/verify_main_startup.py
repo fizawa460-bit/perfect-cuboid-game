@@ -101,8 +101,8 @@ def main() -> None:
     required_frontier = {
         "nonexceptional_mod2_witness_source_bound": True,
         "source_bound_nonexceptional_H_character_probe_obtained": True,
-        "source_bound_nonexceptional_H_character_probe_normal_curve_label_1based": 9,
-        "source_bound_nonexceptional_H_character_probe_character": "chi_u",
+        "source_bound_H_character_probe_normal_curve_label_1based": 9,
+        "source_bound_H_character_probe_character": "chi_u",
         "absolute_delta0inf_retained_W_line_identified": False,
         "q602_residue_specific_commutator_obtained": False,
         "v6_self_intersection": 758,
