@@ -1,0 +1,61 @@
+{
+  "schema": "STAGE36_36_09AX_BOUNDED_FIXED_P_TUNNELL_SIEVE_SCAN_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AX",
+  "status": "EXACT_BOUNDED_FIXED_P_TUNNELL_SIEVE_ZERO_EXCLUSION_DIAGNOSTIC_PENDING_BATCH_AUDIT",
+  "base_main_sha": "d43db1874b0e657143fa07b1a16eb87fc27e0238",
+  "batch_parent": {"pr":1683,"36_09AW_exact_head":"40befe5dc8362444a127e066d6cfdbe4a6171943","36_09AW_exact_head_ci":"34086704923/101632013190"},
+  "source_locks": {
+    "stage36_36_09AW":{"path":"stages/stage36/36-09AW/fixed-p-finite-squareclass-tunnell-branch-sieve-preflight.json","blob_sha":"c1970a020803275ba87b249229e319367fa8f811"},
+    "stage36_36_09AW_verifier":{"path":"stages/stage36/verify_stage36_36_09AW.py","blob_sha":"a45d38d7db7428073e55e9cfeb929f335fd037e5"}
+  },
+  "scan_domain": {
+    "a_range":"1..10",
+    "b_range":"1..10",
+    "conditions":["gcd(a,b)=1","a!=b","a>0","b>0"],
+    "ordered_p_count":62,
+    "meaning":"bounded diagnostic only; p and 1/p are both retained as ordered parameter values"
+  },
+  "exact_scan_summary": {
+    "total_AE_local_outer_branch_instances":5668,
+    "total_AE_local_distinct_N_instances":2214,
+    "total_Tunnell_surviving_branch_instances":3542,
+    "total_Tunnell_surviving_distinct_N_instances":1436,
+    "fixed_p_zero_survivor_count":0,
+    "minimum_surviving_branch_count":6,
+    "minimum_cases":[[1,2],[1,3],[2,1],[3,1]],
+    "maximum_outer_branch_count":296,
+    "maximum_surviving_branch_count":208,
+    "maximum_cases":[[7,10],[10,7]],
+    "row_digest_sha256":"1e1702dc17a70b69e54442e93a632fa86b313c662bcd6f849269524d18f05a5d",
+    "row_digest_encoding":"lexicographically ordered CSV a,b,AE_branches,AE_distinct_N,Tunnell_survivors,Tunnell_surviving_distinct_N with trailing newline"
+  },
+  "interpretation": {
+    "bounded_fixed_p_exclusion_observed":false,
+    "Tunnell_prefilter_nontrivial":true,
+    "Tunnell_alone_parameter_shrink_observed":false,
+    "uniform_nonexclusion_theorem":false,
+    "structural_universal_survivor_proved":false,
+    "meaning":"the exact fixed-p exclusion rule of AW is valid, but on this bounded primitive sample every p still has at least one support-compatible AE+Tunnell outer branch"
+  },
+  "route_result": {
+    "route_status":"BLOCKED_NO_NEW_INFORMATION",
+    "blocked_route":"TUNNELL_ALONE_AS_OBSERVED_FIXED_P_PARAMETER_SHRINK_ON_BOUNDED_SCAN",
+    "retained_value":"exact fixed-p finite outer sieve and branch-count diagnostic",
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09AY_STRUCTURAL_TUNNELL_SURVIVOR_OR_FIXED_P_BRANCH_INTERSECTION_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "bounded_scan_is_uniform_theorem":false,
+    "zero_exclusions_observed_implies_none_exist":false,
+    "outer_survivor_implies_receiver":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
