@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX1_MAIN_COMPACT_STATE_V9_EX1_05B_INERTIA_PARITY_STABILIZER_CANDIDATE",
+  "schema": "STAGE32EX1_MAIN_COMPACT_STATE_V10_EX1_05C_INERTIA_CLASS_CAPACITY_CANDIDATE",
   "role": "ORDINARY_STAGE32EX1_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX1",
   "execution": {
@@ -17,12 +17,12 @@
   },
   "freshness": {
     "current_main_sha_observed": "e758e05953df2cf8cd4ab26ac1e9d72374e99760",
-    "candidate_head_before_state_update": "642834b83c34a36357cca64a9ac3e2c5a7b15a98",
+    "candidate_head_before_state_update": "971c1aafc42fb7704ffe58072a19ad210c5f75a9",
     "compare_status": "diverged",
-    "ahead": 30,
+    "ahead": 36,
     "behind": 2,
     "merge_base": "c52f88a671503ac9eb25c20186b4fb7729ba9112",
-    "behind_scope": "two Stage36 merges; no Stage32EX1 changed-file overlap observed in compare",
+    "behind_scope": "two Stage36 merges; compare shows no Stage32EX1 changed-file overlap",
     "freshness_sync_deferred_to_audit_ready_checkpoint": true
   },
   "authority": {
@@ -70,18 +70,18 @@
   "current": {
     "status": "ACTIVE",
     "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
-    "subroute": "EX1-05C_EXC_NODE_INERTIA_TYPE_ADAPTER_AND_CAPACITY_TEST",
-    "objective": "Map the retained 48 EXC labels used by the V6 pairing vector to the three exact 16-node single-sign inertia classes in the Stoll-Testa G0 product model, then test the h=2 component-stabilizer branch against the required odd-contact ramification Q>=188.",
+    "subroute": "EX1-05D_B3_NODE_PARITY_ADAPTER_OR_H4_FORCING",
+    "objective": "Identify exactly the 16 source-side b3=0/w-sign nodes or otherwise certify their individual V6 exceptional-pairing parities. Any odd pairing in this class excludes the sole surviving h=2 stabilizer and forces h=4; all-even leaves a sharply bounded h=2 residual.",
     "next_route_if_success": "CONTINUE_EX1_05_UNTIL_ALL_RESIDUALS_DISPOSED_OR_POSITIVE_WITNESS_VERIFIED",
-    "audit_gate": "EX1_00_THROUGH_EX1_05B_CANDIDATES_UNAUDITED_NO_AUTHORITY_CREDIT",
+    "audit_gate": "EX1_00_THROUGH_EX1_05C_CANDIDATES_UNAUDITED_NO_AUTHORITY_CREDIT",
     "stop_semantics": "LEAF_GATE_ONLY_NOT_STAGE_EXHAUSTION"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex1/stage32-ex1.md",
-    "stages/stage32-ex1/ex1-05a-product-cover-ramification.json",
     "stages/stage32-ex1/ex1-05b-inertia-parity-stabilizer.json",
-    "stages/stage32-ex1/ex1-05b-inertia-parity-stabilizer.md",
-    "stages/stage32-ex1/verify_ex1_05b_inertia_parity_stabilizer.py"
+    "stages/stage32-ex1/ex1-05c-inertia-class-capacity.json",
+    "stages/stage32-ex1/ex1-05c-inertia-class-capacity.md",
+    "stages/stage32-ex1/verify_ex1_05c_inertia_class_capacity.py"
   ],
   "frontier": {
     "source_lock_complete": true,
@@ -91,23 +91,27 @@
     "global_coupling_ledger_complete_candidate": true,
     "product_cover_member_level_constraint_proved_candidate": true,
     "odd_contact_ramification_adapter_proved_candidate": true,
-    "ramification_Q_lower_bound": 186,
-    "ramification_Q_upper_bound_from_contacts": 266,
     "ramification_Q_even": true,
-    "slack_parameter_s_range": [0, 40],
-    "slack_state_count": 41,
+    "ramification_Q_range": [186, 266],
     "ramified_surface_node_count_lower_bound": 30,
     "minimum_multibranch_nonunit_nodes": 15,
-    "simple_transverse_contact_branch_count_lower_bound_at_s0": 146,
     "component_stabilizer_h_allowed": [2, 4],
     "component_stabilizer_h1_excluded_candidate": true,
-    "h2_ramification_Q_lower_bound": 188,
-    "h4_ramification_Q_lower_bound": 186,
-    "node_inertia_type_count": 3,
-    "nodes_per_inertia_type": 16,
-    "EXC_label_to_inertia_type_adapter_locked": false,
-    "no_node_multibranch_branch_excluded_candidate": true,
-    "smooth_locus_singularities_still_allowed": true,
+    "inertia_class_contact_masses": {
+      "u_sign_b1_zero": 96,
+      "v_sign_b2_zero": 108,
+      "w_sign_b3_zero": 62
+    },
+    "h2_subgroup_choices_total": 3,
+    "h2_subgroup_choices_excluded_by_capacity": 2,
+    "h2_unique_surviving_forbidden_class": "w-sign/b3=0",
+    "h2_Q_even_range_if_survives": [188, 204],
+    "h2_slack_t_range": [0, 8],
+    "full_48_EXC_to_inertia_map_required_for_h2_decision": false,
+    "b3_16_node_individual_parity_adapter_locked": false,
+    "h2_forced": false,
+    "h2_excluded": false,
+    "h4_forced": false,
     "global_delta_contact_intersection_budget_closed": false,
     "finite_residual_ledger_complete": false,
     "all_residual_configurations_disposed": false,
@@ -118,16 +122,12 @@
     "full_target_closure": false
   },
   "cycle_exploration": {
-    "trigger_reason": "EX1-04 scalar/class-level route reached an exact theorem/data blocker",
     "exhaustive_view_audit": true,
     "blind_rediscovery": true,
     "split_triggered": false,
     "active_route": "PRODUCT_COVER_LOCAL_INERTIA_PARITY",
     "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
-    "new_view_source": "BLIND_INTERNAL_DERIVATION_PLUS_STOLL_TESTA_2026",
-    "live_candidates": [
-      "PRODUCT_COVER_LOCAL_INERTIA_PARITY"
-    ],
+    "arsenal_direct_match": false,
     "untested_candidates": [
       "SYMMETRIC_DIFFERENTIALS_BTVA22_GFU20",
       "JET_SEPARATION_SESHADRI_REIDER_EQUISINGULAR",
@@ -135,69 +135,30 @@
     ],
     "blocked_candidates": [
       "MIYAOKA_ORBIBUNDLE_LOW_GENUS_BOUND_AT_CURRENT_V6_INVARIANTS"
-    ],
-    "arsenal_direct_match": false
+    ]
   },
   "route_history": [
+    {"leaf":"EX1-00","result":"PASS_EXACT_SOURCE_LOCK_TARGET_ADAPTER_CANDIDATE","artifact_canonical_sha256":"783526a604572a4a81a314c59db1a399d38209ee159352106d7c5f6b5e71fa6c","credit_ceiling":"SOURCE_LOCK_AND_TARGET_ADAPTER_ONLY"},
+    {"leaf":"EX1-01","result":"PASS_EXHAUSTIVE_TWO_MODEL_LOCATION_PARTITION_CANDIDATE","artifact_canonical_sha256":"1cd71a070b3e171e83506df9bf8eaf2e6073f571c40b5112ed4cf0ce5151a94c","credit_ceiling":"NECESSARY_CONDITION_ONLY_UNAUDITED"},
+    {"leaf":"EX1-02","result":"PASS_EXACT_PARAMETERIZED_SURFACE_NODE_RESIDUAL_LEDGER_CANDIDATE","artifact_canonical_sha256":"810315e98eff224089d56c7f646a32c07177878ce2b05b988bef0665c5aa012a","credit_ceiling":"NECESSARY_CONDITION_ONLY_UNAUDITED"},
+    {"leaf":"EX1-03","result":"PASS_EXACT_SMOOTH_LOCUS_NUMERICAL_RESIDUAL_LEDGER_CANDIDATE","artifact_canonical_sha256":"4324234386213810a6de8f7ef2e32712006e628d80291dad4f9d74e6c1e03ac5","credit_ceiling":"NECESSARY_CONDITION_ONLY_UNAUDITED"},
+    {"leaf":"EX1-04","result":"PASS_EXACT_GLOBAL_COUPLING_RESIDUAL_LEDGER_CANDIDATE","artifact_canonical_sha256":"c4ecc0f23704f81dab66e805de72a2c72eafce1b9760e38908daf109688800db","credit_ceiling":"NECESSARY_CONDITION_ONLY_UNAUDITED"},
+    {"leaf":"EX1-05A","result":"PASS_NEW_MEMBER_LEVEL_NODE_RAMIFICATION_CONSTRAINT_CANDIDATE","artifact_canonical_sha256":"ef3c630d7a31ad4e96cc0d0e5e36a961e080ca14adaa8e0a116ac64e6780a01f","credit_ceiling":"BRANCH_EXCLUSION_CANDIDATE_UNAUDITED","key_result":"Q>=186; no-node-multibranch excluded; >=14 nonunit multibranch nodes"},
+    {"leaf":"EX1-05B","result":"PASS_PARITY_STABILIZER_REFINEMENT_CANDIDATE","artifact_canonical_sha256":"a80e2c079b31b5e0a4e256825acb9307dd424c8e26b5e19e48ae55596e18f720","credit_ceiling":"BRANCH_EXCLUSION_CANDIDATE_UNAUDITED","key_result":"odd contact iff ramified; >=30 ramified nodes; >=15 multibranch nodes; h=1 excluded"},
     {
-      "leaf": "EX1-00_SOURCE_LOCK_AND_TARGET_ADAPTER",
-      "result": "PASS_EXACT_SOURCE_LOCK_TARGET_ADAPTER_CANDIDATE",
-      "artifact_canonical_sha256": "783526a604572a4a81a314c59db1a399d38209ee159352106d7c5f6b5e71fa6c",
-      "credit_ceiling": "SOURCE_LOCK_AND_TARGET_ADAPTER_ONLY",
-      "hostile_audit_status": "PENDING"
-    },
-    {
-      "leaf": "EX1-01_GLOBAL_NORMALIZATION_DEFECT_DECOMPOSITION",
-      "result": "PASS_EXHAUSTIVE_TWO_MODEL_LOCATION_PARTITION_CANDIDATE",
-      "artifact_canonical_sha256": "1cd71a070b3e171e83506df9bf8eaf2e6073f571c40b5112ed4cf0ce5151a94c",
-      "credit_ceiling": "NECESSARY_CONDITION_ONLY_UNAUDITED",
-      "hostile_audit_status": "PENDING"
-    },
-    {
-      "leaf": "EX1-02_SURFACE_NODE_MULTIBRANCH_CLOSURE",
-      "result": "PASS_EXACT_PARAMETERIZED_SURFACE_NODE_RESIDUAL_LEDGER_CANDIDATE",
-      "artifact_canonical_sha256": "810315e98eff224089d56c7f646a32c07177878ce2b05b988bef0665c5aa012a",
-      "credit_ceiling": "NECESSARY_CONDITION_ONLY_UNAUDITED",
-      "hostile_audit_status": "PENDING"
-    },
-    {
-      "leaf": "EX1-03_SMOOTH_AMBIENT_CURVE_SINGULARITY_CLOSURE",
-      "result": "PASS_EXACT_SMOOTH_LOCUS_NUMERICAL_RESIDUAL_LEDGER_CANDIDATE",
-      "artifact_canonical_sha256": "4324234386213810a6de8f7ef2e32712006e628d80291dad4f9d74e6c1e03ac5",
-      "credit_ceiling": "NECESSARY_CONDITION_ONLY_UNAUDITED",
-      "hostile_audit_status": "PENDING"
-    },
-    {
-      "leaf": "EX1-04_GLOBAL_DELTA_CONTACT_INTERSECTION_COUPLING",
-      "result": "PASS_EXACT_GLOBAL_COUPLING_RESIDUAL_LEDGER_CANDIDATE",
-      "artifact_canonical_sha256": "c4ecc0f23704f81dab66e805de72a2c72eafce1b9760e38908daf109688800db",
-      "credit_ceiling": "NECESSARY_CONDITION_ONLY_UNAUDITED",
-      "hostile_audit_status": "PENDING"
-    },
-    {
-      "leaf": "EX1-05A_STOLL_TESTA_PRODUCT_COVER_RAMIFICATION",
-      "result": "PASS_NEW_MEMBER_LEVEL_NODE_RAMIFICATION_CONSTRAINT_CANDIDATE",
-      "artifact": "stages/stage32-ex1/ex1-05a-product-cover-ramification.json",
-      "artifact_canonical_sha256": "ef3c630d7a31ad4e96cc0d0e5e36a961e080ca14adaa8e0a116ac64e6780a01f",
+      "leaf": "EX1-05C",
+      "result": "PASS_INERTIA_CLASS_MASS_CAPACITY_REDUCTION_WITH_16_NODE_PARITY_ADAPTER_OPEN_CANDIDATE",
+      "artifact": "stages/stage32-ex1/ex1-05c-inertia-class-capacity.json",
+      "artifact_canonical_sha256": "9359008927cd9458c111c128424b9a0f00134109c77ca1bd29a6847404c3518f",
+      "proof_note": "stages/stage32-ex1/ex1-05c-inertia-class-capacity.md",
+      "verifier": "stages/stage32-ex1/verify_ex1_05c_inertia_class_capacity.py",
       "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED",
-      "hostile_audit_status": "PENDING",
-      "key_result": "Q>=186 at node ramification layer; at least14 nonunit nodes multibranch; NO_NODE_MULTIBRANCH excluded candidate"
-    },
-    {
-      "leaf": "EX1-05B_INERTIA_PARITY_AND_COMPONENT_STABILIZER_REFINEMENT",
-      "result": "PASS_PARITY_STABILIZER_REFINEMENT_CANDIDATE",
-      "artifact": "stages/stage32-ex1/ex1-05b-inertia-parity-stabilizer.json",
-      "artifact_canonical_sha256": "a80e2c079b31b5e0a4e256825acb9307dd424c8e26b5e19e48ae55596e18f720",
-      "proof_note": "stages/stage32-ex1/ex1-05b-inertia-parity-stabilizer.md",
-      "verifier": "stages/stage32-ex1/verify_ex1_05b_inertia_parity_stabilizer.py",
-      "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED",
-      "hostile_audit_status": "PENDING",
-      "key_result": "odd contact iff product-cover ramification; Q=186+2s with 0<=s<=40; >=30 ramified nodes; >=15 multibranch nonunit nodes; h=1 stabilizer branch excluded, h in {2,4}",
-      "next_subroute": "EX1-05C_EXC_NODE_INERTIA_TYPE_ADAPTER_AND_CAPACITY_TEST"
+      "key_result": "inertia masses 96/108/62; h=2 forbidding u or v excluded; sole surviving h=2 forbids w/b3=0 and requires all 16 such pairings even",
+      "next_subroute": "EX1-05D_B3_NODE_PARITY_ADAPTER_OR_H4_FORCING"
     }
   ],
   "credit": {
-    "level": "EX1_05B_BRANCH_EXCLUSION_REFINEMENT_CANDIDATE_UNAUDITED",
+    "level": "EX1_05C_BRANCH_EXCLUSION_REFINEMENT_CANDIDATE_UNAUDITED",
     "candidate_necessary_condition_only": true,
     "candidate_branch_exclusion": true,
     "necessary_condition_only": false,
@@ -215,7 +176,7 @@
     "exact_head": null,
     "review_id": null,
     "result": null,
-    "candidate_leaf": "EX1-00_THROUGH_EX1-05B_ACCUMULATED_CANDIDATE",
+    "candidate_leaf": "EX1-00_THROUGH_EX1-05C_ACCUMULATED_CANDIDATE",
     "candidate_pr": 1688,
     "last_failed_audit": {
       "review_id": 5128737733,
@@ -229,12 +190,12 @@
   },
   "firewalls": {
     "exceptional_mass_identified_with_total_delta": false,
-    "node_fiber_excess_identified_with_total_delta": false,
     "ramification_degree_identified_with_total_delta": false,
     "odd_contact_count_identified_with_total_delta": false,
-    "contact_half_excess_identified_with_total_delta": false,
-    "inertia_type_distribution_guessed_from_EXC_order": false,
-    "h2_excluded_without_EXC_inertia_adapter": false,
+    "aggregate_inertia_mass_used_to_guess_individual_parity": false,
+    "Magma_point_order_guessed": false,
+    "h2_declared_viable_without_b3_16_node_evenness_check": false,
+    "h2_declared_excluded_without_b3_16_node_parity_check": false,
     "product_cover_argument_promoted_to_full_v6_exclusion": false,
     "smooth_locus_singularities_discarded": false,
     "arsenal_nonmatch_treated_as_repository_absence": false,
