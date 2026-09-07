@@ -36,7 +36,7 @@ The following section is copied deterministically from the authoritative source 
 - Year / journal-publisher: 2018 / Algebra & Number Theory 12, 2445-2480
 - DOI: 10.2140/ant.2018.12.2445
 - Canonical URL: https://doi.org/10.2140/ant.2018.12.2445
-- Theorem/algorithm locator: Theorems 1.7, 1.9; Appendix Theorem A.1
+- Theorem/algorithm locator: Theorem 1.7; Theorem 1.8; Appendix Theorem A.1
 - Theorem/algorithm summary: For Kummer varieties the relevant Brauer-Manin obstruction can be reduced to the 2-primary part under the cited BM_2 results.
 - Conditional assumptions: none beyond the Kummer hypotheses of the cited results
 - Source type: original peer-reviewed work or authoritative monograph as identified above

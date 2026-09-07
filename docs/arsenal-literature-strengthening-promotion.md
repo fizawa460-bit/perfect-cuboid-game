@@ -4,9 +4,10 @@ Status: **PROVISIONAL — hostile audit required**
 
 ```text
 LITERATURE_AUDIT_PR=1676
-LITERATURE_AUDIT_EXACT_HEAD=44f635f364f9904c2048197bc84eea58938fdb16
+LITERATURE_AUDIT_EXACT_HEAD=288c3fac93774806a96cd7cb0076493e173f859c
 ARSENAL_BASE_MAIN=9306238c7ada55e31311245019d6b7e474ad837f
 IMPLEMENTATION_BASE_MAIN=24215fa27a631cd3cb370c0dfd76866dd2e916f1
+FRESHNESS_SYNC_MAIN=6b6c541d1a6bbe229381ac0400148bd17523ca06
 STAGE35_PROVISIONAL_COMPARISON_HEAD=3fc684677ef1570a820420079088667f558e0983
 STAGE36_EXCLUDED=true
 LITERATURE_STRENGTHENING_ADDS_NO_STAGE_PROGRESS=true
@@ -148,7 +149,7 @@ Phase-6 accepted implementation: 9 existing-ID deltas; 6 adapted weapons; 9 new 
 - Year / journal-publisher: 2018 / Algebra & Number Theory 12, 2445-2480
 - DOI: 10.2140/ant.2018.12.2445
 - Canonical URL: https://doi.org/10.2140/ant.2018.12.2445
-- Theorem/algorithm locator: Theorems 1.7, 1.9; Appendix Theorem A.1
+- Theorem/algorithm locator: Theorem 1.7; Theorem 1.8; Appendix Theorem A.1
 - Theorem/algorithm summary: For Kummer varieties the relevant Brauer-Manin obstruction can be reduced to the 2-primary part under the cited BM_2 results.
 - Conditional assumptions: none beyond the Kummer hypotheses of the cited results
 - Source type: original peer-reviewed work or authoritative monograph as identified above
