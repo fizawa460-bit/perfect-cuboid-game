@@ -39,55 +39,60 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Assert hostile-audited merged AP-AU authority
+      - name: Assert hostile-audited merged AV-AY authority
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
           import json
           from pathlib import Path
-          a=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())['audited_history']['36-09AP-AU']
-          assert a['pr']==1680
-          assert a['audited_head']=='9aa2e4c06240bbf1f6260dd2c11c3d622119f16f'
-          assert a['hostile_audit_review']==5128229756
-          assert a['exact_head_ci']=='34085000175/101627220799'
-          assert a['merged_main_sha']=='d43db1874b0e657143fa07b1a16eb87fc27e0238'
+          a=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())['audited_history']['36-09AV-AY']
+          assert a['pr']==1683 and a['hostile_audit_review']==5128446584
+          assert a['merged_main_sha']=='b7a045b7c910a3e01d3826556cd71019af15418f'
           PY
-          git merge-base --is-ancestor d43db1874b0e657143fa07b1a16eb87fc27e0238 HEAD
-          test "$(git rev-parse HEAD:stages/stage36/36-09AD/coupled-six-reservoir-factor-squareclass-parity-preflight.json)" = "9d0388845955efee71d1a761ae4ee943d8b565d5"
-      - name: Replay exact 36-09AV checkpoint
+      - name: Replay exact 36-09AZ
         shell: bash
         run: |
           set -euo pipefail
-          H=b1b716f955d1a0b50bb5633364896b2f140d3f00
-          git cat-file -e "$H^{commit}"
-          git merge-base --is-ancestor "$H" HEAD
+          H=70d242588f4ae1b56dfc80e7c634e1f666ff57fd
           tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AV.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AZ.py"
           git worktree remove --force "$tmp"
-      - name: Replay exact 36-09AW checkpoint
+      - name: Replay exact 36-09BA
         shell: bash
         run: |
           set -euo pipefail
-          H=40befe5dc8362444a127e066d6cfdbe4a6171943
-          git cat-file -e "$H^{commit}"
-          git merge-base --is-ancestor "$H" HEAD
+          H=a4fde9a55b6483018ffb4be49ffbc758939b7e22
           tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AW.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BA.py"
           git worktree remove --force "$tmp"
-      - name: Replay exact 36-09AX checkpoint
+      - name: Replay exact 36-09BB
         shell: bash
         run: |
           set -euo pipefail
-          H=97e3f4bfc4345b05b74e9baf780ed8ff1baf38cb
-          git cat-file -e "$H^{commit}"
-          git merge-base --is-ancestor "$H" HEAD
+          H=72441c82f2c146c63ebde6459b18789e33c6dddb
           tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AX.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BB.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09AY universal boundary survivor
-        run: python3 stages/stage36/verify_stage36_36_09AY.py
-      - name: Assert AY audit checkpoint firewalls
+      - name: Replay repaired exact 36-09BC
+        shell: bash
+        run: |
+          set -euo pipefail
+          H=c8acd051f3d6b5537c9bd7220909b2f71306a870
+          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BC.py"
+          git worktree remove --force "$tmp"
+      - name: Replay repaired exact 36-09BD
+        shell: bash
+        run: |
+          set -euo pipefail
+          H=03e1a03c84afcceb7b034b3326aef989baafe621
+          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BD.py"
+          git worktree remove --force "$tmp"
+      - name: Verify current repaired 36-09BE
+        run: python3 stages/stage36/verify_stage36_36_09BE.py
+      - name: Assert repaired BE checkpoint firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -95,22 +100,25 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V87_36_09AY_AUDIT_CHECKPOINT'
-          assert s['status']=='ACTIVE_BATCH_HOSTILE_AUDIT_CHECKPOINT'
-          ay=s['authority_frontier']['36-09AY']
-          assert ay['UNIVERSAL_BOUNDARY_TUNNELL_SURVIVOR'] is True
-          assert ay['AW_ZERO_SURVIVOR_FIXED_P_EXCLUSION_STRUCTURALLY_IMPOSSIBLE'] is True
-          assert ay['BOUNDARY_SURVIVOR_IS_RETAINED_RECEIVER'] is False
-          assert ay['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert ay['RECEIVER_CLOSED'] is False
-          assert ay['HOSTILE_AUDIT_PASSED'] is False
-          assert s['current']['unit']=='36-09AY-AUDIT-CHECKPOINT'
-          assert s['current']['next_owner']=='HOSTILE_AUDIT'
-          assert s['current']['hostile_audit_checkpoint_reached'] is True
-          assert s['current']['36_09AZ_entry_allowed'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V93_36_09BE_AUDIT_CHECKPOINT'
+          assert s['failed_audit']['review']==5128976664
+          bc=s['authority_frontier']['36-09BC']; bd=s['authority_frontier']['36-09BD']; be=s['authority_frontier']['36-09BE']
+          assert bc['JACOBIAN_MINOR']=='32*R0*S0*kappa*lambda'
+          assert bc['exact_head']=='c8acd051f3d6b5537c9bd7220909b2f71306a870'
+          assert bd['exact_head']=='03e1a03c84afcceb7b034b3326aef989baafe621'
+          assert be['FULL_COVER_GENUS']==17
+          assert be['CHARACTER_QUOTIENT_INVENTORY_COMPLETE'] is True
+          assert be['WEIGHT2_ELLIPTIC_QUOTIENT_COUNT']==6
+          assert be['NEW_CROSS_ELLIPTIC_QUOTIENT_COUNT']==2
+          assert be['FULL_JACOBIAN_Q_ISOGENY_DECOMPOSITION_PROVED'] is False
+          assert be['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert be['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09BE-AUDIT-CHECKPOINT'
+          assert s['current']['36_09BF_entry_allowed'] is False
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['R29_CAMP2_closed'] is False
+          assert s['claims']['Q11_CAMPEDELLI_closed'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09AY checkpoint verified; universal X=K boundary survivor blocks Tunnell-only fixed-p zero sieve; AZ locked pending hostile audit')
+          print('AZ-BE repaired broad replay passed; BF remains locked pending hostile re-audit')
           PY
           git diff --check

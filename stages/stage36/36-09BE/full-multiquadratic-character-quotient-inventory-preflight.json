@@ -1,0 +1,56 @@
+{
+  "schema":"STAGE36_36_09BE_FULL_MULTIQ_CHARACTER_QUOTIENT_INVENTORY_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09BE",
+  "status":"EXACT_GENUS17_FULL_COVER_AND_15_CHARACTER_QUOTIENT_INVENTORY_AUDIT_CHECKPOINT_REPAIRED_PENDING_REAUDIT",
+  "base_main_sha":"c52f88a671503ac9eb25c20186b4fb7729ba9112",
+  "freshness_sync":{"previous_base":"fe7ef406a9987981fe5f79267f3f8a39f37a61e4","current_main":"c52f88a671503ac9eb25c20186b4fb7729ba9112","sync_merge_commit":"e34d87f398a196f397eb7093cd3dfdd8d7389331","intervening_drift":"Stage32EX1 only","stage36_source_drift":false},
+  "audit_repair":{"hostile_audit_review":5128976664,"failed_exact_head":"01a1a7b6c1a108052271bd7a2bbe80eaa90922a9","repaired_BC_head":"c8acd051f3d6b5537c9bd7220909b2f71306a870","repaired_BC_ci":"34094930848/101656307425","repaired_BD_head":"03e1a03c84afcceb7b034b3326aef989baafe621","repaired_BD_ci":"34095176540/101657144790"},
+  "batch_parent":{"pr":1686,"36_09BD_exact_head":"03e1a03c84afcceb7b034b3326aef989baafe621","36_09BD_exact_head_ci":"34095176540/101657144790"},
+  "source_locks":{
+    "stage36_36_09BB":{"path":"stages/stage36/36-09BB/ay-receiver-scaled-self-intersection-preflight.json","blob_sha":"e4b63fd500d05ff5dc704e0c08409edee5895053"},
+    "stage36_36_09BD":{"path":"stages/stage36/36-09BD/exhaustive-view-audit-scaled-self-intersection.json","blob_sha":"7bab7a7d0a8eba8ca9304abb862dbee784df030b"},
+    "stage36_36_09AA":{"path":"stages/stage36/36-09AA/receiver-coupled-same-x-twist-intersection-preflight.json","blob_sha":"be447726a97158849c67ed6d57d6d3c35d6ba20f"},
+    "stage36_36_09AC":{"path":"stages/stage36/36-09AC/same-x-separate-squareclass-double-cover-preflight.json","blob_sha":"3e95cc443bb9de9e0d2b14d6d9c32ea7c1953021"}
+  },
+  "multiquadratic_cover":{
+    "base":"P1_t",
+    "functions":{"f1":"kappa*(1-t^2)","f2":"2*(1+t^2)","f3":"kappa*(1-lambda^2*t^2)","f4":"2*(1+lambda^2*t^2)"},
+    "retained_lambda_conditions":["lambda in Q*","lambda!=+1","lambda!=-1"],
+    "branch_points_over_Qbar":["+1","-1","+i","-i","+1/lambda","-1/lambda","+i/lambda","-i/lambda"],
+    "branch_points_distinct":true,
+    "squareclass_rank_over_Qbar_t":4,
+    "cover_degree":16,
+    "deck_group":"(Z/2)^4",
+    "ramification_index_each_branch":2,
+    "points_above_each_branch":8,
+    "riemann_hurwitz":"2g-2=16*(-2)+8*(8)=32",
+    "genus":17
+  },
+  "character_quotients":{
+    "definition":"for each nonempty S subset {1,2,3,4}, C_S: y_S^2=product_{i in S} f_i(t)",
+    "total_nontrivial_characters":15,
+    "weight_rule":"a weight-w subset has 2w distinct simple finite branch points and genus w-1",
+    "weight_counts":{"1":{"count":4,"genus":0},"2":{"count":6,"genus":1},"3":{"count":4,"genus":2},"4":{"count":1,"genus":3}},
+    "dimension_checksum":"4*0+6*1+4*2+1*3=17",
+    "jacobian_isogeny_decomposition_claimed":false,
+    "reason_firewall":"the quotient inventory and dimension checksum are exact; a Q-isogeny decomposition of the full Jacobian requires a separately source-locked character/idempotent theorem"
+  },
+  "weight2_elliptic_inventory":[
+    {"id":"E12","equation":"y^2=2*kappa*(1-t^4)","status":"AY_PRODUCT_QUOTIENT"},
+    {"id":"E13","equation":"y^2=(1-t^2)*(1-lambda^2*t^2)","status":"AUDITED_EMINUS_QUOTIENT_AFTER_SQUARE_CONSTANT_REMOVAL"},
+    {"id":"E14","equation":"y^2=2*kappa*(1-t^2)*(1+lambda^2*t^2)","status":"NEW_CROSS_ELLIPTIC_QUOTIENT"},
+    {"id":"E23","equation":"y^2=2*kappa*(1+t^2)*(1-lambda^2*t^2)","status":"NEW_CROSS_ELLIPTIC_QUOTIENT"},
+    {"id":"E24","equation":"y^2=(1+t^2)*(1+lambda^2*t^2)","status":"AUDITED_EPLUS_QUOTIENT_AFTER_SQUARE_CONSTANT_REMOVAL"},
+    {"id":"E34","equation":"y^2=2*kappa*(1-lambda^4*t^4)","status":"SCALED_AY_PRODUCT_QUOTIENT"}
+  ],
+  "exact_relations":{
+    "E34_isomorphic_to_E12":"u=lambda*t gives y^2=2*kappa*(1-u^4)",
+    "E14_to_E23":"under u=1/(lambda*t), E14 transforms to the -1 quadratic twist of E23 after the rational square denominator is cleared",
+    "E13_E24":"these are precisely the product quotients mapping to the audited Eminus/Eplus same-X receiver; no new filter credit",
+    "new_low_genus_information":"the full cover exposes E14/E23 cross quotients and the simultaneous E12/E34 scaling condition, which are not obtained by retaining only the Eminus/Eplus quotient"
+  },
+  "next_route":{"selected":"36-09BF_WEIGHT2_ELLIPTIC_QUOTIENT_SPECIES_AND_PULLBACK_PREFLIGHT","goal":"identify exact Q-models/isogeny relations for the three weight-2 species and test whether the cross pair supplies a receiver predicate not already charged upstream","natural_hostile_audit_checkpoint":true},
+  "route_result":{"route_status":"PASS_NEW_GATE_FROM_STRONGER_VIEW","full_cover_genus":17,"character_quotient_inventory_complete":true,"new_cross_elliptic_quotients_materialized":true,"candidate_parameter_set_shrunk":false,"receiver_closed":false},
+  "scope_firewalls":{"full_Jacobian_Q_isogeny_decomposition_proved":false,"weight2_quotient_Q_points_complete":false,"cross_elliptic_quotient_new_filter_proved":false,"candidate_parameter_set_shrunk":false,"receiver_emptiness_proved":false,"R29_CAMP2_closed":false,"Q11_CAMPEDELLI_closed":false,"endpoint_closed":false,"perfect_cuboid_existence_claim":false,"perfect_cuboid_nonexistence_claim":false}
+}
