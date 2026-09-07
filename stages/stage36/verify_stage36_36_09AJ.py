@@ -62,7 +62,11 @@ def main() -> None:
     assert blob(AI) == AI_BLOB
     assert blob(AH) == AH_BLOB
     subprocess.check_call(["git", "merge-base", "--is-ancestor", BASE, "HEAD"], cwd=ROOT)
-    subprocess.check_call(["git", "merge-base", "--is-ancestor", AUDITED_HEAD, "HEAD"], cwd=ROOT)
+    # PR #1674 was squash-merged.  Preserve hostile-audit provenance by
+    # checking that the merged authority contains the exact audited math blobs,
+    # rather than incorrectly requiring the pre-merge PR head to be an ancestor.
+    assert git("rev-parse", f"{BASE}:stages/stage36/36-09AI/j1728-congruent-number-jacobian-preflight.json") == AI_BLOB
+    assert git("rev-parse", f"{BASE}:stages/stage36/36-09AH/common-uv-two-quadric-genusone-preflight.json") == AH_BLOB
 
     c = json.loads(CERT.read_text())
     assert c["schema"] == "STAGE36_36_09AJ_CONGRUENT_NUMBER_FULL2_COVERING_CLASS_PREFLIGHT_V1"
@@ -91,9 +95,6 @@ def main() -> None:
     assert mod2(add_exp(D1, D2, D3)) == (0, 0, 0, 0)
     assert T == (1, 1, 1, 1)
 
-    # Coefficient-vector check: multiply both audited conics by L.
-    # Coordinates are (u^2,v^2,r^2,s^2); monomial labels are enough to
-    # distinguish each nonzero coefficient exactly, including signs.
     rewrite = c["exact_homogeneous_space_rewrite"]
     assert rewrite["common_multiplier"] == "L=A*c*d"
     assert rewrite["D1"] == "A^2*c*d"
@@ -115,7 +116,6 @@ def main() -> None:
     assert cls["product_trivial_in_Qstar_mod_squares"] is True
     assert cls["unordered_class_transport_exact"] is True
 
-    # Same-fiber AF arithmetic: B changes the ambient twist, not the class triple.
     A0, C0, D0, eta, e, f = 73, 11, 13, -1, 1, 1
     c0 = eta * (2**e) * C0
     d0 = (2**f) * D0
