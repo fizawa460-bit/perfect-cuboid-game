@@ -1,0 +1,225 @@
+name: Stage36 Arsenal Harvest4 provenance repair and exact-head validate
+
+on:
+  push:
+    branches:
+      - stage36-arsenal-initial-provisional-harvest-promotion
+    paths:
+      - .github/workflows/stage36-arsenal-harvest4-provenance-repair.yml
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Preserve frozen provenance and exact-head validate
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE_MAIN=d620871bcadc0fe92af8e44e541fcb4c20197349
+          H3_HEAD=0ad4a2fc78ebd3ee55c47d9bf5100d8e4cee3b66
+          FROZEN_LOWER=62c26297ebeb159e9cdd1e6b9c2129dff6a4acdc
+          FROZEN_UPPER=07a465cb5025e7c0188fb63610bb40e4b54e7a84
+          BRANCH=stage36-arsenal-initial-provisional-harvest-promotion
+          WORKFLOW=.github/workflows/stage36-arsenal-harvest4-provenance-repair.yml
+
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git fetch origin main
+          test "$(git rev-parse origin/main)" = "$BASE_MAIN"
+          git merge --no-edit "$BASE_MAIN"
+          git merge-base --is-ancestor "$BASE_MAIN" HEAD
+
+          git fetch origin "$H3_HEAD" --depth=1
+          git show "$H3_HEAD":docs/arsenal/stage36-initial-hostile-dedup.json > /tmp/h3.json
+          git show "$H3_HEAD":docs/arsenal/stage36-initial-hostile-dedup-new-weapons.json > /tmp/h3-new.json
+          git show "$H3_HEAD":docs/arsenal/stage36-initial-hostile-dedup-extensions.json > /tmp/h3-ext.json
+
+          python3 - <<'PY'
+          import json, pathlib
+
+          promo_path=pathlib.Path('docs/stage36-arsenal-promotion.md')
+          text=promo_path.read_text()
+          h3=json.load(open('/tmp/h3.json'))
+          new=json.load(open('/tmp/h3-new.json'))
+          ext=json.load(open('/tmp/h3-ext.json'))
+          mapping={
+            'DISC-S36-A01':'S36-PW01',
+            'DISC-S36-A05':'S36-PW02',
+            'DISC-S36-A06':'S36-PW03',
+            'DISC-S36-B03':'S36-PW04',
+            'DISC-S36-B10':'S36-PW05',
+            'DISC-S36-B11':'S36-PW06',
+            'DISC-S36-B14':'S36-PW07',
+          }
+          LOWER='62c26297ebeb159e9cdd1e6b9c2129dff6a4acdc'
+          UPPER='07a465cb5025e7c0188fb63610bb40e4b54e7a84'
+          assert h3['discovery_pr']==1673
+          assert h3['frozen_bounds']=={'harvest_lower_bound':LOWER,'harvest_upper_bound':UPPER,'scope_widened':False}
+          assert h3['classification_summary']=={'total':36,'NEW_WEAPON':7,'EXTEND_EXISTING':5,'NEW_WORKFLOW':0,'HISTORICAL_OR_NEGATIVE':11,'STAGE36_SPECIFIC':2,'REJECT_DUPLICATE':11}
+          assert set(mapping)==set(h3['final_classification']['NEW_WEAPON'])
+          assert [r['temporary_candidate_id'] for r in new['records']]==h3['final_classification']['NEW_WEAPON']
+          assert [r['temporary_candidate_id'] for r in ext['records']]==h3['final_classification']['EXTEND_EXISTING']
+
+          def q(v):
+              if v is None: return 'null'
+              if isinstance(v,(dict,list)): return json.dumps(v,sort_keys=True,separators=(',',':'))
+              return str(v)
+
+          def section_bounds(doc, marker, next_markers):
+              start=doc.index(marker)
+              ends=[]
+              for nm in next_markers:
+                  p=doc.find(nm,start+len(marker))
+                  if p!=-1: ends.append(p)
+              return start, min(ends) if ends else len(doc)
+
+          def enrich(doc, marker, next_markers, rec):
+              start,end=section_bounds(doc,marker,next_markers)
+              sec=doc[start:end]
+              vsl=rec['verifier_source_lock']
+              source_line=f"source_lock={q(vsl.get('source_lock'))}"
+              target=source_line+'\n```'
+              assert target in sec, (rec['temporary_candidate_id'], source_line)
+              prov=[]
+              if 'audited_wrapper_blob_sha' in vsl:
+                  prov.append(f"audited_wrapper_blob_sha={vsl['audited_wrapper_blob_sha']}")
+              if 'supporting_locked_inputs' in vsl:
+                  prov.append(f"supporting_locked_inputs={q(vsl['supporting_locked_inputs'])}")
+              audit=rec.get('audit')
+              if audit is not None:
+                  prov.append(f"audit_status={q(audit.get('status'))}")
+                  prov.append(f"audit_review={q(audit.get('review'))}")
+              for key in ('audit_note','source_lock_note','firewall'):
+                  if key in rec:
+                      prov.append(f"{key}={q(rec[key])}")
+              assert prov
+              for line in prov:
+                  assert line not in sec, (rec['temporary_candidate_id'], line)
+              sec=sec.replace(target,source_line+'\n'+'\n'.join(prov)+'\n```',1)
+              return doc[:start]+sec+doc[end:]
+
+          for rec in new['records']:
+              sid=mapping[rec['temporary_candidate_id']]
+              marker=f"## {sid} {rec['proposed_role_name']}"
+              text=enrich(text,marker,['\n## '],rec)
+          for rec in ext['records']:
+              marker=f"### {rec['temporary_candidate_id']} -> {rec['target_existing_card']} — {rec['proposed_role_name']}"
+              text=enrich(text,marker,['\n### ','\n## Historical / negative exclusions'],rec)
+
+          promo_path.write_text(text)
+          wrappers=[r['temporary_candidate_id'] for r in new['records']+ext['records'] if 'audited_wrapper_blob_sha' in r['verifier_source_lock']]
+          supporting=[r['temporary_candidate_id'] for r in new['records']+ext['records'] if 'supporting_locked_inputs' in r['verifier_source_lock']]
+          notes=[r['temporary_candidate_id'] for r in new['records']+ext['records'] if 'audit_note' in r]
+          assert wrappers==['DISC-S36-A05','DISC-S36-B03','DISC-S36-B10','DISC-S36-B11','DISC-S36-B08','DISC-S36-B12']
+          assert supporting==['DISC-S36-B14']
+          assert len(next(r for r in new['records'] if r['temporary_candidate_id']=='DISC-S36-B14')['verifier_source_lock']['supporting_locked_inputs'])==2
+          assert notes==['DISC-S36-B04']
+          print('PASS_FROZEN_OPTIONAL_PROVENANCE_DISCOVERY',wrappers,supporting,notes)
+          PY
+
+          python3 -B docs/arsenal/sync_arsenal_catalog.py
+          python3 -B docs/arsenal/sync_arsenal_catalog.py --check
+          git diff --check
+
+          python3 - <<'PY'
+          import json, pathlib
+          promo=pathlib.Path('docs/stage36-arsenal-promotion.md').read_text()
+          new=json.load(open('/tmp/h3-new.json'))
+          ext=json.load(open('/tmp/h3-ext.json'))
+          mapping={'DISC-S36-A01':'S36-PW01','DISC-S36-A05':'S36-PW02','DISC-S36-A06':'S36-PW03','DISC-S36-B03':'S36-PW04','DISC-S36-B10':'S36-PW05','DISC-S36-B11':'S36-PW06','DISC-S36-B14':'S36-PW07'}
+          def q(v):
+              if v is None:return 'null'
+              if isinstance(v,(dict,list)):return json.dumps(v,sort_keys=True,separators=(',',':'))
+              return str(v)
+          def expected(rec):
+              v=rec['verifier_source_lock']; out=[]
+              if 'audited_wrapper_blob_sha' in v: out.append(f"audited_wrapper_blob_sha={v['audited_wrapper_blob_sha']}")
+              if 'supporting_locked_inputs' in v: out.append(f"supporting_locked_inputs={q(v['supporting_locked_inputs'])}")
+              a=rec.get('audit')
+              if a is not None: out += [f"audit_status={q(a.get('status'))}",f"audit_review={q(a.get('review'))}"]
+              for k in ('audit_note','source_lock_note','firewall'):
+                  if k in rec: out.append(f"{k}={q(rec[k])}")
+              return out
+          for rec in new['records']+ext['records']:
+              for line in expected(rec): assert line in promo,(rec['temporary_candidate_id'],line)
+          for rec in new['records']:
+              card=pathlib.Path('docs/arsenal/cards/provisional')/(mapping[rec['temporary_candidate_id']]+'.md')
+              c=card.read_text()
+              for line in expected(rec): assert line in c,(card,line)
+          assert 'audited_wrapper_blob_sha=2cff9386cf9393b53725db7bc124c6b5ede221b3' in pathlib.Path('docs/arsenal/cards/provisional/S36-PW02.md').read_text()
+          b14=pathlib.Path('docs/arsenal/cards/provisional/S36-PW07.md').read_text()
+          assert 'supporting_locked_inputs=[{"blob_sha":"9fdec16f920104cc6c1961fb092185a0371258d5","path":"stages/stage36/36-09V/gaussian-directional-prime-support-preflight.json"},{"blob_sha":"3eb6e42b563ee2b5042917467a62e7606f27a869","path":"stages/stage36/36-09X/kummer-class-coupled-hilbert-local-solvability-preflight.json"}]' in b14
+          assert 'audit_note=Harvest1 found no separately relocked hostile-review ID for this retained wrapper; maturity remains PROVISIONAL.' in promo
+          print('PASS_FROZEN_PROVENANCE_SURVIVES_MATERIALIZATION')
+          PY
+
+          git rm "$WORKFLOW"
+          git add docs/stage36-arsenal-promotion.md docs/arsenal
+          git commit -m "arsenal: preserve frozen Stage36 harvest provenance"
+          FINAL=$(git rev-parse HEAD)
+          echo "EXACT_FINAL_REPAIR_HEAD=$FINAL"
+
+          git merge-base --is-ancestor "$BASE_MAIN" HEAD
+          python3 -B docs/arsenal/sync_arsenal_catalog.py --check
+          git diff --check "$BASE_MAIN" HEAD
+          test -z "$(git diff --name-only "$BASE_MAIN" HEAD -- stages/stage36)"
+
+          python3 - <<'PY'
+          import json, pathlib, subprocess
+          BASE='d620871bcadc0fe92af8e44e541fcb4c20197349'
+          H3='0ad4a2fc78ebd3ee55c47d9bf5100d8e4cee3b66'
+          UPPER='07a465cb5025e7c0188fb63610bb40e4b54e7a84'
+          expected={
+            'docs/stage36-arsenal-promotion.md','docs/arsenal/index.json','docs/arsenal/catalog.md',
+            *{f'docs/arsenal/cards/provisional/S36-PW{i:02d}.md' for i in range(1,8)}
+          }
+          got=set(subprocess.check_output(['git','diff','--name-only',BASE,'HEAD'],text=True).splitlines())
+          assert got==expected,(got^expected)
+          h3=json.load(open('/tmp/h3.json')); new=json.load(open('/tmp/h3-new.json')); ext=json.load(open('/tmp/h3-ext.json'))
+          promo=pathlib.Path('docs/stage36-arsenal-promotion.md').read_text()
+          def q(v):
+              if v is None:return 'null'
+              if isinstance(v,(dict,list)):return json.dumps(v,sort_keys=True,separators=(',',':'))
+              return str(v)
+          for rec in new['records']+ext['records']:
+              v=rec['verifier_source_lock']
+              if 'audited_wrapper_blob_sha' in v: assert f"audited_wrapper_blob_sha={v['audited_wrapper_blob_sha']}" in promo
+              if 'supporting_locked_inputs' in v: assert f"supporting_locked_inputs={q(v['supporting_locked_inputs'])}" in promo
+              a=rec.get('audit')
+              if a is not None:
+                  assert f"audit_status={q(a.get('status'))}" in promo
+                  assert f"audit_review={q(a.get('review'))}" in promo
+              if 'audit_note' in rec: assert f"audit_note={rec['audit_note']}" in promo
+          data=json.loads(pathlib.Path('docs/arsenal/index.json').read_text())
+          hs=[x for x in data['provisional_harvests'] if x.get('source_stage')=='Stage36']; assert len(hs)==1
+          h=hs[0]
+          assert h['active_cards']==[f'S36-PW{i:02d}' for i in range(1,8)] and h['active_workflows']==[]
+          assert h['harvest_snapshot_head']==UPPER
+          assert h['initial_harvest']['discovery_exact_head']==H3
+          assert h['initial_harvest']['harvest_upper_bound']==UPPER
+          assert h['initial_harvest']['range_expanded_after_harvest1'] is False
+          assert h['initial_harvest']['stage36_mathematical_credit_added'] is False
+          ids=[]; retired=set()
+          for k in ('selectors','formal_router_weapons','formal_workflows'):
+              ids += [x['id'] for x in data.get(k,[]) if x.get('id')]
+          for ph in data.get('provisional_harvests',[]):
+              ids += ph.get('active_cards',[])+ph.get('active_workflows',[])
+              retired |= set(ph.get('retired_merged_ids',{}))
+          assert len(ids)==len(set(ids))
+          assert not (set(ids)&retired)
+          assert 'ARSENAL_REGISTRATION_DOES_NOT_CHANGE_STAGE36_MATHEMATICAL_AUTHORITY=true' in promo
+          assert 'STAGE36_PROGRESS_INCREMENT=0' in promo and 'STAGE36_CLOSURE_OR_RELEASE_ADDED=false' in promo
+          print('PASS_EXACT_SCOPE_ASSERTION',len(got))
+          print('PASS_EXACT_HEAD_PROVENANCE_ASSERTIONS')
+          print('PASS_ID_UNIQUENESS_RETIRED_REUSE_FIREWALL')
+          PY
+
+          test -z "$(git status --porcelain)"
+          git push origin "HEAD:$BRANCH"
