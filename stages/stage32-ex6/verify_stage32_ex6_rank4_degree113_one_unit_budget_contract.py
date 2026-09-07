@@ -14,6 +14,12 @@ def main() -> None:
     assert x["schema"] == "STAGE32_EX6_RANK4_DEGREE113_ONE_UNIT_BUDGET_WALL_V1"
     assert x["status"] == "EXPLORATORY_EXACT_BOUNDED_WALL_NO_MAIN_CREDIT"
 
+    p = x["source_paths"]
+    assert p["degree113_wall"] == "stages/stage32-ex6/post1697-rank4-degree113-adapter-wall.md"
+    assert p["local_unramified_wall"] == "stages/stage32-ex6/post1697-rank4-local-unramified-contact-wall.md"
+    assert p["local_unramified_contract"] == "stages/stage32-ex6/post1697-rank4-local-unramified-contact-contract.json"
+    assert all((ROOT / path).is_file() for path in p.values())
+
     i = x["inputs"]
     assert i["degree"] == 113
     assert i["normalization_genus"] == 1
