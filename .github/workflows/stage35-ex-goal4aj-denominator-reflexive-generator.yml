@@ -53,9 +53,9 @@ jobs:
           oldgen=old.get('generation'); newgen=k.get('generation')
           ok=(k.get('schema')=='STAGE35_EX_GOAL4AJ_DENOMINATOR_REFLEXIVE_GENERATOR_RUNKEY_V1' and
               k.get('armed') is True and old.get('armed') is False and
-              oldgen==0 and newgen==1 and newgen==oldgen+1 and
+              oldgen==1 and newgen==2 and newgen==oldgen+1 and
               k.get('armed_from_head_sha')==os.environ['BEFORE'] and
-              blob==k.get('probe_blob_sha1')=='9a6a55a9848689347e925c270f10bffce9f17785' and
+              blob==k.get('probe_blob_sha1')=='7dbf3179ca800b16109de3f423fc919541237dd7' and
               k.get('planned_jobs')==1 and k.get('planned_shards')==1 and
               k.get('persisted_output_upper_bound_bytes')==131072 and
               k.get('actions_artifact_upload') is False)
@@ -68,7 +68,7 @@ jobs:
     needs: authorize
     if: needs.authorize.outputs.authorized == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -83,10 +83,10 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends singular
           Singular --version | head -n 3
-      - name: Build exact denominator residual divisorial ideal and candidate
+      - name: Build grouped denominator residual divisorial ideal and candidate
         run: |
           set -euo pipefail
           python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_denominator_reflexive_generator.py | tee /tmp/goal4aj-den-reflexive.log
-          grep -q '^GOAL4AJ_DEN_REFLEXIVE_JSON=' /tmp/goal4aj-den-reflexive.log
-          grep -q '^GOAL4AJ_DEN_REFLEXIVE=PASS$' /tmp/goal4aj-den-reflexive.log
+          grep -q '^GOAL4AJ_DEN_GROUPED_REFLEXIVE_JSON=' /tmp/goal4aj-den-reflexive.log
+          grep -q '^GOAL4AJ_DEN_GROUPED_REFLEXIVE=PASS$' /tmp/goal4aj-den-reflexive.log
           test "$(wc -c </tmp/goal4aj-den-reflexive.log)" -le 131072
