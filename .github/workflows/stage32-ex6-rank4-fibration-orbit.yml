@@ -5,6 +5,9 @@ on:
     paths:
       - 'stages/stage32-ex6/diagnose_stage32_ex6_rank4_fibration_orbit.py'
       - 'stages/stage32-ex6/post1697-rank4-degree113-adapter-wall.md'
+      - 'stages/stage32-ex6/post1697-rank4-local-unramified-contact-wall.md'
+      - 'stages/stage32-ex6/post1697-rank4-local-unramified-contact-contract.json'
+      - 'stages/stage32-ex6/verify_stage32_ex6_rank4_local_unramified_contact_contract.py'
       - '.github/workflows/stage32-ex6-rank4-fibration-orbit.yml'
   workflow_dispatch:
 
@@ -47,6 +50,8 @@ jobs:
           assert x['firewalls']['new_fibration_O_adapter_proved'] is False
           assert x['firewalls']['O266_excluded'] is False
           PY
+      - name: Verify local-unramified contact wall contract
+        run: python3 -B stages/stage32-ex6/verify_stage32_ex6_rank4_local_unramified_contact_contract.py
       - name: Show compact decision fields
         run: |
           python3 - <<'PY'
