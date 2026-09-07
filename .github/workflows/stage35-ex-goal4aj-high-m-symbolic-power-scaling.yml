@@ -50,11 +50,12 @@ jobs:
           probe=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_high_m_symbolic_power_scaling.py')
           k=json.loads(key.read_text()); old=json.loads(Path('/tmp/old-key.json').read_text())
           blob=subprocess.check_output(['git','hash-object',str(probe)],text=True).strip()
+          oldgen=old.get('generation'); newgen=k.get('generation')
           ok=(k.get('schema')=='STAGE35_EX_GOAL4AJ_HIGH_M_SYMBOLIC_POWER_SCALING_RUNKEY_V1' and
               k.get('armed') is True and old.get('armed') is False and
-              old.get('generation')==0 and k.get('generation')==1 and
+              oldgen==1 and newgen==2 and newgen==oldgen+1 and
               k.get('armed_from_head_sha')==os.environ['BEFORE'] and
-              blob==k.get('probe_blob_sha1')=='72f950f3e4666a76d48edf2a9fa2907f1b077046' and
+              blob==k.get('probe_blob_sha1')=='7351bfc5c426051c6033b90a338f43f86123b6cb' and
               k.get('planned_jobs')==1 and k.get('planned_shards')==1 and
               k.get('persisted_output_upper_bound_bytes')==32768 and
               k.get('actions_artifact_upload') is False)
@@ -67,7 +68,7 @@ jobs:
     needs: authorize
     if: needs.authorize.outputs.authorized == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -82,10 +83,10 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends singular
           Singular --version | head -n 3
-      - name: Exercise actual high multiplicities fail-closed
+      - name: Exercise iterative actual high multiplicities fail-closed
         run: |
           set -euo pipefail
           python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_high_m_symbolic_power_scaling.py | tee /tmp/goal4aj-highm.log
-          grep -q '^GOAL4AJ_HIGH_M_SYMBOLIC_POWER_JSON=' /tmp/goal4aj-highm.log
-          grep -q '^GOAL4AJ_HIGH_M_SYMBOLIC_POWER=PASS$' /tmp/goal4aj-highm.log
+          grep -q '^GOAL4AJ_ITERATIVE_HIGH_M_JSON=' /tmp/goal4aj-highm.log
+          grep -q '^GOAL4AJ_ITERATIVE_HIGH_M=PASS$' /tmp/goal4aj-highm.log
           test "$(wc -c </tmp/goal4aj-highm.log)" -le 32768
