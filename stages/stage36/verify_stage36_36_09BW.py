@@ -33,7 +33,7 @@ def git(*a): return subprocess.check_output(['git',*a],cwd=ROOT,text=True).strip
 def blob(p): return git('hash-object',str(p.relative_to(ROOT)))
 def v2int(n:int):
     assert n
-    n=abs(n); c=0
+    c=0
     while n%2==0: c+=1; n//=2
     return c,n%8
 def q2square(x:Fraction):
