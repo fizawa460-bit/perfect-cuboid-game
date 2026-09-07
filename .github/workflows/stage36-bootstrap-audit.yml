@@ -42,17 +42,32 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay immutable 36-09CB mathematical evidence
+      - name: Replay exact 36-09CC promotion parent
         shell: bash
         run: |
           set -euo pipefail
-          H=f888de991a62164645d8b81c18cb08aad029371b
-          git cat-file -e "$H^{commit}" || git fetch origin "$H" --depth=1
+          H=3f491a8ea6d79c6c6ee2f0512814d75f200075ce
+          git cat-file -e "$H^{commit}"
+          git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CB.py"
+          python3 - "$tmp" <<'PY'
+          import json,sys
+          from pathlib import Path
+          s=json.loads((Path(sys.argv[1])/'stages/stage36/MAIN-STATE.json').read_text())
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V120_36_09CC_PROMOTION'
+          assert s['audited_history']['36-09BY-CB']['hostile_audit_review']==5135340667
+          assert s['promotion_gates']['36_09CB_hostile_audit_passed'] is True
+          assert s['promotion_gates']['36_09CC_unlocked'] is True
+          assert s['current']['36_09CC_entry_allowed'] is True
+          PY
           git worktree remove --force "$tmp"
-      - name: Assert PR1696 audit consumption and CC unlock
+      - name: Verify current 36-09CC
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09CC.py
+      - name: Assert CC firewalls and CD selection
         shell: bash
         run: |
           set -euo pipefail
@@ -60,33 +75,33 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V120_36_09CC_PROMOTION'
-          assert s['status']=='ACTIVE_MAIN_CONTINUATION'
-          a=s['audited_history']['36-09BY-CB']
-          assert a['status']=='AUDITED_MERGED_AUTHORITY'
-          assert a['pr']==1696
-          assert a['hostile_audit_review']==5135340667
-          assert a['audited_exact_head']=='f7848842c1edc82c7dff0136d8b67e9b087143dd'
-          assert a['exact_head_ci']=='34162974810/101868399574'
-          assert a['merged_main_sha']=='5e5c262877a21a6ef197562143657ae1ac5963c7'
-          cb=s['authority_frontier']['36-09CB']
-          assert cb['status']=='AUDITED_MERGED_INPUT'
-          assert cb['ALL_BZ_OUTER_SURVIVORS_HAVE_Q2_FULL_COVER_POINT'] is True
-          assert cb['PRIME2_BRANCH_FILTER_LAYER_COMPLETE'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V121_36_09CC_OLD_SIX_SOURCE_PULLBACK'
+          cc=s['authority_frontier']['36-09CC']
+          assert cc['certificate_blob_sha']=='5067d1723952edce9f4bab55cc427eb1745211cc'
+          assert cc['verifier_blob_sha']=='56edc0cb232290a0e369be10d6f4c972dac279e7'
+          assert cc['GENERAL_OLD_SIX_SOURCE_PULLBACK_EXACT'] is True
+          assert cc['NEW_BRANCH_ONLY_FILTER_FAMILIES']==2
+          assert cc['ALPHA_SELECTED_FILTER_EXACT'] is True
+          assert cc['BETA_RESIDUAL_MU_FILTER_EXACT'] is True
+          assert cc['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
+          assert cc['RECEIVER_CLOSED'] is False
           cur=s['current']
-          assert cur['next_exact_leaf']=='36-09CC_GENERAL_OLD_SIX_QQ_SOURCE_PULLBACK_PREFLIGHT'
+          assert cur['next_exact_leaf']=='36-09CD_FIXED_P_OLD_SIX_BRANCH_FILTER_INTEGRATION_PREFLIGHT'
           assert cur['next_owner']=='MAIN'
           assert cur['substantive_batch_pr_continues'] is True
           assert cur['hostile_audit_checkpoint_reached'] is False
-          assert cur['36_09CC_entry_allowed'] is True
+          assert cur['36_09CD_entry_allowed'] is True
           pg=s['promotion_gates']
-          assert pg['36_09CB_hostile_audit_passed'] is True
           assert pg['36_09CC_unlocked'] is True
-          assert pg['36_09CC_entry_allowed'] is True
+          assert pg['36_09CC_certificate_complete'] is True
+          assert pg['36_09CD_unlocked'] is True
+          assert pg['general_old_six_source_pullback_exact'] is True
+          assert pg['new_old_six_branch_only_filter_families']==2
+          assert pg['all_old_six_local_realization_complete'] is False
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('Stage36 promotion verified: PR #1696 hostile-audit PASS is consumed and 36-09CC is unlocked without additional mathematical credit.')
+          print('36-09CC workflow checkpoint verified: two exact old-six branch-only filter families are provisional and CD is selected; no parameter/receiver/global credit.')
           PY
           git diff --check
