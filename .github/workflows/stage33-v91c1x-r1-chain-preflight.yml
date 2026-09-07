@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py'
+      - 'stages/stage33/33-12/e3-v91c1x-r1-chain-level-action-difference-preflight.json'
       - 'stages/stage33/33-12/diagnose_e3_v91c1r_swap23_boundary_function_package_transport.py'
       - 'stages/stage33/33-12/e3-v91c1d-a2-02-purity-cech-cartier-assembly.json'
       - 'stages/stage33/33-12/e3-v91c1w-a2-02-all8-picard64-reduction.json'
@@ -14,7 +15,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: stage33-v91c1x-r1-chain-${{ github.event.pull_request.number || github.ref }}
@@ -31,8 +32,22 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Run source-bound chain-level action-difference preflight
-        run: python stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py
+      - name: Materialize source-bound chain-level action-difference preflight
+        run: python stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py --write
+      - name: Commit exact runtime certificate when newly materialized
+        shell: bash
+        run: |
+          set -euo pipefail
+          path='stages/stage33/33-12/e3-v91c1x-r1-chain-level-action-difference-preflight.json'
+          git add "$path"
+          if git diff --cached --quiet; then
+            echo 'certificate already exact'
+          else
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m '[Stage33] materialize X_R1 chain-level preflight result'
+            git push origin HEAD:${{ github.event.pull_request.head.ref || github.ref_name }}
+          fi
       - name: Preserve repair authority and diff hygiene
         run: |
           python stages/stage33/33-12/verify_stage33_v91c1w_semantic_bridge_audit_repair_v110.py
