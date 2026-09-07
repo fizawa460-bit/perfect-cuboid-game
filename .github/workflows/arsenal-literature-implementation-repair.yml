@@ -26,7 +26,8 @@ jobs:
 
           OLD_AUDIT_HEAD=44f635f364f9904c2048197bc84eea58938fdb16
           NEW_AUDIT_HEAD=288c3fac93774806a96cd7cb0076493e173f859c
-          git fetch origin main arsenal-literature-strengthening-audit
+          git fetch origin +refs/heads/main:refs/remotes/origin/main
+          git fetch origin +refs/heads/arsenal-literature-strengthening-audit:refs/remotes/origin/arsenal-literature-strengthening-audit
           REMOTE_AUDIT_HEAD=$(git rev-parse origin/arsenal-literature-strengthening-audit)
           test "$REMOTE_AUDIT_HEAD" = "$NEW_AUDIT_HEAD"
           FRESH_MAIN=$(git rev-parse origin/main)
@@ -100,12 +101,10 @@ jobs:
           python3 -B docs/arsenal/sync_arsenal_catalog.py --check
           git diff --check
 
-          # Temporary workflow must not survive final materialized tree.
           git rm .github/workflows/arsenal-literature-implementation-repair.yml
           git add docs/arsenal-literature-strengthening-promotion.md docs/arsenal/index.json docs/arsenal/catalog.md docs/arsenal/cards
           git commit -m 'fix(arsenal): relock literature audit and refresh implementation'
 
-          # Exact committed-tree validation.
           test -z "$(git status --porcelain)"
           python3 -B docs/arsenal/sync_arsenal_catalog.py --check
           git diff --check origin/main..HEAD
@@ -128,14 +127,12 @@ jobs:
               raise SystemExit(f'FAIL exact scope mismatch: extra={sorted(got-allowed)} missing={sorted(allowed-got)}')
           PY
 
-          # Registry/card invariants and Stage36 conflict-only equality.
           git show origin/main:docs/arsenal/index.json > /tmp/main-index.json
           python3 - <<'PY'
-          import json, re
+          import json
           from pathlib import Path
           cur = json.loads(Path('docs/arsenal/index.json').read_text())
           base = json.loads(Path('/tmp/main-index.json').read_text())
-
           def dicts(x):
               if isinstance(x, dict):
                   yield x
@@ -145,7 +142,6 @@ jobs:
           cur_entries=[d for d in dicts(cur) if isinstance(d.get('id'), str)]
           base_entries=[d for d in dicts(base) if isinstance(d.get('id'), str)]
           ids=[d['id'] for d in cur_entries]
-          # Registry has one primary object per active/retired ID; references use named fields, not id.
           if len(ids) != len(set(ids)):
               dup=sorted({x for x in ids if ids.count(x)>1})
               raise SystemExit(f'FAIL duplicate registry ids: {dup}')
