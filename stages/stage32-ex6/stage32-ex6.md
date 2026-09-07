@@ -55,6 +55,32 @@ Retained files:
 
 A useful future rank-4 re-entry must now force actual/global V6 landing points into attachment or critical loci, force more than one ramification unit at enough remaining contacts, produce an independent lower bound away from the O-contact ledger, or avoid the per-contact ramification premise entirely.
 
+## Latest bounded re-entry result — FSM16 modular-tensor near miss
+
+Freitag–Salvati Manni Theorem 3.1 gives `d<=176+16g` for curves whose normalization map is bijective. For genus one this is `d<=192`, so the fixed V6 degree `d=186` already survives the published theorem by `6`.
+
+Using the proof itself and replacing the universal 48-node pole count by the exact 47-node positive support would give `d<=188` in a counterfactual bijective-normalization case. This is still nonexcluding by `2`, and the actual O266 population is not bijective: it has `B=266` normalization points over the exceptional divisor.
+
+The same proof architecture extends branchwise to the safe inequality
+
+`d <= 16g - 16 + 4B`.
+
+At `g=1,B=266`, this gives only `d<=1064`.
+
+The modular cusp congruences sharpen the internal threshold. A branch has positive tensor pole budget only at the minimal cusp pair `(a1,a2)=(4,4)`, contributing at most `8k`; the next allowed sum is at least 16 and gives no positive pole. If `S_cusp` is the number of `(4,4)` branches, degree `186` and genus one require `S_cusp>=47`. Thus this tensor route would exclude the V6 carrier if a global/member-level theorem forced
+
+`S_cusp <= 46`.
+
+No branch-level adapter from these FSM16 cusp parameters to the Stage32 AN local FSM pair `(A,B)` is currently source-locked, so the two notions are not identified here.
+
+Retained files:
+
+- `stages/stage32-ex6/post1697-fsm16-modular-tensor-multibranch-wall.md`
+- `stages/stage32-ex6/post1697-fsm16-modular-tensor-multibranch-contract.json`
+- verifier: `stages/stage32-ex6/verify_stage32_ex6_fsm16_modular_tensor_multibranch_contract.py`
+
+Decision: `FSM16_MODULAR_TENSOR_O266 = NUMERICALLY_NONEXCLUDING`.
+
 ## Purpose
 
 Attack the opposite endpoint of the currently retained fixed-V6 O-range by studying the hypothetical `O=266` population first.
