@@ -24,6 +24,9 @@ jobs:
       - name: Verify O266 endpoint contract
         run: python stages/stage32-ex6/verify_stage32_ex6_o266_endpoint_contract.py
 
+      - name: Verify FSM16 modular tensor multibranch wall
+        run: python stages/stage32-ex6/verify_stage32_ex6_fsm16_modular_tensor_multibranch_contract.py
+
       - name: Enforce read-only replay
         run: |
           test -z "$(git status --porcelain)"
