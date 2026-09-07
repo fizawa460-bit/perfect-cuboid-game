@@ -39,18 +39,27 @@ jobs:
           test "${HEAD_REF}" = 'stage35-ex-goal4x-open-receiver-boundary-picard' || exit 0
           test -n "${BEFORE}" || exit 0
           git fetch --no-tags --depth=1 origin "${BEFORE}" || exit 0
+          git cat-file -e "${BEFORE}^{commit}" 2>/dev/null || exit 0
           git diff --name-only "${BEFORE}" "${HEAD_SHA}" | grep -Fxq "${KEY}" || exit 0
+          git show "${BEFORE}:${KEY}" > /tmp/old-key.json || exit 0
           python - <<'PY' > /tmp/auth
-          import hashlib,json
+          import hashlib,json,os
           from pathlib import Path
           k=json.loads(Path('stages/stage35-ex/runkeys/goal4aj-singular-module-hom.json').read_text())
+          old=json.loads(Path('/tmp/old-key.json').read_text())
           p=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_singular_module_hom.py')
           def blob(q):
               b=q.read_bytes(); return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          oldgen=old.get('generation')
+          newgen=k.get('generation')
           ok=(k.get('schema')=='STAGE35_EX_GOAL4AJ_SINGULAR_MODULE_HOM_RUNKEY_V1' and
-              k.get('armed') is True and k.get('generation')==2 and
-              blob(p)==k.get('probe_blob_sha1')=='3f553396ac604d575eb824120c205c3d9ba672c2' and
-              k.get('planned_jobs')==1 and k.get('actions_artifact_upload') is False)
+              k.get('armed') is True and isinstance(oldgen,int) and isinstance(newgen,int) and
+              newgen==oldgen+1 and newgen==3 and
+              k.get('armed_from_head_sha')==os.environ['BEFORE'] and
+              blob(p)==k.get('probe_blob_sha1')=='8f7d45ccfac898f94c4adabeae4930bf85dc4440' and
+              k.get('planned_jobs')==1 and k.get('planned_shards')==1 and
+              k.get('persisted_output_upper_bound_bytes')==65536 and
+              k.get('actions_artifact_upload') is False)
           print('true' if ok else 'false')
           PY
           test "$(tail -n1 /tmp/auth)" = true || exit 0
