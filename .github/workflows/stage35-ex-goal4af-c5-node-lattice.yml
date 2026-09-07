@@ -6,6 +6,7 @@ on:
     paths:
       - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_local_node_lattice.py'
       - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer.py'
+      - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer_v2.py'
       - 'stages/stage35-ex/runkeys/goal4af-c5-node-lattice.json'
       - '.github/workflows/stage35-ex-goal4af-c5-node-lattice.yml'
   workflow_dispatch:
@@ -48,18 +49,20 @@ jobs:
           import hashlib,json,subprocess
           from pathlib import Path
           key=Path('stages/stage35-ex/runkeys/goal4af-c5-node-lattice.json')
-          diag=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer.py')
-          base=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_local_node_lattice.py')
+          diag=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer_v2.py')
+          base=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer.py')
+          node=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_local_node_lattice.py')
           new=json.loads(key.read_text())
           assert new['schema']=='STAGE35_EX_GOAL4AF_C5_NODE_LATTICE_RUNKEY_V1'
-          assert new['armed'] is True and new['generation']==2
-          assert new['route']=='LOCAL_SOURCE_NODE_INCIDENCE_PLUS_SIGN_STABILIZER_PICARD_SYSTEM'
+          assert new['armed'] is True and new['generation']==3
+          assert new['route']=='LOCAL_SOURCE_SIGN_STABILIZER_WITHOUT_NODE_UNION_LOCATOR'
           assert new['upstream_git_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
           def blob(p):
               raw=p.read_bytes()
               return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
-          assert blob(base)==new['generation1_diagnostic_blob_sha1']=='aa43bc38d799ab78cf0252830718979b15fa54fc'
-          assert blob(diag)==new['diagnostic_blob_sha1']=='732332e94f1346b03d91425bb664905d3f440c44'
+          assert blob(node)==new['generation1_diagnostic_blob_sha1']=='aa43bc38d799ab78cf0252830718979b15fa54fc'
+          assert blob(base)==new['generation2_diagnostic_blob_sha1']=='732332e94f1346b03d91425bb664905d3f440c44'
+          assert blob(diag)==new['diagnostic_blob_sha1']=='122731f6c9cb63471ab584eb6d25aecb33d4481f'
           assert new['planned_jobs']==1 and new['planned_shards']==1
           assert new['persisted_output_upper_bound_bytes']<=65536
           assert new['projected_peak_actions_storage_bytes']<=1048576
@@ -67,9 +70,9 @@ jobs:
           before='${{ github.event.before }}'
           oldtxt=subprocess.check_output(['git','show',f'{before}:{key.as_posix()}'],text=True)
           old=json.loads(oldtxt)
-          assert int(old['generation'])==1 and new['generation']>int(old['generation'])
-          assert old['diagnostic_blob_sha1']=='aa43bc38d799ab78cf0252830718979b15fa54fc'
-          print('GOAL4AF_SIGN_STABILIZER_RUNKEY_AUTHORIZED=true')
+          assert int(old['generation'])==2 and new['generation']>int(old['generation'])
+          assert old['diagnostic_blob_sha1']=='732332e94f1346b03d91425bb664905d3f440c44'
+          print('GOAL4AF_SIGN_STABILIZER_G3_RUNKEY_AUTHORIZED=true')
           PY
           echo 'authorized=true' >> "$GITHUB_OUTPUT"
 
@@ -86,10 +89,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Add source sign-stabilizer constraints to the C5 pair Picard solve
+      - name: Add source sign-stabilizer constraints without node-union locator assumption
         run: |
           set -euo pipefail
-          python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer.py | tee /tmp/goal4af-sign-stabilizer.log
+          python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer_v2.py | tee /tmp/goal4af-sign-stabilizer.log
           grep -q '^GOAL4AF_SIGN_STABILIZER_JSON=' /tmp/goal4af-sign-stabilizer.log
           test "$(wc -c </tmp/goal4af-sign-stabilizer.log)" -le 65536
       - name: Enforce diagnostic no-credit boundary
@@ -115,5 +118,5 @@ jobs:
               assert d['sign_stabilizer_augmented_rank']<64
               assert d['pair_count']==0
               assert d['goal4ac_residual_pair_count']==0
-          print('GOAL4AF_SIGN_STABILIZER_DIAGNOSTIC_BOUNDARY=PASS')
+          print('GOAL4AF_SIGN_STABILIZER_G3_DIAGNOSTIC_BOUNDARY=PASS')
           PY
