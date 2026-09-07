@@ -1,9 +1,9 @@
 {
-  "schema": "STAGE32EX1_EX1_05C_INERTIA_CLASS_CAPACITY_V1",
+  "schema": "STAGE32EX1_EX1_05C_INERTIA_CLASS_CAPACITY_V2_SIX_SUBGROUP_EXHAUSTIVE",
   "stage": "32EX1",
   "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
   "route_id": "EX1_05C_EXC_NODE_INERTIA_TYPE_ADAPTER_AND_CAPACITY_TEST",
-  "status": "PASS_INERTIA_CLASS_MASS_CAPACITY_REDUCTION_WITH_16_NODE_PARITY_ADAPTER_OPEN_CANDIDATE",
+  "status": "PASS_EXHAUSTIVE_SIX_H2_STABILIZER_CAPACITY_REDUCTION_WITH_16_NODE_PARITY_ADAPTER_OPEN_CANDIDATE",
   "dependency_status": "PROVISIONAL_SAME_PR_DEPENDS_ON_UNAUDITED_EX1_00_THROUGH_EX1_05B_CANDIDATES",
   "target": {
     "canonical_degree": 186,
@@ -48,13 +48,22 @@
     "mass_sum_replay": "96+108+62=266"
   },
   "h2_capacity_test": {
-    "principle": "For h=2 the full component stabilizer M has order4 and contains exactly two of the three single-sign inertia elements; the third inertia class cannot ramify. Since Q>=188, the total contact mass on the two allowed classes must be at least188.",
-    "forbid_u": {"allowed_mass": 170, "compatible_with_Q_ge_188": false},
-    "forbid_v": {"allowed_mass": 158, "compatible_with_Q_ge_188": false},
-    "forbid_w": {"allowed_mass": 204, "compatible_with_Q_ge_188": true},
-    "unique_surviving_h2_stabilizer": "M=<u-sign,v-sign>, H=M∩G0plus=<uv>; w-sign/b3=0 is the forbidden inertia class.",
-    "excluded_h2_subgroup_choices": 2,
-    "remaining_h2_subgroup_choices": 1
+    "group_model": "Write G0=F2^3 with single-sign elements u,v,w and even-sign subgroup G0plus={0,uv,uw,vw}. For h=2 the full component stabilizer M has order4 and H=M∩G0plus has order2.",
+    "exhaustive_classification": "There are exactly six order-4 subgroups M with |M∩G0plus|=2: three two-single-sign types and three one-single-plus-triple types. The seventh order-4 subgroup is G0plus itself and has intersection order4, hence is the h=4 case rather than h=2.",
+    "subgroups": [
+      {"M": "<u,v>={0,u,v,uv}", "allowed_single_signs": ["u", "v"], "allowed_mass": 204, "compatible_with_Q_ge_188": true},
+      {"M": "<u,w>={0,u,w,uw}", "allowed_single_signs": ["u", "w"], "allowed_mass": 158, "compatible_with_Q_ge_188": false},
+      {"M": "<v,w>={0,v,w,vw}", "allowed_single_signs": ["v", "w"], "allowed_mass": 170, "compatible_with_Q_ge_188": false},
+      {"M": "<uv,w>={0,uv,w,uvw}", "allowed_single_signs": ["w"], "allowed_mass": 62, "compatible_with_Q_ge_188": false},
+      {"M": "<uw,v>={0,uw,v,uvw}", "allowed_single_signs": ["v"], "allowed_mass": 108, "compatible_with_Q_ge_188": false},
+      {"M": "<vw,u>={0,vw,u,uvw}", "allowed_single_signs": ["u"], "allowed_mass": 96, "compatible_with_Q_ge_188": false}
+    ],
+    "capacity_principle": "Only node inertia single-sign elements lying in M may ramify on the connected full-pullback component. Therefore Q cannot exceed the total V6 contact mass of the allowed single-sign inertia classes.",
+    "excluded_h2_subgroup_choices_by_capacity": 5,
+    "remaining_h2_subgroup_choices_after_capacity": 1,
+    "unique_surviving_h2_stabilizer": "M=<u,v>={0,u,v,uv}; w-sign/b3=0 is forbidden.",
+    "surviving_allowed_mass": 204,
+    "surviving_Q_even_range": [188, 204]
   },
   "h2_parity_gate": {
     "forbidden_class": "w-sign / b3=0 / 16 nodes",
@@ -67,7 +76,7 @@
     "allowed_uv_half_excess": "(204-Q)/2=8-t",
     "higher_order_ramified_branches_on_allowed_classes_upper_bound": "<=8-t",
     "simple_transverse_ramified_branches_on_allowed_classes_lower_bound": ">=180+3t",
-    "decision_rule": "If any one of the 16 b3=0 V6 pairings is odd then h=2 is excluded and h=4 is forced at the component-stabilizer layer."
+    "decision_rule": "After the exhaustive six-subgroup capacity test leaves only M=<u,v>, if any one of the 16 b3=0 V6 pairings is odd then h=2 is excluded and h=4 is forced at the component-stabilizer layer."
   },
   "exact_missing_adapter": {
     "full_48_label_to_inertia_map_required_for_current_decision": false,
@@ -78,7 +87,7 @@
   "exit": {
     "all_residual_configurations_disposed": false,
     "positive_witness_established": false,
-    "branch_exclusion_candidate": "Two of the three h=2 component-stabilizer/inertia choices are excluded by exact class-mass capacity; only the subgroup forbidding w-sign/b3=0 survives.",
+    "branch_exclusion_candidate": "Five of the six possible h=2 full component stabilizers are excluded by exact single-sign inertia capacity; only M=<u,v> survives capacity, with w-sign/b3=0 forbidden.",
     "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED",
     "full_target_closure": false,
     "next_route": "EX1-05D_B3_NODE_PARITY_ADAPTER_OR_H4_FORCING"
@@ -87,6 +96,7 @@
     "inertia_class_mass_identified_with_delta": false,
     "aggregate_mass_used_to_guess_individual_parity": false,
     "Magma_point_order_guessed": false,
+    "h2_subgroup_exhaustion_assumes_exactly_two_single_signs": false,
     "h2_declared_viable_without_16_node_evenness_check": false,
     "h2_declared_excluded_without_16_node_parity_check": false,
     "product_cover_refinement_promoted_to_full_v6_exclusion": false,
@@ -95,5 +105,5 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
   },
-  "canonical_sha256_without_this_field": "9359008927cd9458c111c128424b9a0f00134109c77ca1bd29a6847404c3518f"
+  "canonical_sha256_without_this_field": "51464451c233eaee4148ded8c6dbb38e84944c01677eced9d6dc8af7219b846f"
 }
