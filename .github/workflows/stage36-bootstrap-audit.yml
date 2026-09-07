@@ -35,6 +35,7 @@ jobs:
           assert s['base_main_sha']==sys.argv[1]
           assert s['freshness']['current_main']==sys.argv[1]
           assert s['freshness']['stage36_source_drift'] is False
+          assert s['freshness']['sync_required_before_audit'] is False
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
@@ -46,26 +47,47 @@ jobs:
           import json
           from pathlib import Path
           a=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())['audited_history']['36-09AP-AU']
+          assert a['pr']==1680
+          assert a['audited_head']=='9aa2e4c06240bbf1f6260dd2c11c3d622119f16f'
           assert a['hostile_audit_review']==5128229756
+          assert a['exact_head_ci']=='34085000175/101627220799'
           assert a['merged_main_sha']=='d43db1874b0e657143fa07b1a16eb87fc27e0238'
           PY
           git merge-base --is-ancestor d43db1874b0e657143fa07b1a16eb87fc27e0238 HEAD
-      - name: Replay exact 36-09AW provisional parent
+          test "$(git rev-parse HEAD:stages/stage36/36-09AD/coupled-six-reservoir-factor-squareclass-parity-preflight.json)" = "9d0388845955efee71d1a761ae4ee943d8b565d5"
+      - name: Replay exact 36-09AV checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          H=b1b716f955d1a0b50bb5633364896b2f140d3f00
+          git cat-file -e "$H^{commit}"
+          git merge-base --is-ancestor "$H" HEAD
+          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AV.py"
+          git worktree remove --force "$tmp"
+      - name: Replay exact 36-09AW checkpoint
         shell: bash
         run: |
           set -euo pipefail
           H=40befe5dc8362444a127e066d6cfdbe4a6171943
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
+          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09AW.py"
           git worktree remove --force "$tmp"
-          test "$(git rev-parse "$H":stages/stage36/36-09AW/fixed-p-finite-squareclass-tunnell-branch-sieve-preflight.json)" = "c1970a020803275ba87b249229e319367fa8f811"
-          test "$(git rev-parse "$H":stages/stage36/verify_stage36_36_09AW.py)" = "a45d38d7db7428073e55e9cfeb929f335fd037e5"
-      - name: Verify current 36-09AX bounded fixed-p scan
-        run: python3 stages/stage36/verify_stage36_36_09AX.py
-      - name: Assert AX firewalls and AY unlock
+      - name: Replay exact 36-09AX checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          H=97e3f4bfc4345b05b74e9baf780ed8ff1baf38cb
+          git cat-file -e "$H^{commit}"
+          git merge-base --is-ancestor "$H" HEAD
+          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AX.py"
+          git worktree remove --force "$tmp"
+      - name: Verify current 36-09AY universal boundary survivor
+        run: python3 stages/stage36/verify_stage36_36_09AY.py
+      - name: Assert AY audit checkpoint firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -73,17 +95,22 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V86_36_09AX_CANDIDATE'
-          ax=s['authority_frontier']['36-09AX']
-          assert ax['BOUNDED_FIXED_P_SCAN_COMPLETE'] is True
-          assert ax['FIXED_P_ZERO_SURVIVOR_COUNT']==0
-          assert ax['TUNNELL_ALONE_PARAMETER_SHRINK_OBSERVED'] is False
-          assert ax['UNIFORM_NONEXCLUSION_THEOREM'] is False
-          assert ax['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert ax['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09AY'
-          assert s['current']['36_09AY_entry_allowed'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V87_36_09AY_AUDIT_CHECKPOINT'
+          assert s['status']=='ACTIVE_BATCH_HOSTILE_AUDIT_CHECKPOINT'
+          ay=s['authority_frontier']['36-09AY']
+          assert ay['UNIVERSAL_BOUNDARY_TUNNELL_SURVIVOR'] is True
+          assert ay['AW_ZERO_SURVIVOR_FIXED_P_EXCLUSION_STRUCTURALLY_IMPOSSIBLE'] is True
+          assert ay['BOUNDARY_SURVIVOR_IS_RETAINED_RECEIVER'] is False
+          assert ay['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert ay['RECEIVER_CLOSED'] is False
+          assert ay['HOSTILE_AUDIT_PASSED'] is False
+          assert s['current']['unit']=='36-09AY-AUDIT-CHECKPOINT'
+          assert s['current']['next_owner']=='HOSTILE_AUDIT'
+          assert s['current']['hostile_audit_checkpoint_reached'] is True
+          assert s['current']['36_09AZ_entry_allowed'] is False
           assert s['claims']['receiver_emptiness_proved'] is False
-          print('36-09AX verified; bounded scan has no fixed-p exclusions; AY structural analysis unlocked')
+          assert s['claims']['R29_CAMP2_closed'] is False
+          assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
+          print('36-09AY checkpoint verified; universal X=K boundary survivor blocks Tunnell-only fixed-p zero sieve; AZ locked pending hostile audit')
           PY
           git diff --check
