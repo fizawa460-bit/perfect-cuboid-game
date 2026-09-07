@@ -44,6 +44,7 @@ jobs:
       - name: Diff check
         run: git diff --check
       - name: Commit compact B2D1 certificate
+        if: github.event_name == 'push'
         shell: bash
         run: |
           CERT='stages/stage33/33-12/e3-v91c1x-r5b2d1-source-bound-swap23-action-adapter.json'
@@ -55,4 +56,4 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add "$CERT"
           git commit -m '[Stage33] materialize R5B2D1 source-bound swap23 action adapter'
-          git push origin HEAD:${GITHUB_REF_NAME}
+          git push origin HEAD:refs/heads/${GITHUB_REF_NAME}
