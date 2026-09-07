@@ -1,6 +1,27 @@
 # Stage32EX6 — O266 endpoint attack
 
-Status: **INDEPENDENT EXPLORATORY LANE**. Stage32 MAIN remains frozen at its current O210/Q602/V6 frontier. EX6 does not change MAIN authority, current survivors, or advancement state.
+Status: **O266_ENDPOINT_NOT_CLOSED — STOPPED PENDING NEW ENDPOINT INPUT**. Stage32 MAIN remains frozen at its current O210/Q602/V6 frontier. EX6 does not change MAIN authority, current survivors, or advancement state.
+
+## Current result
+
+The first O266 pass is complete.
+
+Exact endpoint semantics:
+
+- `D_E=sum_P m_P P`, `sum m_P=e=266`;
+- `O=#{P:m_P odd}`;
+- hence `O<=B<=266`;
+- at `O=266`, necessarily `B=S1=266` and every exceptional contact has multiplicity `m_P=1`.
+
+This endpoint profile is **not excluded** by the retained data. Post1648AN already gives an explicit local witness with `M_j` pairwise-separated minimal branches at each met node. The exact two-factor endpoint slack remains feasible, and the corrected Rosati/conductor identities remain nonexcluding.
+
+Decision certificate:
+
+- `stages/stage32-ex6/post1697-o266-endpoint-contract.json`
+- `stages/stage32-ex6/post1697-o266-endpoint-source-note.md`
+- verifier: `stages/stage32-ex6/verify_stage32_ex6_o266_endpoint_contract.py`
+
+A future re-entry requires genuinely new member-level landing/jet information, a stronger simultaneous two-factor constraint, or an independent correspondence/conductor inequality. EX6 does not descend to O264 by guesswork.
 
 ## Purpose
 
