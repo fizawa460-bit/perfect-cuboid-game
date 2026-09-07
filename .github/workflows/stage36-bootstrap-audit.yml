@@ -35,6 +35,7 @@ jobs:
           assert s['base_main_sha']==sys.argv[1]
           assert s['freshness']['current_main']==sys.argv[1]
           assert s['freshness']['stage36_source_drift'] is False
+          assert s['freshness']['sync_required_before_audit'] is False
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
@@ -53,22 +54,22 @@ jobs:
           assert a['merged_main_sha']=='b7a045b7c910a3e01d3826556cd71019af15418f'
           PY
           git merge-base --is-ancestor b7a045b7c910a3e01d3826556cd71019af15418f HEAD
-      - name: Replay exact 36-09AZ provisional parent
+      - name: Replay exact 36-09BA provisional parent
         shell: bash
         run: |
           set -euo pipefail
-          H=70d242588f4ae1b56dfc80e7c634e1f666ff57fd
+          H=a4fde9a55b6483018ffb4be49ffbc758939b7e22
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AZ.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BA.py"
           git worktree remove --force "$tmp"
-          test "$(git rev-parse "$H":stages/stage36/36-09AZ/boundary-survivor-open-refinement-preflight.json)" = "0ad33f6d197525978f716a146bb128ac343c0710"
-          test "$(git rev-parse "$H":stages/stage36/verify_stage36_36_09AZ.py)" = "455d8c5c65ec84cfea902fadb4233fbf490358e1"
-      - name: Verify current 36-09BA auxiliary genus-one open points
-        run: python3 stages/stage36/verify_stage36_36_09BA.py
-      - name: Assert BA firewalls and BB unlock
+          test "$(git rev-parse "$H":stages/stage36/36-09BA/ay-auxiliary-genusone-open-points-preflight.json)" = "2f31c89b2760f2270fa0ea21106ef97a3ec0840b"
+          test "$(git rev-parse "$H":stages/stage36/verify_stage36_36_09BA.py)" = "883785c63cc01b5cb55bff25fe50bee74e3c4024"
+      - name: Verify current 36-09BB scaled self-intersection
+        run: python3 stages/stage36/verify_stage36_36_09BB.py
+      - name: Assert BB firewalls and BC unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -76,19 +77,19 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V89_36_09BA_CANDIDATE'
-          ba=s['authority_frontier']['36-09BA']
-          assert ba['AY_AUXILIARY_OPEN_Q_POINTS_INFINITE'] is True
-          assert ba['BOUNDARY_ONLY_AUXILIARY_CLOSURE_IMPOSSIBLE'] is True
-          assert ba['AUXILIARY_OPEN_POINT_IS_RECEIVER'] is False
-          assert ba['S34_W03_RECEIVER_INTERSECTION_SELECTED'] is True
-          assert ba['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert ba['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09BB'
-          assert s['current']['36_09BB_entry_allowed'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V90_36_09BB_CANDIDATE'
+          bb=s['authority_frontier']['36-09BB']
+          assert bb['RECEIVER_RESTRICTED_INTERSECTION_EXACT'] is True
+          assert bb['SCALED_SELF_INTERSECTION_MODEL'] is True
+          assert bb['NAIVE_PROJECTIVE_LOCAL_ZERO_RESIDUE_ATTACK_BLOCKED'] is True
+          assert bb['OPEN_RECEIVER_INTERSECTION_EMPTY'] is False
+          assert bb['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert bb['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09BC'
+          assert s['current']['36_09BC_entry_allowed'] is True
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['R29_CAMP2_closed'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09BA verified; AY auxiliary genus-one has infinitely many nonboundary Q-points, but receiver intersection remains separate; S34-W03 BB unlocked')
+          print('36-09BB verified; exact open scaled self-intersection materialized; closed projective local-zero sieve blocked; BC unlocked')
           PY
           git diff --check
