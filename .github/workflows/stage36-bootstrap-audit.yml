@@ -38,7 +38,7 @@ jobs:
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
 
-      - name: Assert audited Stage36 authority and reconciled AO payload
+      - name: Assert audited authority and AE/AO source locks
         shell: bash
         run: |
           set -euo pipefail
@@ -47,37 +47,32 @@ jobs:
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
           a=s['audited_history']['36-09AM-AN']
-          assert a['pr']==1679
-          assert a['audited_head']=='12716259951f02589ecfaf6ac8f9670b7a23f06f'
           assert a['hostile_audit_review']==5127771308
-          assert a['exact_head_ci']=='34076440104/101603376687'
           assert a['merged_main_sha']=='6b6c541d1a6bbe229381ac0400148bd17523ca06'
           ao=s['audited_history']['parallel-36-09AO']
           assert ao['hostile_audit_review']==5127677576
-          assert ao['audited_head']=='f5db4fc0aafdc61f931b6499afb18c1966c1f99d'
           PY
-          git merge-base --is-ancestor 6b6c541d1a6bbe229381ac0400148bd17523ca06 HEAD
-          test "$(git rev-parse HEAD:stages/stage36/36-09AO/monsky-stage36-full2-class-adapter-preflight.json)" = "a26991cb071e086d3cbc36b8c9d2db329a14e5b1"
+          test "$(git rev-parse HEAD:stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json)" = "ddae37dd35cd0e732cebadf9c17f3f3fa57930df"
           test "$(git rev-parse HEAD:stages/stage36/36-09AO/monsky-full2-kernel-source-lock.md)" = "9f22dfe19d42d7104d30d219aac1cfd72a67c72a"
 
-      - name: Replay exact 36-09AR provisional parent
+      - name: Replay exact 36-09AS provisional parent
         shell: bash
         run: |
           set -euo pipefail
-          H=79dd6d595498d1c89f2e70dd535b2f8fe17941df
+          H=2ac34f56fa6b63dcbf8ac67b5c46d34857acf9c8
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AR.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AS.py"
           git worktree remove --force "$tmp"
-          test "$(git rev-parse "$H":stages/stage36/36-09AR/even-monsky-class-coordinate-adapter-preflight.json)" = "667a2ab1329865acdefca3b531511a3798edb3e6"
-          test "$(git rev-parse "$H":stages/stage36/verify_stage36_36_09AR.py)" = "3368f0a8301f9bd8c0a8f2d3c08c89e14901546f"
+          test "$(git rev-parse "$H":stages/stage36/36-09AS/all-parity-monsky-kernel-equation-compression-preflight.json)" = "6b20e9a7d4bb1221feb06622db4d165fb2e3e1ee"
+          test "$(git rev-parse "$H":stages/stage36/verify_stage36_36_09AS.py)" = "badc07dbfd0f4fdccf0f1e8f75198d48576c2e40"
 
-      - name: Verify current 36-09AS kernel-equation compression
-        run: python3 stages/stage36/verify_stage36_36_09AS.py
+      - name: Verify current 36-09AT local-row Monsky equivalence
+        run: python3 stages/stage36/verify_stage36_36_09AT.py
 
-      - name: Assert 36-09AS firewalls and 36-09AT unlock
+      - name: Assert 36-09AT firewalls and 36-09AU unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -85,20 +80,18 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V81_36_09AS_CANDIDATE'
-          assert s['status']=='ACTIVE_BATCHING_SUBSTANTIVE_PR'
-          a=s['authority_frontier']['36-09AS']
-          assert a['ALL_PARITY_KERNEL_EQUATION_COMPRESSION'] is True
-          assert a['ODD_T_FLIP_SIMULTANEOUS_PASS_REQUIRES_ALL_P_1_OR_7_MOD8'] is True
-          assert a['EVEN_EF_FLIP_SIMULTANEOUS_PASS_REQUIRES_ALL_P_1_MOD8'] is True
-          assert a['SINGLE_PARAMETER_UNIFORM_EXCLUSION'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V82_36_09AT_CANDIDATE'
+          a=s['authority_frontier']['36-09AT']
+          assert a['ODD_AE_MONSKY_EXACT_EQUIVALENCE'] is True
+          assert a['ODD_MONSKY_GATE_NEW_AFTER_AE'] is False
+          assert a['EVEN_SECOND_BLOCK_AE_EQUIVALENCE'] is True
+          assert a['EVEN_FIRST_TRANSPOSED_REDEI_BRIDGE'] is False
           assert a['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
           assert a['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09AT'
-          assert s['current']['36_09AT_entry_allowed'] is True
-          assert s['claims']['candidate_parameter_set_shrunk'] is False
+          assert s['current']['unit']=='36-09AU'
+          assert s['current']['36_09AU_entry_allowed'] is True
+          assert s['claims']['even_full_AE_Monsky_equivalence'] is False
           assert s['claims']['receiver_emptiness_proved'] is False
-          assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09AS verified; all parity Monsky equations compressed; exact branch-pair mod8 restrictions obtained; AT reservoir-Redei specialization unlocked')
+          print('36-09AT verified; odd Monsky is exact AE local-row repackaging; even second block also local; AU transposed-Redei bridge unlocked')
           PY
           git diff --check
