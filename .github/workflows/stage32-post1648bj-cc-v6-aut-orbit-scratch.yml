@@ -6,6 +6,8 @@ on:
       - stage32-scratch-post1648bh-exact-source-lifts-node-adapter
     paths:
       - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1648bj_cc_v6_aut_orbit.py'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648bj_cc_v6_aut_orbit.py'
+      - 'stages/stage32/residual-32-01-production/post1648bj-cc-v6-aut-orbit-source-note.md'
       - '.github/workflows/stage32-post1648bj-cc-v6-aut-orbit-scratch.yml'
 
 permissions:
@@ -33,8 +35,10 @@ jobs:
           import json
           x=json.load(open('/tmp/bj.json'))
           assert x['mode']=='SCRATCH_POST1648BJ_CC_V6_AUT_ORBIT'
-          assert 1 <= x['exact_aut_orbit']['orbit_size'] <= 1536
-          assert x['exact_aut_orbit']['stabilizer_size'] >= 1
+          assert x['exact_aut_orbit']['orbit_size'] == 1536
+          assert x['exact_aut_orbit']['stabilizer_size'] == 1
+          assert x['exact_aut_orbit']['cc_v6_in_aut_orbit'] is False
+          assert x['exact_aut_orbit']['aut_elements_sending_v6_to_cc_v6'] == 0
           assert x['firewalls']['v6_carrier_excluded'] is False
           assert x['firewalls']['Q602_excluded'] is False
           assert x['firewalls']['O210_excluded'] is False
@@ -43,8 +47,6 @@ jobs:
             'stabilizer_size':x['exact_aut_orbit']['stabilizer_size'],
             'cc_v6_in_aut_orbit':x['exact_aut_orbit']['cc_v6_in_aut_orbit'],
             'hit_count':x['exact_aut_orbit']['aut_elements_sending_v6_to_cc_v6'],
-            'word':x['exact_aut_orbit']['shortest_raw_generator_word_zero_based'],
-            'word_length':x['exact_aut_orbit']['shortest_raw_generator_word_length'],
             'next':x['decision']['next_exact_route'],
           },sort_keys=True))
           PY
@@ -61,5 +63,7 @@ jobs:
           git add "$RESULT"
           git commit -m 'Stage32 scratch: capture BJ exact output'
           git push origin "HEAD:${GITHUB_REF_NAME}"
+      - name: Exact replay and scope verifier
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648bj_cc_v6_aut_orbit.py
       - name: Diff hygiene
         run: test -z "$(git status --porcelain)"
