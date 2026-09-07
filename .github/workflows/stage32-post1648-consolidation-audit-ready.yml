@@ -21,16 +21,20 @@ concurrency:
 jobs:
   exact-consolidation:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 45
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - name: Checkout exact head
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
       - name: Assert checked out exact event head
         run: |
           EXPECTED='${{ github.event.pull_request.head.sha || github.sha }}'
           test "$(git rev-parse HEAD)" = "$EXPECTED"
+          test -z "$(git status --porcelain --untracked-files=all)"
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -45,7 +49,83 @@ jobs:
         run: python stages/stage32/residual-32-01-production/diagnose_stage32_post1648ag_v6_known140_basis_elimination.py
       - name: Replay AH FSM unibranch exclusion
         run: python stages/stage32/residual-32-01-production/verify_stage32_post1648ah_fsm_unibranch_v6_exclusion.py
+
+      - name: Replay AM-AV retained verifiers
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT=stages/stage32/residual-32-01-production
+          python "$ROOT/verify_stage32_post1648am_beauville_fibration_picard_source_lock.py"
+          python "$ROOT/verify_stage32_post1648an_a1_strict_transform_delta_feasibility.py"
+          python "$ROOT/verify_stage32_post1648ao_special_fibre_hurwitz_budget.py"
+          python "$ROOT/verify_stage32_post1648ap_factor_pair_birational_conductor_demand.py"
+          python "$ROOT/verify_stage32_post1648aq_residual_g_cusp_multiplicity_grid.py"
+          python "$ROOT/verify_stage32_post1648ar_two_factor_slack_minimal_branches.py"
+          python "$ROOT/verify_stage32_post1648as_residual_inertia_tangent_preflight.py"
+          python "$ROOT/verify_stage32_post1648at_intermediate_quotient_blowup_conductor.py"
+          python "$ROOT/verify_stage32_post1648au_cusp_incidence_universal_bezout_wall.py"
+          python "$ROOT/verify_stage32_post1648av_canonical_coordinate_hyperplane_recovery.py"
+
+      - name: Replay AW-AY canonical node and Aut diagnostics
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT=stages/stage32/residual-32-01-production
+          python "$ROOT/diagnose_stage32_post1648aw_retained_exceptional_action_preflight.py" > /tmp/aw-action.json
+          python "$ROOT/diagnose_stage32_post1648aw_boundary_Z_hyperplane_blocks.py" > /tmp/aw-z-blocks.json
+          python "$ROOT/diagnose_stage32_post1648aw_joint_Z_WC_node_incidence.py" > /tmp/aw-joint-incidence.json
+          python "$ROOT/diagnose_stage32_post1648aw_Z_Wpair_support_cells.py" > /tmp/aw-support-cells.json
+          python "$ROOT/diagnose_stage32_post1648aw_coordinate_block_stabilizers.py" > /tmp/aw-stabilizers.json
+          python "$ROOT/diagnose_stage32_post1648aw_sign_kernel_signature.py" > /tmp/aw-sign-kernel.json
+          python "$ROOT/diagnose_stage32_post1648ax_outer_s4_semidirect_action.py" > /tmp/ax-outer-s4.json
+          python "$ROOT/diagnose_stage32_post1648ay_s4_complement_splitting.py" > /tmp/ay-extension.json
+
+      - name: Replay AZ-BH source Galois and node-adapter diagnostics
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT=stages/stage32/residual-32-01-production
+          python "$ROOT/diagnose_stage32_post1648az_retained_generator_inventory.py" > /tmp/az-generator-inventory.json
+
+          # AZ is an intentionally superseded positive-uniqueness probe. Its
+          # exact retained result is the bounded 16-solution non-uniqueness
+          # later refined by BD/BG/BH, so replay that exact failure as evidence.
+          set +e
+          python "$ROOT/diagnose_stage32_post1648az_full_48node_equivariant_bijection.py" > /tmp/az-node-bijection.out 2> /tmp/az-node-bijection.err
+          AZ_RC=$?
+          set -e
+          test "$AZ_RC" -ne 0
+          grep -F 'expected unique full equivariant bijection, got 16' /tmp/az-node-bijection.err
+
+          python "$ROOT/diagnose_stage32_post1648ba_galois_metadata_inventory.py" > /tmp/ba-galois-metadata.json
+          python "$ROOT/diagnose_stage32_post1648bb_known140_field_metadata_inventory.py" > /tmp/bb-field-metadata.json
+          python "$ROOT/diagnose_stage32_post1648bb_retained_source_locators.py" > /tmp/bb-source-locators.json
+          python "$ROOT/diagnose_stage32_post1648bc_cc_exceptional_permutation.py" > /tmp/bc-cc-permutation.json
+          python "$ROOT/diagnose_stage32_post1648bd_cc_unique_node_bijection.py" > /tmp/bd-cc-node-bijection.json
+          python "$ROOT/diagnose_stage32_post1648be_picard_action_source_locators.py" > /tmp/be-action-source-locators.json
+
+          # BF is likewise a bounded negative probe: all 64 g2 sign twists fail
+          # to restore Galois-equivariance. Require that exact retained failure.
+          set +e
+          python "$ROOT/diagnose_stage32_post1648bf_g2_galois_twist_recovery.py" > /tmp/bf-g2-twist.out 2> /tmp/bf-g2-twist.err
+          BF_RC=$?
+          set -e
+          test "$BF_RC" -ne 0
+          grep -F 'no source g2 sign twist restores Galois-equivariant node action' /tmp/bf-g2-twist.err
+
+          python "$ROOT/diagnose_stage32_post1648bg_galois_cocycle_coordinate_label.py" > /tmp/bg-coordinate-label.json
+          python "$ROOT/diagnose_stage32_post1648bh_exact_source_lifts_node_adapter.py" > /tmp/bh-exact-node-adapter.json
+
+      - name: Replay BI-BJ retained verifiers
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT=stages/stage32/residual-32-01-production
+          python "$ROOT/verify_stage32_post1648bi_cc_fixed_mass_partition.py"
+          python "$ROOT/verify_stage32_post1648bj_cc_v6_aut_orbit.py"
+
       - name: Enforce immutable replay and diff hygiene
         run: |
           git diff --exit-code
           git diff --check
+          test -z "$(git status --porcelain --untracked-files=all)"
