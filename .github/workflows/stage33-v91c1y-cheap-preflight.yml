@@ -1,4 +1,4 @@
-name: Stage33 V91C1Y-AD bounded preflight
+name: Stage33 V91C1Y-AE bounded preflight
 
 on:
   pull_request:
@@ -9,6 +9,7 @@ on:
       - 'stages/stage33/33-12/diagnose_e3_v91c1ab_sign_prime_attached_cech_difference.py'
       - 'stages/stage33/33-12/diagnose_e3_v91c1ac_sign_b1_seed_fixed_subspace.py'
       - 'stages/stage33/33-12/diagnose_e3_v91c1ad_sign_a2_picard64_locator_preflight.py'
+      - 'stages/stage33/33-12/diagnose_e3_v91c1ae_sign_a2_picard64_reduction.py'
       - 'stages/stage33/33-12/e3-v91c1ac-kummer-sign-b1-source-lock.md'
       - 'stages/stage33/33-12/diagnose_e3_v91c1s_swap23_prime_attached_cech_difference.py'
       - 'stages/stage33/33-12/diagnose_e3_v91c1v_actual_prime_known140_locator.py'
@@ -28,7 +29,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v91c1yad-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1yae-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -56,5 +57,7 @@ jobs:
         run: python stages/stage33/33-12/diagnose_e3_v91c1ac_sign_b1_seed_fixed_subspace.py
       - name: Diagnose V91C1AD sign_a2 Picard64 locator preflight
         run: python stages/stage33/33-12/diagnose_e3_v91c1ad_sign_a2_picard64_locator_preflight.py
+      - name: Diagnose V91C1AE sign_a2 Picard64/Pic2 reduction
+        run: python stages/stage33/33-12/diagnose_e3_v91c1ae_sign_a2_picard64_reduction.py
       - name: Diff hygiene
         run: git diff --check
