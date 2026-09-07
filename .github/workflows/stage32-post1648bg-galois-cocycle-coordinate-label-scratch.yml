@@ -1,0 +1,43 @@
+name: Stage32 post1648BG Galois cocycle coordinate label
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648bg-galois-cocycle-coordinate-label
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-bg-galois-cocycle-coordinate-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run BG Galois cocycle coordinate-label recovery
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648bg_galois_cocycle_coordinate_label.py | tee /tmp/bg.json
+      - name: Assert bounded cocycle recovery
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/bg.json'))
+          assert x['mode']=='SCRATCH_POST1648BG_GALOIS_COCYCLE_COORDINATE_LABEL'
+          assert x['semantic_W_label_assignment_count_tested']==24
+          assert x['galois_cocycle_compatible_assignment_count']>0
+          assert x['decision']['previous_AZ_fixed_W_semantic_order_was_source_unlocked'] is True
+          assert x['firewalls']['v6_carrier_excluded'] is False
+          print(json.dumps({
+            'survivor_count':x['galois_cocycle_compatible_assignment_count'],
+            'survivors':x['survivors'],
+            'next':x['decision']['next_exact_route'],
+          },sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
