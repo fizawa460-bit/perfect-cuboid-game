@@ -6,6 +6,8 @@ on:
       - stage32-scratch-post1648bh-exact-source-lifts-node-adapter
     paths:
       - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1648bi_cc_fixed_mass_partition.py'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648bi_cc_fixed_mass_partition.py'
+      - 'stages/stage32/residual-32-01-production/post1648bi-cc-fixed-mass-partition-source-note.md'
       - '.github/workflows/stage32-post1648bi-cc-fixed-mass-partition-scratch.yml'
 
 permissions:
@@ -33,13 +35,18 @@ jobs:
           import json
           x=json.load(open('/tmp/bi.json'))
           assert x['mode']=='SCRATCH_POST1648BI_CC_FIXED_MASS_PARTITION'
-          assert x['source_locks']['bh_distinct_cc_equivariant_node_bijections'] > 0
+          assert x['source_locks']['bh_distinct_cc_equivariant_node_bijections'] == 256
           assert x['decision']['q_fixed_vs_qi_moving_total_mass_partition_is_adapter_independent'] is True
           assert x['decision']['node_by_node_source_adapter_still_nonunique'] is True
-          assert x['v6']['mass_on_source_cc_fixed_Q_nodes'] + x['v6']['mass_on_source_cc_moving_Qi_nodes'] == 266
+          assert x['v6']['mass_on_source_cc_fixed_Q_nodes'] == 126
+          assert x['v6']['mass_on_source_cc_moving_Qi_nodes'] == 140
+          assert x['v6']['moving_cc_pair_mass_mismatch_count'] == 12
+          assert x['v6']['picard64_cc_invariant'] is False
+          assert x['v6']['all140_pairings_cc_invariant'] is False
           assert x['firewalls']['v6_carrier_excluded'] is False
           assert x['firewalls']['Q602_excluded'] is False
           assert x['firewalls']['O210_excluded'] is False
+          assert x['firewalls']['O212_plus_advance_allowed'] is False
           print(json.dumps({
             'fixed_count':x['retained_complex_conjugation']['fixed_exceptional_count'],
             'moving_pairs':x['retained_complex_conjugation']['moving_pair_count'],
@@ -50,14 +57,20 @@ jobs:
             'next':x['decision']['next_exact_route'],
           },sort_keys=True))
           PY
-      - name: Persist exact BI scratch result
+      - name: Persist exact BI scratch result if changed
         run: |
           RESULT=stages/stage32/residual-32-01-production/post1648bi-cc-fixed-mass-partition-scratch-result.json
           cp /tmp/bi.json "$RESULT"
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add "$RESULT"
-          git commit -m 'Stage32 scratch: capture BI exact output'
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          if git diff --cached --quiet; then
+            echo 'BI result unchanged'
+          else
+            git commit -m 'Stage32 scratch: capture BI exact output'
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+      - name: Exact replay and scope verifier
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648bi_cc_fixed_mass_partition.py
       - name: Diff hygiene
         run: test -z "$(git status --porcelain)"
