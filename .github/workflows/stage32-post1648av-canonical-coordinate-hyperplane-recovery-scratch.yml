@@ -27,9 +27,15 @@ jobs:
           python3 - <<'PY'
           import json
           x=json.load(open('/tmp/post1648av-hyp.json'))
-          assert x['mode']=='SCRATCH_POST1648AV_CANONICAL_COORDINATE_HYPERPLANE_RECOVERY'
+          assert x['mode']=='SCRATCH_POST1648AV_CANONICAL_COORDINATE_HYPERPLANE_RECOVERY_V2'
           g=x['coordinate_W1_W2_W3_C_recovery']
-          print(json.dumps({'candidate_group_count':g['candidate_group_count'],'groups':g['groups'],'partition':g['rational_partition_exact'],'exceptional_double_cover':g['each_exceptional_in_exactly_two_coordinate_hyperplanes']},sort_keys=True))
+          assert g['single_hyperplane_candidate_count']==28
+          assert g['global_four_hyperplane_exact_cover_count']>=1
+          for c in g['global_four_hyperplane_exact_covers']:
+              assert c['mass_sum']==532
+              assert c['normal_sum']==212
+              assert all(a+b==186 for a,b in zip(c['exceptional_mass_sums'],c['rational_intersection_sums']))
+          print(json.dumps({'exact_cover_count':g['global_four_hyperplane_exact_cover_count'],'mass_profiles':g['all_cover_mass_profiles'],'covers':g['global_four_hyperplane_exact_covers']},sort_keys=True))
           PY
       - name: Diff hygiene
         run: test -z "$(git status --porcelain)"
