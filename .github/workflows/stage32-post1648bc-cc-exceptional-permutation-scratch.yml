@@ -1,0 +1,49 @@
+name: Stage32 post1648BC Picard cc exceptional permutation
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648bc-cc-exceptional-permutation
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-bc-cc-exceptional:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run BC Picard cc exceptional permutation recovery
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648bc_cc_exceptional_permutation.py | tee /tmp/bc-cc.json
+      - name: Assert exact cc recovery
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/bc-cc.json'))
+          assert x['mode']=='SCRATCH_POST1648BC_CC_EXCEPTIONAL_PERMUTATION_RECOVERY'
+          assert x['known140_coordinate_shape']==[140,64]
+          assert x['cc']['exceptional']['is_involution'] is True
+          assert x['cc']['exceptional']['fixed_count']==24
+          assert x['cc']['exceptional']['cycle_length_histogram']=={'1':24,'2':12}
+          assert x['cc']['matches_stoll_testa_24Q_24Qi_signature'] is True
+          assert x['decision']['retained_cc_identified_as_complex_conjugation_on_exceptional_nodes'] is True
+          assert x['firewalls']['explicit_unique_48node_bijection_obtained'] is False
+          print(json.dumps({
+            'cc_orientation':x['cc']['orientation'],
+            'cc_fixed':x['cc']['exceptional']['fixed_count'],
+            'cc_cycles':x['cc']['exceptional']['cycle_length_histogram'],
+            'ct_fixed':x['ct']['exceptional']['fixed_count'],
+            'ct_cycles':x['ct']['exceptional']['cycle_length_histogram'],
+            'next':x['decision']['next_exact_route'],
+          },sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
