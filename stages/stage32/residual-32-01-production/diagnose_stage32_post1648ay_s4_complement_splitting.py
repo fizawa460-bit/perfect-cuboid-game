@@ -59,21 +59,6 @@ def block_perm(blocks: list[set[int]], g: tuple[int, ...]) -> tuple[int, ...]:
     return tuple(out)
 
 
-def subgroup_closure(gens: list[tuple[int, ...]]) -> set[tuple[int, ...]]:
-    identity = tuple(range(len(gens[0])))
-    out = {identity}
-    changed = True
-    while changed:
-        changed = False
-        for a in list(out):
-            for b in gens:
-                c = compose(a, b)
-                if c not in out:
-                    out.add(c)
-                    changed = True
-    return out
-
-
 def main() -> None:
     marking = load_retained(ST33 / "stage32_picard_marking_retained.py", "s32_ay_marking")
     G = close_permutation_group(marking["aut_action"]["permutations_1based"])
@@ -107,86 +92,80 @@ def main() -> None:
     s1 = (1, 0, 2, 3)
     s2 = (0, 2, 1, 3)
     s3 = (0, 1, 3, 2)
+
+    # Exhaust ALL involutive lifts of the three standard adjacent
+    # transpositions. Any S4 complement L -> G/H=S4 would map the standard
+    # Coxeter generators to a triple in these three finite sets satisfying
+    # the S4 Coxeter presentation.
     C1 = [g for g in by_wp[s1] if power(g, 2) == identity]
     C2 = [g for g in by_wp[s2] if power(g, 2) == identity]
     C3 = [g for g in by_wp[s3] if power(g, 2) == identity]
     if not C1 or not C2 or not C3:
         raise ValueError(f"missing involutive Coxeter lifts: {[len(C1),len(C2),len(C3)]}")
 
-    solutions = []
+    total_triples = len(C1) * len(C2) * len(C3)
+    commuting_outer_pairs = 0
+    s12_braid_pairs = 0
+    s23_braid_pairs = 0
+    after_commuting_and_s12 = 0
+    after_commuting_and_s23 = 0
+    full_coxeter_triples = []
+
     # Coxeter presentation of S4:
-    # si^2=1, (s1 s2)^3=(s2 s3)^3=1, and s1 s3=s3 s1.
+    # s_i^2=1, (s1 s2)^3=(s2 s3)^3=1, s1 s3=s3 s1.
     for a in C1:
-        commuting_c = [c for c in C3 if compose(a, c) == compose(c, a)]
-        for c in commuting_c:
+        for c in C3:
+            commute = compose(a, c) == compose(c, a)
+            if commute:
+                commuting_outer_pairs += 1
             for b in C2:
-                if power(compose(a, b), 3) != identity:
-                    continue
-                if power(compose(b, c), 3) != identity:
-                    continue
-                L = subgroup_closure([a, b, c])
-                if len(L) != 24:
-                    continue
-                if len(L.intersection(kernel)) != 1:
-                    continue
-                qimage = {block_perm(wblocks, x) for x in L}
-                if len(qimage) != 24:
-                    continue
-                solutions.append((a, b, c, L))
+                braid12 = power(compose(a, b), 3) == identity
+                braid23 = power(compose(b, c), 3) == identity
+                if c == C3[0] and braid12:
+                    # Count each (a,b) once, independent of c.
+                    s12_braid_pairs += 1
+                if a == C1[0] and braid23:
+                    # Count each (b,c) once, independent of a.
+                    s23_braid_pairs += 1
+                if commute and braid12:
+                    after_commuting_and_s12 += 1
+                if commute and braid23:
+                    after_commuting_and_s23 += 1
+                if commute and braid12 and braid23:
+                    full_coxeter_triples.append((a, b, c))
 
-    if not solutions:
-        raise ValueError("no exact S4 complement found")
-    solutions.sort(key=lambda x: (x[0], x[1], x[2]))
-    a, b, c, L = solutions[0]
-
-    # Exact internal semidirect-product checks.
-    products = {compose(h, l) for h in kernel for l in L}
-    products_rev = {compose(l, h) for h in kernel for l in L}
-    if len(products) != 1536 or products != set(G) or products_rev != set(G):
-        raise ValueError("H*L does not recover retained G")
-    factor_pairs = {}
-    for h in kernel:
-        for l in L:
-            g = compose(h, l)
-            if g in factor_pairs:
-                raise ValueError("H*L factorization not unique")
-            factor_pairs[g] = (h, l)
-    if len(factor_pairs) != 1536:
-        raise ValueError("factorization cardinality regression")
-
-    # The chosen complement must reproduce the exact standard S4 quotient.
-    quotient_generator_perms = [block_perm(wblocks, x) for x in (a, b, c)]
-    if quotient_generator_perms != [s1, s2, s3]:
-        raise ValueError("chosen complement generator quotient regression")
-
-    exceptional = list(range(93, 141))
-    L_exceptional_orbits = []
-    unseen = set(exceptional)
-    while unseen:
-        p = min(unseen)
-        orb = {l[p - 1] + 1 for l in L}
-        L_exceptional_orbits.append(sorted(orb))
-        unseen -= orb
-    L_exceptional_orbits.sort(key=lambda x: (len(x), x))
+    # Completeness: a splitting section S4 -> G sends the three standard
+    # transpositions to involutive lifts in C1,C2,C3 satisfying exactly the
+    # tested Coxeter relations. Thus zero full triples proves no complement.
+    split = bool(full_coxeter_triples)
+    if split:
+        raise ValueError(f"unexpected S4 complement witness count: {len(full_coxeter_triples)}")
 
     print(json.dumps({
-        "mode": "SCRATCH_POST1648AY_S4_COMPLEMENT_SPLITTING",
+        "mode": "SCRATCH_POST1648AY_S4_EXTENSION_NONSPLITTING",
         "retained_group_order": len(G),
         "kernel_order": len(kernel),
         "quotient_order": len(by_wp),
+        "quotient_identification": "FULL_S4_ON_FOUR_RECOVERED_WC_BLOCKS",
+        "standard_adjacent_transpositions_zero_based": [list(s1), list(s2), list(s3)],
         "coxeter_involutive_lift_candidate_counts": [len(C1), len(C2), len(C3)],
-        "exact_S4_complement_solution_count": len(solutions),
-        "chosen_complement_order": len(L),
-        "chosen_complement_intersection_kernel_order": len(L.intersection(kernel)),
-        "chosen_complement_WC_generator_permutations": [list(x) for x in quotient_generator_perms],
-        "internal_semidirect_product_verified": True,
-        "unique_H_times_S4_factorization_verified": True,
-        "S4_complement_exceptional_orbit_sizes": sorted(len(x) for x in L_exceptional_orbits),
-        "next_exact_route": "USE_THE_EXACT_C2_6_RT_S4_ISOMORPHISM_TO_RECOVER_A_SOURCE_NODE_STABILIZER_AND_SOLVE_THE_FULL_48_NODE_EQUIVARIANT_BIJECTION",
+        "coxeter_candidate_triple_count": total_triples,
+        "commuting_s1_s3_lift_pair_count": commuting_outer_pairs,
+        "s1_s2_order3_lift_pair_count": s12_braid_pairs,
+        "s2_s3_order3_lift_pair_count": s23_braid_pairs,
+        "triples_passing_commuting_and_s1s2_order3": after_commuting_and_s12,
+        "triples_passing_commuting_and_s2s3_order3": after_commuting_and_s23,
+        "full_coxeter_triple_count": 0,
+        "extension_split": False,
+        "exact_completeness_argument": "Any complement S4->G projecting isomorphically to the fixed quotient sends the three standard adjacent transpositions to involutive lifts in the three exhaustively enumerated cosets. Those lifts must satisfy (s1s2)^3=(s2s3)^3=1 and s1s3=s3s1. Exhaustive finite enumeration finds zero such triples.",
+        "bounded_negative": "NO_S4_COMPLEMENT_IN_THE_RETAINED_1536_EXTENSION_OVER_THE_EXACT_WC_BLOCK_QUOTIENT",
+        "interpretation": "The retained group is an exact non-split extension 1->C2^6->G->S4->1 for this recovered coordinate-block quotient; do not model G as C2^6 semidirect S4.",
+        "next_exact_route": "SOURCE_LOCK_THE_EXPLICIT_PROJECTIVE_MONOMIAL_AUTOMORPHISM_LIFTS_AND_MATCH_THE_NONSPLIT_EXTENSION_COCYCLE_BEFORE_SOLVING_THE_FULL_48_NODE_EQUIVARIANT_BIJECTION",
         "firewalls": {
             "scratch_only": True,
+            "non_split_claim_scope_is_retained_fixed_quotient_only": True,
             "full_1536_source_to_retained_group_isomorphism_verified": False,
-            "source_node_stabilizer_matched": False,
+            "source_extension_cocycle_matched": False,
             "explicit_48_node_bijection_obtained": False,
             "v6_carrier_excluded": False,
             "Q602_excluded": False,
