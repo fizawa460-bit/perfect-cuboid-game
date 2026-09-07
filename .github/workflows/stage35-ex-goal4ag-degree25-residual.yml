@@ -1,0 +1,62 @@
+name: Stage35-EX Goal4AG degree25 residual diagnostic
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage35-ex/runkeys/goal4ag-degree25-residual.json'
+      - '.github/workflows/stage35-ex-goal4ag-degree25-residual.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact symbolic dependency
+        run: pip install sympy==1.14.0
+      - name: Authorize exact runkey
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          k=Path('stages/stage35-ex/runkeys/goal4ag-degree25-residual.json')
+          d=json.loads(k.read_text())
+          assert d['schema']=='STAGE35_EX_GOAL4AG_DEGREE25_RESIDUAL_RUNKEY_V1'
+          assert d['armed'] is True and d['generation']==1
+          p=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4ag_degree25_residual.py')
+          b=p.read_bytes(); got=hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          assert got==d['diagnostic_blob_sha1']=='a26b85c8f8be6426ecba7008ed34d6ae4d12248c'
+          print('GOAL4AG_DEGREE25_RUNKEY=AUTHORIZED')
+          PY
+      - name: Exact Picard degree25 residual diagnostic
+        run: |
+          set -euo pipefail
+          python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4ag_degree25_residual.py | tee /tmp/goal4ag-d25.log
+          grep -q '^GOAL4AG_DEGREE25_JSON=' /tmp/goal4ag-d25.log
+      - name: Enforce no-credit boundary
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          line=next(x for x in Path('/tmp/goal4ag-d25.log').read_text().splitlines() if x.startswith('GOAL4AG_DEGREE25_JSON='))
+          d=json.loads(line.split('=',1)[1])
+          assert d['homogeneous_ratio_degree_lower_bound']==25
+          assert d['degree25_common_residual_hyperplane_degree']==4
+          assert d['explicit_F_B_materialized'] is False
+          assert d['degree25_global_exhaustion_proved'] is False
+          assert d['theorem_credit'] is False and d['endpoint_credit'] is False
+          print('GOAL4AG_DEGREE25_BOUNDARY=PASS')
+          PY
