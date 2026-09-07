@@ -1,0 +1,30 @@
+name: Stage32 post1648AP factor-pair birational conductor verifier
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648ap-factor-pair-birational-conductor-demand
+    paths:
+      - 'stages/stage32/residual-32-01-production/post1648ap-factor-pair-birational-conductor-demand-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1648ap-factor-pair-birational-conductor-demand.json'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648ap_factor_pair_birational_conductor_demand.py'
+      - '.github/workflows/stage32-post1648ap-factor-pair-birational-conductor-demand-scratch.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-ap-conductor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+      - name: Verify AP factor-pair conductor demand
+        run: python3 stages/stage32/residual-32-01-production/verify_stage32_post1648ap_factor_pair_birational_conductor_demand.py
+      - name: Diff hygiene
+        run: git diff --check
