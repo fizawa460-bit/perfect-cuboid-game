@@ -119,7 +119,7 @@ PW08 localization data are not themselves pointwise evaluations.
 
 Final verdict: **LITERATURE_ADAPTED**.
 
-Creutz–Viray, *Degree and the Brauer-Manin obstruction*, Algebra & Number Theory 12 (2018), DOI `10.2140/ant.2018.12.2445`, Theorems 1.7, 1.9 and Appendix Theorem A.1. Before using the 2-primary reduction, the repo must prove an actual Kummer variety from a 2-covering and certify the relevant `Br[2^infinity]` coverage. `PW09`'s named `Br[2]` class is not automatically the full 2-primary layer.
+Creutz–Viray, *Degree and the Brauer-Manin obstruction*, Algebra & Number Theory 12 (2018), DOI `10.2140/ant.2018.12.2445`, Theorem 1.7; Theorem 1.8; Appendix Theorem A.1. Before using the 2-primary reduction, the repo must prove an actual Kummer variety from a 2-covering and certify the relevant `Br[2^infinity]` coverage. `PW09`'s named `Br[2]` class is not automatically the full 2-primary layer.
 
 ### `BRAUER_GOOD_REDUCTION_FINITE_PLACE_REDUCER`
 

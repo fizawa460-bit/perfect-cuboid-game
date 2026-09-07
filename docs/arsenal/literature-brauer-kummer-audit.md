@@ -189,7 +189,7 @@ This is a genuine higher-dimensional extension, but not a license to call an arb
 
 Brendan Creutz and Bianca Viray, *Degree and the Brauer–Manin obstruction*, Algebra & Number Theory **12** (2018), 2445–2480. DOI `10.2140/ant.2018.12.2445`.
 
-Theorem 1.7: Kummer varieties satisfy `BM_2`. Theorem 1.9 / Appendix Theorem A.1 gives the more useful subgroup statement: for a Kummer variety `X/k` and `B <= Br(X)`, if
+Theorem 1.7: Kummer varieties satisfy `BM_2`. Theorem 1.8 / Appendix Theorem A.1 gives the more useful subgroup statement: for a Kummer variety `X/k` and `B <= Br(X)`, if
 
 ```text
 X(A_k)^B = empty,
