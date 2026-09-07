@@ -39,31 +39,20 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Assert hostile-audited merged AV-AY authority
+      - name: Replay repaired exact 36-09BC parent
         shell: bash
         run: |
           set -euo pipefail
-          python3 - <<'PY'
-          import json
-          from pathlib import Path
-          a=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())['audited_history']['36-09AV-AY']
-          assert a['pr']==1683 and a['hostile_audit_review']==5128446584
-          assert a['merged_main_sha']=='b7a045b7c910a3e01d3826556cd71019af15418f'
-          PY
-          git merge-base --is-ancestor b7a045b7c910a3e01d3826556cd71019af15418f HEAD
-      - name: Replay exact 36-09BB provisional parent
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=72441c82f2c146c63ebde6459b18789e33c6dddb
+          H=c8acd051f3d6b5537c9bd7220909b2f71306a870
           git cat-file -e "$H^{commit}"
+          git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BB.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BC.py"
           git worktree remove --force "$tmp"
-      - name: Verify repaired current 36-09BC
-        run: python3 stages/stage36/verify_stage36_36_09BC.py
-      - name: Assert BC repair firewalls
+      - name: Verify repaired current 36-09BD
+        run: python3 stages/stage36/verify_stage36_36_09BD.py
+      - name: Assert BD repair firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -71,18 +60,19 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V91_36_09BC_REPAIR_CHECKPOINT'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V92_36_09BD_REPAIR_CHECKPOINT'
           assert s['failed_audit']['review']==5128976664
-          bc=s['authority_frontier']['36-09BC']
-          assert bc['JACOBIAN_MINOR']=='32*R0*S0*kappa*lambda'
-          assert bc['JACOBIAN_MINOR_RECOMPUTED'] is True
-          assert bc['GOOD_PRIME_PUNCTURED_BOUNDARY_LOCAL_NONEMPTY'] is True
-          assert bc['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert bc['RECEIVER_CLOSED'] is False
-          assert s['authority_frontier']['36-09BD']['status']=='DOWNSTREAM_RELOCK_REQUIRED_AFTER_BC_GREEN'
+          bc=s['authority_frontier']['36-09BC']; bd=s['authority_frontier']['36-09BD']
+          assert bc['status']=='REPAIRED_EXACT_GREEN_PARENT'
+          assert bc['exact_head']=='c8acd051f3d6b5537c9bd7220909b2f71306a870'
+          assert bd['EXHAUSTIVE_VIEW_AUDIT_COMPLETE'] is True
+          assert bd['BLIND_REDISCOVERY_COMPLETE'] is True
+          assert bd['SELECTED_FULL_CHARACTER_QUOTIENT_INVENTORY'] is True
+          assert bd['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert bd['RECEIVER_CLOSED'] is False
+          assert s['authority_frontier']['36-09BE']['status']=='DOWNSTREAM_RELOCK_REQUIRED_AFTER_BD_GREEN'
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['R29_CAMP2_closed'] is False
-          assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('repaired 36-09BC verified at current main; downstream BD/BE remain locked pending exact-green parent provenance')
+          print('36-09BD repaired provenance verified against repaired exact-green BC; BE remains locked pending this exact-head CI')
           PY
           git diff --check
