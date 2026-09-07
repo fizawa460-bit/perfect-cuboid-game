@@ -1,0 +1,37 @@
+name: Stage32 post1648AI FSM nodewise-unibranch V6 exclusion scratch
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648ai-postmerge-authority-and-nonbijectivity-split
+    paths:
+      - 'stages/stage32/residual-32-01-production/post1648ai-fsm-nodewise-unibranch-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1648ai-fsm-nodewise-unibranch-v6-exclusion.json'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648ai_fsm_nodewise_unibranch_v6_exclusion.py'
+      - '.github/workflows/stage32-post1648ai-fsm-nodewise-unibranch-v6-exclusion-scratch.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-ai:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Assert exact head
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+
+      - name: Replay exact FSM nodewise-unibranch exclusion
+        run: python3 stages/stage32/residual-32-01-production/verify_stage32_post1648ai_fsm_nodewise_unibranch_v6_exclusion.py
+
+      - name: Enforce immutable certificate and diff hygiene
+        shell: bash
+        run: |
+          git diff --exit-code -- stages/stage32/residual-32-01-production/post1648ai-fsm-nodewise-unibranch-v6-exclusion.json
+          git diff --check
