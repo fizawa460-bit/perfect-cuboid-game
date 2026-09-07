@@ -1,0 +1,27 @@
+name: Stage33 V91C1X R5A component atlas seeds
+
+on:
+  push:
+    branches:
+      - stage33-v91c1x-r5-cover-glue-package
+    paths:
+      - 'stages/stage33/33-12/e3-v91c1x-r5a-a2-02-component-p1-atlas-seeds.json'
+      - 'stages/stage33/33-12/verify_stage33_v91c1x_r5a_component_atlas_seeds_v116.py'
+      - '.github/workflows/stage33-v91c1x-r5a-component-atlas-seeds.yml'
+  pull_request:
+    paths:
+      - 'stages/stage33/33-12/e3-v91c1x-r5a-a2-02-component-p1-atlas-seeds.json'
+      - 'stages/stage33/33-12/verify_stage33_v91c1x_r5a_component_atlas_seeds_v116.py'
+      - '.github/workflows/stage33-v91c1x-r5a-component-atlas-seeds.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify exact R5A source-bound component atlas seeds
+        run: python stages/stage33/33-12/verify_stage33_v91c1x_r5a_component_atlas_seeds_v116.py
