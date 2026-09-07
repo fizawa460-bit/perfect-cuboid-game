@@ -20,7 +20,6 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 0
-
       - name: Assert exact-head checkout and current PR base lock
         shell: bash
         run: |
@@ -36,97 +35,59 @@ jobs:
           assert s['base_main_sha']==sys.argv[1]
           assert s['freshness']['current_main']==sys.argv[1]
           assert s['freshness']['stage36_source_drift'] is False
+          assert s['freshness']['sync_required_before_audit'] is False
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-
-      - name: Assert hostile-audited upstream authority and immutable source locks
+      - name: Assert hostile-audited merged AP-AU authority
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
           import json
           from pathlib import Path
-          s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          am=s['audited_history']['36-09AM-AN']
-          assert am['pr']==1679
-          assert am['hostile_audit_review']==5127771308
-          assert am['audited_head']=='12716259951f02589ecfaf6ac8f9670b7a23f06f'
-          assert am['exact_head_ci']=='34076440104/101603376687'
-          ao=s['audited_history']['parallel-36-09AO']
-          assert ao['hostile_audit_review']==5127677576
-          assert ao['audited_head']=='f5db4fc0aafdc61f931b6499afb18c1966c1f99d'
+          a=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())['audited_history']['36-09AP-AU']
+          assert a['pr']==1680
+          assert a['audited_head']=='9aa2e4c06240bbf1f6260dd2c11c3d622119f16f'
+          assert a['hostile_audit_review']==5128229756
+          assert a['exact_head_ci']=='34085000175/101627220799'
+          assert a['merged_main_sha']=='d43db1874b0e657143fa07b1a16eb87fc27e0238'
           PY
-          test "$(git rev-parse HEAD:stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json)" = "ddae37dd35cd0e732cebadf9c17f3f3fa57930df"
-          test "$(git rev-parse HEAD:stages/stage36/36-09V/gaussian-directional-prime-support-preflight.json)" = "9fdec16f920104cc6c1961fb092185a0371258d5"
-          test "$(git rev-parse HEAD:stages/stage36/36-09AO/monsky-full2-kernel-source-lock.md)" = "9f22dfe19d42d7104d30d219aac1cfd72a67c72a"
-
-      - name: Replay exact 36-09AP provisional checkpoint
+          git merge-base --is-ancestor d43db1874b0e657143fa07b1a16eb87fc27e0238 HEAD
+          test "$(git rev-parse HEAD:stages/stage36/36-09AD/coupled-six-reservoir-factor-squareclass-parity-preflight.json)" = "9d0388845955efee71d1a761ae4ee943d8b565d5"
+      - name: Replay exact 36-09AV checkpoint
         shell: bash
         run: |
           set -euo pipefail
-          H=ce04f0158633f4fa935fb0949238d5b8d0ce10a2
+          H=b1b716f955d1a0b50bb5633364896b2f140d3f00
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AP.py"
+          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AV.py"
           git worktree remove --force "$tmp"
-
-      - name: Replay exact 36-09AQ provisional checkpoint
+      - name: Replay exact 36-09AW checkpoint
         shell: bash
         run: |
           set -euo pipefail
-          H=62497175353167faf98af7bfae6b6c2b3b32d013
+          H=40befe5dc8362444a127e066d6cfdbe4a6171943
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AQ.py"
+          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AW.py"
           git worktree remove --force "$tmp"
-
-      - name: Replay exact 36-09AR provisional checkpoint
+      - name: Replay exact 36-09AX checkpoint
         shell: bash
         run: |
           set -euo pipefail
-          H=79dd6d595498d1c89f2e70dd535b2f8fe17941df
+          H=97e3f4bfc4345b05b74e9baf780ed8ff1baf38cb
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AR.py"
+          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AX.py"
           git worktree remove --force "$tmp"
-
-      - name: Replay exact 36-09AS provisional checkpoint
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=2ac34f56fa6b63dcbf8ac67b5c46d34857acf9c8
-          git cat-file -e "$H^{commit}"
-          git merge-base --is-ancestor "$H" HEAD
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AS.py"
-          git worktree remove --force "$tmp"
-
-      - name: Replay exact 36-09AT provisional checkpoint
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=b798b4d5a5d8ac134f7831d8be7f25a4b060debc
-          git cat-file -e "$H^{commit}"
-          git merge-base --is-ancestor "$H" HEAD
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AT.py"
-          git worktree remove --force "$tmp"
-          test "$(git rev-parse "$H":stages/stage36/36-09AT/odd-localrow-monsky-equivalence-even-transpose-gap-preflight.json)" = "b4aaa9447f42ed60d51674bdaaee7ff16162437a"
-          test "$(git rev-parse "$H":stages/stage36/verify_stage36_36_09AT.py)" = "62e3c992623284258c7b6e127f5ef2472757cda6"
-
-      - name: Verify current 36-09AU reciprocity close
-        run: python3 stages/stage36/verify_stage36_36_09AU.py
-
-      - name: Assert 36-09AU checkpoint firewalls
+      - name: Verify current 36-09AY universal boundary survivor
+        run: python3 stages/stage36/verify_stage36_36_09AY.py
+      - name: Assert AY audit checkpoint firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -134,26 +95,22 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V83_36_09AU_AUDIT_CHECKPOINT'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V87_36_09AY_AUDIT_CHECKPOINT'
           assert s['status']=='ACTIVE_BATCH_HOSTILE_AUDIT_CHECKPOINT'
-          au=s['authority_frontier']['36-09AU']
-          assert au['ALL_PARITY_AE_MONSKY_EXACT_EQUIVALENCE'] is True
-          assert au['MONSKY_NEW_FILTER_AFTER_AE'] is False
-          assert au['TUNNELL_ONLY_NEW_GLOBAL_GATE_IN_AP_AU'] is True
-          assert au['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert au['RECEIVER_CLOSED'] is False
-          assert au['HOSTILE_AUDIT_PASSED'] is False
-          assert s['current']['unit']=='36-09AU-AUDIT-CHECKPOINT'
+          ay=s['authority_frontier']['36-09AY']
+          assert ay['UNIVERSAL_BOUNDARY_TUNNELL_SURVIVOR'] is True
+          assert ay['AW_ZERO_SURVIVOR_FIXED_P_EXCLUSION_STRUCTURALLY_IMPOSSIBLE'] is True
+          assert ay['BOUNDARY_SURVIVOR_IS_RETAINED_RECEIVER'] is False
+          assert ay['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert ay['RECEIVER_CLOSED'] is False
+          assert ay['HOSTILE_AUDIT_PASSED'] is False
+          assert s['current']['unit']=='36-09AY-AUDIT-CHECKPOINT'
           assert s['current']['next_owner']=='HOSTILE_AUDIT'
           assert s['current']['hostile_audit_checkpoint_reached'] is True
-          assert s['current']['36_09AV_entry_allowed'] is False
-          assert s['claims']['candidate_parameter_set_shrunk'] is False
+          assert s['current']['36_09AZ_entry_allowed'] is False
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['R29_CAMP2_closed'] is False
-          assert s['claims']['Q11_CAMPEDELLI_closed'] is False
-          assert s['claims']['endpoint_closed'] is False
-          assert s['claims']['perfect_cuboid_existence_claim'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09AU checkpoint verified; broad AP-AT replay green; AV remains locked pending hostile audit')
+          print('36-09AY checkpoint verified; universal X=K boundary survivor blocks Tunnell-only fixed-p zero sieve; AZ locked pending hostile audit')
           PY
           git diff --check

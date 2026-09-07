@@ -1,0 +1,58 @@
+{
+  "schema": "STAGE36_36_09AW_FIXED_P_FINITE_SQUARECLASS_TUNNELL_BRANCH_SIEVE_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AW",
+  "status": "EXACT_FIXED_P_FINITE_OUTER_BRANCH_TUNNELL_SIEVE_PENDING_BATCH_AUDIT",
+  "base_main_sha": "d43db1874b0e657143fa07b1a16eb87fc27e0238",
+  "batch_parent": {"pr":1683,"36_09AV_exact_head":"b1b716f955d1a0b50bb5633364896b2f140d3f00","36_09AV_exact_head_ci":"34086307686"},
+  "source_locks": {
+    "stage36_36_09AV":{"path":"stages/stage36/36-09AV/tunnell-actual-receiver-coordinate-specialization-preflight.json","blob_sha":"a64689ae6f8683c4d4b66e4f67a24f58624150f5"},
+    "stage36_36_09AE":{"path":"stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json","blob_sha":"ddae37dd35cd0e732cebadf9c17f3f3fa57930df"},
+    "stage36_36_09AM_source":{"path":"stages/stage36/36-09AM/tunnell-rankzero-torsion-sector-source-lock.md","blob_sha":"0c64262ac11979fa1f5e25039cfc0f4f0426ca62"}
+  },
+  "fixed_p_outer_enumerator": {
+    "input":"primitive p=a/b on the retained physical open",
+    "parameter_factors":{"P":"a^2+2ab-b^2","M":"a^2-2ab-b^2","D0":"ab(a-b)(a+b)"},
+    "A_choices":"all squarefree products of odd primes dividing P",
+    "B_choices":"all squarefree products of odd primes dividing M",
+    "C_D_choices":"each odd prime dividing D0 is assigned independently to unused, C, or D",
+    "eta_choices":[-1,1],
+    "e_f_choices":"all four bit pairs, then apply audited UV mod-8 compatibility",
+    "local_filter":"all eight audited AE aggregate Jacobi rows must equal +1",
+    "twist":"N=2^((e+f) mod 2)*A*B*C*D",
+    "global_filter":"parity-appropriate Tunnell necessary equality",
+    "outer_superset":true,
+    "reason_outer":"the enumeration keeps every support-compatible squareclass assignment and does not assume existence of a rational U/V realizing it"
+  },
+  "fixed_p_exclusion_rule": {
+    "statement":"if zero outer branches survive the Tunnell equality after the AE local-row filter, then the retained Stage36 receiver over that fixed p is empty",
+    "unconditional":true,
+    "converse":false,
+    "surviving_branch_implies_receiver":false
+  },
+  "diagnostics": {
+    "p_1_over_2":{"a":1,"b":2,"AE_local_outer_branches":14,"distinct_N":7,"Tunnell_surviving_branches":6,"Tunnell_surviving_distinct_N":4,"surviving_N":[6,7,14,21],"fixed_p_excluded":false},
+    "p_2_over_11":{"a":2,"b":11,"P":-73,"M":-161,"D0":-2574,"odd_prime_sets":{"P":[73],"M":[7,23],"D0":[3,11,13]},"AE_local_outer_branches":158,"distinct_N":70,"Tunnell_surviving_branches":105,"Tunnell_surviving_distinct_N":51,"fixed_p_excluded":false}
+  },
+  "route_result": {
+    "route_status":"PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "fixed_p_finite_outer_branch_sieve_obtained":true,
+    "fixed_p_exclusion_certificate_possible":true,
+    "p_2_over_11_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09AX_BOUNDED_FIXED_P_TUNNELL_SIEVE_SCAN_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "outer_branch_survivor_is_realizable":false,
+    "Tunnell_equality_implies_receiver":false,
+    "bounded_scan_is_uniform_theorem":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
