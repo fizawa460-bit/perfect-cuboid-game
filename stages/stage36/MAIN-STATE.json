@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V78_36_09AP_RECONCILED_CANDIDATE",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V79_36_09AQ_CANDIDATE",
   "stage": "36",
   "status": "ACTIVE_BATCHING_SUBSTANTIVE_PR",
-  "base_main_sha": "6b6c541d1a6bbe229381ac0400148bd17523ca06",
+  "base_main_sha": "ab8fd6b3ff6660188d7d17c89960f02f5bf9eb90",
   "mission": "Attack K16-C3-CAMPEDELLI-UNIFORM-TORSOR through exact receiver-matched arithmetic; keep receiver/theorem/endpoint credit behind hostile audit.",
   "audited_history": {
     "36-09U-AF": {"status":"AUDITED_MERGED_AUTHORITY"},
@@ -47,6 +47,19 @@
       "TWO_GATE_CONVERSE":false,
       "CANDIDATE_PARAMETER_SET_SHRUNK":false,
       "RECEIVER_CLOSED":false
+    },
+    "36-09AQ": {
+      "status":"EXACT_ODD_ETA_PLUS_MONSKY_COORDINATE_ADAPTER_PENDING_BATCH_AUDIT",
+      "certificate":"stages/stage36/36-09AQ/odd-eta-plus-monsky-class-coordinate-adapter-preflight.json",
+      "certificate_blob_sha":"914127f8724d80b7b33318f9d179f08ae8153138",
+      "verifier":"stages/stage36/verify_stage36_36_09AQ.py",
+      "verifier_blob_sha":"67042d382826e6d3baa8b8f167c229cd61f5f565",
+      "ODD_ETA_PLUS_MONSKY_COORDINATE_ADAPTER":true,
+      "ODD_N_ALL_ETA_MONSKY_COORDINATE_ADAPTER":true,
+      "EVEN_MONSKY_COORDINATE_ADAPTER":false,
+      "TWO_GATE_CONVERSE":false,
+      "CANDIDATE_PARAMETER_SET_SHRUNK":false,
+      "RECEIVER_CLOSED":false
     }
   },
   "source_locks": {
@@ -55,46 +68,49 @@
     "audited_parallel_36_09AO":{"path":"stages/stage36/36-09AO/monsky-stage36-full2-class-adapter-preflight.json","blob_sha":"a26991cb071e086d3cbc36b8c9d2db329a14e5b1"},
     "audited_parallel_36_09AO_source":{"path":"stages/stage36/36-09AO/monsky-full2-kernel-source-lock.md","blob_sha":"9f22dfe19d42d7104d30d219aac1cfd72a67c72a"},
     "stage36_36_09AP":{"path":"stages/stage36/36-09AP/retained-open-tunnell-monsky-two-gate-preflight.json","blob_sha":"354b2922cb633518c6cf7b47e7afb216481d2968"},
-    "stage36_36_09AP_source":{"path":"stages/stage36/36-09AP/retained-open-tunnell-monsky-two-gate-source-lock.md","blob_sha":"7fceb4a822cae8b7e33401919733cbe81677b730"}
+    "stage36_36_09AP_source":{"path":"stages/stage36/36-09AP/retained-open-tunnell-monsky-two-gate-source-lock.md","blob_sha":"7fceb4a822cae8b7e33401919733cbe81677b730"},
+    "stage36_36_09AQ":{"path":"stages/stage36/36-09AQ/odd-eta-plus-monsky-class-coordinate-adapter-preflight.json","blob_sha":"914127f8724d80b7b33318f9d179f08ae8153138"}
   },
   "freshness": {
-    "current_main":"6b6c541d1a6bbe229381ac0400148bd17523ca06",
+    "current_main":"ab8fd6b3ff6660188d7d17c89960f02f5bf9eb90",
     "stage36_source_drift_detected_and_reconciled":true,
     "reconcile_merge_commit":"7c0059ccfd67dbf939a36b083fe3ba70d64a42b5",
-    "reconciled_histories":["PR1679 retained-open AM-AN","PR1680 audited AO payload"]
+    "zero_tree_main_sync_commit":"bca8273db10244b4315d9435f782c410ec301164",
+    "reconciled_histories":["PR1679 retained-open AM-AN","PR1680 audited AO payload","current main zero-tree drift"]
   },
   "cycle_ledger": {
     "B3_TUNNELL_FAIL_RANKZERO_SUBROUTE":"AUDITED_CLOSED_FOR_RETAINED_RECEIVER",
     "B3_TUNNELL_EQUALITY_SIDE":"LIVE_WITH_ADDITIONAL_MONSKY_CLASS_GATE",
-    "B3_MONSKY_CLASS_GATE":"LIVE_ODD_ETA_MINUS_ADAPTED",
+    "B3_MONSKY_CLASS_GATE":"LIVE_ODD_ALL_ETA_ADAPTED_EVEN_PENDING",
     "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION":"LIVE_ONLY_AFTER_TUNNELL_AND_MONSKY_NECESSARY_GATES",
     "B4_RESIDUE_ONLY_COMPRESSION":"BLOCKED_ACTUAL_PRIME_IDENTITY_LOAD_BEARING",
     "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER":"UNTESTED"
   },
   "cycle_audit": {
     "CYCLE_ROUTE_STATUS":"PASS_NEW_GATE_FROM_STRONGER_VIEW",
-    "CYCLE_ACTIVE_RECEIVER":"retained full-2 covering branches satisfying Tunnell equality and, where adapted, the Stage36 Monsky-kernel condition",
+    "CYCLE_ACTIVE_RECEIVER":"retained full-2 covering branches satisfying Tunnell equality and, for odd N, the Stage36 Monsky-kernel condition",
     "CYCLE_SPLIT_TRIGGERED":false,
-    "CYCLE_NEW_VIEW":"AP reconciles the retained-open Tunnell gate with actual-prime Monsky class coordinates; B7 and B23 show the two necessary gates are logically distinct",
-    "CYCLE_NEW_VIEW_SOURCE":"36-09AP"
+    "CYCLE_NEW_VIEW":"AQ completes odd-N eta-plus class coordinates; together AP and AQ cover both odd eta signs. Even-N coordinate transfer remains the only Monsky adapter gap.",
+    "CYCLE_NEW_VIEW_SOURCE":"36-09AQ"
   },
   "current": {
-    "unit":"36-09AQ",
-    "next_exact_leaf":"36-09AQ_ODD_ETA_PLUS_MONSKY_CLASS_COORDINATE_ADAPTER_PREFLIGHT",
+    "unit":"36-09AR",
+    "next_exact_leaf":"36-09AR_EVEN_MONSKY_CLASS_COORDINATE_ADAPTER_PREFLIGHT",
     "next_owner":"STAGE36_MAIN_BATCH",
-    "result":"36-09AP_EXACT: RETAINED_RECEIVER_REQUIRES_TUNNELL_EQUALITY_AND_MONSKY_KERNEL_MEMBERSHIP; ODD_ETA_MINUS_COORDINATE_ADAPTER_COMPLETE; B7_FAILS_TUNNELL_BUT_PASSES_MONSKY; B23_PASSES_TUNNELL_BUT_FAILS_MONSKY",
+    "result":"36-09AQ_EXACT: ODD_N_ETA_PLUS_AND_MINUS_STAGE36_FULL2_CLASSES_HAVE_EXACT_MONSKY_COORDINATES; EVEN_N_REMAINS_OPEN",
     "substantive_batch_pr_continues":true,
     "hostile_audit_checkpoint_reached":false,
     "36_09AP_entry_allowed":true,
     "36_09AQ_entry_allowed":true,
-    "36_09AR_entry_allowed":false
+    "36_09AR_entry_allowed":true,
+    "36_09AS_entry_allowed":false
   },
   "current_leaf_working_set": [
+    "stages/stage36/36-09AQ/odd-eta-plus-monsky-class-coordinate-adapter-preflight.json",
+    "stages/stage36/verify_stage36_36_09AQ.py",
     "stages/stage36/36-09AP/retained-open-tunnell-monsky-two-gate-preflight.json",
-    "stages/stage36/verify_stage36_36_09AP.py",
-    "stages/stage36/36-09AP/retained-open-tunnell-monsky-two-gate-source-lock.md",
-    "stages/stage36/36-09AN/retained-open-tunnell-necessary-gate-preflight.json",
-    "stages/stage36/36-09AO/monsky-stage36-full2-class-adapter-preflight.json"
+    "stages/stage36/36-09AO/monsky-stage36-full2-class-adapter-preflight.json",
+    "stages/stage36/36-09AN/retained-open-tunnell-necessary-gate-preflight.json"
   ],
   "promotion_gates": {
     "36_09AM_AN_hostile_audit_passed":true,
@@ -103,9 +119,12 @@
     "36_09AO_payload_reconciled":true,
     "36_09AP_certificate_complete":true,
     "36_09AP_hostile_audit_passed":false,
+    "36_09AQ_certificate_complete":true,
+    "36_09AQ_hostile_audit_passed":false,
     "retained_receiver_implies_Tunnell_equality_audited":true,
     "odd_eta_minus_Monsky_adapter_complete":true,
-    "odd_eta_plus_Monsky_adapter_complete":false,
+    "odd_eta_plus_Monsky_adapter_complete":true,
+    "odd_N_all_eta_Monsky_adapter_complete":true,
     "even_Monsky_adapter_complete":false,
     "candidate_parameter_set_shrunk":false,
     "receiver_emptiness_proved":false,
@@ -119,6 +138,7 @@
     "do not infer MW image or receiver existence from Monsky kernel membership",
     "do not treat the B23 equality diagnostic as a local or receiver survivor",
     "do not reopen the Tunnell-fail retained side; audited AN closes it",
+    "do not reopen odd eta signs after AQ; both are coordinate-adapted",
     "do not claim parameter shrink until the necessary gates are evaluated or structurally constrained on the actual parameter population"
   ],
   "claims": {
@@ -130,6 +150,8 @@
     "Monsky_payload_audited_reconciled":true,
     "retained_receiver_two_gate_filter_provisional":true,
     "odd_eta_minus_Monsky_adapter_provisional":true,
+    "odd_eta_plus_Monsky_adapter_provisional":true,
+    "odd_N_all_eta_Monsky_adapter_provisional":true,
     "candidate_parameter_set_shrunk":false,
     "receiver_emptiness_proved":false,
     "R29_CAMP2_closed":false,
