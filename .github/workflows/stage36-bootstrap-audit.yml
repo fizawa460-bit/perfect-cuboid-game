@@ -54,7 +54,6 @@ jobs:
           assert a['exact_head_ci']=='34098010028/101665838247'
           assert a['merged_main_sha']=='e758e05953df2cf8cd4ab26ac1e9d72374e99760'
           PY
-          git merge-base --is-ancestor e758e05953df2cf8cd4ab26ac1e9d72374e99760 HEAD
       - name: Replay hostile-audited exact 36-09BG head
         shell: bash
         run: |
@@ -65,9 +64,20 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09BG.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09BH
-        run: python3 stages/stage36/verify_stage36_36_09BH.py
-      - name: Assert BH firewalls and BI unlock
+      - name: Replay exact 36-09BH parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          H=9f6e7da25e70aaf86c3051e8823a4ce380fe518f
+          git cat-file -e "$H^{commit}"
+          git merge-base --is-ancestor "$H" HEAD
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BH.py"
+          git worktree remove --force "$tmp"
+      - name: Verify current 36-09BI
+        run: python3 stages/stage36/verify_stage36_36_09BI.py
+      - name: Assert BI firewalls and BJ unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -75,19 +85,19 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V96_36_09BH_BAD_PLACE_FULL_COVER_VALUATION'
-          bh=s['authority_frontier']['36-09BH']
-          assert bh['ODD_BAD_SUPPORT_SEVEN_RESERVOIRS'] is True
-          assert bh['NEW_ODD_RESERVOIR']=='Q=a^2+b^2'
-          assert bh['NEW_Q_RESERVOIR_FIRST_RESIDUE_FILTER'] is False
-          assert bh['PRIME2_FULL_COVER_CLASSIFIED'] is False
-          assert bh['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert bh['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09BH'
-          assert s['current']['next_exact_leaf']=='36-09BI_PRIME2_FULL_COVER_CONGRUENCE_PREFLIGHT'
-          assert s['current']['36_09BI_entry_allowed'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V97_36_09BI_PRIME2_VALUATION_GATE'
+          bi=s['authority_frontier']['36-09BI']
+          assert bi['MINUS_ROOT_Q2_VALUATION_GATE'] is True
+          assert bi['PLUS_ROOT_Q2_FILTER_NEW'] is False
+          assert bi['EQUALITY_UNIT_BRANCH_OPEN'] is True
+          assert bi['RECEIVER_2ADIC_BRANCH_SHRUNK'] is True
+          assert bi['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert bi['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09BI'
+          assert s['current']['next_exact_leaf']=='36-09BJ_PRIME2_EQUAL_VALUATION_UNIT_BRANCH_PREFLIGHT'
+          assert s['current']['36_09BJ_entry_allowed'] is True
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('36-09BH checkpoint verified; seven-reservoir odd bad support fixed, Q-reservoir first row automatic, prime 2 unlocked next')
+          print('36-09BI verified; prime-2 minus valuation gate exact, plus root automatic, equality unit branch selected next')
           PY
           git diff --check
