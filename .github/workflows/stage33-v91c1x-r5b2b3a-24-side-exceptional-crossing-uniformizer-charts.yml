@@ -9,8 +9,8 @@ on:
       - 'stages/stage33/33-12/e3-v91c1x-r5b2b1-a2-02-full-closure-local-germs.json'
       - 'stages/stage33/33-12/e3-v91c1x-r5b2b2-a2-02-full-16-exceptional-rees-charts.json'
       - 'stages/stage33/33-07/certify_boundary_side_p1_crossing_coordinates.py'
-      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b2b3a_24_side_exceptional_crossing_uniformizer_charts.py'
-      - 'stages/stage33/33-12/verify_stage33_v91c1x_r5b2b3a_24_side_exceptional_crossing_uniformizer_charts_v121.py'
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b2b3a_24_side_exceptional_crossing_uniformizer_charts_v2.py'
+      - 'stages/stage33/33-12/verify_stage33_v91c1x_r5b2b3a_24_side_exceptional_crossing_uniformizer_charts_v122.py'
       - '.github/workflows/stage33-v91c1x-r5b2b3a-24-side-exceptional-crossing-uniformizer-charts.yml'
   workflow_dispatch:
 
@@ -30,10 +30,10 @@ jobs:
           python-version: '3.12'
       - name: Install exact symbolic dependency
         run: python -m pip install sympy
-      - name: Materialize R5B2B3A 24 side-exceptional crossing charts
-        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b2b3a_24_side_exceptional_crossing_uniformizer_charts.py --write
-      - name: Verify R5B2B3A 24 side-exceptional crossing charts
-        run: python stages/stage33/33-12/verify_stage33_v91c1x_r5b2b3a_24_side_exceptional_crossing_uniformizer_charts_v121.py
+      - name: Materialize repaired R5B2B3A 24 side-exceptional crossing charts
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b2b3a_24_side_exceptional_crossing_uniformizer_charts_v2.py --write
+      - name: Verify repaired R5B2B3A 24 side-exceptional crossing charts
+        run: python stages/stage33/33-12/verify_stage33_v91c1x_r5b2b3a_24_side_exceptional_crossing_uniformizer_charts_v122.py
       - name: Verify live Stage33 state remains synchronized
         run: python stages/stage33/sync_main_state.py --check
       - name: Diff check
@@ -49,5 +49,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add "$CERT"
-          git commit -m '[Stage33] materialize R5B2B3A crossing uniformizer charts'
+          git commit -m '[Stage33] materialize repaired R5B2B3A crossing uniformizer charts'
           git push origin HEAD:${GITHUB_REF_NAME}
