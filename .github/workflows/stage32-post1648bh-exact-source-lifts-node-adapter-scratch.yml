@@ -1,0 +1,57 @@
+name: Stage32 post1648BH exact source lifts node adapter
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648bh-exact-source-lifts-node-adapter
+    paths:
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1648bh_exact_source_lifts_node_adapter.py'
+      - '.github/workflows/stage32-post1648bh-exact-source-lifts-node-adapter-scratch.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-bh-exact-source-lifts-node-adapter:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run BH exact source-lift node adapter recovery
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648bh_exact_source_lifts_node_adapter.py | tee /tmp/bh.json
+      - name: Assert bounded BH result
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/bh.json'))
+          assert x['mode']=='SCRATCH_POST1648BH_EXACT_SOURCE_LIFTS_NODE_ADAPTER'
+          assert x['canonical_BG_semantic_gauge']['retained_W2_identified_with_source_c'] is True
+          assert x['initial_source_lift_triple_count'] > 0
+          assert x['short_kernel_relation_count'] > 0
+          assert x['relation_compatible_source_lift_triple_count'] > 0
+          assert x['firewalls']['v6_carrier_excluded'] is False
+          assert x['firewalls']['Q602_excluded'] is False
+          assert x['firewalls']['O210_excluded'] is False
+          print(json.dumps({
+            'candidate_counts':x['source_lift_involutive_candidate_counts'],
+            'initial_triples':x['initial_source_lift_triple_count'],
+            'relations':x['short_kernel_relation_count'],
+            'relation_survivors':x['relation_compatible_source_lift_triple_count'],
+            'full_hits':x['full_aut_plus_cc_hit_count_with_basepoints'],
+            'distinct_maps':x['distinct_full_aut_plus_cc_node_bijection_count'],
+            'unique_map':x['unique_canonical_gauge_node_bijection_obtained'],
+            'q_mass':x['v6']['mass_on_source_cc_fixed_Q_nodes'],
+            'qi_mass':x['v6']['mass_on_source_cc_moving_Qi_nodes'],
+            'next':x['decision']['next_exact_route'],
+          },sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
