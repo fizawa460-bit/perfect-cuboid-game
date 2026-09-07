@@ -1,0 +1,63 @@
+name: Stage33 V91C1X R5B3B1 A2_02 317/1757 boundary uniformizers check
+
+on:
+  push:
+    branches:
+      - stage33-v91c1x-r5b2d0-swap23-source-lock
+    paths:
+      - '.github/workflows/stage33-v91c1x-r5b3b1-a2-02-317-1757-boundary-uniformizers-check.yml'
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b3b1_a2_02_317_1757_boundary_uniformizers.py'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b1-a2-02-317-1757-boundary-uniformizers.json'
+      - 'stages/stage33/33-12/verify_stage33_v91c1x_r5b3b1_a2_02_317_1757_boundary_uniformizers_v132.py'
+  pull_request:
+    paths:
+      - '.github/workflows/stage33-v91c1x-r5b3b1-a2-02-317-1757-boundary-uniformizers-check.yml'
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b3b1_a2_02_317_1757_boundary_uniformizers.py'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b1-a2-02-317-1757-boundary-uniformizers.json'
+      - 'stages/stage33/33-12/verify_stage33_v91c1x_r5b3b1_a2_02_317_1757_boundary_uniformizers_v132.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Replay R5B3A exact A2_02 package pullbacks
+        run: python stages/stage33/33-12/verify_stage33_v91c1x_r5b3a_a2_02_317_1757_literal_package_pullbacks_v131.py
+      - name: Reproduce retained Stage33-07 boundary-uniformizer prefix
+        working-directory: stages/stage33/33-07
+        run: |
+          python certify_order2_quotient_raw_order4_bockstein.py
+          python materialize_mixed_order_side_ambient_function_lifts.py
+          python materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py
+          python inventory_mixed_order_ambient_linear_divisor_support.py
+          python certify_ambient_linear_carrier_boundary_offboundary_split.py
+          python certify_bj_offboundary_genus1_components.py
+          python certify_quartic_norm_biquadratic_cover_reduction.py
+          python certify_six_unramified_kummer_classes_nonsquare.py
+          python certify_six_unramified_kummer_classes_nonsquare_over_L.py
+          python certify_26x24_offboundary_prime_valuation_tensor_over_L.py
+          python certify_72_boundary_weak_approximation_uniformizers.py
+      - name: Replay R5B3B1 exact boundary uniformizers
+        run: python stages/stage33/33-12/verify_stage33_v91c1x_r5b3b1_a2_02_317_1757_boundary_uniformizers_v132.py
+      - name: Restore transient Stage33-07 producer outputs
+        run: |
+          git restore --worktree stages/stage33/33-07
+          git clean -f stages/stage33/33-07
+      - name: Check Stage33 MAIN state synchronization contract
+        run: python stages/stage33/sync_main_state.py --check
+      - name: Diff hygiene
+        run: |
+          git diff --check
+          test -z "$(git status --porcelain)"
