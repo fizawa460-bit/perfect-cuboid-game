@@ -1,28 +1,28 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import itertools
 import json
-import math
 import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-CERT = ROOT / "stages/stage36/36-09AM/uniform-congruent-covering-mw-sha-classifier-preflight.json"
-SOURCE = ROOT / "stages/stage36/36-09AM/tunnell-uniform-branch-filter-source-lock.md"
+CERT = ROOT / "stages/stage36/36-09AM/uniform-rankzero-tunnell-sha2-sieve-preflight.json"
+SOURCE = ROOT / "stages/stage36/36-09AM/tunnell-rankzero-torsion-sector-source-lock.md"
+AE = ROOT / "stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json"
+AJ = ROOT / "stages/stage36/36-09AJ/congruent-number-full2-covering-class-preflight.json"
 AL = ROOT / "stages/stage36/36-09AL/b7-selmer-class-nontrivial-sha2-preflight.json"
-AF = ROOT / "stages/stage36/36-09AF/variable-prime-jacobi-matrix-realizability-preflight.json"
 STATE = ROOT / "stages/stage36/MAIN-STATE.json"
 
-BASE = "24215fa27a631cd3cb370c0dfd76866dd2e916f1"
-AUDITED_MERGE = "58e81a647b63bcea17ab396409c2813b667f45e2"
+BASE = "58e81a647b63bcea17ab396409c2813b667f45e2"
 AUDITED_HEAD = "56f815b9bc25ca91a2ba6e0c0291664bfeac733d"
 AUDIT_REVIEW = 5127436589
 AUDIT_CI = "34074355295/101597480228"
-CERT_BLOB = "cc9f74ed60680883e6b21ea555b3dfbd9dc3978c"
-SOURCE_BLOB = "80cc32fb32417db74740152192df4fffc8be69c6"
+CERT_BLOB = "6d9e9392df8fc70a90a356932724e0a589b6b446"
+SOURCE_BLOB = "0c64262ac11979fa1f5e25039cfc0f4f0426ca62"
+AE_BLOB = "ddae37dd35cd0e732cebadf9c17f3f3fa57930df"
+AJ_BLOB = "27950f53a89e28d02d04f2c19628504561c206e7"
 AL_BLOB = "10962f8d2471a8236d66a602c0f4952ce497e56c"
-AL_VERIFIER_BLOB = "b4b5215bf5f06ed451f7cd99fef708de5069b087"
-AF_BLOB = "be5a65e3fcfb182998ccb02ec42f8114b50b0a7d"
 
 
 def git(*args: str) -> str:
@@ -33,114 +33,141 @@ def blob(path: Path) -> str:
     return git("hash-object", str(path.relative_to(ROOT)))
 
 
-def tunnell_parity_counts(n: int) -> tuple[int, int]:
-    assert n > 0
-    # Unified statement: a=1 for odd n, a=2 for even n,
-    # n/a = 2*a*x^2 + y^2 + 8*z^2.
-    a = 1 if n % 2 else 2
-    assert n % a == 0
-    m = n // a
-    even = odd = 0
-    xmax = math.isqrt(m // (2 * a)) if m >= 2 * a else 0
-    zmax = math.isqrt(m // 8)
-    for x in range(-xmax, xmax + 1):
-        remx = m - 2 * a * x * x
-        if remx < 0:
-            continue
-        for z in range(-zmax, zmax + 1):
-            rem = remx - 8 * z * z
-            if rem < 0:
-                continue
-            y = math.isqrt(rem)
-            if y * y == rem:
-                mult = 1 if y == 0 else 2
-                if z % 2 == 0:
-                    even += mult
-                else:
-                    odd += mult
-    return even, odd
+def xor(*xs: frozenset[str]) -> frozenset[str]:
+    out: set[str] = set()
+    for x in xs:
+        out.symmetric_difference_update(x)
+    return frozenset(out)
+
+
+def atom(name: str, present: bool) -> frozenset[str]:
+    return frozenset({name}) if present else frozenset()
+
+
+def sector_predicate(Ap: bool, Bp: bool, Cp: bool, Dp: bool, eta: int, e: int, f: int) -> tuple[bool, str | None]:
+    if eta == 1 and e == 0 and f == 0 and not Ap and not Cp and not Dp:
+        return True, "S0_ETA_PLUS_O"
+    if eta == 1 and not Ap and not Bp and not Dp and f == 1:
+        return True, "SPLUS_ETA_PLUS_TPLUS"
+    if eta == -1 and e == 0 and f == 0 and not Bp and not Cp and not Dp:
+        return True, "SZERO_ETA_MINUS_TZERO"
+    if eta == -1 and not Ap and not Bp and not Dp and f == 1:
+        return True, "SMINUS_ETA_MINUS_TMINUS"
+    return False, None
 
 
 def main() -> None:
     assert blob(CERT) == CERT_BLOB
     assert blob(SOURCE) == SOURCE_BLOB
+    assert blob(AE) == AE_BLOB
+    assert blob(AJ) == AJ_BLOB
     assert blob(AL) == AL_BLOB
-    assert blob(AF) == AF_BLOB
     subprocess.check_call(["git", "merge-base", "--is-ancestor", BASE, "HEAD"], cwd=ROOT)
-    subprocess.check_call(["git", "merge-base", "--is-ancestor", AUDITED_MERGE, "HEAD"], cwd=ROOT)
-    # Squash-merged audited head is provenance metadata rather than an ancestor;
-    # fail-close on the audited payload as materialized in the merge/current main.
-    assert git("rev-parse", f"{AUDITED_MERGE}:stages/stage36/36-09AL/b7-selmer-class-nontrivial-sha2-preflight.json") == AL_BLOB
-    assert git("rev-parse", f"{AUDITED_MERGE}:stages/stage36/verify_stage36_36_09AL.py") == AL_VERIFIER_BLOB
+    # The old audited exact head remains an ancestor of this continuation branch,
+    # while BASE is the squash-merged main authority produced from that audit.
+    subprocess.check_call(["git", "merge-base", "--is-ancestor", AUDITED_HEAD, "HEAD"], cwd=ROOT)
+    assert git("rev-parse", f"{AUDITED_HEAD}:stages/stage36/36-09AL/b7-selmer-class-nontrivial-sha2-preflight.json") == AL_BLOB
+    assert git("rev-parse", f"{AUDITED_HEAD}:stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json") == AE_BLOB
     assert git("rev-parse", f"{BASE}:stages/stage36/36-09AL/b7-selmer-class-nontrivial-sha2-preflight.json") == AL_BLOB
 
     c = json.loads(CERT.read_text())
-    assert c["schema"] == "STAGE36_36_09AM_UNIFORM_CONGRUENT_COVERING_MW_SHA_CLASSIFIER_PREFLIGHT_V1"
+    assert c["schema"] == "STAGE36_36_09AM_UNIFORM_RANKZERO_TUNNELL_SHA2_SIEVE_PREFLIGHT_V1"
     assert c["base_main_sha"] == BASE
     ap = c["audited_parent"]
     assert ap["pr"] == 1677
     assert ap["hostile_audit_review"] == AUDIT_REVIEW
     assert ap["audited_exact_head"] == AUDITED_HEAD
     assert ap["exact_head_ci"] == AUDIT_CI
-    assert ap["merged_main_sha"] == AUDITED_MERGE
-    assert c["freshness"]["current_main"] == BASE
-    assert c["freshness"]["stage36_source_drift"] is False
+    assert ap["merged_to_main"] is True
+    assert ap["merged_main_sha"] == BASE
 
-    tf = c["unified_tunnell_filter"]
-    assert tf["necessary_condition_for_congruent_n"] == "N_even=N_odd"
-    assert tf["equality_conclusion_unconditional"] == "NO_RANK_OR_MW_CONCLUSION"
-    assert tf["BSD_converse_used"] is False
+    ae = json.loads(AE.read_text())
+    props = ae["squareclass_variables"]["properties"]
+    assert "A,B,C,D are positive odd squarefree" in props
+    assert "pairwise gcd(A,B)=gcd(A,C)=...=1" in props
 
-    # Audited B=7 branch: exact parity counts recover AL's 480 / total 896.
-    e7, o7 = tunnell_parity_counts(73073)
-    assert (e7, o7, e7 + o7) == (480, 416, 896)
-    b7 = c["audited_B7_replay"]
-    assert [b7["N_even"], b7["N_odd"], b7["N_total"]] == [e7, o7, e7 + o7]
-    assert b7["tunnell_equality"] is False
-    al = json.loads(AL.read_text())
-    assert al["Selmer_to_Sha_conclusion"]["covering_class_maps_to_nonzero_Sha2"] is True
-    assert al["Selmer_to_Sha_conclusion"]["covering_has_Q_point"] is False
-    assert b7["nontrivial_Sha2"] is True
-    assert b7["covering_Q_point"] is False
+    two = frozenset({"2"})
+    neg = frozenset({"-1"})
+    torsion_hits: list[tuple[bool,bool,bool,bool,int,int,int,int]] = []
+    sector_hits: list[tuple[bool,bool,bool,bool,int,int,int,str]] = []
+    for Ap, Bp, Cp, Dp in itertools.product((False, True), repeat=4):
+        A, B, C, D = (atom("A",Ap), atom("B",Bp), atom("C",Cp), atom("D",Dp))
+        for eta in (1, -1):
+            for e, f in itertools.product((0,1), repeat=2):
+                g = (e + f) & 1
+                n = xor(A,B,C,D, two if g else frozenset())
+                d1 = xor(C,D, two if g else frozenset(), neg if eta < 0 else frozenset())
+                if eta > 0:
+                    d2 = xor(A,D, two if f else frozenset())
+                else:
+                    d2 = xor(A,C, two if e else frozenset(), neg)
+                pair = (d1,d2)
+                torsion = [
+                    (frozenset(), frozenset()),
+                    (neg, xor(neg,n)),
+                    (n, two),
+                    (xor(neg,n), xor(neg,two,n)),
+                ]
+                in_image = pair in torsion
+                pred, sid = sector_predicate(Ap,Bp,Cp,Dp,eta,e,f)
+                assert in_image == pred, (Ap,Bp,Cp,Dp,eta,e,f,pair,torsion,sid)
+                if in_image:
+                    torsion_hits.append((Ap,Bp,Cp,Dp,eta,e,f,torsion.index(pair)))
+                    assert sid is not None
+                    sector_hits.append((Ap,Bp,Cp,Dp,eta,e,f,sid))
 
-    # Same AF coarse skeleton, different actual B-prime identity.  Tunnell
-    # outcome changes even though both n are 1 mod 8.
-    e23, o23 = tunnell_parity_counts(240097)
-    assert (e23, o23, e23 + o23) == (384, 384, 768)
-    assert 73073 % 8 == 240097 % 8 == 1
-    af = json.loads(AF.read_text())
-    assert af["shared_branch_skeleton"]["B_mod8"] == 7
-    assert af["choice_B7"]["all_eight_rows_pass"] is True
-    assert af["choice_B23"]["all_eight_rows_pass"] is False
+    assert len(torsion_hits) == 12
+    assert {x[-1] for x in sector_hits} == {
+        "S0_ETA_PLUS_O",
+        "SPLUS_ETA_PLUS_TPLUS",
+        "SZERO_ETA_MINUS_TZERO",
+        "SMINUS_ETA_MINUS_TMINUS",
+    }
 
-    ub = c["uniformity_boundary"]
-    assert ub["Tunnell_filter_is_branchwise_effective"] is True
-    assert ub["Tunnell_filter_alone_closes_all_branches"] is False
-    assert ub["Tunnell_equality_is_not_positive_rank_credit"] is True
-    assert ub["fixed_fiber_MW_certification_still_needed_after_Tunnell_failure"] is True
-    assert ub["actual_prime_identity_remains_load_bearing"] is True
-    assert ub["candidate_parameter_set_shrunk"] is False
-    assert ub["receiver_closed"] is False
+    sectors = {x["id"]: x for x in c["exact_torsion_shaped_sector_union"]}
+    assert set(sectors) == {x[-1] for x in sector_hits}
+    assert sectors["S0_ETA_PLUS_O"]["conditions"] == ["eta=+1","e=0","f=0","A=1","C=1","D=1"]
+    assert sectors["SPLUS_ETA_PLUS_TPLUS"]["conditions"] == ["eta=+1","A=1","B=1","D=1","f=1"]
+    assert sectors["SZERO_ETA_MINUS_TZERO"]["conditions"] == ["eta=-1","e=0","f=0","B=1","C=1","D=1"]
+    assert sectors["SMINUS_ETA_MINUS_TMINUS"]["conditions"] == ["eta=-1","A=1","B=1","D=1","f=1"]
+
+    rank0 = c["rankzero_MW_mod2_Kummer_image"]
+    assert rank0["exhaustive_when_rank_zero"] is True
+    assert rank0["pair_classes"] == [["1","1"],["-1","-n"],["n","2"],["-n","-2*n"]]
+
+    sieve = c["conditional_uniform_sieve"]
+    assert "the full Stage36 covering is everywhere locally soluble, hence its class lies in Sel^2(E_n/Q)" in sieve["hypotheses"]
+    assert "the parity-appropriate Tunnell necessary equality fails" in sieve["hypotheses"]
+    assert sieve["Tunnell_equality_branch"] == "unresolved unconditionally; BSD converse is not used"
 
     out = c["route_result"]
-    assert out["route_status"] == "PASS_NEW_GATE_FROM_STRONGER_VIEW"
-    assert out["next_leaf"] == "36-09AN_TUNNELL_FILTER_RESIDUE_NONCOMPRESSION_PREFLIGHT"
+    assert out["uniform_rankzero_Tunnell_fail_classifier_obtained"] is True
+    assert out["finite_exception_sector_count"] == 4
+    assert out["all_variable_n_classified"] is False
+    assert out["candidate_parameter_set_shrunk"] is False
+    assert out["receiver_closed"] is False
+    assert out["next_leaf"] == "36-09AN_TORSION_SHAPED_SECTOR_RETAINED_OPEN_PREFLIGHT"
 
     st = json.loads(STATE.read_text())
     assert st["schema"] == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V75_36_09AM_CANDIDATE"
     assert st["base_main_sha"] == BASE
+    a = st["audited_batch_promotion"]
+    assert a["candidate_pr"] == 1677 and a["hostile_audit_review"] == AUDIT_REVIEW and a["merged_main_sha"] == BASE
+    assert st["promotion_gates"]["36_09AJ_hostile_audit_passed"] is True
+    assert st["promotion_gates"]["36_09AK_hostile_audit_passed"] is True
     assert st["promotion_gates"]["36_09AL_hostile_audit_passed"] is True
+    assert st["promotion_gates"]["36_09AL_promoted_to_main"] is True
     am = st["authority_frontier"]["36-09AM"]
-    assert am["UNCONDITIONAL_TUNNELL_BRANCH_FILTER"] is True
-    assert am["BSD_CONVERSE_USED"] is False
-    assert am["UNIFORM_BRANCH_FAMILY_CLASSIFIED"] is False
+    assert am["UNIFORM_RANKZERO_TUNNELL_FAIL_CLASSIFIER"] is True
+    assert am["TORSION_SHAPED_EXCEPTION_SECTOR_COUNT"] == 4
+    assert am["TUNNELL_EQUALITY_SIDE_CLASSIFIED"] is False
     assert st["current"]["unit"] == "36-09AN"
     assert st["current"]["36_09AN_entry_allowed"] is True
     assert st["claims"]["candidate_parameter_set_shrunk"] is False
     assert st["claims"]["receiver_emptiness_proved"] is False
     assert st["claims"]["perfect_cuboid_nonexistence_claim"] is False
 
-    print("36-09AM verified: audited AJ-AL promoted; unified Tunnell necessary filter is exact and BSD-free; B7 fails (480 vs 416) while same coarse AF skeleton B23 has equality (384=384); equality gives no positive-rank credit; uniform receiver remains open; AN unlocked")
+    print("36-09AM verified: merged audited PR1677 supplies AJ-AL authority; parity-complete Tunnell failure gives rank zero; exhaustive F2 squareclass comparison leaves exactly four torsion-shaped sectors; every ELS Tunnell-fail branch outside them is nontrivial Sha[2] and has no projective covering Q-point; Tunnell-equality and retained-open torsion sectors remain unresolved; AN unlocked")
 
 
 if __name__ == "__main__":
