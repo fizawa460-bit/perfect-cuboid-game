@@ -21,15 +21,18 @@ jobs:
       - name: Install exact diagnostic dependency
         run: python3 -m pip install 'sympy==1.14.0'
       - name: Run exact rank4 fibration orbit diagnostic
-        run: python3 stages/stage32-ex6/diagnose_stage32_ex6_rank4_fibration_orbit.py | tee /tmp/ex6-rank4.json
+        shell: bash
+        run: |
+          set -o pipefail
+          python3 stages/stage32-ex6/diagnose_stage32_ex6_rank4_fibration_orbit.py | tee /tmp/ex6-rank4.json
       - name: Show compact decision fields
         run: |
           python3 - <<'PY'
           import json
           x=json.load(open('/tmp/ex6-rank4.json'))
           print(json.dumps({
-            'representative': x['representative'],
-            'aut_orbit': x['aut_orbit'],
+            'rank4_orbit_types': x['rank4_orbit_types'],
+            'summary': x['summary'],
             'firewalls': x['firewalls'],
           }, indent=2, sort_keys=True))
           PY
