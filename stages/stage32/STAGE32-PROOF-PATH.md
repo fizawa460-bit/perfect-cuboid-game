@@ -20,9 +20,9 @@ Claim IDs use:
 
 The semantic core of a claim is:
 
-`claim_id + kind + statement + scope_key + scope + PROVES + DOES_NOT_PROVE + requires`.
+`claim_id + kind + statement + scope_key + scope + PROVES + DOES_NOT_PROVE + requires + source_locks + replay_verifier`.
 
-The registry stores `claim_core_sha256` over that canonical core. Once a claim is depended on, the core is immutable. A semantic correction, stronger/weaker quantifier, changed population/model/field, changed `PROVES`, changed `DOES_NOT_PROVE`, or changed dependency set requires a new versioned claim ID. Audit/authority metadata may advance on the same core, e.g. `PROVISIONAL -> AUDITED`, but hostile-audit PASS is never inferred or self-assigned.
+The registry stores `claim_core_sha256` over that canonical core. Once a claim is depended on, the core is immutable. A semantic correction, stronger/weaker quantifier, changed population/model/field, changed `PROVES`, changed `DOES_NOT_PROVE`, changed dependency set, changed source lock, or changed replay verifier requires a new versioned claim ID. Audit/authority metadata may advance on the same core, e.g. `PROVISIONAL -> AUDITED`, but hostile-audit PASS is never inferred or self-assigned.
 
 ## 2. Authority states
 
