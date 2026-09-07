@@ -1,0 +1,79 @@
+{
+  "schema":"STAGE36_36_09BO_Q_RESERVOIR_FULL_QQ_CANCELLATION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09BO",
+  "status":"EXACT_Q_RESERVOIR_FULL_QQ_LOCAL_LAYER_COMPLETE_PARAMETER_ONLY_FILTER_BLOCKED_AUDIT_CHECKPOINT",
+  "base_main_sha":"e758e05953df2cf8cd4ab26ac1e9d72374e99760",
+  "batch_parent":{"pr":1691,"36_09BN_exact_head":"7d9d6e3b1011715c5884a2da0a642892d8cf3984","36_09BN_exact_head_ci":"34108363855/101698552520"},
+  "source_locks":{
+    "stage36_36_09BN":{"path":"stages/stage36/36-09BN/old-six-tie-normalized-unit-residue-preflight.json","blob_sha":"c64ad051bb1466aa05dfb0cf638b9e7759766ed9"},
+    "stage36_36_09BN_verifier":{"path":"stages/stage36/verify_stage36_36_09BN.py","blob_sha":"1013bad8244708d84aa99908c1fcbeb2c7af6353"},
+    "stage36_36_09BH":{"path":"stages/stage36/36-09BH/bad-place-full-cover-valuation-preflight.json","blob_sha":"76487371ed363868af18a9fa0f6f7e1367d28f27"},
+    "stage36_36_09BC":{"path":"stages/stage36/36-09BC/boundary-neighborhood-open-local-no-loop-preflight.json","blob_sha":"317638c4d1a76f683c7af9bdb4e8285af35f4d05"},
+    "stage36_36_09BK":{"path":"stages/stage36/36-09BK/prime2-unit-gate-pullback-parameter-separation-preflight.json","blob_sha":"0f264dfa584d41e2cf39578a1b61c80ecfc0aec1"}
+  },
+  "Q_reservoir_setup":{
+    "q":"odd prime dividing Qsum=a^2+b^2",
+    "h":"v_q(Qsum)>=1",
+    "units":["D0","P","M","kappa","T"],
+    "minus_one_square":true,
+    "reason":"gcd(a,b)=1 and q|a^2+b^2 gives (a/b)^2=-1 mod q, so (-1/q)=+1",
+    "AY_coordinate_rule":"R=v_q(r), S=v_q(s), and R,S are not both positive"
+  },
+  "full_cover_term_valuations":{
+    "Gminus":"Qsum^2*r^2-4*T^2*s^2 has term valuations 2h+2R and 2S",
+    "Gplus":"Qsum^2*s^2-kappa^2*T^2*r^2 has term valuations 2h+2S and 2R"
+  },
+  "nontie_classification":{
+    "R_S_zero":"both radicands are negative-square-leading and therefore Q_q-squares because -1 is a square",
+    "R_positive_S_zero":"Gminus is automatically negative-square-leading; Gplus is automatic off the unique tie R=h because either its square term or negative-square term dominates",
+    "S_positive_R_zero":"Gplus is automatically negative-square-leading; Gminus is automatic off the unique tie S=h because either its square term or negative-square term dominates",
+    "all_Q_reservoir_nontie_branches_automatic":true,
+    "parameter_filter_from_nontie":false
+  },
+  "tie_branches":{
+    "Gplus_tie":"R=h,S=0",
+    "Gminus_tie":"S=h,R=0",
+    "criterion":"after extracting the common q^(2h) square, each tie is y^2*(z^2-1); apply the complete odd-q z^2-1 criterion from BN",
+    "all_Q_reservoir_tie_species_covered":true
+  },
+  "fixed_parameter_q5_separation":{
+    "parameter":{"a":1,"b":2,"p":"1/2","D0":-6,"P":1,"M":-7,"Qsum":5,"kappa":-3,"q":5,"h":1},
+    "pass":{"u":26,"v":1,"R":1,"S":0,"tie":"Gplus","AY_minus":"-225","AY_plus":"677/2","Gminus":"-11041","Gplus":"33125/2","both_full_cover_Q5_squares":true,"zplus2_minus_1":"-1325/648","diagnostic":"v5=2 and normalized unit is a residue"},
+    "fail":{"u":1,"v":18,"R":0,"S":1,"tie":"Gminus","AY_minus":"323/3","AY_plus":"325/2","Gminus":"275/3","Gplus":"373/2","Gminus_Q5_square":false,"Gplus_Q5_square":true,"zminus2_minus_1":"11/312","diagnostic":"v5=0 and normalized unit is a nonresidue"},
+    "same_parameter_Q_reservoir_has_pass_and_fail":true,
+    "retained_open_checked":"both witnesses have t=v/u not in {0,+1,-1} and lambda*t not in {+1,-1} for lambda=-1/7"
+  },
+  "combined_bad_place_local_status":{
+    "good_odd_primes":"BC proves punctured boundary-neighborhood Q_ell points exist at good odd primes",
+    "prime2":"BI/BJ give complete valuation+unit receiver gates; BK blocks standalone parameter-only use by same-parameter separation",
+    "old_six_odd":"BM/BN complete non-tie and tie square criteria; BN blocks standalone parameter-only use by same-parameter alpha/beta separation",
+    "Q_reservoir_odd":"BO completes non-tie and tie square criteria; same-parameter q=5 separation blocks standalone parameter-only use",
+    "bad_place_parameter_only_local_route_status":"BLOCKED",
+    "local_receiver_point_gates_retained":true,
+    "all_bad_place_local_square_layers_classified":true
+  },
+  "route_result":{
+    "route_status":"BLOCKED_AS_STANDALONE_PARAMETER_FILTER_ALL_BAD_PLACE_LOCAL_LAYERS_CLASSIFIED",
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "natural_hostile_audit_checkpoint":true,
+    "next_leaf_after_audit":"36-09BP_FULL_COVER_GLOBAL_DESCENT_ROUTER_PREFLIGHT",
+    "selection_reason":"good-prime, prime-2, old-six odd, and Q-reservoir odd local square layers are now exact; all surviving local conditions depend on receiver points rather than yielding a standalone parameter exclusion, so any next advance must combine them with global full-cover/AY point control or another receiver-matched global method"
+  },
+  "scope_firewalls":{
+    "all_parameters_locally_soluble_everywhere":false,
+    "local_receiver_point_gates_useless":false,
+    "adelic_combination_exhausted":false,
+    "full_cover_global_descent_executed":false,
+    "fixed_uniform_ramification_set_recovered":false,
+    "finite_exhaustive_squareclass_family":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
