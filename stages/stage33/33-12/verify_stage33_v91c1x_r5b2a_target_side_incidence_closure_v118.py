@@ -13,6 +13,15 @@ MAT = HERE / "materialize_e3_v91c1x_r5b2a_target_side_incidence_closure.py"
 TARGET_SIDES = ["SIDE_002", "SIDE_004", "SIDE_006", "SIDE_008"]
 TARGET_EXC = ["EXC_003", "EXC_004", "EXC_011", "EXC_012"]
 PARAMS = ["0", "infinity", "1", "-1", "i", "-i"]
+EXPECTED_CLOSURE = [
+    "EXC_003", "EXC_004", "EXC_007", "EXC_008", "EXC_011", "EXC_012",
+    "EXC_015", "EXC_016", "EXC_025", "EXC_026", "EXC_027", "EXC_028",
+    "EXC_029", "EXC_030", "EXC_031", "EXC_032",
+]
+EXPECTED_ADDITIONAL = [
+    "EXC_007", "EXC_008", "EXC_015", "EXC_016", "EXC_025", "EXC_026",
+    "EXC_027", "EXC_028", "EXC_029", "EXC_030", "EXC_031", "EXC_032",
+]
 
 
 def csha(obj):
@@ -36,14 +45,17 @@ for row in cert["side_rows"]:
     assert row["crossing_parameters_in_frozen_order"] == PARAMS
     assert len(row["incident_exceptional_ids"]) == 6
     assert len(set(row["incident_exceptional_ids"])) == 6
-assert cert["side_incident_exceptional_closure_count"] == len(cert["side_incident_exceptional_closure"])
-assert cert["additional_exceptionals_required_count"] == len(cert["additional_exceptionals_required_beyond_target4_for_full_target_side_crossing_cover"])
+assert cert["side_incident_exceptional_closure"] == EXPECTED_CLOSURE
+assert cert["side_incident_exceptional_closure_count"] == 16
+assert cert["additional_exceptionals_required_beyond_target4_for_full_target_side_crossing_cover"] == EXPECTED_ADDITIONAL
+assert cert["additional_exceptionals_required_count"] == 12
+assert cert["target4_exceptionals_not_incident_to_any_target_side"] == []
 con = cert["exact_consequence"]
 assert con["each_target_side_has_exactly_six_frozen_exceptional_crossings"] is True
 assert con["each_target_side_crossing_parameter_set_is_0_inf_pm1_pmi"] is True
 assert con["r5b1_component_cover_remains_valid_for_its_four_target_exceptionals"] is True
-assert con["target4_exceptionals_cover_all_crossings_of_the_four_target_sides"] == (cert["additional_exceptionals_required_count"] == 0)
-assert con["surface_neighborhood_cover_may_ignore_additional_incident_exceptionals"] == (cert["additional_exceptionals_required_count"] == 0)
+assert con["target4_exceptionals_cover_all_crossings_of_the_four_target_sides"] is False
+assert con["surface_neighborhood_cover_may_ignore_additional_incident_exceptionals"] is False
 for key, value in cert["credit_firewall"].items():
     assert value is False, key
 
@@ -52,15 +64,16 @@ summary = json.loads(replay.stdout.strip().splitlines()[-1])
 assert summary["success"] is True
 assert summary["certificate_sha256"] == claimed
 assert summary["incidence_pair_count"] == 24
-assert summary["closure_count"] == cert["side_incident_exceptional_closure_count"]
-assert summary["additional_exceptional_count"] == cert["additional_exceptionals_required_count"]
+assert summary["closure_count"] == 16
+assert summary["additional_exceptional_count"] == 12
+assert summary["target4_covers_all_target_side_crossings"] is False
 print(json.dumps({
     "success": True,
     "marker": "V118_V91C1X_R5B2A_TARGET_SIDE_INCIDENCE_CLOSURE",
     "certificate_sha256": claimed,
     "incidence_pair_count": 24,
-    "closure_count": cert["side_incident_exceptional_closure_count"],
-    "additional_exceptional_count": cert["additional_exceptionals_required_count"],
+    "closure_count": 16,
+    "additional_exceptional_count": 12,
     "stage33_progress": "6/11",
     "next_exact_leaf": cert["next_exact_leaf"],
 }, sort_keys=True))
