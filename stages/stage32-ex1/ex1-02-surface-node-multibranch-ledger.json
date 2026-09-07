@@ -1,0 +1,114 @@
+{
+  "schema": "STAGE32EX1_EX1_02_SURFACE_NODE_MULTIBRANCH_LEDGER_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-02_SURFACE_NODE_MULTIBRANCH_CLOSURE",
+  "status": "PASS_EXACT_PARAMETERIZED_SURFACE_NODE_RESIDUAL_LEDGER_CANDIDATE",
+  "dependency_status": "PROVISIONAL_SAME_PR_DEPENDS_ON_UNAUDITED_EX1_00_EX1_01_CANDIDATES",
+  "setup": {
+    "normalization": "nu:N->Gamma",
+    "exceptional_components": "E_i on smooth minimal resolution S",
+    "contact_divisor": "nu^*E_i=sum_j a_ij q_ij with a_ij positive integers",
+    "contact_degree": "deg(nu^*E_i)=Gamma.E_i=m_i",
+    "canonical_node_fiber": "all q_ij map under pi∘nu to the single canonical-model node x_i",
+    "fiber_cardinality": "r_i=#supp(nu^*E_i)"
+  },
+  "exact_local_lemmas": {
+    "contact_partition": "m_i=sum_j a_ij and r_i<=m_i",
+    "zero_contact": "m_i=0 => r_i=0",
+    "unit_contact": "m_i=1 => exactly one coefficient a=1",
+    "unit_contact_smoothness": "If Gamma.E_i=1, the unique local intersection has I_p(Gamma,E_i)=1. Since E_i is smooth and I_p(Gamma,E_i)>=mult_p(Gamma), mult_p(Gamma)=1; Gamma is smooth there and meets E_i transversely.",
+    "unit_contact_delta": "m_i=1 => local strict-transform delta at that intersection is 0",
+    "multibranch_contact_partition": "For r_i>=2, the unordered positive contact orders form an integer partition lambda_i of m_i with length >=2.",
+    "converse_firewall": "An integer partition is only a numerically admissible local contact envelope; EX1-02 does not assert geometric realization by a V6 carrier."
+  },
+  "v6_contact_inventory": {
+    "exceptional_pairings": [1, 1, 1, 2, 2, 0, 1, 2, 8, 4, 7, 2, 9, 5, 1, 10, 5, 11, 7, 1, 3, 1, 13, 1, 6, 2, 12, 16, 4, 3, 5, 6, 5, 10, 8, 1, 10, 15, 11, 2, 5, 11, 4, 10, 2, 4, 3, 13],
+    "zero_labels_1based": [6],
+    "unit_labels_1based": [1, 2, 3, 7, 15, 20, 22, 24, 36],
+    "unit_count": 9,
+    "nonunit_labels_1based": [4, 5, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 21, 23, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48],
+    "nonunit_count": 38,
+    "contact_mass_distribution_on_nonunit_nodes": {"2": 7, "3": 3, "4": 4, "5": 5, "6": 2, "7": 2, "8": 2, "9": 1, "10": 4, "11": 3, "12": 1, "13": 2, "15": 1, "16": 1},
+    "total_exceptional_mass": 266,
+    "positive_support_count": 47
+  },
+  "parameterized_residual_ledger": {
+    "local_state_at_node_i": "choose an integer partition lambda_i of m_i; normalization-fiber cardinality r_i=len(lambda_i); multibranch branch requires len(lambda_i)>=2",
+    "multibranch_partition_count_by_contact_mass": {"2": 1, "3": 2, "4": 4, "5": 6, "6": 10, "7": 14, "8": 21, "9": 29, "10": 41, "11": 55, "12": 76, "13": 100, "15": 175, "16": 230},
+    "labeled_node_count_by_contact_mass": {"2": 7, "3": 3, "4": 4, "5": 5, "6": 2, "7": 2, "8": 2, "9": 1, "10": 4, "11": 3, "12": 1, "13": 2, "15": 1, "16": 1},
+    "labeled_node_local_multibranch_type_count_by_contact_mass": {"2": 7, "3": 6, "4": 16, "5": 30, "6": 20, "7": 28, "8": 42, "9": 29, "10": 164, "11": 165, "12": 76, "13": 200, "15": 175, "16": 230},
+    "total_labeled_node_local_multibranch_contact_types": 1188,
+    "global_node_fiber_excess_upper_bound": 219,
+    "global_node_fiber_excess_replay": "sum_{m_i>0}(m_i-1)=266-47=219",
+    "surface_node_candidate_count": 38,
+    "surface_node_contact_layer_is_finite_parameterized": true,
+    "geometric_realizability_not_proved": true
+  },
+  "delta_interface": {
+    "unit_contact_nodes_contribute_delta_E": 0,
+    "delta_E_not_determined_by_contact_partition": true,
+    "missing_intrinsic_data": [
+      "which normalization points q_ij coincide in Gamma at singular points on E_i",
+      "local analytic branch equations or equivalent pairwise intersection/tangency data on S",
+      "unibranch singularity data at points of Gamma∩E_i"
+    ],
+    "contraction_only_case": "Distinct smooth points of Gamma on the same E_i can be identified only after contraction to x_i; this gives r_i>=2 for N->B while contributing no strict-transform delta at those points.",
+    "intrinsic_singularity_case": "If two or more normalization branches coincide at one singular point of Gamma on E_i, or a unibranch singularity occurs there, positive delta_E may arise; contact mass alone does not determine it.",
+    "no_finite_delta_upper_bound_from_fixed_contact_mass": true,
+    "local_counterexample": {
+      "ambient": "smooth local surface with coordinates (x,y)",
+      "exceptional_curve_model": "E:{x=0}",
+      "curve_family": "Gamma_k:{y^2=x^(2k+1)}, k>=1",
+      "irreducible_unibranch": true,
+      "intersection_with_E": 2,
+      "delta_formula": "delta(Gamma_k)=((2-1)*((2k+1)-1))/2=k",
+      "conclusion": "fixed contact m=2 permits arbitrarily large local delta in the unrestricted smooth-surface local category",
+      "scope_firewall": "This is a local analytic counterexample to any contact-only delta bound; it is not a construction of a global V6 carrier."
+    }
+  },
+  "branch_status": {
+    "surface_node_multibranch_excluded": false,
+    "surface_node_multibranch_exactly_accounted_at_contact_partition_layer": true,
+    "residual_ledger_kind": "FINITE_PARAMETERIZED_CONTACT_PARTITIONS_PLUS_UNRESOLVED_INTRINSIC_ANALYTIC_DATA",
+    "exact_blocker": "V6 class-level exceptional contacts do not determine branch coincidence/tangency or unibranch singularity data on S, so they cannot determine or bound delta_E sufficiently for exclusion.",
+    "reopen_condition": "Obtain actual-member local equations/jet data, a source-locked theorem bounding singularity delta from the V6 linear system, or a global constraint coupling these contact partitions to the remaining delta budget.",
+    "next_leaf": "EX1-03_SMOOTH_AMBIENT_CURVE_SINGULARITY_CLOSURE"
+  },
+  "source_locks": {
+    "ex1_00_candidate": {
+      "path": "stages/stage32-ex1/ex1-00-source-lock-and-target-adapter.json",
+      "canonical_sha256": "783526a604572a4a81a314c59db1a399d38209ee159352106d7c5f6b5e71fa6c",
+      "audit_status": "PENDING"
+    },
+    "ex1_01_candidate": {
+      "path": "stages/stage32-ex1/ex1-01-global-normalization-defect-decomposition.json",
+      "canonical_sha256": "1cd71a070b3e171e83506df9bf8eaf2e6073f571c40b5112ed4cf0ce5151a94c",
+      "audit_status": "PENDING"
+    }
+  },
+  "exit": {
+    "surface_node_multibranch_branch_closed": false,
+    "surface_node_multibranch_branch_exactly_accounted_candidate": true,
+    "surface_node_residual_ledger_complete_at_contact_layer": true,
+    "branch_exclusion_credit": false,
+    "credit_ceiling": "NECESSARY_CONDITION_ONLY_UNAUDITED",
+    "full_target_closure": false,
+    "next_leaf": "EX1-03_SMOOTH_AMBIENT_CURVE_SINGULARITY_CLOSURE"
+  },
+  "firewalls": {
+    "contact_partition_promoted_to_geometric_realization": false,
+    "node_fiber_excess_identified_with_delta": false,
+    "exceptional_mass_identified_with_delta": false,
+    "fixed_contact_mass_assumed_to_bound_delta": false,
+    "local_counterexample_promoted_to_v6_member": false,
+    "surface_node_nonbijectivity_assumed_strict_transform_singularity": false,
+    "surface_node_branch_claimed_excluded": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "810315e98eff224089d56c7f646a32c07177878ce2b05b988bef0665c5aa012a"
+}
