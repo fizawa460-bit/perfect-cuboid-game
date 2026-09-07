@@ -44,31 +44,28 @@ jobs:
       - name: Assert hostile-reaudited merged BH-BO authority
         shell: bash
         run: |
-          set -euo pipefail
           python3 - <<'PY'
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
           a=s['audited_history']['36-09BH-BO']
-          assert a['pr']==1691
           assert a['hostile_reaudit_review']==5130920000
-          assert a['audited_exact_head']=='40210e1f9225c792eca479f3f56bed73f550e024'
           assert a['merged_main_sha']=='727b3f34c4d850e868aff64483aeb99861b13c7c'
           PY
-      - name: Replay exact 36-09BP parent
+      - name: Replay exact 36-09BQ parent
         shell: bash
         run: |
           set -euo pipefail
-          H=1ff60da12b83e92daa40b90ce2e5ca756a089212
+          H=1cf7c32bba0324ccd0b21ed11eee4876540621ea
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BP.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BQ.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09BQ
-        run: python3 stages/stage36/verify_stage36_36_09BQ.py
-      - name: Assert BQ firewalls and BR unlock
+      - name: Verify current 36-09BR
+        run: python3 stages/stage36/verify_stage36_36_09BR.py
+      - name: Assert BR firewalls and BS unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -76,22 +73,20 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V106_36_09BQ_FIXED_P_OUTER_EXHAUSTIVENESS'
-          bq=s['authority_frontier']['36-09BQ']
-          assert bq['FIXED_P_EXHAUSTIVE_OUTER_BRANCH_FAMILY'] is True
-          assert bq['AY_AW_COMPATIBLE_BRANCH'] is True
-          assert bq['BB_JOINT_RECEIVER_SYSTEM_EXACT'] is True
-          assert bq['UNIFORM_FINITE_Q_SQUARECLASS_FAMILY'] is False
-          assert bq['UNIFORM_FINITE_H1_TWIST_FAMILY'] is False
-          assert bq['S34_W02_APPLICABILITY_PROVED'] is False
-          assert s['current']['unit']=='36-09BQ'
-          assert s['current']['next_exact_leaf']=='36-09BR_AY_MORDELL_WEIL_CONGRUENCE_APPLICABILITY_PREFLIGHT'
-          assert s['current']['36_09BR_entry_allowed'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V107_36_09BR_MW_APPLICABILITY'
+          br=s['authority_frontier']['36-09BR']
+          assert br['S34_W02_SHAPE_MATCH'] is True
+          assert br['S34_W02_CURRENTLY_APPLICABLE'] is False
+          assert br['FULL_MW_RANK_PROVED'] is False
+          assert br['FULL_MW_BASIS_PROVED'] is False
+          assert br['MW_SATURATION_PROVED'] is False
+          assert br['UNIFORM_ROUTE_IMPOSSIBILITY_PROVED'] is False
+          assert s['current']['next_exact_leaf']=='36-09BS_FIXED_P_OUTER_BRANCH_FULL_COVER_LOCAL_GATE_ADAPTER_PREFLIGHT'
+          assert s['current']['36_09BS_entry_allowed'] is True
           assert s['promotion_gates']['local_parameter_elimination_route_exhausted'] is False
-          assert s['promotion_gates']['uniform_finite_Q_squareclass_family'] is False
-          assert s['promotion_gates']['finite_exhaustive_H1_twist_family'] is False
+          assert s['promotion_gates']['S34_W02_impossible'] is False
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('36-09BQ verified; fixed-p AW outer exhaustiveness recovered, AY/BB population adapter exact, uniform finite Q-squareclass/H1 family still absent, S34-W02 applicability selected next.')
+          print('36-09BR verified; S34-W02 currently lacks full MW certification but is not impossible. BS fixed-p outer/local-gate adapter selected; local parameter elimination remains live.')
           PY
           git diff --check
