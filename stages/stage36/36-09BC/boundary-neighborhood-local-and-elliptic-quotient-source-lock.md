@@ -25,12 +25,23 @@ S0^2 = 2*(1+t0^2),
 
 where hostile-audited AY/BA supplies rational nonzero `R0,S0` on the retained parameter open.
 
-Treat `Zm` as the local parameter and solve the four equations for `(R,S,t,Zp)`. The Jacobian minor at the boundary, using columns `(R,S,t,Zp)`, is triangular after elementary row elimination and has determinant
+Treat `Zm` as the local parameter and solve the four equations for `(R,S,t,Zp)`. The Jacobian minor at the boundary, using columns `(R,S,t,Zp)`, has diagonal factors after elementary row elimination
+
+```text
+2*R0,
+2*S0,
+2*kappa*lambda,
+4.
+```
+
+Therefore its exact determinant is
 
 ```text
 (2*R0)*(2*S0)*(2*kappa*lambda)*(4)
-= 64*R0*S0*kappa*lambda != 0.
+= 32*R0*S0*kappa*lambda != 0.
 ```
+
+The 36-09BC verifier reconstructs the full 4x4 Jacobian minor and computes its determinant exactly; the coefficient `32` is not supplied to that determinant routine as an input.
 
 Hence for every odd prime `ell` at which `2,R0,S0,kappa,lambda` are all units, the unit-Jacobian Hensel recursion uniquely solves `(R,S,t,Zp)` for every sufficiently small `Zm in ell Z_ell`. Taking nonzero sufficiently divisible `Zm` gives `Q_ell` points arbitrarily close to the boundary but off `Zm=0`. Thus the punctured retained-open neighborhood is locally nonempty at every such good prime.
 
