@@ -64,20 +64,20 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09BG.py"
           git worktree remove --force "$tmp"
-      - name: Replay exact 36-09BL parent
+      - name: Replay exact 36-09BM parent
         shell: bash
         run: |
           set -euo pipefail
-          H=6e44915f4d9ca6435b3a70eea4e48c5d5a74a0fd
+          H=b8c1c6ed972ff48149a0ed417c7c027f29d69c37
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BL.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BM.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09BM
-        run: python3 stages/stage36/verify_stage36_36_09BM.py
-      - name: Assert BM firewalls and BN unlock
+      - name: Verify current 36-09BN
+        run: python3 stages/stage36/verify_stage36_36_09BN.py
+      - name: Assert BN firewalls and BO unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -85,20 +85,19 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V101_36_09BM_NONTIE_RESIDUE_TAXONOMY'
-          bm=s['authority_frontier']['36-09BM']
-          assert bm['OLD_SIX_NONTIE_BRANCHES_CLASSIFIED'] is True
-          assert bm['NEW_FULL_COVER_CONDITIONAL_MINUS_ONE_GATE'] is True
-          assert bm['ALPHA_NONTIE_Q_MOD8_GATE'] is True
-          assert bm['TIE_BRANCHES_ISOLATED'] is True
-          assert bm['ALL_OLD_SIX_TIE_RESIDUES_CLASSIFIED'] is False
-          assert bm['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert bm['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09BM'
-          assert s['current']['next_exact_leaf']=='36-09BN_OLD_SIX_TIE_BRANCH_NORMALIZED_UNIT_RESIDUE_PREFLIGHT'
-          assert s['current']['36_09BN_entry_allowed'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V102_36_09BN_OLD_SIX_TIE_COMPLETE'
+          bn=s['authority_frontier']['36-09BN']
+          assert bn['ALL_OLD_SIX_TIE_RESIDUES_CLASSIFIED'] is True
+          assert bn['OLD_SIX_ODD_LOCAL_SQUARE_CRITERIA_COMPLETE'] is True
+          assert bn['OLD_SIX_PARAMETER_ONLY_LOCAL_FILTER'] is False
+          assert bn['RECEIVER_POINT_LOCAL_GATES_RETAINED'] is True
+          assert bn['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert bn['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09BN'
+          assert s['current']['next_exact_leaf']=='36-09BO_Q_RESERVOIR_FULL_QQ_CANCELLATION_PREFLIGHT'
+          assert s['current']['36_09BO_entry_allowed'] is True
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('36-09BM verified; unequal-valuation old-six branches classified and tie normalized-unit residues selected next')
+          print('36-09BN verified; old-six odd local layer complete as receiver-point gates, Q reservoir selected next')
           PY
           git diff --check
