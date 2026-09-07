@@ -1,0 +1,30 @@
+name: Stage32 post1648AN A1 strict-transform delta feasibility verifier
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648an-a1-strict-transform-delta-feasibility
+    paths:
+      - 'stages/stage32/residual-32-01-production/post1648an-a1-strict-transform-delta-feasibility-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1648an-a1-strict-transform-delta-feasibility.json'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648an_a1_strict_transform_delta_feasibility.py'
+      - '.github/workflows/stage32-post1648an-a1-strict-transform-delta-feasibility-scratch.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-an-feasibility:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+      - name: Verify AN A1 delta feasibility wall
+        run: python3 stages/stage32/residual-32-01-production/verify_stage32_post1648an_a1_strict_transform_delta_feasibility.py
+      - name: Diff hygiene
+        run: git diff --check
