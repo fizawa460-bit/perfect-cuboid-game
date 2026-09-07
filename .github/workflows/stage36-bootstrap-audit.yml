@@ -75,9 +75,9 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09BN.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09BO
+      - name: Verify current repaired 36-09BO
         run: python3 stages/stage36/verify_stage36_36_09BO.py
-      - name: Assert BO checkpoint firewalls and BP lock
+      - name: Assert BO quantifier-repair firewalls and BP lock
         shell: bash
         run: |
           set -euo pipefail
@@ -85,22 +85,29 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V103_36_09BO_BAD_PLACE_LOCAL_AUDIT_CHECKPOINT'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V104_36_09BO_QUANTIFIER_REPAIR'
+          fail=s['audited_history']['36-09BH-BO_failed_audit']
+          assert fail['review']==5130678946
+          assert fail['audited_exact_head']=='48a57145c54b3cea1e68c6894ab2839fa9d05749'
           bo=s['authority_frontier']['36-09BO']
           assert bo['Q_RESERVOIR_LOCAL_LAYER_COMPLETE'] is True
           assert bo['ALL_BAD_PLACE_LOCAL_SQUARE_LAYERS_CLASSIFIED'] is True
-          assert bo['BAD_PLACE_PARAMETER_ONLY_LOCAL_ROUTE_BLOCKED'] is True
+          assert bo['NO_PARAMETER_SHRINK_ESTABLISHED_AT_CURRENT_CHECKPOINT'] is True
+          assert bo['LOCAL_PARAMETER_ELIMINATION_ROUTE_EXHAUSTED'] is False
+          assert bo['LOCAL_PARAMETER_ELIMINATION_ROUTE_STATUS']=='LIVE_UNTESTED_UNIFORMLY'
+          assert bo['UNIFORM_LOCAL_SURVIVOR_EXISTS_FOR_EVERY_PARAMETER_PROVED'] is False
           assert bo['LOCAL_RECEIVER_POINT_GATES_RETAINED'] is True
           assert bo['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
           assert bo['RECEIVER_CLOSED'] is False
-          assert s['cycle_ledger']['B4_BAD_PRIME_LOCAL']=='BLOCKED_AS_STANDALONE_PARAMETER_FILTER_RETAINS_RECEIVER_POINT_GATES'
-          assert s['current']['unit']=='36-09BO-AUDIT-CHECKPOINT'
+          assert s['cycle_ledger']['B4_BAD_PRIME_LOCAL']=='LIVE_PARAMETER_ELIMINATION_UNTESTED_UNIFORMLY_RETAINS_RECEIVER_POINT_GATES'
+          assert s['current']['unit']=='36-09BO-REAUDIT-CHECKPOINT'
           assert s['current']['hostile_audit_checkpoint_reached'] is True
           assert s['current']['36_09BP_entry_allowed'] is False
-          assert s['promotion_gates']['36_09BO_hostile_audit_passed'] is False
+          assert s['promotion_gates']['36_09BO_hostile_reaudit_passed'] is False
+          assert s['promotion_gates']['local_parameter_elimination_route_exhausted'] is False
           assert s['promotion_gates']['36_09BP_unlocked'] is False
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('36-09BO checkpoint verified; all bad-place local square layers classified, standalone parameter-local route blocked, receiver-point gates retained, BP audit-locked')
+          print('36-09BO quantifier repair verified; fixed-p witnesses establish receiver-point dependence only. No parameter shrink at current checkpoint; local parameter elimination remains live/untested uniformly; BP remains re-audit-locked.')
           PY
           git diff --check
