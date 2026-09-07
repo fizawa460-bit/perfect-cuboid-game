@@ -55,7 +55,7 @@ jobs:
           git worktree remove --force "$tmp"
       - name: Verify current 36-09BX
         run: python3 stages/stage36/verify_stage36_36_09BX.py
-      - name: Assert BX branch-only integration firewalls and BY unlock
+      - name: Assert BX checkpoint firewalls and BY lock
         shell: bash
         run: |
           set -euo pipefail
@@ -64,6 +64,13 @@ jobs:
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
           assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V113_36_09BX_FIXED_P_Q2_BRANCH_FILTER_INTEGRATION'
+          assert s['status']=='HOSTILE_AUDIT_REPAIR_COMPLETE_PENDING_REAUDIT'
+          fail=s['audited_history']['36-09BP-BX_failed_audit']
+          assert fail['pr']==1693
+          assert fail['review']==5132495760
+          assert fail['audited_exact_head']=='efcfb2de4637114a6e3aded78071637da8495306'
+          assert fail['exact_head_ci']=='34125259433/101752334052'
+          assert fail['mathematics']=='PASS'
           bw=s['authority_frontier']['36-09BW']
           assert bw['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert bw['exact_head']=='db0b78e7134db9984b2dd59c0b0313172dfabdf4'
@@ -73,11 +80,17 @@ jobs:
           assert bx['SOUND_ZERO_SURVIVOR_EXCLUSION_RULE'] is True
           assert bx['REMAINING_Q2_POINT_DEPENDENT_GATES'] is True
           assert bx['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
+          assert s['current']['unit']=='36-09BX-REAUDIT-CHECKPOINT'
           assert s['current']['next_exact_leaf']=='36-09BY_REMAINING_Q2_ALPHA_TIE_GATE_PARAMETER_PULLBACK_PREFLIGHT'
-          assert s['current']['36_09BY_entry_allowed'] is True
+          assert s['current']['next_owner']=='HOSTILE_REAUDIT_PR_1693'
+          assert s['current']['substantive_batch_pr_continues'] is False
           assert s['current']['hostile_audit_checkpoint_reached'] is True
+          assert s['current']['36_09BY_entry_allowed'] is False
+          assert s['promotion_gates']['36_09BX_failed_audit_review']==5132495760
+          assert s['promotion_gates']['36_09BX_hostile_reaudit_passed'] is False
+          assert s['promotion_gates']['36_09BY_unlocked'] is False
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('36-09BX verified; odd-Q plus point-independent Q2 branch-only filters are integrated. Surviving row is not a Q2 point/receiver; no parameter or closure credit. Hostile-audit checkpoint reached; BY selected but not promoted.')
+          print('36-09BX repair verified; mathematics remains green, hostile audit FAIL is recorded, and BY is fail-closed pending re-audit PASS.')
           PY
           git diff --check
