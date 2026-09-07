@@ -26,9 +26,9 @@ jobs:
           python3 - <<'PY'
           import json
           x=json.load(open('/tmp/post1648av-locator.json'))
-          assert x['mode']=='SCRATCH_POST1648AV_RETAINED_NODE_LOCATOR_PREFLIGHT'
+          assert x['mode']=='SCRATCH_POST1648AV_RETAINED_NODE_LOCATOR_PREFLIGHT_V2'
           assert x['firewalls']['retained_payload_emitted'] is False
-          print(json.dumps({'marking_top':x['marking_top'],'paths':x['marking_matching_paths']},sort_keys=True))
+          print(json.dumps({'marking_top':x['marking_top'],'paths':x['marking_matching_paths'],'hperp_scan':x['hperp_semantic_locator_scan']},sort_keys=True))
           PY
       - name: Diff hygiene
         run: test -z "$(git status --porcelain)"
