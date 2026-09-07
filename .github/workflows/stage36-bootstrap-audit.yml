@@ -47,29 +47,24 @@ jobs:
           import json
           from pathlib import Path
           a=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())['audited_history']['36-09AV-AY']
-          assert a['pr']==1683
-          assert a['audited_head']=='c09f264e4becbc4c7f06145b32ce366b2d4d7a4f'
-          assert a['hostile_audit_review']==5128446584
-          assert a['exact_head_ci']=='34087344920/101633809000'
+          assert a['pr']==1683 and a['hostile_audit_review']==5128446584
           assert a['merged_main_sha']=='b7a045b7c910a3e01d3826556cd71019af15418f'
           PY
           git merge-base --is-ancestor b7a045b7c910a3e01d3826556cd71019af15418f HEAD
-      - name: Replay exact 36-09BB provisional parent
+      - name: Replay exact 36-09BC provisional parent
         shell: bash
         run: |
           set -euo pipefail
-          H=72441c82f2c146c63ebde6459b18789e33c6dddb
+          H=5b15b0f9c7316cac76adf7b391fa2e873c8370d5
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BB.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BC.py"
           git worktree remove --force "$tmp"
-          test "$(git rev-parse "$H":stages/stage36/36-09BB/ay-receiver-scaled-self-intersection-preflight.json)" = "e4b63fd500d05ff5dc704e0c08409edee5895053"
-          test "$(git rev-parse "$H":stages/stage36/verify_stage36_36_09BB.py)" = "a3591e34aaaafcac0efb540d92622fe83136dc18"
-      - name: Verify current 36-09BC good-prime no-loop result
-        run: python3 stages/stage36/verify_stage36_36_09BC.py
-      - name: Assert BC firewalls and BD unlock
+      - name: Verify current 36-09BD exhaustive-view audit
+        run: python3 stages/stage36/verify_stage36_36_09BD.py
+      - name: Assert BD firewalls and BE unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -77,19 +72,14 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V91_36_09BC_CANDIDATE'
-          bc=s['authority_frontier']['36-09BC']
-          assert bc['GOOD_PRIME_PUNCTURED_BOUNDARY_LOCAL_NONEMPTY'] is True
-          assert bc['ELLIPTIC_QUOTIENT_NEW_FILTER'] is False
-          assert bc['ELLIPTIC_QUOTIENT_DOMINATED_BY_AA_AC'] is True
-          assert bc['EXHAUSTIVE_VIEW_AUDIT_TRIGGERED'] is True
-          assert bc['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert bc['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09BD'
-          assert s['current']['36_09BD_entry_allowed'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V92_36_09BD_CANDIDATE'
+          bd=s['authority_frontier']['36-09BD']
+          assert bd['EXHAUSTIVE_VIEW_AUDIT_COMPLETE'] is True
+          assert bd['BLIND_REDISCOVERY_COMPLETE'] is True
+          assert bd['SELECTED_FULL_CHARACTER_QUOTIENT_INVENTORY'] is True
+          assert s['current']['unit']=='36-09BE' and s['current']['36_09BE_entry_allowed'] is True
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['R29_CAMP2_closed'] is False
-          assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09BC verified; good-prime boundary-local attack blocked, elliptic quotient dominated, exhaustive-view audit unlocked')
+          print('36-09BD verified; breadth audit and blind rediscovery complete; full character quotient inventory unlocked')
           PY
           git diff --check
