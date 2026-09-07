@@ -1,0 +1,35 @@
+name: Stage32 post1648AW retained exceptional action preflight
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648aw-explicit-node-equivariant-matching
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-aw-retained-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Run AW retained exceptional action preflight
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648aw_retained_exceptional_action_preflight.py | tee /tmp/aw.json
+      - name: Assert bounded output
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/aw.json'))
+          assert x['mode']=='SCRATCH_POST1648AW_RETAINED_EXCEPTIONAL_ACTION_PREFLIGHT'
+          assert x['permutation_degree']==140
+          assert x['firewalls']['retained_payload_emitted'] is False
+          print(json.dumps(x,sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
