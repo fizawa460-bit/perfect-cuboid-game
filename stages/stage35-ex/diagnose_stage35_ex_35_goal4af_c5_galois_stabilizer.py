@@ -37,7 +37,7 @@ GALOIS_BLOB = "f277939b7f258928f484d2b970d4dfb2ec6133a8"
 graw = GALOIS.read_bytes()
 gblob = hashlib.sha1(b"blob " + str(len(graw)).encode() + b"\0" + graw).hexdigest()
 if gblob != GALOIS_BLOB:
-    raise SystemExit(f"Stage33 Galois permutation blob moved: {gblob}
+    raise SystemExit(f"Stage33 Galois permutation blob moved: {gblob}")
 gal = json.loads(graw)
 if gal.get("canonical_sha256") != "e5db20f41948b73168ad5b62acb2f4b48a344e0543d2204c0d5ffdc3cae7cf30":
     raise SystemExit("Stage33 Galois permutation canonical hash moved")
