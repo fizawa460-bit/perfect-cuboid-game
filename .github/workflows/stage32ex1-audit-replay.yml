@@ -51,3 +51,11 @@ jobs:
           python3 stages/stage32-ex1/verify_ex1_05e_h4_modular_factor_projection_reduction.py
           python3 stages/stage32-ex1/verify_ex1_05f_h4_local_cusp_projection_ramification_adapter.py
           python3 stages/stage32-ex1/verify_main_state.py
+      - name: Verify clean working tree after replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code
+          status="$(git status --porcelain)"
+          printf '%s\n' "$status"
+          test -z "$status"
