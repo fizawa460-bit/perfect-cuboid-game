@@ -12,16 +12,17 @@ HERE = Path(__file__).resolve().parent
 STATE = HERE / "MAIN-STATE.json"
 START = HERE / "MAIN-START-HERE.md"
 
-EXPECTED_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V1_POST1648J_TRACE_ORIENTATION_CANDIDATE"
-EXPECTED_CANONICAL = "48c1c6cf67a7f96fe691b95d4180a4d72cdf819fd5485dd0178df8fd2c4f9c64"
-EXPECTED_ROUTE = "SOURCE_BIND_THE_INNER_CONJUGATING_ELEMENT_FOR_CECOTTI_B7_B8_TO_THE_RETAINED_G12_MARKING_OR_EXPLICITLY_IDENTIFY_B7_WITH_S_AND_B8_WITH_T_INVERSE_ON_THE_MARKED_PPAV"
+EXPECTED_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V1_POST1648AH_CONSOLIDATION_CANDIDATE"
+EXPECTED_CANONICAL = "50927c683c2f5bc140ea56959764e7888ecd28171f3f3169271fdcc365679c88"
+EXPECTED_ROUTE = "QUANTIFY_MULTIBRANCH_LOCAL_TYPES_USING_EXCEPTIONAL_PAIRINGS_AND_FSM_CUSP_POLE_BUDGET"
 EXPECTED_WORKING_SET = [
-    "stages/stage32/residual-32-01-production/post1648j-cecotti-trace-orientation-correction.json",
-    "stages/stage32/residual-32-01-production/verify_stage32_post1648j_cecotti_trace_orientation_correction.py",
-    "stages/stage32/residual-32-01-production/post1648b-cecotti-generator-pair-absolute-marking-preflight.json",
-    "stages/stage32/residual-32-01-production/post1648-delta0inf-retained-w-absolute-marking-localization.json",
-    "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json",
-    "stages/stage32/residual-32-01-production/post1505-o210-q602-marked-w-line-gauge-orbit.json",
+    "stages/stage32/residual-32-01-production/post1648ah-fsm-unibranch-v6-exclusion.json",
+    "stages/stage32/residual-32-01-production/post1648ah-fsm-unibranch-source-note.md",
+    "stages/stage32/residual-32-01-production/verify_stage32_post1648ah_fsm_unibranch_v6_exclusion.py",
+    "stages/stage32/residual-32-01-production/post1648ag-v6-known140-basis-elimination.json",
+    "stages/stage32/residual-32-01-production/diagnose_stage32_post1648ag_v6_known140_basis_elimination.py",
+    "stages/stage32/residual-32-01-production/post1648ae-v6-carrier-member-source-gap.json",
+    "stages/stage32/32-21/post1473-v6-witness-body-recovered.json",
 ]
 
 
@@ -68,7 +69,7 @@ def main() -> None:
         fail("MAIN-STATE canonical mismatch")
 
     authority = state["authority_sync"]
-    if authority != {
+    audited_required = {
         "startup_authority": "stages/stage32/MAIN-STATE.json",
         "latest_audited_stage32_leaf": "POST1623_HPERP_V6_HDECK_CHARACTER_PREFLIGHT",
         "latest_audited_stage32_pr": 1643,
@@ -77,8 +78,12 @@ def main() -> None:
         "latest_exact_head_ci": {"run_id": 34000915113, "job_id": 101399505061, "result": "SUCCESS"},
         "latest_stage32_merge_commit": "dc244645097809948f118d915534a92e56ab60ec",
         "legacy_detailed_files_are_not_ordinary_startup_authority": True,
-    }:
-        fail("audited authority synchronization moved")
+        "consolidation_candidate_pr": 1648,
+        "consolidation_base_main_sha": "d620871bcadc0fe92af8e44e541fcb4c20197349",
+        "consolidation_hostile_audit_status": "PENDING",
+    }
+    if authority != audited_required:
+        fail("authority/consolidation synchronization moved")
 
     if state["fixed_target"] != {
         "row_id": "g1-d186", "degree": 186, "e": 266, "genus": 1,
@@ -93,32 +98,31 @@ def main() -> None:
         "source_bound_nonexceptional_H_character_probe_obtained": True,
         "source_bound_H_character_probe_normal_curve_label_1based": 9,
         "source_bound_H_character_probe_character": "chi_u",
-        "source_bound_H_character_probe_profile_id_u_v_uv": [0, 1, 0, 1],
         "abstract_delta_0inf_direction_recovered": True,
         "delta0inf_source_bound_to_Z3_b3_retained_boundary_block": True,
-        "delta0inf_retained_boundary_labels_1based": [41, 42, 43, 44],
         "principal_b3_stoll_candidates_after_boundary_weierstrass_filter": 32,
-        "unmarked_full_J2_group_matching_closed_nonpruning": True,
-        "deraux_affine_sixpoint_matching_closed_nonpruning": True,
-        "central_r_operator_matching_closed_nonpruning": True,
-        "full_G_deck_as_nontrivial_Stoll_B_route_closed_type_mismatch": True,
         "cecotti_B7_B8_trace_orientation_exact": True,
-        "cecotti_B7_B8_trace_phi2_phi6": "+r",
-        "cecotti_named_S_T_trace": "-r",
-        "cecotti_named_S_T_orientation_ruled_out_for_specific_B7_B8": True,
-        "cecotti_compatible_ordered_pair_orbit": "INNER_CONJUGATES_OF_S_T_INVERSE",
-        "literal_S_T_inverse_representative_conditional_residue_decimal": 97,
-        "literal_S_T_inverse_representative_promoted": False,
-        "plus_r_inner_conjugates_W_line_bijections": 6,
         "absolute_delta0inf_retained_W_line_identified": False,
         "q602_residue_specific_commutator_obtained": False,
+        "v6_self_intersection": 758,
+        "v6_canonical_intersection": 186,
+        "v6_effective_divisor_exists_by_rr": True,
+        "v6_h0_lower_bound": 294,
+        "v6_known140_effective_decomposition_obtained": True,
+        "v6_known140_decomposition_nonzero_term_count": 61,
+        "v6_known140_decomposition_total_multiplicity": 155,
+        "v6_integral_irreducible_genus1_member_materialized": False,
+        "v6_positive_exceptional_support": 47,
+        "v6_exceptional_total_mass": 266,
+        "v6_unibranch_bijective_normalization_genus1_carrier_excluded": True,
+        "v6_remaining_genus1_carrier_requires_multibranch_node": True,
     }
     for key, value in required.items():
         if frontier.get(key) != value:
             fail(f"frontier moved: {key}")
 
     current = state["current"]
-    if current["active_missing_interface"] != "DISTINGUISHED_INNER_CONJUGATING_ELEMENT_FOR_CECOTTI_B7_B8_TO_RETAINED_G12_MARKING":
+    if current["active_missing_interface"] != "MULTIBRANCH_LOCAL_TYPE_FOR_ANY_V6_GENUS1_CARRIER":
         fail("active missing interface moved")
     if current["next_exact_route"] != EXPECTED_ROUTE:
         fail("next exact route moved")
@@ -144,34 +148,49 @@ def main() -> None:
 
     locks = state["source_locks"]
     j = load_locked_json(locks["post1648j_trace_orientation"])
+    char = load_locked_json(locks["post1643_hdeck_character_preflight"])
+    load_locked_json(locks["post1621_hperp_witness"])
+    load_locked_json(locks["post1588_direct_mod2"])
+    load_locked_json(locks["post1577_terminal_negative"])
+    ag = load_locked_json(locks["post1648ag_known140_decomposition"])
+    ah = load_locked_json(locks["post1648ah_unibranch_exclusion"])
+    ae = load_locked_json(locks["post1648ae_member_source_gap"])
+    v6 = load_locked_json(locks["v6_witness_body"])
+
     j_verifier = ROOT / locks["post1648j_trace_orientation_verifier"]["path"]
     if git_blob_sha(j_verifier) != locks["post1648j_trace_orientation_verifier"]["blob_sha1"]:
         fail("post1648J verifier blob moved")
     run_marker(j_verifier, "POST1648J_CECOTTI_TRACE_ORIENTATION_CORRECTION_COMPLETE")
 
-    char = load_locked_json(locks["post1643_hdeck_character_preflight"])
     char_verifier = ROOT / locks["post1643_hdeck_character_verifier"]["path"]
     if git_blob_sha(char_verifier) != locks["post1643_hdeck_character_verifier"]["blob_sha1"]:
         fail("post1643 verifier blob moved")
     run_marker(char_verifier, "POST1623_HPERP_V6_HDECK_CHARACTER_PREFLIGHT_COMPLETE")
 
-    load_locked_json(locks["post1621_hperp_witness"])
-    load_locked_json(locks["post1588_direct_mod2"])
-    load_locked_json(locks["post1577_terminal_negative"])
+    ah_verifier = ROOT / "stages/stage32/residual-32-01-production/verify_stage32_post1648ah_fsm_unibranch_v6_exclusion.py"
+    run_marker(ah_verifier, "PASS_STAGE32_POST1648AH_FSM_UNIBRANCH_V6_EXCLUSION")
 
     if j["decision"]["survivors_current_credit"] != [73, 97, 235]:
         fail("post1648J survivor set moved")
     if j["decision"]["absolute_delta0inf_retained_W_line_identified"]:
         fail("post1648J absolute line firewall moved")
-    if j["correction_to_post1648b"]["new_exact_status"] != "RULED_OUT_FOR_THE_SPECIFIC_CECOTTI_B7_B8_PAIR_BY_HOLOMORPHIC_DIFFERENTIAL_TRACE":
-        fail("post1648J correction moved")
-    if j["W_line_consequence"]["literal_plus_r_conditional_delta0inf_residue_decimal"] != 97:
-        fail("post1648J literal plus-r diagnostic moved")
-    if j["W_line_consequence"]["all_plus_r_inner_conjugates"]["distinct_W_line_bijections"] != 6:
-        fail("post1648J inner-conjugacy ambiguity moved")
-
     if char["fixed_target"]["surviving_residues_decimal"] != [73, 97, 235]:
         fail("audited post1643 survivor set moved")
+
+    if ae["exact_effective_divisor_replay"]["h0_lower_bound"] != 294 or not ae["exact_effective_divisor_replay"]["effective_divisor_exists_in_V6_class"]:
+        fail("AE effectivity replay moved")
+    if ae["retained_member_level_boundary"]["actual_integral_irreducible_genus1_carrier_materialized"]:
+        fail("AE member firewall moved")
+    if ag["status"] != "EXACT_SAT_KNOWN140_MONOID_DECOMPOSITION" or not ag["known140_monoid"]["membership"]:
+        fail("AG known140 monoid result moved")
+    if (ag["known140_monoid"]["nonzero_term_count"], ag["known140_monoid"]["total_multiplicity"]) != (61, 155):
+        fail("AG decomposition counts moved")
+    if ah["decision"]["remaining_open_case"] != "ANY_V6_GENUS1_CARRIER_MUST_BE_MULTIBRANCH_OVER_AT_LEAST_ONE_OF_THE_47_MET_SURFACE_NODES":
+        fail("AH remaining case moved")
+    if not ah["local_A1_resolution"]["contradiction"] or ah["v6_exact_data"]["exceptional_mass_e"] != 266:
+        fail("AH unibranch contradiction moved")
+    if v6["witness"]["positive_exceptional_support"] != 47 or v6["target"]["d"] != 186:
+        fail("V6 witness moved")
 
     fw = state["firewalls"]
     for key in [
@@ -186,12 +205,10 @@ def main() -> None:
     print("PASS Stage32 MAIN startup authority")
     print(f"main_state_canonical={EXPECTED_CANONICAL}")
     print("latest_audited_stage32_pr=1643 hostile_review=5123545511")
-    print("stacked_candidate=post1648J pending_batch_hostile_audit")
-    print("cecotti_B7_B8_trace=+r named_ST_trace=-r compatible_orbit=conjugates_of_S_Tinv")
-    print("literal_plus_r_conditional_residue=97 not_promoted=true")
-    print("inner_conjugates_W_line_bijections=6 absolute_delta0inf_retained_W_line_identified=false")
-    print("audited_survivors=73,97,235")
-    print("Q602_excluded=false O210_excluded=false O212_plus_advance_allowed=false")
+    print("consolidation_candidate_pr=1648 hostile_audit=PENDING base_main=d620871bcadc0fe92af8e44e541fcb4c20197349")
+    print("v6_effective=true h0_lower_bound=294 known140_explicit=true terms=61 multiplicity=155")
+    print("v6_unibranch_genus1_excluded=true remaining_case=multibranch_at_one_or_more_of_47_nodes")
+    print("survivors=73,97,235 Q602_excluded=false O210_excluded=false O212_plus_advance_allowed=false")
 
 
 if __name__ == "__main__":
