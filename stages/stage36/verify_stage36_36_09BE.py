@@ -10,11 +10,11 @@ BD=ROOT/'stages/stage36/36-09BD/exhaustive-view-audit-scaled-self-intersection.j
 AA=ROOT/'stages/stage36/36-09AA/receiver-coupled-same-x-twist-intersection-preflight.json'
 AC=ROOT/'stages/stage36/36-09AC/same-x-separate-squareclass-double-cover-preflight.json'
 STATE=ROOT/'stages/stage36/MAIN-STATE.json'
-BASE='fe7ef406a9987981fe5f79267f3f8a39f37a61e4'
-BD_HEAD='4ca57c4b9338f5b325df31554d2f0362a77f072e'
-BD_CI='34092553609/101648948959'
-CERT_BLOB='4f405f6e698b90861d26cf67b7f255ffe0a05f38'
-LOCKS={BB:'e4b63fd500d05ff5dc704e0c08409edee5895053',BD:'5ee300e3a6765368c22aaf942180bb0a15aacf29',AA:'be447726a97158849c67ed6d57d6d3c35d6ba20f',AC:'3e95cc443bb9de9e0d2b14d6d9c32ea7c1953021'}
+BASE='c52f88a671503ac9eb25c20186b4fb7729ba9112'
+BD_HEAD='03e1a03c84afcceb7b034b3326aef989baafe621'
+BD_CI='34095176540/101657144790'
+CERT_BLOB='f30724ca63b30b4b960e31f7d8266a4a99884016'
+LOCKS={BB:'e4b63fd500d05ff5dc704e0c08409edee5895053',BD:'7bab7a7d0a8eba8ca9304abb862dbee784df030b',AA:'be447726a97158849c67ed6d57d6d3c35d6ba20f',AC:'3e95cc443bb9de9e0d2b14d6d9c32ea7c1953021'}
 def git(*a): return subprocess.check_output(['git',*a],cwd=ROOT,text=True).strip()
 def blob(p): return git('hash-object',str(p.relative_to(ROOT)))
 def F12(k,t): return 2*k*(1-t**4)
@@ -28,6 +28,7 @@ def main():
     subprocess.check_call(['git','merge-base','--is-ancestor',BD_HEAD,'HEAD'],cwd=ROOT)
     c=json.loads(CERT.read_text())
     assert c['base_main_sha']==BASE
+    assert c['audit_repair']['hostile_audit_review']==5128976664
     assert c['batch_parent']['36_09BD_exact_head']==BD_HEAD and c['batch_parent']['36_09BD_exact_head_ci']==BD_CI
     m=c['multiquadratic_cover']
     assert m['cover_degree']==16 and m['deck_group']=='(Z/2)^4' and m['genus']==17
@@ -49,11 +50,13 @@ def main():
       assert (l*l*t**4)*F14(k,l,u2)==-F23(k,l,t)
     st=json.loads(STATE.read_text())
     assert st['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V93_36_09BE_AUDIT_CHECKPOINT'
+    assert st['base_main_sha']==BASE and st['freshness']['current_main']==BASE
     be=st['authority_frontier']['36-09BE']
     assert be['FULL_COVER_GENUS']==17 and be['CHARACTER_QUOTIENT_INVENTORY_COMPLETE'] is True
     assert be['WEIGHT2_ELLIPTIC_QUOTIENT_COUNT']==6 and be['NEW_CROSS_ELLIPTIC_QUOTIENT_COUNT']==2
     assert be['FULL_JACOBIAN_Q_ISOGENY_DECOMPOSITION_PROVED'] is False
     assert be['CANDIDATE_PARAMETER_SET_SHRUNK'] is False and be['RECEIVER_CLOSED'] is False
     assert st['current']['unit']=='36-09BE-AUDIT-CHECKPOINT' and st['current']['36_09BF_entry_allowed'] is False
-    print('36-09BE verified: degree-16 (Z/2)^4 cover has 8 simple branch points and genus 17; all 15 quadratic character quotients inventory as 4 genus0 + 6 genus1 + 4 genus2 + 1 genus3, with two cross elliptic quotients newly materialized. Jacobian isogeny decomposition is not claimed.')
+    assert st['claims']['receiver_emptiness_proved'] is False
+    print('36-09BE verified on repaired provenance: degree-16 (Z/2)^4 cover, genus 17, complete 15-character quotient inventory, two cross elliptic quotients, no Jacobian-isogeny or receiver-closure overclaim.')
 if __name__=='__main__': main()
