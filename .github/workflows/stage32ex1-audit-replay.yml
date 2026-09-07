@@ -35,7 +35,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Replay Stage32EX1 EX1-00 through EX1-05F and MAIN state
+      - name: Replay Stage32EX1 EX1-00 through EX1-05G and MAIN state
         shell: bash
         run: |
           set -euo pipefail
@@ -50,6 +50,7 @@ jobs:
           python3 stages/stage32-ex1/verify_ex1_05d_b3_node_parity_h4_forcing.py
           python3 stages/stage32-ex1/verify_ex1_05e_h4_modular_factor_projection_reduction.py
           python3 stages/stage32-ex1/verify_ex1_05f_h4_local_cusp_projection_ramification_adapter.py
+          python3 stages/stage32-ex1/verify_ex1_05g_h4_common_cover_correspondence_coupling.py
           python3 stages/stage32-ex1/verify_main_state.py
       - name: Verify clean working tree after replay
         shell: bash
