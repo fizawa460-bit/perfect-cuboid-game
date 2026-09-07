@@ -11,7 +11,7 @@ STATE = HERE / "MAIN-STATE.json"
 START = HERE / "MAIN-START-HERE.md"
 
 EXPECTED_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V1_POST1648AH_SCOPE_REPAIR_CANDIDATE"
-EXPECTED_CANONICAL = "4f984ff1a7d885e6a83a606025b92a114c774707099833a8e7839d24354fb8f0"
+EXPECTED_CANONICAL = "93406ab1db8e62f5e9dcbb59b9010c925be273cd539bd04734fb5f1a7eca4407"
 EXPECTED_ROUTE = "SPLIT_GLOBAL_NONBIJECTIVITY_BY_AMBIENT_LOCATION_THEN_ANALYZE_SURFACE_NODE_MULTIBRANCH_AND_SMOOTH_LOCUS_CURVE_SINGULARITY_BRANCHES"
 EXPECTED_WORKING_SET = [
     "stages/stage32/residual-32-01-production/post1648ah-fsm-unibranch-v6-exclusion.json",
@@ -79,7 +79,7 @@ def main() -> None:
         "latest_stage32_merge_commit": "dc244645097809948f118d915534a92e56ab60ec",
         "legacy_detailed_files_are_not_ordinary_startup_authority": True,
         "consolidation_candidate_pr": 1648,
-        "consolidation_base_main_sha": "4e6708cb807cc37bea6509245447a5817965256f",
+        "consolidation_base_main_sha": "58e81a647b63bcea17ab396409c2813b667f45e2",
         "consolidation_hostile_audit_status": "PENDING_REAUDIT_AFTER_SCOPE_REPAIR",
         "last_failed_consolidation_hostile_audit": {
             "review_id": 5127399479,
@@ -206,7 +206,7 @@ def main() -> None:
     print(f"main_state_canonical={EXPECTED_CANONICAL}")
     print("latest_audited_stage32_pr=1643 hostile_review=5123545511")
     print("pr1648_previous_hostile_review=5127399479 result=FAIL scope_repair=PENDING_REAUDIT")
-    print("consolidation_base_main=4e6708cb807cc37bea6509245447a5817965256f")
+    print("consolidation_base_main=58e81a647b63bcea17ab396409c2813b667f45e2")
     print("v6_bijective_normalization_excluded=true")
     print("remaining_implication=normalization_nonbijective_somewhere location_identified=false")
     print("open_branches=surface_node_multibranch,smooth_ambient_locus_curve_singularity")
