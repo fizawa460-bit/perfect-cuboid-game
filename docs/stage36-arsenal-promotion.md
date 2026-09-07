@@ -80,6 +80,8 @@ verifier=stages/stage36/verify_stage36_36_09D_audited.py
 verifier_blob_sha=062b61e2625a5643e66523e829beb6a29e78d85e
 verifier_ref=07a465cb5025e7c0188fb63610bb40e4b54e7a84
 source_lock=null
+audit_status=PASS
+audit_review=5120566848
 ```
 
 **Nearest existing card:** S30-W01, S31-W01
@@ -138,6 +140,9 @@ verifier=stages/stage36/verify_stage36_36_09O.py
 verifier_blob_sha=ed0ae786505e3443226eaed6e61b7c78ee389191
 verifier_ref=07a465cb5025e7c0188fb63610bb40e4b54e7a84
 source_lock={"blob_sha":"5b5957843933b487bb9cae3acd22bb7737f37392","path":"stages/stage36/36-09O/kani-rosen-v4-jacobian-source-lock.md"}
+audited_wrapper_blob_sha=2cff9386cf9393b53725db7bc124c6b5ede221b3
+audit_status=PASS
+audit_review=5123512777
 ```
 
 **Nearest existing card:** S31-W01, S34-W03
@@ -195,6 +200,8 @@ verifier=stages/stage36/verify_stage36_36_09U.py
 verifier_blob_sha=21b3b1461195cfae1a1294832f8e77f09a09983b
 verifier_ref=07a465cb5025e7c0188fb63610bb40e4b54e7a84
 source_lock={"blob_sha":"a562d7053a6f04deff4473067777b7cfd538ea8a","path":"stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md"}
+audit_status=PASS_BATCH
+audit_review=5125551980
 ```
 
 **Nearest existing card:** S30-W02, S34-W02
@@ -253,6 +260,10 @@ verifier=stages/stage36/verify_stage36_36_04.py
 verifier_blob_sha=35d288d8a18adee95830caa6ee9d6b0d8ebe9e53
 verifier_ref=07a465cb5025e7c0188fb63610bb40e4b54e7a84
 source_lock=null
+audited_wrapper_blob_sha=4fe510abb4b2a7b07bf3af8698ee8c8abc7a527e
+audit_status=PASS_REAUDIT_MATH_PAYLOAD
+audit_review=5118098931
+firewall=finite twist family remains explicitly false
 ```
 
 **Nearest existing card:** S35-PW03, S33-PW09
@@ -311,6 +322,9 @@ verifier=stages/stage36/verify_stage36_36_09L.py
 verifier_blob_sha=d59215520dd5c5ef265672b60681df65ef7b0292
 verifier_ref=07a465cb5025e7c0188fb63610bb40e4b54e7a84
 source_lock=null
+audited_wrapper_blob_sha=3f3a89857b4976595d0b8d4c1380c1a9e4cb67eb
+audit_status=PASS
+audit_review=5123231006
 ```
 
 **Nearest existing card:** S31-W01, S34-W02
@@ -368,6 +382,10 @@ verifier=stages/stage36/verify_stage36_36_09N.py
 verifier_blob_sha=e7effbe9ee6106505db013f326ec653627885054
 verifier_ref=07a465cb5025e7c0188fb63610bb40e4b54e7a84
 source_lock={"harvest_upper_corrected_blob_sha":"a562d7053a6f04deff4473067777b7cfd538ea8a","path":"stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md","source_head_blob_sha":"e7c98981fbb1d523fd7db54478dc09aa87b547e8"}
+audited_wrapper_blob_sha=10f7f027262adeb7877b0c2b4e941f6dc6b6d480
+audit_status=PASS
+audit_review=5123389934
+source_lock_note=hostile-audit wording correction changed source-lock text/provenance, not the mathematical conclusion
 ```
 
 **Nearest existing card:** S34-W02, S31-WF01, S31-W01
@@ -427,6 +445,9 @@ verifier=stages/stage36/verify_stage36_36_09Y.py
 verifier_blob_sha=63b4cc43e91c18a8ff295b288995e23395de8539
 verifier_ref=07a465cb5025e7c0188fb63610bb40e4b54e7a84
 source_lock={"blob_sha":"89f3847397b5a2b8e4df2fb4762a3dfb5f362616","path":"stages/stage36/36-09X/quadratic-character-supplement-source-lock.md"}
+supporting_locked_inputs=[{"blob_sha":"9fdec16f920104cc6c1961fb092185a0371258d5","path":"stages/stage36/36-09V/gaussian-directional-prime-support-preflight.json"},{"blob_sha":"3eb6e42b563ee2b5042917467a62e7606f27a869","path":"stages/stage36/36-09X/kummer-class-coupled-hilbert-local-solvability-preflight.json"}]
+audit_status=PASS_BATCH
+audit_review=5125551980
 ```
 
 **Nearest existing card:** S35-PW01, S35-PW05, S33-PW07
@@ -465,6 +486,8 @@ verifier=stages/stage36/verify_stage36_36_02_audited.py
 verifier_blob_sha=97dd2e3834365e8b013f9ff076b1b05595362aee
 verifier_ref=07a465cb5025e7c0188fb63610bb40e4b54e7a84
 source_lock=null
+audit_status=PASS
+audit_review=5113379283
 ```
 
 Nearest existing card: S30-W01, S30-W02
@@ -501,6 +524,8 @@ verifier=stages/stage36/verify_stage36_36_03_audited.py
 verifier_blob_sha=56dcab68f90ae3a21e6f1716c3f79f4e17c7e391
 verifier_ref=07a465cb5025e7c0188fb63610bb40e4b54e7a84
 source_lock=null
+audit_status=PASS
+audit_review=5113890803
 ```
 
 Nearest existing card: S35-PW02, S30-WF03
@@ -537,6 +562,9 @@ verifier=stages/stage36/verify_stage36_36_09B_audited.py
 verifier_blob_sha=ed2be37b568120b7b7d7a7f3cfbd6d16243366d5
 verifier_ref=07a465cb5025e7c0188fb63610bb40e4b54e7a84
 source_lock=null
+audit_status=USER_APPROVED_AUDITED_WRAPPER
+audit_review=null
+audit_note=Harvest1 found no separately relocked hostile-review ID for this retained wrapper; maturity remains PROVISIONAL.
 ```
 
 Nearest existing card: S34-W03
@@ -573,6 +601,9 @@ verifier=stages/stage36/verify_stage36_36_09J.py
 verifier_blob_sha=b5357a344ffab51118f4f1ec92904367c79c6541
 verifier_ref=07a465cb5025e7c0188fb63610bb40e4b54e7a84
 source_lock=null
+audited_wrapper_blob_sha=dfedfad10d301f2718aed4aab7b90dd7e03e8c1a
+audit_status=PASS
+audit_review=5123112446
 ```
 
 Nearest existing card: S31-W01
@@ -609,6 +640,9 @@ verifier=stages/stage36/verify_stage36_36_09R.py
 verifier_blob_sha=62707dc5126e9ea6caad5fd41834cab488b29945
 verifier_ref=07a465cb5025e7c0188fb63610bb40e4b54e7a84
 source_lock={"blob_sha":"a562d7053a6f04deff4473067777b7cfd538ea8a","path":"stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md"}
+audited_wrapper_blob_sha=1864d4501b6863cf1b86079a0c6e95c5ada46452
+audit_status=PASS_REAUDIT
+audit_review=5124114645
 ```
 
 Nearest existing card: S34-W02, S34-W03
