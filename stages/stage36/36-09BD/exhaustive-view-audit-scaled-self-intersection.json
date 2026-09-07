@@ -2,46 +2,32 @@
   "schema":"STAGE36_36_09BD_EXHAUSTIVE_VIEW_AUDIT_SCALED_SELF_INTERSECTION_V1",
   "stage":"36",
   "unit":"36-09BD",
-  "status":"EXACT_EXHAUSTIVE_VIEW_AUDIT_AND_BLIND_REDISCOVERY_COMPLETE_PENDING_BATCH_AUDIT",
-  "base_main_sha":"fe7ef406a9987981fe5f79267f3f8a39f37a61e4",
-  "batch_parent":{"pr":1686,"36_09BC_exact_head":"5b15b0f9c7316cac76adf7b391fa2e873c8370d5","36_09BC_exact_head_ci":"34092194009/101647855514"},
+  "status":"EXACT_EXHAUSTIVE_VIEW_AUDIT_AND_BLIND_REDISCOVERY_COMPLETE_RELOCKED_AFTER_BC_REPAIR_PENDING_REAUDIT",
+  "base_main_sha":"c52f88a671503ac9eb25c20186b4fb7729ba9112",
+  "audit_repair":{"hostile_audit_review":5128976664,"repaired_parent":"36-09BC","old_parent_head":"5b15b0f9c7316cac76adf7b391fa2e873c8370d5","repaired_parent_head":"c8acd051f3d6b5537c9bd7220909b2f71306a870","repaired_parent_ci":"34094930848/101656307425"},
+  "batch_parent":{"pr":1686,"36_09BC_exact_head":"c8acd051f3d6b5537c9bd7220909b2f71306a870","36_09BC_exact_head_ci":"34094930848/101656307425"},
   "source_locks":{
-    "stage36_36_09BC":{"path":"stages/stage36/36-09BC/boundary-neighborhood-open-local-no-loop-preflight.json","blob_sha":"f4223afb733ed3be112816f789d1d4ae10845249"},
+    "stage36_36_09BC":{"path":"stages/stage36/36-09BC/boundary-neighborhood-open-local-no-loop-preflight.json","blob_sha":"317638c4d1a76f683c7af9bdb4e8285af35f4d05"},
     "cycle_policy":{"path":"docs/research-os/policies/cycle-exploration-safety-protocol.md","blob_sha":"4e911c4fc7e4ea7a2b5f96733a90b986ef8d9a37"},
     "S31_W01":{"path":"docs/arsenal/cards/formal/S31-W01.md","blob_sha":"122a6c1c5c871c1c7b797017e854de8ec55e7c50"},
     "S34_W02":{"path":"docs/arsenal/cards/formal/S34-W02.md","blob_sha":"13d41be776fcd2edcd258f11bd28c5a6596de45b"},
     "S34_W03":{"path":"docs/arsenal/cards/formal/S34-W03.md","blob_sha":"1d5275321f42768a6414d4610ac912c63be43f96"}
   },
   "exact_receiver":"open rational points on the BB scaled self-intersection: t in C_kappa(Q), lambda*t in C_kappa(Q), t!=0,+/-1 and lambda*t!=+/-1",
-  "blind_rediscovery":{
-    "performed_before_arsenal_comparison":true,
-    "lenses":[
-      {"id":"BLIND_BAD_PLACE_VALUATIONS","status":"LIVE","description":"analyze 2 and parameter-dependent primes dividing kappa,lambda and boundary coordinates with the open condition retained"},
-      {"id":"BLIND_FULL_CHARACTER_QUOTIENTS","status":"LIVE_SELECTED","description":"treat the full four-square-root cover as a (Z/2)^4 cover of P1 and inventory all quadratic character quotients before choosing low-genus closures"},
-      {"id":"BLIND_INVOLUTION_QUOTIENTS","status":"LIVE","description":"exploit t->-t and character involutions to obtain lower-genus quotients without discarding all cover data"},
-      {"id":"BLIND_GAUSSIAN_NORM","status":"UNTESTED","description":"use simultaneous 1+t^2 and 1+lambda^2 t^2 norm structure over Q(i) while retaining the minus equations"},
-      {"id":"BLIND_SUNIT_FACTOR_VALUATIONS","status":"LIVE","description":"combine square equations into exact factor/valuation constraints at the finite bad-place set"},
-      {"id":"BLIND_ELLIPTIC_CORRESPONDENCE_HEIGHT","status":"UNTESTED","description":"trivialize C_kappa and study the lambda-scaling correspondence by elliptic height or unlikely-intersection methods"},
-      {"id":"BLIND_BRAUER_MANIN_FULL_COVER","status":"UNTESTED","description":"seek an adelic obstruction on the full high-genus cover rather than its closed boundary-containing model"},
-      {"id":"BLIND_FULL_COVER_DESCENT","status":"LIVE","description":"perform descent on the full multiquadratic cover or its low-genus character quotients"},
-      {"id":"BLIND_CAMPEDELLI_MODEL_TRANSFER","status":"UNTESTED","description":"return to standard Campedelli model arithmetic only through an exact adapter from the BB receiver"},
-      {"id":"BLIND_BOUNDED_SEARCH","status":"BLOCKED","description":"bounded rational search can diagnose but cannot close the uniform receiver"}
-    ]
-  },
-  "arsenal_comparison":{
-    "S34_W03":"MATCHED_ACTIVE_UMBRELLA: exact receiver-restricted intersection is the correct credit layer",
-    "S31_W01":"CONDITIONAL: usable after an explicit low-genus quartic/elliptic quotient and inverse-domain map are selected",
-    "S34_W02":"CONDITIONAL: usable only after a certified full Mordell-Weil group for a selected elliptic quotient plus exact receiver pullback predicates",
-    "S31_W03":"NOT_READY: no complete auxiliary point set is currently available",
-    "S34_W01":"ALREADY_CONSUMED_UPSTREAM: factor-squareclass support reduction has already been charged",
-    "direct_formal_card_for_full_character_quotient_inventory":false
-  },
-  "selection":{
-    "selected_next":"36-09BE_FULL_MULTIQ_CHARACTER_QUOTIENT_INVENTORY_PREFLIGHT",
-    "reason":"highest information gain while retaining all BB cover data; exact algebraic inventory can reveal low-genus quotient factors not equal to the already-dominated Eminus/Eplus quotient",
-    "parallel_split":false,
-    "preserved_unprocessed":["BLIND_BAD_PLACE_VALUATIONS","BLIND_INVOLUTION_QUOTIENTS","BLIND_GAUSSIAN_NORM","BLIND_SUNIT_FACTOR_VALUATIONS","BLIND_ELLIPTIC_CORRESPONDENCE_HEIGHT","BLIND_BRAUER_MANIN_FULL_COVER","BLIND_FULL_COVER_DESCENT","BLIND_CAMPEDELLI_MODEL_TRANSFER"]
-  },
+  "blind_rediscovery":{"performed_before_arsenal_comparison":true,"lenses":[
+    {"id":"BLIND_BAD_PLACE_VALUATIONS","status":"LIVE","description":"analyze 2 and parameter-dependent primes dividing kappa,lambda and boundary coordinates with the open condition retained"},
+    {"id":"BLIND_FULL_CHARACTER_QUOTIENTS","status":"LIVE_SELECTED","description":"treat the full four-square-root cover as a (Z/2)^4 cover of P1 and inventory all quadratic character quotients before choosing low-genus closures"},
+    {"id":"BLIND_INVOLUTION_QUOTIENTS","status":"LIVE","description":"exploit t->-t and character involutions to obtain lower-genus quotients without discarding all cover data"},
+    {"id":"BLIND_GAUSSIAN_NORM","status":"UNTESTED","description":"use simultaneous 1+t^2 and 1+lambda^2 t^2 norm structure over Q(i) while retaining the minus equations"},
+    {"id":"BLIND_SUNIT_FACTOR_VALUATIONS","status":"LIVE","description":"combine square equations into exact factor/valuation constraints at the finite bad-place set"},
+    {"id":"BLIND_ELLIPTIC_CORRESPONDENCE_HEIGHT","status":"UNTESTED","description":"trivialize C_kappa and study the lambda-scaling correspondence by elliptic height or unlikely-intersection methods"},
+    {"id":"BLIND_BRAUER_MANIN_FULL_COVER","status":"UNTESTED","description":"seek an adelic obstruction on the full high-genus cover rather than its closed boundary-containing model"},
+    {"id":"BLIND_FULL_COVER_DESCENT","status":"LIVE","description":"perform descent on the full multiquadratic cover or its low-genus character quotients"},
+    {"id":"BLIND_CAMPEDELLI_MODEL_TRANSFER","status":"UNTESTED","description":"return to standard Campedelli model arithmetic only through an exact adapter from the BB receiver"},
+    {"id":"BLIND_BOUNDED_SEARCH","status":"BLOCKED","description":"bounded rational search can diagnose but cannot close the uniform receiver"}
+  ]},
+  "arsenal_comparison":{"S34_W03":"MATCHED_ACTIVE_UMBRELLA: exact receiver-restricted intersection is the correct credit layer","S31_W01":"CONDITIONAL: usable after an explicit low-genus quartic/elliptic quotient and inverse-domain map are selected","S34_W02":"CONDITIONAL: usable only after a certified full Mordell-Weil group for a selected elliptic quotient plus exact receiver pullback predicates","S31_W03":"NOT_READY: no complete auxiliary point set is currently available","S34_W01":"ALREADY_CONSUMED_UPSTREAM: factor-squareclass support reduction has already been charged","direct_formal_card_for_full_character_quotient_inventory":false},
+  "selection":{"selected_next":"36-09BE_FULL_MULTIQ_CHARACTER_QUOTIENT_INVENTORY_PREFLIGHT","reason":"highest information gain while retaining all BB cover data; exact algebraic inventory can reveal low-genus quotient factors not equal to the already-dominated Eminus/Eplus quotient","parallel_split":false,"preserved_unprocessed":["BLIND_BAD_PLACE_VALUATIONS","BLIND_INVOLUTION_QUOTIENTS","BLIND_GAUSSIAN_NORM","BLIND_SUNIT_FACTOR_VALUATIONS","BLIND_ELLIPTIC_CORRESPONDENCE_HEIGHT","BLIND_BRAUER_MANIN_FULL_COVER","BLIND_FULL_COVER_DESCENT","BLIND_CAMPEDELLI_MODEL_TRANSFER"]},
   "cycle_exit":{"CYCLE_ROUTE_STATUS":"PASS_NEW_GATE_FROM_STRONGER_VIEW","CYCLE_ACTIVE_RECEIVER":"full BB multiquadratic open cover","CYCLE_LIVE_CANDIDATES":5,"CYCLE_UNTESTED_CANDIDATES":4,"CYCLE_EXHAUSTIVE_VIEW_AUDIT":true,"CYCLE_BLIND_REDISCOVERY":true,"CYCLE_SPLIT_TRIGGERED":false,"CYCLE_PARKING_AUDIT_COMPLETE":false,"CYCLE_NEW_VIEW":"full character-quotient inventory selected before further local narrowing","CYCLE_NEW_VIEW_SOURCE":"BLIND"},
   "scope_firewalls":{"candidate_parameter_set_shrunk":false,"receiver_emptiness_proved":false,"R29_CAMP2_closed":false,"Q11_CAMPEDELLI_closed":false,"endpoint_closed":false,"perfect_cuboid_existence_claim":false,"perfect_cuboid_nonexistence_claim":false}
 }
