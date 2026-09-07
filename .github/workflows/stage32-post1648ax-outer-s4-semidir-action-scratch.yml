@@ -1,0 +1,54 @@
+name: Stage32 post1648AX outer S4 semidirect action
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648ax-outer-s4-semidir-action
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-ax-outer-s4-semidir:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run AX outer S4 semidirect diagnostic
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648ax_outer_s4_semidirect_action.py | tee /tmp/ax.json
+      - name: Assert exact outer action identification
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/ax.json'))
+          assert x['mode']=='SCRATCH_POST1648AX_OUTER_S4_SEMIDIRECT_ACTION'
+          assert x['retained_group_order']==1536
+          assert x['kernel_order']==64
+          assert x['quotient_order']==24
+          assert x['unique_WC_cover_candidate_indices_zero_based']==[0,13,22,27]
+          assert x['W_C_block_action_is_full_S4'] is True
+          assert x['Z_block_action_is_exact_induced_action_on_three_perfect_matchings_of_K4'] is True
+          assert x['six_support_cell_action_is_exact_natural_S4_action_on_two_subsets_of_four_WC_coordinates'] is True
+          assert x['quotient_coset_size']==64
+          assert x['quotient_coset_count']==24
+          assert x['source_C2_6_kernel_recovered'] is True
+          assert x['semidirect_conjugation_matches_seven_coordinate_permutation_mod_global_sign'] is True
+          assert x['conjugation_basis_checks']==9216
+          assert x['firewalls']['extension_splitting_verified'] is False
+          assert x['firewalls']['explicit_48_node_bijection_obtained'] is False
+          print(json.dumps({
+            'kernel_order':x['kernel_order'],
+            'quotient_order':x['quotient_order'],
+            'conjugation_basis_checks':x['conjugation_basis_checks'],
+            'next_exact_route':x['next_exact_route'],
+          },sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
