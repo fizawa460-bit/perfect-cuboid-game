@@ -9,6 +9,7 @@ on:
       - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_galois_stabilizer.py'
       - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_branch_conic_receiver.py'
       - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_branch_conic_receiver_v2.py'
+      - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_branch_conic_receiver_v3.py'
       - 'stages/stage35-ex/runkeys/goal4af-c5-node-lattice.json'
       - '.github/workflows/stage35-ex-goal4af-c5-node-lattice.yml'
   workflow_dispatch:
@@ -51,24 +52,27 @@ jobs:
           import hashlib,json,subprocess
           from pathlib import Path
           key=Path('stages/stage35-ex/runkeys/goal4af-c5-node-lattice.json')
-          diag=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_branch_conic_receiver_v2.py')
+          diag=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_branch_conic_receiver_v3.py')
           new=json.loads(key.read_text())
           assert new['schema']=='STAGE35_EX_GOAL4AF_C5_NODE_LATTICE_RUNKEY_V1'
-          assert new['armed'] is True and new['generation']==8
-          assert new['route']=='LOCAL_SOURCE_C1_25_BRANCH_CONIC_RECEIVER_SOLVE_V2'
+          assert new['armed'] is True and new['generation']==9
+          assert new['route']=='LOCAL_SOURCE_C1_25_BRANCH_CONIC_RECEIVER_SOLVE_V3'
           def blob(p):
               raw=p.read_bytes(); return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
-          assert blob(diag)==new['diagnostic_blob_sha1']=='b56d32484af1524cc59e08cedb5d9c56e940b4ac'
+          assert blob(diag)==new['diagnostic_blob_sha1']=='b536ef738049f91fa12b8ce3e8f0921996b9a3d7'
           before='${{ github.event.before }}'
           old=json.loads(subprocess.check_output(['git','show',f'{before}:{key.as_posix()}'],text=True))
-          assert old['generation']==7
-          assert new['generation7_result']['workflow_run']==34070358081
-          assert new['generation7_result']['job']==101586451457
-          assert new['generation7_result']['failure_before_receiver_math']=='WRAPPER_SUMMARY_METADATA_LOCATOR_REGRESSION'
+          assert old['generation']==8
+          r=new['generation8_result']
+          assert r['workflow_run']==34070524409 and r['job']==101586918424
+          assert r['receiver_augmented_rank']==64 and r['receiver_augmented_nullity']==0
+          assert r['pair_rows_materialized'] is True and r['pair_count']==8
+          assert r['goal4ac_residual_pair_count']==4
+          assert r['failure_after_materialization']=='OVERSTRONG_BRANCH_CONIC_RECEIVER_EXHAUSTION_POSTCHECK'
           assert new['planned_jobs']==1 and new['planned_shards']==1
           assert new['persisted_output_upper_bound_bytes']<=65536
           assert new['actions_artifact_upload'] is False
-          print('GOAL4AF_BRANCH_CONIC_RECEIVER_G8_AUTHORIZED=true')
+          print('GOAL4AF_BRANCH_CONIC_RECEIVER_G9_AUTHORIZED=true')
           PY
           echo 'authorized=true' >> "$GITHUB_OUTPUT"
 
@@ -85,10 +89,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Solve final C5 pair ambiguity from source C1 number 25 branch conic
+      - name: Replay final C5 pair solve without receiver-bijection assumption
         run: |
           set -euo pipefail
-          python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_branch_conic_receiver_v2.py | tee /tmp/goal4af-c25-receiver.log
+          python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_branch_conic_receiver_v3.py | tee /tmp/goal4af-c25-receiver.log
           grep -q '^GOAL4AF_SIGN_STABILIZER_JSON=' /tmp/goal4af-c25-receiver.log
           grep -q '^GOAL4AF_BRANCH_CONIC_RECEIVER_JSON=' /tmp/goal4af-c25-receiver.log
           test "$(wc -c </tmp/goal4af-c25-receiver.log)" -le 65536
@@ -108,8 +112,12 @@ jobs:
           assert d['receiver_each_c5_intersection']==2
           assert d['receiver_total_pair_intersection']==4
           assert d['receiver_augmented_rank']==64 and d['receiver_augmented_nullity']==0
-          assert set(d['equivariant_receiver_indices_1based'].values())==set(range(25,33))
+          recv=d['equivariant_receiver_indices_1based']
+          assert len(recv)==8
+          assert all(25<=int(x)<=32 for x in recv.values())
+          assert d['pair_rows_materialized'] is True and d['pair_count']==8
+          assert d['goal4ac_residual_pair_count']==4
           assert d['target_span_computed'] is False
           assert d['theorem_credit'] is False and d['endpoint_credit'] is False
-          print('GOAL4AF_BRANCH_CONIC_RECEIVER_G8_BOUNDARY=PASS')
+          print('GOAL4AF_BRANCH_CONIC_RECEIVER_G9_BOUNDARY=PASS')
           PY
