@@ -10,9 +10,9 @@ HERE = Path(__file__).resolve().parent
 STATE = HERE / "MAIN-STATE.json"
 START = HERE / "MAIN-START-HERE.md"
 
-EXPECTED_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V1_POST1648AH_CONSOLIDATION_CANDIDATE"
-EXPECTED_CANONICAL = "23a414013341eb99a8aa71d5b2216f92188f70892c25dc424b52ca0f2061b81a"
-EXPECTED_ROUTE = "QUANTIFY_MULTIBRANCH_LOCAL_TYPES_USING_EXCEPTIONAL_PAIRINGS_AND_FSM_CUSP_POLE_BUDGET"
+EXPECTED_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V1_POST1648AH_SCOPE_REPAIR_CANDIDATE"
+EXPECTED_CANONICAL = "4f984ff1a7d885e6a83a606025b92a114c774707099833a8e7839d24354fb8f0"
+EXPECTED_ROUTE = "SPLIT_GLOBAL_NONBIJECTIVITY_BY_AMBIENT_LOCATION_THEN_ANALYZE_SURFACE_NODE_MULTIBRANCH_AND_SMOOTH_LOCUS_CURVE_SINGULARITY_BRANCHES"
 EXPECTED_WORKING_SET = [
     "stages/stage32/residual-32-01-production/post1648ah-fsm-unibranch-v6-exclusion.json",
     "stages/stage32/residual-32-01-production/post1648ah-fsm-unibranch-source-note.md",
@@ -54,6 +54,13 @@ def load_locked_json(lock: dict) -> dict:
     return obj
 
 
+def require_blob(lock: dict) -> Path:
+    path = ROOT / lock["path"]
+    if not path.is_file() or git_blob_sha(path) != lock["blob_sha1"]:
+        fail(f"blob moved: {lock['path']}")
+    return path
+
+
 def main() -> None:
     state = json.loads(STATE.read_text(encoding="utf-8"))
     if state.get("schema") != EXPECTED_SCHEMA:
@@ -72,8 +79,14 @@ def main() -> None:
         "latest_stage32_merge_commit": "dc244645097809948f118d915534a92e56ab60ec",
         "legacy_detailed_files_are_not_ordinary_startup_authority": True,
         "consolidation_candidate_pr": 1648,
-        "consolidation_base_main_sha": "652cbd51cd6b546f2a178597f7f2d3474c92b1c6",
-        "consolidation_hostile_audit_status": "PENDING",
+        "consolidation_base_main_sha": "4e6708cb807cc37bea6509245447a5817965256f",
+        "consolidation_hostile_audit_status": "PENDING_REAUDIT_AFTER_SCOPE_REPAIR",
+        "last_failed_consolidation_hostile_audit": {
+            "review_id": 5127399479,
+            "exact_head": "d635edc9d0a13ef5b82732a5bd42debe078a0545",
+            "result": "FAIL",
+            "reason": "AH contrapositive prematurely localized global normalization nonbijectivity to one of the 47 met surface nodes",
+        },
     }
     if authority != required_authority:
         fail("authority/consolidation synchronization moved")
@@ -88,12 +101,8 @@ def main() -> None:
     required_frontier = {
         "nonexceptional_mod2_witness_source_bound": True,
         "source_bound_nonexceptional_H_character_probe_obtained": True,
-        "source_bound_H_character_probe_normal_curve_label_1based": 9,
-        "source_bound_H_character_probe_character": "chi_u",
-        "abstract_delta_0inf_direction_recovered": True,
-        "delta0inf_source_bound_to_Z3_b3_retained_boundary_block": True,
-        "principal_b3_stoll_candidates_after_boundary_weierstrass_filter": 32,
-        "cecotti_B7_B8_trace_orientation_exact": True,
+        "source_bound_nonexceptional_H_character_probe_normal_curve_label_1based": 9,
+        "source_bound_nonexceptional_H_character_probe_character": "chi_u",
         "absolute_delta0inf_retained_W_line_identified": False,
         "q602_residue_specific_commutator_obtained": False,
         "v6_self_intersection": 758,
@@ -106,19 +115,23 @@ def main() -> None:
         "v6_integral_irreducible_genus1_member_materialized": False,
         "v6_positive_exceptional_support": 47,
         "v6_exceptional_total_mass": 266,
-        "v6_unibranch_bijective_normalization_genus1_carrier_excluded": True,
-        "v6_remaining_genus1_carrier_requires_multibranch_node": True,
+        "v6_globally_bijective_normalization_genus1_carrier_excluded": True,
+        "v6_remaining_genus1_carrier_requires_nonbijective_normalization_somewhere": True,
+        "v6_nonbijectivity_location_identified": False,
+        "v6_surface_node_multibranch_branch_open": True,
+        "v6_smooth_ambient_locus_curve_singularity_branch_open": True,
     }
     for key, value in required_frontier.items():
         if frontier.get(key) != value:
             fail(f"frontier moved: {key}")
+    if "v6_remaining_genus1_carrier_requires_multibranch_node" in frontier:
+        fail("revoked premature multibranch-node localization returned")
 
-    current = state["current"]
-    if current != {
-        "active_missing_interface": "MULTIBRANCH_LOCAL_TYPE_FOR_ANY_V6_GENUS1_CARRIER",
+    if state["current"] != {
+        "active_missing_interface": "GLOBAL_NORMALIZATION_NONBIJECTIVITY_LOCATION_AND_TYPE_FOR_ANY_V6_GENUS1_CARRIER",
         "next_exact_route": EXPECTED_ROUTE,
         "stop_semantics": "LEAF_GATE_ONLY_NOT_STAGE_EXHAUSTION",
-        "stacked_candidate_audit_status": "PENDING_BATCH_HOSTILE_AUDIT",
+        "stacked_candidate_audit_status": "PENDING_BATCH_HOSTILE_REAUDIT",
     }:
         fail("current route block moved")
 
@@ -138,23 +151,19 @@ def main() -> None:
             fail(f"startup contract fragment missing: {fragment}")
 
     locks = state["source_locks"]
-    # Audited historical layers are immutable source locks at ordinary startup;
-    # their heavyweight verifiers are not rerun here. Consolidation/hostile gates
-    # may replay expensive layers explicitly when needed.
     j = load_locked_json(locks["post1648j_trace_orientation"])
     char = load_locked_json(locks["post1643_hdeck_character_preflight"])
     load_locked_json(locks["post1621_hperp_witness"])
     load_locked_json(locks["post1588_direct_mod2"])
     load_locked_json(locks["post1577_terminal_negative"])
     ag = load_locked_json(locks["post1648ag_known140_decomposition"])
-    ah = load_locked_json(locks["post1648ah_unibranch_exclusion"])
+    ah = load_locked_json(locks["post1648ah_bijective_normalization_exclusion"])
     ae = load_locked_json(locks["post1648ae_member_source_gap"])
     v6 = load_locked_json(locks["v6_witness_body"])
-
-    for verifier_key in ["post1648j_trace_orientation_verifier", "post1643_hdeck_character_verifier"]:
-        path = ROOT / locks[verifier_key]["path"]
-        if not path.is_file() or git_blob_sha(path) != locks[verifier_key]["blob_sha1"]:
-            fail(f"audited verifier blob moved: {verifier_key}")
+    note = require_blob(locks["post1648ah_scope_source_note"])
+    require_blob(locks["post1648ah_scope_verifier"])
+    require_blob(locks["post1648j_trace_orientation_verifier"])
+    require_blob(locks["post1643_hdeck_character_verifier"])
 
     if j["decision"]["survivors_current_credit"] != [73, 97, 235] or j["decision"]["absolute_delta0inf_retained_W_line_identified"]:
         fail("post1648J boundary moved")
@@ -168,10 +177,24 @@ def main() -> None:
         fail("AG monoid result moved")
     if (ag["known140_monoid"]["nonzero_term_count"], ag["known140_monoid"]["total_multiplicity"]) != (61, 155):
         fail("AG decomposition counts moved")
-    if ah["decision"]["remaining_open_case"] != "ANY_V6_GENUS1_CARRIER_MUST_BE_MULTIBRANCH_OVER_AT_LEAST_ONE_OF_THE_47_MET_SURFACE_NODES":
-        fail("AH remaining case moved")
+
+    if ah["fsm_refinement"]["hypothesis"] != "normalization_map_is_globally_bijective":
+        fail("AH global bijectivity hypothesis moved")
+    if ah["decision"]["remaining_open_case"] != "ANY_V6_GENUS1_CARRIER_MUST_HAVE_NONBIJECTIVE_NORMALIZATION_SOMEWHERE":
+        fail("AH corrected contrapositive moved")
+    if ah["decision"]["nonbijectivity_location_identified"]:
+        fail("AH nonbijectivity was incorrectly localized")
+    split = ah["decision"]["remaining_case_split"]
+    if len(split) != 2 or not split[0].startswith("AMBIENT_SURFACE_NODE_MULTIBRANCH") or not split[1].startswith("SMOOTH_AMBIENT_LOCUS_CURVE_SINGULARITY"):
+        fail("AH required two-branch split moved")
+    if not ah["firewalls"]["does_not_localize_nonbijectivity_to_surface_nodes"]:
+        fail("AH localization firewall moved")
+    if not ah["firewalls"]["smooth_ambient_locus_curve_singularity_branch_open"]:
+        fail("AH smooth-locus branch firewall moved")
     if not ah["local_A1_resolution"]["contradiction"] or ah["v6_exact_data"]["exceptional_mass_e"] != 266:
-        fail("AH bounded exclusion moved")
+        fail("AH bounded exclusion arithmetic moved")
+    if hashlib.sha256(note.read_bytes()).hexdigest() != ah["source_locks"]["fsm_source_note_sha256"]:
+        fail("AH source-note sha256 moved")
     if v6["witness"]["positive_exceptional_support"] != 47 or v6["target"]["d"] != 186:
         fail("V6 witness moved")
 
@@ -182,9 +205,11 @@ def main() -> None:
     print("PASS Stage32 MAIN startup authority")
     print(f"main_state_canonical={EXPECTED_CANONICAL}")
     print("latest_audited_stage32_pr=1643 hostile_review=5123545511")
-    print("consolidation_candidate_pr=1648 hostile_audit=PENDING base_main=652cbd51cd6b546f2a178597f7f2d3474c92b1c6")
-    print("v6_effective=true h0_lower_bound=294 known140_explicit=true terms=61 multiplicity=155")
-    print("v6_unibranch_genus1_excluded=true remaining_case=multibranch_at_one_or_more_of_47_nodes")
+    print("pr1648_previous_hostile_review=5127399479 result=FAIL scope_repair=PENDING_REAUDIT")
+    print("consolidation_base_main=4e6708cb807cc37bea6509245447a5817965256f")
+    print("v6_bijective_normalization_excluded=true")
+    print("remaining_implication=normalization_nonbijective_somewhere location_identified=false")
+    print("open_branches=surface_node_multibranch,smooth_ambient_locus_curve_singularity")
     print("survivors=73,97,235 Q602_excluded=false O210_excluded=false O212_plus_advance_allowed=false")
 
 
