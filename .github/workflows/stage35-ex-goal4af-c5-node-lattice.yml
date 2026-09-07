@@ -57,24 +57,21 @@ jobs:
           diag=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_target_span.py')
           new=json.loads(key.read_text())
           assert new['schema']=='STAGE35_EX_GOAL4AF_C5_NODE_LATTICE_RUNKEY_V1'
-          assert new['armed'] is True and new['generation']==11
-          assert new['route']=='LOCAL_C5_MARKED_REPRESENTATIVE_TARGET_SPAN'
+          assert new['armed'] is True and new['generation']==12
+          assert new['route']=='LOCAL_C5_MARKED_REPRESENTATIVE_TARGET_SPAN_SYMPY'
           def blob(p):
               raw=p.read_bytes(); return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
           assert blob(diag)==new['diagnostic_blob_sha1']=='3a5045f7f3c48a2f93a8116090beca1422bafac3'
           before='${{ github.event.before }}'
           old=json.loads(subprocess.check_output(['git','show',f'{before}:{key.as_posix()}'],text=True))
-          assert old['generation']==10
-          r=new['generation10_result']
-          assert r['workflow_run']==34071239834 and r['job']==101588889887
-          assert r['conclusion']=='SUCCESS'
-          assert r['receiver_augmented_rank']==64 and r['receiver_augmented_nullity']==0
-          assert r['pair_rows_materialized'] is True and r['pair_count']==8
-          assert r['goal4ac_residual_pair_count']==4
+          assert old['generation']==11
+          r=new['generation11_result']
+          assert r['workflow_run']==34071538303 and r['job']==101589709266
+          assert r['failure_before_target_span_math']=='MISSING_SYMPY_DEPENDENCY'
           assert new['planned_jobs']==1 and new['planned_shards']==1
           assert new['persisted_output_upper_bound_bytes']<=16384
           assert new['actions_artifact_upload'] is False
-          print('GOAL4AF_TARGET_SPAN_G11_AUTHORIZED=true')
+          print('GOAL4AF_TARGET_SPAN_G12_AUTHORIZED=true')
           PY
           echo 'authorized=true' >> "$GITHUB_OUTPUT"
 
@@ -91,6 +88,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Install exact local linear-algebra dependency
+        run: python -m pip install --disable-pip-version-check --no-input sympy==1.14.0
       - name: Test Goal4AA target span after adjoining C5 marked representatives
         run: |
           set -euo pipefail
@@ -116,5 +115,5 @@ jobs:
           assert d['remote_cas_used'] is False
           assert d['theorem_credit'] is False and d['endpoint_credit'] is False
           assert d['E1_proved'] is False and d['stage35_closed'] is False
-          print('GOAL4AF_TARGET_SPAN_G11_BOUNDARY=PASS')
+          print('GOAL4AF_TARGET_SPAN_G12_BOUNDARY=PASS')
           PY
