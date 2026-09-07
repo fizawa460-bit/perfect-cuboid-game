@@ -1,0 +1,48 @@
+name: Stage32 post1648BF g2 Galois twist recovery
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648bf-g2-galois-twist-recovery
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-bf-g2-galois-twist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run BF g2 Galois twist recovery
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648bf_g2_galois_twist_recovery.py | tee /tmp/bf.json
+      - name: Assert bounded recovery
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/bf.json'))
+          assert x['mode']=='SCRATCH_POST1648BF_G2_GALOIS_TWIST_RECOVERY'
+          assert x['source_g2_coset_candidate_count']==64
+          assert x['twists_with_any_aut_plus_cc_equivariant_bijection_count']>0
+          assert x['distinct_aut_plus_cc_equivariant_bijection_count_across_all_twists']>0
+          assert x['decision']['az_g2_untwisted_semantic_identification_corrected'] is True
+          assert x['firewalls']['v6_carrier_excluded'] is False
+          print(json.dumps({
+            'aut_twists':x['twists_with_any_aut_equivariant_bijection_count'],
+            'cc_twists':x['twists_with_any_aut_plus_cc_equivariant_bijection_count'],
+            'aut_maps':x['distinct_aut_equivariant_bijection_count_across_all_twists'],
+            'cc_maps':x['distinct_aut_plus_cc_equivariant_bijection_count_across_all_twists'],
+            'unique_twist':x['unique_cc_compatible_twist_bits'],
+            'unique_map':x['unique_full_node_bijection_obtained'],
+            'next':x['decision']['next_exact_route'],
+          },sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
