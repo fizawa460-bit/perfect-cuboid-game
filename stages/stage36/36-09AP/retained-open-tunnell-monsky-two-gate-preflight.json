@@ -1,0 +1,128 @@
+{
+  "schema": "STAGE36_36_09AP_RETAINED_OPEN_TUNNELL_MONSKY_TWO_GATE_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AP",
+  "status": "EXACT_RECONCILED_RETAINED_OPEN_TUNNELL_AND_ODD_ETA_MINUS_MONSKY_NECESSARY_GATES_PENDING_BATCH_AUDIT",
+  "base_main_sha": "6b6c541d1a6bbe229381ac0400148bd17523ca06",
+  "reconciliation": {
+    "current_main_stage36_parent": {
+      "pr": 1679,
+      "post_merge_hostile_audit_review": 5127771308,
+      "audited_exact_head": "12716259951f02589ecfaf6ac8f9670b7a23f06f",
+      "exact_head_ci": "34076440104/101603376687",
+      "squash_merged_main_sha": "6b6c541d1a6bbe229381ac0400148bd17523ca06",
+      "scope": "36-09AM through 36-09AN retained-open Tunnell gate"
+    },
+    "parallel_audited_monsky_payload": {
+      "pr": 1680,
+      "hostile_audit_review": 5127677576,
+      "audited_exact_head": "f5db4fc0aafdc61f931b6499afb18c1966c1f99d",
+      "exact_head_ci": "34077287921/101605797971",
+      "scope": "36-09AM through 36-09AO at the old parallel controller; only exact AO payload is imported"
+    },
+    "reconcile_merge_commit": "7c0059ccfd67dbf939a36b083fe3ba70d64a42b5",
+    "controller_precedence": "current-main PR1679 AM/AN semantics dominate the older parallel PR1680 AM/AN controller; audited PR1680 AO certificate/source are imported as exact payload"
+  },
+  "source_locks": {
+    "main_36_09AN": {"path":"stages/stage36/36-09AN/retained-open-tunnell-necessary-gate-preflight.json","blob_sha":"76c55e89505b081c487749f4d7ab4d80e9d38a1f"},
+    "main_36_09AN_source": {"path":"stages/stage36/36-09AN/retained-open-congruent-number-rank-gate-source-lock.md","blob_sha":"1486507569cd9b6263ff46c5db263fbbc198e87c"},
+    "audited_parallel_36_09AO": {"path":"stages/stage36/36-09AO/monsky-stage36-full2-class-adapter-preflight.json","blob_sha":"a26991cb071e086d3cbc36b8c9d2db329a14e5b1"},
+    "audited_parallel_36_09AO_source": {"path":"stages/stage36/36-09AO/monsky-full2-kernel-source-lock.md","blob_sha":"9f22dfe19d42d7104d30d219aac1cfd72a67c72a"},
+    "audited_parallel_36_09AN_diagnostic": {"path":"stages/stage36/36-09AN/tunnell-filter-residue-noncompression-preflight.json","blob_sha":"7bc094390cd4d82d9dee6959eb934185c8c4c492"},
+    "stage36_36_09AP_source": {"path":"stages/stage36/36-09AP/retained-open-tunnell-monsky-two-gate-source-lock.md","blob_sha":"7fceb4a822cae8b7e33401919733cbe81677b730"}
+  },
+  "retained_receiver_two_gate_implication": {
+    "TUNNELL_GATE": "parity-appropriate Tunnell necessary equality holds",
+    "MONSKY_GATE": "the Stage36 pure full-2 class vector v_stage lies in ker M_N",
+    "receiver_implies_both": true,
+    "failure_of_either_excludes_branch": true,
+    "converse_from_both_gates_to_receiver": false,
+    "BSD_converse_used": false
+  },
+  "odd_eta_minus_adapter": {
+    "hypotheses": ["eta=-1", "N=A*B*C*D is odd", "A,B,C,D positive odd squarefree pairwise coprime", "g=(e+f) mod 2=0", "e=f=t"],
+    "stage36_root_order": ["0","+N","-N"],
+    "monsky_root_order": ["+N","-N","0"],
+    "t0": {
+      "stage36_triple": ["-C*D","-A*C","A*D"],
+      "monsky_reordered_triple": ["-A*C","A*D","-C*D"],
+      "torsion_multiplier": "(0,0) triple=(-N,N,-1)",
+      "positive_divisor_representative": ["B*D","B*C","C*D"],
+      "kernel_vector_formula": "(psi_N(B*C) | psi_N(B*D))"
+    },
+    "t1": {
+      "stage36_triple": ["-C*D","-2*A*C","2*A*D"],
+      "monsky_reordered_triple": ["-2*A*C","2*A*D","-C*D"],
+      "torsion_multiplier": "(-N,0) triple=(-2*N,2,-N)",
+      "positive_divisor_representative": ["B*D","A*D","A*B"],
+      "kernel_vector_formula": "(psi_N(A*D) | psi_N(B*D))"
+    }
+  },
+  "B7_exact_replay": {
+    "parameter":"p=2/11",
+    "A":73,"B":7,"C":11,"D":13,"eta":-1,"e":1,"f":1,
+    "N":73073,
+    "prime_order":[7,11,13,73],
+    "positive_divisor_representative":[91,949,511],
+    "kernel_vector":[0,0,1,1,1,0,1,0],
+    "Monsky_matrix_times_vector":[0,0,0,0,0,0,0,0],
+    "Monsky_matrix_rank_F2":6,
+    "Monsky_matrix_nullity":2,
+    "Tunnell_N_even":480,
+    "Tunnell_N_odd":416,
+    "Tunnell_gate_pass":false,
+    "Monsky_gate_pass":true,
+    "branch_excluded_by":"TUNNELL_GATE",
+    "audited_global_result":"NONTRIVIAL_SHA2_NO_Q_POINT"
+  },
+  "B23_exact_diagnostic": {
+    "parameter":"p=2/11",
+    "A":73,"B":23,"C":11,"D":13,"eta":-1,"e":1,"f":1,
+    "N":240097,
+    "prime_order":[11,13,23,73],
+    "positive_divisor_representative":[299,949,1679],
+    "kernel_vector":[0,1,0,1,0,1,1,0],
+    "Monsky_matrix_times_vector":[0,1,0,1,1,0,0,1],
+    "Monsky_matrix_rank_F2":6,
+    "Monsky_matrix_nullity":2,
+    "Tunnell_N_even":384,
+    "Tunnell_N_odd":384,
+    "Tunnell_gate_pass":true,
+    "Monsky_gate_pass":false,
+    "branch_excluded_by":"MONSKY_GATE",
+    "AF_selected_prime_rows_pass":false,
+    "local_or_receiver_survivor_claimed":false,
+    "congruent_or_positive_rank_claimed":false
+  },
+  "interpretation": {
+    "two_gates_logically_distinct_on_exact_same_parameter_diagnostic": true,
+    "Monsky_gate_packages_actual_prime_squareclass_local_information": true,
+    "Monsky_kernel_membership_is_only_necessary": true,
+    "Tunnell_equality_is_only_necessary": true,
+    "odd_eta_minus_adapter_complete": true,
+    "odd_eta_plus_adapter_complete": false,
+    "even_N_adapter_complete": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_closed": false
+  },
+  "route_result": {
+    "route_status":"PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "reconciled_parallel_stage36_routes":true,
+    "retained_receiver_two_gate_filter_obtained":true,
+    "next_leaf":"36-09AQ_ODD_ETA_PLUS_MONSKY_CLASS_COORDINATE_ADAPTER_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "Tunnell_equality_implies_congruent":false,
+    "Monsky_kernel_implies_MW_image":false,
+    "Monsky_kernel_implies_receiver":false,
+    "B23_is_local_survivor":false,
+    "uniform_branch_family_classified":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

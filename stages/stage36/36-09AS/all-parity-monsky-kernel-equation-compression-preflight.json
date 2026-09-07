@@ -1,0 +1,115 @@
+{
+  "schema": "STAGE36_36_09AS_ALL_PARITY_MONSKY_KERNEL_EQUATION_COMPRESSION_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AS",
+  "status": "EXACT_ALL_PARITY_MONSKY_KERNEL_EQUATION_AND_BRANCH_FLIP_COMPRESSION_PENDING_BATCH_AUDIT",
+  "base_main_sha": "ab8fd6b3ff6660188d7d17c89960f02f5bf9eb90",
+  "batch_parent": {
+    "pr": 1680,
+    "36_09AR_exact_head": "79dd6d595498d1c89f2e70dd535b2f8fe17941df",
+    "36_09AR_exact_head_ci": "34082878677/101621390416",
+    "scope": "AR is exact green same-PR provisional parent; AP-AQ-AR give all parity/sign Stage36 Monsky coordinates"
+  },
+  "source_locks": {
+    "stage36_36_09AR": {"path":"stages/stage36/36-09AR/even-monsky-class-coordinate-adapter-preflight.json","blob_sha":"667a2ab1329865acdefca3b531511a3798edb3e6"},
+    "stage36_36_09AR_verifier": {"path":"stages/stage36/verify_stage36_36_09AR.py","blob_sha":"3368f0a8301f9bd8c0a8f2d3c08c89e14901546f"},
+    "stage36_36_09AP": {"path":"stages/stage36/36-09AP/retained-open-tunnell-monsky-two-gate-preflight.json","blob_sha":"354b2922cb633518c6cf7b47e7afb216481d2968"},
+    "stage36_36_09AQ": {"path":"stages/stage36/36-09AQ/odd-eta-plus-monsky-class-coordinate-adapter-preflight.json","blob_sha":"ac75db896e04664c50c26399b5f8af333e38cca1"},
+    "monsky_source": {"path":"stages/stage36/36-09AO/monsky-full2-kernel-source-lock.md","blob_sha":"9f22dfe19d42d7104d30d219aac1cfd72a67c72a"}
+  },
+  "reservoir_characteristic_vectors": {
+    "ambient": "F2^omega(n) in the actual odd-prime order of n=A*B*C*D",
+    "a": "psi_n(A)",
+    "b": "psi_n(B)",
+    "c": "psi_n(C)",
+    "d": "psi_n(D)",
+    "partition_identity": "a+b+c+d=1",
+    "redei_matrix": "R=A_n with row-sum diagonal, hence R*1=0",
+    "lambda2": "D_2*1",
+    "lambda_minus1": "D_-1*1"
+  },
+  "odd_kernel_compression": {
+    "matrix": "M_n=[[R+D2,D2],[D2,R+D(-2)]], D(-2)=D(-1)+D2",
+    "branch_coordinates": {
+      "delta_t0": "c+d",
+      "delta_t1": "a+b=1+delta_t0",
+      "y_eta_minus": "b+d",
+      "y_eta_plus": "a+d",
+      "x": "delta_t+y_eta"
+    },
+    "equivalent_two_equations": [
+      "R*(delta+y)+D2*delta=0",
+      "R*delta+D(-1)*y=0"
+    ],
+    "factorization": "delta depends only on t=e=f; y depends only on eta",
+    "fixed_eta_t_flip": {
+      "delta_prime": "delta+1",
+      "first_equation_residual_difference": "D2*1=lambda2",
+      "second_equation_residual_difference": "0",
+      "simultaneous_kernel_pass_requires": "D2*1=0, equivalently (2/p)=+1 for every odd p|n",
+      "congruence_form": "every odd p|n is 1 or 7 mod 8"
+    },
+    "fixed_t_eta_flip": {
+      "y_difference": "a+b",
+      "first_equation_residual_difference": "R*(a+b)",
+      "second_equation_residual_difference": "D(-1)*(a+b)"
+    }
+  },
+  "even_kernel_compression": {
+    "matrix": "M_2n=[[R^T+D2,D(-1)],[D2,R+D2]]",
+    "common_x": "a+b",
+    "branch_y": {
+      "ETA_PLUS_E0_F1": "b+d",
+      "ETA_PLUS_E1_F0": "a+c=1+(b+d)",
+      "ETA_MINUS_E0_F1": "a+d",
+      "ETA_MINUS_E1_F0": "b+c=1+(a+d)"
+    },
+    "z": "x+y",
+    "equivalent_two_equations": [
+      "(R^T+D2)*x+D(-1)*y=0",
+      "R*y+D2*z=0"
+    ],
+    "fixed_eta_ef_flip": {
+      "y_prime": "y+1",
+      "first_equation_residual_difference": "D(-1)*1=lambda_minus1",
+      "second_equation_residual_difference": "D2*1=lambda2",
+      "simultaneous_kernel_pass_requires": "D(-1)*1=0 and D2*1=0",
+      "congruence_form": "every odd p|n is 1 mod 8",
+      "when_condition_holds": "the two e/f choices for that eta have identical Monsky-kernel residuals"
+    },
+    "fixed_ef_eta_flip": {
+      "y_difference": "x=a+b",
+      "first_equation_residual_difference": "D(-1)*x",
+      "second_equation_residual_difference": "(R+D2)*x"
+    }
+  },
+  "interpretation": {
+    "all_eight_parity_sign_branch_kernel_tests_compressed": true,
+    "odd_four_branches_factor_as_two_delta_choices_times_two_y_choices": true,
+    "even_four_branches_share_x_psi_AB": true,
+    "branch_pair_simultaneous_survival_restrictions_obtained": true,
+    "actual_prime_legendre_matrix_remains_load_bearing": true,
+    "residue_only_fixed_s_compression_recovered": false,
+    "single_actual_stage36_parameter_excluded_uniformly": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_closed": false
+  },
+  "route_result": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "next_leaf": "36-09AT_STAGE36_RESERVOIR_REDEI_SPECIALIZATION_PREFLIGHT",
+    "next_question": "whether the six-reservoir/Gaussian provenance of A,B,C,D forces the compressed Redei/Monsky equations to fail on any actual Stage36 branch, rather than merely relating alternative branches"
+  },
+  "scope_firewalls": {
+    "branch_pair_exclusivity_implies_single_parameter_exclusion": false,
+    "Monsky_kernel_implies_MW_image": false,
+    "Monsky_kernel_implies_receiver": false,
+    "Tunnell_equality_implies_congruent": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

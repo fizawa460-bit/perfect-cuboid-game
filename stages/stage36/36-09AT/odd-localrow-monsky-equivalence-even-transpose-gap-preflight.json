@@ -1,0 +1,87 @@
+{
+  "schema": "STAGE36_36_09AT_ODD_LOCALROW_MONSKY_EQUIVALENCE_EVEN_TRANSPOSE_GAP_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AT",
+  "status": "EXACT_ODD_SELECTED_PRIME_LOCALROW_MONSKY_EQUIVALENCE_AND_EVEN_TRANSPOSE_GAP_PENDING_BATCH_AUDIT",
+  "base_main_sha": "ab8fd6b3ff6660188d7d17c89960f02f5bf9eb90",
+  "batch_parent": {
+    "pr": 1680,
+    "36_09AS_exact_head": "2ac34f56fa6b63dcbf8ac67b5c46d34857acf9c8",
+    "36_09AS_exact_head_ci": "34083152458/101622132699"
+  },
+  "source_locks": {
+    "stage36_36_09AS": {"path":"stages/stage36/36-09AS/all-parity-monsky-kernel-equation-compression-preflight.json","blob_sha":"6b20e9a7d4bb1221feb06622db4d165fb2e3e1ee"},
+    "stage36_36_09AS_verifier": {"path":"stages/stage36/verify_stage36_36_09AS.py","blob_sha":"badc07dbfd0f4fdccf0f1e8f75198d48576c2e40"},
+    "stage36_36_09AE": {"path":"stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json","blob_sha":"ddae37dd35cd0e732cebadf9c17f3f3fa57930df"},
+    "monsky_source": {"path":"stages/stage36/36-09AO/monsky-full2-kernel-source-lock.md","blob_sha":"9f22dfe19d42d7104d30d219aac1cfd72a67c72a"}
+  },
+  "notation": {
+    "AE_local_rows": "for each selected odd q|A,B,C,D write (r1(q),r2(q)) for the two additive Legendre-symbol equations in 36-09AE",
+    "Monsky_residual_pair": "for odd N write (m1(q),m2(q)) for the q-coordinate in the first and second block of M_N v_stage",
+    "xor": "addition in F2"
+  },
+  "odd_exact_local_change_of_basis": {
+    "eta_minus": {
+      "A": ["m1=r1","m2=r2"],
+      "B": ["m1=r2","m2=r1"],
+      "C": ["m1=r2","m2=r1 xor r2"],
+      "D": ["m1=r1 xor r2","m2=r2"]
+    },
+    "eta_plus": {
+      "A": ["m1=r2","m2=r1"],
+      "B": ["m1=r1","m2=r2"],
+      "C": ["m1=r1 xor r2","m2=r2"],
+      "D": ["m1=r2","m2=r1 xor r2"]
+    },
+    "independent_of_t_e_equals_f": true,
+    "each_2x2_map_invertible_over_F2": true,
+    "consequence": "for every odd Stage36 branch, all AE selected-prime local rows vanish iff the Stage36 Monsky residual M_N*v_stage vanishes"
+  },
+  "odd_route_classification": {
+    "Monsky_gate_adds_new_filter_after_AE_selected_prime_rows": false,
+    "Monsky_gate_is_exact_repackaging_of_AE_selected_prime_rows": true,
+    "Tunnell_gate_remains_logically_distinct": true,
+    "actual_prime_identity_remains_load_bearing": true,
+    "candidate_parameter_set_shrunk_by_this_equivalence": false
+  },
+  "even_partial_local_identification": {
+    "second_Monsky_block_by_eta": {
+      "eta_minus": {
+        "A":"r1","B":"r2","C":"r2","D":"r1 xor r2"
+      },
+      "eta_plus": {
+        "A":"r2","B":"r1","C":"r1 xor r2","D":"r2"
+      }
+    },
+    "independent_of_ef_choice": true,
+    "first_Monsky_block_contains": "R^T*x with x=psi_n(A*B)",
+    "pointwise_AE_localrow_basis_change_for_first_block_obtained": false,
+    "new_gap": "the even first block is transposed-Redei/reciprocity-global rather than a pointwise selected-prime row"
+  },
+  "interpretation": {
+    "odd_Monsky_gate_redundancy_exact": true,
+    "even_second_block_redundancy_exact": true,
+    "even_first_block_reciprocity_bridge_needed": true,
+    "single_actual_stage36_parameter_excluded_uniformly": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_closed": false
+  },
+  "route_result": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "next_leaf": "36-09AU_EVEN_TRANSPOSED_REDEI_RECIPROCITY_BRIDGE_PREFLIGHT",
+    "next_question": "whether quadratic reciprocity plus the full AE row system makes the even transposed-Redei first block automatic, equivalent, or genuinely stronger"
+  },
+  "scope_firewalls": {
+    "odd_equivalence_closes_receiver": false,
+    "even_full_equivalence_claimed": false,
+    "Monsky_kernel_implies_MW_image": false,
+    "Tunnell_equality_implies_congruent": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

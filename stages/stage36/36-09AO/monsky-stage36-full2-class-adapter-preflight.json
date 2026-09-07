@@ -1,0 +1,114 @@
+{
+  "schema": "STAGE36_36_09AO_MONSKY_STAGE36_FULL2_CLASS_ADAPTER_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AO",
+  "status": "EXACT_ACTUAL_PRIME_MONSKY_MATRIX_AND_STAGE36_FULL2_KERNEL_ADAPTER_BATCH_AUDIT_CHECKPOINT",
+  "base_main_sha": "24215fa27a631cd3cb370c0dfd76866dd2e916f1",
+  "batch_parent": {
+    "pr": 1680,
+    "36_09AN_exact_head": "8ade3e831595143280cee1bf39fb94205075e2cd",
+    "36_09AN_exact_head_ci": "34076840101/101604523353",
+    "authority_scope": "36-09AJ through 36-09AL are hostile-audited merged authority; AM and AN are provisional exact same-PR inputs"
+  },
+  "source_locks": {
+    "stage36_36_09AN": {"path": "stages/stage36/36-09AN/tunnell-filter-residue-noncompression-preflight.json", "blob_sha": "7bc094390cd4d82d9dee6959eb934185c8c4c492"},
+    "stage36_36_09AL": {"path": "stages/stage36/36-09AL/b7-selmer-class-nontrivial-sha2-preflight.json", "blob_sha": "10962f8d2471a8236d66a602c0f4952ce497e56c"},
+    "monsky_source": {"path": "stages/stage36/36-09AO/monsky-full2-kernel-source-lock.md", "blob_sha": "9f22dfe19d42d7104d30d219aac1cfd72a67c72a"},
+    "S36_PW07": {"path": "docs/arsenal/cards/provisional/S36-PW07.md", "blob_sha": "9ebeb753826da005471bf677969b535f91ea8018"}
+  },
+  "general_adapter": {
+    "normalized_curve": "E_N: Y^2=X^3-N^2*X, N positive squarefree",
+    "stage36_root_order": ["0", "+N", "-N"],
+    "monsky_homogeneous_root_order": ["+N", "-N", "0"],
+    "root_order_adapter": "(k0,kplus,kminus) -> (d1,d2,d3)=(kplus,kminus,k0)",
+    "pure_selmer_normalization": "multiply componentwise by one of the four rational 2-torsion Kummer triples, then square-reduce to the standard source representative",
+    "odd_N_kernel_map": "(d1,d2,d3) -> (psi_N(d2),psi_N(d1))",
+    "even_N_kernel_map": "for N=2*n_odd, use source-normalized odd-part representative and (psi_n(|d3|),psi_n(d2))",
+    "actual_prime_data_required": ["ordered odd prime factors of N", "all directed pairwise Legendre symbols", "(-1/p_i)", "(2/p_i)"],
+    "stage36_existing_data_match": "AF/AN retain actual prime identities and pairwise Jacobi/Legendre data; residue-only compression is insufficient but no new arithmetic species is needed to build the matrix"
+  },
+  "odd_matrix_convention": {
+    "A_offdiag": "A_ij=[p_j/p_i] additive for i!=j",
+    "A_diag": "sum of offdiagonal row entries mod 2",
+    "D_l": "diag([l/p_i]) for l in {-1,2,-2}",
+    "M_odd": "[[A+D2,D2],[D2,A+Dminus2]]",
+    "pure_2Selmer_dimension": "2*k-rank_F2(M_odd)"
+  },
+  "even_matrix_convention": {
+    "N": "2*n with n odd squarefree",
+    "M_even": "[[A^T+D2,Dminus1],[D2,A+D2]]",
+    "executed_on_stage36_example": false
+  },
+  "B7_exact_adapter": {
+    "N": 73073,
+    "prime_order": [7,11,13,73],
+    "stage36_normalized_triple_0_plus_minus": [-143,-1606,1898],
+    "monsky_reordered_triple_plus_minus_0": [-1606,1898,-143],
+    "torsion_multiplier": "(-N,0) triple=(-2N,2,-N)",
+    "positive_divisor_representative": [91,949,511],
+    "factorization": ["91=7*13", "949=13*73", "511=7*73"],
+    "psi_d2": [0,0,1,1],
+    "psi_d1": [1,0,1,0],
+    "kernel_vector": [0,0,1,1,1,0,1,0],
+    "A_matrix": [
+      [0,0,1,1],
+      [1,1,1,1],
+      [1,1,1,1],
+      [1,1,1,1]
+    ],
+    "D2_diag": [0,1,1,0],
+    "Dminus2_diag": [1,0,1,0],
+    "Monsky_matrix": [
+      [0,0,1,1,0,0,0,0],
+      [1,0,1,1,0,1,0,0],
+      [1,1,0,1,0,0,1,0],
+      [1,1,1,1,0,0,0,0],
+      [0,0,0,0,1,0,1,1],
+      [0,1,0,0,1,1,1,1],
+      [0,0,1,0,1,1,0,1],
+      [0,0,0,0,1,1,1,1]
+    ],
+    "M_times_kernel_vector": [0,0,0,0,0,0,0,0],
+    "matrix_rank_F2": 6,
+    "matrix_nullity": 2,
+    "pure_2Selmer_dimension": 2,
+    "audited_AL_MW_rank": 0,
+    "audited_AL_no_rational_4torsion": true,
+    "Sha2_dimension_F2": 2,
+    "Sha2_order": 4,
+    "Stage36_class_is_nonzero_kernel_vector": true
+  },
+  "B23_matrix_diagnostic": {
+    "N": 240097,
+    "prime_order": [11,13,23,73],
+    "N_mod8": 1,
+    "matrix_rank_F2": 6,
+    "matrix_nullity": 2,
+    "pure_2Selmer_dimension": 2,
+    "Stage36_class_local_survivor_claimed": false,
+    "rank_or_congruence_claimed": false,
+    "role": "matrix-level diagnostic only; audited AF already rejects this Stage36 B23 choice at selected-prime local rows"
+  },
+  "route_result": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "MONSKY_MATRIX_CONSTRUCTION_ADAPTED": true,
+    "STAGE36_FULL2_CLASS_TO_KERNEL_ADAPTED_FOR_ODD_B7": true,
+    "EVEN_STAGE36_CLASS_EXAMPLE_ADAPTED": false,
+    "UNIFORM_MW_VS_SHA_CLASSIFIED": false,
+    "natural_hostile_audit_checkpoint": true,
+    "next_leaf_after_audit": "36-09AP_MONSKY_KERNEL_STAGE36_CLASS_UNIFORM_BRANCH_SPLIT_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "kernel_membership_implies_MW_image": false,
+    "matrix_nullity_decides_specific_class_MW_vs_Sha": false,
+    "B23_matrix_nullity_implies_local_survivor": false,
+    "uniform_branch_family_classified": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

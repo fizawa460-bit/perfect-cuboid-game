@@ -1,0 +1,92 @@
+{
+  "schema": "STAGE36_36_09AU_EVEN_TRANSPOSED_REDEI_STAGE36_EQUIVALENCE_CLOSE_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AU",
+  "status": "EXACT_ALL_PARITY_AE_LOCALROW_MONSKY_EQUIVALENCE_AND_MONSKY_FILTER_REDUNDANCY_BATCH_AUDIT_CHECKPOINT",
+  "base_main_sha": "600eb3032d44d35cdc067a060f6e58f2ed18d16b",
+  "freshness_sync": {
+    "previous_base_main_sha": "ab8fd6b3ff6660188d7d17c89960f02f5bf9eb90",
+    "current_main_sha": "600eb3032d44d35cdc067a060f6e58f2ed18d16b",
+    "sync_merge_commit": "ba633a560ed0fdc9f27d0e8450ddd62de40058e0",
+    "intervening_drift": "Arsenal literature materialization only",
+    "stage36_source_drift": false
+  },
+  "batch_parent": {
+    "pr": 1680,
+    "36_09AT_exact_head": "b798b4d5a5d8ac134f7831d8be7f25a4b060debc",
+    "36_09AT_exact_head_ci": "34083474078/101623014316",
+    "scope": "AP through AU substantive reconciliation/coordinate/kernel-compression batch"
+  },
+  "source_locks": {
+    "stage36_36_09AT": {"path":"stages/stage36/36-09AT/odd-localrow-monsky-equivalence-even-transpose-gap-preflight.json","blob_sha":"b4aaa9447f42ed60d51674bdaaee7ff16162437a"},
+    "stage36_36_09AT_verifier": {"path":"stages/stage36/verify_stage36_36_09AT.py","blob_sha":"62e3c992623284258c7b6e127f5ef2472757cda6"},
+    "stage36_36_09AE": {"path":"stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json","blob_sha":"ddae37dd35cd0e732cebadf9c17f3f3fa57930df"},
+    "stage36_36_09V": {"path":"stages/stage36/36-09V/gaussian-directional-prime-support-preflight.json","blob_sha":"9fdec16f920104cc6c1961fb092185a0371258d5"},
+    "monsky_source": {"path":"stages/stage36/36-09AO/monsky-full2-kernel-source-lock.md","blob_sha":"9f22dfe19d42d7104d30d219aac1cfd72a67c72a"}
+  },
+  "quadratic_reciprocity_bridge": {
+    "epsilon": "epsilon_i=[-1/p_i] for odd primes p_i|n",
+    "redei_identity": "R^T=R+epsilon*epsilon^T+D(-1) over F2",
+    "even_common_x": "x=psi_n(A*B)",
+    "global_AB_sign_bit": "s=epsilon^T*x",
+    "first_block_before_stage36_2adic_input": {
+      "q_divides_A_or_B": "m1(q)=r1(q)+r2(q)+epsilon_q*(s+e)",
+      "q_divides_C_or_D": "m1(q)=r1(q)+epsilon_q*(s+e)"
+    }
+  },
+  "stage36_forces_s_equals_e": {
+    "alpha_two_residue": "every odd q|A*B has (2/q)=+1, hence q mod8 is 1 or 7",
+    "AB_mod8_from_s": "A*B mod8 is 1 when s=0 and 7 when s=1",
+    "AB_equality_test": "because A,B are each 1 or 7 mod8, A mod8=B mod8 iff s=0; A mod8!=B mod8 iff s=1",
+    "UV_rule_same_AB": "A mod8=B mod8 forbids (e,f)=(1,0), so on even g=1 it forces e=0,f=1",
+    "UV_rule_different_AB": "A mod8!=B mod8 forbids (e,f)=(0,1), so on even g=1 it forces e=1,f=0",
+    "conclusion": "s=e on every Stage36 even branch surviving the already-audited alpha/UV skeleton"
+  },
+  "even_exact_local_change_of_basis_after_stage36_rules": {
+    "eta_minus": {
+      "A": ["m1=r1 xor r2","m2=r1"],
+      "B": ["m1=r1 xor r2","m2=r2"],
+      "C": ["m1=r1","m2=r2"],
+      "D": ["m1=r1","m2=r1 xor r2"]
+    },
+    "eta_plus": {
+      "A": ["m1=r1 xor r2","m2=r2"],
+      "B": ["m1=r1 xor r2","m2=r1"],
+      "C": ["m1=r1","m2=r1 xor r2"],
+      "D": ["m1=r1","m2=r2"]
+    },
+    "independent_of_allowed_ef_choice": true,
+    "each_2x2_map_invertible_over_F2": true,
+    "consequence": "for every Stage36 even branch allowed by the existing alpha/UV skeleton, all AE selected-prime rows vanish iff M_2n*v_stage=0"
+  },
+  "all_parity_conclusion": {
+    "odd_equivalence_from_AT": true,
+    "even_equivalence_from_AU": true,
+    "AE_selected_prime_rows_iff_stage36_Monsky_kernel_all_parities": true,
+    "Monsky_gate_adds_new_receiver_filter_after_AE": false,
+    "Tunnell_gate_remains_new_and_independent": true,
+    "Monsky_still_useful_for_coordinate_Selmer_Sha_diagnostics": true,
+    "candidate_parameter_set_shrunk_by_AU": false,
+    "receiver_closed": false
+  },
+  "cycle_result": {
+    "route_status": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "blocked_route": "MONSKY_AS_AN_INDEPENDENT_POST_AE_RECEIVER_FILTER",
+    "retained_value": "exact coordinate language, Selmer nullity, and fixed-fiber Sha diagnostics",
+    "new_pattern": "the only genuinely new global gate in the reconciled AP-AU stack is Tunnell equality; Monsky is the linear-algebraic repackaging of already-audited Stage36 selected-prime local solubility constraints",
+    "next_after_audit": "36-09AV_TUNNELL_EQUALITY_ACTUAL_PARAMETER_SPECIALIZATION_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "AE_Monsky_equivalence_implies_MW_image": false,
+    "AE_Monsky_equivalence_implies_receiver": false,
+    "Tunnell_equality_implies_congruent": false,
+    "uniform_Tunnell_equality_side_classified": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
