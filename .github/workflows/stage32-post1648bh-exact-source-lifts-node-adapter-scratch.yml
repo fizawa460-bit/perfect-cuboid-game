@@ -9,7 +9,7 @@ on:
       - '.github/workflows/stage32-post1648bh-exact-source-lifts-node-adapter-scratch.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   diagnose-bh-exact-source-lifts-node-adapter:
@@ -53,5 +53,14 @@ jobs:
             'next':x['decision']['next_exact_route'],
           },sort_keys=True))
           PY
+      - name: Persist exact BH scratch result
+        run: |
+          RESULT=stages/stage32/residual-32-01-production/post1648bh-exact-source-lifts-node-adapter-scratch-result.json
+          cp /tmp/bh.json "$RESULT"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$RESULT"
+          git commit -m 'Stage32 scratch: capture BH exact output'
+          git push origin "HEAD:${GITHUB_REF_NAME}"
       - name: Diff hygiene
         run: test -z "$(git status --porcelain)"
