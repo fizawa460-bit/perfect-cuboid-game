@@ -18,6 +18,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Verify exact checkout identity
+        shell: bash
+        env:
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          expected="$PR_HEAD"
+          if [ -z "$expected" ]; then expected="$GITHUB_SHA"; fi
+          actual="$(git rev-parse HEAD)"
+          echo "expected_head=$expected"
+          echo "actual_head=$actual"
+          test "$actual" = "$expected"
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
