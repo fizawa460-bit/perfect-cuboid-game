@@ -30,7 +30,7 @@ jobs:
           set -euo pipefail
           KEY='stages/stage35-ex/runkeys/goal4aj-degree19-truncated-strict-kernel-gen11.json'
           SCRIPT='stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_degree19_truncated_strict_kernel_gen11.py'
-          EXPECTED_SCRIPT_BLOB='69f50bb8c75f50fe46546af42ab8a5002560f69a'
+          EXPECTED_SCRIPT_BLOB='1722fdf949915443985ce1c512b4d5474b18cd1e'
           echo 'authorized=false' >> "$GITHUB_OUTPUT"
           test "$EVENT" = 'pull_request' || exit 0
           test "$ACTION" = 'synchronize' || exit 0
@@ -49,12 +49,15 @@ jobs:
           old=json.loads(subprocess.check_output(['git','show',f'{before}:{key}'],text=True))
           new=json.loads(open(key,encoding='utf-8').read())
           assert old['schema']==new['schema']=='STAGE35_EX_GOAL4AJ_DEGREE19_TRUNCATED_STRICT_KERNEL_GEN11_RUNKEY_V1'
-          assert old['generation']==0 and old['armed'] is False
-          assert new['generation']==1 and new['armed'] is True
+          assert old['generation']==1 and old['armed'] is True
+          assert new['generation']==2 and new['armed'] is True
+          assert old['script_blob_sha1']=='69f50bb8c75f50fe46546af42ab8a5002560f69a'
+          assert new['script_blob_sha1']=='1722fdf949915443985ce1c512b4d5474b18cd1e'
           assert new['base_main_sha']=='1d7bfd98ef8eab7bd849fe7bfdbcdaf5c0b575e7'
-          assert new['script_blob_sha1']=='69f50bb8c75f50fe46546af42ab8a5002560f69a'
           assert new['repair_of_failed_run']==34150955991
           assert new['repair_of_failed_job']==101832986450
+          assert new['repair_of_gen11_generation1_run']==34151259036
+          assert new['repair_of_gen11_generation1_job']==101833894176
           assert new['field_prime']==32009 and new['degree_cap']==19
           assert new['artifact_upload'] is False
           PY
