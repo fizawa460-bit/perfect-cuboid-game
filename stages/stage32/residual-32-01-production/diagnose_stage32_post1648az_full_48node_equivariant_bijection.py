@@ -43,8 +43,7 @@ def canon(v: tuple[complex, ...]) -> tuple[complex, ...]:
             out = []
             for y in v:
                 z = y * inv
-                re = int(round(z.real)); im = int(round(z.imag))
-                out.append(complex(re, im))
+                out.append(complex(int(round(z.real)), int(round(z.imag))))
             return tuple(out)
     raise ValueError("zero projective vector")
 
@@ -101,7 +100,6 @@ def perm_from_map(nodes, kind):
 
 
 def perm_conjugate(a,b):
-    # a b a, used only for involutive a.
     return compose(a, compose(b,a))
 
 
@@ -143,11 +141,10 @@ def main() -> None:
     candidates=av["coordinate_W1_W2_W3_C_recovery"]["single_hyperplane_candidates"]
     wblocks=[set(candidates[i]["exceptional_labels_1based"]) for i in chosen]
 
-    # Lock the exact semantic quotient patterns of the three retained non-sign generators.
     expected_q=[
-        ((1,0,2,3),(1,0,2)),  # t12
-        ((2,1,0,3),(2,1,0)),  # t13
-        ((3,1,2,0),(0,2,1)),  # t13 sigma t13
+        ((1,0,2,3),(1,0,2)),
+        ((2,1,0,3),(2,1,0)),
+        ((3,1,2,0),(0,2,1)),
     ]
     actual_q=[(block_perm(wblocks,raw[j]),block_perm(zblocks,raw[j])) for j in range(3)]
     if actual_q != expected_q:
@@ -156,12 +153,10 @@ def main() -> None:
     nodes=source_nodes()
     if len(nodes)!=48:
         raise ValueError(f"source node enumeration regression: {len(nodes)}")
-    idx={v:i for i,v in enumerate(nodes)}
     t12=perm_from_map(nodes,"t12")
     t13=perm_from_map(nodes,"t13")
     sigma=perm_from_map(nodes,"sigma")
     sigma13=perm_conjugate(t13,sigma)
-    # retained raw signs are a1,a2,a3,b1,b2,b3 respectively.
     src=[t12,t13,sigma13]
     for coord in (0,1,2,3,4,5):
         src.append(perm_from_map(nodes,f"sign_{coord}"))
@@ -169,7 +164,6 @@ def main() -> None:
     if len(SG)!=1536:
         raise ValueError(f"source generated node-action group regression: {len(SG)}")
 
-    # Exact source hyperplane blocks in semantic order b1,b2,b3 and a1,a2,a3,c.
     sz=[{i for i,v in enumerate(nodes) if v[3+j]==0} for j in range(3)]
     sw=[{i for i,v in enumerate(nodes) if v[k]==0} for k in (0,1,2,6)]
     if sorted(map(len,sz)) != [16,16,16] or sorted(map(len,sw)) != [24,24,24,24]:
@@ -179,7 +173,6 @@ def main() -> None:
     if len(source_anchor)!=8 or len(retained_anchor)!=8:
         raise ValueError("eight-node anchor regression")
 
-    # Solve all generator-by-generator equivariant bijections from the source anchor cell.
     solutions=[]
     for s0 in sorted(source_anchor):
         for e0 in sorted(retained_anchor):
@@ -203,7 +196,6 @@ def main() -> None:
         raise ValueError(f"expected unique full equivariant bijection, got {len(solutions)}")
     f=solutions[0]
 
-    # Check semantic block membership for all 48 points, independently of generator propagation.
     for s,e in f.items():
         for j in range(3):
             if ((s in sz[j]) != (e in zblocks[j])):
@@ -212,7 +204,6 @@ def main() -> None:
             if ((s in sw[j]) != (e in wblocks[j])):
                 raise ValueError("W/C semantic block mismatch")
 
-    # Check all nine generator squares/action intertwining explicitly on all 48 nodes.
     intertwining_checks=0
     for j in range(9):
         for s,e in f.items():
@@ -221,8 +212,9 @@ def main() -> None:
             intertwining_checks += 1
 
     v6=json.loads(V6.read_text())
-    masses=v6["exceptional_intersections"]
-    if len(masses)!=48 or sum(masses)!=266:
+    all140=v6["witness"]["all140_pairings"]
+    masses=all140[92:140]
+    if len(all140)!=140 or len(masses)!=48 or sum(masses)!=266:
         raise ValueError("V6 exceptional vector regression")
 
     records=[]
@@ -263,7 +255,7 @@ def main() -> None:
         "explicit_48_node_bijection_obtained":True,
         "v6_exceptional_mass_total_under_source_node_labels":sum(r["v6_exceptional_intersection_multiplicity"] for r in records),
         "records":records,
-        "next_exact_route":"USE_THE_EXPLICIT_SOURCE_NODE_LABELS_TO_TEST_WETHER_THE_V6_MULTIPLICITY_VECTOR_SATISFIES_ADDITIONAL_SOURCE_GEOMETRIC_OR_LOCAL_TANGENT_CONSTRAINTS_BEYOND_HYPERPLANE_MASS",
+        "next_exact_route":"USE_THE_EXPLICIT_SOURCE_NODE_LABELS_TO_TEST_WHETHER_THE_V6_MULTIPLICITY_VECTOR_SATISFIES_ADDITIONAL_SOURCE_GEOMETRIC_OR_LOCAL_TANGENT_CONSTRAINTS_BEYOND_HYPERPLANE_MASS",
         "firewalls":{
             "scratch_only":True,
             "full_source_to_retained_48node_action_adapter_obtained":True,
