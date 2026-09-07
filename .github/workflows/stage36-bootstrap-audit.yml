@@ -66,9 +66,20 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09BE.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09BF
-        run: python3 stages/stage36/verify_stage36_36_09BF.py
-      - name: Assert BF firewalls and BG unlock
+      - name: Replay exact 36-09BF parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          H=2079662f682f2a2b49009da169bc66176df8e893
+          git cat-file -e "$H^{commit}"
+          git merge-base --is-ancestor "$H" HEAD
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BF.py"
+          git worktree remove --force "$tmp"
+      - name: Verify current 36-09BG
+        run: python3 stages/stage36/verify_stage36_36_09BG.py
+      - name: Assert BG checkpoint firewalls and BH lock
         shell: bash
         run: |
           set -euo pipefail
@@ -76,17 +87,19 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V94_36_09BF_CANDIDATE'
-          bf=s['authority_frontier']['36-09BF']
-          assert bf['WEIGHT2_PULLBACK_COLLAPSE_COMPLETE'] is True
-          assert bf['CROSS_ELLIPTIC_RECEIVER_PREDICATE_NEW'] is False
-          assert bf['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert bf['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09BG' and s['current']['36_09BG_entry_allowed'] is True
-          assert s['claims']['receiver_emptiness_proved'] is False
-          assert s['claims']['R29_CAMP2_closed'] is False
-          assert s['claims']['Q11_CAMPEDELLI_closed'] is False
-          assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09BF verified; cross weight-2 quotients add no AY-restricted receiver predicate; BG unlocked')
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V95_36_09BG_AUDIT_CHECKPOINT'
+          bg=s['authority_frontier']['36-09BG']
+          assert bg['ALL_15_CHARACTER_PULLBACK_COLLAPSE_COMPLETE'] is True
+          assert bg['NEW_CHARACTER_PREDICATE_BEYOND_BB'] is False
+          assert bg['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert bg['RECEIVER_CLOSED'] is False
+          assert s['cycle_ledger']['B4_FULL_CHARACTER_QUOTIENTS']=='BLOCKED_NO_NEW_INFORMATION_AS_NEW_PREDICATE_ROUTE'
+          assert s['cycle_ledger']['B4_BAD_PRIME_LOCAL']=='LIVE_SELECTED'
+          assert s['current']['unit']=='36-09BG-AUDIT-CHECKPOINT'
+          assert s['current']['hostile_audit_checkpoint_reached'] is True
+          assert s['current']['36_09BH_entry_allowed'] is False
+          for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
+            assert s['claims'][key] is False
+          print('36-09BG checkpoint verified; all character predicates collapse on AY, character-predicate route blocked, bad-place full-cover valuation selected but BH remains audit-locked')
           PY
           git diff --check
