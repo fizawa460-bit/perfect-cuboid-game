@@ -15,6 +15,22 @@ Exact locators used here:
 - §2 immediately before Proposition 2.6 (printed p. 8): the box variety has 48 nodes and the minimal resolution has 48 exceptional lines.
 - §3 immediately before Theorem 3.1 (printed p. 10): the canonical map of the minimal resolution is the composition with the original box embedding `B -> P^6`; therefore projective degree equals intersection with the canonical divisor.
 
+## Elementary 48-node coordinate-incidence replay
+
+The four defining quadrics in the source introduction are diagonal in the seven projective coordinates. Writing squared coordinates in the order
+`(Z1^2,Z2^2,Z3^2,W1^2,W2^2,W3^2,C^2)`, their linear coefficient matrix is
+
+`[0,0,-1,1,1,0,0]`
+`[0,-1,0,1,0,1,0]`
+`[-1,0,0,0,1,1,0]`
+`[0,0,0,1,1,1,-1]`.
+
+For a projective point with a fixed nonzero-coordinate support, Jacobian rank drops below four exactly when the corresponding restricted coefficient matrix has rank below four. Exact rational support enumeration gives precisely six one-dimensional squared-coordinate solutions with four nonzero coordinates. In terms of which of `{W1,W2,W3,C}` vanish, the six types are all six unordered pairs:
+`{W1,C}`, `{W2,W3}`, `{W1,W3}`, `{W2,C}`, `{W1,W2}`, `{W3,C}`.
+Each type has four nonzero projective coordinates and therefore `2^(4-1)=8` sign lifts, giving `6*8=48` singular points, exactly the source node count.
+
+Consequently every box node lies on exactly two of `W1=0,W2=0,W3=0,C=0`, and every one of those four coordinate hyperplanes contains exactly `3*8=24` box nodes. This incidence statement is thus replayed directly from the source-locked defining equations rather than imported as an unsupported semantic assumption.
+
 ## Exact retained-Picard recovery used in AV
 
 The AV diagnostic imports the two permanent-denylist retained Picard payloads runner-side only and emits no retained payload. It reconstructs the full known140 intersection matrix through the existing `HperpIntegralPairingAdapter`.
