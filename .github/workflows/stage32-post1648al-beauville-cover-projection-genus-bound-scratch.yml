@@ -1,0 +1,34 @@
+name: Stage32 post1648AL Beauville-cover projection/genus lower bound
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648al-beauville-cover-projection-genus-bound
+    paths:
+      - 'stages/stage32/residual-32-01-production/post1648al-beauville-cover-projection-genus-bound-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1648al-beauville-cover-projection-genus-bound.json'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648al_beauville_cover_projection_genus_bound.py'
+      - '.github/workflows/stage32-post1648al-beauville-cover-projection-genus-bound-scratch.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-al:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Assert exact head
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+      - name: Replay exact Beauville-cover projection/genus bound
+        run: python3 stages/stage32/residual-32-01-production/verify_stage32_post1648al_beauville_cover_projection_genus_bound.py
+      - name: Enforce immutable certificate and diff hygiene
+        shell: bash
+        run: |
+          git diff --exit-code -- stages/stage32/residual-32-01-production/post1648al-beauville-cover-projection-genus-bound.json
+          git diff --check
