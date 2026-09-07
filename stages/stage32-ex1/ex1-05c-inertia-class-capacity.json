@@ -1,0 +1,99 @@
+{
+  "schema": "STAGE32EX1_EX1_05C_INERTIA_CLASS_CAPACITY_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05C_EXC_NODE_INERTIA_TYPE_ADAPTER_AND_CAPACITY_TEST",
+  "status": "PASS_INERTIA_CLASS_MASS_CAPACITY_REDUCTION_WITH_16_NODE_PARITY_ADAPTER_OPEN_CANDIDATE",
+  "dependency_status": "PROVISIONAL_SAME_PR_DEPENDS_ON_UNAUDITED_EX1_00_THROUGH_EX1_05B_CANDIDATES",
+  "target": {
+    "canonical_degree": 186,
+    "exceptional_contact_mass": 266,
+    "product_cover_ramification_lower_bound_h2": 188
+  },
+  "source_order_adapter": {
+    "verification_source": "MichaelStollBayreuth/Verification/Cuboids/cuboids.magma",
+    "known_curve_order": "Cs=C1s cat C2s cat C3s, with 32 C1 curves, 12 C2 curves, 48 C3 curves; hence 92 known curves before the 48 singular points.",
+    "exceptional_order": "The pairing matrix appends pts[1]..pts[48] after the 92 known curves, so the last 48 all140 pairings are the exact source-side singular-point/exceptional sequence.",
+    "C2_index_groups_1based": {
+      "b1_zero": [33, 34, 35, 36],
+      "b2_zero": [37, 38, 39, 40],
+      "b3_zero": [41, 42, 43, 44]
+    }
+  },
+  "inertia_coordinate_adapter": {
+    "product_invariants": "U=u1*u2=2*b1, V=v1*v2=2*b2, W=w1*w2=2*b3",
+    "u_sign_nodes": "b1=0",
+    "v_sign_nodes": "b2=0",
+    "w_sign_nodes": "b3=0",
+    "nodes_per_class": 16
+  },
+  "divisor_mass_adapter": {
+    "relation": "On the minimal resolution, the pullback of the canonical hyperplane b_j=0 is the sum of the four strict-transform C2 components in that group plus the 16 exceptional curves over the corresponding inertia nodes.",
+    "K_dot_V6": 186,
+    "C2_pairings": {
+      "b1_zero": [11, 26, 31, 22],
+      "b2_zero": [16, 26, 25, 11],
+      "b3_zero": [28, 40, 34, 22]
+    },
+    "C2_pairing_sums": {
+      "b1_zero": 90,
+      "b2_zero": 78,
+      "b3_zero": 124
+    },
+    "inertia_contact_masses": {
+      "u_sign_b1_zero": 96,
+      "v_sign_b2_zero": 108,
+      "w_sign_b3_zero": 62
+    },
+    "mass_sum_replay": "96+108+62=266"
+  },
+  "h2_capacity_test": {
+    "principle": "For h=2 the full component stabilizer M has order4 and contains exactly two of the three single-sign inertia elements; the third inertia class cannot ramify. Since Q>=188, the total contact mass on the two allowed classes must be at least188.",
+    "forbid_u": {"allowed_mass": 170, "compatible_with_Q_ge_188": false},
+    "forbid_v": {"allowed_mass": 158, "compatible_with_Q_ge_188": false},
+    "forbid_w": {"allowed_mass": 204, "compatible_with_Q_ge_188": true},
+    "unique_surviving_h2_stabilizer": "M=<u-sign,v-sign>, H=M∩G0plus=<uv>; w-sign/b3=0 is the forbidden inertia class.",
+    "excluded_h2_subgroup_choices": 2,
+    "remaining_h2_subgroup_choices": 1
+  },
+  "h2_parity_gate": {
+    "forbidden_class": "w-sign / b3=0 / 16 nodes",
+    "ramification_on_forbidden_class": 0,
+    "required_exact_condition": "Every V6 exceptional pairing on the 16 b3=0 nodes is even, because q_i=0 and q_i congruent m_i mod2.",
+    "forbidden_class_total_mass": 62,
+    "forbidden_class_half_excess_if_viable": 31,
+    "Q_even_range_if_h2": [188, 204],
+    "Q_parameterization": "Q=188+2t, 0<=t<=8 (equivalently EX1-05B s=t+1 in 1..9).",
+    "allowed_uv_half_excess": "(204-Q)/2=8-t",
+    "higher_order_ramified_branches_on_allowed_classes_upper_bound": "<=8-t",
+    "simple_transverse_ramified_branches_on_allowed_classes_lower_bound": ">=180+3t",
+    "decision_rule": "If any one of the 16 b3=0 V6 pairings is odd then h=2 is excluded and h=4 is forced at the component-stabilizer layer."
+  },
+  "exact_missing_adapter": {
+    "full_48_label_to_inertia_map_required_for_current_decision": false,
+    "reduced_missing_object": "Identify the 16 source-side pts[k]/EXC_k lying on b3=0, or equivalently certify parity of V6 intersections with those 16 exceptional curves individually.",
+    "why_not_guessed": "Magma Points(SingularSubscheme(S)) source ordering is retained, but no audited compact locator mapping its 48 indices to b1/b2/b3 zero classes was found in the repository during this batch.",
+    "reopen_condition": "Obtain a compact exact pts-index coordinate/inertia table from the verification source or an equivalent Picard/incidence adapter; do not whole-fetch denylisted retained Picard payloads."
+  },
+  "exit": {
+    "all_residual_configurations_disposed": false,
+    "positive_witness_established": false,
+    "branch_exclusion_candidate": "Two of the three h=2 component-stabilizer/inertia choices are excluded by exact class-mass capacity; only the subgroup forbidding w-sign/b3=0 survives.",
+    "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED",
+    "full_target_closure": false,
+    "next_route": "EX1-05D_B3_NODE_PARITY_ADAPTER_OR_H4_FORCING"
+  },
+  "firewalls": {
+    "inertia_class_mass_identified_with_delta": false,
+    "aggregate_mass_used_to_guess_individual_parity": false,
+    "Magma_point_order_guessed": false,
+    "h2_declared_viable_without_16_node_evenness_check": false,
+    "h2_declared_excluded_without_16_node_parity_check": false,
+    "product_cover_refinement_promoted_to_full_v6_exclusion": false,
+    "stage32_main_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "9359008927cd9458c111c128424b9a0f00134109c77ca1bd29a6847404c3518f"
+}
