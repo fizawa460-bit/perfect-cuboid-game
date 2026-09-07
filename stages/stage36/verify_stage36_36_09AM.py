@@ -14,11 +14,11 @@ AJ = ROOT / "stages/stage36/36-09AJ/congruent-number-full2-covering-class-prefli
 AL = ROOT / "stages/stage36/36-09AL/b7-selmer-class-nontrivial-sha2-preflight.json"
 STATE = ROOT / "stages/stage36/MAIN-STATE.json"
 
-BASE = "4e6708cb807cc37bea6509245447a5817965256f"
+BASE = "58e81a647b63bcea17ab396409c2813b667f45e2"
 AUDITED_HEAD = "56f815b9bc25ca91a2ba6e0c0291664bfeac733d"
 AUDIT_REVIEW = 5127436589
 AUDIT_CI = "34074355295/101597480228"
-CERT_BLOB = "d171bb1d078dfe248b4771eebf75fee1e93da141"
+CERT_BLOB = "6d9e9392df8fc70a90a356932724e0a589b6b446"
 SOURCE_BLOB = "0c64262ac11979fa1f5e25039cfc0f4f0426ca62"
 AE_BLOB = "ddae37dd35cd0e732cebadf9c17f3f3fa57930df"
 AJ_BLOB = "27950f53a89e28d02d04f2c19628504561c206e7"
@@ -45,8 +45,6 @@ def atom(name: str, present: bool) -> frozenset[str]:
 
 
 def sector_predicate(Ap: bool, Bp: bool, Cp: bool, Dp: bool, eta: int, e: int, f: int) -> tuple[bool, str | None]:
-    # Boolean Ap means A is nontrivial (A != 1), etc. Pairwise disjoint odd
-    # support makes each nontrivial aggregate an independent squareclass atom.
     if eta == 1 and e == 0 and f == 0 and not Ap and not Cp and not Dp:
         return True, "S0_ETA_PLUS_O"
     if eta == 1 and not Ap and not Bp and not Dp and f == 1:
@@ -65,27 +63,29 @@ def main() -> None:
     assert blob(AJ) == AJ_BLOB
     assert blob(AL) == AL_BLOB
     subprocess.check_call(["git", "merge-base", "--is-ancestor", BASE, "HEAD"], cwd=ROOT)
+    # The old audited exact head remains an ancestor of this continuation branch,
+    # while BASE is the squash-merged main authority produced from that audit.
     subprocess.check_call(["git", "merge-base", "--is-ancestor", AUDITED_HEAD, "HEAD"], cwd=ROOT)
     assert git("rev-parse", f"{AUDITED_HEAD}:stages/stage36/36-09AL/b7-selmer-class-nontrivial-sha2-preflight.json") == AL_BLOB
     assert git("rev-parse", f"{AUDITED_HEAD}:stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json") == AE_BLOB
+    assert git("rev-parse", f"{BASE}:stages/stage36/36-09AL/b7-selmer-class-nontrivial-sha2-preflight.json") == AL_BLOB
 
     c = json.loads(CERT.read_text())
     assert c["schema"] == "STAGE36_36_09AM_UNIFORM_RANKZERO_TUNNELL_SHA2_SIEVE_PREFLIGHT_V1"
     assert c["base_main_sha"] == BASE
-    ap = c["audited_same_pr_parent"]
+    ap = c["audited_parent"]
     assert ap["pr"] == 1677
     assert ap["hostile_audit_review"] == AUDIT_REVIEW
     assert ap["audited_exact_head"] == AUDITED_HEAD
     assert ap["exact_head_ci"] == AUDIT_CI
-    assert ap["merged_to_main"] is False
+    assert ap["merged_to_main"] is True
+    assert ap["merged_main_sha"] == BASE
 
     ae = json.loads(AE.read_text())
     props = ae["squareclass_variables"]["properties"]
     assert "A,B,C,D are positive odd squarefree" in props
     assert "pairwise gcd(A,B)=gcd(A,C)=...=1" in props
 
-    # Exhaust every abstract support/triviality pattern. A,B,C,D are independent
-    # F2 atoms whenever nontrivial; sign and 2 are independent atoms as well.
     two = frozenset({"2"})
     neg = frozenset({"-1"})
     torsion_hits: list[tuple[bool,bool,bool,bool,int,int,int,int]] = []
@@ -112,13 +112,10 @@ def main() -> None:
                 pred, sid = sector_predicate(Ap,Bp,Cp,Dp,eta,e,f)
                 assert in_image == pred, (Ap,Bp,Cp,Dp,eta,e,f,pair,torsion,sid)
                 if in_image:
-                    idx = torsion.index(pair)
-                    torsion_hits.append((Ap,Bp,Cp,Dp,eta,e,f,idx))
+                    torsion_hits.append((Ap,Bp,Cp,Dp,eta,e,f,torsion.index(pair)))
                     assert sid is not None
                     sector_hits.append((Ap,Bp,Cp,Dp,eta,e,f,sid))
 
-    # Four symbolic sectors have 12 Boolean specializations because the declared
-    # free variable/bit choices and overlaps at A=B=C=D=1 are retained.
     assert len(torsion_hits) == 12
     assert {x[-1] for x in sector_hits} == {
         "S0_ETA_PLUS_O",
@@ -154,12 +151,12 @@ def main() -> None:
     st = json.loads(STATE.read_text())
     assert st["schema"] == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V75_36_09AM_CANDIDATE"
     assert st["base_main_sha"] == BASE
-    chk = st["audited_in_pr_checkpoint"]
-    assert chk["pr"] == 1677 and chk["hostile_audit_review"] == AUDIT_REVIEW and chk["audited_head"] == AUDITED_HEAD
+    a = st["audited_batch_promotion"]
+    assert a["candidate_pr"] == 1677 and a["hostile_audit_review"] == AUDIT_REVIEW and a["merged_main_sha"] == BASE
     assert st["promotion_gates"]["36_09AJ_hostile_audit_passed"] is True
     assert st["promotion_gates"]["36_09AK_hostile_audit_passed"] is True
     assert st["promotion_gates"]["36_09AL_hostile_audit_passed"] is True
-    assert st["promotion_gates"]["36_09AL_promoted_to_main"] is False
+    assert st["promotion_gates"]["36_09AL_promoted_to_main"] is True
     am = st["authority_frontier"]["36-09AM"]
     assert am["UNIFORM_RANKZERO_TUNNELL_FAIL_CLASSIFIER"] is True
     assert am["TORSION_SHAPED_EXCEPTION_SECTOR_COUNT"] == 4
@@ -170,7 +167,7 @@ def main() -> None:
     assert st["claims"]["receiver_emptiness_proved"] is False
     assert st["claims"]["perfect_cuboid_nonexistence_claim"] is False
 
-    print("36-09AM verified: parity-complete Tunnell failure gives rank zero; exhaustive F2 squareclass comparison leaves exactly four torsion-shaped sectors; every ELS Tunnell-fail branch outside them is nontrivial Sha[2] and has no projective covering Q-point; Tunnell-equality and retained-open torsion sectors remain unresolved; AN unlocked")
+    print("36-09AM verified: merged audited PR1677 supplies AJ-AL authority; parity-complete Tunnell failure gives rank zero; exhaustive F2 squareclass comparison leaves exactly four torsion-shaped sectors; every ELS Tunnell-fail branch outside them is nontrivial Sha[2] and has no projective covering Q-point; Tunnell-equality and retained-open torsion sectors remain unresolved; AN unlocked")
 
 
 if __name__ == "__main__":
