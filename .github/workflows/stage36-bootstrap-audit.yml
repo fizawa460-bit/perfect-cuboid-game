@@ -38,31 +38,7 @@ jobs:
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
 
-      - name: Assert hostile-audited PR1674 promotion authority
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          import json,subprocess
-          from pathlib import Path
-          s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          a=s['audited_batch_promotion']
-          assert a['candidate_pr']==1674
-          assert a['audited_head']=='4bfec87e1ce85608f87fc57e884fc026b5a715b8'
-          assert a['hostile_audit_review']==5127180987
-          assert a['exact_head_ci']=='34070010830/101585489611'
-          assert a['merged_main_sha']=='652cbd51cd6b546f2a178597f7f2d3474c92b1c6'
-          base=a['merged_main_sha']
-          def rev(path):
-              return subprocess.check_output(['git','rev-parse',f'{base}:{path}'],text=True).strip()
-          assert rev('stages/stage36/36-09AI/j1728-congruent-number-jacobian-preflight.json')=='c5af6c4dde67532ea8d592e74aed187c72bbed4e'
-          assert rev('stages/stage36/36-09AH/common-uv-two-quadric-genusone-preflight.json')=='732431bef8dfafe25cbdeb005c4237d72a40ae4b'
-          PY
-
-      - name: Verify current 36-09AJ exact full-2 covering class
-        run: python3 stages/stage36/verify_stage36_36_09AJ.py
-
-      - name: Assert 36-09AJ firewalls and 36-09AK unlock
+      - name: Assert hostile-audited PR1674 authority
         shell: bash
         run: |
           set -euo pipefail
@@ -70,19 +46,48 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V72_36_09AJ_CANDIDATE'
+          a=s['audited_batch_promotion']
+          assert a['candidate_pr']==1674
+          assert a['audited_head']=='4bfec87e1ce85608f87fc57e884fc026b5a715b8'
+          assert a['hostile_audit_review']==5127180987
+          assert a['merged_main_sha']=='652cbd51cd6b546f2a178597f7f2d3474c92b1c6'
+          PY
+
+      - name: Replay exact 36-09AJ synced parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          H=3a808af3404c7d57add3c4dca120b9d1696aa46e
+          git merge-base --is-ancestor "$H" HEAD
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AJ.py"
+          git worktree remove --force "$tmp"
+
+      - name: Verify current 36-09AK everywhere-local B7 covering
+        run: python3 stages/stage36/verify_stage36_36_09AK.py
+
+      - name: Assert 36-09AK firewalls and 36-09AL unlock
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V73_36_09AK_CANDIDATE'
           assert s['status']=='ACTIVE_BATCHING_SUBSTANTIVE_PR'
-          aj=s['authority_frontier']['36-09AJ']
-          assert aj['H1_FULL2_CLASS_IDENTIFIED'] is True
-          assert aj['SELMER_MEMBERSHIP_PROVED'] is False
-          assert aj['COVERING_LOCALLY_SOLVABLE_EVERYWHERE_PROVED'] is False
-          assert aj['COVERING_CLASS_TRIVIALIZED'] is False
-          assert aj['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert aj['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09AK'
-          assert s['current']['36_09AK_entry_allowed'] is True
+          ak=s['authority_frontier']['36-09AK']
+          assert ak['EXPLICIT_B7_COVERING_ELS'] is True
+          assert ak['B7_CLASS_IN_2SELMER_E73073'] is True
+          assert ak['UNIFORM_FULL2_LOCAL_OBSTRUCTION_CLOSURE'] is False
+          assert ak['KUMMER_IMAGE_PROVED'] is False
+          assert ak['SHA2_NONTRIVIAL_PROVED'] is False
+          assert ak['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09AL'
+          assert s['current']['36_09AL_entry_allowed'] is True
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09AJ exact H1/full-2 class verified; Selmer/MW/receiver firewalls intact; 36-09AK unlocked')
+          print('36-09AK ELS Selmer survivor verified; local-obstruction uniform closure blocked; AL MW-vs-Sha unlocked')
           PY
           git diff --check
