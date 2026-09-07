@@ -6,7 +6,7 @@ on:
       - stage33-v91c1x-r4-cover-indexed-h2-representative
     paths:
       - '.github/workflows/stage33-v91c1x-r4-state-materialize.yml'
-      - 'stages/stage33/33-12/materialize_e3_v91c1x_r4_retained_boundary_resolution_insufficient.py'
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r4_retained_boundary_resolution_insufficient_v2.py'
   workflow_dispatch:
 
 permissions:
@@ -29,7 +29,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Materialize R4 exact noncredit construction blocker
-        run: python stages/stage33/33-12/materialize_e3_v91c1x_r4_retained_boundary_resolution_insufficient.py --write
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r4_retained_boundary_resolution_insufficient_v2.py --write
       - name: Verify exact generated scope
         run: |
           git diff --check
