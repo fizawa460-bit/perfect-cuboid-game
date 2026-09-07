@@ -30,7 +30,7 @@ def main():
  c=json.loads(CERT.read_text());bw=json.loads(BW.read_text());bv=json.loads(BV.read_text())
  assert c['base_main_sha']==BASE and c['batch_parent']=={'pr':1693,'36_09BW_exact_head':PARENT,'36_09BW_exact_head_ci':PCI}
  assert bw['route_result']['next_leaf']=='36-09BX_FIXED_P_Q2_BRANCH_FILTER_INTEGRATION_PREFLIGHT'
- assert bv['sound_exclusion_rule']['empty_Q_admissible_outer_family_implies_no_receiver_point'] is True
+ assert bv['sound_fixed_p_exclusion_rule']['unconditional'] is True and bv['sound_fixed_p_exclusion_rule']['converse'] is False
  p=c['fixed_p_branch_only_pipeline'];s=c['sound_exclusion_rule'];r=c['route_result'];fw=c['scope_firewalls']
  assert p['all_integrated_rows_are_necessary'] is True and p['remaining_alpha_tie_gates_integrated_as_row_filters'] is False
  assert s['converse'] is False and s['surviving_branch_is_Q2_point'] is False and s['surviving_branch_is_receiver_point'] is False and s['parameter_exclusion_requires_zero_survivors'] is True
