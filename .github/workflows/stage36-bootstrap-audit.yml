@@ -60,24 +60,24 @@ jobs:
           test "$(git rev-parse HEAD:stages/stage36/36-09AO/monsky-stage36-full2-class-adapter-preflight.json)" = "a26991cb071e086d3cbc36b8c9d2db329a14e5b1"
           test "$(git rev-parse HEAD:stages/stage36/36-09AO/monsky-full2-kernel-source-lock.md)" = "9f22dfe19d42d7104d30d219aac1cfd72a67c72a"
 
-      - name: Replay exact 36-09AQ provisional parent
+      - name: Replay exact 36-09AR provisional parent
         shell: bash
         run: |
           set -euo pipefail
-          H=62497175353167faf98af7bfae6b6c2b3b32d013
+          H=79dd6d595498d1c89f2e70dd535b2f8fe17941df
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AQ.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AR.py"
           git worktree remove --force "$tmp"
-          test "$(git rev-parse "$H":stages/stage36/36-09AQ/odd-eta-plus-monsky-class-coordinate-adapter-preflight.json)" = "ac75db896e04664c50c26399b5f8af333e38cca1"
-          test "$(git rev-parse "$H":stages/stage36/verify_stage36_36_09AQ.py)" = "235851de57165557d0aef4f59881561fe4e40c1a"
+          test "$(git rev-parse "$H":stages/stage36/36-09AR/even-monsky-class-coordinate-adapter-preflight.json)" = "667a2ab1329865acdefca3b531511a3798edb3e6"
+          test "$(git rev-parse "$H":stages/stage36/verify_stage36_36_09AR.py)" = "3368f0a8301f9bd8c0a8f2d3c08c89e14901546f"
 
-      - name: Verify current 36-09AR even Monsky adapter
-        run: python3 stages/stage36/verify_stage36_36_09AR.py
+      - name: Verify current 36-09AS kernel-equation compression
+        run: python3 stages/stage36/verify_stage36_36_09AS.py
 
-      - name: Assert 36-09AR firewalls and 36-09AS unlock
+      - name: Assert 36-09AS firewalls and 36-09AT unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -85,21 +85,20 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V80_36_09AR_CANDIDATE'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V81_36_09AS_CANDIDATE'
           assert s['status']=='ACTIVE_BATCHING_SUBSTANTIVE_PR'
-          ar=s['authority_frontier']['36-09AR']
-          assert ar['EVEN_MONSKY_COORDINATE_ADAPTER'] is True
-          assert ar['ALL_PARITY_MONSKY_COORDINATE_ADAPTER'] is True
-          assert ar['EVEN_COMMON_FIRST_BLOCK_PSI_AB'] is True
-          assert ar['MONSKY_KERNEL_MEMBERSHIP_UNIFORMLY_PROVED'] is False
-          assert ar['TWO_GATE_CONVERSE'] is False
-          assert ar['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert ar['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09AS'
-          assert s['current']['36_09AS_entry_allowed'] is True
+          a=s['authority_frontier']['36-09AS']
+          assert a['ALL_PARITY_KERNEL_EQUATION_COMPRESSION'] is True
+          assert a['ODD_T_FLIP_SIMULTANEOUS_PASS_REQUIRES_ALL_P_1_OR_7_MOD8'] is True
+          assert a['EVEN_EF_FLIP_SIMULTANEOUS_PASS_REQUIRES_ALL_P_1_MOD8'] is True
+          assert a['SINGLE_PARAMETER_UNIFORM_EXCLUSION'] is False
+          assert a['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert a['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09AT'
+          assert s['current']['36_09AT_entry_allowed'] is True
           assert s['claims']['candidate_parameter_set_shrunk'] is False
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09AR verified; all parity/sign Stage36 classes have exact Monsky coordinates; AS kernel-equation compression unlocked')
+          print('36-09AS verified; all parity Monsky equations compressed; exact branch-pair mod8 restrictions obtained; AT reservoir-Redei specialization unlocked')
           PY
           git diff --check
