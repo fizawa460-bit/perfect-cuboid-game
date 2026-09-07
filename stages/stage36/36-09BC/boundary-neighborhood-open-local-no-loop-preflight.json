@@ -2,15 +2,23 @@
   "schema":"STAGE36_36_09BC_BOUNDARY_NEIGHBORHOOD_OPEN_LOCAL_NO_LOOP_PREFLIGHT_V1",
   "stage":"36",
   "unit":"36-09BC",
-  "status":"EXACT_GOOD_PRIME_PUNCTURED_BOUNDARY_LOCAL_NONEMPTY_AND_ELLIPTIC_QUOTIENT_DOMINATED_PENDING_BATCH_AUDIT",
-  "base_main_sha":"fe7ef406a9987981fe5f79267f3f8a39f37a61e4",
+  "status":"EXACT_GOOD_PRIME_PUNCTURED_BOUNDARY_LOCAL_NONEMPTY_AND_ELLIPTIC_QUOTIENT_DOMINATED_REPAIRED_PENDING_REAUDIT",
+  "base_main_sha":"c52f88a671503ac9eb25c20186b4fb7729ba9112",
+  "audit_repair":{
+    "hostile_audit_review":5128976664,
+    "failed_exact_head":"01a1a7b6c1a108052271bd7a2bbe80eaa90922a9",
+    "prior_incorrect_minor":"64*R0*S0*kappa*lambda",
+    "repaired_minor":"32*R0*S0*kappa*lambda",
+    "qualitative_good_odd_prime_conclusion_changed":false,
+    "reason":"the four boundary minor factors are 2*R0, 2*S0, 2*kappa*lambda, 4, whose product coefficient is 32"
+  },
   "batch_parent":{"pr":1686,"36_09BB_exact_head":"72441c82f2c146c63ebde6459b18789e33c6dddb","36_09BB_exact_head_ci":"34091603898"},
   "source_locks":{
     "stage36_36_09BB":{"path":"stages/stage36/36-09BB/ay-receiver-scaled-self-intersection-preflight.json","blob_sha":"e4b63fd500d05ff5dc704e0c08409edee5895053"},
     "stage36_36_09BB_verifier":{"path":"stages/stage36/verify_stage36_36_09BB.py","blob_sha":"a3591e34aaaafcac0efb540d92622fe83136dc18"},
     "stage36_36_09AA":{"path":"stages/stage36/36-09AA/receiver-coupled-same-x-twist-intersection-preflight.json","blob_sha":"be447726a97158849c67ed6d57d6d3c35d6ba20f"},
     "stage36_36_09AC":{"path":"stages/stage36/36-09AC/same-x-separate-squareclass-double-cover-preflight.json","blob_sha":"3e95cc443bb9de9e0d2b14d6d9c32ea7c1953021"},
-    "BC_source":{"path":"stages/stage36/36-09BC/boundary-neighborhood-local-and-elliptic-quotient-source-lock.md","blob_sha":"c5865e8554f00f6a622401f9595b86ad7fb48814"},
+    "BC_source":{"path":"stages/stage36/36-09BC/boundary-neighborhood-local-and-elliptic-quotient-source-lock.md","blob_sha":"fccb0742e5e765243201a59c27d1b76a9d5e8f58"},
     "cycle_policy":{"path":"docs/research-os/policies/cycle-exploration-safety-protocol.md","blob_sha":"4e911c4fc7e4ea7a2b5f96733a90b986ef8d9a37"}
   },
   "closed_joint_system":[
@@ -23,7 +31,9 @@
   "good_prime_local_analysis":{
     "solved_variables":["R","S","t","Zplus"],
     "local_parameter":"Zminus",
-    "jacobian_minor_determinant":"64*R0*S0*kappa*lambda",
+    "jacobian_minor_diagonal_factors":["2*R0","2*S0","2*kappa*lambda","4"],
+    "jacobian_minor_determinant":"32*R0*S0*kappa*lambda",
+    "jacobian_minor_recomputed_by_verifier":true,
     "good_prime_condition":"odd ell with 2,R0,S0,kappa,lambda all ell-adic units",
     "determinant_unit":true,
     "punctured_Qell_points_arbitrarily_close_to_boundary":true,
