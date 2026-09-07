@@ -1,0 +1,25 @@
+name: Stage32 post1648AR two-factor slack minimal branches
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648ar-two-factor-slack-minimal-branches
+
+permissions:
+  contents: read
+
+jobs:
+  verify-ar-two-factor-slack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Run AR final verifier
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648ar_two_factor_slack_minimal_branches.py
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
