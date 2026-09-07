@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V70_36_09AI_CANDIDATE",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V71_36_09AI_BATCH_AUDIT_CHECKPOINT",
   "stage": "36",
-  "status": "ACTIVE_BATCHING_SUBSTANTIVE_PR",
+  "status": "ACTIVE_BATCH_HOSTILE_AUDIT_CHECKPOINT",
   "base_main_sha": "9306238c7ada55e31311245019d6b7e474ad837f",
   "mission": "Attack K16-C3-CAMPEDELLI-UNIFORM-TORSOR through exact receiver-matched arithmetic; keep receiver/theorem/endpoint credit behind hostile audit.",
   "audited_batch_promotion": {
@@ -16,7 +16,7 @@
   "authority_frontier": {
     "36-09U-AF": {"status":"AUDITED_MERGED_AUTHORITY","summary":"antiinvariant Kummer descent through variable-prime Jacobi separation; receiver remains open"},
     "36-09AG": {
-      "status":"EXACT_INDIVIDUAL_CONIC_HASSE_SOLUBILITY_PENDING_BATCH_AUDIT",
+      "status":"EXACT_INDIVIDUAL_CONIC_HASSE_SOLUBILITY_PENDING_HOSTILE_AUDIT",
       "exact_head":"6ef7635a92bc5e9440ed527c60ea871d0c3216fc",
       "exact_head_ci":"34069292996",
       "certificate_blob_sha":"b40a525e739d6021c07d364a243c0d7653350abe",
@@ -25,17 +25,18 @@
       "COMMON_UV_RATIO_OBTAINED":false
     },
     "36-09AH": {
-      "status":"EXACT_SMOOTH_GENUSONE_TWO_QUADRIC_INTERSECTION_FIXED_PENCIL_PENDING_BATCH_AUDIT",
+      "status":"EXACT_SMOOTH_GENUSONE_TWO_QUADRIC_INTERSECTION_FIXED_PENCIL_PENDING_HOSTILE_AUDIT",
       "exact_head":"ab90853e74735a367faa4d98e5c249de3c3a9cd5",
       "exact_head_ci":"34069620942/101584427296",
       "certificate_blob_sha":"732431bef8dfafe25cbdeb005c4237d72a40ae4b",
       "verifier_blob_sha":"f5889e32fdeea06e9287e86f45c694df9815dabf",
       "COMMON_UV_INTERSECTION_GENUS":1,
-      "PENCIL_SINGULAR_DIRECTIONS_FIXED":true,
-      "Q_JACOBIAN_IDENTIFIED":false
+      "PENCIL_SINGULAR_DIRECTIONS_FIXED":true
     },
     "36-09AI": {
-      "status":"EXACT_Q_JACOBIAN_AS_SQUAREFREE_CONGRUENT_NUMBER_CURVE_AND_TWO_COVERING_PENDING_BATCH_AUDIT",
+      "status":"EXACT_Q_JACOBIAN_AS_SQUAREFREE_CONGRUENT_NUMBER_CURVE_AND_TWO_COVERING_BATCH_AUDIT_CHECKPOINT",
+      "exact_head":"8c84ca4ea7676029d6580ae433b506eaa9cc067b",
+      "exact_head_ci":"34069843149/101585034485",
       "certificate":"stages/stage36/36-09AI/j1728-congruent-number-jacobian-preflight.json",
       "certificate_blob_sha":"c5af6c4dde67532ea8d592e74aed187c72bbed4e",
       "verifier":"stages/stage36/verify_stage36_36_09AI.py",
@@ -63,34 +64,35 @@
   },
   "freshness": {"current_main":"9306238c7ada55e31311245019d6b7e474ad837f","stage36_source_drift":false,"main_contains_audited_pr1670":true},
   "cycle_ledger": {
-    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION":"LIVE_CONGRUENT_NUMBER_2SELMER_COVERING_CLASS",
-    "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION":"LIVE_AS_EXPLICIT_2COVERING_OF_CONGRUENT_NUMBER_JACOBIAN",
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION":"LIVE_CONGRUENT_NUMBER_2SELMER_COVERING_CLASS_AFTER_AUDIT",
+    "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION":"LIVE_AS_EXPLICIT_2COVERING_OF_CONGRUENT_NUMBER_JACOBIAN_AFTER_AUDIT",
     "B4_RESIDUE_ONLY_SQUARECLASS_COMPRESSION_SUBROUTE":"BLOCKED_PRIME_IDENTITY_LOAD_BEARING",
     "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER":"UNTESTED",
     "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY":"BLOCKED_AS_UNIFORM_CLOSURE_BY_EXPLICIT_MW_WITNESSES"
   },
   "cycle_audit": {
-    "CYCLE_ROUTE_STATUS":"PASS_NEW_GATE_FROM_STRONGER_VIEW",
-    "CYCLE_ACTIVE_RECEIVER":"explicit 2-covering class of squarefree congruent-number Jacobian E_n",
+    "CYCLE_ROUTE_STATUS":"AUDIT_CHECKPOINT_REACHED_AFTER_CONGRUENT_NUMBER_JACOBIAN_IDENTIFICATION",
+    "CYCLE_ACTIVE_RECEIVER":"specific 2-covering class of squarefree congruent-number Jacobian E_n",
     "CYCLE_SPLIT_TRIGGERED":false,
-    "CYCLE_NEW_VIEW":"common-u:v genus-one curve has exact Q-Jacobian E_n:Y^2=X^3-n^2X with squarefree n=2^((e+f) mod2)ABCD",
-    "CYCLE_NEW_VIEW_SOURCE":"36-09AI"
+    "CYCLE_NEW_VIEW":"AG proves each conic separately Q-soluble; AH identifies the common-u:v locus as smooth genus one with fixed pencil roots; AI identifies its exact Q-Jacobian E_n:Y^2=X^3-n^2X",
+    "CYCLE_NEW_VIEW_SOURCE":"36-09AG through 36-09AI"
   },
   "current": {
-    "unit":"36-09AJ",
-    "next_exact_leaf":"36-09AJ_CONGRUENT_NUMBER_2SELMER_COVERING_CLASS_PREFLIGHT",
-    "next_owner":"STAGE36_MAIN",
-    "result":"36-09AI_EXACT: COMMON_UV_CURVE_IS_A_2COVERING_OF_SQUAREFREE_CONGRUENT_NUMBER_JACOBIAN; COVERING_CLASS_NOT_TRIVIALIZED",
+    "unit":"36-09AI-AUDIT-CHECKPOINT",
+    "next_exact_leaf":"HOSTILE_AUDIT_PR1674_AG_THROUGH_AI",
+    "next_owner":"HOSTILE_AUDIT",
+    "result":"AG-AI_EXACT: INDIVIDUAL_CONIC_HASSE_SOLUBILITY -> COMMON_UV_SMOOTH_GENUS_ONE -> SQUAREFREE_CONGRUENT_NUMBER_JACOBIAN_2COVERING",
     "substantive_batch_pr_continues":true,
-    "hostile_audit_checkpoint_reached":false,
-    "36_09AJ_entry_allowed":true
+    "hostile_audit_checkpoint_reached":true,
+    "36_09AJ_entry_allowed":false,
+    "next_after_pass":"36-09AJ_CONGRUENT_NUMBER_2SELMER_COVERING_CLASS_PREFLIGHT"
   },
   "current_leaf_working_set": [
     "stages/stage36/36-09AI/j1728-congruent-number-jacobian-preflight.json",
     "stages/stage36/verify_stage36_36_09AI.py",
     "stages/stage36/36-09AI/quadric-intersection-jacobian-source-lock.md",
     "stages/stage36/36-09AH/common-uv-two-quadric-genusone-preflight.json",
-    "stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json"
+    "stages/stage36/36-09AG/individual-conic-hasse-solubility-preflight.json"
   ],
   "promotion_gates": {
     "36_09AB_hostile_audit_passed":true,
@@ -112,9 +114,9 @@
   },
   "anti_loop": [
     "do not infer torsor solubility from Jacobian solubility or positive rank",
-    "do not call the 2-covering trivial before its Selmer/Weil-Chatelet class is identified and killed",
+    "do not call the 2-covering trivial before its H1(E[2])/Selmer class is explicitly identified and killed",
     "do not reopen residue-only mod8 compression; actual prime identity remains load-bearing",
-    "do not use S31-W01 as a birational adapter unless explicit forward/inverse maps and exceptional loci are built"
+    "do not enter 36-09AJ before hostile audit PASS of PR1674"
   ],
   "claims": {
     "new_theorem_credit":false,
