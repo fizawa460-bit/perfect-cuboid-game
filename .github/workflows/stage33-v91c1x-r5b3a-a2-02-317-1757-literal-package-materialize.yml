@@ -27,12 +27,16 @@ jobs:
       - name: Install exact local algebra dependency
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
       - name: Materialize R5B3A cover-indexed literal package pullbacks
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
         run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b3a_a2_02_317_1757_literal_package_pullbacks.py --write
       - name: Bound generated delta
         run: |
+          find stages/stage33/33-12 -type d -name __pycache__ -prune -exec rm -rf {} +
           git diff --check
+          git status --porcelain
           test "$(git status --porcelain | wc -l)" -eq 1
-          git status --porcelain | grep 'stages/stage33/33-12/e3-v91c1x-r5b3a-a2-02-317-1757-literal-package-pullbacks.json'
+          git status --porcelain | grep -F '?? stages/stage33/33-12/e3-v91c1x-r5b3a-a2-02-317-1757-literal-package-pullbacks.json'
       - name: Commit exact generated certificate
         run: |
           git config user.name github-actions[bot]
