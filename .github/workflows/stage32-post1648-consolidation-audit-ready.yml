@@ -84,7 +84,17 @@ jobs:
           set -euo pipefail
           ROOT=stages/stage32/residual-32-01-production
           python "$ROOT/diagnose_stage32_post1648az_retained_generator_inventory.py" > /tmp/az-generator-inventory.json
-          python "$ROOT/diagnose_stage32_post1648az_full_48node_equivariant_bijection.py" > /tmp/az-node-bijection.json
+
+          # AZ is an intentionally superseded positive-uniqueness probe. Its
+          # exact retained result is the bounded 16-solution non-uniqueness
+          # later refined by BD/BG/BH, so replay that exact failure as evidence.
+          set +e
+          python "$ROOT/diagnose_stage32_post1648az_full_48node_equivariant_bijection.py" > /tmp/az-node-bijection.out 2> /tmp/az-node-bijection.err
+          AZ_RC=$?
+          set -e
+          test "$AZ_RC" -ne 0
+          grep -F 'expected unique full equivariant bijection, got 16' /tmp/az-node-bijection.err
+
           python "$ROOT/diagnose_stage32_post1648ba_galois_metadata_inventory.py" > /tmp/ba-galois-metadata.json
           python "$ROOT/diagnose_stage32_post1648bb_known140_field_metadata_inventory.py" > /tmp/bb-field-metadata.json
           python "$ROOT/diagnose_stage32_post1648bb_retained_source_locators.py" > /tmp/bb-source-locators.json
