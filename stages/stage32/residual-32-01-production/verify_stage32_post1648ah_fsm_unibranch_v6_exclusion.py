@@ -51,7 +51,7 @@ def main() -> None:
         # Stored zero_exceptional_indices is historical zero-based [5].
         raise ValueError(f"V6 zero exceptional label regression: {zero_indices}")
 
-    # FSM §3 exact arithmetic under the bijective-normalization hypothesis.
+    # FSM §3 exact arithmetic under the GLOBAL bijective-normalization hypothesis.
     # For genus g=1 and N actual surface nodes met by C:
     #   0 = zeros-poles >= 2*k*d - 8*k*N,
     # hence d <= 4*N.
@@ -80,9 +80,10 @@ def main() -> None:
     if admissible_below_16 != [[4, 4]]:
         raise ValueError(f"FSM minimal cusp type regression: {admissible_below_16}")
 
-    # If even one of the N cusp branches is nonminimal, its local pole upper
-    # bound drops from 8k to <=0, making total poles <=8k(N-1)<2kd.
-    # Therefore every one of the 47 branches must be the unique (4,4) type.
+    # Under the global bijective-normalization hypothesis, if even one of the
+    # N node branches is nonminimal, its local pole upper bound drops from 8k
+    # to <=0, making total poles <=8k(N-1)<2kd. Thus every met node branch
+    # must be the unique (4,4) type.
     all_nodes_forced_minimal = True
 
     # Local A1 quotient calculation from the source note:
@@ -104,13 +105,13 @@ def main() -> None:
         and bool(observed_nonunit)
     )
     if not contradiction:
-        raise ValueError("unibranch V6 contradiction failed")
+        raise ValueError("globally bijective-normalization V6 contradiction failed")
 
     cert = {
-        "schema": "STAGE32_POST1648AH_FSM_UNIBRANCH_V6_EXCLUSION_V1",
+        "schema": "STAGE32_POST1648AH_FSM_BIJECTIVE_NORMALIZATION_EXCLUSION_V2_SCOPE_CORRECTED",
         "stage": 32,
-        "leaf": "POST1648AH_FSM_UNIBRANCH_V6_EXCLUSION",
-        "status": "EXACT_BOUNDED_EXCLUSION_UNDER_BIJECTIVE_NORMALIZATION",
+        "leaf": "POST1648AH_FSM_BIJECTIVE_NORMALIZATION_EXCLUSION_SCOPE_CORRECTED",
+        "status": "EXACT_BOUNDED_EXCLUSION_UNDER_GLOBALLY_BIJECTIVE_NORMALIZATION",
         "source_locks": {
             "v6_witness_path": str(V6_PATH.relative_to(ROOT)),
             "v6_witness_canonical_sha256": EXPECTED_V6_CANONICAL,
@@ -132,7 +133,7 @@ def main() -> None:
             "exceptional_nonunit_positive_entries": observed_nonunit,
         },
         "fsm_refinement": {
-            "hypothesis": "normalization_map_is_bijective (unibranch over every surface node)",
+            "hypothesis": "normalization_map_is_globally_bijective",
             "actual_node_count_N": N,
             "refined_degree_bound_formula": "d <= 16*g - 16 + 4*N",
             "refined_degree_upper_bound": fsm_actual_node_bound,
@@ -148,18 +149,25 @@ def main() -> None:
             "minimal_cusp_invariant_orders": local_invariant_orders_minimal,
             "blowup_resolves_A1_node": True,
             "minimal_cusp_strict_transform_exceptional_intersection": forced_exceptional_pairing_per_met_node,
-            "forced_total_exceptional_mass_under_unibranch_V6": forced_exceptional_mass,
+            "forced_total_exceptional_mass_under_bijective_normalization": forced_exceptional_mass,
             "observed_total_exceptional_mass": e,
             "contradiction": True,
         },
         "decision": {
-            "bounded_negative": "NO_INTEGRAL_GEOMETRIC_GENUS1_CURVE_IN_THE_V6_CLASS_WITH_BIJECTIVE_NORMALIZATION_MAP_TO_ITS_IMAGE_ON_THE_NODAL_BOX_SURFACE",
-            "remaining_open_case": "ANY_V6_GENUS1_CARRIER_MUST_BE_MULTIBRANCH_OVER_AT_LEAST_ONE_OF_THE_47_MET_SURFACE_NODES",
+            "bounded_negative": "NO_INTEGRAL_GEOMETRIC_GENUS1_CURVE_IN_THE_V6_CLASS_WITH_GLOBALLY_BIJECTIVE_NORMALIZATION_MAP_TO_ITS_IMAGE",
+            "remaining_open_case": "ANY_V6_GENUS1_CARRIER_MUST_HAVE_NONBIJECTIVE_NORMALIZATION_SOMEWHERE",
+            "remaining_case_split": [
+                "AMBIENT_SURFACE_NODE_MULTIBRANCH: two or more normalization preimages over a box-surface node",
+                "SMOOTH_AMBIENT_LOCUS_CURVE_SINGULARITY: normalization noninjectivity over the smooth locus of the ambient surface, e.g. a self-node of the curve",
+            ],
             "member_level_gap_closed": False,
-            "next_exact_route": "QUANTIFY_MULTIBRANCH_LOCAL_TYPES_USING_EXCEPTIONAL_PAIRINGS_AND_FSM_CUSP_POLE_BUDGET",
+            "nonbijectivity_location_identified": False,
+            "next_exact_route": "SPLIT_GLOBAL_NONBIJECTIVITY_BY_AMBIENT_LOCATION_THEN_ANALYZE_SURFACE_NODE_MULTIBRANCH_AND_SMOOTH_LOCUS_CURVE_SINGULARITY_BRANCHES",
         },
         "firewalls": {
-            "does_not_exclude_multibranch_integral_genus1_carrier": True,
+            "does_not_exclude_nonbijective_integral_genus1_carrier": True,
+            "does_not_localize_nonbijectivity_to_surface_nodes": True,
+            "smooth_ambient_locus_curve_singularity_branch_open": True,
             "does_not_prove_all_low_genus_curves_are_known140": True,
             "theorem_credit": False,
             "receiver_credit": False,
@@ -170,11 +178,13 @@ def main() -> None:
     cert["canonical_sha256_without_this_field"] = csha(cert)
     OUT.write_text(json.dumps(cert, indent=2, sort_keys=True) + "\n")
     print(json.dumps({
-        "verdict": "PASS_STAGE32_POST1648AH_FSM_UNIBRANCH_V6_EXCLUSION",
+        "verdict": "PASS_STAGE32_POST1648AH_FSM_BIJECTIVE_NORMALIZATION_EXCLUSION_SCOPE_CORRECTED",
         "degree": d,
         "node_support": N,
         "exceptional_mass_observed": e,
-        "exceptional_mass_forced_unibranch": forced_exceptional_mass,
+        "exceptional_mass_forced_under_global_bijectivity": forced_exceptional_mass,
+        "remaining_open_case": cert["decision"]["remaining_open_case"],
+        "nonbijectivity_location_identified": False,
         "canonical_sha256": cert["canonical_sha256_without_this_field"],
     }, sort_keys=True))
 
