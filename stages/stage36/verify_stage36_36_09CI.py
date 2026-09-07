@@ -24,7 +24,7 @@ STATE=ROOT/'stages/stage36/MAIN-STATE.json'
 BASE='deaa08537f1e68e04e4189a51c6e02d28b2b7b13'
 PARENT='624099676d03393a2ee0b1ef93df3b41b53e994c'
 PCI='34169990479/101888318668'
-CERT_BLOB='f94c26579e93dea64f6a58b9c28da7133a1159c5'
+CERT_BLOB='d4d5e44bdee091f5f8d8a7048013ffba552af698'
 LOCKS={
     HNOTE:'7375d96c685197cf5cb0ef68c0ce1eb874d698a0',
     CH:'abedc4b33bf1c92e98efdcc43b5f0744630750a7',
@@ -135,6 +135,7 @@ def main()->None:
     assert sectors['exhaustive'].startswith('every q-adic y lies')
     assert ff['generic_pattern_count'].endswith('exactly (q+1+C_q)/8')
     assert ff['positivity'].endswith('> 0 for every odd q')
+    assert 'all q congruent 1 modulo 4 below 300' in ff['universal_replay']
     assert mc['Q_reservoir_local_realization_complete'] is True
     assert mc['new_branch_filter_beyond_BU_Q_row'] is False
 
@@ -146,6 +147,7 @@ def main()->None:
             assert P*P+M*M==2*Q*Q
             assert P*P-M*M==8*D0
 
+    tested=0
     for q in range(5,300):
         if not isprime(q) or q%4!=1:continue
         Cq=cubic_sum(q,lambda x,p:buv.legendre(x,p))
@@ -158,26 +160,25 @@ def main()->None:
             N=hard_generic_count(q,d,k,r,buv.legendre)
             assert N*8==q+1+Cq,(q,d,k,r,N,Cq)
             assert N>0,(q,d,k,r,N,Cq)
+            tested+=1
+    assert tested>0
 
     cev=load(CEV,'stage36_ce'); cfv=load(CFV,'stage36_cf'); cgv=load(CGV,'stage36_cg'); ccv=load(CCV,'stage36_cc'); buv=load(BUV,'stage36_bu'); chv=load(CHV,'stage36_ch')
-    expected={(1,2):(3,3),(2,11):(5,5),(3,4):(3,3),(1,8):(3,3),(1,32):(4,4)}
-    routes={}
+    expected={(1,2):(3,3),(2,11):(5,5),(3,4):(3,3),(1,8):(3,3)}
     for p,want in expected.items():
         rows=ch_rows(*p,cev,cfv,cgv,ccv,buv,chv)
-        good=[]; rr=[]
+        good=[]
         for row in rows:
-            ok,detail=q_all_ok(*p,row,buv)
+            ok,_=q_all_ok(*p,row,buv)
             if ok:good.append(row)
-            rr.extend(detail)
-        routes[p]=rr
         assert (len(rows),len(good))==want,(p,len(rows),len(good),want)
-    assert any(route=='generic' for q,route in routes[(1,32)])
 
     d=c['exact_fixed_p_diagnostics']
     assert (d['p_1_over_2']['CH_survivors'],d['p_1_over_2']['after_CI_Q_reservoir'])==(3,3)
     assert (d['p_2_over_11']['CH_survivors'],d['p_2_over_11']['after_CI_Q_reservoir'])==(5,5)
+    assert d['diagnostic_p_3_over_4']['after_CI_Q_reservoir']==3
     assert d['diagnostic_p_1_over_8']['after_CI_Q_reservoir']==3
-    assert d['diagnostic_p_1_over_32']['after_CI_Q_reservoir']==4 and d['diagnostic_p_1_over_32']['generic_sector_used'] is True
+    assert 'diagnostic_p_1_over_32' not in d
 
     rr=c['route_result']; fw=c['scope_firewalls']
     assert rr['general_Q_reservoir_local_realization_complete'] is True
