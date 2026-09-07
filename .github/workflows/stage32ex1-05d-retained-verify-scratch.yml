@@ -1,0 +1,20 @@
+name: Stage32EX1 05D retained verifier scratch
+
+on:
+  push:
+    branches:
+      - stage32ex1-scratch-05d-retained-verify
+    paths:
+      - '.github/workflows/stage32ex1-05d-retained-verify-scratch.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replay retained EX1-05D certificate
+        run: python3 stages/stage32-ex1/verify_ex1_05d_b3_node_parity_h4_forcing.py
