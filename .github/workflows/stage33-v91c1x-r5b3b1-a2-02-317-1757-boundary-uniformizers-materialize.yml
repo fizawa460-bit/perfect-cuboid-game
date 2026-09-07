@@ -46,6 +46,7 @@ jobs:
         run: |
           git restore --worktree stages/stage33/33-07
           git clean -f stages/stage33/33-07
+          rm -rf stages/stage33/33-12/__pycache__
       - name: Bound generated delta
         run: |
           git diff --check
