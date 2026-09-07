@@ -56,7 +56,18 @@ jobs:
           git merge-base --is-ancestor 6b6c541d1a6bbe229381ac0400148bd17523ca06 HEAD
           test "$(git rev-parse 6b6c541d1a6bbe229381ac0400148bd17523ca06:stages/stage36/36-09AN/retained-open-tunnell-necessary-gate-preflight.json)" = "76c55e89505b081c487749f4d7ab4d80e9d38a1f"
 
-      - name: Replay exact PR1679 AM-AN audited checkpoint
+      - name: Replay exact PR1679 36-09AM candidate parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          H=46b426a393ee2eb027305f9c45f248008ff02fec
+          git merge-base --is-ancestor "$H" HEAD
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AM.py"
+          git worktree remove --force "$tmp"
+
+      - name: Replay exact PR1679 36-09AN audited checkpoint
         shell: bash
         run: |
           set -euo pipefail
@@ -64,7 +75,6 @@ jobs:
           git cat-file -e "$H^{commit}"
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AM.py"
           python3 "$tmp/stages/stage36/verify_stage36_36_09AN.py"
           git worktree remove --force "$tmp"
 
