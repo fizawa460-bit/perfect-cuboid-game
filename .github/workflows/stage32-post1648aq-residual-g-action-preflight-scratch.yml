@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  diagnose-aq-residual-g:
+  verify-aq-residual-g:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout exact scratch head
@@ -19,29 +19,9 @@ jobs:
           fetch-depth: 1
       - name: Assert exact head
         run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
-      - name: Install exact diagnostic dependency
+      - name: Install exact verifier dependency
         run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Run AQ residual-G cusp-grid diagnostic
-        run: |
-          python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648aq_residual_g_action_preflight.py | tee /tmp/post1648aq.json
-          python3 - <<'PY'
-          import json
-          x=json.load(open('/tmp/post1648aq.json'))
-          assert x['mode']=='SCRATCH_POST1648AQ_RESIDUAL_G_CUSP_MULTIPLICITY_GRID'
-          assert x['boundary_anchor']['candidate_exact_order_and_exponent_match'] is True
-          assert x['factor_pullback']['P_square']==8*x['factor_pullback']['image_square']
-          assert x['factor_pullback']['C_dot_P']==x['factor_pullback']['image_square']
-          assert x['decision']['conductor_demand_exactly_decomposed'] is True
-          assert x['firewalls']['residual_G_semantic_identification_granted'] is False
-          g=x['target_cusp_grid']
-          print(json.dumps({
-              'candidate_target_point_count':g['candidate_target_point_count'],
-              'first_blowup_delta_lower_bound_sum':g['first_blowup_delta_lower_bound_sum'],
-              'dir81_fibre_multiplicity_sums':g['dir81_fibre_multiplicity_sums'],
-              'dir105_fibre_multiplicity_sums':g['dir105_fibre_multiplicity_sums'],
-              'violates_factor_fibre_intersection_budget':g['violates_factor_fibre_intersection_budget'],
-              'factor_fibre_budget_excludes_if_semantic':x['decision']['factor_fibre_budget_excludes_V6_if_H_is_source_residual_G'],
-          }, sort_keys=True))
-          PY
+      - name: Run AQ final verifier
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648aq_residual_g_cusp_multiplicity_grid.py
       - name: Diff hygiene
         run: test -z "$(git status --porcelain)"
