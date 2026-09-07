@@ -1,0 +1,411 @@
+{
+  "authority_status_contract": {
+    "allowed": [
+      "SCRATCH",
+      "PROVISIONAL",
+      "AUDITED",
+      "DECLARED_GOAL",
+      "SUPERSEDED",
+      "REVOKED"
+    ],
+    "dependency_rules": {
+      "AUDITED": "Must carry a PASS audit receipt and may depend only on AUDITED or DECLARED_GOAL claims. A DECLARED_GOAL dependency is structural/contextual and cannot supply mathematical proof credit.",
+      "DECLARED_GOAL": "Defines target/contract only and grants no mathematical credit.",
+      "PROVISIONAL": "May depend on AUDITED, PROVISIONAL, or DECLARED_GOAL; never grants audited credit.",
+      "REVOKED": "Cannot satisfy dependencies or FINAL-CHECK.",
+      "SCRATCH": "May depend on any non-REVOKED claim, but no non-SCRATCH claim may depend on SCRATCH.",
+      "SUPERSEDED": "Retained for provenance; cannot satisfy FINAL-CHECK."
+    }
+  },
+  "claim_id_contract": {
+    "immutability_rule": "claim_id + kind + statement + scope_key + scope + PROVES + DOES_NOT_PROVE + requires form the immutable claim core. Any semantic change creates a new versioned claim ID. Authority/audit metadata may advance without changing the core.",
+    "pattern": "^S32\\.[A-Z0-9_]+(?:\\.[A-Z0-9_]+)*\\.V[1-9][0-9]*$"
+  },
+  "claims": [
+    {
+      "audit_receipt": null,
+      "authority_status": "DECLARED_GOAL",
+      "claim_core_sha256": "440e9e21a2b9709084241f7c5ec17878f6fee54df764dcf75497d8e182b9244b",
+      "claim_id": "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
+      "does_not_prove": [
+        "Q602 is excluded.",
+        "O210 is excluded.",
+        "Any V6 genus-1 carrier exists or does not exist.",
+        "Stage32 is closed.",
+        "Perfect Cuboid existence or nonexistence."
+      ],
+      "kind": "authority_snapshot",
+      "proves": [
+        "The claim registry may use the listed target identifiers to connect current MAIN and EX lane contracts without copying mathematical credit from MAIN-STATE."
+      ],
+      "replay_verifier": "stages/stage32/verify_main_startup.py",
+      "requires": [],
+      "scope": {
+        "O": 210,
+        "Q": 602,
+        "lane": "MAIN",
+        "picard_class": "V6",
+        "population": "current Stage32 routing context",
+        "qprime": 4,
+        "row_id": "g1-d186"
+      },
+      "scope_key": "S32.MAIN.ROUTING",
+      "source_locks": [
+        {
+          "blob_sha1": "05e2942b4c893044688f16926b5e9837e59d8e9d",
+          "path": "stages/stage32/MAIN-STATE.json"
+        }
+      ],
+      "statement": "Stage32 ordinary routing currently targets row g1-d186 with V6, O=210, qprime=4, Q=602 and retained surviving residues [73,97,235]; this record is routing/source context and is not a proof certificate."
+    },
+    {
+      "audit_receipt": {
+        "exact_head": "8550ab88e12cbbfd42b2d1e07c8f42be124de1a6",
+        "pr": 1643,
+        "review_id": 5123545511,
+        "status": "PASS"
+      },
+      "authority_status": "AUDITED",
+      "claim_core_sha256": "ad042d07c0d888940ef89a23b50750cb98fe9b7b57385c818c8ee58caf1da73b",
+      "claim_id": "S32.MAIN.HDECK_CHARACTER_DIRECTION.V1",
+      "does_not_prove": [
+        "Which retained nonzero W-line is delta_0inf.",
+        "Which one of residues [73,97,235] is absolute.",
+        "Any residue is excluded.",
+        "Q602 or O210 is excluded.",
+        "Stage32 closure."
+      ],
+      "kind": "mathematical_claim",
+      "proves": [
+        "A source-bound nonexceptional H-character direction chi_u is available.",
+        "The abstract direction delta_0inf is recovered at the audited Stage32 frontier."
+      ],
+      "replay_verifier": "stages/stage32/residual-32-01-production/verify_stage32_post1623_hperp_v6_hdeck_character_preflight.py",
+      "requires": [
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1"
+      ],
+      "scope": {
+        "authority_leaf": "POST1623_HPERP_V6_HDECK_CHARACTER_PREFLIGHT",
+        "lane": "MAIN",
+        "object": "abstract J(C0)[2] direction",
+        "picard_class": "V6",
+        "row_id": "g1-d186"
+      },
+      "scope_key": "S32.MAIN.V6_J2",
+      "source_locks": [
+        {
+          "blob_sha1": "f9bf3da925fc66505900db793f48c507725461d1",
+          "canonical_sha256": "00843ec64f7ecd522614f750c9f84d3a746ce664064d1c4413784cab9d26791c",
+          "path": "stages/stage32/residual-32-01-production/post1623-hperp-v6-hdeck-character-preflight.json"
+        },
+        {
+          "blob_sha1": "05e2942b4c893044688f16926b5e9837e59d8e9d",
+          "path": "stages/stage32/MAIN-STATE.json"
+        }
+      ],
+      "statement": "For the current V6 boundary package, the source-bound H-deck character probe recovers chi_u and binds it through Z3={0,infinity} to the abstract delta_0inf=[P_0-P_infinity] direction, while the absolute retained W-line remains unidentified."
+    },
+    {
+      "audit_receipt": {
+        "candidate_pr": 1648,
+        "exact_head": "d635edc9d0a13ef5b82732a5bd42debe078a0545",
+        "last_result": "FAIL",
+        "review_id": 5127399479,
+        "status": "PENDING_REAUDIT_AFTER_SCOPE_REPAIR"
+      },
+      "authority_status": "PROVISIONAL",
+      "claim_core_sha256": "7cbd21a0edc4aeaf730955d41e1401e30bc9bbc201c7771e1dd3df6c5e8a6b6f",
+      "claim_id": "S32.MAIN.V6_BIJECTIVE_NORMALIZATION_EXCLUSION.V2",
+      "does_not_prove": [
+        "All integral irreducible genus-1 V6 carriers are excluded.",
+        "Nonbijectivity occurs at one of the 47 met surface nodes.",
+        "The smooth ambient singularity branch is closed.",
+        "Stage32 MAIN mathematical credit beyond the pending consolidation audit.",
+        "Stage32 closure."
+      ],
+      "kind": "mathematical_claim",
+      "proves": [
+        "A bounded exclusion under the global bijective-normalization hypothesis.",
+        "Any surviving integral genus-1 V6 carrier must lie outside that hypothesis."
+      ],
+      "replay_verifier": "stages/stage32/residual-32-01-production/verify_stage32_post1648ah_fsm_unibranch_v6_exclusion.py",
+      "requires": [
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1"
+      ],
+      "scope": {
+        "geometric_genus": 1,
+        "hypothesis": "normalization_map_is_globally_bijective",
+        "lane": "MAIN",
+        "picard_class": "V6",
+        "row_id": "g1-d186"
+      },
+      "scope_key": "S32.MAIN.V6_CARRIER",
+      "source_locks": [
+        {
+          "blob_sha1": "4eef5625a7122a1408aeb7473d9796c8c60befd8",
+          "canonical_sha256": "6ee4ebdf266deec5d7aa865d5b088211f8fffadc99be1119b8cc779c4be9f043",
+          "path": "stages/stage32/residual-32-01-production/post1648ah-fsm-unibranch-v6-exclusion.json"
+        },
+        {
+          "blob_sha1": "a4b2e09f5eb7bf5c287554985141548ca3359de7",
+          "path": "stages/stage32/residual-32-01-production/post1648ah-fsm-unibranch-source-note.md"
+        }
+      ],
+      "statement": "Under the global hypothesis that an integral geometric-genus-1 V6 carrier has a normalization map bijective onto its image, that carrier is excluded; the remaining carrier problem requires nonbijective normalization somewhere, with its location/type still unresolved."
+    },
+    {
+      "audit_receipt": null,
+      "authority_status": "DECLARED_GOAL",
+      "claim_core_sha256": "0c9c180a1cff2ba28f6f50a4fda4eb5877668d1723354cb4f9c53a9721136e9a",
+      "claim_id": "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1",
+      "does_not_prove": [
+        "Any EX terminal claim currently has PASS.",
+        "Any EX result is currently promoted.",
+        "Any mathematical Stage32 claim."
+      ],
+      "kind": "adapter_contract",
+      "proves": [
+        "The management layer has a single explicit promotion rule separating EX authority from MAIN authority."
+      ],
+      "replay_verifier": null,
+      "requires": [
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1"
+      ],
+      "scope": {
+        "lane": "MAIN+EX1..EX5",
+        "role": "promotion boundary"
+      },
+      "scope_key": "S32.GLOBAL.PROMOTION",
+      "source_locks": [
+        {
+          "blob_sha1": "9a0ab96400c940742eb3ddbf64be37564aadb34a",
+          "path": "stages/stage32-ex1/MAIN-STATE.json"
+        },
+        {
+          "blob_sha1": "96613a49a8e414fe87b42309281acc6a975a544d",
+          "path": "stages/stage32-ex2/MAIN-STATE.json"
+        },
+        {
+          "blob_sha1": "b6b361f50e2d05a0b43ae6d4f59a3da796c3fce1",
+          "path": "stages/stage32-ex3/MAIN-STATE.json"
+        },
+        {
+          "blob_sha1": "6e90681d2d44194998e1a4bbfb70d836dac6278b",
+          "path": "stages/stage32-ex4/MAIN-STATE.json"
+        },
+        {
+          "blob_sha1": "13bd7a5380e74f0b4c5fca1337e3856dccc79613",
+          "path": "stages/stage32-ex5/MAIN-STATE.json"
+        }
+      ],
+      "statement": "An EX lane result may affect Stage32 MAIN authority only after the EX terminal claim has hostile-audit PASS and a separate explicit current-target adapter binds that audited claim to the then-current Stage32 population; no EX lane self-promotes."
+    },
+    {
+      "audit_receipt": null,
+      "authority_status": "DECLARED_GOAL",
+      "claim_core_sha256": "5311907508cf797faee8f07c26b0830ae3eb9410b68448dfc73b9f51528f6622",
+      "claim_id": "S32.EX1.LANE_CONTRACT.V1",
+      "does_not_prove": [
+        "EX1 full target closure.",
+        "Any EX1 candidate result is audited.",
+        "Stage32 MAIN credit."
+      ],
+      "kind": "lane_contract",
+      "proves": [
+        "The EX1 terminal target and promotion boundary are registered."
+      ],
+      "replay_verifier": "stages/stage32-ex1/verify_main_state.py",
+      "requires": [
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
+        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1"
+      ],
+      "scope": {
+        "lane": "EX1",
+        "target": "V6 integral irreducible geometric genus 1 carrier decision"
+      },
+      "scope_key": "S32.EX1.V6_CARRIER",
+      "source_locks": [
+        {
+          "blob_sha1": "9a0ab96400c940742eb3ddbf64be37564aadb34a",
+          "path": "stages/stage32-ex1/MAIN-STATE.json"
+        }
+      ],
+      "statement": "EX1 is the independent V6 genus-1 carrier decision lane; its terminal outcomes are full exclusion of integral irreducible V6 genus-1 carriers or establishment of one genuine surviving carrier, and neither outcome automatically changes Stage32 MAIN."
+    },
+    {
+      "audit_receipt": {
+        "candidate_pr": 1688,
+        "ci_subject_head": "23b21f79221bbc825a1979e34deca6d2dbeea58f",
+        "exact_head": "9f88c89eb85daf82700bb463755f97073c5cfcae",
+        "last_result": "FAIL",
+        "review_id": 5134451242,
+        "status": "PENDING_REAUDIT_AFTER_FAIL"
+      },
+      "authority_status": "PROVISIONAL",
+      "claim_core_sha256": "3c4b1209ceabc6f6d3dc01e7f713680fa56bf674cb67d32d8596a61adecb00bc",
+      "claim_id": "S32.EX1.CANDIDATE_THROUGH_05F.V1",
+      "does_not_prove": [
+        "Hostile-audit PASS.",
+        "EX1 full target closure.",
+        "All V6 genus-1 carriers are excluded.",
+        "A genuine carrier exists.",
+        "Stage32 MAIN credit."
+      ],
+      "kind": "mathematical_claim",
+      "proves": [
+        "A provisional EX1 candidate package exists through EX1-05F.",
+        "Its management state records successful exact-head CI replay."
+      ],
+      "replay_verifier": "stages/stage32-ex1/verify_main_state.py",
+      "requires": [
+        "S32.EX1.LANE_CONTRACT.V1"
+      ],
+      "scope": {
+        "candidate_pr": 1688,
+        "coverage": "EX1-00 through EX1-05F",
+        "lane": "EX1",
+        "status": "REAUDIT_READY_EXACT_HEAD_CI_SUCCESS"
+      },
+      "scope_key": "S32.EX1.V6_CARRIER",
+      "source_locks": [
+        {
+          "blob_sha1": "9a0ab96400c940742eb3ddbf64be37564aadb34a",
+          "path": "stages/stage32-ex1/MAIN-STATE.json"
+        }
+      ],
+      "statement": "EX1 currently retains a repaired accumulated candidate through EX1-05F with exact-head CI success, but the candidate is awaiting hostile re-audit and therefore carries no audited EX1 or Stage32 MAIN mathematical credit."
+    },
+    {
+      "audit_receipt": null,
+      "authority_status": "DECLARED_GOAL",
+      "claim_core_sha256": "3e12d62569d4e8642ead306ef71d146cd324019ff30512e7419bb46c7291b69b",
+      "claim_id": "S32.EX2.LANE_CONTRACT.V1",
+      "does_not_prove": [
+        "EX2 terminal closure.",
+        "Any EX2 bootstrap/candidate is audited.",
+        "Stage32 MAIN credit."
+      ],
+      "kind": "lane_contract",
+      "proves": [
+        "The EX2 target and non-self-promotion boundary are registered."
+      ],
+      "replay_verifier": "stages/stage32-ex2/verify_main_state.py",
+      "requires": [
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
+        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1"
+      ],
+      "scope": {
+        "lane": "EX2",
+        "target": "V6 member reconstruction / complete linear-system decision"
+      },
+      "scope_key": "S32.EX2.V6_LINEAR_SYSTEM",
+      "source_locks": [
+        {
+          "blob_sha1": "96613a49a8e414fe87b42309281acc6a975a544d",
+          "path": "stages/stage32-ex2/MAIN-STATE.json"
+        }
+      ],
+      "statement": "EX2 is the independent V6 member reconstruction / complete linear-system decision lane; its current bootstrap/state contract grants no mathematical credit and any future terminal result requires hostile audit plus explicit promotion before affecting Stage32 MAIN."
+    },
+    {
+      "audit_receipt": null,
+      "authority_status": "DECLARED_GOAL",
+      "claim_core_sha256": "55204f4da426e55093a869e86fb3b4a91e5961f9a74fe2d7fa12b334be55a4e0",
+      "claim_id": "S32.EX3.LANE_CONTRACT.V1",
+      "does_not_prove": [
+        "EX3 terminal closure.",
+        "Any EX3 bootstrap/candidate is audited.",
+        "Stage32 MAIN credit."
+      ],
+      "kind": "lane_contract",
+      "proves": [
+        "The EX3 target and non-self-promotion boundary are registered."
+      ],
+      "replay_verifier": "stages/stage32-ex3/verify_main_state.py",
+      "requires": [
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
+        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1"
+      ],
+      "scope": {
+        "lane": "EX3",
+        "target": "O210 modular-cover / monodromy decision"
+      },
+      "scope_key": "S32.EX3.O210_COVER",
+      "source_locks": [
+        {
+          "blob_sha1": "b6b361f50e2d05a0b43ae6d4f59a3da796c3fce1",
+          "path": "stages/stage32-ex3/MAIN-STATE.json"
+        }
+      ],
+      "statement": "EX3 is the independent O210 modular-cover / monodromy decision lane; its current bootstrap/state contract grants no mathematical credit and any future terminal result requires hostile audit plus explicit promotion before affecting Stage32 MAIN."
+    },
+    {
+      "audit_receipt": null,
+      "authority_status": "DECLARED_GOAL",
+      "claim_core_sha256": "7e80791b58845a0536862be8faf8f5c78ac31ea39a04c1c70f0c8b4b39446c16",
+      "claim_id": "S32.EX4.LANE_CONTRACT.V1",
+      "does_not_prove": [
+        "EX4 terminal closure.",
+        "Any EX4 bootstrap/candidate is audited.",
+        "Stage32 MAIN credit."
+      ],
+      "kind": "lane_contract",
+      "proves": [
+        "The EX4 target and non-self-promotion boundary are registered."
+      ],
+      "replay_verifier": "stages/stage32-ex4/verify_main_state.py",
+      "requires": [
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
+        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1",
+        "S32.MAIN.HDECK_CHARACTER_DIRECTION.V1"
+      ],
+      "scope": {
+        "lane": "EX4",
+        "target": "absolute delta_0inf to retained W-line and Q602 residue decision"
+      },
+      "scope_key": "S32.EX4.ABSOLUTE_MARKING",
+      "source_locks": [
+        {
+          "blob_sha1": "6e90681d2d44194998e1a4bbfb70d836dac6278b",
+          "path": "stages/stage32-ex4/MAIN-STATE.json"
+        }
+      ],
+      "statement": "EX4 is the independent absolute delta_0inf to retained W-line and Q602 residue decision lane; its current bootstrap/state contract grants no mathematical credit and any future terminal result requires hostile audit plus explicit promotion before affecting Stage32 MAIN."
+    },
+    {
+      "audit_receipt": null,
+      "authority_status": "DECLARED_GOAL",
+      "claim_core_sha256": "704c0f8be6f0ca40343c871de3180656cd862feaca85a60d72ef804ee74d1166",
+      "claim_id": "S32.EX5.LANE_CONTRACT.V1",
+      "does_not_prove": [
+        "EX5 terminal closure.",
+        "Any EX5 bootstrap/candidate is audited.",
+        "Stage32 MAIN credit."
+      ],
+      "kind": "lane_contract",
+      "proves": [
+        "The EX5 target and non-self-promotion boundary are registered."
+      ],
+      "replay_verifier": "stages/stage32-ex5/verify_main_state.py",
+      "requires": [
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
+        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1"
+      ],
+      "scope": {
+        "lane": "EX5",
+        "target": "receiver breadth remap / independent route decision"
+      },
+      "scope_key": "S32.EX5.RECEIVER_BREADTH",
+      "source_locks": [
+        {
+          "blob_sha1": "13bd7a5380e74f0b4c5fca1337e3856dccc79613",
+          "path": "stages/stage32-ex5/MAIN-STATE.json"
+        }
+      ],
+      "statement": "EX5 is the independent receiver breadth remap / independent route decision lane; its current bootstrap/state contract grants no mathematical credit and any future terminal result requires hostile audit plus explicit promotion before affecting Stage32 MAIN."
+    }
+  ],
+  "schema": "STAGE32_CLAIM_REGISTRY_V1",
+  "scope": "current audited Stage32 frontier plus current MAIN/EX1..EX5 operating lanes only; no historical bulk migration",
+  "stage": 32
+}
