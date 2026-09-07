@@ -1,0 +1,27 @@
+name: Stage32 scratch post1648W Rains ST12 theta torsor nonselection
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648n-marked-ppav-basis
+    paths:
+      - '.github/workflows/stage32-scratch-post1648w-rains-theta-torsor.yml'
+      - 'stages/stage32/residual-32-01-production/post1648w-rains-st12-theta-torsor-cohomology-nonselection.json'
+      - 'stages/stage32/residual-32-01-production/post1648w-rains-st12-theta-torsor-cohomology-nonselection-source-note.md'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648w_rains_st12_theta_torsor_cohomology_nonselection.py'
+      - 'stages/stage32/residual-32-01-production/post1648v-retained-target-theta-normalization-circularity.json'
+      - 'stages/stage32/residual-32-01-production/post1648j-cecotti-trace-orientation-correction.json'
+
+permissions:
+  contents: read
+
+jobs:
+  rains-theta-torsor-nonselection:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify Rains ST12 theta-torsor cohomology nonselection
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648w_rains_st12_theta_torsor_cohomology_nonselection.py
+      - name: Diff check
+        run: git diff --check

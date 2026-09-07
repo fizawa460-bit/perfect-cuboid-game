@@ -1,0 +1,27 @@
+name: Stage32 scratch post1648S inner-conjugacy anti-loop
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648n-marked-ppav-basis
+    paths:
+      - '.github/workflows/stage32-scratch-post1648s-inner-conjugacy-anti-loop.yml'
+      - 'stages/stage32/residual-32-01-production/post1648s-inner-conjugacy-invariant-nonselection-theorem.json'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648s_inner_conjugacy_invariant_nonselection_theorem.py'
+      - 'stages/stage32/residual-32-01-production/post1648s-inner-conjugacy-invariant-nonselection-theorem-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1648r-b9-b8-ordered-pair-inner-orbit-nonpruning.json'
+      - 'stages/stage32/residual-32-01-production/post1648n-canonical-period-marked-ppav-torsor-obstruction.json'
+
+permissions:
+  contents: read
+
+jobs:
+  inner-conjugacy-anti-loop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify inner-conjugacy invariant nonselection theorem
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648s_inner_conjugacy_invariant_nonselection_theorem.py
+      - name: Diff check
+        run: git diff --check

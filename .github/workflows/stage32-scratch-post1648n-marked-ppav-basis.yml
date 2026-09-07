@@ -1,0 +1,26 @@
+name: Stage32 scratch post1648N marked ppav basis
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648n-marked-ppav-basis
+    paths:
+      - '.github/workflows/stage32-scratch-post1648n-marked-ppav-basis.yml'
+      - 'stages/stage32/residual-32-01-production/post1648n-canonical-period-marked-ppav-torsor-obstruction.json'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648n_canonical_period_marked_ppav_torsor_obstruction.py'
+      - 'stages/stage32/residual-32-01-production/post1648n-canonical-period-marked-ppav-torsor-obstruction-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json'
+
+permissions:
+  contents: read
+
+jobs:
+  marked-ppav-torsor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact period-basis torsor obstruction
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648n_canonical_period_marked_ppav_torsor_obstruction.py
+      - name: Diff check
+        run: git diff --check

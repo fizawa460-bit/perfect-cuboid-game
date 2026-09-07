@@ -1,0 +1,30 @@
+name: Stage32 post1648J Cecotti trace orientation correction
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1648j-cecotti-trace-orientation-correction.yml'
+      - 'stages/stage32/residual-32-01-production/post1648j-cecotti-trace-orientation-correction.json'
+      - 'stages/stage32/residual-32-01-production/post1648j-cecotti-trace-orientation-correction-source-note.md'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648j_cecotti_trace_orientation_correction.py'
+      - 'stages/stage32/residual-32-01-production/post1648b-cecotti-generator-pair-absolute-marking-preflight.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cecotti-trace-orientation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact PR head
+        if: github.event_name == 'pull_request'
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Verify Cecotti trace orientation correction
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648j_cecotti_trace_orientation_correction.py
+      - name: Diff check
+        run: git diff --check
