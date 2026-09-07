@@ -1,0 +1,42 @@
+name: Stage32 post1648AU cusp incidence low-bidegree preflight
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648au-cusp-incidence-low-bidegree-preflight
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-au-cusp-incidence:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run AU cusp incidence diagnostic
+        run: |
+          python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648au_cusp_incidence_low_bidegree_preflight.py | tee /tmp/post1648au.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/post1648au.json'))
+          assert x['mode']=='SCRATCH_POST1648AU_CUSP_INCIDENCE_LOW_BIDEGREE_PREFLIGHT'
+          assert x['cusp_incidence']['all_vertex_degrees'] is True
+          assert x['cusp_incidence']['total_weight']==266
+          assert x['low_bidegree_bezout']['no_obstruction_from_cusp_multiplicity_lower_bounds_alone'] is True
+          assert x['decision']['v6_carrier_excluded'] is False
+          print(json.dumps({
+            'components':x['cusp_incidence']['components'],
+            'tests':x['low_bidegree_bezout']['tests'],
+            'wall':x['decision']['bounded_wall'],
+          },sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
