@@ -1,0 +1,70 @@
+{
+  "schema":"STAGE36_36_09BB_AY_RECEIVER_SCALED_SELF_INTERSECTION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09BB",
+  "status":"EXACT_S34_W03_AY_RECEIVER_RESTRICTED_SCALED_GENUSONE_SELF_INTERSECTION_PENDING_BATCH_AUDIT",
+  "base_main_sha":"b7a045b7c910a3e01d3826556cd71019af15418f",
+  "batch_parent":{"pr":1686,"36_09BA_exact_head":"a4fde9a55b6483018ffb4be49ffbc758939b7e22","36_09BA_exact_head_ci":"34090570732/101643008125"},
+  "source_locks":{
+    "stage36_36_09BA":{"path":"stages/stage36/36-09BA/ay-auxiliary-genusone-open-points-preflight.json","blob_sha":"2f31c89b2760f2270fa0ea21106ef97a3ec0840b"},
+    "stage36_36_09AC":{"path":"stages/stage36/36-09AC/same-x-separate-squareclass-double-cover-preflight.json","blob_sha":"3e95cc443bb9de9e0d2b14d6d9c32ea7c1953021"},
+    "stage36_36_09AY":{"path":"stages/stage36/36-09AY/universal-boundary-tunnell-survivor-preflight.json","blob_sha":"add18004debf95a218a6393f6c2f18f2bd4f7e10"},
+    "S34_W03":{"path":"docs/arsenal/cards/formal/S34-W03.md","blob_sha":"1d5275321f42768a6414d4610ac912c63be43f96"}
+  },
+  "notation":{
+    "P":"a^2+2ab-b^2",
+    "M":"a^2-2ab-b^2",
+    "lambda":"P/M",
+    "kappa":"eta*2^e*C",
+    "AY_affine_ratio":"t=v/u, with u,v nonzero"
+  },
+  "AY_genusone_ratio_model":{
+    "from_coupled_conics":["u^2-v^2=kappa*r^2","u^2+v^2=2*s^2"],
+    "normalized_square_roots":{"R":"kappa*r/u","S":"2*s/u"},
+    "equations":["R^2=kappa*(1-t^2)","S^2=2*(1+t^2)"],
+    "name":"C_kappa",
+    "interpretation":"the AY auxiliary genus-one curve is the V4 double cover of the t-line obtained by adjoining both displayed square roots"
+  },
+  "receiver_restricted_intersection":{
+    "Lminus":"M^2*u^2-P^2*v^2=M^2*u^2*(1-lambda^2*t^2)",
+    "Lplus":"M^2*u^2+P^2*v^2=M^2*u^2*(1+lambda^2*t^2)",
+    "Fminus_square_iff":"kappa*Lminus is a nonzero square",
+    "Fplus_square_iff":"2*Lplus is a nonzero square",
+    "normalized_extra_equations":["Zminus^2=kappa*(1-lambda^2*t^2)","Zplus^2=2*(1+lambda^2*t^2)"],
+    "equivalent_description":"t is a Q-point of C_kappa and lambda*t is a Q-point of C_kappa",
+    "open_conditions":["t!=0","t!=+1","t!=-1","lambda*t!=+1","lambda*t!=-1"],
+    "S34_W03_exact_joint_system_materialized":true
+  },
+  "boundary_behavior":{
+    "AY_boundary_ratio":"t=+/-M/P up to sign choices on u,v",
+    "scaled_ratio":"lambda*t=+/-1",
+    "Zminus":0,
+    "excluded_by_open":true,
+    "projective_closed_intersection_always_has_boundary_Q_point":true,
+    "naive_closed_mod_prime_zero_residue_strategy":"STRUCTURALLY_BLOCKED",
+    "reason":"at every good prime the rational boundary point reduces to a projective solution of the closed joint equations; any local obstruction must retain the open condition through valuation/neighborhood analysis rather than asking the projective closure to have no residues"
+  },
+  "route_result":{
+    "route_status":"PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "receiver_restricted_intersection_exact":true,
+    "scaled_self_intersection_model_obtained":true,
+    "naive_projective_local_zero_residue_attack_blocked":true,
+    "open_receiver_intersection_empty":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09BC_BOUNDARY_NEIGHBORHOOD_OPEN_LOCAL_OR_ELLIPTIC_CORRESPONDENCE_PREFLIGHT"
+  },
+  "scope_firewalls":{
+    "C_kappa_Q_complete":false,
+    "scaled_self_intersection_Q_complete":false,
+    "boundary_projective_point_is_receiver":false,
+    "open_receiver_intersection_empty":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
