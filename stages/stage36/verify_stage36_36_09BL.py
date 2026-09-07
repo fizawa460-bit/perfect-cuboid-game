@@ -45,7 +45,7 @@ def main():
     assert c['batch_parent']=={'pr':1691,'36_09BK_exact_head':BK_HEAD,'36_09BK_exact_head_ci':BK_CI}
     assert bk['route_result']['next_leaf']=='36-09BL_OLD_SIX_HIGHER_QADIC_FULL_COVER_PREFLIGHT'
     assert bh['scope_firewalls']['old_six_higher_qadic_information_exhausted'] is False
-    assert ad['S34_W01_progress']['complete_2adic_branch_list'] is False
+    assert ad['S34_W01_progress']['complete_2adic_congruence_branch_enumeration'] is False
     assert ae['interpretation']['fixed_finite_S_recovered'] is False
 
     crit=c['odd_Qq_square_criterion']
