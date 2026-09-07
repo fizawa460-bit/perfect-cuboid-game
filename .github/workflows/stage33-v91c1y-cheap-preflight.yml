@@ -1,12 +1,14 @@
-name: Stage33 V91C1X_R1 bounded negative preflight
+name: Stage33 V91C1X_R1-R3 bounded grouped-checkpoint preflight
 
 on:
   pull_request:
     paths:
       - 'stages/stage33/MAIN-STATE.json'
       - 'stages/stage33/sync_main_state.py'
-      - 'stages/stage33/33-12/verify_stage33_v91c1x_r1_chain_preflight_current_startup_v111.py'
+      - 'stages/stage33/33-12/verify_stage33_v91c1x_r3_grouped_audit_current_startup_v113.py'
       - 'stages/stage33/33-12/e3-v91c1x-r1-chain-level-action-difference-preflight.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r2-literal-mu2-or-unimodular-cech-glue-contract.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r3-cover-indexed-a2-02-representative-bounded-preflight.json'
       - 'stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py'
       - 'stages/stage33/33-12/e3-v91c1w-a2-02-all8-picard64-reduction.json'
       - 'stages/stage33/33-12/diagnose_e3_v91c1w_all8_picard64_reduction_v2.py'
@@ -21,7 +23,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v91c1x-r1-bounded-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1x-r3-bounded-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -43,11 +45,11 @@ jobs:
           python stages/stage33/33-12/diagnose_e3_v91c1w_all8_strict_scheme_provenance.py
           python stages/stage33/33-12/diagnose_e3_v91c1w_all8_picard64_reduction_v2.py
           python stages/stage33/33-12/verify_e3_v91c1w_a2_02_all8_picard64_reduction.py
-      - name: Replay V91C1X_R1 chain-level negative preflight
+      - name: Replay V91C1X_R1 exact negative preflight
         run: python stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py
-      - name: Verify V111 startup synchronization
+      - name: Verify V113 R1-R3 grouped checkpoint
         run: |
-          python stages/stage33/33-12/verify_stage33_v91c1x_r1_chain_preflight_current_startup_v111.py
+          python stages/stage33/33-12/verify_stage33_v91c1x_r3_grouped_audit_current_startup_v113.py
           python stages/stage33/sync_main_state.py --check
       - name: Diff hygiene
         run: git diff --check
