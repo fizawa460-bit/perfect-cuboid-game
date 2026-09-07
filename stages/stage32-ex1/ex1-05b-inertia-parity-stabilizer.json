@@ -20,12 +20,7 @@
     "ramification_rule": "a odd iff the induced degree-2 cover is ramified at q; a even iff it is locally split/unramified over C.",
     "ramification_contribution": "Each odd-contact branch contributes exactly 1 to deg Ram(D/N).",
     "node_notation": "nu^*E_i=sum_j a_ij q_ij; r_i=#j; q_i=# {j : a_ij odd}.",
-    "exact_equalities": [
-      "deg Ram(D/N)=Q=sum_i q_i",
-      "q_i ≡ m_i (mod 2)",
-      "0<=q_i<=r_i<=m_i",
-      "m_i-q_i=2*sum_j floor(a_ij/2)"
-    ]
+    "exact_equalities": ["deg Ram(D/N)=Q=sum_i q_i", "q_i ≡ m_i (mod 2)", "0<=q_i<=r_i<=m_i", "m_i-q_i=2*sum_j floor(a_ij/2)"]
   },
   "global_parity_consequences": {
     "Q_even": true,
@@ -72,20 +67,8 @@
     "projection_degrees": "Let alpha,beta be degrees Ctilde->X.",
     "canonical_equation": "8(alpha+beta)=372h, equivalently 2(alpha+beta)=93h.",
     "stabilizer_parity": "h must be even, so h in {2,4}; h=1 is excluded.",
-    "h2_case": {
-      "quotient_genus": 3,
-      "reason": "For nontrivial H<=G0plus, X->X/H is etale degree2 and 2g(X)-2=8=2(2g'-2), so g'=3.",
-      "degree_sum": "alpha+beta=93",
-      "ramification_bound": "Q=2g(D)-2 >=4*max(alpha,beta)>=188",
-      "slack_consequence": "h=2 forces s>=1"
-    },
-    "h4_case": {
-      "stabilizer": "H=G0plus",
-      "quotient_genus": 2,
-      "degree_sum": "alpha+beta=186",
-      "ramification_bound": "Q>=2*max(alpha,beta)>=186",
-      "boundary_s0": "If s=0 (Q=186), necessarily alpha=beta=93 and both maps D->C2 are etale."
-    },
+    "h2_case": {"quotient_genus": 3, "reason": "For nontrivial H<=G0plus, X->X/H is etale degree2 and 2g(X)-2=8=2(2g'-2), so g'=3.", "degree_sum": "alpha+beta=93", "ramification_bound": "Q=2g(D)-2 >=4*max(alpha,beta)>=188", "slack_consequence": "h=2 forces s>=1"},
+    "h4_case": {"stabilizer": "H=G0plus", "quotient_genus": 2, "degree_sum": "alpha+beta=186", "ramification_bound": "Q>=2*max(alpha,beta)>=186", "boundary_s0": "If s=0 (Q=186), necessarily alpha=beta=93 and both maps D->C2 are etale."},
     "common_projection_ramification_conservation": "If R1,R2 are ramification degrees of the two descended projection maps (to genus3 for h=2 or genus2 for h=4), then R1+R2=2Q-372=4s."
   },
   "inertia_component_interface": {
@@ -95,55 +78,13 @@
     "h4_implication": "When h=4, the full stabilizer can be all G0, so all three node inertia types are allowed.",
     "decisive_next_test": "Compute V6 contact/odd-contact capacity separately on the three exact 16-node inertia classes. If every allowed h=2 inertia subset has odd-contact capacity <188, h=2 is excluded; the same type ledger may further constrain h=4."
   },
-  "cycle_status": {
-    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
-    "active_route": "PRODUCT_COVER_LOCAL_INERTIA_PARITY",
-    "split_triggered": false,
-    "arsenal_new_lookup_required": false,
-    "reason": "This is a direct refinement of the live product-cover route, not a new external theorem family."
-  },
-  "exit": {
-    "all_residual_configurations_disposed": false,
-    "positive_witness_established": false,
-    "branch_exclusion_candidate": "h=1 component-stabilizer branch excluded; previous no-node-multibranch exclusion strengthened to at least15 multibranch nodes and at least30 ramified nodes.",
-    "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED",
-    "full_target_closure": false,
-    "next_route": "EX1-05C_EXC_NODE_INERTIA_TYPE_ADAPTER_AND_CAPACITY_TEST"
-  },
+  "cycle_status": {"route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW", "active_route": "PRODUCT_COVER_LOCAL_INERTIA_PARITY", "split_triggered": false, "arsenal_new_lookup_required": false, "reason": "This is a direct refinement of the live product-cover route, not a new external theorem family."},
+  "exit": {"all_residual_configurations_disposed": false, "positive_witness_established": false, "branch_exclusion_candidate": "h=1 component-stabilizer branch excluded; previous no-node-multibranch exclusion strengthened to at least15 multibranch nodes and at least30 ramified nodes.", "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED", "full_target_closure": false, "next_route": "EX1-05C_EXC_NODE_INERTIA_TYPE_ADAPTER_AND_CAPACITY_TEST"},
   "source_locks": {
-    "ex1_05a_candidate": {
-      "path": "stages/stage32-ex1/ex1-05a-product-cover-ramification.json",
-      "canonical_sha256": "ef3c630d7a31ad4e96cc0d0e5e36a961e080ca14adaa8e0a116ac64e6780a01f",
-      "audit_status": "PENDING"
-    },
-    "fsm_A1_source_note": {
-      "path": "stages/stage32/residual-32-01-production/post1648ah-fsm-unibranch-source-note.md",
-      "blob_sha1": "a4b2e09f5eb7bf5c287554985141548ca3359de7"
-    },
-    "stoll_testa": {
-      "title": "Curves on the surface of cuboids",
-      "authors": ["Michael Stoll", "Damiano Testa"],
-      "year": 2026,
-      "journal": "Mathematics of Computation",
-      "doi": "10.1090/mcom/4238",
-      "author_pdf": "https://www.mathe2.uni-bayreuth.de/stoll/papers/Cuboidi.pdf",
-      "locators": "Section 4 product quotient and Y double cover; Lemmas 20-21 for low-genus pullback context."
-    }
+    "ex1_05a_candidate": {"path": "stages/stage32-ex1/ex1-05a-product-cover-ramification.json", "canonical_sha256": "b5b3a2b26d4ac7f14ebcb8670f0176363bd1c7921266a1693642638145d61a21", "audit_status": "PENDING"},
+    "fsm_A1_source_note": {"path": "stages/stage32/residual-32-01-production/post1648ah-fsm-unibranch-source-note.md", "blob_sha1": "a4b2e09f5eb7bf5c287554985141548ca3359de7"},
+    "stoll_testa": {"title": "Curves on the surface of cuboids", "authors": ["Michael Stoll", "Damiano Testa"], "year": 2026, "journal": "Mathematics of Computation", "doi": "10.1090/mcom/4238", "author_pdf": "https://www.mathe2.uni-bayreuth.de/stoll/papers/Cuboidi.pdf", "locators": "Section 4 product quotient and Y double cover; Lemmas 20-21 for low-genus pullback context."}
   },
-  "firewalls": {
-    "odd_contact_count_identified_with_delta": false,
-    "ramification_degree_identified_with_delta_472": false,
-    "contact_half_excess_identified_with_delta": false,
-    "inertia_type_distribution_guessed_from_EXC_order": false,
-    "h2_excluded_without_EXC_inertia_adapter": false,
-    "product_cover_refinement_promoted_to_full_v6_exclusion": false,
-    "smooth_locus_singularities_discarded": false,
-    "stage32_main_credit": false,
-    "receiver_credit": false,
-    "theorem_credit": false,
-    "endpoint_credit": false,
-    "perfect_cuboid_existence_claim": false,
-    "perfect_cuboid_nonexistence_claim": false
-  },
-  "canonical_sha256_without_this_field": "a80e2c079b31b5e0a4e256825acb9307dd424c8e26b5e19e48ae55596e18f720"
+  "firewalls": {"odd_contact_count_identified_with_delta": false, "ramification_degree_identified_with_delta_472": false, "contact_half_excess_identified_with_delta": false, "inertia_type_distribution_guessed_from_EXC_order": false, "h2_excluded_without_EXC_inertia_adapter": false, "product_cover_refinement_promoted_to_full_v6_exclusion": false, "smooth_locus_singularities_discarded": false, "stage32_main_credit": false, "receiver_credit": false, "theorem_credit": false, "endpoint_credit": false, "perfect_cuboid_existence_claim": false, "perfect_cuboid_nonexistence_claim": false},
+  "canonical_sha256_without_this_field": "c0532ef30aee662954f035a0dc5c87f4cfa8ff7f471632efa7d266a8152405f1"
 }
