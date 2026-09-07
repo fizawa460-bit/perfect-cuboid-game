@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V74_36_09AL_BATCH_AUDIT_CHECKPOINT",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V75_36_09AM_CANDIDATE",
   "stage": "36",
-  "status": "ACTIVE_BATCH_HOSTILE_AUDIT_CHECKPOINT",
+  "status": "ACTIVE_BATCHING_SUBSTANTIVE_PR",
   "base_main_sha": "4e6708cb807cc37bea6509245447a5817965256f",
   "mission": "Attack K16-C3-CAMPEDELLI-UNIFORM-TORSOR through exact receiver-matched arithmetic; keep receiver/theorem/endpoint credit behind hostile audit.",
   "audited_batch_promotion": {
@@ -12,6 +12,15 @@
     "merged_main_sha": "652cbd51cd6b546f2a178597f7f2d3474c92b1c6",
     "scope": "36-09AG through 36-09AI"
   },
+  "audited_in_pr_checkpoint": {
+    "pr": 1677,
+    "audited_head": "56f815b9bc25ca91a2ba6e0c0291664bfeac733d",
+    "hostile_audit_review": 5127436589,
+    "exact_head_ci": "34074355295/101597480228",
+    "scope": "36-09AJ through 36-09AL",
+    "merged_to_main": false,
+    "authority_boundary": "audited exact same-PR checkpoint usable as immutable parent for later provisional leaves; no main promotion claimed"
+  },
   "source_kernel": {
     "kernel": "K16-C3-CAMPEDELLI-UNIFORM-TORSOR",
     "receiver": "R29-CAMP2",
@@ -21,113 +30,95 @@
   },
   "authority_frontier": {
     "36-09U-AF": {"status": "AUDITED_MERGED_AUTHORITY"},
-    "36-09AG-AI": {
-      "status": "AUDITED_MERGED_AUTHORITY",
-      "summary": "individual conic Hasse solubility -> smooth common-u:v genus-one curve -> congruent-number Jacobian 2-covering"
+    "36-09AG-AI": {"status": "AUDITED_MERGED_AUTHORITY"},
+    "36-09AJ-AL": {
+      "status": "HOSTILE_AUDITED_SAME_PR_CHECKPOINT_NOT_MERGED_TO_MAIN",
+      "audited_head": "56f815b9bc25ca91a2ba6e0c0291664bfeac733d",
+      "hostile_audit_review": 5127436589,
+      "summary": "exact full-2 class -> explicit B7 ELS Selmer survivor -> Tunnell rank-zero proof -> nontrivial Sha[2] and no Q-point for the B7 covering"
     },
-    "36-09AJ": {
-      "status": "EXACT_H1_FULL2_HOMOGENEOUS_SPACE_CLASS_IDENTIFIED_PENDING_BATCH_AUDIT",
-      "exact_head": "3a808af3404c7d57add3c4dca120b9d1696aa46e",
-      "exact_head_ci": "34073432508",
-      "certificate_blob_sha": "27950f53a89e28d02d04f2c19628504561c206e7",
-      "verifier_blob_sha": "af5be150ae9b7a07542875fcfc99f9270564b69d",
-      "FULL2_CLASS": "([c*d],[A*d],[A*c])",
-      "H1_FULL2_CLASS_IDENTIFIED": true,
-      "RECEIVER_CLOSED": false
-    },
-    "36-09AK": {
-      "status": "EXPLICIT_B7_FULL2_COVERING_EVERYWHERE_LOCALLY_SOLUBLE_SELMER_SURVIVOR_PENDING_BATCH_AUDIT",
-      "exact_head": "df566ff40260dad7a11067782841e521d33cf4cd",
-      "exact_head_ci": "34073718579",
-      "certificate_blob_sha": "05bf95344372b362be47d11df7f930e72fa8ee18",
-      "verifier_blob_sha": "d60a58e64d7f91f96cae47f677b6aac9aa64ac79",
-      "EXPLICIT_B7_COVERING_ELS": true,
-      "B7_CLASS_IN_2SELMER_E73073": true,
-      "UNIFORM_FULL2_LOCAL_OBSTRUCTION_CLOSURE": false,
-      "RECEIVER_CLOSED": false
-    },
-    "36-09AL": {
-      "status": "EXPLICIT_B7_E73073_SELMER_CLASS_PROVED_NONTRIVIAL_IN_SHA2_BATCH_AUDIT_CHECKPOINT",
-      "certificate": "stages/stage36/36-09AL/b7-selmer-class-nontrivial-sha2-preflight.json",
-      "certificate_blob_sha": "10962f8d2471a8236d66a602c0f4952ce497e56c",
-      "verifier": "stages/stage36/verify_stage36_36_09AL.py",
-      "verifier_blob_sha": "b4b5215bf5f06ed451f7cd99fef708de5069b087",
-      "B7_TUNNELL_COUNTS": [480,896],
-      "B7_TUNNELL_NONCONGRUENT": true,
-      "B7_MW_RANK": 0,
-      "B7_NORMALIZED_FULL2_PAIR": [-143,-1606],
-      "B7_CLASS_IN_2SELMER": true,
-      "B7_CLASS_IN_MW_KUMMER_IMAGE": false,
-      "B7_SHA2_NONTRIVIAL": true,
-      "B7_COVERING_Q_POINT_EXISTS": false,
-      "B7_EXPLICIT_BRANCH_GLOBALLY_EXCLUDED": true,
-      "UNIFORM_BRANCH_FAMILY_CLASSIFIED": false,
+    "36-09AM": {
+      "status": "EXACT_TUNNELL_FAIL_RANKZERO_SHA2_SIEVE_WITH_FOUR_TORSION_SECTORS_PENDING_BATCH_AUDIT",
+      "certificate": "stages/stage36/36-09AM/uniform-rankzero-tunnell-sha2-sieve-preflight.json",
+      "certificate_blob_sha": "d171bb1d078dfe248b4771eebf75fee1e93da141",
+      "verifier": "stages/stage36/verify_stage36_36_09AM.py",
+      "verifier_blob_sha": "24135de983fdcc18350fc4ed6ab5fca2b5adacc5",
+      "source_lock": "stages/stage36/36-09AM/tunnell-rankzero-torsion-sector-source-lock.md",
+      "source_lock_blob_sha": "0c64262ac11979fa1f5e25039cfc0f4f0426ca62",
+      "UNIFORM_RANKZERO_TUNNELL_FAIL_CLASSIFIER": true,
+      "TORSION_SHAPED_EXCEPTION_SECTOR_COUNT": 4,
+      "OUTSIDE_SECTORS_ELS_TUNNELL_FAIL_IMPLIES_NONTRIVIAL_SHA2": true,
+      "OUTSIDE_SECTORS_PROJECTIVE_COVERING_Q_POINT_EXISTS": false,
+      "TUNNELL_EQUALITY_SIDE_CLASSIFIED": false,
+      "TORSION_SECTOR_RETAINED_OPEN_CLASSIFIED": false,
       "CANDIDATE_PARAMETER_SET_SHRUNK": false,
       "RECEIVER_CLOSED": false
     }
   },
   "source_locks": {
+    "stage36_36_09AE": {"path":"stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json","blob_sha":"ddae37dd35cd0e732cebadf9c17f3f3fa57930df"},
     "stage36_36_09AJ": {"path":"stages/stage36/36-09AJ/congruent-number-full2-covering-class-preflight.json","blob_sha":"27950f53a89e28d02d04f2c19628504561c206e7"},
-    "stage36_36_09AK": {"path":"stages/stage36/36-09AK/b7-everywhere-local-full2-covering-preflight.json","blob_sha":"05bf95344372b362be47d11df7f930e72fa8ee18"},
     "stage36_36_09AL": {"path":"stages/stage36/36-09AL/b7-selmer-class-nontrivial-sha2-preflight.json","blob_sha":"10962f8d2471a8236d66a602c0f4952ce497e56c"},
-    "stage36_36_09AL_source": {"path":"stages/stage36/36-09AL/tunnell-mw-sha-source-lock.md","blob_sha":"f6ed54e24fce21722aeb89ffe6fa8368ce2b4dee"},
+    "stage36_36_09AM": {"path":"stages/stage36/36-09AM/uniform-rankzero-tunnell-sha2-sieve-preflight.json","blob_sha":"d171bb1d078dfe248b4771eebf75fee1e93da141"},
+    "stage36_36_09AM_source": {"path":"stages/stage36/36-09AM/tunnell-rankzero-torsion-sector-source-lock.md","blob_sha":"0c64262ac11979fa1f5e25039cfc0f4f0426ca62"},
     "S34_W03": {"path":"docs/arsenal/cards/formal/S34-W03.md","blob_sha":"1d5275321f42768a6414d4610ac912c63be43f96"}
   },
   "freshness": {
     "current_main": "4e6708cb807cc37bea6509245447a5817965256f",
-    "previous_base": "652cbd51cd6b546f2a178597f7f2d3474c92b1c6",
-    "intervening_drift": "Stage36 Arsenal provisional harvest only",
     "stage36_source_drift": false,
-    "sync_merge_commit": "21fca939e600be128781741f31f5991960d57825"
+    "pr1677_base_synced": true
   },
   "cycle_ledger": {
-    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_UNIFORM_CONGRUENT_NUMBER_COVERING_MW_SHA_BRANCH_CLASSIFICATION_AFTER_AUDIT",
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION": "LIVE_TORSION_SHAPED_RETAINED_OPEN_AND_TUNNELL_EQUALITY_BRANCHES",
     "B3_FULL2_LOCAL_OBSTRUCTION_SUBROUTE": "BLOCKED_BY_EXPLICIT_EVERYWHERE_LOCAL_B7_COVERING",
     "B3_B7_SELMER_MW_SUBROUTE": "BLOCKED_B7_CLASS_IS_NONTRIVIAL_SHA2_NOT_MW",
-    "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION": "LIVE_AFTER_EXPLICIT_B7_GLOBAL_EXCLUSION_BUT_UNIFORM_BRANCH_FAMILY_OPEN",
+    "B3_TUNNELL_FAIL_RANKZERO_SUBROUTE": "PASS_UNIFORM_SHA2_EXCLUSION_OUTSIDE_FOUR_TORSION_SHAPED_SECTORS",
+    "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION": "LIVE_AS_FOUR_TORSION_SHAPED_RANKZERO_SECTORS_PLUS_TUNNELL_EQUALITY_SIDE",
     "B4_RESIDUE_ONLY_SQUARECLASS_COMPRESSION_SUBROUTE": "BLOCKED_PRIME_IDENTITY_LOAD_BEARING",
     "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER": "UNTESTED"
   },
   "cycle_audit": {
     "CYCLE_ROUTE_STATUS": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
-    "CYCLE_ACTIVE_RECEIVER": "uniform family of explicit full-2 covering classes on variable congruent-number Jacobians; one B7 class is now certified as nontrivial Sha[2]",
-    "CYCLE_SPLIT_TRIGGERED": false,
-    "CYCLE_NEW_VIEW": "AK gives an everywhere-local Selmer survivor; AL uses Tunnell plus the exact full-2 Kummer image to prove that survivor is a nontrivial Sha[2] class and hence has no Q-point",
-    "CYCLE_NEW_VIEW_SOURCE": "36-09AJ through 36-09AL"
+    "CYCLE_ACTIVE_RECEIVER": "variable congruent-number full-2 coverings; Tunnell-fail ELS rank-zero side excluded by Sha[2] except four exact torsion-shaped sectors",
+    "CYCLE_SPLIT_TRIGGERED": true,
+    "CYCLE_SPLIT_BRANCHES": [
+      "TORSION_SHAPED_RANKZERO_EXCEPTION_SECTORS",
+      "TUNNELL_EQUALITY_UNCONDITIONAL_UNKNOWN_SIDE"
+    ],
+    "CYCLE_NEW_VIEW": "AL single B7 nontrivial-Sha witness generalizes to a uniform conditional rank-zero sieve; exact squareclass comparison leaves only four MW-torsion-shaped exception sectors",
+    "CYCLE_NEW_VIEW_SOURCE": "36-09AM"
   },
   "current": {
-    "unit": "36-09AL-AUDIT-CHECKPOINT",
-    "next_exact_leaf": "HOSTILE_AUDIT_PR1677_AJ_THROUGH_AL",
-    "next_owner": "HOSTILE_AUDIT",
-    "result": "36-09AL_EXACT: B7_E73073_COVERING_IS_ELS_BUT_NONTRIVIAL_SHA2_AND_HAS_NO_Q_POINT; UNIFORM_BRANCH_FAMILY_REMAINS_OPEN",
+    "unit": "36-09AN",
+    "next_exact_leaf": "36-09AN_TORSION_SHAPED_SECTOR_RETAINED_OPEN_PREFLIGHT",
+    "next_owner": "STAGE36_MAIN",
+    "result": "36-09AM_EXACT: ELS_PLUS_TUNNELL_FAIL_IMPLIES_NONTRIVIAL_SHA2_AND_NO_Q_POINT_OUTSIDE_EXACTLY_FOUR_TORSION_SHAPED_SECTORS; TUNNELL_EQUALITY_SIDE_OPEN",
     "substantive_batch_pr_continues": true,
-    "hostile_audit_checkpoint_reached": true,
-    "36_09AJ_entry_allowed": true,
-    "36_09AK_entry_allowed": true,
-    "36_09AL_entry_allowed": true,
-    "36_09AM_entry_allowed": false,
-    "next_after_pass": "36-09AM_UNIFORM_CONGRUENT_NUMBER_COVERING_MW_SHA_BRANCH_CLASSIFICATION_PREFLIGHT"
+    "hostile_audit_checkpoint_reached": false,
+    "36_09AM_entry_allowed": true,
+    "36_09AN_entry_allowed": true
   },
   "current_leaf_working_set": [
+    "stages/stage36/36-09AM/uniform-rankzero-tunnell-sha2-sieve-preflight.json",
+    "stages/stage36/verify_stage36_36_09AM.py",
+    "stages/stage36/36-09AM/tunnell-rankzero-torsion-sector-source-lock.md",
     "stages/stage36/36-09AL/b7-selmer-class-nontrivial-sha2-preflight.json",
-    "stages/stage36/verify_stage36_36_09AL.py",
-    "stages/stage36/36-09AL/tunnell-mw-sha-source-lock.md",
-    "stages/stage36/36-09AK/b7-everywhere-local-full2-covering-preflight.json",
-    "stages/stage36/36-09AJ/congruent-number-full2-covering-class-preflight.json"
+    "stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json"
   ],
   "promotion_gates": {
     "36_09AG_hostile_audit_passed": true,
     "36_09AH_hostile_audit_passed": true,
     "36_09AI_hostile_audit_passed": true,
-    "36_09AJ_certificate_complete": true,
-    "36_09AJ_hostile_audit_passed": false,
-    "36_09AK_certificate_complete": true,
-    "36_09AK_hostile_audit_passed": false,
-    "36_09AL_certificate_complete": true,
-    "36_09AL_hostile_audit_passed": false,
-    "covering_Selmer_membership_proved_for_B7": true,
-    "B7_Sha2_nontrivial_proved_provisional": true,
-    "B7_covering_Q_point_excluded_provisional": true,
+    "36_09AJ_hostile_audit_passed": true,
+    "36_09AK_hostile_audit_passed": true,
+    "36_09AL_hostile_audit_passed": true,
+    "36_09AL_promoted_to_main": false,
+    "36_09AM_certificate_complete": true,
+    "36_09AM_hostile_audit_passed": false,
+    "uniform_rankzero_Tunnell_fail_classifier_obtained": true,
+    "torsion_shaped_exception_sectors_classified": true,
+    "torsion_shaped_retained_open_resolved": false,
+    "Tunnell_equality_side_classified": false,
     "common_uv_intersection_closed_uniformly": false,
     "receiver_emptiness_proved": false,
     "R29_CAMP2_closed": false,
@@ -135,22 +126,22 @@
     "endpoint_closed": false
   },
   "anti_loop": [
-    "do not infer a global covering point from everywhere-local solubility",
-    "do not infer MW image from Selmer membership without excluding Sha[2]",
-    "do not reopen the B7 MW-vs-Sha dichotomy after AL unless the exact Tunnell/Kummer source lock is invalidated",
-    "do not infer uniform receiver emptiness from exclusion of the single B7 branch",
-    "do not reopen residue-only mod8 compression",
-    "do not enter 36-09AM before hostile audit PASS of PR1677 AJ-AL"
+    "do not use the BSD converse when Tunnell equality holds",
+    "do not infer a receiver point from membership in a torsion-shaped Kummer sector before retained-open coordinate compatibility is checked",
+    "do not reopen the audited B7 MW-vs-Sha conclusion unless its exact source lock is invalidated",
+    "do not claim uniform ELS; AM is conditional on full-covering local solubility",
+    "do not infer candidate-parameter shrink from the conditional classifier alone",
+    "do not reopen residue-only mod8 compression"
   ],
   "claims": {
     "new_theorem_credit": false,
     "Q_jacobian_identified_audited": true,
-    "H1_full2_class_identified_provisional": true,
-    "B7_covering_ELS_provisional": true,
-    "B7_class_in_2Selmer_provisional": true,
-    "B7_class_nontrivial_in_Sha2_provisional": true,
-    "B7_covering_Q_point_exists": false,
-    "B7_explicit_branch_globally_excluded_provisional": true,
+    "AJ_AL_hostile_audited_same_pr": true,
+    "AJ_AL_promoted_to_main": false,
+    "B7_class_nontrivial_in_Sha2_audited": true,
+    "B7_explicit_branch_globally_excluded_audited": true,
+    "uniform_rankzero_Tunnell_fail_classifier_provisional": true,
+    "four_torsion_shaped_sectors_provisional": true,
     "candidate_parameter_set_shrunk": false,
     "receiver_emptiness_proved": false,
     "R29_CAMP2_closed": false,
