@@ -39,7 +39,7 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Assert hostile-reaudited merged AZ-BE authority
+      - name: Assert hostile-audited merged BF-BG authority
         shell: bash
         run: |
           set -euo pipefail
@@ -47,39 +47,27 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          a=s['audited_history']['36-09AZ-BE']
-          assert a['pr']==1686
-          assert a['failed_audit_review']==5128976664
-          assert a['hostile_reaudit_review']==5129219368
-          assert a['audited_exact_head']=='52161f9872d7748bd3a4dcba346f7fd42d68edd9'
-          assert a['exact_head_ci']=='34095467995/101658038311'
-          assert a['merged_main_sha']=='386b6a52d7bfec2e8903412c7ca56976b46c288b'
+          a=s['audited_history']['36-09BF-BG']
+          assert a['pr']==1689
+          assert a['hostile_audit_review']==5129489415
+          assert a['audited_exact_head']=='731265665feb2bed991cf912b89431bb35ce65ad'
+          assert a['exact_head_ci']=='34098010028/101665838247'
+          assert a['merged_main_sha']=='e758e05953df2cf8cd4ab26ac1e9d72374e99760'
           PY
-          git merge-base --is-ancestor 386b6a52d7bfec2e8903412c7ca56976b46c288b HEAD
-      - name: Replay hostile-reaudited exact 36-09BE head
+          git merge-base --is-ancestor e758e05953df2cf8cd4ab26ac1e9d72374e99760 HEAD
+      - name: Replay hostile-audited exact 36-09BG head
         shell: bash
         run: |
           set -euo pipefail
-          H=52161f9872d7748bd3a4dcba346f7fd42d68edd9
+          H=731265665feb2bed991cf912b89431bb35ce65ad
           git cat-file -e "$H^{commit}"
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BE.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BG.py"
           git worktree remove --force "$tmp"
-      - name: Replay exact 36-09BF parent
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=2079662f682f2a2b49009da169bc66176df8e893
-          git cat-file -e "$H^{commit}"
-          git merge-base --is-ancestor "$H" HEAD
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BF.py"
-          git worktree remove --force "$tmp"
-      - name: Verify current 36-09BG
-        run: python3 stages/stage36/verify_stage36_36_09BG.py
-      - name: Assert BG checkpoint firewalls and BH lock
+      - name: Verify current 36-09BH
+        run: python3 stages/stage36/verify_stage36_36_09BH.py
+      - name: Assert BH firewalls and BI unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -87,19 +75,19 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V95_36_09BG_AUDIT_CHECKPOINT'
-          bg=s['authority_frontier']['36-09BG']
-          assert bg['ALL_15_CHARACTER_PULLBACK_COLLAPSE_COMPLETE'] is True
-          assert bg['NEW_CHARACTER_PREDICATE_BEYOND_BB'] is False
-          assert bg['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert bg['RECEIVER_CLOSED'] is False
-          assert s['cycle_ledger']['B4_FULL_CHARACTER_QUOTIENTS']=='BLOCKED_NO_NEW_INFORMATION_AS_NEW_PREDICATE_ROUTE'
-          assert s['cycle_ledger']['B4_BAD_PRIME_LOCAL']=='LIVE_SELECTED'
-          assert s['current']['unit']=='36-09BG-AUDIT-CHECKPOINT'
-          assert s['current']['hostile_audit_checkpoint_reached'] is True
-          assert s['current']['36_09BH_entry_allowed'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V96_36_09BH_BAD_PLACE_FULL_COVER_VALUATION'
+          bh=s['authority_frontier']['36-09BH']
+          assert bh['ODD_BAD_SUPPORT_SEVEN_RESERVOIRS'] is True
+          assert bh['NEW_ODD_RESERVOIR']=='Q=a^2+b^2'
+          assert bh['NEW_Q_RESERVOIR_FIRST_RESIDUE_FILTER'] is False
+          assert bh['PRIME2_FULL_COVER_CLASSIFIED'] is False
+          assert bh['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert bh['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09BH'
+          assert s['current']['next_exact_leaf']=='36-09BI_PRIME2_FULL_COVER_CONGRUENCE_PREFLIGHT'
+          assert s['current']['36_09BI_entry_allowed'] is True
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('36-09BG checkpoint verified; all character predicates collapse on AY, character-predicate route blocked, bad-place full-cover valuation selected but BH remains audit-locked')
+          print('36-09BH checkpoint verified; seven-reservoir odd bad support fixed, Q-reservoir first row automatic, prime 2 unlocked next')
           PY
           git diff --check
