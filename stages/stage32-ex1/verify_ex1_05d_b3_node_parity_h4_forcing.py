@@ -20,6 +20,14 @@ P = d["v6_pairing_adapter"]["all_48_exceptional_pairings"]
 assert P == u05b["target"]["exceptional_pairings"]
 assert len(P) == 48
 
+# 05C must now exhaust all h=2 full stabilizers before 05D may call the survivor unique.
+T = u05c["h2_capacity_test"]
+assert len(T["subgroups"]) == 6
+assert T["excluded_h2_subgroup_choices_by_capacity"] == 5
+assert T["remaining_h2_subgroup_choices_after_capacity"] == 1
+assert T["unique_surviving_h2_stabilizer"].startswith("M=<u,v>")
+assert T["surviving_allowed_mass"] == 204
+
 I = d["inertia_index_adapter"]
 I1 = I["b1_zero_u_sign"]
 I2 = I["b2_zero_v_sign"]
@@ -61,4 +69,4 @@ assert not d["exit"]["full_target_closure"]
 assert not d["firewalls"]["Magma_point_order_guessed"]
 assert not d["firewalls"]["scratch_result_itself_authority"]
 assert not d["firewalls"]["h4_forcing_promoted_to_full_v6_exclusion"]
-print("EX1-05D replay PASS: b3 odd witness excludes h=2; h=4 forced at component-stabilizer layer")
+print("EX1-05D replay PASS: exhaustive 05C leaves only <u,v>; b3 odd witness excludes it; h=4 forced")
