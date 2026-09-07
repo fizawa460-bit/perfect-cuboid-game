@@ -18,14 +18,14 @@
     }
   },
   "claim_id_contract": {
-    "immutability_rule": "claim_id + kind + statement + scope_key + scope + PROVES + DOES_NOT_PROVE + requires form the immutable claim core. Any semantic change creates a new versioned claim ID. Authority/audit metadata may advance without changing the core.",
+    "immutability_rule": "claim_id + kind + statement + scope_key + scope + PROVES + DOES_NOT_PROVE + requires + source_locks + replay_verifier form the immutable claim core. Any semantic or evidence-lock change creates a new versioned claim ID. Authority status and audit receipt may advance without changing the core.",
     "pattern": "^S32\\.[A-Z0-9_]+(?:\\.[A-Z0-9_]+)*\\.V[1-9][0-9]*$"
   },
   "claims": [
     {
       "audit_receipt": null,
       "authority_status": "DECLARED_GOAL",
-      "claim_core_sha256": "440e9e21a2b9709084241f7c5ec17878f6fee54df764dcf75497d8e182b9244b",
+      "claim_core_sha256": "cb3aa4b36332cda9d960103972e7235d3cf7b1bc41fcefc99f19a050a7ab2f14",
       "claim_id": "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
       "does_not_prove": [
         "Q602 is excluded.",
@@ -66,7 +66,7 @@
         "status": "PASS"
       },
       "authority_status": "AUDITED",
-      "claim_core_sha256": "ad042d07c0d888940ef89a23b50750cb98fe9b7b57385c818c8ee58caf1da73b",
+      "claim_core_sha256": "8d1ec1f75446d13c2554af53103debc1a03a4575633f2415e8eff55fa9eb0f1a",
       "claim_id": "S32.MAIN.HDECK_CHARACTER_DIRECTION.V1",
       "does_not_prove": [
         "Which retained nonzero W-line is delta_0inf.",
@@ -114,7 +114,7 @@
         "status": "PENDING_REAUDIT_AFTER_SCOPE_REPAIR"
       },
       "authority_status": "PROVISIONAL",
-      "claim_core_sha256": "7cbd21a0edc4aeaf730955d41e1401e30bc9bbc201c7771e1dd3df6c5e8a6b6f",
+      "claim_core_sha256": "32c190fa7993a259deacf0f0a1054e1ba91ee3a3481b7446c1c0a01c8a4b8654",
       "claim_id": "S32.MAIN.V6_BIJECTIVE_NORMALIZATION_EXCLUSION.V2",
       "does_not_prove": [
         "All integral irreducible genus-1 V6 carriers are excluded.",
@@ -156,7 +156,7 @@
     {
       "audit_receipt": null,
       "authority_status": "DECLARED_GOAL",
-      "claim_core_sha256": "0c9c180a1cff2ba28f6f50a4fda4eb5877668d1723354cb4f9c53a9721136e9a",
+      "claim_core_sha256": "248deaa60cfaddb43160b7a78abdb4a7d3c2483bbaf70587cf77ec13b9c7c309",
       "claim_id": "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1",
       "does_not_prove": [
         "Any EX terminal claim currently has PASS.",
@@ -203,7 +203,7 @@
     {
       "audit_receipt": null,
       "authority_status": "DECLARED_GOAL",
-      "claim_core_sha256": "5311907508cf797faee8f07c26b0830ae3eb9410b68448dfc73b9f51528f6622",
+      "claim_core_sha256": "c82afff4d6d42ce2da40e6ced4a552ffde76580fcde16e497cbb14ca334932f9",
       "claim_id": "S32.EX1.LANE_CONTRACT.V1",
       "does_not_prove": [
         "EX1 full target closure.",
@@ -242,7 +242,7 @@
         "status": "PENDING_REAUDIT_AFTER_FAIL"
       },
       "authority_status": "PROVISIONAL",
-      "claim_core_sha256": "3c4b1209ceabc6f6d3dc01e7f713680fa56bf674cb67d32d8596a61adecb00bc",
+      "claim_core_sha256": "bcd14482188617530547f8b8e969d7ca71f4240ed335f47001db73a1f9ac8d4e",
       "claim_id": "S32.EX1.CANDIDATE_THROUGH_05F.V1",
       "does_not_prove": [
         "Hostile-audit PASS.",
@@ -278,7 +278,7 @@
     {
       "audit_receipt": null,
       "authority_status": "DECLARED_GOAL",
-      "claim_core_sha256": "3e12d62569d4e8642ead306ef71d146cd324019ff30512e7419bb46c7291b69b",
+      "claim_core_sha256": "5e6102e00ceeb9e9d24fb30761c38847c4ab55be96900891de8e5519d5074087",
       "claim_id": "S32.EX2.LANE_CONTRACT.V1",
       "does_not_prove": [
         "EX2 terminal closure.",
@@ -310,7 +310,7 @@
     {
       "audit_receipt": null,
       "authority_status": "DECLARED_GOAL",
-      "claim_core_sha256": "55204f4da426e55093a869e86fb3b4a91e5961f9a74fe2d7fa12b334be55a4e0",
+      "claim_core_sha256": "30771a56601a5e09655e6feba951dfa3b0d06a0ddd2902728786c0467c0b4f47",
       "claim_id": "S32.EX3.LANE_CONTRACT.V1",
       "does_not_prove": [
         "EX3 terminal closure.",
@@ -342,7 +342,7 @@
     {
       "audit_receipt": null,
       "authority_status": "DECLARED_GOAL",
-      "claim_core_sha256": "7e80791b58845a0536862be8faf8f5c78ac31ea39a04c1c70f0c8b4b39446c16",
+      "claim_core_sha256": "ab64c1a2626f20cba0824bfc1575e4eba2f94aa31459852a7c79bd38798616f9",
       "claim_id": "S32.EX4.LANE_CONTRACT.V1",
       "does_not_prove": [
         "EX4 terminal closure.",
@@ -375,7 +375,7 @@
     {
       "audit_receipt": null,
       "authority_status": "DECLARED_GOAL",
-      "claim_core_sha256": "704c0f8be6f0ca40343c871de3180656cd862feaca85a60d72ef804ee74d1166",
+      "claim_core_sha256": "05ecf79f4f523ac02b6b021afcbfd60af99da4dd3612eed519c126f3ae07e55c",
       "claim_id": "S32.EX5.LANE_CONTRACT.V1",
       "does_not_prove": [
         "EX5 terminal closure.",
