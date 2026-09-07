@@ -1,0 +1,38 @@
+name: Stage32 post1648AM Beauville fibration Picard recovery diagnostic
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648am-beauville-fibration-picard-recovery
+    paths:
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1648am_beauville_fibration_picard_recovery.py'
+      - '.github/workflows/stage32-post1648am-beauville-fibration-picard-recovery-scratch.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  diagnostic-am:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install sympy
+      - name: Run Beauville fibration Picard diagnostic
+        run: python3 stages/stage32/residual-32-01-production/diagnose_stage32_post1648am_beauville_fibration_picard_recovery.py > stages/stage32/residual-32-01-production/post1648am-beauville-fibration-picard-recovery-diagnostic.json
+      - name: Commit compact diagnostic result
+        shell: bash
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add stages/stage32/residual-32-01-production/post1648am-beauville-fibration-picard-recovery-diagnostic.json
+          git commit -m "Stage32 scratch: record AM Beauville fibration Picard diagnostic"
+          git push origin HEAD:${GITHUB_REF_NAME}
+      - name: Diff hygiene
+        run: git diff --check
