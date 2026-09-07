@@ -1,0 +1,43 @@
+name: Stage32 post1648AW joint Z-WC node incidence
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648aw-explicit-node-equivariant-matching
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-aw-joint-incidence:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run AW joint Z-WC incidence filter
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648aw_joint_Z_WC_node_incidence.py | tee /tmp/aw-joint.json
+      - name: Assert bounded output
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/aw-joint.json'))
+          assert x['mode']=='SCRATCH_POST1648AW_JOINT_Z_WC_NODE_INCIDENCE'
+          assert x['input_WC_exact_cover_count']==25
+          assert x['unique_unordered_Z_partition'] is True
+          assert x['firewalls']['semantic_node_matching_obtained'] is False
+          print(json.dumps({
+            'input_WC_exact_cover_count': x['input_WC_exact_cover_count'],
+            'joint_incidence_survivor_count': x['joint_incidence_survivor_count'],
+            'survivor_indices': [s['candidate_indices_zero_based'] for s in x['joint_incidence_survivors']],
+            'mass_profiles': [s['exceptional_mass_sums'] for s in x['joint_incidence_survivors']],
+          },sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
