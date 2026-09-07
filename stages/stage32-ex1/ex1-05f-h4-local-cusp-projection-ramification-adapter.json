@@ -1,0 +1,136 @@
+{
+  "schema": "STAGE32EX1_EX1_05F_H4_LOCAL_CUSP_PROJECTION_RAMIFICATION_ADAPTER_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05F_H4_PROJECTION_RAMIFICATION_TO_LOCAL_CONTACT_COUPLING",
+  "status": "BLOCKED_NEW_PATTERN_ISOLATED_EXACT_LOCAL_CUSP_ADAPTER_NONPRUNING_CANDIDATE",
+  "dependency_status": "PROVISIONAL_SAME_PR_DEPENDS_ON_UNAUDITED_EX1_00_THROUGH_EX1_05E_CANDIDATES",
+  "source_locks": {
+    "ex1_05b": {
+      "path": "stages/stage32-ex1/ex1-05b-inertia-parity-stabilizer.json",
+      "canonical_sha256": "a80e2c079b31b5e0a4e256825acb9307dd424c8e26b5e19e48ae55596e18f720",
+      "audit_status": "PENDING"
+    },
+    "ex1_05c": {
+      "path": "stages/stage32-ex1/ex1-05c-inertia-class-capacity.json",
+      "canonical_sha256": "9359008927cd9458c111c128424b9a0f00134109c77ca1bd29a6847404c3518f",
+      "audit_status": "PENDING"
+    },
+    "ex1_05e": {
+      "path": "stages/stage32-ex1/ex1-05e-h4-modular-factor-projection-reduction.json",
+      "canonical_sha256": "0f7c63f90ace7974249aae2f387ff8a49650d6fba489923bd13f48d28e431701",
+      "audit_status": "PENDING"
+    },
+    "fsm_local_orders": {
+      "path": "stages/stage32/residual-32-01-production/post1648ah-fsm-unibranch-source-note.md",
+      "blob_sha1": "a4b2e09f5eb7bf5c287554985141548ca3359de7",
+      "exact_use": "At a box node ord_t(x)=a1/4 and ord_t(z)=a2/4, with a1,a2 divisible by 4 and a1+a2 divisible by 8."
+    },
+    "resolved_modular_fiber": {
+      "path": "stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-source-note.md",
+      "blob_sha1": "deeecac5599f3b542b445cd87c2070dae488bc85",
+      "exact_use": "C2->X(4) is the residual local degree-2 cusp cover after the etale degree-4 X(8)->C2 quotient; on the resolution div(u)=2L+E and fixed V6 factor degrees are 105 and 81."
+    },
+    "beauville_odd_contact": {
+      "path": "stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-beauville-odd-branch-wall.md",
+      "blob_sha1": "cb20a9b287430c2e238f79d3151500c262905468",
+      "exact_use": "For a normalized node branch with exceptional contact m, the Beauville pullback is ramified iff m is odd; any positive integer m admits the coarse minimal cusp choice a1=a2=4m."
+    }
+  },
+  "local_base_change_adapter": {
+    "setup": "Let u be an X(4) cusp parameter, v a C2 cusp parameter with u=v^2, and t a local parameter on N with u=t^k*unit.",
+    "normalization_formula": "For g=gcd(k,2), the normalization of v^2=t^k*unit has g points above t=0, each with ramification index k/g for the map to C2.",
+    "total_projection_ramification_at_the_cusp_preimage": "rho(k)=k-gcd(k,2), i.e. k-1 for odd k and k-2 for even k.",
+    "node_factor_orders": "At a node branch, if m=I(Gamma,E) and ell_i=I(Gamma,L_i) for the relevant factor boundary strict transform, then k_i=m+2*ell_i by div(u_i)=2L_i+E.",
+    "node_parity": "k_i congruent m mod 2 for both factors, agreeing with the Beauville odd-contact ramification criterion.",
+    "node_projection_contribution": {
+      "m_odd": "rho_i=m+2*ell_i-1",
+      "m_even": "rho_i=m+2*ell_i-2"
+    },
+    "smooth_boundary_contribution": "Away from nodes, k_i=2*ell_i and rho_i=2*ell_i-2; a transverse boundary hit ell_i=1 contributes zero projection ramification."
+  },
+  "fixed_v6_six_cusp_degree_replay": {
+    "boundary_labels_33_to_44_pairings": [11, 26, 31, 22, 16, 26, 25, 11, 28, 40, 34, 22],
+    "first_factor_labels": [34, 35, 38, 39, 42, 43],
+    "first_factor_boundary_pairings": [26, 31, 26, 25, 40, 34],
+    "first_factor_boundary_sum": 182,
+    "second_factor_labels": [33, 36, 37, 40, 41, 44],
+    "second_factor_boundary_pairings": [11, 22, 16, 11, 28, 22],
+    "second_factor_boundary_sum": 110,
+    "exceptional_mass": 266,
+    "first_factor_identity": "2*182+266=630=6*105",
+    "second_factor_identity": "2*110+266=486=6*81"
+  },
+  "coarse_zero_cusp_ramification_witness_family": {
+    "domain": "Each residual Q=210+2r, 0<=r<=28.",
+    "node_partition_rule": "For each exceptional total M_j choose q_j with q_j congruent M_j mod2, 0<=q_j<=M_j, sum q_j=Q; split M_j into q_j parts equal to 1 and (M_j-q_j)/2 parts equal to 2.",
+    "existence_for_all_residual_Q": "Starting from q_j=M_j mod2 (sum 26), increments q_j->q_j+2 have total capacity (266-26)/2=120, so every even Q from 26 through 266, in particular all 29 residual Q values, is reachable.",
+    "node_cusp_choice": "For every part m in {1,2}, take the coarse source-admissible a1=a2=4m. Then k_1=k_2=m, ell_1=ell_2=0 and rho_1=rho_2=0.",
+    "smooth_boundary_choice": "Realize each unit of each C.L boundary pairing by a distinct transverse smooth-boundary hit ell=1; then k=2 and rho=0.",
+    "result": "The exact class/contact ledgers admit a coarse local valuation realization with zero ramification over all six special cusps for both descended projections, for every one of the 29 Q-slack states.",
+    "realizability_firewall": "This is only a local/coarse valuation witness showing noncontradiction of the cusp adapter. It is not a global curve, section, or map realization."
+  },
+  "projection_ramification_decomposition": {
+    "Q_parameter": "Q=210+2r, 0<=r<=28",
+    "total_R105": "2r",
+    "total_R81": "48+2r",
+    "decomposition": ["R105=R105_cusp+R105_off", "R81=R81_cusp+R81_off"],
+    "all_terms_nonnegative": true,
+    "local_adapter_allows": ["R105_cusp=0", "R81_cusp=0"],
+    "remaining_numerical_assignment": ["R105_off=2r", "R81_off=48+2r"],
+    "assignment_scope": "Numerical compatibility only; existence and common-source compatibility of such off-cusp ramification divisors are not proved."
+  },
+  "decision": {
+    "Q_states_entering_05F": 29,
+    "Q_states_excluded_by_local_cusp_adapter": 0,
+    "Q_states_leaving_05F": 29,
+    "local_cusp_route_excludes_target": false,
+    "new_exact_pattern": "Both projection ramification divisors split into explicitly controlled special-cusp contributions plus unresolved off-cusp/common-map contributions; the special-cusp contribution can be zero for every residual Q state at the present class/contact resolution.",
+    "exact_blocker": "Need member-level data or a theorem coupling the two off-cusp ramification divisors / local factor exponents for the same connected h=4 common-cover component. Class intersections and exceptional contact totals alone do not supply that compatibility.",
+    "next_route": "EX1-05G_H4_COMMON_COVER_CORRESPONDENCE_COUPLING"
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "CYCLE_ACTIVE_RECEIVER": "29 h=4 Q-slack states with two degree-105/81 maps D->C2 and common connected-cover origin",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 3,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "Use the common h=4 cover to couple the two maps globally (torsor/correspondence/Rosati) rather than trying to force ramification at the six special cusps.",
+    "CYCLE_NEW_VIEW_SOURCE": "BOTH",
+    "candidate_ledger": {
+      "LIVE": ["H4_COMMON_COVER_CORRESPONDENCE_COUPLING"],
+      "UNTESTED": ["SYMMETRIC_DIFFERENTIALS_BTVA22_GFU20", "JET_SEPARATION_SESHADRI_REIDER_EQUISINGULAR", "ACTUAL_V6_SECTION_MATERIALIZATION"],
+      "BLOCKED": ["H4_LOCAL_CUSP_PROJECTION_RAMIFICATION_ADAPTER_AT_CLASS_CONTACT_RESOLUTION", "MIYAOKA_ORBIBUNDLE_LOW_GENUS_BOUND_AT_CURRENT_V6_INVARIANTS"],
+      "EQUIVALENT": [],
+      "DOMINATED": []
+    }
+  },
+  "exit": {
+    "credit_ceiling": "EXACT_BLOCKER_AND_LOCAL_ADAPTER_CANDIDATE_UNAUDITED",
+    "finite_Q_slack_ledger_complete": true,
+    "finite_residual_configuration_ledger_complete": false,
+    "all_residual_configurations_disposed": false,
+    "positive_witness_established": false,
+    "full_target_closure": false,
+    "next_route": "EX1-05G_H4_COMMON_COVER_CORRESPONDENCE_COUPLING"
+  },
+  "firewalls": {
+    "coarse_local_valuation_witness_promoted_to_global_curve": false,
+    "off_cusp_ramification_numerical_assignment_promoted_to_map_existence": false,
+    "projection_ramification_identified_with_intrinsic_delta": false,
+    "special_cusp_ramification_assumed_to_equal_total_projection_ramification": false,
+    "stage32_unaudited_candidate_inherited_as_theorem": false,
+    "finite_29_Q_state_ledger_promoted_to_realizability": false,
+    "full_v6_exclusion_claimed": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "ad116cc0729f0200bf578b363a47a5a166651e9e1dab215529d8cc6a64562778"
+}
