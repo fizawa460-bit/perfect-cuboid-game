@@ -1,23 +1,26 @@
-name: Stage33 V91C1X_R2 chain-contract materialization
+name: Stage33 V91C1X_R1-R3 chain-contract grouped-checkpoint replay
 
 on:
   pull_request:
     paths:
       - 'stages/stage33/MAIN-STATE.json'
-      - 'stages/stage33/33-12/materialize_e3_v91c1x_r2_main_state.py'
+      - 'stages/stage33/sync_main_state.py'
+      - 'stages/stage33/33-12/verify_stage33_v91c1x_r3_grouped_audit_current_startup_v113.py'
+      - 'stages/stage33/33-12/e3-v91c1x-r1-chain-level-action-difference-preflight.json'
       - 'stages/stage33/33-12/e3-v91c1x-r2-literal-mu2-or-unimodular-cech-glue-contract.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r3-cover-indexed-a2-02-representative-bounded-preflight.json'
       - '.github/workflows/stage33-v91c1x-r1-chain-preflight.yml'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: stage33-v91c1x-r2-materialize-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1x-r3-chain-contract-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  materialize-routing:
+  exact:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
@@ -27,20 +30,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Materialize V91C1X_R2 noncredit routing state
-        run: python stages/stage33/33-12/materialize_e3_v91c1x_r2_main_state.py --write
-      - name: Commit exact routing state when newly materialized
-        shell: bash
+      - name: Replay R1 exact negative diagnostic
+        run: python stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py
+      - name: Verify V113 R1-R3 grouped checkpoint
         run: |
-          set -euo pipefail
-          git add stages/stage33/MAIN-STATE.json
-          if git diff --cached --quiet; then
-            echo 'routing state already exact'
-          else
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git commit -m '[Stage33] route MAIN through X_R2 chain construction contract'
-            git push origin HEAD:${{ github.event.pull_request.head.ref || github.ref_name }}
-          fi
+          python stages/stage33/33-12/verify_stage33_v91c1x_r3_grouped_audit_current_startup_v113.py
+          python stages/stage33/sync_main_state.py --check
       - name: Diff hygiene
         run: git diff --check
