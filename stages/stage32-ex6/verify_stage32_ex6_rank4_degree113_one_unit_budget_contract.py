@@ -48,6 +48,7 @@ def main() -> None:
     assert r["numerically_sufficient_for_RH_contradiction"] is False
     assert r["decision"] == "NUMERICALLY_INSUFFICIENT"
     assert b["one_unit_per_remaining_contact_max"] < i["riemann_hurwitz_total_ramification"]
+    assert b["additional_forced_ramification_needed"] > 0
 
     f = x["firewalls"]
     assert f["global_v6_carrier_constructed"] is False
