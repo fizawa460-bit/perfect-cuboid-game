@@ -32,10 +32,10 @@ jobs:
           from pathlib import Path
           d=json.loads(Path('stages/stage35-ex/runkeys/goal4ag-fixed-strip.json').read_text())
           assert d['schema']=='STAGE35_EX_GOAL4AG_FIXED_STRIP_RUNKEY_V1'
-          assert d['armed'] is True and d['generation']==1
+          assert d['armed'] is True and d['generation']==2
           p=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4ag_fixed_component_strip.py')
           b=p.read_bytes(); got=hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
-          assert got==d['diagnostic_blob_sha1']=='394a6e1848b872a0980894845b4458ffdc3f7ff2'
+          assert got==d['diagnostic_blob_sha1']=='8a3dbd418d650f6d5454482678aa91e6d6e62fe1'
           print('GOAL4AG_FIXED_STRIP_RUNKEY=AUTHORIZED')
           PY
       - name: Exact forced-component stripping
@@ -51,7 +51,10 @@ jobs:
           from pathlib import Path
           s=next(x.split('=',1)[1] for x in Path('/tmp/goal4ag-strip.log').read_text().splitlines() if x.startswith('GOAL4AG_FIXED_STRIP_JSON='))
           d=json.loads(s)
-          assert d['degree_range']==[25,64]
+          assert d['schema']=='STAGE35_EX_GOAL4AG_FIXED_COMPONENT_STRIP_V2'
+          assert d['degree_range']==[25,128]
+          assert d['contiguous_noneffective_through']>=30
+          assert d['first_surviving_degree']==31
           assert d['global_all_degree_exhaustion_proved'] is False
           assert d['explicit_F_B_materialized'] is False
           assert d['theorem_credit'] is False and d['endpoint_credit'] is False
