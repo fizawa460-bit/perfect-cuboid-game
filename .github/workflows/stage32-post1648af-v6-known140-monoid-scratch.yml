@@ -1,0 +1,48 @@
+name: Stage32 scratch post1648af V6 known140 monoid
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648af-v6-known140-monoid-preflight
+    paths:
+      - '.github/workflows/stage32-post1648af-v6-known140-monoid-scratch.yml'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1648af_v6_known140_monoid.py'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stage32-post1648af-v6-known140-monoid-scratch
+  cancel-in-progress: true
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact locked dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Run exact V6 known140 monoid diagnostic
+        run: python stages/stage32/residual-32-01-production/diagnose_stage32_post1648af_v6_known140_monoid.py
+      - name: Commit scratch result only
+        run: |
+          RESULT=stages/stage32/residual-32-01-production/post1648af-v6-known140-monoid-preflight.json
+          test -f "$RESULT"
+          git add "$RESULT"
+          git diff --cached --check
+          if git diff --cached --quiet; then
+            echo 'result already fixed'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Stage32 scratch AF: fix exact V6 known140 monoid result'
+          git push origin HEAD:${{ github.ref_name }}
