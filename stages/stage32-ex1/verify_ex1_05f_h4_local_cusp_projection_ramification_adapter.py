@@ -5,14 +5,14 @@ import math
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parent.parent
+STAGES = HERE.parent
 ART = HERE / "ex1-05f-h4-local-cusp-projection-ramification-adapter.json"
 UP05B = HERE / "ex1-05b-inertia-parity-stabilizer.json"
 UP05C = HERE / "ex1-05c-inertia-class-capacity.json"
 UP05E = HERE / "ex1-05e-h4-modular-factor-projection-reduction.json"
-FSM = ROOT / "stage32/residual-32-01-production/post1648ah-fsm-unibranch-source-note.md"
-BIDEG = ROOT / "stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-source-note.md"
-ODD = ROOT / "stage32/residual-32-01-production/post1473-specific-class-multibranch-beauville-odd-branch-wall.md"
+FSM = STAGES / "stage32/residual-32-01-production/post1648ah-fsm-unibranch-source-note.md"
+BIDEG = STAGES / "stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-source-note.md"
+ODD = STAGES / "stage32/residual-32-01-production/post1473-specific-class-multibranch-beauville-odd-branch-wall.md"
 
 
 def git_blob_sha1(path: Path) -> str:
@@ -39,8 +39,7 @@ assert git_blob_sha1(FSM) == d["source_locks"]["fsm_local_orders"]["blob_sha1"]
 assert git_blob_sha1(BIDEG) == d["source_locks"]["resolved_modular_fiber"]["blob_sha1"]
 assert git_blob_sha1(ODD) == d["source_locks"]["beauville_odd_contact"]["blob_sha1"]
 
-# Local base-change formula: normalization of v^2=t^k has gcd(k,2)
-# branches, each of local degree k/g to the v-line.
+
 def rho(k):
     g = math.gcd(k, 2)
     return g * (k // g - 1)
@@ -52,7 +51,6 @@ for k in range(1, 50):
     else:
         assert rho(k) == k - 2
 
-# Boundary labels 33..44 are the four C2 groups concatenated in source order.
 groups = u05c["divisor_mass_adapter"]["C2_pairings"]
 boundary = groups["b1_zero"] + groups["b2_zero"] + groups["b3_zero"]
 V = d["fixed_v6_six_cusp_degree_replay"]
@@ -70,9 +68,6 @@ assert len(P) == 48 and sum(P) == V["exceptional_mass"] == 266
 assert 2*sum(first) + sum(P) == 6*105 == 630
 assert 2*sum(second) + sum(P) == 6*81 == 486
 
-# Every even Q from the parity minimum 26 through 266 can be represented
-# nodewise by parts 1 and 2 only.  This gives zero special-cusp projection
-# ramification using the minimal a1=a2=4m valuation choice.
 parity_min = sum(m % 2 for m in P)
 assert parity_min == 26
 capacity_steps = sum(m // 2 for m in P)
@@ -107,14 +102,11 @@ for r, Q in enumerate(Qvals):
         assert sum(parts) == M
         total_mass += sum(parts)
         odd_parts += sum(x % 2 for x in parts)
-        # minimal a1=a2=4m gives k1=k2=m and ell1=ell2=0
         cusp_r1 += sum(rho(x) for x in parts)
         cusp_r2 += sum(rho(x) for x in parts)
     assert total_mass == 266
     assert odd_parts == Q
     assert cusp_r1 == cusp_r2 == 0
-    # Realize each unit of C.L as a distinct transverse smooth boundary hit:
-    # k=2, so rho=0.
     assert rho(2) == 0
     R105 = Q - 210
     R81 = Q - 162
