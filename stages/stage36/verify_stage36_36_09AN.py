@@ -13,10 +13,10 @@ AJ = ROOT / "stages/stage36/36-09AJ/congruent-number-full2-covering-class-prefli
 AM = ROOT / "stages/stage36/36-09AM/uniform-rankzero-tunnell-sha2-sieve-preflight.json"
 STATE = ROOT / "stages/stage36/MAIN-STATE.json"
 
-BASE = "58e81a647b63bcea17ab396409c2813b667f45e2"
+BASE = "24215fa27a631cd3cb370c0dfd76866dd2e916f1"
 AM_HEAD = "46b426a393ee2eb027305f9c45f248008ff02fec"
 AM_CI = "34075630812"
-CERT_BLOB = "62437d59f47e991d812c1851b1ee7d393bf82318"
+CERT_BLOB = "959a017e8c263ef4e51d4f1c62d09e7068ffb86b"
 SOURCE_BLOB = "1486507569cd9b6263ff46c5db263fbbc198e87c"
 AD_BLOB = "9d0388845955efee71d1a761ae4ee943d8b565d5"
 AJ_BLOB = "27950f53a89e28d02d04f2c19628504561c206e7"
@@ -54,12 +54,13 @@ def main() -> None:
     c = json.loads(CERT.read_text())
     assert c["schema"] == "STAGE36_36_09AN_RETAINED_OPEN_TUNNELL_NECESSARY_GATE_PREFLIGHT_V1"
     assert c["base_main_sha"] == BASE
+    fs=c["freshness_sync"]
+    assert fs["current_main"] == BASE and fs["stage36_source_drift"] is False
     bp = c["batch_parent"]
     assert bp["pr"] == 1679
     assert bp["36_09AM_exact_head"] == AM_HEAD
     assert bp["36_09AM_exact_head_ci"] == AM_CI
 
-    # Reconstruct AJ's coefficient monomials in (A,B,c,d).
     A=(1,0,0,0); B=(0,1,0,0); cc=(0,0,1,0); dd=(0,0,0,1)
     L=add(A,cc,dd)
     T=add(A,B,cc,dd)
@@ -92,14 +93,9 @@ def main() -> None:
         "y^2=x*(x-T)*(x+T)",
     ]
     assert mp["Q_rational_map_exact"] is True
-
-    # Formal algebra of the map: from the two covering equations,
-    # x-T and x+T have the stated forms; multiplying and using
-    # D1*D2*D3=L^4 gives y^2=x(x-T)(x+T).
-    # Coefficient monomial exponents agree exactly.
     lhs_y_coeff = mul(2,L)
     rhs_coeff = add(D1,D2,D3)
-    assert mul(2,lhs_y_coeff) == rhs_coeff  # L^4 on each side of y^2/product
+    assert mul(2,lhs_y_coeff) == rhs_coeff
 
     ad=json.loads(AD.read_text())
     assert ad["notation"]["receiver_square_conditions"] == [
