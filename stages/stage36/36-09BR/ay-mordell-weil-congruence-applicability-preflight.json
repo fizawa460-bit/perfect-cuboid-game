@@ -1,0 +1,73 @@
+{
+  "schema":"STAGE36_36_09BR_AY_MORDELL_WEIL_CONGRUENCE_APPLICABILITY_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09BR",
+  "status":"EXACT_S34_W02_CURRENTLY_INAPPLICABLE_FULL_MW_FAMILY_CERTIFICATION_MISSING",
+  "base_main_sha":"727b3f34c4d850e868aff64483aeb99861b13c7c",
+  "batch_parent":{"pr":1693,"36_09BQ_exact_head":"1cf7c32bba0324ccd0b21ed11eee4876540621ea","36_09BQ_exact_head_ci":"34113674318/101715419885"},
+  "source_locks":{
+    "stage36_36_09BQ":{"path":"stages/stage36/36-09BQ/relative-factor-squareclass-branch-exhaustiveness-preflight.json","blob_sha":"22847973ab424f8a35b49bd3c7a7f32086ba846a"},
+    "stage36_36_09BQ_verifier":{"path":"stages/stage36/verify_stage36_36_09BQ.py","blob_sha":"befd2a4e16ac413340c283663bd80a4cd1e7e312"},
+    "stage36_36_09BA":{"path":"stages/stage36/36-09BA/ay-auxiliary-genusone-open-points-preflight.json","blob_sha":"2f31c89b2760f2270fa0ea21106ef97a3ec0840b"},
+    "stage36_36_09BB":{"path":"stages/stage36/36-09BB/ay-receiver-scaled-self-intersection-preflight.json","blob_sha":"e4b63fd500d05ff5dc704e0c08409edee5895053"},
+    "stage36_36_09AI":{"path":"stages/stage36/36-09AI/j1728-congruent-number-jacobian-preflight.json","blob_sha":"c5af6c4dde67532ea8d592e74aed187c72bbed4e"},
+    "S34_W02":{"path":"docs/arsenal/cards/formal/S34-W02.md","blob_sha":"13d41be776fcd2edcd258f11bd28c5a6596de45b"}
+  },
+  "S34_W02_required_hypotheses":{
+    "full_MW_basis_generators":true,
+    "complete_torsion_subgroup":true,
+    "exact_quotient_to_parent_receiver_functions":true,
+    "good_reduction_primes_and_exact_group_reduction":true,
+    "all_torsion_translates":true,
+    "exact_generalized_CRT":true
+  },
+  "Stage36_AY_object":{
+    "AY_curve":"u^2-v^2=kappa*r^2, u^2+v^2=2*s^2",
+    "jacobian_family":"E_n: Y^2=X^3-n^2*X",
+    "n":"sf(|D0|), D0=a*b*(a-b)*(a+b)",
+    "n_depends_on_parameter_p":true,
+    "BB_joint_receiver":"t in C_kappa and lambda*t in C_kappa on the retained open",
+    "exact_receiver_functions_available":true
+  },
+  "current_MW_credit":{
+    "AI_Mordell_Weil_rank_classified":false,
+    "BA_rank_lower_bound":1,
+    "BA_positive_rank":true,
+    "BA_AY_Q_infinite":true,
+    "torsion_structure_available":"Z/2 x Z/2 from the audited AN/BA interface",
+    "full_rank_proved":false,
+    "full_free_basis_generators_proved":false,
+    "generator_index_saturation_proved":false,
+    "uniform_full_MW_decomposition_over_parameter_family_proved":false
+  },
+  "applicability_result":{
+    "S34_W02_shape_match":true,
+    "S34_W02_current_authority_applicable":false,
+    "load_bearing_failure":"a rank lower bound and one infinite-order point are not a proved full Mordell-Weil group; moreover E_n varies with p",
+    "fixed_p_reopen_condition":"for a fixed p, S34-W02 may be applied only after certifying the full MW basis/generators, torsion, saturation/index, receiver functions, good reductions, and all torsion translates for that E_n",
+    "uniform_route_impossibility_proved":false,
+    "route_status":"BLOCKED_CURRENT_AUTHORITY_MISSING_FULL_MW_NOT_IMPOSSIBILITY"
+  },
+  "next_route":{
+    "leaf":"36-09BS_FIXED_P_OUTER_BRANCH_FULL_COVER_LOCAL_GATE_ADAPTER_PREFLIGHT",
+    "reason":"AW already supplies finite exhaustive outer branches for each fixed p and BH-BO now supply exact receiver-point local gates. Connecting these exact interfaces can produce a sound fixed-p parameter-elimination certificate without assuming a uniform MW basis; this directly preserves the re-audit requirement that local parameter elimination remain live"
+  },
+  "scope_firewalls":{
+    "rank_at_least_one_is_full_MW":false,
+    "positive_rank_is_full_MW":false,
+    "one_infinite_order_point_is_generator":false,
+    "S34_W02_uniformly_applicable":false,
+    "S34_W02_route_impossible":false,
+    "fixed_p_MW_computation_is_uniform_theorem":false,
+    "local_parameter_elimination_route_exhausted":false,
+    "uniform_finite_Q_squareclass_family":false,
+    "finite_exhaustive_H1_twist_family":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
