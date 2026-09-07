@@ -1,8 +1,8 @@
 {
   "schema":"STAGE35_EX_GOAL4AF_C5_NODE_LATTICE_RUNKEY_V1",
   "armed":true,
-  "generation":8,
-  "route":"LOCAL_SOURCE_C1_25_BRANCH_CONIC_RECEIVER_SOLVE_V2",
+  "generation":9,
+  "route":"LOCAL_SOURCE_C1_25_BRANCH_CONIC_RECEIVER_SOLVE_V3",
   "pr":1659,
   "branch":"stage35-ex-goal4x-open-receiver-boundary-picard",
   "upstream_git_blob_sha1":"0422b69847f2afb97cb7b3ed02ebef91279f61b1",
@@ -12,18 +12,23 @@
     "galois_stabilizer_rank":63,
     "galois_stabilizer_nullity":1,
     "final_free_column_0based":63,
-    "known_curve_receivers_1based":[25,26,27,28,29,30,31,32],
-    "null_pairings":[-2,2,2,-2,2,-2,-2,2],
-    "pair_rows_materialized":false
+    "known_curve_receivers_1based":[25,26,27,28,29,30,31,32]
   },
-  "generation7_result":{
-    "workflow_run":34070358081,
-    "job":101586451457,
-    "failure_before_receiver_math":"WRAPPER_SUMMARY_METADATA_LOCATOR_REGRESSION"
+  "generation8_result":{
+    "workflow_run":34070524409,
+    "job":101586918424,
+    "receiver_augmented_rank":64,
+    "receiver_augmented_nullity":0,
+    "pair_rows_materialized":true,
+    "pair_count":8,
+    "goal4ac_residual_pair_count":4,
+    "pair_square_observed":8,
+    "antipodal_total_pair_sum_equals_2H_observed":true,
+    "failure_after_materialization":"OVERSTRONG_BRANCH_CONIC_RECEIVER_EXHAUSTION_POSTCHECK"
   },
-  "generation7_wrapper_blob_sha1":"e4291503ccff329546e939c2522359573f12dc2a",
-  "diagnostic_path":"stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_branch_conic_receiver_v2.py",
-  "diagnostic_blob_sha1":"b56d32484af1524cc59e08cedb5d9c56e940b4ac",
+  "generation8_wrapper_blob_sha1":"b56d32484af1524cc59e08cedb5d9c56e940b4ac",
+  "diagnostic_path":"stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_branch_conic_receiver_v3.py",
+  "diagnostic_blob_sha1":"b536ef738049f91fa12b8ce3e8f0921996b9a3d7",
   "source_receiver":{
     "known_curve_index_1based":25,
     "source_family":"C1_c_zero_conic",
@@ -32,6 +37,11 @@
     "each_c5_intersection":2,
     "total_pair_intersection":4,
     "derivation":"line a1+a2+a3=0 cuts conic a1^2+a2^2+a3^2=0 in two distinct smooth points; exact 48-node replay excludes singular-point subtraction"
+  },
+  "materialized_row_structure_observed_generation8":{
+    "distinct_marked_picard64_row_count":2,
+    "four_goal4ac_residual_rows_use_two_classes_with_multiplicity":[2,2],
+    "use_as_solver_constraint":false
   },
   "planned_jobs":1,
   "planned_shards":1,
@@ -46,5 +56,5 @@
     "E1_proved":false,
     "stage35_closed":false
   },
-  "purpose":"Repair the generation7 wrapper-only metadata locator and execute the unchanged source C1 #25 intersection solve. Materialize C5 pair rows only if the rank-63 system becomes rank 64 and all equivariant branch-conic rechecks pass."
+  "purpose":"Replay the already successful rank-64 source C1 #25 receiver solve while removing only the unsupported demand that transported receivers be pairwise distinct and exhaust all eight retained c=0 C1 conics."
 }
