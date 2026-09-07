@@ -1,0 +1,32 @@
+name: Stage32 post1648AB Galois V4 orbit intersections
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648ab-galois-v4-orbit-intersections
+    paths:
+      - 'stages/stage32/residual-32-01-production/post1648ab-galois-v4-orbit-intersections.json'
+      - 'stages/stage32/residual-32-01-production/post1648ab-galois-v4-orbit-intersections-source-note.md'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648ab_galois_v4_orbit_intersections.py'
+      - '.github/workflows/stage32-post1648ab-galois-v4-orbit-intersections.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-post1648ab-galois-v4-orbit-intersections
+  cancel-in-progress: true
+
+jobs:
+  exact-v4-orbit-intersections:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+      - name: Assert exact scratch head
+        run: test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+      - name: Verify exact Galois V4 orbit intersection leaf
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648ab_galois_v4_orbit_intersections.py
+      - name: Commit whitespace check
+        run: git show --check --oneline --no-patch HEAD

@@ -1,0 +1,33 @@
+name: Stage32 post1648AA Galois ccPic intersection
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648aa-galois-ccpic-intersection
+    paths:
+      - 'stages/stage32/residual-32-01-production/post1648aa-galois-ccpic-intersection.json'
+      - 'stages/stage32/residual-32-01-production/post1648aa-galois-ccpic-intersection-source-note.md'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648aa_galois_ccpic_intersection.py'
+      - '.github/workflows/stage32-post1648aa-galois-ccpic-intersection.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-post1648aa-galois-ccpic-intersection
+  cancel-in-progress: true
+
+jobs:
+  exact-galois-intersection:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+      - name: Assert exact scratch head
+        run: test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+      - name: Verify exact Galois ccPic intersection leaf
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648aa_galois_ccpic_intersection.py
+      - name: Commit whitespace check
+        run: git show --check --oneline --no-patch HEAD

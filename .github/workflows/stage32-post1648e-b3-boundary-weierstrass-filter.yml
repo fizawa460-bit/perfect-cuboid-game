@@ -1,0 +1,24 @@
+name: Stage32 post1648E b3 boundary Weierstrass filter
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1648e_b3_boundary_weierstrass_filter.py'
+      - '.github/workflows/stage32-post1648e-b3-boundary-weierstrass-filter.yml'
+
+jobs:
+  b3-boundary-weierstrass-filter:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Assert exact PR head
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Run exact boundary/Weierstrass candidate filter
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648e_b3_boundary_weierstrass_filter.py
+      - name: Diff check
+        run: git diff --check

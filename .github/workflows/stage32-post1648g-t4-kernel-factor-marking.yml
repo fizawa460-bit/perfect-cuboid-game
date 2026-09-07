@@ -1,0 +1,30 @@
+name: Stage32 post1648G T4 kernel factor marking
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1648g-t4-kernel-factor-marking.yml'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1648g_t4_kernel_factor_marking.py'
+      - 'stages/stage32/residual-32-01-production/post1473-x8-satake-boundary-marking.json'
+      - 'stages/stage32/residual-32-01-production/post1473-boundary-label-weierstrass-adapter.json'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  t4-kernel-factor-marking:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact PR head
+        if: github.event_name == 'pull_request'
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Run exact T4 kernel factor-marking diagnostic
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648g_t4_kernel_factor_marking.py
+      - name: Diff check
+        run: git diff --check

@@ -1,0 +1,22 @@
+name: Stage32 post1648AC Galois V4 common-support interface wall
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648ac-galois-v4-common-support-interface-wall
+
+permissions:
+  contents: read
+
+jobs:
+  exact-common-support-interface-wall:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+      - name: Assert event exact head
+        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+      - name: Verify exact common-support interface wall
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648ac_galois_v4_common_support_interface_wall.py
+      - name: Commit whitespace check
+        run: git show --check --oneline --no-patch HEAD
