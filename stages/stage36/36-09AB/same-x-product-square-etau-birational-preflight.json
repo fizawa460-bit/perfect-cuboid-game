@@ -1,0 +1,108 @@
+{
+  "schema": "STAGE36_36_09AB_SAME_X_PRODUCT_SQUARE_ETAU_BIRATIONAL_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AB",
+  "status": "EXACT_PRODUCT_SQUARE_QUOTIENT_BIRATIONAL_TO_AUDITED_E_TAU_ROUTE_DOMINATED_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "bd1f40297f8dcf79e5bb4ef0b8cdc13fdb844177",
+  "entry_authority": {
+    "batch_pr": 1664,
+    "audited_head": "25229e7b0dfbbc5524266ce49e8edaf217841701",
+    "hostile_audit_review": 5125551980,
+    "exact_head_ci": "34037594565/101498394669",
+    "merged_main_sha": "a6e8c96a4d115e47a9fbcebbb0fe505c58cc07a2",
+    "promotion_checkpoint_head": "d5c212d9be970dc31a28d50db926f4cfac34c561",
+    "promoted_state_schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V62_36_09AA_AUDITED"
+  },
+  "freshness": {
+    "current_main": "bd1f40297f8dcf79e5bb4ef0b8cdc13fdb844177",
+    "intervening_drift_after_36_09AA_merge": "Stage33 #1667 only",
+    "stage36_source_drift": false,
+    "sync_merge_commit": "86b3cd0e1255d4363a0a2aad8a0aee699caa26cb"
+  },
+  "source_locks": {
+    "stage36_36_09AA": {
+      "path": "stages/stage36/36-09AA/receiver-coupled-same-x-twist-intersection-preflight.json",
+      "blob_sha": "be447726a97158849c67ed6d57d6d3c35d6ba20f",
+      "use": "same-x receiver equivalence and normalized product-square quotient"
+    },
+    "stage36_36_09R": {
+      "path": "stages/stage36/36-09R/etau-rankjump-receiver-esigmatau-growth-preflight.json",
+      "blob_sha": "b55d042ede01032ff8c8b0d872510a53cb857969",
+      "use": "audited E_tau Stage14 model and exact receiver condition K"
+    },
+    "S34_W03": {
+      "path": "docs/arsenal/cards/formal/S34-W03.md",
+      "blob_sha": "1d5275321f42768a6414d4610ac912c63be43f96",
+      "use": "receiver-restricted intersection credit firewall"
+    }
+  },
+  "notation": {
+    "Nminus": "p^2-2*p-1",
+    "Nplus": "p^2+2*p-1",
+    "k": "Nplus/Nminus",
+    "C": "Nminus*Nplus",
+    "D": "p*(p^2-1)",
+    "retained_open": ["p!=0", "p!=1", "p!=-1", "Nminus!=0", "Nplus!=0"]
+  },
+  "aa_product_square_curve": {
+    "curve": "Cprod_k: Z^2=(X^2-1)*(X^2-k^4)",
+    "origin": "necessary quotient of the same-x E_plus/E_minus system obtained by multiplying the two square equations",
+    "boundary_roots": ["X=1", "X=-1", "X=k^2", "X=-k^2"],
+    "receiver_equivalence_claimed": false
+  },
+  "stage14_parameter_identity": {
+    "k2_minus_1": "8*D/Nminus^2",
+    "t_from_stage36_36_09R": "C/(4*D)",
+    "t_from_k": "2*k/(k^2-1)",
+    "identity": "C/(4*D)=2*k/(k^2-1)",
+    "exact": true
+  },
+  "birational_map_to_E_tau": {
+    "target": "E_t: v^2=u*(u-1)*(u+t^2)",
+    "forward": {
+      "u": "2*(k^2-X)/((k^2-1)*(X+1))",
+      "v": "2*(k^2+1)*Z/((k^2-1)^2*(X+1)^2)"
+    },
+    "identity": "u*(u-1)*(u+t^2)=4*(k^2+1)^2*(X^2-1)*(X^2-k^4)/((k^2-1)^4*(X+1)^4)",
+    "inverse": {
+      "X": "(2*k^2-u*(k^2-1))/(2+u*(k^2-1))",
+      "Z": "2*(k^2+1)*(k^2-1)^2*v/(2+u*(k^2-1))^2"
+    },
+    "open_conditions": ["X!=-1", "2+u*(k^2-1)!=0"],
+    "boundary_correspondence": {
+      "X=k^2": "u=0",
+      "X=1": "u=1",
+      "X=-k^2": "u=-t^2",
+      "X=-1": "u=infinity",
+      "X=0": "u=1+(k^2+1)/(k^2-1), one Stage14 order-4 torsion x-coordinate",
+      "X=infinity": "u=1-(k^2+1)/(k^2-1), the other Stage14 order-4 torsion x-coordinate"
+    }
+  },
+  "route_diagnosis": {
+    "product_square_quotient_is_new_curve_family": false,
+    "product_square_quotient_equals_existing_E_tau_route_birationally": true,
+    "product_square_equation_alone_preserves_same_x_separate_square_data": false,
+    "reason": "multiplying y_minus^2 and y_plus^2 remembers only their product squareclass and forgets whether each factor is individually a rational square",
+    "candidate_parameter_set_shrunk_by_product_quotient": false,
+    "S34_W03_intersection_exclusion_executed": false,
+    "receiver_closed": false,
+    "route_status": "BLOCKED_NO_NEW_INFORMATION_PRODUCT_QUOTIENT_DOMINATED_BY_AUDITED_E_TAU"
+  },
+  "required_stronger_interface": {
+    "preserve_product_curve_point": true,
+    "additional_square_to_preserve": "w_minus^2=x*(x-A)*(x-B), equivalently the E_minus square at the same x; once product square and this square hold, the E_plus square follows",
+    "interpretation": "the true same-x receiver is a quadratic lift/double cover above the product curve E_tau, not the product curve itself",
+    "next_leaf": "36-09AC_SAME_X_SEPARATE_SQUARECLASS_DOUBLE_COVER_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "E_tau_rational_points_complete_on_all_specialized_fibers": false,
+    "same_x_double_cover_rational_points_complete": false,
+    "receiver_rankjump_intersection_empty": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
