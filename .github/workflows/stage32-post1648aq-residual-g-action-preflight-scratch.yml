@@ -21,30 +21,26 @@ jobs:
         run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
       - name: Install exact diagnostic dependency
         run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Run AQ residual-G exceptional correction diagnostic
+      - name: Run AQ residual-G cusp-grid diagnostic
         run: |
           python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648aq_residual_g_action_preflight.py | tee /tmp/post1648aq.json
           python3 - <<'PY'
           import json
           x=json.load(open('/tmp/post1648aq.json'))
-          assert x['mode']=='SCRATCH_POST1648AQ_RESIDUAL_G_ACTION_EXCEPTIONAL_CORRECTION'
+          assert x['mode']=='SCRATCH_POST1648AQ_RESIDUAL_G_CUSP_MULTIPLICITY_GRID'
           assert x['boundary_anchor']['candidate_exact_order_and_exponent_match'] is True
-          assert x['v6_residual_orbit']['class_stabilizer_trivial_in_candidate_G'] is True
-          assert x['factor_pullback']['P_square']==x['factor_pullback']['degree_8_image_square']
+          assert x['factor_pullback']['P_square']==8*x['factor_pullback']['image_square']
           assert x['factor_pullback']['C_dot_P']==x['factor_pullback']['image_square']
+          assert x['decision']['conductor_demand_exactly_decomposed'] is True
           assert x['firewalls']['residual_G_semantic_identification_granted'] is False
-          c=x['exceptional_correction']['correct_orientation']
+          g=x['target_cusp_grid']
           print(json.dumps({
-              'full_group_order':x['full_retained_group']['order'],
-              'boundary_pointwise_stabilizer_order':x['boundary_anchor']['pointwise_stabilizer_order'],
-              'nontrivial_C_dot_gC':x['v6_residual_orbit']['nontrivial_C_dot_gC_sorted'],
-              'sum_nontrivial_C_dot_gC':x['v6_residual_orbit']['sum_nontrivial_C_dot_gC'],
-              'exceptional_span':c.get('in_exceptional_span'),
-              'exceptional_integral':c.get('integral'),
-              'exceptional_nonnegative':c.get('nonnegative'),
-              'exceptional_coeff_sum':c.get('coefficient_sum'),
-              'exceptional_coeff_max':c.get('coefficient_max'),
-              'C_dot_T':c.get('C_dot_exceptional_correction_direct'),
+              'candidate_target_point_count':g['candidate_target_point_count'],
+              'first_blowup_delta_lower_bound_sum':g['first_blowup_delta_lower_bound_sum'],
+              'dir81_fibre_multiplicity_sums':g['dir81_fibre_multiplicity_sums'],
+              'dir105_fibre_multiplicity_sums':g['dir105_fibre_multiplicity_sums'],
+              'violates_factor_fibre_intersection_budget':g['violates_factor_fibre_intersection_budget'],
+              'factor_fibre_budget_excludes_if_semantic':x['decision']['factor_fibre_budget_excludes_V6_if_H_is_source_residual_G'],
           }, sort_keys=True))
           PY
       - name: Diff hygiene
