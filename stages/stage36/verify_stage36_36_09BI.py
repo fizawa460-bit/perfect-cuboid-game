@@ -38,15 +38,17 @@ def main():
     assert 'e=(1+v2(D0)) mod2' in ba['AY_branch']['squareclasses']
     assert bb['AY_genusone_ratio_model']['from_coupled_conics']==['u^2-v^2=kappa*r^2','u^2+v^2=2*s^2']
 
-    # Primitive parameter parity gives sigma=v2(Qsum)=v2(P)=v2(M) in {0,1}.
+    # Primitive retained p-open sanity: a,b,a-b,a+b,P,M are all nonzero.
+    # The previous verifier accidentally sampled a=+/-b, where D0=0 is outside the retained open.
     for a in range(-15,16):
         for b in range(-15,16):
-            if not a or not b or math.gcd(abs(a),abs(b))!=1: continue
+            if not a or not b or math.gcd(abs(a),abs(b))!=1 or a==b or a==-b: continue
             P=a*a+2*a*b-b*b; M=a*a-2*a*b-b*b; Q=a*a+b*b
             if P==0 or M==0: continue
+            D0=a*b*(a-b)*(a+b)
+            assert D0!=0
             sigma=1 if a%2 and b%2 else 0
             assert v2(P)==sigma and v2(M)==sigma and v2(Q)==sigma
-            D0=a*b*(a-b)*(a+b)
             assert v2(D0)>=(3 if sigma else 1)
 
     gate=c['minus_root_valuation_gate']
