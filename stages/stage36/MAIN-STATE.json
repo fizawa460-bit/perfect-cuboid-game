@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V75_36_09AM_CANDIDATE",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V76_36_09AN_CANDIDATE",
   "stage": "36",
   "status": "ACTIVE_BATCHING_SUBSTANTIVE_PR",
   "base_main_sha": "24215fa27a631cd3cb370c0dfd76866dd2e916f1",
@@ -10,25 +10,35 @@
     "hostile_audit_review": 5127436589,
     "exact_head_ci": "34074355295/101597480228",
     "merged_main_sha": "58e81a647b63bcea17ab396409c2813b667f45e2",
-    "scope": "36-09AJ through 36-09AL",
-    "interpretation_firewall": "AJ full-2 class, AK ELS Selmer survivor, and AL explicit B7 nontrivial Sha[2] exclusion are audited authority; no uniform receiver closure follows"
+    "scope": "36-09AJ through 36-09AL"
   },
   "source_kernel": {"kernel":"K16-C3-CAMPEDELLI-UNIFORM-TORSOR","receiver":"R29-CAMP2","parent":"Q11-CAMPEDELLI","H":"(Z/2)^3","quotient_degree":8},
   "authority_frontier": {
-    "36-09U-AI": {"status":"AUDITED_MERGED_AUTHORITY","summary":"receiver-matched antiinvariant descent through congruent-number Jacobian 2-covering"},
-    "36-09AJ-AL": {"status":"AUDITED_MERGED_AUTHORITY","summary":"exact full-2 class -> explicit B7 everywhere-local Selmer survivor -> nontrivial Sha[2] and no Q-point"},
+    "36-09U-AI": {"status":"AUDITED_MERGED_AUTHORITY"},
+    "36-09AJ-AL": {"status":"AUDITED_MERGED_AUTHORITY","summary":"full-2 class -> ELS B7 Selmer class -> audited nontrivial Sha[2] and no Q-point"},
     "36-09AM": {
       "status":"EXACT_UNCONDITIONAL_TUNNELL_BRANCH_FILTER_AND_MW_SHA_DECISION_TREE_PENDING_BATCH_AUDIT",
-      "certificate":"stages/stage36/36-09AM/uniform-congruent-covering-mw-sha-classifier-preflight.json",
+      "exact_head":"73ab4ac138593af9712b735df9e543404bf7ab4c",
+      "exact_head_ci":"34076651441/101603969844",
       "certificate_blob_sha":"cc9f74ed60680883e6b21ea555b3dfbd9dc3978c",
-      "verifier":"stages/stage36/verify_stage36_36_09AM.py",
+      "verifier_blob_sha":"33a037e91a21e72f7ee6120aafcff168689a2b1b",
       "UNCONDITIONAL_TUNNELL_BRANCH_FILTER":true,
       "BSD_CONVERSE_USED":false,
-      "B7_TUNNELL_PARITY_COUNTS":[480,416],
-      "B23_SAME_COARSE_SKELETON_TUNNELL_PARITY_COUNTS":[384,384],
-      "TUNNELL_EQUALITY_GIVES_POSITIVE_RANK_CREDIT":false,
-      "FIXED_FIBER_MW_KUMMER_TEST_REQUIRED":true,
-      "UNIFORM_BRANCH_FAMILY_CLASSIFIED":false,
+      "UNIFORM_BRANCH_FAMILY_CLASSIFIED":false
+    },
+    "36-09AN": {
+      "status":"EXACT_SAME_PARAMETER_SAME_MOD8_SKELETON_TUNNELL_OUTCOME_SEPARATION_PENDING_BATCH_AUDIT",
+      "certificate":"stages/stage36/36-09AN/tunnell-filter-residue-noncompression-preflight.json",
+      "certificate_blob_sha":"7bc094390cd4d82d9dee6959eb934185c8c4c492",
+      "verifier":"stages/stage36/verify_stage36_36_09AN.py",
+      "B7_PARITY_COUNTS":[480,416],
+      "B23_PARITY_COUNTS":[384,384],
+      "SAME_PARAMETER":true,
+      "SAME_MOD8_RESERVOIR_SKELETON":true,
+      "SAME_N_MOD8":true,
+      "RESIDUE_ONLY_TUNNELL_PRECOMPUTATION":false,
+      "ACTUAL_PRIME_IDENTITY_LOAD_BEARING":true,
+      "B23_LOCAL_SURVIVOR_CLAIMED":false,
       "CANDIDATE_PARAMETER_SET_SHRUNK":false,
       "RECEIVER_CLOSED":false
     }
@@ -37,47 +47,42 @@
     "stage36_36_09AL":{"path":"stages/stage36/36-09AL/b7-selmer-class-nontrivial-sha2-preflight.json","blob_sha":"10962f8d2471a8236d66a602c0f4952ce497e56c"},
     "stage36_36_09AM":{"path":"stages/stage36/36-09AM/uniform-congruent-covering-mw-sha-classifier-preflight.json","blob_sha":"cc9f74ed60680883e6b21ea555b3dfbd9dc3978c"},
     "stage36_36_09AM_source":{"path":"stages/stage36/36-09AM/tunnell-uniform-branch-filter-source-lock.md","blob_sha":"80cc32fb32417db74740152192df4fffc8be69c6"},
+    "stage36_36_09AN":{"path":"stages/stage36/36-09AN/tunnell-filter-residue-noncompression-preflight.json","blob_sha":"7bc094390cd4d82d9dee6959eb934185c8c4c492"},
     "stage36_36_09AF":{"path":"stages/stage36/36-09AF/variable-prime-jacobi-matrix-realizability-preflight.json","blob_sha":"be5a65e3fcfb182998ccb02ec42f8114b50b0a7d"},
-    "S36_PW07":{"path":"docs/arsenal/cards/provisional/S36-PW07.md","blob_sha":"9ebeb753826da005471bf677969b535f91ea8018"},
-    "S34_W03":{"path":"docs/arsenal/cards/formal/S34-W03.md","blob_sha":"1d5275321f42768a6414d4610ac912c63be43f96"}
+    "S36_PW07":{"path":"docs/arsenal/cards/provisional/S36-PW07.md","blob_sha":"9ebeb753826da005471bf677969b535f91ea8018"}
   },
-  "freshness": {
-    "current_main":"24215fa27a631cd3cb370c0dfd76866dd2e916f1",
-    "audited_parent_merge":"58e81a647b63bcea17ab396409c2813b667f45e2",
-    "post_parent_drift":"Stage33 #1678 plus Stage32 #1648 only",
-    "post_parent_commit_count":2,
-    "stage36_source_drift":false
-  },
+  "freshness": {"current_main":"24215fa27a631cd3cb370c0dfd76866dd2e916f1","audited_parent_merge":"58e81a647b63bcea17ab396409c2813b667f45e2","post_parent_drift":"Stage33 #1678 plus Stage32 #1648 only","post_parent_commit_count":2,"stage36_source_drift":false},
   "cycle_ledger": {
-    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION":"LIVE_BRANCHWISE_TUNNELL_PLUS_FIXED_FIBER_MW_KUMMER_CLASSIFICATION",
+    "B3_FINITE_CURVE_OR_COVER_DECOMPOSITION":"LIVE_ACTUAL_PRIME_IDENTITY_SELMER_GRAPH_MONSKY_MATRIX_ADAPTER",
     "B3_FULL2_LOCAL_OBSTRUCTION_SUBROUTE":"BLOCKED_BY_EXPLICIT_EVERYWHERE_LOCAL_B7_COVERING",
     "B3_B7_SELMER_MW_SUBROUTE":"BLOCKED_B7_CLASS_IS_NONTRIVIAL_SHA2_NOT_MW",
-    "B3_RESIDUE_ONLY_TUNNELL_SUBROUTE":"LIVE_TESTING_IN_36_09AN",
+    "B3_RESIDUE_ONLY_TUNNELL_SUBROUTE":"BLOCKED_SAME_SKELETON_DIFFERENT_TUNNELL_OUTCOME",
     "B4_RECEIVER_RESTRICTED_BRANCH_INTERSECTION":"LIVE_UNIFORM_BRANCH_FAMILY_OPEN",
     "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER":"UNTESTED"
   },
   "cycle_audit": {
-    "CYCLE_ROUTE_STATUS":"PASS_NEW_GATE_FROM_STRONGER_VIEW",
-    "CYCLE_ACTIVE_RECEIVER":"variable full-2 covering classes on congruent-number Jacobians, filtered branchwise by unconditional Tunnell and fixed-fiber MW Kummer data",
+    "CYCLE_ROUTE_STATUS":"BLOCKED_NEW_PATTERN_ISOLATED",
+    "CYCLE_ACTIVE_RECEIVER":"actual-prime full-2 covering class on E_n; residue-only Tunnell compression blocked",
     "CYCLE_SPLIT_TRIGGERED":false,
-    "CYCLE_NEW_VIEW":"AM separates an unconditional Tunnell-failure rank-zero gate from the BSD-conditional equality side and preserves the fixed-fiber MW-image requirement",
-    "CYCLE_NEW_VIEW_SOURCE":"36-09AM"
+    "CYCLE_NEW_VIEW":"AN proves the unconditional Tunnell outcome is not a function of the Stage36 128 mod8/reservoir skeleton; actual prime identity must survive into the Selmer graph",
+    "CYCLE_NEW_VIEW_SOURCE":"36-09AN"
   },
   "current": {
-    "unit":"36-09AN",
-    "next_exact_leaf":"36-09AN_TUNNELL_FILTER_RESIDUE_NONCOMPRESSION_PREFLIGHT",
+    "unit":"36-09AO",
+    "next_exact_leaf":"36-09AO_MONSKY_MATRIX_STAGE36_FULL2_CLASS_ADAPTER_PREFLIGHT",
     "next_owner":"STAGE36_MAIN",
-    "result":"36-09AM_EXACT: BRANCHWISE_TUNNELL_NECESSARY_FILTER_IS_UNCONDITIONAL; FAILURE_PLUS_FIXED_MW_KUMMER_EXCLUDES_A_BRANCH; EQUALITY_IS_UNRESOLVED",
+    "result":"36-09AN_EXACT: SAME_PARAMETER_AND_SAME_MOD8_RESERVOIR_SKELETON_CAN_HAVE_DIFFERENT_TUNNELL_OUTCOMES; RESIDUE_ONLY_PRECOMPUTATION_BLOCKED",
     "substantive_batch_pr_continues":true,
     "hostile_audit_checkpoint_reached":false,
     "36_09AM_entry_allowed":true,
-    "36_09AN_entry_allowed":true
+    "36_09AN_entry_allowed":true,
+    "36_09AO_entry_allowed":true
   },
   "current_leaf_working_set": [
+    "stages/stage36/36-09AN/tunnell-filter-residue-noncompression-preflight.json",
+    "stages/stage36/verify_stage36_36_09AN.py",
     "stages/stage36/36-09AM/uniform-congruent-covering-mw-sha-classifier-preflight.json",
-    "stages/stage36/verify_stage36_36_09AM.py",
     "stages/stage36/36-09AM/tunnell-uniform-branch-filter-source-lock.md",
-    "stages/stage36/36-09AL/b7-selmer-class-nontrivial-sha2-preflight.json",
     "stages/stage36/36-09AF/variable-prime-jacobi-matrix-realizability-preflight.json"
   ],
   "promotion_gates": {
@@ -87,7 +92,8 @@
     "36_09AL_promoted":true,
     "36_09AM_certificate_complete":true,
     "36_09AM_hostile_audit_passed":false,
-    "uniform_Tunnell_branch_filter_identified":true,
+    "36_09AN_certificate_complete":true,
+    "36_09AN_hostile_audit_passed":false,
     "uniform_branch_family_classified":false,
     "common_uv_intersection_closed_uniformly":false,
     "receiver_emptiness_proved":false,
@@ -97,17 +103,18 @@
   },
   "anti_loop": [
     "do not use the BSD converse of Tunnell",
-    "do not infer positive rank or a receiver point from Tunnell equality",
-    "do not infer covering insolubility from rank zero without comparing the actual full-2 class with the fixed-fiber MW Kummer image",
-    "do not infer uniform receiver emptiness from the audited B7 Sha[2] exclusion",
-    "do not reopen residue-only mod8 compression without an exact counterexample repair"
+    "do not infer positive rank from Tunnell equality",
+    "do not reopen residue-only Tunnell precomputation; AN gives an exact same-parameter counterexample",
+    "do not discard actual prime identity inside a reservoir",
+    "do not infer B23 is locally admissible from its Tunnell equality",
+    "do not infer uniform receiver emptiness from B7 exclusion"
   ],
   "claims": {
     "new_theorem_credit":false,
     "AJ_AL_audited_authority":true,
     "uniform_Tunnell_filter_provisional":true,
+    "residue_only_Tunnell_compression_blocked_provisional":true,
     "B7_class_nontrivial_in_Sha2_audited":true,
-    "B7_covering_Q_point_exists":false,
     "candidate_parameter_set_shrunk":false,
     "receiver_emptiness_proved":false,
     "R29_CAMP2_closed":false,
