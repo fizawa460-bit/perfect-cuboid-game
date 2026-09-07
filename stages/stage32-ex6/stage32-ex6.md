@@ -89,7 +89,75 @@ Retained files:
 - `stages/stage32-ex6/post1697-fsm16-modular-tensor-multibranch-contract.json`
 - verifier: `stages/stage32-ex6/verify_stage32_ex6_fsm16_modular_tensor_multibranch_contract.py`
 
-Useful FSM16 re-entry now requires exact tensor-divisor information beyond cusp cardinality, a stronger replacement tensor, or a different global inequality. Do not loop on the old `S_cusp<=46` counting target.
+Do not loop on the old `S_cusp<=46` counting target.
+
+## Latest bounded re-entry result — FSM16 weighted node-divisor pole debt
+
+The FSM16 proof gives the exact signed local divisor order of its pulled-back tensor at a node branch:
+
+`ord_branch(T)=(a1+a2-16)k`.
+
+At O266, `m=min(A,B)=1`. Writing the other exponent as `1+2b`, with `b=|A-B|/2>=0`, gives
+
+`a1+a2=8+8b`
+
+and therefore
+
+`ord_branch(T)=8(b-1)k`.
+
+Thus a minimal `(A,B)=(1,1)` branch contributes a pole `8k`, a `{1,3}` branch is neutral, and `b>=2` contributes a node zero.
+
+The retained AR semantics identify the exact sum of `b` over the 266 endpoint node branches with
+
+`q81_node+q105_node`.
+
+Hence the total signed node divisor is
+
+`D_node = 8(q81_node+q105_node-266)k`.
+
+At O266 the two factor slack identities give `q81_node+q105_node<=80`, so
+
+`D_node <= -1488k`.
+
+Equivalently, the endpoint forces a net node pole debt of at least `1488k`.
+
+With
+
+`E=eta81+rho81+eta105+rho105>=0`,
+
+the two exact slack identities sharpen this to
+
+`q81_node+q105_node=80-E`,
+
+so
+
+`D_node=-(1488+8E)k`.
+
+Because the normalization has genus one, the pulled-back tensor divisor has total degree zero. Therefore the complementary non-node signed divisor must satisfy the exact identity
+
+`D_nonnode=(1488+8E)k >=1488k`.
+
+This is now the useful FSM16 re-entry threshold. A future global/member-level theorem closing this architecture must force an upper bound
+
+`D_nonnode <1488k`
+
+or, retaining the slack variable, the sharp inequality
+
+`D_nonnode <(1488+8E)k`.
+
+No such upper bound is presently source-locked. The published FSM16 proof supplies lower bounds on zeros, not the required upper bound on the non-node signed divisor. Therefore this weighted calculation is a quantitative blocker/re-entry target, not an endpoint exclusion.
+
+Decision:
+
+`FSM16_WEIGHTED_NODE_DIVISOR = EXACT_POLE_DEBT_THRESHOLD_OBTAINED`.
+
+Retained files:
+
+- `stages/stage32-ex6/post1697-fsm16-weighted-node-divisor-wall.md`
+- `stages/stage32-ex6/post1697-fsm16-weighted-node-divisor-contract.json`
+- verifier: `stages/stage32-ex6/verify_stage32_ex6_fsm16_weighted_node_divisor_contract.py`
+
+Useful continuation should now target an actual upper bound on the non-node tensor divisor, a stronger replacement tensor, or an independent global inequality. Do not return to cusp-cardinality counting unless it brings genuinely new member-level information.
 
 ## Purpose
 
