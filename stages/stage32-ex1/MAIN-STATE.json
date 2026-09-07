@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX1_MAIN_COMPACT_STATE_V16_05C_AND_DIGEST_REPAIR_AWAITING_CI_REAUDIT",
+  "schema": "STAGE32EX1_MAIN_COMPACT_STATE_V17_REAUDIT_READY_EXACT_HEAD_CI_SUCCESS",
   "role": "ORDINARY_STAGE32EX1_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX1",
   "execution": {
@@ -17,14 +17,16 @@
   },
   "freshness": {
     "current_main_sha_observed_at_failed_audit": "af40c029a8721755b39dad13be452a2a74540c4e",
+    "current_main_sha_observed_after_repair": "1d7bfd98ef8eab7bd849fe7bfdbcdaf5c0b575e7",
     "failed_audit_head": "9f88c89eb85daf82700bb463755f97073c5cfcae",
-    "failed_audit_compare_status": "diverged",
-    "failed_audit_ahead": 54,
-    "failed_audit_behind": 8,
+    "repair_ci_subject_head": "23b21f79221bbc825a1979e34deca6d2dbeea58f",
+    "compare_status_after_repair": "diverged",
+    "ahead_after_repair": 74,
+    "behind_after_repair": 9,
     "merge_base": "c52f88a671503ac9eb25c20186b4fb7729ba9112",
     "freshness_sync_required_before_promotion": true,
     "freshness_sync_completed": false,
-    "freshness_note": "Repair is being performed on the same PR. Freshness remains a separate promotion gate and is not treated as mathematical audit success."
+    "freshness_note": "Hostile re-audit may review the repaired mathematical checkpoint while recording divergence. Freshness remains a separate promotion gate and is not treated as mathematical audit success."
   },
   "authority": {
     "stage32ex1_is_independent_operating_lane": true,
@@ -64,14 +66,14 @@
     "blocked_route_is_stage_exhaustion": false
   },
   "current": {
-    "status": "REPAIR_COMPLETE_AWAITING_EXACT_HEAD_CI_AND_REAUDIT",
+    "status": "REAUDIT_READY_EXACT_HEAD_CI_SUCCESS",
     "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
     "subroute": "EX1-05G_H4_COMMON_COVER_CORRESPONDENCE_COUPLING",
-    "objective": "Do not enter EX1-05G yet. The failed hostile audit at 9f88c89e identified incomplete h=2 subgroup exhaustion and missing exact-head CI. The six-subgroup 05C repair and the CI-discovered digest/source-lock-chain repair are now retained. Run read-only exact-head replay for EX1-00 through EX1-05F plus verify_main_state.py, then hostile re-audit the new exact head.",
+    "objective": "Do not enter EX1-05G yet. Hostile re-audit the repaired EX1-00 through EX1-05F accumulated candidate. The six-subgroup 05C repair, canonical/source-lock-chain repair, and exact-head read-only replay are retained. Resume EX1-05G only after hostile-audit PASS.",
     "resume_05g_before_reaudit": false,
     "next_route_after_reaudit_pass": "EX1-05G_H4_COMMON_COVER_CORRESPONDENCE_COUPLING",
     "next_route_after_reaudit_fail": "REPAIR_EXACT_FAILED_FINDING_ON_SAME_PR",
-    "stop_semantics": "AUDIT_REPAIR_CHECKPOINT_NOT_STAGE_EXHAUSTION"
+    "stop_semantics": "REAUDIT_CHECKPOINT_NOT_STAGE_EXHAUSTION"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex1/AUDIT-CONTRACT.md",
@@ -146,7 +148,7 @@
     "endpoint_credit": false
   },
   "audit": {
-    "status": "REPAIR_COMPLETE_AWAITING_EXACT_HEAD_CI_AND_REAUDIT",
+    "status": "REAUDIT_READY_EXACT_HEAD_CI_SUCCESS",
     "candidate_pr": 1688,
     "candidate_leaf": "EX1-00_THROUGH_EX1-05F_REPAIRED_ACCUMULATED_CANDIDATE",
     "failed_review": {
@@ -160,9 +162,13 @@
     },
     "repair_05c_six_subgroup_exhaustion_complete": true,
     "digest_chain_repaired_after_ci_discovery": true,
-    "digest_chain_repair_note": "The new replay exposed a pre-existing EX1-05A canonical digest mismatch present since its creation commit. The mathematical payload was unchanged; the canonical was recomputed from the retained JSON and downstream 05B/05D/05E/05F source-lock hashes were cascaded deterministically.",
+    "digest_chain_repair_note": "The replay exposed a pre-existing EX1-05A canonical digest mismatch present since its creation commit. The mathematical payload was unchanged; the canonical was recomputed from the retained JSON and downstream 05B/05D/05E/05F source-lock hashes were cascaded deterministically.",
     "exact_head_ci_required": true,
-    "exact_head_ci_observed_success": false,
+    "exact_head_ci_observed_success": true,
+    "successful_ci_subject_head": "23b21f79221bbc825a1979e34deca6d2dbeea58f",
+    "successful_ci_run_id": 34151440402,
+    "successful_ci_job_id": 101834396884,
+    "successful_ci_scope": "EX1-00 through EX1-05F plus verify_main_state.py; workflow explicitly checks out and verifies the PR head SHA.",
     "exact_head_for_reaudit": null,
     "review_id": null,
     "result": null,
