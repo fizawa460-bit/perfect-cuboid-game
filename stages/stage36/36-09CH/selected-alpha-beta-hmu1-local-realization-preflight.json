@@ -1,0 +1,68 @@
+{
+  "schema":"STAGE36_36_09CH_SELECTED_ALPHA_BETA_HMU1_LOCAL_REALIZATION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09CH",
+  "status":"EXACT_SELECTED_ALPHA_AND_BETA_HMU1_LOCAL_REALIZATION_OLD_SIX_LAYER_COMPLETE",
+  "base_main_sha":"6431ec2a90ed9260d4362d7146a9788cbc21c8d1",
+  "batch_parent":{"pr":1699,"36_09CG_exact_green_head":"b1df8d28a9875a4089102bf6d7d6067cd24d9b3f","36_09CG_exact_head_ci":"34167627515/101881727503"},
+  "source_locks":{
+    "stage36_36_09CG":{"path":"stages/stage36/36-09CG/beta-even-m-unused-hmu0-local-realization-preflight.json","blob_sha":"5640b5a0dd498b893066913f241f885872e1d29a"},
+    "stage36_36_09CG_verifier":{"path":"stages/stage36/verify_stage36_36_09CG.py","blob_sha":"7a210e55a5e2386fb02a59de00502a4e810b9410"},
+    "stage36_36_09CC":{"path":"stages/stage36/36-09CC/general-old-six-qq-source-pullback-preflight.json","blob_sha":"5067d1723952edce9f4bab55cc427eb1745211cc"},
+    "stage36_36_09AE":{"path":"stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json","blob_sha":"ddae37dd35cd0e732cebadf9c17f3f3fa57930df"},
+    "stage36_36_09BT":{"path":"stages/stage36/36-09BT/general-aw-squareclass-branch-full-cover-local-model-preflight.json","blob_sha":"e58c417ddfa340d96b2ac1fbae9e7da7c5224d78"}
+  },
+  "selected_alpha_sufficiency":{
+    "P_side":"Let q|P and q|A. After common scaling take v,r,s q-units and k=v_q(u) with 0<=k<=m-1, m=v_q(P). Choosing k=0 makes U=A*u^2 have odd valuation 1 while V=B*v^2 is a unit. The two source roots are governed by AE characters chi(-kappa*B)=+1 and chi(rho*B)=+1. The two full-cover roots are governed by chi(kappa*B)=+1 and chi(rho*B)=+1 because the U-term leads Lminus/Lplus. CC gives chi(-1)=+1, so chi(-kappa*B)=chi(kappa*B); hence all four roots lift over Q_q.",
+    "M_side":"Symmetrically, for q|M and q|B choose v_q(v)=0 with u,r,s units. AE gives chi(kappa*A)=+1 and chi(rho*A)=+1, while the full-cover minus leading residue requires chi(-kappa*A)=+1. CC gives chi(-1)=+1, so the source and full-cover conditions agree.",
+    "selected_alpha_q_congruent_1_mod8":"Stage36-V supplies chi(2)=+1 and CC supplies chi(-1)=+1, so every selected alpha prime is q=1 mod8.",
+    "selected_alpha_local_realization_complete":true,
+    "new_branch_filter":false
+  },
+  "beta_hmu1_species":{
+    "classification":"hmu=1 at q|D0 occurs exactly for: odd m with q unused in C,D; even m with q|C; even m with q|D.",
+    "common_CC_row":"chi(A*B,q)=+1, so A/B and A*B are Q_q-squares and source/extra radicands have the same squareclass whenever their Y-ratio is a q-adic square unit."
+  },
+  "selected_C_even_m":{
+    "setup":"m even>=2 and q|C, so kappa has q-valuation 1 and rho is a unit.",
+    "construction":"Put y=(B/A)t^2 and choose y=1+q*c with c a q-unit. Since 1<m, both minus factors 1-y and 1-lambda^2*y have valuation 1 with the same normalized unit; choose c for the kappa*A character. The plus factors are q-units. AE's q|C row chi(2^(1-f)*A*D)=+1 is exactly the character of 2*rho*A up to a square factor, so both plus roots exist.",
+    "local_realization_complete":true,
+    "new_branch_filter":false
+  },
+  "selected_D_even_m":{
+    "setup":"m even>=2 and q|D, so rho has q-valuation 1 and kappa is a unit.",
+    "construction":"CC chi(AB)=+1 together with AE chi(-AB)=+1 forces chi(-1)=+1, so y=-1 is an accessible square residue. Choose y=-1+q*c. Since 1<m, both plus factors have valuation 1 and the same normalized unit; choose c for rho*A. The minus factors are units, and AE's q|D row chi(eta*2^(1-e)*A*C)=+1 is exactly the character of 2*kappa*A up to a square factor.",
+    "local_realization_complete":true,
+    "new_branch_filter":false
+  },
+  "unused_odd_m_beta":{
+    "setup":"m=v_q(D0) odd and q unused in C,D. Put y=(B/A)t^2, which is a q-adic square because chi(AB)=+1. Let k=chi(kappa*A), r=chi(rho*A), epsilon=chi(-1), s=chi(2).",
+    "small_sector":"v_q(y)>0: realizable iff k=r=+1.",
+    "generic_unit_sector":"v_q(y)=0, y mod q not +/-1: realizable iff there is a nonzero square y in F_q, y!=+/-1, with chi(1-y)=k and chi(1+y)=r.",
+    "large_sector":"v_q(y)<0: realizable iff epsilon*k=r=+1.",
+    "near_plus_one":"If m>=3, choose even 2<=n<m in y=1+q^n*c. Then source/extra minus roots have the same even valuation and plus roots are units; this sector is realizable iff s*r=+1.",
+    "near_minus_one":"If m>=3 and epsilon=+1, choose even 2<=n<m in y=-1+q^n*c. This sector is realizable iff s*k=+1.",
+    "m_equal_1":"near +/-1 cannot contribute because the affected source root has odd valuation; the small/generic/large sectors are exhaustive.",
+    "criterion":"the disjunction of the five stated sectors is necessary and sufficient for unused odd-m beta hmu=1 local realization.",
+    "point_independent":true
+  },
+  "exact_fixed_p_diagnostics":{
+    "p_1_over_2":{"CG_survivors":3,"after_CH_all_old_six":3,"fixed_p_excluded":false},
+    "p_2_over_11":{"CG_survivors":5,"after_CH_all_old_six":5,"fixed_p_excluded":false},
+    "diagnostic_p_3_over_4":{"scope":"same exact generator; not a retained-candidate membership claim","CG_survivors":5,"after_CH_all_old_six":3},
+    "diagnostic_p_1_over_8":{"scope":"same exact generator; not a retained-candidate membership claim","CG_survivors":3,"after_CH_all_old_six":3}
+  },
+  "old_six_completion":{
+    "selected_alpha_local_realization_complete":true,
+    "selected_beta_hmu0_local_realization_complete":true,
+    "unused_alpha_hmu0_local_realization_complete":true,
+    "beta_even_m_unused_hmu0_local_realization_complete":true,
+    "beta_hmu1_local_realization_complete":true,
+    "all_old_six_local_realization_complete":true,
+    "meaning":"For every surviving branch, local existence/nonexistence at each odd prime in P,M,a,b,a-b,a+b is decided by the exact point-independent branch criteria accumulated through CC-CH.",
+    "does_not_cover_Q_reservoir":true,
+    "does_not_imply_simultaneous_global_receiver":true
+  },
+  "route_result":{"route_status":"PASS_ALL_OLD_SIX_LOCAL_REALIZATION_COMPLETE","all_old_six_local_realization_complete":true,"new_point_independent_branch_filter":true,"fixed_p_parameter_exclusion_obtained":false,"candidate_parameter_set_shrunk":false,"receiver_closed":false,"next_leaf":"36-09CI_GENERAL_Q_RESERVOIR_LOCAL_REALIZATION_PREFLIGHT"},
+  "scope_firewalls":{"old_six_complete_means_Q_reservoir_complete":false,"CH_survivor_is_global_receiver":false,"simultaneous_all_place_local_point_obtained":false,"fixed_p_parameter_exclusion_obtained":false,"candidate_parameter_set_shrunk":false,"local_parameter_elimination_exhausted":false,"uniform_finite_Q_squareclass_family":false,"finite_exhaustive_H1_twist_family":false,"receiver_emptiness_proved":false,"R29_CAMP2_closed":false,"Q11_CAMPEDELLI_closed":false,"endpoint_closed":false,"perfect_cuboid_existence_claim":false,"perfect_cuboid_nonexistence_claim":false}
+}

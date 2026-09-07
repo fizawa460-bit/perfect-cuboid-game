@@ -39,23 +39,23 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay exact 36-09CF green parent
+      - name: Replay exact 36-09CG green parent
         shell: bash
         run: |
           set -euo pipefail
-          H=64bc9055b007985d11e9d43890993953cb27f175
+          H=b1df8d28a9875a4089102bf6d7d6067cd24d9b3f
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CF.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09CG.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09CG
+      - name: Verify current 36-09CH
         shell: bash
         run: |
           set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09CG.py
-      - name: Assert CG firewalls and CH selection
+          python3 stages/stage36/verify_stage36_36_09CH.py
+      - name: Assert CH firewalls and CI selection
         shell: bash
         run: |
           set -euo pipefail
@@ -63,13 +63,13 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V125_36_09CG_BETA_EVEN_M_UNUSED_HMU0'
-          cf=s['authority_frontier']['36-09CF'];assert cf['status']=='PROVISIONAL_EXACT_GREEN_PARENT';assert cf['exact_head']=='64bc9055b007985d11e9d43890993953cb27f175';assert cf['exact_head_ci']=='34167343086/101880897033'
-          cg=s['authority_frontier']['36-09CG'];assert cg['certificate_blob_sha']=='5640b5a0dd498b893066913f241f885872e1d29a';assert cg['verifier_blob_sha']=='7a210e55a5e2386fb02a59de00502a4e810b9410';assert cg['ALL_OLD_SIX_HMU0_SPECIES_COMPLETE'] is True;assert cg['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
-          cur=s['current'];assert cur['next_exact_leaf']=='36-09CH_SELECTED_ALPHA_AND_BETA_HMU1_LOCAL_REALIZATION_PREFLIGHT';assert cur['36_09CH_entry_allowed'] is True;assert cur['substantive_batch_pr_continues'] is True;assert cur['hostile_audit_checkpoint_reached'] is False
-          pg=s['promotion_gates'];assert pg['36_09CF_exact_head_ci_passed'] is True;assert pg['36_09CG_certificate_complete'] is True;assert pg['36_09CH_unlocked'] is True;assert pg['all_old_six_hmu0_species_complete'] is True;assert pg['all_old_six_local_realization_complete'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V126_36_09CH_OLD_SIX_LOCAL_COMPLETE'
+          cg=s['authority_frontier']['36-09CG'];assert cg['status']=='PROVISIONAL_EXACT_GREEN_PARENT';assert cg['exact_head']=='b1df8d28a9875a4089102bf6d7d6067cd24d9b3f';assert cg['exact_head_ci']=='34167627515/101881727503'
+          ch=s['authority_frontier']['36-09CH'];assert ch['certificate_blob_sha']=='abedc4b33bf1c92e98efdcc43b5f0744630750a7';assert ch['verifier_blob_sha']=='98ae4bc76749c82b4165c7a7b37d7445f42fa6dc';assert ch['ALL_OLD_SIX_LOCAL_REALIZATION_COMPLETE'] is True;assert ch['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
+          cur=s['current'];assert cur['next_exact_leaf']=='36-09CI_GENERAL_Q_RESERVOIR_LOCAL_REALIZATION_PREFLIGHT';assert cur['36_09CI_entry_allowed'] is True;assert cur['substantive_batch_pr_continues'] is True;assert cur['hostile_audit_checkpoint_reached'] is False
+          pg=s['promotion_gates'];assert pg['36_09CG_exact_head_ci_passed'] is True;assert pg['36_09CH_certificate_complete'] is True;assert pg['36_09CI_unlocked'] is True;assert pg['all_old_six_local_realization_complete'] is True;assert pg['general_Q_reservoir_local_realization_complete'] is False
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:assert pg[key] is False
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:assert s['claims'][key] is False
-          print('36-09CG workflow verified: all old-six hmu=0 species complete; CH selected-alpha/beta-hmu1 sufficiency selected.')
+          print('36-09CH workflow verified: all old-six local realization is complete; CI general Q-reservoir local realization is selected.')
           PY
           git diff --check
