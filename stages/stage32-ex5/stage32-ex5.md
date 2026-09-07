@@ -24,6 +24,6 @@ V6/O210/Q602 への過度な固定を外し、Stage29→Stage32 の全 receiver 
 ## 共通の扱い
 
 - **探索用・非権威**です。MAIN authority、Q602/O210、survivors `[73,97,235]`、既存の完了/未完了判定を変更しません。
-- ここで得たのが「必要条件」だけなら成果は①です。V6の一枝を実際に排除できて②、既存adapterを通して対象全体を閉じて初めて③です。①を③と記録しません。
+- credit 階層は番号ではなく、`NECESSARY_CONDITION_ONLY`（必要条件のみ）、`BRANCH_EXCLUSION`（明記した一枝の実排除）、`FULL_TARGET_CLOSURE`（既存adapterを通した対象全体の閉鎖）で記録します。`NECESSARY_CONDITION_ONLY` を `FULL_TARGET_CLOSURE` と記録しません。
 - 結果は「仮定」「対象」「量化域」「使った外部入力」「未接続のadapter」を明記します。実在する曲線・正規化・marked dataを仮定した議論は、その仮定を外しません。
 - 自動化は、先に有限の入出力契約と再現コマンドを決めます。大規模探索、生成物、freshness CIは、探索葉が成功してからの統合時だけにします。
