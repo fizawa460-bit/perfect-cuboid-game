@@ -2,11 +2,11 @@
 """V91C1AB NONCREDIT actual-prime/exceptional differences for sign_a2/sign_b1.
 
 Reuse the exact V91C1S prime namespace, literal A2_02 package source, canonical
-ideal machinery, and 48 frozen exceptional nodes.  For each V91C1Z reducer
-word, act the actual strict-transform primes directly and evaluate the acted
-literal factors on all exceptional nodes.  This materializes the complete
-codimension-one acted-minus-original divisor difference only; no Pic/2 or H2
-fixedness is inferred.
+ideal machinery, and 48 frozen exceptional nodes. For each V91C1Z reducer,
+apply the exact diagonal coordinate sign involution directly to the actual
+strict-transform ideals and Q(i)-linear factors. This materializes only the
+complete codimension-one acted-minus-original divisor difference; no Pic/2 or
+H2 fixedness is inferred.
 """
 from __future__ import annotations
 
@@ -20,10 +20,7 @@ S = HERE / "diagnose_e3_v91c1s_swap23_prime_attached_cech_difference.py"
 AA = HERE / "diagnose_e3_v91c1aa_sign_reducer_package_transport.py"
 S_BLOB = "5dbe9fdc61a2663da3a2fd39e20bab130ae163b5"
 AA_BLOB = "f1549d36afde2f04e6ec53b225ce5f8eb574f47c"
-ACTIONS = {
-    "sign_a2": ["sign_a2"],
-    "sign_b1": ["sign_b1"],
-}
+ACTION_INDEX = {"sign_a2": 1, "sign_b1": 3}
 
 
 def csha(obj):
@@ -73,6 +70,18 @@ qadd = sns["qadd"]
 EXPECTED_COMPONENTS = sns["EXPECTED_COMPONENTS"]
 
 
+def act_expr(poly, coord_index):
+    # Simultaneous diagonal sign involution on the ambient P6 coordinates.
+    return poly.xreplace({variables[coord_index]: -variables[coord_index]})
+
+
+def act_signature(sig, coord_index):
+    out = [list(z) for z in sig]
+    z = out[coord_index]
+    out[coord_index] = [-int(z[0]), int(z[1]), -int(z[2]), int(z[3])]
+    return out
+
+
 def dot(form, point):
     out = zero
     for x, y in zip(form, point):
@@ -80,27 +89,27 @@ def dot(form, point):
     return out
 
 
-def acted_atoms(package, word):
+def acted_atoms(package, coord_index):
     out = []
     for factor in package["numerator_factors"]:
-        sig = ens["apply_word_signature"](factor["coefficients_Qi"], word)
+        sig = act_signature(factor["coefficients_Qi"], coord_index)
         out.append((sig, int(factor["exponent"])))
     den = package["denominator"]
-    sig = ens["apply_word_signature"](den["coefficients_Qi"], word)
+    sig = act_signature(den["coefficients_Qi"], coord_index)
     out.append((sig, -int(den["exponent"])))
     return out
 
 
-def exceptional_vector(package, word=None):
+def exceptional_vector(package, coord_index=None):
     out = {eid: 0 for eid in node_points}
     atoms = []
-    if word is None:
+    if coord_index is None:
         for factor in package["numerator_factors"]:
             atoms.append((factor["coefficients_Qi"], int(factor["exponent"])))
         den = package["denominator"]
         atoms.append((den["coefficients_Qi"], -int(den["exponent"])))
     else:
-        atoms = acted_atoms(package, word)
+        atoms = acted_atoms(package, coord_index)
     for sig, exponent in atoms:
         form = [qi(z) for z in sig]
         for eid, point in node_points.items():
@@ -111,12 +120,12 @@ def exceptional_vector(package, word=None):
 
 exceptional_original = {cid: exceptional_vector(pkg) for cid, pkg in packages.items()}
 records = {}
-for action, word in ACTIONS.items():
+for action, coord_index in ACTION_INDEX.items():
     prime_action = {}
     for canonical_id, generators in canonical_generators.items():
-        acted_generators = [ens["apply_word_expr"](poly, word, variables) for poly in generators]
+        acted_generators = [act_expr(poly, coord_index) for poly in generators]
         image_id, _basis = ens["canonical_ideal"](acted_generators, variables)
-        twice_generators = [ens["apply_word_expr"](poly, word, variables) for poly in acted_generators]
+        twice_generators = [act_expr(poly, coord_index) for poly in acted_generators]
         twice_id, _basis2 = ens["canonical_ideal"](twice_generators, variables)
         if twice_id != canonical_id:
             raise SystemExit(f"{action} actual-prime involution failed: {canonical_id}")
@@ -134,7 +143,7 @@ for action, word in ACTIONS.items():
     strict_package_acted = sum_vectors(strict_acted.values())
     strict_package_difference = subtract(strict_package_acted, strict_package_original)
 
-    exceptional_acted = {cid: exceptional_vector(pkg, word) for cid, pkg in packages.items()}
+    exceptional_acted = {cid: exceptional_vector(pkg, coord_index) for cid, pkg in packages.items()}
     exceptional_difference = {
         cid: subtract(exceptional_acted[cid], exceptional_original[cid])
         for cid in EXPECTED_COMPONENTS
@@ -156,8 +165,9 @@ for action, word in ACTIONS.items():
         for cid in EXPECTED_COMPONENTS
     }
     records[action] = {
-        "word": word,
-        "swap_involution_verified_on_retained_actual_primes": True,
+        "coordinate_index_zero_based": coord_index,
+        "coordinate_name": str(variables[coord_index]),
+        "actual_prime_involution_verified": True,
         "acted_actual_primes_outside_retained_inventory_count": len(acted_outside),
         "acted_actual_primes_outside_retained_inventory_sha256": csha(acted_outside),
         "components_with_zero_full_attached_divisor_difference": sum(
