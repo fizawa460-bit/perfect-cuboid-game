@@ -117,10 +117,6 @@ def bounded_meta(v: object) -> object:
         return v
     if isinstance(v, str):
         return v if len(v) <= 240 else {"type": "str", "length": len(v), "prefix": v[:120]}
-    if isinstance(v, list):
-        if len(v) <= 16 and all(isinstance(x, (str, int, bool)) for x in v):
-            return v
-        return {"type": "list", "length": len(v), "item_types": sorted({type(x).__name__ for x in v})}
     if isinstance(v, dict):
         if len(v) <= 12 and all(isinstance(x, (str, int, float, bool)) or x is None for x in v.values()):
             return v
@@ -129,7 +125,6 @@ def bounded_meta(v: object) -> object:
 
 
 def action_matrix(g: tuple[int, ...], coords: Matrix, basis_indices: list[int]) -> Matrix:
-    # Rows of M are images of retained basis curves; row-vector classes act by C -> C*M.
     rows = [list(coords.row(g[i])) for i in basis_indices]
     M = Matrix(rows)
     all_images = Matrix.vstack(*[coords.row(g[i]) for i in range(coords.rows)])
@@ -143,7 +138,6 @@ def row_key(v: Matrix) -> tuple[int, ...]:
 
 
 def solve_exceptional_span(T: Matrix, exceptional_coords: Matrix) -> dict:
-    # Solve E^T m = T^T. The 48 exceptional curves are expected independent.
     A = exceptional_coords.T
     try:
         sol, params = A.gauss_jordan_solve(T.T)
@@ -185,8 +179,7 @@ def main() -> None:
     if not isinstance(p_raw, list) or not p_raw:
         raise ValueError("aut_action.permutations_1based missing")
     gens = [perm0(p) for p in p_raw]
-    n = len(gens[0])
-    if n != 140 or any(len(g) != n for g in gens):
+    if len(gens[0]) != 140 or any(len(g) != 140 for g in gens):
         raise ValueError("generator permutation degree regression")
     group = close(gens)
 
@@ -198,9 +191,9 @@ def main() -> None:
         raise ValueError("unique boundary orbit regression")
     boundary = boundary_candidates[0]
 
-    boundary_pointwise = [g for g in group if all(g[i] == i for i in boundary)]
+    H = [g for g in group if all(g[i] == i for i in boundary)]
     boundary_setwise = [g for g in group if {g[i] for i in boundary} == set(boundary)]
-    bp_orders = Counter(order(g) for g in boundary_pointwise)
+    H_orders = Counter(order(g) for g in H)
 
     basis_indices = [j - 1 for j in RETAINED_BASIS_KNOWN_LABELS_1BASED]
     v6 = json.loads(V6_PATH.read_text())
@@ -213,13 +206,11 @@ def main() -> None:
     residual_rows = []
     orbit_classes: set[tuple[int, ...]] = set()
     S = Matrix([[0] * 64])
-    for g in boundary_pointwise:
+    for g in H:
         M = action_matrix(g, coords, basis_indices)
         if M * gram * M.T != gram:
             raise ValueError("retained automorphism does not preserve Picard Gram")
         Cg = C * M
-        if int((Cg * gram * Cg.T)[0, 0]) != C2:
-            raise ValueError("V6 translate self-intersection moved")
         S += Cg
         orbit_classes.add(row_key(Cg))
         residual_rows.append({
@@ -231,18 +222,17 @@ def main() -> None:
         })
     residual_rows.sort(key=lambda r: (not r["identity"], r["C_dot_gC"], json.dumps(r["cycle_profile_140"], sort_keys=True)))
     nontriv_intersections = sorted(r["C_dot_gC"] for r in residual_rows if not r["identity"])
-    sum_nontriv = sum(nontriv_intersections)
 
-    # Reconstruct the two AM fibre classes directly from the 12 source-bound boundary elliptics.
     fibre_classes: dict[tuple[int, ...], list[int]] = defaultdict(list)
+    boundary_incidence: dict[int, set[int]] = {}
     for i in boundary:
-        inc = [int(full[i, j]) for j in range(92, 140)]
-        if sum(inc) != 8 or sum(x > 0 for x in inc) != 8 or any(x not in (0, 1) for x in inc):
+        inc_labels = {j for j in range(92, 140) if int(full[i, j]) == 1}
+        if len(inc_labels) != 8 or any(int(full[i, j]) not in (0, 1) for j in range(92, 140)):
             raise ValueError("boundary exceptional incidence regression")
+        boundary_incidence[i] = inc_labels
         B = 2 * coords.row(i)
-        for off, mult in enumerate(inc):
-            if mult:
-                B += coords.row(92 + off)
+        for j in inc_labels:
+            B += coords.row(j)
         fibre_classes[row_key(B)].append(i + 1)
     if len(fibre_classes) != 2 or sorted(map(len, fibre_classes.values())) != [6, 6]:
         raise ValueError("AM 6+6 fibre-class regression")
@@ -250,99 +240,136 @@ def main() -> None:
     fibres = []
     for k, labels in sorted(fibre_classes.items(), key=lambda kv: kv[1]):
         F = Matrix([list(k)])
-        fibres.append({
-            "F": F,
-            "labels_1based": labels,
-            "C_dot_F": int((C * gram * F.T)[0, 0]),
-            "F_square": int((F * gram * F.T)[0, 0]),
-        })
+        fibres.append({"F": F, "labels_1based": labels, "C_dot_F": int((C * gram * F.T)[0, 0])})
     if sorted(f["C_dot_F"] for f in fibres) != [81, 105]:
         raise ValueError("AM V6 factor-degree regression")
-    F81 = next(f["F"] for f in fibres if f["C_dot_F"] == 81)
-    F105 = next(f["F"] for f in fibres if f["C_dot_F"] == 105)
+    F81_info = next(f for f in fibres if f["C_dot_F"] == 81)
+    F105_info = next(f for f in fibres if f["C_dot_F"] == 105)
+    F81, F105 = F81_info["F"], F105_info["F"]
+    dir81 = set(F81_info["labels_1based"])
+    dir105 = set(F105_info["labels_1based"])
 
-    # For a bidegree-(81,105) image, the base divisor class pulls back with the
-    # opposite fibre coefficients relative to projection degrees: P=105*F81+81*F105.
     P = 105 * F81 + 81 * F105
     P_wrong = 81 * F81 + 105 * F105
     image_square = 2 * 81 * 105
-    pullback_square = int((P * gram * P.T)[0, 0])
-    if pullback_square != 8 * image_square:
-        raise ValueError("factor pullback square regression")
-    if int((C * gram * P.T)[0, 0]) != image_square:
-        raise ValueError("opposite-coefficient bidegree orientation regression")
+    if int((P * gram * P.T)[0, 0]) != 8 * image_square or int((C * gram * P.T)[0, 0]) != image_square:
+        raise ValueError("factor pullback regression")
 
     E = coords[92:140, :]
     T = P - S
-    T_wrong = P_wrong - S
     exc_solution = solve_exceptional_span(T, E)
-    exc_solution_wrong = solve_exceptional_span(T_wrong, E)
-    if exc_solution.get("in_exceptional_span") and exc_solution.get("integral"):
-        m = exc_solution["coefficients_exceptional_labels_93_to_140"]
-        e = [int(x) for x in v6["witness"]["all140_pairings"][92:]]
-        exc_solution["C_dot_exceptional_correction_from_coefficients"] = sum(mi * ei for mi, ei in zip(m, e))
-        exc_solution["C_dot_exceptional_correction_direct"] = int((C * gram * T.T)[0, 0])
-        exc_solution["T_square"] = int((T * gram * T.T)[0, 0])
-        exc_solution["S_dot_T"] = int((S * gram * T.T)[0, 0])
-        exc_solution["S_square"] = int((S * gram * S.T)[0, 0])
-        exc_solution["P_square"] = int((P * gram * P.T)[0, 0])
-        exc_solution["square_decomposition_holds"] = (
-            exc_solution["P_square"] == exc_solution["S_square"] + 2 * exc_solution["S_dot_T"] + exc_solution["T_square"]
-        )
+    exc_solution_wrong = solve_exceptional_span(P_wrong - S, E)
+    if not (exc_solution.get("in_exceptional_span") and exc_solution.get("unique") and exc_solution.get("integral")):
+        raise ValueError("correct pullback correction is not unique integral exceptional")
+    m = exc_solution["coefficients_exceptional_labels_93_to_140"]
+    e = [int(x) for x in v6["witness"]["all140_pairings"][92:]]
+    exc_solution.update({
+        "C_dot_exceptional_correction_from_coefficients": sum(mi * ei for mi, ei in zip(m, e)),
+        "C_dot_exceptional_correction_direct": int((C * gram * T.T)[0, 0]),
+        "T_square": int((T * gram * T.T)[0, 0]),
+        "S_dot_T": int((S * gram * T.T)[0, 0]),
+        "S_square": int((S * gram * S.T)[0, 0]),
+        "P_square": int((P * gram * P.T)[0, 0]),
+    })
+
+    # H-orbits on exceptional curves are exactly candidate fibres over target cusp points.
+    exc_orbits = orbit_partition(set(range(92, 140)), H)
+    cusp_rows = []
+    for o in exc_orbits:
+        coeffs = {m[j - 92] for j in o}
+        if len(coeffs) != 1:
+            raise ValueError("exceptional correction not constant on H-orbit")
+        coeff = next(iter(coeffs))
+        incident_boundary = [i + 1 for i in boundary if o[0] in boundary_incidence[i]]
+        if len(incident_boundary) != 2:
+            raise ValueError(f"exceptional node should meet exactly two boundary elliptics: {incident_boundary}")
+        a = [x for x in incident_boundary if x in dir81]
+        b = [x for x in incident_boundary if x in dir105]
+        if len(a) != 1 or len(b) != 1:
+            raise ValueError("node boundary pair does not split across factor directions")
+        mass = sum(e[j - 92] for j in o)
+        cusp_rows.append({
+            "exceptional_labels_1based": [j + 1 for j in o],
+            "orbit_size": len(o),
+            "dir81_boundary_label": a[0],
+            "dir105_boundary_label": b[0],
+            "image_multiplicity": coeff,
+            "v6_exceptional_mass_sum_on_orbit": mass,
+            "local_delta_first_blowup_lower_bound": coeff * (coeff - 1) // 2,
+        })
+    cusp_rows.sort(key=lambda r: (r["dir81_boundary_label"], r["dir105_boundary_label"]))
+
+    fibre81_sums = {str(lbl): 0 for lbl in sorted(dir81)}
+    fibre105_sums = {str(lbl): 0 for lbl in sorted(dir105)}
+    for r in cusp_rows:
+        fibre81_sums[str(r["dir81_boundary_label"])] += r["image_multiplicity"]
+        fibre105_sums[str(r["dir105_boundary_label"])] += r["image_multiplicity"]
+    # A direction-81 boundary fibre has total intersection D.F = 81; similarly 105.
+    fibre81_excess = {k: v - 81 for k, v in fibre81_sums.items()}
+    fibre105_excess = {k: v - 105 for k, v in fibre105_sums.items()}
+    violates_fibre_bezout = any(v > 81 for v in fibre81_sums.values()) or any(v > 105 for v in fibre105_sums.values())
+
+    delta_first_blowup_lb = sum(r["local_delta_first_blowup_lower_bound"] for r in cusp_rows)
 
     out = {
-        "mode": "SCRATCH_POST1648AQ_RESIDUAL_G_ACTION_EXCEPTIONAL_CORRECTION",
+        "mode": "SCRATCH_POST1648AQ_RESIDUAL_G_CUSP_MULTIPLICITY_GRID",
         "retained_marking_path": str(MARKING_PATH.relative_to(ROOT)),
         "retained_aut_source": bounded_meta(aut.get("source")),
-        "retained_aut_source_splice": bounded_meta(aut.get("source_splice")),
         "aut_action_canonical": aut.get("canonical_sha256_without_this_field"),
-        "full_retained_group": {
-            "order": len(group),
-            "stored_generator_count": len(gens),
-            "element_order_histogram": dict(sorted(Counter(order(g) for g in group).items())),
-        },
+        "full_retained_group": {"order": len(group), "element_order_histogram": dict(sorted(Counter(order(g) for g in group).items()))},
         "boundary_anchor": {
             "labels_1based": [i + 1 for i in boundary],
-            "pointwise_stabilizer_order": len(boundary_pointwise),
-            "pointwise_stabilizer_element_order_histogram": dict(sorted(bp_orders.items())),
+            "pointwise_stabilizer_order": len(H),
+            "pointwise_stabilizer_element_order_histogram": dict(sorted(H_orders.items())),
             "setwise_stabilizer_order": len(boundary_setwise),
             "source_residual_G_order": 8,
             "source_residual_G_type": "(Z/2)^3",
-            "candidate_exact_order_and_exponent_match": len(boundary_pointwise) == 8 and bp_orders == Counter({2: 7, 1: 1}),
+            "candidate_exact_order_and_exponent_match": len(H) == 8 and H_orders == Counter({2: 7, 1: 1}),
         },
         "v6_residual_orbit": {
             "class_orbit_size": len(orbit_classes),
-            "class_stabilizer_trivial_in_candidate_G": len(orbit_classes) == len(boundary_pointwise),
             "rows": residual_rows,
             "nontrivial_C_dot_gC_sorted": nontriv_intersections,
-            "sum_nontrivial_C_dot_gC": sum_nontriv,
+            "sum_nontrivial_C_dot_gC": sum(nontriv_intersections),
             "orbit_sum_square": int((S * gram * S.T)[0, 0]),
             "C_dot_orbit_sum": int((C * gram * S.T)[0, 0]),
         },
         "factor_pullback": {
-            "fibre_classes": [
-                {"labels_1based": f["labels_1based"], "C_dot_F": f["C_dot_F"], "F_square": f["F_square"]}
-                for f in fibres
-            ],
+            "dir81_boundary_labels": sorted(dir81),
+            "dir105_boundary_labels": sorted(dir105),
             "image_bidegree": [81, 105],
             "image_square": image_square,
             "full_pullback_class_formula": "P=105*F_(C.F=81)+81*F_(C.F=105)",
-            "P_square": pullback_square,
+            "P_square": int((P * gram * P.T)[0, 0]),
             "C_dot_P": int((C * gram * P.T)[0, 0]),
-            "degree_8_image_square": 8 * image_square,
         },
-        "exceptional_correction": {
-            "T_formula": "T=P-sum_{h in H} hC",
-            "correct_orientation": exc_solution,
-            "same_orientation_control": exc_solution_wrong,
+        "exceptional_correction": {"correct_orientation": exc_solution, "same_orientation_control": exc_solution_wrong},
+        "target_cusp_grid": {
+            "candidate_target_point_count": len(cusp_rows),
+            "rows": cusp_rows,
+            "sum_distinct_target_multiplicities": sum(r["image_multiplicity"] for r in cusp_rows),
+            "first_blowup_delta_lower_bound_sum": delta_first_blowup_lb,
+            "D_total_delta": 8319,
+            "dir81_fibre_multiplicity_sums": fibre81_sums,
+            "dir81_fibre_excess_over_degree": fibre81_excess,
+            "dir105_fibre_multiplicity_sums": fibre105_sums,
+            "dir105_fibre_excess_over_degree": fibre105_excess,
+            "violates_factor_fibre_intersection_budget": violates_fibre_bezout,
+        },
+        "conductor_decomposition": {
+            "sum_nontrivial_C_dot_gC": sum(nontriv_intersections),
+            "C_dot_T": int((C * gram * T.T)[0, 0]),
+            "canonical_discrepancy_intersection": 558,
+            "half_corrected_sum": (sum(nontriv_intersections) + int((C * gram * T.T)[0, 0]) - 558) // 2,
+            "AP_required_conductor": 7847,
         },
         "decision": {
-            "candidate_subgroup_has_residual_G_numerical_signature": len(boundary_pointwise) == 8 and bp_orders == Counter({2: 7, 1: 1}),
-            "strict_transform_orbit_alone_is_full_pullback": T == Matrix([[0] * 64]),
-            "full_pullback_minus_orbit_is_exact_exceptional_class": bool(exc_solution.get("in_exceptional_span") and exc_solution.get("unique") and exc_solution.get("integral")),
+            "candidate_subgroup_has_residual_G_numerical_signature": len(H) == 8 and H_orders == Counter({2: 7, 1: 1}),
             "full_pullback_minus_orbit_is_effective_exceptional": bool(exc_solution.get("nonnegative")),
-            "naive_AP_conductor_upper_bound_route_closes": False,
-            "next_missing_input": "INTERPRET_EXCEPTIONAL_CORRECTION_LOCALLY_AND_SOURCE_BIND_BOUNDARY_POINTWISE_SUBGROUP_TO_RESIDUAL_G",
+            "conductor_demand_exactly_decomposed": (sum(nontriv_intersections) + int((C * gram * T.T)[0, 0]) - 558) // 2 == 7847,
+            "factor_fibre_budget_excludes_V6_if_H_is_source_residual_G": violates_fibre_bezout,
+            "V6_exclusion_credit_granted": False,
+            "next_missing_input": "SOURCE_BIND_H_TO_RESIDUAL_G; IF_FIBRE_BUDGET_VIOLATES, PROMOTE_TO_EXCLUSION_ADAPTER",
         },
         "firewalls": {
             "scratch_only": True,
