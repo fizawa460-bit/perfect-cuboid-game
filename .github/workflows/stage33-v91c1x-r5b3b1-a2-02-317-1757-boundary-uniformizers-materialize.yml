@@ -42,11 +42,14 @@ jobs:
           python certify_72_boundary_weak_approximation_uniformizers.py
       - name: Materialize R5B3B1 cover-indexed A2_02 boundary uniformizers
         run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b3b1_a2_02_317_1757_boundary_uniformizers.py --write
-      - name: Remove transient reproduced Stage33-07 outputs
-        run: git clean -f stages/stage33/33-07
+      - name: Restore transient Stage33-07 producer outputs
+        run: |
+          git restore --worktree stages/stage33/33-07
+          git clean -f stages/stage33/33-07
       - name: Bound generated delta
         run: |
           git diff --check
+          git status --porcelain
           test "$(git status --porcelain | wc -l)" -eq 1
           git status --porcelain | grep 'stages/stage33/33-12/e3-v91c1x-r5b3b1-a2-02-317-1757-boundary-uniformizers.json'
       - name: Commit exact generated certificate
