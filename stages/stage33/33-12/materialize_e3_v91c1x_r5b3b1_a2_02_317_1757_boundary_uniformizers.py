@@ -6,10 +6,7 @@ import hashlib
 import json
 from pathlib import Path
 
-import sympy as sp
-
 import materialize_e3_v91c1x_r5b2d2_swap23_317_cover_common_refinement as atlas
-import materialize_e3_v91c1x_r5b3a_a2_02_317_1757_literal_package_pullbacks as pkg
 
 HERE = Path(__file__).resolve().parent
 S07 = HERE.parent / "33-07"
@@ -52,24 +49,63 @@ def load_canonical(path: Path, expected: str | None = None) -> dict:
     return obj
 
 
-def linear_form(encoded, X):
-    if len(encoded) != len(X):
-        raise SystemExit("uniformizer ambient coefficient width moved")
-    return atlas.clean(sum(atlas.decode_element(z) * X[j] for j, z in enumerate(encoded)))
-
-
-def uniformizer_expression(component: str, rec: dict, X):
+def factorized_source_uniformizer(component: str, rec: dict) -> dict:
     if component.startswith("EXC_"):
-        expr = linear_form(rec["ambient_linear_form_Qi"], X)
+        numerators = [rec["ambient_linear_form_Qi"]]
+        denominators = []
     else:
-        num = linear_form(rec["side_numerator_linear_form_Qi"], X)
-        den = sp.Integer(1)
-        for row in rec["denominator_exceptional_linear_forms_Qi"]:
-            den *= linear_form(row, X)
-        expr = atlas.clean(num / den)
-    if expr == 0:
-        raise SystemExit(f"zero uniformizer expression: {component}")
-    return expr
+        numerators = [rec["side_numerator_linear_form_Qi"]]
+        denominators = rec["denominator_exceptional_linear_forms_Qi"]
+    return {
+        "semantics": "PRODUCT_OF_NUMERATOR_LINEAR_FACTORS_DIVIDED_BY_PRODUCT_OF_DENOMINATOR_LINEAR_FACTORS",
+        "numerator_linear_factors_Qi": numerators,
+        "denominator_linear_factors_Qi": denominators,
+    }
+
+
+def linear_factor_rees_pullback(encoded: list, meta: dict, cp: int) -> tuple[dict, int]:
+    if len(encoded) != 7:
+        raise SystemExit("uniformizer ambient coefficient width moved")
+    coeff = [atlas.decode_element(z) for z in encoded]
+    q = list(meta["q"])
+    constant = atlas.clean(sum(coeff[j] * q[j] for j in range(7)))
+    nonpivot = list(meta["nonpivot"])
+    if len(nonpivot) != 6 or cp not in range(6):
+        raise SystemExit("frozen Rees chart coordinate inventory moved")
+    remaining = [k for k in range(6) if k != cp]
+    e_constant = atlas.clean(coeff[nonpivot[cp]])
+    u_coeff = [atlas.clean(coeff[nonpivot[k]]) for k in remaining]
+    if constant == 0 and e_constant == 0 and all(x == 0 for x in u_coeff):
+        raise SystemExit(f"linear factor vanished identically on Rees chart {meta['exceptional_id']}/D{cp}")
+    order = 0 if constant != 0 else 1
+    desc = {
+        "constant_Qi": atlas.encode_element(constant),
+        "e_times_affine_linear_leading_Qi": {
+            "constant_Qi": atlas.encode_element(e_constant),
+            "u_coefficients_Qi": [atlas.encode_element(x) for x in u_coeff],
+        },
+    }
+    return desc, order
+
+
+def factorized_rees_pullback(source_factorized: dict, meta: dict, cp: int) -> tuple[dict, int]:
+    num_desc = []
+    den_desc = []
+    num_order = 0
+    den_order = 0
+    for row in source_factorized["numerator_linear_factors_Qi"]:
+        desc, order = linear_factor_rees_pullback(row, meta, cp)
+        num_desc.append(desc)
+        num_order += order
+    for row in source_factorized["denominator_linear_factors_Qi"]:
+        desc, order = linear_factor_rees_pullback(row, meta, cp)
+        den_desc.append(desc)
+        den_order += order
+    return {
+        "semantics": "EXACT_FACTORIZED_PULLBACK_UNDER_THE_FROZEN_STANDARD_REES_BLOWDOWN_MAP",
+        "numerator_factor_pullbacks": num_desc,
+        "denominator_factor_pullbacks": den_desc,
+    }, num_order - den_order
 
 
 def build_certificate() -> dict:
@@ -117,7 +153,6 @@ def build_certificate() -> dict:
     if c2["finite_cover"]["total_cover_chart_count"] != 317:
         raise SystemExit("R5B2C2 cover count moved")
 
-    X = sp.symbols("a1 a2 a3 b1 b2 b3 c")
     minor_rows = c2["smooth_complement_cover"]["minor_rows"]
     minor_ids = [r["minor_id"] for r in minor_rows]
     if len(minor_ids) != 29 or len(set(minor_ids)) != 29:
@@ -138,18 +173,18 @@ def build_certificate() -> dict:
     total_source_chart_pullbacks = 0
     total_refinement_assignments = 0
     exceptional_order_checks = 0
+    linear_factor_rees_pullback_checks = 0
 
     for component in COMPONENTS:
         source_rec = exc_rows[component] if component.startswith("EXC_") else side_rows[component]
-        expr = uniformizer_expression(component, source_rec, X)
-        ambient_encoded = atlas.encode_rational(expr, list(X))
-        ambient_sha = csha(ambient_encoded)
+        factorized_source = factorized_source_uniformizer(component, source_rec)
+        ambient_sha = csha(factorized_source)
 
         smooth_formula_rows = [
             {
                 "source_minor_id": mid,
                 "source_chart_principal_open": f"D_+({mid})",
-                "boundary_uniformizer_pullback_Qi_sha256": ambient_sha,
+                "factorized_boundary_uniformizer_pullback_Qi_sha256": ambient_sha,
             }
             for mid in minor_ids
         ]
@@ -157,7 +192,7 @@ def build_certificate() -> dict:
             {
                 "piece_id": r["common_refinement_piece_id"],
                 "source_minor_id": r["source_minor_id_equal_to_pullback_open"],
-                "boundary_uniformizer_pullback_Qi_sha256": ambient_sha,
+                "factorized_boundary_uniformizer_pullback_Qi_sha256": ambient_sha,
             }
             for r in smooth_refinement
         ]
@@ -168,22 +203,20 @@ def build_certificate() -> dict:
         for eid in expected_eids:
             orders = []
             for cp in range(6):
-                e, u, _d, _nonp, blow = atlas.chart_blowdown(metas[eid], cp)
-                pull = atlas.clean(expr.subs({X[j]: blow[j] for j in range(7)}, simultaneous=True))
-                if pull == 0:
-                    raise SystemExit(f"uniformizer pullback vanished identically: {component}/{eid}/D{cp}")
-                encoded = atlas.encode_rational(pull, [e, *u])
-                order, leading = pkg.exceptional_leading_record(pull, e, u)
+                pullback_desc, order = factorized_rees_pullback(factorized_source, metas[eid], cp)
                 cid = atlas.chart_id(eid, cp)
-                rec = {
+                pull_sha = csha(pullback_desc)
+                exceptional_formula_rows.append({
                     "source_chart_id": cid,
                     "exceptional_order": int(order),
-                    "boundary_uniformizer_pullback_Qi_sha256": csha(encoded),
-                    "leading_ratio_on_exceptional_P5_Qi_sha256": csha(leading),
-                }
-                exceptional_formula_rows.append(rec)
-                source_chart_sha[cid] = rec["boundary_uniformizer_pullback_Qi_sha256"]
+                    "factorized_boundary_uniformizer_pullback_Qi_sha256": pull_sha,
+                })
+                source_chart_sha[cid] = pull_sha
                 orders.append(int(order))
+                linear_factor_rees_pullback_checks += (
+                    len(factorized_source["numerator_linear_factors_Qi"])
+                    + len(factorized_source["denominator_linear_factors_Qi"])
+                )
             if len(set(orders)) != 1:
                 raise SystemExit(f"uniformizer exceptional order depends on Rees chart: {component}/{eid}/{orders}")
             expected_order = 1 if component.startswith("EXC_") and component == eid else 0
@@ -200,7 +233,7 @@ def build_certificate() -> dict:
                     refinement_descriptors.append({
                         "piece_id": f"REF_{eid}_S{cp_source}_T{cp_target}",
                         "source_chart_id": source_chart,
-                        "boundary_uniformizer_pullback_Qi_sha256": source_chart_sha[source_chart],
+                        "factorized_boundary_uniformizer_pullback_Qi_sha256": source_chart_sha[source_chart],
                     })
         if len(refinement_descriptors) != 1757:
             raise SystemExit(f"1757-piece uniformizer assignment count moved: {component}")
@@ -231,8 +264,8 @@ def build_certificate() -> dict:
             "component_id": component,
             "source_uniformizer": {
                 **source_summary,
-                "ambient_rational_function_Qi": ambient_encoded,
-                "ambient_rational_function_Qi_sha256": ambient_sha,
+                "exact_factorized_ambient_rational_function_Qi": factorized_source,
+                "exact_factorized_ambient_rational_function_Qi_sha256": ambient_sha,
             },
             "source_317_cover_pullbacks": {
                 "smooth_chart_count": len(smooth_formula_rows),
@@ -242,6 +275,7 @@ def build_certificate() -> dict:
                 "exceptional_rows_sha256": csha(exceptional_formula_rows),
                 "exceptional_order_is_independent_of_standard_rees_chart_at_each_node": True,
                 "exceptional_order_by_frozen_node": node_orders,
+                "exceptional_pullbacks_are_exact_factorized_substitutions_not_expanded_products": True,
             },
             "common_refinement_pullback": {
                 "piece_count": len(refinement_descriptors),
@@ -252,7 +286,7 @@ def build_certificate() -> dict:
         pair_rows.append({
             "component_id": component,
             "residue_function_Qi_sha256": package_by_component[component]["source_literal_package"]["ambient_rational_function_Qi_sha256"],
-            "boundary_uniformizer_Qi_sha256": ambient_sha,
+            "boundary_uniformizer_factorized_Qi_sha256": ambient_sha,
             "pair_semantics": "FORMAL_GERSTEN_INPUT_PAIR_PI_D_AND_RESIDUE_FUNCTION_ONLY_NOT_YET_A_CERTIFIED_GLOBAL_SYMBOL_SUM",
         })
 
@@ -262,6 +296,8 @@ def build_certificate() -> dict:
         raise SystemExit("total uniformizer/refinement assignment count moved")
     if exceptional_order_checks != 8 * 48:
         raise SystemExit("exceptional uniformizer order check count moved")
+    if linear_factor_rees_pullback_checks <= 8 * 48 * 6:
+        raise SystemExit("factorized Rees pullback check count unexpectedly small")
 
     cert = {
         "schema": "stage33.e3.v91c1x_r5b3b1.a2_02_317_1757_boundary_uniformizers.v1",
@@ -295,11 +331,13 @@ def build_certificate() -> dict:
             "uniformizer_source_chart_pullback_count": total_source_chart_pullbacks,
             "uniformizer_common_refinement_assignment_count": total_refinement_assignments,
             "exceptional_order_standard_chart_invariance_check_count": exceptional_order_checks,
-            "all_8_uniformizers_have_exact_Qi_rational_functions": True,
+            "linear_factor_standard_rees_pullback_check_count": linear_factor_rees_pullback_checks,
+            "all_8_uniformizers_have_exact_Qi_factorized_rational_functions": True,
             "all_8_uniformizers_pulled_back_to_all_317_source_charts": True,
             "all_8_uniformizers_assigned_to_all_1757_common_refinement_pieces_via_source_projection": True,
             "target_boundary_valuation_support_is_delta_identity_for_all_8": True,
             "all_exceptional_orders_replayed_on_all_288_rees_charts_per_uniformizer": True,
+            "factorized_pullback_representation_avoids_unnecessary_symbolic_product_expansion": True,
         },
         "construction_status": {
             "source_bound_a2_02_component_residue_functions_cover_indexed": True,
@@ -359,6 +397,7 @@ def main() -> None:
         "source_chart_pullbacks": cert["cover_indexed_materialization"]["uniformizer_source_chart_pullback_count"],
         "refinement_assignments": cert["cover_indexed_materialization"]["uniformizer_common_refinement_assignment_count"],
         "exceptional_order_checks": cert["cover_indexed_materialization"]["exceptional_order_standard_chart_invariance_check_count"],
+        "linear_factor_rees_pullback_checks": cert["cover_indexed_materialization"]["linear_factor_standard_rees_pullback_check_count"],
         "stage33_progress": "6/11",
         "next_exact_leaf": cert["next_exact_leaf"],
     }, sort_keys=True))
