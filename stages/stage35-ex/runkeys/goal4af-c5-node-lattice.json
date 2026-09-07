@@ -1,18 +1,11 @@
 {
   "schema":"STAGE35_EX_GOAL4AF_C5_NODE_LATTICE_RUNKEY_V1",
   "armed":true,
-  "generation":7,
-  "route":"LOCAL_SOURCE_C1_25_BRANCH_CONIC_RECEIVER_SOLVE",
+  "generation":8,
+  "route":"LOCAL_SOURCE_C1_25_BRANCH_CONIC_RECEIVER_SOLVE_V2",
   "pr":1659,
   "branch":"stage35-ex-goal4x-open-receiver-boundary-picard",
   "upstream_git_blob_sha1":"0422b69847f2afb97cb7b3ed02ebef91279f61b1",
-  "generation5_result":{
-    "workflow_run":34069894087,
-    "job":101585205139,
-    "galois_stabilizer_rank":63,
-    "galois_stabilizer_nullity":1,
-    "pair_rows_materialized":false
-  },
   "generation6_result":{
     "workflow_run":34070055050,
     "job":101585625872,
@@ -23,8 +16,14 @@
     "null_pairings":[-2,2,2,-2,2,-2,-2,2],
     "pair_rows_materialized":false
   },
-  "diagnostic_path":"stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_branch_conic_receiver.py",
-  "diagnostic_blob_sha1":"e4291503ccff329546e939c2522359573f12dc2a",
+  "generation7_result":{
+    "workflow_run":34070358081,
+    "job":101586451457,
+    "failure_before_receiver_math":"WRAPPER_SUMMARY_METADATA_LOCATOR_REGRESSION"
+  },
+  "generation7_wrapper_blob_sha1":"e4291503ccff329546e939c2522359573f12dc2a",
+  "diagnostic_path":"stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_branch_conic_receiver_v2.py",
+  "diagnostic_blob_sha1":"b56d32484af1524cc59e08cedb5d9c56e940b4ac",
   "source_receiver":{
     "known_curve_index_1based":25,
     "source_family":"C1_c_zero_conic",
@@ -47,5 +46,5 @@
     "E1_proved":false,
     "stage35_closed":false
   },
-  "purpose":"Use the pinned source C1 #25 branch conic to supply the one exact intersection number that closes the generation6 rank-63 C5 pair marked-Picard solve. Materialize rows only if rank 64 is obtained and all equivariant receiver rechecks pass."
+  "purpose":"Repair the generation7 wrapper-only metadata locator and execute the unchanged source C1 #25 intersection solve. Materialize C5 pair rows only if the rank-63 system becomes rank 64 and all equivariant branch-conic rechecks pass."
 }
