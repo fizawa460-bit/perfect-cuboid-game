@@ -1,0 +1,34 @@
+name: Stage32 post1648AV retained node locator preflight
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648av-canonical-node-hyperplane-capacity
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-av-node-locator:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Run AV retained node locator preflight
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648av_retained_node_locator_preflight.py | tee /tmp/post1648av-locator.json
+      - name: Assert bounded output
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/post1648av-locator.json'))
+          assert x['mode']=='SCRATCH_POST1648AV_RETAINED_NODE_LOCATOR_PREFLIGHT'
+          assert x['firewalls']['retained_payload_emitted'] is False
+          print(json.dumps({'marking_top':x['marking_top'],'paths':x['marking_matching_paths']},sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
