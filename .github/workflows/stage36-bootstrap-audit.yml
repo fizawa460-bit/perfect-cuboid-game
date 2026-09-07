@@ -42,20 +42,20 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay exact 36-09BZ green parent
+      - name: Replay exact 36-09CA green parent
         shell: bash
         run: |
           set -euo pipefail
-          H=dc6c23acbfc77ea5e3ce4951f136be0daa291db2
+          H=b8e9ba3b091b9c0e350cafdaeefbfcfccc0dcfb0
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BZ.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09CA.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09CA
-        run: python3 stages/stage36/verify_stage36_36_09CA.py
-      - name: Assert CA firewalls and CB selection
+      - name: Verify current 36-09CB
+        run: python3 stages/stage36/verify_stage36_36_09CB.py
+      - name: Assert CB firewalls and CC selection
         shell: bash
         run: |
           set -euo pipefail
@@ -63,27 +63,27 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V117_36_09CA_TIE_SOURCE_PULLBACK'
-          assert s['status']=='36_09CA_PROVISIONAL_CANDIDATE_CB_SELECTED'
-          bz=s['authority_frontier']['36-09BZ']
-          assert bz['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert bz['exact_head']=='dc6c23acbfc77ea5e3ce4951f136be0daa291db2'
-          assert bz['exact_head_ci']=='34149039121/101827189412'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V118_36_09CB_Q2_LOCAL_REALIZATION'
+          assert s['status']=='36_09CB_PROVISIONAL_CANDIDATE_CC_SELECTED'
           ca=s['authority_frontier']['36-09CA']
-          assert ca['PARAMETER_UNIT_LEMMA_EXACT'] is True
-          assert ca['TIE_SOURCE_PULLBACK_EXACT'] is True
-          assert ca['TIE_NEEDED_SECTOR_LOCALLY_REALIZABLE'] is True
-          assert ca['NEW_POINT_INDEPENDENT_BRANCH_ROWS']==0
-          assert ca['ALL_BZ_SURVIVORS_Q2_POINTS'] is False
-          assert s['current']['next_exact_leaf']=='36-09CB_GENERAL_Q2_SOURCE_CONIC_REALIZATION_PREFLIGHT'
-          assert s['current']['36_09CB_entry_allowed'] is True
-          assert s['promotion_gates']['36_09BZ_exact_head_ci_passed'] is True
-          assert s['promotion_gates']['36_09CA_certificate_complete'] is True
-          assert s['promotion_gates']['36_09CA_exact_head_ci_passed'] is False
-          assert s['promotion_gates']['36_09CB_unlocked'] is True
-          assert s['promotion_gates']['all_BZ_outer_survivors_are_Q2_points'] is False
+          assert ca['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
+          assert ca['exact_head']=='b8e9ba3b091b9c0e350cafdaeefbfcfccc0dcfb0'
+          assert ca['exact_head_ci']=='34149759346/101829367656'
+          cb=s['authority_frontier']['36-09CB']
+          assert cb['MIXED_F0_SOURCE_CONIC_REALIZATION_COMPLETE'] is True
+          assert cb['DEEP_F1_SOURCE_CONIC_REALIZATION_COMPLETE'] is True
+          assert cb['ALL_BZ_OUTER_SURVIVORS_HAVE_Q2_FULL_COVER_POINT'] is True
+          assert cb['PRIME2_BRANCH_FILTER_LAYER_COMPLETE'] is True
+          assert cb['RECEIVER_CLOSED'] is False
+          assert s['current']['next_exact_leaf']=='36-09CC_GENERAL_OLD_SIX_QQ_SOURCE_PULLBACK_PREFLIGHT'
+          assert s['current']['36_09CC_entry_allowed'] is True
+          assert s['promotion_gates']['36_09CA_exact_head_ci_passed'] is True
+          assert s['promotion_gates']['36_09CB_certificate_complete'] is True
+          assert s['promotion_gates']['36_09CB_exact_head_ci_passed'] is False
+          assert s['promotion_gates']['36_09CC_unlocked'] is True
+          assert s['promotion_gates']['prime2_branch_filter_layer_complete'] is True
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('36-09CA candidate verified: the tie-unit source pullback is exact and adds no independent branch row; CB source-conic Q2 realization is selected without closure credit.')
+          print('36-09CB candidate verified: every BZ survivor has a Q2 point on the exact full-cover local model; prime-2 filtering is complete, while receiver/global credit remains closed. CC selected.')
           PY
           git diff --check
