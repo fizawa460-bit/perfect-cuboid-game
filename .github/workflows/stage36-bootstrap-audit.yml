@@ -55,21 +55,21 @@ jobs:
           PY
           git merge-base --is-ancestor 58e81a647b63bcea17ab396409c2813b667f45e2 HEAD
 
-      - name: Replay exact hostile-audited 36-09AL checkpoint
+      - name: Replay exact 36-09AM candidate parent
         shell: bash
         run: |
           set -euo pipefail
-          H=56f815b9bc25ca91a2ba6e0c0291664bfeac733d
+          H=46b426a393ee2eb027305f9c45f248008ff02fec
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AL.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AM.py"
           git worktree remove --force "$tmp"
 
-      - name: Verify current 36-09AM uniform rank-zero Tunnell/Sha2 sieve
-        run: python3 stages/stage36/verify_stage36_36_09AM.py
+      - name: Verify current 36-09AN retained-open Tunnell necessary gate
+        run: python3 stages/stage36/verify_stage36_36_09AN.py
 
-      - name: Assert 36-09AM firewalls and 36-09AN unlock
+      - name: Assert 36-09AN firewalls and hostile-audit checkpoint
         shell: bash
         run: |
           set -euo pipefail
@@ -77,23 +77,28 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V75_36_09AM_CANDIDATE'
-          assert s['status']=='ACTIVE_BATCHING_SUBSTANTIVE_PR'
-          am=s['authority_frontier']['36-09AM']
-          assert am['UNIFORM_RANKZERO_TUNNELL_FAIL_CLASSIFIER'] is True
-          assert am['TORSION_SHAPED_EXCEPTION_SECTOR_COUNT']==4
-          assert am['OUTSIDE_SECTORS_ELS_TUNNELL_FAIL_IMPLIES_NONTRIVIAL_SHA2'] is True
-          assert am['TUNNELL_EQUALITY_SIDE_CLASSIFIED'] is False
-          assert am['TORSION_SECTOR_RETAINED_OPEN_CLASSIFIED'] is False
-          assert am['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert am['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09AN'
-          assert s['current']['36_09AN_entry_allowed'] is True
-          assert s['promotion_gates']['36_09AL_hostile_audit_passed'] is True
-          assert s['promotion_gates']['36_09AL_promoted_to_main'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V76_36_09AN_BATCH_AUDIT_CHECKPOINT'
+          assert s['status']=='ACTIVE_BATCH_HOSTILE_AUDIT_CHECKPOINT'
+          an=s['authority_frontier']['36-09AN']
+          assert an['RETAINED_OPEN_MAP_EXACT'] is True
+          assert an['RETAINED_IMAGE_NON2TORSION'] is True
+          assert an['RETAINED_RECEIVER_IMPLIES_POSITIVE_RANK'] is True
+          assert an['RETAINED_RECEIVER_IMPLIES_N_CONGRUENT'] is True
+          assert an['RETAINED_RECEIVER_IMPLIES_TUNNELL_EQUALITY'] is True
+          assert an['TUNNELL_FAIL_RETAINED_RECEIVER_EMPTY'] is True
+          assert an['AM_TORSION_EXCEPTION_SECTORS_REMAIN_ON_RETAINED_OPEN'] is False
+          assert an['TUNNELL_FAIL_RETAINED_OPEN_EXCEPTION_SECTOR_COUNT']==0
+          assert an['TUNNELL_EQUALITY_SIDE_CLASSIFIED'] is False
+          assert an['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert an['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09AN-AUDIT-CHECKPOINT'
+          assert s['current']['next_owner']=='HOSTILE_AUDIT'
+          assert s['current']['hostile_audit_checkpoint_reached'] is True
+          assert s['current']['36_09AO_entry_allowed'] is False
+          assert s['promotion_gates']['36_09AN_hostile_audit_passed'] is False
           assert s['claims']['candidate_parameter_set_shrunk'] is False
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09AM uniform rank-zero sieve verified on merged PR1677 authority; exactly four torsion-shaped sectors remain on conditional Tunnell-fail ELS side; 36-09AN unlocked')
+          print('36-09AN retained-open rank/Tunnell gate verified; Tunnell-fail side has zero retained exceptions; AO locked pending hostile audit')
           PY
           git diff --check
