@@ -42,20 +42,20 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay exact 36-09BT parent
+      - name: Replay exact 36-09BU parent
         shell: bash
         run: |
           set -euo pipefail
-          H=53c8d2fecff7e63ddfaef76de4387365f0ed2e28
+          H=72252b9e891d7986813c9e81706958970a754331
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BT.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BU.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09BU
-        run: python3 stages/stage36/verify_stage36_36_09BU.py
-      - name: Assert BU odd-taxonomy firewalls and BV unlock
+      - name: Verify current 36-09BV
+        run: python3 stages/stage36/verify_stage36_36_09BV.py
+      - name: Assert BV integration firewalls and BW unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -63,16 +63,16 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V110_36_09BU_GENERAL_ODD_BAD_PLACE_TAXONOMY'
-          bu=s['authority_frontier']['36-09BU']
-          assert bu['GENERAL_ODD_BAD_PLACE_TAXONOMY_COMPLETE'] is True
-          assert bu['NEW_Q_RESERVOIR_BRANCH_ONLY_FILTER'] is True
-          assert bu['Q_FILTER_NONREDUNDANT_AGAINST_AW_AE_ROWS'] is True
-          assert bu['GENERAL_PRIME2_BRANCH_TAXONOMY_COMPLETE'] is False
-          assert s['current']['next_exact_leaf']=='36-09BV_FIXED_P_Q_RESERVOIR_BRANCH_FILTER_INTEGRATION_PREFLIGHT'
-          assert s['current']['36_09BV_entry_allowed'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V111_36_09BV_FIXED_P_Q_FILTER_INTEGRATION'
+          bv=s['authority_frontier']['36-09BV']
+          assert bv['FIXED_P_Q_FILTER_INTEGRATION_COMPLETE'] is True
+          assert bv['SOUND_ZERO_SURVIVOR_EXCLUSION_RULE'] is True
+          assert bv['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
+          assert bv['GENERAL_PRIME2_BRANCH_TAXONOMY_COMPLETE'] is False
+          assert s['current']['next_exact_leaf']=='36-09BW_GENERAL_AW_BRANCH_PRIME2_TAXONOMY_PREFLIGHT'
+          assert s['current']['36_09BW_entry_allowed'] is True
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('36-09BU verified; general odd bad-place taxonomy and nonredundant Q-reservoir branch filter are exact. No local-point/global-H1/parameter credit; BV selected.')
+          print('36-09BV verified; Q-reservoir branch filter is integrated into the exhaustive fixed-p outer family with a sound zero-survivor exclusion rule. BW prime-2 generalization selected.')
           PY
           git diff --check
