@@ -1,0 +1,50 @@
+name: Stage32 post1648AW sign-kernel signature
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648aw-explicit-node-equivariant-matching
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-aw-sign-kernel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run AW sign-kernel signature diagnostic
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648aw_sign_kernel_signature.py | tee /tmp/aw-sign.json
+      - name: Assert exact subaction identification
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/aw-sign.json'))
+          assert x['mode']=='SCRATCH_POST1648AW_SIGN_KERNEL_SIGNATURE'
+          assert x['unique_WC_cover_candidate_indices_zero_based']==[0,13,22,27]
+          assert x['source_projective_sign_group_order']==64
+          assert x['retained_coordinate_block_kernel_order']==64
+          assert x['signature_multiset_exact_match'] is True
+          assert x['seven_flip_global_sign_relation_verified'] is True
+          assert x['first_six_flips_generate_retained_kernel'] is True
+          assert x['source_C2_6_to_retained_kernel_exact_isomorphism_verified'] is True
+          assert x['retained_kernel_support_cell_orbit_sizes']==[8,8,8,8,8,8]
+          assert x['firewalls']['full_1536_node_action_adapter_credit'] is False
+          assert x['firewalls']['explicit_48_node_bijection_obtained'] is False
+          print(json.dumps({
+            'fixed_cell_count_histogram':x['fixed_cell_count_histogram'],
+            'coordinate_flip_recovery':x['coordinate_flip_recovery'],
+            'support_cell_orbits':x['retained_kernel_support_cell_orbit_sizes'],
+            'next_exact_route':x['next_exact_route'],
+          },sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
