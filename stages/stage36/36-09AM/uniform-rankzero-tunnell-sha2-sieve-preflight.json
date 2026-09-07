@@ -1,0 +1,130 @@
+{
+  "schema": "STAGE36_36_09AM_UNIFORM_RANKZERO_TUNNELL_SHA2_SIEVE_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AM",
+  "status": "EXACT_TUNNELL_FAIL_RANKZERO_SHA2_SIEVE_WITH_FOUR_TORSION_SECTORS_PENDING_BATCH_AUDIT",
+  "base_main_sha": "58e81a647b63bcea17ab396409c2813b667f45e2",
+  "audited_parent": {
+    "pr": 1677,
+    "hostile_audit_review": 5127436589,
+    "audited_exact_head": "56f815b9bc25ca91a2ba6e0c0291664bfeac733d",
+    "exact_head_ci": "34074355295/101597480228",
+    "scope": "36-09AJ through 36-09AL",
+    "merged_to_main": true,
+    "merged_main_sha": "58e81a647b63bcea17ab396409c2813b667f45e2",
+    "use_boundary": "hostile-audited and merged Stage36 parent authority; AM remains provisional until a later hostile audit"
+  },
+  "source_locks": {
+    "stage36_36_09AE": {
+      "path": "stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json",
+      "blob_sha": "ddae37dd35cd0e732cebadf9c17f3f3fa57930df"
+    },
+    "stage36_36_09AJ": {
+      "path": "stages/stage36/36-09AJ/congruent-number-full2-covering-class-preflight.json",
+      "blob_sha": "27950f53a89e28d02d04f2c19628504561c206e7"
+    },
+    "stage36_36_09AL": {
+      "path": "stages/stage36/36-09AL/b7-selmer-class-nontrivial-sha2-preflight.json",
+      "blob_sha": "10962f8d2471a8236d66a602c0f4952ce497e56c"
+    },
+    "stage36_36_09AM_source": {
+      "path": "stages/stage36/36-09AM/tunnell-rankzero-torsion-sector-source-lock.md",
+      "blob_sha": "0c64262ac11979fa1f5e25039cfc0f4f0426ca62"
+    }
+  },
+  "uniform_notation": {
+    "A_B_C_D": "positive odd squarefree and pairwise coprime",
+    "eta": "+1 or -1",
+    "e_f": "bits in {0,1}",
+    "g": "(e+f) mod 2",
+    "n": "2^g*A*B*C*D",
+    "jacobian": "E_n: Y^2=X^3-n^2*X"
+  },
+  "normalized_stage36_full2_pair": {
+    "eta_plus": ["[2^g*C*D]", "[2^f*A*D]"],
+    "eta_minus": ["[-2^g*C*D]", "[-2^e*A*C]"],
+    "eta_minus_root_swap_included": true
+  },
+  "rankzero_MW_mod2_Kummer_image": {
+    "condition": "parity-appropriate Tunnell necessary equality fails, hence n is non-congruent and rank E_n(Q)=0",
+    "ordered_roots": ["0", "+n", "-n"],
+    "pair_classes": [
+      ["1", "1"],
+      ["-1", "-n"],
+      ["n", "2"],
+      ["-n", "-2*n"]
+    ],
+    "exhaustive_when_rank_zero": true
+  },
+  "exact_torsion_shaped_sector_union": [
+    {
+      "id": "S0_ETA_PLUS_O",
+      "conditions": ["eta=+1", "e=0", "f=0", "A=1", "C=1", "D=1"],
+      "free": ["B"],
+      "Kummer_pair": ["1", "1"]
+    },
+    {
+      "id": "SPLUS_ETA_PLUS_TPLUS",
+      "conditions": ["eta=+1", "A=1", "B=1", "D=1", "f=1"],
+      "free": ["C", "e"],
+      "Kummer_pair": ["n", "2"]
+    },
+    {
+      "id": "SZERO_ETA_MINUS_TZERO",
+      "conditions": ["eta=-1", "e=0", "f=0", "B=1", "C=1", "D=1"],
+      "free": ["A"],
+      "Kummer_pair": ["-1", "-n"]
+    },
+    {
+      "id": "SMINUS_ETA_MINUS_TMINUS",
+      "conditions": ["eta=-1", "A=1", "B=1", "D=1", "f=1"],
+      "free": ["C", "e"],
+      "Kummer_pair": ["-n", "-2*n"]
+    }
+  ],
+  "exhaustive_squareclass_statement": {
+    "claim": "under pairwise-disjoint odd support, the Stage36 normalized pair lies in the rank-zero MW Kummer image iff the branch belongs to the union of the four listed torsion-shaped sectors",
+    "sector_overlap_allowed": true,
+    "proof_method": "formal F2 squareclass support/sign/2-adic enumeration with A,B,C,D treated as independent generators when nontrivial"
+  },
+  "conditional_uniform_sieve": {
+    "hypotheses": [
+      "the full Stage36 covering is everywhere locally soluble, hence its class lies in Sel^2(E_n/Q)",
+      "the parity-appropriate Tunnell necessary equality fails"
+    ],
+    "outside_four_sectors": [
+      "rank E_n(Q)=0",
+      "Stage36 class is outside E_n(Q)/2E_n(Q)",
+      "Stage36 class maps to a nonzero element of Sha(E_n)[2]",
+      "the projective full-2 covering has no Q-point"
+    ],
+    "inside_four_sectors": "rank-zero Kummer-image sieve does not exclude the class; retained-open/coordinate compatibility is still required before any receiver-point credit",
+    "Tunnell_equality_branch": "unresolved unconditionally; BSD converse is not used"
+  },
+  "route_result": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "single_B7_AL_example_generalized": true,
+    "uniform_rankzero_Tunnell_fail_classifier_obtained": true,
+    "finite_exception_sector_count": 4,
+    "all_variable_n_classified": false,
+    "Tunnell_equality_side_classified": false,
+    "torsion_sector_retained_open_classified": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_closed": false,
+    "next_leaf": "36-09AN_TORSION_SHAPED_SECTOR_RETAINED_OPEN_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "Tunnell_equality_implies_congruent_used": false,
+    "BSD_converse_used": false,
+    "everywhere_local_solubility_uniformly_proved": false,
+    "four_torsion_sectors_produce_receiver_points": false,
+    "finite_exhaustive_Q_squareclass_family": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
