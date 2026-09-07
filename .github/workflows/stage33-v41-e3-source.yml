@@ -1,4 +1,4 @@
-name: Stage33 V41-V91C1V e3 combined-batch diagnostic replay
+name: Stage33 V41-V91C1W audit-repair semantic-bridge blocker replay
 
 on:
   pull_request:
@@ -13,13 +13,13 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v41-v91c1v-combined-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v41-v91c1w-audit-repair-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
   verify-e3-source-geometry-routing-frontier:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 16
     steps:
       - uses: actions/checkout@v4
         with:
@@ -36,7 +36,7 @@ jobs:
           python certify_order2_quotient_raw_order4_bockstein.py
           python materialize_mixed_order_side_ambient_function_lifts.py
           python materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py
-      - name: Replay immutable V41-V91C chain and current V91C1H-V frontier
+      - name: Replay immutable V41-V91C chain through retained V91C1W frontier
         run: |
           python stages/stage33/33-12/verify_e3_independent_proper14_source_v41.py
           python stages/stage33/33-12/verify_e3_v25_transfer_obstruction_v42.py
@@ -96,7 +96,8 @@ jobs:
           python stages/stage33/33-12/verify_e3_v91c1t_a2_02_swap23_pic2_adapter_preflight.py
           python stages/stage33/33-12/verify_e3_v91c1u_a2_02_known140_locator_preflight.py
           python stages/stage33/33-12/verify_e3_v91c1v_a2_02_actual_prime_known140_locator_bounded_result.py
-          python stages/stage33/33-12/verify_stage33_v91c1v_candidate_current_startup_v106.py
+          python stages/stage33/33-12/verify_e3_v91c1w_a2_02_all8_picard64_reduction.py
+          python stages/stage33/33-12/verify_stage33_v91c1w_semantic_bridge_audit_repair_v110.py
           python stages/stage33/33-12/verify_j2_post_v39_arsenal_first_bounded_search_policy_v41.py
           python stages/stage33/sync_main_state.py --check
           git diff --check
