@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX1_MAIN_COMPACT_STATE_V14_EX1_00_05F_AUDIT_CHECKPOINT",
+  "schema": "STAGE32EX1_MAIN_COMPACT_STATE_V15_05C_REPAIR_AWAITING_EXACT_HEAD_CI_REAUDIT",
   "role": "ORDINARY_STAGE32EX1_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX1",
   "execution": {
@@ -16,15 +16,15 @@
     "merge_authorized": false
   },
   "freshness": {
-    "current_main_sha_observed": "af40c029a8721755b39dad13be452a2a74540c4e",
-    "candidate_head_before_checkpoint_update": "79d6c368afe2d225addec681c87540814ed92b03",
-    "compare_status": "diverged",
-    "ahead_before_checkpoint_update": 53,
-    "behind": 8,
+    "current_main_sha_observed_at_failed_audit": "af40c029a8721755b39dad13be452a2a74540c4e",
+    "failed_audit_head": "9f88c89eb85daf82700bb463755f97073c5cfcae",
+    "failed_audit_compare_status": "diverged",
+    "failed_audit_ahead": 54,
+    "failed_audit_behind": 8,
     "merge_base": "c52f88a671503ac9eb25c20186b4fb7729ba9112",
     "freshness_sync_required_before_promotion": true,
     "freshness_sync_completed": false,
-    "freshness_note": "This checkpoint freezes EX1-00 through EX1-05F for hostile mathematical audit. The available connector surface does not expose a safe branch-update/rebase operation; freshness remains an explicit promotion gate and is not treated as audit PASS/FAIL."
+    "freshness_note": "Repair is being performed on the same PR. Freshness remains a separate promotion gate and is not treated as mathematical audit success."
   },
   "authority": {
     "stage32ex1_is_independent_operating_lane": true,
@@ -46,9 +46,7 @@
     "positive_exceptional_support_count": 47,
     "exceptional_total_mass": 266,
     "geometric_analysis_field": "C",
-    "arithmetic_member_field_not_asserted": true,
-    "source_lock_candidate": "stages/stage32-ex1/ex1-00-source-lock-and-target-adapter.json",
-    "source_lock_candidate_canonical_sha256": "783526a604572a4a81a314c59db1a399d38209ee159352106d7c5f6b5e71fa6c"
+    "arithmetic_member_field_not_asserted": true
   },
   "completion_contract": {
     "mathematical_candidate_state": "AUDIT_READY_FULL_TARGET_CLOSURE",
@@ -69,31 +67,43 @@
     "blocked_route_is_stage_exhaustion": false
   },
   "current": {
-    "status": "PAUSED_FOR_HOSTILE_AUDIT_CHECKPOINT",
+    "status": "REPAIR_COMPLETE_AWAITING_EXACT_HEAD_CI_AND_REAUDIT",
     "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
     "subroute": "EX1-05G_H4_COMMON_COVER_CORRESPONDENCE_COUPLING",
-    "objective": "Pause before entering EX1-05G and hostile-audit the accumulated EX1-00 through EX1-05F candidate. Resume EX1-05G only after the exact checkpoint audit result is recorded, or repair an audit FAIL on this same PR.",
-    "next_route_after_audit_pass": "EX1-05G_H4_COMMON_COVER_CORRESPONDENCE_COUPLING",
-    "next_route_after_audit_fail": "REPAIR_EXACT_FAILED_EX1_00_THROUGH_EX1_05F_FINDING_ON_SAME_PR",
-    "stop_semantics": "AUDIT_CHECKPOINT_NOT_STAGE_EXHAUSTION"
+    "objective": "Do not enter EX1-05G yet. The failed hostile audit at 9f88c89e identified an incomplete h=2 subgroup exhaustion and missing exact-head CI. The six-subgroup 05C repair is now retained; run read-only exact-head replay for EX1-00 through EX1-05F plus verify_main_state.py, then hostile re-audit the new exact head.",
+    "resume_05g_before_reaudit": false,
+    "next_route_after_reaudit_pass": "EX1-05G_H4_COMMON_COVER_CORRESPONDENCE_COUPLING",
+    "next_route_after_reaudit_fail": "REPAIR_EXACT_FAILED_FINDING_ON_SAME_PR",
+    "stop_semantics": "AUDIT_REPAIR_CHECKPOINT_NOT_STAGE_EXHAUSTION"
   },
   "current_leaf_working_set": [
-    "stages/stage32-ex1/stage32-ex1.md",
     "stages/stage32-ex1/AUDIT-CONTRACT.md",
+    "stages/stage32-ex1/ex1-05b-inertia-parity-stabilizer.json",
+    "stages/stage32-ex1/ex1-05c-inertia-class-capacity.json",
+    "stages/stage32-ex1/ex1-05c-inertia-class-capacity.md",
+    "stages/stage32-ex1/verify_ex1_05c_inertia_class_capacity.py",
+    "stages/stage32-ex1/ex1-05d-b3-node-parity-h4-forcing.json",
+    "stages/stage32-ex1/verify_ex1_05d_b3_node_parity_h4_forcing.py",
     "stages/stage32-ex1/ex1-05e-h4-modular-factor-projection-reduction.json",
     "stages/stage32-ex1/ex1-05f-h4-local-cusp-projection-ramification-adapter.json",
-    "stages/stage32-ex1/ex1-05f-h4-local-cusp-projection-ramification-adapter.md",
-    "stages/stage32-ex1/verify_ex1_05f_h4_local_cusp_projection_ramification_adapter.py"
+    "stages/stage32-ex1/verify_main_state.py",
+    ".github/workflows/stage32ex1-audit-replay.yml"
   ],
   "frontier": {
-    "source_lock_complete": true,
+    "source_lock_complete_candidate": true,
     "global_nonbijectivity_partition_proved_candidate": true,
     "surface_node_multibranch_exactly_accounted_candidate": true,
     "smooth_ambient_branch_exactly_accounted_candidate": true,
     "global_coupling_ledger_complete_candidate": true,
-    "component_stabilizer_h_allowed_candidate": [4],
+    "h2_full_stabilizer_choices_total_candidate": 6,
+    "h2_two_single_sign_choices_candidate": 3,
+    "h2_one_single_plus_triple_choices_candidate": 3,
+    "h2_choices_excluded_by_capacity_candidate": 5,
+    "h2_choices_after_capacity_candidate": 1,
+    "h2_unique_capacity_survivor_candidate": "M=<u,v>={0,u,v,uv}",
     "h2_excluded_candidate": true,
     "h4_forced_candidate": true,
+    "h4_forcing_scope": "COMPONENT_STABILIZER_LAYER_ONLY",
     "fixed_v6_projection_degrees_D_to_C2_candidate": [105, 81],
     "projection_105_ramification_formula_candidate": "R_105=Q-210",
     "projection_81_ramification_formula_candidate": "R_81=Q-162",
@@ -101,7 +111,6 @@
     "ramification_Q_state_count_candidate": 29,
     "ramified_surface_node_count_lower_bound_candidate": 33,
     "minimum_multibranch_nonunit_nodes_candidate": 19,
-    "local_cusp_projection_adapter_locked_candidate": true,
     "Q_states_excluded_by_EX1_05F_candidate": 0,
     "off_cusp_common_map_compatibility_open": true,
     "all_residual_configurations_disposed": false,
@@ -118,13 +127,13 @@
     {"leaf": "EX1-04", "canonical_sha256": "c4ecc0f23704f81dab66e805de72a2c72eafce1b9760e38908daf109688800db"},
     {"leaf": "EX1-05A", "canonical_sha256": "ef3c630d7a31ad4e96cc0d0e5e36a961e080ca14adaa8e0a116ac64e6780a01f"},
     {"leaf": "EX1-05B", "canonical_sha256": "a80e2c079b31b5e0a4e256825acb9307dd424c8e26b5e19e48ae55596e18f720"},
-    {"leaf": "EX1-05C", "canonical_sha256": "9359008927cd9458c111c128424b9a0f00134109c77ca1bd29a6847404c3518f"},
+    {"leaf": "EX1-05C", "canonical_sha256": "51464451c233eaee4148ded8c6dbb38e84944c01677eced9d6dc8af7219b846f"},
     {"leaf": "EX1-05D", "canonical_sha256": "6c432739b1e02c58ddfc8f9e0ca3d9695604e84e5dbc12f407185074ae174612"},
     {"leaf": "EX1-05E", "canonical_sha256": "0f7c63f90ace7974249aae2f387ff8a49650d6fba489923bd13f48d28e431701"},
     {"leaf": "EX1-05F", "canonical_sha256": "ad116cc0729f0200bf578b363a47a5a166651e9e1dab215529d8cc6a64562778"}
   ],
   "credit": {
-    "level": "EX1_00_THROUGH_EX1_05F_ACCUMULATED_CANDIDATE_UNAUDITED",
+    "level": "EX1_00_THROUGH_EX1_05F_REPAIRED_CANDIDATE_UNAUDITED",
     "candidate_necessary_condition_only": true,
     "candidate_branch_exclusion": true,
     "candidate_exact_blocker": true,
@@ -139,40 +148,40 @@
     "endpoint_credit": false
   },
   "audit": {
-    "status": "READY_FOR_HOSTILE_AUDIT_CHECKPOINT",
-    "exact_head": null,
-    "target_resolution": "Use active PR #1688 exact head after this checkpoint commit; a moved head invalidates the audit.",
+    "status": "REPAIR_COMPLETE_AWAITING_EXACT_HEAD_CI_AND_REAUDIT",
+    "candidate_pr": 1688,
+    "candidate_leaf": "EX1-00_THROUGH_EX1-05F_REPAIRED_ACCUMULATED_CANDIDATE",
+    "failed_review": {
+      "review_id": 5134451242,
+      "exact_head": "9f88c89eb85daf82700bb463755f97073c5cfcae",
+      "result": "FAIL",
+      "blocking_findings": [
+        "EX1-05C h=2 subgroup exhaustion omitted three one-single-plus-triple-sign order-4 stabilizers.",
+        "Exact-head CI had zero Actions runs; repaired head requires read-only replay of EX1-00 through EX1-05F plus verify_main_state.py."
+      ]
+    },
+    "repair_05c_six_subgroup_exhaustion_complete": true,
+    "exact_head_ci_required": true,
+    "exact_head_ci_observed_success": false,
+    "exact_head_for_reaudit": null,
     "review_id": null,
     "result": null,
-    "candidate_leaf": "EX1-00_THROUGH_EX1-05F_ACCUMULATED_CANDIDATE",
-    "candidate_pr": 1688,
-    "strongest_claim_requested_for_audit": "ACCUMULATED_NECESSARY_CONDITION_BRANCH_EXCLUSION_AND_EXACT_BLOCKER_CANDIDATE_ONLY",
-    "full_target_closure_claimed": false,
-    "terminal_outcome_claimed": null,
     "resume_leaf_after_pass": "EX1-05G_H4_COMMON_COVER_CORRESPONDENCE_COUPLING",
-    "last_failed_audit": {
-      "review_id": 5128737733,
-      "exact_head": "4fef4efb54e35991b08a1637e47e2c049637e2e3",
-      "result": "FAIL",
-      "reason": "STATE_MACHINE_MISSING_POSITIVE_TERMINAL_OUTCOME_FOR_GENUINE_V6_GENUS1_CARRIER"
-    },
-    "failure_repair_returns_to_mainbatch": true,
     "pass_auto_merges": false,
     "pass_auto_promotes_to_stage32_main": false
   },
   "firewalls": {
+    "h2_subgroup_exhaustion_assumes_exactly_two_single_signs": false,
     "exceptional_mass_identified_with_total_delta": false,
     "ramification_degree_identified_with_total_delta": false,
     "projection_ramification_identified_with_intrinsic_delta": false,
     "special_cusp_ramification_assumed_to_equal_total_projection_ramification": false,
     "coarse_local_valuation_witness_promoted_to_global_curve": false,
     "off_cusp_ramification_numerical_assignment_promoted_to_map_existence": false,
-    "stage32_unaudited_candidate_inherited_as_theorem": false,
     "finite_Q_state_ledger_promoted_to_configuration_realizability": false,
     "blocked_route_treated_as_stage_exhaustion": false,
-    "smooth_locus_singularities_discarded": false,
-    "formal_V6_divisor_materializes_integral_irreducible_genus1_member": false,
-    "positive_terminal_without_verified_actual_target_member": false,
+    "full_target_closure_claimed": false,
+    "stage32_main_credit": false,
     "Q602_excluded": false,
     "O210_excluded": false,
     "stage32_closed": false,
