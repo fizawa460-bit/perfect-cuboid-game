@@ -41,10 +41,19 @@ def main():
  assert r['next_leaf']=='36-09BY_REMAINING_Q2_ALPHA_TIE_GATE_PARAMETER_PULLBACK_PREFLIGHT'
  for k in ['surviving_branch_implies_Q2_point','surviving_branch_implies_receiver_point','remaining_alpha_tie_gates_row_only','full_Q2_local_solubility_classified_for_general_AW_branch','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','local_parameter_elimination_exhausted','uniform_finite_Q_squareclass_family','finite_exhaustive_H1_twist_family','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:assert fw[k] is False
  st=json.loads(STATE.read_text());assert st['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V113_36_09BX_FIXED_P_Q2_BRANCH_FILTER_INTEGRATION'
+ assert st['status']=='HOSTILE_AUDIT_REPAIR_COMPLETE_PENDING_REAUDIT'
  assert st['base_main_sha']==BASE and st['freshness']['current_main']==BASE
  b=st['authority_frontier']['36-09BW'];assert b['status']=='PROVISIONAL_EXACT_GREEN_PARENT' and b['exact_head']==PARENT and b['exact_head_ci']==PCI
  x=st['authority_frontier']['36-09BX'];assert x['certificate_blob_sha']==CERT_BLOB and x['FIXED_P_Q2_BRANCH_ONLY_FILTER_INTEGRATION_COMPLETE'] is True and x['SOUND_ZERO_SURVIVOR_EXCLUSION_RULE'] is True
- assert st['current']['next_exact_leaf']=='36-09BY_REMAINING_Q2_ALPHA_TIE_GATE_PARAMETER_PULLBACK_PREFLIGHT' and st['current']['36_09BY_entry_allowed'] is True
+ assert st['current']['next_exact_leaf']=='36-09BY_REMAINING_Q2_ALPHA_TIE_GATE_PARAMETER_PULLBACK_PREFLIGHT'
+ assert st['current']['unit']=='36-09BX-REAUDIT-CHECKPOINT'
+ assert st['current']['next_owner']=='HOSTILE_REAUDIT_PR_1693'
+ assert st['current']['substantive_batch_pr_continues'] is False
+ assert st['current']['hostile_audit_checkpoint_reached'] is True
+ assert st['current']['36_09BY_entry_allowed'] is False
+ assert st['promotion_gates']['36_09BX_failed_audit_review']==5132495760
+ assert st['promotion_gates']['36_09BX_hostile_reaudit_passed'] is False
+ assert st['promotion_gates']['36_09BY_unlocked'] is False
  for k in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:assert st['claims'][k] is False
- print('36-09BX verified: fixed-p exhaustive outer rows now carry the odd-Q and point-independent Q2 branch filters. 14->8->6->4 and 158->77->52->30; zero survivors would exclude that fixed p, but no tested p is excluded. BY selected.')
+ print('36-09BX verified: mathematics remains exact (14->8->6->4 and 158->77->52->30); hostile audit FAIL 5132495760 is fail-closed, and BY is locked pending re-audit PASS.')
 if __name__=='__main__':main()
