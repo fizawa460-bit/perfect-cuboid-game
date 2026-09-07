@@ -1,0 +1,123 @@
+{
+  "schema": "STAGE36_36_09AF_VARIABLE_PRIME_JACOBI_MATRIX_REALIZABILITY_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AF",
+  "status": "EXACT_SAME_FIBER_SAME_MOD8_SKELETON_PRIME_IDENTITY_JACOBI_SEPARATION_BATCH_AUDIT_CHECKPOINT",
+  "base_main_sha": "07a465cb5025e7c0188fb63610bb40e4b54e7a84",
+  "batch_parent": {
+    "pr": 1670,
+    "36_09AE_exact_head": "205042c4c09917c319f1a596f67bf6a55d8c3d65",
+    "36_09AE_exact_head_ci": "34067030924/101577492048",
+    "authority_scope": "36-09AB through 36-09AE are provisional same-PR inputs; 36-09U through 36-09AA are hostile-audited authority"
+  },
+  "source_locks": {
+    "stage36_36_09AE": {
+      "path": "stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json",
+      "blob_sha": "ddae37dd35cd0e732cebadf9c17f3f3fa57930df"
+    },
+    "stage36_36_09AD": {
+      "path": "stages/stage36/36-09AD/coupled-six-reservoir-factor-squareclass-parity-preflight.json",
+      "blob_sha": "9d0388845955efee71d1a761ae4ee943d8b565d5"
+    },
+    "stage36_36_09V": {
+      "path": "stages/stage36/36-09V/gaussian-directional-prime-support-preflight.json",
+      "blob_sha": "9fdec16f920104cc6c1961fb092185a0371258d5"
+    }
+  },
+  "counterexample_parameter": {
+    "a": 2,
+    "b": 11,
+    "p": "2/11",
+    "M": -161,
+    "M_factorization": "-7*23",
+    "P": -73,
+    "P_factorization": "-73",
+    "D0": -2574,
+    "D0_factorization": "-2*3^2*11*13",
+    "retained_open": true
+  },
+  "shared_branch_skeleton": {
+    "A": 73,
+    "A_source": "abs(P)",
+    "C": 11,
+    "C_source": "b beta-reservoir",
+    "D": 13,
+    "D_source": "a+b beta-reservoir",
+    "A_mod8": 1,
+    "B_mod8": 7,
+    "C_mod8": 3,
+    "D_mod8": 5,
+    "e": 1,
+    "f": 1,
+    "h": 1,
+    "eta": -1,
+    "AE_128_skeleton_member": true,
+    "beta_reservoir_labels_identical_between_the_two_choices": true
+  },
+  "choice_B7": {
+    "B": 7,
+    "B_source": "first odd prime divisor of abs(M)",
+    "pair_symbol_order": ["(A/B)","(A/C)","(A/D)","(B/C)","(B/D)","(C/D)"],
+    "pair_symbols": [-1,-1,-1,-1,-1,-1],
+    "eight_selected_prime_jacobi_rows": [1,1,1,1,1,1,1,1],
+    "all_eight_rows_pass": true,
+    "conic_rational_point_claimed": false
+  },
+  "choice_B23": {
+    "B": 23,
+    "B_source": "second odd prime divisor of abs(M)",
+    "pair_symbol_order": ["(A/B)","(A/C)","(A/D)","(B/C)","(B/D)","(C/D)"],
+    "pair_symbols": [1,-1,-1,1,1,-1],
+    "eight_selected_prime_jacobi_rows": [-1,-1,1,1,-1,1,-1,1],
+    "failing_row_indices_one_based": [1,2,5,7],
+    "all_eight_rows_pass": false
+  },
+  "exact_separation": {
+    "same_parameter": true,
+    "same_A_C_D": true,
+    "same_B_residue_mod8": true,
+    "same_beta_reservoir_labels": true,
+    "same_e_f_h": true,
+    "same_A_B_C_D_mod8_skeleton": true,
+    "different_actual_B_prime_identity_inside_same_M_reservoir": true,
+    "different_pair_symbol_matrix": true,
+    "different_selected_prime_row_outcome": true
+  },
+  "conclusion": {
+    "mod8_skeleton_sufficient_for_selected_prime_rows": false,
+    "reservoir_labels_plus_mod8_sufficient_for_selected_prime_rows": false,
+    "actual_variable_prime_identity_load_bearing": true,
+    "actual_pairwise_jacobi_matrix_load_bearing": true,
+    "residue_only_compression_status": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "full_variable_prime_jacobi_route_status": "LIVE",
+    "fixed_finite_S_recovered": false,
+    "finite_exhaustive_Q_squareclass_family": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_closed": false
+  },
+  "interpretation_firewall": {
+    "B7_choice_proves_conic_point": false,
+    "B7_choice_proves_receiver_point": false,
+    "meaning_of_B7_pass": "only the eight AE selected-prime Jacobi necessary rows pass for this actual parameter-divisor tuple",
+    "meaning_of_counterexample": "coarse mod-8/reservoir data cannot decide those necessary rows; actual prime identity must remain in any exact continuation"
+  },
+  "batch_checkpoint": {
+    "natural_hostile_audit_checkpoint": true,
+    "scope_for_audit": "PR #1670 provisional 36-09AB through 36-09AF plus audited U-AA promotion normalization",
+    "36_09AG_locked_until_audit": true,
+    "next_after_pass": "36-09AG_FULL_VARIABLE_PRIME_JACOBI_TO_CONIC_LOCAL_SOLVABILITY_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "selected_prime_rows_sufficient_for_local_solubility": false,
+    "full_conic_local_solubility_classified": false,
+    "finite_exhaustive_squareclass_branch_family": false,
+    "S34_W01_full_output_obtained": false,
+    "S34_W03_intersection_exclusion_executed": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

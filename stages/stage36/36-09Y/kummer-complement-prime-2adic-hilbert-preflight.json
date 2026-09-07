@@ -1,0 +1,177 @@
+{
+  "schema": "STAGE36_36_09Y_KUMMER_COMPLEMENT_PRIME_2ADIC_HILBERT_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09Y",
+  "status": "EXACT_ODD_CROSS_SECTOR_LOCAL_MATRIX_ALPHA_Q2_INFINITY_CLASSIFICATION_AND_LOCAL_RECIPROCITY_ROUTE_BOUNDARY_PENDING_BATCH_AUDIT",
+  "base_main_sha": "f8522bd1a38fa551186ad370f51d17c73c7927e2",
+  "batch_parent": {
+    "pr": 1664,
+    "36_09X_exact_head": "fbb418d7cc2a5a58cf79391d90ff71a4017f72cd",
+    "36_09X_ci": "34031642521/101482128408",
+    "36_09X_certificate": "stages/stage36/36-09X/kummer-class-coupled-hilbert-local-solvability-preflight.json",
+    "36_09X_certificate_blob_sha": "3eb6e42b563ee2b5042917467a62e7606f27a869",
+    "36_09X_verifier": "stages/stage36/verify_stage36_36_09X.py",
+    "36_09X_verifier_blob_sha": "a511b1830f6a3fa91cdae180dddee81c1c360bea",
+    "authority_scope": "provisional same-PR batch interface only; hostile audit remains deferred"
+  },
+  "source_locks": {
+    "standard_2isogeny_descent": {
+      "path": "stages/stage36/36-09N/relative-2isogeny-specialization-source-lock.md",
+      "blob_sha": "a562d7053a6f04deff4473067777b7cfd538ea8a"
+    },
+    "stage14_q2_hilbert_formula": {
+      "path": "docs/stage14-toolbox/cards/TB-FORMULA-q2-hilbert-symbol.md",
+      "blob_sha": "f19870f56c2c8f608b53991672cfe9a6ecf09644",
+      "source_merge_sha": "ae9cf81bf049c52fb6274ae111bcb1bbdc87e910",
+      "use": "Q2 squareclass criterion / Hilbert squareclass algebra only; the Stage14 covering-specific eight-state image is not transferred"
+    },
+    "stage36_36_09V": {
+      "path": "stages/stage36/36-09V/gaussian-directional-prime-support-preflight.json",
+      "blob_sha": "9fdec16f920104cc6c1961fb092185a0371258d5"
+    },
+    "stage36_36_09X": {
+      "path": "stages/stage36/36-09X/kummer-class-coupled-hilbert-local-solvability-preflight.json",
+      "blob_sha": "3eb6e42b563ee2b5042917467a62e7606f27a869"
+    }
+  },
+  "homogeneous_model": {
+    "S": "a^2+b^2",
+    "C0": "a^4-6*a^2*b^2+b^4",
+    "D0": "a*b*(a-b)*(a+b)",
+    "identity": "S^4=C0^2+16*D0^2",
+    "alpha_cover": "w^2=d*z^4-2*S^2*z^2+C0^2/d",
+    "beta_cover": "w^2=e*z^4+4*S^2*z^2+64*D0^2/e",
+    "odd_disjointness": "gcd(C0,D0) has no odd prime divisor on the retained primitive parameterization"
+  },
+  "odd_local_matrix": {
+    "alpha_selected_C0_prime": {
+      "condition": "q|C0 and q|d",
+      "result": "Q_q-soluble iff (-2/q)=+1; hence q=1 mod 8 by 36-09V/X"
+    },
+    "alpha_unselected_C0_prime": {
+      "condition": "q|C0 and q does not divide d",
+      "result": "automatic Q_q-solubility",
+      "proof_normalization": "write m=v_q(C0), z=q^m*u, w=q^m*y; mod q obtain a nondegenerate binary norm-form conic y^2+2*S^2*u^2=(C0/q^m)^2/d, which represents the nonzero right side; the lifted point is nonsingular in (y,u)"
+    },
+    "alpha_cross_D0_prime": {
+      "condition": "r|D0",
+      "reduction": "alpha RHS=(d*z^2-S^2)^2/d mod r because C0^2=S^4 mod r",
+      "exact_result": "Q_r-soluble iff (d/r)=+1"
+    },
+    "beta_selected_D0_prime": {
+      "condition": "q|D0 and q|e",
+      "result": "automatic Q_q-solubility at the selected self-place by 36-09X"
+    },
+    "beta_unselected_D0_prime": {
+      "condition": "q|D0 and q does not divide e",
+      "result": "automatic Q_q-solubility",
+      "proof_normalization": "write m=v_q(D0), z=q^m*u, w=q^m*y; mod q obtain y^2-(2*S*u)^2=64*(D0/q^m)^2/e, a split conic representing every nonzero right side; its gradient cannot vanish at a solution"
+    },
+    "beta_cross_C0_prime": {
+      "condition": "r|C0",
+      "reduction": "beta RHS=(e*z^2+2*S^2)^2/e mod r because 4*S^4=64*D0^2 mod r",
+      "exact_result": "Q_r-soluble iff (e/r)=+1"
+    },
+    "consequence": "the six-reservoir local system is not direction-only: the opposite sector carries exact class-dependent Legendre rows"
+  },
+  "alpha_two_adic_and_real_classification": {
+    "real_place": "alpha cover has an R-point iff d>0; if d<0 all three RHS terms are negative for every real z",
+    "two_selected_case": {
+      "hypothesis": "2|d",
+      "forced_parameter_parity": "a,b both odd",
+      "valuations": [
+        "v2(S)=1",
+        "v2(C0)=2",
+        "v2(d)=1",
+        "for t=v2(z): term valuations are 1+4*t, 3+2*t, 3"
+      ],
+      "result": "no Q2-point: t<0 gives the first term as unique odd minimum; t=0 gives valuation 1 as unique minimum; t>=1 gives the constant term valuation 3 as unique odd minimum"
+    },
+    "two_unselected_case": {
+      "hypotheses": ["2 does not divide d", "d>0", "every selected odd prime of d is 1 mod 8"],
+      "consequence": "d=1 mod 8, hence d is a square in Q2",
+      "construction": "z=0 gives w^2=C0^2/d and therefore a Q2-point"
+    },
+    "exact_alpha_bad_place_summary": "after the 36-09X selected-prime filter and 36-09Y cross-sector rows, alpha bad-place local admissibility requires d>0, 2 not dividing d, every odd q|d to satisfy q=1 mod8, and (d/r)=+1 for every odd r|D0"
+  },
+  "explicit_nontrivial_bad_place_admissible_classes": {
+    "alpha": {
+      "parameter": [14,13],
+      "S": 365,
+      "C0": -131767,
+      "C0_factorization": "17*23*337",
+      "D0": 4914,
+      "D0_factorization": "2*3^3*7*13",
+      "class_d": 337,
+      "checks": [
+        "337=1 mod 8",
+        "(337/3)=(337/7)=(337/13)=+1",
+        "d>0 and 2 does not divide d",
+        "17 and 23 are same-sector unselected C0 primes and are locally automatic"
+      ],
+      "meaning": "nontrivial alpha class survives every local condition derived in 36-09X/Y at the bad/support places; no global rational point is claimed"
+    },
+    "beta": {
+      "parameter": [5,2],
+      "S": 29,
+      "C0": 41,
+      "D0": 210,
+      "D0_factorization": "2*3*5*7",
+      "class_e": 5,
+      "rational_beta_baseline_squareclasses": ["[1]","[-1]","[105]","[-105]"],
+      "nonbaseline": true,
+      "cross_check": "(5/41)=+1",
+      "selected_odd_selfplace": "q=5 is automatic",
+      "unselected_D0_primes": "q=3,7 are automatic",
+      "Q2_witness": {
+        "z": 1,
+        "rhs": 567849,
+        "rhs_mod_8": 1,
+        "reason": "odd Q2 unit congruent 1 mod8 is a square"
+      },
+      "real_place": "e>0 gives a real point",
+      "meaning": "a nonbaseline beta class survives every local condition derived in 36-09X/Y at the bad/support places; no global rational point is claimed"
+    }
+  },
+  "reciprocity_route_boundary": {
+    "class_coupled_odd_rows_derived": true,
+    "alpha_Q2_infinity_boundary_derived": true,
+    "beta_complete_Q2_image_classified": false,
+    "support_place_local_conditions_uniformly_exclude_nontrivial_alpha_classes": false,
+    "support_place_local_conditions_uniformly_exclude_nonbaseline_beta_classes": false,
+    "B11_local_solubility_only_uniform_closure": "BLOCKED_BY_EXPLICIT_NONTRIVIAL_BAD_PLACE_ADMISSIBLE_CLASSES",
+    "full_global_arithmetic_route": "LIVE_REQUIRES_SELMER_TO_MW_OR_SHA_DISTINCTION_NOT_JUST_LOCAL_HILBERT_SOLVABILITY",
+    "multiplace_reciprocity_obstruction_proved": false,
+    "alpha_growth_excluded": false,
+    "beta_growth_excluded": false,
+    "candidate_parameter_set_shrunk": false
+  },
+  "cycle_route_result": {
+    "CYCLE_ROUTE_STATUS": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY": "BLOCKED_AS_PURE_LOCAL_SOLVABILITY_CLOSURE; GLOBAL_SELMER_TO_MW_DISTINCTION_REMAINS_LIVE",
+    "B11_NEW_PATTERN": "exact cross-sector Legendre matrix plus nontrivial locally admissible Kummer classes",
+    "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER": "UNTESTED",
+    "split_triggered": false,
+    "next_reason": "receiver rank jump requires actual rational Kummer image growth, while local/Hilbert admissibility leaves nontrivial classes alive; the next proof-capable distinction is Selmer versus Mordell-Weil/Sha"
+  },
+  "next_leaf": "36-09Z_2ISOGENY_SELMER_TO_MW_CASSELS_PAIRING_PREFLIGHT",
+  "scope_firewalls": {
+    "complete_odd_local_matrix_proved": true,
+    "alpha_Q2_infinity_classification_proved": true,
+    "beta_complete_Q2_image_proved": false,
+    "global_Selmer_class_proved_for_witnesses": false,
+    "global_MW_growth_proved_for_witnesses": false,
+    "Cassels_pairing_computed": false,
+    "alpha_growth_excluded": false,
+    "beta_growth_excluded": false,
+    "multiplace_reciprocity_obstruction_proved": false,
+    "candidate_parameter_set_shrunk": false,
+    "Qi_rankjump_locus_empty": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

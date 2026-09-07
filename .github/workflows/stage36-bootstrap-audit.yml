@@ -5,12 +5,6 @@ on:
     paths:
       - 'stages/stage36/**'
       - '.github/workflows/stage36-bootstrap-audit.yml'
-      - 'stages/stage29/29-16/active-kernel-ledger.json'
-      - 'stages/stage29/29-06/endpoint-hub-graph.json'
-      - 'stages/stage29/29-02f/**'
-      - 'stages/stage29/29-02ha/**'
-      - 'stages/stage29/29-02hb/**'
-      - 'docs/arsenal/**'
       - 'docs/research-os/policies/**'
   workflow_dispatch:
 
@@ -41,194 +35,57 @@ jobs:
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
           assert s['base_main_sha']==sys.argv[1]
           PY
+            git merge-base --is-ancestor "$expected_base" HEAD
           fi
 
-      - name: Assert immutable merged authorities are ancestors
+      - name: Assert hostile-audited PR1670 authority promotion
         shell: bash
         run: |
           set -euo pipefail
-          base="${{ github.event.pull_request.base.sha || 'f6b1d047dfd238de80ed8f5c267609d01ea1a3bb' }}"
-          for x in "$base" d0f3de51b86cda9199a55e89757ae6887f572ea3 2af6edb984e0c0a51e945f886939a09b442c3218 fd7b5d9dfef272bee2b6676797e6d12d8b07bde0 1d29735f3f50c6918a32b2542de8364b86568396 ac5a7c81d3f268bebbc2a9de8e658b23c97d5649 6e0c40eeb7a533b47aba0d224c34e85822db373c f22d67dda4183c3bfd39710ebb4083f5185f3f49 631d773a0f341954507eacf303f0c5f7cbdc836a 51efa8394c45bc60a4b482c4f6f94f7826eb9d20 f75830b2fd54031c1af05e2377a9da365a4d7fdf a3f6380a89e627a9fa36915466a901361e0cb175 cf6ada6bf53ee29c04751dfae427a96252c98e9c 4ed21de07a935ed848400515a44f53aba49234c7 c8b6bca818697125ef75a85527e282c15c6bd8f3 2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc dbd9ab95f1cf248a8a4704b205f62b8b96b1aefa fc5886d62b78d8dcb21824ff02419a3e3b7634c8 8ff10455b27a789a6ba71c354042be0f79a2b3a6 0bc325f9b9db817193bc271121d19cb04970c5b9 40cd38c5f5d2679874ce3be882cc67d17d4c7558 f91c045796cba859ec1dd172cf7871fcac5f6d8a b6b538b4c8838e24ddf99eb05fc022fe50056af4 dd0fab674db9a10d6494590c1987333aa338a37e 8607da00e76f9f0ff1759c04b983ba329cca5de6 824355f591f8f951fda9f2a7c1f4e3e66d4e1e9a 2b0516975cda83df31a0a6b247a7d2b81ba550fe 26e25b64b6cdc8e4d1f26d33a665f42df8253200 b97673ec1c058e4e39bad24b68c036e721a97462 911418e205349e55fb2b4c828a309fbf55afcc47 54610c016ef6a27977e382998734982c98d6a191 c17f1a681c220292f93880a726f1f571174f53b9 aabe5d9d01f74ed2d68d27edaee7635af7c89ecf 69ac6635fb7a7808bca7aad72c5b7e61bcb5cbb6 7aa230172497311267daa0451189377fbf8eba30 a53cd347f83ae47687254430ee25c98d841dc52b bf7399e69c36cadf9d52684821332a235b3e6237 8a04691d03f8ec17cf2236aab3d0f0d2dbde3fc3 266f1b24bea60744bc688afc40482090f7026ce0 f6b1d047dfd238de80ed8f5c267609d01ea1a3bb; do
-            git merge-base --is-ancestor "$x" HEAD
-          done
-
-      - name: Save current V54 state
-        run: cp stages/stage36/MAIN-STATE.json /tmp/stage36-v54.json
-
-      - name: Replay Stage36 authority chain through 36-09J
-        shell: bash
-        run: |
-          set -euo pipefail
-          git show d0f3de51b86cda9199a55e89757ae6887f572ea3:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_bootstrap.py
-          python3 stages/stage36/verify_stage36_36_01.py
-          python3 stages/stage36/verify_stage36_36_02_audited.py
-          python3 stages/stage36/verify_stage36_36_03_audited.py
-          python3 stages/stage36/verify_stage36_36_04_audited.py
-          python3 stages/stage36/verify_stage36_36_05_audited.py
-          python3 stages/stage36/verify_stage36_36_09_audited.py
-          python3 stages/stage36/verify_stage36_36_09A.py
-          git show 2af6edb984e0c0a51e945f886939a09b442c3218:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09A_audited.py
-          git show fd7b5d9dfef272bee2b6676797e6d12d8b07bde0:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09B.py
-          git show 1d29735f3f50c6918a32b2542de8364b86568396:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09B_audited.py
-          git show ac5a7c81d3f268bebbc2a9de8e658b23c97d5649:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09C.py
-          git show 6e0c40eeb7a533b47aba0d224c34e85822db373c:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09C_audited.py
-          git show f22d67dda4183c3bfd39710ebb4083f5185f3f49:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09D.py
-          git show 631d773a0f341954507eacf303f0c5f7cbdc836a:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09D_audited.py
-          git show 51efa8394c45bc60a4b482c4f6f94f7826eb9d20:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09E.py
-          git show f75830b2fd54031c1af05e2377a9da365a4d7fdf:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09E_audited.py
-          git show a3f6380a89e627a9fa36915466a901361e0cb175:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09F.py
-          git show cf6ada6bf53ee29c04751dfae427a96252c98e9c:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09F_audited.py
-          git show 4ed21de07a935ed848400515a44f53aba49234c7:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09G_audited.py
-          git show c8b6bca818697125ef75a85527e282c15c6bd8f3:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09H.py
-          git show 2f708b8f0b36483eb7ce19fbb4f7dcc6b9d9d0bc:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09H_audited.py
-          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" 476829b39679f4c380fe0458e37c28745e5f5621; python3 "$tmp/stages/stage36/verify_stage36_36_09I.py"; git worktree remove --force "$tmp"
-          git show fc5886d62b78d8dcb21824ff02419a3e3b7634c8:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09I_audited.py
-          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" 6ede28751914a881a5ddaca7691538a8a3e4780c; python3 "$tmp/stages/stage36/verify_stage36_36_09J.py"; git worktree remove --force "$tmp"
-          git show 0bc325f9b9db817193bc271121d19cb04970c5b9:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09J_audited.py
-
-      - name: Replay Stage36 36-09K and 36-09L audited authorities
-        shell: bash
-        run: |
-          set -euo pipefail
-          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" e10530918619cea1fc1720a6074ea0ca0499f904; python3 "$tmp/stages/stage36/verify_stage36_36_09K.py"; git worktree remove --force "$tmp"
-          git show f91c045796cba859ec1dd172cf7871fcac5f6d8a:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09K_audited.py
-          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" 98d057a47fc37a897fb14e904cdf9d52913f082b; python3 "$tmp/stages/stage36/verify_stage36_36_09L.py"; git worktree remove --force "$tmp"
-          git show dd0fab674db9a10d6494590c1987333aa338a37e:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09L_audited.py
-
-      - name: Replay repaired Stage36 36-09M and user-pass authority
-        shell: bash
-        run: |
-          set -euo pipefail
-          git show 8607da00e76f9f0ff1759c04b983ba329cca5de6:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09M.py
-          git show 824355f591f8f951fda9f2a7c1f4e3e66d4e1e9a:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09M_user_pass_promoted.py
-
-      - name: Replay Stage36 36-09N exact and audited authority
-        shell: bash
-        run: |
-          set -euo pipefail
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" 8ca23e42a057af260c7051c20dd8f608067efefd
-          python3 "$tmp/stages/stage36/verify_stage36_36_09N.py"
-          git worktree remove --force "$tmp"
-          git show 26e25b64b6cdc8e4d1f26d33a665f42df8253200:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09N_audited.py
-
-      - name: Replay Stage36 36-09O exact and audited authority
-        shell: bash
-        run: |
-          set -euo pipefail
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" be979251c6e3d7a2431fb56537520afd2596c7d9
-          python3 "$tmp/stages/stage36/verify_stage36_36_09O.py"
-          git worktree remove --force "$tmp"
-          git show 911418e205349e55fb2b4c828a309fbf55afcc47:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09O_audited.py
-
-      - name: Replay Stage36 36-09P exact and audited authority
-        shell: bash
-        run: |
-          set -euo pipefail
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" 5a349a03f0b825f4bb557c08754e271715a4810a
-          python3 "$tmp/stages/stage36/verify_stage36_36_09P.py"
-          git worktree remove --force "$tmp"
-          git show c17f1a681c220292f93880a726f1f571174f53b9:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09P_audited.py
-
-      - name: Replay Stage36 36-09Q exact and audited authority
-        shell: bash
-        run: |
-          set -euo pipefail
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" fa93c23842a272251a88066d9d31d321f28db288
-          python3 "$tmp/stages/stage36/verify_stage36_36_09Q.py"
-          git worktree remove --force "$tmp"
-          git show 69ac6635fb7a7808bca7aad72c5b7e61bcb5cbb6:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09Q_audited.py
-
-      - name: Replay repaired Stage36 36-09R exact and audited authority
-        shell: bash
-        run: |
-          set -euo pipefail
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" f48184e2ab7fabe6fd07b553aa1cda507874569d
-          python3 "$tmp/stages/stage36/verify_stage36_36_09R.py"
-          git worktree remove --force "$tmp"
-          git show a53cd347f83ae47687254430ee25c98d841dc52b:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09R_audited.py
-
-      - name: Replay Stage36 36-09S exact and audited authority
-        shell: bash
-        run: |
-          set -euo pipefail
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" 27d5479fd10627076f5cf2c5f952f4759b1ec6da
-          python3 "$tmp/stages/stage36/verify_stage36_36_09S.py"
-          git worktree remove --force "$tmp"
-          git show 8a04691d03f8ec17cf2236aab3d0f0d2dbde3fc3:stages/stage36/MAIN-STATE.json > stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09S_audited.py
-
-      - name: Replay Stage36 36-09T exact and audited authority
-        shell: bash
-        run: |
-          set -euo pipefail
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" 1515be28ce81aca49adb18cd3532f0597a55e69f
-          python3 "$tmp/stages/stage36/verify_stage36_36_09T.py"
-          git worktree remove --force "$tmp"
-          cp /tmp/stage36-v54.json stages/stage36/MAIN-STATE.json
-          python3 stages/stage36/verify_stage36_36_09T_audited.py
-
-      - name: Assert audited 36-09T boundary and 36-09U unlock
-        shell: bash
-        run: |
           python3 - <<'PY'
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V54_THIN_36_09T_AUDITED'
-          assert s['status']=='ACTIVE'
-          assert s['base_main_sha']=='f6b1d047dfd238de80ed8f5c267609d01ea1a3bb'
-          T=s['authority_frontier']['36-09T']
-          assert T['hostile_audit_review']==5124828133
-          assert T['audited_head']=='1515be28ce81aca49adb18cd3532f0597a55e69f'
-          assert T['certificate_blob_sha']=='1191de3e0176aac4ad10bd7b346830279ce12805'
-          assert T['verifier_blob_sha']=='c71d643031a01e6b67f91235d724deca82e79eb1'
-          assert T['proof_note_blob_sha']=='9d8d7e397aa71a38fa9daf6ebce0d8aa599e2691'
-          assert T['RECEIVER_FORCES_QI_RANK_JUMP'] is True
-          assert T['GENERIC_E_SIGMA_QI_RANK']==1
-          assert T['RECEIVER_FORCES_E_SIGMA_QI_RANK_AT_LEAST']==2
-          assert T['TWO_QUOTIENT_RANK_OBLIGATIONS_INDEPENDENT'] is False
-          assert T['CANDIDATE_SET_SHRUNK'] is False
-          assert T['QI_RANKJUMP_LOCUS_EMPTY'] is False
-          assert T['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09U'
-          assert s['current']['next_exact_leaf']=='36-09U_QI_ANTIINVARIANT_RANKJUMP_DESCENT_PREFLIGHT'
-          assert s['current']['36_09U_entry_allowed'] is True
-          assert s['promotion_gates']['Qi_rankjump_gate_promoted'] is True
-          assert s['promotion_gates']['Qi_rankjump_locus_empty'] is False
-          assert s['promotion_gates']['receiver_emptiness_proved'] is False
-          assert s['promotion_gates']['R29_CAMP2_closed'] is False
-          print('36-09T hostile-audited Q(i) rankjump gate promoted; 36-09U unlocked')
+          a=s['audited_batch_promotion']
+          assert a['candidate_pr']==1670
+          assert a['audited_head']=='f2922c992ab1e056fa03932ba017d0dfdae845cb'
+          assert a['hostile_audit_review']==5127056767
+          assert a['merged_main_sha']=='9306238c7ada55e31311245019d6b7e474ad837f'
           PY
+
+      - name: Replay exact 36-09AI candidate checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          H=8c84ca4ea7676029d6580ae433b506eaa9cc067b
+          git merge-base --is-ancestor "$H" HEAD
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AI.py"
+          git worktree remove --force "$tmp"
+
+      - name: Verify AG-AI hostile-audit checkpoint state
+        run: python3 stages/stage36/verify_stage36_36_09AI_checkpoint.py
+
+      - name: Assert checkpoint firewalls and AJ lock
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V71_36_09AI_BATCH_AUDIT_CHECKPOINT'
+          assert s['status']=='ACTIVE_BATCH_HOSTILE_AUDIT_CHECKPOINT'
+          assert s['current']['unit']=='36-09AI-AUDIT-CHECKPOINT'
+          assert s['current']['next_owner']=='HOSTILE_AUDIT'
+          assert s['current']['hostile_audit_checkpoint_reached'] is True
+          assert s['current']['36_09AJ_entry_allowed'] is False
+          assert s['promotion_gates']['36_09AI_hostile_audit_passed'] is False
+          assert s['claims']['covering_class_trivialized'] is False
+          assert s['claims']['candidate_parameter_set_shrunk'] is False
+          assert s['claims']['receiver_emptiness_proved'] is False
+          assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
+          print('AG-AI hostile-audit checkpoint reached; AJ locked; receiver and endpoint firewalls remain closed')
+          PY
+          git diff --check

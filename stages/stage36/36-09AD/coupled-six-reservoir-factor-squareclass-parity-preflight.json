@@ -1,0 +1,161 @@
+{
+  "schema": "STAGE36_36_09AD_COUPLED_SIX_RESERVOIR_FACTOR_SQUARECLASS_PARITY_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AD",
+  "status": "EXACT_COUPLED_ODD_PARITY_SKELETON_AND_2ADIC_PARITY_REDUCTION_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "07a465cb5025e7c0188fb63610bb40e4b54e7a84",
+  "freshness_sync": {
+    "previous_base": "bd1f40297f8dcf79e5bb4ef0b8cdc13fdb844177",
+    "current_main": "07a465cb5025e7c0188fb63610bb40e4b54e7a84",
+    "sync_merge_commit": "c42074a894263b7c57dff7467deabca6c7e55cbc",
+    "intervening_drift": "Stage35 Arsenal only",
+    "stage36_source_drift": false
+  },
+  "batch_parent": {
+    "pr": 1670,
+    "36_09AC_exact_head": "c86501ad978ba9395d06f59722fc60c04c632231",
+    "36_09AC_exact_head_ci": "34062745335/101566073252",
+    "authority_scope": "36-09AB and 36-09AC are provisional same-PR inputs; 36-09U through 36-09AA are hostile-audited authority"
+  },
+  "source_locks": {
+    "stage36_36_09AC": {
+      "path": "stages/stage36/36-09AC/same-x-separate-squareclass-double-cover-preflight.json",
+      "blob_sha": "3e95cc443bb9de9e0d2b14d6d9c32ea7c1953021"
+    },
+    "stage36_36_09V": {
+      "path": "stages/stage36/36-09V/gaussian-directional-prime-support-preflight.json",
+      "blob_sha": "9fdec16f920104cc6c1961fb092185a0371258d5"
+    },
+    "S34_W01": {
+      "path": "docs/arsenal/cards/formal/S34-W01.md",
+      "blob_sha": "01a8e90e34b4aa46edbfa825803d488e5230e9d0"
+    }
+  },
+  "notation": {
+    "p": "a/b with gcd(a,b)=1 and b!=0",
+    "M": "a^2-2*a*b-b^2",
+    "P": "a^2+2*a*b-b^2",
+    "D0": "a*b*(a-b)*(a+b)",
+    "X": "U/V with gcd(U,V)=1",
+    "Lminus": "M^2*U-P^2*V",
+    "Lplus": "M^2*U+P^2*V",
+    "Fminus": "U*V*(U-V)*Lminus",
+    "Fplus": "U*V*(U+V)*Lplus",
+    "receiver_square_conditions": ["Fminus is a nonzero square", "Fplus is a nonzero square"]
+  },
+  "odd_reservoir_disjointness": {
+    "alpha": ["P", "M"],
+    "beta": ["a", "b", "a-b", "a+b"],
+    "statement": "for primitive a,b the six listed parameter factors have pairwise disjoint odd-prime support",
+    "key_evaluations": {
+      "P_mod_a": "-b^2",
+      "P_mod_b": "a^2",
+      "P_mod_a_minus_b": "2*a^2",
+      "P_mod_a_plus_b": "-2*b^2",
+      "M_mod_a": "-b^2",
+      "M_mod_b": "a^2",
+      "M_mod_a_minus_b": "-2*a^2",
+      "M_mod_a_plus_b": "2*b^2"
+    },
+    "identity": "P^2-M^2=8*D0"
+  },
+  "odd_prime_parity_vectors": {
+    "coordinate_order": ["U", "V", "U-V", "U+V", "Lminus", "Lplus"],
+    "outside_C0D0": [[0,0,0,0,0,0]],
+    "P_reservoir": [[0,0,0,0,0,0],[1,0,0,0,1,1]],
+    "M_reservoir": [[0,0,0,0,0,0],[0,1,0,0,1,1]],
+    "each_beta_reservoir": [[0,0,0,0,0,0],[0,0,1,0,1,0],[0,0,0,1,0,1]],
+    "beta_minus_plus_mutually_exclusive_at_one_odd_prime": true,
+    "reason": "gcd(U-V,U+V) divides 2"
+  },
+  "local_incidence_proof": {
+    "q_divides_P": "M is a q-unit and Lminus=Lplus=M^2*U mod q, so q divides either L iff q divides U; Fminus/Fplus squareness forces the three valuation parities U,Lminus,Lplus to agree",
+    "q_divides_M": "P is a q-unit and Lminus=-P^2*V, Lplus=P^2*V mod q, so q divides either L iff q divides V; squareness forces the three valuation parities V,Lminus,Lplus to agree",
+    "q_divides_D0": "P^2=M^2 mod q, hence Lminus=M^2*(U-V) and Lplus=M^2*(U+V) mod q; a nonzero parity can occur only in the minus pair or the plus pair",
+    "q_outside_C0D0": "36-09AC pairwise support control leaves q in at most one factor of each four-factor product, so its valuation parity must vanish"
+  },
+  "aggregate_odd_squareclasses": {
+    "definition": "odd_sf(T) is the positive odd squarefree kernel of nonzero integer T",
+    "delta_P": "odd_sf(U), supported on rad_odd(P)",
+    "delta_M": "odd_sf(V), supported on rad_odd(M)",
+    "delta_minus": "odd_sf(U-V), supported on rad_odd(D0)",
+    "delta_plus": "odd_sf(U+V), supported on rad_odd(D0)",
+    "pairwise_odd_coprime": true,
+    "gcd_delta_minus_delta_plus": 1,
+    "forced_kernels": {
+      "odd_sf(Lminus)": "delta_P*delta_M*delta_minus",
+      "odd_sf(Lplus)": "delta_P*delta_M*delta_plus"
+    },
+    "reservoir_slot_refinement": "delta_minus and delta_plus each split across the four pairwise-odd-disjoint beta reservoirs, giving eight beta sign-slots plus the two alpha slots delta_P and delta_M",
+    "finite_directional_slot_count": 10,
+    "finite_squareclass_family_obtained": false,
+    "reason_not_finite": "each slot can contain arbitrary odd prime identities carried by its variable parameter factor; the ten slots are a finite parity skeleton, not a fixed finite set of Q squareclasses"
+  },
+  "real_sign_reduction": {
+    "K": "(P/M)^2 > 0 and K!=1 on the retained open",
+    "minus_square": "X*(X-1)*(X-K)>=0 forces X>0 away from branch points",
+    "projective_normalization": "choose V>0, hence U>0",
+    "sign_U_plus_V": 1,
+    "sign_Lplus": 1,
+    "sign_Lminus_equals_sign_U_minus_V": true,
+    "remaining_sign_bit": "eta=sign(U-V) in {+1,-1}"
+  },
+  "two_adic_parity_reduction": {
+    "parameter_lemma": "v2(M)=v2(P)=0 when a,b have opposite parity, and v2(M)=v2(P)=1 when a,b are both odd",
+    "consequence_coefficients": "after removing the common 2^s from M,P, the normalized coefficients are odd and the outer factor 2^(2s) in Lminus/Lplus has even valuation",
+    "receiver_forces_v2_U_even": true,
+    "receiver_forces_v2_V_even": true,
+    "proof_if_U_even": "V,U-V,U+V and the normalized Lminus,Lplus are odd, so v2(Fminus)=v2(Fplus)=v2(U) mod 2; square forces v2(U) even",
+    "proof_if_V_even": "symmetric",
+    "proof_if_U_V_odd": "v2(U)=v2(V)=0 already",
+    "paired_parities": {
+      "v2(Lminus)_mod2": "v2(U-V)_mod2",
+      "v2(Lplus)_mod2": "v2(U+V)_mod2"
+    },
+    "complete_2adic_congruence_branch_enumeration": false
+  },
+  "coupled_squareclass_reconstruction": {
+    "existence_statement": "there exist positive rationals/integer-square representatives u,v,r,s and eps_minus,eps_plus in {0,1} such that the following squareclass-normal forms hold",
+    "U": "delta_P*u^2",
+    "V": "delta_M*v^2",
+    "UminusV": "eta*2^eps_minus*delta_minus*r^2",
+    "UplusV": "2^eps_plus*delta_plus*s^2",
+    "Lminus_squareclass": "eta*2^eps_minus*delta_P*delta_M*delta_minus",
+    "Lplus_squareclass": "2^eps_plus*delta_P*delta_M*delta_plus",
+    "coupled_equations": [
+      "delta_P*u^2-delta_M*v^2=eta*2^eps_minus*delta_minus*r^2",
+      "delta_P*u^2+delta_M*v^2=2^eps_plus*delta_plus*s^2"
+    ],
+    "interpretation": "the genus-three receiver has been reduced to a coupled pair of diagonal squareclass conics whose odd coefficients occupy only the six audited reservoirs"
+  },
+  "S34_W01_progress": {
+    "exact_factorization": true,
+    "pairwise_gcd_resultant_support": true,
+    "complete_odd_parity_skeleton": true,
+    "real_sign_bookkeeping": true,
+    "v2_U_V_parity": true,
+    "complete_2adic_congruence_branch_enumeration": false,
+    "finite_exhaustive_squareclass_branch_family": false,
+    "full_S34_W01_output": false
+  },
+  "route_result": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "candidate_parameter_set_shrunk": false,
+    "receiver_rankjump_intersection_empty": false,
+    "receiver_closed": false,
+    "next_leaf": "36-09AE_SIX_RESERVOIR_SQUARECLASS_CONIC_COUPLING_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "ten_slot_parity_skeleton_is_fixed_finite_S": false,
+    "complete_2adic_branch_list": false,
+    "finite_exhaustive_squareclass_branch_family": false,
+    "S34_W01_full_output_obtained": false,
+    "S34_W03_intersection_exclusion_executed": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

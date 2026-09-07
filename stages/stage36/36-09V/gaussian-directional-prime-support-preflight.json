@@ -1,0 +1,109 @@
+{
+  "schema": "STAGE36_36_09V_GAUSSIAN_DIRECTIONAL_PRIME_SUPPORT_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09V",
+  "status": "EXACT_SIX_RESERVOIR_GAUSSIAN_DIRECTIONAL_COMPRESSION_WITH_FINITE_S_BLOCK_PENDING_BATCH_AUDIT",
+  "base_main_sha": "f8522bd1a38fa551186ad370f51d17c73c7927e2",
+  "batch_parent": {
+    "pr": 1664,
+    "sync_head": "9b3aca876c48d72ad9bb84c59ea669110671914c",
+    "36_09U_exact_head": "dfbd0ddff789b9e1a6f3b8033e553fd3d7bd56b4",
+    "36_09U_ci": "34026122281/101467284462",
+    "36_09U_certificate": "stages/stage36/36-09U/qi-antiinvariant-rankjump-descent-preflight.json",
+    "36_09U_certificate_blob_sha": "a1f0c924d267ab4f45aaada6c9bcb3a5f544f284",
+    "36_09U_verifier": "stages/stage36/verify_stage36_36_09U.py",
+    "36_09U_verifier_blob_sha": "21b3b1461195cfae1a1294832f8e77f09a09983b",
+    "authority_scope": "provisional same-PR batch interface only; hostile audit remains deferred"
+  },
+  "primitive_homogeneous_parameterization": {
+    "p": "a/b",
+    "conditions": ["a,b in Z", "gcd(a,b)=1", "b!=0", "a!=0", "a!=b", "a!=-b"],
+    "C0": "a^4-6*a^2*b^2+b^4",
+    "D0": "a*b*(a-b)*(a+b)",
+    "Aminus": "a^2-2*a*b-b^2",
+    "Aplus": "a^2+2*a*b-b^2",
+    "factorizations": [
+      "C0=Aminus*Aplus",
+      "D0=a*b*(a-b)*(a+b)"
+    ],
+    "gaussian_fourth_power": "(a+i*b)^4=C0+4*i*D0",
+    "norm_identity": "C0^2+16*D0^2=(a^2+b^2)^4"
+  },
+  "odd_prime_reservoir_partition": {
+    "reservoirs": [
+      {"id": "B0", "factor": "a", "sector": "beta", "direction": "u=-1"},
+      {"id": "BINF", "factor": "b", "sector": "beta", "direction": "u=1"},
+      {"id": "BPLUS", "factor": "a-b", "sector": "beta", "direction": "u=i"},
+      {"id": "BMINUS", "factor": "a+b", "sector": "beta", "direction": "u=-i"},
+      {"id": "AMINUS", "factor": "a^2-2*a*b-b^2", "sector": "alpha", "direction": "u^4=-1 and (a^2-b^2)/(2ab)=1"},
+      {"id": "APLUS", "factor": "a^2+2*a*b-b^2", "sector": "alpha", "direction": "u^4=-1 and (a^2-b^2)/(2ab)=-1"}
+    ],
+    "pairwise_odd_disjoint": true,
+    "affine_pairwise_resultants": {
+      "polynomials": ["r", "r-1", "r+1", "r^2-2r-1", "r^2+2r-1"],
+      "all_nonzero_resultants_have_only_prime_factor_2": true,
+      "Aminus_Aplus_resultant": -16
+    },
+    "b_zero_projective_direction_separate": true,
+    "consequence": "every odd rational prime dividing C0*D0 belongs to exactly one of the six named reservoirs"
+  },
+  "gaussian_direction_adapter": {
+    "for_odd_q_dividing_C0D0": "u_q=(a+i*b)/(a-i*b) in (F_q[i])^x",
+    "denominator_is_unit": true,
+    "reason": "q cannot divide a^2+b^2 together with C0 or D0; otherwise the norm identity and odd-reservoir disjointness force an impossible shared odd divisor",
+    "beta_equivalence": "q divides D0 iff u_q^4=1",
+    "alpha_equivalence": "q divides C0 iff u_q^4=-1",
+    "beta_exact_directions": {
+      "q|b": "u_q=1",
+      "q|a": "u_q=-1",
+      "q|(a-b)": "u_q=i",
+      "q|(a+b)": "u_q=-i"
+    },
+    "alpha_extra_residue": "if odd q divides C0 then 2 is a quadratic residue mod q",
+    "alpha_extra_residue_identity": "2=((a^2+b^2)/(2*a*b))^2 mod q"
+  },
+  "finite_S_obstruction": {
+    "uniform_fixed_finite_rational_prime_support_recovered": false,
+    "witness_family": "for every odd prime ell choose (a,b)=(ell,1), hence p=ell is retained",
+    "witness_calculation": [
+      "ell divides D0 through the B0 factor a",
+      "C0=ell^4-6*ell^2+1 is congruent to 1 mod ell",
+      "the Gaussian direction is always u_ell=-1"
+    ],
+    "conclusion": "one single beta direction B0 carries arbitrary odd rational primes across retained fibers, so finitely many direction labels do not produce a fixed finite-S Selmer family"
+  },
+  "descent_consequence": {
+    "36_09U_alpha_support": "C0-supported squareclasses",
+    "36_09U_beta_support": "2*D0-supported squareclasses",
+    "directional_label_count": 6,
+    "prime_identity_still_variable_inside_direction": true,
+    "direction_vector_determines_Q_squareclass": false,
+    "candidate_set_shrunk": false,
+    "Qi_rankjump_locus_empty": false
+  },
+  "cycle_route_result": {
+    "CYCLE_ROUTE_STATUS": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "C2_GAUSSIAN_NORM_COMPRESSION": "BLOCKED_AS_FIXED_FINITE_S_COMPRESSION_BUT_RETAINS_EXACT_SIX_RESERVOIR_DIRECTIONAL_PARTITION",
+    "B11_DIRECT_MULTIPLACE_ADELIC_RECIPROCITY": "LIVE_SELECTED_VARIABLE_PRIME_SIX_RESERVOIR_ATTACK",
+    "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER": "UNTESTED",
+    "why_B11_next": "the surviving obstruction is not the number of reservoir types but the identities of arbitrarily many primes inside a fixed direction; B11 is the preserved route designed to accept variable prime support and seek a reciprocity constraint across places",
+    "split_triggered": false
+  },
+  "next_leaf": "36-09W_VARIABLE_PRIME_SIX_RESERVOIR_RECIPROCITY_PREFLIGHT",
+  "scope_firewalls": {
+    "Gaussian_fourth_power_identity_proved": true,
+    "six_reservoir_directional_partition_proved": true,
+    "fixed_finite_S_recovered": false,
+    "Gaussian_prime_ideal_finite_support_compression_proved": false,
+    "multiplace_reciprocity_obstruction_proved": false,
+    "alpha_or_beta_growth_excluded": false,
+    "candidate_set_shrunk": false,
+    "Qi_rankjump_locus_empty": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

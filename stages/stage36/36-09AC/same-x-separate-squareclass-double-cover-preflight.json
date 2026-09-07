@@ -1,0 +1,144 @@
+{
+  "schema": "STAGE36_36_09AC_SAME_X_SEPARATE_SQUARECLASS_DOUBLE_COVER_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AC",
+  "status": "EXACT_GENUS3_SAME_X_V4_DOUBLE_COVER_WITH_SIX_RESERVOIR_FACTOR_SQUARECLASS_SUPPORT_PENDING_HOSTILE_AUDIT",
+  "base_main_sha": "bd1f40297f8dcf79e5bb4ef0b8cdc13fdb844177",
+  "batch_parent": {
+    "pr": 1670,
+    "36_09AB_exact_head": "f729993d52a441632b3566c5d08b06c2672d4ae6",
+    "36_09AB_exact_head_ci": "34062497778/101565387898",
+    "authority_scope": "36-09AB provisional same-PR interface; 36-09U through 36-09AA are hostile-audited authority"
+  },
+  "source_locks": {
+    "stage36_36_09AA": {
+      "path": "stages/stage36/36-09AA/receiver-coupled-same-x-twist-intersection-preflight.json",
+      "blob_sha": "be447726a97158849c67ed6d57d6d3c35d6ba20f",
+      "use": "receiver iff E_minus and E_plus have the same rational x on the retained open"
+    },
+    "stage36_36_09AB": {
+      "path": "stages/stage36/36-09AB/same-x-product-square-etau-birational-preflight.json",
+      "blob_sha": "65747ffe111d9f0f55f48d48d4f082e19d1ee759",
+      "use": "product quotient and its exact birational identification with audited E_tau"
+    },
+    "stage36_36_09O": {
+      "path": "stages/stage36/36-09O/physical-square-lift-v4-quotient-preflight.json",
+      "blob_sha": "6a2678ebedba40e13277100441361039ee47ca28",
+      "use": "audited top genus-three V4 receiver model and quotient reconstruction"
+    },
+    "stage36_36_09V": {
+      "path": "stages/stage36/36-09V/gaussian-directional-prime-support-preflight.json",
+      "blob_sha": "9fdec16f920104cc6c1961fb092185a0371258d5",
+      "use": "six parameter-prime reservoirs C0*D0"
+    },
+    "S34_W01": {
+      "path": "docs/arsenal/cards/formal/S34-W01.md",
+      "blob_sha": "01a8e90e34b4aa46edbfa825803d488e5230e9d0",
+      "use": "successive exact factor squareclass descent contract"
+    }
+  },
+  "normalized_same_x_cover": {
+    "k": "Nplus/Nminus",
+    "K": "k^2",
+    "E_minus_normalized": "Wminus^2=X*(X-1)*(X-K)",
+    "E_plus_normalized": "Wplus^2=X*(X+1)*(X+K)",
+    "product_coordinate": "Z=Wminus*Wplus/X",
+    "product_quotient": "Z^2=(X^2-1)*(X^2-K^2)",
+    "recover_plus_from_product_and_minus": "Wplus=X*Z/Wminus",
+    "open_conditions": ["X!=0", "Wminus!=0", "X not in {1,-1,K,-K}"]
+  },
+  "v4_and_genus": {
+    "degree_over_QX": 4,
+    "quadratic_characters": [
+      "X*(X-1)*(X-K)",
+      "X*(X+1)*(X+K)",
+      "(X^2-1)*(X^2-K^2)"
+    ],
+    "branch_points": ["0", "infinity", "1", "-1", "K", "-K"],
+    "retained_distinctness": "K is a nonzero rational square with K!=1; hence the six listed branch points are distinct",
+    "inertia_order_at_each_branch": 2,
+    "riemann_hurwitz": "2*g-2=4*(-2)+6*2=4",
+    "genus": 3,
+    "consistency": "matches the audited 36-09O top genus-three receiver reconstructed from the same-x system"
+  },
+  "receiver_birational_reconstruction": {
+    "A": "Nminus^2",
+    "x": "A*X",
+    "y_minus": "Nminus^3*Wminus",
+    "y_plus": "Nminus^3*Wplus",
+    "S_v4": "4*(p^2+1)*x/y_minus=4*(p^2+1)*X/(Nminus*Wminus)",
+    "R": "2*y_plus/y_minus=2*Wplus/Wminus",
+    "identity": "R^2-S_v4^2=4",
+    "top_coordinate": "t_top=(R+S_v4)/2",
+    "conclusion": "on the retained open this genus-three V4 cover is birational to the audited physical top receiver; it is an arithmetic-normalized receiver model, not a larger rankjump locus"
+  },
+  "primitive_factor_squareclass_adapter": {
+    "base_parameter": "p=a/b with gcd(a,b)=1 and b!=0",
+    "M": "a^2-2*a*b-b^2",
+    "P": "a^2+2*a*b-b^2",
+    "C0": "M*P",
+    "D0": "a*b*(a-b)*(a+b)",
+    "S0": "a^2+b^2",
+    "identities": ["P^2-M^2=8*D0", "P^2+M^2=2*S0^2", "K=P^2/M^2"],
+    "receiver_coordinate": "X=U/V with gcd(U,V)=1",
+    "minus_square_equivalent": "Fminus=U*V*(U-V)*(M^2*U-P^2*V) is a rational/integer square up to the cleared square denominator (M*V^2)^2",
+    "plus_square_equivalent": "Fplus=U*V*(U+V)*(M^2*U+P^2*V) is a rational/integer square up to the cleared square denominator (M*V^2)^2"
+  },
+  "odd_pairwise_support": {
+    "minus": {
+      "U_vs_V": "none",
+      "U_vs_UminusV": "none",
+      "V_vs_UminusV": "none",
+      "U_vs_Lminus": "odd common primes divide P",
+      "V_vs_Lminus": "odd common primes divide M",
+      "UminusV_vs_Lminus": "odd common primes divide D0 because P^2-M^2=8*D0"
+    },
+    "plus": {
+      "U_vs_V": "none",
+      "U_vs_UplusV": "none",
+      "V_vs_UplusV": "none",
+      "U_vs_Lplus": "odd common primes divide P",
+      "V_vs_Lplus": "odd common primes divide M",
+      "UplusV_vs_Lplus": "odd common primes divide D0 because P^2-M^2=8*D0"
+    },
+    "consequence": "for either Fminus or Fplus, any odd prime q not dividing C0*D0 occurs in at most one of its four primitive factors; since that four-factor product is a square, the q-valuation of that unique factor is even",
+    "squarefree_kernel_support": "all odd squarefree factor charges are supported on C0*D0; only sign and the prime 2 lie outside the odd reservoir statement"
+  },
+  "six_reservoir_recovery": {
+    "beta_factors": ["a", "b", "a-b", "a+b"],
+    "alpha_factors": ["M", "P"],
+    "parameter_support": "C0*D0=M*P*a*b*(a-b)*(a+b)",
+    "new_dynamic_UV_prime_reservoir": false,
+    "meaning": "the separate-square receiver adds arbitrary U/V factors, but all odd squareclass charge at primes not already in the audited six parameter reservoirs is forced even and disappears from squarefree descent data",
+    "fixed_finite_S_recovered": false,
+    "reason_fixed_S_still_false": "36-09V already proves a single reservoir can carry arbitrary odd rational primes across retained fibers"
+  },
+  "S34_W01_diagnosis": {
+    "exact_four_factor_forms_materialized": true,
+    "pairwise_odd_support_control_materialized": true,
+    "complete_sign_2adic_bookkeeping_materialized": false,
+    "finite_global_squareclass_branch_family_materialized": false,
+    "applicability": "PARTIAL_EXACT_ADAPTER_READY",
+    "credit": "receiver-specific factor support reduction to the existing six parameter reservoirs only; no finite exhaustive branch family or receiver closure yet"
+  },
+  "route_result": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "candidate_parameter_set_shrunk": false,
+    "receiver_rankjump_intersection_empty": false,
+    "receiver_closed": false,
+    "next_leaf": "36-09AD_COUPLED_SIX_RESERVOIR_FACTOR_SQUARECLASS_PARITY_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "six_reservoir_squareclass_support_exhaustive_for_odd_primes": true,
+    "complete_2adic_sign_classification": false,
+    "finite_exhaustive_squareclass_branch_family": false,
+    "S34_W01_full_output_obtained": false,
+    "same_x_receiver_rational_points_complete": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
