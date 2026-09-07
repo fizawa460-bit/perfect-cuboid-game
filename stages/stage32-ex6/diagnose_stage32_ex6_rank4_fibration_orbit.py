@@ -10,7 +10,6 @@ from pathlib import Path
 from sympy import Matrix
 
 ROOT = Path(__file__).resolve().parents[2]
-HERE = Path(__file__).resolve().parent
 ST32R = ROOT / "stages" / "stage32" / "residual-32-01-production"
 ST33 = ROOT / "stages" / "stage33" / "33-07"
 V6_PATH = ROOT / "stages" / "stage32" / "32-21" / "post1473-v6-witness-body-recovered.json"
@@ -33,20 +32,20 @@ def main() -> None:
     bundle = load_retained(ST33 / "picard_base_rows_retained.py", "ex6_base")
     gram = Matrix(bundle["picard_gram_64x64"])
     raw_perms = marking["aut_action"]["permutations_1based"]
-    group1 = close_permutation_group(raw_perms)
-    if len(group1) != 1536:
-        raise ValueError(f"Aut group order regression: {len(group1)}")
+    # close_permutation_group consumes 1-based generators and returns 0-based permutations.
+    group0 = close_permutation_group(raw_perms)
+    if len(group0) != 1536:
+        raise ValueError(f"Aut group order regression: {len(group0)}")
 
     # Reconstruct the exact 140x140 intersection pairing from the retained
-    # primitive 64-basis Gram and the exact Aut action, without exposing the
-    # giant retained payloads outside the runner.
+    # primitive 64-basis Gram and exact Aut action, while keeping giant retained
+    # payloads runner-side only.
     basis = [i - 1 for i in INDLIST]
     known: dict[tuple[int, int], int] = {}
     for bi, a in enumerate(basis):
         for bj, b in enumerate(basis):
             value = int(gram[bi, bj])
-            for gp1 in group1:
-                gp = [int(x) - 1 for x in gp1]
+            for gp in group0:
                 key = (gp[a], gp[b])
                 prior = known.get(key)
                 if prior is not None and prior != value:
@@ -66,9 +65,9 @@ def main() -> None:
         raise ValueError("V6 all140 length regression")
 
     # Stoll--Testa Section 5 representative fib3 has t=0 equations
-    # a1+a2=0, b2-b1=0. In cuboids.magma's retained C3 ordering these split
-    # into labels 46 and 48. The resolved special fiber contains these two
-    # strict transforms joined by their four common exceptional curves.
+    # a1+a2=0, b2-b1=0. In cuboids.magma's C3 ordering these split into
+    # labels 46 and 48. The resolved special fiber contains these two strict
+    # transforms joined by their four common exceptional curves.
     c3_labels = (46, 48)
     common_exc = tuple(
         e for e in range(93, 141)
@@ -83,11 +82,12 @@ def main() -> None:
         raise ValueError(f"resolved C3 components should be disjoint, pairing={pair(46,48)}")
 
     orbit_supports: set[tuple[int, ...]] = set()
+    for gp in group0:
+        mapped = tuple(sorted(gp[i - 1] + 1 for i in support))
+        orbit_supports.add(mapped)
+
     degrees: list[int] = []
     shape_failures = []
-    for gp1 in group1:
-        mapped = tuple(sorted(int(gp1[i - 1]) for i in support))
-        orbit_supports.add(mapped)
     for mapped in sorted(orbit_supports):
         normals = [x for x in mapped if 45 <= x <= 92]
         excs = [x for x in mapped if 93 <= x <= 140]
@@ -106,7 +106,7 @@ def main() -> None:
             "stoll_testa_section5_log_blob": "9cfef75aa58335655d6ae3e78597f5924b6c2433",
             "v6_canonical_sha256": v6["canonical_sha256_without_this_field"],
             "v6_all140_pairings_sha256": v6["witness"]["all140_pairings_sha256"],
-            "retained_aut_group_order": len(group1),
+            "retained_aut_group_order": len(group0),
         },
         "representative": {
             "section5_type": "NEXT_SIX_RANK4_QUADRICS_FIB3_T0",
