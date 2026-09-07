@@ -1,0 +1,30 @@
+name: Stage32 post1648I central nilpotent r-operator nonpruning
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1648i-central-nilpotent-r-operator-nonpruning.yml'
+      - 'stages/stage32/residual-32-01-production/post1648i-central-nilpotent-r-operator-nonpruning*'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648i_central_nilpotent_r_operator_nonpruning.py'
+      - 'stages/stage32/residual-32-01-production/post1648c-full-j2-group-conjugacy-absolute-line-obstruction.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  central-nilpotent-nonpruning:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact PR head
+        if: github.event_name == 'pull_request'
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Verify central nilpotent r-operator nonpruning
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648i_central_nilpotent_r_operator_nonpruning.py
+      - name: Diff check
+        run: git diff --check
