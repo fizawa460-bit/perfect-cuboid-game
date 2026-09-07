@@ -154,7 +154,40 @@ jobs:
             grep -q 'Repo adapter' "$f"
           done
 
-      - name: Stage36 registry equality and ID sanity
+      - name: Active ID uniqueness and retired successor sanity
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('docs/arsenal/index.json').read_text())
+          active=[]
+          active += [e['id'] for e in x['selectors']]
+          active += [e['id'] for e in x['formal_router_weapons']]
+          active += [e['id'] for e in x['formal_workflows']]
+          retired={}
+          for h in x['provisional_harvests']:
+              active += h.get('active_cards',[])
+              active += h.get('active_workflows',[])
+              retired.update(h.get('retired_merged_ids',{}))
+          if len(active)!=67:
+              raise SystemExit(f'active ID count {len(active)} != 67')
+          if len(active)!=len(set(active)):
+              dup=sorted({i for i in active if active.count(i)>1})
+              raise SystemExit(f'duplicate active IDs: {dup}')
+          if set(retired) & set(active):
+              raise SystemExit(f'retired IDs reused as active: {sorted(set(retired)&set(active))}')
+          missing=sorted({succ for succ in retired.values() if succ not in set(active)})
+          if missing:
+              raise SystemExit(f'retired successor missing: {missing}')
+          required={f'LIT-PW{i:02d}' for i in range(1,16)}|{'LIT-WF01'}
+          if not required.issubset(set(active)):
+              raise SystemExit(f'missing literature IDs: {sorted(required-set(active))}')
+          print('PASS active IDs unique:',len(active),'retired:',len(retired))
+          PY
+
+      - name: Stage36 registry equality
         shell: bash
         run: |
           set -euo pipefail
@@ -164,24 +197,13 @@ jobs:
           from pathlib import Path
           cur=json.loads(Path('docs/arsenal/index.json').read_text())
           base=json.loads(Path('/tmp/main-index.json').read_text())
-          def walk(x):
-              if isinstance(x,dict):
-                  yield x
-                  for v in x.values(): yield from walk(v)
-              elif isinstance(x,list):
-                  for v in x: yield from walk(v)
-          ce=[d for d in walk(cur) if isinstance(d.get('id'),str)]
-          be=[d for d in walk(base) if isinstance(d.get('id'),str)]
-          ids=[d['id'] for d in ce]
-          if len(ids)!=len(set(ids)):
-              raise SystemExit('duplicate registry ID')
-          required={f'LIT-PW{i:02d}' for i in range(1,16)}|{'LIT-WF01'}
-          if not required.issubset(ids):
-              raise SystemExit('missing literature ID')
-          s36c={d['id']:d for d in ce if d['id'].startswith('S36-')}
-          s36b={d['id']:d for d in be if d['id'].startswith('S36-')}
-          if s36c != s36b:
-              raise SystemExit('Stage36 registry changed')
+          def stage36(x):
+              hits=[h for h in x['provisional_harvests'] if h.get('source_stage')=='Stage36']
+              if len(hits)!=1: raise SystemExit(f'Stage36 harvest count={len(hits)}')
+              return hits[0]
+          if stage36(cur) != stage36(base):
+              raise SystemExit('Stage36 registry harvest changed relative to fresh main')
+          print('PASS Stage36 registry harvest unchanged')
           PY
           git show --check --oneline --stat HEAD
 
