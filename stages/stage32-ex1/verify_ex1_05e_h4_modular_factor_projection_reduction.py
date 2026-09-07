@@ -7,9 +7,9 @@ HERE = Path(__file__).resolve().parent
 ART = HERE / "ex1-05e-h4-modular-factor-projection-reduction.json"
 UP05B = HERE / "ex1-05b-inertia-parity-stabilizer.json"
 UP05D = HERE / "ex1-05d-b3-node-parity-h4-forcing.json"
-ROOT = HERE.parent.parent
-BIDEG = ROOT / "stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-source-note.md"
-MONO = ROOT / "stage32/residual-32-01-production/post1473-specific-class-multibranch-product-cover-monodromy-extremal-wall.md"
+STAGES = HERE.parent
+BIDEG = STAGES / "stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-source-note.md"
+MONO = STAGES / "stage32/residual-32-01-production/post1473-specific-class-multibranch-product-cover-monodromy-extremal-wall.md"
 
 
 def git_blob_sha1(path: Path) -> str:
