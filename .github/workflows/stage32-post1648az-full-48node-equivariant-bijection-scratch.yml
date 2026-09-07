@@ -1,0 +1,54 @@
+name: Stage32 post1648AZ full 48-node equivariant bijection
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648az-source-projective-aut-node-adapter
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-az-full-48node-bijection:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run AZ full 48-node equivariant bijection diagnostic
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648az_full_48node_equivariant_bijection.py | tee /tmp/az-full.json
+      - name: Assert exact full node adapter
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/az-full.json'))
+          assert x['mode']=='SCRATCH_POST1648AZ_FULL_48NODE_EQUIVARIANT_BIJECTION'
+          assert x['source_node_count']==48
+          assert x['source_node_action_group_order']==1536
+          assert x['retained_group_order']==1536
+          assert x['source_anchor_cell_size']==8
+          assert x['retained_anchor_cell_size']==8
+          assert x['basepair_trials']==64
+          assert x['full_equivariant_bijection_solution_count']==1
+          assert x['generator_intertwining_checks']==432
+          assert x['semantic_hyperplane_membership_checks']==336
+          assert x['explicit_48_node_bijection_obtained'] is True
+          assert x['v6_exceptional_mass_total_under_source_node_labels']==266
+          assert len(x['records'])==48
+          assert x['firewalls']['full_source_to_retained_48node_action_adapter_obtained'] is True
+          assert x['firewalls']['v6_carrier_excluded'] is False
+          print(json.dumps({
+            'solution_count':x['full_equivariant_bijection_solution_count'],
+            'generator_checks':x['generator_intertwining_checks'],
+            'v6_mass_total':x['v6_exceptional_mass_total_under_source_node_labels'],
+            'next_exact_route':x['next_exact_route'],
+          },sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
