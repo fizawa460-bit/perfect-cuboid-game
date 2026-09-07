@@ -1,0 +1,42 @@
+name: Stage32 post1648AW boundary Z hyperplane blocks
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648aw-explicit-node-equivariant-matching
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-aw-boundary-z-blocks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run AW boundary Z-block diagnostic
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648aw_boundary_Z_hyperplane_blocks.py | tee /tmp/aw-z.json
+      - name: Assert bounded output
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/aw-z.json'))
+          assert x['mode']=='SCRATCH_POST1648AW_BOUNDARY_Z_HYPERPLANE_BLOCKS'
+          assert x['source_geometry']['boundary_curve_count']==12
+          assert x['source_geometry']['nodes_per_Zi_from_box_equations']==16
+          assert x['firewalls']['semantic_node_matching_obtained'] is False
+          print(json.dumps({
+            'single_Z_hyperplane_candidate_count': x['retained']['single_Z_hyperplane_candidate_count'],
+            'unordered_Z1_Z2_Z3_exact_partition_count': x['retained']['unordered_Z1_Z2_Z3_exact_partition_count'],
+            'partitions': x['retained']['unordered_Z1_Z2_Z3_exact_partitions'],
+          },sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
