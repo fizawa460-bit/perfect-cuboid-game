@@ -1,11 +1,12 @@
-name: Stage33 V91C1X_R1 chain-level action-difference preflight
+name: Stage33 V91C1X_R1 exact negative chain preflight
 
 on:
   pull_request:
     paths:
       - 'stages/stage33/MAIN-STATE.json'
+      - 'stages/stage33/sync_main_state.py'
+      - 'stages/stage33/33-12/verify_stage33_v91c1x_r1_chain_preflight_current_startup_v111.py'
       - 'stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py'
-      - 'stages/stage33/33-12/materialize_e3_v91c1x_r1_main_state.py'
       - 'stages/stage33/33-12/e3-v91c1x-r1-chain-level-action-difference-preflight.json'
       - 'stages/stage33/33-12/diagnose_e3_v91c1r_swap23_boundary_function_package_transport.py'
       - 'stages/stage33/33-12/e3-v91c1d-a2-02-purity-cech-cartier-assembly.json'
@@ -17,7 +18,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: stage33-v91c1x-r1-chain-${{ github.event.pull_request.number || github.ref }}
@@ -34,24 +35,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Materialize source-bound chain-level action-difference preflight
-        run: python stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py --write
-      - name: Materialize noncredit X_R1 MAIN routing state
-        run: python stages/stage33/33-12/materialize_e3_v91c1x_r1_main_state.py --write
-      - name: Commit exact runtime certificate and routing state when newly materialized
-        shell: bash
+      - name: Replay source-bound X_R1 negative preflight
+        run: python stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py
+      - name: Verify V111 startup synchronization
         run: |
-          set -euo pipefail
-          git add \
-            stages/stage33/MAIN-STATE.json \
-            stages/stage33/33-12/e3-v91c1x-r1-chain-level-action-difference-preflight.json
-          if git diff --cached --quiet; then
-            echo 'certificate and routing state already exact'
-          else
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git commit -m '[Stage33] route MAIN through X_R1 negative chain preflight'
-            git push origin HEAD:${{ github.event.pull_request.head.ref || github.ref_name }}
-          fi
+          python stages/stage33/33-12/verify_stage33_v91c1x_r1_chain_preflight_current_startup_v111.py
+          python stages/stage33/sync_main_state.py --check
       - name: Diff hygiene
         run: git diff --check
