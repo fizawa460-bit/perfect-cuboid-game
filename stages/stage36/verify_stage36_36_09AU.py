@@ -15,10 +15,10 @@ V = ROOT / "stages/stage36/36-09V/gaussian-directional-prime-support-preflight.j
 AO_SOURCE = ROOT / "stages/stage36/36-09AO/monsky-full2-kernel-source-lock.md"
 STATE = ROOT / "stages/stage36/MAIN-STATE.json"
 
-BASE = "ab8fd6b3ff6660188d7d17c89960f02f5bf9eb90"
+BASE = "600eb3032d44d35cdc067a060f6e58f2ed18d16b"
 AT_HEAD = "b798b4d5a5d8ac134f7831d8be7f25a4b060debc"
 AT_CI = "34083474078/101623014316"
-CERT_BLOB = "60fd510eb7dee5591b99bbd9d1c407c40a1645f4"
+CERT_BLOB = "ae4572d4131464a8aca83d39e2faefbd4ffec18e"
 AT_BLOB = "b4aaa9447f42ed60d51674bdaaee7ff16162437a"
 ATV_BLOB = "62e3c992623284258c7b6e127f5ef2472757cda6"
 AE_BLOB = "ddae37dd35cd0e732cebadf9c17f3f3fa57930df"
@@ -69,7 +69,6 @@ def even_y(eta: int, e: int, f: int):
 
 
 def first_reciprocity_rewrite(target: str, eta: int, e: int, f: int, s, minus1: int, two: int, global_s: int):
-    # From R^T = R + epsilon epsilon^T + D(-1), x=psi(AB), z=x+y.
     x={"A","B"}
     y=even_y(eta,e,f)
     xi=int(target in x)
@@ -96,7 +95,6 @@ def final_pair(target: str, eta: int, r1: int, r2: int):
 
 
 def det2_from_images(target: str, eta: int) -> int:
-    # determinant of the F2 map (r1,r2)->(m1,m2), tested by basis images
     a=final_pair(target,eta,1,0)
     b=final_pair(target,eta,0,1)
     return (a[0]&b[1]) ^ (a[1]&b[0])
@@ -136,10 +134,11 @@ def main() -> None:
     c=json.loads(CERT.read_text())
     assert c["schema"]=="STAGE36_36_09AU_EVEN_TRANSPOSED_REDEI_STAGE36_EQUIVALENCE_CLOSE_PREFLIGHT_V1"
     assert c["base_main_sha"]==BASE
+    assert c["freshness_sync"]["sync_merge_commit"]=="ba633a560ed0fdc9f27d0e8450ddd62de40058e0"
+    assert c["freshness_sync"]["stage36_source_drift"] is False
     assert c["batch_parent"]["36_09AT_exact_head"]==AT_HEAD
     assert c["batch_parent"]["36_09AT_exact_head_ci"]==AT_CI
 
-    # Check the matrix quadratic-reciprocity identity on varied actual prime sets.
     for primes in ([3,5,7,11],[13,17,19,23],[31,37,41,43],[73,89,97,113]):
         R=redei(primes); k=len(primes)
         eps=[add_symbol(-1,p) for p in primes]
@@ -148,7 +147,6 @@ def main() -> None:
                 rhs=R[i][j] ^ (eps[i]&eps[j]) ^ (eps[i] if i==j else 0)
                 assert R[j][i]==rhs
 
-    # Formal first-block identity: no hidden prime specialization is used.
     for vals in itertools.product((0,1), repeat=7):
         local=dict(zip("ABCD",vals[:4]))
         minus1,two,global_s=vals[4:]
@@ -162,8 +160,6 @@ def main() -> None:
                     second=second_local(target,eta,e,f,local,two)
                     assert second == second_from_rows(target,eta,r1,r2)
 
-    # Stage36 alpha-two-residue + UV compatibility force s=e exactly.
-    # A and B are products of primes 1 or 7 mod 8; a7,b7 record parity of 7-factors.
     for a7,b7 in itertools.product((0,1), repeat=2):
         A8=7 if a7 else 1
         B8=7 if b7 else 1
@@ -175,7 +171,6 @@ def main() -> None:
         assert (e,f) in ((0,1),(1,0))
         assert global_s==e
 
-    # With s=e, every even local map is an invertible 2x2 F2 change of basis.
     for eta in (-1,1):
         for target in "ABCD":
             assert det2_from_images(target,eta)==1
