@@ -7,6 +7,7 @@ on:
       - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_local_node_lattice.py'
       - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer.py'
       - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer_v2.py'
+      - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_galois_stabilizer.py'
       - 'stages/stage35-ex/runkeys/goal4af-c5-node-lattice.json'
       - '.github/workflows/stage35-ex-goal4af-c5-node-lattice.yml'
   workflow_dispatch:
@@ -49,20 +50,22 @@ jobs:
           import hashlib,json,subprocess
           from pathlib import Path
           key=Path('stages/stage35-ex/runkeys/goal4af-c5-node-lattice.json')
-          diag=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer_v2.py')
-          base=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer.py')
+          diag=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_galois_stabilizer.py')
+          sign=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer.py')
           node=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_local_node_lattice.py')
+          gal=Path('stages/stage33/33-07/galois-known-class-permutations.json')
           new=json.loads(key.read_text())
           assert new['schema']=='STAGE35_EX_GOAL4AF_C5_NODE_LATTICE_RUNKEY_V1'
-          assert new['armed'] is True and new['generation']==3
-          assert new['route']=='LOCAL_SOURCE_SIGN_STABILIZER_WITHOUT_NODE_UNION_LOCATOR'
+          assert new['armed'] is True and new['generation']==4
+          assert new['route']=='LOCAL_SOURCE_SIGN_PLUS_GALOIS_STABILIZER'
           assert new['upstream_git_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
           def blob(p):
               raw=p.read_bytes()
               return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
           assert blob(node)==new['generation1_diagnostic_blob_sha1']=='aa43bc38d799ab78cf0252830718979b15fa54fc'
-          assert blob(base)==new['generation2_diagnostic_blob_sha1']=='732332e94f1346b03d91425bb664905d3f440c44'
-          assert blob(diag)==new['diagnostic_blob_sha1']=='122731f6c9cb63471ab584eb6d25aecb33d4481f'
+          assert blob(sign)==new['generation2_diagnostic_blob_sha1']=='732332e94f1346b03d91425bb664905d3f440c44'
+          assert blob(gal)==new['stage33_galois_permutation_blob_sha1']=='f277939b7f258928f484d2b970d4dfb2ec6133a8'
+          assert blob(diag)==new['diagnostic_blob_sha1']=='3073aa3ff1d40f1f05276034c9490c4bfa6ae55a'
           assert new['planned_jobs']==1 and new['planned_shards']==1
           assert new['persisted_output_upper_bound_bytes']<=65536
           assert new['projected_peak_actions_storage_bytes']<=1048576
@@ -70,9 +73,9 @@ jobs:
           before='${{ github.event.before }}'
           oldtxt=subprocess.check_output(['git','show',f'{before}:{key.as_posix()}'],text=True)
           old=json.loads(oldtxt)
-          assert int(old['generation'])==2 and new['generation']>int(old['generation'])
-          assert old['diagnostic_blob_sha1']=='732332e94f1346b03d91425bb664905d3f440c44'
-          print('GOAL4AF_SIGN_STABILIZER_G3_RUNKEY_AUTHORIZED=true')
+          assert int(old['generation'])==3 and new['generation']>int(old['generation'])
+          assert old['diagnostic_blob_sha1']=='122731f6c9cb63471ab584eb6d25aecb33d4481f'
+          print('GOAL4AF_GALOIS_STABILIZER_RUNKEY_AUTHORIZED=true')
           PY
           echo 'authorized=true' >> "$GITHUB_OUTPUT"
 
@@ -89,34 +92,36 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Add source sign-stabilizer constraints without node-union locator assumption
+      - name: Add source-literal cc/ct stabilizer constraints to the C5 pair Picard solve
         run: |
           set -euo pipefail
-          python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer_v2.py | tee /tmp/goal4af-sign-stabilizer.log
-          grep -q '^GOAL4AF_SIGN_STABILIZER_JSON=' /tmp/goal4af-sign-stabilizer.log
-          test "$(wc -c </tmp/goal4af-sign-stabilizer.log)" -le 65536
+          python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_galois_stabilizer.py | tee /tmp/goal4af-galois-stabilizer.log
+          grep -q '^GOAL4AF_SIGN_STABILIZER_JSON=' /tmp/goal4af-galois-stabilizer.log
+          test "$(wc -c </tmp/goal4af-galois-stabilizer.log)" -le 65536
       - name: Enforce diagnostic no-credit boundary
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          s=Path('/tmp/goal4af-sign-stabilizer.log').read_text()
+          s=Path('/tmp/goal4af-galois-stabilizer.log').read_text()
           line=next(x for x in s.splitlines() if x.startswith('GOAL4AF_SIGN_STABILIZER_JSON='))
           d=json.loads(line.split('=',1)[1])
           assert d['base_pair_characterization_rank']==57
           assert d['base_pair_characterization_nullity']==7
+          assert d['sign_stabilizer_augmented_rank']==60
+          assert d['sign_stabilizer_augmented_nullity']==4
           assert d['remote_cas_used'] is False
           assert d['target_span_computed'] is False
           assert d['theorem_credit'] is False
           assert d['endpoint_credit'] is False
           if d['pair_rows_materialized']:
-              assert d['sign_stabilizer_augmented_rank']==64
-              assert d['sign_stabilizer_augmented_nullity']==0
+              assert d['galois_stabilizer_augmented_rank']==64
+              assert d['galois_stabilizer_augmented_nullity']==0
               assert d['pair_count']==8
               assert d['goal4ac_residual_pair_count']==4
           else:
-              assert d['sign_stabilizer_augmented_rank']<64
+              assert d['galois_stabilizer_augmented_rank']<64
               assert d['pair_count']==0
               assert d['goal4ac_residual_pair_count']==0
-          print('GOAL4AF_SIGN_STABILIZER_G3_DIAGNOSTIC_BOUNDARY=PASS')
+          print('GOAL4AF_GALOIS_STABILIZER_DIAGNOSTIC_BOUNDARY=PASS')
           PY
