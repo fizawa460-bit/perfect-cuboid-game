@@ -108,7 +108,7 @@ for r, Q in enumerate(Qvals):
     assert (266 - Q)//2 == 28 - r
     assert Q - (28-r) == 182 + 3*r
 
-L = d["residual_parameterized_ledger"]
+L = d["residual_Q_state_ledger"]
 assert L["r_values"] == list(range(29))
 assert L["even_ramified_node_count_lower_bound_by_r"] == even_lb
 assert L["ramified_surface_node_count_lower_bound_by_r"] == ramified_lb
@@ -118,14 +118,17 @@ assert min(ramified_lb) == C["global_ramified_surface_node_count_lower_bound_ove
 assert min(multibranch_lb) == C["global_multibranch_node_count_lower_bound_over_refined_range"] == 19
 
 D = d["decision"]
-assert D["h4_residual_states_before_modular_factor_replay"] == 41
-assert D["h4_residual_states_after_modular_factor_replay"] == 29
+assert D["h4_Q_slack_states_before_modular_factor_replay"] == 41
+assert D["h4_Q_slack_states_after_modular_factor_replay"] == 29
 assert D["states_removed_by_Q_ge_210"] == 12
 assert D["Q_below_210_excluded_within_h4"]
 assert not D["all_h4_residual_configurations_disposed"]
+assert d["exit"]["Q_slack_residual_ledger_complete"]
+assert not d["exit"]["finite_residual_configuration_ledger_complete"]
 assert not d["exit"]["all_residual_configurations_disposed"]
 assert not d["exit"]["full_target_closure"]
 assert not d["firewalls"]["stage32_unaudited_candidate_inherited_as_theorem"]
 assert not d["firewalls"]["Q210_extremal_histogram_imported_without_local_adapter"]
+assert not d["firewalls"]["finite_29_Q_state_ledger_promoted_to_realizability"]
 assert not d["firewalls"]["h4_refinement_promoted_to_full_v6_exclusion"]
-print("EX1-05E replay PASS: h=4 fixed V6 degrees 105/81 force Q>=210; 29 states remain; ramified nodes>=33; multibranch nodes>=19")
+print("EX1-05E replay PASS: h=4 fixed V6 degrees 105/81 force Q>=210; 29 Q-states remain; ramified nodes>=33; multibranch nodes>=19")
