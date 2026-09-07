@@ -1,0 +1,51 @@
+name: Stage32 post1648 consolidation audit-ready
+
+on:
+  push:
+    branches:
+      - stage32-post1643-authority-promotion
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage32/**'
+      - '.github/workflows/stage32-post1648-consolidation-audit-ready.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-post1648-consolidation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  exact-consolidation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert checked out exact event head
+        run: |
+          EXPECTED='${{ github.event.pull_request.head.sha || github.sha }}'
+          test "$(git rev-parse HEAD)" = "$EXPECTED"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact locked dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0' 'scipy==1.15.3' 'numpy==2.2.6'
+      - name: Verify MAIN startup authority
+        run: python stages/stage32/verify_main_startup.py
+      - name: Verify AE retained member-level gap
+        run: python stages/stage32/residual-32-01-production/verify_stage32_post1648ae_v6_carrier_member_source_gap.py
+      - name: Replay AG exact known140 decomposition
+        run: python stages/stage32/residual-32-01-production/diagnose_stage32_post1648ag_v6_known140_basis_elimination.py
+      - name: Replay AH FSM unibranch exclusion
+        run: python stages/stage32/residual-32-01-production/verify_stage32_post1648ah_fsm_unibranch_v6_exclusion.py
+      - name: Enforce immutable replay and diff hygiene
+        run: |
+          git diff --exit-code
+          git diff --check
