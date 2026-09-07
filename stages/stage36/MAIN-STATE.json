@@ -1,8 +1,8 @@
 {
-  "schema":"STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V92_36_09BD_CANDIDATE",
+  "schema":"STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V91_36_09BC_REPAIR_CHECKPOINT",
   "stage":"36",
-  "status":"ACTIVE_BATCHING_SUBSTANTIVE_PR",
-  "base_main_sha":"fe7ef406a9987981fe5f79267f3f8a39f37a61e4",
+  "status":"AUDIT_REPAIR_PENDING_REPLAY",
+  "base_main_sha":"c52f88a671503ac9eb25c20186b4fb7729ba9112",
   "mission":"Attack K16-C3-CAMPEDELLI-UNIFORM-TORSOR through exact receiver-matched arithmetic; keep receiver/theorem/endpoint credit behind hostile audit.",
   "audited_history":{
     "36-09U-AF":{"status":"AUDITED_MERGED_AUTHORITY"},
@@ -12,34 +12,31 @@
     "36-09AP-AU":{"status":"AUDITED_MERGED_AUTHORITY","pr":1680,"hostile_audit_review":5128229756,"merged_main_sha":"d43db1874b0e657143fa07b1a16eb87fc27e0238"},
     "36-09AV-AY":{"status":"AUDITED_MERGED_AUTHORITY","pr":1683,"audited_head":"c09f264e4becbc4c7f06145b32ce366b2d4d7a4f","hostile_audit_review":5128446584,"exact_head_ci":"34087344920/101633809000","merged_main_sha":"b7a045b7c910a3e01d3826556cd71019af15418f"}
   },
+  "failed_audit":{
+    "pr":1686,
+    "review":5128976664,
+    "exact_head":"01a1a7b6c1a108052271bd7a2bbe80eaa90922a9",
+    "exact_head_ci":"34092987608/101650258222",
+    "blocking_findings":["STALE_MAIN_STATE_FRESHNESS","BC_JACOBIAN_MINOR_COEFFICIENT_64_TO_32"],
+    "mathematical_route_rejected":false
+  },
   "source_kernel":{"kernel":"K16-C3-CAMPEDELLI-UNIFORM-TORSOR","receiver":"R29-CAMP2","parent":"Q11-CAMPEDELLI","H":"(Z/2)^3","quotient_degree":8},
   "authority_frontier":{
     "36-09BB":{"status":"PROVISIONAL_EXACT_GREEN_PARENT","certificate_blob_sha":"e4b63fd500d05ff5dc704e0c08409edee5895053","verifier_blob_sha":"a3591e34aaaafcac0efb540d92622fe83136dc18","exact_head":"72441c82f2c146c63ebde6459b18789e33c6dddb","exact_head_ci":"34091603898"},
-    "36-09BC":{"status":"PROVISIONAL_EXACT_GREEN_PARENT","certificate_blob_sha":"f4223afb733ed3be112816f789d1d4ae10845249","source_lock_blob_sha":"c5865e8554f00f6a622401f9595b86ad7fb48814","verifier_blob_sha":"9cc1a90a67e345c13d6359b895988d2d17a9671b","exact_head":"5b15b0f9c7316cac76adf7b391fa2e873c8370d5","exact_head_ci":"34092194009/101647855514","GOOD_PRIME_PUNCTURED_BOUNDARY_LOCAL_NONEMPTY":true,"ELLIPTIC_QUOTIENT_NEW_FILTER":false,"EXHAUSTIVE_VIEW_AUDIT_TRIGGERED":true},
-    "36-09BD":{"status":"EXACT_EXHAUSTIVE_VIEW_AUDIT_PENDING_BATCH_AUDIT","certificate":"stages/stage36/36-09BD/exhaustive-view-audit-scaled-self-intersection.json","certificate_blob_sha":"5ee300e3a6765368c22aaf942180bb0a15aacf29","verifier":"stages/stage36/verify_stage36_36_09BD.py","verifier_blob_sha":"705d1422dec6139b3ba5d330333b7ce49adf3992","EXHAUSTIVE_VIEW_AUDIT_COMPLETE":true,"BLIND_REDISCOVERY_COMPLETE":true,"SELECTED_FULL_CHARACTER_QUOTIENT_INVENTORY":true,"CANDIDATE_PARAMETER_SET_SHRUNK":false,"RECEIVER_CLOSED":false}
+    "36-09BC":{"status":"REPAIRED_PENDING_EXACT_HEAD_CI","certificate_blob_sha":"317638c4d1a76f683c7af9bdb4e8285af35f4d05","source_lock_blob_sha":"fccb0742e5e765243201a59c27d1b76a9d5e8f58","verifier_blob_sha":"02412ee68832421ab11f4da76ddd8747b8a71b9c","JACOBIAN_MINOR":"32*R0*S0*kappa*lambda","JACOBIAN_MINOR_RECOMPUTED":true,"GOOD_PRIME_PUNCTURED_BOUNDARY_LOCAL_NONEMPTY":true,"ELLIPTIC_QUOTIENT_NEW_FILTER":false,"EXHAUSTIVE_VIEW_AUDIT_TRIGGERED":true,"CANDIDATE_PARAMETER_SET_SHRUNK":false,"RECEIVER_CLOSED":false},
+    "36-09BD":{"status":"DOWNSTREAM_RELOCK_REQUIRED_AFTER_BC_GREEN"},
+    "36-09BE":{"status":"DOWNSTREAM_RELOCK_REQUIRED_AFTER_BD_GREEN"}
   },
   "source_locks":{
-    "stage36_36_09BC":{"path":"stages/stage36/36-09BC/boundary-neighborhood-open-local-no-loop-preflight.json","blob_sha":"f4223afb733ed3be112816f789d1d4ae10845249"},
-    "stage36_36_09BD":{"path":"stages/stage36/36-09BD/exhaustive-view-audit-scaled-self-intersection.json","blob_sha":"5ee300e3a6765368c22aaf942180bb0a15aacf29"},
+    "stage36_36_09BC":{"path":"stages/stage36/36-09BC/boundary-neighborhood-open-local-no-loop-preflight.json","blob_sha":"317638c4d1a76f683c7af9bdb4e8285af35f4d05"},
+    "stage36_36_09BC_source":{"path":"stages/stage36/36-09BC/boundary-neighborhood-local-and-elliptic-quotient-source-lock.md","blob_sha":"fccb0742e5e765243201a59c27d1b76a9d5e8f58"},
+    "stage36_36_09BC_verifier":{"path":"stages/stage36/verify_stage36_36_09BC.py","blob_sha":"02412ee68832421ab11f4da76ddd8747b8a71b9c"},
     "cycle_policy":{"path":"docs/research-os/policies/cycle-exploration-safety-protocol.md","blob_sha":"4e911c4fc7e4ea7a2b5f96733a90b986ef8d9a37"}
   },
-  "freshness":{"current_main":"fe7ef406a9987981fe5f79267f3f8a39f37a61e4","previous_main":"b7a045b7c910a3e01d3826556cd71019af15418f","current_main_sync_commit":"fd4d432f4e7939fc973f285e4ed1ceb9a9dc757d","intervening_drift":"Stage32-EX roadmap only","stage36_source_drift":false,"sync_required_before_audit":false},
-  "cycle_ledger":{
-    "B4_BAD_PRIME_LOCAL":"LIVE",
-    "B4_FULL_CHARACTER_QUOTIENTS":"LIVE_SELECTED",
-    "B4_INVOLUTION_QUOTIENTS":"LIVE",
-    "B4_GAUSSIAN_NORM":"UNTESTED",
-    "B4_SUNIT_FACTOR_VALUATIONS":"LIVE",
-    "B4_ELLIPTIC_CORRESPONDENCE_HEIGHT":"UNTESTED",
-    "B4_BRAUER_MANIN_FULL_COVER":"UNTESTED",
-    "B4_FULL_COVER_DESCENT":"LIVE",
-    "B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER":"UNTESTED",
-    "B4_BOUNDED_SEARCH":"BLOCKED"
-  },
-  "cycle_audit":{"CYCLE_ROUTE_STATUS":"PASS_NEW_GATE_FROM_STRONGER_VIEW","CYCLE_ACTIVE_RECEIVER":"full BB multiquadratic open cover","CYCLE_LIVE_CANDIDATES":5,"CYCLE_UNTESTED_CANDIDATES":4,"CYCLE_EXHAUSTIVE_VIEW_AUDIT":true,"CYCLE_BLIND_REDISCOVERY":true,"CYCLE_SPLIT_TRIGGERED":false,"CYCLE_PARKING_AUDIT_COMPLETE":false,"CYCLE_NEW_VIEW":"full character-quotient inventory selected before further local narrowing","CYCLE_NEW_VIEW_SOURCE":"BLIND"},
-  "current":{"unit":"36-09BE","next_exact_leaf":"36-09BE_FULL_MULTIQ_CHARACTER_QUOTIENT_INVENTORY_PREFLIGHT","next_owner":"STAGE36_MAIN_BATCH","result":"36-09BD_EXACT: EXHAUSTIVE_VIEW_AUDIT_AND_BLIND_REDISCOVERY_COMPLETE; FULL_CHARACTER_QUOTIENT_INVENTORY_SELECTED","substantive_batch_pr_continues":true,"hostile_audit_checkpoint_reached":false,"36_09BD_entry_allowed":true,"36_09BE_entry_allowed":true,"36_09BF_entry_allowed":false},
-  "current_leaf_working_set":["stages/stage36/36-09BD/exhaustive-view-audit-scaled-self-intersection.json","stages/stage36/verify_stage36_36_09BD.py","stages/stage36/36-09BC/boundary-neighborhood-open-local-no-loop-preflight.json","stages/stage36/36-09BB/ay-receiver-scaled-self-intersection-preflight.json"],
-  "promotion_gates":{"36_09BD_certificate_complete":true,"exhaustive_view_audit_complete":true,"blind_rediscovery_complete":true,"full_character_quotient_inventory_complete":false,"candidate_parameter_set_shrunk":false,"receiver_emptiness_proved":false,"R29_CAMP2_closed":false,"Q11_CAMPEDELLI_closed":false,"endpoint_closed":false},
-  "anti_loop":["do not use BSD converse","do not charge quotient-only Eminus/Eplus as new","do not park after BC; BD preserved all live/untested candidates","do not parallelize unless a later exact audit proves distinct independent obstructions","retain full BB cover data while inventorying character quotients"],
-  "claims":{"new_theorem_credit":false,"BD_exhaustive_view_audit_provisional":true,"candidate_parameter_set_shrunk":false,"receiver_emptiness_proved":false,"R29_CAMP2_closed":false,"Q11_CAMPEDELLI_closed":false,"endpoint_closed":false,"perfect_cuboid_existence_claim":false,"perfect_cuboid_nonexistence_claim":false}
+  "freshness":{"current_main":"c52f88a671503ac9eb25c20186b4fb7729ba9112","previous_main":"fe7ef406a9987981fe5f79267f3f8a39f37a61e4","current_main_sync_commit":"e34d87f398a196f397eb7093cd3dfdd8d7389331","intervening_drift":"Stage32EX1 only","stage36_source_drift":false,"sync_required_before_audit":false},
+  "cycle_ledger":{"B4_BAD_PRIME_LOCAL":"LIVE","B4_FULL_CHARACTER_QUOTIENTS":"LIVE_SELECTED_BUT_RELOCK_PENDING","B4_INVOLUTION_QUOTIENTS":"LIVE","B4_GAUSSIAN_NORM":"UNTESTED","B4_SUNIT_FACTOR_VALUATIONS":"LIVE","B4_ELLIPTIC_CORRESPONDENCE_HEIGHT":"UNTESTED","B4_BRAUER_MANIN_FULL_COVER":"UNTESTED","B4_FULL_COVER_DESCENT":"LIVE","B7_STANDARD_CAMPEDELLI_MODEL_ARITHMETIC_TRANSFER":"UNTESTED","B4_BOUNDED_SEARCH":"BLOCKED"},
+  "current":{"unit":"36-09BC-REPAIR-CHECKPOINT","next_exact_leaf":"RELOCK_36_09BD_TO_REPAIRED_BC_AFTER_GREEN","next_owner":"STAGE36_MAIN_BATCH","result":"HOSTILE_AUDIT_5128976664_REPAIR: CURRENT_MAIN_RELOCKED; BC_MINOR_REPAIRED_TO_32_AND_RECOMPUTED","substantive_batch_pr_continues":true,"hostile_audit_checkpoint_reached":false,"36_09BD_entry_allowed":false,"36_09BE_entry_allowed":false,"36_09BF_entry_allowed":false},
+  "promotion_gates":{"36_09BC_repair_complete":true,"36_09BC_repair_exact_head_ci_passed":false,"36_09BD_relocked_to_repaired_BC":false,"36_09BE_relocked_to_repaired_BD":false,"candidate_parameter_set_shrunk":false,"receiver_emptiness_proved":false,"R29_CAMP2_closed":false,"Q11_CAMPEDELLI_closed":false,"endpoint_closed":false},
+  "anti_loop":["do not use the pre-repair BC exact head as downstream mathematical provenance","do not use BSD converse","do not charge quotient-only Eminus/Eplus as new","do not promote BD/BE until their source locks point to repaired exact-green parents"],
+  "claims":{"new_theorem_credit":false,"BC_repair_provisional":true,"candidate_parameter_set_shrunk":false,"receiver_emptiness_proved":false,"R29_CAMP2_closed":false,"Q11_CAMPEDELLI_closed":false,"endpoint_closed":false,"perfect_cuboid_existence_claim":false,"perfect_cuboid_nonexistence_claim":false}
 }
