@@ -14,10 +14,10 @@ AO_SOURCE = ROOT / "stages/stage36/36-09AO/monsky-full2-kernel-source-lock.md"
 MAIN_AM = ROOT / "stages/stage36/36-09AM/uniform-rankzero-tunnell-sha2-sieve-preflight.json"
 STATE = ROOT / "stages/stage36/MAIN-STATE.json"
 
-BASE = "6b6c541d1a6bbe229381ac0400148bd17523ca06"
+BASE = "ab8fd6b3ff6660188d7d17c89960f02f5bf9eb90"
 AP_HEAD = "ce04f0158633f4fa935fb0949238d5b8d0ce10a2"
 AP_CI = "34080266302/101614090384"
-CERT_BLOB = "472db68596d9a53680f9c168f6ede802ed977281"
+CERT_BLOB = "914127f8724d80b7b33318f9d179f08ae8153138"
 AP_BLOB = "354b2922cb633518c6cf7b47e7afb216481d2968"
 AP_SOURCE_BLOB = "7fceb4a822cae8b7e33401919733cbe81677b730"
 AO_SOURCE_BLOB = "9f22dfe19d42d7104d30d219aac1cfd72a67c72a"
@@ -110,7 +110,6 @@ def main() -> None:
     assert t1["positive_divisor_representative"] == ["A*D", "B*D", "A*B"]
     assert t1["kernel_vector_formula"] == "(psi_N(B*D) | psi_N(A*D))"
 
-    # Exact algebra across several pairwise-coprime odd squarefree synthetic inputs.
     samples = [(5, 7, 11, 13), (17, 19, 23, 29), (1, 7, 11, 13)]
     for A, B, C, D in samples:
         vals = [A, B, C, D]
@@ -130,7 +129,6 @@ def main() -> None:
                 assert reordered == [2 * A * D, 2 * A * C, C * D]
                 assert rep == [A * D, B * D, A * B]
 
-    # Coordinate formulas really read the required standard representative.
     A, B, C, D = 5, 7, 11, 13
     primes = [5, 7, 11, 13]
     _, _, rep0 = eta_plus_rep(A, B, C, D, 0)
