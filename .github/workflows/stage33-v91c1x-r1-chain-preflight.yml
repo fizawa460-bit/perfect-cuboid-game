@@ -1,14 +1,16 @@
-name: Stage33 V91C1X_R1-R3 chain-contract grouped-checkpoint replay
+name: Stage33 V91C1X_R1-R4 chain-contract checkpoint replay
 
 on:
   pull_request:
     paths:
       - 'stages/stage33/MAIN-STATE.json'
       - 'stages/stage33/sync_main_state.py'
+      - 'stages/stage33/33-12/verify_stage33_v91c1x_r4_negative_checkpoint_v114.py'
       - 'stages/stage33/33-12/verify_stage33_v91c1x_r3_grouped_audit_current_startup_v113.py'
       - 'stages/stage33/33-12/e3-v91c1x-r1-chain-level-action-difference-preflight.json'
       - 'stages/stage33/33-12/e3-v91c1x-r2-literal-mu2-or-unimodular-cech-glue-contract.json'
       - 'stages/stage33/33-12/e3-v91c1x-r3-cover-indexed-a2-02-representative-bounded-preflight.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r4-retained-boundary-resolution-insufficient-for-cover-indexed-h2.json'
       - '.github/workflows/stage33-v91c1x-r1-chain-preflight.yml'
   workflow_dispatch:
 
@@ -16,7 +18,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v91c1x-r3-chain-contract-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1x-r4-chain-contract-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -32,9 +34,9 @@ jobs:
           python-version: '3.11'
       - name: Replay R1 exact negative diagnostic
         run: python stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py
-      - name: Verify V113 R1-R3 grouped checkpoint
+      - name: Verify V114 R4 current checkpoint and R3 audited provenance
         run: |
-          python stages/stage33/33-12/verify_stage33_v91c1x_r3_grouped_audit_current_startup_v113.py
+          python stages/stage33/33-12/verify_stage33_v91c1x_r4_negative_checkpoint_v114.py
           python stages/stage33/sync_main_state.py --check
       - name: Diff hygiene
         run: git diff --check
