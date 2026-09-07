@@ -7,6 +7,7 @@ on:
       - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_local_node_lattice.py'
       - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer.py'
       - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_galois_stabilizer.py'
+      - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_branch_conic_receiver.py'
       - 'stages/stage35-ex/runkeys/goal4af-c5-node-lattice.json'
       - '.github/workflows/stage35-ex-goal4af-c5-node-lattice.yml'
   workflow_dispatch:
@@ -49,19 +50,26 @@ jobs:
           import hashlib,json,subprocess
           from pathlib import Path
           key=Path('stages/stage35-ex/runkeys/goal4af-c5-node-lattice.json')
-          diag=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_galois_stabilizer.py')
+          diag=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_branch_conic_receiver.py')
           new=json.loads(key.read_text())
           assert new['schema']=='STAGE35_EX_GOAL4AF_C5_NODE_LATTICE_RUNKEY_V1'
-          assert new['armed'] is True and new['generation']==6
-          assert new['route']=='LOCAL_FINAL_NULL_RECEIVER_LOCATOR'
+          assert new['armed'] is True and new['generation']==7
+          assert new['route']=='LOCAL_SOURCE_C1_25_BRANCH_CONIC_RECEIVER_SOLVE'
           def blob(p):
               raw=p.read_bytes(); return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
-          assert blob(diag)==new['diagnostic_blob_sha1']=='59859e620f65555234fdc5176338281a191dac17'
+          assert blob(diag)==new['diagnostic_blob_sha1']=='e4291503ccff329546e939c2522359573f12dc2a'
           before='${{ github.event.before }}'
           old=json.loads(subprocess.check_output(['git','show',f'{before}:{key.as_posix()}'],text=True))
-          assert old['generation']==5
-          assert new['planned_jobs']==1 and new['actions_artifact_upload'] is False
-          print('GOAL4AF_NULL_RECEIVER_G6_AUTHORIZED=true')
+          assert old['generation']==6
+          assert new['generation6_result']['workflow_run']==34070055050
+          assert new['generation6_result']['job']==101585625872
+          assert new['generation6_result']['galois_stabilizer_rank']==63
+          assert new['generation6_result']['galois_stabilizer_nullity']==1
+          assert new['generation6_result']['known_curve_receivers_1based']==list(range(25,33))
+          assert new['planned_jobs']==1 and new['planned_shards']==1
+          assert new['persisted_output_upper_bound_bytes']<=65536
+          assert new['actions_artifact_upload'] is False
+          print('GOAL4AF_BRANCH_CONIC_RECEIVER_G7_AUTHORIZED=true')
           PY
           echo 'authorized=true' >> "$GITHUB_OUTPUT"
 
@@ -78,26 +86,33 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Locate retained curves detecting the final one-dimensional ambiguity
+      - name: Solve final C5 pair ambiguity from source C1 number 25 branch conic
         run: |
           set -euo pipefail
-          python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_galois_stabilizer.py | tee /tmp/goal4af-null-receiver.log
-          grep -q '^GOAL4AF_SIGN_STABILIZER_JSON=' /tmp/goal4af-null-receiver.log
-          test "$(wc -c </tmp/goal4af-null-receiver.log)" -le 65536
-      - name: Enforce locator-only boundary
+          python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_branch_conic_receiver.py | tee /tmp/goal4af-c25-receiver.log
+          grep -q '^GOAL4AF_SIGN_STABILIZER_JSON=' /tmp/goal4af-c25-receiver.log
+          grep -q '^GOAL4AF_BRANCH_CONIC_RECEIVER_JSON=' /tmp/goal4af-c25-receiver.log
+          test "$(wc -c </tmp/goal4af-c25-receiver.log)" -le 65536
+      - name: Enforce source-receiver no-credit boundary
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          s=Path('/tmp/goal4af-null-receiver.log').read_text()
-          d=json.loads(next(x for x in s.splitlines() if x.startswith('GOAL4AF_SIGN_STABILIZER_JSON=')).split('=',1)[1])
-          assert d['galois_stabilizer_augmented_rank']==63
-          assert d['galois_stabilizer_augmented_nullity']==1
-          assert len(d['final_free_columns_0based'])==1
-          assert len(d['final_null_direction_INDLIST64'])==64
-          assert d['known_curve_receiver_count_detecting_null']>0
-          assert d['pair_rows_materialized'] is False
+          s=Path('/tmp/goal4af-c25-receiver.log').read_text()
+          base=json.loads(next(x for x in s.splitlines() if x.startswith('GOAL4AF_SIGN_STABILIZER_JSON=')).split('=',1)[1])
+          d=json.loads(next(x for x in s.splitlines() if x.startswith('GOAL4AF_BRANCH_CONIC_RECEIVER_JSON=')).split('=',1)[1])
+          assert base['galois_stabilizer_augmented_rank']==63
+          assert base['galois_stabilizer_augmented_nullity']==1
+          assert base['source_receiver_known_curve_index_1based']==25
+          assert base['source_receiver_each_c5_intersection']==2
+          assert base['source_receiver_total_pair_intersection']==4
+          assert base['source_receiver_augmented_rank']==64
+          assert base['source_receiver_augmented_nullity']==0
+          assert base['pair_rows_materialized'] is True and base['pair_count']==8
+          assert base['goal4ac_residual_pair_count']==4
+          assert d['receiver_augmented_rank']==64 and d['receiver_augmented_nullity']==0
+          assert set(d['equivariant_receiver_indices_1based'].values())==set(range(25,33))
           assert d['target_span_computed'] is False
-          assert d['theorem_credit'] is False
-          print('GOAL4AF_NULL_RECEIVER_G6_BOUNDARY=PASS')
+          assert d['theorem_credit'] is False and d['endpoint_credit'] is False
+          print('GOAL4AF_BRANCH_CONIC_RECEIVER_G7_BOUNDARY=PASS')
           PY
