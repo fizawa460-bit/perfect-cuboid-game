@@ -1,0 +1,361 @@
+name: Stage36 Arsenal Harvest4 materialize and exact-head validate
+
+on:
+  push:
+    branches:
+      - stage36-arsenal-initial-provisional-harvest-promotion
+    paths:
+      - .github/workflows/stage36-arsenal-harvest4-materialize.yml
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Materialize frozen Harvest3 manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE_MAIN=9306238c7ada55e31311245019d6b7e474ad837f
+          H3_HEAD=0ad4a2fc78ebd3ee55c47d9bf5100d8e4cee3b66
+          FROZEN_LOWER=62c26297ebeb159e9cdd1e6b9c2129dff6a4acdc
+          FROZEN_UPPER=07a465cb5025e7c0188fb63610bb40e4b54e7a84
+          BRANCH=stage36-arsenal-initial-provisional-harvest-promotion
+          IMPLEMENTATION_PR=1675
+          WORKFLOW=.github/workflows/stage36-arsenal-harvest4-materialize.yml
+
+          test "$(git merge-base "$BASE_MAIN" HEAD)" = "$BASE_MAIN"
+          git fetch origin "$H3_HEAD" --depth=1
+          git show "$H3_HEAD":docs/arsenal/stage36-initial-hostile-dedup.json > /tmp/h3.json
+          git show "$H3_HEAD":docs/arsenal/stage36-initial-hostile-dedup-new-weapons.json > /tmp/h3-new.json
+          git show "$H3_HEAD":docs/arsenal/stage36-initial-hostile-dedup-extensions.json > /tmp/h3-ext.json
+
+          python3 - <<'PY'
+          import json, pathlib, subprocess
+          root=pathlib.Path('.')
+          h3=json.load(open('/tmp/h3.json'))
+          new=json.load(open('/tmp/h3-new.json'))
+          ext=json.load(open('/tmp/h3-ext.json'))
+          H3='0ad4a2fc78ebd3ee55c47d9bf5100d8e4cee3b66'
+          LOWER='62c26297ebeb159e9cdd1e6b9c2129dff6a4acdc'
+          UPPER='07a465cb5025e7c0188fb63610bb40e4b54e7a84'
+          IMPL_PR=1675
+          BRANCH='stage36-arsenal-initial-provisional-harvest-promotion'
+          mapping={
+            'DISC-S36-A01':'S36-PW01',
+            'DISC-S36-A05':'S36-PW02',
+            'DISC-S36-A06':'S36-PW03',
+            'DISC-S36-B03':'S36-PW04',
+            'DISC-S36-B10':'S36-PW05',
+            'DISC-S36-B11':'S36-PW06',
+            'DISC-S36-B14':'S36-PW07',
+          }
+          assert h3['discovery_pr']==1673
+          assert h3['frozen_bounds']=={'harvest_lower_bound':LOWER,'harvest_upper_bound':UPPER,'scope_widened':False}
+          assert h3['classification_summary']=={'total':36,'NEW_WEAPON':7,'EXTEND_EXISTING':5,'NEW_WORKFLOW':0,'HISTORICAL_OR_NEGATIVE':11,'STAGE36_SPECIFIC':2,'REJECT_DUPLICATE':11}
+          assert set(mapping)==set(h3['final_classification']['NEW_WEAPON'])
+          assert [r['temporary_candidate_id'] for r in new['records']]==h3['final_classification']['NEW_WEAPON']
+          assert [r['temporary_candidate_id'] for r in ext['records']]==h3['final_classification']['EXTEND_EXISTING']
+          assert new['maturity']=='PROVISIONAL' and ext['maturity']=='PROVISIONAL'
+
+          def q(v):
+              if v is None: return 'null'
+              if isinstance(v,(dict,list)): return json.dumps(v,sort_keys=True,separators=(',',':'))
+              return str(v)
+
+          lines=[
+            '# Stage36 Arsenal initial provisional harvest promotion','',
+            '**PROVISIONAL ONLY — active Stage36 MAIN/controller/source-lock authority is higher.**','',
+            '```text',
+            'SOURCE_STAGE=Stage36',
+            'INITIAL_HARVEST=true',
+            'DISCOVERY_PR=1673',
+            f'DISCOVERY_EXACT_HEAD={H3}',
+            f'IMPLEMENTATION_PR={IMPL_PR}',
+            f'IMPLEMENTATION_BRANCH={BRANCH}',
+            f'STAGE36_CANONICAL_INCEPTION={LOWER}',
+            f'HARVEST_LOWER_BOUND={LOWER}',
+            f'HARVEST_UPPER_BOUND={UPPER}',
+            'RANGE_EXPANDED_AFTER_HARVEST1=false',
+            'INSPECTED_SCOPE=exactly the 36 Harvest1 candidates; PR #1670 / 36-09AB and later main movement excluded',
+            'ARSENAL_REGISTRATION_DOES_NOT_CHANGE_STAGE36_MATHEMATICAL_AUTHORITY=true',
+            'STAGE36_MATHEMATICAL_CREDIT_CHANGE=0',
+            '```','',
+            'This document is the authoritative source for the Stage36 initial PROVISIONAL Arsenal harvest. It registers only Harvest3-accepted reusable contracts. It does not alter Stage36 progress, MAIN authority, current route, receiver closure, rank proof, Mordell–Weil closure, Hilbert-reciprocity endpoint credit, local-global obstruction credit, theorem closure, Stage36 closure/release, or any perfect-cuboid existence/nonexistence claim.','',
+            '## Harvest 3 classification frozen for implementation','',
+            f"- NEW_WEAPON: {', '.join(h3['final_classification']['NEW_WEAPON'])}",
+            f"- EXTEND_EXISTING: {', '.join(h3['final_classification']['EXTEND_EXISTING'])}",
+            '- NEW_WORKFLOW: none',
+            f"- HISTORICAL_OR_NEGATIVE: {', '.join(h3['final_classification']['HISTORICAL_OR_NEGATIVE'])}",
+            f"- STAGE36_SPECIFIC: {', '.join(h3['final_classification']['STAGE36_SPECIFIC'])}",
+            f"- REJECT_DUPLICATE: {', '.join(h3['final_classification']['REJECT_DUPLICATE'])}",
+            '',
+          ]
+          for r in new['records']:
+              sid=mapping[r['temporary_candidate_id']]
+              lines += [
+                f"## {sid} {r['proposed_role_name']}",'',
+                '**Maturity:** PROVISIONAL','',
+                '**Kind:** weapon','',
+                f"**Harvest candidate:** `{r['temporary_candidate_id']}`",'',
+                'Reusable contract:','', '```text', r['exact_reusable_contract'], '```','',
+                '**HYPOTHESES**','', *[f"- {x}" for x in r['HYPOTHESES']], '',
+                f"**APPLICABILITY:** {r['APPLICABILITY']}",'',
+                '**DO_NOT_USE_FOR**','', *[f"- {x}" for x in r['DO_NOT_USE_FOR']], '',
+                f"**Field restrictions:** {r['field_restrictions']}",'',
+                f"**Exceptional locus:** {r['exceptional_locus']}",'',
+                f"**Forward/converse status:** {r['forward_converse_status']}",'',
+                'Source lock:','', '```text',
+                f"source_pr={r['source_pr']}",
+                f"source_exact_head={r['exact_source_head']}",
+                f"authoritative_source={r['authoritative_source_path']}",
+                f"authoritative_source_blob_sha={r['source_blob_sha']}",
+                f"certificate={r['certificate_path']}",
+                f"certificate_blob_sha={r['certificate_blob_sha']}",
+                f"certificate_canonical_sha256={q(r.get('canonical_sha256'))}",
+                f"verifier={r['verifier_source_lock'].get('verifier')}",
+                f"verifier_blob_sha={r['verifier_source_lock'].get('verifier_blob_sha')}",
+                f"verifier_ref={r['verifier_source_lock'].get('verifier_ref')}",
+                f"source_lock={q(r['verifier_source_lock'].get('source_lock'))}",
+                '```','',
+                f"**Nearest existing card:** {', '.join(r['nearest_existing_card'])}",'',
+                f"**Distinction:** {r['exact_distinction_rationale']}",'',
+              ]
+          lines += ['## PROVISIONAL extensions to existing IDs','']
+          for r in ext['records']:
+              lines += [
+                f"### {r['temporary_candidate_id']} -> {r['target_existing_card']} — {r['proposed_role_name']}",'',
+                '**Maturity:** PROVISIONAL extension; no new stable ID.','',
+                f"Reusable contract: {r['exact_reusable_contract']}",'',
+                f"HYPOTHESES: {'; '.join(r['HYPOTHESES'])}",'',
+                f"APPLICABILITY: {r['APPLICABILITY']}",'',
+                f"DO_NOT_USE_FOR: {'; '.join(r['DO_NOT_USE_FOR'])}",'',
+                f"Field restrictions: {r['field_restrictions']}",'',
+                f"Exceptional locus: {r['exceptional_locus']}",'',
+                f"Forward/converse status: {r['forward_converse_status']}",'',
+                '```text',
+                f"source_pr={r['source_pr']}", f"source_exact_head={r['exact_source_head']}",
+                f"authoritative_source={r['authoritative_source_path']}", f"authoritative_source_blob_sha={r['source_blob_sha']}",
+                f"certificate={r['certificate_path']}", f"certificate_blob_sha={r['certificate_blob_sha']}",
+                f"certificate_canonical_sha256={q(r.get('canonical_sha256'))}",
+                f"verifier={r['verifier_source_lock'].get('verifier')}", f"verifier_blob_sha={r['verifier_source_lock'].get('verifier_blob_sha')}",
+                f"verifier_ref={r['verifier_source_lock'].get('verifier_ref')}", f"source_lock={q(r['verifier_source_lock'].get('source_lock'))}",
+                '```','',
+                f"Nearest existing card: {', '.join(r['nearest_existing_card'])}",'',
+                f"Distinction: {r['exact_distinction_rationale']}",'',
+              ]
+          lines += [
+            '## Historical / negative exclusions','',
+            *[f"- `{x}` — {h3['historical_or_negative_rationales'][x]}" for x in h3['final_classification']['HISTORICAL_OR_NEGATIVE']], '',
+            '## Stage36-specific exclusions','',
+            *[f"- `{x}` — {h3['stage36_specific_rationales'][x]}" for x in h3['final_classification']['STAGE36_SPECIFIC']], '',
+            '## Rejected duplicates','',
+            *[f"- `{x}` — {h3['key_hostile_decisions'].get(x,'route to existing Arsenal/Research OS contract') }" for x in h3['final_classification']['REJECT_DUPLICATE']], '',
+            '## Credit firewall','',
+            '```text',
+            'ARSENAL_REGISTRATION_DOES_NOT_CHANGE_STAGE36_MATHEMATICAL_AUTHORITY=true',
+            'STAGE36_PROGRESS_INCREMENT=0',
+            'STAGE36_MAIN_AUTHORITY_CHANGE=false',
+            'STAGE36_CURRENT_ROUTE_CREDIT_CHANGE=0',
+            'RECEIVER_CLOSURE_ADDED=false',
+            'RANK_PROOF_ADDED=false',
+            'MORDELL_WEIL_CLOSURE_ADDED=false',
+            'HILBERT_RECIPROCITY_ENDPOINT_CREDIT_ADDED=false',
+            'LOCAL_GLOBAL_OBSTRUCTION_CREDIT_ADDED=false',
+            'THEOREM_CLOSURE_ADDED=false',
+            'STAGE36_CLOSURE_OR_RELEASE_ADDED=false',
+            'PERFECT_CUBOID_EXISTENCE_CLAIM_ADDED=false',
+            'PERFECT_CUBOID_NONEXISTENCE_CLAIM_ADDED=false',
+            '```',''
+          ]
+          pathlib.Path('docs/stage36-arsenal-promotion.md').write_text('\n'.join(lines))
+
+          idxp=pathlib.Path('docs/arsenal/index.json')
+          data=json.loads(idxp.read_text())
+          ids=[]; retired={}
+          for k in ('selectors','formal_router_weapons','formal_workflows'):
+              ids += [x.get('id') for x in data.get(k,[]) if x.get('id')]
+          for h in data.get('provisional_harvests',[]):
+              ids += h.get('active_cards',[])+h.get('active_workflows',[])
+              retired.update(h.get('retired_merged_ids',{}))
+          new_ids=list(mapping.values())
+          assert not (set(new_ids)&set(ids)), (set(new_ids)&set(ids))
+          assert not (set(new_ids)&set(retired)), (set(new_ids)&set(retired))
+          roles={mapping[r['temporary_candidate_id']]:r['proposed_role_name'] for r in new['records']}
+          summaries={
+            'S36-PW01':'enumerate every nontrivial character quotient of a marked elementary-2 cover and certify its branch/genus inventory',
+            'S36-PW02':'decompose a curve Jacobian through an exact V4 action into certified quotient Jacobian factors',
+            'S36-PW03':'translate receiver-forced quadratic-extension anti-invariant MW directions into base-field twist rank/Kummer growth obligations',
+            'S36-PW04':'materialize a pointwise elementary-2 torsor H1 lift class through canonical dual-character charts and iff square-root fiber equations',
+            'S36-PW05':'construct a uniform order-4 half and exact 2-isogeny normalization on split-full-2 elliptic families',
+            'S36-PW06':'certify an exact generic rank/Kummer baseline for a 2-isogenous elliptic family using injective specialization plus complete fixed-fiber descent',
+            'S36-PW07':'convert source-derived dynamic prime reservoirs into a complete self/cross/dyadic/real local-character matrix without global-solvability credit',
+          }
+          support={'path':'../stage36-arsenal-promotion.md','class':'PROVISIONAL','role':'Stage36 initial provisional harvest promotion provenance; active Stage36 authority remains higher'}
+          assert support not in data.setdefault('support_records',[])
+          data['support_records'].append(support)
+          for r in ext['records']:
+              data.setdefault('provisional_extensions',[]).append({
+                'target_id':r['target_existing_card'],'source_stage':'Stage36','source_candidate':r['temporary_candidate_id'],
+                'path':'../stage36-arsenal-promotion.md','maturity':'PROVISIONAL','role':r['proposed_role_name']
+              })
+          harvest={
+            'source_stage':'Stage36','path':'../stage36-arsenal-promotion.md','source_pr':IMPL_PR,'source_branch':BRANCH,
+            'harvest_snapshot_head':UPPER,'live_head_refetch_required_before_use':True,
+            'promotion_status':'PROVISIONAL_INITIAL_HARVEST_PENDING_HOSTILE_AUDIT',
+            'active_cards':new_ids,'retired_merged_ids':{},'card_roles':roles,'card_summaries':summaries,
+            'active_workflows':[],'workflow_roles':{},'workflow_summaries':{},
+            'provisional_weapon_count':7,'provisional_workflow_count':0,'provisional_active_entry_count':7,
+            'initial_harvest':{
+              'source_stage':'Stage36','initial_harvest':True,'discovery_pr':1673,'discovery_exact_head':H3,
+              'implementation_pr':IMPL_PR,'implementation_branch':BRANCH,
+              'stage36_canonical_inception':LOWER,'harvest_lower_bound':LOWER,'harvest_upper_bound':UPPER,
+              'range_expanded_after_harvest1':False,
+              'inspected_scope':'exactly the 36 Harvest1 candidates; PR #1670 / 36-09AB and later main movement excluded',
+              'accepted_new_weapon_candidates':h3['final_classification']['NEW_WEAPON'],'new_weapon_ids':new_ids,
+              'extend_existing_candidates':h3['final_classification']['EXTEND_EXISTING'],
+              'extended_existing_ids':[r['target_existing_card'] for r in ext['records']],
+              'new_workflow_candidates':[], 'new_workflow_ids':[],
+              'negative_historical_exclusions':h3['final_classification']['HISTORICAL_OR_NEGATIVE'],
+              'stage36_specific_exclusions':h3['final_classification']['STAGE36_SPECIFIC'],
+              'rejected_duplicates':h3['final_classification']['REJECT_DUPLICATE'],
+              'stage36_mathematical_credit_added':False
+            }
+          }
+          data.setdefault('provisional_harvests',[]).append(harvest)
+          data['schema']='RESEARCH_ARSENAL_V11_STAGE30_STAGE31_STAGE34_FORMAL_STAGE32_STAGE33_STAGE35_STAGE36_PROVISIONAL'
+          data['status']='CURRENT_WITH_FORMAL_STAGE30_STAGE31_STAGE34_AND_STAGE32_STAGE33_STAGE35_STAGE36_PROVISIONAL_HARVESTS'
+          target=None
+          def walk(x):
+              nonlocal_target=[]
+              if isinstance(x,dict):
+                  if 'provisional_card_implies_formal_selector' in x: nonlocal_target.append(x)
+                  for v in x.values(): nonlocal_target += walk(v)
+              elif isinstance(x,list):
+                  for v in x: nonlocal_target += walk(v)
+              return nonlocal_target
+          hits=walk(data); assert len(hits)==1
+          fw=hits[0]
+          fw.update({
+            'arsenal_registration_implies_stage36_progress_increment':False,
+            'arsenal_registration_implies_stage36_main_authority_change':False,
+            'arsenal_registration_implies_stage36_current_route_credit':False,
+            'arsenal_registration_implies_stage36_receiver_closure':False,
+            'arsenal_registration_implies_stage36_rank_proof':False,
+            'arsenal_registration_implies_stage36_mordell_weil_closure':False,
+            'arsenal_registration_implies_stage36_hilbert_reciprocity_endpoint_credit':False,
+            'arsenal_registration_implies_stage36_local_global_obstruction_credit':False,
+            'arsenal_registration_implies_stage36_theorem_closure':False,
+            'arsenal_registration_implies_stage36_closure_or_release':False,
+            'arsenal_registration_implies_perfect_cuboid_existence_claim':False,
+            'arsenal_registration_implies_perfect_cuboid_nonexistence_claim':False,
+          })
+          idxp.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\n')
+          PY
+
+          python3 -B docs/arsenal/sync_arsenal_catalog.py
+          python3 -B docs/arsenal/sync_arsenal_catalog.py --check
+          git diff --check
+
+          python3 - <<'PY'
+          import json, subprocess
+          H3='0ad4a2fc78ebd3ee55c47d9bf5100d8e4cee3b66'; UPPER='07a465cb5025e7c0188fb63610bb40e4b54e7a84'
+          h3=json.load(open('/tmp/h3.json')); new=json.load(open('/tmp/h3-new.json')); ext=json.load(open('/tmp/h3-ext.json'))
+          def rev(ref,path):
+              return subprocess.check_output(['git','rev-parse',f'{ref}:{path}'],text=True).strip()
+          refs={H3,UPPER}
+          for r in new['records']+ext['records']:
+              refs.add(r['exact_source_head']); refs.add(r['verifier_source_lock'].get('verifier_ref') or UPPER)
+          for ref in sorted(refs):
+              subprocess.run(['git','fetch','origin',ref,'--depth=1'],check=True,stdout=subprocess.DEVNULL)
+          for r in new['records']+ext['records']:
+              assert rev(r['exact_source_head'],r['authoritative_source_path'])==r['source_blob_sha'], r['temporary_candidate_id']+' source blob'
+              assert rev(r['exact_source_head'],r['certificate_path'])==r['certificate_blob_sha'], r['temporary_candidate_id']+' cert blob'
+              v=r['verifier_source_lock']; vr=v.get('verifier_ref') or UPPER
+              if v.get('verifier') and v.get('verifier_blob_sha'):
+                  assert rev(vr,v['verifier'])==v['verifier_blob_sha'], r['temporary_candidate_id']+' verifier blob'
+              sl=v.get('source_lock')
+              if isinstance(sl,dict) and sl.get('path'):
+                  if sl.get('source_head_blob_sha'):
+                      assert rev(r['exact_source_head'],sl['path'])==sl['source_head_blob_sha']
+                  if sl.get('harvest_upper_corrected_blob_sha'):
+                      assert rev(UPPER,sl['path'])==sl['harvest_upper_corrected_blob_sha']
+                  if sl.get('blob_sha'):
+                      got=[]
+                      for ref in (r['exact_source_head'],vr,UPPER):
+                          try: got.append(rev(ref,sl['path']))
+                          except subprocess.CalledProcessError: pass
+                      assert sl['blob_sha'] in got, r['temporary_candidate_id']+' source-lock blob'
+              for x in v.get('supporting_locked_inputs',[]):
+                  assert rev(vr,x['path'])==x['blob_sha'], r['temporary_candidate_id']+' supporting lock'
+          data=json.load(open('docs/arsenal/index.json'))
+          hs=[x for x in data['provisional_harvests'] if x.get('source_stage')=='Stage36']
+          assert len(hs)==1
+          h=hs[0]
+          assert h['active_cards']==['S36-PW01','S36-PW02','S36-PW03','S36-PW04','S36-PW05','S36-PW06','S36-PW07']
+          assert h['active_workflows']==[] and h['harvest_snapshot_head']==UPPER
+          assert h['initial_harvest']['range_expanded_after_harvest1'] is False
+          assert h['initial_harvest']['discovery_exact_head']==H3
+          assert h['initial_harvest']['accepted_new_weapon_candidates']==h3['final_classification']['NEW_WEAPON']
+          assert h['initial_harvest']['extend_existing_candidates']==h3['final_classification']['EXTEND_EXISTING']
+          assert h['initial_harvest']['negative_historical_exclusions']==h3['final_classification']['HISTORICAL_OR_NEGATIVE']
+          assert h['initial_harvest']['stage36_specific_exclusions']==h3['final_classification']['STAGE36_SPECIFIC']
+          assert h['initial_harvest']['rejected_duplicates']==h3['final_classification']['REJECT_DUPLICATE']
+          assert h['initial_harvest']['stage36_mathematical_credit_added'] is False
+          promo=open('docs/stage36-arsenal-promotion.md').read()
+          assert 'ARSENAL_REGISTRATION_DOES_NOT_CHANGE_STAGE36_MATHEMATICAL_AUTHORITY=true' in promo
+          for i in range(1,8):
+              sid=f'S36-PW{i:02d}'; assert f'## {sid} ' in promo and '**Maturity:** PROVISIONAL' in promo
+          print('PASS_H3_MANIFEST_SOURCE_BLOB_PROVENANCE_ASSERTIONS')
+          PY
+
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          rm "$WORKFLOW"
+          git add docs .github/workflows
+          git commit -m "arsenal: register Stage36 initial provisional harvest"
+
+          FINAL_HEAD=$(git rev-parse HEAD)
+          echo "EXACT_FINAL_HEAD=$FINAL_HEAD"
+          python3 -B docs/arsenal/sync_arsenal_catalog.py --check
+          git diff --check "$BASE_MAIN"..HEAD
+          git diff --quiet "$BASE_MAIN"..HEAD -- stages/stage36
+          test ! -e "$WORKFLOW"
+
+          python3 - <<'PY'
+          import json, subprocess
+          base='9306238c7ada55e31311245019d6b7e474ad837f'
+          expected={
+            'docs/stage36-arsenal-promotion.md','docs/arsenal/index.json','docs/arsenal/catalog.md',
+            *{f'docs/arsenal/cards/provisional/S36-PW{i:02d}.md' for i in range(1,8)}
+          }
+          changed=set(subprocess.check_output(['git','diff','--name-only',f'{base}..HEAD'],text=True).splitlines())
+          assert changed==expected, (sorted(changed),sorted(expected))
+          data=json.load(open('docs/arsenal/index.json'))
+          ids=[]; retired={}
+          for k in ('selectors','formal_router_weapons','formal_workflows'):
+              ids += [x['id'] for x in data.get(k,[]) if 'id' in x]
+          for h in data.get('provisional_harvests',[]):
+              ids += h.get('active_cards',[])+h.get('active_workflows',[]); retired.update(h.get('retired_merged_ids',{}))
+          assert len(ids)==len(set(ids))
+          assert not (set(ids)&set(retired))
+          for old,succ in retired.items(): assert succ in set(ids)
+          cards=[x for x in ids if x.startswith('S36-')]
+          assert cards==[f'S36-PW{i:02d}' for i in range(1,8)]
+          promo=open('docs/stage36-arsenal-promotion.md').read()
+          assert 'HARVEST_UPPER_BOUND=07a465cb5025e7c0188fb63610bb40e4b54e7a84' in promo
+          assert 'RANGE_EXPANDED_AFTER_HARVEST1=false' in promo
+          assert 'STAGE36_MATHEMATICAL_CREDIT_CHANGE=0' in promo
+          print('PASS_SCOPE_ASSERTION',len(changed))
+          print('PASS_ID_UNIQUENESS_RETIRED_SUCCESSOR_PROVENANCE_ZERO_CREDIT')
+          PY
+
+          git status --porcelain=v1
+          test -z "$(git status --porcelain=v1)"
+          git push origin HEAD:"$BRANCH"
