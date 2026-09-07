@@ -29,15 +29,23 @@ Reusable workflow contract:
 
 ```text
 repo local rows/charts
--> identify a single fixed global H1/Kummer module/class system
--> prove every retained local row/chart is its exact localization/evaluation
--> certify field, support, dyadic, real and exceptional-place normalization
--> bind the exact literature theorem inputs
--> emit PASS typed global-local package or FAIL_CLOSED with the first missing obligation
+-> bind one fixed global H1/Kummer module/class to immutable construction evidence
+-> execute the bound construction verifier at its exact Git blob/head
+-> bind every retained local row/chart to immutable localization evidence
+-> execute every bound localization verifier at its exact Git blob/head
+-> independently verify the complete required-place inventory and exact place-set equality
+-> certify field, finite-support-if-used, dyadic and real normalization
+-> bind Serre/Milne exactly to the Phase3 freeze and execute theorem-hypothesis verifiers
+-> execute the separately bound global adapter mathematical verifier
+-> emit PASS only if every obligation succeeds; otherwise FAIL_CLOSED at the first gap
 ```
 
-HYPOTHESES: named global finite module/class; exact localization maps; complete relevant-place panel; source-bound local rows; field-change semantics explicit. APPLICABILITY: any repo branch attempting to upgrade local character/Kummer data to reciprocity, Selmer or global-duality input. DO_NOT_USE_FOR: constructing a missing global class; treating Hilbert reciprocity as a contradiction; converting local admissibility into a rational point; granting theorem/receiver/endpoint credit.
+`path`, a syntactically valid 40-character SHA, `required_places_complete=true`, `dyadic_handled=true`, `real_places_handled=true`, or a theorem `hypotheses_checked=true` flag is **never proof evidence by itself**. Every claimed `path/blob_sha/exact_head` is resolved against Git; every proof-bearing verifier is materialized from its claimed immutable blob and executed against immutable JSON evidence. The verifier/evidence pair must emit the frozen `LIT-WF02-IMMUTABLE-MATHEMATICAL-PASS-EVIDENCE-V1` JSON PASS record with matching subject/path/blob/head fields.
 
-Literature anchors: Serre, *A Course in Arithmetic*, Chapter III Theorems 2–4, DOI `10.1007/978-1-4684-9884-4`; Milne, *Arithmetic Duality Theorems*, Theorem I.4.10, https://www.jmilne.org/math/Books/ADTnot.pdf; standard Kummer/Selmer local-condition semantics as routed through existing provisional `LIT-PW03`.
+The Phase3 literature binding is also executable/fail-closed: discovery head `f1a2d3074e802b0fd4555cb827e165c3de2bdfc9`, `docs/arsenal/literature-stage36-hostile-freeze.json`, blob `d3f90093c0a6655da9874c9141b15ab4682c4409` is read from Git and the workflow candidate plus Serre/Milne theorem locators must match it exactly. Literature anchors remain Serre, *A Course in Arithmetic*, Chapter III Theorems 2-4, DOI `10.1007/978-1-4684-9884-4`; Milne, *Arithmetic Duality Theorems*, Theorem I.4.10, https://www.jmilne.org/math/Books/ADTnot.pdf.
 
-Stage36 seed input: `S36-PW04` chart tuple and `S36-PW07` local-character matrix. Repo adapter output is only a typed theorem-input package. Workflow support artifact: `docs/arsenal/lit-wf02-global-h1-localization-reciprocity-contract.json`, blob `bbf17d8fea0db65cb4a555f7eff03b747a4c8ee1`. Structural verifier: `docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py`, blob `7c38432bbace0f4408204dcd75b58d5d48f3bf19`. These audit typed readiness only; a separate mathematical adapter is still required for theorem use and mathematical credit remains zero.
+Current Stage36 applicability is **`FAIL_CLOSED_MISSING_GLOBAL_CLASS_AND_LOCALIZATION_ADAPTER_EVIDENCE`**. Phase3 already records the missing `POINTWISE_CHART_TUPLE_TO_GLOBAL_KUMMER_OR_TORSOR_CLASS` and `DYNAMIC_RESERVOIR_ROWS_TO_GLOBAL_KUMMER_LOCALIZATION_SYSTEM`; #1692 does not manufacture either and registers no Stage36 LIT-WF02 PASS package. `--self-check` emits only `SELF_CHECK_OK` after contract/freeze/provenance and adversarial fake-SHA checks; it is explicitly **not** applicability PASS.
+
+HYPOTHESES: named global finite module/class with immutable construction evidence; exact source binding; independently verified required-place inventory; immutable evidence and executable verifier for every localization; finite-support proof when used; explicit field-change semantics; exact Phase3 Serre/Milne binding plus executable theorem-hypothesis evidence; separately proved adapter verifier/evidence. APPLICABILITY: any repo branch attempting to upgrade local character/Kummer data to reciprocity, Selmer or global-duality input. DO_NOT_USE_FOR: constructing the missing global class; accepting metadata/boolean declarations as proof; treating Hilbert reciprocity as a contradiction; converting local admissibility into a rational point; granting theorem/receiver/local-global/endpoint credit.
+
+Workflow support artifact: `docs/arsenal/lit-wf02-global-h1-localization-reciprocity-contract.json`, blob `6fc62623ee59b4aaf1fc053ad42df2dcbba0855b`. Fail-closed applicability verifier: `docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py`, blob `ee066a55f95184916c02dc1f1bbd9f07d1840dc8`. Mathematical credit remains zero.
