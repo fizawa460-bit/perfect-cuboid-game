@@ -1,0 +1,50 @@
+name: Stage32 post1648AY S4 complement splitting
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648ay-s4-complement-splitting
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-ay-s4-complement:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run AY S4 complement splitting diagnostic
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648ay_s4_complement_splitting.py | tee /tmp/ay.json
+      - name: Assert exact splitting
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/ay.json'))
+          assert x['mode']=='SCRATCH_POST1648AY_S4_COMPLEMENT_SPLITTING'
+          assert x['retained_group_order']==1536
+          assert x['kernel_order']==64
+          assert x['quotient_order']==24
+          assert all(n>0 for n in x['coxeter_involutive_lift_candidate_counts'])
+          assert x['exact_S4_complement_solution_count']>0
+          assert x['chosen_complement_order']==24
+          assert x['chosen_complement_intersection_kernel_order']==1
+          assert x['internal_semidirect_product_verified'] is True
+          assert x['unique_H_times_S4_factorization_verified'] is True
+          assert x['firewalls']['explicit_48_node_bijection_obtained'] is False
+          print(json.dumps({
+            'lift_counts':x['coxeter_involutive_lift_candidate_counts'],
+            'solution_count':x['exact_S4_complement_solution_count'],
+            'S4_orbits':x['S4_complement_exceptional_orbit_sizes'],
+            'next_exact_route':x['next_exact_route'],
+          },sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
