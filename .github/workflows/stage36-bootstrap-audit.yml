@@ -56,11 +56,12 @@ jobs:
           assert a['merged_main_sha']=='386b6a52d7bfec2e8903412c7ca56976b46c288b'
           PY
           git merge-base --is-ancestor 386b6a52d7bfec2e8903412c7ca56976b46c288b HEAD
-      - name: Replay audited merged 36-09BE checkpoint
+      - name: Replay hostile-reaudited exact 36-09BE head
         shell: bash
         run: |
           set -euo pipefail
-          H=386b6a52d7bfec2e8903412c7ca56976b46c288b
+          H=52161f9872d7748bd3a4dcba346f7fd42d68edd9
+          git cat-file -e "$H^{commit}"
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09BE.py"
