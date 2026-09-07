@@ -1,0 +1,115 @@
+{
+  "schema": "STAGE36_36_09AR_EVEN_MONSKY_CLASS_COORDINATE_ADAPTER_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AR",
+  "status": "EXACT_EVEN_STAGE36_FULL2_TO_MONSKY_COORDINATE_ADAPTER_PENDING_BATCH_AUDIT",
+  "base_main_sha": "ab8fd6b3ff6660188d7d17c89960f02f5bf9eb90",
+  "batch_parent": {
+    "pr": 1680,
+    "36_09AQ_exact_head": "62497175353167faf98af7bfae6b6c2b3b32d013",
+    "36_09AQ_exact_head_ci": "34082635055/101620706331",
+    "authority_scope": "AQ is exact green same-PR provisional parent; AM-AN are audited main authority; AO source convention is hostile-audited reconciled payload"
+  },
+  "source_locks": {
+    "stage36_36_09AQ": {"path":"stages/stage36/36-09AQ/odd-eta-plus-monsky-class-coordinate-adapter-preflight.json","blob_sha":"ac75db896e04664c50c26399b5f8af333e38cca1"},
+    "stage36_36_09AQ_verifier": {"path":"stages/stage36/verify_stage36_36_09AQ.py","blob_sha":"235851de57165557d0aef4f59881561fe4e40c1a"},
+    "stage36_36_09AO_source": {"path":"stages/stage36/36-09AO/monsky-full2-kernel-source-lock.md","blob_sha":"9f22dfe19d42d7104d30d219aac1cfd72a67c72a"},
+    "stage36_36_09AJ": {"path":"stages/stage36/36-09AJ/congruent-number-full2-covering-class-preflight.json","blob_sha":"27950f53a89e28d02d04f2c19628504561c206e7"}
+  },
+  "hypotheses": {
+    "odd_part_n": "A*B*C*D positive odd squarefree",
+    "A_B_C_D": "positive odd squarefree and pairwise coprime",
+    "total_twist_N": "2*n",
+    "even_condition": "g=(e+f) mod 2=1, so (e,f) is (0,1) or (1,0)",
+    "stage36_root_order": ["0","+N","-N"],
+    "monsky_root_order": ["+N","-N","0"],
+    "even_monsky_map": "(d1,d2,d3) -> (psi_n(|d3|) | psi_n(d2))"
+  },
+  "branches": [
+    {
+      "id": "ETA_PLUS_E0_F1",
+      "eta": "+1",
+      "e": 0,
+      "f": 1,
+      "stage36_triple_0_plus_minus": ["2*C*D","2*A*D","A*C"],
+      "monsky_reordered_plus_minus_0": ["2*A*D","A*C","2*C*D"],
+      "torsion_multiplier": "(+N,0) triple=(2,2*N,N)",
+      "odd_supported_representative": ["A*D","B*D","A*B"],
+      "kernel_vector_formula": "(psi_n(A*B) | psi_n(B*D))"
+    },
+    {
+      "id": "ETA_PLUS_E1_F0",
+      "eta": "+1",
+      "e": 1,
+      "f": 0,
+      "stage36_triple_0_plus_minus": ["2*C*D","A*D","2*A*C"],
+      "monsky_reordered_plus_minus_0": ["A*D","2*A*C","2*C*D"],
+      "torsion_multiplier": "(-N,0) triple=(-2*N,2,-N)",
+      "odd_supported_representative": ["-B*C","A*C","-A*B"],
+      "kernel_vector_formula": "(psi_n(A*B) | psi_n(A*C))"
+    },
+    {
+      "id": "ETA_MINUS_E0_F1",
+      "eta": "-1",
+      "e": 0,
+      "f": 1,
+      "stage36_triple_0_plus_minus": ["-2*C*D","-A*C","2*A*D"],
+      "monsky_reordered_plus_minus_0": ["-A*C","2*A*D","-2*C*D"],
+      "torsion_multiplier": "(-N,0) triple=(-2*N,2,-N)",
+      "odd_supported_representative": ["B*D","A*D","A*B"],
+      "kernel_vector_formula": "(psi_n(A*B) | psi_n(A*D))"
+    },
+    {
+      "id": "ETA_MINUS_E1_F0",
+      "eta": "-1",
+      "e": 1,
+      "f": 0,
+      "stage36_triple_0_plus_minus": ["-2*C*D","-2*A*C","A*D"],
+      "monsky_reordered_plus_minus_0": ["-2*A*C","A*D","-2*C*D"],
+      "torsion_multiplier": "(+N,0) triple=(2,2*N,N)",
+      "odd_supported_representative": ["-A*C","B*C","-A*B"],
+      "kernel_vector_formula": "(psi_n(A*B) | psi_n(B*C))"
+    }
+  ],
+  "uniform_even_structure": {
+    "all_four_branches_exhausted": true,
+    "all_representative_components_supported_on_odd_part_n": true,
+    "d2_positive_in_all_four_branches": true,
+    "absolute_d3_equals_A_times_B_in_all_four_branches": true,
+    "common_first_half_kernel_coordinate": "psi_n(A*B)",
+    "second_half_by_branch": {
+      "ETA_PLUS_E0_F1": "psi_n(B*D)",
+      "ETA_PLUS_E1_F0": "psi_n(A*C)",
+      "ETA_MINUS_E0_F1": "psi_n(A*D)",
+      "ETA_MINUS_E1_F0": "psi_n(B*C)"
+    }
+  },
+  "completion_status": {
+    "odd_N_all_eta_adapter_complete_in_AP_AQ": true,
+    "even_N_all_eta_ef_branches_adapter_complete": true,
+    "all_parity_stage36_full2_to_Monsky_coordinate_adapter_complete": true,
+    "Monsky_kernel_membership_uniformly_proved": false,
+    "Monsky_kernel_implies_MW_image": false,
+    "retained_receiver_two_gate_filter_converse": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_closed": false
+  },
+  "route_result": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "new_structural_compression": "every even branch has first Monsky block psi_n(A*B); only the second block varies among four explicit reservoir products",
+    "next_leaf": "36-09AS_ALL_PARITY_MONSKY_KERNEL_EQUATION_COMPRESSION_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "coordinate_adapter_implies_Selmer_membership": false,
+    "Monsky_kernel_implies_MW_image": false,
+    "Monsky_kernel_implies_receiver": false,
+    "Tunnell_equality_implies_congruent": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
