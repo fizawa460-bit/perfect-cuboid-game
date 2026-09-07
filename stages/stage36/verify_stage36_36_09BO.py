@@ -63,15 +63,15 @@ def main():
     s=c['Q_reservoir_setup']
     assert s['minus_one_square'] is True
     assert s['units']==['D0','P','M','kappa','T']
-    # For an odd q|a^2+b^2 with primitive a,b, q cannot divide a or b and -1 is a residue.
+    # For an odd q|a^2+b^2 with primitive a,b, q cannot divide an old beta reservoir and -1 is a residue.
     for a,b in [(1,2),(2,3),(3,4),(4,7),(5,8)]:
         if math.gcd(a,b)!=1: continue
         Q=a*a+b*b
         for q in range(3,50,2):
             if Q%q: continue
-            if any(q%d==0 for d in (a,b,a-b,a+b)):
+            if any(d%q==0 for d in (a,b,a-b,a+b)):
                 raise AssertionError((a,b,q))
-            assert pow(q-1,(q-1)//2,q)==1  # (-1/q)=+1
+            assert pow(q-1,(q-1)//2,q)==1  # (-1/q)=+1 on these actual odd prime divisors
 
     n=c['nontie_classification']; ties=c['tie_branches']
     assert n['all_Q_reservoir_nontie_branches_automatic'] is True
@@ -87,11 +87,6 @@ def main():
             tie_p=gp[0]==gp[1]
             assert tie_m == (R==0 and S==h)
             assert tie_p == (S==0 and R==h)
-            if not tie_m:
-                # Dominant coefficient is either +square or -square; -1 is a residue at Q-reservoir primes.
-                assert True
-            if not tie_p:
-                assert True
 
     # Exact p=1/2, q=5 tie separation witnesses.
     lam=Fraction(-1,7); q=5
