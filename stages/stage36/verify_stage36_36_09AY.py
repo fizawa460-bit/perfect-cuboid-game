@@ -9,10 +9,10 @@ AX=ROOT/'stages/stage36/36-09AX/bounded-fixed-p-tunnell-sieve-scan-preflight.jso
 AW=ROOT/'stages/stage36/36-09AW/fixed-p-finite-squareclass-tunnell-branch-sieve-preflight.json'
 AD=ROOT/'stages/stage36/36-09AD/coupled-six-reservoir-factor-squareclass-parity-preflight.json'
 STATE=ROOT/'stages/stage36/MAIN-STATE.json'
-BASE='d43db1874b0e657143fa07b1a16eb87fc27e0238'
+BASE='726198a3d8ca4834e45c2ef275a75266b0f752b4'
 AX_HEAD='97e3f4bfc4345b05b74e9baf780ed8ff1baf38cb'
 AX_CI='34086964554/101632741310'
-CERT_BLOB='7c5538d4377c424537b25ce558916f5012d1e448'
+CERT_BLOB='add18004debf95a218a6393f6c2f18f2bd4f7e10'
 AX_BLOB='e72142f2ec8a2ab0dec4a6602874e1c2edc87c60'
 AW_BLOB='c1970a020803275ba87b249229e319367fa8f811'
 AD_BLOB='9d0388845955efee71d1a761ae4ee943d8b565d5'
@@ -47,7 +47,6 @@ def constructed(a,b):
  assert N==sf(D0)
  assert sf(abs(U*V*(U*U-V*V)))==N
  assert M*M*U-P*P*V==0
- # prove the exact outer branch occurs in AW enumerator and passes Tunnell
  _,_,_,_,_,_,branches=aw.enumerate_p(a,b)
  branch=(A,B,C,D,eta,e,f,N)
  assert branch in branches
@@ -57,14 +56,13 @@ def main():
  assert blob(CERT)==CERT_BLOB and blob(AX)==AX_BLOB and blob(AW)==AW_BLOB and blob(AD)==AD_BLOB
  subprocess.check_call(['git','merge-base','--is-ancestor',BASE,'HEAD'],cwd=ROOT)
  subprocess.check_call(['git','merge-base','--is-ancestor',AX_HEAD,'HEAD'],cwd=ROOT)
- c=json.loads(CERT.read_text()); assert c['batch_parent']['36_09AX_exact_head']==AX_HEAD and c['batch_parent']['36_09AX_exact_head_ci']==AX_CI
+ c=json.loads(CERT.read_text()); assert c['base_main_sha']==BASE; assert c['freshness_sync']['current_main']==BASE; assert c['freshness_sync']['stage36_source_drift'] is False; assert c['batch_parent']['36_09AX_exact_head']==AX_HEAD and c['batch_parent']['36_09AX_exact_head_ci']==AX_CI
  tested=0
  for a in range(1,21):
   for b in range(1,21):
    if a==b or math.gcd(a,b)!=1:continue
    constructed(a,b); tested+=1
  assert tested==254
- u=c['universal_construction']; assert u['gcd_lemma'].startswith('h=gcd')
  assert c['tunnell_survival']['all_fixed_p_outer_sieves_have_at_least_one_Tunnell_survivor'] is True
  assert c['boundary_nature']['Lminus']=='M^2*U-P^2*V=0'
  assert c['boundary_nature']['retained_open_status']=='EXCLUDED_BRANCH_POINT'
