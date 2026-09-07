@@ -9,8 +9,6 @@ HERE = Path(__file__).resolve().parent
 S07 = HERE.parent / "33-07"
 CERT = HERE / "e3-v91c1x-r5b2c1-all-48-node-isolating-rees-neighborhoods.json"
 EXC = S07 / "exceptional-p1-tangent-coordinates.json"
-EXC_SHA = "beffca388f2795296fd914a6345186dc6e594419f0fffb98e7c69068ff8280d1d70a7a2023e7"
-# Correct canonical source lock is checked separately below; keep the constant literal local to the assertion.
 EXC_CANONICAL = "beffca388f2795296fd914a6345186dc6e594419f0fffb93896bda2c3896a636"
 
 
@@ -46,22 +44,19 @@ def main():
     if cert["source_locks"]["exceptional_p1_tangent_coordinates_sha256"] != EXC_CANONICAL:
         raise SystemExit("certificate source lock drift")
 
-    if cert["frozen_exceptional_node_count"] != 48:
-        raise SystemExit("frozen node count moved")
-    if cert["node_isolating_principal_open_count"] != 48:
-        raise SystemExit("node isolating open count moved")
-    if cert["separator_vanishing_check_count"] != 48*47:
-        raise SystemExit("separator check count moved")
-    if cert["standard_rees_charts_per_node"] != 6:
-        raise SystemExit("Rees charts per node moved")
-    if cert["total_standard_rees_chart_count"] != 48*6:
-        raise SystemExit("total Rees chart count moved")
-    if cert["directed_internal_rees_overlap_transitions_per_node"] != 30:
-        raise SystemExit("internal transitions per node moved")
-    if cert["total_directed_internal_rees_overlap_transition_count"] != 48*30:
-        raise SystemExit("total internal transition count moved")
-    if cert["t_saturation_exact_check_count"] != 48*6:
-        raise SystemExit("saturation count moved")
+    expected_counts = {
+        "frozen_exceptional_node_count": 48,
+        "node_isolating_principal_open_count": 48,
+        "separator_vanishing_check_count": 48 * 47,
+        "standard_rees_charts_per_node": 6,
+        "total_standard_rees_chart_count": 48 * 6,
+        "directed_internal_rees_overlap_transitions_per_node": 30,
+        "total_directed_internal_rees_overlap_transition_count": 48 * 30,
+        "t_saturation_exact_check_count": 48 * 6,
+    }
+    for key, value in expected_counts.items():
+        if cert[key] != value:
+            raise SystemExit(f"count moved {key}: {cert[key]} != {value}")
 
     rows = cert["node_rows"]
     expected_ids = [f"EXC_{i:03d}" for i in range(1, 49)]
@@ -69,10 +64,8 @@ def main():
         raise SystemExit("node row order moved")
     for row in rows:
         op = row["node_isolating_principal_open"]
-        if op["separator_factor_count"] != 47:
-            raise SystemExit(f"separator factor count moved {row['exceptional_id']}")
-        if op["homogeneous_degree"] != 48:
-            raise SystemExit(f"node localizer degree moved {row['exceptional_id']}")
+        if op["separator_factor_count"] != 47 or op["homogeneous_degree"] != 48:
+            raise SystemExit(f"node isolator shape moved {row['exceptional_id']}")
         if not op["nonzero_at_own_node"] or not op["zero_at_all_other_47_frozen_nodes"]:
             raise SystemExit(f"node isolator exact property moved {row['exceptional_id']}")
         if row["standard_rees_chart_count"] != 6 or len(row["standard_rees_chart_commitment_sha256s"]) != 6:
@@ -100,7 +93,7 @@ def main():
         raise SystemExit("global node isolation regressed")
     if status["all_48_exceptional_resolution_atlases_materialized"] is not True:
         raise SystemExit("all-48 resolution atlas regressed")
-    for k in [
+    for key in [
         "smooth_complement_principal_cover_materialized",
         "finite_whole_resolved_surface_cover_materialized",
         "all_whole_surface_double_overlaps_materialized",
@@ -108,10 +101,11 @@ def main():
         "literal_mu2_2_cocycle_materialized",
         "equivalent_unimodular_cech_glue_materialized",
     ]:
-        if status[k] is not False:
-            raise SystemExit(f"credit/status firewall moved: {k}")
+        if status[key] is not False:
+            raise SystemExit(f"status firewall moved: {key}")
 
-    if cert["next_exact_leaf"] != "V91C1X_R5B2C2_MATERIALIZE_JACOBIAN_MINOR_SMOOTH_COMPLEMENT_COVER_AND_GLUE_TO_ALL_48_NODE_REES_NEIGHBORHOODS":
+    expected_next = "V91C1X_R5B2C2_MATERIALIZE_JACOBIAN_MINOR_SMOOTH_COMPLEMENT_COVER_AND_GLUE_TO_ALL_48_NODE_REES_NEIGHBORHOODS"
+    if cert["next_exact_leaf"] != expected_next:
         raise SystemExit("next leaf moved")
     if any(v is not False for v in cert["credit_firewall"].values()):
         raise SystemExit("credit firewall opened")
@@ -125,7 +119,7 @@ def main():
         "rees_charts": 288,
         "separator_checks": 2256,
         "stage33_progress": "6/11",
-        "next_exact_leaf": cert["next_exact_leaf"],
+        "next_exact_leaf": expected_next,
     }, sort_keys=True))
 
 
