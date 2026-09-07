@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX1_MAIN_COMPACT_STATE_V10_EX1_05C_INERTIA_CLASS_CAPACITY_CANDIDATE",
+  "schema": "STAGE32EX1_MAIN_COMPACT_STATE_V11_EX1_05D_H4_FORCING_CANDIDATE",
   "role": "ORDINARY_STAGE32EX1_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX1",
   "execution": {
@@ -16,13 +16,13 @@
     "merge_authorized": false
   },
   "freshness": {
-    "current_main_sha_observed": "e758e05953df2cf8cd4ab26ac1e9d72374e99760",
-    "candidate_head_before_state_update": "971c1aafc42fb7704ffe58072a19ad210c5f75a9",
+    "current_main_sha_observed": "e6fd1aec8391c2e9a82eab45c3498afcec99ad44",
+    "candidate_head_before_state_update": "4292972dde67c517c999f0497b24f23869b24e27",
     "compare_status": "diverged",
-    "ahead": 36,
-    "behind": 2,
+    "ahead": 40,
+    "behind": 6,
     "merge_base": "c52f88a671503ac9eb25c20186b4fb7729ba9112",
-    "behind_scope": "two Stage36 merges; compare shows no Stage32EX1 changed-file overlap",
+    "behind_scope": "six current-main commits since the fixed merge-base; no freshness sync is performed at this non-audit checkpoint",
     "freshness_sync_deferred_to_audit_ready_checkpoint": true
   },
   "authority": {
@@ -70,18 +70,19 @@
   "current": {
     "status": "ACTIVE",
     "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
-    "subroute": "EX1-05D_B3_NODE_PARITY_ADAPTER_OR_H4_FORCING",
-    "objective": "Identify exactly the 16 source-side b3=0/w-sign nodes or otherwise certify their individual V6 exceptional-pairing parities. Any odd pairing in this class excludes the sole surviving h=2 stabilizer and forces h=4; all-even leaves a sharply bounded h=2 residual.",
+    "subroute": "EX1-05E_H4_ONLY_RESIDUAL_CONFIGURATION_DISPOSAL",
+    "objective": "With h=2 now excluded and h=4 forced at the component-stabilizer layer, dispose the remaining h=4 residual configurations using only source-locked h=4 projection/ramification constraints and the complete delta/contact ledger; do not promote h=4 forcing itself to full V6 exclusion.",
     "next_route_if_success": "CONTINUE_EX1_05_UNTIL_ALL_RESIDUALS_DISPOSED_OR_POSITIVE_WITNESS_VERIFIED",
-    "audit_gate": "EX1_00_THROUGH_EX1_05C_CANDIDATES_UNAUDITED_NO_AUTHORITY_CREDIT",
+    "audit_gate": "EX1_00_THROUGH_EX1_05D_CANDIDATES_UNAUDITED_NO_AUTHORITY_CREDIT",
     "stop_semantics": "LEAF_GATE_ONLY_NOT_STAGE_EXHAUSTION"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex1/stage32-ex1.md",
     "stages/stage32-ex1/ex1-05b-inertia-parity-stabilizer.json",
     "stages/stage32-ex1/ex1-05c-inertia-class-capacity.json",
-    "stages/stage32-ex1/ex1-05c-inertia-class-capacity.md",
-    "stages/stage32-ex1/verify_ex1_05c_inertia_class_capacity.py"
+    "stages/stage32-ex1/ex1-05d-b3-node-parity-h4-forcing.json",
+    "stages/stage32-ex1/ex1-05d-b3-node-parity-h4-forcing.md",
+    "stages/stage32-ex1/verify_ex1_05d_b3_node_parity_h4_forcing.py"
   ],
   "frontier": {
     "source_lock_complete": true,
@@ -92,10 +93,10 @@
     "product_cover_member_level_constraint_proved_candidate": true,
     "odd_contact_ramification_adapter_proved_candidate": true,
     "ramification_Q_even": true,
-    "ramification_Q_range": [186, 266],
+    "ramification_Q_range": [186,266],
     "ramified_surface_node_count_lower_bound": 30,
     "minimum_multibranch_nonunit_nodes": 15,
-    "component_stabilizer_h_allowed": [2, 4],
+    "component_stabilizer_h_allowed": [4],
     "component_stabilizer_h1_excluded_candidate": true,
     "inertia_class_contact_masses": {
       "u_sign_b1_zero": 96,
@@ -104,14 +105,17 @@
     },
     "h2_subgroup_choices_total": 3,
     "h2_subgroup_choices_excluded_by_capacity": 2,
-    "h2_unique_surviving_forbidden_class": "w-sign/b3=0",
-    "h2_Q_even_range_if_survives": [188, 204],
-    "h2_slack_t_range": [0, 8],
+    "h2_subgroup_choices_excluded_by_b3_parity": 1,
+    "h2_unique_surviving_forbidden_class_before_05d": "w-sign/b3=0",
+    "h2_Q_even_range_if_it_had_survived": [188,204],
+    "h2_slack_t_range_if_it_had_survived": [0,8],
     "full_48_EXC_to_inertia_map_required_for_h2_decision": false,
-    "b3_16_node_individual_parity_adapter_locked": false,
+    "b3_16_node_individual_parity_adapter_locked": true,
+    "b3_odd_indices_1based": [1,2,3,7,41,42,47,48],
     "h2_forced": false,
-    "h2_excluded": false,
-    "h4_forced": false,
+    "h2_excluded": true,
+    "h4_forced": true,
+    "h4_forcing_scope": "COMPONENT_STABILIZER_LAYER_ONLY",
     "global_delta_contact_intersection_budget_closed": false,
     "finite_residual_ledger_complete": false,
     "all_residual_configurations_disposed": false,
@@ -125,8 +129,8 @@
     "exhaustive_view_audit": true,
     "blind_rediscovery": true,
     "split_triggered": false,
-    "active_route": "PRODUCT_COVER_LOCAL_INERTIA_PARITY",
-    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "active_route": "PRODUCT_COVER_H4_ONLY_RESIDUAL_DISPOSAL",
+    "route_status": "PASS_H2_CLOSED_H4_ONLY_FRONTIER",
     "arsenal_direct_match": false,
     "untested_candidates": [
       "SYMMETRIC_DIFFERENTIALS_BTVA22_GFU20",
@@ -155,10 +159,23 @@
       "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED",
       "key_result": "inertia masses 96/108/62; h=2 forbidding u or v excluded; sole surviving h=2 forbids w/b3=0 and requires all 16 such pairings even",
       "next_subroute": "EX1-05D_B3_NODE_PARITY_ADAPTER_OR_H4_FORCING"
+    },
+    {
+      "leaf": "EX1-05D",
+      "result": "PASS_EXACT_B3_NODE_PARITY_ADAPTER_H2_EXCLUDED_H4_FORCED_CANDIDATE",
+      "artifact": "stages/stage32-ex1/ex1-05d-b3-node-parity-h4-forcing.json",
+      "artifact_canonical_sha256": "8b73dc5010cbe55783ca2454d2da753dcaf10d09bca6ca5e36e3d0f24e86e886",
+      "proof_note": "stages/stage32-ex1/ex1-05d-b3-node-parity-h4-forcing.md",
+      "verifier": "stages/stage32-ex1/verify_ex1_05d_b3_node_parity_h4_forcing.py",
+      "scratch_run_id": 34124129143,
+      "scratch_job_id": 101748682959,
+      "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED",
+      "key_result": "exact b3 indices [1..8,41..48]; eight odd V6 pairings exclude the last h=2 subgroup; h=4 forced at component-stabilizer layer",
+      "next_subroute": "EX1-05E_H4_ONLY_RESIDUAL_CONFIGURATION_DISPOSAL"
     }
   ],
   "credit": {
-    "level": "EX1_05C_BRANCH_EXCLUSION_REFINEMENT_CANDIDATE_UNAUDITED",
+    "level": "EX1_05D_H4_FORCING_BRANCH_EXCLUSION_CANDIDATE_UNAUDITED",
     "candidate_necessary_condition_only": true,
     "candidate_branch_exclusion": true,
     "necessary_condition_only": false,
@@ -176,7 +193,7 @@
     "exact_head": null,
     "review_id": null,
     "result": null,
-    "candidate_leaf": "EX1-00_THROUGH_EX1-05C_ACCUMULATED_CANDIDATE",
+    "candidate_leaf": "EX1-00_THROUGH_EX1-05D_ACCUMULATED_CANDIDATE",
     "candidate_pr": 1688,
     "last_failed_audit": {
       "review_id": 5128737733,
@@ -196,6 +213,7 @@
     "Magma_point_order_guessed": false,
     "h2_declared_viable_without_b3_16_node_evenness_check": false,
     "h2_declared_excluded_without_b3_16_node_parity_check": false,
+    "h4_forcing_promoted_to_full_v6_exclusion": false,
     "product_cover_argument_promoted_to_full_v6_exclusion": false,
     "smooth_locus_singularities_discarded": false,
     "arsenal_nonmatch_treated_as_repository_absence": false,
