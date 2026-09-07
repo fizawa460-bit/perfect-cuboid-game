@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
-"""Generation5: add source-literal Galois stabilizers to the C5 pair solve.
+"""Generation6: expose the final one-dimensional C5-pair ambiguity.
 
-This replays the pinned generation2 sign-stabilizer diagnostic with the illegal
-node-union locator gate removed, then adds only symmetries whose action on the
-C5 equations is literal: ct fixes every C5 equation (no sqrt(2) occurs), while
-cc flips (e1,e4); composing cc with sign(b2) flips e4 only and hence stabilizes
-the unordered e4=+/- C5 pair.  No C5 self-intersection or antipodal 2H relation
-is assumed.
+Replays the exact generation5 sign+Galois constraints and, if one dimension
+remains, computes a primitive integral null direction and the retained known
+curve pairings that detect it.  This is locator-only: it does not assign the
+missing geometric intersection value and does not materialize C5 rows.
 """
 from pathlib import Path
 import hashlib
@@ -60,10 +58,6 @@ for name, perm, A in (("cc", cc_perm, cc_action), ("ct", ct_perm, ct_action)):
         if row_times_matrix(known[j], A) != known[perm[j]-1]:
             raise SystemExit(f"{name} all-known-class transport regression at {j+1}")
 
-# Bind the literal C5 Galois action to retained exceptional transport.
-# ct fixes i and the C5 equations contain no sqrt(2), so it fixes each label.
-# cc sends (e1,e2,e3,e4)->(-e1,e2,e3,-e4).  Source generator g8=sign(b2)
-# flips e1, so cc followed by g8 sends only e4 -> -e4 and stabilizes the pair.
 g8_perm = perms[7]
 def exc_move_from_perm(perm):
     out = {}
@@ -94,18 +88,50 @@ gal_basis = reduce_system(seed_rows + gal_rows, seed_rhs + [0] * len(gal_rows))
 galois_augmented_rank = len(gal_basis)
 galois_augmented_nullity = 64 - galois_augmented_rank
 seed_basis = gal_basis
+
+# Locate an exact retained curve receiver for the remaining ambiguity.  The
+# reduced rows are echelon with pivot coefficient 1, so one free coordinate
+# gives a homogeneous null vector by reverse substitution.
+free_cols = [j for j in range(64) if j not in seed_basis]
+null_direction = None
+null_receiver_rows = []
+if len(free_cols) == 1:
+    fcol = free_cols[0]
+    nv = [Fraction(0) for _ in range(64)]
+    nv[fcol] = Fraction(1)
+    for p in sorted(seed_basis, reverse=True):
+        row, _b = seed_basis[p]
+        nv[p] = -sum(row[j] * nv[j] for j in range(p + 1, 64))
+    from math import gcd, lcm
+    den = 1
+    for z in nv:
+        den = lcm(den, z.denominator)
+    zi = [int(z * den) for z in nv]
+    g = 0
+    for z in zi:
+        g = gcd(g, abs(z))
+    if g:
+        zi = [z // g for z in zi]
+    if next((z for z in zi if z), 1) < 0:
+        zi = [-z for z in zi]
+    null_direction = zi
+    if any(sum(r[j]*zi[j] for j in range(64)) != 0 for r in seed_rows + gal_rows):
+        raise SystemExit("final null direction failed homogeneous constraints")
+    for j in range(92):
+        val = pairing(zi, known[j], gram)
+        if val:
+            null_receiver_rows.append({"known_curve_index_1based": j+1, "null_pairing": int(val)})
 '''
 if text.count(old_rank) != 1:
     raise SystemExit("Goal4AF stabilizer rank injection target regression")
 text = text.replace(old_rank, new_rank)
 
 old_summary = '''    "sign_stabilizer_augmented_rank": augmented_rank,\n    "sign_stabilizer_augmented_nullity": nullity,\n'''
-new_summary = '''    "sign_stabilizer_augmented_rank": augmented_rank,\n    "sign_stabilizer_augmented_nullity": nullity,\n    "galois_stabilizer_augmented_rank": galois_augmented_rank,\n    "galois_stabilizer_augmented_nullity": galois_augmented_nullity,\n    "galois_stabilizers": ["ct", "cc_then_g8_sign_b2"],\n'''
+new_summary = '''    "sign_stabilizer_augmented_rank": augmented_rank,\n    "sign_stabilizer_augmented_nullity": nullity,\n    "galois_stabilizer_augmented_rank": galois_augmented_rank,\n    "galois_stabilizer_augmented_nullity": galois_augmented_nullity,\n    "galois_stabilizers": ["ct", "cc_then_g8_sign_b2"],\n    "final_free_columns_0based": free_cols,\n    "final_null_direction_INDLIST64": null_direction,\n    "known_curve_receivers_detecting_null": null_receiver_rows[:32],\n    "known_curve_receiver_count_detecting_null": len(null_receiver_rows),\n'''
 if text.count(old_summary) != 1:
     raise SystemExit("Goal4AF summary injection target regression")
 text = text.replace(old_summary, new_summary)
 
-# Do not use the provisional antipodal total-pair 2H relation to determine rows.
 old_anti_fail = '''if not all(anti_checks.values()):\n    raise SystemExit("unique sign-stabilized rows fail Goal4AC antipodal 2H relation")\n'''
 new_anti_fail = '''antipodal_total_pair_sum_equals_2H_observed = all(anti_checks.values())\n'''
 if text.count(old_anti_fail) != 1:
