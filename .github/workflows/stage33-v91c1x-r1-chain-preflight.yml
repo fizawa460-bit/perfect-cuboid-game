@@ -1,0 +1,40 @@
+name: Stage33 V91C1X_R1 chain-level action-difference preflight
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py'
+      - 'stages/stage33/33-12/diagnose_e3_v91c1r_swap23_boundary_function_package_transport.py'
+      - 'stages/stage33/33-12/e3-v91c1d-a2-02-purity-cech-cartier-assembly.json'
+      - 'stages/stage33/33-12/e3-v91c1w-a2-02-all8-picard64-reduction.json'
+      - 'stages/stage33/33-12/full-surface-pic2-kummer-target.json'
+      - 'stages/stage33/33-12/boundary-function-generator-source-lock.json'
+      - 'stages/stage33/33-11d/**'
+      - '.github/workflows/stage33-v91c1x-r1-chain-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage33-v91c1x-r1-chain-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  exact-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run source-bound chain-level action-difference preflight
+        run: python stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py
+      - name: Preserve repair authority and diff hygiene
+        run: |
+          python stages/stage33/33-12/verify_stage33_v91c1w_semantic_bridge_audit_repair_v110.py
+          python stages/stage33/sync_main_state.py --check
+          git diff --check
