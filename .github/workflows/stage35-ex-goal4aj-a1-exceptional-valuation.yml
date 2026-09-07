@@ -48,21 +48,21 @@ jobs:
           from pathlib import Path
           key=Path('stages/stage35-ex/runkeys/goal4aj-a1-exceptional-valuation.json')
           probe=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_a1_exceptional_valuation.py')
-          k=json.loads(key.read_text())
-          old=json.loads(Path('/tmp/old-key.json').read_text())
+          k=json.loads(key.read_text()); old=json.loads(Path('/tmp/old-key.json').read_text())
           blob=subprocess.check_output(['git','hash-object',str(probe)],text=True).strip()
+          oldgen=old.get('generation'); newgen=k.get('generation')
           ok=(k.get('schema')=='STAGE35_EX_GOAL4AJ_A1_EXCEPTIONAL_VALUATION_RUNKEY_V1' and
-              k.get('armed') is True and old.get('armed') is True and
-              old.get('generation')==1 and k.get('generation')==2 and
+              k.get('armed') is True and old.get('armed') is False and
+              oldgen==2 and newgen==3 and newgen==oldgen+1 and
               k.get('armed_from_head_sha')==os.environ['BEFORE'] and
-              blob==k.get('probe_blob_sha1')=='6cfa9b240d7b6d0a5caa5773c870ae75cbbeb92a' and
+              blob==k.get('probe_blob_sha1')=='096a3699d32522c3fb7556f398e5f2d39a2866d9' and
               k.get('planned_jobs')==1 and k.get('planned_shards')==1 and
               k.get('persisted_output_upper_bound_bytes')==32768 and
               k.get('actions_artifact_upload') is False)
           print('true' if ok else 'false')
           PY
-          AUTH="$(cat /tmp/auth)"
-          echo "authorized=${AUTH}" >> "$GITHUB_OUTPUT"
+          test "$(tail -n1 /tmp/auth)" = true || exit 0
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
 
   diagnose:
     needs: authorize
@@ -79,7 +79,7 @@ jobs:
           python-version: '3.12'
       - name: Install exact symbolic dependency
         run: python -m pip install --disable-pip-version-check sympy==1.14.0
-      - name: Certify A1 exceptional valuation jet translation
+      - name: Certify post-Q-peel A1 exceptional jet packet
         run: |
           set -euo pipefail
           python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_a1_exceptional_valuation.py | tee /tmp/goal4aj-a1.log
