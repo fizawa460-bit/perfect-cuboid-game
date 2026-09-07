@@ -1,16 +1,16 @@
-name: Stage33 V91C1X_R4 negative checkpoint direct check
+name: Stage33 V91C1X_R5 active cover-glue construction check
 
 on:
   pull_request:
     paths:
       - 'stages/stage33/MAIN-STATE.json'
       - 'stages/stage33/sync_main_state.py'
-      - 'stages/stage33/33-12/verify_stage33_v91c1x_r4_negative_checkpoint_v114.py'
+      - 'stages/stage33/33-12/verify_stage33_v91c1x_r5_active_v115.py'
       - 'stages/stage33/33-12/e3-v91c1x-r4-retained-boundary-resolution-insufficient-for-cover-indexed-h2.json'
-      - 'stages/stage33/33-12/e3-v91c1x-r3-cover-indexed-a2-02-representative-bounded-preflight.json'
       - 'stages/stage33/33-12/e3-v91c1x-r2-literal-mu2-or-unimodular-cech-glue-contract.json'
       - 'stages/stage33/33-12/e3-v91c1x-r1-chain-level-action-difference-preflight.json'
       - 'stages/stage33/33-12/e3-v91c1w-a2-02-all8-picard64-reduction.json'
+      - 'stages/stage33/33-12/*v91c1x-r5*'
       - '.github/workflows/stage33-v91c1ae-direct.yml'
   workflow_dispatch:
 
@@ -18,7 +18,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v91c1x-r4-direct-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1x-r5-direct-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -39,9 +39,9 @@ jobs:
           python stages/stage33/33-12/diagnose_e3_v91c1w_all8_picard64_reduction_v2.py
           python stages/stage33/33-12/verify_e3_v91c1w_a2_02_all8_picard64_reduction.py
           python stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py
-      - name: Verify V114 R4 negative checkpoint and audit stop
+      - name: Verify V115 R4 hostile-pass and R5 active routing
         run: |
-          python stages/stage33/33-12/verify_stage33_v91c1x_r4_negative_checkpoint_v114.py
+          python stages/stage33/33-12/verify_stage33_v91c1x_r5_active_v115.py
           python stages/stage33/sync_main_state.py --check
       - name: Diff hygiene
         run: git diff --check

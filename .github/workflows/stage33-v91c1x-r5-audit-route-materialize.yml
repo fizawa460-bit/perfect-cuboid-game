@@ -1,0 +1,38 @@
+name: Stage33 V91C1X_R5 audit-pass routing materializer
+
+on:
+  push:
+    branches:
+      - stage33-v91c1x-r5-cover-glue-package
+    paths:
+      - 'stages/stage33/33-12/materialize_stage33_v91c1x_r5_audit_pass_routing.py'
+      - '.github/workflows/stage33-v91c1x-r5-audit-route-materialize.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize R4 hostile-pass to R5 routing state
+        run: python stages/stage33/33-12/materialize_stage33_v91c1x_r5_audit_pass_routing.py
+      - name: Commit materialized MAIN-STATE
+        shell: bash
+        run: |
+          if git diff --quiet -- stages/stage33/MAIN-STATE.json; then
+            echo 'MAIN-STATE already materialized'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add stages/stage33/MAIN-STATE.json
+          git commit -m '[Stage33] route audited R4 checkpoint to R5 construction'
+          git push origin HEAD:${GITHUB_REF_NAME}

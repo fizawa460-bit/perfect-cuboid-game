@@ -1,0 +1,49 @@
+name: Stage33 V91C1X R5B2C2 Jacobian-minor smooth cover node glue
+
+on:
+  push:
+    paths:
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b2c2_jacobian_minor_smooth_cover_node_glue.py'
+      - 'stages/stage33/33-12/verify_stage33_v91c1x_r5b2c2_jacobian_minor_smooth_cover_node_glue_v126.py'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b2c1-all-48-node-isolating-rees-neighborhoods.json'
+      - 'stages/stage33/33-07/exceptional-p1-tangent-coordinates.json'
+      - '.github/workflows/stage33-v91c1x-r5b2c2-jacobian-minor-smooth-cover-node-glue.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact symbolic dependency
+        run: python -m pip install sympy
+      - name: Materialize R5B2C2 Jacobian-minor smooth cover/node glue
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b2c2_jacobian_minor_smooth_cover_node_glue.py --write
+      - name: Verify R5B2C2 Jacobian-minor smooth cover/node glue
+        run: python stages/stage33/33-12/verify_stage33_v91c1x_r5b2c2_jacobian_minor_smooth_cover_node_glue_v126.py
+      - name: Verify live Stage33 state remains synchronized
+        run: python stages/stage33/sync_main_state.py --check
+      - name: Diff check
+        run: git diff --check
+      - name: Commit R5B2C2 certificate
+        shell: bash
+        run: |
+          CERT='stages/stage33/33-12/e3-v91c1x-r5b2c2-jacobian-minor-smooth-cover-node-glue.json'
+          if [ -z "$(git status --porcelain -- "$CERT")" ]; then
+            echo 'R5B2C2 certificate already materialized'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$CERT"
+          git commit -m '[Stage33] materialize R5B2C2 Jacobian-minor smooth cover/node glue'
+          git push origin HEAD:${GITHUB_REF_NAME}
