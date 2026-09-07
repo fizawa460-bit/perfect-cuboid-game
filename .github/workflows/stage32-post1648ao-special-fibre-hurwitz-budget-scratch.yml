@@ -1,0 +1,30 @@
+name: Stage32 post1648AO special-fibre Hurwitz budget verifier
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648ao-special-fibre-hurwitz-budget
+    paths:
+      - 'stages/stage32/residual-32-01-production/post1648ao-special-fibre-hurwitz-budget-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1648ao-special-fibre-hurwitz-budget.json'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648ao_special_fibre_hurwitz_budget.py'
+      - '.github/workflows/stage32-post1648ao-special-fibre-hurwitz-budget-scratch.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-ao-hurwitz:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+      - name: Verify AO special-fibre Hurwitz budget
+        run: python3 stages/stage32/residual-32-01-production/verify_stage32_post1648ao_special_fibre_hurwitz_budget.py
+      - name: Diff hygiene
+        run: git diff --check
