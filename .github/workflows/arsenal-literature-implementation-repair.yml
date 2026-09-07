@@ -1,0 +1,177 @@
+name: Arsenal literature implementation repair
+
+on:
+  push:
+    branches:
+      - arsenal-literature-strengthening-implementation
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: arsenal-literature-strengthening-implementation
+      - name: Relock discovery, sync freshness, regenerate, validate exact head
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          OLD_AUDIT_HEAD=44f635f364f9904c2048197bc84eea58938fdb16
+          NEW_AUDIT_HEAD=288c3fac93774806a96cd7cb0076493e173f859c
+          git fetch origin main arsenal-literature-strengthening-audit
+          REMOTE_AUDIT_HEAD=$(git rev-parse origin/arsenal-literature-strengthening-audit)
+          test "$REMOTE_AUDIT_HEAD" = "$NEW_AUDIT_HEAD"
+          FRESH_MAIN=$(git rev-parse origin/main)
+          echo "FRESH_MAIN=$FRESH_MAIN"
+
+          MERGE_BASE=$(git merge-base HEAD origin/main)
+          git diff --name-only "$MERGE_BASE"..origin/main > /tmp/main-drift.txt
+          echo 'Main drift since implementation base:'
+          cat /tmp/main-drift.txt
+          if grep -E '^(docs/arsenal/|docs/arsenal-literature-strengthening-promotion\.md$)' /tmp/main-drift.txt; then
+            echo 'FAIL: current-main drift touches Arsenal/literature implementation scope' >&2
+            exit 1
+          fi
+
+          git merge --no-commit --no-ff origin/main
+
+          python3 - "$OLD_AUDIT_HEAD" "$NEW_AUDIT_HEAD" "$FRESH_MAIN" <<'PY'
+          from pathlib import Path
+          import sys
+          old_head, new_head, fresh_main = sys.argv[1:]
+          source = Path('docs/arsenal-literature-strengthening-promotion.md')
+          index = Path('docs/arsenal/index.json')
+          paths = [source, index]
+
+          total_old = 0
+          total_locator = 0
+          for p in paths:
+              text = p.read_text()
+              total_old += text.count(old_head)
+              text = text.replace(old_head, new_head)
+              for stale in (
+                  'Theorems 1.7, 1.9; Appendix Theorem A.1',
+                  'Theorems 1.7, 1.9 and Appendix Theorem A.1',
+                  'Theorem 1.7 and Theorem 1.9 / Appendix Theorem A.1',
+              ):
+                  c = text.count(stale)
+                  total_locator += c
+                  text = text.replace(stale, 'Theorem 1.7; Theorem 1.8; Appendix Theorem A.1')
+              p.write_text(text)
+
+          if total_old < 1:
+              raise SystemExit('FAIL: stale discovery head not found in implementation sources')
+          if total_locator < 1:
+              raise SystemExit('FAIL: stale Creutz-Viray locator not found in implementation sources')
+
+          text = source.read_text()
+          marker = 'IMPLEMENTATION_BASE_MAIN=24215fa27a631cd3cb370c0dfd76866dd2e916f1\n'
+          if 'FRESHNESS_SYNC_MAIN=' in text:
+              lines = []
+              for line in text.splitlines(True):
+                  if line.startswith('FRESHNESS_SYNC_MAIN='):
+                      lines.append(f'FRESHNESS_SYNC_MAIN={fresh_main}\n')
+                  else:
+                      lines.append(line)
+              text = ''.join(lines)
+          else:
+              if marker not in text:
+                  raise SystemExit('FAIL: implementation-base marker missing')
+              text = text.replace(marker, marker + f'FRESHNESS_SYNC_MAIN={fresh_main}\n', 1)
+          source.write_text(text)
+
+          for p in paths:
+              text = p.read_text()
+              if old_head in text:
+                  raise SystemExit(f'FAIL: stale audit head remains in {p}')
+              if 'Theorems 1.7, 1.9' in text or 'Theorem 1.7 and Theorem 1.9' in text:
+                  raise SystemExit(f'FAIL: stale Creutz-Viray locator remains in {p}')
+          PY
+
+          python3 -B docs/arsenal/sync_arsenal_catalog.py
+          python3 -B docs/arsenal/sync_arsenal_catalog.py --check
+          git diff --check
+
+          # Temporary workflow must not survive final materialized tree.
+          git rm .github/workflows/arsenal-literature-implementation-repair.yml
+          git add docs/arsenal-literature-strengthening-promotion.md docs/arsenal/index.json docs/arsenal/catalog.md docs/arsenal/cards
+          git commit -m 'fix(arsenal): relock literature audit and refresh implementation'
+
+          # Exact committed-tree validation.
+          test -z "$(git status --porcelain)"
+          python3 -B docs/arsenal/sync_arsenal_catalog.py --check
+          git diff --check origin/main..HEAD
+
+          git diff --name-only origin/main..HEAD | sort > /tmp/final-scope.txt
+          echo 'Final scope:'
+          cat /tmp/final-scope.txt
+          test "$(wc -l < /tmp/final-scope.txt)" -eq 19
+          if grep -E '^(stages/|\.github/|.*MAIN-STATE|.*controller)' /tmp/final-scope.txt; then
+            echo 'FAIL: forbidden scope in final diff' >&2
+            exit 1
+          fi
+          python3 - <<'PY'
+          from pathlib import Path
+          allowed = {'docs/arsenal-literature-strengthening-promotion.md','docs/arsenal/index.json','docs/arsenal/catalog.md'}
+          allowed |= {f'docs/arsenal/cards/provisional/LIT-PW{i:02d}.md' for i in range(1,16)}
+          allowed.add('docs/arsenal/cards/workflows/LIT-WF01.md')
+          got = set(Path('/tmp/final-scope.txt').read_text().splitlines())
+          if got != allowed:
+              raise SystemExit(f'FAIL exact scope mismatch: extra={sorted(got-allowed)} missing={sorted(allowed-got)}')
+          PY
+
+          # Registry/card invariants and Stage36 conflict-only equality.
+          git show origin/main:docs/arsenal/index.json > /tmp/main-index.json
+          python3 - <<'PY'
+          import json, re
+          from pathlib import Path
+          cur = json.loads(Path('docs/arsenal/index.json').read_text())
+          base = json.loads(Path('/tmp/main-index.json').read_text())
+
+          def dicts(x):
+              if isinstance(x, dict):
+                  yield x
+                  for v in x.values(): yield from dicts(v)
+              elif isinstance(x, list):
+                  for v in x: yield from dicts(v)
+          cur_entries=[d for d in dicts(cur) if isinstance(d.get('id'), str)]
+          base_entries=[d for d in dicts(base) if isinstance(d.get('id'), str)]
+          ids=[d['id'] for d in cur_entries]
+          # Registry has one primary object per active/retired ID; references use named fields, not id.
+          if len(ids) != len(set(ids)):
+              dup=sorted({x for x in ids if ids.count(x)>1})
+              raise SystemExit(f'FAIL duplicate registry ids: {dup}')
+          required={f'LIT-PW{i:02d}' for i in range(1,16)}|{'LIT-WF01'}
+          if not required.issubset(set(ids)):
+              raise SystemExit(f'FAIL missing literature ids: {sorted(required-set(ids))}')
+          s36_cur={d['id']:d for d in cur_entries if d['id'].startswith('S36-')}
+          s36_base={d['id']:d for d in base_entries if d['id'].startswith('S36-')}
+          if s36_cur != s36_base:
+              raise SystemExit('FAIL Stage36 registry entries changed relative to fresh main')
+          PY
+
+          test -z "$(git grep -n '44f635f364f9904c2048197bc84eea58938fdb16' -- docs/arsenal-literature-strengthening-promotion.md docs/arsenal/index.json docs/arsenal/cards/provisional/LIT-PW05.md || true)"
+          test -z "$(git grep -n 'Theorems 1.7, 1.9\|Theorem 1.7 and Theorem 1.9' -- docs/arsenal-literature-strengthening-promotion.md docs/arsenal/index.json docs/arsenal/cards/provisional/LIT-PW05.md || true)"
+          git grep -n 'Theorem 1.7; Theorem 1.8; Appendix Theorem A.1' -- docs/arsenal-literature-strengthening-promotion.md docs/arsenal/index.json docs/arsenal/cards/provisional/LIT-PW05.md
+          git grep -n 'LITERATURE_AUDIT_EXACT_HEAD=288c3fac93774806a96cd7cb0076493e173f859c' -- docs/arsenal-literature-strengthening-promotion.md
+          git grep -n "FRESHNESS_SYNC_MAIN=$FRESH_MAIN" -- docs/arsenal-literature-strengthening-promotion.md
+          git grep -n 'STAGE36_EXCLUDED=true' -- docs/arsenal-literature-strengthening-promotion.md
+          git grep -n 'MATHEMATICAL_STAGE_CREDIT_INCREMENT=0' -- docs/arsenal-literature-strengthening-promotion.md
+
+          for f in docs/arsenal/cards/provisional/LIT-PW*.md docs/arsenal/cards/workflows/LIT-WF01.md; do
+            grep -q 'DO_NOT_USE_FOR' "$f"
+            grep -q 'Theorem/algorithm locator' "$f"
+            grep -q 'Conditional' "$f"
+            grep -q 'Repo adapter' "$f"
+          done
+
+          git show --check --oneline --stat HEAD
+          git push origin HEAD:arsenal-literature-strengthening-implementation
