@@ -1,19 +1,14 @@
-name: Stage33 V91C1AF direct seed-fixed check
+name: Stage33 V91C1W direct semantic-bridge blocker check
 
 on:
   pull_request:
     paths:
-      - 'stages/stage33/33-12/diagnose_e3_v91c1af_sign_a2_seed_fixed_subspace.py'
-      - 'stages/stage33/33-12/e3-v91c1af-kummer-sign-a2-source-lock.md'
-      - 'stages/stage33/33-12/diagnose_e3_v91c1ae_sign_a2_picard64_reduction.py'
-      - 'stages/stage33/33-12/diagnose_e3_v91c1ac_sign_b1_seed_fixed_subspace.py'
-      - 'stages/stage33/33-12/diagnose_e3_v91c1z_next_stabilizer_reducers.py'
-      - 'stages/stage33/33-12/diagnose_e3_v91c1ab_sign_prime_attached_cech_difference.py'
-      - 'stages/stage33/33-12/diagnose_e3_v91c1ad_sign_a2_picard64_locator_preflight.py'
-      - 'stages/stage33/33-12/diagnose_e3_v91c1v_actual_prime_known140_locator.py'
-      - 'stages/stage33/33-11e/**'
-      - 'stages/stage33/33-11d/**'
-      - 'stages/stage33/33-07/**'
+      - 'stages/stage33/MAIN-STATE.json'
+      - 'stages/stage33/sync_main_state.py'
+      - 'stages/stage33/33-12/verify_stage33_v91c1w_semantic_bridge_audit_repair_v110.py'
+      - 'stages/stage33/33-12/e3-v91c1w-a2-02-all8-picard64-reduction.json'
+      - 'stages/stage33/33-12/diagnose_e3_v91c1w_all8_picard64_reduction_v2.py'
+      - 'stages/stage33/33-12/e3-v91c1x-kummer-action-difference-source-lock.md'
       - '.github/workflows/stage33-v91c1ae-direct.yml'
   workflow_dispatch:
 
@@ -21,7 +16,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v91c1af-direct-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1w-direct-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -37,7 +32,12 @@ jobs:
           python-version: '3.11'
       - name: Install pinned exact local algebra
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Diagnose V91C1AF sign_a2 seed fixedness and subspace
-        run: python stages/stage33/33-12/diagnose_e3_v91c1af_sign_a2_seed_fixed_subspace.py
+      - name: Diagnose retained V91C1W Picard64/Pic2 reduction
+        run: python stages/stage33/33-12/diagnose_e3_v91c1w_all8_picard64_reduction_v2.py
+      - name: Verify audit-repair semantic bridge blocker
+        run: |
+          python stages/stage33/33-12/verify_e3_v91c1w_a2_02_all8_picard64_reduction.py
+          python stages/stage33/33-12/verify_stage33_v91c1w_semantic_bridge_audit_repair_v110.py
+          python stages/stage33/sync_main_state.py --check
       - name: Diff hygiene
         run: git diff --check
