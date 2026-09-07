@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  diagnose-au-cusp-incidence:
+  verify-au-universal-bezout:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout exact scratch head
@@ -19,32 +19,9 @@ jobs:
           fetch-depth: 1
       - name: Assert exact head
         run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
-      - name: Install exact diagnostic dependency
+      - name: Install exact verifier dependency
         run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Run AU cusp incidence diagnostic
-        run: |
-          python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648au_cusp_incidence_low_bidegree_preflight.py | tee /tmp/post1648au.json
-          python3 - <<'PY'
-          import json
-          x=json.load(open('/tmp/post1648au.json'))
-          assert x['mode']=='SCRATCH_POST1648AU_CUSP_INCIDENCE_LOW_BIDEGREE_PREFLIGHT_V2'
-          assert x['cusp_incidence']['all_vertex_degrees'] is True
-          assert x['cusp_incidence']['component_type']=='3_disjoint_K2_2'
-          assert x['cusp_incidence']['total_weight']==266
-          assert x['universal_bezout_capacity']['row_max_sum']==168
-          assert x['universal_bezout_capacity']['column_max_sum']==173
-          assert x['universal_bezout_capacity']['all_positive_bidegrees_excluded_from_cusp_weight_bezout_obstruction'] is True
-          assert x['one_one_check']['max_weight_matching']==168
-          assert x['one_one_check']['margin']==-18
-          assert x['decision']['v6_carrier_excluded'] is False
-          print(json.dumps({
-            'component_type':x['cusp_incidence']['component_type'],
-            'component_weights':[c['weight_sum'] for c in x['cusp_incidence']['components']],
-            'row_max_sum':x['universal_bezout_capacity']['row_max_sum'],
-            'column_max_sum':x['universal_bezout_capacity']['column_max_sum'],
-            'one_one':x['one_one_check'],
-            'wall':x['decision']['bounded_wall'],
-          },sort_keys=True))
-          PY
+      - name: Run AU final verifier
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648au_cusp_incidence_universal_bezout_wall.py
       - name: Diff hygiene
         run: test -z "$(git status --porcelain)"
