@@ -1,0 +1,105 @@
+name: Stage35-EX Goal4AF local C5 node-lattice extraction
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_local_node_lattice.py'
+      - 'stages/stage35-ex/runkeys/goal4af-c5-node-lattice.json'
+      - '.github/workflows/stage35-ex-goal4af-c5-node-lattice.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage35-ex-goal4af-node-lattice-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+      - id: gate
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage35-ex/runkeys/goal4af-c5-node-lattice.json'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          test '${{ github.event_name }}' = 'pull_request' || exit 0
+          test "${PR_NUMBER}" = '1659' || exit 0
+          test "${HEAD_REF}" = 'stage35-ex-goal4x-open-receiver-boundary-picard' || exit 0
+          test -n "${BEFORE}" || exit 0
+          git fetch --no-tags --depth=1 origin "${BEFORE}" || exit 0
+          git cat-file -e "${BEFORE}^{commit}" 2>/dev/null || exit 0
+          git diff --name-only "${BEFORE}" "${HEAD_SHA}" | grep -Fxq "${KEY}" || exit 0
+          python - <<'PY'
+          import hashlib,json,subprocess
+          from pathlib import Path
+          key=Path('stages/stage35-ex/runkeys/goal4af-c5-node-lattice.json')
+          diag=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_local_node_lattice.py')
+          new=json.loads(key.read_text())
+          assert new['schema']=='STAGE35_EX_GOAL4AF_C5_NODE_LATTICE_RUNKEY_V1'
+          assert new['armed'] is True and new['generation']==1
+          assert new['route']=='LOCAL_SOURCE_NODE_INCIDENCE_PLUS_PICARD_LINEAR_SYSTEM'
+          assert new['upstream_git_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
+          def blob(p):
+              raw=p.read_bytes()
+              return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+          assert blob(diag)==new['diagnostic_blob_sha1']=='aa43bc38d799ab78cf0252830718979b15fa54fc'
+          assert new['planned_jobs']==1 and new['planned_shards']==1
+          assert new['persisted_output_upper_bound_bytes']<=65536
+          assert new['projected_peak_actions_storage_bytes']<=1048576
+          assert new['actions_artifact_upload'] is False
+          before='${{ github.event.before }}'
+          old=subprocess.run(['git','show',f'{before}:{key.as_posix()}'],text=True,capture_output=True)
+          assert old.returncode != 0, 'generation1 runkey unexpectedly existed in parent'
+          print('GOAL4AF_NODE_LATTICE_RUNKEY_AUTHORIZED=true')
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  diagnose:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Solve C5 pair rows from exact source-node incidence and Picard lattice
+        run: |
+          set -euo pipefail
+          python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_local_node_lattice.py | tee /tmp/goal4af-node-lattice.log
+          grep -q '^GOAL4AF_LOCAL_NODE_LATTICE_JSON=' /tmp/goal4af-node-lattice.log
+          test "$(wc -c </tmp/goal4af-node-lattice.log)" -le 65536
+      - name: Enforce diagnostic no-credit boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          s=Path('/tmp/goal4af-node-lattice.log').read_text()
+          line=next(x for x in s.splitlines() if x.startswith('GOAL4AF_LOCAL_NODE_LATTICE_JSON='))
+          d=json.loads(line.split('=',1)[1])
+          assert d['remote_cas_used'] is False
+          assert d['target_span_computed'] is False
+          assert d['theorem_credit'] is False
+          assert d['endpoint_credit'] is False
+          assert d['pair_count']==8
+          assert d['goal4ac_residual_pair_count']==4
+          print('GOAL4AF_NODE_LATTICE_DIAGNOSTIC_BOUNDARY=PASS')
+          PY
