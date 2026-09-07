@@ -11,6 +11,7 @@ on:
       - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_branch_conic_receiver_v2.py'
       - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_branch_conic_receiver_v3.py'
       - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_branch_conic_receiver_v4.py'
+      - 'stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_target_span.py'
       - 'stages/stage35-ex/runkeys/goal4af-c5-node-lattice.json'
       - '.github/workflows/stage35-ex-goal4af-c5-node-lattice.yml'
   workflow_dispatch:
@@ -53,24 +54,27 @@ jobs:
           import hashlib,json,subprocess
           from pathlib import Path
           key=Path('stages/stage35-ex/runkeys/goal4af-c5-node-lattice.json')
-          diag=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_branch_conic_receiver_v4.py')
+          diag=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_target_span.py')
           new=json.loads(key.read_text())
           assert new['schema']=='STAGE35_EX_GOAL4AF_C5_NODE_LATTICE_RUNKEY_V1'
-          assert new['armed'] is True and new['generation']==10
-          assert new['route']=='LOCAL_SOURCE_C1_25_BRANCH_CONIC_RECEIVER_SOLVE_V4'
+          assert new['armed'] is True and new['generation']==11
+          assert new['route']=='LOCAL_C5_MARKED_REPRESENTATIVE_TARGET_SPAN'
           def blob(p):
               raw=p.read_bytes(); return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
-          assert blob(diag)==new['diagnostic_blob_sha1']=='cd80f7533dd865eb68ad75e0f25454d542ebf4e7'
+          assert blob(diag)==new['diagnostic_blob_sha1']=='3a5045f7f3c48a2f93a8116090beca1422bafac3'
           before='${{ github.event.before }}'
           old=json.loads(subprocess.check_output(['git','show',f'{before}:{key.as_posix()}'],text=True))
-          assert old['generation']==9
-          r=new['generation9_result']
-          assert r['workflow_run']==34070753794 and r['job']==101587559088
-          assert r['failure_before_receiver_math']=='WRAPPER_POSTCHECK_LOCATOR_REGRESSION'
+          assert old['generation']==10
+          r=new['generation10_result']
+          assert r['workflow_run']==34071239834 and r['job']==101588889887
+          assert r['conclusion']=='SUCCESS'
+          assert r['receiver_augmented_rank']==64 and r['receiver_augmented_nullity']==0
+          assert r['pair_rows_materialized'] is True and r['pair_count']==8
+          assert r['goal4ac_residual_pair_count']==4
           assert new['planned_jobs']==1 and new['planned_shards']==1
-          assert new['persisted_output_upper_bound_bytes']<=65536
+          assert new['persisted_output_upper_bound_bytes']<=16384
           assert new['actions_artifact_upload'] is False
-          print('GOAL4AF_BRANCH_CONIC_RECEIVER_G10_AUTHORIZED=true')
+          print('GOAL4AF_TARGET_SPAN_G11_AUTHORIZED=true')
           PY
           echo 'authorized=true' >> "$GITHUB_OUTPUT"
 
@@ -87,35 +91,30 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Replay final C5 pair solve with direct wrapper repair
+      - name: Test Goal4AA target span after adjoining C5 marked representatives
         run: |
           set -euo pipefail
-          python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_branch_conic_receiver_v4.py | tee /tmp/goal4af-c25-receiver.log
-          grep -q '^GOAL4AF_SIGN_STABILIZER_JSON=' /tmp/goal4af-c25-receiver.log
-          grep -q '^GOAL4AF_BRANCH_CONIC_RECEIVER_JSON=' /tmp/goal4af-c25-receiver.log
-          test "$(wc -c </tmp/goal4af-c25-receiver.log)" -le 65536
-      - name: Enforce source-receiver no-credit boundary
+          python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_target_span.py | tee /tmp/goal4af-target-span.log
+          grep -q '^GOAL4AF_TARGET_SPAN_JSON=' /tmp/goal4af-target-span.log
+          test "$(wc -c </tmp/goal4af-target-span.log)" -le 16384
+      - name: Enforce marked-representative no-credit boundary
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          s=Path('/tmp/goal4af-c25-receiver.log').read_text()
-          base=json.loads(next(x for x in s.splitlines() if x.startswith('GOAL4AF_SIGN_STABILIZER_JSON=')).split('=',1)[1])
-          d=json.loads(next(x for x in s.splitlines() if x.startswith('GOAL4AF_BRANCH_CONIC_RECEIVER_JSON=')).split('=',1)[1])
-          assert base['galois_stabilizer_augmented_rank']==63
-          assert base['galois_stabilizer_augmented_nullity']==1
-          assert base['pair_rows_materialized'] is True and base['pair_count']==8
-          assert base['goal4ac_residual_pair_count']==4
-          assert d['receiver_known_curve_index_1based']==25
-          assert d['receiver_each_c5_intersection']==2
-          assert d['receiver_total_pair_intersection']==4
-          assert d['receiver_augmented_rank']==64 and d['receiver_augmented_nullity']==0
-          recv=d['equivariant_receiver_indices_1based']
-          assert len(recv)==8
-          assert all(25<=int(x)<=32 for x in recv.values())
-          assert d['pair_rows_materialized'] is True and d['pair_count']==8
-          assert d['goal4ac_residual_pair_count']==4
-          assert d['target_span_computed'] is False
+          s=Path('/tmp/goal4af-target-span.log').read_text()
+          d=json.loads(next(x for x in s.splitlines() if x.startswith('GOAL4AF_TARGET_SPAN_JSON=')).split('=',1)[1])
+          assert d['goal4ab_linear_section_column_count']==43
+          assert d['goal4ab_linear_section_span_rank']==31
+          assert d['formal_target_support_count']==69
+          assert d['c5_goal4ac_residual_pair_count']==4
+          assert d['c5_residual_distinct_marked_picard64_row_count']==2
+          assert isinstance(d['formal_target_in_Q_span_after_adjoining_c5_marked_representatives'],bool)
+          assert d['actual_C5_support_identified_with_marked_representative'] is False
+          assert d['explicit_F_B_materialized'] is False
+          assert d['general_principal_function_problem_closed'] is False
+          assert d['remote_cas_used'] is False
           assert d['theorem_credit'] is False and d['endpoint_credit'] is False
-          print('GOAL4AF_BRANCH_CONIC_RECEIVER_G10_BOUNDARY=PASS')
+          assert d['E1_proved'] is False and d['stage35_closed'] is False
+          print('GOAL4AF_TARGET_SPAN_G11_BOUNDARY=PASS')
           PY
