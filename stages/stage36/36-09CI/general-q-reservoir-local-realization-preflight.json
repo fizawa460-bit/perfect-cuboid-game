@@ -51,6 +51,7 @@
     "generic_pattern_count":"for each hard pattern, the number N of y0 not in {0,+1,-1} with chi(y0)=d, chi(1-y0)=k, chi(1+y0)=r is exactly (q+1+C_q)/8",
     "hasse_input":"|C_q|<=2*sqrt(q)",
     "positivity":"N >= (q+1-2*sqrt(q))/8 = (sqrt(q)-1)^2/8 > 0 for every odd q",
+    "universal_replay":"the verifier enumerates every hard pattern for all q congruent 1 modulo 4 below 300, checks 8*N=q+1+C_q and positivity, while the locked Hasse theorem supplies the universal bound beyond the finite replay",
     "consequence":"every hard character pattern has a generic-unit realization; no finite-field residue pattern remains obstructed after the BU Q-row"
   },
   "main_consequence":{
@@ -63,9 +64,8 @@
   "exact_fixed_p_diagnostics":{
     "p_1_over_2":{"CH_survivors":3,"after_CI_Q_reservoir":3,"odd_Q_primes":[5],"fixed_p_excluded":false},
     "p_2_over_11":{"CH_survivors":5,"after_CI_Q_reservoir":5,"odd_Q_primes":[5],"v_5_Q":3,"fixed_p_excluded":false},
-    "diagnostic_p_3_over_4":{"scope":"same exact generator; not a retained-candidate membership claim","CH_survivors":3,"after_CI_Q_reservoir":3,"odd_Q_primes":[5]},
-    "diagnostic_p_1_over_8":{"scope":"same exact generator; not a retained-candidate membership claim","CH_survivors":3,"after_CI_Q_reservoir":3,"odd_Q_primes":[5,13]},
-    "diagnostic_p_1_over_32":{"scope":"same exact generator; not a retained-candidate membership claim; included to exercise the Hasse/generic sector","CH_survivors":4,"after_CI_Q_reservoir":4,"odd_Q_primes":[5,41],"generic_sector_used":true}
+    "diagnostic_p_3_over_4":{"scope":"same exact audited CH diagnostic generator; not a retained-candidate membership claim","CH_survivors":3,"after_CI_Q_reservoir":3,"odd_Q_primes":[5]},
+    "diagnostic_p_1_over_8":{"scope":"same exact audited CH diagnostic generator; not a retained-candidate membership claim","CH_survivors":3,"after_CI_Q_reservoir":3,"odd_Q_primes":[5,13]}
   },
   "route_result":{
     "route_status":"PASS_GENERAL_Q_RESERVOIR_LOCAL_REALIZATION_Q_ROW_SUFFICIENT",
