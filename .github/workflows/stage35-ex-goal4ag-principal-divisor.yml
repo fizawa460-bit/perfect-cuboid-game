@@ -42,27 +42,27 @@ jobs:
           test -n "${BEFORE}" || exit 0
           git fetch --no-tags --depth=1 origin "${BEFORE}" || exit 0
           git diff --name-only "${BEFORE}" "${HEAD_SHA}" | grep -Fxq "${KEY}" || exit 0
-          python - <<'PY'
+          python - <<'PY' > /tmp/goal4ag-auth
           import hashlib,json
           from pathlib import Path
           key=Path('stages/stage35-ex/runkeys/goal4ag-principal-divisor-preflight.json')
           probe=Path('stages/stage35-ex/probe_stage35_ex_35_goal4ag_principal_divisor.py')
           d=json.loads(key.read_text())
-          if d.get('schema')!='STAGE35_EX_GOAL4AG_PRINCIPAL_DIVISOR_PREFLIGHT_RUNKEY_V1':
-              raise SystemExit('schema mismatch')
-          if d.get('armed') is not True or d.get('generation')!=1:
-              raise SystemExit(0)
+          if not (d.get('schema')=='STAGE35_EX_GOAL4AG_PRINCIPAL_DIVISOR_PREFLIGHT_RUNKEY_V1' and d.get('armed') is True and d.get('generation')==2):
+              print('false'); raise SystemExit(0)
           def blob(p):
               raw=p.read_bytes()
               return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
-          assert blob(probe)==d['probe_blob_sha1']=='248d336a5900b2c576099085f13b86c457ff29dc'
+          assert blob(probe)==d['probe_blob_sha1']=='858c6ab04f388884804d73cf5415bd94fd1b31f0'
           assert d['stage33_source_helper_blob_sha1']=='010db3767b8f932c71ac5722b50ccb64a8c79f9d'
           assert d['upstream_git_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
           assert d['planned_jobs']==1 and d['planned_shards']==1
           assert d['persisted_output_upper_bound_bytes']<=131072
           assert d['actions_artifact_upload'] is False
-          print('GOAL4AG_RUNKEY_AUTHORIZED=true')
+          print('true')
           PY
+          test "$(tail -n1 /tmp/goal4ag-auth)" = 'true' || exit 0
+          echo 'GOAL4AG_RUNKEY_AUTHORIZED=true'
           echo 'authorized=true' >> "$GITHUB_OUTPUT"
 
   preflight:
@@ -92,11 +92,15 @@ jobs:
           lines=Path('/tmp/goal4ag.log').read_text().splitlines()
           s=next(x.split('=',1)[1] for x in lines if x.startswith('GOAL4AG_DIAGNOSTIC_JSON='))
           d=json.loads(s)
+          assert d['schema']=='STAGE35_EX_GOAL4AG_PRINCIPAL_DIVISOR_PREFLIGHT_DIAGNOSTIC_V2'
           assert d['formal_target_support_count']==69
           assert d['strict_support_count']==33
           assert d['exceptional_support_count']==36
           assert d['strict_positive_hyperplane_degree']==396
           assert d['strict_negative_hyperplane_degree']==396
+          assert isinstance(d['strict_divisor_cartier_on_singular_surface'],bool)
+          assert isinstance(d['strict_divisor_principal_on_singular_surface'],bool)
+          assert isinstance(d['resolved_exceptional_multiplicities_match_target'],bool)
           assert d['explicit_F_B_materialized'] is False
           assert d['theorem_credit'] is False
           assert d['endpoint_credit'] is False
