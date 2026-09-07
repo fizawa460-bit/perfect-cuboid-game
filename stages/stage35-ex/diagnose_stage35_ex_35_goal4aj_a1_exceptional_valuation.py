@@ -64,9 +64,9 @@ assert ai["homogeneous_realization"]["literal_denominator_coefficients_materiali
 # resolves the node; the exceptional Proj(gr_m) is the smooth conic XY-Z^2.
 x, y, z, X, Y, Z = sp.symbols("x y z X Y Z")
 f = x*y-z**2
-assert sp.expand(f.subs({y:x*Y, z:x*Z})) == x**2*(Y-Z**2)
-assert sp.expand(f.subs({x:y*X, z:y*Z})) == y**2*(X-Z**2)
-assert sp.expand(f.subs({x:z*X, y:z*Y})) == z**2*(X*Y-1)
+assert sp.expand(sp.expand(f.subs({y:x*Y, z:x*Z})) - x**2*(Y-Z**2)) == 0
+assert sp.expand(sp.expand(f.subs({x:y*X, z:y*Z})) - y**2*(X-Z**2)) == 0
+assert sp.expand(sp.expand(f.subs({x:z*X, y:z*Y})) - z**2*(X*Y-1)) == 0
 assert sp.diff(Y-Z**2, Y) == 1
 assert sp.diff(X-Z**2, X) == 1
 # On X*Y=1, X and Y are both nonzero, hence its (Y,X) gradient never vanishes.
