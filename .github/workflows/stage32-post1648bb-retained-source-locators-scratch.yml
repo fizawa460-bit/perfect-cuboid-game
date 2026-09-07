@@ -1,0 +1,35 @@
+name: Stage32 post1648BB retained source locators
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648bb-known140-field-metadata
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-bb-retained-source-locators:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Run BB retained source locator inventory
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648bb_retained_source_locators.py | tee /tmp/bb-locators.json
+      - name: Assert bounded locator inventory
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/bb-locators.json'))
+          assert x['mode']=='SCRATCH_POST1648BB_RETAINED_SOURCE_LOCATORS'
+          assert x['firewalls']['runner_side_import_only'] is True
+          assert x['firewalls']['giant_retained_payload_whole_fetch_used'] is False
+          print(json.dumps(x, sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
