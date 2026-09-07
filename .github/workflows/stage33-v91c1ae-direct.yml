@@ -1,9 +1,13 @@
-name: Stage33 V91C1AE direct Pic2 check
+name: Stage33 V91C1AF direct seed-fixed check
 
 on:
   pull_request:
     paths:
+      - 'stages/stage33/33-12/diagnose_e3_v91c1af_sign_a2_seed_fixed_subspace.py'
+      - 'stages/stage33/33-12/e3-v91c1af-kummer-sign-a2-source-lock.md'
       - 'stages/stage33/33-12/diagnose_e3_v91c1ae_sign_a2_picard64_reduction.py'
+      - 'stages/stage33/33-12/diagnose_e3_v91c1ac_sign_b1_seed_fixed_subspace.py'
+      - 'stages/stage33/33-12/diagnose_e3_v91c1z_next_stabilizer_reducers.py'
       - 'stages/stage33/33-12/diagnose_e3_v91c1ab_sign_prime_attached_cech_difference.py'
       - 'stages/stage33/33-12/diagnose_e3_v91c1ad_sign_a2_picard64_locator_preflight.py'
       - 'stages/stage33/33-12/diagnose_e3_v91c1v_actual_prime_known140_locator.py'
@@ -17,7 +21,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v91c1ae-direct-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1af-direct-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -33,7 +37,7 @@ jobs:
           python-version: '3.11'
       - name: Install pinned exact local algebra
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Diagnose V91C1AE sign_a2 Picard64/Pic2 reduction
-        run: python stages/stage33/33-12/diagnose_e3_v91c1ae_sign_a2_picard64_reduction.py
+      - name: Diagnose V91C1AF sign_a2 seed fixedness and subspace
+        run: python stages/stage33/33-12/diagnose_e3_v91c1af_sign_a2_seed_fixed_subspace.py
       - name: Diff hygiene
         run: git diff --check
