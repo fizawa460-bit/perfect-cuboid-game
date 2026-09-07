@@ -1,0 +1,101 @@
+{
+  "schema":"STAGE36_36_09CA_GENERAL_TIE_UNIT_SOURCE_PULLBACK_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09CA",
+  "status":"EXACT_GENERAL_TIE_UNIT_SOURCE_PULLBACK_NO_NEW_BRANCH_FILTER",
+  "base_main_sha":"af40c029a8721755b39dad13be452a2a74540c4e",
+  "batch_parent":{"pr":1696,"36_09BZ_exact_green_head":"dc6c23acbfc77ea5e3ce4951f136be0daa291db2","36_09BZ_exact_head_ci":"34149039121/101827189412"},
+  "source_locks":{
+    "stage36_36_09BZ":{"path":"stages/stage36/36-09BZ/fixed-p-alpha-pullback-filter-integration-preflight.json","blob_sha":"d220e1a2de3f7595e498b8987f9fa90035a1f7d9"},
+    "stage36_36_09BZ_verifier":{"path":"stages/stage36/verify_stage36_36_09BZ.py","blob_sha":"4b24aaae212d920a9eb37b5bab9c7a87fa23c862"},
+    "stage36_36_09BY":{"path":"stages/stage36/36-09BY/remaining-q2-alpha-tie-gate-parameter-pullback-preflight.json","blob_sha":"35198e4124d154d1f07fdcd526899231842a1b43"},
+    "stage36_36_09BW":{"path":"stages/stage36/36-09BW/general-aw-branch-prime2-taxonomy-preflight.json","blob_sha":"d7feb3e6b86c5c93bae999f8836840e64fbd5fb5"},
+    "stage36_36_09BT":{"path":"stages/stage36/36-09BT/general-aw-squareclass-branch-full-cover-local-model-preflight.json","blob_sha":"e58c417ddfa340d96b2ac1fbae9e7da7c5224d78"},
+    "stage36_36_09BU":{"path":"stages/stage36/36-09BU/general-aw-branch-bad-place-valuation-taxonomy-preflight.json","blob_sha":"a8f3fb880b83aac2240ce299fe8a8fa42e044093"}
+  },
+  "notation":{
+    "P":"a^2+2ab-b^2",
+    "M":"a^2-2ab-b^2",
+    "D0":"ab(a-b)(a+b)",
+    "Q":"a^2+b^2",
+    "delta":"v2(D0)",
+    "sigma":"v2(Q)=0 for opposite-parity a,b and 1 for both odd",
+    "d":"delta-2*sigma>=1",
+    "tau":"(-1)^sigma",
+    "lambda":"P/M",
+    "L":"(lambda-tau)/2^(d+2), an odd Q2-unit",
+    "D0odd":"D0/2^delta, a signed odd integer"
+  },
+  "parameter_unit_lemma":{
+    "valuation":"v2(lambda-tau)=d+2",
+    "mod4_identity":"tau*L congruent D0odd modulo 4",
+    "opposite_parity_proof":"sigma=0,tau=1 and L=(ab/2^delta)/M; since 2ab is divisible by 4, M congruent a^2-b^2 mod4, so D0odd/L=(a^2-b^2)M congruent 1 mod4",
+    "both_odd_proof":"sigma=1,tau=-1 and with M=2m, L=((a^2-b^2)/2^delta)/m; odd squares are 1 mod8, hence m=M/2 congruent -ab mod4 and D0odd/(tau*L)=-ab*m congruent 1 mod4"
+  },
+  "tie_source_pullback":{
+    "sector":"post-BZ deep f=1, D/B congruent 1 mod8, g=(delta+e+f) mod2=0, and the remaining minus-root valuation is Delta=0",
+    "tie_alpha":"alpha=d+3",
+    "source_neighborhood":"choose sqrt(A/B) over Q2 and write y=epsilon+2^(d+2)q with epsilon in {+1,-1}, q odd",
+    "source_first_conic_residue":"q congruent epsilon*chi*eta*C/B modulo 8, where chi=5 when d=1 and chi=1 otherwise",
+    "source_second_conic":"automatic because D/B congruent 1 mod8 and (y^2+1)/2 congruent 1 mod8",
+    "z_square":"z^2=mu*Q^2*(y^2-1)/(4*D0*(y^2+1))",
+    "z_difference":"z^2-mu=mu*M^2*(y^2-lambda^2)/(4*D0*(y^2+1))",
+    "high_factor":"with s=epsilon*tau, y-s*lambda=2^(d+2)*(q-s*L)",
+    "tie_valuation":"N=v2(q-s*L)",
+    "tie_square_criterion":"the full-cover tie root is a Q2-square iff N is even and the normalized odd unit is 1 mod8 after the post-BX AB=1 normalization"
+  },
+  "tie_realization_reduction":{
+    "source_residue_vs_parameter":"because chi congruent 1 mod4, a q satisfying the source conic can satisfy the tie criterion iff eta*C/B congruent tau*L modulo 4",
+    "constructive_case_difference_4_mod8":"if the source residue and s*L differ by 4 mod8 then N=2; varying q by multiples of 8 runs the normalized quotient through all odd residues mod8, so the required tie unit is attainable",
+    "constructive_case_difference_0_mod8":"if they agree mod8 choose any even N>=4 and then choose the odd leading quotient to hit the required unit; the source conic squareclasses are unchanged because q mod8 is unchanged",
+    "failure_case":"a difference 2 or 6 mod8 forces N=1 and the tie square is impossible"
+  },
+  "automatic_identity_on_tie_needed_rows":{
+    "tie_needed_mu_classes":"after BW/BY, a shallow branch needs the tie only when mu0 is 1 or 5 mod8; hence mu0 congruent 1 mod4",
+    "squareclass_identity":"mu0 congruent eta*D0odd*C*D modulo 4 because removing odd square factors does not change mod4",
+    "D_over_B_input":"the tie sector has D/B congruent 1 mod8",
+    "deduction":"mu0 congruent 1 mod4 and D/B congruent 1 imply eta*C/B congruent D0odd modulo4",
+    "combine_parameter_lemma":"D0odd congruent tau*L modulo4, so the tie realization condition is automatic",
+    "consequence":"the tie-unit gate contributes no additional point-independent outer-branch exclusion beyond BZ"
+  },
+  "exact_fixed_p_diagnostics":{
+    "p_1_over_2":{"BZ_survivors":4,"tie_needed_mu_1_or_5_rows":1,"tie_realizable_rows":1,"additional_tie_filter_pruning":0},
+    "p_2_over_11":{"BZ_survivors":30,"tie_needed_mu_1_or_5_rows":10,"tie_realizable_rows":10,"additional_tie_filter_pruning":0},
+    "diagnostic_p_3_over_4":{"scope":"same exact AW/AE generator; not a retained-candidate membership claim","BZ_survivors":6,"tie_needed_mu_1_or_5_rows":2,"tie_realizable_rows":2,"additional_tie_filter_pruning":0},
+    "diagnostic_p_1_over_8":{"scope":"same exact AW/AE generator; not a retained-candidate membership claim","BZ_survivors":5,"tie_needed_mu_1_or_5_rows":1,"tie_realizable_rows":1,"additional_tie_filter_pruning":0}
+  },
+  "remaining_Q2_boundary":{
+    "tie_unit_source_pullback_complete":true,
+    "tie_unit_is_independent_branch_filter":false,
+    "all_BZ_survivors_have_Q2_point_claimed":false,
+    "reason":"CA resolves the deep tie sector, but BZ outer rows are still only an outer superset; in particular mixed f=0 source-conic Q2 realization has not yet been classified branch-by-branch",
+    "next_question":"classify source-conic Q2 realization for the remaining BZ outer rows, especially the mixed f=0 sector, before promoting any surviving outer row to a Q2 point"
+  },
+  "route_result":{
+    "route_status":"PASS_TIE_SOURCE_PULLBACK_NO_NEW_BRANCH_FILTER",
+    "parameter_unit_lemma_exact":true,
+    "tie_source_pullback_exact":true,
+    "tie_needed_sector_locally_realizable":true,
+    "new_point_independent_branch_rows":0,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09CB_GENERAL_Q2_SOURCE_CONIC_REALIZATION_PREFLIGHT"
+  },
+  "scope_firewalls":{
+    "all_BZ_outer_survivors_are_Q2_points":false,
+    "mixed_f0_source_conic_realization_complete":false,
+    "outer_branch_survivor_is_receiver":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "local_parameter_elimination_exhausted":false,
+    "uniform_finite_Q_squareclass_family":false,
+    "finite_exhaustive_H1_twist_family":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

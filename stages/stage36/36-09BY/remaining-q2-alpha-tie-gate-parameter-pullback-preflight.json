@@ -1,0 +1,90 @@
+{
+  "schema":"STAGE36_36_09BY_REMAINING_Q2_ALPHA_TIE_GATE_PARAMETER_PULLBACK_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09BY",
+  "status":"EXACT_ALPHA_PULLBACK_WITH_TWO_NEW_BRANCH_ONLY_Q2_EXCLUSIONS_TIE_UNIT_REMAINS_POINT_DEPENDENT",
+  "base_main_sha":"af40c029a8721755b39dad13be452a2a74540c4e",
+  "promotion_parent":{"pr":1696,"promotion_head":"73ff78298a7de1ae8a310bd753ed3412753f5728","promotion_ci":"34131812368","consumed_pr":1693,"hostile_reaudit_review":5132705989,"audited_exact_head":"11e1152a2de6df17c7354ab48f33f25865dd0ae5"},
+  "source_locks":{
+    "stage36_36_09BX":{"path":"stages/stage36/36-09BX/fixed-p-q2-branch-filter-integration-preflight.json","blob_sha":"9edd1343c38005d2d47954e2652b43b02079c160"},
+    "stage36_36_09BW":{"path":"stages/stage36/36-09BW/general-aw-branch-prime2-taxonomy-preflight.json","blob_sha":"d7feb3e6b86c5c93bae999f8836840e64fbd5fb5"},
+    "stage36_36_09BU":{"path":"stages/stage36/36-09BU/general-aw-branch-bad-place-valuation-taxonomy-preflight.json","blob_sha":"a8f3fb880b83aac2240ce299fe8a8fa42e044093"},
+    "stage36_36_09BU_verifier":{"path":"stages/stage36/verify_stage36_36_09BU.py","blob_sha":"64b889c2dde22d021fb2933b976311d903f57dce"},
+    "stage36_36_09AE":{"path":"stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json","blob_sha":"ddae37dd35cd0e732cebadf9c17f3f3fa57930df"},
+    "stage36_36_09AE_verifier":{"path":"stages/stage36/verify_stage36_36_09AE.py","blob_sha":"4c2e672572984399a507ddddf296b3861a80edd5"},
+    "stage36_36_09BI":{"path":"stages/stage36/36-09BI/prime2-full-cover-congruence-preflight.json","blob_sha":"ba6a705ce61b14e640b2c400d42dded60097b406"},
+    "stage36_36_09BJ":{"path":"stages/stage36/36-09BJ/prime2-equal-valuation-unit-branch-preflight.json","blob_sha":"f9ef3dde7b756470f2fc882327a67d72db7902f1"}
+  },
+  "setup":{
+    "post_BX_scope":"A congruent B modulo 8; the point-independent BW critical-deep filter has already been charged; f=0 mixed-parity branches stay Q2-automatic at the extra-root layer",
+    "deep_branch":"f=1 with u,v,s 2-adic units",
+    "delta":"v2(D0)",
+    "sigma":"v2(Q=a^2+b^2)",
+    "drel":"delta-2*sigma, with drel>=1 for primitive a,b",
+    "alpha":"v2(A*u^2-B*v^2)",
+    "BW_Delta":"drel+3-alpha"
+  },
+  "source_alpha_pullback":{
+    "square_root_change":"because A/B is a Q2-square when A congruent B modulo 8, choose lambda^2=A/B and put y=lambda*u/v in Z2^*",
+    "equations":["y^2-1=eta*2^e*(C/B)*(r/v)^2","y^2+1=2*(D/B)*(s/v)^2"],
+    "epsilon":"choose epsilon in {+1,-1} with y congruent epsilon modulo 4",
+    "n":"v2(y-epsilon)>=2",
+    "factorizations":["y^2-1=2^(n+1)*epsilon*q*(1+epsilon*2^(n-1)*q), q odd","(y^2+1)/2=1+epsilon*2^n*q+2^(2*n-1)*q^2"],
+    "alpha":"n+1",
+    "alpha_parity":"alpha congruent e modulo 2",
+    "n_equal_2":"alpha=3, (y^2+1)/2 congruent 5 modulo 8, hence D/B congruent 5 modulo 8 and e=1",
+    "n_at_least_3":"alpha>=4, (y^2+1)/2 congruent 1 modulo 8, hence D/B congruent 1 modulo 8",
+    "necessary_alpha_families":{"D_over_B_5_mod8":"e=1 and alpha=3","D_over_B_1_mod8_e0":"alpha in {4,6,8,...}","D_over_B_1_mod8_e1":"alpha in {5,7,9,...}"},
+    "other_D_over_B_residues_have_no_deep_coupled_conic_Q2_point":true,
+    "AE_BX_redundancy":"replay of the exact AE 128-state mod-8 skeleton shows that after A=B and f=1 the only (D/B mod8,e) combinations are (1,0),(1,1),(5,1); therefore these structural residue prerequisites are already implicit before BY and are not counted as new rows"
+  },
+  "post_BX_new_branch_only_exclusions":{
+    "prior_critical_rows":"BX already removes e=0,drel=2 and e=1,drel=1 in f=1 branches",
+    "new_row_1":{"condition":"f=1, e=1, D/B congruent 5 modulo 8, drel=2","reason":"alpha is forced to 3, so BW_Delta=2; BW proves Delta=2 impossible","point_independent":true},
+    "new_row_2":{"condition":"f=1, e=1, D/B congruent 1 modulo 8, drel=3","reason":"alpha is odd and at least 5, hence BW_Delta is 1,-1,-3,...; here g=(delta+e+f) mod2=1, so Delta=1 fails and every negative-Delta case has odd output valuation","point_independent":true},
+    "no_other_row_only_exclusion_from_alpha_valuation_layer":"For D/B=5 with drel>=3, alpha=3 gives Delta>=3. For D/B=1,e=0 outside the prior drel=2 critical row, and for D/B=1,e=1 with drel=2 or 4, deeper allowed alpha values move among tie/negative-dominance cases; their survival depends on mu0 and/or normalized unit data. For drel sufficiently large an allowed minimal alpha already gives Delta>=3."
+  },
+  "tie_unit_boundary":{
+    "still_point_dependent":true,
+    "BW_input":"when Delta=0 and g=0, the minus root is square iff n_tie=v2(z^2-mu0) is even and the normalized odd unit equals A*B modulo 8",
+    "BJ_specialization":"AY is the mu0=1 specialization and its exact z-neighborhood criterion is recovered",
+    "not_charged_as_branch_row":"BY does not assume that an outer branch realizes a favorable alpha or tie-unit neighborhood",
+    "full_general_Q2_local_solubility_classified":false
+  },
+  "fixed_p_diagnostics":{
+    "p_1_over_2":{"AW_AE_outer":14,"after_Q_row":8,"after_AB_residue":6,"after_BX_critical":4,"after_BY_new_rows":4,"fixed_p_excluded":false},
+    "p_2_over_11":{"AW_AE_outer":158,"after_Q_row":77,"after_AB_residue":52,"after_BX_critical":30,"after_BY_new_rows":30,"fixed_p_excluded":false},
+    "nonredundancy_p_3_over_4":{"scope":"diagnostic under the same exact AW/AE outer generator; not a candidate-set membership claim","AW_AE_outer":44,"after_Q_row":21,"after_AB_residue":16,"after_BX_critical":8,"after_BY_new_rows":6,"removed_by":"new_row_1"},
+    "nonredundancy_p_1_over_8":{"scope":"diagnostic under the same exact AW/AE outer generator; not a candidate-set membership claim","AW_AE_outer":47,"after_Q_row":14,"after_AB_residue":8,"after_BX_critical":8,"after_BY_new_rows":5,"removed_by":"new_row_2"}
+  },
+  "route_result":{
+    "route_status":"PASS_ALPHA_PULLBACK_TWO_NEW_BRANCH_ONLY_EXCLUSIONS",
+    "source_alpha_pullback_exact":true,
+    "new_point_independent_branch_rows":2,
+    "new_rows_nonredundant_against_BX":true,
+    "certified_p_1_over_2_additional_pruning":false,
+    "certified_p_2_over_11_additional_pruning":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "remaining_tie_unit_gate_point_dependent":true,
+    "receiver_closed":false,
+    "next_leaf":"36-09BZ_FIXED_P_ALPHA_PULLBACK_FILTER_INTEGRATION_PREFLIGHT"
+  },
+  "scope_firewalls":{
+    "outer_branch_survivor_is_Q2_point":false,
+    "alpha_family_realization_for_every_outer_row":false,
+    "tie_unit_gate_row_only":false,
+    "full_Q2_local_solubility_classified_for_general_AW_branch":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "local_parameter_elimination_exhausted":false,
+    "uniform_finite_Q_squareclass_family":false,
+    "finite_exhaustive_H1_twist_family":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
