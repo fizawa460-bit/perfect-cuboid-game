@@ -20,6 +20,7 @@ CLAIM_ID_RE = re.compile(r"^S32\.[A-Z0-9_]+(?:\.[A-Z0-9_]+)*\.V[1-9][0-9]*$")
 SCOPE_KEY_RE = re.compile(r"^S32\.[A-Z0-9_]+(?:\.[A-Z0-9_]+)*$")
 HEX40_RE = re.compile(r"^[0-9a-f]{40}$")
 HEX64_RE = re.compile(r"^[0-9a-f]{64}$")
+HEXHEAD_RE = re.compile(r"^[0-9a-f]{40}$")
 ALLOWED_STATUS = {"SCRATCH", "PROVISIONAL", "AUDITED", "DECLARED_GOAL", "SUPERSEDED", "REVOKED"}
 ALLOWED_KIND = {"authority_snapshot", "mathematical_claim", "lane_contract", "adapter_contract"}
 CORE_KEYS = [
@@ -31,6 +32,8 @@ CORE_KEYS = [
     "proves",
     "does_not_prove",
     "requires",
+    "source_locks",
+    "replay_verifier",
 ]
 
 
@@ -137,7 +140,7 @@ def validate_claims(claims: list[dict]) -> dict[str, dict]:
                 raise CheckError(f"{cid}: AUDITED receipt requires PR number")
             if not isinstance(receipt.get("review_id"), int):
                 raise CheckError(f"{cid}: AUDITED receipt requires review_id")
-            if not isinstance(receipt.get("exact_head"), str) or not HEX40_RE.fullmatch(receipt["exact_head"]):
+            if not isinstance(receipt.get("exact_head"), str) or not HEXHEAD_RE.fullmatch(receipt["exact_head"]):
                 raise CheckError(f"{cid}: AUDITED receipt requires 40-hex exact_head")
         elif isinstance(receipt, dict) and receipt.get("status") == "PASS":
             raise CheckError(f"{cid}: PASS receipt cannot coexist with non-AUDITED status")
@@ -167,7 +170,9 @@ def validate_dependencies(by_id: dict[str, dict]) -> None:
             }:
                 raise CheckError(f"{cid}: AUDITED claim depends on non-audited proof input {dep_id}")
 
-            # A mathematical dependency crossing scope must use an explicit adapter.
+            # Future-proof scope firewall: a mathematical claim may not silently consume a
+            # mathematical claim from a different scope. It must also require an explicit
+            # adapter_contract with a matching bridge and sufficient authority.
             if (
                 claim["kind"] == "mathematical_claim"
                 and dep["kind"] == "mathematical_claim"
@@ -198,6 +203,7 @@ def validate_dependencies(by_id: dict[str, dict]) -> None:
                         f"{cid}: cross-scope mathematical dependency {dep_id} requires explicit adapter_contract"
                     )
 
+    # DFS cycle check
     color: dict[str, int] = {cid: 0 for cid in by_id}
     stack: list[str] = []
 
@@ -216,6 +222,21 @@ def validate_dependencies(by_id: dict[str, dict]) -> None:
     for cid in by_id:
         if color[cid] == 0:
             visit(cid)
+
+
+def validate_replay_verifiers(by_id: dict[str, dict]) -> int:
+    checked = 0
+    for cid, claim in by_id.items():
+        replay = claim.get("replay_verifier")
+        if replay is None:
+            continue
+        if not isinstance(replay, str) or not replay:
+            raise CheckError(f"{cid}: malformed replay_verifier")
+        path = ROOT / replay
+        if not path.exists() or not path.is_file():
+            raise CheckError(f"{cid}: missing replay_verifier {replay}")
+        checked += 1
+    return checked
 
 
 def validate_source_locks(by_id: dict[str, dict]) -> int:
@@ -356,7 +377,8 @@ def main() -> int:
     args = parser.parse_args()
 
     try:
-        # Schema is retained as a contract artifact; manual stdlib validation avoids a new jsonschema dependency.
+        # Schema file is intentionally retained as a contract artifact. This verifier
+        # uses stdlib-only manual validation so no jsonschema dependency is introduced.
         schema = load_json(SCHEMA_PATH)
         if schema.get("$id") != "STAGE32_CLAIM_REGISTRY_SCHEMA_V1":
             raise CheckError("claim registry schema file drift")
@@ -367,6 +389,7 @@ def main() -> int:
         claims = validate_registry_shape(registry)
         by_id = validate_claims(claims)
         validate_dependencies(by_id)
+        replay_verifier_count = validate_replay_verifiers(by_id)
         source_lock_count = validate_source_locks(by_id)
         validate_lane_adapters(by_id, adapters)
 
@@ -375,6 +398,7 @@ def main() -> int:
             "verdict": "PASS_STAGE32_CLAIM_DAG_INTEGRITY",
             "claim_count": len(claims),
             "source_locks_checked": source_lock_count,
+            "replay_verifiers_checked": replay_verifier_count,
             "authority_status_counts": dict(sorted(status_counts.items())),
             "lanes": ["MAIN", "EX1", "EX2", "EX3", "EX4", "EX5"],
         }
