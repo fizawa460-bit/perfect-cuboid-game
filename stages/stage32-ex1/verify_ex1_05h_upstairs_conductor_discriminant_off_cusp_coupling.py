@@ -59,8 +59,9 @@ for anchor in [
 ret = ros["retained_exact_inputs"]
 F = d["upstairs_fixed_arithmetic"]
 assert F["D0_square"] == ret["D_square"] == 3874
-assert F["deck_intersections"] == ret["deck_cross"] == {"u": 3892, "v": 4020, "uv": 4020}
-assert F["deck_cross_sum"] == sum(F["deck_intersections"].values()) == 11932
+source_cross = ret["deck_cross"]
+assert F["deck_intersections"] == {k: source_cross[k] for k in ["u", "v", "uv"]} == {"u": 3892, "v": 4020, "uv": 4020}
+assert source_cross["sum"] == F["deck_cross_sum"] == sum(F["deck_intersections"].values()) == 11932
 assert F["deck_half_cross_sum"] * 2 == F["deck_cross_sum"]
 assert F["deck_half_cross_sum"] == 5966
 
@@ -91,11 +92,7 @@ for r, Q in zip(rvals, Qvals):
     assert delta_Gamma == L["delta_Gamma_values"][r] == 7984 - r
     assert R105 == L["R105_values"][r] == 2 * r
     assert R81 == L["R81_values"][r] == 48 + 2 * r
-
-    # Match the 05G downstairs defect ladder.
     assert delta_Gamma == up05g["Q_defect_ladder"]["delta_Gamma_values"][r]
-
-    # Degree shadows of the divisor-level conductor/adjunction identities.
     assert 2 * delta_D0 + R105 == 4036
     assert 2 * delta_D0 + R81 == 4084
 
@@ -115,8 +112,6 @@ assert P["disc_105_degree"] == 4036
 assert P["disc_81_degree"] == 4084
 assert P["same_base_point_even_tradeoff"] is True
 
-# The old full-Gamma conservation laws are exactly the upstairs laws plus
-# twice the fixed V4 half-cross defect.
 assert up05g["Q_defect_ladder"]["conservation_1"] == "2*delta_Gamma+R105=15968"
 assert up05g["Q_defect_ladder"]["conservation_2"] == "2*delta_Gamma+R81=16016"
 assert 4036 + 2 * F["deck_half_cross_sum"] == 15968
