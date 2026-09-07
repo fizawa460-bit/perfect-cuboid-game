@@ -1,0 +1,63 @@
+name: Stage32 post1648BI cc-fixed mass partition
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648bh-exact-source-lifts-node-adapter
+    paths:
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1648bi_cc_fixed_mass_partition.py'
+      - '.github/workflows/stage32-post1648bi-cc-fixed-mass-partition-scratch.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose-bi-cc-fixed-mass-partition:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run BI conjugation-fixed mass partition
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648bi_cc_fixed_mass_partition.py | tee /tmp/bi.json
+      - name: Assert bounded BI result
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/bi.json'))
+          assert x['mode']=='SCRATCH_POST1648BI_CC_FIXED_MASS_PARTITION'
+          assert x['source_locks']['bh_distinct_cc_equivariant_node_bijections'] > 0
+          assert x['decision']['q_fixed_vs_qi_moving_total_mass_partition_is_adapter_independent'] is True
+          assert x['decision']['node_by_node_source_adapter_still_nonunique'] is True
+          assert x['v6']['mass_on_source_cc_fixed_Q_nodes'] + x['v6']['mass_on_source_cc_moving_Qi_nodes'] == 266
+          assert x['firewalls']['v6_carrier_excluded'] is False
+          assert x['firewalls']['Q602_excluded'] is False
+          assert x['firewalls']['O210_excluded'] is False
+          print(json.dumps({
+            'fixed_count':x['retained_complex_conjugation']['fixed_exceptional_count'],
+            'moving_pairs':x['retained_complex_conjugation']['moving_pair_count'],
+            'q_mass':x['v6']['mass_on_source_cc_fixed_Q_nodes'],
+            'qi_mass':x['v6']['mass_on_source_cc_moving_Qi_nodes'],
+            'pair_mismatches':x['v6']['moving_cc_pair_mass_mismatch_count'],
+            'v6_cc_invariant':x['v6']['picard64_cc_invariant'],
+            'next':x['decision']['next_exact_route'],
+          },sort_keys=True))
+          PY
+      - name: Persist exact BI scratch result
+        run: |
+          RESULT=stages/stage32/residual-32-01-production/post1648bi-cc-fixed-mass-partition-scratch-result.json
+          cp /tmp/bi.json "$RESULT"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$RESULT"
+          git commit -m 'Stage32 scratch: capture BI exact output'
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
