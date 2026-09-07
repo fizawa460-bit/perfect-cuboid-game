@@ -1,10 +1,40 @@
-name: Stage36 literature Phase4 corrected implementation (disabled)
+name: Stage36 literature Phase4 materializer repair
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - arsenal-stage36-literature-strengthening-implementation
+
+permissions:
+  contents: write
 
 jobs:
-  disabled:
+  repair:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
-      - run: echo 'disabled after fail-closed precommit validation; finalizer workflow owns completion'
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Repair B08 and B12 verifier blob arguments
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('docs/arsenal/_stage36_lit_phase4_impl.py')
+          s = p.read_text()
+          old1 = '"stages/stage36/verify_stage36_36_09J.py", "successive cover branch/discriminant data -> genus/degeneration preflight -> S31-W01 routing")'
+          new1 = '"stages/stage36/verify_stage36_36_09J.py", "b5357a344ffab51118f4f1ec92904367c79c6541", "successive cover branch/discriminant data -> genus/degeneration preflight -> S31-W01 routing")'
+          old2 = '"stages/stage36/verify_stage36_36_09R.py", "generic subgroup receiver test -> typed rank/saturation/torsion growth obligation; theorem context only after hypothesis adapter")'
+          new2 = '"stages/stage36/verify_stage36_36_09R.py", "62707dc5126e9ea6caad5fd41834cab488b29945", "generic subgroup receiver test -> typed rank/saturation/torsion growth obligation; theorem context only after hypothesis adapter")'
+          assert old1 in s and old2 in s
+          p.write_text(s.replace(old1,new1).replace(old2,new2))
+          print('PASS: B08/B12 verifier blob arguments repaired')
+          PY
+          python3 -m py_compile docs/arsenal/_stage36_lit_phase4_impl.py
+      - name: Commit repaired temporary materializer
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add docs/arsenal/_stage36_lit_phase4_impl.py
+          git commit -m '[Arsenal][Literature][Stage36] repair Phase4 temporary materializer'
+          git push origin HEAD:arsenal-stage36-literature-strengthening-implementation
