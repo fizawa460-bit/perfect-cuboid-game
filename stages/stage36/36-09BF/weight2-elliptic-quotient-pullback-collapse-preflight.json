@@ -1,0 +1,61 @@
+{
+  "schema":"STAGE36_36_09BF_WEIGHT2_ELLIPTIC_QUOTIENT_PULLBACK_COLLAPSE_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09BF",
+  "status":"EXACT_WEIGHT2_RECEIVER_PULLBACK_COLLAPSE_NO_NEW_FILTER_PENDING_BATCH_AUDIT",
+  "base_main_sha":"386b6a52d7bfec2e8903412c7ca56976b46c288b",
+  "audited_parent":{"pr":1686,"hostile_reaudit_review":5129219368,"audited_exact_head":"52161f9872d7748bd3a4dcba346f7fd42d68edd9","exact_head_ci":"34095467995/101658038311","merged_main_sha":"386b6a52d7bfec2e8903412c7ca56976b46c288b"},
+  "source_locks":{
+    "stage36_36_09BE":{"path":"stages/stage36/36-09BE/full-multiquadratic-character-quotient-inventory-preflight.json","blob_sha":"f30724ca63b30b4b960e31f7d8266a4a99884016"},
+    "stage36_36_09BE_verifier":{"path":"stages/stage36/verify_stage36_36_09BE.py","blob_sha":"183eaf5567f2e6530318d6cb057747dd79702300"},
+    "stage36_36_09BB":{"path":"stages/stage36/36-09BB/ay-receiver-scaled-self-intersection-preflight.json","blob_sha":"e4b63fd500d05ff5dc704e0c08409edee5895053"}
+  },
+  "notation":{
+    "f1":"kappa*(1-t^2)",
+    "f2":"2*(1+t^2)",
+    "f3":"kappa*(1-lambda^2*t^2)",
+    "f4":"2*(1+lambda^2*t^2)",
+    "AY_square_roots":["R^2=f1","S^2=f2"],
+    "AY_open":"R*S!=0 on the retained receiver open"
+  },
+  "weight2_pullback_table":[
+    {"id":"E12","function":"f1*f2","AY_pullback":"(R*S)^2","classification":"AY_AUTOMATIC"},
+    {"id":"E13","function":"f1*f3","AY_pullback":"R^2*f3","classification":"EQUIVALENT_TO_f3_SQUARE","inverse_map":"Zminus=y13/R"},
+    {"id":"E14","function":"f1*f4","AY_pullback":"R^2*f4","classification":"EQUIVALENT_TO_f4_SQUARE","inverse_map":"Zplus=y14/R"},
+    {"id":"E23","function":"f2*f3","AY_pullback":"S^2*f3","classification":"EQUIVALENT_TO_f3_SQUARE","inverse_map":"Zminus=y23/S"},
+    {"id":"E24","function":"f2*f4","AY_pullback":"S^2*f4","classification":"EQUIVALENT_TO_f4_SQUARE","inverse_map":"Zplus=y24/S"},
+    {"id":"E34","function":"f3*f4","AY_pullback":"f3*f4","classification":"PRODUCT_ONLY_WEAKER_THAN_CONJUNCTION"}
+  ],
+  "exact_cross_relations":{
+    "E14_over_E24":"(f1*f4)/(f2*f4)=f1/f2=(R/S)^2",
+    "E23_over_E13":"(f2*f3)/(f1*f3)=f2/f1=(S/R)^2",
+    "cross_pair_receiver_subset":"AY intersection E14 equals AY intersection E24; AY intersection E23 equals AY intersection E13",
+    "new_cross_predicate":false
+  },
+  "receiver_information":{
+    "independent_nonautomatic_weight2_predicates":["f3 is a nonzero Q-square","f4 is a nonzero Q-square"],
+    "identification_with_BB":["Zminus^2=f3","Zplus^2=f4"],
+    "E34_role":"necessary product consequence once both BB extra squares hold, but insufficient to recover the two individual square conditions",
+    "weight2_character_quotient_new_filter":false
+  },
+  "route_result":{
+    "route_status":"BLOCKED_NO_NEW_INFORMATION_AT_WEIGHT2_PULLBACK_LAYER",
+    "cross_elliptic_species_materialized":true,
+    "cross_elliptic_receiver_predicate_new":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09BG_HIGHER_WEIGHT_CHARACTER_PULLBACK_COLLAPSE_PREFLIGHT"
+  },
+  "scope_firewalls":{
+    "weight2_quotient_Q_points_complete":false,
+    "cross_curve_Mordell_Weil_computed":false,
+    "full_character_route_exhausted":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
