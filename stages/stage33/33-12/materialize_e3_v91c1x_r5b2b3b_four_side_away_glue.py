@@ -19,7 +19,6 @@ from materialize_e3_v91c1x_r5b2b3a_24_side_exceptional_crossing_uniformizer_char
     I,
     clean,
     csha,
-    encode_element,
     encode_poly,
     load_locked,
     side_signs,
@@ -277,22 +276,21 @@ def main():
                 delta_num[k] = clean(away_full[j] - q[j] * pivot_value)
             e_num = delta_num[chart_p]
 
-            # Verify the rational inverse after substituting crossing -> away, using a common D_cross denominator.
+            # Verify the rational inverse after substituting crossing -> away, without denominator division.
             cross_to_away = {aw["variables"][k]: clean(affine_rees[k] / D_cross) for k in range(6)}
-            if clean((aw["c"].subs(cross_to_away)) - affine_rees[6] / D_cross) != 0:
+            if clean(aw["c"].subs(cross_to_away) * D_cross - affine_rees[6]) != 0:
                 raise SystemExit(f"away c reconstruction failed {eid} side {side}")
             pivot_sub = clean(pivot_value.subs(cross_to_away))
             e_num_sub = clean(e_num.subs(cross_to_away))
-            if clean(e_num_sub / pivot_sub - e) != 0:
+            if clean(e_num_sub - e * pivot_sub) != 0:
                 raise SystemExit(f"away-to-Rees inverse e roundtrip failed {eid} side {side}")
-            for kk, j in enumerate(nonp):
-                num_sub = clean(delta_num[j if False else nonpivot.index(j)].subs(cross_to_away))
-                if clean(num_sub / e_num_sub - u[kk]) != 0:
+            for kk, displacement_index in enumerate(nonp):
+                num_sub = clean(delta_num[displacement_index].subs(cross_to_away))
+                if clean(num_sub - u[kk] * e_num_sub) != 0:
                     raise SystemExit(f"away-to-Rees inverse u roundtrip failed {eid} side {side} u{kk}")
             roundtrip_count += 1
 
-            away_a1_from_cross = clean(affine_rees[0] / D_cross)
-            if clean(away_a1_from_cross - (e / D_cross) * strict_side[0]) != 0:
+            if clean(affine_rees[0] - e * strict_side[0]) != 0:
                 raise SystemExit(f"side uniformizer unit transition failed {eid} side {side}")
             uniformizer_transition_count += 1
 
@@ -319,7 +317,7 @@ def main():
                     "rees_e_numerator": encode_poly(e_num, variables),
                     "rees_e_denominator": encode_poly(pivot_value, variables),
                     "rees_u_numerators_in_u_order": [
-                        encode_poly(delta_num[nonpivot.index(j)], variables) for j in nonp
+                        encode_poly(delta_num[displacement_index], variables) for displacement_index in nonp
                     ],
                     "rees_u_common_denominator": encode_poly(e_num, variables),
                 },
