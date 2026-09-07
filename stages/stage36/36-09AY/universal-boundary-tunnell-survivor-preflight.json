@@ -2,33 +2,13 @@
   "schema":"STAGE36_36_09AY_UNIVERSAL_BOUNDARY_TUNNELL_SURVIVOR_PREFLIGHT_V1",
   "stage":"36","unit":"36-09AY",
   "status":"EXACT_UNIVERSAL_BOUNDARY_TUNNELL_SURVIVOR_BLOCKS_FIXED_P_ZERO_SIEVE_BATCH_AUDIT_CHECKPOINT",
-  "base_main_sha":"d43db1874b0e657143fa07b1a16eb87fc27e0238",
+  "base_main_sha":"726198a3d8ca4834e45c2ef275a75266b0f752b4",
+  "freshness_sync":{"previous_main":"d43db1874b0e657143fa07b1a16eb87fc27e0238","current_main":"726198a3d8ca4834e45c2ef275a75266b0f752b4","sync_merge_commit":"7e7be86e913625ec3a7acbc353b74693e41a05a0","intervening_drift":"Stage33 only","stage36_source_drift":false},
   "batch_parent":{"pr":1683,"36_09AX_exact_head":"97e3f4bfc4345b05b74e9baf780ed8ff1baf38cb","36_09AX_exact_head_ci":"34086964554/101632741310"},
   "source_locks":{"stage36_36_09AX":{"path":"stages/stage36/36-09AX/bounded-fixed-p-tunnell-sieve-scan-preflight.json","blob_sha":"e72142f2ec8a2ab0dec4a6602874e1c2edc87c60"},"stage36_36_09AW":{"path":"stages/stage36/36-09AW/fixed-p-finite-squareclass-tunnell-branch-sieve-preflight.json","blob_sha":"c1970a020803275ba87b249229e319367fa8f811"},"stage36_36_09AD":{"path":"stages/stage36/36-09AD/coupled-six-reservoir-factor-squareclass-parity-preflight.json","blob_sha":"9d0388845955efee71d1a761ae4ee943d8b565d5"}},
-  "universal_construction":{
-    "input":"primitive positive a,b with a!=b; P=a^2+2ab-b^2, M=a^2-2ab-b^2, D0=ab(a-b)(a+b)",
-    "gcd_lemma":"h=gcd(|P|,|M|) is 1 when a,b have opposite parity and 2 when a,b are both odd",
-    "coordinates":"U=(P/h)^2, V=(M/h)^2",
-    "identities":["P^2-M^2=8D0","P^2+M^2=2(a^2+b^2)^2"],
-    "primitive":"gcd(U,V)=1",
-    "squareclasses":{"A":1,"B":1,"C":"odd_sf(D0)","D":1,"eta":"sign(D0)","f":1,"e":"(1+v2(D0)) mod 2"},
-    "twist":"N=2^((e+f) mod2)*C=sf(|D0|)",
-    "AW_membership":"this support-compatible branch satisfies the UV mod8 rule and all AE local rows because the displayed U,V globally solve the two coupled squareclass conics"
-  },
-  "tunnell_survival":{
-    "congruent_number_identity":"sf(|U*V*(U^2-V^2)|)=sf(|D0|)=N",
-    "AV_application":"the AV explicit E_N(Q) construction applied to U,V gives a non-2-torsion rational point",
-    "consequence":"N is congruent, hence the parity-appropriate Tunnell necessary equality holds",
-    "BSD_converse_used":false,
-    "all_fixed_p_outer_sieves_have_at_least_one_Tunnell_survivor":true
-  },
-  "boundary_nature":{
-    "Lminus":"M^2*U-P^2*V=0",
-    "equivalent_X":"X=U/V=(P/M)^2=K",
-    "retained_open_status":"EXCLUDED_BRANCH_POINT",
-    "receiver_point_claimed":false,
-    "meaning":"the universal survivor is sufficient to prevent the AW OUTER sieve from ever reaching zero, but it is not a retained receiver point"
-  },
+  "universal_construction":{"input":"primitive positive a,b with a!=b; P=a^2+2ab-b^2, M=a^2-2ab-b^2, D0=ab(a-b)(a+b)","gcd_lemma":"h=gcd(|P|,|M|) is 1 when a,b have opposite parity and 2 when a,b are both odd","coordinates":"U=(P/h)^2, V=(M/h)^2","identities":["P^2-M^2=8D0","P^2+M^2=2(a^2+b^2)^2"],"primitive":"gcd(U,V)=1","squareclasses":{"A":1,"B":1,"C":"odd_sf(D0)","D":1,"eta":"sign(D0)","f":1,"e":"(1+v2(D0)) mod 2"},"twist":"N=2^((e+f) mod2)*C=sf(|D0|)","AW_membership":"this support-compatible branch satisfies the UV mod8 rule and all AE local rows because the displayed U,V globally solve the two coupled squareclass conics"},
+  "tunnell_survival":{"congruent_number_identity":"sf(|U*V*(U^2-V^2)|)=sf(|D0|)=N","AV_application":"the AV explicit E_N(Q) construction applied to U,V gives a non-2-torsion rational point","consequence":"N is congruent, hence the parity-appropriate Tunnell necessary equality holds","BSD_converse_used":false,"all_fixed_p_outer_sieves_have_at_least_one_Tunnell_survivor":true},
+  "boundary_nature":{"Lminus":"M^2*U-P^2*V=0","equivalent_X":"X=U/V=(P/M)^2=K","retained_open_status":"EXCLUDED_BRANCH_POINT","receiver_point_claimed":false,"meaning":"the universal survivor is sufficient to prevent the AW OUTER sieve from ever reaching zero, but it is not a retained receiver point"},
   "route_result":{"route_status":"BLOCKED_NEW_PATTERN_ISOLATED","blocked_route":"TUNNELL_ONLY_FIXED_P_ZERO_OUTER_SIEVE","uniform_fixed_p_zero_exclusion_impossible_for_AW_outer_sieve":true,"candidate_parameter_set_shrunk":false,"receiver_closed":false,"next_after_audit":"36-09AZ_BOUNDARY_SURVIVOR_OPEN_REFINEMENT_PREFLIGHT"},
   "scope_firewalls":{"boundary_survivor_is_receiver":false,"Tunnell_equality_implies_receiver":false,"all_nonboundary_outer_branches_survive":false,"candidate_parameter_set_shrunk":false,"receiver_emptiness_proved":false,"R29_CAMP2_closed":false,"Q11_CAMPEDELLI_closed":false,"endpoint_closed":false,"perfect_cuboid_existence_claim":false,"perfect_cuboid_nonexistence_claim":false}
 }
