@@ -1,0 +1,124 @@
+{
+  "schema": "STAGE32EX1_EX1_03_SMOOTH_AMBIENT_SINGULARITY_LEDGER_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-03_SMOOTH_AMBIENT_CURVE_SINGULARITY_CLOSURE",
+  "status": "PASS_EXACT_SMOOTH_LOCUS_NUMERICAL_RESIDUAL_LEDGER_CANDIDATE",
+  "dependency_status": "PROVISIONAL_SAME_PR_DEPENDS_ON_UNAUDITED_EX1_00_EX1_01_EX1_02_CANDIDATES",
+  "setup": {
+    "U": "S minus exceptional divisor E; equivalently X_reg via the resolution isomorphism",
+    "carrier": "hypothetical geometrically integral irreducible Gamma subset S of class V6 and normalization genus 1",
+    "local_model": "At p in Gamma cap U, S is smooth and Gamma is a Cartier divisor, hence the completed local curve germ is a reduced plane hypersurface singularity.",
+    "delta_U_definition": "delta_U=sum_p delta_p over singular p of Gamma in U",
+    "global_interface": "delta_E + delta_U = 472"
+  },
+  "external_source_locks": {
+    "delta_definition": {
+      "source": "Stacks Project",
+      "tag": "0C3Q",
+      "url": "https://stacks.math.columbia.edu/tag/0C3Q",
+      "use": "delta invariant as normalization-length invariant for reduced one-dimensional Nagata local rings"
+    },
+    "branch_lower_bound": {
+      "source": "Stacks Project",
+      "tag": "0C43",
+      "url": "https://stacks.math.columbia.edu/tag/0C43",
+      "statement": "delta invariant >= number of geometric branches - 1",
+      "use": "bound local branch excess by local delta"
+    }
+  },
+  "exact_local_lemmas": {
+    "singular_delta_positive": "Every singular reduced plane-curve germ has integer delta_p >= 1.",
+    "branch_excess_bound": "If r_p is the number of geometric branches, r_p-1 <= delta_p.",
+    "multibranch_detection": "r_p>=2 implies delta_p>=1; a smooth-locus normalization noninjectivity point is therefore charged to delta_U.",
+    "unibranch_firewall": "r_p=1 does not imply delta_p=0; cuspidal/unibranch singularities remain allowed.",
+    "node_example": "An ordinary node has (delta_p,r_p)=(1,2); this shows the branch-excess bound is sharp."
+  },
+  "global_numerical_envelope": {
+    "total_delta_all_locations": 472,
+    "delta_U_min": 0,
+    "delta_U_max": 472,
+    "smooth_locus_singular_point_count_upper_bound": 472,
+    "total_smooth_locus_branch_excess_upper_bound": 472,
+    "per_point_branch_bound": "1 <= r_p <= delta_p+1 <= 473",
+    "local_delta_branch_pair_over_envelope_count": 112100,
+    "local_multibranch_pair_over_envelope_count": 111628,
+    "local_unibranch_delta_pair_count": 472,
+    "interpretation": "These counts enumerate only the coarse numerical pairs (delta_p,r_p) allowed by the branch lower bound for 1<=delta_p<=472; they do not classify or assert analytic realizability."
+  },
+  "canonical_hyperplane_multiplicity_lemma": {
+    "canonical_degree": 186,
+    "self_intersection": 758,
+    "canonical_model_dimension": 6,
+    "claim": "For any set T of at most 6 distinct points of Gamma in U, sum_{p in T} mult_p(Gamma) <= 186.",
+    "proof_steps": [
+      "Any at most 6 points in P^6 lie on a hyperplane H.",
+      "No canonical hyperplane section can contain Gamma as a component: if H|_S=Gamma+R with R effective and no Gamma component, then R.Gamma=K.Gamma-Gamma^2=186-758=-572, contradicting nonnegative intersection of distinct effective curves on smooth S.",
+      "Therefore H meets Gamma properly with total intersection K.Gamma=186.",
+      "At each selected smooth-ambient point p, local intersection I_p(H,Gamma) is at least mult_p(Gamma), so summing gives the claim."
+    ],
+    "scope": "Independent multiplicity budget only; it is not converted to a delta upper bound without an additional theorem relating multiplicity and delta."
+  },
+  "parameterized_residual_ledger": {
+    "global_state": "Choose delta_U in [0,472], a finite set of smooth-locus singular points p_1,...,p_s with s<=delta_U, positive integers delta_j summing to delta_U, and branch counts 1<=r_j<=delta_j+1.",
+    "additional_multiplicity_constraint": "For every subset of at most 6 listed points, the corresponding curve multiplicities satisfy sum m_j<=186.",
+    "analytic_data_still_missing": [
+      "local equations/Puiseux or equivalent analytic types",
+      "pairwise branch tangency/intersection data at multibranch singularities",
+      "unibranch semigroup/characteristic data",
+      "a V6-linear-system theorem coupling these local types globally"
+    ],
+    "finite_numerical_ledger": true,
+    "analytic_realizability_not_classified": true
+  },
+  "branch_status": {
+    "smooth_ambient_branch_excluded": false,
+    "smooth_ambient_branch_exactly_accounted_at_coarse_numerical_layer": true,
+    "exact_blocker": "The fixed class invariants and delta budget bound the number and branch excess of smooth-locus singularities, but do not determine their analytic types or force delta_U to be too small.",
+    "reopen_condition": "Use EX1-04 global coupling, or obtain a source-locked V6 linear-system/singularity theorem that constrains the coarse ledger further.",
+    "next_leaf": "EX1-04_GLOBAL_DELTA_CONTACT_INTERSECTION_COUPLING"
+  },
+  "source_locks": {
+    "ex1_00_candidate": {
+      "path": "stages/stage32-ex1/ex1-00-source-lock-and-target-adapter.json",
+      "canonical_sha256": "783526a604572a4a81a314c59db1a399d38209ee159352106d7c5f6b5e71fa6c",
+      "audit_status": "PENDING"
+    },
+    "ex1_01_candidate": {
+      "path": "stages/stage32-ex1/ex1-01-global-normalization-defect-decomposition.json",
+      "canonical_sha256": "1cd71a070b3e171e83506df9bf8eaf2e6073f571c40b5112ed4cf0ce5151a94c",
+      "audit_status": "PENDING"
+    },
+    "ex1_02_candidate": {
+      "path": "stages/stage32-ex1/ex1-02-surface-node-multibranch-ledger.json",
+      "canonical_sha256": "810315e98eff224089d56c7f646a32c07177878ce2b05b988bef0665c5aa012a",
+      "audit_status": "PENDING"
+    },
+    "surface_invariants": {
+      "path": "stages/stage29/29-02a/source-lock.md",
+      "blob_sha1": "2f7dc59bcc14fb89bdd6785074c2362fed0a98b4"
+    }
+  },
+  "exit": {
+    "smooth_ambient_curve_singularity_branch_closed": false,
+    "smooth_ambient_branch_exactly_accounted_candidate": true,
+    "smooth_locus_numerical_residual_ledger_complete": true,
+    "branch_exclusion_credit": false,
+    "credit_ceiling": "NECESSARY_CONDITION_ONLY_UNAUDITED",
+    "full_target_closure": false,
+    "next_leaf": "EX1-04_GLOBAL_DELTA_CONTACT_INTERSECTION_COUPLING"
+  },
+  "firewalls": {
+    "branch_excess_identified_with_delta": false,
+    "coarse_delta_branch_pair_promoted_to_analytic_realization": false,
+    "canonical_multiplicity_budget_promoted_to_delta_bound": false,
+    "smooth_ambient_branch_claimed_excluded": false,
+    "local_plane_singularity_constructed_as_v6_member": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "4324234386213810a6de8f7ef2e32712006e628d80291dad4f9d74e6c1e03ac5"
+}

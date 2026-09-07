@@ -1,0 +1,122 @@
+{
+  "schema": "STAGE32EX1_EX1_05_PRODUCT_COVER_RAMIFICATION_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05A_STOLL_TESTA_PRODUCT_COVER_RAMIFICATION",
+  "status": "PASS_NEW_MEMBER_LEVEL_NODE_RAMIFICATION_CONSTRAINT_CANDIDATE",
+  "dependency_status": "PROVISIONAL_SAME_PR_DEPENDS_ON_UNAUDITED_EX1_00_THROUGH_EX1_04_CANDIDATES",
+  "target": {
+    "canonical_model": "Sbar",
+    "minimal_resolution": "S",
+    "hypothetical_curve": "integral irreducible canonical-image B of a V6 strict transform Gamma",
+    "normalization": "N",
+    "normalization_genus": 1,
+    "canonical_degree": 186,
+    "exceptional_pairings": [1, 1, 1, 2, 2, 0, 1, 2, 8, 4, 7, 2, 9, 5, 1, 10, 5, 11, 7, 1, 3, 1, 13, 1, 6, 2, 12, 16, 4, 3, 5, 6, 5, 10, 8, 1, 10, 15, 11, 2, 5, 11, 4, 10, 2, 4, 3, 13],
+    "positive_node_support_count": 47,
+    "exceptional_contact_mass": 266
+  },
+  "source_locked_product_cover": {
+    "paper": {
+      "title": "Curves on the surface of cuboids",
+      "authors": ["Michael Stoll", "Damiano Testa"],
+      "year": 2026,
+      "journal": "Mathematics of Computation",
+      "doi": "10.1090/mcom/4238",
+      "accepted_pdf": "https://www.mathe2.uni-bayreuth.de/stoll/papers/Cuboidi.pdf"
+    },
+    "facts": [
+      "X is a smooth genus-5 curve and G0=(Z/2)^3 acts by sign changes",
+      "Sbar is isomorphic over C (indeed over Q(i) in the displayed model) to (X x X)/diag(G0)",
+      "G0plus is the order-4 even-sign subgroup and C2=X/G0plus has genus 2",
+      "Y=(X x X)/diag(G0plus) is smooth and Y->Sbar is a double cover ramified exactly over the 48 A1 nodes",
+      "Y maps to C2 x C2",
+      "K_S is the pullback of O_Sbar(1); K_S^2=16 and c2(S)=80"
+    ]
+  },
+  "derived_cover_adapter": {
+    "X_to_C2_degree": 4,
+    "X_to_C2_etale": true,
+    "X_to_C2_etale_reason": "Riemann-Hurwitz: 2g(X)-2=8=4*(2g(C2)-2), so the quotient has zero ramification.",
+    "Y_to_C2xC2_degree": 4,
+    "Y_to_C2xC2_etale": true,
+    "Y_to_C2xC2_etale_reason": "The product XxX->C2xC2 is finite etale of degree 16; factoring by the free diagonal G0plus quotient of degree 4 leaves an etale degree-4 map Y->C2xC2.",
+    "K_Y_pullback_from_C2xC2": true,
+    "K_Y_pullback_from_Sbar": true,
+    "K_Y_pullback_from_Sbar_reason": "Y->Sbar is finite of degree 2 with ramification only in codimension 2; Sbar is Gorenstein with A1 singularities, so there is no divisorial ramification term."
+  },
+  "curve_pullback_argument": {
+    "D_definition": "Normalization of N x_Sbar Y.",
+    "D_to_N_degree": 2,
+    "D_connected": true,
+    "connectedness_reason": "An unramified degree-2 pullback of the elliptic N would have genus 1 (connected or split into genus-1 components), but Y has no genus-1 curves because its finite map to C2xC2 forces any curve to have a nonconstant map to a genus-2 factor.",
+    "projection_degrees": "Let a,b be the degrees of D->C2 under the two projections.",
+    "canonical_degree_on_D_from_Sbar": 372,
+    "canonical_degree_on_D_from_C2xC2": "2a+2b",
+    "projection_degree_sum": 186,
+    "projection_degree_max_lower_bound": 93,
+    "hurwitz_genus_lower_bound": "g(D)-1 >= max(a,b) >= 93",
+    "double_cover_ramification_degree": "R=2g(D)-2",
+    "ramification_degree_lower_bound": 186
+  },
+  "node_branch_consequences": {
+    "ramification_location": "Every ramification point of D->N lies over one of the 48 nodes because Y->Sbar is etale away from those nodes.",
+    "normalization_node_branch_count_definition": "R_node=sum_i r_i, where r_i is the number of normalization points of N mapping to node i.",
+    "ramification_degree_le_node_branch_count": true,
+    "normalization_node_branch_count_lower_bound": 186,
+    "existing_contact_bound": "r_i<=m_i and sum_i m_i=266",
+    "node_fiber_excess_definition": "B_node=sum_{m_i>0}(r_i-1)=R_node-47",
+    "node_fiber_excess_lower_bound": 139,
+    "node_fiber_excess_upper_bound": 219,
+    "contact_order_excess_definition": "A_contact=sum_i(m_i-r_i)=266-R_node",
+    "contact_order_excess_upper_bound": 80,
+    "unit_contact_nodes": [1, 2, 3, 7, 15, 20, 22, 24, 36],
+    "unit_contact_node_count": 9,
+    "nonunit_node_count": 38,
+    "nonunit_normalization_branch_count_lower_bound": 177,
+    "minimum_number_of_multibranch_nonunit_nodes": 14,
+    "minimum_number_replay": "To realize B_node>=139 with capacities m_i-1 on the 38 nonunit nodes, the 13 largest capacities sum to 138<139 while the 14 largest sum to 145.",
+    "no_node_multibranch_branch_excluded_candidate": true,
+    "smooth_locus_singularities_may_still_exist": true
+  },
+  "cycle_exploration": {
+    "exhaustive_view_audit": true,
+    "blind_rediscovery": true,
+    "split_triggered": false,
+    "active_route": "PRODUCT_COVER_GENUS2_RAMIFICATION",
+    "candidate_ledger": [
+      {"route": "PRODUCT_COVER_GENUS2_RAMIFICATION", "status": "LIVE", "source": "BLIND_INTERNAL_DERIVATION_PLUS_STOLL_TESTA_2026", "reason": "Directly preserves the cuboid surface and V6 canonical degree and yields R_node>=186."},
+      {"route": "SYMMETRIC_DIFFERENTIALS_BTVA22_GFU20", "status": "UNTESTED", "reason": "Surface-specific low-genus constraints exist, but currently sourced consequences are lower node-count conditions weaker than V6 contact data."},
+      {"route": "MIYAOKA_ORBIBUNDLE_LOW_GENUS_BOUND", "status": "BLOCKED", "reason": "Stoll-Testa explicitly records K_S^2=16<c2(S)=80, so the Bogomolov K^2>c2 low-genus finiteness regime does not cover S; direct Miyaoka inequality gives no contradiction at the current V6 invariants."},
+      {"route": "JET_SEPARATION_SESHADRI_REIDER_EQUISINGULAR", "status": "UNTESTED", "reason": "Potential member-level linear-system route, but no population-exact theorem adapter has yet been source-locked."},
+      {"route": "ACTUAL_V6_SECTION_MATERIALIZATION", "status": "UNTESTED", "reason": "Would decide the positive branch or supply local jets, but no explicit integral irreducible V6 genus-1 member is materialized."}
+    ],
+    "arsenal_comparison": "No directly applicable formal Arsenal card was found for the product-cover/low-genus member-level receiver; S34-W01/W02/W03 remain nonmatches.",
+    "cycle_route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "cycle_new_view": "Use the Stoll-Testa genus-2 product quotient to force at least 186 normalization branches over the 48 nodes.",
+    "cycle_new_view_source": "BLIND_INTERNAL_DERIVATION"
+  },
+  "exit": {
+    "residual_configurations_all_disposed": false,
+    "positive_witness_established": false,
+    "branch_exclusion_candidate": "NO_NODE_MULTIBRANCH configuration excluded; every hypothetical V6 genus-1 carrier must be massively node-multibranch.",
+    "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED",
+    "full_target_closure": false,
+    "next_route": "EX1-05B_INERTIA_PARITY_AND_COMPONENT_STABILIZER_REFINEMENT"
+  },
+  "firewalls": {
+    "ramification_degree_identified_with_total_delta_472": false,
+    "normalization_node_branch_count_identified_with_exceptional_mass_266": false,
+    "node_fiber_excess_identified_with_delta": false,
+    "product_cover_argument_promoted_to_full_v6_exclusion": false,
+    "smooth_locus_singularities_discarded": false,
+    "arsenal_nonmatch_treated_as_repository_absence": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "b5b3a2b26d4ac7f14ebcb8670f0176363bd1c7921266a1693642638145d61a21"
+}

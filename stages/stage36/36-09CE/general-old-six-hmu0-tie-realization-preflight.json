@@ -1,0 +1,67 @@
+{
+  "schema":"STAGE36_36_09CE_GENERAL_OLD_SIX_HMU0_TIE_REALIZATION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09CE",
+  "status":"EXACT_SELECTED_BETA_HMU0_TIE_REALIZATION_WITH_TWO_BRANCH_FILTERS",
+  "base_main_sha":"5e5c262877a21a6ef197562143657ae1ac5963c7",
+  "batch_parent":{"pr":1699,"36_09CD_exact_green_head":"c17277966766a6c0260504a08bdc6df783e26af2","36_09CD_exact_head_ci":"34165069696/101874394471"},
+  "source_locks":{
+    "stage36_36_09CD":{"path":"stages/stage36/36-09CD/fixed-p-old-six-branch-filter-integration-preflight.json","blob_sha":"78adcb3cf8f80c58cab77cedd3e694df8e266c8e"},
+    "stage36_36_09CD_verifier":{"path":"stages/stage36/verify_stage36_36_09CD.py","blob_sha":"8638530c242bd979031e76aab933dd7d6ffc9ed4"},
+    "stage36_36_09CC":{"path":"stages/stage36/36-09CC/general-old-six-qq-source-pullback-preflight.json","blob_sha":"5067d1723952edce9f4bab55cc427eb1745211cc"},
+    "stage36_36_09BU":{"path":"stages/stage36/36-09BU/general-aw-branch-bad-place-valuation-taxonomy-preflight.json","blob_sha":"a8f3fb880b83aac2240ce299fe8a8fa42e044093"},
+    "stage36_36_09AE":{"path":"stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json","blob_sha":"ddae37dd35cd0e732cebadf9c17f3f3fa57930df"},
+    "stage36_36_09BT":{"path":"stages/stage36/36-09BT/general-aw-squareclass-branch-full-cover-local-model-preflight.json","blob_sha":"e58c417ddfa340d96b2ac1fbae9e7da7c5224d78"}
+  },
+  "beta_hmu0_parity_split":{
+    "q":"odd beta reservoir prime q|D0",
+    "m":"v_q(D0)>=1",
+    "hmu":"m + 1_{q|C} + 1_{q|D} modulo 2",
+    "hmu0_species":["m even and q unused in C,D","m odd and q|C","m odd and q|D"],
+    "this_leaf_scope":"the two selected species m odd with q|C or q|D; the even-m unused species remains for the next leaf"
+  },
+  "C_selected_realization":{
+    "setup":"m odd, q|C, q does not divide A,B,D,P,M,Q; write kappa=q*kappa0",
+    "AE_inputs":["Legendre(A*B,q)=+1","Legendre(2^(1-f)*A*D,q)=+1"],
+    "coordinate":"choose theta^2=A/B in Q_q and put t=theta*x",
+    "minus_pair":["kappa*A*(1-x^2)","kappa*A*(A*B square)*(1-lambda^2*x^2)"],
+    "plus_pair":"both plus radicands are q-units and squares near x=+/-1 by the second AE input; AB is a square so the extra plus root has the same character",
+    "lambda_shift":{"valuation":"v_q(lambda^2-1)=m","ell":"(lambda^2-1)/q^m = 8*(D0/q^m)/M^2 is a q-unit"},
+    "m_at_least_3_construction":"take x=epsilon+q*c with c a q-unit chosen so Legendre(kappa0*A*(-2*epsilon*c),q)=+1. Since 1<m, both minus factors have valuation 1 and the same normalized unit, so all four roots exist.",
+    "m_equal_1_reduction":"write s=kappa0*A and ell=(lambda^2-1)/q. For x=epsilon+q*c put X=-2*epsilon*c. The two tied minus roots require Legendre(s*X,q)=Legendre(s*(X-ell),q)=+1. For x=epsilon+q^n*c with odd n>=3, the extra-minus condition is Legendre(-s*ell,q)=+1 while c can always satisfy the source-minus condition.",
+    "finite_field_count":"let a=Legendre(s*ell,q). The number of nonzero X, X-ell with both required same character is (q-3-a*(1+Legendre(-1,q)))/4.",
+    "consequence":"for every odd q>=5 at least the n=1 or the n>=3 construction works. For q=3 the branch is locally impossible exactly when Legendre(s*ell,3)=+1; it is realizable when that symbol is -1.",
+    "q3_integer_criterion":"because M^2 is a square unit, the q=3 failure condition is Legendre((kappa/3)*A*8*(D0/3),3)=+1 when v_3(D0)=1 and 3|C"
+  },
+  "D_selected_realization":{
+    "setup":"m odd, q|D, q does not divide A,B,C,P,M,Q; write rho=q*rho0",
+    "AE_inputs":["Legendre(-A*B,q)=+1","Legendre(eta*2^(1-e)*A*C,q)=+1"],
+    "coordinate":"choose theta^2=-A/B in Q_q and put t=theta*x",
+    "untied_minus_comparison":"near x=+/-1 the source minus root is a q-unit square by the second AE input, while the extra minus radicand differs in character by A*B. Hence simultaneous source/extra minus roots require Legendre(A*B,q)=+1.",
+    "branch_only_condition":"combining Legendre(A*B,q)=+1 with the AE input Legendre(-A*B,q)=+1 gives Legendre(-1,q)=+1, equivalently q congruent 1 modulo 4",
+    "necessity":true,
+    "sufficiency":"when q=1 mod4, AB is a square and the tied plus pair reduces to the same-character problem as the C-selected case. For m>=3 the x=epsilon+q*c construction works; for m=1, q>=5 and the finite-field/n>=3 alternatives are exhaustive, so a construction always exists.",
+    "q_3mod4_selected_D_branch_impossible":true
+  },
+  "new_branch_only_filters":{
+    "row_D_selected":"for every odd-multiplicity beta prime q assigned to D, require q=1 mod4",
+    "row_C_simple_q3":"if v_3(D0)=1 and 3|C, require Legendre((kappa/3)*A*8*(D0/3),3)=-1",
+    "point_independent":true,
+    "selected_beta_hmu0_local_realization_complete_after_rows":true
+  },
+  "exact_fixed_p_diagnostics":{
+    "p_1_over_2":{"CD_survivors":4,"after_CE_selected_beta_hmu0":3,"removed":"one simple q=3 C-selected branch","fixed_p_excluded":false},
+    "p_2_over_11":{"CD_survivors":18,"after_CE_selected_beta_hmu0":16,"removed":"two D-selected branches containing q=3/11 non-1-mod4 primes","fixed_p_excluded":false},
+    "diagnostic_p_3_over_4":{"scope":"same exact generator; not a retained-candidate membership claim","CD_survivors":6,"after_CE_selected_beta_hmu0":5},
+    "diagnostic_p_1_over_8":{"scope":"same exact generator; not a retained-candidate membership claim","CD_survivors":4,"after_CE_selected_beta_hmu0":4}
+  },
+  "remaining_hmu0_boundary":{
+    "selected_beta_hmu0_realization_complete":true,
+    "alpha_unselected_hmu0_realization_complete":false,
+    "beta_even_m_unused_hmu0_realization_complete":false,
+    "all_old_six_local_realization_complete":false,
+    "next_question":"classify the two unused-prime hmu=0 species: alpha primes not selected into A/B and even-multiplicity beta primes unused in C,D"
+  },
+  "route_result":{"route_status":"PASS_SELECTED_BETA_HMU0_REALIZATION_TWO_NEW_BRANCH_FILTERS","selected_beta_hmu0_realization_complete":true,"new_point_independent_branch_rows":2,"fixed_p_parameter_exclusion_obtained":false,"candidate_parameter_set_shrunk":false,"receiver_closed":false,"next_leaf":"36-09CF_UNUSED_OLD_SIX_HMU0_LOCAL_REALIZATION_PREFLIGHT"},
+  "scope_firewalls":{"CE_survivor_is_all_old_six_local_point":false,"alpha_unselected_hmu0_realization_complete":false,"beta_even_m_unused_hmu0_realization_complete":false,"fixed_p_parameter_exclusion_obtained":false,"candidate_parameter_set_shrunk":false,"local_parameter_elimination_exhausted":false,"uniform_finite_Q_squareclass_family":false,"finite_exhaustive_H1_twist_family":false,"receiver_emptiness_proved":false,"R29_CAMP2_closed":false,"Q11_CAMPEDELLI_closed":false,"endpoint_closed":false,"perfect_cuboid_existence_claim":false,"perfect_cuboid_nonexistence_claim":false}
+}

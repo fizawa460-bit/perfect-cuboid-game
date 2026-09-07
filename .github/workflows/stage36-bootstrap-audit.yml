@@ -42,23 +42,23 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay exact 36-09CC green parent
+      - name: Replay exact 36-09CD green parent
         shell: bash
         run: |
           set -euo pipefail
-          H=99a4f5235b0d2c9a8aaabc1ad2e36eadf518e7e7
+          H=c17277966766a6c0260504a08bdc6df783e26af2
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CC.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09CD.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09CD
+      - name: Verify current 36-09CE
         shell: bash
         run: |
           set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09CD.py
-      - name: Assert CD firewalls and CE selection
+          python3 stages/stage36/verify_stage36_36_09CE.py
+      - name: Assert CE firewalls and CF selection
         shell: bash
         run: |
           set -euo pipefail
@@ -66,35 +66,33 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V122_36_09CD_OLD_SIX_FILTER_INTEGRATION'
-          cc=s['authority_frontier']['36-09CC']
-          assert cc['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert cc['exact_head']=='99a4f5235b0d2c9a8aaabc1ad2e36eadf518e7e7'
-          assert cc['exact_head_ci']=='34164929391/101873986407'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V123_36_09CE_SELECTED_BETA_HMU0_REALIZATION'
           cd=s['authority_frontier']['36-09CD']
-          assert cd['certificate_blob_sha']=='78adcb3cf8f80c58cab77cedd3e694df8e266c8e'
-          assert cd['verifier_blob_sha']=='8638530c242bd979031e76aab933dd7d6ffc9ed4'
-          assert cd['FIXED_P_OLD_SIX_FILTER_INTEGRATION_COMPLETE'] is True
-          assert cd['SOUND_ZERO_SURVIVOR_EXCLUSION_RULE'] is True
-          assert cd['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
-          assert cd['RECEIVER_CLOSED'] is False
+          assert cd['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
+          assert cd['exact_head']=='c17277966766a6c0260504a08bdc6df783e26af2'
+          assert cd['exact_head_ci']=='34165069696/101874394471'
+          ce=s['authority_frontier']['36-09CE']
+          assert ce['certificate_blob_sha']=='fcad703975f2ea39a8306846284791c05b17bd7b'
+          assert ce['verifier_blob_sha']=='8eefd1d859b71d33693d85e5f03e4cdeb0ccf0cc'
+          assert ce['SELECTED_BETA_HMU0_REALIZATION_COMPLETE'] is True
+          assert ce['NEW_POINT_INDEPENDENT_BRANCH_ROWS']==2
+          assert ce['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
           cur=s['current']
-          assert cur['next_exact_leaf']=='36-09CE_GENERAL_OLD_SIX_HMU0_TIE_REALIZATION_PREFLIGHT'
+          assert cur['next_exact_leaf']=='36-09CF_UNUSED_OLD_SIX_HMU0_LOCAL_REALIZATION_PREFLIGHT'
           assert cur['next_owner']=='MAIN'
           assert cur['substantive_batch_pr_continues'] is True
           assert cur['hostile_audit_checkpoint_reached'] is False
-          assert cur['36_09CE_entry_allowed'] is True
+          assert cur['36_09CF_entry_allowed'] is True
           pg=s['promotion_gates']
-          assert pg['36_09CC_exact_head_ci_passed'] is True
-          assert pg['36_09CD_certificate_complete'] is True
-          assert pg['36_09CE_unlocked'] is True
-          assert pg['fixed_p_old_six_filter_integration_complete'] is True
-          assert pg['sound_zero_survivor_exclusion_rule'] is True
-          assert pg['old_six_hmu0_tie_realization_complete'] is False
+          assert pg['36_09CD_exact_head_ci_passed'] is True
+          assert pg['36_09CE_certificate_complete'] is True
+          assert pg['36_09CF_unlocked'] is True
+          assert pg['selected_beta_hmu0_realization_complete'] is True
+          assert pg['unused_old_six_hmu0_realization_complete'] is False
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('36-09CD workflow checkpoint verified: old-six branch-only rows are integrated into the fixed-p outer family; CE hmu=0 tie realization selected with no parameter/global credit.')
+          print('36-09CE workflow verified: selected beta hmu=0 realization is exact; CF unused hmu=0 species selected with no parameter/global credit.')
           PY
           git diff --check

@@ -1,0 +1,61 @@
+name: Stage32EX1 audit replay
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32-ex1/**'
+      - '.github/workflows/stage32ex1-audit-replay.yml'
+  push:
+    paths:
+      - 'stages/stage32-ex1/**'
+      - '.github/workflows/stage32ex1-audit-replay.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Verify exact checkout identity
+        shell: bash
+        env:
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          expected="$PR_HEAD"
+          if [ -z "$expected" ]; then expected="$GITHUB_SHA"; fi
+          actual="$(git rev-parse HEAD)"
+          echo "expected_head=$expected"
+          echo "actual_head=$actual"
+          test "$actual" = "$expected"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Replay Stage32EX1 EX1-00 through EX1-05F and MAIN state
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage32-ex1/verify_ex1_00_source_lock_and_target_adapter.py
+          python3 stages/stage32-ex1/verify_ex1_01_global_normalization_defect_decomposition.py
+          python3 stages/stage32-ex1/verify_ex1_02_surface_node_multibranch_ledger.py
+          python3 stages/stage32-ex1/verify_ex1_03_smooth_ambient_singularity_ledger.py
+          python3 stages/stage32-ex1/verify_ex1_04_global_coupling_ledger.py
+          python3 stages/stage32-ex1/verify_ex1_05a_product_cover_ramification.py
+          python3 stages/stage32-ex1/verify_ex1_05b_inertia_parity_stabilizer.py
+          python3 stages/stage32-ex1/verify_ex1_05c_inertia_class_capacity.py
+          python3 stages/stage32-ex1/verify_ex1_05d_b3_node_parity_h4_forcing.py
+          python3 stages/stage32-ex1/verify_ex1_05e_h4_modular_factor_projection_reduction.py
+          python3 stages/stage32-ex1/verify_ex1_05f_h4_local_cusp_projection_ramification_adapter.py
+          python3 stages/stage32-ex1/verify_main_state.py
+      - name: Verify clean working tree after replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code
+          status="$(git status --porcelain)"
+          printf '%s\n' "$status"
+          test -z "$status"
