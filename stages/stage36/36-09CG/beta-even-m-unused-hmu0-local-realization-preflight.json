@@ -1,0 +1,53 @@
+{
+  "schema":"STAGE36_36_09CG_BETA_EVEN_M_UNUSED_HMU0_LOCAL_REALIZATION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09CG",
+  "status":"EXACT_BETA_EVEN_MULTIPLICITY_UNUSED_HMU0_LOCAL_CRITERION",
+  "base_main_sha":"6431ec2a90ed9260d4362d7146a9788cbc21c8d1",
+  "batch_parent":{"pr":1699,"36_09CF_exact_green_head":"64bc9055b007985d11e9d43890993953cb27f175","36_09CF_exact_head_ci":"34167343086/101880897033"},
+  "source_locks":{
+    "stage36_36_09CF":{"path":"stages/stage36/36-09CF/unused-alpha-hmu0-local-realization-preflight.json","blob_sha":"37ae40020c829498f23fa38e3203e382115fd134"},
+    "stage36_36_09CF_verifier":{"path":"stages/stage36/verify_stage36_36_09CF.py","blob_sha":"195741b765957a2b3c014eaab2c38ef1d6ad0a30"},
+    "stage36_36_09CE":{"path":"stages/stage36/36-09CE/general-old-six-hmu0-tie-realization-preflight.json","blob_sha":"fcad703975f2ea39a8306846284791c05b17bd7b"},
+    "stage36_36_09CC":{"path":"stages/stage36/36-09CC/general-old-six-qq-source-pullback-preflight.json","blob_sha":"5067d1723952edce9f4bab55cc427eb1745211cc"},
+    "stage36_36_09BT":{"path":"stages/stage36/36-09BT/general-aw-squareclass-branch-full-cover-local-model-preflight.json","blob_sha":"e58c417ddfa340d96b2ac1fbae9e7da7c5224d78"}
+  },
+  "setup":{
+    "q":"odd beta-reservoir prime q|D0 with m=v_q(D0) even and at least 2",
+    "unused":"q does not divide C or D, hence hmu=0",
+    "units":"q does not divide A,B,kappa,rho,P,M,Q",
+    "lambda_shift":"lambda^2=1+q^m*L with L=8*(D0/q^m)/M^2 a q-adic unit",
+    "characters":{"d":"Legendre(A*B,q)","k":"Legendre(kappa*A,q)","r":"Legendre(rho*A,q)","epsilon":"Legendre(-1,q)","s":"Legendre(2,q)"}
+  },
+  "nonsquare_AB_obstruction":{
+    "statement":"d=-1 is impossible",
+    "reason":"at least one of Yminus=A-Bt^2 and Yplus=A+Bt^2 is nonvanishing at the leading residue scale. For that sign, the source and extra radicands differ by the multiplier AB while Yextra/Ysource is a q-adic square unit (or lambda^2 in the pole sector). A nonsquare AB therefore makes simultaneous source/extra roots impossible.",
+    "branch_only":true
+  },
+  "square_AB_five_sector_criterion":{
+    "assume":"d=+1, so AB is a Q_q-square and source/extra multipliers have the same squareclass",
+    "small_y":"v_q(y)>0, y=(B/A)t^2: realizable iff k=r=+1",
+    "generic_unit_y":"v_q(y)=0 and y mod q not in {+1,-1}: realizable iff there exists a nonzero square y in F_q with y not +/-1, Legendre(1-y,q)=k and Legendre(1+y,q)=r",
+    "large_y":"v_q(y)<0: realizable iff epsilon*k=r=+1",
+    "near_plus_one":{"unit_pair":"Yplus remains a unit, requiring s*r=+1","minus_pair":"write y=1+q^n*c. If 2<=n<m is even (available for m>=4), realization is automatic after choosing c. At n=m require Legendre(c,q)=Legendre(c+L,q)=epsilon*k. For n>m even require epsilon*k*Legendre(L,q)=+1.","criterion":"s*r=+1 and [m>=4 or the n=m same-character finite-field condition or the n>m fallback]"},
+    "near_minus_one":{"accessibility":"requires epsilon=+1 because y is a square","unit_pair":"Yminus remains a unit, requiring s*k=+1","plus_pair":"write y=-1+q^n*c. If m>=4 choose even 2<=n<m. At n=m require Legendre(c,q)=Legendre(c-L,q)=r. For n>m require epsilon*r*Legendre(L,q)=+1.","criterion":"epsilon=+1, s*k=+1, and [m>=4 or the n=m same-character finite-field condition or the n>m fallback]"},
+    "completeness":"v_q(y)>0, v_q(y)<0, generic unit residue, residue +1, and residue -1 exhaust all q-adic y. The five-sector disjunction is therefore necessary and sufficient for this even-m unused beta species.",
+    "point_independent":true
+  },
+  "exact_fixed_p_diagnostics":{
+    "p_1_over_2":{"CF_survivors":3,"after_CG_even_m_unused_beta":3,"fixed_p_excluded":false},
+    "p_2_over_11":{"CF_survivors":6,"after_CG_even_m_unused_beta":5,"removed":"one q=3, m=2 unused beta branch","fixed_p_excluded":false},
+    "diagnostic_p_3_over_4":{"scope":"same exact generator; not a retained-candidate membership claim","CF_survivors":5,"after_CG_even_m_unused_beta":5},
+    "diagnostic_p_1_over_8":{"scope":"same exact generator; not a retained-candidate membership claim","CF_survivors":4,"after_CG_even_m_unused_beta":3}
+  },
+  "hmu0_completion":{
+    "selected_beta_hmu0_realization_complete":true,
+    "unused_alpha_hmu0_realization_complete":true,
+    "beta_even_m_unused_hmu0_realization_complete":true,
+    "all_old_six_hmu0_species_complete":true,
+    "all_old_six_local_realization_complete":false,
+    "remaining":"selected-alpha sufficiency and beta hmu=1 sufficiency were used only as necessary branch filters in CC and still require local realization adapters"
+  },
+  "route_result":{"route_status":"PASS_BETA_EVEN_M_UNUSED_HMU0_EXACT_FIVE_SECTOR_CRITERION","beta_even_m_unused_hmu0_realization_complete":true,"all_old_six_hmu0_species_complete":true,"new_point_independent_branch_filter":true,"fixed_p_parameter_exclusion_obtained":false,"candidate_parameter_set_shrunk":false,"receiver_closed":false,"next_leaf":"36-09CH_SELECTED_ALPHA_AND_BETA_HMU1_LOCAL_REALIZATION_PREFLIGHT"},
+  "scope_firewalls":{"CG_survivor_is_all_old_six_local_point":false,"selected_alpha_local_realization_complete":false,"beta_hmu1_local_realization_complete":false,"all_old_six_local_realization_complete":false,"fixed_p_parameter_exclusion_obtained":false,"candidate_parameter_set_shrunk":false,"local_parameter_elimination_exhausted":false,"uniform_finite_Q_squareclass_family":false,"finite_exhaustive_H1_twist_family":false,"receiver_emptiness_proved":false,"R29_CAMP2_closed":false,"Q11_CAMPEDELLI_closed":false,"endpoint_closed":false,"perfect_cuboid_existence_claim":false,"perfect_cuboid_nonexistence_claim":false}
+}

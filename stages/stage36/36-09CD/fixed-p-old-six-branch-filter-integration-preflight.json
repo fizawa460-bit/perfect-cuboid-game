@@ -1,0 +1,73 @@
+{
+  "schema":"STAGE36_36_09CD_FIXED_P_OLD_SIX_BRANCH_FILTER_INTEGRATION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09CD",
+  "status":"EXACT_FIXED_P_Q2_ALPHA_OLD_SIX_BRANCH_FILTER_INTEGRATION",
+  "base_main_sha":"5e5c262877a21a6ef197562143657ae1ac5963c7",
+  "batch_parent":{"pr":1699,"36_09CC_exact_green_head":"99a4f5235b0d2c9a8aaabc1ad2e36eadf518e7e7","36_09CC_exact_head_ci":"34164929391/101873986407"},
+  "source_locks":{
+    "stage36_36_09CC":{"path":"stages/stage36/36-09CC/general-old-six-qq-source-pullback-preflight.json","blob_sha":"5067d1723952edce9f4bab55cc427eb1745211cc"},
+    "stage36_36_09CC_verifier":{"path":"stages/stage36/verify_stage36_36_09CC.py","blob_sha":"56edc0cb232290a0e369be10d6f4c972dac279e7"},
+    "stage36_36_09BZ":{"path":"stages/stage36/36-09BZ/fixed-p-alpha-pullback-filter-integration-preflight.json","blob_sha":"d220e1a2de3f7595e498b8987f9fa90035a1f7d9"},
+    "stage36_36_09AW":{"path":"stages/stage36/36-09AW/fixed-p-finite-squareclass-tunnell-branch-sieve-preflight.json","blob_sha":"c1970a020803275ba87b249229e319367fa8f811"}
+  },
+  "integrated_family":{
+    "name":"F_{Q,2,alpha,old6}^{branch}(p)",
+    "start":"the exact finite AW/AE outer branch family at fixed retained p=a/b",
+    "filters_in_order":[
+      "BU/BV odd-Q row Legendre(mu*A*B,q)=+1 for every odd q|Q",
+      "BW/BX A congruent B modulo 8",
+      "BW/BX critical-deep exclusion",
+      "BY source-alpha rows",
+      "CC selected-alpha row: every q|A or q|B from P/M must satisfy q=1 mod8",
+      "CC beta residual-mu row: every odd q|D0 with q|mu must satisfy Legendre(A*B,q)=+1"
+    ],
+    "all_rows_are_receiver_necessary":true,
+    "all_rows_are_point_independent":true,
+    "old_six_hmu0_tie_realization_included":false
+  },
+  "sound_fixed_p_exclusion_rule":{
+    "statement":"If F_{Q,2,alpha,old6}^{branch}(p) is empty for a fixed retained p, then there is no R29-CAMP2 receiver point above that p.",
+    "reason":"Any receiver point induces an exhaustive AW/AE outer row and must satisfy every audited/provisional receiver-necessary Q, Q2, source-alpha, selected-alpha, and beta-residual-mu row in the integrated family.",
+    "unconditional_given_CC_exactness":true,
+    "converse":false,
+    "surviving_branch_is_Qq_point_at_old_six":false,
+    "surviving_branch_is_receiver_point":false
+  },
+  "exact_fixed_p_diagnostics":{
+    "p_1_over_2":{"BZ_survivors":4,"after_CC_old_six":4,"fixed_p_excluded":false},
+    "p_2_over_11":{"BZ_survivors":30,"after_CC_selected_alpha":20,"after_CC_old_six":18,"fixed_p_excluded":false},
+    "diagnostic_p_3_over_4":{"scope":"same exact AW/AE/BZ generator; not a retained-candidate membership claim","BZ_survivors":6,"after_CC_old_six":6},
+    "diagnostic_p_1_over_8":{"scope":"same exact AW/AE/BZ generator; not a retained-candidate membership claim","BZ_survivors":5,"after_CC_old_six":4}
+  },
+  "remaining_local_boundary":{
+    "description":"The integrated family now contains every point-independent old-six consequence extracted by CC, but hmu=0 tie species still depend on the source/full-cover point ratio.",
+    "surviving_outer_row_realizes_all_old_six_Qq_points":false,
+    "next_question":"Classify hmu=0 old-six tie source-ratio realization branch-by-branch and determine whether survivors are locally realizable or yield additional point-independent filters."
+  },
+  "route_result":{
+    "route_status":"PASS_FIXED_P_OLD_SIX_FILTER_INTEGRATION_NO_PARAMETER_EXCLUSION",
+    "fixed_p_old_six_filter_integration_complete":true,
+    "sound_zero_survivor_exclusion_rule":true,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09CE_GENERAL_OLD_SIX_HMU0_TIE_REALIZATION_PREFLIGHT"
+  },
+  "scope_firewalls":{
+    "surviving_branch_implies_old_six_local_points":false,
+    "surviving_branch_implies_receiver_point":false,
+    "old_six_hmu0_tie_realization_complete":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "local_parameter_elimination_exhausted":false,
+    "uniform_finite_Q_squareclass_family":false,
+    "finite_exhaustive_H1_twist_family":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
