@@ -3,7 +3,7 @@
 
 V91C1AB proves that sign_a2 leaves only EXC_003/004 nonzero and that all eight
 strict-prime IDs needed by the complete package difference remain inside the
-retained actual-prime inventory.  This preflight asks, for those exact eight
+retained actual-prime inventory. This preflight asks, for those exact eight
 IDs only, which already source-bound V91C1V/W Picard64 resolution forms apply:
 known92 component decomposition and/or a multiplicity-one carrier relation.
 No Pic/2 or H2 fixedness is promoted here.
@@ -18,10 +18,10 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 AB = HERE / "diagnose_e3_v91c1ab_sign_prime_attached_cech_difference.py"
 V = HERE / "diagnose_e3_v91c1v_actual_prime_known140_locator.py"
-W = HERE / "diagnose_e3_v91c1w_all8_picard64_reduction_v2.py"
+W_CERT = HERE / "e3-v91c1w-a2-02-all8-picard64-reduction.json"
 AB_BLOB = "d787830a712c6a0639fe35d6d57ba6c8cba39e90"
 V_BLOB = "d2b0fabca7adb27eb63438499b8fd918eec5ff5e"
-W_BLOB = "7b0ba747021f55860615a3a054864afff6ef537b"
+W_CERT_SHA = "e84dcc6692849ff065b0380e760bf725f77fff6754ab5bbdc39b7e608c76a4c7"
 
 
 def gitblob(data):
@@ -32,9 +32,20 @@ def csha(obj):
     return hashlib.sha256(json.dumps(obj, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
+def load(path, expected):
+    obj = json.loads(path.read_text(encoding="utf-8"))
+    body = dict(obj); claimed = body.pop("canonical_sha256")
+    assert claimed == expected == csha(body), path
+    return obj
+
+
 assert gitblob(AB.read_bytes()) == AB_BLOB
 assert gitblob(V.read_bytes()) == V_BLOB
-assert gitblob(W.read_bytes()) == W_BLOB
+wcert = load(W_CERT, W_CERT_SHA)
+assert wcert["exact_result"]["strict_scheme_count"] == 8
+assert wcert["exact_result"]["strict_scheme_picard64_classes_materialized"] is True
+assert wcert["exact_result"]["all_eight_exact_decomposition_or_source_bound_relation"] is True
+
 abns = runpy.run_path(str(AB)); ab = abns["result"]
 assert ab["success"] is True
 siga2 = ab["actions"]["sign_a2"]
@@ -87,10 +98,11 @@ for p in needed:
         "has_single_multiplicity_one_carrier_relation": any(r["single_multiplicity_one_candidate"] for r in carriers),
     }
 
-# V91C1W's already resolved swap23 class rows are reusable only on exact ID overlap.
-wns = runpy.run_path(str(W))
-existing_rows = set(wns["class_rows"])
-overlap = sorted(set(needed) & existing_rows)
+# V91C1V's exact swap23-needed ID set is precisely the eight objects that
+# V91C1W certifies as Picard64-resolved. Reuse only exact ID overlap.
+swap23_needed = set(vns["needed"])
+assert len(swap23_needed) == 8
+overlap = sorted(set(needed) & swap23_needed)
 zero_match = sorted(p for p in needed if not matches[p])
 nonzero_match = sorted(p for p in needed if matches[p])
 sole_carrier = sorted(p for p in needed if records[p]["has_single_multiplicity_one_carrier_relation"])
@@ -101,6 +113,7 @@ result = {
     "marker": "V91C1AD_SIGN_A2_PICARD64_LOCATOR_PREFLIGHT",
     "needed_strict_prime_count": len(needed),
     "needed_strict_prime_ids_sha256": csha(needed),
+    "v91c1w_certificate_sha256": W_CERT_SHA,
     "already_resolved_by_exact_v91c1w_id_overlap_count": len(overlap),
     "already_resolved_by_exact_v91c1w_id_overlap": overlap,
     "known92_nonzero_match_count": len(nonzero_match),
