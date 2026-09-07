@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'stages/stage32-ex6/diagnose_stage32_ex6_rank4_fibration_orbit.py'
+      - 'stages/stage32-ex6/post1697-rank4-degree113-adapter-wall.md'
       - '.github/workflows/stage32-ex6-rank4-fibration-orbit.yml'
   workflow_dispatch:
 
@@ -25,14 +26,35 @@ jobs:
         run: |
           set -o pipefail
           python3 stages/stage32-ex6/diagnose_stage32_ex6_rank4_fibration_orbit.py | tee /tmp/ex6-rank4.json
+      - name: Verify bounded decision fields
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/ex6-rank4.json'))
+          s=x['summary']
+          lf=x['rank4_orbit_types']['last_four_quadrics']
+          ns=x['rank4_orbit_types']['next_six_quadrics']
+          assert s['largest_v6_fibration_degree_seen_across_all_rank4_types'] == 113
+          assert s['degree113_last_four_split_exceptional_v6_mass'] == 140
+          assert lf['distinct_fibration_classes'] == 8
+          assert lf['supports_per_fibration_class'] == 6
+          assert lf['degree_max'] == 113
+          assert len(lf['max_degree_fibration_classes']) == 1
+          assert lf['max_degree_fibration_classes'][0]['union_exceptional_v6_mass'] == 140
+          assert ns['distinct_fibration_classes'] == 12
+          assert ns['supports_per_fibration_class'] == 2
+          assert ns['degree_max'] == 104
+          assert x['firewalls']['new_fibration_O_adapter_proved'] is False
+          assert x['firewalls']['O266_excluded'] is False
+          PY
       - name: Show compact decision fields
         run: |
           python3 - <<'PY'
           import json
           x=json.load(open('/tmp/ex6-rank4.json'))
           print(json.dumps({
-            'rank4_orbit_types': x['rank4_orbit_types'],
             'summary': x['summary'],
+            'last_four_max_classes': x['rank4_orbit_types']['last_four_quadrics']['max_degree_fibration_classes'],
             'firewalls': x['firewalls'],
           }, indent=2, sort_keys=True))
           PY
