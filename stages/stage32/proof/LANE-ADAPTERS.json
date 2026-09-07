@@ -1,0 +1,69 @@
+{
+  "contract": {
+    "claim_reference_rule": "A lane may cite a registered claim ID, but mathematical credit is bounded by that claim's authority_status, PROVES, DOES_NOT_PROVE, source locks, and audit receipt.",
+    "promotion_rule": "EX -> MAIN requires an AUDITED terminal EX claim plus a separate explicit current-target promotion adapter claim. LANE-ADAPTERS.json itself never promotes.",
+    "purpose": "External reference map only. Existing MAIN-STATE files remain authoritative for routing and are not rewritten or promoted by this adapter.",
+    "scratch_rule": "Scratch results are not claim dependencies for MAIN/EX promotion. They must first become a retained PROVISIONAL claim with exact source locks."
+  },
+  "lanes": [
+    {
+      "claim_refs": [
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
+        "S32.MAIN.HDECK_CHARACTER_DIRECTION.V1",
+        "S32.MAIN.V6_BIJECTIVE_NORMALIZATION_EXCLUSION.V2"
+      ],
+      "lane": "MAIN",
+      "notes": "HDECK claim is audited; bijective-normalization exclusion remains provisional pending re-audit.",
+      "state_path": "stages/stage32/MAIN-STATE.json"
+    },
+    {
+      "claim_refs": [
+        "S32.EX1.LANE_CONTRACT.V1",
+        "S32.EX1.CANDIDATE_THROUGH_05F.V1",
+        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1"
+      ],
+      "lane": "EX1",
+      "notes": "Accumulated EX1 candidate is provisional/re-audit pending; no self-credit.",
+      "state_path": "stages/stage32-ex1/MAIN-STATE.json"
+    },
+    {
+      "claim_refs": [
+        "S32.EX2.LANE_CONTRACT.V1",
+        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1"
+      ],
+      "lane": "EX2",
+      "notes": "Bootstrap contract only.",
+      "state_path": "stages/stage32-ex2/MAIN-STATE.json"
+    },
+    {
+      "claim_refs": [
+        "S32.EX3.LANE_CONTRACT.V1",
+        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1"
+      ],
+      "lane": "EX3",
+      "notes": "Bootstrap contract only.",
+      "state_path": "stages/stage32-ex3/MAIN-STATE.json"
+    },
+    {
+      "claim_refs": [
+        "S32.EX4.LANE_CONTRACT.V1",
+        "S32.MAIN.HDECK_CHARACTER_DIRECTION.V1",
+        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1"
+      ],
+      "lane": "EX4",
+      "notes": "May consume the audited abstract H-deck direction, but absolute W-line/residue remains unproved.",
+      "state_path": "stages/stage32-ex4/MAIN-STATE.json"
+    },
+    {
+      "claim_refs": [
+        "S32.EX5.LANE_CONTRACT.V1",
+        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1"
+      ],
+      "lane": "EX5",
+      "notes": "Bootstrap breadth contract only.",
+      "state_path": "stages/stage32-ex5/MAIN-STATE.json"
+    }
+  ],
+  "schema": "STAGE32_LANE_CLAIM_ADAPTERS_V1",
+  "stage": 32
+}
