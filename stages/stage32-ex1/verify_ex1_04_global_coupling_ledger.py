@@ -3,8 +3,8 @@ import hashlib
 import json
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
-P = ROOT / "stage32-ex1" / "ex1-04-global-coupling-ledger.json"
+HERE = Path(__file__).resolve().parent
+P = HERE / "ex1-04-global-coupling-ledger.json"
 
 obj = json.loads(P.read_text())
 claimed = obj.pop("canonical_sha256_without_this_field")
