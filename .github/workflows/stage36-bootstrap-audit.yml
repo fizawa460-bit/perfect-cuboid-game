@@ -41,20 +41,20 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay exact 36-09BR parent
+      - name: Replay exact 36-09BS parent
         shell: bash
         run: |
           set -euo pipefail
-          H=0fca8cdf580d07f6993a27f7277deb23bcfe5c21
+          H=14dc92d94dd81d01f0b84070070410ad4c3ecca9
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BR.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BS.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09BS
-        run: python3 stages/stage36/verify_stage36_36_09BS.py
-      - name: Assert BS population firewalls and BT unlock
+      - name: Verify current 36-09BT
+        run: python3 stages/stage36/verify_stage36_36_09BT.py
+      - name: Assert BT equation-adapter firewalls and BU unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -62,18 +62,17 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V108_36_09BS_POPULATION_ADAPTER'
-          bs=s['authority_frontier']['36-09BS']
-          assert bs['AW_BRANCH_POPULATION_EQUALS_AY'] is False
-          assert bs['AY_IS_ONE_AW_COMPATIBLE_BRANCH'] is True
-          assert bs['BH_BO_GATES_GENERAL_AW_BRANCH'] is False
-          assert bs['GENERAL_AW_BRANCH_LOCAL_MODEL_OBTAINED'] is False
-          assert bs['WHOLE_FIXED_P_PARAMETER_ELIMINATION_FROM_AY_GATES'] is False
-          assert s['current']['next_exact_leaf']=='36-09BT_GENERAL_AW_SQUARECLASS_BRANCH_FULL_COVER_LOCAL_MODEL_PREFLIGHT'
-          assert s['current']['36_09BT_entry_allowed'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V109_36_09BT_GENERAL_AW_FULL_COVER_MODEL'
+          bt=s['authority_frontier']['36-09BT']
+          assert bt['GENERAL_AW_BRANCH_FULL_COVER_LOCAL_MODEL_OBTAINED'] is True
+          assert bt['SEVEN_RESERVOIR_ODD_SUPPORT_UPPER_BOUND'] is True
+          assert bt['GENERAL_BRANCH_BAD_PLACE_TAXONOMY_COMPLETE'] is False
+          assert bt['WHOLE_FIXED_P_PARAMETER_ELIMINATION_INTERFACE_COMPLETE'] is False
+          assert s['current']['next_exact_leaf']=='36-09BU_GENERAL_AW_BRANCH_BAD_PLACE_VALUATION_TAXONOMY_PREFLIGHT'
+          assert s['current']['36_09BU_entry_allowed'] is True
           assert s['promotion_gates']['local_parameter_elimination_route_exhausted'] is False
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('36-09BS verified; AY-only local gates cannot be charged to all AW branches. BT general squareclass branch full-cover model selected.')
+          print('36-09BT verified; general AW full-cover equation adapter is exact. AY local taxonomy is not transferred unchanged; BU general bad-place taxonomy selected.')
           PY
           git diff --check
