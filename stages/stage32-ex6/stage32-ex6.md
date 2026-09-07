@@ -39,14 +39,19 @@ Therefore the universal local adapter
 
 is **locally false** in the retained endpoint model. This does not construct a global V6 carrier and does not exclude O266; it removes one naive route to the Riemann–Hurwitz contradiction.
 
+The quantitative budget is now also fixed. Once those 140 locally-zeroable contacts receive zero forced ramification, only `266-140=126` O-contacts remain. A degree-113 genus-one map has exact total ramification `226`, so contradiction needs a forced lower bound at least `227`. Charging at most one unit to every remaining contact gives only `126`, leaving an exact deficit of `101`. Thus the bounded route “zero credit on the 140 locally avoidable contacts + no independent ramification lower bound + at most one forced unit on each remaining contact” is `NUMERICALLY_INSUFFICIENT`.
+
 Retained files:
 
 - `stages/stage32-ex6/post1697-rank4-degree113-adapter-wall.md`
 - `stages/stage32-ex6/post1697-rank4-local-unramified-contact-wall.md`
 - `stages/stage32-ex6/post1697-rank4-local-unramified-contact-contract.json`
+- `stages/stage32-ex6/post1697-rank4-degree113-one-unit-budget-wall.md`
+- `stages/stage32-ex6/post1697-rank4-degree113-one-unit-budget-contract.json`
 - verifier: `stages/stage32-ex6/verify_stage32_ex6_rank4_local_unramified_contact_contract.py`
+- verifier: `stages/stage32-ex6/verify_stage32_ex6_rank4_degree113_one_unit_budget_contract.py`
 
-A useful future rank-4 re-entry must now force actual/global V6 landing points into attachment or critical loci, or avoid the per-contact ramification premise entirely.
+A useful future rank-4 re-entry must now force actual/global V6 landing points into attachment or critical loci, force more than one ramification unit at enough remaining contacts, produce an independent lower bound away from the O-contact ledger, or avoid the per-contact ramification premise entirely.
 
 ## Purpose
 
