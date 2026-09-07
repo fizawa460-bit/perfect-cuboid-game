@@ -1,8 +1,8 @@
 {
   "schema": "STAGE35_EX_GOAL4AF_C5_NODE_LATTICE_RUNKEY_V1",
   "armed": true,
-  "generation": 2,
-  "route": "LOCAL_SOURCE_NODE_INCIDENCE_PLUS_SIGN_STABILIZER_PICARD_SYSTEM",
+  "generation": 3,
+  "route": "LOCAL_SOURCE_SIGN_STABILIZER_WITHOUT_NODE_UNION_LOCATOR",
   "pr": 1659,
   "branch": "stage35-ex-goal4x-open-receiver-boundary-picard",
   "upstream_repository": "MichaelStollBayreuth/Verification",
@@ -18,8 +18,16 @@
     "base_pair_characterization_nullity": 7,
     "pair_rows_materialized": false
   },
-  "diagnostic_path": "stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer.py",
-  "diagnostic_blob_sha1": "732332e94f1346b03d91425bb664905d3f440c44",
+  "generation2_diagnostic_path": "stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer.py",
+  "generation2_diagnostic_blob_sha1": "732332e94f1346b03d91425bb664905d3f440c44",
+  "generation2_result": {
+    "workflow_run": 34069301923,
+    "job": 101583665824,
+    "failure_before_stabilizer_solve": "C5_PAIR_EXCEPTIONAL_NODE_UNIONS_NOT_LABEL_DISTINCT",
+    "interpretation": "NODE_UNION_IS_NOT_A_LEGAL_C5_PAIR_LABEL_LOCATOR; SOURCE_EQUATION_SIGN_ACTION_REMAINS_AVAILABLE"
+  },
+  "diagnostic_path": "stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_sign_stabilizer_v2.py",
+  "diagnostic_blob_sha1": "122731f6c9cb63471ab584eb6d25aecb33d4481f",
   "planned_jobs": 1,
   "planned_shards": 1,
   "persisted_output_upper_bound_bytes": 65536,
@@ -33,5 +41,5 @@
     "E1_proved": false,
     "stage35_closed": false
   },
-  "purpose": "Add source-literal sign-change equivariance and the Schreier stabilizer of one C5-pair sign label to the rank-57 node-incidence Picard system, without assuming any C5 self-intersection."
+  "purpose": "Use source-literal C5 sign action and the sign-subgroup Schreier stabilizer to constrain the rank-57 pair-class system while keeping exceptional-node incidence only as a transport consistency check, not a label locator."
 }
