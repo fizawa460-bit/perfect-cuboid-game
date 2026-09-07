@@ -1,0 +1,76 @@
+name: Stage35-EX Goal4AH raw Magma diagnostic
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage35-ex/runkeys/goal4ah-magma-raw.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage35-ex-goal4ah-raw-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+      - id: gate
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage35-ex/runkeys/goal4ah-magma-raw.json'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          test '${{ github.event_name }}' = 'pull_request' || exit 0
+          test "${PR_NUMBER}" = '1659' || exit 0
+          test "${HEAD_REF}" = 'stage35-ex-goal4x-open-receiver-boundary-picard' || exit 0
+          test -n "${BEFORE}" || exit 0
+          git fetch --no-tags --depth=1 origin "${BEFORE}" || exit 0
+          git diff --name-only "${BEFORE}" "${HEAD_SHA}" | grep -Fxq "${KEY}" || exit 0
+          python - <<'PY' > /tmp/auth
+          import hashlib,json
+          from pathlib import Path
+          k=json.loads(Path('stages/stage35-ex/runkeys/goal4ah-magma-raw.json').read_text())
+          p=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4ah_magma_raw.py')
+          def blob(q):
+              b=q.read_bytes(); return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          ok=(k.get('schema')=='STAGE35_EX_GOAL4AH_MAGMA_RAW_RUNKEY_V1' and k.get('armed') is True and
+              k.get('generation')==2 and blob(p)==k.get('probe_blob_sha1')=='d10f3fadc6359539c7373ccf7786b53b8dfb7472' and
+              k.get('planned_jobs')==1 and k.get('actions_artifact_upload') is False)
+          print('true' if ok else 'false')
+          PY
+          test "$(tail -n1 /tmp/auth)" = true || exit 0
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  diagnose:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recover bounded raw calculator XML
+        run: |
+          set -euo pipefail
+          python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4ah_magma_raw.py | tee /tmp/raw.log
+          grep -q '^GOAL4AH_RAW_JSON=' /tmp/raw.log
+          test "$(wc -c </tmp/raw.log)" -le 65536

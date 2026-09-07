@@ -1,0 +1,62 @@
+name: Stage35-EX Goal4AF local Singular preflight
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage35-ex/runkeys/goal4af-singular-preflight.json'
+      - '.github/workflows/stage35-ex-goal4af-singular-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+      - name: Authorize runkey
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('stages/stage35-ex/runkeys/goal4af-singular-preflight.json').read_text())
+          assert d['schema']=='STAGE35_EX_GOAL4AF_SINGULAR_PREFLIGHT_RUNKEY_V1'
+          assert d['armed'] is True and d['generation']==1
+          assert d['coefficient_field']=='Q(zeta8); zeta8^4+1=0; i=zeta8^2; sqrt2=zeta8-zeta8^3'
+          print('GOAL4AF_SINGULAR_RUNKEY=AUTHORIZED')
+          PY
+      - name: Install Singular
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends singular
+          Singular --version
+      - name: Verify exact coefficient field and degree primitive
+        run: |
+          set -euo pipefail
+          cat >/tmp/goal4af-preflight.sing <<'SING'
+          ring r=(0,t),(x,y,z),dp;
+          minpoly=t^4+1;
+          number ii=t^2;
+          number ss=t-t^3;
+          if (ii^2+1 != 0) { ERROR("i relation failed"); }
+          if (ss^2-2 != 0) { ERROR("sqrt2 relation failed"); }
+          ideal I=x^2+y^2-z^2;
+          ideal J=I,x;
+          int d=degree(std(J));
+          print("GOAL4AF_SINGULAR_I2="+string(ii^2));
+          print("GOAL4AF_SINGULAR_S2="+string(ss^2));
+          print("GOAL4AF_SINGULAR_TEST_DEGREE="+string(d));
+          if (d != 2) { ERROR("projective degree primitive regression"); }
+          print("GOAL4AF_SINGULAR_PREFLIGHT=PASS");
+          quit;
+          SING
+          Singular -q /tmp/goal4af-preflight.sing | tee /tmp/goal4af-singular.log
+          grep -q '^GOAL4AF_SINGULAR_PREFLIGHT=PASS$' /tmp/goal4af-singular.log
