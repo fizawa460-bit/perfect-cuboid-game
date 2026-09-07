@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Replay Stoll verification singular-point order in public Magma
+      - name: Replay Stoll verification singular-point order and C2 incidence in public Magma
         shell: python
         run: |
           import urllib.parse
@@ -30,10 +30,20 @@ jobs:
           S := Scheme(Pr6, eqns);
           pts := Points(SingularSubscheme(S));
           assert #pts eq 48;
+
+          C2s :=    [Curve(S, [b1, i*a2+e1*a3, a1+e2*c]) : e1,e2 in [1,-1]]
+                cat [Curve(S, [b2, i*a3+e1*a1, a2+e2*c]) : e1,e2 in [1,-1]]
+                cat [Curve(S, [b3, i*a1+e1*a2, a3+e2*c]) : e1,e2 in [1,-1]];
+
           I1 := [k : k in [1..#pts] | pts[k][4] eq 0];
           I2 := [k : k in [1..#pts] | pts[k][5] eq 0];
           I3 := [k : k in [1..#pts] | pts[k][6] eq 0];
+          J1 := [k : k in [1..#pts] | exists{j : j in [1..4] | pts[k] in C2s[j]}];
+          J2 := [k : k in [1..#pts] | exists{j : j in [5..8] | pts[k] in C2s[j]}];
+          J3 := [k : k in [1..#pts] | exists{j : j in [9..12] | pts[k] in C2s[j]}];
+
           assert #I1 eq 16 and #I2 eq 16 and #I3 eq 16;
+          assert I1 eq J1 and I2 eq J2 and I3 eq J3;
           assert Seqset(I1) meet Seqset(I2) eq {};
           assert Seqset(I1) meet Seqset(I3) eq {};
           assert Seqset(I2) meet Seqset(I3) eq {};
@@ -41,6 +51,7 @@ jobs:
           print "STAGE32EX1_05D_B1_INDICES", I1;
           print "STAGE32EX1_05D_B2_INDICES", I2;
           print "STAGE32EX1_05D_B3_INDICES", I3;
+          print "STAGE32EX1_05D_C2_INCIDENCE_B3_INDICES", J3;
           print "STAGE32EX1_05D_CLASS_TABLE", [<k, k in I1 select 1 else (k in I2 select 2 else 3)> : k in [1..48]];
           print "STAGE32EX1_05D_END";
           '''
