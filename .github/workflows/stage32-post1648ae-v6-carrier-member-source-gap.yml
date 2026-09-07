@@ -1,0 +1,22 @@
+name: Stage32 post1648AE V6 carrier-member source gap
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648ae-v6-carrier-member-source-gap
+
+permissions:
+  contents: read
+
+jobs:
+  exact-v6-carrier-member-source-gap:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+      - name: Assert event exact head
+        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+      - name: Verify exact retained V6 carrier-member source gap
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648ae_v6_carrier_member_source_gap.py
+      - name: Commit whitespace check
+        run: git show --check --oneline --no-patch HEAD

@@ -1,0 +1,119 @@
+{
+  "schema": "STAGE36_36_09AK_B7_EVERYWHERE_LOCAL_FULL2_COVERING_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AK",
+  "status": "EXPLICIT_B7_FULL2_COVERING_EVERYWHERE_LOCALLY_SOLUBLE_SELMER_SURVIVOR_PENDING_BATCH_AUDIT",
+  "base_main_sha": "4e6708cb807cc37bea6509245447a5817965256f",
+  "batch_parent": {
+    "pr": 1677,
+    "36_09AJ_exact_head": "3a808af3404c7d57add3c4dca120b9d1696aa46e",
+    "36_09AJ_exact_head_ci": "34073432508",
+    "authority_scope": "36-09AG through AI are hostile-audited authority; AJ is provisional exact same-PR input"
+  },
+  "source_locks": {
+    "stage36_36_09AJ": {
+      "path": "stages/stage36/36-09AJ/congruent-number-full2-covering-class-preflight.json",
+      "blob_sha": "27950f53a89e28d02d04f2c19628504561c206e7"
+    },
+    "stage36_36_09AH": {
+      "path": "stages/stage36/36-09AH/common-uv-two-quadric-genusone-preflight.json",
+      "blob_sha": "732431bef8dfafe25cbdeb005c4237d72a40ae4b"
+    },
+    "local_solubility_source": {
+      "path": "stages/stage36/36-09AK/local-solvability-source-lock.md",
+      "blob_sha": "415962e74eab88748e99ad2265535b4eecdb7da2"
+    }
+  },
+  "branch": {
+    "origin": "audited AF B=7 same-skeleton branch",
+    "A": 73,
+    "B": 7,
+    "C": 11,
+    "D": 13,
+    "eta": -1,
+    "e": 1,
+    "f": 1,
+    "c": -22,
+    "d": 26,
+    "equations": [
+      "73*u^2-7*v^2=-22*r^2",
+      "73*u^2+7*v^2=26*s^2"
+    ],
+    "AJ_full2_class_representatives": [-143,1898,-1606],
+    "raw_T": -292292,
+    "normalized_n": 73073,
+    "jacobian": "E_73073: Y^2=X^3-73073^2*X"
+  },
+  "odd_bad_places": {
+    "primes": [7,11,13,73],
+    "explicit_nonsingular_Fp_points": {
+      "7":  [1,0,2,3],
+      "11": [1,1,0,3],
+      "13": [1,6,2,0],
+      "73": [1,1,17,11]
+    },
+    "coordinate_order": ["u","v","r","s"],
+    "jacobian_rank_at_each_point": 2,
+    "lifting": "full-row-rank multivariate Hensel gives a Q_p point at each listed bad odd prime"
+  },
+  "two_adic_place": {
+    "choice": {"u":1,"s":2},
+    "forced_squares": {
+      "v^2": "31/7",
+      "r^2": "-21/11"
+    },
+    "unit_residues_mod8": {
+      "31/7": 1,
+      "-21/11": 1
+    },
+    "conclusion": "both are Q_2 squares; hence the covering has a Q_2 point"
+  },
+  "real_place": {
+    "choice": {"u":1,"v":4},
+    "forced_positive_squares": {
+      "r^2": "39/22",
+      "s^2": "185/26"
+    },
+    "conclusion": "real point exists"
+  },
+  "all_other_odd_places": {
+    "condition": "p does not divide 2*A*B*C*D",
+    "AH_input": "pencil determinant remains nonzero scalar times lambda*mu*(mu^2-lambda^2), hence smooth genus-one reduction in characteristic p",
+    "finite_field_input": "Hasse bound supplies an F_p point",
+    "lifting": "smooth point lifts to Q_p",
+    "conclusion": "Q_p point exists at every good odd prime"
+  },
+  "global_local_conclusion": {
+    "covering_everywhere_locally_soluble": true,
+    "AJ_H1_class_lies_in_2Selmer_of_E73073": true,
+    "local_obstruction_uniform_closure_possible": false,
+    "meaning": "at least one actual Stage36 branch survives every local place; full-covering local testing cannot uniformly eliminate the receiver branches"
+  },
+  "MW_Sha_boundary": {
+    "class_in_Kummer_image_proved": false,
+    "class_nontrivial_in_Sha2_proved": false,
+    "dichotomy": "the ELS class is either represented by E_73073(Q)/2E_73073(Q) or maps to Sha(E_73073)[2]",
+    "rational_point_on_covering_proved": false
+  },
+  "route_result": {
+    "route_status": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "blocked_route": "UNIFORM_FULL2_LOCAL_OBSTRUCTION_CLOSURE",
+    "new_live_route": "B7_SELMER_CLASS_MW_VS_SHA",
+    "candidate_parameter_set_shrunk": false,
+    "receiver_closed": false,
+    "next_leaf": "36-09AL_B7_SELMER_CLASS_MW_OR_SHA_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "ELS_implies_global_point": false,
+    "Selmer_membership_implies_MW_image": false,
+    "Sha2_nontrivial_proved": false,
+    "common_uv_rational_point_obtained": false,
+    "receiver_point_obtained": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

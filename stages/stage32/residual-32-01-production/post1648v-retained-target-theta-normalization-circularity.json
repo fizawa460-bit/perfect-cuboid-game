@@ -1,0 +1,183 @@
+{
+  "schema": "STAGE32_POST1648V_RETAINED_TARGET_THETA_NORMALIZATION_CIRCULARITY_V1",
+  "stage": 32,
+  "role": "SCRATCH_EXACT_NONCREDIT_BOUNDED_SOURCE_NEGATIVE_WITH_BREADTH_AUDIT",
+  "status": "SCRATCH_PASS_RETAINED_TARGET_THETA_NORMALIZATION_REQUIRES_MISSING_MARKED_G",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "O": 210,
+    "qprime": 4,
+    "Q": 602,
+    "surviving_residues_decimal": [
+      73,
+      97,
+      235
+    ]
+  },
+  "source_locks": {
+    "post1648U": {
+      "path": "stages/stage32/residual-32-01-production/post1648u-kkk-delta0inf-explicit-half-period-nonpruning.json",
+      "canonical_sha256": "eb0d69e1f219e6204399aeed2a0498bbefd13d2e6dc9a02f0927bb7eec73f281",
+      "git_blob_sha1": "4151d5644b264f1ff1fd175f4fb1652354458d95"
+    },
+    "principal_rosati": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json",
+      "canonical_sha256": "8d828cdf6d1f5cb1d790c46292535dc252e503356e1047ce972c41e61f524529",
+      "git_blob_sha1": "e28c4533883440ea0963d4d4e8859aa95409cf10"
+    },
+    "source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1648v-retained-target-theta-normalization-circularity-source-note.md",
+      "git_blob_sha1": "09977558133c09e4cae25854d78dbe6f5d47641e"
+    },
+    "formal_arsenal_router": {
+      "path": "docs/arsenal/cards/formal/S30-W01.md",
+      "git_blob_sha1": "0b0d8871ce873896e62e841deb698f3c505abda5"
+    }
+  },
+  "policy_locks": {
+    "cycle_exploration": {
+      "path": "docs/research-os/policies/cycle-exploration-safety-protocol.md",
+      "git_blob_sha1": "4e911c4fc7e4ea7a2b5f96733a90b986ef8d9a37"
+    },
+    "research_credit": {
+      "path": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
+      "git_blob_sha1": "7a3de0b2692afe4fb25b6825b31bd0384a118a41"
+    }
+  },
+  "external_source_lock": {
+    "koziarz_rito_roulleau": {
+      "arxiv": "1904.00793v4",
+      "title": "The Bolza curve and some orbifold ball quotient surfaces",
+      "locator": "Section 4: Abel-Jacobi embedding before Lemma 5; Corollary 6; torsion paragraph before Proposition 7; paragraph immediately after Proposition 7",
+      "exact_supported_facts": [
+        "alpha:theta->J(theta)=A sends the point at infinity of y^2=x^5-x to the origin",
+        "translations theta_t=t+theta conjugate the corresponding theta-preserving automorphism groups",
+        "H48 is the order-48 group preserving the embedded theta curve",
+        "Corollary 6 supplies an automorphism g of A with H48=g G48 g^-1",
+        "the embedded theta contains 16 order-6 torsion points, five nonzero order-2 torsion points, and the origin",
+        "the six 2-torsion points on theta are its Weierstrass points",
+        "after Proposition 7 the paper explicitly permits composing the embedding theta->A with g before identifying H48 with G48",
+        "the cited locator does not materialize a matrix/action for g in the retained G48 lattice basis"
+      ]
+    },
+    "cecotti": {
+      "source": "arXiv:2509.24605 / JHEP05(2026)153",
+      "title": "Symplectic Singularities, Color Confinement, and the Quantum Dirac Sheaf",
+      "locator": "general discussion (1.10)-(1.12) and Appendix B equations (B.1)-(B.9)",
+      "exact_supported_facts": [
+        "Appendix B materializes the principal G12 matrices, target period matrix, Bolza curve, and named order-2/order-6/order-8 curve automorphisms",
+        "the retained Appendix B locator does not materialize a target half-characteristic or a marked map from the KRR theta embedding to the retained lattice basis",
+        "the general discussion states that the classical geometry depends on an ample line bundle only through c1 while the finer quantum datum depends on the line bundle in its NS class",
+        "Appell-Humbert identifies line bundles in a fixed polarization class with semicharacters/quadratic refinements, so the polarization class alone does not select that finer datum"
+      ]
+    }
+  },
+  "target_theta_normalization_test": {
+    "source_delta0inf_half_period_explicit_from_post1648U": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "target_retained_lattice_basis": [
+      "e1",
+      "e2",
+      "r*e1",
+      "r*e2"
+    ],
+    "krr_theta_divisor_embedding_explicit_before_target_identification": true,
+    "krr_theta_embedding_contains_origin_and_weierstrass_2torsion": true,
+    "krr_theta_preserving_group": "H48",
+    "retained_target_group": "G48",
+    "bridge": "H48=g G48 g^-1",
+    "explicit_g_matrix_or_A2_action_materialized_at_checked_locator": false,
+    "krr_composes_theta_embedding_with_g_before_identifying_H48_with_G48": true,
+    "theta_embedding_in_retained_G48_coordinates_materialized_independently_of_g": false,
+    "cecotti_specific_target_half_characteristic_in_retained_basis_selected": false,
+    "target_non_conjugacy_invariant_selector_materialized": false,
+    "circularity_statement": "Using the KRR theta embedding as a retained-target absolute marking requires transporting it through the same unspecified g whose marked action is the missing interface."
+  },
+  "cycle_exploration_audit": {
+    "triggered": true,
+    "trigger_reasons": [
+      "the same absolute-marking receiver survived many materially different blocked/nonpruning leaves",
+      "the missing marked ppav object has been described as the remaining load-bearing object"
+    ],
+    "blind_rediscovery_before_arsenal": true,
+    "candidate_ledger": [
+      {
+        "candidate": "actual marked ppav isomorphism / conjugating g from an external source",
+        "status": "UNTESTED"
+      },
+      {
+        "candidate": "KRR theta-divisor normalization transported into retained coordinates",
+        "status": "BLOCKED",
+        "reason": "requires the same unspecified g"
+      },
+      {
+        "candidate": "explicit target half-characteristic or semicharacter in retained lattice basis",
+        "status": "UNTESTED"
+      },
+      {
+        "candidate": "new common branch-labelled source/target geometric anchor",
+        "status": "UNTESTED"
+      },
+      {
+        "candidate": "further simultaneous-inner-conjugacy invariant generator-pair statistics",
+        "status": "EQUIVALENT",
+        "reason": "post1648S anti-loop theorem"
+      },
+      {
+        "candidate": "origin or affine-translation normalization",
+        "status": "EQUIVALENT",
+        "reason": "post1648O/post1648Q"
+      }
+    ],
+    "arsenal_comparison_after_blind_pass": {
+      "card": "S30-W01",
+      "result": "CONSISTENT_WITH_DIAGNOSIS",
+      "contract_used": "finite equivariant candidates remain candidates until a source/common-model semantic anchor is source-locked; gauge representative is not canonical marking"
+    },
+    "CYCLE_ROUTE_STATUS": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "CYCLE_ACTIVE_RECEIVER": "ABSOLUTE_DELTA0INF_RETAINED_W_LINE",
+    "CYCLE_LIVE_CANDIDATES": 0,
+    "CYCLE_UNTESTED_CANDIDATES": 3,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "KRR theta divisor is explicit only in H48 coordinates and becomes a retained G48 marking only after the missing g",
+    "CYCLE_NEW_VIEW_SOURCE": "BLIND"
+  },
+  "decision": {
+    "retained_cecotti_krr_target_theta_selector_route_closed_bounded": true,
+    "global_nonexistence_of_marked_ppav_adapter_claimed": false,
+    "explicit_marked_ppav_isomorphism_source_bound": false,
+    "absolute_delta0inf_retained_W_line_identified": false,
+    "survivors_current_credit": [
+      73,
+      97,
+      235
+    ],
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "O212_plus_advance_allowed": false,
+    "next_exact_route": "KEEP_EXTERNAL_MARKED-DATA CANDIDATES UNTESTED: SEEK AN ACTUAL MARKED PPAV ISOMORPHISM G, AN EXPLICIT TARGET HALF-CHARACTERISTIC/SEMICHARACTER IN THE RETAINED BASIS, OR A NEW COMMON SOURCE-TARGET GEOMETRIC ANCHOR; DO NOT REPEAT INNER-CONJUGACY OR TRANSLATION SELECTORS"
+  },
+  "firewalls": {
+    "scratch_result_promoted_to_MAIN_authority": false,
+    "scratch_result_promoted_to_current_credit": false,
+    "bounded_retained_source_negative_promoted_to_global_nonexistence": false,
+    "theta_divisor_existence_promoted_to_retained_coordinate_marking": false,
+    "principal_polarization_promoted_to_specific_theta_characteristic": false,
+    "gauge_representative_promoted_to_canonical_marking": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false
+  },
+  "canonical_sha256_without_this_field": "17f53e4ee5d2eb632b9c1e6c188fd9d0ab3ae36de5681df508df09c0e25de351"
+}

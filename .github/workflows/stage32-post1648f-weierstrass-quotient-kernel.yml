@@ -1,0 +1,24 @@
+name: Stage32 post1648F Weierstrass quotient kernel
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1648f_weierstrass_quotient_kernel.py'
+      - '.github/workflows/stage32-post1648f-weierstrass-quotient-kernel.yml'
+
+jobs:
+  weierstrass-quotient-kernel:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Assert exact PR head
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Run exact quotient-kernel diagnostic
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648f_weierstrass_quotient_kernel.py
+      - name: Diff check
+        run: git diff --check

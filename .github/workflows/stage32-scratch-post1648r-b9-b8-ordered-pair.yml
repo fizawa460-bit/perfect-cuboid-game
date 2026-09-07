@@ -1,0 +1,28 @@
+name: Stage32 scratch post1648R B9 B8 ordered pair
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648n-marked-ppav-basis
+    paths:
+      - '.github/workflows/stage32-scratch-post1648r-b9-b8-ordered-pair.yml'
+      - 'stages/stage32/residual-32-01-production/post1648r-b9-b8-ordered-pair-inner-orbit-nonpruning.json'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648r_b9_b8_ordered_pair_inner_orbit_nonpruning.py'
+      - 'stages/stage32/residual-32-01-production/post1648r-b9-b8-ordered-pair-inner-orbit-nonpruning-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1648n-canonical-period-marked-ppav-torsor-obstruction.json'
+      - 'stages/stage32/residual-32-01-production/post1648j-cecotti-trace-orientation-correction.json'
+      - 'stages/stage32/residual-32-01-production/post1648q-full-torus-translation-conjugacy-nonpruning.json'
+
+permissions:
+  contents: read
+
+jobs:
+  b9-b8-pair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify named B9 B8 ordered-pair obstruction
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648r_b9_b8_ordered_pair_inner_orbit_nonpruning.py
+      - name: Diff check
+        run: git diff --check

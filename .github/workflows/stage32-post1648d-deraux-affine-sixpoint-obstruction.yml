@@ -1,0 +1,26 @@
+name: Stage32 post1648D Deraux affine six-point obstruction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/residual-32-01-production/post1648d-deraux-affine-sixpoint-orbit-absolute-line-obstruction.json'
+      - 'stages/stage32/residual-32-01-production/post1648d-deraux-affine-sixpoint-orbit-absolute-line-obstruction-source-note.md'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648d_deraux_affine_sixpoint_orbit_absolute_line_obstruction.py'
+      - '.github/workflows/stage32-post1648d-deraux-affine-sixpoint-obstruction.yml'
+
+jobs:
+  deraux-affine-sixpoint-obstruction:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Assert exact PR head
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Verify Deraux affine six-point obstruction
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648d_deraux_affine_sixpoint_orbit_absolute_line_obstruction.py
+      - name: Diff check
+        run: git diff --check

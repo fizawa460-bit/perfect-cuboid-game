@@ -1,0 +1,27 @@
+name: Stage32 scratch post1648O B9 zero-translation conjugacy
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648n-marked-ppav-basis
+    paths:
+      - '.github/workflows/stage32-scratch-post1648o-b9-zero-translation-conjugacy.yml'
+      - 'stages/stage32/residual-32-01-production/post1648o-b9-zero-translation-conjugacy-nonpruning.json'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648o_b9_zero_translation_conjugacy_nonpruning.py'
+      - 'stages/stage32/residual-32-01-production/post1648o-b9-zero-translation-conjugacy-nonpruning-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1648n-canonical-period-marked-ppav-torsor-obstruction.json'
+      - 'stages/stage32/residual-32-01-production/post1648d-deraux-affine-sixpoint-orbit-absolute-line-obstruction.json'
+
+permissions:
+  contents: read
+
+jobs:
+  b9-zero-translation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify B9 zero-translation conjugacy obstruction
+        run: python3 -B stages/stage32/residual-32-01-production/verify_stage32_post1648o_b9_zero_translation_conjugacy_nonpruning.py
+      - name: Diff check
+        run: git diff --check
