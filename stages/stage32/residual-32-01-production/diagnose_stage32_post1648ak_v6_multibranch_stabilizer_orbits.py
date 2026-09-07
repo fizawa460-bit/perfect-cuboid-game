@@ -3,18 +3,12 @@ from __future__ import annotations
 
 import importlib.util
 import json
-import sys
-from collections import defaultdict, deque
 from itertools import combinations
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
-HERE = Path(__file__).resolve().parent
 STAGE33_07 = ROOT / "stages" / "stage33" / "33-07"
 V6 = ROOT / "stages" / "stage32" / "32-21" / "post1473-v6-witness-body-recovered.json"
-
-sys.path.insert(0, str(HERE))
-from pairing_prefix_engine import close_permutation_group, permute_pairings  # noqa: E402
 
 
 def load_retained(path: Path, name: str) -> dict:
@@ -24,6 +18,35 @@ def load_retained(path: Path, name: str) -> dict:
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod.load()
+
+
+def compose_perm(p: tuple[int, ...], q: tuple[int, ...]) -> tuple[int, ...]:
+    return tuple(p[q[i]] for i in range(len(p)))
+
+
+def close_permutation_group(permutations_1based: list[list[int]]) -> list[tuple[int, ...]]:
+    gens = [tuple(int(v) - 1 for v in p) for p in permutations_1based]
+    n = len(gens[0])
+    if not all(len(g) == n and sorted(g) == list(range(n)) for g in gens):
+        raise ValueError("invalid retained permutation generator")
+    identity = tuple(range(n))
+    seen = {identity}
+    queue = [identity]
+    while queue:
+        cur = queue.pop()
+        for gen in gens:
+            nxt = compose_perm(gen, cur)
+            if nxt not in seen:
+                seen.add(nxt)
+                queue.append(nxt)
+    return sorted(seen)
+
+
+def permute_pairings(pairings: tuple[int, ...], permutation: tuple[int, ...]) -> tuple[int, ...]:
+    inv = [0] * len(permutation)
+    for i, j in enumerate(permutation):
+        inv[j] = i
+    return tuple(pairings[inv[j]] for j in range(len(permutation)))
 
 
 def orbit_partition(indices: set[int], group: list[tuple[int, ...]]) -> list[list[int]]:
@@ -40,28 +63,17 @@ def orbit_partition(indices: set[int], group: list[tuple[int, ...]]) -> list[lis
 
 
 def exact_r_dp(masses: list[int], need: int) -> dict[int, int]:
-    # state (r,t_clamped) -> minimum total normalization branches b
     inf = 10**9
     dp = {(0, 0): 0}
     for m in masses:
-        opts = []
         if m == 0:
             opts = [(0, 0, 0)]
         elif m == 1:
-            # This node cannot be multibranch. Its unique branch may be
-            # minimal or nonminimal, both with b=1.
             opts = [(0, 0, 1), (0, 1, 1)]
         else:
-            # Unibranch m>1 cannot be minimal because a minimal branch has
-            # exceptional intersection exactly 1.
-            opts.append((0, 0, 1))
-            # Selected multibranch node: t minimal branches plus residual
-            # positive-mass nonminimal branches when t<m.
+            opts = [(0, 0, 1)]
             for t in range(m + 1):
-                if t == m:
-                    b = m
-                else:
-                    b = max(2, t + 1)
+                b = m if t == m else max(2, t + 1)
                 opts.append((1, t, b))
         nxt = {}
         for (r0, t0), b0 in dp.items():
@@ -111,6 +123,7 @@ def main() -> None:
         raise ValueError(f"exactly-three candidate count moved: {len(triples)}")
 
     candidate_set = set(triples)
+
     def image_triple(tri: tuple[int, int, int], g: tuple[int, ...]) -> tuple[int, int, int]:
         out = tuple(sorted(g[92 + i] - 92 for i in tri))
         if out not in candidate_set:
@@ -136,19 +149,13 @@ def main() -> None:
         for r in sorted(rdp)
     ]
 
-    # Source-side family check: FSM gives 32 rational + 12 boundary elliptic
-    # + 48 nonboundary elliptic among the first 92. Report exact Aut-orbit
-    # sizes/labels only; do not silently identify an orbit without the source
-    # family-size adapter.
-    normal_orbit_summary = [
-        {"size": len(o), "known140_labels_1based": [i + 1 for i in o]}
-        for o in normal_orbits
-    ]
-
     result = {
         "full_aut_group_order": len(group),
         "v6_stabilizer_order": len(stabilizer),
-        "normal_curve_aut_orbits": normal_orbit_summary,
+        "normal_curve_aut_orbits": [
+            {"size": len(o), "known140_labels_1based": [i + 1 for i in o]}
+            for o in normal_orbits
+        ],
         "exceptional_curve_aut_orbit_sizes": [len(o) for o in exceptional_orbits],
         "exactly_three_multibranch_candidate_count": len(triples),
         "exactly_three_candidate_orbit_count_under_v6_stabilizer": len(triple_orbits),
