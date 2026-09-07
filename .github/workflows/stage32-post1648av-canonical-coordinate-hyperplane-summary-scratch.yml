@@ -1,0 +1,39 @@
+name: Stage32 post1648AV canonical coordinate hyperplane compact summary
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648av-canonical-node-hyperplane-capacity
+
+permissions:
+  contents: read
+
+jobs:
+  summarize-av-canonical-hyperplanes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run compact AV summary
+        run: |
+          python3 -B stages/stage32/residual-32-01-production/summarize_stage32_post1648av_canonical_coordinate_hyperplane_recovery.py | tee /tmp/av-summary.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/av-summary.json'))
+          assert x['mode']=='SCRATCH_POST1648AV_CANONICAL_COORDINATE_HYPERPLANE_COMPACT_SUMMARY'
+          assert x['single_hyperplane_candidate_count']==28
+          assert x['exact_cover_count']>=1
+          assert x['all_per_hyperplane_masses_lt_186'] is True
+          assert x['every_cover_mass_sum']==[532]
+          assert x['every_cover_normal_sum']==[212]
+          print(json.dumps(x,sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
