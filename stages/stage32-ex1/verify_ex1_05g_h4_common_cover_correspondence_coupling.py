@@ -53,8 +53,8 @@ assert roscanon == locks["stage32_rosati_repair_artifact"]["canonical_sha256"]
 v4txt = V4_NOTE.read_text(encoding="utf-8")
 for anchor in [
     "`f1^* Z ~= f2^* Z`",
-    "`T_12|W = identity mod 2`",
-    "`T_21|W = identity mod 2`",
+    "81 alpha = alpha  (mod 2)",
+    "105 alpha = alpha (mod 2)",
     "leaves exactly `28` residue classes",
 ]:
     assert anchor in v4txt, anchor
@@ -88,7 +88,6 @@ assert F["Gamma_square"] == ros["corrected_rosati_arithmetic"]["Gamma_square"] =
 assert F["sigma"] == ros["corrected_rosati_arithmetic"]["sigma"] == 1204
 assert F["Q_Rosati"] == ros["corrected_rosati_arithmetic"]["Q"] == 602
 
-# Recompute p_a(Gamma) from the standard correspondence formula used by the source.
 d1, d2 = 105, 81
 sigma = 1204
 pa = (2*d1*d2 + 2*(d1+d2) + 2 - sigma) // 2
