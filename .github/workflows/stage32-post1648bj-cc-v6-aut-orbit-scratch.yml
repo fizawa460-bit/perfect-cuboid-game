@@ -1,0 +1,65 @@
+name: Stage32 post1648BJ cc(V6) Aut orbit
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648bh-exact-source-lifts-node-adapter
+    paths:
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1648bj_cc_v6_aut_orbit.py'
+      - '.github/workflows/stage32-post1648bj-cc-v6-aut-orbit-scratch.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose-bj-cc-v6-aut-orbit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run BJ cc(V6) Aut-orbit diagnostic
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648bj_cc_v6_aut_orbit.py | tee /tmp/bj.json
+      - name: Assert bounded BJ result
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/bj.json'))
+          assert x['mode']=='SCRATCH_POST1648BJ_CC_V6_AUT_ORBIT'
+          assert 1 <= x['exact_aut_orbit']['orbit_size'] <= 1536
+          assert x['exact_aut_orbit']['stabilizer_size'] >= 1
+          assert x['firewalls']['v6_carrier_excluded'] is False
+          assert x['firewalls']['Q602_excluded'] is False
+          assert x['firewalls']['O210_excluded'] is False
+          print(json.dumps({
+            'orbit_size':x['exact_aut_orbit']['orbit_size'],
+            'stabilizer_size':x['exact_aut_orbit']['stabilizer_size'],
+            'cc_v6_in_aut_orbit':x['exact_aut_orbit']['cc_v6_in_aut_orbit'],
+            'hit_count':x['exact_aut_orbit']['aut_elements_sending_v6_to_cc_v6'],
+            'word':x['exact_aut_orbit']['shortest_raw_generator_word_zero_based'],
+            'word_length':x['exact_aut_orbit']['shortest_raw_generator_word_length'],
+            'next':x['decision']['next_exact_route'],
+          },sort_keys=True))
+          PY
+      - name: Persist exact BJ scratch result if changed
+        run: |
+          RESULT=stages/stage32/residual-32-01-production/post1648bj-cc-v6-aut-orbit-scratch-result.json
+          if test -f "$RESULT" && cmp -s /tmp/bj.json "$RESULT"; then
+            echo 'BJ result unchanged; no commit needed.'
+            exit 0
+          fi
+          cp /tmp/bj.json "$RESULT"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$RESULT"
+          git commit -m 'Stage32 scratch: capture BJ exact output'
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
