@@ -27,11 +27,7 @@ A future re-entry requires genuinely new member-level landing/jet information, a
 
 A bounded search of the other Stoll–Testa rank-4 genus-5 fibrations found a unique last-four fibration class with V6 degree `113`. Its six split `G3` bad fibers use 24 exceptional curves carrying total V6 exceptional mass `140`.
 
-The first re-entry only established that the naive implication
-
-`O=266 => R_rank4 >= 266`
-
-was unsupported. The sharpened local analysis now shows more: on each of those 24 split exceptional components there are exactly two `G3` attachment points, while a unit endpoint contact landing at any other point of that reduced fiber component is unramified for the rank-4 map. The retained AN endpoint model has enough landing-parameter freedom to place all 140 split-exceptional unit contacts away from those finite attachment loci.
+The sharpened local analysis shows that on each of those 24 split exceptional components there are exactly two `G3` attachment points, while a unit endpoint contact landing at any other point of that reduced fiber component is unramified for the rank-4 map. The retained AN endpoint model has enough landing-parameter freedom to place all 140 split-exceptional unit contacts away from those finite attachment loci.
 
 Therefore the universal local adapter
 
@@ -39,9 +35,7 @@ Therefore the universal local adapter
 
 is **locally false** in the retained endpoint model. This does not construct a global V6 carrier and does not exclude O266; it removes one naive route to the Riemann–Hurwitz contradiction.
 
-The quantitative budget is now also fixed. Once those 140 locally-zeroable contacts receive zero forced ramification, only `266-140=126` O-contacts remain. A degree-113 genus-one map has exact total ramification `226`, so contradiction needs a forced lower bound at least `227`. Charging at most one unit to every remaining contact gives only `126`, leaving an exact deficit of `101`. Thus the bounded route “zero credit on the 140 locally avoidable contacts + no independent ramification lower bound + at most one forced unit on each remaining contact” is `NUMERICALLY_INSUFFICIENT`.
-
-The machine-readable re-entry threshold is now explicit: continuation through this same contact-sum architecture must supply at least `101` additional forced ramification units beyond the one-unit remaining-contact ledger, by extra ramification multiplicity, recovered positive forced credit from the 140 locally-zeroable contacts, an independent ramification source, or a different simultaneous-fibration/correspondence inequality.
+The quantitative budget is fixed. Once those 140 locally-zeroable contacts receive zero forced ramification, only `266-140=126` O-contacts remain. A degree-113 genus-one map has exact total ramification `226`, so contradiction needs a forced lower bound at least `227`. Charging at most one unit to every remaining contact gives only `126`, leaving an exact deficit of `101`.
 
 Retained files:
 
@@ -53,25 +47,41 @@ Retained files:
 - verifier: `stages/stage32-ex6/verify_stage32_ex6_rank4_local_unramified_contact_contract.py`
 - verifier: `stages/stage32-ex6/verify_stage32_ex6_rank4_degree113_one_unit_budget_contract.py`
 
-A useful future rank-4 re-entry must now force actual/global V6 landing points into attachment or critical loci, force more than one ramification unit at enough remaining contacts, produce an independent lower bound away from the O-contact ledger, or avoid the per-contact ramification premise entirely.
+A useful future rank-4 re-entry must force actual/global V6 landing points into attachment or critical loci, force more than one ramification unit at enough remaining contacts, produce an independent lower bound away from the O-contact ledger, or avoid the per-contact ramification premise entirely.
 
-## Latest bounded re-entry result — FSM16 modular-tensor near miss
+## Latest bounded re-entry result — FSM16 adapter correction and route dominance
 
-Freitag–Salvati Manni Theorem 3.1 gives `d<=176+16g` for curves whose normalization map is bijective. For genus one this is `d<=192`, so the fixed V6 degree `d=186` already survives the published theorem by `6`.
+Freitag–Salvati Manni Theorem 3.1 gives `d<=176+16g` for curves whose normalization map is bijective. For genus one this is `d<=192`, so the fixed V6 degree `d=186` survives the published theorem by `6`. The counterfactual exact-47-node version still gives only `d<=188`, and the actual O266 multibranch branchwise bound is only `d<=1064`.
 
-Using the proof itself and replacing the universal 48-node pole count by the exact 47-node positive support would give `d<=188` in a counterfactual bijective-normalization case. This is still nonexcluding by `2`, and the actual O266 population is not bijective: it has `B=266` normalization points over the exceptional divisor.
+The prior EX6 leaf incorrectly stated that the FSM16 cusp parameters lacked an adapter to the retained Stage32 AN pair. Post1648AN/AR already source-lock
 
-The same proof architecture extends branchwise to the safe inequality
+`a1=4*A`, `a2=4*B`, `m=min(A,B)`,
 
-`d <= 16g - 16 + 4B`.
+and identify the unique FSM-minimal Stage32 type `(A,B)=(1,1)`. Hence
 
-At `g=1,B=266`, this gives only `d<=1064`.
+`FSM16 (a1,a2)=(4,4) <=> Stage32 FSM-minimal (A,B)=(1,1)`.
 
-The modular cusp congruences sharpen the internal threshold. A branch has positive tensor pole budget only at the minimal cusp pair `(a1,a2)=(4,4)`, contributing at most `8k`; the next allowed sum is at least 16 and gives no positive pole. If `S_cusp` is the number of `(4,4)` branches, degree `186` and genus one require `S_cusp>=47`. Thus this tensor route would exclude the V6 carrier if a global/member-level theorem forced
+At O266, `t=0`, and the two exact factor slack identities imply
 
-`S_cusp <= 46`.
+`q81_node<=52`, `q105_node<=28`.
 
-No branch-level adapter from these FSM16 cusp parameters to the Stage32 AN local FSM pair `(A,B)` is currently source-locked, so the two notions are not identified here.
+Every nonminimal endpoint branch consumes at least one unit from one of those two node-boundary ledgers, so
+
+`#nonminimal<=80`,
+
+and therefore
+
+`S_cusp=#(4,4) branches >=186`.
+
+The FSM16 tensor cardinality argument only requires `S_cusp>=47` for degree 186 genus one. Its lower bound is therefore weaker than the retained Stage32 lower bound by `139` branches.
+
+Consequently any future strategy whose sole new output is an upper bound on `S_cusp` is strictly dominated by the existing AR minimal-branch inequality: AR would already close against `S_cusp<=185`, whereas the tensor-cardinality argument requires the much stronger `S_cusp<=46`.
+
+Decision:
+
+`FSM16_STAGE32_BRANCH_ADAPTER = SOURCE_LOCKED`;
+
+`FSM16_S_CUSP_CARDINALITY_ROUTE = DOMINATED_BY_AR_MINIMAL_BRANCH_BOUND`.
 
 Retained files:
 
@@ -79,7 +89,7 @@ Retained files:
 - `stages/stage32-ex6/post1697-fsm16-modular-tensor-multibranch-contract.json`
 - verifier: `stages/stage32-ex6/verify_stage32_ex6_fsm16_modular_tensor_multibranch_contract.py`
 
-Decision: `FSM16_MODULAR_TENSOR_O266 = NUMERICALLY_NONEXCLUDING`.
+Useful FSM16 re-entry now requires exact tensor-divisor information beyond cusp cardinality, a stronger replacement tensor, or a different global inequality. Do not loop on the old `S_cusp<=46` counting target.
 
 ## Purpose
 
