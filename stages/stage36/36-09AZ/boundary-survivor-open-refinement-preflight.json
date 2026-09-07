@@ -1,0 +1,74 @@
+{
+  "schema": "STAGE36_36_09AZ_BOUNDARY_SURVIVOR_OPEN_REFINEMENT_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AZ",
+  "status": "EXACT_UNIQUE_PRIMITIVE_LMINUS_BOUNDARY_AND_COORDINATE_LEVEL_OPEN_REFINEMENT_PENDING_BATCH_AUDIT",
+  "base_main_sha": "b7a045b7c910a3e01d3826556cd71019af15418f",
+  "audited_parent": {
+    "pr": 1683,
+    "hostile_audit_review": 5128446584,
+    "audited_exact_head": "c09f264e4becbc4c7f06145b32ce366b2d4d7a4f",
+    "exact_head_ci": "34087344920/101633809000",
+    "merged_main_sha": "b7a045b7c910a3e01d3826556cd71019af15418f",
+    "scope": "36-09AV through 36-09AY"
+  },
+  "source_locks": {
+    "stage36_36_09AY": {"path":"stages/stage36/36-09AY/universal-boundary-tunnell-survivor-preflight.json","blob_sha":"add18004debf95a218a6393f6c2f18f2bd4f7e10"},
+    "stage36_36_09AE": {"path":"stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json","blob_sha":"ddae37dd35cd0e732cebadf9c17f3f3fa57930df"},
+    "stage36_36_09AC": {"path":"stages/stage36/36-09AC/same-x-separate-squareclass-double-cover-preflight.json","blob_sha":"3e95cc443bb9de9e0d2b14d6d9c32ea7c1953021"}
+  },
+  "notation": {
+    "p": "a/b primitive positive with a!=b",
+    "P": "a^2+2ab-b^2",
+    "M": "a^2-2ab-b^2",
+    "h": "gcd(|P|,|M|) in {1,2}",
+    "receiver_coordinate": "X=U/V with U,V positive coprime integers",
+    "Lminus": "M^2*U-P^2*V",
+    "retained_open_requires": "Lminus!=0, equivalently X!=K=P^2/M^2"
+  },
+  "unique_primitive_boundary": {
+    "statement": "among positive coprime integer pairs (U,V), Lminus=0 iff U=(P/h)^2 and V=(M/h)^2",
+    "proof": "write P=hP0 and M=hM0 with gcd(|P0|,|M0|)=1. Lminus=0 gives M0^2 U=P0^2 V. Coprimality forces P0^2|U and M0^2|V; after substitution and gcd(U,V)=1 the common multiplier is 1. The converse is immediate.",
+    "projective_boundary_count": 1,
+    "squareclass_tuple": "exactly the hostile-audited AY tuple A=B=D=1, C=odd_sf(D0), eta=sign(D0), f=1, e=(1+v2(D0)) mod2"
+  },
+  "correct_open_refinement": {
+    "coupled_conics": [
+      "A*u^2-B*v^2=eta*2^e*C*r^2",
+      "A*u^2+B*v^2=2^f*D*s^2"
+    ],
+    "coordinate_reconstruction": ["U=A*u^2", "V=B*v^2"],
+    "open_inequality": "M^2*A*u^2-P^2*B*v^2 != 0",
+    "AY_specialization": "for A=B=1 the excluded projective ratios are u:v=+/-P:M; the positive primitive U:V boundary is unique",
+    "branch_label_deletion_valid": false,
+    "reason": "an outer squareclass tuple is a family of coordinate solutions, not a single point. The existence of one boundary realization does not prove that every realization of that tuple lies on the boundary."
+  },
+  "tunnell_limit": {
+    "Tunnell_depends_only_on": "N=2^((e+f) mod2)*A*B*C*D",
+    "constant_on_squareclass_tuple": true,
+    "detects_open_inequality": false,
+    "consequence": "Tunnell equality cannot distinguish the AY X=K boundary realization from any hypothetical nonboundary realization in the same squareclass tuple",
+    "safe_conclusion": "the AW Tunnell outer sieve may be refined only by adding a coordinate-level open condition; deleting the AY tuple itself would be unsound without a complete rational-point classification of that branch"
+  },
+  "route_result": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "unique_boundary_coordinate_classified": true,
+    "coordinate_level_open_refinement_exact": true,
+    "Tunnell_can_remove_boundary_tuple": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_closed": false,
+    "next_leaf": "36-09BA_AY_BRANCH_OPEN_RATIONAL_POINT_CLASSIFICATION_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "AY_squareclass_tuple_entirely_boundary": false,
+    "AY_squareclass_tuple_has_nonboundary_point": false,
+    "Tunnell_equality_implies_open_point": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
