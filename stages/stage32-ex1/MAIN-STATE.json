@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX1_MAIN_COMPACT_STATE_V2_TWO_TERMINAL_OUTCOMES",
+  "schema": "STAGE32EX1_MAIN_COMPACT_STATE_V3_EX1_00_SOURCE_LOCK_CANDIDATE",
   "role": "ORDINARY_STAGE32EX1_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX1",
   "execution": {
@@ -10,10 +10,10 @@
     "audit_contract": "stages/stage32-ex1/AUDIT-CONTRACT.md"
   },
   "bootstrap": {
-    "base_main_sha": "fe7ef406a9987981fe5f79267f3f8a39f37a61e4",
-    "origin_roadmap_merge_sha": "fe7ef406a9987981fe5f79267f3f8a39f37a61e4",
-    "work_branch": "stage32-ex1-main-operating-contract",
-    "active_work_pr": 1687,
+    "base_main_sha": "c52f88a671503ac9eb25c20186b4fb7729ba9112",
+    "origin_roadmap_merge_sha": "c52f88a671503ac9eb25c20186b4fb7729ba9112",
+    "work_branch": "stage32ex1-ex1-00-source-lock-target-adapter",
+    "active_work_pr": 1688,
     "merge_authorized": false
   },
   "authority": {
@@ -36,6 +36,10 @@
     "positive_exceptional_support_count": 47,
     "exceptional_total_mass": 266,
     "fixed_target_values_require_exact_source_lock_before_credit": true,
+    "source_lock_candidate": "stages/stage32-ex1/ex1-00-source-lock-and-target-adapter.json",
+    "source_lock_candidate_canonical_sha256": "783526a604572a4a81a314c59db1a399d38209ee159352106d7c5f6b5e71fa6c",
+    "geometric_analysis_field": "C",
+    "arithmetic_member_field_not_asserted": true,
     "forbidden_shortcut": "EXCEPTIONAL_TOTAL_MASS_266_IS_NOT_TOTAL_DELTA_472_WITHOUT_EXACT_LOCAL_GLOBAL_ADAPTER"
   },
   "completion_contract": {
@@ -91,18 +95,20 @@
   },
   "current": {
     "status": "ACTIVE",
-    "leaf": "EX1-00_SOURCE_LOCK_AND_TARGET_ADAPTER",
-    "objective": "Freeze the exact V6 genus-1 population and every load-bearing source/semantic adapter before local defect analysis.",
-    "next_route_if_success": "EX1-01_GLOBAL_NORMALIZATION_DEFECT_DECOMPOSITION",
-    "audit_gate": "PENDING_REAUDIT_AFTER_TERMINAL_OUTCOME_REPAIR",
+    "leaf": "EX1-01_GLOBAL_NORMALIZATION_DEFECT_DECOMPOSITION",
+    "objective": "For a hypothetical geometrically integral irreducible V6 genus-1 carrier, partition every source of normalization defect by ambient location without localizing global nonbijectivity to the 47 met surface nodes.",
+    "next_route_if_success": "EX1-02_SURFACE_NODE_MULTIBRANCH_CLOSURE",
+    "audit_gate": "EX1_00_SOURCE_LOCK_CANDIDATE_UNAUDITED_NO_AUTHORITY_CREDIT",
     "stop_semantics": "LEAF_GATE_ONLY_NOT_STAGE_EXHAUSTION"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex1/stage32-ex1.md",
-    "stages/stage32/MAIN-STATE.json"
+    "stages/stage32-ex1/ex1-00-source-lock-and-target-adapter.json",
+    "stages/stage32/residual-32-01-production/post1648ah-fsm-unibranch-v6-exclusion.json",
+    "stages/stage32/residual-32-01-production/post1648ah-fsm-unibranch-source-note.md"
   ],
   "frontier": {
-    "source_lock_complete": false,
+    "source_lock_complete": true,
     "global_nonbijectivity_partition_proved": false,
     "surface_node_multibranch_closed": false,
     "smooth_ambient_curve_singularity_closed": false,
@@ -121,9 +127,20 @@
     "terminal_outcome": null,
     "full_target_closure": false
   },
-  "route_history": [],
+  "route_history": [
+    {
+      "leaf": "EX1-00_SOURCE_LOCK_AND_TARGET_ADAPTER",
+      "result": "PASS_EXACT_SOURCE_LOCK_TARGET_ADAPTER_CANDIDATE",
+      "artifact": "stages/stage32-ex1/ex1-00-source-lock-and-target-adapter.json",
+      "artifact_canonical_sha256": "783526a604572a4a81a314c59db1a399d38209ee159352106d7c5f6b5e71fa6c",
+      "verifier": "stages/stage32-ex1/verify_ex1_00_source_lock_and_target_adapter.py",
+      "credit_ceiling": "SOURCE_LOCK_AND_TARGET_ADAPTER_ONLY",
+      "hostile_audit_status": "PENDING",
+      "next_leaf": "EX1-01_GLOBAL_NORMALIZATION_DEFECT_DECOMPOSITION"
+    }
+  ],
   "credit": {
-    "level": "NO_CREDIT_BOOTSTRAP",
+    "level": "EX1_00_SOURCE_LOCK_CANDIDATE_UNAUDITED",
     "necessary_condition_only": false,
     "branch_exclusion": false,
     "all_v6_genus1_carriers_excluded": false,
@@ -135,10 +152,12 @@
     "endpoint_credit": false
   },
   "audit": {
-    "status": "PENDING_REAUDIT_AFTER_TERMINAL_OUTCOME_REPAIR",
+    "status": "PENDING_HOSTILE_AUDIT",
     "exact_head": null,
     "review_id": null,
     "result": null,
+    "candidate_leaf": "EX1-00_SOURCE_LOCK_AND_TARGET_ADAPTER",
+    "candidate_pr": 1688,
     "last_failed_audit": {
       "review_id": 5128737733,
       "exact_head": "4fef4efb54e35991b08a1637e47e2c049637e2e3",
