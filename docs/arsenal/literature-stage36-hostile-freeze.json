@@ -1,0 +1,130 @@
+{
+  "schema": "ARSENAL-LITERATURE-STAGE36-PHASE3-FREEZE-V1",
+  "status": "AUDIT_COMPLETE_HOSTILE_DEDUP_COMPLETE_IMPLEMENTATION_NOT_YET_PERFORMED",
+  "snapshot": {
+    "ARSENAL_BASE_MAIN": "386b6a52d7bfec2e8903412c7ca56976b46c288b",
+    "STAGE36_ARSENAL_SOURCE_HEAD": "2fc3f4b8afb28bb23765bd861cbd7c52aafd6563",
+    "STAGE36_HARVEST_SNAPSHOT_HEAD": "07a465cb5025e7c0188fb63610bb40e4b54e7a84",
+    "PHASE1_HEAD": "3566ae0010dcdc06c25c0c0058cb2e4c6267150a",
+    "PHASE2_HEAD": "6c968c85015d8713743b0e37e31301cc3483169d",
+    "literature_population_frozen": true,
+    "later_main_movement_not_consumed": true
+  },
+  "classification_counts": {
+    "primary_12": {"LITERATURE_DIRECT":2,"LITERATURE_ADAPTED":2,"EXTEND_STAGE36_EXISTING":1,"EXTEND_OLDER_EXISTING":3,"NEW_LITERATURE_WEAPON":0,"NEW_LITERATURE_WORKFLOW":0,"SOURCE_ANCHOR_ONLY":2,"REPO_SPECIFIC":2,"NO_STRENGTHENING":0,"NOT_APPLICABLE":0,"REJECT_DUPLICATE":0,"RESEARCH_GAP":0,"POSSIBLY_NOVEL":0},
+    "all_22": {"LITERATURE_DIRECT":2,"LITERATURE_ADAPTED":2,"EXTEND_STAGE36_EXISTING":1,"EXTEND_OLDER_EXISTING":3,"NEW_LITERATURE_WEAPON":0,"NEW_LITERATURE_WORKFLOW":1,"SOURCE_ANCHOR_ONLY":2,"REPO_SPECIFIC":2,"NO_STRENGTHENING":0,"NOT_APPLICABLE":1,"REJECT_DUPLICATE":7,"RESEARCH_GAP":1,"POSSIBLY_NOVEL":0}
+  },
+  "classifications": [
+    ["S36-PW01","SOURCE_ANCHOR_ONLY"],["S36-PW02","LITERATURE_DIRECT"],["S36-PW03","EXTEND_STAGE36_EXISTING"],["S36-PW04","LITERATURE_ADAPTED"],["S36-PW05","SOURCE_ANCHOR_ONLY"],["S36-PW06","LITERATURE_DIRECT"],["S36-PW07","LITERATURE_ADAPTED"],
+    ["DISC-S36-B01->S30-W01","EXTEND_OLDER_EXISTING"],["DISC-S36-B02->S35-PW02","REPO_SPECIFIC"],["DISC-S36-B04->S34-W03","REPO_SPECIFIC"],["DISC-S36-B08->S31-W01","EXTEND_OLDER_EXISTING"],["DISC-S36-B12->S34-W02","EXTEND_OLDER_EXISTING"],
+    ["HOSTILE-RECIPROCAL-METHODS","REJECT_DUPLICATE"],["HOSTILE-FINITE-PRIME-WEIL-COMPLETION","REJECT_DUPLICATE"],["HOSTILE-TRANSVECTION-SYMPLECTIC-STRUCTURE","REJECT_DUPLICATE"],["HOSTILE-FINITE-GROUP-RECONSTRUCTION","REJECT_DUPLICATE"],["HOSTILE-MW-LOCAL-SIEVE","REJECT_DUPLICATE"],["HOSTILE-FACTOR-SQUARECLASS-LINEARIZATION","REJECT_DUPLICATE"],["HOSTILE-GAUSSIAN-ORIENTATION-NORM","REJECT_DUPLICATE"],
+    ["GLOBAL-HILBERT-SELMER-COMPATIBILITY-TERMINAL","RESEARCH_GAP"],["GLOBAL-H1-LOCALIZATION-RECIPROCITY-AUDIT","NEW_LITERATURE_WORKFLOW"],["MILLER-STOLL2013-TO-S36-PW05-2ISOGENY","NOT_APPLICABLE"]
+  ],
+  "accepted_item_metadata": [
+    {
+      "candidate_id":"S36-PW02","target_card":"S36-PW02","classification":"LITERATURE_DIRECT","proposed_role":"V4_CURVE_JACOBIAN_QUOTIENT_DECOMPOSITION_LITERATURE_LOCK",
+      "exact_reusable_contract":"exact V4 action/maps + quotient/full-group genera + Kani-Rosen hypotheses + independence -> Jacobian isogeny decomposition; no rational-point converse",
+      "HYPOTHESES":["smooth retained curve","exact V4 action/maps over stated field","quotient/full-group genera exact","Kani-Rosen hypotheses","factor independence"],
+      "APPLICABILITY":"exact Klein-four curve symmetry","DO_NOT_USE_FOR":["source rational-point classification","quotient MW rank","combining arbitrary quotient points"],
+      "literature":{"authors":"Ernst Kani; Michael Rosen","title":"Idempotent relations and factors of Jacobians","year":1989,"journal":"Mathematische Annalen 284","doi":"10.1007/BF01442878","theorem":"Theorem B"},
+      "theorem_summary":"V4 subgroup/idempotent relation gives the Jacobian factor isogeny; genus-zero full quotient removes the full-quotient Jacobian factor.",
+      "conditional_assumptions":"none beyond exact theorem/field hypotheses","stage36_source_input":"stages/stage36/36-09O/physical-square-lift-v4-quotient-preflight.json","repo_adapter":"existing explicit maps/genus/differential checks","adapter_source_verifier":"stages/stage36/verify_stage36_36_09O.py","output":"Jacobian isogeny only","strength_delta":"exact theorem lock, zero endpoint increment","nearest_existing_card":["S31-W01","S34-W03"],"distinction_rationale":"older cards do not construct the V4 decomposition","maturity_recommendation":"PROVISIONAL_LITERATURE_DIRECT"
+    },
+    {
+      "candidate_id":"S36-PW03","target_card":"S36-PW03","classification":"EXTEND_STAGE36_EXISTING","proposed_role":"TWIST_EIGENSPACE_AND_RANK_JUMP_APPLICABILITY_EXTENSION",
+      "exact_reusable_contract":"receiver-forced anti-invariant extension direction -> standard quadratic-twist eigenspace/rank decomposition; rank-jump abundance only after exact family theorem match",
+      "HYPOTHESES":["explicit quadratic extension/twist","Galois action exact","generic MW/Kummer baseline locked","independent receiver direction","exact rank-jump theorem hypotheses before use"],
+      "APPLICABILITY":"quadratic-twist receiver problems","DO_NOT_USE_FOR":["receiver existence from rank growth","full MW from rank witness","non-thin rank jump claim before exact hypothesis match"],
+      "literature":[{"authors":"Lilybelle Cowland Kellock; Vladimir Dokchitser","title":"Root numbers and parity phenomena","year":2023,"journal":"Bulletin LMS 55","doi":"10.1112/blms.12931","theorem":"Lemma 2.9"},{"authors":"Joseph H. Silverman","title":"Heights and the specialization map for families of abelian varieties","year":1983,"journal":"J. reine angew. Math. 342","doi":"10.1515/crll.1983.342.197","theorem":"Theorem C"},{"authors":"Daniel Loughran; Cecília Salgado","title":"Rank jumps on elliptic surfaces and the Hilbert property","year":2022,"journal":"Ann. Inst. Fourier 72","doi":"10.5802/aif.3457","theorem":"Theorems 1.1, 1.2"}],
+      "theorem_summary":"twist eigenspace decomposition is standard; rank-jump non-thinness is hypothesis-gated and does not imply receiver compatibility.",
+      "conditional_assumptions":"Loughran-Salgado use blocked until exact Stage36 family match","stage36_source_input":"stages/stage36/36-09U/qi-antiinvariant-rankjump-descent-preflight.json","repo_adapter":"STAGE36_FAMILY_TO_RANK_JUMP_THEOREM_HYPOTHESES","adapter_source_verifier":"missing for Loughran-Salgado use","output":"typed necessary twist-growth obligation plus optional theorem-qualified context","strength_delta":"theorem provenance and fail-closed applicability only","nearest_existing_card":["S30-W02","S34-W02","LIT-PW01","LIT-PW02"],"distinction_rationale":"receiver anti-invariant semantics remain Stage36-specific","maturity_recommendation":"PROVISIONAL_EXTENSION_BLOCKED_FOR_RANK_JUMP_THEOREM_UNTIL_HYPOTHESES_MATCH"
+    },
+    {
+      "candidate_id":"S36-PW04","target_card":"S36-PW04","classification":"LITERATURE_ADAPTED","proposed_role":"POINTWISE_CHART_TO_GLOBAL_TORSOR_CLASS_HANDOFF",
+      "exact_reusable_contract":"pointwise lift-chart tuple -> prove one named global H1/Kummer class with exact localizations -> hand off to existing LIT-PW03",
+      "HYPOTHESES":["exact elementary-2 torsor/basis/charts","transition squares exact","one global finite module/class identified","cover/Jacobian and localizations source-locked"],
+      "APPLICABILITY":"Stage36 lift systems after global class identity","DO_NOT_USE_FOR":["Kummer-shaped equations as cover identity","Selmer membership as rational point","marked Brauer import"],
+      "literature":[{"authors":"Edward F. Schaefer","title":"2-Descent on the Jacobians of Hyperelliptic Curves","year":1995,"journal":"J. Number Theory 51","doi":"10.1006/jnth.1995.1044","theorem":"exact selected internal locator not frozen"},{"authors":"Edward F. Schaefer","title":"Computing a Selmer group of a Jacobian using functions on the curve","year":1998,"journal":"Mathematische Annalen 310","doi":"10.1007/s002080050156","theorem":"exact selected internal locator not frozen"},{"authors":"Cremona; Fisher; O'Neil; Simon; Stoll","title":"Explicit n-descent on elliptic curves, II. Geometry","year":2009,"journal":"J. reine angew. Math. 632","doi":"10.1515/CRELLE.2009.050","theorem":"exact selected theorem/algorithm not frozen in LIT-PW03"}],
+      "theorem_summary":"explicit descent gives n-cover/Selmer semantics only after the actual global covering class is identified.",
+      "conditional_assumptions":"LIT-PW03 theorem locator and Stage36 chart-to-global-class adapter remain blockers","stage36_source_input":"stages/stage36/36-04/h-torsor-lift-class.json","repo_adapter":"POINTWISE_CHART_TUPLE_TO_GLOBAL_KUMMER_OR_TORSOR_CLASS","adapter_source_verifier":"missing; Phase4 source/verifier required","output":"typed handoff to existing LIT-PW03","strength_delta":"cohomological semantics only after adapter","nearest_existing_card":["S35-PW03","S33-PW09","LIT-PW03"],"distinction_rationale":"literature Selmer interface is already LIT-PW03","maturity_recommendation":"PROVISIONAL_ADAPTED_BLOCKED_BY_GLOBAL_CLASS_ADAPTER"
+    },
+    {
+      "candidate_id":"S36-PW06","target_card":"S36-PW06","classification":"LITERATURE_DIRECT","proposed_role":"RELATIVE_2ISOGENY_KUMMER_SPECIALIZATION_BASELINE_EXACT_THEOREM_LOCK",
+      "exact_reusable_contract":"split-full-2 E/Q(t) + visible sections + Gusić-Tadić injective specialization criterion at t0 + complete fixed-fiber 2-isogeny descent -> exact generic rank/Kummer baseline",
+      "HYPOTHESES":["nonconstant split-full-2 family","good t0","all required nonconstant square-free divisors evaluate nonsquare","complete fixed-fiber descent","torsion/nontorsion certified"],
+      "APPLICABILITY":"full-rational-2 elliptic families over Q(t)","DO_NOT_USE_FOR":["uniform fiber rank","rank-jump exclusion","full generic MW without basis/index proof","receiver closure"],
+      "literature":{"authors":"Ivica Gusić; Petra Tadić","title":"A remark on the injectivity of the specialization homomorphism","year":2012,"journal":"Glasnik Matematicki 47","doi":"10.3336/gm.47.2.03","theorem":"Theorem 1.1"},
+      "theorem_summary":"Theorem 1.1 gives injectivity for the split-full-2 square-free-divisor criterion; q0=6 replay/descent/Kummer synthesis is repo work.",
+      "conditional_assumptions":"criterion and nonsingular specialization exact","stage36_source_input":"stages/stage36/36-09N/relative-2isogeny-kummer-image-rank1-preflight.json","repo_adapter":"q0=6 divisor check + fixed-fiber descent + visible-section/torsion/Kummer synthesis","adapter_source_verifier":"stages/stage36/verify_stage36_36_09N.py","output":"exact generic rank/Kummer baseline","strength_delta":"exact theorem lock; no full-MW upgrade","nearest_existing_card":["S34-W02","S31-WF01","S31-W01"],"distinction_rationale":"older cards consume/verify MW data; they do not produce this family baseline","maturity_recommendation":"PROVISIONAL_LITERATURE_DIRECT"
+    },
+    {
+      "candidate_id":"S36-PW07","target_card":"S36-PW07","classification":"LITERATURE_ADAPTED","proposed_role":"LOCAL_CHARACTER_MATRIX_TO_GLOBAL_RECIPROCITY_HANDOFF",
+      "exact_reusable_contract":"Stage36 local character matrix + one fixed global H1/squareclass system + exact localizations -> Hilbert/Tate pairings -> Serre/Poitou-Tate global compatibility",
+      "HYPOTHESES":["exact reservoirs/classes","fixed global class/module","complete localization maps","2/infinity normalization","all required places accounted"],
+      "APPLICABILITY":"local matrices proven to arise from one fixed global class system","DO_NOT_USE_FOR":["product formula as contradiction","local admissibility as global point","dynamic support as fixed Selmer problem without proof"],
+      "literature":[{"authors":"Jean-Pierre Serre","title":"A Course in Arithmetic","year":1973,"journal":"Springer GTM 7","doi":"10.1007/978-1-4684-9884-4","theorem":"Chapter III Theorems 2-4"},{"authors":"J. S. Milne","title":"Arithmetic Duality Theorems","year":2006,"journal":"2nd ed.","doi":null,"theorem":"Theorem I.4.10"}],
+      "theorem_summary":"Hilbert reciprocity/global realizability and Poitou-Tate give compatibility only once a genuine fixed global module/class exists.",
+      "conditional_assumptions":"Stage36 dynamic rows are not yet identified as one global localization system","stage36_source_input":"stages/stage36/36-09Y/kummer-complement-prime-2adic-hilbert-preflight.json","repo_adapter":"DYNAMIC_RESERVOIR_ROWS_TO_GLOBAL_KUMMER_LOCALIZATION_SYSTEM","adapter_source_verifier":"missing; Phase4 workflow must fail closed","output":"global compatibility/orthogonality only","strength_delta":"potential local-to-global strengthening, currently blocked","nearest_existing_card":["S35-PW01","S35-PW05","S33-PW07","LIT-PW03","LIT-PW14","LIT-PW15"],"distinction_rationale":"no existing workflow checks local rows -> one fixed global H1 system","maturity_recommendation":"PROVISIONAL_ADAPTED_BLOCKED_BY_GLOBAL_LOCALIZATION_ADAPTER"
+    },
+    {
+      "candidate_id":"DISC-S36-B01->S30-W01","target_card":"S30-W01","classification":"EXTEND_OLDER_EXISTING","proposed_role":"FIELD_SEPARATED_QUADRATIC_MODULE_INVARIANT_COMPRESSION_EXTENSION",
+      "exact_reusable_contract":"source-labelled finite kernels -> radical/nondegenerate quotient/Arf-Witt type -> structural compression only where source acting subgroup realizes the theorem equivalence",
+      "HYPOTHESES":["complete finite population","exact source kernel/action","quadratic/bilinear form and radical exact","source acting subgroup known","base/extension equivalence separated"],
+      "APPLICABILITY":"finite kernel inventories over F2","DO_NOT_USE_FOR":["full O/Sp orbit as source orbit without subgroup proof","semantic kernel identity from abstract type","new transvection weapon"],
+      "literature":[{"authors":"Cahit Arf","title":"Untersuchungen über quadratische Formen in Körpern der Charakteristik 2. I","year":1941,"journal":"J. reine angew. Math. 183","doi":"10.1515/crll.1941.183.148","theorem":"exact internal classification locator not frozen"},{"authors":"Donald E. Taylor","title":"The Geometry of the Classical Groups","year":1992,"journal":"Heldermann","doi":null,"theorem":"Theorem 8.5"},{"authors":"Peter B. Kleidman; Martin W. Liebeck","title":"The Subgroup Structure of the Finite Classical Groups","year":1990,"journal":"Cambridge LMS LN 129","doi":null,"theorem":"Proposition 4.1.7; source-group applicability must be rechecked"}],
+      "theorem_summary":"abstract form/classical-group theory may compress invariant type but does not identify the repo source-labelled subgroup orbit.",
+      "conditional_assumptions":"source subgroup equivalence must be proved","stage36_source_input":"stages/stage36/36-02/representative-inventory.json","repo_adapter":"SOURCE_LABELLED_ACTION_TO_CLASSICAL_MODULE_AND_ACTING_SUBGROUP","adapter_source_verifier":"partially present; exact structural locator/source-group adapter missing","output":"S30-W01 invariant compression; source orbits stay enumeration-backed where needed","strength_delta":"less redundant invariant enumeration","nearest_existing_card":["S30-W01","S32-PW05","S32-PW06"],"distinction_rationale":"transvections remain S32-PW06; finite reconstruction remains older cards","maturity_recommendation":"PROVISIONAL_OLDER_CARD_EXTENSION_BLOCKED_ON_SOURCE_GROUP_MATCH"
+    },
+    {
+      "candidate_id":"DISC-S36-B08->S31-W01","target_card":"S31-W01","classification":"EXTEND_OLDER_EXISTING","proposed_role":"SUCCESSIVE_DOUBLE_COVER_BRANCH_GENUS_PREFLIGHT_EXTENSION",
+      "exact_reusable_contract":"successive quadratic covers + exact branch/discriminant data -> generic genus layer-by-layer -> degeneration split -> first genuine genus-one layer routed to S31-W01",
+      "HYPOTHESES":["exact cover equations","smooth generic layers","complete branch data including infinity","degenerations separated"],
+      "APPLICABILITY":"reconstruction towers before genus-one routing","DO_NOT_USE_FOR":["point classification from genus","automatic elliptic map","reciprocal receiver equivalence"],
+      "literature":{"authors":"Rita Pardini","title":"Abelian covers of algebraic varieties","year":1991,"journal":"J. reine angew. Math. 417","doi":"10.1515/crll.1991.417.191","theorem":"Theorem 2.1 + standard Riemann-Hurwitz"},
+      "theorem_summary":"abelian/double-cover branch data plus Riemann-Hurwitz gives generic genus once collisions/degenerations are separated.",
+      "conditional_assumptions":"exact branch/smoothness data","stage36_source_input":"stages/stage36/36-09J/reciprocal-involution-two-linear-cover-preflight.json","repo_adapter":"tower branch/discriminant/degeneration materializer","adapter_source_verifier":"stages/stage36/verify_stage36_36_09J.py","output":"proof-safe genus preflight to S31-W01","strength_delta":"theorem-backed older-card preflight; no reciprocal weapon","nearest_existing_card":["S31-W01","S35-PW02","S35-PW04"],"distinction_rationale":"terminal birational adapter remains S31-W01","maturity_recommendation":"PROVISIONAL_OLDER_CARD_EXTENSION"
+    },
+    {
+      "candidate_id":"DISC-S36-B12->S34-W02","target_card":"S34-W02","classification":"EXTEND_OLDER_EXISTING","proposed_role":"GENERIC_SUBGROUP_SPECIALIZATION_GROWTH_PREFLIGHT_LITERATURE_EXTENSION",
+      "exact_reusable_contract":"generic subgroup/torsion + exact receiver -> if specialized generic subgroup is incompatible, any compatible fiber requires rank/saturation/torsion enlargement; rank-jump theorem use is separately gated",
+      "HYPOTHESES":["generic subgroup/torsion proved","all relevant specialized generic points checked","receiver exact","bad fibers separated","growth species distinguished","rank-jump theorem hypotheses exact before use"],
+      "APPLICABILITY":"family-level preflight before fixed-fiber MW exclusion","DO_NOT_USE_FOR":["empty growth locus","receiver existence from growth","full MW from generic subgroup"],
+      "literature":[{"authors":"Joseph H. Silverman","title":"Heights and the specialization map for families of abelian varieties","year":1983,"journal":"J. reine angew. Math. 342","doi":"10.1515/crll.1983.342.197","theorem":"Theorem C"},{"authors":"Daniel Loughran; Cecília Salgado","title":"Rank jumps on elliptic surfaces and the Hilbert property","year":2022,"journal":"Ann. Inst. Fourier 72","doi":"10.5802/aif.3457","theorem":"Theorems 1.1, 1.2"}],
+      "theorem_summary":"specialization baseline is standard; non-thin rank-jump results apply only to families satisfying the exact geometric hypotheses.",
+      "conditional_assumptions":"Stage36 family-to-Loughran-Salgado match unresolved","stage36_source_input":"stages/stage36/36-09R/etau-rankjump-receiver-esigmatau-growth-preflight.json","repo_adapter":"STAGE36_FAMILY_TO_RANK_JUMP_THEOREM_HYPOTHESES","adapter_source_verifier":"missing for Loughran-Salgado use","output":"older-card growth preflight with theorem applicability/failure state","strength_delta":"literature-qualified family routing only","nearest_existing_card":["S34-W02","S34-W03","LIT-PW01","LIT-PW02"],"distinction_rationale":"S34-W02 remains the fixed-curve MW terminal","maturity_recommendation":"PROVISIONAL_OLDER_CARD_EXTENSION_BLOCKED_FOR_RANK_JUMP_THEOREM_UNTIL_HYPOTHESES_MATCH"
+    },
+    {
+      "candidate_id":"GLOBAL-H1-LOCALIZATION-RECIPROCITY-AUDIT","target_card":null,"classification":"NEW_LITERATURE_WORKFLOW","proposed_role":"GLOBAL_H1_LOCALIZATION_RECIPROCITY_APPLICABILITY_WORKFLOW",
+      "exact_reusable_contract":"proposed global module/class + repo local rows/charts -> verify one global class identity, every localization, 2/infinity normalization, support/field/theorem hypotheses -> PASS typed package or FAIL_CLOSED layer",
+      "HYPOTHESES":["named global finite module/class","source-to-global construction exact","all localizations exact","2/infinity handled","finite support proved if used","field fixed"],
+      "APPLICABILITY":"any repo local-to-global reciprocity/Selmer route","DO_NOT_USE_FOR":["constructing a global class from local compatibility","calling product formula a contradiction","silent field extension descent"],
+      "literature":[{"authors":"Jean-Pierre Serre","title":"A Course in Arithmetic","year":1973,"journal":"Springer GTM 7","doi":"10.1007/978-1-4684-9884-4","theorem":"Chapter III Theorems 2-4"},{"authors":"J. S. Milne","title":"Arithmetic Duality Theorems","year":2006,"journal":"2nd ed.","doi":null,"theorem":"Theorem I.4.10"}],
+      "theorem_summary":"workflow validates literature theorem inputs; it contributes no theorem or obstruction itself.",
+      "conditional_assumptions":"downstream theorem use requires workflow PASS and mathematical adapter PASS","stage36_source_input":["S36-PW07","S36-PW04","optional S36-PW05"],"repo_adapter":"adapter-readiness audit only","adapter_source_verifier":"Phase4 must create source artifact and method-specific verifier","output":"PASS typed global-class/localization package or exact FAIL_CLOSED reason","strength_delta":"one new reusable workflow, zero math credit","nearest_existing_card":["S30-WF03","LIT-PW03","LIT-PW14","LIT-PW15","S33-PW07","S33-PW08"],"distinction_rationale":"existing consumers assume already-typed global/adelic data; this audits the missing interface","maturity_recommendation":"PROVISIONAL_NEW_LITERATURE_WORKFLOW"
+    }
+  ],
+  "implementation_manifest": {
+    "stage36_card_extensions": ["S36-PW02","S36-PW03","S36-PW04","S36-PW06","S36-PW07"],
+    "older_card_extensions": ["DISC-S36-B01->S30-W01","DISC-S36-B08->S31-W01","DISC-S36-B12->S34-W02"],
+    "new_literature_weapons": [],
+    "new_literature_workflows": [{"candidate_id":"GLOBAL-H1-LOCALIZATION-RECIPROCITY-AUDIT","proposed_role":"GLOBAL_H1_LOCALIZATION_RECIPROCITY_APPLICABILITY_WORKFLOW","maturity":"PROVISIONAL"}],
+    "source_anchor_only": ["S36-PW01","S36-PW05"],
+    "duplicates": ["HOSTILE-RECIPROCAL-METHODS","HOSTILE-FINITE-PRIME-WEIL-COMPLETION","HOSTILE-TRANSVECTION-SYMPLECTIC-STRUCTURE","HOSTILE-FINITE-GROUP-RECONSTRUCTION","HOSTILE-MW-LOCAL-SIEVE","HOSTILE-FACTOR-SQUARECLASS-LINEARIZATION","HOSTILE-GAUSSIAN-ORIENTATION-NORM"],
+    "repo_specific_no_literature_action": ["DISC-S36-B02->S35-PW02","DISC-S36-B04->S34-W03"],
+    "not_applicable": ["MILLER-STOLL2013-TO-S36-PW05-2ISOGENY"],
+    "research_gaps": ["GLOBAL-HILBERT-SELMER-COMPATIBILITY-TERMINAL","S36-PW03/B12 exact Loughran-Salgado hypothesis match","S36-PW04 chart-to-global-H1 adapter","S36-PW06 full-MW basis/saturation only if stronger claim attempted","B01 source subgroup equivalence"],
+    "possible_novelty_flags": []
+  },
+  "phase4_exact_handoff": [
+    "PW02/PW06 exact literature locks; no math-output change",
+    "PW03/B12 theorem applicability/failure contracts; no Loughran-Salgado use without exact hypothesis PASS",
+    "PW04/PW07 blocked handoffs + one global-H1 localization applicability workflow",
+    "B01->S30-W01 and B08->S31-W01 older-card deltas; no transvection/reciprocal duplicate",
+    "PW01/PW05 source anchors only",
+    "no NEW_LITERATURE_WEAPON; global Hilbert/Selmer terminal remains RESEARCH_GAP"
+  ],
+  "hostile_comparison_dimensions": ["exact object","population","field","field extension","dimension/genus/rank","quantifiers","local/global","effective/ineffective","conditional/unconditional","input","output","forward/converse","exceptional locus","reconstruction","marking","finite-support assumptions","MW/Selmer assumptions","source lock","credit boundary"],
+  "comparison_detail": "docs/arsenal/literature-stage36-hostile-freeze.md",
+  "credit_firewall": {"ARSENAL_IMPLEMENTATION_PERFORMED":false,"NEW_STABLE_ID_CREATED":false,"NEW_LITERATURE_WEAPON_ACCEPTED":false,"STAGE36_PROGRESS_INCREMENT":0,"HILBERT_RECIPROCITY_ENDPOINT_CREDIT_ADDED":false,"LOCAL_GLOBAL_OBSTRUCTION_CREDIT_ADDED":false,"MERGE_AUTHORIZED":false,"NOVELTY_CLAIM":false},
+  "bounded_novelty_language": "NO_DIRECT_MATCH_FOUND_IN_THIS_BOUNDED_LITERATURE_SEARCH"
+}
