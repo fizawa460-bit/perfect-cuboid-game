@@ -15,7 +15,8 @@ ST33 = ROOT / "stages" / "stage33" / "33-07"
 V6_PATH = ROOT / "stages" / "stage32" / "32-21" / "post1473-v6-witness-body-recovered.json"
 
 sys.path.insert(0, str(ST32R))
-from pairing_prefix_engine import INDLIST, close_permutation_group  # noqa: E402
+from hperp_integral_adapter import HperpIntegralPairingAdapter  # noqa: E402
+from pairing_prefix_engine import close_permutation_group  # noqa: E402
 
 
 def load_retained(path: Path, name: str) -> dict:
@@ -31,31 +32,24 @@ def main() -> None:
     marking = load_retained(ST33 / "stage32_picard_marking_retained.py", "ex6_marking")
     bundle = load_retained(ST33 / "picard_base_rows_retained.py", "ex6_base")
     gram = Matrix(bundle["picard_gram_64x64"])
+    adapter = HperpIntegralPairingAdapter.from_retained(marking, bundle)
+    coords = Matrix(adapter.class_coordinates_in_retained_basis)
+    if coords.shape != (140, 64):
+        raise ValueError(f"all140 coordinate shape regression: {coords.shape}")
+
     raw_perms = marking["aut_action"]["permutations_1based"]
     # close_permutation_group consumes 1-based generators and returns 0-based permutations.
     group0 = close_permutation_group(raw_perms)
     if len(group0) != 1536:
         raise ValueError(f"Aut group order regression: {len(group0)}")
 
-    # Reconstruct the exact 140x140 intersection pairing from the retained
-    # primitive 64-basis Gram and exact Aut action, while keeping giant retained
-    # payloads runner-side only.
-    basis = [i - 1 for i in INDLIST]
-    known: dict[tuple[int, int], int] = {}
-    for bi, a in enumerate(basis):
-        for bj, b in enumerate(basis):
-            value = int(gram[bi, bj])
-            for gp in group0:
-                key = (gp[a], gp[b])
-                prior = known.get(key)
-                if prior is not None and prior != value:
-                    raise ValueError(f"pairing propagation conflict at {key}: {prior} vs {value}")
-                known[key] = value
-    if len(known) != 140 * 140:
-        raise ValueError(f"incomplete pairing propagation: {len(known)}")
-
     def pair(i1: int, j1: int) -> int:
-        return known[(i1 - 1, j1 - 1)]
+        x = Matrix([[int(coords[i1 - 1, k]) for k in range(64)]])
+        y = Matrix([[int(coords[j1 - 1, k]) for k in range(64)]])
+        z = x * gram * y.T
+        if z.shape != (1, 1):
+            raise ValueError("pairing shape regression")
+        return int(z[0, 0])
 
     v6 = json.loads(V6_PATH.read_text())
     if v6["canonical_sha256_without_this_field"] != "d0c1c8bddfe3950737ed6f87ffa74acd850c736298bd12ec1eceac609625b8a8":
@@ -106,6 +100,7 @@ def main() -> None:
             "stoll_testa_section5_log_blob": "9cfef75aa58335655d6ae3e78597f5924b6c2433",
             "v6_canonical_sha256": v6["canonical_sha256_without_this_field"],
             "v6_all140_pairings_sha256": v6["witness"]["all140_pairings_sha256"],
+            "hperp_adapter_canonical_sha256": adapter.certificate["canonical_sha256_without_this_field"],
             "retained_aut_group_order": len(group0),
         },
         "representative": {
