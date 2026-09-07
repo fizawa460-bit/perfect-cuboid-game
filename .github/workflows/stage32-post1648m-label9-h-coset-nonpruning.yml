@@ -1,0 +1,29 @@
+name: Stage32 post1648M label9 H-coset nonpruning
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-post1648m-label9-h-coset-nonpruning.yml'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1648m_label9_h_coset_nonpruning.py'
+      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1648l_trace_oriented_h_coset.py'
+      - 'stages/stage32/residual-32-01-production/post1623-hperp-v6-hdeck-character-preflight.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  label9-h-coset-nonpruning:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact PR head
+        if: github.event_name == 'pull_request'
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Run exact label9 H-coset diagnostic
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648m_label9_h_coset_nonpruning.py
+      - name: Diff check
+        run: git diff --check
