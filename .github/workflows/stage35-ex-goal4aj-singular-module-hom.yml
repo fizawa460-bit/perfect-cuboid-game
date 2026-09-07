@@ -48,8 +48,8 @@ jobs:
           def blob(q):
               b=q.read_bytes(); return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
           ok=(k.get('schema')=='STAGE35_EX_GOAL4AJ_SINGULAR_MODULE_HOM_RUNKEY_V1' and
-              k.get('armed') is True and k.get('generation')==1 and
-              blob(p)==k.get('probe_blob_sha1')=='f866560339bdccb943101e731231250a813e8e39' and
+              k.get('armed') is True and k.get('generation')==2 and
+              blob(p)==k.get('probe_blob_sha1')=='3f553396ac604d575eb824120c205c3d9ba672c2' and
               k.get('planned_jobs')==1 and k.get('actions_artifact_upload') is False)
           print('true' if ok else 'false')
           PY
@@ -75,10 +75,12 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends singular
           Singular --version | head -n 3
-      - name: Verify A1 and cuboid rank-one module Hom interpretation
+      - name: Verify A1 and cuboid rank-one module Hom interpretation fail-closed
         run: |
           set -euo pipefail
           python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_singular_module_hom.py | tee /tmp/goal4aj.log
+          grep -q '^GOAL4AJ_TOY_HOM_INTERPRET=PASS$' /tmp/goal4aj.log
+          grep -q '^GOAL4AJ_CUBOID_C1_HOM_INTERPRET=PASS$' /tmp/goal4aj.log
           grep -q '^GOAL4AJ_SINGULAR_MODULE_HOM_PREFLIGHT=PASS$' /tmp/goal4aj.log
           grep -q '^GOAL4AJ_SINGULAR_PREFLIGHT_JSON=' /tmp/goal4aj.log
           test "$(wc -c </tmp/goal4aj.log)" -le 65536
