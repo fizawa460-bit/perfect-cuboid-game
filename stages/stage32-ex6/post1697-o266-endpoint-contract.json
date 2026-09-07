@@ -1,0 +1,123 @@
+{
+  "schema": "STAGE32_EX6_O266_ENDPOINT_CONTRACT_V1",
+  "status": "EXPLORATORY_EXACT_BOUNDED_RESULT",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "d": 186,
+    "exceptional_mass_e": 266,
+    "O": 266
+  },
+  "definitions": {
+    "D_E": "sum_P m_P P",
+    "mass_identity": "sum_P m_P = e = 266",
+    "B": "number of support points of D_E",
+    "O": "number of support points with odd m_P",
+    "S1": "number of support points with m_P=1"
+  },
+  "endpoint_derivation": {
+    "upper_bound": "O <= B <= e = 266",
+    "B": 266,
+    "S1": 266,
+    "all_exceptional_contacts_m1": true,
+    "additional_positive_even_contacts": 0,
+    "positive_surface_nodes": 47,
+    "multibranch_surface_nodes_in_AN_witness": 38,
+    "all_FSM_branches_forced_minimal": false,
+    "allowed_unit_contact_semantics": "min(A,B)=1 with A+B even; nonminimal types (1,2k+1) or (2k+1,1) remain allowed"
+  },
+  "local_feasibility": {
+    "AN_explicit_endpoint_witness": true,
+    "witness_type": "M_j pairwise-distinct-lambda FSM-minimal (A,B)=(1,1) branches at each met node",
+    "normalization_node_preimages": 266,
+    "forced_exceptional_locus_delta": 0,
+    "remaining_strict_transform_delta": 472,
+    "local_scalar_contradiction": false
+  },
+  "two_factor_endpoint_slack": {
+    "t": 0,
+    "degree81": {
+      "identity": "52 = q81_node + eta81 + rho81",
+      "explicit_nonnegative_residual": {
+        "q81_node": 0,
+        "eta81": 0,
+        "rho81": 52
+      }
+    },
+    "degree105": {
+      "identity": "28 = q105_node + eta105 + rho105",
+      "explicit_nonnegative_residual": {
+        "q105_node": 0,
+        "eta105": 0,
+        "rho105": 28
+      }
+    },
+    "minimum_FSM_minimal_branches": 186,
+    "scalar_Hurwitz_contradiction": false
+  },
+  "rosati_endpoint_check": {
+    "Gamma_self_intersection": 15806,
+    "sigma_Gamma": 1204,
+    "Q_T": 602,
+    "p_a_Gamma": 8090,
+    "g_Y_formula": "1 + O/2",
+    "g_Y_at_O266": 134,
+    "delta_Gamma_at_O266": 7956,
+    "general_Q_identity": "Q = 8691 - O/2 - delta_Gamma",
+    "identity_replay_at_O266": 602,
+    "weierstrass_lower_bound": 1924,
+    "weierstrass_excludes_O266": false,
+    "D4xD4_excludes_Q602": false
+  },
+  "decision": {
+    "code": "O266_ENDPOINT_NOT_CLOSED",
+    "O266_ENDPOINT_EXCLUDED": false,
+    "O266_ENDPOINT_NOT_CLOSED": true,
+    "reason": "endpoint saturation forces 266 unit odd contacts but retained local models explicitly realize that profile and retained global scalar/Rosati/conductor constraints still admit residual slack",
+    "reentry_requires": [
+      "member-level exceptional landing/tangent collision restriction",
+      "global jet/separation bound coupling 266 unit node branches to the V6 genus defect",
+      "stronger simultaneous two-factor-map coupling beyond nonnegative slack identities",
+      "independent correspondence/conductor inequality excluding the O266 defect"
+    ]
+  },
+  "source_locks": {
+    "odd_branch_note": {
+      "head": "131d7869c145563d3c9ee1116a9def9e671a6a63",
+      "blob_sha1": "cb20a9b287430c2e238f79d3151500c262905468",
+      "path": "stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-beauville-odd-branch-wall.md"
+    },
+    "modular_factor_note": {
+      "head": "0a888aa5195c558e2104c30a4351067ed1828287",
+      "blob_sha1": "deeecac5599f3b542b445cd87c2070dae488bc85",
+      "path": "stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-source-note.md"
+    },
+    "AN_note": {
+      "head": "82b551d92ad2ef1a86f8303758c7aa17c0a6d960",
+      "blob_sha1": "512fcc70afb1acf16956fd4b7a2b9b935a052150",
+      "path": "stages/stage32/residual-32-01-production/post1648an-a1-strict-transform-delta-feasibility-source-note.md"
+    },
+    "AR_note": {
+      "head": "82b551d92ad2ef1a86f8303758c7aa17c0a6d960",
+      "blob_sha1": "da9b6ba755b8bd43d5b342d5540053caeb218f57",
+      "path": "stages/stage32/residual-32-01-production/post1648ar-two-factor-slack-minimal-branches-source-note.md"
+    },
+    "post1500_rosati_note": {
+      "head": "a004dbc8e02fa57fb4c1d374710849aa571dae8e",
+      "blob_sha1": "b0ea281eae453929c292059a919bc1f68b3080b3",
+      "path": "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md"
+    },
+    "AT_note": {
+      "head": "82b551d92ad2ef1a86f8303758c7aa17c0a6d960",
+      "blob_sha1": "59849336b9e49610c00709b58989d17b9df1c6a7",
+      "path": "stages/stage32/residual-32-01-production/post1648at-intermediate-quotient-blowup-conductor-source-note.md"
+    }
+  },
+  "firewalls": {
+    "stage32_main_modified": false,
+    "Q602_survivors_modified": false,
+    "O212_plus_main_advance": false,
+    "stage32_closure_credit": false,
+    "perfect_cuboid_credit": false,
+    "merge_authorized": false
+  }
+}
