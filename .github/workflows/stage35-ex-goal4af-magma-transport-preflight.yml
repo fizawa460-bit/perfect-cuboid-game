@@ -1,0 +1,53 @@
+name: Stage35-EX Goal4AF Magma transport preflight
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage35-ex/runkeys/goal4af-magma-transport-preflight.json'
+      - '.github/workflows/stage35-ex-goal4af-magma-transport-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Authorize exact runkey and test tiny public Magma transport
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json,sys
+          from pathlib import Path
+          key=Path('stages/stage35-ex/runkeys/goal4af-magma-transport-preflight.json')
+          d=json.loads(key.read_text())
+          assert d['schema']=='STAGE35_EX_GOAL4AF_MAGMA_TRANSPORT_PREFLIGHT_RUNKEY_V1'
+          assert d['armed'] is True and d['generation']==1
+          assert d['stage33_source_helper_blob_sha1']=='010db3767b8f932c71ac5722b50ccb64a8c79f9d'
+          p=Path('stages/stage33/33-07/stoll_cuboid_source.py')
+          raw=p.read_bytes()
+          blob=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+          assert blob==d['stage33_source_helper_blob_sha1']
+          sys.path.insert(0,str(p.parent))
+          from stoll_cuboid_source import load_pinned_source,run_magma
+          full,core,blobsha,attempt=load_pinned_source()
+          assert blobsha=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
+          print('GOAL4AF_SURFACE_CORE_BYTES='+str(len(core.encode())))
+          print('GOAL4AF_FULL_SOURCE_BYTES='+str(len(full.encode())))
+          out,mattempt=run_magma('SetColumns(0); print "GOAL4AF_PING_OK";\n',30,'Stage35-EX Goal4AF tiny Magma transport preflight',user_agent='perfect-cuboid-stage35ex/4af-ping')
+          print('GOAL4AF_PING_REPR='+repr(out))
+          print('GOAL4AF_PING_ATTEMPT='+str(mattempt))
+          if 'GOAL4AF_PING_OK' not in out:
+              raise SystemExit('tiny Magma transport returned no expected result')
+          print('GOAL4AF_MAGMA_TRANSPORT_PREFLIGHT=PASS')
+          PY

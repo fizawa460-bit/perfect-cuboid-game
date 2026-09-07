@@ -1,0 +1,112 @@
+name: Stage35-EX Goal4AG principal divisor preflight
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage35-ex/probe_stage35_ex_35_goal4ag_principal_divisor.py'
+      - 'stages/stage35-ex/runkeys/goal4ag-principal-divisor-preflight.json'
+      - '.github/workflows/stage35-ex-goal4ag-principal-divisor.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage35-ex-goal4ag-principal-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+      - id: gate
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage35-ex/runkeys/goal4ag-principal-divisor-preflight.json'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          test '${{ github.event_name }}' = 'pull_request' || exit 0
+          test "${PR_NUMBER}" = '1659' || exit 0
+          test "${HEAD_REF}" = 'stage35-ex-goal4x-open-receiver-boundary-picard' || exit 0
+          test -n "${BEFORE}" || exit 0
+          git fetch --no-tags --depth=1 origin "${BEFORE}" || exit 0
+          git diff --name-only "${BEFORE}" "${HEAD_SHA}" | grep -Fxq "${KEY}" || exit 0
+          python - <<'PY' > /tmp/goal4ah-auth
+          import hashlib,json
+          from pathlib import Path
+          key=Path('stages/stage35-ex/runkeys/goal4ag-principal-divisor-preflight.json')
+          probe=Path('stages/stage35-ex/probe_stage35_ex_35_goal4ag_principal_divisor.py')
+          d=json.loads(key.read_text())
+          if not (d.get('schema')=='STAGE35_EX_GOAL4AG_PRINCIPAL_DIVISOR_PREFLIGHT_RUNKEY_V1' and d.get('armed') is True and d.get('generation')==3):
+              print('false'); raise SystemExit(0)
+          def blob(p):
+              raw=p.read_bytes()
+              return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+          assert blob(probe)==d['probe_blob_sha1']=='3eec35edaf2e2df5ef17f09f6f78d8c3152824ab'
+          assert d['stage33_source_helper_blob_sha1']=='010db3767b8f932c71ac5722b50ccb64a8c79f9d'
+          assert d['upstream_git_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
+          assert d['planned_jobs']==1 and d['planned_shards']==1
+          assert d['persisted_output_upper_bound_bytes']<=131072
+          assert d['actions_artifact_upload'] is False
+          print('true')
+          PY
+          test "$(tail -n1 /tmp/goal4ah-auth)" = 'true' || exit 0
+          echo 'GOAL4AH_RUNKEY_AUTHORIZED=true'
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  preflight:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact strict-divisor principalization and A1 exceptional valuation test
+        run: |
+          set -euo pipefail
+          python -B stages/stage35-ex/probe_stage35_ex_35_goal4ag_principal_divisor.py | tee /tmp/goal4ah.log
+          grep -q '^GOAL4AH_DIAGNOSTIC_JSON=' /tmp/goal4ah.log
+          test "$(wc -c </tmp/goal4ah.log)" -le 131072
+      - name: Enforce diagnostic no-credit boundary
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          lines=Path('/tmp/goal4ah.log').read_text().splitlines()
+          s=next(x.split('=',1)[1] for x in lines if x.startswith('GOAL4AH_DIAGNOSTIC_JSON='))
+          d=json.loads(s)
+          assert d['schema']=='STAGE35_EX_GOAL4AH_PRINCIPAL_DIVISOR_PREFLIGHT_DIAGNOSTIC_V3'
+          assert d['transport']=='PINNED_COMPACT_SURFACE_CORE'
+          assert d['formal_target_support_count']==69
+          assert d['strict_support_count']==33
+          assert d['exceptional_support_count']==36
+          assert d['strict_positive_hyperplane_degree']==396
+          assert d['strict_negative_hyperplane_degree']==396
+          assert isinstance(d['strict_divisor_cartier_on_singular_surface'],bool)
+          assert isinstance(d['strict_divisor_principal_on_singular_surface'],bool)
+          assert isinstance(d['resolved_exceptional_multiplicities_match_target'],bool)
+          assert d['explicit_F_B_materialized'] is False
+          assert d['theorem_credit'] is False
+          assert d['endpoint_credit'] is False
+          assert d['E1_proved'] is False
+          assert d['stage35_closed'] is False
+          print('GOAL4AH_DIAGNOSTIC_BOUNDARY=PASS')
+          PY

@@ -1,0 +1,92 @@
+name: Stage35-EX Goal4AJ denominator reflexive generator
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage35-ex/runkeys/goal4aj-denominator-reflexive-generator.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage35-ex-goal4aj-den-reflexive-generator-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+      - id: gate
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage35-ex/runkeys/goal4aj-denominator-reflexive-generator.json'
+          PROBE='stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_denominator_reflexive_generator.py'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          test '${{ github.event_name }}' = 'pull_request' || exit 0
+          test "${PR_NUMBER}" = '1659' || exit 0
+          test "${HEAD_REF}" = 'stage35-ex-goal4x-open-receiver-boundary-picard' || exit 0
+          test -n "${BEFORE}" || exit 0
+          git fetch --no-tags --depth=1 origin "${BEFORE}" || exit 0
+          git cat-file -e "${BEFORE}^{commit}" 2>/dev/null || exit 0
+          git diff --name-only "${BEFORE}" "${HEAD_SHA}" | grep -Fxq "${KEY}" || exit 0
+          git show "${BEFORE}:${KEY}" > /tmp/old-key.json || exit 0
+          python - <<'PY' > /tmp/auth
+          import json,os,subprocess
+          from pathlib import Path
+          key=Path('stages/stage35-ex/runkeys/goal4aj-denominator-reflexive-generator.json')
+          probe=Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_denominator_reflexive_generator.py')
+          k=json.loads(key.read_text()); old=json.loads(Path('/tmp/old-key.json').read_text())
+          blob=subprocess.check_output(['git','hash-object',str(probe)],text=True).strip()
+          oldgen=old.get('generation'); newgen=k.get('generation')
+          ok=(k.get('schema')=='STAGE35_EX_GOAL4AJ_DENOMINATOR_REFLEXIVE_GENERATOR_RUNKEY_V1' and
+              k.get('armed') is True and old.get('armed') is False and
+              oldgen==1 and newgen==2 and newgen==oldgen+1 and
+              k.get('armed_from_head_sha')==os.environ['BEFORE'] and
+              blob==k.get('probe_blob_sha1')=='7dbf3179ca800b16109de3f423fc919541237dd7' and
+              k.get('planned_jobs')==1 and k.get('planned_shards')==1 and
+              k.get('persisted_output_upper_bound_bytes')==131072 and
+              k.get('actions_artifact_upload') is False)
+          print('true' if ok else 'false')
+          PY
+          test "$(tail -n1 /tmp/auth)" = true || exit 0
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  diagnose:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Singular
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends singular
+          Singular --version | head -n 3
+      - name: Build grouped denominator residual divisorial ideal and candidate
+        run: |
+          set -euo pipefail
+          python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_denominator_reflexive_generator.py | tee /tmp/goal4aj-den-reflexive.log
+          grep -q '^GOAL4AJ_DEN_GROUPED_REFLEXIVE_JSON=' /tmp/goal4aj-den-reflexive.log
+          grep -q '^GOAL4AJ_DEN_GROUPED_REFLEXIVE=PASS$' /tmp/goal4aj-den-reflexive.log
+          test "$(wc -c </tmp/goal4aj-den-reflexive.log)" -le 131072
