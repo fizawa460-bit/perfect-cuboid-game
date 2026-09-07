@@ -1,0 +1,68 @@
+{
+  "schema": "STAGE36_36_09AV_TUNNELL_ACTUAL_RECEIVER_COORDINATE_SPECIALIZATION_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09AV",
+  "status": "EXACT_ACTUAL_RECEIVER_COORDINATE_CONGRUENT_POINT_AND_TUNNELL_AUTOMATICITY_PENDING_BATCH_AUDIT",
+  "base_main_sha": "d43db1874b0e657143fa07b1a16eb87fc27e0238",
+  "audited_parent": {
+    "pr": 1680,
+    "hostile_audit_review": 5128229756,
+    "audited_exact_head": "9aa2e4c06240bbf1f6260dd2c11c3d622119f16f",
+    "exact_head_ci": "34085000175/101627220799",
+    "merged_main_sha": "d43db1874b0e657143fa07b1a16eb87fc27e0238",
+    "scope": "36-09AP through 36-09AU"
+  },
+  "source_locks": {
+    "stage36_36_09AU": {"path":"stages/stage36/36-09AU/even-transposed-redei-stage36-equivalence-close-preflight.json","blob_sha":"ae4572d4131464a8aca83d39e2faefbd4ffec18e"},
+    "stage36_36_09AD": {"path":"stages/stage36/36-09AD/coupled-six-reservoir-factor-squareclass-parity-preflight.json","blob_sha":"9d0388845955efee71d1a761ae4ee943d8b565d5"},
+    "main_36_09AN": {"path":"stages/stage36/36-09AN/retained-open-tunnell-necessary-gate-preflight.json","blob_sha":"76c55e89505b081c487749f4d7ab4d80e9d38a1f"}
+  },
+  "actual_receiver_coordinates": {
+    "primitive": "X=U/V with gcd(U,V)=1, U>0, V>0, U!=V on the retained open",
+    "AD_squareclasses": ["A=odd_sf(U)","B=odd_sf(V)","C=odd_sf(U-V)","D=odd_sf(U+V)"],
+    "g": "(v2(U-V)+v2(U+V)) mod 2",
+    "audited_input": "v2(U) and v2(V) are even",
+    "normalized_twist": "N=2^g*A*B*C*D",
+    "direct_formula": "N=sf(|U*V*(U^2-V^2)|)"
+  },
+  "explicit_congruent_number_point": {
+    "W": "positive integer with W^2=|U*V*(U^2-V^2)|/N",
+    "if_U_gt_V": {"x":"N*U/V","y":"N^2*W/V^2"},
+    "if_V_gt_U": {"x":"N*V/U","y":"N^2*W/U^2"},
+    "curve": "E_N: y^2=x^3-N^2*x",
+    "identity": "the displayed x,y satisfy E_N exactly",
+    "non_2torsion": "x>N>0 and y!=0, so the point is not O,(0,0),(N,0),(-N,0)",
+    "consequence": "every actual retained receiver coordinate gives positive rank on E_N and hence N is congruent"
+  },
+  "tunnell_interpretation": {
+    "audited_AN_gate": "retained receiver implies the parity-appropriate Tunnell equality",
+    "AV_strengthening": "at the actual U/V coordinate this is explained by an explicit non-2-torsion rational point on E_N",
+    "automatic_after_actual_coordinate_exists": true,
+    "still_useful_before_coordinate_exists": "Tunnell failure remains a valid prefilter for abstract squareclass branches that have passed the AE local rows but have not been realized by a rational common-u:v point",
+    "p_only_gate_obtained": false,
+    "reason_no_p_only_gate": "N depends on the receiver squareclasses U,V,U-V,U+V, not on p=a/b alone"
+  },
+  "route_result": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "actual_coordinate_twist_formula_obtained": true,
+    "explicit_non2torsion_point_obtained": true,
+    "Tunnell_new_filter_after_actual_receiver_coordinate": false,
+    "Tunnell_branch_prefilter_before_coordinate_realization": true,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_closed": false,
+    "next_leaf": "36-09AW_FIXED_P_FINITE_SQUARECLASS_TUNNELL_BRANCH_SIEVE_PREFLIGHT"
+  },
+  "scope_firewalls": {
+    "Tunnell_equality_implies_receiver": false,
+    "Tunnell_equality_implies_congruent_used": false,
+    "abstract_A_B_C_D_branch_has_actual_U_V": false,
+    "p_only_uniform_Tunnell_obstruction": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
