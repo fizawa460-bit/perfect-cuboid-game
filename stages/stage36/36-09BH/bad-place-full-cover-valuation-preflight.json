@@ -1,0 +1,73 @@
+{
+  "schema":"STAGE36_36_09BH_BAD_PLACE_FULL_COVER_VALUATION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09BH",
+  "status":"EXACT_ODD_BAD_SUPPORT_SEVEN_RESERVOIRS_Q_RESERVOIR_FIRST_RESIDUE_AUTOMATIC_PENDING_BATCH_AUDIT",
+  "base_main_sha":"e758e05953df2cf8cd4ab26ac1e9d72374e99760",
+  "audited_parent":{"pr":1689,"hostile_audit_review":5129489415,"audited_exact_head":"731265665feb2bed991cf912b89431bb35ce65ad","exact_head_ci":"34098010028/101665838247","merged_main_sha":"e758e05953df2cf8cd4ab26ac1e9d72374e99760"},
+  "source_locks":{
+    "stage36_36_09BG":{"path":"stages/stage36/36-09BG/full-character-ay-pullback-collapse-preflight.json","blob_sha":"a47f1354f74f2ed5412fe5d58daeb657d47fef66"},
+    "stage36_36_09BB":{"path":"stages/stage36/36-09BB/ay-receiver-scaled-self-intersection-preflight.json","blob_sha":"e4b63fd500d05ff5dc704e0c08409edee5895053"},
+    "stage36_36_09BC":{"path":"stages/stage36/36-09BC/boundary-neighborhood-open-local-no-loop-preflight.json","blob_sha":"317638c4d1a76f683c7af9bdb4e8285af35f4d05"},
+    "stage36_36_09AD":{"path":"stages/stage36/36-09AD/coupled-six-reservoir-factor-squareclass-parity-preflight.json","blob_sha":"9d0388845955efee71d1a761ae4ee943d8b565d5"},
+    "stage36_36_09AE":{"path":"stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json","blob_sha":"ddae37dd35cd0e732cebadf9c17f3f3fa57930df"},
+    "stage36_36_09BA":{"path":"stages/stage36/36-09BA/ay-auxiliary-genusone-open-points-preflight.json","blob_sha":"2f31c89b2760f2270fa0ea21106ef97a3ec0840b"}
+  },
+  "notation":{"p":"a/b with gcd(a,b)=1","P":"a^2+2*a*b-b^2","M":"a^2-2*a*b-b^2","D0":"a*b*(a-b)*(a+b)","Q":"a^2+b^2","lambda":"P/M","kappa":"BA AY squareclass representative, so 2*D0/kappa is a Q-square","t":"v/u with gcd(u,v)=1 after integral scaling"},
+  "branch_discriminant_support":{
+    "branch_polynomial_up_to_nonzero_constants":"(1-t^4)*(1-lambda^4*t^4)",
+    "identities":["P^2-M^2=8*D0","P^2+M^2=2*Q^2","M^4-P^4=-16*D0*Q^2","1-lambda^4=-16*D0*Q^2/M^4"],
+    "kappa_odd_support_contained_in_D0":true,
+    "potential_odd_bad_support":"rad_odd(P*M*D0*Q)",
+    "seven_pairwise_odd_disjoint_reservoirs":["P","M","a","b","a-b","a+b","Q"],
+    "old_six_reservoirs_already_in_AD_AE":["P","M","a","b","a-b","a+b"],
+    "new_odd_reservoir_from_full_cover":"Q=a^2+b^2"
+  },
+  "Q_reservoir_disjointness":{
+    "Q_mod_a":"b^2","Q_mod_b":"a^2","Q_mod_a_minus_b":"2*a^2","Q_mod_a_plus_b":"2*a^2","P_minus_Q":"2*b*(a-b)","Q_minus_M":"2*b*(a+b)",
+    "consequence":"an odd prime q dividing Q divides none of P,M,a,b,a-b,a+b, hence q is a unit for kappa and D0"
+  },
+  "full_cover_integral_squareclass_form":{
+    "A":"u^2-v^2=kappa*r^2","B":"u^2+v^2=2*s^2","C":"M^2*u^2-P^2*v^2=kappa*c^2","D":"M^2*u^2+P^2*v^2=2*d^2",
+    "linear_identities":["C=Q^2*A-4*D0*B","D=-4*D0*A+Q^2*B"],
+    "T_definition":"choose T in Q* with T^2=2*D0/kappa from the BA AY squareclass definition",
+    "difference_of_squares_forms":["c^2=Q^2*r^2-4*T^2*s^2","d^2=Q^2*s^2-kappa^2*T^2*r^2"]
+  },
+  "Q_reservoir_local_reduction":{
+    "for_odd_q_dividing_Q":["c^2 == -(2*T*s)^2 mod q","d^2 == -(kappa*T*r)^2 mod q"],
+    "r_s_not_both_q_divisible":true,
+    "full_cover_first_residue_necessary_condition":"(-1/q)=+1",
+    "parameter_identity_already_forces_condition":"q|a^2+b^2 with gcd(a,b)=1 gives (a/b)^2=-1 mod q, hence (-1/q)=+1",
+    "new_Q_reservoir_quadratic_residue_filter":false,
+    "new_Q_reservoir_parameter_shrink":false
+  },
+  "old_six_reservoir_comparison":{
+    "AD_AE_already_cover":"odd squareclass parity, selected-prime Legendre/Jacobi rows, reciprocity consistency, and mod-8/sign/2-adic skeleton on P,M,a,b,a-b,a+b",
+    "BH_double_charge_forbidden":true,
+    "higher_qadic_full_cover_analysis_on_old_six_proved_redundant":false
+  },
+  "route_result":{
+    "route_status":"PASS_NEW_BAD_SUPPORT_CLASSIFICATION_BUT_NO_NEW_Q_RESERVOIR_FIRST_RESIDUE_FILTER",
+    "odd_bad_support_classified_to_seven_reservoirs":true,
+    "new_Q_reservoir_first_residue_row_automatic":true,
+    "all_bad_places_exhaustively_closed":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09BI_PRIME2_FULL_COVER_CONGRUENCE_PREFLIGHT",
+    "selection_reason":"the only new odd reservoir Q gives an automatic first-residue condition, while AD explicitly left complete 2-adic congruence enumeration open; prime 2 is therefore the nearest universal unspent bad place"
+  },
+  "scope_firewalls":{
+    "Q_reservoir_full_Qq_solubility_classified":false,
+    "old_six_higher_qadic_information_exhausted":false,
+    "prime2_full_cover_classified":false,
+    "fixed_uniform_ramification_set_recovered":false,
+    "finite_exhaustive_squareclass_family":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

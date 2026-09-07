@@ -1,0 +1,57 @@
+{
+  "schema":"STAGE36_36_09BL_OLD_SIX_HIGHER_QADIC_HENSEL_REDUCTION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09BL",
+  "status":"EXACT_ODD_SQUARE_LIFTING_COLLAPSES_TO_VALUATION_AND_FIRST_RESIDUE_PENDING_BATCH_AUDIT",
+  "base_main_sha":"e758e05953df2cf8cd4ab26ac1e9d72374e99760",
+  "batch_parent":{"pr":1691,"36_09BK_exact_head":"dce7d4f7c2dc33b0cf939551b4bc488137531831","36_09BK_exact_head_ci":"34105390997/101689110786"},
+  "source_locks":{
+    "stage36_36_09BK":{"path":"stages/stage36/36-09BK/prime2-unit-gate-pullback-parameter-separation-preflight.json","blob_sha":"0f264dfa584d41e2cf39578a1b61c80ecfc0aec1"},
+    "stage36_36_09BK_verifier":{"path":"stages/stage36/verify_stage36_36_09BK.py","blob_sha":"bbe2be663966fcaf1992ec101564eb54b1fbea53"},
+    "stage36_36_09BH":{"path":"stages/stage36/36-09BH/bad-place-full-cover-valuation-preflight.json","blob_sha":"76487371ed363868af18a9fa0f6f7e1367d28f27"},
+    "stage36_36_09AD":{"path":"stages/stage36/36-09AD/coupled-six-reservoir-factor-squareclass-parity-preflight.json","blob_sha":"9d0388845955efee71d1a761ae4ee943d8b565d5"},
+    "stage36_36_09AE":{"path":"stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json","blob_sha":"ddae37dd35cd0e732cebadf9c17f3f3fa57930df"},
+    "BL_source":{"path":"stages/stage36/36-09BL/odd-square-hensel-no-higher-digit-source-lock.md","blob_sha":"8899e774a025b58d2fa464e7fbaadad2af1dd30e"}
+  },
+  "old_six_reservoirs":["P","M","a","b","a-b","a+b"],
+  "odd_Qq_square_criterion":{
+    "statement":"for odd q and nonzero G=q^v*U with U a q-adic unit, G is a Q_q-square iff v is even and U mod q is a nonzero quadratic residue",
+    "higher_digit_square_root_obstruction":false,
+    "hensel_reason":"after an even valuation is removed, a residue root y0 has derivative 2*y0 a q-adic unit, so it lifts uniquely"
+  },
+  "full_cover_radicands":{
+    "Gminus":"(M^2*u^2-P^2*v^2)/kappa = Qsum^2*r^2-4*T^2*s^2",
+    "Gplus":"(M^2*u^2+P^2*v^2)/2 = Qsum^2*s^2-kappa^2*T^2*r^2"
+  },
+  "exact_refinement_of_BH_open_issue":{
+    "BH_old_six_higher_qadic_information_exhausted":false,
+    "post_BL_missing_layer":"determine exact v_q(Gminus), v_q(Gplus) and the first nonzero normalized residues on cancellation/coordinate-divisible branches",
+    "independent_post_residue_hensel_digit_layer_exists":false,
+    "AD_AE_first_residue_rows_are_full_cover_complete":false,
+    "double_charge_AD_AE_forbidden":true,
+    "meaning":"old-six work may still add a new full-cover valuation or first-residue condition, but not an additional square-root obstruction after those leading data are fixed"
+  },
+  "route_result":{
+    "route_status":"PASS_SHARPENS_OLD_SIX_MISSING_LAYER_TO_DEGENERATE_VALUATION_AND_FIRST_RESIDUE",
+    "generic_higher_digit_square_lifting_route_blocked":true,
+    "old_six_full_cover_cancellation_analysis_live":true,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09BM_OLD_SIX_FULL_COVER_DEGENERATE_CANCELLATION_RESIDUE_PREFLIGHT",
+    "selection_reason":"BL removes generic higher-digit Hensel lifting as an independent obstruction; only exact cancellation/coordinate-divisible branches can change the valuation parity or first normalized residue of the full-cover radicands"
+  },
+  "scope_firewalls":{
+    "AD_AE_full_cover_local_analysis_complete":false,
+    "old_six_degenerate_branches_classified":false,
+    "all_old_six_local_conditions_redundant":false,
+    "fixed_uniform_ramification_set_recovered":false,
+    "finite_exhaustive_squareclass_family":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

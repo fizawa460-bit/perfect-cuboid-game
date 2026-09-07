@@ -1,0 +1,86 @@
+{
+  "schema":"STAGE36_36_09BN_OLD_SIX_TIE_NORMALIZED_UNIT_RESIDUE_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09BN",
+  "status":"EXACT_ALL_OLD_SIX_TIE_QQ_CRITERIA_COMPLETE_PARAMETER_ONLY_FILTER_BLOCKED_PENDING_BATCH_AUDIT",
+  "base_main_sha":"e758e05953df2cf8cd4ab26ac1e9d72374e99760",
+  "batch_parent":{"pr":1691,"36_09BM_exact_head":"b8c1c6ed972ff48149a0ed417c7c027f29d69c37","36_09BM_exact_head_ci":"34107704490/101696432668"},
+  "source_locks":{
+    "stage36_36_09BM":{"path":"stages/stage36/36-09BM/old-six-full-cover-degenerate-cancellation-residue-preflight.json","blob_sha":"4fae43a7ebc9022acb4283a40f6eb95cb88d2aa5"},
+    "stage36_36_09BM_verifier":{"path":"stages/stage36/verify_stage36_36_09BM.py","blob_sha":"c1fc8f05d87f1afbbe17a493e00bba9d917e0beb"},
+    "stage36_36_09BL":{"path":"stages/stage36/36-09BL/old-six-higher-qadic-hensel-reduction-preflight.json","blob_sha":"4d858793827216b2109b81c6a7fb9eaa83b7eaa7"},
+    "stage36_36_09BK":{"path":"stages/stage36/36-09BK/prime2-unit-gate-pullback-parameter-separation-preflight.json","blob_sha":"0f264dfa584d41e2cf39578a1b61c80ecfc0aec1"}
+  },
+  "universal_tie_reduction":{
+    "Gminus_tie":"if h=R=L+S, put x=Qsum*r/q^h, y=2*T*s/q^h and z=x/y; then Gminus=q^(2h)*y^2*(z^2-1)",
+    "Gplus_tie":"if h=S=K+L+R, put x=Qsum*s/q^h, y=kappa*T*r/q^h and z=x/y; then Gplus=q^(2h)*y^2*(z^2-1)",
+    "x_y_z_are_q_units":true,
+    "tie_square_equivalence":"the tied full-cover radicand is a Q_q-square iff z^2-1 is a Q_q-square"
+  },
+  "complete_odd_q_unit_criterion":{
+    "non_near_pm1":"if z mod q is not +1 or -1, then v_q(z^2-1)=0 and the tie survives iff Legendre(z^2-1,q)=+1",
+    "near_pm1_setup":"if z is congruent to epsilon in {+1,-1} mod q, let n=v_q(z-epsilon)>=1 and c=(z-epsilon)/q^n a q-adic unit",
+    "factorization":"z^2-1=q^n*c*(z+epsilon), with (z+epsilon) mod q = 2*epsilon",
+    "near_pm1_square_criterion":"the tie survives iff n is even and Legendre(2*epsilon*c,q)=+1",
+    "odd_n":"impossible because the valuation of z^2-1 is odd",
+    "completeness":"necessary and sufficient by the odd-q square criterion from BL; no later Hensel digit obstruction remains"
+  },
+  "old_six_tie_instantiation":{
+    "alpha_P_or_M":"R=S=0 is a double tie, so both Gminus and Gplus use the universal z^2-1 criterion",
+    "beta_m_odd":"K=1, L=(m-1)/2, S=0 and R=L is the only tie; Gminus uses the criterion and Gplus is automatic",
+    "beta_m_even_R_branch":"K=0, L=m/2, S=0 and R=L; Gminus uses the criterion and Gplus is automatic",
+    "beta_m_even_S_branch":"K=0, L=m/2, R=0 and S=L; Gplus uses the criterion and Gminus is automatic",
+    "all_old_six_tie_species_covered":true
+  },
+  "fixed_parameter_separation_witness":{
+    "parameter":{"a":1,"b":2,"p":"1/2","D0":-6,"P":1,"M":-7,"Qsum":5,"kappa":-3,"lambda":"-1/7"},
+    "alpha_q7_M_reservoir":{
+      "q":7,
+      "pass":{"u":1,"v":49,"AY_minus":"800","AY_plus":"1201","Gminus":"784","Gplus":"1225","Gminus_Q7_square":true,"Gplus_Q7_square":true,"zminus2_minus_1":"49/1201","zplus2_minus_1":"49/1152","both_tie_tests_pass":true},
+      "fail":{"u":1,"v":14,"AY_minus":"65","AY_plus":"197/2","Gminus":"49","Gplus":"245/2","Gminus_Q7_square":true,"Gplus_Q7_square":false,"zminus2_minus_1":"49/1576","zplus2_minus_1":"49/936","failure":"v7(zplus2_minus_1)=2 but normalized unit is a nonresidue"},
+      "same_parameter_alpha_tie_has_pass_and_fail":true
+    },
+    "beta_q3_D0_reservoir":{
+      "q":3,
+      "m":1,
+      "K":1,
+      "L":0,
+      "pass":{"u":1,"v":20,"AY_minus":"133","AY_plus":"401/2","Gminus":"117","Gplus":"449/2","Gminus_Q3_square":true,"Gplus_Q3_square":true,"zminus2_minus_1":"117/3208","tie_test":"v3=2 and normalized unit is a residue"},
+      "fail":{"u":1,"v":2,"AY_minus":"1","AY_plus":"5/2","Gminus":"-15","Gplus":"53/2","Gminus_Q3_square":false,"Gplus_Q3_square":true,"zminus2_minus_1":"-3/8","failure":"v3(zminus2_minus_1)=1 is odd"},
+      "same_parameter_beta_tie_has_pass_and_fail":true
+    },
+    "retained_open_checked":"all four witnesses have t=v/u not in {0,+1,-1} and lambda*t not in {+1,-1}"
+  },
+  "interpretation":{
+    "all_old_six_tie_residues_classified":true,
+    "old_six_odd_local_square_criteria_complete":true,
+    "old_six_parameter_only_filter_from_local_square_tests":false,
+    "receiver_point_local_gates_retained":true,
+    "reason":"the complete tie criterion depends on the AY/full-cover point ratio z; the same retained parameter p=1/2 exhibits both pass and fail tie branches in both alpha and beta sectors",
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false
+  },
+  "route_result":{
+    "route_status":"PASS_COMPLETE_OLD_SIX_TIE_CRITERION_PARAMETER_ONLY_LOCAL_FILTER_BLOCKED",
+    "old_six_bad_place_local_layer_complete":true,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09BO_Q_RESERVOIR_FULL_QQ_CANCELLATION_PREFLIGHT",
+    "selection_reason":"BH introduced Q=a^2+b^2 as the only new odd reservoir and proved only its first residue row automatic; after BN completes all old-six odd local branches, Q-reservoir full Q_q cancellation/valuation behavior is the remaining unclassified odd bad-place layer"
+  },
+  "scope_firewalls":{
+    "every_parameter_has_alpha_and_beta_pass_fail_witnesses":false,
+    "all_parameters_locally_soluble_at_old_six":false,
+    "old_six_receiver_point_gates_useless":false,
+    "Q_reservoir_full_Qq_solubility_classified":false,
+    "fixed_uniform_ramification_set_recovered":false,
+    "finite_exhaustive_squareclass_family":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

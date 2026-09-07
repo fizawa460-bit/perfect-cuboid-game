@@ -1,0 +1,76 @@
+{
+  "schema":"STAGE36_36_09BM_OLD_SIX_FULL_COVER_DEGENERATE_CANCELLATION_RESIDUE_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09BM",
+  "status":"EXACT_OLD_SIX_NONTIE_VALUATION_RESIDUE_TAXONOMY_TIE_BRANCHES_ISOLATED_PENDING_BATCH_AUDIT",
+  "base_main_sha":"e758e05953df2cf8cd4ab26ac1e9d72374e99760",
+  "batch_parent":{"pr":1691,"36_09BL_exact_head":"6e44915f4d9ca6435b3a70eea4e48c5d5a74a0fd","36_09BL_exact_head_ci":"34106280151/101691927672"},
+  "source_locks":{
+    "stage36_36_09BL":{"path":"stages/stage36/36-09BL/old-six-higher-qadic-hensel-reduction-preflight.json","blob_sha":"4d858793827216b2109b81c6a7fb9eaa83b7eaa7"},
+    "stage36_36_09BL_verifier":{"path":"stages/stage36/verify_stage36_36_09BL.py","blob_sha":"386ff67804c5a5764fb681d84ce96b6b58e5c28b"},
+    "stage36_36_09AD":{"path":"stages/stage36/36-09AD/coupled-six-reservoir-factor-squareclass-parity-preflight.json","blob_sha":"9d0388845955efee71d1a761ae4ee943d8b565d5"},
+    "stage36_36_09V":{"path":"stages/stage36/36-09V/gaussian-directional-prime-support-preflight.json","blob_sha":"9fdec16f920104cc6c1961fb092185a0371258d5"}
+  },
+  "notation":{
+    "q":"an odd prime in one of the old six reservoirs P,M,a,b,a-b,a+b",
+    "m":"v_q(D0)","K":"v_q(kappa)","L":"v_q(T) where T^2=2*D0/kappa","R":"v_q(r)","S":"v_q(s)",
+    "Gminus":"Qsum^2*r^2-4*T^2*s^2","Gplus":"Qsum^2*s^2-kappa^2*T^2*r^2",
+    "Qsum_unit":"q does not divide a^2+b^2 on every old-six reservoir"
+  },
+  "universal_nontie_rule":{
+    "Gminus_term_valuations":["2R","2L+2S"],
+    "Gplus_term_valuations":["2S","2K+2L+2R"],
+    "first_square_term_dominates":"valuation is even and first normalized residue is a square: automatic Q_q-square",
+    "negative_square_term_dominates":"valuation is even and first normalized residue is -1 times a square: requires (-1/q)=+1",
+    "equal_term_valuations":"cancellation/tie branch; normalized unit difference must be analyzed separately",
+    "post_leading_data_hensel_obstruction":false
+  },
+  "alpha_reservoirs_P_or_M":{
+    "facts":["q does not divide D0","K=0","L=0","R and S are not both positive"],
+    "R_less_than_S":{"Gminus":"AUTOMATIC","Gplus":"REQUIRES_MINUS_ONE_RESIDUE"},
+    "S_less_than_R":{"Gminus":"REQUIRES_MINUS_ONE_RESIDUE","Gplus":"AUTOMATIC"},
+    "R_equal_S":{"forced":"R=S=0","status":"DOUBLE_TIE_BRANCH"},
+    "existing_36_09V_input":"(2/q)=+1 for every odd q dividing P*M",
+    "new_conditional_strengthening":"on either non-tie coordinate-divisible branch, full-cover solubility requires (-1/q)=+1; together with (2/q)=+1 this forces q=1 mod8",
+    "parameter_only_exclusion":false,
+    "reason":"q=7 mod8 can only force the receiver into the R=S=0 tie branch; BM does not yet exclude that tie branch"
+  },
+  "beta_reservoirs_a_b_a_minus_b_a_plus_b":{
+    "facts":["K=m mod2","L=(m-K)/2","R and S are not both positive"],
+    "m_odd":{"K":1,"S":0,"Gplus":"AUTOMATIC","Gminus_R_less_than_L":"AUTOMATIC","Gminus_R_greater_than_L":"REQUIRES_MINUS_ONE_RESIDUE","Gminus_R_equal_L":"TIE_BRANCH"},
+    "m_even":{"K":0,"L":"m/2 >=1","R_S_zero":"BOTH_AUTOMATIC","R_positive_S_zero":{"R_less_than_L":"BOTH_AUTOMATIC","R_greater_than_L":"Gminus_REQUIRES_MINUS_ONE_RESIDUE_Gplus_AUTOMATIC","R_equal_L":"Gminus_TIE_Gplus_AUTOMATIC"},"S_positive_R_zero":{"S_less_than_L":"BOTH_AUTOMATIC","S_greater_than_L":"Gplus_REQUIRES_MINUS_ONE_RESIDUE_Gminus_AUTOMATIC","S_equal_L":"Gplus_TIE_Gminus_AUTOMATIC"}},
+    "conditional_gate":"whenever the active AY coordinate valuation exceeds L, full-cover solubility requires (-1/q)=+1; equality is the only cancellation branch",
+    "parameter_only_exclusion":false
+  },
+  "exact_progress":{
+    "old_six_nontie_branches_classified":true,
+    "new_full_cover_conditional_minus_one_gate":true,
+    "alpha_non_tie_q_mod8_gate":true,
+    "tie_branches_isolated":true,
+    "all_old_six_tie_residues_classified":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false
+  },
+  "route_result":{
+    "route_status":"PASS_NEW_FULL_COVER_NONTIE_RESIDUE_GATE_TIE_BRANCHES_ISOLATED",
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09BN_OLD_SIX_TIE_BRANCH_NORMALIZED_UNIT_RESIDUE_PREFLIGHT",
+    "selection_reason":"BM exhausts unequal-valuation branches; by BL there is no later Hensel layer, so the only remaining odd bad-place information is the first normalized unit on exact equal-valuation cancellation branches"
+  },
+  "scope_firewalls":{
+    "alpha_q_7mod8_parameter_excluded":false,
+    "beta_q_3mod4_parameter_excluded":false,
+    "tie_branches_empty":false,
+    "all_old_six_local_conditions_complete":false,
+    "fixed_uniform_ramification_set_recovered":false,
+    "finite_exhaustive_squareclass_family":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
