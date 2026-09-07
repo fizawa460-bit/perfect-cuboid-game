@@ -1,0 +1,176 @@
+{
+  "schema": "ARSENAL-LITERATURE-STAGE36-DELTA-PHASE1-V1",
+  "status": "DISCOVERY_ONLY_TRIAGE_COMPLETE",
+  "STAGE36_DELTA_ONLY": true,
+  "ARSENAL_BASE_MAIN": "386b6a52d7bfec2e8903412c7ca56976b46c288b",
+  "STAGE36_ARSENAL_SOURCE_HEAD": "2fc3f4b8afb28bb23765bd861cbd7c52aafd6563",
+  "STAGE36_HARVEST_SNAPSHOT_HEAD": "07a465cb5025e7c0188fb63610bb40e4b54e7a84",
+  "STAGE36_DISCOVERY_DEDUP_EXACT_HEAD": "0ad4a2fc78ebd3ee55c47d9bf5100d8e4cee3b66",
+  "STAGE36_IMPLEMENTATION_PR": 1675,
+  "STAGE36_IMPLEMENTATION_AUDITED_HEAD": "2fc3f4b8afb28bb23765bd861cbd7c52aafd6563",
+  "LITERATURE_DISCOVERY_ONLY": true,
+  "NO_STAGE30_35_LITERATURE_RESEARCH_REPEAT": true,
+  "firewalls": {
+    "ARSENAL_BODY_CHANGED": false,
+    "INDEX_CHANGED": false,
+    "GENERATED_CARD_CHANGED": false,
+    "STABLE_ID_CREATED": false,
+    "STAGE36_MAIN_CHANGED": false,
+    "STAGE36_MATHEMATICAL_CREDIT_CHANGE": 0,
+    "MERGE_AUTHORIZED": false
+  },
+  "authority": {
+    "machine_authority": "docs/arsenal/index.json",
+    "stage36_source": "docs/stage36-arsenal-promotion.md",
+    "stage36_source_blob_sha": "b9480c2d6cc9a7984750dc9ef96cfe804de393bd",
+    "active_ids": ["S36-PW01","S36-PW02","S36-PW03","S36-PW04","S36-PW05","S36-PW06","S36-PW07"],
+    "active_workflows": [],
+    "extensions": ["DISC-S36-B01->S30-W01","DISC-S36-B02->S35-PW02","DISC-S36-B04->S34-W03","DISC-S36-B08->S31-W01","DISC-S36-B12->S34-W02"],
+    "previous_literature_audit": {"pr":1676,"exact_head":"288c3fac93774806a96cd7cb0076493e173f859c","STAGE36_EXCLUDED":true,"reuse":"near-neighbor comparison only"},
+    "scope_note": "The frozen Stage36 Arsenal harvest ends at 07a465cb...; PR #1670 / 36-09AB and later Stage36 MAIN movement are outside this delta until separately weaponized."
+  },
+  "priority_counts": {"P0":4,"P1":3,"P2":3,"P3":1,"P4":1},
+  "classification_counts": {"LIT-DIRECT":2,"LIT-ADAPTER":2,"LIT-TERMINAL":0,"LIT-GENERALIZE":3,"LIT-SOURCE-ANCHOR":3,"REPO-SPECIFIC":1,"NO-PRIORITY":1},
+  "entries": [
+    {
+      "id":"S36-PW01","maturity":"PROVISIONAL","role":"ELEMENTARY_ABELIAN_COVER_CHARACTER_QUOTIENT_GENUS_INVENTORY",
+      "contract":"connected elementary-2 cover of a rational base + complete exact branch/inertia marking -> enumerate every nontrivial character quotient -> compute exact branch support/genus/invariants by inertia pairing and Riemann-Hurwitz -> complete structural quotient inventory on the audited generic open",
+      "hypotheses":["characteristic != 2","finite elementary abelian deck group","connected source cover","complete inertia including infinity","branch collisions/singular parameter strata separated"],
+      "output":"complete structural character-quotient branch/genus inventory on the audited generic open",
+      "DO_NOT_USE_FOR":["rational-point classification","Mordell-Weil computation","receiver closure","transferring Stage36 quotient counts"],
+      "nearest":["S30-W01","S31-W01"],"clusters":["A","C","F"],"field":"abelian covers of curves; Riemann-Hurwitz; character decompositions","theorem_family":"Pardini-style abelian-cover building data and character eigenspaces; Riemann-Hurwitz","priority":"P1","classification":"LIT-GENERALIZE","potential":"Place the contract inside standard abelian-cover theory and test generalization beyond elementary-2/rational-base inventory. Any Weil-count continuation requires a separate adapter and must not duplicate S35-PW05.","literature":["L-PARDINI91"]
+    },
+    {
+      "id":"S36-PW02","maturity":"PROVISIONAL","role":"V4_CURVE_JACOBIAN_QUOTIENT_DECOMPOSITION",
+      "contract":"smooth curve + exact faithful V4 action/maps + Kani-Rosen hypotheses + differential independence -> construct three involution quotients -> certify product map -> Jacobian isogeny decomposition into quotient Jacobians",
+      "hypotheses":["compatible characteristic","smooth retained source fiber","exact three involutions and quotient maps","quotient/full-group genera established","Kani-Rosen hypotheses","differential or equivalent independence certification"],
+      "output":"certified Jacobian isogeny decomposition into quotient Jacobians",
+      "DO_NOT_USE_FOR":["pointwise source reconstruction","source rational-point classification","quotient rank determination","combining arbitrary quotient points into a source point"],
+      "nearest":["S31-W01","S34-W03"],"clusters":["A","E"],"field":"Jacobians with group actions; idempotent relations","theorem_family":"Kani-Rosen idempotent relations and factors of Jacobians","priority":"P0","classification":"LIT-DIRECT","potential":"Direct theorem anchor plus broader group-action generalization. Phase2 must lock the exact relation and preserve the no-rational-point-converse firewall.","literature":["L-KANIROSEN89"]
+    },
+    {
+      "id":"S36-PW03","maturity":"PROVISIONAL","role":"QUADRATIC_EXTENSION_ANTIINVARIANT_TWIST_DESCENT_GROWTH_GATE",
+      "contract":"elliptic curve/twist + explicit quadratic-extension isomorphism/Galois action + source-locked generic MW/Kummer baseline + receiver-forced independent anti-invariant extension direction -> decompose MW eigenspaces -> identify anti-invariant direction with a base-field twist point -> necessary twist rank/Kummer-image growth obligation",
+      "hypotheses":["characteristic != 2","explicit quadratic extension and twist isomorphism","Galois action checked","generic rank/Kummer baseline source-locked","receiver implication supplies an independent anti-invariant direction"],
+      "output":"necessary base-field twist rank/Kummer-image growth obligation",
+      "DO_NOT_USE_FOR":["receiver existence from rank growth","receiver emptiness from missing known points","full MW group from a rank-jump witness","descent of arbitrary extension points"],
+      "nearest":["S30-W02","S34-W02"],"clusters":["D","E"],"field":"quadratic twists; Galois eigenspaces; MW rank growth","theorem_family":"quadratic-twist +/- eigenspace decomposition; specialization and rank-jump theorems","priority":"P0","classification":"LIT-GENERALIZE","potential":"Standard twist eigenspace theory can anchor the anti-invariant step; rank-jump literature may describe abundance under extra hypotheses. Neither implies receiver compatibility.","literature":["L-SILVERMAN83","L-LOUGHRAN-SALGADO22"]
+    },
+    {
+      "id":"S36-PW04","maturity":"PROVISIONAL","role":"POINTWISE_ELEMENTARY_2_TORSOR_LIFT_CLASS_CHART_ADAPTER",
+      "contract":"finite elementary-2 torsor quotient + exact dual-character basis/charts and source open -> choose canonical nonvanishing charts -> evaluate pointwise H1 squareclass tuple -> materialize independent square-root fiber equations -> rational source fiber nonempty iff the pointwise class is trivial",
+      "hypotheses":["characteristic != 2","finite elementary abelian torsor and basis exact","complete dual pairing","chart supports avoid forbidden zero strata","transition ratios invariant squares","source open preserved by rational lifting"],
+      "output":"pointwise H1 squareclass tuple and iff rational-lift criterion on the chart-covered open",
+      "DO_NOT_USE_FOR":["fixed finite global twist-family credit","quotient rational-point classification","cohomological naming without character functions","marked Brauer/H2(mu2) binding"],
+      "nearest":["S35-PW03","S33-PW09"],"clusters":["C","D","G"],"field":"elementary-2 torsors; Galois cohomology; explicit descent","theorem_family":"H1 classification of torsors plus Kummer/squareclass descent","priority":"P1","classification":"LIT-ADAPTER","potential":"Bind the chart tuple to a standard torsor H1 class. The chart/source-open iff proof remains repo-specific; do not import marked Brauer/H2 semantics.","literature":["L-SKOROBOGATOV01","L-STOLL06"]
+    },
+    {
+      "id":"S36-PW05","maturity":"PROVISIONAL","role":"SPLIT_FULL2_ORDER4_HALF_AND_2ISOGENY_NORMALIZATION",
+      "contract":"elliptic curve y^2=x(x+a^2)(x+b^2) with chosen rational 2-torsion kernel -> construct (ab,ab(a+b)) -> verify doubling to the kernel point -> form standard 2-isogenous quotient/open map -> certified uniform order-4 subgroup plus normalized 2-isogeny interface",
+      "hypotheses":["characteristic != 2","a,b nonzero","roots distinct","chosen 2-torsion kernel rational","split-square root-difference presentation exact"],
+      "output":"explicit uniform order-4 half plus normalized 2-isogeny interface",
+      "DO_NOT_USE_FOR":["full torsion subgroup","absence of order 8 without a separate halving gate","Selmer group","Mordell-Weil group","receiver closure"],
+      "nearest":["S31-W01","S34-W02"],"clusters":["A","E"],"field":"elliptic torsion; 2-isogenies; explicit descent","theorem_family":"classical 2-isogeny formulas, halving criteria and Kummer maps","priority":"P2","classification":"LIT-SOURCE-ANCHOR","potential":"Mostly source/generalization strengthening; a terminal still needs separate Selmer/MW work.","literature":["L-STOLL06"]
+    },
+    {
+      "id":"S36-PW06","maturity":"PROVISIONAL","role":"RELATIVE_2ISOGENY_KUMMER_SPECIALIZATION_BASELINE",
+      "contract":"explicit 2-isogenous elliptic family over a rational function field + visible generic Kummer classes/sections + one injective specialization + complete fixed-fiber 2-isogeny descent -> pin specialized Kummer images -> bound generic rank by injectivity -> combine visible lower bounds and isogeny index formula -> exact generic rank/Kummer baseline",
+      "hypotheses":["exact isogenous pair and Kummer maps","visible generic sections/classes","proved specialization injectivity criterion","complete fixed-fiber isogeny descent","torsion/nontorsion certified"],
+      "output":"exact generic rank/Kummer baseline for the family",
+      "DO_NOT_USE_FOR":["uniform rank of all fibers","exclusion of rank jumps","full generic MW group unless separately proved","receiver closure"],
+      "nearest":["S34-W02","S31-WF01","S31-W01"],"clusters":["D","E"],"field":"elliptic surfaces; specialization; 2-isogeny descent","theorem_family":"Silverman specialization plus effective Gusic-Tadic injectivity criteria for rational-2-torsion families","priority":"P0","classification":"LIT-DIRECT","potential":"Strongest direct match: Gusic-Tadic 2012/2015 closely matches the proof shape. Phase2 should test the exact Stage36 family and t0 against every criterion hypothesis.","literature":["L-SILVERMAN83","L-GUSIC-TADIC12","L-GUSIC-TADIC15"]
+    },
+    {
+      "id":"S36-PW07","maturity":"PROVISIONAL","role":"DIRECTIONAL_PRIME_RESERVOIR_LOCAL_CHARACTER_MATRIX",
+      "contract":"source-derived coprime prime reservoirs + selected Kummer/isogeny squareclasses + exact local cover equations -> partition support by reservoir/direction -> derive self-prime, cross-prime, dyadic and real quadratic-character/Hilbert conditions -> complete local necessary-condition matrix including automatic rows and explicit locally admissible classes",
+      "hypotheses":["exact primitive reservoir factorization and odd disjointness","selected Kummer classes with controlled support","exact local covers","self/cross-prime reductions proved","2-adic and real cases handled separately"],
+      "output":"complete local necessary-condition matrix; iff only where proved place-by-place",
+      "DO_NOT_USE_FOR":["global rational points","Selmer membership from local admissibility","receiver emptiness","finite exceptional-prime classification","fixed finite squareclass family","calling standard Hilbert reciprocity new mathematics"],
+      "nearest":["S35-PW01","S35-PW05","S33-PW07"],"clusters":["C","D","F","G"],"field":"quadratic characters; Hilbert symbols; local 2-descent; Gaussian/norm prime support","theorem_family":"Hilbert symbol/product formula; quadratic reciprocity; Selmer local conditions; Gaussian splitting/norm support","priority":"P1","classification":"LIT-ADAPTER","potential":"Recast rows as recognized local Kummer/Selmer conditions after an exact cohomological adapter. Reciprocity remains a checksum and local admissibility remains nonterminal.","literature":["L-SERRE73","L-COX89","L-STOLL06"]
+    },
+    {
+      "id":"DISC-S36-B01->S30-W01","maturity":"PROVISIONAL_EXTENSION","role":"S30-W01_FIELD_SEPARATED_KERNEL_INVARIANT_INVENTORY_EXTENSION",
+      "contract":"complete finite source-labelled population under exact symmetry -> compute source-defined kernels plus stabilizer/radical/squareclass-rank/orbit metadata -> canonicalize deterministically -> repeat after an explicit field extension while keeping base-field and extension-field equivalence relations separate",
+      "hypotheses":["complete finite population","exact symmetry action/canonicalization","source-derived kernel semantics","exact stabilizer/radical/squareclass invariants","base and extension equivalence relations not conflated"],
+      "output":"field-separated canonical finite kernel/invariant inventory",
+      "DO_NOT_USE_FOR":["arithmetic existence/nonexistence","semantic kernel identity from abstract group type","descending extension-field orbit mergers","transferring Stage36 counts"],
+      "nearest":["S30-W01","S30-W02"],"clusters":["A","C"],"field":"finite quadratic/symplectic modules; orbit-stabilizer classification; field change","theorem_family":"quadratic-form invariants in characteristic 2; symplectic/quadratic module classification","priority":"P2","classification":"LIT-SOURCE-ANCHOR","potential":"Standardize radical/Arf-type invariants and field-change vocabulary; source-labelled kernel semantics remains repo-specific.","literature":["L-ARF41"]
+    },
+    {
+      "id":"DISC-S36-B02->S35-PW02","maturity":"PROVISIONAL_EXTENSION","role":"S35-PW02_ONE_WAY_BOUNDARY_PREFLIGHT_EXTENSION",
+      "contract":"distinguished source open/population + exact finite quotient + classified branch/exceptional divisor -> certify exact one-way source-to-quotient push and boundary dictionary -> withhold quotient-to-source/receiver-equivalence credit until a separate lift class or converse reconstruction exists",
+      "hypotheses":["exact source and quotient opens","finite quotient defined on retained locus","branch/exceptional strata classified","distinguished arithmetic population separated from ambient geometric open"],
+      "output":"one-way source-to-quotient push plus exact boundary dictionary with converse withheld",
+      "DO_NOT_USE_FOR":["quotient Q-point => source Q-point","ambient-open population => distinguished source population","receiver emptiness from boundary classification"],
+      "nearest":["S35-PW02","S30-WF03"],"clusters":["B","H"],"field":"finite quotients; branch loci; reconstruction","theorem_family":"quotient/ramification theory; no theorem replaces the source-open adapter","priority":"P3","classification":"REPO-SPECIFIC","potential":"Mainly an audit adapter; literature cannot supply the missing converse.","literature":["L-PARDINI91"]
+    },
+    {
+      "id":"DISC-S36-B04->S34-W03","maturity":"PROVISIONAL_EXTENSION","role":"S34-W03_PROOF_CAPABILITY_PREFLIGHT_EXTENSION",
+      "contract":"exact receiver K + proposed auxiliary branch B -> before S34-W03, certify that B is genuinely information-reducing, exhaustive for the target population and equipped with an exact proof-capable joint B+K test -> otherwise fail closed on that proposed B only",
+      "hypotheses":["receiver K exact","B source-derived and exhaustive","B not merely original lift equations renamed","joint B+K test proof-capable","boundary/degenerate strata included"],
+      "output":"applicability decision for one proposed S34-W03 branch",
+      "DO_NOT_USE_FOR":["claiming S34-W03 globally unavailable from one failed B","receiver closure","restating source equations as a new branch"],
+      "nearest":["S34-W03"],"clusters":["H"],"field":"proof workflow / receiver-adapter validation","theorem_family":"proof-engineering fail-closed gate; no load-bearing literature theorem","priority":"P4","classification":"NO-PRIORITY","potential":"Low literature priority; compare only with existing Research OS/workflow contracts for dedup.","literature":[]
+    },
+    {
+      "id":"DISC-S36-B08->S31-W01","maturity":"PROVISIONAL_EXTENSION","role":"S31-W01_SUCCESSIVE_COVER_GENUS_PREFLIGHT_EXTENSION",
+      "contract":"receiver reconstructed by successive quadratic covers -> compute exact branch divisors/discriminants and generic genus layer-by-layer -> separate degeneration parameters -> route the first genus-one layer to an exact S31-W01 birational adapter when available",
+      "hypotheses":["exact successive-cover equations","branch/discriminant data computable","generic smoothness","degenerate parameter strata separated"],
+      "output":"layerwise branch/genus/degeneration inventory and first eligible genus-one routing point",
+      "DO_NOT_USE_FOR":["rational-point classification from genus","automatic elliptic birational map","generic genus as classification of degenerate fibers"],
+      "nearest":["S31-W01"],"clusters":["B","F"],"field":"branched covers; Riemann-Hurwitz; degeneration","theorem_family":"Riemann-Hurwitz and abelian/double-cover branch theory","priority":"P2","classification":"LIT-SOURCE-ANCHOR","potential":"Useful source/generalization anchor; the terminal map stays S31-W01 and degenerate fibres remain source-specific.","literature":["L-PARDINI91"]
+    },
+    {
+      "id":"DISC-S36-B12->S34-W02","maturity":"PROVISIONAL_EXTENSION","role":"S34-W02_GENERIC_SUBGROUP_SPECIALIZATION_GROWTH_PREFLIGHT_EXTENSION",
+      "contract":"elliptic family + certified generic MW subgroup/torsion + exact receiver predicate -> specialize and exhaustively test the generic subgroup against the receiver -> if none is compatible, every compatible specialization must arise from separately classified enlargement: rank, saturation/index or torsion growth",
+      "hypotheses":["generic subgroup/torsion proved to claimed level","all relevant specialized generic points checked","receiver adapter exact","bad/boundary specializations classified","growth species not collapsed to rank only"],
+      "output":"necessary specialization-growth trichotomy: rank, saturation/index, or torsion enlargement",
+      "DO_NOT_USE_FOR":["empty growth locus","receiver existence from growth","full MW group from generic subgroup","ignoring saturation/torsion enlargement"],
+      "nearest":["S34-W02","S34-W03"],"clusters":["E","H"],"field":"elliptic surfaces; specialization; MW/torsion growth","theorem_family":"Silverman specialization; effective injectivity; rank-jump loci/Hilbert property","priority":"P0","classification":"LIT-GENERALIZE","potential":"Strong growth-locus strengthening. Receiver implication and saturation/torsion alternatives remain repo-specific and must not be collapsed to rank.","literature":["L-SILVERMAN83","L-GUSIC-TADIC15","L-LOUGHRAN-SALGADO22"]
+    }
+  ],
+  "cluster_routing": {
+    "A":{"primary":["DISC-S36-B01->S30-W01"],"secondary":["S36-PW02","S36-PW05"],"note":"B01 is the exact finite kernel/invariant delta."},
+    "B":{"primary":["DISC-S36-B02->S35-PW02","DISC-S36-B08->S31-W01"],"secondary":["S36-PW04"],"note":"No separate reciprocal card survived dedup; A03/A04/A07 were absorbed by Stage35."},
+    "C":{"primary":["S36-PW01","S36-PW04","S36-PW07"],"secondary":["DISC-S36-B01->S30-W01"],"note":"B05 F2 row-span was rejected as duplicate."},
+    "D":{"primary":["S36-PW07"],"secondary":["S36-PW03","S36-PW04","S36-PW06"],"note":"E06/E07 enforce reciprocity-checksum/local-admissibility nonterminal firewalls."},
+    "E":{"primary":["S36-PW03","S36-PW06","DISC-S36-B12->S34-W02"],"secondary":["S36-PW05","S36-PW02"],"note":"Densest P0 cluster."},
+    "F":{"primary":[],"secondary":["S36-PW01","DISC-S36-B08->S31-W01","S36-PW07"],"note":"No Stage36 positive card duplicates S35-PW05; PW07 explicitly forbids finite exceptional-prime credit."},
+    "G":{"primary":["S36-PW07"],"secondary":["S36-PW04"],"note":"Gaussian directional support is supporting provenance for PW07, not a separate stable card."},
+    "H":{"primary":["DISC-S36-B02->S35-PW02","DISC-S36-B04->S34-W03"],"secondary":["DISC-S36-B12->S34-W02"],"note":"Machine authority has zero Stage36 workflow IDs; C01/C02/C03 were deduped into S30/Research OS."}
+  },
+  "negative_boundaries": [
+    {"id":"DISC-S36-B07","clusters":["C","H"],"boundary":"finite no-middle-layer exhaustion only for the enumerated character-linear class; anti-loop evidence, not a positive weapon"},
+    {"id":"DISC-S36-E01","clusters":["C","D","G"],"boundary":"moving specialization support blocks unjustified fixed-S descent"},
+    {"id":"DISC-S36-E02","clusters":["D","H"],"boundary":"Brauer route blocked by upstream source-lock gaps; literature cannot repair a missing compatibility adapter"},
+    {"id":"DISC-S36-E03","clusters":["C","H"],"boundary":"proposed character receiver is endpoint-equivalent; avoid circular character restatement"},
+    {"id":"DISC-S36-E04","clusters":["C","D","G"],"boundary":"arbitrary shared-prime support blocks fixed finite-S inference"},
+    {"id":"DISC-S36-E05","clusters":["B","E"],"boundary":"tested multiple-lift route enters high genus but does not prove all multiples impossible"},
+    {"id":"DISC-S36-E06","clusters":["D"],"boundary":"parameter-only Hilbert product formula is an automatic reciprocity checksum, not a receiver obstruction"},
+    {"id":"DISC-S36-E07","clusters":["D","E"],"boundary":"locally admissible Kummer classes block pure-local uniform closure, without global-point credit"},
+    {"id":"DISC-S36-E08","clusters":["E"],"boundary":"rank-growth witnesses refute an empty rank-jump locus but do not imply receiver compatibility/full MW"},
+    {"id":"DISC-S36-E09","clusters":["B","E"],"boundary":"known growth witnesses do not lift, but samples do not prove whole-fiber emptiness"},
+    {"id":"DISC-S36-F01","clusters":["H"],"boundary":"source quality cannot override unresolved hostile verifier-coverage maturity"}
+  ],
+  "bibliography": {
+    "L-PARDINI91":{"tier":"peer-reviewed original","citation":"Rita Pardini, Abelian covers of algebraic varieties, J. reine angew. Math. 417 (1991), 191-214","doi":"10.1515/crll.1991.417.191"},
+    "L-KANIROSEN89":{"tier":"peer-reviewed original","citation":"Ernst Kani and Michael Rosen, Idempotent relations and factors of Jacobians, Math. Ann. 284 (1989), 307-328","url":"https://eudml.org/doc/164555"},
+    "L-SILVERMAN83":{"tier":"peer-reviewed original","citation":"Joseph H. Silverman, Heights and the specialization map for families of abelian varieties, J. reine angew. Math. 342 (1983), 197-211","doi":"10.1515/crll.1983.342.197"},
+    "L-GUSIC-TADIC12":{"tier":"peer-reviewed original","citation":"Ivica Gusic and Petra Tadic, A remark on the injectivity of the specialization homomorphism, Glasnik Mat. 47 (2012), 265-275","doi":"10.3336/gm.47.2.03"},
+    "L-GUSIC-TADIC15":{"tier":"peer-reviewed original","citation":"Ivica Gusic and Petra Tadic, Injectivity of the specialization homomorphism of elliptic curves, J. Number Theory 148 (2015), 137-152","doi":"10.1016/j.jnt.2014.09.023"},
+    "L-LOUGHRAN-SALGADO22":{"tier":"peer-reviewed original","citation":"Daniel Loughran and Cecilia Salgado, Rank jumps on elliptic surfaces and the Hilbert property, Ann. Inst. Fourier 72 (2022), 617-638","doi":"10.5802/aif.3457"},
+    "L-SKOROBOGATOV01":{"tier":"authoritative monograph","citation":"Alexei Skorobogatov, Torsors and Rational Points, Cambridge Tracts in Mathematics 144 (2001)","doi":"10.1017/CBO9780511549588"},
+    "L-SERRE73":{"tier":"authoritative monograph","citation":"Jean-Pierre Serre, A Course in Arithmetic, GTM 7, Springer (1973)","doi":"10.1007/978-1-4684-9884-4"},
+    "L-ARF41":{"tier":"peer-reviewed original","citation":"Cahit Arf, Untersuchungen uber quadratische Formen in Korpern der Charakteristik 2 I, J. reine angew. Math. 183 (1941), 148-167","doi":"10.1515/crll.1941.183.148"},
+    "L-COX89":{"tier":"authoritative monograph","citation":"David A. Cox, Primes of the Form x^2 + ny^2, Wiley (1989; later editions)","doi":"10.1002/9781118032756"},
+    "L-STOLL06":{"tier":"author manuscript/arXiv supplement","citation":"Michael Stoll, Descent on elliptic curves, arXiv:math/0611694","url":"https://arxiv.org/abs/math/0611694"}
+  },
+  "novelty_firewall": {"forbidden":["NOVEL","NEW_THEOREM","FIRST_RESULT"],"allowed_search_miss":"NO_DIRECT_MATCH_FOUND_IN_THIS_BOUNDED_SEARCH"},
+  "phase2_handoff": [
+    {"rank":1,"targets":["S36-PW06"],"task":"Lock Gusic-Tadic 2012/2015 exact criterion/theorem locator and test the exact retained Stage36 family/specialization against every hypothesis."},
+    {"rank":2,"targets":["S36-PW02"],"task":"Lock the exact Kani-Rosen idempotent relation; verify field, smoothness, quotient genera and independence; keep rational-point converse false."},
+    {"rank":3,"targets":["S36-PW03","DISC-S36-B12->S34-W02"],"task":"Separate standard twist eigenspace algebra from rank-jump-locus theorems; test Loughran-Salgado hypotheses without importing receiver/full-MW credit."},
+    {"rank":4,"targets":["S36-PW07"],"task":"Bind self/cross/dyadic/real rows to exact Hilbert/Kummer local-condition formulas and test whether a genuine Selmer-local adapter exists despite dynamic support; preserve E06/E07."},
+    {"rank":5,"targets":["S36-PW01","S36-PW04"],"task":"Lock Pardini character/building-data theorem family for PW01 and exact torsor-H1 semantics for PW04 without importing marked Brauer/H2 semantics."}
+  ]
+}

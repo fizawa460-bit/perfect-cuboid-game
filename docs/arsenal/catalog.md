@@ -94,6 +94,7 @@ Active Stage controllers and current source locks override every snapshot here. 
 | [`LIT-PW14`](cards/provisional/LIT-PW14.md) | `BRAUER_MANIN_ADELIC_EMPTYNESS_TERMINAL` | Literature Strengthening | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) |
 | [`LIT-PW15`](cards/provisional/LIT-PW15.md) | `OPEN_VARIETY_DESCENT_ETALE_BRAUER_TERMINAL` | Literature Strengthening | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) |
 | [`LIT-WF01`](cards/workflows/LIT-WF01.md) | `BOUND_REDUCTION_ENUMERATION_REPLAY_WORKFLOW` | Literature Strengthening | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) |
+| [`LIT-WF02`](cards/workflows/LIT-WF02.md) | `GLOBAL_H1_LOCALIZATION_RECIPROCITY_APPLICABILITY_WORKFLOW` | Stage36 Literature Strengthening | [../stage36-literature-strengthening-promotion.md](../stage36-literature-strengthening-promotion.md) |
 
 ## Retired IDs
 
@@ -133,6 +134,7 @@ Active Stage controllers and current source locks override every snapshot here. 
 | **PROVISIONAL** | [../stage35-arsenal-promotion.md](../stage35-arsenal-promotion.md) | Stage35 / Stage35-EX initial provisional harvest promotion provenance; active Stage authority remains higher |
 | **PROVISIONAL** | [../stage36-arsenal-promotion.md](../stage36-arsenal-promotion.md) | Stage36 initial provisional harvest promotion provenance; active Stage36 authority remains higher |
 | **PROVISIONAL** | [../arsenal-literature-strengthening-promotion.md](../arsenal-literature-strengthening-promotion.md) | Phase7 literature-backed strengthening promotion provenance; no Stage mathematical authority change |
+| **PROVISIONAL** | [../stage36-literature-strengthening-promotion.md](../stage36-literature-strengthening-promotion.md) | Stage36 Phase4 literature-backed strengthening provenance; discovery freeze #1690 remains the implementation boundary and Stage36 mathematical authority is unchanged |
 
 ## Historical and deep lookup
 
