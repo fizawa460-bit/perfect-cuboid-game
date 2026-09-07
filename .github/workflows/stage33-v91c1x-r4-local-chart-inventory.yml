@@ -15,7 +15,7 @@ permissions:
 jobs:
   inventory:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
@@ -24,8 +24,21 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Install exact retained Stage33-07 dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Rebuild only retained ambient localization inputs needed by R4
+        working-directory: stages/stage33/33-07
+        run: |
+          python certify_order2_quotient_raw_order4_bockstein.py
+          python materialize_mixed_order_side_ambient_function_lifts.py
+          python materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py
       - name: Materialize compact A2_02 local chart inventory
         run: python stages/stage33/33-12/diagnose_e3_v91c1x_r4_a2_02_local_chart_inventory.py
+      - name: Remove regenerated retained intermediates
+        run: |
+          rm -f stages/stage33/33-07/order2-quotient-raw-order4-bockstein.json
+          rm -f stages/stage33/33-07/mixed-order-side-ambient-function-lifts.json
+          rm -f stages/stage33/33-07/mixed-order-exceptional-ambient-tangent-function-lifts.json
       - name: Verify bounded output only
         run: |
           git diff --check
