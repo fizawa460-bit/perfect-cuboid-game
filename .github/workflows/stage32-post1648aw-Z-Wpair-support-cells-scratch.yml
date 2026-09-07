@@ -1,0 +1,43 @@
+name: Stage32 post1648AW Z-Wpair support cells
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648aw-explicit-node-equivariant-matching
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-aw-z-wpair-cells:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run AW Z-Wpair support-cell filter
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648aw_Z_Wpair_support_cells.py | tee /tmp/aw-cells.json
+      - name: Assert bounded output
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/aw-cells.json'))
+          assert x['mode']=='SCRATCH_POST1648AW_Z_WPAIR_SUPPORT_CELLS'
+          assert x['input_WC_exact_cover_count']==25
+          assert x['firewalls']['semantic_node_matching_obtained'] is False
+          print(json.dumps({
+            'input_WC_exact_cover_count': x['input_WC_exact_cover_count'],
+            'support_design_survivor_count': x['support_design_survivor_count'],
+            'survivor_indices': [s['candidate_indices_zero_based'] for s in x['support_design_survivors']],
+            'mass_profiles': [s['exceptional_mass_sums'] for s in x['support_design_survivors']],
+            'cell_patterns': [s['Z_by_Wpair_cell_sizes'] for s in x['support_design_survivors']],
+          },sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
