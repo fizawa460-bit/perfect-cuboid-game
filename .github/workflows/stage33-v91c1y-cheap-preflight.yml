@@ -1,16 +1,19 @@
-name: Stage33 V91C1W audit-repair bounded preflight
+name: Stage33 V91C1X_R1-R3 bounded grouped-checkpoint preflight
 
 on:
   pull_request:
     paths:
       - 'stages/stage33/MAIN-STATE.json'
       - 'stages/stage33/sync_main_state.py'
-      - 'stages/stage33/33-12/verify_stage33_v91c1w_semantic_bridge_audit_repair_v110.py'
+      - 'stages/stage33/33-12/verify_stage33_v91c1x_r3_grouped_audit_current_startup_v113.py'
+      - 'stages/stage33/33-12/e3-v91c1x-r1-chain-level-action-difference-preflight.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r2-literal-mu2-or-unimodular-cech-glue-contract.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r3-cover-indexed-a2-02-representative-bounded-preflight.json'
+      - 'stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py'
       - 'stages/stage33/33-12/e3-v91c1w-a2-02-all8-picard64-reduction.json'
       - 'stages/stage33/33-12/diagnose_e3_v91c1w_all8_picard64_reduction_v2.py'
       - 'stages/stage33/33-12/diagnose_e3_v91c1w_all8_strict_scheme_provenance.py'
       - 'stages/stage33/33-12/diagnose_e3_v91c1v_actual_prime_known140_locator.py'
-      - 'stages/stage33/33-12/e3-v91c1x-kummer-action-difference-source-lock.md'
       - 'stages/stage33/33-12/e3-v91c1d-a2-02-purity-cech-cartier-assembly.json'
       - 'stages/stage33/33-07/**'
       - '.github/workflows/stage33-v91c1y-cheap-preflight.yml'
@@ -20,7 +23,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v91c1w-audit-repair-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1x-r3-bounded-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -36,17 +39,17 @@ jobs:
           python-version: '3.11'
       - name: Install pinned exact local algebra
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Diagnose V91C1V actual-prime to known140 locator
-        run: python stages/stage33/33-12/diagnose_e3_v91c1v_actual_prime_known140_locator.py
-      - name: Diagnose V91C1W all-eight strict-scheme provenance
-        run: python stages/stage33/33-12/diagnose_e3_v91c1w_all8_strict_scheme_provenance.py
-      - name: Diagnose V91C1W all-eight Picard64 reduction v2
-        run: python stages/stage33/33-12/diagnose_e3_v91c1w_all8_picard64_reduction_v2.py
-      - name: Verify retained V91C1W bounded frontier
-        run: python stages/stage33/33-12/verify_e3_v91c1w_a2_02_all8_picard64_reduction.py
-      - name: Verify #1671 hostile-audit repair checkpoint
+      - name: Replay V91C1V-W retained Picard frontier
         run: |
-          python stages/stage33/33-12/verify_stage33_v91c1w_semantic_bridge_audit_repair_v110.py
+          python stages/stage33/33-12/diagnose_e3_v91c1v_actual_prime_known140_locator.py
+          python stages/stage33/33-12/diagnose_e3_v91c1w_all8_strict_scheme_provenance.py
+          python stages/stage33/33-12/diagnose_e3_v91c1w_all8_picard64_reduction_v2.py
+          python stages/stage33/33-12/verify_e3_v91c1w_a2_02_all8_picard64_reduction.py
+      - name: Replay V91C1X_R1 exact negative preflight
+        run: python stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py
+      - name: Verify V113 R1-R3 grouped checkpoint
+        run: |
+          python stages/stage33/33-12/verify_stage33_v91c1x_r3_grouped_audit_current_startup_v113.py
           python stages/stage33/sync_main_state.py --check
       - name: Diff hygiene
         run: git diff --check

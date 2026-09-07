@@ -1,0 +1,36 @@
+name: Stage33 V91C1X_R3 grouped-audit checkpoint replay
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/MAIN-STATE.json'
+      - 'stages/stage33/sync_main_state.py'
+      - 'stages/stage33/33-12/verify_stage33_v91c1x_r3_grouped_audit_current_startup_v113.py'
+      - 'stages/stage33/33-12/e3-v91c1x-r3-cover-indexed-a2-02-representative-bounded-preflight.json'
+      - '.github/workflows/stage33-v91c1x-r3-state-materialize.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage33-v91c1x-r3-checkpoint-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  exact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify V113 R3 grouped-audit checkpoint
+        run: |
+          python stages/stage33/33-12/verify_stage33_v91c1x_r3_grouped_audit_current_startup_v113.py
+          python stages/stage33/sync_main_state.py --check
+      - name: Diff hygiene
+        run: git diff --check
