@@ -101,7 +101,16 @@ jobs:
           python "$ROOT/diagnose_stage32_post1648bc_cc_exceptional_permutation.py" > /tmp/bc-cc-permutation.json
           python "$ROOT/diagnose_stage32_post1648bd_cc_unique_node_bijection.py" > /tmp/bd-cc-node-bijection.json
           python "$ROOT/diagnose_stage32_post1648be_picard_action_source_locators.py" > /tmp/be-action-source-locators.json
-          python "$ROOT/diagnose_stage32_post1648bf_g2_galois_twist_recovery.py" > /tmp/bf-g2-twist.json
+
+          # BF is likewise a bounded negative probe: all 64 g2 sign twists fail
+          # to restore Galois-equivariance. Require that exact retained failure.
+          set +e
+          python "$ROOT/diagnose_stage32_post1648bf_g2_galois_twist_recovery.py" > /tmp/bf-g2-twist.out 2> /tmp/bf-g2-twist.err
+          BF_RC=$?
+          set -e
+          test "$BF_RC" -ne 0
+          grep -F 'no source g2 sign twist restores Galois-equivariant node action' /tmp/bf-g2-twist.err
+
           python "$ROOT/diagnose_stage32_post1648bg_galois_cocycle_coordinate_label.py" > /tmp/bg-coordinate-label.json
           python "$ROOT/diagnose_stage32_post1648bh_exact_source_lifts_node_adapter.py" > /tmp/bh-exact-node-adapter.json
 
