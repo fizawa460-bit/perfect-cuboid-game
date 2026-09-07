@@ -42,20 +42,17 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay exact 36-09BW green parent
+      - name: Replay audited 36-09BP-BX exact head
         shell: bash
         run: |
           set -euo pipefail
-          H=db0b78e7134db9984b2dd59c0b0313172dfabdf4
+          H=11e1152a2de6df17c7354ab48f33f25865dd0ae5
           git cat-file -e "$H^{commit}"
-          git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BW.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BX.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09BX
-        run: python3 stages/stage36/verify_stage36_36_09BX.py
-      - name: Assert BX checkpoint firewalls and BY lock
+      - name: Assert re-audit PASS consumption and BY unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -63,34 +60,29 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V113_36_09BX_FIXED_P_Q2_BRANCH_FILTER_INTEGRATION'
-          assert s['status']=='HOSTILE_AUDIT_REPAIR_COMPLETE_PENDING_REAUDIT'
-          fail=s['audited_history']['36-09BP-BX_failed_audit']
-          assert fail['pr']==1693
-          assert fail['review']==5132495760
-          assert fail['audited_exact_head']=='efcfb2de4637114a6e3aded78071637da8495306'
-          assert fail['exact_head_ci']=='34125259433/101752334052'
-          assert fail['mathematics']=='PASS'
-          bw=s['authority_frontier']['36-09BW']
-          assert bw['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert bw['exact_head']=='db0b78e7134db9984b2dd59c0b0313172dfabdf4'
-          assert bw['exact_head_ci']=='34123947133/101748106404'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V114_36_09BY_AUDIT_PASS_PROMOTION'
+          assert s['status']=='AUDITED_BP_BX_PROMOTED_BY_UNLOCKED'
+          h=s['audited_history']['36-09BP-BX']
+          assert h['pr']==1693
+          assert h['failed_audit_review']==5132495760
+          assert h['hostile_reaudit_review']==5132705989
+          assert h['audited_exact_head']=='11e1152a2de6df17c7354ab48f33f25865dd0ae5'
+          assert h['exact_head_ci']=='34128399040/101762381263'
+          assert h['merged_main_sha']=='af40c029a8721755b39dad13be452a2a74540c4e'
+          assert h['mathematics']=='PASS'
           bx=s['authority_frontier']['36-09BX']
-          assert bx['FIXED_P_Q2_BRANCH_ONLY_FILTER_INTEGRATION_COMPLETE'] is True
-          assert bx['SOUND_ZERO_SURVIVOR_EXCLUSION_RULE'] is True
-          assert bx['REMAINING_Q2_POINT_DEPENDENT_GATES'] is True
-          assert bx['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
-          assert s['current']['unit']=='36-09BX-REAUDIT-CHECKPOINT'
+          assert bx['status']=='AUDITED_MERGED_AUTHORITY'
+          assert bx['hostile_reaudit_review']==5132705989
+          assert s['current']['unit']=='36-09BY'
           assert s['current']['next_exact_leaf']=='36-09BY_REMAINING_Q2_ALPHA_TIE_GATE_PARAMETER_PULLBACK_PREFLIGHT'
-          assert s['current']['next_owner']=='HOSTILE_REAUDIT_PR_1693'
-          assert s['current']['substantive_batch_pr_continues'] is False
-          assert s['current']['hostile_audit_checkpoint_reached'] is True
-          assert s['current']['36_09BY_entry_allowed'] is False
-          assert s['promotion_gates']['36_09BX_failed_audit_review']==5132495760
-          assert s['promotion_gates']['36_09BX_hostile_reaudit_passed'] is False
-          assert s['promotion_gates']['36_09BY_unlocked'] is False
+          assert s['current']['next_owner']=='MAIN'
+          assert s['current']['substantive_batch_pr_continues'] is True
+          assert s['current']['hostile_audit_checkpoint_reached'] is False
+          assert s['current']['36_09BY_entry_allowed'] is True
+          assert s['promotion_gates']['36_09BX_hostile_reaudit_passed'] is True
+          assert s['promotion_gates']['36_09BY_unlocked'] is True
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('36-09BX repair verified; mathematics remains green, hostile audit FAIL is recorded, and BY is fail-closed pending re-audit PASS.')
+          print('#1693 hostile re-audit PASS consumed exactly; BP-BX is audited authority and 36-09BY is unlocked with no extra mathematical credit.')
           PY
           git diff --check
