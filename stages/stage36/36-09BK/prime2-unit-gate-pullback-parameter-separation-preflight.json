@@ -1,0 +1,72 @@
+{
+  "schema":"STAGE36_36_09BK_PRIME2_UNIT_GATE_PULLBACK_PARAMETER_SEPARATION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09BK",
+  "status":"EXACT_SAME_PARAMETER_Q2_PASS_FAIL_SEPARATION_NO_PARAMETER_ONLY_FILTER_PENDING_BATCH_AUDIT",
+  "base_main_sha":"e758e05953df2cf8cd4ab26ac1e9d72374e99760",
+  "batch_parent":{"pr":1691,"36_09BJ_exact_head":"89d22a0fa48c4c33d67cb9db1dc084ca4756171a","36_09BJ_exact_head_ci":"34104852297/101687413548"},
+  "source_locks":{
+    "stage36_36_09BJ":{"path":"stages/stage36/36-09BJ/prime2-equal-valuation-unit-branch-preflight.json","blob_sha":"f9ef3dde7b756470f2fc882327a67d72db7902f1"},
+    "stage36_36_09BJ_verifier":{"path":"stages/stage36/verify_stage36_36_09BJ.py","blob_sha":"cbf8b85821ae165531319aac462ad7214d7e756e"},
+    "stage36_36_09BI":{"path":"stages/stage36/36-09BI/prime2-full-cover-congruence-preflight.json","blob_sha":"ba6a705ce61b14e640b2c400d42dded60097b406"},
+    "stage36_36_09BB":{"path":"stages/stage36/36-09BB/ay-receiver-scaled-self-intersection-preflight.json","blob_sha":"e4b63fd500d05ff5dc704e0c08409edee5895053"}
+  },
+  "exact_pullback":{
+    "BJ_ratio_square":"z^2=Qsum^2*(u^2-v^2)/(4*D0*(u^2+v^2))",
+    "minus_square_equivalence":"z^2-1=(M^2*u^2-P^2*v^2)/(4*D0*(u^2+v^2)); after the AY square factors are removed, BJ is exactly the remaining minus-root Q2-square condition",
+    "consequence":"the BJ unit gate depends on the AY receiver point u:v as well as the parameter a:b"
+  },
+  "fixed_parameter_witness":{
+    "a":1,"b":2,"p":"1/2","D0":-6,"P":1,"M":-7,"Qsum":5,"delta":1,"sigma":0,"kappa":-3,"BI_equality_alpha":4,
+    "retained_parameter_open":true
+  },
+  "same_parameter_fail_point":{
+    "u":1,"v":57,"alpha":4,"retained_receiver_open":true,
+    "AY_minus_ratio":"(u^2-v^2)/kappa=3248/3","AY_plus_ratio":"(u^2+v^2)/2=1625",
+    "AY_both_Q2_squares":true,
+    "full_cover_plus_ratio":"(M^2*u^2+P^2*v^2)/2=1649","full_cover_plus_Q2_square":true,
+    "full_cover_minus_ratio":"(M^2*u^2-P^2*v^2)/kappa=3200/3","full_cover_minus_Q2_square":false,
+    "minus_squareclass_diagnostic":"v2(3200/3)=7 is odd",
+    "z_square":"203/195","z_square_minus_one":"8/195","BJ_diagnostic":"v2(8/195)=3 is odd"
+  },
+  "same_parameter_pass_point":{
+    "u":3,"v":107,"alpha":4,"retained_receiver_open":true,
+    "AY_minus_ratio":"(u^2-v^2)/kappa=11440/3","AY_plus_ratio":"(u^2+v^2)/2=5729",
+    "AY_both_Q2_squares":true,
+    "full_cover_plus_ratio":"(M^2*u^2+P^2*v^2)/2=5945","full_cover_plus_Q2_square":true,
+    "full_cover_minus_ratio":"(M^2*u^2-P^2*v^2)/kappa=11008/3","full_cover_minus_Q2_square":true,
+    "minus_squareclass_diagnostic":"v2(11008/3)=8 and odd unit is 1 mod8",
+    "z_square":"17875/17187","z_square_minus_one":"688/17187","BJ_diagnostic":"v2(688/17187)=4 and odd unit is 1 mod8"
+  },
+  "exact_conclusion":{
+    "same_parameter_has_BJ_pass_and_fail_AY_Q2_branches":true,
+    "prime2_gate_is_parameter_only_predicate":false,
+    "prime2_gate_may_still_help_with_global_receiver_point_control":true,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "meaning":"a parameter-only exclusion cannot be charged from BI/BJ without additional control of the AY rational/local point set; receiver-branch shrink remains valid"
+  },
+  "route_result":{
+    "route_status":"BLOCKED_AS_STANDALONE_PARAMETER_FILTER_SAME_PARAMETER_SEPARATION_WITNESS",
+    "prime2_parameter_only_filter_route_blocked":true,
+    "prime2_receiver_point_gate_retained":true,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09BL_OLD_SIX_HIGHER_QADIC_FULL_COVER_PREFLIGHT",
+    "selection_reason":"BH left higher-q-adic information on the old six reservoirs explicitly open; after BK blocks prime 2 as a standalone parameter-only filter, this is the nearest unspent bad-place layer and must avoid double-charging AD/AE first-residue rows"
+  },
+  "scope_firewalls":{
+    "all_parameters_have_Q2_full_cover_points":false,
+    "every_parameter_has_BJ_pass_fail_separation":false,
+    "global_AY_point_set_classified":false,
+    "prime2_gate_globally_useless":false,
+    "old_six_higher_qadic_information_exhausted":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
