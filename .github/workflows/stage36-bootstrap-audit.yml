@@ -38,7 +38,7 @@ jobs:
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
 
-      - name: Assert hostile-audited and merged PR1677 authority
+      - name: Assert post-merge hostile-audited PR1679 authority
         shell: bash
         run: |
           set -euo pipefail
@@ -46,30 +46,45 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          a=s['audited_batch_promotion']
-          assert a['candidate_pr']==1677
-          assert a['audited_head']=='56f815b9bc25ca91a2ba6e0c0291664bfeac733d'
-          assert a['hostile_audit_review']==5127436589
-          assert a['exact_head_ci']=='34074355295/101597480228'
-          assert a['merged_main_sha']=='58e81a647b63bcea17ab396409c2813b667f45e2'
+          a=s['audited_history']['36-09AM-AN']
+          assert a['pr']==1679
+          assert a['audited_head']=='12716259951f02589ecfaf6ac8f9670b7a23f06f'
+          assert a['hostile_audit_review']==5127771308
+          assert a['exact_head_ci']=='34076440104/101603376687'
+          assert a['merged_main_sha']=='6b6c541d1a6bbe229381ac0400148bd17523ca06'
           PY
-          git merge-base --is-ancestor 58e81a647b63bcea17ab396409c2813b667f45e2 HEAD
+          git merge-base --is-ancestor 6b6c541d1a6bbe229381ac0400148bd17523ca06 HEAD
+          test "$(git rev-parse 6b6c541d1a6bbe229381ac0400148bd17523ca06:stages/stage36/36-09AN/retained-open-tunnell-necessary-gate-preflight.json)" = "76c55e89505b081c487749f4d7ab4d80e9d38a1f"
 
-      - name: Replay exact 36-09AM candidate parent
+      - name: Replay exact PR1679 AM-AN audited checkpoint
         shell: bash
         run: |
           set -euo pipefail
-          H=46b426a393ee2eb027305f9c45f248008ff02fec
-          git merge-base --is-ancestor "$H" HEAD
+          H=12716259951f02589ecfaf6ac8f9670b7a23f06f
+          git cat-file -e "$H^{commit}"
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09AM.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AN.py"
           git worktree remove --force "$tmp"
 
-      - name: Verify current 36-09AN retained-open Tunnell necessary gate
-        run: python3 stages/stage36/verify_stage36_36_09AN.py
+      - name: Replay exact hostile-audited parallel 36-09AO payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          H=f5db4fc0aafdc61f931b6499afb18c1966c1f99d
+          git cat-file -e "$H^{commit}"
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AO.py"
+          git worktree remove --force "$tmp"
+          test "$(git rev-parse "$H":stages/stage36/36-09AO/monsky-stage36-full2-class-adapter-preflight.json)" = "a26991cb071e086d3cbc36b8c9d2db329a14e5b1"
+          test "$(git rev-parse HEAD:stages/stage36/36-09AO/monsky-stage36-full2-class-adapter-preflight.json)" = "a26991cb071e086d3cbc36b8c9d2db329a14e5b1"
 
-      - name: Assert 36-09AN firewalls and hostile-audit checkpoint
+      - name: Verify current reconciled 36-09AP two-gate adapter
+        run: python3 stages/stage36/verify_stage36_36_09AP.py
+
+      - name: Assert 36-09AP firewalls and 36-09AQ unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -77,28 +92,20 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V76_36_09AN_BATCH_AUDIT_CHECKPOINT'
-          assert s['status']=='ACTIVE_BATCH_HOSTILE_AUDIT_CHECKPOINT'
-          an=s['authority_frontier']['36-09AN']
-          assert an['RETAINED_OPEN_MAP_EXACT'] is True
-          assert an['RETAINED_IMAGE_NON2TORSION'] is True
-          assert an['RETAINED_RECEIVER_IMPLIES_POSITIVE_RANK'] is True
-          assert an['RETAINED_RECEIVER_IMPLIES_N_CONGRUENT'] is True
-          assert an['RETAINED_RECEIVER_IMPLIES_TUNNELL_EQUALITY'] is True
-          assert an['TUNNELL_FAIL_RETAINED_RECEIVER_EMPTY'] is True
-          assert an['AM_TORSION_EXCEPTION_SECTORS_REMAIN_ON_RETAINED_OPEN'] is False
-          assert an['TUNNELL_FAIL_RETAINED_OPEN_EXCEPTION_SECTOR_COUNT']==0
-          assert an['TUNNELL_EQUALITY_SIDE_CLASSIFIED'] is False
-          assert an['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert an['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09AN-AUDIT-CHECKPOINT'
-          assert s['current']['next_owner']=='HOSTILE_AUDIT'
-          assert s['current']['hostile_audit_checkpoint_reached'] is True
-          assert s['current']['36_09AO_entry_allowed'] is False
-          assert s['promotion_gates']['36_09AN_hostile_audit_passed'] is False
-          assert s['claims']['candidate_parameter_set_shrunk'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V78_36_09AP_RECONCILED_CANDIDATE'
+          assert s['status']=='ACTIVE_BATCHING_SUBSTANTIVE_PR'
+          ap=s['authority_frontier']['36-09AP']
+          assert ap['RETAINED_RECEIVER_TWO_GATE_FILTER'] is True
+          assert ap['ODD_ETA_MINUS_MONSKY_COORDINATE_ADAPTER'] is True
+          assert ap['ODD_ETA_PLUS_MONSKY_COORDINATE_ADAPTER'] is False
+          assert ap['EVEN_MONSKY_COORDINATE_ADAPTER'] is False
+          assert ap['TWO_GATE_CONVERSE'] is False
+          assert ap['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert ap['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09AQ'
+          assert s['current']['36_09AQ_entry_allowed'] is True
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09AN retained-open rank/Tunnell gate verified; Tunnell-fail side has zero retained exceptions; AO locked pending hostile audit')
+          print('36-09AP reconciled two-gate adapter verified; odd eta-minus complete; AQ unlocked')
           PY
           git diff --check
