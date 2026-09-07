@@ -48,7 +48,7 @@ def components(edges: list[tuple[int,int,int]]) -> list[dict]:
 
 
 def max_weight_bmatching(edges: list[tuple[int,int,int]], capA: int, capB: int) -> dict:
-    best_weight=-1; best_mask=0; best_edges=[]
+    best_weight=-1; best_edges=[]
     n=len(edges)
     for mask in range(1<<n):
         degA=Counter(); degB=Counter(); w=0; chosen=[]; ok=True
@@ -59,7 +59,7 @@ def max_weight_bmatching(edges: list[tuple[int,int,int]], capA: int, capB: int) 
                     ok=False; break
                 w+=m; chosen.append([a,b,m])
         if ok and w>best_weight:
-            best_weight=w; best_mask=mask; best_edges=chosen
+            best_weight=w; best_edges=chosen
     return {"max_weight":best_weight,"edges":best_edges,"edge_count":len(best_edges)}
 
 
@@ -84,6 +84,7 @@ def main() -> None:
     assert set(degA.values())=={2} and set(degB.values())=={2}
 
     comps=components(edges)
+    assert len(comps)==3 and all(c["vertex_count"]==4 and c["edge_count"]==4 for c in comps)
 
     # Any irreducible divisor L=a*F81+b*F105 not containing a special fibre
     # can pass simply through a cusp subset whose incidence degrees are <=b on
@@ -123,8 +124,10 @@ def main() -> None:
             "dir81_labels":A,
             "dir105_labels":B,
             "edges":[{"dir81":a,"dir105":b,"m":m} for a,b,m in edges],
-            "all_vertex_degrees":2,
+            "all_vertex_degrees":True,
+            "common_vertex_degree":2,
             "components":comps,
+            "component_type":"3_disjoint_K2_2",
             "total_weight":266,
             "dir81_weight_sums":pure_f81,
             "dir105_weight_sums":pure_f105,
@@ -132,6 +135,9 @@ def main() -> None:
         "low_bidegree_bezout":{
             "tests":tests,
             "only_positive_bidegree_case_with_budget_below_total_weight":"(1,1)",
+            "max_1_1_weight":t11["max_cusp_weight_lower_bound"],
+            "D_intersection_1_1":t11["D_intersection_budget"],
+            "max_1_1_margin":t11["margin_weight_minus_budget"],
             "no_obstruction_from_cusp_multiplicity_lower_bounds_alone":no_positive_low_bidegree_cusp_bezout,
             "scope":"bounded to divisors not containing special fibres and using only forced local intersection >= multiplicity at the 12 cusps",
         },
