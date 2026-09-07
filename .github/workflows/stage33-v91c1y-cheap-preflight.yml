@@ -1,29 +1,17 @@
-name: Stage33 V91C1Y-AF bounded preflight
+name: Stage33 V91C1W audit-repair bounded preflight
 
 on:
   pull_request:
     paths:
-      - 'stages/stage33/33-12/diagnose_e3_v91c1y_swap23_fixed_marked_brauer_subspace.py'
-      - 'stages/stage33/33-12/diagnose_e3_v91c1z_next_stabilizer_reducers.py'
-      - 'stages/stage33/33-12/diagnose_e3_v91c1aa_sign_reducer_package_transport.py'
-      - 'stages/stage33/33-12/diagnose_e3_v91c1ab_sign_prime_attached_cech_difference.py'
-      - 'stages/stage33/33-12/diagnose_e3_v91c1ac_sign_b1_seed_fixed_subspace.py'
-      - 'stages/stage33/33-12/diagnose_e3_v91c1ad_sign_a2_picard64_locator_preflight.py'
-      - 'stages/stage33/33-12/diagnose_e3_v91c1ae_sign_a2_picard64_reduction.py'
-      - 'stages/stage33/33-12/diagnose_e3_v91c1af_sign_a2_seed_fixed_subspace.py'
-      - 'stages/stage33/33-12/e3-v91c1ac-kummer-sign-b1-source-lock.md'
-      - 'stages/stage33/33-12/e3-v91c1af-kummer-sign-a2-source-lock.md'
-      - 'stages/stage33/33-12/e3-v91c1af-a2-02-source-bound-stabilizer-fixed-subspace.json'
-      - 'stages/stage33/33-12/diagnose_e3_v91c1s_swap23_prime_attached_cech_difference.py'
-      - 'stages/stage33/33-12/diagnose_e3_v91c1v_actual_prime_known140_locator.py'
+      - 'stages/stage33/MAIN-STATE.json'
+      - 'stages/stage33/sync_main_state.py'
+      - 'stages/stage33/33-12/verify_stage33_v91c1w_semantic_bridge_audit_repair_v110.py'
+      - 'stages/stage33/33-12/e3-v91c1w-a2-02-all8-picard64-reduction.json'
       - 'stages/stage33/33-12/diagnose_e3_v91c1w_all8_picard64_reduction_v2.py'
-      - 'stages/stage33/33-12/e3-v91c1x-a2-02-kummer-naturality-mask20-exclusion.json'
-      - 'stages/stage33/33-12/diagnose_e3_v91c1q_shortest_mask20_moving_stabilizer_word.py'
-      - 'stages/stage33/33-12/diagnose_e3_coordinate_automorphism_orbit_v84.py'
-      - 'stages/stage33/33-12/boundary-function-generator-source-lock.json'
-      - 'stages/stage33/33-11f/stage33-11f-source-lock.json'
-      - 'stages/stage33/33-11e/**'
-      - 'stages/stage33/33-11d/**'
+      - 'stages/stage33/33-12/diagnose_e3_v91c1w_all8_strict_scheme_provenance.py'
+      - 'stages/stage33/33-12/diagnose_e3_v91c1v_actual_prime_known140_locator.py'
+      - 'stages/stage33/33-12/e3-v91c1x-kummer-action-difference-source-lock.md'
+      - 'stages/stage33/33-12/e3-v91c1d-a2-02-purity-cech-cartier-assembly.json'
       - 'stages/stage33/33-07/**'
       - '.github/workflows/stage33-v91c1y-cheap-preflight.yml'
   workflow_dispatch:
@@ -32,7 +20,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v91c1yaf-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1w-audit-repair-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -48,25 +36,17 @@ jobs:
           python-version: '3.11'
       - name: Install pinned exact local algebra
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Diagnose V91C1Y swap23-fixed marked Brauer subspace
-        run: python stages/stage33/33-12/diagnose_e3_v91c1y_swap23_fixed_marked_brauer_subspace.py
-      - name: Diagnose V91C1Z next residue-stabilizer reducers
-        run: python stages/stage33/33-12/diagnose_e3_v91c1z_next_stabilizer_reducers.py
-      - name: Diagnose V91C1AA sign_a2/sign_b1 literal package transport
-        run: python stages/stage33/33-12/diagnose_e3_v91c1aa_sign_reducer_package_transport.py
-      - name: Diagnose V91C1AB sign_a2/sign_b1 actual-prime differences
-        run: python stages/stage33/33-12/diagnose_e3_v91c1ab_sign_prime_attached_cech_difference.py
-      - name: Diagnose V91C1AC source-bound sign_b1 seed fixedness
-        run: python stages/stage33/33-12/diagnose_e3_v91c1ac_sign_b1_seed_fixed_subspace.py
-      - name: Diagnose V91C1AD sign_a2 Picard64 locator preflight
-        run: python stages/stage33/33-12/diagnose_e3_v91c1ad_sign_a2_picard64_locator_preflight.py
-      - name: Diagnose V91C1AE sign_a2 Picard64/Pic2 reduction
-        run: python stages/stage33/33-12/diagnose_e3_v91c1ae_sign_a2_picard64_reduction.py
-      - name: Diagnose V91C1AF sign_a2 seed fixedness and dim5 subspace
-        run: python stages/stage33/33-12/diagnose_e3_v91c1af_sign_a2_seed_fixed_subspace.py
-      - name: Verify V91C1AF grouped checkpoint
+      - name: Diagnose V91C1V actual-prime to known140 locator
+        run: python stages/stage33/33-12/diagnose_e3_v91c1v_actual_prime_known140_locator.py
+      - name: Diagnose V91C1W all-eight strict-scheme provenance
+        run: python stages/stage33/33-12/diagnose_e3_v91c1w_all8_strict_scheme_provenance.py
+      - name: Diagnose V91C1W all-eight Picard64 reduction v2
+        run: python stages/stage33/33-12/diagnose_e3_v91c1w_all8_picard64_reduction_v2.py
+      - name: Verify retained V91C1W bounded frontier
+        run: python stages/stage33/33-12/verify_e3_v91c1w_a2_02_all8_picard64_reduction.py
+      - name: Verify #1671 hostile-audit repair checkpoint
         run: |
-          python stages/stage33/33-12/verify_stage33_v91c1af_grouped_audit_current_startup_v109.py
+          python stages/stage33/33-12/verify_stage33_v91c1w_semantic_bridge_audit_repair_v110.py
           python stages/stage33/sync_main_state.py --check
       - name: Diff hygiene
         run: git diff --check
