@@ -45,8 +45,12 @@ def main():
     assert r1['canonical_sha256']==R1_SHA and r2['canonical_sha256']==R2_SHA and r3['canonical_sha256']==R3_SHA
     assert r1['swap23_package_level']['package_level_literal_closure'] is False
     assert r1['chain_level_h2_interface']['chain_level_identity_g_seed_minus_seed_equals_delta_Lg_verifiable'] is False
-    assert r2['accepted_source_representative']['materialized'] is False
-    assert r2['swap23_chain_level_requirements']['triple_overlap_identity_verified'] is False
+    rs=r2['current_materialization_status']
+    assert rs['accepted_source_representative_materialized'] is False
+    assert rs['cover_action_or_common_refinement_materialized'] is False
+    assert rs['line_bundle_gm_1_cocycle_ell_ij_materialized'] is False
+    assert rs['square_root_1_cochain_r_ij_materialized'] is False
+    assert rs['triple_overlap_identity_verified'] is False
     ex=r3['exact_bounded_consequence']
     for k in ['current_named_locked_assets_materialize_accepted_a2_02_literal_mu2_2_cocycle','current_named_locked_assets_materialize_accepted_equivalent_unimodular_cech_glue','current_named_locked_assets_materialize_kummer_square_root_1_cochain','current_named_locked_assets_materialize_swap23_cover_action_or_common_refinement','current_named_locked_assets_verify_triple_overlap_action_difference_identity','repository_wide_absence_claim','route_mathematically_impossible']:
         assert ex[k] is False,k
