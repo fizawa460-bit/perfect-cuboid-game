@@ -48,7 +48,12 @@ def main() -> None:
     assert r["numerically_sufficient_for_RH_contradiction"] is False
     assert r["decision"] == "NUMERICALLY_INSUFFICIENT"
     assert b["one_unit_per_remaining_contact_max"] < i["riemann_hurwitz_total_ramification"]
-    assert b["additional_forced_ramification_needed"] > 0
+
+    t = x["reentry_threshold"]
+    assert t["minimum_additional_forced_ramification_units_beyond_one_unit_remaining_contact_ledger"] == 101
+    assert t["may_be_supplied_by_extra_remaining_contact_multiplicity"] is True
+    assert t["may_be_supplied_by_positive_forced_credit_on_locally_zeroable_contacts"] is True
+    assert t["may_be_supplied_by_independent_ramification_source"] is True
 
     f = x["firewalls"]
     assert f["global_v6_carrier_constructed"] is False
