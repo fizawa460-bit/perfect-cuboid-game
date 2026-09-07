@@ -1,0 +1,104 @@
+name: Arsenal Stage36 literature repair freshness
+
+on:
+  push:
+    branches:
+      - arsenal-stage36-literature-strengthening-implementation
+
+permissions:
+  contents: write
+
+jobs:
+  freshness:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Rebase repair head onto pinned current main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git fetch origin main
+          expected_main=727b3f34c4d850e868aff64483aeb99861b13c7c
+          actual_main="$(git rev-parse origin/main)"
+          test "$actual_main" = "$expected_main"
+          git switch -C arsenal-stage36-literature-strengthening-implementation "$GITHUB_SHA"
+          git rebase "$expected_main"
+
+      - name: Remove temporary freshness workflow
+        run: |
+          rm -f .github/workflows/arsenal-stage36-literature-repair-freshness.yml
+          git add -A
+          git commit -m '[Arsenal][Literature][Stage36] finalize repair freshness sync'
+
+      - name: Exact rebased-head validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          main=727b3f34c4d850e868aff64483aeb99861b13c7c
+          git merge-base --is-ancestor "$main" HEAD
+          test "$(git merge-base "$main" HEAD)" = "$main"
+          python3 -B docs/arsenal/sync_arsenal_catalog.py --check
+          python3 -B -c "compile(open('docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py', encoding='utf-8').read(), 'verify_lit_wf02_global_h1_localization_reciprocity.py', 'exec')"
+          out="$(python3 -B docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py --self-check)"
+          echo "$out"
+          grep -q '^SELF_CHECK_OK:' <<<"$out"
+          if grep -q '^PASS:' <<<"$out"; then
+            echo 'self-check must not emit applicability PASS' >&2
+            exit 1
+          fi
+          git diff --check "$main" HEAD
+          test -z "$(git status --porcelain)"
+          test ! -e .github/workflows/arsenal-stage36-literature-repair-freshness.yml
+          python3 - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          main='727b3f34c4d850e868aff64483aeb99861b13c7c'
+          expected={
+              'docs/arsenal/cards/workflows/LIT-WF02.md',
+              'docs/arsenal/catalog.md',
+              'docs/arsenal/index.json',
+              'docs/arsenal/lit-wf02-global-h1-localization-reciprocity-contract.json',
+              'docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py',
+              'docs/stage36-literature-strengthening-promotion.md',
+          }
+          changed=set(subprocess.check_output(['git','diff','--name-only',main,'HEAD'], text=True).splitlines())
+          assert changed==expected, (changed, expected)
+          idx=json.loads(Path('docs/arsenal/index.json').read_text())
+          c=json.loads(Path('docs/arsenal/lit-wf02-global-h1-localization-reciprocity-contract.json').read_text())
+          s=idx['stage36_literature_strengthening']
+          wf=s['workflow_metadata']['LIT-WF02']
+          assert c['phase3_freeze_blob_sha']=='d3f90093c0a6655da9874c9141b15ab4682c4409'
+          assert c['self_check_is_applicability_pass'] is False
+          assert c['current_stage36_applicability_status']=='FAIL_CLOSED_MISSING_GLOBAL_CLASS_AND_LOCALIZATION_ADAPTER_EVIDENCE'
+          assert wf['support_artifact_blob_sha']=='6fc62623ee59b4aaf1fc053ad42df2dcbba0855b'
+          assert wf['verifier_blob_sha']=='ee066a55f95184916c02dc1f1bbd9f07d1840dc8'
+          assert wf['boolean_flags_are_proof_evidence'] is False
+          assert wf['adapter_status']=='FAIL_CLOSED_MISSING_GLOBAL_CLASS_AND_LOCALIZATION_ADAPTER_EVIDENCE'
+          assert s['implementation_manifest']['research_gaps']==[
+              'GLOBAL-HILBERT-SELMER-COMPATIBILITY-TERMINAL',
+              'S36-PW03/B12 exact Loughran-Salgado hypothesis match',
+              'S36-PW04 chart-to-global-H1 adapter',
+              'S36-PW06 full-MW basis/saturation only if stronger claim attempted',
+              'B01 source subgroup equivalence',
+          ]
+          for key in ['STAGE36_PROGRESS_INCREMENT','STAGE36_THEOREM_CREDIT_INCREMENT','RECEIVER_CLOSURE_INCREMENT','MW_CLOSURE_INCREMENT','LOCAL_GLOBAL_OBSTRUCTION_INCREMENT','ENDPOINT_CREDIT_INCREMENT']:
+              assert s['credit_firewall'][key]==0
+          print('PASS: rebased repaired head retains exact six-file scope, five research gaps, and zero-credit firewall')
+          print('EXACT_HEAD='+subprocess.check_output(['git','rev-parse','HEAD'], text=True).strip())
+          PY
+
+      - name: Force-push exact validated rebased head
+        shell: bash
+        run: |
+          set -euo pipefail
+          git push --force-with-lease=refs/heads/arsenal-stage36-literature-strengthening-implementation:$GITHUB_SHA origin HEAD:arsenal-stage36-literature-strengthening-implementation
