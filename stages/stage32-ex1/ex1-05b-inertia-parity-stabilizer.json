@@ -1,0 +1,149 @@
+{
+  "schema": "STAGE32EX1_EX1_05B_INERTIA_PARITY_COMPONENT_STABILIZER_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05B_INERTIA_PARITY_AND_COMPONENT_STABILIZER_REFINEMENT",
+  "status": "PASS_PARITY_STABILIZER_REFINEMENT_CANDIDATE",
+  "dependency_status": "PROVISIONAL_SAME_PR_DEPENDS_ON_UNAUDITED_EX1_00_THROUGH_EX1_05A_CANDIDATES",
+  "target": {
+    "normalization_genus": 1,
+    "canonical_degree": 186,
+    "exceptional_pairings": [1, 1, 1, 2, 2, 0, 1, 2, 8, 4, 7, 2, 9, 5, 1, 10, 5, 11, 7, 1, 3, 1, 13, 1, 6, 2, 12, 16, 4, 3, 5, 6, 5, 10, 8, 1, 10, 15, 11, 2, 5, 11, 4, 10, 2, 4, 3, 13],
+    "positive_node_support_count": 47,
+    "exceptional_contact_mass": 266,
+    "ex1_05a_ramification_lower_bound": 186
+  },
+  "local_A1_parity_adapter": {
+    "quotient_model": "A1 = Spec C[x,y,z]/(xz-y^2) = C^2/{+-1}, with x=u^2,y=uv,z=v^2",
+    "resolution_chart": "On the blow-up/resolution chart use x=s, y=s*t, z=s*t^2; the normalized pullback of the universal double cover is u^2=s, so it is branched along E:{s=0}.",
+    "branch_parameter": "For a normalization branch q with contact order a=ord_tau(s)=I_q(Gamma,E), normalized pullback is w^2=tau^a*unit.",
+    "ramification_rule": "a odd iff the induced degree-2 cover is ramified at q; a even iff it is locally split/unramified over C.",
+    "ramification_contribution": "Each odd-contact branch contributes exactly 1 to deg Ram(D/N).",
+    "node_notation": "nu^*E_i=sum_j a_ij q_ij; r_i=#j; q_i=# {j : a_ij odd}.",
+    "exact_equalities": [
+      "deg Ram(D/N)=Q=sum_i q_i",
+      "q_i ≡ m_i (mod 2)",
+      "0<=q_i<=r_i<=m_i",
+      "m_i-q_i=2*sum_j floor(a_ij/2)"
+    ]
+  },
+  "global_parity_consequences": {
+    "Q_even": true,
+    "Q_range_even": [186, 266],
+    "odd_pairing_node_count": 26,
+    "odd_pairing_labels_1based": [1, 2, 3, 7, 11, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 30, 31, 33, 36, 38, 39, 41, 42, 47, 48],
+    "odd_pairing_mass": 140,
+    "even_positive_pairing_node_count": 21,
+    "even_positive_pairing_labels_1based": [4, 5, 8, 9, 10, 12, 16, 25, 26, 27, 28, 29, 32, 34, 35, 37, 40, 43, 44, 45, 46],
+    "even_positive_pairing_mass": 126,
+    "all_odd_pairing_nodes_force_at_least_one_ramified_branch": true,
+    "even_pairing_ramification_required_total_lower_bound": 46,
+    "even_pairing_ramified_node_count_lower_bound": 4,
+    "even_pairing_capacity_replay": "three largest even m_i sum to 38<46; four largest sum to 48",
+    "ramified_surface_node_count_lower_bound": 30,
+    "multibranch_node_count_lower_bound": 15,
+    "multibranch_capacity_replay": "baseline q_i=m_i mod2 gives Q=26; to reach Q>=186 needs extra >=160. Fourteen largest extra capacities m_i-(m_i mod2) sum to 152<160; fifteen largest sum to 160.",
+    "previous_multibranch_lower_bound": 14,
+    "strict_improvement": true
+  },
+  "slack_parameterization": {
+    "definition": "Q=186+2s",
+    "s_range": [0, 40],
+    "contact_half_excess": "H_contact=(266-Q)/2=40-s=sum_{i,j} floor(a_ij/2)",
+    "non_simple_contact_branch_count_upper_bound": "<=40-s",
+    "simple_transverse_contact_branch_count_lower_bound": ">=Q-(40-s)=146+3s",
+    "interpretation": "Every surviving profile is assigned one of 41 integer slack states s; larger s means more node ramification and fewer higher-order contacts."
+  },
+  "G0_inertia_structure": {
+    "source_model": "Stoll-Testa product model X: u^2=2xy, v^2=x^2-y^2, w^2=x^2+y^2 with G0=(Z/2)^3 acting by sign changes of u,v,w.",
+    "G0plus": "even-sign subgroup of order 4; X/G0plus has genus 2 and Riemann-Hurwitz equality shows G0plus acts freely on X.",
+    "single_sign_fixed_points_each": 8,
+    "triple_sign_fixed_points": 0,
+    "fixed_set_overlap": false,
+    "node_inertia_types": ["u-sign", "v-sign", "w-sign"],
+    "nodes_per_inertia_type": 16,
+    "node_count_replay": "For each single-sign involution: 8x8 fixed pairs in XxX, stabilizer order2, hence G0-orbit size4 and 64/4=16 quotient nodes; 3*16=48.",
+    "EXC_label_to_inertia_type_adapter_locked": false,
+    "exact_missing_adapter": "Map the retained 48 exceptional labels/order used by V6 pairings to the three 16-node single-sign inertia types."
+  },
+  "component_stabilizer_refinement": {
+    "etale_cover": "P=XxX -> Y has group G0plus of order4 and is etale.",
+    "component": "Let Ctilde be a connected component of the pullback of D to XxX and H<=G0plus its stabilizer; h=|H|=deg(Ctilde->D) is in {1,2,4}.",
+    "projection_degrees": "Let alpha,beta be degrees Ctilde->X.",
+    "canonical_equation": "8(alpha+beta)=372h, equivalently 2(alpha+beta)=93h.",
+    "stabilizer_parity": "h must be even, so h in {2,4}; h=1 is excluded.",
+    "h2_case": {
+      "quotient_genus": 3,
+      "reason": "For nontrivial H<=G0plus, X->X/H is etale degree2 and 2g(X)-2=8=2(2g'-2), so g'=3.",
+      "degree_sum": "alpha+beta=93",
+      "ramification_bound": "Q=2g(D)-2 >=4*max(alpha,beta)>=188",
+      "slack_consequence": "h=2 forces s>=1"
+    },
+    "h4_case": {
+      "stabilizer": "H=G0plus",
+      "quotient_genus": 2,
+      "degree_sum": "alpha+beta=186",
+      "ramification_bound": "Q>=2*max(alpha,beta)>=186",
+      "boundary_s0": "If s=0 (Q=186), necessarily alpha=beta=93 and both maps D->C2 are etale."
+    },
+    "common_projection_ramification_conservation": "If R1,R2 are ramification degrees of the two descended projection maps (to genus3 for h=2 or genus2 for h=4), then R1+R2=2Q-372=4s."
+  },
+  "inertia_component_interface": {
+    "full_cover_group": "G0",
+    "principle": "For a fixed connected component of the full pullback to XxX, ramified local inertia elements must lie in its stabilizer subgroup M<=G0.",
+    "h2_implication": "When h=2, M has order4 and M∩G0plus=H; therefore only a restricted subset (at most two) of the three single-sign node inertia types can ramify on that component.",
+    "h4_implication": "When h=4, the full stabilizer can be all G0, so all three node inertia types are allowed.",
+    "decisive_next_test": "Compute V6 contact/odd-contact capacity separately on the three exact 16-node inertia classes. If every allowed h=2 inertia subset has odd-contact capacity <188, h=2 is excluded; the same type ledger may further constrain h=4."
+  },
+  "cycle_status": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "active_route": "PRODUCT_COVER_LOCAL_INERTIA_PARITY",
+    "split_triggered": false,
+    "arsenal_new_lookup_required": false,
+    "reason": "This is a direct refinement of the live product-cover route, not a new external theorem family."
+  },
+  "exit": {
+    "all_residual_configurations_disposed": false,
+    "positive_witness_established": false,
+    "branch_exclusion_candidate": "h=1 component-stabilizer branch excluded; previous no-node-multibranch exclusion strengthened to at least15 multibranch nodes and at least30 ramified nodes.",
+    "credit_ceiling": "BRANCH_EXCLUSION_CANDIDATE_UNAUDITED",
+    "full_target_closure": false,
+    "next_route": "EX1-05C_EXC_NODE_INERTIA_TYPE_ADAPTER_AND_CAPACITY_TEST"
+  },
+  "source_locks": {
+    "ex1_05a_candidate": {
+      "path": "stages/stage32-ex1/ex1-05a-product-cover-ramification.json",
+      "canonical_sha256": "ef3c630d7a31ad4e96cc0d0e5e36a961e080ca14adaa8e0a116ac64e6780a01f",
+      "audit_status": "PENDING"
+    },
+    "fsm_A1_source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1648ah-fsm-unibranch-source-note.md",
+      "blob_sha1": "a4b2e09f5eb7bf5c287554985141548ca3359de7"
+    },
+    "stoll_testa": {
+      "title": "Curves on the surface of cuboids",
+      "authors": ["Michael Stoll", "Damiano Testa"],
+      "year": 2026,
+      "journal": "Mathematics of Computation",
+      "doi": "10.1090/mcom/4238",
+      "author_pdf": "https://www.mathe2.uni-bayreuth.de/stoll/papers/Cuboidi.pdf",
+      "locators": "Section 4 product quotient and Y double cover; Lemmas 20-21 for low-genus pullback context."
+    }
+  },
+  "firewalls": {
+    "odd_contact_count_identified_with_delta": false,
+    "ramification_degree_identified_with_delta_472": false,
+    "contact_half_excess_identified_with_delta": false,
+    "inertia_type_distribution_guessed_from_EXC_order": false,
+    "h2_excluded_without_EXC_inertia_adapter": false,
+    "product_cover_refinement_promoted_to_full_v6_exclusion": false,
+    "smooth_locus_singularities_discarded": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "a80e2c079b31b5e0a4e256825acb9307dd424c8e26b5e19e48ae55596e18f720"
+}
