@@ -40,7 +40,7 @@ jobs:
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
 
-      - name: Assert hostile-audited and merged 36-09AP-AU authority
+      - name: Assert hostile-audited and merged AP-AU authority
         shell: bash
         run: |
           set -euo pipefail
@@ -56,14 +56,27 @@ jobs:
           assert a['merged_main_sha']=='d43db1874b0e657143fa07b1a16eb87fc27e0238'
           PY
           git merge-base --is-ancestor d43db1874b0e657143fa07b1a16eb87fc27e0238 HEAD
-          test "$(git rev-parse HEAD:stages/stage36/36-09AU/even-transposed-redei-stage36-equivalence-close-preflight.json)" = "ae4572d4131464a8aca83d39e2faefbd4ffec18e"
-          test "$(git rev-parse HEAD:stages/stage36/36-09AD/coupled-six-reservoir-factor-squareclass-parity-preflight.json)" = "9d0388845955efee71d1a761ae4ee943d8b565d5"
-          test "$(git rev-parse HEAD:stages/stage36/36-09AN/retained-open-tunnell-necessary-gate-preflight.json)" = "76c55e89505b081c487749f4d7ab4d80e9d38a1f"
+          test "$(git rev-parse HEAD:stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json)" = "ddae37dd35cd0e732cebadf9c17f3f3fa57930df"
+          test "$(git rev-parse HEAD:stages/stage36/36-09AM/tunnell-rankzero-torsion-sector-source-lock.md)" = "0c64262ac11979fa1f5e25039cfc0f4f0426ca62"
 
-      - name: Verify current 36-09AV actual-coordinate specialization
-        run: python3 stages/stage36/verify_stage36_36_09AV.py
+      - name: Replay exact 36-09AV provisional parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          H=b1b716f955d1a0b50bb5633364896b2f140d3f00
+          git cat-file -e "$H^{commit}"
+          git merge-base --is-ancestor "$H" HEAD
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AV.py"
+          git worktree remove --force "$tmp"
+          test "$(git rev-parse "$H":stages/stage36/36-09AV/tunnell-actual-receiver-coordinate-specialization-preflight.json)" = "a64689ae6f8683c4d4b66e4f67a24f58624150f5"
+          test "$(git rev-parse "$H":stages/stage36/verify_stage36_36_09AV.py)" = "a7e5594ff8916f9ac3d385a3723233bc4e6cd9ce"
 
-      - name: Assert AV firewalls and AW unlock
+      - name: Verify current 36-09AW fixed-p branch sieve
+        run: python3 stages/stage36/verify_stage36_36_09AW.py
+
+      - name: Assert AW firewalls and AX unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -71,19 +84,19 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V84_36_09AV_CANDIDATE'
-          av=s['authority_frontier']['36-09AV']
-          assert av['ACTUAL_COORDINATE_TWIST_FORMULA'] is True
-          assert av['EXPLICIT_NON2TORSION_POINT'] is True
-          assert av['TUNNELL_NEW_FILTER_AFTER_ACTUAL_COORDINATE'] is False
-          assert av['TUNNELL_BRANCH_PREFILTER_BEFORE_REALIZATION'] is True
-          assert av['P_ONLY_TUNNELL_GATE'] is False
-          assert av['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert av['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09AW'
-          assert s['current']['36_09AW_entry_allowed'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V85_36_09AW_CANDIDATE'
+          aw=s['authority_frontier']['36-09AW']
+          assert aw['FIXED_P_FINITE_OUTER_BRANCH_SIEVE'] is True
+          assert aw['FIXED_P_EXCLUSION_RULE'] is True
+          assert aw['P_1_OVER_2_EXCLUDED'] is False
+          assert aw['P_2_OVER_11_EXCLUDED'] is False
+          assert aw['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert aw['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09AX'
+          assert s['current']['36_09AX_entry_allowed'] is True
+          assert s['claims']['candidate_parameter_set_shrunk'] is False
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09AV verified; actual U/V makes Tunnell automatic, fixed-p pre-realization branch sieve AW unlocked')
+          print('36-09AW verified; finite fixed-p outer branch sieve exact; bounded scan AX unlocked')
           PY
           git diff --check
