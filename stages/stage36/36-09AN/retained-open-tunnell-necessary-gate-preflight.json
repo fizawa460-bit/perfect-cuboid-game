@@ -3,7 +3,14 @@
   "stage": "36",
   "unit": "36-09AN",
   "status": "EXACT_RETAINED_OPEN_NON2TORSION_CONGRUENT_NUMBER_TUNNELL_NECESSARY_GATE_BATCH_AUDIT_CHECKPOINT",
-  "base_main_sha": "58e81a647b63bcea17ab396409c2813b667f45e2",
+  "base_main_sha": "24215fa27a631cd3cb370c0dfd76866dd2e916f1",
+  "freshness_sync": {
+    "previous_base": "58e81a647b63bcea17ab396409c2813b667f45e2",
+    "current_main": "24215fa27a631cd3cb370c0dfd76866dd2e916f1",
+    "sync_merge_commit": "022f1a0fdea0bfc0ca7cd480ac0dbfe72d6d994a",
+    "intervening_drift": "Stage32/Stage33 only",
+    "stage36_source_drift": false
+  },
   "batch_parent": {
     "pr": 1679,
     "36_09AM_exact_head": "46b426a393ee2eb027305f9c45f248008ff02fec",
@@ -11,47 +18,23 @@
     "authority_scope": "36-09AJ through AL are hostile-audited merged authority; 36-09AM is provisional exact same-PR input"
   },
   "source_locks": {
-    "stage36_36_09AD": {
-      "path": "stages/stage36/36-09AD/coupled-six-reservoir-factor-squareclass-parity-preflight.json",
-      "blob_sha": "9d0388845955efee71d1a761ae4ee943d8b565d5"
-    },
-    "stage36_36_09AJ": {
-      "path": "stages/stage36/36-09AJ/congruent-number-full2-covering-class-preflight.json",
-      "blob_sha": "27950f53a89e28d02d04f2c19628504561c206e7"
-    },
-    "stage36_36_09AM": {
-      "path": "stages/stage36/36-09AM/uniform-rankzero-tunnell-sha2-sieve-preflight.json",
-      "blob_sha": "6d9e9392df8fc70a90a356932724e0a589b6b446"
-    },
-    "stage36_36_09AN_source": {
-      "path": "stages/stage36/36-09AN/retained-open-congruent-number-rank-gate-source-lock.md",
-      "blob_sha": "1486507569cd9b6263ff46c5db263fbbc198e87c"
-    }
+    "stage36_36_09AD": {"path":"stages/stage36/36-09AD/coupled-six-reservoir-factor-squareclass-parity-preflight.json","blob_sha":"9d0388845955efee71d1a761ae4ee943d8b565d5"},
+    "stage36_36_09AJ": {"path":"stages/stage36/36-09AJ/congruent-number-full2-covering-class-preflight.json","blob_sha":"27950f53a89e28d02d04f2c19628504561c206e7"},
+    "stage36_36_09AM": {"path":"stages/stage36/36-09AM/uniform-rankzero-tunnell-sha2-sieve-preflight.json","blob_sha":"6d9e9392df8fc70a90a356932724e0a589b6b446"},
+    "stage36_36_09AN_source": {"path":"stages/stage36/36-09AN/retained-open-congruent-number-rank-gate-source-lock.md","blob_sha":"1486507569cd9b6263ff46c5db263fbbc198e87c"}
   },
   "full2_covering_map": {
     "raw_jacobian": "E_T: y^2=x*(x-T)*(x+T)",
-    "covering_equations": [
-      "D1*u^2-D2*r^2=T*v^2",
-      "D1*u^2-D3*s^2=-T*v^2"
-    ],
+    "covering_equations": ["D1*u^2-D2*r^2=T*v^2","D1*u^2-D3*s^2=-T*v^2"],
     "product_identity": "D1*D2*D3=L^4",
     "affine_chart": "v!=0",
     "x_map": "x=D1*(u/v)^2",
     "y_map": "y=L^2*u*r*s/v^3",
-    "derived": [
-      "x-T=D2*(r/v)^2",
-      "x+T=D3*(s/v)^2",
-      "y^2=x*(x-T)*(x+T)"
-    ],
+    "derived": ["x-T=D2*(r/v)^2","x+T=D3*(s/v)^2","y^2=x*(x-T)*(x+T)"],
     "Q_rational_map_exact": true
   },
   "retained_open": {
-    "AD_reconstruction": [
-      "U=A*u^2",
-      "V=B*v^2",
-      "U-V=eta*2^e*C*r^2",
-      "U+V=2^f*D*s^2"
-    ],
+    "AD_reconstruction": ["U=A*u^2","V=B*v^2","U-V=eta*2^e*C*r^2","U+V=2^f*D*s^2"],
     "forced_nonzero_coordinates": ["u","v","r","s"],
     "image_nonvanishing": ["x!=0","x-T!=0","x+T!=0","y!=0"],
     "raw_image_avoids": ["O","(0,0)","(T,0)","(-T,0)"],
