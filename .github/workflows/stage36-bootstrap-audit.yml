@@ -66,21 +66,21 @@ jobs:
           python3 "$tmp/stages/stage36/verify_stage36_36_09AL.py"
           git worktree remove --force "$tmp"
 
-      - name: Replay exact 36-09AM candidate parent
+      - name: Replay exact 36-09AN candidate parent
         shell: bash
         run: |
           set -euo pipefail
-          H=73ab4ac138593af9712b735df9e543404bf7ab4c
+          H=8ade3e831595143280cee1bf39fb94205075e2cd
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09AM.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09AN.py"
           git worktree remove --force "$tmp"
 
-      - name: Verify current 36-09AN Tunnell residue noncompression
-        run: python3 stages/stage36/verify_stage36_36_09AN.py
+      - name: Verify current 36-09AO Monsky full-2 class adapter
+        run: python3 stages/stage36/verify_stage36_36_09AO.py
 
-      - name: Assert 36-09AN firewalls and 36-09AO unlock
+      - name: Assert 36-09AO firewalls and hostile-audit checkpoint
         shell: bash
         run: |
           set -euo pipefail
@@ -88,18 +88,26 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V76_36_09AN_CANDIDATE'
-          assert s['status']=='ACTIVE_BATCHING_SUBSTANTIVE_PR'
-          an=s['authority_frontier']['36-09AN']
-          assert an['RESIDUE_ONLY_TUNNELL_PRECOMPUTATION'] is False
-          assert an['ACTUAL_PRIME_IDENTITY_LOAD_BEARING'] is True
-          assert an['B23_LOCAL_SURVIVOR_CLAIMED'] is False
-          assert an['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert an['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09AO'
-          assert s['current']['36_09AO_entry_allowed'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V77_36_09AO_BATCH_AUDIT_CHECKPOINT'
+          assert s['status']=='ACTIVE_BATCH_HOSTILE_AUDIT_CHECKPOINT'
+          ao=s['authority_frontier']['36-09AO']
+          assert ao['MONSKY_MATRIX_CONSTRUCTION_ADAPTED'] is True
+          assert ao['ODD_STAGE36_CLASS_COORDINATE_ADAPTER_EXECUTED'] is True
+          assert ao['EVEN_STAGE36_CLASS_EXAMPLE_ADAPTED'] is False
+          assert ao['B7_KERNEL_VECTOR']==[0,0,1,1,1,0,1,0]
+          assert ao['B7_MONSKY_RANK']==6
+          assert ao['B7_MONSKY_NULLITY']==2
+          assert ao['B7_SHA2_DIMENSION']==2
+          assert ao['UNIFORM_MW_VS_SHA_CLASSIFIED'] is False
+          assert ao['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert ao['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09AO-AUDIT-CHECKPOINT'
+          assert s['current']['next_owner']=='HOSTILE_AUDIT'
+          assert s['current']['hostile_audit_checkpoint_reached'] is True
+          assert s['current']['36_09AP_entry_allowed'] is False
           assert s['claims']['candidate_parameter_set_shrunk'] is False
           assert s['claims']['receiver_emptiness_proved'] is False
-          print('36-09AN exact same-skeleton Tunnell separation verified; residue-only precomputation blocked; actual prime identity retained; AO unlocked')
+          assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
+          print('36-09AO actual-prime Monsky/full2 kernel adapter verified; B7 nullity/Sha2 dimension 2 fixed-fiber result; uniform family remains open; AM-AO hostile-audit checkpoint reached; AP locked')
           PY
           git diff --check
