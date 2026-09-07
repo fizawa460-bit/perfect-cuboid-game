@@ -41,7 +41,6 @@ def q2square(x:Fraction):
     vn,un=v2int(x.numerator); vd,ud=v2int(x.denominator)
     return (vn-vd)%2==0 and (un*pow(ud,-1,8))%8==1
 def predict_generic(a:int,g:int,mu0:int,x:Fraction,y:Fraction):
-    # x,y have odd unit parts; return None only for excluded zero radicand.
     X=v2int(x.numerator)[0]-v2int(x.denominator)[0]
     Y=v2int(y.numerator)[0]-v2int(y.denominator)[0]
     E1=2*X; E2=g+2*Y
@@ -79,10 +78,9 @@ def main():
     assert c['base_main_sha']==BASE
     assert c['batch_parent']=={'pr':1693,'36_09BV_fresh_exact_head':PARENT,'36_09BV_fresh_exact_head_ci':PARENT_CI}
     assert bv['route_result']['next_leaf']=='36-09BW_GENERAL_AW_BRANCH_PRIME2_TAXONOMY_PREFLIGHT'
-    assert ae['alpha_two_residue_input']['consequence'][2]=='A mod 8 is in {1,7}'
-    assert ae['alpha_two_residue_input']['consequence'][3]=='B mod 8 is in {1,7}'
+    assert ae['alpha_two_residue_constraints']['consequences'][1]=='A mod8 belongs to {1,7}'
+    assert ae['alpha_two_residue_constraints']['consequences'][2]=='B mod8 belongs to {1,7}'
 
-    # Primitive parameter dyadic bound delta >= 2*sigma+1.
     for a0 in range(-15,16):
       for b0 in range(-15,16):
         if not a0 or not b0 or gcd(a0,b0)!=1 or a0==b0 or a0==-b0: continue
@@ -91,7 +89,6 @@ def main():
         assert sigma in (0,1)
         assert delta>=2*sigma+1,(a0,b0,sigma,delta)
 
-    # AE source parity decomposition at the mod-8 level.
     for A in (1,7):
       for B in (1,7):
         for u in range(1,16,2):
@@ -101,12 +98,10 @@ def main():
                 assert minus==0 and plus in (2,6)
             else:
                 assert minus in (2,6) and plus==0
-        # mixed primitive parity: one square is 0 or 4 mod8, the other is odd; both sum/difference are odd.
         for u in (2,4,6):
           v=1
           assert (A*u*u-B*v*v)%2==1 and (A*u*u+B*v*v)%2==1
 
-    # Exhaustively sanity-check the generic two-term rule on small valuation/unit representatives.
     for a in (1,7):
       for g in (0,1):
         for mu0 in (1,3,5,7):
@@ -135,7 +130,7 @@ def main():
     assert rem['deep_f1_plus_root'].endswith('>=5')
     assert ay['exact_specialization'] is True
     assert bi['minus_root_valuation_gate']['h']=='Y-X=(delta+3-2*sigma-alpha)/2'
-    assert bj['equality_branch_input']['minus_root_equivalence'].endswith('z^2-1 is a Q2-square')
+    assert bj['equality_branch_input']['minus_root_equivalence'].endswith('c^2/y^2=z^2-1')
 
     mod=load_bu()
     for a0,b0,expected in [(1,2,(14,8,6,4)),(2,11,(158,77,52,30))]:
