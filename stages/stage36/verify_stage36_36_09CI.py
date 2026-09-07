@@ -124,7 +124,7 @@ def main()->None:
     assert ch['old_six_completion']['all_old_six_local_realization_complete'] is True
     assert ch['old_six_completion']['does_not_cover_Q_reservoir'] is True
     assert bu['Q_reservoir_generalization']['branch_only_first_residue_row']=='Legendre(mu*A*B,q)=+1 for every odd q|Q'
-    assert bu['Q_reservoir_generalization']['Q_branch_row_is_local_point_existential_sufficiency'] if False else True
+    assert bu['scope_firewalls']['Q_branch_row_is_local_point_existential_sufficiency'] is False
     assert bt['general_t_line_four_square_model']['general_AW_branch_full_cover_local_model_obtained'] is True
     assert bo['Q_reservoir_setup']['minus_one_square'] is True
     assert 'Hasse' in HNOTE.read_text() and '|#E(F_q) - (q+1)| <= 2*sqrt(q)' in HNOTE.read_text()
@@ -138,7 +138,6 @@ def main()->None:
     assert mc['Q_reservoir_local_realization_complete'] is True
     assert mc['new_branch_filter_beyond_BU_Q_row'] is False
 
-    # Exact algebraic identities behind q|Q: P^2+M^2=2Q^2 and lambda^2+1=2Q^2/M^2.
     for a in range(1,12):
         for b in range(1,12):
             if gcd(a,b)!=1 or a==b:continue
@@ -147,12 +146,10 @@ def main()->None:
             assert P*P+M*M==2*Q*Q
             assert P*P-M*M==8*D0
 
-    # Verify the hard generic pattern count formula on a broad exact prime panel.
-    # The universal positivity step itself is theorem-backed by the locked Hasse source note.
     for q in range(5,300):
         if not isprime(q) or q%4!=1:continue
         Cq=cubic_sum(q,lambda x,p:buv.legendre(x,p))
-        assert Cq*Cq<=4*q  # finite replay sanity, not the universal proof source
+        assert Cq*Cq<=4*q
         s=buv.legendre(2,q)
         hard=[(-1,-1,1),(-1,1,-1)]
         if s==1: hard.append((1,-1,-1))
