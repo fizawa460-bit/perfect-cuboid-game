@@ -1,0 +1,149 @@
+name: Arsenal literature Phase7 materialize
+on:
+  push:
+    branches:
+      - arsenal-literature-strengthening-implementation
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: arsenal-literature-strengthening-implementation
+      - name: Materialize registry and generated Arsenal
+        env:
+          IMPLEMENTATION_BASE: 24215fa27a631cd3cb370c0dfd76866dd2e916f1
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('docs/arsenal/index.json')
+          d=json.loads(p.read_text())
+          new_ids=["LIT-PW01", "LIT-PW02", "LIT-PW03", "LIT-PW04", "LIT-PW05", "LIT-PW06", "LIT-PW07", "LIT-PW08", "LIT-PW09", "LIT-PW10", "LIT-PW11", "LIT-PW12", "LIT-PW13", "LIT-PW14", "LIT-PW15", "LIT-WF01"]
+          active=[]; retired={}
+          for k in ('selectors','formal_router_weapons','formal_workflows'):
+              active += [x['id'] for x in d.get(k,[])]
+          for h in d.get('provisional_harvests',[]):
+              active += h.get('active_cards',[]) + h.get('active_workflows',[])
+              retired.update(h.get('retired_merged_ids',{}))
+          c=sorted(set(active)&set(new_ids))
+          if c: raise SystemExit('ID collision: '+','.join(c))
+          if set(new_ids)&set(retired): raise SystemExit('retired ID reuse')
+          if any(h.get('source_stage')=='Literature Strengthening' for h in d.get('provisional_harvests',[])):
+              raise SystemExit('literature harvest already exists')
+          d['schema']='RESEARCH_ARSENAL_V12_LITERATURE_PROVISIONAL'
+          d['status']='CURRENT_WITH_FORMAL_ACTIVE_STAGE_AND_LITERATURE_PROVISIONAL'
+          rec={'path':'../arsenal-literature-strengthening-promotion.md','class':'PROVISIONAL','role':'Phase7 literature-backed strengthening promotion provenance; no Stage mathematical authority change'}
+          if rec not in d.setdefault('support_records',[]): d['support_records'].append(rec)
+          d['literature_strengthening']={
+           'status':'PROVISIONAL_IMPLEMENTATION_PENDING_HOSTILE_AUDIT',
+           'discovery_pr':1676,'discovery_exact_head':'44f635f364f9904c2048197bc84eea58938fdb16',
+           'arsenal_base_main':'9306238c7ada55e31311245019d6b7e474ad837f','implementation_pr':1681,
+           'implementation_branch':'arsenal-literature-strengthening-implementation',
+           'implementation_base_main':'24215fa27a631cd3cb370c0dfd76866dd2e916f1',
+           'stage35_provisional_comparison_head':'3fc684677ef1570a820420079088667f558e0983','stage36_excluded':True,
+           'literature_strengthening_adds_no_stage_progress':True,
+           'literature_arsenal_registration_does_not_change_stage_mathematical_authority':True,
+           'mathematical_stage_credit_increment':0,
+           'new_entries':{"LIT-PW01": {"candidate_id": "MW_SIEVE_GENERAL_FINITE_QUOTIENT_EXTENSION", "final_class": "LITERATURE_ADAPTED", "targets": ["S34-W02"], "source_path": "../arsenal-literature-strengthening-promotion.md", "maturity": "PROVISIONAL"}, "LIT-PW02": {"candidate_id": "ELLIPTIC_CHABAUTY_EXTENSION_ADAPTER", "final_class": "LITERATURE_ADAPTED", "targets": ["S35-PW02", "S35-PW03", "S34-W03"], "source_path": "../arsenal-literature-strengthening-promotion.md", "maturity": "PROVISIONAL"}, "LIT-PW03": {"candidate_id": "FINITE_BRANCH_TO_EXPLICIT_N_COVER", "final_class": "LITERATURE_ADAPTED", "targets": ["S34-W01", "S35-PW03"], "source_path": "../arsenal-literature-strengthening-promotion.md", "maturity": "PROVISIONAL"}, "LIT-PW04": {"candidate_id": "STAGE33_BRAUER_ADELIC_EVALUATION_ADAPTER", "final_class": "LITERATURE_ADAPTED", "targets": ["S33-PW04", "S33-PW08", "S33-PW09", "S33-PW10", "S33-WF02"], "source_path": "../arsenal-literature-strengthening-promotion.md", "maturity": "PROVISIONAL"}, "LIT-PW05": {"candidate_id": "KUMMER_2PRIMARY_BM_REDUCTION_GATE", "final_class": "LITERATURE_ADAPTED", "targets": ["S33-PW09", "S33-PW07"], "source_path": "../arsenal-literature-strengthening-promotion.md", "maturity": "PROVISIONAL"}, "LIT-PW06": {"candidate_id": "BRAUER_GOOD_REDUCTION_FINITE_PLACE_REDUCER", "final_class": "LITERATURE_ADAPTED", "targets": ["S33-PW08", "S33-PW10"], "source_path": "../arsenal-literature-strengthening-promotion.md", "maturity": "PROVISIONAL"}, "LIT-PW07": {"candidate_id": "ELLIPTIC_LOG_SINTEGRAL_TERMINAL", "final_class": "NEW_LITERATURE_WEAPON", "targets": ["S31-W02", "S34-W03"], "source_path": "../arsenal-literature-strengthening-promotion.md", "maturity": "PROVISIONAL"}, "LIT-PW08": {"candidate_id": "CHABAUTY_TERMINAL_ROUTER", "final_class": "NEW_LITERATURE_WEAPON", "targets": ["S34-W03", "S31-W03"], "source_path": "../arsenal-literature-strengthening-promotion.md", "maturity": "PROVISIONAL"}, "LIT-PW09": {"candidate_id": "QUADRATIC_CHABAUTY_TERMINAL", "final_class": "NEW_LITERATURE_WEAPON", "targets": ["S31-W02", "S34-W03"], "source_path": "../arsenal-literature-strengthening-promotion.md", "maturity": "PROVISIONAL"}, "LIT-PW10": {"candidate_id": "COVERING_COLLECTION_TERMINAL_ADAPTER", "final_class": "NEW_LITERATURE_WEAPON", "targets": ["S34-W01", "S35-PW03", "S34-W03"], "source_path": "../arsenal-literature-strengthening-promotion.md", "maturity": "PROVISIONAL"}, "LIT-PW11": {"candidate_id": "FIXED_THUE_MAHLER_TERMINAL", "final_class": "NEW_LITERATURE_WEAPON", "targets": ["S34-W01", "S31-W02", "S34-W03"], "source_path": "../arsenal-literature-strengthening-promotion.md", "maturity": "PROVISIONAL"}, "LIT-PW12": {"candidate_id": "FIXED_S_UNIT_TERMINAL", "final_class": "NEW_LITERATURE_WEAPON", "targets": ["S34-W01", "S31-W02", "S34-W03"], "source_path": "../arsenal-literature-strengthening-promotion.md", "maturity": "PROVISIONAL"}, "LIT-PW13": {"candidate_id": "FIXED_THUE_TERMINAL", "final_class": "NEW_LITERATURE_WEAPON", "targets": ["S34-W01", "S31-W02"], "source_path": "../arsenal-literature-strengthening-promotion.md", "maturity": "PROVISIONAL"}, "LIT-PW14": {"candidate_id": "BRAUER_MANIN_EMPTY_ADELIC_SET_TERMINAL", "final_class": "NEW_LITERATURE_WEAPON", "targets": ["S33-PW01", "S33-PW04", "S33-PW08", "S33-PW09"], "source_path": "../arsenal-literature-strengthening-promotion.md", "maturity": "PROVISIONAL"}, "LIT-PW15": {"candidate_id": "OPEN_DESCENT_ETALE_BRAUER_TERMINAL", "final_class": "NEW_LITERATURE_WEAPON", "targets": ["S33-PW06", "S33-PW07", "S33-PW08"], "source_path": "../arsenal-literature-strengthening-promotion.md", "maturity": "PROVISIONAL"}, "LIT-WF01": {"candidate_id": "CERTIFIED_BAKER_LLL_REDUCTION_ENUMERATION", "final_class": "NEW_LITERATURE_WORKFLOW", "targets": ["S32-PW03", "S32-PW04", "literature terminal solvers"], "source_path": "../arsenal-literature-strengthening-promotion.md", "maturity": "PROVISIONAL"}},
+           'extensions':{"MW_CONTROLLED_FINITE_INDEX_INTERFACE": {"targets": ["S31-WF01", "S34-W02"], "final_class": "EXTEND_EXISTING", "maturity": "PROVISIONAL_DELTA", "source_path": "../arsenal-literature-strengthening-promotion.md"}, "S34W01_TERMINAL_EQUATION_ROUTER_EXTENSION": {"targets": ["S34-W01"], "final_class": "EXTEND_EXISTING", "maturity": "PROVISIONAL_DELTA", "source_path": "../arsenal-literature-strengthening-promotion.md"}, "F2_SYMPLECTIC_TRANSVECTION_DIRECTION_NORMAL_FORM": {"targets": ["S32-PW06"], "final_class": "EXTEND_EXISTING", "maturity": "PROVISIONAL_DELTA", "source_path": "../arsenal-literature-strengthening-promotion.md"}, "FINITE_ACTION_STABILIZER_TRANSPORTER_EQUIVARIANT_MATCHER": {"targets": ["S30-W01"], "final_class": "EXTEND_EXISTING", "maturity": "PROVISIONAL_DELTA", "source_path": "../arsenal-literature-strengthening-promotion.md"}, "GENERATOR_COMPLETE_SEMILINEAR_COMPATIBILITY_VERIFIER": {"targets": ["S30-W02"], "final_class": "EXTEND_EXISTING", "maturity": "PROVISIONAL_DELTA", "source_path": "../arsenal-literature-strengthening-promotion.md"}, "REVERSIBLE_INTEGER_MODULE_NORMAL_FORM_ADAPTER": {"targets": ["S32-PW03", "S32-PW04", "S33-PW02"], "final_class": "EXTEND_EXISTING", "maturity": "PROVISIONAL_DELTA", "source_path": "../arsenal-literature-strengthening-promotion.md"}, "FINITE_LATTICE_QUOTIENT_SATURATION_ADAPTER": {"targets": ["S32-PW03", "S32-PW04"], "final_class": "EXTEND_EXISTING", "maturity": "PROVISIONAL_DELTA", "source_path": "../arsenal-literature-strengthening-promotion.md"}, "FINITE_MODULE_INTERTWINER_ISOMORPHISM_SOLVER": {"targets": ["S33-PW05"], "final_class": "EXTEND_EXISTING", "maturity": "PROVISIONAL_DELTA", "source_path": "../arsenal-literature-strengthening-promotion.md"}, "ORBITAL_DOUBLE_COSET_RECONSTRUCTION_ENGINE": {"targets": ["S32-PW05", "S30-W03"], "final_class": "EXTEND_EXISTING", "maturity": "PROVISIONAL_DELTA", "source_path": "../arsenal-literature-strengthening-promotion.md"}},
+           'source_anchor_only':{"GENUS_ONE_NDESCENT_SOURCE_ANCHOR": {"targets": ["S31-W01"], "final_class": "SOURCE_ANCHOR_ONLY", "source_path": "../arsenal-literature-strengthening-promotion.md"}, "GERSTEN_PURITY_THEOREM_ANCHOR": {"targets": ["S33-PW08", "S33-PW10"], "final_class": "SOURCE_ANCHOR_ONLY", "source_path": "../arsenal-literature-strengthening-promotion.md"}},
+           'rejected_duplicates':["DISC-S35-A02", "DISC-S35-A09"],'not_applicable':["KUMMER_TRANSCENDENTAL_BRAUER_COMPARISON_ADAPTER", "CLASSICAL_GROUP_CONSTRUCTIVE_RECOGNITION_GATE"],
+           'research_gaps':["PARAMETRIC_RESERVOIR_FINITE_SUPPORT_CERTIFICATE", "NORM_FORM_BOUND_AND_TERMINAL_ADAPTER", "KUMMER_SECOND_DESCENT_ADAPTER", "CURVE_FINITE_ABELIAN_DESCENT_TERMINAL", "TRANSVECTION_GENERATED_SUBGROUP_CLASSIFIER"],'possible_novelty_flags':[]
+          }
+          d.setdefault('provisional_harvests',[]).append({
+           'source_stage':'Literature Strengthening','path':'../arsenal-literature-strengthening-promotion.md',
+           'source_pr':1681,'source_branch':'arsenal-literature-strengthening-implementation',
+           'discovery_pr':1676,'discovery_exact_head':'44f635f364f9904c2048197bc84eea58938fdb16','arsenal_base_main':'9306238c7ada55e31311245019d6b7e474ad837f',
+           'implementation_base_main':'24215fa27a631cd3cb370c0dfd76866dd2e916f1',
+           'promotion_status':'PROVISIONAL_LITERATURE_IMPLEMENTATION_PENDING_HOSTILE_AUDIT',
+           'active_cards':["LIT-PW01", "LIT-PW02", "LIT-PW03", "LIT-PW04", "LIT-PW05", "LIT-PW06", "LIT-PW07", "LIT-PW08", "LIT-PW09", "LIT-PW10", "LIT-PW11", "LIT-PW12", "LIT-PW13", "LIT-PW14", "LIT-PW15"],'retired_merged_ids':{},
+           'card_roles':{"LIT-PW01": "GENERAL_FINITE_QUOTIENT_MORDELL_WEIL_SIEVE", "LIT-PW02": "REPO_QUOTIENT_TO_ELLIPTIC_CHABAUTY_ADAPTER", "LIT-PW03": "FINITE_BRANCH_TO_N_COVER_SELMER_ADAPTER", "LIT-PW04": "SOURCE_BOUND_BRAUER_LOCAL_EVALUATION_ADAPTER", "LIT-PW05": "KUMMER_2PRIMARY_BRAUER_RELEVANCE_GATE", "LIT-PW06": "BRAUER_RELEVANT_PLACE_CERTIFICATE", "LIT-PW07": "COMPLETE_ELLIPTIC_S_INTEGRAL_POINT_TERMINAL", "LIT-PW08": "EXPLICIT_CHABAUTY_POINT_COMPLETENESS_TERMINAL", "LIT-PW09": "QUADRATIC_CHABAUTY_INTEGRAL_POINT_TERMINAL", "LIT-PW10": "EXHAUSTIVE_COVERING_COLLECTION_TERMINAL", "LIT-PW11": "COMPLETE_FIXED_THUE_MAHLER_TERMINAL", "LIT-PW12": "COMPLETE_FIXED_S_UNIT_TERMINAL", "LIT-PW13": "COMPLETE_FIXED_THUE_TERMINAL", "LIT-PW14": "BRAUER_MANIN_ADELIC_EMPTYNESS_TERMINAL", "LIT-PW15": "OPEN_VARIETY_DESCENT_ETALE_BRAUER_TERMINAL"},
+           'card_summaries':{"LIT-PW01": "Certified MW subgroup Gamma + exact finite quotient maps phi_i:Gamma->G_i + exact receiver-admissible subsets X_i + complete torsion/coset accounting -> if the exact inverse-image intersection is empty, no receiver-compatible rational point exists.", "LIT-PW02": "Exact quotient/lift receiver -> elliptic curve over an extension + exact base-field image condition + controlled MW index + local elliptic-log matrix -> certified elliptic-Chabauty exclusion/uniqueness.", "LIT-PW03": "Finite exact branch/square system + exact curve/Jacobian + explicit cover map -> prove torsor/Selmer identity and local data -> emit a genuine n-covering object with exhaustive semantics only where proved.", "LIT-PW04": "Named source-bound Brauer representative + exact terminal variety/model + local point population -> compute evaluation in Br(k_v), normalized inv_v, and a complete local evaluation image/table.", "LIT-PW05": "Prove the exact terminal object is a Kummer variety from a 2-covering; certify tested 2-primary Brauer coverage; then restrict Brauer-Manin obstruction search to 2-primary classes.", "LIT-PW06": "Smooth proper model + torsion-free geometric Picard + finite transcendental Brauer group/order + exact bad-reduction set -> restrict Brauer evaluation to archimedean, bad-reduction, and order-dividing finite places.", "LIT-PW07": "Integral Weierstrass E/Q + fixed finite S + certified MW basis + explicit initial height bound + exact repo S-integrality dictionary -> elliptic-logarithm sieves -> complete S-integral point set.", "LIT-PW08": "Exact smooth projective genus>=2 curve + Jacobian MW/index data + source-locked p-adic criterion -> certify completeness/uniqueness of rational points in all relevant residue classes, optionally with MW-sieve cleanup.", "LIT-PW09": "Eligible odd-degree hyperelliptic/open curve + rank=genus data + rational MW basis + p-adic height/local data + exact MW-sieve survivor cleanup -> complete certified integral point set.", "LIT-PW10": "Exact source curve/receiver + exhaustive finite covering collection whose rational points cover every source rational point + exact local pruning and terminal solvers on retained covers -> complete source point classification; an empty exhaustive cover set proves nonexistence.", "LIT-PW11": "Fixed irreducible homogeneous F of degree>=3 + fixed nonzero a + fixed finite rational-prime support + exact gcd/content normalization + exact repo forward/converse dictionary -> complete Thue-Mahler solution set with replay.", "LIT-PW12": "Fixed coefficient field + fixed finite S + exact unit-group/normalization data + repo forward/converse map -> effective S-unit solver -> complete branch solution set.", "LIT-PW13": "Fixed irreducible binary F in Z[X,Y] degree>=3 + fixed nonzero RHS + exact primitive/content normalization + repo forward/converse map -> complete integral solution enumeration.", "LIT-PW14": "Exact terminal variety/open + source-bound Brauer subgroup + complete local point/evaluation images at every required place -> compute invariant-sum compatibility; if the resulting Brauer-Manin adelic set is empty, certify no rational point.", "LIT-PW15": "Smooth quasi-projective geometrically integral X/k + exact torsor/twist family + complete adelic descent/Brauer computation -> use X(A_k)^desc = X(A_k)^{et,Br}; emptiness gives a rational-point obstruction."},
+           'active_workflows':['LIT-WF01'],'workflow_roles':{'LIT-WF01':'BOUND_REDUCTION_ENUMERATION_REPLAY_WORKFLOW'},
+           'workflow_summaries':{'LIT-WF01':"Separate proved initial height/exponent bound -> exact real/p-adic approximation lattice -> certified LLL/reduction -> exact finite enumeration region -> independent replay and repo pullback."},
+           'provisional_card_count':15,'provisional_workflow_count':1,'provisional_active_entry_count':16,
+           'routeable_for_candidate_discovery':True,'formal_selector':False,'repo_theorem_credit':False,
+           'external_literature_theorem_provenance':True,'hostile_audit_required_before_formal_treatment':True,
+           'stage36_excluded':True,'arsenal_registration_adds_stage_mathematical_credit':False
+          })
+          p.write_text(json.dumps(d,indent=2,ensure_ascii=False)+'\n')
+          PY
+          python3 -B docs/arsenal/sync_arsenal_catalog.py
+          rm .github/workflows/arsenal-literature-phase7-materialize.yml
+          git add -A
+          git diff --cached --check
+          git commit -m "[Arsenal][Literature] materialize provisional registry and cards"
+          NEW_SHA="$(git rev-parse HEAD)"
+          test -z "$(git status --porcelain)"
+          python3 -B docs/arsenal/sync_arsenal_catalog.py --check
+          git diff --check
+          python3 - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          base='24215fa27a631cd3cb370c0dfd76866dd2e916f1'
+          d=json.loads(Path('docs/arsenal/index.json').read_text())
+          entries=[]
+          for k in ('selectors','formal_router_weapons','formal_workflows'):
+              entries += [x['id'] for x in d.get(k,[])]
+          retired={}
+          for h in d.get('provisional_harvests',[]):
+              entries += h.get('active_cards',[]) + h.get('active_workflows',[])
+              retired.update(h.get('retired_merged_ids',{}))
+          assert len(entries)==len(set(entries)), 'active IDs not unique'
+          assert not (set(entries)&set(retired)), 'retired ID reused'
+          assert all(s in set(entries) for s in retired.values()), 'retired successor missing'
+          lit=d['literature_strengthening']
+          expected_pw=[f'LIT-PW{i:02d}' for i in range(1,16)]
+          assert sorted(lit['new_entries'])==sorted(expected_pw+['LIT-WF01'])
+          assert len(lit['extensions'])==9
+          assert len(lit['source_anchor_only'])==2
+          assert lit['possible_novelty_flags']==[]
+          assert lit['stage36_excluded'] is True
+          assert lit['mathematical_stage_credit_increment']==0
+          assert lit['literature_arsenal_registration_does_not_change_stage_mathematical_authority'] is True
+          prom=Path('docs/arsenal-literature-strengthening-promotion.md').read_text()
+          for sid in expected_pw+['LIT-WF01']:
+              section=prom.split('## '+sid,1)[1]
+              section=section.split('\n## ',1)[0]
+              assert '- DOI:' in section
+              assert '- Canonical URL:' in section
+              assert '- Theorem/algorithm locator:' in section
+              assert '- Conditional assumptions:' in section
+              assert '- Required adapter:' in section
+              assert '- Repo adapter source:' in section
+              assert 'DO_NOT_USE_FOR' in section
+          base_index=json.loads(subprocess.check_output(['git','show',base+':docs/arsenal/index.json'],text=True))
+          def ids(data):
+              out=[]
+              for k in ('selectors','formal_router_weapons','formal_workflows'):
+                  out += [x['id'] for x in data.get(k,[])]
+              for h in data.get('provisional_harvests',[]):
+                  out += h.get('active_cards',[])+h.get('active_workflows',[])
+              return set(out)
+          assert {x for x in ids(d) if x.startswith('S36-')} == {x for x in ids(base_index) if x.startswith('S36-')}, 'Stage36 entry set changed'
+          changed=subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines()
+          assert not any(p.startswith('stages/') for p in changed), 'stages/** diff forbidden'
+          assert not any('stage36' in p.lower() for p in changed), 'Stage36 diff forbidden'
+          allowed_exact={'docs/arsenal-literature-strengthening-promotion.md','docs/arsenal/index.json','docs/arsenal/catalog.md'}
+          for p in changed:
+              if p in allowed_exact: continue
+              if p.startswith('docs/arsenal/cards/provisional/LIT-PW') and p.endswith('.md'): continue
+              if p=='docs/arsenal/cards/workflows/LIT-WF01.md': continue
+              raise AssertionError('scope violation: '+p)
+          assert len([p for p in changed if p.startswith('docs/arsenal/cards/provisional/LIT-PW')])==15
+          assert 'docs/arsenal/cards/workflows/LIT-WF01.md' in changed
+          print('PASS_PHASE7_EXACT_SCOPE',len(changed))
+          print('PASS_ACTIVE_IDS_UNIQUE',len(entries))
+          print('PASS_STAGE36_ENTRY_SET_UNCHANGED')
+          print('PASS_MATHEMATICAL_STAGE_CREDIT_INCREMENT_0')
+          PY
+          git push origin HEAD:arsenal-literature-strengthening-implementation
