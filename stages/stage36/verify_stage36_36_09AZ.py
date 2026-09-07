@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 import json, math, subprocess
+from fractions import Fraction
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 CERT=ROOT/'stages/stage36/36-09AZ/boundary-survivor-open-refinement-preflight.json'
@@ -29,14 +30,10 @@ def check_boundary(a:int,b:int):
     U0=P0*P0; V0=M0*M0
     assert math.gcd(U0,V0)==1
     assert M*M*U0-P*P*V0==0
-    # Exhaustively verify uniqueness in a box; the exact proof is the coprime divisibility argument source-locked in CERT.
-    lim=max(U0,V0)+40
-    hits=[]
-    for U in range(1,lim+1):
-      for V in range(1,lim+1):
-        if math.gcd(U,V)!=1: continue
-        if M*M*U==P*P*V: hits.append((U,V))
-    assert hits==[(U0,V0)]
+    # Exact uniqueness interface: Lminus=0 forces U/V=P0^2/M0^2;
+    # Fraction returns the unique positive coprime numerator/denominator.
+    q=Fraction(P0*P0,M0*M0)
+    assert (q.numerator,q.denominator)==(U0,V0)
     return P,M,h,U0,V0
 
 def main():
@@ -48,13 +45,13 @@ def main():
     assert p['pr']==1683 and p['hostile_audit_review']==AUDIT_REVIEW
     assert p['audited_exact_head']==AUDITED_HEAD and p['exact_head_ci']==AUDITED_CI and p['merged_main_sha']==BASE
     tested=0
-    for a in range(1,13):
-      for b in range(1,13):
+    for a in range(1,41):
+      for b in range(1,41):
         if a==b or math.gcd(a,b)!=1: continue
         P=a*a+2*a*b-b*b; M=a*a-2*a*b-b*b
         if P==0 or M==0: continue
         check_boundary(a,b); tested+=1
-    assert tested>70
+    assert tested>900
     o=c['correct_open_refinement']
     assert o['open_inequality']=='M^2*A*u^2-P^2*B*v^2 != 0'
     assert o['branch_label_deletion_valid'] is False
@@ -73,5 +70,5 @@ def main():
     assert az['CANDIDATE_PARAMETER_SET_SHRUNK'] is False and az['RECEIVER_CLOSED'] is False
     assert st['current']['unit']=='36-09BA' and st['current']['36_09BA_entry_allowed'] is True
     assert st['claims']['receiver_emptiness_proved'] is False
-    print(f'36-09AZ verified on {tested} primitive parameter diagnostics plus exact coprime-divisibility proof interface: Lminus=0 has one primitive positive coordinate; open refinement is coordinate-level and Tunnell cannot delete the whole AY squareclass tuple.')
+    print(f'36-09AZ verified on {tested} primitive parameter diagnostics plus exact reduced-fraction uniqueness: Lminus=0 has one primitive positive coordinate; open refinement is coordinate-level and Tunnell cannot delete the whole AY squareclass tuple.')
 if __name__=='__main__': main()
