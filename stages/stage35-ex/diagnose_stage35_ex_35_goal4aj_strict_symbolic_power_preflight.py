@@ -2,13 +2,13 @@
 """Goal4AJ diagnostic: certify a strict-curve symbolic-power constructor.
 
 On the normal cuboid canonical surface the 92 retained strict curves are
-height-one primes.  Away from the finite A1 singular locus the surface is
-regular, so their ordinary and symbolic powers agree.  Hence the symbolic
+height-one primes. Away from the finite A1 singular locus the surface is
+regular, so their ordinary and symbolic powers agree. Hence the symbolic
 power is obtained by saturating the ordinary power by the singular-locus
-ideal.  This preflight checks that mechanism exactly on the standard A1 model
+ideal. This preflight checks that mechanism exactly on the standard A1 model
 and on the pinned Stoll C1[1] curve inside the four-quadric cuboid surface.
 
-This is diagnostic only.  It does not build the full 92-curve packet, solve a
+This is diagnostic only. It does not build the full 92-curve packet, solve a
 degree-31 section system, or materialize F_B.
 """
 from __future__ import annotations
@@ -51,9 +51,9 @@ proc contained(ideal A, ideal B)
   return(1);
 }
 
-// Standard A1 local model.  P=(x,z) is one ruling prime.  Since y is a unit
-// at the generic point of P and xy=z^2, v_P(z)=1 and v_P(x)=2.  Therefore
-// P^(2)=(x), P^(3)=xP.  Saturation by the singular maximal ideal must recover
+// Standard A1 local model. P=(x,z) is one ruling prime. Since y is a unit
+// at the generic point of P and xy=z^2, v_P(z)=1 and v_P(x)=2. Therefore
+// P^(2)=(x), P^(3)=xP. Saturation by the singular maximal ideal must recover
 // these symbolic powers from the ordinary powers.
 ring rt=0,(x,y,z),dp;
 ideal Ft=x*y-z^2;
@@ -75,8 +75,8 @@ print("GOAL4AJ_A1_SYMBOLIC_POWER=PASS");
 // Cuboid canonical surface over Q and pinned Stoll C1[1]:
 //   [a1, a2+b3, a3+b2, b1+c].
 // Its quotient is the irreducible conic b2^2+b3^2-c^2=0, hence this is a
-// height-one prime on the normal surface.  The 4x4 Jacobian minors define the
-// singular locus on the complete-intersection surface.  Saturating the
+// height-one prime on the normal surface. The 4x4 Jacobian minors define the
+// singular locus on the complete-intersection surface. Saturating the
 // ordinary square by that locus is therefore the reflexive/symbolic square.
 ring r=0,(a1,a2,a3,b1,b2,b3,c),dp;
 ideal surf=
@@ -101,7 +101,6 @@ if (contained(S2,O2)==1) { ERROR("C1 symbolic square shows no A1 correction"); }
 print("GOAL4AJ_CUBOID_C1_SYMBOLIC_POWER=PASS");
 print("GOAL4AJ_C1_ORDINARY_SQUARE_GENERATORS="+string(size(O2)));
 print("GOAL4AJ_C1_SYMBOLIC_SQUARE_GENERATORS="+string(size(S2)));
-print("GOAL4AJ_C1_SATURATION_ITERATIONS="+string(LS2[2]));
 print("GOAL4AJ_STRICT_SYMBOLIC_POWER_PREFLIGHT=PASS");
 quit;
 '''
@@ -122,9 +121,9 @@ markers = {
     "cuboid_c1_symbolic_square_saturation_exact": "GOAL4AJ_CUBOID_C1_SYMBOLIC_POWER=PASS" in stdout,
     "completion_marker_present": "GOAL4AJ_STRICT_SYMBOLIC_POWER_PREFLIGHT=PASS" in stdout,
 }
-error_text = any(s in stdout.lower() for s in ("error occurred", "? error", "? cannot", "? member", "? assign"))
+error_text = any(s in stdout.lower() for s in ("error occurred", "? error", "? cannot", "? member", "? assign", "? wrong"))
 out = {
-    "schema": "STAGE35_EX_GOAL4AJ_STRICT_SYMBOLIC_POWER_PREFLIGHT_DIAGNOSTIC_V1",
+    "schema": "STAGE35_EX_GOAL4AJ_STRICT_SYMBOLIC_POWER_PREFLIGHT_DIAGNOSTIC_V2",
     "source_locks": {
         "goal4ai_canonical_sha256": GOAL4AI_CANONICAL_SHA256,
         "stoll_cuboids_magma_blob_sha1": STOLL_CUBOIDS_BLOB_SHA1,
