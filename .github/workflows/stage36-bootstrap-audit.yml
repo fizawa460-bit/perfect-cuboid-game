@@ -41,31 +41,20 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Assert hostile-reaudited merged BH-BO authority
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          import json
-          from pathlib import Path
-          s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          a=s['audited_history']['36-09BH-BO']
-          assert a['hostile_reaudit_review']==5130920000
-          assert a['merged_main_sha']=='727b3f34c4d850e868aff64483aeb99861b13c7c'
-          PY
-      - name: Replay exact 36-09BQ parent
+      - name: Replay exact 36-09BR parent
         shell: bash
         run: |
           set -euo pipefail
-          H=1cf7c32bba0324ccd0b21ed11eee4876540621ea
+          H=0fca8cdf580d07f6993a27f7277deb23bcfe5c21
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BQ.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BR.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09BR
-        run: python3 stages/stage36/verify_stage36_36_09BR.py
-      - name: Assert BR firewalls and BS unlock
+      - name: Verify current 36-09BS
+        run: python3 stages/stage36/verify_stage36_36_09BS.py
+      - name: Assert BS population firewalls and BT unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -73,20 +62,18 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V107_36_09BR_MW_APPLICABILITY'
-          br=s['authority_frontier']['36-09BR']
-          assert br['S34_W02_SHAPE_MATCH'] is True
-          assert br['S34_W02_CURRENTLY_APPLICABLE'] is False
-          assert br['FULL_MW_RANK_PROVED'] is False
-          assert br['FULL_MW_BASIS_PROVED'] is False
-          assert br['MW_SATURATION_PROVED'] is False
-          assert br['UNIFORM_ROUTE_IMPOSSIBILITY_PROVED'] is False
-          assert s['current']['next_exact_leaf']=='36-09BS_FIXED_P_OUTER_BRANCH_FULL_COVER_LOCAL_GATE_ADAPTER_PREFLIGHT'
-          assert s['current']['36_09BS_entry_allowed'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V108_36_09BS_POPULATION_ADAPTER'
+          bs=s['authority_frontier']['36-09BS']
+          assert bs['AW_BRANCH_POPULATION_EQUALS_AY'] is False
+          assert bs['AY_IS_ONE_AW_COMPATIBLE_BRANCH'] is True
+          assert bs['BH_BO_GATES_GENERAL_AW_BRANCH'] is False
+          assert bs['GENERAL_AW_BRANCH_LOCAL_MODEL_OBTAINED'] is False
+          assert bs['WHOLE_FIXED_P_PARAMETER_ELIMINATION_FROM_AY_GATES'] is False
+          assert s['current']['next_exact_leaf']=='36-09BT_GENERAL_AW_SQUARECLASS_BRANCH_FULL_COVER_LOCAL_MODEL_PREFLIGHT'
+          assert s['current']['36_09BT_entry_allowed'] is True
           assert s['promotion_gates']['local_parameter_elimination_route_exhausted'] is False
-          assert s['promotion_gates']['S34_W02_impossible'] is False
           for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('36-09BR verified; S34-W02 currently lacks full MW certification but is not impossible. BS fixed-p outer/local-gate adapter selected; local parameter elimination remains live.')
+          print('36-09BS verified; AY-only local gates cannot be charged to all AW branches. BT general squareclass branch full-cover model selected.')
           PY
           git diff --check
