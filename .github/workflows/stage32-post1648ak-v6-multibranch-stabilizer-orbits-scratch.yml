@@ -1,4 +1,4 @@
-name: Stage32 post1648AK V6 multibranch stabilizer-orbit diagnostic
+name: Stage32 post1648AK V6 multibranch stabilizer-orbit bounded wall
 
 on:
   push:
@@ -6,6 +6,9 @@ on:
       - stage32-scratch-post1648ak-v6-multibranch-stabilizer-orbits
     paths:
       - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1648ak_v6_multibranch_stabilizer_orbits.py'
+      - 'stages/stage32/residual-32-01-production/post1648ak-v6-multibranch-stabilizer-orbits-source-note.md'
+      - 'stages/stage32/residual-32-01-production/post1648ak-v6-multibranch-stabilizer-orbits.json'
+      - 'stages/stage32/residual-32-01-production/verify_stage32_post1648ak_v6_multibranch_stabilizer_orbits.py'
       - '.github/workflows/stage32-post1648ak-v6-multibranch-stabilizer-orbits-scratch.yml'
   workflow_dispatch:
 
@@ -13,7 +16,7 @@ permissions:
   contents: read
 
 jobs:
-  diagnostic-ak:
+  exact-ak:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout exact scratch head
@@ -23,7 +26,10 @@ jobs:
       - name: Assert exact head
         shell: bash
         run: test "$(git rev-parse HEAD)" = "${{ github.sha }}"
-      - name: Run exact V6 stabilizer/orbit diagnostic
-        run: python3 stages/stage32/residual-32-01-production/diagnose_stage32_post1648ak_v6_multibranch_stabilizer_orbits.py
-      - name: Diff hygiene
-        run: git diff --check
+      - name: Replay exact V6 stabilizer/orbit bounded wall
+        run: python3 stages/stage32/residual-32-01-production/verify_stage32_post1648ak_v6_multibranch_stabilizer_orbits.py
+      - name: Enforce immutable certificate and diff hygiene
+        shell: bash
+        run: |
+          git diff --exit-code -- stages/stage32/residual-32-01-production/post1648ak-v6-multibranch-stabilizer-orbits.json
+          git diff --check
