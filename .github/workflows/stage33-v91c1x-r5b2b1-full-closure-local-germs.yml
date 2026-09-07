@@ -1,0 +1,48 @@
+name: Stage33 V91C1X R5B2B1 full-closure local germs
+
+on:
+  push:
+    branches:
+      - stage33-v91c1x-r5-cover-glue-package
+    paths:
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b2b1_full_closure_local_germs.py'
+      - 'stages/stage33/33-12/verify_stage33_v91c1x_r5b2b1_full_closure_local_germs_v119.py'
+      - '.github/workflows/stage33-v91c1x-r5b2b1-full-closure-local-germs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact symbolic dependency
+        run: python -m pip install sympy
+      - name: Materialize R5B2B1 full-closure local germs
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b2b1_full_closure_local_germs.py --write
+      - name: Verify R5B2B1 full-closure local germs
+        run: python stages/stage33/33-12/verify_stage33_v91c1x_r5b2b1_full_closure_local_germs_v119.py
+      - name: Verify live Stage33 state remains synchronized
+        run: python stages/stage33/sync_main_state.py --check
+      - name: Diff check
+        run: git diff --check
+      - name: Commit compact R5B2B1 certificate
+        shell: bash
+        run: |
+          CERT='stages/stage33/33-12/e3-v91c1x-r5b2b1-a2-02-full-closure-local-germs.json'
+          if [ -z "$(git status --porcelain -- "$CERT")" ]; then
+            echo 'R5B2B1 certificate already materialized'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$CERT"
+          git commit -m '[Stage33] materialize R5B2B1 full-closure local germs'
+          git push origin HEAD:${GITHUB_REF_NAME}
