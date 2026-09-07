@@ -1,0 +1,42 @@
+name: Stage32 post1648AW coordinate block stabilizers
+
+on:
+  push:
+    branches:
+      - stage32-scratch-post1648aw-explicit-node-equivariant-matching
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-aw-coordinate-block-stabilizers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Assert exact head
+        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Install exact diagnostic dependency
+        run: python3 -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run AW coordinate-block stabilizer diagnostic
+        run: python3 -B stages/stage32/residual-32-01-production/diagnose_stage32_post1648aw_coordinate_block_stabilizers.py | tee /tmp/aw-stab.json
+      - name: Assert bounded output
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/aw-stab.json'))
+          assert x['mode']=='SCRATCH_POST1648AW_COORDINATE_BLOCK_STABILIZERS'
+          assert x['retained_group_order']==1536
+          assert x['input_WC_exact_cover_count']==25
+          assert x['firewalls']['finite_action_adapter_credit'] is False
+          print(json.dumps({
+            'stabilizer_order_histogram': x['stabilizer_order_histogram'],
+            'maximum_stabilizer_order': x['maximum_stabilizer_order'],
+            'max_records': x['records_at_maximum'],
+          },sort_keys=True))
+          PY
+      - name: Diff hygiene
+        run: test -z "$(git status --porcelain)"
