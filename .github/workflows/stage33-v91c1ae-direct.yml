@@ -1,14 +1,15 @@
-name: Stage33 V91C1W direct semantic-bridge blocker check
+name: Stage33 V91C1X_R1 direct chain-blocker check
 
 on:
   pull_request:
     paths:
       - 'stages/stage33/MAIN-STATE.json'
       - 'stages/stage33/sync_main_state.py'
-      - 'stages/stage33/33-12/verify_stage33_v91c1w_semantic_bridge_audit_repair_v110.py'
+      - 'stages/stage33/33-12/verify_stage33_v91c1x_r1_chain_preflight_current_startup_v111.py'
+      - 'stages/stage33/33-12/e3-v91c1x-r1-chain-level-action-difference-preflight.json'
+      - 'stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py'
       - 'stages/stage33/33-12/e3-v91c1w-a2-02-all8-picard64-reduction.json'
       - 'stages/stage33/33-12/diagnose_e3_v91c1w_all8_picard64_reduction_v2.py'
-      - 'stages/stage33/33-12/e3-v91c1x-kummer-action-difference-source-lock.md'
       - '.github/workflows/stage33-v91c1ae-direct.yml'
   workflow_dispatch:
 
@@ -16,7 +17,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage33-v91c1w-direct-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-v91c1x-r1-direct-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -30,14 +31,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install pinned exact local algebra
-        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
       - name: Diagnose retained V91C1W Picard64/Pic2 reduction
         run: python stages/stage33/33-12/diagnose_e3_v91c1w_all8_picard64_reduction_v2.py
-      - name: Verify audit-repair semantic bridge blocker
+      - name: Replay V91C1X_R1 exact negative preflight
+        run: python stages/stage33/33-12/diagnose_e3_v91c1x_r1_chain_level_action_difference_preflight.py
+      - name: Verify V111 current startup frontier
         run: |
           python stages/stage33/33-12/verify_e3_v91c1w_a2_02_all8_picard64_reduction.py
-          python stages/stage33/33-12/verify_stage33_v91c1w_semantic_bridge_audit_repair_v110.py
+          python stages/stage33/33-12/verify_stage33_v91c1x_r1_chain_preflight_current_startup_v111.py
           python stages/stage33/sync_main_state.py --check
       - name: Diff hygiene
         run: git diff --check
