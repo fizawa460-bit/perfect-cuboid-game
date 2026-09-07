@@ -1,0 +1,72 @@
+{
+  "schema":"STAGE36_36_09BX_FIXED_P_Q2_BRANCH_FILTER_INTEGRATION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09BX",
+  "status":"FIXED_P_Q_AND_Q2_BRANCH_ONLY_FILTER_INTEGRATION_COMPLETE_PENDING_BATCH_AUDIT",
+  "base_main_sha":"e6fd1aec8391c2e9a82eab45c3498afcec99ad44",
+  "batch_parent":{"pr":1693,"36_09BW_exact_head":"db0b78e7134db9984b2dd59c0b0313172dfabdf4","36_09BW_exact_head_ci":"34123947133/101748106404"},
+  "source_locks":{
+    "stage36_36_09BW":{"path":"stages/stage36/36-09BW/general-aw-branch-prime2-taxonomy-preflight.json","blob_sha":"d7feb3e6b86c5c93bae999f8836840e64fbd5fb5"},
+    "stage36_36_09BW_verifier":{"path":"stages/stage36/verify_stage36_36_09BW.py","blob_sha":"d698612571fbe7171dc17099eca7db7d012f3dd2"},
+    "stage36_36_09BV":{"path":"stages/stage36/36-09BV/fixed-p-q-reservoir-branch-filter-integration-preflight.json","blob_sha":"11b2b927f04c6a7ad151d2456fc79d27329b8dad"},
+    "stage36_36_09BV_verifier":{"path":"stages/stage36/verify_stage36_36_09BV.py","blob_sha":"345fdf7c8133883c3eb261e1313ee56a7b9d7f7f"},
+    "stage36_36_09BU":{"path":"stages/stage36/36-09BU/general-aw-branch-bad-place-valuation-taxonomy-preflight.json","blob_sha":"a8f3fb880b83aac2240ce299fe8a8fa42e044093"},
+    "stage36_36_09BU_verifier":{"path":"stages/stage36/verify_stage36_36_09BU.py","blob_sha":"64b889c2dde22d021fb2933b976311d903f57dce"},
+    "stage36_36_09AE":{"path":"stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json","blob_sha":"ddae37dd35cd0e732cebadf9c17f3f3fa57930df"}
+  },
+  "fixed_p_branch_only_pipeline":{
+    "stage_0":"start from the exact finite AW/AE outer branch family for the fixed retained parameter p=a/b",
+    "stage_1_Q":"retain only branches satisfying the BU/BV odd Q=a^2+b^2 reservoir Legendre necessary row",
+    "stage_2_Q2_residue":"retain only branches with A congruent to B modulo 8",
+    "stage_3_Q2_critical_deep":"remove branches with f=1 and delta=2*sigma+2-e",
+    "notation":"delta=v2(D0), sigma=v2(a^2+b^2), e and f are the branch two-adic exponents from AW/AE",
+    "combined_family_name":"F_{Q,2}^{branch}(p)",
+    "all_integrated_rows_are_necessary":true,
+    "remaining_alpha_tie_gates_integrated_as_row_filters":false
+  },
+  "sound_exclusion_rule":{
+    "statement":"If F_{Q,2}^{branch}(p) is empty for a fixed retained p, then there is no R29-CAMP2 receiver point above that p.",
+    "reason":"Any receiver point induces one of the exhaustive AW/AE outer rows, and that induced row must satisfy the BU/BV Q-reservoir condition and both point-independent BW prime-2 branch filters.",
+    "converse":false,
+    "surviving_branch_is_Q2_point":false,
+    "surviving_branch_is_receiver_point":false,
+    "parameter_exclusion_requires_zero_survivors":true
+  },
+  "exact_fixed_p_diagnostics":{
+    "p_1_over_2":{"AW_AE_outer":14,"after_Q_row":8,"after_AB_residue_filter":6,"after_critical_deep_filter":4,"parameter_excluded":false},
+    "p_2_over_11":{"AW_AE_outer":158,"after_Q_row":77,"after_AB_residue_filter":52,"after_critical_deep_filter":30,"parameter_excluded":false}
+  },
+  "remaining_Q2_work":{
+    "point_dependent":true,
+    "description":"BW leaves valuation/tie conditions depending on the receiver-point variables, including alpha/tie unit data. They cannot be charged as row-only parameter filters without a pullback argument.",
+    "next_question":"Determine whether the remaining alpha/tie Q2 gates can be pulled back to a sound fixed-p branch or parameter obstruction, rather than assuming a surviving outer row realizes a local point."
+  },
+  "route_result":{
+    "route_status":"PASS_FIXED_P_Q_AND_Q2_BRANCH_ONLY_FILTER_INTEGRATION",
+    "fixed_p_q2_branch_only_filter_integration_complete":true,
+    "sound_zero_survivor_exclusion_rule":true,
+    "remaining_q2_point_dependent_gates":true,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09BY_REMAINING_Q2_ALPHA_TIE_GATE_PARAMETER_PULLBACK_PREFLIGHT",
+    "selection_reason":"The point-independent odd-Q and prime-2 branch screens are now fully integrated into the exact fixed-p outer family. The next unspent local question is whether the remaining point-dependent alpha/tie gates admit a sound pullback to branch or parameter data."
+  },
+  "scope_firewalls":{
+    "surviving_branch_implies_Q2_point":false,
+    "surviving_branch_implies_receiver_point":false,
+    "remaining_alpha_tie_gates_row_only":false,
+    "full_Q2_local_solubility_classified_for_general_AW_branch":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "local_parameter_elimination_exhausted":false,
+    "uniform_finite_Q_squareclass_family":false,
+    "finite_exhaustive_H1_twist_family":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
