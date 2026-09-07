@@ -38,7 +38,6 @@ def main() -> None:
         raise ValueError(f"all140 coordinate shape regression: {coords.shape}")
 
     raw_perms = marking["aut_action"]["permutations_1based"]
-    # close_permutation_group consumes 1-based generators and returns 0-based permutations.
     group0 = close_permutation_group(raw_perms)
     if len(group0) != 1536:
         raise ValueError(f"Aut group order regression: {len(group0)}")
@@ -46,10 +45,7 @@ def main() -> None:
     def pair(i1: int, j1: int) -> int:
         x = Matrix([[int(coords[i1 - 1, k]) for k in range(64)]])
         y = Matrix([[int(coords[j1 - 1, k]) for k in range(64)]])
-        z = x * gram * y.T
-        if z.shape != (1, 1):
-            raise ValueError("pairing shape regression")
-        return int(z[0, 0])
+        return int((x * gram * y.T)[0, 0])
 
     v6 = json.loads(V6_PATH.read_text())
     if v6["canonical_sha256_without_this_field"] != "d0c1c8bddfe3950737ed6f87ffa74acd850c736298bd12ec1eceac609625b8a8":
@@ -58,42 +54,57 @@ def main() -> None:
     if len(vp) != 140:
         raise ValueError("V6 all140 length regression")
 
-    # Stoll--Testa Section 5 representative fib3 has t=0 equations
-    # a1+a2=0, b2-b1=0. In cuboids.magma's C3 ordering these split into
-    # labels 46 and 48. The resolved special fiber contains these two strict
-    # transforms joined by their four common exceptional curves.
-    c3_labels = (46, 48)
-    common_exc = tuple(
-        e for e in range(93, 141)
-        if pair(c3_labels[0], e) == 1 and pair(c3_labels[1], e) == 1
-    )
-    if len(common_exc) != 4:
-        raise ValueError(f"expected four common exceptional curves, got {common_exc}")
-    support = tuple(sorted(c3_labels + common_exc))
+    def analyze(name: str, c3_labels: tuple[int, int]) -> dict:
+        common_exc = tuple(
+            e for e in range(93, 141)
+            if pair(c3_labels[0], e) == 1 and pair(c3_labels[1], e) == 1
+        )
+        if len(common_exc) != 4:
+            raise ValueError(f"{name}: expected four common exceptional curves, got {common_exc}")
+        if pair(*c3_labels) != 0:
+            raise ValueError(f"{name}: resolved C3 components should be disjoint")
+        support = tuple(sorted(c3_labels + common_exc))
+        rep_degree = sum(vp[i - 1] for i in support)
 
-    rep_degree = sum(vp[i - 1] for i in support)
-    if pair(46, 48) != 0:
-        raise ValueError(f"resolved C3 components should be disjoint, pairing={pair(46,48)}")
+        orbit_supports = {
+            tuple(sorted(gp[i - 1] + 1 for i in support))
+            for gp in group0
+        }
+        degrees = []
+        for mapped in sorted(orbit_supports):
+            normals = [x for x in mapped if 45 <= x <= 92]
+            excs = [x for x in mapped if 93 <= x <= 140]
+            if len(normals) != 2 or len(excs) != 4:
+                raise ValueError(f"{name}: Aut support-type regression at {mapped}")
+            degrees.append(sum(vp[i - 1] for i in mapped))
+        counts = Counter(degrees)
+        return {
+            "c3_labels": list(c3_labels),
+            "common_exceptional_labels": list(common_exc),
+            "resolved_special_fiber_support": list(support),
+            "representative_v6_degree": rep_degree,
+            "distinct_special_fiber_supports": len(orbit_supports),
+            "degree_min": min(degrees),
+            "degree_max": max(degrees),
+            "distinct_degrees": sorted(counts),
+            "degree_multiplicities": {str(k): counts[k] for k in sorted(counts)},
+            "supports_with_degree_at_least_133": sum(d >= 133 for d in degrees),
+            "supports_with_degree_at_least_134": sum(d >= 134 for d in degrees),
+        }
 
-    orbit_supports: set[tuple[int, ...]] = set()
-    for gp in group0:
-        mapped = tuple(sorted(gp[i - 1] + 1 for i in support))
-        orbit_supports.add(mapped)
+    # Representative of the orbit coming from the next six rank-4 quadrics:
+    # fib3 at t=0 is a1+a2=b2-b1=0 and splits into C3 labels 46,48.
+    next_six = analyze("NEXT_SIX_RANK4_FIB3_T0", (46, 48))
 
-    degrees: list[int] = []
-    shape_failures = []
-    for mapped in sorted(orbit_supports):
-        normals = [x for x in mapped if 45 <= x <= 92]
-        excs = [x for x in mapped if 93 <= x <= 140]
-        if len(normals) != 2 or len(excs) != 4:
-            shape_failures.append({"support": mapped, "normal_45_92": normals, "exceptional": excs})
-        degrees.append(sum(vp[i - 1] for i in mapped))
-    if shape_failures:
-        raise ValueError(f"Aut image support type regression: {shape_failures[:3]}")
+    # Representative of the last four rank-4 quadrics:
+    # fib4 at t=0 is b1+i*b2=sqrt(2)c-b3=0. In the retained C3 ordering this
+    # splits into the two family-6 curves with (e3,e2,e1)=(1,-1,1) and
+    # (-1,-1,-1), namely labels 87 and 92.
+    last_four = analyze("LAST_FOUR_RANK4_FIB4_T0", (87, 92))
 
-    counts = Counter(degrees)
+    overall_max = max(next_six["degree_max"], last_four["degree_max"], 105)
     result = {
-        "schema": "STAGE32_EX6_RANK4_FIBRATION_ORBIT_DEGREE_DIAGNOSTIC_V1",
+        "schema": "STAGE32_EX6_RANK4_FIBRATION_ORBIT_DEGREE_DIAGNOSTIC_V2",
         "status": "EXPLORATORY_EXACT_DIAGNOSTIC_NO_MAIN_CREDIT",
         "source_locks": {
             "stoll_testa_verification_repo_cuboids_magma_blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
@@ -103,21 +114,16 @@ def main() -> None:
             "hperp_adapter_canonical_sha256": adapter.certificate["canonical_sha256_without_this_field"],
             "retained_aut_group_order": len(group0),
         },
-        "representative": {
-            "section5_type": "NEXT_SIX_RANK4_QUADRICS_FIB3_T0",
-            "c3_labels": list(c3_labels),
-            "common_exceptional_labels": list(common_exc),
-            "resolved_special_fiber_support": list(support),
-            "v6_intersection_degree": rep_degree,
+        "rank4_orbit_types": {
+            "known_isotrivial_pair": {"degrees": [81, 105], "degree_max": 105},
+            "next_six_quadrics": next_six,
+            "last_four_quadrics": last_four,
         },
-        "aut_orbit": {
-            "distinct_special_fiber_supports": len(orbit_supports),
-            "degree_min": min(degrees),
-            "degree_max": max(degrees),
-            "distinct_degrees": sorted(counts),
-            "degree_multiplicities_over_distinct_supports": {str(k): counts[k] for k in sorted(counts)},
-            "supports_with_degree_at_least_133": sum(v >= 133 for v in degrees),
-            "supports_with_degree_at_least_134": sum(v >= 134 for v in degrees),
+        "summary": {
+            "largest_v6_fibration_degree_seen_across_all_rank4_types": overall_max,
+            "new_rank4_type_beats_known_degree_105": overall_max > 105,
+            "new_rank4_type_reaches_133": max(next_six["degree_max"], last_four["degree_max"]) >= 133,
+            "new_rank4_type_reaches_134": max(next_six["degree_max"], last_four["degree_max"]) >= 134,
         },
         "firewalls": {
             "arbitrary_rank4_fibration_degree_implies_O_ge_2degree": False,
