@@ -5,7 +5,7 @@ Scratch-only proof adapter. It gives necessary conditions for a hypothetical int
 ## Parent retained leaves
 
 - post1648AJ exact scratch head: `ba2fdb2644938cb398a064449bec27b472e2864d`
-- AJ canonical: `499cae84c4f945f38fa75bbb93f4b65c259f56f383c1be2a304b1a3f057fd7f`
+- AJ canonical: `499cae84c4f945f38fa75bbb93f4b65c259f56f383c1be2a304b1a3f057fd7f7`
 - AJ proves that a hypothetical V6 carrier must have at least `47` FSM-minimal `(4,4)` branches over the box-surface nodes.
 - post1648AK bounded-wall head: `66ea87f15abdf4177aee3a778192c489cff2c9fa`
 - AK canonical: `242c2702505b0839901b329b3dbed09b8f652f4814a3758a5e1ca00ed5333c30`
