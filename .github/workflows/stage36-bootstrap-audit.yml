@@ -54,22 +54,22 @@ jobs:
           assert a['merged_main_sha']=='b7a045b7c910a3e01d3826556cd71019af15418f'
           PY
           git merge-base --is-ancestor b7a045b7c910a3e01d3826556cd71019af15418f HEAD
-      - name: Replay exact 36-09BA provisional parent
+      - name: Replay exact 36-09BB provisional parent
         shell: bash
         run: |
           set -euo pipefail
-          H=a4fde9a55b6483018ffb4be49ffbc758939b7e22
+          H=72441c82f2c146c63ebde6459b18789e33c6dddb
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09BA.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09BB.py"
           git worktree remove --force "$tmp"
-          test "$(git rev-parse "$H":stages/stage36/36-09BA/ay-auxiliary-genusone-open-points-preflight.json)" = "2f31c89b2760f2270fa0ea21106ef97a3ec0840b"
-          test "$(git rev-parse "$H":stages/stage36/verify_stage36_36_09BA.py)" = "883785c63cc01b5cb55bff25fe50bee74e3c4024"
-      - name: Verify current 36-09BB scaled self-intersection
-        run: python3 stages/stage36/verify_stage36_36_09BB.py
-      - name: Assert BB firewalls and BC unlock
+          test "$(git rev-parse "$H":stages/stage36/36-09BB/ay-receiver-scaled-self-intersection-preflight.json)" = "e4b63fd500d05ff5dc704e0c08409edee5895053"
+          test "$(git rev-parse "$H":stages/stage36/verify_stage36_36_09BB.py)" = "a3591e34aaaafcac0efb540d92622fe83136dc18"
+      - name: Verify current 36-09BC good-prime no-loop result
+        run: python3 stages/stage36/verify_stage36_36_09BC.py
+      - name: Assert BC firewalls and BD unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -77,19 +77,19 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V90_36_09BB_CANDIDATE'
-          bb=s['authority_frontier']['36-09BB']
-          assert bb['RECEIVER_RESTRICTED_INTERSECTION_EXACT'] is True
-          assert bb['SCALED_SELF_INTERSECTION_MODEL'] is True
-          assert bb['NAIVE_PROJECTIVE_LOCAL_ZERO_RESIDUE_ATTACK_BLOCKED'] is True
-          assert bb['OPEN_RECEIVER_INTERSECTION_EMPTY'] is False
-          assert bb['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
-          assert bb['RECEIVER_CLOSED'] is False
-          assert s['current']['unit']=='36-09BC'
-          assert s['current']['36_09BC_entry_allowed'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V91_36_09BC_CANDIDATE'
+          bc=s['authority_frontier']['36-09BC']
+          assert bc['GOOD_PRIME_PUNCTURED_BOUNDARY_LOCAL_NONEMPTY'] is True
+          assert bc['ELLIPTIC_QUOTIENT_NEW_FILTER'] is False
+          assert bc['ELLIPTIC_QUOTIENT_DOMINATED_BY_AA_AC'] is True
+          assert bc['EXHAUSTIVE_VIEW_AUDIT_TRIGGERED'] is True
+          assert bc['CANDIDATE_PARAMETER_SET_SHRUNK'] is False
+          assert bc['RECEIVER_CLOSED'] is False
+          assert s['current']['unit']=='36-09BD'
+          assert s['current']['36_09BD_entry_allowed'] is True
           assert s['claims']['receiver_emptiness_proved'] is False
           assert s['claims']['R29_CAMP2_closed'] is False
           assert s['claims']['perfect_cuboid_nonexistence_claim'] is False
-          print('36-09BB verified; exact open scaled self-intersection materialized; closed projective local-zero sieve blocked; BC unlocked')
+          print('36-09BC verified; good-prime boundary-local attack blocked, elliptic quotient dominated, exhaustive-view audit unlocked')
           PY
           git diff --check
