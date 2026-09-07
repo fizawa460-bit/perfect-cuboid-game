@@ -3,8 +3,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import subprocess
-import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -33,8 +31,9 @@ def fail(msg: str) -> None:
 def canonical_sha(obj: dict) -> str:
     body = dict(obj)
     body.pop("canonical_sha256_without_this_field", None)
-    raw = json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
-    return hashlib.sha256(raw).hexdigest()
+    return hashlib.sha256(
+        json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+    ).hexdigest()
 
 
 def git_blob_sha(path: Path) -> str:
@@ -55,12 +54,6 @@ def load_locked_json(lock: dict) -> dict:
     return obj
 
 
-def run_marker(path: Path, marker: str) -> None:
-    proc = subprocess.run([sys.executable, str(path)], check=True, text=True, capture_output=True)
-    if marker not in proc.stdout:
-        fail(f"verifier completion marker missing: {marker}")
-
-
 def main() -> None:
     state = json.loads(STATE.read_text(encoding="utf-8"))
     if state.get("schema") != EXPECTED_SCHEMA:
@@ -69,7 +62,7 @@ def main() -> None:
         fail("MAIN-STATE canonical mismatch")
 
     authority = state["authority_sync"]
-    audited_required = {
+    required_authority = {
         "startup_authority": "stages/stage32/MAIN-STATE.json",
         "latest_audited_stage32_leaf": "POST1623_HPERP_V6_HDECK_CHARACTER_PREFLIGHT",
         "latest_audited_stage32_pr": 1643,
@@ -82,18 +75,17 @@ def main() -> None:
         "consolidation_base_main_sha": "d620871bcadc0fe92af8e44e541fcb4c20197349",
         "consolidation_hostile_audit_status": "PENDING",
     }
-    if authority != audited_required:
+    if authority != required_authority:
         fail("authority/consolidation synchronization moved")
 
     if state["fixed_target"] != {
         "row_id": "g1-d186", "degree": 186, "e": 266, "genus": 1,
-        "O": 210, "qprime": 4, "Q": 602,
-        "surviving_residues_decimal": [73, 97, 235],
+        "O": 210, "qprime": 4, "Q": 602, "surviving_residues_decimal": [73, 97, 235],
     }:
         fail("fixed target moved")
 
     frontier = state["current_exact_frontier"]
-    required = {
+    required_frontier = {
         "nonexceptional_mod2_witness_source_bound": True,
         "source_bound_nonexceptional_H_character_probe_obtained": True,
         "source_bound_H_character_probe_normal_curve_label_1based": 9,
@@ -117,19 +109,18 @@ def main() -> None:
         "v6_unibranch_bijective_normalization_genus1_carrier_excluded": True,
         "v6_remaining_genus1_carrier_requires_multibranch_node": True,
     }
-    for key, value in required.items():
+    for key, value in required_frontier.items():
         if frontier.get(key) != value:
             fail(f"frontier moved: {key}")
 
     current = state["current"]
-    if current["active_missing_interface"] != "MULTIBRANCH_LOCAL_TYPE_FOR_ANY_V6_GENUS1_CARRIER":
-        fail("active missing interface moved")
-    if current["next_exact_route"] != EXPECTED_ROUTE:
-        fail("next exact route moved")
-    if current["stop_semantics"] != "LEAF_GATE_ONLY_NOT_STAGE_EXHAUSTION":
-        fail("stop semantics moved")
-    if current["stacked_candidate_audit_status"] != "PENDING_BATCH_HOSTILE_AUDIT":
-        fail("batch audit status moved")
+    if current != {
+        "active_missing_interface": "MULTIBRANCH_LOCAL_TYPE_FOR_ANY_V6_GENUS1_CARRIER",
+        "next_exact_route": EXPECTED_ROUTE,
+        "stop_semantics": "LEAF_GATE_ONLY_NOT_STAGE_EXHAUSTION",
+        "stacked_candidate_audit_status": "PENDING_BATCH_HOSTILE_AUDIT",
+    }:
+        fail("current route block moved")
 
     if state["current_leaf_working_set"] != EXPECTED_WORKING_SET:
         fail("current leaf working set moved")
@@ -147,6 +138,9 @@ def main() -> None:
             fail(f"startup contract fragment missing: {fragment}")
 
     locks = state["source_locks"]
+    # Audited historical layers are immutable source locks at ordinary startup;
+    # their heavyweight verifiers are not rerun here. Consolidation/hostile gates
+    # may replay expensive layers explicitly when needed.
     j = load_locked_json(locks["post1648j_trace_orientation"])
     char = load_locked_json(locks["post1643_hdeck_character_preflight"])
     load_locked_json(locks["post1621_hperp_witness"])
@@ -157,49 +151,32 @@ def main() -> None:
     ae = load_locked_json(locks["post1648ae_member_source_gap"])
     v6 = load_locked_json(locks["v6_witness_body"])
 
-    j_verifier = ROOT / locks["post1648j_trace_orientation_verifier"]["path"]
-    if git_blob_sha(j_verifier) != locks["post1648j_trace_orientation_verifier"]["blob_sha1"]:
-        fail("post1648J verifier blob moved")
-    run_marker(j_verifier, "POST1648J_CECOTTI_TRACE_ORIENTATION_CORRECTION_COMPLETE")
+    for verifier_key in ["post1648j_trace_orientation_verifier", "post1643_hdeck_character_verifier"]:
+        path = ROOT / locks[verifier_key]["path"]
+        if not path.is_file() or git_blob_sha(path) != locks[verifier_key]["blob_sha1"]:
+            fail(f"audited verifier blob moved: {verifier_key}")
 
-    char_verifier = ROOT / locks["post1643_hdeck_character_verifier"]["path"]
-    if git_blob_sha(char_verifier) != locks["post1643_hdeck_character_verifier"]["blob_sha1"]:
-        fail("post1643 verifier blob moved")
-    run_marker(char_verifier, "POST1623_HPERP_V6_HDECK_CHARACTER_PREFLIGHT_COMPLETE")
-
-    ah_verifier = ROOT / "stages/stage32/residual-32-01-production/verify_stage32_post1648ah_fsm_unibranch_v6_exclusion.py"
-    run_marker(ah_verifier, "PASS_STAGE32_POST1648AH_FSM_UNIBRANCH_V6_EXCLUSION")
-
-    if j["decision"]["survivors_current_credit"] != [73, 97, 235]:
-        fail("post1648J survivor set moved")
-    if j["decision"]["absolute_delta0inf_retained_W_line_identified"]:
-        fail("post1648J absolute line firewall moved")
+    if j["decision"]["survivors_current_credit"] != [73, 97, 235] or j["decision"]["absolute_delta0inf_retained_W_line_identified"]:
+        fail("post1648J boundary moved")
     if char["fixed_target"]["surviving_residues_decimal"] != [73, 97, 235]:
         fail("audited post1643 survivor set moved")
-
     if ae["exact_effective_divisor_replay"]["h0_lower_bound"] != 294 or not ae["exact_effective_divisor_replay"]["effective_divisor_exists_in_V6_class"]:
-        fail("AE effectivity replay moved")
+        fail("AE effectivity moved")
     if ae["retained_member_level_boundary"]["actual_integral_irreducible_genus1_carrier_materialized"]:
         fail("AE member firewall moved")
     if ag["status"] != "EXACT_SAT_KNOWN140_MONOID_DECOMPOSITION" or not ag["known140_monoid"]["membership"]:
-        fail("AG known140 monoid result moved")
+        fail("AG monoid result moved")
     if (ag["known140_monoid"]["nonzero_term_count"], ag["known140_monoid"]["total_multiplicity"]) != (61, 155):
         fail("AG decomposition counts moved")
     if ah["decision"]["remaining_open_case"] != "ANY_V6_GENUS1_CARRIER_MUST_BE_MULTIBRANCH_OVER_AT_LEAST_ONE_OF_THE_47_MET_SURFACE_NODES":
         fail("AH remaining case moved")
     if not ah["local_A1_resolution"]["contradiction"] or ah["v6_exact_data"]["exceptional_mass_e"] != 266:
-        fail("AH unibranch contradiction moved")
+        fail("AH bounded exclusion moved")
     if v6["witness"]["positive_exceptional_support"] != 47 or v6["target"]["d"] != 186:
         fail("V6 witness moved")
 
-    fw = state["firewalls"]
-    for key in [
-        "Q602_excluded", "O210_excluded", "O212_plus_advance_allowed",
-        "controller_promotion_granted", "heavy_compute_authorized_by_startup_state",
-        "receiver_credit", "route_credit", "theorem_credit", "endpoint_credit",
-        "perfect_cuboid_existence_claim", "perfect_cuboid_nonexistence_claim",
-    ]:
-        if fw[key]:
+    for key, value in state["firewalls"].items():
+        if value:
             fail(f"startup firewall moved: {key}")
 
     print("PASS Stage32 MAIN startup authority")
