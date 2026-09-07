@@ -1,0 +1,69 @@
+{
+  "schema":"STAGE36_36_09BS_FIXED_P_OUTER_BRANCH_FULL_COVER_LOCAL_GATE_ADAPTER_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09BS",
+  "status":"EXACT_POPULATION_MISMATCH_AW_ALL_BRANCHES_VS_AY_ONLY_LOCAL_GATES_ADAPTER_MISSING",
+  "base_main_sha":"727b3f34c4d850e868aff64483aeb99861b13c7c",
+  "batch_parent":{"pr":1693,"36_09BR_exact_head":"0fca8cdf580d07f6993a27f7277deb23bcfe5c21","36_09BR_exact_head_ci":"34113964982/101716342974"},
+  "source_locks":{
+    "stage36_36_09BR":{"path":"stages/stage36/36-09BR/ay-mordell-weil-congruence-applicability-preflight.json","blob_sha":"8d7f7c89fa48ab313eaaa31bbf22ad8430f9a6f7"},
+    "stage36_36_09BR_verifier":{"path":"stages/stage36/verify_stage36_36_09BR.py","blob_sha":"62e491772783806ba9880ac6af3969551933b160"},
+    "stage36_36_09AW":{"path":"stages/stage36/36-09AW/fixed-p-finite-squareclass-tunnell-branch-sieve-preflight.json","blob_sha":"c1970a020803275ba87b249229e319367fa8f811"},
+    "stage36_36_09BA":{"path":"stages/stage36/36-09BA/ay-auxiliary-genusone-open-points-preflight.json","blob_sha":"2f31c89b2760f2270fa0ea21106ef97a3ec0840b"},
+    "stage36_36_09BB":{"path":"stages/stage36/36-09BB/ay-receiver-scaled-self-intersection-preflight.json","blob_sha":"e4b63fd500d05ff5dc704e0c08409edee5895053"},
+    "stage36_36_09BH":{"path":"stages/stage36/36-09BH/bad-place-full-cover-valuation-preflight.json","blob_sha":"76487371ed363868af18a9fa0f6f7e1367d28f27"},
+    "stage36_36_09BO":{"path":"stages/stage36/36-09BO/q-reservoir-full-qq-cancellation-preflight.json","blob_sha":"138749fde9766cd217fcb4622ccdebcb45730c2e"}
+  },
+  "AW_population":{
+    "fixed_p_all_support_compatible_outer_branches":true,
+    "A_choices":"all squarefree products of odd primes dividing P",
+    "B_choices":"all squarefree products of odd primes dividing M",
+    "C_D_choices":"each odd prime dividing D0 assigned independently to unused, C, or D",
+    "eta_e_f_choices":"all exact compatible choices",
+    "outer_superset":true,
+    "zero_survivor_implies_fixed_p_receiver_empty":true
+  },
+  "late_local_gate_population":{
+    "BA_AY_squareclasses":"A=B=D=1, C=odd_sf(D0), eta=sign(D0), f=1, e=(1+v2(D0)) mod2",
+    "BB_receiver_system":"AY C_kappa point t plus scaled point lambda*t in the same C_kappa, on the retained open",
+    "BH_BO_local_gates_apply_to":"the BB/AY receiver-restricted full-cover system",
+    "BH_BO_local_gates_proved_for_arbitrary_A_B_C_D_AW_branch":false
+  },
+  "adapter_audit":{
+    "AW_branch_population_equals_AY_branch_population":false,
+    "AY_is_one_explicit_AW_compatible_branch":true,
+    "filtering_AY_branch_only_excludes_fixed_p_receiver":false,
+    "reason":"AW is an outer cover of every support-compatible squareclass branch. BA specializes to one AY branch, and BB/BH-BO restore/test the original receiver conditions only on that branch. Other AW branches remain logically possible unless separately discharged.",
+    "directly_attach_BH_BO_gate_to_every_AW_branch":false,
+    "required_missing_adapter":"derive the BB/full-cover joint equations and corresponding local square gates for a general AW squareclass tuple (A,B,C,D,eta,e,f), or prove every non-AY AW branch is already discharged by audited authority"
+  },
+  "safe_credit":{
+    "AY_branch_fixed_p_local_elimination_possible_in_principle":true,
+    "whole_fixed_p_receiver_parameter_elimination_from_AY_gates_alone":false,
+    "whole_AW_family_parameter_elimination_interface_complete":false,
+    "local_parameter_elimination_route_exhausted":false,
+    "candidate_parameter_set_shrunk":false
+  },
+  "route_result":{
+    "route_status":"PASS_POPULATION_FIREWALL_GENERAL_BRANCH_LOCAL_ADAPTER_REQUIRED",
+    "next_leaf":"36-09BT_GENERAL_AW_SQUARECLASS_BRANCH_FULL_COVER_LOCAL_MODEL_PREFLIGHT",
+    "selection_reason":"the new BH-BO local taxonomy cannot be charged to the AW exhaustive fixed-p family until the AY-specific formulas are generalized branchwise or all non-AY branches are independently discharged"
+  },
+  "scope_firewalls":{
+    "AY_gate_is_all_branch_gate":false,
+    "AY_branch_empty_implies_parameter_empty":false,
+    "AW_outer_survivor_is_receiver":false,
+    "non_AY_branches_discharged":false,
+    "general_AW_branch_full_cover_local_model_obtained":false,
+    "local_parameter_elimination_route_exhausted":false,
+    "uniform_finite_Q_squareclass_family":false,
+    "finite_exhaustive_H1_twist_family":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
