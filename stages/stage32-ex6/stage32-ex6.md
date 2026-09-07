@@ -23,6 +23,31 @@ Decision certificate:
 
 A future re-entry requires genuinely new member-level landing/jet information, a stronger simultaneous two-factor constraint, or an independent correspondence/conductor inequality. EX6 does not descend to O264 by guesswork.
 
+## Latest bounded re-entry result — degree-113 rank-4 local wall
+
+A bounded search of the other Stoll–Testa rank-4 genus-5 fibrations found a unique last-four fibration class with V6 degree `113`. Its six split `G3` bad fibers use 24 exceptional curves carrying total V6 exceptional mass `140`.
+
+The first re-entry only established that the naive implication
+
+`O=266 => R_rank4 >= 266`
+
+was unsupported. The sharpened local analysis now shows more: on each of those 24 split exceptional components there are exactly two `G3` attachment points, while a unit endpoint contact landing at any other point of that reduced fiber component is unramified for the rank-4 map. The retained AN endpoint model has enough landing-parameter freedom to place all 140 split-exceptional unit contacts away from those finite attachment loci.
+
+Therefore the universal local adapter
+
+`every O-contact contributes >=1 to degree-113 rank4 ramification`
+
+is **locally false** in the retained endpoint model. This does not construct a global V6 carrier and does not exclude O266; it removes one naive route to the Riemann–Hurwitz contradiction.
+
+Retained files:
+
+- `stages/stage32-ex6/post1697-rank4-degree113-adapter-wall.md`
+- `stages/stage32-ex6/post1697-rank4-local-unramified-contact-wall.md`
+- `stages/stage32-ex6/post1697-rank4-local-unramified-contact-contract.json`
+- verifier: `stages/stage32-ex6/verify_stage32_ex6_rank4_local_unramified_contact_contract.py`
+
+A useful future rank-4 re-entry must now force actual/global V6 landing points into attachment or critical loci, or avoid the per-contact ramification premise entirely.
+
 ## Purpose
 
 Attack the opposite endpoint of the currently retained fixed-V6 O-range by studying the hypothetical `O=266` population first.
