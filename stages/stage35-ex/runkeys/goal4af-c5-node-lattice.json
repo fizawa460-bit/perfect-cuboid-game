@@ -1,8 +1,8 @@
 {
   "schema":"STAGE35_EX_GOAL4AF_C5_NODE_LATTICE_RUNKEY_V1",
   "armed":true,
-  "generation":11,
-  "route":"LOCAL_C5_MARKED_REPRESENTATIVE_TARGET_SPAN",
+  "generation":12,
+  "route":"LOCAL_C5_MARKED_REPRESENTATIVE_TARGET_SPAN_SYMPY",
   "pr":1659,
   "branch":"stage35-ex-goal4x-open-receiver-boundary-picard",
   "upstream_git_blob_sha1":"0422b69847f2afb97cb7b3ed02ebef91279f61b1",
@@ -15,11 +15,13 @@
     "pair_rows_materialized":true,
     "pair_count":8,
     "goal4ac_residual_pair_count":4,
-    "distinct_marked_picard64_row_count":2,
-    "receiver_indices_1based":[25,29,27,25,26,28,30,26]
+    "distinct_marked_picard64_row_count":2
   },
-  "generation7_receiver_wrapper_blob_sha1":"e4291503ccff329546e939c2522359573f12dc2a",
-  "generation10_receiver_diagnostic_blob_sha1":"cd80f7533dd865eb68ad75e0f25454d542ebf4e7",
+  "generation11_result":{
+    "workflow_run":34071538303,
+    "job":101589709266,
+    "failure_before_target_span_math":"MISSING_SYMPY_DEPENDENCY"
+  },
   "diagnostic_path":"stages/stage35-ex/diagnose_stage35_ex_35_goal4af_c5_target_span.py",
   "diagnostic_blob_sha1":"3a5045f7f3c48a2f93a8116090beca1422bafac3",
   "target_span_model":{
@@ -30,6 +32,7 @@
     "c5_goal4ac_residual_pair_column_count":4,
     "c5_marked_representative_embedding":"primitive INDLIST64 coefficients placed on corresponding retained basis curves in the 140-divisor packet, with exact Picard-image round trip"
   },
+  "python_dependency":{"sympy":"1.14.0"},
   "planned_jobs":1,
   "planned_shards":1,
   "persisted_output_upper_bound_bytes":16384,
@@ -45,5 +48,5 @@
     "E1_proved":false,
     "stage35_closed":false
   },
-  "purpose":"Compute the exact Q-span of the fixed 69-support Goal4AA target after adjoining the four Goal4AC C5 residual-pair marked INDLIST64 representatives to the retained rank-31 complete-linear-section divisor span."
+  "purpose":"Re-run the exact Goal4AA target-span diagnostic with the missing SymPy dependency pinned, without changing the mathematical diagnostic blob."
 }
