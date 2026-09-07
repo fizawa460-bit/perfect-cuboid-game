@@ -1,0 +1,28 @@
+name: Stage33 V91C1X R5B2B3A EXC015 SIDE002 colon diagnostic
+
+on:
+  push:
+    branches:
+      - stage33-v91c1x-r5-cover-glue-package
+    paths:
+      - 'stages/stage33/33-12/diagnose_e3_v91c1x_r5b2b3a_exc015_side002_colon.py'
+      - '.github/workflows/stage33-v91c1x-r5b2b3a-exc015-side002-colon-diagnostic.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install sympy
+      - name: Exact colon diagnostic
+        run: python stages/stage33/33-12/diagnose_e3_v91c1x_r5b2b3a_exc015_side002_colon.py
