@@ -48,8 +48,8 @@ jobs:
           def blob(q):
               b=q.read_bytes(); return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
           ok=(k.get('schema')=='STAGE35_EX_GOAL4AJ_KNOWN_RESIDUAL_MILP_RUNKEY_V1' and
-              k.get('armed') is True and k.get('generation')==1 and
-              blob(p)==k.get('probe_blob_sha1')=='11df78cb8e9219632f46171dbbb745eb0dcc4fd2' and
+              k.get('armed') is True and k.get('generation')==2 and
+              blob(p)==k.get('probe_blob_sha1')=='da9f8f3a248815958679d7ff35e53031b7b1e3fc' and
               k.get('planned_jobs')==1 and k.get('actions_artifact_upload') is False)
           print('true' if ok else 'false')
           PY
@@ -71,7 +71,7 @@ jobs:
           python-version: '3.12'
       - name: Install exact numerical dependencies
         run: python -m pip install --disable-pip-version-check sympy==1.14.0 scipy==1.16.1
-      - name: Search bounded Q-invariant retained140 residual decomposition
+      - name: Materialize full Q-invariant common residual and degree31 divisor pair
         run: |
           set -euo pipefail
           python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_known_residual_milp.py | tee /tmp/goal4aj-milp.log
