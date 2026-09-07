@@ -3,11 +3,23 @@ import json
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-state = json.loads((HERE / "MAIN-STATE.json").read_text())
+state = json.loads((HERE / "MAIN-STATE.json").read_text(encoding="utf-8"))
 
+assert state["schema"] == "STAGE32EX1_MAIN_COMPACT_STATE_V18_POST05G_COMMON_COVER_CORRESPONDENCE_CANDIDATE"
 assert state["stage"] == "32EX1"
-assert state["bootstrap"]["active_work_pr"] == 1688
-assert state["bootstrap"]["merge_authorized"] is False
+
+boot = state["bootstrap"]
+assert boot["audited_predecessor_pr"] == 1688
+assert boot["audited_predecessor_merge_sha"] == "6431ec2a90ed9260d4362d7146a9788cbc21c8d1"
+assert boot["work_branch"] == "stage32ex1-ex1-05g-common-cover-correspondence"
+assert boot["active_work_pr"] == 1700
+assert boot["branch_base_main_sha"] == "6431ec2a90ed9260d4362d7146a9788cbc21c8d1"
+assert boot["merge_authorized"] is False
+
+fresh = state["freshness"]
+assert fresh["branch_started_from_exact_main"] is True
+assert fresh["freshness_sync_completed_at_05g_start"] is True
+assert fresh["freshness_recheck_required_before_future_audit_or_promotion"] is True
 
 cc = state["completion_contract"]
 assert cc["allowed_terminal_outcomes"] == [
@@ -17,62 +29,88 @@ assert cc["allowed_terminal_outcomes"] == [
 assert cc["finite_residual_ledger_is_terminal_success"] is False
 assert cc["blocked_route_is_stage_exhaustion"] is False
 
+prev = state["audited_checkpoint"]
+assert prev["pr"] == 1688
+assert prev["review_id"] == 5135375926
+assert prev["exact_head"] == "93c455e1e69ed65fbfb553462fdcfbc8e2becbae"
+assert prev["result"] == "PASS"
+assert prev["merge_commit"] == "6431ec2a90ed9260d4362d7146a9788cbc21c8d1"
+assert prev["audited_through_leaf"] == "EX1-05F"
+assert prev["credit_ceiling"] == "INTERMEDIATE_BRANCH_EXCLUSION_AND_EXACT_BLOCKER_ONLY"
+assert prev["exact_head_ci"] == {
+    "run_id": 34163317320,
+    "job_id": 101869390750,
+    "result": "SUCCESS",
+    "exact_checkout_identity": True,
+    "clean_diff": True,
+    "clean_status": True,
+}
+
 cur = state["current"]
-assert cur["status"] == "REAUDIT_READY_EXACT_HEAD_CI_SUCCESS"
-assert cur["subroute"] == "EX1-05G_H4_COMMON_COVER_CORRESPONDENCE_COUPLING"
-assert cur["resume_05g_before_reaudit"] is False
-assert cur["stop_semantics"] == "REAUDIT_CHECKPOINT_NOT_STAGE_EXHAUSTION"
+assert cur["status"] == "EX1_05G_RETAINED_CANDIDATE_UNAUDITED"
+assert cur["completed_subroute_candidate"] == "EX1-05G_H4_COMMON_COVER_CORRESPONDENCE_COUPLING"
+assert cur["subroute"] == "EX1-05H_CORRESPONDENCE_DEFECT_TO_OFF_CUSP_RAMIFICATION_COUPLING"
+assert cur["stop_semantics"] == "ACTIVE_NEXT_LEAF_NOT_STAGE_EXHAUSTION"
 
 front = state["frontier"]
-assert front["h2_full_stabilizer_choices_total_candidate"] == 6
-assert front["h2_two_single_sign_choices_candidate"] == 3
-assert front["h2_one_single_plus_triple_choices_candidate"] == 3
-assert front["h2_choices_excluded_by_capacity_candidate"] == 5
-assert front["h2_choices_after_capacity_candidate"] == 1
-assert front["h2_unique_capacity_survivor_candidate"].startswith("M=<u,v>")
-assert front["h2_excluded_candidate"] is True
-assert front["h4_forced_candidate"] is True
-assert front["h4_forcing_scope"] == "COMPONENT_STABILIZER_LAYER_ONLY"
-assert front["ramification_Q_range_candidate"] == [210, 266]
-assert front["ramification_Q_state_count_candidate"] == 29
-assert front["Q_states_excluded_by_EX1_05F_candidate"] == 0
-assert front["off_cusp_common_map_compatibility_open"] is True
+assert front["audited_EX1_00_through_EX1_05F_intermediate_branch_exclusion"] is True
+assert front["h2_excluded_audited"] is True
+assert front["h4_forced_audited"] is True
+assert front["fixed_v6_projection_degrees_D_to_C2"] == [105, 81]
+assert front["ramification_Q_range"] == [210, 266]
+assert front["ramification_Q_state_count"] == 29
+assert front["Q_states_excluded_by_EX1_05F"] == 0
+assert front["common_cover_fixed_plane_uniform_candidate"] is True
+assert front["rosati_Q_uniform_candidate"] == 602
+assert front["Gamma_square_candidate"] == 15806
+assert front["Gamma_sigma_candidate"] == 1204
+assert front["Gamma_arithmetic_genus_candidate"] == 8090
+assert front["Gamma_normalization_defect_formula_candidate"] == "7984-r"
+assert front["Gamma_normalization_defect_range_candidate"] == [7956, 7984]
+assert front["mod2_fixed_plane_survivor_count_candidate"] == 28
+assert front["coarse_joint_product_cell_count_candidate"] == 812
+assert front["Q_states_excluded_by_EX1_05G_candidate"] == 0
+assert front["correspondence_defect_to_off_cusp_ramification_coupling_open"] is True
+assert front["finite_residual_configuration_ledger_complete"] is False
 assert front["all_residual_configurations_disposed"] is False
 assert front["full_target_closure"] is False
 
-arts = {x["leaf"]: x["canonical_sha256"] for x in state["checkpoint_artifacts"]}
-assert arts["EX1-05A"] == "b5b3a2b26d4ac7f14ebcb8670f0176363bd1c7921266a1693642638145d61a21"
-assert arts["EX1-05B"] == "c0532ef30aee662954f035a0dc5c87f4cfa8ff7f471632efa7d266a8152405f1"
-assert arts["EX1-05C"] == "51464451c233eaee4148ded8c6dbb38e84944c01677eced9d6dc8af7219b846f"
-assert arts["EX1-05D"] == "ee3d86380cdedce792cf0b90061e2ee02e67f453e1b834c5908fc3e287c73b28"
-assert arts["EX1-05E"] == "bdd1a6a84c10cf124d5ceaf75f3de234659f5d0433cbd1c859a3da65328342df"
-assert arts["EX1-05F"] == "8b8ee58b63078b48389cb817ea6b6bf0171c9a323b5705dcdbc99242a27958ef"
+arts = {x["leaf"]: x for x in state["checkpoint_artifacts"]}
+for leaf in ["EX1-00","EX1-01","EX1-02","EX1-03","EX1-04","EX1-05A","EX1-05B","EX1-05C","EX1-05D","EX1-05E","EX1-05F"]:
+    assert arts[leaf]["audit_status"] == "PASS_AS_PART_OF_PR1688"
+assert arts["EX1-05G"] == {
+    "leaf": "EX1-05G",
+    "canonical_sha256": "5a1c30a64857b900f7523153f326c0742ad5cb4ef88e77b0748dd6c4e532be08",
+    "audit_status": "PENDING",
+}
+
+credit = state["credit"]
+assert credit["level"] == "AUDITED_EX1_00_THROUGH_05F_INTERMEDIATE_BRANCH_EXCLUSION__05G_CANDIDATE_UNAUDITED"
+assert credit["audited_intermediate_branch_exclusion"] is True
+assert credit["candidate_05g_common_cover_defect_ladder"] is True
+assert credit["candidate_05g_nonpruning_boundary"] is True
+assert credit["all_v6_genus1_carriers_excluded"] is False
+assert credit["genuine_surviving_carrier_established"] is False
+assert credit["full_target_closure"] is False
+assert credit["stage32_main_credit"] is False
 
 audit = state["audit"]
-assert audit["status"] == "REAUDIT_READY_EXACT_HEAD_CI_SUCCESS"
-assert audit["candidate_pr"] == 1688
-assert audit["candidate_leaf"] == "EX1-00_THROUGH_EX1-05F_REPAIRED_ACCUMULATED_CANDIDATE"
-assert audit["failed_review"]["review_id"] == 5134451242
-assert audit["failed_review"]["exact_head"] == "9f88c89eb85daf82700bb463755f97073c5cfcae"
-assert len(audit["failed_review"]["blocking_findings"]) == 2
-assert audit["repair_05c_six_subgroup_exhaustion_complete"] is True
-assert audit["digest_chain_repaired_after_ci_discovery"] is True
-assert audit["exact_head_ci_required"] is True
-assert audit["exact_head_ci_observed_success"] is True
-assert audit["successful_ci_subject_head"] == "23b21f79221bbc825a1979e34deca6d2dbeea58f"
-assert audit["successful_ci_run_id"] == 34151440402
-assert audit["successful_ci_job_id"] == 101834396884
-assert audit["exact_head_for_reaudit"] is None
+assert audit["prior_pass"]["review_id"] == 5135375926
+assert audit["current_candidate_pr"] == 1700
+assert audit["current_candidate_leaf"] == "EX1-05G_H4_COMMON_COVER_CORRESPONDENCE_COUPLING"
+assert audit["current_candidate_status"] == "PENDING_FUTURE_CONSOLIDATION_HOSTILE_AUDIT"
+assert audit["current_exact_head_for_audit"] is None
 assert audit["pass_auto_merges"] is False
 assert audit["pass_auto_promotes_to_stage32_main"] is False
 
-fresh = state["freshness"]
-assert fresh["freshness_sync_required_before_promotion"] is True
-assert fresh["freshness_sync_completed"] is False
-
 fw = state["firewalls"]
 for key in [
-    "h2_subgroup_exhaustion_assumes_exactly_two_single_signs",
+    "stage32_O210_specific_transvection_16_to_3_imported_without_adapter",
+    "Q602_residue_survival_promoted_to_geometric_correspondence",
+    "cartesian_812_cells_promoted_to_geometric_realizability",
+    "Gamma_defect_identified_with_original_curve_delta_472",
+    "projection_ramification_identified_with_intrinsic_delta",
+    "off_cusp_ramification_numerical_assignment_promoted_to_map_existence",
     "full_target_closure_claimed",
     "stage32_main_credit",
     "Q602_excluded",
@@ -81,6 +119,6 @@ for key in [
     "perfect_cuboid_existence_claim",
     "perfect_cuboid_nonexistence_claim",
 ]:
-    assert fw[key] is False
+    assert fw[key] is False, key
 
-print("Stage32EX1 MAIN-STATE replay PASS: repaired EX1-00..05F checkpoint is re-audit ready; 05G remains paused until hostile-audit PASS")
+print("Stage32EX1 MAIN-STATE replay PASS: audited 00..05F retained; 05G candidate records uniform Q_Rosati=602 and delta_Gamma=7984-r; next route 05H")
