@@ -350,7 +350,7 @@ def validate_lane_adapters(by_id: dict[str, dict], adapters: dict) -> None:
     lanes = adapters.get("lanes")
     if not isinstance(lanes, list):
         raise CheckError("lane adapters must contain lanes list")
-    expected = {"MAIN", "EX1", "EX2", "EX3", "EX4", "EX5"}
+    expected = {"MAIN", "EX1", "EX2", "EX3", "EX4", "EX5", "EX6"}
     seen = set()
     for lane in lanes:
         name = lane.get("lane")
@@ -625,7 +625,7 @@ def main() -> int:
             "source_locks_checked": source_lock_count,
             "replay_verifiers_checked": replay_verifier_count,
             "authority_status_counts": dict(sorted(status_counts.items())),
-            "lanes": ["MAIN", "EX1", "EX2", "EX3", "EX4", "EX5"],
+            "lanes": ["MAIN", "EX1", "EX2", "EX3", "EX4", "EX5", "EX6"],
             "final_contract_locked": True,
         }
 
