@@ -1,0 +1,161 @@
+{
+  "schema": "STAGE32EX1_EX1_05AA_Q602_MOD4_ISOTROPIC_GLUE_KERNEL_ACTION_PREFLIGHT_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05AA_Q602_MOD4_ISOTROPIC_GLUE_KERNEL_ACTION_PREFLIGHT",
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "scratch_parent_head": "ea897aef8cf1f68084c3e45530cd99bf6e710c1c",
+  "current_main_seen": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "question": "Do actual R=Z[sqrt(-2)]-linear mod4 lifts of the three retained Q602 mod2 residues refine their action on the 16-point invariant polarization kernel A[2], and can that action be matched to the isotropic Prym glue more sharply than EX1-05Z?",
+  "source_locks": {
+    "parent_05z": {
+      "path": "stages/stage32-ex1/scratch/ex1-05z-integral-h-equivariant-jacobian-glue-congruence-preflight.json",
+      "blob_sha1": "4a900fed80366dbc7553693943be89571fe9adf9",
+      "exact_use": "05Z correctly identifies the isotropic cover, A[2] as a 16-point 2-primary polarization kernel, and the mod4 coordinate model. Its arbitrary Z/4-linear insufficiency witness is re-audited here inside the actual R-linear endomorphism ring."
+    },
+    "principal_rosati": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json",
+      "blob_sha1": "e28c4533883440ea0963d4d4e8859aa95409cf10",
+      "canonical_sha256": "8d828cdf6d1f5cb1d790c46292535dc252e503356e1047ce972c41e61f524529",
+      "exact_use": "The integral basis is (e1,e2,r*e1,r*e2), r^2=-2, with the exact principal Riemann form and Rosati involution."
+    },
+    "d4d4_trace": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-birational-d4d4-trace-reduction.json",
+      "blob_sha1": "d833f5c31fe9869e9128573517bc4a75875599fb",
+      "canonical_sha256": "36317063d40d58ac893aac02da059f9150f835e94a214e4ac89b058d0b9f44d4",
+      "exact_use": "The exact eight-coordinate quadratic form Q and unimodular isometry to D4 direct-sum D4 are used to prove exact Q=602 realizability of every retained mod4 class without materializing the 1.3-billion shell."
+    },
+    "exact_W": {
+      "path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter.json",
+      "blob_sha1": "a45e4725cf3354f7ed32ec6f7126326ca5492255",
+      "canonical_sha256": "eab4d86ffe89ff0e87d197cffb34e8b556ae530cab826dab34c1007664a4af28",
+      "exact_use": "W has basis r*e1,r*e2 and the retained exact-W plus transvection pipeline leaves mod2 residues 73,97,235."
+    },
+    "borowka_ortega": {
+      "authors": ["Pawel Borowka", "Angela Ortega"],
+      "title": "Klein coverings of genus 2 curves",
+      "arxiv": "1904.05962v2",
+      "doi": "10.1090/tran/7971",
+      "locators": ["Lemma 4.13", "Lemmas 5.5-5.6"],
+      "exact_use": "In the isotropic case the Prym is the image of three elliptic curves whose restricted polarizations have type (2); the addition map has kernel {(0,0,0),(x1,x2,x3)} with every xi nonzero. Equivalently P=(E1 x E2 x E3)/<(x1,x2,x3)> with polarization type (1,2,2)."
+    },
+    "parent_05y": {
+      "path": "stages/stage32-ex1/scratch/ex1-05y-prym-elliptic-endomorphism-norm-character-line-alignment-preflight.json",
+      "blob_sha1": "76ecc594505261086b371e74b875223ffe1ce927",
+      "exact_use": "The three character elliptic factors are j=1728 with End=Z[i], and the forced degrees are {137,9,9}."
+    }
+  },
+  "critical_05z_correction": {
+    "05z_valid_parts_retained": ["W is maximal isotropic", "A[2] has order 16", "the rational invariant/Prym split has 2-primary integral gluing"],
+    "05z_claim_superseded": "MOD2_EXACT_W_DOES_NOT_DETERMINE_A2_ACTION_SO_MOD4_IS_GENUINELY_NEEDED",
+    "reason": "The 05Z witness T1=I+2M with M(e3)=e1 is an arbitrary Z/4-linear map. It is not the reduction of an R=Z[r], r^2=-2, linear endomorphism in M2(R). The active correspondence endomorphism is constrained to M2(R), so that witness is outside the allowed ring.",
+    "replacement": "Inside M2(R), every mod4 lift of a fixed retained mod2 residue induces the same action on A[2]."
+  },
+  "mod4_enumeration": {
+    "coordinate_order": ["t11.a","t11.b","t12.a","t12.b","t21.a","t21.b","t22.a","t22.b"],
+    "decimal_encoding": "little-endian bit i is parity of coordinate i",
+    "mod2_residues": [73,97,235],
+    "raw_mod4_lifts_per_residue": 256,
+    "Q602_mod8_condition": "Q(x)=2 mod 8",
+    "mod4_lifts_passing_Q_mod8_per_residue": 128,
+    "exact_D4D4_coset_replay": "A bounded D4+D4 reachability convolution proves that every one of these 128 classes per residue contains at least one integral vector of exact Q=602.",
+    "exact_realized_mod4_lifts_per_residue": {"73":128,"97":128,"235":128},
+    "representative_exact_witnesses": {
+      "73": [13,-16,32,1,0,16,-19,16],
+      "97": [-11,-24,16,-16,32,9,5,24],
+      "235": [1,-27,28,-15,24,13,1,25]
+    },
+    "full_shell_materialized": false
+  },
+  "actual_R_linear_A2_action": {
+    "A2_model": "{x in J[4]:2x in W}/W with basis classes of 2e1,2e2,r*e1,r*e2",
+    "R_linear_matrix_formula": "For t_ij=a_ij+b_ij*r, use columns on (e1,e2,r e1,r e2); r multiplication sends r e_j to -2 e_j.",
+    "action_independent_of_mod4_lift_within_each_mod2_residue": true,
+    "actions_rows_by_residue": {
+      "73": [[1,0,0,1],[0,1,0,0],[0,0,1,0],[0,0,0,1]],
+      "97": [[1,0,0,0],[0,1,1,0],[0,0,1,0],[0,0,0,1]],
+      "235": [[1,0,1,1],[0,1,1,1],[0,0,1,0],[0,0,0,1]]
+    },
+    "rank_action_minus_identity_each": 1,
+    "fixed_dimension_each": 3,
+    "invertible_each": true,
+    "conjugacy_type": "NONTRIVIAL_F2_SYMPLECTIC_TRANSVECTION",
+    "mod4_pruning": false,
+    "residues_after_actual_ring_mod4_test": [73,97,235]
+  },
+  "prym_glue_reduction": {
+    "Presentation": "P=(E1 x E2 x E3)/K, K=<k>, k=(x1,x2,x3), each xi nonzero in Ei[2]",
+    "Ei": "j=1728 Gaussian CM elliptic curves",
+    "gaussian_mod2": "Z[i]/2 = F2[epsilon]/(epsilon^2); multiplication by i swaps two nonzero 2-torsion points and fixes the unique third nonzero point.",
+    "degree_137_choices": {"identity_on_E2":"11+4i", "i_action_on_E2":"4+11i"},
+    "degree_9_choices": {"identity_on_E2":"3", "i_action_on_E2":"3i"},
+    "kernel_preservation": "A product Gaussian endomorphism descends through K only if it fixes k. Thus an i-type component is allowed exactly when the selected xi is the unique CM-fixed nonzero 2-torsion point on that factor; identity-type components are always allowed.",
+    "polarization_kernel_model": "Since the product restricted polarization is type (2,2,2) and K has order two, K(P,Ξ) is the four-dimensional symplectic quotient K^perp/K inside E1[2] direct-sum E2[2] direct-sum E3[2].",
+    "finite_F2_replay": {
+      "if_no_selected_xi_is_CM_fixed": "Only identity-type Gaussian actions preserve K, hence the Prym polarization-kernel action is identity.",
+      "if_at_least_one_selected_xi_is_CM_fixed": "Choosing i-type on one such factor and identity-type on the others gives a rank-one unipotent/transvection action on K(P,Ξ).",
+      "consequence": "The invariant-side transvection can only be glue-compatible if at least one of the three selected xi belongs to the CM-fixed 2-torsion orbit; at conjugacy-class level that condition is also sufficient to realize a Prym-side transvection."
+    }
+  },
+  "statewise_replay": {
+    "Q_values": [210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266],
+    "Q_state_count": 29,
+    "Q602_residues_entering": [73,97,235],
+    "Q602_residues_excluded": 0,
+    "Q_states_excluded": 0,
+    "mod4_result_uniform_in_EX1_Q": true
+  },
+  "decision": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "new_exact_pattern": "ACTUAL_M2_ZSQRTMINUS2_LINEARITY_COLLAPSES_ALL_128_EXACT_Q602_MOD4_LIFTS_OF_EACH_RETAINED_RESIDUE_TO_ONE_A2_TRANSVECTION_ACTION;_THE_NEXT_GLUE_OBSTRUCTION_IS_THE_CM_ORBIT_OF_THE_THREE_SELECTED_PRYM_2TORSION_POINTS",
+    "05z_mod4_necessity_superseded": true,
+    "exact_Q602_mod4_lifts_materialized_only_as_bounded_residue_classes": true,
+    "Q602_residues_excluded": 0,
+    "Q_states_excluded": 0,
+    "V6_carrier_excluded": false,
+    "new_gate": "IDENTIFY_FOR_THE_FIXED_X8_ISOTROPIC_PRYM_WHETHER_ANY_SELECTED_xi_IN_Ei_2_IS_THE_UNIQUE_GAUSSIAN_CM_FIXED_NONZERO_2TORSION_POINT_AND_THEN_SOURCE_LOCK_THE_ACTUAL_ANTI_ISOMETRY_TO_A2",
+    "exact_blocker": "The current package identifies the three j=1728 elliptic Prym factors but not the three specific nonzero kernel points xi relative to the Gaussian-CM fixed/swapped 2-torsion orbits. Without that identification, the Prym kernel action may be identity or may realize the same transvection conjugacy class as the invariant A[2] action.",
+    "reopen_condition": "Source-lock the three selected xi from the explicit X(8) quotient/addition geometry or an equivalent period/divisor adapter."
+  },
+  "candidate_ledger": {
+    "LIVE": ["FIXED_X8_PRYM_SELECTED_2TORSION_CM_ORBIT_AND_POLARIZATION_GLUE_ACTION"],
+    "UNTESTED": ["ACTUAL_V6_SECTION_MATERIALIZATION"],
+    "BLOCKED": ["PRYM_GLUE_EXCLUSION_WITHOUT_SELECTED_xi_CM_ORBIT", "D0_SUPPORT_EXTRACTION_FROM_CURRENT_CORRESPONDENCE_ROSATI_DEGREE_DATA"],
+    "DOMINATED": ["Q602_MOD4_LIFT_ENUMERATION_AS_A_RESIDUE_PRUNER", "05Z_ARBITRARY_Z4_LINEAR_MOD2_INSUFFICIENCY_WITNESS", "PRYM_ELLIPTIC_NORM_ONLY_OBSTRUCTION"],
+    "EQUIVALENT": []
+  },
+  "next_route": {
+    "route_id": "EX1_05AB_FIXED_X8_PRYM_SELECTED_2TORSION_CM_ORBIT_PREFLIGHT",
+    "selection_reason": "05AA proves mod4 itself carries no further residue information in the actual R-linear endomorphism ring. The only remaining 2-primary distinction visible in the explicit isotropic Prym presentation is whether the three nonzero kernel points xi lie in the Gaussian-CM fixed or swapped 2-torsion orbits."
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "CYCLE_ACTIVE_RECEIVER": "CM_ORBIT_TYPE_OF_THE_THREE_SELECTED_NONZERO_2TORSION_POINTS_IN_THE_FIXED_X8_PRYM_ADDITION_KERNEL",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 1,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": false,
+    "CYCLE_BLIND_REDISCOVERY": false,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "ACTUAL_ENDOMORPHISM_RING_LINEARITY_PLUS_SELECTED_PRYM_2TORSION_CM_ORBIT",
+    "CYCLE_NEW_VIEW_SOURCE": "INTERNAL_DERIVATION_PLUS_BOROWKA_ORTEGA"
+  },
+  "replay": {
+    "verifier": "stages/stage32-ex1/scratch/verify_ex1_05aa_q602_mod4_isotropic_glue_kernel_action.py",
+    "expected": "PASS_EX1_05AA_ACTUAL_RING_MOD4_COLLAPSES_TO_TRANSVECTIONS"
+  },
+  "firewalls": {
+    "05z_arbitrary_Z4_witness_reused_as_actual_EndJ_witness": false,
+    "Q_mod8_promoted_to_exact_Q602_without_D4D4_reachability": false,
+    "prym_degree_norm_promoted_to_unique_gaussian_endomorphism": false,
+    "selected_xi_CM_orbit_guessed": false,
+    "transvection_conjugacy_promoted_to_actual_fixed_anti_isometry_compatibility": false,
+    "Q_state_exclusion_claimed": false,
+    "Q602_exclusion_claimed": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "schema": "STAGE32EX1_EX1_05AB_FIXED_X8_PRYM_SELECTED_2TORSION_CM_ORBIT_PREFLIGHT_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05AB_FIXED_X8_PRYM_SELECTED_2TORSION_CM_ORBIT_PREFLIGHT",
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "scratch_parent_head": "bc4b36878bd1f2480154a22e96b1599400f74df8",
+  "current_main_seen": "226a8aa11ac61293a7e4b7f9611177f68af94ff4",
+  "freshness_note": "Current main advanced by three commits from the previously seen f2a89e6 head. The bounded compare touches Research-OS policy, Stage32EX4, and Stage32 proof-management files; none of the EX1/05Y/05AA mathematical source locks used here changed. No scratch rebase is performed before consolidation.",
+  "question": "For the fixed X(8) isotropic Klein cover, which Aut(E_i)-orbit contains each selected nonzero two-torsion point x_i in the Borowka-Ortega isotropic Prym addition kernel: the unique Gaussian-CM-fixed point or one of the two points exchanged by multiplication by i?",
+  "source_locks": {
+    "parent_05aa": {
+      "path": "stages/stage32-ex1/scratch/ex1-05aa-q602-mod4-isotropic-glue-kernel-action-preflight.json",
+      "blob_sha1": "8e453f889951191ded2f4e784850754257001f8e",
+      "exact_use": "All three invariant-side Q602 residues act on A[2] as nontrivial rank-one transvections. Prym-side compatibility reduces to the CM orbit of the selected x_i."
+    },
+    "parent_05y": {
+      "path": "stages/stage32-ex1/scratch/ex1-05y-prym-elliptic-endomorphism-norm-character-line-alignment-preflight.json",
+      "blob_sha1": "76ecc594505261086b371e74b875223ffe1ce927",
+      "exact_use": "X(8) has model u^2=xy, v^2=x^2-y^2, w^2=x^2+y^2; H is the even-sign V4; the three nontrivial H-character Prym elliptic factors are the three single-sign quotients and all are j=1728 with End=Z[i]."
+    },
+    "borowka_ortega": {
+      "authors": ["Pawel Borowka", "Angela Ortega"],
+      "title": "Klein coverings of genus 2 curves",
+      "journal": "Transactions of the American Mathematical Society 373 (2020), 1885-1907",
+      "doi": "10.1090/tran/7971",
+      "arxiv": "1904.05962v2",
+      "locators": ["Proposition 2.16", "Corollary 2.19", "Definition 4.3", "Theorem 4.12", "Lemma 4.13", "Lemmas 5.5-5.7"],
+      "exact_use": "For the non-hyperelliptic genus-three quotient C_j, the three elliptic subvarieties E_sigma,E_tau,E_sigmat share a distinguished nonzero alpha in their intersection; the addition isogeny to J(C_j) has degree 8 and pullback polarization twice product-principal. For the isotropic Prym, E_{j sigma}=E_sigma/<alpha> etc., and the induced addition kernel is {(0,0,0),(x1,x2,x3)} with every x_i nonzero. The period model marks x_i=z_i/2."
+    }
+  },
+  "sign_group_adapter": {
+    "curve": "C=X(8): u^2=xy, v^2=x^2-y^2, w^2=x^2+y^2",
+    "single_signs": ["s_u", "s_v", "s_w"],
+    "H_even_sign": ["1", "s_u*s_v", "s_u*s_w", "s_v*s_w"],
+    "chosen_lifts": {
+      "j": "s_u*s_v*s_w",
+      "sigma": "s_v*s_w",
+      "tau": "s_u*s_w",
+      "sigma_tau": "s_u*s_v",
+      "j_sigma": "s_u",
+      "j_tau": "s_v",
+      "j_sigma_tau": "s_w"
+    },
+    "j_fixed_point_free": true,
+    "j_reason": "A projective fixed point of the triple sign would require either u=v=w=0 or x=y=0; the three defining quadrics then force all coordinates zero.",
+    "hyperelliptic_lift_reason": "The full sign group modulo H has order two and quotienting C by all signs leaves the [x:y] line. Hence the odd-sign coset induces the hyperelliptic involution of C/H; choosing its fixed-point-free representative gives j."
+  },
+  "selected_point_dual_kernel_identification": {
+    "notation": "q_i:E_i -> E_i_prime=E_i/<alpha>, where E_i_prime is E_{j sigma}, E_{j tau}, or E_{j sigma tau}",
+    "original_addition_kernel": "K0=ker(E_sigma x E_tau x E_sigma_tau -> J(C_j))",
+    "K0_two_torsion": true,
+    "K0_two_torsion_reason": "Proposition 2.16 gives pullback of the principal polarization equal to twice the product principal polarization, so the polarized-isogeny kernel lies in the product 2-torsion.",
+    "lift_argument": "For x in ker(E'_1 x E'_2 x E'_3 -> J(C_j)/<alpha>), choose coordinate lifts a_i. Their sum lies in <alpha>; adding alpha to one coordinate does not change x and makes the lifted sum zero. Thus x lifts to K0 and every coordinate x_i belongs to q_i(E_i[2]).",
+    "nonzero_coordinate_input": "Lemma 4.13 proves every selected x_i is nonzero.",
+    "unique_image": "Since ker(q_i)=<alpha> has order two, q_i(E_i[2]) has order two. Therefore x_i is its unique nonzero point.",
+    "dual_isogeny_consequence": "For the degree-two isogeny q_i, ker(q_i^dual)=q_i(E_i[2]); hence E_i_prime/<x_i> is isomorphic to E_i.",
+    "selected_xi_are_dual_kernel_points": true
+  },
+  "fixed_x8_elliptic_quotient_replay": {
+    "u_character": {
+      "E_prime": "C/<s_u>",
+      "affine_model": "v^2=x^2-1, w^2=x^2+1",
+      "birational_parameter": "t=w+v, Y=2*t*x, so Y^2=t^4+4",
+      "residual_involution": "sigma=s_v*s_w: (t,Y)->(-t,-Y)",
+      "quotient_invariants": "A=t^2, B=t*Y",
+      "E_target": "B^2=A^3+4*A",
+      "target_j": 1728
+    },
+    "v_character": {
+      "E_prime": "C/<s_v>",
+      "affine_model": "x=u^2, w^2=u^4+1",
+      "residual_involution": "tau=s_u*s_w: (u,w)->(-u,-w)",
+      "quotient_invariants": "A=u^2, B=u*w",
+      "E_target": "B^2=A^3+A",
+      "target_j": 1728
+    },
+    "w_character": {
+      "E_prime": "C/<s_w>",
+      "affine_model": "x=u^2, v^2=u^4-1",
+      "residual_involution": "sigma_tau=s_u*s_v: (u,v)->(-u,-v)",
+      "quotient_invariants": "A=u^2, B=u*v",
+      "E_target": "B^2=A^3-A",
+      "target_j": 1728
+    },
+    "all_three_prequotient_E_i_have_j1728": true
+  },
+  "gaussian_two_torsion_orbit_test": {
+    "standard_model": "E:y^2=x^3-x",
+    "cm_i": "(x,y)->(-x,i*y)",
+    "nonzero_two_torsion": ["(0,0)", "(1,0)", "(-1,0)"],
+    "cm_fixed_nonzero": "(0,0)",
+    "cm_swapped_pair": ["(1,0)", "(-1,0)"],
+    "quotient_by_fixed_kernel": "E/<(0,0)>: y^2=x^3+4x, j=1728",
+    "quotient_by_swapped_kernel": "After translating (1,0) to the origin, the 2-isogenous quotient is y^2=x^3-6x^2+x, j=287496; the (-1,0) case is isomorphic.",
+    "criterion": "On a j=1728 elliptic curve, a nonzero order-two subgroup has j=1728 quotient iff it is the unique Gaussian-CM-stable subgroup.",
+    "application": "Each E_i_prime has j=1728 by 05Y and E_i_prime/<x_i>=E_i has j=1728 by the fixed X(8) quotient replay, so every selected x_i is CM-fixed.",
+    "selected_xi_cm_fixed_count": 3,
+    "selected_xi_cm_swapped_count": 0
+  },
+  "prym_glue_consequence": {
+    "05aa_condition_at_least_one_cm_fixed": true,
+    "condition_strengthened_to_all_three_cm_fixed": true,
+    "identity_type_gaussian_action_preserves_addition_kernel": true,
+    "i_type_gaussian_action_can_be_used_on_any_of_the_three_factors": true,
+    "prym_kernel_transvection_available_on_each_factor": true,
+    "conjugacy_class_obstruction": false,
+    "actual_fixed_anti_isometry_alignment_source_locked": false
+  },
+  "statewise_replay": {
+    "Q_values": [210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266],
+    "Q_state_count": 29,
+    "Q602_residues_entering": [73,97,235],
+    "Q602_residues_excluded": 0,
+    "Q_states_excluded": 0,
+    "cm_orbit_result_uniform_in_EX1_Q": true
+  },
+  "decision": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "new_exact_pattern": "ALL_THREE_SELECTED_PRYM_ADDITION_KERNEL_2TORSION_POINTS_FOR_THE_FIXED_X8_ISOTROPIC_COVER_ARE_THE_UNIQUE_GAUSSIAN_CM_FIXED_NONZERO_POINTS",
+    "selected_points_identified_at_cm_orbit_level": true,
+    "all_three_cm_fixed": true,
+    "05aa_prym_transvection_existence_gate_closed_positive": true,
+    "Q602_residues_excluded": 0,
+    "Q_states_excluded": 0,
+    "V6_carrier_excluded": false,
+    "new_gate": "FIXED_X8_POLARIZATION_KERNEL_ANTI_ISOMETRY_AND_LABELED_TRANSVECTION_ALIGNMENT_BETWEEN_INVARIANT_A2_AND_PRYM_K_XI",
+    "exact_blocker": "The CM orbit ambiguity is gone: every selected x_i permits an i-type Gaussian action. What remains is the actual fixed anti-isometry/gluing identification between the invariant 16-point kernel A[2] and K(P,Xi), including which of the three labeled Prym-factor transvections corresponds to each retained invariant-side residue action 73,97,235.",
+    "reopen_condition": "Source-lock the integral polarization-kernel anti-isometry for the fixed X(8) cover or an equivalent period/homology adapter and compare the three labeled transvections exactly."
+  },
+  "candidate_ledger": {
+    "LIVE": ["FIXED_X8_POLARIZATION_KERNEL_ANTIISOMETRY_LABELED_TRANSVECTION_ALIGNMENT"],
+    "UNTESTED": ["ACTUAL_V6_SECTION_MATERIALIZATION"],
+    "BLOCKED": ["PRYM_GLUE_EXCLUSION_WITHOUT_FIXED_ANTIISOMETRY", "D0_SUPPORT_EXTRACTION_FROM_CURRENT_CORRESPONDENCE_ROSATI_DEGREE_DATA"],
+    "DOMINATED": ["SELECTED_PRYM_2TORSION_CM_ORBIT_AMBIGUITY", "Q602_MOD4_LIFT_ENUMERATION_AS_A_RESIDUE_PRUNER", "PRYM_ELLIPTIC_NORM_ONLY_OBSTRUCTION"],
+    "EQUIVALENT": []
+  },
+  "next_route": {
+    "route_id": "EX1_05AC_FIXED_X8_POLARIZATION_KERNEL_ANTIISOMETRY_TRANSVECTION_ALIGNMENT_PREFLIGHT",
+    "selection_reason": "05AB resolves all three selected x_i as CM-fixed, so Prym-side transvections exist on all three factors. The nearest stronger question is exact, labeled compatibility under the fixed 2-primary polarization gluing rather than conjugacy-class compatibility."
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "CYCLE_ACTIVE_RECEIVER": "FIXED_X8_LABELED_ANTIISOMETRY_BETWEEN_A2_AND_PRYM_POLARIZATION_KERNEL_TRANSVECTIONS",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 1,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": false,
+    "CYCLE_BLIND_REDISCOVERY": false,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "EXPLICIT_X8_SIGN_QUOTIENTS_PLUS_DUAL_2ISOGENY_KERNEL_IDENTIFICATION",
+    "CYCLE_NEW_VIEW_SOURCE": "INTERNAL_DERIVATION_FROM_BEAUVILLE_X8_MODEL_AND_BOROWKA_ORTEGA"
+  },
+  "replay": {
+    "verifier": "stages/stage32-ex1/scratch/verify_ex1_05ab_fixed_x8_prym_selected_2torsion_cm_orbit.py",
+    "expected": "PASS_EX1_05AB_ALL_SELECTED_PRYM_POINTS_CM_FIXED"
+  },
+  "firewalls": {
+    "selected_xi_identified_with_arbitrary_etale_translation_without_dual_kernel_argument": false,
+    "j1728_target_promoted_to_cm_fixed_without_exact_two_isogeny_orbit_test": false,
+    "prym_transvection_conjugacy_promoted_to_fixed_antiisometry_compatibility": false,
+    "Q_state_exclusion_claimed": false,
+    "Q602_exclusion_claimed": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  }
+}
