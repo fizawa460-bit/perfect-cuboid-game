@@ -1,0 +1,47 @@
+name: Stage33 V91C1X R5B3B3A match 27 symbol carriers to retained 33
+
+on:
+  push:
+    branches:
+      - stage33-v91c1x-r5b2d0-swap23-source-lock
+    paths:
+      - '.github/workflows/stage33-v91c1x-r5b3b3a-match-27-carriers-to-retained-33-materialize.yml'
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3a_match_27_carriers_to_retained_33.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stage33-v91c1x-r5b2d0-swap23-source-lock
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Materialize R5B3B3A retained/new carrier partition
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3a_match_27_carriers_to_retained_33.py --write
+      - name: Remove interpreter caches
+        run: find stages/stage33 -type d -name __pycache__ -prune -exec rm -rf {} +
+      - name: Bound generated delta
+        run: |
+          git diff --check
+          git status --porcelain
+          test "$(git status --porcelain | wc -l)" -eq 1
+          git status --porcelain | grep 'stages/stage33/33-12/e3-v91c1x-r5b3b3a-match-27-carriers-to-retained-33.json'
+      - name: Commit exact generated certificate
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add stages/stage33/33-12/e3-v91c1x-r5b3b3a-match-27-carriers-to-retained-33.json
+          git commit -m '[Stage33] materialize R5B3B3A retained/new carrier partition'
+          git push origin HEAD:stage33-v91c1x-r5b2d0-swap23-source-lock
