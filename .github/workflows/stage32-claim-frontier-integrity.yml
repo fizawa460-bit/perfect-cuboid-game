@@ -3,6 +3,9 @@ name: Stage32 claim frontier integrity
 on:
   pull_request:
     paths:
+      - 'AGENTS.md'
+      - 'docs/research-os/policies/hostile-audit-and-freshness.md'
+      - 'docs/research-os/policies/verify_hostile_audit_and_freshness.py'
       - 'stages/stage32/proof/**'
       - 'stages/stage32/STAGE32-PROOF-PATH.md'
       - 'stages/stage32/FINAL-CHECK.json'
@@ -32,6 +35,8 @@ jobs:
       - name: Assert exact checked-out head
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Verify repo-wide hostile-audit and freshness governance
+        run: python docs/research-os/policies/verify_hostile_audit_and_freshness.py
       - name: Verify base Stage32 claim DAG
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
       - name: Verify active Stage32 mathematical frontier and claim-sync hooks
