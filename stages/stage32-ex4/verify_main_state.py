@@ -83,7 +83,8 @@ assert frontier["absolute_Q602_residue_identified"] is False
 assert frontier["terminal_outcome"] == "FIXED_SOURCE_PACKAGE_CANNOT_SELECT_ABSOLUTE_W_LINE"
 
 candidate = state["retained_terminal_candidate"]
-assert candidate["claim_id"] == "S32.EX4.FIXED_SOURCE_PACKAGE_AMBIGUITY_TERMINAL.V1"
+assert candidate["claim_id"] == "S32.EX4.FIXED_SOURCE_PACKAGE_AMBIGUITY_TERMINAL.V2"
+assert candidate["superseded_claim_id"] == "S32.EX4.FIXED_SOURCE_PACKAGE_AMBIGUITY_TERMINAL.V1"
 assert candidate["authority_status"] == "AUDITED"
 assert candidate["canonical_sha256"] == retained["canonical_sha256_without_this_field"]
 assert candidate["projective_pair_classes"] == 24
@@ -124,6 +125,8 @@ assert receipt["candidate_merge_commit"] == expected_audit["merge_commit"]
 assert receipt["audit_review_id"] == expected_audit["review_id"]
 assert receipt["audit_result"] == "PASS"
 assert receipt["claim_id"] == candidate["claim_id"]
+assert receipt["superseded_claim_id"] == candidate["superseded_claim_id"]
+assert receipt["authority_transition"] == "SUPERSEDE_PROVISIONAL_V1_AND_REGISTER_AUDITED_V2"
 assert receipt["audited_credit"] == "FULL_TARGET_CLOSURE / FIXED_SOURCE_PACKAGE_CANNOT_SELECT_ABSOLUTE_W_LINE"
 assert receipt["terminal_scope"] == "EX4_STRONG_FROZEN_PACKAGE_THROUGH_05D_ONLY"
 assert receipt["promotion_ceiling"]["EX4_full_target_closure"] is True
@@ -132,16 +135,25 @@ assert receipt["promotion_ceiling"]["Q602_excluded"] is False
 assert receipt["promotion_ceiling"]["O210_excluded"] is False
 
 claims = {c["claim_id"]: c for c in registry["claims"]}
+provenance = claims[candidate["superseded_claim_id"]]
+assert provenance["authority_status"] == "SUPERSEDED"
+assert provenance["claim_core_sha256"] == "2d5ffc68edd76653e0c776f51f0a32ab99d327baa4353d6f4636abed0b046ca9"
+assert provenance["audit_receipt"]["status"] == "SUPERSEDED_AFTER_HOSTILE_AUDIT_PASS"
+assert provenance["audit_receipt"]["review_id"] == 5139609916
+
 claim = claims[candidate["claim_id"]]
 assert claim["authority_status"] == "AUDITED"
 assert claim["audit_receipt"] == expected_audit
-assert claim["claim_core_sha256"] == "2d5ffc68edd76653e0c776f51f0a32ab99d327baa4353d6f4636abed0b046ca9"
+assert claim["claim_core_sha256"] == "5202ec934831f5735999d7d197f712668c50bee56e73136cb6c84381dc6b2b27"
 assert claim["scope"]["candidate_pr"] == 1713
 assert claim["scope"]["frozen_package"] == "EX4_STRONG_FROZEN_PACKAGE_THROUGH_05D_ONLY"
+assert claim["scope"]["status"] == "HOSTILE_AUDIT_PASS_FULL_TARGET_CLOSURE"
 assert "Stage32 MAIN credit or Stage32 closure." in claim["does_not_prove"]
 
 lane = next(x for x in adapters["lanes"] if x["lane"] == "EX4")
 assert candidate["claim_id"] in lane["claim_refs"]
+assert candidate["superseded_claim_id"] not in lane["claim_refs"]
+assert "SUPERSEDED" in lane["notes"]
 assert "AUDITED" in lane["notes"]
 assert "5139609916" in lane["notes"]
 assert "Stage32 MAIN" in lane["notes"]
@@ -208,5 +220,5 @@ assert set(state["current_leaf_working_set"]) == expected_working
 
 print("Stage32EX4 MAIN audited-terminal state: PASS")
 print("terminal=FULL_TARGET_CLOSURE / FIXED_SOURCE_PACKAGE_CANNOT_SELECT_ABSOLUTE_W_LINE")
-print("authority=AUDITED review=5139609916 exact_head=e1b65ef259182502a397a5a570827c43be1ebe6c")
-print("route_anti_loop=true stage32_main_credit=false Q602_excluded=false O210_excluded=false")
+print("authority=AUDITED claim=V2 review=5139609916 exact_head=e1b65ef259182502a397a5a570827c43be1ebe6c")
+print("provenance=V1_SUPERSEDED route_anti_loop=true stage32_main_credit=false Q602_excluded=false O210_excluded=false")
