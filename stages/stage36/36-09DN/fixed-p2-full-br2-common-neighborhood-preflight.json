@@ -1,18 +1,26 @@
 {
-  "schema":"STAGE36_36_09DN_FIXED_P2_FULL_BRAUER_2TORSION_COMMON_NEIGHBORHOOD_PREFLIGHT_V1",
+  "schema":"STAGE36_36_09DN_FIXED_P2_FULL_BRAUER_2TORSION_COMMON_NEIGHBORHOOD_PREFLIGHT_V2_AUDIT_PROVENANCE_FAIL_CLOSED",
   "stage":"36",
   "unit":"36-09DN",
-  "status":"PASS_RETAINED_OPEN_FULL_BR2_BRAUER_SET_NONEMPTY_BY_LOCAL_FINITE_IMAGE_COMMON_NEIGHBORHOODS",
+  "status":"PROVISIONAL_MATHEMATICAL_PASS_UNAUDITED_RETAINED_DELTA",
   "base_main_sha":"e98b06455d34bf2f346d297d9370e82fc2a71970",
   "batch_parent":{
     "pr":1712,
     "36_09DM_exact_green_head":"12bf7eb1ee7da6bf0e7ac8f35df9e5379d8e65cb",
     "36_09DM_exact_head_ci":"34215518432/102026227390",
-    "intermediate_hostile_audit_receipt_blob":"66cd600ed6c49c240840c89e960881e05bbbdf84",
-    "audit_promotion_replay_head":"e8d73c21a6cd40281210b8abc8e4fbb8309c5cb2",
-    "audit_promotion_replay_ci":"34217044016/102031149894",
+    "dm_intermediate_audit_record_blob":"8075e18e08d8da671254aefbe239278d1e7eca0b",
+    "dm_intermediate_audit_record_status":"NON_AUTHORITATIVE_NO_EXTERNAL_REVIEW_ID",
+    "dm_intermediate_audit_authority_consumed":false,
+    "historical_receipt_sync_head":"e8d73c21a6cd40281210b8abc8e4fbb8309c5cb2",
+    "historical_receipt_sync_ci":"34217044016/102031149894",
     "DN_unlock_sync_head":"ddb470122413038f1e08738d0dbe48953585546e",
     "DN_unlock_ci":"34224426949/102054967101"
+  },
+  "authority_provenance":{
+    "previous_external_hostile_audit_boundary_claimed":false,
+    "dm_record_resets_audit_debt":false,
+    "descendant_authority_from_dm_record":false,
+    "current_pr_requires_external_hostile_reaudit_before_any_new_promotion":true
   },
   "source_locks":{
     "local_br2_common_neighborhood":{"path":"stages/stage36/36-09DN/full-br2-local-common-neighborhood-source-lock.md","blob_sha":"60984a1f42b999e770219398690e833b54c8eb0f"},
@@ -69,6 +77,7 @@
     "DM_explicit_adelic_recipe_needed_for_DN_existence":false,
     "DM_global_reference_point_P0_reused":true,
     "DM_explicit_image_result_remains_valid":true,
+    "DM_intermediate_audit_record_is_authority_parent":false,
     "DN_upgrade":"replace explicit-image squareclass control by local finiteness plus common analytic neighborhoods to cover the entire exponent-2 Brauer group"
   },
   "current_credit_boundary":{
@@ -85,9 +94,9 @@
     "receiver_emptiness_proved":false
   },
   "route_result":{
-    "route_status":"PASS_FULL_BR2_NO_GO_PIVOT_TO_2PRIMARY_AND_FULL_BRAUER_RELEVANCE_BOUNDARY",
+    "route_status":"PROVISIONAL_PASS_FULL_BR2_NO_GO_PIVOT_RETAINED_BUT_AUDIT_GATED",
     "next_leaf":"36-09DO_FIXED_P2_2PRIMARY_FULL_BRAUER_RELEVANCE_BOUNDARY_PREFLIGHT",
-    "next_leaf_semantics":"Determine whether exponent-2 Brauer-set nonemptiness is sufficient for the Stage36 fixed-p2 receiver, or whether higher 2-power and odd-primary Brauer classes can add an obstruction. Test exact curve-specific literature before using the provisional Kummer 2-primary gate: C3_2 is a genus-three curve, not an audited Kummer variety. Do not infer full-Brauer or fixed-p exclusion credit from DN."
+    "next_leaf_semantics":"Historical mathematical route selection only. No descendant authority is granted by the non-authoritative DM audit record; the retained PR must pass external hostile re-audit before any new promotion."
   },
   "scope_firewalls":{
     "all_2primary_Brauer_classes_controlled":false,
