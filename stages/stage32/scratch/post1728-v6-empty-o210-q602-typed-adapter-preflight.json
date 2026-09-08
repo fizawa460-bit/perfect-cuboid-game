@@ -1,0 +1,43 @@
+{
+  "schema": "STAGE32_MAIN_SCRATCH_POST1728_V6_EMPTY_O210_Q602_TYPED_ADAPTER_PREFLIGHT_V1",
+  "stage": 32,
+  "snapshot_main_sha": "6f91812ebeb925ec67d08a23b045ad93c9f4f891",
+  "status": "SCRATCH_EXACT_UNAUDITED_ADAPTER_PREFLIGHT",
+  "audited_inputs": {
+    "ex1_terminal": {"claim_id":"S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2","audit_review_id":5147627146,"exact_head":"e3c4a04d5010e6dca9428722e334890e2614297a"},
+    "population_adapter": {"claim_id":"S32.ADAPTER.EX1_V6_CARRIER_TO_MAIN_V6_CARRIER.V1","audit_review_id":5147810198,"exact_head":"89ba026f05f9fe5344c0f0fb41fe8c2366032877"},
+    "main_v6_negative": {"claim_id":"S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2","audit_review_id":5147810198}
+  },
+  "o210_adapter_preflight": {
+    "candidate_id": "S32.ADAPTER.MAIN_V6_EMPTY_TO_O210_EMPTY.V1",
+    "from_scope_key": "S32.MAIN.V6_CARRIER",
+    "to_scope_key": "S32.O210.COVER",
+    "typed_subset_checks": {"row_id":"g1-d186","picard_class":"V6","carrier_integral":true,"carrier_irreducible":true,"geometric_genus":1,"O":210,"qprime":4},
+    "source_observation": "EX3 fixed_target explicitly defines the O210 target around an integral irreducible V6 carrier of geometric genus 1, and its completion contract requires population-preserving cover exhaustiveness / same actual V6 carrier for a positive terminal.",
+    "logical_result": "If the exact MAIN V6 carrier population is empty, no genuine O210 cover configuration attached to such a carrier exists. A retained audited adapter can close O210 by population emptiness without proving monodromy nonrealizability.",
+    "requires_hostile_audit": true
+  },
+  "q602_adapter_preflight": {
+    "candidate_id": "S32.ADAPTER.MAIN_V6_EMPTY_TO_Q602_EMPTY.V1",
+    "from_scope_key": "S32.MAIN.V6_CARRIER",
+    "to_scope_key": "S32.Q602.ARITHMETIC",
+    "survivors": [73,97,235],
+    "source_observation": "The hostile-audited EX1 terminal V2 already proves, at the exact EX1 carrier population, that residues 73,97,235 are excluded as Q602 invariant components of an actual divisor D0; the separate audited EX1->MAIN adapter identifies that carrier population with the current MAIN V6 population.",
+    "logical_result": "A new versioned MAIN Q602 exclusion claim can consume the audited terminal + population adapter through a Q602 scope adapter. This is population-preserving obstruction credit, not a replay of old residue-specific arithmetic.",
+    "requires_hostile_audit": true
+  },
+  "versioning": {
+    "o210_target_candidate": "S32.O210.EXCLUSION.V2",
+    "q602_target_candidate": "S32.Q602.EXCLUSION.V2",
+    "reason": "V1 immutable cores do not contain the new audited V6-negative evidence/adapters; new dependencies require new claim versions."
+  },
+  "decision": {
+    "result": "BOTH_DOWNSTREAM_ADAPTERS_ARE_SEMANTICALLY_WELL_TYPED_CANDIDATES_PENDING_RETAINED_CLAIM_CORES_AND_HOSTILE_AUDIT",
+    "next": "AFTER_POST1728_FRONTIER_REMAP_AUDIT_PASS_RETAIN_TWO_ADAPTERS_AND_VERSIONED_O210_Q602_CLAIMS_FOR_HOSTILE_AUDIT",
+    "o210_credit_now": false,
+    "q602_credit_now": false,
+    "stage32_closed": false
+  },
+  "firewalls": {"scratch_only":true,"no_monodromy_credit":true,"no_residue_specific_relabel":true,"no_main_authority_mutation":true,"no_merge":true},
+  "canonical_sha256_without_this_field": "8f236d2f8f55df2f84b252b1e5ad4e656aa3d786c56e0d54642cdb5575e98e1a"
+}
