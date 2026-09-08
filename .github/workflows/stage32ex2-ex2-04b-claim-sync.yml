@@ -1,0 +1,96 @@
+name: Stage32EX2 EX2-04B current-main claim sync
+
+on:
+  push:
+    branches:
+      - stage32ex2-ex2-00-source-lock-continuation
+    paths:
+      - 'stages/stage32-ex2/runkeys/ex2-04b-claim-sync.json'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stage32ex2-ex2-04b-claim-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact pushed head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Authorize exact run-key generation
+        shell: bash
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32-ex2/runkeys/ex2-04b-claim-sync.json'
+          BEFORE='${{ github.event.before }}'
+          test -n "$BEFORE"
+          git cat-file -e "$BEFORE^{commit}"
+          git diff --name-only "$BEFORE" '${{ github.sha }}' | grep -Fxq "$KEY"
+          BEFORE="$BEFORE" KEY="$KEY" python - <<'PY'
+          import json, os, subprocess
+          key=os.environ['KEY']; before=os.environ['BEFORE']
+          new=json.load(open(key))
+          try:
+              old=json.loads(subprocess.check_output(['git','show',f'{before}:{key}'],text=True))
+              oldgen=int(old.get('generation',-1))
+          except subprocess.CalledProcessError:
+              oldgen=-1
+          assert new['schema']=='STAGE32EX2_EX2_04B_CLAIM_SYNC_RUNKEY_V1'
+          assert new['armed'] is True
+          assert int(new['generation'])>oldgen
+          assert new['expected_current_main']=='70265586b3f97be21c7621af73f443311f1f3fa3'
+          helper=new['source_locks']['helper_path']
+          actual=subprocess.check_output(['git','hash-object',helper],text=True).strip()
+          assert actual==new['source_locks']['helper_blob_sha1']
+          PY
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact replay dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Fetch and pin current main
+        shell: bash
+        run: |
+          git fetch --no-tags origin main
+          test "$(git rev-parse origin/main)" = "70265586b3f97be21c7621af73f443311f1f3fa3"
+      - name: Apply current-main-based EX2-04B claim sync
+        run: python -B stages/stage32-ex2/apply_ex2_04b_claim_sync.py
+      - name: Verify synchronized scope and mathematics
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --check
+          git diff --name-only | sort > /tmp/changed.txt
+          cat > /tmp/expected.txt <<'EOF'
+          stages/stage32-ex2/MAIN-STATE.json
+          stages/stage32-ex2/verify_main_state.py
+          stages/stage32/proof/CLAIM-REGISTRY.json
+          stages/stage32/proof/LANE-ADAPTERS.json
+          EOF
+          sort -o /tmp/expected.txt /tmp/expected.txt
+          diff -u /tmp/expected.txt /tmp/changed.txt
+          python -B stages/stage32-ex2/verify_ex2_04a_two_divisor_section_pencil.py
+          python -B stages/stage32-ex2/verify_ex2_04b_third_section_valuation_separation.py
+          python -B stages/stage32/proof/verify_stage32_claim_dag.py --integrity
+          python -B stages/stage32/proof/verify_stage32_active_frontier.py
+          python -B stages/stage32-ex2/verify_main_state.py
+      - name: Commit and push synchronized checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'stage32ex2-claim-sync-bot'
+          git config user.email 'stage32ex2-claim-sync-bot@users.noreply.github.com'
+          git add stages/stage32-ex2/MAIN-STATE.json \
+                  stages/stage32-ex2/verify_main_state.py \
+                  stages/stage32/proof/CLAIM-REGISTRY.json \
+                  stages/stage32/proof/LANE-ADAPTERS.json
+          git commit -m '[Stage32EX2][claim-sync] register EX2-04B 3D section subspace'
+          git push origin HEAD:stage32ex2-ex2-00-source-lock-continuation
