@@ -1,0 +1,171 @@
+{
+  "schema": "STAGE32EX4_R6_BREZHNEV_BURNSIDE_EXPLICIT_UNIFORMIZATION_MARKING_PREFLIGHT_SCRATCH_V1",
+  "stage": "32EX4",
+  "leaf": "EX4-R6_BREZHNEV_BURNSIDE_EXPLICIT_UNIFORMIZATION_MARKING_PREFLIGHT",
+  "status": "SCRATCH_REPLAYABLE_BREZHNEV_BRANCH_LABELLED_MODULAR_POLYGON_EXACT_BUT_KUUSALO_PHASE_ADAPTER_MISSING",
+  "prior_r5": {
+    "artifact": "stages/stage32-ex4/ex4-r5-kuusalo-figure9-10-branch-to-h1-label-recovery-scratch.json",
+    "blob_sha1": "2206e4bdb0a2bc1fb9289c7d91902cb3fd16bd6b",
+    "canonical_sha256": "816f9c0574302ea99473384dd9dd9c047d48db3712fcd48f1630eb553f517ecc",
+    "residual_phase_count": 4,
+    "orbit": "r^k*B8*r^-k, k=0,1,2,3"
+  },
+  "external_source": {
+    "brezhnev": {
+      "title": "On the uniformization of algebraic curves",
+      "author": "Yu. V. Brezhnev",
+      "arxiv": "math/0205261v6",
+      "journal": "Moscow Mathematical Journal",
+      "volume": 8,
+      "number": 2,
+      "year": 2008,
+      "pages": "233-271",
+      "url": "https://arxiv.org/pdf/math/0205261",
+      "locators": [
+        "paper pp.239-240 / PDF pageno 6-7: Burnside curve y^2=x^5-x, G_x=Gamma(4), six singular/branch values {0,+/-1,+/-i,infinity}, and fundamental 10-gon P_x",
+        "paper pp.241-243 / PDF pageno 8-10: explicit rank-9 genus-2 group generators T0..T8, P=P_x union V0(P_x), Figure 2 fundamental 18-gon, and topological relation to punctures plus a canonical genus-2 cycle basis",
+        "paper p.244 / PDF pageno 11: conformal map chi, disc normalization, Figure 3 branch-labelled star, and explicit statement that the boundary of P_x is not unique",
+        "paper p.245 / PDF pageno 12: Gamma(1)-triangle vertices corresponding to branch points {0,+/-1,+/-i,infinity} and Figure 4 incomplete triangulation of one sheet P_x",
+        "paper p.248 / PDF pageno 15: explicit theta normalization x=theta4(tau)/theta3(tau), y=4*i*eta(2tau)^3/theta3(tau)^3"
+      ]
+    }
+  },
+  "source_exact_data": {
+    "curve": "y^2=x^5-x",
+    "algebraic_branch_values": [
+      "0",
+      "+1",
+      "-1",
+      "+i",
+      "-i",
+      "infinity"
+    ],
+    "x_monodromy_group": "Gamma(4)",
+    "x_polygon": {
+      "name": "P_x",
+      "type": "fundamental 10-gon for Gamma(4)",
+      "genus": 0
+    },
+    "genus2_uniformizing_group": {
+      "rank": 9,
+      "index_in_Gamma4": 2,
+      "explicit_generators": [
+        "T0",
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7",
+        "T8"
+      ],
+      "polygon": "P=P_x union V0(P_x), an 18-gon"
+    },
+    "explicit_uniformization": {
+      "x": "theta4(tau)/theta3(tau)",
+      "y": "4*i*eta(2*tau)^3/theta3(tau)^3"
+    },
+    "disc_normalization": "tilde_tau=i*(tau-1-i)/(tau-1+i)",
+    "figure3_star_labels": [
+      "0",
+      "+1",
+      "-1",
+      "+i",
+      "-i",
+      "infinity"
+    ],
+    "figure4_semantics": "incomplete Gamma(1)-triangulation of one sheet P_x with algebraic branch values attached to triangle vertices/arcs"
+  },
+  "typed_adapter_test": {
+    "algebraic_branch_labels_to_brezhnev_modular_polygon": {
+      "provided": true,
+      "reason": "Figures 3-4 and the explicit theta uniformization attach the algebraic x-values to Brezhnev's own Gamma(4)/Gamma(1) polygonal presentation."
+    },
+    "brezhnev_polygon_to_kuusalo_figure9_side_numbering": {
+      "provided": false,
+      "missing": "No source formula identifies Brezhnev P_x/P sides or T_k with Kuusalo Figure-9 side numbers 1,2,3,4 or the canonical (a1,a2,b1,b2) side relations."
+    },
+    "brezhnev_triangulation_to_kuusalo_figure10_chosen_triangle_P": {
+      "provided": false,
+      "missing": "Brezhnev's Gamma(1) triangulation is not source-identified with Kuusalo's 16-triangle regular-octagon triangulation or its chosen order-3 center P."
+    },
+    "explicit_named_canonical_h1_cycle_assignment": {
+      "provided": false,
+      "missing": "Brezhnev states that the nine generators correspond topologically to five punctures plus a canonical base of four genus-2 cycles, but does not assign named T_k to a1,a2,b1,b2."
+    },
+    "kuusalo_f2_algebraic_mobius_formula": {
+      "provided": false,
+      "missing": "Brezhnev does not identify an order-3 reduced automorphism with Kuusalo f2 or give an adapter from his polygon to that chosen triangle-center rotation."
+    }
+  },
+  "source_nonuniqueness_and_gauge": {
+    "genus2_polygon_copy_choice": "The genus-2 polygon must contain two arbitrary neighbouring copies of P_x.",
+    "Px_boundary_uniqueness": false,
+    "source_statement_semantics": "The shape depends on a boundary of fundamental polygon P_x, and that boundary is not unique.",
+    "consequence_for_ex4": "Brezhnev's own explicit branch-labelled uniformization is genuine new marked data, but its source conventions do not fix the inter-presentation gauge required to identify a Kuusalo Figure-9 side phase or Figure-10 triangle."
+  },
+  "comparison_to_r5": {
+    "same_algebraic_curve_model": true,
+    "same_six_branch_values": true,
+    "new_information_over_r5": "An independent explicit theta/Fuchsian uniformization attaches the six algebraic branch values to a concrete Gamma(4) polygon, genus-2 18-gon, and modular triangulation.",
+    "why_it_does_not_prune_k": [
+      "R5 already knew the algebraic branch cyclic order and the [infinity,+1] ray; the missing datum is the attachment of those labels to Kuusalo's canonical side numbers / chosen triangle P.",
+      "Brezhnev uses a different 10-gon/18-gon modular presentation and supplies no exact conjugating homeomorphism or homology matrix to Kuusalo's regular octagon.",
+      "The source explicitly retains polygon-boundary/copy choices, and its topological canonical-cycle statement is unnamed at the generator level."
+    ]
+  },
+  "r4_phase_replay": {
+    "candidate_k_before_r6": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "candidate_k_after_r6": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "residual_phase_count": 4,
+    "brezhnev_independently_selects_one_k": false,
+    "literal_B8_k0_source_selected": false
+  },
+  "decision": {
+    "result": "BREZHNEV_GIVES_EXACT_BRANCH_LABELLED_MODULAR_POLYGON_BUT_NO_EXACT_ADAPTER_TO_KUUSALO_FIGURE9_10_PHASE",
+    "source_lane_classification": "REQUIRES_ADAPTER_EXACT_NONPRUNING",
+    "brezhnev_is_materially_distinct_source": true,
+    "brezhnev_partial_marking_retained": true,
+    "r4_fourfold_phase_reduced": false,
+    "absolute_delta0inf_retained_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "conditional_residue97_only": true,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "next_exact_route": "EX4-R7_TRIANGLE_GROUP_REGULAR_OCTAGON_MARKING_PREFLIGHT",
+    "next_source_candidate": "A. Hulpke, T. Kuusalo, M. Naatanen, G. Rosenberger, On orbifold coverings of genus 2 surfaces (2005), Example 1: Bolza regular octagon inside (2,4,8)/(2,3,8) triangle-group geometry with explicit S,T,U and surface-group words.",
+    "next_question": "Can the triangle-group placement independently bind the regular-octagon side/triangle phase to the algebraic Bolza labels, rather than merely giving another unlabelled octagon presentation?"
+  },
+  "firewalls": {
+    "brezhnev_polygon_identified_with_kuusalo_polygon_without_adapter": false,
+    "brezhnev_Tk_assigned_to_kuusalo_canonical_cycles_without_source": false,
+    "brezhnev_triangle_identified_with_kuusalo_figure10_P_without_source": false,
+    "literal_B8_selected_from_brezhnev_branch_labels_only": false,
+    "conditional_residue97_promoted": false,
+    "prior_audited_terminal_revoked": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "source_locks": {
+    "r5": {
+      "path": "stages/stage32-ex4/ex4-r5-kuusalo-figure9-10-branch-to-h1-label-recovery-scratch.json",
+      "blob_sha1": "2206e4bdb0a2bc1fb9289c7d91902cb3fd16bd6b",
+      "canonical_sha256": "816f9c0574302ea99473384dd9dd9c047d48f1630eb553f517ecc"
+    }
+  },
+  "canonical_sha256_without_this_field": "007c80db16b644bbffc999bdeb3b4f264edfe0f7b1288face4195ae04d4a86fd"
+}
