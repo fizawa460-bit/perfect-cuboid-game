@@ -48,12 +48,12 @@ jobs:
         run: |
           set -euo pipefail
           H=eb391492fb79af264f46a72616ccd3b1a9f37f01; tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"; python3 "$tmp/stages/stage36/verify_stage36_36_09CV.py"; git worktree remove --force "$tmp"
-      - name: Verify 36-09CW literal hyperelliptic Brauer construction
+      - name: Replay immutable 36-09CW exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09CW.py
-      - name: Assert CW checkpoint and CX lock firewalls
+          H=8211470f1739b1ca936cf75079e452510cdf89f7; tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"; python3 "$tmp/stages/stage36/verify_stage36_36_09CW.py"; git worktree remove --force "$tmp"
+      - name: Assert CW exact-green promotion and CX unlock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -61,26 +61,25 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V156_36_09CW_LITERAL_BRAUER_CONSTRUCTION'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V157_36_09CW_EXACT_GREEN_CX_UNLOCK'
           cw=s['authority_frontier']['36-09CW']
-          assert cw['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert cw['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert cw['certificate_blob_sha']=='a363c230cb44fec6d235eda0720d4fd624b1a87c'
           assert cw['verifier_blob_sha']=='81c34187bd29a48b7b271720c18e0c64db2727b3'
           assert cw['source_lock_blob_sha']=='4657040230644aef1dbef427a3a5ab6afe3998aa'
+          assert cw['exact_head']=='8211470f1739b1ca936cf75079e452510cdf89f7'
+          assert cw['exact_head_ci']=='34196500765/101965293728'
           assert cw['LITERAL_UNRAMIFIED_HYPERELLIPTIC_BRAUER_FAMILY_CONSTRUCTED'] is True
           assert cw['NONCONSTANT_MOD_BRQ_PROVED'] is False
           assert cw['LOCAL_EVALUATION_VARIATION_PROVED'] is False
-          assert cw['OUTSIDE_CU_FIVE_ROOT_FAMILY_PROVED'] is False
           assert cw['BRAUER_MANIN_OBSTRUCTION_PROVED'] is False
           cur=s['current']
           assert cur['unit']=='36-09CW'
           assert cur['next_exact_leaf']=='36-09CX_BT_HYPERELLIPTIC_BRAUER_NONCONSTANCY_RECEIVER_EVALUATION_PREFLIGHT'
-          assert cur['36_09CW_entry_allowed'] is True
-          assert cur['36_09CX_entry_allowed'] is False
+          assert cur['36_09CX_entry_allowed'] is True
           pg=s['promotion_gates']
-          assert pg['36_09CW_certificate_complete'] is True
-          assert pg['36_09CW_exact_head_ci_passed'] is False
-          assert pg['36_09CX_entry_allowed'] is False
+          assert pg['36_09CW_exact_head_ci_passed'] is True
+          assert pg['36_09CX_entry_allowed'] is True
           assert pg['BT_literal_unramified_hyperelliptic_Brauer_family_constructed'] is True
           assert pg['BT_Brauer_class_nonconstant_mod_constants_proved'] is False
           assert pg['BT_Brauer_class_with_point_dependent_receiver_evaluation_found'] is False
@@ -88,6 +87,6 @@ jobs:
           assert pg['new_global_obstruction_obtained'] is False
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09CW provisional checkpoint verified: literal unramified hyperelliptic Brauer family constructed; CX locked pending exact-head CI. No BM/receiver/endpoint credit.')
+          print('36-09CW exact-green parent verified and 36-09CX entry unlocked. No BM/receiver/endpoint credit.')
           PY
           git diff --check
