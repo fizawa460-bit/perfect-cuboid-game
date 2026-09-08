@@ -22,7 +22,13 @@ Claim-DAG synchronization is mandatory when any of these events occurs:
 
 Scratch-only work does not trigger claim-DAG writes.
 
-If a hostile-audit transition occurs in a separate audit lane, downstream credit must remain at the pre-sync authority level until this synchronization is completed. A PASS receipt by itself does not silently mutate the claim registry.
+Audit transitions are deliberately asymmetric before registry synchronization:
+
+- hostile-audit **PASS**: downstream credit remains at the previous, lower pre-sync authority level until the exact PASS receipt and claim core are synchronized. A PASS receipt by itself does not silently mutate the claim registry;
+- hostile-audit **FAIL** or explicit **revocation**: downstream consumption of the affected claim is blocked immediately when the invalidating result is known. The previous `AUDITED` level must not remain consumable merely because the registry downgrade/revocation has not yet been written;
+- the registry's `SUPERSEDED` / `REVOKED` / downgraded authority metadata is then synchronized at the claim-sync checkpoint with the exact invalidating audit/revocation source lock.
+
+Thus synchronization latency may delay an authority increase, but it may never delay an authority decrease or preserve invalidated downstream credit.
 
 ## 3. Trigger-time read set
 
@@ -46,10 +52,11 @@ For the triggering result:
 3. if statement, quantifier, population, model, field, scope, `PROVES`, `DOES_NOT_PROVE`, `requires`, `bridges`, source locks, or replay verifier changes, create a new versioned claim ID/core rather than mutating the old immutable core;
 4. retain a mathematically relevant candidate as `PROVISIONAL` with exact source locks/replay path before any promotion use;
 5. assign `AUDITED` only from an exact hostile-audit PASS receipt for the same claim core/evidence boundary; never self-assign audit credit;
-6. update lane `ATTACKS`/`CONSUMES`/`OWNER` references when the active frontier materially changes;
-7. for EX -> MAIN, require the audited EX terminal claim plus an explicit current-target promotion adapter; a lane reference or PASS narrative is insufficient;
-8. keep `MAIN-STATE.json` / EX `MAIN-STATE.json` as routing authority; claim-DAG synchronization does not replace or silently rewrite lane routing state;
-9. preserve all existing credit firewalls and `DOES_NOT_PROVE` ceilings.
+6. if a hostile-audit FAIL or revocation is known for a previously consumable claim, block every downstream use of that claim immediately, then synchronize the downgrade/revocation and invalidating receipt before allowing any later consumption;
+7. update lane `ATTACKS`/`CONSUMES`/`OWNER` references when the active frontier materially changes;
+8. for EX -> MAIN, require the audited EX terminal claim plus an explicit current-target promotion adapter; a lane reference or PASS narrative is insufficient;
+9. keep `MAIN-STATE.json` / EX `MAIN-STATE.json` as routing authority; claim-DAG synchronization does not replace or silently rewrite lane routing state;
+10. preserve all existing credit firewalls and `DOES_NOT_PROVE` ceilings.
 
 ## 5. New EX lane enrollment
 
@@ -75,6 +82,8 @@ python stages/stage32/proof/verify_stage32_active_frontier.py
 For a final-milestone transition, also run the real FINAL-CHECK path. `NOT_READY_STAGE32_FINAL_CHECK` remains the expected result until the complete reserved audited closure chain actually exists.
 
 A verifier failure blocks promotion/authority consumption; it does not erase the underlying research artifact.
+
+The active-frontier verifier includes a synthetic authority-transition regression: a known hostile-audit FAIL or revocation against a pre-sync `AUDITED` claim must evaluate as non-consumable downstream, while a PASS against a lower-authority claim must not increase its consumable authority before synchronization.
 
 ## 7. User-facing operating rule
 
