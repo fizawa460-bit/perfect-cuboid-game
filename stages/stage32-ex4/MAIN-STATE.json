@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX4_MAIN_COMPACT_STATE_V9_BREZHNEV_R6_SCRATCH",
+  "schema": "STAGE32EX4_MAIN_COMPACT_STATE_V10_TRIANGLE_GROUP_R7_SCRATCH",
   "role": "ORDINARY_STAGE32EX4_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX4",
   "execution": {
@@ -32,20 +32,11 @@
     "context_O": 210,
     "context_qprime": 4,
     "context_Q": 602,
-    "context_surviving_residues": [
-      73,
-      97,
-      235
-    ],
+    "context_surviving_residues": [73,97,235],
     "context_abstract_character": "chi_u",
     "context_canonical_pair": "Z3={0,infinity}",
     "context_abstract_J2_direction": "delta_0inf=[P_0-P_infinity]",
-    "context_retained_J2_basis": [
-      "e1",
-      "e2",
-      "r*e1",
-      "r*e2"
-    ],
+    "context_retained_J2_basis": ["e1","e2","r*e1","r*e2"],
     "context_retained_W_nonzero_line_count": 3,
     "context_absolute_delta0inf_retained_W_line_identified": false
   },
@@ -55,19 +46,15 @@
     "claim_id": "S32.EX4.FIXED_SOURCE_PACKAGE_AMBIGUITY_TERMINAL.V2",
     "audit_review_id": 5139609916,
     "projective_pair_classes": 24,
-    "delta0inf_line_counts": {
-      "L1": 8,
-      "L2": 8,
-      "L3": 8
-    }
+    "delta0inf_line_counts": {"L1":8,"L2":8,"L3":8}
   },
   "current": {
-    "status": "REENTRY_ACTIVE_SCRATCH_BREZHNEV_PARTIAL_MARKING_NONPRUNING",
-    "leaf": "EX4-R6_BREZHNEV_BURNSIDE_EXPLICIT_UNIFORMIZATION_MARKING_PREFLIGHT",
-    "subroute": "TRIANGLE_GROUP_REGULAR_OCTAGON_MARKING",
-    "objective": "Use a materially distinct regular-octagon/triangle-group source to bind the algebraic Bolza labels or Kuusalo Figure-9/10 phase after Brezhnev supplied only a branch-labelled modular polygon without the inter-presentation adapter.",
-    "next_leaf": "EX4-R7_TRIANGLE_GROUP_REGULAR_OCTAGON_MARKING_PREFLIGHT",
-    "stop_semantics": "SCRATCH_REENTRY_ACTIVE_R6_BREZHNEV_OWN_POLYGON_EXACT_BUT_FOURFOLD_KUUSALO_PHASE_SURVIVES"
+    "status": "REENTRY_ACTIVE_SCRATCH_TRIANGLE_GROUP_OCTAGON_NONPRUNING",
+    "leaf": "EX4-R7_TRIANGLE_GROUP_REGULAR_OCTAGON_MARKING_PREFLIGHT",
+    "subroute": "COOK_JENNI_BRANCH_LABELLED_OCTAGON_TO_ORDER3_TRIANGLE_MARKING",
+    "objective": "Use a source that explicitly constructs the regular octagon from algebraic branch labels and also names the order-8 centre rotation and order-3 triangle-centre rotation on the same Bolza tessellation, testing whether the remaining fourfold Kuusalo phase becomes source-bound.",
+    "next_leaf": "EX4-R8_COOK_JENNI_BRANCH_LABELLED_OCTAGON_TO_ORDER3_TRIANGLE_MARKING_PREFLIGHT",
+    "stop_semantics": "SCRATCH_REENTRY_ACTIVE_R7_TRIANGLE_GROUP_WORDS_EXACT_BUT_ALGEBRAIC_WEIERSTRASS_PHASE_SURVIVES"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex4/stage32-ex4.md",
@@ -77,6 +64,8 @@
     "stages/stage32-ex4/verify_ex4_r5_kuusalo_figure9_10_branch_to_h1_label_recovery_scratch.py",
     "stages/stage32-ex4/ex4-r6-brezhnev-burnside-explicit-uniformization-marking-preflight-scratch.json",
     "stages/stage32-ex4/verify_ex4_r6_brezhnev_burnside_explicit_uniformization_marking_preflight_scratch.py",
+    "stages/stage32-ex4/ex4-r7-triangle-group-regular-octagon-marking-preflight-scratch.json",
+    "stages/stage32-ex4/verify_ex4_r7_triangle_group_regular_octagon_marking_preflight_scratch.py",
     "stages/stage32-ex4/ex4-10s-retained-bounded-terminal-candidate.json",
     "stages/stage32-ex4/ex4-11-hostile-audit-pass-receipt.json",
     "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json",
@@ -87,25 +76,12 @@
   "reentry": {
     "interface_class": "BRANCH_LABELLED_SYMPLECTIC_HOMOLOGY_OR_LEVEL_MARKING",
     "interface_satisfied": true,
-    "source": "Kuusalo--Naatanen 1995, Case D, extended by Brezhnev 2008 explicit Burnside uniformization",
-    "source_delta0inf_coordinate_mod2": [
-      1,
-      1,
-      1,
-      1
-    ],
+    "source": "Kuusalo--Naatanen 1995 Case D, extended by Brezhnev 2008 and Hulpke--Kuusalo--Naatanen--Rosenberger 2005",
+    "source_delta0inf_coordinate_mod2": [1,1,1,1],
     "period_adapter_count": 48,
-    "period_adapter_delta_line_counts": {
-      "L1": 16,
-      "L2": 16,
-      "L3": 16
-    },
+    "period_adapter_delta_line_counts": {"L1":16,"L2":16,"L3":16},
     "transported_pair_distinct_projective_count": 24,
-    "transported_pair_projective_delta_line_counts": {
-      "L1": 8,
-      "L2": 8,
-      "L3": 8
-    },
+    "transported_pair_projective_delta_line_counts": {"L1":8,"L2":8,"L3":8},
     "literal_pair_conditional_line": "L2",
     "literal_pair_conditional_residue": 97,
     "full_branch_J2_embedding_count": 8,
@@ -121,9 +97,16 @@
     "brezhnev_to_kuusalo_figure9_side_phase_adapter": false,
     "brezhnev_to_kuusalo_figure10_triangle_P_adapter": false,
     "brezhnev_independently_selects_k": false,
+    "r7_regular_octagon_triangle_group_words_exact": true,
+    "r7_triangle_group_conjugate_choices": 3,
+    "r7_S_T_fixed_points_only_unlabelled_weierstrass": true,
+    "r7_surface_group_diagonal_pairing_words_exact": true,
+    "r7_to_kuusalo_figure9_side_phase_adapter": false,
+    "r7_to_kuusalo_figure10_order3_triangle_adapter": false,
+    "r7_independently_selects_k": false,
     "literal_B8_source_selected": false,
     "literal_result_is_conditional_only": true,
-    "remaining_missing_datum": "AN_EXACT_INTER_PRESENTATION_ADAPTER_BINDING_ALGEBRAIC_BOLZA_BRANCH_LABELS_TO_KUUSALO_FIGURE9_SIDE_PHASE_OR_FIGURE10_ORDER3_TRIANGLE_CENTER"
+    "remaining_missing_datum": "EXACT_ALGEBRAIC_WEIERSTRASS_LABEL_TO_REGULAR_OCTAGON_VERTEX_SIDE_CENTER_AND_ORDER3_TRIANGLE_CENTER_ADAPTER"
   },
   "frontier": {
     "new_marked_data_reentry_condition_met": true,
@@ -139,6 +122,9 @@
     "brezhnev_branch_to_own_polygon_exact": true,
     "brezhnev_to_kuusalo_phase_adapter_exact": false,
     "r6_fourfold_phase_reduced": false,
+    "r7_regular_octagon_group_geometry_exact": true,
+    "r7_algebraic_weierstrass_phase_adapter_exact": false,
+    "r7_fourfold_phase_reduced": false,
     "literal_B8_source_bound": false,
     "absolute_delta0inf_retained_W_line_identified": false,
     "absolute_Q602_residue_identified": false,
@@ -147,7 +133,7 @@
   },
   "credit": {
     "prior_frozen_package_bounded_terminal_audited": true,
-    "current_reentry_level": "SCRATCH_BREZHNEV_PARTIAL_MARKING_EXACT_FOURFOLD_PHASE_SURVIVES",
+    "current_reentry_level": "SCRATCH_TRIANGLE_GROUP_OCTAGON_WORDS_EXACT_FOURFOLD_PHASE_SURVIVES",
     "conditional_residue97_only": true,
     "absolute_W_line_and_Q602_residue_identified": false,
     "Q602_residue_contraction_credit": false,
@@ -167,9 +153,10 @@
     "r4_branch_action_conjugacy_classified": true,
     "r5_kuusalo_text_phase_recovery_classified_nonpruning": true,
     "r6_brezhnev_explicit_uniformization_classified_requires_adapter_nonpruning": true,
-    "next_exact_route": "USE_TRIANGLE_GROUP_REGULAR_OCTAGON_PLACEMENT_AS_MATERIALLY_DISTINCT_MARKING_SOURCE",
-    "next_source_candidate": "Hulpke--Kuusalo--Naatanen--Rosenberger 2005, On orbifold coverings of genus 2 surfaces, Example 1",
-    "do_not_repeat_trace_order_unmarked_ppav_unlabelled_pair_admissibility_only_B8_kuusalo_text_only_or_brezhnev_own_polygon_only_phase_selection": true
+    "r7_triangle_group_regular_octagon_classified_requires_algebraic_label_adapter_nonpruning": true,
+    "next_exact_route": "USE_COOK_JENNI_BRANCH_LABELLED_OCTAGON_AND_ORDER3_TRIANGLE_ACTION_AS_MATERIALLY_DISTINCT_MARKING_SOURCE",
+    "next_source_candidate": "Joseph Cook, Properties of Eigenvalues on Riemann Surfaces with Large Symmetry Groups, arXiv:2108.11825, Figures 1.7 and 3.1-3.2",
+    "do_not_repeat_trace_order_unmarked_ppav_unlabelled_pair_admissibility_only_B8_kuusalo_text_only_brezhnev_own_polygon_only_or_unlabelled_triangle_group_octagon_phase_selection": true
   },
   "firewalls": {
     "prior_audited_terminal_revoked": false,
@@ -182,6 +169,10 @@
     "Brezhnev_candidate_treated_as_completed_adapter": false,
     "Brezhnev_polygon_identified_with_Kuusalo_polygon_without_adapter": false,
     "Brezhnev_Tk_assigned_to_Kuusalo_H1_without_source": false,
+    "R7_surface_group_f1_confused_with_Kuusalo_f1_automorphism": false,
+    "R7_S_fixed_point_assigned_infinity_without_source": false,
+    "R7_T_fixed_point_assigned_specific_algebraic_side_center_without_source": false,
+    "R7_248_choice_promoted_to_absolute_marking": false,
     "conditional_residue97_promoted_to_absolute_residue": false,
     "post1648j_candidate_self_promoted_to_audited_authority": false,
     "stage32_main_credit": false,
