@@ -3,6 +3,11 @@
 
 This proves graph coverage/topology only. It does not discharge any receiver,
 qualify a route, or grant Stage32 MAIN/theorem/endpoint credit.
+
+The retained EX5-02 graph predates versioned remaps of the active MAIN O210
+claim.  Its old ACTIVE-FRONTIER blob is therefore provenance, while the live
+replay resolves only that O210 claim reference by exact scope.  All other
+special-overlay claim IDs remain exact and fail closed on drift.
 """
 from __future__ import annotations
 
@@ -16,6 +21,15 @@ HERE = Path(__file__).resolve().parent
 GRAPH = HERE / "ex5-02-current-coverage-dependency-graph.json"
 LEDGER = HERE / "ex5-01-exact-receiver-ledger.json"
 ACTIVE = ROOT / "stages/stage32/proof/ACTIVE-FRONTIER.json"
+HISTORICAL_ROUTING = ROOT / "stages/stage32/proof/historical-routing-blobs"
+O210_V1 = "S32.O210.EXCLUSION.V1"
+O210_SCOPE = {
+    "row_id": "g1-d186",
+    "picard_class": "V6",
+    "O": 210,
+    "qprime": 4,
+    "target": "population_wide_exclusion",
+}
 
 
 def require(cond: bool, msg: str) -> None:
@@ -48,7 +62,14 @@ def main() -> None:
     for lock in data["source_locks"]:
         path = ROOT / lock["path"]
         require(path.is_file(), f"missing source lock {lock['path']}")
-        require(blob_sha1(path) == lock["blob_sha1"], f"source blob drift {lock['path']}")
+        live_blob = blob_sha1(path)
+        if live_blob != lock["blob_sha1"]:
+            require(lock["path"] == "stages/stage32/proof/ACTIVE-FRONTIER.json",
+                    f"source blob drift {lock['path']}")
+            historical = HISTORICAL_ROUTING / f"{lock['blob_sha1']}.json"
+            require(historical.is_file(), "missing historical ACTIVE-FRONTIER provenance snapshot")
+            require(blob_sha1(historical) == lock["blob_sha1"],
+                    "historical ACTIVE-FRONTIER provenance blob drift")
         if "canonical_sha256" in lock:
             obj = json.loads(path.read_text(encoding="utf-8"))
             stored = obj.pop("canonical_sha256_without_this_field")
@@ -94,8 +115,30 @@ def main() -> None:
     active = json.loads(ACTIVE.read_text(encoding="utf-8"))
     claims = {c["claim_id"]: c for c in active["claims"]}
     special = interfaces["IF-V6-O210-Q602-SPECIAL"]
+    resolved_special = {}
     for cid in special["claim_refs"]:
-        require(cid in claims, f"special overlay references unknown active-frontier claim {cid}")
+        if cid in claims:
+            resolved_special[cid] = claims[cid]
+            continue
+        require(cid == O210_V1, f"special overlay references unknown active-frontier claim {cid}")
+        candidates = [
+            c for c in active["claims"]
+            if c.get("scope_key") == "S32.O210.COVER" and c.get("scope") == O210_SCOPE
+        ]
+        require(len(candidates) == 1,
+                "historical O210 V1 reference does not resolve to exactly one current exact-scope O210 claim")
+        current_o210 = candidates[0]
+        require(current_o210.get("lane_links") == [
+                    {"lane": "MAIN", "role": "OWNER"},
+                    {"lane": "EX3", "role": "ATTACKS"},
+                ], "current O210 claim lane-link semantics drift")
+        resolved_special[cid] = current_o210
+
+    require(resolved_special[O210_V1]["scope_key"] == "S32.O210.COVER",
+            "O210 historical reference scope resolution drift")
+    require(resolved_special[O210_V1]["scope"] == O210_SCOPE,
+            "O210 historical reference population drift")
+
     surv = claims["S32.Q602.SURVIVORS_73_97_235.V1"]
     require(surv["authority_status"] == "AUDITED" and surv["frontier_status"] == "AUDITED_TRUE",
             "Q602 survivor audited status drift")
@@ -125,7 +168,7 @@ def main() -> None:
             "EX5-02 must precede Arsenal solution lookup")
     require(ex5["route_credit_granted"] is False, "EX5-02 grants no route credit")
 
-    print("PASS: Stage32EX5 EX5-02 current coverage/dependency graph")
+    print("PASS: Stage32EX5 EX5-02 current coverage/dependency graph (historical O210 claim-version resolved by exact scope)")
 
 
 if __name__ == "__main__":
