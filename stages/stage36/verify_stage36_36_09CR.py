@@ -73,7 +73,7 @@ def main()->None:
     assert 'TORSOR_BRAUER_INTEGRAL_KERNEL_ADAPTER' in t33_07
     assert 'exact common cocycle' in t33_07
     assert 'POINTWISE_ELEMENTARY_2_TORSOR_LIFT_CLASS_CHART_ADAPTER' in t36_04
-    assert 'finite twist family remains explicitly false' in t36_04
+    assert 'fixed finite global twist-family credit' in t36_04
     assert 'DIRECTIONAL_PRIME_RESERVOIR_LOCAL_CHARACTER_MATRIX' in t36_07
     assert 'Selmer membership from local admissibility' in t36_07
 
