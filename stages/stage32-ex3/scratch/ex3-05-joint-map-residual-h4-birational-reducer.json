@@ -1,0 +1,81 @@
+{
+  "schema": "STAGE32EX3_EX3_05_JOINT_MAP_RESIDUAL_H4_BIRATIONAL_REDUCER_SCRATCH_V1",
+  "stage": 32,
+  "lane": "EX3",
+  "leaf": "EX3-05_MONODROMY_NIELSEN_EXHAUSTION",
+  "status": "SCRATCH_PROVISIONAL_EXACT_REDUCER_NOT_RETAINED",
+  "fixed_target": {
+    "Z": "X(8)",
+    "H4": "Gamma'[4]/Gamma[8] ~= (Z/2)^2",
+    "C0": "Z/H4",
+    "P": "Z x Z",
+    "X": "P/H4_diag",
+    "Y_genus": 106,
+    "maps": ["f1:Y->C0 degree 105", "f2:Y->C0 degree 81"]
+  },
+  "source_locks": {
+    "typed_cover_tower": {
+      "path": "stages/stage32-ex3/ex3-00-o210-typed-cover-tower.json",
+      "blob_sha1": "c28bda6c20340b4fc4ac060db158ca30926ecb38"
+    },
+    "common_cover_identity": {
+      "path": "stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json",
+      "blob_sha1": "def8b60b726c02aa7ee97c0cc25b34f43525ec34"
+    },
+    "ex3_04c_h4_plane": {
+      "path": "stages/stage32-ex3/scratch/ex3-04c-bolza-h4-plane-coordinate-closure.json",
+      "canonical_sha256_without_this_field": "fae1319b0a9b35c56ed6d6ca56aed947fbdb78bee5210a910a5c54d848644444"
+    }
+  },
+  "ambient_residual_cover": {
+    "map": "rho:X=(ZxZ)/H4_diag -> (Z/H4)x(Z/H4)=C0xC0",
+    "deck_group": "(H4 x H4)/H4_diag ~= H4",
+    "degree": 4,
+    "etale": true,
+    "galois": true,
+    "reason": "Z->C0 is a free regular H4-cover; quotienting the free H4xH4 action on ZxZ first by H4_diag leaves the free residual quotient H4"
+  },
+  "joint_map": {
+    "map": "j=(f1,f2):Y->C0xC0",
+    "image": "Gamma=j(Y)",
+    "generic_degree_symbol": "delta=[K(Y):K(Gamma)]",
+    "ambient_galois_restriction": "because Y is a lifted irreducible curve in the regular H4-cover rho, delta is the order of its residual-H4 stabilizer/decomposition subgroup",
+    "ambient_allowed_delta": [1,2,4],
+    "projection_divisibility": ["delta divides 105", "delta divides 81"],
+    "projection_allowed_delta": [1,3],
+    "intersection": [1],
+    "forced_delta": 1
+  },
+  "exact_consequences": {
+    "joint_map_birational_onto_image": true,
+    "Y_is_normalization_of_Gamma": true,
+    "degree3_common_factor_ruled_out": true,
+    "residual_H4_stabilizer_of_lifted_curve": "trivial",
+    "rho_inverse_image_of_Gamma_generic_components": 4,
+    "generic_component_degrees_over_Gamma": [1,1,1,1],
+    "interpretation": "the simultaneous candidate is a genuine birational correspondence in C0xC0 rather than a degree-3 pullback of a smaller correspondence"
+  },
+  "compatibility_with_ex3_04c": {
+    "common_H4_plane_condition": "T|U=I",
+    "coordinate_plane": "U0=s*F2^2 in (Z[s]/(s^2+2,2))^2",
+    "new_information_beyond_plane_filter": "generic degree3 joint-factorization is impossible"
+  },
+  "diagnostic_verdict": {
+    "EX3_05_exclusion_obtained": false,
+    "O210_excluded": false,
+    "monodromy_population_empty": false,
+    "reducer": "JOINT_MAP_FORCED_BIRATIONAL",
+    "next_exact_route": "classify or obstruct birational bidegree-(105,81) correspondences Gamma in C0xC0 compatible with T|U=I, Rosati positivity, the involution quotient to (z,w):N->X4xX4, and the exact V6 boundary/contact data"
+  },
+  "firewalls": {
+    "birational_correspondence_asserted_smooth": false,
+    "arithmetic_genus_computed_from_only_two_fiber_degrees": false,
+    "NS_C0xC0_reduced_to_rank2": false,
+    "T_I_promoted_to_realized_correspondence": false,
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "stage32_main_credit": false,
+    "claim_dag_sync_triggered_by_this_scratch": false,
+    "merge_authorized": false
+  }
+}
