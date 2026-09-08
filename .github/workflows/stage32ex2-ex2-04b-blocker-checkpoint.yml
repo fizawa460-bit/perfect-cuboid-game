@@ -1,0 +1,100 @@
+name: Stage32EX2 EX2-04B blocked checkpoint
+
+on:
+  push:
+    branches:
+      - stage32ex2-ex2-00-source-lock-continuation
+    paths:
+      - 'stages/stage32-ex2/runkeys/ex2-04b-blocker-checkpoint.json'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stage32ex2-ex2-04b-blocker-checkpoint
+  cancel-in-progress: false
+
+jobs:
+  checkpoint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact pushed head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Authorize exact blocker run-key
+        shell: bash
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32-ex2/runkeys/ex2-04b-blocker-checkpoint.json'
+          python - <<'PY'
+          import json, subprocess
+          key='stages/stage32-ex2/runkeys/ex2-04b-blocker-checkpoint.json'
+          d=json.load(open(key))
+          assert d['schema']=='STAGE32EX2_EX2_04B_BLOCKER_CHECKPOINT_RUNKEY_V1'
+          assert d['generation']==1 and d['armed'] is True
+          assert d['expected_current_main']=='70265586b3f97be21c7621af73f443311f1f3fa3'
+          for item in d['source_locks'].values():
+              actual=subprocess.check_output(['git','hash-object',item['path']],text=True).strip()
+              assert actual==item['blob_sha1'], (item['path'],actual,item['blob_sha1'])
+          PY
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch and pin current main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          test "$(git rev-parse origin/main)" = "70265586b3f97be21c7621af73f443311f1f3fa3"
+      - name: Verify retained EX2-04A, EX2-04B, and blocker certificate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B stages/stage32-ex2/verify_ex2_04a_two_divisor_section_pencil.py
+          python -B stages/stage32-ex2/verify_ex2_04b_third_section_valuation_separation.py
+          python -B stages/stage32-ex2/verify_ex2_04b_claim_sync_blocker.py
+      - name: Apply V12 blocked checkpoint state
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B stages/stage32-ex2/apply_ex2_04b_blocker_checkpoint.py
+          cp stages/stage32-ex2/verify_main_state_v12_blocked.py stages/stage32-ex2/verify_main_state.py
+      - name: Verify V12 blocked checkpoint and all retained EX2 leaves
+        run: python -B stages/stage32-ex2/verify_main_state.py
+      - name: Confirm claim-DAG remains fail-closed pending inherited main repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          if python -B stages/stage32/proof/verify_stage32_claim_dag.py --integrity > /tmp/claim-dag.out 2>&1; then
+            cat /tmp/claim-dag.out
+            echo 'FAIL: claim-DAG unexpectedly passed; blocker checkpoint assumptions changed' >&2
+            exit 1
+          fi
+          cat /tmp/claim-dag.out
+          grep -Fq 'source lock mismatch' /tmp/claim-dag.out
+          grep -Fq 'FAIL_STAGE32_CLAIM_DAG_INTEGRITY' /tmp/claim-dag.out
+      - name: Check exact write scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --check
+          git diff --name-only | sort > /tmp/changed.txt
+          cat > /tmp/expected.txt <<'EOF'
+          stages/stage32-ex2/MAIN-STATE.json
+          stages/stage32-ex2/verify_main_state.py
+          EOF
+          sort -o /tmp/expected.txt /tmp/expected.txt
+          diff -u /tmp/expected.txt /tmp/changed.txt
+      - name: Commit and push blocked checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'stage32ex2-blocker-checkpoint-bot'
+          git config user.email 'stage32ex2-blocker-checkpoint-bot@users.noreply.github.com'
+          git add stages/stage32-ex2/MAIN-STATE.json stages/stage32-ex2/verify_main_state.py
+          git commit -m '[Stage32EX2] retain EX2-04B blocked claim-sync checkpoint'
+          git push origin HEAD:stage32ex2-ex2-00-source-lock-continuation
