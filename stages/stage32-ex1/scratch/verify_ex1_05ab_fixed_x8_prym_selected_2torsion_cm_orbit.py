@@ -58,7 +58,7 @@ for u in range(-4, 5):
 def j_short_ax(a):
     assert a != 0
     c4 = -48 * a
-    delta = -64 * (4 * a ** 3)
+    delta = -64 * a ** 3
     return c4 ** 3 // delta
 
 assert j_short_ax(4) == 1728
