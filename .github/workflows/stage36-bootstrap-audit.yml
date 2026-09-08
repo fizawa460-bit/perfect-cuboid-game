@@ -38,21 +38,16 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay immutable 36-09DF exact-green mathematical evidence
+      - name: Replay immutable 36-09DG exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          H=ac6dc90ac0a6a872076117cd9801f3e3c1bc6d09
+          H=d9c8b2714f249971c2353681fb90d706f7d69514
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09DF.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09DG.py"
           git worktree remove --force "$tmp"
-      - name: Verify 36-09DG paired Q(i) complement direction
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09DG.py
-      - name: Assert DG checkpoint and DH lock firewalls
+      - name: Assert DG exact-green promotion and DH unlock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -60,30 +55,26 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V176_36_09DG_PAIRED_QI_COMPLEMENT'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V177_36_09DG_EXACT_GREEN_DH_UNLOCK'
           dg=s['authority_frontier']['36-09DG']
-          assert dg['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert dg['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert dg['certificate_blob_sha']=='01648358b303872f228b7835cbd44bb8d15578c7'
           assert dg['verifier_blob_sha']=='1e33184927096ba26a2c8866073c6078520eb4b4'
-          assert dg['source_lock_blob_sha']=='f5b5e0a333464257ca29ea058de2cf3bd191636f'
+          assert dg['exact_head']=='d9c8b2714f249971c2353681fb90d706f7d69514'
+          assert dg['exact_head_ci']=='34207109875/101999074076'
           assert dg['PAIRED_QI_CLASS_FOUND'] is True
           assert dg['F5_INDEPENDENT_FROM_KNOWN_PRIVATE_SUBGROUP_MOD_BRQ'] is True
           assert dg['F5_OUTSIDE_ENTIRE_RATIONAL_COMPONENT_IMAGE'] is False
-          assert dg['FULL_L1_QUOTIENT_COMPUTED'] is False
-          assert dg['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_COMPUTED'] is False
           cur=s['current']
           assert cur['unit']=='36-09DG'
           assert cur['next_exact_leaf']=='36-09DH_FIXED_P2_PAIRED_QI_CROSS_EVALUATION_AND_FAMILY_PREFLIGHT'
-          assert cur['36_09DG_entry_allowed'] is True
-          assert cur['36_09DH_entry_allowed'] is False
+          assert cur['36_09DH_entry_allowed'] is True
           pg=s['promotion_gates']
-          assert pg['36_09DG_certificate_complete'] is True
-          assert pg['36_09DG_exact_head_ci_passed'] is False
-          assert pg['36_09DH_entry_allowed'] is False
+          assert pg['36_09DG_exact_head_ci_passed'] is True
+          assert pg['36_09DH_entry_allowed'] is True
           assert pg['BT_F5_independent_from_known_private_subgroup_mod_BrQ'] is True
-          assert pg['BT_F5_outside_entire_rational_component_image'] is False
-          for key in ['BT_full_L1_quotient_computed','BT_Pic0_mod2_computed','BT_full_Creutz_Viray_explicit_image_computed','BT_full_relevant_Brauer_group_computed','BT_joint_BM_correction_with_F5_complete','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
+          for key in ['BT_F5_outside_entire_rational_component_image','BT_full_L1_quotient_computed','BT_Pic0_mod2_computed','BT_full_Creutz_Viray_explicit_image_computed','BT_full_relevant_Brauer_group_computed','BT_joint_BM_correction_with_F5_complete','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09DG provisional checkpoint verified. F5 is new modulo the known infinite private subgroup H; DH remains locked. No full quotient/Brauer/BM/fixed-p/receiver credit.')
+          print('36-09DG exact-green parent verified and DH unlocked. F5 is new modulo H only; no full quotient/Brauer/BM/fixed-p credit.')
           PY
           git diff --check
