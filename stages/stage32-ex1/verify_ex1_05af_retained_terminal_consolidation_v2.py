@@ -4,7 +4,7 @@ import hashlib, json, subprocess, sys
 from pathlib import Path
 
 HERE=Path(__file__).resolve().parent
-ART=HERE/"ex1-05af-retained-terminal-consolidation.json"
+ART=HERE/"ex1-05af-retained-terminal-consolidation-v2.json"
 
 def git_blob_sha1(path: Path)->str:
     data=path.read_bytes()
@@ -14,6 +14,7 @@ d=json.loads(ART.read_text(encoding="utf-8"))
 claimed=d.pop("canonical_sha256_without_this_field")
 raw=json.dumps(d,sort_keys=True,separators=(",",":")).encode()
 assert hashlib.sha256(raw).hexdigest()==claimed
+assert d["schema"]=="STAGE32EX1_05AF_RETAINED_TERMINAL_CONSOLIDATION_V2"
 
 d["canonical_sha256_without_this_field"]=claimed
 EXPECTED_BLOBS={
@@ -29,7 +30,8 @@ EXPECTED_BLOBS={
 "ex1-05ae-h-linearized-correspondence-class-descent-to-s0-preflight.json":"37853cb07845ced93a22b5351dbddbbe891a9e88",
 "ex1-05af-s0-integral-ns-pullback-saturation-preflight.json":"bf52be685e2a07d23b6f4ed836968687c610bb64",
 "ex1-05af-cellular-h2-domain-certificate.json":"ee14798ce1f92aae0b8519ceec3f883d9106788f",
-"ex1-05af-cellular-pullback-smith-certificate.json":"8f238ff7bdea3516ab4e1246a0202954b2d1bc3f"}
+"ex1-05af-cellular-pullback-smith-certificate.json":"8f238ff7bdea3516ab4e1246a0202954b2d1bc3f",
+"verify_ex1_05af_cellular_obstruction_bridge.py":"99e4e76bc8a7b916040adb33af5a3de2d7740144"}
 for name,sha in EXPECTED_BLOBS.items():
     p=HERE/name
     assert p.exists(),p
@@ -45,8 +47,8 @@ RUNS=[
 ("verify_ex1_05ac_fixed_x8_polarization_kernel_antiisometry_transvection_alignment.py","PASS_EX1_05AC_FIXED_GLUE_ALIGNS_ALL_THREE_TRANSVECTIONS"),
 ("verify_ex1_05ad_global_jx8_h_equivariant_endomorphism_descent_assembly.py","PASS_EX1_05AD_GLOBAL_JX8_ASSEMBLY_ALL_RESIDUES"),
 ("verify_ex1_05ae_h_linearized_correspondence_class_descent_to_s0.py","PASS_EX1_05AE_RATIONAL_DESCENT_NUMERICS_EXACT_INTEGRAL_SATURATION_OPEN"),
-("verify_ex1_05af_s0_integral_ns_pullback_saturation.py","PASS_EX1_05AF_ALL_6144_ASSEMBLIES_HAVE_ORDER2_NS_DESCENT_OBSTRUCTION"),
-("verify_ex1_05af_full_cellular_smith_certificate.py","PASS_EX1_05AF_FULL_CELLULAR_SMITH_CERTIFICATE")]
+("verify_ex1_05af_full_cellular_smith_certificate.py","PASS_EX1_05AF_FULL_CELLULAR_SMITH_CERTIFICATE"),
+("verify_ex1_05af_cellular_obstruction_bridge.py","PASS_EX1_05AF_ACTUAL_CELLULAR_COKERNEL_ALL_6144_NONZERO")]
 for script,token in RUNS:
     cp=subprocess.run([sys.executable,str(HERE/script)],cwd=HERE,text=True,capture_output=True)
     if cp.returncode:
@@ -57,11 +59,15 @@ for script,token in RUNS:
     print(token)
 
 dec=d["decision"]
-assert dec["status"]=="PROVISIONAL_AUDIT_READY_TERMINAL_CANDIDATE"
+assert dec["status"]=="PROVISIONAL_AUDIT_READY_TERMINAL_CANDIDATE_REPAIRED"
 assert dec["candidate_terminal_outcome"]=="ALL_V6_GENUS1_CARRIERS_EXCLUDED"
 assert dec["h4_states_excluded_candidate"]==29
 assert dec["h4_survivors_candidate"]==[]
 assert dec["q602_residues_excluded_candidate"]==[73,97,235]
+assert dec["actual_cellular_cokernel_classes_checked"]==24576
+assert dec["actual_cellular_zero_classes"]==0
+assert dec["actual_cellular_class_order"]==2
+assert d["firewalls"]["legacy_OBS_PIVROWS_promoted_to_actual_cellular_coordinates"] is False
 for key in ("authority_credit_granted","hostile_audit_credit_granted","stage32_main_credit_granted","ex_to_main_promotion_performed"):
     assert dec[key] is False,key
-print("PASS_EX1_05AF_RETAINED_TERMINAL_CONSOLIDATION")
+print("PASS_EX1_05AF_RETAINED_TERMINAL_CONSOLIDATION_REPAIRED")

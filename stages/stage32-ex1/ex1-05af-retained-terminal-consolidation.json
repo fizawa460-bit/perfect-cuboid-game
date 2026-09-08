@@ -1,19 +1,19 @@
 {
-  "schema": "STAGE32EX1_05AF_RETAINED_TERMINAL_CONSOLIDATION_V2",
+  "schema": "STAGE32EX1_05AF_RETAINED_TERMINAL_CONSOLIDATION_V1",
   "stage": "32EX1",
-  "authority": "RETAINED_PROVISIONAL_AUDIT_READY_REPAIR",
+  "authority": "RETAINED_PROVISIONAL_AUDIT_READY",
   "base_main_sha": "70265586b3f97be21c7621af73f443311f1f3fa3",
   "scratch_origin_head": "978c156000f9c728d64bba5e92ab257c63af981d",
   "branch": "stage32ex1-terminal-05af-retained-consolidation",
   "claim_candidate": "ALL_V6_GENUS1_CARRIERS_EXCLUDED",
-  "audit_status": "PENDING_REAUDIT_AFTER_FAIL_5147121377",
+  "audit_status": "PENDING_HOSTILE_AUDIT",
   "mathematical_scope": {
     "target": "integral irreducible V6 geometric-genus-1 carriers in the EX1 lane",
     "audited_predecessor": "S32.EX1.CANDIDATE_THROUGH_05H.V2",
     "h4_states": [210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266],
     "h4_state_count": 29,
     "q602_residues": [73,97,235],
-    "terminal_candidate_reason": "The audited predecessor forces the unresolved V6 carrier into the h=4 receiver. Retained 05O applies the audited Weierstrass-parity transvection uniformly to all 29 h=4 states and leaves residues 73,97,235. Retained 05X-05AE exhaust the H-character/Prym/global-endomorphism/class package. The repaired 05AF bridge consumes the independently certified cellular Smith payload Lsat/Lleft and checks all 6144 legal integral assemblies against all four retained JI choices: all 24576 actual cokernel classes are nonzero of order two in coker(p^*:H2(S0,Z)_free->H2(X8xX8,Z)^H). The legacy OBS/PIVROWS coordinates are not used as the load-bearing cokernel identification."
+    "terminal_candidate_reason": "The audited predecessor forces the unresolved V6 carrier into the h=4 receiver. Retained 05O applies the audited Weierstrass-parity transvection uniformly to all 29 h=4 states and leaves residues 73,97,235. Retained 05X-05AE exhaust the H-character/Prym/global-endomorphism/class package. Retained 05AF proves every legal integral assembly has a nonzero order-two class in coker(p^*:H2(S0,Z)_free->H2(X8xX8,Z)^H), whereas the pullback of an actual divisor on S0 has zero obstruction."
   },
   "load_bearing_retained_evidence": [
     {"path":"stages/stage32-ex1/ex1-05o-common-v4-branch-cycle-monodromy-lift-preflight.json","blob_sha1":"db22f3fdf75be3371d2bf46a516067c0d2e0f4b8","role":"uniform 29-state exact-W/transvection adapter to residues 73,97,235"},
@@ -25,33 +25,27 @@
     {"path":"stages/stage32-ex1/ex1-05ac-fixed-x8-polarization-kernel-antiisometry-transvection-alignment-preflight.json","blob_sha1":"74a9d76faf652b5f40eb6b5b1b3244071a0d24b5","role":"fixed gluing aligns the three invariant transvections with the three Prym factor centers"},
     {"path":"stages/stage32-ex1/ex1-05ad-global-jx8-h-equivariant-endomorphism-descent-assembly-preflight.json","blob_sha1":"f360242d2fec69002d8e14135c834060c6f3408f","role":"global integral H-equivariant JX8 assembly and deck/Rosati replay"},
     {"path":"stages/stage32-ex1/ex1-05ae-h-linearized-correspondence-class-descent-to-s0-preflight.json","blob_sha1":"37853cb07845ced93a22b5351dbddbbe891a9e88","role":"rational divisor-class descent and exact D0 numerical package"},
-    {"path":"stages/stage32-ex1/ex1-05af-s0-integral-ns-pullback-saturation-preflight.json","blob_sha1":"bf52be685e2a07d23b6f4ed836968687c610bb64","role":"enumerates the exact 6144 legal assemblies; its legacy hard-coded OBS/PIVROWS obstruction coordinates are diagnostic only after audit repair"},
+    {"path":"stages/stage32-ex1/ex1-05af-s0-integral-ns-pullback-saturation-preflight.json","blob_sha1":"bf52be685e2a07d23b6f4ed836968687c610bb64","role":"6144/6144 legal assemblies have nonzero order-two primitive-descent obstruction"},
     {"path":"stages/stage32-ex1/ex1-05af-cellular-h2-domain-certificate.json","blob_sha1":"ee14798ce1f92aae0b8519ceec3f883d9106788f","canonical_sha256":"1d682a8a3921a46470c6f383ae20f3b8bf5068334b3c4aee8e5b92699a9f19fe","role":"independent cellular H2(S0,Z) certificate"},
-    {"path":"stages/stage32-ex1/ex1-05af-cellular-pullback-smith-certificate.json","blob_sha1":"8f238ff7bdea3516ab4e1246a0202954b2d1bc3f","canonical_sha256":"988a360ddeb7e22e0aa1923044b8e473d50f10e9dd82d84565266ed292d98984","role":"independent pullback Smith factors 1^25,2,2,2,4,4; cokernel (Z/2)^3 x (Z/4)^2"},
-    {"path":"stages/stage32-ex1/verify_ex1_05af_cellular_obstruction_bridge.py","blob_sha1":"99e4e76bc8a7b916040adb33af5a3de2d7740144","role":"load-bearing direct bridge: computes each assembly Kunneth vector in independently certified Lsat/Lleft coordinates and proves all 24576 actual cellular cokernel classes are nonzero of order two"}
+    {"path":"stages/stage32-ex1/ex1-05af-cellular-pullback-smith-certificate.json","blob_sha1":"8f238ff7bdea3516ab4e1246a0202954b2d1bc3f","canonical_sha256":"988a360ddeb7e22e0aa1923044b8e473d50f10e9dd82d84565266ed292d98984","role":"independent pullback Smith factors 1^25,2,2,2,4,4; cokernel (Z/2)^3 x (Z/4)^2"}
   ],
   "provenance_only_retained_evidence": [
     {"path":"stages/stage32-ex1/ex1-05w-simultaneous-nielsen-common-v4-torsor-matching-preflight.json","blob_sha1":"97833e1533c48f3c6da6712db19ba235809789a3","role":"historical route/provenance for 05X; not a mathematical dependency of the terminal contradiction"}
   ],
   "supersession": {
     "05z_superseded_part": "The arbitrary Z/4-linear witness claiming mod2 exact-W cannot determine A[2] action is superseded by 05AA inside the actual M2(Z[sqrt(-2)]) ring.",
-    "05z_retained_part": "W maximal isotropic, A[2] order 16, and existence of 2-primary invariant/Prym gluing.",
-    "05af_compact_obstruction_superseded_part": "The hard-coded OBS/PIVROWS coordinates are not identified with the independently certified cellular Smith cokernel coordinates and are no longer load-bearing.",
-    "05af_compact_retained_part": "The exact 6144 legal assembly enumeration/build data remain retained and are consumed by the repaired direct cellular bridge."
+    "05z_retained_part": "W maximal isotropic, A[2] order 16, and existence of 2-primary invariant/Prym gluing."
   },
   "replay": {
     "terminal_wrapper": "stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation.py",
-    "required_passes": ["PASS_EX1_05O_UNIFORM_TRANSVECTION_28_TO_3","PASS_EX1_05X_CHARACTER_PRYM_FOURIER_SPLIT","PASS_EX1_05Y_GAUSSIAN_PRYM_NORMS_REALIZABLE","PASS_EX1_05AA_ACTUAL_RING_MOD4_COLLAPSES_TO_TRANSVECTIONS","PASS_EX1_05AB_ALL_SELECTED_PRYM_POINTS_CM_FIXED","PASS_EX1_05AC_FIXED_GLUE_ALIGNS_ALL_THREE_TRANSVECTIONS","PASS_EX1_05AD_GLOBAL_JX8_ASSEMBLY_ALL_RESIDUES","PASS_EX1_05AE_RATIONAL_DESCENT_NUMERICS_EXACT_INTEGRAL_SATURATION_OPEN","PASS_EX1_05AF_FULL_CELLULAR_SMITH_CERTIFICATE","PASS_EX1_05AF_ACTUAL_CELLULAR_COKERNEL_ALL_6144_NONZERO"]
+    "required_passes": ["PASS_EX1_05O_UNIFORM_TRANSVECTION_28_TO_3","PASS_EX1_05X_CHARACTER_PRYM_FOURIER_SPLIT","PASS_EX1_05Y_GAUSSIAN_PRYM_NORMS_REALIZABLE","PASS_EX1_05AA_ACTUAL_RING_MOD4_COLLAPSES_TO_TRANSVECTIONS","PASS_EX1_05AB_ALL_SELECTED_PRYM_POINTS_CM_FIXED","PASS_EX1_05AC_FIXED_GLUE_ALIGNS_ALL_THREE_TRANSVECTIONS","PASS_EX1_05AD_GLOBAL_JX8_ASSEMBLY_ALL_RESIDUES","PASS_EX1_05AE_RATIONAL_DESCENT_NUMERICS_EXACT_INTEGRAL_SATURATION_OPEN","PASS_EX1_05AF_ALL_6144_ASSEMBLIES_HAVE_ORDER2_NS_DESCENT_OBSTRUCTION","PASS_EX1_05AF_FULL_CELLULAR_SMITH_CERTIFICATE"]
   },
   "decision": {
-    "status": "PROVISIONAL_AUDIT_READY_TERMINAL_CANDIDATE_REPAIRED",
+    "status": "PROVISIONAL_AUDIT_READY_TERMINAL_CANDIDATE",
     "candidate_terminal_outcome": "ALL_V6_GENUS1_CARRIERS_EXCLUDED",
     "h4_states_excluded_candidate": 29,
     "h4_survivors_candidate": [],
     "q602_residues_excluded_candidate": [73,97,235],
-    "actual_cellular_cokernel_classes_checked": 24576,
-    "actual_cellular_zero_classes": 0,
-    "actual_cellular_class_order": 2,
     "authority_credit_granted": false,
     "hostile_audit_credit_granted": false,
     "stage32_main_credit_granted": false,
@@ -60,10 +54,9 @@
   "firewalls": {
     "scratch_files_are_claim_dependencies": false,
     "provenance_only_05w_is_mathematical_dependency": false,
-    "legacy_OBS_PIVROWS_promoted_to_actual_cellular_coordinates": false,
     "terminal_outcome_self_awarded": false,
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
   },
-  "canonical_sha256_without_this_field": "c6b9fdb800662afe188e1fa5965146d51fb7959865ee40cad348927b959564a0"
+  "canonical_sha256_without_this_field": "d7fe64741166b13524df483f75897f03c5ef5a168943e69301d068ca18ed08bf"
 }
