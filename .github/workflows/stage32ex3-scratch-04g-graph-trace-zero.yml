@@ -1,0 +1,32 @@
+name: Stage32EX3 scratch 04g graph trace zero contradiction
+
+on:
+  push:
+    branches:
+      - scratch-stage32ex3-ex3-01-etale105
+    paths:
+      - '.github/workflows/stage32ex3-scratch-04g-graph-trace-zero.yml'
+      - 'stages/stage32-ex3/scratch/ex3-04g-graph-quotient-trace-zero-source-note.md'
+      - 'stages/stage32-ex3/scratch/ex3-04g-graph-quotient-trace-zero-contradiction.json'
+      - 'stages/stage32-ex3/scratch/verify_ex3_04g_graph_quotient_trace_zero_contradiction.py'
+      - 'stages/stage32-ex3/scratch/ex3-04d-upstairs-h4-prym-rosati-fourier-gate.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-relative-h-marked-node-action.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-beauville-blowup-picard-adapter-delta-lock.json'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json'
+      - 'stages/stage32/residual-32-01-production/post1518-o210-q602-residue73-trace-spectrum.json'
+      - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
+      - 'stages/stage33/33-07/exceptional-p1-tangent-coordinates.json'
+      - 'stages/stage33/33-12/diagnose_e3_v91c1v_actual_prime_known140_locator.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify EX3-04g graph quotient trace-zero contradiction
+        run: python stages/stage32-ex3/scratch/verify_ex3_04g_graph_quotient_trace_zero_contradiction.py
