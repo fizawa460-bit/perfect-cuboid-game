@@ -1,16 +1,17 @@
 {
-  "schema":"STAGE36_PR1712_DM_INTERMEDIATE_HOSTILE_AUDIT_PASS_RECEIPT_V1",
+  "schema":"STAGE36_PR1712_DM_INTERMEDIATE_HOSTILE_AUDIT_RECORD_V2_NON_AUTHORITATIVE",
   "stage":"36",
-  "unit":"36-09DM-INTERMEDIATE-AUDIT",
-  "status":"PASS",
-  "audit_kind":"LONG_LIVED_SHARED_PR_INTERMEDIATE_HOSTILE_AUDIT",
+  "unit":"36-09DM-INTERMEDIATE-AUDIT-RECORD",
+  "status":"NON_AUTHORITATIVE_NO_EXTERNAL_REVIEW_ID",
+  "authority_credit":false,
+  "audit_kind":"LONG_LIVED_SHARED_PR_INTERMEDIATE_HOSTILE_AUDIT_RECORD",
   "repository_policy":"docs/research-os/policies/hostile-audit-and-freshness.md",
   "audited_pr":1712,
   "audit_base_start":"0134d5f42df5aa290f5514cc48822e80a34d083c",
   "audited_exact_head":"12bf7eb1ee7da6bf0e7ac8f35df9e5379d8e65cb",
   "retained_commit_delta":175,
   "current_main_at_audit":"226a8aa11ac61293a7e4b7f9611177f68af94ff4",
-  "merge_ready_freshness_at_audit":"CLEAR_FOR_AUDITED_HEAD_BASE_LOCK_ONLY_NOT_MERGE_AUTHORIZATION",
+  "merge_ready_freshness_at_audit":"CLEAR_FOR_RECORDED_HEAD_BASE_LOCK_ONLY_NOT_MERGE_AUTHORIZATION",
   "exact_head_ci":{"run_id":34215518432,"job_id":102026227390,"conclusion":"success"},
   "sampled_immutable_ci_evidence":[
     {"leaf":"36-09CQ","head":"a0d8cb76e43f926342f1a57b2b6aa903d19da63d","run_id":34188612840,"conclusion":"success"},
@@ -21,29 +22,30 @@
     {"leaf":"36-09DM","head":"12bf7eb1ee7da6bf0e7ac8f35df9e5379d8e65cb","run_id":34215518432,"conclusion":"success"}
   ],
   "external_review_id":null,
-  "audit_method":"Delta-bounded hostile audit of retained Stage36 claim/evidence/authority changes from the retained start through DM, plus load-bearing source locks, verifiers, policy/freshness changes, and sampled exact-head CI. Imported Stage32/Stage32EX4 current-main sync files were inspected for semantic impact and excluded from Stage36 mathematical credit.",
+  "provenance_resolution":"No external hostile-audit review or receipt is identified for the recorded DM boundary. Under the long-lived shared-PR policy this record is historical diagnostic material only and MUST NOT reset audit debt, unlock a descendant leaf, or serve as a previous audited boundary.",
+  "audit_method":"Historical delta-bounded review record of retained Stage36 claim/evidence/authority changes from the retained start through DM, plus load-bearing source locks, verifiers, policy/freshness changes, and sampled exact-head CI. Imported Stage32/Stage32EX4 current-main sync files were inspected for semantic impact and excluded from Stage36 mathematical credit. This method description does not itself confer hostile-audit authority.",
   "source_verification":{
-    "Creutz_Viray_Theorem_1_1":"verified against original paper interface: the even-cover construction lands in unramified Br[2] under the stated norm-square condition",
-    "Creutz_Viray_Proposition_2_4":"verified against original paper interface: Euclidean-remainder corestriction formula used by 36-09DJ",
-    "Creutz_Viray_Proposition_5_1":"verified against original paper interface: exact sequence controls the explicit Br_2^Upsilon image, not the whole Brauer group",
-    "full_Brauer_firewall":"confirmed: the paper explicitly allows the constructed subgroup to be proper over global fields"
+    "Creutz_Viray_Theorem_1_1":"recorded as verified against original paper interface: the even-cover construction lands in unramified Br[2] under the stated norm-square condition",
+    "Creutz_Viray_Proposition_2_4":"recorded as verified against original paper interface: Euclidean-remainder corestriction formula used by 36-09DJ",
+    "Creutz_Viray_Proposition_5_1":"recorded as verified against original paper interface: exact sequence controls the explicit Br_2^Upsilon image, not the whole Brauer group",
+    "full_Brauer_firewall":"recorded as confirmed: the paper explicitly allows the constructed subgroup to be proper over global fields"
   },
   "load_bearing_findings":[
-    {"id":"A1","result":"PASS","finding":"CQ global-global Tate/Hilbert pairing is reciprocity-trivial and does not manufacture an obstruction."},
-    {"id":"A2","result":"PASS","finding":"CS five-root deck torsor and dual projection are type-separated from K_BT; CT correctly detects self-trivialization on actual receiver lifts."},
-    {"id":"A3","result":"PASS","finding":"CU Kummer-monomial quaternion family collapses on receiver lifts to fixed global squareclasses and is reciprocity-trivial without claiming all Brauer classes are covered."},
-    {"id":"A4","result":"PASS","finding":"CW Creutz--Viray class construction is source-bound on the physical genus-three receiver; CX--DC local evaluation and independence claims stay fixed-p=2 and preserve full-Brauer firewalls."},
-    {"id":"A5","result":"PASS","finding":"DD correctly disproves rank-3 completeness only inside the constructed explicit family and does not identify the explicit image with full Br."},
-    {"id":"A6","result":"PASS","finding":"DE infinite private-prime family was hostile-checked: Dirichlet/quadratic-reciprocity progression and fresh-prime local evaluation-difference induction support infinite F2 independence modulo constants; no full-image/full-Br identification is made."},
-    {"id":"A7","result":"PASS","finding":"DF explicitly materializes retained-open local points at every place for p=2, closing only the local-obstruction route and not excluding p=2."},
-    {"id":"A8","result":"PASS","finding":"DG--DI preserve the distinction between F5 being new modulo the selected subgroup and being outside the entire rational-component image."},
-    {"id":"A9","result":"PASS","finding":"DJ verifier independently reconstructs the CRT lift, exact Euclidean remainder chain, and Q5 Hilbert parities; DK reflection at t=+/-11 annihilates the entire rational-component image and separates F5."},
-    {"id":"A10","result":"PASS","finding":"DL independently verifies the factorwise-square adelic recipe for the full rational-component image."},
-    {"id":"A11","result":"PASS","finding":"DM branch-linear squareclass preservation relative to P0=(0,1) makes every Creutz--Viray explicit-image evaluation equal to the P0 evaluation placewise; global reciprocity gives a nonempty Brauer set for that entire explicit image."},
-    {"id":"A12","result":"PASS","finding":"The first DM CI failure was implementation-only: a case-sensitive source-string assertion. The repaired verifier changes no mathematical assertion and exact-head CI is green."},
-    {"id":"A13","result":"PASS","finding":"Current-main drift imported Stage32/Stage32EX4 plus shared audit-policy changes only; no Stage36 mathematical/source drift was found. The shared policy change is load-bearing and is exactly why this intermediate audit is recorded now."}
+    {"id":"A1","result":"RECORDED_PASS_NON_AUTHORITATIVE","finding":"CQ global-global Tate/Hilbert pairing is reciprocity-trivial and does not manufacture an obstruction."},
+    {"id":"A2","result":"RECORDED_PASS_NON_AUTHORITATIVE","finding":"CS five-root deck torsor and dual projection are type-separated from K_BT; CT correctly detects self-trivialization on actual receiver lifts."},
+    {"id":"A3","result":"RECORDED_PASS_NON_AUTHORITATIVE","finding":"CU Kummer-monomial quaternion family collapses on receiver lifts to fixed global squareclasses and is reciprocity-trivial without claiming all Brauer classes are covered."},
+    {"id":"A4","result":"RECORDED_PASS_NON_AUTHORITATIVE","finding":"CW Creutz--Viray class construction is source-bound on the physical genus-three receiver; CX--DC local evaluation and independence claims stay fixed-p=2 and preserve full-Brauer firewalls."},
+    {"id":"A5","result":"RECORDED_PASS_NON_AUTHORITATIVE","finding":"DD correctly disproves rank-3 completeness only inside the constructed explicit family and does not identify the explicit image with full Br."},
+    {"id":"A6","result":"RECORDED_PASS_NON_AUTHORITATIVE","finding":"DE infinite private-prime family record states Dirichlet/quadratic-reciprocity progression and fresh-prime local evaluation-difference induction support infinite F2 independence modulo constants; no full-image/full-Br identification is made."},
+    {"id":"A7","result":"RECORDED_PASS_NON_AUTHORITATIVE","finding":"DF explicitly materializes retained-open local points at every place for p=2, closing only the local-obstruction route and not excluding p=2."},
+    {"id":"A8","result":"RECORDED_PASS_NON_AUTHORITATIVE","finding":"DG--DI preserve the distinction between F5 being new modulo the selected subgroup and being outside the entire rational-component image."},
+    {"id":"A9","result":"RECORDED_PASS_NON_AUTHORITATIVE","finding":"DJ verifier independently reconstructs the CRT lift, exact Euclidean remainder chain, and Q5 Hilbert parities; DK reflection at t=+/-11 annihilates the entire rational-component image and separates F5."},
+    {"id":"A10","result":"RECORDED_PASS_NON_AUTHORITATIVE","finding":"DL independently verifies the factorwise-square adelic recipe for the full rational-component image."},
+    {"id":"A11","result":"RECORDED_PASS_NON_AUTHORITATIVE","finding":"DM branch-linear squareclass preservation relative to P0=(0,1) makes every Creutz--Viray explicit-image evaluation equal to the P0 evaluation placewise; global reciprocity gives a nonempty Brauer set for that entire explicit image."},
+    {"id":"A12","result":"RECORDED_PASS_NON_AUTHORITATIVE","finding":"The first DM CI failure was implementation-only: a case-sensitive source-string assertion. The repaired verifier changes no mathematical assertion and exact-head CI is green."},
+    {"id":"A13","result":"RECORDED_PASS_NON_AUTHORITATIVE","finding":"Recorded current-main drift imported Stage32/Stage32EX4 plus shared audit-policy changes only; no Stage36 mathematical/source drift was found."}
   ],
-  "audited_credit_boundary":{
+  "diagnostic_credit_boundary":{
     "36_09DM_exact_head_green":true,
     "p2_retained_open_adelic_point_orthogonal_to_entire_Creutz_Viray_explicit_image":true,
     "full_Creutz_Viray_explicit_image_BM_set_nonempty":true,
@@ -62,6 +64,6 @@
     "endpoint_closed":false,
     "perfect_cuboid_nonexistence_claim":false
   },
-  "authority_effect":"This PASS resets the long-lived shared-PR audit-debt boundary at the audited exact head and permits Stage36 to continue to the selected DN leaf after Stage-local receipt/state/workflow synchronization succeeds. It grants no merge authorization and no broader mathematical credit.",
-  "next_leaf":"36-09DN_FIXED_P2_FULL_BRAUER_OUTSIDE_CREUTZ_VIRAY_FORMAL_DISK_PREFLIGHT"
+  "authority_effect":"NONE. This record is non-authoritative because external_review_id is null. It does not reset long-lived shared-PR audit debt, does not authorize DN or any later leaf, and grants no merge or mathematical authority credit.",
+  "historical_next_leaf":"36-09DN_FIXED_P2_FULL_BRAUER_OUTSIDE_CREUTZ_VIRAY_FORMAL_DISK_PREFLIGHT"
 }
