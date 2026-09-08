@@ -1,0 +1,129 @@
+name: Stage32EX1 1728 claim repair sync
+
+on:
+  push:
+    paths:
+      - '.github/workflows/stage32ex1-1728-claim-repair-sync.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Version repaired EX1 terminal claim
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+
+          root=Path('.')
+          regp=root/'stages/stage32/proof/CLAIM-REGISTRY.json'
+          lanep=root/'stages/stage32/proof/LANE-ADAPTERS.json'
+          reg=json.loads(regp.read_text())
+          lanes=json.loads(lanep.read_text())
+
+          def blob(path):
+              data=Path(path).read_bytes()
+              return hashlib.sha1(f'blob {len(data)}\0'.encode()+data).hexdigest()
+          def csha(x):
+              return hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          CORE_KEYS=['claim_id','kind','statement','scope_key','scope','proves','does_not_prove','requires','bridges','source_locks','replay_verifier']
+          def core_sha(claim):
+              return csha({k:claim[k] for k in CORE_KEYS if k in claim})
+
+          v1id='S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V1'
+          v2id='S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2'
+          by={c['claim_id']:c for c in reg['claims']}
+          v1=by[v1id]
+          v1['authority_status']='SUPERSEDED'
+          v1['audit_receipt']={
+              'status':'FAIL',
+              'pr':1728,
+              'exact_head':'0ea608585ee1c747ee5737240671279f6f595612',
+              'review_id':5147121377,
+              'superseded_by':v2id
+          }
+
+          manifest='stages/stage32-ex1/ex1-05af-retained-terminal-consolidation.json'
+          m=json.loads(Path(manifest).read_text())
+          cert='stages/stage32-ex1/ex1-05af-cellular-pullback-smith-certificate.json'
+          cj=json.loads(Path(cert).read_text())
+          v2={
+              'claim_id':v2id,
+              'kind':'mathematical_claim',
+              'statement':'The repaired retained EX1 terminal package excludes every fixed-V6 h=4 carrier state in the exact EX1 population because each legal Q602/X(8) assembly has a nonzero order-two class in the independently certified cellular Smith cokernel of p^*:H^2(S0,Z)_free -> H^2(X(8)xX(8),Z)^H; together with the audited EX1 predecessor through 05H this yields the terminal exclusion candidate ALL_V6_GENUS1_CARRIERS_EXCLUDED.',
+              'scope_key':'S32.EX1.V6_CARRIER',
+              'scope':{
+                  'lane':'EX1',
+                  'coverage':'audited EX1 through 05H plus repaired retained 05O-05AF terminal package',
+                  'h4_Q_state_count':29,
+                  'h4_Q_states':list(range(210,267,2)),
+                  'q602_residues':[73,97,235],
+                  'terminal_outcome_candidate':'ALL_V6_GENUS1_CARRIERS_EXCLUDED'
+              },
+              'proves':[
+                  'For the exact retained EX1 population, all 29 fixed-V6 h=4 Q states are excluded by the actual independently certified integral cellular pullback-saturation obstruction.',
+                  'For the same exact EX1 population, residues 73,97,235 are all excluded as Q602 invariant components of an actual divisor D0 on S0.',
+                  'Combined with S32.EX1.CANDIDATE_THROUGH_05H.V2, the retained package supplies the mathematical core for terminal outcome ALL_V6_GENUS1_CARRIERS_EXCLUDED, subject to its separate authority status.'
+              ],
+              'does_not_prove':[
+                  'Automatic promotion of EX1 credit to Stage32 MAIN.',
+                  'Q602 or O210 MAIN exclusion outside the exact EX1 population without an explicit current-target promotion adapter.',
+                  'Stage32 closure.',
+                  'Perfect Cuboid existence or nonexistence.'
+              ],
+              'requires':['S32.EX1.LANE_CONTRACT.V2','S32.EX1.CANDIDATE_THROUGH_05H.V2'],
+              'source_locks':[
+                  {'path':manifest,'blob_sha1':blob(manifest),'canonical_sha256':m['canonical_sha256_without_this_field']},
+                  {'path':'stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation.py','blob_sha1':blob('stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation.py')},
+                  {'path':cert,'blob_sha1':blob(cert),'canonical_sha256':cj['canonical_sha256_without_this_field']},
+                  {'path':'stages/stage32-ex1/verify_ex1_05af_full_cellular_smith_certificate.py','blob_sha1':blob('stages/stage32-ex1/verify_ex1_05af_full_cellular_smith_certificate.py')},
+                  {'path':'stages/stage32-ex1/verify_ex1_05af_cellular_obstruction_bridge.py','blob_sha1':blob('stages/stage32-ex1/verify_ex1_05af_cellular_obstruction_bridge.py')}
+              ],
+              'replay_verifier':'stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation.py',
+              'authority_status':'PROVISIONAL',
+              'audit_receipt':None
+          }
+          v2['claim_core_sha256']=core_sha(v2)
+          if v2id in by:
+              idx=next(i for i,c in enumerate(reg['claims']) if c['claim_id']==v2id)
+              reg['claims'][idx]=v2
+          else:
+              reg['claims'].append(v2)
+
+          ex1=next(x for x in lanes['lanes'] if x['lane']=='EX1')
+          ex1['claim_refs']=[v2id if x==v1id else x for x in ex1['claim_refs']]
+          if v2id not in ex1['claim_refs']:
+              ex1['claim_refs'].append(v2id)
+          ex1['notes']='EX1 terminal candidate V1 is SUPERSEDED after hostile-audit FAIL review 5147121377. Repaired V2 is PROVISIONAL and uses the actual independently certified cellular Smith cokernel bridge: all 24576 assembly/JI classes are nonzero of order two. V2 has no hostile-audit PASS and does not self-promote to Stage32 MAIN; the audited predecessor through 05H remains the only audited EX1 mathematical authority until re-audit.'
+
+          regp.write_text(json.dumps(reg,sort_keys=True,separators=(',',':'))+'\n')
+          lanep.write_text(json.dumps(lanes,sort_keys=True,separators=(',',':'))+'\n')
+          print('V2 core',v2['claim_core_sha256'])
+          PY
+          python3 stages/stage32/proof/verify_stage32_claim_dag.py --integrity
+          python3 stages/stage32/proof/verify_stage32_active_frontier.py
+      - name: Commit synchronized claim repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'fizawa460-bit'
+          git config user.email 'fizawa460@gmail.com'
+          git add stages/stage32/proof/CLAIM-REGISTRY.json stages/stage32/proof/LANE-ADAPTERS.json
+          if git diff --cached --quiet; then
+            echo 'no claim-sync changes'
+            exit 0
+          fi
+          git commit -m '[Stage32EX1][claim-sync] version repaired terminal candidate V2'
+          git push origin HEAD:stage32ex1-terminal-05af-retained-consolidation
