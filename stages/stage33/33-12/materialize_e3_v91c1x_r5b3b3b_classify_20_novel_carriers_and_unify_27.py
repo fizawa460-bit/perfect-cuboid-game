@@ -72,52 +72,48 @@ def enc_qi(x):
     return [int(sp.numer(re)), int(sp.denom(re)), int(sp.numer(im)), int(sp.denom(im))]
 
 
-def normalized_factor_record(factor, exponent):
-    p = sp.Poly(sp.expand(factor), *BASE, extension=sp.I)
-    if not p.terms():
-        raise SystemExit("zero norm factor")
-    lead = p.terms()[0][1]
-    p = sp.Poly(sp.expand(p.as_expr()/lead), *BASE, extension=sp.I)
-    rows = [
-        {"monomial_exponents": list(mon), "coefficient_Qi": enc_qi(coef)}
-        for mon, coef in p.terms()
-    ]
-    expr = sp.expand(p.as_expr())
-    coord = next((name for name, var in (("a1", a1), ("a2", a2), ("a3", a3)) if sp.expand(expr-var) == 0), None)
-    return {
-        "degree": int(p.total_degree()),
-        "exponent_in_norm": int(exponent),
-        "normalized_terms": rows,
-        "coordinate_factor": coord,
-    }
-
-
 def linear_expr(coeffs):
     vals = [b3b2mat.atlas.decode_element(z) for z in coeffs]
     return sp.expand(sum(q*x for q, x in zip(vals, COORDS)))
 
 
-def factor_novel_carrier(row):
+def normalize_norm(poly):
+    terms = poly.terms()
+    if not terms:
+        raise SystemExit("zero full sign norm")
+    lead = terms[0][1]
+    rows = []
+    for mon, coef in terms:
+        rows.append({
+            "monomial_exponents": list(mon),
+            "coefficient_Qi": enc_qi(sp.cancel(coef/lead)),
+        })
+    return rows
+
+
+def classify_novel_carrier(row):
     norm = full_sign_norm(linear_expr(row["normalized_coefficients_Qi"]))
-    if sp.Poly(norm, *BASE, extension=sp.I).total_degree() != 16:
+    poly = sp.Poly(norm, *BASE, extension=sp.I)
+    if poly.total_degree() != 16:
         raise SystemExit(f"full sign norm degree moved: {row['carrier_id']}")
-    _, factors = sp.factor_list(norm, *BASE, extension=sp.I)
-    frecs = [normalized_factor_record(f, e) for f, e in factors]
-    if sum(r["degree"]*r["exponent_in_norm"] for r in frecs) != 16:
-        raise SystemExit(f"degree accounting moved: {row['carrier_id']}")
-    noncoord = [r for r in frecs if r["coordinate_factor"] is None]
-    boundary_only = not noncoord
+    normalized_terms = normalize_norm(poly)
+    boundary_only = len(normalized_terms) == 1
+    if boundary_only:
+        mon = normalized_terms[0]["monomial_exponents"]
+        if sum(mon) != 16:
+            raise SystemExit(f"boundary monomial degree moved: {row['carrier_id']}")
     return {
         "carrier_id": row["carrier_id"],
         "projective_linear_form_Qi_sha256": row["projective_linear_form_Qi_sha256"],
         "appears_in_pi_D": row["appears_in_pi_D"],
         "appears_in_f_D": row["appears_in_f_D"],
         "full_sign_norm_total_degree": 16,
-        "norm_factorization_over_Qi": frecs,
+        "normalized_full_sign_norm_sha256": csha(normalized_terms),
+        "normalized_full_sign_norm_term_count": len(normalized_terms),
         "boundary_only": boundary_only,
-        "classification": "BOUNDARY_ONLY_COORDINATE_NORM_SUPPORT" if boundary_only else "OFF_BOUNDARY_NONCOORDINATE_NORM_SUPPORT",
-        "noncoordinate_factor_count": len(noncoord),
-        "noncoordinate_factor_degree_exponent_pairs": [[r["degree"], r["exponent_in_norm"]] for r in noncoord],
+        "classification": "BOUNDARY_ONLY_COORDINATE_MONOMIAL_NORM" if boundary_only else "OFF_BOUNDARY_NONMONOMIAL_NORM_SUPPORT",
+        "boundary_monomial_exponents_a1_a2_a3": normalized_terms[0]["monomial_exponents"] if boundary_only else None,
+        "irreducible_noncoordinate_factorization_materialized": False,
     }
 
 
@@ -135,7 +131,7 @@ def build_certificate():
 
     current = {r["carrier_id"]: r for r in inv["carrier_rows"]}
     partition = {r["carrier_id"]: r for r in part["carrier_rows"]}
-    novel_rows = [factor_novel_carrier(current[cid]) for cid in part["novel_carrier_ids"]]
+    novel_rows = [classify_novel_carrier(current[cid]) for cid in part["novel_carrier_ids"]]
     novel = {r["carrier_id"]: r for r in novel_rows}
 
     unified = []
@@ -145,14 +141,16 @@ def build_certificate():
         if p["matches_retained_stage33_07_carrier"]:
             boundary_only = bool(p["retained_boundary_only"])
             classification = p["retained_classification"]
-            source = "REUSED_RETAINED_STAGE33_07_SIGN_NORM_CLASSIFICATION"
-            factors = None
+            source = "REUSED_RETAINED_STAGE33_07_EXACT_SIGN_NORM_CLASSIFICATION"
+            norm_sha = None
+            norm_terms = None
         else:
             nr = novel[cid]
             boundary_only = nr["boundary_only"]
             classification = nr["classification"]
-            source = "R5B3B3B_EXACT_FULL_SIGN_NORM_FACTORIZATION"
-            factors = nr["norm_factorization_over_Qi"]
+            source = "R5B3B3B_EXACT_FULL_SIGN_NORM_MONOMIAL_TEST"
+            norm_sha = nr["normalized_full_sign_norm_sha256"]
+            norm_terms = nr["normalized_full_sign_norm_term_count"]
         unified.append({
             "carrier_id": cid,
             "projective_linear_form_Qi_sha256": base["projective_linear_form_Qi_sha256"],
@@ -161,23 +159,24 @@ def build_certificate():
             "classification_source": source,
             "boundary_only": boundary_only,
             "classification": classification,
-            "novel_norm_factorization_over_Qi": factors,
+            "novel_normalized_full_sign_norm_sha256": norm_sha,
+            "novel_normalized_full_sign_norm_term_count": norm_terms,
         })
 
     boundary = [r for r in unified if r["boundary_only"]]
     off = [r for r in unified if not r["boundary_only"]]
     novel_boundary = [r for r in novel_rows if r["boundary_only"]]
     novel_off = [r for r in novel_rows if not r["boundary_only"]]
-    pattern_hist = {}
+    term_hist = {}
     for r in novel_rows:
-        key = json.dumps(r["noncoordinate_factor_degree_exponent_pairs"], separators=(",", ":"))
-        pattern_hist[key] = pattern_hist.get(key, 0) + 1
+        k = str(r["normalized_full_sign_norm_term_count"])
+        term_hist[k] = term_hist.get(k, 0) + 1
 
     cert = {
-        "schema": "stage33.e3.v91c1x_r5b3b3b.classify_20_novel_carriers_and_unify_27.v1",
+        "schema": "stage33.e3.v91c1x_r5b3b3b.classify_20_novel_carriers_and_unify_27.v2",
         "stage": "33-12",
-        "candidate": "V91C1X_R5B3B3B_CLASSIFY_20_NOVEL_PI_CARRIERS_AND_UNIFY_ALL_27_BY_FULL_SIGN_NORM",
-        "role": "EXACT_NONCREDIT_FULL_SIGN_NORM_CLASSIFICATION_OF_ALL_R5B3B2_TAME_SYMBOL_LINEAR_CARRIERS_BEFORE_PRIME_DECOMPOSITION",
+        "candidate": "V91C1X_R5B3B3B_CLASSIFY_20_NOVEL_PI_CARRIERS_AND_UNIFY_ALL_27_BY_EXACT_SIGN_NORM_SUPPORT",
+        "role": "EXACT_NONCREDIT_BOUNDARY_VS_OFFBOUNDARY_CLASSIFICATION_OF_ALL_R5B3B2_TAME_SYMBOL_LINEAR_CARRIERS_BEFORE_PRIME_DECOMPOSITION",
         "entry": {"pr": 1695, "authority": AUTHORITY, "stage33_progress": "6/11"},
         "source_locks": {
             "r5b3b2_formal_symbol_carrier_inventory_sha256": B3B2_SHA,
@@ -188,21 +187,23 @@ def build_certificate():
             "quadratic_radicals": ["b1", "b2", "b3", "c"],
             "relations": {"b1^2": "a2^2+a3^2", "b2^2": "a1^2+a3^2", "b3^2": "a1^2+a2^2", "c^2": "a1^2+a2^2+a3^2"},
             "full_sign_norm_degree": 16,
-            "factorization_field": "Q(i)",
-            "boundary_only_criterion": "ALL_IRREDUCIBLE_NORM_FACTORS_ARE_COORDINATE_A1_A2_A3",
+            "coefficient_field": "Q(i)",
+            "exact_boundary_only_criterion": "NORMALIZED_FULL_SIGN_NORM_HAS_EXACTLY_ONE_MONOMIAL_IN_A1_A2_A3",
+            "criterion_reason": "A_HYPERPLANE_SECTION_HAS_ONLY_COORDINATE_BOUNDARY_SUPPORT_IFF_ITS_FULL_SIGN_NORM_IS_A_NONZERO_SCALAR_TIMES_A_MONOMIAL_IN_A1_A2_A3",
         },
-        "novel_20_exact_factorization": {
+        "novel_20_exact_norm_classification": {
             "carrier_count": len(novel_rows),
             "all_are_pi_D_only": all(r["appears_in_pi_D"] and not r["appears_in_f_D"] for r in novel_rows),
             "boundary_only_count": len(novel_boundary),
             "off_boundary_count": len(novel_off),
-            "noncoordinate_factor_pattern_histogram": pattern_hist,
+            "normalized_norm_term_count_histogram": term_hist,
             "carrier_rows": novel_rows,
+            "irreducible_factorization_of_offboundary_norms_materialized": False,
         },
         "unified_27_classification": {
             "carrier_count": len(unified),
             "reused_retained_count": 7,
-            "newly_factorized_count": 20,
+            "newly_classified_by_exact_norm_count": 20,
             "boundary_only_count": len(boundary),
             "off_boundary_count": len(off),
             "pi_D_boundary_only_count": sum(r["appears_in_pi_D"] and r["boundary_only"] for r in unified),
@@ -215,8 +216,10 @@ def build_certificate():
             "all_27_carriers_classified_boundary_vs_offboundary": len(unified) == 27 and len(boundary)+len(off) == 27,
         },
         "construction_status": {
-            "all_20_novel_pi_D_carrier_full_sign_norms_factorized_exactly_over_Qi": True,
+            "all_20_novel_pi_D_carrier_full_sign_norms_computed_exactly_over_Qi": True,
+            "all_20_novel_pi_D_carriers_classified_by_exact_norm_support": True,
             "all_27_carriers_classified_boundary_vs_offboundary": True,
+            "offboundary_norm_irreducible_factorization_materialized": False,
             "all_offboundary_carrier_hyperplane_sections_prime_decomposed_on_resolved_surface": False,
             "combined_tame_residue_squareclasses_audited": False,
             "offboundary_codimension_one_residue_cancellation_verified": False,
@@ -229,13 +232,13 @@ def build_certificate():
             "triple_overlap_action_difference_identity_verified": False,
         },
         "exact_consequence": {
-            "the_possible_nonboundary_residue_support_is_now_restricted_to_the_explicit_offboundary_subset_of_the_27_carriers": True,
+            "possible_nonboundary_residue_support_is_restricted_to_the_explicit_offboundary_subset_of_the_27_carriers": True,
             "boundary_only_carriers_require_no_new_nonboundary_prime_decomposition": True,
-            "the_next_task_is_prime_decomposition_only_for_the_offboundary_hyperplane_sections_then_combined_tame_residue_squareclasses": True,
+            "expensive_irreducible_factorization_is_deferred_to_only_the_offboundary_subset": True,
             "classification_alone_does_not_prove_unramifiedness_or_global_lift": True,
         },
-        "next_missing_object": "RESOLVED_SURFACE_PRIME_DECOMPOSITION_OF_ONLY_THE_OFFBOUNDARY_CARRIERS_IN_THE_UNIFIED_27_CLASSIFICATION_AND_EXACT_COMBINED_TAME_RESIDUE_SQUARECLASS_ON_EACH_RESULTING_PRIME",
-        "next_exact_leaf": "V91C1X_R5B3B3C_PRIME_DECOMPOSE_OFFBOUNDARY_CARRIERS_AND_COMPUTE_COMBINED_TAME_RESIDUES",
+        "next_missing_object": "IRREDUCIBLE_FACTORIZATION_AND_RESOLVED_SURFACE_PRIME_DECOMPOSITION_OF_ONLY_THE_OFFBOUNDARY_CARRIERS_IN_THE_UNIFIED_27_CLASSIFICATION_THEN_EXACT_COMBINED_TAME_RESIDUE_SQUARECLASS_ON_EACH_RESULTING_PRIME",
+        "next_exact_leaf": "V91C1X_R5B3B3C_FACTOR_AND_PRIME_DECOMPOSE_ONLY_OFFBOUNDARY_CARRIERS_THEN_COMPUTE_COMBINED_TAME_RESIDUES",
         "credit_firewall": {
             "authority_promotion": False,
             "genuine_full_surface_h2_mu2_lift_credit": False,
@@ -263,7 +266,7 @@ def main():
     cert = build_certificate()
     if args.write:
         OUT.write_text(json.dumps(cert, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    n = cert["novel_20_exact_factorization"]
+    n = cert["novel_20_exact_norm_classification"]
     u = cert["unified_27_classification"]
     print(json.dumps({
         "success": True,
