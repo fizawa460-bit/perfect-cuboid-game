@@ -29,13 +29,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          KEY='stages/stage32-ex2/runkeys/ex2-04b-blocker-checkpoint.json'
           python - <<'PY'
           import json, subprocess
           key='stages/stage32-ex2/runkeys/ex2-04b-blocker-checkpoint.json'
           d=json.load(open(key))
           assert d['schema']=='STAGE32EX2_EX2_04B_BLOCKER_CHECKPOINT_RUNKEY_V1'
-          assert d['generation']==1 and d['armed'] is True
+          assert d['generation']==2 and d['armed'] is True
           assert d['expected_current_main']=='70265586b3f97be21c7621af73f443311f1f3fa3'
           for item in d['source_locks'].values():
               actual=subprocess.check_output(['git','hash-object',item['path']],text=True).strip()
@@ -63,7 +62,33 @@ jobs:
           set -euo pipefail
           python -B stages/stage32-ex2/apply_ex2_04b_blocker_checkpoint.py
           cp stages/stage32-ex2/verify_main_state_v12_blocked.py stages/stage32-ex2/verify_main_state.py
-      - name: Verify V12 blocked checkpoint and all retained EX2 leaves
+      - name: Verify V12 state assertions only
+        run: python -B stages/stage32-ex2/verify_main_state.py --state-only
+      - name: Replay EX2-00 source lock
+        run: python -B stages/stage32-ex2/verify_ex2_00_source_lock.py
+      - name: Replay EX2-01 section sources V2
+        run: python -B stages/stage32-ex2/verify_ex2_01_section_sources_v2.py
+      - name: Replay EX2-02 fixed components
+        run: python -B stages/stage32-ex2/verify_ex2_02_fixed_components.py
+      - name: Replay EX2-03 restriction gap
+        run: python -B stages/stage32-ex2/verify_ex2_03_restriction_gap.py
+      - name: Replay EX2-03B stabilizer orbit
+        run: python -B stages/stage32-ex2/verify_ex2_03b_v6_stabilizer_orbit.py
+      - name: Replay EX2-03C omission witnesses
+        run: python -B stages/stage32-ex2/verify_ex2_03c_omission_witnesses.py
+      - name: Replay EX2-03D five-conic restriction
+        run: python -B stages/stage32-ex2/verify_ex2_03d_five_conic_restriction.py
+      - name: Replay EX2-03E adjoint-nef blocker
+        run: python -B stages/stage32-ex2/verify_ex2_03e_adjoint_nef_blocker.py
+      - name: Replay EX2-03F corrected adjoint known140
+        run: python -B stages/stage32-ex2/verify_ex2_03f_corrected_adjoint_known140.py
+      - name: Replay EX2-04A two-divisor pencil
+        run: python -B stages/stage32-ex2/verify_ex2_04a_two_divisor_section_pencil.py
+      - name: Replay EX2-04B third-section separation
+        run: python -B stages/stage32-ex2/verify_ex2_04b_third_section_valuation_separation.py
+      - name: Replay EX2-04B blocker certificate
+        run: python -B stages/stage32-ex2/verify_ex2_04b_claim_sync_blocker.py
+      - name: Verify complete V12 blocked checkpoint
         run: python -B stages/stage32-ex2/verify_main_state.py
       - name: Confirm claim-DAG remains fail-closed pending inherited main repair
         shell: bash
