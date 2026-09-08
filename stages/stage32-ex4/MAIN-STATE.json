@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX4_MAIN_COMPACT_STATE_V2_AUDIT_HANDOFF",
+  "schema": "STAGE32EX4_MAIN_COMPACT_STATE_V3_AUDITED_TERMINAL",
   "role": "ORDINARY_STAGE32EX4_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX4",
   "execution": {
@@ -10,17 +10,19 @@
     "audit_contract": "stages/stage32-ex4/AUDIT-CONTRACT.md"
   },
   "bootstrap": {
-    "base_main_sha": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
-    "work_branch": "stage32ex4-ex4-00-source-lock",
-    "active_work_pr": 1713,
+    "base_main_sha": "1eea6800e479729c41ed8767a38298384a2dbc0f",
+    "work_branch": "stage32ex4-ex4-11-audit-pass-sync",
+    "active_work_pr": 1719,
+    "audited_candidate_pr": 1713,
+    "audited_candidate_merge_commit": "1eea6800e479729c41ed8767a38298384a2dbc0f",
     "merge_authorized": false
   },
   "authority": {
     "stage32ex4_is_independent_operating_lane": true,
     "stage32_main_authority_unchanged": true,
     "state_itself_grants_mathematical_credit": false,
-    "retained_terminal_candidate_authority": "PROVISIONAL",
-    "hostile_audit_pass_recorded": false,
+    "retained_terminal_candidate_authority": "AUDITED",
+    "hostile_audit_pass_recorded": true,
     "promotion_to_stage32_main_requires_explicit_current_target_adapter": true,
     "promotion_to_stage32_main_requires_hostile_audit": true
   },
@@ -61,21 +63,20 @@
     "hostile_audit_pass_required_for_audited_success": true
   },
   "current": {
-    "status": "AUDIT_READY_FULL_TARGET_CLOSURE_PROVISIONAL_PENDING_HOSTILE_AUDIT",
-    "leaf": "EX4-11_HOSTILE_AUDIT_HANDOFF",
-    "subroute": "AUDIT_BOUNDED_NEGATIVE_TERMINAL_CANDIDATE",
-    "objective": "Hostile-audit the retained bounded terminal candidate exactly as written; do not continue research or self-repair during audit.",
-    "next_route_on_success": "HOSTILE_AUDIT_PASS_THEN_AUTHORITY_TRANSITION_SYNC",
-    "next_route_on_block": "RETURN_TO_STAGE32EX4_MAINBATCH_REPAIR",
-    "stop_semantics": "MAINBATCH_STOPS_AT_AUDIT_BOUNDARY"
+    "status": "FULL_TARGET_CLOSURE_AUDITED",
+    "leaf": "EX4-11_AUDITED_BOUNDED_TERMINAL_HOLD",
+    "subroute": "STOPPED_REENTRY_REQUIRES_NEW_MARKED_DATA_OR_EXPLICIT_MAIN_ROUTE_ADAPTER",
+    "objective": "Hold the hostile-audited bounded negative terminal. Do not re-search the frozen source package; re-enter only when one named new-data interface is supplied or an explicit current-target routing/promotion adapter is requested.",
+    "next_route_on_new_marked_data": "REENTER_FROM_MINIMAL_REENTRY_INTERFACE",
+    "next_route_on_explicit_main_adapter": "SEPARATE_EX_TO_MAIN_ROUTE_ANTI_LOOP_ADAPTER",
+    "stop_semantics": "EX4_FULL_TARGET_CLOSURE_REACHED_NO_FURTHER_MAINBATCH_RESEARCH_WITHOUT_REENTRY"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex4/AUDIT-CONTRACT.md",
     "stages/stage32-ex4/stage32-ex4.md",
+    "stages/stage32-ex4/ex4-11-hostile-audit-pass-receipt.json",
     "stages/stage32-ex4/ex4-10s-retained-bounded-terminal-candidate.json",
     "stages/stage32-ex4/verify_ex4_10s_retained_bounded_terminal_candidate.py",
-    "stages/stage32-ex4/ex4-10-bounded-terminal-decision-certificate-assembly-scratch.json",
-    "stages/stage32-ex4/verify_ex4_10_bounded_terminal_decision_certificate_assembly_scratch.py",
     "stages/stage32-ex4/verify_main_state.py",
     "stages/stage32/proof/CLAIM-REGISTRY.json",
     "stages/stage32/proof/LANE-ADAPTERS.json"
@@ -93,18 +94,26 @@
     "absolute_delta0inf_retained_W_line_identified": false,
     "absolute_Q602_residue_identified": false,
     "coordinate_model_invariance_crosscheck_complete": true,
-    "frozen_source_package_exhaustiveness_proved_candidate": true,
+    "frozen_source_package_exhaustiveness_proved_audited": true,
     "residual_ambiguity_W_line_orbit_computed": true,
     "minimal_new_datum_reentry_interface_identified": true,
     "audit_ready_full_target_closure": true,
+    "hostile_audit_pass": true,
     "terminal_outcome": "FIXED_SOURCE_PACKAGE_CANNOT_SELECT_ABSOLUTE_W_LINE",
-    "full_target_closure": false
+    "full_target_closure": true
   },
   "retained_terminal_candidate": {
     "claim_id": "S32.EX4.FIXED_SOURCE_PACKAGE_AMBIGUITY_TERMINAL.V1",
     "artifact": "stages/stage32-ex4/ex4-10s-retained-bounded-terminal-candidate.json",
     "canonical_sha256": "57b7f3e052262ff42b157b29a05bf45cf56388fe849b4202474ad63df98ae615",
-    "authority_status": "PROVISIONAL",
+    "authority_status": "AUDITED",
+    "audit_receipt": {
+      "status": "PASS",
+      "pr": 1713,
+      "review_id": 5139609916,
+      "exact_head": "e1b65ef259182502a397a5a570827c43be1ebe6c",
+      "merge_commit": "1eea6800e479729c41ed8767a38298384a2dbc0f"
+    },
     "projective_pair_classes": 24,
     "delta0inf_line_counts": {"L1": 8, "L2": 8, "L3": 8},
     "minimal_reentry_interface": [
@@ -114,11 +123,11 @@
     ]
   },
   "credit": {
-    "level": "AUDIT_READY_FULL_TARGET_CLOSURE_PROVISIONAL_NO_AUDITED_CREDIT",
-    "provisional_bounded_terminal_candidate": true,
+    "level": "FULL_TARGET_CLOSURE_AUDITED_FIXED_SOURCE_PACKAGE_CANNOT_SELECT_ABSOLUTE_W_LINE",
+    "provisional_bounded_terminal_candidate": false,
     "absolute_W_line_and_Q602_residue_identified": false,
-    "fixed_source_package_cannot_select_absolute_W_line_audited_credit": false,
-    "full_target_closure": false,
+    "fixed_source_package_cannot_select_absolute_W_line_audited_credit": true,
+    "full_target_closure": true,
     "stage32_main_credit": false,
     "Q602_residue_contraction_credit": false,
     "Q602_excluded": false,
@@ -128,13 +137,26 @@
     "endpoint_credit": false
   },
   "audit": {
-    "status": "READY_FOR_HOSTILE_AUDIT_PROVISIONAL_TERMINAL_CANDIDATE",
+    "status": "PASS_CONSUMED_BY_AUTHORITY_TRANSITION_SYNC",
     "candidate_pr": 1713,
-    "exact_head": null,
-    "review_id": null,
-    "result": null,
+    "exact_head": "e1b65ef259182502a397a5a570827c43be1ebe6c",
+    "review_id": 5139609916,
+    "result": "PASS",
+    "candidate_merge_commit": "1eea6800e479729c41ed8767a38298384a2dbc0f",
+    "authority_transition_pr": 1719,
     "pass_auto_merges": false,
     "pass_auto_promotes_to_stage32_main": false
+  },
+  "route_anti_loop": {
+    "audited_fact_available": true,
+    "do_not_repeat_frozen_package_without_new_marked_data": true,
+    "stage32_main_mathematical_frontier_changed": false,
+    "explicit_main_promotion_adapter_present": false,
+    "reentry_requires_one_of": [
+      "DIRECT_DELTA0INF_RETAINED_J2_COORDINATE",
+      "EXACT_PRODUCT_ELEMENT_BINDING",
+      "BRANCH_LABELLED_SYMPLECTIC_HOMOLOGY_OR_LEVEL_MARKING"
+    ]
   },
   "firewalls": {
     "gauge_choice_promoted_to_absolute_marking": false,
