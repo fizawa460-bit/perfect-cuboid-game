@@ -22,11 +22,7 @@ BU=load(ROOT/'stages/stage36/verify_stage36_36_09BU.py','bu')
 
 
 def parity_support(n:int):
-    out=[]
-    for q in BU.primes(abs(n)):
-        if BU.vq(n,q)%2:
-            out.append(q)
-    return out
+    return [q for q in BU.primes(abs(n)) if BU.vq(n,q)%2]
 
 
 def main():
@@ -39,14 +35,20 @@ def main():
     kappa=eta*(2**e)*C; rho=(2**f)*D
     xi=[A*B,kappa*A,rho*A]
     supports=[parity_support(x) for x in xi]
-    finite=sorted(set(q for ss in supports for q in ss))
+    class_ramified_finite=sorted({2,*[q for ss in supports for q in ss if q!=2]})
+    cover_bad_finite=sorted(set(BU.primes(2*P*M*D0*Q*A*B*C*D)))
     payload={
         'selection':'p=1/2, first CK survivor in exact CK.panel order',
         'panel':{'a':a,'b':b,'P':P,'M':M,'D0':D0,'Q':Q,'row_index':i,'row':list(row),'all_CK_survivor_indices':[j for j,_ in kept]},
-        'global_class':{'kappa':kappa,'rho':rho,'Xi_BT':xi,'coordinate_parity_supports':supports},
-        'required_place_inventory':['2',*[str(q) for q in finite if q!=2],'infinity'],
-        'real_signs':[1 if x>0 else -1 for x in xi],
+        'global_class':{'kappa':kappa,'rho':rho,'Xi_BT':xi,'coordinate_parity_supports':supports,'finite_ramification_support':class_ramified_finite,'real_signs':[1 if x>0 else -1 for x in xi]},
+        'BT_cover_finite_bad_places':cover_bad_finite,
+        'CK_good_prime_family':'all odd primes outside divisors of 2*P*M*D0*Q; q>=1163 automatic, smaller good q checked exactly',
+        'LIT_WF02_required_place_inventory_identified':False,
+        'reason':'class ramification support, BT-cover bad-place support, and the CK good-prime family are distinct notions; the current sources do not yet prove the finite theorem-specific required-place selection rule demanded by LIT-WF02',
     }
+    assert payload['global_class']['Xi_BT']==[1,-1,1]
+    assert payload['global_class']['finite_ramification_support']==[2]
+    assert payload['BT_cover_finite_bad_places']==[2,3,5,7]
     print(json.dumps(payload,sort_keys=True))
 
 if __name__=='__main__':
