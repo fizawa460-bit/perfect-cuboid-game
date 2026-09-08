@@ -1,0 +1,186 @@
+{
+  "schema": "STAGE32EX1_EX1_05T_ISOLATED_EQUIDEFECT_POINT_OBSTRUCTION_COUNT_PREFLIGHT_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05T_ISOLATED_EQUIDEFECT_POINT_OBSTRUCTION_OR_COUNT_PREFLIGHT",
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "scratch_parent_head": "2e19fb077640715393beed13b161338ccdfc24c8",
+  "current_main_seen": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "question": "Can the isolated superabundant equigeneric point forced by 05R/05S be ruled out by its obstruction dimension, a standard virtual count, or expected-codimension Severi intersection theory?",
+  "source_locks": {
+    "parent_05r": {
+      "path": "stages/stage32-ex1/scratch/ex1-05r-conductor-adjoint-global-evaluation-preflight.json",
+      "exact_use": "For every r=0..28, M=omega_D tensor phi^*omega_Q^{-1} has degree -162+2r<0 and H^0(M)=0, so any required low-genus image is equigenerically isolated."
+    },
+    "parent_05s": {
+      "path": "stages/stage32-ex1/scratch/ex1-05s-common-cover-forced-equidefect-deformation-preflight.json",
+      "blob_sha1": "ea5ae6f8bc8bb01c9cf4148b7839bb22f793e5b4",
+      "exact_use": "All first-order map deformations supplied by the pair-map normal sheaf are torsion and die under the first-order image-deformation map; common-cover structure does not contradict equigeneric isolation."
+    },
+    "parent_05n_same_target_counterexample": {
+      "path": "stages/stage32-ex1/scratch/ex1-05n-hurwitz-simultaneous-cover-dimension-preflight.json",
+      "blob_sha1": "80f315b43e88370e11ba44b0352f00a2ae3b64b9",
+      "exact_use": "On the identical target Q=C2xC2, the diagonal Delta:C2->Q exists with h0(N_Delta)=0, h1(N_Delta)=3 and virtual dimension -3. Thus isolated obstructed maps of negative virtual dimension exist on this target."
+    },
+    "dedieu_sernesi": {
+      "authors": ["Thomas Dedieu", "Edoardo Sernesi"],
+      "title": "Equigeneric and equisingular families of curves on surfaces",
+      "journal": "Publicacions Matematiques 61 (2017), 175-212",
+      "doi": "10.5565/PUBLMAT_61117_07",
+      "arxiv": "1410.4221",
+      "exact_use": "The conductor/adjoint ideal controls the equigeneric tangent cone; failure of the restriction map to be smooth is precisely the mechanism by which global equigeneric loci can be superabundant."
+    },
+    "chiantini_ciliberto": {
+      "authors": ["Luca Chiantini", "Ciro Ciliberto"],
+      "title": "On the Severi varieties of surfaces in P^3",
+      "journal": "Journal of Algebraic Geometry 8 (1999), 67-83",
+      "arxiv": "math/9802009",
+      "exact_use": "Smooth projective surfaces can have nonempty superabundant Severi components even when the expected dimension is negative; negative expected dimension is not a general emptiness theorem."
+    },
+    "behrend_fantechi": {
+      "authors": ["Kai Behrend", "Barbara Fantechi"],
+      "title": "The intrinsic normal cone",
+      "journal": "Inventiones Mathematicae 128 (1997), 45-88",
+      "doi": "10.1007/s002220050136",
+      "exact_use": "A perfect obstruction theory produces a virtual fundamental class of the virtual dimension. Virtual intersection data record obstruction excess; they do not identify set-theoretic support with the virtual cycle."
+    }
+  },
+  "setup": {
+    "surface": "Q=C2xC2 over C",
+    "curve_class_bidegree": [105,81],
+    "linear_system_dimension": 7717,
+    "p_a": 8090,
+    "normalization_genus_formula": "g=106+r",
+    "delta_formula": "delta=7984-r",
+    "r_range": [0,28],
+    "retained_residues": [73,97,235]
+  },
+  "exact_obstruction_saturation": {
+    "line_bundle": "M=omega_D tensor phi^*omega_Q^{-1}",
+    "degree_formula": "deg M=-162+2r",
+    "h0": 0,
+    "riemann_roch_formula": "chi(M)=deg(M)+1-g=r-267",
+    "h1_formula": "h1(M)=267-r",
+    "h1_range": [239,267],
+    "fixed_linear_system_expected_dimension_formula": "dim|L|-delta=r-267",
+    "fixed_linear_system_expected_dimension_range": [-267,-239],
+    "superabundance_excess_formula": "delta-dim|L|=267-r",
+    "identity": "h1(M)=delta-dim|L|=-(dim|L|-delta)",
+    "interpretation": "The entire negative expected-dimension deficit is already accounted for by the exact obstruction cohomology of the member-specific conductor-twisted normal line bundle. There is no leftover sign or rank contradiction."
+  },
+  "counting_boundary": {
+    "equigeneric_actual_local_dimension": 0,
+    "expected_local_dimension_formula": "r-267",
+    "standard_virtual_or_expected_codimension_count_excludes_support": false,
+    "reason_1": "A virtual class records the obstruction theory at the expected dimension, not the set-theoretic nonemptiness of an obstructed moduli space.",
+    "reason_2": "The identical target already contains the diagonal, an isolated obstructed negative-virtual-dimension curve, so no target-wide principle of the form isolated plus negative virtual dimension implies nonexistence is legal.",
+    "reason_3": "Known superabundant Severi examples on smooth projective surfaces show that negative expected dimension can coexist with actual curves when the global-to-local restriction is non-transverse.",
+    "ordinary_positive_local_count_obtained": false,
+    "ordinary_zero_local_count_promoted_to_emptiness": false
+  },
+  "statewise_replay": {
+    "Q_values": [210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266],
+    "Q_states_entering": 29,
+    "Q_states_excluded": 0,
+    "Q_states_leaving": 29,
+    "Q602_residues_per_Q": [73,97,235],
+    "all_states_obstruction_saturated": true
+  },
+  "decision": {
+    "route_status": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "new_exact_pattern": "ISOLATED_SUPERABUNDANCE_DEFICIT_IS_EXACTLY_THE_H1_OF_THE_CONDUCTOR_TWISTED_NORMAL_LINE_BUNDLE",
+    "virtual_count_obstruction_excludes": false,
+    "Severi_expected_dimension_excludes": false,
+    "Q_states_excluded": 0,
+    "Q602_residues_excluded": 0,
+    "V6_carrier_excluded": false,
+    "exact_blocker": "A nonexistence theorem must use geometry not already encoded by the obstruction rank: local singularity type, self-identification/double-point structure, full monodromy, or an actual member equation. Standard expected-dimension or virtual-count formalism is blind to the set-theoretic existence of this isolated obstructed point.",
+    "reopen_condition": "Reopen only with a source-bound local invariant whose value is forced nonzero/positive for every isolated target member but is incompatible with the exact V6/common-cover data."
+  },
+  "breadth_audit": {
+    "trigger": "The same isolated-superabundant receiver survived 05S and 05T, and the preferred route reached a pure virtual-count theorem gate; cycle anti-optimization trigger applies.",
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "generated_views": [
+      {
+        "id": "LOCAL_DOUBLE_POINT_CONDUCTOR_COMMON_RAMIFICATION_SPLIT",
+        "status": "LIVE",
+        "reason": "Use the exact normalization map, delta=7984-r, common-ramification torsion tau, and self-intersection 15806 to separate nonimmersive singularity contribution from self-identification contribution. This attacks actual local geometry rather than virtual dimension."
+      },
+      {
+        "id": "FULL_LOW_RAMIFICATION_MONODROMY_NEAR_ETALE",
+        "status": "UNTESTED",
+        "reason": "The degree-105 map has only 2r total ramification and is etale at r=0. Full permutation/orbifold monodromy may impose discrete constraints beyond the V4 mod-2 quotient already used in 05O."
+      },
+      {
+        "id": "STANDARD_VIRTUAL_OR_EXPECTED_DIMENSION_COUNT",
+        "status": "DOMINATED",
+        "reason": "05T identifies the complete deficit with H1(M), while 05N supplies a same-target isolated negative-vdim existing curve. No-recharge forbids using negativity again as emptiness."
+      },
+      {
+        "id": "GENERIC_SEVERI_TRANSVERSALITY",
+        "status": "DOMINATED",
+        "reason": "05J/05R already replaced generic transversality by the exact zero member-specific equigeneric tangent cone."
+      },
+      {
+        "id": "ACTUAL_V6_SECTION_MATERIALIZATION",
+        "status": "UNTESTED",
+        "reason": "Decisive reconstruction remains owned by EX2 and should only be imported through an exact adapter."
+      }
+    ]
+  },
+  "candidate_ledger": {
+    "LIVE": ["LOCAL_DOUBLE_POINT_CONDUCTOR_COMMON_RAMIFICATION_SPLIT"],
+    "UNTESTED": ["FULL_LOW_RAMIFICATION_MONODROMY_NEAR_ETALE", "ACTUAL_V6_SECTION_MATERIALIZATION"],
+    "BLOCKED": [
+      "D0_SUPPORT_EXTRACTION_FROM_CURRENT_CORRESPONDENCE_ROSATI_DEGREE_DATA",
+      "NORMALIZATION_MAP_TANGENT_TORSION_VS_DELTA_WITHOUT_SINGULARITY_TYPE_INPUT",
+      "RAMIFICATION_DIFFERENCE_SPIN_PARITY_WITHOUT_COEFFICIENTWISE_ODD_RAMIFICATION_PROFILE"
+    ],
+    "DOMINATED": [
+      "COMMON_COVER_FORCED_EQUIDEFECT_DEFORMATION",
+      "PLAIN_SIMULTANEOUS_HURWITZ_EXPECTED_DIMENSION_WITHOUT_OBSTRUCTION_OR_MONODROMY_INPUT",
+      "STANDARD_VIRTUAL_OR_EXPECTED_DIMENSION_COUNT",
+      "GENERIC_JET_SEPARATION_REIDER_EQUIGENERIC_TRANSVERSALITY_AT_REQUIRED_DELTA_SCALE",
+      "Q602_EFFECTIVITY_OR_INTEGRALITY_AS_A_CLASS_LEVEL_OBSTRUCTION",
+      "PLAIN_CASTELNUOVO_SEVERI_TWO_PROJECTION_GENUS_BOUND_BY_EXISTING_ROSATI_DEFECT"
+    ],
+    "EQUIVALENT": []
+  },
+  "next_route": {
+    "route_id": "EX1_05U_LOCAL_DOUBLE_POINT_CONDUCTOR_COMMON_RAMIFICATION_SPLIT_PREFLIGHT",
+    "selection_reason": "05T closes pure obstruction-count methods. The nearest exact member-level data are the double-point/conductor identity and the common-ramification torsion tau, which may constrain the local singularity budget without assuming transversality or support data."
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "CYCLE_ACTIVE_RECEIVER": "ISOLATED_SUPERABUNDANT_EQUIDEFECT_POINT_WITH_EXACT_OBSTRUCTION_EXCESS_267_MINUS_R",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 2,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "LOCAL_DOUBLE_POINT_CONDUCTOR_COMMON_RAMIFICATION_SPLIT",
+    "CYCLE_NEW_VIEW_SOURCE": "BLIND"
+  },
+  "replay": {
+    "verifier": "stages/stage32-ex1/scratch/verify_ex1_05t_isolated_equidefect_point_obstruction_count.py",
+    "expected": "PASS_EX1_05T_OBSTRUCTION_SATURATION"
+  },
+  "firewalls": {
+    "negative_expected_dimension_promoted_to_emptiness": false,
+    "negative_virtual_dimension_promoted_to_emptiness": false,
+    "zero_equigeneric_tangent_promoted_to_nonexistence": false,
+    "virtual_count_vanishing_promoted_to_empty_support": false,
+    "same_target_diagonal_promoted_to_same_class_realizability": false,
+    "Q_state_exclusion_claimed": false,
+    "Q602_exclusion_claimed": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  }
+}
