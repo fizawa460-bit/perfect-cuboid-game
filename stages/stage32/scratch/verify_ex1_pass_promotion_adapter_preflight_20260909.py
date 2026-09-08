@@ -10,7 +10,7 @@ HERE = Path(__file__).resolve().parent
 ART = HERE / "ex1-pass-promotion-adapter-preflight-20260909.json"
 FRONT = ROOT / "stages/stage32/proof/ACTIVE-FRONTIER.json"
 
-EXPECTED_CANONICAL = "3a462d9f7462f898dd89ff3865a5873bc1bd867abea6191f6803673049e41e0b"
+EXPECTED_CANONICAL = "f7f8ac5d0c141f78d16974e8a4a939e88d404088bcd83c4ad1a505afef4547ee"
 EXPECTED_AUDITED_HEAD = "e3c4a04d5010e6dca9428722e334890e2614297a"
 EXPECTED_REVIEW = 5147627146
 EXPECTED_EX1_CORE = "84e7a4b6990d7c687eebe341fbea296fad1da2cae4785cb87580a0d84572437a"
@@ -70,6 +70,15 @@ def main() -> None:
     ]
     assert all(x["promotion_granted_now"] is False for x in a["candidate_adapters"])
     assert all(x["status_needed_for_consumption"] == "AUDITED" for x in a["candidate_adapters"])
+
+    ver = a["versioning_consequence"]
+    assert ver["main_v6_goal_V1_can_be_mutated_to_audited_from_EX1_evidence"] is False
+    assert ver["candidate_new_main_v6_claim"] == "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2"
+    assert ver["o210_goal_V1_can_be_mutated_to_audited_from_v6_empty_adapter"] is False
+    assert ver["candidate_new_o210_claim"] == "S32.O210.EXCLUSION.V2"
+    assert ver["q602_goal_V1_can_be_mutated_to_audited_from_v6_empty_adapter"] is False
+    assert ver["candidate_new_q602_claim"] == "S32.Q602.EXCLUSION.V2"
+    assert ver["active_frontier_remap_required_after_audited_replacements"] is True
 
     gate = a["authority_gate"]
     assert gate["hostile_pass_known"] is True
