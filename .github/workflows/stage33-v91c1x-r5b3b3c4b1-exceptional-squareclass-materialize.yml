@@ -1,0 +1,55 @@
+name: Stage33 V91C1X R5B3B3C4B1 exceptional P1 squareclass materialize
+
+on:
+  push:
+    branches:
+      - stage33-v91c1x-r5b2d0-swap23-source-lock
+    paths:
+      - stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b1_exceptional_p1_targeted_residue_field_squareclass.py
+      - .github/workflows/stage33-v91c1x-r5b3b3c4b1-exceptional-squareclass-materialize.yml
+
+permissions:
+  contents: write
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact materializer dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Materialize C4B1 exact exceptional squareclasses
+        shell: bash
+        run: |
+          set +e
+          python stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b1_exceptional_p1_targeted_residue_field_squareclass.py --write > /tmp/c4b1.log 2>&1
+          rc=$?
+          cat /tmp/c4b1.log
+          if [ "$rc" -ne 0 ]; then
+            exit "$rc"
+          fi
+      - name: Enforce bounded generated delta
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected='stages/stage33/33-12/e3-v91c1x-r5b3b3c4b1-exceptional-p1-targeted-residue-field-squareclass.json'
+          changed="$(git status --porcelain | sed -E 's/^.. //' || true)"
+          test "$changed" = "$expected"
+          git diff --check
+      - name: Commit generated artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add stages/stage33/33-12/e3-v91c1x-r5b3b3c4b1-exceptional-p1-targeted-residue-field-squareclass.json
+          git commit -m '[Stage33] materialize R5B3B3C4B1 exceptional squareclasses'
+          git push
