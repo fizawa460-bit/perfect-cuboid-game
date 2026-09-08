@@ -50,16 +50,17 @@ def main():
     rows = {r["carrier_id"]: r for r in b3b2["finite_linear_carrier_inventory"]["carrier_rows"]}
     cls = b3["unified_27_classification"]
     off_ids = list(cls["off_boundary_carrier_ids"])
+    if len(off_ids) != int(cls["off_boundary_count"]):
+        raise SystemExit("off-boundary carrier count/list mismatch")
     novel_meta = {r["carrier_id"]: r for r in b3["novel_20_exact_norm_classification"]["carrier_rows"]}
-    if len(off_ids) != 20:
-        raise SystemExit("expected exactly 20 off-boundary carriers")
 
     out_rows = []
+    total = len(off_ids)
     for index, cid in enumerate(off_ids, 1):
         row = rows[cid]
         poly = b3b3b.full_sign_norm_poly(row["normalized_coefficients_Qi"])
         coeffs_rational = all(c.is_Rational is True for c in poly.coeffs())
-        print(f"[{index:02d}/20] {cid} degree={poly.total_degree()} rational={coeffs_rational}", flush=True)
+        print(f"[{index:02d}/{total:02d}] {cid} degree={poly.total_degree()} rational={coeffs_rational}", flush=True)
         if not coeffs_rational:
             out_rows.append({
                 "carrier_id": cid,
@@ -105,6 +106,7 @@ def main():
         },
         "result": {
             "off_boundary_count": len(out_rows),
+            "b3b3b_undecidable_count": int(cls["undecidable_count"]),
             "all_norm_coefficients_rational": all(r["all_norm_coefficients_rational"] for r in out_rows),
             "witnessed_irreducible_over_Qi_count": sum(r["qi_irreducibility_witness_prime"] is not None for r in out_rows),
             "unwitnessed_carrier_ids": [r["carrier_id"] for r in out_rows if r["qi_irreducibility_witness_prime"] is None],
