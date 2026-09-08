@@ -13,6 +13,7 @@ CTX = 'S32.MAIN.CURRENT_TARGET_CONTEXT.V1'
 EX3 = 'S32.EX3.O210_COVER_GEOMETRY_EXCLUSION_TERMINAL.V1'
 AD = 'S32.ADAPTER.EX3_O210_TO_MAIN_O210.V3'
 CORE = '7003e228cbb0273e1ac6352bd9535a5f10ca5964bc6d4072130d20012aaec824'
+CTX_CORE = 'cb3aa4b36332cda9d960103972e7235d3cf7b1bc41fcefc99f19a050a7ab2f14'
 AUDIT = {
     'status': 'PASS',
     'pr': 1714,
@@ -28,11 +29,13 @@ def dump_pretty(path: Path, obj: dict) -> None:
     path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
 
 # V3 is intentionally an ACTIVE-FRONTIER claim, not a base CLAIM-REGISTRY record.
-# Registry remains read-only and supplies the immutable audited dependencies plus V2 history.
+# Registry remains read-only and supplies a DECLARED_GOAL target context plus audited proof dependencies.
 reg = json.loads(REG.read_text(encoding='utf-8'))
 by = {c['claim_id']: c for c in reg['claims']}
 assert CID not in by
-assert by[CTX]['authority_status'] == 'AUDITED'
+assert by[CTX]['authority_status'] == 'DECLARED_GOAL'
+assert by[CTX]['audit_receipt'] is None
+assert by[CTX]['claim_core_sha256'] == CTX_CORE
 assert by[EX3]['authority_status'] == 'AUDITED' and by[EX3]['audit_receipt']['status'] == 'PASS'
 assert by[AD]['authority_status'] == 'AUDITED' and by[AD]['audit_receipt']['status'] == 'PASS'
 assert by[OLD]['authority_status'] == 'SUPERSEDED'
