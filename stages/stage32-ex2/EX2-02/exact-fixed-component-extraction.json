@@ -1,0 +1,119 @@
+{
+  "canonical_sha256_without_this_field": "4e5a0a8fd868ca92ff09316fbddb67c02c8dda674534852754dc2113e4c8fbb2",
+  "claim_sync": {
+    "reason": "The EX2 working branch is intentionally frozen behind current main during the leaf; shared Stage32 claim-DAG files must not be overwritten from this stale branch before reconciliation.",
+    "required_before_checkpoint_is_claim_dag_complete": true,
+    "status": "PENDING_CURRENT_MAIN_RECONCILIATION",
+    "trigger": "RETAINED_CONSOLIDATION"
+  },
+  "credit_firewall": {
+    "Q602_excluded": false,
+    "complete_linear_system_reconstructed": false,
+    "endpoint_credit": false,
+    "explicit_V6_genus1_member_verified": false,
+    "explicit_V6_member_materialized_in_coordinates": false,
+    "fixed_part_fully_classified": false,
+    "integral_irreducible_V6_member_obtained": false,
+    "known140_fixed_part_proved_empty": false,
+    "O210_excluded": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "population_wide_no_genus1_member_proved": false,
+    "receiver_credit": false,
+    "stage32_main_credit": false,
+    "theorem_credit": false
+  },
+  "exact_scan": {
+    "all140_pairings_sha256": "4d4f6d306fcd1974ebb539c5adc65a0d595ca8d471d2a12b1e785bac7f41c9a3",
+    "maximum_pairing": 56,
+    "minimum_pairing": 0,
+    "negative_labels_1based": [],
+    "negative_pairing_count": 0,
+    "pairing_count": 140,
+    "positive_pairing_count": 133,
+    "scan_exact": true,
+    "zero_pairing_count": 7,
+    "zero_pairing_labels_1based": [
+      17,
+      21,
+      24,
+      25,
+      30,
+      31,
+      98
+    ]
+  },
+  "exit": {
+    "EX2_02_complete": true,
+    "bounded_negative_intersection_gate_closed": true,
+    "next_leaf": "EX2-03_BASE_LOCUS_AND_MOVING_SYSTEM_STRUCTURE",
+    "next_objective": "Analyze |D| itself because no fixed component has been proved: distinguish divisorial from zero-dimensional base locus, obtain exact restriction/base-locus information where source-bound, and test whether the system is composed with a pencil or known fibration without asserting that the fixed part is empty.",
+    "result_type": "EXACT_BOUNDED_NO_HIT_WITH_EXPLICIT_CREDIT_CEILING"
+  },
+  "fixed_component_extraction": {
+    "full_fixed_part_proved_zero": false,
+    "iterative_subtraction_entered": false,
+    "known140_fixed_part_proved_zero": false,
+    "logic": "If an irreducible curve E has D.E<0, then every effective representative of D contains E; after a certified subtraction the same test may be iterated on the effective residual system.",
+    "negative_seed_set_empty": true,
+    "new_forced_fixed_components_certified_by_this_gate": 0,
+    "new_forced_fixed_multiplicities": [],
+    "residual_after_certified_subtractions": "D=V6",
+    "residual_is_proved_moving_part": false
+  },
+  "schema": "STAGE32EX2_EX2_02_EXACT_FIXED_COMPONENT_EXTRACTION_V1",
+  "source_locks": {
+    "ex2_00_target_contract": {
+      "blob_sha1": "b72b7582339d3933ac4485a1cf92c7be07809dc9",
+      "path": "stages/stage32-ex2/EX2-00/v6-source-lock-target-contract.json",
+      "scope": "IMMUTABLE_V6_TARGET_AND_LINEAR_SYSTEM_BOUNDARY"
+    },
+    "ex2_01_section_inventory": {
+      "blob_sha1": "3f9ddf435093dfd681373a1e01f455d0db04642d",
+      "path": "stages/stage32-ex2/EX2-01/section-source-inventory.json",
+      "scope": "ONE_CERTIFIED_ABSTRACT_SECTION_LINE_NOT_COMPLETE_H0"
+    },
+    "known140_exact_replay": {
+      "blob_sha1": "e0bbe443919d1ec5424bffa84c1c5a79befbdf1e",
+      "canonical_sha256": "03adb4f7522470dd15fa0a74e1c142da823824a6e9d853348615f670c159d25d",
+      "path": "stages/stage32/residual-32-01-production/post1648ag-v6-known140-basis-elimination.json",
+      "scope": "EXACT_CONFIRMATION_THAT_STORED_V6_ALL140_PAIRINGS_REPLAY_FROM_RETAINED_PICARD64_DATA"
+    },
+    "v6_witness": {
+      "all140_pairings_sha256": "4d4f6d306fcd1974ebb539c5adc65a0d595ca8d471d2a12b1e785bac7f41c9a3",
+      "blob_sha1": "dae90ed19395355bebeebe2a6aa6bb1c6e53c244",
+      "canonical_sha256": "d0c1c8bddfe3950737ed6f87ffa74acd850c736298bd12ec1eceac609625b8a8",
+      "path": "stages/stage32/32-21/post1473-v6-witness-body-recovered.json",
+      "scope": "EXACT_V6_INTERSECTIONS_WITH_RETAINED_KNOWN140_LABELS"
+    }
+  },
+  "stage": "32EX2",
+  "status": "PASS_BOUNDED_NEGATIVE_INTERSECTION_SCAN_EMPTY_NO_FIXED_PART_CLASSIFICATION",
+  "target": {
+    "base_field_context": "QBAR_GEOMETRIC",
+    "bounded_population": "retained known-140 curve labels 1..140 with exact stored V6 intersections",
+    "complete_linear_system": "|V6|",
+    "divisor_class": "V6",
+    "negative_intersection_test": "D.E<0 is a sufficient fixed-component trigger for an irreducible curve E on the smooth surface",
+    "population_size": 140,
+    "surface": "minimal desingularization S of the canonical cuboid surface"
+  },
+  "unit": "EX2-02",
+  "unresolved": {
+    "complete_H0_or_base_ideal_still_missing": true,
+    "curves_outside_retained_known140_remain_uncontrolled": true,
+    "fixed_part_fully_classified": false,
+    "one_known140_reducible_member_is_not_promoted_to_fixed_part": true,
+    "positive_pairing_does_not_by_itself_rule_out_fixedness": true,
+    "retained_known140_is_not_asserted_exhaustive_for_all_possible_fixed_curves": true,
+    "zero_pairing_labels_are_not_proved_fixed_or_moving": [
+      17,
+      21,
+      24,
+      25,
+      30,
+      31,
+      98
+    ]
+  }
+}
