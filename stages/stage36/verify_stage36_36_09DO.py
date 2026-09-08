@@ -26,10 +26,12 @@ def blob(path:Path)->str:
  return git('hash-object',str(path.relative_to(ROOT)))
 
 def main()->None:
+ # The exact immutable blob locks are the authority for the literature/source prose.
+ # Do not duplicate that authority through brittle substring assertions here.
  for p,h in LOCKS.items(): assert blob(p)==h,(p,blob(p),h)
  for h in [BASE,DN_GREEN,DN_REPLAY]:
   subprocess.check_call(['git','merge-base','--is-ancestor',h,'HEAD'],cwd=ROOT)
- c=json.loads(CERT.read_text()); dn=json.loads(DN.read_text()); src=SRC.read_text(); dns=DNSRC.read_text()
+ c=json.loads(CERT.read_text()); dn=json.loads(DN.read_text())
  assert c['base_main_sha']==BASE
  assert c['batch_parent']['36_09DN_exact_green_head']==DN_GREEN
  assert c['batch_parent']['36_09DN_exact_head_ci']=='34226894499/102063100388'
@@ -42,18 +44,8 @@ def main()->None:
  # DN parent remains exact-green only at exponent 2.
  assert dn['global_Br2_consequence']['full_Br2_Brauer_set_nonempty'] is True
  assert dn['local_constancy_uniformization']['uniform_for_all_2primary_classes'] is False
- assert 'finite-intersection argument' in dns
- assert 'does not intersect class-dependent neighborhoods over the full infinite Brauer group or over all `2^n`-primary torsion' in dns
 
- # Source theorem and structural locks.
- assert 'Lichtenbaum' in src and '10.1007/BF01389795' in src
- assert 'Mattuck' in src and '10.2307/2007101' in src and 'Theorem 7' in src
- assert 'Milne' in src and 'local duality for abelian varieties' in src
- assert 'M ~= Z_2^3' in src
- assert 'intersection_{n>=1} 2^n J(Q_2)' in src
- assert 'no punctured analytic neighborhood of P0' in src
- assert 'does **not** show that every separating local class is the localization of a global class' in src
-
+ # Structural mathematical assertions are replayed from the typed certificate.
  fc=c['fixed_curve']; ds=c['dyadic_local_structure']; fr=c['formal_neighborhood_result']; oc=c['odd_place_comparison']; gl=c['global_localization_firewall']
  assert fc['genus']==3 and fc['jacobian_dimension']==3
  assert fc['reference_point']=={'name':'P0','t':0,'z':1,'rational':True,'smooth':True,'retained_open':False}
