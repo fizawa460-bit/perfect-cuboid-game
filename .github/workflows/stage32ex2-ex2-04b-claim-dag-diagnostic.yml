@@ -11,6 +11,52 @@ permissions:
   contents: read
 
 jobs:
+  main-baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact pushed head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch and pin current main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          test "$(git rev-parse origin/main)" = "70265586b3f97be21c7621af73f443311f1f3fa3"
+      - name: Create detached current-main worktree
+        shell: bash
+        run: |
+          set -euo pipefail
+          git worktree add --detach /tmp/stage32-main-baseline origin/main
+          cp stages/stage32-ex2/diagnose_stage32_claim_dag_phase.py /tmp/stage32-main-baseline/stages/stage32-ex2/diagnose_stage32_claim_dag_phase.py
+      - name: Main DAG phase 1 shape and FINAL contract
+        working-directory: /tmp/stage32-main-baseline
+        run: python -B stages/stage32-ex2/diagnose_stage32_claim_dag_phase.py shape
+      - name: Main DAG phase 2 immutable claim cores
+        working-directory: /tmp/stage32-main-baseline
+        run: python -B stages/stage32-ex2/diagnose_stage32_claim_dag_phase.py claims
+      - name: Main DAG phase 3 dependency semantics
+        working-directory: /tmp/stage32-main-baseline
+        run: python -B stages/stage32-ex2/diagnose_stage32_claim_dag_phase.py dependencies
+      - name: Main DAG phase 4 replay paths
+        working-directory: /tmp/stage32-main-baseline
+        run: python -B stages/stage32-ex2/diagnose_stage32_claim_dag_phase.py replay
+      - name: Main DAG phase 5 source locks
+        working-directory: /tmp/stage32-main-baseline
+        run: python -B stages/stage32-ex2/diagnose_stage32_claim_dag_phase.py sources
+      - name: Main DAG phase 6 lane adapters
+        working-directory: /tmp/stage32-main-baseline
+        run: python -B stages/stage32-ex2/diagnose_stage32_claim_dag_phase.py lanes
+      - name: Main full claim-DAG integrity verifier
+        working-directory: /tmp/stage32-main-baseline
+        run: python -B stages/stage32/proof/verify_stage32_claim_dag.py --integrity
+
   diagnose:
     runs-on: ubuntu-latest
     timeout-minutes: 10
