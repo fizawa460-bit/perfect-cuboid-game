@@ -70,7 +70,12 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CP.py"
           git worktree remove --force "$tmp"
-      - name: Assert CP hostile-audit checkpoint firewalls
+      - name: Verify 36-09CQ global-dual reciprocity boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09CQ.py
+      - name: Assert CQ promotion and credit firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -78,28 +83,43 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V141_36_09CP_HOSTILE_AUDIT_CHECKPOINT'
-          cp=s['authority_frontier']['36-09CP']
-          assert cp['status']=='PROVISIONAL_EXACT_GREEN_CHECKPOINT'
-          assert cp['certificate_blob_sha']=='3ea852b149986c1ac0b3916005b605b138b21feb'
-          assert cp['verifier_blob_sha']=='6c8eaae4ef67ab8150b7e294fff43c96d41dca26'
-          assert cp['exact_head']=='acb10a76b8adcd07d52dc977e4257790395f535a'
-          assert cp['exact_head_ci']=='34181510945/101921388094'
-          assert cp['EXISTING_PW07_SUPPLIES_BT_DUAL_ADAPTER'] is False
-          assert cp['EXISTING_PW07_SUPPLIES_BT_POITOU_TATE_LOCAL_CONDITIONS'] is False
-          assert cp['FIRST_MISSING_OBLIGATION']=='BT_CARTIER_DUAL_CLASS_AND_LOCAL_CONDITION_ADAPTER'
-          assert cp['LIT_WF02_APPLICABILITY_PASS'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V142_36_09CQ_GLOBAL_DUAL_RECIPROCITY_BOUNDARY'
+          hist=s['audited_history']['36-09CM-CP']
+          assert hist['status']=='AUDITED_MERGED_AUTHORITY'
+          assert hist['pr']==1707
+          assert hist['hostile_audit_review']==5137131273
+          assert hist['audited_exact_head']=='e1c76660f08190709bff6ccf4336ac425020f156'
+          assert hist['exact_head_ci']=='34183931952/101928383350'
+          assert hist['merged_main_sha']=='0afdbe5a0e4131e46b176800ca466795230d9702'
+          cq=s['authority_frontier']['36-09CQ']
+          assert cq['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert cq['certificate_blob_sha']=='c7042cc86ff94cf94db88c8cc65ce5b69441aabe'
+          assert cq['verifier_blob_sha']=='e6933b4b960f3899ffdd920880fc8641f3215525'
+          assert cq['BT_CARTIER_DUAL_MODULE_IDENTIFIED'] is True
+          assert cq['GLOBAL_DUAL_H1_PAIRING_TOTAL_NONTRIVIAL'] is False
+          assert cq['GLOBAL_DUAL_CLASS_ALONE_SUPPLIES_OBSTRUCTION'] is False
+          assert cq['BT_GEOMETRY_BOUND_DUAL_EVALUATION_ADAPTER_COMPLETE'] is False
+          assert cq['BT_POITOU_TATE_LOCAL_CONDITION_SYSTEM_COMPLETE'] is False
+          assert cq['FIRST_MISSING_OBLIGATION']=='BT_GEOMETRIC_CONNECTING_MAP_OR_POINT_DEPENDENT_LOCAL_EVALUATION_ADAPTER'
+          assert cq['LIT_WF02_APPLICABILITY_PASS'] is False
+          assert cq['NEW_GLOBAL_OBSTRUCTION_OBTAINED'] is False
           cur=s['current']
-          assert cur['unit']=='36-09CP'
-          assert cur['next_exact_leaf']=='36-09CQ_BT_CARTIER_DUAL_LOCAL_CONDITION_ADAPTER_PREFLIGHT'
-          assert cur['hostile_audit_checkpoint_reached'] is True
-          assert cur['36_09CQ_entry_allowed'] is False
+          assert cur['unit']=='36-09CQ'
+          assert cur['next_exact_leaf']=='36-09CR_BT_GEOMETRIC_LOCAL_CONDITION_OR_ADELIC_EVALUATION_SOURCE_PREFLIGHT'
+          assert cur['36_09CQ_entry_allowed'] is True
+          assert cur['36_09CR_entry_allowed'] is False
           pg=s['promotion_gates']
-          assert pg['36_09CP_exact_head_ci_passed'] is True
-          assert pg['36_09CQ_unlocked'] is False
-          assert pg['36_09CQ_entry_allowed'] is False
-          assert pg['BT_Cartier_dual_class_adapter_complete'] is False
+          assert pg['36_09CM_CP_hostile_audit_passed'] is True
+          assert pg['36_09CM_CP_merged'] is True
+          assert pg['36_09CQ_unlocked'] is True
+          assert pg['36_09CQ_entry_allowed'] is True
+          assert pg['36_09CQ_certificate_complete'] is True
+          assert pg['36_09CQ_exact_head_ci_passed'] is False
+          assert pg['36_09CR_entry_allowed'] is False
+          assert pg['BT_Cartier_dual_module_identified'] is True
+          assert pg['BT_geometry_bound_dual_evaluation_adapter_complete'] is False
           assert pg['BT_Poitou_Tate_local_condition_system_complete'] is False
+          assert pg['global_dual_H1_pairing_can_supply_nontrivial_total_obstruction'] is False
           assert pg['LIT_WF02_applicability_pass'] is False
           assert pg['new_global_obstruction_obtained'] is False
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
@@ -107,6 +127,6 @@ jobs:
           claims=s['claims']
           for key in ['new_theorem_credit','LIT_WF02_applicability_pass','Selmer_membership_obtained','Poitou_Tate_obstruction_obtained','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert claims[key] is False
-          print('36-09CP exact-green hostile-audit checkpoint verified. CQ is selected but audit-gated; no LIT-WF02/global obstruction/receiver/endpoint credit.')
+          print('36-09CQ provisional checkpoint verified: #1707 audit promotion consumed; global-global dual pairing is reciprocity-trivial; CR remains locked pending exact-head CQ CI. No obstruction/receiver/endpoint credit.')
           PY
           git diff --check
