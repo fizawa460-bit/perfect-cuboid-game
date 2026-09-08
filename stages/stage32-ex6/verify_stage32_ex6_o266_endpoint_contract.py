@@ -1,9 +1,23 @@
 #!/usr/bin/env python3
 import json
+import subprocess
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[2]
 CERT = HERE / "post1697-o266-endpoint-contract.json"
+
+
+def git_output(*args: str) -> str:
+    proc = subprocess.run(
+        ["git", *args],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return proc.stdout.strip()
+
 
 data = json.loads(CERT.read_text())
 
@@ -62,17 +76,50 @@ assert dec["O266_ENDPOINT_EXCLUDED"] is False
 assert dec["O266_ENDPOINT_NOT_CLOSED"] is True
 assert len(dec["reentry_requires"]) == 4
 
+# Historical evidence must resolve from the locked commit and path to the
+# locked Git blob. This intentionally checks actual repository history rather
+# than merely comparing strings stored inside the contract.
 locks = data["source_locks"]
-expected_blobs = {
-    "odd_branch_note": "cb20a9b287430c2e238f79d3151500c262905468",
-    "modular_factor_note": "deeecac5599f3b542b445cd87c2070dae488bc85",
-    "AN_note": "512fcc70afb1acf16956fd4b7a2b9b935a052150",
-    "AR_note": "da9b6ba755b8bd43d5b342d5540053caeb218f57",
-    "post1500_rosati_note": "b0ea281eae453929c292059a919bc1f68b3080b3",
-    "AT_note": "59849336b9e49610c00709b58989d17b9df1c6a7",
+expected_sources = {
+    "odd_branch_note": {
+        "head": "131d7869c145563d3c9ee1116a9def9e671a6a63",
+        "path": "stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-beauville-odd-branch-wall.md",
+        "blob_sha1": "cb20a9b287430c2e238f79d3151500c262905468",
+    },
+    "modular_factor_note": {
+        "head": "0a888aa5195c558e2104c30a4351067ed1828287",
+        "path": "stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-source-note.md",
+        "blob_sha1": "deeecac5599f3b542b445cd87c2070dae488bc85",
+    },
+    "AN_note": {
+        "head": "82b551d92ad2ef1a86f8303758c7aa17c0a6d960",
+        "path": "stages/stage32/residual-32-01-production/post1648an-a1-strict-transform-delta-feasibility-source-note.md",
+        "blob_sha1": "512fcc70afb1acf16956fd4b7a2b9b935a052150",
+    },
+    "AR_note": {
+        "head": "82b551d92ad2ef1a86f8303758c7aa17c0a6d960",
+        "path": "stages/stage32/residual-32-01-production/post1648ar-two-factor-slack-minimal-branches-source-note.md",
+        "blob_sha1": "da9b6ba755b8bd43d5b342d5540053caeb218f57",
+    },
+    "post1500_rosati_note": {
+        "head": "a004dbc8e02fa57fb4c1d374710849aa571dae8e",
+        "path": "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md",
+        "blob_sha1": "b0ea281eae453929c292059a919bc1f68b3080b3",
+    },
+    "AT_note": {
+        "head": "82b551d92ad2ef1a86f8303758c7aa17c0a6d960",
+        "path": "stages/stage32/residual-32-01-production/post1648at-intermediate-quotient-blowup-conductor-source-note.md",
+        "blob_sha1": "59849336b9e49610c00709b58989d17b9df1c6a7",
+    },
 }
-for key, blob in expected_blobs.items():
-    assert locks[key]["blob_sha1"] == blob
+assert set(locks) == set(expected_sources)
+for key, expected in expected_sources.items():
+    lock = locks[key]
+    assert lock == expected
+    assert git_output("cat-file", "-t", expected["head"]) == "commit"
+    actual_blob = git_output("rev-parse", f'{expected["head"]}:{expected["path"]}')
+    assert git_output("cat-file", "-t", actual_blob) == "blob"
+    assert actual_blob == expected["blob_sha1"]
 
 fw = data["firewalls"]
 assert all(fw[k] is False for k in [
@@ -86,6 +133,7 @@ assert all(fw[k] is False for k in [
 
 print("Stage32EX6 O266 endpoint contract: PASS")
 print("endpoint: B=S1=O=e=266; all exceptional contacts have m=1")
+print("historical source locks: head:path -> blob replay PASS (6/6)")
 print("local endpoint witness: survives")
 print("two-factor slack: survives with residuals 52 and 28")
 print("Rosati replay: gY=134 deltaGamma=7956 Q=602")

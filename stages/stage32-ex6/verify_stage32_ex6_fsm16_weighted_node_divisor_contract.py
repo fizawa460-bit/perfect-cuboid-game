@@ -10,6 +10,10 @@ AN = ROOT / "stages" / "stage32" / "residual-32-01-production" / "post1648an-a1-
 AR = ROOT / "stages" / "stage32" / "residual-32-01-production" / "post1648ar-two-factor-slack-minimal-branches-source-note.md"
 
 
+def endpoint_order_per_k(b: int) -> int:
+    return 8 * (b - 1)
+
+
 def main() -> None:
     x = json.loads(PATH.read_text())
     assert x["schema"] == "STAGE32_EX6_FSM16_WEIGHTED_NODE_DIVISOR_WALL_V1"
@@ -39,7 +43,15 @@ def main() -> None:
     assert loc["endpoint_signed_order_formula"] == "8(b-1)k"
     assert loc["b0_pole_order_per_k"] == 8
     assert loc["b1_signed_order_per_k"] == 0
-    assert loc["b_ge_2_is_zero_contribution"] is True
+    assert "b_ge_2_is_zero_contribution" not in loc
+    assert loc["b_ge_2_contributes_positive_zero_order"] is True
+
+    # Fail-close the sign semantics directly, rather than trusting a boolean label.
+    assert endpoint_order_per_k(0) == -loc["b0_pole_order_per_k"] == -8
+    assert endpoint_order_per_k(1) == loc["b1_signed_order_per_k"] == 0
+    for b in range(2, 10):
+        assert endpoint_order_per_k(b) == 8 * (b - 1)
+        assert endpoint_order_per_k(b) > 0
 
     n = x["node_sum"]
     assert n["sum_b_equals"] == "q81_node+q105_node"

@@ -15,11 +15,11 @@ jobs:
     env:
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
-      - name: Checkout exact PR head
+      - name: Checkout exact PR head with historical source locks
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 1
+          fetch-depth: 0
 
       - name: Verify O266 endpoint contract
         run: python stages/stage32-ex6/verify_stage32_ex6_o266_endpoint_contract.py
