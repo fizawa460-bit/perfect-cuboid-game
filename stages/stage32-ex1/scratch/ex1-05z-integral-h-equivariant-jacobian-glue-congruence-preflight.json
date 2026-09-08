@@ -1,0 +1,179 @@
+{
+  "schema": "STAGE32EX1_EX1_05Z_INTEGRAL_H_EQUIVARIANT_JACOBIAN_GLUE_CONGRUENCE_PREFLIGHT_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05Z_INTEGRAL_H_EQUIVARIANT_JACOBIAN_GLUE_CONGRUENCE_PREFLIGHT",
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "scratch_parent_head": "52c6ca5e91e4c906a47c6839403354ccad6fbde4",
+  "current_main_seen": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "question": "Can the integral H-equivariant lattice gluing in J(X(8)) couple the invariant Bolza Q602 residue to the three Gaussian Prym components more strongly than the rational character decomposition, and what is the smallest exact finite receiver for such a coupling?",
+  "source_locks": {
+    "parent_05y": {
+      "path": "stages/stage32-ex1/scratch/ex1-05y-prym-elliptic-endomorphism-norm-character-line-alignment-preflight.json",
+      "blob_sha1": "76ecc594505261086b371e74b875223ffe1ce927",
+      "exact_use": "The three nontrivial X(8) character Pryms are j=1728 elliptic curves with End=Z[i], and the forced degrees {137,9,9} are individually legal Gaussian norms. The remaining possible coupling is integral gluing."
+    },
+    "exact_W_adapter": {
+      "path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter.json",
+      "blob_sha1": "a45e4725cf3354f7ed32ec6f7126326ca5492255",
+      "canonical_sha256": "eab4d86ffe89ff0e87d197cffb34e8b556ae530cab826dab34c1007664a4af28",
+      "exact_use": "In the ordered integral basis (e1,e2,r*e1,r*e2), W has basis (0,0,1,0),(0,0,0,1). The exact-W condition leaves 16 mod2 Q602 residues before the retained transvection refinement."
+    },
+    "principal_rosati": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json",
+      "blob_sha1": "e28c4533883440ea0963d4d4e8859aa95409cf10",
+      "canonical_sha256": "8d828cdf6d1f5cb1d790c46292535dc252e503356e1047ce972c41e61f524529",
+      "exact_use": "The principal Riemann form matrix in the ordered basis is [[0,1,2,1],[-1,0,1,2],[-2,-1,0,2],[-1,-2,-2,0]]."
+    },
+    "d4d4_trace": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-birational-d4d4-trace-reduction.json",
+      "blob_sha1": "d833f5c31fe9869e9128573517bc4a75875599fb",
+      "canonical_sha256": "36317063d40d58ac893aac02da059f9150f835e94a214e4ac89b058d0b9f44d4",
+      "exact_use": "The exact integral Q(T) trace lattice, coordinate order, 8x8 Gram matrix and D4+D4 unimodular isometry are retained."
+    },
+    "relative_v4_source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling-source-note.md",
+      "blob_sha1": "429ea905cb1cb6354058461c3203de51c03e4106",
+      "exact_use": "The historical source note explicitly identifies mod-4 refinement as the secondary route after exact-W leaves survivors; it also source-locks the common V4 torsor and exact integral endomorphism coordinate order."
+    },
+    "klein_covering_external": {
+      "authors": ["Pawel Borowka", "Angela Ortega"],
+      "title": "Klein coverings of genus 2 curves",
+      "journal": "Transactions of the American Mathematical Society 373 (2020), 1885-1907",
+      "doi": "10.1090/tran/7971",
+      "arxiv": "1904.05962v2",
+      "locators": ["Definition 2.2", "Proposition 4.9", "Lemmas 5.5-5.6"],
+      "exact_use": "Etale V4 coverings are split into isotropic/non-isotropic cases by the Weil pairing. In the isotropic genus-2 case the Prym polarization has type (1,2,2), and the paper gives an explicit 2-primary period-lattice gluing of its three elliptic subcurves."
+    }
+  },
+  "isotropic_cover_identification": {
+    "V": "J(C2)[2] ~= F2^4",
+    "W_basis": [[0,0,1,0],[0,0,0,1]],
+    "riemann_form_entry_between_W_basis_over_Z": 2,
+    "riemann_form_entry_mod2": 0,
+    "W_dimension": 2,
+    "maximal_isotropic": true,
+    "cover_type": "ISOTROPIC_KLEIN_COVER",
+    "reason": "The principal Weil pairing is the Riemann form modulo two. W is 2-dimensional in a 4-dimensional symplectic space and the retained basis pairing is even."
+  },
+  "invariant_abelian_subvariety": {
+    "J": "J(C2)",
+    "cover": "f:Z=X(8)->C2, degree 4 etale with kernel W on pullback",
+    "A": "image(f^*:J->J(Z)) ~= J/W",
+    "quotient_map": "q:J->A=J/W",
+    "pullback_polarization_identity": "(f^*)^*(Theta_Z)=4*Theta_J",
+    "maximal_isotropic_descent": "Because W is maximal isotropic in J[2], 2*Theta_J descends through q to a principal polarization lambda_A on A.",
+    "restricted_polarization": "Lambda_A_restricted_from_JZ = 2*lambda_A",
+    "restricted_polarization_type": [2,2],
+    "polarization_kernel": "K(Lambda_A)=A[2]",
+    "polarization_kernel_order": 16
+  },
+  "prym_complement": {
+    "P": "Prym(Z/C2), dimension 3",
+    "restricted_polarization_type": [1,2,2],
+    "kernel_order": 16,
+    "two_primary": true,
+    "interpretation": "The invariant/Prym rational character split is glued integrally through finite 2-primary polarization data. The individual Gaussian norm equations of 05Y do not determine this gluing."
+  },
+  "A2_mod4_model": {
+    "J4_model": "(Z/4)^4 in the retained principal basis",
+    "W_inside_J4": "embed W subset J[2] as {2w : w in W}",
+    "preimage_formula": "q^{-1}(A[2])={x in J[4] : 2x in W}",
+    "preimage_order": 64,
+    "quotient_by_W_order": 16,
+    "exact_identification": "A[2] ~= {x in J[4]:2x in W}/W",
+    "consequence": "The induced action on A[2] is determined by T modulo 4, not by T modulo 2 alone."
+  },
+  "mod2_insufficiency_witness": {
+    "T0": "identity on J[4]",
+    "T1": "identity + 2*M where M sends e3 to e1 and all other basis vectors to zero",
+    "same_mod2": true,
+    "both_fix_W_inside_J4": true,
+    "test_class": "x=e3 belongs to q^{-1}(A[2])",
+    "difference_on_test_class": "T1(x)-T0(x)=2*e1, which is not in W",
+    "different_actions_on_A2": true,
+    "conclusion": "The exact-W residue class cannot determine the integral invariant/Prym glue action. A mod-4 lift is genuinely new information, not a recharge of the mod-2 exact-W test."
+  },
+  "q602_mod4_receiver": {
+    "coordinate_order": ["t11.a","t11.b","t12.a","t12.b","t21.a","t21.b","t22.a","t22.b"],
+    "trace_gram_source_locked": true,
+    "exact_Q": 602,
+    "modular_fact": "For the retained integral quadratic form Q(x)=x^T A x, x modulo 4 determines Q(x) modulo 8 because Q(x+4y)-Q(x) is divisible by 8.",
+    "necessary_norm_congruence": "Q(x) == 2 mod 8",
+    "surviving_mod2_residues_after_05O": [73,97,235],
+    "current_package_contains_mod4_lifts": false,
+    "current_package_contains_A2_action_table": false,
+    "finite_receiver": "For each surviving mod2 residue, materialize only its mod4 lifts compatible with exact Q=602 and compute the induced action on A[2]; then compare with the 2-primary Prym polarization glue. Do not materialize the 1.3-billion exact Q602 shell."
+  },
+  "statewise_replay": {
+    "Q_values": [210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266],
+    "Q_state_count": 29,
+    "Q602_residues_per_Q": [73,97,235],
+    "isotropic_glue_receiver_independent_of_EX1_Q": true,
+    "Q_states_excluded": 0,
+    "Q_states_leaving": 29
+  },
+  "decision": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "new_exact_pattern": "THE_X8_V4_COVER_IS_ISOTROPIC_AND_THE_UNRESOLVED_INTEGRAL_CHARACTER_GLUE_IS_A_2_PRIMARY_POLARIZATION_KERNEL_PROBLEM_WHOSE_INVARIANT_SIDE_ACTION_REQUIRES_Q602_MOD4_DATA",
+    "integral_glue_reduced_to_explicit_two_primary_receiver": true,
+    "mod2_exact_W_sufficient_for_integral_glue": false,
+    "individual_prym_norms_sufficient_for_integral_glue": false,
+    "Q_states_excluded": 0,
+    "Q602_residues_excluded": 0,
+    "V6_carrier_excluded": false,
+    "new_gate": "Q602_MOD4_LIFT_ACTION_ON_A2_FOR_THE_ISOTROPIC_V4_POLARIZATION_GLUE",
+    "exact_blocker": "The repository retains only mod2 Q602 residues and the rational/individual character data. It does not retain the mod4 lift of T, the induced action on A[2], or the anti-isometry identifying the invariant polarization kernel with the Prym-side kernel for the actual X(8) cover.",
+    "reopen_condition": "Resolve by a bounded mod4 enumeration plus an explicit isotropic period/polarization-kernel adapter; no full Rosati shell materialization is needed."
+  },
+  "candidate_ledger": {
+    "LIVE": ["Q602_MOD4_LIFT_ACTION_ON_ISOTROPIC_V4_POLARIZATION_GLUE_KERNEL"],
+    "UNTESTED": ["ACTUAL_V6_SECTION_MATERIALIZATION"],
+    "BLOCKED": [
+      "INTEGRAL_GLUE_FROM_MOD2_EXACT_W_ALONE",
+      "INTEGRAL_GLUE_FROM_INDIVIDUAL_GAUSSIAN_PRYM_NORMS_ALONE",
+      "D0_SUPPORT_EXTRACTION_FROM_CURRENT_CORRESPONDENCE_ROSATI_DEGREE_DATA",
+      "SEPARATE_NIELSEN_TUPLE_ENUMERATION_WITHOUT_COMMON_PI1_MARKING"
+    ],
+    "DOMINATED": [
+      "VAGUE_INTEGRAL_ORDER_GLUE_WITHOUT_POLARIZATION_KERNEL_MODEL",
+      "PRYM_ELLIPTIC_ENDOMORPHISM_DEGREE_137_AS_A_NORM_OBSTRUCTION",
+      "FULL_V4_TORSOR_COHOMOLOGY_BEYOND_EXACT_W"
+    ],
+    "EQUIVALENT": []
+  },
+  "next_route": {
+    "route_id": "EX1_05AA_Q602_MOD4_ISOTROPIC_GLUE_KERNEL_ACTION_PREFLIGHT",
+    "selection_reason": "05Z replaces the vague integral-order question by a finite 2-primary receiver. The next unit should enumerate only mod4 lifts of residues 73,97,235 compatible with Q=602 and compute their actions on A[2], while source-locking the isotropic Prym kernel adapter from the explicit period description."
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "CYCLE_ACTIVE_RECEIVER": "Q602_MOD4_ACTION_ON_THE_16_POINT_INVARIANT_POLARIZATION_KERNEL_AND_ITS_PRYM_GLUE",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 1,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": false,
+    "CYCLE_BLIND_REDISCOVERY": false,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "ISOTROPIC_V4_POLARIZATION_KERNEL_REDUCTION_TO_MOD4",
+    "CYCLE_NEW_VIEW_SOURCE": "INTERNAL_DERIVATION_PLUS_BOROWKA_ORTEGA_ISOTROPIC_KLEIN_COVER_GEOMETRY"
+  },
+  "replay": {
+    "verifier": "stages/stage32-ex1/scratch/verify_ex1_05z_integral_h_equivariant_jacobian_glue_congruence.py",
+    "expected": "PASS_EX1_05Z_ISOTROPIC_GLUE_REDUCED_TO_MOD4"
+  },
+  "firewalls": {
+    "rational_character_product_promoted_to_integral_product": false,
+    "mod2_exact_W_promoted_to_mod4_glue_action": false,
+    "prym_norm_realizability_promoted_to_integral_glue_realizability": false,
+    "mod4_norm_congruence_promoted_to_exact_integral_endomorphism_existence": false,
+    "polarization_kernel_compatibility_promoted_to_actual_V6_carrier": false,
+    "Q_state_exclusion_claimed": false,
+    "Q602_exclusion_claimed": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  }
+}
