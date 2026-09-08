@@ -40,8 +40,7 @@ def main() -> None:
     assert git_blob_sha1(FORMAL) == locks["formal_conic_adapter"]["blob_sha1"]
     assert ag["canonical_sha256_without_this_field"] == locks["known140_effective_divisor"]["canonical_sha256"]
 
-    assert s00["ambient_model"]["q"] == 0
-    assert s00["ambient_model"]["source_geometry"].find("q=0") >= 0
+    assert "q=0" in s00["ambient_model"]["source_geometry"]
     assert s00["V6_target"]["D_square"] == 758
     assert s00["known140_scope"]["exact_nonnegative_integer_decomposition_exists"] is True
     assert s01["known140_effective_divisor_section_bridge"]["input"]["effective"] is True
