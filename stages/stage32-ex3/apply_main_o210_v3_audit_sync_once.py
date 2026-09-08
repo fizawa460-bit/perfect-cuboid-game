@@ -8,6 +8,10 @@ REG = ROOT / 'stages/stage32/proof/CLAIM-REGISTRY.json'
 ACTIVE = ROOT / 'stages/stage32/proof/ACTIVE-FRONTIER.json'
 STATE = ROOT / 'stages/stage32-ex3/MAIN-STATE.json'
 CID = 'S32.O210.EXCLUSION.V3'
+OLD = 'S32.O210.EXCLUSION.V2'
+CTX = 'S32.MAIN.CURRENT_TARGET_CONTEXT.V1'
+EX3 = 'S32.EX3.O210_COVER_GEOMETRY_EXCLUSION_TERMINAL.V1'
+AD = 'S32.ADAPTER.EX3_O210_TO_MAIN_O210.V3'
 CORE = '7003e228cbb0273e1ac6352bd9535a5f10ca5964bc6d4072130d20012aaec824'
 AUDIT = {
     'status': 'PASS',
@@ -15,6 +19,7 @@ AUDIT = {
     'review_id': 5147304889,
     'exact_head': '040dfb6c7e1dc40573866bb10f62e93419121711',
 }
+EXPECTED_BLOCKER = 'Hostile audit of the explicit MAIN O210 V3 claim has not yet been performed.'
 
 def dump_compact(path: Path, obj: dict) -> None:
     path.write_text(json.dumps(obj, sort_keys=False, separators=(',', ':')) + '\n', encoding='utf-8')
@@ -22,56 +27,31 @@ def dump_compact(path: Path, obj: dict) -> None:
 def dump_pretty(path: Path, obj: dict) -> None:
     path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
 
-def walk(obj):
-    if isinstance(obj, dict):
-        yield obj
-        for value in obj.values():
-            yield from walk(value)
-    elif isinstance(obj, list):
-        for value in obj:
-            yield from walk(value)
-
-def registry_claims(reg: dict) -> dict[str, dict]:
-    records = [
-        d for d in walk(reg)
-        if isinstance(d.get('claim_id'), str)
-        and 'claim_core_sha256' in d
-        and 'authority_status' in d
-        and 'scope_key' in d
-    ]
-    by: dict[str, dict] = {}
-    for rec in records:
-        claim_id = rec['claim_id']
-        assert claim_id not in by, f'duplicate actual claim record: {claim_id}'
-        by[claim_id] = rec
-    return by
-
+# V3 is intentionally an ACTIVE-FRONTIER claim, not a base CLAIM-REGISTRY record.
+# Registry remains read-only and supplies the immutable audited dependencies plus V2 history.
 reg = json.loads(REG.read_text(encoding='utf-8'))
-by = registry_claims(reg)
-assert CID in by, f'missing actual claim record: {CID}; available={sorted(by)}'
-c = by[CID]
-assert c['claim_core_sha256'] == CORE
-assert c['authority_status'] == 'PROVISIONAL'
-assert c['audit_receipt'] is None
-assert c['requires'] == [
-    'S32.MAIN.CURRENT_TARGET_CONTEXT.V1',
-    'S32.EX3.O210_COVER_GEOMETRY_EXCLUSION_TERMINAL.V1',
-    'S32.ADAPTER.EX3_O210_TO_MAIN_O210.V3',
-]
-for dep in c['requires'][1:]:
-    assert by[dep]['authority_status'] == 'AUDITED', (dep, by[dep]['authority_status'])
-c['authority_status'] = 'AUDITED'
-c['audit_receipt'] = dict(AUDIT)
-dump_compact(REG, reg)
+by = {c['claim_id']: c for c in reg['claims']}
+assert CID not in by
+assert by[CTX]['authority_status'] == 'AUDITED'
+assert by[EX3]['authority_status'] == 'AUDITED' and by[EX3]['audit_receipt']['status'] == 'PASS'
+assert by[AD]['authority_status'] == 'AUDITED' and by[AD]['audit_receipt']['status'] == 'PASS'
+assert by[OLD]['authority_status'] == 'SUPERSEDED'
+assert by[OLD]['audit_receipt'] is None
+assert by[OLD]['claim_core_sha256'] == '178c0a8a381abacbfb5662f44f2faab2f2f6076f4be653172f7e586f77476746'
 
 active = json.loads(ACTIVE.read_text(encoding='utf-8'))
-active_matches = [x for x in active['claims'] if x['claim_id'] == CID]
-assert len(active_matches) == 1
-ac = active_matches[0]
+matches = [x for x in active['claims'] if x['claim_id'] == CID]
+assert len(matches) == 1
+ac = matches[0]
 assert ac['claim_core_sha256'] == CORE
+assert ac['scope_key'] == 'S32.O210.COVER'
+assert ac['scope'] == {'row_id':'g1-d186','picard_class':'V6','O':210,'qprime':4,'target':'population_wide_exclusion'}
+assert ac['requires'] == [CTX, EX3, AD]
+assert ac['lane_links'] == [{'lane':'MAIN','role':'OWNER'},{'lane':'EX3','role':'ATTACKS'}]
 assert ac['authority_status'] == 'PROVISIONAL'
 assert ac['audit_receipt'] is None
 assert ac['frontier_status'] == 'ACTIVE_INCOMPLETE'
+assert ac['blockers'] == [EXPECTED_BLOCKER]
 ac['authority_status'] = 'AUDITED'
 ac['audit_receipt'] = dict(AUDIT)
 ac['frontier_status'] = 'AUDITED_TRUE'
@@ -120,7 +100,7 @@ state['main_o210_v3'].update({
     'hostile_audit_review_id': AUDIT['review_id'],
     'hostile_audited_exact_head': AUDIT['exact_head'],
 })
-# This checkpoint synchronizes authority only. MAIN routing credit is deliberately separate.
+# Authority receipt synchronization is deliberately not the MAIN routing-credit transition.
 assert state['authority']['stage32_main_authority_unchanged'] is True
 assert state['credit']['O210_excluded'] is False
 assert state['credit']['stage32_main_credit'] is False
@@ -128,5 +108,5 @@ assert state['firewalls']['O210_excluded'] is False
 assert state['firewalls']['O212_plus_advance_allowed'] is False
 dump_pretty(STATE, state)
 
-print('PASS applied S32.O210.EXCLUSION.V3 audit receipt sync')
+print('PASS applied S32.O210.EXCLUSION.V3 audit receipt sync on ACTIVE-FRONTIER')
 print(json.dumps({'claim_id': CID, 'core': CORE, 'review_id': AUDIT['review_id'], 'exact_head': AUDIT['exact_head']}, sort_keys=True))
