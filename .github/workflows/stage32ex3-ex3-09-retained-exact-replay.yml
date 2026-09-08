@@ -1,6 +1,6 @@
 name: Stage32EX3 retained EX3 exact replay
 
-# MAIN O210 V2 audit handoff: replay audited EX3/V3 plus the provisional active MAIN O210 claim at exact head.
+# MAIN O210 V3 narrow re-audit handoff: replay audited EX3/V3 plus the authority-neutral provisional MAIN O210 claim at exact head.
 on:
   push:
     branches:
@@ -40,13 +40,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Replay retained EX3 package and MAIN O210 V2 candidate
+      - name: Replay retained EX3 package and MAIN O210 V3 authority-neutral candidate
         run: |
           python stages/stage32-ex3/verify_ex3_00_o210_typed_cover_tower.py
           python stages/stage32-ex3/verify_ex3_04h_self_contained_trace_contradiction.py
           python stages/stage32-ex3/verify_ex3_09_o210_cover_geometry_exclusion_candidate.py
           python stages/stage32-ex3/verify_ex3_10_main_o210_promotion_adapter_candidate_v3.py
-          python stages/stage32-ex3/verify_main_o210_exclusion_v2_candidate.py
+          python stages/stage32-ex3/verify_main_o210_exclusion_v3_candidate.py
           python stages/stage32-ex3/verify_main_state.py
       - name: Verify Stage32 claim management
         run: |
