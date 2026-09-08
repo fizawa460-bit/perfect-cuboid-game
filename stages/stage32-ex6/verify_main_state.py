@@ -49,8 +49,8 @@ def main() -> int:
             fail("EX6 re-entry must require new input")
         if current.get("last_retained_route_status") != "BLOCKED_NEW_PATTERN_ISOLATED":
             fail("EX6 latest route-status drift")
-        if current.get("last_retained_result") != "DEGREE_ONLY_PRODUCT_COVER_RH_ROUTE_EQUIVALENT_TO_AR_TWO_FACTOR_RH_SLACK":
-            fail("EX6 product-cover RH result drift")
+        if current.get("last_retained_result") != "PRODUCT_COVER_NONNODE_RAMIFICATION_SPLITS_EXACTLY_AS_8ETA_PLUS_8RHO":
+            fail("EX6 support-split result drift")
 
         retained = state.get("retained_bounded_results", {})
         expected = {
@@ -59,20 +59,29 @@ def main() -> int:
             "product_cover_R105": 224,
             "product_cover_R81": 416,
             "product_cover_combined_nonnode_ramification_formula": "8E",
+            "product_cover_smooth_special_ramification_formula": "8eta",
+            "product_cover_offspecial_ramification_formula": "8rho",
             "degree_only_product_cover_RH_route": "EQUIVALENT_TO_AR_TWO_FACTOR_RH_SLACK",
         }
         for key, value in expected.items():
             if retained.get(key) != value:
                 fail(f"EX6 retained product-cover field drift: {key}")
+        if retained.get("cusp_grid_recharge_as_eta_rho_cap_authorized") is not False:
+            fail("EX6 must not recharge cusp-grid data as eta/rho cap")
         if retained.get("independent_closing_upper_bound_available") is not False:
             fail("EX6 must not claim an independent closing upper bound")
 
         ledger = state.get("candidate_ledger", {})
         if ledger.get("degree_only_product_cover_RH") != "EQUIVALENT":
             fail("EX6 degree-only product-cover route must remain EQUIVALENT")
+        if ledger.get("product_cover_nonnode_support_split") != "EXACT_BUT_NO_MEMBER_LEVEL_CAP":
+            fail("EX6 support split status drift")
+        if ledger.get("cusp_grid_weighted_Bezout_as_eta_rho_cap") != "BLOCKED":
+            fail("EX6 cusp-grid cap route status drift")
+        if ledger.get("exceptional_inertia_tangent_action_as_eta_rho_cap") != "BLOCKED":
+            fail("EX6 inertia cap route status drift")
         for key in (
-            "product_cover_nonnode_critical_support_incidence",
-            "simultaneous_two_projection_critical_values",
+            "simultaneous_two_projection_critical_support",
             "member_level_landing_tangent_restriction",
             "replacement_tensor_or_independent_correspondence_inequality",
         ):
@@ -106,6 +115,7 @@ def main() -> int:
         fw = state.get("firewalls", {})
         for key in (
             "product_cover_RH_promoted_to_support_incidence_constraint",
+            "cusp_grid_recharged_as_eta_rho_cap",
             "fsm16_residual_upstairs_tensor_claimed",
             "o266_result_descended_to_lower_O",
             "stage32_main_advanced_by_ex6",
