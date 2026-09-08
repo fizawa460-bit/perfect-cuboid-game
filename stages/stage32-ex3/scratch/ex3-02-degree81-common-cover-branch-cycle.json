@@ -1,0 +1,116 @@
+{
+  "schema": "STAGE32EX3_EX3_02_DEGREE81_COMMON_COVER_BRANCH_CYCLE_SCRATCH_V1",
+  "stage": 32,
+  "lane": "EX3",
+  "leaf": "EX3-02_DEGREE81_PROJECTION_AND_BRANCH_CYCLE_LEDGER",
+  "status": "SCRATCH_PROVISIONAL_DIAGNOSTIC_NOT_RETAINED",
+  "fixed_input": {
+    "N_genus": 1,
+    "Y_genus": 106,
+    "C0_genus": 2,
+    "X4_genus": 0,
+    "degree_N_to_X4_second": 81,
+    "degree_Y_to_C0_second": 81,
+    "ramification_Y_to_C0_second": 48,
+    "degree_Y_to_N": 2,
+    "ramification_Y_to_N": 210,
+    "C0_to_X4_degree": 2,
+    "C0_to_X4_branch_value_count": 6,
+    "Y_is_normalized_base_change_of_N_to_X4_by_C0_to_X4": true
+  },
+  "source_locks": {
+    "typed_cover_tower": {
+      "path": "stages/stage32-ex3/ex3-00-o210-typed-cover-tower.json",
+      "blob_sha1": "c28bda6c20340b4fc4ac060db158ca30926ecb38",
+      "canonical_sha256": "3a743b0607c59dc959f383fca8d97e54e8a740d197401e4c080b6fc4c94eaf07"
+    },
+    "bidegree_note": {
+      "path": "stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-source-note.md",
+      "blob_sha1": "deeecac5599f3b542b445cd87c2070dae488bc85"
+    },
+    "common_double_cover": {
+      "path": "stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json",
+      "blob_sha1": "def8b60b726c02aa7ee97c0cc25b34f43525ec34",
+      "canonical_sha256": "eb31183bf519fec4ad5bb2d0799b3f0a64b7af893308e09ce0c33119b63440a1"
+    },
+    "x8_v4_cusp_quotient": {
+      "path": "stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json",
+      "blob_sha1": "00eaebc3c57f6b5e3696c7bcd60eac5a53121f72",
+      "canonical_sha256": "2869208e7509d7b79378264ea1982299b0f1745b1a54c5856cfbba0754567ce5"
+    },
+    "odd_contact_wall": {
+      "path": "stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-beauville-odd-branch-wall.md",
+      "blob_sha1": "cb20a9b287430c2e238f79d3151500c262905468"
+    }
+  },
+  "local_normalized_base_change": {
+    "model_at_one_of_six_branch_values": "x=t^e on N and x=s^2 on C0; normalize t^e=s^2",
+    "d": "gcd(e,2)",
+    "number_of_normalization_points": "d",
+    "ramification_index_each_point_Y_to_C0": "e/d",
+    "total_local_ramification_contribution_Y_to_C0": "e-d",
+    "Y_to_N_ramifies": "iff e is odd",
+    "away_from_six_branch_values": "the quadratic base change is etale, so a ramification contribution e-1 of N->X4 lifts twice and contributes 2(e-1) to Y->C0"
+  },
+  "six_cusp_branch_cycle_ledger": {
+    "branch_cycles": "sigma_1,...,sigma_6 in S_81 at the six quotient cusps",
+    "c_i": "number of cycles of sigma_i",
+    "o_i": "number of odd-length cycles of sigma_i",
+    "k": "sum_i c_i",
+    "odd_cycle_total": "sum_i o_i = 210 because Y->N has exactly 210 branch points and the same quadratic extension is the second-factor base change",
+    "each_o_i_is_odd": true,
+    "total_local_degree_over_six_cusps": 486,
+    "N_to_X4_total_ramification": 162,
+    "N_to_X4_cusp_ramification": "486-k",
+    "N_to_X4_ramification_away_from_cusps": "k-324",
+    "Y_to_C0_cusp_ramification": "696-2k",
+    "Y_to_C0_ramification_away_from_cusps": "2(k-324)",
+    "Y_to_C0_total_ramification_identity": "(696-2k)+2(k-324)=48",
+    "forced_k_range": [324, 348],
+    "forced_outside_ramification_range": [0, 24],
+    "even_cycle_count_range": [114, 138],
+    "interpretation": "the retained ramification total 48 is automatic once degree 81, genus(N)=1, the six-point quadratic base change, and the common 210-point branch divisor are imposed; it is not by itself a new pruning condition"
+  },
+  "explicit_abstract_witness": {
+    "points": "0,...,80",
+    "a": "23 disjoint path transpositions (0 1),(3 4),...,(66 67), fixing 35 points",
+    "b": "23 disjoint path transpositions (1 2),(4 5),...,(67 68), fixing 35 points",
+    "c": "23 disjoint path transpositions (2 3),(5 6),...,(68 69), fixing 35 points",
+    "six_cusp_cycles": ["a", "a", "b", "b", "c", "c"],
+    "each_cusp_cycle_type": "2^23 1^35",
+    "k": 348,
+    "odd_cycles_over_six_cusps": 210,
+    "cusp_ramification_N_to_X4": 138,
+    "cusp_ramification_Y_to_C0": 0,
+    "interior_transpositions": "t_0=(69 70),...,t_10=(79 80),t_11=(0 80)",
+    "interior_branch_cycles": "each t_j occurs twice consecutively, giving 24 simple interior branch values",
+    "interior_ramification_N_to_X4": 24,
+    "interior_ramification_Y_to_C0": 48,
+    "product_one": true,
+    "generated_action_transitive": true,
+    "total_ramification_N_to_X4": 162,
+    "resulting_N_genus": 1,
+    "resulting_Y_to_C0_ramification": 48,
+    "interpretation": "an exact transitive abstract degree-81 branch-cycle tuple satisfies the second-projection Riemann-Hurwitz and common quadratic-base-change parity/count constraints; it is not a simultaneous pair with the degree-105 map and is not attached to the fixed V6 carrier"
+  },
+  "diagnostic_verdict": {
+    "degree81_RH_contradiction": false,
+    "ramification48_independent_obstruction": false,
+    "abstract_second_projection_population_empty": false,
+    "explicit_abstract_second_projection_witness_obtained": true,
+    "EX3_02_exclusion_obtained": false,
+    "route_effect": "SECOND_PROJECTION_ALONE_NONPRUNING_AT_ABSTRACT_COMMON_DOUBLE_COVER_LEVEL",
+    "next_useful_constraint": "require the degree-105 and degree-81 maps on the same genus-one N with the exact same 210 branch points, exact node/cusp-pair incidence and the simultaneous H4 torsor; do not identify the 28 multiplicity-two exceptional contacts with modular ramification without a local adapter"
+  },
+  "firewalls": {
+    "actual_V6_carrier_constructed": false,
+    "simultaneous_105_81_pair_constructed": false,
+    "actual_O210_carrier_cover_constructed": false,
+    "multiplicity2_contacts_identified_with_e2_cycles": false,
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "abstract_cover_promoted_to_carrier_cover": false,
+    "stage32_main_credit": false,
+    "claim_dag_sync_triggered_by_this_scratch": false
+  }
+}
