@@ -5,9 +5,7 @@ on:
       - 'stages/stage36/**'
       - '.github/workflows/stage36-bootstrap-audit.yml'
       - 'docs/research-os/policies/**'
-      - 'docs/arsenal/cards/workflows/LIT-WF02.md'
-      - 'docs/arsenal/lit-wf02-global-h1-localization-reciprocity-contract.json'
-      - 'docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py'
+      - 'docs/arsenal/**'
       - 'docs/stage36-literature-strengthening-promotion.md'
   workflow_dispatch:
 permissions:
@@ -80,7 +78,12 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CQ.py"
           git worktree remove --force "$tmp"
-      - name: Assert CQ exact-green promotion and CR unlock firewalls
+      - name: Verify 36-09CR BT geometric evaluation source preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09CR.py
+      - name: Assert CR checkpoint and CS lock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -88,37 +91,38 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V143_36_09CQ_EXACT_GREEN_CR_UNLOCKED'
-          hist=s['audited_history']['36-09CM-CP']
-          assert hist['status']=='AUDITED_MERGED_AUTHORITY'
-          assert hist['pr']==1707 and hist['hostile_audit_review']==5137131273
-          assert hist['audited_exact_head']=='e1c76660f08190709bff6ccf4336ac425020f156'
-          assert hist['exact_head_ci']=='34183931952/101928383350'
-          assert hist['merged_main_sha']=='0afdbe5a0e4131e46b176800ca466795230d9702'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V144_36_09CR_DUAL_PROJECTION_SOURCE_PREFLIGHT'
           cq=s['authority_frontier']['36-09CQ']
           assert cq['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert cq['certificate_blob_sha']=='c7042cc86ff94cf94db88c8cc65ce5b69441aabe'
-          assert cq['verifier_blob_sha']=='cd7716e99f2c1da83b9bfb0ea39168b43d5752ce'
           assert cq['exact_head']=='a0d8cb76e43f926342f1a57b2b6aa903d19da63d'
           assert cq['exact_head_ci']=='34188612840/101941880607'
-          assert cq['BT_CARTIER_DUAL_MODULE_IDENTIFIED'] is True
-          assert cq['GLOBAL_DUAL_H1_PAIRING_TOTAL_NONTRIVIAL'] is False
-          assert cq['GLOBAL_DUAL_CLASS_ALONE_SUPPLIES_OBSTRUCTION'] is False
-          assert cq['BT_GEOMETRY_BOUND_DUAL_EVALUATION_ADAPTER_COMPLETE'] is False
-          assert cq['BT_POITOU_TATE_LOCAL_CONDITION_SYSTEM_COMPLETE'] is False
-          assert cq['FIRST_MISSING_OBLIGATION']=='BT_GEOMETRIC_CONNECTING_MAP_OR_POINT_DEPENDENT_LOCAL_EVALUATION_ADAPTER'
-          assert cq['LIT_WF02_APPLICABILITY_PASS'] is False
-          assert cq['NEW_GLOBAL_OBSTRUCTION_OBTAINED'] is False
+          cr=s['authority_frontier']['36-09CR']
+          assert cr['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert cr['certificate_blob_sha']=='d1bde3d1da2d8482ff26457aa6e437ecbabbdfea'
+          assert cr['verifier_blob_sha']=='e6ace862750481097286d1ebe924a69ac22b7444'
+          assert cr['REUSABLE_CONNECTING_LOCALIZATION_PROTOCOL_FOUND'] is True
+          assert cr['EXISTING_SOURCE_BOUND_BT_DUAL_EVALUATION_ADAPTER_FOUND'] is False
+          assert cr['FORMAL_3_TO_5_DUAL_PROJECTION_EXACT'] is True
+          assert cr['BT_FIVE_ROOT_DECK_TORSOR_ACTION_SOURCE_BOUND'] is False
+          assert cr['BT_POINTWISE_FIVE_CHARACTER_CLASS_SOURCE_BOUND'] is False
+          assert cr['BT_GEOMETRY_BOUND_DUAL_EVALUATION_ADAPTER_COMPLETE'] is False
+          assert cr['FIRST_MISSING_OBLIGATION']=='BT_FIVE_ROOT_DECK_TORSOR_ACTION_AND_POINTWISE_CHARACTER_CLASS_SOURCE_BINDING'
+          assert cr['LIT_WF02_APPLICABILITY_PASS'] is False
+          assert cr['NEW_GLOBAL_OBSTRUCTION_OBTAINED'] is False
           cur=s['current']
-          assert cur['unit']=='36-09CQ'
-          assert cur['next_exact_leaf']=='36-09CR_BT_GEOMETRIC_LOCAL_CONDITION_OR_ADELIC_EVALUATION_SOURCE_PREFLIGHT'
+          assert cur['unit']=='36-09CR'
+          assert cur['next_exact_leaf']=='36-09CS_BT_FIVE_ROOT_DECK_DUAL_PROJECTION_CONSTRUCTION_PREFLIGHT'
           assert cur['36_09CR_entry_allowed'] is True
+          assert cur['36_09CS_entry_allowed'] is False
           pg=s['promotion_gates']
-          assert pg['36_09CQ_exact_head_ci_passed'] is True
-          assert pg['36_09CR_entry_allowed'] is True
+          assert pg['36_09CR_certificate_complete'] is True
+          assert pg['36_09CR_exact_head_ci_passed'] is False
+          assert pg['36_09CS_entry_allowed'] is False
+          assert pg['BT_formal_five_to_three_dual_projection_constructed'] is True
+          assert pg['BT_five_root_deck_torsor_action_source_bound'] is False
+          assert pg['BT_pointwise_five_character_class_source_bound'] is False
           assert pg['BT_geometry_bound_dual_evaluation_adapter_complete'] is False
           assert pg['BT_Poitou_Tate_local_condition_system_complete'] is False
-          assert pg['global_dual_H1_pairing_can_supply_nontrivial_total_obstruction'] is False
           assert pg['LIT_WF02_applicability_pass'] is False
           assert pg['new_global_obstruction_obtained'] is False
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
@@ -126,6 +130,6 @@ jobs:
           claims=s['claims']
           for key in ['new_theorem_credit','LIT_WF02_applicability_pass','Selmer_membership_obtained','Poitou_Tate_obstruction_obtained','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert claims[key] is False
-          print('36-09CQ exact-green parent replayed and CR unlocked. No LIT-WF02/PT/BM/receiver/endpoint credit.')
+          print('36-09CR provisional checkpoint verified: protocol plus exact formal dual projection only; CS remains locked pending exact-head CI. No PT/BM/receiver/endpoint credit.')
           PY
           git diff --check
