@@ -38,21 +38,16 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay immutable 36-09DH exact-green mathematical evidence
+      - name: Replay immutable 36-09DI exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          H=49f4051ebabb7e0939713082cd28e5143ca5dc77
+          H=885349056cf203f8e3cfab735cea1870d4b3befa
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09DH.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09DI.py"
           git worktree remove --force "$tmp"
-      - name: Verify 36-09DI F5 rational-image boundary
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09DI.py
-      - name: Assert DI checkpoint and DJ lock firewalls
+      - name: Assert DI exact-green promotion and DJ unlock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -60,28 +55,27 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V180_36_09DI_RATIONAL_IMAGE_BOUNDARY'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V181_36_09DI_EXACT_GREEN_DJ_UNLOCK'
           di=s['authority_frontier']['36-09DI']
-          assert di['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert di['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert di['certificate_blob_sha']=='52e860e51905f3b3ecc0e22b23791a0e8a33e0fc'
           assert di['verifier_blob_sha']=='a4dd4ad9d2f04b8ca3cc5dbb9604b242cf63c067'
+          assert di['exact_head']=='885349056cf203f8e3cfab735cea1870d4b3befa'
+          assert di['exact_head_ci']=='34208299093/102002976983'
           assert di['Q5_INDISTINGUISHABILITY_WITH_R5_PROVED'] is True
           assert di['F5_OUTSIDE_ENTIRE_RATIONAL_COMPONENT_IMAGE'] is False
           assert di['F5_INSIDE_RATIONAL_COMPONENT_IMAGE'] is False
           assert di['F5_EQUALS_R5_MOD_BRQ'] is False
-          assert di['PIC0_MOD2_COMPUTED'] is False
-          assert di['FULL_L1_QUOTIENT_COMPUTED'] is False
           cur=s['current']
           assert cur['unit']=='36-09DI'
           assert cur['next_exact_leaf']=='36-09DJ_FIXED_P2_F5_MINUS_R5_EXPLICIT_CORESTRICTION_OR_PICARD_RELATION_PREFLIGHT'
-          assert cur['36_09DJ_entry_allowed'] is False
+          assert cur['36_09DJ_entry_allowed'] is True
           pg=s['promotion_gates']
-          assert pg['36_09DI_certificate_complete'] is True
-          assert pg['36_09DI_exact_head_ci_passed'] is False
-          assert pg['36_09DJ_entry_allowed'] is False
+          assert pg['36_09DI_exact_head_ci_passed'] is True
+          assert pg['36_09DJ_entry_allowed'] is True
           assert pg['BT_Q5_indistinguishability_F5_R5_proved'] is True
           for key in ['BT_F5_outside_entire_rational_component_image','BT_F5_inside_rational_component_image','BT_F5_equals_R5_mod_BrQ','BT_full_L1_quotient_computed','BT_Pic0_mod2_computed','BT_full_Creutz_Viray_explicit_image_computed','BT_full_relevant_Brauer_group_computed','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09DI provisional checkpoint verified. Q5 cannot distinguish F5 from rational R5; DJ locked pending exact-head CI. No Picard/L1/full-Brauer/BM/fixed-p credit.')
+          print('36-09DI exact-green parent verified and DJ unlocked. Q5 degeneration to R5 is fixed; F5-R5 Picard/corestriction relation remains open.')
           PY
           git diff --check
