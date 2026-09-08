@@ -35,7 +35,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Replay Stage32EX1 EX1-00 through EX1-05H, retained EX1-05AF terminal chain, and MAIN state
+      - name: Replay Stage32EX1 through repaired terminal V2 and claim DAG
         shell: bash
         run: |
           set -euo pipefail
@@ -52,8 +52,9 @@ jobs:
           python3 stages/stage32-ex1/verify_ex1_05f_h4_local_cusp_projection_ramification_adapter.py
           python3 stages/stage32-ex1/verify_ex1_05g_h4_common_cover_correspondence_coupling.py
           python3 stages/stage32-ex1/verify_ex1_05h_upstairs_conductor_discriminant_off_cusp_coupling.py
-          python3 stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation.py
-          python3 stages/stage32-ex1/verify_ex1_05af_cellular_obstruction_bridge.py
+          python3 stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation_v2.py
+          python3 stages/stage32/proof/verify_stage32_claim_dag.py --integrity
+          python3 stages/stage32/proof/verify_stage32_active_frontier.py
           python3 stages/stage32-ex1/verify_main_state.py
       - name: Verify clean working tree after replay
         shell: bash
