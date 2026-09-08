@@ -22,8 +22,33 @@ def dump_compact(path: Path, obj: dict) -> None:
 def dump_pretty(path: Path, obj: dict) -> None:
     path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
 
+def walk(obj):
+    if isinstance(obj, dict):
+        yield obj
+        for value in obj.values():
+            yield from walk(value)
+    elif isinstance(obj, list):
+        for value in obj:
+            yield from walk(value)
+
+def registry_claims(reg: dict) -> dict[str, dict]:
+    records = [
+        d for d in walk(reg)
+        if isinstance(d.get('claim_id'), str)
+        and 'claim_core_sha256' in d
+        and 'authority_status' in d
+        and 'scope_key' in d
+    ]
+    by: dict[str, dict] = {}
+    for rec in records:
+        claim_id = rec['claim_id']
+        assert claim_id not in by, f'duplicate actual claim record: {claim_id}'
+        by[claim_id] = rec
+    return by
+
 reg = json.loads(REG.read_text(encoding='utf-8'))
-by = {c['claim_id']: c for c in reg['claims']}
+by = registry_claims(reg)
+assert CID in by, f'missing actual claim record: {CID}; available={sorted(by)}'
 c = by[CID]
 assert c['claim_core_sha256'] == CORE
 assert c['authority_status'] == 'PROVISIONAL'
@@ -34,13 +59,15 @@ assert c['requires'] == [
     'S32.ADAPTER.EX3_O210_TO_MAIN_O210.V3',
 ]
 for dep in c['requires'][1:]:
-    assert by[dep]['authority_status'] == 'AUDITED'
+    assert by[dep]['authority_status'] == 'AUDITED', (dep, by[dep]['authority_status'])
 c['authority_status'] = 'AUDITED'
 c['audit_receipt'] = dict(AUDIT)
 dump_compact(REG, reg)
 
 active = json.loads(ACTIVE.read_text(encoding='utf-8'))
-ac = {x['claim_id']: x for x in active['claims']}[CID]
+active_matches = [x for x in active['claims'] if x['claim_id'] == CID]
+assert len(active_matches) == 1
+ac = active_matches[0]
 assert ac['claim_core_sha256'] == CORE
 assert ac['authority_status'] == 'PROVISIONAL'
 assert ac['audit_receipt'] is None
