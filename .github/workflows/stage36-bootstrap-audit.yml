@@ -47,7 +47,12 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09DR.py"
           git worktree remove --force "$tmp"
-      - name: Assert V201 DR exact-green parent and DS unlock firewalls
+      - name: Verify 36-09DS V4 degree-8 isogeny and pro-Selmer exponent-2 transport
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09DS.py
+      - name: Assert V202 DS provisional firewalls and DT lock
         shell: bash
         run: |
           set -euo pipefail
@@ -55,25 +60,36 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V201_36_09DR_EXACT_GREEN_DS_UNLOCK_PENDING_PROMOTION_REPLAY'
-          dr=s['authority_frontier']['36-09DR']
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V202_36_09DS_V4_ISOGENY_EXPONENT2_PROSELMER_TRANSPORT_PENDING_EXACT_HEAD_CI'
+          assert s['base_main_sha']=='70265586b3f97be21c7621af73f443311f1f3fa3'
+          dr=s['authority_frontier']['36-09DR']; ds=s['authority_frontier']['36-09DS']
           assert dr['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert dr['certificate_blob_sha']=='c212f0430fb5b4d04ee0887e303a73fb303657c8'
-          assert dr['verifier_blob_sha']=='1331530aa261bffb9d3fd2c605ae25d494fb507a'
-          assert dr['source_blob_sha']=='e546e1a731dfd6b270641eb1adb026847f8b838e'
-          assert dr['exact_head']=='ffff741cc96fb9d3125013e0d02e69410a434175'
-          assert dr['exact_head_ci']=='34234332852/102088050237'
+          assert dr['promotion_replay_head']=='cd1c5eaba94bf6202d8d2d9bc430a74224933bba'
+          assert dr['promotion_replay_ci']=='34234702694/102089303104'
+          assert ds['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert ds['certificate_blob_sha']=='8c16b2f2c53f343dc710bf06d55245aab0599a36'
+          assert ds['verifier_blob_sha']=='d71ea77a95b2931958bbb04af0e450adf014d5e3'
+          assert ds['source_blob_sha']=='1bac0039c0abccc236b392c2deba3a26ee83ba88'
+          assert ds['V4_ISOGENY_DEGREE8_COMPUTED'] is True
+          assert ds['PROSELMER_MUTUAL_INJECTIONS_CONSTRUCTED'] is True
+          assert ds['PROSELMER_COKERNEL_EXPONENT2_COMPUTED'] is True
+          assert ds['PROSELMER_PRODUCT_IDENTIFICATION_OBTAINED'] is False
           cur=s['current']; pg=s['promotion_gates']
-          assert cur['unit']=='36-09DR'
-          assert cur['36_09DS_entry_allowed'] is True
-          assert pg['36_09DR_exact_head_ci_passed'] is True
-          assert pg['36_09DR_promotion_replay_passed'] is False
-          assert pg['36_09DS_entry_allowed'] is True
-          assert pg['BT_Jacobian_Q_V4_elliptic_quotient_isogeny_constructed'] is True
+          assert cur['unit']=='36-09DS'
+          assert cur['36_09DT_entry_allowed'] is False
+          assert pg['36_09DR_promotion_replay_passed'] is True
+          assert pg['36_09DS_certificate_complete'] is True
+          assert pg['36_09DS_exact_head_ci_passed'] is False
+          assert pg['36_09DT_entry_allowed'] is False
+          assert pg['BT_V4_isogeny_degree8_computed'] is True
+          assert pg['BT_V4_isogeny_geometric_kernel_order8_computed'] is True
+          assert pg['BT_V4_isogeny_kernel_rational_structure_computed'] is False
+          assert pg['BT_proSelmer_mutual_injections_constructed'] is True
+          assert pg['BT_proSelmer_cokernel_exponent2_computed'] is True
+          assert pg['BT_proSelmer_cokernel_size_computed'] is False
           assert pg['BT_proSelmer_product_identification_obtained'] is False
-          assert pg['BT_isogeny_2primary_kernel_cokernel_computed'] is False
           for key in ['BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          print('36-09DR immutable exact-green evidence replayed; 36-09DS is unlocked for 2-primary isogeny transport only. No downstream credit is granted.')
+          print('36-09DS provisional candidate verified. Degree-8 V4 isogeny and exponent-2 pro-Selmer transport only; explicit defect and all downstream credit remain locked.')
           PY
           git diff --check

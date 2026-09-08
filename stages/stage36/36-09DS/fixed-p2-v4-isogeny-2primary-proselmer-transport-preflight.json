@@ -1,0 +1,120 @@
+{
+  "schema": "STAGE36_36_09DS_FIXED_P2_V4_ISOGENY_2PRIMARY_PROSELMER_TRANSPORT_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09DS",
+  "status": "PASS_V4_ISOGENY_DEGREE8_AND_PROSELMER_EXPONENT2_TRANSPORT_PRODUCT_IDENTIFICATION_STILL_MISSING",
+  "base_main_sha": "70265586b3f97be21c7621af73f443311f1f3fa3",
+  "batch_parent": {
+    "pr": 1712,
+    "36_09DR_exact_green_head": "ffff741cc96fb9d3125013e0d02e69410a434175",
+    "36_09DR_exact_head_ci": "34234332852/102088050237",
+    "36_09DR_promotion_replay_head": "cd1c5eaba94bf6202d8d2d9bc430a74224933bba",
+    "36_09DR_promotion_replay_ci": "34234702694/102089303104"
+  },
+  "source_locks": {
+    "stage36_36_09DR": {
+      "path": "stages/stage36/36-09DR/fixed-p2-v4-elliptic-quotient-proselmer-reduction-preflight.json",
+      "blob_sha": "c212f0430fb5b4d04ee0887e303a73fb303657c8"
+    },
+    "stage36_36_09DR_source": {
+      "path": "stages/stage36/36-09DR/v4-elliptic-quotient-isogeny-source-lock.md",
+      "blob_sha": "e546e1a731dfd6b270641eb1adb026847f8b838e"
+    },
+    "stage36_36_09DS_source": {
+      "path": "stages/stage36/36-09DS/v4-isogeny-norm-pullback-proselmer-source-lock.md",
+      "blob_sha": "1bac0039c0abccc236b392c2deba3a26ee83ba88"
+    }
+  },
+  "abelian_varieties": {
+    "J": "Jac(C3_2)",
+    "A": "E_tau x E_sigma x E_rho",
+    "dimension_J": 3,
+    "dimension_A": 3,
+    "quotient_map_degrees": {
+      "tau": 2,
+      "sigma": 2,
+      "rho": 2
+    }
+  },
+  "isogeny_maps": {
+    "Phi": "(a_tau,a_sigma,a_rho) |-> pi_tau^*(a_tau)+pi_sigma^*(a_sigma)+pi_rho^*(a_rho)",
+    "Psi": "x |-> (pi_tau,*(x),pi_sigma,*(x),pi_rho,*(x))",
+    "duality": "Psi=Phi^vee under the canonical principal polarizations"
+  },
+  "push_pull_relations": {
+    "diagonal": "pi_h,* pi_h^*=[2] on E_h",
+    "off_diagonal": "pi_h,* pi_k^*=0 for h!=k because the correspondence factors through Jac(C3_2/V4)=0",
+    "on_J": "pi_h^* pi_h,*=1+h",
+    "V4_norm_relation_on_J": "1+tau+sigma+rho=0"
+  },
+  "composition_relations": {
+    "Psi_after_Phi": "[2]_A",
+    "Phi_after_Psi": "[2]_J",
+    "both_exact": true
+  },
+  "degree_and_kernel": {
+    "degree_multiplication_by_2_on_dimension_3": 64,
+    "degree_Phi": 8,
+    "degree_Psi": 8,
+    "kernel_Phi_geometric_order": 8,
+    "kernel_Psi_geometric_order": 8,
+    "kernel_Phi_killed_by_2": true,
+    "kernel_Psi_killed_by_2": true,
+    "kernel_rational_Galois_module_structure_computed": false,
+    "kernel_identified_as_constant_Z2_cubed": false
+  },
+  "proSelmer_transport": {
+    "T2Sel_A": "T_2 Sel(E_tau) x T_2 Sel(E_sigma) x T_2 Sel(E_rho)",
+    "induced_Phi": "Phi_*:T_2 Sel(A)->T_2 Sel(J)",
+    "induced_Psi": "Psi_*:T_2 Sel(J)->T_2 Sel(A)",
+    "composition_Psi_Phi": "[2]",
+    "composition_Phi_Psi": "[2]",
+    "T2Sel_2_torsion_free": true,
+    "Phi_injective": true,
+    "Psi_injective": true,
+    "cokernel_Phi_killed_by_2": true,
+    "cokernel_Psi_killed_by_2": true,
+    "cokernel_dimension_computed": false,
+    "cokernel_cardinality_computed": false,
+    "product_identification_obtained": false
+  },
+  "route_result": {
+    "route_status": "PASS_EXACT_DEGREE8_V4_ISOGENY_AND_EXPONENT2_PROSELMER_TRANSPORT_PIVOT_TO_EXPLICIT_DEFECT",
+    "next_leaf": "36-09DT_FIXED_P2_V4_ISOGENY_PROSELMER_DEFECT_PREFLIGHT",
+    "next_leaf_semantics": "Compute the exact 2-primary isogeny/pro-Selmer defect (including the relevant kernel Galois module and finite-level Selmer image/cokernel data) before transporting elliptic quotient descent constraints to the retained-open Abel-Jacobi intersection."
+  },
+  "current_credit_boundary": {
+    "global_2primary_adelic_annihilator_is_T2Sel_image": true,
+    "Jacobian_Q_V4_elliptic_quotient_isogeny_constructed": true,
+    "V4_isogeny_degree8_computed": true,
+    "proSelmer_mutual_injections_constructed": true,
+    "proSelmer_cokernel_exponent2_computed": true,
+    "proSelmer_product_identification_obtained": false,
+    "T2Sel_J_computed": false,
+    "retained_open_curve_proSelmer_intersection_computed": false,
+    "global_2primary_Brauer_set_nonempty": false,
+    "global_2primary_Brauer_set_empty": false,
+    "Brauer_Manin_obstruction_obtained": false,
+    "fixed_p_2_branch_excluded": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_emptiness_proved": false
+  },
+  "scope_firewalls": {
+    "kernel_rational_Galois_module_structure_computed": false,
+    "proSelmer_cokernel_size_computed": false,
+    "proSelmer_product_identification_obtained": false,
+    "T2Sel_J_computed": false,
+    "elliptic_quotient_T2Sel_computed": false,
+    "retained_open_curve_proSelmer_intersection_computed": false,
+    "global_2primary_Brauer_set_nonempty": false,
+    "global_2primary_Brauer_set_empty": false,
+    "Brauer_Manin_obstruction_obtained": false,
+    "fixed_p_parameter_exclusion_obtained": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
