@@ -31,27 +31,29 @@ jobs:
           from pathlib import Path
           key=json.loads(Path('stages/stage32-ex2/runkeys/ex2-03d-claim-sync.json').read_text())
           assert key['schema']=='STAGE32EX2_EX2_03D_CLAIM_SYNC_RUNKEY_V1'
-          assert key['generation']==5 and key['armed'] is True
-          assert key['helper_path']=='stages/stage32-ex2/apply_ex2_03d_claim_sync_v2.py'
-          assert key['helper_blob_sha1']=='be2445ec902db55d2ee02d04575dfdca69f03f8d'
+          assert key['generation']==6 and key['armed'] is True
+          assert key['helper_path']=='stages/stage32-ex2/apply_ex2_03d_claim_sync_v3.py'
+          assert key['helper_blob_sha1']=='b956bdb73713b25135c27cefcb1c024cf223bd03'
+          assert key['merge_authorized'] is False
           actual=subprocess.check_output(['git','hash-object',key['helper_path']],text=True).strip()
           assert actual==key['helper_blob_sha1']
           subprocess.check_call(['git','fetch','origin','main','--depth=1'])
           current=subprocess.check_output(['git','rev-parse','origin/main'],text=True).strip()
           assert current==key['expected_current_main'], (current,key['expected_current_main'])
           PY
-          git merge-base --is-ancestor f2a89e613cdf91191a0aada9e90c9fc93373a6c6 HEAD
+          git merge-base --is-ancestor 226a8aa11ac61293a7e4b7f9611177f68af94ff4 HEAD
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Install exact replay dependency
         run: python -m pip install 'sympy==1.14.0'
       - name: Apply deterministic claim/state sync
-        run: python -B stages/stage32-ex2/apply_ex2_03d_claim_sync_v2.py
+        run: python -B stages/stage32-ex2/apply_ex2_03d_claim_sync_v3.py
       - name: Verify synchronized package
         run: |
-          python -B stages/stage32/proof/verify_stage32_claim_dag.py
+          python -B stages/stage32/proof/verify_stage32_claim_dag.py --integrity
           python -B stages/stage32/proof/verify_stage32_active_frontier.py
+          python -B stages/stage32-ex2/verify_ex2_03d_five_conic_restriction.py
           python -B stages/stage32-ex2/verify_main_state.py
       - name: Verify exact write scope
         run: |
@@ -69,5 +71,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add stages/stage32-ex2/MAIN-STATE.json stages/stage32-ex2/verify_main_state.py stages/stage32/proof/CLAIM-REGISTRY.json stages/stage32/proof/LANE-ADAPTERS.json
-          git commit -m '[Stage32EX2][EX2-03D] synchronize five-conic restriction claim'
+          git commit -m '[Stage32EX2][EX2-03D] synchronize five-conic restriction claim on current governance'
           git push origin HEAD:stage32ex2-ex2-00-source-lock-continuation
