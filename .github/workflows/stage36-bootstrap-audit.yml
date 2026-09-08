@@ -60,12 +60,16 @@ jobs:
           assert r['status']=='PASS'
           assert r['audited_exact_head']=='12bf7eb1ee7da6bf0e7ac8f35df9e5379d8e65cb'
           PY
-      - name: Verify 36-09DN full exponent-2 Brauer common-neighborhood result
+      - name: Replay immutable 36-09DN exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09DN.py
-      - name: Assert V192 DN provisional firewalls and DO lock
+          H=6d8d65b9215ef9eba148370342922092aa36a084
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09DN.py"
+          git worktree remove --force "$tmp"
+      - name: Assert V193 DN exact-green parent and DO unlock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -73,26 +77,28 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V192_36_09DN_FULL_BR2_PENDING_EXACT_HEAD_CI'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V193_36_09DN_EXACT_GREEN_DO_UNLOCK_PENDING_PROMOTION_REPLAY'
           dn=s['authority_frontier']['36-09DN']
-          assert dn['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert dn['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert dn['certificate_blob_sha']=='bffce7f0e27a9f92f12657bcca1b71cddce7ccaa'
           assert dn['verifier_blob_sha']=='9f0a751709e4a0e5893b8b91c789e619c8e5a501'
           assert dn['source_blob_sha']=='60984a1f42b999e770219398690e833b54c8eb0f'
+          assert dn['exact_head']=='6d8d65b9215ef9eba148370342922092aa36a084'
+          assert dn['exact_head_ci']=='34226894499/102063100388'
           assert dn['FULL_BR2_BRAUER_SET_NONEMPTY'] is True
           assert dn['FULL_BR2_BRAUER_MANIN_OBSTRUCTION_DISPROVED'] is True
           assert dn['FULL_2PRIMARY_BRAUER_SET_NONEMPTY'] is False
           assert dn['FULL_BRAUER_SET_NONEMPTY'] is False
-          cur=s['current'];pg=s['promotion_gates']
+          cur=s['current']; pg=s['promotion_gates']
           assert cur['unit']=='36-09DN'
-          assert cur['36_09DO_entry_allowed'] is False
-          assert pg['36_09DN_certificate_complete'] is True
-          assert pg['36_09DN_exact_head_ci_passed'] is False
-          assert pg['36_09DO_entry_allowed'] is False
+          assert cur['36_09DO_entry_allowed'] is True
+          assert pg['36_09DN_exact_head_ci_passed'] is True
+          assert pg['36_09DN_promotion_replay_passed'] is False
+          assert pg['36_09DO_entry_allowed'] is True
           assert pg['BT_full_Br2_Brauer_set_nonempty'] is True
           assert pg['BT_full_Br2_Brauer_Manin_obstruction_disproved'] is True
           for key in ['BT_full_2primary_Brauer_set_nonempty','BT_full_Brauer_set_nonempty','BT_full_relevant_Brauer_group_computed','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          print('36-09DN provisional exact-head candidate verified; full Br[2] Brauer set is nonempty, while higher 2-primary/full Brauer/fixed-p/receiver/endpoint credit remains locked pending exact-head CI.')
+          print('36-09DN immutable exact-green evidence replayed; 36-09DO is unlocked for higher-2-primary/full-Brauer boundary analysis only. No downstream credit is granted.')
           PY
           git diff --check
