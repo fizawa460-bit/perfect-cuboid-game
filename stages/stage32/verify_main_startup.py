@@ -10,7 +10,7 @@ HERE = Path(__file__).resolve().parent
 STATE = HERE / "MAIN-STATE.json"
 START = HERE / "MAIN-START-HERE.md"
 EXPECTED_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V2_POST1728_V6_NEGATIVE_AUTHORITY_CONSUMED"
-EXPECTED_CANONICAL = "131982c58dbd265712493230ac943175e5d536b9d6bea5199ee54e547e4191aa"
+EXPECTED_CANONICAL = "165362e691949cb0079a7cb581ac7209d1b6231dfc5ffce82428ed4c7bae7f5b"
 EXPECTED_ROUTE = "BUILD_AND_HOSTILE_AUDIT_V6_EMPTY_TO_O210_AND_Q602_POPULATION_PRESERVING_ADAPTERS_IN_PARALLEL_WITH_FULL178_CENSUS"
 EXPECTED_WORKING_SET = [
     "stages/stage32/post1728-v6-negative-authority-consumption-and-frontier-remap.json",
@@ -51,6 +51,14 @@ def main() -> None:
     assert fw["V6_genus1_carrier_excluded"] is True
     for key in ["Q602_excluded","O210_excluded","O212_plus_advance_allowed","controller_promotion_granted","receiver_credit","route_credit","theorem_credit","endpoint_credit","perfect_cuboid_existence_claim","perfect_cuboid_nonexistence_claim"]:
         assert fw[key] is False
+    cleanup = state["cleanup_gate"]
+    assert cleanup == {
+        "stage32_root_cleanup_started": True,
+        "root_cleanup_phase": "PHASE_B_LOOSE_LEGACY_ROOT_RELOCATION_PENDING_HOSTILE_AUDIT",
+        "archive_manifest": "stages/stage32/archive/legacy-root/manifest.json",
+        "proof_or_source_locked_assets_may_be_deleted_without_reference_audit": False,
+        "next_cleanup_phase": "AFTER_PHASE_B_HOSTILE_AUDIT_REVIEW_REFERENCED_ROOT_AUTHORITY_FILES",
+    }
     startup = START.read_text()
     for fragment in ["Ordinary `Stage32-main-batch` reads, in this order:","only the paths listed in `MAIN-STATE.json.current_leaf_working_set`","Do not merge without explicit user authorization."]:
         assert fragment in startup
