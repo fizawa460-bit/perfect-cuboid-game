@@ -1,7 +1,7 @@
 {
   "contract": {
     "claim_reference_rule": "A lane may cite a registered claim ID, but mathematical credit is bounded by that claim's authority_status, PROVES, DOES_NOT_PROVE, source locks, and audit receipt.",
-    "active_frontier_rule": "active_frontier_refs point into ACTIVE-FRONTIER.json and express current OWNER/ATTACKS/CONSUMES routing only; they do not make EX1-EX6 separate mathematical Stages and do not grant proof credit.",
+    "active_frontier_rule": "active_frontier_refs point into ACTIVE-FRONTIER.json and express current OWNER/ATTACKS/CONSUMES routing only; they do not make EX1-EX6 separate mathematical Stages and do not grant proof credit. A stopped lane with no current active attack may carry an empty active_frontier_refs list only under the verifier's explicit stopped-lane gate.",
     "promotion_rule": "EX -> MAIN requires an AUDITED terminal EX claim plus a separate explicit current-target promotion adapter claim. LANE-ADAPTERS.json itself never promotes.",
     "purpose": "External reference map only. Existing MAIN-STATE files remain authoritative for routing and are not rewritten or promoted by this adapter.",
     "scratch_rule": "Scratch results are not claim dependencies for MAIN/EX promotion. They must first become a retained PROVISIONAL claim with exact source locks.",
@@ -21,7 +21,7 @@
       "revocation_before_sync": "BLOCK_DOWNSTREAM_IMMEDIATELY",
       "registry_authority_mutation": "AT_CLAIM_SYNC_WITH_EXACT_RECEIPT"
     },
-    "new_lane_enrollment_rule": "Any new Stage32 EX lane must be added here with exact state_path, startup_path, claim_refs, and active_frontier_refs before it can promote mathematical credit to MAIN."
+    "new_lane_enrollment_rule": "Any new Stage32 EX lane must be added here with exact state_path, startup_path, claim_refs, and active_frontier_refs before it can promote mathematical credit to MAIN. A stopped lane may enroll with empty active_frontier_refs only while promotion_blocked_without_active_claim=true; re-entry requires ACTIVE_FRONTIER_REMAP before promotion."
   },
   "lanes": [
     {
@@ -39,7 +39,6 @@
         "S32.V6.SURFACE_NODE_MULTIBRANCH.V1",
         "S32.V6.SMOOTH_AMBIENT_LOCUS_CURVE_SINGULARITY.V1",
         "S32.O210.EXCLUSION.V1",
-        "S32.O266.ENDPOINT.EXCLUSION.V1",
         "S32.Q602.SURVIVORS_73_97_235.V1",
         "S32.Q602.EXCLUSION.V1",
         "S32.J2.DELTA0INF_ABSOLUTE_W_LINE_MARKING.V1",
@@ -47,7 +46,7 @@
         "S32.FULL178.NUMERICAL_CENSUS.V1",
         "S32.GOAL.STAGE32_CLOSURE.V1"
       ],
-      "notes": "MAIN owns the active Stage32 claim frontier as authority/integration context. HDECK and [73,97,235] are audited; O266 is a reverse-attack open goal and does not move current MAIN routing away from O210/Q602."
+      "notes": "MAIN owns the active frontier. HDECK and [73,97,235] are audited; open frontier nodes remain goals unless independently audited."
     },
     {
       "lane": "EX1",
@@ -120,8 +119,10 @@
       "state_path": "stages/stage32-ex6/MAIN-STATE.json",
       "startup_path": "stages/stage32-ex6/MAIN-START-HERE.md",
       "claim_refs": ["S32.MAIN.CURRENT_TARGET_CONTEXT.V1"],
-      "active_frontier_refs": ["S32.O266.ENDPOINT.EXCLUSION.V1"],
-      "notes": "EX6 is the reverse O266 endpoint attack. The merged #1697 outcome is O266_ENDPOINT_NOT_CLOSED, so this enrollment grants no endpoint exclusion or MAIN advancement. No EX6 promotion-adapter claim is registered yet; any future promotion must create/version an explicit current-target adapter at the promotion trigger."
+      "active_frontier_refs": [],
+      "lane_status": "STOPPED_PENDING_NEW_ENDPOINT_INPUT",
+      "promotion_blocked_without_active_claim": true,
+      "notes": "EX6 is enrolled as the merged reverse O266 endpoint lane, but #1697 ended O266_ENDPOINT_NOT_CLOSED and the lane is currently stopped. Therefore it carries no active ATTACKS/CONSUMES ref and cannot promote. Re-entry must first fire ACTIVE_FRONTIER_REMAP and attach an exact registered claim; any later MAIN promotion also needs hostile-audit authority and an explicit current-target promotion adapter."
     }
   ],
   "schema": "STAGE32_LANE_CLAIM_ADAPTERS_V1",
