@@ -29,6 +29,7 @@ EXPECTED_AUDIT_TRANSITION_POLICY = {
     "revocation_before_sync": "BLOCK_DOWNSTREAM_IMMEDIATELY",
     "registry_authority_mutation": "AT_CLAIM_SYNC_WITH_EXACT_RECEIPT",
 }
+STOPPED_LANE_STATUS = "STOPPED_PENDING_NEW_ENDPOINT_INPUT"
 
 REQUIRED_ACTIVE_IDS = {
     "S32.V6.ACTUAL_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
@@ -43,7 +44,7 @@ REQUIRED_ACTIVE_IDS = {
     "S32.FULL178.NUMERICAL_CENSUS.V1",
     "S32.GOAL.STAGE32_CLOSURE.V1",
 }
-ALLOWED_LANES = {"MAIN", "EX1", "EX2", "EX3", "EX4", "EX5"}
+ALLOWED_LANES = {"MAIN", "EX1", "EX2", "EX3", "EX4", "EX5", "EX6"}
 ALLOWED_LANE_ROLES = {"OWNER", "ATTACKS", "CONSUMES"}
 ALLOWED_FRONTIER_STATUS = {"AUDITED_TRUE", "OPEN_GOAL", "OPEN_BRANCH", "BLOCKED_OPEN_GOAL", "ACTIVE_INCOMPLETE"}
 
@@ -70,20 +71,15 @@ def downstream_consumption_allowed_before_sync(pre_sync_authority: str, audit_tr
     if transition in {"FAIL", "REVOCATION", "REVOKED"}:
         return False
     if transition == "PASS":
-        # PASS cannot increase authority before registry synchronization.
         return pre_sync_authority == "AUDITED"
     raise RuntimeError(f"unknown audit transition {audit_transition!r}")
 
 
 def self_test_audit_transition_fail_closed() -> None:
-    # Core regression requested by hostile audit: once FAIL/revocation is known,
-    # an old AUDITED registry value is no longer consumable while sync is pending.
     if downstream_consumption_allowed_before_sync("AUDITED", "FAIL"):
         raise RuntimeError("synthetic regression: known FAIL left old AUDITED claim consumable")
     if downstream_consumption_allowed_before_sync("AUDITED", "REVOCATION"):
         raise RuntimeError("synthetic regression: known revocation left old AUDITED claim consumable")
-    # PASS is asymmetric: it may preserve an already-AUDITED level, but it may
-    # never upgrade a lower authority before the exact PASS receipt is synced.
     if downstream_consumption_allowed_before_sync("PROVISIONAL", "PASS"):
         raise RuntimeError("synthetic regression: PASS upgraded PROVISIONAL authority before sync")
     if not downstream_consumption_allowed_before_sync("AUDITED", "PASS"):
@@ -126,13 +122,16 @@ def validate_claim_sync_contract(adapters: dict) -> None:
     lanes = adapters.get("lanes")
     if not isinstance(lanes, list):
         raise RuntimeError("lane adapters must be a list")
+    lane_names = [item.get("lane") for item in lanes if isinstance(item, dict)]
+    if set(lane_names) != ALLOWED_LANES or len(lane_names) != len(ALLOWED_LANES):
+        raise RuntimeError("mapped lane coverage drift")
     for item in lanes:
         if not isinstance(item, dict):
             raise RuntimeError("malformed lane adapter")
         lane = item.get("lane")
         startup_rel = item.get("startup_path")
         if lane not in ALLOWED_LANES:
-            continue
+            raise RuntimeError(f"unknown mapped lane {lane!r}")
         if not isinstance(startup_rel, str) or not startup_rel:
             raise RuntimeError(f"{lane}: startup_path missing from lane adapter")
         startup_path = ROOT / startup_rel
@@ -165,9 +164,6 @@ def main() -> int:
             raise RuntimeError("active-frontier base registry drift")
         if active.get("inherits_claim_schema") != "stages/stage32/proof/CLAIM-REGISTRY.schema.json":
             raise RuntimeError("active-frontier schema inheritance drift")
-        # ACTIVE-FRONTIER contains only mathematical claims, never adapter_contracts.
-        # Its declared core-key list therefore omits the adapter-only `bridges` field,
-        # while basev.CORE_KEYS still commits bridges for every adapter_contract.
         expected_active_core_keys = [key for key in basev.CORE_KEYS if key != "bridges"]
         if active.get("claim_core_keys") != expected_active_core_keys:
             raise RuntimeError("active-frontier immutable non-adapter claim core drift")
@@ -237,11 +233,8 @@ def main() -> int:
             if owners != 1:
                 raise RuntimeError(f"{cid}: active frontier node requires exactly one MAIN OWNER link")
 
-        for lane in sorted(ALLOWED_LANES - {"MAIN"}):
-            if not lane_to_claims.get(lane):
-                raise RuntimeError(f"{lane}: not connected to any active frontier claim")
-
         adapter_by_lane = {item.get("lane"): item for item in adapters.get("lanes", [])}
+        stopped_lanes: list[str] = []
         for lane in sorted(ALLOWED_LANES):
             item = adapter_by_lane.get(lane)
             if not isinstance(item, dict):
@@ -255,11 +248,35 @@ def main() -> int:
             if unknown:
                 raise RuntimeError(f"{lane}: unknown active frontier refs {unknown}")
             expected = set(owner_claims) if lane == "MAIN" else set(lane_to_claims[lane])
+
+            if lane != "MAIN" and not expected:
+                if item.get("lane_status") != STOPPED_LANE_STATUS:
+                    raise RuntimeError(f"{lane}: empty active frontier is allowed only for an explicitly stopped lane")
+                if item.get("promotion_blocked_without_active_claim") is not True:
+                    raise RuntimeError(f"{lane}: stopped lane must block promotion without an active claim")
+                if refs:
+                    raise RuntimeError(f"{lane}: stopped lane without active attack must have empty active_frontier_refs")
+                state_rel = item.get("state_path")
+                if not isinstance(state_rel, str) or not state_rel:
+                    raise RuntimeError(f"{lane}: stopped lane state_path missing")
+                state = load_json(ROOT / state_rel)
+                if state.get("current", {}).get("status") != STOPPED_LANE_STATUS:
+                    raise RuntimeError(f"{lane}: lane adapter stop status disagrees with MAIN-STATE")
+                if state.get("credit", {}).get("stage32_main_credit") is not False:
+                    raise RuntimeError(f"{lane}: stopped lane cannot carry Stage32 MAIN credit")
+                stopped_lanes.append(lane)
+                continue
+
+            if lane != "MAIN" and not expected:
+                raise RuntimeError(f"{lane}: not connected to any active frontier claim")
             if set(refs) != expected:
                 raise RuntimeError(
                     f"{lane}: LANE-ADAPTERS active refs disagree with claim lane_links; "
                     f"missing={sorted(expected-set(refs))} extra={sorted(set(refs)-expected)}"
                 )
+
+        if stopped_lanes != ["EX6"]:
+            raise RuntimeError(f"unexpected stopped-lane set: {stopped_lanes}")
 
         survivor = by_id["S32.Q602.SURVIVORS_73_97_235.V1"]
         if survivor["authority_status"] != "AUDITED" or survivor["scope"].get("surviving_residues") != [73, 97, 235]:
@@ -274,6 +291,7 @@ def main() -> int:
             "active_authority_status_counts": dict(sorted(status_counts.items())),
             "active_frontier_status_counts": dict(sorted(frontier_status_counts.items())),
             "ex_lane_targets": {k: sorted(v) for k, v in sorted(lane_to_claims.items())},
+            "stopped_lanes_without_active_claim": stopped_lanes,
             "combined_claim_count": len(combined_claims),
             "source_locks_checked": source_lock_count,
             "replay_verifiers_checked": replay_count,
