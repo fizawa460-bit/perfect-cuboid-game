@@ -1,0 +1,114 @@
+{
+  "schema": "STAGE36_36_09DS_PROSELMER_TORSION_INJECTIVITY_CORRECTION_V1",
+  "stage": "36",
+  "unit": "36-09DS-CORRECTION",
+  "status": "CORRECTION_REVOKE_MUTUAL_INJECTIVITY_RETAIN_EXPONENT2_KERNEL_COKERNEL",
+  "base_main_sha": "119e24100dd943cadef39df783a7b5de7b3a5704",
+  "reason": "The historical DS proof incorrectly treated T_2 Sel(-) as 2-torsion-free. DQ's Kummer exact sequence contains the 2-adic Mordell-Weil completion, and DT proves both isogeny kernels are nonzero Q-rational 2-torsion. Those kernel points survive completion and give nonzero kernels on pro-Selmer.",
+  "source_locks": {
+    "correction_source": {
+      "path": "stages/stage36/36-09DS/proselmer-torsion-injectivity-correction-source-lock.md",
+      "blob_sha": "7b8d09ddf0eaa147af01437d0ef19a80da44fb0c"
+    },
+    "research_credit_policy": {
+      "path": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
+      "blob_sha": "7a3de0b2692afe4fb25b6825b31bd0384a118a41"
+    },
+    "DQ_proSelmer_source": {
+      "path": "stages/stage36/36-09DQ/global-2primary-adelic-annihilator-proselmer-source-lock.md",
+      "blob_sha": "71829ec5e0af601605f1f93c5f3a3fec4cae2102"
+    },
+    "historical_DS_certificate": {
+      "path": "stages/stage36/36-09DS/fixed-p2-v4-isogeny-2primary-proselmer-transport-preflight.json",
+      "blob_sha": "8c16b2f2c53f343dc710bf06d55245aab0599a36"
+    },
+    "historical_DS_source": {
+      "path": "stages/stage36/36-09DS/v4-isogeny-norm-pullback-proselmer-source-lock.md",
+      "blob_sha": "1bac0039c0abccc236b392c2deba3a26ee83ba88"
+    },
+    "DT_kernel_certificate": {
+      "path": "stages/stage36/36-09DT/fixed-p2-v4-isogeny-proselmer-defect-preflight.json",
+      "blob_sha": "362326de8d6ecc0b415ecf29c6eb936134e395ce"
+    }
+  },
+  "historical_DS_claims_revoked": {
+    "T2Sel_2_torsion_free": true,
+    "Phi_injective": true,
+    "Psi_injective": true,
+    "proSelmer_mutual_injections_constructed": true
+  },
+  "historical_DS_claims_retained": {
+    "V4_isogeny_constructed": true,
+    "degree_Phi": 8,
+    "degree_Psi": 8,
+    "Psi_after_Phi_equals_2": true,
+    "Phi_after_Psi_equals_2": true,
+    "kernel_Phi_geometric_order": 8,
+    "kernel_Psi_geometric_order": 8,
+    "kernel_Phi_killed_by_2": true,
+    "kernel_Psi_killed_by_2": true,
+    "cokernel_Phi_killed_by_2": true,
+    "cokernel_Psi_killed_by_2": true
+  },
+  "DQ_Kummer_interface": {
+    "exact_sequence": "0 -> B(Q)^hat_2 -> T_2 Sel(B) -> T_2 Sha(B)[2^infinity] -> 0",
+    "Mordell_Weil_completion_embeds_in_proSelmer": true,
+    "T2Sel_automatically_2_torsion_free": false
+  },
+  "finite_generation_completion_fact": {
+    "input": "M finitely generated abelian",
+    "decomposition": "M ~= Z^r direct_sum T_2 direct_sum T_odd",
+    "completion": "M^hat_2 ~= Z_2^r direct_sum T_2",
+    "nonzero_2primary_torsion_survives_completion": true
+  },
+  "DT_rational_kernel_input": {
+    "kernel_Phi_constant_Q_group_scheme": "(Z/2Z)^3",
+    "kernel_Psi_constant_Q_group_scheme": "(Z/2Z)^3",
+    "kernel_Phi_Q_nonzero": true,
+    "kernel_Psi_Q_nonzero": true
+  },
+  "corrected_proSelmer_transport": {
+    "Phi_kernel_nonzero": true,
+    "Psi_kernel_nonzero": true,
+    "Phi_injective": false,
+    "Psi_injective": false,
+    "Phi_kernel_killed_by_2": true,
+    "Psi_kernel_killed_by_2": true,
+    "Phi_cokernel_killed_by_2": true,
+    "Psi_cokernel_killed_by_2": true,
+    "Phi_kernel_dimension_computed": false,
+    "Psi_kernel_dimension_computed": false,
+    "Phi_cokernel_dimension_computed": false,
+    "Psi_cokernel_dimension_computed": false,
+    "product_identification_obtained": false
+  },
+  "downstream_impact": {
+    "DQ_global_2primary_annihilator_reformulation_retained": true,
+    "DR_DS_geometric_V4_isogeny_retained": true,
+    "DT_constant_kernel_computation_retained": true,
+    "DU_descent_functions_retained": true,
+    "DV_DW_local_Phi_images_retained": true,
+    "DX_finite_global_Phi_Selmer_four_class_result_retained": true,
+    "DS_mutual_injection_bridge_revoked": true,
+    "36_09DY_entry_must_be_relocked": true,
+    "external_reaudit_required_before_new_downstream_promotion": true
+  },
+  "corrected_next_obligation": "Compute the actual Phi/Psi pro-Selmer kernel-and-cokernel defect, including visible rational 2-torsion and any Tate-module-of-Sha contribution; do not model it as a quotient between mutually injected pro-Selmer groups.",
+  "scope_firewalls": {
+    "exact_proSelmer_kernel_dimensions_computed": false,
+    "exact_proSelmer_cokernel_dimensions_computed": false,
+    "proSelmer_product_identification_obtained": false,
+    "T2Sel_J_computed": false,
+    "retained_open_curve_proSelmer_intersection_computed": false,
+    "global_2primary_Brauer_set_nonempty": false,
+    "global_2primary_Brauer_set_empty": false,
+    "Brauer_Manin_obstruction_obtained": false,
+    "fixed_p_parameter_exclusion_obtained": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
