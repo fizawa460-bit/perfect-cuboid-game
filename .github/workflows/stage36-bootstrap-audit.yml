@@ -50,12 +50,17 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CL.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09CM BT global Kummer localization adapter
+      - name: Replay immutable 36-09CM exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09CM.py
-      - name: Assert CM firewalls and CN selection
+          H=f5b270da04815e6339cd8795d0ddf58ce34138ca
+          git cat-file -e "$H^{commit}"
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09CM.py"
+          git worktree remove --force "$tmp"
+      - name: Assert CM exact-green parent and CN selection
         shell: bash
         run: |
           set -euo pipefail
@@ -63,10 +68,13 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V136_36_09CM_BT_GLOBAL_KUMMER_LOCALIZATION_ADAPTER'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V137_36_09CM_EXACT_GREEN_CN_SELECTED'
           cm=s['authority_frontier']['36-09CM']
+          assert cm['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert cm['certificate_blob_sha']=='06c3e6d1fcc2453dc44b84d50896abdc6a1658d7'
           assert cm['verifier_blob_sha']=='837ef698fd808c4adf9858f4d037ef73982db2c5'
+          assert cm['exact_head']=='f5b270da04815e6339cd8795d0ddf58ce34138ca'
+          assert cm['exact_head_ci']=='34177867543/101910774245'
           assert cm['BT_GLOBAL_KUMMER_CLASS_ADAPTER_COMPLETE'] is True
           assert cm['BT_DYNAMIC_LOCALIZATION_SYSTEM_ADAPTER_COMPLETE_AT_SQUARECLASS_COVER_LEVEL'] is True
           assert cm['OLD_36_04_CLASS_IDENTIFICATION_COMPLETE'] is False
@@ -77,12 +85,11 @@ jobs:
           assert cur['36_09CN_entry_allowed'] is True
           assert cur['hostile_audit_checkpoint_reached'] is False
           pg=s['promotion_gates']
-          assert pg['BT_branch_global_Kummer_class_constructed'] is True
-          assert pg['BT_dynamic_localization_system_adapter_constructed_at_squareclass_cover_level'] is True
+          assert pg['36_09CM_exact_head_ci_passed'] is True
           assert pg['LIT_WF02_applicability_pass'] is False
           assert pg['new_global_obstruction_obtained'] is False
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09CM candidate verified; CN immutable package selected with all global-obstruction/closure firewalls retained.')
+          print('36-09CM exact-green parent replayed; CN immutable package preflight selected with all obstruction/closure firewalls retained.')
           PY
           git diff --check
