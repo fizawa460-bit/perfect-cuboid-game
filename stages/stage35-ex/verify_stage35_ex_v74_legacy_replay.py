@@ -34,17 +34,21 @@ assert real['claims']['open_receiver_local_evaluations_computed'] is False
 assert real['claims']['E1_proved'] is False
 
 assert blob(SNAP)==V73_BLOB
-snaptext=SNAP.read_text(); snap=json.loads(snaptext)
+snapbytes=SNAP.read_bytes(); snaptext=snapbytes.decode(); snap=json.loads(snaptext)
 assert snap['schema']==V73
 assert snap['current']['unit']=='35EX-35_GOAL4AJ_SECOND_CLASS_QI_CYCLIC_DEGREE31_LITERAL_SECTION_COEFFICIENT_EXTRACTION'
 assert snap['claims']['goal4aj_executed'] is True
 assert snap['claims']['open_receiver_second_class_explicit_F_B_computed'] is False
 
-orig=Path.read_text; sr=STATE.resolve()
-def patched(self:Path,*a,**k):
+orig_text=Path.read_text; orig_bytes=Path.read_bytes; sr=STATE.resolve()
+def patched_text(self:Path,*a,**k):
     if self.resolve()==sr:return snaptext
-    return orig(self,*a,**k)
-Path.read_text=patched
+    return orig_text(self,*a,**k)
+def patched_bytes(self:Path,*a,**k):
+    if self.resolve()==sr:return snapbytes
+    return orig_bytes(self,*a,**k)
+Path.read_text=patched_text
+Path.read_bytes=patched_bytes
 try:
     oldargv=sys.argv[:]
     try:
@@ -58,5 +62,7 @@ try:
             sys.argv=['verify_stage35_ex_35_goal4ak_explicit_fb.py']
             runpy.run_path(str(ROOT/'stages/stage35-ex/verify_stage35_ex_35_goal4ak_explicit_fb.py'),run_name='__main__')
     finally: sys.argv=oldargv
-finally: Path.read_text=orig
+finally:
+    Path.read_text=orig_text
+    Path.read_bytes=orig_bytes
 print(f'PASS V74_PERSISTED_V73_REPLAY_{target}')
