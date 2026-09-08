@@ -1,0 +1,102 @@
+{
+  "schema":"STAGE36_36_09DR_FIXED_P2_V4_ELLIPTIC_QUOTIENT_PROSELMER_REDUCTION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09DR",
+  "status":"PASS_EXPLICIT_Q_V4_ELLIPTIC_QUOTIENT_ISOGENY_PROSELMER_2PRIMARY_TRANSPORT_MISSING",
+  "base_main_sha":"42f20e47babdfdda068a605e3fec489eeace460c",
+  "batch_parent":{
+    "pr":1712,
+    "36_09DQ_exact_green_head":"b121fc0f23eba3241f35cf64a13d45cba7eaa213",
+    "36_09DQ_exact_head_ci":"34231468694/102078401099",
+    "36_09DQ_promotion_replay_head":"befe11f72c3bc6f228ac02299f4d370ec600baa2",
+    "36_09DQ_promotion_replay_ci":"34231707077/102079208526"
+  },
+  "source_locks":{
+    "stage36_36_09DQ":{"path":"stages/stage36/36-09DQ/fixed-p2-global-2primary-adelic-annihilator-preflight.json","blob_sha":"4c41228d23f9088bfbea8b68c94b2a26948f8691"},
+    "v4_isogeny_source":{"path":"stages/stage36/36-09DR/v4-elliptic-quotient-isogeny-source-lock.md","blob_sha":"e546e1a731dfd6b270641eb1adb026847f8b838e"}
+  },
+  "fixed_curve":{
+    "name":"C3_2",
+    "equation_factored":"z^2=(t^2+4)(t^2+1/4)(t^2+9)(t^2+1/9)",
+    "expanded_even_reciprocal_coefficients":["1","481/36","733/18","481/36","1"],
+    "genus":3
+  },
+  "Q_V4_action":{
+    "tau":"(t,z)->(-t,z)",
+    "sigma":"(t,z)->(1/t,z/t^4)",
+    "rho":"tau*sigma=(t,z)->(-1/t,z/t^4)",
+    "pairwise_commuting_involutions":true,
+    "group":"V4"
+  },
+  "elliptic_quotients":{
+    "E_tau":{
+      "invariants":"x=t^2, y=z",
+      "equation":"y^2=(x+4)(x+1/4)(x+9)(x+1/9)",
+      "expanded":"y^2=x^4+(481/36)x^3+(733/18)x^2+(481/36)x+1",
+      "rational_point":"(0,1)"
+    },
+    "E_sigma":{
+      "invariants":"u=t+1/t, Y=z/t^2",
+      "equation":"Y^2=u^4+(337/36)u^2+16=(u^2+9/4)(u^2+64/9)",
+      "rational_point":"(2,25/3)"
+    },
+    "E_rho":{
+      "invariants":"v=t-1/t, Y=z/t^2",
+      "equation":"Y^2=v^4+(625/36)v^2+625/9=(v^2+25/4)(v^2+100/9)",
+      "rational_point":"(0,25/3)"
+    }
+  },
+  "full_V4_quotient":{
+    "invariants":"s=t^2+t^-2, Y=z/t^2",
+    "equation":"Y^2=s^2+(481/36)s+697/18",
+    "genus":0,
+    "rational_point":"(2,25/3)"
+  },
+  "differential_check":{
+    "basis":["dt/z","t dt/z","t^2 dt/z"],
+    "E_tau_pullback_vector":[0,1,0],
+    "E_sigma_pullback_vector":[-1,0,1],
+    "E_rho_pullback_vector":[1,0,1],
+    "determinant":2,
+    "spans_H0_differentials":true
+  },
+  "isogeny_result":{
+    "Q_isogeny":"Jac(C3_2) ~_Q E_tau x E_sigma x E_rho",
+    "Q_isogeny_constructed":true,
+    "independent_routes":["Kani-Rosen V4 relation with genus-zero total quotient","full-rank pullback differential map"],
+    "proSelmer_product_identification_obtained":false,
+    "isogeny_2primary_kernel_cokernel_computed":false
+  },
+  "route_result":{
+    "route_status":"PASS_Q_V4_ELLIPTIC_DECOMPOSITION_PIVOT_TO_2PRIMARY_ISOGENY_TRANSPORT",
+    "next_leaf":"36-09DS_FIXED_P2_ELLIPTIC_QUOTIENT_2PRIMARY_ISOGENY_TRANSPORT_PREFLIGHT",
+    "next_leaf_semantics":"Compute the 2-primary kernel/cokernel effect of the quotient-product isogeny and determine the exact relation between T_2 Sel(J) and the three elliptic quotient pro-Selmer systems before using elliptic descents."
+  },
+  "current_credit_boundary":{
+    "global_2primary_adelic_annihilator_is_T2Sel_image":true,
+    "Jacobian_Q_V4_elliptic_quotient_isogeny_constructed":true,
+    "proSelmer_product_identification_obtained":false,
+    "global_2primary_Brauer_set_nonempty":false,
+    "global_2primary_Brauer_set_empty":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_2_branch_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false
+  },
+  "scope_firewalls":{
+    "isogeny_2primary_kernel_cokernel_computed":false,
+    "T2Sel_J_computed":false,
+    "elliptic_quotient_T2Sel_computed":false,
+    "retained_open_curve_proSelmer_intersection_computed":false,
+    "global_2primary_Brauer_set_nonempty":false,
+    "global_2primary_Brauer_set_empty":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

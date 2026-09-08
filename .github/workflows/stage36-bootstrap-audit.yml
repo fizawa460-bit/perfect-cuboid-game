@@ -5,9 +5,7 @@ on:
       - 'stages/stage36/**'
       - '.github/workflows/stage36-bootstrap-audit.yml'
       - 'docs/research-os/policies/**'
-      - 'docs/arsenal/cards/workflows/LIT-WF02.md'
-      - 'docs/arsenal/lit-wf02-global-h1-localization-reciprocity-contract.json'
-      - 'docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py'
+      - 'docs/arsenal/**'
       - 'docs/stage36-literature-strengthening-promotion.md'
   workflow_dispatch:
 permissions:
@@ -40,37 +38,21 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay immutable 36-09CN exact-green mathematical evidence
+      - name: Replay immutable 36-09DX exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          H=6b31ca804744c4d8726d3d74861faadee78e0d64
-          git cat-file -e "$H^{commit}"
+          H=6232e765ffc2f40599a0125dac8a99f303a63e7e
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CN.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09DX.py"
           git worktree remove --force "$tmp"
-      - name: Replay immutable 36-09CO exact-green mathematical evidence
+      - name: Verify repaired DN audit provenance is non-authoritative
         shell: bash
         run: |
           set -euo pipefail
-          H=b19439a701579d1563a77746cb1e6d57da04460e
-          git cat-file -e "$H^{commit}"
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CO.py"
-          git worktree remove --force "$tmp"
-      - name: Replay immutable 36-09CP exact-green mathematical evidence
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=acb10a76b8adcd07d52dc977e4257790395f535a
-          git cat-file -e "$H^{commit}"
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CP.py"
-          git worktree remove --force "$tmp"
-      - name: Assert CP hostile-audit checkpoint firewalls
+          python3 stages/stage36/verify_stage36_36_09DN.py
+      - name: Assert V214 DX hostile-audit stop and DY lock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -78,35 +60,43 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V141_36_09CP_HOSTILE_AUDIT_CHECKPOINT'
-          cp=s['authority_frontier']['36-09CP']
-          assert cp['status']=='PROVISIONAL_EXACT_GREEN_CHECKPOINT'
-          assert cp['certificate_blob_sha']=='3ea852b149986c1ac0b3916005b605b138b21feb'
-          assert cp['verifier_blob_sha']=='6c8eaae4ef67ab8150b7e294fff43c96d41dca26'
-          assert cp['exact_head']=='acb10a76b8adcd07d52dc977e4257790395f535a'
-          assert cp['exact_head_ci']=='34181510945/101921388094'
-          assert cp['EXISTING_PW07_SUPPLIES_BT_DUAL_ADAPTER'] is False
-          assert cp['EXISTING_PW07_SUPPLIES_BT_POITOU_TATE_LOCAL_CONDITIONS'] is False
-          assert cp['FIRST_MISSING_OBLIGATION']=='BT_CARTIER_DUAL_CLASS_AND_LOCAL_CONDITION_ADAPTER'
-          assert cp['LIT_WF02_APPLICABILITY_PASS'] is False
-          cur=s['current']
-          assert cur['unit']=='36-09CP'
-          assert cur['next_exact_leaf']=='36-09CQ_BT_CARTIER_DUAL_LOCAL_CONDITION_ADAPTER_PREFLIGHT'
+          dm=json.loads(Path('stages/stage36/36-09DM/intermediate-hostile-audit-pass-receipt.json').read_text())
+          dn=json.loads(Path('stages/stage36/36-09DN/fixed-p2-full-br2-common-neighborhood-preflight.json').read_text())
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V214_36_09DX_HOSTILE_AUDIT_FAIL_CLOSED'
+          dx=s['authority_frontier']['36-09DX']; cur=s['current']; pg=s['promotion_gates']; ha=s['hostile_audit_checkpoint']
+          assert dx['status']=='PROVISIONAL_EXACT_GREEN_AUDIT_STOP'
+          assert dx['certificate_blob_sha']=='ee8fda5da9fdd7ea26220740eecb07b2d8a0effe'
+          assert dx['verifier_blob_sha']=='19e6a1863b26eec1354045c813b03fa16a9b012f'
+          assert dx['source_blob_sha']=='403c6bf71acbce1e1f83b3ec855dd2a1e5f7ea90'
+          assert dx['exact_head']=='6232e765ffc2f40599a0125dac8a99f303a63e7e'
+          assert dx['exact_head_ci']=='34266548689/102197232079'
+          assert cur['unit']=='36-09DX'
+          assert cur['next_owner']=='HOSTILE_REAUDIT'
+          assert cur['substantive_batch_pr_continues'] is False
           assert cur['hostile_audit_checkpoint_reached'] is True
-          assert cur['36_09CQ_entry_allowed'] is False
-          pg=s['promotion_gates']
-          assert pg['36_09CP_exact_head_ci_passed'] is True
-          assert pg['36_09CQ_unlocked'] is False
-          assert pg['36_09CQ_entry_allowed'] is False
-          assert pg['BT_Cartier_dual_class_adapter_complete'] is False
-          assert pg['BT_Poitou_Tate_local_condition_system_complete'] is False
-          assert pg['LIT_WF02_applicability_pass'] is False
-          assert pg['new_global_obstruction_obtained'] is False
-          for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
-            assert pg[key] is False
-          claims=s['claims']
-          for key in ['new_theorem_credit','LIT_WF02_applicability_pass','Selmer_membership_obtained','Poitou_Tate_obstruction_obtained','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
-            assert claims[key] is False
-          print('36-09CP exact-green hostile-audit checkpoint verified. CQ is selected but audit-gated; no LIT-WF02/global obstruction/receiver/endpoint credit.')
+          assert cur['36_09DY_entry_allowed'] is False
+          assert pg['36_09DX_exact_head_ci_passed'] is True
+          assert pg['36_09DX_promotion_replay_passed'] is False
+          assert pg['36_09DY_entry_allowed'] is False
+          assert pg['hostile_reaudit_passed'] is False
+          assert ha['result']=='FAIL'
+          assert ha['repair_applied'] is True
+          assert ha['external_reaudit_required'] is True
+          assert ha['reaudit_pass_consumed'] is False
+          assert dm['status']=='NON_AUTHORITATIVE_NO_EXTERNAL_REVIEW_ID'
+          assert dm['external_review_id'] is None
+          assert dm['authority_credit'] is False
+          assert dn['batch_parent']['dm_intermediate_audit_record_status']=='NON_AUTHORITATIVE_NO_EXTERNAL_REVIEW_ID'
+          assert dn['batch_parent']['dm_intermediate_audit_authority_consumed'] is False
+          assert dn['authority_provenance']['previous_external_hostile_audit_boundary_claimed'] is False
+          assert dn['authority_provenance']['dm_record_resets_audit_debt'] is False
+          assert pg['BT_global_Phi_Selmer_group_computed'] is True
+          assert pg['BT_global_Phi_Selmer_F2_dimension']==2
+          assert pg['BT_global_Phi_Selmer_cardinality']==4
+          assert pg['BT_global_Phi_Selmer_third_coordinate_trivial'] is True
+          assert pg['BT_proSelmer_cokernel_size_computed'] is False
+          for key in ['BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
+            assert pg[key] is False,key
+          print('36-09DX exact-green mathematics replayed; hostile-audit FAIL repair is fail-closed, DM audit record is non-authoritative, and 36-09DY remains locked pending external re-audit PASS.')
           PY
           git diff --check

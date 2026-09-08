@@ -1,0 +1,100 @@
+{
+  "schema":"STAGE36_36_09DG_FIXED_P2_NONRATIONAL_QI_BRAUER_COMPLEMENT_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09DG",
+  "status":"PASS_PAIRED_QI_CLASS_INDEPENDENT_FROM_KNOWN_PRIVATE_SUBGROUP_FULL_COMPLEMENT_STILL_OPEN",
+  "base_main_sha":"f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "batch_parent":{
+    "pr":1712,
+    "36_09DF_exact_green_head":"ac6dc90ac0a6a872076117cd9801f3e3c1bc6d09",
+    "36_09DF_exact_head_ci":"34204479976/101990651818",
+    "promotion_replay_head":"3362fefa40b2ea6ea8789af6ddad7bc23e9de4ba",
+    "promotion_replay_ci":"34204580135/101990977783"
+  },
+  "source_locks":{
+    "stage36_36_09DF":{"path":"stages/stage36/36-09DF/fixed-p2-creutz-viray-complement-local-obstruction-preflight.json","blob_sha":"e2ad1a187dc607b558288a6cad91272c021dd493"},
+    "stage36_36_09DE":{"path":"stages/stage36/36-09DE/fixed-p2-prime-private-brauer-family-preflight.json","blob_sha":"14e73de6228606ad077303db96f1a032c2955238"},
+    "qi_hilbert90_source":{"path":"stages/stage36/36-09DG/qi-component-hilbert90-source-lock.md","blob_sha":"f5b5e0a333464257ca29ea058de2cf3bd191636f"}
+  },
+  "fixed_curve":"C3_2: z^2=(t^2+4)(t^2+1/4)(t^2+9)(t^2+1/9)",
+  "paired_input":{
+    "quadratic_field":"E=Q(i)",
+    "pi":"2+i",
+    "norm_pi":5,
+    "ell_5":"(pi,pi,1,1) in E^4",
+    "total_norm":25,
+    "ell_5_in_L1":true,
+    "class":"F_5=gamma(ell_5)",
+    "F_5_unramified_on_C3_2":true,
+    "norm_vector_squareclasses":[5,5,1,1],
+    "input_not_in_rational_component_subgroup":true,
+    "input_nonrationality_alone_proves_Brauer_independence":false
+  },
+  "q5_receiver_witnesses":[
+    {
+      "t":"2",
+      "rhs_exact":"16354/9",
+      "rhs_mod5":1,
+      "z_mod5":1,
+      "hensel_derivative_2z_mod5":2,
+      "retained_open":true,
+      "evaluation_unit":"(t-1)(t-4)=3 mod 5",
+      "F5_invariant":"1/2"
+    },
+    {
+      "t":"5",
+      "rhs_exact":"5626609/9",
+      "rhs_mod5":1,
+      "z_mod5":1,
+      "hensel_derivative_2z_mod5":2,
+      "retained_open":true,
+      "evaluation_unit":"(t-1)(t-4)=4 mod 5",
+      "F5_invariant":"0"
+    }
+  ],
+  "known_private_subgroup_comparison":{
+    "subgroup":"H=<A=(7,t^2+4), B=(7,t^2+9), D=(11,t^2+4), {E_q=(q,t^2+4): q prime, q==17 mod 2859545}>",
+    "H_infinite_F2_rank":true,
+    "all_H_generators_have_equal_q5_evaluation_on_the_two_witnesses":true,
+    "all_H_generators_evaluate_zero_on_both_witnesses":true,
+    "reason":"For A,B,D the first entries 7,11 and relevant second entries are 5-adic units at t=2,5. For every private q, q==2 mod 5, so q is also a 5-adic unit and t^2+4 is a unit at both witnesses. At odd p=5, unit/unit Hilbert symbols are +1.",
+    "F5_evaluation_varies":true,
+    "F5_not_in_H_plus_BrQ":true,
+    "proof":"Any class in H+Br(Q) has the same evaluation difference as an H-class between the two Q5 points, hence difference zero. F5 changes by 1/2, contradiction."
+  },
+  "credit_boundary":{
+    "paired_nonrational_Creutz_Viray_class_found":true,
+    "F5_independent_from_known_private_subgroup_mod_BrQ":true,
+    "known_explicit_subgroup_strictly_enlarged":true,
+    "F5_independent_from_entire_rational_component_image":false,
+    "full_L1_quotient_computed":false,
+    "Pic0_mod2_computed":false,
+    "full_Creutz_Viray_explicit_image_computed":false,
+    "full_Brauer_group_computed":false,
+    "joint_BM_correction_with_F5_complete":false,
+    "Brauer_Manin_obstruction_from_full_Br_group_proved":false,
+    "fixed_p_2_branch_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false
+  },
+  "route_result":{
+    "route_status":"PASS_FIRST_PAIRED_QI_DIRECTION_NEW_MOD_KNOWN_H_NEXT_CROSS_EVALUATION_AND_PAIRED_FAMILY",
+    "next_leaf":"36-09DH_FIXED_P2_PAIRED_QI_CROSS_EVALUATION_AND_FAMILY_PREFLIGHT",
+    "next_leaf_semantics":"Compute F5 on the existing Q7/Q11/private-q correction witnesses and the known subgroup on the Q5 witness pair. If block-diagonal control extends, test whether split primes r≡1 mod4 yield a systematic paired Q(i) family. Do not claim independence from the entire rational-component image or full Brauer completeness without quotient/Picard control."
+  },
+  "scope_firewalls":{
+    "F5_outside_entire_rational_component_image":false,
+    "full_L1_quotient_computed":false,
+    "Pic0_mod2_computed":false,
+    "full_Creutz_Viray_explicit_image_computed":false,
+    "full_Brauer_group_computed":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

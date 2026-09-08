@@ -1,0 +1,90 @@
+{
+  "schema":"STAGE36_36_09CW_BT_LITERAL_HYPERELLIPTIC_BRAUER_CONSTRUCTION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09CW",
+  "status":"PASS_LITERAL_CREUTZ_VIRAY_UNRAMIFIED_BRAUER_FAMILY_CONSTRUCTED_NONCONSTANCY_AND_RECEIVER_EVALUATION_OPEN",
+  "base_main_sha":"d5545b32e6b3088bca53318998d434f2745b03e9",
+  "batch_parent":{
+    "pr":1712,
+    "36_09CV_exact_green_head":"eb391492fb79af264f46a72616ccd3b1a9f37f01",
+    "36_09CV_exact_head_ci":"34195900786/101963435117",
+    "promotion_replay_head":"cc3515ba4a5e6899371973cea24b079f4dcc9bb4",
+    "promotion_replay_ci":"34196040262/101963862133"
+  },
+  "source_locks":{
+    "stage36_36_09CV":{"path":"stages/stage36/36-09CV/bt-non-kummer-divisor-cocycle-brauer-source-preflight.json","blob_sha":"2abc41fe2dccc7563e4c8af49d37b78094e7cd64"},
+    "stage36_36_09O":{"path":"stages/stage36/36-09O/physical-square-lift-v4-quotient-preflight.json","blob_sha":"6a2678ebedba40e13277100441361039ee47ca28"},
+    "creutz_viray_source":{"path":"stages/stage36/36-09CW/creutz-viray-hyperelliptic-brauer-source-lock.md","blob_sha":"4657040230644aef1dbef427a3a5ab6afe3998aa"}
+  },
+  "physical_hyperelliptic_receiver":{
+    "curve":"C3_p: z^2=(t^2+p^2)*(t^2+p^(-2))*(t^2+c^2)*(t^2+c^(-2))",
+    "c":"(p+1)/(p-1)",
+    "retained_parameter_conditions":["p in Q","p!=0","p!=1","p!=-1"],
+    "degree":8,
+    "genus":3,
+    "leading_scalar":1,
+    "double_cover_type":"even",
+    "quadratic_factors":["f0=t^2+p^2","f1=t^2+p^(-2)","f2=t^2+c^2","f3=t^2+c^(-2)"],
+    "factor_fields":"each Q[t]/f_j is Q(i) via a root i*a_j",
+    "branch_algebra":"L_p ~= Q(i)^4",
+    "physical_receiver_lineage_source_bound":true
+  },
+  "creutz_viray_adapter":{
+    "construction":"gamma'(ell)=Cor_{Q(C3_p) tensor L_p / Q(C3_p)}((ell,t-alpha)_2)",
+    "even_cover_unramified_condition":"Norm_{L_p/Q}(ell) lies in the leading-scalar squareclass; here leading scalar=1, so Norm(ell) must be a square",
+    "theorem":"Creutz--Viray Theorem 1.1",
+    "quaternion_expansion_available":"Creutz--Viray Proposition 2.4",
+    "source_bound":true
+  },
+  "explicit_family":{
+    "parameter":"d in Q^* and j in {0,1,2,3}",
+    "ell_dj":"component d in the j-th Q(i) factor of L_p and 1 in the other three factors",
+    "norm":"Norm(ell_dj)=d^2",
+    "unramified_condition_satisfied":true,
+    "literal_classes":[
+      "A_d0=(d,t^2+p^2)_2",
+      "A_d1=(d,t^2+p^(-2))_2",
+      "A_d2=(d,t^2+c^2)_2",
+      "A_d3=(d,t^2+c^(-2))_2"
+    ],
+    "class_group":"Br(C3_p)[2]",
+    "subset_extension":"for S subset {0,1,2,3}, A_dS=(d,prod_{j in S} f_j(t))_2",
+    "complement_identity":"A_dS=A_d,S^c on C3_p because prod_j f_j(t)=z^2",
+    "literal_unramified_Brauer_family_constructed":true
+  },
+  "current_credit_boundary":{
+    "nonconstant_mod_BrQ_proved":false,
+    "one_specific_d_nonconstant_uniformly_in_p_proved":false,
+    "local_evaluation_variation_on_receiver_points_proved":false,
+    "exact_translation_to_later_BT_y_five_root_coordinates_complete":false,
+    "proved_outside_CU_five_root_monomial_family":false,
+    "required_place_inventory_complete":false,
+    "Brauer_Manin_obstruction_proved":false,
+    "reason":"CW constructs source-bound unramified classes on the audited physical genus-three receiver. Whether a chosen class survives modulo constants, remains genuinely point-dependent on the later BT receiver coordinates, and obstructs an adelic receiver is a separate calculation."
+  },
+  "first_next_tests":{
+    "test_1":"Compute the class modulo Br(Q)/Pic-image or exhibit two local receiver points with different evaluations for a fixed d and fixed branch p.",
+    "test_2":"Translate at least one A_dS through the 36-09AA/AC/BT birational adapters and determine whether it collapses into the CU five-root monomial subgroup.",
+    "test_3":"Only for a surviving point-dependent class, derive exact local Hilbert evaluation and required-place support."
+  },
+  "route_result":{
+    "route_status":"PASS_LITERAL_UNRAMIFIED_BRAUER_FAMILY_CONSTRUCTION_EVALUATION_NEXT",
+    "next_leaf":"36-09CX_BT_HYPERELLIPTIC_BRAUER_NONCONSTANCY_RECEIVER_EVALUATION_PREFLIGHT",
+    "next_leaf_semantics":"Select/source-bind a minimal A_dS candidate, test nonconstancy modulo Br(Q) and receiver-point evaluation variation, and translate it through the current BT coordinate lineage. No Brauer-Manin credit until a nonzero adelic invariant is proved."
+  },
+  "scope_firewalls":{
+    "A_dj_nonconstant_mod_constants":false,
+    "A_dj_outside_CU_family":false,
+    "uniform_d_for_all_p_obtained":false,
+    "local_evaluation_variation_proved":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
