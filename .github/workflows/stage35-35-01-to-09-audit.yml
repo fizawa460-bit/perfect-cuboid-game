@@ -54,7 +54,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          # Snapshot-aware V74 -> V73/V72/... replay. Historical adapters may inspect retained git history.
           fetch-depth: 380
       - name: Assert exact PR head checkout
         run: |
@@ -115,5 +114,5 @@ jobs:
         run: python -m pip install --disable-pip-version-check sympy==1.14.0
       - name: Verify audited Goal4AK authority synchronization and local-evaluation release
         run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4ak_audited_claim_sync.py
-      - name: Diagnose Goal4AL class-B evaluation on the positive real receiver component
-        run: python -B stages/stage35-ex/diagnose_stage35_ex_35_goal4al_real_component_eval.py
+      - name: Verify Goal4AL class-B evaluation on the positive real receiver component
+        run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4al_real_component.py
