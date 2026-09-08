@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX3_MAIN_COMPACT_STATE_V1_MAIN_O210_V3_AUTHORITY_NEUTRAL_NARROW_REAUDIT_PENDING",
+  "schema": "STAGE32EX3_MAIN_COMPACT_STATE_V1_MAIN_O210_V3_AUDITED_RECEIPT_SYNCED_MAIN_CREDIT_PENDING",
   "role": "ORDINARY_STAGE32EX3_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX3",
   "execution": {
@@ -77,13 +77,13 @@
     "hostile_audit_pass_required_for_audited_success": true
   },
   "current": {
-    "status": "MAIN_O210_V3_PROVISIONAL_ACTIVE_NARROW_REAUDIT_PENDING",
+    "status": "MAIN_O210_V3_AUDITED_RECEIPT_SYNCED_MAIN_CREDIT_PENDING",
     "leaf": "EX3-10_HOSTILE_AUDIT_AND_STAGE32_PROMOTION_BOUNDARY",
-    "subroute": "MAIN_O210_V3_NARROW_HOSTILE_REAUDIT_HANDOFF",
-    "objective": "Narrow hostile re-audit of authority-state-neutral S32.O210.EXCLUSION.V3; mathematical dependencies were PASS in V2 audit, but no MAIN credit exists before V3 PASS receipt synchronization.",
-    "next_route_on_success": "MAIN_O210_V3_PASS_RECEIPT_SYNC_THEN_AUTHORITY_TRANSITION",
-    "next_route_on_block": "REPAIR_MAIN_O210_V3_WITH_AUDITED_EX3_V3_PRESERVED",
-    "stop_semantics": "V3_PROVISIONAL_ONLY_O210_EXCLUDED_FALSE_NO_O212_ADVANCE_NO_MERGE"
+    "subroute": "MAIN_O210_V3_AUDITED_AUTHORITY_SYNC",
+    "objective": "Hostile-audit PASS receipt for S32.O210.EXCLUSION.V3 is synchronized; Stage32 MAIN O210 routing credit remains a separate explicit transition.",
+    "next_route_on_success": "STAGE32_MAIN_O210_CREDIT_TRANSITION",
+    "next_route_on_block": "REPAIR_ONLY_IF_POST_SYNC_VERIFIER_FAILS",
+    "stop_semantics": "V3_AUDITED_MAIN_O210_CREDIT_NOT_YET_ROUTED_NO_O212_ADVANCE_NO_MERGE"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex3/stage32-ex3.md",
@@ -173,10 +173,13 @@
     "promotion_adapter_v2_superseded_after_v3_audit": true,
     "main_o210_v3_core_sha256": "7003e228cbb0273e1ac6352bd9535a5f10ca5964bc6d4072130d20012aaec824",
     "main_o210_v3_registered_provisional": true,
-    "main_o210_v3_hostile_audited": false,
+    "main_o210_v3_hostile_audited": true,
     "main_o210_v2_superseded_after_hostile_audit_fail": true,
     "main_o210_v2_fail_review_id": 5144919736,
-    "main_o210_v2_fail_exact_head": "81ec62fc8413840fcb18936b9244e32b171c90b1"
+    "main_o210_v2_fail_exact_head": "81ec62fc8413840fcb18936b9244e32b171c90b1",
+    "main_o210_v3_audit_review_id": 5147304889,
+    "main_o210_v3_audited_exact_head": "040dfb6c7e1dc40573866bb10f62e93419121711",
+    "main_o210_v3_claim_sync_complete": true
   },
   "parallel_lanes": {
     "enabled_after_EX3_00": true,
@@ -309,9 +312,9 @@
   },
   "management": {
     "retained_consolidation_complete": true,
-    "claim_sync_trigger": "ACTIVE_FRONTIER_REMAP",
+    "claim_sync_trigger": "AUTHORITY_OR_AUDIT_TRANSITION",
     "claim_sync_contract": "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md",
-    "claim_sync_status": "COMPLETE_MAIN_O210_V3_AUTHORITY_NEUTRAL_PROVISIONAL_REMAP_NARROW_REAUDIT_PENDING_NO_MAIN_CREDIT",
+    "claim_sync_status": "COMPLETE_MAIN_O210_V3_AUDITED_PASS_RECEIPT_SYNCED_MAIN_CREDIT_PENDING",
     "claim_sync_may_not_upgrade_authority_before_completion": true,
     "preserve_existing_audited_EX1_V2_exactly": true,
     "preserve_existing_audited_EX4_V2_exactly": true,
@@ -335,11 +338,14 @@
     "promotion_adapter_v3_audited_exact_head": "280595ed892ae2ef70e049a3f722ea024452e206",
     "current_main_consolidation_preserves_other_lane_authority": true,
     "active_frontier_remap_claim_id": "S32.O210.EXCLUSION.V3",
-    "active_frontier_remap_authority": "PROVISIONAL",
+    "active_frontier_remap_authority": "AUDITED",
     "main_o210_v2_hostile_audit_required": true,
-    "main_o210_v3_hostile_audit_required": true,
+    "main_o210_v3_hostile_audit_required": false,
     "main_o210_v2_hostile_audit_result": "FAIL_CLAIM_VERSIONING_ONLY",
-    "main_o210_v2_hostile_audit_review_id": 5144919736
+    "main_o210_v2_hostile_audit_review_id": 5144919736,
+    "main_o210_v3_hostile_audit_result": "PASS",
+    "main_o210_v3_hostile_audit_review_id": 5147304889,
+    "main_o210_v3_hostile_audited_exact_head": "040dfb6c7e1dc40573866bb10f62e93419121711"
   },
   "credit": {
     "level": "FULL_TARGET_CLOSURE_O210_COVER_GEOMETRY_EXCLUDED_AUDITED_EX3_ONLY",
@@ -432,7 +438,7 @@
     "hostile_audited_exact_head": "81ec62fc8413840fcb18936b9244e32b171c90b1"
   },
   "main_o210_v3": {
-    "status": "RETAINED_PROVISIONAL_ACTIVE_AUTHORITY_NEUTRAL_CLAIM_NARROW_REAUDIT_PENDING",
+    "status": "HOSTILE_AUDIT_PASS_RECEIPT_SYNCED_AUDITED_MAIN_CREDIT_PENDING",
     "claim_id": "S32.O210.EXCLUSION.V3",
     "claim_core_sha256": "7003e228cbb0273e1ac6352bd9535a5f10ca5964bc6d4072130d20012aaec824",
     "requires": [
@@ -440,9 +446,11 @@
       "S32.EX3.O210_COVER_GEOMETRY_EXCLUSION_TERMINAL.V1",
       "S32.ADAPTER.EX3_O210_TO_MAIN_O210.V3"
     ],
-    "hostile_audit_required": true,
-    "hostile_audit_result": null,
+    "hostile_audit_required": false,
+    "hostile_audit_result": "PASS",
     "main_O210_promotion_complete": false,
-    "credit_ceiling": "PROVISIONAL_MAIN_O210_ACTIVE_CLAIM_ONLY_NO_O210_EXCLUSION_CREDIT"
+    "credit_ceiling": "AUDITED_MAIN_O210_EXCLUSION_CLAIM_CONSUMABLE_ROUTING_CREDIT_PENDING",
+    "hostile_audit_review_id": 5147304889,
+    "hostile_audited_exact_head": "040dfb6c7e1dc40573866bb10f62e93419121711"
   }
 }
