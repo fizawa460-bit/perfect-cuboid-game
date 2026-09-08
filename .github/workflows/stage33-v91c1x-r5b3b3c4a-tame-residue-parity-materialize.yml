@@ -22,7 +22,21 @@ jobs:
         with:
           python-version: '3.11'
       - name: Materialize C4A exact preflight
-        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4a_tame_residue_parity_and_cross_carrier_preflight.py --write
+        shell: bash
+        run: |
+          set +e
+          python stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4a_tame_residue_parity_and_cross_carrier_preflight.py --write > /tmp/c4a.log 2>&1
+          rc=$?
+          cat /tmp/c4a.log
+          if [ "$rc" -ne 0 ]; then
+            cp /tmp/c4a.log stages/stage33/33-12/e3-v91c1x-r5b3b3c4a-debug.txt
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add stages/stage33/33-12/e3-v91c1x-r5b3b3c4a-debug.txt
+            git commit -m '[Stage33] capture R5B3B3C4A materializer diagnostic'
+            git push
+            exit "$rc"
+          fi
       - name: Enforce bounded generated delta
         shell: bash
         run: |
