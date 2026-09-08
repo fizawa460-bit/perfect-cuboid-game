@@ -6,9 +6,12 @@ Fixed target only: recovered V6 class `g1-d186`, hypothetical integral irreducib
 
 ## 1. Product modular model and graph quotients
 
-Primary external source: Michael Stoll and Damiano Testa, *The surface parametrizing cuboids*, arXiv:1009.0388, Section 4 (cuboid surface as modular surface).
+Primary external source: Michael Stoll and Damiano Testa, *The surface parametrizing cuboids*, arXiv:1009.0388. Two distinct locators are load-bearing and are kept separate here:
 
-Use the following explicit model from that section. The genus-5 modular curve `Z=X(8)` is
+- Section 4, “The cuboid surface as a modular surface” (author-hosted current revision p. 8): the `X(8)` model, the kernel `G0 ~= (Z/2)^3`, its sign action, the diagonal quotient invariants, and the identification `(X(8) x X(8))/G0 ~= Sbar` over `Q(i)`.
+- Section 7, “Curves of low degree on Sbar” (author-hosted current revision p. 17, discussion following Corollary 18 / around Lemma 20): images of graphs of automorphisms centralizing `G0` account for the 32 conics; the same discussion states that each such conic passes through six singularities.
+
+Use the following explicit model from Section 4. The genus-5 modular curve `Z=X(8)` is
 
 `u^2=2xy`, `v^2=x^2-y^2`, `w^2=x^2+y^2`.
 
@@ -22,7 +25,7 @@ The source identifies the quotient with the cuboid surface over `Q(i)` by
 
 `X=a1+c`, `Y=-a1+c`, `T=a2+i*a3`, `Zc=a2-i*a3`.
 
-It also identifies the 32 conics among the images of graphs of automorphisms of `Z` centralizing `G0`. Every `h in H` below lies in `G0`, hence its graph is of this type.
+Section 7 separately identifies the 32 conics among the images of graphs of automorphisms of `Z` centralizing `G0` and records that these conics pass through six singularities each. Every `h in H` below lies in the abelian group `G0`, hence centralizes `G0`, so its graph is of this type.
 
 The retained Stage32 relative-H marking is source-locked in
 
@@ -74,7 +77,7 @@ For the hypothetical carrier class `C` on `Btilde`, its strict pullback is
 
 `Dtilde=pi^*C`.
 
-Let `K_h` be one of the four strict-transform C1 conics above and let `Ltilde_h=pi^*K_h`. Each physical C1 conic passes exactly six of the 48 nodes, as retained in `stages/stage33/33-07/exceptional-p1-tangent-coordinates.json`.
+Let `K_h` be one of the four strict-transform C1 conics above and let `Ltilde_h=pi^*K_h`. Each physical C1 conic passes exactly six of the 48 nodes, as both externally source-checked above and retained explicitly in `stages/stage33/33-07/exceptional-p1-tangent-coordinates.json`.
 
 Projection formula gives
 
