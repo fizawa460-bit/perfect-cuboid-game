@@ -145,6 +145,9 @@ def main() -> None:
     for fragment in [
         "Ordinary `Stage32-main-batch` reads, in this order:",
         "only the paths listed in `MAIN-STATE.json.current_leaf_working_set`",
+        "default anti-duplication routing hints",
+        "Explicit current routing in `MAIN-STATE.json` remains authoritative for ordinary MAIN startup.",
+        "`explicit current MAIN-STATE routing` > `default anti-duplication ownership hint`.",
         "Do not merge without explicit user authorization.",
     ]:
         if fragment not in startup:
@@ -204,6 +207,7 @@ def main() -> None:
 
     print("PASS Stage32 MAIN startup authority")
     print(f"main_state_canonical={EXPECTED_CANONICAL}")
+    print("main_routing_precedence=MAIN_STATE_OVER_DEFAULT_EX_OWNERSHIP_HINT")
     print("latest_audited_stage32_pr=1643 hostile_review=5123545511")
     print("pr1648_previous_hostile_review=5127399479 result=FAIL scope_repair=PENDING_REAUDIT")
     print("consolidation_base_main=58e81a647b63bcea17ab396409c2813b667f45e2")
