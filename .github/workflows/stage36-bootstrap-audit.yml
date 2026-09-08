@@ -94,7 +94,7 @@ jobs:
           cq=s['authority_frontier']['36-09CQ']
           assert cq['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
           assert cq['certificate_blob_sha']=='c7042cc86ff94cf94db88c8cc65ce5b69441aabe'
-          assert cq['verifier_blob_sha']=='e6933b4b960f3899ffdd920880fc8641f3215525'
+          assert cq['verifier_blob_sha']=='cd7716e99f2c1da83b9bfb0ea39168b43d5752ce'
           assert cq['BT_CARTIER_DUAL_MODULE_IDENTIFIED'] is True
           assert cq['GLOBAL_DUAL_H1_PAIRING_TOTAL_NONTRIVIAL'] is False
           assert cq['GLOBAL_DUAL_CLASS_ALONE_SUPPLIES_OBSTRUCTION'] is False
@@ -127,6 +127,6 @@ jobs:
           claims=s['claims']
           for key in ['new_theorem_credit','LIT_WF02_applicability_pass','Selmer_membership_obtained','Poitou_Tate_obstruction_obtained','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert claims[key] is False
-          print('36-09CQ provisional checkpoint verified: #1707 audit promotion consumed; global-global dual pairing is reciprocity-trivial; CR remains locked pending exact-head CQ CI. No obstruction/receiver/endpoint credit.')
+          print('36-09CQ provisional checkpoint verified: corrected hostile-audit provenance binding; global-global dual pairing is reciprocity-trivial; CR remains locked pending exact-head CQ CI. No obstruction/receiver/endpoint credit.')
           PY
           git diff --check
