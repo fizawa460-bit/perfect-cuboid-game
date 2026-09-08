@@ -40,6 +40,14 @@ Scratch results are non-authoritative. Do not push every micro-diagnostic into a
 
 Heavy/artifact-producing workflows require the repository heavy-workflow policy and explicit authorization. This startup contract does not authorize heavy compute.
 
+## Claim-DAG synchronization trigger
+
+Ordinary `stage32ex2-mainbatch` startup remains exactly the four-item startup set above and does not preload Stage32 proof-management files.
+
+When EX2 reaches any `RETAINED_CONSOLIDATION`, `AUTHORITY_OR_AUDIT_TRANSITION`, `EX_TO_MAIN_PROMOTION`, `ACTIVE_FRONTIER_REMAP`, or `FINAL_MILESTONE_TRANSITION`, open `stages/stage32/proof/CLAIM-SYNC-CONTRACT.md` and complete its on-demand synchronization procedure before treating that checkpoint or downstream credit transition as complete.
+
+Scratch-only diagnostics do not trigger claim-DAG writes. A hostile-audit PASS/FAIL receipt does not silently promote EX2 or MAIN; downstream use waits for claim synchronization.
+
 ## `stage32ex2-audit` handoff
 
 `stage32ex2-audit` is a separate hostile-audit lane governed by `stages/stage32-ex2/AUDIT-CONTRACT.md`. It audits an exact candidate head independently and does not continue or repair the research while auditing.
