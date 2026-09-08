@@ -5,8 +5,6 @@
 # H-equivariant endomorphism and the degree-4 diagonal-H quotient scaling.
 # It intentionally does NOT claim primitive integral descent in NS(S0).
 
-from itertools import product
-
 D1 = 105
 D2 = 81
 G_C = 5
@@ -16,11 +14,13 @@ TWO_D1_D2 = 2 * D1 * D2
 # Character traces from 05AD / 05X in order 1, chi_u, chi_v, chi_uv.
 CHAR = [1204, 18, 274, 18]
 
-# Hadamard character table for H=(Z/2)^2, deck order 1,u,v,uv.
+# Retained named-character convention from 05AD. Deck order is 1,u,v,uv.
+# In that convention u is nontrivial on chi_u and chi_uv, while v is
+# nontrivial on chi_v and chi_uv.
 HAD = [
     [1, 1, 1, 1],
-    [1, 1,-1,-1],
     [1,-1, 1,-1],
+    [1, 1,-1,-1],
     [1,-1,-1, 1],
 ]
 
