@@ -11,6 +11,31 @@ This file is the fixed ordinary startup contract. It does not contain the mutabl
 
 Do not preload the Stage32 root directory, historical roadmaps, controller history, production state, runkeys, audits, or Research OS unless `MAIN-STATE.json`, `AGENTS.md`, or the active task explicitly requires them.
 
+## MAIN role and EX ownership
+
+Stage32 MAIN is the integration/frontier-coordination lane. It must not behave as an additional generic vertical attack lane merely because a mathematical route is available in `MAIN-STATE.json`.
+
+Stable ownership classes are:
+
+- `EX1`: V6 carrier, normalization, singularity, and branch-disposal attacks;
+- `EX2`: actual V6 member, complete linear system, fixed/moving decomposition, and member reconstruction;
+- `EX3`: O210 cover geometry, cover tower, and monodromy;
+- `EX4`: absolute marking, W-line identification, and Q602 residue discrimination;
+- `EX5`: receiver breadth, materially distinct bypass routes, and independent weapon qualification;
+- `EX6`: reverse/upper-endpoint O266 attack and endpoint-specific diagnostics.
+
+The exact live status of an EX lane is mutable and is not duplicated here. When ownership is clear but current lane status matters, inspect only that EX lane's startup/state on demand rather than preloading all EX state.
+
+Before starting a new MAIN mathematical leaf, classify the obligation:
+
+1. If it is already semantically owned by an EX lane, MAIN must not duplicate the attack. Route the work to that EX lane or consume its retained/audited result when authorized.
+2. MAIN may perform mathematics when the obligation is genuinely cross-lane: an adapter joining results from multiple EX lanes, an integrated same-object/same-member identity, an unowned bridge required by more than one lane, or a synthesis needed to decide the remaining Stage32 frontier.
+3. MAIN may perform consolidation, claim/frontier integration, authority routing, and `CLOSED` / `CURRENT_THEORY_BLOCKED` synthesis without creating a duplicate EX attack.
+4. If a new obligation begins as an unowned MAIN scratch leaf but develops into a sustained vertical research program, assign/remap it to an EX lane rather than allowing MAIN to become a catch-all seventh attack lane.
+5. A route named in `MAIN-STATE.json` does not override these ownership rules. If that route now belongs to an active EX lane, MAIN coordinates it instead of independently replaying the same attack.
+
+This role split changes research ownership only. It grants no mathematical credit, does not promote any EX result, does not change the active frontier by itself, and does not authorize merge.
+
 ## Authority split
 
 `MAIN-STATE.json` is the current mutable ordinary startup projection. It is not a proof certificate and does not rewrite historical evidence.
