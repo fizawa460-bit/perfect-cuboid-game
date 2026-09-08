@@ -47,7 +47,12 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09DE.py"
           git worktree remove --force "$tmp"
-      - name: Assert DE exact-green promotion and DF unlock firewalls
+      - name: Verify 36-09DF p2 adelic solubility and complement boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09DF.py
+      - name: Assert DF checkpoint and DG lock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -55,31 +60,31 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V173_36_09DE_EXACT_GREEN_DF_UNLOCK'
-          de=s['authority_frontier']['36-09DE']
-          assert de['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert de['certificate_blob_sha']=='14e73de6228606ad077303db96f1a032c2955238'
-          assert de['verifier_blob_sha']=='e953c3864f4a216631d8dcf1665c1d151748f085'
-          assert de['source_lock_blob_sha']=='6314560c7d55b34ef4ce060cb3a85bd79e0181f6'
-          assert de['exact_head']=='b857167b4652cec6b5d149a3509c465c862b7b0e'
-          assert de['exact_head_ci']=='34203824191/101988565446'
-          assert de['INFINITE_RANK_CREUTZ_VIRAY_EXPLICIT_SUBGROUP_CONSTRUCTED'] is True
-          assert de['INFINITE_PRIVATE_SUBGROUP_BM_OBSTRUCTION'] is False
-          assert de['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_COMPUTED'] is False
-          assert de['FULL_BRAUER_GROUP_COMPUTED'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V174_36_09DF_ADELIC_SOLUBILITY_PRIVATE_BM_NO_GO'
+          df=s['authority_frontier']['36-09DF']
+          assert df['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert df['certificate_blob_sha']=='e2ad1a187dc607b558288a6cad91272c021dd493'
+          assert df['verifier_blob_sha']=='44dbc5518fd7615294438b9918506d1febaae580'
+          assert df['P2_RETAINED_OPEN_ADELIC_SOLUBILITY_PROVED'] is True
+          assert df['P2_LOCAL_OBSTRUCTION_EXCLUDED'] is True
+          assert df['PRIVATE_INFINITE_SUBGROUP_BM_SET_NONEMPTY'] is True
+          assert df['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_COMPUTED'] is False
+          assert df['FULL_BRAUER_GROUP_COMPUTED'] is False
           cur=s['current']
-          assert cur['unit']=='36-09DE'
-          assert cur['next_exact_leaf']=='36-09DF_FIXED_P2_CREUTZ_VIRAY_COMPLEMENT_AND_LOCAL_OBSTRUCTION_PREFLIGHT'
-          assert cur['36_09DF_entry_allowed'] is True
+          assert cur['unit']=='36-09DF'
+          assert cur['next_exact_leaf']=='36-09DG_FIXED_P2_NONRATIONAL_QI_BRAUER_COMPLEMENT_PREFLIGHT'
+          assert cur['36_09DG_entry_allowed'] is False
           pg=s['promotion_gates']
-          assert pg['36_09DE_exact_head_ci_passed'] is True
-          assert pg['36_09DF_entry_allowed'] is True
-          assert pg['BT_infinite_rank_Creutz_Viray_explicit_subgroup_constructed'] is True
-          assert pg['BT_infinite_private_subgroup_sole_BM_obstruction'] is False
+          assert pg['36_09DF_certificate_complete'] is True
+          assert pg['36_09DF_exact_head_ci_passed'] is False
+          assert pg['36_09DG_entry_allowed'] is False
+          assert pg['BT_p2_retained_open_adelic_solubility_proved'] is True
+          assert pg['BT_p2_local_obstruction_excluded'] is True
+          assert pg['BT_private_infinite_subgroup_BM_set_nonempty'] is True
           assert pg['BT_full_Creutz_Viray_explicit_image_computed'] is False
           assert pg['BT_full_relevant_Brauer_group_computed'] is False
           for key in ['Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09DE exact-green parent verified and DF unlocked. Infinite private subgroup no-go is retained without full-image/full-Brauer promotion.')
+          print('36-09DF provisional checkpoint verified: p2 retained-open adelic solubility and private-subgroup BM-set nonemptiness obtained; DG locked pending exact-head CI.')
           PY
           git diff --check
