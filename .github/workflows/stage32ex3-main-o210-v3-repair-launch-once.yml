@@ -1,6 +1,6 @@
 name: Stage32EX3 MAIN O210 V3 repair launcher
 
-# one-shot retrigger after removing invalid predecessor workflow
+# one-shot launcher; bot commit excludes workflow-file mutation because GITHUB_TOKEN lacks workflows permission
 on:
   push:
     branches:
@@ -36,6 +36,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          git checkout -- .github/workflows/stage32ex3-ex3-09-retained-exact-replay.yml
           find . -type d -name __pycache__ -prune -exec rm -rf {} +
           git diff --check
           python - <<'PY'
@@ -48,13 +49,12 @@ jobs:
             'stages/stage32/proof/CLAIM-REGISTRY.json',
             'stages/stage32/proof/LANE-ADAPTERS.json',
             'stages/stage32/proof/verify_stage32_active_frontier.py',
-            '.github/workflows/stage32ex3-ex3-09-retained-exact-replay.yml',
           }
           got={x[3:] for x in subprocess.check_output(['git','status','--porcelain'],text=True).splitlines()}
           assert got==expected,(got,expected)
           PY
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add stages/stage32-ex3/main-o210-exclusion-v3-candidate.json stages/stage32-ex3/verify_main_o210_exclusion_v3_candidate.py stages/stage32-ex3/MAIN-STATE.json stages/stage32/proof/ACTIVE-FRONTIER.json stages/stage32/proof/CLAIM-REGISTRY.json stages/stage32/proof/LANE-ADAPTERS.json stages/stage32/proof/verify_stage32_active_frontier.py .github/workflows/stage32ex3-ex3-09-retained-exact-replay.yml
+          git add stages/stage32-ex3/main-o210-exclusion-v3-candidate.json stages/stage32-ex3/verify_main_o210_exclusion_v3_candidate.py stages/stage32-ex3/MAIN-STATE.json stages/stage32/proof/ACTIVE-FRONTIER.json stages/stage32/proof/CLAIM-REGISTRY.json stages/stage32/proof/LANE-ADAPTERS.json stages/stage32/proof/verify_stage32_active_frontier.py
           git commit -m '[Stage32EX3][claim-sync] replace failed MAIN O210 V2 core with authority-neutral V3'
           git push origin HEAD:stage32ex3-ex3-00-typed-cover-tower
