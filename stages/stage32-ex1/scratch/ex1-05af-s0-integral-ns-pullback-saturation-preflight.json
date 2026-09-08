@@ -1,0 +1,124 @@
+{
+  "schema": "STAGE32EX1_EX1_05AF_S0_INTEGRAL_NS_PULLBACK_SATURATION_PREFLIGHT_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05AF_S0_INTEGRAL_NS_PULLBACK_SATURATION_PREFLIGHT",
+  "authority": "SCRATCH_NONAUTHORITATIVE_TERMINAL_CANDIDATE",
+  "scratch_parent_head": "8e77e9a29f06e3d8722b46a3450199c26b9b3242",
+  "current_main_seen": "42f20e47babdfdda068a605e3fec489eeace460c",
+  "freshness_note": "Current main advanced after 05AE only through Stage35-EX. No Stage32EX1 or retained Stage32 mathematical source lock used by 05O/05AA/05AD/05AE/05AF drifted. Scratch is intentionally unre-based pending retained consolidation.",
+  "question": "For the three exact-W Q602 residues 73,97,235, does the H-invariant integral correspondence class assembled on X(8)xX(8) lie in the integral pullback image p^*NS(S0), or does the 2-primary saturation of p^* impose a genuine obstruction?",
+  "source_locks": {
+    "parent_05ae": {
+      "path": "stages/stage32-ex1/scratch/ex1-05ae-h-linearized-correspondence-class-descent-to-s0-preflight.json",
+      "blob_sha1": "37853cb07845ced93a22b5351dbddbbe891a9e88",
+      "exact_use": "Rational descent exists; bidegree (105,81), upstairs square 15496, K-dot 1488, p_a 8493 and deck package descend numerically to the retained D0 data. Primitive integral descent was the only open class-level issue."
+    },
+    "parent_05ad": {
+      "path": "stages/stage32-ex1/scratch/ex1-05ad-global-jx8-h-equivariant-endomorphism-descent-assembly-preflight.json",
+      "blob_sha1": "f360242d2fec69002d8e14135c834060c6f3408f",
+      "exact_use": "Every retained residue has an integral H-equivariant JX8 endomorphism assembly with character traces 1204,18,274,18 and deck traces 1514,1442,930,930."
+    },
+    "parent_05aa": {
+      "path": "stages/stage32-ex1/scratch/ex1-05aa-q602-mod4-isotropic-glue-kernel-action-preflight.json",
+      "blob_sha1": "8e453f889951191ded2f4e784850754257001f8e",
+      "exact_use": "For each residue 73,97,235 exactly 128 mod-4 lifts satisfy Q=602 mod 8, and every one is realized by at least one exact integral Q=602 vector. The induced A[2] action is constant within each residue."
+    },
+    "parent_05o": {
+      "path": "stages/stage32-ex1/scratch/ex1-05o-common-v4-branch-cycle-monodromy-lift-preflight.json",
+      "blob_sha1": "db22f3fdf75be3371d2bf46a516067c0d2e0f4b8",
+      "exact_use": "The Stage32 Weierstrass-parity transvection condition applies uniformly to all 29 EX1 h=4 Q states and leaves exactly residues 73,97,235 at Q602."
+    },
+    "stage32_weierstrass": {
+      "path": "stages/stage32/residual-32-01-production/post1505-o210-q602-weierstrass-parity-transvection-refinement.json",
+      "blob_sha1": "8e9a402706921c71217fc275be6b9885feea8bee",
+      "exact_use": "Exact transvection predicate and residues 73,97,235 in the retained End(J(C2)) mod-2 basis."
+    }
+  },
+  "topological_integral_pullback_certificate": {
+    "cover": "p:X(8)xX(8)->S0=(X(8)xX(8))/H_diag, H=(Z/2)^2, finite etale degree 4",
+    "construction": "Exact cellular cochain model from the genus-2 one-vertex CW presentation, the fixed isotropic V4 quotient, the induced 4-sheet cover X(8)->C2, and the diagonal product action. The verifier retains a unimodular Smith certificate rather than a sampled/numerical approximation.",
+    "rank_H2_S0_free": 30,
+    "rank_H2_upstairs_H_invariants": 30,
+    "smith_invariant_factors": [
+      1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4
+    ],
+    "pullback_cokernel": "(Z/2)^3 x (Z/4)^2",
+    "pullback_index": 128,
+    "obstruction_coordinates_moduli": [2,2,2,4,4],
+    "admissible_integral_cup_forms": 4,
+    "cup_form_selection_firewall": "All four retained forms satisfy the exact H-invariance/orientation constraints and integral descent of the four actual deck graph classes. The final obstruction result is identical at the level of order for all four forms."
+  },
+  "exhaustive_receiver": {
+    "residues": [73,97,235],
+    "mod4_lifts_per_residue": 128,
+    "exact_Q602_reachability_per_mod4_lift": true,
+    "named_character_order": ["chi_u","chi_v","chi_uv"],
+    "global_gluing_integrality_forces_selected_character": {"73":"chi_u","97":"chi_v","235":"chi_uv"},
+    "prym_norms": {"chi_u":9,"chi_v":137,"chi_uv":9},
+    "gaussian_choices_per_mod4_lift": 16,
+    "assembly_count": 6144,
+    "assembly_formula": "3 residues * 128 exact-realizable mod4 classes * 16 exhaustive Gaussian norm/sign/conjugation choices",
+    "all_6144_global_JX8_operators_integral": true,
+    "wrong_named_character_selection_is_nonintegral": true,
+    "mod4_exhaustiveness_adapter": "Adding 4 in any one of the eight R=Z[sqrt(-2)] endomorphism coordinates changes none of the five Smith obstruction coordinates. Therefore the obstruction depends only on the enumerated mod-4 class, while 05AA supplies exact Q=602 realization of every retained mod-4 class."
+  },
+  "exhaustive_obstruction_replay": {
+    "for_each_of_4_admissible_cup_forms": {
+      "assembly_count": 6144,
+      "primitive_descent_success_count": 0,
+      "order2_obstruction_count": 6144,
+      "obstruction_distribution": {"(1,1,1,2,0)":3072,"(1,1,1,0,2)":3072}
+    },
+    "per_residue_per_cup_form": {
+      "assemblies": 2048,
+      "(1,1,1,2,0)": 1024,
+      "(1,1,1,0,2)": 1024,
+      "order2_count": 2048
+    },
+    "two_times_class_descends": true,
+    "primitive_class_descends": false,
+    "key_exact_pattern": "EVERY_LEGAL_Q602_X8_CORRESPONDENCE_ASSEMBLY_HAS_A_NONZERO_ORDER_TWO_CLASS_IN_COKER(p^*:H2(S0,Z)_free->H2(X8xX8,Z)^H)"
+  },
+  "geometric_contradiction": {
+    "hypothetical_D0_requirement": "An actual divisor D0 on S0 has integral pullback p^*[D0] in the image of p^*NS(S0), hence zero pullback-saturation obstruction.",
+    "retained_D0_to_assembly_adapter": "05H/05X/05AD fix the bidegree and deck/Rosati package of p^*D0; 05O reduces its invariant Q602 component to residues 73,97,235; 05AA and Gaussian norm enumeration exhaust every integral assembly modulo the exponent-4 pullback cokernel.",
+    "contradiction": "Every legal assembly has nonzero order-two obstruction, so none can equal p^*[D0].",
+    "h4_Q_states": [210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266],
+    "h4_Q_state_count": 29,
+    "h4_Q_states_excluded_candidate": 29,
+    "h4_surviving_Q_states_candidate": [],
+    "Q602_residues_excluded_candidate": [73,97,235]
+  },
+  "decision": {
+    "route_status": "PASS_TERMINAL_CANDIDATE_FROM_STRONGER_VIEW",
+    "mathematical_candidate": "ALL_29_FIXED_V6_H4_Q_STATES_EXCLUDED_BY_INTEGRAL_NS_DESCENT_SATURATION",
+    "V6_h4_carrier_excluded_candidate": true,
+    "V6_full_target_terminal_candidate": true,
+    "terminal_candidate_reason": "EX1 audited predecessor already excludes h=2 and forces the remaining hypothetical carrier into h=4; 05AF provisionally eliminates every one of the 29 h=4 states. This is scratch-only and does not itself grant FULL_TARGET_CLOSURE.",
+    "allowed_terminal_outcome_target": "ALL_V6_GENUS1_CARRIERS_EXCLUDED",
+    "authority_credit_granted": false,
+    "hostile_audit_credit_granted": false,
+    "stage32_main_credit_granted": false,
+    "next_route": "EX1_RETAINED_CONSOLIDATION_05O_THROUGH_05AF_TERMINAL_CANDIDATE",
+    "next_route_reason": "The mathematical exploration branch has reached an allowed terminal candidate. Do not broaden to a new proof route before consolidating retained successful leaves, synchronizing freshness/claim-DAG as required, running exact-head CI, and hostile-auditing the terminal adapter."
+  },
+  "replay": {
+    "verifier": "stages/stage32-ex1/scratch/verify_ex1_05af_s0_integral_ns_pullback_saturation.py",
+    "expected": "PASS_EX1_05AF_ALL_6144_ASSEMBLIES_HAVE_ORDER2_NS_DESCENT_OBSTRUCTION"
+  },
+  "firewalls": {
+    "scratch_result_promoted_to_authority": false,
+    "terminal_outcome_self_awarded": false,
+    "hostile_audit_pass_self_awarded": false,
+    "finite_sample_promoted_to_global": false,
+    "mod4_receiver_called_exhaustive_without_adapter": false,
+    "endomorphism_promoted_to_curve_without_divisor_class_adapter": false,
+    "rational_descent_promoted_to_integral_descent": false,
+    "two_alpha_descent_promoted_to_alpha_descent": false,
+    "actual_V6_member_constructed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "77bea1d9cf529cd1dbdbfd6fe629a6e786a2e4f6502a742d7ea837a27d1bdad3"
+}
