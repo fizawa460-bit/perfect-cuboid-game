@@ -21,7 +21,8 @@ assert len(pair) == 140
 mult = pair[92:140]
 assert len(mult) == 48
 assert sum(mult) == 266
-assert gate["elliptic_prym_consequence"]["forced_degrees_by_retained_character"] == {"chi_u":9,"chi_v":137,"chi_uv":9}
+forced=gate["elliptic_prym_consequence"]["forced_degrees_by_retained_character"]
+assert {k:v["degree"] for k,v in forced.items()} == {"chi_u":9,"chi_v":137,"chi_uv":9}
 
 # Reconstruct exact first-24 physical C1 side -> six singular points from the
 # checked-in Stage33 tangent certificate. Every incidence entry is source-locked
