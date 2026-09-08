@@ -28,8 +28,20 @@ jobs:
           python-version: '3.11'
       - name: Install exact algebra dependency
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Reproduce retained Stage33-07 33-carrier split prefix
+        working-directory: stages/stage33/33-07
+        run: |
+          python certify_order2_quotient_raw_order4_bockstein.py
+          python materialize_mixed_order_side_ambient_function_lifts.py
+          python materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py
+          python inventory_mixed_order_ambient_linear_divisor_support.py
+          python certify_ambient_linear_carrier_boundary_offboundary_split.py
       - name: Materialize R5B3B3A retained/new carrier partition
         run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3a_match_27_carriers_to_retained_33.py --write
+      - name: Restore transient Stage33-07 producer outputs
+        run: |
+          git restore --worktree stages/stage33/33-07
+          git clean -f stages/stage33/33-07
       - name: Remove interpreter caches
         run: find stages/stage33 -type d -name __pycache__ -prune -exec rm -rf {} +
       - name: Bound generated delta
