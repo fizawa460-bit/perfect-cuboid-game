@@ -90,6 +90,7 @@ def main() -> int:
         basev.validate_lane_adapters(by_id, adapters)
 
         lane_to_claims: dict[str, list[str]] = defaultdict(list)
+        owner_claims: list[str] = []
         for claim in active_claims:
             cid = claim["claim_id"]
             if not isinstance(claim.get("frontier_status"), str) or not claim["frontier_status"]:
@@ -112,6 +113,7 @@ def main() -> int:
                     raise RuntimeError(f"{cid}: invalid lane link {link}")
                 if lane == "MAIN" and role == "OWNER":
                     owners += 1
+                    owner_claims.append(cid)
                 if lane.startswith("EX") and role in {"ATTACKS", "CONSUMES"}:
                     lane_to_claims[lane].append(cid)
             if owners != 1:
@@ -120,6 +122,26 @@ def main() -> int:
         for lane in sorted(ALLOWED_LANES - {"MAIN"}):
             if not lane_to_claims.get(lane):
                 raise RuntimeError(f"{lane}: not connected to any active frontier claim")
+
+        adapter_by_lane = {item.get("lane"): item for item in adapters.get("lanes", [])}
+        for lane in sorted(ALLOWED_LANES):
+            item = adapter_by_lane.get(lane)
+            if not isinstance(item, dict):
+                raise RuntimeError(f"{lane}: missing lane adapter")
+            refs = item.get("active_frontier_refs")
+            if not isinstance(refs, list):
+                raise RuntimeError(f"{lane}: active_frontier_refs must be a list")
+            if len(refs) != len(set(refs)):
+                raise RuntimeError(f"{lane}: duplicate active_frontier_refs")
+            unknown = sorted(set(refs) - active_ids)
+            if unknown:
+                raise RuntimeError(f"{lane}: unknown active frontier refs {unknown}")
+            expected = set(owner_claims) if lane == "MAIN" else set(lane_to_claims[lane])
+            if set(refs) != expected:
+                raise RuntimeError(
+                    f"{lane}: LANE-ADAPTERS active refs disagree with claim lane_links; "
+                    f"missing={sorted(expected-set(refs))} extra={sorted(set(refs)-expected)}"
+                )
 
         survivor = by_id["S32.Q602.SURVIVORS_73_97_235.V1"]
         if survivor["authority_status"] != "AUDITED" or survivor["scope"].get("surviving_residues") != [73, 97, 235]:
