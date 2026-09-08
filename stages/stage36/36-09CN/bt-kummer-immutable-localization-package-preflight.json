@@ -1,0 +1,74 @@
+{
+  "schema":"STAGE36_36_09CN_BT_KUMMER_IMMUTABLE_LOCALIZATION_PACKAGE_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09CN",
+  "status":"FAIL_CLOSED_REQUIRED_PLACE_SELECTION_RULE_MISSING",
+  "base_main_sha":"8143dbaabb0cf164e65091dd315996f7eac68cf8",
+  "batch_parent":{"pr":1707,"36_09CM_exact_green_head":"f5b270da04815e6339cd8795d0ddf58ce34138ca","36_09CM_exact_head_ci":"34177867543/101910774245"},
+  "source_locks":{
+    "stage36_36_09CM":{"path":"stages/stage36/36-09CM/bt-global-kummer-class-localization-adapter-preflight.json","blob_sha":"06c3e6d1fcc2453dc44b84d50896abdc6a1658d7"},
+    "stage36_36_09CM_verifier":{"path":"stages/stage36/verify_stage36_36_09CM.py","blob_sha":"837ef698fd808c4adf9858f4d037ef73982db2c5"},
+    "stage36_36_09CJ":{"path":"stages/stage36/36-09CJ/fixed-p-all-bad-place-local-integration-preflight.json","blob_sha":"bf98c1bfd468ff975755d364081d829b1f8c1233"},
+    "stage36_36_09CK":{"path":"stages/stage36/36-09CK/good-prime-and-real-place-local-integration-preflight.json","blob_sha":"909dcb4985414fc3085818ad818f7601830dc7f6"},
+    "lit_wf02_contract":{"path":"docs/arsenal/lit-wf02-global-h1-localization-reciprocity-contract.json","blob_sha":"6fc62623ee59b4aaf1fc053ad42df2dcbba0855b"},
+    "lit_wf02_verifier":{"path":"docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py","blob_sha":"ee066a55f95184916c02dc1f1bbd9f07d1840dc8"},
+    "cn_diagnostic":{"path":"stages/stage36/36-09CN/derive-fixed-branch-inventory.py","blob_sha":"661d7276cd92ba8f790abee0f60646a55f99c443"}
+  },
+  "representative_branch_diagnostic":{
+    "scope":"diagnostic witness only; not a retained-candidate membership or uniform-family claim",
+    "selection":"p=1/2, first CK survivor in exact CK.panel order",
+    "a":1,"b":2,"P":1,"M":-7,"D0":-6,"Q":5,
+    "outer_row":[1,1,1,1,-1,0,0,6,true],
+    "kappa":-1,"rho":1,
+    "Xi_BT":[1,-1,1],
+    "Xi_BT_coordinate_parity_supports":[[],[],[]],
+    "Xi_BT_finite_ramification_support":[2],
+    "BT_cover_finite_bad_places":[2,3,5,7],
+    "CK_good_prime_family":"all odd primes outside divisors of 2*P*M*D0*Q; q>=1163 automatic by the CK genus-17 Hasse-Weil route and smaller good q are checked exactly",
+    "real_signs":[1,-1,1]
+  },
+  "lit_wf02_contract_check":{
+    "global_class_obligation_now_has_candidate_source":"36-09CM provides the fixed BT branch class Xi_BT=([AB],[kappa*A],[rho*A])",
+    "dynamic_localization_adapter_now_has_candidate_source":"36-09CM proves the five BT root squareclasses are localizations of the same fixed global branch class, retaining valuation parity at ramified places",
+    "required_place_inventory_rule":"LIT-WF02 requires an independently verified immutable required-place inventory whose exact place set equals the localization set, with dyadic and real places explicitly named",
+    "current_missing_obligation":"the current Stage36 sources do not yet prove which finite theorem-specific place set must be used to package the symbolic BT/CK localization system: Xi_BT ramification support, BT-cover bad-place support, and the CK good-prime family are distinct notions",
+    "why_not_use_ramification_support_only":"for the representative branch the class support is {2}, while the BT cover has bad places {2,3,5,7}; collapsing these notions would silently drop retained local charts",
+    "why_not_use_bad_places_only":"CK separately classifies all good odd primes and the real place; a LIT-WF02 package cannot silently treat that infinite good-prime family as absent without an explicit theorem-specific finite-support/relevance lemma",
+    "why_not_use_string_family_as_a_place":"the contract asks for places and exact equality with the localization place set; encoding an infinite family as one synthetic place label would satisfy syntax but not the mathematical place semantics",
+    "LIT_WF02_PASS_package_emitted":false,
+    "first_missing_obligation":"INDEPENDENT_REQUIRED_PLACE_SELECTION_RULE_AND_VERIFIER"
+  },
+  "main_consequence":{
+    "CM_global_class_gap_narrowed":true,
+    "CM_dynamic_localization_gap_narrowed":true,
+    "immutable_LIT_WF02_package_complete":false,
+    "LIT_WF02_applicability_PASS":false,
+    "new_global_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false
+  },
+  "route_result":{
+    "route_status":"FAIL_CLOSED_AT_REQUIRED_PLACE_SELECTION_RULE",
+    "next_leaf":"36-09CO_REQUIRED_PLACE_SELECTION_RULE_PREFLIGHT",
+    "36_09CO_entry_allowed_after_exact_green_CN":true
+  },
+  "scope_firewalls":{
+    "class_ramification_support_equals_receiver_bad_place_set":false,
+    "receiver_bad_place_set_equals_LIT_WF02_required_place_set":false,
+    "synthetic_good_prime_family_label_is_a_mathematical_place":false,
+    "fixed_branch_diagnostic_is_uniform_parameter_package":false,
+    "LIT_WF02_applicability_PASS":false,
+    "Selmer_membership_obtained":false,
+    "Poitou_Tate_obstruction_obtained":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
