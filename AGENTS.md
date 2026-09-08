@@ -44,6 +44,7 @@ Heavy PR workflows must not rerun merely because a PR was synchronized, reopened
 Stage-local controllers may strengthen these firewalls but must not weaken them.
 
 - **On-demand trigger:** open `docs/research-os/policies/research-credit-and-promotion-firewalls.md` only when promoting, revoking, or auditing research credit or when an adapter/semantic-scope question is load-bearing.
+- **On-demand trigger:** open `docs/research-os/policies/hostile-audit-and-freshness.md` when performing a hostile audit, promoting or revoking audit credit, or when the relationship between current-main freshness and hostile-audit result is load-bearing.
 
 ## Repository-wide research routing
 
