@@ -1,0 +1,25 @@
+name: Stage32EX2 scratch EX2-04 effective-divisor reduction
+
+on:
+  push:
+    branches:
+      - stage32ex2-independent-formal-conic-obstruction
+    paths:
+      - 'stages/stage32-ex2/scratch/ex2-04-effective-divisor-reduction.md'
+      - 'stages/stage32-ex2/scratch/ex2-04-effective-divisor-reduction.json'
+      - 'stages/stage32-ex2/scratch/verify_ex2_04_effective_divisor_reduction.py'
+      - '.github/workflows/stage32ex2-scratch-ex2-04-effective-divisor-reduction.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stage32ex2-independent-formal-conic-obstruction
+          fetch-depth: 1
+      - name: Verify exact scratch reduction
+        run: python -B stages/stage32-ex2/scratch/verify_ex2_04_effective_divisor_reduction.py
