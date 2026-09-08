@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 import re
@@ -23,6 +24,10 @@ HEX64_RE = re.compile(r"^[0-9a-f]{64}$")
 HEXHEAD_RE = re.compile(r"^[0-9a-f]{40}$")
 ALLOWED_STATUS = {"SCRATCH", "PROVISIONAL", "AUDITED", "DECLARED_GOAL", "SUPERSEDED", "REVOKED"}
 ALLOWED_KIND = {"authority_snapshot", "mathematical_claim", "lane_contract", "adapter_contract"}
+
+# `bridges` is part of the immutable semantic core. For non-adapter claims that
+# predate bridge semantics, the absent optional key is omitted from canonicalization;
+# an adapter_contract is separately required to carry a valid bridge object.
 CORE_KEYS = [
     "claim_id",
     "kind",
@@ -32,6 +37,7 @@ CORE_KEYS = [
     "proves",
     "does_not_prove",
     "requires",
+    "bridges",
     "source_locks",
     "replay_verifier",
 ]
@@ -62,7 +68,7 @@ def git_blob_sha1(data: bytes) -> str:
 
 
 def claim_core_sha(claim: dict) -> str:
-    return csha({key: claim[key] for key in CORE_KEYS})
+    return csha({key: claim[key] for key in CORE_KEYS if key in claim})
 
 
 def validate_registry_shape(registry: dict) -> list[dict]:
@@ -80,6 +86,15 @@ def validate_registry_shape(registry: dict) -> list[dict]:
     if not isinstance(claims, list):
         raise CheckError("claims must be a list")
     return claims
+
+
+def validate_bridge_shape(cid: str, bridge: object) -> None:
+    if not isinstance(bridge, dict):
+        raise CheckError(f"{cid}: adapter_contract requires bridges object")
+    for key in ("from_scope_key", "to_scope_key"):
+        value = bridge.get(key)
+        if not isinstance(value, str) or not SCOPE_KEY_RE.fullmatch(value):
+            raise CheckError(f"{cid}: bridges.{key} must be a valid scope_key")
 
 
 def validate_claims(claims: list[dict]) -> dict[str, dict]:
@@ -108,6 +123,10 @@ def validate_claims(claims: list[dict]) -> dict[str, dict]:
             raise CheckError(f"duplicate claim ID: {cid}")
         if claim["kind"] not in ALLOWED_KIND:
             raise CheckError(f"{cid}: invalid kind {claim['kind']}")
+        if claim["kind"] == "adapter_contract":
+            validate_bridge_shape(cid, claim.get("bridges"))
+        elif "bridges" in claim:
+            raise CheckError(f"{cid}: only adapter_contract may declare bridges")
         if not isinstance(claim["scope_key"], str) or not SCOPE_KEY_RE.fullmatch(claim["scope_key"]):
             raise CheckError(f"{cid}: invalid scope_key")
         if not isinstance(claim["statement"], str) or not claim["statement"].strip():
@@ -159,20 +178,14 @@ def validate_dependencies(by_id: dict[str, dict]) -> None:
             if claim["authority_status"] != "SCRATCH" and dep["authority_status"] == "SCRATCH":
                 raise CheckError(f"{cid}: non-SCRATCH claim depends on SCRATCH {dep_id}")
             if claim["authority_status"] == "PROVISIONAL" and dep["authority_status"] not in {
-                "AUDITED",
-                "PROVISIONAL",
-                "DECLARED_GOAL",
+                "AUDITED", "PROVISIONAL", "DECLARED_GOAL"
             }:
                 raise CheckError(f"{cid}: illegal PROVISIONAL dependency status on {dep_id}")
             if claim["authority_status"] == "AUDITED" and dep["authority_status"] not in {
-                "AUDITED",
-                "DECLARED_GOAL",
+                "AUDITED", "DECLARED_GOAL"
             }:
                 raise CheckError(f"{cid}: AUDITED claim depends on non-audited proof input {dep_id}")
 
-            # Future-proof scope firewall: a mathematical claim may not silently consume a
-            # mathematical claim from a different scope. It must also require an explicit
-            # adapter_contract with a matching bridge and sufficient authority.
             if (
                 claim["kind"] == "mathematical_claim"
                 and dep["kind"] == "mathematical_claim"
@@ -183,18 +196,15 @@ def validate_dependencies(by_id: dict[str, dict]) -> None:
                     adapter = by_id.get(adapter_id)
                     if not adapter or adapter["kind"] != "adapter_contract":
                         continue
-                    bridge = adapter.get("bridges")
-                    if not isinstance(bridge, dict):
+                    bridge = adapter["bridges"]
+                    if bridge["from_scope_key"] != dep["scope_key"]:
                         continue
-                    if bridge.get("from_scope_key") != dep["scope_key"]:
-                        continue
-                    if bridge.get("to_scope_key") != claim["scope_key"]:
+                    if bridge["to_scope_key"] != claim["scope_key"]:
                         continue
                     if claim["authority_status"] == "AUDITED" and adapter["authority_status"] != "AUDITED":
                         continue
                     if claim["authority_status"] == "PROVISIONAL" and adapter["authority_status"] not in {
-                        "AUDITED",
-                        "PROVISIONAL",
+                        "AUDITED", "PROVISIONAL"
                     }:
                         continue
                     acceptable.append(adapter_id)
@@ -203,7 +213,6 @@ def validate_dependencies(by_id: dict[str, dict]) -> None:
                         f"{cid}: cross-scope mathematical dependency {dep_id} requires explicit adapter_contract"
                     )
 
-    # DFS cycle check
     color: dict[str, int] = {cid: 0 for cid in by_id}
     stack: list[str] = []
 
@@ -323,21 +332,24 @@ def transitive_dependencies(by_id: dict[str, dict], root_id: str) -> set[str]:
 def run_final_check(by_id: dict[str, dict], final: dict) -> tuple[bool, list[str]]:
     if final.get("schema") != "STAGE32_FINAL_CHECK_V1":
         raise CheckError("unexpected FINAL-CHECK schema")
-    missing: list[str] = []
     milestones = final.get("required_milestones")
     if not isinstance(milestones, list) or not milestones:
         raise CheckError("FINAL-CHECK requires milestone list")
+
+    missing: list[str] = []
+    milestone_ids: set[str] = set()
     for item in milestones:
         cid = item.get("required_claim_id")
         wanted = item.get("required_authority_status")
+        if not isinstance(cid, str):
+            raise CheckError("FINAL-CHECK milestone missing claim ID")
+        milestone_ids.add(cid)
         if cid not in by_id:
             missing.append(f"{item.get('slot')}: missing {cid}")
             continue
         claim = by_id[cid]
         if claim["authority_status"] != wanted:
-            missing.append(
-                f"{item.get('slot')}: {cid} status {claim['authority_status']} != {wanted}"
-            )
+            missing.append(f"{item.get('slot')}: {cid} status {claim['authority_status']} != {wanted}")
     if missing:
         return False, missing
 
@@ -345,6 +357,9 @@ def run_final_check(by_id: dict[str, dict], final: dict) -> tuple[bool, list[str
     root_id = contract.get("required_final_claim_id")
     if root_id not in by_id:
         return False, [f"missing final claim {root_id}"]
+    if root_id not in milestone_ids:
+        return False, [f"final root is not a required milestone: {root_id}"]
+
     root = by_id[root_id]
     for token in contract.get("required_proves_tokens", []):
         if token not in root["proves"]:
@@ -358,9 +373,18 @@ def run_final_check(by_id: dict[str, dict], final: dict) -> tuple[bool, list[str
     if not isinstance(receipt, dict) or receipt.get("status") != "PASS":
         return False, [f"final claim lacks PASS audit receipt: {root_id}"]
 
+    deps = transitive_dependencies(by_id, root_id)
+    if contract.get("required_milestones_must_be_transitive_dependencies_of_final_root", True):
+        required_ancestors = milestone_ids - {root_id}
+        unreachable = sorted(required_ancestors - deps)
+        if unreachable:
+            return False, [
+                "final claim dependency closure does not contain required milestones: " + ", ".join(unreachable)
+            ]
+
     if contract.get("all_transitive_mathematical_dependencies_must_be_audited", True):
         bad = []
-        for cid in sorted(transitive_dependencies(by_id, root_id)):
+        for cid in sorted(deps):
             claim = by_id[cid]
             if claim["kind"] in {"mathematical_claim", "adapter_contract"} and claim["authority_status"] != "AUDITED":
                 bad.append(f"{cid}={claim['authority_status']}")
@@ -369,16 +393,111 @@ def run_final_check(by_id: dict[str, dict], final: dict) -> tuple[bool, list[str
     return True, []
 
 
+def synthetic_audited_claim(cid: str, requires: list[str] | None = None, proves: list[str] | None = None) -> dict:
+    return {
+        "claim_id": cid,
+        "kind": "mathematical_claim",
+        "statement": "synthetic fail-close fixture",
+        "scope_key": "S32.TEST.FINAL",
+        "scope": {},
+        "proves": proves or ["synthetic"],
+        "does_not_prove": ["production credit"],
+        "requires": requires or [],
+        "source_locks": [],
+        "replay_verifier": None,
+        "authority_status": "AUDITED",
+        "audit_receipt": {"status": "PASS", "pr": 1, "review_id": 1, "exact_head": "0" * 40},
+    }
+
+
+def run_fail_closed_self_test() -> dict:
+    ids = [
+        "S32.PROOF.NUMERICAL_CENSUS.V1",
+        "S32.PROOF.EFFECTIVITY_DISPOSAL.V1",
+        "S32.PROOF.MULTIBRANCH_LEDGER.V1",
+        "S32.PROOF.INTEGRATED_SYNTHESIS.V1",
+        "S32.PROOF.HOSTILE_AUDIT_RELEASE.V1",
+        "S32.PROOF.STAGE32_CLOSED.V1",
+    ]
+    by_id = {cid: synthetic_audited_claim(cid) for cid in ids}
+    root_id = ids[-1]
+    by_id[root_id]["proves"] = ["STAGE32_CLOSED=true"]
+    final_fixture = {
+        "schema": "STAGE32_FINAL_CHECK_V1",
+        "required_milestones": [
+            {"slot": cid, "required_claim_id": cid, "required_authority_status": "AUDITED"} for cid in ids
+        ],
+        "closure_contract": {
+            "required_final_claim_id": root_id,
+            "required_proves_tokens": ["STAGE32_CLOSED=true"],
+            "forbidden_proves_tokens": [],
+            "required_milestones_must_be_transitive_dependencies_of_final_root": True,
+            "all_transitive_mathematical_dependencies_must_be_audited": True,
+        },
+    }
+    ok, reasons = run_final_check(by_id, final_fixture)
+    if ok or not any("dependency closure" in reason for reason in reasons):
+        raise CheckError("self-test: disconnected audited milestones did not fail closed")
+
+    adapter = {
+        "claim_id": "S32.TEST.ADAPTER.V1",
+        "kind": "adapter_contract",
+        "statement": "synthetic bridge immutability fixture",
+        "scope_key": "S32.TEST.ADAPTER",
+        "scope": {},
+        "proves": ["synthetic adapter"],
+        "does_not_prove": ["production credit"],
+        "requires": [],
+        "bridges": {"from_scope_key": "S32.TEST.A", "to_scope_key": "S32.TEST.B"},
+        "source_locks": [],
+        "replay_verifier": None,
+        "authority_status": "DECLARED_GOAL",
+        "audit_receipt": None,
+    }
+    adapter["claim_core_sha256"] = claim_core_sha(adapter)
+    validate_claims([adapter])
+    mutated = copy.deepcopy(adapter)
+    mutated["bridges"]["from_scope_key"] = "S32.TEST.C"
+    try:
+        validate_claims([mutated])
+    except CheckError as exc:
+        if "immutable claim core hash mismatch" not in str(exc):
+            raise
+    else:
+        raise CheckError("self-test: bridge mutation preserved immutable core hash")
+
+    missing_bridge = copy.deepcopy(adapter)
+    missing_bridge.pop("bridges")
+    missing_bridge["claim_core_sha256"] = claim_core_sha(missing_bridge)
+    try:
+        validate_claims([missing_bridge])
+    except CheckError as exc:
+        if "requires bridges object" not in str(exc):
+            raise
+    else:
+        raise CheckError("self-test: adapter without bridge shape was accepted")
+
+    return {
+        "verdict": "PASS_STAGE32_FAIL_CLOSED_SELF_TEST",
+        "disconnected_final_milestones_rejected": True,
+        "bridge_mutation_changes_core": True,
+        "adapter_bridge_shape_required": True,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--integrity", action="store_true", help="check registry/DAG/source-lock integrity (default)")
     mode.add_argument("--final", action="store_true", help="run fail-closed Stage32 FINAL-CHECK")
+    mode.add_argument("--self-test-fail-closed", action="store_true", help="replay synthetic fail-close regression tests")
     args = parser.parse_args()
 
     try:
-        # Schema file is intentionally retained as a contract artifact. This verifier
-        # uses stdlib-only manual validation so no jsonschema dependency is introduced.
+        if args.self_test_fail_closed:
+            print(json.dumps(run_fail_closed_self_test(), sort_keys=True))
+            return 0
+
         schema = load_json(SCHEMA_PATH)
         if schema.get("$id") != "STAGE32_CLAIM_REGISTRY_SCHEMA_V1":
             raise CheckError("claim registry schema file drift")
