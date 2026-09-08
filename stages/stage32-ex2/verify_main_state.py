@@ -16,6 +16,7 @@ EX2_02 = Path(__file__).with_name("EX2-02") / "exact-fixed-component-extraction.
 EX2_02_VERIFY = Path(__file__).with_name("verify_ex2_02_fixed_components.py")
 CLAIM_SYNC = ROOT / "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md"
 REGISTRY = ROOT / "stages/stage32/proof/CLAIM-REGISTRY.json"
+LANES = ROOT / "stages/stage32/proof/LANE-ADAPTERS.json"
 
 state = json.loads(STATE.read_text())
 roadmap = ROADMAP.read_text()
@@ -25,6 +26,7 @@ ex2_00 = json.loads(EX2_00.read_text())
 ex2_01 = json.loads(EX2_01.read_text())
 ex2_02 = json.loads(EX2_02.read_text())
 registry = json.loads(REGISTRY.read_text())
+lanes = json.loads(LANES.read_text())
 
 
 def git(*args: str) -> str:
@@ -35,7 +37,7 @@ def blob(path: Path) -> str:
     return git("hash-object", str(path.relative_to(ROOT)))
 
 
-assert state["schema"] == "STAGE32EX2_MAIN_COMPACT_STATE_V4_EX2_02_FIXED_COMPONENT_SCAN_COMPLETE_PENDING_CLAIM_SYNC"
+assert state["schema"] == "STAGE32EX2_MAIN_COMPACT_STATE_V5_EX2_02_CLAIM_SYNC_COMPLETE_EX2_03_ACTIVE"
 assert state["stage"] == "32EX2"
 assert state["execution"]["main_command"] == "stage32ex2-mainbatch"
 assert state["execution"]["audit_command"] == "stage32ex2-audit"
@@ -60,11 +62,10 @@ assert state["authority"]["EX2_02_fixed_component_scan"] == "stages/stage32-ex2/
 assert state["authority"]["EX2_02_artifact_blob_sha1"] == blob(EX2_02) == "b07fd12a40acbfc478cdab472157cb4a34efe39c"
 assert state["authority"]["EX2_02_artifact_canonical_sha256"] == ex2_02["canonical_sha256_without_this_field"]
 assert state["authority"]["EX2_02_candidate_claim_id"] == "S32.EX2.FIXED_COMPONENT_NEGATIVE_SCAN.V1"
-assert state["authority"]["EX2_02_claim_status"] == "RETAINED_RESULT_CLAIM_DAG_SYNC_PENDING"
+assert state["authority"]["EX2_02_claim_status"] == "PROVISIONAL_CLAIM_DAG_SYNCHRONIZED_NOT_HOSTILE_AUDITED"
 
 assert ex2_00["exit"]["EX2_00_source_lock_complete"] is True
 assert ex2_01["exit"]["EX2_01_complete"] is True
-assert ex2_01["exit"]["next_leaf"] == "EX2-02_EXACT_FIXED_COMPONENT_EXTRACTION"
 assert ex2_02["exit"]["EX2_02_complete"] is True
 assert ex2_02["exact_scan"]["pairing_count"] == 140
 assert ex2_02["exact_scan"]["negative_pairing_count"] == 0
@@ -72,14 +73,15 @@ assert ex2_02["exact_scan"]["zero_pairing_labels_1based"] == [17, 21, 24, 25, 30
 assert ex2_02["fixed_component_extraction"]["new_forced_fixed_components_certified_by_this_gate"] == 0
 assert ex2_02["fixed_component_extraction"]["full_fixed_part_proved_zero"] is False
 
-assert state["current"]["status"] == "EX2_02_BOUNDED_NEGATIVE_INTERSECTION_SCAN_COMPLETE_PENDING_CLAIM_DAG_SYNC"
-assert state["current"]["leaf"] == "EX2-02_RETAINED_CONSOLIDATION_CLAIM_DAG_RECONCILIATION"
-assert state["current"]["next_route_on_success"] == "EX2-03_BASE_LOCUS_AND_MOVING_SYSTEM_STRUCTURE"
+assert state["current"]["status"] == "EX2_02_CLAIM_DAG_SYNC_COMPLETE_EX2_03_ACTIVE"
+assert state["current"]["leaf"] == "EX2-03_BASE_LOCUS_AND_MOVING_SYSTEM_STRUCTURE"
+assert state["current"]["subroute"] == "ZERO_INTERSECTION_RESTRICTION_AND_DIVISORIAL_BASE_LOCUS_PREFLIGHT"
 
 frontier = state["frontier"]
 assert frontier["EX2_00_source_lock_complete"] is True
 assert frontier["EX2_01_section_source_inventory_complete"] is True
 assert frontier["EX2_02_exact_negative_intersection_scan_complete"] is True
+assert frontier["EX2_02_claim_dag_sync_complete"] is True
 assert frontier["EX2_02_known140_pairing_count"] == 140
 assert frontier["EX2_02_negative_pairing_count"] == 0
 assert frontier["EX2_02_new_forced_fixed_components_certified"] == 0
@@ -96,18 +98,38 @@ sync = state["claim_sync"]
 assert sync["triggered_for_EX2_02"] is True
 assert sync["trigger"] == "RETAINED_CONSOLIDATION"
 assert sync["contract"] == "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md"
-assert sync["status"] == "PENDING_CURRENT_MAIN_RECONCILIATION"
+assert sync["status"] == "COMPLETE_CURRENT_MAIN_RECONCILED_REQUIRED_DAG_VERIFIERS_PASS"
 assert sync["candidate_claim_id"] == "S32.EX2.FIXED_COMPONENT_NEGATIVE_SCAN.V1"
+assert sync["checkpoint_claim_dag_complete"] is True
+assert sync["claim_dag_integrity_verifier_passed"] is True
+assert sync["active_frontier_verifier_passed"] is True
+assert sync["current_main_reconciliation_required"] is False
+assert sync["reconciled_current_main_sha"] == "d5545b32e6b3088bca53318998d434f2745b03e9"
+assert sync["active_frontier_remap_required"] is False
+assert sync["mathematical_frontier_semantics_changed"] is False
 assert sync["shared_claim_files_written_from_stale_branch"] is False
-assert sync["checkpoint_claim_dag_complete"] is False
-assert sync["current_main_reconciliation_required"] is True
 assert sync["stage32_main_authority_changed"] is False
 assert sync["promotion_attempted"] is False
 assert CLAIM_SYNC.exists()
 
-claim_ids = {c["claim_id"] for c in registry["claims"]}
-assert "S32.EX2.SECTION_SOURCE_INVENTORY.V1" in claim_ids
-assert "S32.EX2.FIXED_COMPONENT_NEGATIVE_SCAN.V1" not in claim_ids
+claims = {c["claim_id"]: c for c in registry["claims"]}
+assert "S32.EX2.SECTION_SOURCE_INVENTORY.V1" in claims
+fixed_claim = claims["S32.EX2.FIXED_COMPONENT_NEGATIVE_SCAN.V1"]
+assert fixed_claim["authority_status"] == "PROVISIONAL"
+assert fixed_claim["requires"] == ["S32.EX2.LANE_CONTRACT.V3"]
+assert fixed_claim["replay_verifier"] == "stages/stage32-ex2/verify_ex2_02_fixed_components.py"
+locks = {x["path"]: x for x in fixed_claim["source_locks"]}
+assert locks["stages/stage32-ex2/EX2-02/exact-fixed-component-extraction.json"]["blob_sha1"] == blob(EX2_02)
+assert locks["stages/stage32-ex2/verify_ex2_02_fixed_components.py"]["blob_sha1"] == blob(EX2_02_VERIFY)
+assert claims["S32.EX1.CANDIDATE_THROUGH_05H.V3"]["authority_status"] == "AUDITED"
+assert claims["S32.EX1.CANDIDATE_THROUGH_05H.V3"]["audit_receipt"]["status"] == "PASS"
+assert claims["S32.EX1.CANDIDATE_THROUGH_05H.V3"]["audit_receipt"]["review_id"] == 5136931113
+
+lane_map = {x["lane"]: x for x in lanes["lanes"]}
+ex2_lane = lane_map["EX2"]
+assert "S32.EX2.FIXED_COMPONENT_NEGATIVE_SCAN.V1" in ex2_lane["claim_refs"]
+assert "S32.EX2.SECTION_SOURCE_INVENTORY.V1" in ex2_lane["claim_refs"]
+assert lane_map["EX1"]["claim_refs"][1] == "S32.EX1.CANDIDATE_THROUGH_05H.V3"
 
 credit = state["credit"]
 assert credit["bounded_negative_intersection_gate_closed"] is True
@@ -162,17 +184,17 @@ working_set = state["current_leaf_working_set"]
 required = {
     "stages/stage32-ex2/EX2-02/exact-fixed-component-extraction.json",
     "stages/stage32-ex2/verify_ex2_02_fixed_components.py",
-    "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md",
-    "stages/stage32/STAGE32-PROOF-PATH.md",
-    "stages/stage32/proof/LANE-ADAPTERS.json",
-    "stages/stage32/proof/CLAIM-REGISTRY.json",
-    "stages/stage32/proof/ACTIVE-FRONTIER.json",
+    "stages/stage32-ex2/EX2-01/section-source-inventory.json",
+    "stages/stage32-ex2/EX2-00/v6-source-lock-target-contract.json",
+    "stages/stage32-ex2/stage32-ex2.md",
+    "stages/stage32/32-21/post1473-v6-witness-body-recovered.json",
+    "stages/stage32/residual-32-01-production/post1648ag-v6-known140-basis-elimination.json",
 }
-assert required.issubset(set(working_set))
+assert required == set(working_set)
 assert len(working_set) == len(set(working_set))
 for rel in working_set:
     assert (ROOT / rel).exists(), rel
 
 print(
-    "Stage32EX2 MAIN state: PASS at retained EX2-02 bounded no-hit scan; fixed part remains unclassified and claim-DAG reconciliation is the mandatory next gate before EX2-03."
+    "Stage32EX2 MAIN state: PASS; EX2-02 bounded negative-intersection claim is reconciled and registered PROVISIONAL with required Stage32 DAG verifiers passed, EX1 audited authority preserved, and EX2-03 is the active nonterminal leaf."
 )
