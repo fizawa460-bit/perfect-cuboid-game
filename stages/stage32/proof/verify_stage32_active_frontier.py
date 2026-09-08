@@ -13,6 +13,16 @@ BASE_VERIFIER_PATH = HERE / "verify_stage32_claim_dag.py"
 BASE_REGISTRY_PATH = HERE / "CLAIM-REGISTRY.json"
 ACTIVE_PATH = HERE / "ACTIVE-FRONTIER.json"
 ADAPTER_PATH = HERE / "LANE-ADAPTERS.json"
+SYNC_CONTRACT_REL = "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md"
+SYNC_CONTRACT_PATH = ROOT / SYNC_CONTRACT_REL
+SYNC_TRIGGER_MARKER = "Claim-DAG synchronization trigger"
+REQUIRED_SYNC_TRIGGERS = {
+    "RETAINED_CONSOLIDATION",
+    "AUTHORITY_OR_AUDIT_TRANSITION",
+    "EX_TO_MAIN_PROMOTION",
+    "ACTIVE_FRONTIER_REMAP",
+    "FINAL_MILESTONE_TRANSITION",
+}
 
 REQUIRED_ACTIVE_IDS = {
     "S32.V6.ACTUAL_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
@@ -46,6 +56,55 @@ def load_base_verifier():
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
+
+
+def validate_claim_sync_contract(adapters: dict) -> None:
+    contract = adapters.get("contract")
+    if not isinstance(contract, dict):
+        raise RuntimeError("LANE-ADAPTERS contract missing")
+    if contract.get("claim_sync_contract") != SYNC_CONTRACT_REL:
+        raise RuntimeError("claim-sync contract path drift")
+    if contract.get("ordinary_startup_preloads_claim_dag") is not False:
+        raise RuntimeError("ordinary startup must not preload claim DAG")
+    if contract.get("scratch_only_sync_required") is not False:
+        raise RuntimeError("scratch-only work must not require claim-DAG synchronization")
+    triggers = contract.get("claim_sync_triggers")
+    if not isinstance(triggers, list) or set(triggers) != REQUIRED_SYNC_TRIGGERS or len(triggers) != len(REQUIRED_SYNC_TRIGGERS):
+        raise RuntimeError("claim-sync trigger contract drift")
+    if not SYNC_CONTRACT_PATH.is_file():
+        raise RuntimeError("claim-sync contract file missing")
+    sync_text = SYNC_CONTRACT_PATH.read_text()
+    for trigger in sorted(REQUIRED_SYNC_TRIGGERS):
+        if trigger not in sync_text:
+            raise RuntimeError(f"claim-sync contract missing trigger {trigger}")
+    if "Scratch-only work does not trigger claim-DAG writes." not in sync_text:
+        raise RuntimeError("claim-sync scratch firewall text missing")
+
+    lanes = adapters.get("lanes")
+    if not isinstance(lanes, list):
+        raise RuntimeError("lane adapters must be a list")
+    for item in lanes:
+        if not isinstance(item, dict):
+            raise RuntimeError("malformed lane adapter")
+        lane = item.get("lane")
+        startup_rel = item.get("startup_path")
+        if lane not in ALLOWED_LANES:
+            continue
+        if not isinstance(startup_rel, str) or not startup_rel:
+            raise RuntimeError(f"{lane}: startup_path missing from lane adapter")
+        startup_path = ROOT / startup_rel
+        if not startup_path.is_file():
+            raise RuntimeError(f"{lane}: startup_path does not exist: {startup_rel}")
+        startup_text = startup_path.read_text()
+        if SYNC_TRIGGER_MARKER not in startup_text:
+            raise RuntimeError(f"{lane}: startup missing claim-sync trigger section")
+        if SYNC_CONTRACT_REL not in startup_text:
+            raise RuntimeError(f"{lane}: startup does not point to claim-sync contract")
+        for trigger in sorted(REQUIRED_SYNC_TRIGGERS):
+            if trigger not in startup_text:
+                raise RuntimeError(f"{lane}: startup missing claim-sync trigger {trigger}")
+        if "Scratch-only diagnostics do not trigger claim-DAG writes." not in startup_text:
+            raise RuntimeError(f"{lane}: startup missing scratch-only sync firewall")
 
 
 def main() -> int:
@@ -98,6 +157,7 @@ def main() -> int:
         replay_count = basev.validate_replay_verifiers(by_id)
         source_lock_count = basev.validate_source_locks(by_id)
         basev.validate_lane_adapters(by_id, adapters)
+        validate_claim_sync_contract(adapters)
 
         lane_to_claims: dict[str, list[str]] = defaultdict(list)
         owner_claims: list[str] = []
@@ -174,6 +234,10 @@ def main() -> int:
             "combined_claim_count": len(combined_claims),
             "source_locks_checked": source_lock_count,
             "replay_verifiers_checked": replay_count,
+            "claim_sync_contract": SYNC_CONTRACT_REL,
+            "claim_sync_triggers": sorted(REQUIRED_SYNC_TRIGGERS),
+            "ordinary_startup_preloads_claim_dag": False,
+            "scratch_only_sync_required": False,
             "historical_bulk_migration": False,
             "hostile_audit_credit_self_assigned": False,
         }, sort_keys=True))
