@@ -1,0 +1,387 @@
+{
+  "schema": "STAGE32EX4_R2_KUUSALO_PERIOD_TO_RETAINED_B5_LATTICE_ADAPTER_PREFLIGHT_SCRATCH_V1",
+  "stage": "32EX4",
+  "leaf": "EX4-R2_KUUSALO_PERIOD_TO_RETAINED_B5_LATTICE_ADAPTER_PREFLIGHT",
+  "status": "SCRATCH_REPLAYABLE_PERIOD_EQUIVALENCE_EXACT_BUT_NONPRUNING_LITERAL_B9_BINDING_STILL_MISSING",
+  "prior_reentry": {
+    "artifact": "stages/stage32-ex4/ex4-r1-kuusalo-branch-labelled-h1-reentry-scratch.json",
+    "source_delta0inf_coordinate_mod2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "reentry_interface_class": "BRANCH_LABELLED_SYMPLECTIC_HOMOLOGY_OR_LEVEL_MARKING"
+  },
+  "external_source": {
+    "kuusalo_naatanen": {
+      "title": "Geometric uniformization in genus 2",
+      "authors": [
+        "T. Kuusalo",
+        "M. Naatanen"
+      ],
+      "journal": "Annales Academiae Scientiarum Fennicae, Series A I Mathematica",
+      "volume": 20,
+      "year": 1995,
+      "pages": "401-418",
+      "url": "https://www.acadsci.fi/mathematica/Vol20/kuusalo.pdf",
+      "locators": [
+        "paper p.409 / PDF pageno 8: theta(f1) on canonical basis (a1,a2,b1,b2)",
+        "paper p.410 / PDF pageno 9: Case D period entries a=d=1/3+(2i/3)sqrt(2), b=-2/3-(i/3)sqrt(2)",
+        "paper p.409: theta(f2) for the 2pi/3 rotation, reserved as the next independent generator input"
+      ],
+      "source_supported_facts": [
+        "The Case D canonical basis is symplectic.",
+        "The order-8 rotation f1 has the displayed integral H1 matrix.",
+        "The Case D normalized period matrix is explicit.",
+        "A second rotation f2 has an explicit integral H1 matrix and is not used to claim R2 pruning."
+      ]
+    }
+  },
+  "field": {
+    "symbol": "r",
+    "relation": "r^2=-2",
+    "identification": "r=i*sqrt(2)"
+  },
+  "kuusalo_period": {
+    "basis": [
+      "a1",
+      "a2",
+      "b1",
+      "b2"
+    ],
+    "tau_K": [
+      [
+        "(1+2*r)/3",
+        "(-2-r)/3"
+      ],
+      [
+        "(-2-r)/3",
+        "(1+2*r)/3"
+      ]
+    ],
+    "f1_h1_matrix": [
+      [
+        1,
+        1,
+        -1,
+        0
+      ],
+      [
+        0,
+        -1,
+        1,
+        -1
+      ],
+      [
+        1,
+        0,
+        1,
+        -1
+      ],
+      [
+        1,
+        1,
+        0,
+        -1
+      ]
+    ],
+    "f1_order": 8,
+    "f1_fourth_power": "-I",
+    "f2_h1_matrix_reserved_next": [
+      [
+        0,
+        0,
+        0,
+        -1
+      ],
+      [
+        0,
+        0,
+        -1,
+        1
+      ],
+      [
+        1,
+        1,
+        -1,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        -1
+      ]
+    ],
+    "f2_order": 3
+  },
+  "retained_principal_lattice": {
+    "basis": [
+      "e1",
+      "e2",
+      "r*e1",
+      "r*e2"
+    ],
+    "riemann_form": [
+      [
+        0,
+        1,
+        2,
+        1
+      ],
+      [
+        -1,
+        0,
+        1,
+        2
+      ],
+      [
+        -2,
+        -1,
+        0,
+        2
+      ],
+      [
+        -1,
+        -2,
+        -2,
+        0
+      ]
+    ],
+    "raw_complex_period_basis": "[I_2 | r*I_2]",
+    "darboux_change_columns_raw_basis": [
+      [
+        1,
+        1,
+        0,
+        -2
+      ],
+      [
+        0,
+        -2,
+        1,
+        1
+      ],
+      [
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        -1
+      ]
+    ],
+    "darboux_determinant": 1,
+    "darboux_form_identity": "U^T*E_raw*U=J_standard",
+    "normalized_tau_R": [
+      [
+        "(1+r)/2",
+        "-1/2"
+      ],
+      [
+        "-1/2",
+        "(r-1)/2"
+      ]
+    ],
+    "source_lock": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json",
+      "blob_sha1": "e28c4533883440ea0963d4d4e8859aa95409cf10",
+      "canonical_sha256": "8d828cdf6d1f5cb1d790c46292535dc252e503356e1047ce972c41e61f524529"
+    }
+  },
+  "period_adapter_convention": {
+    "basis_change": "[I,tau_R]*G = F*[I,tau_K]",
+    "block_equation": "(A+tau_R*C)*tau_K = B+tau_R*D for G=[[A,B],[C,D]]",
+    "seed_symplectic_adapter_G0": [
+      [
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        -1,
+        -1,
+        1,
+        0
+      ],
+      [
+        -1,
+        -1,
+        0,
+        1
+      ],
+      [
+        -1,
+        0,
+        0,
+        0
+      ]
+    ],
+    "seed_verified": true
+  },
+  "retained_g12": {
+    "raw_generators": {
+      "S": [
+        [
+          1,
+          1,
+          0,
+          -2
+        ],
+        [
+          0,
+          -1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          -1
+        ]
+      ],
+      "T": [
+        [
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          -1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          -1,
+          0
+        ]
+      ]
+    },
+    "order": 48,
+    "standard_darboux_action_generated_by": "U^-1*S*U and U^-1*T*U",
+    "period_adapter_torsor": "{H*G0 : H in <S,T> in Darboux coordinates}",
+    "period_adapter_count": 48
+  },
+  "delta0inf_transport": {
+    "kuusalo_coordinate_mod2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "transport_to_raw_retained": "v_raw = U*G*v_K mod 2",
+    "retained_W_lines": {
+      "L1": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "L2": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "L3": [
+        0,
+        0,
+        1,
+        1
+      ]
+    },
+    "line_counts_across_48_adapters": {
+      "L1": 16,
+      "L2": 16,
+      "L3": 16
+    },
+    "all_images_lie_in_W": true,
+    "period_equivalence_alone_prunes": false
+  },
+  "transported_B9_order8_action": {
+    "source_matrix": "theta(f1)",
+    "target_matrix_formula": "M_raw(G)=U*G*theta(f1)*G^-1*U^-1",
+    "distinct_target_elements": 6,
+    "all_distinct_target_elements_in_retained_G12": true,
+    "target_elements_equal_conjugacy_class_of": "A=S*T^-1",
+    "conjugacy_class_size": 6,
+    "adapter_multiplicity_per_target_element": 8,
+    "target_class_elements_per_fixed_W_line": {
+      "L1": 2,
+      "L2": 2,
+      "L3": 2
+    },
+    "literal_A_equals_S_Tinverse": {
+      "compatible_adapter_count": 8,
+      "delta0inf_image_set": [
+        [
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "conditional_line": "L2",
+      "conditional_residue": 97,
+      "conditional_only": true
+    }
+  },
+  "decision": {
+    "result": "KUUSALO_PERIOD_EQUIVALENCE_EXACT_48_ADAPTER_TORSOR_AND_B9_SIX_CONJUGATES_NONPRUNING",
+    "source_side_H1_marking_retained": true,
+    "period_equivalence_exact": true,
+    "absolute_delta0inf_retained_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "next_exact_route": "EX4-R3_KUUSALO_SECOND_GENERATOR_PAIR_PREFLIGHT",
+    "next_question": "Use Kuusalo theta(f2) and its branch/octagon semantics as an independent second generator; test whether simultaneous source-bound f1/f2 data selects one of the six retained B9 conjugates without importing a target gauge."
+  },
+  "firewalls": {
+    "prior_audited_terminal_revoked": false,
+    "period_isomorphism_promoted_to_marked_isomorphism": false,
+    "one_seed_adapter_promoted_to_absolute_marking": false,
+    "literal_B9_to_S_Tinverse_promoted_without_source_binding": false,
+    "conditional_residue97_promoted": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "source_locks": {
+    "r1": {
+      "path": "stages/stage32-ex4/ex4-r1-kuusalo-branch-labelled-h1-reentry-scratch.json",
+      "blob_sha1": "7ed5a77c57ac8275462c45c949b7161c0331b3d8",
+      "canonical_sha256": "cc2ac8033071a594d8ba75b5ac0cc1bbc66039fe608af9452360fb038489f1cf"
+    },
+    "post1648j": {
+      "path": "stages/stage32/residual-32-01-production/post1648j-cecotti-trace-orientation-correction.json",
+      "blob_sha1": "17641753c33ae46e9b7517dc85a915edd70d2057"
+    }
+  },
+  "canonical_sha256_without_this_field": "fdcaa13fe6708406387eb46fd7832b25fb891be183748f840777d7c5a8a9212a"
+}
