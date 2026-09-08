@@ -83,7 +83,7 @@ def main()->None:
     assert "gamma'(ell)=Cor" in cw
     assert 'does **not** identify that image with all' in dd
     assert lit['literature'][0]['theorem_identifier']=='Chapter III Theorems 2-4'
-    assert 'global Brauer/Hilbert reciprocity' in src
+    assert 'Global Brauer/Hilbert reciprocity' in src
 
     fc=c['fixed_curve_and_branch_algebra']
     aa=[Fraction(2),Fraction(1,2),Fraction(3),Fraction(1,3)]
