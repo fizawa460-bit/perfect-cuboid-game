@@ -91,13 +91,12 @@ jobs:
                   fac = sp.Poly(expr2, *b.BASE, extension=sp.I)
                   rebuilt *= fac**mult
                   parsed.append((int(fac.total_degree()), mult))
-              # Singular may retain a nonzero scalar constant as one factor; projective normalization removes it.
-              if b.normalize_norm(rebuilt) != b.normalize_norm(poly):
-                  raise SystemExit(f'exact normalized reconstruction failed: {parsed}')
-              nonconstant = [(d,m) for d,m in parsed if d > 0]
-              return nonconstant
+              if sp.Poly(rebuilt - poly, *b.BASE, extension=sp.I) != sp.Poly(0, *b.BASE, extension=sp.I):
+                  raise SystemExit(f'exact reconstruction failed: {parsed}')
+              return [(d,m) for d,m in parsed if d > 0]
 
           expected = {
+              'LIN_021': [(16,1)],
               'LIN_008': [(14,1),(1,2)],
               'LIN_024': [(1,8),(1,8)],
           }
@@ -109,5 +108,5 @@ jobs:
               print(f'{cid}|got={got}|want={want}')
               if sorted(got) != sorted(want):
                   raise SystemExit(f'pattern mismatch {cid}: got={got} want={want}')
-          print('MACHINE_PARSER_OK')
+          print('MACHINE_PARSER_EXACT_OK')
           PY
