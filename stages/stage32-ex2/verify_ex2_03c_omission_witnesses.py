@@ -106,7 +106,9 @@ def main() -> None:
         assert coeffs[z - 1] == 0
         assert len(witness["decomposition"]) == witness["nonzero_term_count"]
         assert sum(coeffs) == witness["total_multiplicity"]
-        assert csha(witness["decomposition"]) == witness["decomposition_sha256"]
+        # The diagnostic commits to the complete 140-coefficient vector, not
+        # merely its sparse serialization.
+        assert csha(coeffs) == witness["decomposition_sha256"]
 
         reconstructed = coords.T * Matrix(coeffs)
         assert reconstructed == vcoords
