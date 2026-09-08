@@ -47,7 +47,12 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09DX.py"
           git worktree remove --force "$tmp"
-      - name: Assert V213 DX exact-green parent and DY unlock firewalls
+      - name: Verify repaired DN audit provenance is non-authoritative
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09DN.py
+      - name: Assert V214 DX hostile-audit stop and DY lock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -55,19 +60,36 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V213_36_09DX_EXACT_GREEN_DY_UNLOCK_PENDING_PROMOTION_REPLAY'
-          dx=s['authority_frontier']['36-09DX']; cur=s['current']; pg=s['promotion_gates']
-          assert dx['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
+          dm=json.loads(Path('stages/stage36/36-09DM/intermediate-hostile-audit-pass-receipt.json').read_text())
+          dn=json.loads(Path('stages/stage36/36-09DN/fixed-p2-full-br2-common-neighborhood-preflight.json').read_text())
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V214_36_09DX_HOSTILE_AUDIT_FAIL_CLOSED'
+          dx=s['authority_frontier']['36-09DX']; cur=s['current']; pg=s['promotion_gates']; ha=s['hostile_audit_checkpoint']
+          assert dx['status']=='PROVISIONAL_EXACT_GREEN_AUDIT_STOP'
           assert dx['certificate_blob_sha']=='ee8fda5da9fdd7ea26220740eecb07b2d8a0effe'
           assert dx['verifier_blob_sha']=='19e6a1863b26eec1354045c813b03fa16a9b012f'
           assert dx['source_blob_sha']=='403c6bf71acbce1e1f83b3ec855dd2a1e5f7ea90'
           assert dx['exact_head']=='6232e765ffc2f40599a0125dac8a99f303a63e7e'
           assert dx['exact_head_ci']=='34266548689/102197232079'
           assert cur['unit']=='36-09DX'
-          assert cur['36_09DY_entry_allowed'] is True
+          assert cur['next_owner']=='HOSTILE_REAUDIT'
+          assert cur['substantive_batch_pr_continues'] is False
+          assert cur['hostile_audit_checkpoint_reached'] is True
+          assert cur['36_09DY_entry_allowed'] is False
           assert pg['36_09DX_exact_head_ci_passed'] is True
           assert pg['36_09DX_promotion_replay_passed'] is False
-          assert pg['36_09DY_entry_allowed'] is True
+          assert pg['36_09DY_entry_allowed'] is False
+          assert pg['hostile_reaudit_passed'] is False
+          assert ha['result']=='FAIL'
+          assert ha['repair_applied'] is True
+          assert ha['external_reaudit_required'] is True
+          assert ha['reaudit_pass_consumed'] is False
+          assert dm['status']=='NON_AUTHORITATIVE_NO_EXTERNAL_REVIEW_ID'
+          assert dm['external_review_id'] is None
+          assert dm['authority_credit'] is False
+          assert dn['batch_parent']['dm_intermediate_audit_record_status']=='NON_AUTHORITATIVE_NO_EXTERNAL_REVIEW_ID'
+          assert dn['batch_parent']['dm_intermediate_audit_authority_consumed'] is False
+          assert dn['authority_provenance']['previous_external_hostile_audit_boundary_claimed'] is False
+          assert dn['authority_provenance']['dm_record_resets_audit_debt'] is False
           assert pg['BT_global_Phi_Selmer_group_computed'] is True
           assert pg['BT_global_Phi_Selmer_F2_dimension']==2
           assert pg['BT_global_Phi_Selmer_cardinality']==4
@@ -75,6 +97,6 @@ jobs:
           assert pg['BT_proSelmer_cokernel_size_computed'] is False
           for key in ['BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          print('36-09DX immutable exact-green evidence replayed; 36-09DY is unlocked for finite-to-pro-Selmer defect comparison only. No downstream credit is granted.')
+          print('36-09DX exact-green mathematics replayed; hostile-audit FAIL repair is fail-closed, DM audit record is non-authoritative, and 36-09DY remains locked pending external re-audit PASS.')
           PY
           git diff --check
