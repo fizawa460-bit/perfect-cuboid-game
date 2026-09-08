@@ -47,7 +47,12 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09DO.py"
           git worktree remove --force "$tmp"
-      - name: Assert V195 DO exact-green parent and DP unlock firewalls
+      - name: Verify 36-09DP global Q2 2-primary localization image
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09DP.py
+      - name: Assert V196 DP provisional firewalls and DQ lock
         shell: bash
         run: |
           set -euo pipefail
@@ -55,25 +60,31 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V195_36_09DO_EXACT_GREEN_DP_UNLOCK_PENDING_PROMOTION_REPLAY'
-          do=s['authority_frontier']['36-09DO']
-          assert do['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert do['certificate_blob_sha']=='db5368da5162014e8fae767c778d6ddb0c2180e0'
-          assert do['verifier_blob_sha']=='29565b7975390e8b67049e50ff6ac0ecbb788812'
-          assert do['source_blob_sha']=='4529177bbe39401ed93c0395cce66176bf451dc8'
-          assert do['exact_head']=='a1a88d5171045547da44279bb1c144f536233e55'
-          assert do['exact_head_ci']=='34228677867/102069016868'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V196_36_09DP_GLOBAL_Q2_2PRIMARY_LOCALIZATION_SURJECTIVE_PENDING_EXACT_HEAD_CI'
+          dp=s['authority_frontier']['36-09DP']
+          assert dp['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert dp['certificate_blob_sha']=='ca4e238820ee5c1f5850ac99e5995e71c7d68eba'
+          assert dp['verifier_blob_sha']=='f288684887dbbfcc40ba3fa6039724cd5598e834'
+          assert dp['source_blob_sha']=='d9e081ac00c1b0267c970ba1ab2c0932d0a51425'
+          assert dp['GLOBAL_Q2_2PRIMARY_LOCALIZATION_SURJECTIVE'] is True
+          assert dp['GLOBAL_Q2_2PRIMARY_LOCALIZATION_IMAGE_BOUNDED_EXPONENT'] is False
+          assert dp['GLOBAL_Q2_2PRIMARY_LOCALIZATION_IMAGE_UNBOUNDED'] is True
+          assert dp['GLOBAL_2PRIMARY_COMMON_P0_NEIGHBORHOOD_AT_Q2_EXISTS'] is False
+          assert dp['GLOBAL_2PRIMARY_BRAUER_SET_NONEMPTY'] is False
+          assert dp['GLOBAL_2PRIMARY_BRAUER_SET_EMPTY'] is False
           cur=s['current']; pg=s['promotion_gates']
-          assert cur['unit']=='36-09DO'
-          assert cur['36_09DP_entry_allowed'] is True
-          assert pg['36_09DO_exact_head_ci_passed'] is True
-          assert pg['36_09DO_promotion_replay_passed'] is False
-          assert pg['36_09DP_entry_allowed'] is True
-          assert pg['BT_local_full_2primary_common_neighborhood_at_Q2_exists'] is False
-          assert pg['BT_global_2primary_Brauer_set_nonempty'] is False
-          assert pg['BT_global_2primary_Brauer_set_empty'] is False
-          for key in ['BT_global_Q2_localization_image_computed','BT_full_Brauer_set_nonempty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
+          assert cur['unit']=='36-09DP'
+          assert cur['36_09DQ_entry_allowed'] is False
+          assert pg['36_09DO_promotion_replay_passed'] is True
+          assert pg['36_09DP_certificate_complete'] is True
+          assert pg['36_09DP_exact_head_ci_passed'] is False
+          assert pg['36_09DQ_entry_allowed'] is False
+          assert pg['BT_global_Q2_2primary_localization_image_computed'] is True
+          assert pg['BT_global_Q2_2primary_localization_image_is_full'] is True
+          assert pg['BT_global_Q2_2primary_localization_image_unbounded'] is True
+          assert pg['BT_global_2primary_common_P0_neighborhood_at_Q2_exists'] is False
+          for key in ['BT_global_2primary_adelic_annihilator_computed','BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','BT_full_Brauer_set_nonempty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          print('36-09DO immutable exact-green evidence replayed; 36-09DP is unlocked for the global Q2 localization-image problem only. No downstream credit is granted.')
+          print('36-09DP provisional candidate verified: global 2-primary localization at Q2 is full and unbounded, but the adelic sum-pairing annihilator remains unresolved. DQ stays locked pending exact-head CI.')
           PY
           git diff --check
