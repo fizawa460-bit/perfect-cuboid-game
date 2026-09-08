@@ -1,0 +1,66 @@
+{
+  "schema": "STAGE32EX4_EX4_10S_MUTABLE_ROUTING_SOURCE_LOCK_POLICY_REPAIR_SCRATCH_V1",
+  "stage": "32EX4",
+  "leaf": "EX4-10S_CLAIM_SYNC_AND_ROUTING_STATE_CONSISTENCY",
+  "subleaf": "MUTABLE_ROUTING_SOURCE_LOCK_POLICY_REPAIR",
+  "status": "SCRATCH_REPLAYABLE_MANAGEMENT_POLICY_REPAIR_APPLIED_STATE_TRANSITION_LATER_COMPLETED",
+  "base_main_sha_observed": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "branch_head_before_repair": "b64e08c62577d1a851b03d6d045e435948be56d3",
+  "repair_commit": "0104105eb37af083218709511a23fbeefbd92e69",
+  "problem": {
+    "mutable_path": "stages/stage32-ex4/MAIN-STATE.json",
+    "current_blob_before_transition": "6e90681d2d44194998e1a4bbfb70d836dac6278b",
+    "registered_claim_examples": [
+      "S32.EX4.LANE_CONTRACT.V2",
+      "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2",
+      "S32.Q602.EXCLUSION.V1",
+      "S32.J2.DELTA0INF_ABSOLUTE_W_LINE_MARKING.V1",
+      "S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V2"
+    ],
+    "old_verifier_behavior": "Every registered source lock was required to equal the live working-tree blob, regardless of authority status or routing-state mutability.",
+    "consequence": "Advancing EX4 MAIN-STATE would invalidate historical DECLARED_GOAL routing/source snapshots before claim synchronization could complete."
+  },
+  "repair": {
+    "public_verifier_path": "stages/stage32/proof/verify_stage32_claim_dag.py",
+    "frozen_impl_path": "stages/stage32/proof/verify_stage32_claim_dag_impl.py",
+    "frozen_impl_blob_sha1": "bfe8a4edfc0b0fff1770c37945a922dfd9ab1031",
+    "wrapper_blob_sha1": "420d6edf3d8e7c8495bc468c4589a47e40768917",
+    "historical_snapshot_path": "stages/stage32/proof/historical-routing-blobs/6e90681d2d44194998e1a4bbfb70d836dac6278b.json",
+    "historical_snapshot_blob_sha1": "6e90681d2d44194998e1a4bbfb70d836dac6278b",
+    "historical_routing_statuses": ["DECLARED_GOAL", "SUPERSEDED", "REVOKED"],
+    "historical_routing_path_predicate": "path ends with /MAIN-STATE.json",
+    "historical_rule": "If a non-credit historical routing lock no longer matches the live path, verify the exact hash-named retained snapshot first; a full-clone git object is only a secondary fallback.",
+    "strict_rule_preserved": "AUDITED, PROVISIONAL, and SCRATCH source locks remain live working-tree exact; all non-routing source locks remain live working-tree exact.",
+    "canonical_json_lock_rule_preserved": true,
+    "active_frontier_api_compatibility": "The wrapper re-exports the original verifier API so verify_stage32_active_frontier.py continues to import the same public names."
+  },
+  "claim_ceiling_at_policy_repair_subleaf": {
+    "claim_sync_complete": false,
+    "ex4_main_state_updated": false,
+    "terminal_candidate_registered_provisional": false,
+    "audit_ready_full_target_closure": false,
+    "hostile_audit_pass": false,
+    "absolute_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false
+  },
+  "later_transition": {
+    "state_transition_completed_after_this_subleaf": true,
+    "retained_terminal_candidate_path": "stages/stage32-ex4/ex4-10s-retained-bounded-terminal-candidate.json",
+    "registered_claim_id": "S32.EX4.FIXED_SOURCE_PACKAGE_AMBIGUITY_TERMINAL.V1",
+    "authority_status": "PROVISIONAL",
+    "hostile_audit_still_required": true
+  },
+  "firewalls": {
+    "mathematical_evidence_exactness_relaxed": false,
+    "audited_or_provisional_mutable_state_mismatch_allowed": false,
+    "terminal_candidate_promoted_to_audited": false,
+    "stage32_main_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "87df428d52bd805d2a80cfcbe1c42a04718494cafc88e713861aaefe17557e08"
+}

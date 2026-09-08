@@ -1,0 +1,285 @@
+{
+  "schema": "STAGE32EX4_EX4_04_RETAINED_PPAV_J2_AND_CM_MARKING_ADAPTER_SCRATCH_V1",
+  "stage": "32EX4",
+  "leaf": "EX4-04_RETAINED_PPAV_J2_BASIS_AND_OPERATOR_ANCHOR",
+  "subroute": "DERAUX_TO_RETAINED_LATTICE_AND_CM_MARKING_ADAPTER",
+  "status": "SCRATCH_REPLAYABLE_EXACT_PPAV_CM_AMBIGUITY_ANCHOR_NOT_RETAINED_AUTHORITY",
+  "base_main_sha": "d5545b32e6b3088bca53318998d434f2745b03e9",
+  "branch_head_before_leaf": "ad4024ee3260dba7d57de411466df859f5238418",
+  "claim_ceiling": {
+    "statement": "Deraux's nice Z[r]^2 lattice Hermitian form and the retained principal-Bolza Hermitian form are explicitly integrally isometric up to scale, but the full Z[r]-linear principal-polarized isometry set has 48 elements and induces the full S3 action on the three nonzero retained W-lines. Thus CM-linearity plus the principal polarization does not select an absolute retained W-line.",
+    "absolute_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false
+  },
+  "repo_source_locks": {
+    "ex4_03_preflight": {
+      "path": "stages/stage32-ex4/ex4-03-deraux-krr-gmod2-preflight-scratch.json",
+      "blob_sha1": "cc8d0da643642cdbdad36b2304c158a6f394704c",
+      "canonical_sha256": "97e73b2c9a1ea30569ab82916b99a88b0924ada4acd8b9205df2b590914e36b1",
+      "authority_status": "SCRATCH_NOT_RETAINED"
+    },
+    "principal_rosati": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json",
+      "blob_sha1": "e28c4533883440ea0963d4d4e8859aa95409cf10",
+      "canonical_sha256": "8d828cdf6d1f5cb1d790c46292535dc252e503356e1047ce972c41e61f524529",
+      "authority_status": "SOURCE_LOCK_CONSUMED_BY_AUDITED_DOWNSTREAM_BUNDLE"
+    },
+    "cecotti_trace_orientation": {
+      "path": "stages/stage32/residual-32-01-production/post1648j-cecotti-trace-orientation-correction.json",
+      "blob_sha1": "17641753c33ae46e9b7517dc85a915edd70d2057",
+      "canonical_sha256": "3f6fd55ced259c6f28949df61865e22d43a669a50bdaf2adf5ddcd88411a48ec",
+      "authority_status": "PENDING_HOSTILE_REAUDIT_CANDIDATE_INPUT_ONLY"
+    }
+  },
+  "external_source_lock": {
+    "deraux": {
+      "title": "Non-arithmetic ball quotients from a configuration of elliptic curves in an Abelian surface",
+      "author": "Martin Deraux",
+      "arxiv": "1611.05112v2",
+      "locators": [
+        "Introduction equation (1): Lambda=(Z + i*sqrt(2) Z)^2",
+        "Section 4, Definition 4.1: R1,R2,R3 are written in a nice basis",
+        "Section 4 immediately after Definition 4.1: invariant Hermitian form H_D",
+        "Propositions 4.1-4.2: linear image is G12 of order 48 and translation lattice is Lambda"
+      ],
+      "exact_supported_facts": [
+        "the torus lattice is Z[r]^2 with r=i*sqrt(2), r^2=-2",
+        "the displayed affine generators are expressed in a chosen nice C^2 basis",
+        "their linear image preserves H_D=[[1,(-1-r)/2],[(-1+r)/2,1]]",
+        "the linear image is a G12 of order 48"
+      ]
+    }
+  },
+  "retained_target_anchor": {
+    "quadratic_order": "Z[r], r^2=-2",
+    "ordered_Z_basis": [
+      "e1",
+      "e2",
+      "r*e1",
+      "r*e2"
+    ],
+    "principal_hermitian_matrix": [
+      [
+        "2",
+        "1+r"
+      ],
+      [
+        "1-r",
+        "2"
+      ]
+    ],
+    "principal_riemann_matrix": [
+      [
+        0,
+        1,
+        2,
+        1
+      ],
+      [
+        -1,
+        0,
+        1,
+        2
+      ],
+      [
+        -2,
+        -1,
+        0,
+        2
+      ],
+      [
+        -1,
+        -2,
+        -2,
+        0
+      ]
+    ],
+    "weil_pairing_matrix_mod2": [
+      [
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ],
+    "W_definition": "ker(r mod 2)=span_F2{r*e1,r*e2}",
+    "W_lines": {
+      "L1": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "L2": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "L3": [
+        0,
+        0,
+        1,
+        1
+      ]
+    },
+    "line_to_Q602_residue": {
+      "L1": 73,
+      "L2": 97,
+      "L3": 235
+    },
+    "named_generators": {
+      "S_equals_b4": [
+        [
+          "1",
+          "1+r"
+        ],
+        [
+          "0",
+          "-1"
+        ]
+      ],
+      "T_equals_minus_b3": [
+        [
+          "1",
+          "1"
+        ],
+        [
+          "-1",
+          "0"
+        ]
+      ]
+    },
+    "named_group_order": 48
+  },
+  "deraux_hermitian_adapter": {
+    "H_D": [
+      [
+        "1",
+        "(-1-r)/2"
+      ],
+      [
+        "(-1+r)/2",
+        "1"
+      ]
+    ],
+    "H_R": [
+      [
+        "2",
+        "1+r"
+      ],
+      [
+        "1-r",
+        "2"
+      ]
+    ],
+    "one_explicit_integral_map_D": [
+      [
+        "1",
+        "0"
+      ],
+      [
+        "0",
+        "-1"
+      ]
+    ],
+    "exact_relation": "D^* H_R D = 2 H_D",
+    "D_is_Zr_linear": true,
+    "D_mod2_on_ordered_Z_basis": "identity because -1=+1 in F2",
+    "D_is_source_canonical": false,
+    "reason_not_canonical": "The two sources display compatible torus/polarization data but do not identify their chosen lattice bases by this particular D."
+  },
+  "exhaustive_integral_ppav_isometry_enumeration": {
+    "target_unitary_condition": "A^* H_R A = H_R for A in GL_2(Z[r])",
+    "finite_bound": {
+      "H_R_smallest_complex_eigenvalue": "2-sqrt(3)",
+      "norm2_column_euclidean_bound": "2/(2-sqrt(3))=4+2*sqrt(3)<8",
+      "coefficient_consequence": "for each entry a+b*r, a^2+2*b^2<=7; hence |a|<=2 and |b|<=1"
+    },
+    "norm2_vectors_found": 24,
+    "integral_unitary_matrices_found": 48,
+    "generated_group_equals_full_integral_unitary_group": true,
+    "generators": [
+      "S",
+      "T"
+    ],
+    "source_to_retained_scaled_isometries": "P=A*D with A in U(H_R,Z[r])",
+    "scaled_isometry_count": 48,
+    "proof_of_exhaustiveness": "If P^* H_R P=2H_D then A=P*D satisfies A^*H_R A=H_R; conversely every A gives P=A*D."
+  },
+  "W_line_ambiguity_under_ppav_CM_isometries": {
+    "induced_action_image": "S3",
+    "image_order": 6,
+    "kernel_order": 8,
+    "each_W_line_permutation_multiplicity": 8,
+    "orbit_of_each_nonzero_W_line": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "isometries_sending_any_fixed_line_to_each_target_line": 16,
+    "line_stabilizer_order": 16,
+    "consequence": "Z[r]-linearity, the principal polarization, and the retained CM operator r leave a transitive three-line ambiguity."
+  },
+  "product_anchor_consequence": {
+    "literal_product": "S*T^-1",
+    "literal_product_unique_fixed_W_line": "L2",
+    "integral_unitary_conjugacy_class_size": 6,
+    "fixed_W_line_counts_across_conjugates": {
+      "L1": 2,
+      "L2": 2,
+      "L3": 2
+    },
+    "consequence": "Without a source-bound choice of the lattice isometry, the unique fixed line of the literal product is transported among all three W-lines."
+  },
+  "decision": {
+    "result": "EX4_04_RETAINED_PPAV_CM_ANCHOR_COMPLETE_BUT_TARGET_MARKING_AMBIGUITY_IS_TRANSITIVE",
+    "new_exact_scratch_fact": "The Deraux and retained Hermitian forms are explicitly Z[r]-integrally equivalent up to scale, and all 48 such principal-polarized CM identifications are exhausted; their W-line action is full S3.",
+    "current_missing_datum": "A source-bound lifted KRR/curve-to-lattice marking that chooses one coset of the 48 principal-polarized CM identifications modulo the 16-element stabilizer of a W-line, or equivalently binds a distinguished exact retained element/line.",
+    "next_leaf": "EX4-05_LIFTED_KRR_CONJUGATOR_WITH_CM_PERIOD_CONSTRAINTS",
+    "next_lane_objective": "Lift the KRR curve-side action beyond pure A[2] conjugacy and intersect it with the 48-element Z[r]-linear principal-polarized identification set using explicit differential/period/homology or source-derived generator data.",
+    "retained_claim_dag_sync_performed": false,
+    "reason_no_claim_sync": "Scratch-only retained-side anchor; no retained consolidation, audit transition, promotion, frontier remap, or final milestone.",
+    "absolute_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false
+  },
+  "firewalls": {
+    "one_convenient_D_promoted_to_canonical_marking": false,
+    "matching_Hermitian_forms_promoted_to_unique_ppav_isomorphism": false,
+    "CM_linearity_promoted_to_W_line_selector": false,
+    "literal_STinverse_fixed_line_promoted_without_source_binding": false,
+    "post1648j_candidate_promoted_to_audited_authority": false,
+    "conditional_residue97_promoted": false,
+    "scratch_result_promoted_to_retained_claim": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "4929ce8ecf3e12a894445c19ac390dd723960ae315f8fa1ec06110d5e868a5cc"
+}
