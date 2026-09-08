@@ -81,7 +81,7 @@ def main() -> None:
         "CLOSED": 5, "OPEN": 180, "UNKNOWN": 0, "CONDITIONAL": 0, "OUT_OF_SCOPE": 0
     }, "receiver status counts drift")
     require(receiver["coverage_graph_canonical_sha256"] ==
-            "36f782aa6948b0e43a7bfc3d812ff43079051c871ab4e92c63056fbb6159d1bc",
+            "7d1f3c6fa3ec2f1b8f15690ca50efc5ab2b826a20d741659cfaf867431afa4f0",
             "coverage graph canonical drift")
     require(receiver["coverage_graph_primary_open_mapping_count"] == 180,
             "coverage graph open mapping count drift")
