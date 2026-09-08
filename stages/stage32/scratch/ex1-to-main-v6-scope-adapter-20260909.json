@@ -1,0 +1,133 @@
+{
+  "schema": "STAGE32_MAIN_SCRATCH_EX1_TO_MAIN_V6_SCOPE_ADAPTER_V1",
+  "stage": 32,
+  "status": "SCRATCH_EXACT_UNAUDITED_SCOPE_EQUIVALENCE_CANDIDATE",
+  "base": {
+    "current_main": "70265586b3f97be21c7621af73f443311f1f3fa3",
+    "audited_ex1_head": "e3c4a04d5010e6dca9428722e334890e2614297a",
+    "pr": 1728,
+    "review_id": 5147627146,
+    "audit_verdict": "PASS",
+    "audit_supported_result": "FULL_TARGET_CLOSURE / ALL_V6_GENUS1_CARRIERS_EXCLUDED"
+  },
+  "source_claim": {
+    "claim_id": "S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2",
+    "claim_core_sha256": "84e7a4b6990d7c687eebe341fbea296fad1da2cae4785cb87580a0d84572437a",
+    "scope_key": "S32.EX1.V6_CARRIER",
+    "population": {
+      "picard_class": "V6",
+      "integral": true,
+      "irreducible": true,
+      "geometric_genus": 1,
+      "geometric_analysis_field": "C"
+    },
+    "terminal_h4_states": [210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266],
+    "q602_residues": [73,97,235]
+  },
+  "target_claim": {
+    "current_goal_id": "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
+    "required_version_if_new_evidence_is_retained": "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2",
+    "scope_key": "S32.MAIN.V6_CARRIER",
+    "population": {
+      "row_id": "g1-d186",
+      "picard_class": "V6",
+      "integral": true,
+      "irreducible": true,
+      "geometric_genus": 1,
+      "target": "population_wide_nonexistence"
+    }
+  },
+  "identity_checks": {
+    "same_picard_class": true,
+    "same_v6_self_intersection": 758,
+    "same_v6_canonical_intersection": 186,
+    "same_integrality_predicate": true,
+    "same_irreducibility_predicate": true,
+    "same_geometric_genus": 1,
+    "ex1_terminal_is_full_population_decision_by_lane_contract": true,
+    "ex1_terminal_is_not_a_finite_subfamily_only": true,
+    "main_negative_goal_is_population_wide": true,
+    "field_semantics_conflict": false,
+    "result": "EXACT_CURRENT_TARGET_SCOPE_EQUIVALENCE_CANDIDATE"
+  },
+  "candidate_adapter": {
+    "claim_id": "S32.ADAPTER.EX1_V6_TERMINAL_TO_MAIN_V6_NO_MEMBER.V1",
+    "kind": "adapter_contract",
+    "from_scope_key": "S32.EX1.V6_CARRIER",
+    "to_scope_key": "S32.MAIN.V6_CARRIER",
+    "statement": "For the current Stage32 target, the exact EX1 terminal population is the same complete V6 integral irreducible geometric-genus-1 carrier population quantified by the MAIN negative V6 goal. Therefore audited EX1 full-target exclusion transfers to MAIN V6 population nonexistence once this adapter and the versioned MAIN claim are themselves retained and hostile-audited.",
+    "requires": [
+      "S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2",
+      "S32.EX1.LANE_CONTRACT.V2",
+      "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
+      "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2"
+    ],
+    "authority_status": "SCRATCH",
+    "promotion_granted": false
+  },
+  "authority_transition": {
+    "ex1_v2_pass_receipt_known": true,
+    "ex1_v2_same_immutable_core_can_advance_provisional_to_audited": true,
+    "ex1_v2_registry_sync_completed_on_this_scratch_leaf": false,
+    "main_v6_v1_may_be_mutated_to_consume_new_ex1_evidence": false,
+    "main_v6_v2_required": true,
+    "adapter_hostile_audit_required_before_main_consumption": true,
+    "active_frontier_remap_required_after_audited_replacement": true
+  },
+  "downstream_after_future_audited_main_v6_v2": {
+    "o210_population_empty_candidate": true,
+    "q602_population_empty_candidate": true,
+    "o210_requires_separate_typed_adapter": true,
+    "q602_requires_separate_typed_adapter": true,
+    "q602_semantics": "population-preserving obstruction, not residue-by-residue arithmetic",
+    "same_member_q602_identity_needed_if_v6_population_is_audited_empty": false,
+    "stage32_closed": false
+  },
+  "source_locks": [
+    {
+      "path": "stages/stage32-ex1/ex1-05af-retained-terminal-consolidation-v2.json",
+      "blob_sha1": "b6d1d38f5b4cc540c114b5a6979288f383af1800",
+      "canonical_sha256": "f98645e5d70c981aa7e52449263d0c0e2a09853cac86036f9aa3b10b6545a8bc"
+    },
+    {
+      "path": "stages/stage32-ex1/MAIN-STATE.json",
+      "blob_sha1": "c461608d3babd6b8c82a1c06616b780332ad507b"
+    },
+    {
+      "path": "stages/stage32/MAIN-STATE.json",
+      "blob_sha1": "05e2942b4c893044688f16926b5e9837e59d8e9d",
+      "canonical_sha256": "93406ab1db8e62f5e9dcbb59b9010c925be273cd539bd04734fb5f1a7eca4407"
+    },
+    {
+      "path": "stages/stage32/proof/ACTIVE-FRONTIER.json",
+      "blob_sha1": "93dee109899185602d9e8e4bb200f614a3b421e0",
+      "claim_id": "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1"
+    },
+    {
+      "path": "stages/stage32/proof/CLAIM-REGISTRY.json",
+      "blob_sha1": "9671ce24d3dce3dc4679fbf12b4f4df7b9cf6711",
+      "claim_ids": [
+        "S32.EX1.LANE_CONTRACT.V2",
+        "S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2",
+        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2"
+      ]
+    }
+  ],
+  "firewalls": {
+    "scratch_only": true,
+    "claim_registry_changed": false,
+    "active_frontier_changed": false,
+    "MAIN_STATE_changed": false,
+    "MAIN_credit_changed": false,
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "Stage32_closed": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false,
+    "merge_authorized": false
+  },
+  "next_exact_route": "SYNCHRONIZE_EX1_V2_PASS_RECEIPT_THEN_RETAIN_AND_HOSTILE_AUDIT_THE_CONCRETE_EX1_TO_MAIN_SCOPE_ADAPTER_AND_VERSIONED_MAIN_V6_NEGATIVE_CLAIM_V2",
+  "canonical_sha256_without_this_field": "2aef25c9ed086435933d5e05aaa7dab1467bb4f39af2d81033026e2f29229fe5"
+}
