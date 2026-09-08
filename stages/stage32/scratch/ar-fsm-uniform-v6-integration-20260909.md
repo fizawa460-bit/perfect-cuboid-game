@@ -2,79 +2,73 @@
 
 Status: scratch exact unaudited cross-lane integration only. No Stage32 MAIN, Q602/O210, receiver, theorem, endpoint, or Perfect Cuboid credit.
 
+## Correction
+
+The first scratch version incorrectly stated `sum_i min(V6.E_i,10)=232` and therefore claimed a forced 11-branch node. Exact replay gives
+
+- `sum_i min(V6.E_i,9)=232`,
+- `sum_i min(V6.E_i,10)=244`.
+
+Thus `N>=238` forces a node with at least **10** branches, not 11. The earlier 11-branch statement is superseded by this repaired file.
+
 ## Inputs
 
-This leaf combines only retained exact formulas already present on current main:
+Retained AR gives
 
-- `post1648ar-two-factor-slack-minimal-branches.json` and its source note:
-  `t=266-N`, `52=t+q81_node+eta81+rho81`, `28=t+q105_node+eta105+rho105`, hence `t<=28`, `N>=238`, and at least 186 FSM-minimal node branches.
-- the EX6 FSM16 weighted-node local order:
-  `ord_branch(T)/k = 8(a+b-2)`, where `a=min(A,B)` and `b=|A-B|/2` when unequal;
-- the EX6 exact `f`-zero divisor contribution for fixed degree `d=186`: `2kd=372k`;
-- the fixed V6 exceptional pairing vector, total mass `266`, positive support `47`.
+`t=266-N`,
+`52=t+q81_node+eta81+rho81`,
+`28=t+q105_node+eta105+rho105`,
 
-No endpoint-only identity is imported as an assumption.
+hence `t<=28`, `N>=238`, and at least 186 FSM-minimal node branches. The fixed V6 exceptional capacity vector has total mass 266 and positive support 47.
+
+The EX6 FSM16 local order is
+
+`ord_branch(T)/k = 8(a+b-2)`,
+
+with `a=min(A,B)` and `b=|A-B|/2` when unequal. The fixed degree `d=186` gives exact `f`-zero divisor contribution `2kd=372k`.
 
 ## Uniform weighted-node cancellation
 
-Let
+Let `E=eta81+rho81+eta105+rho105>=0`. Adding the two AR identities gives
 
-`E = eta81+rho81+eta105+rho105 >= 0`.
+`q81_node+q105_node=80-2t-E`.
 
-Adding the two AR slack identities gives
+Across node branches, `sum a=266`, `sum b=q81_node+q105_node`, `N=266-t`. Therefore
 
-`q81_node+q105_node = 80-2t-E`.
+`D_node/(8k)=266+(80-2t-E)-2(266-t)=-186-E`,
 
-Across all node branches,
+so
 
-`sum a = 266`, `sum b = q81_node+q105_node`, and `N=266-t`.
+`D_node=-(1488+8E)k`,
+`D_nonnode=(1488+8E)k`,
+`D_res_nonnode=(1116+8E)k`.
 
-Therefore
+The `t` dependence cancels exactly. This is an algebraic uniformization within the retained AR carrier semantics, not new endpoint credit.
 
-`D_node/(8k) = sum(a+b-2)`
-`= 266 + (80-2t-E) - 2(266-t)`
-`= -186-E`.
+## Corrected node-load consequences
 
-Thus
+Write `m_i=V6.E_i` and let `r_i` be the number of normalization branches over positive surface node `i`. Then `1<=r_i<=m_i` and `sum r_i=N>=238`.
 
-`D_node = -(1488+8E)k`.
+1. At least 24 of the 47 positive nodes are multibranch. Starting from 47 branches, at least 191 extras are needed. The 23 largest excess capacities `m_i-1` sum to 190, whereas the 24 largest sum to 194.
 
-The dependence on `t` cancels exactly. On the genus-one normalization the total tensor divisor degree is zero, so
+2. At least 19 positive nodes are contact-saturated: `r_i=m_i`. Indeed `sum_i(m_i-r_i)=266-N=t<=28`, so at most 28 positive nodes can have nonzero deficit.
 
-`D_nonnode = (1488+8E)k`.
+3. At least one node has at least 10 normalization branches, because `sum_i min(m_i,9)=232<238`. The possible labels are
 
-Subtracting the exact canonical `f`-zero contribution `372k` gives the same residual signed nonnode threshold as the O266 endpoint calculation:
+`[16,18,23,27,28,34,37,38,39,42,44,48]`.
 
-`D_res_nonnode = (1116+8E)k`.
+No 11-branch conclusion follows from this argument because `sum_i min(m_i,10)=244>=238`.
 
-The new point is not a stronger endpoint result; it is that the retained threshold is algebraically uniform over the fixed-V6 carrier semantics covered by AR, including the current O210 target, rather than depending on `t=0`.
+4. Let `x_i` count FSM-minimal branches at node `i`. Since `sum x_i>=186` and `x_i<=m_i`, capacity truncation gives the necessary distribution ladder:
 
-## Exact node-load consequences
+- at least 14 nodes have `x_i>=2`;
+- at least 10 nodes have `x_i>=3`;
+- at least 7 nodes have `x_i>=4`;
+- at least 5 nodes have `x_i>=5`;
+- at least 2 nodes have `x_i>=6`.
 
-AR gives `N>=238` normalization branches over the 47 positive exceptional nodes.
+These are necessary branch-load constraints only. They do not force exceptional landing collisions, construct a carrier, or exclude O210.
 
-Write `m_i=V6.E_i`. Since each branch over node `i` contributes positive exceptional order, its branch count `r_i` satisfies `1<=r_i<=m_i`, and `sum r_i=N`.
+## Current use
 
-Starting with one branch at each positive node gives 47 branches. Reaching 238 requires at least 191 extra branches. The 23 largest capacities `m_i-1` sum to only 190, while the 24 largest sum to 194. Hence at least **24 of the 47 positive surface nodes are multibranch**.
-
-Also,
-
-`sum_i min(m_i,10)=232<238`.
-
-Therefore at least one node has at least **11 normalization branches**. Such a node must have `m_i>=11`, restricting its label to
-
-`[18,23,27,28,38,39,42,48]`.
-
-These are necessary conditions only. They do not identify an actual node, construct a carrier, or exclude O210.
-
-## Decision
-
-The current MAIN normalization-location problem has a much stronger scratch reduction than the previous 47-to-38 filter:
-
-- surface-node multibranch is forced by retained AR semantics;
-- at least 24 positive nodes are multibranch;
-- at least one of eight high-capacity labels has at least 11 normalization branches;
-- the weighted FSM tensor node debt is uniformly `-(1488+8E)k`;
-- after the exact `f` contribution, residual signed nonnode degree is `(1116+8E)k`.
-
-The first missing independent input is now a source-bound/member-level restriction on this high branch load, landing/tangent collisions, or an upper bound on the residual signed nonnode divisor. Replaying the same AR slack identities does not count as an independent cap.
+The branch-load route now needs genuinely independent landing/tangent/support information. Replaying AR cannot provide that independence. Separately, the weighted-tensor route still needs an independent upper bound on residual signed nonnode divisor `(1116+8E)k`.
