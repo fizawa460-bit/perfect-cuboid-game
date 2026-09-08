@@ -102,11 +102,15 @@ A future EX lane may perform scratch/provisional research before enrollment, but
 
 ### 4.2 EX1 retained terminal candidate checkpoint
 
-At the current retained-consolidation checkpoint, `S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V1` is registered as **PROVISIONAL**, not `AUDITED`. Its exact retained manifest is `stages/stage32-ex1/ex1-05af-retained-terminal-consolidation.json`, and its wrapper verifier is `stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation.py`.
+The historical terminal claim `S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V1` is **SUPERSEDED**. Its immutable core remains bound to `stages/stage32-ex1/ex1-05af-retained-terminal-consolidation.json` and `stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation.py`, and its audit metadata records the hostile-audit FAIL at exact head `0ea608585ee1c747ee5737240671279f6f595612` (review `5147121377`). V1 is retained only for provenance and cannot satisfy FINAL-CHECK or downstream audited dependencies.
 
-The candidate consumes the hostile-audited EX1 package through 05H, then retains the 05O–05AF chain needed for the terminal integral-descent contradiction. At provisional scope it excludes all 29 h=4 states and the three Q602 residues `[73,97,235]`; together with the audited predecessor this is an audit-ready candidate for `ALL_V6_GENUS1_CARRIERS_EXCLUDED`.
+The current repaired retained candidate is `S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2`, registered as **PROVISIONAL** with no hostile-audit PASS receipt. Its manifest is `stages/stage32-ex1/ex1-05af-retained-terminal-consolidation-v2.json`, its wrapper is `stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation_v2.py`, and its load-bearing terminal bridge is `stages/stage32-ex1/verify_ex1_05af_cellular_obstruction_bridge.py`.
 
-This checkpoint deliberately does **not** rewrite `stages/stage32-ex1/MAIN-STATE.json`: the existing audited EX1 claim and lane contract source-lock its current blob as immutable evidence. Until hostile audit of the terminal package, that audited state remains the routing/authority ceiling, while the new retained manifest carries the provisional operational checkpoint. No active-frontier goal is marked closed, no EX→MAIN promotion adapter is fired, and no Stage32 MAIN mathematical credit is granted.
+V2 consumes the hostile-audited EX1 package through 05H and the retained 05O–05AE chain, then computes the terminal obstruction in the independently certified cellular Smith cokernel. The repaired bridge consumes the certified `Lsat/Lleft` data and checks all `6144` legal assemblies against all four retained JI choices: all `24576` actual cokernel classes are nonzero of order two. The legacy hard-coded `OBS/PIVROWS` coordinates are diagnostic/provenance only and are not the load-bearing cokernel identification.
+
+The re-audit of exact head `beec62400f5f2b49d325083fd9b745c3fd66763f` found no new mathematical defect in this repaired 05AF package; its sole remaining blocker was that this proof-path section still projected V1 as the current PROVISIONAL claim. This section now synchronizes that management projection to V1=`SUPERSEDED` and V2=`PROVISIONAL`; it does not itself grant hostile-audit credit.
+
+This checkpoint deliberately does **not** rewrite `stages/stage32-ex1/MAIN-STATE.json`: existing immutable audited claims source-lock that blob, and `stages/stage32-ex1/RETAINED-AUDIT-PROJECTION.json` is the fail-closed audit-only routing overlay for exact PR #1728. Ordinary MAIN-state routing therefore remains unchanged. No active-frontier goal is marked closed, no EX→MAIN promotion adapter is fired, no Q602/O210 MAIN exclusion is asserted, and no Stage32 MAIN mathematical credit is granted.
 
 ## 5. FULL178 and closure
 
@@ -125,7 +129,7 @@ FINAL-CHECK requires more than six independently AUDITED nodes. The final root `
 
 Those final audited proof nodes remain absent until their exact audited artifacts exist. `S32.GOAL.STAGE32_CLOSURE.V1` can never substitute for them; `--final` therefore remains `NOT_READY_STAGE32_FINAL_CHECK`.
 
-## 6. Fail-close regression checks
+## 6. fail-close regression checks
 
 `verify_stage32_claim_dag.py --self-test-fail-closed` executes synthetic regressions for the management invariants most likely to be silently weakened, including disconnected final milestones, FINAL-CHECK contract weakening, unresolved mathematical goal consumption, and adapter bridge immutability/shape.
 
