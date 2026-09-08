@@ -35,13 +35,12 @@ jobs:
           git diff --name-only | sort > /tmp/changed
           printf '%s\n' \
             stages/stage32-ex3/MAIN-STATE.json \
-            stages/stage32/proof/ACTIVE-FRONTIER.json \
-            stages/stage32/proof/CLAIM-REGISTRY.json | sort > /tmp/expected
+            stages/stage32/proof/ACTIVE-FRONTIER.json | sort > /tmp/expected
           diff -u /tmp/expected /tmp/changed
       - name: Commit synchronized authority metadata
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add stages/stage32-ex3/MAIN-STATE.json stages/stage32/proof/ACTIVE-FRONTIER.json stages/stage32/proof/CLAIM-REGISTRY.json
+          git add stages/stage32-ex3/MAIN-STATE.json stages/stage32/proof/ACTIVE-FRONTIER.json
           git commit -m '[Stage32EX3][management] sync MAIN O210 V3 hostile-audit PASS receipt'
           git push origin HEAD:stage32ex3-ex3-00-typed-cover-tower
