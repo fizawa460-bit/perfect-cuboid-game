@@ -159,6 +159,50 @@ Retained files:
 
 Useful continuation should now target an actual upper bound on the non-node tensor divisor, a stronger replacement tensor, or an independent global inequality. Do not return to cusp-cardinality counting unless it brings genuinely new member-level information.
 
+## Latest bounded re-entry result — FSM16 f-divisor residual split
+
+The published FSM16 proof gives an independent canonical-divisor contribution inside the nonnode budget. Their auxiliary modular form `f` can be chosen nonzero along the curve and at all 48 nodes, and its zero divisor is a `2k`-multiple of the canonical divisor. Since the retained V6 carrier degree is `d=186`, the pullback `f`-zero divisor has exact degree
+
+`2kd = 372k`.
+
+This is entirely nonnode. Subtracting it from the previously retained exact nonnode signed budget gives
+
+`D_res_nonnode := D_nonnode - deg(div(f)|_N)`
+
+and hence
+
+`D_res_nonnode = (1116+8E)k >=1116k`.
+
+Thus the published `f` zeros explain only `372k` of the required `(1488+8E)k` nonnode compensation. The residual `1116+8E` units per `k` must come from the remaining tensor factors in signed divisor degree.
+
+This is an independent sharpening because the `372k` degree comes from the canonical divisor class in FSM16, not by replaying the Stage32 factor Riemann–Hurwitz `q/eta/rho` ledger.
+
+The residual is a signed divisor difference; no pointwise effectiveness or globally descended `T/f` tensor is claimed.
+
+A future closure in this architecture now needs an independent member-level upper bound
+
+`D_res_nonnode < (1116+8E)k`,
+
+or the uniform sufficient bound
+
+`D_res_nonnode <=1115k`,
+
+or an independent support/landing obstruction carrying the same force. Reusing the same factor-RH ledger as the alleged upper bound is not independent.
+
+Decision:
+
+`FSM16_F_DIVISOR_CONTRIBUTION_PER_K = 372`;
+
+`FSM16_RESIDUAL_NONNODE_MINIMUM_PER_K = 1116`;
+
+`FSM16_F_ZEROS_ALONE_CLOSE_ENDPOINT = false`.
+
+Retained files:
+
+- `stages/stage32-ex6/post1697-fsm16-f-residual-divisor-wall.md`
+- `stages/stage32-ex6/post1697-fsm16-f-residual-divisor-contract.json`
+- verifier: `stages/stage32-ex6/verify_stage32_ex6_fsm16_f_residual_divisor_contract.py`
+
 ## Purpose
 
 Attack the opposite endpoint of the currently retained fixed-V6 O-range by studying the hypothetical `O=266` population first.
