@@ -1,9 +1,22 @@
 {
-  "canonical_sha256_without_this_field": "a2a7f2351d170424ec818db3992a787280ca96fc7001fccec622b1de4651fefe",
+  "audit_fail": {
+    "blockers": [
+      {"id":"BLOCKER_1_ACTUAL_COKERNEL_COORDINATE_BRIDGE","smallest_repair":"Make the 6144 replay consume the retained cellular Smith payload directly, or verify an exact change-of-basis/cokernel-coordinate identity, then rerun all 6144 assemblies.","summary":"The independent cellular Smith certificate proves the actual pullback cokernel abstractly, while the 6144 obstruction verifier uses separately hard-coded PIVROWS/OBS coordinates; no exact identity binds those coordinates to the certified actual cokernel."},
+      {"id":"BLOCKER_2_AUTHORITY_STATE_CONTAMINATED_IMMUTABLE_CLAIM_CORE","smallest_repair":"Create a new versioned authority-neutral terminal claim core and keep transient audit state only in authority/audit/frontier metadata.","summary":"The provisional terminal claim places transient PENDING_HOSTILE_AUDIT semantics inside immutable scope/does_not_prove fields."},
+      {"id":"BLOCKER_3_RETAINED_AUDIT_CHECKPOINT_STARTUP_STATE_MISMATCH","smallest_repair":"Version/update the relevant state/source-lock checkpoint or encode an explicit fail-closed retained-audit projection contract.","summary":"EX1 MAIN-STATE still routes the older 05H/05I checkpoint while the retained manifest is 05AF terminal; the audit contract has no retained-candidate exception."}
+    ],
+    "ci": "GREEN_BUT_NOT_CLOSING",
+    "exact_head": "0ea608585ee1c747ee5737240671279f6f595612",
+    "freshness": "CLEAR",
+    "review_id": 5147121377,
+    "strongest_supported_audited_credit": "S32.EX1.CANDIDATE_THROUGH_05H.V2_INTERMEDIATE_CEILING_ONLY"
+  },
+  "canonical_sha256_without_this_field": "c9a972757f7a2def4dd45bca2bd9cf37755fe481613c6b99a85667674e2bfa29",
   "decision": {
     "main_authority_changed": false,
-    "next_main_action": "DO_NOT_DUPLICATE_EX1_CARRIER_MATHEMATICS_WHILE_PR1728_AWAITS_HOSTILE_AUDIT; PREPARE/REVIEW_ONLY_THE_TYPED_PROMOTION_ADAPTER_BOUNDARY",
-    "result": "EX1_TERMINAL_CANDIDATE_IS_PROMOTION_RELEVANT_BUT_CURRENTLY_AUDIT_GATED_AND_ADAPTER_GATED"
+    "next_main_action": "DO_NOT_PROMOTE_OR_DUPLICATE_THE_FAILED_TERMINAL_CLAIM; LEAVE_EX1_REPAIR_TO_EX1_AND_KEEP_MAIN_AUTHORITY_AT_THE_EXISTING_AUDITED_CEILING",
+    "promotion_preflight_status": "STOPPED_UNTIL_EX1_REPAIR_AND_HOSTILE_REAUDIT_PASS",
+    "result": "EX1_TERMINAL_PROMOTION_BLOCKED_BY_HOSTILE_AUDIT_FAIL"
   },
   "ex1_candidate_scope": {
     "candidate_terminal_outcome": "ALL_V6_GENUS1_CARRIERS_EXCLUDED",
@@ -20,7 +33,7 @@
     "target_scope_key": "S32.MAIN.V6_CARRIER"
   },
   "required_future_promotion_sequence": [
-    {"current":false,"effect_if_satisfied":"permits, but does not itself perform, EX1 authority upgrade through claim synchronization","gate":"HOSTILE_AUDIT_PASS_ON_EXACT_EX1_TERMINAL_HEAD","step":1},
+    {"current":false,"effect_if_satisfied":"only after the three hostile-audit blockers are repaired and an exact-head re-audit passes may terminal EX1 authority be considered for synchronization","gate":"REPAIRED_EX1_TERMINAL_HOSTILE_REAUDIT_PASS","step":1},
     {"current":false,"effect_if_satisfied":"register exact PASS receipt on the immutable EX1 terminal claim","gate":"CLAIM_SYNC_EX1_TERMINAL_AUTHORITY","step":2},
     {"current":false,"effect_if_satisfied":"may promote only the population-wide V6 genus-1 nonexistence claim at the exact adapted scope","gate":"EXPLICIT_EX1_TO_MAIN_V6_NONEXISTENCE_ADAPTER","proposed_bridge":{"from_scope_key":"S32.EX1.V6_CARRIER","target_claim":"S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1","to_scope_key":"S32.MAIN.V6_CARRIER"},"step":3},
     {"current":false,"effect_if_satisfied":"may promote O210 and/or Q602 only after each target population and semantics are explicitly preserved","gate":"SEPARATE_TYPED_CONSEQUENCE_ADAPTERS_IF_DESIRED","step":4,"targets":["S32.O210.EXCLUSION.V1","S32.Q602.EXCLUSION.V1"]}
@@ -33,7 +46,9 @@
     "ex1_q602_residue_candidate_exclusion_is_not_automatic_main_q602_exclusion": true,
     "ex1_terminal_authority_upgraded": false,
     "ex_to_main_promotion_performed": false,
+    "failed_terminal_claim_may_satisfy_main_dependency": false,
     "generic_promotion_boundary_is_not_concrete_adapter": true,
+    "hostile_audit_fail_consumed": true,
     "hostile_audit_pass_self_granted": false,
     "main_v6_nonexistence_promoted": false,
     "perfect_cuboid_credit": false,
@@ -42,11 +57,13 @@
   "snapshot": {
     "current_main": "70265586b3f97be21c7621af73f443311f1f3fa3",
     "ex1_ahead": 8,
-    "ex1_audit_status": "PENDING_HOSTILE_AUDIT",
+    "ex1_audit_status": "HOSTILE_AUDIT_FAIL",
     "ex1_authority": "RETAINED_PROVISIONAL_AUDIT_READY",
     "ex1_base_main": "70265586b3f97be21c7621af73f443311f1f3fa3",
     "ex1_behind": 0,
     "ex1_head": "0ea608585ee1c747ee5737240671279f6f595612",
+    "ex1_hostile_audit_result": "FAIL",
+    "ex1_hostile_audit_review_id": 5147121377,
     "ex1_pr": 1728
   },
   "source_locks": {
