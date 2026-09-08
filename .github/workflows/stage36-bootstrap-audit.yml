@@ -60,11 +60,11 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V188_36_09DM_FULL_CV_EXPLICIT_IMAGE_ADELIC_CONTROL'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V189_36_09DM_CHECKPOINT_REPAIR_PENDING_EXACT_HEAD_CI'
           dm=s['authority_frontier']['36-09DM']
           assert dm['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
           assert dm['certificate_blob_sha']=='95956c74aca1aca1601a1f4c77b66bfb226a5198'
-          assert dm['verifier_blob_sha']=='66bb0527c71431f0de3cc2adf0c8df2202d1186f'
+          assert dm['verifier_blob_sha']=='db57b0e9e45573425633f59958cda42fd5d2b75c'
           assert dm['P2_ADELIC_POINT_ORTHOGONAL_ENTIRE_CV_EXPLICIT_IMAGE'] is True
           assert dm['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_BM_SET_NONEMPTY'] is True
           assert dm['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_BM_OBSTRUCTION_DISPROVED'] is True
@@ -84,6 +84,6 @@ jobs:
           assert pg['BT_p2_adelic_point_orthogonal_entire_CV_explicit_image'] is True
           for key in ['BT_full_L1_quotient_computed','BT_Pic0_mod2_computed','BT_full_Creutz_Viray_explicit_image_computed','BT_full_relevant_Brauer_group_computed','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09DM provisional checkpoint verified: entire Creutz-Viray explicit-image Brauer set is nonempty; DN locked pending exact-head CI. Full Brauer/BM/fixed-p/receiver/endpoint credit remains open.')
+          print('36-09DM repaired provisional checkpoint verified: entire Creutz-Viray explicit-image Brauer set is nonempty; DN remains locked pending exact-head CI and the required intermediate hostile audit. Full Brauer/BM/fixed-p/receiver/endpoint credit remains open.')
           PY
           git diff --check
