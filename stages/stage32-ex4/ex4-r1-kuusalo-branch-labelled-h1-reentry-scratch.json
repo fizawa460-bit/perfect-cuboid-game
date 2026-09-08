@@ -1,0 +1,183 @@
+{
+  "schema": "STAGE32EX4_R1_KUUSALO_BRANCH_LABELLED_H1_REENTRY_SCRATCH_V1",
+  "stage": "32EX4",
+  "leaf": "EX4-R1_KUUSALO_BRANCH_LABELLED_H1_REENTRY",
+  "status": "SCRATCH_REPLAYABLE_SOURCE_H1_REENTRY_TARGET_LITERAL_BINDING_MISSING",
+  "prior_audited_terminal": {
+    "claim_id": "S32.EX4.FIXED_SOURCE_PACKAGE_AMBIGUITY_TERMINAL.V2",
+    "outcome": "FIXED_SOURCE_PACKAGE_CANNOT_SELECT_ABSOLUTE_W_LINE",
+    "scope": "EX4_STRONG_FROZEN_PACKAGE_THROUGH_05D_ONLY",
+    "audit_review_id": 5139609916,
+    "important": "The prior audited negative terminal remains valid for its frozen package. This leaf re-enters only because a named new-data condition is now supplied."
+  },
+  "reentry_interface": {
+    "required_class": "BRANCH_LABELLED_SYMPLECTIC_HOMOLOGY_OR_LEVEL_MARKING",
+    "satisfied_for_source_side": true,
+    "new_source": "Kuusalo--Naatanen 1995, Geometric uniformization in genus 2",
+    "remaining_adapter": "EXACT_SOURCE_BRANCH_LABELLED_H1_TO_RETAINED_LATTICE_OR_LITERAL_ORDER8_ELEMENT_BINDING"
+  },
+  "external_source": {
+    "kuusalo_naatanen": {
+      "title": "Geometric uniformization in genus 2",
+      "authors": [
+        "T. Kuusalo",
+        "M. Naatanen"
+      ],
+      "journal": "Annales Academiae Scientiarum Fennicae, Series A I Mathematica",
+      "volume": 20,
+      "year": 1995,
+      "pages": "401-418",
+      "url": "https://www.acadsci.fi/mathematica/Vol20/kuusalo.pdf",
+      "locators": [
+        "Case D: paper pp.405-406 / PDF P4, equation w^2=z^5-z, W={0,infinity,+/-1,+/-i}, reduced rotation z->i z",
+        "paper pp.408-409 / PDF P7-P8: canonical homology basis B=(a1,a2,b1,b2) and theta(f1) for rotation by pi/4"
+      ],
+      "source_supported_facts": [
+        "Case D is Bolza surface with equation w^2=z^5-z and branch values {0,infinity,+/-1,+/-i}.",
+        "The reduced cyclic generator acts by z->i z and fixes branch labels 0 and infinity.",
+        "B=(a1,a2,b1,b2) is a canonical symplectic homology basis.",
+        "For f1, rotation around 0 by pi/4, the integral homology matrix theta(f1) is explicitly given."
+      ]
+    },
+    "cecotti": {
+      "title": "Symplectic Singularities, Color Confinement, and the Quantum Dirac Sheaf",
+      "version": "JHEP 2026 153 / arXiv:2509.24605",
+      "url": "https://arxiv.org/pdf/2509.24605",
+      "locator": "Appendix B, equations (B.1)-(B.9)",
+      "source_supported_facts": [
+        "The retained G12 presentation uses S=b4 and T=-b3.",
+        "The same ppav is the Jacobian of y^2=x^5-x.",
+        "B.9 gives an order-8 automorphism (x,y)->(i x, exp(i*pi/4)y).",
+        "The source does not explicitly identify B.9 with a literal word in S,T on the retained marked lattice."
+      ]
+    }
+  },
+  "source_side_exact_reconstruction": {
+    "basis": [
+      "a1",
+      "a2",
+      "b1",
+      "b2"
+    ],
+    "intersection_form_mod2": [
+      [0,0,1,0],
+      [0,0,0,1],
+      [1,0,0,0],
+      [0,1,0,0]
+    ],
+    "f1_integral_h1_matrix": [
+      [1,1,-1,0],
+      [0,-1,1,-1],
+      [1,0,1,-1],
+      [1,1,0,-1]
+    ],
+    "f1_mod2_matrix": [
+      [1,1,1,0],
+      [0,1,1,1],
+      [1,0,1,1],
+      [1,1,0,1]
+    ],
+    "nonzero_fixed_vectors_mod2": [
+      [1,1,1,1]
+    ],
+    "branch_fixed_pair": [
+      "0",
+      "infinity"
+    ],
+    "deduced_delta0inf_coordinate_mod2": [1,1,1,1],
+    "deduction": "delta_0inf=[P0-Pinfinity] is nonzero and fixed because the branch labels 0 and infinity are fixed; the f1 mod-2 fixed subspace has exactly one nonzero vector.",
+    "lift_sign_firewall": "The two curve lifts above z->i z differ by the hyperelliptic involution. On J[2] that involution is -1=+1, so the mod-2 fixed-vector conclusion is lift-sign independent."
+  },
+  "retained_literal_order8_preflight": {
+    "quadratic_order": "Z[r], r^2=-2",
+    "basis": [
+      "e1",
+      "e2",
+      "r*e1",
+      "r*e2"
+    ],
+    "weil_pairing_mod2": [
+      [0,1,0,1],
+      [1,0,1,0],
+      [0,1,0,0],
+      [1,0,0,0]
+    ],
+    "literal_candidate_word": "A=S*T^-1",
+    "A_over_Zr": [
+      ["1+r","r"],
+      ["-1","-1"]
+    ],
+    "A_mod2_F2_4_matrix": [
+      [1,0,0,0],
+      [1,1,0,0],
+      [1,1,1,0],
+      [0,0,1,1]
+    ],
+    "nonzero_fixed_vectors_mod2": [
+      [0,0,0,1]
+    ],
+    "fixed_line": "L2",
+    "line_to_residue": {
+      "L1": 73,
+      "L2": 97,
+      "L3": 235
+    }
+  },
+  "finite_literal_intertwiner_test": {
+    "definition": "Q maps Kuusalo source coordinates to retained coordinates and must satisfy Q^T E_target Q=J_source and A_target Q=Q M_source over F2.",
+    "all_4x4_F2_matrices_tested": 65536,
+    "invertible_symplectic_intertwiner_count": 8,
+    "delta0inf_image_set": [
+      [0,0,0,1]
+    ],
+    "all_intertwiners_send_delta0inf_to_same_literal_target_line": true,
+    "conditional_line": "L2",
+    "conditional_residue": 97,
+    "conditional_only": true
+  },
+  "decision": {
+    "reentry_condition_met": true,
+    "source_side_branch_labelled_H1_marking_obtained": true,
+    "direct_source_delta0inf_coordinate_obtained": true,
+    "absolute_delta0inf_retained_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "result": "KUUSALO_SOURCE_H1_REENTRY_ACCEPTED_LITERAL_TARGET_TEST_POINTS_TO_L2_97_BUT_TARGET_MARKED_BINDING_REMAINS_OPEN",
+    "next_exact_route": "SOLVE_KUUSALO_PERIOD_HOMOLOGY_TO_RETAINED_B5_LATTICE_ADAPTER_OR_SOURCE_BIND_B9_TO_ONE_LITERAL_RETAINED_ORDER8_ELEMENT"
+  },
+  "residual_ambiguity": {
+    "what_new_source_kills": "The source-side ambiguity of where delta_0inf sits in one branch-labelled canonical J[2] basis.",
+    "what_remains": "Which retained inner conjugate/lattice marking realizes the branch-labelled Kuusalo basis and its order-8 automorphism.",
+    "why_97_not_promoted": "Fixing literal A=S*T^-1 gives L2 for every compatible intertwiner, but the current sources still do not prove that the geometric order-8 automorphism is represented by that literal retained word rather than an admissible inner conjugate.",
+    "old_audited_anti_loop_not_violated": true
+  },
+  "source_locks": {
+    "post1648j": {
+      "path": "stages/stage32/residual-32-01-production/post1648j-cecotti-trace-orientation-correction.json",
+      "blob_sha1": "17641753c33ae46e9b7517dc85a915edd70d2057"
+    },
+    "post1648b": {
+      "path": "stages/stage32/residual-32-01-production/post1648b-cecotti-generator-pair-absolute-marking-preflight.json",
+      "blob_sha1": "713d92c5791e06bc332b3621a64605b9e90d165b",
+      "canonical_sha256": "b0737602656ff5de3c98ba98cc862ec7b29599255c8da621099c2a63a69e503b"
+    },
+    "prior_terminal": {
+      "path": "stages/stage32-ex4/ex4-10s-retained-bounded-terminal-candidate.json",
+      "blob_sha1": "2af0d1888f8fccede8addf104d8a7ca75ea91d53",
+      "canonical_sha256": "57b7f3e052262ff42b157b29a05bf45cf56388fe849b4202474ad63df98ae615"
+    }
+  },
+  "firewalls": {
+    "prior_audited_terminal_revoked": false,
+    "literal_target_word_promoted_without_source_binding": false,
+    "conditional_residue97_promoted": false,
+    "post1648j_promoted_to_audited": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "canonical_sha256_without_this_field": "cc2ac8033071a594d8ba75b5ac0cc1bbc66039fe608af9452360fb038489f1cf"
+}
