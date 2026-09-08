@@ -65,7 +65,8 @@ for marker in (
     "u(P_p)=r_u",
     "(A_src^loc)^(B_unit) != empty",
     "iff U_PC(Q)^src,+ != empty",
-    "ENDPOINT_EQUIVALENT",
+    "endpoint-equivalence blocker",
+    "(AQ-EQUIV)",
 ):
     assert marker in src, marker
 
