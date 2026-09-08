@@ -1,0 +1,116 @@
+{
+  "schema": "STAGE32EX4_R5_KUUSALO_FIGURE9_10_BRANCH_TO_H1_LABEL_RECOVERY_SCRATCH_V1",
+  "stage": "32EX4",
+  "leaf": "EX4-R5_RECOVER_FULL_KUUSALO_FIGURE9_10_BRANCH_TO_H1_LABEL_OR_EXPLICIT_UNIFORMIZATION_MAP",
+  "status": "SCRATCH_REPLAYABLE_KUUSALO_TEXT_FIXES_BRANCH_STRATA_AND_RAY_ORIENTATION_BUT_NOT_FIGURE9_SIDE_PHASE_OR_F2_TRIANGLE_LABEL",
+  "prior_r4": {
+    "artifact": "stages/stage32-ex4/ex4-r4-kuusalo-f2-branch-action-to-cecotti-b8-algebraic-binding-preflight-scratch.json",
+    "blob_sha1": "492884eb5124cbbc3ae0d6db4d6030a278bc7027",
+    "canonical_sha256": "0718f53281b215c668fbb7bb44b4b9c3e44a86cc64ba21dbcaaad4234f943679",
+    "residual_f2_branch_actions": 4,
+    "orbit": "r^k*B8*r^-k, k=0,1,2,3"
+  },
+  "external_source": {
+    "kuusalo_naatanen": {
+      "title": "Geometric uniformization in genus 2",
+      "authors": ["T. Kuusalo", "M. Naatanen"],
+      "journal": "Annales Academiae Scientiarum Fennicae, Series A I Mathematica",
+      "volume": 20,
+      "year": 1995,
+      "pages": "401-418",
+      "url": "https://afm.journal.fi/article/download/134846/83417/294050",
+      "locators": [
+        "paper pp.405-406 / PDF pageno 4-5: Case D branch labels, cuts, [infinity,1] lift, labelled walk and regular octagon",
+        "paper p.406 / PDF pageno 5: Weierstrass points are octagon center, vertices and side centers; Figure 10 triangulation",
+        "paper p.408 / PDF pageno 7: Figure 8/9 canonical homology basis and side-number relations (4)",
+        "paper p.409 / PDF pageno 8: f1 quarter-turn and f2 chosen as the 2pi/3 rotation around triangle center P in Figure 10"
+      ]
+    }
+  },
+  "source_exact_textual_geometry": {
+    "curve": "w^2=z^5-z",
+    "branch_values": ["0", "infinity", "+1", "-1", "+i", "-i"],
+    "reduced_quarter_turn": "z->i*z",
+    "sphere_cuts": ["0 to +1,-1,+i,-i along coordinate axes", "additional ray [infinity,+1]"],
+    "chosen_lift": "one sheet is uniformized so [infinity,+1] lifts to the negative real axis starting from disk 0",
+    "labelled_walk_around_infinity": ["infinity", "+1", "0", "-i", "0", "-1", "0", "+i", "0", "+1", "infinity"],
+    "octagon_weierstrass_strata": {
+      "disk_center": "a lift of infinity, by the chosen [infinity,+1] ray starting at disk 0",
+      "vertices": "the repeated branch point 0 in the labelled walk",
+      "side_centers": ["+1", "-i", "-1", "+i"]
+    },
+    "side_center_cyclic_order_on_described_lower_boundary": ["+1", "-i", "-1", "+i", "+1"],
+    "figure10_role": "the center/vertex/side-center Weierstrass points triangulate the octagon into 16 isosceles triangles; Figure 10 is the triangulation used for f2"
+  },
+  "canonical_h1_side_number_data": {
+    "basis": ["a1", "a2", "b1", "b2"],
+    "figure9_relations": {
+      "a1": "-1+3+4",
+      "a2": "3",
+      "b1": "-1-2-3",
+      "b2": "1",
+      "1": "b2",
+      "2": "-a2-b1-b2",
+      "3": "a2",
+      "4": "a1-a2+b2"
+    },
+    "f1_semantics": "rotation around disk 0 by pi/4",
+    "f2_semantics": "rotation by 2pi/3 around the center P of a triangle in Figure 10"
+  },
+  "missing_absolute_phase": {
+    "text_does_not_state": [
+      "which algebraically labelled side-center (+1,-i,-1,+i) carries Figure 9 side-number 1",
+      "which labelled Figure-10 triangle has the chosen center P",
+      "an algebraic z-coordinate Mobius formula for Kuusalo f2"
+    ],
+    "consequence": "The printed textual data do not choose k in {0,1,2,3} for the R4 orbit r^k*B8*r^-k.",
+    "residual_phase_count": 4,
+    "literal_B8_k0_source_selected": false,
+    "why_not": "Selecting k=0 from Cecotti B.8 itself would use the comparison target as the selector and is circular."
+  },
+  "new_uniformization_source_candidate": {
+    "title": "On the uniformization of algebraic curves",
+    "author": "Yurii V. Brezhnev",
+    "arxiv": "math/0205261v6",
+    "journal": "Moscow Mathematical Journal 8(2), 2008, 233-271",
+    "url": "https://arxiv.org/pdf/math/0205261",
+    "abstract_supported_scope": "explicit uniformization of y^2=x^5-x including monodromies, conformal maps and fundamental polygons",
+    "used_for_R5_selection": false,
+    "role": "materially distinct next-source lane; exact marked compatibility with Kuusalo has not yet been established"
+  },
+  "decision": {
+    "result": "KUUSALO_TEXT_FIXES_OCTAGON_BRANCH_STRATA_AND_ABSOLUTE_INFINITY_TO_PLUS1_RAY_BUT_NOT_FIGURE9_SIDE_PHASE_OR_F2_TRIANGLE_LABEL",
+    "source_side_geometry_improved": true,
+    "r4_fourfold_phase_reduced": false,
+    "residual_f2_branch_action_count": 4,
+    "literal_Kuusalo_f2_equals_Cecotti_B8_proved": false,
+    "absolute_delta0inf_retained_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "conditional_residue97_only": true,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "next_exact_route": "EX4-R6_BREZHNEV_BURNSIDE_EXPLICIT_UNIFORMIZATION_MARKING_PREFLIGHT",
+    "next_question": "Use Brezhnev's explicit Burnside-curve uniformization/conformal polygon data to construct an exact algebraic-branch-to-hyperbolic-polygon adapter and compare it to Kuusalo's chosen [infinity,+1] negative-real ray and f2 triangle center, without using Cecotti B.8 as the selector."
+  },
+  "firewalls": {
+    "figure9_side_number_phase_inferred_without_source": false,
+    "figure10_triangle_P_label_inferred_without_source": false,
+    "literal_B8_selected_from_admissibility_only": false,
+    "Brezhnev_candidate_treated_as_completed_adapter": false,
+    "conditional_residue97_promoted": false,
+    "prior_audited_terminal_revoked": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "source_locks": {
+    "r4": {
+      "path": "stages/stage32-ex4/ex4-r4-kuusalo-f2-branch-action-to-cecotti-b8-algebraic-binding-preflight-scratch.json",
+      "blob_sha1": "492884eb5124cbbc3ae0d6db4d6030a278bc7027",
+      "canonical_sha256": "0718f53281b215c668fbb7bb44b4b9c3e44a86cc64ba21dbcaaad4234f943679"
+    }
+  },
+  "canonical_sha256_without_this_field": "816f9c0574302ea99473384dd9dd9c047d48db3712fcd48f1630eb553f517ecc"
+}
