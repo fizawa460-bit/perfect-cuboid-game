@@ -1,0 +1,98 @@
+{
+  "schema": "STAGE32_MAIN_SCRATCH_EX1_EX4_DERAUX_R123_RETAINED_L1_ADAPTER_V1",
+  "stage": 32,
+  "status": "SCRATCH_EXACT_UNAUDITED_MARKED_LATTICE_ADAPTER_WITH_CURVE_CONJUGACY_GAP",
+  "snapshot_main": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "source_locks": {
+    "principal_rosati": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json",
+      "blob_sha1": "e28c4533883440ea0963d4d4e8859aa95409cf10",
+      "canonical_sha256": "8d828cdf6d1f5cb1d790c46292535dc252e503356e1047ce972c41e61f524529"
+    },
+    "order8_reentry": {
+      "path": "stages/stage32/scratch/ex1-ex4-order8-fixed-line-reentry-20260908.json",
+      "blob_sha1": "d1e076f43975f0641db361929cfd930550e122cd"
+    },
+    "fixed_point_difference": {
+      "path": "stages/stage32/scratch/ex1-ex4-deraux-order8-fixed-point-difference-criterion-20260908.json"
+    }
+  },
+  "external_source_lock": {
+    "deraux_2018": {
+      "title": "Non-arithmetic ball quotients from a configuration of elliptic curves in an Abelian surface",
+      "doi": "10.4171/CMH/443",
+      "locator": "Definition 4.1 and Table 2",
+      "r": "i*sqrt(2)",
+      "lattice": "Lambda=(Z+r Z)^2",
+      "R1": [["1","0","0"],["0","1","0"],["0","1-r","-1"]],
+      "R2": [["1","0","0"],["0","-1+r","2"],["0","1+r","1-r"]],
+      "R3": [["1","0","0"],["(1+r)/2","1","-1-r"],["1","0","-1"]],
+      "hermitian_form_up_to_positive_scale": [["2","-1-r"],["-1+r","2"]],
+      "table2_order8_element": "R1*R2*R3",
+      "table2_order8_eigenvalues": ["zeta8","zeta8^3"]
+    }
+  },
+  "retained_source_data": {
+    "r_relation": "r^2=-2",
+    "basis": ["e1","e2","r*e1","r*e2"],
+    "principal_hermitian_form": [["2","1+r"],["1-r","2"]],
+    "b3": [["-1","-1"],["1","0"]],
+    "b4": [["1","1+r"],["0","-1"]],
+    "W_lines": {"L1":[0,0,1,0],"L2":[0,0,0,1],"L3":[0,0,1,1]},
+    "residue_to_line": {"73":"L1","97":"L2","235":"L3"}
+  },
+  "exact_lattice_adapter": {
+    "D": [[1,0],[0,-1]],
+    "D_mod2_is_identity": true,
+    "hermitian_identity": "D^* H_D D = H_retained",
+    "integral_lattice_automorphism": true,
+    "Deraux_linear_parts": {
+      "A1": [["1","0"],["1-r","-1"]],
+      "A2": [["-1+r","2"],["1+r","1-r"]],
+      "A3": [["1","-1-r"],["0","-1"]]
+    },
+    "Deraux_R123_linear_part": [["-1+r","1"],["r","1"]],
+    "retained_matrix_B_equals_D_R123_D": [["-1+r","-1"],["-r","1"]],
+    "retained_word": "b4*b3^2*b4*b3^2*b4",
+    "word_equality_exact": true,
+    "order": 8,
+    "trace": "+r",
+    "characteristic_polynomial": "x^4+1"
+  },
+  "mod2_fixed_line": {
+    "B_on_retained_Z_basis": [[-1,-1,-2,0],[0,1,2,0],[1,0,-1,-1],[-1,0,0,1]],
+    "B_mod2": [[1,1,0,0],[0,1,0,0],[1,0,1,1],[1,0,0,1]],
+    "fixed_space_dimension": 1,
+    "unique_nonzero_fixed_vector": [0,0,1,0],
+    "unique_fixed_W_line": "L1",
+    "corresponding_Q602_residue": 73
+  },
+  "semantic_boundary": {
+    "Deraux_R123_to_retained_lattice_element_closed": true,
+    "curve_B9_to_Deraux_labelled_R123_closed": false,
+    "KRR_group_conjugacy_exists": true,
+    "KRR_conjugating_automorphism_on_A2_materialized": false,
+    "exact_remaining_gap": "Need source-bound evidence that the curve-side B9/mu1 order-8 stabilizer is carried to the labelled Deraux <R1R2R3> stabilizer under the same marked Abelian-surface identification, or directly determine the induced permutation of the six Weierstrass/order-8 fixed points."
+  },
+  "decision": {
+    "result": "DERAUX_LABELLED_R123_HAS_EXACT_RETAINED_FIXED_LINE_L1_RESIDUE73_BUT_CURVE_TO_DERAUX_LABEL_BINDING_REMAINS_MISSING",
+    "conditional_if_B9_maps_to_labelled_Deraux_R123": "delta_0inf=L1 and Q602 residue=73",
+    "absolute_delta0inf_retained_W_line_identified_now": false,
+    "authority_changed": false,
+    "claim_dag_changed": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "Stage32_closed": false
+  },
+  "firewalls": {
+    "KRR_abstract_group_conjugacy_promoted_to_labelled_generator_binding": false,
+    "Hermitian_lattice_adapter_promoted_to_curve_branch_marking": false,
+    "conditional_residue73_promoted": false,
+    "residue97_previous_conditional_promoted": false,
+    "three_to_one_promoted_to_Q602_exclusion": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false
+  }
+}
