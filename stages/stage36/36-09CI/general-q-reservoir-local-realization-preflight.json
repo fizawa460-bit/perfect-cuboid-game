@@ -1,0 +1,96 @@
+{
+  "schema":"STAGE36_36_09CI_GENERAL_Q_RESERVOIR_LOCAL_REALIZATION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09CI",
+  "status":"EXACT_GENERAL_Q_RESERVOIR_LOCAL_REALIZATION_Q_ROW_NECESSARY_AND_SUFFICIENT",
+  "base_main_sha":"deaa08537f1e68e04e4189a51c6e02d28b2b7b13",
+  "batch_parent":{"pr":1705,"promotion_head":"624099676d03393a2ee0b1ef93df3b41b53e994c","promotion_ci":"34169990479/101888318668","consumed_pr":1699,"hostile_audit_review":5135648704},
+  "source_locks":{
+    "stage36_36_09CH":{"path":"stages/stage36/36-09CH/selected-alpha-beta-hmu1-local-realization-preflight.json","blob_sha":"abedc4b33bf1c92e98efdcc43b5f0744630750a7"},
+    "stage36_36_09CH_verifier":{"path":"stages/stage36/verify_stage36_36_09CH.py","blob_sha":"98ae4bc76749c82b4165c7a7b37d7445f42fa6dc"},
+    "stage36_36_09BU":{"path":"stages/stage36/36-09BU/general-aw-branch-bad-place-valuation-taxonomy-preflight.json","blob_sha":"a8f3fb880b83aac2240ce299fe8a8fa42e044093"},
+    "stage36_36_09BT":{"path":"stages/stage36/36-09BT/general-aw-squareclass-branch-full-cover-local-model-preflight.json","blob_sha":"e58c417ddfa340d96b2ac1fbae9e7da7c5224d78"},
+    "stage36_36_09BO":{"path":"stages/stage36/36-09BO/q-reservoir-full-qq-cancellation-preflight.json","blob_sha":"138749fde9766cd217fcb4622ccdebcb45730c2e"},
+    "hasse_bound_source_note":{"path":"stages/stage36/36-09CI/hasse-bound-source-note.md","blob_sha":"7375d96c685197cf5cb0ef68c0ce1eb874d698a0"}
+  },
+  "Q_reservoir_setup":{
+    "q":"an odd prime dividing Q=a^2+b^2",
+    "h":"v_q(Q)>=1",
+    "unit_facts":["q does not divide P,M,D0,A,B,kappa,rho,mu,Tminus,Tplus","Legendre(-1,q)=+1","Legendre(D0,q)=+1"],
+    "lambda":"P/M",
+    "lambda_shift":"lambda^2+1=2*Q^2/M^2, hence v_q(lambda^2+1)=2h and the normalized unit has quadratic character Legendre(2,q)",
+    "mu_character":"the BU square normalization Tminus^2=(4*D0*rho/kappa)/mu and Legendre(D0,q)=+1 give Legendre(mu,q)=Legendre(kappa*rho,q)"
+  },
+  "character_coordinates":{
+    "y":"(B/A)*t^2, where t=v/u on the retained open",
+    "d":"Legendre(A*B,q), equivalently the normalized q-unit character of y because v_q(y) is even",
+    "k":"Legendre(kappa*A,q)",
+    "r":"Legendre(rho*A,q)",
+    "s":"Legendre(2,q)",
+    "BU_Q_row":"Legendre(mu*A*B,q)=+1",
+    "Q_row_character_form":"k*r*d=+1"
+  },
+  "four_root_model":{
+    "source_minus":"k * character(1-y) must be +1",
+    "source_plus":"r * character(1+y) must be +1",
+    "extra_minus":"k*d * character(1-lambda^2*y) must be +1",
+    "extra_plus":"r*d * character(1+lambda^2*y) must be +1",
+    "meaning":"these are exactly the four BT square-root equations after removing rational square factors at q"
+  },
+  "valuation_sector_taxonomy":{
+    "small_y":"v_q(y)>0 is realizable iff k=r=d=+1; then choose y with positive even valuation and all four parenthesized factors are 1 modulo q",
+    "large_y":"v_q(y)<0 likewise forces and is realizable for k=r=d=+1 after extracting the common even valuation",
+    "generic_unit":"v_q(y)=0 and y mod q is not 0,+1,-1. Under k*r*d=1, all four roots lift iff there is y0 in F_q with chi(y0)=d, chi(1-y0)=k, chi(1+y0)=r; the two extra-root residues swap because lambda^2=-1 mod q",
+    "near_plus_or_minus_one":"a local point in either residue class y=+/-1 mod q necessarily has d=1 and k=r=s. Conversely, if d=1 and k=r=s, choose y=+/-1+q^n*c with even n>2h and chi(c)=s; the source tie has even valuation and the opposite extra tie is controlled by lambda^2+1, giving all four roots",
+    "exhaustive":"every q-adic y lies in exactly one of small, large, generic-unit, near +1, near -1, so the stated sectors give a necessary and sufficient local criterion"
+  },
+  "finite_field_generic_existence":{
+    "hard_patterns_after_Q_row":["k and r have opposite signs, so d=-1","k=r=-1,d=1 when s=+1"],
+    "elliptic_curve":"E_q: z^2=y*(1-y^2)",
+    "character_sum":"C_q=sum_{y in F_q} chi(y*(1-y^2)) and #E_q(F_q)=q+1+C_q",
+    "generic_pattern_count":"for each hard pattern, the number N of y0 not in {0,+1,-1} with chi(y0)=d, chi(1-y0)=k, chi(1+y0)=r is exactly (q+1+C_q)/8",
+    "hasse_input":"|C_q|<=2*sqrt(q)",
+    "positivity":"N >= (q+1-2*sqrt(q))/8 = (sqrt(q)-1)^2/8 > 0 for every odd q",
+    "universal_replay":"the verifier enumerates every hard pattern for all q congruent 1 modulo 4 below 300, checks 8*N=q+1+C_q and positivity, while the locked Hasse theorem supplies the universal bound beyond the finite replay",
+    "consequence":"every hard character pattern has a generic-unit realization; no finite-field residue pattern remains obstructed after the BU Q-row"
+  },
+  "main_consequence":{
+    "statement":"For a general AW squareclass branch and an odd q|Q, the BU row Legendre(mu*A*B,q)=+1 is necessary and sufficient for existence of a Q_q point on the exact BT four-square full-cover local model on the retained open.",
+    "necessity_source":"36-09BU",
+    "sufficiency_source":"36-09CI valuation-sector construction plus the Hasse-bound generic count",
+    "Q_reservoir_local_realization_complete":true,
+    "new_branch_filter_beyond_BU_Q_row":false
+  },
+  "exact_fixed_p_diagnostics":{
+    "p_1_over_2":{"CH_survivors":3,"after_CI_Q_reservoir":3,"odd_Q_primes":[5],"fixed_p_excluded":false},
+    "p_2_over_11":{"CH_survivors":5,"after_CI_Q_reservoir":5,"odd_Q_primes":[5],"v_5_Q":3,"fixed_p_excluded":false},
+    "diagnostic_p_3_over_4":{"scope":"same exact audited CH diagnostic generator; not a retained-candidate membership claim","CH_survivors":3,"after_CI_Q_reservoir":3,"odd_Q_primes":[5]},
+    "diagnostic_p_1_over_8":{"scope":"same exact audited CH diagnostic generator; not a retained-candidate membership claim","CH_survivors":3,"after_CI_Q_reservoir":3,"odd_Q_primes":[5,13]}
+  },
+  "route_result":{
+    "route_status":"PASS_GENERAL_Q_RESERVOIR_LOCAL_REALIZATION_Q_ROW_SUFFICIENT",
+    "general_Q_reservoir_local_realization_complete":true,
+    "BU_Q_row_necessary_and_sufficient":true,
+    "new_point_independent_branch_filter":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09CJ_FIXED_P_ALL_BAD_PLACE_LOCAL_INTEGRATION_PREFLIGHT"
+  },
+  "scope_firewalls":{
+    "Q_reservoir_complete_means_simultaneous_all_place_point":false,
+    "CI_survivor_is_global_receiver":false,
+    "good_prime_and_real_place_integration_complete":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "local_parameter_elimination_exhausted":false,
+    "uniform_finite_Q_squareclass_family":false,
+    "finite_exhaustive_H1_twist_family":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
