@@ -24,10 +24,9 @@ def csha(obj):
     return hashlib.sha256(json.dumps(obj, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
-def factor_row(row):
-    poly = b3b3b.full_sign_norm_poly(row["normalized_coefficients_Qi"])
+def factor_poly(poly, representative_carrier_id):
     if poly.total_degree() != 16:
-        raise SystemExit(f"full sign norm degree moved: {row['carrier_id']}")
+        raise SystemExit(f"full sign norm degree moved: {representative_carrier_id}")
     coeff, factors = sp.factor_list(poly.as_expr(), *b3b3b.BASE, extension=sp.I)
     rebuilt = sp.Poly(coeff, *b3b3b.BASE, extension=sp.I)
     out = []
@@ -42,12 +41,10 @@ def factor_row(row):
             "normalized_factor_term_count": len(normalized),
         })
     if sp.Poly(rebuilt - poly, *b3b3b.BASE, extension=sp.I) != sp.Poly(0, *b3b3b.BASE, extension=sp.I):
-        raise SystemExit(f"factor reconstruction failed: {row['carrier_id']}")
+        raise SystemExit(f"factor reconstruction failed: {representative_carrier_id}")
     if sum(x["factor_total_degree"] * x["multiplicity"] for x in out) != 16:
-        raise SystemExit(f"factor degree sum moved: {row['carrier_id']}")
+        raise SystemExit(f"factor degree sum moved: {representative_carrier_id}")
     return {
-        "carrier_id": row["carrier_id"],
-        "projective_linear_form_Qi_sha256": row["projective_linear_form_Qi_sha256"],
         "factor_count_distinct": len(out),
         "factor_count_with_multiplicity": sum(x["multiplicity"] for x in out),
         "squarefree_factorization": all(x["multiplicity"] == 1 for x in out),
@@ -70,20 +67,73 @@ def build_certificate():
     if any(cid not in rows for cid in off_ids):
         raise SystemExit("off-boundary carrier escaped R5B3B2 inventory")
 
-    factored = [factor_row(rows[cid]) for cid in off_ids]
+    # Full sign norms are cheap relative to multivariate factorization.  Compute
+    # all 23 once, normalize them exactly, then factor only one representative
+    # of each distinct normalized norm.  Equal normalized norms differ only by
+    # a nonzero Q(i) scalar, hence have exactly the same irreducible factors.
+    norm_data = {}
+    norm_groups = defaultdict(list)
+    normalized_by_sha = {}
+    for pos, cid in enumerate(off_ids, 1):
+        poly = b3b3b.full_sign_norm_poly(rows[cid]["normalized_coefficients_Qi"])
+        if poly.total_degree() != 16:
+            raise SystemExit(f"full sign norm degree moved: {cid}")
+        normalized = b3b3b.normalize_norm(poly)
+        norm_sha = csha(normalized)
+        if norm_sha in normalized_by_sha and normalized_by_sha[norm_sha] != normalized:
+            raise SystemExit(f"normalized norm SHA collision: {norm_sha}")
+        normalized_by_sha.setdefault(norm_sha, normalized)
+        norm_data[cid] = {"poly": poly, "normalized_sha256": norm_sha}
+        norm_groups[norm_sha].append(cid)
+        print(f"norm [{pos:02d}/{len(off_ids)}] {cid} sha={norm_sha[:12]} terms={len(normalized)}", flush=True)
+
+    unique_norm_count = len(norm_groups)
+    print(f"offboundary={len(off_ids)} unique_norms={unique_norm_count}", flush=True)
+
+    factorization_by_norm = {}
+    representative_rows = []
+    for pos, (norm_sha, carrier_ids) in enumerate(sorted(norm_groups.items()), 1):
+        rep = carrier_ids[0]
+        print(f"factor [{pos:02d}/{unique_norm_count}] rep={rep} carriers={carrier_ids}", flush=True)
+        fac = factor_poly(norm_data[rep]["poly"], rep)
+        factorization_by_norm[norm_sha] = fac
+        representative_rows.append({
+            "normalized_full_sign_norm_sha256": norm_sha,
+            "representative_carrier_id": rep,
+            "carrier_ids": list(carrier_ids),
+            "carrier_count": len(carrier_ids),
+            **fac,
+        })
+        print(f"  pattern={fac['factor_degree_multiset']}", flush=True)
+
+    factored = []
+    for cid in off_ids:
+        row = rows[cid]
+        norm_sha = norm_data[cid]["normalized_sha256"]
+        rep = norm_groups[norm_sha][0]
+        fac = factorization_by_norm[norm_sha]
+        factored.append({
+            "carrier_id": cid,
+            "projective_linear_form_Qi_sha256": row["projective_linear_form_Qi_sha256"],
+            "normalized_full_sign_norm_sha256": norm_sha,
+            "factored_via_representative_carrier_id": rep,
+            "factorization_reused_from_equal_normalized_norm": cid != rep,
+            **fac,
+        })
+
     degree_patterns = Counter(tuple(r["factor_degree_multiset"]) for r in factored)
     factor_to_carriers = defaultdict(list)
     for row in factored:
         for fac in row["factors"]:
             factor_to_carriers[fac["normalized_factor_sha256"]].append(row["carrier_id"])
     shared = [
-        {"normalized_factor_sha256": sha, "carrier_ids": sorted(ids), "carrier_count": len(ids)}
+        {"normalized_factor_sha256": sha, "carrier_ids": sorted(set(ids)), "carrier_count": len(set(ids))}
         for sha, ids in sorted(factor_to_carriers.items())
-        if len(ids) > 1
+        if len(set(ids)) > 1
     ]
 
     cert = {
-        "schema": "stage33.e3.v91c1x_r5b3b3c1.offboundary_norm_factorization.v1",
+        "schema": "stage33.e3.v91c1x_r5b3b3c1.offboundary_norm_factorization.v2",
         "stage": "33-12",
         "candidate": "V91C1X_R5B3B3C1_FACTOR_ONLY_OFFBOUNDARY_FULL_SIGN_NORMS",
         "role": "EXACT_NONCREDIT_IRREDUCIBLE_FACTORIZATION_OF_THE_R5B3B3B_OFFBOUNDARY_BASE_NORMS_BEFORE_RESOLVED_SURFACE_PRIME_DECOMPOSITION",
@@ -97,8 +147,11 @@ def build_certificate():
             "ambient_ring": "Q(i)[a1,a2,a3]",
             "input_full_sign_norm_degree": 16,
             "off_boundary_carrier_count": len(factored),
+            "unique_normalized_full_sign_norm_count": unique_norm_count,
+            "duplicate_carrier_count_avoiding_repeated_factorization": len(factored) - unique_norm_count,
             "all_and_only_r5b3b3b_off_boundary_carriers_processed": [r["carrier_id"] for r in factored] == off_ids,
-            "all_factorizations_reconstructed_exactly": True,
+            "all_normalized_norm_groups_checked_exactly_before_factorization_reuse": True,
+            "all_unique_representative_factorizations_reconstructed_exactly": True,
             "all_factor_degree_sums_equal_16": all(sum(r["factor_degree_multiset"]) == 16 for r in factored),
             "all_factorizations_squarefree": all(r["squarefree_factorization"] for r in factored),
             "factor_degree_pattern_histogram": {
@@ -106,6 +159,7 @@ def build_certificate():
             },
             "unique_irreducible_factor_sha256_count": len(factor_to_carriers),
             "shared_irreducible_factor_support": shared,
+            "unique_norm_representative_rows": representative_rows,
             "carrier_rows": factored,
         },
         "construction_status": {
@@ -123,6 +177,7 @@ def build_certificate():
         },
         "exact_consequence": {
             "base_norm_factorization_is_now_finite_and_exact_for_every_offboundary_carrier": True,
+            "equal_normalized_norms_share_the_same_irreducible_factorization_up_to_nonzero_Qi_scalar": True,
             "base_norm_irreducible_factors_are_not_identified_with_resolved_surface_prime_divisors_without_an_exact_adapter": True,
             "no_unramifiedness_or_residue_cancellation_follows_from_factorization_alone": True,
         },
