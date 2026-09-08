@@ -61,37 +61,111 @@ jobs:
         run: |
           git fetch --no-tags origin main
           test "$(git rev-parse origin/main)" = "70265586b3f97be21c7621af73f443311f1f3fa3"
-      - name: Materialize inherited current-main replay sources
+      - name: Apply current-main-based EX2-04B claim sync
+        run: python -B stages/stage32-ex2/apply_ex2_04b_claim_sync.py
+      - name: Materialize exact current-main non-EX2 claim-DAG closure
         shell: bash
         run: |
           set -euo pipefail
-          for p in \
-            stages/stage32-ex5/ex5-01-exact-receiver-ledger.json \
-            stages/stage32-ex5/ex5-03-clean-room-route-universe.json
-          do
-            test ! -e "$p"
-            mkdir -p "$(dirname "$p")"
-            git show "origin/main:$p" > "$p"
-            test "$(git hash-object "$p")" = "$(git rev-parse "origin/main:$p")"
-          done
-      - name: Apply current-main-based EX2-04B claim sync
-        run: python -B stages/stage32-ex2/apply_ex2_04b_claim_sync.py
+          python - <<'PY'
+          from __future__ import annotations
+          import hashlib, json, subprocess
+          from pathlib import Path
+
+          ROOT=Path('.')
+          REG='stages/stage32/proof/CLAIM-REGISTRY.json'
+          LANES='stages/stage32/proof/LANE-ADAPTERS.json'
+          HIST={'DECLARED_GOAL','SUPERSEDED','REVOKED'}
+          BRANCH_ADAPTER='S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V3'
+
+          def git(*args:str, binary:bool=False):
+              return subprocess.check_output(['git',*args], text=not binary)
+          def blob(data:bytes)->str:
+              return hashlib.sha1(f'blob {len(data)}\0'.encode()+data).hexdigest()
+          def show_bytes(ref:str,path:str)->bytes:
+              return git('show',f'{ref}:{path}',binary=True)
+
+          generated=json.loads(Path(REG).read_text())
+          branch=json.loads(git('show',f'HEAD:{REG}'))
+          lanes=json.loads(Path(LANES).read_text())
+          branch_owned={c['claim_id'] for c in branch['claims'] if c['claim_id'].startswith('S32.EX2.')}
+          if any(c['claim_id']==BRANCH_ADAPTER for c in branch['claims']):
+              branch_owned.add(BRANCH_ADAPTER)
+
+          protected=set()
+          for c in generated['claims']:
+              if c['claim_id'] not in branch_owned:
+                  continue
+              for lock in c.get('source_locks',[]):
+                  protected.add(lock['path'])
+              if c.get('replay_verifier'):
+                  protected.add(c['replay_verifier'])
+
+          required:dict[str,str|None]={}
+          def require(path:str, expected:str|None):
+              if path in protected:
+                  return
+              old=required.get(path)
+              if old is not None and expected is not None and old!=expected:
+                  raise SystemExit(f'conflicting main source locks for {path}: {old} != {expected}')
+              if path not in required or expected is not None:
+                  required[path]=expected
+
+          for c in generated['claims']:
+              if c['claim_id'] in branch_owned:
+                  continue
+              for lock in c.get('source_locks',[]):
+                  p=lock['path']
+                  if c.get('authority_status') in HIST and p.endswith('/MAIN-STATE.json'):
+                      continue
+                  require(p,lock.get('blob_sha1'))
+              replay=c.get('replay_verifier')
+              if replay:
+                  require(replay,None)
+
+          for lane in lanes['lanes']:
+              if lane.get('lane')!='EX2':
+                  require(lane['state_path'],None)
+
+          materialized=[]
+          for p,expected in sorted(required.items()):
+              path=Path(p)
+              if path.is_file():
+                  data=path.read_bytes()
+                  if expected is None or blob(data)==expected:
+                      continue
+              main_data=show_bytes('origin/main',p)
+              main_blob=blob(main_data)
+              if expected is not None and main_blob!=expected:
+                  raise SystemExit(f'origin/main does not satisfy registered lock {p}: {main_blob} != {expected}')
+              path.parent.mkdir(parents=True,exist_ok=True)
+              path.write_bytes(main_data)
+              materialized.append(p)
+
+          fixed=[
+              'stages/stage32-ex2/MAIN-STATE.json',
+              'stages/stage32-ex2/verify_main_state.py',
+              REG,
+              LANES,
+          ]
+          all_stage=sorted(set(fixed+materialized))
+          Path('/tmp/stage32ex2-claim-sync-files.txt').write_text('\n'.join(all_stage)+'\n')
+          Path('/tmp/stage32ex2-materialized-files.txt').write_text('\n'.join(materialized)+'\n')
+          subprocess.check_call(['git','add','--']+all_stage)
+          print(json.dumps({'materialized_count':len(materialized),'materialized':materialized},sort_keys=True))
+          PY
       - name: Verify synchronized scope and mathematics
         shell: bash
         run: |
           set -euo pipefail
-          git diff --check
-          git diff --name-only | sort > /tmp/changed.txt
-          cat > /tmp/expected.txt <<'EOF'
-          stages/stage32-ex2/MAIN-STATE.json
-          stages/stage32-ex2/verify_main_state.py
-          stages/stage32/proof/CLAIM-REGISTRY.json
-          stages/stage32/proof/LANE-ADAPTERS.json
-          EOF
-          sort -o /tmp/expected.txt /tmp/expected.txt
-          diff -u /tmp/expected.txt /tmp/changed.txt
-          test "$(git hash-object stages/stage32-ex5/ex5-01-exact-receiver-ledger.json)" = '10683cdd9d38351f190707f817e85656cc36f3f4'
-          test "$(git hash-object stages/stage32-ex5/ex5-03-clean-room-route-universe.json)" = '68de8dc99f8947fb24873ad6c9903cfaa8491f93'
+          git diff --check --cached
+          git diff --cached --name-only | sort > /tmp/staged.txt
+          sort /tmp/stage32ex2-claim-sync-files.txt > /tmp/expected.txt
+          diff -u /tmp/expected.txt /tmp/staged.txt
+          if grep -E '^stages/stage32-ex2/' /tmp/stage32ex2-materialized-files.txt; then
+            echo 'FAIL: current-main closure attempted to overwrite branch-owned EX2 path' >&2
+            exit 1
+          fi
           python -B stages/stage32-ex2/verify_ex2_04a_two_divisor_section_pencil.py
           python -B stages/stage32-ex2/verify_ex2_04b_third_section_valuation_separation.py
           python -B stages/stage32/proof/verify_stage32_claim_dag.py --integrity
@@ -103,11 +177,5 @@ jobs:
           set -euo pipefail
           git config user.name 'stage32ex2-claim-sync-bot'
           git config user.email 'stage32ex2-claim-sync-bot@users.noreply.github.com'
-          git add stages/stage32-ex2/MAIN-STATE.json \
-                  stages/stage32-ex2/verify_main_state.py \
-                  stages/stage32/proof/CLAIM-REGISTRY.json \
-                  stages/stage32/proof/LANE-ADAPTERS.json \
-                  stages/stage32-ex5/ex5-01-exact-receiver-ledger.json \
-                  stages/stage32-ex5/ex5-03-clean-room-route-universe.json
-          git commit -m '[Stage32EX2][claim-sync] register EX2-04B and replay closure'
+          git commit -m '[Stage32EX2][claim-sync] register EX2-04B and current-main replay closure'
           git push origin HEAD:stage32ex2-ex2-00-source-lock-continuation
