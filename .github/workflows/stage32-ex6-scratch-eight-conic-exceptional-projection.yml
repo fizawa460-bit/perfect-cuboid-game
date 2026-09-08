@@ -34,4 +34,14 @@ jobs:
             --retained stages/stage33/33-07/picard_base_rows_retained.py \
             --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
             --witness stages/stage32/32-21/post1473-v6-witness-body-recovered.json \
-            --adapter-dir stages/stage32/residual-32-01-production
+            --adapter-dir stages/stage32/residual-32-01-production \
+            > "$RUNNER_TEMP/stage32ex6-eight-conic-exceptional-projection.json"
+          test -s "$RUNNER_TEMP/stage32ex6-eight-conic-exceptional-projection.json"
+          test "$(wc -c < "$RUNNER_TEMP/stage32ex6-eight-conic-exceptional-projection.json")" -lt 10000
+      - name: Upload compact result
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32ex6-eight-conic-exceptional-projection
+          path: ${{ runner.temp }}/stage32ex6-eight-conic-exceptional-projection.json
+          retention-days: 1
+          compression-level: 9
