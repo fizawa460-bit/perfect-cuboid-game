@@ -1,0 +1,97 @@
+{
+  "schema": "STAGE32_EX6_FSM16_MODULAR_TENSOR_MULTIBRANCH_WALL_V2",
+  "status": "EXPLORATORY_EXACT_BOUNDED_WALL_ADAPTER_CORRECTED_NO_ENDPOINT_CREDIT",
+  "external_source": {
+    "authors": "Eberhard Freitag; Riccardo Salvati Manni",
+    "title": "Parametrization of the box variety by theta functions",
+    "journal": "Michigan Mathematical Journal 65 (2016)",
+    "theorem": "3.1",
+    "arxiv": "1303.6495",
+    "published_bijective_normalization_bound": "d <= 176 + 16g"
+  },
+  "stage32_source_locks": {
+    "AN_path": "stages/stage32/residual-32-01-production/post1648an-a1-strict-transform-delta-feasibility-source-note.md",
+    "AN_blob_sha1": "512fcc70afb1acf16956fd4b7a2b9b935a052150",
+    "AR_path": "stages/stage32/residual-32-01-production/post1648ar-two-factor-slack-minimal-branches-source-note.md",
+    "AR_blob_sha1": "da9b6ba755b8bd43d5b342d5540053caeb218f57"
+  },
+  "source_proof_constants": {
+    "tensor_degree_factor": 16,
+    "zero_lower_bound_per_degree_per_k": 2,
+    "max_pole_order_per_minimal_cusp_branch_per_k": 8,
+    "published_node_cap_under_bijective_normalization": 48
+  },
+  "v6_endpoint_inputs": {
+    "geometric_genus": 1,
+    "degree": 186,
+    "positive_node_support": 47,
+    "normalization_points_over_exceptional_divisor": 266,
+    "endpoint_t": 0,
+    "actual_endpoint_normalization_bijective": false
+  },
+  "published_theorem_check": {
+    "genus_one_degree_upper_bound": 192,
+    "degree_slack": 6,
+    "excludes_v6": false
+  },
+  "counterfactual_47_node_bijective_check": {
+    "pole_budget_per_k": 376,
+    "genus_one_degree_upper_bound": 188,
+    "degree_slack": 2,
+    "applicable_to_actual_O266_population": false,
+    "excludes_v6": false
+  },
+  "branchwise_extension": {
+    "derived_bound": "d <= 16g - 16 + 4B",
+    "B": 266,
+    "genus_one_degree_upper_bound": 1064,
+    "degree_slack": 878,
+    "excludes_v6": false
+  },
+  "stage32_fsm16_adapter": {
+    "adapter_source_locked": true,
+    "a1_equals_4A": true,
+    "a2_equals_4B": true,
+    "A_B_positive": true,
+    "A_plus_B_even": true,
+    "exceptional_multiplicity": "min(A,B)",
+    "fsm16_minimal_cusp_pair": [4, 4],
+    "stage32_minimal_pair": [1, 1],
+    "minimal_pairs_equivalent": true
+  },
+  "O266_two_factor_minimal_branch_bound": {
+    "q81_node_upper_bound": 52,
+    "q105_node_upper_bound": 28,
+    "nonminimal_branch_upper_bound": 80,
+    "minimal_branch_lower_bound": 186,
+    "S_cusp_lower_bound": 186
+  },
+  "discrete_cusp_pole_budget": {
+    "required_total_pole_units_for_degree_186_genus_one": 372,
+    "positive_pole_units_per_minimal_branch": 8,
+    "tensor_minimum_S_cusp_for_compatibility": 47,
+    "tensor_exclusion_threshold_S_cusp_max": 46,
+    "AR_exclusion_threshold_new_upper_bound_S_cusp_max": 185,
+    "AR_lower_bound_margin_over_tensor_requirement": 139
+  },
+  "dominance": {
+    "upper_bound_on_S_cusp_strategy": "FSM16_CARDINALITY_ROUTE_STRICTLY_DOMINATED_BY_AR",
+    "reason": "AR already forces S_cusp>=186, while the tensor only forces S_cusp>=47",
+    "adapter_gap_closed": true,
+    "old_adapter_missing_statement_retracted": true
+  },
+  "decision": {
+    "fsm16_modular_tensor_O266": "NUMERICALLY_NONEXCLUDING",
+    "fsm16_S_cusp_cardinality_route": "DOMINATED_BY_AR_MINIMAL_BRANCH_BOUND",
+    "O266_endpoint_excluded": false,
+    "O264_descent_authorized": false
+  },
+  "firewalls": {
+    "new_published_theorem_claimed": false,
+    "branchwise_extension_claimed_as_published": false,
+    "tensor_exact_pole_order_claimed_from_cardinality_alone": false,
+    "global_v6_carrier_constructed": false,
+    "endpoint_closure_credit": false,
+    "perfect_cuboid_credit": false
+  }
+}

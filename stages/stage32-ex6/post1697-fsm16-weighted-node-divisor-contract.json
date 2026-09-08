@@ -1,0 +1,69 @@
+{
+  "schema": "STAGE32_EX6_FSM16_WEIGHTED_NODE_DIVISOR_WALL_V1",
+  "status": "EXPLORATORY_EXACT_BOUNDED_WALL_NO_ENDPOINT_CREDIT",
+  "sources": {
+    "fsm16": "Freitag-Salvati Manni, Theorem 3.1 proof, arXiv:1303.6495",
+    "AN_path": "stages/stage32/residual-32-01-production/post1648an-a1-strict-transform-delta-feasibility-source-note.md",
+    "AR_path": "stages/stage32/residual-32-01-production/post1648ar-two-factor-slack-minimal-branches-source-note.md"
+  },
+  "endpoint_inputs": {
+    "O": 266,
+    "genus": 1,
+    "node_branch_count": 266,
+    "endpoint_t": 0,
+    "all_exceptional_multiplicities_one": true
+  },
+  "branch_adapter": {
+    "a1_equals_4A": true,
+    "a2_equals_4B": true,
+    "A_plus_B_even": true,
+    "m_equals_min_A_B": true,
+    "b_equals_abs_A_minus_B_over_2": true,
+    "endpoint_other_entry_formula": "1+2b",
+    "a1_plus_a2_formula": "8+8b"
+  },
+  "fsm16_local_divisor": {
+    "signed_order_formula": "(a1+a2-16)k",
+    "endpoint_signed_order_formula": "8(b-1)k",
+    "b0_pole_order_per_k": 8,
+    "b1_signed_order_per_k": 0,
+    "b_ge_2_contributes_positive_zero_order": true
+  },
+  "node_sum": {
+    "sum_b_equals": "q81_node+q105_node",
+    "q81_node_upper_bound": 52,
+    "q105_node_upper_bound": 28,
+    "qsum_upper_bound": 80,
+    "signed_node_divisor_formula_per_k": "8(q81_node+q105_node-266)",
+    "maximum_signed_node_divisor_per_k": -1488,
+    "minimum_forced_node_pole_debt_per_k": 1488,
+    "maximum_possible_node_pole_debt_per_k_from_nonnegative_q": 2128
+  },
+  "slack_refinement": {
+    "E_definition": "eta81+rho81+eta105+rho105",
+    "E_nonnegative": true,
+    "qsum_formula": "80-E",
+    "signed_node_divisor_formula": "-(1488+8E)k",
+    "genus_one_total_divisor_degree": 0,
+    "required_nonnode_signed_divisor_formula": "(1488+8E)k",
+    "minimum_required_nonnode_signed_divisor_per_k": 1488
+  },
+  "reentry": {
+    "minimum_contradiction_upper_bound": "D_nonnode < 1488k",
+    "sharp_slack_refined_upper_bound": "D_nonnode < (1488+8E)k",
+    "current_nonnode_upper_bound_source_locked": false,
+    "S_cusp_cardinality_is_current_target": false
+  },
+  "decision": {
+    "fsm16_weighted_node_divisor": "EXACT_POLE_DEBT_THRESHOLD_OBTAINED",
+    "O266_endpoint_excluded": false,
+    "O264_descent_authorized": false
+  },
+  "firewalls": {
+    "fsm16_tensor_holomorphic_on_resolved_surface_claimed": false,
+    "nonnode_upper_bound_claimed": false,
+    "global_v6_carrier_constructed": false,
+    "endpoint_closure_credit": false,
+    "perfect_cuboid_credit": false
+  }
+}
