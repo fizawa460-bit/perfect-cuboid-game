@@ -4,8 +4,8 @@ from collections import defaultdict
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-EX1 = HERE.parent
-S32 = EX1.parent / "stage32" / "residual-32-01-production"
+EX1 = HERE
+S32 = HERE.parent / "stage32" / "residual-32-01-production"
 
 ART = HERE / "ex1-05o-common-v4-branch-cycle-monodromy-lift-preflight.json"
 UP05B = EX1 / "ex1-05b-inertia-parity-stabilizer.json"
