@@ -30,7 +30,7 @@ jobs:
           from pathlib import Path
           key=json.loads(Path('stages/stage32-ex2/runkeys/ex2-03f-corrected-adjoint-known140.json').read_text())
           assert key['schema']=='STAGE32EX2_EX2_03F_CORRECTED_ADJOINT_KNOWN140_RUNKEY_V1'
-          assert key['generation']==1 and key['armed'] is True
+          assert key['generation']==2 and key['armed'] is True
           assert key['merge_authorized'] is False
           assert key['diagnostic_path']=='stages/stage32-ex2/diagnose_ex2_03f_corrected_adjoint_known140.py'
           actual=subprocess.check_output(['git','hash-object',key['diagnostic_path']],text=True).strip()
@@ -51,7 +51,7 @@ jobs:
           python -m json.tool /tmp/ex2-03f.json > stages/stage32-ex2/EX2-03/corrected-adjoint-known140-scan.json
       - name: Check exact generated scope
         run: |
-          git diff --name-only | sort > /tmp/actual
+          git status --porcelain --untracked-files=all | cut -c4- | sort > /tmp/actual
           printf '%s\n' stages/stage32-ex2/EX2-03/corrected-adjoint-known140-scan.json > /tmp/expected
           diff -u /tmp/expected /tmp/actual
       - name: Commit and push diagnostic
