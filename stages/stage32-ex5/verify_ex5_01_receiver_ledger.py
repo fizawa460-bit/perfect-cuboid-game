@@ -107,10 +107,10 @@ def main() -> None:
     require(prod["R29_LG2"] == "NOT_DISCHARGED", "current production state says R29-LG2 discharged")
 
     main_state = json.loads((ROOT / locks["SRC-MAIN"]["path"]).read_text(encoding="utf-8"))
-    target = main_state["current"]["fixed_target"]
+    target = main_state["fixed_target"]
     require(target["row_id"] == "g1-d186", "current representative row drift")
     require((target["O"], target["qprime"], target["Q"]) == (210, 4, 602), "current O/qprime/Q drift")
-    require(main_state["current"]["surviving_residues"] == [73, 97, 235], "current survivors drift")
+    require(target["surviving_residues_decimal"] == [73, 97, 235], "current survivors drift")
 
     rows = data["receiver_rows"]
     require(len(rows) == 185, "ledger must contain 183 numerical + EFF + MB rows")
