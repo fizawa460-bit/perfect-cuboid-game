@@ -1,0 +1,109 @@
+{
+  "schema": "STAGE32EX3_EX3_04_COMMON_V4_CHARACTER_CORRESPONDENCE_GATE_SCRATCH_V1",
+  "stage": 32,
+  "lane": "EX3",
+  "leaf": "EX3-04_COMMON_V4_SIMULTANEOUS_TWO_PROJECTION_COMPATIBILITY",
+  "status": "SCRATCH_PROVISIONAL_DIAGNOSTIC_NOT_RETAINED",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "picard_class": "V6",
+    "O": 210,
+    "qprime": 4,
+    "degrees_Y_to_C0": [105, 81],
+    "ramification_Y_to_C0": [0, 48]
+  },
+  "source_locks": {
+    "typed_cover_tower": {
+      "path": "stages/stage32-ex3/ex3-00-o210-typed-cover-tower.json",
+      "blob_sha1": "c28bda6c20340b4fc4ac060db158ca30926ecb38",
+      "canonical_sha256": "3a743b0607c59dc959f383fca8d97e54e8a740d197401e4c080b6fc4c94eaf07"
+    },
+    "ex3_03_local_adapter": {
+      "path": "stages/stage32-ex3/scratch/ex3-03-o210-local-contact-modular-degree-adapter.json",
+      "blob_sha1": "8858c0b4f55bcdea2d9f4258f7e5696306540164"
+    },
+    "common_double_cover": {
+      "path": "stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json",
+      "blob_sha1": "def8b60b726c02aa7ee97c0cc25b34f43525ec34",
+      "canonical_sha256": "eb31183bf519fec4ad5bb2d0799b3f0a64b7af893308e09ce0c33119b63440a1"
+    },
+    "v4_character_rank": {
+      "path": "stages/stage32/residual-32-01-production/post1473-product-cover-v4-character-rank-reduction.json",
+      "blob_sha1": "01ab580662a76ccda0fc0e3cc44f09f705825942",
+      "canonical_sha256": "509635ab9964de7e7eecb41277b892589a7bb418676d8e76bd99b20607dac9dd"
+    },
+    "bolza_correspondence": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-source-note.md",
+      "blob_sha1": "25e365475b41c917a4bab5acc06bda5e9738b8e7"
+    }
+  },
+  "local_simultaneous_population": {
+    "candidate_rule": "at every exceptional branch choose e_z=e_w=m; at every retained nonexceptional cusp point choose local modular degree 2",
+    "translation_lattice_compatible": true,
+    "reason": "a1=a2=4m gives a1+a2=8m, and the nonexceptional degree-2 choice is even",
+    "first_factor": {
+      "exceptional_mass": 266,
+      "m1_points_degree1": 210,
+      "m2_points_degree2": 28,
+      "nonexceptional_degree2_points": 182,
+      "total_cusp_degree_over_six_cusps": 630,
+      "N_to_X4_cusp_ramification": 210,
+      "N_to_X4_outside_ramification": 0,
+      "Y_to_C0_ramification": 0
+    },
+    "second_factor": {
+      "exceptional_mass": 266,
+      "m1_points_degree1": 210,
+      "m2_points_degree2": 28,
+      "nonexceptional_degree2_points": 110,
+      "total_cusp_degree_over_six_cusps": 486,
+      "N_to_X4_cusp_ramification": 138,
+      "N_to_X4_total_ramification": 162,
+      "N_to_X4_outside_simple_ramification": 24,
+      "Y_to_C0_cusp_ramification": 0,
+      "Y_to_C0_outside_ramification": 48,
+      "Y_to_C0_total_ramification": 48
+    },
+    "common_quadratic_branch_locus": "the 210 odd exceptional m1 contacts are exactly the branch points of the common Y->N quadratic cover in both factor descriptions",
+    "consequence": "the EX3-03 integer/local-degree and ramification ledgers admit a simultaneous population; exact 48-node incidence cannot by counting alone provide an exclusion"
+  },
+  "common_H4_torsor_gate": {
+    "base_cover": "pi: Z=X(8) -> C0 is the connected regular etale H4=(Z/2)^2 cover",
+    "character_plane": "U=<lambda1,lambda2> subset H^1_et(C0,F2)=J(C0)[2], where lambda1,lambda2 are independent characters defining pi",
+    "two_maps": ["f1:Y->C0 degree 105", "f2:Y->C0 degree 81"],
+    "same_D_requirement": "the product-cover geometry requires the H4-torsors f1^*Z and f2^*Z on Y to identify with the same connected D->Y",
+    "basis_safe_form": "there exists A in GL(2,F2) such that f1^*(lambda)=f2^*(A lambda); with a source-locked identical H4 deck labeling this may sharpen to A=I, but that sharpening is not assumed here",
+    "odd_degree_injectivity": "Norm_fi composed with fi^* is multiplication by deg(fi); on 2-torsion both 105 and 81 act as identity, hence fi^* is injective on J(C0)[2] and U stays rank 2",
+    "correspondence": "T=(f1)_*(f2)^* in End(J(C0))",
+    "mod2_consequence": "on U, T=A^{-1}; therefore T preserves U and T|U is invertible",
+    "rosati_adjoint_consequence": "T^dagger=(f2)_*(f1)^* restricts to A on U, hence (T^dagger T)|U=I",
+    "full_V4_consequence": "the common torsor condition automatically retains rank 2/full H4 monodromy once the simultaneous pullback identity is realized",
+    "executable_filter": "any future finite Rosati enumeration may reject T whose mod-2 action fails to preserve the fixed H4 character plane U with invertible restriction"
+  },
+  "remaining_exact_gap": {
+    "fixed_H4_character_plane_U_in_Bolza_J2_coordinates_source_locked": false,
+    "principal_polarization_Rosati_matrix_source_locked": false,
+    "finite_Rosati_T_enumeration_completed": false,
+    "exact_48_node_ordered_incidence_path_recovered_in_this_batch": false,
+    "global_branch_cycle_pair_realized": false,
+    "same_D_H4_torsor_realized": false,
+    "carrier_realized": false
+  },
+  "diagnostic_verdict": {
+    "EX3_04_local_counting_exclusion_obtained": false,
+    "EX3_04_common_V4_character_gate_obtained": true,
+    "new_correspondence_mod2_filter_obtained": true,
+    "O210_excluded": false,
+    "next_exact_route": "source-lock the fixed H4 character plane U inside Bolza J(C0)[2] coordinates, then combine T|U in GL(2,F2) with the source-locked principal polarization/Rosati finite enumeration; exact node incidence is secondary unless enriched with H4/deck labels"
+  },
+  "firewalls": {
+    "local_population_promoted_to_analytic_curve": false,
+    "common_H4_torsor_realized": false,
+    "abstract_character_plane_promoted_to_Bolza_coordinate_plane": false,
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "stage32_main_credit": false,
+    "claim_dag_sync_triggered_by_this_scratch": false,
+    "merge_authorized": false
+  }
+}
