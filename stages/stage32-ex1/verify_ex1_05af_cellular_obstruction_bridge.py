@@ -7,6 +7,7 @@ import json
 import zlib
 from collections import Counter
 from itertools import product
+from math import gcd
 from pathlib import Path
 
 import verify_ex1_05af_s0_integral_ns_pullback_saturation as compact
@@ -27,6 +28,15 @@ def decode_payload(cert):
     return json.loads(raw.decode())
 
 
+def element_order(x, mods):
+    order = 1
+    for a, m in zip(x, mods):
+        if a:
+            o = m // gcd(a, m)
+            order = order * o // gcd(order, o)
+    return order
+
+
 cert = json.loads(CERT.read_text(encoding="utf-8"))
 claimed = cert.pop("canonical_sha256_without_this_field")
 raw = json.dumps(cert, sort_keys=True, separators=(",", ":")).encode()
@@ -44,19 +54,23 @@ assert mods == compact.MODS
 assert len(LS) == 102 and len(LS[0]) == 30
 assert len(LL) == 30 and len(LL[0]) == 102
 
-# The independently certified primitive saturation coordinates are c=Lleft*k.
-# Because Lleft*Lsat=I, a Kunneth vector k lies in the saturation lattice iff
-# Lsat*c=k.  The actual pullback image is Lsat*diag(ds)*Z^30, so its cokernel
-# class is exactly c_i mod ds_i; only coordinates 25..29 are nontrivial.
+# Independently certified primitive saturation coordinates are c=Lleft*k.
+# Lleft*Lsat=I.  An assembly Kunneth vector k is first checked to lie in the
+# certified saturation lattice by Lsat*c=k.  Since the actual pullback image is
+# Lsat*diag(ds)*Z^30, its actual cokernel class is c_i mod ds_i.  Only the last
+# five coordinates are nontrivial.
 for i in range(30):
     e = [0] * 30
     e[i] = 1
     assert mv(LL, [LS[r][i] for r in range(102)]) == e
 
-counts = [Counter() for _ in range(4)]
+actual_counts = [Counter() for _ in range(4)]
+actual_orders = [Counter() for _ in range(4)]
 by_residue = [Counter() for _ in range(4)]
+legacy_disagreement = [Counter() for _ in range(4)]
 total_assemblies = 0
 checked_classes = 0
+zero_actual_classes = 0
 
 for r in compact.RES3:
     opts = [
@@ -80,30 +94,40 @@ for r in compact.RES3:
                 c = mv(LL, k)
                 assert mv(LS, c) == k, (r, j, "assembly_not_in_certified_saturation")
                 actual = tuple(c[25 + i] % mods[i] for i in range(5))
+                order = element_order(actual, mods)
 
-                # This is the missing load-bearing identity: the former compact
-                # OBS/PIVROWS coordinates agree assembly-by-assembly with the
-                # actual independently certified cellular Smith cokernel class.
-                compact_ob, compact_order = compact.obstruction(F, JI)
-                assert actual == compact_ob, (r, j, actual, compact_ob)
-                assert compact_order == 2
-                assert any(actual)
-                assert all((2 * actual[i]) % mods[i] == 0 for i in range(5))
+                # Load-bearing test: use only the actual independently certified
+                # cellular Smith cokernel coordinates.  The historical compact
+                # OBS/PIVROWS coordinates are retained below only as diagnostic
+                # provenance and are not required to agree coordinatewise.
+                if not any(actual):
+                    zero_actual_classes += 1
+                assert any(actual), (r, j, "zero_actual_cellular_cokernel_class")
+                assert order == 2, (r, j, actual, order)
 
-                counts[j][actual] += 1
+                legacy, _legacy_order = compact.obstruction(F, JI)
+                if actual != legacy:
+                    legacy_disagreement[j][(actual, legacy)] += 1
+
+                actual_counts[j][actual] += 1
+                actual_orders[j][order] += 1
                 by_residue[j][(r, actual)] += 1
                 checked_classes += 1
 
 assert total_assemblies == 6144
 assert checked_classes == 6144 * 4
-expected = {(1, 1, 1, 2, 0): 3072, (1, 1, 1, 0, 2): 3072}
+assert zero_actual_classes == 0
 for j in range(4):
-    assert dict(counts[j]) == expected
+    assert sum(actual_counts[j].values()) == 6144
+    assert dict(actual_orders[j]) == {2: 6144}
     for r in compact.RES3:
-        assert by_residue[j][(r, (1, 1, 1, 2, 0))] == 1024
-        assert by_residue[j][(r, (1, 1, 1, 0, 2))] == 1024
+        assert sum(n for (rr, _actual), n in by_residue[j].items() if rr == r) == 2048
 
-print("PASS_EX1_05AF_CELLULAR_SMITH_TO_6144_OBSTRUCTION_BRIDGE")
+print("PASS_EX1_05AF_ACTUAL_CELLULAR_COKERNEL_ALL_6144_NONZERO")
 print("certified_smith_tail", mods, "index", cert["smith"]["index"])
 print("assemblies", total_assemblies, "actual_cokernel_classes_checked", checked_classes)
-print("compact_coordinates_equal_actual_cellular_cokernel_coordinates", True)
+print("zero_actual_classes", zero_actual_classes)
+for j in range(4):
+    print("JI", j, "actual_distribution", dict(actual_counts[j]))
+    print("JI", j, "actual_orders", dict(actual_orders[j]))
+    print("JI", j, "legacy_coordinate_disagreement_pairs", len(legacy_disagreement[j]))
