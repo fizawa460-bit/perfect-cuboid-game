@@ -65,7 +65,7 @@ assert gcdsrc["goal2_primitive_parity_coprimality_dictionary"]["edge_parity_theo
 
 pw = PW01.read_text()
 assert "PARAMETRIC_SQUARECLASS_COMPATIBILITY_GRAPH" in pw
-assert "reservoirs may remain parameter-dependent and of non-fixed prime support" in pw
+assert "permit the reservoirs to remain parameter-dependent and of non-fixed prime support" in pw
 assert "DO_NOT_USE_FOR=fixed finite squareclass enumeration" in pw
 
 # Exact symbolic replay on the primitive endpoint equations.
