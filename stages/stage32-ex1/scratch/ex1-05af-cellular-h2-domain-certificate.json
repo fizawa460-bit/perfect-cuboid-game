@@ -1,1 +1,51 @@
-PLACEHOLDER
+{
+  "schema": "STAGE32EX1_05AF_CELLULAR_H2_DOMAIN_CERTIFICATE_V1",
+  "stage": "32EX1",
+  "authority": "SCRATCH_NONAUTHORITATIVE_CERTIFICATE",
+  "purpose": "Independent cellular certificate for H^2(S0,Z) from the genus-2 one-vertex CW model and the fixed isotropic V4 quotient.",
+  "model": {
+    "base_curve": "genus-2 one-vertex CW complex with edges a,b,c,d and relator [a,b][c,d]",
+    "H_order": ["00","10","01","11"],
+    "cover_monodromy": {"a":"10","b":"00","c":"01","d":"00"},
+    "X8_chain_dimensions": [4,16,4],
+    "S0_chain_dimensions": [4,32,72,32,4],
+    "S0_betti_numbers_over_Q": [1,8,30,8,1],
+    "degree2_order": "blocks (2,0),(1,1),(0,2), lexicographic cell types, relative H label 00,10,01,11"
+  },
+  "s0_h2_kernel": {
+    "delta2_rank_minor_rows": [0,1,2,4,5,6,8,9,10,12,13,14,16,17,18,20,21,24,25,26,28],
+    "delta2_rank_minor_cols": [0,1,2,8,16,20,22,24,26,28,30,32,33,34,40,52,56,57,58,60,64],
+    "delta2_rank_minor_det": 2,
+    "kernel_basis_shape": [72,51],
+    "kernel_left_inverse_shape": [51,72],
+    "proof": "delta2*K=0, Kleft*K=I51, and a nonzero 21x21 delta2 minor force KZ^51=ker(delta2) integrally."
+  },
+  "s0_coboundary_image": {
+    "image_diagonal_in_kernel_basis": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
+    "C_shape": [21,32],
+    "D_shape": [32,21],
+    "proof": "Bimg=K[:,0:21]*diag(1^20,2), delta1=Bimg*C and Bimg=delta1*D; hence im(delta1)=Bimg Z^21 exactly.",
+    "H2_structure": "Z^30 plus Z/2; free basis is K columns 21..50"
+  },
+  "factor_X8_cohomology": {
+    "H0_basis": [1,1,1,1],
+    "delta0_rank_minor": {"rows":[0,2,8],"cols":[0,1,2],"det":1},
+    "H1_delta1_rank_minor": {"rows":[0,1,2],"cols":[4,6,12],"det":1},
+    "H1_kernel_basis_shape": [16,13],
+    "H1_kernel_left_inverse_shape": [13,16],
+    "H1_free_basis": "K1 columns 3..12, rank10",
+    "H2_change_basis_shape": [4,4],
+    "H2_free_basis": "K2 column 3, rank1"
+  },
+  "matrix_payload": {
+    "codec": "zlib+base85 over compact UTF-8 JSON integer matrices",
+    "uncompressed_sha256": "a63716a7c1a3f7b21bb58ed11ab04fdba4122a2bc588ef26adedcc00e95baca7",
+    "uncompressed_bytes": 19509,
+    "encoded": "c-qxm$&TAF4E>j!Ex=Flq|3Fv%_j_UY0;iq^wL|=e{U??vUZ6QWv2+>B;#0*q_{{FIe#v%myd66<1oJj2F#an(BDVWOFba0F)+wMOvB4^e|~$p4{zH&g*es&dhkNdcvtmxzKW|xa{yR)GdNIxhlOTBv~i|}zj}-j<b}Xr1j;V!6A!>vE{a~O3^jAo6@*-;dA%UWZk#3iSy-UkSVFqPNgI|Tc~g?Y#`BGitQgWY94sa<Ew|^lDQ<E#FE|!=T~I~^DW;gk^->fL1B1uZlwgWu-paW0<_sNytod>kUbaC8!BA;lNQ)wfMV~QLa>Zn2B|t<AD`7u@geo6F$B92*V{aKCJ`>IWB^3kN(6PslWflw2s0!~#%bnr^I3B4IfoPhDY8=#BLo+`}iB^DMQHW?nc%jv-5oq<UrS|KsRJ~XRUen_88SJ_~vgmpNd$FH9EmDi@1iCI`EshSsQaic&t#DXc))G!T6UEdH){i%HL)B3oEXC_PQ^uxkJOqay2?>ksr|1FK&<Dx^Vp{aW9&8~!z!TUeNf;Zd_~xnqEcJnkZqiyueh`|=67XjyD8VnX)>A1oPtFfUCi^mOpG)zgn;R7o>|2uyxKmIDhjuX+;c%#9hs6pGTYjNtw{ap=U+H-|E}(O;YW35@u$sM9p+&XpdND%@s2=ibjnEb8g7W=ui>`xkzs;u5L2i2G;mkQ!39g5E_RW|1Akn;x`g3_&(F4>O68<dQp~*#rGe3R=z767LT}J(Ryx)h*>yK~WfA6Qm2kb;DMA3d^{Cr1IhiMF3<UElgfeu0vcoOwyk<Nipy@n=%r&911qIiz!!ixy-({z@w4j_q2RP~m#pJPv+#Nz2)lfZxBEe}j=o%0enfh2*alafG|!c%7sWFO#`<j5gX9#$Ptq&KE?&I>RcbUM~Sn?#S}4uR*Qsdd-iS=nhJMRNE6WFs_*C<JRVn&#0PVEMzrvxkA-iOYVIx8?Vmq$G(nA{bb}8d&mdALTH+P*P3N#Je~UQy}qNe$s}g3U#7ws;GH#izaD%YUmOz(niTX4U%=9BVOWsUXCtO3C++T0{aU^=5|ii^@23%uUTkALb5V)S39YGtE$shP&k1i45-meP0`fPUtj0*o@<4Ii^=oxY%kRab3Iv^n!FnuMf?UQ-YXr#aw7O}DeqP{cij}h@_^Io!w^`JD}S^f)~ntYrBU+;w?TYZ`xOIGWAe&a910C6^_^PM38TAZr(5o%-3X&~na-W6Dpm83?~n<EaTo!IB7sbEkoiP3ONI`r4C^GhTw3?x^6BfZpI?5>C$ZUQb1{D{$4!oc+>S=~N~UW#+~kzK25_oQn>%~z24Sd4t*WGO^dM5*nV)Q#%Qt0*u`Mvw(3V_3n=AB83z<NpP|F6%R)VnPsIwVRf_lV;X-h}dl`jS6yD^xcErYfB?dDWU;ShVfzqA^Oun+Ta&7Td|9PM)O+gl~6ErQycE-5myf*y+P0c7XQ<U#}O(N-g|+p$I|oX<5W7mQ8iF(`FP89Ak2mx10|S-4NIkwW$Ql+zFpL&3J_X&@K}38MFJX>tIq0E0yDT*-*pLnmW2G83PS%t$hXKx|I+cE#G4{C_axV5VCYt@c6$MG*NX6Hc%~p4hk@pv2dvI(C-%+)7hLKC&Q_3rtRMX)IfD+;hO3s4xV2O+z)?2+mX8(z&2UI`0{^=7SWd{k<*BeXX%QH8z=Qp#{Cj+SGCT#RjA_Lz-HlgcTnd%M-3HnP#LvuMe&nQAN2lYoie=D9@DM=)FUF7iz3FcSy~&|87^Ndr~TSN8<kd??1Y}7ZU"
+  },
+  "theorem_adapter": {
+    "name": "integral Kunneth theorem for a tensor-product cellular cochain complex",
+    "use": "Since H^*(X8,Z) is free with ranks 1,10,1, H^2(X8xX8,Z) has the integral basis H2xH0, H1xH1, H0xH2 of rank102."
+  },
+  "canonical_sha256_without_this_field": "1d682a8a3921a46470c6f383ae20f3b8bf5068334b3c4aee8e5b92699a9f19fe"
+}
