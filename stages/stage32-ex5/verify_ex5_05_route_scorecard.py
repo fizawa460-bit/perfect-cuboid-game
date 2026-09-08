@@ -111,7 +111,7 @@ def main() -> None:
     require(ex5["next_leaf"] == "EX5-06_EXECUTABLE_ROUTE_CONTRACTS", "wrong EX5-05 successor")
     for key in ("primary_microdiagnostic_complete","nontrivial_receiver_effect_obtained",
                 "qualified_independent_route_established","route_credit_granted"):
-        require(ex5[key] is False, f"future EX5 state pre-credited: {key}")
+        require(ex5[key] is False, f"EX5-05 pre-credits future state: {key}")
 
     for key, value in data["firewalls"].items():
         require(value is False, f"firewall must remain false: {key}")
