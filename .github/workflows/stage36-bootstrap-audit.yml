@@ -38,21 +38,16 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay immutable 36-09DW exact-green mathematical evidence
+      - name: Replay immutable 36-09DX exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          H=70762720e965e97c0442777b00a1794f906821e8
+          H=6232e765ffc2f40599a0125dac8a99f303a63e7e
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09DW.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09DX.py"
           git worktree remove --force "$tmp"
-      - name: Verify 36-09DX exact global Phi-Selmer intersection
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09DX.py
-      - name: Assert V212 DX provisional firewalls and DY lock
+      - name: Assert V213 DX exact-green parent and DY unlock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -60,24 +55,26 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V212_36_09DX_GLOBAL_PHI_SELMER_PENDING_EXACT_HEAD_CI'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V213_36_09DX_EXACT_GREEN_DY_UNLOCK_PENDING_PROMOTION_REPLAY'
           dx=s['authority_frontier']['36-09DX']; cur=s['current']; pg=s['promotion_gates']
-          assert dx['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert dx['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert dx['certificate_blob_sha']=='ee8fda5da9fdd7ea26220740eecb07b2d8a0effe'
           assert dx['verifier_blob_sha']=='19e6a1863b26eec1354045c813b03fa16a9b012f'
           assert dx['source_blob_sha']=='403c6bf71acbce1e1f83b3ec855dd2a1e5f7ea90'
-          assert dx['PHI_SELMER_F2_DIMENSION']==2
-          assert dx['PHI_SELMER_CARDINALITY']==4
-          assert dx['PHI_SELMER_THIRD_COORDINATE_TRIVIAL'] is True
+          assert dx['exact_head']=='6232e765ffc2f40599a0125dac8a99f303a63e7e'
+          assert dx['exact_head_ci']=='34266548689/102197232079'
           assert cur['unit']=='36-09DX'
-          assert cur['36_09DY_entry_allowed'] is False
-          assert pg['36_09DX_certificate_complete'] is True
-          assert pg['36_09DX_exact_head_ci_passed'] is False
-          assert pg['36_09DY_entry_allowed'] is False
-          assert pg['BT_global_Phi_Selmer_group_computed'] is False
+          assert cur['36_09DY_entry_allowed'] is True
+          assert pg['36_09DX_exact_head_ci_passed'] is True
+          assert pg['36_09DX_promotion_replay_passed'] is False
+          assert pg['36_09DY_entry_allowed'] is True
+          assert pg['BT_global_Phi_Selmer_group_computed'] is True
+          assert pg['BT_global_Phi_Selmer_F2_dimension']==2
+          assert pg['BT_global_Phi_Selmer_cardinality']==4
+          assert pg['BT_global_Phi_Selmer_third_coordinate_trivial'] is True
           assert pg['BT_proSelmer_cokernel_size_computed'] is False
           for key in ['BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          print('36-09DX provisional four-class Phi-Selmer candidate verified; DY remains locked pending exact-head CI. No downstream credit is granted.')
+          print('36-09DX immutable exact-green evidence replayed; 36-09DY is unlocked for finite-to-pro-Selmer defect comparison only. No downstream credit is granted.')
           PY
           git diff --check
