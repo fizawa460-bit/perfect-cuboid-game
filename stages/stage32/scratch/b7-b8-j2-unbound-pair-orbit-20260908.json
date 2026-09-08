@@ -1,0 +1,75 @@
+{
+  "schema": "STAGE32_MAIN_SCRATCH_B7_B8_J2_UNBOUND_PAIR_ORBIT_V1",
+  "stage": 32,
+  "status": "SCRATCH_EXACT_UNAUDITED_ABSOLUTE_MARKING_OBSTRUCTION",
+  "parent_scratch_head": "da6c56fb49d412808b3798d0ac61738628e543a5",
+  "snapshot_current_main": "70265586b3f97be21c7621af73f443311f1f3fa3",
+  "scope": {
+    "row_id": "g1-d186",
+    "O": 210,
+    "qprime": 4,
+    "Q": 602,
+    "surviving_residues_decimal": [
+      73,
+      97,
+      235
+    ],
+    "residue_to_line": {
+      "73": "L1",
+      "97": "L2",
+      "235": "L3"
+    }
+  },
+  "input": {
+    "curve_j2_action_source": "stages/stage32/scratch/b7-b8-j2-retained-w-intertwiner-20260908.json",
+    "B7_matrix": [[1,0,0,0],[1,0,1,0],[1,1,0,0],[0,1,1,1]],
+    "B8_matrix": [[1,1,0,0],[1,0,0,0],[1,0,0,1],[0,1,1,1]],
+    "retained_S_matrix": [[1,1,0,0],[0,1,0,0],[0,1,1,1],[0,0,0,1]],
+    "retained_T_matrix": [[1,1,0,0],[1,0,0,0],[0,0,1,1],[0,0,1,0]],
+    "Z3_delta_0inf": [1,0,0,0],
+    "retained_W_lines": {
+      "L1": [0,0,1,0],
+      "L2": [0,0,0,1],
+      "L3": [0,0,1,1]
+    }
+  },
+  "finite_exhaustion": {
+    "GL4_F2_order": 20160,
+    "retained_mod2_group_order": 24,
+    "admissibility": "P in GL4(F2), s=P*B7*P^-1 and t=P*B8*P^-1 both lie in <S,T>, and <s,t>=<S,T>",
+    "admissible_intertwiner_count": 48,
+    "distinct_ordered_pair_count": 24,
+    "multiplicity_per_ordered_pair": [2],
+    "ordered_pairs_equal_inner_conjugacy_orbit_of_literal_S_T": true,
+    "inner_conjugacy_orbit_size": 24,
+    "delta_0inf_image_line_counts": {"L1":16,"L2":16,"L3":16},
+    "literal_pair_intertwiner_count": 2,
+    "literal_pair_delta_0inf_images": ["L3"]
+  },
+  "decision": {
+    "result": "UNBOUND_ORDERED_GENERATOR_ORBIT_DOES_NOT_SELECT_ABSOLUTE_W_LINE",
+    "exact_obstruction": "all 24 inner-conjugate ordered retained generator pairs are compatible with the curve J2 representation; across the 48 intertwiners delta_0inf hits L1,L2,L3 equally 16/16/16",
+    "conditional_literal_pair_result": "if B7->S and B8->T is source-bound, the 2 compatible intertwiners both send delta_0inf to L3, hence residue 235",
+    "new_information_over_parent": "the missing ordered-generator source binding is not cosmetic: dropping it restores the full three-line ambiguity even after exact simultaneous J2 action matching",
+    "absolute_delta0inf_retained_W_line_identified_now": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "Stage32_closed": false
+  },
+  "firewalls": {
+    "inner_conjugacy_orbit_promoted_to_literal_marking": false,
+    "abstract_group_module_equivalence_promoted_to_semantic_adapter": false,
+    "conditional_residue235_promoted": false,
+    "scratch_promoted_to_claim_dag": false,
+    "stage32_main_credit": false
+  },
+  "replay": {
+    "path": "stages/stage32/scratch/diagnose_stage32_b7_b8_unbound_pair_orbit.py",
+    "expected_admissible_intertwiner_count": 48,
+    "expected_distinct_ordered_pair_count": 24,
+    "expected_delta_0inf_line_counts": {"L1":16,"L2":16,"L3":16},
+    "expected_literal_pair_intertwiner_count": 2,
+    "expected_literal_pair_image": "L3"
+  },
+  "canonical_sha256_without_this_field": "622b6f31913d25ffc079547a635620ec7314e4dccb513a93235348a1348c644c"
+}
