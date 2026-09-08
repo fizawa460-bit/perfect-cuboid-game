@@ -1,0 +1,62 @@
+name: Stage33 V91C1X C4B1E5F whole-cover action transport debt partition
+
+on:
+  push:
+    branches:
+      - stage33-v91c1x-r5b3b3c4b1e-1757-refinement-unit-preflight
+    paths:
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b1e5f_whole_cover_action_transport_debt_partition.py'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b1e5f-whole-cover-action-transport-debt-partition.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b2d2-swap23-317-cover-common-refinement.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3a-a2-02-317-1757-literal-package-pullbacks.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b1a-exceptional-nonsquare-obstruction-census-and-correction-preflight.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b1b-uniformizer-scalar-gauge-obstruction-reduction.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b1c-nonconstant-exceptional-swap23-correction-preflight.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b1e5d-pole-ideal-constant-gm-action-units.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b1e5e-pole-factor-cartier-legitimacy.json'
+      - '.github/workflows/stage33-v91c1x-r5b3b3c4b1e5f-whole-cover-action-transport-debt-partition.yml'
+  pull_request:
+    paths:
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b1e5f_whole_cover_action_transport_debt_partition.py'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b1e5f-whole-cover-action-transport-debt-partition.json'
+      - '.github/workflows/stage33-v91c1x-r5b3b3c4b1e5f-whole-cover-action-transport-debt-partition.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verify-and-materialize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize exact E5F whole-cover debt partition
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b1e5f_whole_cover_action_transport_debt_partition.py --write
+      - name: Enforce artifact-only generated delta
+        shell: bash
+        run: |
+          set -euo pipefail
+          artifact='stages/stage33/33-12/e3-v91c1x-r5b3b3c4b1e5f-whole-cover-action-transport-debt-partition.json'
+          changed="$(git status --porcelain | sed -E 's/^.. //' || true)"
+          test "$changed" = "$artifact"
+          git diff --check
+      - name: Commit generated E5F certificate
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          set -euo pipefail
+          artifact='stages/stage33/33-12/e3-v91c1x-r5b3b3c4b1e5f-whole-cover-action-transport-debt-partition.json'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$artifact"
+          git diff --cached --quiet || git commit -m '[Stage33] materialize C4B1E5F whole-cover action transport debt partition'
+          git push
+      - name: Replay materialized certificate
+        if: github.event_name != 'push'
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b1e5f_whole_cover_action_transport_debt_partition.py
