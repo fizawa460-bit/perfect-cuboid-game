@@ -1,0 +1,88 @@
+{
+  "schema": "STAGE32EX3_EX3_01_ETALE105_ORBIFOLD_MONODROMY_SCRATCH_V1",
+  "stage": 32,
+  "lane": "EX3",
+  "leaf": "EX3-01_EXTREMAL_FIRST_PROJECTION_DEGREE105_ETALE_COVER",
+  "status": "SCRATCH_PROVISIONAL_DIAGNOSTIC_NOT_RETAINED",
+  "fixed_input": {
+    "N_genus": 1,
+    "Y_genus": 106,
+    "C0_genus": 2,
+    "X4_genus": 0,
+    "degree_N_to_X4_first": 105,
+    "degree_Y_to_C0_first": 105,
+    "ramification_Y_to_C0_first": 0,
+    "degree_C0_to_X4": 2,
+    "C0_to_X4_branch_value_count": 6,
+    "C0_to_X4_branch_values_are_quotient_cusps": true,
+    "Y_is_normalized_base_change_of_N_to_X4_by_C0_to_X4": true
+  },
+  "local_base_change": {
+    "model": "x=t^e on N and x=s^2 on C0; normalize t^e=s^2",
+    "d": "gcd(e,2)",
+    "ramification_index_Y_to_C0": "e/d",
+    "ramification_index_Y_to_N": "2/d",
+    "consequence_of_Y_to_C0_etale": "e is 1 or 2 over each of the six branch values, and N->X4 has no ramification away from those six values",
+    "Y_to_N_branch_condition": "e=1",
+    "N_to_X4_simple_ramification_condition": "e=2"
+  },
+  "riemann_hurwitz_N_to_X4": {
+    "equation": "0 = -2*105 + R_z",
+    "total_ramification": 210,
+    "all_ramification_simple": true,
+    "all_ramification_over_six_quotient_cusps": true
+  },
+  "six_cusp_profile": {
+    "notation": "at cusp i, b_i is number of e=2 points and a_i is number of e=1 points",
+    "fiber_equation": "a_i + 2*b_i = 105",
+    "bounds": "0 <= b_i <= 52 and a_i=105-2*b_i is positive odd",
+    "global_equations": [
+      "sum_i b_i = 210",
+      "sum_i a_i = 210"
+    ],
+    "meaning": "the 210 branch points of Y->N are exactly the e=1 preimages of the six quotient cusps; this does not identify exceptional contact multiplicity with N->X4 ramification"
+  },
+  "orbifold_formulation": {
+    "base_signature": "(0;2,2,2,2,2,2)",
+    "group_presentation": "Delta=<c1,...,c6 | c1^2=...=c6^2=1, c1*c2*c3*c4*c5*c6=1>",
+    "degree": 105,
+    "branch_cycle_type": "c_i has 2^{b_i} 1^{a_i}",
+    "transitivity_required": true,
+    "total_transpositions": 210,
+    "C0_subgroup": "index-2 torsion-free subgroup given by the hyperelliptic double cover",
+    "Y_subgroup": "intersection with the degree-105 subgroup",
+    "connectedness_note": "since the N-cover degree 105 is odd, its subgroup cannot lie inside the index-2 C0 subgroup; the normalized fiber product is connected, consistently giving Y->C0 degree 105"
+  },
+  "explicit_abstract_witness": {
+    "points": "(r,j) with r in {0,1,2}, j in Z/35Z; total 105",
+    "a": "swap (0,j)<->(1,j) for every j; fix (2,j)",
+    "b": "swap (1,j)<->(2,j) for every j; fix (0,j)",
+    "c": "swap (2,j)<->(0,j+1) for every j; fix (1,j)",
+    "branch_cycles": ["a","a","b","b","c","c"],
+    "each_cycle_transposition_count": 35,
+    "each_cycle_fixed_point_count": 35,
+    "product_one": true,
+    "generated_action_transitive": true,
+    "ramification_sum": 210,
+    "resulting_N_genus": 1,
+    "interpretation": "an exact transitive branch-cycle tuple satisfying the first-projection orbifold/Riemann-Hurwitz constraints exists; by the complex Riemann existence correspondence it gives an abstract algebraic cover, but it is not attached to the fixed V6 carrier"
+  },
+  "diagnostic_verdict": {
+    "first_projection_RH_contradiction": false,
+    "abstract_monodromy_population_empty": false,
+    "explicit_abstract_monodromy_witness_obtained": true,
+    "EX3_01_exclusion_obtained": false,
+    "route_effect": "FIRST_PROJECTION_ALONE_NONPRUNING_AT_ABSTRACT_COVER_LEVEL",
+    "next_useful_constraint": "consume carrier-specific marking/contact/simultaneous-second-projection data; do not search arbitrary degree-105 etale covers as if first projection alone could exclude O210"
+  },
+  "firewalls": {
+    "actual_V6_carrier_constructed": false,
+    "actual_O210_carrier_cover_constructed": false,
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "contact_mass_equated_to_ramification_mass": false,
+    "abstract_cover_promoted_to_carrier_cover": false,
+    "stage32_main_credit": false,
+    "claim_dag_sync_triggered_by_this_scratch": false
+  }
+}
