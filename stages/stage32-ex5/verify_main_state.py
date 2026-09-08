@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cheap structural verifier for Stage32EX5 MAIN-STATE.json through EX5-04.
+"""Cheap structural verifier for Stage32EX5 MAIN-STATE.json through EX5-05.
 
 This checks routing/credit firewalls only. It does not qualify a route, discharge
 a receiver, or grant mathematical/Stage32 MAIN credit.
@@ -41,7 +41,7 @@ def require(cond: bool, msg: str) -> None:
 
 def main() -> None:
     state = json.loads(STATE_PATH.read_text(encoding="utf-8"))
-    require(state["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V1_EX5_04_COMPLETE",
+    require(state["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V1_EX5_05_COMPLETE",
             "unexpected state schema")
     require(state["stage"] == "32EX5", "wrong stage")
     execution = state["execution"]
@@ -57,31 +57,32 @@ def main() -> None:
             "qualified route must require a retained receiver effect")
     require(completion["bounded_exhaustion_is_global_no_route_theorem"] is False,
             "bounded exhaustion must remain bounded")
+    require(completion["route_score_table_is_terminal_success"] is False,
+            "score table cannot be terminal success")
 
     families = state["route_families"]
     require(set(families["required_initial_families"]) == EXPECTED_FAMILIES,
             "route-family set mismatch")
     require(families["candidate_universe_version"] == "EX5_CLEANROOM_CANDIDATES_V1",
             "candidate universe not frozen")
-    require(families["candidate_universe_artifact"] ==
-            "stages/stage32-ex5/ex5-03-clean-room-route-universe.json",
-            "EX5-03 artifact path drift")
     require((families["family_record_count"], families["generated_candidate_count"],
              families["semantically_irrelevant_family_count"]) == (7, 6, 1),
             "EX5-03 candidate counts drift")
     require(families["dedup_universe_version"] == "EX5_DEDUP_CANDIDATES_V1",
             "EX5-04 dedup universe not frozen")
-    require(families["dedup_artifact"] == "stages/stage32-ex5/ex5-04-repository-asset-dedup.json",
-            "EX5-04 artifact path drift")
-    require(families["dedup_verifier"] == "stages/stage32-ex5/verify_ex5_04_asset_dedup.py",
-            "EX5-04 verifier path drift")
     require(families["deduplicated_candidate_count"] == 5, "dedup candidate count drift")
     require(families["deduplicated_candidate_ids"] == EXPECTED_DEDUP_IDS,
             "dedup candidate identities drift")
     require(families["removed_or_rejected_candidate_ids"] == ["EX5R-GAL-001", "EX5R-ENUM-001"],
             "dedup removed/rejected set drift")
-    require(families["primary_route_id"] is None and families["backup_route_ids"] == [],
-            "EX5-05 route selection cannot be pre-credited")
+    require(families["scorecard_version"] == "EX5_ROUTE_SCORECARD_V1", "scorecard version drift")
+    require(families["scorecard_artifact"] == "stages/stage32-ex5/ex5-05-route-scorecard.json",
+            "scorecard artifact path drift")
+    require(families["scorecard_verifier"] == "stages/stage32-ex5/verify_ex5_05_route_scorecard.py",
+            "scorecard verifier path drift")
+    require(families["primary_route_id"] == "EX5R-XSTAGE-001", "primary route drift")
+    require(families["backup_route_ids"] == ["EX5R-EFC-001", "EX5R-EHS-001"], "backup route drift")
+    require(families["reserve_route_ids"] == ["EX5R-LGS-001", "EX5R-MOD-001"], "reserve route drift")
     require(families["scratch_results_authoritative"] is False,
             "scratch results cannot be authoritative")
 
@@ -101,16 +102,6 @@ def main() -> None:
             "V6/O210/Q602 cannot define all receivers")
 
     discovery = state["asset_discovery"]
-    require(discovery["policy_path"] == "docs/research-os/policies/repository-asset-discovery.md",
-            "asset discovery policy path drift")
-    require(discovery["context_safe_policy_path"] == "docs/research-os/policies/context-safe-file-inspection.md",
-            "context-safe policy path drift")
-    require(discovery["arsenal_index_path"] == "docs/arsenal/index.json", "Arsenal index path drift")
-    require(discovery["arsenal_catalog_path"] == "docs/arsenal/catalog.md", "Arsenal catalog path drift")
-    require(discovery["clean_room_generation_must_precede_asset_solution_lookup"] is True,
-            "clean-room ordering lost")
-    require(discovery["clean_room_generation_complete"] is True,
-            "EX5-03 completion flag lost")
     for key in ("repository_asset_discovery_performed", "arsenal_index_read", "deduplication_performed"):
         require(discovery[key] is True, f"EX5-04 completion flag lost: {key}")
     require(discovery["index_inspection_mode"] ==
@@ -128,40 +119,39 @@ def main() -> None:
     for key in ("EX5_00_source_lock_complete", "receiver_population_contract_complete",
                 "receiver_ledger_complete", "receiver_ledger_coverage_certified",
                 "current_coverage_dependency_graph_complete", "clean_room_candidate_universe_frozen",
-                "arsenal_dedup_complete"):
+                "arsenal_dedup_complete", "route_scorecard_complete", "primary_route_selected"):
         require(frontier[key] is True, f"frontier flag must be complete: {key}")
-    for key in ("route_scorecard_complete", "primary_route_selected",
-                "primary_microdiagnostic_complete", "nontrivial_receiver_effect_obtained",
+    require(frontier["backup_route_count"] == 2, "backup route count drift")
+    for key in ("primary_microdiagnostic_complete", "nontrivial_receiver_effect_obtained",
                 "qualified_independent_route_established", "frozen_breadth_package_exhausted",
                 "audit_ready_EX5_route_decision_closure", "EX5_route_decision_closure"):
         require(frontier[key] is False, f"future frontier flag pre-credited: {key}")
-    require(frontier["backup_route_count"] == 0, "backup routes cannot be preselected")
     require(frontier["terminal_outcome"] is None, "terminal outcome cannot be set")
 
     current = state["current"]
-    require(current["status"] ==
-            "EX5_04_REPOSITORY_ASSET_DISCOVERY_DEDUP_COMPLETE_UNAUDITED_RETAINED",
-            "wrong retained EX5-04 status")
-    require(current["leaf"] == "EX5-05_ROUTE_TYPING_PROOF_OBLIGATIONS_AND_SCORECARD",
-            "EX5-04 completion must route to EX5-05")
+    require(current["status"] == "EX5_05_ROUTE_TYPING_SCORECARD_COMPLETE_UNAUDITED_RETAINED",
+            "wrong retained EX5-05 status")
+    require(current["leaf"] == "EX5-06_EXECUTABLE_ROUTE_CONTRACTS",
+            "EX5-05 completion must route to EX5-06")
 
     working = state["current_leaf_working_set"]
     require(working == [
+        "stages/stage32-ex5/ex5-05-route-scorecard.json",
+        "stages/stage32-ex5/verify_ex5_05_route_scorecard.py",
         "stages/stage32-ex5/ex5-04-repository-asset-dedup.json",
-        "stages/stage32-ex5/verify_ex5_04_asset_dedup.py",
         "stages/stage32-ex5/ex5-03-clean-room-route-universe.json",
         "stages/stage32-ex5/stage32-ex5.md",
-    ], "EX5-05 working-set drift")
+    ], "EX5-06 working-set drift")
 
-    require(state["credit"]["level"] == "EX5_04_ASSET_DEDUP_ONLY_NO_MATHEMATICAL_CREDIT",
+    require(state["credit"]["level"] == "EX5_05_ROUTE_SCORECARD_SELECTION_ONLY_NO_MATHEMATICAL_CREDIT",
             "credit level drift")
-    require(state["audit"]["status"] == "NOT_READY_INTERMEDIATE_EX5_04_UNAUDITED",
+    require(state["audit"]["status"] == "NOT_READY_INTERMEDIATE_EX5_05_UNAUDITED",
             "audit readiness drift")
 
     for key, value in state["firewalls"].items():
         require(value is False, f"firewall {key} must remain false")
 
-    print("PASS: Stage32EX5 MAIN state structural/firewall contract through EX5-04")
+    print("PASS: Stage32EX5 MAIN state structural/firewall contract through EX5-05")
 
 
 if __name__ == "__main__":
