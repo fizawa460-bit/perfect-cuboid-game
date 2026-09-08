@@ -1,0 +1,44 @@
+name: Stage33 V91C1X R5B3B3C2C strict-prime decomposition check
+
+on:
+  push:
+    branches:
+      - stage33-v91c1x-r5b2d0-swap23-source-lock
+    paths:
+      - '.github/workflows/stage33-v91c1x-r5b3b3c2c-orbit-representative-strict-prime-decomposition-and-transport-check.yml'
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c2c_orbit_representative_strict_prime_decomposition_and_transport.py'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c2c-orbit-representative-strict-prime-decomposition-and-transport.json'
+  pull_request:
+    paths:
+      - '.github/workflows/stage33-v91c1x-r5b3b3c2c-orbit-representative-strict-prime-decomposition-and-transport-check.yml'
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c2c_orbit_representative_strict_prime_decomposition_and_transport.py'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c2c-orbit-representative-strict-prime-decomposition-and-transport.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c2b-novel20-surface-action-orbit-preflight.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c1-offboundary-norm-factorization.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check sympy==1.14.0
+      - name: Replay C2B certified-action orbit partition
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c2b_novel20_surface_action_orbit_preflight.py
+      - name: Verify C2C strict-prime decomposition and transport
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c2c_orbit_representative_strict_prime_decomposition_and_transport.py
+      - name: Verify live Stage33 state remains synchronized
+        run: python stages/stage33/sync_main_state.py --check
+      - name: Diff hygiene and read-only cleanliness
+        shell: bash
+        run: |
+          git diff --check
+          test -z "$(git status --porcelain)"
