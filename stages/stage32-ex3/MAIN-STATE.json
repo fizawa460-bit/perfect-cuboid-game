@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX3_MAIN_COMPACT_STATE_V1_ADAPTER_V3_AUDITED_MAIN_O210_REMAP_PENDING",
+  "schema": "STAGE32EX3_MAIN_COMPACT_STATE_V1_MAIN_O210_V2_PROVISIONAL_ACTIVE_AUDIT_PENDING",
   "role": "ORDINARY_STAGE32EX3_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX3",
   "execution": {
@@ -77,13 +77,13 @@
     "hostile_audit_pass_required_for_audited_success": true
   },
   "current": {
-    "status": "PROMOTION_ADAPTER_V3_AUDITED_CLAIM_SYNCED_MAIN_O210_REMAP_PENDING",
+    "status": "MAIN_O210_V2_PROVISIONAL_ACTIVE_REMAP_AUDIT_PENDING",
     "leaf": "EX3-10_HOSTILE_AUDIT_AND_STAGE32_PROMOTION_BOUNDARY",
-    "subroute": "AUDITED_DRIFT_ROBUST_V3_AWAIT_SEPARATE_ACTIVE_O210_REMAP",
-    "objective": "Construct and hostile-audit a separate MAIN O210 active claim transition using audited EX3 terminal plus audited V3 bridge; do not self-promote MAIN O210.",
-    "next_route_on_success": "MAIN_O210_ACTIVE_CLAIM_VERSION_REMAP_PROVISIONAL",
-    "next_route_on_block": "PRESERVE_AUDITED_EX3_AND_V3_WITH_MAIN_O210_OPEN",
-    "stop_semantics": "V3_AUDITED_ONLY_ACTIVE_FRONTIER_UNCHANGED_MAIN_O210_OPEN_NO_MERGE"
+    "subroute": "MAIN_O210_V2_HOSTILE_AUDIT_HANDOFF",
+    "objective": "Hostile-audit the explicit MAIN O210 V2 claim derived from audited EX3 terminal plus audited V3; do not grant MAIN credit before PASS receipt synchronization.",
+    "next_route_on_success": "MAIN_O210_V2_HOSTILE_AUDIT",
+    "next_route_on_block": "REPAIR_MAIN_O210_V2_OR_REVERT_TO_OPEN_GOAL_WITH_AUDITED_EX3_V3_PRESERVED",
+    "stop_semantics": "MAIN_O210_V2_PROVISIONAL_ONLY_O210_EXCLUDED_FALSE_NO_O212_ADVANCE_NO_MERGE"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex3/stage32-ex3.md",
@@ -105,7 +105,11 @@
     "stages/stage32-ex3/ex3-10-main-o210-promotion-adapter-candidate-v2.json",
     "stages/stage32-ex3/verify_ex3_10_main_o210_promotion_adapter_candidate_v2.py",
     "stages/stage32-ex3/ex3-10-main-o210-promotion-adapter-candidate-v3.json",
-    "stages/stage32-ex3/verify_ex3_10_main_o210_promotion_adapter_candidate_v3.py"
+    "stages/stage32-ex3/verify_ex3_10_main_o210_promotion_adapter_candidate_v3.py",
+    "stages/stage32-ex3/main-o210-exclusion-v2-candidate.json",
+    "stages/stage32-ex3/verify_main_o210_exclusion_v2_candidate.py",
+    "stages/stage32/proof/verify_stage32_active_frontier.py",
+    "stages/stage32/proof/verify_stage32_claim_dag.py"
   ],
   "frontier": {
     "EX3_00_source_lock_complete": true,
@@ -157,7 +161,14 @@
     "active_frontier_remap_blocked_until_v3_audit": false,
     "promotion_adapter_v3_audit_review_id": 5143014619,
     "promotion_adapter_v3_audited_exact_head": "280595ed892ae2ef70e049a3f722ea024452e206",
-    "active_frontier_remap_allowed_after_separate_claim_sync": true
+    "active_frontier_remap_allowed_after_separate_claim_sync": true,
+    "main_o210_active_claim_id": "S32.O210.EXCLUSION.V2",
+    "main_o210_v2_core_sha256": "178c0a8a381abacbfb5662f44f2faab2f2f6076f4be653172f7e586f77476746",
+    "main_o210_v2_registered_provisional": true,
+    "main_o210_v2_hostile_audited": false,
+    "main_o210_v1_superseded_to_history": true,
+    "active_frontier_remap_complete": true,
+    "promotion_adapter_v2_superseded_after_v3_audit": true
   },
   "parallel_lanes": {
     "enabled_after_EX3_00": true,
@@ -246,7 +257,7 @@
       "credit_ceiling": "SUPERSEDED_PROVISIONAL_PROVENANCE_NO_MAIN_PROMOTION"
     },
     "EX3_10_PROMOTION_ADAPTER_V2": {
-      "status": "RETAINED_AUDITED_EX_TO_MAIN_PROMOTION_ADAPTER_V2",
+      "status": "RETAINED_AUDITED_PROVENANCE_SUPERSEDED_BY_V3_FOR_FRONTIER_REMAP",
       "artifact": {
         "path": "stages/stage32-ex3/ex3-10-main-o210-promotion-adapter-candidate-v2.json",
         "blob_sha1": "91d3072f28ae0a25943da9562af72ad5f9e44b24",
@@ -258,7 +269,7 @@
       },
       "claim_id": "S32.ADAPTER.EX3_O210_TO_MAIN_O210.V2",
       "claim_core_sha256": "4d3dc29090a35d48ade8819ba63b210faf0fd57410abc50cb884e56fc45a0a45",
-      "credit_ceiling": "AUDITED_SCOPE_ADAPTER_ONLY_MAIN_O210_NOT_YET_PROMOTED",
+      "credit_ceiling": "HISTORICAL_AUDITED_SCOPE_ADAPTER_PROVENANCE_NO_CURRENT_PROMOTION",
       "audit_receipt": {
         "status": "PASS",
         "pr": 1714,
@@ -290,9 +301,9 @@
   },
   "management": {
     "retained_consolidation_complete": true,
-    "claim_sync_trigger": "AUTHORITY_OR_AUDIT_TRANSITION",
+    "claim_sync_trigger": "ACTIVE_FRONTIER_REMAP",
     "claim_sync_contract": "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md",
-    "claim_sync_status": "COMPLETE_ADAPTER_V3_AUDITED_CURRENT_MAIN_CONSOLIDATED_NO_FRONTIER_REMAP_NO_MAIN_PROMOTION",
+    "claim_sync_status": "COMPLETE_MAIN_O210_V2_PROVISIONAL_ACTIVE_REMAP_AUDIT_PENDING_NO_MAIN_CREDIT",
     "claim_sync_may_not_upgrade_authority_before_completion": true,
     "preserve_existing_audited_EX1_V2_exactly": true,
     "preserve_existing_audited_EX4_V2_exactly": true,
@@ -301,20 +312,23 @@
     "audit_review_id": 5141988194,
     "audited_exact_head": "8da8d4cd932c5c9b82dfd0c304638e866c656069",
     "ex_to_main_promotion_complete": false,
-    "active_frontier_not_remapped_by_this_transition": true,
-    "promotion_adapter_claim_id": "S32.ADAPTER.EX3_O210_TO_MAIN_O210.V2",
-    "promotion_adapter_core_sha256": "4d3dc29090a35d48ade8819ba63b210faf0fd57410abc50cb884e56fc45a0a45",
+    "active_frontier_not_remapped_by_this_transition": false,
+    "promotion_adapter_claim_id": "S32.ADAPTER.EX3_O210_TO_MAIN_O210.V3",
+    "promotion_adapter_core_sha256": "55505658e272ec7d60372f2d67cb93c9c007d782145f18d5ef9d2c1146582c88",
     "promotion_adapter_authority": "AUDITED",
     "promotion_adapter_audit_required": false,
-    "promotion_adapter_audit_review_id": 5142601472,
-    "promotion_adapter_audited_exact_head": "1763a4f52018e2a17c907e53bab016a7369b8367",
+    "promotion_adapter_audit_review_id": 5143014619,
+    "promotion_adapter_audited_exact_head": "280595ed892ae2ef70e049a3f722ea024452e206",
     "promotion_adapter_v3_claim_id": "S32.ADAPTER.EX3_O210_TO_MAIN_O210.V3",
     "promotion_adapter_v3_core_sha256": "55505658e272ec7d60372f2d67cb93c9c007d782145f18d5ef9d2c1146582c88",
     "promotion_adapter_v3_authority": "AUDITED",
     "promotion_adapter_v3_audit_required": false,
     "promotion_adapter_v3_audit_review_id": 5143014619,
     "promotion_adapter_v3_audited_exact_head": "280595ed892ae2ef70e049a3f722ea024452e206",
-    "current_main_consolidation_preserves_other_lane_authority": true
+    "current_main_consolidation_preserves_other_lane_authority": true,
+    "active_frontier_remap_claim_id": "S32.O210.EXCLUSION.V2",
+    "active_frontier_remap_authority": "PROVISIONAL",
+    "main_o210_v2_hostile_audit_required": true
   },
   "credit": {
     "level": "FULL_TARGET_CLOSURE_O210_COVER_GEOMETRY_EXCLUDED_AUDITED_EX3_ONLY",
@@ -359,7 +373,7 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "promotion_adapter": {
-    "status": "AUDITED_CLAIM_SYNCED_MAIN_O210_PROMOTION_NOT_YET_CONSTRUCTED",
+    "status": "AUDITED_PROVENANCE_SUPERSEDED_BY_V3_FOR_FRONTIER_REMAP",
     "claim_id": "S32.ADAPTER.EX3_O210_TO_MAIN_O210.V2",
     "claim_core_sha256": "4d3dc29090a35d48ade8819ba63b210faf0fd57410abc50cb884e56fc45a0a45",
     "from_scope_key": "S32.EX3.O210_COVER",
@@ -389,5 +403,19 @@
     "main_O210_promotion_complete": false,
     "hostile_audit_review_id": 5143014619,
     "audited_exact_head": "280595ed892ae2ef70e049a3f722ea024452e206"
+  },
+  "main_o210_v2": {
+    "status": "RETAINED_PROVISIONAL_ACTIVE_CLAIM_AUDIT_PENDING",
+    "claim_id": "S32.O210.EXCLUSION.V2",
+    "claim_core_sha256": "178c0a8a381abacbfb5662f44f2faab2f2f6076f4be653172f7e586f77476746",
+    "requires": [
+      "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
+      "S32.EX3.O210_COVER_GEOMETRY_EXCLUSION_TERMINAL.V1",
+      "S32.ADAPTER.EX3_O210_TO_MAIN_O210.V3"
+    ],
+    "hostile_audit_required": true,
+    "hostile_audit_result": null,
+    "main_O210_promotion_complete": false,
+    "credit_ceiling": "PROVISIONAL_MAIN_O210_ACTIVE_CLAIM_ONLY_NO_O210_EXCLUSION_CREDIT"
   }
 }

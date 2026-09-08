@@ -29,7 +29,10 @@ _HISTORICAL_ROUTING_STATUSES = {"DECLARED_GOAL", "SUPERSEDED", "REVOKED"}
 
 def _is_mutable_routing_state(lock: dict) -> bool:
     path = lock.get("path")
-    return isinstance(path, str) and path.endswith("/MAIN-STATE.json")
+    return isinstance(path, str) and (
+        path.endswith("/MAIN-STATE.json")
+        or path == "stages/stage32/proof/ACTIVE-FRONTIER.json"
+    )
 
 
 def _historical_blob_bytes(expected_sha1: str) -> bytes:
@@ -93,7 +96,7 @@ def _check_locked_bytes(cid: str, lock: dict, data: bytes) -> None:
 def validate_source_locks(by_id: dict[str, dict]) -> int:
     """Verify stable evidence live; preserve non-credit mutable routing locks historically.
 
-    A MAIN-STATE.json lock attached to DECLARED_GOAL/SUPERSEDED/REVOKED records is
+    A mutable routing-state lock attached to DECLARED_GOAL/SUPERSEDED/REVOKED records is
     a registration-time routing snapshot, not mathematical evidence. If the live
     routing file has advanced, the exact locked bytes must be recoverable from a
     retained hash-named snapshot (preferred for shallow CI) or the git object
