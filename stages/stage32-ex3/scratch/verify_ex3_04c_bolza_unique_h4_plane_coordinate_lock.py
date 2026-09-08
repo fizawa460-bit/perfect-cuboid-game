@@ -17,7 +17,6 @@ assert prev["H4_character_plane_in_weierstrass_coordinates"]["lagrangian"] is Tr
 
 # O = Z[s], s^2=-2. Elements are pairs (a,b)=a+b*s.
 def add(x,y): return (x[0]+y[0], x[1]+y[1])
-def neg(x): return (-x[0],-x[1])
 def mul(x,y): return (x[0]*y[0]-2*x[1]*y[1], x[0]*y[1]+x[1]*y[0])
 def conj(x): return (x[0],-x[1])
 zero=(0,0)
@@ -30,20 +29,18 @@ def herm(v,w):
             out=add(out,mul(conj(v[i]),mul(M[i][j],w[j])))
     return out
 
-# Any column of a polarized automorphism has M-norm 2. The finite search box
-# [-3,3]^4 already exhausts all such vectors; the replay also checks no norm-2
-# vector touches the box boundary, so enlarging the box cannot add a missing
-# vector without first producing one at the boundary by positive definiteness.
+# Exact finite bound. Under the complex embedding s=i*sqrt(2), M has eigenvalues
+# 2 +/- sqrt(3), so H(v,v)=2 implies
+#   ||v||^2 <= 2/(2-sqrt(3)) = 4+2sqrt(3) < 8.
+# For an O-coordinate a+b*s, |a+b*s|^2=a^2+2b^2. Consequently every
+# norm-2 column has |a|,|c|<=2 and |b|,|d|<=1. The [-2,2]x[-1,1]
+# product box is therefore exhaustive, with no heuristic boundary argument.
 vecs=[]
-boundary=[]
-for a,b,c,d in itertools.product(range(-3,4), repeat=4):
+for a,b,c,d in itertools.product(range(-2,3), range(-1,2), range(-2,3), range(-1,2)):
     v=((a,b),(c,d))
     if herm(v,v)==(2,0):
         vecs.append(v)
-        if max(abs(a),abs(b),abs(c),abs(d))==3:
-            boundary.append(v)
 assert len(vecs)==24
-assert boundary==[]
 
 auts=[]
 for v in vecs:
@@ -82,8 +79,6 @@ assert len(mod_actions)==24
 # All 2-dimensional F2-subspaces of F2^4.
 subspaces=set()
 for a,b in itertools.combinations(range(1,16),2):
-    if a==b:
-        continue
     subspaces.add(frozenset((0,a,b,a^b)))
 assert len(subspaces)==35
 
@@ -106,6 +101,7 @@ assert art["diagnostic_verdict"]["O210_excluded"] is False
 assert all(v is False for v in art["firewalls"].values())
 
 print("PASS EX3-04c scratch unique Bolza H4 plane coordinate lock")
+print("exact norm bound: |a|,|c|<=2 and |b|,|d|<=1")
 print("polarized O-lattice automorphisms=48; distinct mod2 actions=24")
 print("unique invariant rank-2 plane = span_F2{(s,0),(0,s)} = s*(O/2O)^2")
 print("H4 correspondence filter: T mod (s) in GL(2,F2)")
