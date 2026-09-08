@@ -63,7 +63,7 @@ def main() -> None:
     if any(raw["credit"].values()):
         raise SystemExit("credit firewall regression")
     fw = raw["firewalls"]
-    if fw["g0_d008_closed"] or fw["full178_completed"] or fw["stage32_main_credit"] if "stage32_main_credit" in fw else False:
+    if fw["g0_d008_closed"] or fw["full178_completed"] or fw["main_state_rewritten"]:
         raise SystemExit("closure firewall regression")
     if fw["Q602_excluded"] or fw["O210_excluded"] or fw["perfect_cuboid_claim"] or fw["merge_authorized"]:
         raise SystemExit("endpoint firewall regression")
