@@ -49,6 +49,9 @@ EXPECTED_FINAL_TRUE_FLAGS = {
     "required_milestones_must_be_transitive_dependencies_of_final_root",
 }
 
+# `bridges` is part of the immutable semantic core. For non-adapter claims that
+# predate bridge semantics, the absent optional key is omitted from canonicalization;
+# an adapter_contract is separately required to carry a valid bridge object.
 CORE_KEYS = [
     "claim_id",
     "kind",
@@ -78,7 +81,9 @@ def load_json(path: Path) -> object:
 
 
 def csha(value: object) -> str:
-    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    return hashlib.sha256(
+        json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
 
 
 def git_blob_sha1(data: bytes) -> str:
@@ -142,7 +147,20 @@ def validate_bridge_shape(cid: str, bridge: object) -> None:
 def validate_claims(claims: list[dict]) -> dict[str, dict]:
     by_id: dict[str, dict] = {}
     for claim in claims:
-        for key in ("claim_id","kind","statement","scope_key","scope","proves","does_not_prove","requires","claim_core_sha256","authority_status","source_locks","audit_receipt"):
+        for key in (
+            "claim_id",
+            "kind",
+            "statement",
+            "scope_key",
+            "scope",
+            "proves",
+            "does_not_prove",
+            "requires",
+            "claim_core_sha256",
+            "authority_status",
+            "source_locks",
+            "audit_receipt",
+        ):
             if key not in claim:
                 raise CheckError(f"claim missing {key}: {claim.get('claim_id')}")
         cid = claim["claim_id"]
@@ -207,7 +225,9 @@ def validate_dependencies(by_id: dict[str, dict]) -> None:
                 raise CheckError(f"{cid}: dependency is REVOKED: {dep_id}")
             if claim["authority_status"] != "SCRATCH" and dep_status == "SCRATCH":
                 raise CheckError(f"{cid}: non-SCRATCH claim depends on SCRATCH {dep_id}")
-            if claim["authority_status"] == "PROVISIONAL" and dep_status not in {"AUDITED", "PROVISIONAL", "DECLARED_GOAL"}:
+            if claim["authority_status"] == "PROVISIONAL" and dep_status not in {
+                "AUDITED", "PROVISIONAL", "DECLARED_GOAL"
+            }:
                 raise CheckError(f"{cid}: illegal PROVISIONAL dependency status on {dep_id}")
             if claim["authority_status"] == "AUDITED":
                 if dep_status == "AUDITED":
@@ -218,35 +238,49 @@ def validate_dependencies(by_id: dict[str, dict]) -> None:
                     raise CheckError(f"{cid}: AUDITED claim depends on unresolved mathematical DECLARED_GOAL {dep_id}")
                 else:
                     raise CheckError(f"{cid}: AUDITED claim depends on non-audited proof input {dep_id}")
-            if claim["kind"] == "mathematical_claim" and dep["kind"] == "mathematical_claim" and claim["scope_key"] != dep["scope_key"]:
+
+            if (
+                claim["kind"] == "mathematical_claim"
+                and dep["kind"] == "mathematical_claim"
+                and claim["scope_key"] != dep["scope_key"]
+            ):
                 acceptable = []
                 for adapter_id in claim["requires"]:
                     adapter = by_id.get(adapter_id)
                     if not adapter or adapter["kind"] != "adapter_contract":
                         continue
                     bridge = adapter["bridges"]
-                    if bridge["from_scope_key"] != dep["scope_key"] or bridge["to_scope_key"] != claim["scope_key"]:
+                    if bridge["from_scope_key"] != dep["scope_key"]:
+                        continue
+                    if bridge["to_scope_key"] != claim["scope_key"]:
                         continue
                     if claim["authority_status"] == "AUDITED" and adapter["authority_status"] != "AUDITED":
                         continue
-                    if claim["authority_status"] == "PROVISIONAL" and adapter["authority_status"] not in {"AUDITED", "PROVISIONAL"}:
+                    if claim["authority_status"] == "PROVISIONAL" and adapter["authority_status"] not in {
+                        "AUDITED", "PROVISIONAL"
+                    }:
                         continue
                     acceptable.append(adapter_id)
                 if not acceptable:
-                    raise CheckError(f"{cid}: cross-scope mathematical dependency {dep_id} requires explicit adapter_contract")
+                    raise CheckError(
+                        f"{cid}: cross-scope mathematical dependency {dep_id} requires explicit adapter_contract"
+                    )
 
     color: dict[str, int] = {cid: 0 for cid in by_id}
     stack: list[str] = []
+
     def visit(cid: str) -> None:
         color[cid] = 1
         stack.append(cid)
         for dep in by_id[cid]["requires"]:
             if color[dep] == 1:
-                raise CheckError("claim dependency cycle: " + " -> ".join(stack + [dep]))
+                cycle = " -> ".join(stack + [dep])
+                raise CheckError(f"claim dependency cycle: {cycle}")
             if color[dep] == 0:
                 visit(dep)
         stack.pop()
         color[cid] = 2
+
     for cid in by_id:
         if color[cid] == 0:
             visit(cid)
@@ -283,7 +317,9 @@ def validate_source_locks(by_id: dict[str, dict]) -> int:
                     raise CheckError(f"{cid}: malformed blob_sha1 for {lock['path']}")
                 actual = git_blob_sha1(data)
                 if actual != expected:
-                    raise CheckError(f"{cid}: blob source-lock mismatch for {lock['path']}: {actual} != {expected}")
+                    raise CheckError(
+                        f"{cid}: blob source-lock mismatch for {lock['path']}: {actual} != {expected}"
+                    )
             if "canonical_sha256" in lock:
                 expected = lock["canonical_sha256"]
                 if not isinstance(expected, str) or not HEX64_RE.fullmatch(expected):
@@ -294,12 +330,16 @@ def validate_source_locks(by_id: dict[str, dict]) -> int:
                     raise CheckError(f"{cid}: canonical lock requires JSON: {lock['path']}") from exc
                 stored = obj.get("canonical_sha256_without_this_field")
                 if stored != expected:
-                    raise CheckError(f"{cid}: stored canonical digest mismatch for {lock['path']}: {stored} != {expected}")
+                    raise CheckError(
+                        f"{cid}: stored canonical digest mismatch for {lock['path']}: {stored} != {expected}"
+                    )
                 stripped = dict(obj)
                 stripped.pop("canonical_sha256_without_this_field", None)
                 actual = csha(stripped)
                 if actual != expected:
-                    raise CheckError(f"{cid}: recomputed canonical digest mismatch for {lock['path']}: {actual} != {expected}")
+                    raise CheckError(
+                        f"{cid}: recomputed canonical digest mismatch for {lock['path']}: {actual} != {expected}"
+                    )
             checked += 1
     return checked
 
@@ -345,6 +385,7 @@ def transitive_dependencies(by_id: dict[str, dict], root_id: str) -> set[str]:
 def run_final_check(by_id: dict[str, dict], final: dict) -> tuple[bool, list[str]]:
     validate_final_contract(final)
     milestones = final["required_milestones"]
+
     missing: list[str] = []
     milestone_ids: set[str] = set()
     for item in milestones:
@@ -359,12 +400,14 @@ def run_final_check(by_id: dict[str, dict], final: dict) -> tuple[bool, list[str
             missing.append(f"{item['slot']}: {cid} status {claim['authority_status']} != {wanted}")
     if missing:
         return False, missing
+
     contract = final["closure_contract"]
     root_id = contract["required_final_claim_id"]
     if root_id not in by_id:
         return False, [f"missing final claim {root_id}"]
     if root_id not in milestone_ids:
         return False, [f"final root is not a required milestone: {root_id}"]
+
     root = by_id[root_id]
     for token in contract["required_proves_tokens"]:
         if token not in root["proves"]:
@@ -377,11 +420,15 @@ def run_final_check(by_id: dict[str, dict], final: dict) -> tuple[bool, list[str
     receipt = root["audit_receipt"]
     if not isinstance(receipt, dict) or receipt.get("status") != "PASS":
         return False, [f"final claim lacks PASS audit receipt: {root_id}"]
+
     deps = transitive_dependencies(by_id, root_id)
     required_ancestors = milestone_ids - {root_id}
     unreachable = sorted(required_ancestors - deps)
     if unreachable:
-        return False, ["final claim dependency closure does not contain required milestones: " + ", ".join(unreachable)]
+        return False, [
+            "final claim dependency closure does not contain required milestones: " + ", ".join(unreachable)
+        ]
+
     bad = []
     for cid in sorted(deps):
         claim = by_id[cid]
@@ -393,11 +440,35 @@ def run_final_check(by_id: dict[str, dict], final: dict) -> tuple[bool, list[str
 
 
 def synthetic_audited_claim(cid: str, requires: list[str] | None = None, proves: list[str] | None = None) -> dict:
-    return {"claim_id":cid,"kind":"mathematical_claim","statement":"synthetic fail-close fixture","scope_key":"S32.TEST.FINAL","scope":{},"proves":proves or ["synthetic"],"does_not_prove":["production credit"],"requires":requires or [],"source_locks":[],"replay_verifier":None,"authority_status":"AUDITED","audit_receipt":{"status":"PASS","pr":1,"review_id":1,"exact_head":"0"*40}}
+    return {
+        "claim_id": cid,
+        "kind": "mathematical_claim",
+        "statement": "synthetic fail-close fixture",
+        "scope_key": "S32.TEST.FINAL",
+        "scope": {},
+        "proves": proves or ["synthetic"],
+        "does_not_prove": ["production credit"],
+        "requires": requires or [],
+        "source_locks": [],
+        "replay_verifier": None,
+        "authority_status": "AUDITED",
+        "audit_receipt": {"status": "PASS", "pr": 1, "review_id": 1, "exact_head": "0" * 40},
+    }
 
 
 def synthetic_final_fixture() -> dict:
-    return {"schema":"STAGE32_FINAL_CHECK_V1","stage":32,"mode":"FAIL_CLOSED_FOR_STAGE32_CLOSURE","required_milestones":copy.deepcopy(EXPECTED_FINAL_MILESTONES),"closure_contract":{"required_final_claim_id":EXPECTED_FINAL_ROOT_ID,"required_proves_tokens":copy.deepcopy(EXPECTED_FINAL_REQUIRED_PROVES),"forbidden_proves_tokens":copy.deepcopy(EXPECTED_FINAL_FORBIDDEN_PROVES),**{key:True for key in EXPECTED_FINAL_TRUE_FLAGS}}}
+    return {
+        "schema": "STAGE32_FINAL_CHECK_V1",
+        "stage": 32,
+        "mode": "FAIL_CLOSED_FOR_STAGE32_CLOSURE",
+        "required_milestones": copy.deepcopy(EXPECTED_FINAL_MILESTONES),
+        "closure_contract": {
+            "required_final_claim_id": EXPECTED_FINAL_ROOT_ID,
+            "required_proves_tokens": copy.deepcopy(EXPECTED_FINAL_REQUIRED_PROVES),
+            "forbidden_proves_tokens": copy.deepcopy(EXPECTED_FINAL_FORBIDDEN_PROVES),
+            **{key: True for key in EXPECTED_FINAL_TRUE_FLAGS},
+        },
+    }
 
 
 def run_fail_closed_self_test() -> dict:
@@ -406,37 +477,85 @@ def run_fail_closed_self_test() -> dict:
     root_id = EXPECTED_FINAL_ROOT_ID
     by_id[root_id]["proves"] = ["STAGE32_CLOSED=true"]
     final_fixture = synthetic_final_fixture()
+
     ok, reasons = run_final_check(by_id, final_fixture)
     if ok or not any("dependency closure" in reason for reason in reasons):
         raise CheckError("self-test: disconnected audited milestones did not fail closed")
+
     weakened_flag = copy.deepcopy(final_fixture)
     weakened_flag["closure_contract"]["required_milestones_must_be_transitive_dependencies_of_final_root"] = False
     try:
         validate_final_contract(weakened_flag)
     except CheckError as exc:
-        if "safety flag must remain true" not in str(exc): raise
+        if "safety flag must remain true" not in str(exc):
+            raise
     else:
         raise CheckError("self-test: weakened FINAL-CHECK safety boolean was accepted")
+
     weakened_milestones = copy.deepcopy(final_fixture)
     weakened_milestones["required_milestones"].pop(0)
     try:
         validate_final_contract(weakened_milestones)
     except CheckError as exc:
-        if "reserved milestone contract drift" not in str(exc): raise
+        if "reserved milestone contract drift" not in str(exc):
+            raise
     else:
         raise CheckError("self-test: removed reserved FINAL-CHECK milestone was accepted")
-    unresolved_math = {"claim_id":"S32.TEST.UNRESOLVED_MATH.V1","kind":"mathematical_claim","statement":"synthetic unresolved mathematical goal","scope_key":"S32.TEST.AUTHORITY","scope":{},"proves":["synthetic unresolved goal"],"does_not_prove":["audited credit"],"requires":[],"source_locks":[],"replay_verifier":None,"authority_status":"DECLARED_GOAL","audit_receipt":None}
+
+    unresolved_math = {
+        "claim_id": "S32.TEST.UNRESOLVED_MATH.V1",
+        "kind": "mathematical_claim",
+        "statement": "synthetic unresolved mathematical goal",
+        "scope_key": "S32.TEST.AUTHORITY",
+        "scope": {},
+        "proves": ["synthetic unresolved goal"],
+        "does_not_prove": ["audited credit"],
+        "requires": [],
+        "source_locks": [],
+        "replay_verifier": None,
+        "authority_status": "DECLARED_GOAL",
+        "audit_receipt": None,
+    }
     unresolved_math["claim_core_sha256"] = claim_core_sha(unresolved_math)
-    audited_child = {"claim_id":"S32.TEST.AUDITED_CHILD.V1","kind":"mathematical_claim","statement":"synthetic audited child","scope_key":"S32.TEST.AUTHORITY","scope":{},"proves":["synthetic audited result"],"does_not_prove":["production credit"],"requires":[unresolved_math["claim_id"]],"source_locks":[],"replay_verifier":None,"authority_status":"AUDITED","audit_receipt":{"status":"PASS","pr":1,"review_id":1,"exact_head":"0"*40}}
+    audited_child = {
+        "claim_id": "S32.TEST.AUDITED_CHILD.V1",
+        "kind": "mathematical_claim",
+        "statement": "synthetic audited child",
+        "scope_key": "S32.TEST.AUTHORITY",
+        "scope": {},
+        "proves": ["synthetic audited result"],
+        "does_not_prove": ["production credit"],
+        "requires": [unresolved_math["claim_id"]],
+        "source_locks": [],
+        "replay_verifier": None,
+        "authority_status": "AUDITED",
+        "audit_receipt": {"status": "PASS", "pr": 1, "review_id": 1, "exact_head": "0" * 40},
+    }
     audited_child["claim_core_sha256"] = claim_core_sha(audited_child)
     authority_fixture = validate_claims([unresolved_math, audited_child])
     try:
         validate_dependencies(authority_fixture)
     except CheckError as exc:
-        if "unresolved mathematical DECLARED_GOAL" not in str(exc): raise
+        if "unresolved mathematical DECLARED_GOAL" not in str(exc):
+            raise
     else:
         raise CheckError("self-test: AUDITED claim consumed unresolved mathematical DECLARED_GOAL")
-    adapter = {"claim_id":"S32.TEST.ADAPTER.V1","kind":"adapter_contract","statement":"synthetic bridge immutability fixture","scope_key":"S32.TEST.ADAPTER","scope":{},"proves":["synthetic adapter"],"does_not_prove":["production credit"],"requires":[],"bridges":{"from_scope_key":"S32.TEST.A","to_scope_key":"S32.TEST.B"},"source_locks":[],"replay_verifier":None,"authority_status":"DECLARED_GOAL","audit_receipt":None}
+
+    adapter = {
+        "claim_id": "S32.TEST.ADAPTER.V1",
+        "kind": "adapter_contract",
+        "statement": "synthetic bridge immutability fixture",
+        "scope_key": "S32.TEST.ADAPTER",
+        "scope": {},
+        "proves": ["synthetic adapter"],
+        "does_not_prove": ["production credit"],
+        "requires": [],
+        "bridges": {"from_scope_key": "S32.TEST.A", "to_scope_key": "S32.TEST.B"},
+        "source_locks": [],
+        "replay_verifier": None,
+        "authority_status": "DECLARED_GOAL",
+        "audit_receipt": None,
+    }
     adapter["claim_core_sha256"] = claim_core_sha(adapter)
     validate_claims([adapter])
     mutated = copy.deepcopy(adapter)
@@ -444,19 +563,31 @@ def run_fail_closed_self_test() -> dict:
     try:
         validate_claims([mutated])
     except CheckError as exc:
-        if "immutable claim core hash mismatch" not in str(exc): raise
+        if "immutable claim core hash mismatch" not in str(exc):
+            raise
     else:
         raise CheckError("self-test: bridge mutation preserved immutable core hash")
+
     missing_bridge = copy.deepcopy(adapter)
     missing_bridge.pop("bridges")
     missing_bridge["claim_core_sha256"] = claim_core_sha(missing_bridge)
     try:
         validate_claims([missing_bridge])
     except CheckError as exc:
-        if "requires bridges object" not in str(exc): raise
+        if "requires bridges object" not in str(exc):
+            raise
     else:
         raise CheckError("self-test: adapter without bridge shape was accepted")
-    return {"verdict":"PASS_STAGE32_FAIL_CLOSED_SELF_TEST","disconnected_final_milestones_rejected":True,"production_final_safety_boolean_weakening_rejected":True,"production_final_milestone_removal_rejected":True,"audited_to_unresolved_mathematical_goal_rejected":True,"bridge_mutation_changes_core":True,"adapter_bridge_shape_required":True}
+
+    return {
+        "verdict": "PASS_STAGE32_FAIL_CLOSED_SELF_TEST",
+        "disconnected_final_milestones_rejected": True,
+        "production_final_safety_boolean_weakening_rejected": True,
+        "production_final_milestone_removal_rejected": True,
+        "audited_to_unresolved_mathematical_goal_rejected": True,
+        "bridge_mutation_changes_core": True,
+        "adapter_bridge_shape_required": True,
+    }
 
 
 def main() -> int:
@@ -466,10 +597,12 @@ def main() -> int:
     mode.add_argument("--final", action="store_true", help="run fail-closed Stage32 FINAL-CHECK")
     mode.add_argument("--self-test-fail-closed", action="store_true", help="replay synthetic fail-close regression tests")
     args = parser.parse_args()
+
     try:
         if args.self_test_fail_closed:
             print(json.dumps(run_fail_closed_self_test(), sort_keys=True))
             return 0
+
         schema = load_json(SCHEMA_PATH)
         if schema.get("$id") != "STAGE32_CLAIM_REGISTRY_SCHEMA_V1":
             raise CheckError("claim registry schema file drift")
@@ -477,25 +610,46 @@ def main() -> int:
         adapters = load_json(ADAPTER_PATH)
         final = load_json(FINAL_PATH)
         validate_final_contract(final)
+
         claims = validate_registry_shape(registry)
         by_id = validate_claims(claims)
         validate_dependencies(by_id)
         replay_verifier_count = validate_replay_verifiers(by_id)
         source_lock_count = validate_source_locks(by_id)
         validate_lane_adapters(by_id, adapters)
+
         status_counts = Counter(c["authority_status"] for c in claims)
-        base = {"verdict":"PASS_STAGE32_CLAIM_DAG_INTEGRITY","claim_count":len(claims),"source_locks_checked":source_lock_count,"replay_verifiers_checked":replay_verifier_count,"authority_status_counts":dict(sorted(status_counts.items())),"lanes":["MAIN","EX1","EX2","EX3","EX4","EX5","EX6"],"final_contract_locked":True}
+        base = {
+            "verdict": "PASS_STAGE32_CLAIM_DAG_INTEGRITY",
+            "claim_count": len(claims),
+            "source_locks_checked": source_lock_count,
+            "replay_verifiers_checked": replay_verifier_count,
+            "authority_status_counts": dict(sorted(status_counts.items())),
+            "lanes": ["MAIN", "EX1", "EX2", "EX3", "EX4", "EX5", "EX6"],
+            "final_contract_locked": True,
+        }
+
         if args.final:
             ok, reasons = run_final_check(by_id, final)
             if not ok:
-                print(json.dumps({**base,"verdict":"NOT_READY_STAGE32_FINAL_CHECK","final_ready":False,"reasons":reasons}, sort_keys=True))
+                print(json.dumps({
+                    **base,
+                    "verdict": "NOT_READY_STAGE32_FINAL_CHECK",
+                    "final_ready": False,
+                    "reasons": reasons,
+                }, sort_keys=True))
                 return 2
-            print(json.dumps({**base,"verdict":"PASS_STAGE32_FINAL_CHECK","final_ready":True}, sort_keys=True))
+            print(json.dumps({
+                **base,
+                "verdict": "PASS_STAGE32_FINAL_CHECK",
+                "final_ready": True,
+            }, sort_keys=True))
             return 0
+
         print(json.dumps(base, sort_keys=True))
         return 0
     except CheckError as exc:
-        print(json.dumps({"verdict":"FAIL_STAGE32_CLAIM_DAG_INTEGRITY","error":str(exc)}, sort_keys=True))
+        print(json.dumps({"verdict": "FAIL_STAGE32_CLAIM_DAG_INTEGRITY", "error": str(exc)}, sort_keys=True))
         return 1
 
 
