@@ -1,0 +1,217 @@
+{
+  "schema": "STAGE32EX1_EX1_05Q_Q602_EFFECTIVE_CORRESPONDENCE_CLASS_MATERIALIZATION_PREFLIGHT_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05Q_Q602_EFFECTIVE_CORRESPONDENCE_CLASS_MATERIALIZATION_PREFLIGHT",
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "base_main_sha": "d5545b32e6b3088bca53318998d434f2745b03e9",
+  "parent_scratch_head": "778528a0e635b2b11df71f2bb0986e33132fa4ad",
+  "question": "Do the three transvection-compatible Q_Rosati=602 residue classes fail already at the level of effectivity/integrality of a correspondence divisor class of bidegree (105,81) and self-intersection 15806 on C2xC2?",
+  "source_locks": {
+    "ex1_05g": {
+      "path": "stages/stage32-ex1/ex1-05g-h4-common-cover-correspondence-coupling.json",
+      "canonical_sha256": "5a1c30a64857b900f7523153f326c0742ad5cb4ef88e77b0748dd6c4e532be08",
+      "exact_use": "The fixed class has bidegree (105,81), Q_Rosati=602, Gamma^2=15806 and p_a(Gamma)=8090; every retained mod-2 survivor has an integral Q602 shell representative."
+    },
+    "parent_05p": {
+      "path": "stages/stage32-ex1/scratch/ex1-05p-ramification-difference-spin-parity-preflight.json",
+      "blob_sha1": "307b13e2ec297f18c0b3ae2dcc6dd023c4a2763a",
+      "exact_use": "The current receiver remains 29 Q states times the same three transvection-compatible residues; spin parity removes none."
+    },
+    "d4d4_trace_reduction": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-birational-d4d4-trace-reduction.json",
+      "blob_sha1": "d833f5c31fe9869e9128573517bc4a75875599fb",
+      "canonical_sha256": "36317063d40d58ac893aac02da059f9150f835e94a214e4ac89b058d0b9f44d4",
+      "exact_use": "Q(T)=tr_2(T^dagger*T), Q is positive definite, and for a genuine correspondence of bidegree (a,b) the Rosati Gram matrix gives T^dagger*T <= ab I."
+    },
+    "principal_rosati": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json",
+      "blob_sha1": "e28c4533883440ea0963d4d4e8859aa95409cf10",
+      "canonical_sha256": "8d828cdf6d1f5cb1d790c46292535dc252e503356e1047ce972c41e61f524529",
+      "exact_use": "The principal Bolza Rosati involution and positive trace form are exact in the retained E^2 coordinates."
+    },
+    "correspondence_intersection": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-birational-d4d4-trace-reduction.json",
+      "external_source": "Igor Dolgachev and Yuri G. Zarhin, Endomorphisms of Complex Abelian Varieties, Chapter 10 Section 10.1 equations (10.3)-(10.4)",
+      "exact_use": "For a divisor/correspondence D of bidegree (d1,d2), 2*d1*d2-D^2=2*Q(T). Polarization gives the mixed formula D.E=d1*e2+d2*e1-B_Q(T,S), with B_Q(T,T)=2Q(T)."
+    },
+    "pic_product_correspondence_surjection": {
+      "authors": ["Netan Dogra", "Samuel Le Fourn"],
+      "title": "Quadratic Chabauty for modular curves and modular forms of rank one",
+      "journal": "Mathematische Annalen 380 (2021), 393-448",
+      "locator": "Section 2, equation (8)",
+      "exact_use": "Pic(C2xC2) -> Hom(J(C2),J(C2)) is surjective, with kernel the two pullback Picard groups. Hence an integral endomorphism T admits a line-bundle representative, and the two pullback factors can adjust its two bidegrees independently to (105,81)."
+    },
+    "reider": {
+      "author": "Igor Reider",
+      "title": "Vector bundles of rank 2 and linear systems on algebraic surfaces",
+      "journal": "Annals of Mathematics 127 (1988), 309-316",
+      "doi": "10.2307/2007055",
+      "exact_use": "If N is nef with N^2>=5 and |K+N| has a base point, there is an effective curve E with either N.E=0,E^2=-1 or N.E=1,E^2=0."
+    }
+  },
+  "class_materialization_setup": {
+    "target_surface": "Qsurf=C2xC2 over C",
+    "g_C2": 2,
+    "canonical_bidegree": [2, 2],
+    "canonical_is_ample": true,
+    "surviving_residues_decimal": [73, 97, 235],
+    "each_residue_has_integral_Q602_representative": true,
+    "construction": "For any integral representative T with Q(T)=602, choose a line bundle L_T mapping to T under Pic(C2xC2)->End(J(C2)); twist by pullbacks from the two factors so that its bidegree is exactly (105,81).",
+    "L_bidegree": [105, 81],
+    "L_square": 15806,
+    "K_dot_L": 372,
+    "arithmetic_genus": 8090,
+    "chi_O_surface": 1,
+    "chi_L": 7718
+  },
+  "adjoint_positive_part": {
+    "definition": "N=L_T-K_Qsurf",
+    "N_bidegree": [103, 79],
+    "N_same_correspondence_endomorphism": true,
+    "N_square_replay": "2*103*79-2*602=15070",
+    "N_square": 15070,
+    "mixed_intersection_formula": "For a nonfibral integral curve C with bidegree (a,b) and correspondence S, N.C=103*b+79*a-B_Q(T,S).",
+    "genuine_curve_rosati_bound": "S^dagger*S<=a*b I, hence Q(S)=tr_2(S^dagger*S)<=2*a*b.",
+    "cauchy_bound": "abs(B_Q(T,S))<=2*sqrt(Q(T)*Q(S))<=2*sqrt(1204*a*b).",
+    "amgm_bound": "103*b+79*a>=2*sqrt(8137*a*b).",
+    "strict_nonfibral_lower_bound": "N.C>=2*(sqrt(8137)-sqrt(1204))*sqrt(a*b)>111*sqrt(a*b)>0.",
+    "fiber_intersections": [103, 79],
+    "nakai_consequence": "N is ample."
+  },
+  "reider_basepoint_replay": {
+    "N_nef": true,
+    "N_square_ge_5": true,
+    "case_N_dot_E_zero": "Impossible because N is ample.",
+    "case_N_dot_E_one_E_square_zero_fibral": "Impossible because a fiber has N-intersection 79 or 103.",
+    "case_N_dot_E_one_E_square_zero_nonfibral": "If E^2=0, then Q(S)=a*b. Therefore N.E>=2*(sqrt(8137)-sqrt(602))*sqrt(a*b)>131*sqrt(a*b)>1.",
+    "basepoint_free": true,
+    "kodaira_vanishing": "Because N is ample over C, H^i(K+N)=0 for i>0.",
+    "h0_L": 7718,
+    "linear_system_dimension": 7717
+  },
+  "smooth_integral_member": {
+    "bertini": "The basepoint-free complete linear system |L_T| has a smooth general member over C.",
+    "L_ample": "L_T=K_Qsurf+N is ample because both K_Qsurf and N are ample.",
+    "irreducibility_argument": "If a smooth member split as disjoint nonzero components A+B, then A.B=0 and L.A=A^2>0, L.B=B^2>0; this would give a two-dimensional positive subspace for the surface intersection form, contradicting Hodge index. Hence a smooth member is integral.",
+    "result": "Every integral Q602 shell representative T, in particular representatives of residues 73,97,235, admits a smooth integral effective correspondence divisor of the exact bidegree/self-intersection numerical class."
+  },
+  "low_genus_firewall": {
+    "smooth_general_member_genus": 8090,
+    "required_normalization_genus_formula": "106+r",
+    "required_normalization_genus_range": [106, 134],
+    "required_delta_formula": "7984-r",
+    "required_delta_range": [7956, 7984],
+    "smooth_integral_member_is_V6_carrier": false,
+    "reason": "Class-level effectivity/integrality does not produce the extreme singular member whose normalization has genus 106..134, nor the required Beauville/common-cover lift and local singularity data."
+  },
+  "upgrade_of_05j": {
+    "previous_05j_downstairs_positivity_conditional": true,
+    "NQ_ampleness_now_exact": true,
+    "h0_Gamma_now_exact": 7718,
+    "dim_linear_system_now_exact": 7717,
+    "equigeneric_expected_codimension_deficit_formula": "7717-(7984-r)=r-267",
+    "deficit_range": [-267, -239],
+    "remaining_gap": "No source-bound theorem makes the actual conductor/equigeneric conditions independent inside this very special complete linear system. Negative expected dimension is not an emptiness theorem."
+  },
+  "decision": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "new_exact_pattern": "Q602_CLASS_LEVEL_EFFECTIVITY_AND_INTEGRALITY_ARE_AUTOMATIC_AT_THE_RETAINED_BIDEGREE;_ONLY_EXTREME_LOW_GENUS_SINGULARITY_AND_COMMON_COVER_REALIZABILITY_REMAIN",
+    "effectivity_obstruction": false,
+    "integral_member_obstruction": false,
+    "Q602_residues_excluded": 0,
+    "Q_states_excluded": 0,
+    "V6_carrier_excluded": false,
+    "new_gate": "EXTREME_SINGULAR_MEMBER_WITH_DELTA_7956_TO_7984_INSIDE_AN_EXACT_7717_DIMENSIONAL_BASEPOINT_FREE_SYSTEM",
+    "reopen_condition": "To prune the three residues at class level, add geometry beyond numerical divisor class. To prune Q states, prove a member-specific singularity/conductor/monodromy incompatibility for a curve in |L_T| with normalization genus 106+r."
+  },
+  "breadth_audit": {
+    "trigger": "05Q materially changes the receiver by proving exact ampleness/basepoint-freeness and removing effectivity/integrality as possible blockers; the remaining issue is a special extreme-singularity realization problem.",
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "generated_views": [
+      {
+        "id": "CONDUCTOR_ADJOINT_IDEAL_GLOBAL_EVALUATION",
+        "status": "LIVE",
+        "reason": "Use exact N-ampleness/basepoint-freeness plus the actual conductor/adjoint ideal of an integral low-genus member. This is sharper than 05J generic k-very-ampleness because the positivity premise is now proved and the target is the member-specific conductor scheme."
+      },
+      {
+        "id": "GENERIC_EQUI­GENERIC_JET_SEPARATION",
+        "status": "BLOCKED",
+        "reason": "05J already showed generic length-delta jet separation thresholds fail at the required scale; do not recharge it."
+      },
+      {
+        "id": "MIYAOKA_ORBIBUNDLE_LOW_GENUS_BOUND",
+        "status": "DOMINATED",
+        "reason": "Earlier EX1 breadth work found the current surface numerical regime nonexcluding; 05Q does not change K^2/c2."
+      },
+      {
+        "id": "COMMON_COVER_MONODROMY_AND_SPIN",
+        "status": "DOMINATED",
+        "reason": "05N/05O/05P already isolated the obstruction-dominated Hurwitz count, the uniform transvection, and the missing coefficientwise spin profile."
+      },
+      {
+        "id": "ACTUAL_V6_SECTION_MATERIALIZATION",
+        "status": "UNTESTED",
+        "reason": "Direct reconstruction remains decisive but is a dedicated EX2 lane; EX1 should import it only through an exact adapter rather than duplicate it."
+      }
+    ]
+  },
+  "candidate_ledger": {
+    "LIVE": ["CONDUCTOR_ADJOINT_IDEAL_GLOBAL_EVALUATION"],
+    "UNTESTED": ["ACTUAL_V6_SECTION_MATERIALIZATION"],
+    "BLOCKED": [
+      "D0_SUPPORT_EXTRACTION_FROM_CURRENT_CORRESPONDENCE_ROSATI_DEGREE_DATA",
+      "GENERIC_JET_SEPARATION_REIDER_EQUIGENERIC_TRANSVERSALITY_AT_REQUIRED_DELTA_SCALE",
+      "NORMALIZATION_MAP_TANGENT_TORSION_VS_DELTA_WITHOUT_SINGULARITY_TYPE_INPUT",
+      "PLAIN_SIMULTANEOUS_HURWITZ_EXPECTED_DIMENSION_WITHOUT_OBSTRUCTION_OR_MONODROMY_INPUT",
+      "RAMIFICATION_DIFFERENCE_SPIN_PARITY_WITHOUT_COEFFICIENTWISE_ODD_RAMIFICATION_PROFILE"
+    ],
+    "DOMINATED": [
+      "DIRECT_LOCAL_BRANCH_CYCLE_CONSTRAINT_FROM_RELATIVE_V4_ETALE_TORSOR",
+      "SYMMETRIC_DIFFERENTIAL_GENUS1_NODE_SPAN_DIRECT_ROUTE_BY_POST1648AD",
+      "PLAIN_CASTELNUOVO_SEVERI_TWO_PROJECTION_GENUS_BOUND_BY_EXISTING_ROSATI_DEFECT",
+      "MARKED_W_LINE_THREE_TO_ONE_AS_ARITHMETIC_PRUNING_BY_EXISTING_GAUGE_ORBIT",
+      "Q602_EFFECTIVITY_OR_INTEGRALITY_AS_A_CLASS_LEVEL_OBSTRUCTION"
+    ],
+    "EQUIVALENT": []
+  },
+  "next_route": {
+    "route_id": "EX1_05R_CONDUCTOR_ADJOINT_IDEAL_GLOBAL_EVALUATION_PREFLIGHT",
+    "selection_reason": "05Q proves the ambient correspondence linear systems are positive and contain smooth integral curves. The nearest remaining non-reconstruction question is whether an actual integral member can carry a conductor/adjoint scheme of colength delta=7956..7984 while satisfying the common-cover constraints; test the member-specific global-to-local evaluation map rather than generic jet separation."
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "CYCLE_ACTIVE_RECEIVER": "EXTREME_LOW_GENUS_SINGULAR_MEMBER_IN_Q602_BIDEGREE_105_81_LINEAR_SYSTEM_WITH_THREE_MOD2_RESIDUES",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 1,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "MEMBER_SPECIFIC_CONDUCTOR_ADJOINT_EVALUATION_AFTER_EXACT_AMPLENESS",
+    "CYCLE_NEW_VIEW_SOURCE": "BLIND"
+  },
+  "replay": {
+    "verifier": "stages/stage32-ex1/scratch/verify_ex1_05q_q602_effective_correspondence_class_materialization.py",
+    "expected": "PASS_EX1_05Q_Q602_CLASS_MATERIALIZATION"
+  },
+  "firewalls": {
+    "integral_endomorphism_promoted_to_actual_fixed_V6_correspondence": false,
+    "smooth_general_member_promoted_to_low_genus_carrier": false,
+    "class_level_effectivity_promoted_to_common_cover_realizability": false,
+    "basepoint_free_system_promoted_to_equigeneric_transversality": false,
+    "negative_expected_dimension_promoted_to_empty_equigeneric_locus": false,
+    "Q_state_exclusion_claimed": false,
+    "Q602_exclusion_claimed": false,
+    "O210_exclusion_claimed": false,
+    "V6_population_wide_exclusion_claimed": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  }
+}
