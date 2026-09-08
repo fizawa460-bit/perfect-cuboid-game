@@ -31,7 +31,7 @@ for key, path in [("ex2_00", P00), ("ex2_01", P01), ("ex2_03c", P03)]:
     assert blob(path) == a["source_locks"][key]["blob_sha1"]
 assert p03["canonical_sha256_without_this_field"] == a["source_locks"]["ex2_03c"]["canonical_sha256"]
 assert p00["riemann_roch_scope"]["h0_lower_bound"] == 294
-assert p01["section_space"]["h0_lower_bound"] == 294
+assert p01["target"]["h0_lower_bound"] == 294
 
 W = {w["zero_label_1based"]: w for w in p03["positive_witnesses"]}
 assert set(W) == {17, 98}
