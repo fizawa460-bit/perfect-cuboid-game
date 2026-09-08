@@ -27,11 +27,10 @@ jobs:
           python -m pip install --disable-pip-version-check 'sympy==1.14.0'
           sudo apt-get update -qq
           sudo apt-get install -y singular
-      - name: Emit all 19 exact unique norms to Singular inputs
+      - name: Validate machine-readable Singular factor parser
         run: |
           python - <<'PY'
-          import hashlib, json, sys
-          from collections import defaultdict
+          import hashlib, json, subprocess, sys, tempfile
           from pathlib import Path
           import sympy as sp
 
@@ -49,57 +48,66 @@ jobs:
               declared = body.pop('canonical_sha256', None)
               actual = csha(body)
               if declared != expected or actual != expected:
-                  raise SystemExit(f'source lock moved: {path.name} declared={declared} actual={actual}')
+                  raise SystemExit(f'source lock moved: {path.name}')
               return obj
 
           b3b2 = load(HERE / 'e3-v91c1x-r5b3b2-a2-02-formal-tame-symbol-hidden-carrier-inventory.json', B3B2_SHA)
           b3b3b = load(HERE / 'e3-v91c1x-r5b3b3b-classify-20-novel-carriers-and-unify-27.json', B3B3B_SHA)
-          off_ids = list(b3b3b['unified_27_classification']['off_boundary_carrier_ids'])
-          if len(off_ids) != 23:
-              raise SystemExit(f'off-boundary count moved: {len(off_ids)}')
           rows = {r['carrier_id']: r for r in b3b2['finite_linear_carrier_inventory']['carrier_rows']}
-          groups = defaultdict(list)
-          polys = {}
-          normalized_by_sha = {}
-          for cid in off_ids:
-              poly = b.full_sign_norm_poly(rows[cid]['normalized_coefficients_Qi'])
-              if poly.total_degree() != 16:
-                  raise SystemExit(f'degree moved: {cid}')
-              norm = b.normalize_norm(poly)
-              sha = csha(norm)
-              if sha in normalized_by_sha and normalized_by_sha[sha] != norm:
-                  raise SystemExit(f'norm hash collision: {sha}')
-              normalized_by_sha.setdefault(sha, norm)
-              groups[sha].append(cid)
-              polys[cid] = poly
-          if len(groups) != 19:
-              raise SystemExit(f'unique norm count moved: {len(groups)}')
+          off_ids = set(b3b3b['unified_27_classification']['off_boundary_carrier_ids'])
 
-          outdir = Path('/tmp/stage33-singular-19')
-          outdir.mkdir(exist_ok=True)
-          manifest = []
-          for pos, (sha, ids) in enumerate(sorted(groups.items()), 1):
-              rep = ids[0]
-              poly = polys[rep]
+          def singular_factor(poly):
               expr = sp.sstr(poly.as_expr()).replace('**', '^').replace('I', 'i')
-              p = outdir / f'{pos:02d}_{rep}.sing'
-              p.write_text(
+              script = (
                   'ring r=(0,i),(a1,a2,a3),dp;\n'
                   'minpoly=i2+1;\n'
                   f'poly f={expr};\n'
-                  f'print("REP_BEGIN|{pos:02d}|{rep}|{sha}|{len(ids)}");\n'
-                  'factorize(f);\n'
-                  f'print("REP_END|{pos:02d}|{rep}|{sha}");\n', encoding='utf-8')
-              manifest.append((pos, rep, sha, ids, len(b.normalize_norm(poly))))
-          print(f'OFFBOUNDARY={len(off_ids)} UNIQUE={len(groups)} DUPLICATE_REUSE={len(off_ids)-len(groups)}')
-          for pos, rep, sha, ids, terms in manifest:
-              print(f'MANIFEST|{pos:02d}|{rep}|{sha}|terms={terms}|carriers={ids}')
+                  'list L=factorize(f);\n'
+                  'ideal F=L[1];\n'
+                  'intvec M=L[2];\n'
+                  'int n=size(F);\n'
+                  'print("COUNT|"+string(n));\n'
+                  'for (int k=1; k<=n; k=k+1) {\n'
+                  '  print("MULT|"+string(M[k]));\n'
+                  '  print("FACTOR|"+string(F[k]));\n'
+                  '}\n'
+              )
+              with tempfile.NamedTemporaryFile('w', suffix='.sing', delete=False) as fh:
+                  fh.write(script)
+                  path = fh.name
+              proc = subprocess.run(['Singular', '-q', path], text=True, capture_output=True, check=True)
+              Path(path).unlink(missing_ok=True)
+              lines = [x.strip() for x in proc.stdout.splitlines() if x.strip()]
+              count = int(next(x.split('|',1)[1] for x in lines if x.startswith('COUNT|')))
+              mults = [int(x.split('|',1)[1]) for x in lines if x.startswith('MULT|')]
+              facs = [x.split('|',1)[1] for x in lines if x.startswith('FACTOR|')]
+              if len(mults) != count or len(facs) != count:
+                  raise SystemExit(f'parse mismatch count={count} mults={mults} factors={len(facs)} stdout={proc.stdout}')
+              rebuilt = sp.Poly(1, *b.BASE, extension=sp.I)
+              parsed = []
+              local = {'a1': b.BASE[0], 'a2': b.BASE[1], 'a3': b.BASE[2], 'i': sp.I}
+              for raw, mult in zip(facs, mults):
+                  expr2 = sp.sympify(raw.replace('^','**'), locals=local)
+                  fac = sp.Poly(expr2, *b.BASE, extension=sp.I)
+                  rebuilt *= fac**mult
+                  parsed.append((int(fac.total_degree()), mult))
+              # Singular may retain a nonzero scalar constant as one factor; projective normalization removes it.
+              if b.normalize_norm(rebuilt) != b.normalize_norm(poly):
+                  raise SystemExit(f'exact normalized reconstruction failed: {parsed}')
+              nonconstant = [(d,m) for d,m in parsed if d > 0]
+              return nonconstant
+
+          expected = {
+              'LIN_008': [(14,1),(1,2)],
+              'LIN_024': [(1,8),(1,8)],
+          }
+          for cid, want in expected.items():
+              if cid not in off_ids:
+                  raise SystemExit(f'target escaped off-boundary set: {cid}')
+              poly = b.full_sign_norm_poly(rows[cid]['normalized_coefficients_Qi'])
+              got = singular_factor(poly)
+              print(f'{cid}|got={got}|want={want}')
+              if sorted(got) != sorted(want):
+                  raise SystemExit(f'pattern mismatch {cid}: got={got} want={want}')
+          print('MACHINE_PARSER_OK')
           PY
-      - name: Exact Singular factorization sweep
-        run: |
-          set -euo pipefail
-          for f in /tmp/stage33-singular-19/*.sing; do
-            echo "FILE_BEGIN|$(basename "$f")"
-            /usr/bin/time -f 'TIME|elapsed=%E|maxrss_kb=%M' Singular -q "$f"
-            echo "FILE_END|$(basename "$f")"
-          done
