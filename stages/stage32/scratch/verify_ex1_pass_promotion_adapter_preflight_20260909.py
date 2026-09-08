@@ -10,7 +10,7 @@ HERE = Path(__file__).resolve().parent
 ART = HERE / "ex1-pass-promotion-adapter-preflight-20260909.json"
 FRONT = ROOT / "stages/stage32/proof/ACTIVE-FRONTIER.json"
 
-EXPECTED_CANONICAL = "f7f8ac5d0c141f78d16974e8a4a939e88d404088bcd83c4ad1a505afef4547ee"
+EXPECTED_CANONICAL = "25ffd5019e56ad224496c83ac1f1d46b510a3a26e073102f902d38e5aa179936"
 EXPECTED_AUDITED_HEAD = "e3c4a04d5010e6dca9428722e334890e2614297a"
 EXPECTED_REVIEW = 5147627146
 EXPECTED_EX1_CORE = "84e7a4b6990d7c687eebe341fbea296fad1da2cae4785cb87580a0d84572437a"
@@ -70,6 +70,8 @@ def main() -> None:
     ]
     assert all(x["promotion_granted_now"] is False for x in a["candidate_adapters"])
     assert all(x["status_needed_for_consumption"] == "AUDITED" for x in a["candidate_adapters"])
+    assert a["candidate_adapters"][1]["requires"][0] == "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2"
+    assert a["candidate_adapters"][2]["requires"][0] == "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2"
 
     ver = a["versioning_consequence"]
     assert ver["main_v6_goal_V1_can_be_mutated_to_audited_from_EX1_evidence"] is False
