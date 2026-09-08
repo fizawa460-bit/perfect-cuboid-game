@@ -24,6 +24,11 @@
     "EX2_03_artifact_canonical_sha256": "22b90a9facb7c2de7d69f8cfdfc36a90bbfb02680463b8a59066d16572b392f4",
     "EX2_03_verifier_blob_sha1": "2fa32967b98a17fef8eb2885ac0e2c5053477bec",
     "EX2_03_claim_status": "TYPED_BLOCKER_NO_MATHEMATICAL_CLAIM_NO_CLAIM_DAG_ENTRY",
+    "EX2_03B_stabilizer_orbit": "stages/stage32-ex2/EX2-03/v6-stabilizer-divisor-orbit-preflight.json",
+    "EX2_03B_artifact_blob_sha1": "ad2b6da52393b623e3ca311d0b7e8e20d02eac0a",
+    "EX2_03B_artifact_canonical_sha256": "32922653ccac17e7177818890b6e41e0fccdd041f7a9f936b1b97b24c25fbef6",
+    "EX2_03B_verifier_blob_sha1": "621dc1d72629cbc7b06c8c475940ef0021445af0",
+    "EX2_03B_claim_status": "TYPED_RETAINED_AUT_ROUTE_BLOCKER_NO_NEW_CLAIM_DAG_ENTRY",
     "inherits_unaudited_candidates_as_theorem": false,
     "promotion_to_stage32_main_requires_explicit_current_target_adapter": true,
     "promotion_to_stage32_main_requires_hostile_audit": true,
@@ -42,7 +47,12 @@
   "freshness": {
     "last_reconciled_current_main_sha": "d5545b32e6b3088bca53318998d434f2745b03e9",
     "ancestry_sync_commit": "a6cb7d6c0b18dd11710ad58bb4f3457f75026c8a",
+    "current_main_observed_sha": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+    "unreconciled_main_commit_count": 1,
+    "intervening_main_commit_scope": "STAGE32_MAIN_STARTUP_ROLE_AND_EX_OWNERSHIP_PRECEDENCE_ONLY",
+    "intervening_main_confirms_EX2_ownership_of_actual_member_linear_system_fixed_moving": true,
     "stage32ex2_source_drift_in_intervening_main_commit": false,
+    "freshness_sync_deferred_until_retained_promotion_checkpoint": true,
     "promotion_requires_recheck_current_main": true
   },
   "claim_sync": {
@@ -55,7 +65,7 @@
     "current_main_reconciliation_required": false,
     "mathematical_frontier_semantics_changed": false,
     "promotion_attempted": false,
-    "reason": "The retained EX2-02 bounded claim was reconciled against current main without replacing the current-main EX1 hostile-audit PASS. EX2-03 adds only a typed blocker/routing checkpoint, so no new claim-DAG entry is triggered.",
+    "reason": "The retained EX2-02 bounded claim remains the credit-bearing provisional claim. EX2-03 and EX2-03B add typed route blockers only; no new claim-DAG entry is triggered. Current main f2a89e6 changes MAIN/EX routing ownership semantics only and confirms EX2 ownership of this linear-system work.",
     "reconciled_current_main_sha": "d5545b32e6b3088bca53318998d434f2745b03e9",
     "required_verification_run": 34193655298,
     "shared_claim_files_written_from_stale_branch": false,
@@ -63,7 +73,8 @@
     "status": "COMPLETE_CURRENT_MAIN_RECONCILED_REQUIRED_DAG_VERIFIERS_PASS",
     "trigger": "RETAINED_CONSOLIDATION",
     "triggered_for_EX2_02": true,
-    "triggered_for_EX2_03": false
+    "triggered_for_EX2_03": false,
+    "triggered_for_EX2_03B": false
   },
   "completion_contract": {
     "allowed_terminal_outcomes": [
@@ -101,15 +112,20 @@
     "theorem_credit": false
   },
   "current": {
-    "leaf": "EX2-03B_SYMMETRY_DIVISOR_ORBIT_PREFLIGHT",
-    "next_route_on_block": "RECORD_EXACT_SYMMETRY_ADAPTER_GAP_AND_MOVE_TO_A_DISTINCT_LEGAL_EX2_LANE",
-    "next_route_on_success": "RETAIN_EXACT_TRANSFORMED_V6_DIVISOR_AND_TEST_ZERO_CURVE_NONFIXEDNESS",
-    "objective": "Find a source-bound actual automorphism of S that stabilizes V6 in Pic(S) and acts exactly on the retained known-curve divisor. A transformed effective V6 divisor omitting one of the seven V6-zero curves certifies that curve is not a divisorial fixed component; do not claim an H0 representation or eigenspace without a line-bundle linearization.",
-    "status": "EX2_03_RESTRICTION_PREFLIGHT_BLOCKED_ROUTED_TO_SYMMETRY_ORBIT",
+    "leaf": "EX2-03C_ALTERNATE_KNOWN140_DECOMPOSITION_PREFLIGHT",
+    "next_route_on_block": "RECORD_EXACT_BOUNDED_DECOMPOSITION_RESULT_WITHOUT_POPULATION_WIDE_EXCLUSION_AND_MOVE_TO_ANOTHER_LEGAL_EX2_LANE",
+    "next_route_on_success": "RETAIN_ALTERNATE_EFFECTIVE_V6_DIVISORS_AND_CERTIFY_EACH_OMITTED_ZERO_CURVE_NONFIXED",
+    "objective": "For each V6-zero known curve label z in [17,21,24,25,30,31,98], solve the exact nonnegative known140 class equation sum_i n_i C_i=V6 with n_z=0. Any exact feasible solution is a second effective V6 divisor omitting C_z and certifies C_z is not a divisorial fixed component. Solver misses remain bounded known140 results only.",
+    "status": "EX2_03B_RETAINED_AUT_STABILIZER_TRIVIAL_ROUTED_TO_ALTERNATE_DECOMPOSITIONS",
     "stop_semantics": "LEAF_GATE_ONLY_NOT_STAGE_EXHAUSTION",
-    "subroute": "V6_STABILIZER_AND_KNOWN_DIVISOR_ORBIT_PREFLIGHT"
+    "subroute": "SEVEN_ZERO_CURVE_OMISSION_KNOWN140_MONOID_SEARCH"
   },
   "current_leaf_working_set": [
+    "stages/stage32-ex2/EX2-03/v6-stabilizer-divisor-orbit-preflight.json",
+    "stages/stage32-ex2/verify_ex2_03b_v6_stabilizer_orbit.py",
+    "stages/stage32/residual-32-01-production/post1648bj-cc-v6-aut-orbit-scratch-result.json",
+    "stages/stage32/residual-32-01-production/verify_stage32_post1648bj_cc_v6_aut_orbit.py",
+    "stages/stage32/residual-32-01-production/post1648bj-cc-v6-aut-orbit-source-note.md",
     "stages/stage32-ex2/EX2-03/zero-intersection-restriction-adapter-gap.json",
     "stages/stage32-ex2/verify_ex2_03_restriction_gap.py",
     "stages/stage32-ex2/EX2-02/exact-fixed-component-extraction.json",
@@ -151,7 +167,9 @@
     "zero_pairing_promoted_to_fixed_curve": false,
     "restriction_gap_promoted_to_base_locus_classification": false,
     "symmetry_class_action_promoted_to_H0_linearization": false,
-    "unverified_automorphism_promoted_to_divisor_member": false
+    "unverified_automorphism_promoted_to_divisor_member": false,
+    "retained_aut_trivial_stabilizer_promoted_to_global_no_symmetry_theorem": false,
+    "alternate_known140_solver_miss_promoted_to_full_fixedness": false
   },
   "fixed_target": {
     "V6_class_Q_descent_asserted": false,
@@ -180,12 +198,25 @@
     "EX2_02_negative_pairing_count": 0,
     "EX2_02_new_forced_fixed_components_certified": 0,
     "EX2_02_residual_after_certified_subtractions": "V6",
-    "EX2_02_zero_pairing_labels_1based": [17, 21, 24, 25, 30, 31, 98],
+    "EX2_02_zero_pairing_labels_1based": [
+      17,
+      21,
+      24,
+      25,
+      30,
+      31,
+      98
+    ],
     "EX2_03_restriction_preflight_complete": true,
     "EX2_03_restriction_or_base_locus_adapter_obtained": false,
     "EX2_03_zero_curve_fixedness_classified_count": 0,
     "EX2_03_zero_curve_nonfixedness_classified_count": 0,
-    "EX2_03_symmetry_divisor_orbit_preflight_active": true,
+    "EX2_03B_stabilizer_orbit_preflight_complete": true,
+    "EX2_03B_retained_aut_group_order": 1536,
+    "EX2_03B_v6_aut_orbit_size": 1536,
+    "EX2_03B_v6_stabilizer_size": 1,
+    "EX2_03B_nonidentity_same_class_divisor_orbit_available": false,
+    "EX2_03C_alternate_known140_decomposition_preflight_active": true,
     "audit_ready_full_target_closure": false,
     "certified_section_subspace_dimension": 1,
     "certified_section_subspace_obtained": true,
@@ -218,6 +249,6 @@
     "scratch_results_authoritative": false
   },
   "role": "ORDINARY_STAGE32EX2_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
-  "schema": "STAGE32EX2_MAIN_COMPACT_STATE_V6_EX2_03_RESTRICTION_GAP_SYMMETRY_ORBIT_ACTIVE",
+  "schema": "STAGE32EX2_MAIN_COMPACT_STATE_V7_EX2_03B_SYMMETRY_BLOCKED_EX2_03C_ACTIVE",
   "stage": "32EX2"
 }
