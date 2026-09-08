@@ -4,6 +4,8 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import subprocess
+import tempfile
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -27,12 +29,74 @@ def csha(obj):
 def factor_poly(poly, representative_carrier_id):
     if poly.total_degree() != 16:
         raise SystemExit(f"full sign norm degree moved: {representative_carrier_id}")
-    coeff, factors = sp.factor_list(poly.as_expr(), *b3b3b.BASE, extension=sp.I)
-    rebuilt = sp.Poly(coeff, *b3b3b.BASE, extension=sp.I)
+
+    expr = sp.sstr(poly.as_expr()).replace("**", "^").replace("I", "i")
+    script = (
+        "ring r=(0,i),(a1,a2,a3),dp;\n"
+        "minpoly=i2+1;\n"
+        f"poly f={expr};\n"
+        "list L=factorize(f);\n"
+        "ideal F=L[1];\n"
+        "intvec M=L[2];\n"
+        "int n=size(F);\n"
+        'print("COUNT|"+string(n));\n'
+        "for (int k=1; k<=n; k=k+1) {\n"
+        '  print("MULT|"+string(M[k]));\n'
+        '  print("FACTOR|"+string(F[k]));\n'
+        "}\n"
+    )
+    path = None
+    try:
+        with tempfile.NamedTemporaryFile("w", suffix=".sing", delete=False, encoding="utf-8") as fh:
+            fh.write(script)
+            path = fh.name
+        proc = subprocess.run(
+            ["Singular", "-q", path],
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+    except FileNotFoundError as exc:
+        raise SystemExit("Singular executable not found for exact C1 factorization") from exc
+    except subprocess.CalledProcessError as exc:
+        raise SystemExit(
+            f"Singular factorization failed for {representative_carrier_id}: {exc.stderr}"
+        ) from exc
+    finally:
+        if path is not None:
+            Path(path).unlink(missing_ok=True)
+
+    lines = [line.strip() for line in proc.stdout.splitlines() if line.strip()]
+    count_lines = [line for line in lines if line.startswith("COUNT|")]
+    mults = [int(line.split("|", 1)[1]) for line in lines if line.startswith("MULT|")]
+    factors_raw = [line.split("|", 1)[1] for line in lines if line.startswith("FACTOR|")]
+    if len(count_lines) != 1:
+        raise SystemExit(
+            f"Singular machine output count marker mismatch for {representative_carrier_id}: {count_lines}"
+        )
+    count = int(count_lines[0].split("|", 1)[1])
+    if len(mults) != count or len(factors_raw) != count:
+        raise SystemExit(
+            f"Singular machine output parse mismatch for {representative_carrier_id}: "
+            f"count={count} multiplicities={len(mults)} factors={len(factors_raw)}"
+        )
+
+    local = {"a1": b3b3b.BASE[0], "a2": b3b3b.BASE[1], "a3": b3b3b.BASE[2], "i": sp.I}
+    rebuilt = sp.Poly(1, *b3b3b.BASE, extension=sp.I)
     out = []
-    for fac_expr, multiplicity in factors:
+    scalar_factor_count = 0
+    for raw, multiplicity in zip(factors_raw, mults):
+        try:
+            fac_expr = sp.sympify(raw.replace("^", "**"), locals=local)
+        except Exception as exc:
+            raise SystemExit(
+                f"failed to parse Singular factor for {representative_carrier_id}: {raw}"
+            ) from exc
         fac = sp.Poly(fac_expr, *b3b3b.BASE, extension=sp.I)
         rebuilt *= fac**multiplicity
+        if fac.total_degree() == 0:
+            scalar_factor_count += 1
+            continue
         normalized = b3b3b.normalize_norm(fac)
         out.append({
             "factor_total_degree": int(fac.total_degree()),
@@ -40,8 +104,9 @@ def factor_poly(poly, representative_carrier_id):
             "normalized_factor_sha256": csha(normalized),
             "normalized_factor_term_count": len(normalized),
         })
+
     if sp.Poly(rebuilt - poly, *b3b3b.BASE, extension=sp.I) != sp.Poly(0, *b3b3b.BASE, extension=sp.I):
-        raise SystemExit(f"factor reconstruction failed: {representative_carrier_id}")
+        raise SystemExit(f"exact Singular factor reconstruction failed: {representative_carrier_id}")
     if sum(x["factor_total_degree"] * x["multiplicity"] for x in out) != 16:
         raise SystemExit(f"factor degree sum moved: {representative_carrier_id}")
     return {
@@ -51,6 +116,7 @@ def factor_poly(poly, representative_carrier_id):
         "factor_degree_multiset": sorted(
             [x["factor_total_degree"] for x in out for _ in range(x["multiplicity"])]
         ),
+        "singular_scalar_factor_count": scalar_factor_count,
         "factors": out,
     }
 
@@ -67,10 +133,10 @@ def build_certificate():
     if any(cid not in rows for cid in off_ids):
         raise SystemExit("off-boundary carrier escaped R5B3B2 inventory")
 
-    # Full sign norms are cheap relative to multivariate factorization.  Compute
-    # all 23 once, normalize them exactly, then factor only one representative
-    # of each distinct normalized norm.  Equal normalized norms differ only by
-    # a nonzero Q(i) scalar, hence have exactly the same irreducible factors.
+    # Full sign norms are cheap relative to factorization. Compute all 23 once,
+    # normalize them exactly, then factor one representative of each distinct
+    # normalized norm. Equal normalized norms differ only by a nonzero Q(i)
+    # scalar, hence have the same nonconstant irreducible factors.
     norm_data = {}
     norm_groups = defaultdict(list)
     normalized_by_sha = {}
@@ -85,7 +151,10 @@ def build_certificate():
         normalized_by_sha.setdefault(norm_sha, normalized)
         norm_data[cid] = {"poly": poly, "normalized_sha256": norm_sha}
         norm_groups[norm_sha].append(cid)
-        print(f"norm [{pos:02d}/{len(off_ids)}] {cid} sha={norm_sha[:12]} terms={len(normalized)}", flush=True)
+        print(
+            f"norm [{pos:02d}/{len(off_ids)}] {cid} sha={norm_sha[:12]} terms={len(normalized)}",
+            flush=True,
+        )
 
     unique_norm_count = len(norm_groups)
     print(f"offboundary={len(off_ids)} unique_norms={unique_norm_count}", flush=True)
@@ -122,6 +191,8 @@ def build_certificate():
         })
 
     degree_patterns = Counter(tuple(r["factor_degree_multiset"]) for r in factored)
+    squarefree_ids = [r["carrier_id"] for r in factored if r["squarefree_factorization"]]
+    nonsquarefree_ids = [r["carrier_id"] for r in factored if not r["squarefree_factorization"]]
     factor_to_carriers = defaultdict(list)
     for row in factored:
         for fac in row["factors"]:
@@ -133,7 +204,7 @@ def build_certificate():
     ]
 
     cert = {
-        "schema": "stage33.e3.v91c1x_r5b3b3c1.offboundary_norm_factorization.v2",
+        "schema": "stage33.e3.v91c1x_r5b3b3c1.offboundary_norm_factorization.v3",
         "stage": "33-12",
         "candidate": "V91C1X_R5B3B3C1_FACTOR_ONLY_OFFBOUNDARY_FULL_SIGN_NORMS",
         "role": "EXACT_NONCREDIT_IRREDUCIBLE_FACTORIZATION_OF_THE_R5B3B3B_OFFBOUNDARY_BASE_NORMS_BEFORE_RESOLVED_SURFACE_PRIME_DECOMPOSITION",
@@ -145,6 +216,7 @@ def build_certificate():
         "exact_factorization": {
             "coefficient_field": "Q(i)",
             "ambient_ring": "Q(i)[a1,a2,a3]",
+            "factorization_backend": "Singular factorize over Q(i), parsed into Sympy and reconstructed by exact polynomial equality",
             "input_full_sign_norm_degree": 16,
             "off_boundary_carrier_count": len(factored),
             "unique_normalized_full_sign_norm_count": unique_norm_count,
@@ -152,8 +224,12 @@ def build_certificate():
             "all_and_only_r5b3b3b_off_boundary_carriers_processed": [r["carrier_id"] for r in factored] == off_ids,
             "all_normalized_norm_groups_checked_exactly_before_factorization_reuse": True,
             "all_unique_representative_factorizations_reconstructed_exactly": True,
+            "machine_readable_singular_factor_parser_exact_reconstruction_checked": True,
             "all_factor_degree_sums_equal_16": all(sum(r["factor_degree_multiset"]) == 16 for r in factored),
             "all_factorizations_squarefree": all(r["squarefree_factorization"] for r in factored),
+            "squarefree_carrier_count": len(squarefree_ids),
+            "nonsquarefree_carrier_count": len(nonsquarefree_ids),
+            "nonsquarefree_carrier_ids": nonsquarefree_ids,
             "factor_degree_pattern_histogram": {
                 "+".join(map(str, pattern)): count for pattern, count in sorted(degree_patterns.items())
             },
@@ -178,6 +254,7 @@ def build_certificate():
         "exact_consequence": {
             "base_norm_factorization_is_now_finite_and_exact_for_every_offboundary_carrier": True,
             "equal_normalized_norms_share_the_same_irreducible_factorization_up_to_nonzero_Qi_scalar": True,
+            "nonsquarefree_base_norms_retain_exact_multiplicity_without_identifying_resolved_surface_prime_multiplicity": True,
             "base_norm_irreducible_factors_are_not_identified_with_resolved_surface_prime_divisors_without_an_exact_adapter": True,
             "no_unramifiedness_or_residue_cancellation_follows_from_factorization_alone": True,
         },
