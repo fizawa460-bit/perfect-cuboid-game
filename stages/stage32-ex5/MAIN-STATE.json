@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V1_BOOTSTRAP",
+  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V1_EX5_00_COMPLETE",
   "role": "ORDINARY_STAGE32EX5_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX5",
   "execution": {
@@ -10,9 +10,9 @@
     "audit_contract": "stages/stage32-ex5/AUDIT-CONTRACT.md"
   },
   "bootstrap": {
-    "base_main_sha": "aa36570aaebc8c6bcba134f7accce736ca7e67d1",
-    "work_branch": "stage32ex5-receiver-breadth-mainline",
-    "active_work_pr": 1704,
+    "base_main_sha": "0134d5f42df5aa290f5514cc48822e80a34d083c",
+    "work_branch": "stage32ex5-ex5-00-source-lock",
+    "active_work_pr": 1710,
     "merge_authorized": false
   },
   "authority": {
@@ -50,23 +50,23 @@
     "EX5_route_decision_closure_is_Stage32_full_target_closure": false
   },
   "current": {
-    "status": "BOOTSTRAP_ROADMAP_READY_UNAUDITED",
+    "status": "EX5_00_SOURCE_LOCK_COMPLETE_UNAUDITED_RETAINED",
     "breadth_cycle": "EX5_BREADTH_CYCLE_1",
-    "leaf": "EX5-00_SOURCE_LOCK_AND_STAGE32_TARGET_RECEIVER_CONTRACT",
-    "subroute": "LOCK_STAGE29_TO_STAGE32_POPULATION_QUANTIFIERS_AND_CURRENT_CLOSURE_BOUNDARIES",
-    "objective": "Freeze exact current Stage32 receiver semantics and authority references before constructing the receiver ledger or generating new route families.",
-    "next_route_on_success": "EX5-01_EXACT_RECEIVER_LEDGER_RECONSTRUCTION",
-    "next_route_on_block": "RECORD_TYPED_AUTHORITY_OR_POPULATION_GAP_WITHOUT_INVENTING_RECEIVER_COVERAGE",
+    "leaf": "EX5-01_EXACT_RECEIVER_LEDGER_RECONSTRUCTION",
+    "subroute": "RECONSTRUCT_EVERY_FROZEN_RECEIVER_ROW_AND_STATUS_WITH_EXACT_EVIDENCE",
+    "objective": "Build the replayable receiver ledger from the frozen EX5-00 target contract without widening, shrinking, or silently reinterpreting the Stage29 -> Stage32 population.",
+    "next_route_on_success": "EX5-02_CURRENT_COVERAGE_AND_DEPENDENCY_GRAPH",
+    "next_route_on_block": "RECORD_EXACT_UNRESOLVED_RECEIVER_COVERAGE_GAP_AND_KEEP_LEDGER_INCOMPLETE",
     "stop_semantics": "LEAF_GATE_ONLY_NOT_STAGE_EXHAUSTION"
   },
   "current_leaf_working_set": [
-    "stages/stage32-ex5/stage32-ex5.md",
-    "stages/stage32-ex5/verify_main_state.py",
-    "stages/stage32/MAIN-STATE.json"
+    "stages/stage32-ex5/ex5-00-source-lock-target-contract.json",
+    "stages/stage32-ex5/verify_ex5_00_source_lock.py",
+    "stages/stage32-ex5/stage32-ex5.md"
   ],
   "frontier": {
-    "EX5_00_source_lock_complete": false,
-    "receiver_population_contract_complete": false,
+    "EX5_00_source_lock_complete": true,
+    "receiver_population_contract_complete": true,
     "receiver_ledger_complete": false,
     "receiver_ledger_coverage_certified": false,
     "current_coverage_dependency_graph_complete": false,
@@ -101,10 +101,14 @@
     "cross_lane_use_requires_explicit_provisional_or_audited_dependency_status": true
   },
   "receiver_contract": {
-    "frozen_version": null,
+    "frozen_version": "EX5_RECEIVER_TARGET_CONTRACT_V1",
+    "source_lock_artifact": "stages/stage32-ex5/ex5-00-source-lock-target-contract.json",
+    "source_lock_verifier": "stages/stage32-ex5/verify_ex5_00_source_lock.py",
+    "unibranch_degree_row_count": 183,
+    "unibranch_degree_row_checksum": "3b039e94c850bd5669db0288ef0806a0f373952c181993e07c70a54f285ff6b0",
     "row_count": null,
     "coverage_checksum": null,
-    "source_lock_complete": false,
+    "source_lock_complete": true,
     "chat_or_memory_counts_treated_as_authority": false,
     "V6_O210_Q602_treated_as_definition_of_all_receivers": false
   },
@@ -115,7 +119,7 @@
     "clean_room_generation_must_precede_asset_solution_lookup": true
   },
   "credit": {
-    "level": "BOOTSTRAP_NO_MATHEMATICAL_CREDIT",
+    "level": "EX5_00_SOURCE_LOCK_ONLY_NO_MATHEMATICAL_CREDIT",
     "necessary_condition_only": false,
     "branch_exclusion": false,
     "qualified_independent_stage32_route_established": false,
@@ -130,8 +134,8 @@
     "endpoint_credit": false
   },
   "audit": {
-    "status": "NOT_READY_BOOTSTRAP_ONLY",
-    "candidate_pr": 1704,
+    "status": "NOT_READY_INTERMEDIATE_EX5_00_UNAUDITED",
+    "candidate_pr": 1710,
     "exact_head": null,
     "review_id": null,
     "result": null,
