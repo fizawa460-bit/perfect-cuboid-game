@@ -1,0 +1,149 @@
+name: Stage35-EX Goal4AJ numerator degree31 parallel materialize gen24
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage35-ex/runkeys/goal4aj-numerator-degree31-parallel-materialize-gen24.json'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - id: gate
+        name: Commit-range runkey authorization
+        shell: bash
+        run: |
+          set -euo pipefail
+          KEY='stages/stage35-ex/runkeys/goal4aj-numerator-degree31-parallel-materialize-gen24.json'
+          SRC='stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_numerator_degree31_parallel_materialize_gen24.py'
+          BEFORE='${{ github.event.before }}'
+          HEAD='${{ github.event.pull_request.head.sha }}'
+          test '${{ github.event.pull_request.number }}' = '1698'
+          test '${{ github.event.pull_request.head.ref }}' = 'stage35-ex-goal4aj-degree19-truncated-kernel'
+          test '${{ github.event.pull_request.base.ref }}' = 'main'
+          test -n "$BEFORE"
+          git fetch --no-tags --depth=1 origin "$BEFORE"
+          git cat-file -e "$BEFORE^{commit}"
+          mapfile -t changed < <(git diff --name-only "$BEFORE" "$HEAD")
+          test "${#changed[@]}" -eq 1
+          test "${changed[0]}" = "$KEY"
+          git fetch --no-tags origin main
+          python - <<'PY'
+          import hashlib, json, os, pathlib, subprocess
+          key=pathlib.Path('stages/stage35-ex/runkeys/goal4aj-numerator-degree31-parallel-materialize-gen24.json')
+          src=pathlib.Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_numerator_degree31_parallel_materialize_gen24.py')
+          r=json.loads(key.read_text())
+          assert r['schema']=='STAGE35_EX_GOAL4AJ_NUMERATOR_DEGREE31_PARALLEL_MATERIALIZE_GEN24_RUNKEY_V1'
+          assert r['generation']==1 and r['armed'] is True
+          assert r['pr_number']==1698
+          assert r['branch']=='stage35-ex-goal4aj-degree19-truncated-kernel' and r['base']=='main'
+          raw=src.read_bytes(); blob=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+          assert blob==r['script_blob_sha1']=='e2a1dbda98e7ab45edcccd7fbf1857555970a7a3'
+          assert r['gen23_run']==34195787266 and r['gen23_job']==101963128070
+          assert r['gen23_canonical_sha256']=='0fe84fb94968d4283392383056e321ba1f430f8929897f0bab07d90d55dd76df'
+          assert r['gen23_route']=='FOUR_PRIME_SUPPORT_MATCHED_BALANCED_RECONSTRUCTION_FIRST_STRICT_EXACT_PASS_ALL_STRICT_REPLAY_READY'
+          assert r['planned_prime_jobs']==4 and r['max_parallel']==4
+          assert r['artifact_retention_days']==1 and r['projected_peak_storage_mb'] <= 2
+          main=subprocess.check_output(['git','rev-parse','origin/main'],text=True).strip()
+          assert main==r['observed_current_main_sha']
+          mb=subprocess.check_output(['git','merge-base','HEAD','origin/main'],text=True).strip()
+          assert mb==r['branch_merge_base_sha']
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  prime:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        slot: [1, 2, 3, 4]
+    name: prime-slot-${{ matrix.slot }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Singular
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends singular
+      - name: Compute one source-locked prime checkpoint
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/prime-${{ matrix.slot }}"
+          python -u -B stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_numerator_degree31_parallel_materialize_gen24.py \
+            prime --slot ${{ matrix.slot }} --output-dir "$OUT" | tee "$RUNNER_TEMP/prime-${{ matrix.slot }}.log"
+          grep -q '^GOAL4AJ_GEN24_PRIME_JSON=' "$RUNNER_TEMP/prime-${{ matrix.slot }}.log"
+          test "$(wc -c <"$RUNNER_TEMP/prime-${{ matrix.slot }}.log")" -le 65536
+          test "$(wc -c <"$OUT/candidate.txt")" -le 180000
+      - uses: actions/upload-artifact@v4
+        with:
+          name: goal4aj-gen24-prime-${{ matrix.slot }}
+          path: ${{ runner.temp }}/prime-${{ matrix.slot }}
+          if-no-files-found: error
+          retention-days: 1
+
+  aggregate:
+    needs: prime
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: goal4aj-gen24-prime-*
+          path: ${{ runner.temp }}/primes
+      - name: Reconstruct exact Q candidate and compact transport
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/aggregate"
+          python -u -B stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_numerator_degree31_parallel_materialize_gen24.py \
+            aggregate --input-dir "$RUNNER_TEMP/primes" --output-dir "$OUT" | tee "$RUNNER_TEMP/aggregate.log"
+          grep -q '^GOAL4AJ_GEN24_AGGREGATE_JSON=' "$RUNNER_TEMP/aggregate.log"
+          python - <<'PY'
+          import base64, gzip, hashlib, pathlib
+          root=pathlib.Path(__import__('os').environ['RUNNER_TEMP'])/'aggregate'
+          raw=(root/'qcandidate.txt').read_bytes()
+          assert hashlib.sha256(raw).hexdigest()=='358ee320a7d28b790ee9267aad3f95e8ff35af15d002976720622bd2b6e8decb'
+          gz=gzip.compress(raw, compresslevel=9, mtime=0)
+          (root/'qcandidate.txt.gz').write_bytes(gz)
+          b64=base64.b64encode(gz).decode()
+          print('GOAL4AJ_GEN24_QCANDIDATE_GZIP_SHA256='+hashlib.sha256(gz).hexdigest())
+          print('GOAL4AJ_GEN24_QCANDIDATE_GZIP_BYTES='+str(len(gz)))
+          print('GOAL4AJ_GEN24_QCANDIDATE_B64_LENGTH='+str(len(b64)))
+          width=6000
+          for k in range(0,len(b64),width):
+              print(f'GOAL4AJ_GEN24_QCANDIDATE_B64_{k//width:03d}='+b64[k:k+width])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: goal4aj-gen24-qcandidate-compact
+          path: |
+            ${{ runner.temp }}/aggregate/certificate.json
+            ${{ runner.temp }}/aggregate/qcandidate.txt.gz
+          if-no-files-found: error
+          retention-days: 1
