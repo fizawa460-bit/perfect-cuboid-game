@@ -1,0 +1,201 @@
+{
+  "schema": "STAGE32EX1_EX1_05W_SIMULTANEOUS_NIELSEN_COMMON_V4_TORSOR_MATCHING_PREFLIGHT_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05W_SIMULTANEOUS_NIELSEN_CLASS_COMMON_V4_TORSOR_MATCHING_PREFLIGHT",
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "scratch_parent_head": "5c52a9fa9de930376a7e9e24b2555191dd7b95a0",
+  "current_main_seen": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "question": "Does the exact equality f105^*Z ~= f81^*Z of the pulled-back H=(Z/2)^2 torsors impose a simultaneous Nielsen/fundamental-group obstruction beyond the exact-W and transvection conditions already charged in EX1-05O?",
+  "source_locks": {
+    "parent_05v": {
+      "path": "stages/stage32-ex1/scratch/ex1-05v-full-low-ramification-monodromy-near-etale-preflight.json",
+      "blob_sha1": "9876e2df76db316bb19aab825061da2f40bd9c6c",
+      "exact_use": "The degree-105 ramification totals are individually Hurwitz-realizable for all r; low total ramification does not force small monodromy. Separate Nielsen data do not yet encode the common D marking."
+    },
+    "relative_v4_source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling-source-note.md",
+      "blob_sha1": "429ea905cb1cb6354058461c3203de51c03e4106",
+      "exact_use": "The lift through the relative H-isomorphism torsor gives f1^*Z ~= f2^*Z and hence equality f1^*alpha_chi=f2^*alpha_chi for every character chi of H. W=image(H^*->H^1(C2,F2)) has dimension two."
+    },
+    "exact_W_adapter": {
+      "path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter.json",
+      "blob_sha1": "a45e4725cf3354f7ed32ec6f7126326ca5492255",
+      "canonical_sha256": "eab4d86ffe89ff0e87d197cffb34e8b556ae530cab826dab34c1007664a4af28",
+      "exact_use": "The exact marked plane W is two-dimensional and the pointwise condition T|W=id and T^dagger|W=id leaves 16 Q602 mod-2 operator residues."
+    },
+    "transvection": {
+      "path": "stages/stage32/residual-32-01-production/post1505-o210-q602-weierstrass-parity-transvection-refinement.json",
+      "blob_sha1": "8e9a402706921c71217fc275be6b9885feea8bee",
+      "canonical_sha256": "83fd16fdaac674a3f63b4b2dac498136f1bc584c9e06d89f1aa1a7bdc4c30386",
+      "exact_use": "Additional marked Weierstrass geometry refines the 16 exact-W operators to residues 73,97,235. 05W must not recharge that transvection."
+    },
+    "torsor_H1_classification": {
+      "source": "Stacks Project",
+      "tag": "03AJ",
+      "url": "https://stacks.math.columbia.edu/tag/03AJ",
+      "exact_use": "For an abelian sheaf H, isomorphism classes of H-torsors are canonically classified by H^1(-,H)."
+    }
+  },
+  "torsor_class_exactness": {
+    "H": "F2^2",
+    "V": "H^1(C2,F2)",
+    "dim_V": 4,
+    "W": "image(H^* -> V)",
+    "dim_W": 2,
+    "Z_class": "z in H^1(C2,H)",
+    "pulled_back_classes": ["z105=f105^*z", "z81=f81^*z"],
+    "classification": "f105^*Z ~= f81^*Z iff z105=z81 in H^1(D,H)",
+    "character_recovery": "Because H=F2^2 and its two independent characters separate H, z105=z81 iff f105^*alpha=f81^*alpha for every alpha in W.",
+    "consequence": "At the abelian V4-torsor level, pointwise equality of the two pullbacks on W is the full torsor-class equality; there is no hidden additional H-valued class beyond the two character classes."
+  },
+  "odd_degree_symplectic_setup": {
+    "U": "H^1(D,F2)",
+    "g_D_formula": "106+r",
+    "dim_U_formula": "212+2r",
+    "dim_U_range": [212,268],
+    "A1": "f105^*:V->U",
+    "A2": "f81^*:V->U",
+    "odd_degrees": [105,81],
+    "isometry_identity": "<Ai x,Ai y>_D = deg(fi)<x,y>_C2 = <x,y> over F2",
+    "Ai_symplectic_embeddings": true,
+    "adjoints": "Ai^dagger=fi_* and Ai^dagger Ai=id",
+    "operator_orientation": "T=A2^dagger A1; the opposite orientation is T^dagger",
+    "full_torsor_equality_condition": "A1|W=A2|W"
+  },
+  "sufficiency_construction": {
+    "hypotheses": "Let T:V->V satisfy T|W=id and T^dagger|W=id.",
+    "beta_definition": "beta(x,y)=<x,y>+<Tx,Ty>",
+    "beta_alternating": true,
+    "W_in_radical_proof": "For w in W, beta(w,y)=<w,y>+<Tw,Ty>=<w,y>+<w,Ty>=<w,y>+<T^dagger w,y>=0.",
+    "rank_beta_bound": "Since W subset rad(beta) and dim(V/W)=2, rank(beta)<=2.",
+    "auxiliary_space": "Choose a 2-dimensional symplectic F2-space E and B:V->E with B|W=0 and <Bx,By>_E=beta(x,y); rank zero uses B=0, rank two uses the induced symplectic form on V/rad(beta).",
+    "ambient_small": "U0=V orthogonal_direct_sum E, so dim U0<=6.",
+    "embeddings": ["A2_0(x)=(x,0)", "A1_0(x)=(Tx,Bx)"],
+    "A2_isometric": true,
+    "A1_isometric_replay": "<Tx,Ty>+<Bx,By>=<Tx,Ty>+beta(x,y)=<x,y>",
+    "equal_on_W": "For w in W, T w=w and B w=0, hence A1_0(w)=A2_0(w).",
+    "cross_operator": "A2_0^dagger A1_0=T",
+    "ambient_capacity": "dim H^1(D,F2)>=212 >> 6, so U0 embeds symplectically into H^1(D,F2) for every r=0..28.",
+    "result": "Every exact-W operator T is compatible with a pair of symplectic pullback embeddings having the full H-torsor equality on W. Hence full V4 cohomology cannot refine the 16 exact-W residues, and in particular cannot remove any of the three transvection survivors."
+  },
+  "nielsen_boundary": {
+    "separate_degree105_tuple": "A Nielsen tuple for f105 records a transitive permutation representation of pi1(C2 minus B105) and a sheet stabilizer subgroup.",
+    "separate_degree81_tuple": "Likewise for f81 with its own branch locus and sheet marking.",
+    "missing_simultaneous_marking": "To compare f105^*Z and f81^*Z on the same D one must identify the two presentations of pi1(D) and compare the restrictions of the fixed alpha:pi1(C2)->H. Separate Nielsen tuples do not contain that common identification.",
+    "retained_simultaneous_Nielsen_tuple": false,
+    "retained_branch_support_or_local_conjugacy_matching": false,
+    "rule": "Do not turn separate Hurwitz realizability into simultaneous pair-map realizability. The exact cohomological H-torsor compatibility is now proved flexible, but holomorphic simultaneous realization remains a stronger geometric problem."
+  },
+  "statewise_replay": {
+    "Q_values": [210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266],
+    "r_values": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+    "dim_H1_D_range": [212,268],
+    "small_realization_space_dimension_max": 6,
+    "exact_W_survivors_cohomologically_realizable": 16,
+    "transvection_survivors_per_Q": [73,97,235],
+    "Q_states_entering": 29,
+    "Q_states_excluded": 0,
+    "Q_states_leaving": 29
+  },
+  "decision": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "new_exact_pattern": "THE_EXACT_W_FIXED_CONDITION_IS_SUFFICIENT_FOR_FULL_MOD2_V4_TORSOR_COHOMOLOGY_REALIZATION_IN_THE_LARGE_H1_OF_D",
+    "full_V4_torsor_cohomology_prunes_beyond_exact_W": false,
+    "simultaneous_separate_Nielsen_enumeration_available": false,
+    "Q_states_excluded": 0,
+    "Q602_residues_excluded": 0,
+    "V6_carrier_excluded": false,
+    "new_gate": "USE_GEOMETRY_BEYOND_THE_ABelian_H_TORSOR_CLASS__EITHER_CHARACTER_PRYM_DATA_ON_THE_COMMON_V4_LIFT_OR_ACTUAL_SIMULTANEOUS_HOLOMORPHIC_PAIR_MAP_DATA",
+    "reopen_condition": "Reopen Nielsen matching only after source-locking a common pi1(D) marking, paired branch-support/conjugacy data, or another invariant of the simultaneous pair that is not determined by A1|W=A2|W."
+  },
+  "breadth_audit": {
+    "trigger": "The full H-torsor condition becomes cohomologically flexible and the previous separate-Nielsen route would otherwise park at missing simultaneous markings.",
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "generated_views": [
+      {
+        "id": "CHARACTER_PRYM_LIFT_OF_COMMON_V4_CORRESPONDENCE",
+        "status": "LIVE",
+        "reason": "The common H-torsor produces a common degree-four etale lift Dtilde->D and two H-equivariant maps Dtilde->Z=X(8). Decomposing J(Z) into H-character/Prym pieces may retain information discarded by the base H^1 plane W and by the Rosati fixed-plane compression."
+      },
+      {
+        "id": "SEPARATE_NIELSEN_TUPLE_ENUMERATION_WITHOUT_COMMON_PI1_MARKING",
+        "status": "BLOCKED",
+        "reason": "Separate tuples cannot compare the two restricted H classes on the same pi1(D)."
+      },
+      {
+        "id": "BOCKSTEIN_OR_Z4_LIFT_OF_V4_CLASS",
+        "status": "BLOCKED",
+        "reason": "The retained H-torsor is exponent two and no canonical Z/4 lift or coefficientwise ramification profile is source-locked; do not manufacture a secondary invariant."
+      },
+      {
+        "id": "MOD2_PULLBACK_EMBEDDING_REALIZATION",
+        "status": "DOMINATED",
+        "reason": "05W gives an explicit sufficiency construction from the exact-W hypotheses."
+      },
+      {
+        "id": "ACTUAL_V6_SECTION_MATERIALIZATION",
+        "status": "UNTESTED",
+        "reason": "Decisive reconstruction remains owned by EX2 and should be imported only through an exact adapter."
+      }
+    ]
+  },
+  "candidate_ledger": {
+    "LIVE": ["CHARACTER_PRYM_LIFT_OF_COMMON_V4_CORRESPONDENCE"],
+    "UNTESTED": ["ACTUAL_V6_SECTION_MATERIALIZATION"],
+    "BLOCKED": [
+      "D0_SUPPORT_EXTRACTION_FROM_CURRENT_CORRESPONDENCE_ROSATI_DEGREE_DATA",
+      "NORMALIZATION_MAP_TANGENT_TORSION_VS_DELTA_WITHOUT_SINGULARITY_TYPE_INPUT",
+      "RAMIFICATION_DIFFERENCE_SPIN_PARITY_WITHOUT_COEFFICIENTWISE_ODD_RAMIFICATION_PROFILE",
+      "LOCAL_DOUBLE_POINT_CONDUCTOR_COMMON_RAMIFICATION_SPLIT_WITHOUT_SINGULARITY_TYPES",
+      "SEPARATE_NIELSEN_TUPLE_ENUMERATION_WITHOUT_COMMON_PI1_MARKING",
+      "BOCKSTEIN_OR_Z4_LIFT_OF_V4_CLASS"
+    ],
+    "DOMINATED": [
+      "LOW_RAMIFICATION_FORCES_SMALL_OR_IMPRIMITIVE_MONODROMY",
+      "STANDARD_VIRTUAL_OR_EXPECTED_DIMENSION_COUNT",
+      "GENERIC_JET_SEPARATION_REIDER_EQUIDEFECT_TRANSVERSALITY_AT_REQUIRED_DELTA_SCALE",
+      "Q602_EFFECTIVITY_OR_INTEGRALITY_AS_A_CLASS_LEVEL_OBSTRUCTION",
+      "PLAIN_CASTELNUOVO_SEVERI_TWO_PROJECTION_GENUS_BOUND_BY_EXISTING_ROSATI_DEFECT",
+      "MOD2_PULLBACK_EMBEDDING_REALIZATION"
+    ],
+    "EQUIVALENT": []
+  },
+  "next_route": {
+    "route_id": "EX1_05X_CHARACTER_PRYM_LIFT_OF_COMMON_V4_CORRESPONDENCE_PREFLIGHT",
+    "selection_reason": "05W proves the full abelian V4 torsor class is already flexible once exact-W is satisfied. The closest distinct non-reconstruction view is to lift both maps to the common H-cover and inspect nontrivial H-character/Prym pieces, which are invisible in the two-dimensional base plane W."
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "CYCLE_ACTIVE_RECEIVER": "H_CHARACTER_PRYM_DATA_OF_THE_COMMON_DEGREE_FOUR_LIFT_OF_THE_105_81_PAIR",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 1,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "CHARACTER_PRYM_LIFT_OF_COMMON_V4_CORRESPONDENCE",
+    "CYCLE_NEW_VIEW_SOURCE": "BLIND_PLUS_INTERNAL_DERIVATION"
+  },
+  "replay": {
+    "verifier": "stages/stage32-ex1/scratch/verify_ex1_05w_simultaneous_nielsen_common_v4_torsor_matching.py",
+    "expected": "PASS_EX1_05W_FULL_V4_COHOMOLOGY_FLEXIBLE"
+  },
+  "firewalls": {
+    "cohomological_embedding_pair_promoted_to_holomorphic_map_pair": false,
+    "full_H_torsor_class_promoted_to_full_Nielsen_tuple": false,
+    "separate_Hurwitz_covers_promoted_to_same_D_pair": false,
+    "exact_W_sufficiency_promoted_to_geometric_V6_realizability": false,
+    "transvection_recharged": false,
+    "Q_state_exclusion_claimed": false,
+    "Q602_exclusion_claimed": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  }
+}
