@@ -1,0 +1,27 @@
+name: Stage32EX3 scratch 04e physical conic graph trace
+
+on:
+  push:
+    branches:
+      - scratch-stage32ex3-ex3-01-etale105
+    paths:
+      - '.github/workflows/stage32ex3-scratch-04e-physical-conic-graph-trace.yml'
+      - 'stages/stage32-ex3/scratch/diagnose_ex3_04e_physical_conic_graph_linear_trace.py'
+      - 'stages/stage32-ex3/scratch/ex3-04d-upstairs-h4-prym-rosati-fourier-gate.json'
+      - 'stages/stage32/32-21/post1473-v6-witness-body-recovered.json'
+      - 'stages/stage33/33-07/exceptional-p1-tangent-coordinates.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run EX3-04e physical conic graph trace diagnostic
+        run: python stages/stage32-ex3/scratch/diagnose_ex3_04e_physical_conic_graph_linear_trace.py
+      - name: Show generated bounded diagnostic
+        run: cat stages/stage32-ex3/scratch/ex3-04e-physical-conic-graph-linear-trace.json
