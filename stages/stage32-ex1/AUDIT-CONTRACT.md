@@ -16,6 +16,14 @@ Read, in this order:
 
 If the user supplies a PR number/head, that exact target controls. Otherwise use `MAIN-STATE.json.audit.exact_head` / the active Stage32EX1 work PR when they identify one unambiguously. If no unique candidate can be resolved, fail closed rather than auditing a guessed branch.
 
+### Retained-audit projection exception
+
+A retained consolidation may deliberately leave `MAIN-STATE.json` unchanged because that mutable resume projection is itself source-locked by existing claims. In that case startup/state consistency may be satisfied only through the fail-closed overlay `stages/stage32-ex1/RETAINED-AUDIT-PROJECTION.json`.
+
+The overlay is valid only when all of the following hold: the exact target PR equals the projection's declared PR; the live head branch equals its declared branch; the exact head is refetched from PR metadata at audit time; the declared retained manifest exists at that exact head; the overlay preserves both terminal outcomes and points back to the unchanged roadmap completion contract; and every no-credit/no-merge firewall in the projection remains false. Any missing file, PR/branch mismatch, moved-head ambiguity, or attempt to use the overlay as mathematical authority is FAIL.
+
+When this exception applies, `MAIN-STATE.json` remains the ordinary mainbatch resume projection and is not required to pretend that the retained audit candidate is its current mathematical leaf. For audit routing only, the projection's `audit_routing_overlay.current_leaf` and `working_set` replace the mutable current-leaf/working-set fields in `MAIN-STATE.json`. All fixed completion semantics, authority firewalls, and audited predecessor facts must still agree with `MAIN-START-HERE.md`, `MAIN-STATE.json`, and `stage32-ex1.md`. This exception cannot weaken the completion contract, alter a prior hostile-audit result, grant credit, or avoid re-audit after a moved head.
+
 Do not rely on a mainbatch chat summary as mathematical evidence. Do not preload unrelated Stage32 history or other Stage32EX lanes.
 
 ## Read-only hostile-audit discipline
@@ -51,12 +59,12 @@ Freshness is a promotion gate, not a substitute for mathematical review. Docs-on
 Check that `MAIN-START-HERE.md`, `MAIN-STATE.json`, and `stage32-ex1.md` agree on:
 
 - the `stage32ex1-mainbatch` / `stage32ex1-audit` separation;
-- the current leaf and working set;
+- the current leaf and working set, except when the exact retained-audit projection exception above is valid and supplies the audit-only leaf/working set;
 - `FULL_TARGET_CLOSURE` as an umbrella decision state with exactly two allowed terminal outcomes: `ALL_V6_GENUS1_CARRIERS_EXCLUDED` and `GENUINE_SURVIVING_CARRIER_ESTABLISHED`;
 - the fact that finite ledger, data-gap diagnosis, one-branch exclusion, and a merely formal/effective divisor class are not terminal success;
 - no automatic merge or Stage32 MAIN promotion.
 
-Mutable state may route work but may not silently weaken the roadmap completion contract or delete either terminal outcome from the state machine.
+Mutable state may route work but may not silently weaken the roadmap completion contract or delete either terminal outcome from the state machine. A retained-audit overlay may route an exact audit candidate but may not mutate or reinterpret ordinary `MAIN-STATE.json` source locks.
 
 ### C. Source and population lock
 
