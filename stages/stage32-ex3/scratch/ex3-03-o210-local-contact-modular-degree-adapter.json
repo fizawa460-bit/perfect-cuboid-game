@@ -1,0 +1,126 @@
+{
+  "schema": "STAGE32EX3_EX3_03_O210_LOCAL_CONTACT_MODULAR_DEGREE_ADAPTER_SCRATCH_V1",
+  "stage": 32,
+  "lane": "EX3",
+  "leaf": "EX3-03_O210_CONTACT_TO_RAMIFICATION_ADAPTER",
+  "status": "SCRATCH_PROVISIONAL_DIAGNOSTIC_NOT_RETAINED",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "picard_class": "V6",
+    "O": 210,
+    "exceptional_mass": 266,
+    "contact_histogram": {"m1_count": 210, "m2_count": 28},
+    "first_degree": 105,
+    "second_degree": 81,
+    "Y_to_N_branch_count": 210,
+    "first_Y_to_C0_ramification": 0,
+    "second_Y_to_C0_ramification": 48
+  },
+  "source_locks": {
+    "typed_cover_tower": {
+      "path": "stages/stage32-ex3/ex3-00-o210-typed-cover-tower.json",
+      "blob_sha1": "c28bda6c20340b4fc4ac060db158ca30926ecb38",
+      "canonical_sha256": "3a743b0607c59dc959f383fca8d97e54e8a740d197401e4c080b6fc4c94eaf07"
+    },
+    "v6_witness": {
+      "path": "stages/stage32/32-21/post1473-v6-witness-body-recovered.json",
+      "canonical_sha256": "d0c1c8bddfe3950737ed6f87ffa74acd850c736298bd12ec1eceac609625b8a8"
+    },
+    "bidegree_note": {
+      "path": "stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-source-note.md",
+      "blob_sha1": "deeecac5599f3b542b445cd87c2070dae488bc85"
+    },
+    "odd_contact_wall": {
+      "path": "stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-beauville-odd-branch-wall.md",
+      "blob_sha1": "cb20a9b287430c2e238f79d3151500c262905468"
+    },
+    "boundary_weierstrass_adapter": {
+      "path": "stages/stage32/residual-32-01-production/post1473-boundary-label-weierstrass-adapter.json",
+      "canonical_sha256": "b947be5a3677a9e0b46839241adc03004ee5221ee94d6371f165253281e2a81f"
+    },
+    "primary_source": {
+      "authors": ["Eberhard Freitag", "Riccardo Salvati Manni"],
+      "title": "Parametrization of the box variety by theta functions",
+      "arxiv": "1303.6495v1",
+      "locators": ["Proposition 2.5 local parameters p=exp(2*pi*i*z/8), q=exp(2*pi*i*w/8)", "Section 3 cusp branch parametrization alpha(tau)=tau*(a1,a2)+(Phi1(Q),Phi2(Q)), Q=exp(2*pi*i*tau), with a1,a2 positive multiples of 4 and a1+a2 divisible by 8"]
+    }
+  },
+  "local_adapter": {
+    "X8_node_coordinates": ["p=exp(2*pi*i*z/8)", "q=exp(2*pi*i*w/8)"],
+    "X4_cusp_parameters": ["u=p^2", "v=q^2"],
+    "branch_parameter": "Q=exp(2*pi*i*tau)",
+    "branch_exponents": "alpha(tau)=tau*(a1,a2)+(Phi1(Q),Phi2(Q))",
+    "translation_lattice": ["a1 divisible by 4", "a2 divisible by 4", "a1+a2 divisible by 8", "a1,a2>0"],
+    "local_modular_degrees": {"e_z": "a1/4", "e_w": "a2/4"},
+    "derivation": "u composed with alpha is Q^(a1/4) times a holomorphic unit; v composed with alpha is Q^(a2/4) times a holomorphic unit",
+    "exceptional_contact": "m=min(a1,a2)/4=min(e_z,e_w)",
+    "parity": "e_z+e_w is even, hence e_z and e_w have the same parity; therefore m is odd iff both modular local degrees are odd",
+    "first_projection_extremal_consequence": "because the normalized quadratic base change is etale over C0 in the first projection, every first-factor cusp local degree is 1 or 2; at an exceptional contact this forces e_z=m, so m1 gives e_z=1 and m2 gives e_z=2",
+    "second_projection_contact_form": "at every exceptional contact e_w=m+2*r with integer r>=0"
+  },
+  "v6_exceptional_vector": [1,1,1,2,2,0,1,2,8,4,7,2,9,5,1,10,5,11,7,1,3,1,13,1,6,2,12,16,4,3,5,6,5,10,8,1,10,15,11,2,5,11,4,10,2,4,3,13],
+  "coarse_node_split": {
+    "equations": "for each exceptional node total m_j, write m_j=x_j+2*y_j where x_j counts m1 branches and y_j counts m2 branches",
+    "capacity_sum": 120,
+    "required_m2_count": 28,
+    "global_capacity_nonempty": true,
+    "example_y_j": [0,0,0,1,1,0,0,1,4,2,3,1,4,2,0,5,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    "example_x_j": [1,1,1,0,0,0,1,0,0,0,1,0,1,1,1,0,1,7,7,1,3,1,13,1,6,2,12,16,4,3,5,6,5,10,8,1,10,15,11,2,5,11,4,10,2,4,3,13],
+    "example_totals": {"sum_x": 210, "sum_y": 28},
+    "firewall": "this is only an integer branch-splitting witness; it does not realize analytic branches or the exact node-to-cusp incidence"
+  },
+  "factor_cusp_mass_ledgers": {
+    "first_factor": {
+      "boundary_labels": [34,35,38,39,42,43],
+      "C_dot_L": [26,31,26,25,40,34],
+      "incident_exceptional_mass_M": [53,43,53,55,25,37],
+      "identity": "M_L=105-2*(C.L)",
+      "sum_C_dot_L": 182,
+      "sum_M": 266,
+      "all_M_odd": true,
+      "rigid_nonexceptional_cusp_points": "exactly C.L points of local degree 2 over each cusp, hence 182 in total",
+      "exceptional_local_degrees": "210 m1 contacts give e_z=1; 28 m2 contacts give e_z=2",
+      "global_cycle_counts": {"one_cycles": 210, "two_cycles": 210},
+      "per_cusp_if_y_L_m2_contacts": "a_L=M_L-2*y_L and b_L=C.L+y_L, giving cycle type 1^a_L 2^b_L and a_L+2*b_L=105"
+    },
+    "second_factor": {
+      "boundary_labels": [33,36,37,40,41,44],
+      "C_dot_L": [11,22,16,11,28,22],
+      "incident_exceptional_mass_M": [59,37,49,59,25,37],
+      "identity": "M_L=81-2*(C.L)",
+      "sum_C_dot_L": 110,
+      "sum_M": 266,
+      "all_M_odd": true,
+      "exceptional_local_degree_form": "e_w=m+2*r; all 210 odd cusp cycles are exactly the m1 exceptional contacts; no nonexceptional odd cusp preimage is allowed because Y->N has only those 210 branch points",
+      "nonexceptional_even_cusp_point_count_n": "86<=n<=110",
+      "cusp_ramification_Y_to_C0": "2*(110-n)",
+      "outside_cusp_ramification_N_to_X4": "n-86, hence between 0 and 24",
+      "outside_cusp_ramification_Y_to_C0": "2*(n-86)",
+      "total_ramification_identity": "2*(110-n)+2*(n-86)=48"
+    }
+  },
+  "effect_on_previous_scratch_witnesses": {
+    "EX3_01_symmetric_105_witness_carrier_attachable": false,
+    "EX3_02_symmetric_81_witness_carrier_attachable": false,
+    "reason": "both symmetric witnesses use 35 odd cusp cycles at every cusp, while the exact carrier exceptional mass ledger contains a cusp of mass 25, so that cusp can support at most 25 m1/odd exceptional contacts",
+    "scope": "this rejects only those explicit symmetric scratch witnesses, not the full abstract monodromy populations"
+  },
+  "diagnostic_verdict": {
+    "local_contact_to_modular_degree_adapter_obtained": true,
+    "first_projection_exceptional_contact_profile_rigidified": true,
+    "second_projection_48_ramification_given_geometric_meaning": true,
+    "coarse_O210_integer_contact_population_empty": false,
+    "previous_symmetric_abstract_witnesses_attach_to_actual_carrier": false,
+    "EX3_03_exclusion_obtained": false,
+    "next_exact_route": "replay the exact 48-node ordered cusp-pair incidence and test whether a nodewise y_j allocation together with carrier-attached first/second branch-cycle tuples and the common H4 torsor has any simultaneous realization"
+  },
+  "firewalls": {
+    "nodewise_integer_split_promoted_to_analytic_branch_realization": false,
+    "second_local_degree_identified_with_contact_multiplicity": false,
+    "abstract_branch_cycle_tuple_promoted_to_actual_V6_carrier": false,
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "stage32_main_credit": false,
+    "claim_dag_sync_triggered_by_this_scratch": false
+  }
+}
