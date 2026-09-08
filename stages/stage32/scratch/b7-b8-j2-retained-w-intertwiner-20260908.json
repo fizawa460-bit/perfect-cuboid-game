@@ -1,0 +1,136 @@
+{
+  "schema": "STAGE32_MAIN_SCRATCH_B7_B8_J2_RETAINED_W_INTERTWINER_V1",
+  "stage": 32,
+  "status": "SCRATCH_EXACT_UNAUDITED_ORDERED_GENERATOR_REENTRY_CRITERION",
+  "snapshot_current_main": "538913633330a8414c87931d3c52f93e4aaf5d0f",
+  "scope": {
+    "row_id": "g1-d186",
+    "O": 210,
+    "qprime": 4,
+    "Q": 602,
+    "surviving_residues_decimal": [73, 97, 235],
+    "retained_basis": ["e1", "e2", "r*e1", "r*e2"],
+    "r_relation": "r^2=-2",
+    "retained_W_lines": {
+      "L1": [0, 0, 1, 0],
+      "L2": [0, 0, 0, 1],
+      "L3": [0, 0, 1, 1]
+    },
+    "residue_to_line": {"73": "L1", "97": "L2", "235": "L3"}
+  },
+  "source_locks": {
+    "retained_marked_w_orbit": {
+      "path": "stages/stage32/residual-32-01-production/post1505-o210-q602-marked-w-line-gauge-orbit.json",
+      "blob_sha1": "2b790882222656f65ed7ea4bdc2336553890b6a1",
+      "canonical_sha256": "7ad84e3c0a567119933ee0941b3b125ebcdb80651973033e13dbf12b553bfc92",
+      "exact_used_facts": [
+        "retained basis is (e1,e2,r*e1,r*e2), r^2=-2",
+        "W nonzero lines are L1=(0,0,1,0), L2=(0,0,0,1), L3=(0,0,1,1)",
+        "residues 73,97,235 correspond respectively to L1,L2,L3",
+        "b3 permutes L1->L3->L2->L1 and b4 fixes L1 while swapping L2,L3"
+      ]
+    },
+    "cecotti": {
+      "arxiv": "2509.24605v1",
+      "title": "Symplectic Singularities, Color Confinement, and the Quantum Dirac Sheaf",
+      "locators": ["Appendix B equations (B.1)-(B.9)"],
+      "source_supported_facts": [
+        "B.1 gives b3=[[-1,-1],[1,0]] and b4=[[1,1+r],[0,-1]] with r^2=-2",
+        "B.3 defines S=b4 and T=-b3",
+        "B.6 gives the Bolza curve y^2=x^5-x",
+        "B.7 gives the displayed order-2 curve automorphism",
+        "B.8 gives the displayed order-6 curve automorphism"
+      ],
+      "not_source_supported": "the paper does not explicitly label the B.7 and B.8 curve automorphisms as the specific retained generators S and T"
+    }
+  },
+  "derived_curve_branch_actions": {
+    "weierstrass_points": ["0", "infinity", "1", "-1", "i", "-i"],
+    "B7_x_map": "x -> -(x+i)/(1+i*x)",
+    "B7_permutation": {"0": "-i", "infinity": "i", "1": "-1", "-1": "1", "i": "infinity", "-i": "0"},
+    "B8_x_map": "x -> i*(x-1)/(x+1)",
+    "B8_permutation": {"0": "-i", "infinity": "i", "1": "0", "-1": "infinity", "i": "-1", "-i": "1"},
+    "pair_partition": {
+      "Z1": ["1", "-1"],
+      "Z2": ["i", "-i"],
+      "Z3": ["0", "infinity"]
+    },
+    "pair_action_B7": "Z1 fixed; Z2<->Z3",
+    "pair_action_B8": "Z1->Z3->Z2->Z1"
+  },
+  "j2_model": {
+    "description": "even subsets of six Weierstrass points modulo complements",
+    "basis": ["delta_0inf", "delta_1inf", "delta_-1inf", "delta_iinf"],
+    "B7_matrix": [[1,0,0,0],[1,0,1,0],[1,1,0,0],[0,1,1,1]],
+    "B8_matrix": [[1,1,0,0],[1,0,0,0],[1,0,0,1],[0,1,1,1]],
+    "pair_vectors": {
+      "Z1": [0,1,1,0],
+      "Z2": [1,1,1,0],
+      "Z3": [1,0,0,0]
+    }
+  },
+  "retained_mod2_generator_model": {
+    "S_equals_b4": [[1,1,0,0],[0,1,0,0],[0,1,1,1],[0,0,0,1]],
+    "T_equals_minus_b3": [[1,1,0,0],[1,0,0,0],[0,0,1,1],[0,0,1,0]],
+    "W_action": {
+      "S": "L1 fixed; L2<->L3",
+      "T": "L1->L3->L2->L1"
+    }
+  },
+  "finite_intertwiner_enumeration": {
+    "search_space": "all 4x4 matrices over F2",
+    "condition": "P invertible, P*B7=S*P, P*B8=T*P",
+    "invertible_solution_count": 2,
+    "solutions": [
+      [[0,0,0,1],[0,1,1,0],[1,1,0,0],[1,0,0,0]],
+      [[0,0,0,1],[0,1,1,0],[1,1,0,1],[1,1,1,0]]
+    ],
+    "images_common_to_every_solution": {
+      "Z1": [0,0,1,0],
+      "Z2": [0,0,0,1],
+      "Z3": [0,0,1,1]
+    },
+    "forced_pair_line_map_under_ordered_generator_binding": {
+      "Z1": "L1",
+      "Z2": "L2",
+      "Z3": "L3"
+    },
+    "symplectic_subset_note": "the enumeration is over all GL4(F2) intertwiners; therefore every possible symplectic intertwiner is a subset and inherits the same forced Z1/Z2/Z3 images"
+  },
+  "complex_representation_compatibility": {
+    "curve_differential_basis": ["dx/y", "x*dx/y"],
+    "derived_B7_pullback_matrix": "[[-1/sqrt(2), i/sqrt(2)],[-i/sqrt(2),1/sqrt(2)]]",
+    "derived_B8_pullback_characteristic_polynomial": "lambda^2-lambda+1",
+    "exact_check": "the ordered differential pair (B.7,B.8) is simultaneously conjugate over Q(i,sqrt(2)) to (S,T^-1)",
+    "interpretation": "the inverse on T is consistent with pullback on differentials being contravariant to the point/homology action",
+    "integral_symplectic_marking_concluded": false
+  },
+  "decision": {
+    "result": "ORDERED_B7_B8_GENERATOR_BINDING_WOULD_FORCE_ABSOLUTE_DELTA_0INF_TO_L3",
+    "new_minimal_reentry_datum": "SOURCE_BIND_THE_ORDERED_CURVE_AUTOMORPHISM_PAIR_B7_B8_TO_THE_RETAINED_PRINCIPAL_GENERATOR_PAIR_S_T_OR_SUPPLY_AN_EQUIVALENT_MARKED_JACOBIAN_ADAPTER",
+    "if_ordered_pair_is_source_bound": "delta_0inf=Z3 maps to L3 and hence Q602 residue 235",
+    "absolute_delta0inf_retained_W_line_identified_now": false,
+    "uniform_EX1_residue_count_now": 3,
+    "authority_changed": false,
+    "claim_dag_changed": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "Stage32_closed": false
+  },
+  "firewalls": {
+    "abstract_group_isomorphism_promoted_to_semantic_adapter": false,
+    "simultaneous_complex_conjugacy_promoted_to_integral_symplectic_marking": false,
+    "ordered_B7_B8_equals_S_T_claimed_without_source_binding": false,
+    "conditional_residue235_promoted": false,
+    "three_to_one_selection_promoted_to_Q602_exclusion": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false
+  },
+  "replay": {
+    "path": "stages/stage32/scratch/diagnose_stage32_b7_b8_j2_retained_w_intertwiner.py",
+    "expected_invertible_intertwiner_count": 2,
+    "expected_forced_Z3_image": [0,0,1,1]
+  }
+}
