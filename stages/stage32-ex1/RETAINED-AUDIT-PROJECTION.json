@@ -8,8 +8,8 @@
     "branch": "stage32ex1-terminal-05af-retained-consolidation",
     "manifest": "stages/stage32-ex1/ex1-05af-retained-terminal-consolidation-v2.json",
     "terminal_outcome_candidate": "ALL_V6_GENUS1_CARRIERS_EXCLUDED",
-    "audit_route": "EX1-07_HOSTILE_AUDIT_OF_CURRENT_MAIN_PROMOTION_ADAPTER",
-    "candidate_status": "AUDITED_EX1_TERMINAL_WITH_PROVISIONAL_CURRENT_MAIN_PROMOTION_PACKAGE_READY_FOR_AUDIT",
+    "audit_route": "COMPLETE_PROMOTION_PASS_SYNC_NO_FURTHER_EX1_AUDIT_PENDING",
+    "candidate_status": "PROMOTION_AUDITED_AND_AUTHORITY_SYNCED_HANDOFF_TO_STAGE32_MAIN",
     "audit_receipt": {
       "status": "PASS",
       "pr": 1728,
@@ -19,7 +19,7 @@
     "audit_route_status": "COMPLETED_PASS_AT_RECORDED_EXACT_HEAD"
   },
   "audit_routing_overlay": {
-    "current_leaf": "EX1-07_CURRENT_MAIN_PROMOTION_ADAPTER_AUDIT_HANDOFF",
+    "current_leaf": "EX1-08_AUDITED_PROMOTION_HANDOFF_TO_STAGE32_MAIN",
     "working_set": [
       "stages/stage32-ex1/ex1-05af-retained-terminal-consolidation-v2.json",
       "stages/stage32-ex1/ex1-05af-cellular-pullback-smith-certificate.json",
@@ -67,9 +67,15 @@
   "promotion_candidate": {
     "adapter_claim_id": "S32.ADAPTER.EX1_V6_CARRIER_TO_MAIN_V6_CARRIER.V1",
     "main_claim_id": "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2",
-    "authority_status": "PROVISIONAL",
-    "audit_receipt": null,
-    "stage32_main_credit": false,
-    "active_frontier_remap_completed": false
+    "authority_status": "AUDITED",
+    "audit_receipt": {
+      "status": "PASS",
+      "pr": 1728,
+      "exact_head": "89ba026f05f9fe5344c0f0fb41fe8c2366032877",
+      "review_id": 5147810198
+    },
+    "stage32_main_credit": true,
+    "active_frontier_remap_completed": false,
+    "next_operation": "stage32mainbatch_ACTIVE_FRONTIER_REMAP_AND_MAIN_ROUTING_CONSUMPTION"
   }
 }
