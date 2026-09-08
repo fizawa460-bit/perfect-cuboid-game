@@ -196,6 +196,19 @@ def main() -> None:
     assert cert["direct_filter"]["classification"] == EXPECTED_CLASSIFICATION
     assert cert["direct_filter"]["surviving_residues_decimal"] == EXPECTED_3
     assert cert["direct_filter"]["surviving_image_lines"] == lines
+
+    coord = cert["coordinate_adapter"]
+    assert coord["residue_bit_order"] == ["t11.a","t11.b","t12.a","t12.b","t21.a","t21.b","t22.a","t22.b"]
+    assert coord["module_basis"] == ["e1","e2","r*e1","r*e2"]
+    assert coord["absolute_delta0inf_to_one_line_identified"] is False
+    coord_by_residue = {row["residue"]: row for row in coord["survivors"]}
+    assert sorted(coord_by_residue) == EXPECTED_3
+    for z, line in zip(EXPECTED_3, lines):
+        row = coord_by_residue[z]
+        assert row["bits_lsb_first"] == bits_to_vec(z)
+        assert row["T_mod2"] == t_matrix_mod2(z)
+        assert row["image_T_minus_I"] == line
+
     assert cert["coarse_joint_effect"] == {
         "old_cells_29_times_28":812,
         "new_cells_29_times_3":87,
