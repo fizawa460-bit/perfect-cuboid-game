@@ -112,6 +112,14 @@ The re-audit of exact head `beec62400f5f2b49d325083fd9b745c3fd66763f` found no n
 
 This checkpoint deliberately does **not** rewrite `stages/stage32-ex1/MAIN-STATE.json`: existing immutable audited claims source-lock that blob, and `stages/stage32-ex1/RETAINED-AUDIT-PROJECTION.json` is the fail-closed audit-only routing overlay for exact PR #1728. Ordinary MAIN-state routing therefore remains unchanged. No active-frontier goal is marked closed, no EX→MAIN promotion adapter is fired, no Q602/O210 MAIN exclusion is asserted, and no Stage32 MAIN mathematical credit is granted.
 
+### 4.3 EX1 current-target promotion adapter checkpoint
+
+The EX1 terminal claim `S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2` has hostile-audit PASS at exact head `e3c4a04d5010e6dca9428722e334890e2614297a` (review `5147627146`) and is synchronized as **AUDITED**. The next boundary is not an automatic MAIN promotion: the generic `S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2` explicitly cannot establish a concrete cross-scope equivalence.
+
+`S32.ADAPTER.EX1_V6_CARRIER_TO_MAIN_V6_CARRIER.V1` is therefore registered as a new **PROVISIONAL** concrete adapter from `S32.EX1.V6_CARRIER` to `S32.MAIN.V6_CARRIER`. Its replayable artifact `stages/stage32-ex1/ex1-07-current-main-v6-carrier-promotion-adapter.json` checks the exact current MAIN routing state, the EX1-00 target contract, shared V6 source locks, the audited terminal receipt, and the existing MAIN population-wide nonexistence goal. The bridge is limited to the geometric predicate “integral irreducible V6 member of geometric genus 1 on the minimal desingularization S”; it transfers no Q602/O210 or Stage32-closure semantics.
+
+A corresponding MAIN-scope mathematical candidate `S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2` is also **PROVISIONAL**. It depends explicitly on the audited EX1 terminal plus this concrete adapter. The existing active-frontier goal `S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1` remains the current declared goal until hostile audit accepts the promotion package and a later `AUTHORITY_OR_AUDIT_TRANSITION` / `ACTIVE_FRONTIER_REMAP` synchronization is performed. No MAIN mathematical credit is granted at this checkpoint.
+
 ## 5. FULL178 and closure
 
 `S32.FULL178.NUMERICAL_CENSUS.V1` is deliberately an incomplete goal node. Current retained production state still has `FULL_178_ROW_SWEEP_AUTHORIZED=true`, `FULL_D176_D192_NUMERICAL_ORBIT_CENSUS=false`, and incomplete numerical Picard leaf checks. Authorization/indexability therefore cannot be confused with completed numerical census credit.

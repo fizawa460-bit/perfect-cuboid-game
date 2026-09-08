@@ -8,8 +8,8 @@
     "branch": "stage32ex1-terminal-05af-retained-consolidation",
     "manifest": "stages/stage32-ex1/ex1-05af-retained-terminal-consolidation-v2.json",
     "terminal_outcome_candidate": "ALL_V6_GENUS1_CARRIERS_EXCLUDED",
-    "audit_route": "EX1-07_HOSTILE_AUDIT_AND_PROMOTION_BOUNDARY",
-    "candidate_status": "HOSTILE_AUDIT_PASS_SYNCED_AUDITED_EX1_TERMINAL_NO_MAIN_PROMOTION",
+    "audit_route": "EX1-07_HOSTILE_AUDIT_OF_CURRENT_MAIN_PROMOTION_ADAPTER",
+    "candidate_status": "AUDITED_EX1_TERMINAL_WITH_PROVISIONAL_CURRENT_MAIN_PROMOTION_PACKAGE_READY_FOR_AUDIT",
     "audit_receipt": {
       "status": "PASS",
       "pr": 1728,
@@ -19,7 +19,7 @@
     "audit_route_status": "COMPLETED_PASS_AT_RECORDED_EXACT_HEAD"
   },
   "audit_routing_overlay": {
-    "current_leaf": "EX1-06_TERMINAL_DECISION_CERTIFICATE_REPAIR_TO_EX1-07_REAUDIT_HANDOFF",
+    "current_leaf": "EX1-07_CURRENT_MAIN_PROMOTION_ADAPTER_AUDIT_HANDOFF",
     "working_set": [
       "stages/stage32-ex1/ex1-05af-retained-terminal-consolidation-v2.json",
       "stages/stage32-ex1/ex1-05af-cellular-pullback-smith-certificate.json",
@@ -30,7 +30,12 @@
       "stages/stage32-ex1/AUDIT-CONTRACT.md",
       "stages/stage32/STAGE32-PROOF-PATH.md",
       "stages/stage32/proof/CLAIM-REGISTRY.json",
-      ".github/workflows/stage32ex1-audit-replay.yml"
+      ".github/workflows/stage32ex1-audit-replay.yml",
+      "stages/stage32-ex1/ex1-07-current-main-v6-carrier-promotion-adapter.json",
+      "stages/stage32-ex1/verify_ex1_07_current_main_v6_carrier_promotion_adapter.py",
+      "stages/stage32/MAIN-STATE.json",
+      "stages/stage32/proof/ACTIVE-FRONTIER.json",
+      "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md"
     ],
     "completion_contract_source": "stages/stage32-ex1/stage32-ex1.md",
     "allowed_terminal_outcomes": [
@@ -58,5 +63,13 @@
     "O210_excluded": false,
     "perfect_cuboid_claim": false,
     "merge_authorized": false
+  },
+  "promotion_candidate": {
+    "adapter_claim_id": "S32.ADAPTER.EX1_V6_CARRIER_TO_MAIN_V6_CARRIER.V1",
+    "main_claim_id": "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2",
+    "authority_status": "PROVISIONAL",
+    "audit_receipt": null,
+    "stage32_main_credit": false,
+    "active_frontier_remap_completed": false
   }
 }
