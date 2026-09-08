@@ -24,6 +24,8 @@ jobs:
         run: python stages/stage32-ex5/verify_ex5_00_source_lock.py
       - name: Replay EX5-01 receiver ledger
         run: python stages/stage32-ex5/verify_ex5_01_receiver_ledger.py
+      - name: Replay EX5-02 coverage dependency graph
+        run: python stages/stage32-ex5/verify_ex5_02_coverage_graph.py
       - name: Verify EX5 routing firewalls
         run: python stages/stage32-ex5/verify_main_state.py
       - name: Verify Stage32 claim DAG integrity
