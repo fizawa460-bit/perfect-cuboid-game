@@ -38,21 +38,16 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay immutable 36-09DJ exact-green mathematical evidence
+      - name: Replay immutable 36-09DK exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          H=b31c1017824be394785d1feaa2dd3b3717099e02
+          H=b673f8d711873ca83d36ce849a28c207bb0675b7
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09DJ.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09DK.py"
           git worktree remove --force "$tmp"
-      - name: Verify 36-09DK full rational-component separation
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09DK.py
-      - name: Assert DK checkpoint and DL lock firewalls
+      - name: Assert DK exact-green promotion and DL unlock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -60,28 +55,26 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V184_36_09DK_RATIONAL_COMPONENT_SEPARATION'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V185_36_09DK_EXACT_GREEN_DL_UNLOCK'
           dk=s['authority_frontier']['36-09DK']
-          assert dk['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert dk['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert dk['certificate_blob_sha']=='dd59fb2492e3bcb75409cc316c85ea6a130d10d1'
           assert dk['verifier_blob_sha']=='cec084abd32b95302428c6352edfaea4a908e264'
+          assert dk['exact_head']=='b673f8d711873ca83d36ce849a28c207bb0675b7'
+          assert dk['exact_head_ci']=='34212206197/102015582572'
           assert dk['F5_OUTSIDE_ENTIRE_RATIONAL_COMPONENT_IMAGE'] is True
           assert dk['GENUINE_NONRATIONAL_CREUTZ_VIRAY_DIRECTION_FOUND'] is True
-          assert dk['RATIONAL_COMPONENT_IMAGE_BM_SET_NONEMPTY'] is False
-          assert dk['RATIONAL_PLUS_F5_BM_SET_NONEMPTY'] is False
-          assert dk['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_COMPUTED'] is False
           cur=s['current']
           assert cur['unit']=='36-09DK'
           assert cur['next_exact_leaf']=='36-09DL_FIXED_P2_FULL_RATIONAL_COMPONENT_ADELIC_CONTROL_PREFLIGHT'
-          assert cur['36_09DL_entry_allowed'] is False
+          assert cur['36_09DL_entry_allowed'] is True
           pg=s['promotion_gates']
-          assert pg['36_09DK_certificate_complete'] is True
-          assert pg['36_09DK_exact_head_ci_passed'] is False
-          assert pg['36_09DL_entry_allowed'] is False
-          assert pg['BT_F5_outside_entire_rational_component_image_provisional'] is True
-          assert pg['BT_genuine_nonrational_Creutz_Viray_direction_found_provisional'] is True
+          assert pg['36_09DK_exact_head_ci_passed'] is True
+          assert pg['36_09DL_entry_allowed'] is True
+          assert pg['BT_F5_outside_entire_rational_component_image'] is True
+          assert pg['BT_genuine_nonrational_Creutz_Viray_direction_found'] is True
           for key in ['BT_rational_component_image_BM_set_nonempty','BT_rational_plus_F5_BM_set_nonempty','BT_full_L1_quotient_computed','BT_Pic0_mod2_computed','BT_full_Creutz_Viray_explicit_image_computed','BT_full_relevant_Brauer_group_computed','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09DK provisional checkpoint verified: reflection separates F5 from the full rational-component image; DL locked pending exact-head CI. No full explicit/full Brauer/BM/fixed-p credit.')
+          print('36-09DK exact-green parent verified and DL unlocked. F5 is outside the full rational-component image; full explicit/full Brauer/BM/fixed-p credit remains open.')
           PY
           git diff --check
