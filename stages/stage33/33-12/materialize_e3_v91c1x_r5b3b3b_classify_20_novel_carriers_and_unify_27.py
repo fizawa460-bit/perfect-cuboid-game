@@ -43,16 +43,16 @@ def load(path, expected):
     return obj
 
 
-def reduce_quadratic(expr, var, sq):
+def reduce_quadratic(expr, var, square):
     poly = sp.Poly(sp.expand(expr), var)
     even = 0
     odd = 0
     for (k,), coef in poly.terms():
         if k % 2 == 0:
-            even += coef * sq ** (k // 2)
+            even += coef * square ** (k // 2)
         else:
-            odd += coef * sq ** ((k - 1) // 2)
-    return sp.expand(even**2 - sq*odd**2)
+            odd += coef * square ** ((k - 1) // 2)
+    return sp.expand(even**2 - square*odd**2)
 
 
 def full_sign_norm(expr):
@@ -74,19 +74,16 @@ def enc_qi(x):
 
 def normalized_factor_record(factor, exponent):
     p = sp.Poly(sp.expand(factor), *BASE, extension=sp.I)
-    terms = p.terms()
-    if not terms:
+    if not p.terms():
         raise SystemExit("zero norm factor")
-    lead = terms[0][1]
-    p = sp.Poly(sp.expand(p.as_expr() / lead), *BASE, extension=sp.I)
-    rows = []
-    for mon, coef in p.terms():
-        rows.append({"monomial_exponents": list(mon), "coefficient_Qi": enc_qi(coef)})
+    lead = p.terms()[0][1]
+    p = sp.Poly(sp.expand(p.as_expr()/lead), *BASE, extension=sp.I)
+    rows = [
+        {"monomial_exponents": list(mon), "coefficient_Qi": enc_qi(coef)}
+        for mon, coef in p.terms()
+    ]
     expr = sp.expand(p.as_expr())
-    coord = None
-    for name, var in (("a1", a1), ("a2", a2), ("a3", a3)):
-        if sp.expand(expr - var) == 0:
-            coord = name
+    coord = next((name for name, var in (("a1", a1), ("a2", a2), ("a3", a3)) if sp.expand(expr-var) == 0), None)
     return {
         "degree": int(p.total_degree()),
         "exponent_in_norm": int(exponent),
@@ -96,23 +93,20 @@ def normalized_factor_record(factor, exponent):
 
 
 def linear_expr(coeffs):
-    vals = [b3b2mat.decode_element(z) for z in coeffs]
+    vals = [b3b2mat.atlas.decode_element(z) for z in coeffs]
     return sp.expand(sum(q*x for q, x in zip(vals, COORDS)))
 
 
 def factor_novel_carrier(row):
-    expr = linear_expr(row["normalized_coefficients_Qi"])
-    norm = full_sign_norm(expr)
-    poly = sp.Poly(norm, *BASE, extension=sp.I)
-    if poly.total_degree() != 16:
-        raise SystemExit(f"full sign norm degree moved for {row['carrier_id']}: {poly.total_degree()}")
+    norm = full_sign_norm(linear_expr(row["normalized_coefficients_Qi"]))
+    if sp.Poly(norm, *BASE, extension=sp.I).total_degree() != 16:
+        raise SystemExit(f"full sign norm degree moved: {row['carrier_id']}")
     _, factors = sp.factor_list(norm, *BASE, extension=sp.I)
     frecs = [normalized_factor_record(f, e) for f, e in factors]
-    weighted = sum(r["degree"] * r["exponent_in_norm"] for r in frecs)
-    if weighted != 16:
-        raise SystemExit(f"degree accounting moved for {row['carrier_id']}: {weighted}")
-    boundary_only = all(r["coordinate_factor"] is not None for r in frecs)
+    if sum(r["degree"]*r["exponent_in_norm"] for r in frecs) != 16:
+        raise SystemExit(f"degree accounting moved: {row['carrier_id']}")
     noncoord = [r for r in frecs if r["coordinate_factor"] is None]
+    boundary_only = not noncoord
     return {
         "carrier_id": row["carrier_id"],
         "projective_linear_form_Qi_sha256": row["projective_linear_form_Qi_sha256"],
@@ -131,37 +125,34 @@ def build_certificate():
     b3b2 = load(B3B2, B3B2_SHA)
     b3b3a = load(B3B3A, B3B3A_SHA)
     inv = b3b2["finite_linear_carrier_inventory"]
+    part = b3b3a["match_partition"]
     if inv["unique_projective_linear_carrier_count"] != 27:
         raise SystemExit("R5B3B2 27-carrier count moved")
-    part = b3b3a["match_partition"]
-    if part["matched_retained_33_count"] != 7 or part["novel_relative_to_retained_33_count"] != 20:
+    if (part["matched_retained_33_count"], part["novel_relative_to_retained_33_count"]) != (7, 20):
         raise SystemExit("R5B3B3A 7+20 partition moved")
-    if part["f_D_matched_count"] != 7 or part["f_D_novel_count"] != 0:
-        raise SystemExit("R5B3B3A f_D partition moved")
-    if part["pi_D_matched_count"] != 0 or part["pi_D_novel_count"] != 20:
-        raise SystemExit("R5B3B3A pi_D partition moved")
+    if (part["pi_D_matched_count"], part["pi_D_novel_count"], part["f_D_matched_count"], part["f_D_novel_count"]) != (0, 20, 7, 0):
+        raise SystemExit("R5B3B3A pi/f partition moved")
 
     current = {r["carrier_id"]: r for r in inv["carrier_rows"]}
-    partition_rows = {r["carrier_id"]: r for r in part["carrier_rows"]}
-    novel_ids = part["novel_carrier_ids"]
-    novel_rows = [factor_novel_carrier(current[cid]) for cid in novel_ids]
-    novel_map = {r["carrier_id"]: r for r in novel_rows}
+    partition = {r["carrier_id"]: r for r in part["carrier_rows"]}
+    novel_rows = [factor_novel_carrier(current[cid]) for cid in part["novel_carrier_ids"]]
+    novel = {r["carrier_id"]: r for r in novel_rows}
 
     unified = []
-    for cid in [r["carrier_id"] for r in inv["carrier_rows"]]:
-        p = partition_rows[cid]
-        base = current[cid]
+    for base in inv["carrier_rows"]:
+        cid = base["carrier_id"]
+        p = partition[cid]
         if p["matches_retained_stage33_07_carrier"]:
             boundary_only = bool(p["retained_boundary_only"])
-            source = "REUSED_RETAINED_STAGE33_07_SIGN_NORM_CLASSIFICATION"
             classification = p["retained_classification"]
-            novel_factorization = None
+            source = "REUSED_RETAINED_STAGE33_07_SIGN_NORM_CLASSIFICATION"
+            factors = None
         else:
-            nr = novel_map[cid]
+            nr = novel[cid]
             boundary_only = nr["boundary_only"]
-            source = "R5B3B3B_EXACT_FULL_SIGN_NORM_FACTORIZATION"
             classification = nr["classification"]
-            novel_factorization = nr["norm_factorization_over_Qi"]
+            source = "R5B3B3B_EXACT_FULL_SIGN_NORM_FACTORIZATION"
+            factors = nr["norm_factorization_over_Qi"]
         unified.append({
             "carrier_id": cid,
             "projective_linear_form_Qi_sha256": base["projective_linear_form_Qi_sha256"],
@@ -170,22 +161,17 @@ def build_certificate():
             "classification_source": source,
             "boundary_only": boundary_only,
             "classification": classification,
-            "novel_norm_factorization_over_Qi": novel_factorization,
+            "novel_norm_factorization_over_Qi": factors,
         })
 
     boundary = [r for r in unified if r["boundary_only"]]
     off = [r for r in unified if not r["boundary_only"]]
     novel_boundary = [r for r in novel_rows if r["boundary_only"]]
     novel_off = [r for r in novel_rows if not r["boundary_only"]]
-    pi_boundary = sum(r["appears_in_pi_D"] and r["boundary_only"] for r in unified)
-    pi_off = sum(r["appears_in_pi_D"] and not r["boundary_only"] for r in unified)
-    f_boundary = sum(r["appears_in_f_D"] and r["boundary_only"] for r in unified)
-    f_off = sum(r["appears_in_f_D"] and not r["boundary_only"] for r in unified)
-
-    novel_pattern_hist = {}
+    pattern_hist = {}
     for r in novel_rows:
         key = json.dumps(r["noncoordinate_factor_degree_exponent_pairs"], separators=(",", ":"))
-        novel_pattern_hist[key] = novel_pattern_hist.get(key, 0) + 1
+        pattern_hist[key] = pattern_hist.get(key, 0) + 1
 
     cert = {
         "schema": "stage33.e3.v91c1x_r5b3b3b.classify_20_novel_carriers_and_unify_27.v1",
@@ -200,12 +186,7 @@ def build_certificate():
         "surface_sign_norm_model": {
             "base_coordinates": ["a1", "a2", "a3"],
             "quadratic_radicals": ["b1", "b2", "b3", "c"],
-            "relations": {
-                "b1^2": "a2^2+a3^2",
-                "b2^2": "a1^2+a3^2",
-                "b3^2": "a1^2+a2^2",
-                "c^2": "a1^2+a2^2+a3^2",
-            },
+            "relations": {"b1^2": "a2^2+a3^2", "b2^2": "a1^2+a3^2", "b3^2": "a1^2+a2^2", "c^2": "a1^2+a2^2+a3^2"},
             "full_sign_norm_degree": 16,
             "factorization_field": "Q(i)",
             "boundary_only_criterion": "ALL_IRREDUCIBLE_NORM_FACTORS_ARE_COORDINATE_A1_A2_A3",
@@ -215,23 +196,23 @@ def build_certificate():
             "all_are_pi_D_only": all(r["appears_in_pi_D"] and not r["appears_in_f_D"] for r in novel_rows),
             "boundary_only_count": len(novel_boundary),
             "off_boundary_count": len(novel_off),
-            "noncoordinate_factor_pattern_histogram": novel_pattern_hist,
+            "noncoordinate_factor_pattern_histogram": pattern_hist,
             "carrier_rows": novel_rows,
         },
         "unified_27_classification": {
             "carrier_count": len(unified),
-            "reused_retained_count": part["matched_retained_33_count"],
-            "newly_factorized_count": len(novel_rows),
+            "reused_retained_count": 7,
+            "newly_factorized_count": 20,
             "boundary_only_count": len(boundary),
             "off_boundary_count": len(off),
-            "pi_D_boundary_only_count": pi_boundary,
-            "pi_D_off_boundary_count": pi_off,
-            "f_D_boundary_only_count": f_boundary,
-            "f_D_off_boundary_count": f_off,
+            "pi_D_boundary_only_count": sum(r["appears_in_pi_D"] and r["boundary_only"] for r in unified),
+            "pi_D_off_boundary_count": sum(r["appears_in_pi_D"] and not r["boundary_only"] for r in unified),
+            "f_D_boundary_only_count": sum(r["appears_in_f_D"] and r["boundary_only"] for r in unified),
+            "f_D_off_boundary_count": sum(r["appears_in_f_D"] and not r["boundary_only"] for r in unified),
             "off_boundary_carrier_ids": [r["carrier_id"] for r in off],
             "boundary_only_carrier_ids": [r["carrier_id"] for r in boundary],
             "carrier_rows": unified,
-            "all_27_carriers_classified_boundary_vs_offboundary": len(unified) == 27 and len(boundary) + len(off) == 27,
+            "all_27_carriers_classified_boundary_vs_offboundary": len(unified) == 27 and len(boundary)+len(off) == 27,
         },
         "construction_status": {
             "all_20_novel_pi_D_carrier_full_sign_norms_factorized_exactly_over_Qi": True,
