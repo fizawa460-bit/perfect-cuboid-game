@@ -1,0 +1,53 @@
+name: Stage33 V91C1X R5B3B3C4B1D swap23 tangent pullback materialize
+
+on:
+  push:
+    branches:
+      - stage33-v91c1x-r5b2d0-swap23-source-lock
+    paths:
+      - '.github/workflows/stage33-v91c1x-r5b3b3c4b1d-swap23-tangent-pullback-materialize.yml'
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b1d_swap23_tangent_pullback_comparison.py'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b2d2-swap23-317-cover-common-refinement.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b2-a2-02-formal-tame-symbol-hidden-carrier-inventory.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4a-tame-residue-parity-and-cross-carrier-preflight.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b1-exceptional-p1-targeted-residue-field-squareclass.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b1c-nonconstant-exceptional-swap23-correction-preflight.json'
+      - 'stages/stage33/33-07/exceptional-p1-tangent-coordinates.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Materialize exact C4B1D swap23 tangent pullback comparison
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b1d_swap23_tangent_pullback_comparison.py --write
+      - name: Enforce artifact-only bounded delta
+        shell: bash
+        run: |
+          artifact='stages/stage33/33-12/e3-v91c1x-r5b3b3c4b1d-swap23-tangent-pullback-comparison.json'
+          changed="$(git status --porcelain | sed 's/^...//')"
+          test -n "$changed"
+          test "$changed" = "$artifact"
+          git diff --check
+      - name: Commit generated certificate
+        shell: bash
+        run: |
+          artifact='stages/stage33/33-12/e3-v91c1x-r5b3b3c4b1d-swap23-tangent-pullback-comparison.json'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$artifact"
+          git diff --cached --quiet || git commit -m '[Stage33] materialize C4B1D swap23 tangent pullback artifact'
+          git push
