@@ -24,10 +24,7 @@ assert state["bootstrap"]["work_branch"] == "stage32ex2-ex2-00-source-lock-conti
 assert state["bootstrap"]["merge_authorized"] is False
 
 allowed = state["completion_contract"]["allowed_terminal_outcomes"]
-assert allowed == [
-    "GENUINE_V6_GENUS1_MEMBER_ESTABLISHED",
-    "NO_INTEGRAL_IRREDUCIBLE_V6_GENUS1_MEMBER_IN_LINEAR_SYSTEM",
-]
+assert allowed == ["GENUINE_V6_GENUS1_MEMBER_ESTABLISHED", "NO_INTEGRAL_IRREDUCIBLE_V6_GENUS1_MEMBER_IN_LINEAR_SYSTEM"]
 assert state["completion_contract"]["terminal_outcome"] is None
 assert state["completion_contract"]["finite_search_miss_is_terminal_success"] is False
 assert state["completion_contract"]["source_gap_diagnosis_is_terminal_success"] is False
@@ -36,7 +33,8 @@ assert state["completion_contract"]["blocked_route_is_stage_exhaustion"] is Fals
 assert state["authority"]["EX2_00_source_contract"] == "stages/stage32-ex2/EX2-00/v6-source-lock-target-contract.json"
 assert state["authority"]["EX2_00_source_contract_status"] == "PROVISIONAL_RETAINED_LEAF_NOT_HOSTILE_AUDITED"
 assert ex2_00["exit"]["EX2_00_source_lock_complete"] is True
-assert ex2_00["exit"]["claim_dag_sync_triggered"] is False
+assert ex2_00["exit"]["claim_dag_sync_triggered"] is True
+assert ex2_00["exit"]["claim_dag_sync_trigger"] == "RETAINED_CONSOLIDATION"
 
 assert state["current"]["leaf"] == "EX2-01_LINE_BUNDLE_REALIZATION_AND_SECTION_SOURCE_INVENTORY"
 assert state["frontier"]["EX2_00_source_lock_complete"] is True
@@ -52,34 +50,27 @@ assert state["frontier"]["population_wide_no_genus1_member_proved"] is False
 assert state["frontier"]["full_target_closure"] is False
 assert state["credit"]["level"] == "SOURCE_LOCK_ONLY_NO_MEMBER_CREDIT"
 
+sync = state["claim_sync"]
+assert sync["triggered_for_EX2_00"] is True
+assert sync["trigger"] == "RETAINED_CONSOLIDATION"
+assert sync["contract"] == "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md"
+assert sync["mathematical_frontier_semantics_changed"] is False
+assert sync["stage32_main_authority_changed"] is False
+assert "S32.EX2.LANE_CONTRACT.V3" in sync["base_claim_versions"]
+assert "S32.V6.ACTUAL_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2" in sync["active_frontier_versions"]
+assert "immutable EX2-00 retained source contract" in sync["source_lock_policy"]
+
 fw = state["firewalls"]
 for key in [
-    "rr_effectivity_promoted_to_explicit_member",
-    "h0_lower_bound_promoted_to_section_basis",
-    "known140_decomposition_promoted_to_fixed_part",
-    "known140_decomposition_promoted_to_complete_linear_system",
-    "picard_class_promoted_to_unique_member",
-    "geometric_picard_class_promoted_to_Q_defined_member",
-    "candidate_polynomial_promoted_without_class_adapter",
-    "finite_search_miss_promoted_to_population_wide_exclusion",
-    "reducible_member_promoted_to_positive_terminal",
-    "blocked_route_treated_as_stage_exhaustion",
-    "stage32_main_credit",
-    "Q602_excluded",
-    "O210_excluded",
-    "stage32_closed",
-    "perfect_cuboid_existence_claim",
-    "perfect_cuboid_nonexistence_claim",
+    "rr_effectivity_promoted_to_explicit_member", "h0_lower_bound_promoted_to_section_basis", "known140_decomposition_promoted_to_fixed_part",
+    "known140_decomposition_promoted_to_complete_linear_system", "picard_class_promoted_to_unique_member", "geometric_picard_class_promoted_to_Q_defined_member",
+    "candidate_polynomial_promoted_without_class_adapter", "finite_search_miss_promoted_to_population_wide_exclusion", "reducible_member_promoted_to_positive_terminal",
+    "blocked_route_treated_as_stage_exhaustion", "stage32_main_credit", "Q602_excluded", "O210_excluded", "stage32_closed",
+    "perfect_cuboid_existence_claim", "perfect_cuboid_nonexistence_claim",
 ]:
     assert fw[key] is False, key
 
-for token in [
-    "GENUINE_V6_GENUS1_MEMBER_ESTABLISHED",
-    "NO_INTEGRAL_IRREDUCIBLE_V6_GENUS1_MEMBER_IN_LINEAR_SYSTEM",
-    "FULL_TARGET_CLOSURE",
-    "h^0>=294",
-    "finite",
-]:
+for token in ["GENUINE_V6_GENUS1_MEMBER_ESTABLISHED", "NO_INTEGRAL_IRREDUCIBLE_V6_GENUS1_MEMBER_IN_LINEAR_SYSTEM", "FULL_TARGET_CLOSURE", "h^0>=294", "finite"]:
     assert token in roadmap, token
 
 assert "stage32ex2-mainbatch" in start
@@ -95,4 +86,4 @@ assert len(working_set) == len(set(working_set))
 for rel in working_set:
     assert (ROOT / rel).exists(), rel
 
-print("Stage32EX2 MAIN state: PASS at EX2-01 after exact EX2-00 source lock; no member or downstream credit")
+print("Stage32EX2 MAIN state: PASS at EX2-01 after retained EX2-00 source lock and claim-DAG sync; no member or downstream credit")
