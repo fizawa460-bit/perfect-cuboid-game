@@ -38,21 +38,16 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay immutable 36-09DG exact-green mathematical evidence
+      - name: Replay immutable 36-09DH exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          H=d9c8b2714f249971c2353681fb90d706f7d69514
+          H=49f4051ebabb7e0939713082cd28e5143ca5dc77
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09DG.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09DH.py"
           git worktree remove --force "$tmp"
-      - name: Verify 36-09DH paired Q(i) cross-evaluation control
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09DH.py
-      - name: Assert DH checkpoint and DI lock firewalls
+      - name: Assert DH exact-green promotion and DI unlock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -60,28 +55,25 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V178_36_09DH_CROSS_EVALUATION_CONTROL'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V179_36_09DH_EXACT_GREEN_DI_UNLOCK'
           dh=s['authority_frontier']['36-09DH']
-          assert dh['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert dh['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert dh['certificate_blob_sha']=='03df0d6518259ed31d934161c33532e084c01936'
           assert dh['verifier_blob_sha']=='3b24f1ba6eac72cf9c622e4f2aa778640bb3410b'
-          assert dh['F5_CROSS_EVALUATION_COMPLETE_ON_KNOWN_CORRECTION_WITNESSES'] is True
+          assert dh['exact_head']=='49f4051ebabb7e0939713082cd28e5143ca5dc77'
+          assert dh['exact_head_ci']=='34207729292/102001120783'
           assert dh['PRIVATE_PLUS_F5_SUBGROUP_BM_SET_NONEMPTY'] is True
           assert dh['F5_OUTSIDE_ENTIRE_RATIONAL_COMPONENT_IMAGE'] is False
-          assert dh['FULL_L1_QUOTIENT_COMPUTED'] is False
-          assert dh['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_COMPUTED'] is False
           cur=s['current']
           assert cur['unit']=='36-09DH'
           assert cur['next_exact_leaf']=='36-09DI_FIXED_P2_F5_RATIONAL_COMPONENT_RELATION_PREFLIGHT'
-          assert cur['36_09DH_entry_allowed'] is True
-          assert cur['36_09DI_entry_allowed'] is False
+          assert cur['36_09DI_entry_allowed'] is True
           pg=s['promotion_gates']
-          assert pg['36_09DH_certificate_complete'] is True
-          assert pg['36_09DH_exact_head_ci_passed'] is False
-          assert pg['36_09DI_entry_allowed'] is False
+          assert pg['36_09DH_exact_head_ci_passed'] is True
+          assert pg['36_09DI_entry_allowed'] is True
           assert pg['BT_private_plus_F5_subgroup_BM_set_nonempty'] is True
           for key in ['BT_F5_outside_entire_rational_component_image','BT_full_L1_quotient_computed','BT_Pic0_mod2_computed','BT_full_Creutz_Viray_explicit_image_computed','BT_full_relevant_Brauer_group_computed','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09DH provisional checkpoint verified. G=H+<F5> has a nonempty Brauer set; DI locked pending exact-head CI. No full rational-image/L1/Brauer/BM/fixed-p credit.')
+          print('36-09DH exact-green parent verified and DI unlocked. G=H+<F5> has nonempty Brauer set; F5 rational-image relation remains open.')
           PY
           git diff --check
