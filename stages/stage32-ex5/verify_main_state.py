@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Cheap structural verifier for Stage32EX5 MAIN-STATE.json.
 
-This checks routing/credit firewalls only. It does not prove receiver coverage,
-route qualification, or any mathematical claim.
+This checks routing/credit firewalls through EX5-02 only. It does not prove
+receiver closure, route qualification, or any mathematical claim.
 """
-
 from __future__ import annotations
 
 import json
@@ -36,116 +35,114 @@ def require(cond: bool, msg: str) -> None:
 def main() -> None:
     state = json.loads(STATE_PATH.read_text(encoding="utf-8"))
 
-    require(state.get("schema") == "STAGE32EX5_MAIN_COMPACT_STATE_V1_EX5_00_COMPLETE",
+    require(state.get("schema") == "STAGE32EX5_MAIN_COMPACT_STATE_V1_EX5_02_COMPLETE",
             "unexpected state schema")
     require(state.get("stage") == "32EX5", "wrong stage")
-    execution = state.get("execution", {})
-    require(execution.get("main_command") == "stage32ex5-mainbatch", "wrong main command")
-    require(execution.get("audit_command") == "stage32ex5-audit", "wrong audit command")
+    execution = state["execution"]
+    require(execution["main_command"] == "stage32ex5-mainbatch", "wrong main command")
+    require(execution["audit_command"] == "stage32ex5-audit", "wrong audit command")
 
-    completion = state.get("completion_contract", {})
-    require(set(completion.get("allowed_terminal_outcomes", [])) == EXPECTED_TERMINALS,
+    completion = state["completion_contract"]
+    require(set(completion["allowed_terminal_outcomes"]) == EXPECTED_TERMINALS,
             "terminal outcome contract mismatch")
-    require(completion.get("EX5_route_decision_closure_is_Stage32_full_target_closure") is False,
+    require(completion["EX5_route_decision_closure_is_Stage32_full_target_closure"] is False,
             "EX5 closure must not equal Stage32 closure")
-    require(completion.get("qualified_route_requires_retained_nontrivial_receiver_effect") is True,
+    require(completion["qualified_route_requires_retained_nontrivial_receiver_effect"] is True,
             "qualified route must require a retained receiver effect")
-    require(completion.get("bounded_exhaustion_is_global_no_route_theorem") is False,
+    require(completion["bounded_exhaustion_is_global_no_route_theorem"] is False,
             "bounded exhaustion must remain bounded")
 
-    families = state.get("route_families", {})
-    require(set(families.get("required_initial_families", [])) == EXPECTED_FAMILIES,
+    families = state["route_families"]
+    require(set(families["required_initial_families"]) == EXPECTED_FAMILIES,
             "route-family set mismatch")
-    require(families.get("scratch_results_authoritative") is False,
+    require(families["scratch_results_authoritative"] is False,
             "scratch results cannot be authoritative")
+    require(families["candidate_universe_version"] is None,
+            "EX5-03 candidate universe cannot be pre-frozen")
 
-    receiver = state.get("receiver_contract", {})
-    require(receiver.get("frozen_version") == "EX5_RECEIVER_TARGET_CONTRACT_V1",
-            "EX5-00 frozen receiver contract missing")
-    require(receiver.get("source_lock_artifact") ==
+    receiver = state["receiver_contract"]
+    require(receiver["frozen_version"] == "EX5_RECEIVER_TARGET_CONTRACT_V1",
+            "EX5 frozen receiver contract missing")
+    require(receiver["source_lock_artifact"] ==
             "stages/stage32-ex5/ex5-00-source-lock-target-contract.json",
             "EX5-00 artifact path mismatch")
-    require(receiver.get("source_lock_verifier") ==
-            "stages/stage32-ex5/verify_ex5_00_source_lock.py",
-            "EX5-00 verifier path mismatch")
-    require(receiver.get("unibranch_degree_row_count") == 183,
-            "frozen unibranch genus/degree row count mismatch")
-    require(receiver.get("unibranch_degree_row_checksum") ==
-            "3b039e94c850bd5669db0288ef0806a0f373952c181993e07c70a54f285ff6b0",
-            "frozen unibranch row checksum mismatch")
-    require(receiver.get("source_lock_complete") is True,
-            "EX5-00 source lock must be complete")
-    require(receiver.get("row_count") is None,
-            "EX5-01 receiver-ledger row count must remain unset")
-    require(receiver.get("coverage_checksum") is None,
-            "EX5-01 coverage checksum must remain unset")
-    require(receiver.get("chat_or_memory_counts_treated_as_authority") is False,
+    require(receiver["receiver_ledger_artifact"] ==
+            "stages/stage32-ex5/ex5-01-exact-receiver-ledger.json",
+            "EX5-01 ledger path mismatch")
+    require(receiver["coverage_graph_artifact"] ==
+            "stages/stage32-ex5/ex5-02-current-coverage-dependency-graph.json",
+            "EX5-02 graph path mismatch")
+    require(receiver["unibranch_degree_row_count"] == 183, "unibranch row count drift")
+    require(receiver["row_count"] == 185, "receiver ledger row count drift")
+    require(receiver["coverage_checksum"] ==
+            "3a700ed40b5d0e6bf212f569ed85279a15ac90bb8a87a96e61f01729ffa0ca95",
+            "receiver coverage checksum drift")
+    require(receiver["status_counts"] == {
+        "CLOSED": 5, "OPEN": 180, "UNKNOWN": 0, "CONDITIONAL": 0, "OUT_OF_SCOPE": 0
+    }, "receiver status counts drift")
+    require(receiver["coverage_graph_canonical_sha256"] ==
+            "36f782aa6948b0e43a7bfc3d812ff43079051c871ab4e92c63056fbb6159d1bc",
+            "coverage graph canonical drift")
+    require(receiver["coverage_graph_primary_open_mapping_count"] == 180,
+            "coverage graph open mapping count drift")
+    require(receiver["coverage_graph_special_v6_overlay_row_count"] == 1,
+            "coverage graph special overlay count drift")
+    for key in ("source_lock_complete", "receiver_ledger_complete",
+                "receiver_ledger_coverage_certified",
+                "current_coverage_dependency_graph_complete"):
+        require(receiver[key] is True, f"receiver contract incomplete: {key}")
+    require(receiver["chat_or_memory_counts_treated_as_authority"] is False,
             "chat/memory cannot define receiver authority")
-    require(receiver.get("V6_O210_Q602_treated_as_definition_of_all_receivers") is False,
-            "V6/O210/Q602 cannot silently define all receivers")
+    require(receiver["V6_O210_Q602_treated_as_definition_of_all_receivers"] is False,
+            "V6/O210/Q602 cannot define all receivers")
 
-    discovery = state.get("asset_discovery", {})
-    require(discovery.get("policy_path") == "docs/research-os/policies/repository-asset-discovery.md",
-            "asset discovery policy path mismatch")
-    require(discovery.get("arsenal_index_path") == "docs/arsenal/index.json",
-            "arsenal index path mismatch")
-    require(discovery.get("clean_room_generation_must_precede_asset_solution_lookup") is True,
-            "clean-room generation ordering lost")
+    discovery = state["asset_discovery"]
+    require(discovery["clean_room_generation_must_precede_asset_solution_lookup"] is True,
+            "clean-room ordering lost")
+    require(discovery["trigger_leaf"] == "EX5-04_REPOSITORY_ASSET_DISCOVERY_AND_DEDUPLICATION",
+            "asset discovery trigger drift")
 
-    bootstrap = state.get("bootstrap", {})
-    require(bootstrap.get("merge_authorized") is False, "merge must not be authorized")
-    require(bootstrap.get("active_work_pr") == 1710, "wrong active EX5 work PR")
+    bootstrap = state["bootstrap"]
+    require(bootstrap["merge_authorized"] is False, "merge must not be authorized")
+    require(bootstrap["active_work_pr"] == 1710, "wrong active EX5 work PR")
 
-    frontier = state.get("frontier", {})
-    require(frontier.get("EX5_00_source_lock_complete") is True,
-            "EX5-00 frontier flag must be complete")
-    require(frontier.get("receiver_population_contract_complete") is True,
-            "receiver population contract must be complete after EX5-00")
-    require(frontier.get("receiver_ledger_complete") is False,
-            "EX5-01 ledger cannot be pre-credited")
-    require(frontier.get("clean_room_candidate_universe_frozen") is False,
-            "EX5-03 cannot be pre-credited")
-    require(frontier.get("arsenal_dedup_complete") is False,
-            "EX5-04 cannot be pre-credited")
+    frontier = state["frontier"]
+    for key in ("EX5_00_source_lock_complete", "receiver_population_contract_complete",
+                "receiver_ledger_complete", "receiver_ledger_coverage_certified",
+                "current_coverage_dependency_graph_complete"):
+        require(frontier[key] is True, f"frontier flag must be complete: {key}")
+    for key in ("clean_room_candidate_universe_frozen", "arsenal_dedup_complete",
+                "route_scorecard_complete", "primary_route_selected",
+                "primary_microdiagnostic_complete", "nontrivial_receiver_effect_obtained",
+                "qualified_independent_route_established", "frozen_breadth_package_exhausted",
+                "audit_ready_EX5_route_decision_closure", "EX5_route_decision_closure"):
+        require(frontier[key] is False, f"future frontier flag pre-credited: {key}")
 
-    firewalls = state.get("firewalls", {})
-    false_keys = [
-        "receiver_ledger_promoted_to_mathematical_closure",
-        "route_score_promoted_to_mathematical_credit",
-        "theorem_name_promoted_without_population_adapter",
-        "arsenal_keyword_match_promoted_to_applicability",
-        "sample_result_promoted_to_receiver_wide_result",
-        "finite_search_miss_promoted_to_impossibility",
-        "V6_only_result_promoted_to_stage32_wide_progress",
-        "other_stage_provisional_result_imported_as_authority",
-        "duplicate_MAIN_or_EX1_EX4_route_promoted_as_independent",
-        "bounded_candidate_package_exhaustion_promoted_to_global_no_route_theorem",
-        "EX5_route_decision_closure_promoted_to_stage32_closure",
-        "blocked_route_treated_as_stage_exhaustion",
-        "stage32_main_credit",
-        "Q602_excluded",
-        "O210_excluded",
-        "O212_plus_advance_allowed",
-        "stage32_closed",
-        "perfect_cuboid_existence_claim",
-        "perfect_cuboid_nonexistence_claim",
-    ]
-    for key in false_keys:
-        require(firewalls.get(key) is False, f"firewall {key} must be false")
+    current = state["current"]
+    require(current["status"] == "EX5_02_CURRENT_COVERAGE_DEPENDENCY_GRAPH_COMPLETE_UNAUDITED_RETAINED",
+            "wrong retained EX5-02 status")
+    require(current["leaf"] == "EX5-03_CLEAN_ROOM_MATERIALLY_DISTINCT_ROUTE_GENERATION",
+            "EX5-02 completion must route to EX5-03")
 
-    current = state.get("current", {})
-    require(current.get("status") == "EX5_00_SOURCE_LOCK_COMPLETE_UNAUDITED_RETAINED",
-            "wrong retained EX5-00 status")
-    require(current.get("leaf") == "EX5-01_EXACT_RECEIVER_LEDGER_RECONSTRUCTION",
-            "EX5-00 completion must route to EX5-01")
+    working = state["current_leaf_working_set"]
+    for path in (
+        "stages/stage32-ex5/ex5-00-source-lock-target-contract.json",
+        "stages/stage32-ex5/ex5-01-exact-receiver-ledger.json",
+        "stages/stage32-ex5/ex5-02-current-coverage-dependency-graph.json",
+        "stages/stage32-ex5/verify_ex5_02_coverage_graph.py",
+    ):
+        require(path in working, f"EX5-03 working set missing {path}")
 
-    working = state.get("current_leaf_working_set", [])
-    require("stages/stage32-ex5/ex5-00-source-lock-target-contract.json" in working,
-            "EX5-01 working set must include frozen target contract")
-    require("stages/stage32-ex5/verify_ex5_00_source_lock.py" in working,
-            "EX5-01 working set must include EX5-00 replay verifier")
+    require(state["credit"]["level"] == "EX5_02_COVERAGE_TOPOLOGY_ONLY_NO_MATHEMATICAL_CREDIT",
+            "credit level drift")
+    require(state["audit"]["status"] == "NOT_READY_INTERMEDIATE_EX5_02_UNAUDITED",
+            "audit readiness drift")
 
-    print("PASS: Stage32EX5 MAIN state structural/firewall contract through EX5-00")
+    firewalls = state["firewalls"]
+    for key, value in firewalls.items():
+        require(value is False, f"firewall {key} must remain false")
+
+    print("PASS: Stage32EX5 MAIN state structural/firewall contract through EX5-02")
 
 
 if __name__ == "__main__":
