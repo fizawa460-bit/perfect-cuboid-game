@@ -43,7 +43,6 @@ jobs:
         run: |
           set -euo pipefail
           H=6b31ca804744c4d8726d3d74861faadee78e0d64
-          git cat-file -e "$H^{commit}"
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CN.py"
@@ -53,7 +52,6 @@ jobs:
         run: |
           set -euo pipefail
           H=b19439a701579d1563a77746cb1e6d57da04460e
-          git cat-file -e "$H^{commit}"
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CO.py"
@@ -63,7 +61,6 @@ jobs:
         run: |
           set -euo pipefail
           H=acb10a76b8adcd07d52dc977e4257790395f535a
-          git cat-file -e "$H^{commit}"
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CP.py"
@@ -73,7 +70,6 @@ jobs:
         run: |
           set -euo pipefail
           H=a0d8cb76e43f926342f1a57b2b6aa903d19da63d
-          git cat-file -e "$H^{commit}"
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CQ.py"
@@ -83,7 +79,6 @@ jobs:
         run: |
           set -euo pipefail
           H=1e9cf94bc7ffc6ac78fabf51adac3cdf31d2bd12
-          git cat-file -e "$H^{commit}"
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CR.py"
@@ -93,7 +88,6 @@ jobs:
         run: |
           set -euo pipefail
           H=b1b88082b018edb4d9b22157943c7dd8b289b277
-          git cat-file -e "$H^{commit}"
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CS.py"
@@ -103,12 +97,16 @@ jobs:
         run: |
           set -euo pipefail
           H=562e64f8f4ea64f420a7970a03119d0029d70a10
-          git cat-file -e "$H^{commit}"
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CT.py"
           git worktree remove --force "$tmp"
-      - name: Assert CT exact-green promotion and CU unlock firewalls
+      - name: Verify 36-09CU Kummer-monomial Brauer no-go
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09CU.py
+      - name: Assert CU checkpoint and CV lock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -116,27 +114,33 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V151_36_09CT_EXACT_GREEN_CU_UNLOCK'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V152_36_09CU_KUMMER_MONOMIAL_BRAUER_NO_GO'
           ct=s['authority_frontier']['36-09CT']
           assert ct['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert ct['certificate_blob_sha']=='923ff0bfa93997bc935f280b274143377aafedde'
-          assert ct['verifier_blob_sha']=='30edb989ad8bc9b8b386eb0840d03fff30d14db8'
           assert ct['exact_head']=='562e64f8f4ea64f420a7970a03119d0029d70a10'
           assert ct['exact_head_ci']=='34192760298/101954018281'
-          assert ct['CS_EVALUATION_NONTRIVIAL_ON_RECEIVER_LOCAL_LOCUS'] is False
-          assert ct['CS_EVALUATION_SUPPLIES_OBSTRUCTION'] is False
-          assert ct['CS_TARGET_LOCUS_NONTRIVIAL_PAIRING_PLACES']==[]
-          assert ct['FIRST_MISSING_OBLIGATION']=='BT_NONTRIVIAL_ON_RECEIVER_LOCUS_BRAUER_OR_SECONDARY_TORSOR_EVALUATION'
+          cu=s['authority_frontier']['36-09CU']
+          assert cu['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert cu['certificate_blob_sha']=='cb92adb9b0025e8cef8554a2c30dc6777b8e2835'
+          assert cu['verifier_blob_sha']=='5d310a9d744031b4e03d1ae595ae922183493283'
+          assert cu['BT_KUMMER_MONOMIAL_QUATERNION_FAMILY_EXHAUSTED_AS_OBSTRUCTION'] is True
+          assert cu['BT_NONTRIVIAL_RECEIVER_LOCUS_SECONDARY_EVALUATION_FOUND'] is False
+          assert cu['BT_BRAUER_CLASS_WITH_POINT_DEPENDENT_RECEIVER_EVALUATION_FOUND'] is False
+          assert cu['FIRST_MISSING_OBLIGATION']=='BT_NON_KUMMER_DIVISOR_COCYCLE_OR_SECONDARY_EXTENSION_SOURCE'
+          assert cu['LIT_WF02_APPLICABILITY_PASS'] is False
+          assert cu['NEW_GLOBAL_OBSTRUCTION_OBTAINED'] is False
           cur=s['current']
-          assert cur['unit']=='36-09CT'
-          assert cur['next_exact_leaf']=='36-09CU_BT_NONTRIVIAL_RECEIVER_LOCUS_BRAUER_SECONDARY_TORSOR_PREFLIGHT'
+          assert cur['unit']=='36-09CU'
+          assert cur['next_exact_leaf']=='36-09CV_BT_NON_KUMMER_DIVISOR_COCYCLE_BRAUER_SOURCE_PREFLIGHT'
           assert cur['36_09CU_entry_allowed'] is True
+          assert cur['36_09CV_entry_allowed'] is False
           pg=s['promotion_gates']
-          assert pg['36_09CT_exact_head_ci_passed'] is True
-          assert pg['36_09CU_entry_allowed'] is True
-          assert pg['BT_CS_evaluation_nontrivial_on_receiver_local_locus'] is False
-          assert pg['BT_CS_evaluation_supplies_obstruction'] is False
+          assert pg['36_09CU_certificate_complete'] is True
+          assert pg['36_09CU_exact_head_ci_passed'] is False
+          assert pg['36_09CV_entry_allowed'] is False
+          assert pg['BT_kummer_monomial_quaternion_family_exhausted_as_obstruction'] is True
           assert pg['BT_nontrivial_receiver_locus_secondary_evaluation_found'] is False
+          assert pg['BT_Brauer_class_with_point_dependent_receiver_evaluation_found'] is False
           assert pg['BT_Poitou_Tate_local_condition_system_complete'] is False
           assert pg['Stage36_required_place_inventory_complete'] is False
           assert pg['LIT_WF02_applicability_pass'] is False
@@ -146,6 +150,6 @@ jobs:
           claims=s['claims']
           for key in ['new_theorem_credit','LIT_WF02_applicability_pass','Selmer_membership_obtained','Poitou_Tate_obstruction_obtained','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert claims[key] is False
-          print('36-09CT exact-green parent verified and 36-09CU entry unlocked. No PT/BM/receiver/endpoint credit.')
+          print('36-09CU provisional checkpoint verified: five-root Kummer-monomial quaternion family is reciprocity-trivial on receiver lifts; CV remains locked pending exact-head CI.')
           PY
           git diff --check
