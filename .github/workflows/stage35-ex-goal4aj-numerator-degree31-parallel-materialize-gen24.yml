@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 2
+          fetch-depth: 100
       - id: gate
         name: Commit-range runkey authorization
         shell: bash
@@ -34,19 +34,21 @@ jobs:
           test '${{ github.event.pull_request.head.ref }}' = 'stage35-ex-goal4aj-degree19-truncated-kernel'
           test '${{ github.event.pull_request.base.ref }}' = 'main'
           test -n "$BEFORE"
-          git fetch --no-tags --depth=1 origin "$BEFORE"
+          git fetch --no-tags --depth=100 origin "$BEFORE"
           git cat-file -e "$BEFORE^{commit}"
           mapfile -t changed < <(git diff --name-only "$BEFORE" "$HEAD")
           test "${#changed[@]}" -eq 1
           test "${changed[0]}" = "$KEY"
-          git fetch --no-tags origin main
+          git show "$BEFORE:$KEY" > /tmp/gen24-old-key.json
+          git fetch --no-tags --depth=100 origin main
           python - <<'PY'
-          import hashlib, json, os, pathlib, subprocess
+          import hashlib, json, pathlib, subprocess
           key=pathlib.Path('stages/stage35-ex/runkeys/goal4aj-numerator-degree31-parallel-materialize-gen24.json')
           src=pathlib.Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_numerator_degree31_parallel_materialize_gen24.py')
+          old=json.loads(pathlib.Path('/tmp/gen24-old-key.json').read_text())
           r=json.loads(key.read_text())
-          assert r['schema']=='STAGE35_EX_GOAL4AJ_NUMERATOR_DEGREE31_PARALLEL_MATERIALIZE_GEN24_RUNKEY_V1'
-          assert r['generation']==1 and r['armed'] is True
+          assert old['schema']==r['schema']=='STAGE35_EX_GOAL4AJ_NUMERATOR_DEGREE31_PARALLEL_MATERIALIZE_GEN24_RUNKEY_V1'
+          assert old['generation']==1 and r['generation']==2 and r['armed'] is True
           assert r['pr_number']==1698
           assert r['branch']=='stage35-ex-goal4aj-degree19-truncated-kernel' and r['base']=='main'
           raw=src.read_bytes(); blob=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
