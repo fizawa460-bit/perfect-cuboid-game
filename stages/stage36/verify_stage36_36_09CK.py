@@ -65,16 +65,10 @@ def good_local(a:int,b:int,row,q:int,buv)->bool:
     kappa=eta*(2**e)*C; rho=(2**f)*D
     d=buv.legendre(A*B,q); k=buv.legendre(kappa*A,q); r=buv.legendre(rho*A,q)
     targets=(d,k,r,k*d,r*d)
-    # Interior residues and all five finite branch residues.  At a branch
-    # residue exactly one factor is zero and the other four residue
-    # characters decide whether the normalization has an F_q-point above it.
     for y in range(q):
         vals=(y%q,(1-y)%q,(1+y)%q,(1-L*y)%q,(1+L*y)%q)
         if all(v==0 or buv.legendre(v,q)==targets[i] for i,v in enumerate(vals)):
             return True
-    # The infinity fibre is rational exactly when the four ratios to the
-    # first radicand have square leading coefficients.  Since L is a square,
-    # this reduces to d=1, k=chi(-1), r=1.
     eps=buv.legendre(-1,q)
     return d==1 and k==eps and r==1
 
@@ -125,12 +119,10 @@ def main()->None:
         (3,4):(3,3,[]),
         (1,8):(3,3,[]),
     }
-    got={}
     for p,want in expected.items():
         rows,kept,obs=panel(*p,civ,cev,cfv,cgv,ccv,buv,chv)
         compact=[(i,bad) for i,row,bad in obs]
-        got[p]=(len(rows),len(kept),compact)
-        assert got[p]==want,(p,got[p],want)
+        assert (len(rows),len(kept),compact)==want,(p,(len(rows),len(kept),compact),want)
     rows,kept,obs=panel(2,11,civ,cev,cfv,cgv,ccv,buv,chv)
     assert [row for i,row,bad in obs]==[(1,1,3,1,-1,0,1,429,True),(1,1,3,1,1,0,1,-429,True)]
 
@@ -142,7 +134,6 @@ def main()->None:
     assert d['diagnostic_p_3_over_4']['after_CK_small_good_primes']==3
     assert d['diagnostic_p_1_over_8']['after_CK_small_good_primes']==3
 
-    # Real-place sign proof is branch-uniform: A,B>0, rho>0 and sign(kappa)=eta.
     for p in expected:
         rows=civ.ch_rows(*p,cev,cfv,cgv,ccv,buv,chv)
         for A,B,C,D,eta,e,f,mu,qok in rows:
@@ -160,20 +151,23 @@ def main()->None:
         assert fw[k] is False
 
     st=json.loads(STATE.read_text())
-    assert st['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V131_36_09CK_ALL_LOCAL_PLACES_CLASSIFIED'
+    assert st['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V131_36_09CK_CANDIDATE_PENDING_EXACT_CI'
     assert st['base_main_sha']==BASE and st['freshness']['current_main']==BASE
     cjst=st['authority_frontier']['36-09CJ']
     assert cjst['status']=='PROVISIONAL_EXACT_GREEN_PARENT' and cjst['exact_head']==CJ_HEAD and cjst['exact_head_ci']==CJ_CI
     ck=st['authority_frontier']['36-09CK']
+    assert ck['status']=='PROVISIONAL_CANDIDATE_PENDING_EXACT_HEAD_CI'
     assert ck['certificate_blob_sha']==CERT_BLOB
     assert ck['GOOD_PRIME_AND_REAL_PLACE_INTEGRATION_COMPLETE'] is True
     assert ck['NEW_GOOD_PRIME_BRANCH_FILTER'] is True
     assert ck['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
+    assert st['current']['unit']=='36-09CK'
     assert st['current']['next_exact_leaf']=='36-09CL_EVERYWHERE_LOCAL_BRANCH_GLOBAL_OBSTRUCTION_ROUTER_PREFLIGHT'
-    assert st['current']['36_09CL_entry_allowed'] is True
+    assert st['current']['36_09CL_entry_allowed'] is False
     assert st['current']['hostile_audit_checkpoint_reached'] is False
+    assert st['promotion_gates']['36_09CK_exact_head_ci_passed'] is False
     for k in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
         assert st['claims'][k] is False
-    print('36-09CK verified: all good odd primes and the real place are classified branchwise. Small good primes prune p=2/11 CH branches 5->3 via q=37,53,149; p=1/2 remains 3. No fixed-p parameter or receiver closure; CL global-obstruction router selected.')
+    print('36-09CK verified: all good odd primes and the real place are classified branchwise. Small good primes prune p=2/11 CH branches 5->3 via q=37,53,149; p=1/2 remains 3. No fixed-p parameter or receiver closure; CL remains locked until this exact head is green.')
 
 if __name__=='__main__':main()
