@@ -47,7 +47,12 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09DP.py"
           git worktree remove --force "$tmp"
-      - name: Assert V197 DP exact-green parent and DQ unlock firewalls
+      - name: Verify 36-09DQ global 2-primary adelic annihilator
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09DQ.py
+      - name: Assert V198 DQ provisional firewalls and DR lock
         shell: bash
         run: |
           set -euo pipefail
@@ -55,27 +60,32 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V197_36_09DP_EXACT_GREEN_DQ_UNLOCK_PENDING_PROMOTION_REPLAY'
-          dp=s['authority_frontier']['36-09DP']
-          assert dp['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert dp['certificate_blob_sha']=='ca4e238820ee5c1f5850ac99e5995e71c7d68eba'
-          assert dp['verifier_blob_sha']=='f288684887dbbfcc40ba3fa6039724cd5598e834'
-          assert dp['source_blob_sha']=='d9e081ac00c1b0267c970ba1ab2c0932d0a51425'
-          assert dp['exact_head']=='ac5d65e7cd148db91e41706cc213c350f981e2f4'
-          assert dp['exact_head_ci']=='34230132989/102073890507'
-          assert dp['GLOBAL_Q2_2PRIMARY_LOCALIZATION_SURJECTIVE'] is True
-          assert dp['GLOBAL_Q2_2PRIMARY_LOCALIZATION_IMAGE_UNBOUNDED'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V198_36_09DQ_GLOBAL_2PRIMARY_ADELIC_ANNIHILATOR_PENDING_EXACT_HEAD_CI'
+          dq=s['authority_frontier']['36-09DQ']
+          assert dq['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert dq['certificate_blob_sha']=='4c41228d23f9088bfbea8b68c94b2a26948f8691'
+          assert dq['verifier_blob_sha']=='cabac18dca47c5bb56a54c08876aae653b3bc4c8'
+          assert dq['source_blob_sha']=='71829ec5e0af601605f1f93c5f3a3fec4cae2102'
+          assert dq['GLOBAL_2PRIMARY_ADELIC_ANNIHILATOR_COMPUTED'] is True
+          assert dq['GLOBAL_2PRIMARY_ADELIC_ANNIHILATOR']=='image(T_2 Sel(J))'
+          assert dq['T2SEL_EQUALS_MORDELL_WEIL_2ADIC_COMPLETION_PROVED'] is False
+          assert dq['RETAINED_OPEN_CURVE_PROSELMER_INTERSECTION_COMPUTED'] is False
+          assert dq['GLOBAL_2PRIMARY_BRAUER_SET_NONEMPTY'] is False
+          assert dq['GLOBAL_2PRIMARY_BRAUER_SET_EMPTY'] is False
           cur=s['current']; pg=s['promotion_gates']
-          assert cur['unit']=='36-09DP'
-          assert cur['36_09DQ_entry_allowed'] is True
-          assert pg['36_09DP_exact_head_ci_passed'] is True
-          assert pg['36_09DP_promotion_replay_passed'] is False
-          assert pg['36_09DQ_entry_allowed'] is True
-          assert pg['BT_global_Q2_2primary_localization_image_is_full'] is True
-          assert pg['BT_global_Q2_2primary_localization_image_unbounded'] is True
-          assert pg['BT_global_2primary_adelic_annihilator_computed'] is False
+          assert cur['unit']=='36-09DQ'
+          assert cur['36_09DR_entry_allowed'] is False
+          assert pg['36_09DP_promotion_replay_passed'] is True
+          assert pg['36_09DQ_certificate_complete'] is True
+          assert pg['36_09DQ_exact_head_ci_passed'] is False
+          assert pg['36_09DR_entry_allowed'] is False
+          assert pg['BT_global_2primary_adelic_annihilator_computed'] is True
+          assert pg['BT_global_2primary_adelic_annihilator_is_T2Sel_image'] is True
+          assert pg['BT_Sha_2primary_finiteness_proved'] is False
+          assert pg['BT_T2Sel_computed'] is False
+          assert pg['BT_retained_open_curve_proSelmer_intersection_computed'] is False
           for key in ['BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','BT_full_Brauer_set_nonempty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          print('36-09DP immutable exact-green evidence replayed; 36-09DQ is unlocked for the global 2-primary adelic annihilator problem only. No downstream credit is granted.')
+          print('36-09DQ provisional candidate verified: the global 2-primary adelic annihilator is image(T_2 Sel(J)); the retained-open curve/pro-Selmer intersection is unresolved. DR remains locked pending exact-head CI.')
           PY
           git diff --check
