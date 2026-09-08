@@ -35,12 +35,27 @@
           "source_locks":{"type":"array","items":{"type":"object","additionalProperties":true,"properties":{"path":{"type":"string","minLength":1},"blob_sha1":{"type":"string","pattern":"^[0-9a-f]{40}$"},"canonical_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"}},"required":["path"]}},
           "audit_receipt":{"type":["object","null"]},
           "replay_verifier":{"type":["string","null"]},
-          "bridges":{"type":"object"},
+          "bridges":{
+            "type":"object",
+            "properties":{
+              "from_scope_key":{"type":"string","pattern":"^S32\\.[A-Z0-9_]+(?:\\.[A-Z0-9_]+)*$"},
+              "to_scope_key":{"type":"string","pattern":"^S32\\.[A-Z0-9_]+(?:\\.[A-Z0-9_]+)*$"},
+              "semantics":{"type":"string"}
+            },
+            "required":["from_scope_key","to_scope_key"],
+            "additionalProperties":true
+          },
           "frontier_status":{"type":"string"},
           "blockers":{"type":"array","items":{"type":"string"}},
           "lane_links":{"type":"array","items":{"type":"object","additionalProperties":false,"properties":{"lane":{"enum":["MAIN","EX1","EX2","EX3","EX4","EX5"]},"role":{"enum":["OWNER","ATTACKS","CONSUMES"]}},"required":["lane","role"]}}
         },
-        "required":["claim_id","kind","statement","scope_key","scope","proves","does_not_prove","requires","claim_core_sha256","authority_status","source_locks","audit_receipt"]
+        "required":["claim_id","kind","statement","scope_key","scope","proves","does_not_prove","requires","claim_core_sha256","authority_status","source_locks","audit_receipt"],
+        "allOf":[
+          {
+            "if":{"properties":{"kind":{"const":"adapter_contract"}},"required":["kind"]},
+            "then":{"required":["bridges"]}
+          }
+        ]
       }
     }
   },
