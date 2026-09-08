@@ -50,6 +50,21 @@
         "End_H(J(Z)) tensor Q = M2(Q(sqrt(-2))) x Q(i)^3"
       ],
       "firewall": "Only the rational character decomposition is imported. The older unresolved integral NS(X) character-lattice index is not used as an integral surface-lattice statement."
+    },
+    "retained_H_character_names_and_pairs": {
+      "path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock.json",
+      "canonical_sha256": "c84242981cbf81c9935c6851d8a95dc4dc0f1d8afbdba7ba7bbe16385bf1282f",
+      "used_facts": {
+        "H_basis": ["u", "v"],
+        "chi_u_F2_values_u_v_uv": [1, 0, 1],
+        "chi_v_F2_values_u_v_uv": [0, 1, 1],
+        "chi_uv_F2_values_u_v_uv": [1, 1, 0],
+        "canonical_pairs": {
+          "chi_u": "Z3={0,infinity}",
+          "chi_v": "Z2={+i,-i}",
+          "chi_uv": "Z1={+1,-1}"
+        }
+      }
     }
   },
   "notation_firewall": {
@@ -75,16 +90,17 @@
     "trace_formula": "L_h=2*105*81-Gamma_P.(h,1)Gamma_P=Tr_Q(S^dagger*h*S)"
   },
   "H_character_fourier_inversion": {
+    "sign_rule_from_retained_F2_character": "sign(h)=(-1)^(chi(h))",
     "character_table_order_1_u_v_uv": {
       "trivial": [1, 1, 1, 1],
-      "chi_u": [1, 1, -1, -1],
-      "chi_v": [1, -1, 1, -1],
+      "chi_u": [1, -1, 1, -1],
+      "chi_v": [1, 1, -1, -1],
       "chi_uv": [1, -1, -1, 1]
     },
     "block_rational_rosati_traces": {
       "trivial": 1204,
-      "chi_u": 274,
-      "chi_v": 18,
+      "chi_u": 18,
+      "chi_v": 274,
       "chi_uv": 18
     },
     "trivial_block_consistency": "1204 equals the independently retained downstairs Tr_Q(T^dagger*T)=2*Q(T) with Q(T)=602",
@@ -93,6 +109,11 @@
   "elliptic_prym_consequence": {
     "reason": "Each nontrivial H-character has holomorphic dimension one, so its character abelian subvariety is elliptic; the retained rational endomorphism algebra on each such block is Q(i).",
     "rosati_on_CM_elliptic_block": "complex conjugation; therefore Tr_Q(alpha^dagger*alpha)=2*Norm_Q(i)/Q(alpha)=2*deg(alpha)",
+    "forced_degrees_by_retained_character": {
+      "chi_u": {"degree": 9, "canonical_pair": "Z3={0,infinity}"},
+      "chi_v": {"degree": 137, "canonical_pair": "Z2={+i,-i}"},
+      "chi_uv": {"degree": 9, "canonical_pair": "Z1={+1,-1}"}
+    },
     "forced_degrees_multiset": [137, 9, 9],
     "maximal_order_candidate_superset": {
       "norm_137_count": 8,
@@ -106,6 +127,8 @@
   "relation_to_prior_stage32": {
     "not_a_reuse_of_surface_integral_NS_claim": true,
     "why_integral_index_firewall_is_not_crossed": "The new integers 137,9,9 come from the canonical correspondence trace pairing on the actual product Z x Z and the rational H-character decomposition of J(Z), not from assigning an integral scale to the rational NS(X) character lattice.",
+    "numerical_274_18_18_already_encoded_by_X_deck_cross_fourier": true,
+    "new_value_of_this_leaf": "interpret those exact character numbers in the canonically scaled product-correspondence Rosati pairing as elliptic Prym endomorphism degrees and obtain a finite Gaussian scalar superset",
     "ex3_04c_unique_plane_result_new_credit": false,
     "ex3_04c_reason": "The H4-plane coordinate observation is dominated by the retained post1505 self-Richelot exact-W adapter and gives no new pruning of the current residues."
   },
@@ -113,10 +136,11 @@
     "upstairs_H_character_Rosati_gate_obtained": true,
     "nontrivial_Prym_degree_multiset_forced": true,
     "finite_scalar_candidate_superset_obtained": true,
+    "retained_character_labels_attached": true,
     "norm_level_population_empty": false,
     "O210_excluded": false,
     "Q602_excluded": false,
-    "next_exact_route": "Combine the forced nontrivial Prym degree pattern {137,9,9} and its finite Q(i) scalar candidates with the exact relative-H character labels / branch-cycle orientation of the same carrier. Reject only combinations incompatible with the simultaneous degree105/81 cover and common H4 torsor; do not treat a scalar candidate as a realized cover."
+    "next_exact_route": "Use graph/diagonal intersection data, if source-locked for the exact V6 class, to recover linear traces of the three Q(i) Prym scalars; otherwise combine the labeled {chi_u:9,chi_v:137,chi_uv:9} norm gate with exact branch-cycle orientation. Do not treat scalar candidates as realized covers."
   },
   "firewalls": {
     "old_superseded_O210_exclusion_reused": false,
