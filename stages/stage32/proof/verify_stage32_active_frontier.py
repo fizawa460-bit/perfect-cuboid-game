@@ -23,6 +23,12 @@ REQUIRED_SYNC_TRIGGERS = {
     "ACTIVE_FRONTIER_REMAP",
     "FINAL_MILESTONE_TRANSITION",
 }
+EXPECTED_AUDIT_TRANSITION_POLICY = {
+    "pass_before_sync": "KEEP_PRE_SYNC_AUTHORITY_NO_UPGRADE",
+    "fail_before_sync": "BLOCK_DOWNSTREAM_IMMEDIATELY",
+    "revocation_before_sync": "BLOCK_DOWNSTREAM_IMMEDIATELY",
+    "registry_authority_mutation": "AT_CLAIM_SYNC_WITH_EXACT_RECEIPT",
+}
 
 REQUIRED_ACTIVE_IDS = {
     "S32.V6.ACTUAL_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
@@ -58,6 +64,32 @@ def load_base_verifier():
     return module
 
 
+def downstream_consumption_allowed_before_sync(pre_sync_authority: str, audit_transition: str) -> bool:
+    """Fail-close authority use while an audit transition is known but not yet synchronized."""
+    transition = audit_transition.upper()
+    if transition in {"FAIL", "REVOCATION", "REVOKED"}:
+        return False
+    if transition == "PASS":
+        # PASS cannot increase authority before registry synchronization.
+        return pre_sync_authority == "AUDITED"
+    raise RuntimeError(f"unknown audit transition {audit_transition!r}")
+
+
+def self_test_audit_transition_fail_closed() -> None:
+    # Core regression requested by hostile audit: once FAIL/revocation is known,
+    # an old AUDITED registry value is no longer consumable while sync is pending.
+    if downstream_consumption_allowed_before_sync("AUDITED", "FAIL"):
+        raise RuntimeError("synthetic regression: known FAIL left old AUDITED claim consumable")
+    if downstream_consumption_allowed_before_sync("AUDITED", "REVOCATION"):
+        raise RuntimeError("synthetic regression: known revocation left old AUDITED claim consumable")
+    # PASS is asymmetric: it may preserve an already-AUDITED level, but it may
+    # never upgrade a lower authority before the exact PASS receipt is synced.
+    if downstream_consumption_allowed_before_sync("PROVISIONAL", "PASS"):
+        raise RuntimeError("synthetic regression: PASS upgraded PROVISIONAL authority before sync")
+    if not downstream_consumption_allowed_before_sync("AUDITED", "PASS"):
+        raise RuntimeError("synthetic regression: PASS incorrectly revoked existing AUDITED authority")
+
+
 def validate_claim_sync_contract(adapters: dict) -> None:
     contract = adapters.get("contract")
     if not isinstance(contract, dict):
@@ -71,6 +103,8 @@ def validate_claim_sync_contract(adapters: dict) -> None:
     triggers = contract.get("claim_sync_triggers")
     if not isinstance(triggers, list) or set(triggers) != REQUIRED_SYNC_TRIGGERS or len(triggers) != len(REQUIRED_SYNC_TRIGGERS):
         raise RuntimeError("claim-sync trigger contract drift")
+    if contract.get("audit_transition_policy") != EXPECTED_AUDIT_TRANSITION_POLICY:
+        raise RuntimeError("claim-sync audit transition policy drift")
     if not SYNC_CONTRACT_PATH.is_file():
         raise RuntimeError("claim-sync contract file missing")
     sync_text = SYNC_CONTRACT_PATH.read_text()
@@ -79,6 +113,15 @@ def validate_claim_sync_contract(adapters: dict) -> None:
             raise RuntimeError(f"claim-sync contract missing trigger {trigger}")
     if "Scratch-only work does not trigger claim-DAG writes." not in sync_text:
         raise RuntimeError("claim-sync scratch firewall text missing")
+    required_audit_text = [
+        "downstream consumption of the affected claim is blocked immediately",
+        "synchronization latency may delay an authority increase, but it may never delay an authority decrease",
+        "PASS receipt by itself does not silently mutate the claim registry",
+    ]
+    for marker in required_audit_text:
+        if marker not in sync_text:
+            raise RuntimeError(f"claim-sync audit fail-close text missing: {marker}")
+    self_test_audit_transition_fail_closed()
 
     lanes = adapters.get("lanes")
     if not isinstance(lanes, list):
@@ -236,6 +279,8 @@ def main() -> int:
             "replay_verifiers_checked": replay_count,
             "claim_sync_contract": SYNC_CONTRACT_REL,
             "claim_sync_triggers": sorted(REQUIRED_SYNC_TRIGGERS),
+            "audit_transition_policy": EXPECTED_AUDIT_TRANSITION_POLICY,
+            "audit_transition_fail_closed_regression": True,
             "ordinary_startup_preloads_claim_dag": False,
             "scratch_only_sync_required": False,
             "historical_bulk_migration": False,
