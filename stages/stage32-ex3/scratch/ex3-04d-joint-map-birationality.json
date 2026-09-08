@@ -1,0 +1,66 @@
+{
+  "schema": "STAGE32EX3_EX3_04D_JOINT_MAP_BIRATIONALITY_SCRATCH_V1",
+  "stage": 32,
+  "lane": "EX3",
+  "leaf": "EX3-04_COMMON_V4_SIMULTANEOUS_TWO_PROJECTION_COMPATIBILITY",
+  "status": "SCRATCH_PROVISIONAL_DIAGNOSTIC_NOT_RETAINED",
+  "fixed_target": {
+    "Y_genus": 106,
+    "f1_degree": 105,
+    "f2_degree": 81,
+    "target": "C0 x C0"
+  },
+  "source_locks": {
+    "typed_cover_tower": {
+      "path": "stages/stage32-ex3/ex3-00-o210-typed-cover-tower.json",
+      "blob_sha1": "c28bda6c20340b4fc4ac060db158ca30926ecb38",
+      "canonical_sha256": "3a743b0607c59dc959f383fca8d97e54e8a740d197401e4c080b6fc4c94eaf07"
+    },
+    "ex3_04_gate": {
+      "path": "stages/stage32-ex3/scratch/ex3-04-common-v4-character-correspondence-gate.json",
+      "blob_sha1": "e4903bcce6031f2e35f45f2156e2d88c743c6554"
+    }
+  },
+  "ambient_quotient": {
+    "P": "Z x Z",
+    "X": "P/H4_diag",
+    "C0_square": "P/(H4 x H4)",
+    "deck_group": "(H4 x H4)/H4_diag ~= H4",
+    "degree_X_to_C0_square": 4,
+    "etale": true,
+    "reason": "Z->C0 is regular etale H4, hence P->C0^2 is regular etale H4xH4 and quotienting first by H4_diag leaves a regular etale quotient of order 4"
+  },
+  "joint_map": {
+    "map": "j=(f1,f2):Y->C0 x C0",
+    "image": "Gamma=j(Y)",
+    "generic_degree_symbol": "delta=deg(Y->Gamma)",
+    "coordinate_factorization": "deg(fi)=delta*deg(pr_i|Gamma)",
+    "degree_divisibility_from_coordinates": "delta divides gcd(105,81)=3",
+    "degree_divisibility_from_ambient_cover": "delta divides 4 because Y normalizes an irreducible curve in the regular H4-cover X->C0^2; the restriction degree is the stabilizer order of that curve under the ambient deck H4",
+    "forced_generic_degree": 1,
+    "conclusion": "j is birational onto Gamma; Y is the normalization of a genuine bidegree-(105,81) correspondence curve Gamma in C0 x C0"
+  },
+  "deck_consequence": {
+    "stabilizer_of_Y_image_in_ambient_H4": "trivial",
+    "ambient_translates": 4,
+    "generic_statement": "the four H4 translates of the corresponding irreducible curve in X are distinct and each maps birationally to Gamma",
+    "use": "this converts the two-map problem from an arbitrary common factor problem into a primitive correspondence problem; any later common intermediate curve of degree 3 is excluded by the ambient H4 geometry"
+  },
+  "diagnostic_verdict": {
+    "degree3_joint_factor_eliminated": true,
+    "joint_map_birational": true,
+    "primitive_correspondence_obtained": true,
+    "O210_excluded": false,
+    "next_exact_route": "use the primitive correspondence Gamma together with its four ambient H4 translates and the exact V6 pullback/intersection class; this can produce self-intersection or translate-intersection constraints stronger than the bare Rosati upper bound"
+  },
+  "firewalls": {
+    "birational_joint_map_promoted_to_smooth_image": false,
+    "Gamma_assumed_nonsingular": false,
+    "ambient_translate_statement_promoted_to_disjointness": false,
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "stage32_main_credit": false,
+    "claim_dag_sync_triggered_by_this_scratch": false,
+    "merge_authorized": false
+  }
+}
