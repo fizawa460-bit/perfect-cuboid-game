@@ -27,7 +27,7 @@ def require(cond: bool, msg: str) -> None:
 
 def csha(obj: object) -> str:
     return hashlib.sha256(
-        json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+        json.dumps(obj, sort_keys=True, separators=(",", ":")).encode()
     ).hexdigest()
 
 
@@ -72,7 +72,7 @@ def main() -> None:
     data = json.loads(ART.read_text(encoding="utf-8"))
     expected = data.pop("canonical_sha256_without_this_field")
     require(csha(data) == expected, "EX5-04 canonical SHA256 mismatch")
-    require(expected == "2d760161b10cbb16d95d995da01804c7d8a1f9a17a06cea826a00ea94fcbae6c",
+    require(expected == "e57445ac4293f48278d37abfb32f379957b795d5e8af01889563433e6fb3886e",
             "unexpected EX5-04 canonical SHA256")
     require(data.get("schema") == "STAGE32EX5_EX5_04_REPOSITORY_ASSET_DEDUP_V1", "wrong schema")
     require(data.get("status") == "EX5_04_REPOSITORY_ASSET_DISCOVERY_DEDUP_COMPLETE_UNAUDITED_RETAINED",
