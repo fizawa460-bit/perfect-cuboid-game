@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -19,7 +21,7 @@ jobs:
       - name: Verify current-main ancestry and freshness lock
         shell: bash
         run: |
-          git fetch origin main --depth=1
+          git fetch origin main
           test "$(git rev-parse origin/main)" = "226a8aa11ac61293a7e4b7f9611177f68af94ff4"
           git merge-base --is-ancestor 226a8aa11ac61293a7e4b7f9611177f68af94ff4 HEAD
       - name: Verify Stage32 claim DAG integrity
