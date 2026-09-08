@@ -47,6 +47,39 @@ def main() -> int:
             fail("EX6 stop status drift")
         if current.get("reentry_requires_new_input") is not True:
             fail("EX6 re-entry must require new input")
+        if current.get("last_retained_route_status") != "BLOCKED_NEW_PATTERN_ISOLATED":
+            fail("EX6 latest route-status drift")
+        if current.get("last_retained_result") != "DEGREE_ONLY_PRODUCT_COVER_RH_ROUTE_EQUIVALENT_TO_AR_TWO_FACTOR_RH_SLACK":
+            fail("EX6 product-cover RH result drift")
+
+        retained = state.get("retained_bounded_results", {})
+        expected = {
+            "product_cover_genus_Y": 134,
+            "product_cover_genus_D": 533,
+            "product_cover_R105": 224,
+            "product_cover_R81": 416,
+            "product_cover_combined_nonnode_ramification_formula": "8E",
+            "degree_only_product_cover_RH_route": "EQUIVALENT_TO_AR_TWO_FACTOR_RH_SLACK",
+        }
+        for key, value in expected.items():
+            if retained.get(key) != value:
+                fail(f"EX6 retained product-cover field drift: {key}")
+        if retained.get("independent_closing_upper_bound_available") is not False:
+            fail("EX6 must not claim an independent closing upper bound")
+
+        ledger = state.get("candidate_ledger", {})
+        if ledger.get("degree_only_product_cover_RH") != "EQUIVALENT":
+            fail("EX6 degree-only product-cover route must remain EQUIVALENT")
+        for key in (
+            "product_cover_nonnode_critical_support_incidence",
+            "simultaneous_two_projection_critical_values",
+            "member_level_landing_tangent_restriction",
+            "replacement_tensor_or_independent_correspondence_inequality",
+        ):
+            if ledger.get(key) != "UNTESTED":
+                fail(f"EX6 unresolved candidate silently discarded or promoted: {key}")
+        if ledger.get("rank4_global_landing_plus_101_ramification_units") != "BLOCKED":
+            fail("EX6 rank4 deficit route status drift")
 
         authority = state.get("authority", {})
         if authority.get("state_itself_grants_mathematical_credit") is not False:
@@ -69,6 +102,16 @@ def main() -> int:
         ):
             if credit.get(key) is not False:
                 fail(f"EX6 forbidden credit drift: {key}")
+
+        fw = state.get("firewalls", {})
+        for key in (
+            "product_cover_RH_promoted_to_support_incidence_constraint",
+            "fsm16_residual_upstairs_tensor_claimed",
+            "o266_result_descended_to_lower_O",
+            "stage32_main_advanced_by_ex6",
+        ):
+            if fw.get(key) is not False:
+                fail(f"EX6 firewall drift: {key}")
 
         for rel in state.get("current_leaf_working_set", []):
             path = ROOT / rel
@@ -94,6 +137,7 @@ def main() -> int:
             "verdict": "PASS_STAGE32EX6_MAIN_STATE",
             "outcome": completion["current_outcome"],
             "status": current["status"],
+            "latest_result": current["last_retained_result"],
             "stage32_main_credit": False,
             "o266_endpoint_excluded": False,
             "o264_descent_authorized": False,
