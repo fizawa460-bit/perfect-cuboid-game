@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V1_EX5_03_COMPLETE",
+  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V1_EX5_04_COMPLETE",
   "role": "ORDINARY_STAGE32EX5_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX5",
   "execution": {
@@ -50,21 +50,20 @@
     "EX5_route_decision_closure_is_Stage32_full_target_closure": false
   },
   "current": {
-    "status": "EX5_03_CLEAN_ROOM_CANDIDATE_UNIVERSE_FROZEN_UNAUDITED_RETAINED",
+    "status": "EX5_04_REPOSITORY_ASSET_DISCOVERY_DEDUP_COMPLETE_UNAUDITED_RETAINED",
     "breadth_cycle": "EX5_BREADTH_CYCLE_1",
-    "leaf": "EX5-04_REPOSITORY_ASSET_DISCOVERY_AND_DEDUPLICATION",
-    "subroute": "FOLLOW_REPOSITORY_ASSET_DISCOVERY_POLICY_THEN_DEDUP_CLEAN_ROOM_CANDIDATES",
-    "objective": "Classify the six generated clean-room candidates against repository assets while retaining the one pure-Q-descent semantic rejection, following policy -> Arsenal index -> relevant cards and preserving exact receiver/object/field/population semantics.",
-    "next_route_on_success": "EX5-05_ROUTE_TYPING_PROOF_OBLIGATIONS_AND_SCORECARD",
-    "next_route_on_block": "RECORD_EXACT_ASSET_DISCOVERY_LIMITATION_OR_SEMANTIC_MISMATCH_AND_KEEP_ARSENAL_DEDUP_INCOMPLETE",
+    "leaf": "EX5-05_ROUTE_TYPING_PROOF_OBLIGATIONS_AND_SCORECARD",
+    "subroute": "TYPE_AND_SCORE_FIVE_DEDUPLICATED_EXECUTABLE_CANDIDATES_WITHOUT_GRANTING_CREDIT",
+    "objective": "Apply the mandatory EX5 route scorecard to the five deduplicated candidates, type exact proof obligations and execution burden, then select one primary route and at least two materially distinct backups when available without granting mathematical credit.",
+    "next_route_on_success": "EX5-06_EXECUTABLE_ROUTE_CONTRACTS",
+    "next_route_on_block": "RECORD_TYPED_SCORECARD_LIMITATION_AND_EXPLAIN_IF_FEWER_THAN_THREE_EXECUTABLE_CANDIDATES_SURVIVE",
     "stop_semantics": "LEAF_GATE_ONLY_NOT_STAGE_EXHAUSTION"
   },
   "current_leaf_working_set": [
+    "stages/stage32-ex5/ex5-04-repository-asset-dedup.json",
+    "stages/stage32-ex5/verify_ex5_04_asset_dedup.py",
     "stages/stage32-ex5/ex5-03-clean-room-route-universe.json",
-    "stages/stage32-ex5/verify_ex5_03_clean_room_routes.py",
-    "stages/stage32-ex5/stage32-ex5.md",
-    "docs/research-os/policies/repository-asset-discovery.md",
-    "docs/arsenal/index.json"
+    "stages/stage32-ex5/stage32-ex5.md"
   ],
   "frontier": {
     "EX5_00_source_lock_complete": true,
@@ -73,7 +72,7 @@
     "receiver_ledger_coverage_certified": true,
     "current_coverage_dependency_graph_complete": true,
     "clean_room_candidate_universe_frozen": true,
-    "arsenal_dedup_complete": false,
+    "arsenal_dedup_complete": true,
     "route_scorecard_complete": false,
     "primary_route_selected": false,
     "backup_route_count": 0,
@@ -102,6 +101,21 @@
     "family_record_count": 7,
     "generated_candidate_count": 6,
     "semantically_irrelevant_family_count": 1,
+    "dedup_universe_version": "EX5_DEDUP_CANDIDATES_V1",
+    "dedup_artifact": "stages/stage32-ex5/ex5-04-repository-asset-dedup.json",
+    "dedup_verifier": "stages/stage32-ex5/verify_ex5_04_asset_dedup.py",
+    "deduplicated_candidate_count": 5,
+    "deduplicated_candidate_ids": [
+      "EX5R-EFC-001",
+      "EX5R-EHS-001",
+      "EX5R-MOD-001",
+      "EX5R-LGS-001",
+      "EX5R-XSTAGE-001"
+    ],
+    "removed_or_rejected_candidate_ids": [
+      "EX5R-GAL-001",
+      "EX5R-ENUM-001"
+    ],
     "primary_route_id": null,
     "backup_route_ids": [],
     "scratch_results_authoritative": false,
@@ -138,16 +152,23 @@
   },
   "asset_discovery": {
     "policy_path": "docs/research-os/policies/repository-asset-discovery.md",
+    "context_safe_policy_path": "docs/research-os/policies/context-safe-file-inspection.md",
     "arsenal_index_path": "docs/arsenal/index.json",
+    "arsenal_catalog_path": "docs/arsenal/catalog.md",
     "trigger_leaf": "EX5-04_REPOSITORY_ASSET_DISCOVERY_AND_DEDUPLICATION",
     "clean_room_generation_must_precede_asset_solution_lookup": true,
     "clean_room_generation_complete": true,
-    "repository_asset_discovery_performed": false,
-    "arsenal_index_read": false,
-    "deduplication_performed": false
+    "repository_asset_discovery_performed": true,
+    "arsenal_index_read": true,
+    "index_inspection_mode": "RUNNER_SIDE_MACHINE_REGISTRY_VALIDATION_DUE_CONTEXT_GATE",
+    "arsenal_index_byte_size": 101763,
+    "arsenal_index_whole_fetched_into_chat": false,
+    "deduplication_performed": true,
+    "dedup_artifact": "stages/stage32-ex5/ex5-04-repository-asset-dedup.json",
+    "dedup_verifier": "stages/stage32-ex5/verify_ex5_04_asset_dedup.py"
   },
   "credit": {
-    "level": "EX5_03_CLEAN_ROOM_CANDIDATE_UNIVERSE_ONLY_NO_MATHEMATICAL_CREDIT",
+    "level": "EX5_04_ASSET_DEDUP_ONLY_NO_MATHEMATICAL_CREDIT",
     "necessary_condition_only": false,
     "branch_exclusion": false,
     "qualified_independent_stage32_route_established": false,
@@ -162,7 +183,7 @@
     "endpoint_credit": false
   },
   "audit": {
-    "status": "NOT_READY_INTERMEDIATE_EX5_03_UNAUDITED",
+    "status": "NOT_READY_INTERMEDIATE_EX5_04_UNAUDITED",
     "candidate_pr": 1710,
     "exact_head": null,
     "review_id": null,
@@ -185,6 +206,11 @@
     "blocked_route_treated_as_stage_exhaustion": false,
     "pure_Q_descent_semantic_rejection_promoted_to_global_galois_no_route_theorem": false,
     "clean_room_candidate_promoted_to_qualified_route": false,
+    "arsenal_card_maturity_promoted_to_stage32_authority": false,
+    "provisional_card_promoted_to_audited_credit": false,
+    "new_route_classification_promoted_to_mathematical_credit": false,
+    "missing_adapter_treated_as_satisfied": false,
+    "duplicate_route_treated_as_receiver_closure": false,
     "stage32_main_credit": false,
     "Q602_excluded": false,
     "O210_excluded": false,
