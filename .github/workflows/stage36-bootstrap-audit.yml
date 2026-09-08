@@ -47,7 +47,12 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09DK.py"
           git worktree remove --force "$tmp"
-      - name: Assert DK exact-green promotion and DL unlock firewalls
+      - name: Verify 36-09DL full rational-component adelic control
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09DL.py
+      - name: Assert DL checkpoint and DM lock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -55,26 +60,27 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V185_36_09DK_EXACT_GREEN_DL_UNLOCK'
-          dk=s['authority_frontier']['36-09DK']
-          assert dk['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert dk['certificate_blob_sha']=='dd59fb2492e3bcb75409cc316c85ea6a130d10d1'
-          assert dk['verifier_blob_sha']=='cec084abd32b95302428c6352edfaea4a908e264'
-          assert dk['exact_head']=='b673f8d711873ca83d36ce849a28c207bb0675b7'
-          assert dk['exact_head_ci']=='34212206197/102015582572'
-          assert dk['F5_OUTSIDE_ENTIRE_RATIONAL_COMPONENT_IMAGE'] is True
-          assert dk['GENUINE_NONRATIONAL_CREUTZ_VIRAY_DIRECTION_FOUND'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V186_36_09DL_FULL_RATIONAL_COMPONENT_ADELIC_CONTROL'
+          dl=s['authority_frontier']['36-09DL']
+          assert dl['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert dl['certificate_blob_sha']=='f3c8cba00d00b81fed2b316a62af96fc106cdaa7'
+          assert dl['verifier_blob_sha']=='5413476c769a814d9986fa2cc91f4e4ff5f6c08f'
+          assert dl['FULL_RATIONAL_COMPONENT_BRAUER_SET_NONEMPTY'] is True
+          assert dl['P2_ADELIC_POINT_ORTHOGONAL_FULL_RATIONAL_COMPONENT'] is True
+          assert dl['RATIONAL_PLUS_F5_BM_SET_NONEMPTY'] is False
+          assert dl['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_BM_SET_NONEMPTY'] is False
           cur=s['current']
-          assert cur['unit']=='36-09DK'
-          assert cur['next_exact_leaf']=='36-09DL_FIXED_P2_FULL_RATIONAL_COMPONENT_ADELIC_CONTROL_PREFLIGHT'
-          assert cur['36_09DL_entry_allowed'] is True
+          assert cur['unit']=='36-09DL'
+          assert cur['next_exact_leaf']=='36-09DM_FIXED_P2_FULL_RATIONAL_COMPONENT_PLUS_F5_ADELIC_CONTROL_PREFLIGHT'
+          assert cur['36_09DM_entry_allowed'] is False
           pg=s['promotion_gates']
-          assert pg['36_09DK_exact_head_ci_passed'] is True
-          assert pg['36_09DL_entry_allowed'] is True
-          assert pg['BT_F5_outside_entire_rational_component_image'] is True
-          assert pg['BT_genuine_nonrational_Creutz_Viray_direction_found'] is True
-          for key in ['BT_rational_component_image_BM_set_nonempty','BT_rational_plus_F5_BM_set_nonempty','BT_full_L1_quotient_computed','BT_Pic0_mod2_computed','BT_full_Creutz_Viray_explicit_image_computed','BT_full_relevant_Brauer_group_computed','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
+          assert pg['36_09DL_certificate_complete'] is True
+          assert pg['36_09DL_exact_head_ci_passed'] is False
+          assert pg['36_09DM_entry_allowed'] is False
+          assert pg['BT_rational_component_image_BM_set_nonempty'] is True
+          assert pg['BT_p2_adelic_point_orthogonal_full_rational_component'] is True
+          for key in ['BT_rational_plus_F5_BM_set_nonempty','BT_full_Creutz_Viray_explicit_image_BM_set_nonempty','BT_full_L1_quotient_computed','BT_Pic0_mod2_computed','BT_full_Creutz_Viray_explicit_image_computed','BT_full_relevant_Brauer_group_computed','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09DK exact-green parent verified and DL unlocked. F5 is outside the full rational-component image; full explicit/full Brauer/BM/fixed-p credit remains open.')
+          print('36-09DL provisional checkpoint verified: full rational-component Brauer set nonempty; DM locked pending exact-head CI. No full explicit/full Brauer/BM/fixed-p credit.')
           PY
           git diff --check
