@@ -50,7 +50,7 @@ def main()->None:
     assert x['homogeneous_model']['alpha_class_scope']=='d is a squarefree signed representative supported on primes dividing C0'
     assert x['homogeneous_model']['beta_class_scope']=='e is a squarefree signed representative supported on primes dividing 2*D0'
     assert '2-isogeny Kummer class' in x['source_locks']['standard_2isogeny_descent']['uses'][0]
-    assert x['receiver_sensitive_reciprocity_status']['Kummer_class_coupled_global_Hilbert_obstruction_proved'] is False
+    assert x['scope_firewalls']['Kummer_class_coupled_global_Hilbert_obstruction_proved'] is False
     assert x['receiver_sensitive_reciprocity_status']['multiplace_reciprocity_obstruction_proved'] is False
 
     rb=y['reciprocity_route_boundary']
