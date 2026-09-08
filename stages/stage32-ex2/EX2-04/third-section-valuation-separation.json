@@ -1,0 +1,110 @@
+{
+  "schema": "STAGE32EX2_EX2_04B_THIRD_SECTION_VALUATION_SEPARATION_V1",
+  "stage": "32EX2",
+  "unit": "EX2-04B",
+  "status": "PASS_CERTIFIED_THREE_DIMENSIONAL_DIVISOR_THEORETIC_SECTION_SUBSPACE_AWAITING_FRESHNESS_CLAIM_SYNC",
+  "surface": "S_MINIMAL_RESOLUTION_OF_CANONICAL_CUBOID_SURFACE",
+  "field": "Qbar",
+  "picard_class": "V6",
+  "line_bundle": "O_S(V6)",
+  "source_locks": {
+    "ex2_04a": {
+      "path": "stages/stage32-ex2/EX2-04/two-divisor-section-pencil.json",
+      "blob_sha1": "3122bccb0afe2c72ac13b24e385aaaaa1dd67956",
+      "canonical_sha256": "ba5a134d3438453ece33ad05ea5ab556db5108c894864ff3c067269b38d46b34"
+    },
+    "known140_v6_divisor": {
+      "path": "stages/stage32/residual-32-01-production/post1648ag-v6-known140-basis-elimination.json",
+      "blob_sha1": "e0bbe443919d1ec5424bffa84c1c5a79befbdf1e",
+      "canonical_sha256": "03adb4f7522470dd15fa0a74e1c142da823824a6e9d853348615f670c159d25d"
+    }
+  },
+  "valuation_separator": {
+    "curve_label_1based": 25,
+    "endpoint_orders": {
+      "E17": 6,
+      "E98": 6
+    },
+    "all_nonzero_sections_in_W_order_lower_bound": 6,
+    "third_divisor_name": "EAG",
+    "third_divisor_C25_multiplicity": 4,
+    "third_section_line_outside_W": true,
+    "reason": "W is contained in H0(O_S(V6-6*C25)), while the canonical section of EAG has divisor order exactly 4 along C25."
+  },
+  "third_divisor": {
+    "name": "EAG",
+    "source": "post1648ag exact known140 nonnegative decomposition",
+    "effective": true,
+    "linearly_equivalent_to_V6": true,
+    "picard64_reconstruction_exact": true,
+    "all140_pairing_reconstruction_exact": true,
+    "selected_multiplicity_by_label": {
+      "21": 3,
+      "24": 4,
+      "25": 4,
+      "30": 3,
+      "31": 5
+    },
+    "section_interpretation": "The effective divisor EAG linearly equivalent to V6 determines a nonzero projective canonical section line [s_EAG] in P(H0(S,O_S(V6)))."
+  },
+  "reconstruction": {
+    "previous_subspace_dimension": 2,
+    "certified_section_subspace_dimension": 3,
+    "basis_at_projective_line_level": [
+      "s_E17",
+      "s_E98",
+      "s_EAG"
+    ],
+    "linear_independence_certified": true,
+    "complete_H0": false,
+    "h0_lower_bound_improved_by_this_leaf": false,
+    "h0_lower_bound_from_source_context": 294,
+    "output_type": "CERTIFIED_3D_DIVISOR_THEORETIC_SUBSPACE_NOT_COMPLETE_H0",
+    "common_retained_divisor_minimum_multiplicity_by_label": {
+      "21": 3,
+      "24": 3,
+      "25": 4,
+      "30": 2,
+      "31": 5
+    },
+    "common_divisor_scope": "FIXED_DIVISOR_OF_THIS_CERTIFIED_3D_SUBSPACE_ONLY_NOT_FIXED_PART_OF_COMPLETE_LINEAR_SYSTEM"
+  },
+  "claim_sync": {
+    "candidate_claim_id": "S32.EX2.THREE_DIVISOR_SECTION_SUBSPACE.V1",
+    "authority_status": "SCRATCH_PENDING_CURRENT_MAIN_RECONCILIATION",
+    "trigger": "RETAINED_CONSOLIDATION_AFTER_FRESHNESS",
+    "current_main_at_discovery": "70265586b3f97be21c7621af73f443311f1f3fa3",
+    "branch_head_at_discovery": "e1c3c52505152d528dbd63e62853b3bcfa3987f6",
+    "branch_behind_current_main_by": 4,
+    "shared_claim_registry_updated": false,
+    "stage32_main_authority_changed": false
+  },
+  "limitations": {
+    "ambient_coordinate_section_coefficients_obtained": false,
+    "explicit_surface_polynomial_obtained": false,
+    "complete_H0_reconstructed": false,
+    "effective_V6_divisor_outside_known140_monoid_obtained": false,
+    "integral_irreducible_V6_member_obtained": false,
+    "geometric_genus1_V6_member_verified": false,
+    "Q_defined_member_obtained": false,
+    "population_wide_nonexistence_proved": false,
+    "remaining_five_fixedness_in_complete_linear_system_classified": false,
+    "stage32_main_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_closed": false
+  },
+  "next": {
+    "leaf": "EX2-04C_SECTION_SUBSPACE_ENLARGEMENT_OR_COORDINATE_MATERIALIZATION",
+    "objective": "After current-main reconciliation and claim-DAG sync, either enlarge the source-bound divisor-theoretic subspace again using another exact valuation-separated V6 divisor, or obtain coordinate/ideal-syzygy/restriction-gluing section data suitable for EX2-05 materialization."
+  },
+  "credit_firewall": {
+    "three_dimensional_subspace_promoted_to_complete_H0": false,
+    "known140_divisor_promoted_to_integral_member": false,
+    "valuation_separation_promoted_to_coordinate_section": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "stage32_main_credit": false
+  },
+  "canonical_sha256_without_this_field": "9d50dc72c467edce946427f1b74786464e1c6401ca86dab6af87bea792d23c70"
+}
