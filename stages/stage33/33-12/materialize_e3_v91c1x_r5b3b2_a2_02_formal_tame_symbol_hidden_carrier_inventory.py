@@ -88,8 +88,9 @@ def build_certificate():
         raise SystemExit("V91C1D ZERO_EXACT assertion moved")
     if "squareclass" in verifier.lower():
         raise SystemExit("V91C1D verifier gained squareclass replay; diagnostic must be revisited")
+    producer_compact = " ".join(producer.split())
     disclaimer = "This leaf does not compute their squareclasses on those primes and gives no Gersten lift credit."
-    if disclaimer not in producer:
+    if disclaimer not in producer_compact:
         raise SystemExit("uniformizer producer disclaimer moved")
 
     if b3a["a2_02_source"]["component_ids_in_source_order"] != COMPONENTS:
