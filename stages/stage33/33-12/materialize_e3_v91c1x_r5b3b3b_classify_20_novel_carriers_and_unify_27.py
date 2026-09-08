@@ -18,16 +18,15 @@ B3B2_SHA = "52429d1197e1383daef8c25acdb1224822d7f5c22ecb7046c8b47766438a547e"
 B3B3A_SHA = "36bd375d08b4ebd852bb101851b108fae7e76780f2a35b6ea033948f9ddb8e77"
 AUTHORITY = "V91C1V_A2_02_ACTUAL_PRIME_KNOWN140_LOCATOR_BOUNDED_RESULT"
 
-a1, a2, a3, b1, b2, b3, c = sp.symbols("a1 a2 a3 b1 b2 b3 c")
+a1, a2, a3 = sp.symbols("a1 a2 a3")
 BASE = (a1, a2, a3)
-RADICALS = (b1, b2, b3, c)
-COORDS = (a1, a2, a3, b1, b2, b3, c)
-SQUARES = {
-    b1: a2*a2 + a3*a3,
-    b2: a1*a1 + a3*a3,
-    b3: a1*a1 + a2*a2,
-    c: a1*a1 + a2*a2 + a3*a3,
-}
+SQUARES = (
+    a2*a2 + a3*a3,
+    a1*a1 + a3*a3,
+    a1*a1 + a2*a2,
+    a1*a1 + a2*a2 + a3*a3,
+)
+SQUARE_POLYS = tuple(sp.Poly(s, *BASE, extension=sp.I) for s in SQUARES)
 
 
 def csha(obj):
@@ -43,38 +42,77 @@ def load(path, expected):
     return obj
 
 
-def reduce_quadratic(expr, var, square):
-    poly = sp.Poly(sp.expand(expr), var)
-    even = 0
-    odd = 0
-    for (k,), coef in poly.terms():
-        if k % 2 == 0:
-            even += coef * square ** (k // 2)
+def zero_poly():
+    return sp.Poly(0, *BASE, extension=sp.I)
+
+
+def elem_add(left, right, sign=1):
+    out = dict(left)
+    for mask, poly in right.items():
+        value = out.get(mask, zero_poly()) + sign*poly
+        if value.is_zero:
+            out.pop(mask, None)
         else:
-            odd += coef * square ** ((k - 1) // 2)
-    return sp.expand(even**2 - square*odd**2)
+            out[mask] = value
+    return out
 
 
-def full_sign_norm(expr):
-    out = expr
-    for var in RADICALS:
-        out = reduce_quadratic(out, var, SQUARES[var])
-    return sp.expand(out)
+def elem_mul(left, right):
+    """Multiply in Q(i)[a]/(b_j^2-S_j) using a 4-bit radical basis."""
+    out = {}
+    for lm, lp in left.items():
+        for rm, rp in right.items():
+            overlap = lm & rm
+            mask = lm ^ rm
+            value = lp*rp
+            for bit in range(4):
+                if overlap & (1 << bit):
+                    value *= SQUARE_POLYS[bit]
+            out[mask] = out.get(mask, zero_poly()) + value
+    return {mask: poly for mask, poly in out.items() if not poly.is_zero}
+
+
+def eliminate_norm_bit(element, bit):
+    """For A+b_bit B return A^2-S_bit B^2, the quadratic norm."""
+    flag = 1 << bit
+    a_part = {mask: poly for mask, poly in element.items() if not (mask & flag)}
+    b_part = {mask ^ flag: poly for mask, poly in element.items() if mask & flag}
+    aa = elem_mul(a_part, a_part)
+    bb = {mask: poly*SQUARE_POLYS[bit] for mask, poly in elem_mul(b_part, b_part).items()}
+    return elem_add(aa, bb, -1)
+
+
+def decode_qi(z):
+    return b3b2mat.atlas.decode_element(z)
+
+
+def full_sign_norm_poly(coeffs):
+    """Exact degree-16 full sign norm without symbolic radical expansion."""
+    vals = [decode_qi(z) for z in coeffs]
+    element = {}
+    base_linear = vals[0]*a1 + vals[1]*a2 + vals[2]*a3
+    if base_linear != 0:
+        element[0] = sp.Poly(base_linear, *BASE, extension=sp.I)
+    for bit, value in enumerate(vals[3:]):
+        if value != 0:
+            element[1 << bit] = sp.Poly(value, *BASE, extension=sp.I)
+    if not element:
+        raise SystemExit("zero carrier")
+    for bit in range(4):
+        element = eliminate_norm_bit(element, bit)
+    if set(element) != {0}:
+        raise SystemExit(f"full sign norm retained radical masks: {sorted(element)}")
+    return element[0]
 
 
 def enc_qi(x):
-    x = sp.cancel(sp.expand(x))
+    x = sp.cancel(x)
     xc = sp.cancel(sp.conjugate(x))
-    re = sp.cancel((x + xc) / 2)
-    im = sp.cancel((x - xc) / (2*sp.I))
+    re = sp.cancel((x + xc)/2)
+    im = sp.cancel((x - xc)/(2*sp.I))
     if re.is_Rational is not True or im.is_Rational is not True:
         raise SystemExit(f"coefficient escaped Q(i): {x}")
     return [int(sp.numer(re)), int(sp.denom(re)), int(sp.numer(im)), int(sp.denom(im))]
-
-
-def linear_expr(coeffs):
-    vals = [b3b2mat.atlas.decode_element(z) for z in coeffs]
-    return sp.expand(sum(q*x for q, x in zip(vals, COORDS)))
 
 
 def normalize_norm(poly):
@@ -82,26 +120,20 @@ def normalize_norm(poly):
     if not terms:
         raise SystemExit("zero full sign norm")
     lead = terms[0][1]
-    rows = []
-    for mon, coef in terms:
-        rows.append({
-            "monomial_exponents": list(mon),
-            "coefficient_Qi": enc_qi(sp.cancel(coef/lead)),
-        })
-    return rows
+    return [
+        {"monomial_exponents": list(mon), "coefficient_Qi": enc_qi(sp.cancel(coef/lead))}
+        for mon, coef in terms
+    ]
 
 
 def classify_novel_carrier(row):
-    norm = full_sign_norm(linear_expr(row["normalized_coefficients_Qi"]))
-    poly = sp.Poly(norm, *BASE, extension=sp.I)
+    poly = full_sign_norm_poly(row["normalized_coefficients_Qi"])
     if poly.total_degree() != 16:
         raise SystemExit(f"full sign norm degree moved: {row['carrier_id']}")
     normalized_terms = normalize_norm(poly)
     boundary_only = len(normalized_terms) == 1
-    if boundary_only:
-        mon = normalized_terms[0]["monomial_exponents"]
-        if sum(mon) != 16:
-            raise SystemExit(f"boundary monomial degree moved: {row['carrier_id']}")
+    if boundary_only and sum(normalized_terms[0]["monomial_exponents"]) != 16:
+        raise SystemExit(f"boundary monomial degree moved: {row['carrier_id']}")
     return {
         "carrier_id": row["carrier_id"],
         "projective_linear_form_Qi_sha256": row["projective_linear_form_Qi_sha256"],
@@ -168,12 +200,12 @@ def build_certificate():
     novel_boundary = [r for r in novel_rows if r["boundary_only"]]
     novel_off = [r for r in novel_rows if not r["boundary_only"]]
     term_hist = {}
-    for r in novel_rows:
-        k = str(r["normalized_full_sign_norm_term_count"])
-        term_hist[k] = term_hist.get(k, 0) + 1
+    for row in novel_rows:
+        key = str(row["normalized_full_sign_norm_term_count"])
+        term_hist[key] = term_hist.get(key, 0) + 1
 
     cert = {
-        "schema": "stage33.e3.v91c1x_r5b3b3b.classify_20_novel_carriers_and_unify_27.v2",
+        "schema": "stage33.e3.v91c1x_r5b3b3b.classify_20_novel_carriers_and_unify_27.v3",
         "stage": "33-12",
         "candidate": "V91C1X_R5B3B3B_CLASSIFY_20_NOVEL_PI_CARRIERS_AND_UNIFY_ALL_27_BY_EXACT_SIGN_NORM_SUPPORT",
         "role": "EXACT_NONCREDIT_BOUNDARY_VS_OFFBOUNDARY_CLASSIFICATION_OF_ALL_R5B3B2_TAME_SYMBOL_LINEAR_CARRIERS_BEFORE_PRIME_DECOMPOSITION",
@@ -188,8 +220,9 @@ def build_certificate():
             "relations": {"b1^2": "a2^2+a3^2", "b2^2": "a1^2+a3^2", "b3^2": "a1^2+a2^2", "c^2": "a1^2+a2^2+a3^2"},
             "full_sign_norm_degree": 16,
             "coefficient_field": "Q(i)",
+            "exact_computation": "FOUR_QUADRATIC_NORMS_IN_16_BASIS_MASK_ALGEBRA_WITHOUT_RADICAL_EXPRESSION_EXPANSION",
             "exact_boundary_only_criterion": "NORMALIZED_FULL_SIGN_NORM_HAS_EXACTLY_ONE_MONOMIAL_IN_A1_A2_A3",
-            "criterion_reason": "A_HYPERPLANE_SECTION_HAS_ONLY_COORDINATE_BOUNDARY_SUPPORT_IFF_ITS_FULL_SIGN_NORM_IS_A_NONZERO_SCALAR_TIMES_A_MONOMIAL_IN_A1_A2_A3",
+            "criterion_reason": "ONLY_COORDINATE_BOUNDARY_SUPPORT_IFF_FULL_SIGN_NORM_IS_A_NONZERO_SCALAR_TIMES_A_MONOMIAL_IN_A1_A2_A3",
         },
         "novel_20_exact_norm_classification": {
             "carrier_count": len(novel_rows),
