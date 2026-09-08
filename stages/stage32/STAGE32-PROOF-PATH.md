@@ -9,9 +9,10 @@ Machine-readable files:
 - `stages/stage32/proof/CLAIM-REGISTRY.json` — base/current authority and lane contracts.
 - `stages/stage32/proof/ACTIVE-FRONTIER.json` — current active mathematical frontier only.
 - `stages/stage32/proof/CLAIM-REGISTRY.schema.json` — claim record contract inherited by the frontier shard.
-- `stages/stage32/proof/LANE-ADAPTERS.json` — external MAIN/EX claim-reference boundary.
+- `stages/stage32/proof/LANE-ADAPTERS.json` — external MAIN/EX claim-reference boundary and machine-readable claim-sync trigger set.
+- `stages/stage32/proof/CLAIM-SYNC-CONTRACT.md` — on-demand synchronization procedure used only at retained consolidation, authority/audit transitions, promotion, active-frontier remap, or final-milestone transition.
 - `stages/stage32/proof/verify_stage32_claim_dag.py` — base claim/DAG verifier and fail-close regression tests.
-- `stages/stage32/proof/verify_stage32_active_frontier.py` — composed base + active-frontier verifier.
+- `stages/stage32/proof/verify_stage32_active_frontier.py` — composed base + active-frontier verifier, including lane startup claim-sync hooks.
 - `stages/stage32/FINAL-CHECK.json` — fail-closed Stage32 closure check.
 
 ## 1. Stable claim IDs and immutable core
@@ -88,6 +89,16 @@ EX1–EX5 are research lanes inside this Stage32 DAG, not independent mathematic
 
 No `ATTACKS` or `CONSUMES` edge grants credit. EX -> MAIN mathematical promotion still requires an audited EX terminal claim plus an explicit current-target promotion adapter. `LANE-ADAPTERS.json` itself never promotes.
 
+### 4.1 On-demand synchronization with ordinary batch work
+
+Ordinary `stage32main batch` / `stage32exN-mainbatch` startup remains unchanged and does **not** preload this proof-management layer. Scratch-only diagnostics remain outside the claim DAG.
+
+When a mapped lane reaches one of the machine-readable trigger events in `LANE-ADAPTERS.json` — `RETAINED_CONSOLIDATION`, `AUTHORITY_OR_AUDIT_TRANSITION`, `EX_TO_MAIN_PROMOTION`, `ACTIVE_FRONTIER_REMAP`, or `FINAL_MILESTONE_TRANSITION` — the agent must open `stages/stage32/proof/CLAIM-SYNC-CONTRACT.md` and synchronize only the affected claim/lane boundary before treating the checkpoint or downstream credit transition as complete.
+
+A hostile-audit PASS receipt therefore never silently upgrades the registry. Until synchronization records the exact same audited claim core/evidence boundary, downstream claim credit stays at the prior authority level.
+
+A future EX lane may perform scratch/provisional research before enrollment, but it cannot promote mathematical credit to MAIN until `LANE-ADAPTERS.json` contains its exact `state_path`, `startup_path`, claim references, and current active-frontier references, and its startup carries the same claim-sync hook.
+
 ## 5. FULL178 and closure
 
 `S32.FULL178.NUMERICAL_CENSUS.V1` is deliberately an incomplete goal node. Current retained production state still has `FULL_178_ROW_SWEEP_AUTHORIZED=true`, `FULL_D176_D192_NUMERICAL_ORBIT_CENSUS=false`, and incomplete numerical Picard leaf checks. Authorization/indexability therefore cannot be confused with completed numerical census credit.
@@ -113,6 +124,8 @@ Those final audited proof nodes remain absent until their exact audited artifact
 2. mutating `bridges.from_scope_key` or omitting bridge shape must invalidate an adapter claim.
 
 The dedicated CI also runs the real `--final` path and requires exit code `2` plus `NOT_READY_STAGE32_FINAL_CHECK` while the reserved final chain is absent.
+
+The active-frontier verifier additionally checks that every currently mapped lane has an exact startup path containing the on-demand claim-sync hook, that ordinary startup does not preload the DAG, that scratch-only work does not require synchronization, and that the exact five synchronization triggers remain present.
 
 ## 7. Migration boundary
 
