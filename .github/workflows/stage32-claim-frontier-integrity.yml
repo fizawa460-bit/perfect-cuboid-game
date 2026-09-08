@@ -36,6 +36,8 @@ jobs:
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
       - name: Verify active Stage32 mathematical frontier and claim-sync hooks
         run: python stages/stage32/proof/verify_stage32_active_frontier.py
+      - name: Verify stopped EX6 management enrollment
+        run: python stages/stage32-ex6/verify_main_state.py
       - name: Replay synthetic fail-close regressions
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --self-test-fail-closed
       - name: Assert current FINAL-CHECK is NOT_READY
