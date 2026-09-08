@@ -1,0 +1,89 @@
+name: Stage35-EX Goal4AJ degree31 denominator materialize gen16
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage35-ex/runkeys/goal4aj-degree31-denominator-materialize-gen16.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+      - id: gate
+        env:
+          EVENT: ${{ github.event_name }}
+          ACTION: ${{ github.event.action }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+          BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage35-ex/runkeys/goal4aj-degree31-denominator-materialize-gen16.json'
+          SCRIPT='stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_degree31_denominator_materialize_gen16.py'
+          EXPECTED_SCRIPT_BLOB='c5dbf60343e037c947d9a3b813cb30e004f60fe6'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          test "$EVENT" = 'pull_request' || exit 0
+          test "$ACTION" = 'synchronize' || exit 0
+          test "$PR_NUMBER" = '1698' || exit 0
+          test "$HEAD_BRANCH" = 'stage35-ex-goal4aj-degree19-truncated-kernel' || exit 0
+          test "$BASE_BRANCH" = 'main' || exit 0
+          test -n "$BEFORE" || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || exit 0
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          test "$(git diff --name-only "$BEFORE" "$HEAD" | wc -l)" -eq 1 || exit 0
+          git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY" || exit 0
+          if git cat-file -e "$BEFORE:$KEY" 2>/dev/null; then exit 0; fi
+          test "$(git hash-object "$SCRIPT")" = "$EXPECTED_SCRIPT_BLOB" || exit 0
+          python - "$KEY" <<'PY'
+          import json,sys
+          k=json.loads(open(sys.argv[1],encoding='utf-8').read())
+          assert k['schema']=='STAGE35_EX_GOAL4AJ_DEGREE31_DENOMINATOR_MATERIALIZE_GEN16_RUNKEY_V1'
+          assert k['generation']==1 and k['armed'] is True
+          assert k['observed_current_main_sha']=='3358c6335dde42efd64d0704887edd1c581f5e52'
+          assert k['branch_merge_base_sha']=='1d7bfd98ef8eab7bd849fe7bfdbcdaf5c0b575e7'
+          assert k['script_blob_sha1']=='c5dbf60343e037c947d9a3b813cb30e004f60fe6'
+          assert k['gen15_g2_run']==34180606310 and k['gen15_g2_job']==101918803163
+          assert k['qpeel_run']==34092066114 and k['qpeel_job']==101647794285
+          assert k['planned_jobs']==1 and k['artifact_upload'] is False
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  diagnose:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 380
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact and bounded numerical dependencies
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends singular
+          python -m pip install --disable-pip-version-check sympy==1.14.0 scipy==1.16.1
+      - name: Materialize exact degree31 denominator
+        run: |
+          set -euo pipefail
+          python -u -B stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_degree31_denominator_materialize_gen16.py | tee /tmp/goal4aj-den31-gen16.log
+          grep -q '^GOAL4AJ_DEN31_GEN16_JSON=' /tmp/goal4aj-den31-gen16.log
+          grep -q '^GOAL4AJ_DEN31_GEN16=DONE$' /tmp/goal4aj-den31-gen16.log
+          test "$(wc -c </tmp/goal4aj-den31-gen16.log)" -le 131072

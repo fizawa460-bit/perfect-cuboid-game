@@ -1,0 +1,143 @@
+name: Stage35-EX Goal4AJ numerator degree31 all27 exact strict gen25 g3
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage35-ex/runkeys/goal4aj-numerator-degree31-all27-exact-strict-gen25-g3.json'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - id: gate
+        name: Commit-range runkey authorization
+        shell: bash
+        run: |
+          set -euo pipefail
+          KEY='stages/stage35-ex/runkeys/goal4aj-numerator-degree31-all27-exact-strict-gen25-g3.json'
+          SRC='stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_numerator_degree31_all27_exact_strict_gen25_g3.py'
+          BASESRC='stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_numerator_degree31_all27_exact_strict_gen25.py'
+          CAND='stages/stage35-ex/35ex-35/goal4aj-degree31-qcandidate-gen24.txt.bz2.b64'
+          LOCK='stages/stage35-ex/35ex-35/goal4aj-degree31-qcandidate-gen24-materialization.json'
+          BEFORE='${{ github.event.before }}'
+          HEAD='${{ github.event.pull_request.head.sha }}'
+          test '${{ github.event.pull_request.number }}' = '1698'
+          test '${{ github.event.pull_request.head.ref }}' = 'stage35-ex-goal4aj-degree19-truncated-kernel'
+          test '${{ github.event.pull_request.base.ref }}' = 'main'
+          test -n "$BEFORE"
+          git cat-file -e "$BEFORE^{commit}"
+          mapfile -t changed < <(git diff --name-only "$BEFORE" "$HEAD")
+          test "${#changed[@]}" -eq 1
+          test "${changed[0]}" = "$KEY"
+          git fetch --no-tags origin main
+          python - <<'PY'
+          import hashlib, json, pathlib, subprocess
+          key=pathlib.Path('stages/stage35-ex/runkeys/goal4aj-numerator-degree31-all27-exact-strict-gen25-g3.json')
+          src=pathlib.Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_numerator_degree31_all27_exact_strict_gen25_g3.py')
+          base=pathlib.Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_numerator_degree31_all27_exact_strict_gen25.py')
+          cand=pathlib.Path('stages/stage35-ex/35ex-35/goal4aj-degree31-qcandidate-gen24.txt.bz2.b64')
+          lock=pathlib.Path('stages/stage35-ex/35ex-35/goal4aj-degree31-qcandidate-gen24-materialization.json')
+          def blob(p):
+              b=p.read_bytes(); return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          r=json.loads(key.read_text())
+          assert r['schema']=='STAGE35_EX_GOAL4AJ_NUMERATOR_DEGREE31_ALL27_EXACT_STRICT_GEN25_G3_RUNKEY_V1'
+          assert r['generation']==2 and r['armed'] is True
+          assert r['pr_number']==1698
+          assert r['branch']=='stage35-ex-goal4aj-degree19-truncated-kernel' and r['base']=='main'
+          assert blob(src)==r['wrapper_blob_sha1']=='aaabcb8c984e997b00525ea211c172e141ca315f'
+          assert blob(base)==r['base_script_blob_sha1']=='5920842a35877245bcb01a457882674d2b891340'
+          assert blob(cand)==r['candidate_blob_sha1']=='9d8b934961f03a423cf940bc95efdffe8e28e0fd'
+          assert blob(lock)==r['materialization_lock_blob_sha1']=='1bc208ed5010ec2d3f50d90b70db3698f860a134'
+          assert r['candidate_sha256']=='358ee320a7d28b790ee9267aad3f95e8ff35af15d002976720622bd2b6e8decb'
+          assert r['planned_shard_jobs']==9 and r['max_parallel']==6
+          assert r['artifact_retention_days']==1 and r['projected_peak_storage_mb'] <= 1
+          main=subprocess.check_output(['git','rev-parse','origin/main'],text=True).strip()
+          assert main==r['observed_current_main_sha']
+          mb=subprocess.check_output(['git','merge-base','HEAD','origin/main'],text=True).strip()
+          assert mb==r['branch_merge_base_sha']
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  shard:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    name: strict-shard-${{ matrix.shard }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 130
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Singular
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends singular
+      - name: Replay three exact strict conditions
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/gen25-g3-shard-${{ matrix.shard }}"
+          python -u -B stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_numerator_degree31_all27_exact_strict_gen25_g3.py \
+            shard --shard ${{ matrix.shard }} --output-dir "$OUT" | tee "$RUNNER_TEMP/gen25-g3-shard-${{ matrix.shard }}.log"
+          grep -q '^GOAL4AJ_GEN25_G3_TRANSPORT_ACTUAL=' "$RUNNER_TEMP/gen25-g3-shard-${{ matrix.shard }}.log"
+          grep -q '^GOAL4AJ_GEN25_SHARD_JSON=' "$RUNNER_TEMP/gen25-g3-shard-${{ matrix.shard }}.log"
+          grep -q '^GOAL4AJ_GEN25_SHARD=DONE$' "$RUNNER_TEMP/gen25-g3-shard-${{ matrix.shard }}.log"
+          test "$(wc -c <"$RUNNER_TEMP/gen25-g3-shard-${{ matrix.shard }}.log")" -le 65536
+          test "$(wc -c <"$OUT/shard.json")" -le 16384
+      - uses: actions/upload-artifact@v4
+        with:
+          name: goal4aj-gen25-g3-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/gen25-g3-shard-${{ matrix.shard }}/shard.json
+          if-no-files-found: error
+          retention-days: 1
+
+  aggregate:
+    needs: shard
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: goal4aj-gen25-g3-shard-*
+          path: ${{ runner.temp }}/gen25-g3-shards
+      - name: Verify exact one-time coverage and all-pass result
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/gen25-g3-aggregate"
+          python -u -B stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_numerator_degree31_all27_exact_strict_gen25_g3.py \
+            aggregate --input-dir "$RUNNER_TEMP/gen25-g3-shards" --output-dir "$OUT" | tee "$RUNNER_TEMP/gen25-g3-aggregate.log"
+          grep -q '^GOAL4AJ_GEN25_AGGREGATE_JSON=' "$RUNNER_TEMP/gen25-g3-aggregate.log"
+          grep -q '^GOAL4AJ_GEN25_AGGREGATE=DONE$' "$RUNNER_TEMP/gen25-g3-aggregate.log"
+          test "$(wc -c <"$OUT/certificate.json")" -le 32768
+      - uses: actions/upload-artifact@v4
+        with:
+          name: goal4aj-gen25-g3-all27-exact-strict-certificate
+          path: ${{ runner.temp }}/gen25-g3-aggregate/certificate.json
+          if-no-files-found: error
+          retention-days: 1

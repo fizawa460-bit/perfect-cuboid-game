@@ -1,0 +1,91 @@
+name: Stage35-EX Goal4AJ degree19 truncated strict-kernel gen11
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage35-ex/runkeys/goal4aj-degree19-truncated-strict-kernel-gen11.json'
+      - '.github/workflows/stage35-ex-goal4aj-degree19-truncated-strict-kernel-gen11.yml'
+  workflow_dispatch:
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+      - id: gate
+        env:
+          EVENT: ${{ github.event_name }}
+          ACTION: ${{ github.event.action }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+          BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage35-ex/runkeys/goal4aj-degree19-truncated-strict-kernel-gen11.json'
+          SCRIPT='stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_degree19_truncated_strict_kernel_gen11.py'
+          EXPECTED_SCRIPT_BLOB='1722fdf949915443985ce1c512b4d5474b18cd1e'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          test "$EVENT" = 'pull_request' || exit 0
+          test "$ACTION" = 'synchronize' || exit 0
+          test "$PR_NUMBER" = '1698' || exit 0
+          test "$HEAD_BRANCH" = 'stage35-ex-goal4aj-degree19-truncated-kernel' || exit 0
+          test "$BASE_BRANCH" = 'main' || exit 0
+          test -n "$BEFORE" || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || exit 0
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY" || exit 0
+          test "$(git diff --name-only "$BEFORE" "$HEAD" | wc -l)" -eq 1 || exit 0
+          test "$(git hash-object "$SCRIPT")" = "$EXPECTED_SCRIPT_BLOB" || exit 0
+          python - "$BEFORE" "$KEY" <<'PY'
+          import json,subprocess,sys
+          before,key=sys.argv[1:]
+          old=json.loads(subprocess.check_output(['git','show',f'{before}:{key}'],text=True))
+          new=json.loads(open(key,encoding='utf-8').read())
+          assert old['schema']==new['schema']=='STAGE35_EX_GOAL4AJ_DEGREE19_TRUNCATED_STRICT_KERNEL_GEN11_RUNKEY_V1'
+          assert old['generation']==1 and old['armed'] is True
+          assert new['generation']==2 and new['armed'] is True
+          assert old['script_blob_sha1']=='69f50bb8c75f50fe46546af42ab8a5002560f69a'
+          assert new['script_blob_sha1']=='1722fdf949915443985ce1c512b4d5474b18cd1e'
+          assert new['base_main_sha']=='1d7bfd98ef8eab7bd849fe7bfdbcdaf5c0b575e7'
+          assert new['repair_of_failed_run']==34150955991
+          assert new['repair_of_failed_job']==101832986450
+          assert new['repair_of_gen11_generation1_run']==34151259036
+          assert new['repair_of_gen11_generation1_job']==101833894176
+          assert new['field_prime']==32009 and new['degree_cap']==19
+          assert new['artifact_upload'] is False
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  diagnose:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Singular
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends singular
+          Singular --version | head -n 3
+      - name: Compute repaired degree19 strict kernel
+        run: |
+          set -euo pipefail
+          python -u -B stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_degree19_truncated_strict_kernel_gen11.py | tee /tmp/goal4aj-den-trunc-gen11.log
+          grep -q '^GOAL4AJ_DEN_TRUNC_GEN11_JSON=' /tmp/goal4aj-den-trunc-gen11.log
+          grep -q '^GOAL4AJ_DEN_TRUNC_GEN11=PASS$' /tmp/goal4aj-den-trunc-gen11.log
+          test "$(wc -c </tmp/goal4aj-den-trunc-gen11.log)" -le 196608

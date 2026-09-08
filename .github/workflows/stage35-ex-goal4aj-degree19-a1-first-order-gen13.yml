@@ -1,0 +1,94 @@
+name: Stage35-EX Goal4AJ degree19 A1 first-order gen13
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage35-ex/runkeys/goal4aj-degree19-a1-first-order-gen13.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+      - id: gate
+        env:
+          EVENT: ${{ github.event_name }}
+          ACTION: ${{ github.event.action }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+          BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage35-ex/runkeys/goal4aj-degree19-a1-first-order-gen13.json'
+          SCRIPT='stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_degree19_a1_first_order_gen13.py'
+          EXPECTED_SCRIPT_BLOB='f338d5320a9dd4243f81115901aa66301d2f37ce'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          test "$EVENT" = 'pull_request' || exit 0
+          test "$ACTION" = 'synchronize' || exit 0
+          test "$PR_NUMBER" = '1698' || exit 0
+          test "$HEAD_BRANCH" = 'stage35-ex-goal4aj-degree19-truncated-kernel' || exit 0
+          test "$BASE_BRANCH" = 'main' || exit 0
+          test -n "$BEFORE" || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || exit 0
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          test "$(git diff --name-only "$BEFORE" "$HEAD" | wc -l)" -eq 1 || exit 0
+          git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY" || exit 0
+          if git cat-file -e "$BEFORE:$KEY" 2>/dev/null; then exit 0; fi
+          test "$(git hash-object "$SCRIPT")" = "$EXPECTED_SCRIPT_BLOB" || exit 0
+          python - "$KEY" <<'PY'
+          import json,sys
+          key=sys.argv[1]
+          k=json.loads(open(key,encoding='utf-8').read())
+          assert k['schema']=='STAGE35_EX_GOAL4AJ_DEGREE19_A1_FIRST_ORDER_GEN13_RUNKEY_V1'
+          assert k['generation']==1 and k['armed'] is True
+          assert k['base_main_sha']=='1d7bfd98ef8eab7bd849fe7bfdbcdaf5c0b575e7'
+          assert k['script_blob_sha1']=='f338d5320a9dd4243f81115901aa66301d2f37ce'
+          assert k['gen12_failed_run']==34162971655 and k['gen12_failed_job']==101868422186
+          assert k['field_prime']==32009 and k['degree']==19
+          assert k['planned_jobs']==1 and k['artifact_upload'] is False
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  diagnose:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Singular and exact Python dependency
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends singular
+          python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+          Singular --version | head -n 3
+          python - <<'PY'
+          import sympy
+          assert sympy.__version__ == '1.14.0'
+          PY
+      - name: Audit first-order A1 and divisor-incidence consistency
+        run: |
+          set -euo pipefail
+          python -u -B stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_degree19_a1_first_order_gen13.py | tee /tmp/goal4aj-a1-gen13.log
+          grep -q '^GOAL4AJ_A1_FIRST_ORDER_GEN13_JSON=' /tmp/goal4aj-a1-gen13.log
+          grep -q '^GOAL4AJ_A1_FIRST_ORDER_GEN13=DONE$' /tmp/goal4aj-a1-gen13.log
+          test "$(wc -c </tmp/goal4aj-a1-gen13.log)" -le 131072
