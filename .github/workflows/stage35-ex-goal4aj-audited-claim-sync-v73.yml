@@ -1,4 +1,4 @@
-name: Stage35-EX Goal4AJ audited claim sync V73
+name: Stage35-EX Goal4AJ audited claim sync V73/V74 compatibility
 
 on:
   pull_request:
@@ -8,6 +8,7 @@ on:
       - 'stages/stage35-ex/snapshots/MAIN-STATE-V72-e98b06455d34.json'
       - 'stages/stage35-ex/35ex-35/goal4aj-audited-claim-sync.json'
       - 'stages/stage35-ex/verify_stage35_ex_v73_legacy_replay.py'
+      - 'stages/stage35-ex/verify_stage35_ex_v74_legacy_replay.py'
       - 'stages/stage35-ex/verify_stage35_ex_35_goal4aj_audited_claim_sync.py'
       - '.github/workflows/stage35-ex-goal4aj-audited-claim-sync-v73.yml'
 
@@ -22,12 +23,24 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 380
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Install exact replay dependency
-        run: python -m pip install --disable-pip-version-check sympy
-      - name: Verify audited Goal4AJ claim synchronization
+        run: python -m pip install --disable-pip-version-check sympy==1.14.0
+      - name: Verify audited Goal4AJ claim synchronization under live authority
         run: |
           set -euo pipefail
-          python -u -B stages/stage35-ex/verify_stage35_ex_35_goal4aj_audited_claim_sync.py
+          python - <<'PY'
+          import json, pathlib, subprocess
+          state=json.loads(pathlib.Path('stages/stage35-ex/MAIN-STATE.json').read_text())
+          schema=state['schema']
+          if schema=='STAGE35_EX_PESCH_E1_STATE_V73_GOAL4AJ_LITERAL_DEGREE31_SECTIONS_AUDITED_EXPLICIT_F_B_PENDING':
+              cmd=['python','-u','-B','stages/stage35-ex/verify_stage35_ex_35_goal4aj_audited_claim_sync.py']
+          elif schema=='STAGE35_EX_PESCH_E1_STATE_V74_GOAL4AK_EXPLICIT_F_B_AUDITED_LOCAL_EVALUATION_RELEASED':
+              cmd=['python','-u','-B','stages/stage35-ex/verify_stage35_ex_v74_legacy_replay.py','35g4aj']
+          else:
+              raise SystemExit(f'unsupported live Stage35-EX schema: {schema}')
+          subprocess.run(cmd,check=True)
+          PY
