@@ -40,25 +40,18 @@ jobs:
           d['canonical_sha256_without_this_field']=hashlib.sha256(json.dumps(d,sort_keys=True,separators=(',',':')).encode()).hexdigest()
           man.write_text(json.dumps(d,indent=2)+'\n')
           wrap=Path('stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation_v2.py')
-          s=wrap.read_text()
-          s=s.replace('ART=HERE/"ex1-05af-retained-terminal-consolidation.json"','ART=HERE/"ex1-05af-retained-terminal-consolidation-v2.json"')
+          s=wrap.read_text().replace('ART=HERE/"ex1-05af-retained-terminal-consolidation.json"','ART=HERE/"ex1-05af-retained-terminal-consolidation-v2.json"')
           wrap.write_text(s)
           proj=Path('stages/stage32-ex1/RETAINED-AUDIT-PROJECTION.json')
           p=json.loads(proj.read_text())
           p['candidate']['manifest']='stages/stage32-ex1/ex1-05af-retained-terminal-consolidation-v2.json'
           p['candidate']['candidate_status']='REPAIRED_PROVISIONAL_READY_FOR_REAUDIT'
-          ws=p['audit_routing_overlay']['working_set']
           p['audit_routing_overlay']['working_set']=[
               'stages/stage32-ex1/ex1-05af-retained-terminal-consolidation-v2.json' if x=='stages/stage32-ex1/ex1-05af-retained-terminal-consolidation.json' else
               'stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation_v2.py' if x=='stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation.py' else x
-              for x in ws
+              for x in p['audit_routing_overlay']['working_set']
           ]
           proj.write_text(json.dumps(p,indent=2)+'\n')
-          wf=Path('.github/workflows/stage32ex1-audit-replay.yml')
-          s=wf.read_text()
-          s=s.replace('python3 stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation.py','python3 stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation_v2.py')
-          s=s.replace('          python3 stages/stage32-ex1/verify_ex1_05af_cellular_obstruction_bridge.py\n','')
-          wf.write_text(s)
           PY
           git fetch -q origin "$OLD_REF" --depth=1
           git show FETCH_HEAD:"$MAN" > "$MAN"
@@ -68,10 +61,9 @@ jobs:
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import hashlib, json
+          import hashlib,json
           from pathlib import Path
-          regp=Path('stages/stage32/proof/CLAIM-REGISTRY.json')
-          lanep=Path('stages/stage32/proof/LANE-ADAPTERS.json')
+          regp=Path('stages/stage32/proof/CLAIM-REGISTRY.json'); lanep=Path('stages/stage32/proof/LANE-ADAPTERS.json')
           reg=json.loads(regp.read_text()); lanes=json.loads(lanep.read_text())
           def blob(path):
               data=Path(path).read_bytes(); return hashlib.sha1(f'blob {len(data)}\0'.encode()+data).hexdigest()
@@ -114,6 +106,6 @@ jobs:
           set -euo pipefail
           git config user.name 'fizawa460-bit'
           git config user.email 'fizawa460@gmail.com'
-          git add stages/stage32-ex1 .github/workflows/stage32ex1-audit-replay.yml stages/stage32/proof/CLAIM-REGISTRY.json stages/stage32/proof/LANE-ADAPTERS.json
+          git add stages/stage32-ex1 stages/stage32/proof/CLAIM-REGISTRY.json stages/stage32/proof/LANE-ADAPTERS.json
           git commit -m '[Stage32EX1][claim-sync] preserve V1 and version repaired terminal V2'
           git push origin HEAD:stage32ex1-terminal-05af-retained-consolidation
