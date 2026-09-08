@@ -60,12 +60,17 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CO.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09CP lineage audit
+      - name: Replay immutable 36-09CP exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09CP.py
-      - name: Assert CP firewalls and CQ lock
+          H=acb10a76b8adcd07d52dc977e4257790395f535a
+          git cat-file -e "$H^{commit}"
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09CP.py"
+          git worktree remove --force "$tmp"
+      - name: Assert CP hostile-audit checkpoint firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -73,13 +78,13 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V140_36_09CP_DUAL_LINEAGE_AUDIT'
-          co=s['authority_frontier']['36-09CO']
-          assert co['exact_head']=='b19439a701579d1563a77746cb1e6d57da04460e'
-          assert co['exact_head_ci']=='34180908069/101919663411'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V141_36_09CP_HOSTILE_AUDIT_CHECKPOINT'
           cp=s['authority_frontier']['36-09CP']
+          assert cp['status']=='PROVISIONAL_EXACT_GREEN_CHECKPOINT'
           assert cp['certificate_blob_sha']=='3ea852b149986c1ac0b3916005b605b138b21feb'
           assert cp['verifier_blob_sha']=='6c8eaae4ef67ab8150b7e294fff43c96d41dca26'
+          assert cp['exact_head']=='acb10a76b8adcd07d52dc977e4257790395f535a'
+          assert cp['exact_head_ci']=='34181510945/101921388094'
           assert cp['EXISTING_PW07_SUPPLIES_BT_DUAL_ADAPTER'] is False
           assert cp['EXISTING_PW07_SUPPLIES_BT_POITOU_TATE_LOCAL_CONDITIONS'] is False
           assert cp['FIRST_MISSING_OBLIGATION']=='BT_CARTIER_DUAL_CLASS_AND_LOCAL_CONDITION_ADAPTER'
@@ -87,18 +92,21 @@ jobs:
           cur=s['current']
           assert cur['unit']=='36-09CP'
           assert cur['next_exact_leaf']=='36-09CQ_BT_CARTIER_DUAL_LOCAL_CONDITION_ADAPTER_PREFLIGHT'
+          assert cur['hostile_audit_checkpoint_reached'] is True
           assert cur['36_09CQ_entry_allowed'] is False
-          assert cur['hostile_audit_checkpoint_reached'] is False
           pg=s['promotion_gates']
-          assert pg['36_09CO_exact_head_ci_passed'] is True
-          assert pg['36_09CP_exact_head_ci_passed'] is False
+          assert pg['36_09CP_exact_head_ci_passed'] is True
           assert pg['36_09CQ_unlocked'] is False
+          assert pg['36_09CQ_entry_allowed'] is False
           assert pg['BT_Cartier_dual_class_adapter_complete'] is False
           assert pg['BT_Poitou_Tate_local_condition_system_complete'] is False
           assert pg['LIT_WF02_applicability_pass'] is False
           assert pg['new_global_obstruction_obtained'] is False
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09CP candidate verified; existing PW07 lineage is type-mismatched for Xi_BT duality. CQ remains locked until exact-green CP.')
+          claims=s['claims']
+          for key in ['new_theorem_credit','LIT_WF02_applicability_pass','Selmer_membership_obtained','Poitou_Tate_obstruction_obtained','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
+            assert claims[key] is False
+          print('36-09CP exact-green hostile-audit checkpoint verified. CQ is selected but audit-gated; no LIT-WF02/global obstruction/receiver/endpoint credit.')
           PY
           git diff --check
