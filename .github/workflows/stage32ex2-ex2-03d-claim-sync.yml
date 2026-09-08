@@ -31,9 +31,10 @@ jobs:
           from pathlib import Path
           key=json.loads(Path('stages/stage32-ex2/runkeys/ex2-03d-claim-sync.json').read_text())
           assert key['schema']=='STAGE32EX2_EX2_03D_CLAIM_SYNC_RUNKEY_V1'
-          assert key['generation']==1 and key['armed'] is True
-          assert key['helper_blob_sha1']=='1613c82bb01ea6368a1581da59451c8e81f6f2fb'
-          actual=subprocess.check_output(['git','hash-object','stages/stage32-ex2/apply_ex2_03d_claim_sync.py'],text=True).strip()
+          assert key['generation']==4 and key['armed'] is True
+          assert key['helper_path']=='stages/stage32-ex2/apply_ex2_03d_claim_sync_v2.py'
+          assert key['helper_blob_sha1']=='be2445ec902db55d2ee02d04575dfdca69f03f8d'
+          actual=subprocess.check_output(['git','hash-object',key['helper_path']],text=True).strip()
           assert actual==key['helper_blob_sha1']
           subprocess.check_call(['git','fetch','origin','main','--depth=1'])
           current=subprocess.check_output(['git','rev-parse','origin/main'],text=True).strip()
@@ -46,7 +47,7 @@ jobs:
       - name: Install exact replay dependency
         run: python -m pip install 'sympy==1.14.0'
       - name: Apply deterministic claim/state sync
-        run: python -B stages/stage32-ex2/apply_ex2_03d_claim_sync.py
+        run: python -B stages/stage32-ex2/apply_ex2_03d_claim_sync_v2.py
       - name: Verify synchronized package
         run: |
           python -B stages/stage32/proof/verify_stage32_claim_dag.py
