@@ -1,62 +1,39 @@
 {
+  "schema": "STAGE32_FINAL_CHECK_V1",
+  "stage": 32,
+  "mode": "FAIL_CLOSED_FOR_STAGE32_CLOSURE",
+  "registry": "stages/stage32/proof/CLAIM-REGISTRY.json",
+  "active_frontier_registry": "stages/stage32/proof/ACTIVE-FRONTIER.json",
+  "declared_stage32_closure_goal": "S32.GOAL.STAGE32_CLOSURE.V1",
+  "integrity_verifier": "stages/stage32/proof/verify_stage32_claim_dag.py",
+  "active_frontier_verifier": "stages/stage32/proof/verify_stage32_active_frontier.py",
+  "lane_adapters": "stages/stage32/proof/LANE-ADAPTERS.json",
+  "proof_path": "stages/stage32/STAGE32-PROOF-PATH.md",
   "closure_contract": {
-    "all_transitive_mathematical_dependencies_must_be_audited": true,
-    "forbidden_proves_tokens": [
-      "PERFECT_CUBOID_EXISTENCE_CLAIM=true",
-      "PERFECT_CUBOID_NONEXISTENCE_CLAIM=true"
-    ],
-    "hostile_audit_receipt_required": true,
-    "missing_reserved_claim_is_not_ready_not_success": true,
     "required_final_claim_id": "S32.PROOF.STAGE32_CLOSED.V1",
-    "required_proves_tokens": [
-      "STAGE32_CLOSED=true"
-    ],
-    "source_locks_must_match_working_tree": true
+    "required_proves_tokens": ["STAGE32_CLOSED=true"],
+    "forbidden_proves_tokens": ["PERFECT_CUBOID_EXISTENCE_CLAIM=true","PERFECT_CUBOID_NONEXISTENCE_CLAIM=true"],
+    "hostile_audit_receipt_required": true,
+    "all_transitive_mathematical_dependencies_must_be_audited": true,
+    "source_locks_must_match_working_tree": true,
+    "missing_reserved_claim_is_not_ready_not_success": true,
+    "declared_goal_does_not_substitute_for_audited_final_claim": true
   },
   "current_expected_status": "NOT_READY",
-  "integrity_verifier": "stages/stage32/proof/verify_stage32_claim_dag.py",
-  "lane_adapters": "stages/stage32/proof/LANE-ADAPTERS.json",
+  "required_milestones": [
+    {"slot":"32-01 numerical census","required_claim_id":"S32.PROOF.NUMERICAL_CENSUS.V1","required_authority_status":"AUDITED"},
+    {"slot":"32-02 effectivity/carrier disposal","required_claim_id":"S32.PROOF.EFFECTIVITY_DISPOSAL.V1","required_authority_status":"AUDITED"},
+    {"slot":"32-03 multibranch ledger","required_claim_id":"S32.PROOF.MULTIBRANCH_LEDGER.V1","required_authority_status":"AUDITED"},
+    {"slot":"32-04 integrated synthesis","required_claim_id":"S32.PROOF.INTEGRATED_SYNTHESIS.V1","required_authority_status":"AUDITED"},
+    {"slot":"32-05 hostile-audit release","required_claim_id":"S32.PROOF.HOSTILE_AUDIT_RELEASE.V1","required_authority_status":"AUDITED"},
+    {"slot":"Stage32 closed","required_claim_id":"S32.PROOF.STAGE32_CLOSED.V1","required_authority_status":"AUDITED"}
+  ],
   "migration_boundary": {
     "current_scope_only": true,
+    "active_mathematical_frontier_migrated": true,
     "historical_controller_chain_bulk_migrated": false,
     "historical_stage32_prs_bulk_migrated": false,
-    "notes": "Reserved final claim IDs are intentionally absent until their exact audited closure artifacts exist. Their absence keeps --final fail-closed."
-  },
-  "mode": "FAIL_CLOSED_FOR_STAGE32_CLOSURE",
-  "proof_path": "stages/stage32/STAGE32-PROOF-PATH.md",
-  "registry": "stages/stage32/proof/CLAIM-REGISTRY.json",
-  "required_milestones": [
-    {
-      "required_authority_status": "AUDITED",
-      "required_claim_id": "S32.PROOF.NUMERICAL_CENSUS.V1",
-      "slot": "32-01 numerical census"
-    },
-    {
-      "required_authority_status": "AUDITED",
-      "required_claim_id": "S32.PROOF.EFFECTIVITY_DISPOSAL.V1",
-      "slot": "32-02 effectivity/carrier disposal"
-    },
-    {
-      "required_authority_status": "AUDITED",
-      "required_claim_id": "S32.PROOF.MULTIBRANCH_LEDGER.V1",
-      "slot": "32-03 multibranch ledger"
-    },
-    {
-      "required_authority_status": "AUDITED",
-      "required_claim_id": "S32.PROOF.INTEGRATED_SYNTHESIS.V1",
-      "slot": "32-04 integrated synthesis"
-    },
-    {
-      "required_authority_status": "AUDITED",
-      "required_claim_id": "S32.PROOF.HOSTILE_AUDIT_RELEASE.V1",
-      "slot": "32-05 hostile-audit release"
-    },
-    {
-      "required_authority_status": "AUDITED",
-      "required_claim_id": "S32.PROOF.STAGE32_CLOSED.V1",
-      "slot": "Stage32 closed"
-    }
-  ],
-  "schema": "STAGE32_FINAL_CHECK_V1",
-  "stage": 32
+    "full178_generation_history_bulk_migrated": false,
+    "notes": "ACTIVE-FRONTIER.json records current open/audited frontier nodes. Reserved S32.PROOF.* final claims remain absent until exact audited closure artifacts exist; declared goals cannot satisfy --final."
+  }
 }
