@@ -68,6 +68,8 @@ A new Stage32 EX lane may research on scratch/provisional footing before claim-D
 - relevant registered `claim_refs`;
 - exact `active_frontier_refs` for current `ATTACKS`/`CONSUMES` routing.
 
+A lane that has already reached a bounded stopping decision and is not currently attacking or consuming an active claim may enroll with `active_frontier_refs=[]` only if the lane adapter and its `MAIN-STATE.json` both state the exact stopped status and `promotion_blocked_without_active_claim=true`. Such a lane supplies no active mathematical dependency or promotion input. Re-entry must first fire `ACTIVE_FRONTIER_REMAP` and attach the lane to an exact registered claim before any promotion can be considered.
+
 Its startup contract must contain the same on-demand synchronization hook as the currently mapped lanes. If it attacks a genuinely new mathematical obligation, add/version the corresponding active-frontier claim before promotion.
 
 ## 6. Required verification at a synchronization checkpoint
@@ -77,6 +79,12 @@ Before declaring the synchronization checkpoint complete, run:
 ```text
 python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
 python stages/stage32/proof/verify_stage32_active_frontier.py
+```
+
+A lane-specific management verifier may also be required by CI. For the enrolled stopped EX6 lane this is:
+
+```text
+python stages/stage32-ex6/verify_main_state.py
 ```
 
 For a final-milestone transition, also run the real FINAL-CHECK path. `NOT_READY_STAGE32_FINAL_CHECK` remains the expected result until the complete reserved audited closure chain actually exists.
