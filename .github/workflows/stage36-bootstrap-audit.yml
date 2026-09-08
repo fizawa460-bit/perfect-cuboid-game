@@ -88,7 +88,12 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CR.py"
           git worktree remove --force "$tmp"
-      - name: Assert corrected CR exact-green promotion and CS unlock firewalls
+      - name: Verify 36-09CS five-root deck dual projection construction
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09CS.py
+      - name: Assert CS checkpoint and CT lock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -96,30 +101,37 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V147_36_09CR_CORRECTED_EXACT_GREEN_CS_UNLOCK'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V148_36_09CS_GEOMETRY_BOUND_DUAL_EVALUATION'
           cr=s['authority_frontier']['36-09CR']
           assert cr['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert cr['certificate_blob_sha']=='f31123ca0ed74db2fab03d033e63e4a9ced2bfeb'
-          assert cr['verifier_blob_sha']=='f5403cf85053ec15d69df18d174d2ca711764bc3'
           assert cr['exact_head']=='1e9cf94bc7ffc6ac78fabf51adac3cdf31d2bd12'
           assert cr['exact_head_ci']=='34191981610/101951737243'
-          assert cr['superseded_exact_head']=='ab7237e6e0d218c97a48e221504327a355648866'
-          assert cr['REUSABLE_CONNECTING_LOCALIZATION_PROTOCOL_FOUND'] is True
-          assert cr['FORMAL_3_TO_5_DUAL_PROJECTION_EXACT'] is True
-          assert cr['BT_FIVE_ROOT_DECK_TORSOR_ACTION_SOURCE_BOUND'] is False
-          assert cr['BT_POINTWISE_FIVE_CHARACTER_CLASS_SOURCE_BOUND'] is False
-          assert cr['BT_GEOMETRY_BOUND_DUAL_EVALUATION_ADAPTER_COMPLETE'] is False
+          cs=s['authority_frontier']['36-09CS']
+          assert cs['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert cs['certificate_blob_sha']=='4657613348e8c59630ff8bcd660e518ed491f7c9'
+          assert cs['verifier_blob_sha']=='b9f5ec9caea93940c53165280ad99901e4280911'
+          assert cs['BT_FIVE_ROOT_DECK_TORSOR_ACTION_SOURCE_BOUND'] is True
+          assert cs['BT_POINTWISE_FIVE_KUMMER_CLASS_SOURCE_BOUND'] is True
+          assert cs['BT_GEOMETRY_BOUND_DUAL_EVALUATION_ADAPTER_COMPLETE'] is True
+          assert cs['BT_POITOU_TATE_LOCAL_CONDITION_SYSTEM_COMPLETE'] is False
+          assert cs['STAGE36_REQUIRED_PLACE_INVENTORY_COMPLETE'] is False
+          assert cs['FIRST_MISSING_OBLIGATION']=='BT_POINTWISE_LOCAL_TATE_PAIRING_REQUIRED_PLACE_AND_ADELIC_ORTHOGONALITY_INTEGRATION'
+          assert cs['LIT_WF02_APPLICABILITY_PASS'] is False
+          assert cs['NEW_GLOBAL_OBSTRUCTION_OBTAINED'] is False
           cur=s['current']
-          assert cur['unit']=='36-09CR'
-          assert cur['next_exact_leaf']=='36-09CS_BT_FIVE_ROOT_DECK_DUAL_PROJECTION_CONSTRUCTION_PREFLIGHT'
+          assert cur['unit']=='36-09CS'
+          assert cur['next_exact_leaf']=='36-09CT_BT_POINTWISE_LOCAL_TATE_PAIRING_REQUIRED_PLACE_PREFLIGHT'
           assert cur['36_09CS_entry_allowed'] is True
+          assert cur['36_09CT_entry_allowed'] is False
           pg=s['promotion_gates']
-          assert pg['36_09CR_exact_head_ci_passed'] is True
-          assert pg['36_09CS_entry_allowed'] is True
-          assert pg['BT_five_root_deck_torsor_action_source_bound'] is False
-          assert pg['BT_pointwise_five_character_class_source_bound'] is False
-          assert pg['BT_geometry_bound_dual_evaluation_adapter_complete'] is False
+          assert pg['36_09CS_certificate_complete'] is True
+          assert pg['36_09CS_exact_head_ci_passed'] is False
+          assert pg['36_09CT_entry_allowed'] is False
+          assert pg['BT_five_root_deck_torsor_action_source_bound'] is True
+          assert pg['BT_pointwise_five_kummer_class_source_bound'] is True
+          assert pg['BT_geometry_bound_dual_evaluation_adapter_complete'] is True
           assert pg['BT_Poitou_Tate_local_condition_system_complete'] is False
+          assert pg['Stage36_required_place_inventory_complete'] is False
           assert pg['LIT_WF02_applicability_pass'] is False
           assert pg['new_global_obstruction_obtained'] is False
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
@@ -127,6 +139,6 @@ jobs:
           claims=s['claims']
           for key in ['new_theorem_credit','LIT_WF02_applicability_pass','Selmer_membership_obtained','Poitou_Tate_obstruction_obtained','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert claims[key] is False
-          print('Corrected 36-09CR exact-green parent verified and 36-09CS entry unlocked. No PT/BM/receiver/endpoint credit.')
+          print('36-09CS provisional checkpoint verified: geometry-bound local dual evaluation adapter only; CT remains locked pending exact-head CI. No PT/BM/receiver/endpoint credit.')
           PY
           git diff --check
