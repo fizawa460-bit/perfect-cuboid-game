@@ -38,21 +38,16 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay immutable 36-09DE exact-green mathematical evidence
+      - name: Replay immutable 36-09DF exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          H=b857167b4652cec6b5d149a3509c465c862b7b0e
+          H=ac6dc90ac0a6a872076117cd9801f3e3c1bc6d09
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09DE.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09DF.py"
           git worktree remove --force "$tmp"
-      - name: Verify 36-09DF p2 adelic solubility and complement boundary
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09DF.py
-      - name: Assert DF checkpoint and DG lock firewalls
+      - name: Assert DF exact-green promotion and DG unlock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -60,24 +55,24 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V174_36_09DF_ADELIC_SOLUBILITY_PRIVATE_BM_NO_GO'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V175_36_09DF_EXACT_GREEN_DG_UNLOCK'
           df=s['authority_frontier']['36-09DF']
-          assert df['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert df['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert df['certificate_blob_sha']=='e2ad1a187dc607b558288a6cad91272c021dd493'
           assert df['verifier_blob_sha']=='44dbc5518fd7615294438b9918506d1febaae580'
+          assert df['exact_head']=='ac6dc90ac0a6a872076117cd9801f3e3c1bc6d09'
+          assert df['exact_head_ci']=='34204479976/101990651818'
           assert df['P2_RETAINED_OPEN_ADELIC_SOLUBILITY_PROVED'] is True
           assert df['P2_LOCAL_OBSTRUCTION_EXCLUDED'] is True
           assert df['PRIVATE_INFINITE_SUBGROUP_BM_SET_NONEMPTY'] is True
           assert df['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_COMPUTED'] is False
-          assert df['FULL_BRAUER_GROUP_COMPUTED'] is False
           cur=s['current']
           assert cur['unit']=='36-09DF'
           assert cur['next_exact_leaf']=='36-09DG_FIXED_P2_NONRATIONAL_QI_BRAUER_COMPLEMENT_PREFLIGHT'
-          assert cur['36_09DG_entry_allowed'] is False
+          assert cur['36_09DG_entry_allowed'] is True
           pg=s['promotion_gates']
-          assert pg['36_09DF_certificate_complete'] is True
-          assert pg['36_09DF_exact_head_ci_passed'] is False
-          assert pg['36_09DG_entry_allowed'] is False
+          assert pg['36_09DF_exact_head_ci_passed'] is True
+          assert pg['36_09DG_entry_allowed'] is True
           assert pg['BT_p2_retained_open_adelic_solubility_proved'] is True
           assert pg['BT_p2_local_obstruction_excluded'] is True
           assert pg['BT_private_infinite_subgroup_BM_set_nonempty'] is True
@@ -85,6 +80,6 @@ jobs:
           assert pg['BT_full_relevant_Brauer_group_computed'] is False
           for key in ['Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09DF provisional checkpoint verified: p2 retained-open adelic solubility and private-subgroup BM-set nonemptiness obtained; DG locked pending exact-head CI.')
+          print('36-09DF exact-green parent verified and DG unlocked. p2 is adelically soluble; private infinite subgroup BM set is nonempty; full complement remains open.')
           PY
           git diff --check
