@@ -1,0 +1,31 @@
+name: Stage35-EX Goal4AK audited claim sync V74
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage35-ex/MAIN-STATE.json'
+      - 'stages/stage35-ex/35ex-35/goal4ak-audited-claim-sync.json'
+      - 'stages/stage35-ex/verify_stage35_ex_v74_legacy_replay.py'
+      - 'stages/stage35-ex/verify_stage35_ex_35_goal4ak_audited_claim_sync.py'
+      - '.github/workflows/stage35-ex-goal4ak-audited-claim-sync-v74.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 380
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact replay dependency
+        run: python -m pip install --disable-pip-version-check sympy==1.14.0
+      - name: Verify audited Goal4AK authority synchronization
+        run: python -u -B stages/stage35-ex/verify_stage35_ex_35_goal4ak_audited_claim_sync.py
