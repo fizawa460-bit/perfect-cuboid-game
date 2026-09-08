@@ -1,0 +1,151 @@
+{
+  "schema": "STAGE32EX1_EX1_05U_LOCAL_DOUBLE_POINT_CONDUCTOR_COMMON_RAMIFICATION_SPLIT_PREFLIGHT_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05U_LOCAL_DOUBLE_POINT_CONDUCTOR_COMMON_RAMIFICATION_SPLIT_PREFLIGHT",
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "scratch_parent_head": "6472bb54b8d8bcb08808524e636863191ab272ef",
+  "current_main_seen": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "question": "Can the exact self-intersection, conductor defect and common-ramification torsion be split into independent nonimmersive versus self-identification singularity budgets strongly enough to exclude any of the 29 Q states?",
+  "source_locks": {
+    "parent_05t": {
+      "path": "stages/stage32-ex1/scratch/ex1-05t-isolated-equidefect-point-obstruction-count-preflight.json",
+      "blob_sha1": "d4156396e934fb0556f501cfc28a1fb34e02c6d0",
+      "exact_use": "The active receiver is an isolated superabundant low-genus correspondence; pure expected-dimension/virtual-count exclusion is closed."
+    },
+    "parent_05n": {
+      "path": "stages/stage32-ex1/scratch/ex1-05n-hurwitz-simultaneous-cover-dimension-preflight.json",
+      "blob_sha1": "80f315b43e88370e11ba44b0352f00a2ae3b64b9",
+      "exact_use": "For phi=(f105,f81), Tor(N_phi) has length tau=deg gcd(R105,R81), 0<=tau<=2r; deg N_phi=-162+2r and deg Nbar_phi=-162+2r-tau."
+    },
+    "parent_05l": {
+      "path": "stages/stage32-ex1/scratch/ex1-05l-normalization-tangent-torsion-vs-delta.json",
+      "blob_sha1": "57e9f01287fee5d706ae4c6639d99ea3836adb89",
+      "exact_use": "Exact local reduced plane-curve countermodels show fixed delta can coexist with differential ramification length 0 (two smooth high-contact branches) or 1 (a high-delta unibranch cusp). Thus delta is not recoverable from normalization differential torsion."
+    },
+    "ex1_05h": {
+      "path": "stages/stage32-ex1/ex1-05h-upstairs-conductor-discriminant-source-note.md",
+      "blob_sha1": "47837ed1bc55c120883039c32a1a0b25f26e7aa3",
+      "exact_use": "For an integral Gorenstein curve on a smooth surface, normalization duality identifies the conductor divisor and gives conductor degree 2*delta; adjunction is source-locked."
+    },
+    "dedieu_sernesi": {
+      "authors": ["Thomas Dedieu", "Edoardo Sernesi"],
+      "title": "Equigeneric and equisingular families of curves on surfaces",
+      "journal": "Publicacions Matematiques 61 (2017), 175-212",
+      "doi": "10.5565/PUBLMAT_61117_07",
+      "arxiv": "1410.4221",
+      "locators": ["Section 2 normal-sheaf torsion/ramification setup", "Section 3 equations (3.1)-(3.2) and Lemma 3.1"],
+      "exact_use": "The torsion of the normal sheaf records nonimmersive ramification of the normalization map, while the adjoint ideal is the normalization conductor. These are distinct local objects."
+    }
+  },
+  "setup": {
+    "surface": "Q=C2xC2 over C",
+    "curve": "Gamma subset Q",
+    "normalization_map": "phi:D->Gamma->Q",
+    "bidegree": [105,81],
+    "Gamma_square": 15806,
+    "K_Q_dot_Gamma": 372,
+    "p_a_Gamma": 8090,
+    "g_D_formula": "106+r",
+    "delta_formula": "7984-r",
+    "r_range": [0,28],
+    "tau_definition": "tau=length Tor(N_phi)=deg gcd(R105,R81)",
+    "tau_bounds": "0<=tau<=2r"
+  },
+  "exact_double_point_conductor_identity": {
+    "adjunction": "2*p_a(Gamma)-2=Gamma^2+K_Q.Gamma",
+    "normalization_conductor": "2*p_a(Gamma)-2=(2*g(D)-2)+2*delta_Gamma",
+    "normal_sheaf_degree": "deg N_phi=(2*g(D)-2)-K_Q.Gamma=-162+2r",
+    "identity": "Gamma^2=deg N_phi+2*delta_Gamma",
+    "statewise_replay": "15806=(-162+2r)+2*(7984-r)",
+    "interpretation": "The full delta defect is already paired with the degree of the unsaturated normal sheaf. This is an identity, not an inequality or an exclusion."
+  },
+  "torsion_saturation_rewrite": {
+    "normal_torsion_sequence": "0->Tor(N_phi)->N_phi->Nbar_phi->0",
+    "deg_Nbar_formula": "-162+2r-tau",
+    "rewritten_identity": "Gamma^2=deg Nbar_phi+tau+2*delta_Gamma",
+    "tau_is_not_a_subtraction_from_delta": true,
+    "reason": "Passing to the saturated normal line bundle subtracts tau from the normal degree, so tau reappears additively in the self-intersection identity. There is no legal formula delta_effective=delta-tau or delta-tau/2 from the retained data."
+  },
+  "local_split_firewall": {
+    "immersed_high_contact_model": "y^2-x^(2m)=(y-x^m)(y+x^m)",
+    "immersed_model_delta": "m",
+    "immersed_model_normalization_differential_torsion": 0,
+    "unibranch_cusp_model": "y^2-x^(2m+1)",
+    "cusp_model_delta": "m",
+    "cusp_model_normalization_differential_torsion": 1,
+    "consequence": "Even arbitrarily large delta does not force large normalization-map torsion. Conversely, a nonzero tau does not determine how much of delta is self-identification, branch contact, or unibranch singularity complexity."
+  },
+  "statewise_replay": {
+    "Q_values": [210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266],
+    "Q_states_entering": 29,
+    "Q_states_excluded": 0,
+    "Q_states_leaving": 29,
+    "delta_range": [7956,7984],
+    "deg_N_phi_range": [-162,-106],
+    "tau_global_range": [0,56],
+    "deg_Nbar_always_negative": true,
+    "Q602_residues_per_Q": [73,97,235]
+  },
+  "decision": {
+    "route_status": "BLOCKED_NO_NEW_INFORMATION",
+    "new_exact_pattern": "DOUBLE_POINT_CONDUCTOR_SPLIT_COLLAPSES_TO_GAMMA2_EQUALS_DEG_NORMAL_PLUS_2DELTA;_COMMON_RAMIFICATION_TORSION_ONLY_SHIFTS_THE_SATURATED_NORMAL_DEGREE",
+    "local_double_point_split_excludes": false,
+    "tau_charges_delta": false,
+    "Q_states_excluded": 0,
+    "Q602_residues_excluded": 0,
+    "V6_carrier_excluded": false,
+    "exact_blocker": "Without actual singularity types or normalization-pair identifications, tau cannot be converted into a lower bound on the self-identification portion of delta or into an upper bound on total delta. The exact global identity is tautological and the local countermodels from 05L show the missing split is genuinely non-determined.",
+    "reopen_condition": "Reopen only after extracting V6-specific local singularity types, branch pairings/self-identifications, conductor support, or a theorem coupling those data to common ramification torsion."
+  },
+  "candidate_ledger": {
+    "LIVE": ["FULL_LOW_RAMIFICATION_MONODROMY_NEAR_ETALE"],
+    "UNTESTED": ["ACTUAL_V6_SECTION_MATERIALIZATION"],
+    "BLOCKED": [
+      "D0_SUPPORT_EXTRACTION_FROM_CURRENT_CORRESPONDENCE_ROSATI_DEGREE_DATA",
+      "NORMALIZATION_MAP_TANGENT_TORSION_VS_DELTA_WITHOUT_SINGULARITY_TYPE_INPUT",
+      "RAMIFICATION_DIFFERENCE_SPIN_PARITY_WITHOUT_COEFFICIENTWISE_ODD_RAMIFICATION_PROFILE",
+      "LOCAL_DOUBLE_POINT_CONDUCTOR_COMMON_RAMIFICATION_SPLIT_WITHOUT_SINGULARITY_TYPES"
+    ],
+    "DOMINATED": [
+      "STANDARD_VIRTUAL_OR_EXPECTED_DIMENSION_COUNT",
+      "GENERIC_JET_SEPARATION_REIDER_EQUIGENERIC_TRANSVERSALITY_AT_REQUIRED_DELTA_SCALE",
+      "Q602_EFFECTIVITY_OR_INTEGRALITY_AS_A_CLASS_LEVEL_OBSTRUCTION",
+      "PLAIN_CASTELNUOVO_SEVERI_TWO_PROJECTION_GENUS_BOUND_BY_EXISTING_ROSATI_DEFECT"
+    ],
+    "EQUIVALENT": [
+      "GLOBAL_DOUBLE_POINT_BUDGET_TO_ADJUNCTION_PLUS_CONDUCTOR_IDENTITY"
+    ]
+  },
+  "next_route": {
+    "route_id": "EX1_05V_FULL_LOW_RAMIFICATION_MONODROMY_NEAR_ETALE_PREFLIGHT",
+    "selection_reason": "05U shows local defect splitting is unavailable without singularity types. The remaining non-reconstruction route is discrete global monodromy of the degree-105 cover, whose total ramification is only 2r and is exactly etale at r=0; this may add information not seen by the abelian V4 quotient."
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "BLOCKED_NO_NEW_INFORMATION",
+    "CYCLE_ACTIVE_RECEIVER": "FULL_MONODROMY_OF_DEGREE_105_NEAR_ETALE_COVER_COUPLED_TO_DEGREE_81_COMMON_COVER",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 1,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": false,
+    "CYCLE_BLIND_REDISCOVERY": false,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false
+  },
+  "replay": {
+    "verifier": "stages/stage32-ex1/scratch/verify_ex1_05u_local_double_point_conductor_common_ramification_split.py",
+    "expected": "PASS_EX1_05U_DOUBLE_POINT_IDENTITY"
+  },
+  "firewalls": {
+    "tau_subtracted_from_delta": false,
+    "tau_half_subtracted_from_delta": false,
+    "conductor_degree_identified_with_normal_torsion": false,
+    "local_countermodel_promoted_to_global_realizability": false,
+    "Q_state_exclusion_claimed": false,
+    "Q602_exclusion_claimed": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  }
+}
