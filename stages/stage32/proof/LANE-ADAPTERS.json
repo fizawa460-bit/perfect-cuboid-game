@@ -1,67 +1,95 @@
 {
   "contract": {
     "claim_reference_rule": "A lane may cite a registered claim ID, but mathematical credit is bounded by that claim's authority_status, PROVES, DOES_NOT_PROVE, source locks, and audit receipt.",
+    "active_frontier_rule": "active_frontier_refs point into ACTIVE-FRONTIER.json and express current OWNER/ATTACKS/CONSUMES routing only; they do not make EX1-EX5 separate mathematical Stages and do not grant proof credit.",
     "promotion_rule": "EX -> MAIN requires an AUDITED terminal EX claim plus a separate explicit current-target promotion adapter claim. LANE-ADAPTERS.json itself never promotes.",
     "purpose": "External reference map only. Existing MAIN-STATE files remain authoritative for routing and are not rewritten or promoted by this adapter.",
     "scratch_rule": "Scratch results are not claim dependencies for MAIN/EX promotion. They must first become a retained PROVISIONAL claim with exact source locks."
   },
   "lanes": [
     {
+      "lane": "MAIN",
+      "state_path": "stages/stage32/MAIN-STATE.json",
       "claim_refs": [
         "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
         "S32.MAIN.HDECK_CHARACTER_DIRECTION.V1",
         "S32.MAIN.V6_BIJECTIVE_NORMALIZATION_EXCLUSION.V2"
       ],
-      "lane": "MAIN",
-      "notes": "HDECK claim is audited; bijective-normalization exclusion remains provisional pending re-audit.",
-      "state_path": "stages/stage32/MAIN-STATE.json"
+      "active_frontier_refs": [
+        "S32.V6.ACTUAL_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
+        "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
+        "S32.V6.SURFACE_NODE_MULTIBRANCH.V1",
+        "S32.V6.SMOOTH_AMBIENT_LOCUS_CURVE_SINGULARITY.V1",
+        "S32.O210.EXCLUSION.V1",
+        "S32.Q602.SURVIVORS_73_97_235.V1",
+        "S32.Q602.EXCLUSION.V1",
+        "S32.J2.DELTA0INF_ABSOLUTE_W_LINE_MARKING.V1",
+        "S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V1",
+        "S32.FULL178.NUMERICAL_CENSUS.V1",
+        "S32.GOAL.STAGE32_CLOSURE.V1"
+      ],
+      "notes": "MAIN owns the active frontier. HDECK and [73,97,235] are audited; open frontier nodes remain goals unless independently audited."
     },
     {
-      "claim_refs": [
-        "S32.EX1.LANE_CONTRACT.V1",
-        "S32.EX1.CANDIDATE_THROUGH_05F.V1",
-        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1"
-      ],
       "lane": "EX1",
-      "notes": "Accumulated EX1 candidate is provisional/re-audit pending; no self-credit.",
-      "state_path": "stages/stage32-ex1/MAIN-STATE.json"
+      "state_path": "stages/stage32-ex1/MAIN-STATE.json",
+      "claim_refs": ["S32.EX1.LANE_CONTRACT.V1","S32.EX1.CANDIDATE_THROUGH_05F.V1","S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1"],
+      "active_frontier_refs": [
+        "S32.V6.ACTUAL_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
+        "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
+        "S32.V6.SURFACE_NODE_MULTIBRANCH.V1",
+        "S32.V6.SMOOTH_AMBIENT_LOCUS_CURVE_SINGULARITY.V1",
+        "S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V1",
+        "S32.GOAL.STAGE32_CLOSURE.V1"
+      ],
+      "notes": "EX1 attacks V6 carrier existence/nonexistence and the two nonbijective-normalization branches; its accumulated candidate remains provisional/re-audit pending."
     },
     {
-      "claim_refs": [
-        "S32.EX2.LANE_CONTRACT.V1",
-        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1"
-      ],
       "lane": "EX2",
-      "notes": "Bootstrap contract only.",
-      "state_path": "stages/stage32-ex2/MAIN-STATE.json"
+      "state_path": "stages/stage32-ex2/MAIN-STATE.json",
+      "claim_refs": ["S32.EX2.LANE_CONTRACT.V1","S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1"],
+      "active_frontier_refs": [
+        "S32.V6.ACTUAL_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
+        "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
+        "S32.V6.SMOOTH_AMBIENT_LOCUS_CURVE_SINGULARITY.V1",
+        "S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V1",
+        "S32.GOAL.STAGE32_CLOSURE.V1"
+      ],
+      "notes": "EX2 attacks actual-member reconstruction and complete-linear-system nonexistence; bootstrap contract only."
     },
     {
-      "claim_refs": [
-        "S32.EX3.LANE_CONTRACT.V1",
-        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1"
-      ],
       "lane": "EX3",
-      "notes": "Bootstrap contract only.",
-      "state_path": "stages/stage32-ex3/MAIN-STATE.json"
+      "state_path": "stages/stage32-ex3/MAIN-STATE.json",
+      "claim_refs": ["S32.EX3.LANE_CONTRACT.V1","S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1"],
+      "active_frontier_refs": [
+        "S32.V6.SURFACE_NODE_MULTIBRANCH.V1",
+        "S32.O210.EXCLUSION.V1",
+        "S32.Q602.SURVIVORS_73_97_235.V1",
+        "S32.Q602.EXCLUSION.V1",
+        "S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V1",
+        "S32.GOAL.STAGE32_CLOSURE.V1"
+      ],
+      "notes": "EX3 attacks O210/cover/monodromy and related Q602/member-level interfaces; bootstrap contract only."
     },
     {
-      "claim_refs": [
-        "S32.EX4.LANE_CONTRACT.V1",
-        "S32.MAIN.HDECK_CHARACTER_DIRECTION.V1",
-        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1"
-      ],
       "lane": "EX4",
-      "notes": "May consume the audited abstract H-deck direction, but absolute W-line/residue remains unproved.",
-      "state_path": "stages/stage32-ex4/MAIN-STATE.json"
+      "state_path": "stages/stage32-ex4/MAIN-STATE.json",
+      "claim_refs": ["S32.EX4.LANE_CONTRACT.V1","S32.MAIN.HDECK_CHARACTER_DIRECTION.V1","S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1"],
+      "active_frontier_refs": [
+        "S32.Q602.SURVIVORS_73_97_235.V1",
+        "S32.Q602.EXCLUSION.V1",
+        "S32.J2.DELTA0INF_ABSOLUTE_W_LINE_MARKING.V1",
+        "S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V1",
+        "S32.GOAL.STAGE32_CLOSURE.V1"
+      ],
+      "notes": "EX4 consumes the audited abstract H-deck/survivor frontier and attacks absolute W-line marking and Q602 exclusion; no absolute marking credit exists yet."
     },
     {
-      "claim_refs": [
-        "S32.EX5.LANE_CONTRACT.V1",
-        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1"
-      ],
       "lane": "EX5",
-      "notes": "Bootstrap breadth contract only.",
-      "state_path": "stages/stage32-ex5/MAIN-STATE.json"
+      "state_path": "stages/stage32-ex5/MAIN-STATE.json",
+      "claim_refs": ["S32.EX5.LANE_CONTRACT.V1","S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V1"],
+      "active_frontier_refs": ["S32.FULL178.NUMERICAL_CENSUS.V1","S32.GOAL.STAGE32_CLOSURE.V1"],
+      "notes": "EX5 attacks receiver-breadth/FULL178 routing and the numerical-census input to Stage32 closure; bootstrap breadth contract only."
     }
   ],
   "schema": "STAGE32_LANE_CLAIM_ADAPTERS_V1",
