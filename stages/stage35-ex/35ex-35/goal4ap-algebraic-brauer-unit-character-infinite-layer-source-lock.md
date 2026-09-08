@@ -24,13 +24,28 @@ q+y,
 w+z,
 ```
 
-with conjugate products equal to `1`. Goal4Y also proves
+with conjugate products equal to `1`. Goal4Y computes for the exact finite quotient
 
 ```text
-H^1(Q,Pic(Ubar)) ~= Z/2 x Z/2
+G = Gal(Q(i,sqrt(2))/Q) ~= C2 x C2,
+H^1(G,Pic(Ubar)) ~= Z/2 x Z/2,
 ```
 
-for the relevant exact Galois action, and both generators survive the unit transgression and lift to two independent algebraic Brauer classes A and B.
+and both generators survive the unit transgression and inflate to two independent algebraic Brauer classes A and B.
+
+For the right-hand filtration term below, the absolute-Galois `H^1` is exactly the same finite-quotient group. Goal4Y source-locks that the `Pic(Ubar)` action factors through `G`. Let `N` be the kernel of `G_Q -> G`. Then `N` acts trivially on the torsion-free lattice `Pic(Ubar)~=Z^35`, and
+
+```text
+H^1(N,Pic(Ubar)) = Hom_cts(N,Z^35) = 0,
+```
+
+because a continuous image of a profinite group in the discrete lattice `Z^35` is finite, while `Z^35` has no nonzero finite subgroup. Inflation--restriction therefore gives
+
+```text
+H^1(Q,Pic(Ubar)) ~= H^1(G,Pic(Ubar)) ~= Z/2 x Z/2.       (ABS-H1)
+```
+
+Thus the finite `V4` computation used by Goal4Y is not merely a quotient approximation at total degree two.
 
 The rational smooth point `(x,y,p,q,z,w)=(3/4,0,5/4,1,3/4,5/4)` is exact. Therefore the `Br_a(U)` identification below applies.
 
