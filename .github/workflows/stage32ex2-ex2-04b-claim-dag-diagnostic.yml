@@ -1,0 +1,49 @@
+name: Stage32EX2 EX2-04B claim-DAG phase diagnostic
+
+on:
+  push:
+    branches:
+      - stage32ex2-ex2-00-source-lock-continuation
+    paths:
+      - 'stages/stage32-ex2/runkeys/ex2-04b-claim-sync.json'
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact pushed head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch and pin current main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          test "$(git rev-parse origin/main)" = "70265586b3f97be21c7621af73f443311f1f3fa3"
+      - name: Compose current-main plus retained EX2 claims
+        run: python -B stages/stage32-ex2/apply_ex2_04b_claim_sync.py
+      - name: Materialize exact non-EX2 replay closure
+        run: python -B stages/stage32-ex2/materialize_current_main_claim_dag_closure.py
+      - name: DAG phase 1 shape and FINAL contract
+        run: python -B stages/stage32-ex2/diagnose_stage32_claim_dag_phase.py shape
+      - name: DAG phase 2 immutable claim cores
+        run: python -B stages/stage32-ex2/diagnose_stage32_claim_dag_phase.py claims
+      - name: DAG phase 3 dependency semantics
+        run: python -B stages/stage32-ex2/diagnose_stage32_claim_dag_phase.py dependencies
+      - name: DAG phase 4 replay paths
+        run: python -B stages/stage32-ex2/diagnose_stage32_claim_dag_phase.py replay
+      - name: DAG phase 5 source locks
+        run: python -B stages/stage32-ex2/diagnose_stage32_claim_dag_phase.py sources
+      - name: DAG phase 6 lane adapters
+        run: python -B stages/stage32-ex2/diagnose_stage32_claim_dag_phase.py lanes
+      - name: Full claim-DAG integrity verifier
+        run: python -B stages/stage32/proof/verify_stage32_claim_dag.py --integrity
