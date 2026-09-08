@@ -1,0 +1,47 @@
+name: Stage33 V91C1X R5B3A A2_02 317/1757 literal package materialize
+
+# Exact generator run from the current Stage33 R5B3A branch head.
+on:
+  push:
+    branches:
+      - stage33-v91c1x-r5b2d0-swap23-source-lock
+    paths:
+      - '.github/workflows/stage33-v91c1x-r5b3a-a2-02-317-1757-literal-package-materialize.yml'
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b3a_a2_02_317_1757_literal_package_pullbacks.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stage33-v91c1x-r5b2d0-swap23-source-lock
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact local algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Materialize R5B3A cover-indexed literal package pullbacks
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b3a_a2_02_317_1757_literal_package_pullbacks.py --write
+      - name: Bound generated delta
+        run: |
+          find stages/stage33/33-12 -type d -name __pycache__ -prune -exec rm -rf {} +
+          git diff --check
+          git status --porcelain
+          test "$(git status --porcelain | wc -l)" -eq 1
+          git status --porcelain | grep -F '?? stages/stage33/33-12/e3-v91c1x-r5b3a-a2-02-317-1757-literal-package-pullbacks.json'
+      - name: Commit exact generated certificate
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add stages/stage33/33-12/e3-v91c1x-r5b3a-a2-02-317-1757-literal-package-pullbacks.json
+          git commit -m '[Stage33] materialize R5B3A A2_02 317/1757 literal package pullbacks'
+          git push origin HEAD:stage33-v91c1x-r5b2d0-swap23-source-lock
