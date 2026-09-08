@@ -1,0 +1,112 @@
+{
+  "audit_input": {
+    "claim_core_sha256": "84e7a4b6990d7c687eebe341fbea296fad1da2cae4785cb87580a0d84572437a",
+    "claim_id": "S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2",
+    "claim_registry_sync_at_audited_head": "PENDING",
+    "exact_head": "e3c4a04d5010e6dca9428722e334890e2614297a",
+    "merge_ready_freshness": "CLEAR",
+    "pr": 1728,
+    "review_id": 5147627146,
+    "supported_result": "FULL_TARGET_CLOSURE / ALL_V6_GENUS1_CARRIERS_EXCLUDED",
+    "verdict": "PASS"
+  },
+  "authority_gate": {
+    "claim_registry_currently_still_provisional_at_e3c4": true,
+    "claim_sync_triggered": true,
+    "concrete_promotion_adapters_registered": false,
+    "ex1_consumable_audited_authority_before_sync": false,
+    "hostile_pass_known": true,
+    "main_v6_negative_promoted": false,
+    "o210_promoted": false,
+    "q602_promoted": false
+  },
+  "candidate_adapters": [
+    {
+      "candidate_claim_id": "S32.ADAPTER.EX1_V6_TERMINAL_TO_MAIN_V6_NO_MEMBER.V1",
+      "from_scope_key": "S32.EX1.V6_CARRIER",
+      "promotion_granted_now": false,
+      "requires": [
+        "S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2",
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
+        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2"
+      ],
+      "semantic_statement": "The audited EX1 terminal population is exactly the current g1-d186 V6 integral irreducible geometric-genus-1 carrier population represented by the MAIN negative V6 goal; therefore EX1 full-target exclusion implies no such V6 member exists in the current MAIN population.",
+      "status_needed_for_consumption": "AUDITED",
+      "target_claim": "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
+      "to_scope_key": "S32.MAIN.V6_CARRIER"
+    },
+    {
+      "candidate_claim_id": "S32.ADAPTER.MAIN_V6_EMPTY_TO_O210_EMPTY.V1",
+      "from_scope_key": "S32.MAIN.V6_CARRIER",
+      "promotion_granted_now": false,
+      "requires": [
+        "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1"
+      ],
+      "semantic_statement": "The current O210 carrier/cover population is a typed subpopulation built from the same current g1-d186 V6 integral irreducible geometric-genus-1 carrier target; if that carrier population is empty, the O210 population is empty.",
+      "status_needed_for_consumption": "AUDITED",
+      "target_claim": "S32.O210.EXCLUSION.V1",
+      "to_scope_key": "S32.O210.COVER"
+    },
+    {
+      "candidate_claim_id": "S32.ADAPTER.MAIN_V6_EMPTY_TO_Q602_EMPTY.V1",
+      "from_scope_key": "S32.MAIN.V6_CARRIER",
+      "promotion_granted_now": false,
+      "requires": [
+        "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
+        "S32.Q602.SURVIVORS_73_97_235.V1",
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1"
+      ],
+      "semantic_statement": "Q602 residues [73,97,235] are admissible invariant components only for the current carrier population. If the current V6 carrier population is empty, no Q602 residue survives as an admissible component. This is a population-preserving obstruction, not residue-by-residue arithmetic.",
+      "status_needed_for_consumption": "AUDITED",
+      "target_claim": "S32.Q602.EXCLUSION.V1",
+      "to_scope_key": "S32.Q602.ARITHMETIC"
+    }
+  ],
+  "canonical_sha256_without_this_field": "3a462d9f7462f898dd89ff3865a5873bc1bd867abea6191f6803673049e41e0b",
+  "current_main_frontier": {
+    "o210_goal": "S32.O210.EXCLUSION.V1",
+    "q602_goal": "S32.Q602.EXCLUSION.V1",
+    "q602_survivors": [
+      73,
+      97,
+      235
+    ],
+    "same_member_goal": "S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V2",
+    "v6_negative_goal": "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1"
+  },
+  "firewalls": {
+    "EX1_authority_sync_completed": false,
+    "MAIN_STATE_changed": false,
+    "MAIN_credit_changed": false,
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "Stage32_closed": false,
+    "claim_registry_changed": false,
+    "endpoint_credit": false,
+    "merge_authorized": false,
+    "perfect_cuboid_credit": false,
+    "receiver_credit": false,
+    "scratch_only": true,
+    "theorem_credit": false
+  },
+  "logical_checks": {
+    "ex1_terminal_claim_requires_audited_predecessor": true,
+    "ex1_terminal_scope_contains_all_29_h4_states": true,
+    "ex1_terminal_scope_q602_residues": [
+      73,
+      97,
+      235
+    ],
+    "main_v6_goal_population_wide": true,
+    "o210_goal_accepts_population_preserving_argument": true,
+    "q602_empty_population_is_not_relabelled_residue_specific_arithmetic": true,
+    "q602_goal_accepts_equally_exact_population_preserving_obstruction": true,
+    "same_member_q602_interface_becomes_unneeded_if_v6_empty_promoted": true
+  },
+  "next_exact_route": "SYNC_EX1_V2_PASS_RECEIPT_IN_CLAIM_DAG_THEN_RETAIN_AND_HOSTILE_AUDIT_EX1_TO_MAIN_V6_SCOPE_ADAPTER_BEFORE_ANY_MAIN_PROMOTION",
+  "schema": "STAGE32_MAIN_SCRATCH_EX1_PASS_PROMOTION_ADAPTER_PREFLIGHT_V1",
+  "snapshot_current_main": "70265586b3f97be21c7621af73f443311f1f3fa3",
+  "stage": 32,
+  "status": "SCRATCH_EXACT_UNAUDITED_PROMOTION_ADAPTER_PREFLIGHT"
+}
