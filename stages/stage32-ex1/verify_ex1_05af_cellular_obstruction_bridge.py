@@ -4,12 +4,14 @@ from __future__ import annotations
 import base64
 import hashlib
 import json
+import sys
 import zlib
 from collections import Counter
 from itertools import product
 from math import gcd
 from pathlib import Path
 
+sys.dont_write_bytecode = True
 import verify_ex1_05af_s0_integral_ns_pullback_saturation as compact
 
 HERE = Path(__file__).resolve().parent
