@@ -78,12 +78,17 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CQ.py"
           git worktree remove --force "$tmp"
-      - name: Verify 36-09CR BT geometric evaluation source preflight
+      - name: Replay immutable 36-09CR exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09CR.py
-      - name: Assert CR checkpoint and CS lock firewalls
+          H=ab7237e6e0d218c97a48e221504327a355648866
+          git cat-file -e "$H^{commit}"
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09CR.py"
+          git worktree remove --force "$tmp"
+      - name: Assert CR exact-green promotion and CS unlock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -91,15 +96,17 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V144_36_09CR_DUAL_PROJECTION_SOURCE_PREFLIGHT'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V145_36_09CR_EXACT_GREEN_CS_UNLOCK'
           cq=s['authority_frontier']['36-09CQ']
           assert cq['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert cq['exact_head']=='a0d8cb76e43f926342f1a57b2b6aa903d19da63d'
           assert cq['exact_head_ci']=='34188612840/101941880607'
           cr=s['authority_frontier']['36-09CR']
-          assert cr['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert cr['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert cr['certificate_blob_sha']=='d1bde3d1da2d8482ff26457aa6e437ecbabbdfea'
           assert cr['verifier_blob_sha']=='eaff2e04f7b89e1de0c4b4935a07757b47d27ab4'
+          assert cr['exact_head']=='ab7237e6e0d218c97a48e221504327a355648866'
+          assert cr['exact_head_ci']=='34191583995/101950581298'
           assert cr['REUSABLE_CONNECTING_LOCALIZATION_PROTOCOL_FOUND'] is True
           assert cr['EXISTING_SOURCE_BOUND_BT_DUAL_EVALUATION_ADAPTER_FOUND'] is False
           assert cr['FORMAL_3_TO_5_DUAL_PROJECTION_EXACT'] is True
@@ -113,11 +120,11 @@ jobs:
           assert cur['unit']=='36-09CR'
           assert cur['next_exact_leaf']=='36-09CS_BT_FIVE_ROOT_DECK_DUAL_PROJECTION_CONSTRUCTION_PREFLIGHT'
           assert cur['36_09CR_entry_allowed'] is True
-          assert cur['36_09CS_entry_allowed'] is False
+          assert cur['36_09CS_entry_allowed'] is True
           pg=s['promotion_gates']
           assert pg['36_09CR_certificate_complete'] is True
-          assert pg['36_09CR_exact_head_ci_passed'] is False
-          assert pg['36_09CS_entry_allowed'] is False
+          assert pg['36_09CR_exact_head_ci_passed'] is True
+          assert pg['36_09CS_entry_allowed'] is True
           assert pg['BT_formal_five_to_three_dual_projection_constructed'] is True
           assert pg['BT_five_root_deck_torsor_action_source_bound'] is False
           assert pg['BT_pointwise_five_character_class_source_bound'] is False
@@ -130,6 +137,6 @@ jobs:
           claims=s['claims']
           for key in ['new_theorem_credit','LIT_WF02_applicability_pass','Selmer_membership_obtained','Poitou_Tate_obstruction_obtained','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert claims[key] is False
-          print('36-09CR provisional checkpoint verified: protocol plus exact formal dual projection only; CS remains locked pending exact-head CI. No PT/BM/receiver/endpoint credit.')
+          print('36-09CR exact-green parent verified and 36-09CS entry unlocked. No PT/BM/receiver/endpoint credit.')
           PY
           git diff --check
