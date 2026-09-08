@@ -1,0 +1,93 @@
+{
+  "schema": "STAGE32EX3_EX3_04C_BOLZA_H4_PLANE_COORDINATE_CLOSURE_SCRATCH_V1",
+  "stage": 32,
+  "lane": "EX3",
+  "leaf": "EX3-04_COMMON_V4_SIMULTANEOUS_TWO_PROJECTION_COMPATIBILITY",
+  "status": "SCRATCH_PROVISIONAL_EXACT_REPLAY_NOT_RETAINED",
+  "fixed_target": {
+    "C0_model": "y^2=x^5-x",
+    "ring": "O=Z[s], s^2=-2",
+    "polarization_matrix": [["2", "1+s"], ["1-s", "2"]],
+    "degrees_Y_to_C0": [105, 81]
+  },
+  "source_locks": {
+    "ex3_04_gate": {
+      "path": "stages/stage32-ex3/scratch/ex3-04-common-v4-character-correspondence-gate.json",
+      "blob_sha1": "e4903bcce6031f2e35f45f2156e2d88c743c6554"
+    },
+    "ex3_04b_rosati_weierstrass": {
+      "path": "stages/stage32-ex3/scratch/ex3-04b-bolza-rosati-weierstrass-plane-source-lock.json",
+      "blob_sha1": "15201d042b2933b53c31f639ebb1be7591b0df1e"
+    },
+    "typed_cover_tower": {
+      "path": "stages/stage32-ex3/ex3-00-o210-typed-cover-tower.json",
+      "blob_sha1": "c28bda6c20340b4fc4ac060db158ca30926ecb38"
+    }
+  },
+  "exact_unitary_replay": {
+    "hermitian_form": "h(v,w)=bar(v)^t M w over Z[sqrt(-2)]",
+    "completeness_bound": "if h(v,v)=2 then (2-sqrt(3))*(|z1|^2+|z2|^2)<=2, so |zj|^2=a_j^2+2b_j^2<8; it suffices to enumerate |a_j|<=2, |b_j|<=1",
+    "norm2_vector_count": 24,
+    "M_unitary_matrix_count": 48,
+    "distinct_mod2_action_count": 24,
+    "F2_dimension_of_J2": 4,
+    "rank2_F2_subspace_count": 35,
+    "full_unitary_invariant_rank2_subspace_count": 1,
+    "unique_plane": "U0 = span_F2{(s,0),(0,s)} = s*F2^2 inside (O/2O)^2",
+    "U0_is_lagrangian_for_M_polarization": true
+  },
+  "geometric_identification": {
+    "weierstrass_set": ["0", "infinity", "+1", "-1", "+i", "-i"],
+    "opposite_pair_partition": [["0", "infinity"], ["+1", "-1"], ["+i", "-i"]],
+    "mobius_generators": ["r(x)=i*x", "t(x)=(x+1)/(x-1)"],
+    "generated_branch_permutation_group_order": 24,
+    "opposite_pair_partition_preserved_by_generated_group": true,
+    "hyperelliptic_involution_action_on_J2": "trivial",
+    "consequence": "the geometric H4 kernel plane U from the three opposite Weierstrass pairs is invariant under the full 48-element polarized automorphism group; since the E^2 model has a unique invariant rank-2 plane, every polarized identification sends U to U0"
+  },
+  "diagonal_H4_label_sharpening": {
+    "product_cover": "P=Z x Z -> X=(Z x Z)/H4_diag",
+    "reason": "the same deck element h in H4 acts simultaneously on both factors, so the two identifications of D with f1^*Z and f2^*Z use the same H4 labeling",
+    "basis_change_A": "I",
+    "pullback_identity": "f1^*(lambda)=f2^*(lambda) for every lambda in U",
+    "correspondence": "T=(f1)_*(f2)^*",
+    "odd_degree_norm": "(f1)_* f1^*=[105]=[1] on J(C0)[2]",
+    "exact_mod2_action": "T|U = I"
+  },
+  "E2_coordinate_filter": {
+    "entry_form": "T_ij=a_ij+b_ij*s",
+    "action_on_U0": "T(s*v)=s*(A0*v) mod 2, where A0=(a_ij mod 2)",
+    "T_restrict_U0_identity_iff": [
+      "a11 == 1 mod 2",
+      "a22 == 1 mod 2",
+      "a12 == 0 mod 2",
+      "a21 == 0 mod 2"
+    ],
+    "b_ij_parities_constrained_by_this_gate": false
+  },
+  "nonpruning_witness": {
+    "T": "I_2",
+    "T_restrict_U0": "I",
+    "rosati": "T^dagger*T=I",
+    "rosati_bound": "I <= 8505*I",
+    "consequence": "the common-H4 mod-2/Rosati gate alone has nonempty endomorphism population and cannot exclude O210"
+  },
+  "diagnostic_verdict": {
+    "explicit_weierstrass_to_E2_period_matrix_needed_for_U": false,
+    "H4_plane_coordinate_gap_closed": true,
+    "diagonal_deck_label_basis_ambiguity_closed": true,
+    "EX3_04_exclusion_obtained": false,
+    "O210_excluded": false,
+    "next_exact_route": "EX3-05: add a genuinely geometric simultaneous correspondence/branch-cycle invariant beyond the H4 plane; the mod-2 H4 filter is exact but nonpruning"
+  },
+  "firewalls": {
+    "unitary_replay_promoted_to_carrier_realizability": false,
+    "T_I_promoted_to_realized_correspondence": false,
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "stage32_main_credit": false,
+    "claim_dag_sync_triggered_by_this_scratch": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "fae1319b0a9b35c56ed6d6ca56aed947fbdb78bee5210a910a5c54d848644444"
+}
