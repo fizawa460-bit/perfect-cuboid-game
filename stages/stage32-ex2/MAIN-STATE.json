@@ -19,6 +19,11 @@
     "EX2_02_candidate_claim_id": "S32.EX2.FIXED_COMPONENT_NEGATIVE_SCAN.V1",
     "EX2_02_claim_status": "PROVISIONAL_CLAIM_DAG_SYNCHRONIZED_NOT_HOSTILE_AUDITED",
     "EX2_02_fixed_component_scan": "stages/stage32-ex2/EX2-02/exact-fixed-component-extraction.json",
+    "EX2_03_restriction_gap": "stages/stage32-ex2/EX2-03/zero-intersection-restriction-adapter-gap.json",
+    "EX2_03_artifact_blob_sha1": "222b4a17a75b397831fe6b641e9459d042aeec60",
+    "EX2_03_artifact_canonical_sha256": "22b90a9facb7c2de7d69f8cfdfc36a90bbfb02680463b8a59066d16572b392f4",
+    "EX2_03_verifier_blob_sha1": "2fa32967b98a17fef8eb2885ac0e2c5053477bec",
+    "EX2_03_claim_status": "TYPED_BLOCKER_NO_MATHEMATICAL_CLAIM_NO_CLAIM_DAG_ENTRY",
     "inherits_unaudited_candidates_as_theorem": false,
     "promotion_to_stage32_main_requires_explicit_current_target_adapter": true,
     "promotion_to_stage32_main_requires_hostile_audit": true,
@@ -34,6 +39,12 @@
     "merge_authorized": false,
     "work_branch": "stage32ex2-ex2-00-source-lock-continuation"
   },
+  "freshness": {
+    "last_reconciled_current_main_sha": "d5545b32e6b3088bca53318998d434f2745b03e9",
+    "ancestry_sync_commit": "a6cb7d6c0b18dd11710ad58bb4f3457f75026c8a",
+    "stage32ex2_source_drift_in_intervening_main_commit": false,
+    "promotion_requires_recheck_current_main": true
+  },
   "claim_sync": {
     "active_frontier_remap_required": false,
     "candidate_claim_id": "S32.EX2.FIXED_COMPONENT_NEGATIVE_SCAN.V1",
@@ -44,14 +55,15 @@
     "current_main_reconciliation_required": false,
     "mathematical_frontier_semantics_changed": false,
     "promotion_attempted": false,
-    "reason": "The retained EX2-02 bounded claim was reconciled against current main without replacing the current-main EX1 hostile-audit PASS. It is registered as PROVISIONAL at the same bounded credit ceiling; active-frontier routing is unchanged.",
+    "reason": "The retained EX2-02 bounded claim was reconciled against current main without replacing the current-main EX1 hostile-audit PASS. EX2-03 adds only a typed blocker/routing checkpoint, so no new claim-DAG entry is triggered.",
     "reconciled_current_main_sha": "d5545b32e6b3088bca53318998d434f2745b03e9",
     "required_verification_run": 34193655298,
     "shared_claim_files_written_from_stale_branch": false,
     "stage32_main_authority_changed": false,
     "status": "COMPLETE_CURRENT_MAIN_RECONCILED_REQUIRED_DAG_VERIFIERS_PASS",
     "trigger": "RETAINED_CONSOLIDATION",
-    "triggered_for_EX2_02": true
+    "triggered_for_EX2_02": true,
+    "triggered_for_EX2_03": false
   },
   "completion_contract": {
     "allowed_terminal_outcomes": [
@@ -89,15 +101,17 @@
     "theorem_credit": false
   },
   "current": {
-    "leaf": "EX2-03_BASE_LOCUS_AND_MOVING_SYSTEM_STRUCTURE",
-    "next_route_on_block": "RECORD_EXACT_RESTRICTION_OR_BASE_LOCUS_ADAPTER_GAP_AND_MOVE_TO_A_DISTINCT_LEGAL_EX2_LANE",
-    "next_route_on_success": "RETAIN_EXACT_BASE_LOCUS_OR_MOVING_SYSTEM_RESULT_AND_CONTINUE_EX2_03_OR_ENTER_EX2_04_FINITE_SECTION_RECONSTRUCTION",
-    "objective": "Analyze the V6 residual linear system after the bounded EX2-02 no-negative-intersection result. Start with exact restrictions to the seven retained D.E=0 curves and determine only what is justified about divisorial base locus or moving behavior; do not infer fixedness from the one known reducible member.",
-    "status": "EX2_02_CLAIM_DAG_SYNC_COMPLETE_EX2_03_ACTIVE",
+    "leaf": "EX2-03B_SYMMETRY_DIVISOR_ORBIT_PREFLIGHT",
+    "next_route_on_block": "RECORD_EXACT_SYMMETRY_ADAPTER_GAP_AND_MOVE_TO_A_DISTINCT_LEGAL_EX2_LANE",
+    "next_route_on_success": "RETAIN_EXACT_TRANSFORMED_V6_DIVISOR_AND_TEST_ZERO_CURVE_NONFIXEDNESS",
+    "objective": "Find a source-bound actual automorphism of S that stabilizes V6 in Pic(S) and acts exactly on the retained known-curve divisor. A transformed effective V6 divisor omitting one of the seven V6-zero curves certifies that curve is not a divisorial fixed component; do not claim an H0 representation or eigenspace without a line-bundle linearization.",
+    "status": "EX2_03_RESTRICTION_PREFLIGHT_BLOCKED_ROUTED_TO_SYMMETRY_ORBIT",
     "stop_semantics": "LEAF_GATE_ONLY_NOT_STAGE_EXHAUSTION",
-    "subroute": "ZERO_INTERSECTION_RESTRICTION_AND_DIVISORIAL_BASE_LOCUS_PREFLIGHT"
+    "subroute": "V6_STABILIZER_AND_KNOWN_DIVISOR_ORBIT_PREFLIGHT"
   },
   "current_leaf_working_set": [
+    "stages/stage32-ex2/EX2-03/zero-intersection-restriction-adapter-gap.json",
+    "stages/stage32-ex2/verify_ex2_03_restriction_gap.py",
     "stages/stage32-ex2/EX2-02/exact-fixed-component-extraction.json",
     "stages/stage32-ex2/verify_ex2_02_fixed_components.py",
     "stages/stage32-ex2/EX2-01/section-source-inventory.json",
@@ -134,7 +148,10 @@
     "rr_effectivity_promoted_to_explicit_member": false,
     "stage32_closed": false,
     "stage32_main_credit": false,
-    "zero_pairing_promoted_to_fixed_curve": false
+    "zero_pairing_promoted_to_fixed_curve": false,
+    "restriction_gap_promoted_to_base_locus_classification": false,
+    "symmetry_class_action_promoted_to_H0_linearization": false,
+    "unverified_automorphism_promoted_to_divisor_member": false
   },
   "fixed_target": {
     "V6_class_Q_descent_asserted": false,
@@ -163,15 +180,12 @@
     "EX2_02_negative_pairing_count": 0,
     "EX2_02_new_forced_fixed_components_certified": 0,
     "EX2_02_residual_after_certified_subtractions": "V6",
-    "EX2_02_zero_pairing_labels_1based": [
-      17,
-      21,
-      24,
-      25,
-      30,
-      31,
-      98
-    ],
+    "EX2_02_zero_pairing_labels_1based": [17, 21, 24, 25, 30, 31, 98],
+    "EX2_03_restriction_preflight_complete": true,
+    "EX2_03_restriction_or_base_locus_adapter_obtained": false,
+    "EX2_03_zero_curve_fixedness_classified_count": 0,
+    "EX2_03_zero_curve_nonfixedness_classified_count": 0,
+    "EX2_03_symmetry_divisor_orbit_preflight_active": true,
     "audit_ready_full_target_closure": false,
     "certified_section_subspace_dimension": 1,
     "certified_section_subspace_obtained": true,
@@ -204,6 +218,6 @@
     "scratch_results_authoritative": false
   },
   "role": "ORDINARY_STAGE32EX2_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
-  "schema": "STAGE32EX2_MAIN_COMPACT_STATE_V5_EX2_02_CLAIM_SYNC_COMPLETE_EX2_03_ACTIVE",
+  "schema": "STAGE32EX2_MAIN_COMPACT_STATE_V6_EX2_03_RESTRICTION_GAP_SYMMETRY_ORBIT_ACTIVE",
   "stage": "32EX2"
 }
