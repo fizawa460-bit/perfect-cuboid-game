@@ -32,7 +32,7 @@
       ],
       "semantic_statement": "The audited EX1 terminal population is exactly the current g1-d186 V6 integral irreducible geometric-genus-1 carrier population represented by the MAIN negative V6 goal; therefore EX1 full-target exclusion implies no such V6 member exists in the current MAIN population.",
       "status_needed_for_consumption": "AUDITED",
-      "target_claim": "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
+      "target_claim": "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2 (new version required)",
       "to_scope_key": "S32.MAIN.V6_CARRIER"
     },
     {
@@ -45,7 +45,7 @@
       ],
       "semantic_statement": "The current O210 carrier/cover population is a typed subpopulation built from the same current g1-d186 V6 integral irreducible geometric-genus-1 carrier target; if that carrier population is empty, the O210 population is empty.",
       "status_needed_for_consumption": "AUDITED",
-      "target_claim": "S32.O210.EXCLUSION.V1",
+      "target_claim": "S32.O210.EXCLUSION.V2 (new version required if using V6-empty evidence)",
       "to_scope_key": "S32.O210.COVER"
     },
     {
@@ -59,19 +59,15 @@
       ],
       "semantic_statement": "Q602 residues [73,97,235] are admissible invariant components only for the current carrier population. If the current V6 carrier population is empty, no Q602 residue survives as an admissible component. This is a population-preserving obstruction, not residue-by-residue arithmetic.",
       "status_needed_for_consumption": "AUDITED",
-      "target_claim": "S32.Q602.EXCLUSION.V1",
+      "target_claim": "S32.Q602.EXCLUSION.V2 (new version required if using V6-empty evidence)",
       "to_scope_key": "S32.Q602.ARITHMETIC"
     }
   ],
-  "canonical_sha256_without_this_field": "3a462d9f7462f898dd89ff3865a5873bc1bd867abea6191f6803673049e41e0b",
+  "canonical_sha256_without_this_field": "f7f8ac5d0c141f78d16974e8a4a939e88d404088bcd83c4ad1a505afef4547ee",
   "current_main_frontier": {
     "o210_goal": "S32.O210.EXCLUSION.V1",
     "q602_goal": "S32.Q602.EXCLUSION.V1",
-    "q602_survivors": [
-      73,
-      97,
-      235
-    ],
+    "q602_survivors": [73, 97, 235],
     "same_member_goal": "S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V2",
     "v6_negative_goal": "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1"
   },
@@ -93,20 +89,27 @@
   "logical_checks": {
     "ex1_terminal_claim_requires_audited_predecessor": true,
     "ex1_terminal_scope_contains_all_29_h4_states": true,
-    "ex1_terminal_scope_q602_residues": [
-      73,
-      97,
-      235
-    ],
+    "ex1_terminal_scope_q602_residues": [73, 97, 235],
     "main_v6_goal_population_wide": true,
     "o210_goal_accepts_population_preserving_argument": true,
     "q602_empty_population_is_not_relabelled_residue_specific_arithmetic": true,
     "q602_goal_accepts_equally_exact_population_preserving_obstruction": true,
     "same_member_q602_interface_becomes_unneeded_if_v6_empty_promoted": true
   },
-  "next_exact_route": "SYNC_EX1_V2_PASS_RECEIPT_IN_CLAIM_DAG_THEN_RETAIN_AND_HOSTILE_AUDIT_EX1_TO_MAIN_V6_SCOPE_ADAPTER_BEFORE_ANY_MAIN_PROMOTION",
+  "next_exact_route": "SYNC_EX1_V2_PASS_RECEIPT_THEN_RETAIN_A_CONCRETE_EX1_TO_MAIN_ADAPTER_AND_VERSION_THE_MAIN_V6_NEGATIVE_CLAIM_BEFORE_HOSTILE_AUDIT_AND_ACTIVE_FRONTIER_REMAP",
   "schema": "STAGE32_MAIN_SCRATCH_EX1_PASS_PROMOTION_ADAPTER_PREFLIGHT_V1",
   "snapshot_current_main": "70265586b3f97be21c7621af73f443311f1f3fa3",
   "stage": 32,
-  "status": "SCRATCH_EXACT_UNAUDITED_PROMOTION_ADAPTER_PREFLIGHT"
+  "status": "SCRATCH_EXACT_UNAUDITED_PROMOTION_ADAPTER_PREFLIGHT",
+  "versioning_consequence": {
+    "active_frontier_remap_required_after_audited_replacements": true,
+    "candidate_new_main_v6_claim": "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2",
+    "candidate_new_o210_claim": "S32.O210.EXCLUSION.V2",
+    "candidate_new_q602_claim": "S32.Q602.EXCLUSION.V2",
+    "claim_sync_trigger_for_remap": "ACTIVE_FRONTIER_REMAP",
+    "main_v6_goal_V1_can_be_mutated_to_audited_from_EX1_evidence": false,
+    "o210_goal_V1_can_be_mutated_to_audited_from_v6_empty_adapter": false,
+    "q602_goal_V1_can_be_mutated_to_audited_from_v6_empty_adapter": false,
+    "reason_v6": "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1 has an immutable core whose requires/source_locks/replay verifier do not include the EX1 terminal claim or a concrete EX1->MAIN scope adapter. Consuming new evidence requires a new versioned mathematical claim/core."
+  }
 }
