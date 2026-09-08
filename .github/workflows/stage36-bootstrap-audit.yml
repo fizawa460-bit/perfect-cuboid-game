@@ -50,7 +50,12 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CL.py"
           git worktree remove --force "$tmp"
-      - name: Assert 1705 audit consumption and CM unlock
+      - name: Verify current 36-09CM BT global Kummer localization adapter
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09CM.py
+      - name: Assert CM firewalls and CN selection
         shell: bash
         run: |
           set -euo pipefail
@@ -58,26 +63,26 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V135_36_09CL_AUDIT_PASS_CM_UNLOCK'
-          h=s['audited_history']['36-09CI-CL']
-          assert h['pr']==1705
-          assert h['hostile_audit_review']==5136295432
-          assert h['audited_exact_head']=='da4fa2b0da0a2322ac4f2f3a84a0d5006858f8a2'
-          assert h['exact_head_ci']=='34175238539/101903217236'
-          assert h['merged_main_sha']=='3cbdaf46e74f458681041322f574365e0003d818'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V136_36_09CM_BT_GLOBAL_KUMMER_LOCALIZATION_ADAPTER'
+          cm=s['authority_frontier']['36-09CM']
+          assert cm['certificate_blob_sha']=='06c3e6d1fcc2453dc44b84d50896abdc6a1658d7'
+          assert cm['verifier_blob_sha']=='294a1f42b841a70c49dee8816c2851074c108d9b'
+          assert cm['BT_GLOBAL_KUMMER_CLASS_ADAPTER_COMPLETE'] is True
+          assert cm['BT_DYNAMIC_LOCALIZATION_SYSTEM_ADAPTER_COMPLETE_AT_SQUARECLASS_COVER_LEVEL'] is True
+          assert cm['OLD_36_04_CLASS_IDENTIFICATION_COMPLETE'] is False
+          assert cm['OLD_S36_PW07_ADAPTER_COMPLETE'] is False
+          assert cm['LIT_WF02_APPLICABILITY_PASS'] is False
           cur=s['current']
-          assert cur['next_exact_leaf']=='36-09CM_GLOBAL_KUMMER_CLASS_AND_LOCALIZATION_ADAPTER_PREFLIGHT'
-          assert cur['36_09CM_entry_allowed'] is True
+          assert cur['next_exact_leaf']=='36-09CN_BT_KUMMER_IMMUTABLE_LOCALIZATION_PACKAGE_PREFLIGHT'
+          assert cur['36_09CN_entry_allowed'] is True
           assert cur['hostile_audit_checkpoint_reached'] is False
-          assert cur['substantive_batch_pr_continues'] is True
           pg=s['promotion_gates']
-          assert pg['36_09CL_hostile_audit_passed'] is True
-          assert pg['36_09CM_unlocked'] is True and pg['36_09CM_entry_allowed'] is True
-          assert pg['global_H1_class_constructed'] is False
-          assert pg['dynamic_localization_adapter_constructed'] is False
+          assert pg['BT_branch_global_Kummer_class_constructed'] is True
+          assert pg['BT_dynamic_localization_system_adapter_constructed_at_squareclass_cover_level'] is True
+          assert pg['LIT_WF02_applicability_pass'] is False
           assert pg['new_global_obstruction_obtained'] is False
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('PR #1705 hostile-audit PASS consumed; 36-09CM unlocked with zero new mathematical credit.')
+          print('36-09CM candidate verified; CN immutable package selected with all global-obstruction/closure firewalls retained.')
           PY
           git diff --check
