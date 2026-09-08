@@ -38,6 +38,14 @@ For micro-diagnostics, prefer a scratch branch or isolated working branch rather
 
 Heavy/artifact-producing workflows require the repository heavy-workflow policy and an explicit authorization gate. This startup file does not authorize heavy compute.
 
+## Claim-DAG synchronization trigger
+
+Ordinary `stage32ex1-mainbatch` startup remains exactly the four-item startup set above and does not preload Stage32 proof-management files.
+
+When EX1 reaches any `RETAINED_CONSOLIDATION`, `AUTHORITY_OR_AUDIT_TRANSITION`, `EX_TO_MAIN_PROMOTION`, `ACTIVE_FRONTIER_REMAP`, or `FINAL_MILESTONE_TRANSITION`, open `stages/stage32/proof/CLAIM-SYNC-CONTRACT.md` and complete its on-demand synchronization procedure before treating that checkpoint or downstream credit transition as complete.
+
+Scratch-only diagnostics do not trigger claim-DAG writes. A hostile-audit PASS/FAIL receipt does not silently promote EX1 or MAIN; downstream use waits for claim synchronization.
+
 ## `stage32ex1-audit` handoff
 
 `stage32ex1-audit` is a separate hostile-audit lane. It follows `stages/stage32-ex1/AUDIT-CONTRACT.md`, audits an exact candidate head independently, and does not treat the mainbatch narrative as evidence.
