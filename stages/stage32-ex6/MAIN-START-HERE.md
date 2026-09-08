@@ -23,12 +23,12 @@ Exact mathematical use must follow the merged source locks/artifacts/verifiers. 
 
 A batch:
 
-1. reads the startup set and identifies one bounded O266 endpoint/re-entry unit;
+1. reads the startup set and identifies one or more bounded O266 endpoint/re-entry units that belong to the same coherent investigation;
 2. revalidates every load-bearing input through exact source locators;
-3. executes one bounded mathematical/diagnostic unit;
+3. executes as many bounded mathematical/diagnostic units as are useful for that investigation, continuing across successive micro-results instead of stopping merely because one unit completed;
 4. retains only replayable results with explicit population, object type, assumptions, quantification domain, and claim ceiling;
 5. updates the leaf artifact/verifier when appropriate, then updates `MAIN-STATE.json` with blocker/re-entry condition, audit readiness, and next route;
-6. stops at a coherent checkpoint instead of guessing descent from O=266 to lower O.
+6. stops at a coherent mathematical/operational checkpoint, or earlier only for a genuine context, safety, dependency, or authorization boundary, instead of enforcing a one-unit cadence or guessing descent from O=266 to lower O.
 
 A blocked endpoint route is not Stage32 exhaustion. The current state remains stopped until genuinely new endpoint input appears.
 
