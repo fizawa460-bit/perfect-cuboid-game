@@ -54,11 +54,11 @@ V6 carrier decision
   S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1        [DECLARED_GOAL / OPEN]
 
 remaining nonbijective-normalization branches
-  S32.V6.SURFACE_NODE_MULTIBRANCH.V2                      [DECLARED_GOAL / OPEN]
+  S32.V6.SURFACE_NODE_MULTIBRANCH.V3                      [DECLARED_GOAL / OPEN]
   S32.V6.SMOOTH_AMBIENT_LOCUS_CURVE_SINGULARITY.V2       [DECLARED_GOAL / OPEN]
 
 O210 / Q602
-  S32.O210.EXCLUSION.V1                                   [DECLARED_GOAL / OPEN]
+  S32.O210.EXCLUSION.V2                                   [DECLARED_GOAL / OPEN]
   S32.Q602.SURVIVORS_73_97_235.V1                         [AUDITED]
        -> S32.Q602.EXCLUSION.V1                           [DECLARED_GOAL / OPEN]
 
@@ -66,12 +66,14 @@ marking / same-member bridge
   S32.MAIN.HDECK_CHARACTER_DIRECTION.V1                   [AUDITED, base registry]
        -> S32.J2.DELTA0INF_ABSOLUTE_W_LINE_MARKING.V1     [DECLARED_GOAL / OPEN]
   S32.V6.ACTUAL_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1
-       -> S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V2      [DECLARED_GOAL / BLOCKED]
+       -> S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V3      [DECLARED_GOAL / BLOCKED]
 
 production / closure
   S32.FULL178.NUMERICAL_CENSUS.V1                         [DECLARED_GOAL / INCOMPLETE]
        -> S32.GOAL.STAGE32_CLOSURE.V1                     [DECLARED_GOAL / BLOCKED]
 ```
+
+The EX3-linked active nodes were versioned when the retained EX3-00 checkpoint changed the exact `stages/stage32-ex3/MAIN-STATE.json` source lock: surface-node multibranch is now V3, O210 exclusion V2, and same-member local/Q602 identity V3. This is a source/evidence remap only and grants no additional mathematical credit.
 
 The audited residue node records only that the current survivor set is exactly `[73,97,235]` and remains uncontracted by the audited H-deck preflight. It does not select an absolute residue and does not exclude Q602 or O210.
 
@@ -83,7 +85,7 @@ EX1–EX6 are research lanes inside the Stage32 management system, not independe
 
 - `EX1`: attacks V6 actual-member/nonexistence, surface-node multibranch, smooth-ambient singularity, member-level identity, and contributes toward Stage32 closure.
 - `EX2`: attacks actual V6 member, population-wide V6 member nonexistence, smooth-ambient singularity, and member-level identity.
-- `EX3`: attacks surface-node/cover interaction, O210, Q602, and member-level identity; consumes the audited `[73,97,235]` survivor set.
+- `EX3`: retains EX3-00 as an unaudited `PROVISIONAL` typed O210 cover-tower checkpoint, now attacks EX3-01 degree-105 étale monodromy, and remains connected to surface-node/cover interaction, O210, Q602, and member-level identity; it consumes the audited `[73,97,235]` survivor set.
 - `EX4`: attacks absolute `delta_0inf` W-line marking, Q602 exclusion, and member-level identity; consumes the audited H-deck direction and `[73,97,235]` set.
 - `EX5`: attacks the FULL178/receiver-breadth production route and therefore the numerical-census input to Stage32 closure.
 - `EX6`: merged reverse O266 endpoint lane. #1697 ended `O266_ENDPOINT_NOT_CLOSED` and the lane is currently `STOPPED_PENDING_NEW_ENDPOINT_INPUT`; it therefore has no active `ATTACKS`/`CONSUMES` ref and is promotion-blocked. Its bounded result does not exclude O266, descend to O264, or move current MAIN routing. Re-entry must first perform `ACTIVE_FRONTIER_REMAP` to an exact registered claim.
