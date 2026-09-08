@@ -16,11 +16,19 @@ jobs:
           python-version: '3.12'
       - name: Install exact EX2 replay dependency
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Verify current-main ancestry and freshness lock
+        shell: bash
+        run: |
+          git fetch origin main --depth=1
+          test "$(git rev-parse origin/main)" = "226a8aa11ac61293a7e4b7f9611177f68af94ff4"
+          git merge-base --is-ancestor 226a8aa11ac61293a7e4b7f9611177f68af94ff4 HEAD
       - name: Verify Stage32 claim DAG integrity
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
       - name: Verify Stage32 active frontier
         run: python stages/stage32/proof/verify_stage32_active_frontier.py
       - name: Verify Stage32EX2 EX2-03C omission witnesses
         run: python stages/stage32-ex2/verify_ex2_03c_omission_witnesses.py
+      - name: Verify Stage32EX2 EX2-03D five-conic reduction
+        run: python stages/stage32-ex2/verify_ex2_03d_five_conic_restriction.py
       - name: Verify Stage32EX2 state
         run: python stages/stage32-ex2/verify_main_state.py
