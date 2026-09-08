@@ -1,0 +1,80 @@
+{
+  "calculation_uses_O": false,
+  "exceptional_rows": 48,
+  "grouped_masses": {
+    "34:33": 35,
+    "34:36": 18,
+    "35:33": 24,
+    "35:36": 19,
+    "38:37": 28,
+    "38:40": 25,
+    "39:37": 21,
+    "39:40": 34,
+    "42:41": 20,
+    "42:44": 5,
+    "43:41": 5,
+    "43:44": 32
+  },
+  "parity_matrix": [
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ]
+  ],
+  "post1505_mass_and_matrix_match": true,
+  "snapshot": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "status": "SCRATCH_EXACT_FIXED_CLASS_GROUPING_REPLAY_NOT_UNIFORM_CREDIT",
+  "uniform_marked_Jacobian_transport_proved": false,
+  "sources": [
+    "stages/stage32/32-21/post1473-v6-witness-body-recovered.json",
+    "stages/stage32/residual-32-01-production/post1473-x8-marked-exceptional-incidence.json",
+    "stages/stage32/residual-32-01-production/post1473-boundary-label-weierstrass-adapter.json",
+    "stages/stage32/residual-32-01-production/post1505-o210-q602-weierstrass-parity-transvection-refinement.json"
+  ],
+  "replay_recipe": "For each incidence row j=93..140, take all140_pairings[j-1], sum by ordered boundary-label pair, map labels to Weierstrass IDs, and sum modulo 2 into the 6x6 matrix. Compare each of the 12 masses and all 36 entries against post1505.",
+  "interpretation": "The grouped fixed-class masses and permutation (2 4) reconstruct without the O210 contact histogram. Combined with prior conditional scratch lemmas this supports investigating uniform transport, but does not itself prove the full same-marked-object adapter or promote an EX1 residue filter."
+}
