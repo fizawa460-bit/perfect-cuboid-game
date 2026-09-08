@@ -1,0 +1,95 @@
+{
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "base_main_sha": "119e24100dd943cadef39df783a7b5de7b3a5704",
+  "breadth_cycle": "EX5_BREADTH_CYCLE_2_CANDIDATE",
+  "canonical_sha256_without_this_field": "22ba931586305b5b0262b0e63cf23a845e1ccc8f1622450c143d9474f63c9f40",
+  "credit": {
+    "breadth_cycle_2_authority": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "stage32_main_credit": false
+  },
+  "execution_gate": {
+    "bounded_one_row_materialization_identified": true,
+    "explicit_run_key_present": false,
+    "explicit_storage_policy_present": false,
+    "full178_rerun_authorized": false,
+    "gate_code": "BTVA_G0_D008_REQUIRES_FRESH_RANK61_CLASS_MATERIALIZATION_RUN_KEY",
+    "heavy_run_performed": false,
+    "reason": "The exact 48-component support predicate cannot be evaluated completely from the retained (d,e,a) projection. A complete g0-d008 test requires fresh integral lifting in the rank-61 affine Picard slice; no compact existing complete materializer was found, and repository policy requires an explicit run key/storage contract before such a heavy run.",
+    "route_status": "LIVE_AT_EXECUTION_GATE"
+  },
+  "firewalls": {
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "cycle1_audited_terminal_rewritten": false,
+    "full178_completed": false,
+    "g0_d008_closed": false,
+    "main_state_rewritten": false,
+    "merge_authorized": false,
+    "perfect_cuboid_claim": false
+  },
+  "route_decision": {
+    "mathematical_failure": false,
+    "next_unit": "BTVA_G0_D008_RANK61_MATERIALIZER_RUNKEY_AND_COMPACT_OUTPUT_CONTRACT",
+    "nontrivial_receiver_effect_obtained": false,
+    "predicate_survives": true,
+    "qualified_independent_route_established": false,
+    "status": "LIVE_AT_EXECUTION_GATE"
+  },
+  "route_id": "EX5R-ENUM-BTVA-002",
+  "row": {
+    "d": 8,
+    "g": 0,
+    "legacy_cheap_cut": "e >= ceil((d-16*g+16)/4)",
+    "legacy_cheap_cut_vacuous_on_row": true,
+    "legacy_e_max": 30,
+    "legacy_e_min": 8,
+    "required_support": 6,
+    "required_support_formula": "ceil((d-16*g+16)/4)",
+    "row_id": "g0-d008"
+  },
+  "schema": "STAGE32EX5_EX5R_ENUM_BTVA_002_G0_D008_SUPPORT_RECONSTRUCTION_PREFLIGHT_V1",
+  "source_locks": [
+    {
+      "blob_sha1": "ffa312c0222583c525f75c71c70259c9536b7b84",
+      "path": "stages/stage32-ex5/scratch/ex5r-enum-btva-002-support-predicate-preflight.json",
+      "role": "prior BTVA exact-support predicate preflight"
+    },
+    {
+      "blob_sha1": "be48bd94304d0217727c5c3368761d347cb22eaa",
+      "path": "stages/stage32/residual-32-01-production/direct_picard_slice_bridge.py",
+      "role": "Picard64 to exact rank-3 d/e/a slice bridge"
+    },
+    {
+      "blob_sha1": "3227e5e621e6bc2e1325266d760be79379f85a64",
+      "path": "stages/stage32/residual-32-01-production/build_stage32_21ad_full178_antifixed_coset_census.py",
+      "role": "legacy compressed FULL178 driver with terminal materialization disabled"
+    }
+  ],
+  "stage": "32EX5",
+  "structural_findings": {
+    "affine_slice_kernel_rank": 61,
+    "component_pairings_binary_assumption_allowed": false,
+    "complete_support_reconstruction_requires_fresh_integral_class_lifting": true,
+    "compressed_slice_coordinates": [
+      "degree",
+      "exceptional_total",
+      "first_normal_half_total"
+    ],
+    "compressed_slice_rank": 3,
+    "exceptional_component_count": 48,
+    "existing_compact_complete_class_materializer_found": false,
+    "individual_support_recoverable_from_d_e_a_alone": false,
+    "legacy_21ad_preserves_individual_exceptional_support": false,
+    "picard_rank": 64,
+    "searched_materializer_terms": [
+      "anti_fixed_59d",
+      "59d",
+      "prefix DFS",
+      "CloseVectors",
+      "terminal_prefix"
+    ]
+  },
+  "unit_id": "G0_D008_COMPLETE_FRESH_SUPPORT_RECONSTRUCTION_PREFLIGHT"
+}
