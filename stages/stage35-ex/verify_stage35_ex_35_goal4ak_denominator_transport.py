@@ -64,10 +64,14 @@ def main() -> None:
     assert not any(ch.isspace() for ch in text)
     gz = base64.b64decode(text, validate=True)
     assert len(gz) == t["gzip_bytes"] == 8346
-    assert hashlib.sha256(gz).hexdigest() == t["gzip_sha256"] == EXPECTED_GZIP_SHA
+    actual_gzip_sha = hashlib.sha256(gz).hexdigest()
     raw = gzip.decompress(gz)
+    actual_raw_sha = hashlib.sha256(raw).hexdigest()
+    print("observed_transport_gzip_sha256=" + actual_gzip_sha)
+    print("observed_transport_raw_sha256=" + actual_raw_sha)
     assert len(raw) == t["raw_text_bytes"] == 42489
-    assert hashlib.sha256(raw).hexdigest() == t["raw_text_sha256"] == EXPECTED_RAW_SHA
+    assert actual_raw_sha == t["raw_text_sha256"] == EXPECTED_RAW_SHA
+    assert actual_gzip_sha == t["gzip_sha256"] == EXPECTED_GZIP_SHA
 
     poly = raw.decode("utf-8")
     terms = re.findall(r"[+-]?[^+-]+", poly)
