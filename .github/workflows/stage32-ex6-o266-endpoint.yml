@@ -30,6 +30,9 @@ jobs:
       - name: Verify FSM16 weighted node-divisor wall
         run: python stages/stage32-ex6/verify_stage32_ex6_fsm16_weighted_node_divisor_contract.py
 
+      - name: Verify FSM16 f-divisor residual wall
+        run: python stages/stage32-ex6/verify_stage32_ex6_fsm16_f_residual_divisor_contract.py
+
       - name: Enforce read-only replay
         run: |
           test -z "$(git status --porcelain)"
