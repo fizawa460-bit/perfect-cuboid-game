@@ -1,0 +1,117 @@
+{
+  "schema": "STAGE32EX1_EX1_05M_CASTELNUOVO_SEVERI_TWO_PROJECTION_PREFLIGHT_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05M_CASTELNUOVO_SEVERI_TWO_PROJECTION_GENUS_BOUND_PREFLIGHT",
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "base_main_sha": "d5545b32e6b3088bca53318998d434f2745b03e9",
+  "parent_scratch_head": "863b2b32a183adbfe80b124d6339dc727b312472",
+  "question": "Do the simultaneous degree-105 and degree-81 maps from the common-cover normalization D to the two genus-2 factors violate a Castelnuovo-Severi genus bound for any of the 29 retained h=4 states?",
+  "source_locks": {
+    "ex1_05g": {
+      "path": "stages/stage32-ex1/ex1-05g-h4-common-cover-correspondence-coupling.json",
+      "canonical_sha256": "5a1c30a64857b900f7523153f326c0742ad5cb4ef88e77b0748dd6c4e532be08",
+      "exact_use": "D is smooth, f1,f2:D->C2 have degrees 105 and 81, g(C2)=2, the pair map is birational onto Gamma, g(D)=106+r for r=0..28, Gamma^2=15806, sigma=1204, Q_Rosati=602, and p_a(Gamma)=8090."
+    },
+    "rosati_trace_repair": {
+      "path": "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md",
+      "blob_sha1": "b0ea281eae453929c292059a919bc1f68b3080b3",
+      "exact_use": "sigma(Gamma)=2*d1*d2-Gamma^2 and Tr_Q(T^dagger*T)=2*Q(T), giving sigma=1204 and Q(T)=602."
+    },
+    "external_castelnuovo_severi": {
+      "authors": ["Maleeha Khawaja", "Samir Siksek"],
+      "title": "Primitive algebraic points on curves",
+      "journal": "Research in Number Theory 10 (2024), article 57",
+      "arxiv": "2306.17772",
+      "theorem": "Theorem 14 and its proof",
+      "exact_use": "For two nonconstant maps of degrees m,n to curves of genera gY,gZ, if no common nontrivial factorization exists, g(X)<=m*gY+n*gZ+(m-1)(n-1). The proof also gives image self-intersection <=2mn and the corresponding arithmetic-genus ceiling."
+    }
+  },
+  "hypothesis_adapter": {
+    "field": "C",
+    "field_is_perfect": true,
+    "source_curve": "D",
+    "target_curves": ["C2_first", "C2_second"],
+    "target_genera": [2, 2],
+    "projection_degrees": [105, 81],
+    "pair_map_birational_onto_image": true,
+    "no_common_nontrivial_factorization": true,
+    "factorization_reason": "If both projections factored through h:D->D' with deg(h)>1, then the pair map D->C2xC2 would also factor through h and would have generic degree >1 onto its image, contradicting the retained pair-map birationality."
+  },
+  "exact_numeric_replay": {
+    "d1": 105,
+    "d2": 81,
+    "g1": 2,
+    "g2": 2,
+    "product_term": 8320,
+    "target_genus_term": 372,
+    "castelnuovo_severi_bound": 8692,
+    "genus_D_formula": "106+r",
+    "r_range": [0, 28],
+    "genus_D_range": [106, 134],
+    "smallest_bound_margin": 8558,
+    "all_29_states_satisfy_bound": true,
+    "Gamma_square": 15806,
+    "maximum_pair_image_self_intersection": 17010,
+    "self_intersection_defect": 1204,
+    "Gamma_arithmetic_genus": 8090,
+    "arithmetic_genus_ceiling_defect": 602,
+    "sigma": 1204,
+    "Q_Rosati": 602
+  },
+  "exact_rosati_cs_identity": {
+    "identity_1": "8692-p_a(Gamma)=8692-8090=602",
+    "identity_2": "8692-p_a(Gamma)=(2*d1*d2-Gamma^2)/2=1204/2=602",
+    "identity_3": "8692-p_a(Gamma)=sigma(Gamma)/2=Q_Rosati",
+    "statewise_geometric_slack_formula": "8692-g(D)=8586-r",
+    "statewise_delta_formula": "delta_Gamma=7984-r",
+    "statewise_residual_slack_after_delta": "(8586-r)-(7984-r)=602",
+    "interpretation": "The exact gap from the maximal product-surface Castelnuovo-Severi arithmetic-genus ceiling is precisely the already-retained Rosati norm. This is an exact conceptual bridge, but algebraically it is the existing sigma=2*d1*d2-Gamma^2 identity divided by two, not a new independent restriction."
+  },
+  "decision": {
+    "route_status": "DOMINATED_EXACT_REEXPRESSION_OF_ROSATI_DEFECT_NONPRUNING",
+    "Q_states_entering": 29,
+    "Q_states_excluded": 0,
+    "Q_states_leaving": 29,
+    "V6_carrier_excluded": false,
+    "new_independent_obstruction": false,
+    "new_exact_interpretation": "Q_Rosati_IS_CASTELNUOVO_SEVERI_ARITHMETIC_GENUS_CEILING_DEFECT",
+    "reason": "Every retained geometric genus is far below the Castelnuovo-Severi bound. The only exact residual quantity exposed by the inequality is 602, which is identically the already-retained Rosati norm and therefore does not prune r or the 29 Q states."
+  },
+  "candidate_ledger": {
+    "LIVE": ["HURWITZ_SPACE_SIMULTANEOUS_COVER_DIMENSION_COUPLING"],
+    "UNTESTED": ["ACTUAL_V6_SECTION_MATERIALIZATION"],
+    "BLOCKED": [
+      "D0_SUPPORT_EXTRACTION_FROM_CURRENT_CORRESPONDENCE_ROSATI_DEGREE_DATA",
+      "GENERIC_JET_SEPARATION_REIDER_EQUIGENERIC_TRANSVERSALITY_AT_REQUIRED_DELTA_SCALE",
+      "NORMALIZATION_MAP_TANGENT_TORSION_VS_DELTA_WITHOUT_SINGULARITY_TYPE_INPUT"
+    ],
+    "DOMINATED": [
+      "SYMMETRIC_DIFFERENTIAL_GENUS1_NODE_SPAN_DIRECT_ROUTE_BY_POST1648AD",
+      "PLAIN_CASTELNUOVO_SEVERI_TWO_PROJECTION_GENUS_BOUND_BY_EXISTING_ROSATI_DEFECT"
+    ],
+    "EQUIVALENT": []
+  },
+  "next_route": {
+    "route_id": "EX1_05N_HURWITZ_SPACE_SIMULTANEOUS_COVER_DIMENSION_COUPLING_PREFLIGHT",
+    "selection_reason": "Plain genus bounds forget branch-cycle placement. The next materially distinct bounded route asks whether simultaneous degree-105/81 covers of the same genus-2 curve, with ramification totals R105=2r and R81=48+2r and the retained common-V4 pullback constraint, have enough Hurwitz-space freedom for all r or whether some states are dimensionally impossible."
+  },
+  "replay": {
+    "verifier": "stages/stage32-ex1/scratch/verify_ex1_05m_castelnuovo_severi_two_projection.py",
+    "expected": "PASS_EX1_05M_CS_ROSATI_DEFECT_IDENTITY"
+  },
+  "firewalls": {
+    "castelnuovo_severi_upper_bound_promoted_to_existence": false,
+    "castelnuovo_severi_slack_promoted_to_realizability": false,
+    "rosati_reexpression_promoted_to_new_independent_obstruction": false,
+    "Q_state_exclusion_claimed": false,
+    "O210_exclusion_claimed": false,
+    "Q602_exclusion_claimed": false,
+    "V6_population_wide_exclusion_claimed": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  }
+}
