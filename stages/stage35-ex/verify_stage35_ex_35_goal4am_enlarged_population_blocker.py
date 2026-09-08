@@ -11,13 +11,13 @@ G4Y=ROOT/'stages/stage35-ex/35ex-35/goal4y-open-receiver-upic-two-class-lift.jso
 G4AL=ROOT/'stages/stage35-ex/35ex-35/goal4al-positive-real-class-b-evaluation.json'
 G4Q=ROOT/'stages/stage35-ex/35ex-35/goal4q-compactification-picard-galois-brauer-candidate-preflight.json'
 STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
-EXPECTED_CANONICAL='0bb9b9bf87c59ed250dfdb589272a7e69eb5a4852a93c5f71ee3cb0526641e26'
+EXPECTED_CANONICAL='a04eabc03f1b58f3395d670fc13a81e277d2766b5e80e2b0d5d084dc34d5a5ee'
 V74='STAGE35_EX_PESCH_E1_STATE_V74_GOAL4AK_EXPLICIT_F_B_AUDITED_LOCAL_EVALUATION_RELEASED'
 def blob(p:Path)->str:
     b=p.read_bytes(); return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
 def canonical(o:dict)->str:
     x=dict(o); got=x.pop('canonical_sha256'); calc=hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest(); assert got==calc==EXPECTED_CANONICAL,(got,calc); return got
-assert blob(SRC)=='c0c6a673713ef9db7e1ed85ed8842faca161d09d'
+assert blob(SRC)=='e219e03986b95e81b2c48455761e382bed800649'
 assert blob(G4Y)=='9351c92747365838cda92d98854ad136df1847d5'
 assert blob(G4AL)=='abe071018509954ff6572fa29ab927ef537d3135'
 assert blob(G4Q)=='b1795368ad35e357f7ce5a544c871c665e7b59f9'
