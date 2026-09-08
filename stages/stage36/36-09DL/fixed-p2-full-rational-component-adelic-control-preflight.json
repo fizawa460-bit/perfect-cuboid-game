@@ -1,0 +1,77 @@
+{
+  "schema":"STAGE36_36_09DL_FIXED_P2_FULL_RATIONAL_COMPONENT_ADELIC_CONTROL_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09DL",
+  "status":"PASS_FULL_RATIONAL_COMPONENT_BRAUER_SET_NONEMPTY_BY_FACTORWISE_SQUARE_ADELIC_POINT",
+  "base_main_sha":"1eea6800e479729c41ed8767a38298384a2dbc0f",
+  "batch_parent":{
+    "pr":1712,
+    "36_09DK_exact_green_head":"b673f8d711873ca83d36ce849a28c207bb0675b7",
+    "36_09DK_exact_head_ci":"34212206197/102015582572",
+    "promotion_replay_head":"11b28d18fea9befc8cb7b5cbc0735d37fc92fbe8",
+    "promotion_replay_ci":"34212313701/102015925546"
+  },
+  "source_locks":{
+    "stage36_36_09DK":{"path":"stages/stage36/36-09DK/fixed-p2-f5-full-rational-component-span-preflight.json","blob_sha":"dd59fb2492e3bcb75409cc316c85ea6a130d10d1"},
+    "factorwise_square_source":{"path":"stages/stage36/36-09DL/full-rational-component-factorwise-square-source-lock.md","blob_sha":"02fdb27a59d252bfd73571173d6c246767239b6a"}
+  },
+  "fixed_curve":{
+    "curve":"C3_2: z^2=(t^2+4)(t^2+1/4)(t^2+9)(t^2+1/9)",
+    "factors":["t^2+4","t^2+1/4","t^2+9","t^2+1/9"],
+    "retained_open_excludes":["t=0","t=1","t=-1","t=infinity"]
+  },
+  "adelic_recipe":{
+    "real":{"t":2,"all_factor_values_positive":true,"all_factor_values_squares":true},
+    "Q2":{"t":8,"factor_values":["68","257/4","73","577/9"],"valuation_parities":[0,0,0,0],"odd_units_mod8":[1,1,1,1],"all_factor_values_squares":true},
+    "Q3":{"t":9,"factor_values":["85","325/4","90","730/9"],"valuation_parities":[0,0,0,0],"units_mod3":[1,1,1,1],"all_factor_values_squares":true},
+    "all_primes_l_gt_3":{"t":"l","factor_form":"a_j^2*(1+(l/a_j)^2)","a_j":["2","1/2","3","1/3"],"unit_factor_mod_l":1,"all_factor_values_squares_by_Hensel":true},
+    "all_parameters_retained_open":true,
+    "choose_individual_square_roots_and_multiply_for_z":true,
+    "receiver_local_point_every_place":true,
+    "adelic_point_exists":true
+  },
+  "rational_component_orthogonality":{
+    "full_subgroup":"image of all rational-component L1 inputs (d0,d1,d2,d3)",
+    "generators":"(d,fj(t))_2 for arbitrary d in Q^*/Q^*2 and j=0,1,2,3",
+    "each_generator_pointwise_invariant_zero_at_every_place":true,
+    "reason":"At the displayed adelic point every fj(t_v) is a local square, so every Hilbert symbol (d,fj(t_v)) is trivial for every rational d.",
+    "orthogonal_to_full_rational_component_image":true,
+    "full_rational_component_Brauer_set_nonempty":true,
+    "not_a_finite_generator_truncation":true
+  },
+  "current_credit_boundary":{
+    "p2_adelic_point_orthogonal_to_full_rational_component_image_constructed":true,
+    "full_rational_component_image_BM_obstruction_disproved":true,
+    "rational_plus_F5_BM_set_nonempty":false,
+    "full_nonrational_component_control":false,
+    "full_Creutz_Viray_explicit_image_computed":false,
+    "full_L1_quotient_computed":false,
+    "Pic0_mod2_computed":false,
+    "full_Brauer_group_computed":false,
+    "Brauer_Manin_obstruction_from_full_Br_group_proved":false,
+    "fixed_p_2_branch_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false
+  },
+  "route_result":{
+    "route_status":"PASS_FULL_RATIONAL_COMPONENT_NO_GO_PIVOT_TO_RATIONAL_PLUS_F5_CONTROL",
+    "next_leaf":"36-09DM_FIXED_P2_FULL_RATIONAL_COMPONENT_PLUS_F5_ADELIC_CONTROL_PREFLIGHT",
+    "next_leaf_semantics":"Keep orthogonality to the full rational-component image while adding the genuine non-rational F5 direction. Use reflected local-point switches or another rational-annihilating correction mechanism. Do not identify rational+F5 with the full Creutz-Viray image."
+  },
+  "scope_firewalls":{
+    "rational_plus_F5_BM_set_nonempty":false,
+    "full_nonrational_component_control":false,
+    "full_Creutz_Viray_explicit_image_computed":false,
+    "full_L1_quotient_computed":false,
+    "Pic0_mod2_computed":false,
+    "full_Brauer_group_computed":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
