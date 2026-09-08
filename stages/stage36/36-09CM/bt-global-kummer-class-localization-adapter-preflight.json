@@ -1,0 +1,104 @@
+{
+  "schema":"STAGE36_36_09CM_BT_GLOBAL_KUMMER_CLASS_LOCALIZATION_ADAPTER_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09CM",
+  "status":"EXACT_BT_BRANCH_GLOBAL_KUMMER_CLASS_AND_CHARACTER_LOCALIZATION_ADAPTER_CANDIDATE",
+  "base_main_sha":"3cbdaf46e74f458681041322f574365e0003d818",
+  "batch_parent":{"pr":1707,"promotion_head":"288fbeb4dce1043b7980dc0ebebaded544e28bac","promotion_ci":"34176513379/101906884400","consumed_pr":1705,"hostile_audit_review":5136295432},
+  "source_locks":{
+    "stage36_36_09BT":{"path":"stages/stage36/36-09BT/general-aw-squareclass-branch-full-cover-local-model-preflight.json","blob_sha":"e58c417ddfa340d96b2ac1fbae9e7da7c5224d78"},
+    "stage36_36_09AE":{"path":"stages/stage36/36-09AE/six-reservoir-squareclass-conic-coupling-preflight.json","blob_sha":"ddae37dd35cd0e732cebadf9c17f3f3fa57930df"},
+    "stage36_36_09BU_verifier":{"path":"stages/stage36/verify_stage36_36_09BU.py","blob_sha":"64b889c2dde22d021fb2933b976311d903f57dce"},
+    "stage36_36_09CK":{"path":"stages/stage36/36-09CK/good-prime-and-real-place-local-integration-preflight.json","blob_sha":"909dcb4985414fc3085818ad818f7601830dc7f6"},
+    "stage36_36_09CK_verifier":{"path":"stages/stage36/verify_stage36_36_09CK.py","blob_sha":"d7541d86948d98a629f503443a82d52ab1c95908"},
+    "lit_wf02_contract":{"path":"docs/arsenal/lit-wf02-global-h1-localization-reciprocity-contract.json","blob_sha":"6fc62623ee59b4aaf1fc053ad42df2dcbba0855b"},
+    "stage36_36_04_pointwise_class":{"path":"stages/stage36/36-04/h-torsor-lift-class.json","blob_sha":"a06e201a9b554da71c5e75d8f8541e7284f8d020"}
+  },
+  "fixed_outer_branch":{
+    "data":"p=a/b together with one BT/AW row (A,B,C,D,eta,e,f)",
+    "definitions":{"P":"a^2+2ab-b^2","M":"a^2-2ab-b^2","D0":"a*b*(a-b)*(a+b)","Q":"a^2+b^2","lambda":"P/M","kappa":"eta*2^e*C","rho":"2^f*D"},
+    "branch_constants_are_global_rationals":true,
+    "branch_is_fixed_before_localization":true
+  },
+  "global_kummer_class":{
+    "module":"K_BT=mu_2^3 over Q",
+    "identification":"H^1(Q,K_BT)=(Q^*/Q^{*2})^3",
+    "class_name":"Xi_BT",
+    "three_coordinates":["[A*B]","[kappa*A]","[rho*A]"],
+    "five_root_twist_vector":["[A*B]","[kappa*A]","[rho*A]","[kappa*B]","[rho*B]"],
+    "relations":["[kappa*B]=[A*B]*[kappa*A]","[rho*B]=[A*B]*[rho*A]"],
+    "five_root_vector_generated_by_three_global_coordinates":true,
+    "finite_support_statement":"the three coordinates are supported only at 2 and odd primes in the audited P,M,D0 reservoirs for the fixed branch",
+    "global_Kummer_class_constructed_for_each_fixed_BT_branch":true
+  },
+  "exact_BT_cover_adapter":{
+    "normalization":"y=(B/A)*t^2 and L=lambda^2",
+    "five_equations":[
+      "w0^2=(A*B)*y",
+      "w1^2=(kappa*A)*(1-y)",
+      "w2^2=(rho*A)*(1+y)",
+      "w3^2=(kappa*B)*(1-L*y)",
+      "w4^2=(rho*B)*(1+L*y)"
+    ],
+    "change_of_variables":{"w0":"B*t","w1":"R","w2":"S","w3":"Zminus/A","w4":"Zplus/A"},
+    "equivalent_to_BT_normalized_four_square_model_on_retained_open":true,
+    "meaning":"the degree-32 local cover used by CK is the five-root Kummer twist determined by Xi_BT"
+  },
+  "localization_adapter":{
+    "for_every_place_v":"loc_v(Xi_BT)=([A*B]_v,[kappa*A]_v,[rho*A]_v) in (Q_v^*/Q_v^{*2})^3",
+    "odd_unit_character_coordinates":{"d":"chi_v(A*B)","k":"chi_v(kappa*A)","r":"chi_v(rho*A)"},
+    "five_root_character_vector":["d","k","r","d*k","d*r"],
+    "CK_good_prime_target_vector_matches_exactly":true,
+    "same_global_branch_class_used_at_all_places":true,
+    "local_witness_coordinates_may_vary_by_place":true
+  },
+  "old_six_character_rewrite":{
+    "q_divides_A":["chi(-kappa*B)=chi(-1)*d*k","chi(rho*B)=d*r"],
+    "q_divides_B":["chi(kappa*A)=k","chi(rho*A)=r"],
+    "q_divides_C":["chi(A*B)=d","chi(2^(1-f)*A*D)=chi(2)*r"],
+    "q_divides_D":["chi(-A*B)=chi(-1)*d","chi(eta*2^(1-e)*A*C)=chi(2)*k"],
+    "exactly_rewrites_AE_selected_prime_rows_using_localizations_of_Xi_BT_plus_fixed_classes_minus1_and_2":true
+  },
+  "Q_reservoir_rewrite":{
+    "global_squareclass_identity":"[mu]=[D0*kappa*rho]",
+    "derived_identity":"[mu*A*B]=[D0]*[A*B]*[kappa*A]*[rho*A]",
+    "at_odd_q_dividing_Q":"[D0]_q is a square because P^2+M^2=2Q^2 and P^2-M^2=8D0 imply D0=-M^2/4 mod q, while -1 is a square mod q",
+    "BU_CI_row":"chi_q(mu*A*B)=d*k*r=+1",
+    "Q_row_is_localization_character_relation_of_same_Xi_BT":true
+  },
+  "adapter_result":{
+    "BT_global_Kummer_class_adapter_complete":true,
+    "BT_dynamic_character_rows_to_global_localization_adapter_complete":true,
+    "old_S36_PW04_pointwise_36_04_class_identified_with_Xi_BT":false,
+    "old_S36_PW07_dynamic_matrix_adapter_declared_complete":false,
+    "LIT_WF02_applicability_PASS":false,
+    "reason_LIT_WF02_not_yet_PASS":"the new BT-bound class/localization description is not yet packaged with immutable per-place mathematical evidence, independently verified required-place inventory, theorem-hypothesis evidence, and the separately bound adapter PASS package required by LIT-WF02; no equality with the older 36-04 pointwise H-torsor class is asserted",
+    "new_global_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09CN_BT_KUMMER_IMMUTABLE_LOCALIZATION_PACKAGE_PREFLIGHT"
+  },
+  "scope_firewalls":{
+    "Xi_BT_equals_36_04_delta_H":false,
+    "BT_Kummer_class_is_original_H_torsor_class":false,
+    "character_rewrite_alone_is_LIT_WF02_PASS":false,
+    "localization_class_implies_local_point":false,
+    "everywhere_local_means_global":false,
+    "Hilbert_product_formula_is_a_contradiction":false,
+    "Selmer_membership_obtained":false,
+    "Poitou_Tate_obstruction_obtained":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "local_parameter_elimination_exhausted":false,
+    "uniform_finite_Q_squareclass_family":false,
+    "finite_exhaustive_H1_twist_family":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
