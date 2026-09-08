@@ -1,0 +1,60 @@
+{
+  "schema": "STAGE32_EX6_FSM16_F_RESIDUAL_DIVISOR_WALL_V1",
+  "status": "EXPLORATORY_EXACT_REENTRY_THRESHOLD_NO_ENDPOINT_CREDIT",
+  "sources": {
+    "fsm16": "Freitag-Salvati Manni, Theorem 3.1 proof, arXiv:1303.6495",
+    "parent_note_path": "stages/stage32-ex6/post1697-fsm16-weighted-node-divisor-wall.md",
+    "parent_contract_path": "stages/stage32-ex6/post1697-fsm16-weighted-node-divisor-contract.json",
+    "AR_path": "stages/stage32/residual-32-01-production/post1648ar-two-factor-slack-minimal-branches-source-note.md"
+  },
+  "carrier_inputs": {
+    "degree_d": 186,
+    "genus": 1,
+    "O": 266,
+    "E_definition": "eta81+rho81+eta105+rho105",
+    "E_nonnegative": true
+  },
+  "fsm16_f_divisor": {
+    "f_zero_divisor_class": "2k*K_Btilde",
+    "f_not_identically_zero_on_curve": true,
+    "f_nonzero_at_all_48_nodes": true,
+    "curve_degree_equals_K_intersection": true,
+    "pullback_f_zero_degree_formula": "2kd",
+    "pullback_f_zero_degree_per_k": 372,
+    "all_f_divisor_contribution_is_nonnode": true,
+    "published_tensor_zero_statement": "at_least_2kd"
+  },
+  "parent_nonnode_budget": {
+    "required_nonnode_signed_divisor_formula": "(1488+8E)k",
+    "minimum_required_nonnode_signed_divisor_per_k": 1488
+  },
+  "residual_nonnode_budget": {
+    "definition": "D_res_nonnode := D_nonnode - deg(div(f)|_N)",
+    "formula": "(1116+8E)k",
+    "minimum_per_k": 1116,
+    "uniform_closing_upper_bound": "D_res_nonnode <= 1115k",
+    "sharp_closing_upper_bound": "D_res_nonnode < (1116+8E)k"
+  },
+  "independence": {
+    "f_divisor_degree_derived_from_stage32_factor_RH_ledger": false,
+    "q_eta_rho_reuse_as_independent_cap_allowed": false,
+    "independent_residual_upper_bound_source_locked": false
+  },
+  "decision": {
+    "fsm16_f_divisor_contribution_per_k": 372,
+    "fsm16_residual_nonnode_minimum_per_k": 1116,
+    "fsm16_f_zeros_alone_close_endpoint": false,
+    "O266_endpoint_excluded": false,
+    "O264_descent_authorized": false
+  },
+  "firewalls": {
+    "residual_divisor_effective_claimed": false,
+    "formal_T_over_f_descends_as_global_surface_tensor_claimed": false,
+    "residual_nonnode_upper_bound_claimed": false,
+    "global_v6_carrier_constructed": false,
+    "endpoint_closure_credit": false,
+    "perfect_cuboid_credit": false,
+    "hostile_audit_credit": false,
+    "merge_implied": false
+  }
+}

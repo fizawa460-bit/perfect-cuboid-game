@@ -1,0 +1,38 @@
+name: Stage32 EX6 O266 endpoint
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32-ex6/**'
+      - '.github/workflows/stage32-ex6-o266-endpoint.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Checkout exact PR head with historical source locks
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Verify O266 endpoint contract
+        run: python stages/stage32-ex6/verify_stage32_ex6_o266_endpoint_contract.py
+
+      - name: Verify FSM16 modular tensor multibranch wall
+        run: python stages/stage32-ex6/verify_stage32_ex6_fsm16_modular_tensor_multibranch_contract.py
+
+      - name: Verify FSM16 weighted node-divisor wall
+        run: python stages/stage32-ex6/verify_stage32_ex6_fsm16_weighted_node_divisor_contract.py
+
+      - name: Verify FSM16 f-divisor residual wall
+        run: python stages/stage32-ex6/verify_stage32_ex6_fsm16_f_residual_divisor_contract.py
+
+      - name: Enforce read-only replay
+        run: |
+          test -z "$(git status --porcelain)"
