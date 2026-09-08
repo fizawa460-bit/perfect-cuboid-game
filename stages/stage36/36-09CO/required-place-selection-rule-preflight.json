@@ -1,0 +1,67 @@
+{
+  "schema":"STAGE36_36_09CO_REQUIRED_PLACE_SELECTION_RULE_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09CO",
+  "status":"CONDITIONAL_SERRE_REQUIRED_PLACE_RULE_COMPLETE_STAGE36_APPLICATION_FAIL_CLOSED",
+  "base_main_sha":"8143dbaabb0cf164e65091dd315996f7eac68cf8",
+  "batch_parent":{"pr":1707,"36_09CN_exact_green_head":"6b31ca804744c4d8726d3d74861faadee78e0d64","36_09CN_exact_head_ci":"34180629566/101918846959"},
+  "source_locks":{
+    "stage36_36_09CN":{"path":"stages/stage36/36-09CN/bt-kummer-immutable-localization-package-preflight.json","blob_sha":"e6b38b0bd621434a5cfa365ee1077241e1beb9bc"},
+    "stage36_36_09CN_verifier":{"path":"stages/stage36/verify_stage36_36_09CN.py","blob_sha":"1f0d20f3c02586c3689fbf1da57ddee39e9f6430"},
+    "stage36_36_09CM":{"path":"stages/stage36/36-09CM/bt-global-kummer-class-localization-adapter-preflight.json","blob_sha":"06c3e6d1fcc2453dc44b84d50896abdc6a1658d7"},
+    "lit_wf02_contract":{"path":"docs/arsenal/lit-wf02-global-h1-localization-reciprocity-contract.json","blob_sha":"6fc62623ee59b4aaf1fc053ad42df2dcbba0855b"},
+    "lit_wf02_verifier":{"path":"docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py","blob_sha":"ee066a55f95184916c02dc1f1bbd9f07d1840dc8"}
+  },
+  "serre_hilbert_required_place_rule":{
+    "input":"one fixed finite family of rational squareclasses alpha_i and one fixed finite family beta_j that are actually paired by local Hilbert symbols",
+    "normalization":"choose squarefree rational representatives; only valuation parity and real sign matter",
+    "finite_places":"2 together with every odd prime q for which some alpha_i or beta_j has odd q-adic valuation",
+    "archimedean_places":"infinity",
+    "required_place_set":"S_Hilb={infinity,2} union {odd q : some v_q(alpha_i) or v_q(beta_j) is odd}",
+    "outside_set_reason":"for odd q outside S_Hilb every alpha_i and beta_j is a q-adic unit; the odd-prime Hilbert-symbol formula gives (alpha_i,beta_j)_q=+1 for every pair",
+    "finite_inventory_after_both_sides_fixed":true,
+    "rule_is_theorem_specific_not_receiver_bad_place_taxonomy":true
+  },
+  "stage36_instantiation_check":{
+    "fixed_global_left_class":"Xi_BT=([A*B],[kappa*A],[rho*A]) in H^1(Q,mu_2^3)",
+    "left_class_and_localization_adapter_available":true,
+    "fixed_dual_or_evaluation_squareclass_family_available":false,
+    "serre_pairing_place_inventory_instantiated":false,
+    "milne_fixed_local_condition_system_available":false,
+    "milne_poitou_tate_place_inventory_instantiated":false,
+    "why_Xi_support_alone_is_insufficient":"the relevant Serre place set depends on both entries of the fixed Hilbert pairing; Xi_BT alone does not determine primes introduced by the second entry",
+    "why_receiver_bad_places_are_insufficient":"receiver bad places classify local geometry of the BT cover, not the theorem-specific support of a fixed Hilbert pairing or Poitou-Tate local-condition system",
+    "why_CK_good_prime_family_does_not_force_infinite_inventory":"once a fixed pairing system is supplied, odd primes outside the finite valuation-parity support have automatically trivial Hilbert symbols; this finite-support reduction is conditional on the missing second-side pairing data"
+  },
+  "lit_wf02_consequence":{
+    "required_place_selection_rule_available_conditionally":true,
+    "independent_stage36_required_place_inventory_complete":false,
+    "LIT_WF02_PASS_package_emitted":false,
+    "first_missing_obligation":"FIXED_DUAL_PAIRING_OR_LOCAL_CONDITION_SYSTEM",
+    "serre_binding_ready":false,
+    "milne_binding_ready":false
+  },
+  "route_result":{
+    "route_status":"PASS_CONDITIONAL_REQUIRED_PLACE_RULE_FAIL_CLOSED_AT_DUAL_LOCAL_CONDITION_INPUT",
+    "next_leaf":"36-09CP_FIXED_DUAL_PAIRING_OR_LOCAL_CONDITION_SYSTEM_PREFLIGHT",
+    "36_09CP_entry_allowed_after_exact_green_CO":true
+  },
+  "scope_firewalls":{
+    "conditional_place_rule_is_LIT_WF02_PASS":false,
+    "Xi_BT_alone_determines_serre_required_places":false,
+    "receiver_bad_places_equal_serre_required_places":false,
+    "receiver_bad_places_equal_poitou_tate_required_places":false,
+    "CK_everywhere_local_data_supplies_dual_pairing":false,
+    "Selmer_membership_obtained":false,
+    "Poitou_Tate_obstruction_obtained":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
