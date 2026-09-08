@@ -103,12 +103,13 @@ def main() -> None:
     assert c["exit"]["EX2_00_source_lock_complete"] is True
     assert c["exit"]["next_leaf"] == "EX2-01_LINE_BUNDLE_REALIZATION_AND_SECTION_SOURCE_INVENTORY"
     assert c["exit"]["parallel_lanes_unlocked"] is True
-    assert c["exit"]["claim_dag_sync_triggered"] is False
+    assert c["exit"]["claim_dag_sync_triggered"] is True
+    assert c["exit"]["claim_dag_sync_trigger"] == "RETAINED_CONSOLIDATION"
 
     for key, value in c["credit_firewall"].items():
         assert value is False, (key, value)
 
-    print("Stage32EX2 EX2-00 source lock: PASS; V6 target is typed at geometric Picard64 level, concrete section/member adapters remain explicitly missing, no member or Stage32 credit.")
+    print("Stage32EX2 EX2-00 source lock: PASS; retained consolidation triggers claim-DAG sync; no member or Stage32 credit.")
 
 
 if __name__ == "__main__":
