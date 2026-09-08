@@ -58,7 +58,11 @@ def main()->None:
     assert ae['squareclass_variables']['properties'][-1]=='gcd(C,D)=1'
     assert ck['good_prime_model']['target_characters']==['d','k','r','k*d','r*d']
     assert lit['current_stage36_applicability_status']=='FAIL_CLOSED_MISSING_GLOBAL_CLASS_AND_LOCALIZATION_ADAPTER_EVIDENCE'
-    assert h04['pointwise_class']['definition'].startswith('delta_H(P)')
+    h04_def=h04['pointwise_class']['definition']
+    assert 'delta_H(P)=' in h04_def
+    assert 'H^1(Q,H)' in h04_def
+    assert h04['pointwise_class']['degree']==8
+    assert 'delta_H(P)=1' in h04['pointwise_class']['rational_lift_iff']
 
     g=c['global_kummer_class']; ca=c['exact_BT_cover_adapter']; la=c['localization_adapter']; os=c['old_six_selected_prime_rewrite']; qr=c['Q_reservoir_rewrite']; ar=c['adapter_result']
     assert g['module']=='K_BT=mu_2^3 over Q'
