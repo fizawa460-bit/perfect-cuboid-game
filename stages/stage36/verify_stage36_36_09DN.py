@@ -50,7 +50,7 @@ def main()->None:
  assert c['fixed_curve']['retained_open_boundary_contains']==['t=0','t=1','t=-1','t=infinity']
  assert df['fixed_curve']['retained_open_excludes']==['t=0','t=1','t=-1','t=infinity']
  assert dm['global_reference_point']['t']==0 and dm['global_reference_point']['z']==1
- assert dm['global_reference_point']['Q_rational'] is True and dm['global_reference_point']['smooth'] is True
+ assert dm['global_reference_point']['rational'] is True and dm['global_reference_point']['smooth'] is True
 
  # Source theorem locks: local 2-torsion quotient is finite and each fixed evaluation is locally constant.
  assert 'Lichtenbaum' in src and '10.1007/BF01389795' in src
