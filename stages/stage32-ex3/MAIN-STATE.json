@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX3_MAIN_COMPACT_STATE_V1_MAIN_O210_V2_PROVISIONAL_ACTIVE_AUDIT_PENDING",
+  "schema": "STAGE32EX3_MAIN_COMPACT_STATE_V1_MAIN_O210_V3_AUTHORITY_NEUTRAL_NARROW_REAUDIT_PENDING",
   "role": "ORDINARY_STAGE32EX3_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX3",
   "execution": {
@@ -77,13 +77,13 @@
     "hostile_audit_pass_required_for_audited_success": true
   },
   "current": {
-    "status": "MAIN_O210_V2_PROVISIONAL_ACTIVE_REMAP_AUDIT_PENDING",
+    "status": "MAIN_O210_V3_PROVISIONAL_ACTIVE_NARROW_REAUDIT_PENDING",
     "leaf": "EX3-10_HOSTILE_AUDIT_AND_STAGE32_PROMOTION_BOUNDARY",
-    "subroute": "MAIN_O210_V2_HOSTILE_AUDIT_HANDOFF",
-    "objective": "Hostile-audit the explicit MAIN O210 V2 claim derived from audited EX3 terminal plus audited V3; do not grant MAIN credit before PASS receipt synchronization.",
-    "next_route_on_success": "MAIN_O210_V2_HOSTILE_AUDIT",
-    "next_route_on_block": "REPAIR_MAIN_O210_V2_OR_REVERT_TO_OPEN_GOAL_WITH_AUDITED_EX3_V3_PRESERVED",
-    "stop_semantics": "MAIN_O210_V2_PROVISIONAL_ONLY_O210_EXCLUDED_FALSE_NO_O212_ADVANCE_NO_MERGE"
+    "subroute": "MAIN_O210_V3_NARROW_HOSTILE_REAUDIT_HANDOFF",
+    "objective": "Narrow hostile re-audit of authority-state-neutral S32.O210.EXCLUSION.V3; mathematical dependencies were PASS in V2 audit, but no MAIN credit exists before V3 PASS receipt synchronization.",
+    "next_route_on_success": "MAIN_O210_V3_PASS_RECEIPT_SYNC_THEN_AUTHORITY_TRANSITION",
+    "next_route_on_block": "REPAIR_MAIN_O210_V3_WITH_AUDITED_EX3_V3_PRESERVED",
+    "stop_semantics": "V3_PROVISIONAL_ONLY_O210_EXCLUDED_FALSE_NO_O212_ADVANCE_NO_MERGE"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex3/stage32-ex3.md",
@@ -109,7 +109,9 @@
     "stages/stage32-ex3/main-o210-exclusion-v2-candidate.json",
     "stages/stage32-ex3/verify_main_o210_exclusion_v2_candidate.py",
     "stages/stage32/proof/verify_stage32_active_frontier.py",
-    "stages/stage32/proof/verify_stage32_claim_dag.py"
+    "stages/stage32/proof/verify_stage32_claim_dag.py",
+    "stages/stage32-ex3/main-o210-exclusion-v3-candidate.json",
+    "stages/stage32-ex3/verify_main_o210_exclusion_v3_candidate.py"
   ],
   "frontier": {
     "EX3_00_source_lock_complete": true,
@@ -162,13 +164,19 @@
     "promotion_adapter_v3_audit_review_id": 5143014619,
     "promotion_adapter_v3_audited_exact_head": "280595ed892ae2ef70e049a3f722ea024452e206",
     "active_frontier_remap_allowed_after_separate_claim_sync": true,
-    "main_o210_active_claim_id": "S32.O210.EXCLUSION.V2",
+    "main_o210_active_claim_id": "S32.O210.EXCLUSION.V3",
     "main_o210_v2_core_sha256": "178c0a8a381abacbfb5662f44f2faab2f2f6076f4be653172f7e586f77476746",
     "main_o210_v2_registered_provisional": true,
     "main_o210_v2_hostile_audited": false,
     "main_o210_v1_superseded_to_history": true,
     "active_frontier_remap_complete": true,
-    "promotion_adapter_v2_superseded_after_v3_audit": true
+    "promotion_adapter_v2_superseded_after_v3_audit": true,
+    "main_o210_v3_core_sha256": "7003e228cbb0273e1ac6352bd9535a5f10ca5964bc6d4072130d20012aaec824",
+    "main_o210_v3_registered_provisional": true,
+    "main_o210_v3_hostile_audited": false,
+    "main_o210_v2_superseded_after_hostile_audit_fail": true,
+    "main_o210_v2_fail_review_id": 5144919736,
+    "main_o210_v2_fail_exact_head": "81ec62fc8413840fcb18936b9244e32b171c90b1"
   },
   "parallel_lanes": {
     "enabled_after_EX3_00": true,
@@ -303,7 +311,7 @@
     "retained_consolidation_complete": true,
     "claim_sync_trigger": "ACTIVE_FRONTIER_REMAP",
     "claim_sync_contract": "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md",
-    "claim_sync_status": "COMPLETE_MAIN_O210_V2_PROVISIONAL_ACTIVE_REMAP_AUDIT_PENDING_NO_MAIN_CREDIT",
+    "claim_sync_status": "COMPLETE_MAIN_O210_V3_AUTHORITY_NEUTRAL_PROVISIONAL_REMAP_NARROW_REAUDIT_PENDING_NO_MAIN_CREDIT",
     "claim_sync_may_not_upgrade_authority_before_completion": true,
     "preserve_existing_audited_EX1_V2_exactly": true,
     "preserve_existing_audited_EX4_V2_exactly": true,
@@ -326,9 +334,12 @@
     "promotion_adapter_v3_audit_review_id": 5143014619,
     "promotion_adapter_v3_audited_exact_head": "280595ed892ae2ef70e049a3f722ea024452e206",
     "current_main_consolidation_preserves_other_lane_authority": true,
-    "active_frontier_remap_claim_id": "S32.O210.EXCLUSION.V2",
+    "active_frontier_remap_claim_id": "S32.O210.EXCLUSION.V3",
     "active_frontier_remap_authority": "PROVISIONAL",
-    "main_o210_v2_hostile_audit_required": true
+    "main_o210_v2_hostile_audit_required": true,
+    "main_o210_v3_hostile_audit_required": true,
+    "main_o210_v2_hostile_audit_result": "FAIL_CLAIM_VERSIONING_ONLY",
+    "main_o210_v2_hostile_audit_review_id": 5144919736
   },
   "credit": {
     "level": "FULL_TARGET_CLOSURE_O210_COVER_GEOMETRY_EXCLUDED_AUDITED_EX3_ONLY",
@@ -405,9 +416,25 @@
     "audited_exact_head": "280595ed892ae2ef70e049a3f722ea024452e206"
   },
   "main_o210_v2": {
-    "status": "RETAINED_PROVISIONAL_ACTIVE_CLAIM_AUDIT_PENDING",
+    "status": "HOSTILE_AUDIT_FAIL_CLAIM_VERSIONING_ONLY_SUPERSEDED",
     "claim_id": "S32.O210.EXCLUSION.V2",
     "claim_core_sha256": "178c0a8a381abacbfb5662f44f2faab2f2f6076f4be653172f7e586f77476746",
+    "requires": [
+      "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
+      "S32.EX3.O210_COVER_GEOMETRY_EXCLUSION_TERMINAL.V1",
+      "S32.ADAPTER.EX3_O210_TO_MAIN_O210.V3"
+    ],
+    "hostile_audit_required": true,
+    "hostile_audit_result": "FAIL",
+    "main_O210_promotion_complete": false,
+    "credit_ceiling": "HISTORICAL_PROVISIONAL_FAILED_VERSION_NO_MAIN_CREDIT",
+    "hostile_audit_review_id": 5144919736,
+    "hostile_audited_exact_head": "81ec62fc8413840fcb18936b9244e32b171c90b1"
+  },
+  "main_o210_v3": {
+    "status": "RETAINED_PROVISIONAL_ACTIVE_AUTHORITY_NEUTRAL_CLAIM_NARROW_REAUDIT_PENDING",
+    "claim_id": "S32.O210.EXCLUSION.V3",
+    "claim_core_sha256": "7003e228cbb0273e1ac6352bd9535a5f10ca5964bc6d4072130d20012aaec824",
     "requires": [
       "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
       "S32.EX3.O210_COVER_GEOMETRY_EXCLUSION_TERMINAL.V1",
