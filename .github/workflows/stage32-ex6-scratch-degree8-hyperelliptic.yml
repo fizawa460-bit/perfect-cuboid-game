@@ -26,13 +26,13 @@ jobs:
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
       - name: Reconstruct degree8 hyperelliptic fiber candidates
         run: |
-          python stages/stage32-ex6/scratch_diagnose_v6_degree8_hyperelliptic_fibers.py \
+          python -B stages/stage32-ex6/scratch_diagnose_v6_degree8_hyperelliptic_fibers.py \
             --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
             --witness stages/stage32/32-21/post1473-v6-witness-body-recovered.json \
             --adapter-dir stages/stage32/residual-32-01-production | tee /tmp/ex6-degree8.json
       - name: Show compact decision
         run: |
-          python - <<'PY'
+          python -B - <<'PY'
           import json
           x=json.load(open('/tmp/ex6-degree8.json'))
           print(json.dumps(x['summary'], indent=2, sort_keys=True))
