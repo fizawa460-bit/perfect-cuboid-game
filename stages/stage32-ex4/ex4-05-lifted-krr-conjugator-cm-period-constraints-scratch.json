@@ -1,0 +1,180 @@
+{
+  "schema": "STAGE32EX4_EX4_05_LIFTED_KRR_CONJUGATOR_CM_PERIOD_CONSTRAINTS_SCRATCH_V1",
+  "stage": "32EX4",
+  "leaf": "EX4-05_LIFTED_KRR_CONJUGATOR_WITH_CM_PERIOD_CONSTRAINTS",
+  "status": "SCRATCH_REPLAYABLE_LIFTED_DIFFERENTIAL_INTERTWINER_NONPRUNING_NOT_RETAINED_AUTHORITY",
+  "base_main_sha": "d5545b32e6b3088bca53318998d434f2745b03e9",
+  "branch_head_before_leaf": "7b8d67e528a3dd2c72a80a7f66e0c944c7316b73",
+  "claim_ceiling": {
+    "statement": "The exact curve differential representation for Cecotti B.7/B.8 is projectively equivalent to the retained plus-r ordered pair (S,T^-1), but the source package does not source-bind the period/homology normalization selecting one target-inner conjugate. Composing the literal intertwiner with the 48 retained principal-polarized CM automorphisms leaves 48 integral markings (24 projective conjugator classes modulo +/-I), whose action on the candidate fixed W-line is L1/L2/L3 = 16/16/16. Therefore the lifted differential/period constraints currently source-bound do not select an absolute retained W-line.",
+    "absolute_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false
+  },
+  "repo_source_locks": {
+    "ex4_04_ppav_cm_anchor": {
+      "path": "stages/stage32-ex4/ex4-04-retained-ppav-cm-marking-adapter-scratch.json",
+      "blob_sha1": "8645c3adcb4dbf4a1ebf823335638e85478ab2e1",
+      "canonical_sha256": "4929ce8ecf3e12a894445c19ac390dd723960ae315f8fa1ec06110d5e868a5cc",
+      "authority_status": "SCRATCH_NOT_RETAINED"
+    },
+    "ex4_02_source_inventory": {
+      "path": "stages/stage32-ex4/ex4-02-source-inventory-exact-product-binding-scratch.json",
+      "blob_sha1": "f89222b07b818921bb7a084b0889403d2172e596",
+      "canonical_sha256": "87dbeac32d29fc3a0bb15bbd3e4df875f47f287cf085abe588420d6095306293",
+      "authority_status": "SCRATCH_NOT_RETAINED"
+    },
+    "cecotti_trace_orientation": {
+      "path": "stages/stage32/residual-32-01-production/post1648j-cecotti-trace-orientation-correction.json",
+      "blob_sha1": "17641753c33ae46e9b7517dc85a915edd70d2057",
+      "canonical_sha256": "3f6fd55ced259c6f28949df61865e22d43a669a50bdaf2adf5ddcd88411a48ec",
+      "authority_status": "PENDING_HOSTILE_REAUDIT_CANDIDATE_INPUT_ONLY"
+    }
+  },
+  "external_source_locks": {
+    "krr": {
+      "title": "The Bolza curve and some orbifold ball quotient surfaces",
+      "arxiv": "1904.00793v4",
+      "locators": [
+        "Section 4, Abel-Jacobi embedding alpha with infinity mapped to 0",
+        "Section 4, induced affine Aut(theta) action on A",
+        "Corollary 6: H48 = g G48 g^-1 for some automorphism g of A",
+        "paragraph after Proposition 7: change the embedding by g and then identify H48 with G48"
+      ],
+      "provides": [
+        "source-bound Abel-Jacobi basepoint infinity",
+        "source-bound curve-to-Jacobian divisor-difference action",
+        "existence of a conjugating automorphism g"
+      ],
+      "does_not_provide_in_the_cited_package": [
+        "a symplectic homology basis tied to the branch labels",
+        "an A-period matrix for omega1=dx/y, omega2=x dx/y",
+        "an explicit matrix for g on H1, the torus lattice, or J[2]"
+      ]
+    },
+    "cecotti": {
+      "title": "Symplectic Singularities, Color Confinement, and the Quantum Dirac Sheaf",
+      "arxiv": "2509.24605v1",
+      "locators": [
+        "Appendix B equations (B.1)-(B.5): retained G12 matrices and period matrix",
+        "Appendix B equations (B.6)-(B.8): Bolza curve and explicit order-2/order-6 automorphisms"
+      ],
+      "provides": [
+        "retained S=b4 and T=-b3 matrices",
+        "principal-Bolza period matrix tau",
+        "explicit B.7/B.8 curve formulas"
+      ],
+      "does_not_provide_in_the_cited_package": [
+        "a statement identifying B.7/B.8 with one exact retained ordered generator pair",
+        "the A-period normalization converting the raw differential basis to the displayed normalized period basis",
+        "a branch-labelled symplectic homology basis"
+      ]
+    }
+  },
+  "exact_differential_intertwiner": {
+    "field_basis": ["1", "sqrt2", "i", "r=i*sqrt2"],
+    "source_basis": ["omega1=dx/y", "omega2=x*dx/y"],
+    "source_phi2_matrix": [
+      [[0, "-1/2", 0, 0], [0, 0, 0, "1/2"]],
+      [[0, 0, 0, "-1/2"], [0, "1/2", 0, 0]]
+    ],
+    "source_phi6_matrix": [
+      [["1/2", 0, "-1/2", 0], ["-1/2", 0, "-1/2", 0]],
+      [["1/2", 0, "-1/2", 0], ["1/2", 0, "1/2", 0]]
+    ],
+    "target_literal_pair": {
+      "S": [["1", "1+r"], ["0", "-1"]],
+      "T_inverse": [["0", "-1"], ["1", "1"]]
+    },
+    "intertwining_convention": "A_source * Q0 = Q0 * A_target",
+    "projective_solution_dimension": 1,
+    "Q0_normalized_q22_equals_1_field_coefficients": [
+      [[1, "-1/2", 1, "-1/2"], [1, -1, 0, 0]],
+      [[0, "1/2", 0, "-1/2"], [1, 0, 0, 0]]
+    ],
+    "Q0_human": [
+      ["1-sqrt2/2+i-r/2", "1-sqrt2"],
+      ["sqrt2/2-r/2", "1"]
+    ],
+    "det_Q0": "2-sqrt2",
+    "checks": [
+      "phi2 * Q0 = Q0 * S",
+      "phi6 * Q0 = Q0 * T^-1",
+      "det(Q0)=2-sqrt2 != 0"
+    ],
+    "raw_basis_is_not_direct_Qr_lattice_basis": {
+      "Qr": "Q(r), r^2=-2",
+      "claim": "No nonzero scalar lambda in Q(r) makes lambda*Q0 a matrix over Q(r).",
+      "proof": "Because Q0_22=1, lambda*Q0 over Q(r) forces lambda in Q(r); then lambda*(1-sqrt2) in Q(r) with lambda nonzero would force sqrt2 in Q(r), contradiction.",
+      "interpretation": "A period/homology normalization between the raw curve differential basis and the retained torus/lattice basis is genuinely required; this is not an impossibility result."
+    }
+  },
+  "lifted_target_inner_ambiguity": {
+    "retained_integral_unitary_group_order": 48,
+    "retained_integral_unitary_group": "<S,T>",
+    "center": ["+I", "-I"],
+    "projective_inner_conjugator_count": 24,
+    "family_of_exact_intertwiners": "Q_h = Q0 * h^-1 for h in <S,T>; Q_h intertwines the fixed source pair with (h S h^-1, h T^-1 h^-1).",
+    "all_48_preserve": [
+      "the retained principal polarization",
+      "the Z[r]-CM structure",
+      "the plus-r ordered generator orbit"
+    ],
+    "candidate_fixed_line_seed": "L2, the unique fixed W-line of literal S*T^-1",
+    "images_of_seed_L2_under_48_markings": {
+      "L1": 16,
+      "L2": 16,
+      "L3": 16
+    },
+    "projective_pair_orbit_delta0inf_counts": {
+      "L1": 8,
+      "L2": 8,
+      "L3": 8
+    },
+    "consequence": "The exact differential representation and the unmarked ppav/CM structure retain the full three-line ambiguity."
+  },
+  "period_homology_gap": {
+    "known": [
+      "KRR fixes the Abel-Jacobi basepoint infinity and the abstract divisor-difference action.",
+      "Cecotti fixes a period matrix for the principal ppav and gives raw curve automorphism formulas.",
+      "EX4-04 exhausts the target principal-polarized Z[r]-linear automorphism group."
+    ],
+    "missing": "A source-bound normalization tying the branch-labelled raw differential basis to one symplectic homology basis / A-period matrix underlying the retained period coordinates.",
+    "why_period_matrix_alone_does_not_select": "The displayed period matrix describes the ppav only after a symplectic marking. Composing that marking with any retained ppav automorphism preserves the unmarked ppav while moving the three nonzero W-lines transitively.",
+    "minimal_new_datum": [
+      "an explicit branch-labelled symplectic H1 basis and period integrals",
+      "or an exact level/theta characteristic marking with a proved adapter to the retained basis",
+      "or an explicit lifted KRR conjugator matrix on H1/lattice"
+    ]
+  },
+  "decision": {
+    "result": "EX4_05_LIFTED_DIFFERENTIAL_AND_PERIOD_CONSTRAINTS_NONPRUNING_WITH_HOMOLOGY_NORMALIZATION_GAP",
+    "current_missing_datum": "SOURCE_BOUND_SYMPLECTIC_HOMOLOGY_OR_LEVEL_STRUCTURE_MARKING_SELECTING_ONE_TARGET_INNER_CONJUGATE",
+    "next_leaf": "EX4-05B_FSM_THETA_LEVEL_HOMOLOGY_MARKING_PREFLIGHT",
+    "next_lane_objective": "Use the Freitag-Salvati Manni/Stoll level-theta structure as a materially distinct semantic anchor and test whether it supplies a branch-labelled symplectic homology/level marking that can be adapted to the retained principal-Bolza basis.",
+    "retained_claim_dag_sync_performed": false,
+    "reason_no_claim_sync": "Scratch-only lifted-conjugator diagnostic; no retained consolidation, audit transition, promotion, frontier remap, or final milestone.",
+    "absolute_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false
+  },
+  "firewalls": {
+    "projective_differential_intertwiner_promoted_to_integral_homology_marking": false,
+    "period_matrix_promoted_to_branch_labelled_symplectic_basis": false,
+    "one_Q0_promoted_to_source_canonical_conjugator": false,
+    "cecotti_B7_B8_promoted_to_literal_S_Tinverse": false,
+    "post1648j_candidate_promoted_to_audited_authority": false,
+    "conditional_residue97_promoted": false,
+    "scratch_result_promoted_to_retained_claim": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "36a7357177bd1d4ced7b320f7ac578bb406ea81ead32d3d6c76e0fb3861ce29a"
+}

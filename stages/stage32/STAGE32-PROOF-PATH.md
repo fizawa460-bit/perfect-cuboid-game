@@ -50,12 +50,12 @@ The migrated nodes are exactly the currently load-bearing frontier, not a replay
 
 ```text
 V6 carrier decision
-  S32.V6.ACTUAL_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2    [DECLARED_GOAL / OPEN]
-  S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2        [DECLARED_GOAL / OPEN]
+  S32.V6.ACTUAL_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1    [DECLARED_GOAL / OPEN]
+  S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1        [DECLARED_GOAL / OPEN]
 
 remaining nonbijective-normalization branches
   S32.V6.SURFACE_NODE_MULTIBRANCH.V2                      [DECLARED_GOAL / OPEN]
-  S32.V6.SMOOTH_AMBIENT_LOCUS_CURVE_SINGULARITY.V3       [DECLARED_GOAL / OPEN]
+  S32.V6.SMOOTH_AMBIENT_LOCUS_CURVE_SINGULARITY.V2       [DECLARED_GOAL / OPEN]
 
 O210 / Q602
   S32.O210.EXCLUSION.V1                                   [DECLARED_GOAL / OPEN]
@@ -65,8 +65,8 @@ O210 / Q602
 marking / same-member bridge
   S32.MAIN.HDECK_CHARACTER_DIRECTION.V1                   [AUDITED, base registry]
        -> S32.J2.DELTA0INF_ABSOLUTE_W_LINE_MARKING.V1     [DECLARED_GOAL / OPEN]
-  S32.V6.ACTUAL_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2
-       -> S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V3      [DECLARED_GOAL / BLOCKED]
+  S32.V6.ACTUAL_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1
+       -> S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V2      [DECLARED_GOAL / BLOCKED]
 
 production / closure
   S32.FULL178.NUMERICAL_CENSUS.V1                         [DECLARED_GOAL / INCOMPLETE]
@@ -77,14 +77,12 @@ The audited residue node records only that the current survivor set is exactly `
 
 The V6 surface-node and smooth-ambient nodes are separate because the current MAIN frontier has only reduced a surviving carrier to nonbijective normalization somewhere; neither location/type branch is closed. The existing bijective-normalization result remains a separate **PROVISIONAL** base-registry claim pending hostile re-audit after scope repair.
 
-The EX2-bound frontier nodes were versioned at the EX2-00 retained-consolidation synchronization because their immutable evidence boundary changed from the mutable EX2 `MAIN-STATE.json` projection to `stages/stage32-ex2/EX2-00/v6-source-lock-target-contract.json`. Their mathematical statements, authority levels, blockers, and lane roles did not advance.
-
 ## 4. MAIN / EX attack map
 
 EX1–EX6 are research lanes inside the Stage32 management system, not independent mathematical Stages. Their current connections are stored in `LANE-ADAPTERS.json`; active lanes are mirrored on frontier-node `lane_links`:
 
 - `EX1`: attacks V6 actual-member/nonexistence, surface-node multibranch, smooth-ambient singularity, member-level identity, and contributes toward Stage32 closure.
-- `EX2`: attacks actual V6 member, population-wide V6 member nonexistence, smooth-ambient singularity, and member-level identity. Its retained EX2-00 package is a typed source-lock boundary only; it supplies no actual-member or nonexistence credit.
+- `EX2`: attacks actual V6 member, population-wide V6 member nonexistence, smooth-ambient singularity, and member-level identity.
 - `EX3`: attacks surface-node/cover interaction, O210, Q602, and member-level identity; consumes the audited `[73,97,235]` survivor set.
 - `EX4`: attacks absolute `delta_0inf` W-line marking, Q602 exclusion, and member-level identity; consumes the audited H-deck direction and `[73,97,235]` set.
 - `EX5`: attacks the FULL178/receiver-breadth production route and therefore the numerical-census input to Stage32 closure.

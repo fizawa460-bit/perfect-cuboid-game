@@ -1,0 +1,167 @@
+{
+  "schema": "STAGE32EX4_EX4_09_INDEPENDENT_CROSSCHECK_AND_CIRCULARITY_AUDIT_SCRATCH_V1",
+  "stage": "32EX4",
+  "leaf": "EX4-09_INDEPENDENT_CROSSCHECK_AND_CIRCULARITY_AUDIT",
+  "status": "SCRATCH_REPLAYABLE_TERMINAL_INPUTS_INDEPENDENT_CANDIDATE_NOT_RETAINED_AUTHORITY",
+  "base_main_sha": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "branch_head_before_leaf": "9ee465d8dbda40448138c702b74ba8abb97fd628",
+  "claim_ceiling": {
+    "terminal_certificate_inputs_independent_candidate": true,
+    "bounded_terminal_outcome_candidate": "FIXED_SOURCE_PACKAGE_CANNOT_SELECT_ABSOLUTE_W_LINE",
+    "full_target_closure": false,
+    "audit_ready_full_target_closure": false,
+    "absolute_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false
+  },
+  "source_locks": {
+    "ex4_08": {
+      "path": "stages/stage32-ex4/ex4-08-frozen-package-ambiguity-certificate-scratch.json",
+      "blob_sha1": "f06e87e0bf9fa56ffed7c294019eeb6077461f38",
+      "authority_status": "SCRATCH_NOT_RETAINED",
+      "canonical_sha256": "e4cecb7602eceb6bf24b10c3f94fecf506d041e2183ae8c45479e892e665568f"
+    },
+    "audited_hdeck_direction": {
+      "path": "stages/stage32/residual-32-01-production/post1623-hperp-v6-hdeck-character-preflight.json",
+      "blob_sha1": "f9bf3da925fc66505900db793f48c507725461d1",
+      "canonical_sha256": "00843ec64f7ecd522614f750c9f84d3a746ce664064d1c4413784cab9d26791c",
+      "role": "source-bound chi_u -> Z3 -> abstract delta_0inf, with retained line explicitly unidentified"
+    },
+    "line_to_residue": {
+      "path": "stages/stage32/residual-32-01-production/post1505-o210-q602-weierstrass-parity-transvection-refinement.json",
+      "blob_sha1": "8e9a402706921c71217fc275be6b9885feea8bee",
+      "canonical_sha256": "83fd16fdaac674a3f63b4b2dac498136f1bc584c9e06d89f1aa1a7bdc4c30386",
+      "role": "target-side line-to-residue association, applied only after line analysis"
+    },
+    "gauge_orbit": {
+      "path": "stages/stage32/residual-32-01-production/post1505-o210-q602-marked-w-line-gauge-orbit.json",
+      "blob_sha1": "2b790882222656f65ed7ea4bdc2336553890b6a1",
+      "canonical_sha256": "7ad84e3c0a567119933ee0941b3b125ebcdb80651973033e13dbf12b553bfc92",
+      "role": "explicit warning that canonical residue 73 is gauge compression only, not absolute marking"
+    },
+    "post1648j": {
+      "path": "stages/stage32/residual-32-01-production/post1648j-cecotti-trace-orientation-correction.json",
+      "blob_sha1": "17641753c33ae46e9b7517dc85a915edd70d2057",
+      "canonical_sha256": "3f6fd55ced259c6f28949df61865e22d43a669a50bdaf2adf5ddcd88411a48ec",
+      "authority_status": "PENDING_HOSTILE_REAUDIT_CANDIDATE_INPUT_ONLY",
+      "role": "stronger +r orbit constraint only; literal S,T^-1 representative remains conditional"
+    }
+  },
+  "independent_replay": {
+    "method": "fresh finite enumeration from the displayed retained S,T matrices, without reading residue numbers as selector inputs",
+    "G_order": 48,
+    "W_action_image_order": 6,
+    "projective_pair_classes": 24,
+    "source_to_W_bijections": 6,
+    "bijection_multiplicity": 4,
+    "delta0inf_line_counts": {
+      "L1": 8,
+      "L2": 8,
+      "L3": 8
+    },
+    "seed_line_invariance": {
+      "seed_L1": {
+        "L1": 8,
+        "L2": 8,
+        "L3": 8
+      },
+      "seed_L2": {
+        "L1": 8,
+        "L2": 8,
+        "L3": 8
+      },
+      "seed_L3": {
+        "L1": 8,
+        "L2": 8,
+        "L3": 8
+      }
+    },
+    "consequence": "The obstruction is orbit-level and does not depend on choosing literal L2 or any canonical gauge representative."
+  },
+  "circularity_checks": {
+    "gauge_choice": {
+      "result": "PASS",
+      "reason": "EX4-08 enumerates all 24 projective target-inner classes. The historical gauge normalization to L1/residue73 is never used as an absolute selector, and changing the seed line leaves the 8/8/8 orbit unchanged."
+    },
+    "literal_generator_binding": {
+      "result": "PASS",
+      "reason": "post1648j explicitly states that Cecotti does not identify B.7 with S or B.8 with T/T^-1. EX4-08 uses only the entire +r inner-conjugacy orbit and does not promote the literal (S,T^-1) representative."
+    },
+    "residue_self_verification": {
+      "result": "PASS",
+      "reason": "The 48-element group, 24 projective pair classes, six equivariant source-to-W bijections, and 8/8/8 delta line counts are computed before and independently of the decimal residue labels. The table L1->73,L2->97,L3->235 is post-processing only."
+    },
+    "source_target_role_separation": {
+      "result": "PASS",
+      "reason": "The audited H-character asset labels delta_0inf only on the source side and explicitly leaves its retained coordinate unidentified; the retained F2^4/line-to-residue assets label only the target side. The missing cross-identification is not assumed."
+    },
+    "stage33_import": {
+      "result": "PASS",
+      "reason": "No Stage33 retained marking is a source lock of EX4-08. EX4-05D explicitly forbids relabelling a Stage33 source-specific J2 marking into Stage32 without an exact cross-source adapter."
+    },
+    "galois_model_change": {
+      "result": "PASS",
+      "reason": "EX4-05C keeps all six admissible W-trivial semilinear lifts rather than choosing C0 by convenience. Model/Galois ambiguity is therefore preserved, not silently fixed."
+    },
+    "candidate_authority_status": {
+      "result": "PASS",
+      "reason": "post1648j remains candidate-only. The negative uniqueness conclusion does not require promoting it: the stronger candidate-filtered 24-class family still hits all three lines, so the weaker audited core cannot uniquely select one."
+    },
+    "bounded_scope": {
+      "result": "PASS",
+      "reason": "The conclusion is restricted to the explicitly frozen EX4 source package and is not repository-wide, literature-wide, or a mathematical impossibility statement."
+    }
+  },
+  "dependency_direction": {
+    "selector_inputs": [
+      "source-bound abstract delta_0inf / Z3 identity",
+      "retained principal-polarized CM module and W",
+      "candidate +r ordered-pair orbit only at candidate status"
+    ],
+    "verification_outputs": [
+      "full projective ambiguity orbit on W",
+      "line counts 8/8/8",
+      "residue labels obtained only after line orbit is known"
+    ],
+    "forbidden_feedback_absent": true,
+    "statement": "No Q602 residue number is fed back into the construction of the source-to-retained marking family."
+  },
+  "terminal_input_assessment": {
+    "roadmap_exit": "TERMINAL_CERTIFICATE_INPUTS_INDEPENDENT",
+    "result": "PASS_CANDIDATE",
+    "remaining_before_EX4_10": [
+      "assemble one bounded terminal certificate from the frozen package and EX4-08/09",
+      "preserve candidate/audited authority distinctions",
+      "do not set FULL_TARGET_CLOSURE or audit readiness until EX4-10 assembly and its verifier are complete"
+    ],
+    "next_leaf": "EX4-10_BOUNDED_TERMINAL_DECISION_CERTIFICATE_ASSEMBLY"
+  },
+  "decision": {
+    "result": "EX4_09_TERMINAL_CERTIFICATE_INPUTS_INDEPENDENT_CANDIDATE",
+    "next_leaf": "EX4-10_BOUNDED_TERMINAL_DECISION_CERTIFICATE_ASSEMBLY",
+    "retained_claim_dag_sync_performed": false,
+    "reason_no_claim_sync": "scratch-only circularity audit; EX4-10 terminal/final-milestone transition has not yet been completed",
+    "absolute_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false
+  },
+  "firewalls": {
+    "canonical_gauge_promoted": false,
+    "literal_STinverse_promoted": false,
+    "conditional_residue97_promoted": false,
+    "stage33_marking_imported_without_adapter": false,
+    "post1648j_promoted_to_audited": false,
+    "bounded_obstruction_promoted_to_global_impossibility": false,
+    "scratch_result_promoted_to_retained_claim": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "7a6e64de11b0a8882143baef2d6950f1c903bdf26d15039a0568dfe4b243252e"
+}
