@@ -47,7 +47,12 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09DL.py"
           git worktree remove --force "$tmp"
-      - name: Assert DL exact-green promotion and DM unlock firewalls
+      - name: Verify 36-09DM entire Creutz-Viray explicit-image adelic control
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09DM.py
+      - name: Assert DM checkpoint and DN lock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -55,25 +60,30 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V187_36_09DL_EXACT_GREEN_DM_UNLOCK'
-          dl=s['authority_frontier']['36-09DL']
-          assert dl['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert dl['certificate_blob_sha']=='f3c8cba00d00b81fed2b316a62af96fc106cdaa7'
-          assert dl['verifier_blob_sha']=='5413476c769a814d9986fa2cc91f4e4ff5f6c08f'
-          assert dl['exact_head']=='fd628494e24daa6a6d9f300f0b61b90a1c26432e'
-          assert dl['exact_head_ci']=='34213028270/102018234558'
-          assert dl['FULL_RATIONAL_COMPONENT_BRAUER_SET_NONEMPTY'] is True
-          assert dl['P2_ADELIC_POINT_ORTHOGONAL_FULL_RATIONAL_COMPONENT'] is True
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V188_36_09DM_FULL_CV_EXPLICIT_IMAGE_ADELIC_CONTROL'
+          dm=s['authority_frontier']['36-09DM']
+          assert dm['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert dm['certificate_blob_sha']=='95956c74aca1aca1601a1f4c77b66bfb226a5198'
+          assert dm['verifier_blob_sha']=='66bb0527c71431f0de3cc2adf0c8df2202d1186f'
+          assert dm['P2_ADELIC_POINT_ORTHOGONAL_ENTIRE_CV_EXPLICIT_IMAGE'] is True
+          assert dm['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_BM_SET_NONEMPTY'] is True
+          assert dm['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_BM_OBSTRUCTION_DISPROVED'] is True
+          assert dm['RATIONAL_PLUS_F5_BM_SET_NONEMPTY'] is True
+          assert dm['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_COMPUTED'] is False
+          assert dm['FULL_BRAUER_GROUP_COMPUTED'] is False
           cur=s['current']
-          assert cur['unit']=='36-09DL'
-          assert cur['next_exact_leaf']=='36-09DM_FIXED_P2_FULL_RATIONAL_COMPONENT_PLUS_F5_ADELIC_CONTROL_PREFLIGHT'
-          assert cur['36_09DM_entry_allowed'] is True
+          assert cur['unit']=='36-09DM'
+          assert cur['next_exact_leaf']=='36-09DN_FIXED_P2_FULL_BRAUER_OUTSIDE_CREUTZ_VIRAY_FORMAL_DISK_PREFLIGHT'
+          assert cur['36_09DN_entry_allowed'] is False
           pg=s['promotion_gates']
-          assert pg['36_09DL_exact_head_ci_passed'] is True
-          assert pg['36_09DM_entry_allowed'] is True
-          assert pg['BT_rational_component_image_BM_set_nonempty'] is True
-          for key in ['BT_rational_plus_F5_BM_set_nonempty','BT_full_Creutz_Viray_explicit_image_BM_set_nonempty','BT_full_L1_quotient_computed','BT_Pic0_mod2_computed','BT_full_Creutz_Viray_explicit_image_computed','BT_full_relevant_Brauer_group_computed','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
+          assert pg['36_09DM_certificate_complete'] is True
+          assert pg['36_09DM_exact_head_ci_passed'] is False
+          assert pg['36_09DN_entry_allowed'] is False
+          assert pg['BT_full_Creutz_Viray_explicit_image_BM_set_nonempty'] is True
+          assert pg['BT_full_Creutz_Viray_explicit_image_BM_obstruction_disproved'] is True
+          assert pg['BT_p2_adelic_point_orthogonal_entire_CV_explicit_image'] is True
+          for key in ['BT_full_L1_quotient_computed','BT_Pic0_mod2_computed','BT_full_Creutz_Viray_explicit_image_computed','BT_full_relevant_Brauer_group_computed','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09DL exact-green parent verified and DM unlocked. Full rational-component Brauer set is nonempty; full explicit/full Brauer/BM/fixed-p credit remains open.')
+          print('36-09DM provisional checkpoint verified: entire Creutz-Viray explicit-image Brauer set is nonempty; DN locked pending exact-head CI. Full Brauer/BM/fixed-p/receiver/endpoint credit remains open.')
           PY
           git diff --check
