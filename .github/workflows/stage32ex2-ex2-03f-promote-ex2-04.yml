@@ -30,7 +30,7 @@ jobs:
           from pathlib import Path
           key=json.loads(Path('stages/stage32-ex2/runkeys/ex2-03f-promote-ex2-04.json').read_text())
           assert key['schema']=='STAGE32EX2_EX2_03F_PROMOTE_EX2_04_RUNKEY_V1'
-          assert key['generation']==2 and key['armed'] is True
+          assert key['generation']==3 and key['armed'] is True
           assert key['merge_authorized'] is False
           assert key['transition_path']=='stages/stage32-ex2/promote_ex2_03f_to_ex2_04.py'
           assert key['verifier_path']=='stages/stage32-ex2/verify_main_state.py'
@@ -45,6 +45,11 @@ jobs:
           git merge-base --is-ancestor 226a8aa11ac61293a7e4b7f9611177f68af94ff4 HEAD
           test "$(git rev-list --count 226a8aa11ac61293a7e4b7f9611177f68af94ff4..origin/main)" -eq 2
           test -z "$(git diff --name-only 226a8aa11ac61293a7e4b7f9611177f68af94ff4..origin/main | grep -E '^(stages/stage32/|stages/stage32-ex2/)' || true)"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact replay dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
       - name: Apply exact EX2-03F route transition
         run: python -B stages/stage32-ex2/promote_ex2_03f_to_ex2_04.py
       - name: Reconcile freshness-only main drift
