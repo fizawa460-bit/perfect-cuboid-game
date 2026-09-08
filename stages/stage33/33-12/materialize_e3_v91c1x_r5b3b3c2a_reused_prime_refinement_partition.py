@@ -45,6 +45,13 @@ def build_certificate():
     e11s = load_checked(E11_SOURCE, E11_SOURCE_SHA)
     e11 = load_checked(E11_CERT, E11_CERT_SHA)
 
+    if e11s["audited_stage33_11d"]["hostile_audit_verdict"] != "PASS_STAGE33_11D_CARRIER_PRIME_REFINEMENT":
+        raise SystemExit("audited 33-11d refinement provenance moved")
+    if e11["summary"]["carrier_prime_refinement_coverage"] != "30/30":
+        raise SystemExit("frozen 33-11e carrier-prime refinement coverage moved")
+    if e11["summary"]["stage33_11e_audited"] is not False:
+        raise SystemExit("33-11e audit-status provenance moved; reclassify C2A wording explicitly")
+
     off_ids = list(b["unified_27_classification"]["off_boundary_carrier_ids"])
     if len(off_ids) != 23 or len(set(off_ids)) != 23:
         raise SystemExit("R5B3B3B off-boundary inventory moved")
@@ -66,7 +73,7 @@ def build_certificate():
         raise SystemExit("novel off-boundary count moved")
 
     frozen_inventory = e11s["carrier_inventory"]
-    refinements = e11["carrier_refinements"]
+    refinements = e11["prime_inventory"]["carrier_refinements"]
     prime_records = {row["prime_id"]: row for row in e11["prime_inventory"]["records"]}
 
     reused_rows = []
@@ -77,10 +84,10 @@ def build_certificate():
         if carrier_hash not in frozen_inventory:
             raise SystemExit(f"retained off-boundary carrier absent from 33-11e inventory: {cid}")
         if carrier_hash not in refinements:
-            raise SystemExit(f"retained off-boundary carrier lacks 33-11e refinement: {cid}")
+            raise SystemExit(f"retained off-boundary carrier lacks frozen 33-11e refinement: {cid}")
         pieces = refinements[carrier_hash]
         if not pieces:
-            raise SystemExit(f"empty 33-11e refinement: {cid}")
+            raise SystemExit(f"empty frozen 33-11e refinement: {cid}")
         prime_rows = []
         for piece in pieces:
             pid = piece["prime_id"]
@@ -128,8 +135,8 @@ def build_certificate():
     cert = {
         "schema": "stage33.e3.v91c1x_r5b3b3c2a.reused_prime_refinement_partition.v1",
         "stage": "33-12",
-        "candidate": "V91C1X_R5B3B3C2A_REUSE_AUDITED_33_11E_PRIME_REFINEMENTS_AND_ISOLATE_20_NOVEL_CARRIERS",
-        "role": "EXACT_NONCREDIT_C2_PREFLIGHT_PARTITION_OF_OFFBOUNDARY_CARRIERS_AGAINST_AUDITED_33_11E_STRICT_HEIGHT_ONE_REFINEMENTS",
+        "candidate": "V91C1X_R5B3B3C2A_REUSE_FROZEN_33_11E_PRIME_REFINEMENTS_AND_ISOLATE_20_NOVEL_CARRIERS",
+        "role": "EXACT_NONCREDIT_C2_PREFLIGHT_PARTITION_OF_OFFBOUNDARY_CARRIERS_AGAINST_AUDITED_33_11D_DERIVED_FROZEN_33_11E_STRICT_HEIGHT_ONE_REFINEMENTS",
         "entry": {"pr": 1695, "authority": AUTHORITY, "stage33_progress": "6/11"},
         "source_locks": {
             "r5b3b3a_sha256": B3B3A_SHA,
@@ -137,11 +144,14 @@ def build_certificate():
             "r5b3b3c1_sha256": C1_SHA,
             "stage33_11e_source_lock_sha256": E11_SOURCE_SHA,
             "stage33_11e_prime_galois_transport_certificate_sha256": E11_CERT_SHA,
+            "stage33_11d_hostile_audit_verdict": e11s["audited_stage33_11d"]["hostile_audit_verdict"],
+            "stage33_11e_recorded_status": e11["summary"]["stage33_11e_status"],
+            "stage33_11e_recorded_audited": e11["summary"]["stage33_11e_audited"],
         },
         "exact_partition": {
             "off_boundary_carrier_count": len(off_ids),
-            "reused_audited_strict_prime_refinement_carrier_count": len(reused_rows),
-            "reused_audited_strict_prime_refinement_carrier_ids": retained_off,
+            "reused_frozen_strict_prime_refinement_carrier_count": len(reused_rows),
+            "reused_frozen_strict_prime_refinement_carrier_ids": retained_off,
             "reused_distinct_actual_strict_prime_count": len(reused_prime_ids),
             "reused_distinct_actual_strict_prime_ids": sorted(reused_prime_ids),
             "reused_carrier_rows": reused_rows,
@@ -153,7 +163,7 @@ def build_certificate():
             "all_twenty_novel_carriers_absent_from_frozen_33_11e_inventory": True,
         },
         "construction_status": {
-            "existing_strict_height_one_prime_refinements_reused_for_three_carriers": True,
+            "frozen_strict_height_one_prime_refinements_reused_for_three_carriers": True,
             "twenty_novel_carrier_section_prime_decompositions_materialized": False,
             "c1_base_factor_to_strict_prime_adapter_materialized_for_all_21_unique_factors": False,
             "exceptional_prime_attachment_for_all_offboundary_carriers_materialized": False,
@@ -163,7 +173,8 @@ def build_certificate():
         },
         "exact_consequence": {
             "c2_prime_decomposition_work_reduced_from_23_carrier_sections_to_20_genuinely_new_sections": True,
-            "three_reused_carriers_keep_their_audited_33_11e_strict_prime_multisets": True,
+            "three_reused_carriers_keep_their_frozen_33_11e_strict_prime_multisets": True,
+            "frozen_33_11e_transport_certificate_is_not_relabelled_as_hostile_audited": True,
             "absence_from_the_frozen_33_11e_inventory_is_not_used_as_a_mathematical_nonexistence_claim": True,
             "strict_prime_reuse_does_not_identify_each_c1_base_norm_factor_with_a_resolved_prime": True,
             "strict_prime_reuse_does_not_supply_exceptional_divisor_multiplicities": True,
