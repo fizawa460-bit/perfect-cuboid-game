@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX3_MAIN_COMPACT_STATE_V1_BOOTSTRAP",
+  "schema": "STAGE32EX3_MAIN_COMPACT_STATE_V1_RETAINED_EX3_09_CLAIM_SYNC_PENDING",
   "role": "ORDINARY_STAGE32EX3_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX3",
   "execution": {
@@ -10,9 +10,9 @@
     "audit_contract": "stages/stage32-ex3/AUDIT-CONTRACT.md"
   },
   "bootstrap": {
-    "base_main_sha": "3fac7357de3a7b7cf657e1ac3d55ed01d6d9334b",
-    "work_branch": "stage32ex3-o210-cover-monodromy-mainline",
-    "active_work_pr": 1702,
+    "base_main_sha": "538913633330a8414c87931d3c52f93e4aaf5d0f",
+    "work_branch": "stage32ex3-ex3-00-typed-cover-tower",
+    "active_work_pr": 1714,
     "merge_authorized": false
   },
   "authority": {
@@ -46,10 +46,7 @@
     "mathematical_candidate_state": "AUDIT_READY_FULL_TARGET_CLOSURE",
     "audited_success_state": "FULL_TARGET_CLOSURE",
     "full_target_closure_is_decision_state": true,
-    "allowed_terminal_outcomes": [
-      "O210_COVER_GEOMETRY_EXCLUDED",
-      "GENUINE_O210_COVER_CONFIGURATION_ESTABLISHED"
-    ],
+    "allowed_terminal_outcomes": ["O210_COVER_GEOMETRY_EXCLUDED", "GENUINE_O210_COVER_CONFIGURATION_ESTABLISHED"],
     "terminal_outcome": null,
     "exclusion_requires_population_preserving_cover_exhaustiveness": true,
     "exclusion_requires_all_residual_monodromy_realization_cases_disposed": true,
@@ -64,25 +61,32 @@
     "hostile_audit_pass_required_for_audited_success": true
   },
   "current": {
-    "status": "BOOTSTRAP_ROADMAP_READY_UNAUDITED",
-    "leaf": "EX3-00_SOURCE_LOCK_AND_TYPED_COVER_TOWER",
-    "subroute": "LOCK_N_Y_D_C0_X4_DEGREES_RAMIFICATION_GROUPS_AND_CORRESPONDENCE_INTERFACES",
-    "objective": "Freeze the exact O210/qprime=4 carrier-to-cover tower and type every degree, ramification total, group action, contact profile, and Q602 interface before monodromy classification.",
-    "next_route_on_success": "EX3-01_EXTREMAL_FIRST_PROJECTION_DEGREE105_ETALE_COVER",
-    "next_route_on_block": "RECORD_TYPED_MISSING_ADAPTER_AND_SELECT_DISTINCT_COVER_OR_LOCAL_MONODROMY_LANE",
-    "stop_semantics": "LEAF_GATE_ONLY_NOT_STAGE_EXHAUSTION"
+    "status": "EX3_09_RETAINED_PROVISIONAL_TERMINAL_CANDIDATE_CLAIM_SYNC_PENDING",
+    "leaf": "EX3-09_TERMINAL_DECISION_CERTIFICATE",
+    "subroute": "CLAIM_DAG_SYNC_BEFORE_HOSTILE_AUDIT",
+    "objective": "Synchronize the retained EX3-09 O210 trace-zero terminal candidate into the Stage32 claim DAG without changing Stage32 MAIN authority; only then hand the exact PR head to stage32ex3-audit.",
+    "next_route_on_success": "STAGE32EX3_HOSTILE_AUDIT_HANDOFF",
+    "next_route_on_block": "REPAIR_CLAIM_SYNC_OR_RETAINED_TERMINAL_SOURCE_LOCKS",
+    "stop_semantics": "RETAINED_CANDIDATE_ONLY_NO_AUDIT_CREDIT_NO_MAIN_PROMOTION"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex3/stage32-ex3.md",
     "stages/stage32-ex3/verify_main_state.py",
-    "stages/stage32/MAIN-STATE.json",
-    "stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-source-note.md",
-    "stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json",
-    "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-source-note.md"
+    "stages/stage32-ex3/ex3-00-o210-typed-cover-tower.json",
+    "stages/stage32-ex3/verify_ex3_00_o210_typed_cover_tower.py",
+    "stages/stage32-ex3/ex3-04h-graph-trace-zero-source-note.md",
+    "stages/stage32-ex3/ex3-04h-self-contained-trace-contradiction.json",
+    "stages/stage32-ex3/verify_ex3_04h_self_contained_trace_contradiction.py",
+    "stages/stage32-ex3/ex3-09-o210-cover-geometry-exclusion-candidate.json",
+    "stages/stage32-ex3/verify_ex3_09_o210_cover_geometry_exclusion_candidate.py",
+    "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md",
+    "stages/stage32/STAGE32-PROOF-PATH.md",
+    "stages/stage32/proof/CLAIM-REGISTRY.json",
+    "stages/stage32/proof/LANE-ADAPTERS.json"
   ],
   "frontier": {
-    "EX3_00_source_lock_complete": false,
-    "typed_cover_tower_complete": false,
+    "EX3_00_source_lock_complete": true,
+    "typed_cover_tower_complete": true,
     "degree105_etale_cover_classified": false,
     "degree81_branch_cycle_ledger_complete": false,
     "O210_contact_to_ramification_adapter_complete": false,
@@ -97,37 +101,46 @@
     "terminal_outcome": null,
     "full_target_closure": false
   },
+  "candidate_frontier": {
+    "self_contained_trace_gate_retained": true,
+    "trace_zero_forced": true,
+    "Q602_zero_forbidden": true,
+    "population_preserving_direct_contradiction_candidate": true,
+    "later_monodromy_nielsen_casework_dominated_not_claimed_executed": true,
+    "terminal_candidate": "O210_COVER_GEOMETRY_EXCLUDED",
+    "ready_for_claim_dag_sync": true,
+    "claim_dag_sync_complete": false,
+    "hostile_audit_ready_after_sync": true
+  },
   "parallel_lanes": {
     "enabled_after_EX3_00": true,
-    "lanes": [
-      "ETALE_105_MONODROMY_LANE",
-      "RAMIFIED_81_BRANCH_CYCLE_LANE",
-      "O210_LOCAL_CONTACT_ADAPTER_LANE",
-      "V4_SIMULTANEOUS_COVER_LANE",
-      "NIELSEN_HURWITZ_LANE",
-      "CORRESPONDENCE_Q602_ADAPTER_LANE",
-      "GEOMETRIC_REALIZABILITY_LANE"
-    ],
+    "lanes": ["ETALE_105_MONODROMY_LANE", "RAMIFIED_81_BRANCH_CYCLE_LANE", "O210_LOCAL_CONTACT_ADAPTER_LANE", "V4_SIMULTANEOUS_COVER_LANE", "NIELSEN_HURWITZ_LANE", "CORRESPONDENCE_Q602_ADAPTER_LANE", "GEOMETRIC_REALIZABILITY_LANE"],
     "scratch_results_authoritative": false,
-    "cross_lane_use_requires_explicit_provisional_or_audited_dependency_status": true
+    "cross_lane_use_requires_explicit_provisional_or_audited_dependency_status": true,
+    "current_direct_contradiction_candidate_dominates_later_casework_if_accepted": true
   },
   "source_seeds": {
-    "bidegree_note": {
-      "path": "stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-source-note.md",
-      "blob_sha1_observed": "deeecac5599f3b542b445cd87c2070dae488bc85"
-    },
-    "common_cover_identity": {
-      "path": "stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json",
-      "blob_sha1_observed": "def8b60b726c02aa7ee97c0cc25b34f43525ec34",
-      "canonical_sha256_observed": "eb31183bf519fec4ad5bb2d0799b3f0a64b7af893308e09ce0c33119b63440a1"
-    },
-    "bolza_correspondence_rosati_note": {
-      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-source-note.md",
-      "blob_sha1_observed": "25e365475b41c917a4bab5acc06bda5e9738b8e7"
-    }
+    "bidegree_note": {"path": "stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-source-note.md", "blob_sha1_observed": "deeecac5599f3b542b445cd87c2070dae488bc85"},
+    "common_cover_identity": {"path": "stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json", "blob_sha1_observed": "def8b60b726c02aa7ee97c0cc25b34f43525ec34", "canonical_sha256_observed": "eb31183bf519fec4ad5bb2d0799b3f0a64b7af893308e09ce0c33119b63440a1"},
+    "bolza_correspondence_rosati_note": {"path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-source-note.md", "blob_sha1_observed": "25e365475b41c917a4bab5acc06bda5e9738b8e7"}
+  },
+  "retained_leaves": {
+    "EX3_00": {"status": "RETAINED_PROVISIONAL_UNAUDITED", "artifact": {"path": "stages/stage32-ex3/ex3-00-o210-typed-cover-tower.json", "blob_sha1": "c28bda6c20340b4fc4ac060db158ca30926ecb38", "canonical_sha256": "3a743b0607c59dc959f383fca8d97e54e8a740d197401e4c080b6fc4c94eaf07"}, "verifier": {"path": "stages/stage32-ex3/verify_ex3_00_o210_typed_cover_tower.py", "blob_sha1": "f605650c62e3d67fb55043fc440c501c70542a87"}, "credit_ceiling": "PROVISIONAL_NECESSARY_CONDITION_ONLY_UNAUDITED"},
+    "EX3_04H": {"status": "RETAINED_PROVISIONAL_TERMINAL_GATE_UNAUDITED", "artifact": {"path": "stages/stage32-ex3/ex3-04h-self-contained-trace-contradiction.json", "blob_sha1": "a3996fe963e4f730839212bf4681d30d48d61617", "canonical_sha256": "8b05a01fad417d6cfde53506fbab660ccf826986a73bb3101ce249aed496d9c2"}, "verifier": {"path": "stages/stage32-ex3/verify_ex3_04h_self_contained_trace_contradiction.py", "blob_sha1": "7506fc5420fdbc096ac3203f2dda3c66a07ce360"}, "credit_ceiling": "PROVISIONAL_FIXED_TARGET_TRACE_CONTRADICTION_UNAUDITED"},
+    "EX3_09": {"status": "RETAINED_PROVISIONAL_TERMINAL_CANDIDATE_CLAIM_SYNC_PENDING_UNAUDITED", "artifact": {"path": "stages/stage32-ex3/ex3-09-o210-cover-geometry-exclusion-candidate.json", "blob_sha1": "0114531c52730730e9a35ad1c8d8aea21eed03e9", "canonical_sha256": "9244f82daef79306abe99d8a3ccee111c80c4c057f1b5f7df3bafd5500d8ca21"}, "verifier": {"path": "stages/stage32-ex3/verify_ex3_09_o210_cover_geometry_exclusion_candidate.py", "blob_sha1": "6da6d509567b4b3523429ce865d1e47290b301f9"}, "planned_claim_id": "S32.EX3.O210_COVER_GEOMETRY_EXCLUSION_TERMINAL.V1", "credit_ceiling": "RETAINED_PROVISIONAL_TERMINAL_CANDIDATE_UNAUDITED"}
+  },
+  "management": {
+    "retained_consolidation_complete": true,
+    "claim_sync_trigger": "RETAINED_CONSOLIDATION",
+    "claim_sync_contract": "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md",
+    "claim_sync_status": "PENDING_FAIL_CLOSED",
+    "claim_sync_may_not_upgrade_authority_before_completion": true,
+    "preserve_existing_audited_EX1_V2_exactly": true,
+    "preserve_existing_audited_EX4_V2_exactly": true,
+    "active_frontier_not_remapped_by_this_retention": true
   },
   "credit": {
-    "level": "BOOTSTRAP_NO_MATHEMATICAL_CREDIT",
+    "level": "RETAINED_PROVISIONAL_TERMINAL_CANDIDATE_UNAUDITED_CLAIM_SYNC_PENDING",
     "necessary_condition_only": false,
     "branch_exclusion": false,
     "O210_cover_geometry_excluded": false,
@@ -141,8 +154,8 @@
     "endpoint_credit": false
   },
   "audit": {
-    "status": "NOT_READY_BOOTSTRAP_ONLY",
-    "candidate_pr": 1702,
+    "status": "BLOCKED_PENDING_CLAIM_DAG_SYNC",
+    "candidate_pr": 1714,
     "exact_head": null,
     "review_id": null,
     "result": null,
