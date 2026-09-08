@@ -47,62 +47,52 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09DM.py"
           git worktree remove --force "$tmp"
-      - name: Replay immutable DM intermediate-audit promotion checkpoint
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=e8d73c21a6cd40281210b8abc8e4fbb8309c5cb2
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 - "$tmp" <<'PY'
-          import json,subprocess,sys
-          from pathlib import Path
-          root=Path(sys.argv[1])
-          rp=root/'stages/stage36/36-09DM/intermediate-hostile-audit-pass-receipt.json'
-          r=json.loads(rp.read_text())
-          assert subprocess.check_output(['git','hash-object',str(rp.relative_to(root))],cwd=root,text=True).strip()=='66cd600ed6c49c240840c89e960881e05bbbdf84'
-          assert r['status']=='PASS'
-          assert r['audited_exact_head']=='12bf7eb1ee7da6bf0e7ac8f35df9e5379d8e65cb'
-          s=json.loads((root/'stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V190_36_09DM_INTERMEDIATE_AUDIT_PASS_PENDING_PROMOTION_REPLAY'
-          assert s['promotion_gates']['36_09DM_exact_head_ci_passed'] is True
-          assert s['promotion_gates']['36_09DM_intermediate_hostile_audit_passed'] is True
-          assert s['promotion_gates']['36_09DN_entry_allowed'] is False
-          PY
-          git worktree remove --force "$tmp"
-      - name: Assert V191 audited DM parent and DN unlock firewalls
+      - name: Verify immutable DM intermediate hostile-audit receipt
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
           import json,subprocess
           from pathlib import Path
-          s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V191_36_09DM_INTERMEDIATE_AUDIT_PROMOTED_DN_UNLOCKED'
-          dm=s['authority_frontier']['36-09DM']
-          assert dm['status']=='INTERMEDIATE_HOSTILE_AUDIT_PASS_EXACT_GREEN_PROMOTED_PARENT'
-          assert dm['exact_head']=='12bf7eb1ee7da6bf0e7ac8f35df9e5379d8e65cb'
-          assert dm['exact_head_ci']=='34215518432/102026227390'
-          assert dm['intermediate_audit_receipt_blob_sha']=='66cd600ed6c49c240840c89e960881e05bbbdf84'
-          assert dm['audit_promotion_replay_head']=='e8d73c21a6cd40281210b8abc8e4fbb8309c5cb2'
-          assert dm['audit_promotion_replay_ci']=='34217044016/102031149894'
-          assert dm['external_review_id'] is None
-          assert dm['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_BM_SET_NONEMPTY'] is True
-          assert dm['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_BM_OBSTRUCTION_DISPROVED'] is True
-          assert dm['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_COMPUTED'] is False
-          assert dm['FULL_BRAUER_GROUP_COMPUTED'] is False
           rp=Path('stages/stage36/36-09DM/intermediate-hostile-audit-pass-receipt.json')
+          r=json.loads(rp.read_text())
           assert subprocess.check_output(['git','hash-object',str(rp)],text=True).strip()=='66cd600ed6c49c240840c89e960881e05bbbdf84'
-          cur=s['current']; pg=s['promotion_gates']
+          assert r['status']=='PASS'
+          assert r['audited_exact_head']=='12bf7eb1ee7da6bf0e7ac8f35df9e5379d8e65cb'
+          PY
+      - name: Verify 36-09DN full exponent-2 Brauer common-neighborhood result
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09DN.py
+      - name: Assert V192 DN provisional firewalls and DO lock
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V192_36_09DN_FULL_BR2_PENDING_EXACT_HEAD_CI'
+          dn=s['authority_frontier']['36-09DN']
+          assert dn['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert dn['certificate_blob_sha']=='bffce7f0e27a9f92f12657bcca1b71cddce7ccaa'
+          assert dn['verifier_blob_sha']=='e4f95de22e54c631b402699cbfe7c2cd2fa97eee'
+          assert dn['source_blob_sha']=='60984a1f42b999e770219398690e833b54c8eb0f'
+          assert dn['FULL_BR2_BRAUER_SET_NONEMPTY'] is True
+          assert dn['FULL_BR2_BRAUER_MANIN_OBSTRUCTION_DISPROVED'] is True
+          assert dn['FULL_2PRIMARY_BRAUER_SET_NONEMPTY'] is False
+          assert dn['FULL_BRAUER_SET_NONEMPTY'] is False
+          cur=s['current'];pg=s['promotion_gates']
           assert cur['unit']=='36-09DN'
-          assert cur['36_09DN_entry_allowed'] is True
-          assert cur['hostile_audit_checkpoint_reached'] is True
-          assert pg['36_09DM_exact_head_ci_passed'] is True
-          assert pg['36_09DM_intermediate_hostile_audit_passed'] is True
-          assert pg['36_09DM_audit_promotion_replay_passed'] is True
-          assert pg['36_09DN_entry_allowed'] is True
-          for key in ['BT_full_L1_quotient_computed','BT_Pic0_mod2_computed','BT_full_Creutz_Viray_explicit_image_computed','BT_full_relevant_Brauer_group_computed','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
+          assert cur['36_09DO_entry_allowed'] is False
+          assert pg['36_09DN_certificate_complete'] is True
+          assert pg['36_09DN_exact_head_ci_passed'] is False
+          assert pg['36_09DO_entry_allowed'] is False
+          assert pg['BT_full_Br2_Brauer_set_nonempty'] is True
+          assert pg['BT_full_Br2_Brauer_Manin_obstruction_disproved'] is True
+          for key in ['BT_full_2primary_Brauer_set_nonempty','BT_full_Brauer_set_nonempty','BT_full_relevant_Brauer_group_computed','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          print('36-09DM audited exact-green parent promoted; 36-09DN is unlocked. Full Brauer/BM/fixed-p/receiver/endpoint credit remains open.')
+          print('36-09DN provisional exact-head candidate verified; full Br[2] Brauer set is nonempty, while higher 2-primary/full Brauer/fixed-p/receiver/endpoint credit remains locked pending exact-head CI.')
           PY
           git diff --check

@@ -1,0 +1,107 @@
+{
+  "schema":"STAGE36_36_09DN_FIXED_P2_FULL_BRAUER_2TORSION_COMMON_NEIGHBORHOOD_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09DN",
+  "status":"PASS_RETAINED_OPEN_FULL_BR2_BRAUER_SET_NONEMPTY_BY_LOCAL_FINITE_IMAGE_COMMON_NEIGHBORHOODS",
+  "base_main_sha":"e98b06455d34bf2f346d297d9370e82fc2a71970",
+  "batch_parent":{
+    "pr":1712,
+    "36_09DM_exact_green_head":"12bf7eb1ee7da6bf0e7ac8f35df9e5379d8e65cb",
+    "36_09DM_exact_head_ci":"34215518432/102026227390",
+    "intermediate_hostile_audit_receipt_blob":"66cd600ed6c49c240840c89e960881e05bbbdf84",
+    "audit_promotion_replay_head":"e8d73c21a6cd40281210b8abc8e4fbb8309c5cb2",
+    "audit_promotion_replay_ci":"34217044016/102031149894",
+    "DN_unlock_sync_head":"ddb470122413038f1e08738d0dbe48953585546e",
+    "DN_unlock_ci":"34224426949/102054967101"
+  },
+  "source_locks":{
+    "local_br2_common_neighborhood":{"path":"stages/stage36/36-09DN/full-br2-local-common-neighborhood-source-lock.md","blob_sha":"60984a1f42b999e770219398690e833b54c8eb0f"},
+    "stage36_36_09DM":{"path":"stages/stage36/36-09DM/fixed-p2-full-cv-explicit-image-boundary-adelic-control-preflight.json","blob_sha":"95956c74aca1aca1601a1f4c77b66bfb226a5198"},
+    "stage36_36_09DF":{"path":"stages/stage36/36-09DF/fixed-p2-creutz-viray-complement-local-obstruction-preflight.json","blob_sha":"e2ad1a187dc607b558288a6cad91272c021dd493"},
+    "stage36_36_09DD_source":{"path":"stages/stage36/36-09DD/creutz-viray-explicit-image-completeness-source-lock.md","blob_sha":"632e908d3fcd4d1f3511be99b3993469537e3c07"}
+  },
+  "fixed_curve":{
+    "curve":"C3_2: z^2=(t^2+4)(t^2+1/4)(t^2+9)(t^2+1/9)",
+    "genus":3,
+    "reference_point":{"name":"P0","t":"0","z":"1","Q_rational":true,"smooth":true,"retained_open":false},
+    "retained_open_boundary_contains":["t=0","t=1","t=-1","t=infinity"],
+    "retained_open_is_nonempty_local_punctured_neighborhood_of_P0":true
+  },
+  "local_padic_input":{
+    "for_each_finite_place_v":"K=Q_v, C=C3_2 x_Q K, J=Jac(C)",
+    "Lichtenbaum_pairing":"Pic(C) x Br(C) -> Br(K)=Q/Z is perfect/nondegenerate in the p-adic curve sense",
+    "P0_splits_degree_map":true,
+    "nonconstant_local_2torsion_quotient":"(Br(C)/Br(K))[2]",
+    "nonconstant_local_2torsion_quotient_finite":true,
+    "finiteness_reason":"dual/Kummer-local-Tate description reduces exponent-2 nonconstant classes to the finite group J(K)/2J(K), equivalently to a finite H^1(K,J)[2] quotient",
+    "covers_v2":true,
+    "requires_good_reduction":false
+  },
+  "local_constancy_uniformization":{
+    "per_class_theorem":"Uematsu Theorem 1.1: evaluation of any fixed Brauer class on a smooth local-field scheme is locally constant",
+    "finite_representatives_suffice_mod_constants":true,
+    "common_neighborhood":"N_v(P0)=finite intersection of classwise constant neighborhoods for representatives of (Br(C)/Br(Q_v))[2]",
+    "for_every_A_in_local_Br2":"A(P)=A(P0) in Br(Q_v) for all P in N_v(P0), up to the identical constant-class contribution",
+    "uniform_for_all_local_2torsion_classes":true,
+    "uniform_for_all_2primary_classes":false,
+    "uniform_for_full_Brauer_group":false
+  },
+  "retained_open_point_selection":{
+    "smooth_local_parameter_reason":"At P0 the defining equation has d/dz=2 != 0 over every Q_v, so there are local analytic curve points with nonzero t arbitrarily close to P0.",
+    "finite_places":"choose P_v in N_v(P0) intersect U_ret(Q_v); outside v=2,3 choose it integral",
+    "real_place":"choose a nonboundary point on the positive-z connected component through P0",
+    "adelic_tuple_exists":true,
+    "all_components_in_retained_open":true,
+    "integral_at_all_but_finitely_many_places":true,
+    "same_evaluation_as_P0_for_every_global_2torsion_class_at_every_place":true
+  },
+  "global_Br2_consequence":{
+    "target_group":"Br(C3_2)[2]",
+    "for_every_A":"sum_v inv_v(A(P_v)) = sum_v inv_v(A(P0))",
+    "P0_global_evaluation":"A(P0) in Br(Q)",
+    "global_reciprocity":"sum_v inv_v(A(P0))=0",
+    "retained_open_adelic_point_orthogonal_to_entire_Br2_exists":true,
+    "full_Br2_Brauer_set_nonempty":true,
+    "full_Br2_Brauer_Manin_obstruction_disproved_for_fixed_p2_retained_open":true,
+    "includes_classes_outside_Creutz_Viray_explicit_image":true
+  },
+  "relation_to_DM":{
+    "DM_explicit_adelic_recipe_needed_for_DN_existence":false,
+    "DM_global_reference_point_P0_reused":true,
+    "DM_explicit_image_result_remains_valid":true,
+    "DN_upgrade":"replace explicit-image squareclass control by local finiteness plus common analytic neighborhoods to cover the entire exponent-2 Brauer group"
+  },
+  "current_credit_boundary":{
+    "full_Br2_Brauer_set_nonempty":true,
+    "full_Br2_Brauer_Manin_obstruction_disproved":true,
+    "full_Creutz_Viray_explicit_image_computed":false,
+    "Creutz_Viray_explicit_image_equals_full_Br2":false,
+    "full_2primary_Brauer_set_nonempty":false,
+    "full_Brauer_set_nonempty":false,
+    "full_Brauer_group_computed":false,
+    "Brauer_Manin_obstruction_from_full_Brauer_group_proved":false,
+    "fixed_p_2_branch_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false
+  },
+  "route_result":{
+    "route_status":"PASS_FULL_BR2_NO_GO_PIVOT_TO_2PRIMARY_AND_FULL_BRAUER_RELEVANCE_BOUNDARY",
+    "next_leaf":"36-09DO_FIXED_P2_2PRIMARY_FULL_BRAUER_RELEVANCE_BOUNDARY_PREFLIGHT",
+    "next_leaf_semantics":"Determine whether exponent-2 Brauer-set nonemptiness is sufficient for the Stage36 fixed-p2 receiver, or whether higher 2-power and odd-primary Brauer classes can add an obstruction. Test exact curve-specific literature before using the provisional Kummer 2-primary gate: C3_2 is a genus-three curve, not an audited Kummer variety. Do not infer full-Brauer or fixed-p exclusion credit from DN."
+  },
+  "scope_firewalls":{
+    "all_2primary_Brauer_classes_controlled":false,
+    "all_Brauer_classes_controlled":false,
+    "LIT_PW05_Kummer_gate_applicable":false,
+    "Creutz_Viray_explicit_image_equals_full_Br2":false,
+    "full_Brauer_group_computed":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
