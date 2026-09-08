@@ -29,6 +29,7 @@ REQUIRED_ACTIVE_IDS = {
 }
 ALLOWED_LANES = {"MAIN", "EX1", "EX2", "EX3", "EX4", "EX5"}
 ALLOWED_LANE_ROLES = {"OWNER", "ATTACKS", "CONSUMES"}
+ALLOWED_FRONTIER_STATUS = {"AUDITED_TRUE", "OPEN_GOAL", "OPEN_BRANCH", "BLOCKED_OPEN_GOAL", "ACTIVE_INCOMPLETE"}
 
 
 def load_json(path: Path) -> dict:
@@ -64,6 +65,9 @@ def main() -> int:
             raise RuntimeError("active-frontier schema inheritance drift")
         if active.get("claim_core_keys") != basev.CORE_KEYS:
             raise RuntimeError("active-frontier immutable claim core drift")
+        status_contract = active.get("status_contract")
+        if not isinstance(status_contract, dict) or set(status_contract) != ALLOWED_FRONTIER_STATUS:
+            raise RuntimeError("active-frontier status contract drift")
 
         base_claims = basev.validate_registry_shape(base)
         active_claims = active.get("claims")
@@ -93,13 +97,18 @@ def main() -> int:
         owner_claims: list[str] = []
         for claim in active_claims:
             cid = claim["claim_id"]
-            if not isinstance(claim.get("frontier_status"), str) or not claim["frontier_status"]:
-                raise RuntimeError(f"{cid}: missing frontier_status")
+            frontier_status = claim.get("frontier_status")
+            if frontier_status not in ALLOWED_FRONTIER_STATUS:
+                raise RuntimeError(f"{cid}: invalid frontier_status {frontier_status!r}")
             blockers = claim.get("blockers")
             if not isinstance(blockers, list):
                 raise RuntimeError(f"{cid}: blockers must be a list")
             if claim["authority_status"] != "AUDITED" and not blockers:
                 raise RuntimeError(f"{cid}: non-audited active goal requires explicit blockers")
+            if claim["authority_status"] == "AUDITED" and frontier_status != "AUDITED_TRUE":
+                raise RuntimeError(f"{cid}: AUDITED active claim must use AUDITED_TRUE frontier status")
+            if frontier_status == "AUDITED_TRUE" and claim["authority_status"] != "AUDITED":
+                raise RuntimeError(f"{cid}: AUDITED_TRUE cannot coexist with non-AUDITED authority")
             links = claim.get("lane_links")
             if not isinstance(links, list) or not links:
                 raise RuntimeError(f"{cid}: lane_links must be nonempty")
@@ -148,11 +157,13 @@ def main() -> int:
             raise RuntimeError("audited Q602 survivor frontier drift")
 
         status_counts = Counter(c["authority_status"] for c in active_claims)
+        frontier_status_counts = Counter(c["frontier_status"] for c in active_claims)
         print(json.dumps({
             "verdict": "PASS_STAGE32_ACTIVE_FRONTIER_DAG",
             "active_claim_count": len(active_claims),
             "active_claim_ids": sorted(active_ids),
             "active_authority_status_counts": dict(sorted(status_counts.items())),
+            "active_frontier_status_counts": dict(sorted(frontier_status_counts.items())),
             "ex_lane_targets": {k: sorted(v) for k, v in sorted(lane_to_claims.items())},
             "combined_claim_count": len(combined_claims),
             "source_locks_checked": source_lock_count,
