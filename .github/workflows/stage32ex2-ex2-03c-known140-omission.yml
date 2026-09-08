@@ -1,0 +1,114 @@
+name: Stage32EX2 EX2-03C known140 omission diagnostic
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [synchronize]
+    paths:
+      - 'stages/stage32-ex2/runkeys/ex2-03c-known140-omission.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32ex2-ex2-03c-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - id: gate
+        name: Require fresh semantic run-key arm in before..head
+        shell: bash
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32-ex2/runkeys/ex2-03c-known140-omission.json'
+          BEFORE='${{ github.event.before }}'
+          HEAD='${{ github.event.pull_request.head.sha }}'
+          authorized=false
+          if [ -n "$BEFORE" ]; then
+            git fetch --no-tags --depth=1 origin "$BEFORE" || true
+            if git cat-file -e "$BEFORE^{commit}" 2>/dev/null \
+               && git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY"; then
+              if BEFORE="$BEFORE" HEAD="$HEAD" KEY="$KEY" python - <<'PY'
+          import json, os, subprocess
+          before = os.environ['BEFORE']
+          key = os.environ['KEY']
+          new = json.load(open(key))
+          try:
+              old = json.loads(subprocess.check_output(['git','show',f'{before}:{key}'], text=True))
+              old_generation = int(old.get('generation', -1))
+          except subprocess.CalledProcessError:
+              old_generation = -1
+          assert new['schema'] == 'STAGE32EX2_EX2_03C_RUNKEY_V1'
+          assert new['armed'] is True
+          assert int(new['generation']) > old_generation
+          assert new['execution']['planned_jobs'] == 1
+          assert new['execution']['planned_parallelism'] == 1
+          assert new['execution']['artifact_upload'] is False
+          assert new['execution']['projected_persisted_artifact_bytes'] == 0
+          script = new['source_locks']['diagnostic_path']
+          actual = subprocess.check_output(['git','hash-object',script], text=True).strip()
+          assert actual == new['source_locks']['diagnostic_blob_sha1']
+          assert new['target_zero_labels_1based'] == [17,21,24,25,30,31,98]
+          PY
+              then
+                authorized=true
+              fi
+            fi
+          fi
+          echo "authorized=$authorized" >> "$GITHUB_OUTPUT"
+          echo "authorized=$authorized"
+
+  diagnostic:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Assert exact head and clean checkout
+        run: |
+          test "$(git rev-parse HEAD)" = '${{ github.event.pull_request.head.sha }}'
+          test -z "$(git status --porcelain --untracked-files=all)"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact locked dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0' 'scipy==1.15.3' 'numpy==2.2.6'
+      - name: Run seven exact omission searches
+        run: python stages/stage32-ex2/diagnose_ex2_03c_known140_omission.py > /tmp/ex2-03c-result.json
+      - name: Validate and expose compact result
+        run: |
+          python - <<'PY'
+          import json
+          p='/tmp/ex2-03c-result.json'
+          d=json.load(open(p))
+          assert d['schema']=='STAGE32EX2_EX2_03C_KNOWN140_ZERO_CURVE_OMISSION_DIAGNOSTIC_V1'
+          assert d['status']=='EXACT_BOUNDED_DIAGNOSTIC_COMPLETE'
+          print('certified_nonfixed_zero_labels_1based=', d['summary']['certified_nonfixed_zero_labels_1based'])
+          print('unresolved_zero_labels_1based=', d['summary']['unresolved_zero_labels_1based'])
+          print('exact_omission_witness_count=', d['summary']['exact_omission_witness_count'])
+          print('canonical_sha256=', d['canonical_sha256_without_this_field'])
+          PY
+          cat /tmp/ex2-03c-result.json
+      - name: Enforce no persisted artifacts and clean repository
+        run: |
+          test -z "$(git status --porcelain --untracked-files=all)"
