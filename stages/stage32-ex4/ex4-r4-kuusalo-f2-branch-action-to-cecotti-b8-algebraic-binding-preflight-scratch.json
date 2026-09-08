@@ -1,0 +1,274 @@
+{
+  "schema": "STAGE32EX4_R4_KUUSALO_F2_BRANCH_ACTION_TO_CECOTTI_B8_ALGEBRAIC_BINDING_PREFLIGHT_SCRATCH_V1",
+  "stage": "32EX4",
+  "leaf": "EX4-R4_KUUSALO_F2_BRANCH_ACTION_TO_CECOTTI_B8_ALGEBRAIC_BINDING_PREFLIGHT",
+  "status": "SCRATCH_REPLAYABLE_F2_BRANCH_ACTION_FOUR_B8_CONJUGATES_LITERAL_B8_NOT_SOURCE_SELECTED",
+  "prior_r3": {
+    "artifact": "stages/stage32-ex4/ex4-r3-kuusalo-second-generator-pair-preflight-scratch.json",
+    "blob_sha1": "660e9fe853badddd0e218183623011d1efe43348",
+    "canonical_sha256": "d5443619f6b781d13725fea69adf5f53ed24d412ffabf7c82b78e20a950310d4",
+    "projective_pair_count": 24,
+    "projective_delta_line_counts": {
+      "L1": 8,
+      "L2": 8,
+      "L3": 8
+    }
+  },
+  "source_convention": {
+    "branch_labels": [
+      "infinity",
+      "0",
+      "+1",
+      "+i",
+      "-1",
+      "-i"
+    ],
+    "kuusalo_case_D_curve": "w^2=z^5-z",
+    "r1_reduced_quarter_turn": "r(z)=i*z",
+    "r1_reduced_quarter_turn_permutation": {
+      "infinity": "infinity",
+      "0": "0",
+      "+1": "+i",
+      "+i": "-1",
+      "-1": "-i",
+      "-i": "+1"
+    },
+    "source_delta0inf_coordinate_mod2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "source_symplectic_form_mod2": [
+      [
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0
+      ]
+    ],
+    "f1_h1_matrix": [
+      [
+        1,
+        1,
+        -1,
+        0
+      ],
+      [
+        0,
+        -1,
+        1,
+        -1
+      ],
+      [
+        1,
+        0,
+        1,
+        -1
+      ],
+      [
+        1,
+        1,
+        0,
+        -1
+      ]
+    ],
+    "f2_h1_matrix": [
+      [
+        0,
+        0,
+        0,
+        -1
+      ],
+      [
+        0,
+        0,
+        -1,
+        1
+      ],
+      [
+        1,
+        1,
+        -1,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        -1
+      ]
+    ],
+    "action_convention": "direct column action of the Kuusalo homology matrices, matching R1-R3 finite transports"
+  },
+  "external_sources": {
+    "kuusalo_naatanen": {
+      "title": "Geometric uniformization in genus 2",
+      "year": 1995,
+      "url": "https://www.acadsci.fi/mathematica/Vol20/kuusalo.pdf",
+      "locators": [
+        "paper p.405: Case D w^2=z^5-z, W={0,infinity,+/-1,+/-i}",
+        "paper p.409: f2 is the 2pi/3 rotation around triangle center P, f2=f3 o f4, and theta(f2) is explicit"
+      ],
+      "exact_supported_facts": [
+        "Case D has the six labelled branch values {0,infinity,+/-1,+/-i}.",
+        "The quarter-turn Case D reduced generator is z->i z.",
+        "The Section 5 canonical homology basis and theta(f1), theta(f2) are explicit.",
+        "The printed text describes f2 geometrically as a 2pi/3 triangle-center rotation but does not print an algebraic z-coordinate Mobius formula for f2."
+      ]
+    },
+    "cecotti": {
+      "title": "Symplectic Singularities, Color Confinement, and the Quantum Dirac Sheaf",
+      "version": "arXiv:2509.24605 / JHEP 2026",
+      "url": "https://arxiv.org/pdf/2509.24605",
+      "locator": "Appendix B, equations (B.6)-(B.9), especially (B.8)",
+      "B8_reduced_map": "m(x)=i*(x-1)/(x+1)",
+      "B8_branch_permutation": {
+        "infinity": "+i",
+        "0": "-i",
+        "+1": "0",
+        "+i": "-1",
+        "-1": "infinity",
+        "-i": "+1"
+      },
+      "exact_supported_facts": [
+        "B.6 is y^2=x^5-x.",
+        "B.8 is an order-6 curve automorphism whose reduced Mobius map has order 3.",
+        "The source does not identify B.8 with a literal retained S,T word."
+      ]
+    },
+    "hyperbolic_band_corroboration": {
+      "title": "Hyperbolic band theory, supplementary material",
+      "role": "non-load-bearing geometric corroboration only",
+      "exact_supported_fact": "Its generator U is explicitly constructed as a 2pi/3 rotation about the center of a hyperbolic triangle in the Bolza octagon; it does not supply the algebraic x-coordinate adapter needed here."
+    }
+  },
+  "finite_weierstrass_embedding_reconstruction": {
+    "model": "Set q_infinity=0. For a!=infinity write q_a=[P_a-P_infinity] in J[2]. Require q_0=delta_0inf, f1-equivariance under the R1 quarter-turn, and Weil pairing <q_a,q_b>=1 for all distinct non-infinity branch labels.",
+    "candidate_q_plus1_vectors_tested": 15,
+    "compatible_full_branch_embeddings": 8,
+    "distinct_f2_branch_permutations": 4,
+    "multiplicity_per_distinct_f2_branch_permutation": 2,
+    "comment": "The eight embeddings are the residual branch-to-canonical-H1 marking ambiguity not fixed by R1's single delta_0inf coordinate."
+  },
+  "f2_branch_permutation_candidates": [
+    {
+      "conjugating_power_k": 0,
+      "formula_relative_to_B8": "r^0*m*r^0",
+      "equals_literal_Cecotti_B8_reduced_map": true,
+      "permutation": {
+        "infinity": "+i",
+        "0": "-i",
+        "+1": "0",
+        "+i": "-1",
+        "-1": "infinity",
+        "-i": "+1"
+      },
+      "embedding_multiplicity": 2
+    },
+    {
+      "conjugating_power_k": 1,
+      "formula_relative_to_B8": "r*m*r^-1",
+      "equals_literal_Cecotti_B8_reduced_map": false,
+      "permutation": {
+        "infinity": "-1",
+        "0": "+1",
+        "+1": "+i",
+        "+i": "0",
+        "-1": "-i",
+        "-i": "infinity"
+      },
+      "embedding_multiplicity": 2
+    },
+    {
+      "conjugating_power_k": 2,
+      "formula_relative_to_B8": "r^2*m*r^-2",
+      "equals_literal_Cecotti_B8_reduced_map": false,
+      "permutation": {
+        "infinity": "-i",
+        "0": "+i",
+        "+1": "infinity",
+        "+i": "-1",
+        "-1": "0",
+        "-i": "+1"
+      },
+      "embedding_multiplicity": 2
+    },
+    {
+      "conjugating_power_k": 3,
+      "formula_relative_to_B8": "r^3*m*r^-3",
+      "equals_literal_Cecotti_B8_reduced_map": false,
+      "permutation": {
+        "infinity": "+1",
+        "0": "-1",
+        "+1": "+i",
+        "+i": "infinity",
+        "-1": "-i",
+        "-i": "0"
+      },
+      "embedding_multiplicity": 2
+    }
+  ],
+  "group_crosscheck": {
+    "all_four_candidates_preserve_the_six_branch_points": true,
+    "all_four_candidates_have_order_3": true,
+    "all_four_satisfy_reduced_order_of_r_times_candidate_equals_2": true,
+    "all_four_form_the_r_conjugacy_orbit_of_B8": true,
+    "literal_B8_is_admissible_but_not_unique": true
+  },
+  "decision": {
+    "result": "KUUSALO_F2_BRANCH_ACTION_REDUCED_TO_FOUR_CECOTTI_B8_CONJUGATES_BUT_LITERAL_B8_NOT_SOURCE_SELECTED",
+    "new_information": "R4 converts the unlabelled order-3 ambiguity into an exact four-element algebraic branch-action orbit, all conjugates of Cecotti B.8 by the known quarter-turn.",
+    "literal_Kuusalo_f2_equals_Cecotti_B8_proved": false,
+    "absolute_delta0inf_retained_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "conditional_residue97_only": true,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "next_exact_route": "EX4-R5_RECOVER_FULL_KUUSALO_FIGURE9_10_BRANCH_TO_H1_LABEL_OR_EXPLICIT_UNIFORMIZATION_MAP",
+    "next_question": "Use a source that explicitly ties the Kuusalo octagon/canonical basis to the algebraic branch labels strongly enough to choose k in {0,1,2,3}; do not select k=0 merely because it matches Cecotti B.8."
+  },
+  "firewalls": {
+    "literal_B8_selected_from_admissibility_only": false,
+    "Cecotti_B8_used_to_choose_the_source_H1_embedding": false,
+    "branch_action_conjugacy_promoted_to_literal_target_word": false,
+    "conditional_residue97_promoted": false,
+    "prior_audited_terminal_revoked": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "source_locks": {
+    "r3": {
+      "path": "stages/stage32-ex4/ex4-r3-kuusalo-second-generator-pair-preflight-scratch.json",
+      "blob_sha1": "660e9fe853badddd0e218183623011d1efe43348",
+      "canonical_sha256": "d5443619f6b781d13725fea69adf5f53ed24d412ffabf7c82b78e20a950310d4"
+    },
+    "abstract_weierstrass": {
+      "path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock.json",
+      "blob_sha1": "d645749ac13b26900df7f7ef39f1870a31222881",
+      "canonical_sha256": "c84242981cbf81c9935c6851d8a95dc4dc0f1d8afbdba7ba7bbe16385bf1282f"
+    }
+  },
+  "canonical_sha256_without_this_field": "0718f53281b215c668fbb7bb44b4b9c3e44a86cc64ba21dbcaaad4234f943679"
+}
