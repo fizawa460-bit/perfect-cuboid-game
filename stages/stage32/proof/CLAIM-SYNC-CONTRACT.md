@@ -28,7 +28,7 @@ Audit transitions are deliberately asymmetric before registry synchronization:
 - hostile-audit **FAIL** or explicit **revocation**: downstream consumption of the affected claim is blocked immediately when the invalidating result is known. The previous `AUDITED` level must not remain consumable merely because the registry downgrade/revocation has not yet been written;
 - the registry's `SUPERSEDED` / `REVOKED` / downgraded authority metadata is then synchronized at the claim-sync checkpoint with the exact invalidating audit/revocation source lock.
 
-Thus synchronization latency may delay an authority increase, but it may never delay an authority decrease or preserve invalidated downstream credit.
+Thus synchronization latency may delay an authority increase, but it may never delay an authority decrease or preserve invalidated downstream credit. A known hostile-audit FAIL/revocation is an immediate consumption gate, not merely pending metadata.
 
 ## 3. Trigger-time read set
 
