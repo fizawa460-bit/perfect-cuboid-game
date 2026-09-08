@@ -38,21 +38,16 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay immutable 36-09DN exact-green mathematical evidence
+      - name: Replay immutable 36-09DO exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          H=6d8d65b9215ef9eba148370342922092aa36a084
+          H=a1a88d5171045547da44279bb1c144f536233e55
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09DN.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09DO.py"
           git worktree remove --force "$tmp"
-      - name: Verify 36-09DO dyadic full-2primary formal-neighborhood boundary
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09DO.py
-      - name: Assert V194 DO provisional firewalls and DP lock
+      - name: Assert V195 DO exact-green parent and DP unlock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -60,28 +55,25 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V194_36_09DO_Q2_FULL_2PRIMARY_LOCAL_BOUNDARY_PENDING_EXACT_HEAD_CI'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V195_36_09DO_EXACT_GREEN_DP_UNLOCK_PENDING_PROMOTION_REPLAY'
           do=s['authority_frontier']['36-09DO']
-          assert do['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert do['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert do['certificate_blob_sha']=='db5368da5162014e8fae767c778d6ddb0c2180e0'
           assert do['verifier_blob_sha']=='29565b7975390e8b67049e50ff6ac0ecbb788812'
           assert do['source_blob_sha']=='4529177bbe39401ed93c0395cce66176bf451dc8'
-          assert do['LOCAL_FULL_2PRIMARY_COMMON_NEIGHBORHOOD_AT_Q2_EXISTS'] is False
-          assert do['GLOBAL_2PRIMARY_BRAUER_SET_NONEMPTY'] is False
-          assert do['GLOBAL_2PRIMARY_BRAUER_SET_EMPTY'] is False
+          assert do['exact_head']=='a1a88d5171045547da44279bb1c144f536233e55'
+          assert do['exact_head_ci']=='34228677867/102069016868'
           cur=s['current']; pg=s['promotion_gates']
           assert cur['unit']=='36-09DO'
-          assert cur['36_09DP_entry_allowed'] is False
-          assert pg['36_09DO_certificate_complete'] is True
-          assert pg['36_09DO_exact_head_ci_passed'] is False
-          assert pg['36_09DP_entry_allowed'] is False
-          assert pg['BT_full_Br2_Brauer_set_nonempty'] is True
-          assert pg['BT_full_Br2_Brauer_Manin_obstruction_disproved'] is True
+          assert cur['36_09DP_entry_allowed'] is True
+          assert pg['36_09DO_exact_head_ci_passed'] is True
+          assert pg['36_09DO_promotion_replay_passed'] is False
+          assert pg['36_09DP_entry_allowed'] is True
           assert pg['BT_local_full_2primary_common_neighborhood_at_Q2_exists'] is False
           assert pg['BT_global_2primary_Brauer_set_nonempty'] is False
           assert pg['BT_global_2primary_Brauer_set_empty'] is False
           for key in ['BT_global_Q2_localization_image_computed','BT_full_Brauer_set_nonempty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          print('36-09DO provisional candidate verified: local full-2primary simultaneous constancy fails at Q2, but globalization/localization image is unresolved. DP remains locked pending exact-head CI.')
+          print('36-09DO immutable exact-green evidence replayed; 36-09DP is unlocked for the global Q2 localization-image problem only. No downstream credit is granted.')
           PY
           git diff --check
