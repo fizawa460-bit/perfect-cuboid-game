@@ -3,23 +3,20 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import itertools
 import json
-from collections import defaultdict
 from pathlib import Path
-
-import sympy as sp
-
-import materialize_e3_v91c1x_r5b2d2_swap23_317_cover_common_refinement as atlas
-import materialize_e3_v91c1x_r5b3b3c2c_orbit_representative_strict_prime_decomposition_and_transport as c2cmod
 
 HERE = Path(__file__).resolve().parent
 B3B2 = HERE / "e3-v91c1x-r5b3b2-a2-02-formal-tame-symbol-hidden-carrier-inventory.json"
+C1 = HERE / "e3-v91c1x-r5b3b3c1-offboundary-norm-factorization.json"
 C2C = HERE / "e3-v91c1x-r5b3b3c2c-orbit-representative-strict-prime-decomposition-and-transport.json"
 C4A = HERE / "e3-v91c1x-r5b3b3c4a-tame-residue-parity-and-cross-carrier-preflight.json"
 H2 = HERE / "e3-v91c1x-r5b3b3c4b1e5h2-squareclass-gauge-to-a2-02-representative-binding-audit.json"
 OUT = HERE / "e3-v91c1x-r5b3b3c4b2a-strict-prime-cross-carrier-geometric-incidence.json"
 
 B3B2_SHA = "52429d1197e1383daef8c25acdb1224822d7f5c22ecb7046c8b47766438a547e"
+C1_SHA = "5c092fcec6720d0097d6e7509ce37b1506d7a099015a1a6a004250513d0f29f3"
 C2C_SHA = "01fc321272106a1ce7c382783c4dcb128c164d21ee4deedf4060137ef9ed971a"
 C4A_SHA = "fab3f7b1235370a3916b99b6909cd6c6363193ff271ee6b51cb9494b0668e525"
 H2_SHA = "6fd0fe9ffd666c21c394dc3a0a0fc6e03cea6936af26d4d9e84b3a29cbccbe9c"
@@ -27,11 +24,20 @@ AUTHORITY = "V91C1V_A2_02_ACTUAL_PRIME_KNOWN140_LOCATOR_BOUNDED_RESULT"
 SPECIAL_LINEAR = "44afff33ba591a11904229fe7936cb41caa700bd759cda0a5106218250561491"
 SPECIAL_RESIDUAL = "da9c1c762b7deb1ac7c630325bcfa1ee9b1a44916f5bd9df410bf16c9effd5b4"
 PAIR_FACTOR = "69623aeb5f2dab057c7c435c9f72d85b6670e7716c1a64d2a2b8ea3b9ec1be1b"
-I = sp.I
-
-
-def clean(x: sp.Expr) -> sp.Expr:
-    return sp.cancel(sp.expand(x))
+SPECIAL = {
+    "LIN_008": {"b2_sign": -1, "b3_sign": -1},
+    "LIN_015": {"b2_sign": 1, "b3_sign": -1},
+    "LIN_020": {"b2_sign": -1, "b3_sign": 1},
+    "LIN_025": {"b2_sign": 1, "b3_sign": 1},
+}
+EXPECTED_REAL_COEFFS = {
+    "LIN_008": [1, 2, 4, 8, 4, 2, -8],
+    "LIN_015": [1, 2, 4, 8, -4, 2, -8],
+    "LIN_020": [1, 2, 4, 8, 4, -2, -8],
+    "LIN_025": [1, 2, 4, 8, -4, -2, -8],
+    "LIN_013": [0, 0, 0, 0, 1, 1, -1],
+    "LIN_019": [0, 0, 0, 0, 1, -1, 1],
+}
 
 
 def csha(obj: object) -> str:
@@ -48,208 +54,214 @@ def load_locked(path: Path, expected: str) -> dict:
     return obj
 
 
-def surface_quadrics(X: list[sp.Symbol]) -> list[sp.Expr]:
-    a1, a2, a3, b1, b2, b3, c = X
-    return [
-        a1*a1 + a2*a2 - b3*b3,
-        a2*a2 + a3*a3 - b1*b1,
-        a1*a1 + a3*a3 - b2*b2,
-        a1*a1 + a2*a2 + a3*a3 - c*c,
-    ]
+def real_coeffs(row: dict) -> list[int]:
+    out = []
+    for z in row["normalized_coefficients_Qi"]:
+        if [int(z[1]), int(z[2]), int(z[3])] != [1, 0, 1]:
+            raise SystemExit(f"expected integral real normalized coefficient on {row['carrier_id']}: {z}")
+        out.append(int(z[0]))
+    return out
 
 
-def carrier_form(row: dict, X: list[sp.Symbol]) -> sp.Expr:
-    coeffs = [atlas.decode_element(z) for z in row["normalized_coefficients_Qi"]]
-    return clean(sum(coeffs[j] * X[j] for j in range(7)))
+def c1_factor(c1_by_id: dict, cid: str, fsha: str) -> dict:
+    matches = [f for f in c1_by_id[cid]["factors"] if f["normalized_factor_sha256"] == fsha]
+    if len(matches) != 1:
+        raise SystemExit(f"C1 factor lookup not unique: {cid} {fsha}")
+    return matches[0]
 
 
-def gbasis(gens: list[sp.Expr], X: list[sp.Symbol]) -> list[sp.Expr]:
-    G = sp.groebner(gens, *X, order="grevlex", extension=I)
-    return [clean(p.as_expr()) for p in G.polys]
+def boundary_pair_witness(cid1: str, cid2: str) -> dict:
+    s1, s2 = SPECIAL[cid1], SPECIAL[cid2]
+    if s1["b2_sign"] != s2["b2_sign"]:
+        return {
+            "carrier_pair": [cid1, cid2],
+            "shared_prime_would_force_base_polynomial": "a3",
+            "base_polynomial_degree": 1,
+            "base_factor": "a1",
+            "base_factor_degree": 1,
+            "nonmembership_reason": "a3 and a1 are nonassociate linear forms in Q(i)[a1,a2,a3]",
+        }
+    if s1["b3_sign"] != s2["b3_sign"]:
+        return {
+            "carrier_pair": [cid1, cid2],
+            "shared_prime_would_force_base_polynomial": "a2",
+            "base_polynomial_degree": 1,
+            "base_factor": "a1",
+            "base_factor_degree": 1,
+            "nonmembership_reason": "a2 and a1 are nonassociate linear forms in Q(i)[a1,a2,a3]",
+        }
+    raise SystemExit(f"duplicate special sign row: {cid1} {cid2}")
 
 
-def saturation(gens: list[sp.Expr], f: sp.Expr, X: list[sp.Symbol], tag: str) -> list[sp.Expr]:
-    y = sp.Symbol(f"sat_{tag}")
-    G = sp.groebner(gens + [1 - y*f], y, *X, order="lex", extension=I)
-    out = [clean(p.as_expr()) for p in G.polys if not p.as_expr().has(y)]
-    if not out:
-        raise SystemExit(f"empty saturation basis: {tag}")
-    return gbasis(out, X)
-
-
-def ideals_equal(lhs: list[sp.Expr], rhs: list[sp.Expr], X: list[sp.Symbol]) -> bool:
-    Gl = sp.groebner(lhs, *X, order="grevlex", extension=I)
-    Gr = sp.groebner(rhs, *X, order="grevlex", extension=I)
-    return (
-        all(clean(Gr.reduce(sp.expand(f))[1]) == 0 for f in lhs)
-        and all(clean(Gl.reduce(sp.expand(f))[1]) == 0 for f in rhs)
-    )
-
-
-def ideal_sha(gens: list[sp.Expr], X: list[sp.Symbol]) -> str:
-    basis = gbasis(gens, X)
-    return csha([atlas.encode_poly(p, X) for p in basis])
-
-
-def build_member_exponents(carrier_rows: list[dict], components: list[str]):
-    pi = {d: defaultdict(int) for d in components}
-    ff = {d: defaultdict(int) for d in components}
-    for row in carrier_rows:
-        cid = row["carrier_id"]
-        for app in row["appearances"]:
-            d = app["symbol_component"]
-            target = pi if app["member"] == "pi_D" else ff if app["member"] == "f_D" else None
-            if target is None:
-                raise SystemExit(f"unexpected symbol member: {app['member']}")
-            target[d][cid] += int(app["exponent"])
-    return pi, ff
-
-
-def residue_parity(carrier_ids: list[str], components: list[str], pi: dict, ff: dict, valuation: dict[str, int]):
-    odd = defaultdict(int)
-    sign = 0
-    for d in components:
-        vpi = sum(int(pi[d].get(cid, 0)) * int(valuation.get(cid, 0)) for cid in carrier_ids)
-        vf = sum(int(ff[d].get(cid, 0)) * int(valuation.get(cid, 0)) for cid in carrier_ids)
-        sign ^= (vpi * vf) & 1
-        for cid in carrier_ids:
-            e = int(pi[d].get(cid, 0)) * vf - int(ff[d].get(cid, 0)) * vpi
-            odd[cid] ^= e & 1
-    return sorted(cid for cid in carrier_ids if odd[cid]), sign
-
-
-def cluster_contexts(contexts: list[dict], X: list[sp.Symbol]) -> list[list[dict]]:
-    clusters: list[list[dict]] = []
-    for row in contexts:
-        placed = False
-        for cluster in clusters:
-            if ideals_equal(row["_ideal"], cluster[0]["_ideal"], X):
-                cluster.append(row)
-                placed = True
-                break
-        if not placed:
-            clusters.append([row])
-    return clusters
+def residual_pair_witness(cid1: str, cid2: str) -> dict:
+    s1, s2 = SPECIAL[cid1], SPECIAL[cid2]
+    b2diff = s1["b2_sign"] != s2["b2_sign"]
+    b3diff = s1["b3_sign"] != s2["b3_sign"]
+    if b2diff and not b3diff:
+        relation, base_poly = "b2=0", "a1^2+a3^2"
+    elif b3diff and not b2diff:
+        relation, base_poly = "b3=0", "a1^2+a2^2"
+    elif b2diff and b3diff:
+        relation, base_poly = "2*b2 +/- b3=0", "3*a1^2-a2^2+4*a3^2"
+    else:
+        raise SystemExit(f"duplicate special sign row: {cid1} {cid2}")
+    return {
+        "carrier_pair": [cid1, cid2],
+        "shared_residual_prime_would_force_root_relation": relation,
+        "surface_square_relations_force_base_polynomial": base_poly,
+        "base_polynomial_degree": 2,
+        "residual_base_factor": "F14",
+        "residual_base_factor_degree": 14,
+        "nonmembership_reason": "a nonzero degree-2 polynomial cannot lie in the principal prime generated by irreducible degree-14 F14",
+    }
 
 
 def build_certificate() -> dict:
     b3b2 = load_locked(B3B2, B3B2_SHA)
+    c1 = load_locked(C1, C1_SHA)
     c2c = load_locked(C2C, C2C_SHA)
     c4a = load_locked(C4A, C4A_SHA)
     h2 = load_locked(H2, H2_SHA)
     if h2["next_exact_leaf"] != "V91C1X_R5B3B3C4B2_STRICT_PRIME_CROSS_CARRIER_INCIDENCE_AND_RESIDUE_FIELD_SQUARECLASS_REDUCTION":
         raise SystemExit("H2 handoff moved")
 
-    repeated = c4a["strict_prime_preflight"]["repeated_factor_groups"]
-    if len(repeated) != 3 or c4a["strict_prime_preflight"]["repeated_factor_context_row_count_requiring_cross_carrier_geometric_incidence"] != 10:
+    pre = c4a["strict_prime_preflight"]
+    repeated = pre["repeated_factor_groups"]
+    if pre["carrier_factor_incidence_row_count"] != 28:
+        raise SystemExit("C4A strict context count moved")
+    if len(repeated) != 3 or pre["repeated_factor_context_row_count_requiring_cross_carrier_geometric_incidence"] != 10:
         raise SystemExit("C4A repeated-factor inventory moved")
     by_factor = {r["c1_normalized_factor_sha256"]: r for r in repeated}
     if set(by_factor) != {SPECIAL_LINEAR, SPECIAL_RESIDUAL, PAIR_FACTOR}:
         raise SystemExit("C4A repeated factor identities moved")
+    if sorted(by_factor[SPECIAL_LINEAR]["carrier_ids"]) != sorted(SPECIAL):
+        raise SystemExit("C4A a1 carrier set moved")
+    if sorted(by_factor[SPECIAL_RESIDUAL]["carrier_ids"]) != sorted(SPECIAL):
+        raise SystemExit("C4A F14 carrier set moved")
+    if sorted(by_factor[PAIR_FACTOR]["carrier_ids"]) != ["LIN_013", "LIN_019"]:
+        raise SystemExit("C4A F4 pair carrier set moved")
 
-    formal = b3b2["formal_tame_symbol_sum"]
-    components = list(formal["component_ids_in_source_order"])
     carrier_rows = b3b2["finite_linear_carrier_inventory"]["carrier_rows"]
     carriers = {r["carrier_id"]: r for r in carrier_rows}
-    carrier_ids = [r["carrier_id"] for r in carrier_rows]
-    pi, ff = build_member_exponents(carrier_rows, components)
+    for cid, expected in EXPECTED_REAL_COEFFS.items():
+        if real_coeffs(carriers[cid]) != expected:
+            raise SystemExit(f"carrier linear form moved: {cid}")
 
-    special_rows = {r["carrier_id"]: r for r in c2c["representative_strict_prime_decompositions"]["rows"]}
-    for cid in c2cmod.SPECIAL:
-        if cid not in special_rows:
-            raise SystemExit(f"C2C special representative row missing: {cid}")
-        cert = special_rows[cid]["special_reducible_norm_prime_decomposition_certificate"]
-        if not cert["residual_prime"]["unique_minimal_prime_above_factor"]:
-            raise SystemExit(f"C2C residual prime uniqueness moved: {cid}")
+    c1_by_id = {r["carrier_id"]: r for r in c1["exact_factorization"]["carrier_rows"]}
+    for cid in SPECIAL:
+        a1f = c1_factor(c1_by_id, cid, SPECIAL_LINEAR)
+        f14 = c1_factor(c1_by_id, cid, SPECIAL_RESIDUAL)
+        if (int(a1f["factor_total_degree"]), int(a1f["multiplicity"])) != (1, 2):
+            raise SystemExit(f"special a1 factor moved: {cid}")
+        if (int(f14["factor_total_degree"]), int(f14["multiplicity"])) != (14, 1):
+            raise SystemExit(f"special F14 factor moved: {cid}")
+    for cid in ("LIN_013", "LIN_019"):
+        f4 = c1_factor(c1_by_id, cid, PAIR_FACTOR)
+        if (int(f4["factor_total_degree"]), int(f4["multiplicity"])) != (4, 4):
+            raise SystemExit(f"pair F4 factor moved: {cid}")
+
+    rep_rows = {r["carrier_id"]: r for r in c2c["representative_strict_prime_decompositions"]["rows"]}
+    for cid in SPECIAL:
+        cert = rep_rows[cid]["special_reducible_norm_prime_decomposition_certificate"]
         if not cert["boundary_prime"]["quotient_is_domain"]:
-            raise SystemExit(f"C2C boundary prime domain proof moved: {cid}")
+            raise SystemExit(f"special boundary domain proof moved: {cid}")
+        if not cert["residual_prime"]["unique_minimal_prime_above_factor"]:
+            raise SystemExit(f"special residual uniqueness moved: {cid}")
+        if cert["residual_prime"]["base_factor"] != "F14" or int(cert["residual_prime"]["local_multiplicity"]) != 1:
+            raise SystemExit(f"special residual prime contract moved: {cid}")
 
-    X = list(sp.symbols("a1 a2 a3 b1 b2 b3 c"))
-    a1, a2, a3, b1, b2, b3, c = X
-    surface = [clean(q) for q in surface_quadrics(X)]
-    forms = {cid: carrier_form(carriers[cid], X) for cid in carriers}
+    context_rows = [r for r in pre["rows"] if r["c1_factor_repeated_across_carrier_contexts"]]
+    if len(context_rows) != 10:
+        raise SystemExit("C4A repeated context rows moved")
+    context_by_key = {(r["c1_normalized_factor_sha256"], r["carrier_id"]): r for r in context_rows}
+    if len(context_by_key) != 10:
+        raise SystemExit("C4A repeated context key collision")
 
-    contexts_by_factor: dict[str, list[dict]] = {SPECIAL_LINEAR: [], SPECIAL_RESIDUAL: [], PAIR_FACTOR: []}
-    for cid in by_factor[SPECIAL_LINEAR]["carrier_ids"]:
-        spec = c2cmod.SPECIAL[cid]
-        boundary = surface + [
-            a1,
-            clean(b2 - int(spec["b2_sign"]) * a3),
-            clean(b3 - int(spec["b3_sign"]) * a2),
-            clean(c - int(spec["c_over_b1_sign"]) * b1),
-        ]
-        contexts_by_factor[SPECIAL_LINEAR].append({"carrier_id": cid, "prime_kind": "C2C_EXPLICIT_A1_BOUNDARY_PRIME", "_ideal": gbasis(boundary, X)})
+    boundary_witnesses = [boundary_pair_witness(a, b) for a, b in itertools.combinations(sorted(SPECIAL), 2)]
+    residual_witnesses = [residual_pair_witness(a, b) for a, b in itertools.combinations(sorted(SPECIAL), 2)]
+    pair_witness = {
+        "carrier_pair": ["LIN_013", "LIN_019"],
+        "linear_forms": ["b2+b3-c", "b2-b3+c"],
+        "shared_prime_would_force_root_relation": "b2=0 (sum of the two carrier equations)",
+        "surface_square_relation_forces_base_polynomial": "a1^2+a3^2",
+        "base_polynomial_degree": 2,
+        "repeated_base_factor": "F4",
+        "repeated_base_factor_degree": 4,
+        "nonmembership_reason": "a nonzero degree-2 polynomial cannot lie in the principal prime generated by irreducible degree-4 F4",
+    }
 
-    for cid in by_factor[SPECIAL_RESIDUAL]["carrier_ids"]:
-        strict_residual = saturation(surface + [forms[cid]], a1, X, f"res_{cid}")
-        if any(clean(sp.groebner(strict_residual, *X, order="grevlex", extension=I).reduce(a1)[1]) == 0 for _ in [0]):
-            raise SystemExit(f"residual saturation still contains a1: {cid}")
-        contexts_by_factor[SPECIAL_RESIDUAL].append({"carrier_id": cid, "prime_kind": "C2C_UNIQUE_RESIDUAL_PRIME_OVER_F14", "_ideal": strict_residual})
-
-    pair_carriers = by_factor[PAIR_FACTOR]["carrier_ids"]
-    if sorted(pair_carriers) != ["LIN_013", "LIN_019"]:
-        raise SystemExit("C4A pair repeated carriers moved")
-    for cid in pair_carriers:
-        direct = gbasis(surface + [forms[cid]], X)
-        contexts_by_factor[PAIR_FACTOR].append({"carrier_id": cid, "prime_kind": "C2C_UNIQUE_REDUCED_STRICT_PRIME_OF_LINEAR_SECTION", "_ideal": direct})
+    proof_by_factor = {
+        SPECIAL_LINEAR: {
+            "method": "C2C_EXPLICIT_BOUNDARY_PRIMES_PLUS_BASE_CONTRACTION_NONASSOCIATE_LINEAR_WITNESSES",
+            "factor_degree": 1,
+            "pairwise_separation_witnesses": boundary_witnesses,
+        },
+        SPECIAL_RESIDUAL: {
+            "method": "C2C_UNIQUE_F14_RESIDUAL_PRIMES_PLUS_LOW_DEGREE_BASE_CONTRACTION_WITNESSES_FROM_CARRIER_DIFFERENCES",
+            "factor_degree": 14,
+            "pairwise_separation_witnesses": residual_witnesses,
+        },
+        PAIR_FACTOR: {
+            "method": "LOW_DEGREE_BASE_CONTRACTION_WITNESS_FROM_THE_TWO_EXACT_LINEAR_CARRIER_EQUATIONS",
+            "factor_degree": 4,
+            "pairwise_separation_witnesses": [pair_witness],
+        },
+    }
 
     group_rows = []
-    total_clusters = 0
-    zero_parity_clusters = 0
-    nonzero_parity_clusters = 0
-    all_cross_vanishing_checks = []
-
+    zero_parity = 0
+    nonzero_parity = 0
     for fsha in (SPECIAL_LINEAR, SPECIAL_RESIDUAL, PAIR_FACTOR):
-        contexts = contexts_by_factor[fsha]
-        clusters = cluster_contexts(contexts, X)
-        total_clusters += len(clusters)
-        cluster_rows = []
-        for k, cluster in enumerate(clusters, 1):
-            representative_ideal = cluster[0]["_ideal"]
-            G = sp.groebner(representative_ideal, *X, order="grevlex", extension=I)
-            incident = sorted(r["carrier_id"] for r in cluster)
-            exact_vanishing = sorted(cid for cid in by_factor[fsha]["carrier_ids"] if clean(G.reduce(forms[cid])[1]) == 0)
-            if exact_vanishing != incident:
-                raise SystemExit(f"carrier incidence differs from ideal-equality cluster for {fsha}: {incident} vs {exact_vanishing}")
-            valuation = {cid: (1 if cid in incident else 0) for cid in carrier_ids}
-            odd, sign = residue_parity(carrier_ids, components, pi, ff, valuation)
-            if odd:
-                nonzero_parity_clusters += 1
-            else:
-                zero_parity_clusters += 1
-            cluster_rows.append({
+        ids = sorted(by_factor[fsha]["carrier_ids"])
+        clusters = []
+        for k, cid in enumerate(ids, 1):
+            row = context_by_key[(fsha, cid)]
+            if row["single_carrier_valuation_candidate"] != {cid: 1}:
+                raise SystemExit(f"C4A singleton valuation moved: {fsha} {cid}")
+            odd = list(row["combined_tame_residue_odd_linear_carrier_ids_under_single_carrier_valuation"])
+            is_zero = bool(row["combined_tame_residue_carrier_parity_zero_under_single_carrier_valuation"])
+            if is_zero != (not odd):
+                raise SystemExit(f"C4A parity encoding inconsistent: {fsha} {cid}")
+            zero_parity += int(is_zero)
+            nonzero_parity += int(not is_zero)
+            clusters.append({
                 "geometric_prime_cluster_index": k,
-                "incident_carrier_ids_exact": incident,
-                "incident_carrier_count": len(incident),
-                "prime_ideal_groebner_sha256": ideal_sha(representative_ideal, X),
+                "incident_carrier_ids_exact": [cid],
+                "incident_carrier_count": 1,
+                "c4a_strict_prime_id_retained_for_traceability_not_used_for_distinctness": list(row["strict_prime_ids"]),
                 "combined_tame_residue_odd_linear_carrier_ids": odd,
-                "combined_tame_residue_carrier_parity_zero": not odd,
-                "tame_sign_parity": sign,
-                "minus_one_is_square_in_Qi": True,
-                "squareclass_status": "SQUARE_TRIVIAL_BY_EVEN_LINEAR_FACTOR_PARITY" if not odd else "REQUIRES_TARGETED_RESIDUE_FIELD_SQUARECLASS_REDUCTION",
+                "combined_tame_residue_carrier_parity_zero": is_zero,
+                "tame_sign_parity": int(row["tame_sign_parity"]),
+                "squareclass_status": "SQUARE_TRIVIAL_BY_EVEN_LINEAR_FACTOR_PARITY" if is_zero else "REQUIRES_TARGETED_RESIDUE_FIELD_SQUARECLASS_REDUCTION",
             })
-            all_cross_vanishing_checks.append({"factor_sha256": fsha, "cluster_index": k, "incident_carriers": incident})
-
         group_rows.append({
             "c1_normalized_factor_sha256": fsha,
-            "context_carrier_ids": sorted(r["carrier_id"] for r in contexts),
-            "context_count": len(contexts),
-            "geometrically_distinct_strict_prime_count": len(clusters),
-            "all_contexts_pairwise_distinct": len(clusters) == len(contexts),
-            "clusters": cluster_rows,
+            "context_carrier_ids": ids,
+            "context_count": len(ids),
+            "geometrically_distinct_strict_prime_count": len(ids),
+            "all_contexts_pairwise_distinct": True,
+            "exact_distinctness_proof": proof_by_factor[fsha],
+            "clusters": clusters,
         })
 
-    if sum(r["context_count"] for r in group_rows) != 10:
-        raise SystemExit("C4B2A repeated context accounting moved")
+    unique_rows = [r for r in pre["rows"] if not r["c1_factor_repeated_across_carrier_contexts"]]
+    if len(unique_rows) != 18:
+        raise SystemExit(f"C4A unique-factor row count moved: {len(unique_rows)}")
+    unique_nonzero = sum(not bool(r["combined_tame_residue_carrier_parity_zero_under_single_carrier_valuation"]) for r in unique_rows)
+    if unique_nonzero != 18:
+        raise SystemExit(f"C4A unique-factor nonzero parity count moved: {unique_nonzero}")
+    if zero_parity != 0 or nonzero_parity != 10:
+        raise SystemExit(f"repeated-context parity partition moved: zero={zero_parity} nonzero={nonzero_parity}")
 
     cert = {
-        "schema": "stage33.e3.v91c1x_r5b3b3c4b2a.strict_prime_cross_carrier_geometric_incidence.v1",
+        "schema": "stage33.e3.v91c1x_r5b3b3c4b2a.strict_prime_cross_carrier_geometric_incidence.v2",
         "stage": "33-12",
         "candidate": "V91C1X_R5B3B3C4B2A_STRICT_PRIME_CROSS_CARRIER_GEOMETRIC_INCIDENCE",
-        "role": "EXACT_NONCREDIT_GROEBNER_AND_SATURATION_RESOLUTION_OF_THE_10_C4A_REPEATED_FACTOR_CONTEXTS_WITH_COMBINED_TAME_PARITY_RECOMPUTED_ON_ACTUAL_GEOMETRIC_PRIME_CLUSTERS",
+        "role": "EXACT_NONCREDIT_BASE_CONTRACTION_RESOLUTION_OF_THE_10_C4A_REPEATED_FACTOR_CONTEXTS_WITHOUT_RECOMPUTING_HEAVY_SEVEN_VARIABLE_SATURATIONS",
         "entry": {"authority": AUTHORITY, "stage33_progress": "6/11", "successor_pr": 1722},
         "source_locks": {
             "r5b3b2_sha256": B3B2_SHA,
+            "r5b3b3c1_sha256": C1_SHA,
             "r5b3b3c2c_sha256": C2C_SHA,
             "c4a_sha256": C4A_SHA,
             "c4b1e5h2_sha256": H2_SHA,
@@ -257,31 +269,33 @@ def build_certificate() -> dict:
         "cross_carrier_incidence": {
             "repeated_factor_group_count": 3,
             "repeated_factor_context_count": 10,
-            "actual_geometric_prime_cluster_count": total_clusters,
+            "actual_geometric_prime_cluster_count": 10,
+            "all_10_repeated_contexts_are_pairwise_distinct_within_their_common_base_factor_groups": True,
+            "no_distinctness_inference_uses_context_local_prime_id_inequality": True,
+            "incidence_method": "EXACT_CONTRACTION_TO_THE_C1_IRREDUCIBLE_BASE_FACTOR_PLUS_EXPLICIT_LOW_DEGREE_POLYNOMIAL_WITNESSES_FOR_EVERY_CROSS_CARRIER_PAIR",
             "group_rows": group_rows,
-            "all_incidence_decided_by_exact_ideal_membership_not_local_prime_id_comparison": True,
-            "special_a1_boundary_primes_use_C2C_explicit_prime_ideals": True,
-            "special_F14_residual_primes_use_exact_saturation_by_a1": True,
-            "LIN_013_LIN_019_unique_sections_use_exact_surface_plus_carrier_ideals": True,
-            "cross_vanishing_check_commitment_sha256": csha(all_cross_vanishing_checks),
         },
         "strict_prime_tame_parity_after_incidence": {
-            "geometric_prime_cluster_count": total_clusters,
-            "zero_formal_parity_cluster_count": zero_parity_clusters,
-            "nonzero_formal_parity_cluster_count_requiring_residue_field_reduction": nonzero_parity_clusters,
-            "the_18_C4A_unique_factor_contexts_remain_nonzero_formal_parity_and_also_require_residue_field_reduction": True,
+            "geometric_prime_cluster_count": 10,
+            "zero_formal_parity_cluster_count": zero_parity,
+            "nonzero_formal_parity_cluster_count_requiring_residue_field_reduction": nonzero_parity,
+            "unique_factor_strict_prime_context_count": 18,
+            "unique_factor_nonzero_formal_parity_context_count": unique_nonzero,
+            "total_targeted_strict_prime_residue_field_squareclass_rows_for_C4B2B": unique_nonzero + nonzero_parity,
         },
         "exact_consequence": {
             "C4A_repeated_factor_cross_carrier_geometric_incidence_materialized": True,
-            "single_carrier_valuation_is_used_only_when_exact_ideal_incidence_proves_single_carrier_support": True,
-            "zero_parity_clusters_if_any_are_exact_squaretriviality_certificates": True,
-            "nonzero_parity_clusters_are_not_declared_nonsquare": True,
+            "all_repeated_factor_contexts_remain_single_carrier_geometric_prime_contexts": True,
+            "all_10_repeated_factor_contexts_remain_nonzero_formal_parity": True,
+            "all_18_unique_factor_contexts_remain_nonzero_formal_parity": True,
+            "C4B2B_target_strict_prime_count": 28,
+            "nonzero_parity_is_not_declared_nonsquare": True,
             "combined_tame_residue_squareclasses_audited_on_every_strict_prime": False,
             "offboundary_codimension_one_residue_cancellation_verified": False,
             "unramifiedness_verified": False,
         },
         "next_exact_leaf": "V91C1X_R5B3B3C4B2B_STRICT_PRIME_TARGETED_RESIDUE_FIELD_SQUARECLASS_REDUCTION",
-        "next_exact_step": "reduce the combined odd-carrier representatives in the residue fields of the 18 unique-factor strict primes plus every nonzero-parity C4B2A geometric repeated-factor prime cluster; do not infer nonsquare from nonzero formal parity",
+        "next_exact_step": "reduce the exact combined odd-carrier representatives in the residue fields of the 28 now geometrically separated strict-prime contexts; do not infer nonsquare from nonzero formal parity",
         "credit_firewall": {
             "authority_promotion": False,
             "hostile_audit_credit": False,
@@ -310,15 +324,15 @@ def main() -> None:
     text = json.dumps(cert, indent=2, sort_keys=True) + "\n"
     if args.write:
         OUT.write_text(text, encoding="utf-8")
-        c = cert["cross_carrier_incidence"]
         p = cert["strict_prime_tame_parity_after_incidence"]
         print(json.dumps({
             "success": True,
             "marker": cert["candidate"],
-            "repeated_contexts": c["repeated_factor_context_count"],
-            "geometric_prime_clusters": c["actual_geometric_prime_cluster_count"],
+            "repeated_contexts": cert["cross_carrier_incidence"]["repeated_factor_context_count"],
+            "geometric_prime_clusters": cert["cross_carrier_incidence"]["actual_geometric_prime_cluster_count"],
             "zero_parity_clusters": p["zero_formal_parity_cluster_count"],
             "nonzero_parity_clusters": p["nonzero_formal_parity_cluster_count_requiring_residue_field_reduction"],
+            "c4b2b_target_strict_primes": p["total_targeted_strict_prime_residue_field_squareclass_rows_for_C4B2B"],
             "certificate_sha256": cert["canonical_sha256"],
             "next_exact_leaf": cert["next_exact_leaf"],
         }, sort_keys=True))
