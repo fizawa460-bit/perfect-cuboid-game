@@ -1,0 +1,163 @@
+{
+  "schema": "STAGE32EX4_EX4_10_BOUNDED_TERMINAL_DECISION_CERTIFICATE_ASSEMBLY_SCRATCH_V1",
+  "stage": "32EX4",
+  "leaf": "EX4-10_BOUNDED_TERMINAL_DECISION_CERTIFICATE_ASSEMBLY",
+  "status": "SCRATCH_REPLAYABLE_BOUNDED_TERMINAL_CANDIDATE_ASSEMBLED_CLAIM_SYNC_PENDING_NOT_AUDITED",
+  "base_main_sha_at_assembly": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "branch_head_before_leaf": "4aa3d6f4d4dd4cf8ec3f9a76c3d46643d505356b",
+  "source_locks": {
+    "ex4_08_ambiguity": {
+      "path": "stages/stage32-ex4/ex4-08-frozen-package-ambiguity-certificate-scratch.json",
+      "blob_sha1": "f06e87e0bf9fa56ffed7c294019eeb6077461f38",
+      "canonical_sha256": "e4cecb7602eceb6bf24b10c3f94fecf506d041e2183ae8c45479e892e665568f",
+      "authority_status": "SCRATCH_NOT_RETAINED"
+    },
+    "ex4_09_independence": {
+      "path": "stages/stage32-ex4/ex4-09-independent-crosscheck-circularity-audit-scratch.json",
+      "blob_sha1": "e9f0d3a556c3025b55c95f378fa3ff4d2da732bc",
+      "canonical_sha256": "7a6e64de11b0a8882143baef2d6950f1c903bdf26d15039a0568dfe4b243252e",
+      "authority_status": "SCRATCH_NOT_RETAINED"
+    },
+    "audited_hdeck_direction": {
+      "path": "stages/stage32/residual-32-01-production/post1623-hperp-v6-hdeck-character-preflight.json",
+      "blob_sha1": "f9bf3da925fc66505900db793f48c507725461d1",
+      "canonical_sha256": "00843ec64f7ecd522614f750c9f84d3a746ce664064d1c4413784cab9d26791c",
+      "authority_status": "AUDITED",
+      "audit_receipt": {
+        "pr": 1643,
+        "review_id": 5123545511,
+        "exact_head": "8550ab88e12cbbfd42b2d1e07c8f42be124de1a6"
+      }
+    },
+    "line_to_residue": {
+      "path": "stages/stage32/residual-32-01-production/post1505-o210-q602-weierstrass-parity-transvection-refinement.json",
+      "blob_sha1": "8e9a402706921c71217fc275be6b9885feea8bee",
+      "canonical_sha256": "83fd16fdaac674a3f63b4b2dac498136f1bc584c9e06d89f1aa1a7bdc4c30386",
+      "authority_status": "AUDITED_HISTORICAL_BUNDLE"
+    },
+    "post1648j_trace_orientation": {
+      "path": "stages/stage32/residual-32-01-production/post1648j-cecotti-trace-orientation-correction.json",
+      "blob_sha1": "17641753c33ae46e9b7517dc85a915edd70d2057",
+      "canonical_sha256": "3f6fd55ced259c6f28949df61865e22d43a669a50bdaf2adf5ddcd88411a48ec",
+      "authority_status": "PENDING_HOSTILE_REAUDIT_CANDIDATE_INPUT_ONLY"
+    }
+  },
+  "terminal_outcome": {
+    "name": "FIXED_SOURCE_PACKAGE_CANNOT_SELECT_ABSOLUTE_W_LINE",
+    "scope": "EX4_STRONG_FROZEN_PACKAGE_THROUGH_05D_ONLY",
+    "scope_warning": "Bounded source-package obstruction only; not repository-wide, literature-wide, or mathematical impossibility.",
+    "positive_absolute_marking_outcome": false,
+    "absolute_W_line_identified": false,
+    "absolute_Q602_residue_identified": false
+  },
+  "replayable_obstruction_chain": {
+    "source_direction": "chi_u -> Z3={0,infinity} -> delta_0inf=[P_0-P_infinity]",
+    "direct_divisor_anchor": "div(x)=2*P_0-2*P_infinity on C0:y^2=x^5-x",
+    "retained_target": {
+      "basis": [
+        "e1",
+        "e2",
+        "r*e1",
+        "r*e2"
+      ],
+      "W": "ker(r mod2)",
+      "lines": {
+        "L1": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "L2": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "L3": [
+          0,
+          0,
+          1,
+          1
+        ]
+      },
+      "line_to_residue": {
+        "L1": 73,
+        "L2": 97,
+        "L3": 235
+      }
+    },
+    "strongest_projective_identification_family": {
+      "retained_group_order": 48,
+      "center_order": 2,
+      "projective_pair_classes": 24,
+      "W_action_image": "S3",
+      "W_action_transitive": true,
+      "source_to_W_bijections": 6,
+      "bijection_multiplicity": 4,
+      "delta0inf_line_counts": {
+        "L1": 8,
+        "L2": 8,
+        "L3": 8
+      }
+    },
+    "logic": "Even after adding the strongest currently available +r candidate constraint, the admissible projective family realizes all three W-lines. The audited-core admissible family is weaker/larger, so it also cannot force a singleton W-line.",
+    "residue_consequence": "Because the line remains nonunique, the exact L1->73, L2->97, L3->235 adapter does not select one absolute residue."
+  },
+  "independence_and_circularity": {
+    "ex4_09_result": "PASS_CANDIDATE",
+    "seed_line_invariant": true,
+    "residue_numbers_not_used_to_construct_marking_family": true,
+    "literal_STinverse_not_promoted": true,
+    "canonical_gauge_not_promoted": true,
+    "stage33_marking_not_imported_without_adapter": true,
+    "post1648j_not_promoted_to_audited": true
+  },
+  "minimal_reentry_interface": {
+    "sufficient_new_data": [
+      "DIRECT_DELTA0INF_RETAINED_J2_COORDINATE",
+      "EXACT_PRODUCT_ELEMENT_BINDING",
+      "BRANCH_LABELLED_SYMPLECTIC_HOMOLOGY_OR_LEVEL_MARKING"
+    ],
+    "exact_product_example": "A source-bound phi2*phi6 -> S*T^-1 binding would select L2 and conditionally residue 97, but this binding is absent.",
+    "anti_loop_rule": "Do not repeat trace/order/abstract-conjugacy, unmarked ppav/CM, bare FSM level, or K-only semilinear lanes without one of the listed cross-marking data or a mathematically equivalent new datum."
+  },
+  "claim_ceiling": {
+    "full_target_closure_candidate_for_EX4_marking_decision": true,
+    "audit_ready_full_target_closure": false,
+    "hostile_audit_pass": false,
+    "fixed_source_package_cannot_select_absolute_W_line_audited_credit": false,
+    "absolute_W_line_and_Q602_residue_identified": false,
+    "Q602_residue_contraction_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "management_transition": {
+    "trigger": "RETAINED_CONSOLIDATION_CANDIDATE_AND_EX4_TERMINAL_ASSEMBLY",
+    "claim_sync_contract_opened": true,
+    "claim_sync_complete": false,
+    "reason_sync_not_yet_complete": "The terminal mathematical certificate is assembled first. The existing EX4 MAIN-STATE blob is embedded in immutable registered claim cores, so changing routing state before a compatible claim-management update would break source-lock integrity. Do not mutate immutable cores by convenience.",
+    "current_EX4_MAIN_STATE_intentionally_unchanged_in_this_commit": true,
+    "final_stage32_check_expected": "NOT_READY_STAGE32_FINAL_CHECK",
+    "next_management_leaf": "EX4-10S_CLAIM_SYNC_AND_ROUTING_STATE_CONSISTENCY",
+    "next_mathematical_leaf_after_sync": "EX4-11_HOSTILE_AUDIT"
+  },
+  "firewalls": {
+    "bounded_obstruction_promoted_to_global_impossibility": false,
+    "conditional_residue97_promoted": false,
+    "post1648j_candidate_promoted_to_audited": false,
+    "claim_sync_declared_complete_without_registry_consistency": false,
+    "full_target_closure_declared_audited": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "141b87285b70acaee708b9a9323af1e65a09b3c5cb722e17fa7262c5de83506d"
+}

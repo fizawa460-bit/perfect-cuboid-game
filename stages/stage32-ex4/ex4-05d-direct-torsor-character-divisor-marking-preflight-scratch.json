@@ -1,0 +1,139 @@
+{
+  "schema": "STAGE32EX4_EX4_05D_DIRECT_TORSOR_CHARACTER_DIVISOR_MARKING_PREFLIGHT_SCRATCH_V1",
+  "stage": "32EX4",
+  "leaf": "EX4-05D_DIRECT_TORSOR_CHARACTER_DIVISOR_MARKING_PREFLIGHT",
+  "status": "SCRATCH_REPLAYABLE_DIRECT_DIVISOR_ANCHOR_FOUND_RETAINED_J2_ADAPTER_MISSING_NOT_RETAINED_AUTHORITY",
+  "base_main_sha": "d5545b32e6b3088bca53318998d434f2745b03e9",
+  "branch_head_before_leaf": "27d99108acd2e3347a8a84e6e914caf7f32b0ad9",
+  "claim_ceiling": {
+    "absolute_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false
+  },
+  "source_locks": {
+    "h_character": {
+      "path": "stages/stage32/residual-32-01-production/post1623-hperp-v6-hdeck-character-preflight.json",
+      "blob_sha1": "f9bf3da925fc66505900db793f48c507725461d1",
+      "canonical_sha256": "00843ec64f7ecd522614f750c9f84d3a746ce664064d1c4413784cab9d26791c"
+    },
+    "weierstrass_W": {
+      "path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock.json",
+      "blob_sha1": "d645749ac13b26900df7f7ef39f1870a31222881",
+      "canonical_sha256": "c84242981cbf81c9935c6851d8a95dc4dc0f1d8afbdba7ba7bbe16385bf1282f"
+    },
+    "relative_v4": {
+      "path": "stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling.json",
+      "canonical_sha256": "312aa78d5a89c7c4d48e0afc2988e5ecf2b605d68820d123fea8ca8c48f6d669"
+    },
+    "retained_f2_4": {
+      "path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-retained-f2-4-adapter.json",
+      "blob_sha1": "a45e4725cf3354f7ed32ec6f7126326ca5492255",
+      "canonical_sha256": "eab4d86ffe89ff0e87d197cffb34e8b556ae530cab826dab34c1007664a4af28"
+    },
+    "relative_h_nodes": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-relative-h-marked-node-action.json",
+      "blob_sha1": "d1437ae97e5d10d66e2b12ca5a95b2e4d78672cc",
+      "canonical_sha256": "d03cfe8c77614943e8d4ab190c046b801bb90aa18f5bb648973bda0a5300c269"
+    },
+    "post1648_localization": {
+      "path": "stages/stage32/residual-32-01-production/post1648-delta0inf-retained-w-absolute-marking-localization.json",
+      "blob_sha1": "9a8b462bd5f2cc8b344dd535e8d155a4e63308a0",
+      "canonical_sha256": "edb37e52cd92ae56c4c12c59d0af974dc4463bce52b25b3e8b64dc2c7afdd3c2",
+      "authority_status": "PROVISIONAL_HISTORICAL_CANDIDATE"
+    }
+  },
+  "direct_divisor_anchor": {
+    "curve": "C0: y^2=x^5-x=x*(x^2-1)*(x^2+1)",
+    "class": "delta_0inf=[P_0-P_infinity] in J(C0)[2]",
+    "function": "x",
+    "divisor_identity": "div(x)=2*P_0-2*P_infinity",
+    "derivation": "x:C0->P^1 has degree 2; 0 is a simple branch value, hence ord_P0(x)=2; on the odd-degree genus-2 model x has its unique pole of order 2 at P_infinity.",
+    "consequence": "The source class itself is explicit; the missing datum is only its coordinate in the retained ordered J[2] basis.",
+    "uses_unmarked_ppav_conjugator": false
+  },
+  "typed_chain": {
+    "normal_label_9": "chi_u",
+    "chi_u_canonical_pair": "Z3",
+    "Z3_pair_values": ["0", "infinity"],
+    "jacobian_class": "delta_0inf=[P_0-P_infinity]",
+    "function_anchor": "x"
+  },
+  "retained_target": {
+    "ordered_basis": ["e1", "e2", "r*e1", "r*e2"],
+    "W": "ker(r mod2)",
+    "lines": {
+      "L1": [0,0,1,0],
+      "L2": [0,0,0,1],
+      "L3": [0,0,1,1]
+    },
+    "line_to_Q602_residue": {"L1": 73, "L2": 97, "L3": 235}
+  },
+  "asset_inventory": {
+    "weierstrass_W_lock": "source pair/class explicit; retained coordinate absent",
+    "relative_v4_coupling": "relative H-character plane/pullback coupling only; no named class coordinate",
+    "retained_f2_4_adapter": "target W plane and three lines exact; source-name-to-line map absent",
+    "relative_h_marked_nodes": "named finite node permutations exact; picB_to_picX_divisor_action_claimed=false",
+    "post1648_localization": "finite three-line ambiguity explicit; stage33_J2_source_specific_marking_relabelled_into_stage32=false"
+  },
+  "bounded_search": {
+    "inspected": [
+      "current EX4 source locks",
+      "post1503 relative V4 coupling",
+      "post1505 Weierstrass W lock and retained F2^4 adapter/source note",
+      "post1490 relative H marked-node semantics",
+      "post1648 absolute-marking localization",
+      "bounded Stage33/33-07 directory/index search without whole-fetching giant retained payloads"
+    ],
+    "result": "No inspected compact/source-locked asset gives the exact retained F2^4 coordinate of [P_0-P_infinity].",
+    "absence_ceiling": "bounded package result only; not a repository-wide or literature-wide nonexistence claim"
+  },
+  "missing_direct_adapter": {
+    "name": "SOURCE_BOUND_DELTA0INF_HALF_PERIOD_OR_J2_COORDINATE_IN_RETAINED_ORDERED_BASIS",
+    "sufficient_forms": [
+      "exact retained F2^4 coordinate of [P_0-P_infinity]",
+      "source-bound Abel-Jacobi/symplectic homology path marking 0->infinity in the retained basis",
+      "branch-labelled theta characteristic/half-period vector in the retained basis",
+      "enough exact Weil-pairing fingerprints against independently mapped J[2] anchors"
+    ],
+    "forbidden_shortcuts": [
+      "arbitrary symplectic basis",
+      "target-inner representative chosen for convenience",
+      "relative H translations without Picard/J[2] marking",
+      "Stage33 source-specific J2 marking relabelled into Stage32 without exact cross-source adapter"
+    ]
+  },
+  "control_flow": {
+    "EX4-06": "BLOCKED_BY_MISSING_DIRECT_ADAPTER",
+    "EX4-07": "CONDITIONAL_ADAPTER_ALREADY_AVAILABLE_L1_TO_73_L2_TO_97_L3_TO_235",
+    "next_leaf": "EX4-08_FROZEN_PACKAGE_AMBIGUITY_CERTIFICATE",
+    "reason": "The direct lane found the exact source divisor but not the source-to-retained coordinate; further unmarked group-invariant probes would repeat the same ambiguity."
+  },
+  "decision": {
+    "result": "EX4_05D_SOURCE_DIVISOR_ANCHOR_IS_EXPLICIT_BUT_SOURCE_TO_RETAINED_J2_COORDINATE_REMAINS_MISSING",
+    "new_exact_scratch_fact": "delta_0inf has direct source presentation [P_0-P_infinity] with div(x)=2(P_0-P_infinity); the remaining gap is strictly the source-to-retained J[2] coordinate.",
+    "absolute_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "conditional_residue97_promoted": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "retained_claim_dag_sync_performed": false,
+    "reason_no_claim_sync": "scratch-only; no retained consolidation, authority/audit transition, promotion, frontier remap, or final milestone"
+  },
+  "firewalls": {
+    "arbitrary_J2_basis_choice_used": false,
+    "relative_node_permutation_promoted_to_divisor_coordinate": false,
+    "stage33_marking_relabelled_into_stage32": false,
+    "source_divisor_anchor_promoted_to_target_coordinate": false,
+    "conditional_residue97_promoted": false,
+    "scratch_result_promoted_to_retained_claim": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "93d930a653bbf7dac901041e1e0cca9cad1c13a333c8e6619bfbabde25aceec1"
+}

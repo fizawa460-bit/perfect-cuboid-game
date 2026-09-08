@@ -1,0 +1,222 @@
+{
+  "schema": "STAGE32EX4_EX4_02_SOURCE_INVENTORY_EXACT_PRODUCT_BINDING_SCRATCH_V1",
+  "stage": "32EX4",
+  "leaf": "EX4-02_SOURCE_INVENTORY_FOR_EXACT_PRODUCT_ELEMENT_BINDING",
+  "status": "SCRATCH_REPLAYABLE_BOUNDED_SOURCE_INVENTORY_NOT_RETAINED_AUTHORITY",
+  "base_main_sha": "d5545b32e6b3088bca53318998d434f2745b03e9",
+  "branch_head_before_leaf": "7341f45cd02ae4f74ba9a6448f6114cb8974829e",
+  "target_contract": {
+    "required_missing_datum": "SOURCE_BIND_EXACT_PRODUCT_ELEMENT_PHI2_PHI6_TO_RETAINED_ST_INVERSE_OR_EQUIVALENT_EXACT_RETAINED_ELEMENT_WITH_TRACKED_CONJUGATION",
+    "source_product": "phi2*phi6",
+    "source_product_unique_fixed_pair": "Z3={0,infinity}",
+    "retained_candidate_product": "S*T^-1",
+    "retained_candidate_unique_fixed_W_line": "L2",
+    "conditional_line_to_residue": {
+      "L2": 97
+    },
+    "conditional_only": true
+  },
+  "repo_source_locks": {
+    "ex4_01_contract": {
+      "path": "stages/stage32-ex4/ex4-01-minimal-absolute-datum-contract-scratch.json",
+      "blob_sha1": "139e65920686ec88b9f3327e62b3b871472d967e",
+      "canonical_sha256": "feb6d20d2972d96a7ac5054c252ed3e2a87cad6bd4102c061877722b49d70928",
+      "authority_status": "SCRATCH_NOT_RETAINED"
+    },
+    "post1648j_trace_orientation": {
+      "path": "stages/stage32/residual-32-01-production/post1648j-cecotti-trace-orientation-correction.json",
+      "blob_sha1": "17641753c33ae46e9b7517dc85a915edd70d2057",
+      "canonical_sha256": "3f6fd55ced259c6f28949df61865e22d43a669a50bdaf2adf5ddcd88411a48ec",
+      "authority_status": "PENDING_HOSTILE_REAUDIT_CANDIDATE_INPUT_ONLY"
+    },
+    "post1648b_generator_pair": {
+      "path": "stages/stage32/residual-32-01-production/post1648b-cecotti-generator-pair-absolute-marking-preflight.json",
+      "blob_sha1": "713d92c5791e06bc332b3621a64605b9e90d165b",
+      "canonical_sha256": "b0737602656ff5de3c98ba98cc862ec7b29599255c8da621099c2a63a69e503b",
+      "authority_status": "PROVISIONAL_HISTORICAL_CANDIDATE"
+    },
+    "post1648_localization": {
+      "path": "stages/stage32/residual-32-01-production/post1648-delta0inf-retained-w-absolute-marking-localization.json",
+      "blob_sha1": "9a8b462bd5f2cc8b344dd535e8d155a4e63308a0",
+      "canonical_sha256": "edb37e52cd92ae56c4c12c59d0af974dc4463bce52b25b3e8b64dc2c7afdd3c2",
+      "authority_status": "PROVISIONAL_HISTORICAL_CANDIDATE"
+    },
+    "fsm_stoll_action": {
+      "path": "stages/stage32/residual-32-01-production/post1529-fsm-stoll-diagonal-action-source-lock.json",
+      "blob_sha1": "809d7096cf98cf94b37455b6281cb23cbdcc6b41",
+      "canonical_sha256": "5726289d8948beaaf3ed4e2dc260f49d1b3b3054642f3460b6b1e53c77ea23bc",
+      "authority_status": "SOURCE_LOCK_ONLY_NO_SELECTOR_CREDIT"
+    },
+    "relative_h_marked_node_action": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-relative-h-marked-node-action.json",
+      "blob_sha1": "d1437ae97e5d10d66e2b12ca5a95b2e4d78672cc",
+      "canonical_sha256": "d03cfe8c77614943e8d4ab190c046b801bb90aa18f5bb648973bda0a5300c269",
+      "authority_status": "PROVISIONAL_NODE_ACTION_ONLY"
+    },
+    "formal_equivariant_router": {
+      "path": "docs/arsenal/cards/formal/S30-W01.md",
+      "blob_sha1": "0b0d8871ce873896e62e841deb698f3c505abda5",
+      "authority_status": "FORMAL_ROUTER_ONLY"
+    }
+  },
+  "external_source_inventory": [
+    {
+      "source_id": "CECOTTI_2509_24605V1_APPENDIX_B",
+      "title": "Symplectic Singularities, Color Confinement, and the Quantum Dirac Sheaf",
+      "author": "Sergio Cecotti",
+      "arxiv": "2509.24605v1",
+      "locators": [
+        "Appendix B equations (B.1)-(B.4): retained lattice generators b3,b4 and S=b4, T=-b3",
+        "Appendix B Fact 18 and equations (B.5)-(B.9): principal ppav period matrix, Bolza curve y^2=x^5-x, explicit order-2/order-6/order-8 curve automorphisms"
+      ],
+      "provides": [
+        "exact retained lattice matrices b3,b4 and hence exact S,T",
+        "exact principal ppav period matrix",
+        "exact Bolza curve model",
+        "explicit order-2 and order-6 curve automorphism formulas matching the source-side phi2/phi6 formulas"
+      ],
+      "does_not_provide": [
+        "an explicit statement identifying the displayed order-2 curve automorphism with S=b4",
+        "an explicit statement identifying the displayed order-6 curve automorphism with T or T^-1",
+        "an explicit source-to-retained conjugating matrix on homology, lattice, J[2], or W",
+        "the exact product binding phi2*phi6 -> S*T^-1"
+      ],
+      "classification": "REQUIRES_ADAPTER"
+    },
+    {
+      "source_id": "KRR_1904_00793V4_SECTION4",
+      "title": "The Bolza curve and some orbifold ball quotient surfaces",
+      "authors": [
+        "Vincent Koziarz",
+        "Carlos Rito",
+        "Xavier Roulleau"
+      ],
+      "arxiv": "1904.00793v4",
+      "locators": [
+        "Section 4, lines surrounding the Abel-Jacobi embedding and the linear divisor-difference action",
+        "Corollary 6: H48=gG48g^-1 for some automorphism g of A",
+        "paragraph after Proposition 7: after changing the embedding by g, identify H48 with G48"
+      ],
+      "provides": [
+        "Bolza branch set {0,infinity,+/-1,+/-i}",
+        "natural linear action on divisor differences [y]-[x]",
+        "existence of a conjugating automorphism g between the curve-induced H48 action and the torus G48 action",
+        "a legal conceptual route from the curve action to the torus action after changing the embedding"
+      ],
+      "does_not_provide": [
+        "an explicit matrix for g on the torus lattice",
+        "an explicit mod-2 matrix for g on J[2]",
+        "an explicit image of phi2*phi6 under g in the retained Cecotti S,T basis",
+        "an exact product binding sufficient to select one W-line"
+      ],
+      "classification": "REQUIRES_ADAPTER"
+    }
+  ],
+  "source_to_required_datum_matrix": [
+    {
+      "source": "CECOTTI_2509_24605V1_APPENDIX_B",
+      "exact_source_product_named": "DERIVABLE_FROM_EXPLICIT_CURVE_FORMULAS",
+      "exact_retained_product_available": "YES_S_T_MATRICES_AVAILABLE",
+      "common_marked_identification": "NO",
+      "tracked_conjugator": "NO",
+      "selects_unique_W_line_now": false
+    },
+    {
+      "source": "KRR_1904_00793V4_SECTION4",
+      "exact_source_product_named": "YES_AT_CURVE_AUTOMORPHISM_LEVEL",
+      "exact_retained_product_available": "NO_CECOTTI_BASIS_ELEMENT_NOT_NAMED",
+      "common_marked_identification": "EXISTS_ABSTRACTLY_AS_g",
+      "tracked_conjugator": "NO_EXPLICIT_MATRIX",
+      "selects_unique_W_line_now": false
+    },
+    {
+      "source": "POST1648J_TRACE_ORIENTATION",
+      "exact_source_product_named": "YES_WITH_EXACT_DIFFERENTIAL_MATRIX_AND_TRACE_PLUS_r",
+      "exact_retained_product_available": "ONLY_INNER_CONJUGACY_ORBIT_OF_S_T_INVERSE",
+      "common_marked_identification": "NO",
+      "tracked_conjugator": "NO",
+      "selects_unique_W_line_now": false
+    },
+    {
+      "source": "POST1529_FSM_STOLL_ACTION",
+      "exact_source_product_named": "NO_CECOTTI_PRODUCT_ELEMENT",
+      "exact_retained_product_available": "NO",
+      "common_marked_identification": "NO_FSM_S_TO_PRINCIPAL_b4_BINDING",
+      "tracked_conjugator": "NO",
+      "selects_unique_W_line_now": false
+    },
+    {
+      "source": "POST1648_LOCALIZATION",
+      "exact_source_product_named": "NO",
+      "exact_retained_product_available": "W_LINE_ACTIONS_ONLY",
+      "common_marked_identification": "NO",
+      "tracked_conjugator": "NO",
+      "selects_unique_W_line_now": false
+    },
+    {
+      "source": "S30_W01_FORMAL_ROUTER",
+      "exact_source_product_named": "N/A",
+      "exact_retained_product_available": "N/A",
+      "common_marked_identification": "REQUIRED_BY_ROUTER_NOT_SUPPLIED",
+      "tracked_conjugator": "REQUIRED_BY_ROUTER_NOT_SUPPLIED",
+      "selects_unique_W_line_now": false
+    }
+  ],
+  "bounded_inventory_conclusion": {
+    "current_frozen_package_exact_product_binding_found": false,
+    "current_frozen_package_absolute_W_line_selected": false,
+    "current_frozen_package_absolute_Q602_residue_selected": false,
+    "why": [
+      "Cecotti places the retained S,T matrices and explicit Bolza automorphisms in one appendix but does not bind them as the same marked generators.",
+      "KRR supplies existence of a conjugating automorphism g but not its lattice/J[2] matrix.",
+      "post1648j reduces the generator-pair ambiguity to the +r inner-conjugacy orbit but leaves 24 admissible pairs and all three W-lines.",
+      "FSM/Stoll and marked-node assets supply additional source-side actions but no common adapter to the retained principal G12 basis."
+    ],
+    "bounded_only_not_literature_wide_absence": true
+  },
+  "legal_next_construction_lanes": [
+    {
+      "lane": "DERAUX_KRR_EXPLICIT_G_MOD2_LANE",
+      "objective": "Use the explicit G48 generators referenced by KRR/Deraux and the curve-side action to materialize the conjugating g on A[2] or an equivalent exact finite marking, then test the image of phi2*phi6.",
+      "why_materially_distinct": "Targets the missing common conjugator directly rather than collecting more trace/order invariants."
+    },
+    {
+      "lane": "CECOTTI_PERIOD_HOMOLOGY_MARKING_LANE",
+      "objective": "Bind the curve differential/branch-point marking to the homology basis underlying Cecotti's period matrix, yielding an exact action in the retained lattice basis or a finite residual ambiguity.",
+      "why_materially_distinct": "Constructs the curve-to-lattice basis bridge from the ppav/period data instead of group-conjugacy existence."
+    },
+    {
+      "lane": "FSM_THETA_LEVEL_TO_PRINCIPAL_G12_LANE",
+      "objective": "Seek a common level/theta characteristic marking that simultaneously identifies the FSM/Stoll modular action and one retained principal G12 element/product.",
+      "why_materially_distinct": "Uses the level structure as the semantic anchor required by the formal finite-action router."
+    }
+  ],
+  "decision": {
+    "result": "EX4_02_CURRENT_FROZEN_SOURCE_INVENTORY_DOES_NOT_YET_SUPPLY_EXACT_PRODUCT_BINDING",
+    "next_leaf": "EX4-03_DERAUX_KRR_EXPLICIT_G_MOD2_PREFLIGHT",
+    "recommended_first_lane": "DERAUX_KRR_EXPLICIT_G_MOD2_LANE",
+    "reason": "KRR already isolates the exact missing object as a conjugating automorphism g, while Deraux is cited as providing explicit G48 generators; a mod-2 realization is the smallest finite target before attempting full period/homology reconstruction.",
+    "retained_claim_dag_sync_performed": false,
+    "reason_no_claim_sync": "Scratch-only source inventory; no retained consolidation, authority transition, promotion, active-frontier remap, or final milestone transition.",
+    "absolute_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false
+  },
+  "firewalls": {
+    "same_appendix_promoted_to_same_marking": false,
+    "krr_existence_of_g_promoted_to_explicit_g": false,
+    "trace_orbit_promoted_to_exact_product_element": false,
+    "fsm_S_promoted_to_principal_S": false,
+    "source_search_miss_promoted_to_literature_absence": false,
+    "conditional_residue97_promoted": false,
+    "scratch_inventory_promoted_to_retained_claim": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "87dbeac32d29fc3a0bb15bbd3e4df875f47f287cf085abe588420d6095306293"
+}

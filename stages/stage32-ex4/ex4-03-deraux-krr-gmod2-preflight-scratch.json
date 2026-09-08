@@ -1,0 +1,195 @@
+{
+  "schema": "STAGE32EX4_EX4_03_DERAUX_KRR_GMOD2_PREFLIGHT_SCRATCH_V1",
+  "stage": "32EX4",
+  "leaf": "EX4-03_DERAUX_KRR_EXPLICIT_G_MOD2_PREFLIGHT",
+  "status": "SCRATCH_REPLAYABLE_FINITE_CONJUGATOR_PREFLIGHT_NOT_RETAINED_AUTHORITY",
+  "base_main_sha": "d5545b32e6b3088bca53318998d434f2745b03e9",
+  "branch_head_before_leaf": "6b598ae6347cf2bf7f86f6c2856e91f2c29e8cf6",
+  "claim_ceiling": {
+    "statement": "Deraux's explicit affine G12/G48 action and the KRR Bolza/Weierstrass affine action admit an exact finite A[2] comparison. Under the literal shared Z[r]^2 coordinate preflight, there are 48 affine mod-2 conjugators, split into two target-inner orbits of 24, and delta_0inf reaches all three nonzero W-lines equally. Therefore this lane does not select an absolute retained W-line.",
+    "literal_deraux_to_retained_basis_identification_is_authority": false,
+    "absolute_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false
+  },
+  "repo_source_locks": {
+    "ex4_02_inventory": {
+      "path": "stages/stage32-ex4/ex4-02-source-inventory-exact-product-binding-scratch.json",
+      "blob_sha1": "f89222b07b818921bb7a084b0889403d2172e596",
+      "canonical_sha256": "87dbeac32d29fc3a0bb15bbd3e4df875f47f287cf085abe588420d6095306293",
+      "authority_status": "SCRATCH_NOT_RETAINED"
+    },
+    "principal_rosati": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json",
+      "blob_sha1": "e28c4533883440ea0963d4d4e8859aa95409cf10",
+      "canonical_sha256": "8d828cdf6d1f5cb1d790c46292535dc252e503356e1047ce972c41e61f524529",
+      "authority_status": "SOURCE_LOCK_CONSUMED_BY_AUDITED_DOWNSTREAM_BUNDLE"
+    },
+    "cecotti_generator_pair_preflight": {
+      "path": "stages/stage32/residual-32-01-production/post1648b-cecotti-generator-pair-absolute-marking-preflight.json",
+      "blob_sha1": "713d92c5791e06bc332b3621a64605b9e90d165b",
+      "canonical_sha256": "b0737602656ff5de3c98ba98cc862ec7b29599255c8da621099c2a63a69e503b",
+      "authority_status": "PROVISIONAL_HISTORICAL_CANDIDATE"
+    }
+  },
+  "external_source_locks": {
+    "deraux": {
+      "title": "Non-arithmetic ball quotients from a configuration of elliptic curves in an Abelian surface",
+      "author": "Martin Deraux",
+      "arxiv": "1611.05112v2",
+      "locators": [
+        "Section 4, Definition 4.1: explicit affine generators R1,R2,R3",
+        "Proposition 4.1: linear image is Shephard-Todd G12 of order 48",
+        "Proposition 4.2: translation kernel is Lambda=(Z+i*sqrt(2)Z)^2",
+        "Table 2: representative (1/2,(1+i*sqrt(2))/2) of the order-8 isotropy orbit"
+      ]
+    },
+    "krr": {
+      "title": "The Bolza curve and some orbifold ball quotient surfaces",
+      "authors": [
+        "Vincent Koziarz",
+        "Carlos Rito",
+        "Xavier Roulleau"
+      ],
+      "arxiv": "1904.00793v4",
+      "locators": [
+        "Section 4: Bolza curve y^2=x^5-x with branch set {0,infinity,+/-1,+/-i}",
+        "Section 4: pair differences of distinct Weierstrass points are exactly the 15 nonzero A[2] points",
+        "Section 4: basepoint infinity induces the affine Aut(theta) action on A",
+        "Corollary 6: H48=g G48 g^-1 for some automorphism g of A",
+        "Proposition 7 discussion: the relevant G48 orbit consists of six 2-torsion points"
+      ]
+    }
+  },
+  "source_weierstrass_A2_model": {
+    "branch_labels": [
+      "infinity",
+      "0",
+      "1",
+      "-1",
+      "i",
+      "-i"
+    ],
+    "basepoint": "infinity",
+    "basis": [
+      "delta_0inf",
+      "delta_1inf",
+      "delta_m1inf",
+      "delta_iinf"
+    ],
+    "basis_semantics": "delta_ainf=[P_a-P_infinity]",
+    "fifth_relation": "delta_mi_inf=delta_0inf+delta_1inf+delta_m1inf+delta_iinf",
+    "point_vectors": {
+      "infinity": [0,0,0,0],
+      "0": [1,0,0,0],
+      "1": [0,1,0,0],
+      "-1": [0,0,1,0],
+      "i": [0,0,0,1],
+      "-i": [1,1,1,1]
+    },
+    "phi2_x_map": "-(x+i)/(1+i*x)",
+    "phi2_branch_permutation": {
+      "infinity": "i",
+      "i": "infinity",
+      "0": "-i",
+      "-i": "0",
+      "1": "-1",
+      "-1": "1"
+    },
+    "phi6_x_map": "i*(x-1)/(x+1)",
+    "phi6_branch_permutation": {
+      "infinity": "i",
+      "i": "-1",
+      "-1": "infinity",
+      "0": "-i",
+      "-i": "1",
+      "1": "0"
+    },
+    "affine_group_image_order_on_A2": 24,
+    "weil_pairing_matrix_in_source_basis": [
+      [0,1,1,1],
+      [1,0,1,1],
+      [1,1,0,1],
+      [1,1,1,0]
+    ]
+  },
+  "deraux_A2_model": {
+    "quadratic_order": "Z[r], r^2=-2, r=i*sqrt(2)",
+    "lattice": "(Z[r])^2",
+    "literal_preflight_coordinate_order": ["e1","e2","r*e1","r*e2"],
+    "exact_affine_generators": {
+      "R1": {"translation": ["0","0"], "linear": [["1","0"],["1-r","-1"]]},
+      "R2": {"translation": ["0","0"], "linear": [["-1+r","2"],["1+r","1-r"]]},
+      "R3": {"translation": ["(1+r)/2","1"], "linear": [["1","-1-r"],["0","-1"]]}
+    },
+    "mod2_affine_generators_in_literal_coordinate_order": {
+      "R1": {"M": [[1,0,0,0],[1,1,0,0],[0,0,1,0],[1,0,1,1]], "t": [0,0,0,0]},
+      "R2": {"M": [[1,0,0,0],[1,1,0,0],[1,0,1,0],[1,1,1,1]], "t": [0,0,0,0]},
+      "R3": {"M": [[1,1,0,0],[0,1,0,0],[0,1,1,1],[0,0,0,1]], "t": [1,0,1,0]}
+    },
+    "affine_group_image_order_on_A2": 24,
+    "table2_order8_representative_A2_vector": [1,1,0,1],
+    "six_point_orbit": [[0,0,1,0],[0,0,1,1],[1,0,0,0],[1,0,1,1],[1,1,0,1],[1,1,1,1]],
+    "retained_W_under_literal_coordinate_preflight": {
+      "definition": "ker(r mod 2)",
+      "lines": {"L1":[0,0,1,0],"L2":[0,0,0,1],"L3":[0,0,1,1]},
+      "line_to_Q602_residue": {"L1":73,"L2":97,"L3":235}
+    },
+    "weil_pairing_matrix_from_principal_rosati_mod2": [[0,1,0,1],[1,0,1,0],[0,1,0,0],[1,0,0,0]]
+  },
+  "finite_conjugator_enumeration": {
+    "six_point_bijections_tested": 720,
+    "bijections_extending_to_affine_F2_4_maps": 720,
+    "affine_maps_conjugating_source_order24_group_to_deraux_order24_group": 48,
+    "conjugators_also_matching_source_and_target_weil_pairings": 48,
+    "target_inner_gauge_orbits": [24,24],
+    "delta0inf_linear_image_rule": "For affine g(v)=M v+t, divisor differences transport by the linear part M; translation cancels.",
+    "delta0inf_W_line_counts_all_48_under_literal_target_coordinates": {"L1":16,"L2":16,"L3":16},
+    "delta0inf_W_line_counts_per_target_inner_orbit": [{"L1":8,"L2":8,"L3":8},{"L1":8,"L2":8,"L3":8}],
+    "all_48_delta0inf_linear_images_are_nonzero_W_lines": true,
+    "conditional_Q602_residue_counts_under_literal_target_coordinates": {"73":16,"97":16,"235":16},
+    "source_product_phi2_phi6": {
+      "source_unique_fixed_difference_line": "delta_0inf",
+      "distinct_target_affine_product_classes_among_48_conjugators": 6,
+      "multiplicity_per_target_product_class": 8,
+      "fixed_W_line_class_counts": {"L1":2,"L2":2,"L3":2},
+      "note": "Exact +/-r trace cannot by itself choose a mod-2 product class because the central +/-I lift is invisible on A[2]."
+    }
+  },
+  "coordinate_firewall": {
+    "deraux_Zr2_literal_basis_equals_retained_Zr2_marked_basis_source_bound": false,
+    "literal_basis_used_only_for_nonpruning_preflight": true,
+    "basis_independent_nonuniqueness_statement": "Any later target coordinate change preserving the retained W-plane merely permutes its three nonzero lines; a three-line image set cannot become a singleton.",
+    "exact_line_labels_and_residue_numbers_require_target_marking_adapter": true
+  },
+  "decision": {
+    "result": "EX4_03_DERAUX_KRR_MOD2_CONJUGATOR_PREFLIGHT_NONPRUNING",
+    "new_exact_scratch_fact": "The KRR/Deraux route can be reduced to a finite 48-conjugator A[2] problem; at mod-2 level it leaves the full three-line W orbit.",
+    "current_missing_datum": "A source-bound lifted conjugator / CM-homology-level marking that distinguishes one target-inner conjugator class far enough to collapse the W-line orbit, not merely the existence of g or the abstract G48 action.",
+    "next_leaf": "EX4-04_DERAUX_TO_RETAINED_LATTICE_AND_CM_MARKING_ADAPTER",
+    "next_lane_objective": "Source-bind or exhaust the admissible Z[r]-linear/period-homology identifications between Deraux's nice lattice coordinates and the retained principal-Bolza basis, then combine that with a lifted KRR conjugator constraint. Do not repeat pure mod-2 group conjugacy.",
+    "retained_claim_dag_sync_performed": false,
+    "reason_no_claim_sync": "Scratch-only finite preflight; no retained consolidation, audit transition, promotion, frontier remap, or final milestone.",
+    "absolute_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false
+  },
+  "firewalls": {
+    "abstract_H48_G48_conjugacy_promoted_to_explicit_g": false,
+    "deraux_literal_Zr2_basis_promoted_to_retained_marked_basis": false,
+    "mod2_conjugator_promoted_to_holomorphic_lattice_lift": false,
+    "central_sign_lost_mod2_used_to_promote_trace_orientation": false,
+    "conditional_residue_promoted": false,
+    "scratch_result_promoted_to_retained_claim": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "97e73b2c9a1ea30569ab82916b99a88b0924ada4acd8b9205df2b590914e36b1"
+}

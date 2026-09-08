@@ -1,0 +1,168 @@
+{
+  "schema": "STAGE32EX4_EX4_05C_GALOIS_COMPLEX_CONJUGATION_MARKING_PREFLIGHT_SCRATCH_V1",
+  "stage": "32EX4",
+  "leaf": "EX4-05C_GALOIS_COMPLEX_CONJUGATION_MARKING_PREFLIGHT",
+  "status": "SCRATCH_REPLAYABLE_SEMILINEAR_REAL_STRUCTURE_AMBIGUITY_NOT_RETAINED_AUTHORITY",
+  "base_main_sha": "d5545b32e6b3088bca53318998d434f2745b03e9",
+  "branch_head_before_leaf": "81db2add71afed1d477a92791a8ef1ea458a0de6",
+  "claim_ceiling": {
+    "statement": "The source-bound Stoll Galois operations cc:i->-i and ct:sqrt(2)->-sqrt(2) both restrict to r=i*sqrt(2)->-r on the retained quadratic field Q(r), while their distinction lives in the larger field Q(i,sqrt(2)). On the abstract Bolza Richelot plane W, the natural branch-pair action fixes all three nonzero pair-difference classes. Exhausting integral anti-semilinear principal-polarization lifts on the retained Hermitian lattice gives six involutive lifts whose mod-2 action fixes all three W-lines; these six split into three pairs according to which W-line is fixed by the residual semilinear stabilizer. Hence the present source package does not choose an absolute W-line. A source-bound choice of one exact retained semilinear lift would be a genuinely pruning new datum.",
+    "absolute_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false
+  },
+  "repo_source_locks": {
+    "ex4_05_lifted_intertwiner": {
+      "path": "stages/stage32-ex4/ex4-05-lifted-krr-conjugator-cm-period-constraints-scratch.json",
+      "blob_sha1": "15a8681bcb427dbb1c29c00a5c3c8f95191723b6",
+      "canonical_sha256": "36a7357177bd1d4ced7b320f7ac578bb406ea81ead32d3d6c76e0fb3861ce29a",
+      "authority_status": "SCRATCH_NOT_RETAINED"
+    },
+    "weierstrass_W_lock": {
+      "path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock.json",
+      "blob_sha1": "d645749ac13b26900df7f7ef39f1870a31222881",
+      "canonical_sha256": "c84242981cbf81c9935c6851d8a95dc4dc0f1d8afbdba7ba7bbe16385bf1282f",
+      "authority_status": "PROVISIONAL_HISTORICAL_SOURCE_LOCK"
+    },
+    "absolute_marking_localization": {
+      "path": "stages/stage32/residual-32-01-production/post1648-delta0inf-retained-w-absolute-marking-localization.json",
+      "blob_sha1": "9a8b462bd5f2cc8b344dd535e8d155a4e63308a0",
+      "canonical_sha256": "edb37e52cd92ae56c4c12c59d0af974dc4463bce52b25b3e8b64dc2c7afdd3c2",
+      "authority_status": "PROVISIONAL_HISTORICAL_CANDIDATE"
+    },
+    "principal_rosati": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json",
+      "blob_sha1": "e28c4533883440ea0963d4d4e8859aa95409cf10",
+      "canonical_sha256": "8d828cdf6d1f5cb1d790c46292535dc252e503356e1047ce972c41e61f524529",
+      "authority_status": "SOURCE_LOCK_CONSUMED_BY_AUDITED_DOWNSTREAM_BUNDLE"
+    }
+  },
+  "external_source_lock": {
+    "stoll_verification": {
+      "repository": "MichaelStollBayreuth/Verification",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/cuboids.magma",
+      "blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+      "exact_lines_semantics": [
+        "L=Q(i,sqrt(2))",
+        "ccL sends i to -i and fixes sqrt(2)",
+        "ctL sends sqrt(2) to -sqrt(2) and fixes i",
+        "ccPic and ctPic are separately descended to Pic and both are included in AutSGal on Pic/2Pic"
+      ]
+    }
+  },
+  "field_restriction": {
+    "full_box_field": "L=Q(i,sqrt(2))",
+    "retained_cm_field": "K=Q(r), r=i*sqrt(2), r^2=-2",
+    "cc_on_K": "r -> -r",
+    "ct_on_K": "r -> -r",
+    "cc_times_ct_on_K": "r -> r",
+    "consequence": "The two distinct Stoll Galois generators collapse to the same nontrivial K-automorphism after forgetting the full L-structure. Their distinction cannot be used on the retained K-lattice without an additional L/K semilinear adapter."
+  },
+  "source_W_galois_action": {
+    "W_nonzero_classes": {
+      "delta_pm1": ["+1", "-1"],
+      "delta_pmi": ["+i", "-i"],
+      "delta_0inf": ["0", "infinity"]
+    },
+    "cc_branch_action": {
+      "+1": "+1",
+      "-1": "-1",
+      "+i": "-i",
+      "-i": "+i",
+      "0": "0",
+      "infinity": "infinity"
+    },
+    "ct_branch_action": {
+      "+1": "+1",
+      "-1": "-1",
+      "+i": "+i",
+      "-i": "-i",
+      "0": "0",
+      "infinity": "infinity"
+    },
+    "cc_action_on_W_lines": "identity",
+    "cc_reason": "delta_pmi has its two endpoints swapped, but a Weierstrass difference class is 2-torsion so swapping endpoints negates the class and hence fixes it; the other two pairs are fixed pointwise.",
+    "ct_action_on_W_lines": "identity",
+    "ct_reason": "all six branch values lie in Q(i) and are fixed by sqrt(2)->-sqrt(2).",
+    "warning": "This is an abstract branch-pair/J[2] statement. It does not identify either Stoll Picard Galois operator with one retained lattice semilinear lift."
+  },
+  "retained_semilinear_enumeration": {
+    "quadratic_order": "Z[r], r^2=-2",
+    "principal_hermitian_matrix": [["2", "1+r"], ["1-r", "2"]],
+    "semilinear_form": "v -> C * bar(v), bar(r)=-r",
+    "anti_polarization_condition": "bar(C)^T * H_R * C = bar(H_R)",
+    "involution_condition": "C * bar(C) = I",
+    "finite_bound": "As in EX4-04, each column has H_R-norm 2, so a+b*r entries satisfy a^2+2*b^2<=7; |a|<=2, |b|<=1 suffices exhaustively.",
+    "integral_anti_polarization_matrices": 48,
+    "involutive_anti_polarization_matrices": 18,
+    "W_line_permutation_counts_among_18": {
+      "identity": 6,
+      "swap_L1_L3_fix_L2": 4,
+      "swap_L2_L3_fix_L1": 4,
+      "swap_L1_L2_fix_L3": 4
+    },
+    "involutive_lifts_acting_identity_on_all_W_lines": 6,
+    "six_W_identity_lifts": [
+      {"C": [["-1", "0"], ["-r", "-1"]], "residual_stabilizer_order": 8, "unique_stabilizer_fixed_W_line": "L2"},
+      {"C": [["-1", "r"], ["0", "-1"]], "residual_stabilizer_order": 8, "unique_stabilizer_fixed_W_line": "L1"},
+      {"C": [["-1+r", "r"], ["-r", "-1-r"]], "residual_stabilizer_order": 8, "unique_stabilizer_fixed_W_line": "L3"},
+      {"C": [["1-r", "-r"], ["r", "1+r"]], "residual_stabilizer_order": 8, "unique_stabilizer_fixed_W_line": "L3"},
+      {"C": [["1", "-r"], ["0", "1"]], "residual_stabilizer_order": 8, "unique_stabilizer_fixed_W_line": "L1"},
+      {"C": [["1", "0"], ["r", "1"]], "residual_stabilizer_order": 8, "unique_stabilizer_fixed_W_line": "L2"}
+    ],
+    "fixed_line_distribution_across_six": {"L1": 2, "L2": 2, "L3": 2},
+    "consequence": "The source W-level fact that cc/ct fix all three pair-difference lines leaves six retained semilinear lifts, and those six do not canonically distinguish one of L1,L2,L3."
+  },
+  "conditional_differential_real_structure": {
+    "literal_plus_r_pair": "phi2 -> S, phi6 -> T^-1",
+    "Q0_source": "EX4-05 projectively unique differential intertwiner",
+    "raw_curve_complex_conjugation": "coefficient conjugation in the real differential basis (dx/y, x*dx/y)",
+    "transported_matrix_formula": "C0 = Q0^-1 * conjugate(Q0)",
+    "transported_C0": [["1", "0"], ["r", "1"]],
+    "C0_is_integral": true,
+    "C0_is_involutive_semilinear": true,
+    "C0_preserves_principal_polarization_semilinearly": true,
+    "C0_mod2_fixes_all_three_W_lines": true,
+    "stabilizer_in_retained_unitary_group_order": 8,
+    "stabilizer_W_action": "fixes L2 and swaps L1<->L3",
+    "conditional_line_if_C0_is_independently_source_bound": "L2",
+    "conditional_residue_if_C0_is_independently_source_bound": 97,
+    "not_current_credit_reason": "Q0 was chosen for one literal target-inner representative. Under h in the 48-element retained unitary group, the real structure becomes h*C0*bar(h)^-1. The present frozen sources do not independently identify which of the six W-trivial retained real-structure lifts is the geometric one in the retained ordered lattice basis."
+  },
+  "minimal_new_datum": {
+    "sufficient": "An independently source-bound retained semilinear real-structure matrix C for complex conjugation (or an equivalent branch-labelled symplectic homology/Galois marking) in the ordered retained Z[r]-basis.",
+    "information_gain": "Choosing one of the six W-trivial lifts reduces the residual 48-element target marking symmetry to an order-8 semilinear stabilizer whose W action fixes one line and swaps the other two.",
+    "why_full_L_may_help": "A source-bound adapter retaining the distinction between cc and ct over L=Q(i,sqrt(2)) could provide more information than their common restriction r->-r on K."
+  },
+  "decision": {
+    "result": "EX4_05C_GALOIS_SEMILINEAR_CONSTRAINT_LOCALIZES_SELECTOR_TO_ONE_OF_SIX_REAL_STRUCTURE_LIFTS_BUT_DOES_NOT_SELECT_IT",
+    "new_exact_scratch_fact": "The Galois/complex-conjugation lane is not empty: an exact retained semilinear lift would be pruning. The current package leaves exactly six W-trivial involutive anti-polarization lifts, occurring in two lifts for each possible invariant W-line; the literal differential representative gives C0=[[1,0],[r,1]] and conditionally L2/residue97.",
+    "current_missing_datum": "INDEPENDENT_SOURCE_BOUND_RETAINED_REAL_STRUCTURE_OR_FULL_L_OVER_K_GALOIS_MARKING",
+    "next_leaf": "EX4-05D_DIRECT_TORSOR_CHARACTER_DIVISOR_MARKING_PREFLIGHT",
+    "next_lane_objective": "Use the already source-bound chi_u/Z3/torsor data and any retained direct divisor/function or marked-Picard asset to seek a line selector that does not pass through another unmarked ppav conjugator. If that fails, prepare the EX4-08 frozen-package ambiguity certificate rather than repeating group invariants.",
+    "retained_claim_dag_sync_performed": false,
+    "reason_no_claim_sync": "Scratch-only semilinear diagnostic; no retained consolidation, authority/audit transition, promotion, frontier remap, or final milestone.",
+    "absolute_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false
+  },
+  "firewalls": {
+    "source_cc_or_ct_promoted_to_retained_semilinear_matrix": false,
+    "common_restriction_r_to_minus_r_promoted_to_full_L_adapter": false,
+    "literal_C0_promoted_to_geometric_retained_real_structure": false,
+    "conditional_residue97_promoted": false,
+    "six_real_structure_lifts_collapsed_by_convenience": false,
+    "scratch_result_promoted_to_retained_claim": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "1c8e166cb2fe7766f860b05bb47772dd4646a43ccae422f0b54dd26145de1e38"
+}
