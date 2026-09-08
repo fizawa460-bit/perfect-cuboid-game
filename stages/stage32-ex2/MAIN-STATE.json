@@ -17,7 +17,7 @@
     "EX2_02_artifact_blob_sha1": "b07fd12a40acbfc478cdab472157cb4a34efe39c",
     "EX2_02_artifact_canonical_sha256": "4e5a0a8fd868ca92ff09316fbddb67c02c8dda674534852754dc2113e4c8fbb2",
     "EX2_02_candidate_claim_id": "S32.EX2.FIXED_COMPONENT_NEGATIVE_SCAN.V1",
-    "EX2_02_claim_status": "RETAINED_RESULT_CLAIM_DAG_SYNC_PENDING",
+    "EX2_02_claim_status": "PROVISIONAL_CLAIM_DAG_SYNCHRONIZED_NOT_HOSTILE_AUDITED",
     "EX2_02_fixed_component_scan": "stages/stage32-ex2/EX2-02/exact-fixed-component-extraction.json",
     "inherits_unaudited_candidates_as_theorem": false,
     "promotion_to_stage32_main_requires_explicit_current_target_adapter": true,
@@ -35,17 +35,21 @@
     "work_branch": "stage32ex2-ex2-00-source-lock-continuation"
   },
   "claim_sync": {
-    "active_frontier_remap_required": true,
+    "active_frontier_remap_required": false,
     "candidate_claim_id": "S32.EX2.FIXED_COMPONENT_NEGATIVE_SCAN.V1",
-    "checkpoint_claim_dag_complete": false,
+    "checkpoint_claim_dag_complete": true,
+    "claim_dag_integrity_verifier_passed": true,
+    "active_frontier_verifier_passed": true,
     "contract": "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md",
-    "current_main_reconciliation_required": true,
-    "mathematical_frontier_semantics_changed": true,
+    "current_main_reconciliation_required": false,
+    "mathematical_frontier_semantics_changed": false,
     "promotion_attempted": false,
-    "reason": "EX2-02 is retained, but the EX2 branch is intentionally frozen behind current main and shared claim-management files have advanced independently. The exact result is retained locally; consumable claim authority waits for current-main reconciliation.",
+    "reason": "The retained EX2-02 bounded claim was reconciled against current main without replacing the current-main EX1 hostile-audit PASS. It is registered as PROVISIONAL at the same bounded credit ceiling; active-frontier routing is unchanged.",
+    "reconciled_current_main_sha": "d5545b32e6b3088bca53318998d434f2745b03e9",
+    "required_verification_run": 34193655298,
     "shared_claim_files_written_from_stale_branch": false,
     "stage32_main_authority_changed": false,
-    "status": "PENDING_CURRENT_MAIN_RECONCILIATION",
+    "status": "COMPLETE_CURRENT_MAIN_RECONCILED_REQUIRED_DAG_VERIFIERS_PASS",
     "trigger": "RETAINED_CONSOLIDATION",
     "triggered_for_EX2_02": true
   },
@@ -85,13 +89,13 @@
     "theorem_credit": false
   },
   "current": {
-    "leaf": "EX2-02_RETAINED_CONSOLIDATION_CLAIM_DAG_RECONCILIATION",
-    "next_route_on_block": "KEEP_EX2_02_ARTIFACT_RETAINED_BUT_NONCONSUMABLE_AS_CLAIM_AUTHORITY_UNTIL_RECONCILIATION",
-    "next_route_on_success": "EX2-03_BASE_LOCUS_AND_MOVING_SYSTEM_STRUCTURE",
-    "objective": "Synchronize the retained EX2-02 bounded no-hit claim against current-main Stage32 claim management without changing its credit ceiling; after synchronization, move to EX2-03 base-locus and moving-system structure.",
-    "status": "EX2_02_BOUNDED_NEGATIVE_INTERSECTION_SCAN_COMPLETE_PENDING_CLAIM_DAG_SYNC",
-    "stop_semantics": "MANDATORY_RETAINED_CONSOLIDATION_MANAGEMENT_GATE_NOT_STAGE_EXHAUSTION",
-    "subroute": "RECONCILE_RETAINED_EX2_02_WITH_CURRENT_MAIN_CLAIM_MANAGEMENT_BEFORE_EX2_03"
+    "leaf": "EX2-03_BASE_LOCUS_AND_MOVING_SYSTEM_STRUCTURE",
+    "next_route_on_block": "RECORD_EXACT_RESTRICTION_OR_BASE_LOCUS_ADAPTER_GAP_AND_MOVE_TO_A_DISTINCT_LEGAL_EX2_LANE",
+    "next_route_on_success": "RETAIN_EXACT_BASE_LOCUS_OR_MOVING_SYSTEM_RESULT_AND_CONTINUE_EX2_03_OR_ENTER_EX2_04_FINITE_SECTION_RECONSTRUCTION",
+    "objective": "Analyze the V6 residual linear system after the bounded EX2-02 no-negative-intersection result. Start with exact restrictions to the seven retained D.E=0 curves and determine only what is justified about divisorial base locus or moving behavior; do not infer fixedness from the one known reducible member.",
+    "status": "EX2_02_CLAIM_DAG_SYNC_COMPLETE_EX2_03_ACTIVE",
+    "stop_semantics": "LEAF_GATE_ONLY_NOT_STAGE_EXHAUSTION",
+    "subroute": "ZERO_INTERSECTION_RESTRICTION_AND_DIVISORIAL_BASE_LOCUS_PREFLIGHT"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex2/EX2-02/exact-fixed-component-extraction.json",
@@ -100,12 +104,7 @@
     "stages/stage32-ex2/EX2-00/v6-source-lock-target-contract.json",
     "stages/stage32-ex2/stage32-ex2.md",
     "stages/stage32/32-21/post1473-v6-witness-body-recovered.json",
-    "stages/stage32/residual-32-01-production/post1648ag-v6-known140-basis-elimination.json",
-    "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md",
-    "stages/stage32/STAGE32-PROOF-PATH.md",
-    "stages/stage32/proof/LANE-ADAPTERS.json",
-    "stages/stage32/proof/CLAIM-REGISTRY.json",
-    "stages/stage32/proof/ACTIVE-FRONTIER.json"
+    "stages/stage32/residual-32-01-production/post1648ag-v6-known140-basis-elimination.json"
   ],
   "execution": {
     "audit_command": "stage32ex2-audit",
@@ -158,6 +157,7 @@
   "frontier": {
     "EX2_00_source_lock_complete": true,
     "EX2_01_section_source_inventory_complete": true,
+    "EX2_02_claim_dag_sync_complete": true,
     "EX2_02_exact_negative_intersection_scan_complete": true,
     "EX2_02_known140_pairing_count": 140,
     "EX2_02_negative_pairing_count": 0,
@@ -204,6 +204,6 @@
     "scratch_results_authoritative": false
   },
   "role": "ORDINARY_STAGE32EX2_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
-  "schema": "STAGE32EX2_MAIN_COMPACT_STATE_V4_EX2_02_FIXED_COMPONENT_SCAN_COMPLETE_PENDING_CLAIM_SYNC",
+  "schema": "STAGE32EX2_MAIN_COMPACT_STATE_V5_EX2_02_CLAIM_SYNC_COMPLETE_EX2_03_ACTIVE",
   "stage": "32EX2"
 }
