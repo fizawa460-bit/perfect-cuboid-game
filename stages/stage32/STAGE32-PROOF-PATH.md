@@ -100,6 +100,14 @@ Audit transitions are fail-closed and asymmetric: a PASS cannot raise consumable
 
 A future EX lane may perform scratch/provisional research before enrollment, but it cannot promote mathematical credit to MAIN until `LANE-ADAPTERS.json` contains its exact state/startup references and the claim boundary required by its current status. A stopped lane may be enrolled with no active claim only under the explicit stopped-lane gate; re-entry must attach an exact active claim before promotion.
 
+### 4.2 EX1 retained terminal candidate checkpoint
+
+At the current retained-consolidation checkpoint, `S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V1` is registered as **PROVISIONAL**, not `AUDITED`. Its exact retained manifest is `stages/stage32-ex1/ex1-05af-retained-terminal-consolidation.json`, and its wrapper verifier is `stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation.py`.
+
+The candidate consumes the hostile-audited EX1 package through 05H, then retains the 05O–05AF chain needed for the terminal integral-descent contradiction. At provisional scope it excludes all 29 h=4 states and the three Q602 residues `[73,97,235]`; together with the audited predecessor this is an audit-ready candidate for `ALL_V6_GENUS1_CARRIERS_EXCLUDED`.
+
+This checkpoint deliberately does **not** rewrite `stages/stage32-ex1/MAIN-STATE.json`: the existing audited EX1 claim and lane contract source-lock its current blob as immutable evidence. Until hostile audit of the terminal package, that audited state remains the routing/authority ceiling, while the new retained manifest carries the provisional operational checkpoint. No active-frontier goal is marked closed, no EX→MAIN promotion adapter is fired, and no Stage32 MAIN mathematical credit is granted.
+
 ## 5. FULL178 and closure
 
 `S32.FULL178.NUMERICAL_CENSUS.V1` is deliberately an incomplete goal node. Current retained production state still has `FULL_178_ROW_SWEEP_AUTHORIZED=true`, `FULL_D176_D192_NUMERICAL_ORBIT_CENSUS=false`, and incomplete numerical Picard leaf checks. Authorization/indexability therefore cannot be confused with completed numerical census credit.
