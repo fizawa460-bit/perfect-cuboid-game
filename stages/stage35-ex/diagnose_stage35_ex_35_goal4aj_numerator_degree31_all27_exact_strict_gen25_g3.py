@@ -66,8 +66,9 @@ def main() -> None:
         assert actual["raw_bytes"] == Q_BYTES and actual["raw_sha256"] == Q_SHA
         return raw.decode("utf-8")
 
-    # Functions produced by run_path retain ns as their globals mapping.
-    ns["load_q_candidate"] = fixed_load_q_candidate
+    # run_path's returned mapping is not guaranteed to be the live globals dict
+    # retained by imported function objects. Patch the function globals directly.
+    ns["shard_mode"].__globals__["load_q_candidate"] = fixed_load_q_candidate
 
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="mode", required=True)
