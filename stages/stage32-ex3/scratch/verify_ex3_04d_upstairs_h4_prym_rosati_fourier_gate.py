@@ -12,6 +12,7 @@ TOWER = ROOT / "stages/stage32-ex3/ex3-00-o210-typed-cover-tower.json"
 REPAIR = ROOT / "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json"
 REPAIR_NOTE = ROOT / "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md"
 CHAR = ROOT / "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-rational-character-algebra-integral-index-boundary.json"
+WLOCK = ROOT / "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock.json"
 
 
 def csha_without_field(value: dict) -> str:
@@ -31,6 +32,7 @@ art = json.loads(ART.read_text())
 tower = json.loads(TOWER.read_text())
 repair = json.loads(REPAIR.read_text())
 char = json.loads(CHAR.read_text())
+wlock = json.loads(WLOCK.read_text())
 note = REPAIR_NOTE.read_text()
 
 assert art["status"] == "SCRATCH_PROVISIONAL_DIAGNOSTIC_NOT_RETAINED"
@@ -38,6 +40,7 @@ assert blob_sha1(TOWER) == art["source_locks"]["typed_cover_tower"]["blob_sha1"]
 assert csha_without_field(tower) == art["source_locks"]["typed_cover_tower"]["canonical_sha256"]
 assert csha_without_field(repair) == art["source_locks"]["audited_rosati_repair_arithmetic"]["canonical_sha256"]
 assert csha_without_field(char) == art["source_locks"]["rational_H_character_algebra"]["canonical_sha256"]
+assert csha_without_field(wlock) == art["source_locks"]["retained_H_character_names_and_pairs"]["canonical_sha256"]
 assert blob_sha1(REPAIR_NOTE) == art["source_locks"]["rosati_trace_formula"]["blob_sha1"]
 assert "sigma(Gamma)=2*d1*d2-Gamma^2" in note
 assert "rational Rosati trace pairing" in note
@@ -62,6 +65,16 @@ assert ra["nontrivial_character_count"] == 3
 assert ra["nontrivial_character_holomorphic_dimension_each"] == 1
 assert ra["nontrivial_character_rational_endomorphism_algebra_each"] == "Q(i)"
 
+# Retained F2 character names and their canonical Weierstrass-pair labels.
+cp = wlock["character_pushouts"]
+assert cp["H_basis"] == ["u", "v"]
+assert cp["characters"]["chi_u"]["values"] == {"u":1,"v":0,"uv":1}
+assert cp["characters"]["chi_v"]["values"] == {"u":0,"v":1,"uv":1}
+assert cp["characters"]["chi_uv"]["values"] == {"u":1,"v":1,"uv":0}
+assert cp["characters"]["chi_u"]["canonical_pair"] == "Z3"
+assert cp["characters"]["chi_v"]["canonical_pair"] == "Z2"
+assert cp["characters"]["chi_uv"]["canonical_pair"] == "Z1"
+
 # Pull the X-level four intersections to P=ZxZ through the degree-4 etale quotient.
 xints = [3874,3892,4020,4020]
 pints = [4*x for x in xints]
@@ -73,22 +86,27 @@ assert twice == 17010 == art["upstairs_correspondence"]["twice_degree_product"]
 L = [twice-x for x in pints]
 assert L == [1514,1442,930,930] == art["upstairs_correspondence"]["trace_values_L_h_order_1_u_v_uv"]
 
+# Convert retained F2-valued characters to +/-1 characters by sign=(-1)^chi.
 chars = {
     "trivial": [1,1,1,1],
-    "chi_u": [1,1,-1,-1],
-    "chi_v": [1,-1,1,-1],
+    "chi_u": [1,-1,1,-1],
+    "chi_v": [1,1,-1,-1],
     "chi_uv": [1,-1,-1,1],
 }
 traces = {name: sum(a*b for a,b in zip(row,L))//4 for name,row in chars.items()}
-assert traces == {"trivial":1204,"chi_u":274,"chi_v":18,"chi_uv":18}
+assert traces == {"trivial":1204,"chi_u":18,"chi_v":274,"chi_uv":18}
 assert traces == art["H_character_fourier_inversion"]["block_rational_rosati_traces"]
 assert traces["trivial"] == repair["corrected_rosati_arithmetic"]["sigma"]
 assert sum(traces[k] for k in ("chi_u","chi_v","chi_uv")) == 310
 
 # Each nontrivial block is elliptic with CM field Q(i); rational Rosati trace is twice its endomorphism degree/norm.
-degrees = [traces[k]//2 for k in ("chi_u","chi_v","chi_uv")]
-assert degrees == [137,9,9]
-assert sorted(degrees) == sorted(art["elliptic_prym_consequence"]["forced_degrees_multiset"])
+degrees = {k: traces[k]//2 for k in ("chi_u","chi_v","chi_uv")}
+assert degrees == {"chi_u":9,"chi_v":137,"chi_uv":9}
+forced = art["elliptic_prym_consequence"]["forced_degrees_by_retained_character"]
+assert forced["chi_u"] == {"degree":9,"canonical_pair":"Z3={0,infinity}"}
+assert forced["chi_v"] == {"degree":137,"canonical_pair":"Z2={+i,-i}"}
+assert forced["chi_uv"] == {"degree":9,"canonical_pair":"Z1={+1,-1}"}
+assert sorted(degrees.values()) == sorted(art["elliptic_prym_consequence"]["forced_degrees_multiset"])
 
 # Enumerate a maximal-order Z[i] candidate superset. Any smaller CM order can only remove elements.
 def gaussian_of_norm(n: int):
@@ -106,6 +124,7 @@ assert sup["norm_9_count"] == len(g9)
 assert sup["ordered_scalar_triple_superset_count"] == 128
 
 # Credit firewalls.
+assert art["relation_to_prior_stage32"]["numerical_274_18_18_already_encoded_by_X_deck_cross_fourier"] is True
 assert art["diagnostic_verdict"]["norm_level_population_empty"] is False
 assert art["diagnostic_verdict"]["O210_excluded"] is False
 assert art["diagnostic_verdict"]["Q602_excluded"] is False
@@ -113,5 +132,5 @@ assert all(v is False for v in art["firewalls"].values())
 
 print("PASS EX3-04d scratch upstairs H4 Prym/Rosati Fourier gate")
 print("P intersections [15496,15568,16080,16080]")
-print("Fourier block traces [1204,274,18,18]")
-print("nontrivial elliptic Prym degree multiset [137,9,9]; maximal-order scalar superset 128")
+print("retained-character Fourier traces: trivial=1204, chi_u=18, chi_v=274, chi_uv=18")
+print("elliptic Prym degrees: chi_u/Z3=9, chi_v/Z2=137, chi_uv/Z1=9; maximal-order scalar superset 128")
