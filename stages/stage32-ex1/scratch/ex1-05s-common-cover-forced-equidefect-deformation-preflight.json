@@ -1,0 +1,141 @@
+{
+  "schema": "STAGE32EX1_EX1_05S_COMMON_COVER_FORCED_EQUIDEFECT_DEFORMATION_PREFLIGHT_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05S_COMMON_COVER_FORCED_EQUIDEFECT_DEFORMATION_PREFLIGHT",
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "scratch_parent_head": "1c8bae576e0046d5625d944f2a94d49f56303b4e",
+  "current_main_seen": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "question": "Does the retained h=4 common-cover structure necessarily force a nonzero genus-preserving first-order deformation of the Q602 image curve, contradicting the exact equigeneric isolation proved in EX1-05R?",
+  "source_locks": {
+    "parent_05r": {
+      "path": "stages/stage32-ex1/scratch/ex1-05r-conductor-adjoint-global-evaluation-preflight.json",
+      "exact_use": "For every r=0..28, the conductor/adjoint equigeneric tangent target H^0(D,omega_D tensor phi^*omega_Q^{-1}) is zero because its degree is -162+2r<0. Any required low-genus image is equigenerically isolated."
+    },
+    "parent_05n": {
+      "path": "stages/stage32-ex1/scratch/ex1-05n-hurwitz-simultaneous-cover-dimension-preflight.json",
+      "blob_sha1": "80f315b43e88370e11ba44b0352f00a2ae3b64b9",
+      "exact_use": "For phi=(f105,f81):D->C2xC2, Tor(N_phi) has length tau=deg gcd(R105,R81), 0<=tau<=2r; the saturated normal line bundle has degree -162+2r-tau<0, hence H^0(N_phi)=H^0(Tor(N_phi)) and h0(N_phi)=tau."
+    },
+    "parent_05o": {
+      "path": "stages/stage32-ex1/scratch/ex1-05o-common-v4-branch-cycle-monodromy-lift-preflight.json",
+      "blob_sha1": "db22f3fdf75be3371d2bf46a516067c0d2e0f4b8",
+      "exact_use": "The relative V4 cover is finite etale and contributes no local ramification inertia or source-bound continuous deformation direction; its retained content is discrete/global torsor data."
+    },
+    "dedieu_sernesi": {
+      "authors": ["Thomas Dedieu", "Edoardo Sernesi"],
+      "title": "Equigeneric and equisingular families of curves on surfaces",
+      "journal": "Publicacions Matematiques 61 (2017), 175-212",
+      "doi": "10.5565/PUBLMAT_61117_07",
+      "arxiv": "1410.4221",
+      "locator": "Lemma 2.2(ii) together with the normal-sheaf torsion decomposition in Section 2",
+      "exact_use": "For a family of maps from smooth curves to a fixed smooth surface, with central map birational onto its image, the inverse image in the base tangent space of H^0(H_phi), the torsion part of the normal sheaf, lies in the kernel of the differential to the Hilbert/curve-space image. Thus a torsion first-order map deformation does not move the image curve to first order."
+    }
+  },
+  "setup": {
+    "target": "Q=C2xC2",
+    "target_fixed": true,
+    "normalization_map": "phi=(f105,f81):D->Gamma subset Q",
+    "phi_birational_on_image": true,
+    "genus_formula": "g(D)=106+r",
+    "r_range": [0,28],
+    "ramification_degrees": {"R105":"2r","R81":"48+2r"},
+    "common_v4_condition": "f105^*Z ~= f81^*Z for fixed finite-etale H=(Z/2)^2 cover Z->C2"
+  },
+  "normal_sheaf_decomposition": {
+    "exact_sequence": "0 -> H_phi -> N_phi -> Nbar_phi -> 0",
+    "torsion": "H_phi=Tor(N_phi), supported exactly where both projection differentials vanish",
+    "torsion_length_formula": "tau=deg gcd(R105,R81)",
+    "tau_bounds": "0<=tau<=2r",
+    "saturated_degree_formula": "deg Nbar_phi=-162+2r-tau",
+    "saturated_degree_always_negative": true,
+    "h0_saturated": 0,
+    "h0_normal_formula": "h0(N_phi)=tau",
+    "all_normal_sections_are_torsion": true
+  },
+  "image_deformation_map": {
+    "map": "first-order fixed-target map deformations -> first-order deformations of the scheme-theoretic image curve in Curves_Q^xi",
+    "dedieu_sernesi_kernel": "H^0(H_phi) maps to zero image tangent",
+    "consequence": "Because every section of H^0(N_phi) is torsion, every first-order deformation of phi is killed by the image-deformation differential.",
+    "image_tangent_from_map_deformations": 0,
+    "consistent_with_05r": "The Cartesian equigeneric reduced tangent cone is already zero; the parametric common-cover calculation supplies no hidden nonzero direction."
+  },
+  "statewise_replay": {
+    "Q_values": [210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266],
+    "r_values": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+    "r0_tau_forced_zero": true,
+    "r_positive_tau_forced_positive_by_retained_data": false,
+    "all_possible_map_tangent_directions_if_any_are_torsion": true,
+    "all_torsion_map_tangent_directions_have_zero_image_tangent": true,
+    "Q_states_entering": 29,
+    "Q_states_excluded": 0,
+    "Q_states_leaving": 29,
+    "Q602_residues_per_Q": [73,97,235]
+  },
+  "decision": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "new_exact_pattern": "COMMON_COVER_MAP_DEFORMATIONS_ARE_PURE_TORSION_AND_INVISIBLE_TO_FIRST_ORDER_IMAGE_DEFORMATION",
+    "common_cover_forces_nonzero_equidefect_image_tangent": false,
+    "common_cover_tangent_contradicts_05r_isolation": false,
+    "Q_states_excluded": 0,
+    "Q602_residues_excluded": 0,
+    "V6_carrier_excluded": false,
+    "closed_candidate": "COMMON_COVER_FORCED_EQUIDEFECT_DEFORMATION",
+    "new_gate": "RULE_OUT_OR_COUNT_AN_ISOLATED_SUPERABUNDANT_EQUIDEFECT_POINT_DIRECTLY",
+    "reopen_condition": "Only reopen if a source-bound common-cover deformation is exhibited whose first-order image tangent is nonzero after quotienting the normal-sheaf torsion, contradicting the proven vanishing of H^0(Nbar_phi)."
+  },
+  "candidate_ledger": {
+    "LIVE": ["ISOLATED_EQUIDEFECT_POINT_OBSTRUCTION_OR_COUNT"],
+    "UNTESTED": ["ACTUAL_V6_SECTION_MATERIALIZATION"],
+    "BLOCKED": [
+      "D0_SUPPORT_EXTRACTION_FROM_CURRENT_CORRESPONDENCE_ROSATI_DEGREE_DATA",
+      "GENERIC_JET_SEPARATION_REIDER_EQUIGENERIC_TRANSVERSALITY_AT_REQUIRED_DELTA_SCALE",
+      "NORMALIZATION_MAP_TANGENT_TORSION_VS_DELTA_WITHOUT_SINGULARITY_TYPE_INPUT",
+      "PLAIN_SIMULTANEOUS_HURWITZ_EXPECTED_DIMENSION_WITHOUT_OBSTRUCTION_OR_MONODROMY_INPUT",
+      "RAMIFICATION_DIFFERENCE_SPIN_PARITY_WITHOUT_COEFFICIENTWISE_ODD_RAMIFICATION_PROFILE"
+    ],
+    "DOMINATED": [
+      "COMMON_COVER_FORCED_EQUIDEFECT_DEFORMATION",
+      "DIRECT_LOCAL_BRANCH_CYCLE_CONSTRAINT_FROM_RELATIVE_V4_ETALE_TORSOR",
+      "SYMMETRIC_DIFFERENTIAL_GENUS1_NODE_SPAN_DIRECT_ROUTE_BY_POST1648AD",
+      "PLAIN_CASTELNUOVO_SEVERI_TWO_PROJECTION_GENUS_BOUND_BY_EXISTING_ROSATI_DEFECT",
+      "MARKED_W_LINE_THREE_TO_ONE_AS_ARITHMETIC_PRUNING_BY_EXISTING_GAUGE_ORBIT",
+      "Q602_EFFECTIVITY_OR_INTEGRALITY_AS_A_CLASS_LEVEL_OBSTRUCTION",
+      "CONDUCTOR_ADJOINT_GENERIC_DIMENSION_HEURISTIC"
+    ],
+    "EQUIVALENT": []
+  },
+  "next_route": {
+    "route_id": "EX1_05T_ISOLATED_EQUIDEFECT_POINT_OBSTRUCTION_OR_COUNT_PREFLIGHT",
+    "selection_reason": "05R proves any target image is equigenerically isolated, and 05S proves the common-cover map deformation cannot supply a nonzero image tangent because all available normal-sheaf sections are torsion and vanish under the image map. The remaining non-reconstruction route must attack existence of the isolated superabundant point itself."
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "CYCLE_ACTIVE_RECEIVER": "ISOLATED_SUPERABUNDANT_EQUIDEFECT_POINT_WITH_29_Q_STATES_AND_THREE_Q602_RESIDUES",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 1,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": false,
+    "CYCLE_BLIND_REDISCOVERY": false,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "PARAMETRIC_TORSION_DIRECTIONS_DIE_UNDER_IMAGE_DEFORMATION",
+    "CYCLE_NEW_VIEW_SOURCE": "EXTERNAL_SOURCE_LOCK_PLUS_INTERNAL_EXACT_DECOMPOSITION"
+  },
+  "replay": {
+    "verifier": "stages/stage32-ex1/scratch/verify_ex1_05s_common_cover_forced_equidefect_deformation.py",
+    "expected": "PASS_EX1_05S_TORSION_IMAGE_KERNEL"
+  },
+  "firewalls": {
+    "torsion_map_deformation_promoted_to_image_deformation": false,
+    "zero_first_order_image_tangent_promoted_to_nonexistence": false,
+    "isolated_member_promoted_to_actual_carrier": false,
+    "common_v4_discrete_condition_charged_as_continuous_dimension": false,
+    "Q_state_exclusion_claimed": false,
+    "Q602_exclusion_claimed": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  }
+}
