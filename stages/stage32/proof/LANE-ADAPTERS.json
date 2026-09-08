@@ -15,6 +15,12 @@
       "ACTIVE_FRONTIER_REMAP",
       "FINAL_MILESTONE_TRANSITION"
     ],
+    "audit_transition_policy": {
+      "pass_before_sync": "KEEP_PRE_SYNC_AUTHORITY_NO_UPGRADE",
+      "fail_before_sync": "BLOCK_DOWNSTREAM_IMMEDIATELY",
+      "revocation_before_sync": "BLOCK_DOWNSTREAM_IMMEDIATELY",
+      "registry_authority_mutation": "AT_CLAIM_SYNC_WITH_EXACT_RECEIPT"
+    },
     "new_lane_enrollment_rule": "Any new Stage32 EX lane must be added here with exact state_path, startup_path, claim_refs, and active_frontier_refs before it can promote mathematical credit to MAIN."
   },
   "lanes": [
