@@ -124,6 +124,7 @@ def main() -> None:
         require(actual.get("maturity") == expected_entry["expected_maturity"], f"maturity drift for {cid}")
         require(actual.get("kind") == expected_entry["expected_kind"], f"kind drift for {cid}")
 
+    # Check source-card semantics that make the dedup labels falsifiable rather than keyword-only.
     card_text = {
         "S28-W04": (ROOT / "docs/arsenal/cards/formal/S28-W04.md").read_text(encoding="utf-8"),
         "S36-PW01": (ROOT / "docs/arsenal/cards/provisional/S36-PW01.md").read_text(encoding="utf-8"),
