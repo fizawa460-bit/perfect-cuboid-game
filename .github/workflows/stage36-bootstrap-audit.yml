@@ -101,12 +101,16 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CT.py"
           git worktree remove --force "$tmp"
-      - name: Verify 36-09CU Kummer-monomial Brauer no-go
+      - name: Replay immutable 36-09CU exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09CU.py
-      - name: Assert CU checkpoint and CV lock firewalls
+          H=b741a0459eee46cb3f0404c0d13befb819c793d0
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09CU.py"
+          git worktree remove --force "$tmp"
+      - name: Assert CU exact-green promotion and CV unlock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -114,30 +118,24 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V152_36_09CU_KUMMER_MONOMIAL_BRAUER_NO_GO'
-          ct=s['authority_frontier']['36-09CT']
-          assert ct['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert ct['exact_head']=='562e64f8f4ea64f420a7970a03119d0029d70a10'
-          assert ct['exact_head_ci']=='34192760298/101954018281'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V153_36_09CU_EXACT_GREEN_CV_UNLOCK'
           cu=s['authority_frontier']['36-09CU']
-          assert cu['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert cu['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert cu['certificate_blob_sha']=='cb92adb9b0025e8cef8554a2c30dc6777b8e2835'
           assert cu['verifier_blob_sha']=='5d310a9d744031b4e03d1ae595ae922183493283'
+          assert cu['exact_head']=='b741a0459eee46cb3f0404c0d13befb819c793d0'
+          assert cu['exact_head_ci']=='34195137169/101961098375'
           assert cu['BT_KUMMER_MONOMIAL_QUATERNION_FAMILY_EXHAUSTED_AS_OBSTRUCTION'] is True
           assert cu['BT_NONTRIVIAL_RECEIVER_LOCUS_SECONDARY_EVALUATION_FOUND'] is False
           assert cu['BT_BRAUER_CLASS_WITH_POINT_DEPENDENT_RECEIVER_EVALUATION_FOUND'] is False
           assert cu['FIRST_MISSING_OBLIGATION']=='BT_NON_KUMMER_DIVISOR_COCYCLE_OR_SECONDARY_EXTENSION_SOURCE'
-          assert cu['LIT_WF02_APPLICABILITY_PASS'] is False
-          assert cu['NEW_GLOBAL_OBSTRUCTION_OBTAINED'] is False
           cur=s['current']
           assert cur['unit']=='36-09CU'
           assert cur['next_exact_leaf']=='36-09CV_BT_NON_KUMMER_DIVISOR_COCYCLE_BRAUER_SOURCE_PREFLIGHT'
-          assert cur['36_09CU_entry_allowed'] is True
-          assert cur['36_09CV_entry_allowed'] is False
+          assert cur['36_09CV_entry_allowed'] is True
           pg=s['promotion_gates']
-          assert pg['36_09CU_certificate_complete'] is True
-          assert pg['36_09CU_exact_head_ci_passed'] is False
-          assert pg['36_09CV_entry_allowed'] is False
+          assert pg['36_09CU_exact_head_ci_passed'] is True
+          assert pg['36_09CV_entry_allowed'] is True
           assert pg['BT_kummer_monomial_quaternion_family_exhausted_as_obstruction'] is True
           assert pg['BT_nontrivial_receiver_locus_secondary_evaluation_found'] is False
           assert pg['BT_Brauer_class_with_point_dependent_receiver_evaluation_found'] is False
@@ -150,6 +148,6 @@ jobs:
           claims=s['claims']
           for key in ['new_theorem_credit','LIT_WF02_applicability_pass','Selmer_membership_obtained','Poitou_Tate_obstruction_obtained','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert claims[key] is False
-          print('36-09CU provisional checkpoint verified: five-root Kummer-monomial quaternion family is reciprocity-trivial on receiver lifts; CV remains locked pending exact-head CI.')
+          print('36-09CU exact-green parent verified and 36-09CV entry unlocked. No BM/PT/receiver/endpoint credit.')
           PY
           git diff --check
