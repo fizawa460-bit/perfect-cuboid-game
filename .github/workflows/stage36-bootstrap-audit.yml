@@ -40,26 +40,6 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay immutable 36-09CL audited mathematical evidence
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=76603296ade67b2544aaaa16559358f2a2793272
-          git cat-file -e "$H^{commit}"
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CL.py"
-          git worktree remove --force "$tmp"
-      - name: Replay immutable 36-09CM exact-green mathematical evidence
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=f5b270da04815e6339cd8795d0ddf58ce34138ca
-          git cat-file -e "$H^{commit}"
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CM.py"
-          git worktree remove --force "$tmp"
       - name: Replay immutable 36-09CN exact-green mathematical evidence
         shell: bash
         run: |
@@ -70,12 +50,22 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CN.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09CO required-place rule
+      - name: Replay immutable 36-09CO exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09CO.py
-      - name: Assert CO firewalls and CP lock
+          H=b19439a701579d1563a77746cb1e6d57da04460e
+          git cat-file -e "$H^{commit}"
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09CO.py"
+          git worktree remove --force "$tmp"
+      - name: Verify current 36-09CP lineage audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09CP.py
+      - name: Assert CP firewalls and CQ lock
         shell: bash
         run: |
           set -euo pipefail
@@ -83,35 +73,32 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V139_36_09CO_REQUIRED_PLACE_RULE'
-          cn=s['authority_frontier']['36-09CN']
-          assert cn['exact_head']=='6b31ca804744c4d8726d3d74861faadee78e0d64'
-          assert cn['exact_head_ci']=='34180629566/101918846959'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V140_36_09CP_DUAL_LINEAGE_AUDIT'
           co=s['authority_frontier']['36-09CO']
-          assert co['certificate_blob_sha']=='e41bfad47046ff47074285f2c6f719d9125b12a1'
-          assert co['verifier_blob_sha']=='7102c81b0af5530ee0462fb23ddce66f2b5c7f2e'
-          assert co['CONDITIONAL_SERRE_REQUIRED_PLACE_RULE_COMPLETE'] is True
-          assert co['STAGE36_REQUIRED_PLACE_INVENTORY_COMPLETE'] is False
-          assert co['FIXED_DUAL_OR_EVALUATION_FAMILY_AVAILABLE'] is False
-          assert co['MILNE_LOCAL_CONDITION_SYSTEM_AVAILABLE'] is False
-          assert co['LIT_WF02_APPLICABILITY_PASS'] is False
+          assert co['exact_head']=='b19439a701579d1563a77746cb1e6d57da04460e'
+          assert co['exact_head_ci']=='34180908069/101919663411'
+          cp=s['authority_frontier']['36-09CP']
+          assert cp['certificate_blob_sha']=='3ea852b149986c1ac0b3916005b605b138b21feb'
+          assert cp['verifier_blob_sha']=='3c6c3ec858ff489723d2b46ca541252e3977bce0'
+          assert cp['EXISTING_PW07_SUPPLIES_BT_DUAL_ADAPTER'] is False
+          assert cp['EXISTING_PW07_SUPPLIES_BT_POITOU_TATE_LOCAL_CONDITIONS'] is False
+          assert cp['FIRST_MISSING_OBLIGATION']=='BT_CARTIER_DUAL_CLASS_AND_LOCAL_CONDITION_ADAPTER'
+          assert cp['LIT_WF02_APPLICABILITY_PASS'] is False
           cur=s['current']
-          assert cur['unit']=='36-09CO'
-          assert cur['next_exact_leaf']=='36-09CP_FIXED_DUAL_PAIRING_OR_LOCAL_CONDITION_SYSTEM_PREFLIGHT'
-          assert cur['36_09CP_entry_allowed'] is False
+          assert cur['unit']=='36-09CP'
+          assert cur['next_exact_leaf']=='36-09CQ_BT_CARTIER_DUAL_LOCAL_CONDITION_ADAPTER_PREFLIGHT'
+          assert cur['36_09CQ_entry_allowed'] is False
           assert cur['hostile_audit_checkpoint_reached'] is False
           pg=s['promotion_gates']
-          assert pg['36_09CN_exact_head_ci_passed'] is True
-          assert pg['36_09CO_exact_head_ci_passed'] is False
-          assert pg['36_09CP_unlocked'] is False
-          assert pg['conditional_Serre_required_place_rule_complete'] is True
-          assert pg['Stage36_required_place_inventory_complete'] is False
-          assert pg['fixed_dual_or_evaluation_family_available'] is False
-          assert pg['Milne_local_condition_system_available'] is False
+          assert pg['36_09CO_exact_head_ci_passed'] is True
+          assert pg['36_09CP_exact_head_ci_passed'] is False
+          assert pg['36_09CQ_unlocked'] is False
+          assert pg['BT_Cartier_dual_class_adapter_complete'] is False
+          assert pg['BT_Poitou_Tate_local_condition_system_complete'] is False
           assert pg['LIT_WF02_applicability_pass'] is False
           assert pg['new_global_obstruction_obtained'] is False
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09CO candidate verified; conditional Serre place rule is available but Stage36 dual/local-condition input is still missing. CP stays locked until exact-green CO.')
+          print('36-09CP candidate verified; existing PW07 lineage is type-mismatched for Xi_BT duality. CQ remains locked until exact-green CP.')
           PY
           git diff --check
