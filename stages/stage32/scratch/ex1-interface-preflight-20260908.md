@@ -61,3 +61,16 @@ Therefore the two constant discriminant degrees alone cannot distinguish these 2
 ## Open limitations
 
 No new curve, branch exclusion, residue elimination, or global closure is obtained. No repository-wide absence claim is made. Other EX lanes and live PR heads were not inventoried. MAIN authority, Q602/O210 and survivors [73,97,235] remain unchanged.
+
+
+## Follow-up — existing adapter located; correction to next unit
+
+EX1-05G already supplies the conditional same-carrier construction and Q notation distinction in its notation_adapter and sections 1–3. Reconstructing those is rediscovery, not new research. An actual member need not be constructed to derive necessary conditions for a hypothetical member.
+
+Historical C0 = EX1 C2; historical ambient X = EX1 ambient Y; historical normalized carrier Y = EX1 normalized carrier D. Historical Rosati-repair image D corresponds to EX1 singular image D0, not its smooth normalization. At O210 (r=0), genus 106 and correspondence defect 7984 agree.
+
+All four historical source-note/certificate blob locks in EX1-05G match the pinned snapshot. The bounded receipt is ex1-interface-source-check-20260908.json. This verifies source identity and arithmetic compatibility, not independent hostile-audit approval or all geometric hypotheses.
+
+The remaining non-import is exactly EX1-05G section 5: the later marked/Weierstrass transvection refinement to [73,97,235]. These three values lie in EX1's 28-value list, but inclusion does not establish the added predicate uniformly.
+
+Next unit: trace that additional predicate's hypotheses, especially whether it requires the first projection to be unramified (R105=0, r=0), or only fixed-class/h=4 data. If it requires unramifiedness, uniform import needs new mathematics. Even the r=0 marking certificate chain has not been independently replayed here. Do not rerun the already-existing fixed-plane reduction. No route, audit, or mathematical authority is promoted.
