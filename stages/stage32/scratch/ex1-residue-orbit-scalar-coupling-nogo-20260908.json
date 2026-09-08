@@ -1,0 +1,72 @@
+{
+  "schema": "STAGE32_MAIN_SCRATCH_EX1_RESIDUE_ORBIT_SCALAR_COUPLING_NOGO_V1",
+  "stage": 32,
+  "status": "SCRATCH_EXACT_FINITE_ORBIT_NOGO_UNAUDITED",
+  "snapshot": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "source_locks": {
+    "uniform_28_to_3": {"path":"stages/stage32/scratch/ex1-h4-uniform-transvection-28-to-3-candidate-20260908.json","blob_sha1":"569ca4a3a07034daee4dacd7f96970e32518ae3b"},
+    "absolute_marking_obstruction": {"path":"stages/stage32/scratch/ex1-ex4-absolute-w-marking-obstruction-20260908.json"},
+    "gauge_orbit": {"path":"stages/stage32/residual-32-01-production/post1505-o210-q602-marked-w-line-gauge-orbit.json","blob_sha1":"2b790882222656f65ed7ea4bdc2336553890b6a1","canonical_sha256":"7ad84e3c0a567119933ee0941b3b125ebcdb80651973033e13dbf12b553bfc92"},
+    "ex1_05g": {"path":"stages/stage32-ex1/ex1-05g-h4-common-cover-correspondence-coupling.json","blob_sha1":"2021985d51444c74ce3d6b2b632ed7f1395d2e79","canonical_sha256":"5a1c30a64857b900f7523153f326c0742ad5cb4ef88e77b0748dd6c4e532be08"},
+    "ex1_05h": {"path":"stages/stage32-ex1/ex1-05h-upstairs-conductor-discriminant-off-cusp-coupling.json","blob_sha1":"af1c0c7ceeb12806e5052b3f2b179df43aebe9d7","canonical_sha256":"e2f1c363b60f0af045843f887446be0cd67cb000d5cd42f05fa26c82d5860893"}
+  },
+  "orbit": {
+    "residues": [73,97,235],
+    "residue_to_line": {"73":"L1","97":"L2","235":"L3"},
+    "b3_cycle": {"73":235,"235":97,"97":73},
+    "b4_transposition": {"73":73,"97":235,"235":97},
+    "generated_orbit_count": 1,
+    "orbit_size": 3
+  },
+  "EX1_scalar_ladder": {
+    "r_values": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+    "Q_EX1_formula": "210+2r",
+    "genus_D_formula": "106+r",
+    "delta_D0_formula": "2018-r",
+    "delta_Gamma_formula": "7984-r",
+    "R105_formula": "2r",
+    "R81_formula": "48+2r",
+    "disc105_degree": 4036,
+    "disc81_degree": 4084,
+    "depends_on_residue": false
+  },
+  "finite_product": {
+    "cells_before_absolute_or_local_refinement": 87,
+    "rows_r": 29,
+    "columns_residue_orbit": 3,
+    "for_each_r_all_three_residues_have_same_listed_scalar_data": true
+  },
+  "nogo_statement": {
+    "statement": "Any necessary condition built only from r (or Q_EX1, g(D), delta_D0, delta_Gamma, total R105/R81, discriminant degrees) together with a conjugacy-invariant function of the retained operator T cannot distinguish 73,97,235 at fixed r.",
+    "reason": "The three residues form one principal-Bolza conjugacy orbit, while the listed EX1 quantities depend only on r and not on the residue representative.",
+    "scope": "Finite current 29x3 coarse ledger and the explicitly listed scalar/operator-conjugacy-invariant data only."
+  },
+  "what_can_break_orbit": [
+    "A source-bound absolute W-line marking.",
+    "Labeled local branch/discriminant support relative to the named Weierstrass/cusp pairs Z1,Z2,Z3.",
+    "A same-member local singularity/index cycle whose labels transform nontrivially under the principal Bolza action.",
+    "A non-conjugacy-invariant operator coordinate tied by an independent semantic adapter to a labeled geometric datum."
+  ],
+  "decision": {
+    "result": "GLOBAL_SCALAR_EX1_DATA_CANNOT_REDUCE_THE_THREE_RESIDUE_ORBIT",
+    "r_only_route_exhausted_at_current_resolution": true,
+    "absolute_marking_route_still_open": true,
+    "labeled_local_support_route_still_open": true,
+    "cells_remaining": 87,
+    "EX1_Q_states_excluded": 0,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "authority_changed": false,
+    "claim_dag_changed": false,
+    "next_research_route": "LABELED_LOCAL_DISCRIMINANT_OR_SINGULARITY_SUPPORT_RELATIVE_TO_Z1_Z2_Z3"
+  },
+  "firewalls": {
+    "all_member_level_data_called_conjugacy_invariant": false,
+    "local_support_route_declared_impossible": false,
+    "absolute_marking_declared_impossible": false,
+    "repository_absence_claimed": false,
+    "literature_absence_claimed": false,
+    "Stage32_closed": false
+  },
+  "canonical_sha256_without_this_field": "a3f2c57a6ca437150b70e021f2b34ca48f9796abd2b276902260853dd24a075d"
+}
