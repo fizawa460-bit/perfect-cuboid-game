@@ -21,7 +21,7 @@ NAMES = ("a1", "a2", "a3", "b1", "b2", "b3", "c")
 NUM_MANIFEST = ROOT / "stages/stage35-ex/35ex-35/goal4aj-degree31-qcandidate-gen24-gzip-chunks.json"
 DEN_MANIFEST = ROOT / "stages/stage35-ex/35ex-35/goal4ak-degree31-denominator-transport.json"
 NUM_MANIFEST_BLOB = "85b52e921f36fc445fd243db1a3b3f65bb298966"
-DEN_MANIFEST_BLOB = "651896391b7fcd2e79dd978d698e170af1e1cca9"
+DEN_MANIFEST_BLOB = "586a37bfe90a5fd3773c7d3525dde7c873ddedca"
 NUM_SHA = "358ee320a7d28b790ee9267aad3f95e8ff35af15d002976720622bd2b6e8decb"
 DEN_SHA = "28d738a7a23df1ace371cabe3a476c270a54c6b7798e8172bd7111b14e25fc29"
 
@@ -61,6 +61,7 @@ def load_denominator_text() -> str:
     assert git_blob(p) == t["git_blob_sha1"]
     b64 = p.read_bytes()
     assert len(b64) == t["base64_chars"]
+    assert hashlib.sha256(b64).hexdigest() == t["base64_sha256"]
     text = b64.decode("ascii")
     assert not any(ch.isspace() for ch in text)
     gz = base64.b64decode(text, validate=True)
