@@ -47,7 +47,12 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09DA.py"
           git worktree remove --force "$tmp"
-      - name: Assert DA exact-green promotion and DB unlock firewalls
+      - name: Verify 36-09DB third independent Brauer class
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09DB.py
+      - name: Assert DB checkpoint and DC lock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -55,29 +60,30 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V165_36_09DA_EXACT_GREEN_DB_UNLOCK'
-          da=s['authority_frontier']['36-09DA']
-          assert da['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert da['certificate_blob_sha']=='8f286f71e828c18e19d65721ca5b3728650f680f'
-          assert da['verifier_blob_sha']=='40a5736787fd52d72df7401e249790779b13025f'
-          assert da['exact_head']=='114d44b1e5014c6756a40edcd717da385fb2b383'
-          assert da['exact_head_ci']=='34201477356/101981018057'
-          assert da['SECOND_INDEPENDENT_BRAUER_CLASS_FOUND'] is True
-          assert da['Q7_JOINT_EVALUATION_IMAGE_FULL_F2_SQUARED'] is True
-          assert da['PAIR_SUBGROUP_SOLE_BM_OBSTRUCTION'] is False
-          assert da['FULL_BRAUER_GROUP_COMPUTED'] is False
-          assert da['THIRD_INDEPENDENT_CLASS_EXCLUDED'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V166_36_09DB_THIRD_BRAUER_CLASS'
+          db=s['authority_frontier']['36-09DB']
+          assert db['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert db['certificate_blob_sha']=='fbdf20fd4c4f4f338d31a55a2a1dd0786ca968c8'
+          assert db['verifier_blob_sha']=='6854624b657d9b7d95ddd9c01e462be243d90aa7'
+          assert db['THIRD_INDEPENDENT_BRAUER_CLASS_FOUND'] is True
+          assert db['CONSTRUCTED_BRAUER_SUBGROUP_RANK_LOWER_BOUND']==3
+          assert db['FULL_BRAUER_GROUP_COMPUTED'] is False
+          assert db['A_B_D_SPAN_FULL_RELEVANT_BRAUER_GROUP'] is False
+          assert db['RANK3_JOINT_ADELIC_MATRIX_COMPLETE'] is False
           cur=s['current']
-          assert cur['unit']=='36-09DA'
-          assert cur['next_exact_leaf']=='36-09DB_FIXED_P2_HYPERELLIPTIC_BRAUER_RANK_THIRD_CLASS_PREFLIGHT'
+          assert cur['unit']=='36-09DB'
+          assert cur['next_exact_leaf']=='36-09DC_FIXED_P2_RANK3_BRAUER_TWO_PLACE_EVALUATION_MATRIX_PREFLIGHT'
           assert cur['36_09DB_entry_allowed'] is True
+          assert cur['36_09DC_entry_allowed'] is False
           pg=s['promotion_gates']
-          assert pg['36_09DA_exact_head_ci_passed'] is True
-          assert pg['36_09DB_entry_allowed'] is True
+          assert pg['36_09DB_certificate_complete'] is True
+          assert pg['36_09DB_exact_head_ci_passed'] is False
+          assert pg['36_09DC_entry_allowed'] is False
+          assert pg['BT_third_independent_Brauer_class_found'] is True
+          assert pg['BT_constructed_Brauer_subgroup_rank_lower_bound']==3
           assert pg['BT_full_relevant_Brauer_group_computed'] is False
-          assert pg['BT_third_independent_Brauer_class_excluded'] is False
           for key in ['Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09DA exact-green parent verified and DB unlocked. Two-class BM route is conditional no-go; full Brauer rank remains open.')
+          print('36-09DB provisional checkpoint verified: third independent class found, constructed rank >=3; DC locked pending exact-head CI.')
           PY
           git diff --check
