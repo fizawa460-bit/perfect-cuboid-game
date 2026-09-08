@@ -36,6 +36,8 @@ def require(cond: bool, msg: str) -> None:
 def main() -> None:
     state = json.loads(STATE_PATH.read_text(encoding="utf-8"))
 
+    require(state.get("schema") == "STAGE32EX5_MAIN_COMPACT_STATE_V1_EX5_00_COMPLETE",
+            "unexpected state schema")
     require(state.get("stage") == "32EX5", "wrong stage")
     execution = state.get("execution", {})
     require(execution.get("main_command") == "stage32ex5-mainbatch", "wrong main command")
@@ -58,6 +60,25 @@ def main() -> None:
             "scratch results cannot be authoritative")
 
     receiver = state.get("receiver_contract", {})
+    require(receiver.get("frozen_version") == "EX5_RECEIVER_TARGET_CONTRACT_V1",
+            "EX5-00 frozen receiver contract missing")
+    require(receiver.get("source_lock_artifact") ==
+            "stages/stage32-ex5/ex5-00-source-lock-target-contract.json",
+            "EX5-00 artifact path mismatch")
+    require(receiver.get("source_lock_verifier") ==
+            "stages/stage32-ex5/verify_ex5_00_source_lock.py",
+            "EX5-00 verifier path mismatch")
+    require(receiver.get("unibranch_degree_row_count") == 183,
+            "frozen unibranch genus/degree row count mismatch")
+    require(receiver.get("unibranch_degree_row_checksum") ==
+            "3b039e94c850bd5669db0288ef0806a0f373952c181993e07c70a54f285ff6b0",
+            "frozen unibranch row checksum mismatch")
+    require(receiver.get("source_lock_complete") is True,
+            "EX5-00 source lock must be complete")
+    require(receiver.get("row_count") is None,
+            "EX5-01 receiver-ledger row count must remain unset")
+    require(receiver.get("coverage_checksum") is None,
+            "EX5-01 coverage checksum must remain unset")
     require(receiver.get("chat_or_memory_counts_treated_as_authority") is False,
             "chat/memory cannot define receiver authority")
     require(receiver.get("V6_O210_Q602_treated_as_definition_of_all_receivers") is False,
@@ -73,6 +94,19 @@ def main() -> None:
 
     bootstrap = state.get("bootstrap", {})
     require(bootstrap.get("merge_authorized") is False, "merge must not be authorized")
+    require(bootstrap.get("active_work_pr") == 1710, "wrong active EX5 work PR")
+
+    frontier = state.get("frontier", {})
+    require(frontier.get("EX5_00_source_lock_complete") is True,
+            "EX5-00 frontier flag must be complete")
+    require(frontier.get("receiver_population_contract_complete") is True,
+            "receiver population contract must be complete after EX5-00")
+    require(frontier.get("receiver_ledger_complete") is False,
+            "EX5-01 ledger cannot be pre-credited")
+    require(frontier.get("clean_room_candidate_universe_frozen") is False,
+            "EX5-03 cannot be pre-credited")
+    require(frontier.get("arsenal_dedup_complete") is False,
+            "EX5-04 cannot be pre-credited")
 
     firewalls = state.get("firewalls", {})
     false_keys = [
@@ -100,10 +134,18 @@ def main() -> None:
         require(firewalls.get(key) is False, f"firewall {key} must be false")
 
     current = state.get("current", {})
-    require(current.get("leaf") == "EX5-00_SOURCE_LOCK_AND_STAGE32_TARGET_RECEIVER_CONTRACT",
-            "bootstrap must start at EX5-00")
+    require(current.get("status") == "EX5_00_SOURCE_LOCK_COMPLETE_UNAUDITED_RETAINED",
+            "wrong retained EX5-00 status")
+    require(current.get("leaf") == "EX5-01_EXACT_RECEIVER_LEDGER_RECONSTRUCTION",
+            "EX5-00 completion must route to EX5-01")
 
-    print("PASS: Stage32EX5 MAIN state structural/firewall contract")
+    working = state.get("current_leaf_working_set", [])
+    require("stages/stage32-ex5/ex5-00-source-lock-target-contract.json" in working,
+            "EX5-01 working set must include frozen target contract")
+    require("stages/stage32-ex5/verify_ex5_00_source_lock.py" in working,
+            "EX5-01 working set must include EX5-00 replay verifier")
+
+    print("PASS: Stage32EX5 MAIN state structural/firewall contract through EX5-00")
 
 
 if __name__ == "__main__":
