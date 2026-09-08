@@ -44,6 +44,10 @@ jobs:
         run: python stages/stage32-ex5/verify_ex5_10_bounded_breadth_exhaustion.py
       - name: Replay EX5-11 terminal route-decision candidate
         run: python stages/stage32-ex5/verify_ex5_11_terminal_route_decision.py
+      - name: Replay BC2-00 BTVA node-support/span first-pass diagnostic
+        run: python stages/stage32-ex5/breadth-cycle-2/verify_bc2_00_btva_node_support_span_diagnostic.py
+      - name: Replay BC2-00 second-pass repository dedup
+        run: python stages/stage32-ex5/breadth-cycle-2/verify_bc2_00_second_pass_repository_dedup.py
       - name: Verify EX5 routing firewalls
         run: python stages/stage32-ex5/verify_main_state.py
       - name: Verify Stage32 claim DAG integrity
