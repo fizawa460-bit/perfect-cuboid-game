@@ -1,0 +1,111 @@
+{
+  "canonical_sha256_without_this_field": "3f8ef39f3bd52804394b704fc2d6c2d810843d9f9f94530796c8c12c75d6f120",
+  "credit_firewall": {
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "complete_H0_reconstructed": false,
+    "endpoint_credit": false,
+    "fixed_part_fully_classified": false,
+    "integral_irreducible_V6_genus1_member_obtained": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "population_wide_no_genus1_member_proved": false,
+    "receiver_credit": false,
+    "stage32_main_credit": false,
+    "theorem_credit": false
+  },
+  "decision": {
+    "known140_unsat_used_as_fixedness": false,
+    "next_leaf": "EX2-03E_FIVE_CONIC_RESTRICTION_EVALUATION_OR_H1_JUMP_PREFLIGHT",
+    "next_objective": "Construct a source-bound nonzero/zero restriction evaluation for each of the five trivial conic restrictions, or equivalently control h1(V6-C)-h1(V6); if unavailable, route to explicit section/ideal/syzygy reconstruction outside the known140 monoid.",
+    "remaining_five_fixedness_classified": false,
+    "remaining_five_nonfixedness_classified": false
+  },
+  "exact_geometry": {
+    "V6_dot_each_curve": 0,
+    "all_five_are_retained_normal_curves": true,
+    "all_five_are_smooth_rational_conic_strict_transforms_over_Qbar": true,
+    "all_five_arithmetic_and_geometric_genus": 0,
+    "all_five_canonical_degree": 2,
+    "all_five_self_intersection": -4,
+    "determinant": -1024,
+    "intersection_matrix": [
+      [-4, 0, 0, 0, 0],
+      [0, -4, 0, 0, 0],
+      [0, 0, -4, 0, 0],
+      [0, 0, 0, -4, 0],
+      [0, 0, 0, 0, -4]
+    ],
+    "intersection_matrix_sha256": "118d0dc57eb1cbf5c57741f443115e4ccbd64a1ea82578a2ae549a2d511df3f1",
+    "negative_definite": true,
+    "pairwise_disjoint": true,
+    "rank": 5
+  },
+  "execution": {
+    "authorize_job": 101993824836,
+    "compute_job": 101994216061,
+    "diagnostic_canonical_sha256": "4e66a7b4c2ffed5b1a106b0ed01f415b3c28501260380d837f02db8d7b1015cb",
+    "exact_head": "50042219f7eb31787c09e9887263e7e85c49fe0c",
+    "workflow_conclusion": "success",
+    "workflow_run": 34205474201
+  },
+  "remaining_labels_1based": [21, 24, 25, 30, 31],
+  "restriction_reduction": {
+    "cohomological_bottleneck": "The exact Euler-characteristic drop is one, but without an H1 control or explicit evaluation adapter it does not determine h0(V6)-h0(V6-C).",
+    "field": "Qbar",
+    "fixedness_equivalence": "C is a divisorial fixed component of |V6| iff H0(S,O(V6))->H0(C,O_C) is the zero map iff h0(V6)=h0(V6-C).",
+    "for_each_curve_C": "C is P1, deg(O_S(V6)|C)=V6.C=0, hence O_S(V6)|C is isomorphic to O_P1.",
+    "missing_interface": "H0_V6_TO_TRIVIAL_CONIC_RESTRICTION_EVALUATION_OR_EQUIVALENT_H1_JUMP_CONTROL",
+    "riemann_roch": {
+      "K_dot_V6": 186,
+      "V6_square": 758,
+      "chi_O_S": 8,
+      "chi_O_V6": 294,
+      "for_each_C": {
+        "C_square": -4,
+        "K_dot_C": 2,
+        "K_dot_V6_minus_C": 184,
+        "V6_dot_C": 0,
+        "V6_minus_C_square": 754,
+        "chi_O_V6_minus_C": 293
+      },
+      "h2_O_V6": 0,
+      "h2_O_V6_minus_C": 0,
+      "h2_reason": "By Serre duality h2(O(V6-C))=h0(O(K-V6+C)); K.(K-V6+C)=16-186+2=-168<0, impossible for an effective divisor because K is nef."
+    },
+    "short_exact_sequence": "0 -> O_S(V6-C) -> O_S(V6) -> O_C -> 0",
+    "target_space_dimension": 1
+  },
+  "schema": "STAGE32EX2_EX2_03D_REMAINING_FIVE_CONIC_RESTRICTION_PREFLIGHT_V1",
+  "source_locks": {
+    "diagnostic": {
+      "blob_sha1": "9df4d917332610e68a48641c58805a541111b5ff",
+      "path": "stages/stage32-ex2/diagnose_ex2_03d_zero_curve_geometry.py"
+    },
+    "ex2_03c": {
+      "blob_sha1": "a4b9396790b6c3b026a4a624247a48b1148a6d36",
+      "canonical_sha256": "60f6b4010549485282fab8d78da0e863e4746b07a83a9a0e33ddb2e175330330",
+      "path": "stages/stage32-ex2/EX2-03/known140-zero-curve-omission-witnesses.json"
+    },
+    "hperp_adapter": {
+      "blob_sha1": "fb1eb380ca786e42a6b00c5ef454b0e79fdba771",
+      "canonical_sha256": "fc695b9405ec4becfbcf19866c0c70fceed9372186a5aa4974879f302ee8ffe9",
+      "path": "stages/stage32/residual-32-01-production/hperp_integral_adapter.py"
+    },
+    "runkey": {
+      "generation": 1,
+      "path": "stages/stage32-ex2/runkeys/ex2-03d-zero-curve-geometry.json"
+    },
+    "v6": {
+      "blob_sha1": "dae90ed19395355bebeebe2a6aa6bb1c6e53c244",
+      "canonical_sha256": "d0c1c8bddfe3950737ed6f87ffa74acd850c736298bd12ec1eceac609625b8a8",
+      "path": "stages/stage32/32-21/post1473-v6-witness-body-recovered.json"
+    },
+    "workflow": {
+      "path": ".github/workflows/stage32ex2-ex2-03d-zero-curve-geometry.yml"
+    }
+  },
+  "stage": "32EX2",
+  "status": "PASS_EXACT_FIVE_DISJOINT_CONICS_RESTRICTION_REDUCED_TO_ONE_DIMENSIONAL_EVALUATION",
+  "unit": "EX2-03D"
+}
