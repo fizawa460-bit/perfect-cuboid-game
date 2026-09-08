@@ -39,28 +39,14 @@ jobs:
             git push
             exit "$rc"
           fi
+          find stages/stage33/33-12 -type d -name __pycache__ -prune -exec rm -rf {} +
       - name: Enforce bounded generated delta
         shell: bash
         run: |
-          set +e
+          set -euo pipefail
           expected='stages/stage33/33-12/e3-v91c1x-r5b3b3c4a-tame-residue-parity-and-cross-carrier-preflight.json'
           changed="$(git status --porcelain | sed -E 's/^.. //' || true)"
-          if [ "$changed" != "$expected" ]; then
-            {
-              echo 'BOUNDED_DELTA_MISMATCH'
-              echo "expected=$expected"
-              echo 'changed<<EOF'
-              printf '%s\n' "$changed"
-              echo 'EOF'
-              git status --porcelain
-            } > stages/stage33/33-12/e3-v91c1x-r5b3b3c4a-debug.txt
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add stages/stage33/33-12/e3-v91c1x-r5b3b3c4a-debug.txt
-            git commit -m '[Stage33] capture R5B3B3C4A bounded-delta diagnostic'
-            git push
-            exit 1
-          fi
+          test "$changed" = "$expected"
           git diff --check
       - name: Commit generated artifact
         shell: bash
