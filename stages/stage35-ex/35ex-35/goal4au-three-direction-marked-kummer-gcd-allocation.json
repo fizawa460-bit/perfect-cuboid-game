@@ -1,0 +1,199 @@
+{
+  "schema": "STAGE35_EX_GOAL4AU_THREE_DIRECTION_MARKED_KUMMER_GCD_ALLOCATION_V1",
+  "stage": "35-EX",
+  "unit": "35EX-35_GOAL4AU_MARKED_KUMMER_GCD_RESERVOIR_PRIME_ALLOCATION_PREFLIGHT",
+  "status": "PROVISIONAL_EXACT_THREE_DIRECTION_MARKED_KUMMER_PRODUCT_ONE_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT",
+  "authority": {
+    "state_schema": "STAGE35_EX_PESCH_E1_STATE_V74_GOAL4AK_EXPLICIT_F_B_AUDITED_LOCAL_EVALUATION_RELEASED",
+    "last_audited_unit": "35EX-35_GOAL4AK_SECOND_CLASS_QI_CYCLIC_EXPLICIT_F_B_ASSEMBLY",
+    "hostile_review_id": 5142248509,
+    "merge_sha": "42f20e47babdfdda068a605e3fec489eeace460c"
+  },
+  "stacked_parent": {
+    "unit": "35EX-35_GOAL4AT_MARKED_RESIDUAL_KUMMER_SQUARECLASS_LOCAL_SUPPORT_PREFLIGHT",
+    "exact_head_sha": "f499b3e8b4f3e723b1046e2eff0e9f8ac3be24a5",
+    "aggregate_run": 34291537497,
+    "aggregate_job": 102280319029,
+    "hostile_audited": false,
+    "kummer_gcd_formula": "d=[G/(2BC)]=[(2BC)/G]"
+  },
+  "source_locks": {
+    "goal4au_source": {
+      "path": "stages/stage35-ex/35ex-35/goal4au-three-direction-marked-kummer-gcd-allocation-source-lock.md",
+      "blob_sha1": "773b104c65454ae307bb59e87a15c74f505fdcbf"
+    },
+    "goal4at": {
+      "path": "stages/stage35-ex/35ex-35/goal4at-marked-residual-kummer-local-support.json",
+      "blob_sha1": "3e6949c18b044e38632ba840c3cb7b45b7e62302",
+      "canonical_sha256": "50778f7b5d65ffd5744916e26ef2545c2a1cef366cbf52b5bf72da92379b0141"
+    },
+    "private_gcd": {
+      "path": "stages/stage35-ex/35ex-35/private-edge-gcd-six-variable-decomposition.json",
+      "blob_sha1": "d0cd03a5ff744d5f6536b6d2784c0e0d543fea48"
+    },
+    "goal4j": {
+      "path": "stages/stage35-ex/35ex-35/goal4j-linked-congruent-number-selmer-coupling-preflight.json",
+      "blob_sha1": "f74b4bfb3128ada4312255371e35d3473744cb13"
+    },
+    "s35_pw01": {
+      "path": "docs/arsenal/cards/provisional/S35-PW01.md",
+      "blob_sha1": "2e92dc779ff6a8f3828c3a66ec2025a94dbe634d",
+      "maturity": "PROVISIONAL"
+    }
+  },
+  "primitive_face_dictionary": {
+    "edges": [
+      "A=x*y*a",
+      "B=x*z*b",
+      "C=y*z*c"
+    ],
+    "reduced_hypotenuses": [
+      "D_AB=x*r_AB",
+      "D_AC=y*r_AC",
+      "D_BC=z*r_BC"
+    ],
+    "reduced_face_equations": [
+      "r_AB^2=(y*a)^2+(z*b)^2",
+      "r_AC^2=(x*a)^2+(z*c)^2",
+      "r_BC^2=(x*b)^2+(y*c)^2"
+    ],
+    "reduced_hypotenuses_odd": true
+  },
+  "directional_gcds": {
+    "G_A": "gcd(D_AB*D_AC-B*C,D_AB*D_AC+B*C)=x*y*H_A",
+    "G_B": "gcd(D_AB*D_BC-A*C,D_AB*D_BC+A*C)=x*z*H_B",
+    "G_C": "gcd(D_AC*D_BC-A*B,D_AC*D_BC+A*B)=y*z*H_C",
+    "H_A": "gcd(r_AB*r_AC-z^2*b*c,r_AB*r_AC+z^2*b*c)",
+    "H_B": "gcd(r_AB*r_BC-y^2*a*c,r_AB*r_BC+y^2*a*c)",
+    "H_C": "gcd(r_AC*r_BC-x^2*a*b,r_AC*r_BC+x^2*a*b)"
+  },
+  "inner_square_products": {
+    "A": "(r_AB*r_AC-z^2*b*c)*(r_AB*r_AC+z^2*b*c)=(a*W)^2",
+    "B": "(r_AB*r_BC-y^2*a*c)*(r_AB*r_BC+y^2*a*c)=(b*W)^2",
+    "C": "(r_AC*r_BC-x^2*a*b)*(r_AC*r_BC+x^2*a*b)=(c*W)^2"
+  },
+  "odd_prime_allocation": {
+    "h_a": "gcd(a,r_BC)",
+    "h_b": "gcd(b,r_AC)",
+    "h_c": "gcd(c,r_AB)",
+    "h_a_h_b_h_c_odd": true,
+    "H_A_odd": "h_b*h_c",
+    "H_B_odd": "h_a*h_c",
+    "H_C_odd": "h_a*h_b",
+    "fixed_prime_support_obtained": false
+  },
+  "two_adic_allocation": {
+    "epsilon_A": "2 iff z*b*c odd, else 1",
+    "epsilon_B": "2 iff y*a*c odd, else 1",
+    "epsilon_C": "2 iff x*a*b odd, else 1",
+    "H_A": "epsilon_A*h_b*h_c",
+    "H_B": "epsilon_B*h_a*h_c",
+    "H_C": "epsilon_C*h_a*h_b",
+    "exactly_one_epsilon_equals_2": true,
+    "epsilon_product": 2
+  },
+  "marked_kummer_graph": {
+    "alpha": "[a/h_a]",
+    "beta": "[b/h_b]",
+    "gamma": "[c/h_c]",
+    "kappa_A": "[2/epsilon_A]",
+    "kappa_B": "[2/epsilon_B]",
+    "kappa_C": "[2/epsilon_C]",
+    "d_A": "kappa_A*beta*gamma",
+    "d_B": "kappa_B*alpha*gamma",
+    "d_C": "kappa_C*alpha*beta",
+    "linear_matrix_rows": [
+      [
+        0,
+        1,
+        1
+      ],
+      [
+        1,
+        0,
+        1
+      ],
+      [
+        1,
+        1,
+        0
+      ]
+    ],
+    "linear_rank_F2": 2,
+    "linear_kernel": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        1,
+        1
+      ]
+    ],
+    "source_reservoirs_individually_recovered": false
+  },
+  "cross_face_relation": {
+    "G_product_squareclass": "[G_A*G_B*G_C]=[2]",
+    "marked_product": "d_A*d_B*d_C=1 in Q*/Q*^2",
+    "any_two_determine_third": true,
+    "new_source_marked_kummer_relation": true,
+    "new_branch_pruning_obtained": false,
+    "any_d_i_trivial_forced": false
+  },
+  "relation_to_goal4j": {
+    "goal4j_twist_product": "[N_AB]*[N_AC]*[N_BC]=[2]",
+    "goal4j_cross_twist_selmer_pruning_obtained": false,
+    "goal4au_retroactively_repairs_goal4j": false,
+    "common_two_cover_constructed": false,
+    "common_selmer_complex_constructed": false,
+    "cassels_pairing_identity_constructed": false,
+    "interpretation": "new exact relation among specific source-marked residual Kummer classes; abstract rank-two shadow remains noninjective"
+  },
+  "result": {
+    "three_direction_gcd_allocation_obtained": true,
+    "three_reservoir_marked_kummer_graph_obtained": true,
+    "cross_face_marked_kummer_product_one_obtained": true,
+    "new_branch_pruning_obtained": false,
+    "common_two_cover_constructed": false,
+    "cassels_pairing_identity_constructed": false,
+    "route_status": "PASS_NEW_CROSS_FACE_MARKED_KUMMER_RELATION_NO_PRUNING_YET"
+  },
+  "next": {
+    "unit": "35EX-35_GOAL4AV_CROSS_FACE_MARKED_KUMMER_COMMON_COVER_PREFLIGHT",
+    "question": "test whether d_A*d_B*d_C=1 lifts to a source-derived common 2-cover/fiber-product/Cassels-pairing constraint excluding the physical marked triple, or is only a non-pruning rank-two shadow"
+  },
+  "credit_firewall": {
+    "goal4at_hostile_audited": false,
+    "goal4au_hostile_audited": false,
+    "any_global_d_i_trivial_proved": false,
+    "any_global_d_i_nontrivial_proved": false,
+    "finite_squareclass_family_proved": false,
+    "common_two_cover_constructed": false,
+    "common_selmer_complex_constructed": false,
+    "cassels_pairing_obstruction_obtained": false,
+    "two_divisibility_proved": false,
+    "infinite_descent_proved": false,
+    "brauer_manin_obstruction_obtained": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "literal_representatives": {
+    "K_A": "(2*B*C)/G_A=z^2*k_A*b0*c0",
+    "K_B": "(2*A*C)/G_B=y^2*k_B*a0*c0",
+    "K_C": "(2*A*B)/G_C=x^2*k_C*a0*b0",
+    "a0": "a/h_a",
+    "b0": "b/h_b",
+    "c0": "c/h_c",
+    "k_A": "2/epsilon_A in {1,2}",
+    "k_B": "2/epsilon_B in {1,2}",
+    "k_C": "2/epsilon_C in {1,2}",
+    "k_product": 4,
+    "exact_product_square": "K_A*K_B*K_C=(2*x*y*z*a0*b0*c0)^2"
+  },
+  "canonical_sha256": "4d23730b7ec3a2d5b1986d270924c2c34a5019cabd5171ddc1552055bf0971b2"
+}
