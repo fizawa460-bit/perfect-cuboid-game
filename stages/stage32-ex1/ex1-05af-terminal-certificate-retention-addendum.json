@@ -1,0 +1,57 @@
+{
+  "schema": "STAGE32EX1_05AF_TERMINAL_CERTIFICATE_RETENTION_ADDENDUM_V1",
+  "stage": "32EX1",
+  "authority": "SCRATCH_NONAUTHORITATIVE_TERMINAL_CANDIDATE",
+  "supersedes_boundary_only": {
+    "artifact_path": "stages/stage32-ex1/scratch/ex1-05af-s0-integral-ns-pullback-saturation-preflight.json",
+    "blob_sha1": "bf52be685e2a07d23b6f4ed836968687c610bb64",
+    "field": "topological_integral_pullback_certificate.replay_boundary and replay.boundary",
+    "statement": "The previously missing independent cellular pullback/Smith retention has now been supplied. All mathematical terminal-candidate claims and all no-credit firewalls of the parent artifact remain unchanged."
+  },
+  "retained_full_smith_certificate": {
+    "domain": {
+      "path": "stages/stage32-ex1/scratch/ex1-05af-cellular-h2-domain-certificate.json",
+      "blob_sha1": "ee14798ce1f92aae0b8519ceec3f883d9106788f",
+      "canonical_sha256": "1d682a8a3921a46470c6f383ae20f3b8bf5068334b3c4aee8e5b92699a9f19fe",
+      "claim": "Exact genus-2 CW/isotropic-V4 cellular certificate: H^2(S0,Z)=Z^30 plus Z/2, with explicit integral kernel/image witnesses."
+    },
+    "pullback": {
+      "path": "stages/stage32-ex1/scratch/ex1-05af-cellular-pullback-smith-certificate.json",
+      "blob_sha1": "8f238ff7bdea3516ab4e1246a0202954b2d1bc3f",
+      "canonical_sha256": "988a360ddeb7e22e0aa1923044b8e473d50f10e9dd82d84565266ed292d98984",
+      "claim": "Direct cellular p^* certificate in integral Kunneth coordinates with primitive saturation basis and Smith factors 1^25,2,2,2,4,4; cokernel (Z/2)^3 x (Z/4)^2, index128."
+    },
+    "verifier": {
+      "path": "stages/stage32-ex1/scratch/verify_ex1_05af_full_cellular_smith_certificate.py",
+      "blob_sha1": "8d78748eff68284b73224ed5b67b58966a622826",
+      "expected": "PASS_EX1_05AF_FULL_CELLULAR_SMITH_CERTIFICATE",
+      "independence": "Reconstructs CW boundaries, S0 quotient cochains, X8xX8 product cochains and p^* without using compact 05AF OBS/PIVROWS."
+    }
+  },
+  "certificate_result": {
+    "S0_betti": [1,8,30,8,1],
+    "smith_tail": [2,2,2,4,4],
+    "pullback_index": 128,
+    "pullback_cokernel": "(Z/2)^3 x (Z/4)^2",
+    "compact_6144_verifier_still_required": true,
+    "compact_6144_expected": "PASS_EX1_05AF_ALL_6144_ASSEMBLIES_HAVE_ORDER2_NS_DESCENT_OBSTRUCTION"
+  },
+  "decision": {
+    "route_status": "PASS_TERMINAL_CANDIDATE_CERTIFICATE_RETAINED_READY_FOR_CONSOLIDATION",
+    "mathematical_candidate": "ALL_29_FIXED_V6_H4_Q_STATES_EXCLUDED_BY_INTEGRAL_NS_DESCENT_SATURATION",
+    "allowed_terminal_outcome_target": "ALL_V6_GENUS1_CARRIERS_EXCLUDED",
+    "authority_credit_granted": false,
+    "hostile_audit_credit_granted": false,
+    "stage32_main_credit_granted": false,
+    "next_route": "EX1_RETAINED_CONSOLIDATION_FRESHNESS_CLAIM_DAG_EXACT_HEAD_CI_THEN_HOSTILE_AUDIT",
+    "do_not_broaden_math_route": true
+  },
+  "firewalls": {
+    "scratch_only": true,
+    "terminal_outcome_self_awarded": false,
+    "hostile_audit_pass_self_awarded": false,
+    "merge_authorized": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "e731550a29e908932d19b6349364b1183d8ed72f71847397f8305b9af4362a45"
+}

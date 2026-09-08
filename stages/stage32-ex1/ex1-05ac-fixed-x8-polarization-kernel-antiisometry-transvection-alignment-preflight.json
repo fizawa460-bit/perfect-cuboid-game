@@ -1,0 +1,195 @@
+{
+  "schema": "STAGE32EX1_EX1_05AC_FIXED_X8_POLARIZATION_KERNEL_ANTIISOMETRY_TRANSVECTION_ALIGNMENT_PREFLIGHT_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05AC_FIXED_X8_POLARIZATION_KERNEL_ANTIISOMETRY_TRANSVECTION_ALIGNMENT_PREFLIGHT",
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "scratch_parent_head": "c98fc41405d45f1ad27ae8539fd2e268a9347ad1",
+  "current_main_seen": "226a8aa11ac61293a7e4b7f9611177f68af94ff4",
+  "freshness_note": "The current main advance is Research-OS / Stage32EX4 / proof-management only relative to the EX1 scratch merge base; no EX1 mathematical source lock used by 05AA-05AC drifted. The new audit-debt threshold explicitly excludes scratch-only branches, so no consolidation is forced by scratch commit count.",
+  "question": "Does the fixed principal-Jacobian polarization gluing identify the three invariant-side Q602 transvections 73,97,235 with the three Prym-factor Gaussian transvections, or can exact labeled anti-isometry compatibility remove one or more residues?",
+  "source_locks": {
+    "parent_05aa": {
+      "path": "stages/stage32-ex1/scratch/ex1-05aa-q602-mod4-isotropic-glue-kernel-action-preflight.json",
+      "blob_sha1": "8e453f889951191ded2f4e784850754257001f8e",
+      "exact_use": "All exact Q602 mod4 lifts of each retained residue induce one A[2] action. The three actions are invertible rank-one unipotents with centers [1,0,0,0], [0,1,0,0], [1,1,0,0]."
+    },
+    "parent_05ab": {
+      "path": "stages/stage32-ex1/scratch/ex1-05ab-fixed-x8-prym-selected-2torsion-cm-orbit-preflight.json",
+      "blob_sha1": "410c89e86a61de381d622c82f9dd821e4043a0b9",
+      "exact_use": "All three selected nonzero Prym addition-kernel points x_i are the unique Gaussian-CM-fixed nonzero 2-torsion points, so an i-type Gaussian endomorphism is legal on any one of the three factors."
+    },
+    "principal_rosati": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json",
+      "blob_sha1": "e28c4533883440ea0963d4d4e8859aa95409cf10",
+      "canonical_sha256": "8d828cdf6d1f5cb1d790c46292535dc252e503356e1047ce972c41e61f524529",
+      "exact_use": "The principal Riemann form in basis (e1,e2,r*e1,r*e2) is [[0,1,2,1],[-1,0,1,2],[-2,-1,0,2],[-1,-2,-2,0]]."
+    },
+    "marked_gauge": {
+      "path": "stages/stage32/residual-32-01-production/post1505-o210-q602-marked-w-line-gauge-orbit.json",
+      "blob_sha1": "2b790882222656f65ed7ea4bdc2336553890b6a1",
+      "canonical_sha256": "7ad84e3c0a567119933ee0941b3b125ebcdb80651973033e13dbf12b553bfc92",
+      "exact_use": "b3,b4 preserve the exact plane W; on its nonzero lines b3 acts L1->L3->L2->L1 and b4 fixes L1 and swaps L2,L3. Residues transform identically as 73->235->97->73 under b3 and b4 fixes 73 while swapping 97,235."
+    },
+    "borowka_ortega": {
+      "authors": ["Pawel Borowka", "Angela Ortega"],
+      "title": "Klein coverings of genus 2 curves",
+      "journal": "Transactions of the American Mathematical Society 373 (2020), 1885-1907",
+      "doi": "10.1090/tran/7971",
+      "arxiv": "1904.05962v2",
+      "locators": ["Proposition 4.9", "Theorem 4.12", "Lemma 4.13", "Lemmas 5.5-5.7"],
+      "exact_use": "For the isotropic cover, A=JH/G is complementary to P in J(Ctilde); P has type (1,2,2) and decomposes into three elliptic character factors. The addition kernel of those elliptic factors is <(x1,x2,x3)> with all xi nonzero; each restricted elliptic polarization has type (2)."
+    },
+    "complementary_polarization_external": {
+      "reference": "Birkenhake-Lange complementary-subvariety formalism, also stated as Corollary 3.4 in Kock, Lectures on abelianisation of G-bundles",
+      "exact_use": "For complementary subvarieties A,P inside a principally polarized abelian variety, K(lambda_A)=A intersect P and the addition-kernel is the graph of the induced anti-isometry between K(lambda_A) and K(lambda_P)."
+    },
+    "strong_torelli_external": {
+      "reference": "Strong Torelli theorem for curves; Huybrechts, The geometry of cubic hypersurfaces, Remark 4.9",
+      "exact_use": "A principal-polarization automorphism of a hyperelliptic Jacobian is induced by a curve automorphism. Therefore the retained b3,b4 principal Bolza automorphisms, which preserve W, lift to the fixed W-defined X(8) cover and act naturally on A, P and the gluing kernel."
+    }
+  },
+  "invariant_side_polarization_kernel": {
+    "J": "J(C2)",
+    "W_basis_in_J2": [[0,0,1,0],[0,0,0,1]],
+    "A": "J/W embedded as the invariant abelian surface in J(X8)",
+    "principal_A_polarization": "lambda_A0 with q^*lambda_A0=2*lambda_J",
+    "restricted_JX8_polarization": "2*lambda_A0",
+    "kernel": "A[2]",
+    "A2_basis": ["[2e1]","[2e2]","[r*e1]","[r*e2]"],
+    "A2_pairing_derivation": "Use lattice basis e1,e2,(r e1)/2,(r e2)/2 for A and the form 2E_J; reduce modulo two.",
+    "A2_symplectic_matrix": [[0,0,0,1],[0,0,1,0],[0,1,0,1],[1,0,1,0]],
+    "nondegenerate": true
+  },
+  "q602_transvection_centers": {
+    "actions_rows": {
+      "73": [[1,0,0,1],[0,1,0,0],[0,0,1,0],[0,0,0,1]],
+      "97": [[1,0,0,0],[0,1,1,0],[0,0,1,0],[0,0,0,1]],
+      "235": [[1,0,1,1],[0,1,1,1],[0,0,1,0],[0,0,0,1]]
+    },
+    "each_preserves_A2_pairing": true,
+    "each_is_symplectic_transvection": true,
+    "centers": {
+      "73": [1,0,0,0],
+      "97": [0,1,0,0],
+      "235": [1,1,0,0]
+    },
+    "center_plane_UA": "span([1,0,0,0],[0,1,0,0])",
+    "UA_nonzero_equals_all_three_centers": true
+  },
+  "bolza_symmetry_on_A2": {
+    "b3_A2": [[1,1,0,0],[1,0,0,0],[0,0,1,1],[0,0,1,0]],
+    "b4_A2": [[1,1,0,1],[0,1,0,0],[0,0,1,1],[0,0,0,1]],
+    "UA_invariant": true,
+    "two_dimensional_subspaces_of_F2_4": 35,
+    "b3_b4_invariant_two_dimensional_subspaces": 1,
+    "unique_invariant_plane": "UA",
+    "center_permutations": {
+      "b3": "73 -> 235 -> 97 -> 73",
+      "b4": "73 fixed; 97 <-> 235"
+    }
+  },
+  "prym_side_kernel": {
+    "presentation": "P=(E1 x E2 x E3)/K with K=<k>, k=(x1,x2,x3)",
+    "all_xi_nonzero": true,
+    "all_xi_Gaussian_CM_fixed": true,
+    "product_polarization": "2 times the principal product polarization, type (2,2,2)",
+    "KP": "K(P,Xi)=k^perp/<k>",
+    "KP_dimension_F2": 4,
+    "factor_center": "ci is the image of (0,...,xi,...,0) in k^perp/<k>",
+    "factor_centers_distinct": true,
+    "factor_center_relation": "c1+c2+c3=0",
+    "factor_center_plane_UP": "{0,c1,c2,c3}",
+    "UP_dimension_F2": 2,
+    "i_type_Gaussian_on_factor_i": "induces the symplectic transvection centered at ci on KP",
+    "identity_type_Gaussian_on_other_factors": "acts trivially on KP modulo two"
+  },
+  "fixed_gluing_antiisometry": {
+    "ambient_ppav": "J(X8) with its principal polarization",
+    "complementary_pair": ["A","P"],
+    "addition_kernel": "graph(psi) subset A[2] x K(P,Xi)",
+    "psi": "A[2] -> K(P,Xi) anti-symplectic; over F2 the sign distinction is immaterial",
+    "naturality": "Any lifted cover automorphism preserving A and P preserves graph(psi), hence psi intertwines the induced actions.",
+    "b3_b4_lift_reason": "b3,b4 preserve W and are principal Bolza automorphisms; strong Torelli realizes them on C2 and W-stability lifts them to X(8).",
+    "UP_invariant_under_lifts": true,
+    "reason_UP_invariant": "The lifts permute the three nontrivial H-character elliptic factors. Internal Gaussian units fix each selected xi, so the induced action on {c1,c2,c3} is the factor permutation.",
+    "key_uniqueness_argument": "psi^{-1}(UP) is a b3,b4-invariant two-plane in A[2]. The exact A2 replay has only one such plane, UA. Therefore psi(UA)=UP.",
+    "consequence": "The three Q602 transvection centers are mapped bijectively to the three Prym-factor transvection centers."
+  },
+  "equivariant_label_alignment": {
+    "abstract_factor_labels": ["L1","L2","L3"],
+    "factor_permutations": {
+      "b3": "L1 -> L3 -> L2 -> L1",
+      "b4": "L1 fixed; L2 <-> L3"
+    },
+    "unique_equivariant_bijection": true,
+    "alignment": {
+      "73": "L1",
+      "235": "L3",
+      "97": "L2"
+    },
+    "orientation_firewall": "These are exact W-line/factor-orbit labels. No claim is made here that L1,L2,L3 equal a previously named deck basis chi_u,chi_v,chi_uv without a separate named-character adapter.",
+    "arithmetic_effect": "Every residue has a compatible Prym transvection center. Since degree 137 and degree 9 each admit both identity-type and i-type Gaussian norm witnesses, the forced degree multiset {137,9,9} can realize the required transvection on whichever one factor is selected by the alignment."
+  },
+  "statewise_replay": {
+    "Q_values": [210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266],
+    "Q_state_count": 29,
+    "Q602_residues_entering": [73,97,235],
+    "Q602_residues_excluded": 0,
+    "Q_states_excluded": 0,
+    "alignment_uniform_in_EX1_Q": true
+  },
+  "decision": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "new_exact_pattern": "THE_FIXED_X8_POLARIZATION_GLUE_MAPS_THE_UNIQUE_B3_B4_INVARIANT_Q602_TRANSVECTION_CENTER_PLANE_BIJECTIVELY_ONTO_THE_THREE_PRYM_FACTOR_CM_TRANSVECTION_CENTERS",
+    "fixed_antiisometry_setwise_alignment_closed": true,
+    "fixed_W_line_factor_alignment_closed": true,
+    "two_primary_glue_obstruction_excludes": false,
+    "Q602_residues_excluded": 0,
+    "Q_states_excluded": 0,
+    "V6_carrier_excluded": false,
+    "new_gate": "ASSEMBLE_AN_ACTUAL_GLOBAL_H_EQUIVARIANT_ENDOMORPHISM_OF_JX8_FROM_THE_BASE_Q602_OPERATOR_AND_GAUSSIAN_PRYM_COMPONENTS_USING_THE_NOW_CLOSED_GLUE_COMPATIBILITY",
+    "exact_blocker": "The 2-primary gluing layer no longer supplies an obstruction. What remains before declaring the Jacobian-endomorphism layer completely flexible is to perform the integral descent/assembly itself for representatives of 73,97,235 and verify the full H-equivariant Rosati/deck-trace package. This still would be class/endomorphism evidence, not an actual singular V6 carrier.",
+    "reopen_condition": "Reopen 05AC only if an exact global assembly exposes a compatibility condition beyond the polarization-kernel action."
+  },
+  "candidate_ledger": {
+    "LIVE": ["GLOBAL_JX8_H_EQUIVARIANT_ENDOMORPHISM_DESCENT_ASSEMBLY"],
+    "UNTESTED": ["ACTUAL_V6_SECTION_MATERIALIZATION"],
+    "BLOCKED": ["D0_SUPPORT_EXTRACTION_FROM_CURRENT_CORRESPONDENCE_ROSATI_DEGREE_DATA"],
+    "DOMINATED": ["FIXED_ANTIISOMETRY_LABEL_AMBIGUITY_AS_A_PRUNING_ROUTE","Q602_MOD4_LIFT_ENUMERATION_AS_A_RESIDUE_PRUNER","SELECTED_PRYM_2TORSION_CM_ORBIT_AMBIGUITY","PRYM_ELLIPTIC_NORM_ONLY_OBSTRUCTION"],
+    "EQUIVALENT": []
+  },
+  "next_route": {
+    "route_id": "EX1_05AD_GLOBAL_JX8_H_EQUIVARIANT_ENDOMORPHISM_DESCENT_ASSEMBLY_PREFLIGHT",
+    "selection_reason": "05AC closes the only remaining finite gluing-label ambiguity. The closest stronger test is to descend explicit base and Prym endomorphisms through the graph anti-isometry and replay the full lifted Rosati/deck-trace invariants."
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "CYCLE_ACTIVE_RECEIVER": "GLOBAL_JX8_H_EQUIVARIANT_ENDOMORPHISM_ASSEMBLY_WITH_EXACT_Q602_AND_PRYM_NORMS_137_9_9",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 1,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": false,
+    "CYCLE_BLIND_REDISCOVERY": false,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "NATURAL_COMPLEMENTARY_POLARIZATION_GLUE_PLUS_UNIQUE_BOLZA_INVARIANT_CENTER_PLANE",
+    "CYCLE_NEW_VIEW_SOURCE": "INTERNAL_FINITE_DERIVATION_PLUS_BOROWKA_ORTEGA_AND_COMPLEMENTARY_ABELIAN_SUBVARIETY_FORMALISM"
+  },
+  "replay": {
+    "verifier": "stages/stage32-ex1/scratch/verify_ex1_05ac_fixed_x8_polarization_kernel_antiisometry_transvection_alignment.py",
+    "expected": "PASS_EX1_05AC_FIXED_GLUE_ALIGNS_ALL_THREE_TRANSVECTIONS"
+  },
+  "firewalls": {
+    "principal_ppav_gauge_promoted_to_curve_lift_without_Torelli": false,
+    "setwise_S3_orbit_promoted_to_named_deck_character_without_adapter": false,
+    "transvection_center_alignment_promoted_to_full_integral_endomorphism_descent": false,
+    "compatible_endomorphism_promoted_to_geometric_correspondence_curve": false,
+    "Q_state_exclusion_claimed": false,
+    "Q602_exclusion_claimed": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  }
+}
