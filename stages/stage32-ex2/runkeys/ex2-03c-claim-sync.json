@@ -1,0 +1,27 @@
+{
+  "schema": "STAGE32EX2_EX2_03C_CLAIM_SYNC_RUNKEY_V1",
+  "generation": 1,
+  "armed": true,
+  "expected_current_main": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "source_locks": {
+    "helper_path": "stages/stage32-ex2/apply_ex2_03c_claim_sync.py",
+    "helper_blob_sha1": "e9df477ad2c8e68f9c27d70415a303c1d1deea14"
+  },
+  "execution": {
+    "planned_jobs": 1,
+    "planned_parallelism": 1,
+    "artifact_upload": false,
+    "writes": [
+      "stages/stage32-ex2/MAIN-STATE.json",
+      "stages/stage32-ex2/verify_main_state.py",
+      "stages/stage32/proof/CLAIM-REGISTRY.json",
+      "stages/stage32/proof/LANE-ADAPTERS.json"
+    ]
+  },
+  "safety": {
+    "fresh_generation_required": true,
+    "stage32_main_authority_change_allowed": false,
+    "hostile_audit_credit_allowed": false,
+    "merge_allowed": false
+  }
+}
