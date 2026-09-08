@@ -34,3 +34,15 @@ jobs:
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
       - name: Verify active Stage32 mathematical frontier
         run: python stages/stage32/proof/verify_stage32_active_frontier.py
+      - name: Replay synthetic fail-close regressions
+        run: python stages/stage32/proof/verify_stage32_claim_dag.py --self-test-fail-closed
+      - name: Assert current FINAL-CHECK is NOT_READY
+        shell: bash
+        run: |
+          set +e
+          output="$(python stages/stage32/proof/verify_stage32_claim_dag.py --final)"
+          code=$?
+          set -e
+          printf '%s\n' "$output"
+          test "$code" -eq 2
+          printf '%s\n' "$output" | python -c 'import json,sys; o=json.load(sys.stdin); assert o["verdict"] == "NOT_READY_STAGE32_FINAL_CHECK"; assert o["final_ready"] is False'
