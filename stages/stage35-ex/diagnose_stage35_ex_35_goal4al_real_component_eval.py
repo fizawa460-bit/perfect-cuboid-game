@@ -11,7 +11,6 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[2]
 LOADER=ROOT/'stages/stage35-ex/35ex-35/goal4ak_explicit_fb.py'
-SOURCE=ROOT/'stages/stage35-ex/35ex-35/goal4al-real-component-local-evaluation-preflight-source-lock.md'
 ZERO=(Fraction(0),Fraction(0),Fraction(0),Fraction(0))
 ONE=(Fraction(1),Fraction(0),Fraction(0),Fraction(0))
 
@@ -28,9 +27,6 @@ def ra(x):
 def rb(x):
     return (Fraction(0),Fraction(0),Fraction(x),Fraction(0))
 
-def rab(x):
-    return (Fraction(0),Fraction(0),Fraction(0),Fraction(x))
-
 def add(u,v):
     return tuple(a+b for a,b in zip(u,v))
 
@@ -45,10 +41,6 @@ def mul(u,v,A,B):
 
 def sq(u,A,B):
     return mul(u,u,A,B)
-
-def scale(u,s):
-    s=Fraction(s)
-    return tuple(s*x for x in u)
 
 def powers(u,A,B,n=31):
     out=[ONE]
@@ -102,10 +94,16 @@ def check_surface(coords,A,B):
     assert sq(z,A,B)==add(sq(x,A,B),sq(y,A,B))
     assert sq(w,A,B)==add(ONE,add(sq(x,A,B),sq(y,A,B)))
 
+# The first-generation diagonal probes x=y were all nonregular for the fixed
+# A31/B31 presentation (run 34236284901, job 102096461707).  Use six
+# non-diagonal positive-component points, in swap pairs, with rational p and q.
 samples=[
-    ('t1',2,3,[q(1),q(1),q(1),ra(1),ra(1),ra(1),rb(1)]),
-    ('t3over4',2,17,[q(1),q(Fraction(3,4)),q(Fraction(3,4)),ra(Fraction(3,4)),q(Fraction(5,4)),q(Fraction(5,4)),rab(Fraction(1,4))]),
-    ('t4over3',2,41,[q(1),q(Fraction(4,3)),q(Fraction(4,3)),ra(Fraction(4,3)),q(Fraction(5,3)),q(Fraction(5,3)),rb(Fraction(1,3))]),
+    ('x3over4_y4over3',337,481,[q(1),q(Fraction(3,4)),q(Fraction(4,3)),ra(Fraction(1,12)),q(Fraction(5,3)),q(Fraction(5,4)),rb(Fraction(1,12))]),
+    ('x4over3_y3over4',337,481,[q(1),q(Fraction(4,3)),q(Fraction(3,4)),ra(Fraction(1,12)),q(Fraction(5,4)),q(Fraction(5,3)),rb(Fraction(1,12))]),
+    ('x3over4_y5over12',106,10,[q(1),q(Fraction(3,4)),q(Fraction(5,12)),ra(Fraction(1,12)),q(Fraction(13,12)),q(Fraction(5,4)),rb(Fraction(5,12))]),
+    ('x5over12_y3over4',106,10,[q(1),q(Fraction(5,12)),q(Fraction(3,4)),ra(Fraction(1,12)),q(Fraction(5,4)),q(Fraction(13,12)),rb(Fraction(5,12))]),
+    ('x5over12_y4over3',281,17,[q(1),q(Fraction(5,12)),q(Fraction(4,3)),ra(Fraction(1,12)),q(Fraction(5,3)),q(Fraction(13,12)),rb(Fraction(5,12))]),
+    ('x4over3_y5over12',281,17,[q(1),q(Fraction(4,3)),q(Fraction(5,12)),ra(Fraction(1,12)),q(Fraction(13,12)),q(Fraction(5,3)),rb(Fraction(5,12))]),
 ]
 rows=[]
 regular_signs=[]
@@ -124,15 +122,23 @@ for name,A,B,coords in samples:
         'numerator_sign':nsig,'denominator_sign':dsig,'regular_for_fixed_FB':regular,
         'F_B_sign':fsign,'class_B_real_invariant':'0' if fsign==1 else ('1/2' if fsign==-1 else None),
     })
-assert regular_signs, 'no regular positive-component sample'
+probe={
+    'schema':'STAGE35_EX_GOAL4AL_CLASS_B_POSITIVE_REAL_COMPONENT_PROBES_V2',
+    'sample_count':len(rows),'regular_sample_count':sum(r['regular_for_fixed_FB'] for r in rows),
+    'samples':rows,
+}
+print('GOAL4AL_REAL_PROBES_JSON='+json.dumps(probe,sort_keys=True,separators=(',',':')))
+assert regular_signs, 'no regular non-diagonal positive-component sample'
 assert len(set(regular_signs))==1,('inconsistent regular sample signs',regular_signs)
 common=regular_signs[0]
 result={
-    'schema':'STAGE35_EX_GOAL4AL_CLASS_B_POSITIVE_REAL_COMPONENT_DIAGNOSTIC_V1',
+    'schema':'STAGE35_EX_GOAL4AL_CLASS_B_POSITIVE_REAL_COMPONENT_DIAGNOSTIC_V2',
     'stage':'35-EX','unit':'35EX-35_GOAL4AL_CLASS_B_LOCAL_EVALUATION_PREFLIGHT',
     'status':'PROVISIONAL_EXACT_REAL_COMPONENT_ONLY_NO_BM_NO_E1_CREDIT',
     'positive_component':'U(R)^+ = {x,y,p,q,z,w>0 on the normalized receiver surface}',
     'positive_component_connected_by_xy_graph':True,
+    'initial_diagonal_probe_run':34236284901,'initial_diagonal_probe_job':102096461707,
+    'initial_diagonal_regular_sample_count':0,
     'sample_count':len(rows),'regular_sample_count':sum(r['regular_for_fixed_FB'] for r in rows),
     'samples':rows,'common_F_B_sign_on_regular_samples':common,
     'class_B_positive_real_component_invariant':'0' if common==1 else '1/2',

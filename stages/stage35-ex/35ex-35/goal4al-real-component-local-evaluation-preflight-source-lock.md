@@ -70,13 +70,15 @@ inv_infinity = 1/2 when F_B(P)<0.
 
 Because the audited class is a Brauer class on `U`, its evaluation is locally constant on `U(R)`; connectedness of `U(R)^+` reduces the component image to one regular sample.
 
-The diagnostic uses three exact algebraic samples on the same positive component:
+The first-generation diagnostic at exact head `c94728cc7381caf48c49aab28183607be78530de` (aggregate run `34236284901`, current job `102096461707`) used three symmetric points with `x=y`. Exact evaluation found `regular_sample_count=0`: at each probe the fixed `A31/B31` presentation had numerator or denominator equal to zero. This is a sample/presentation issue, not a Brauer-class or route blocker.
 
-1. `x=y=1`, `p=q=z=sqrt(2)`, `w=sqrt(3)` in `Q(sqrt(2),sqrt(3))`;
-2. `x=y=3/4`, `p=q=5/4`, `z=3*sqrt(2)/4`, `w=sqrt(34)/4` in `Q(sqrt(2),sqrt(17))`;
-3. `x=y=4/3`, `p=q=5/3`, `z=4*sqrt(2)/3`, `w=sqrt(41)/3` in `Q(sqrt(2),sqrt(41))`.
+The repaired diagnostic therefore uses six non-diagonal exact algebraic samples, arranged in swap pairs:
 
-The checker evaluates all 5924 numerator and 1542 denominator terms exactly in the corresponding biquadratic fields. Sign is certified by rational interval enclosures whose square-root endpoints are proved by integer-square comparisons; floating-point sign decisions are not used.
+1. `(x,y)=(3/4,4/3)` and `(4/3,3/4)`, with `p,q` equal to `5/4,5/3` in the corresponding order, `z=sqrt(337)/12`, `w=sqrt(481)/12`, over `Q(sqrt(337),sqrt(481))`;
+2. `(x,y)=(3/4,5/12)` and `(5/12,3/4)`, with `p,q` equal to `5/4,13/12` in the corresponding order, `z=sqrt(106)/12`, `w=5*sqrt(10)/12`, over `Q(sqrt(106),sqrt(10))`;
+3. `(x,y)=(5/12,4/3)` and `(4/3,5/12)`, with `p,q` equal to `13/12,5/3` in the corresponding order, `z=sqrt(281)/12`, `w=5*sqrt(17)/12`, over `Q(sqrt(281),sqrt(17))`.
+
+The checker evaluates all 5924 numerator and 1542 denominator terms exactly in the corresponding biquadratic fields. Sign is certified by rational interval enclosures whose square-root endpoints are proved by integer-square comparisons; floating-point sign decisions are not used. Probe rows are emitted before the regular-sample assertion so a second presentation collision remains diagnostically informative rather than opaque.
 
 ## Credit firewall
 
