@@ -47,7 +47,12 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09DQ.py"
           git worktree remove --force "$tmp"
-      - name: Assert V199 DQ exact-green parent and DR unlock firewalls
+      - name: Verify 36-09DR explicit V4 elliptic quotient decomposition
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09DR.py
+      - name: Assert V200 DR provisional firewalls and DS lock
         shell: bash
         run: |
           set -euo pipefail
@@ -55,25 +60,30 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V199_36_09DQ_EXACT_GREEN_DR_UNLOCK_PENDING_PROMOTION_REPLAY'
-          dq=s['authority_frontier']['36-09DQ']
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V200_36_09DR_V4_ELLIPTIC_QUOTIENT_DECOMPOSITION_PENDING_EXACT_HEAD_CI'
+          dq=s['authority_frontier']['36-09DQ']; dr=s['authority_frontier']['36-09DR']
           assert dq['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert dq['certificate_blob_sha']=='4c41228d23f9088bfbea8b68c94b2a26948f8691'
-          assert dq['verifier_blob_sha']=='cabac18dca47c5bb56a54c08876aae653b3bc4c8'
-          assert dq['source_blob_sha']=='71829ec5e0af601605f1f93c5f3a3fec4cae2102'
-          assert dq['exact_head']=='b121fc0f23eba3241f35cf64a13d45cba7eaa213'
-          assert dq['exact_head_ci']=='34231468694/102078401099'
-          assert dq['GLOBAL_2PRIMARY_ADELIC_ANNIHILATOR_COMPUTED'] is True
+          assert dq['promotion_replay_head']=='befe11f72c3bc6f228ac02299f4d370ec600baa2'
+          assert dq['promotion_replay_ci']=='34231707077/102079208526'
+          assert dr['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert dr['certificate_blob_sha']=='c212f0430fb5b4d04ee0887e303a73fb303657c8'
+          assert dr['verifier_blob_sha']=='1331530aa261bffb9d3fd2c605ae25d494fb507a'
+          assert dr['source_blob_sha']=='e546e1a731dfd6b270641eb1adb026847f8b838e'
+          assert dr['Q_V4_ELLIPTIC_QUOTIENT_ISOGENY_CONSTRUCTED'] is True
+          assert dr['PROSELMER_PRODUCT_IDENTIFICATION_OBTAINED'] is False
+          assert dr['ISOGENY_2PRIMARY_KERNEL_COKERNEL_COMPUTED'] is False
           cur=s['current']; pg=s['promotion_gates']
-          assert cur['unit']=='36-09DQ'
-          assert cur['36_09DR_entry_allowed'] is True
-          assert pg['36_09DQ_exact_head_ci_passed'] is True
-          assert pg['36_09DQ_promotion_replay_passed'] is False
-          assert pg['36_09DR_entry_allowed'] is True
-          assert pg['BT_global_2primary_adelic_annihilator_is_T2Sel_image'] is True
-          assert pg['BT_retained_open_curve_proSelmer_intersection_computed'] is False
+          assert cur['unit']=='36-09DR'
+          assert cur['36_09DS_entry_allowed'] is False
+          assert pg['36_09DQ_promotion_replay_passed'] is True
+          assert pg['36_09DR_certificate_complete'] is True
+          assert pg['36_09DR_exact_head_ci_passed'] is False
+          assert pg['36_09DS_entry_allowed'] is False
+          assert pg['BT_Jacobian_Q_V4_elliptic_quotient_isogeny_constructed'] is True
+          assert pg['BT_proSelmer_product_identification_obtained'] is False
+          assert pg['BT_isogeny_2primary_kernel_cokernel_computed'] is False
           for key in ['BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          print('36-09DQ immutable exact-green evidence replayed; 36-09DR is unlocked for the retained-open curve/pro-Selmer intersection problem only. No downstream credit is granted.')
+          print('36-09DR provisional candidate verified: explicit Q-V4 elliptic quotient isogeny only. Exact 2-primary isogeny transport and all downstream credit remain locked.')
           PY
           git diff --check

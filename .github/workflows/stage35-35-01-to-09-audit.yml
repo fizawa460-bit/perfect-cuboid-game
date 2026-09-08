@@ -9,8 +9,11 @@ on:
       - '.github/workflows/stage35-35-01-to-09-audit.yml'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
-  verify-stage35-and-ex:
+  verify-stage35-core:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
@@ -19,7 +22,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          # V72 -> persisted V71/V70/... -> retained audited history.
           fetch-depth: 380
       - name: Assert exact PR head checkout
         run: |
@@ -36,12 +38,81 @@ jobs:
         run: python -B stages/stage35/verify_stage35_35_01_to_09.py
       - name: Verify Stage35 35-10 material routing firewalls
         run: python -B stages/stage35/35-10/verify_35_10.py
-      - name: Replay Stage35-EX persisted history through Goal4AH against V72
+
+  replay-stage35-ex-history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5]
+    env:
+      EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      SHARD: ${{ matrix.shard }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          # Snapshot-aware V73 -> V72/V71/... replay. Historical adapters may inspect retained git history.
+          fetch-depth: 380
+      - name: Assert exact PR head checkout
+        run: |
+          ACTUAL_HEAD_SHA="$(git rev-parse HEAD)"
+          echo "EXPECTED_HEAD_SHA=${EXPECTED_HEAD_SHA}"
+          echo "ACTUAL_HEAD_SHA=${ACTUAL_HEAD_SHA}"
+          test "${ACTUAL_HEAD_SHA}" = "${EXPECTED_HEAD_SHA}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install lightweight symbolic dependency
+        run: python -m pip install --disable-pip-version-check sympy==1.14.0
+      - name: Replay deterministic V73 history shard
+        shell: bash
         run: |
           set -euo pipefail
-          targets="base $(seq 10 32) 32p 33g1 33g2 33 34 35 35g4a 35g4b 35g4c 35g4d 35g4e 35g4f 35g4g 35g4h 35g4i 35g4j 35g4k 35g4l 35g4m 35g4n 35g4o 35g4p 35g4q 35g4r 35g4s 35g4t 35g4u 35g4v 35g4w 35g4x 35g4y 35g4z 35g4aa 35g4ab 35g4ac 35g4ad 35g4ae 35g4af 35g4ag 35g4ah"
-          for target in $targets; do
-            python -B stages/stage35-ex/verify_stage35_ex_v72_legacy_replay.py "$target"
+          mapfile -t shard_targets < <(python - "$SHARD" <<'PY'
+          import string, sys
+          shard = int(sys.argv[1])
+          assert 0 <= shard < 6
+          targets = ["base"] + [str(i) for i in range(10, 33)]
+          targets += ["32p", "33g1", "33g2", "33", "34", "35"]
+          targets += ["35g4" + c for c in string.ascii_lowercase]
+          targets += ["35g4a" + c for c in string.ascii_lowercase[:9]]
+          assert len(targets) == 65
+          assert len(set(targets)) == 65
+          selected = [t for i, t in enumerate(targets) if i % 6 == shard]
+          assert len(selected) in (10, 11)
+          print("\n".join(selected))
+          PY
+          )
+          echo "SHARD=${SHARD} TARGET_COUNT=${#shard_targets[@]} TARGETS=${shard_targets[*]}"
+          for target in "${shard_targets[@]}"; do
+            python -B stages/stage35-ex/verify_stage35_ex_v73_legacy_replay.py "$target"
           done
-      - name: Verify provisional Goal4AI degree31 Q-homogeneous principalization existence
-        run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4ai.py
+
+  verify-stage35-ex-current:
+    needs: [verify-stage35-core, replay-stage35-ex-history]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact PR head checkout
+        run: |
+          ACTUAL_HEAD_SHA="$(git rev-parse HEAD)"
+          echo "EXPECTED_HEAD_SHA=${EXPECTED_HEAD_SHA}"
+          echo "ACTUAL_HEAD_SHA=${ACTUAL_HEAD_SHA}"
+          test "${ACTUAL_HEAD_SHA}" = "${EXPECTED_HEAD_SHA}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install lightweight symbolic dependency
+        run: python -m pip install --disable-pip-version-check sympy==1.14.0
+      - name: Verify audited Goal4AJ claim synchronization
+        run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4aj_audited_claim_sync.py
+      - name: Verify provisional exact Goal4AK explicit F_B assembly
+        run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4ak_explicit_fb.py
