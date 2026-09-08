@@ -1,0 +1,134 @@
+{
+  "schema": "STAGE32EX4_EX4_05B_FSM_THETA_LEVEL_HOMOLOGY_MARKING_PREFLIGHT_SCRATCH_V1",
+  "stage": "32EX4",
+  "leaf": "EX4-05B_FSM_THETA_LEVEL_HOMOLOGY_MARKING_PREFLIGHT",
+  "status": "SCRATCH_REPLAYABLE_LEVEL_STRUCTURE_SEMANTIC_GAP_AND_ANTI_ISOMETRY_AMBIGUITY_NOT_RETAINED_AUTHORITY",
+  "base_main_sha": "d5545b32e6b3088bca53318998d434f2745b03e9",
+  "branch_head_before_leaf": "da96f1a16422a5db639049a067ed699042dd8828",
+  "claim_ceiling": {
+    "statement": "The Freitag-Salvati Manni level-theta package source-binds a symplectic level-4 structure on an elliptic curve E and a Weil-pairing-preserving isomorphism beta:E[8]->F[8], but it does not source-bind a branch-labelled symplectic H1/J(C0)[2] marking of the Bolza Jacobian. If one attempts a Frey-Kani-style principal-polarized gluing, beta must first be converted to an anti-isometry by an additional choice. There are 384 determinant -1 automorphisms of (Z/8Z)^2, reducing uniformly to all six GL2(F2) elements, so that optional construction retains the full three-direction mod-2 ambiguity. No absolute retained W-line or Q602 residue follows.",
+    "absolute_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false
+  },
+  "repo_source_locks": {
+    "ex4_05_lifted_gap": {
+      "path": "stages/stage32-ex4/ex4-05-lifted-krr-conjugator-cm-period-constraints-scratch.json",
+      "blob_sha1": "15a8681bcb427dbb1c29c00a5c3c8f95191723b6",
+      "canonical_sha256": "36a7357177bd1d4ced7b320f7ac578bb406ea81ead32d3d6c76e0fb3861ce29a",
+      "authority_status": "SCRATCH_NOT_RETAINED"
+    },
+    "fsm_stoll_diagonal_action": {
+      "path": "stages/stage32/residual-32-01-production/post1529-fsm-stoll-diagonal-action-source-lock.json",
+      "blob_sha1": "809d7096cf98cf94b37455b6281cb23cbdcc6b41",
+      "canonical_sha256": "5726289d8948beaaf3ed4e2dc260f49d1b3b3054642f3460b6b1e53c77ea23bc",
+      "authority_status": "SOURCE_LOCK_ONLY_NO_SELECTOR_CREDIT"
+    },
+    "absolute_marking_localization": {
+      "path": "stages/stage32/residual-32-01-production/post1648-delta0inf-retained-w-absolute-marking-localization.json",
+      "blob_sha1": "9a8b462bd5f2cc8b344dd535e8d155a4e63308a0",
+      "canonical_sha256": "edb37e52cd92ae56c4c12c59d0af974dc4463bce52b25b3e8b64dc2c7afdd3c2",
+      "authority_status": "PROVISIONAL_HISTORICAL_CANDIDATE"
+    },
+    "bolza_correspondence_frontier": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-frontier.json",
+      "blob_sha1": "f8c941af0598b1e3e73e5adcc4773ac1b3cf9aea",
+      "canonical_sha256": "a565673dd6cc6c4b732a18f1e4adba4febbde497387b70e81cc4b64c29004ce3",
+      "authority_status": "PROVISIONAL_EXACT_TARGET_IDENTIFICATION_PENDING_HOSTILE_AUDIT"
+    }
+  },
+  "external_source_locks": {
+    "freitag_salvati_manni": {
+      "title": "Parametrization of the box variety by theta functions",
+      "arxiv": "1303.6495v1",
+      "locators": [
+        "Section 2, Theorem 2.4 and Lemmas 2.2-2.3: theta-coordinate parametrization and Gamma[4]/Gamma[8] action",
+        "Section 6, definition of symplectic level-N structure preserving the Weil pairing",
+        "Section 6, Theorems 6.3-6.4: M(4,8) and the finite box variety"
+      ],
+      "exact_supported_facts": [
+        "a level N structure on an elliptic curve is an isomorphism (Z/NZ)^2 -> E[N]",
+        "the considered level structures preserve the standard symplectic pairing and the Weil pairing",
+        "Q(zeta8)-points of the finite box variety correspond to pairs E,F with a level-4 structure and a compatible isomorphism beta:E[8]->F[8] preserving the Weil pairing",
+        "the modular parameterization is built from elliptic modular curves H/Gamma[8], not from a branch-labelled genus-2 homology basis"
+      ]
+    },
+    "frey_kani_gluing_reference": {
+      "role": "OPTIONAL_ADAPTER_THEORY_NOT_PRESENTLY_SOURCE_BOUND_TO_THE_STAGE32_BOLZA_TARGET",
+      "exact_fact_used": "To obtain a principally polarized abelian surface by gluing E and F along n-torsion, the graph datum is an anti-isometry for the Weil pairing; a pairing-preserving beta is not itself that anti-isometry."
+    },
+    "stoll_verification": {
+      "repository": "MichaelStollBayreuth/Verification",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/cuboids.magma",
+      "exact_supported_scope": "explicit box-surface coordinates, curves, automorphism substitutions, Picard action, and Galois action",
+      "does_not_supply_in_inspected_scope": "an elliptic level-8 to branch-labelled Bolza H1/J[2] adapter"
+    }
+  },
+  "fsm_level_structure_type_check": {
+    "source_object": "pair of elliptic curves (E,F) with level structure / torsion isomorphism",
+    "source_level4": "symplectic level-4 structure on E",
+    "source_beta": "beta:E[8] -> F[8] preserving the Weil pairing",
+    "target_object_needed": "branch-labelled symplectic H1(C0,Z) or J(C0)[2] marking tied to retained principal-Bolza basis",
+    "object_type_match": false,
+    "missing_semantic_adapter": "elliptic-pair level data -> the specific principal-polarized Bolza Jacobian -> branch-labelled retained J[2] basis",
+    "existing_beauville_bolza_identification_is_not_enough": "The retained Stage32 correspondence identifies the quotient curve C0 and its unpolarized J(C0)~=E^2 description, but does not transport the FSM level basis into the retained branch-labelled J[2] marking."
+  },
+  "optional_frey_kani_anti_isometry_preflight": {
+    "purpose": "Quantify the extra ambiguity if one tries to convert the FSM symplectic beta into a principal-polarized genus-2 gluing datum.",
+    "standard_module": "(Z/8Z)^2 with standard alternating form",
+    "matrix_identity": "For a 2x2 matrix A over Z/8Z, A^T J A = det(A) J.",
+    "pairing_preserving_condition": "det(A)=+1 mod 8",
+    "pairing_reversing_condition": "det(A)=-1=7 mod 8",
+    "det_minus_one_matrix_count": 384,
+    "reduction_mod2_distinct_matrices": 6,
+    "reduction_mod2_image": "GL2(F2)=SL2(F2)=S3",
+    "lifts_per_mod2_matrix": 64,
+    "fixed_nonzero_mod2_direction_image_counts": [
+      128,
+      128,
+      128
+    ],
+    "consequence": "Without an extra anti-isometry/gluing choice, the optional Frey-Kani route carries a full transitive S3 ambiguity on the three nonzero 2-torsion directions.",
+    "does_not_identify_resulting_ppav_with_Bolza_target": true
+  },
+  "comparison_with_existing_stage32_fsm_action": {
+    "known_fsm_S_abstract_action": "Z1<->Z3; Z2 fixed",
+    "known_conditional_if_fsm_S_equals_principal_b4": "delta_0inf remains on two possible retained lines L2/L3",
+    "fsm_S_to_principal_b4_source_bound": false,
+    "new_level_structure_does_not_close_that_binding": true,
+    "reason": "The level-structure theorem marks elliptic torsion data but does not identify the modular S with one exact retained principal-Bolza lattice generator on a common marked ppav."
+  },
+  "decision": {
+    "result": "EX4_05B_FSM_LEVEL_STRUCTURE_DOES_NOT_SUPPLY_BRANCH_LABELLED_BOLZA_HOMOLOGY_MARKING",
+    "new_exact_scratch_fact": "FSM supplies genuine symplectic elliptic level data, but its semantic object is not the branch-labelled Bolza Jacobian marking required by EX4. An attempted principal-polarized gluing introduces an unconstrained 384-element anti-isometry choice whose mod-2 image is full S3.",
+    "current_missing_datum": "A source-bound adapter from the FSM elliptic level structure to the specific Bolza principal polarization and branch-labelled J(C0)[2] basis, including the anti-isometry/gluing choice if Frey-Kani is used.",
+    "next_leaf": "EX4-05C_GALOIS_COMPLEX_CONJUGATION_MARKING_PREFLIGHT",
+    "next_lane_objective": "Use source-bound complex-conjugation / sqrt(2)-conjugation actions already present on the box/Picard side and test whether a semilinear action can distinguish a proper subset of the 48 retained ppav/CM markings. Do not reuse bare theta-level or mod-2 conjugacy.",
+    "retained_claim_dag_sync_performed": false,
+    "reason_no_claim_sync": "Scratch-only materially distinct source diagnostic; no retained consolidation, authority/audit transition, promotion, frontier remap, or final milestone.",
+    "absolute_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false
+  },
+  "firewalls": {
+    "elliptic_level_structure_promoted_to_genus2_homology_marking": false,
+    "pairing_preserving_beta_promoted_to_frey_kani_anti_isometry": false,
+    "one_anti_isometry_choice_promoted_to_canonical": false,
+    "frey_kani_optional_construction_promoted_to_identification_with_Bolza_target": false,
+    "fsm_S_promoted_to_principal_b4": false,
+    "search_miss_promoted_to_repository_or_literature_absence": false,
+    "conditional_residue_promoted": false,
+    "scratch_result_promoted_to_retained_claim": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "bc2c17ae61044836854f5a396b7350b0923dd706da625f9b3dd98434a4a5ce59"
+}
