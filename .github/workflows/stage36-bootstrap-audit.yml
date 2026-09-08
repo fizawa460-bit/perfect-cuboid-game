@@ -47,7 +47,12 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09DS.py"
           git worktree remove --force "$tmp"
-      - name: Assert V203 DS exact-green parent and DT unlock firewalls
+      - name: Verify 36-09DT explicit constant V4-isogeny kernel
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09DT.py
+      - name: Assert V204 DT provisional firewalls and DU lock
         shell: bash
         run: |
           set -euo pipefail
@@ -55,28 +60,29 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V203_36_09DS_EXACT_GREEN_DT_UNLOCK_PENDING_PROMOTION_REPLAY'
-          ds=s['authority_frontier']['36-09DS']
-          assert ds['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert ds['certificate_blob_sha']=='8c16b2f2c53f343dc710bf06d55245aab0599a36'
-          assert ds['verifier_blob_sha']=='d71ea77a95b2931958bbb04af0e450adf014d5e3'
-          assert ds['source_blob_sha']=='1bac0039c0abccc236b392c2deba3a26ee83ba88'
-          assert ds['exact_head']=='7cad044d63dace9140c7527390358e19b794298d'
-          assert ds['exact_head_ci']=='34237708751/102099623747'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V204_36_09DT_CONSTANT_KERNEL_PENDING_EXACT_HEAD_CI'
+          dt=s['authority_frontier']['36-09DT']
+          assert dt['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert dt['certificate_blob_sha']=='362326de8d6ecc0b415ecf29c6eb936134e395ce'
+          assert dt['verifier_blob_sha']=='7b0f62e25a16bfffe569f6df2e940771c40a8631'
+          assert dt['source_blob_sha']=='df701b11135d43cd2baaa1c59eb9c289d3abfb72'
           cur=s['current']; pg=s['promotion_gates']
-          assert cur['unit']=='36-09DS'
+          assert cur['unit']=='36-09DT'
           assert cur['36_09DT_entry_allowed'] is True
+          assert cur['36_09DU_entry_allowed'] is False
           assert pg['36_09DS_exact_head_ci_passed'] is True
-          assert pg['36_09DS_promotion_replay_passed'] is False
-          assert pg['36_09DT_entry_allowed'] is True
-          assert pg['BT_V4_isogeny_degree8_computed'] is True
-          assert pg['BT_proSelmer_mutual_injections_constructed'] is True
-          assert pg['BT_proSelmer_cokernel_exponent2_computed'] is True
+          assert pg['36_09DS_promotion_replay_passed'] is True
+          assert pg['36_09DT_certificate_complete'] is True
+          assert pg['36_09DT_exact_head_ci_passed'] is False
+          assert pg['36_09DU_entry_allowed'] is False
           assert pg['BT_V4_isogeny_kernel_rational_structure_computed'] is False
+          assert pg['BT_V4_isogeny_kernel_constant_Z2_cubed'] is False
+          assert pg['BT_dual_isogeny_kernel_split_mu2_cubed'] is False
+          assert pg['BT_Phi_Selmer_local_condition_map_computed'] is False
           assert pg['BT_proSelmer_cokernel_size_computed'] is False
           assert pg['BT_proSelmer_product_identification_obtained'] is False
           for key in ['BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          print('36-09DS immutable exact-green evidence replayed; 36-09DT is unlocked for explicit V4 isogeny/pro-Selmer defect computation only. No downstream credit is granted.')
+          print('36-09DT provisional verifier passed; constant-kernel candidate awaits exact-head CI and DU remains locked. No downstream credit is granted.')
           PY
           git diff --check
