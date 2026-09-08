@@ -38,21 +38,16 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay immutable 36-09DC exact-green mathematical evidence
+      - name: Replay immutable 36-09DD exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          H=3b8e52fb6cd2629a4c7aef5f3a33a8b046faddfa
+          H=d1e1e48745b4ea2bdebb7ea69f2beb500f4974df
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09DC.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09DD.py"
           git worktree remove --force "$tmp"
-      - name: Verify 36-09DD fourth independent Brauer class
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09DD.py
-      - name: Assert DD checkpoint and DE lock firewalls
+      - name: Assert DD exact-green promotion and DE unlock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -60,30 +55,29 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V170_36_09DD_FOURTH_BRAUER_CLASS'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V171_36_09DD_EXACT_GREEN_DE_UNLOCK'
           dd=s['authority_frontier']['36-09DD']
-          assert dd['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert dd['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert dd['certificate_blob_sha']=='81c580ab09f2fc265f033c51e99f3a553d726f92'
           assert dd['verifier_blob_sha']=='07058c865dbb493183d9c71b0e176f2c3d08e729'
+          assert dd['exact_head']=='d1e1e48745b4ea2bdebb7ea69f2beb500f4974df'
+          assert dd['exact_head_ci']=='34203063483/101986101989'
           assert dd['FOURTH_INDEPENDENT_BRAUER_CLASS_FOUND'] is True
           assert dd['CONSTRUCTED_BRAUER_SUBGROUP_RANK_LOWER_BOUND']==4
           assert dd['RANK3_COMPLETENESS_DISPROVED'] is True
           assert dd['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_COMPUTED'] is False
-          assert dd['FULL_BRAUER_GROUP_COMPUTED'] is False
           cur=s['current']
           assert cur['unit']=='36-09DD'
           assert cur['next_exact_leaf']=='36-09DE_FIXED_P2_PRIME_PRIVATE_BRAUER_FAMILY_PREFLIGHT'
-          assert cur['36_09DD_entry_allowed'] is True
-          assert cur['36_09DE_entry_allowed'] is False
+          assert cur['36_09DE_entry_allowed'] is True
           pg=s['promotion_gates']
-          assert pg['36_09DD_certificate_complete'] is True
-          assert pg['36_09DD_exact_head_ci_passed'] is False
-          assert pg['36_09DE_entry_allowed'] is False
+          assert pg['36_09DD_exact_head_ci_passed'] is True
+          assert pg['36_09DE_entry_allowed'] is True
           assert pg['BT_constructed_Brauer_subgroup_rank_lower_bound']==4
           assert pg['BT_full_Creutz_Viray_explicit_image_computed'] is False
           assert pg['BT_full_relevant_Brauer_group_computed'] is False
           for key in ['Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09DD provisional checkpoint verified: fourth independent class found and rank3 completeness disproved; DE locked pending exact-head CI.')
+          print('36-09DD exact-green parent verified and DE unlocked. Fourth independent class is provisional credit only; full explicit/full Brauer image remains open.')
           PY
           git diff --check
