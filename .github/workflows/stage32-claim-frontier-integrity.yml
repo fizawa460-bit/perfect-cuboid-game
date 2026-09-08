@@ -7,7 +7,9 @@ on:
       - 'stages/stage32/STAGE32-PROOF-PATH.md'
       - 'stages/stage32/FINAL-CHECK.json'
       - 'stages/stage32/MAIN-STATE.json'
+      - 'stages/stage32/MAIN-START-HERE.md'
       - 'stages/stage32-ex*/MAIN-STATE.json'
+      - 'stages/stage32-ex*/MAIN-START-HERE.md'
       - 'stages/stage32/residual-32-01-production/post1623-hperp-v6-hdeck-character-preflight.json'
       - 'stages/stage32/residual-32-01-production/post1648ae-v6-carrier-member-source-gap.json'
       - 'stages/stage32/residual-32-01-production/post1648ag-v6-known140-basis-elimination.json'
@@ -32,7 +34,7 @@ jobs:
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
       - name: Verify base Stage32 claim DAG
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
-      - name: Verify active Stage32 mathematical frontier
+      - name: Verify active Stage32 mathematical frontier and claim-sync hooks
         run: python stages/stage32/proof/verify_stage32_active_frontier.py
       - name: Replay synthetic fail-close regressions
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --self-test-fail-closed
