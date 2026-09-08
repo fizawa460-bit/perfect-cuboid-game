@@ -28,13 +28,19 @@ def git(*a:str)->str:
  return subprocess.check_output(['git',*a],cwd=ROOT,text=True).strip()
 def blob(p:Path)->str:
  return git('hash-object',str(p.relative_to(ROOT)))
+def historical_commit_exists(h:str)->None:
+ # PR #1712 was squash-merged, so retained pre-squash Stage36 commits are
+ # immutable provenance objects but are not ancestors of post-merge main.
+ # Validate object existence here; exact historical identifiers, CI and
+ # current content/blob locks are checked independently below.
+ subprocess.check_call(['git','cat-file','-e',f'{h}^{{commit}}'],cwd=ROOT)
 
 def rhs(t:Fraction)->Fraction:
  return (t*t+4)*(t*t+Fraction(1,4))*(t*t+9)*(t*t+Fraction(1,9))
 
 def main()->None:
  for p,h in LOCKS.items(): assert blob(p)==h,(p,blob(p),h)
- for h in [BASE,UNLOCK]: subprocess.check_call(['git','merge-base','--is-ancestor',h,'HEAD'],cwd=ROOT)
+ for h in [BASE,UNLOCK]: historical_commit_exists(h)
  c=json.loads(CERT.read_text()); dm=json.loads(DM.read_text()); dm_audit=json.loads(DM_AUDIT.read_text()); df=json.loads(DF.read_text()); src=SRC.read_text(); dd=DD.read_text()
  assert c['base_main_sha']==BASE
  assert c['status']=='PROVISIONAL_MATHEMATICAL_PASS_UNAUDITED_RETAINED_DELTA'
@@ -101,6 +107,6 @@ def main()->None:
  assert c['route_result']['next_leaf']=='36-09DO_FIXED_P2_2PRIMARY_FULL_BRAUER_RELEVANCE_BOUNDARY_PREFLIGHT'
  assert c['relation_to_DM']['DM_intermediate_audit_record_is_authority_parent'] is False
  for k,v in c['scope_firewalls'].items(): assert v is False,(k,v)
- print('36-09DN verified provisionally: the Br[2] mathematics replays, but the DM intermediate audit record is explicitly non-authoritative and supplies no descendant authority. External hostile re-audit is required before any new promotion.')
+ print('36-09DN verified provisionally after squash-safe provenance replay: historical BASE/UNLOCK commits exist as immutable objects, all current blob locks and stored CI identifiers match, and the DM intermediate audit record remains explicitly non-authoritative. No descendant authority is inferred from DM.')
 
 if __name__=='__main__': main()
