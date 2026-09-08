@@ -1,0 +1,74 @@
+{
+  "schema": "STAGE32EX3_EX3_09_O210_COVER_GEOMETRY_EXCLUSION_CANDIDATE_V1",
+  "stage": 32,
+  "lane": "EX3",
+  "leaf": "EX3-09_TERMINAL_DECISION_CERTIFICATE",
+  "status": "SCRATCH_PROVISIONAL_TERMINAL_ASSEMBLY_READY_FOR_RETAINED_CONSOLIDATION_NOT_AUDITED",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "picard_class": "V6",
+    "carrier_hypothesis": "hypothetical integral irreducible geometric-genus-1 V6 carrier",
+    "O": 210,
+    "qprime": 4,
+    "Q": 602,
+    "surviving_marked_residues": [73, 97, 235]
+  },
+  "source_locks": {
+    "roadmap": {"path": "stages/stage32-ex3/stage32-ex3.md", "blob_sha1": "c243fa039d6276aca654f6d5fbccabed3aea333e"},
+    "typed_cover_tower": {"path": "stages/stage32-ex3/ex3-00-o210-typed-cover-tower.json", "blob_sha1": "c28bda6c20340b4fc4ac060db158ca30926ecb38", "canonical_sha256": "3a743b0607c59dc959f383fca8d97e54e8a740d197401e4c080b6fc4c94eaf07"},
+    "self_contained_trace_gate": {"path": "stages/stage32-ex3/scratch/ex3-04h-self-contained-trace-contradiction.json", "blob_sha1": "d1a28549b5917ec0bc1834446ca2c9ab7fb3efa8", "canonical_sha256": "0ec41efda791544b053832442bbb267cfc428fe022a01fd7a6295c5bfc5dfe30"},
+    "self_contained_trace_verifier": {"path": "stages/stage32-ex3/scratch/verify_ex3_04h_self_contained_trace_contradiction.py", "blob_sha1": "04c572863fee632be5007444b4affcdb7dbb2cc1"},
+    "modular_graph_source_note": {"path": "stages/stage32-ex3/scratch/ex3-04g-graph-quotient-trace-zero-source-note.md", "blob_sha1": "72c62d8f38d3d0a788ba5b0381f6f7998895d8c1"}
+  },
+  "terminal_chain": {
+    "step_1": "Assume one carrier in the exact fixed V6/O210/qprime=4 population.",
+    "step_2": "EX3-00 forces the typed common-cover tower and the 105/81 correspondence interface on that same hypothetical carrier.",
+    "step_3": "The self-contained graph quotient gate identifies the four H graph images with exact C1 indices [24,21,18,19] and replays the V6 intersections plus branch blowdown correction.",
+    "step_4": "The resulting product graph intersections [164,164,208,208] force H-twisted traces [22,22,-22,-22], hence H-trivial/downstairs rational trace Tr_Q(T)=0.",
+    "step_5": "The retained Q(T)=602 spectrum on the gauge orbit [73,97,235] is trace-gauge-invariant and requires Tr_Q(T)=4 mod 8; zero is impossible.",
+    "step_6": "Contradiction. Therefore no hypothetical carrier in the fixed target can realize the required O210/qprime=4 cover/correspondence package."
+  },
+  "population_exhaustiveness": {
+    "population_preserving_from_carrier_hypothesis": true,
+    "finite_monodromy_search_used": false,
+    "monodromy_or_nielsen_case_choice_enters_argument": false,
+    "later_casework_dominated_not_claimed_executed": true,
+    "dominated_roadmap_leaves": ["EX3-05", "EX3-06", "EX3-07", "EX3-08"],
+    "reason": "The trace contradiction is a necessary consequence of every carrier in the fixed target before any residual monodromy/Nielsen/geometric-realizability choice is made. Those later queues are therefore empty conditional on acceptance of the source chain, rather than exhaustively enumerated one by one."
+  },
+  "terminal_proposal": {
+    "outcome": "O210_COVER_GEOMETRY_EXCLUDED",
+    "mathematical_terminal_candidate_complete": true,
+    "full_target_closure_proposed_after_retention": true,
+    "genuine_positive_configuration_established": false
+  },
+  "checkpoint_readiness": {
+    "ready_for_retained_consolidation": true,
+    "ready_for_claim_dag_sync_after_retention": true,
+    "ready_for_hostile_audit_after_retention_and_claim_sync": true,
+    "currently_retained": false,
+    "currently_claim_synced": false,
+    "currently_hostile_audited": false
+  },
+  "credit_ceiling": {
+    "level": "SCRATCH_PROVISIONAL_TERMINAL_CANDIDATE_ONLY",
+    "EX3_authority": false,
+    "O210_excluded_as_audited_stage32_fact": false,
+    "Q602_globally_excluded": false,
+    "stage32_main_credit": false,
+    "stage32_closed": false,
+    "endpoint_credit": false
+  },
+  "firewalls": {
+    "effectivity_or_carrier_existence_proved": false,
+    "finite_search_miss_promoted_to_global_exclusion": false,
+    "unrun_monodromy_enumeration_claimed_complete": false,
+    "scratch_result_used_as_audited_dependency": false,
+    "hostile_audit_credit": false,
+    "stage32_main_credit": false,
+    "merge_authorized": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "c70e0f890adbffb93ae290e9958d73a41e615ef03f5cfa45ac8b383f02d59847"
+}
