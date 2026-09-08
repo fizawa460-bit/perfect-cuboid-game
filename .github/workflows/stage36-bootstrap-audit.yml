@@ -60,6 +60,11 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CM.py"
           git worktree remove --force "$tmp"
+      - name: Derive CN fixed-branch localization inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/36-09CN/derive-fixed-branch-inventory.py
       - name: Assert CM exact-green parent and CN selection
         shell: bash
         run: |
