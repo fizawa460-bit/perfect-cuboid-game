@@ -147,6 +147,7 @@ def main()->None:
             assert P*P+M*M==2*Q*Q
             assert P*P-M*M==8*D0
 
+    buv=load(BUV,'stage36_bu_ff')
     tested=0
     for q in range(5,300):
         if not isprime(q) or q%4!=1:continue
