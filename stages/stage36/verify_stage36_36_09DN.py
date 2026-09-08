@@ -10,14 +10,16 @@ ROOT=Path(__file__).resolve().parents[2]
 CERT=ROOT/'stages/stage36/36-09DN/fixed-p2-full-br2-common-neighborhood-preflight.json'
 SRC=ROOT/'stages/stage36/36-09DN/full-br2-local-common-neighborhood-source-lock.md'
 DM=ROOT/'stages/stage36/36-09DM/fixed-p2-full-cv-explicit-image-boundary-adelic-control-preflight.json'
+DM_AUDIT=ROOT/'stages/stage36/36-09DM/intermediate-hostile-audit-pass-receipt.json'
 DF=ROOT/'stages/stage36/36-09DF/fixed-p2-creutz-viray-complement-local-obstruction-preflight.json'
 DD=ROOT/'stages/stage36/36-09DD/creutz-viray-explicit-image-completeness-source-lock.md'
 BASE='e98b06455d34bf2f346d297d9370e82fc2a71970'
 UNLOCK='ddb470122413038f1e08738d0dbe48953585546e'
 LOCKS={
- CERT:'bffce7f0e27a9f92f12657bcca1b71cddce7ccaa',
+ CERT:'297068d95f72310d6c8a3a59816a1806ff542392',
  SRC:'60984a1f42b999e770219398690e833b54c8eb0f',
  DM:'95956c74aca1aca1601a1f4c77b66bfb226a5198',
+ DM_AUDIT:'8075e18e08d8da671254aefbe239278d1e7eca0b',
  DF:'e2ad1a187dc607b558288a6cad91272c021dd493',
  DD:'632e908d3fcd4d1f3511be99b3993469537e3c07',
 }
@@ -33,10 +35,21 @@ def rhs(t:Fraction)->Fraction:
 def main()->None:
  for p,h in LOCKS.items(): assert blob(p)==h,(p,blob(p),h)
  for h in [BASE,UNLOCK]: subprocess.check_call(['git','merge-base','--is-ancestor',h,'HEAD'],cwd=ROOT)
- c=json.loads(CERT.read_text()); dm=json.loads(DM.read_text()); df=json.loads(DF.read_text()); src=SRC.read_text(); dd=DD.read_text()
+ c=json.loads(CERT.read_text()); dm=json.loads(DM.read_text()); dm_audit=json.loads(DM_AUDIT.read_text()); df=json.loads(DF.read_text()); src=SRC.read_text(); dd=DD.read_text()
  assert c['base_main_sha']==BASE
+ assert c['status']=='PROVISIONAL_MATHEMATICAL_PASS_UNAUDITED_RETAINED_DELTA'
  assert c['batch_parent']['DN_unlock_sync_head']==UNLOCK
  assert c['batch_parent']['DN_unlock_ci']=='34224426949/102054967101'
+ assert c['batch_parent']['dm_intermediate_audit_record_blob']==LOCKS[DM_AUDIT]
+ assert c['batch_parent']['dm_intermediate_audit_record_status']=='NON_AUTHORITATIVE_NO_EXTERNAL_REVIEW_ID'
+ assert c['batch_parent']['dm_intermediate_audit_authority_consumed'] is False
+ assert c['authority_provenance']['previous_external_hostile_audit_boundary_claimed'] is False
+ assert c['authority_provenance']['dm_record_resets_audit_debt'] is False
+ assert c['authority_provenance']['descendant_authority_from_dm_record'] is False
+ assert c['authority_provenance']['current_pr_requires_external_hostile_reaudit_before_any_new_promotion'] is True
+ assert dm_audit['status']=='NON_AUTHORITATIVE_NO_EXTERNAL_REVIEW_ID'
+ assert dm_audit['external_review_id'] is None
+ assert dm_audit['authority_credit'] is False
  assert c['source_locks']['local_br2_common_neighborhood']['blob_sha']==LOCKS[SRC]
  assert c['source_locks']['stage36_36_09DM']['blob_sha']==LOCKS[DM]
  assert c['source_locks']['stage36_36_09DF']['blob_sha']==LOCKS[DF]
@@ -46,7 +59,7 @@ def main()->None:
  assert rhs(Fraction(0))==1
  p0=c['fixed_curve']['reference_point']
  assert p0=={'name':'P0','t':'0','z':'1','Q_rational':True,'smooth':True,'retained_open':False}
- assert Fraction(2)!=0  # d(z^2-rhs)/dz at P0
+ assert Fraction(2)!=0
  assert c['fixed_curve']['retained_open_boundary_contains']==['t=0','t=1','t=-1','t=infinity']
  assert df['fixed_curve']['retained_open_excludes']==['t=0','t=1','t=-1','t=infinity']
  assert dm['global_reference_point']['t']==0 and dm['global_reference_point']['z']==1
@@ -86,7 +99,8 @@ def main()->None:
  for k in ['full_Creutz_Viray_explicit_image_computed','Creutz_Viray_explicit_image_equals_full_Br2','full_2primary_Brauer_set_nonempty','full_Brauer_set_nonempty','full_Brauer_group_computed','Brauer_Manin_obstruction_from_full_Brauer_group_proved','fixed_p_2_branch_excluded','candidate_parameter_set_shrunk','receiver_emptiness_proved']:
   assert cb[k] is False,k
  assert c['route_result']['next_leaf']=='36-09DO_FIXED_P2_2PRIMARY_FULL_BRAUER_RELEVANCE_BOUNDARY_PREFLIGHT'
+ assert c['relation_to_DM']['DM_intermediate_audit_record_is_authority_parent'] is False
  for k,v in c['scope_firewalls'].items(): assert v is False,(k,v)
- print('36-09DN verified: P0=(0,1) is a smooth rational reference point. Lichtenbaum local duality makes the nonconstant local Br[2] quotient finite at every p-adic place, including 2, and Uematsu local constancy permits one common neighborhood for all exponent-2 classes. Retained-open points can be chosen in those neighborhoods, giving an adelic point whose evaluation equals P0 placewise for every global Br[2] class; global reciprocity makes the full Br[2] Brauer set nonempty. Higher 2-primary/full Brauer/fixed-p/receiver/endpoint credit remains open.')
+ print('36-09DN verified provisionally: the Br[2] mathematics replays, but the DM intermediate audit record is explicitly non-authoritative and supplies no descendant authority. External hostile re-audit is required before any new promotion.')
 
 if __name__=='__main__': main()
