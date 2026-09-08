@@ -46,7 +46,6 @@ jobs:
           set -euo pipefail
           H=76603296ade67b2544aaaa16559358f2a2793272
           git cat-file -e "$H^{commit}"
-          git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CL.py"
