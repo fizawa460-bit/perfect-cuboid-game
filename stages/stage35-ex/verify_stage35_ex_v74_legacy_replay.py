@@ -56,8 +56,17 @@ try:
             sys.argv=['verify_stage35_ex_v73_legacy_replay.py',target]
             runpy.run_path(str(ROOT/'stages/stage35-ex/verify_stage35_ex_v73_legacy_replay.py'),run_name='__main__')
         elif target=='35g4aj':
-            sys.argv=['verify_stage35_ex_35_goal4aj_audited_claim_sync.py']
-            runpy.run_path(str(ROOT/'stages/stage35-ex/verify_stage35_ex_35_goal4aj_audited_claim_sync.py'),run_name='__main__')
+            # The Goal4AJ verifier has an explicit V74 compatibility mode. Let it
+            # see the real live V74 state, so any subprocess it launches uses the
+            # V74 -> persisted-V73 adapter rather than mistaking V74 for V73.
+            Path.read_text=orig_text
+            Path.read_bytes=orig_bytes
+            try:
+                sys.argv=['verify_stage35_ex_35_goal4aj_audited_claim_sync.py']
+                runpy.run_path(str(ROOT/'stages/stage35-ex/verify_stage35_ex_35_goal4aj_audited_claim_sync.py'),run_name='__main__')
+            finally:
+                Path.read_text=patched_text
+                Path.read_bytes=patched_bytes
         else:
             sys.argv=['verify_stage35_ex_35_goal4ak_explicit_fb.py']
             runpy.run_path(str(ROOT/'stages/stage35-ex/verify_stage35_ex_35_goal4ak_explicit_fb.py'),run_name='__main__')
