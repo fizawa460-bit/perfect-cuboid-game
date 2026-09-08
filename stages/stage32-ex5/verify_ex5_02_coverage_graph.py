@@ -38,7 +38,7 @@ def main() -> None:
     data = json.loads(GRAPH.read_text(encoding="utf-8"))
     expected = data.pop("canonical_sha256_without_this_field")
     require(csha(data) == expected, "graph canonical SHA256 mismatch")
-    require(expected == "36f782aa6948b0e43a7bfc3d812ff43079051c871ab4e92c63056fbb6159d1bc",
+    require(expected == "7d1f3c6fa3ec2f1b8f15690ca50efc5ab2b826a20d741659cfaf867431afa4f0",
             "unexpected graph canonical SHA256")
     require(data.get("schema") == "STAGE32EX5_EX5_02_CURRENT_COVERAGE_DEPENDENCY_GRAPH_V1",
             "wrong graph schema")
@@ -71,7 +71,7 @@ def main() -> None:
     require(by_group["GRP-NUM-178"]["row_count"] == 178, "numerical group count drift")
     require(by_group["GRP-EFF-1"]["ledger_row_ids"] == ["R29-LG2-EFF::ALL_NUMERICAL_SURVIVORS"],
             "effectivity meta receiver drift")
-    require(by_group["GRP-MB-1"]["ledger_row_ids"] == ["R29-LG2-MB::MULTIBRANCH_AT_NODE_LOWGENUS"],
+    require(by_group["GRP-MB-1"]["ledger_row_ids"] == ["R29-LG2-MB::MULTIBRANCH_AT_NODE"],
             "multibranch meta receiver drift")
 
     interfaces = {x["interface_id"]: x for x in data["interface_nodes"]}
