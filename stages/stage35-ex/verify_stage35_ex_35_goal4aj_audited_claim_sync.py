@@ -1,23 +1,42 @@
 #!/usr/bin/env python3
-"""Verify V73 audited Goal4AJ claim synchronization without granting F_B/E1 credit."""
+"""Verify V73 audited Goal4AJ claim synchronization without granting F_B/E1 credit.
+
+When V74 is live, replay the immutable V73 state snapshot instead of requiring the
+mutable live MAIN-STATE to remain V73. This keeps the historical Goal4AJ verifier
+usable after the audited Goal4AK authority transition.
+"""
 from __future__ import annotations
 import hashlib,json,subprocess,sys
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[2]
-STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
+LIVE_STATE=ROOT/'stages/stage35-ex/MAIN-STATE.json'
+V73_SNAP=ROOT/'stages/stage35-ex/snapshots/MAIN-STATE-V73-84a9906500e2.json'
 SYNC=ROOT/'stages/stage35-ex/35ex-35/goal4aj-audited-claim-sync.json'
 EQ=ROOT/'stages/stage35-ex/35ex-35/goal4aj-degree31-literal-numerator-divisor-equality.json'
 DEN=ROOT/'stages/stage35-ex/35ex-35/goal4aj-degree31-denominator-source-lock.md'
 QVERIFY=ROOT/'stages/stage35-ex/verify_stage35_ex_35_goal4aj_qcandidate_chunks.py'
 EQVERIFY=ROOT/'stages/stage35-ex/verify_stage35_ex_35_goal4aj_literal_numerator_divisor_equality.py'
 LEGACY=ROOT/'stages/stage35-ex/verify_stage35_ex_v73_legacy_replay.py'
+V74LEGACY=ROOT/'stages/stage35-ex/verify_stage35_ex_v74_legacy_replay.py'
 SNAP=ROOT/'stages/stage35-ex/snapshots/MAIN-STATE-V72-e98b06455d34.json'
 V73='STAGE35_EX_PESCH_E1_STATE_V73_GOAL4AJ_LITERAL_DEGREE31_SECTIONS_AUDITED_EXPLICIT_F_B_PENDING'
+V74='STAGE35_EX_PESCH_E1_STATE_V74_GOAL4AK_EXPLICIT_F_B_AUDITED_LOCAL_EVALUATION_RELEASED'
 EXPECTED_SYNC_CANONICAL='3fc9114234e2dfe91b41fa3be43e40da7e32d8a60184ddaeb25034f905fc9cfc'
 EXPECTED_NUM='358ee320a7d28b790ee9267aad3f95e8ff35af15d002976720622bd2b6e8decb'
 EXPECTED_DEN='28d738a7a23df1ace371cabe3a476c270a54c6b7798e8172bd7111b14e25fc29'
 EXPECTED_EQ='7ef8ce746f44ed729a3c87d21d6b5be4e7e711a4af087233951dd4ee80a20da9'
+
+live=json.loads(LIVE_STATE.read_text())
+if live['schema']==V73:
+    STATE=LIVE_STATE
+    replay_mode='LIVE_V73'
+elif live['schema']==V74:
+    STATE=V73_SNAP
+    replay_mode='V74_PERSISTED_V73'
+else:
+    raise AssertionError(('unsupported live schema',live.get('schema')))
+
 EXPECTED_BLOBS={
  STATE:'9dfb9f44b1c84ae774f80ce5021193a5d6cd8807',
  SYNC:'498a1e7554a8016863a6518cde91edd591f20b38',
@@ -41,7 +60,7 @@ def canonical(obj:dict)->str:
 def run(path:Path,*args:str,marker:str)->None:
     cp=subprocess.run([sys.executable,'-B',str(path),*args],text=True,capture_output=True,timeout=300)
     if cp.returncode!=0: raise SystemExit(cp.stdout+'\n'+cp.stderr)
-    assert marker in cp.stdout
+    assert marker in cp.stdout,(path,marker,cp.stdout)
 
 for p,h in EXPECTED_BLOBS.items(): assert blob(p)==h,(p,blob(p),h)
 
@@ -85,8 +104,12 @@ assert c['credit_firewall']['E1_proved'] is False
 # Recheck permanent Q bytes and audited numerator divisor equality.
 run(QVERIFY,marker='STAGE35_EX_GOAL4AJ_QCANDIDATE_CHUNKS=PASS')
 run(EQVERIFY,marker='STAGE35_EX_GOAL4AJ_LITERAL_NUMERATOR_DIVISOR_EQUALITY=PASS')
-# Recheck the previous live authority under the immutable V72 snapshot.
-run(LEGACY,'35g4ai',marker='PASS V73_PERSISTED_V72_REPLAY_35g4ai')
+# Recheck the previous live authority under immutable history. Under V74, use the
+# V74 snapshot adapter so the subprocess does not read mutable V74 as if it were V73.
+if replay_mode=='LIVE_V73':
+    run(LEGACY,'35g4ai',marker='PASS V73_PERSISTED_V72_REPLAY_35g4ai')
+else:
+    run(V74LEGACY,'35g4ai',marker='PASS V74_PERSISTED_V73_REPLAY_35g4ai')
 
 d=DEN.read_text()
 assert 'q31_den = q19 * c * b1^11' in d
@@ -94,4 +117,4 @@ assert EXPECTED_DEN in d
 assert 'term count: `1542`' in d
 assert 'maximum absolute coefficient: `11188`' in d
 
-print('PASS Stage35-EX V73: audited Goal4AJ literal sections synced; explicit F_B/local/BM/E1 remain pending')
+print(f'PASS Stage35-EX V73 Goal4AJ claim sync replay mode={replay_mode}; explicit F_B/local/BM/E1 remain pending')
