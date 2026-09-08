@@ -1,0 +1,91 @@
+name: Stage35-EX Goal4AJ numerator degree31 truncated strict-kernel gen17
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage35-ex/runkeys/goal4aj-numerator-degree31-truncated-strict-kernel-gen17.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+      - id: gate
+        env:
+          EVENT: ${{ github.event_name }}
+          ACTION: ${{ github.event.action }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+          BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage35-ex/runkeys/goal4aj-numerator-degree31-truncated-strict-kernel-gen17.json'
+          SCRIPT='stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_numerator_degree31_truncated_strict_kernel_gen17_g3.py'
+          EXPECTED_SCRIPT_BLOB='6e65f80324d9bd767fa6ab9860a61995aa276c93'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          test "$EVENT" = 'pull_request' || exit 0
+          test "$ACTION" = 'synchronize' || exit 0
+          test "$PR_NUMBER" = '1698' || exit 0
+          test "$HEAD_BRANCH" = 'stage35-ex-goal4aj-degree19-truncated-kernel' || exit 0
+          test "$BASE_BRANCH" = 'main' || exit 0
+          test -n "$BEFORE" || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || exit 0
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          test "$(git diff --name-only "$BEFORE" "$HEAD" | wc -l)" -eq 1 || exit 0
+          git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY" || exit 0
+          if git cat-file -e "$BEFORE:$KEY" 2>/dev/null; then exit 0; fi
+          test "$(git hash-object "$SCRIPT")" = "$EXPECTED_SCRIPT_BLOB" || exit 0
+          python - "$KEY" <<'PY'
+          import json,sys
+          k=json.loads(open(sys.argv[1],encoding='utf-8').read())
+          assert k['schema']=='STAGE35_EX_GOAL4AJ_NUMERATOR_DEGREE31_TRUNCATED_STRICT_KERNEL_GEN17_RUNKEY_V1'
+          assert k['generation']==1 and k['armed'] is True
+          assert k['observed_current_main_sha']=='5c8c3b1ca903003cff3b5843cdb1add63ce23917'
+          assert k['branch_merge_base_sha']=='1d7bfd98ef8eab7bd849fe7bfdbcdaf5c0b575e7'
+          assert k['script_blob_sha1']=='6e65f80324d9bd767fa6ab9860a61995aa276c93'
+          assert k['retained92_packet_sha256']=='4f9c446900aab6d79e433bf84400e3b82d07ab9c4c38e749c3167d6e449a3717'
+          assert k['den31_canonical_sha256']=='09683e1623b6c57ba1f96864fbcc47e51a878f032273a1da74327fa1b6b9122f'
+          assert k['field_prime']==32009 and k['degree_cap']==31
+          assert k['strict_condition_count']==27 and k['strict_total_multiplicity']==202 and k['strict_max_multiplicity']==21
+          assert k['planned_jobs']==1 and k['artifact_upload'] is False
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  diagnose:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Singular
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends singular
+          Singular --version | head -n 3
+      - name: Compute numerator degree31 truncated strict kernel
+        run: |
+          set -euo pipefail
+          python -u -B stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_numerator_degree31_truncated_strict_kernel_gen17_g3.py | tee /tmp/goal4aj-num31-gen17.log
+          grep -q '^GOAL4AJ_NUM31_TRUNC_GEN17_JSON=' /tmp/goal4aj-num31-gen17.log
+          grep -q '^GOAL4AJ_NUM31_TRUNC_GEN17=DONE$' /tmp/goal4aj-num31-gen17.log
+          test "$(wc -c </tmp/goal4aj-num31-gen17.log)" -le 131072
