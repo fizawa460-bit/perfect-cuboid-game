@@ -1,13 +1,14 @@
 {
   "contract": {
-    "claim_reference_rule": "A lane may cite a registered claim ID, but mathematical credit is bounded by that claim's authority_status, PROVES, DOES_NOT_PROVE, source locks, and audit receipt.",
     "active_frontier_rule": "active_frontier_refs point into ACTIVE-FRONTIER.json and express current OWNER/ATTACKS/CONSUMES routing only; they do not make EX1-EX6 separate mathematical Stages and do not grant proof credit. A stopped lane with no current active attack may carry an empty active_frontier_refs list only under the verifier's explicit stopped-lane gate.",
-    "promotion_rule": "EX -> MAIN requires an AUDITED terminal EX claim plus a separate explicit current-target promotion adapter claim. LANE-ADAPTERS.json itself never promotes.",
-    "purpose": "External reference map only. Existing MAIN-STATE files remain authoritative for routing and are not rewritten or promoted by this adapter.",
-    "scratch_rule": "Scratch results are not claim dependencies for MAIN/EX promotion. They must first become a retained PROVISIONAL claim with exact source locks.",
+    "audit_transition_policy": {
+      "fail_before_sync": "BLOCK_DOWNSTREAM_IMMEDIATELY",
+      "pass_before_sync": "KEEP_PRE_SYNC_AUTHORITY_NO_UPGRADE",
+      "registry_authority_mutation": "AT_CLAIM_SYNC_WITH_EXACT_RECEIPT",
+      "revocation_before_sync": "BLOCK_DOWNSTREAM_IMMEDIATELY"
+    },
+    "claim_reference_rule": "A lane may cite a registered claim ID, but mathematical credit is bounded by that claim's authority_status, PROVES, DOES_NOT_PROVE, source locks, and audit receipt.",
     "claim_sync_contract": "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md",
-    "ordinary_startup_preloads_claim_dag": false,
-    "scratch_only_sync_required": false,
     "claim_sync_triggers": [
       "RETAINED_CONSOLIDATION",
       "AUTHORITY_OR_AUDIT_TRANSITION",
@@ -15,24 +16,15 @@
       "ACTIVE_FRONTIER_REMAP",
       "FINAL_MILESTONE_TRANSITION"
     ],
-    "audit_transition_policy": {
-      "pass_before_sync": "KEEP_PRE_SYNC_AUTHORITY_NO_UPGRADE",
-      "fail_before_sync": "BLOCK_DOWNSTREAM_IMMEDIATELY",
-      "revocation_before_sync": "BLOCK_DOWNSTREAM_IMMEDIATELY",
-      "registry_authority_mutation": "AT_CLAIM_SYNC_WITH_EXACT_RECEIPT"
-    },
-    "new_lane_enrollment_rule": "Any new Stage32 EX lane must be added here with exact state_path, startup_path, claim_refs, and active_frontier_refs before it can promote mathematical credit to MAIN. A stopped lane may enroll with empty active_frontier_refs only while promotion_blocked_without_active_claim=true; re-entry requires ACTIVE_FRONTIER_REMAP before promotion."
+    "new_lane_enrollment_rule": "Any new Stage32 EX lane must be added here with exact state_path, startup_path, claim_refs, and active_frontier_refs before it can promote mathematical credit to MAIN. A stopped lane may enroll with empty active_frontier_refs only while promotion_blocked_without_active_claim=true; re-entry requires ACTIVE_FRONTIER_REMAP before promotion.",
+    "ordinary_startup_preloads_claim_dag": false,
+    "promotion_rule": "EX -> MAIN requires an AUDITED terminal EX claim plus a separate explicit current-target promotion adapter claim. LANE-ADAPTERS.json itself never promotes.",
+    "purpose": "External reference map only. Existing MAIN-STATE files remain authoritative for routing and are not rewritten or promoted by this adapter.",
+    "scratch_only_sync_required": false,
+    "scratch_rule": "Scratch results are not claim dependencies for MAIN/EX promotion. They must first become a retained PROVISIONAL claim with exact source locks."
   },
   "lanes": [
     {
-      "lane": "MAIN",
-      "state_path": "stages/stage32/MAIN-STATE.json",
-      "startup_path": "stages/stage32/MAIN-START-HERE.md",
-      "claim_refs": [
-        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
-        "S32.MAIN.HDECK_CHARACTER_DIRECTION.V1",
-        "S32.MAIN.V6_BIJECTIVE_NORMALIZATION_EXCLUSION.V2"
-      ],
       "active_frontier_refs": [
         "S32.V6.ACTUAL_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
         "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
@@ -46,17 +38,17 @@
         "S32.FULL178.NUMERICAL_CENSUS.V1",
         "S32.GOAL.STAGE32_CLOSURE.V1"
       ],
-      "notes": "MAIN owns the active frontier. HDECK and [73,97,235] are audited; open frontier nodes remain goals unless independently audited."
+      "claim_refs": [
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
+        "S32.MAIN.HDECK_CHARACTER_DIRECTION.V1",
+        "S32.MAIN.V6_BIJECTIVE_NORMALIZATION_EXCLUSION.V2"
+      ],
+      "lane": "MAIN",
+      "notes": "MAIN owns the active frontier. HDECK and [73,97,235] are audited; open frontier nodes remain goals unless independently audited.",
+      "startup_path": "stages/stage32/MAIN-START-HERE.md",
+      "state_path": "stages/stage32/MAIN-STATE.json"
     },
     {
-      "lane": "EX1",
-      "state_path": "stages/stage32-ex1/MAIN-STATE.json",
-      "startup_path": "stages/stage32-ex1/MAIN-START-HERE.md",
-      "claim_refs": [
-        "S32.EX1.LANE_CONTRACT.V2",
-        "S32.EX1.CANDIDATE_THROUGH_05H.V2",
-        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2"
-      ],
       "active_frontier_refs": [
         "S32.V6.ACTUAL_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
         "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
@@ -65,16 +57,17 @@
         "S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V2",
         "S32.GOAL.STAGE32_CLOSURE.V1"
       ],
-      "notes": "EX1 attacks V6 carrier existence/nonexistence and the two nonbijective-normalization branches. PR #1700 exact head b17e5a32e08adf3c668c07a71f5b2621b3485c87 passed hostile audit review 5136931113 for the accumulated EX1-05G/05H package at the stated intermediate ceiling; this does not grant terminal EX1 closure or Stage32 MAIN promotion."
-    },
-    {
-      "lane": "EX2",
-      "state_path": "stages/stage32-ex2/MAIN-STATE.json",
-      "startup_path": "stages/stage32-ex2/MAIN-START-HERE.md",
       "claim_refs": [
-        "S32.EX2.LANE_CONTRACT.V2",
+        "S32.EX1.LANE_CONTRACT.V2",
+        "S32.EX1.CANDIDATE_THROUGH_05H.V2",
         "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2"
       ],
+      "lane": "EX1",
+      "notes": "EX1 attacks V6 carrier existence/nonexistence and the two nonbijective-normalization branches. PR #1700 exact head b17e5a32e08adf3c668c07a71f5b2621b3485c87 passed hostile audit review 5136931113 for the accumulated EX1-05G/05H package at the stated intermediate ceiling; this does not grant terminal EX1 closure or Stage32 MAIN promotion.",
+      "startup_path": "stages/stage32-ex1/MAIN-START-HERE.md",
+      "state_path": "stages/stage32-ex1/MAIN-STATE.json"
+    },
+    {
       "active_frontier_refs": [
         "S32.V6.ACTUAL_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
         "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
@@ -82,16 +75,22 @@
         "S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V2",
         "S32.GOAL.STAGE32_CLOSURE.V1"
       ],
-      "notes": "EX2 attacks actual-member reconstruction and complete-linear-system nonexistence; bootstrap contract only."
+      "claim_refs": [
+        "S32.EX2.LANE_CONTRACT.V2",
+        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2",
+        "S32.EX2.LANE_CONTRACT.V3",
+        "S32.EX2.SECTION_SOURCE_INVENTORY.V2",
+        "S32.EX2.FIXED_COMPONENT_NEGATIVE_SCAN.V1",
+        "S32.EX2.ZERO_CURVE_NONFIXEDNESS_17_98.V1",
+        "S32.EX2.FIVE_CONIC_RESTRICTION_REDUCTION.V1",
+        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V3"
+      ],
+      "lane": "EX2",
+      "notes": "EX2 attacks actual-member reconstruction and complete-linear-system nonexistence. EX2-03C provisionally certifies zero curves 17 and 98 nonfixed. EX2-03D provisionally identifies the remaining five zero curves 21,24,25,30,31 as pairwise-disjoint rational conics with trivial O(V6) restriction; their fixedness is reduced to five one-dimensional restriction/evaluation or H1-jump questions. No full fixed-part, member, or MAIN credit is granted.",
+      "startup_path": "stages/stage32-ex2/MAIN-START-HERE.md",
+      "state_path": "stages/stage32-ex2/MAIN-STATE.json"
     },
     {
-      "lane": "EX3",
-      "state_path": "stages/stage32-ex3/MAIN-STATE.json",
-      "startup_path": "stages/stage32-ex3/MAIN-START-HERE.md",
-      "claim_refs": [
-        "S32.EX3.LANE_CONTRACT.V2",
-        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2"
-      ],
       "active_frontier_refs": [
         "S32.V6.SURFACE_NODE_MULTIBRANCH.V2",
         "S32.O210.EXCLUSION.V1",
@@ -100,52 +99,59 @@
         "S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V2",
         "S32.GOAL.STAGE32_CLOSURE.V1"
       ],
-      "notes": "EX3 attacks O210/cover/monodromy and related Q602/member-level interfaces; bootstrap contract only."
+      "claim_refs": [
+        "S32.EX3.LANE_CONTRACT.V2",
+        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2"
+      ],
+      "lane": "EX3",
+      "notes": "EX3 attacks O210/cover/monodromy and related Q602/member-level interfaces; bootstrap contract only.",
+      "startup_path": "stages/stage32-ex3/MAIN-START-HERE.md",
+      "state_path": "stages/stage32-ex3/MAIN-STATE.json"
     },
     {
-      "lane": "EX4",
-      "state_path": "stages/stage32-ex4/MAIN-STATE.json",
-      "startup_path": "stages/stage32-ex4/MAIN-START-HERE.md",
+      "active_frontier_refs": [
+        "S32.Q602.SURVIVORS_73_97_235.V1",
+        "S32.Q602.EXCLUSION.V1",
+        "S32.J2.DELTA0INF_ABSOLUTE_W_LINE_MARKING.V1",
+        "S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V2",
+        "S32.GOAL.STAGE32_CLOSURE.V1"
+      ],
       "claim_refs": [
         "S32.EX4.LANE_CONTRACT.V2",
         "S32.EX4.FIXED_SOURCE_PACKAGE_AMBIGUITY_TERMINAL.V2",
         "S32.MAIN.HDECK_CHARACTER_DIRECTION.V1",
         "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2"
       ],
-      "active_frontier_refs": [
-        "S32.Q602.SURVIVORS_73_97_235.V1",
-        "S32.Q602.EXCLUSION.V1",
-        "S32.J2.DELTA0INF_ABSOLUTE_W_LINE_MARKING.V1",
-        "S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V2",
-        "S32.GOAL.STAGE32_CLOSURE.V1"
-      ],
-      "notes": "EX4 provisional terminal V1 is retained as SUPERSEDED provenance. S32.EX4.FIXED_SOURCE_PACKAGE_AMBIGUITY_TERMINAL.V2 is AUDITED by PR #1713 exact head e1b65ef259182502a397a5a570827c43be1ebe6c, hostile-audit review 5139609916. Audited EX4 credit is FULL_TARGET_CLOSURE / FIXED_SOURCE_PACKAGE_CANNOT_SELECT_ABSOLUTE_W_LINE, bounded to EX4_STRONG_FROZEN_PACKAGE_THROUGH_05D_ONLY. This is a route/anti-loop fact: do not repeat the frozen package without one named new marked datum. It selects no absolute residue, excludes no residue/Q602/O210, grants no Stage32 MAIN mathematical credit, and does not change active MAIN frontier semantics."
+      "lane": "EX4",
+      "notes": "EX4 provisional terminal V1 is retained as SUPERSEDED provenance. S32.EX4.FIXED_SOURCE_PACKAGE_AMBIGUITY_TERMINAL.V2 is AUDITED by PR #1713 exact head e1b65ef259182502a397a5a570827c43be1ebe6c, hostile-audit review 5139609916. Audited EX4 credit is FULL_TARGET_CLOSURE / FIXED_SOURCE_PACKAGE_CANNOT_SELECT_ABSOLUTE_W_LINE, bounded to EX4_STRONG_FROZEN_PACKAGE_THROUGH_05D_ONLY. This is a route/anti-loop fact: do not repeat the frozen package without one named new marked datum. It selects no absolute residue, excludes no residue/Q602/O210, grants no Stage32 MAIN mathematical credit, and does not change active MAIN frontier semantics.",
+      "startup_path": "stages/stage32-ex4/MAIN-START-HERE.md",
+      "state_path": "stages/stage32-ex4/MAIN-STATE.json"
     },
     {
-      "lane": "EX5",
-      "state_path": "stages/stage32-ex5/MAIN-STATE.json",
-      "startup_path": "stages/stage32-ex5/MAIN-START-HERE.md",
-      "claim_refs": [
-        "S32.EX5.LANE_CONTRACT.V2",
-        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2"
-      ],
       "active_frontier_refs": [
         "S32.FULL178.NUMERICAL_CENSUS.V1",
         "S32.GOAL.STAGE32_CLOSURE.V1"
       ],
-      "notes": "EX5 attacks receiver-breadth/FULL178 routing and the numerical-census input to Stage32 closure; bootstrap breadth contract only."
+      "claim_refs": [
+        "S32.EX5.LANE_CONTRACT.V2",
+        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2"
+      ],
+      "lane": "EX5",
+      "notes": "EX5 attacks receiver-breadth/FULL178 routing and the numerical-census input to Stage32 closure; bootstrap breadth contract only.",
+      "startup_path": "stages/stage32-ex5/MAIN-START-HERE.md",
+      "state_path": "stages/stage32-ex5/MAIN-STATE.json"
     },
     {
-      "lane": "EX6",
-      "state_path": "stages/stage32-ex6/MAIN-STATE.json",
-      "startup_path": "stages/stage32-ex6/MAIN-START-HERE.md",
+      "active_frontier_refs": [],
       "claim_refs": [
         "S32.MAIN.CURRENT_TARGET_CONTEXT.V1"
       ],
-      "active_frontier_refs": [],
+      "lane": "EX6",
       "lane_status": "STOPPED_PENDING_NEW_ENDPOINT_INPUT",
+      "notes": "EX6 is enrolled as the merged reverse O266 endpoint lane, but #1697 ended O266_ENDPOINT_NOT_CLOSED and the lane is currently stopped. Therefore it carries no active ATTACKS/CONSUMES ref and cannot promote. Re-entry must first fire ACTIVE_FRONTIER_REMAP and attach an exact registered claim; any later MAIN promotion also needs hostile-audit authority and an explicit current-target promotion adapter.",
       "promotion_blocked_without_active_claim": true,
-      "notes": "EX6 is enrolled as the merged reverse O266 endpoint lane, but #1697 ended O266_ENDPOINT_NOT_CLOSED and the lane is currently stopped. Therefore it carries no active ATTACKS/CONSUMES ref and cannot promote. Re-entry must first fire ACTIVE_FRONTIER_REMAP and attach an exact registered claim; any later MAIN promotion also needs hostile-audit authority and an explicit current-target promotion adapter."
+      "startup_path": "stages/stage32-ex6/MAIN-START-HERE.md",
+      "state_path": "stages/stage32-ex6/MAIN-STATE.json"
     }
   ],
   "schema": "STAGE32_LANE_CLAIM_ADAPTERS_V1",
