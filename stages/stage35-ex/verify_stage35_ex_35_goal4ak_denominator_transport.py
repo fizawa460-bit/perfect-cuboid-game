@@ -11,10 +11,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 MANIFEST = ROOT / "stages/stage35-ex/35ex-35/goal4ak-degree31-denominator-transport.json"
-MANIFEST_BLOB = "651896391b7fcd2e79dd978d698e170af1e1cca9"
+MANIFEST_BLOB = "586a37bfe90a5fd3773c7d3525dde7c873ddedca"
 EXPECTED_SCHEMA = "STAGE35_EX_GOAL4AK_DEGREE31_DENOMINATOR_PERMANENT_TRANSPORT_V1"
-EXPECTED_CANONICAL = "41a9c627a92870a45ef1f2a76319e0c1d976fb8ca273e507aa122b7cce480515"
-EXPECTED_TRANSPORT_BLOB = "8250dfb2f256d9d03f96e2c21971abf1b6701220"
+EXPECTED_CANONICAL = "f0e1187b89c3c7ea577e6404c75d3459a3d343d9b4bf56cdc4053a50f40a2522"
+EXPECTED_TRANSPORT_BLOB = "5e25d4db44249f6eba0c03863e49f2522c8e54c8"
+EXPECTED_B64_SHA = "ef7d9c7a360807a85b10a45b150a1636f01ed78bfc0f3b5ca05584eaf2749e1e"
 EXPECTED_GZIP_SHA = "43b1ef891c21e3ec4279c70da0661d7987051b3eaaaf418db2158ede481a822d"
 EXPECTED_RAW_SHA = "28d738a7a23df1ace371cabe3a476c270a54c6b7798e8172bd7111b14e25fc29"
 NAMES = ("a1", "a2", "a3", "b1", "b2", "b3", "c")
@@ -60,18 +61,15 @@ def main() -> None:
     assert git_blob(p) == t["git_blob_sha1"] == EXPECTED_TRANSPORT_BLOB
     b64 = p.read_bytes()
     assert len(b64) == t["base64_chars"] == 11128
+    assert hashlib.sha256(b64).hexdigest() == t["base64_sha256"] == EXPECTED_B64_SHA
     text = b64.decode("ascii")
     assert not any(ch.isspace() for ch in text)
     gz = base64.b64decode(text, validate=True)
     assert len(gz) == t["gzip_bytes"] == 8346
-    actual_gzip_sha = hashlib.sha256(gz).hexdigest()
+    assert hashlib.sha256(gz).hexdigest() == t["gzip_sha256"] == EXPECTED_GZIP_SHA
     raw = gzip.decompress(gz)
-    actual_raw_sha = hashlib.sha256(raw).hexdigest()
-    print("observed_transport_gzip_sha256=" + actual_gzip_sha)
-    print("observed_transport_raw_sha256=" + actual_raw_sha)
     assert len(raw) == t["raw_text_bytes"] == 42489
-    assert actual_raw_sha == t["raw_text_sha256"] == EXPECTED_RAW_SHA
-    assert actual_gzip_sha == t["gzip_sha256"] == EXPECTED_GZIP_SHA
+    assert hashlib.sha256(raw).hexdigest() == t["raw_text_sha256"] == EXPECTED_RAW_SHA
 
     poly = raw.decode("utf-8")
     terms = re.findall(r"[+-]?[^+-]+", poly)
