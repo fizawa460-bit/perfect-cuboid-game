@@ -34,7 +34,7 @@ jobs:
           key='stages/stage32-ex2/runkeys/ex2-04b-blocker-checkpoint.json'
           d=json.load(open(key))
           assert d['schema']=='STAGE32EX2_EX2_04B_BLOCKER_CHECKPOINT_RUNKEY_V1'
-          assert d['generation']==3 and d['armed'] is True
+          assert d['generation']==4 and d['armed'] is True
           assert d['expected_current_main']=='70265586b3f97be21c7621af73f443311f1f3fa3'
           for item in d['source_locks'].values():
               actual=subprocess.check_output(['git','hash-object',item['path']],text=True).strip()
@@ -102,7 +102,7 @@ jobs:
             exit 1
           fi
           cat /tmp/claim-dag.out
-          grep -Fq 'source lock mismatch' /tmp/claim-dag.out
+          grep -Fq 'source-lock mismatch' /tmp/claim-dag.out
           grep -Fq 'FAIL_STAGE32_CLAIM_DAG_INTEGRITY' /tmp/claim-dag.out
       - name: Check exact write scope
         shell: bash
