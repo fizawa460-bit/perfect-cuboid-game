@@ -1,0 +1,82 @@
+{
+  "canonical_sha256_without_this_field": "4611bc731a1630d2446f5aa69dd2e39a0ffb09698e5dcede3608120d42c3713e",
+  "decision": {
+    "forced_tangent_collision_from_current_branch_counts": false,
+    "next_exact_input": "A source-bound/member-level restriction that places the landing ratios lambda in a finite or algebraically constrained set, couples different cusp landings, or otherwise forces target tangent coincidence; branch counts and multiplicities alone are insufficient.",
+    "reason": "The exact AR/AQ branch and multiplicity budgets admit a formal local configuration with 210 FSM-minimal branches, 28 contact-two branches, all target tangent parameters pairwise distinct within each cusp, and all two-factor slack identities satisfied.",
+    "result": "PURE_RESIDUAL_G_TANGENT_SLOT_CARDINALITY_ROUTE_IS_NONPRUNING_WITH_CURRENT_DATA"
+  },
+  "exact_inputs": {
+    "AQ_minimum_exceptional_contact_one_branches": 210,
+    "AR_minimum_FSM_minimal_branches": 186,
+    "AR_minimum_node_branches": 238,
+    "target_cusp_multiplicities": [35,24,18,19,28,21,25,34,20,5,5,32],
+    "target_cusp_multiplicity_sum": 266,
+    "target_first_blowup_delta_lower_bound": 3350,
+    "target_total_delta": 8319
+  },
+  "firewalls": {
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "Stage32_closed": false,
+    "does_not_prove_simultaneous_global_realizability": true,
+    "does_not_revoke_AQ_or_AR": true,
+    "endpoint_credit": false,
+    "formal_local_witness_is_not_global_curve": true,
+    "perfect_cuboid_credit": false,
+    "receiver_credit": false,
+    "shared_MAIN_STATE_unchanged": true,
+    "theorem_credit": false
+  },
+  "formal_collision_free_witness": {
+    "branch_counts_by_target_cusp": [25,16,13,14,28,21,25,34,20,5,5,32],
+    "contact1_local_model": "u=s, v=c*s (equivalently x=s,w=lambda constant)",
+    "contact1_minimal_branch_count": 210,
+    "contact2_branch_counts_by_target_cusp": [10,8,5,5,0,0,0,0,0,0,0,0],
+    "contact2_local_model": "u=s^2, v=s^2*(lambda+s)^2 (equivalently x=s^2,w=lambda+s); the strict transform after the target blowup is smooth at tangent c=lambda^2",
+    "contact2_nonminimal_branch_count": 28,
+    "cusp_delta_can_equal_first_blowup_bound": true,
+    "exceptional_mass_reconstruction": 266,
+    "factor105_slack_assignment": {"eta":0,"lhs":28,"q_node":0,"q_smooth":182,"rho":0,"smooth_boundary_point_count":182,"t":28},
+    "factor81_slack_assignment": {"eta":24,"lhs":52,"q_node":0,"q_smooth":110,"rho":0,"smooth_boundary_point_count":86,"t":28},
+    "formal_cusp_delta_total": 3350,
+    "local_types": {"contact1":"(A,B)=(1,1)","contact2":"(A,B)=(2,2)"},
+    "node_branch_count_N": 238,
+    "q105_node": 0,
+    "q81_node": 0,
+    "remaining_delta_budget": 4969,
+    "t": 28,
+    "tangent_assignment": "At each target cusp j choose pairwise distinct c_{j,k} in C* (e.g. c=1,...,r_j) and choose lambda with lambda^2=c. Distinct c give distinct first-blowup landing points/tangent directions."
+  },
+  "residual_local_action": {
+    "A1_coordinates": "x=p^2,y=pq,z=q^2 with xz=y^2",
+    "finite_tangent_slot_bound": false,
+    "landing_quotient": "C*/{lambda~-lambda} -> C*, lambda maps to lambda^2",
+    "node_stabilizer_action": "(p,q)->(-p,q), hence (x,y,z)->(x,-y,z) and w->-w",
+    "residual_group_order": 8,
+    "resolution_chart": "y=x*w,z=x*w^2",
+    "source_node_orbit_size_over_target_cusp": 4,
+    "source_node_stabilizer_order": 2,
+    "target_coordinates": "u=x=p^2,v=z=q^2",
+    "target_tangent_parameter": "c=v/u=w^2=lambda^2"
+  },
+  "schema": "STAGE32_MAIN_SCRATCH_RESIDUAL_G_TANGENT_CAPACITY_NONCLOSURE_V1",
+  "scope": {
+    "V": "V6",
+    "current_MAIN_target": {"O":210,"Q":602,"qprime":4,"survivors":[73,97,235]},
+    "degree": 186,
+    "exceptional_mass": 266,
+    "genus": 1,
+    "row_id": "g1-d186"
+  },
+  "snapshot_current_main": "70265586b3f97be21c7621af73f443311f1f3fa3",
+  "source_locks": {
+    "AQ": {"blob_sha1":"06891a1c8675f4abb59b1dba386b83118c097f7a","canonical_sha256":"1831162e6f270b461d63fbdfda57b61711aacd49b85fe40e37fb5d5b3634088e","path":"stages/stage32/residual-32-01-production/post1648aq-residual-g-cusp-multiplicity-grid.json"},
+    "AQ_source_note": {"blob_sha1":"017b34a77245e059e79e4efda32b2544576bb704","path":"stages/stage32/residual-32-01-production/post1648aq-residual-g-cusp-multiplicity-grid-source-note.md"},
+    "AR": {"blob_sha1":"33d5c413b887964ad48a9795b34b7ee0c804e467","canonical_sha256":"dba5756e4b10c8bd6e412f1027b8edf693fb74f9ea90f9b591cc99437746a8dd","path":"stages/stage32/residual-32-01-production/post1648ar-two-factor-slack-minimal-branches.json"},
+    "AR_source_note": {"blob_sha1":"da9b6ba755b8bd43d5b342d5540053caeb218f57","path":"stages/stage32/residual-32-01-production/post1648ar-two-factor-slack-minimal-branches-source-note.md"},
+    "FSM": {"reference":"Freitag--Salvati Manni, Parametrization of the box variety by theta functions, Theorem 2.4/Section 2 local node model, DOI 10.1307/mmj/1480734014"}
+  },
+  "stage": 32,
+  "status": "SCRATCH_EXACT_UNAUDITED_LOCAL_FEASIBILITY_WITNESS"
+}
