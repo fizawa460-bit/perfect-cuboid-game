@@ -1,0 +1,164 @@
+{
+  "schema": "STAGE32EX4_R7_TRIANGLE_GROUP_REGULAR_OCTAGON_MARKING_PREFLIGHT_SCRATCH_V1",
+  "stage": "32EX4",
+  "leaf": "EX4-R7_TRIANGLE_GROUP_REGULAR_OCTAGON_MARKING_PREFLIGHT",
+  "status": "SCRATCH_REPLAYABLE_TRIANGLE_GROUP_OCTAGON_WORDS_EXACT_BUT_ALGEBRAIC_WEIERSTRASS_PHASE_UNBOUND",
+  "prior_r6": {
+    "artifact": "stages/stage32-ex4/ex4-r6-brezhnev-burnside-explicit-uniformization-marking-preflight-scratch.json",
+    "blob_sha1": "bcdd203610f17f31b19ca7f7810e3ef8a528650f",
+    "canonical_sha256": "007c80db16b644bbffc999bdeb3b4f264edfe0f7b1288face4195ae04d4a86fd",
+    "residual_phase_count": 4,
+    "orbit": "r^k*B8*r^-k, k=0,1,2,3"
+  },
+  "external_source": {
+    "hulpke_kuusalo_naatanen_rosenberger": {
+      "title": "On orbifold coverings of genus 2 surfaces",
+      "authors": [
+        "Alexander Hulpke",
+        "Tapani Kuusalo",
+        "Marjatta Naatanen",
+        "Gerhard Rosenberger"
+      ],
+      "journal": "Scientia Series A: Mathematical Sciences",
+      "volume": 11,
+      "year": 2005,
+      "pages": "45-55",
+      "url": "https://www.math.colostate.edu/~hulpke/paper/revista.pdf",
+      "locators": [
+        "paper p.49 / PDF pageno 3: Example 1 identifies the Bolza curve w^2=z^5-z (Case D) and a regular octagon with diagonal pairings",
+        "paper pp.49-50 / PDF pageno 3-4: normalizer (2,3,8) contains three conjugate (2,4,8) groups; for one choose S,T,U with U^2=T^4=S^8=I and STU=I; fixed points of S,T are Weierstrass points",
+        "paper pp.50-51 / PDF pageno 4-5: descending orbifold tower and explicit words c=S^2, b1=S^-1 U S, a=US^2, b0=S^4, b2=S^-3 U S^3, g1=SUS^3",
+        "paper p.51 / PDF pageno 5: genus-2 regular octagon with angle pi/4 and diagonal pairings f1=S^4 T^2, f2=S T^2 S^3, f3=S^-2 T^2 S^6, f4=S^3 T^2 S; equivalent S,U words also printed"
+      ],
+      "screenshot_attempt": "web screenshot was attempted on relevant PDF pages but the host returned cache-miss errors; no visual inference from inaccessible figure pixels is used"
+    }
+  },
+  "source_exact_data": {
+    "curve": "w^2=z^5-z",
+    "case_reference": "Kuusalo--Naatanen 1995 Case D pp.404-406",
+    "surface_polygon": "regular octagon with diagonal pairings",
+    "normalizer": "(2,3,8)",
+    "triangle_group_choice": {
+      "conjugate_subgroup_count": 3,
+      "source_wording": "for one of these (2,4,8) groups we can choose S,T,U",
+      "relations": [
+        "U^2=I",
+        "T^4=I",
+        "S^8=I",
+        "STU=I"
+      ]
+    },
+    "weierstrass_information": {
+      "fixed_point_of_S": "a Weierstrass point",
+      "fixed_point_of_T": "a Weierstrass point",
+      "algebraic_label_of_S_fixed_point": null,
+      "algebraic_label_of_T_fixed_point": null
+    },
+    "genus2_surface_group_diagonal_pairing_words": {
+      "f1": "S^4*T^2",
+      "f2": "S*T^2*S^3",
+      "f3": "S^-2*T^2*S^6",
+      "f4": "S^3*T^2*S"
+    },
+    "genus2_surface_group_words_in_S_U": {
+      "f1": "S^3*U*S^-1*U",
+      "f2": "U*S^-1*U*S^3",
+      "f3": "S^-3*U*S^-1*U*S^6",
+      "f4": "S^2*U*S^-1*U*S"
+    }
+  },
+  "typed_adapter_test": {
+    "triangle_group_to_regular_octagon_geometry": {
+      "provided": true,
+      "reason": "Figures 1-7 and the printed S,T,U words locate a chosen (2,4,8) triangle-group tower inside a regular Bolza octagon and give exact surface-group side-pairing words."
+    },
+    "triangle_group_S_fixed_point_to_algebraic_branch_label": {
+      "provided": false,
+      "missing": "The source says only that the fixed point of S is a Weierstrass point; it does not name it as infinity, 0, +1, -1, +i or -i."
+    },
+    "triangle_group_T_fixed_point_to_algebraic_branch_label": {
+      "provided": false,
+      "missing": "The source says only that the fixed point of T is a Weierstrass point; it does not assign one of the six algebraic branch labels."
+    },
+    "surface_group_f1_f4_to_kuusalo_canonical_h1": {
+      "provided": false,
+      "missing": "The 2005 f1,...,f4 are genus-2 covering-group diagonal-pairing generators. The source does not identify these names with Kuusalo's canonical homology basis (a1,a2,b1,b2); notation f1 also conflicts with Kuusalo 1995's order-8 automorphism name."
+    },
+    "triangle_group_to_kuusalo_figure9_side_numbering": {
+      "provided": false,
+      "missing": "No printed assignment connects the 2005 octagon's diagonal-pairing/triangle-group placement to Kuusalo Figure-9 side numbers 1,2,3,4."
+    },
+    "triangle_group_order3_center_to_kuusalo_figure10_P": {
+      "provided": false,
+      "missing": "Example 1 uses a (2,4,8) triangle group with orders 2,4,8 and does not source-identify the chosen Kuusalo Figure-10 order-3 triangle center P. The ambient (2,3,8) normalizer is named, but no literal order-3 generator/triangle is bound to algebraic labels."
+    }
+  },
+  "ambiguity_analysis": {
+    "new_information_over_r6": [
+      "The source returns to the same regular-octagon presentation family as Kuusalo Case D rather than Brezhnev's modular 10/18-gon.",
+      "It gives exact triangle-group and genus-2 surface-group words, so the hyperbolic group presentation is no longer the missing datum."
+    ],
+    "remaining_phase_obstruction": [
+      "The chosen (2,4,8) subgroup is one of three conjugates in (2,3,8).",
+      "The distinguished fixed points of S and T are not assigned algebraic Weierstrass labels.",
+      "No side number or canonical H1 basis vector is attached to the algebraically labelled side centers.",
+      "No order-3 triangle center is identified with Kuusalo Figure-10 P."
+    ],
+    "consequence": "The source upgrades the unmarked regular-octagon group geometry but does not supply the algebraic-label-to-octagon-phase adapter required to choose one R4 conjugate."
+  },
+  "r4_phase_replay": {
+    "candidate_k_before_r7": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "candidate_k_after_r7": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "residual_phase_count": 4,
+    "hknr_independently_selects_one_k": false,
+    "literal_B8_k0_source_selected": false
+  },
+  "decision": {
+    "result": "TRIANGLE_GROUP_REGULAR_OCTAGON_WORDS_ARE_EXPLICIT_BUT_WEIERSTRASS_FIXED_POINTS_AND_SIDES_ARE_NOT_ALGEBRAICALLY_LABELLED",
+    "source_lane_classification": "EXACT_GROUP_GEOMETRY_NONPRUNING_REQUIRES_ALGEBRAIC_LABEL_ADAPTER",
+    "source_is_materially_distinct_from_brezhnev": true,
+    "regular_octagon_group_words_retained": true,
+    "r4_fourfold_phase_reduced": false,
+    "absolute_delta0inf_retained_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "conditional_residue97_only": true,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "next_exact_route": "EX4-R8_COOK_JENNI_BRANCH_LABELLED_OCTAGON_TO_ORDER3_TRIANGLE_MARKING_PREFLIGHT",
+    "next_source_candidate": "Joseph Cook, Properties of Eigenvalues on Riemann Surfaces with Large Symmetry Groups, arXiv:2108.11825, especially Figures 1.7 and 3.1-3.2 / Jenni-derived R,S,T,U action.",
+    "next_question": "Cook explicitly constructs the octagon from algebraic branch labels and later labels the order-8 rotation R and order-3 triangle-center rotation U on the same Bolza tessellation. Does the text/figures explicitly identify the Figure-1.7 branch-labelled Weierstrass points with the P/Q labels used for R,U strongly enough to select the Kuusalo phase?"
+  },
+  "firewalls": {
+    "2005_f1_surface_group_confused_with_kuusalo_f1_automorphism": false,
+    "S_fixed_point_assigned_infinity_without_source": false,
+    "T_fixed_point_assigned_specific_side_center_without_source": false,
+    "chosen_248_subgroup_promoted_to_absolute_algebraic_marking": false,
+    "ambient_238_order3_inferred_as_kuusalo_f2_without_source": false,
+    "literal_B8_selected": false,
+    "conditional_residue97_promoted": false,
+    "prior_audited_terminal_revoked": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "source_locks": {
+    "r6": {
+      "path": "stages/stage32-ex4/ex4-r6-brezhnev-burnside-explicit-uniformization-marking-preflight-scratch.json",
+      "blob_sha1": "bcdd203610f17f31b19ca7f7810e3ef8a528650f",
+      "canonical_sha256": "007c80db16b644bbffc999bdeb3b4f264edfe0f7b1288face4195ae04d4a86fd"
+    }
+  },
+  "canonical_sha256_without_this_field": "89a8f229461877f8030577962e61218610c62afdde99c3912fabfd779f058f96"
+}
