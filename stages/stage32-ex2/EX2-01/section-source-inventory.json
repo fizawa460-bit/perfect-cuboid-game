@@ -1,0 +1,178 @@
+{
+  "schema": "STAGE32EX2_EX2_01_SECTION_SOURCE_INVENTORY_V1",
+  "stage": "32EX2",
+  "unit": "EX2-01",
+  "status": "PASS_CERTIFIED_ABSTRACT_SECTION_LINE_COORDINATE_LANES_TYPED_BLOCKED",
+  "source_locks": {
+    "ex2_00_target_contract": {
+      "path": "stages/stage32-ex2/EX2-00/v6-source-lock-target-contract.json",
+      "blob_sha1": "b72b7582339d3933ac4485a1cf92c7be07809dc9",
+      "scope": "IMMUTABLE_V6_CLASS_EFFECTIVITY_AND_MODEL_BOUNDARY"
+    },
+    "finite_group_equivariant_reconstruction_card": {
+      "path": "docs/arsenal/cards/provisional/S32-PW05.md",
+      "blob_sha1": "18988010867b5bd6278e4431b9f0efe81186c381",
+      "scope": "DISCOVERY_ONLY_FINITE_INVARIANT_TABLE_RECONSTRUCTION_NOT_H0_LINEARIZATION"
+    }
+  },
+  "target": {
+    "surface": "minimal desingularization S of the canonical cuboid surface",
+    "base_field_context": "QBAR_GEOMETRIC",
+    "divisor_class": "V6",
+    "line_bundle": "L=O_S(V6)",
+    "h0_lower_bound": 294,
+    "complete_H0_dimension_asserted": false,
+    "Q_defined_line_bundle_or_section_asserted": false
+  },
+  "known140_effective_divisor_section_bridge": {
+    "input": {
+      "effective_divisor_name": "E_known140",
+      "class_equality": "[E_known140]=V6 in Pic(S)",
+      "nonzero_term_count": 61,
+      "total_multiplicity": 155,
+      "normal_curve_multiplicity": 73,
+      "exceptional_curve_multiplicity": 82,
+      "effective": true
+    },
+    "geometric_lemma": {
+      "S_is_connected_projective_integral_over_Qbar": true,
+      "E_known140_is_effective_Cartier_on_smooth_S": true,
+      "canonical_section_exists": "sigma_E in H^0(S,O_S(E_known140)) with div(sigma_E)=E_known140",
+      "line_bundle_isomorphism_exists": "O_S(E_known140) is isomorphic to L because the Picard classes agree",
+      "automorphisms_are_scalars": "Aut(L)=H^0(S,O_S)^*=Qbar^*",
+      "projective_section_line_independent_of_chosen_isomorphism": true
+    },
+    "output": {
+      "object_type": "PROJECTIVE_SECTION_LINE_IN_P_H0_L",
+      "certified_nonzero_section_line": true,
+      "certified_subspace_dimension": 1,
+      "spans_complete_H0": false,
+      "ambient_coefficients_materialized": false,
+      "component_equation_product_materialized": false,
+      "Q_descent_certified": false,
+      "member_divisor": "E_known140",
+      "member_is_reducible_or_multicomponent_by_construction": true,
+      "positive_EX2_terminal": false
+    }
+  },
+  "lane_inventory": [
+    {
+      "lane": "KNOWN_CURVE_EFFECTIVE_DIVISOR",
+      "status": "EXECUTABLE_AT_ABSTRACT_DIVISOR_AND_PROJECTIVE_SECTION_LEVEL",
+      "input_space": "one exact retained nonnegative known-140 divisor decomposition",
+      "output_object": "E_known140 and its one-dimensional projective section line [sigma_E] in P(H0(L))",
+      "field": "Qbar geometric context",
+      "divisor_class_adapter": "SOURCE_BOUND_EXACT_CLASS_EQUALITY",
+      "coverage": "CERTIFIED_1D_SUBSPACE_ONLY",
+      "complete_H0": false,
+      "reopen_for_coordinates": "supply explicit equations/trivializations for all used components on the resolution and a product/gluing adapter into L"
+    },
+    {
+      "lane": "KNOWN_CURVE_EQUATION_PRODUCTS",
+      "status": "BLOCKED_COORDINATE_REALIZATION",
+      "input_space": "retained known curves and multiplicities",
+      "output_object": "desired explicit product/sum section",
+      "field": "not fixed beyond Qbar",
+      "divisor_class_adapter": "class sum is source-bound but coordinate product realization is not",
+      "coverage": "NONE_BEYOND_ABSTRACT_SECTION_LINE",
+      "complete_H0": false,
+      "missing_object": "component equation plus resolution/Cartier/trivialization adapter, including exceptional contributions"
+    },
+    {
+      "lane": "AMBIENT_PROJECTIVE_RESTRICTIONS",
+      "status": "BLOCKED_TYPED_ADAPTER",
+      "input_space": "homogeneous forms on P6 restricted to the canonical cuboid surface",
+      "output_object": "sections of an ambiently presented line bundle",
+      "field": "Q possible for ambient equations, but V6 section field not established",
+      "divisor_class_adapter": "MISSING",
+      "coverage": "UNKNOWN",
+      "complete_H0": false,
+      "missing_object": "exact identification of V6 with an ambient twist plus exceptional/resolution corrections"
+    },
+    {
+      "lane": "MODULAR_OR_THETA_FORMS",
+      "status": "BLOCKED_TYPED_ADAPTER",
+      "input_space": "candidate modular/theta forms",
+      "output_object": "candidate divisor/section",
+      "field": "UNBOUND",
+      "divisor_class_adapter": "MISSING",
+      "coverage": "NONE_CERTIFIED",
+      "complete_H0": false,
+      "missing_object": "source-bound modular/theta form whose divisor class is exactly V6 on S"
+    },
+    {
+      "lane": "COX_GRADED_IDEAL_SYZYGY",
+      "status": "BLOCKED_TYPED_ADAPTER",
+      "input_space": "graded/Cox/ideal-sheaf/syzygy presentation",
+      "output_object": "finite-dimensional section vectors",
+      "field": "UNBOUND",
+      "divisor_class_adapter": "MISSING",
+      "coverage": "NONE_CERTIFIED",
+      "complete_H0": false,
+      "missing_object": "graded presentation of O_S(V6) or equivalent ideal/syzygy module with exact class grading"
+    },
+    {
+      "lane": "PULLBACK_OR_NORM_FROM_COVERS_QUOTIENTS",
+      "status": "BLOCKED_TYPED_ADAPTER",
+      "input_space": "retained covers/quotients",
+      "output_object": "pullback/norm section in H0(L)",
+      "field": "UNBOUND",
+      "divisor_class_adapter": "MISSING",
+      "coverage": "NONE_CERTIFIED",
+      "complete_H0": false,
+      "missing_object": "exact map of the source line bundle/divisor class to V6 together with section pullback/norm semantics"
+    },
+    {
+      "lane": "SYMMETRY_OR_GALOIS_SECTION_ORBITS",
+      "status": "BLOCKED_LINE_BUNDLE_LINEARIZATION",
+      "input_space": "exact finite automorphism/Galois data on retained algebraic labels",
+      "output_object": "section orbit or eigenspace in H0(L)",
+      "field": "Qbar geometric context until descent is proved",
+      "divisor_class_adapter": "V6 class action alone is insufficient",
+      "coverage": "NONE_CERTIFIED_BEYOND_THE_SINGLE_ABSTRACT_SECTION_LINE",
+      "complete_H0": false,
+      "missing_object": "source-bound linearization of L and induced action on H0(L)",
+      "arsenal_note": "S32-PW05 reconstructs finite invariant pairing tables from an exact action; it does not supply a line-bundle linearization or an H0 representation"
+    }
+  ],
+  "bounded_discovery": {
+    "queries_checked": [
+      "V6 H0 section line bundle",
+      "V6 theta modular divisor",
+      "V6 Cox graded ring syzygy ideal",
+      "known140 equation divisor section",
+      "linearization line bundle automorphism Picard V6"
+    ],
+    "direct_reusable_coordinate_section_asset_found": false,
+    "search_miss_is_repository_wide_absence_claim": false,
+    "arsenal_catalog_checked": true,
+    "matching_arsenal_item": "S32-PW05 only as a conditional symmetry-table weapon, not a section constructor"
+  },
+  "exit": {
+    "EX2_01_complete": true,
+    "abstract_divisor_representative_line_bundle_realization": true,
+    "coordinate_line_bundle_presentation": false,
+    "certified_section_subspace_obtained": true,
+    "certified_section_subspace_dimension": 1,
+    "complete_section_space_basis_obtained": false,
+    "explicit_coordinate_section_obtained": false,
+    "next_leaf": "EX2-02_EXACT_FIXED_COMPONENT_EXTRACTION",
+    "next_objective": "Use exact V6 intersections with retained irreducible curves to prove only genuinely forced fixed components by D.E<0 and iterative subtraction; do not confuse the known reducible member with the fixed part."
+  },
+  "credit_firewall": {
+    "explicit_V6_member_materialized_in_coordinates": false,
+    "integral_irreducible_V6_member_obtained": false,
+    "explicit_V6_genus1_member_verified": false,
+    "population_wide_no_genus1_member_proved": false,
+    "known140_member_promoted_to_fixed_part": false,
+    "one_dimensional_subspace_promoted_to_complete_H0": false,
+    "stage32_main_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
