@@ -1,0 +1,131 @@
+{
+  "schema": "STAGE32EX1_EX1_05J_JET_EQUI GENERIC_CAPACITY_PREFLIGHT_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05J_JET_SEPARATION_SESHADRI_REIDER_EQUIGENERIC_PREFLIGHT",
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "base_main_sha": "d5545b32e6b3088bca53318998d434f2745b03e9",
+  "parent_scratch_commit": "92c4ecd31d2284ebfb4c644b44512d261395ecfb",
+  "question": "Can standard jet-separation / Reider-Beltrametti-Sommese / equigeneric transversality machinery dispose the fixed-V6 D0 or Gamma solely from the retained intersection and normalization-defect data, without first extracting the missing singularity support?",
+  "source_locks": {
+    "ex1_05h": "stages/stage32-ex1/ex1-05h-upstairs-conductor-discriminant-off-cusp-coupling.json",
+    "rosati_repair": "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md",
+    "ambient": "S0 is smooth and q:S0->Q=C2xC2 is finite etale of degree 4; g(C2)=2",
+    "external_references": [
+      {
+        "name": "Dedieu-Sernesi, Equigeneric and equisingular families of curves on surfaces",
+        "arxiv": "1410.4221",
+        "exact_use": "For a reduced planar singularity the local delta-constant/equigeneric stratum has codimension delta in a semiuniversal deformation; global equigeneric transversality is a separate issue."
+      },
+      {
+        "name": "Keilen, Smoothness of Equisingular Families of Curves",
+        "arxiv": "math/0308247v2",
+        "journal": "Trans. Amer. Math. Soc. 357 (2005), 2467-2481",
+        "exact_use": "Reider-Bogomolov style sufficient conditions for T-smoothness on smooth projective surfaces/products of curves depend on positivity plus local singularity schemes/invariants."
+      },
+      {
+        "name": "Terakawa, The d-very ampleness on a projective surface in positive characteristic",
+        "doi": "10.2140/pjm.1999.187.187",
+        "exact_use": "Beltrametti-Sommese/Reider-type d-very ampleness criterion for an adjoint K+N uses N nef and the numerical threshold N^2 >= 4d+5; used here only as a generic jet-separation capacity benchmark."
+      }
+    ]
+  },
+  "exact_derived_surface_invariants": {
+    "Q_C2xC2": {
+      "K_square": 8,
+      "chi_O": 1,
+      "derivation": "K_Q=p1^*K_C2+p2^*K_C2 with deg K_C2=2; chi(O_Q)=(g-1)^2=1"
+    },
+    "S0_etale_degree4": {
+      "K_square": 32,
+      "chi_O": 4,
+      "derivation": "finite etale degree 4 multiplies K^2 and chi(O) by 4"
+    }
+  },
+  "upstairs_D0_budget": {
+    "D0_square": 3874,
+    "K_dot_D0": 372,
+    "delta_range": [1990, 2018],
+    "N_definition": "N0=D0-K_S0",
+    "N_square": 3162,
+    "riemann_roch_chi_O_D0": 1755,
+    "conditional_if_N0_ample": {
+      "kodaira_higher_cohomology_vanishes": true,
+      "h0_O_D0": 1755,
+      "linear_system_dimension": 1754,
+      "equigeneric_expected_dimension_range": [-264, -236],
+      "interpretation": "If the global linear system is transverse to the local delta-constant strata, codimension delta exceeds |D0| by 236..264 and the hypothetical member is impossible."
+    },
+    "beltrametti_sommese_capacity": {
+      "required_k_for_arbitrary_length_delta_scheme_range": [1989, 2017],
+      "required_N_square_threshold_range": [7961, 8073],
+      "actual_N_square": 3162,
+      "threshold_met": false
+    }
+  },
+  "downstairs_Gamma_budget": {
+    "Gamma_square": 15806,
+    "K_dot_Gamma": 372,
+    "delta_range": [7956, 7984],
+    "N_definition": "NQ=Gamma-K_Q",
+    "N_square": 15070,
+    "riemann_roch_chi_O_Gamma": 7718,
+    "conditional_if_NQ_ample": {
+      "kodaira_higher_cohomology_vanishes": true,
+      "h0_O_Gamma": 7718,
+      "linear_system_dimension": 7717,
+      "equigeneric_expected_dimension_range": [-267, -239],
+      "interpretation": "If the global correspondence linear system is transverse to the local delta-constant strata, codimension delta exceeds |Gamma| by 239..267 and the hypothetical correspondence is impossible."
+    },
+    "beltrametti_sommese_capacity": {
+      "required_k_for_arbitrary_length_delta_scheme_range": [7955, 7983],
+      "required_N_square_threshold_range": [31825, 31937],
+      "actual_N_square": 15070,
+      "threshold_met": false
+    }
+  },
+  "preflight_result": {
+    "new_exact_pattern": "Both upstairs and downstairs have a conditional negative expected-dimension gap: the retained delta defect is larger than the Riemann-Roch linear-system dimension by roughly 2.4e2 conditions once suitable adjoint vanishing and equigeneric transversality are available.",
+    "standard_generic_jet_capacity_sufficient": false,
+    "reason": "The standard Reider/Beltrametti-Sommese all-zero-dimensional-schemes threshold N^2>=4k+5 is far below the k=delta-1 range required to force arbitrary conductor/equigeneric schemes. Seshadri/jet refinements also require local support/multiplicity or positivity data not present in the retained package.",
+    "Q_states_excluded": 0,
+    "V6_carrier_excluded": false,
+    "route_status": "BLOCKED_NEW_PATTERN_ISOLATED_NUMERICAL_TRANSVERSALITY_GAP",
+    "reopen_condition": "Supply a source-bound proof of N0=D0-K_S0 or NQ=Gamma-K_Q positivity together with a transversality/H1-vanishing theorem for the actual conductor/equigeneric zero-dimensional scheme that does not require full arbitrary k-very ampleness; alternatively extract singularity types/support strongly enough to satisfy a sharper Keilen/GLS-type criterion."
+  },
+  "candidate_ledger": {
+    "LIVE": ["SYMMETRIC_DIFFERENTIALS_LOW_GENUS_OBSTRUCTION"],
+    "UNTESTED": ["ACTUAL_V6_SECTION_MATERIALIZATION"],
+    "BLOCKED": [
+      "D0_SUPPORT_EXTRACTION_FROM_CURRENT_CORRESPONDENCE_ROSATI_DEGREE_DATA",
+      "GENERIC_JET_SEPARATION_REIDER_EQUI GENERIC_TRANSVERSALITY_AT_REQUIRED_DELTA_SCALE"
+    ],
+    "EQUIVALENT": [],
+    "DOMINATED": []
+  },
+  "next_route_rationale": "Symmetric differentials are materially distinct and can attack the low normalization genus relative to the two high-degree maps/common-cover geometry without requiring prior reconstruction of the singularity support. Actual V6 section materialization remains preserved but overlaps the dedicated EX2 reconstruction lane.",
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "CYCLE_ACTIVE_RECEIVER": "equigeneric transversality strong enough to turn the 236..267 conditional expected-dimension deficit into an actual nonexistence result",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 1,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": false,
+    "CYCLE_BLIND_REDISCOVERY": false,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "Use symmetric differentials/low-genus constraints on the normalization and its two maps instead of trying to separate the full conductor scheme by generic jets.",
+    "CYCLE_NEW_VIEW_SOURCE": "PRESERVED_FROM_PRIOR_BLIND_LEDGER"
+  },
+  "firewalls": {
+    "conditional_kodaira_vanishing_promoted_to_fact": false,
+    "expected_dimension_promoted_to_actual_dimension": false,
+    "local_delta_codimension_promoted_to_global_transversality": false,
+    "failed_generic_k_very_ampleness_threshold_promoted_to_impossibility": false,
+    "search_miss_promoted_to_repository_absence": false,
+    "Q_state_exclusion_claimed": false,
+    "V6_carrier_exclusion_claimed": false,
+    "stage32_main_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  }
+}
