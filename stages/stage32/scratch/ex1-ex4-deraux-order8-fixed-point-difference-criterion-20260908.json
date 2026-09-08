@@ -1,0 +1,119 @@
+{
+  "schema": "STAGE32_MAIN_SCRATCH_EX1_EX4_DERAUX_ORDER8_FIXED_POINT_DIFFERENCE_CRITERION_V1",
+  "stage": 32,
+  "status": "SCRATCH_EXACT_UNAUDITED_CROSS_LANE_REENTRY_CRITERION",
+  "snapshot_main": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "scope": {
+    "row_id": "g1-d186",
+    "uniform_EX1_h4_residues": [73, 97, 235],
+    "retained_W_lines": {
+      "L1": [0,0,1,0],
+      "L2": [0,0,0,1],
+      "L3": [0,0,1,1]
+    },
+    "residue_to_line": {"73":"L1", "97":"L2", "235":"L3"}
+  },
+  "source_locks": {
+    "order8_reentry_scratch": {
+      "path": "stages/stage32/scratch/ex1-ex4-order8-fixed-line-reentry-20260908.json",
+      "blob_sha1": "d1e076f43975f0641db361929cfd930550e122cd"
+    },
+    "principal_rosati": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json",
+      "blob_sha1": "e28c4533883440ea0963d4d4e8859aa95409cf10",
+      "canonical_sha256": "8d828cdf6d1f5cb1d790c46292535dc252e503356e1047ce972c41e61f524529"
+    }
+  },
+  "external_source_locks": {
+    "deraux_2018": {
+      "title": "Non-arithmetic ball quotients from a configuration of elliptic curves in an Abelian surface",
+      "journal": "Commentarii Mathematici Helvetici 93 (2018), 533-554",
+      "doi": "10.4171/CMH/443",
+      "locators": ["Definition 4.1", "Proposition 4.5", "Table 2"],
+      "exact_supported_facts": [
+        "A=C^2/Lambda with Lambda=(Z+i*sqrt(2)Z)^2 and finite linear part G12 of order 48",
+        "the affine element R1*R2*R3 has linear part regular elliptic of order 8 with eigenvalues zeta8 and zeta8^3",
+        "Table 2 gives a representative fixed point p=(1/2,(1+i*sqrt(2))/2) for the cyclic order-8 stabilizer <R1*R2*R3>",
+        "the order-8 isolated-fixed-point orbit has size 48/8=6"
+      ]
+    },
+    "koziarz_rito_roulleau": {
+      "title": "The Bolza curve and some orbifold ball quotient surfaces",
+      "locators": ["Section 4 around the comparison of H48 and G48", "the paragraph preceding Lemma 8"],
+      "exact_supported_facts": [
+        "the Bolza curve is embedded in its Jacobian by Abel-Jacobi with infinity sent to 0",
+        "for a curve automorphism a, the induced affine Jacobian action differs from the linear divisor-difference action by the translation [a(infinity)]-[infinity]",
+        "the curve-induced H48 action is conjugate to the Deraux G48 action by an automorphism of the Abelian surface",
+        "the cited source does not materialize the conjugating automorphism on A[2]"
+      ]
+    },
+    "cecotti": {
+      "arxiv": "2509.24605v1",
+      "title": "Symplectic Singularities, Color Confinement, and the Quantum Dirac Sheaf",
+      "locator": "Appendix B, especially (B.9)",
+      "exact_supported_facts": [
+        "the Bolza curve y^2=x^5-x has the order-8 automorphism B9: (x,y)->(i*x,exp(i*pi/4)*y)",
+        "B9 fixes the branch points 0 and infinity",
+        "its holomorphic differential eigenvalues are zeta8 and zeta8^3"
+      ]
+    }
+  },
+  "fixed_point_difference_lemma": {
+    "setup": "Let f(z)=Lz+t be an affine automorphism of a complex two-torus A=C^2/Lambda, assume f has a fixed point, and let M be the integral H1 action of L.",
+    "hypothesis_characteristic_polynomial": "chi_M(x)=x^4+1",
+    "kernel_order_formula": "#ker(L-I on A)=|det_Z(I-M)|=chi_M(1)=2",
+    "consequence": "Fix(f) is a torsor under ker(L-I), hence consists of exactly two points p and p+d, where d is the unique nonzero element of ker(L-I).",
+    "two_torsion": "Because ker(L-I) has order 2, d is a nonzero A[2] class.",
+    "mod2_characterization": "d is the unique nonzero fixed class of M on A[2]."
+  },
+  "curve_side_specialization": {
+    "B9_fixes_infinity": true,
+    "abel_jacobi_translation_term_zero": true,
+    "fixed_point_0": "[P_infinity-P_infinity]=0",
+    "fixed_point_delta0inf": "delta_0inf=[P_0-P_infinity]",
+    "fixed_pair": ["0", "delta_0inf"],
+    "fixed_point_difference": "delta_0inf",
+    "fixed_pair_exhaustive_reason": "The order-8 H1 characteristic polynomial is x^4+1, so there are exactly two fixed points on the Jacobian."
+  },
+  "deraux_side_specialization": {
+    "representative_affine_order8": "R1*R2*R3",
+    "one_source_bound_fixed_point": ["1/2", "(1+r)/2"],
+    "r_relation": "r^2=-2",
+    "second_fixed_point_source_bound": false,
+    "difference_class_source_bound": false,
+    "criterion": "If the second fixed point q of the source-bound matching order-8 affine element is materialized in the same Deraux lattice coordinates, q-p is the unique nonzero fixed A[2] class. After the marked Deraux-to-retained lattice adapter, that single class selects exactly one of L1,L2,L3."
+  },
+  "reentry_reduction": {
+    "old_missing_datum": "a full marked conjugating automorphism / full generator-pair binding",
+    "previous_reduction": "one source-bound order-8 retained lattice element or its unique fixed W-line",
+    "new_equivalent_minimal_datum": "the second fixed point of the matching Deraux order-8 affine element, or directly the difference of its two fixed points in retained A[2] coordinates",
+    "full_generator_matrix_required": false,
+    "full_B7_B8_pair_binding_required": false,
+    "global_scalar_data_sufficient": false
+  },
+  "decision": {
+    "result": "ORDER8_ABSOLUTE_MARKING_REDUCED_TO_ONE_TWO_TORSION_FIXED_POINT_DIFFERENCE",
+    "absolute_delta0inf_retained_W_line_identified_now": false,
+    "uniform_EX1_residue_count_now": 3,
+    "conditional_if_difference_maps_to_L1": 73,
+    "conditional_if_difference_maps_to_L2": 97,
+    "conditional_if_difference_maps_to_L3": 235,
+    "authority_changed": false,
+    "claim_dag_changed": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "EX1_full_target_closed": false,
+    "Stage32_closed": false
+  },
+  "firewalls": {
+    "Deraux_R1R2R3_assumed_to_be_the_exact_marked_B9_image": false,
+    "one_fixed_point_promoted_to_fixed_point_difference": false,
+    "Hermitian_form_equivalence_promoted_to_marked_A2_adapter": false,
+    "conditional_residue97_promoted": false,
+    "three_to_one_selection_promoted_to_Q602_exclusion": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false
+  }
+}
