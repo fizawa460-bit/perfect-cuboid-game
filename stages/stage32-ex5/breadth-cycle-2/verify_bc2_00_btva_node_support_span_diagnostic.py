@@ -12,7 +12,7 @@ AGG = ROOT / "stages/stage32/residual-32-01-production/aggregate_stage32_post21b
 CONTRACT = ROOT / "stages/stage29/29-02c-LG2/finite-search-contract.md"
 RESULT = ROOT / "stages/stage29/29-02c-LG2/result.md"
 
-EXPECTED_CANONICAL = "499c6877a6bee0054f48164c01f89133b62dd674f11dd749c307afd62eeaf9a1"
+EXPECTED_CANONICAL = "fd4a566243959a3bbabccfe68ffd1aa52de10ad591f0916819591e35b4d7563d"
 EXPECTED_BLOBS = {
     MAIN_STATE: "6721539364b40622572d6cf9fe2898a1f6b8d0f2",
     AGG: "92561bbc1cac6f2d5c47bf37bfbc9c6bfaba3cdd",
@@ -59,8 +59,8 @@ def main() -> None:
     assert state["credit"]["stage32_main_credit"] is False
 
     agg_text = AGG.read_text()
-    assert 'row["minimal_total_exceptional_intersection"]' in agg_text
-    assert 'row["minimal_required_distinct_node_count"]' in agg_text
+    assert '"formula": "e >= ceil((d-16g+16)/4)"' in agg_text
+    assert 'node_support_hashes.add(p["node_support_certificate_canonical_sha256"])' in agg_text
     assert '"strong_48bit_node_support_not_inferred_from_exceptional_mass": True' in agg_text
     assert '"theorem_credit": False' in agg_text
     assert '"receiver_credit": False' in agg_text
