@@ -27,6 +27,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact checked-out head
+        if: github.event_name == 'pull_request'
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
       - name: Verify base Stage32 claim DAG
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
       - name: Verify active Stage32 mathematical frontier
