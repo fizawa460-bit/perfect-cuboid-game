@@ -63,8 +63,12 @@ def main() -> int:
             raise RuntimeError("active-frontier base registry drift")
         if active.get("inherits_claim_schema") != "stages/stage32/proof/CLAIM-REGISTRY.schema.json":
             raise RuntimeError("active-frontier schema inheritance drift")
-        if active.get("claim_core_keys") != basev.CORE_KEYS:
-            raise RuntimeError("active-frontier immutable claim core drift")
+        # ACTIVE-FRONTIER contains only mathematical claims, never adapter_contracts.
+        # Its declared core-key list therefore omits the adapter-only `bridges` field,
+        # while basev.CORE_KEYS still commits bridges for every adapter_contract.
+        expected_active_core_keys = [key for key in basev.CORE_KEYS if key != "bridges"]
+        if active.get("claim_core_keys") != expected_active_core_keys:
+            raise RuntimeError("active-frontier immutable non-adapter claim core drift")
         status_contract = active.get("status_contract")
         if not isinstance(status_contract, dict) or set(status_contract) != ALLOWED_FRONTIER_STATUS:
             raise RuntimeError("active-frontier status contract drift")
@@ -73,6 +77,8 @@ def main() -> int:
         active_claims = active.get("claims")
         if not isinstance(active_claims, list):
             raise RuntimeError("active-frontier claims must be a list")
+        if any(c.get("kind") == "adapter_contract" for c in active_claims):
+            raise RuntimeError("adapter_contract must live in base registry so bridges remain immutable")
 
         base_ids = {c.get("claim_id") for c in base_claims}
         active_ids = {c.get("claim_id") for c in active_claims}
