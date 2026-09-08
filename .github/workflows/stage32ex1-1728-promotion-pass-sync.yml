@@ -1,0 +1,114 @@
+name: Stage32EX1 1728 promotion PASS authority sync
+
+on:
+  push:
+    paths:
+      - '.github/workflows/stage32ex1-1728-promotion-pass-sync.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Synchronize promotion PASS receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          terminal_id='S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2'
+          adapter_id='S32.ADAPTER.EX1_V6_CARRIER_TO_MAIN_V6_CARRIER.V1'
+          main_id='S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2'
+          receipt={'status':'PASS','pr':1728,'exact_head':'89ba026f05f9fe5344c0f0fb41fe8c2366032877','review_id':5147810198}
+
+          regp=Path('stages/stage32/proof/CLAIM-REGISTRY.json')
+          reg=json.loads(regp.read_text())
+          by={c['claim_id']:c for c in reg['claims']}
+
+          terminal=by[terminal_id]
+          assert terminal['authority_status']=='AUDITED'
+          assert terminal['claim_core_sha256']=='84e7a4b6990d7c687eebe341fbea296fad1da2cae4785cb87580a0d84572437a'
+          assert terminal['audit_receipt']=={'status':'PASS','pr':1728,'exact_head':'e3c4a04d5010e6dca9428722e334890e2614297a','review_id':5147627146}
+
+          adapter=by[adapter_id]
+          mainc=by[main_id]
+          assert adapter['claim_core_sha256']=='4e0ec501c299fe0a41699eb6cc377ef977ebed27172f0e6f10a25039d835fe06'
+          assert mainc['claim_core_sha256']=='c7927cd86c321de2956b3843dff4882ddeb29fb3489715d4dd7d1d60eff58cc6'
+          assert adapter['authority_status']=='PROVISIONAL' and adapter['audit_receipt'] is None
+          assert mainc['authority_status']=='PROVISIONAL' and mainc['audit_receipt'] is None
+
+          adapter['authority_status']='AUDITED'
+          adapter['audit_receipt']=receipt
+          mainc['authority_status']='AUDITED'
+          mainc['audit_receipt']=receipt
+          regp.write_text(json.dumps(reg,sort_keys=True,separators=(',',':'))+'\n')
+
+          lanep=Path('stages/stage32/proof/LANE-ADAPTERS.json')
+          lanes=json.loads(lanep.read_text())
+          ex1=next(x for x in lanes['lanes'] if x['lane']=='EX1')
+          assert adapter_id in ex1['claim_refs'] and main_id in ex1['claim_refs']
+          ex1['notes']=(
+            'S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2 is AUDITED by PR #1728 exact head e3c4a04d5010e6dca9428722e334890e2614297a, review 5147627146, with FULL_TARGET_CLOSURE / ALL_V6_GENUS1_CARRIERS_EXCLUDED at exact EX1 scope. '
+            'The concrete current-target adapter S32.ADAPTER.EX1_V6_CARRIER_TO_MAIN_V6_CARRIER.V1 and MAIN-scope S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2 are now AUDITED by promotion audit exact head 89ba026f05f9fe5344c0f0fb41fe8c2366032877, review 5147810198. '
+            'Thus the V6 integral-irreducible geometric-genus-1 nonexistence claim is consumable audited MAIN-scope authority. '
+            'EX1 does not rewrite MAIN routing state or active frontier: the existing active-frontier V1 remains until the MAIN-owned ACTIVE_FRONTIER_REMAP in stage32mainbatch. '
+            'No Q602/O210, absolute-residue, FULL178, Stage32-closure, Perfect-Cuboid, or merge credit is transferred.'
+          )
+          lanep.write_text(json.dumps(lanes,sort_keys=True,separators=(',',':'))+'\n')
+
+          pp=Path('stages/stage32/STAGE32-PROOF-PATH.md')
+          s=pp.read_text()
+          old1='`S32.ADAPTER.EX1_V6_CARRIER_TO_MAIN_V6_CARRIER.V1` is therefore registered as a new **PROVISIONAL** concrete adapter from `S32.EX1.V6_CARRIER` to `S32.MAIN.V6_CARRIER`.'
+          new1='`S32.ADAPTER.EX1_V6_CARRIER_TO_MAIN_V6_CARRIER.V1` has hostile-audit PASS at exact head `89ba026f05f9fe5344c0f0fb41fe8c2366032877` (review `5147810198`) and is synchronized as an **AUDITED** concrete adapter from `S32.EX1.V6_CARRIER` to `S32.MAIN.V6_CARRIER`.'
+          old2='A corresponding MAIN-scope mathematical candidate `S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2` is also **PROVISIONAL**.'
+          new2='The corresponding MAIN-scope mathematical claim `S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2` is also synchronized as **AUDITED** by the same promotion-audit receipt.'
+          old3='The existing active-frontier goal `S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1` remains the current declared goal until hostile audit accepts the promotion package and a later `AUTHORITY_OR_AUDIT_TRANSITION` / `ACTIVE_FRONTIER_REMAP` synchronization is performed. No MAIN mathematical credit is granted at this checkpoint.'
+          new3='The promotion package is now consumable audited MAIN-scope authority. The existing active-frontier goal `S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1` remains in the frontier only until the MAIN-owned `ACTIVE_FRONTIER_REMAP`; EX1 deliberately does not rewrite `MAIN-STATE.json` or the active frontier. That remap is the next `stage32mainbatch` operation. No Q602/O210, absolute-residue, FULL178, Stage32-closure, or Perfect-Cuboid credit follows from this synchronization.'
+          for old,new in [(old1,new1),(old2,new2),(old3,new3)]:
+              assert old in s, old
+              s=s.replace(old,new,1)
+          pp.write_text(s)
+
+          projp=Path('stages/stage32-ex1/RETAINED-AUDIT-PROJECTION.json')
+          proj=json.loads(projp.read_text())
+          proj['candidate']['candidate_status']='PROMOTION_AUDITED_AND_AUTHORITY_SYNCED_HANDOFF_TO_STAGE32_MAIN'
+          proj['candidate']['audit_route']='COMPLETE_PROMOTION_PASS_SYNC_NO_FURTHER_EX1_AUDIT_PENDING'
+          proj['audit_routing_overlay']['current_leaf']='EX1-08_AUDITED_PROMOTION_HANDOFF_TO_STAGE32_MAIN'
+          pc=proj.get('promotion_candidate',{})
+          assert pc.get('adapter_claim_id')==adapter_id and pc.get('main_claim_id')==main_id
+          pc['authority_status']='AUDITED'
+          pc['audit_receipt']=receipt
+          pc['stage32_main_credit']=True
+          pc['active_frontier_remap_completed']=False
+          pc['next_operation']='stage32mainbatch_ACTIVE_FRONTIER_REMAP_AND_MAIN_ROUTING_CONSUMPTION'
+          proj['promotion_candidate']=pc
+          projp.write_text(json.dumps(proj,indent=2)+'\n')
+          PY
+
+          python3 stages/stage32-ex1/verify_ex1_07_current_main_v6_carrier_promotion_adapter.py
+          python3 stages/stage32/proof/verify_stage32_claim_dag.py --integrity
+          python3 stages/stage32/proof/verify_stage32_active_frontier.py
+          python3 stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation_v2.py
+
+      - name: Commit authority synchronization
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'fizawa460-bit'
+          git config user.email 'fizawa460@gmail.com'
+          git add stages/stage32/proof/CLAIM-REGISTRY.json stages/stage32/proof/LANE-ADAPTERS.json stages/stage32/STAGE32-PROOF-PATH.md stages/stage32-ex1/RETAINED-AUDIT-PROJECTION.json
+          git commit -m '[Stage32EX1][claim-sync] consume promotion hostile-audit PASS'
+          git push origin HEAD:stage32ex1-terminal-05af-retained-consolidation
