@@ -1,0 +1,161 @@
+{
+  "schema": "STAGE32_MAIN_SCRATCH_EX1_05AC_NAMED_CHARACTER_GLUE_INTEGRATION_V1",
+  "stage": 32,
+  "status": "SCRATCH_EXACT_UNAUDITED_CROSS_LANE_INTEGRATION_NONPRUNING",
+  "snapshot_main_at_start": "226a8aa11ac61293a7e4b7f9611177f68af94ff4",
+  "scope": {
+    "row_id": "g1-d186",
+    "uniform_EX1_Q_values": [210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266],
+    "retained_residues": [73,97,235],
+    "goal": "Test whether the newly explicit X(8) sign/character labels close the pointwise anti-isometry ambiguity left by EX1-05AC and thereby identify delta_0inf with one retained residue."
+  },
+  "local_source_locks": {
+    "abstract_W": {
+      "path": "stages/stage32/residual-32-01-production/post1505-o210-q4-x8-v4-torsor-plane-weierstrass-lock.json",
+      "blob_sha1": "d645749ac13b26900df7f7ef39f1870a31222881",
+      "canonical_sha256": "c84242981cbf81c9935c6851d8a95dc4dc0f1d8afbdba7ba7bbe16385bf1282f"
+    },
+    "principal_rosati": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json",
+      "blob_sha1": "e28c4533883440ea0963d4d4e8859aa95409cf10",
+      "canonical_sha256": "8d828cdf6d1f5cb1d790c46292535dc252e503356e1047ce972c41e61f524529"
+    },
+    "krr_torsor_no_go": {
+      "path": "stages/stage32/scratch/ex1-ex4-krr-conjugator-torsor-no-go-20260908.json",
+      "blob_sha1": "4efc3f87e70c5202849a1509d17119b6bf36c982"
+    }
+  },
+  "cross_branch_source_locks": {
+    "branch": "stage32ex1-scratch-05i-support-source-gap",
+    "observed_head": "c98fc41405d45f1ad27ae8539fd2e268a9347ad1",
+    "ex1_05y": {
+      "path": "stages/stage32-ex1/scratch/ex1-05y-prym-elliptic-endomorphism-norm-character-line-alignment-preflight.json",
+      "blob_sha1": "76ecc594505261086b371e74b875223ffe1ce927"
+    },
+    "ex1_05aa": {
+      "path": "stages/stage32-ex1/scratch/ex1-05aa-q602-mod4-isotropic-glue-kernel-action-preflight.json",
+      "blob_sha1": "8e453f889951191ded2f4e784850754257001f8e"
+    },
+    "ex1_05ab": {
+      "path": "stages/stage32-ex1/scratch/ex1-05ab-fixed-x8-prym-selected-2torsion-cm-orbit-preflight.json",
+      "blob_sha1": "410c89e86a61de381d622c82f9dd821e4043a0b9"
+    },
+    "ex1_05ac": {
+      "path": "stages/stage32-ex1/scratch/ex1-05ac-fixed-x8-polarization-kernel-antiisometry-transvection-alignment-preflight.json",
+      "blob_sha1": "74a9d76faf652b5f40eb6b5b1b3244071a0d24b5"
+    },
+    "authority": "SCRATCH_NONAUTHORITATIVE_READ_ONLY_CROSS_LANE_INPUT"
+  },
+  "x8_sign_model_named_adapter": {
+    "curve": "X(8): u0^2=x*y, v0^2=x^2-y^2, w0^2=x^2+y^2",
+    "even_sign_deck_group": "H=<even sign changes of u0,v0,w0>",
+    "quotient_coordinates": {
+      "t": "x/y",
+      "z": "u0*v0*w0/y^3",
+      "identity": "z^2=t*(t^4-1)"
+    },
+    "single_sign_fixed_branch_pairs": {
+      "s_u0": "u0=0 iff t in {0,infinity}, hence Z3",
+      "s_v0": "v0=0 iff t in {+1,-1}, hence Z1",
+      "s_w0": "w0=0 iff t in {+i,-i}, hence Z2"
+    },
+    "stage32_inertia_order": {
+      "Z1": "tau*uH",
+      "Z2": "tau*uH*vH",
+      "Z3": "tau"
+    },
+    "marked_odd_lift_identification": {
+      "tau": "s_u0",
+      "tau*uH": "s_v0",
+      "tau*uH*vH": "s_w0",
+      "reason": "Among the four odd sign changes, the three single signs are the unique elements with fixed points over the three marked branch-pair blocks; the triple sign is fixed-point-free."
+    },
+    "named_H_to_even_signs": {
+      "uH": "s_u0*s_v0",
+      "vH": "s_v0*s_w0",
+      "uH*vH": "s_u0*s_w0"
+    }
+  },
+  "named_prym_character_adapter": {
+    "Omega": "(x dy-y dx)/(u0*v0*w0), invariant under H",
+    "differential_character_lines": {
+      "<u0*Omega>": "chi_u: values (1,0,1) on (uH,vH,uH*vH)",
+      "<v0*Omega>": "chi_uv: values (1,1,0)",
+      "<w0*Omega>": "chi_v: values (0,1,1)"
+    },
+    "single_sign_elliptic_factors": {
+      "E_su": "C/<s_u0>, pullback differential <u0*Omega>, hence P_chi_u",
+      "E_sv": "C/<s_v0>, pullback differential <v0*Omega>, hence P_chi_uv",
+      "E_sw": "C/<s_w0>, pullback differential <w0*Omega>, hence P_chi_v"
+    },
+    "abstract_W_character_pushout": {
+      "P_chi_u": "Z3 -> delta_0inf",
+      "P_chi_uv": "Z1 -> delta_pm1",
+      "P_chi_v": "Z2 -> delta_pmi"
+    },
+    "result": "The three Prym factors are now source-bound to the three NAMED ABSTRACT W classes: E_su<->delta_0inf, E_sv<->delta_pm1, E_sw<->delta_pmi."
+  },
+  "why_H_equivariance_does_not_finish_absolute_marking": {
+    "character_action": "On a Prym character elliptic factor, h in H acts as scalar +/-1 according to the character.",
+    "two_torsion_collapse": "On E[2], -P=P, so +1 and -1 induce the same action.",
+    "consequence": "H acts trivially on the factor 2-torsion labels used by K(P,Xi), so an H-equivariant gluing anti-isometry is not forced to send a named invariant-side center to the same named character factor.",
+    "compatibility_with_EX1_05AC": "05AC closes the center planes setwise and gives a unique Bolza-equivariant orbit alignment, but explicitly leaves named deck-character orientation behind a separate adapter."
+  },
+  "prym_mod2_action_exhaustion": {
+    "input_from_05AB": "All three selected xi are the unique Gaussian-CM-fixed nonzero points on their j=1728 factors.",
+    "norms_by_named_character": {
+      "chi_v": 137,
+      "chi_u": 9,
+      "chi_uv": 9
+    },
+    "gaussian_unit_flexibility": {
+      "137_identity_type": "11+4i",
+      "137_i_type": "4+11i",
+      "9_identity_type": "3",
+      "9_i_type": "3i",
+      "principle": "Multiplication by i preserves the Gaussian norm and swaps identity-type versus i-type mod-2 action."
+    },
+    "rank_table_by_number_of_i_type_factors": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 2
+    },
+    "required_for_invariant_side": "Each retained residue acts on A[2] as rank-one symplectic transvection, so a compatible Prym action uses exactly one i-type factor.",
+    "three_named_choices": ["i-type on P_chi_u only", "i-type on P_chi_v only", "i-type on P_chi_uv only"],
+    "all_three_choices_legal": true,
+    "consequence": "The named degree data 137,9,9 do not select which factor carries the transvection; all three retained residue centers remain compatible."
+  },
+  "integration_with_absolute_W_problem": {
+    "new_positive_credit_inside_scratch": "NAMED_ABSTRACT_PRYM_FACTOR_TO_W_CLASS_ADAPTER",
+    "remaining_pointwise_gap": "Need the actual fixed complementary-polarization anti-isometry psi:A[2]->K(P,Xi) on one NAMED center, or equivalent integral period/homology data. Setwise plane alignment and H-equivariance are insufficient.",
+    "if_named_pointwise_anchor_for_E_su_is_obtained": "The image/preimage of the E_su center would identify delta_0inf with exactly one of centers/residues 73,97,235.",
+    "relation_to_KRR_no_go": "This is the internal X(8)/Prym analogue of the external KRR right-G48 torsor obstruction: both fail at a missing marked pointwise orientation, not at group-conjugacy or setwise compatibility."
+  },
+  "decision": {
+    "result": "NAMED_X8_CHARACTER_FACTORS_ARE_RECOVERED_BUT_CURRENT_TWO_PRIMARY_GLUE_DATA_STILL_DO_NOT_SELECT_DELTA0INF_RESIDUE",
+    "Q602_residues_entering": [73,97,235],
+    "Q602_residues_excluded": 0,
+    "Q602_residues_leaving": [73,97,235],
+    "EX1_Q_states_excluded": 0,
+    "absolute_delta0inf_retained_W_line_identified": false,
+    "new_exact_route": "POINTWISE_NAMED_COMPLEMENTARY_POLARIZATION_ANTIISOMETRY_OR_EQUIVALENT_FULL_X8_PERIOD_HOMOLOGY_GLUE",
+    "authority_changed": false,
+    "claim_dag_changed": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "Stage32_closed": false
+  },
+  "firewalls": {
+    "named_abstract_factor_label_promoted_to_retained_W_coordinate": false,
+    "H_equivariance_promoted_to_character_label_preservation_on_2torsion": false,
+    "05AC_setwise_alignment_promoted_to_pointwise_named_antiisometry": false,
+    "Gaussian_norm_unit_choice_promoted_to_actual_global_endomorphism_component": false,
+    "cross_branch_scratch_promoted_to_authority": false,
+    "residue_pruning_claimed": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false
+  }
+}
