@@ -105,7 +105,31 @@ A Stage may require a separate synchronization or promotion gate before an audit
 
 This policy grants no mathematical theorem credit, no Stage advancement, no EX-to-MAIN promotion, no receiver or endpoint closure, no Perfect Cuboid existence/nonexistence claim, and no merge authorization.
 
-## 7. Recommended audit report
+## 7. Long-lived shared research PR intermediate checkpoints
+
+Long-running research may legitimately remain on one shared PR for many retained leaves. The audit surface must still be bounded so that a difficult route does not accumulate an effectively unauditable hundred-commit delta.
+
+This checkpoint rule applies to **shared/retained research PRs**. It does not count scratch-only branches, disposable micro-diagnostics, or off-PR experiments that have not been retained into the shared candidate.
+
+Measure the retained growth from the most recent exact head on the same shared PR that received hostile-audit PASS. If that PR has never been hostile-audited, measure from the PR's retained starting boundary/base. Formatting-only or mechanical commits still count operationally, but the threshold is a workflow bound rather than mathematical credit.
+
+Use the following trigger:
+
+- at roughly `90` commits of unaudited retained growth, treat the PR as entering the warning zone and plan the next retained/consolidation checkpoint as an intermediate hostile-audit boundary;
+- **no later than the first retained checkpoint at or beyond `100` commits of unaudited retained growth**, freeze an exact head and run an intermediate hostile audit before appending further substantive retained research to that same shared PR;
+- if the next natural retained checkpoint would otherwise push the shared PR materially beyond `100`, cut the audit checkpoint earlier rather than intentionally accumulating a much larger audit delta.
+
+The intermediate audit is **delta-bounded by default**. Audit the retained mathematical/evidence/authority changes since the previous hostile-audited exact head, together with any transitive dependency, source-lock, verifier, policy, or authority boundary that changed and is load-bearing for that delta. Do not automatically re-audit the entire historical PR lineage when the older audited boundary is unchanged and still source-locked.
+
+While the shared PR is frozen for this intermediate audit, scratch-only exploration may continue off the shared PR when the active Stage contract permits it. Do not push additional substantive retained mathematical work onto the frozen shared PR until the audit result is known.
+
+After an intermediate `PASS`, the same shared PR may continue; a new PR is not required solely because the threshold was reached. Record the exact audit receipt and perform any Stage-local claim/authority synchronization required before consuming newly audited credit. After `FAIL`, repair and re-audit the affected boundary before continuing substantive retained work beyond it.
+
+This threshold does not itself promote, revoke, or change mathematical credit. It exists only to bound audit debt and preserve hostile-audit tractability during long research programs.
+
+For a PR that is already at or above this threshold when this rule is adopted, do not retroactively invalidate its provisional work. Instead, make its **next retained checkpoint an intermediate hostile-audit checkpoint before further authority promotion or another large retained accumulation**.
+
+## 8. Recommended audit report
 
 For an audit where freshness is relevant, report the two outcomes independently:
 
