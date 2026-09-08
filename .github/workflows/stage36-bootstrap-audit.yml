@@ -47,7 +47,12 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09DD.py"
           git worktree remove --force "$tmp"
-      - name: Assert DD exact-green promotion and DE unlock firewalls
+      - name: Verify 36-09DE infinite private-prime Brauer family
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09DE.py
+      - name: Assert DE checkpoint and DF lock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -55,29 +60,32 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V171_36_09DD_EXACT_GREEN_DE_UNLOCK'
-          dd=s['authority_frontier']['36-09DD']
-          assert dd['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert dd['certificate_blob_sha']=='81c580ab09f2fc265f033c51e99f3a553d726f92'
-          assert dd['verifier_blob_sha']=='07058c865dbb493183d9c71b0e176f2c3d08e729'
-          assert dd['exact_head']=='d1e1e48745b4ea2bdebb7ea69f2beb500f4974df'
-          assert dd['exact_head_ci']=='34203063483/101986101989'
-          assert dd['FOURTH_INDEPENDENT_BRAUER_CLASS_FOUND'] is True
-          assert dd['CONSTRUCTED_BRAUER_SUBGROUP_RANK_LOWER_BOUND']==4
-          assert dd['RANK3_COMPLETENESS_DISPROVED'] is True
-          assert dd['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_COMPUTED'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V172_36_09DE_INFINITE_PRIVATE_BRAUER_SUBGROUP'
+          de=s['authority_frontier']['36-09DE']
+          assert de['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert de['certificate_blob_sha']=='14e73de6228606ad077303db96f1a032c2955238'
+          assert de['verifier_blob_sha']=='e953c3864f4a216631d8dcf1665c1d151748f085'
+          assert de['source_lock_blob_sha']=='6314560c7d55b34ef4ce060cb3a85bd79e0181f6'
+          assert de['INFINITE_RANK_CREUTZ_VIRAY_EXPLICIT_SUBGROUP_CONSTRUCTED'] is True
+          assert de['INFINITE_PRIVATE_SUBGROUP_BM_OBSTRUCTION'] is False
+          assert de['INFINITE_PRIVATE_SUBGROUP_NO_GO_CONDITIONAL_ON_ADELIC_SOLUBILITY'] is True
+          assert de['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_COMPUTED'] is False
+          assert de['FULL_BRAUER_GROUP_COMPUTED'] is False
           cur=s['current']
-          assert cur['unit']=='36-09DD'
-          assert cur['next_exact_leaf']=='36-09DE_FIXED_P2_PRIME_PRIVATE_BRAUER_FAMILY_PREFLIGHT'
+          assert cur['unit']=='36-09DE'
+          assert cur['next_exact_leaf']=='36-09DF_FIXED_P2_CREUTZ_VIRAY_COMPLEMENT_AND_LOCAL_OBSTRUCTION_PREFLIGHT'
           assert cur['36_09DE_entry_allowed'] is True
+          assert cur['36_09DF_entry_allowed'] is False
           pg=s['promotion_gates']
-          assert pg['36_09DD_exact_head_ci_passed'] is True
-          assert pg['36_09DE_entry_allowed'] is True
-          assert pg['BT_constructed_Brauer_subgroup_rank_lower_bound']==4
+          assert pg['36_09DE_certificate_complete'] is True
+          assert pg['36_09DE_exact_head_ci_passed'] is False
+          assert pg['36_09DF_entry_allowed'] is False
+          assert pg['BT_infinite_rank_Creutz_Viray_explicit_subgroup_constructed'] is True
+          assert pg['BT_infinite_private_subgroup_sole_BM_obstruction'] is False
           assert pg['BT_full_Creutz_Viray_explicit_image_computed'] is False
           assert pg['BT_full_relevant_Brauer_group_computed'] is False
           for key in ['Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09DD exact-green parent verified and DE unlocked. Fourth independent class is provisional credit only; full explicit/full Brauer image remains open.')
+          print('36-09DE provisional checkpoint verified: infinite-rank private-prime explicit subgroup constructed and block-diagonal BM no-go recorded; DF locked pending exact-head CI.')
           PY
           git diff --check
