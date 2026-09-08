@@ -1,0 +1,196 @@
+{
+  "schema": "STAGE32EX3_EX3_04F_PHYSICAL_C1_H_ORBIT_PRYM_LINEAR_TRACE_SCRATCH_V1",
+  "stage": 32,
+  "lane": "EX3",
+  "leaf": "EX3-04_COMMON_V4_SIMULTANEOUS_TWO_PROJECTION_COMPATIBILITY",
+  "status": "SCRATCH_PROVISIONAL_CONDITIONAL_DIAGNOSTIC_NOT_RETAINED",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "picard_class": "V6",
+    "O": 210,
+    "qprime": 4,
+    "projection_degrees_upstairs": [105, 81],
+    "Q": 602
+  },
+  "source_locks": {
+    "relative_H_marked_action": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-relative-h-marked-node-action.json",
+      "blob_sha1": "d1437ae97e5d10d66e2b12ca5a95b2e4d78672cc",
+      "canonical_sha256": "d03cfe8c77614943e8d4ab190c046b801bb90aa18f5bb648973bda0a5300c269",
+      "used_facts": {
+        "u": "g7*g9",
+        "v": "g7*g8",
+        "uv": "g8*g9",
+        "g7": "b1 sign",
+        "g8": "b2 sign",
+        "g9": "b3 sign"
+      }
+    },
+    "c1_exact_ordering": {
+      "path": "stages/stage33/33-12/diagnose_e3_v91c1v_actual_prime_known140_locator.py",
+      "blob_sha1": "d2b0fabca7adb27eb63438499b8fd918eec5ff5e",
+      "used_facts": [
+        "C1 group1 indices 1..8 use signs e1,e2,e3 in nested [1,-1] order",
+        "C1 group2 indices 9..16 use the same sign order",
+        "C1 group3 indices 17..24 use the same sign order",
+        "C1 group4 indices 25..32 is the c=0 block and is not included in the physical-side trace diagnostic"
+      ]
+    },
+    "v6_witness": {
+      "path": "stages/stage32/32-21/post1473-v6-witness-body-recovered.json",
+      "blob_sha1": "dae90ed19395355bebeebe2a6aa6bb1c6e53c244",
+      "canonical_sha256": "d0c1c8bddfe3950737ed6f87ffa74acd850c736298bd12ec1eceac609625b8a8"
+    },
+    "physical_side_node_incidence": {
+      "path": "stages/stage33/33-07/exceptional-p1-tangent-coordinates.json",
+      "blob_sha1": "f4a591bfac5e4e6e79b13309bdc006973d7c5b4e",
+      "canonical_sha256": "beffca388f2795296fd914a6345186dc6e594419f0fffb93896bda2c3896a636"
+    },
+    "upstairs_prym_norm_gate": {
+      "path": "stages/stage32-ex3/scratch/ex3-04d-upstairs-h4-prym-rosati-fourier-gate.json",
+      "blob_sha1": "e69d7dbfee858e53c45ad394ae3563a85661c67e",
+      "used_facts": {
+        "chi_u_degree": 9,
+        "chi_v_degree": 137,
+        "chi_uv_degree": 9
+      }
+    },
+    "q602_trace_spectrum": {
+      "path": "stages/stage32/residual-32-01-production/post1518-o210-q602-residue73-trace-spectrum.json",
+      "blob_sha1": "9d65d760de99cfb2985956e0c845be3b2b601c87",
+      "canonical_sha256": "4925170377af7c77a97d36e562cdabd58241030f22a9644f1fa2a8ee627002c3",
+      "used_facts": {
+        "trace_mod8": 4,
+        "trace_values": [-68, -60, -52, -44, -36, -28, -20, -12, -4, 4, 12, 20, 28, 36, 44, 52, 60, 68],
+        "gauge_invariant_by_conjugation": true
+      }
+    },
+    "ex3_04e_successful_diagnostic": {
+      "script_path": "stages/stage32-ex3/scratch/diagnose_ex3_04e_physical_conic_graph_linear_trace.py",
+      "script_blob_sha1": "8057d5026504d619f9c5c9bba54f1e204adc5d3e",
+      "head": "21ba521fff317baff8751def3d6e9648a2715e7f",
+      "workflow_run_id": 34205763874,
+      "workflow_job_id": 101994758522,
+      "conclusion": "SUCCESS",
+      "used_output": "the exact 24 physical C1 candidate linear traces reproduced below"
+    }
+  },
+  "conditional_graph_firewall": {
+    "condition": "The true H-orbit of the four modular graph/diagonal quotient curves is identified with one of the physical C1 orbits inside indices 1..24.",
+    "condition_source_locked": false,
+    "missing_exact_bridge": "An exact modular-theta or function-field identification of the relevant graph quotients in X(8)xX(8) / diagonal level action with named Testa-Stoll C1 conics.",
+    "therefore_all_results_below_are_conditional": true,
+    "c1_group4_indices_25_32_not_tested": true
+  },
+  "physical_c1_linear_traces": {
+    "formula": "A(K)=105+81-Gamma_P.Graph(K)=186-[8*(C.K)+4*sum_{six nodes}m_j]",
+    "side_1_to_24": [-38, 26, -6, 18, 26, -14, 18, -30, -18, 2, 30, -14, 18, -2, -30, 14, 22, -22, -22, 22, 22, -22, -22, 22]
+  },
+  "derived_H_action_on_C1_signs": {
+    "group1_indices_1_8": {
+      "g7_b1": "flip e3",
+      "g8_b2": "flip e2",
+      "g9_b3": "flip e1",
+      "u": "flip e1,e3",
+      "v": "flip e2,e3"
+    },
+    "group2_indices_9_16": {
+      "g7_b1": "flip e1",
+      "g8_b2": "flip e3",
+      "g9_b3": "flip e2",
+      "u": "flip e1,e2",
+      "v": "flip e1,e3"
+    },
+    "group3_indices_17_24": {
+      "g7_b1": "flip e2",
+      "g8_b2": "flip e1",
+      "g9_b3": "flip e3",
+      "u": "flip e2,e3",
+      "v": "flip e1,e2"
+    }
+  },
+  "H_orbits_order_1_u_v_uv": [
+    {
+      "side_ids": [1, 6, 4, 7],
+      "A": [-38, -14, 18, 18],
+      "block_linear_traces": {"trivial": -4, "chi_u": -6, "chi_v": -22, "chi_uv": -6},
+      "q602_trace_compatible": true,
+      "conditional_gaussian_scalars": {
+        "chi_u": ["-3"],
+        "chi_v": ["-11+4i", "-11-4i"],
+        "chi_uv": ["-3"]
+      },
+      "conditional_scalar_triple_count": 2
+    },
+    {
+      "side_ids": [2, 5, 3, 8],
+      "A": [26, 26, -6, -30],
+      "block_linear_traces": {"trivial": 4, "chi_u": 6, "chi_v": 22, "chi_uv": -6},
+      "q602_trace_compatible": true,
+      "conditional_gaussian_scalars": {
+        "chi_u": ["3"],
+        "chi_v": ["11+4i", "11-4i"],
+        "chi_uv": ["-3"]
+      },
+      "conditional_scalar_triple_count": 2
+    },
+    {
+      "side_ids": [9, 15, 14, 12],
+      "A": [-18, -30, -2, -14],
+      "block_linear_traces": {"trivial": -16, "chi_u": 6, "chi_v": -8, "chi_uv": 0},
+      "q602_trace_compatible": false
+    },
+    {
+      "side_ids": [10, 16, 13, 11],
+      "A": [2, 14, 18, 30],
+      "block_linear_traces": {"trivial": 16, "chi_u": -6, "chi_v": -8, "chi_uv": 0},
+      "q602_trace_compatible": false
+    },
+    {
+      "side_ids": [17, 20, 23, 22],
+      "A": [22, 22, -22, -22],
+      "block_linear_traces": {"trivial": 0, "chi_u": 0, "chi_v": 22, "chi_uv": 0},
+      "q602_trace_compatible": false
+    },
+    {
+      "side_ids": [18, 19, 24, 21],
+      "A": [-22, -22, 22, 22],
+      "block_linear_traces": {"trivial": 0, "chi_u": 0, "chi_v": -22, "chi_uv": 0},
+      "q602_trace_compatible": false
+    }
+  ],
+  "conditional_finite_reduction": {
+    "physical_H_orbit_count": 6,
+    "q602_compatible_physical_H_orbit_count": 2,
+    "maximal_order_scalar_superset_before_linear_trace": 128,
+    "conditional_scalar_triples_after_H_orbit_and_linear_trace": [
+      ["-3", "-11+4i", "-3"],
+      ["-3", "-11-4i", "-3"],
+      ["3", "11+4i", "-3"],
+      ["3", "11-4i", "-3"]
+    ],
+    "conditional_scalar_triple_count": 4,
+    "unconditional_reduction_claimed": false
+  },
+  "diagnostic_verdict": {
+    "actual_H_orbit_structure_used": true,
+    "physical_C1_arbitrary_quadruple_search_superseded": true,
+    "physical_C1_H_orbits_q602_compatible_count": 2,
+    "conditional_scalar_triples_count": 4,
+    "graph_quotient_identification_closed": false,
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "next_exact_route": "Source-lock the modular graph-quotient to Testa-Stoll C1 identification. If it lands in indices 1..24, only the two displayed group1 H-orbits and four Gaussian scalar triples survive. If it lands in c=0 indices 25..32, materialize that block's node/intersection data before any exclusion."
+  },
+  "firewalls": {
+    "conditional_result_promoted_to_unconditional": false,
+    "physical_C1_promoted_to_actual_graph_without_bridge": false,
+    "c0_block_ignored_for_exclusion": false,
+    "finite_scalar_candidate_promoted_to_realized_correspondence": false,
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "stage32_main_credit": false,
+    "claim_dag_sync_triggered_by_this_scratch": false,
+    "merge_authorized": false
+  }
+}
