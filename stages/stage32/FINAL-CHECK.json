@@ -14,6 +14,7 @@
     "required_proves_tokens": ["STAGE32_CLOSED=true"],
     "forbidden_proves_tokens": ["PERFECT_CUBOID_EXISTENCE_CLAIM=true","PERFECT_CUBOID_NONEXISTENCE_CLAIM=true"],
     "hostile_audit_receipt_required": true,
+    "required_milestones_must_be_transitive_dependencies_of_final_root": true,
     "all_transitive_mathematical_dependencies_must_be_audited": true,
     "source_locks_must_match_working_tree": true,
     "missing_reserved_claim_is_not_ready_not_success": true,
@@ -34,6 +35,6 @@
     "historical_controller_chain_bulk_migrated": false,
     "historical_stage32_prs_bulk_migrated": false,
     "full178_generation_history_bulk_migrated": false,
-    "notes": "ACTIVE-FRONTIER.json records current open/audited frontier nodes. The dedicated active-frontier verifier must be run together with the base integrity verifier. Reserved S32.PROOF.* final claims remain absent until exact audited closure artifacts exist; declared goals cannot satisfy --final."
+    "notes": "ACTIVE-FRONTIER.json records current open/audited frontier nodes. The dedicated active-frontier verifier must be run together with the base integrity verifier. Reserved S32.PROOF.* final claims remain absent until exact audited closure artifacts exist; declared goals cannot satisfy --final. The final root must transitively depend on every non-root required milestone."
   }
 }
