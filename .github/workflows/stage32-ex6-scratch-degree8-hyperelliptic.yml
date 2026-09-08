@@ -6,6 +6,7 @@ on:
       - scratch/stage32-ex6-simultaneous-critical-support
     paths:
       - stages/stage32-ex6/scratch_diagnose_v6_degree8_hyperelliptic_fibers.py
+      - stages/stage32-ex6/scratch-v6-degree8-hyperelliptic-superset-decision.json
       - .github/workflows/stage32-ex6-scratch-degree8-hyperelliptic.yml
   workflow_dispatch:
 
@@ -44,6 +45,33 @@ jobs:
                   'negative_D1': c['negative_D1_candidate_count'],
                   'D1_hist': c['candidate_D1_dot_R_histogram'],
               })
+          PY
+      - name: Verify tracked superset decision
+        run: |
+          python -B - <<'PY'
+          import json
+          raw=json.load(open('/tmp/ex6-degree8.json'))
+          dec=json.load(open('stages/stage32-ex6/scratch-v6-degree8-hyperelliptic-superset-decision.json'))
+          s=raw['summary']
+          r=dec['reconstruction_superset']
+          assert raw['canonical_sha256_without_this_field'] == dec['source_locks']['full_reconstruction_canonical_sha256']
+          assert s['fibration_class_count'] == 8
+          assert s['candidate_pair_total'] == r['candidate_pair_total'] == 1248
+          assert s['distinct_candidate_numerical_classes'] == r['distinct_candidate_numerical_classes'] == 1248
+          assert s['negative_D1_candidate_total'] == r['negative_D1_candidate_total'] == 0
+          vals=[z['D1_dot_R'] for c in raw['last_four_fibration_classes'] for z in c['candidates']]
+          assert len(vals) == 1248 and min(vals) == r['minimum_D1_dot_R'] == 29
+          assert max(vals) == r['maximum_D1_dot_R'] == 97
+          assert sum(v == 0 for v in vals) == r['zero_D1_candidate_total'] == 0
+          assert all(v > 0 for v in vals)
+          got=[(c['fibration_v6_degree'], c['candidate_pair_count'], min(z['D1_dot_R'] for z in c['candidates']), max(z['D1_dot_R'] for z in c['candidates'])) for c in raw['last_four_fibration_classes']]
+          exp=[(c['fibration_v6_degree'], c['candidate_count'], c['min_D1_dot_R'], c['max_D1_dot_R']) for c in dec['per_fibration_class']]
+          assert got == exp
+          assert dec['decision']['global_nefness_proved'] is False
+          assert dec['decision']['O266_endpoint_excluded'] is False
+          assert dec['decision']['O264_descent_authorized'] is False
+          assert dec['decision']['stage32_main_advanced'] is False
+          print('tracked superset decision replay: PASS')
           PY
       - name: Upload exact reconstruction JSON
         uses: actions/upload-artifact@v4
