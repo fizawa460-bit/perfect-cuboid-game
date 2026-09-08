@@ -1,0 +1,85 @@
+name: Stage35-EX Goal4AJ literal numerator divisor equality gen28
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage35-ex/runkeys/goal4aj-literal-numerator-divisor-equality-gen28.json'
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - id: gate
+        name: Commit-range runkey authorization
+        shell: bash
+        run: |
+          set -euo pipefail
+          KEY='stages/stage35-ex/runkeys/goal4aj-literal-numerator-divisor-equality-gen28.json'
+          SRC='stages/stage35-ex/verify_stage35_ex_35_goal4aj_literal_numerator_divisor_equality.py'
+          BEFORE='${{ github.event.before }}'
+          HEAD='${{ github.event.pull_request.head.sha }}'
+          test '${{ github.event.pull_request.number }}' = '1698'
+          test '${{ github.event.pull_request.head.ref }}' = 'stage35-ex-goal4aj-degree19-truncated-kernel'
+          test '${{ github.event.pull_request.base.ref }}' = 'main'
+          test -n "$BEFORE"
+          git cat-file -e "$BEFORE^{commit}"
+          mapfile -t changed < <(git diff --name-only "$BEFORE" "$HEAD")
+          test "${#changed[@]}" -eq 1
+          test "${changed[0]}" = "$KEY"
+          git fetch --no-tags origin main
+          python - <<'PY'
+          import hashlib, json, pathlib, subprocess
+          key=pathlib.Path('stages/stage35-ex/runkeys/goal4aj-literal-numerator-divisor-equality-gen28.json')
+          src=pathlib.Path('stages/stage35-ex/verify_stage35_ex_35_goal4aj_literal_numerator_divisor_equality.py')
+          cert=pathlib.Path('stages/stage35-ex/35ex-35/goal4aj-degree31-literal-numerator-divisor-equality.json')
+          g25=pathlib.Path('stages/stage35-ex/35ex-35/goal4aj-gen25-g4-all27-exact-strict-certificate.json')
+          def blob(p):
+              b=p.read_bytes(); return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          r=json.loads(key.read_text())
+          assert r['schema']=='STAGE35_EX_GOAL4AJ_LITERAL_NUMERATOR_DIVISOR_EQUALITY_GEN28_RUNKEY_V1'
+          assert r['generation']==1 and r['armed'] is True
+          assert r['pr_number']==1698
+          assert r['branch']=='stage35-ex-goal4aj-degree19-truncated-kernel' and r['base']=='main'
+          assert blob(src)==r['verifier_blob_sha1']=='8a52d7f2c51dc69a9e6bf8a70864cf0f5afe66be'
+          assert blob(cert)==r['certificate_blob_sha1']=='a60034bb2b2e3cbd16d96fa26b76eeaf1210900f'
+          assert blob(g25)==r['gen25_certificate_blob_sha1']=='8c29fec40c93a4da27c7c37d149ef5877265fccf'
+          assert r['certificate_canonical_sha256']=='7ef8ce746f44ed729a3c87d21d6b5be4e7e711a4af087233951dd4ee80a20da9'
+          assert r['gen25_canonical_sha256']=='7399ef3d817578b2f052c97baada75c2a6166ee1313d32f5bed01f6736865513'
+          assert r['gen26_canonical_sha256']=='268ad742fff7bbe43491dbfebf29c7252091387cc08ca2c95c312db000c0ebaa'
+          assert r['q_candidate_sha256']=='358ee320a7d28b790ee9267aad3f95e8ff35af15d002976720622bd2b6e8decb'
+          assert r['planned_jobs']==1 and r['artifact_upload'] is False
+          main=subprocess.check_output(['git','rev-parse','origin/main'],text=True).strip()
+          assert main==r['observed_current_main_sha']
+          mb=subprocess.check_output(['git','merge-base','HEAD','origin/main'],text=True).strip()
+          assert mb==r['branch_merge_base_sha']
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  verify:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Verify literal numerator and exact divisor equality
+        run: |
+          set -euo pipefail
+          python -u -B stages/stage35-ex/verify_stage35_ex_35_goal4aj_literal_numerator_divisor_equality.py | tee "$RUNNER_TEMP/gen28.log"
+          grep -q '^STAGE35_EX_GOAL4AJ_LITERAL_NUMERATOR_DIVISOR_EQUALITY=PASS$' "$RUNNER_TEMP/gen28.log"
+          grep -q '^certificate_canonical_sha256=7ef8ce746f44ed729a3c87d21d6b5be4e7e711a4af087233951dd4ee80a20da9$' "$RUNNER_TEMP/gen28.log"
+          grep -q '^q_candidate_sha256=358ee320a7d28b790ee9267aad3f95e8ff35af15d002976720622bd2b6e8decb$' "$RUNNER_TEMP/gen28.log"
+          test "$(wc -c <"$RUNNER_TEMP/gen28.log")" -le 8192

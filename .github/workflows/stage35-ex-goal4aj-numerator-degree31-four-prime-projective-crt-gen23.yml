@@ -1,0 +1,91 @@
+name: Stage35-EX Goal4AJ numerator degree31 four-prime projective CRT gen23
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage35-ex/runkeys/goal4aj-numerator-degree31-four-prime-projective-crt-gen23.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+      - id: gate
+        env:
+          EVENT: ${{ github.event_name }}
+          ACTION: ${{ github.event.action }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+          BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage35-ex/runkeys/goal4aj-numerator-degree31-four-prime-projective-crt-gen23.json'
+          SCRIPT='stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_numerator_degree31_four_prime_projective_crt_gen23.py'
+          EXPECTED_SCRIPT_BLOB='aede9706b2753af8f3820961a61987d05925b59b'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          test "$EVENT" = 'pull_request' || exit 0
+          test "$ACTION" = 'synchronize' || exit 0
+          test "$PR_NUMBER" = '1698' || exit 0
+          test "$HEAD_BRANCH" = 'stage35-ex-goal4aj-degree19-truncated-kernel' || exit 0
+          test "$BASE_BRANCH" = 'main' || exit 0
+          test -n "$BEFORE" || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || exit 0
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          test "$(git diff --name-only "$BEFORE" "$HEAD" | wc -l)" -eq 1 || exit 0
+          git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY" || exit 0
+          if git cat-file -e "$BEFORE:$KEY" 2>/dev/null; then exit 0; fi
+          test "$(git hash-object "$SCRIPT")" = "$EXPECTED_SCRIPT_BLOB" || exit 0
+          python - "$KEY" <<'PY'
+          import json,sys
+          k=json.loads(open(sys.argv[1],encoding='utf-8').read())
+          assert k['schema']=='STAGE35_EX_GOAL4AJ_NUMERATOR_DEGREE31_FOUR_PRIME_PROJECTIVE_CRT_GEN23_RUNKEY_V1'
+          assert k['generation']==1 and k['armed'] is True
+          assert k['observed_current_main_sha']=='d5545b32e6b3088bca53318998d434f2745b03e9'
+          assert k['branch_merge_base_sha']=='1d7bfd98ef8eab7bd849fe7bfdbcdaf5c0b575e7'
+          assert k['script_blob_sha1']=='aede9706b2753af8f3820961a61987d05925b59b'
+          assert k['gen22_run']==34191625177 and k['gen22_job']==101950747001
+          assert k['gen22_canonical_sha256']=='7199145e16a0f00052499c7bbfea66dfd14323092c15f426a893c2d656fb57c1'
+          assert k['gen22_route']=='THREE_PRIME_SUPPORT_MATCHED_BALANCED_RATIONAL_RECONSTRUCTION_INCOMPLETE_FOURTH_PRIME_REQUIRED'
+          assert k['first_prime']==32009 and k['second_prime']==32057 and k['third_prime']==32089 and k['fourth_prime']==32233 and k['degree']==31
+          assert k['planned_jobs']==1 and k['artifact_upload'] is False
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  diagnose:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Singular
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends singular
+          Singular --version | head -n 3
+      - name: Four-prime support, projective CRT, and first exact strict check
+        run: |
+          set -euo pipefail
+          python -u -B stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_numerator_degree31_four_prime_projective_crt_gen23.py | tee /tmp/goal4aj-num31-four-prime-crt-gen23.log
+          grep -q '^GOAL4AJ_NUM31_FOUR_PRIME_CRT_GEN23_JSON=' /tmp/goal4aj-num31-four-prime-crt-gen23.log
+          grep -q '^GOAL4AJ_NUM31_FOUR_PRIME_CRT_GEN23=DONE$' /tmp/goal4aj-num31-four-prime-crt-gen23.log
+          test "$(wc -c </tmp/goal4aj-num31-four-prime-crt-gen23.log)" -le 65536

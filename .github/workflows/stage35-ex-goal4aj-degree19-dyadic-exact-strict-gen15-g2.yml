@@ -1,0 +1,88 @@
+name: Stage35-EX Goal4AJ degree19 dyadic exact strict gen15 g2
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage35-ex/runkeys/goal4aj-degree19-dyadic-exact-strict-gen15-g2.json'
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - id: gate
+        env:
+          EVENT: ${{ github.event_name }}
+          ACTION: ${{ github.event.action }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+          BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage35-ex/runkeys/goal4aj-degree19-dyadic-exact-strict-gen15-g2.json'
+          SCRIPT='stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_degree19_dyadic_exact_strict_gen15_g2.py'
+          EXPECTED_SCRIPT_BLOB='461e28f4e45f9259dda46a4ff2555b56230f3e29'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          test "$EVENT" = 'pull_request' || exit 0
+          test "$ACTION" = 'synchronize' || exit 0
+          test "$PR_NUMBER" = '1698' || exit 0
+          test "$HEAD_BRANCH" = 'stage35-ex-goal4aj-degree19-truncated-kernel' || exit 0
+          test "$BASE_BRANCH" = 'main' || exit 0
+          test -n "$BEFORE" || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || exit 0
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          test "$(git diff --name-only "$BEFORE" "$HEAD" | wc -l)" -eq 1 || exit 0
+          git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY" || exit 0
+          if git cat-file -e "$BEFORE:$KEY" 2>/dev/null; then exit 0; fi
+          test "$(git hash-object "$SCRIPT")" = "$EXPECTED_SCRIPT_BLOB" || exit 0
+          python - "$KEY" <<'PY'
+          import json,sys
+          k=json.loads(open(sys.argv[1],encoding='utf-8').read())
+          assert k['schema']=='STAGE35_EX_GOAL4AJ_DEGREE19_DYADIC_EXACT_STRICT_GEN15_G2_RUNKEY_V1'
+          assert k['generation']==1 and k['armed'] is True
+          assert k['observed_current_main_sha']=='8143dbaabb0cf164e65091dd315996f7eac68cf8'
+          assert k['branch_merge_base_sha']=='1d7bfd98ef8eab7bd849fe7bfdbcdaf5c0b575e7'
+          assert k['script_blob_sha1']=='461e28f4e45f9259dda46a4ff2555b56230f3e29'
+          assert k['gen15_generation1_failed_run']==34177910521
+          assert k['gen15_generation1_failed_job']==101910921519
+          assert k['planned_jobs']==1 and k['artifact_upload'] is False
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  diagnose:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Singular
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends singular
+          Singular --version | head -n 3
+      - name: Replay repaired characteristic-zero strict membership
+        run: |
+          set -euo pipefail
+          python -u -B stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_degree19_dyadic_exact_strict_gen15_g2.py | tee /tmp/goal4aj-gen15-g2.log
+          grep -q '^GOAL4AJ_DYADIC_EXACT_STRICT_GEN15_JSON=' /tmp/goal4aj-gen15-g2.log
+          grep -q '^GOAL4AJ_DYADIC_EXACT_STRICT_GEN15=DONE$' /tmp/goal4aj-gen15-g2.log
+          test "$(wc -c </tmp/goal4aj-gen15-g2.log)" -le 131072

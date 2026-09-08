@@ -47,63 +47,62 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09DM.py"
           git worktree remove --force "$tmp"
-      - name: Verify intermediate hostile-audit receipt and DM promotion boundary
+      - name: Replay immutable DM intermediate-audit promotion checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          H=e8d73c21a6cd40281210b8abc8e4fbb8309c5cb2
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 - "$tmp" <<'PY'
+          import json,subprocess,sys
+          from pathlib import Path
+          root=Path(sys.argv[1])
+          rp=root/'stages/stage36/36-09DM/intermediate-hostile-audit-pass-receipt.json'
+          r=json.loads(rp.read_text())
+          assert subprocess.check_output(['git','hash-object',str(rp.relative_to(root))],cwd=root,text=True).strip()=='66cd600ed6c49c240840c89e960881e05bbbdf84'
+          assert r['status']=='PASS'
+          assert r['audited_exact_head']=='12bf7eb1ee7da6bf0e7ac8f35df9e5379d8e65cb'
+          s=json.loads((root/'stages/stage36/MAIN-STATE.json').read_text())
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V190_36_09DM_INTERMEDIATE_AUDIT_PASS_PENDING_PROMOTION_REPLAY'
+          assert s['promotion_gates']['36_09DM_exact_head_ci_passed'] is True
+          assert s['promotion_gates']['36_09DM_intermediate_hostile_audit_passed'] is True
+          assert s['promotion_gates']['36_09DN_entry_allowed'] is False
+          PY
+          git worktree remove --force "$tmp"
+      - name: Assert V191 audited DM parent and DN unlock firewalls
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
           import json,subprocess
           from pathlib import Path
-          receipt_path=Path('stages/stage36/36-09DM/intermediate-hostile-audit-pass-receipt.json')
-          receipt=json.loads(receipt_path.read_text())
-          assert subprocess.check_output(['git','hash-object',str(receipt_path)],text=True).strip()=='66cd600ed6c49c240840c89e960881e05bbbdf84'
-          assert receipt['schema']=='STAGE36_PR1712_DM_INTERMEDIATE_HOSTILE_AUDIT_PASS_RECEIPT_V1'
-          assert receipt['status']=='PASS'
-          assert receipt['audit_kind']=='LONG_LIVED_SHARED_PR_INTERMEDIATE_HOSTILE_AUDIT'
-          assert receipt['audited_pr']==1712
-          assert receipt['audit_base_start']=='0134d5f42df5aa290f5514cc48822e80a34d083c'
-          assert receipt['audited_exact_head']=='12bf7eb1ee7da6bf0e7ac8f35df9e5379d8e65cb'
-          assert receipt['retained_commit_delta']==175
-          assert receipt['current_main_at_audit']=='226a8aa11ac61293a7e4b7f9611177f68af94ff4'
-          assert receipt['exact_head_ci']=={'run_id':34215518432,'job_id':102026227390,'conclusion':'success'}
-          assert receipt['external_review_id'] is None
-          cb=receipt['audited_credit_boundary']
-          assert cb['36_09DM_exact_head_green'] is True
-          assert cb['full_Creutz_Viray_explicit_image_BM_set_nonempty'] is True
-          assert cb['full_Creutz_Viray_explicit_image_BM_obstruction_disproved'] is True
-          for k in ['full_Creutz_Viray_explicit_image_computed','full_L1_quotient_computed','Pic0_mod2_computed','Creutz_Viray_explicit_image_equals_full_Br2','full_Brauer_group_computed','Brauer_Manin_obstruction_from_full_Br_group_proved','fixed_p_2_branch_excluded','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_nonexistence_claim']:
-            assert cb[k] is False,k
-          PY
-      - name: Assert V190 audit-pass promotion replay gate and DN lock
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          import json
-          from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V190_36_09DM_INTERMEDIATE_AUDIT_PASS_PENDING_PROMOTION_REPLAY'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V191_36_09DM_INTERMEDIATE_AUDIT_PROMOTED_DN_UNLOCKED'
           dm=s['authority_frontier']['36-09DM']
-          assert dm['status']=='INTERMEDIATE_HOSTILE_AUDIT_PASS_EXACT_GREEN_PENDING_PROMOTION_REPLAY'
+          assert dm['status']=='INTERMEDIATE_HOSTILE_AUDIT_PASS_EXACT_GREEN_PROMOTED_PARENT'
           assert dm['exact_head']=='12bf7eb1ee7da6bf0e7ac8f35df9e5379d8e65cb'
           assert dm['exact_head_ci']=='34215518432/102026227390'
           assert dm['intermediate_audit_receipt_blob_sha']=='66cd600ed6c49c240840c89e960881e05bbbdf84'
-          assert dm['intermediate_audit_status']=='PASS'
+          assert dm['audit_promotion_replay_head']=='e8d73c21a6cd40281210b8abc8e4fbb8309c5cb2'
+          assert dm['audit_promotion_replay_ci']=='34217044016/102031149894'
           assert dm['external_review_id'] is None
           assert dm['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_BM_SET_NONEMPTY'] is True
           assert dm['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_BM_OBSTRUCTION_DISPROVED'] is True
           assert dm['FULL_CREUTZ_VIRAY_EXPLICIT_IMAGE_COMPUTED'] is False
           assert dm['FULL_BRAUER_GROUP_COMPUTED'] is False
-          cur=s['current']
+          rp=Path('stages/stage36/36-09DM/intermediate-hostile-audit-pass-receipt.json')
+          assert subprocess.check_output(['git','hash-object',str(rp)],text=True).strip()=='66cd600ed6c49c240840c89e960881e05bbbdf84'
+          cur=s['current']; pg=s['promotion_gates']
+          assert cur['unit']=='36-09DN'
+          assert cur['36_09DN_entry_allowed'] is True
           assert cur['hostile_audit_checkpoint_reached'] is True
-          assert cur['36_09DN_entry_allowed'] is False
-          pg=s['promotion_gates']
           assert pg['36_09DM_exact_head_ci_passed'] is True
           assert pg['36_09DM_intermediate_hostile_audit_passed'] is True
-          assert pg['36_09DM_audit_promotion_replay_passed'] is False
-          assert pg['36_09DN_entry_allowed'] is False
+          assert pg['36_09DM_audit_promotion_replay_passed'] is True
+          assert pg['36_09DN_entry_allowed'] is True
           for key in ['BT_full_L1_quotient_computed','BT_Pic0_mod2_computed','BT_full_Creutz_Viray_explicit_image_computed','BT_full_relevant_Brauer_group_computed','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          print('36-09DM intermediate hostile-audit PASS receipt replayed. DN stays locked until this promotion replay itself is exact-green.')
+          print('36-09DM audited exact-green parent promoted; 36-09DN is unlocked. Full Brauer/BM/fixed-p/receiver/endpoint credit remains open.')
           PY
           git diff --check

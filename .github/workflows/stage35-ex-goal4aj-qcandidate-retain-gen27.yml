@@ -1,0 +1,88 @@
+name: Stage35-EX Goal4AJ qcandidate retain gen27
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage35-ex/runkeys/goal4aj-qcandidate-retain-gen27.json'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - id: gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          KEY='stages/stage35-ex/runkeys/goal4aj-qcandidate-retain-gen27.json'
+          BEFORE='${{ github.event.before }}'
+          HEAD='${{ github.event.pull_request.head.sha }}'
+          test '${{ github.event.pull_request.number }}' = '1698'
+          test '${{ github.event.pull_request.head.ref }}' = 'stage35-ex-goal4aj-degree19-truncated-kernel'
+          test '${{ github.event.pull_request.base.ref }}' = 'main'
+          git cat-file -e "$BEFORE^{commit}"
+          mapfile -t changed < <(git diff --name-only "$BEFORE" "$HEAD")
+          test "${#changed[@]}" -eq 1
+          test "${changed[0]}" = "$KEY"
+          git fetch --no-tags origin main
+          python - <<'PY'
+          import json, pathlib, subprocess
+          r=json.loads(pathlib.Path('stages/stage35-ex/runkeys/goal4aj-qcandidate-retain-gen27.json').read_text())
+          assert r['schema']=='STAGE35_EX_GOAL4AJ_QCANDIDATE_RETAIN_GEN27_RUNKEY_V1'
+          assert r['generation']==1 and r['armed'] is True and r['pr_number']==1698
+          assert r['source_run']==34202980219 and r['source_artifact_id']==10047165607
+          assert r['source_artifact_zip_sha256']=='30ed893acb8be4574838dd37242da3ba2659fdabe7f557b9efe0c62108d7d930'
+          assert r['gzip_sha256']=='4758734a80f4ec5c0444acf9b97d0edcbb00a6ee26f1b59c622c711a5d20be8b'
+          assert r['candidate_sha256']=='358ee320a7d28b790ee9267aad3f95e8ff35af15d002976720622bd2b6e8decb'
+          assert subprocess.check_output(['git','rev-parse','origin/main'],text=True).strip()==r['observed_current_main_sha']
+          assert subprocess.check_output(['git','merge-base','HEAD','origin/main'],text=True).strip()==r['branch_merge_base_sha']
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  retain:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: goal4aj-gen24-qcandidate-compact
+          path: ${{ runner.temp }}/gen27-source
+          repository: fizawa460-bit/perfect-cuboid-game
+          run-id: 34202980219
+          github-token: ${{ github.token }}
+      - name: Verify immutable candidate bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import gzip, hashlib, json, pathlib
+          p=pathlib.Path('${{ runner.temp }}/gen27-source')
+          cert=json.loads((p/'certificate.json').read_text())
+          assert cert['canonical_sha256']=='9463e3ca0431fbb8310c139481873ddf98122136f360cdac58ecf35eaa325e26'
+          gz=(p/'qcandidate.txt.gz').read_bytes()
+          assert len(gz)==45022
+          assert hashlib.sha256(gz).hexdigest()=='4758734a80f4ec5c0444acf9b97d0edcbb00a6ee26f1b59c622c711a5d20be8b'
+          raw=gzip.decompress(gz)
+          assert len(raw)==208802
+          assert hashlib.sha256(raw).hexdigest()=='358ee320a7d28b790ee9267aad3f95e8ff35af15d002976720622bd2b6e8decb'
+          print('GOAL4AJ_GEN27_QCANDIDATE_RETAIN=PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: goal4aj-gen27-qcandidate-durable-30d
+          path: ${{ runner.temp }}/gen27-source
+          if-no-files-found: error
+          retention-days: 30

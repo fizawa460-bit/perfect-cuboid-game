@@ -1,0 +1,94 @@
+name: Stage35-EX Goal4AJ degree19 A1 candidate check gen12
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage35-ex/runkeys/goal4aj-degree19-a1-candidate-check-gen12.json'
+      - '.github/workflows/stage35-ex-goal4aj-degree19-a1-candidate-check-gen12.yml'
+  workflow_dispatch:
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+      - id: gate
+        env:
+          EVENT: ${{ github.event_name }}
+          ACTION: ${{ github.event.action }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+          BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage35-ex/runkeys/goal4aj-degree19-a1-candidate-check-gen12.json'
+          SCRIPT='stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_degree19_a1_candidate_check_gen12.py'
+          EXPECTED_SCRIPT_BLOB='56b72500b03cc6d1d50cf73b5ec71e87f8bf096e'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          test "$EVENT" = 'pull_request' || exit 0
+          test "$ACTION" = 'synchronize' || exit 0
+          test "$PR_NUMBER" = '1698' || exit 0
+          test "$HEAD_BRANCH" = 'stage35-ex-goal4aj-degree19-truncated-kernel' || exit 0
+          test "$BASE_BRANCH" = 'main' || exit 0
+          test -n "$BEFORE" || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || exit 0
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          test "$(git diff --name-only "$BEFORE" "$HEAD" | wc -l)" -eq 1 || exit 0
+          git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY" || exit 0
+          test "$(git hash-object "$SCRIPT")" = "$EXPECTED_SCRIPT_BLOB" || exit 0
+          python - "$BEFORE" "$KEY" <<'PY'
+          import json,subprocess,sys
+          before,key=sys.argv[1:]
+          old=json.loads(subprocess.check_output(['git','show',f'{before}:{key}'],text=True))
+          new=json.loads(open(key,encoding='utf-8').read())
+          assert old['schema']==new['schema']=='STAGE35_EX_GOAL4AJ_DEGREE19_A1_CANDIDATE_CHECK_GEN12_RUNKEY_V1'
+          assert old['generation']==1 and old['armed'] is True
+          assert new['generation']==2 and new['armed'] is True
+          assert new['base_main_sha']=='1d7bfd98ef8eab7bd849fe7bfdbcdaf5c0b575e7'
+          assert new['script_blob_sha1']=='56b72500b03cc6d1d50cf73b5ec71e87f8bf096e'
+          assert new['gen11_success_run']==34151421440 and new['gen11_success_job']==101834380178
+          assert new['gen11_canonical_sha256']=='8c457f6c9a89f89548c382e1d371298e8ca45022e526a4a09f2618e364b2ab1f'
+          assert new['repair_of_failed_run']==34151844450 and new['repair_of_failed_job']==101835629248
+          assert new['field_prime']==32009 and new['degree']==19
+          assert new['artifact_upload'] is False
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  diagnose:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Singular and Python dependency
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends singular
+          python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+          Singular --version | head -n 3
+          python - <<'PY'
+          import sympy
+          assert sympy.__version__ == '1.14.0'
+          PY
+      - name: Check unique degree19 candidate at all A1 nodes
+        run: |
+          set -euo pipefail
+          python -u -B stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_degree19_a1_candidate_check_gen12.py | tee /tmp/goal4aj-a1-gen12.log
+          grep -q '^GOAL4AJ_A1_GEN12_JSON=' /tmp/goal4aj-a1-gen12.log
+          grep -q '^GOAL4AJ_A1_GEN12=PASS$' /tmp/goal4aj-a1-gen12.log
+          test "$(wc -c </tmp/goal4aj-a1-gen12.log)" -le 131072

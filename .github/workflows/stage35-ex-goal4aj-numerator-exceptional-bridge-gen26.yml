@@ -1,0 +1,75 @@
+name: Stage35-EX Goal4AJ numerator exceptional bridge gen26
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage35-ex/runkeys/goal4aj-numerator-exceptional-bridge-gen26.json'
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - id: gate
+        name: Commit-range runkey authorization
+        shell: bash
+        run: |
+          set -euo pipefail
+          KEY='stages/stage35-ex/runkeys/goal4aj-numerator-exceptional-bridge-gen26.json'
+          SRC='stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_numerator_exceptional_forced_bridge_gen26.py'
+          BEFORE='${{ github.event.before }}'
+          HEAD='${{ github.event.pull_request.head.sha }}'
+          test '${{ github.event.pull_request.number }}' = '1698'
+          test '${{ github.event.pull_request.head.ref }}' = 'stage35-ex-goal4aj-degree19-truncated-kernel'
+          test '${{ github.event.pull_request.base.ref }}' = 'main'
+          test -n "$BEFORE"
+          git cat-file -e "$BEFORE^{commit}"
+          mapfile -t changed < <(git diff --name-only "$BEFORE" "$HEAD")
+          test "${#changed[@]}" -eq 1
+          test "${changed[0]}" = "$KEY"
+          git fetch --no-tags origin main
+          python - <<'PY'
+          import hashlib, json, pathlib, subprocess
+          key=pathlib.Path('stages/stage35-ex/runkeys/goal4aj-numerator-exceptional-bridge-gen26.json')
+          src=pathlib.Path('stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_numerator_exceptional_forced_bridge_gen26.py')
+          def blob(p):
+              b=p.read_bytes(); return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          r=json.loads(key.read_text())
+          assert r['schema']=='STAGE35_EX_GOAL4AJ_NUMERATOR_EXCEPTIONAL_BRIDGE_GEN26_RUNKEY_V1'
+          assert r['generation']==1 and r['armed'] is True
+          assert r['pr_number']==1698
+          assert r['branch']=='stage35-ex-goal4aj-degree19-truncated-kernel' and r['base']=='main'
+          assert blob(src)==r['source_blob_sha1']=='6386f52cf8c1dc4044ba2f6cc3bf0cc63c6f81c1'
+          main=subprocess.check_output(['git','rev-parse','origin/main'],text=True).strip()
+          assert main==r['observed_current_main_sha']
+          mb=subprocess.check_output(['git','merge-base','HEAD','origin/main'],text=True).strip()
+          assert mb==r['branch_merge_base_sha']
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  diagnose:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Exact 48-node numerator incidence bridge
+        run: |
+          set -euo pipefail
+          python -u -B stages/stage35-ex/diagnose_stage35_ex_35_goal4aj_numerator_exceptional_forced_bridge_gen26.py | tee "$RUNNER_TEMP/gen26.log"
+          grep -q '^GOAL4AJ_GEN26_NUMERATOR_EXCEPTIONAL_BRIDGE_JSON=' "$RUNNER_TEMP/gen26.log"
+          grep -q '^GOAL4AJ_GEN26_NUMERATOR_EXCEPTIONAL_BRIDGE=PASS$' "$RUNNER_TEMP/gen26.log"
+          test "$(wc -c <"$RUNNER_TEMP/gen26.log")" -le 65536
