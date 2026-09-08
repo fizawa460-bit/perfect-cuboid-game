@@ -35,38 +35,31 @@ def vp(q:Fraction,p:int)->int:
     while d%p==0: d//=p; v-=1
     return v
 
-def unit_mod(q:Fraction,p:int,modulus:int)->int:
-    v=vp(q,p)
-    u=q/(Fraction(p,1)**v)
-    return (u.numerator%modulus)*pow(u.denominator%modulus,-1,modulus)%modulus
+def unit_mod(q:Fraction,p:int,m:int)->int:
+    v=vp(q,p); u=q/(Fraction(p,1)**v)
+    return (u.numerator%m)*pow(u.denominator%m,-1,m)%m
 
-def legendre_rational_unit(q:Fraction,p:int)->int:
-    x=unit_mod(q,p,p)
-    r=pow(x,(p-1)//2,p)
+def legendre_unit(q:Fraction,p:int)->int:
+    r=pow(unit_mod(q,p,p),(p-1)//2,p)
     assert r in (1,p-1)
     return 1 if r==1 else -1
 
 def hilbert_odd(a:Fraction,b:Fraction,p:int)->int:
     aa=vp(a,p); bb=vp(b,p)
     s=-1 if ((aa&1)*(bb&1)*(((p-1)//2)&1))&1 else 1
-    if bb&1: s*=legendre_rational_unit(a,p)
-    if aa&1: s*=legendre_rational_unit(b,p)
+    if bb&1: s*=legendre_unit(a,p)
+    if aa&1: s*=legendre_unit(b,p)
     return s
 
 def hilbert_2(a:Fraction,b:Fraction)->int:
-    aa=vp(a,2); bb=vp(b,2)
-    u=unit_mod(a,2,8); v=unit_mod(b,2,8)
-    e=(((u-1)//2)*((v-1)//2) + aa*((v*v-1)//8) + bb*((u*u-1)//8))&1
+    aa=vp(a,2); bb=vp(b,2); u=unit_mod(a,2,8); v=unit_mod(b,2,8)
+    e=(((u-1)//2)*((v-1)//2)+aa*((v*v-1)//8)+bb*((u*u-1)//8))&1
     return -1 if e else 1
-
-def hilbert_inf(a:Fraction,b:Fraction)->int:
-    return -1 if a<0 and b<0 else 1
 
 def prime_factors(n:int)->set[int]:
     n=abs(n); out:set[int]=set(); p=2
     while p*p<=n:
-        while n%p==0:
-            out.add(p); n//=p
+        while n%p==0: out.add(p); n//=p
         p=3 if p==2 else p+2
     if n>1: out.add(n)
     return out
@@ -74,25 +67,21 @@ def prime_factors(n:int)->set[int]:
 def global_hilbert_product(a:Fraction,b:Fraction)->int:
     ps={2}
     for n in (a.numerator,a.denominator,b.numerator,b.denominator): ps|=prime_factors(n)
-    z=hilbert_inf(a,b)
+    z=-1 if a<0 and b<0 else 1
     for p in sorted(ps): z*=hilbert_2(a,b) if p==2 else hilbert_odd(a,b,p)
     return z
 
 def main()->None:
     for p,h in LOCKS.items(): assert blob(p)==h,(p,blob(p),h)
     subprocess.check_call(['git','merge-base','--is-ancestor',BASE,'HEAD'],cwd=ROOT)
-    subprocess.check_call(['git','merge-base','--is-ancestor',AUDITED_HEAD,'HEAD'],cwd=ROOT)
+    # The hostile-audited PR head need not be an ancestor after GitHub merge/squash.
+    # Bind it as an existing immutable commit, while requiring the merged authority commit to be in HEAD ancestry.
+    subprocess.check_call(['git','cat-file','-e',f'{AUDITED_HEAD}^{{commit}}'],cwd=ROOT)
     subprocess.check_call(['git','merge-base','--is-ancestor',MERGED_PARENT,'HEAD'],cwd=ROOT)
 
     c=json.loads(CERT.read_text()); cm=json.loads(CM.read_text()); co=json.loads(CO.read_text()); cp=json.loads(CP.read_text()); lit=json.loads(LIT.read_text())
     assert c['base_main_sha']==BASE
-    assert c['batch_parent']=={
-        'audited_pr':1707,
-        'hostile_audit_review':5137131273,
-        'audited_exact_head':AUDITED_HEAD,
-        'exact_head_ci':'34183931952/101928383350',
-        'merged_main_sha':MERGED_PARENT,
-    }
+    assert c['batch_parent']=={'audited_pr':1707,'hostile_audit_review':5137131273,'audited_exact_head':AUDITED_HEAD,'exact_head_ci':'34183931952/101928383350','merged_main_sha':MERGED_PARENT}
     assert cm['global_kummer_class']['module']=='K_BT=mu_2^3 over Q'
     assert cm['global_kummer_class']['class_name']=='Xi_BT'
     assert cp['adapter_result']['first_missing_obligation']=='BT_CARTIER_DUAL_CLASS_AND_LOCAL_CONDITION_ADAPTER'
@@ -112,17 +101,9 @@ def main()->None:
     assert rec['choosing_a_global_dual_class_alone_can_supply_the_missing_obstruction'] is False
     assert rec['hilbert_product_formula_is_a_contradiction'] is False
 
-    # Executable sanity check of the coordinatewise reciprocity identity over Q.
-    samples=[
-        (Fraction(-1),Fraction(2)),
-        (Fraction(6),Fraction(35)),
-        (Fraction(5,3),Fraction(-14,9)),
-        (Fraction(-77,10),Fraction(33,14)),
-        (Fraction(17,6),Fraction(85,22)),
-    ]
+    samples=[(Fraction(-1),Fraction(2)),(Fraction(6),Fraction(35)),(Fraction(5,3),Fraction(-14,9)),(Fraction(-77,10),Fraction(33,14)),(Fraction(17,6),Fraction(85,22))]
     for a,b in samples: assert global_hilbert_product(a,b)==1,(a,b)
-    triples=[samples[:3],samples[2:5]]
-    for tri in triples:
+    for tri in (samples[:3],samples[2:5]):
         z=1
         for a,b in tri: z*=global_hilbert_product(a,b)
         assert z==1
@@ -139,13 +120,10 @@ def main()->None:
     assert 'calling the Hilbert product formula a contradiction' in lit['do_not_use_for']
     serre=[x for x in lit['literature'] if x['authors']=='Jean-Pierre Serre'][0]
     milne=[x for x in lit['literature'] if x['authors']=='J. S. Milne'][0]
-    assert serre['theorem_identifier']=='Chapter III Theorems 2-4'
-    assert 'product formula' in serre['conclusion_summary']
+    assert serre['theorem_identifier']=='Chapter III Theorems 2-4' and 'product formula' in serre['conclusion_summary']
     assert 'product formula alone is not an obstruction' in serre['conditional_assumptions']
-    assert milne['theorem_identifier']=='Theorem I.4.10'
-    assert 'required localization maps and local conditions' in milne['exact_hypotheses_summary']
-
+    assert milne['theorem_identifier']=='Theorem I.4.10' and 'required localization maps and local conditions' in milne['exact_hypotheses_summary']
     for key,val in c['scope_firewalls'].items(): assert val is False,(key,val)
-    print('36-09CQ verified: K_BT^D=(Z/2)^3 and the coordinate local Tate/Hilbert pairing are explicit, but pairing global Xi_BT with any global dual H1 class is reciprocity-trivial in total. Geometry-derived local conditions/evaluation remain missing; no LIT-WF02/PT/BM/receiver/endpoint credit.')
+    print('36-09CQ verified: audited-head provenance is immutable-object bound and merged-authority ancestry bound; K_BT^D=(Z/2)^3; global-global pairing remains reciprocity-trivial. No LIT-WF02/PT/BM/receiver/endpoint credit.')
 
 if __name__=='__main__': main()
