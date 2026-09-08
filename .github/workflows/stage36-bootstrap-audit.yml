@@ -43,12 +43,12 @@ jobs:
         run: |
           set -euo pipefail
           H=434c4816dad351208941921bfa7fec02c4076831; tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"; python3 "$tmp/stages/stage36/verify_stage36_36_09CX.py"; git worktree remove --force "$tmp"
-      - name: Verify 36-09CY fixed-p2 required-place inventory
+      - name: Replay immutable 36-09CY exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09CY.py
-      - name: Assert CY checkpoint and CZ lock firewalls
+          H=91f29d0081ed2e82399af1578f14d5851baf87d9; tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"; python3 "$tmp/stages/stage36/verify_stage36_36_09CY.py"; git worktree remove --force "$tmp"
+      - name: Assert CY exact-green promotion and CZ unlock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -56,31 +56,29 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V160_36_09CY_FIXED_A_REQUIRED_PLACES'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V161_36_09CY_EXACT_GREEN_CZ_UNLOCK'
           cy=s['authority_frontier']['36-09CY']
-          assert cy['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert cy['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert cy['certificate_blob_sha']=='781038311a51bf733d51ee62a01d710ce087a491'
           assert cy['verifier_blob_sha']=='679ed906e4d300fbc6221af332758f1e8c2a3b1a'
+          assert cy['exact_head']=='91f29d0081ed2e82399af1578f14d5851baf87d9'
+          assert cy['exact_head_ci']=='34199600232/101975129036'
           assert cy['FIXED_CLASS_REQUIRED_PLACES']==[2,5,7]
           assert cy['FIXED_CLASS_REQUIRED_PLACE_INVENTORY_COMPLETE'] is True
-          assert cy['PLACE7_NONCONSTANT'] is True
-          assert cy['PLACE2_IMAGE_CLASSIFIED'] is False
-          assert cy['PLACE5_IMAGE_CLASSIFIED'] is False
           assert cy['BRAUER_MANIN_OBSTRUCTION_PROVED'] is False
           cur=s['current']
           assert cur['unit']=='36-09CY'
           assert cur['next_exact_leaf']=='36-09CZ_FIXED_P2_BRAUER_LOCAL_IMAGE_ADELIC_SUM_PREFLIGHT'
-          assert cur['36_09CZ_entry_allowed'] is False
+          assert cur['36_09CZ_entry_allowed'] is True
           pg=s['promotion_gates']
-          assert pg['36_09CY_certificate_complete'] is True
-          assert pg['36_09CY_exact_head_ci_passed'] is False
-          assert pg['36_09CZ_entry_allowed'] is False
+          assert pg['36_09CY_exact_head_ci_passed'] is True
+          assert pg['36_09CZ_entry_allowed'] is True
           assert pg['BT_fixed_A_required_place_inventory_complete'] is True
           assert pg['BT_fixed_A_local_images_complete'] is False
           assert pg['BT_fixed_A_adelic_sum_classified'] is False
           assert pg['new_global_obstruction_obtained'] is False
-          for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
+          for key in ['fixed_p_parameter_exclusion_obtained','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09CY provisional checkpoint verified: fixed p=2 A=(7,t^2+4)_2 has complete required-place inventory {2,5,7}; CZ locked pending exact-head CI. No BM/fixed-p/receiver/endpoint credit.')
+          print('36-09CY exact-green parent verified and 36-09CZ entry unlocked. No BM/fixed-p/receiver/endpoint credit.')
           PY
           git diff --check
