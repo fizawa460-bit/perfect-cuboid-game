@@ -10,10 +10,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 ART = ROOT / "stages/stage35-ex/35ex-35/goal4ak-explicit-fb-assembly.json"
-ART_BLOB = "0df946bc8a85d635920f63df05283664cb85acd4"
-ART_CANONICAL = "459185c925796b564365b6deede51262d3595574877f01c209425ea5c28fb2a8"
+ART_BLOB = "5c543b8e5172e19cdb143ba69fcaa55098e5920f"
+ART_CANONICAL = "105060a54ae5c64ba4d3d978fce5a7b76e890ee1516268b09ac96c4722d982d9"
 LOADER = ROOT / "stages/stage35-ex/35ex-35/goal4ak_explicit_fb.py"
-LOADER_BLOB = "8b47b4453a630143690da04a238ffcd7dbf8c9b7"
+LOADER_BLOB = "3c5814fd98375f1eeeefd33f7fb99d9c888fbb9a"
 CLAIM_SYNC = ROOT / "stages/stage35-ex/35ex-35/goal4aj-audited-claim-sync.json"
 NUM_EQ = ROOT / "stages/stage35-ex/35ex-35/goal4aj-degree31-literal-numerator-divisor-equality.json"
 DEN_LOCK = ROOT / "stages/stage35-ex/35ex-35/goal4aj-degree31-denominator-source-lock.md"
@@ -27,7 +27,7 @@ EXPECTED_BLOBS = {
     DEN_LOCK: "95c0eef4a420234964217d3ceb41e57ea5e5b95d",
     GOAL4Z: "3a1c2174ee6e45bb693791ae2e974ed2f27fe2a3",
     NUM_MANIFEST: "85b52e921f36fc445fd243db1a3b3f65bb298966",
-    DEN_MANIFEST: "651896391b7fcd2e79dd978d698e170af1e1cca9",
+    DEN_MANIFEST: "586a37bfe90a5fd3773c7d3525dde7c873ddedca",
 }
 
 
