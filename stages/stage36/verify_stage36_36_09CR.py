@@ -18,13 +18,14 @@ PW36_04=ROOT/'docs/arsenal/cards/provisional/S36-PW04.md'
 PW36_07=ROOT/'docs/arsenal/cards/provisional/S36-PW07.md'
 BASE='d5545b32e6b3088bca53318998d434f2745b03e9'
 CQ_HEAD='a0d8cb76e43f926342f1a57b2b6aa903d19da63d'
+POL_BLOB='bf001d4ff4375281a901d52c147c35c28643b8a3'
 LOCKS={
-    CERT:'d1bde3d1da2d8482ff26457aa6e437ecbabbdfea',
+    CERT:'f31123ca0ed74db2fab03d033e63e4a9ced2bfeb',
     CQ:'c7042cc86ff94cf94db88c8cc65ce5b69441aabe',
     CQV:'cd7716e99f2c1da83b9bfb0ea39168b43d5752ce',
     CM:'06c3e6d1fcc2453dc44b84d50896abdc6a1658d7',
     BT:'e58c417ddfa340d96b2ac1fbae9e7da7c5224d78',
-    POL:'bf001d4ff4375281a901d52c147c35c28643b8a3',
+    POL:POL_BLOB,
     PW33_08:'c9e13a917811581578f833ea93619d85f717be6d',
     PW33_07:'7f1337858bc6f9006e101d810dd72e67aef534fd',
     PW36_04:'2f5eb6501d64393e2962aff4bb6d0b25aa104314',
@@ -56,6 +57,7 @@ def main()->None:
     c=json.loads(CERT.read_text()); cq=json.loads(CQ.read_text()); cm=json.loads(CM.read_text()); bt=json.loads(BT.read_text())
     assert c['base_main_sha']==BASE
     assert c['batch_parent']=={'pr':1712,'36_09CQ_exact_green_head':CQ_HEAD,'36_09CQ_exact_head_ci':'34188612840/101941880607'}
+    assert c['source_locks']['repository_asset_discovery']=={'path':'docs/research-os/policies/repository-asset-discovery.md','blob_sha':POL_BLOB}
     assert cq['cartier_dual_module']['identified_module']=='(Z/2Z)^3'
     assert cq['geometric_adapter_gap']['first_missing_obligation']=='BT_GEOMETRIC_CONNECTING_MAP_OR_POINT_DEPENDENT_LOCAL_EVALUATION_ADAPTER'
     assert cm['global_kummer_class']['five_root_twist_vector']==['xi0','xi1','xi2','xi0*xi1=[kappa*B]','xi0*xi2=[rho*B]']
@@ -65,7 +67,6 @@ def main()->None:
         'w3^2=(kappa*B)*(1-L*y)','w4^2=(rho*B)*(1+L*y)']
     assert bt['general_t_line_four_square_model']['general_AW_branch_full_cover_local_model_obtained'] is True
 
-    # Reusable-card type boundaries are load-bearing: protocol yes, concrete map/value no.
     t33_08=PW33_08.read_text(); t33_07=PW33_07.read_text(); t36_04=PW36_04.read_text(); t36_07=PW36_07.read_text()
     assert 'GERSTEN_CONNECTING_LOCALIZATION_ADAPTER' in t33_08
     assert 'PW08 promotes the construction/audit protocol, not that value' in t33_08
@@ -92,8 +93,6 @@ def main()->None:
     assert geo['source_bound_pointwise_five_character_class_materialized'] is False
     assert geo['source_bound_local_point_to_H1_KBT_dual_map_materialized'] is False
 
-    # Exhaustively verify the only positive mathematical construction in CR:
-    # the formal F2-dual of the exact 3->5 twist embedding.
     for n in range(8):
         x=((n>>0)&1,(n>>1)&1,(n>>2)&1)
         for m in range(32):
@@ -114,6 +113,6 @@ def main()->None:
     assert rr['route_status']=='FAIL_CLOSED_AT_BT_FIVE_ROOT_DECK_TORSOR_SOURCE_BINDING_WITH_EXACT_DUAL_PROJECTION_SEED'
     assert rr['next_leaf']=='36-09CS_BT_FIVE_ROOT_DECK_DUAL_PROJECTION_CONSTRUCTION_PREFLIGHT'
     for k,v in c['scope_firewalls'].items(): assert v is False,(k,v)
-    print('36-09CR verified: PW08 supplies protocol only; existing Stage33/Stage36 assets do not source-bind a BT dual evaluation. Exact F2 dual projection seed i^D=(a0+a3+a4,a1+a3,a2+a4) verified exhaustively; CS selected. No PT/BM/receiver/endpoint credit.')
+    print('36-09CR verified: certificate/policy provenance lock exact; PW08 supplies protocol only; exact F2 dual projection seed verified; CS selected. No PT/BM/receiver/endpoint credit.')
 
 if __name__=='__main__': main()
