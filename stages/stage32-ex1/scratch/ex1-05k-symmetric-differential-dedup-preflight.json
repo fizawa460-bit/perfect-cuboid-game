@@ -1,0 +1,109 @@
+{
+  "schema": "STAGE32EX1_EX1_05K_SYMMETRIC_DIFFERENTIAL_DEDUP_PREFLIGHT_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05K_SYMMETRIC_DIFFERENTIAL_LOW_GENUS_OBSTRUCTION_PREFLIGHT",
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "base_main_sha": "d5545b32e6b3088bca53318998d434f2745b03e9",
+  "parent_scratch_head": "c8a3a971d0ea2656df474de9c1a6616cf0904d17",
+  "question": "Does the symmetric-differential low-genus obstruction give a new exclusion for the fixed V6 genus-1 carrier population beyond retained Stage32 evidence?",
+  "source_locks": {
+    "ex1_00": {
+      "path": "stages/stage32-ex1/ex1-00-source-lock-and-target-adapter.json",
+      "canonical_sha256": "783526a604572a4a81a314c59db1a399d38209ee159352106d7c5f6b5e71fa6c",
+      "exact_use": "The fixed EX1 V6 population and the source-bound genus1_node_span dependency."
+    },
+    "stage32_post1648ad": {
+      "path": "stages/stage32/residual-32-01-production/post1648ad-genus1-node-span-preflight.json",
+      "canonical_sha256": "9bb1381f529d2c1674527ff35ec7a06cd6da537bce68ab80616bbfb0f6fa9557",
+      "exact_use": "Existing exact replay of the perfect-cuboid symmetric-differential genus-1 node-span necessary condition on the same V6 target."
+    },
+    "external_theorem": {
+      "authors": ["Nils Bruin", "Jordan Thomas", "Anthony Varilly-Alvarado"],
+      "title": "Explicit computation of symmetric differentials and its application to quasi-hyperbolicity",
+      "arxiv": "1912.08908v3",
+      "doi": "10.2140/ant.2022.16.1377",
+      "journal": "Algebra & Number Theory 16 (2022), 1377-1405",
+      "theorem": "Theorem 1.2",
+      "exact_use": "Genus-1 necessary node-span condition on the perfect cuboid surface; no stronger theorem is imported here."
+    }
+  },
+  "exact_retained_replay": {
+    "exceptional_node_count": 48,
+    "positive_exceptional_support_count": 47,
+    "zero_exceptional_ids": ["EXC_006"],
+    "positive_node_span_vector_rank": 7,
+    "positive_node_projective_span": "P6",
+    "deterministic_six_positive_nodes": [
+      "EXC_001",
+      "EXC_002",
+      "EXC_003",
+      "EXC_005",
+      "EXC_009",
+      "EXC_010"
+    ],
+    "deterministic_six_span_vector_rank": 6,
+    "deterministic_six_projective_span": "P5_hyperplane",
+    "six_positive_nodes_spanning_hyperplane_found": true,
+    "btva_genus1_six_node_hyperplane_alternative_compatible": true
+  },
+  "dedup_result": {
+    "route_status": "DOMINATED_BY_POST1648AD_EXACT_NODE_SPAN_PREFLIGHT",
+    "new_mathematical_pattern": false,
+    "new_symmetric_differential_computation_required": false,
+    "necessary_condition_satisfied": true,
+    "Q_states_entering": 29,
+    "Q_states_excluded": 0,
+    "Q_states_leaving": 29,
+    "V6_carrier_excluded": false,
+    "direct_symmetric_differential_node_span_lane_exhausted": true,
+    "reason": "The same-population Stage32 post1648AD replay already checks the BTvA genus-1 node-span condition. The fixed V6 support contains six positive nodes spanning a P5 hyperplane, so the theorem's relevant necessary alternative is compatible rather than contradictory."
+  },
+  "breadth_trigger": {
+    "reason": "Since the last breadth audit, EX1-05I support extraction blocked, EX1-05J generic jet/equigeneric transversality blocked with a new numerical gap, and EX1-05K symmetric differentials is dominated/nonpruning. This meets the cycle trigger for a new exhaustive-view audit and blind rediscovery.",
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false
+  },
+  "candidate_ledger": {
+    "LIVE": [
+      "NORMALIZATION_MAP_TANGENT_TORSION_VS_DELTA"
+    ],
+    "UNTESTED": [
+      "CASTELNUOVO_SEVERI_TWO_PROJECTION_GENUS_BOUND",
+      "HURWITZ_SPACE_SIMULTANEOUS_COVER_DIMENSION_COUPLING",
+      "ACTUAL_V6_SECTION_MATERIALIZATION"
+    ],
+    "EQUIVALENT": [],
+    "DOMINATED": [
+      "SYMMETRIC_DIFFERENTIAL_GENUS1_NODE_SPAN_DIRECT_ROUTE_BY_POST1648AD"
+    ],
+    "BLOCKED": [
+      "D0_SUPPORT_EXTRACTION_FROM_CURRENT_CORRESPONDENCE_ROSATI_DEGREE_DATA",
+      "GENERIC_JET_SEPARATION_REIDER_EQUIGENERIC_TRANSVERSALITY_AT_REQUIRED_DELTA_SCALE"
+    ]
+  },
+  "next_route": {
+    "route_id": "EX1_05L_NORMALIZATION_MAP_TANGENT_TORSION_VS_DELTA_PREFLIGHT",
+    "selection_reason": "This is materially distinct from missing discriminant support, generic jet separation, and the already-consumed node-span theorem. It can be formulated directly for the normalization map of a hypothetical genus-1 V6 carrier and asks whether map-theoretic ramification/torsion or deformation constraints can couple to the required normalization defect without first materializing D0 support.",
+    "overlap_firewall": "ACTUAL_V6_SECTION_MATERIALIZATION is preserved as UNTESTED but should not be duplicated inside EX1 while the dedicated EX2 reconstruction lane is active unless an exact import/adapter becomes available.",
+    "CYCLE_NEW_VIEW": "NORMALIZATION_MAP_TANGENT_TORSION_VS_DELTA",
+    "CYCLE_NEW_VIEW_SOURCE": "BLIND"
+  },
+  "firewalls": {
+    "btva_necessary_condition_promoted_to_carrier_existence": false,
+    "btva_necessary_condition_promoted_to_carrier_exclusion": false,
+    "positive_exceptional_pairing_promoted_to_effectivity": false,
+    "search_miss_promoted_to_repository_or_literature_absence": false,
+    "Q_state_exclusion_claimed": false,
+    "O210_exclusion_claimed": false,
+    "Q602_exclusion_claimed": false,
+    "V6_population_wide_exclusion_claimed": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  }
+}
