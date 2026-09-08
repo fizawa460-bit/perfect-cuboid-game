@@ -43,12 +43,12 @@ jobs:
         run: |
           set -euo pipefail
           H=91f29d0081ed2e82399af1578f14d5851baf87d9; tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"; python3 "$tmp/stages/stage36/verify_stage36_36_09CY.py"; git worktree remove --force "$tmp"
-      - name: Verify 36-09CZ selected-class adelic no-go
+      - name: Replay immutable 36-09CZ exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09CZ.py
-      - name: Assert CZ checkpoint and DA lock firewalls
+          H=bc0df8c5604dd66d9225afd125c0db847a49493e; tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"; python3 "$tmp/stages/stage36/verify_stage36_36_09CZ.py"; git worktree remove --force "$tmp"
+      - name: Assert CZ exact-green promotion and DA unlock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -56,29 +56,27 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V162_36_09CZ_SELECTED_CLASS_ADELIC_NO_GO'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V163_36_09CZ_EXACT_GREEN_DA_UNLOCK'
           cz=s['authority_frontier']['36-09CZ']
-          assert cz['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert cz['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert cz['certificate_blob_sha']=='dc0e80444707e57ce9ddb41fe76682a76e65f760'
           assert cz['verifier_blob_sha']=='213eb7f3da6a03e8caa7b7172cf3b51e5f261673'
-          assert cz['ZERO_EVALUATION_POINT_AT_EVERY_REQUIRED_PLACE'] is True
+          assert cz['exact_head']=='bc0df8c5604dd66d9225afd125c0db847a49493e'
+          assert cz['exact_head_ci']=='34200137461/101976800810'
           assert cz['SELECTED_CLASS_SOLE_BM_OBSTRUCTION'] is False
           assert cz['NO_GO_CONDITIONAL_ON_ADELIC_SOLUBILITY'] is True
           assert cz['FULL_BRAUER_GROUP_OBSTRUCTION_PROVED'] is False
-          assert cz['FIXED_P2_EXCLUDED'] is False
           cur=s['current']
           assert cur['unit']=='36-09CZ'
           assert cur['next_exact_leaf']=='36-09DA_FIXED_P2_SECOND_INDEPENDENT_BRAUER_CLASS_EVALUATION_MATRIX_PREFLIGHT'
-          assert cur['36_09DA_entry_allowed'] is False
+          assert cur['36_09DA_entry_allowed'] is True
           pg=s['promotion_gates']
-          assert pg['36_09CZ_certificate_complete'] is True
-          assert pg['36_09CZ_exact_head_ci_passed'] is False
-          assert pg['36_09DA_entry_allowed'] is False
-          assert pg['BT_fixed_A_selected_class_sole_BM_obstruction'] is False
+          assert pg['36_09CZ_exact_head_ci_passed'] is True
+          assert pg['36_09DA_entry_allowed'] is True
           assert pg['BT_second_independent_Brauer_class_found'] is False
           assert pg['Brauer_Manin_obstruction_obtained'] is False
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09CZ provisional checkpoint verified: selected nonconstant class A cannot be the sole BM obstruction conditional on adelic solubility; DA locked pending exact-head CI. No fixed-p/receiver/endpoint credit.')
+          print('36-09CZ exact-green parent verified and 36-09DA entry unlocked. Selected A alone is a conditional BM no-go; no fixed-p/receiver/endpoint credit.')
           PY
           git diff --check
