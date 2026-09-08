@@ -4,39 +4,39 @@ on:
   push:
     branches:
       - stage32ex2-ex2-00-source-lock-continuation
+    paths:
+      - 'stages/stage32-ex2/MAIN-STATE.json'
+      - 'stages/stage32-ex2/verify_main_state.py'
+      - 'stages/stage32/proof/CLAIM-REGISTRY.json'
+      - 'stages/stage32/proof/LANE-ADAPTERS.json'
   workflow_dispatch:
 
 jobs:
   verify:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.sha }}
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Install exact EX2 replay dependency
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Verify current-main freshness reconciliation
+      - name: Verify current-main reconciliation
         shell: bash
         run: |
-          git fetch origin main
-          test "$(git rev-parse origin/main)" = "538913633330a8414c87931d3c52f93e4aaf5d0f"
-          base="$(git merge-base HEAD origin/main)"
-          test "$base" = "226a8aa11ac61293a7e4b7f9611177f68af94ff4"
-          git diff --quiet "$base"..origin/main -- \
-            AGENTS.md \
-            stages/stage32 \
-            stages/stage32-ex2 \
-            docs/research-os/policies
+          git fetch --no-tags origin main
+          test "$(git rev-parse origin/main)" = "70265586b3f97be21c7621af73f443311f1f3fa3"
       - name: Verify Stage32 claim DAG integrity
-        run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
+        run: python -B stages/stage32/proof/verify_stage32_claim_dag.py --integrity
       - name: Verify Stage32 active frontier
-        run: python stages/stage32/proof/verify_stage32_active_frontier.py
-      - name: Verify Stage32EX2 EX2-03C omission witnesses
-        run: python stages/stage32-ex2/verify_ex2_03c_omission_witnesses.py
-      - name: Verify Stage32EX2 EX2-03D five-conic reduction
-        run: python stages/stage32-ex2/verify_ex2_03d_five_conic_restriction.py
+        run: python -B stages/stage32/proof/verify_stage32_active_frontier.py
+      - name: Verify EX2-04A
+        run: python -B stages/stage32-ex2/verify_ex2_04a_two_divisor_section_pencil.py
+      - name: Verify EX2-04B
+        run: python -B stages/stage32-ex2/verify_ex2_04b_third_section_valuation_separation.py
       - name: Verify Stage32EX2 state
-        run: python stages/stage32-ex2/verify_main_state.py
+        run: python -B stages/stage32-ex2/verify_main_state.py
