@@ -1,6 +1,6 @@
 name: Stage32EX3 retained EX3 exact replay
 
-# Final V3 audit handoff: exact-head replay after temporary diagnostics are removed.
+# MAIN O210 V2 audit handoff: replay audited EX3/V3 plus the provisional active MAIN O210 claim at exact head.
 on:
   push:
     branches:
@@ -8,15 +8,23 @@ on:
     paths:
       - 'stages/stage32-ex3/**'
       - 'stages/stage32/proof/CLAIM-REGISTRY.json'
+      - 'stages/stage32/proof/ACTIVE-FRONTIER.json'
       - 'stages/stage32/proof/LANE-ADAPTERS.json'
+      - 'stages/stage32/proof/verify_stage32_claim_dag.py'
+      - 'stages/stage32/proof/verify_stage32_active_frontier.py'
       - 'stages/stage32/proof/historical-routing-blobs/b6b361f50e2d05a0b43ae6d4f59a3da796c3fce1.json'
+      - 'stages/stage32/proof/historical-routing-blobs/93dee109899185602d9e8e4bb200f614a3b421e0.json'
       - '.github/workflows/stage32ex3-ex3-09-retained-exact-replay.yml'
   pull_request:
     paths:
       - 'stages/stage32-ex3/**'
       - 'stages/stage32/proof/CLAIM-REGISTRY.json'
+      - 'stages/stage32/proof/ACTIVE-FRONTIER.json'
       - 'stages/stage32/proof/LANE-ADAPTERS.json'
+      - 'stages/stage32/proof/verify_stage32_claim_dag.py'
+      - 'stages/stage32/proof/verify_stage32_active_frontier.py'
       - 'stages/stage32/proof/historical-routing-blobs/b6b361f50e2d05a0b43ae6d4f59a3da796c3fce1.json'
+      - 'stages/stage32/proof/historical-routing-blobs/93dee109899185602d9e8e4bb200f614a3b421e0.json'
       - '.github/workflows/stage32ex3-ex3-09-retained-exact-replay.yml'
 
 permissions:
@@ -32,13 +40,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Replay retained EX3 package
+      - name: Replay retained EX3 package and MAIN O210 V2 candidate
         run: |
           python stages/stage32-ex3/verify_ex3_00_o210_typed_cover_tower.py
           python stages/stage32-ex3/verify_ex3_04h_self_contained_trace_contradiction.py
           python stages/stage32-ex3/verify_ex3_09_o210_cover_geometry_exclusion_candidate.py
-          python stages/stage32-ex3/verify_ex3_10_main_o210_promotion_adapter_candidate_v2.py
           python stages/stage32-ex3/verify_ex3_10_main_o210_promotion_adapter_candidate_v3.py
+          python stages/stage32-ex3/verify_main_o210_exclusion_v2_candidate.py
           python stages/stage32-ex3/verify_main_state.py
       - name: Verify Stage32 claim management
         run: |
