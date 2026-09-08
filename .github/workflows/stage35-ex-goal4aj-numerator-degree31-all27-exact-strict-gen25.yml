@@ -36,7 +36,6 @@ jobs:
           test '${{ github.event.pull_request.head.ref }}' = 'stage35-ex-goal4aj-degree19-truncated-kernel'
           test '${{ github.event.pull_request.base.ref }}' = 'main'
           test -n "$BEFORE"
-          git fetch --no-tags --depth=1 origin "$BEFORE"
           git cat-file -e "$BEFORE^{commit}"
           mapfile -t changed < <(git diff --name-only "$BEFORE" "$HEAD")
           test "${#changed[@]}" -eq 1
@@ -52,7 +51,7 @@ jobs:
               b=p.read_bytes(); return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
           r=json.loads(key.read_text())
           assert r['schema']=='STAGE35_EX_GOAL4AJ_NUMERATOR_DEGREE31_ALL27_EXACT_STRICT_GEN25_RUNKEY_V1'
-          assert r['generation']==1 and r['armed'] is True
+          assert r['generation']==2 and r['armed'] is True
           assert r['pr_number']==1698
           assert r['branch']=='stage35-ex-goal4aj-degree19-truncated-kernel' and r['base']=='main'
           assert blob(src)==r['script_blob_sha1']=='5920842a35877245bcb01a457882674d2b891340'
