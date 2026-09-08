@@ -1,0 +1,62 @@
+name: Stage33 R5B3B3C1 Singular factor scratch
+
+on:
+  push:
+    branches:
+      - stage33-r5b3b3c1-singular-factor-scratch
+    paths:
+      - '.github/workflows/stage33-r5b3b3c1-singular-factor-scratch.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  factor-lin021:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact algebra dependencies
+        run: |
+          python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+          sudo apt-get update -qq
+          sudo apt-get install -y singular
+      - name: Emit exact LIN_021 norm to Singular
+        run: |
+          python - <<'PY'
+          import json, sys
+          from pathlib import Path
+          import sympy as sp
+          HERE = Path('stages/stage33/33-12')
+          sys.path.insert(0, str(HERE))
+          import materialize_e3_v91c1x_r5b3b3b_classify_20_novel_carriers_and_unify_27 as b
+          cert = json.loads((HERE / 'e3-v91c1x-r5b3b2-a2-02-formal-tame-symbol-hidden-carrier-inventory.json').read_text())
+          rows = {r['carrier_id']: r for r in cert['finite_linear_carrier_inventory']['carrier_rows']}
+          row = rows['LIN_021']
+          poly = b.full_sign_norm_poly(row['normalized_coefficients_Qi'])
+          if poly.total_degree() != 16:
+              raise SystemExit('degree moved')
+          normalized = b.normalize_norm(poly)
+          if len(normalized) != 150:
+              raise SystemExit(f'term count moved: {len(normalized)}')
+          expr = sp.sstr(poly.as_expr()).replace('**', '^').replace('I', 'i')
+          Path('/tmp/lin021.sing').write_text(
+              'ring r=(0,i),(a1,a2,a3),dp;\n'
+              'minpoly=i2+1;\n'
+              f'poly f={expr};\n'
+              'print("LIN021_BEGIN");\n'
+              'factorize(f);\n'
+              'print("LIN021_END");\n',
+              encoding='utf-8'
+          )
+          print(f'LIN_021 degree={poly.total_degree()} terms={len(normalized)}')
+          PY
+      - name: Exact Singular factorization probe
+        run: |
+          /usr/bin/time -f 'elapsed=%E maxrss_kb=%M' Singular -q /tmp/lin021.sing
