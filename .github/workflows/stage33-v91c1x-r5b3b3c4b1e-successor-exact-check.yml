@@ -1,0 +1,44 @@
+name: Stage33 V91C1X C4B1E successor exact check
+
+on:
+  push:
+    branches:
+      - stage33-v91c1x-r5b3b3c4b1e-1757-refinement-unit-preflight
+    paths:
+      - '.github/workflows/stage33-v91c1x-r5b3b3c4b1e-successor-exact-check.yml'
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b1e_1757_refinement_unit_or_cech_cochain_preflight.py'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b1e-1757-refinement-unit-or-cech-cochain-preflight.json'
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b1e1_literal_swap23_orbit_difference_cocycle.py'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b1e1-literal-swap23-orbit-difference-cocycle.json'
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b1d_swap23_tangent_pullback_comparison.py'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b1d-swap23-tangent-pullback-comparison.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b2d2-swap23-317-cover-common-refinement.json'
+      - 'stages/stage33/MAIN-STATE.json'
+      - 'stages/stage33/sync_main_state.py'
+  workflow_dispatch:
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  exact-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Rebuild and compare C4B1E preflight read-only
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b1e_1757_refinement_unit_or_cech_cochain_preflight.py
+      - name: Rebuild and compare C4B1E1 literal orbit difference read-only
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b1e1_literal_swap23_orbit_difference_cocycle.py
+      - name: Verify Stage33 mutable authority remains synchronized
+        run: python stages/stage33/sync_main_state.py --check
+      - name: Verify clean exact head
+        shell: bash
+        run: |
+          git diff --check
+          test -z "$(git status --porcelain)"
