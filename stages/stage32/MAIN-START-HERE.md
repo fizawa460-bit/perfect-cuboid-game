@@ -33,6 +33,14 @@ Historical Stage32 files may be opened only when the current state or active tas
 
 For exploratory or micro-diagnostic Stage32 MAIN work, do not push every narrow experiment directly onto a large shared PR when that push would re-trigger the PR-wide Stage32 workflow set. Prefer a scratch branch or equivalent isolated working branch, keep scratch results non-authoritative, and consolidate only successful retained leaves into the shared PR at an audit-ready checkpoint. Perform freshness synchronization/rebase and broad exact-head CI verification at that consolidation checkpoint rather than after every micro-diagnostic. This execution rule changes workflow cadence only; it does not weaken source locks, credit firewalls, hostile-audit requirements, or merge gates.
 
+## Claim-DAG synchronization trigger
+
+Ordinary `stage32main batch` startup remains exactly the four-item startup set above and does not preload Stage32 proof-management files.
+
+When MAIN reaches any `RETAINED_CONSOLIDATION`, `AUTHORITY_OR_AUDIT_TRANSITION`, `EX_TO_MAIN_PROMOTION`, `ACTIVE_FRONTIER_REMAP`, or `FINAL_MILESTONE_TRANSITION`, open `stages/stage32/proof/CLAIM-SYNC-CONTRACT.md` and complete its on-demand synchronization procedure before treating that checkpoint or downstream credit transition as complete.
+
+Scratch-only diagnostics do not trigger claim-DAG writes. A separate hostile-audit PASS/FAIL receipt does not silently mutate claim authority; any downstream use waits for claim synchronization.
+
 ## Write and merge discipline
 
 Before writes, follow the current gate and firewalls in `MAIN-STATE.json`. Proof/source-locked assets must not be deleted or relocated without an explicit reference audit authorized by the current state.
