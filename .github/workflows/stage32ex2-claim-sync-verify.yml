@@ -22,8 +22,8 @@ jobs:
         shell: bash
         run: |
           git fetch origin main
-          test "$(git rev-parse origin/main)" = "226a8aa11ac61293a7e4b7f9611177f68af94ff4"
-          git merge-base --is-ancestor 226a8aa11ac61293a7e4b7f9611177f68af94ff4 HEAD
+          test "$(git rev-parse origin/main)" = "538913633330a8414c87931d3c52f93e4aaf5d0f"
+          git merge-base --is-ancestor 538913633330a8414c87931d3c52f93e4aaf5d0f HEAD
       - name: Verify Stage32 claim DAG integrity
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
       - name: Verify Stage32 active frontier
