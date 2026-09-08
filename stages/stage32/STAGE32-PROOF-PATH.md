@@ -39,7 +39,7 @@ Every node in `ACTIVE-FRONTIER.json` carries:
 - explicit `blockers`;
 - `lane_links` with `MAIN=OWNER` and EX lanes as `ATTACKS` or `CONSUMES`.
 
-The active-frontier verifier composes these nodes with `CLAIM-REGISTRY.json`, then reuses the same immutable-core, dependency, cycle, source-lock, replay-verifier, and cross-scope checks. It also requires every EX1–EX5 lane to connect to at least one current frontier node.
+The active-frontier verifier composes these nodes with `CLAIM-REGISTRY.json`, then reuses the same immutable-core, dependency, cycle, source-lock, replay-verifier, and cross-scope checks. It also requires every EX1–EX5 lane to connect to at least one current frontier node and cross-checks those links against `LANE-ADAPTERS.json`.
 
 ## 3. Current active mathematical frontier
 
@@ -76,7 +76,7 @@ The V6 surface-node and smooth-ambient nodes are separate because the current MA
 
 ## 4. MAIN / EX attack map
 
-EX1–EX5 are research lanes inside this Stage32 DAG, not independent mathematical Stages. Their current connections are stored on the frontier nodes themselves:
+EX1–EX5 are research lanes inside this Stage32 DAG, not independent mathematical Stages. Their current connections are stored on the frontier nodes and mirrored in `LANE-ADAPTERS.json`:
 
 - `EX1`: attacks V6 actual-member/nonexistence, surface-node multibranch, smooth-ambient singularity, member-level identity, and contributes toward Stage32 closure.
 - `EX2`: attacks actual V6 member, population-wide V6 member nonexistence, smooth-ambient singularity, and member-level identity.
@@ -88,15 +88,9 @@ No `ATTACKS` or `CONSUMES` edge grants credit. EX -> MAIN mathematical promotion
 
 ## 5. FULL178 and closure
 
-`S32.FULL178.NUMERICAL_CENSUS.V1` is deliberately an incomplete goal node. Current retained production state still has:
+`S32.FULL178.NUMERICAL_CENSUS.V1` is deliberately an incomplete goal node. Current retained production state still has `FULL_178_ROW_SWEEP_AUTHORIZED=true`, `FULL_D176_D192_NUMERICAL_ORBIT_CENSUS=false`, and incomplete numerical Picard leaf checks. Authorization/indexability therefore cannot be confused with completed numerical census credit.
 
-- `FULL_178_ROW_SWEEP_AUTHORIZED=true`;
-- `FULL_D176_D192_NUMERICAL_ORBIT_CENSUS=false`;
-- numerical Picard leaf checks incomplete.
-
-Authorization/indexability therefore cannot be confused with completed numerical census credit.
-
-`S32.GOAL.STAGE32_CLOSURE.V1` is also only a stable goal node. Actual final closure remains governed by `FINAL-CHECK.json`, whose audited milestones are:
+`S32.GOAL.STAGE32_CLOSURE.V1` is the stable **frontier goal**, not the final audited proof certificate. Actual final closure remains governed by `FINAL-CHECK.json`, whose separate audited proof milestones are:
 
 - `S32.PROOF.NUMERICAL_CENSUS.V1`;
 - `S32.PROOF.EFFECTIVITY_DISPOSAL.V1`;
@@ -105,7 +99,7 @@ Authorization/indexability therefore cannot be confused with completed numerical
 - `S32.PROOF.HOSTILE_AUDIT_RELEASE.V1`;
 - `S32.PROOF.STAGE32_CLOSED.V1`.
 
-Those final audited proof nodes are still absent until their exact audited artifacts exist. `--final` must therefore remain `NOT_READY_STAGE32_FINAL_CHECK`.
+Those final audited proof nodes remain absent until their exact audited artifacts exist. `S32.GOAL.STAGE32_CLOSURE.V1` can never substitute for them; `--final` therefore remains `NOT_READY_STAGE32_FINAL_CHECK`.
 
 ## 6. Migration boundary
 
