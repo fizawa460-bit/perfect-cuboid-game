@@ -8,6 +8,7 @@ from pathlib import Path
 
 import sympy as sp
 
+import materialize_e3_v91c1x_r5b2c2_jacobian_minor_smooth_cover_node_glue as c2mod
 import materialize_e3_v91c1x_r5b2d2_swap23_317_cover_common_refinement as atlas
 import materialize_e3_v91c1x_r5b3b3c4b1e5b_rees_gauge_cross_action_divisor_transport as e5b
 
@@ -162,7 +163,7 @@ def build_certificate() -> dict:
 
     X = list(sp.symbols("a1 a2 a3 b1 b2 b3 c"))
     H = list(sp.symbols("H0:6"))
-    surface_ideal = [clean(x) for x in c2.quadrics(sp.Matrix(X))]
+    surface_ideal = [clean(x) for x in c2mod.quadrics(sp.Matrix(X))]
     Gsurface = sp.groebner(surface_ideal, *X, order="grevlex", extension=I)
 
     unique_factors: dict[str, sp.Expr] = {}
