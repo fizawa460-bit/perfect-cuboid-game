@@ -34,7 +34,7 @@ jobs:
           key='stages/stage32-ex2/runkeys/ex2-04b-blocker-checkpoint.json'
           d=json.load(open(key))
           assert d['schema']=='STAGE32EX2_EX2_04B_BLOCKER_CHECKPOINT_RUNKEY_V1'
-          assert d['generation']==2 and d['armed'] is True
+          assert d['generation']==3 and d['armed'] is True
           assert d['expected_current_main']=='70265586b3f97be21c7621af73f443311f1f3fa3'
           for item in d['source_locks'].values():
               actual=subprocess.check_output(['git','hash-object',item['path']],text=True).strip()
@@ -43,6 +43,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Install exact retained orbit replay dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
       - name: Fetch and pin current main
         shell: bash
         run: |
