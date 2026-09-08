@@ -25,7 +25,7 @@ STATE=ROOT/'stages/stage36/MAIN-STATE.json'
 BASE='8143dbaabb0cf164e65091dd315996f7eac68cf8'
 CM_HEAD='f5b270da04815e6339cd8795d0ddf58ce34138ca'
 CM_CI='34177867543/101910774245'
-CERT_BLOB='a0e491cf4b434d8d5da4d4c5b1ebed4e2969bdda'
+CERT_BLOB='e6b38b0bd621434a5cfa365ee1077241e1beb9bc'
 LOCKS={
     DIAG:'661d7276cd92ba8f790abee0f60646a55f99c443',
     CM:'06c3e6d1fcc2453dc44b84d50896abdc6a1658d7',
@@ -58,6 +58,7 @@ def main()->None:
     c=json.loads(CERT.read_text()); cm=json.loads(CM.read_text()); cj=json.loads(CJ.read_text()); ck=json.loads(CK.read_text()); lit=json.loads(LIT.read_text())
     assert c['base_main_sha']==BASE
     assert c['batch_parent']=={'pr':1707,'36_09CM_exact_green_head':CM_HEAD,'36_09CM_exact_head_ci':CM_CI}
+    assert c['source_locks']['lit_wf02_verifier']['blob_sha']==LOCKS[LITV]
     assert cm['global_kummer_class']['global_Kummer_class_constructed_for_each_fixed_BT_branch'] is True
     assert cm['adapter_result']['BT_dynamic_localization_system_adapter_complete_at_squareclass_cover_level'] is True
     assert cm['adapter_result']['LIT_WF02_applicability_PASS'] is False
