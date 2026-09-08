@@ -1,154 +1,125 @@
 # Stage32 proof path and claim-management contract
 
-Status: **ACTIVE MANAGEMENT LAYER — CURRENT ACTIVE FRONTIER MIGRATION ONLY**
+Status: **ACTIVE MANAGEMENT LAYER — POST-#1728 V6-NEGATIVE FRONTIER**
 
-This layer does not replace `MAIN-STATE.json`, existing certificates, leaf verifiers, hostile audits, or EX lane state. Routing authority remains in the existing state files; mathematical credit is bounded by the registered claim statement, exact source locks, authority status, and hostile-audit receipt.
+This layer does not replace `MAIN-STATE.json`, retained certificates, leaf verifiers, hostile audits, or FINAL-CHECK. Ordinary routing authority is `stages/stage32/MAIN-STATE.json`; mathematical credit is bounded by registered immutable claim cores, exact source locks, and hostile-audit receipts.
 
 Machine-readable files:
 
-- `stages/stage32/proof/CLAIM-REGISTRY.json` — base/current authority and lane contracts.
-- `stages/stage32/proof/ACTIVE-FRONTIER.json` — current active mathematical frontier only.
-- `stages/stage32/proof/CLAIM-REGISTRY.schema.json` — claim record contract inherited by the frontier shard.
-- `stages/stage32/proof/LANE-ADAPTERS.json` — external MAIN/EX claim-reference boundary and machine-readable claim-sync trigger set.
-- `stages/stage32/proof/CLAIM-SYNC-CONTRACT.md` — on-demand synchronization procedure used only at retained consolidation, authority/audit transitions, promotion, active-frontier remap, or final-milestone transition.
-- `stages/stage32/proof/verify_stage32_claim_dag.py` — base claim/DAG verifier and fail-close regression tests.
-- `stages/stage32/proof/verify_stage32_active_frontier.py` — composed base + active-frontier verifier, including lane startup claim-sync hooks and the stopped-lane promotion gate.
-- `stages/stage32/FINAL-CHECK.json` — fail-closed Stage32 closure check.
+- `stages/stage32/proof/CLAIM-REGISTRY.json`
+- `stages/stage32/proof/ACTIVE-FRONTIER.json`
+- `stages/stage32/proof/LANE-ADAPTERS.json`
+- `stages/stage32/proof/CLAIM-SYNC-CONTRACT.md`
+- `stages/stage32/proof/verify_stage32_claim_dag.py`
+- `stages/stage32/proof/verify_stage32_active_frontier.py`
+- `stages/stage32/FINAL-CHECK.json`
 
-## 1. Stable claim IDs and immutable core
+## 1. Stable claim / authority rule
 
-Claim IDs use `S32.<DOMAIN>.<SEMANTIC_NAME>.V<n>`.
+Claim IDs use `S32.<DOMAIN>.<SEMANTIC_NAME>.V<n>`. The immutable core contains claim ID, kind, statement, scope key/scope, PROVES, DOES_NOT_PROVE, dependencies, adapter bridges when present, source locks, and replay verifier. A semantic/evidence change requires a new versioned claim ID. Audit metadata may advance on the same unchanged core only from an external exact-head hostile-audit receipt.
 
-The immutable core is:
+Authority states remain `SCRATCH`, `PROVISIONAL`, `AUDITED`, `DECLARED_GOAL`, `SUPERSEDED`, and `REVOKED`. `DECLARED_GOAL` grants no proof credit. Hostile-audit PASS, claim-DAG synchronization, merge-ready freshness, and merge authorization are distinct gates.
 
-`claim_id + kind + statement + scope_key + scope + PROVES + DOES_NOT_PROVE + requires + bridges + source_locks + replay_verifier`.
+`MAIN-STATE.json` is mutable routing authority rather than immutable mathematical evidence. When an older registered claim source-locks a historical `MAIN-STATE.json` blob, the exact old routing blob may be retained under `proof/historical-routing-blobs/<blob_sha1>.json`; this does not relax any non-routing evidence lock.
 
-`bridges` is mandatory for every `adapter_contract` and contains at least exact `from_scope_key` and `to_scope_key`. It is omitted for ordinary non-adapter claims. Because bridge semantics are part of the immutable core, changing an adapter from one scope transfer to another necessarily changes `claim_core_sha256`; it cannot silently reuse the same semantic claim hash.
+## 2. Audited #1728 authority consumed by MAIN
 
-`claim_core_sha256` commits to that core. A changed quantifier, population, model, field, proof dependency, bridge, source lock, verifier, PROVES, or DOES_NOT_PROVE requires a new versioned claim ID. Audit metadata may advance on the same core, but hostile-audit PASS is never inferred or self-assigned.
+PR #1728 supplied two hostile-audit checkpoints.
 
-Authority states remain `SCRATCH`, `PROVISIONAL`, `AUDITED`, `DECLARED_GOAL`, `SUPERSEDED`, and `REVOKED`. `DECLARED_GOAL` is a stable target node and grants no mathematical credit. A state saying ready/repaired/CI-clean does not create `AUDITED` credit.
+Terminal EX1 claim:
 
-## 2. Active-frontier node contract
+- `S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2`
+- **AUDITED**
+- exact head `e3c4a04d5010e6dca9428722e334890e2614297a`
+- review `5147627146`
+- result `FULL_TARGET_CLOSURE / ALL_V6_GENUS1_CARRIERS_EXCLUDED` at exact EX1 scope.
 
-Every node in `ACTIVE-FRONTIER.json` carries:
+Concrete EX1 -> MAIN population adapter and MAIN-scope result:
 
-- exact `statement`;
-- `authority_status` and `frontier_status`;
-- `proves` / `does_not_prove`;
-- `requires` dependency IDs;
-- exact `source_locks` and optional `replay_verifier`;
-- `audit_receipt`;
-- explicit `blockers`;
-- `lane_links` with `MAIN=OWNER` and EX lanes as `ATTACKS` or `CONSUMES`.
+- `S32.ADAPTER.EX1_V6_CARRIER_TO_MAIN_V6_CARRIER.V1` — **AUDITED**
+- `S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2` — **AUDITED**
+- exact promotion-audit head `89ba026f05f9fe5344c0f0fb41fe8c2366032877`
+- review `5147810198`.
 
-The active-frontier shard contains mathematical claims only, so its declared common core-key list omits the adapter-only `bridges` field. Adapter claims live in the base registry, where bridge shape and bridge immutability are enforced. The active-frontier verifier composes the two registries and then reuses the same immutable-core, dependency, cycle, source-lock, replay-verifier, and cross-scope checks.
+The promotion audit establishes exact population identity for integral irreducible geometric-genus-1 curves in Picard class V6 on the minimal desingularization S for row `g1-d186`. Therefore Stage32 MAIN may consume the statement that this entire V6 genus-1 carrier population is empty.
 
-## 3. Current active mathematical frontier
+This does **not** itself grant Q602 exclusion, O210 exclusion, FULL178 completion, Stage32 closure, or Perfect Cuboid existence/nonexistence credit.
 
-The migrated nodes are exactly the currently load-bearing frontier, not a replay of Stage32 history:
+## 3. Post-#1728 active frontier
+
+The active frontier is now exactly:
 
 ```text
-V6 carrier decision
-  S32.V6.ACTUAL_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1    [DECLARED_GOAL / OPEN]
-  S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1        [DECLARED_GOAL / OPEN]
-
-remaining nonbijective-normalization branches
-  S32.V6.SURFACE_NODE_MULTIBRANCH.V2                      [DECLARED_GOAL / OPEN]
-  S32.V6.SMOOTH_AMBIENT_LOCUS_CURVE_SINGULARITY.V2       [DECLARED_GOAL / OPEN]
-
-O210 / Q602
-  S32.O210.EXCLUSION.V1                                   [DECLARED_GOAL / OPEN]
-  S32.Q602.SURVIVORS_73_97_235.V1                         [AUDITED]
-       -> S32.Q602.EXCLUSION.V1                           [DECLARED_GOAL / OPEN]
-
-marking / same-member bridge
-  S32.MAIN.HDECK_CHARACTER_DIRECTION.V1                   [AUDITED, base registry]
-       -> S32.J2.DELTA0INF_ABSOLUTE_W_LINE_MARKING.V1     [DECLARED_GOAL / OPEN]
-  S32.V6.ACTUAL_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1
-       -> S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V2      [DECLARED_GOAL / BLOCKED]
-
-production / closure
-  S32.FULL178.NUMERICAL_CENSUS.V1                         [DECLARED_GOAL / INCOMPLETE]
-       -> S32.GOAL.STAGE32_CLOSURE.V1                     [DECLARED_GOAL / BLOCKED]
+S32.O210.EXCLUSION.V1                       [DECLARED_GOAL / OPEN]
+S32.Q602.SURVIVORS_73_97_235.V1             [AUDITED_TRUE]
+S32.Q602.EXCLUSION.V1                        [DECLARED_GOAL / OPEN]
+S32.FULL178.NUMERICAL_CENSUS.V1              [DECLARED_GOAL / INCOMPLETE]
+S32.GOAL.STAGE32_CLOSURE.V1                  [DECLARED_GOAL / BLOCKED]
 ```
 
-The audited residue node records only that the current survivor set is exactly `[73,97,235]` and remains uncontracted by the audited H-deck preflight. It does not select an absolute residue and does not exclude Q602 or O210.
+The following former frontier nodes are no longer active because their premise/goal is dominated by the stronger audited whole-population V6 nonexistence result:
 
-The V6 surface-node and smooth-ambient nodes are separate because the current MAIN frontier has only reduced a surviving carrier to nonbijective normalization somewhere; neither location/type branch is closed. The existing bijective-normalization result remains a separate **PROVISIONAL** base-registry claim pending hostile re-audit after scope repair.
+- `S32.V6.ACTUAL_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1`
+- `S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1`
+- `S32.V6.SURFACE_NODE_MULTIBRANCH.V2`
+- `S32.V6.SMOOTH_AMBIENT_LOCUS_CURVE_SINGULARITY.V2`
+- `S32.J2.DELTA0INF_ABSOLUTE_W_LINE_MARKING.V1`
+- `S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V2`.
 
-## 4. MAIN / EX attack map
+Removal from the active frontier does **not** mean those old statements were independently hostile-audited true. In particular, the local multibranch/smooth-singularity branches and absolute-marking problem are retired only because no target V6 genus-1 carrier exists on the selected closure route.
 
-EX1–EX6 are research lanes inside the Stage32 management system, not independent mathematical Stages. Their current connections are stored in `LANE-ADAPTERS.json`; active lanes are mirrored on frontier-node `lane_links`:
+The historical `[73,97,235]` survivor claim remains audited arithmetic provenance. It is not contradicted by V6 population emptiness: it records what survived the older residue filter before the new population-level obstruction is applied.
 
-- `EX1`: attacks V6 actual-member/nonexistence, surface-node multibranch, smooth-ambient singularity, member-level identity, and contributes toward Stage32 closure.
-- `EX2`: attacks actual V6 member, population-wide V6 member nonexistence, smooth-ambient singularity, and member-level identity.
-- `EX3`: attacks surface-node/cover interaction, O210, Q602, and member-level identity; consumes the audited `[73,97,235]` survivor set.
-- `EX4`: attacks absolute `delta_0inf` W-line marking, Q602 exclusion, and member-level identity; consumes the audited H-deck direction and `[73,97,235]` set.
-- `EX5`: attacks the FULL178/receiver-breadth production route and therefore the numerical-census input to Stage32 closure.
-- `EX6`: merged reverse O266 endpoint lane. #1697 ended `O266_ENDPOINT_NOT_CLOSED` and the lane is currently `STOPPED_PENDING_NEW_ENDPOINT_INPUT`; it therefore has no active `ATTACKS`/`CONSUMES` ref and is promotion-blocked. Its bounded result does not exclude O266, descend to O264, or move current MAIN routing. Re-entry must first perform `ACTIVE_FRONTIER_REMAP` to an exact registered claim.
+## 4. Remaining O210 / Q602 adapters
 
-No `ATTACKS` or `CONSUMES` edge grants credit. EX -> MAIN mathematical promotion still requires an audited EX terminal claim plus an explicit current-target promotion adapter. `LANE-ADAPTERS.json` itself never promotes. A stopped lane with no active claim cannot promote at all.
+The next cross-lane obligation is deliberately typed.
 
-### 4.1 On-demand synchronization with ordinary batch work
+For O210, MAIN must retain and hostile-audit an adapter proving that the exact current O210 carrier/cover population is a subpopulation of the already audited-empty MAIN V6 integral-irreducible genus-1 carrier population. Only then may `S32.O210.EXCLUSION.*` receive authority from population emptiness. This is not an EX3 monodromy proof.
 
-Ordinary `stage32main batch` / `stage32exN-mainbatch` startup remains unchanged and does **not** preload this proof-management layer. Scratch-only diagnostics remain outside the claim DAG.
+For Q602, MAIN must separately retain and hostile-audit an adapter showing that the exact current Q602 admissible-residue population is attached only to that same carrier population. `S32.Q602.EXCLUSION.V1` expressly permits an equally exact population-preserving obstruction. If this adapter passes, Q602 can be closed without pretending that 73, 97, and 235 were individually eliminated by the old residue-specific arithmetic. O210 does not follow automatically from Q602, and Q602 does not follow automatically from O210.
 
-When a mapped lane reaches one of the machine-readable trigger events in `LANE-ADAPTERS.json` — `RETAINED_CONSOLIDATION`, `AUTHORITY_OR_AUDIT_TRANSITION`, `EX_TO_MAIN_PROMOTION`, `ACTIVE_FRONTIER_REMAP`, or `FINAL_MILESTONE_TRANSITION` — the agent must open `stages/stage32/proof/CLAIM-SYNC-CONTRACT.md` and synchronize only the affected claim/lane boundary before treating the checkpoint or downstream credit transition as complete.
+Until these adapters receive hostile-audit PASS and claim synchronization:
 
-Audit transitions are fail-closed and asymmetric: a PASS cannot raise consumable authority before synchronization, while a known FAIL or revocation blocks downstream consumption immediately even if the registry downgrade has not yet been written.
+```text
+Q602_excluded=false
+O210_excluded=false
+```
 
-A future EX lane may perform scratch/provisional research before enrollment, but it cannot promote mathematical credit to MAIN until `LANE-ADAPTERS.json` contains its exact state/startup references and the claim boundary required by its current status. A stopped lane may be enrolled with no active claim only under the explicit stopped-lane gate; re-entry must attach an exact active claim before promotion.
+## 5. MAIN / EX routing after remap
 
-### 4.2 EX1 retained terminal candidate checkpoint
+- `EX1`: `COMPLETED_AUDITED_HANDOFF`. No active attack; retained as authority/provenance.
+- `EX2`: `DOMINATED_BY_AUDITED_V6_NONEXISTENCE`. Actual-member/genus-1 reconstruction is no longer load-bearing; re-entry requires explicit remap.
+- `EX3`: remains attached to O210 and Q602 as an alternative route while MAIN tests the V6-empty population adapters.
+- `EX4`: absolute-marking route is parked; remains attached to Q602 as an alternative until the population adapter is audited.
+- `EX5`: remains active on FULL178 / receiver breadth.
+- `EX6`: remains `STOPPED_PENDING_NEW_ENDPOINT_INPUT`.
 
-The historical terminal claim `S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V1` is **SUPERSEDED**. Its immutable core remains bound to `stages/stage32-ex1/ex1-05af-retained-terminal-consolidation.json` and `stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation.py`, and its audit metadata records the hostile-audit FAIL at exact head `0ea608585ee1c747ee5737240671279f6f595612` (review `5147121377`). V1 is retained only for provenance and cannot satisfy FINAL-CHECK or downstream audited dependencies.
+Empty active refs for EX1/EX2/EX6 are fail-closed by `promotion_blocked_without_active_claim=true` in `LANE-ADAPTERS.json`.
 
-The repaired retained candidate `S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2` is now **AUDITED** by PR #1728 exact head `e3c4a04d5010e6dca9428722e334890e2614297a`, hostile-audit review `5147627146`. Its immutable core remains unchanged: manifest `stages/stage32-ex1/ex1-05af-retained-terminal-consolidation-v2.json`, wrapper `stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation_v2.py`, and load-bearing bridge `stages/stage32-ex1/verify_ex1_05af_cellular_obstruction_bridge.py`. The retained manifest itself remains the exact audited evidence snapshot; authority is advanced only in claim metadata from the external PASS receipt.
+## 6. Claim-DAG synchronization
 
-V2 consumes the hostile-audited EX1 package through 05H and the retained 05O–05AE chain, then computes the terminal obstruction in the independently certified cellular Smith cokernel. The repaired bridge consumes the certified `Lsat/Lleft` data and checks all `6144` legal assemblies against all four retained JI choices: all `24576` actual cokernel classes are nonzero of order two. The legacy hard-coded `OBS/PIVROWS` coordinates are diagnostic/provenance only and are not the load-bearing cokernel identification.
+Ordinary `stage32mainbatch` startup remains the Stage-local four-item startup and does not preload this proof layer. On `RETAINED_CONSOLIDATION`, `AUTHORITY_OR_AUDIT_TRANSITION`, `EX_TO_MAIN_PROMOTION`, `ACTIVE_FRONTIER_REMAP`, or `FINAL_MILESTONE_TRANSITION`, follow `CLAIM-SYNC-CONTRACT.md` and run:
 
-The re-audit of exact head `beec62400f5f2b49d325083fd9b745c3fd66763f` found no new mathematical defect and left one proof-path synchronization blocker. After that blocker was repaired, hostile re-audit of exact head `e3c4a04d5010e6dca9428722e334890e2614297a` returned **PASS**. Claim synchronization therefore advances V2 from `PROVISIONAL` to `AUDITED` using review `5147627146`; this prose records that external receipt and does not self-award audit credit.
+```text
+python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
+python stages/stage32/proof/verify_stage32_active_frontier.py
+```
 
-This checkpoint deliberately does **not** rewrite `stages/stage32-ex1/MAIN-STATE.json`: existing immutable audited claims source-lock that blob, and `stages/stage32-ex1/RETAINED-AUDIT-PROJECTION.json` is the fail-closed audit-only routing overlay for exact PR #1728. Ordinary MAIN-state routing therefore remains unchanged. No active-frontier goal is marked closed, no EX→MAIN promotion adapter is fired, no Q602/O210 MAIN exclusion is asserted, and no Stage32 MAIN mathematical credit is granted.
+Scratch-only diagnostics do not trigger claim-DAG writes.
 
-### 4.3 EX1 current-target promotion adapter checkpoint
+## 7. FULL178 and final closure remain open
 
-The EX1 terminal claim `S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2` has hostile-audit PASS at exact head `e3c4a04d5010e6dca9428722e334890e2614297a` (review `5147627146`) and is synchronized as **AUDITED**. The next boundary is not an automatic MAIN promotion: the generic `S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2` explicitly cannot establish a concrete cross-scope equivalence.
+`S32.FULL178.NUMERICAL_CENSUS.V1` remains incomplete. #1728 does not set `FULL_D176_D192_NUMERICAL_ORBIT_CENSUS=true` and does not discharge the independent numerical-production obligation.
 
-`S32.ADAPTER.EX1_V6_CARRIER_TO_MAIN_V6_CARRIER.V1` has hostile-audit PASS at exact head `89ba026f05f9fe5344c0f0fb41fe8c2366032877` (review `5147810198`) and is synchronized as an **AUDITED** concrete adapter from `S32.EX1.V6_CARRIER` to `S32.MAIN.V6_CARRIER`. Its replayable artifact `stages/stage32-ex1/ex1-07-current-main-v6-carrier-promotion-adapter.json` checks the exact current MAIN routing state, the EX1-00 target contract, shared V6 source locks, the audited terminal receipt, and the existing MAIN population-wide nonexistence goal. The bridge is limited to the geometric predicate “integral irreducible V6 member of geometric genus 1 on the minimal desingularization S”; it transfers no Q602/O210 or Stage32-closure semantics.
+Stage32 final closure is still governed by `FINAL-CHECK.json`. The reserved audited milestone chain remains:
 
-The corresponding MAIN-scope mathematical claim `S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2` is also synchronized as **AUDITED** by the same promotion-audit receipt. It depends explicitly on the audited EX1 terminal plus this concrete adapter. The promotion package is now consumable audited MAIN-scope authority. The existing active-frontier goal `S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1` remains in the frontier only until the MAIN-owned `ACTIVE_FRONTIER_REMAP`; EX1 deliberately does not rewrite `MAIN-STATE.json` or the active frontier. That remap is the next `stage32mainbatch` operation. No Q602/O210, absolute-residue, FULL178, Stage32-closure, or Perfect-Cuboid credit follows from this synchronization.
-
-## 5. FULL178 and closure
-
-`S32.FULL178.NUMERICAL_CENSUS.V1` is deliberately an incomplete goal node. Current retained production state still has `FULL_178_ROW_SWEEP_AUTHORIZED=true`, `FULL_D176_D192_NUMERICAL_ORBIT_CENSUS=false`, and incomplete numerical Picard leaf checks. Authorization/indexability therefore cannot be confused with completed numerical census credit.
-
-`S32.GOAL.STAGE32_CLOSURE.V1` is the stable **frontier goal**, not the final audited proof certificate. Actual final closure remains governed by `FINAL-CHECK.json`, whose separate audited proof milestones are:
-
-- `S32.PROOF.NUMERICAL_CENSUS.V1`;
-- `S32.PROOF.EFFECTIVITY_DISPOSAL.V1`;
-- `S32.PROOF.MULTIBRANCH_LEDGER.V1`;
-- `S32.PROOF.INTEGRATED_SYNTHESIS.V1`;
-- `S32.PROOF.HOSTILE_AUDIT_RELEASE.V1`;
+- `S32.PROOF.NUMERICAL_CENSUS.V1`
+- `S32.PROOF.EFFECTIVITY_DISPOSAL.V1`
+- `S32.PROOF.MULTIBRANCH_LEDGER.V1`
+- `S32.PROOF.INTEGRATED_SYNTHESIS.V1`
+- `S32.PROOF.HOSTILE_AUDIT_RELEASE.V1`
 - `S32.PROOF.STAGE32_CLOSED.V1`.
 
-FINAL-CHECK requires more than six independently AUDITED nodes. The final root `S32.PROOF.STAGE32_CLOSED.V1` must transitively depend on every other required milestone. A disconnected collection of audited milestone claims therefore fails closed even if the final root itself is AUDITED and carries `STAGE32_CLOSED=true`.
+The final root must transitively consume every required milestone, and all load-bearing mathematical/adapter dependencies must have audited authority. Until that chain exists, `--final` must remain `NOT_READY_STAGE32_FINAL_CHECK`.
 
-Those final audited proof nodes remain absent until their exact audited artifacts exist. `S32.GOAL.STAGE32_CLOSURE.V1` can never substitute for them; `--final` therefore remains `NOT_READY_STAGE32_FINAL_CHECK`.
-
-## 6. fail-close regression checks
-
-`verify_stage32_claim_dag.py --self-test-fail-closed` executes synthetic regressions for the management invariants most likely to be silently weakened, including disconnected final milestones, FINAL-CHECK contract weakening, unresolved mathematical goal consumption, and adapter bridge immutability/shape.
-
-The dedicated CI also runs the real `--final` path and requires exit code `2` plus `NOT_READY_STAGE32_FINAL_CHECK` while the reserved final chain is absent.
-
-The active-frontier verifier additionally checks mapped startup hooks, the exact five synchronization triggers, the asymmetric audit transition gate, and that the only mapped lane allowed to have no active claim is the explicitly stopped and promotion-blocked EX6 lane. CI separately replays `stages/stage32-ex6/verify_main_state.py`.
-
-## 7. Migration boundary
-
-This migration intentionally does **not** register every historical Stage32 PR, controller revision, FULL178 generation/checkpoint, archived route, scratch experiment, or old certificate as a claim. Existing evidence remains in place.
-
-Historical material is migrated only when it becomes a direct source/dependency of a current active claim. This keeps the DAG small and prevents a second history database from replacing the existing repository evidence system.
-
-No claim in this management migration authorizes merge, heavy compute, receiver/theorem credit, or Perfect Cuboid existence/nonexistence credit.
+No Stage32 claim here authorizes Perfect Cuboid existence/nonexistence or merge by itself.
