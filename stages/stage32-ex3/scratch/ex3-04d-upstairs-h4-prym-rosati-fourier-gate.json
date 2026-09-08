@@ -1,0 +1,132 @@
+{
+  "schema": "STAGE32EX3_EX3_04D_UPSTAIRS_H4_PRYM_ROSATI_FOURIER_GATE_SCRATCH_V1",
+  "stage": 32,
+  "lane": "EX3",
+  "leaf": "EX3-04_COMMON_V4_SIMULTANEOUS_TWO_PROJECTION_COMPATIBILITY",
+  "status": "SCRATCH_PROVISIONAL_DIAGNOSTIC_NOT_RETAINED",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "picard_class": "V6",
+    "O": 210,
+    "qprime": 4,
+    "Z": "X(8)",
+    "genus_Z": 5,
+    "H": "V4",
+    "C0": "Z/H",
+    "genus_C0": 2,
+    "projection_degrees_upstairs_D_to_Z": [105, 81]
+  },
+  "source_locks": {
+    "typed_cover_tower": {
+      "path": "stages/stage32-ex3/ex3-00-o210-typed-cover-tower.json",
+      "blob_sha1": "c28bda6c20340b4fc4ac060db158ca30926ecb38",
+      "canonical_sha256": "3a743b0607c59dc959f383fca8d97e54e8a740d197401e4c080b6fc4c94eaf07",
+      "used_facts": [
+        "P=Z x Z -> X=P/H_diag is finite etale degree 4",
+        "the connected qprime=4 pullback curve has projection degrees 105 and 81 to the two Z factors"
+      ]
+    },
+    "audited_rosati_repair_arithmetic": {
+      "path": "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json",
+      "canonical_sha256": "e28c7539e05b9c4836b9bc51c8f69316723eb8c368700a26706627045525fe07",
+      "used_facts": {
+        "X_side_D_square": 3874,
+        "X_side_deck_cross_1_u_v_uv": [3874, 3892, 4020, 4020],
+        "downstairs_pair_map_birational": true,
+        "downstairs_rosati_trace": 1204,
+        "downstairs_Q": 602
+      }
+    },
+    "rosati_trace_formula": {
+      "path": "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md",
+      "blob_sha1": "b0ea281eae453929c292059a919bc1f68b3080b3",
+      "used_formula": "sigma(Gamma)=2*d1*d2-Gamma^2, identified with the rational Rosati trace pairing"
+    },
+    "rational_H_character_algebra": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-rational-character-algebra-integral-index-boundary.json",
+      "canonical_sha256": "a71f5bd7416add7e168e15ceb5276813b2d04bb2f9e1a4e98f4111badfff0ed4",
+      "used_facts": [
+        "H^0(Z,K_Z) has trivial dimension 2 plus three nontrivial one-dimensional H-characters",
+        "End_H(J(Z)) tensor Q = M2(Q(sqrt(-2))) x Q(i)^3"
+      ],
+      "firewall": "Only the rational character decomposition is imported. The older unresolved integral NS(X) character-lattice index is not used as an integral surface-lattice statement."
+    }
+  },
+  "notation_firewall": {
+    "old_stage32_D_X": "the divisor D on the smooth Beauville surface X occurring in the post1500 repair, with D^2=3874",
+    "ex3_upstairs_D_P": "the connected normalization of the degree-4 etale pullback of D_X to P=Z x Z; this is the EX3 qprime=4 curve mapping to each Z",
+    "intersection_object": "for correspondence intersection arithmetic use the pulled-back divisor Gamma_P=q_P^*(D_X) on P, whose normalization is ex3_upstairs_D_P",
+    "normalization_does_not_replace_divisor_square": true
+  },
+  "etale_pullback_intersections": {
+    "degree_P_to_X": 4,
+    "X_level_intersections_order_1_u_v_uv": [3874, 3892, 4020, 4020],
+    "P_level_intersections_order_1_u_v_uv": [15496, 15568, 16080, 16080],
+    "rule": "(q_P^*A).(q_P^*B)=4*(A.B) for the finite etale degree-4 map q_P:P->X"
+  },
+  "upstairs_correspondence": {
+    "divisor": "Gamma_P subset Z x Z",
+    "bidegree": [105, 81],
+    "operator": "S=(g1)_*(g2)^* in End(J(Z))",
+    "H_equivariance": "Gamma_P is H_diag-invariant, hence S commutes with H",
+    "translate_operator_rule": "translation of Gamma_P by (h,1) corresponds to h*S; since S commutes with H, the cross Rosati pairing is Tr_Q(S^dagger*h*S)",
+    "twice_degree_product": 17010,
+    "trace_values_L_h_order_1_u_v_uv": [1514, 1442, 930, 930],
+    "trace_formula": "L_h=2*105*81-Gamma_P.(h,1)Gamma_P=Tr_Q(S^dagger*h*S)"
+  },
+  "H_character_fourier_inversion": {
+    "character_table_order_1_u_v_uv": {
+      "trivial": [1, 1, 1, 1],
+      "chi_u": [1, 1, -1, -1],
+      "chi_v": [1, -1, 1, -1],
+      "chi_uv": [1, -1, -1, 1]
+    },
+    "block_rational_rosati_traces": {
+      "trivial": 1204,
+      "chi_u": 274,
+      "chi_v": 18,
+      "chi_uv": 18
+    },
+    "trivial_block_consistency": "1204 equals the independently retained downstairs Tr_Q(T^dagger*T)=2*Q(T) with Q(T)=602",
+    "nontrivial_trace_sum": 310
+  },
+  "elliptic_prym_consequence": {
+    "reason": "Each nontrivial H-character has holomorphic dimension one, so its character abelian subvariety is elliptic; the retained rational endomorphism algebra on each such block is Q(i).",
+    "rosati_on_CM_elliptic_block": "complex conjugation; therefore Tr_Q(alpha^dagger*alpha)=2*Norm_Q(i)/Q(alpha)=2*deg(alpha)",
+    "forced_degrees_multiset": [137, 9, 9],
+    "maximal_order_candidate_superset": {
+      "norm_137_count": 8,
+      "norm_137": ["11+4i", "11-4i", "-11+4i", "-11-4i", "4+11i", "4-11i", "-4+11i", "-4-11i"],
+      "norm_9_count": 4,
+      "norm_9": ["3", "-3", "3i", "-3i"],
+      "ordered_scalar_triple_superset_count": 128,
+      "scope": "This is an ambient Z[i] superset. A nonmaximal CM order can only remove candidates; no candidate is promoted to a realized geometric correspondence."
+    }
+  },
+  "relation_to_prior_stage32": {
+    "not_a_reuse_of_surface_integral_NS_claim": true,
+    "why_integral_index_firewall_is_not_crossed": "The new integers 137,9,9 come from the canonical correspondence trace pairing on the actual product Z x Z and the rational H-character decomposition of J(Z), not from assigning an integral scale to the rational NS(X) character lattice.",
+    "ex3_04c_unique_plane_result_new_credit": false,
+    "ex3_04c_reason": "The H4-plane coordinate observation is dominated by the retained post1505 self-Richelot exact-W adapter and gives no new pruning of the current residues."
+  },
+  "diagnostic_verdict": {
+    "upstairs_H_character_Rosati_gate_obtained": true,
+    "nontrivial_Prym_degree_multiset_forced": true,
+    "finite_scalar_candidate_superset_obtained": true,
+    "norm_level_population_empty": false,
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "next_exact_route": "Combine the forced nontrivial Prym degree pattern {137,9,9} and its finite Q(i) scalar candidates with the exact relative-H character labels / branch-cycle orientation of the same carrier. Reject only combinations incompatible with the simultaneous degree105/81 cover and common H4 torsor; do not treat a scalar candidate as a realized cover."
+  },
+  "firewalls": {
+    "old_superseded_O210_exclusion_reused": false,
+    "rational_NS_character_algebra_promoted_to_integral_NS_lattice": false,
+    "finite_scalar_candidate_promoted_to_realized_correspondence": false,
+    "abstract_correspondence_promoted_to_V6_carrier": false,
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "stage32_main_credit": false,
+    "claim_dag_sync_triggered_by_this_scratch": false,
+    "merge_authorized": false
+  }
+}
