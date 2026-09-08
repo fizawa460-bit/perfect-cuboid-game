@@ -1,0 +1,77 @@
+{
+  "schema":"STAGE36_36_09CJ_FIXED_P_ALL_BAD_PLACE_LOCAL_INTEGRATION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09CJ",
+  "status":"EXACT_FIXED_P_ALL_FINITE_BAD_PLACE_BRANCH_LOCAL_REALIZATION_COMPLETE",
+  "base_main_sha":"deaa08537f1e68e04e4189a51c6e02d28b2b7b13",
+  "batch_parent":{"pr":1705,"36_09CI_exact_green_head":"7ebabfcef83571d172c65862bc4dc763ac999b9c","36_09CI_exact_head_ci":"34172356210/101894957109"},
+  "source_locks":{
+    "stage36_36_09CB":{"path":"stages/stage36/36-09CB/general-q2-source-conic-realization-preflight.json","blob_sha":"a55a48213f9e06346f7f500387ac812d85a7acc0"},
+    "stage36_36_09CB_verifier":{"path":"stages/stage36/verify_stage36_36_09CB.py","blob_sha":"4e7d21c03cd7fdcf07b082a76fb626cc6fea694d"},
+    "stage36_36_09CD":{"path":"stages/stage36/36-09CD/fixed-p-old-six-branch-filter-integration-preflight.json","blob_sha":"78adcb3cf8f80c58cab77cedd3e694df8e266c8e"},
+    "stage36_36_09CH":{"path":"stages/stage36/36-09CH/selected-alpha-beta-hmu1-local-realization-preflight.json","blob_sha":"abedc4b33bf1c92e98efdcc43b5f0744630750a7"},
+    "stage36_36_09CH_verifier":{"path":"stages/stage36/verify_stage36_36_09CH.py","blob_sha":"98ae4bc76749c82b4165c7a7b37d7445f42fa6dc"},
+    "stage36_36_09CI":{"path":"stages/stage36/36-09CI/general-q-reservoir-local-realization-preflight.json","blob_sha":"d4d5e44bdee091f5f8d8a7048013ffba552af698"},
+    "stage36_36_09CI_verifier":{"path":"stages/stage36/verify_stage36_36_09CI.py","blob_sha":"53655d24a59024766b6be3cba00720bed86916ad"}
+  },
+  "fixed_p_branch_family":{
+    "name":"F_bad^branch(p)",
+    "definition":"the exact 36-09CH surviving outer squareclass branches at fixed p=a/b",
+    "same_global_branch_across_places":true,
+    "local_coordinates_may_vary_by_place":true,
+    "does_not_require_one_common_t_across_distinct_completions":true
+  },
+  "finite_bad_place_cover":{
+    "bad_places":"2 together with the odd primes dividing P*M*D0*Q, where D0=a*b*(a-b)*(a+b) and Q=a^2+b^2",
+    "prime2":"36-09CB proves every BZ survivor has a Q2 point on the exact BT full-cover local model; every CH survivor is downstream of the BZ/CD pipeline",
+    "old_six":"36-09CH proves branchwise local existence/nonexistence is completely decided at every odd prime dividing P,M,a,b,a-b,a+b, and every CH survivor is locally realizable there",
+    "Q_reservoir":"36-09CI proves the inherited BU row Legendre(mu*A*B,q)=+1 is necessary and sufficient at every odd q|Q; every CH survivor already comes through the fixed-p integrated Q-row pipeline",
+    "branchwise_all_finite_bad_places_locally_realized":true,
+    "new_branch_filter":false
+  },
+  "exact_fixed_p_diagnostics":{
+    "p_1_over_2":{"CH_survivors":3,"after_CJ_all_finite_bad_places":3,"fixed_p_excluded":false},
+    "p_2_over_11":{"CH_survivors":5,"after_CJ_all_finite_bad_places":5,"fixed_p_excluded":false},
+    "diagnostic_p_3_over_4":{"scope":"same exact audited CH diagnostic generator; not a retained-candidate membership claim","CH_survivors":3,"after_CJ_all_finite_bad_places":3},
+    "diagnostic_p_1_over_8":{"scope":"same exact audited CH diagnostic generator; not a retained-candidate membership claim","CH_survivors":3,"after_CJ_all_finite_bad_places":3}
+  },
+  "main_consequence":{
+    "statement":"For each fixed p and each outer squareclass branch surviving 36-09CH, the exact BT full-cover model has a local point at every finite bad place covered by the current Stage36 bad-place taxonomy: v=2 and every odd prime dividing P*M*D0*Q.",
+    "finite_bad_place_branch_local_realization_complete":true,
+    "new_point_independent_branch_filter":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false
+  },
+  "remaining_local_boundary":{
+    "good_odd_primes_complete":false,
+    "real_place_complete":false,
+    "full_adelic_local_solubility_complete":false,
+    "next_question":"decide the real place and odd primes outside the finite bad-place support, then determine whether every CH branch is everywhere locally soluble"
+  },
+  "route_result":{
+    "route_status":"PASS_ALL_FINITE_BAD_PLACE_LOCAL_INTEGRATION_NO_NEW_FILTER",
+    "finite_bad_place_branch_local_realization_complete":true,
+    "new_point_independent_branch_filter":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_closed":false,
+    "next_leaf":"36-09CK_GOOD_PRIME_AND_REAL_PLACE_LOCAL_INTEGRATION_PREFLIGHT"
+  },
+  "scope_firewalls":{
+    "finite_bad_place_complete_means_everywhere_local":false,
+    "CJ_survivor_is_global_receiver":false,
+    "CJ_survivor_is_rational_point":false,
+    "good_prime_and_real_place_integration_complete":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "local_parameter_elimination_exhausted":false,
+    "uniform_finite_Q_squareclass_family":false,
+    "finite_exhaustive_H1_twist_family":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

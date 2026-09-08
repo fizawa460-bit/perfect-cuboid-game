@@ -8,6 +8,9 @@ on:
       - 'docs/arsenal/cards/formal/S34-W01.md'
       - 'docs/arsenal/cards/formal/S34-W02.md'
       - 'docs/arsenal/cards/workflows/LIT-WF02.md'
+      - 'docs/arsenal/lit-wf02-global-h1-localization-reciprocity-contract.json'
+      - 'docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py'
+      - 'docs/stage36-literature-strengthening-promotion.md'
   workflow_dispatch:
 permissions:
   contents: read
@@ -36,21 +39,22 @@ jobs:
           assert s['freshness']['current_main']==sys.argv[1]
           assert s['freshness']['stage36_source_drift'] is False
           assert s['freshness']['sync_required_before_audit'] is False
+          assert s['freshness']['final_checkpoint_main_reverified'] is True
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay exact 36-09CH green checkpoint evidence
+      - name: Replay immutable 36-09CL exact-green evidence
         shell: bash
         run: |
           set -euo pipefail
-          H=59de2d2ad03fd33e893ef250698ca9459dd3a5a0
+          H=76603296ade67b2544aaaa16559358f2a2793272
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CH.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09CL.py"
           git worktree remove --force "$tmp"
-      - name: Assert CH hostile-audit checkpoint and CI lock
+      - name: Assert final CL hostile-audit checkpoint and credit firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -58,32 +62,39 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V127_36_09CH_HOSTILE_AUDIT_CHECKPOINT'
-          assert s['status']=='HOSTILE_AUDIT_CHECKPOINT_PENDING'
-          ch=s['authority_frontier']['36-09CH']
-          assert ch['status']=='PROVISIONAL_EXACT_GREEN_CHECKPOINT_PENDING_HOSTILE_AUDIT'
-          assert ch['exact_head']=='59de2d2ad03fd33e893ef250698ca9459dd3a5a0'
-          assert ch['exact_head_ci']=='34167900207/101882487436'
-          assert ch['ALL_OLD_SIX_LOCAL_REALIZATION_COMPLETE'] is True
-          assert ch['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
-          assert ch['RECEIVER_CLOSED'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V134_36_09CL_EXACT_GREEN_HOSTILE_AUDIT_CHECKPOINT'
+          cl=s['authority_frontier']['36-09CL']
+          assert cl['status']=='PROVISIONAL_EXACT_GREEN_CHECKPOINT'
+          assert cl['certificate_blob_sha']=='9c08afb5b5f712c8d85df5fd20ae57f7e0f7ef39'
+          assert cl['verifier_blob_sha']=='a340b7c90a4df39bb08f56655ada4048cca1fa17'
+          assert cl['exact_head']=='76603296ade67b2544aaaa16559358f2a2793272'
+          assert cl['exact_head_ci']=='34175134387/101902927852'
+          assert cl['GLOBAL_OBSTRUCTION_ROUTER_FAIL_CLOSED'] is True
+          assert cl['LIT_WF02_APPLICABILITY_PASS'] is False
+          assert cl['MISSING_GLOBAL_CLASS_ADAPTER'] is True
+          assert cl['MISSING_DYNAMIC_LOCALIZATION_ADAPTER'] is True
+          assert cl['NEW_GLOBAL_OBSTRUCTION_OBTAINED'] is False
           cur=s['current']
-          assert cur['unit']=='36-09CH-HOSTILE-AUDIT-CHECKPOINT'
-          assert cur['next_exact_leaf']=='36-09CI_GENERAL_Q_RESERVOIR_LOCAL_REALIZATION_PREFLIGHT'
-          assert cur['next_owner']=='HOSTILE_AUDIT_PR_1699'
-          assert cur['substantive_batch_pr_continues'] is False
+          assert cur['unit']=='36-09CL'
+          assert cur['next_exact_leaf']=='36-09CM_GLOBAL_KUMMER_CLASS_AND_LOCALIZATION_ADAPTER_PREFLIGHT'
           assert cur['hostile_audit_checkpoint_reached'] is True
-          assert cur['36_09CI_entry_allowed'] is False
+          assert cur['hostile_audit_required_before_next_leaf'] is True
+          assert cur['36_09CM_entry_allowed'] is False
+          assert cur['substantive_batch_pr_continues'] is False
           pg=s['promotion_gates']
-          assert pg['36_09CH_exact_head_ci_passed'] is True
-          assert pg['36_09CH_hostile_audit_passed'] is False
-          assert pg['36_09CI_unlocked'] is False
-          assert pg['all_old_six_local_realization_complete'] is True
-          assert pg['general_Q_reservoir_local_realization_complete'] is False
+          assert pg['36_09CL_exact_head_ci_passed'] is True
+          assert pg['hostile_audit_checkpoint_reached'] is True
+          assert pg['hostile_audit_passed'] is False
+          assert pg['36_09CM_unlocked'] is False
+          assert pg['36_09CM_entry_allowed'] is False
+          assert pg['LIT_WF02_applicability_pass'] is False
+          assert pg['global_H1_class_constructed'] is False
+          assert pg['dynamic_localization_adapter_constructed'] is False
+          assert pg['new_global_obstruction_obtained'] is False
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          for key in ['candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
+          for key in ['LIT_WF02_applicability_pass','global_H1_class_constructed','Selmer_membership_obtained','Poitou_Tate_obstruction_obtained','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert s['claims'][key] is False
-          print('36-09CH hostile-audit checkpoint verified: exact old-six local-realization evidence is green and CI Q-reservoir continuation is fail-closed pending hostile audit PASS.')
+          print('36-09CL exact-green hostile-audit checkpoint verified; 36-09CM is locked and all global/receiver/endpoint credit remains false.')
           PY
           git diff --check
