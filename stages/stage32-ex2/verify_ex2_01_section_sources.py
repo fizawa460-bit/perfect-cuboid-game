@@ -89,7 +89,10 @@ def main() -> None:
 
     assert "FINITE_GROUP_EQUIVARIANT_RECONSTRUCTION" in pw05
     assert "semantic/geometric identification merely from reconstructed algebra" in pw05
-    assert "line-bundle linearization" in lanes["SYMMETRY_OR_GALOIS_SECTION_ORBITS"]["missing_object"]
+    symmetry_lane = lanes["SYMMETRY_OR_GALOIS_SECTION_ORBITS"]
+    assert symmetry_lane["status"] == "BLOCKED_LINE_BUNDLE_LINEARIZATION"
+    missing = symmetry_lane["missing_object"]
+    assert "linearization" in missing and "H0" in missing
 
     discovery = c["bounded_discovery"]
     assert discovery["direct_reusable_coordinate_section_asset_found"] is False
