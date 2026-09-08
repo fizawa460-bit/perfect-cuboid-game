@@ -38,21 +38,16 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay immutable 36-09DT exact-green mathematical evidence
+      - name: Replay immutable 36-09DU exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          H=bc240925594794550c4bac7b78d2c8befbaf90c5
+          H=b15538c46239dd7b2948ca722c3f6c9db2d93253
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09DT.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09DU.py"
           git worktree remove --force "$tmp"
-      - name: Verify 36-09DU explicit Phi-descent character functions
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09DU.py
-      - name: Assert V206 DU provisional firewalls and DV lock
+      - name: Assert V207 DU exact-green parent and DV unlock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -60,28 +55,27 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V206_36_09DU_PHI_DESCENT_FUNCTIONS_PENDING_EXACT_HEAD_CI'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V207_36_09DU_EXACT_GREEN_DV_UNLOCK_PENDING_PROMOTION_REPLAY'
           du=s['authority_frontier']['36-09DU']
-          assert du['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert du['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert du['certificate_blob_sha']=='d2a8bab0ab63406c7c1ced5d077cc523d5648ba2'
           assert du['verifier_blob_sha']=='7aa92b541c0dc8debec6d316f1946522256bc74f'
           assert du['source_blob_sha']=='c9e9f9309555106ff5c0ed947c3973c0b11b1753'
+          assert du['exact_head']=='b15538c46239dd7b2948ca722c3f6c9db2d93253'
+          assert du['exact_head_ci']=='34240685194/102109753424'
           cur=s['current']; pg=s['promotion_gates']
           assert cur['unit']=='36-09DU'
-          assert cur['36_09DU_entry_allowed'] is True
-          assert cur['36_09DV_entry_allowed'] is False
-          assert pg['36_09DT_exact_head_ci_passed'] is True
-          assert pg['36_09DT_promotion_replay_passed'] is True
-          assert pg['36_09DU_certificate_complete'] is True
-          assert pg['36_09DU_exact_head_ci_passed'] is False
-          assert pg['36_09DV_entry_allowed'] is False
-          assert pg['BT_Phi_connecting_coordinate_functions_constructed'] is False
+          assert cur['36_09DV_entry_allowed'] is True
+          assert pg['36_09DU_exact_head_ci_passed'] is True
+          assert pg['36_09DU_promotion_replay_passed'] is False
+          assert pg['36_09DV_entry_allowed'] is True
+          assert pg['BT_Phi_connecting_coordinate_functions_constructed'] is True
           assert pg['BT_Phi_required_place_set_certified'] is False
           assert pg['BT_Phi_Selmer_local_condition_map_computed'] is False
           assert pg['BT_global_Phi_Selmer_group_computed'] is False
           assert pg['BT_proSelmer_cokernel_size_computed'] is False
           for key in ['BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          print('36-09DU provisional verifier passed; explicit Phi-descent coordinate functions await exact-head CI and DV remains locked. No downstream credit is granted.')
+          print('36-09DU immutable exact-green evidence replayed; 36-09DV is unlocked for required-place and local-image computation only. No downstream credit is granted.')
           PY
           git diff --check
