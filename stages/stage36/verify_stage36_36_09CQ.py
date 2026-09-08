@@ -96,7 +96,7 @@ def main()->None:
     assert cm['global_kummer_class']['module']=='K_BT=mu_2^3 over Q'
     assert cm['global_kummer_class']['class_name']=='Xi_BT'
     assert cp['adapter_result']['first_missing_obligation']=='BT_CARTIER_DUAL_CLASS_AND_LOCAL_CONDITION_ADAPTER'
-    assert co['adapter_result']['LIT_WF02_applicability_PASS'] is False
+    assert co['lit_wf02_consequence']['LIT_WF02_PASS_package_emitted'] is False
 
     left=c['fixed_left_class']; dual=c['cartier_dual_module']; fam=c['global_dual_h1_family']; pair=c['local_tate_pairing']; rec=c['global_reciprocity_boundary']; gap=c['geometric_adapter_gap']; rr=c['route_result']
     assert left['module']=='K_BT=mu_2^3' and left['class_name']=='Xi_BT'
