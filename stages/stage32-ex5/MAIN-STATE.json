@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V1_EX5_01_COMPLETE",
+  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V1_EX5_02_COMPLETE",
   "role": "ORDINARY_STAGE32EX5_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX5",
   "execution": {
@@ -10,7 +10,7 @@
     "audit_contract": "stages/stage32-ex5/AUDIT-CONTRACT.md"
   },
   "bootstrap": {
-    "base_main_sha": "0134d5f42df5aa290f5514cc48822e80a34d083c",
+    "base_main_sha": "d5545b32e6b3088bca53318998d434f2745b03e9",
     "work_branch": "stage32ex5-ex5-00-source-lock",
     "active_work_pr": 1710,
     "merge_authorized": false
@@ -50,19 +50,20 @@
     "EX5_route_decision_closure_is_Stage32_full_target_closure": false
   },
   "current": {
-    "status": "EX5_01_RECEIVER_LEDGER_COMPLETE_UNAUDITED_RETAINED",
+    "status": "EX5_02_CURRENT_COVERAGE_DEPENDENCY_GRAPH_COMPLETE_UNAUDITED_RETAINED",
     "breadth_cycle": "EX5_BREADTH_CYCLE_1",
-    "leaf": "EX5-02_CURRENT_COVERAGE_AND_DEPENDENCY_GRAPH",
-    "subroute": "MAP_EACH_OPEN_RECEIVER_ROW_TO_CURRENT_WEAPONS_ADAPTERS_AND_BLOCKERS",
-    "objective": "Build the breadth topology over the exact 185-row EX5-01 ledger, separating closed catalogue rows, residual numerical rows, effectivity, multibranch, and the single current V6/O210/Q602 representative branch.",
-    "next_route_on_success": "EX5-03_CLEAN_ROOM_MATERIALLY_DISTINCT_ROUTE_GENERATION",
-    "next_route_on_block": "RECORD_EXACT_UNMAPPED_RECEIVER_OR_DEPENDENCY_AND_KEEP_COVERAGE_GRAPH_INCOMPLETE",
+    "leaf": "EX5-03_CLEAN_ROOM_MATERIALLY_DISTINCT_ROUTE_GENERATION",
+    "subroute": "GENERATE_CONCRETE_RECEIVER_IMPLICATIONS_FROM_FROZEN_OBJECTS_BEFORE_ARSENAL_SOLUTION_LOOKUP",
+    "objective": "Generate and freeze materially distinct candidate route implications from the exact EX5-00/01/02 receiver objects and blocker topology, before consulting Arsenal cards for solutions.",
+    "next_route_on_success": "EX5-04_REPOSITORY_ASSET_DISCOVERY_AND_DEDUPLICATION",
+    "next_route_on_block": "RECORD_EXACT_ROUTE_FAMILY_SEMANTIC_IRRELEVANCE_OR_GENERATION_GAP_WITHOUT_ARSENAL_BACKFILL",
     "stop_semantics": "LEAF_GATE_ONLY_NOT_STAGE_EXHAUSTION"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex5/ex5-00-source-lock-target-contract.json",
     "stages/stage32-ex5/ex5-01-exact-receiver-ledger.json",
-    "stages/stage32-ex5/verify_ex5_01_receiver_ledger.py",
+    "stages/stage32-ex5/ex5-02-current-coverage-dependency-graph.json",
+    "stages/stage32-ex5/verify_ex5_02_coverage_graph.py",
     "stages/stage32-ex5/stage32-ex5.md"
   ],
   "frontier": {
@@ -70,7 +71,7 @@
     "receiver_population_contract_complete": true,
     "receiver_ledger_complete": true,
     "receiver_ledger_coverage_certified": true,
-    "current_coverage_dependency_graph_complete": false,
+    "current_coverage_dependency_graph_complete": true,
     "clean_room_candidate_universe_frozen": false,
     "arsenal_dedup_complete": false,
     "route_scorecard_complete": false,
@@ -107,14 +108,26 @@
     "source_lock_verifier": "stages/stage32-ex5/verify_ex5_00_source_lock.py",
     "receiver_ledger_artifact": "stages/stage32-ex5/ex5-01-exact-receiver-ledger.json",
     "receiver_ledger_verifier": "stages/stage32-ex5/verify_ex5_01_receiver_ledger.py",
+    "coverage_graph_artifact": "stages/stage32-ex5/ex5-02-current-coverage-dependency-graph.json",
+    "coverage_graph_verifier": "stages/stage32-ex5/verify_ex5_02_coverage_graph.py",
     "unibranch_degree_row_count": 183,
     "unibranch_degree_row_checksum": "3b039e94c850bd5669db0288ef0806a0f373952c181993e07c70a54f285ff6b0",
     "row_count": 185,
     "coverage_checksum": "3a700ed40b5d0e6bf212f569ed85279a15ac90bb8a87a96e61f01729ffa0ca95",
-    "status_counts": {"CLOSED":5,"OPEN":180,"UNKNOWN":0,"CONDITIONAL":0,"OUT_OF_SCOPE":0},
+    "status_counts": {
+      "CLOSED": 5,
+      "OPEN": 180,
+      "UNKNOWN": 0,
+      "CONDITIONAL": 0,
+      "OUT_OF_SCOPE": 0
+    },
+    "coverage_graph_canonical_sha256": "36f782aa6948b0e43a7bfc3d812ff43079051c871ab4e92c63056fbb6159d1bc",
+    "coverage_graph_primary_open_mapping_count": 180,
+    "coverage_graph_special_v6_overlay_row_count": 1,
     "source_lock_complete": true,
     "receiver_ledger_complete": true,
     "receiver_ledger_coverage_certified": true,
+    "current_coverage_dependency_graph_complete": true,
     "chat_or_memory_counts_treated_as_authority": false,
     "V6_O210_Q602_treated_as_definition_of_all_receivers": false
   },
@@ -125,7 +138,7 @@
     "clean_room_generation_must_precede_asset_solution_lookup": true
   },
   "credit": {
-    "level": "EX5_01_RECEIVER_LEDGER_ONLY_NO_MATHEMATICAL_CREDIT",
+    "level": "EX5_02_COVERAGE_TOPOLOGY_ONLY_NO_MATHEMATICAL_CREDIT",
     "necessary_condition_only": false,
     "branch_exclusion": false,
     "qualified_independent_stage32_route_established": false,
@@ -140,7 +153,7 @@
     "endpoint_credit": false
   },
   "audit": {
-    "status": "NOT_READY_INTERMEDIATE_EX5_01_UNAUDITED",
+    "status": "NOT_READY_INTERMEDIATE_EX5_02_UNAUDITED",
     "candidate_pr": 1710,
     "exact_head": null,
     "review_id": null,
