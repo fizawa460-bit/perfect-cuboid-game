@@ -4,6 +4,14 @@ Status: **ACTIVE OPERATIONAL HOOK — ON-DEMAND ONLY**
 
 This contract connects ordinary Stage32 MAIN / EX research to the claim-management layer introduced by #1706. It does **not** change ordinary startup and must not be preloaded for scratch-only work.
 
+Stage32 inherits the repository-wide hostile-audit/freshness definition from `docs/research-os/policies/hostile-audit-and-freshness.md`; this file does not redefine that common policy. Keep these three gates distinct:
+
+1. `HOSTILE AUDIT`: mathematics, evidence, source/dependency, authority, credit-boundary, semantic-adapter, and exact-head audit integrity under the repo-wide policy;
+2. `CLAIM-DAG SYNC`: this Stage32-specific gate for synchronizing an audited/provisional/revoked result into the claim registry and deciding whether it is consumable authority;
+3. `MERGE-READY FRESHNESS`: the separate live-main compatibility gate under the repo-wide policy before any intended merge.
+
+`HOSTILE AUDIT: PASS` alone does not upgrade Stage32 consumable authority. PASS cannot upgrade consumable authority before synchronization. Likewise, merge-ready freshness does not substitute for claim-DAG synchronization, and neither gate grants merge authorization.
+
 ## 1. Ordinary research remains unchanged
 
 Ordinary `stage32main batch` and mapped `stage32exN-mainbatch` runs still use their existing startup sets and current-leaf working sets. The claim registry, active-frontier shard, lane adapters, proof path, and FINAL-CHECK are not ordinary startup files.
