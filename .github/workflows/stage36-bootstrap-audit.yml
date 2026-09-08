@@ -88,12 +88,17 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CR.py"
           git worktree remove --force "$tmp"
-      - name: Verify 36-09CS five-root deck dual projection construction
+      - name: Replay immutable 36-09CS exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09CS.py
-      - name: Assert CS checkpoint and CT lock firewalls
+          H=b1b88082b018edb4d9b22157943c7dd8b289b277
+          git cat-file -e "$H^{commit}"
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09CS.py"
+          git worktree remove --force "$tmp"
+      - name: Assert CS exact-green promotion and CT unlock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -101,34 +106,23 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V148_36_09CS_GEOMETRY_BOUND_DUAL_EVALUATION'
-          cr=s['authority_frontier']['36-09CR']
-          assert cr['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert cr['exact_head']=='1e9cf94bc7ffc6ac78fabf51adac3cdf31d2bd12'
-          assert cr['exact_head_ci']=='34191981610/101951737243'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V149_36_09CS_EXACT_GREEN_CT_UNLOCK'
           cs=s['authority_frontier']['36-09CS']
-          assert cs['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert cs['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert cs['certificate_blob_sha']=='4657613348e8c59630ff8bcd660e518ed491f7c9'
           assert cs['verifier_blob_sha']=='b9f5ec9caea93940c53165280ad99901e4280911'
+          assert cs['exact_head']=='b1b88082b018edb4d9b22157943c7dd8b289b277'
+          assert cs['exact_head_ci']=='34192357445/101952828878'
           assert cs['BT_FIVE_ROOT_DECK_TORSOR_ACTION_SOURCE_BOUND'] is True
           assert cs['BT_POINTWISE_FIVE_KUMMER_CLASS_SOURCE_BOUND'] is True
           assert cs['BT_GEOMETRY_BOUND_DUAL_EVALUATION_ADAPTER_COMPLETE'] is True
-          assert cs['BT_POITOU_TATE_LOCAL_CONDITION_SYSTEM_COMPLETE'] is False
-          assert cs['STAGE36_REQUIRED_PLACE_INVENTORY_COMPLETE'] is False
-          assert cs['FIRST_MISSING_OBLIGATION']=='BT_POINTWISE_LOCAL_TATE_PAIRING_REQUIRED_PLACE_AND_ADELIC_ORTHOGONALITY_INTEGRATION'
-          assert cs['LIT_WF02_APPLICABILITY_PASS'] is False
-          assert cs['NEW_GLOBAL_OBSTRUCTION_OBTAINED'] is False
           cur=s['current']
           assert cur['unit']=='36-09CS'
           assert cur['next_exact_leaf']=='36-09CT_BT_POINTWISE_LOCAL_TATE_PAIRING_REQUIRED_PLACE_PREFLIGHT'
-          assert cur['36_09CS_entry_allowed'] is True
-          assert cur['36_09CT_entry_allowed'] is False
+          assert cur['36_09CT_entry_allowed'] is True
           pg=s['promotion_gates']
-          assert pg['36_09CS_certificate_complete'] is True
-          assert pg['36_09CS_exact_head_ci_passed'] is False
-          assert pg['36_09CT_entry_allowed'] is False
-          assert pg['BT_five_root_deck_torsor_action_source_bound'] is True
-          assert pg['BT_pointwise_five_kummer_class_source_bound'] is True
+          assert pg['36_09CS_exact_head_ci_passed'] is True
+          assert pg['36_09CT_entry_allowed'] is True
           assert pg['BT_geometry_bound_dual_evaluation_adapter_complete'] is True
           assert pg['BT_Poitou_Tate_local_condition_system_complete'] is False
           assert pg['Stage36_required_place_inventory_complete'] is False
@@ -139,6 +133,6 @@ jobs:
           claims=s['claims']
           for key in ['new_theorem_credit','LIT_WF02_applicability_pass','Selmer_membership_obtained','Poitou_Tate_obstruction_obtained','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert claims[key] is False
-          print('36-09CS provisional checkpoint verified: geometry-bound local dual evaluation adapter only; CT remains locked pending exact-head CI. No PT/BM/receiver/endpoint credit.')
+          print('36-09CS exact-green parent verified and 36-09CT entry unlocked. No PT/BM/receiver/endpoint credit.')
           PY
           git diff --check
