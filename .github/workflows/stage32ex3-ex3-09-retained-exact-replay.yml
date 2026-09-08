@@ -1,0 +1,52 @@
+name: Stage32EX3 retained EX3 exact replay
+
+# Final V3 audit handoff: exact-head replay after temporary diagnostics are removed.
+on:
+  push:
+    branches:
+      - stage32ex3-ex3-00-typed-cover-tower
+    paths:
+      - 'stages/stage32-ex3/**'
+      - 'stages/stage32/proof/CLAIM-REGISTRY.json'
+      - 'stages/stage32/proof/LANE-ADAPTERS.json'
+      - 'stages/stage32/proof/historical-routing-blobs/b6b361f50e2d05a0b43ae6d4f59a3da796c3fce1.json'
+      - '.github/workflows/stage32ex3-ex3-09-retained-exact-replay.yml'
+  pull_request:
+    paths:
+      - 'stages/stage32-ex3/**'
+      - 'stages/stage32/proof/CLAIM-REGISTRY.json'
+      - 'stages/stage32/proof/LANE-ADAPTERS.json'
+      - 'stages/stage32/proof/historical-routing-blobs/b6b361f50e2d05a0b43ae6d4f59a3da796c3fce1.json'
+      - '.github/workflows/stage32ex3-ex3-09-retained-exact-replay.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Replay retained EX3 package
+        run: |
+          python stages/stage32-ex3/verify_ex3_00_o210_typed_cover_tower.py
+          python stages/stage32-ex3/verify_ex3_04h_self_contained_trace_contradiction.py
+          python stages/stage32-ex3/verify_ex3_09_o210_cover_geometry_exclusion_candidate.py
+          python stages/stage32-ex3/verify_ex3_10_main_o210_promotion_adapter_candidate_v2.py
+          python stages/stage32-ex3/verify_ex3_10_main_o210_promotion_adapter_candidate_v3.py
+          python stages/stage32-ex3/verify_main_state.py
+      - name: Verify Stage32 claim management
+        run: |
+          python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
+          python stages/stage32/proof/verify_stage32_active_frontier.py
+      - name: Working-tree guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --check
+          test -z "$(git status --porcelain --untracked-files=no)"

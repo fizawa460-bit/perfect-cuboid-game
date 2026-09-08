@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX3_MAIN_COMPACT_STATE_V1_BOOTSTRAP",
+  "schema": "STAGE32EX3_MAIN_COMPACT_STATE_V1_ADAPTER_V3_AUDITED_MAIN_O210_REMAP_PENDING",
   "role": "ORDINARY_STAGE32EX3_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX3",
   "execution": {
@@ -10,9 +10,9 @@
     "audit_contract": "stages/stage32-ex3/AUDIT-CONTRACT.md"
   },
   "bootstrap": {
-    "base_main_sha": "3fac7357de3a7b7cf657e1ac3d55ed01d6d9334b",
-    "work_branch": "stage32ex3-o210-cover-monodromy-mainline",
-    "active_work_pr": 1702,
+    "base_main_sha": "538913633330a8414c87931d3c52f93e4aaf5d0f",
+    "work_branch": "stage32ex3-ex3-00-typed-cover-tower",
+    "active_work_pr": 1714,
     "merge_authorized": false
   },
   "authority": {
@@ -31,15 +31,28 @@
     "target_geometric_genus": 1,
     "context_qprime": 4,
     "context_O": 210,
-    "context_factor_degrees_N_to_X4": [105, 81],
-    "context_projection_degrees_to_C0": [105, 81],
+    "context_factor_degrees_N_to_X4": [
+      105,
+      81
+    ],
+    "context_projection_degrees_to_C0": [
+      105,
+      81
+    ],
     "context_first_projection_ramification": 0,
     "context_second_projection_ramification": 48,
     "context_product_cover_second_ramification_remainder": 192,
     "context_Y_genus": 106,
-    "context_contact_histogram": {"multiplicity_1_count": 210, "multiplicity_2_count": 28},
+    "context_contact_histogram": {
+      "multiplicity_1_count": 210,
+      "multiplicity_2_count": 28
+    },
     "context_Q": 602,
-    "context_surviving_residues": [73, 97, 235],
+    "context_surviving_residues": [
+      73,
+      97,
+      235
+    ],
     "context_values_require_EX3_00_source_lock_before_use": true
   },
   "completion_contract": {
@@ -50,7 +63,7 @@
       "O210_COVER_GEOMETRY_EXCLUDED",
       "GENUINE_O210_COVER_CONFIGURATION_ESTABLISHED"
     ],
-    "terminal_outcome": null,
+    "terminal_outcome": "O210_COVER_GEOMETRY_EXCLUDED",
     "exclusion_requires_population_preserving_cover_exhaustiveness": true,
     "exclusion_requires_all_residual_monodromy_realization_cases_disposed": true,
     "positive_terminal_requires_same_actual_V6_carrier_adapter": true,
@@ -64,38 +77,87 @@
     "hostile_audit_pass_required_for_audited_success": true
   },
   "current": {
-    "status": "BOOTSTRAP_ROADMAP_READY_UNAUDITED",
-    "leaf": "EX3-00_SOURCE_LOCK_AND_TYPED_COVER_TOWER",
-    "subroute": "LOCK_N_Y_D_C0_X4_DEGREES_RAMIFICATION_GROUPS_AND_CORRESPONDENCE_INTERFACES",
-    "objective": "Freeze the exact O210/qprime=4 carrier-to-cover tower and type every degree, ramification total, group action, contact profile, and Q602 interface before monodromy classification.",
-    "next_route_on_success": "EX3-01_EXTREMAL_FIRST_PROJECTION_DEGREE105_ETALE_COVER",
-    "next_route_on_block": "RECORD_TYPED_MISSING_ADAPTER_AND_SELECT_DISTINCT_COVER_OR_LOCAL_MONODROMY_LANE",
-    "stop_semantics": "LEAF_GATE_ONLY_NOT_STAGE_EXHAUSTION"
+    "status": "PROMOTION_ADAPTER_V3_AUDITED_CLAIM_SYNCED_MAIN_O210_REMAP_PENDING",
+    "leaf": "EX3-10_HOSTILE_AUDIT_AND_STAGE32_PROMOTION_BOUNDARY",
+    "subroute": "AUDITED_DRIFT_ROBUST_V3_AWAIT_SEPARATE_ACTIVE_O210_REMAP",
+    "objective": "Construct and hostile-audit a separate MAIN O210 active claim transition using audited EX3 terminal plus audited V3 bridge; do not self-promote MAIN O210.",
+    "next_route_on_success": "MAIN_O210_ACTIVE_CLAIM_VERSION_REMAP_PROVISIONAL",
+    "next_route_on_block": "PRESERVE_AUDITED_EX3_AND_V3_WITH_MAIN_O210_OPEN",
+    "stop_semantics": "V3_AUDITED_ONLY_ACTIVE_FRONTIER_UNCHANGED_MAIN_O210_OPEN_NO_MERGE"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex3/stage32-ex3.md",
     "stages/stage32-ex3/verify_main_state.py",
-    "stages/stage32/MAIN-STATE.json",
-    "stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-source-note.md",
-    "stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json",
-    "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-source-note.md"
+    "stages/stage32-ex3/ex3-00-o210-typed-cover-tower.json",
+    "stages/stage32-ex3/verify_ex3_00_o210_typed_cover_tower.py",
+    "stages/stage32-ex3/ex3-04h-graph-trace-zero-source-note.md",
+    "stages/stage32-ex3/ex3-04h-self-contained-trace-contradiction.json",
+    "stages/stage32-ex3/verify_ex3_04h_self_contained_trace_contradiction.py",
+    "stages/stage32-ex3/ex3-09-o210-cover-geometry-exclusion-candidate.json",
+    "stages/stage32-ex3/verify_ex3_09_o210_cover_geometry_exclusion_candidate.py",
+    "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md",
+    "stages/stage32/STAGE32-PROOF-PATH.md",
+    "stages/stage32/proof/CLAIM-REGISTRY.json",
+    "stages/stage32/proof/LANE-ADAPTERS.json",
+    "stages/stage32-ex3/ex3-10-main-o210-promotion-adapter-candidate.json",
+    "stages/stage32-ex3/verify_ex3_10_main_o210_promotion_adapter_candidate.py",
+    "stages/stage32/proof/ACTIVE-FRONTIER.json",
+    "stages/stage32-ex3/ex3-10-main-o210-promotion-adapter-candidate-v2.json",
+    "stages/stage32-ex3/verify_ex3_10_main_o210_promotion_adapter_candidate_v2.py",
+    "stages/stage32-ex3/ex3-10-main-o210-promotion-adapter-candidate-v3.json",
+    "stages/stage32-ex3/verify_ex3_10_main_o210_promotion_adapter_candidate_v3.py"
   ],
   "frontier": {
-    "EX3_00_source_lock_complete": false,
-    "typed_cover_tower_complete": false,
+    "EX3_00_source_lock_complete": true,
+    "typed_cover_tower_complete": true,
     "degree105_etale_cover_classified": false,
     "degree81_branch_cycle_ledger_complete": false,
     "O210_contact_to_ramification_adapter_complete": false,
     "simultaneous_V4_cover_constraints_complete": false,
     "monodromy_nielsen_exhaustion_complete": false,
     "geometric_realizability_checked": false,
-    "Q602_correspondence_adapter_obtained": false,
-    "all_residual_cover_configurations_disposed": false,
+    "Q602_correspondence_adapter_obtained": true,
+    "all_residual_cover_configurations_disposed": true,
     "genuine_carrier_attached_O210_cover_configuration_established": false,
-    "O210_cover_geometry_excluded": false,
-    "audit_ready_full_target_closure": false,
-    "terminal_outcome": null,
-    "full_target_closure": false
+    "O210_cover_geometry_excluded": true,
+    "audit_ready_full_target_closure": true,
+    "terminal_outcome": "O210_COVER_GEOMETRY_EXCLUDED",
+    "full_target_closure": true
+  },
+  "candidate_frontier": {
+    "self_contained_trace_gate_retained": true,
+    "trace_zero_forced": true,
+    "Q602_zero_forbidden": true,
+    "population_preserving_direct_contradiction_candidate": true,
+    "later_monodromy_nielsen_casework_dominated_not_claimed_executed": true,
+    "terminal_candidate": "O210_COVER_GEOMETRY_EXCLUDED",
+    "ready_for_claim_dag_sync": false,
+    "claim_dag_sync_complete": true,
+    "hostile_audit_ready_after_sync": false,
+    "hostile_audit_pass": true,
+    "audit_review_id": 5141988194,
+    "audited_exact_head": "8da8d4cd932c5c9b82dfd0c304638e866c656069",
+    "full_target_closure_audited": true,
+    "ready_for_ex_to_main_promotion_adapter": false,
+    "promotion_adapter_retained": true,
+    "promotion_adapter_claim_synced": true,
+    "promotion_adapter_audited": true,
+    "promotion_adapter_claim_id": "S32.ADAPTER.EX3_O210_TO_MAIN_O210.V2",
+    "promotion_adapter_core_sha256": "4d3dc29090a35d48ade8819ba63b210faf0fd57410abc50cb884e56fc45a0a45",
+    "promotion_adapter_v1_superseded": true,
+    "promotion_adapter_binding": "STAGE32_TARGET_CONTEXT_CORE_PLUS_EXACT_MAIN_STATE_BLOB",
+    "promotion_adapter_audit_review_id": 5142601472,
+    "promotion_adapter_audited_exact_head": "1763a4f52018e2a17c907e53bab016a7369b8367",
+    "promotion_adapter_v2_audited_but_frontier_remap_fragile": true,
+    "promotion_adapter_v2_frontier_lock_blob_sha1": "93dee109899185602d9e8e4bb200f614a3b421e0",
+    "promotion_adapter_v3_claim_id": "S32.ADAPTER.EX3_O210_TO_MAIN_O210.V3",
+    "promotion_adapter_v3_core_sha256": "55505658e272ec7d60372f2d67cb93c9c007d782145f18d5ef9d2c1146582c88",
+    "promotion_adapter_v3_registered_provisional": false,
+    "promotion_adapter_v3_audited": true,
+    "active_frontier_remap_blocked_until_v3_audit": false,
+    "promotion_adapter_v3_audit_review_id": 5143014619,
+    "promotion_adapter_v3_audited_exact_head": "280595ed892ae2ef70e049a3f722ea024452e206",
+    "active_frontier_remap_allowed_after_separate_claim_sync": true
   },
   "parallel_lanes": {
     "enabled_after_EX3_00": true,
@@ -109,7 +171,8 @@
       "GEOMETRIC_REALIZABILITY_LANE"
     ],
     "scratch_results_authoritative": false,
-    "cross_lane_use_requires_explicit_provisional_or_audited_dependency_status": true
+    "cross_lane_use_requires_explicit_provisional_or_audited_dependency_status": true,
+    "current_direct_contradiction_candidate_dominates_later_casework_if_accepted": true
   },
   "source_seeds": {
     "bidegree_note": {
@@ -126,13 +189,140 @@
       "blob_sha1_observed": "25e365475b41c917a4bab5acc06bda5e9738b8e7"
     }
   },
+  "retained_leaves": {
+    "EX3_00": {
+      "status": "RETAINED_PROVISIONAL_UNAUDITED",
+      "artifact": {
+        "path": "stages/stage32-ex3/ex3-00-o210-typed-cover-tower.json",
+        "blob_sha1": "c28bda6c20340b4fc4ac060db158ca30926ecb38",
+        "canonical_sha256": "3a743b0607c59dc959f383fca8d97e54e8a740d197401e4c080b6fc4c94eaf07"
+      },
+      "verifier": {
+        "path": "stages/stage32-ex3/verify_ex3_00_o210_typed_cover_tower.py",
+        "blob_sha1": "f605650c62e3d67fb55043fc440c501c70542a87"
+      },
+      "credit_ceiling": "PROVISIONAL_NECESSARY_CONDITION_ONLY_UNAUDITED"
+    },
+    "EX3_04H": {
+      "status": "RETAINED_PROVISIONAL_TERMINAL_GATE_UNAUDITED",
+      "artifact": {
+        "path": "stages/stage32-ex3/ex3-04h-self-contained-trace-contradiction.json",
+        "blob_sha1": "a3996fe963e4f730839212bf4681d30d48d61617",
+        "canonical_sha256": "8b05a01fad417d6cfde53506fbab660ccf826986a73bb3101ce249aed496d9c2"
+      },
+      "verifier": {
+        "path": "stages/stage32-ex3/verify_ex3_04h_self_contained_trace_contradiction.py",
+        "blob_sha1": "7506fc5420fdbc096ac3203f2dda3c66a07ce360"
+      },
+      "credit_ceiling": "PROVISIONAL_FIXED_TARGET_TRACE_CONTRADICTION_UNAUDITED"
+    },
+    "EX3_09": {
+      "status": "RETAINED_AUDITED_FULL_TARGET_CLOSURE_O210_COVER_GEOMETRY_EXCLUDED",
+      "artifact": {
+        "path": "stages/stage32-ex3/ex3-09-o210-cover-geometry-exclusion-candidate.json",
+        "blob_sha1": "0114531c52730730e9a35ad1c8d8aea21eed03e9",
+        "canonical_sha256": "9244f82daef79306abe99d8a3ccee111c80c4c057f1b5f7df3bafd5500d8ca21"
+      },
+      "verifier": {
+        "path": "stages/stage32-ex3/verify_ex3_09_o210_cover_geometry_exclusion_candidate.py",
+        "blob_sha1": "6da6d509567b4b3523429ce865d1e47290b301f9"
+      },
+      "planned_claim_id": "S32.EX3.O210_COVER_GEOMETRY_EXCLUSION_TERMINAL.V1",
+      "credit_ceiling": "FULL_TARGET_CLOSURE_O210_COVER_GEOMETRY_EXCLUDED_AUDITED_EX3_ONLY"
+    },
+    "EX3_10_PROMOTION_ADAPTER": {
+      "status": "SUPERSEDED_BY_V2_DRIFT_ROBUST_BINDING",
+      "artifact": {
+        "path": "stages/stage32-ex3/ex3-10-main-o210-promotion-adapter-candidate.json",
+        "blob_sha1": "88ff83b9cc97d18e09f0585ede78fa498008b8ac",
+        "canonical_sha256": "a779f99606c28bbc5b4c5a6a0da72762afc142ab5ccf755b5b22ebeaa6853e05"
+      },
+      "verifier": {
+        "path": "stages/stage32-ex3/verify_ex3_10_main_o210_promotion_adapter_candidate.py",
+        "blob_sha1": "662b84ad68382990905d697df47df76c74b5a199"
+      },
+      "claim_id": "S32.ADAPTER.EX3_O210_TO_MAIN_O210.V1",
+      "claim_core_sha256": "d7db4b740dea431fdd1c0f1cfbb95de979f1e2825ffdd6b28b7265331188328b",
+      "credit_ceiling": "SUPERSEDED_PROVISIONAL_PROVENANCE_NO_MAIN_PROMOTION"
+    },
+    "EX3_10_PROMOTION_ADAPTER_V2": {
+      "status": "RETAINED_AUDITED_EX_TO_MAIN_PROMOTION_ADAPTER_V2",
+      "artifact": {
+        "path": "stages/stage32-ex3/ex3-10-main-o210-promotion-adapter-candidate-v2.json",
+        "blob_sha1": "91d3072f28ae0a25943da9562af72ad5f9e44b24",
+        "canonical_sha256": "ab5b734ec3ffbac2364f9762903294ae1c76c955cc4c89febd557dd92055050a"
+      },
+      "verifier": {
+        "path": "stages/stage32-ex3/verify_ex3_10_main_o210_promotion_adapter_candidate_v2.py",
+        "blob_sha1": "a04c44c484fd10383414911343f1a99c4d18d0fc"
+      },
+      "claim_id": "S32.ADAPTER.EX3_O210_TO_MAIN_O210.V2",
+      "claim_core_sha256": "4d3dc29090a35d48ade8819ba63b210faf0fd57410abc50cb884e56fc45a0a45",
+      "credit_ceiling": "AUDITED_SCOPE_ADAPTER_ONLY_MAIN_O210_NOT_YET_PROMOTED",
+      "audit_receipt": {
+        "status": "PASS",
+        "pr": 1714,
+        "review_id": 5142601472,
+        "exact_head": "1763a4f52018e2a17c907e53bab016a7369b8367"
+      }
+    },
+    "EX3_10_PROMOTION_ADAPTER_V3": {
+      "status": "RETAINED_AUDITED_EX_TO_MAIN_PROMOTION_ADAPTER_V3",
+      "artifact": {
+        "path": "stages/stage32-ex3/ex3-10-main-o210-promotion-adapter-candidate-v3.json",
+        "blob_sha1": "dd548d20e4f9bd007395606a5450d1ffc964cde9",
+        "canonical_sha256": "63dc72b89f59709fcce13cbc4e9c777819a419f7b6213a6ccd2c7c5977fce37c"
+      },
+      "verifier": {
+        "path": "stages/stage32-ex3/verify_ex3_10_main_o210_promotion_adapter_candidate_v3.py",
+        "blob_sha1": "7a3fb3d8aee4315a561534d0f6127581366738bd"
+      },
+      "claim_id": "S32.ADAPTER.EX3_O210_TO_MAIN_O210.V3",
+      "claim_core_sha256": "55505658e272ec7d60372f2d67cb93c9c007d782145f18d5ef9d2c1146582c88",
+      "credit_ceiling": "AUDITED_DRIFT_ROBUST_SCOPE_ADAPTER_ONLY_NO_MAIN_O210_PROMOTION",
+      "audit_receipt": {
+        "status": "PASS",
+        "pr": 1714,
+        "review_id": 5143014619,
+        "exact_head": "280595ed892ae2ef70e049a3f722ea024452e206"
+      }
+    }
+  },
+  "management": {
+    "retained_consolidation_complete": true,
+    "claim_sync_trigger": "AUTHORITY_OR_AUDIT_TRANSITION",
+    "claim_sync_contract": "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md",
+    "claim_sync_status": "COMPLETE_ADAPTER_V3_AUDITED_CURRENT_MAIN_CONSOLIDATED_NO_FRONTIER_REMAP_NO_MAIN_PROMOTION",
+    "claim_sync_may_not_upgrade_authority_before_completion": true,
+    "preserve_existing_audited_EX1_V2_exactly": true,
+    "preserve_existing_audited_EX4_V2_exactly": true,
+    "active_frontier_not_remapped_by_this_retention": true,
+    "audit_receipt_consumed": true,
+    "audit_review_id": 5141988194,
+    "audited_exact_head": "8da8d4cd932c5c9b82dfd0c304638e866c656069",
+    "ex_to_main_promotion_complete": false,
+    "active_frontier_not_remapped_by_this_transition": true,
+    "promotion_adapter_claim_id": "S32.ADAPTER.EX3_O210_TO_MAIN_O210.V2",
+    "promotion_adapter_core_sha256": "4d3dc29090a35d48ade8819ba63b210faf0fd57410abc50cb884e56fc45a0a45",
+    "promotion_adapter_authority": "AUDITED",
+    "promotion_adapter_audit_required": false,
+    "promotion_adapter_audit_review_id": 5142601472,
+    "promotion_adapter_audited_exact_head": "1763a4f52018e2a17c907e53bab016a7369b8367",
+    "promotion_adapter_v3_claim_id": "S32.ADAPTER.EX3_O210_TO_MAIN_O210.V3",
+    "promotion_adapter_v3_core_sha256": "55505658e272ec7d60372f2d67cb93c9c007d782145f18d5ef9d2c1146582c88",
+    "promotion_adapter_v3_authority": "AUDITED",
+    "promotion_adapter_v3_audit_required": false,
+    "promotion_adapter_v3_audit_review_id": 5143014619,
+    "promotion_adapter_v3_audited_exact_head": "280595ed892ae2ef70e049a3f722ea024452e206",
+    "current_main_consolidation_preserves_other_lane_authority": true
+  },
   "credit": {
-    "level": "BOOTSTRAP_NO_MATHEMATICAL_CREDIT",
+    "level": "FULL_TARGET_CLOSURE_O210_COVER_GEOMETRY_EXCLUDED_AUDITED_EX3_ONLY",
     "necessary_condition_only": false,
-    "branch_exclusion": false,
-    "O210_cover_geometry_excluded": false,
+    "branch_exclusion": true,
+    "O210_cover_geometry_excluded": true,
     "genuine_O210_cover_configuration_established": false,
-    "full_target_closure": false,
+    "full_target_closure": true,
     "stage32_main_credit": false,
     "Q602_excluded": false,
     "O210_excluded": false,
@@ -141,11 +331,11 @@
     "endpoint_credit": false
   },
   "audit": {
-    "status": "NOT_READY_BOOTSTRAP_ONLY",
-    "candidate_pr": 1702,
-    "exact_head": null,
-    "review_id": null,
-    "result": null,
+    "status": "HOSTILE_AUDIT_PASS_CLAIM_SYNCED_EX3_AUTHORITY_ONLY",
+    "candidate_pr": 1714,
+    "exact_head": "8da8d4cd932c5c9b82dfd0c304638e866c656069",
+    "review_id": 5141988194,
+    "result": "PASS",
     "pass_auto_merges": false,
     "pass_auto_promotes_to_stage32_main": false
   },
@@ -167,5 +357,37 @@
     "stage32_closed": false,
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
+  },
+  "promotion_adapter": {
+    "status": "AUDITED_CLAIM_SYNCED_MAIN_O210_PROMOTION_NOT_YET_CONSTRUCTED",
+    "claim_id": "S32.ADAPTER.EX3_O210_TO_MAIN_O210.V2",
+    "claim_core_sha256": "4d3dc29090a35d48ade8819ba63b210faf0fd57410abc50cb884e56fc45a0a45",
+    "from_scope_key": "S32.EX3.O210_COVER",
+    "to_scope_key": "S32.O210.COVER",
+    "population_relation": "EQUAL_FOR_BOUND_STAGE32_TARGET_CONTEXT",
+    "binding": "STAGE32_TARGET_CONTEXT_CORE_PLUS_EXACT_MAIN_STATE_BLOB",
+    "stage32_target_context_core_sha256": "cb3aa4b36332cda9d960103972e7235d3cf7b1bc41fcefc99f19a050a7ab2f14",
+    "stage32_main_state_blob_sha1": "05e2942b4c893044688f16926b5e9837e59d8e9d",
+    "freshness_observed_main_sha": "42f20e47babdfdda068a605e3fec489eeace460c",
+    "unrelated_stage35_drift_reviewed": true,
+    "hostile_audit_required": true,
+    "hostile_audit_result": "PASS",
+    "main_O210_promotion_complete": false,
+    "hostile_audit_review_id": 5142601472,
+    "audited_exact_head": "1763a4f52018e2a17c907e53bab016a7369b8367"
+  },
+  "promotion_adapter_v3": {
+    "status": "AUDITED_CLAIM_SYNCED_MAIN_O210_REMAP_PENDING",
+    "claim_id": "S32.ADAPTER.EX3_O210_TO_MAIN_O210.V3",
+    "claim_core_sha256": "55505658e272ec7d60372f2d67cb93c9c007d782145f18d5ef9d2c1146582c88",
+    "from_scope_key": "S32.EX3.O210_COVER",
+    "to_scope_key": "S32.O210.COVER",
+    "binding_semantics": "TARGET_CONTEXT_CLAIM_CORE_PLUS_RUNTIME_SCOPE_NO_MUTABLE_FRONTIER_BLOB_LOCK",
+    "hostile_audit_required": false,
+    "hostile_audit_result": "PASS",
+    "active_frontier_remap_allowed": true,
+    "main_O210_promotion_complete": false,
+    "hostile_audit_review_id": 5143014619,
+    "audited_exact_head": "280595ed892ae2ef70e049a3f722ea024452e206"
   }
 }
