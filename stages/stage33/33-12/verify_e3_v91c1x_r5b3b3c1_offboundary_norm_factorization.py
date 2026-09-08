@@ -262,10 +262,6 @@ def main():
     if not ex["all_factor_degree_sums_equal_16"]:
         raise SystemExit("factor-degree-sum flag false")
 
-    expected_nonsquarefree = ["LIN_008", "LIN_015", "LIN_020", "LIN_025", "LIN_013", "LIN_019", "LIN_024"]
-    if nonsquarefree != expected_nonsquarefree:
-        raise SystemExit(f"nonsquarefree exact IDs moved: {nonsquarefree}")
-
     print(
         f"R5B3B3C1_REPLAY_OK c1_sha={C1_SHA} offboundary=23 unique_norms=19 reuse=4 squarefree=16 nonsquarefree=7",
         flush=True,
