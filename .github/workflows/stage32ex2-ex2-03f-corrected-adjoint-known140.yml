@@ -1,0 +1,63 @@
+name: Stage32EX2 EX2-03F corrected adjoint known140
+
+on:
+  push:
+    branches:
+      - stage32ex2-ex2-00-source-lock-continuation
+    paths:
+      - 'stages/stage32-ex2/runkeys/ex2-03f-corrected-adjoint-known140.json'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stage32ex2-ex2-03f-corrected-adjoint-known140-1709
+  cancel-in-progress: false
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stage32ex2-ex2-00-source-lock-continuation
+          fetch-depth: 0
+      - name: Authorize exact run-key and freshness
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          key=json.loads(Path('stages/stage32-ex2/runkeys/ex2-03f-corrected-adjoint-known140.json').read_text())
+          assert key['schema']=='STAGE32EX2_EX2_03F_CORRECTED_ADJOINT_KNOWN140_RUNKEY_V1'
+          assert key['generation']==1 and key['armed'] is True
+          assert key['merge_authorized'] is False
+          assert key['diagnostic_path']=='stages/stage32-ex2/diagnose_ex2_03f_corrected_adjoint_known140.py'
+          actual=subprocess.check_output(['git','hash-object',key['diagnostic_path']],text=True).strip()
+          assert actual==key['diagnostic_blob_sha1']
+          subprocess.check_call(['git','fetch','origin','main'])
+          current=subprocess.check_output(['git','rev-parse','origin/main'],text=True).strip()
+          assert current==key['expected_current_main'], (current,key['expected_current_main'])
+          PY
+          git merge-base --is-ancestor 226a8aa11ac61293a7e4b7f9611177f68af94ff4 HEAD
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact replay dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Compute bounded corrected-adjoint scan
+        run: |
+          python -B stages/stage32-ex2/diagnose_ex2_03f_corrected_adjoint_known140.py > /tmp/ex2-03f.json
+          python -m json.tool /tmp/ex2-03f.json > stages/stage32-ex2/EX2-03/corrected-adjoint-known140-scan.json
+      - name: Check exact generated scope
+        run: |
+          git diff --name-only | sort > /tmp/actual
+          printf '%s\n' stages/stage32-ex2/EX2-03/corrected-adjoint-known140-scan.json > /tmp/expected
+          diff -u /tmp/expected /tmp/actual
+      - name: Commit and push diagnostic
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add stages/stage32-ex2/EX2-03/corrected-adjoint-known140-scan.json
+          git commit -m '[Stage32EX2][EX2-03F] retain corrected-adjoint known140 scan'
+          git push origin HEAD:stage32ex2-ex2-00-source-lock-continuation
