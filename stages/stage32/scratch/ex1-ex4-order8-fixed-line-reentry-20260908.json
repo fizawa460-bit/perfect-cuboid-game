@@ -1,0 +1,100 @@
+{
+  "schema": "STAGE32_MAIN_SCRATCH_EX1_EX4_ORDER8_FIXED_LINE_REENTRY_V1",
+  "stage": 32,
+  "status": "SCRATCH_EXACT_UNAUDITED_CROSS_LANE_REENTRY_CRITERION",
+  "snapshot_main": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "scope": {
+    "row_id": "g1-d186",
+    "uniform_EX1_h4_residues": [73, 97, 235],
+    "retained_basis": ["e1", "e2", "r*e1", "r*e2"],
+    "r_relation": "r^2=-2",
+    "retained_W_lines": {
+      "L1": [0,0,1,0],
+      "L2": [0,0,0,1],
+      "L3": [0,0,1,1]
+    },
+    "residue_to_line": {"73":"L1", "97":"L2", "235":"L3"}
+  },
+  "external_source_locks": {
+    "klein_kokotov_korotkin": {
+      "title": "Extremal properties of the determinant of the Laplacian in the Bergman metric on the moduli space of genus two Riemann surfaces",
+      "journal": "Mathematische Zeitschrift 261 (2009) 73-108",
+      "locators": ["Section 3.2.4 equations (3.39)-(3.44)"],
+      "exact_supported_facts": [
+        "Burnside/Bolza curve is y^2=z(z^4-1)",
+        "mu1 acts by z->i z",
+        "on the canonical homology basis ordered (b1,b2,a1,a2), T_mu1 is the displayed integral Sp4 matrix",
+        "the corresponding period matrix B1 is displayed in equation (3.44)"
+      ]
+    },
+    "cecotti": {
+      "arxiv": "2509.24605v1",
+      "title": "Symplectic Singularities, Color Confinement, and the Quantum Dirac Sheaf",
+      "locators": ["Appendix B equations (B.1)-(B.9), especially (B.3)-(B.6) and (B.9)"],
+      "exact_supported_facts": [
+        "retained principal G12 lattice generators satisfy S=b4 and T=-b3",
+        "the principal ppav is the Jacobian of y^2=x^5-x",
+        "the curve has the explicit order-8 automorphism (x,y)->(i x, exp(i*pi/4) y)",
+        "the source does not explicitly identify that named curve automorphism with a specific retained lattice word"
+      ]
+    }
+  },
+  "kkk_order8_homology": {
+    "basis": ["b1","b2","a1","a2"],
+    "T_mu1": [[0,-1,1,-1],[0,1,0,1],[-1,1,-1,1],[-1,-1,0,0]],
+    "order": 8,
+    "characteristic_polynomial": "x^4+1",
+    "mod2_fixed_space_dimension": 1,
+    "unique_nonzero_mod2_fixed_vector": [1,1,0,0],
+    "branch_action": "mu1 fixes {0,infinity} and cycles {1,i,-1,-i}",
+    "fixed_J2_class": "delta_0inf=[P_0-P_infinity]"
+  },
+  "retained_order8_representative": {
+    "word": "S*T^-1",
+    "matrix_on_retained_integral_basis": [[1,0,-2,-2],[-1,-1,0,0],[1,1,1,0],[0,0,-1,-1]],
+    "order": 8,
+    "characteristic_polynomial": "x^4+1",
+    "holomorphic_trace": "+r",
+    "mod2_fixed_space_dimension": 1,
+    "unique_nonzero_mod2_fixed_vector": [0,0,0,1],
+    "unique_fixed_W_line": "L2",
+    "conditional_residue_if_B9_equals_this_marked_element": 97
+  },
+  "trace_orientation": {
+    "B9_differentials": ["omega1=dx/y", "omega2=x*dx/y"],
+    "B9_eigenvalues": ["zeta8", "zeta8^3"],
+    "B9_trace": "+r",
+    "consequence": "B.9 lies in the +r order-8 lattice conjugacy orbit represented by S*T^-1, not the -r orbit represented by S*T."
+  },
+  "finite_ambiguity": {
+    "plus_r_inner_conjugate_count": 24,
+    "delta0inf_image_distribution_over_retained_W_lines": {"L1":8,"L2":8,"L3":8},
+    "conjugacy_orbit_only_selects_one_line": false,
+    "period_matrix_isomorphism_without_branch_marking_selects_one_line": false
+  },
+  "decision": {
+    "result": "ORDER8_FIXED_LINE_GIVES_A_STRICTLY_SMALLER_ABSOLUTE_MARKING_REENTRY_INTERFACE",
+    "new_minimal_reentry_datum": "SOURCE_BIND_CECOTTI_B9_ORDER8_CURVE_AUTOMORPHISM_TO_ONE_SPECIFIC_RETAINED_ORDER8_LATTICE_ELEMENT_OR_DIRECTLY_TO_ITS_UNIQUE_MOD2_FIXED_W_LINE",
+    "full_B7_B8_generator_pair_binding_required": false,
+    "if_B9_is_source_bound_to_S_T_inverse": "delta_0inf=L2 and Q602 residue=97",
+    "absolute_delta0inf_retained_W_line_identified_now": false,
+    "uniform_EX1_residue_count_now": 3,
+    "authority_changed": false,
+    "claim_dag_changed": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "EX1_full_target_closed": false,
+    "Stage32_closed": false
+  },
+  "firewalls": {
+    "same_curve_equation_promoted_to_marked_jacobian_identification": false,
+    "same_order_and_trace_promoted_to_exact_lattice_element": false,
+    "period_matrix_equivalence_promoted_to_branch_label_anchor": false,
+    "conditional_residue97_promoted": false,
+    "three_to_one_selection_promoted_to_Q602_exclusion": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false
+  }
+}
