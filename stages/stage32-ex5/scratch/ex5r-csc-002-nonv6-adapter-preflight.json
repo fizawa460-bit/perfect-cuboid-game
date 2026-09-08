@@ -1,0 +1,95 @@
+{
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "base_main_sha": "56ce8213ffe90635aaa499c46639971c952724f1",
+  "breadth_cycle": "EX5_BREADTH_CYCLE_2_CANDIDATE",
+  "canonical_sha256_without_this_field": "743f1262da3731a4153ab1f59ff155af58879143eb5d1388136aeb3634cfc6cf",
+  "credit": {
+    "nontrivial_receiver_effect_obtained": false,
+    "qualified_independent_route_established": false,
+    "receiver_credit": false,
+    "stage32_main_credit": false
+  },
+  "firewalls": {
+    "full178_completed": false,
+    "g0_d008_closed": false,
+    "perfect_cuboid_claim": false,
+    "smith_lattice_called_v6_only": false,
+    "stage32_closed": false,
+    "v6_q602_assembly_widened_to_all_rows": false
+  },
+  "preflight": {
+    "field_order": [
+      "fixed_cover_cellular_smith_lattice_available",
+      "v6_q602_assembly_to_102_component_k_available",
+      "non_v6_receiver_class_to_upstairs_H_equivariant_correspondence_available",
+      "upstairs_correspondence_to_certified_smith_cokernel_available",
+      "nonzero_cokernel_class_yields_receiver_effect"
+    ],
+    "field_results": [
+      {
+        "detail": "The retained S0=(X(8)xX(8))/H_diag cellular pullback has Smith invariant factors 1^25,2,2,2,4,4; this lattice certificate is not itself keyed to V6.",
+        "field": "fixed_cover_cellular_smith_lattice_available",
+        "result": "SATISFIED"
+      },
+      {
+        "detail": "For EX1, k is [81] + the 100 entries of B=F*JI + [105], with F supplied by the fixed V6/Q602 H-equivariant endomorphism assembly.",
+        "field": "v6_q602_assembly_to_102_component_k_available",
+        "result": "SATISFIED_V6_SCOPE_ONLY"
+      },
+      {
+        "detail": "No source-bound map was found from a general frozen Stage32 Picard receiver class, including g0-d008, to an H-equivariant correspondence/Kunneth class on X(8)xX(8) with the required bidegree endpoints and middle endomorphism block.",
+        "field": "non_v6_receiver_class_to_upstairs_H_equivariant_correspondence_available",
+        "result": "UNSATISFIED"
+      },
+      {
+        "field": "upstairs_correspondence_to_certified_smith_cokernel_available",
+        "result": "NOT_REACHED_AFTER_FIRST_FAILURE"
+      },
+      {
+        "field": "nonzero_cokernel_class_yields_receiver_effect",
+        "result": "NOT_REACHED_AFTER_FIRST_FAILURE"
+      }
+    ],
+    "test_non_v6_receiver_row": "g0-d008"
+  },
+  "route_decision": {
+    "blocker_code": "CSC_MISSING_GENERAL_RECEIVER_TO_UPSTAIRS_CORRESPONDENCE_ADAPTER",
+    "blocker_statement": "The cellular Smith cokernel is reusable as a fixed lattice target, but the audited V6/Q602 pipeline does not provide an exact population-preserving map from a general EX5 receiver class to the upstairs H-equivariant correspondence class whose Kunneth vector can be tested in that cokernel.",
+    "failure_is_global_no_route_theorem": false,
+    "minimal_reentry_condition": "Produce a source-locked adapter D -> alpha_D in H^2(X(8)xX(8),Z)^H for a nonempty non-V6 frozen receiver subset, including exact bidegree and middle correspondence block, then replay alpha_D against the certified Smith pullback image.",
+    "next_route_id": "EX5R-ENUM-BTVA-002",
+    "route_status": "BLOCKED"
+  },
+  "route_id": "EX5R-CSC-002",
+  "schema": "STAGE32EX5_EX5R_CSC_002_NON_V6_ADAPTER_PREFLIGHT_V1",
+  "source_locks": [
+    {
+      "blob_sha1": "e9b46e6acef78fcf9d3211efe85727028b41461f",
+      "path": "stages/stage32-ex5/scratch/post1728-breadth-reentry-audit.json",
+      "role": "cycle-2 scratch candidate admission"
+    },
+    {
+      "blob_sha1": "f360242d2fec69002d8e14135c834060c6f3408f",
+      "path": "stages/stage32-ex1/ex1-05ad-global-jx8-h-equivariant-endomorphism-descent-assembly-preflight.json",
+      "role": "V6/Q602 global H-equivariant upstairs assembly"
+    },
+    {
+      "blob_sha1": "37853cb07845ced93a22b5351dbddbbe891a9e88",
+      "path": "stages/stage32-ex1/ex1-05ae-h-linearized-correspondence-class-descent-to-s0-preflight.json",
+      "role": "V6/Q602 correspondence class descent to S0"
+    },
+    {
+      "blob_sha1": "8f238ff7bdea3516ab4e1246a0202954b2d1bc3f",
+      "path": "stages/stage32-ex1/ex1-05af-cellular-pullback-smith-certificate.json",
+      "role": "independently certified cellular pullback Smith lattice"
+    },
+    {
+      "blob_sha1": "99e4e76bc8a7b916040adb33af5a3de2d7740144",
+      "path": "stages/stage32-ex1/verify_ex1_05af_cellular_obstruction_bridge.py",
+      "role": "load-bearing V6 assembly-to-actual-Smith-cokernel replay"
+    }
+  ],
+  "stage": "32EX5",
+  "status": "ROUTE_BLOCKED_BY_NAMED_MISSING_ADAPTER",
+  "unit_id": "NON_V6_CLASS_TO_CELLULAR_ASSEMBLY_ADAPTER_PREFLIGHT"
+}
