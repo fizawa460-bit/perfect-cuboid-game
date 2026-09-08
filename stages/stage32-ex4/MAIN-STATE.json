@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX4_MAIN_COMPACT_STATE_V3_AUDITED_TERMINAL",
+  "schema": "STAGE32EX4_MAIN_COMPACT_STATE_V4_KUUSALO_REENTRY_SCRATCH",
   "role": "ORDINARY_STAGE32EX4_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX4",
   "execution": {
@@ -10,171 +10,158 @@
     "audit_contract": "stages/stage32-ex4/AUDIT-CONTRACT.md"
   },
   "bootstrap": {
-    "base_main_sha": "1eea6800e479729c41ed8767a38298384a2dbc0f",
-    "work_branch": "stage32ex4-ex4-11-audit-pass-sync",
-    "active_work_pr": 1719,
-    "audited_candidate_pr": 1713,
-    "audited_candidate_merge_commit": "1eea6800e479729c41ed8767a38298384a2dbc0f",
-    "merge_authorized": false
+    "branch_base_main_sha": "e98b06455d34bf2f346d297d9370e82fc2a71970",
+    "work_branch": "stage32ex4-r1-kuusalo-h1-reentry",
+    "active_work_pr": 1721,
+    "prior_authority_transition_pr": 1719,
+    "audited_terminal_pr": 1713,
+    "merge_authorized": false,
+    "scratch_freshness_sync_deferred_to_consolidation": true
   },
   "authority": {
-    "stage32ex4_is_independent_operating_lane": true,
+    "prior_bounded_terminal_claim_id": "S32.EX4.FIXED_SOURCE_PACKAGE_AMBIGUITY_TERMINAL.V2",
+    "prior_bounded_terminal_authority": "AUDITED",
+    "prior_bounded_terminal_remains_valid_for_old_frozen_package": true,
+    "current_reentry_leaf_authority": "SCRATCH",
     "stage32_main_authority_unchanged": true,
     "state_itself_grants_mathematical_credit": false,
-    "retained_terminal_candidate_authority": "AUDITED",
-    "hostile_audit_pass_recorded": true,
-    "promotion_to_stage32_main_requires_explicit_current_target_adapter": true,
-    "promotion_to_stage32_main_requires_hostile_audit": true
+    "hostile_audit_credit_self_assigned": false
   },
   "fixed_target": {
     "row_id": "g1-d186",
     "context_O": 210,
     "context_qprime": 4,
     "context_Q": 602,
-    "context_surviving_residues": [73, 97, 235],
+    "context_surviving_residues": [
+      73,
+      97,
+      235
+    ],
     "context_abstract_character": "chi_u",
     "context_canonical_pair": "Z3={0,infinity}",
     "context_abstract_J2_direction": "delta_0inf=[P_0-P_infinity]",
-    "context_retained_J2_basis": ["e1", "e2", "r*e1", "r*e2"],
-    "context_retained_W_basis": [[0,0,1,0],[0,0,0,1]],
+    "context_retained_J2_basis": [
+      "e1",
+      "e2",
+      "r*e1",
+      "r*e2"
+    ],
     "context_retained_W_nonzero_line_count": 3,
     "context_absolute_delta0inf_retained_W_line_identified": false
   },
-  "completion_contract": {
-    "mathematical_candidate_state": "AUDIT_READY_FULL_TARGET_CLOSURE",
-    "audited_success_state": "FULL_TARGET_CLOSURE",
-    "full_target_closure_is_EX4_marking_decision_state": true,
-    "allowed_terminal_outcomes": [
-      "ABSOLUTE_W_LINE_AND_Q602_RESIDUE_IDENTIFIED",
-      "FIXED_SOURCE_PACKAGE_CANNOT_SELECT_ABSOLUTE_W_LINE"
-    ],
-    "terminal_outcome": "FIXED_SOURCE_PACKAGE_CANNOT_SELECT_ABSOLUTE_W_LINE",
-    "terminal_scope": "EX4_STRONG_FROZEN_PACKAGE_THROUGH_05D_ONLY",
-    "negative_terminal_is_bounded_to_explicit_frozen_source_package": true,
-    "negative_terminal_requires_exhaustive_admissible_identification_set": true,
-    "negative_terminal_requires_residual_ambiguity_action_on_W_lines": true,
-    "negative_terminal_requires_minimal_new_datum_reentry_interface": true,
-    "positive_terminal_does_not_by_itself_exclude_selected_residue": true,
-    "gauge_representative_is_terminal_success": false,
-    "inner_conjugacy_orbit_is_terminal_success": false,
-    "source_gap_diagnosis_is_terminal_success": false,
-    "conditional_residue_is_terminal_success": false,
-    "blocked_route_is_stage_exhaustion": false,
-    "hostile_audit_pass_required_for_audited_success": true
-  },
-  "current": {
-    "status": "FULL_TARGET_CLOSURE_AUDITED",
-    "leaf": "EX4-11_AUDITED_BOUNDED_TERMINAL_HOLD",
-    "subroute": "STOPPED_REENTRY_REQUIRES_NEW_MARKED_DATA_OR_EXPLICIT_MAIN_ROUTE_ADAPTER",
-    "objective": "Hold the hostile-audited bounded negative terminal. Do not re-search the frozen source package; re-enter only when one named new-data interface is supplied or an explicit current-target routing/promotion adapter is requested.",
-    "next_route_on_new_marked_data": "REENTER_FROM_MINIMAL_REENTRY_INTERFACE",
-    "next_route_on_explicit_main_adapter": "SEPARATE_EX_TO_MAIN_ROUTE_ANTI_LOOP_ADAPTER",
-    "stop_semantics": "EX4_FULL_TARGET_CLOSURE_REACHED_NO_FURTHER_MAINBATCH_RESEARCH_WITHOUT_REENTRY"
-  },
-  "current_leaf_working_set": [
-    "stages/stage32-ex4/AUDIT-CONTRACT.md",
-    "stages/stage32-ex4/stage32-ex4.md",
-    "stages/stage32-ex4/ex4-11-hostile-audit-pass-receipt.json",
-    "stages/stage32-ex4/ex4-10s-retained-bounded-terminal-candidate.json",
-    "stages/stage32-ex4/verify_ex4_10s_retained_bounded_terminal_candidate.py",
-    "stages/stage32-ex4/verify_main_state.py",
-    "stages/stage32/proof/CLAIM-REGISTRY.json",
-    "stages/stage32/proof/LANE-ADAPTERS.json"
-  ],
-  "frontier": {
-    "EX4_00_source_lock_complete": true,
-    "typed_object_arrow_graph_complete": true,
-    "absolute_marking_input_contract_complete": true,
-    "current_ambiguity_group_computed": true,
-    "marked_source_inventory_complete": true,
-    "curve_weierstrass_action_anchor_complete": true,
-    "retained_ppav_J2_basis_anchor_complete": true,
-    "admissible_conjugator_set_enumerated": true,
-    "all_admissible_conjugators_same_W_line": false,
-    "absolute_delta0inf_retained_W_line_identified": false,
-    "absolute_Q602_residue_identified": false,
-    "coordinate_model_invariance_crosscheck_complete": true,
-    "frozen_source_package_exhaustiveness_proved_audited": true,
-    "residual_ambiguity_W_line_orbit_computed": true,
-    "minimal_new_datum_reentry_interface_identified": true,
-    "audit_ready_full_target_closure": true,
-    "hostile_audit_pass": true,
-    "terminal_outcome": "FIXED_SOURCE_PACKAGE_CANNOT_SELECT_ABSOLUTE_W_LINE",
-    "full_target_closure": true
-  },
-  "retained_terminal_candidate": {
+  "prior_audited_terminal": {
+    "outcome": "FIXED_SOURCE_PACKAGE_CANNOT_SELECT_ABSOLUTE_W_LINE",
+    "scope": "EX4_STRONG_FROZEN_PACKAGE_THROUGH_05D_ONLY",
     "claim_id": "S32.EX4.FIXED_SOURCE_PACKAGE_AMBIGUITY_TERMINAL.V2",
-    "superseded_claim_id": "S32.EX4.FIXED_SOURCE_PACKAGE_AMBIGUITY_TERMINAL.V1",
-    "artifact": "stages/stage32-ex4/ex4-10s-retained-bounded-terminal-candidate.json",
-    "canonical_sha256": "57b7f3e052262ff42b157b29a05bf45cf56388fe849b4202474ad63df98ae615",
-    "authority_status": "AUDITED",
-    "audit_receipt": {
-      "status": "PASS",
-      "pr": 1713,
-      "review_id": 5139609916,
-      "exact_head": "e1b65ef259182502a397a5a570827c43be1ebe6c",
-      "merge_commit": "1eea6800e479729c41ed8767a38298384a2dbc0f"
-    },
+    "audit_review_id": 5139609916,
     "projective_pair_classes": 24,
-    "delta0inf_line_counts": {"L1": 8, "L2": 8, "L3": 8},
-    "minimal_reentry_interface": [
-      "DIRECT_DELTA0INF_RETAINED_J2_COORDINATE",
-      "EXACT_PRODUCT_ELEMENT_BINDING",
-      "BRANCH_LABELLED_SYMPLECTIC_HOMOLOGY_OR_LEVEL_MARKING"
-    ]
-  },
-  "credit": {
-    "level": "FULL_TARGET_CLOSURE_AUDITED_FIXED_SOURCE_PACKAGE_CANNOT_SELECT_ABSOLUTE_W_LINE",
-    "provisional_bounded_terminal_candidate": false,
-    "absolute_W_line_and_Q602_residue_identified": false,
-    "fixed_source_package_cannot_select_absolute_W_line_audited_credit": true,
-    "full_target_closure": true,
-    "stage32_main_credit": false,
-    "Q602_residue_contraction_credit": false,
-    "Q602_excluded": false,
-    "O210_excluded": false,
-    "receiver_credit": false,
-    "theorem_credit": false,
-    "endpoint_credit": false
-  },
-  "audit": {
-    "status": "PASS_CONSUMED_BY_AUTHORITY_TRANSITION_SYNC",
-    "candidate_pr": 1713,
-    "exact_head": "e1b65ef259182502a397a5a570827c43be1ebe6c",
-    "review_id": 5139609916,
-    "result": "PASS",
-    "candidate_merge_commit": "1eea6800e479729c41ed8767a38298384a2dbc0f",
-    "authority_transition_pr": 1719,
-    "pass_auto_merges": false,
-    "pass_auto_promotes_to_stage32_main": false
-  },
-  "route_anti_loop": {
-    "audited_fact_available": true,
-    "do_not_repeat_frozen_package_without_new_marked_data": true,
-    "stage32_main_mathematical_frontier_changed": false,
-    "explicit_main_promotion_adapter_present": false,
+    "delta0inf_line_counts": {
+      "L1": 8,
+      "L2": 8,
+      "L3": 8
+    },
     "reentry_requires_one_of": [
       "DIRECT_DELTA0INF_RETAINED_J2_COORDINATE",
       "EXACT_PRODUCT_ELEMENT_BINDING",
       "BRANCH_LABELLED_SYMPLECTIC_HOMOLOGY_OR_LEVEL_MARKING"
     ]
   },
+  "current": {
+    "status": "REENTRY_ACTIVE_SCRATCH_NEW_MARKED_DATA",
+    "leaf": "EX4-R1_KUUSALO_BRANCH_LABELLED_H1_REENTRY",
+    "subroute": "KUUSALO_SOURCE_H1_TO_RETAINED_LATTICE_ADAPTER",
+    "objective": "Use the new branch-labelled Kuusalo canonical homology basis to materialize delta_0inf on source J[2], then solve the remaining period/homology adapter to the retained B.5 lattice without choosing a target inner conjugate by hand.",
+    "next_leaf": "EX4-R2_KUUSALO_PERIOD_TO_RETAINED_B5_LATTICE_ADAPTER_PREFLIGHT",
+    "stop_semantics": "SCRATCH_REENTRY_ACTIVE_ONE_NEW_MARKED_DATA_CLASS_ACCEPTED"
+  },
+  "current_leaf_working_set": [
+    "stages/stage32-ex4/stage32-ex4.md",
+    "stages/stage32-ex4/ex4-r1-kuusalo-branch-labelled-h1-reentry-scratch.json",
+    "stages/stage32-ex4/verify_ex4_r1_kuusalo_branch_labelled_h1_reentry_scratch.py",
+    "stages/stage32-ex4/ex4-10s-retained-bounded-terminal-candidate.json",
+    "stages/stage32/residual-32-01-production/post1648j-cecotti-trace-orientation-correction.json",
+    "stages/stage32/residual-32-01-production/post1648b-cecotti-generator-pair-absolute-marking-preflight.json",
+    "stages/stage32-ex4/verify_main_state.py"
+  ],
+  "reentry": {
+    "interface_class": "BRANCH_LABELLED_SYMPLECTIC_HOMOLOGY_OR_LEVEL_MARKING",
+    "interface_satisfied": true,
+    "source": "Kuusalo--Naatanen 1995, Geometric uniformization in genus 2, Case D",
+    "source_branch_labels": [
+      "0",
+      "infinity",
+      "+1",
+      "-1",
+      "+i",
+      "-i"
+    ],
+    "source_canonical_h1_basis": [
+      "a1",
+      "a2",
+      "b1",
+      "b2"
+    ],
+    "source_delta0inf_coordinate_mod2": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "source_fixed_vector_unique_nonzero": true,
+    "literal_retained_test_word": "S*T^-1",
+    "literal_retained_intertwiner_count": 8,
+    "literal_retained_all_delta_images": [
+      [
+        0,
+        0,
+        0,
+        1
+      ]
+    ],
+    "literal_conditional_line": "L2",
+    "literal_conditional_residue": 97,
+    "literal_result_is_conditional_only": true,
+    "remaining_missing_datum": "SOURCE_BOUND_KUUSALO_H1_TO_RETAINED_B5_LATTICE_ADAPTER_OR_LITERAL_B9_RETAINED_ELEMENT_BINDING"
+  },
+  "frontier": {
+    "new_marked_data_reentry_condition_met": true,
+    "source_side_branch_labelled_H1_marking_obtained": true,
+    "source_side_delta0inf_coordinate_obtained": true,
+    "literal_target_order8_intertwiner_preflight_complete": true,
+    "all_literal_target_intertwiners_same_W_line": true,
+    "absolute_delta0inf_retained_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "current_extended_package_full_target_closure": false,
+    "audit_ready_current_reentry": false
+  },
+  "credit": {
+    "prior_frozen_package_bounded_terminal_audited": true,
+    "current_reentry_level": "SCRATCH_SOURCE_H1_MARKING_ONLY",
+    "conditional_residue97_only": true,
+    "absolute_W_line_and_Q602_residue_identified": false,
+    "Q602_residue_contraction_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false
+  },
+  "route_anti_loop": {
+    "old_frozen_package_search_remains_closed_without_new_data": true,
+    "reentry_is_legal_because_named_new_data_class_is_supplied": true,
+    "old_audited_terminal_revoked": false,
+    "next_exact_route": "SOLVE_KUUSALO_PERIOD_HOMOLOGY_TO_RETAINED_B5_LATTICE_ADAPTER_OR_SOURCE_BIND_B9_TO_LITERAL_RETAINED_ORDER8_ELEMENT",
+    "do_not_repeat_trace_order_only_or_unmarked_ppav_matching": true
+  },
   "firewalls": {
-    "gauge_choice_promoted_to_absolute_marking": false,
-    "delta0inf_membership_in_W_promoted_to_specific_W_line": false,
-    "inner_conjugacy_orbit_promoted_to_explicit_conjugator": false,
-    "group_order_or_trace_match_promoted_to_semantic_adapter": false,
-    "literal_plus_r_representative_promoted_without_source_binding": false,
+    "prior_audited_terminal_revoked": false,
+    "literal_target_word_promoted_without_source_binding": false,
+    "conditional_residue97_promoted_to_absolute_residue": false,
     "post1648j_candidate_self_promoted_to_audited_authority": false,
-    "other_stage_marking_imported_without_population_adapter": false,
-    "conditional_residue_promoted_to_absolute_residue": false,
-    "three_to_one_selection_promoted_to_Q602_exclusion": false,
-    "bounded_source_package_obstruction_promoted_to_global_impossibility": false,
-    "hostile_audit_credit_self_assigned": false,
     "stage32_main_credit": false,
     "Q602_excluded": false,
     "O210_excluded": false,
-    "O212_plus_advance_allowed": false,
     "stage32_closed": false,
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
