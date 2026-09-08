@@ -1,0 +1,137 @@
+{
+  "schema": "STAGE32EX4_R3_KUUSALO_SECOND_GENERATOR_PAIR_PREFLIGHT_SCRATCH_V1",
+  "stage": "32EX4",
+  "leaf": "EX4-R3_KUUSALO_SECOND_GENERATOR_PAIR_PREFLIGHT",
+  "status": "SCRATCH_REPLAYABLE_SECOND_GENERATOR_PAIR_ORBIT_EXACT_BUT_NONPRUNING_LITERAL_PAIR_BINDING_STILL_MISSING",
+  "prior_r2": {
+    "artifact": "stages/stage32-ex4/ex4-r2-kuusalo-period-to-retained-b5-lattice-adapter-preflight-scratch.json",
+    "blob_sha1": "c5ff71e4ff4cb897931113e157409bb26c1245ae",
+    "canonical_sha256": "fdcaa13fe6708406387eb46fd7832b25fb891be183748f840777d7c5a8a9212a",
+    "period_adapter_count": 48,
+    "period_adapter_delta_line_counts": {"L1": 16, "L2": 16, "L3": 16}
+  },
+  "external_source": {
+    "kuusalo_naatanen": {
+      "title": "Geometric uniformization in genus 2",
+      "authors": ["T. Kuusalo", "M. Naatanen"],
+      "journal": "Annales Academiae Scientiarum Fennicae, Series A I Mathematica",
+      "volume": 20,
+      "year": 1995,
+      "pages": "401-418",
+      "url": "https://www.acadsci.fi/mathematica/Vol20/kuusalo.pdf",
+      "locators": [
+        "paper p.409 / PDF pageno 8: f1 rotation around 0 by pi/4 and theta(f1)",
+        "paper p.409 / PDF pageno 8: f2 chosen as rotation by 2pi/3 around triangle center P in Figure 10, f2=f3 o f4, and theta(f2)",
+        "paper pp.409-410: theta(f1), theta(f2) jointly determine the Case D period matrix"
+      ],
+      "source_supported_facts": [
+        "f1 and f2 are defined geometrically on the same Case D Bolza surface and the same canonical homology basis.",
+        "theta(f1) and theta(f2) are explicit integral symplectic H1 matrices.",
+        "f2 has order 3 and is an independent 2pi/3 triangle-center rotation.",
+        "The cited source does not identify f2 with Cecotti B.8 or with a literal word in the retained S,T presentation."
+      ]
+    }
+  },
+  "source_pair": {
+    "basis": ["a1", "a2", "b1", "b2"],
+    "f1_matrix": [[1,1,-1,0],[0,-1,1,-1],[1,0,1,-1],[1,1,0,-1]],
+    "f2_matrix": [[0,0,0,-1],[0,0,-1,1],[1,1,-1,0],[1,0,0,-1]],
+    "relations": {
+      "f1_order": 8,
+      "f1_fourth_power": "-I",
+      "f2_order": 3,
+      "f1_f2_product_order": 2,
+      "generated_group_order": 48
+    },
+    "delta0inf_coordinate_mod2": [1,1,1,1]
+  },
+  "target_pair_reference": {
+    "retained_basis": ["e1", "e2", "r*e1", "r*e2"],
+    "A_literal": "S*T^-1",
+    "B_literal": "-T",
+    "A_order": 8,
+    "B_order": 3,
+    "A_B_product_order": 2,
+    "generated_group_order": 48,
+    "why_B_minus_T": "T^3=-I in the retained integral representation, hence -T has order 3; R3 transport places every f2 image in the conjugacy class of -T.",
+    "literal_pair_is_not_source_bound": true
+  },
+  "simultaneous_transport_across_r2_adapters": {
+    "adapter_count": 48,
+    "distinct_ordered_target_pairs": 24,
+    "adapter_multiplicity_per_ordered_pair": 2,
+    "pair_orbit": "exact inner-conjugacy orbit of (S*T^-1, -T)",
+    "pair_orbit_size": 24,
+    "pair_stabilizer": "center {+I,-I}",
+    "first_component_distinct_elements": 6,
+    "first_component_class": "conjugacy class of S*T^-1",
+    "first_component_adapter_multiplicity": 8,
+    "second_component_distinct_elements": 8,
+    "second_component_class": "conjugacy class of -T",
+    "second_component_adapter_multiplicity": 6,
+    "delta_line_counts_across_48_adapters": {"L1": 16, "L2": 16, "L3": 16},
+    "delta_line_counts_across_24_projective_pairs": {"L1": 8, "L2": 8, "L3": 8},
+    "simultaneous_pair_data_prunes_absolute_W_line": false
+  },
+  "literal_constraints": {
+    "fix_A_only": {
+      "constraint": "transported f1 = S*T^-1",
+      "compatible_adapters": 8,
+      "delta_line_counts": {"L1": 0, "L2": 8, "L3": 0},
+      "conditional_residue": 97,
+      "conditional_only": true
+    },
+    "fix_B_only": {
+      "constraint": "transported f2 = -T",
+      "compatible_adapters": 6,
+      "delta_line_counts": {"L1": 2, "L2": 2, "L3": 2},
+      "prunes": false
+    },
+    "fix_both": {
+      "constraint": "transported (f1,f2) = (S*T^-1,-T)",
+      "compatible_adapters": 2,
+      "difference_between_two_adapters": "central sign -I",
+      "same_mod2_marking": true,
+      "delta_line_counts": {"L1": 0, "L2": 2, "L3": 0},
+      "conditional_line": "L2",
+      "conditional_residue": 97,
+      "conditional_only": true
+    }
+  },
+  "decision": {
+    "result": "KUUSALO_SECOND_GENERATOR_PAIR_TRANSPORT_IS_EXACT_24_PROJECTIVE_PAIR_ORBIT_AND_REMAINS_8_8_8_NONPRUNING",
+    "second_generator_materially_distinct_source_input_used": true,
+    "absolute_delta0inf_retained_W_line_identified": false,
+    "absolute_Q602_residue_identified": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "remaining_missing_datum": "SOURCE_BOUND_IDENTIFICATION_OF_ONE_TARGET_PAIR_OR_EQUIVALENT_ALGEBRAIC_BRANCH_ACTION_BINDING_TO_LITERAL_RETAINED_WORDS",
+    "next_exact_route": "EX4-R4_KUUSALO_F2_BRANCH_ACTION_TO_CECOTTI_B8_ALGEBRAIC_BINDING_PREFLIGHT",
+    "next_question": "Determine the branch-point permutation/Mobius action of Kuusalo f2 in the z-coordinate and compare it to the explicit Cecotti B.8 reduced map. If they coincide, test whether the combined B.9/B.8 algebraic pair can be source-bound to one retained literal pair without target gauge choice."
+  },
+  "firewalls": {
+    "prior_audited_terminal_revoked": false,
+    "source_pair_orbit_promoted_to_literal_target_pair": false,
+    "literal_A_promoted_without_binding": false,
+    "literal_B_promoted_without_binding": false,
+    "conditional_residue97_promoted": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false,
+    "perfect_cuboid_claim": false
+  },
+  "source_locks": {
+    "r2": {
+      "path": "stages/stage32-ex4/ex4-r2-kuusalo-period-to-retained-b5-lattice-adapter-preflight-scratch.json",
+      "blob_sha1": "c5ff71e4ff4cb897931113e157409bb26c1245ae",
+      "canonical_sha256": "fdcaa13fe6708406387eb46fd7832b25fb891be183748f840777d7c5a8a9212a"
+    },
+    "principal_rosati": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json",
+      "blob_sha1": "e28c4533883440ea0963d4d4e8859aa95409cf10",
+      "canonical_sha256": "8d828cdf6d1f5cb1d790c46292535dc252e503356e1047ce972c41e61f524529"
+    }
+  },
+  "canonical_sha256_without_this_field": "d5443619f6b781d13725fea69adf5f53ed24d412ffabf7c82b78e20a950310d4"
+}
