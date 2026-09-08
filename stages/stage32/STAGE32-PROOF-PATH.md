@@ -10,7 +10,7 @@ Machine-readable files:
 - `stages/stage32/proof/ACTIVE-FRONTIER.json` — current active mathematical frontier only.
 - `stages/stage32/proof/CLAIM-REGISTRY.schema.json` — claim record contract inherited by the frontier shard.
 - `stages/stage32/proof/LANE-ADAPTERS.json` — external MAIN/EX claim-reference boundary.
-- `stages/stage32/proof/verify_stage32_claim_dag.py` — base claim/DAG verifier.
+- `stages/stage32/proof/verify_stage32_claim_dag.py` — base claim/DAG verifier and fail-close regression tests.
 - `stages/stage32/proof/verify_stage32_active_frontier.py` — composed base + active-frontier verifier.
 - `stages/stage32/FINAL-CHECK.json` — fail-closed Stage32 closure check.
 
@@ -20,9 +20,11 @@ Claim IDs use `S32.<DOMAIN>.<SEMANTIC_NAME>.V<n>`.
 
 The immutable core is:
 
-`claim_id + kind + statement + scope_key + scope + PROVES + DOES_NOT_PROVE + requires + source_locks + replay_verifier`.
+`claim_id + kind + statement + scope_key + scope + PROVES + DOES_NOT_PROVE + requires + bridges + source_locks + replay_verifier`.
 
-`claim_core_sha256` commits to that core. A changed quantifier, population, model, field, proof dependency, source lock, verifier, PROVES, or DOES_NOT_PROVE requires a new versioned claim ID. Audit metadata may advance on the same core, but hostile-audit PASS is never inferred or self-assigned.
+`bridges` is mandatory for every `adapter_contract` and contains at least exact `from_scope_key` and `to_scope_key`. It is omitted for ordinary non-adapter claims. Because bridge semantics are part of the immutable core, changing an adapter from one scope transfer to another necessarily changes `claim_core_sha256`; it cannot silently reuse the same semantic claim hash.
+
+`claim_core_sha256` commits to that core. A changed quantifier, population, model, field, proof dependency, bridge, source lock, verifier, PROVES, or DOES_NOT_PROVE requires a new versioned claim ID. Audit metadata may advance on the same core, but hostile-audit PASS is never inferred or self-assigned.
 
 Authority states remain `SCRATCH`, `PROVISIONAL`, `AUDITED`, `DECLARED_GOAL`, `SUPERSEDED`, and `REVOKED`. `DECLARED_GOAL` is a stable target node and grants no mathematical credit. A state saying ready/repaired/CI-clean does not create `AUDITED` credit.
 
@@ -39,7 +41,7 @@ Every node in `ACTIVE-FRONTIER.json` carries:
 - explicit `blockers`;
 - `lane_links` with `MAIN=OWNER` and EX lanes as `ATTACKS` or `CONSUMES`.
 
-The active-frontier verifier composes these nodes with `CLAIM-REGISTRY.json`, then reuses the same immutable-core, dependency, cycle, source-lock, replay-verifier, and cross-scope checks. It also requires every EX1–EX5 lane to connect to at least one current frontier node and cross-checks those links against `LANE-ADAPTERS.json`.
+The active-frontier shard contains mathematical claims only, so its declared common core-key list omits the adapter-only `bridges` field. Adapter claims live in the base registry, where bridge shape and bridge immutability are enforced. The active-frontier verifier composes the two registries and then reuses the same immutable-core, dependency, cycle, source-lock, replay-verifier, and cross-scope checks.
 
 ## 3. Current active mathematical frontier
 
@@ -99,9 +101,20 @@ No `ATTACKS` or `CONSUMES` edge grants credit. EX -> MAIN mathematical promotion
 - `S32.PROOF.HOSTILE_AUDIT_RELEASE.V1`;
 - `S32.PROOF.STAGE32_CLOSED.V1`.
 
+FINAL-CHECK requires more than six independently AUDITED nodes. The final root `S32.PROOF.STAGE32_CLOSED.V1` must transitively depend on every other required milestone. A disconnected collection of audited milestone claims therefore fails closed even if the final root itself is AUDITED and carries `STAGE32_CLOSED=true`.
+
 Those final audited proof nodes remain absent until their exact audited artifacts exist. `S32.GOAL.STAGE32_CLOSURE.V1` can never substitute for them; `--final` therefore remains `NOT_READY_STAGE32_FINAL_CHECK`.
 
-## 6. Migration boundary
+## 6. Fail-close regression checks
+
+`verify_stage32_claim_dag.py --self-test-fail-closed` executes synthetic regressions for the two management invariants most likely to be silently weakened:
+
+1. six AUDITED final milestones with a disconnected `STAGE32_CLOSED` root must be rejected;
+2. mutating `bridges.from_scope_key` or omitting bridge shape must invalidate an adapter claim.
+
+The dedicated CI also runs the real `--final` path and requires exit code `2` plus `NOT_READY_STAGE32_FINAL_CHECK` while the reserved final chain is absent.
+
+## 7. Migration boundary
 
 This migration intentionally does **not** register every historical Stage32 PR, controller revision, FULL178 generation/checkpoint, archived route, scratch experiment, or old certificate as a claim. Existing evidence remains in place.
 
