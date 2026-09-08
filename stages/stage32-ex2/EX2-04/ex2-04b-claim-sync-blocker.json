@@ -1,0 +1,98 @@
+{
+  "schema": "STAGE32EX2_EX2_04B_CLAIM_SYNC_BLOCKER_V1",
+  "stage": "32EX2",
+  "unit": "EX2-04B",
+  "status": "BLOCKED_INHERITED_CURRENT_MAIN_CLAIM_DAG_SOURCE_LOCK_DRIFT",
+  "authority_scope": "operational claim-sync blocker only; preserves retained EX2-04B mathematics but grants no claim-DAG authority, Stage32 MAIN credit, or audit credit",
+  "freshness": {
+    "current_main_sha": "70265586b3f97be21c7621af73f443311f1f3fa3",
+    "branch_head_at_baseline_diagnostic": "460ddc5920fb1457aff0d178b3e0896cc83e1b83",
+    "main_registry_blob_sha1": "6b0b254cdbe02dadbdc94d23b346e398b7a0642f",
+    "claim_sync_contract_blob_sha1": "bbab1b565afbd2e767fc6cc4325c5167d42919b4"
+  },
+  "retained_ex2_result": {
+    "artifact_path": "stages/stage32-ex2/EX2-04/third-section-valuation-separation.json",
+    "artifact_blob_sha1": "5e9cf16ece57162db995cb1b7014a9d583453202",
+    "candidate_claim_id": "S32.EX2.THREE_DIVISOR_SECTION_SUBSPACE.V1",
+    "certified_section_subspace_dimension": 3,
+    "complete_H0": false,
+    "authority_status": "SCRATCH_PENDING_CLAIM_SYNC",
+    "stage32_main_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false
+  },
+  "diagnostic_evidence": {
+    "main_baseline_workflow_run_id": 34282880946,
+    "main_baseline_job_id": 102251576653,
+    "branch_composed_workflow_run_id": 34282633287,
+    "branch_composed_job_id": 102250783755,
+    "main_baseline_phases_passed": [
+      "shape-final-contract",
+      "claim-core",
+      "dependencies",
+      "replay-paths"
+    ],
+    "main_baseline_failed_phase": "source-locks",
+    "main_baseline_source_lock_mismatches": [
+      {
+        "claim_id": "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2",
+        "path": "stages/stage32-ex4/MAIN-STATE.json",
+        "expected_blob_sha1": "6e90681d2d44194998e1a4bbfb70d836dac6278b",
+        "actual_blob_sha1": "241ceb343b026faaa034f2fecc534a5bc8bbb19d"
+      },
+      {
+        "claim_id": "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2",
+        "path": "stages/stage32-ex5/MAIN-STATE.json",
+        "expected_blob_sha1": "13bd7a5380e74f0b4c5fca1337e3856dccc79613",
+        "actual_blob_sha1": "6721539364b40622572d6cf9fe2898a1f6b8d0f2"
+      },
+      {
+        "claim_id": "S32.EX4.LANE_CONTRACT.V2",
+        "path": "stages/stage32-ex4/MAIN-STATE.json",
+        "expected_blob_sha1": "6e90681d2d44194998e1a4bbfb70d836dac6278b",
+        "actual_blob_sha1": "241ceb343b026faaa034f2fecc534a5bc8bbb19d"
+      },
+      {
+        "claim_id": "S32.EX5.LANE_CONTRACT.V3",
+        "path": "stages/stage32-ex5/MAIN-STATE.json",
+        "expected_blob_sha1": "c5f94614471ececbe4259e530f924108911f34e9",
+        "actual_blob_sha1": "6721539364b40622572d6cf9fe2898a1f6b8d0f2"
+      }
+    ],
+    "main_baseline_source_lock_mismatch_count": 4,
+    "main_baseline_failure_preexists_ex2_overlay": true
+  },
+  "claim_sync_contract_interpretation": {
+    "core_change_requires_new_versioned_claim_id": true,
+    "audited_status_requires_exact_hostile_audit_pass_for_same_claim_core_evidence_boundary": true,
+    "cross_lane_reversion_or_silent_audit_credit_carry_forward_allowed": false,
+    "ex2_pr_may_not_repair_ex4_ex5_by_reassigning_audited_credit": true
+  },
+  "ex2_local_followup": {
+    "old_ex2_v2_main_state_locks_require_versioned_migration": true,
+    "ex2_04a_verifier_lock_changed_by_schema_path_repair": true,
+    "ex2_04a_old_verifier_blob_sha1": "e56fe9b91551c39250a1faf5de0060e697c23e73",
+    "ex2_04a_repaired_verifier_blob_sha1": "2b31f8f8bc8d00555bb880d280ed33119bec095d",
+    "ex2_local_versioning_is_not_sufficient_until_current_main_integrity_is_restored": true
+  },
+  "decision": {
+    "claim_dag_sync_complete": false,
+    "promotion_attempted": false,
+    "advance_to_ex2_04c_before_sync": false,
+    "required_external_reentry": "RESTORE_CURRENT_MAIN_STAGE32_CLAIM_DAG_SOURCE_LOCK_INTEGRITY_WITH_PROPER_VERSIONING_AND_EXACT_AUDIT_SEMANTICS",
+    "merge_authorized": false
+  },
+  "firewalls": {
+    "inherited_main_drift_treated_as_ex2_mathematical_failure": false,
+    "old_audit_receipt_carried_to_changed_claim_core": false,
+    "ex4_ex5_claims_rewritten_by_ex2": false,
+    "ex2_04b_promoted_to_provisional_or_audited_claim": false,
+    "stage32_main_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "efdef1983868b1490fa6d76deddfb44be358c51f27a0db12fb98d7d1795f62ab"
+}
