@@ -36,8 +36,8 @@ jobs:
           terminal_id='S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2'
           adapter_id='S32.ADAPTER.EX1_V6_CARRIER_TO_MAIN_V6_CARRIER.V1'
           main_id='S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2'
-          adapter_hash='a8db7803b60ed6c7d514235dbac383b128f849fc35a2dca748bb99cc532a413e'
-          main_hash='5a89879108f0d739f57ab779bedfc9e8877c3c7b8de681b54ebd9adbd8df69bc'
+          adapter_hash='4e0ec501c299fe0a41699eb6cc377ef977ebed27172f0e6f10a25039d835fe06'
+          main_hash='c7927cd86c321de2956b3843dff4882ddeb29fb3489715d4dd7d1d60eff58cc6'
 
           regp=Path('stages/stage32/proof/CLAIM-REGISTRY.json')
           reg=json.loads(regp.read_text())
@@ -60,7 +60,7 @@ jobs:
             'bridges':{'from_scope_key':'S32.EX1.V6_CARRIER','to_scope_key':'S32.MAIN.V6_CARRIER','semantics':'exact current-target population identity for geometric V6 integral irreducible genus-1 carriers only'},
             'source_locks':[
               {'path':'stages/stage32-ex1/ex1-07-current-main-v6-carrier-promotion-adapter.json','blob_sha1':'2317bf844f8cab6841aa43db3b6678c350df9507','canonical_sha256':'e21bf24712be8931b6854e2640cf9ccc02c965a4235be84e60086565c4d76a42'},
-              {'path':'stages/stage32-ex1/verify_ex1_07_current_main_v6_carrier_promotion_adapter.py','blob_sha1':'9b57e63c0ca1d2e422e43f5af4bd8c32a40ff4c6'},
+              {'path':'stages/stage32-ex1/verify_ex1_07_current_main_v6_carrier_promotion_adapter.py','blob_sha1':'795a0e62676a1e4a68378579359357b7f123f3f4'},
               {'path':'stages/stage32/MAIN-STATE.json','blob_sha1':'05e2942b4c893044688f16926b5e9837e59d8e9d'},
               {'path':'stages/stage32-ex1/ex1-00-source-lock-and-target-adapter.json','blob_sha1':'ac76873a0e24874b4f5625d692a10e916886c92f','canonical_sha256':'783526a604572a4a81a314c59db1a399d38209ee159352106d7c5f6b5e71fa6c'},
               {'path':'stages/stage32-ex1/stage32-ex1.md','blob_sha1':'66072a1f3286819c999d2dedc9659914b3448518'}],
@@ -82,7 +82,7 @@ jobs:
             'requires':['S32.MAIN.CURRENT_TARGET_CONTEXT.V1',terminal_id,adapter_id],
             'source_locks':[
               {'path':'stages/stage32-ex1/ex1-07-current-main-v6-carrier-promotion-adapter.json','blob_sha1':'2317bf844f8cab6841aa43db3b6678c350df9507','canonical_sha256':'e21bf24712be8931b6854e2640cf9ccc02c965a4235be84e60086565c4d76a42'},
-              {'path':'stages/stage32-ex1/verify_ex1_07_current_main_v6_carrier_promotion_adapter.py','blob_sha1':'9b57e63c0ca1d2e422e43f5af4bd8c32a40ff4c6'},
+              {'path':'stages/stage32-ex1/verify_ex1_07_current_main_v6_carrier_promotion_adapter.py','blob_sha1':'795a0e62676a1e4a68378579359357b7f123f3f4'},
               {'path':'stages/stage32/MAIN-STATE.json','blob_sha1':'05e2942b4c893044688f16926b5e9837e59d8e9d'}],
             'replay_verifier':'stages/stage32-ex1/verify_ex1_07_current_main_v6_carrier_promotion_adapter.py',
             'claim_core_sha256':main_hash,
