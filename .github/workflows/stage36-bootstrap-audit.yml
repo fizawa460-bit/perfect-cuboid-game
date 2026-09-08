@@ -43,74 +43,55 @@ jobs:
         run: |
           set -euo pipefail
           H=6b31ca804744c4d8726d3d74861faadee78e0d64
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CN.py"
-          git worktree remove --force "$tmp"
+          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"; python3 "$tmp/stages/stage36/verify_stage36_36_09CN.py"; git worktree remove --force "$tmp"
       - name: Replay immutable 36-09CO exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
           H=b19439a701579d1563a77746cb1e6d57da04460e
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CO.py"
-          git worktree remove --force "$tmp"
+          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"; python3 "$tmp/stages/stage36/verify_stage36_36_09CO.py"; git worktree remove --force "$tmp"
       - name: Replay immutable 36-09CP exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
           H=acb10a76b8adcd07d52dc977e4257790395f535a
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CP.py"
-          git worktree remove --force "$tmp"
+          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"; python3 "$tmp/stages/stage36/verify_stage36_36_09CP.py"; git worktree remove --force "$tmp"
       - name: Replay immutable 36-09CQ exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
           H=a0d8cb76e43f926342f1a57b2b6aa903d19da63d
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CQ.py"
-          git worktree remove --force "$tmp"
+          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"; python3 "$tmp/stages/stage36/verify_stage36_36_09CQ.py"; git worktree remove --force "$tmp"
       - name: Replay immutable corrected 36-09CR exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
           H=1e9cf94bc7ffc6ac78fabf51adac3cdf31d2bd12
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CR.py"
-          git worktree remove --force "$tmp"
+          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"; python3 "$tmp/stages/stage36/verify_stage36_36_09CR.py"; git worktree remove --force "$tmp"
       - name: Replay immutable 36-09CS exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
           H=b1b88082b018edb4d9b22157943c7dd8b289b277
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CS.py"
-          git worktree remove --force "$tmp"
+          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"; python3 "$tmp/stages/stage36/verify_stage36_36_09CS.py"; git worktree remove --force "$tmp"
       - name: Replay immutable 36-09CT exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
           H=562e64f8f4ea64f420a7970a03119d0029d70a10
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CT.py"
-          git worktree remove --force "$tmp"
+          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"; python3 "$tmp/stages/stage36/verify_stage36_36_09CT.py"; git worktree remove --force "$tmp"
       - name: Replay immutable 36-09CU exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
           H=b741a0459eee46cb3f0404c0d13befb819c793d0
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CU.py"
-          git worktree remove --force "$tmp"
-      - name: Assert CU exact-green promotion and CV unlock firewalls
+          tmp="$(mktemp -d)"; git worktree add --detach "$tmp" "$H"; python3 "$tmp/stages/stage36/verify_stage36_36_09CU.py"; git worktree remove --force "$tmp"
+      - name: Verify 36-09CV retained non-Kummer source boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09CV.py
+      - name: Assert CV checkpoint and CW lock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -118,36 +99,38 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V153_36_09CU_EXACT_GREEN_CV_UNLOCK'
-          cu=s['authority_frontier']['36-09CU']
-          assert cu['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert cu['certificate_blob_sha']=='cb92adb9b0025e8cef8554a2c30dc6777b8e2835'
-          assert cu['verifier_blob_sha']=='5d310a9d744031b4e03d1ae595ae922183493283'
-          assert cu['exact_head']=='b741a0459eee46cb3f0404c0d13befb819c793d0'
-          assert cu['exact_head_ci']=='34195137169/101961098375'
-          assert cu['BT_KUMMER_MONOMIAL_QUATERNION_FAMILY_EXHAUSTED_AS_OBSTRUCTION'] is True
-          assert cu['BT_NONTRIVIAL_RECEIVER_LOCUS_SECONDARY_EVALUATION_FOUND'] is False
-          assert cu['BT_BRAUER_CLASS_WITH_POINT_DEPENDENT_RECEIVER_EVALUATION_FOUND'] is False
-          assert cu['FIRST_MISSING_OBLIGATION']=='BT_NON_KUMMER_DIVISOR_COCYCLE_OR_SECONDARY_EXTENSION_SOURCE'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V154_36_09CV_RETAINED_NON_KUMMER_SOURCE_BOUNDARY'
+          cv=s['authority_frontier']['36-09CV']
+          assert cv['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert cv['certificate_blob_sha']=='2abc41fe2dccc7563e4c8af49d37b78094e7cd64'
+          assert cv['verifier_blob_sha']=='ce0cf641b188c1d69cda149567e0ab63403399a4'
+          assert cv['OLD_H_TORSOR_CLASS_SELF_TRIVIAL_ON_PHYSICAL_RECEIVER'] is True
+          assert cv['OLD_H_TORSOR_CLASS_IS_BRAUER_H2'] is False
+          assert cv['CAMP4_EXPLICIT_BRAUER_PACKET_AVAILABLE_FOR_TRANSPORT'] is False
+          assert cv['EXISTING_SOURCE_BOUND_BT_NONTRIVIAL_BRAUER_OR_SECONDARY_CLASS_FOUND'] is False
+          assert cv['FIRST_MISSING_OBLIGATION']=='BT_LITERAL_NON_KUMMER_DIVISOR_CECH_COMMON_COCYCLE_OR_SECONDARY_EXTENSION_CONSTRUCTION'
+          assert cv['LIT_WF02_APPLICABILITY_PASS'] is False
+          assert cv['NEW_GLOBAL_OBSTRUCTION_OBTAINED'] is False
           cur=s['current']
-          assert cur['unit']=='36-09CU'
-          assert cur['next_exact_leaf']=='36-09CV_BT_NON_KUMMER_DIVISOR_COCYCLE_BRAUER_SOURCE_PREFLIGHT'
+          assert cur['unit']=='36-09CV'
+          assert cur['next_exact_leaf']=='36-09CW_BT_LITERAL_NON_KUMMER_DIVISOR_CECH_CONSTRUCTION_PREFLIGHT'
           assert cur['36_09CV_entry_allowed'] is True
+          assert cur['36_09CW_entry_allowed'] is False
           pg=s['promotion_gates']
-          assert pg['36_09CU_exact_head_ci_passed'] is True
-          assert pg['36_09CV_entry_allowed'] is True
-          assert pg['BT_kummer_monomial_quaternion_family_exhausted_as_obstruction'] is True
+          assert pg['36_09CV_certificate_complete'] is True
+          assert pg['36_09CV_exact_head_ci_passed'] is False
+          assert pg['36_09CW_entry_allowed'] is False
+          assert pg['BT_old_H_torsor_class_self_trivial_on_physical_receiver'] is True
+          assert pg['BT_CAMP4_explicit_Brauer_packet_available_for_transport'] is False
+          assert pg['BT_literal_non_kummer_divisor_Cech_common_cocycle_materialized'] is False
           assert pg['BT_nontrivial_receiver_locus_secondary_evaluation_found'] is False
           assert pg['BT_Brauer_class_with_point_dependent_receiver_evaluation_found'] is False
-          assert pg['BT_Poitou_Tate_local_condition_system_complete'] is False
-          assert pg['Stage36_required_place_inventory_complete'] is False
-          assert pg['LIT_WF02_applicability_pass'] is False
           assert pg['new_global_obstruction_obtained'] is False
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
           claims=s['claims']
           for key in ['new_theorem_credit','LIT_WF02_applicability_pass','Selmer_membership_obtained','Poitou_Tate_obstruction_obtained','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert claims[key] is False
-          print('36-09CU exact-green parent verified and 36-09CV entry unlocked. No BM/PT/receiver/endpoint credit.')
+          print('36-09CV provisional checkpoint verified: retained non-Kummer candidates are self-trivial or unavailable; CW remains locked pending exact-head CI. No BM/PT/receiver/endpoint credit.')
           PY
           git diff --check
