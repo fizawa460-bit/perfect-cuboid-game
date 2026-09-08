@@ -1,0 +1,61 @@
+name: Stage32EX2 EX2-03F promote EX2-04
+
+on:
+  push:
+    branches:
+      - stage32ex2-ex2-00-source-lock-continuation
+    paths:
+      - 'stages/stage32-ex2/runkeys/ex2-03f-promote-ex2-04.json'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stage32ex2-ex2-03f-promote-ex2-04-1709
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stage32ex2-ex2-00-source-lock-continuation
+          fetch-depth: 0
+      - name: Authorize exact transition and freshness
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          key=json.loads(Path('stages/stage32-ex2/runkeys/ex2-03f-promote-ex2-04.json').read_text())
+          assert key['schema']=='STAGE32EX2_EX2_03F_PROMOTE_EX2_04_RUNKEY_V1'
+          assert key['generation']==1 and key['armed'] is True
+          assert key['merge_authorized'] is False
+          assert key['transition_path']=='stages/stage32-ex2/promote_ex2_03f_to_ex2_04.py'
+          assert key['verifier_path']=='stages/stage32-ex2/verify_main_state.py'
+          transition=subprocess.check_output(['git','hash-object',key['transition_path']],text=True).strip()
+          verifier=subprocess.check_output(['git','hash-object',key['verifier_path']],text=True).strip()
+          assert transition==key['transition_blob_sha1']
+          assert verifier==key['verifier_blob_sha1']
+          subprocess.check_call(['git','fetch','origin','main'])
+          current=subprocess.check_output(['git','rev-parse','origin/main'],text=True).strip()
+          assert current==key['expected_current_main'], (current,key['expected_current_main'])
+          PY
+          git merge-base --is-ancestor 226a8aa11ac61293a7e4b7f9611177f68af94ff4 HEAD
+      - name: Apply exact EX2-03F route transition
+        run: python -B stages/stage32-ex2/promote_ex2_03f_to_ex2_04.py
+      - name: Verify promoted MAIN state
+        run: python -B stages/stage32-ex2/verify_main_state.py
+      - name: Check exact generated scope
+        run: |
+          git status --porcelain --untracked-files=all | cut -c4- | sort > /tmp/actual
+          printf '%s\n' stages/stage32-ex2/MAIN-STATE.json > /tmp/expected
+          diff -u /tmp/expected /tmp/actual
+      - name: Commit and push MAIN state
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add stages/stage32-ex2/MAIN-STATE.json
+          git commit -m '[Stage32EX2][MAIN] EX2-03F blocker; EX2-04 finite section reconstruction active'
+          git push origin HEAD:stage32ex2-ex2-00-source-lock-continuation
