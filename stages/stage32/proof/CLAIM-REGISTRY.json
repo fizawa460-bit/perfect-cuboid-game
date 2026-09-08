@@ -244,7 +244,7 @@
         "merge_commit": "5c8c3b1ca903003cff3b5843cdb1add63ce23917",
         "status": "PENDING_FUTURE_CONSOLIDATION_HOSTILE_AUDIT"
       },
-      "authority_status": "PROVISIONAL",
+      "authority_status": "SUPERSEDED",
       "claim_id": "S32.EX1.CANDIDATE_THROUGH_05H.V1",
       "does_not_prove": [
         "Hostile-audit PASS for EX1-05G/05H.",
@@ -288,6 +288,58 @@
       ],
       "statement": "EX1 currently retains an accumulated candidate through EX1-05H. The hostile-audited ceiling remains EX1-00 through EX1-05F; EX1-05G and EX1-05H are retained but unaudited, exclude 0/29 ramification states, and grant no EX1 full-target or Stage32 MAIN credit.",
       "claim_core_sha256": "1c34ee1a9458f4a2078af3db148a4c5fedf0372dd540778dca5ba20574bfdb6c"
+    },
+    {
+      "audit_receipt": {
+        "status": "PASS",
+        "pr": 1700,
+        "review_id": 5136931113,
+        "exact_head": "b17e5a32e08adf3c668c07a71f5b2621b3485c87",
+        "merge_commit": "5c8c3b1ca903003cff3b5843cdb1add63ce23917"
+      },
+      "authority_status": "AUDITED",
+      "claim_id": "S32.EX1.CANDIDATE_THROUGH_05H.V2",
+      "does_not_prove": [
+        "EX1 full target closure.",
+        "All V6 genus-1 carriers are excluded.",
+        "A genuine carrier exists.",
+        "Stage32 MAIN credit.",
+        "Q602 or O210 exclusion."
+      ],
+      "kind": "mathematical_claim",
+      "proves": [
+        "EX1-05G and EX1-05H survive hostile audit at their exact stated necessary/nonpruning scope.",
+        "The cumulative Stage32EX1 credit ceiling remains the previously audited intermediate BRANCH_EXCLUSION / exact-blocker level; 05G/05H do not raise it to full residual disposal or closure."
+      ],
+      "replay_verifier": "stages/stage32-ex1/verify_main_state.py",
+      "requires": [
+        "S32.EX1.LANE_CONTRACT.V2"
+      ],
+      "scope": {
+        "candidate_pr": 1700,
+        "coverage": "EX1-00 through EX1-05H",
+        "lane": "EX1",
+        "status": "HOSTILE_AUDIT_PASS_INTERMEDIATE_CEILING"
+      },
+      "scope_key": "S32.EX1.V6_CARRIER",
+      "source_locks": [
+        {
+          "blob_sha1": "c461608d3babd6b8c82a1c06616b780332ad507b",
+          "path": "stages/stage32-ex1/MAIN-STATE.json"
+        },
+        {
+          "blob_sha1": "2021985d51444c74ce3d6b2b632ed7f1395d2e79",
+          "canonical_sha256": "5a1c30a64857b900f7523153f326c0742ad5cb4ef88e77b0748dd6c4e532be08",
+          "path": "stages/stage32-ex1/ex1-05g-h4-common-cover-correspondence-coupling.json"
+        },
+        {
+          "blob_sha1": "af1c0c7ceeb12806e5052b3f2b179df43aebe9d7",
+          "canonical_sha256": "e2f1c363b60f0af045843f887446be0cd67cb000d5cd42f05fa26c82d5860893",
+          "path": "stages/stage32-ex1/ex1-05h-upstairs-conductor-discriminant-off-cusp-coupling.json"
+        }
+      ],
+      "statement": "The retained EX1 accumulated package through EX1-05H has hostile-audit PASS at the stated intermediate ceiling: EX1-05G and EX1-05H establish exact common-cover/Rosati and member-level conductor/discriminant necessary/nonpruning couplings, each excluding 0/29 ramification states, without full-target closure.",
+      "claim_core_sha256": "e26a24243ab4475709e1ec7d4738da6cdfd9699c0923748e1e7dd216bfb26a46"
     },
     {
       "audit_receipt": null,
