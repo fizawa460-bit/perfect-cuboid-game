@@ -70,12 +70,17 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09CP.py"
           git worktree remove --force "$tmp"
-      - name: Verify 36-09CQ global-dual reciprocity boundary
+      - name: Replay immutable 36-09CQ exact-green mathematical evidence
         shell: bash
         run: |
           set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09CQ.py
-      - name: Assert CQ promotion and credit firewalls
+          H=a0d8cb76e43f926342f1a57b2b6aa903d19da63d
+          git cat-file -e "$H^{commit}"
+          tmp="$(mktemp -d)"
+          git worktree add --detach "$tmp" "$H"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09CQ.py"
+          git worktree remove --force "$tmp"
+      - name: Assert CQ exact-green promotion and CR unlock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -83,18 +88,19 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V142_36_09CQ_GLOBAL_DUAL_RECIPROCITY_BOUNDARY'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V143_36_09CQ_EXACT_GREEN_CR_UNLOCKED'
           hist=s['audited_history']['36-09CM-CP']
           assert hist['status']=='AUDITED_MERGED_AUTHORITY'
-          assert hist['pr']==1707
-          assert hist['hostile_audit_review']==5137131273
+          assert hist['pr']==1707 and hist['hostile_audit_review']==5137131273
           assert hist['audited_exact_head']=='e1c76660f08190709bff6ccf4336ac425020f156'
           assert hist['exact_head_ci']=='34183931952/101928383350'
           assert hist['merged_main_sha']=='0afdbe5a0e4131e46b176800ca466795230d9702'
           cq=s['authority_frontier']['36-09CQ']
-          assert cq['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert cq['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert cq['certificate_blob_sha']=='c7042cc86ff94cf94db88c8cc65ce5b69441aabe'
           assert cq['verifier_blob_sha']=='cd7716e99f2c1da83b9bfb0ea39168b43d5752ce'
+          assert cq['exact_head']=='a0d8cb76e43f926342f1a57b2b6aa903d19da63d'
+          assert cq['exact_head_ci']=='34188612840/101941880607'
           assert cq['BT_CARTIER_DUAL_MODULE_IDENTIFIED'] is True
           assert cq['GLOBAL_DUAL_H1_PAIRING_TOTAL_NONTRIVIAL'] is False
           assert cq['GLOBAL_DUAL_CLASS_ALONE_SUPPLIES_OBSTRUCTION'] is False
@@ -106,17 +112,10 @@ jobs:
           cur=s['current']
           assert cur['unit']=='36-09CQ'
           assert cur['next_exact_leaf']=='36-09CR_BT_GEOMETRIC_LOCAL_CONDITION_OR_ADELIC_EVALUATION_SOURCE_PREFLIGHT'
-          assert cur['36_09CQ_entry_allowed'] is True
-          assert cur['36_09CR_entry_allowed'] is False
+          assert cur['36_09CR_entry_allowed'] is True
           pg=s['promotion_gates']
-          assert pg['36_09CM_CP_hostile_audit_passed'] is True
-          assert pg['36_09CM_CP_merged'] is True
-          assert pg['36_09CQ_unlocked'] is True
-          assert pg['36_09CQ_entry_allowed'] is True
-          assert pg['36_09CQ_certificate_complete'] is True
-          assert pg['36_09CQ_exact_head_ci_passed'] is False
-          assert pg['36_09CR_entry_allowed'] is False
-          assert pg['BT_Cartier_dual_module_identified'] is True
+          assert pg['36_09CQ_exact_head_ci_passed'] is True
+          assert pg['36_09CR_entry_allowed'] is True
           assert pg['BT_geometry_bound_dual_evaluation_adapter_complete'] is False
           assert pg['BT_Poitou_Tate_local_condition_system_complete'] is False
           assert pg['global_dual_H1_pairing_can_supply_nontrivial_total_obstruction'] is False
@@ -127,6 +126,6 @@ jobs:
           claims=s['claims']
           for key in ['new_theorem_credit','LIT_WF02_applicability_pass','Selmer_membership_obtained','Poitou_Tate_obstruction_obtained','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
             assert claims[key] is False
-          print('36-09CQ provisional checkpoint verified: corrected hostile-audit provenance binding; global-global dual pairing is reciprocity-trivial; CR remains locked pending exact-head CQ CI. No obstruction/receiver/endpoint credit.')
+          print('36-09CQ exact-green parent replayed and CR unlocked. No LIT-WF02/PT/BM/receiver/endpoint credit.')
           PY
           git diff --check
