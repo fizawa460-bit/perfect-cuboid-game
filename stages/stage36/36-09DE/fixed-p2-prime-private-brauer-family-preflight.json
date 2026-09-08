@@ -1,0 +1,103 @@
+{
+  "schema":"STAGE36_36_09DE_FIXED_P2_PRIME_PRIVATE_BRAUER_FAMILY_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09DE",
+  "status":"PASS_INFINITE_RANK_PRIVATE_PRIME_CREUTZ_VIRAY_SUBGROUP_WITH_BLOCK_DIAGONAL_ADELIC_CONTROL",
+  "base_main_sha":"f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "batch_parent":{
+    "pr":1712,
+    "36_09DD_exact_green_head":"d1e1e48745b4ea2bdebb7ea69f2beb500f4974df",
+    "36_09DD_exact_head_ci":"34203063483/101986101989",
+    "promotion_replay_head":"ccc2341a39ec0c3eac61f2e0897acbbf4af13e53",
+    "promotion_replay_ci":"34203319763/101986947639"
+  },
+  "source_locks":{
+    "stage36_36_09DD":{"path":"stages/stage36/36-09DD/fixed-p2-creutz-viray-subgroup-completeness-preflight.json","blob_sha":"81c580ab09f2fc265f033c51e99f3a553d726f92"},
+    "stage36_36_09DC":{"path":"stages/stage36/36-09DC/fixed-p2-rank3-brauer-two-place-evaluation-matrix-preflight.json","blob_sha":"4865bd16973ddf0fd746bc4219ea68b8277817b3"},
+    "stage36_36_09CW":{"path":"stages/stage36/36-09CW/bt-literal-non-kummer-divisor-cech-construction-preflight.json","blob_sha":"a363c230cb44fec6d235eda0720d4fd624b1a87c"},
+    "prime_private_source":{"path":"stages/stage36/36-09DE/prime-private-brauer-family-source-lock.md","blob_sha":"6314560c7d55b34ef4ce060cb3a85bd79e0181f6"}
+  },
+  "fixed_curve":"C3_2: z^2=(t^2+4)(t^2+1/4)(t^2+9)(t^2+1/9)",
+  "prime_progression":{
+    "modulus":2859545,
+    "factorization":"5*13*29*37*41",
+    "residue":17,
+    "gcd_residue_modulus":1,
+    "Dirichlet_infinitely_many_primes":true,
+    "prime_set":"P={q prime : q == 17 mod 2859545}"
+  },
+  "fixed_character_data":{
+    "Legendre_5":-1,
+    "Legendre_13":1,
+    "Legendre_29":-1,
+    "Legendre_37":-1,
+    "Legendre_41":-1,
+    "t3_rhs":"19721=13*37*41",
+    "t3_rhs_character":1,
+    "t4_rhs":"1178125/9=5^5*13*29/3^2",
+    "t4_rhs_character":1,
+    "t3_f0":"13",
+    "t3_f0_character":1,
+    "t4_f0":"20=4*5",
+    "t4_f0_character":-1
+  },
+  "private_family":{
+    "classes":"E_q=(q,t^2+4)_2 for q in P",
+    "each_class_unramified_by_CW":true,
+    "q_local_t_values":[3,4],
+    "q_local_receiver_points_exist_by_Hensel":true,
+    "E_q_invariants_at_t3_t4":["0","1/2"],
+    "all_prior_distinct_prime_first_entry_classes_evaluate_zero_on_q_witnesses":true,
+    "reason_prior_zero":"At the q witnesses, every distinct prior rational prime first entry and the relevant factor second entries are q-adic units; odd-prime unit/unit Hilbert symbols are +1."
+  },
+  "infinite_independence":{
+    "base_classes":["A=(7,t^2+4)_2","B=(7,t^2+9)_2","D=(11,t^2+4)_2"],
+    "base_classes_independent":true,
+    "private_classes_pairwise_independent_mod_BrQ":true,
+    "private_classes_independent_from_A_B_D_mod_BrQ":true,
+    "proof":"For any q in P, compare the two Q_q receiver points t=3,4. Every previously selected class evaluates equally (indeed zero) on the pair, while E_q changes value. Hence E_q is not in the F2-span of the previous classes modulo constants. Dirichlet supplies infinitely many fresh q, so induction gives infinitely many independent classes.",
+    "Creutz_Viray_explicit_image_contains_infinite_F2_independent_set":true,
+    "constructed_explicit_subgroup_infinite_F2_rank":true,
+    "full_Creutz_Viray_explicit_image_computed":false,
+    "full_Brauer_group_computed":false
+  },
+  "block_diagonal_adelic_control":{
+    "q7_control":"36-09DC controls A,B and leaves D zero; every E_q has zero evaluation on the selected Q_7 witnesses because q and f0 are 7-adic units.",
+    "q11_control":"36-09DC controls D and leaves A,B zero; every E_q has zero evaluation on the selected Q_11 witnesses because q and f0 are 11-adic units.",
+    "private_q_control":"At its own Q_q place E_q can be toggled between 0 and 1/2 by t=3,4, while A,B,D and every E_r for r!=q evaluate zero on those selected witnesses.",
+    "every_finite_generated_subgroup_has_full_coordinate_correction_image":true,
+    "simultaneous_infinite_family_correction":"Starting from any adelic point, choose the Q_7 and Q_11 components for A,B,D and independently choose each Q_q component for E_q. Cross-evaluations on all selected witness sets are zero, so all coordinates can be cancelled simultaneously.",
+    "infinite_private_subgroup_can_supply_Brauer_Manin_obstruction_conditional_on_adelic_solubility":false
+  },
+  "current_credit_boundary":{
+    "infinite_rank_Creutz_Viray_explicit_subgroup_constructed":true,
+    "infinite_private_subgroup_BM_obstruction_disproved_conditional_on_adelic_solubility":true,
+    "full_Creutz_Viray_explicit_image_computed":false,
+    "private_subgroup_equals_full_explicit_image":false,
+    "full_Brauer_group_computed":false,
+    "Brauer_Manin_obstruction_from_full_Br_group_proved":false,
+    "C3_2_adelic_points_exist":false,
+    "fixed_p_2_branch_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false
+  },
+  "route_result":{
+    "route_status":"PASS_INFINITE_PRIVATE_SUBGROUP_NO_GO_PIVOT_TO_EXPLICIT_IMAGE_COMPLEMENT_OR_LOCAL_OBSTRUCTION",
+    "next_leaf":"36-09DF_FIXED_P2_CREUTZ_VIRAY_COMPLEMENT_AND_LOCAL_OBSTRUCTION_PREFLIGHT",
+    "next_leaf_semantics":"Stop adding rational-prime/f0 classes. Determine what part of the Creutz--Viray explicit image is not generated by the private-prime subgroup (for example non-rational Q(i) component data or other factor structures), and in parallel check whether p=2 already fails local solubility somewhere. Do not identify the private subgroup with the full explicit image or full Brauer group."
+  },
+  "scope_firewalls":{
+    "new_theorem_credit":false,
+    "private_subgroup_equals_full_Creutz_Viray_image":false,
+    "full_Creutz_Viray_explicit_image_computed":false,
+    "full_Brauer_group_computed":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
