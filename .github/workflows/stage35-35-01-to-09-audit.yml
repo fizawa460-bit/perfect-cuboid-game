@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          # V72 -> persisted V71/V70/... -> retained audited history.
+          # V73 -> snapshot-aware persisted V72/V71/V70/... -> retained audited history.
           fetch-depth: 380
       - name: Assert exact PR head checkout
         run: |
@@ -36,12 +36,14 @@ jobs:
         run: python -B stages/stage35/verify_stage35_35_01_to_09.py
       - name: Verify Stage35 35-10 material routing firewalls
         run: python -B stages/stage35/35-10/verify_35_10.py
-      - name: Replay Stage35-EX persisted history through Goal4AH against V72
+      - name: Replay Stage35-EX persisted history through Goal4AI via V73 adapter
         run: |
           set -euo pipefail
-          targets="base $(seq 10 32) 32p 33g1 33g2 33 34 35 35g4a 35g4b 35g4c 35g4d 35g4e 35g4f 35g4g 35g4h 35g4i 35g4j 35g4k 35g4l 35g4m 35g4n 35g4o 35g4p 35g4q 35g4r 35g4s 35g4t 35g4u 35g4v 35g4w 35g4x 35g4y 35g4z 35g4aa 35g4ab 35g4ac 35g4ad 35g4ae 35g4af 35g4ag 35g4ah"
+          targets="base $(seq 10 32) 32p 33g1 33g2 33 34 35 35g4a 35g4b 35g4c 35g4d 35g4e 35g4f 35g4g 35g4h 35g4i 35g4j 35g4k 35g4l 35g4m 35g4n 35g4o 35g4p 35g4q 35g4r 35g4s 35g4t 35g4u 35g4v 35g4w 35g4x 35g4y 35g4z 35g4aa 35g4ab 35g4ac 35g4ad 35g4ae 35g4af 35g4ag 35g4ah 35g4ai"
           for target in $targets; do
-            python -B stages/stage35-ex/verify_stage35_ex_v72_legacy_replay.py "$target"
+            python -B stages/stage35-ex/verify_stage35_ex_v73_legacy_replay.py "$target"
           done
-      - name: Verify provisional Goal4AI degree31 Q-homogeneous principalization existence
-        run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4ai.py
+      - name: Verify audited Goal4AJ claim synchronization
+        run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4aj_audited_claim_sync.py
+      - name: Verify provisional exact Goal4AK explicit F_B assembly
+        run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4ak_explicit_fb.py
