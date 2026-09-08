@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V1_EX5_00_COMPLETE",
+  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V1_EX5_01_COMPLETE",
   "role": "ORDINARY_STAGE32EX5_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX5",
   "execution": {
@@ -50,25 +50,26 @@
     "EX5_route_decision_closure_is_Stage32_full_target_closure": false
   },
   "current": {
-    "status": "EX5_00_SOURCE_LOCK_COMPLETE_UNAUDITED_RETAINED",
+    "status": "EX5_01_RECEIVER_LEDGER_COMPLETE_UNAUDITED_RETAINED",
     "breadth_cycle": "EX5_BREADTH_CYCLE_1",
-    "leaf": "EX5-01_EXACT_RECEIVER_LEDGER_RECONSTRUCTION",
-    "subroute": "RECONSTRUCT_EVERY_FROZEN_RECEIVER_ROW_AND_STATUS_WITH_EXACT_EVIDENCE",
-    "objective": "Build the replayable receiver ledger from the frozen EX5-00 target contract without widening, shrinking, or silently reinterpreting the Stage29 -> Stage32 population.",
-    "next_route_on_success": "EX5-02_CURRENT_COVERAGE_AND_DEPENDENCY_GRAPH",
-    "next_route_on_block": "RECORD_EXACT_UNRESOLVED_RECEIVER_COVERAGE_GAP_AND_KEEP_LEDGER_INCOMPLETE",
+    "leaf": "EX5-02_CURRENT_COVERAGE_AND_DEPENDENCY_GRAPH",
+    "subroute": "MAP_EACH_OPEN_RECEIVER_ROW_TO_CURRENT_WEAPONS_ADAPTERS_AND_BLOCKERS",
+    "objective": "Build the breadth topology over the exact 185-row EX5-01 ledger, separating closed catalogue rows, residual numerical rows, effectivity, multibranch, and the single current V6/O210/Q602 representative branch.",
+    "next_route_on_success": "EX5-03_CLEAN_ROOM_MATERIALLY_DISTINCT_ROUTE_GENERATION",
+    "next_route_on_block": "RECORD_EXACT_UNMAPPED_RECEIVER_OR_DEPENDENCY_AND_KEEP_COVERAGE_GRAPH_INCOMPLETE",
     "stop_semantics": "LEAF_GATE_ONLY_NOT_STAGE_EXHAUSTION"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex5/ex5-00-source-lock-target-contract.json",
-    "stages/stage32-ex5/verify_ex5_00_source_lock.py",
+    "stages/stage32-ex5/ex5-01-exact-receiver-ledger.json",
+    "stages/stage32-ex5/verify_ex5_01_receiver_ledger.py",
     "stages/stage32-ex5/stage32-ex5.md"
   ],
   "frontier": {
     "EX5_00_source_lock_complete": true,
     "receiver_population_contract_complete": true,
-    "receiver_ledger_complete": false,
-    "receiver_ledger_coverage_certified": false,
+    "receiver_ledger_complete": true,
+    "receiver_ledger_coverage_certified": true,
     "current_coverage_dependency_graph_complete": false,
     "clean_room_candidate_universe_frozen": false,
     "arsenal_dedup_complete": false,
@@ -104,11 +105,16 @@
     "frozen_version": "EX5_RECEIVER_TARGET_CONTRACT_V1",
     "source_lock_artifact": "stages/stage32-ex5/ex5-00-source-lock-target-contract.json",
     "source_lock_verifier": "stages/stage32-ex5/verify_ex5_00_source_lock.py",
+    "receiver_ledger_artifact": "stages/stage32-ex5/ex5-01-exact-receiver-ledger.json",
+    "receiver_ledger_verifier": "stages/stage32-ex5/verify_ex5_01_receiver_ledger.py",
     "unibranch_degree_row_count": 183,
     "unibranch_degree_row_checksum": "3b039e94c850bd5669db0288ef0806a0f373952c181993e07c70a54f285ff6b0",
-    "row_count": null,
-    "coverage_checksum": null,
+    "row_count": 185,
+    "coverage_checksum": "3a700ed40b5d0e6bf212f569ed85279a15ac90bb8a87a96e61f01729ffa0ca95",
+    "status_counts": {"CLOSED":5,"OPEN":180,"UNKNOWN":0,"CONDITIONAL":0,"OUT_OF_SCOPE":0},
     "source_lock_complete": true,
+    "receiver_ledger_complete": true,
+    "receiver_ledger_coverage_certified": true,
     "chat_or_memory_counts_treated_as_authority": false,
     "V6_O210_Q602_treated_as_definition_of_all_receivers": false
   },
@@ -119,7 +125,7 @@
     "clean_room_generation_must_precede_asset_solution_lookup": true
   },
   "credit": {
-    "level": "EX5_00_SOURCE_LOCK_ONLY_NO_MATHEMATICAL_CREDIT",
+    "level": "EX5_01_RECEIVER_LEDGER_ONLY_NO_MATHEMATICAL_CREDIT",
     "necessary_condition_only": false,
     "branch_exclusion": false,
     "qualified_independent_stage32_route_established": false,
@@ -134,7 +140,7 @@
     "endpoint_credit": false
   },
   "audit": {
-    "status": "NOT_READY_INTERMEDIATE_EX5_00_UNAUDITED",
+    "status": "NOT_READY_INTERMEDIATE_EX5_01_UNAUDITED",
     "candidate_pr": 1710,
     "exact_head": null,
     "review_id": null,
