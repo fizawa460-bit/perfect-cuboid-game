@@ -1,0 +1,157 @@
+{
+  "schema": "STAGE32EX1_EX1_05P_RAMIFICATION_DIFFERENCE_SPIN_PARITY_PREFLIGHT_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05P_RAMIFICATION_DIFFERENCE_SPIN_PARITY_PREFLIGHT",
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "base_main_sha": "d5545b32e6b3088bca53318998d434f2745b03e9",
+  "parent_scratch_head": "d963dfc979af4298503ab7a5336135c6859e2e3b",
+  "question": "Can the exact 2-divisibility relation R81-R105 ~ f105^*K_C2-f81^*K_C2 be upgraded to a theta/spin parity invariant that distinguishes or excludes any of the 29 residual Q=210+2r states?",
+  "source_locks": {
+    "ex1_05h": {
+      "path": "stages/stage32-ex1/ex1-05h-upstairs-conductor-discriminant-off-cusp-coupling.json",
+      "canonical_sha256": "e2f1c363b60f0af045843f887446be0cd67cb000d5cd42f05fa26c82d5860893",
+      "exact_use": "R81-R105 ~ f105^*K_C2-f81^*K_C2, deg R105=2r, deg R81=48+2r, and K_C2 is twice a Weierstrass point class."
+    },
+    "parent_05o": {
+      "path": "stages/stage32-ex1/scratch/ex1-05o-common-v4-branch-cycle-monodromy-lift-preflight.json",
+      "blob_sha1": "5d20f77c6ac8aa79566642408453036457f64ebc",
+      "exact_use": "All 29 Q states have the same three transvection-compatible Q602 mod-2 residues; 05P must therefore find an r-sensitive invariant rather than another uniform mod-2 action constraint."
+    },
+    "external_spin_branched_cover": {
+      "authors": ["Alex Eskin", "Andrei Okounkov", "Rahul Pandharipande"],
+      "title": "The theta characteristic of a branched covering",
+      "arxiv": "math/0312186",
+      "locator": "Section 1.1.1 and Section 1.2",
+      "exact_use": "The pullback spin construction assumes only odd ramifications. Under that assumption the pulled-back differential has zeros of even multiplicity, giving a canonical theta characteristic; parity is encoded by the associated quadratic form on J[2]."
+    },
+    "picard_divisibility": {
+      "source": "Stacks Project",
+      "tag": "03RN",
+      "exact_use": "For a smooth projective curve over an algebraically closed field, Pic^0 is the group of points of an abelian variety and is divisible for n invertible in the field. Over C this implies every even-degree line bundle has a square root, with the roots forming a J[2]-torsor."
+    }
+  },
+  "setup": {
+    "field": "C",
+    "curve": "D",
+    "genus_formula": "g(D)=106+r",
+    "r_range": [0, 28],
+    "maps": ["f105:D->C2", "f81:D->C2"],
+    "degrees": [105, 81],
+    "ramification_degree_formulas": {
+      "R105": "deg R105=2r",
+      "R81": "deg R81=48+2r"
+    },
+    "riemann_hurwitz": [
+      "K_D ~ f105^*K_C2 + R105",
+      "K_D ~ f81^*K_C2 + R81"
+    ],
+    "difference_identity": "R81-R105 ~ f105^*K_C2-f81^*K_C2"
+  },
+  "compatible_square_root_identity": {
+    "choose_base_theta": "Choose any theta characteristic eta on C2 with eta^2 ~= K_C2 and deg eta=1.",
+    "define_A": "A=f105^*eta tensor (f81^*eta)^(-1)",
+    "A_degree": 24,
+    "A_square": "A^2 ~= O_D(R81-R105)",
+    "R105_even_degree": true,
+    "R81_even_degree": true,
+    "square_root_existence": "Because deg O(R105)=2r is even and Pic^0(D) is 2-divisible over C, choose M105 with M105^2 ~= O(R105).",
+    "M105_degree_formula": "deg M105=r",
+    "define_M81": "M81=M105 tensor A",
+    "M81_square": "M81^2 ~= O(R81)",
+    "M81_degree_formula": "deg M81=r+24",
+    "theta105": "Theta105=f105^*eta tensor M105",
+    "theta81": "Theta81=f81^*eta tensor M81",
+    "theta_degree_formula": "deg Theta105=deg Theta81=105+r=g(D)-1",
+    "exact_equality": "Theta81 ~= Theta105",
+    "interpretation": "The 2-divisibility relation does not create a parity mismatch. Compatible square roots make the two projection-induced theta characteristics literally the same line bundle."
+  },
+  "noncanonical_root_firewall": {
+    "roots_form_J2_torsor": true,
+    "root_change": "Replacing M105 by M105 tensor gamma for gamma in J(D)[2] replaces the common theta characteristic by Theta tensor gamma.",
+    "parity_not_root_choice_invariant": true,
+    "reason": "For a theta characteristic Theta, q_Theta(gamma)=p(Theta tensor gamma)+p(Theta) is a nondegenerate quadratic refinement of the mod-2 intersection form. Hence parity varies with 2-torsion twist in genus g(D)>0.",
+    "consequence": "Even total ramification degree supplies square roots but no canonical parity invariant."
+  },
+  "spin_hurwitz_applicability": {
+    "canonical_half_ramification_condition": "Every local ramification index e_p must be odd, so every coefficient e_p-1 of R is even and R/2 is an integral divisor.",
+    "current_EX1_has_only_total_degrees": true,
+    "local_ramification_profiles_extracted": false,
+    "R105_coefficientwise_even_proved": false,
+    "R81_coefficientwise_even_proved": false,
+    "spin_hurwitz_parity_defined_canonically_from_current_data": false,
+    "total_even_degree_is_insufficient": true,
+    "reason": "An effective ramification divisor can have even total degree while containing odd coefficients, for example simple ramification points. The retained data do not rule these out or specify the branch-cycle profiles."
+  },
+  "statewise_replay": {
+    "Q_values": [210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266],
+    "r_values": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+    "all_states_have_square_root_compatible_identity": true,
+    "all_states_lack_source_locked_coefficientwise_even_ramification": true,
+    "Q_states_entering": 29,
+    "Q_states_excluded": 0,
+    "Q_states_leaving": 29
+  },
+  "decision": {
+    "route_status": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "new_exact_pattern": "RAMIFICATION_DIFFERENCE_2_DIVISIBILITY_IDENTIFIES_COMPATIBLE_PROJECTION_THETA_CHARACTERISTICS_INSTEAD_OF_FORCING_A_PARITY_CONTRADICTION",
+    "spin_parity_obstruction_obtained": false,
+    "Q_states_excluded": 0,
+    "V6_carrier_excluded": false,
+    "exact_blocker": "Need coefficientwise ramification profiles/branch cycles strong enough to define a canonical half-ramification spin structure, and then a source-bound parity/Sergeev invariant depending on r or on the three retained Q602 correspondence residues. Total ramification degrees and line-bundle 2-divisibility alone cannot do this.",
+    "reopen_condition": "Extract the actual ramification profiles of f105 and f81, or prove all ramification indices are odd with a canonical half-ramification divisor and compute its parity from actual monodromy."
+  },
+  "candidate_ledger": {
+    "LIVE": ["Q602_EFFECTIVE_CORRESPONDENCE_CLASS_MATERIALIZATION"],
+    "UNTESTED": ["ACTUAL_V6_SECTION_MATERIALIZATION"],
+    "BLOCKED": [
+      "D0_SUPPORT_EXTRACTION_FROM_CURRENT_CORRESPONDENCE_ROSATI_DEGREE_DATA",
+      "GENERIC_JET_SEPARATION_REIDER_EQUIGENERIC_TRANSVERSALITY_AT_REQUIRED_DELTA_SCALE",
+      "NORMALIZATION_MAP_TANGENT_TORSION_VS_DELTA_WITHOUT_SINGULARITY_TYPE_INPUT",
+      "PLAIN_SIMULTANEOUS_HURWITZ_EXPECTED_DIMENSION_WITHOUT_OBSTRUCTION_OR_MONODROMY_INPUT",
+      "RAMIFICATION_DIFFERENCE_SPIN_PARITY_WITHOUT_COEFFICIENTWISE_ODD_RAMIFICATION_PROFILE"
+    ],
+    "DOMINATED": [
+      "DIRECT_LOCAL_BRANCH_CYCLE_CONSTRAINT_FROM_RELATIVE_V4_ETALE_TORSOR",
+      "SYMMETRIC_DIFFERENTIAL_GENUS1_NODE_SPAN_DIRECT_ROUTE_BY_POST1648AD",
+      "PLAIN_CASTELNUOVO_SEVERI_TWO_PROJECTION_GENUS_BOUND_BY_EXISTING_ROSATI_DEFECT",
+      "MARKED_W_LINE_THREE_TO_ONE_AS_ARITHMETIC_PRUNING_BY_EXISTING_GAUGE_ORBIT"
+    ],
+    "EQUIVALENT": []
+  },
+  "next_route": {
+    "route_id": "EX1_05Q_Q602_EFFECTIVE_CORRESPONDENCE_CLASS_MATERIALIZATION_PREFLIGHT",
+    "selection_reason": "05P shows parity cannot see r without missing local branch profiles. The remaining non-reconstruction candidate attacks the stronger question whether any of the three Q602 Rosati residue classes can occur in an effective integral correspondence of the exact bidegree/self-intersection class on C2xC2."
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "CYCLE_ACTIVE_RECEIVER": "29_Q_STATES_X_3_TRANSVECTION_COMPATIBLE_Q602_RESIDUES",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 1,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": false,
+    "CYCLE_BLIND_REDISCOVERY": false,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "COMPATIBLE_THETA_ROOT_IDENTITY_AND_CANONICAL_SPIN_PROFILE_GATE",
+    "CYCLE_NEW_VIEW_SOURCE": "INTERNAL_DERIVATION_PLUS_EXTERNAL_SOURCE_LOCK"
+  },
+  "replay": {
+    "verifier": "stages/stage32-ex1/scratch/verify_ex1_05p_ramification_difference_spin_parity.py",
+    "expected": "PASS_EX1_05P_SPIN_PARITY_BOUNDARY"
+  },
+  "firewalls": {
+    "even_total_ramification_degree_promoted_to_even_ramification_divisor": false,
+    "arbitrary_square_root_promoted_to_canonical_spin_structure": false,
+    "theta_root_choice_parity_promoted_to_geometric_invariant": false,
+    "spin_hurwitz_odd_ramification_hypothesis_assumed": false,
+    "Q_state_exclusion_claimed": false,
+    "Q602_exclusion_claimed": false,
+    "O210_exclusion_claimed": false,
+    "V6_population_wide_exclusion_claimed": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  }
+}
