@@ -86,10 +86,8 @@ def main()->None:
             A,B,C,D,eta,e,f,mu,qok=row
             kappa=eta*(2**e)*C; rho=(2**f)*D
             xi0=A*B; xi1=kappa*A; xi2=rho*A
-            # The two dependent root coefficients differ from xi0*xi1 and xi0*xi2 by A^2.
             assert is_square_fraction(Fraction(xi0*xi1,kappa*B))
             assert is_square_fraction(Fraction(xi0*xi2,rho*B))
-            # Exact BT -> five-root change of variables over rational test t values.
             L=Fraction(P*P,M*M)
             for t in [Fraction(1,3),Fraction(2,5),Fraction(3,7)]:
                 y=Fraction(B,A)*t*t
@@ -100,15 +98,13 @@ def main()->None:
                 lhs_plus=Fraction(rho*A*B)*(A+L*B*t*t)/Fraction(A*A)
                 assert lhs_minus == Fraction(kappa*B)*(1-L*y)
                 assert lhs_plus == Fraction(rho*B)*(1+L*y)
-            # Selected-prime AE row representatives are monomials in loc(Xi_BT), [-1], [2].
             assert is_square_fraction(Fraction((-1)*xi0*xi1,-kappa*B))
             assert is_square_fraction(Fraction(xi0*xi2,rho*B))
             assert is_square_fraction(Fraction(2*xi2,(2**(1-f))*A*D))
             assert is_square_fraction(Fraction(2*xi1,eta*(2**(1-e))*A*C))
-            # BU normalization gives one exact global squareclass identity for mu.
             assert is_square_fraction(Fraction(D0*kappa*rho,mu))
             assert is_square_fraction(Fraction(D0*xi0*xi1*xi2,mu*A*B))
-            # At q|Q the Xi coefficients are q-adic units, D0 is a square, and BU row is d*k*r.
+            q_conditions=[]
             for q in bu.primes(Q):
                 if q==2: continue
                 assert (A*B*C*D)%q != 0
@@ -116,9 +112,9 @@ def main()->None:
                 assert bu.legendre(D0,q)==1
                 d=bu.legendre(xi0,q); k=bu.legendre(xi1,q); r=bu.legendre(xi2,q)
                 assert bu.legendre(mu*A*B,q)==d*k*r
-                assert qok == (d*k*r==1)
+                q_conditions.append(d*k*r==1)
                 checked_q+=1
-            # At ordinary unramified odd places the five-root character vector is exactly d,k,r,dk,dr.
+            assert qok == all(q_conditions),(a,b,row,q_conditions,qok)
             for q in [3,5,7,11,13,17,19,23,29,31,37,41,43,47,53]:
                 if (2*A*B*C*D)%q==0: continue
                 d=bu.legendre(xi0,q); k=bu.legendre(xi1,q); r=bu.legendre(xi2,q)
