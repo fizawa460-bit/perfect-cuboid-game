@@ -1,0 +1,70 @@
+{
+  "schema": "STAGE32EX2_SCRATCH_FORMAL_CONIC_GLOBAL_OBSTRUCTION_ADAPTER_V1",
+  "status": "SCRATCH_PROVISIONAL_INDEPENDENT_NOT_HOSTILE_AUDITED",
+  "stage": "32EX2",
+  "base_pr": 1709,
+  "base_pr_head": "2f0bfe9e4c815dd20a1d95c386221d6a8926ecf8",
+  "proof_note": {
+    "path": "stages/stage32-ex2/scratch/independent-formal-conic-obstruction.md",
+    "blob_sha1": "132ec876eb50df0609539b1a6349e54d8946eba4"
+  },
+  "source_lock": {
+    "path": "stages/stage32-ex2/EX2-03/remaining-five-conic-restriction-preflight.json",
+    "blob_sha1": "32e19797812f35ad15fc5cad7559be76140480ef",
+    "canonical_sha256": "3f8ef39f3bd52804394b704fc2d6c2d810843d9f9f94530796c8c12c75d6f120"
+  },
+  "input_geometry_over_Qbar": {
+    "labels_1based": [21, 24, 25, 30, 31],
+    "pairwise_disjoint": true,
+    "each_curve": "smooth rational conic strict transform",
+    "each_self_intersection": -4,
+    "V6_dot_each": 0,
+    "L_restriction_each": "O_P1"
+  },
+  "formal_neighbourhood_reduction": {
+    "kernel_at_step_n_to_n_plus_1": "L|C tensor O_C(-nC) = O_P1(4n)",
+    "H1_kernel_vanishes_for_all_n_ge_1": true,
+    "finite_thickening_nonzero_constant_lifts_to_unit": true,
+    "formal_completion_trivial_along_each_C": true,
+    "h0_nC_formula": "2*n^2-n",
+    "h1_nC": 0,
+    "h0_nZ_formula": "5*(2*n^2-n)",
+    "local_jet_search_alone_can_create_new_obstruction": false
+  },
+  "global_obstruction_reduction": {
+    "Z": "C21+C24+C25+C30+C31",
+    "exact_sequence": "0 -> L(-Z) -> L -> L|Z -> 0",
+    "restriction_space": "H0(Z,L|Z) ~= k^5 after independent trivialization choices",
+    "connecting_map": "delta_1: k^5 -> H1(S,L(-Z))",
+    "kernel": "image(H0(S,L) -> k^5)",
+    "per_curve_criterion": "C_i nonfixed iff delta_1(e_i) lies in span{delta_1(e_j): j != i}",
+    "rank_deletion_criterion": "C_i nonfixed iff rank(Delta)=rank(Delta_without_column_i); C_i fixed iff deleting column i lowers rank by one",
+    "all_five_fixed_criterion": "all five are fixed iff the five connecting-class columns are linearly independent (rank 5)",
+    "trivialization_rescaling_invariant": true
+  },
+  "ex2_04_consumption_contract": {
+    "minimal_needed_object": "one exact finite-dimensional common-coordinate model for the five connecting classes delta_1(e_i)",
+    "acceptable_realizations": [
+      "Cech cocycle model on an explicit global cover",
+      "ambient/projective ideal-syzygy cohomology model",
+      "exact restriction/gluing complex with a common H1 target basis"
+    ],
+    "complete_H0_basis_required_before_fixedness_test": false,
+    "certified_H0_subspace_can_certify_nonfixedness": true,
+    "certified_H0_subspace_miss_can_certify_fixedness": false,
+    "rank_deletion_test_can_classify_each_of_the_five_once_Delta_is_exact": true,
+    "next_bounded_unit": "construct Delta or an equivalent exact common-target matrix; do not continue standalone higher-jet searches"
+  },
+  "credit_firewall": {
+    "scratch_authority": false,
+    "fixedness_decision": false,
+    "complete_H0_reconstructed": false,
+    "integral_irreducible_V6_genus1_member_obtained": false,
+    "stage32_main_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
