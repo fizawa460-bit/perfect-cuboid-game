@@ -7,12 +7,16 @@ HERE=Path(__file__).resolve().parent
 S=json.loads((HERE/"MAIN-STATE.json").read_text())
 R=json.loads((ROOT/"stages/stage32/proof/CLAIM-REGISTRY.json").read_text())
 L=json.loads((ROOT/"stages/stage32/proof/LANE-ADAPTERS.json").read_text())
+CURRENT_MAIN="538913633330a8414c87931d3c52f93e4aaf5d0f"
 assert S["schema"]=="STAGE32EX2_MAIN_COMPACT_STATE_V10_EX2_03F_CORRECTED_ADJOINT_BLOCKED_EX2_04_ACTIVE"
 assert S["stage"]=="32EX2"
 assert S["bootstrap"]["active_work_pr"]==1709 and S["bootstrap"]["merge_authorized"] is False
 assert S["audit"]["status"]=="NOT_READY_INTERMEDIATE_LEAF_ONLY"
-assert S["freshness"]["last_reconciled_current_main_sha"]=="226a8aa11ac61293a7e4b7f9611177f68af94ff4"
+assert S["freshness"]["current_main_observed_sha"]==CURRENT_MAIN
+assert S["freshness"]["last_reconciled_current_main_sha"]==CURRENT_MAIN
 assert S["freshness"]["unreconciled_main_commit_count"]==0
+assert S["freshness"]["stage32ex2_source_drift_in_intervening_main_commit"] is False
+assert S["claim_sync"]["reconciled_current_main_sha"]==CURRENT_MAIN
 A=S["authority"]
 assert A["EX2_03D_candidate_claim_id"]=="S32.EX2.FIVE_CONIC_RESTRICTION_REDUCTION.V1"
 assert A["EX2_03D_artifact_blob_sha1"]=="32e19797812f35ad15fc5cad7559be76140480ef"
@@ -83,5 +87,6 @@ for rel in [
     subprocess.check_call([sys.executable,"-B",str(HERE/rel)],cwd=ROOT)
 print("PASS Stage32EX2 MAIN state V10")
 print("current_leaf=EX2-04 finite-dimensional section reconstruction")
+print("freshness_reconciled_main="+CURRENT_MAIN)
 print("EX2-03F corrected-adjoint blockers=17,26,28 targets=21,24,25,30,31")
 print("merge_authorized=false stage32_main_credit=false")
