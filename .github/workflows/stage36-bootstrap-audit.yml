@@ -55,7 +55,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 stages/stage36/verify_stage36_36_09CJ.py
-      - name: Diagnose 36-09CK small-good-prime filters
+      - name: Assert 36-09CK bounded small-good-prime panel
         shell: bash
         run: |
           set -euo pipefail
@@ -91,25 +91,31 @@ jobs:
               kappa=eta*(2**e)*C; rho=(2**f)*D
               d=buv.legendre(A*B,q); k=buv.legendre(kappa*A,q); r=buv.legendre(rho*A,q)
               targets=(d,k,r,k*d,r*d)
-              invL=pow(L,-1,q)
               for y in range(q):
                   vals=(y%q,(1-y)%q,(1+y)%q,(1-L*y)%q,(1+L*y)%q)
                   if all(v==0 or buv.legendre(v,q)==targets[i] for i,v in enumerate(vals)):
                       return True
               eps=buv.legendre(-1,q)
               return d==1 and k==eps and r==1
-          panel=[(1,2),(2,11),(3,4),(1,8)]
-          for p in panel:
+          expected={(1,2):3,(2,11):5,(3,4):3,(1,8):3}
+          for p,want in expected.items():
               rows=civ.ch_rows(*p,cev,cfv,cgv,ccv,buv,chv)
               kept=[]; obs=[]
               for i,row in enumerate(rows):
                   bad=[]
+                  P=p[0]*p[0]+2*p[0]*p[1]-p[1]*p[1]
+                  M=p[0]*p[0]-2*p[0]*p[1]-p[1]*p[1]
+                  D0=p[0]*p[1]*(p[0]-p[1])*(p[0]+p[1])
+                  Q=p[0]*p[0]+p[1]*p[1]
                   for q in SMALL:
-                      P=p[0]*p[0]+2*p[0]*p[1]-p[1]*p[1]; M=p[0]*p[0]-2*p[0]*p[1]-p[1]*p[1]; D0=p[0]*p[1]*(p[0]-p[1])*(p[0]+p[1]); Q=p[0]*p[0]+p[1]*p[1]
                       if (2*P*M*D0*Q)%q and not good_local(*p,row,q): bad.append(q)
                   if bad: obs.append((i,bad[:12]))
                   else: kept.append(row)
               print('CKDIAG',p,'CH',len(rows),'after_small_good',len(kept),'obstructions',obs)
+              assert len(rows)==want,(p,'unexpected CH count',len(rows),want)
+              assert len(kept)==want,(p,'small-good-prime filter removed branch',len(kept),want,obs)
+              assert obs==[],(p,'small-good-prime obstruction',obs)
+          print('36-09CK bounded panel verified: all four CH panels survive every odd good prime q<1163.')
           PY
       - name: Assert CJ firewalls and CK selection
         shell: bash
@@ -147,6 +153,6 @@ jobs:
           assert pg['good_prime_and_real_place_integration_complete'] is False
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09CJ workflow verified; CK diagnostic only, no CK credit.')
+          print('36-09CJ workflow verified; CK diagnostic asserted only, no CK credit.')
           PY
           git diff --check
