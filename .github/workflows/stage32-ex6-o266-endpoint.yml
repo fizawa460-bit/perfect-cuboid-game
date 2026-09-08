@@ -33,6 +33,12 @@ jobs:
       - name: Verify FSM16 f-divisor residual wall
         run: python stages/stage32-ex6/verify_stage32_ex6_fsm16_f_residual_divisor_contract.py
 
+      - name: Verify product-cover RH equivalence wall
+        run: python stages/stage32-ex6/verify_stage32_ex6_product_cover_rh_equivalence_contract.py
+
+      - name: Verify EX6 compact state
+        run: python stages/stage32-ex6/verify_main_state.py
+
       - name: Enforce read-only replay
         run: |
           test -z "$(git status --porcelain)"
