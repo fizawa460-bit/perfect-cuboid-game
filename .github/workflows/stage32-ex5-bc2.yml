@@ -1,0 +1,21 @@
+name: Stage32EX5 BC2 diagnostic integrity
+
+on:
+  push:
+    branches:
+      - stage32ex5-bc2-btva-node-support-span
+    paths:
+      - 'stages/stage32-ex5/breadth-cycle-2/**'
+      - '.github/workflows/stage32-ex5-bc2.yml'
+  pull_request:
+    paths:
+      - 'stages/stage32-ex5/breadth-cycle-2/**'
+      - '.github/workflows/stage32-ex5-bc2.yml'
+
+jobs:
+  bc2-first-pass:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replay BC2-00 BTVA diagnostic
+        run: python stages/stage32-ex5/breadth-cycle-2/verify_bc2_00_btva_node_support_span_diagnostic.py
