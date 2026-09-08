@@ -1,9 +1,9 @@
 name: Stage32EX2 EX2-03D claim sync
 
 on:
-  pull_request:
-    branches: [main]
-    types: [synchronize]
+  push:
+    branches:
+      - stage32ex2-ex2-00-source-lock-continuation
     paths:
       - 'stages/stage32-ex2/runkeys/ex2-03d-claim-sync.json'
 
@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: stage32ex2-ex2-03d-claim-sync-${{ github.event.pull_request.number }}
+  group: stage32ex2-ex2-03d-claim-sync-1709
   cancel-in-progress: false
 
 jobs:
@@ -31,7 +31,7 @@ jobs:
           from pathlib import Path
           key=json.loads(Path('stages/stage32-ex2/runkeys/ex2-03d-claim-sync.json').read_text())
           assert key['schema']=='STAGE32EX2_EX2_03D_CLAIM_SYNC_RUNKEY_V1'
-          assert key['generation']==4 and key['armed'] is True
+          assert key['generation']==5 and key['armed'] is True
           assert key['helper_path']=='stages/stage32-ex2/apply_ex2_03d_claim_sync_v2.py'
           assert key['helper_blob_sha1']=='be2445ec902db55d2ee02d04575dfdca69f03f8d'
           actual=subprocess.check_output(['git','hash-object',key['helper_path']],text=True).strip()
