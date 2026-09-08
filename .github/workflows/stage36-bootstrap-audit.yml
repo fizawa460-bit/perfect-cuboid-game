@@ -47,7 +47,12 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09DB.py"
           git worktree remove --force "$tmp"
-      - name: Assert DB exact-green promotion and DC unlock firewalls
+      - name: Verify 36-09DC rank3 two-place Brauer control
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09DC.py
+      - name: Assert DC checkpoint and DD lock firewalls
         shell: bash
         run: |
           set -euo pipefail
@@ -55,26 +60,30 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V167_36_09DB_EXACT_GREEN_DC_UNLOCK'
-          db=s['authority_frontier']['36-09DB']
-          assert db['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert db['certificate_blob_sha']=='fbdf20fd4c4f4f338d31a55a2a1dd0786ca968c8'
-          assert db['verifier_blob_sha']=='6854624b657d9b7d95ddd9c01e462be243d90aa7'
-          assert db['exact_head']=='83d1f209f85ef747963f05a7b177c783b76142bd'
-          assert db['exact_head_ci']=='34202180603/101983301546'
-          assert db['THIRD_INDEPENDENT_BRAUER_CLASS_FOUND'] is True
-          assert db['CONSTRUCTED_BRAUER_SUBGROUP_RANK_LOWER_BOUND']==3
-          assert db['FULL_BRAUER_GROUP_COMPUTED'] is False
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V168_36_09DC_RANK3_TWO_PLACE_CONTROL'
+          dc=s['authority_frontier']['36-09DC']
+          assert dc['status']=='PROVISIONAL_PENDING_EXACT_HEAD_CI'
+          assert dc['certificate_blob_sha']=='4865bd16973ddf0fd746bc4219ea68b8277817b3'
+          assert dc['verifier_blob_sha']=='71eaafb8f04952d617c6bbda5d8632af18da45ac'
+          assert dc['RANK3_JOINT_ADELIC_EVALUATION_MATRIX_COMPLETE'] is True
+          assert dc['RANK3_CONSTRUCTED_SUBGROUP_SOLE_BM_OBSTRUCTION'] is False
+          assert dc['RANK3_NO_GO_CONDITIONAL_ON_ADELIC_SOLUBILITY'] is True
+          assert dc['FULL_BRAUER_GROUP_COMPUTED'] is False
+          assert dc['A_B_D_SPAN_FULL_RELEVANT_BRAUER_GROUP'] is False
           cur=s['current']
-          assert cur['unit']=='36-09DB'
-          assert cur['next_exact_leaf']=='36-09DC_FIXED_P2_RANK3_BRAUER_TWO_PLACE_EVALUATION_MATRIX_PREFLIGHT'
+          assert cur['unit']=='36-09DC'
+          assert cur['next_exact_leaf']=='36-09DD_FIXED_P2_CREUTZ_VIRAY_SUBGROUP_COMPLETENESS_PREFLIGHT'
           assert cur['36_09DC_entry_allowed'] is True
+          assert cur['36_09DD_entry_allowed'] is False
           pg=s['promotion_gates']
-          assert pg['36_09DB_exact_head_ci_passed'] is True
-          assert pg['36_09DC_entry_allowed'] is True
-          assert pg['BT_rank3_joint_adelic_evaluation_matrix_complete'] is False
+          assert pg['36_09DC_certificate_complete'] is True
+          assert pg['36_09DC_exact_head_ci_passed'] is False
+          assert pg['36_09DD_entry_allowed'] is False
+          assert pg['BT_rank3_joint_adelic_evaluation_matrix_complete'] is True
+          assert pg['BT_rank3_constructed_subgroup_sole_BM_obstruction'] is False
+          assert pg['BT_full_relevant_Brauer_group_computed'] is False
           for key in ['Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09DB exact-green parent verified and DC unlocked. Constructed Brauer rank >=3; no full-group/BM/fixed-p/receiver credit.')
+          print('36-09DC provisional checkpoint verified: rank3 two-place full control obtained; DD locked pending exact-head CI. No full-group/BM/fixed-p/receiver credit.')
           PY
           git diff --check
