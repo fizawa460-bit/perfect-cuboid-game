@@ -23,7 +23,7 @@ C2B_SHA = "784819b81121cc9fdd36e904efb2778e6a474079e84e2d82987c972620b32831"
 D11_SHA = "a7989a2e0bd58371f7eb4692a5f905c55007606d01b6b364f25558823ca52852"
 AUTHORITY = "V91C1V_A2_02_ACTUAL_PRIME_KNOWN140_LOCATOR_BOUNDED_RESULT"
 
-# These 13 representatives have irreducible degree-16 full sign norm.
+# These 12 representatives have irreducible degree-16 full sign norm.
 # A split-prime modular specialization certifies irreducibility exactly.
 WITNESSES = {
     "LIN_001": {"p":29,"i_image":12,"dehom":"a3","polyvar":"a1","specialized_var":"a2","specialization":5,"degree":16,"norm_terms_mod_p":148,"norm_total_degree_mod_p":16},
@@ -37,7 +37,6 @@ WITNESSES = {
     "LIN_017": {"p":13,"i_image":8,"dehom":"a3","polyvar":"a1","specialized_var":"a2","specialization":7,"degree":14,"norm_terms_mod_p":138,"norm_total_degree_mod_p":16},
     "LIN_021": {"p":13,"i_image":5,"dehom":"a1","polyvar":"a2","specialized_var":"a3","specialization":7,"degree":12,"norm_terms_mod_p":68,"norm_total_degree_mod_p":16},
     "LIN_022": {"p":13,"i_image":5,"dehom":"a3","polyvar":"a1","specialized_var":"a2","specialization":11,"degree":14,"norm_terms_mod_p":136,"norm_total_degree_mod_p":16},
-    "LIN_025": {"p":17,"i_image":4,"dehom":"a1","polyvar":"a2","specialized_var":"a3","specialization":3,"degree":12,"norm_terms_mod_p":110,"norm_total_degree_mod_p":16},
     "LIN_026": {"p":13,"i_image":8,"dehom":"a3","polyvar":"a1","specialized_var":"a2","specialization":2,"degree":14,"norm_terms_mod_p":138,"norm_total_degree_mod_p":16},
 }
 
@@ -49,6 +48,7 @@ SPECIAL = {
     "LIN_008": {"b2_sign": -1, "b3_sign": -1, "c_over_b1_sign": 1},
     "LIN_015": {"b2_sign": 1, "b3_sign": -1, "c_over_b1_sign": 1},
     "LIN_020": {"b2_sign": -1, "b3_sign": 1, "c_over_b1_sign": 1},
+    "LIN_025": {"b2_sign": 1, "b3_sign": 1, "c_over_b1_sign": 1},
 }
 SPECIAL_FULL_NORM_SHA = "7f6274634f622b0e675111085ed050e65e4207f3f327d2c9b7a615f5f5dbf064"
 SPECIAL_LINEAR_FACTOR_SHA = "44afff33ba591a11904229fe7936cb41caa700bd759cda0a5106218250561491"
@@ -228,13 +228,11 @@ def special_boundary_proof(cid, sig, c1_row):
     s2 = int(spec["b2_sign"])
     s3 = int(spec["b3_sign"])
     sc = int(spec["c_over_b1_sign"])
-    # On a1=0, impose b2=s2*a3, b3=s3*a2, c=sc*b1.
     a2_coeff = qadd(vals[1], qscale(vals[5], s3))
     a3_coeff = qadd(vals[2], qscale(vals[4], s2))
     b1_coeff = qadd(vals[3], qscale(vals[6], sc))
     if any(z != (0, 0) for z in (a2_coeff, a3_coeff, b1_coeff)):
         raise SystemExit(f"explicit boundary prime not contained in carrier section: {cid}")
-
     if c1_row["normalized_full_sign_norm_sha256"] != SPECIAL_FULL_NORM_SHA:
         raise SystemExit(f"special full norm SHA moved: {cid}")
     if c1_row["factor_degree_multiset"] != [1, 1, 14]:
@@ -247,11 +245,9 @@ def special_boundary_proof(cid, sig, c1_row):
         raise SystemExit(f"special a1^2 factor lock moved: {cid}")
     if (int(residual["multiplicity"]), residual["normalized_factor_sha256"]) != (1, SPECIAL_RESIDUAL_FACTOR_SHA):
         raise SystemExit(f"special residual degree-14 factor lock moved: {cid}")
-
     normalized_a1 = [{"monomial_exponents": [1, 0, 0], "coefficient_Qi": [1, 1, 0, 1]}]
     if csha(normalized_a1) != SPECIAL_LINEAR_FACTOR_SHA:
         raise SystemExit("internal normalized a1 factor hash mismatch")
-
     boundary_ideal = [
         "a1",
         sign_relation("b2", s2, "a3"),
@@ -322,7 +318,6 @@ def build_certificate():
         sig = normalize(row["normalized_coefficients_Qi"])
         if sid(sig) != row["projective_linear_form_Qi_sha256"]:
             raise SystemExit(f"carrier signature/hash mismatch: {cid}")
-
         if cid in SPECIAL:
             decomposition = special_boundary_proof(cid, sig, c1_by_id[cid])
             strict_count = 2
@@ -333,7 +328,6 @@ def build_certificate():
             strict_count = 1
             mults = [1]
             proof_field = {"modular_norm_irreducibility_certificate": proof}
-
         rep_rows.append({
             "carrier_id": cid,
             "projective_linear_form_Qi_sha256": row["projective_linear_form_Qi_sha256"],
@@ -348,7 +342,6 @@ def build_certificate():
                 "exceptional_total_transform_orders_attached_in_this_leaf": False,
             },
         })
-
         orbit = orbit_by_rep[cid]
         words = orbit["transport_words_from_representative"]
         if cid in SPECIAL and orbit["novel20_member_ids"] != [cid]:
@@ -375,14 +368,14 @@ def build_certificate():
         raise SystemExit("transported novel20 coverage is not exact")
     single_ids = sorted(row["carrier_id"] for row in transport_rows if row["strict_prime_count"] == 1)
     double_ids = sorted(row["carrier_id"] for row in transport_rows if row["strict_prime_count"] == 2)
-    if len(single_ids) != 17 or double_ids != sorted(SPECIAL):
+    if len(single_ids) != 16 or double_ids != sorted(SPECIAL):
         raise SystemExit(f"novel20 strict-prime count partition moved: single={single_ids} double={double_ids}")
 
     cert = {
-        "schema": "stage33.e3.v91c1x_r5b3b3c2c.orbit_representative_strict_prime_decomposition_and_transport.v2",
+        "schema": "stage33.e3.v91c1x_r5b3b3c2c.orbit_representative_strict_prime_decomposition_and_transport.v3",
         "stage": "33-12",
         "candidate": "V91C1X_R5B3B3C2C_ORBIT_REPRESENTATIVE_STRICT_PRIME_DECOMPOSITION_AND_TRANSPORT",
-        "role": "EXACT_NONCREDIT_STRICT_PRIME_DECOMPOSITION_OF_16_C2B_ORBIT_REPRESENTATIVES_USING_IRREDUCIBLE_NORMS_FOR_13_AND_C1_A1_SQUARED_BOUNDARY_PLUS_RESIDUAL_DECOMPOSITION_FOR_3_THEN_CERTIFIED_TRANSPORT_TO_ALL_NOVEL20",
+        "role": "EXACT_NONCREDIT_STRICT_PRIME_DECOMPOSITION_OF_16_C2B_ORBIT_REPRESENTATIVES_USING_IRREDUCIBLE_NORMS_FOR_12_AND_C1_A1_SQUARED_BOUNDARY_PLUS_RESIDUAL_DECOMPOSITION_FOR_4_THEN_CERTIFIED_TRANSPORT_TO_ALL_NOVEL20",
         "entry": {"pr": 1695, "authority": AUTHORITY, "stage33_progress": "6/11"},
         "source_locks": {
             "r5b3b2_formal_symbol_carrier_inventory_sha256": B3B2_SHA,
@@ -418,16 +411,16 @@ def build_certificate():
         },
         "representative_strict_prime_decompositions": {
             "representative_count": 16,
-            "single_prime_representative_count": 13,
-            "two_prime_representative_count": 3,
+            "single_prime_representative_count": 12,
+            "two_prime_representative_count": 4,
             "two_prime_representative_ids": sorted(SPECIAL),
             "rows": rep_rows,
         },
         "transported_novel20_strict_prime_decompositions": {
             "novel20_carrier_count": 20,
             "all_20_covered_exactly_once": True,
-            "single_reduced_strict_prime_carrier_count": 17,
-            "two_reduced_strict_prime_carrier_count": 3,
+            "single_reduced_strict_prime_carrier_count": 16,
+            "two_reduced_strict_prime_carrier_count": 4,
             "two_reduced_strict_prime_carrier_ids": double_ids,
             "rows": transport_rows,
         },
@@ -442,8 +435,8 @@ def build_certificate():
         },
         "exact_consequence": {
             "new_exact_prime_decomposition_work_for_novel20_is_complete": True,
-            "seventeen_novel_carrier_hyperplane_sections_have_one_reduced_strict_prime": True,
-            "lin008_lin015_lin020_each_have_one_boundary_prime_and_one_reduced_residual_prime": True,
+            "sixteen_novel_carrier_hyperplane_sections_have_one_reduced_strict_prime": True,
+            "lin008_lin015_lin020_lin025_each_have_one_boundary_prime_and_one_reduced_residual_prime": True,
             "the_four_nontrivial_C2B_pairs_are_transported_by_certified_actions": True,
             "strict_prime_decomposition_does_not_supply_exceptional_total_transform_orders": True,
             "no_unramifiedness_or_residue_cancellation_credit_follows_yet": True,
@@ -481,8 +474,8 @@ def main():
     print("PASS V91C1X R5B3B3C2C strict-prime decomposition and transport")
     print("REPRESENTATIVES=16")
     print("NOVEL20=20")
-    print("SINGLE_PRIME_CARRIERS=17")
-    print("TWO_PRIME_CARRIERS=3")
+    print("SINGLE_PRIME_CARRIERS=16")
+    print("TWO_PRIME_CARRIERS=4")
     print("CERTIFICATE_SHA256=" + cert["canonical_sha256"])
 
 
