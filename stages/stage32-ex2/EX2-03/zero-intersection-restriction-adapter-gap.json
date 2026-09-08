@@ -1,0 +1,105 @@
+{
+  "schema": "STAGE32EX2_EX2_03_ZERO_INTERSECTION_RESTRICTION_GAP_V1",
+  "stage": "32EX2",
+  "unit": "EX2-03",
+  "subroute": "ZERO_INTERSECTION_RESTRICTION_AND_DIVISORIAL_BASE_LOCUS_PREFLIGHT",
+  "status": "LEAF_BLOCKED_EXACT_RESTRICTION_ADAPTER_GAP_ROUTED_TO_SYMMETRY_DIVISOR_ORBIT_PREFLIGHT",
+  "source_locks": {
+    "ex2_02": {
+      "path": "stages/stage32-ex2/EX2-02/exact-fixed-component-extraction.json",
+      "blob_sha1": "b07fd12a40acbfc478cdab472157cb4a34efe39c"
+    },
+    "ex2_01": {
+      "path": "stages/stage32-ex2/EX2-01/section-source-inventory.json",
+      "blob_sha1": "3f9ddf435093dfd681373a1e01f455d0db04642d"
+    },
+    "ex2_00": {
+      "path": "stages/stage32-ex2/EX2-00/v6-source-lock-target-contract.json",
+      "blob_sha1": "b72b7582339d3933ac4485a1cf92c7be07809dc9"
+    },
+    "v6_witness": {
+      "path": "stages/stage32/32-21/post1473-v6-witness-body-recovered.json",
+      "blob_sha1": "dae90ed19395355bebeebe2a6aa6bb1c6e53c244"
+    },
+    "known140_decomposition": {
+      "path": "stages/stage32/residual-32-01-production/post1648ag-v6-known140-basis-elimination.json",
+      "blob_sha1": "e0bbe443919d1ec5424bffa84c1c5a79befbdf1e",
+      "all140_retained_coordinates_sha256": "ba5aa10e67f1237c5fe6e79d7db5168d2041353ffa60b2801c7cde09222d7f9a",
+      "retained_picard_gram_sha256": "bfaeff6efd59945da50ce59ffec13d15bc1229e04da7f2727480d4dc7542ed1a"
+    }
+  },
+  "zero_intersection_frontier": {
+    "labels_1based": [17, 21, 24, 25, 30, 31, 98],
+    "pairings_with_V6": [0, 0, 0, 0, 0, 0, 0],
+    "all_seven_occur_in_retained_known140_effective_divisor": true,
+    "known_member_multiplicities": {
+      "17": 2,
+      "21": 3,
+      "24": 4,
+      "25": 4,
+      "30": 3,
+      "31": 5,
+      "98": 3
+    },
+    "one_member_containment_proves_fixedness": false,
+    "zero_pairing_proves_fixedness": false,
+    "zero_pairing_proves_movingness": false
+  },
+  "restriction_adapter_audit": {
+    "compact_known140_source_locks_full_coordinate_payload_by_hash": true,
+    "compact_known140_source_exposes_per_curve_picard64_coordinates": false,
+    "compact_known140_source_exposes_pairwise_7x7_intersection_matrix": false,
+    "current_working_set_exposes_exact_O_V6_restriction_class_on_each_zero_curve": false,
+    "current_working_set_exposes_H0_restriction_or_evaluation_map": false,
+    "current_working_set_exposes_complete_base_ideal": false,
+    "current_working_set_exposes_second_independent_V6_divisor": false,
+    "giant_retained_payload_read_required": false,
+    "giant_retained_payload_read_forbidden_as_shortcut": true,
+    "exact_7x7_matrix_replayable_from_current_working_set": false,
+    "divisorial_base_locus_classified": false
+  },
+  "exact_gap": {
+    "missing_object": "COMPACT_ZERO_CURVE_RESTRICTION_OR_DIVISOR_ORBIT_ADAPTER",
+    "restriction_lane_reopen_condition": "Supply a compact replayable adapter exposing the seven curve classes/intersection matrix and, for fixedness, an exact O(V6)|E restriction/evaluation/base-ideal computation or another complete-linear-system argument.",
+    "pairwise_intersection_matrix_alone_would_not_prove_fixedness": true,
+    "block_is_stage_exhaustion": false
+  },
+  "distinct_lane_route": {
+    "next_leaf": "EX2-03B_SYMMETRY_DIVISOR_ORBIT_PREFLIGHT",
+    "lane": "SYMMETRY_LANE",
+    "objective": "Search for a source-bound surface automorphism preserving the Picard class V6 and acting exactly on the retained known-curve divisor; use its transformed divisor only at divisor/member level.",
+    "divisor_orbit_lemma": "If g is an actual automorphism of S, g(V6)=V6 in Pic(S), and E is an effective divisor in class V6, then g(E) is another effective divisor in class V6. If a retained curve C is absent as a component of one exact transformed divisor g(E), then C is not a divisorial fixed component of the complete linear system |V6|.",
+    "requires_line_bundle_linearization_for_divisor_level_member": false,
+    "requires_exact_surface_automorphism": true,
+    "requires_exact_V6_class_stabilization": true,
+    "requires_exact_component_action": true,
+    "absence_from_transformed_divisor_must_be_exact": true,
+    "symmetry_eigenspace_or_H0_representation_claimed": false
+  },
+  "exit": {
+    "EX2_03_restriction_preflight_complete": true,
+    "result": "EXACT_SCOPED_ADAPTER_GAP_NO_BASE_LOCUS_CREDIT",
+    "next_leaf": "EX2-03B_SYMMETRY_DIVISOR_ORBIT_PREFLIGHT",
+    "claim_dag_sync_triggered": false,
+    "reason_no_claim_sync": "This checkpoint records a typed blocker and routing change only; it grants no new mathematical claim or Stage32 authority."
+  },
+  "credit_firewall": {
+    "zero_curve_fixedness_proved": false,
+    "zero_curve_nonfixedness_proved": false,
+    "fixed_part_fully_classified": false,
+    "moving_system_structure_classified": false,
+    "explicit_V6_member_materialized_in_coordinates": false,
+    "integral_irreducible_V6_member_obtained": false,
+    "explicit_V6_genus1_member_verified": false,
+    "population_wide_no_genus1_member_proved": false,
+    "stage32_main_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "22b90a9facb7c2de7d69f8cfdfc36a90bbfb02680463b8a59066d16572b392f4"
+}
