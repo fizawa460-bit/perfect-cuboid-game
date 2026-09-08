@@ -6,13 +6,14 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+STAGES = ROOT / "stages"
 HERE = Path(__file__).resolve().parent
 ART = HERE / "ex1-07-current-main-v6-carrier-promotion-adapter.json"
-MAIN = ROOT / "stage32" / "MAIN-STATE.json"
+MAIN = STAGES / "stage32" / "MAIN-STATE.json"
 EX100 = HERE / "ex1-00-source-lock-and-target-adapter.json"
 ROADMAP = HERE / "stage32-ex1.md"
-REGISTRY = ROOT / "stage32" / "proof" / "CLAIM-REGISTRY.json"
-FRONTIER = ROOT / "stage32" / "proof" / "ACTIVE-FRONTIER.json"
+REGISTRY = STAGES / "stage32" / "proof" / "CLAIM-REGISTRY.json"
+FRONTIER = STAGES / "stage32" / "proof" / "ACTIVE-FRONTIER.json"
 
 
 def load(path: Path):
