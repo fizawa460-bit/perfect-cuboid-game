@@ -1,0 +1,114 @@
+{
+  "schema": "STAGE32_MAIN_SCRATCH_EX1_EX4_ABSOLUTE_W_MARKING_OBSTRUCTION_V1",
+  "stage": 32,
+  "status": "SCRATCH_EXACT_BOUNDED_TESTED_SOURCE_PACKAGE_OBSTRUCTION_UNAUDITED",
+  "snapshot": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "scope": {
+    "row_id": "g1-d186",
+    "picard_class": "V6",
+    "h": 4,
+    "EX1_Q_values": [210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266],
+    "EX1_state_count": 29,
+    "Q_Rosati": 602,
+    "uniform_residues": [73,97,235],
+    "uniform_coarse_cells": 87
+  },
+  "source_locks": {
+    "uniform_ex1_28_to_3": {"path":"stages/stage32/scratch/ex1-h4-uniform-transvection-28-to-3-candidate-20260908.json","blob_sha1":"569ca4a3a07034daee4dacd7f96970e32518ae3b"},
+    "absolute_marking_localization": {"path":"stages/stage32/residual-32-01-production/post1648-delta0inf-retained-w-absolute-marking-localization.json","blob_sha1":"9a8b462bd5f2cc8b344dd535e8d155a4e63308a0","canonical_sha256":"edb37e52cd92ae56c4c12c59d0af974dc4463bce52b25b3e8b64dc2c7afdd3c2"},
+    "cecotti_generator_preflight": {"path":"stages/stage32/residual-32-01-production/post1648b-cecotti-generator-pair-absolute-marking-preflight.json","blob_sha1":"713d92c5791e06bc332b3621a64605b9e90d165b","canonical_sha256":"b0737602656ff5de3c98ba98cc862ec7b29599255c8da621099c2a63a69e503b"},
+    "cecotti_trace_orientation": {"path":"stages/stage32/residual-32-01-production/post1648j-cecotti-trace-orientation-correction.json","blob_sha1":"17641753c33ae46e9b7517dc85a915edd70d2057","canonical_sha256":"3f6fd55ced259c6f28949df61865e22d43a669a50bdaf2adf5ddcd88411a48ec"},
+    "hperp_chi_u": {"path":"stages/stage32/residual-32-01-production/post1623-hperp-v6-hdeck-character-preflight.json","blob_sha1":"f9bf3da925fc66505900db793f48c507725461d1","canonical_sha256":"00843ec64f7ecd522614f750c9f84d3a746ce664064d1c4413784cab9d26791c"},
+    "gauge_orbit": {"path":"stages/stage32/residual-32-01-production/post1505-o210-q602-marked-w-line-gauge-orbit.json","blob_sha1":"2b790882222656f65ed7ea4bdc2336553890b6a1","canonical_sha256":"7ad84e3c0a567119933ee0941b3b125ebcdb80651973033e13dbf12b553bfc92"},
+    "fsm_stoll_action": {"path":"stages/stage32/residual-32-01-production/post1529-fsm-stoll-diagonal-action-source-lock.json","blob_sha1":"809d7096cf98cf94b37455b6281cb23cbdcc6b41","canonical_sha256":"5726289d8948beaaf3ed4e2dc260f49d1b3b3054642f3460b6b1e53c77ea23bc"},
+    "principal_rosati": {"path":"stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json","blob_sha1":"e28c4533883440ea0963d4d4e8859aa95409cf10","canonical_sha256":"8d828cdf6d1f5cb1d790c46292535dc252e503356e1047ce972c41e61f524529"},
+    "ex4_bootstrap_state": {"path":"stages/stage32-ex4/MAIN-STATE.json","blob_sha1":"6e90681d2d44194998e1a4bbfb70d836dac6278b"}
+  },
+  "tested_package_definition": {
+    "purpose": "Test whether the already retained Stage32 marking, H-character, FSM/Stoll and Cecotti/KRR-facing assets select one retained nonzero W-line.",
+    "package_is_repository_wide_exhaustive": false,
+    "package_is_literature_wide_exhaustive": false,
+    "negative_result_is_bounded_to_listed_source_locks": true
+  },
+  "source_side_anchor": {
+    "normal_label_9_character": "chi_u",
+    "canonical_pair": "Z3={0,infinity}",
+    "abstract_class": "delta_0inf=[P_0-P_infinity]",
+    "source_side_identified": true,
+    "retained_line_identified": false
+  },
+  "target_side": {
+    "retained_W_basis": ["r*e1","r*e2"],
+    "lines": {"L1":[1,0],"L2":[0,1],"L3":[1,1]},
+    "residue_to_line": {"73":"L1","97":"L2","235":"L3"}
+  },
+  "exact_group_replay": {
+    "quadratic_order": "Z[r], r^2=-2",
+    "generators": {"b3":[["-1","-1"],["1","0"]],"b4":[["1","1+r"],["0","-1"]]},
+    "named_pair": "S=b4, T=-b3",
+    "trace_compatible_reference_pair": "(S,T^-1)",
+    "G12_order": 48,
+    "distinct_inner_conjugates_of_reference_pair": 24,
+    "conjugator_multiplicity_per_pair": 2,
+    "central_pair_stabilizer": "{+I,-I}",
+    "reference_Z3_line": "L2",
+    "delta0inf_line_counts_over_24_pairs": {"L1":8,"L2":8,"L3":8},
+    "all_three_lines_remain_admissible": true
+  },
+  "fsm_partial_anchor_replay": {
+    "source_FSM_S_pair_action": "Z1<->Z3; Z2 fixed",
+    "conditional_if_FSM_S_equals_principal_b4": {
+      "equivariant_bijection_count": 2,
+      "delta0inf_possible_lines": ["L2","L3"],
+      "still_not_absolute": true
+    },
+    "compatible_transposition_plus_order3_anchor_would_give_unique_bijection": true
+  },
+  "external_source_recheck": {
+    "cecotti_arxiv": "2509.24605v1",
+    "cecotti_locator": "Appendix B, B.1-B.9",
+    "cecotti_supported_boundary": "B.3 names lattice S=b4,T=-b3; B.6 identifies the ppav as Jac(y^2=x^5-x); B.7-B.9 then list curve automorphisms, but the displayed passage does not identify B.7/B.8 with S/T on a marked ppav.",
+    "koziarz_rito_roulleau_arxiv": "1904.00793v4",
+    "krr_locator": "Section 4, Corollary 6 and paragraph after Proposition 7",
+    "krr_supported_boundary": "H48 and G48 are conjugate by an automorphism g of A, and the curve embedding may be changed by composing with g before identifying H48 with G48; no g mod 2 matrix is supplied in the inspected passage."
+  },
+  "bounded_obstruction": {
+    "hperp_chi_u_breaks_target_conjugator_ambiguity": false,
+    "cecotti_trace_plus_r_breaks_target_conjugator_ambiguity": false,
+    "fsm_S_action_alone_breaks_target_conjugator_ambiguity": false,
+    "tested_package_selects_absolute_delta0inf_line": false,
+    "tested_package_selects_absolute_Q602_residue": false,
+    "uniform_EX1_residue_count_per_Q_state": 3,
+    "uniform_EX1_coarse_cells_remaining": 87,
+    "EX1_Q_states_excluded": 0
+  },
+  "minimal_reentry_data": [
+    "An explicit source-bound mod-2 action of the conjugating automorphism g on W/J[2].",
+    "An explicit marked ppav isomorphism binding a named curve generator pair to a named retained lattice generator pair.",
+    "A direct source-bound identification delta_0inf -> one retained nonzero W-line.",
+    "A source-bound FSM transposition-to-retained-reflection anchor together with one compatible order-3 generator anchor."
+  ],
+  "decision": {
+    "result": "TESTED_EXISTING_SOURCE_PACKAGE_CANNOT_CONTRACT_UNIFORM_EX1_RESIDUES_3_TO_1",
+    "authority_changed": false,
+    "claim_dag_changed": false,
+    "EX4_terminal_outcome_claimed": false,
+    "retained_consolidation_ready": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "EX1_full_target_closed": false,
+    "Stage32_closed": false,
+    "next_research_route": "SEARCH_FOR_ONE_MARKED_CROSS_ANCHOR_OR_COUPLE_THE_THREE_RESIDUES_TO_EX1_R_STATE_LOCAL_DATA"
+  },
+  "firewalls": {
+    "bounded_tested_package_obstruction_promoted_to_repository_absence": false,
+    "bounded_tested_package_obstruction_promoted_to_literature_absence": false,
+    "gauge_representative_promoted_to_absolute_marking": false,
+    "inner_conjugacy_promoted_to_explicit_conjugator": false,
+    "conditional_FSM_S_equals_b4_promoted": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "Stage32_closed": false
+  },
+  "canonical_sha256_without_this_field": "e113ef9e55eb5205266b54718c2b62f0b113d657538aedd68ac4f1438edaf2b0"
+}
