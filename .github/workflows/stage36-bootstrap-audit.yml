@@ -39,23 +39,18 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay exact 36-09CJ green parent
+      - name: Replay immutable 36-09CK exact-green evidence
         shell: bash
         run: |
           set -euo pipefail
-          H=6d76640e319be1af14ee7c0823311777449d3ef1
+          H=50069e0ab2e0c76b5119b3d74b8b79ffe3c26875
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CJ.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09CK.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09CK
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09CK.py
-      - name: Assert CK fail-closed state before exact-green promotion
+      - name: Assert CK exact-green promotion and CL unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -63,33 +58,31 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V131_36_09CK_CANDIDATE_PENDING_EXACT_CI'
-          cj=s['authority_frontier']['36-09CJ']
-          assert cj['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert cj['exact_head']=='6d76640e319be1af14ee7c0823311777449d3ef1'
-          assert cj['exact_head_ci']=='34172681275/101895889646'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V132_36_09CK_EXACT_GREEN_ALL_LOCAL_PLACES_CLASSIFIED'
           ck=s['authority_frontier']['36-09CK']
-          assert ck['status']=='PROVISIONAL_CANDIDATE_PENDING_EXACT_HEAD_CI'
+          assert ck['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
           assert ck['certificate_blob_sha']=='909dcb4985414fc3085818ad818f7601830dc7f6'
           assert ck['verifier_blob_sha']=='d7541d86948d98a629f503443a82d52ab1c95908'
           assert ck['source_note_blob_sha']=='1277ee7af2b7049114ccd28a22e32831e2d0fa51'
+          assert ck['exact_head']=='50069e0ab2e0c76b5119b3d74b8b79ffe3c26875'
+          assert ck['exact_head_ci']=='34174776757/101901910910'
           assert ck['GOOD_PRIME_AND_REAL_PLACE_INTEGRATION_COMPLETE'] is True
           assert ck['NEW_GOOD_PRIME_BRANCH_FILTER'] is True
           assert ck['P_2_OVER_11_BRANCH_COUNT_AFTER_CK']==3
           assert ck['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
           cur=s['current']
-          assert cur['unit']=='36-09CK'
           assert cur['next_exact_leaf']=='36-09CL_EVERYWHERE_LOCAL_BRANCH_GLOBAL_OBSTRUCTION_ROUTER_PREFLIGHT'
-          assert cur['36_09CL_entry_allowed'] is False
+          assert cur['36_09CL_entry_allowed'] is True
           assert cur['hostile_audit_checkpoint_reached'] is False
           pg=s['promotion_gates']
-          assert pg['36_09CJ_exact_head_ci_passed'] is True
-          assert pg['36_09CK_certificate_complete'] is True
-          assert pg['36_09CK_exact_head_ci_passed'] is False
-          assert pg['36_09CL_unlocked'] is False
+          assert pg['36_09CK_exact_head_ci_passed'] is True
+          assert pg['36_09CL_unlocked'] is True
+          assert pg['36_09CL_entry_allowed'] is True
           assert pg['all_local_places_classified_branchwise_provisional'] is True
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09CK candidate verified; CL remains fail-closed until this exact head is green.')
+          for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
+            assert s['claims'][key] is False
+          print('36-09CK immutable exact-green evidence replayed; 36-09CL is unlocked without global credit.')
           PY
           git diff --check
