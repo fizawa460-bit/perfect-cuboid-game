@@ -39,85 +39,23 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay exact 36-09CI green parent
+      - name: Replay exact 36-09CJ green parent
         shell: bash
         run: |
           set -euo pipefail
-          H=7ebabfcef83571d172c65862bc4dc763ac999b9c
+          H=6d76640e319be1af14ee7c0823311777449d3ef1
           git cat-file -e "$H^{commit}"
           git merge-base --is-ancestor "$H" HEAD
           tmp="$(mktemp -d)"
           git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CI.py"
+          python3 "$tmp/stages/stage36/verify_stage36_36_09CJ.py"
           git worktree remove --force "$tmp"
-      - name: Verify current 36-09CJ
+      - name: Verify current 36-09CK
         shell: bash
         run: |
           set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09CJ.py
-      - name: Assert 36-09CK bounded small-good-prime panel
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          import importlib.util
-          from pathlib import Path
-          ROOT=Path('.')
-          def load(p,n):
-              s=importlib.util.spec_from_file_location(n,p); m=importlib.util.module_from_spec(s); assert s.loader; s.loader.exec_module(m); return m
-          civ=load(ROOT/'stages/stage36/verify_stage36_36_09CI.py','ci')
-          chv=load(ROOT/'stages/stage36/verify_stage36_36_09CH.py','ch')
-          cev=load(ROOT/'stages/stage36/verify_stage36_36_09CE.py','ce')
-          cfv=load(ROOT/'stages/stage36/verify_stage36_36_09CF.py','cf')
-          cgv=load(ROOT/'stages/stage36/verify_stage36_36_09CG.py','cg')
-          ccv=load(ROOT/'stages/stage36/verify_stage36_36_09CC.py','cc')
-          buv=load(ROOT/'stages/stage36/verify_stage36_36_09BU.py','bu')
-          def isprime(n):
-              if n<2:return False
-              if n%2==0:return n==2
-              d=3
-              while d*d<=n:
-                  if n%d==0:return False
-                  d+=2
-              return True
-          SMALL=[q for q in range(3,1163) if isprime(q)]
-          def good_local(a,b,row,q):
-              P=a*a+2*a*b-b*b; M=a*a-2*a*b-b*b; D0=a*b*(a-b)*(a+b); Q=a*a+b*b
-              if (2*P*M*D0*Q)%q==0:return True
-              A,B,C,D,eta,e,f,mu,qok=row
-              assert A%q and B%q and C%q and D%q and M%q
-              L=(P*P*pow((M*M)%q,-1,q))%q
-              assert L not in (0,1,q-1)
-              kappa=eta*(2**e)*C; rho=(2**f)*D
-              d=buv.legendre(A*B,q); k=buv.legendre(kappa*A,q); r=buv.legendre(rho*A,q)
-              targets=(d,k,r,k*d,r*d)
-              for y in range(q):
-                  vals=(y%q,(1-y)%q,(1+y)%q,(1-L*y)%q,(1+L*y)%q)
-                  if all(v==0 or buv.legendre(v,q)==targets[i] for i,v in enumerate(vals)):
-                      return True
-              eps=buv.legendre(-1,q)
-              return d==1 and k==eps and r==1
-          expected={(1,2):3,(2,11):5,(3,4):3,(1,8):3}
-          for p,want in expected.items():
-              rows=civ.ch_rows(*p,cev,cfv,cgv,ccv,buv,chv)
-              kept=[]; obs=[]
-              for i,row in enumerate(rows):
-                  bad=[]
-                  P=p[0]*p[0]+2*p[0]*p[1]-p[1]*p[1]
-                  M=p[0]*p[0]-2*p[0]*p[1]-p[1]*p[1]
-                  D0=p[0]*p[1]*(p[0]-p[1])*(p[0]+p[1])
-                  Q=p[0]*p[0]+p[1]*p[1]
-                  for q in SMALL:
-                      if (2*P*M*D0*Q)%q and not good_local(*p,row,q): bad.append(q)
-                  if bad: obs.append((i,bad[:12]))
-                  else: kept.append(row)
-              print('CKDIAG',p,'CH',len(rows),'after_small_good',len(kept),'obstructions',obs)
-              assert len(rows)==want,(p,'unexpected CH count',len(rows),want)
-              assert len(kept)==want,(p,'small-good-prime filter removed branch',len(kept),want,obs)
-              assert obs==[],(p,'small-good-prime obstruction',obs)
-          print('36-09CK bounded panel verified: all four CH panels survive every odd good prime q<1163.')
-          PY
-      - name: Assert CJ firewalls and CK selection
+          python3 stages/stage36/verify_stage36_36_09CK.py
+      - name: Assert CK fail-closed state before exact-green promotion
         shell: bash
         run: |
           set -euo pipefail
@@ -125,34 +63,33 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V130_36_09CJ_ALL_FINITE_BAD_PLACE_LOCAL_COMPLETE'
-          ch=s['authority_frontier']['36-09CH']
-          assert ch['status']=='AUDITED_MERGED_INPUT'
-          assert ch['ALL_OLD_SIX_LOCAL_REALIZATION_COMPLETE'] is True
-          ci=s['authority_frontier']['36-09CI']
-          assert ci['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
-          assert ci['exact_head']=='7ebabfcef83571d172c65862bc4dc763ac999b9c'
-          assert ci['exact_head_ci']=='34172356210/101894957109'
-          assert ci['verifier_blob_sha']=='53655d24a59024766b6be3cba00720bed86916ad'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V131_36_09CK_CANDIDATE_PENDING_EXACT_CI'
           cj=s['authority_frontier']['36-09CJ']
-          assert cj['certificate_blob_sha']=='bf98c1bfd468ff975755d364081d829b1f8c1233'
-          assert cj['verifier_blob_sha']=='b233a9117c812022c83c5ec4d0b6857bf0af8be3'
-          assert cj['FINITE_BAD_PLACE_BRANCH_LOCAL_REALIZATION_COMPLETE'] is True
-          assert cj['NEW_POINT_INDEPENDENT_BRANCH_FILTER'] is False
-          assert cj['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
+          assert cj['status']=='PROVISIONAL_EXACT_GREEN_PARENT'
+          assert cj['exact_head']=='6d76640e319be1af14ee7c0823311777449d3ef1'
+          assert cj['exact_head_ci']=='34172681275/101895889646'
+          ck=s['authority_frontier']['36-09CK']
+          assert ck['status']=='PROVISIONAL_CANDIDATE_PENDING_EXACT_HEAD_CI'
+          assert ck['certificate_blob_sha']=='909dcb4985414fc3085818ad818f7601830dc7f6'
+          assert ck['verifier_blob_sha']=='d7541d86948d98a629f503443a82d52ab1c95908'
+          assert ck['source_note_blob_sha']=='1277ee7af2b7049114ccd28a22e32831e2d0fa51'
+          assert ck['GOOD_PRIME_AND_REAL_PLACE_INTEGRATION_COMPLETE'] is True
+          assert ck['NEW_GOOD_PRIME_BRANCH_FILTER'] is True
+          assert ck['P_2_OVER_11_BRANCH_COUNT_AFTER_CK']==3
+          assert ck['FIXED_P_PARAMETER_EXCLUSION_OBTAINED'] is False
           cur=s['current']
-          assert cur['next_exact_leaf']=='36-09CK_GOOD_PRIME_AND_REAL_PLACE_LOCAL_INTEGRATION_PREFLIGHT'
+          assert cur['unit']=='36-09CK'
+          assert cur['next_exact_leaf']=='36-09CL_EVERYWHERE_LOCAL_BRANCH_GLOBAL_OBSTRUCTION_ROUTER_PREFLIGHT'
+          assert cur['36_09CL_entry_allowed'] is False
           assert cur['hostile_audit_checkpoint_reached'] is False
-          assert cur['36_09CK_entry_allowed'] is True
           pg=s['promotion_gates']
-          assert pg['36_09CI_exact_head_ci_passed'] is True
-          assert pg['36_09CJ_certificate_complete'] is True
-          assert pg['36_09CJ_exact_head_ci_passed'] is False
-          assert pg['36_09CK_unlocked'] is True
-          assert pg['finite_bad_place_branch_local_realization_complete'] is True
-          assert pg['good_prime_and_real_place_integration_complete'] is False
+          assert pg['36_09CJ_exact_head_ci_passed'] is True
+          assert pg['36_09CK_certificate_complete'] is True
+          assert pg['36_09CK_exact_head_ci_passed'] is False
+          assert pg['36_09CL_unlocked'] is False
+          assert pg['all_local_places_classified_branchwise_provisional'] is True
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False
-          print('36-09CJ workflow verified; CK diagnostic asserted only, no CK credit.')
+          print('36-09CK candidate verified; CL remains fail-closed until this exact head is green.')
           PY
           git diff --check
