@@ -1,0 +1,49 @@
+{
+  "schema": "STAGE32EX5_BC2_01B_PARALLEL_LANES_V1",
+  "authority": "SCRATCH_COORDINATION_ONLY",
+  "shared_target": "BC2-01B_RUNTIME_NODE_COORDINATE_BRIDGE",
+  "inherited_blocker": "MISSING_EXACT_RUNTIME_EXCEPTIONAL_INDEX_TO_PROJECTIVE_NODE_COORDINATE_BRIDGE",
+  "acceptance": {
+    "runtime_index_count": 48,
+    "projective_node_count": 48,
+    "exact_bijection_required": true,
+    "permutation_invariant_canonicalization_required": true,
+    "full178_span_replay_allowed_before_acceptance": false
+  },
+  "lanes": {
+    "stage32ex5-a": {
+      "role": "SOURCE_SIDE_RECONSTRUCTION",
+      "goal": "Recover exact BTVA-side singular-node coordinates, labels, equivalences, and conventions needed for a 48-node target table.",
+      "output": "parallel/results/stage32ex5-a-result.json"
+    },
+    "stage32ex5-b": {
+      "role": "RUNTIME_ORDER_RECONSTRUCTION",
+      "goal": "Recover exact repository/runtime semantics of exceptional indices 0..47, including construction path, ordering, and any permutation conventions.",
+      "output": "parallel/results/stage32ex5-b-result.json"
+    },
+    "stage32ex5-c": {
+      "role": "INDEPENDENT_END_TO_END_BRIDGE",
+      "goal": "Attempt a direct exact 48/48 runtime-index to projective-node bridge with a deterministic replayable verifier, independently of A/B conclusions.",
+      "output": "parallel/results/stage32ex5-c-result.json"
+    },
+    "stage32ex5-d": {
+      "role": "CANONICALIZATION_HOSTILE_CHECK",
+      "goal": "Design and attack permutation-invariant exact projective canonicalization; search for collisions, sign/scale ambiguity, orbit ambiguity, or convention dependence.",
+      "output": "parallel/results/stage32ex5-d-result.json"
+    },
+    "stage32ex5-mainbatch": {
+      "role": "COORDINATOR",
+      "goal": "Compare A-D, resolve disagreements, decide BC2-01B PASS/BLOCKED, and consolidate only a coherent retained leaf.",
+      "output": "parallel/results/stage32ex5-mainbatch-synthesis.json"
+    }
+  },
+  "firewalls": {
+    "scratch_results_are_authority": false,
+    "lanes_may_edit_main_state": false,
+    "lanes_may_edit_claim_registry": false,
+    "lanes_may_promote_stage32_credit": false,
+    "repeat_cycle1_frozen_package": false,
+    "infer_span_without_coordinates": false,
+    "full178_before_bridge": false
+  }
+}
