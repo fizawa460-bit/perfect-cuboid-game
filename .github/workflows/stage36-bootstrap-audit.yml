@@ -52,12 +52,12 @@ jobs:
         run: |
           set -euo pipefail
           python3 stages/stage36/verify_stage36_36_09DN.py
-      - name: Verify repaired post-audit DS pro-Selmer torsion correction
+      - name: Verify audited DS pro-Selmer torsion correction
         shell: bash
         run: |
           set -euo pipefail
           python3 stages/stage36/verify_stage36_36_09DS_correction.py
-      - name: Assert V220 exact-green source repair candidate and DY relock
+      - name: Assert V221 PR1731 PASS receipt and fail-closed promotion replay
         shell: bash
         run: |
           set -euo pipefail
@@ -65,66 +65,61 @@ jobs:
           import json, subprocess
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
+          r=json.loads(Path('stages/stage36/36-09DS/hostile-reaudit-pass-receipt.json').read_text())
           corr=json.loads(Path('stages/stage36/36-09DS/proselmer-torsion-injectivity-correction.json').read_text())
-          oldds=json.loads(Path('stages/stage36/36-09DS/fixed-p2-v4-isogeny-2primary-proselmer-transport-preflight.json').read_text())
           dx=json.loads(Path('stages/stage36/36-09DX/fixed-p2-global-phi-selmer-intersection-preflight.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V220_36_09DS_SOURCE_REPAIR_CI_GREEN_REAUDIT_CANDIDATE'
-          assert s['status']=='HOSTILE_REAUDIT_REQUIRED'
-          af=s['authority_frontier']['36-09DX']; pc=s['post_audit_correction']; cur=s['current']; pg=s['promotion_gates']; ha=s['hostile_audit_checkpoint']
-          assert af['status']=='EXACT_GREEN_MATHEMATICS_RETAINED_AUDIT_REOPENED_BY_DS_CORRECTION'
-          assert af['PHI_SELMER_F2_DIMENSION']==2
-          assert af['PHI_SELMER_CARDINALITY']==4
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V221_36_09DS_REAUDIT_PASS_PROMOTION_REPLAY_PENDING'
+          assert s['status']=='PROMOTION_REPLAY_REQUIRED'
+          assert s['base_main_sha']=='aab9afa37a136f76a5bf8e6eb146145b7bb853c3'
+          assert r['schema']=='STAGE36_PR1731_DS_CORRECTION_HOSTILE_REAUDIT_PASS_RECEIPT_V1'
+          assert r['status']=='PASS_EXTERNAL_REAUDIT_CONSUMABLE'
+          assert r['audited_pr']==1731
+          assert r['prior_fail']['external_review_id']==5148452742
+          assert r['prior_fail']['audited_exact_head']=='bc2b484bb86eaab7b0fe72355abaeb15c00aa50e'
+          assert r['prior_fail']['result']=='FAIL'
+          er=r['external_reaudit']
+          assert er['external_review_id']==5148543440
+          assert er['review_node_id']=='PRR_kwDOTr52Y88AAAABMuCJ0A'
+          assert er['audited_exact_head']=='c88f0edfbd060003df9dbb8131278ae001fcef7e'
+          assert er['result']=='PASS'
+          assert er['exact_head_ci_run']==34295955163
+          assert er['exact_head_ci_job']==102292528793
+          assert er['exact_head_ci_conclusion']=='success'
+          assert er['merge_ready_freshness_at_audit']=='CLEAR'
+          assert r['merged_main_sha']=='aab9afa37a136f76a5bf8e6eb146145b7bb853c3'
+          assert r['post_audit_main_sync']['stage36_semantic_drift'] is False
+          assert r['post_audit_main_sync']['shared_policy_drift'] is False
+          assert r['post_audit_main_sync']['agents_rule_drift'] is False
+          assert r['post_audit_main_sync']['audit_result_retained'] is True
+          pc=s['post_audit_correction']; ha=s['hostile_audit_checkpoint']; cur=s['current']; pg=s['promotion_gates']; af=s['authority_frontier']['36-09DX']
+          assert pc['status']=='EXTERNAL_REAUDIT_PASS_RECEIVED_PROMOTION_REPLAY_PENDING'
+          assert pc['external_reaudit_review_id']==5148543440
+          assert pc['final_audited_head']=='c88f0edfbd060003df9dbb8131278ae001fcef7e'
+          assert pc['hostile_reaudit_receipt_blob_sha']=='49b116703f12eaa06ccfdcb51a896c5340fc8625'
+          assert ha['result']=='PASS_RECEIVED_PROMOTION_REPLAY_PENDING'
+          assert ha['promotion_pr']==1732
+          assert ha['current_authority_valid'] is False
+          assert ha['external_reaudit_required'] is False
+          assert ha['promotion_replay_required'] is True
+          assert cur['unit']=='36-09DS-CORRECTION-PROMOTION'
+          assert cur['next_owner']=='PROMOTION_REPLAY'
+          assert cur['substantive_batch_pr_continues'] is False
+          assert cur['36_09DY_entry_allowed'] is False
           assert af['DOWNSTREAM_RELEASE_BLOCKED'] is True
-          assert dx['global_Phi_Selmer_group']['F2_dimension']==2
-          assert dx['global_Phi_Selmer_group']['cardinality']==4
-          assert pc['status']=='EXACT_GREEN_SOURCE_REPAIR_PENDING_EXTERNAL_REAUDIT'
-          assert pc['certificate_blob_sha']=='d3318c8291835de8011f6b72fea8ca4479c3107d'
-          assert pc['source_blob_sha']=='5d456e35fb82e03f686ad328c103a29b1907534a'
-          assert pc['verifier_blob_sha']=='6edc91290669854537914010db08161b223103bc'
-          assert pc['repair_replay_head']=='411339874f902a3133c5debd748fdefe438e3f2f'
-          assert pc['repair_replay_ci']=='34295849847/102292201899'
-          assert set(pc['revoked_claims'])=={'T2Sel_2_torsion_free','Phi_injective','Psi_injective','proSelmer_mutual_injections_constructed'}
-          assert corr['corrected_proSelmer_transport']['Phi_kernel_nonzero'] is True
-          assert corr['corrected_proSelmer_transport']['Psi_kernel_nonzero'] is True
+          assert pg['external_reaudit_after_DS_correction_passed'] is True
+          assert pg['DS_correction_promotion_replay_passed'] is False
+          assert pg['36_09DY_entry_allowed'] is False
           assert corr['corrected_proSelmer_transport']['Phi_injective'] is False
           assert corr['corrected_proSelmer_transport']['Psi_injective'] is False
-          assert oldds['proSelmer_transport']['Phi_injective'] is True
-          assert oldds['proSelmer_transport']['Psi_injective'] is True
-          fail=ha['pr1731_reaudit_fail']; green=ha['repair_exact_green']
-          assert fail['external_review_id']==5148452742
-          assert fail['audited_exact_head']=='bc2b484bb86eaab7b0fe72355abaeb15c00aa50e'
-          assert fail['result']=='FAIL'
-          assert fail['repair_applied'] is True
-          assert green['head']=='411339874f902a3133c5debd748fdefe438e3f2f'
-          assert green['ci']=='34295849847/102292201899'
-          assert green['result']=='SUCCESS'
-          assert ha['result']=='REPAIRED_EXACT_GREEN_PENDING_EXTERNAL_REAUDIT'
-          assert ha['current_authority_valid'] is False
-          assert ha['external_reaudit_required'] is True
-          assert ha['current_audit_candidate_pr']==1731
-          assert cur['unit']=='36-09DS-CORRECTION'
-          assert cur['next_owner']=='HOSTILE_REAUDIT'
-          assert cur['substantive_batch_pr_continues'] is False
-          assert cur['hostile_audit_checkpoint_reached'] is True
-          assert cur['36_09DY_entry_allowed'] is False
-          assert pg['post_audit_DS_injectivity_defect_detected'] is True
-          assert pg['DS_T2Sel_2_torsion_free_claim_valid'] is False
-          assert pg['DS_Phi_proSelmer_injective'] is False
-          assert pg['DS_Psi_proSelmer_injective'] is False
-          assert pg['DS_proSelmer_mutual_injections_constructed'] is False
-          for key in ['DS_Phi_kernel_nonzero','DS_Psi_kernel_nonzero','DS_Phi_kernel_killed_by_2','DS_Psi_kernel_killed_by_2','DS_Phi_cokernel_killed_by_2','DS_Psi_cokernel_killed_by_2']:
-            assert pg[key] is True,key
-          assert pg['DS_correction_certificate_complete'] is True
-          assert pg['DS_correction_exact_head_ci_passed'] is True
-          assert pg['external_reaudit_after_DS_correction_passed'] is False
-          assert pg['36_09DY_entry_allowed'] is False
-          assert pg['BT_global_Phi_Selmer_group_computed'] is True
-          assert pg['BT_global_Phi_Selmer_cardinality']==4
+          assert dx['global_Phi_Selmer_group']['F2_dimension']==2
+          assert dx['global_Phi_Selmer_group']['cardinality']==4
           for key in ['BT_proSelmer_kernel_dimensions_computed','BT_proSelmer_cokernel_size_computed','BT_proSelmer_product_identification_obtained','BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09DS/proselmer-torsion-injectivity-correction.json'],text=True).strip()=='d3318c8291835de8011f6b72fea8ca4479c3107d'
+          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09DS/hostile-reaudit-pass-receipt.json'],text=True).strip()=='49b116703f12eaa06ccfdcb51a896c5340fc8625'
           assert subprocess.check_output(['git','hash-object','stages/stage36/36-09DS/proselmer-torsion-injectivity-correction-source-lock.md'],text=True).strip()=='5d456e35fb82e03f686ad328c103a29b1907534a'
           assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09DS_correction.py'],text=True).strip()=='6edc91290669854537914010db08161b223103bc'
-          print('V220 verified: PR1731 audit finding is repaired and exact-green. The corrected finite 2-primary completion proof and verifier agree; DX finite Phi-Selmer mathematics is retained; DY and all downstream promotion remain relocked pending external hostile re-audit PASS on this candidate head.')
+          subprocess.check_call(['git','cat-file','-e','c88f0edfbd060003df9dbb8131278ae001fcef7e^{commit}'])
+          subprocess.check_call(['git','merge-base','--is-ancestor','aab9afa37a136f76a5bf8e6eb146145b7bb853c3','HEAD'])
+          print('V221 verified: PR1731 hostile re-audit PASS is source-locked on merged main. Corrected DS mathematics and DX finite Phi-Selmer evidence are retained; authority remains fail-closed and DY stays locked until this promotion replay succeeds.')
           PY
           git diff --check
