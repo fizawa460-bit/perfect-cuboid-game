@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Materialize a bounded R5A exceptional blowup atlas for the A2_02 support.
 
-This leaf is deliberately partial.  It reconstructs deterministic tangent
+This leaf is deliberately partial. It reconstructs deterministic tangent
 coordinates at the four exceptional support components, turns those coordinates
 into the three standard blowup charts and their exact overlap units, and records
-the ambient swap23 action on those tangent charts.  It does not manufacture a
+the ambient swap23 action on those tangent charts. It does not manufacture a
 side-component isolation open, a full eight-component finite cover, a literal
 mu2 Cech cocycle, or a source-bound full-surface H2 representative.
 """
@@ -230,7 +230,6 @@ def build_certificate():
         A = (acted * tB[:, 1:4]).applyfunc(clean)
         if is_zero(A.det()):
             raise SystemExit(f"swap23 tangent action singular: {eid}")
-        # Equality here is equality after restriction to the target tangent quotient.
         if acted * tB[:, 1:4] != A:
             raise SystemExit("internal tangent restriction mismatch")
         if A * (tY * tB[:, 1:4]) != A:
@@ -294,13 +293,11 @@ def build_certificate():
         row = r4_side[sid]
         side_rows.append({
             "component_id": sid,
-            "retained_denominator_coefficients_L_basis": row["D_coefficients_L_basis"],
-            "retained_denominator_exponent": row["denominator_exponent"],
-            "retained_denominator_nonzero_checkpoints": row["denominator_nonzero_at_checkpoints"],
+            "retained_r4_inventory_row": row,
             "retained_D_promoted_to_component_uniformizer": False,
             "side_isolation_open_materialized": False,
             "component_local_equation_materialized": False,
-            "reason": "R4 exposes the residue-function denominator but not an isolation open or a proved local defining equation for the individual side component",
+            "reason": "R4 exposes exact retained side residue/function inventory but not an isolation open or a proved local defining equation for the individual side component",
         })
 
     cert = {
