@@ -1,0 +1,36 @@
+name: Stage35-EX Goal4BS intermediate checkpoint
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage35-ex/35ex-35/goal4bs-post-boundary-derived-backup-parking-audit-source-lock.md'
+      - 'stages/stage35-ex/35ex-35/goal4bs-post-boundary-derived-backup-parking-audit.json'
+      - 'stages/stage35-ex/verify_stage35_ex_35_goal4bs_post_boundary_parking_checkpoint.py'
+      - 'stages/stage35-ex/MAIN-BATCH-HANDOFF.md'
+      - '.github/workflows/stage35-ex-goal4bs-checkpoint.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-goal4bs-checkpoint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact PR head checkout
+        run: |
+          ACTUAL_HEAD_SHA="$(git rev-parse HEAD)"
+          echo "EXPECTED_HEAD_SHA=${EXPECTED_HEAD_SHA}"
+          echo "ACTUAL_HEAD_SHA=${ACTUAL_HEAD_SHA}"
+          test "${ACTUAL_HEAD_SHA}" = "${EXPECTED_HEAD_SHA}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Goal4BS parking and intermediate hostile-audit checkpoint
+        run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4bs_post_boundary_parking_checkpoint.py
