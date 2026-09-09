@@ -66,9 +66,9 @@ jobs:
           assert s['status']=='PROVISIONAL_EXACT_PENDING_CI'
           af=s['authority_frontier']['36-09EC']; cur=s['current']; pg=s['promotion_gates']
           assert af['status']=='PROVISIONAL_EXACT_PENDING_CI'
-          assert af['certificate_blob_sha']=='4900977d4307911e4ccd7e0813f8bf0ede9478f8'
-          assert af['source_blob_sha']=='63a05fbf17fa51777039b5dddea412e397e9f49d'
-          assert af['verifier_blob_sha']=='ce7d9e32d01a499ebc1c345a1dd4fa4ba66d81d8'
+          assert af['certificate_blob_sha']=='f3f4c7e126ba2b81c6fb593d9db513d9c61297a0'
+          assert af['source_blob_sha']=='c3bc3947747ad72a7708cbdce5b109a9286be6d3'
+          assert af['verifier_blob_sha']=='f616817a2d62ba3a70516418263acd6374c67405'
           assert ec['global_factor_2Selmer']['E_tau']['F2_dimension']==3
           assert ec['global_factor_2Selmer']['E_sigma']['F2_dimension']==2
           assert ec['global_factor_2Selmer']['E_rho']['F2_dimension']==2
@@ -81,8 +81,8 @@ jobs:
           assert pg['36_09ED_entry_allowed'] is False
           assert pg['BT_T2Sel_J_equals_JQ_completion'] is True
           assert pg['BT_four_translated_intersections_decided'] is False
-          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09EC/fixed-p2-factor-proselmer-mw-closure-preflight.json'],text=True).strip()=='4900977d4307911e4ccd7e0813f8bf0ede9478f8'
-          assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09EC.py'],text=True).strip()=='ce7d9e32d01a499ebc1c345a1dd4fa4ba66d81d8'
+          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09EC/fixed-p2-factor-proselmer-mw-closure-preflight.json'],text=True).strip()=='f3f4c7e126ba2b81c6fb593d9db513d9c61297a0'
+          assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09EC.py'],text=True).strip()=='f616817a2d62ba3a70516418263acd6374c67405'
           for key in ['BT_retained_open_curve_proSelmer_intersection_computed','BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
           print('V235 verified: EC removes the pro-Selmer/Sha ambiguity and reduces the fixed p=2 problem to the rank-one dyadic Mordell-Weil closure. ED remains locked; no translated-intersection or downstream credit.')
