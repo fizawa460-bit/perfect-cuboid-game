@@ -1,0 +1,52 @@
+name: Stage32EX5 BC2 consume audit PASS
+
+on:
+  push:
+    branches:
+      - stage32ex5-bc2-btva-node-support-span
+    paths:
+      - .github/workflows/stage32-ex5-bc2-consume-audit-pass.yml
+
+permissions:
+  contents: write
+
+jobs:
+  consume-pass:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Consume exact hostile-audit PASS into claim authority
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path('stages/stage32/proof/CLAIM-REGISTRY.json')
+          registry = json.loads(path.read_text())
+          cid = 'S32.EX5.BC2_NODE_SUPPORT_SPAN_CHECKPOINT.V1'
+          claim = next(c for c in registry['claims'] if c['claim_id'] == cid)
+
+          assert claim['claim_core_sha256'] == 'e7fec9cb8d74d0295cf0f7dda1a2edd6b6131b8803913f440924623fd5f3b6b3'
+          assert claim['authority_status'] == 'PROVISIONAL'
+          assert claim['audit_receipt']['review_id'] == 5149535554
+          assert claim['audit_receipt']['exact_head'] == 'a9b9f044b6abcbfe9de7bd334676f854b00d8053'
+
+          claim['authority_status'] = 'AUDITED'
+          claim['audit_receipt'] = {
+              'status': 'PASS',
+              'pr': 1726,
+              'review_id': 5149663802,
+              'exact_head': '280776eb5803f69bcb28b5c1da5e546cc198b5a2',
+              'prior_fail_review_id': 5149535554,
+              'prior_fail_exact_head': 'a9b9f044b6abcbfe9de7bd334676f854b00d8053',
+          }
+          path.write_text(json.dumps(registry, sort_keys=True, separators=(',', ':')) + '\n')
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add stages/stage32/proof/CLAIM-REGISTRY.json
+          git diff --cached --exit-code && { echo 'expected authority transition diff missing'; exit 1; } || true
+          git commit -m '[Stage32EX5][BC2] consume hostile-audit PASS into claim authority'
+          git push origin HEAD:stage32ex5-bc2-btva-node-support-span
