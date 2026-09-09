@@ -13,7 +13,7 @@ DS_SRC=ROOT/'stages/stage36/36-09DS/v4-isogeny-norm-pullback-proselmer-source-lo
 DT=ROOT/'stages/stage36/36-09DT/fixed-p2-v4-isogeny-proselmer-defect-preflight.json'
 LOCKS={
  CERT:'d3318c8291835de8011f6b72fea8ca4479c3107d',
- SRC:'7b8d09ddf0eaa147af01437d0ef19a80da44fb0c',
+ SRC:'5d456e35fb82e03f686ad328c103a29b1907534a',
  POL:'7a3de0b2692afe4fb25b6825b31bd0384a118a41',
  DQ:'71829ec5e0af601605f1f93c5f3a3fec4cae2102',
  DS:'8c16b2f2c53f343dc710bf06d55245aab0599a36',
@@ -50,6 +50,10 @@ assert dt['Galois_rationality']['kernel_Phi_constant_Q_group_scheme']=='(Z/2Z)^3
 assert dt['dual_kernel']['kernel_Psi_constant_Q_group_scheme']=='(Z/2Z)^3'
 assert c['DT_rational_kernel_input']['kernel_Phi_Q_nonzero'] is True
 assert c['DT_rational_kernel_input']['kernel_Psi_Q_nonzero'] is True
+
+# The corrected source sentence must agree with the elementary completion replay below.
+assert 'for all sufficiently large `n` one has `2^n T_2 = 0`' in src
+assert 'no nonzero element of `T_2` lies in the subgroup `2^n M`' in src
 
 # Elementary completion replay for the visible kernel C2^3: quotient by 2^n is C2^3 for every n>=1,
 # so each nonzero element survives the entire inverse system.
