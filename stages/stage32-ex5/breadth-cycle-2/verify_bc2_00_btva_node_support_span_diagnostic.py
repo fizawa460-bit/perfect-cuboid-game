@@ -50,11 +50,15 @@ def main() -> None:
     assert "seven singularities that span P^6" in p["theorem_source"]["necessary_conditions"]["genus0_nonconic"]
     assert "six singularities spanning a hyperplane" in p["theorem_source"]["necessary_conditions"]["genus1_consequence"]
 
-    # BC2-00 is an immutable retained diagnostic. Its source lock intentionally
-    # points to the Cycle1 routing snapshot that existed when the diagnostic was
-    # created. RETAINED_CONSOLIDATION later moved live MAIN-STATE to BC2, so do
-    # not require live mutable routing bytes to equal this historical lock.
-    source_by_path = {item["path"]: item for item in p["source_locks"] if item["repo"] == "fizawa460-bit/perfect-cuboid-game"}
+    # BC2-00 is immutable retained evidence. Its source lock intentionally points
+    # to the Cycle1 routing snapshot present when the diagnostic was created.
+    # Later retained-consolidation and audit-authority transitions may advance
+    # live MAIN-STATE, but must not rewrite this historical evidence lock.
+    source_by_path = {
+        item["path"]: item
+        for item in p["source_locks"]
+        if item["repo"] == "fizawa460-bit/perfect-cuboid-game"
+    }
     old_state_lock = source_by_path["stages/stage32-ex5/MAIN-STATE.json"]
     assert old_state_lock["blob"] == HISTORICAL_CYCLE1_STATE_BLOB
     assert old_state_lock["commit"] == "70265586b3f97be21c7621af73f443311f1f3fa3"
@@ -63,13 +67,16 @@ def main() -> None:
         assert git_blob_sha(path) == expected, (path, git_blob_sha(path), expected)
 
     state = json.loads(MAIN_STATE.read_text())
-    assert state["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V2_BC2_RETAINED_PROVISIONAL"
+    assert state["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V3_BC2_AUDITED_CHECKPOINT"
     assert state["prior_audited_authority"]["breadth_cycle"] == "EX5_BREADTH_CYCLE_1"
     assert state["prior_audited_authority"]["authority_status"] == "AUDITED"
     assert state["prior_audited_authority"]["scope_firewall"] == "EX5_BREADTH_CYCLE_1_ONLY"
     assert state["current"]["breadth_cycle"] == "EX5_BREADTH_CYCLE_2_CANDIDATE"
     assert state["current"]["route_id"] == "EX5R-SYMDIFF-NODE-SPAN-001"
-    assert state["current"]["status"] == "BC2_RETAINED_PROVISIONAL_REAUDIT_REQUIRED"
+    assert state["current"]["status"] == "BC2_RETAINED_AUDITED_CHECKPOINT_MERGE_READY"
+    assert state["authority"]["current_bc2_authority"] == "AUDITED"
+    assert state["frontier"]["hostile_audit_pass_consumed"] is True
+    assert state["frontier"]["authority_transition_sync_completed"] is True
     assert state["route_anti_loop"]["materially_new_cycle2_route_family_admitted"] is True
     assert state["credit"]["current_bc2_mathematical_credit"] is False
     assert state["credit"]["stage32_main_credit"] is False
@@ -110,6 +117,7 @@ def main() -> None:
         "canonical_sha256": EXPECTED_CANONICAL,
         "historical_cycle1_state_lock_preserved": True,
         "current_routing_cycle": "EX5_BREADTH_CYCLE_2_CANDIDATE",
+        "current_bc2_authority": "AUDITED",
         "route_credit": False,
         "mathematical_credit": False,
         "second_pass_dedup_required": True,
