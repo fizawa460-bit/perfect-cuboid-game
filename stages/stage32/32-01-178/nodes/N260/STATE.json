@@ -24,8 +24,21 @@
     "full_exceptional_vector": "[1]^48",
     "exceptional_branching_remaining": false
   },
+  "implementation": {
+    "verifier_path": "stages/stage32/32-01-178/nodes/N260/verify_n260_e48_full_exceptional_rigidity.py",
+    "verifier_blob_sha1": "ff0709d9b2820a1fc17aa9819754463c971ece78",
+    "workflow_path": ".github/workflows/stage32-01-178-n260-e48-rigidity.yml",
+    "workflow_blob_sha1": "dab1a5559723dcd1be6923ff2fa24b5f84e695cb"
+  },
+  "validation": {
+    "status": "PASS_RETAINED_IMPLEMENTATION_REPLAY_PENDING_HOSTILE_AUDIT",
+    "workflow_run_id": 34418800331,
+    "workflow_job_id": 102689522286,
+    "workflow_conclusion": "success",
+    "verdict": "PASS_N260_E48_FULL_EXCEPTIONAL_RIGIDITY"
+  },
   "retained_result": {
-    "status": "IMPLEMENTED_PENDING_CI",
+    "status": "AUDIT_REQUIRED",
     "one_block_strata": [
       {"row_id":"g0-d174","e":48,"K":48,"normal_x4_block":3067},
       {"row_id":"g0-d176","e":48,"K":48,"normal_x4_block":3105},
@@ -40,11 +53,12 @@
     "picard_unsat_credit": false,
     "full178_complete": false
   },
-  "credit_ceiling": "EXACT_FOUR_STRATUM_EXCEPTIONAL_VECTOR_RIGIDITY_ONLY_NO_PICARD_UNSAT_OR_FULL178_CREDIT",
-  "next_action": "RUN_LIGHTWEIGHT_N260_REPLAY; IF PASS, DESIGN A STRATUM-GENERIC PICARD LEAF CONSUMER FOR THESE FOUR ZERO-EXCEPTIONAL-BRANCHING TARGETS WITHOUT REUSING EX5 G1-D008/E4 CONSTANTS AS IF GENERIC",
+  "credit_ceiling": "AUDIT_READY_EXACT_FOUR_STRATUM_EXCEPTIONAL_VECTOR_RIGIDITY_ONLY_NO_PICARD_UNSAT_OR_FULL178_CREDIT",
+  "next_action": "HOSTILE_AUDIT_N260; IN PARALLEL SEARCH EXISTING INTEGER-LATTICE/2-ADIC NECESSARY CONDITIONS FOR A DIRECT OBSTRUCTION ON THE FORCED [1]^48 TARGETS WITHOUT DUPLICATING EX5 SOLVER RESEARCH",
   "notes": [
     "This is not a new global pruning rule; it is an exact boundary rigidity consequence inside four retained strata.",
     "The four strata are attractive pilot targets because a symbolic-x4 leaf certificate would dispose thousands of terminals with one exceptional outer signature each.",
+    "CI PASS is not hostile-audit PASS.",
     "No heavy compute, theorem/receiver/endpoint, existence/nonexistence, or merge credit is authorized."
   ]
 }
