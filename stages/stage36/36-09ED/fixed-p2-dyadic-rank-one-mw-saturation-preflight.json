@@ -1,0 +1,96 @@
+{
+  "schema":"STAGE36_36_09ED_FIXED_P2_DYADIC_RANK_ONE_MW_SATURATION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09ED",
+  "status":"PASS_E_TAU_2ADIC_FREE_GENERATOR_SATURATED_ONE_Z2_VARIABLE_REMAINS",
+  "base_main_sha":"e1696bd4f9debc753128e41fb34e368fc77c3fea",
+  "source_locks":{
+    "stage36_36_09DZ":{"path":"stages/stage36/36-09DZ/fixed-p2-mw-phi-quotient-preflight.json","blob_sha":"5fb697e6d450ab46adde1a4a40cde9c415e4cd90"},
+    "stage36_36_09DZ_source":{"path":"stages/stage36/36-09DZ/mw-phi-quotient-source-lock.md","blob_sha":"4ff753f9933f56cd33accaac264ddc7e936d2364"},
+    "stage36_36_09DW_source":{"path":"stages/stage36/36-09DW/phi-selmer-five-place-local-image-source-lock.md","blob_sha":"08c91eed30774fa5c44509bb61f1c3b1386f2266"},
+    "stage36_36_09EC":{"path":"stages/stage36/36-09EC/fixed-p2-factor-proselmer-mw-closure-preflight.json","blob_sha":"f3f4c7e126ba2b81c6fb593d9db513d9c61297a0"},
+    "stage36_36_09EC_source":{"path":"stages/stage36/36-09EC/factor-proselmer-mw-closure-source-lock.md","blob_sha":"c3bc3947747ad72a7708cbdce5b109a9286be6d3"},
+    "arsenal_S31_WF01":{"path":"docs/arsenal/cards/workflows/S31-WF01.md","blob_sha":"feb9a0581d378beccd1dc58cf9dd20e6c41347bc"},
+    "stage36_36_09ED_source":{"path":"stages/stage36/36-09ED/dyadic-rank-one-mw-saturation-source-lock.md","blob_sha":"cc62f75cc4de2b1542db9df4c0b1f7e7976ca3a4"}
+  },
+  "E_tau_Weierstrass":{
+    "equation":"V^2=U(U+1)(U+49)=U^3+50U^2+49U",
+    "free_rank":1,
+    "non_torsion_point_P":["1","10"],
+    "visible_rational_2torsion":[["0","0"],["-1","0"],["-49","0"]]
+  },
+  "exact_rational_torsion":{
+    "Q4":["7","56"],
+    "T":["-1","0"],
+    "two_Q4":["0","0"],
+    "Q4_order":4,
+    "T_order":2,
+    "Q4_T_independent":true,
+    "subgroup_order_lower_bound":8,
+    "good_reduction_primes":[5,11],
+    "discriminant_prime_support":[2,3,7],
+    "reduced_group_orders":{"5":8,"11":16},
+    "rational_torsion_order":8,
+    "rational_torsion_structure":"Z/4Z x Z/2Z",
+    "rational_torsion_all_2primary":true
+  },
+  "retained_Kummer_coordinates":{
+    "quartic_basepoint":["0","1"],
+    "functions":{"a_tau":"(x+4)(x+1/4)","b_tau":"(x+4)(x+9)"},
+    "Q4_quartic_point":["-1","4"],
+    "Q4_plus_T_Weierstrass":["-7","42"],
+    "Q4_plus_T_quartic_point":["1","25/3"],
+    "delta_Q4":["[-1]","[6]"],
+    "delta_Q4_plus_T":["[1]","[2]"],
+    "delta_T":["[-1]","[3]"],
+    "torsion_image_F2_dimension":2,
+    "torsion_image_basis":[["[-1]","[3]"],["[1]","[2]"]],
+    "delta_P":["[-7]","[42]"],
+    "EC_Sel2_basis":[["[-1]","[3]"],["[7]","[7]"],["[1]","[2]"]],
+    "delta_P_equals_sum_of_all_three_EC_basis_rows":true,
+    "rank_torsion_plus_P":3
+  },
+  "dyadic_saturation":{
+    "E_tau_Q_mod_2E_F2_dimension":3,
+    "P_class_outside_torsion_image":true,
+    "free_coefficient_mod2":1,
+    "free_coefficient_is_2adic_unit":true,
+    "P_is_2adically_saturated_free_generator":true,
+    "P_claimed_integral_MW_generator":false,
+    "completion_identity":"E_tau(Q)^hat_2 = Z_2 P + E_tau(Q)_tors"
+  },
+  "A_completion_reduction":{
+    "rank_vector":{"E_tau":1,"E_sigma":0,"E_rho":0},
+    "infinite_Z2_directions":1,
+    "exact_form":"A(Q)^hat_2=(Z_2 P + E_tau(Q)_tors) x E_sigma(Q)(2) x E_rho(Q)(2)",
+    "E_tau_2primary_torsion_exact":"Z/4Z x Z/2Z",
+    "E_sigma_2primary_torsion_finite":true,
+    "E_rho_2primary_torsion_finite":true,
+    "E_sigma_2primary_torsion_fully_enumerated":false,
+    "E_rho_2primary_torsion_fully_enumerated":false,
+    "EB_representative_set":["0","D_plus","D_minus","D_sum"],
+    "remaining_infinite_variable":"n in Z_2"
+  },
+  "route_result":{
+    "route_status":"PASS_DYADIC_FREE_DIRECTION_SATURATED_PIVOT_TO_FINITE_TORSION_PLUS_Q2_RESIDUE_INTERSECTION",
+    "next_leaf":"36-09EE_FIXED_P2_FINITE_TORSION_Q2_RETAINED_OPEN_INTERSECTION_PREFLIGHT",
+    "next_leaf_semantics":"Materialize only the finite 2-primary torsion choices on the rank-zero quotient factors that are required by the local pullback-sum test, then compare the four EB translations and the single Z_2 coefficient of P against the retained-open Q_2 residue disks."
+  },
+  "scope_firewalls":{
+    "P_full_integral_MW_generator_proved":false,
+    "E_sigma_2primary_torsion_fully_enumerated":false,
+    "E_rho_2primary_torsion_fully_enumerated":false,
+    "four_translated_intersections_decided":false,
+    "retained_open_curve_proSelmer_intersection_computed":false,
+    "global_2primary_Brauer_set_nonempty":false,
+    "global_2primary_Brauer_set_empty":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

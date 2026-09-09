@@ -1,0 +1,108 @@
+{
+  "schema":"STAGE36_36_09DQ_FIXED_P2_GLOBAL_2PRIMARY_ADELIC_ANNIHILATOR_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09DQ",
+  "status":"PASS_GLOBAL_2PRIMARY_ADELIC_ANNIHILATOR_IDENTIFIED_WITH_PROSELMER_IMAGE_RETAINED_OPEN_INTERSECTION_UNRESOLVED",
+  "base_main_sha":"538913633330a8414c87931d3c52f93e4aaf5d0f",
+  "batch_parent":{
+    "pr":1712,
+    "36_09DP_exact_green_head":"ac5d65e7cd148db91e41706cc213c350f981e2f4",
+    "36_09DP_exact_head_ci":"34230132989/102073890507",
+    "36_09DP_promotion_replay_head":"0c2fe56af961728ab658665fbbf1d4d71eac05f0",
+    "36_09DP_promotion_replay_ci":"34230446625/102074937357"
+  },
+  "source_locks":{
+    "stage36_36_09DN_source":{"path":"stages/stage36/36-09DN/full-br2-local-common-neighborhood-source-lock.md","blob_sha":"60984a1f42b999e770219398690e833b54c8eb0f"},
+    "stage36_36_09DP":{"path":"stages/stage36/36-09DP/fixed-p2-global-2primary-brauer-q2-localization-image-preflight.json","blob_sha":"ca4e238820ee5c1f5850ac99e5995e71c7d68eba"},
+    "stage36_36_09DP_source":{"path":"stages/stage36/36-09DP/global-q2-2primary-weil-chatelet-localization-source-lock.md","blob_sha":"d9e081ac00c1b0267c970ba1ab2c0932d0a51425"},
+    "global_2primary_adelic_annihilator_source":{"path":"stages/stage36/36-09DQ/global-2primary-adelic-annihilator-proselmer-source-lock.md","blob_sha":"71829ec5e0af601605f1f93c5f3a3fec4cae2102"}
+  },
+  "fixed_curve":{
+    "curve":"C3_2: z^2=(t^2+4)(t^2+1/4)(t^2+9)(t^2+1/9)",
+    "genus":3,
+    "reference_point":{"name":"P0","t":0,"z":1,"rational":true,"smooth":true,"retained_open":false},
+    "jacobian":"J=Jac(C3_2)",
+    "jacobian_dimension":3,
+    "principally_polarized":true,
+    "dual_identification":"J^t ~= J"
+  },
+  "generalized_cassels_tate":{
+    "authors":["Cristian D. Gonzalez-Aviles","Ki-Seng Tan"],
+    "title":"A generalization of the Cassels-Tate dual exact sequence",
+    "journal":"Math. Res. Lett. 14 (2007), no. 2, 295-302",
+    "doi":"10.4310/MRL.2007.v14.n2.a11",
+    "arxiv":"math/0608587",
+    "result":"Main Theorem",
+    "m":2,
+    "sha_finiteness_required":false,
+    "exact_sequence":"0 -> T_2 Sel(J) -> product_v J(Q_v)^hat_2 -> H^1(Q,J)(2)^D -> Sha(J)(2)^D -> 0"
+  },
+  "adelic_tate_map":{
+    "domain":"product_v J(Q_v)^hat_2",
+    "target":"H^1(Q,J)(2)^D",
+    "formula":"(x_v)_v |-> [xi |-> sum_v <x_v,loc_v(xi)>_v]",
+    "kernel":"image(T_2 Sel(J))",
+    "global_2primary_adelic_annihilator_computed":true,
+    "annihilator_equals_Mordell_Weil_closure_unconditionally":false
+  },
+  "brauer_manin_translation":{
+    "abel_jacobi_map":"iota(P)=[P-P0]",
+    "global_nonconstant_2primary_brauer":"H^1(Q,J)(2)",
+    "evaluation_difference_formula":"inv_v A(P_v)-inv_v A(P0)=<iota(P_v),loc_v(xi)>_v",
+    "global_reference_sum_zero":true,
+    "completed_adelic_curve_image":"iota_hat_2(U_ret(A_Q))",
+    "orthogonality_equivalence":"(P_v) is orthogonal to Br(C3_2)(2) iff iota_hat_2((P_v)) lies in image(T_2 Sel(J))",
+    "intersection_problem":"iota_hat_2(U_ret(A_Q)) intersect image(T_2 Sel(J))"
+  },
+  "mordell_weil_firewall":{
+    "finite_level_exact_sequence":"0 -> J(Q)/2^nJ(Q) -> Sel_{2^n}(J) -> Sha(J)[2^n] -> 0",
+    "JQ_2adic_completion_contained_in_T2Sel":true,
+    "extra_part_measured_by_T2Sha":true,
+    "Sha_2primary_finiteness_proved":false,
+    "T2Sha_vanishes_proved":false,
+    "T2Sel_equals_JQ_2adic_completion_proved":false,
+    "conditional_if_T2Sha_vanishes":"T_2 Sel(J)=J(Q)^hat_2"
+  },
+  "finite_level_route":{
+    "tower":["Sel_2(J)","Sel_4(J)","Sel_8(J)","..."],
+    "must_test_curve_image_mod_2n_against_localized_Selmer_image":true,
+    "inverse_compatibility_required":true,
+    "single_finite_level_hit_suffices_for_proSelmer_membership":false
+  },
+  "route_result":{
+    "route_status":"PASS_EXACT_PROSELMER_ANNIHILATOR_REDUCTION_PIVOT_TO_RETAINED_OPEN_CURVE_PROSELMER_INTERSECTION",
+    "next_leaf":"36-09DR_FIXED_P2_PROSELMER_CURVE_INTERSECTION_PREFLIGHT",
+    "next_leaf_semantics":"Determine whether the completed adelic Abel-Jacobi image of the retained-open Stage36 curve intersects image(T_2 Sel(J)). Start with source-bound finite-level Sel_{2^n}(J) constraints and preserve inverse compatibility across n. Search for exploitable decomposition/quotients of J before attempting a generic genus-3 2-descent."
+  },
+  "current_credit_boundary":{
+    "full_Br2_Brauer_set_nonempty":true,
+    "full_Br2_Brauer_Manin_obstruction_disproved":true,
+    "global_Q2_2primary_localization_image_computed":true,
+    "global_Q2_2primary_localization_image_is_full":true,
+    "global_2primary_adelic_annihilator_computed":true,
+    "global_2primary_adelic_annihilator":"image(T_2 Sel(J))",
+    "full_2primary_Brauer_set_nonempty":false,
+    "full_2primary_Brauer_set_empty":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_2_branch_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false
+  },
+  "scope_firewalls":{
+    "Sha_2primary_finiteness_proved":false,
+    "T2Sel_computed":false,
+    "retained_open_curve_proSelmer_intersection_computed":false,
+    "full_2primary_Brauer_set_nonempty":false,
+    "full_2primary_Brauer_set_empty":false,
+    "full_Brauer_set_nonempty":false,
+    "full_Brauer_set_empty":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

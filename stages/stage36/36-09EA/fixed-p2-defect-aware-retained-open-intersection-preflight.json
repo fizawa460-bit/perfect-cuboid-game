@@ -1,0 +1,75 @@
+{
+  "schema":"STAGE36_36_09EA_FIXED_P2_DEFECT_AWARE_RETAINED_OPEN_INTERSECTION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09EA",
+  "status":"PASS_EXACT_FOUR_COSET_PROSELMER_INTERSECTION_REPRESENTATIVES_NOT_MATERIALIZED",
+  "base_main_sha":"9346a1b0cfdb6f2e8abe93b4aef9987698eeeb47",
+  "source_locks":{
+    "stage36_36_09DQ_source":{"path":"stages/stage36/36-09DQ/global-2primary-adelic-annihilator-proselmer-source-lock.md","blob_sha":"71829ec5e0af601605f1f93c5f3a3fec4cae2102"},
+    "stage36_36_09DR":{"path":"stages/stage36/36-09DR/fixed-p2-v4-elliptic-quotient-proselmer-reduction-preflight.json","blob_sha":"c212f0430fb5b4d04ee0887e303a73fb303657c8"},
+    "stage36_36_09DS_source":{"path":"stages/stage36/36-09DS/v4-isogeny-norm-pullback-proselmer-source-lock.md","blob_sha":"1bac0039c0abccc236b392c2deba3a26ee83ba88"},
+    "stage36_36_09DS_correction":{"path":"stages/stage36/36-09DS/proselmer-torsion-injectivity-correction.json","blob_sha":"d3318c8291835de8011f6b72fea8ca4479c3107d"},
+    "stage36_36_09DZ":{"path":"stages/stage36/36-09DZ/fixed-p2-mw-phi-quotient-preflight.json","blob_sha":"5fb697e6d450ab46adde1a4a40cde9c415e4cd90"},
+    "stage36_36_09DZ_verifier":{"path":"stages/stage36/verify_stage36_36_09DZ.py","blob_sha":"c7a8edc23e7d1f3438ec658fd7d23c8b79587dad"},
+    "stage36_36_09EA_source":{"path":"stages/stage36/36-09EA/defect-aware-retained-open-intersection-source-lock.md","blob_sha":"fe3fe4b5a8341159f347b6f8fc3d083aeccdf926"}
+  },
+  "exact_isogeny_defect_input":{
+    "Phi_kernel_F2_dimension":3,
+    "Phi_cokernel_F2_dimension":2,
+    "Phi_cokernel_cardinality":4,
+    "JQ_mod_PhiAQ_F2_dimension":2,
+    "JQ_mod_PhiAQ_cardinality":4,
+    "Sha_A_Phi_trivial":true,
+    "T2Sha_cokernel_contribution_to_Phi_cokernel":0,
+    "MW_quotient_maps_isomorphically_to_proSelmer_cokernel":true
+  },
+  "coset_decomposition":{
+    "representative_set_symbol":"R",
+    "representative_set_cardinality":4,
+    "representatives_exist_in_JQ":true,
+    "zero_representative_may_be_chosen":true,
+    "representatives_materialized":false,
+    "abstract_identity":"T2Sel(J)=union_{r in R}(r+Phi_*T2Sel(A))",
+    "prelocalization_cosets_distinct":true,
+    "postlocalization_cosets_claimed_distinct":false
+  },
+  "elliptic_product_side":{
+    "A_literal_product":"E_tau x E_sigma x E_rho",
+    "finite_level_Selmer_product_identity":true,
+    "proSelmer_product_identity_for_A":true,
+    "T2Sel_A_identity":"T2Sel(E_tau) x T2Sel(E_sigma) x T2Sel(E_rho)",
+    "T2Sel_J_identified_with_product":false
+  },
+  "adelic_image_decomposition":{
+    "localization_functorial_for_Phi":true,
+    "identity":"loc_J(T2Sel(J))=union_{r in R}(loc_J(r)+Phi(loc_A(T2Sel(A))))",
+    "four_translated_images_exact":true
+  },
+  "retained_open_criterion":{
+    "DQ_Brauer_interface_consumed":true,
+    "criterion":"iota_hat_2(P_v)=loc_J(r)+pi_tau^*loc(s_tau)+pi_sigma^*loc(s_sigma)+pi_rho^*loc(s_rho) for some r in R and s_h in T2Sel(E_h)",
+    "number_of_global_defect_cosets":4,
+    "exact_four_coset_intersection_reduction":true,
+    "individual_coset_intersections_decided":false
+  },
+  "route_result":{
+    "route_status":"PASS_EXACT_FOUR_COSET_REDUCTION_PIVOT_TO_RATIONAL_COSET_REPRESENTATIVES",
+    "next_leaf":"36-09EB_FIXED_P2_PHI_COSET_REPRESENTATIVE_PREFLIGHT",
+    "next_leaf_semantics":"Materialize four rational representatives for J(Q)/Phi A(Q), or an equivalent exact adapter from the four global Phi-Selmer labels to rational Jacobian representatives, and source-lock their local translations before testing the four retained-open intersections."
+  },
+  "scope_firewalls":{
+    "Phi_coset_representatives_materialized":false,
+    "elliptic_quotient_T2Sel_computed":false,
+    "retained_open_curve_proSelmer_intersection_computed":false,
+    "global_2primary_Brauer_set_nonempty":false,
+    "global_2primary_Brauer_set_empty":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

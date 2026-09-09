@@ -1,0 +1,128 @@
+{
+  "schema":"STAGE36_36_09DT_FIXED_P2_V4_ISOGENY_PROSELMER_DEFECT_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09DT",
+  "status":"PASS_EXPLICIT_CONSTANT_Z2_CUBED_V4_ISOGENY_KERNEL_PHI_SELMER_LOCAL_CONDITIONS_STILL_MISSING",
+  "base_main_sha":"70265586b3f97be21c7621af73f443311f1f3fa3",
+  "batch_parent":{
+    "pr":1712,
+    "36_09DS_exact_green_head":"7cad044d63dace9140c7527390358e19b794298d",
+    "36_09DS_exact_head_ci":"34237708751/102099623747",
+    "36_09DS_promotion_replay_head":"3d36a47b603106aa7fd84511c9da8ecb7697ba51",
+    "36_09DS_promotion_replay_ci":"34238061190/102100815243"
+  },
+  "source_locks":{
+    "stage36_36_09DS":{"path":"stages/stage36/36-09DS/fixed-p2-v4-isogeny-2primary-proselmer-transport-preflight.json","blob_sha":"8c16b2f2c53f343dc710bf06d55245aab0599a36"},
+    "stage36_36_09DT_source":{"path":"stages/stage36/36-09DT/v4-isogeny-explicit-kernel-source-lock.md","blob_sha":"df701b11135d43cd2baaa1c59eb9c289d3abfb72"}
+  },
+  "fixed_curve":{
+    "name":"C3_2",
+    "equation":"z^2=(t^2+4)(t^2+1/4)(t^2+9)(t^2+1/9)",
+    "branch_points":{"1":"2i","2":"-2i","3":"i/2","4":"-i/2","5":"3i","6":"-3i","7":"i/3","8":"-i/3"}
+  },
+  "hyperelliptic_J2_model":{
+    "geometric_description":"even subsets of the eight branch points modulo complement",
+    "addition":"symmetric difference",
+    "zero_classes":["empty subset","full eight-point subset"],
+    "F2_dimension":6,
+    "Galois_action":"permutation of branch points"
+  },
+  "quotient_orbit_partitions":{
+    "tau":[[1,2],[3,4],[5,6],[7,8]],
+    "sigma":[[1,4],[2,3],[5,8],[6,7]],
+    "rho":[[1,3],[2,4],[5,7],[6,8]]
+  },
+  "selected_pullback_2torsion":{
+    "alpha_tau":[1,2,3,4],
+    "alpha_sigma":[1,2,3,4],
+    "alpha_rho":[1,2,3,4],
+    "beta_tau":[1,2,5,6],
+    "beta_sigma":[1,4,5,8],
+    "beta_rho":[1,3,5,7],
+    "each_alpha_beta_pair_is_independent_nonzero_on_its_elliptic_factor":true
+  },
+  "Phi_kernel_generators":{
+    "k1":"(alpha_tau,alpha_sigma,0)",
+    "k2":"(alpha_tau,0,alpha_rho)",
+    "k3":"(beta_tau,beta_sigma,beta_rho)",
+    "Phi_k1":"alpha_tau+alpha_sigma=0",
+    "Phi_k2":"alpha_tau+alpha_rho=0",
+    "Phi_k3":"beta_tau+beta_sigma+beta_rho=full branch set=0",
+    "independent_over_F2":true,
+    "generated_subgroup_order":8,
+    "DS_kernel_Phi_geometric_order":8,
+    "therefore_generated_subgroup_equals_kernel_Phi":true
+  },
+  "Galois_rationality":{
+    "splitting_field":"Q(i)",
+    "complex_conjugation_permutation":"(1 2)(3 4)(5 6)(7 8)",
+    "alpha_common":"fixed exactly",
+    "beta_tau":"fixed exactly",
+    "beta_sigma":"sent to complement [2,3,6,7]",
+    "beta_rho":"sent to complement [2,4,6,8]",
+    "all_selected_J2_classes_Q_rational":true,
+    "all_three_kernel_generators_Q_rational":true,
+    "kernel_Phi_constant_Q_group_scheme":"(Z/2Z)^3"
+  },
+  "dual_kernel":{
+    "Psi_equals_Phi_dual":true,
+    "kernel_Psi_Cartier_dual_to_kernel_Phi":true,
+    "kernel_Psi_group_scheme":"mu_2^3",
+    "over_Q_mu2_is_constant":true,
+    "kernel_Psi_constant_Q_group_scheme":"(Z/2Z)^3"
+  },
+  "cohomological_coordinate_consequence":{
+    "chosen_kernel_basis":["k1","k2","k3"],
+    "H1_Q_kernel_Phi":"H^1(Q,ker(Phi)) ~= (Q*/Q*^2)^3 after the rational basis and Z/2 ~= mu_2 identification",
+    "H1_Qv_kernel_Phi":"H^1(Q_v,ker(Phi)) ~= (Q_v*/Q_v*^2)^3 placewise",
+    "Phi_Selmer_local_condition_map_computed":false,
+    "global_Phi_Selmer_group_computed":false
+  },
+  "proSelmer_defect_boundary":{
+    "kernel_Galois_module_computed":true,
+    "proSelmer_cokernel_exponent2_known_from_DS":true,
+    "proSelmer_cokernel_dimension_computed":false,
+    "proSelmer_cokernel_cardinality_computed":false,
+    "proSelmer_product_identification_obtained":false,
+    "finite_level_Phi_Selmer_local_images_computed":false
+  },
+  "route_result":{
+    "route_status":"PASS_EXPLICIT_CONSTANT_KERNEL_PIVOT_TO_PHI_SELMER_LOCAL_CONDITION_DEFECT",
+    "next_leaf":"36-09DU_FIXED_P2_PHI_SELMER_LOCAL_CONDITION_DEFECT_PREFLIGHT",
+    "next_leaf_semantics":"Use the explicit rational basis of ker(Phi) to construct the global/local connecting maps and exact Phi-Selmer local-condition image before assigning a pro-Selmer cokernel size or transporting elliptic descent constraints to the retained-open Abel-Jacobi intersection."
+  },
+  "current_credit_boundary":{
+    "V4_isogeny_kernel_rational_structure_computed":true,
+    "kernel_Phi_constant_Z2_cubed":true,
+    "kernel_Psi_constant_Z2_cubed":true,
+    "proSelmer_cokernel_size_computed":false,
+    "proSelmer_product_identification_obtained":false,
+    "T2Sel_J_computed":false,
+    "retained_open_curve_proSelmer_intersection_computed":false,
+    "global_2primary_Brauer_set_nonempty":false,
+    "global_2primary_Brauer_set_empty":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_2_branch_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false
+  },
+  "scope_firewalls":{
+    "Phi_Selmer_local_condition_map_computed":false,
+    "global_Phi_Selmer_group_computed":false,
+    "proSelmer_cokernel_size_computed":false,
+    "proSelmer_product_identification_obtained":false,
+    "T2Sel_J_computed":false,
+    "elliptic_quotient_T2Sel_computed":false,
+    "retained_open_curve_proSelmer_intersection_computed":false,
+    "global_2primary_Brauer_set_nonempty":false,
+    "global_2primary_Brauer_set_empty":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

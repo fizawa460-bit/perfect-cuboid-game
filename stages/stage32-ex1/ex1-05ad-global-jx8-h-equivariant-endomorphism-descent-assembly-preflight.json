@@ -1,0 +1,162 @@
+{
+  "schema": "STAGE32EX1_EX1_05AD_GLOBAL_JX8_H_EQUIVARIANT_ENDOMORPHISM_DESCENT_ASSEMBLY_PREFLIGHT_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05AD_GLOBAL_JX8_H_EQUIVARIANT_ENDOMORPHISM_DESCENT_ASSEMBLY_PREFLIGHT",
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "scratch_parent_head": "f0691c9a4f1752f6467c4394182612c24ee477b6",
+  "current_main_seen": "e98b06455d34bf2f346d297d9370e82fc2a71970",
+  "freshness_note": "Current main advanced from 226a8aa by one Stage35-EX commit only. No Stage32EX1 or retained Stage32 source lock used here drifted. Scratch remains intentionally unre-based until a retained consolidation checkpoint.",
+  "question": "After the 2-primary gluing alignment is closed, can one actually assemble, for every surviving Q602 residue, an integral H-equivariant endomorphism of J(X(8)) having the exact invariant-part Q602 operator and Prym Rosati character traces 274,18,18, hence the retained deck-cross trace package 1514,1442,930,930?",
+  "source_locks": {
+    "parent_05ac": {
+      "path": "stages/stage32-ex1/scratch/ex1-05ac-fixed-x8-polarization-kernel-antiisometry-transvection-alignment-preflight.json",
+      "blob_sha1": "74a9d76faf652b5f40eb6b5b1b3244071a0d24b5",
+      "exact_use": "The complementary-polarization addition kernel is graph(psi), psi maps the three invariant Q602 transvection centers bijectively to the three Prym factor centers, with abstract alignment 73->L1, 235->L3, 97->L2."
+    },
+    "parent_05aa": {
+      "path": "stages/stage32-ex1/scratch/ex1-05aa-q602-mod4-isotropic-glue-kernel-action-preflight.json",
+      "blob_sha1": "8e453f889951191ded2f4e784850754257001f8e",
+      "exact_use": "Representative integral Q602 witnesses are retained for residues 73,97,235; each induces one rank-one symplectic transvection on A[2]."
+    },
+    "parent_05ab": {
+      "path": "stages/stage32-ex1/scratch/ex1-05ab-fixed-x8-prym-selected-2torsion-cm-orbit-preflight.json",
+      "blob_sha1": "410c89e86a61de381d622c82f9dd821e4043a0b9",
+      "exact_use": "All three selected Prym addition-kernel points xi are the unique Gaussian-CM-fixed nonzero two-torsion points, so multiplication by i preserves each selected xi."
+    },
+    "parent_05x": {
+      "path": "stages/stage32-ex1/scratch/ex1-05x-character-prym-lift-common-v4-correspondence-preflight.json",
+      "blob_sha1": "1ad7c18a374b1e9b4a060a96528f660abd7a3a46",
+      "exact_use": "The retained named H-character Rosati traces are trivial=1204, chi_u=18, chi_v=274, chi_uv=18; inverse H-Fourier transform gives deck-cross traces [1514,1442,930,930]."
+    },
+    "parent_05y": {
+      "path": "stages/stage32-ex1/scratch/ex1-05y-prym-elliptic-endomorphism-norm-character-line-alignment-preflight.json",
+      "blob_sha1": "76ecc594505261086b371e74b875223ffe1ce927",
+      "exact_use": "Each nontrivial character Prym is a j=1728 Gaussian CM elliptic curve with End=Z[i]; degrees 137 and 9 are Gaussian norms."
+    },
+    "principal_rosati": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-principal-rosati-lock.json",
+      "blob_sha1": "e28c4533883440ea0963d4d4e8859aa95409cf10",
+      "exact_use": "The invariant Bolza endomorphism ring is M2(Z[sqrt(-2)]) with exact principal Rosati; Q(T)=602 means rational Rosati trace Tr(T^dagger T)=1204."
+    }
+  },
+  "exact_base_witnesses": {
+    "coordinate_order": ["t11.a","t11.b","t12.a","t12.b","t21.a","t21.b","t22.a","t22.b"],
+    "73": [13,-16,32,1,0,16,-19,16],
+    "97": [-11,-24,16,-16,32,9,5,24],
+    "235": [1,-27,28,-15,24,13,1,25],
+    "Q_each": 602,
+    "mod2_residue_each_matches_key": true,
+    "W_action": "identity on the exact W plane modulo two",
+    "descent": "Because each T preserves W=ker(J(C2)->A), T descends to an integral endomorphism T_A of A=J(C2)/W."
+  },
+  "complementary_gluing_descent": {
+    "ambient": "JX=J(X(8))",
+    "complementary_subvarieties": ["A","P"],
+    "isogeny": "mu:A x P -> JX",
+    "kernel": "graph(psi) subset A[2] x K(P,Xi)",
+    "descent_criterion": "An integral pair (T_A,beta) descends through mu iff (T_A,beta) preserves graph(psi), equivalently beta|K(P)=psi*T_A|A[2]*psi^{-1}.",
+    "H_equivariance": "H acts trivially on A and through the three nontrivial characters on P; a diagonal characterwise Gaussian beta commutes with H."
+  },
+  "gaussian_component_choices": {
+    "degree_137": {
+      "identity_type": "11+4i",
+      "i_type": "4+11i",
+      "norm": 137
+    },
+    "degree_9": {
+      "identity_type": "3",
+      "i_type": "3i",
+      "norm": 9
+    },
+    "two_torsion_action": "identity_type reduces to identity on Ei[2]; i_type reduces to multiplication by i. Since xi is i-fixed, all four choices preserve xi and hence preserve the Prym addition kernel K=<x1,x2,x3>.",
+    "assembly_rule": "For a given residue, choose i_type on the unique Prym factor whose center is psi(center(T_A)), and identity_type on the other two factors. Use degree 137 on named chi_v and degree 9 on chi_u,chi_uv regardless of which factor carries the i-type action."
+  },
+  "kernel_action_match": {
+    "73_center": "a73",
+    "97_center": "a97",
+    "235_center": "a235",
+    "05ac_abstract_alignment": {"73":"L1","235":"L3","97":"L2"},
+    "named_character_adapter_needed_for_existence": false,
+    "reason": "Both norm 137 and norm 9 admit identity-type and i-type Gaussian witnesses. Therefore whichever named character factor is psi(center(T_A)), its prescribed norm can realize the required transvection without changing any Rosati character trace.",
+    "exact_graph_preservation": true,
+    "global_integral_endomorphism_exists_for_each_residue": true
+  },
+  "rosati_character_package": {
+    "trivial_character_trace": 1204,
+    "nontrivial_named_character_traces": {"chi_u":18,"chi_v":274,"chi_uv":18},
+    "elliptic_reason": "For a Gaussian elliptic endomorphism alpha, alpha^dagger alpha=[N(alpha)] and its rational trace on H1 is 2*N(alpha).",
+    "degree_assignment": {"chi_u":9,"chi_v":137,"chi_uv":9},
+    "character_trace_order": [1204,18,274,18]
+  },
+  "deck_fourier_replay": {
+    "deck_order": ["1","u","v","uv"],
+    "formula": "c_h=sum_chi chi(h)*r_chi",
+    "deck_cross_traces": [1514,1442,930,930],
+    "matches_parent_05x": true,
+    "independent_of_residue": true,
+    "independent_of_abstract_L_to_named_character_alignment": true
+  },
+  "statewise_replay": {
+    "Q_values": [210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266],
+    "Q_state_count": 29,
+    "Q602_residues_entering": [73,97,235],
+    "global_JX8_endomorphism_assemblies_per_Q": 3,
+    "Q602_residues_excluded": 0,
+    "Q_states_excluded": 0,
+    "assembly_uniform_in_EX1_Q": true
+  },
+  "decision": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "new_exact_pattern": "EVERY_RETAINED_Q602_RESIDUE_ADMITS_AN_INTEGRAL_H_EQUIVARIANT_GLOBAL_JX8_ENDOMORPHISM_ASSEMBLY_WITH_THE_FULL_RETAINED_ROSATI_CHARACTER_AND_DECK_TRACE_PACKAGE",
+    "global_endomorphism_descent_closed_positive": true,
+    "jacobian_endomorphism_layer_obstruction_excludes": false,
+    "Q602_residues_excluded": 0,
+    "Q_states_excluded": 0,
+    "V6_carrier_excluded": false,
+    "new_gate": "H_LINEARIZED_CORRESPONDENCE_CLASS_DESCENT_FROM_X8xX8_TO_THE_DIAGONAL_H_QUOTIENT_S0_AND_MEMBER_LEVEL_SINGULAR_REALIZATION",
+    "exact_blocker": "The Jacobian/endomorphism and 2-primary gluing layers are now flexible. An endomorphism of J(X8) corresponds only to a correspondence class modulo pullback fibers. EX1 still lacks an exact H-linearized divisor-class descent to the fixed quotient surface S0 together with an integral member having the required bidegree/deck intersections and extreme normalization defect. No actual D0 or V6 carrier is produced here.",
+    "reopen_condition": "Reopen the endomorphism layer only if divisor-class descent exposes an additional integral or equivariant obstruction not visible on J(X8)."
+  },
+  "candidate_ledger": {
+    "LIVE": ["H_LINEARIZATION_AND_DESCENT_OF_THE_LIFTED_CORRESPONDENCE_CLASS_TO_S0"],
+    "UNTESTED": ["ACTUAL_V6_SECTION_MATERIALIZATION__EX2_OWNED"],
+    "BLOCKED": ["D0_SUPPORT_EXTRACTION_FROM_CURRENT_CORRESPONDENCE_ROSATI_DEGREE_DATA"],
+    "DOMINATED": ["GLOBAL_JX8_ENDOMORPHISM_ASSEMBLY_AS_A_PRUNING_ROUTE","FIXED_ANTIISOMETRY_LABEL_AMBIGUITY_AS_A_PRUNING_ROUTE","PRYM_ELLIPTIC_NORM_ONLY_OBSTRUCTION"],
+    "EQUIVALENT": []
+  },
+  "next_route": {
+    "route_id": "EX1_05AE_H_LINEARIZED_CORRESPONDENCE_CLASS_DESCENT_TO_S0_PREFLIGHT",
+    "selection_reason": "05AD closes the full Jacobian endomorphism package. The nearest EX1-owned stronger layer is whether the assembled H-equivariant homomorphism is represented by an H-linearizable integral correspondence class descending to the fixed diagonal-H quotient surface S0 with the retained degree/intersection package; actual V6 section materialization remains EX2-owned."
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "CYCLE_ACTIVE_RECEIVER": "H_LINEARIZED_DIVISOR_CLASS_DESCENT_AND_MEMBER_LEVEL_SINGULAR_REALIZATION_ON_S0",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 1,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": false,
+    "CYCLE_BLIND_REDISCOVERY": false,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "PASS_FROM_JACOBIAN_ENDOMORPHISM_TO_EQUIVARIANT_DIVISOR_CLASS_DESCENT",
+    "CYCLE_NEW_VIEW_SOURCE": "INTERNAL_DESCENT_CRITERION_FROM_05AC_PLUS_STANDARD_CORRESPONDENCE_CLASS_BOUNDARY"
+  },
+  "replay": {
+    "verifier": "stages/stage32-ex1/scratch/verify_ex1_05ad_global_jx8_h_equivariant_endomorphism_descent_assembly.py",
+    "expected": "PASS_EX1_05AD_GLOBAL_JX8_ASSEMBLY_ALL_RESIDUES"
+  },
+  "firewalls": {
+    "endomorphism_promoted_to_actual_curve_member": false,
+    "homomorphism_promoted_to_unique_divisor_class": false,
+    "H_equivariance_promoted_to_H_linearized_line_bundle_descent": false,
+    "deck_trace_match_promoted_to_actual_D0_intersection_realization": false,
+    "smooth_effective_class_promoted_to_required_singular_member": false,
+    "Q_state_exclusion_claimed": false,
+    "Q602_exclusion_claimed": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  }
+}

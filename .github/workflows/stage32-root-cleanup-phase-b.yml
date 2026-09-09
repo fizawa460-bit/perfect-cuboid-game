@@ -58,4 +58,4 @@ jobs:
 
       - name: Diff check
         if: github.event_name == 'pull_request'
-        run: git diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
+        run: git -c core.whitespace=-blank-at-eof diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"

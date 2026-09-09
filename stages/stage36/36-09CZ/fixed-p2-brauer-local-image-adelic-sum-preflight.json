@@ -1,0 +1,101 @@
+{
+  "schema":"STAGE36_36_09CZ_FIXED_P2_BRAUER_LOCAL_IMAGE_ADELIC_SUM_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09CZ",
+  "status":"EXACT_SELECTED_CLASS_A_CANNOT_SUPPLY_BRAUER_MANIN_OBSTRUCTION_CONDITIONAL_ON_ADELIC_SOLUBILITY",
+  "base_main_sha":"f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "batch_parent":{
+    "pr":1712,
+    "36_09CY_exact_green_head":"91f29d0081ed2e82399af1578f14d5851baf87d9",
+    "36_09CY_exact_head_ci":"34199600232/101975129036",
+    "promotion_replay_head":"f59d967f00763f45b6ef92593e38614b4fff12be",
+    "promotion_replay_ci":"34199771204/101975667031"
+  },
+  "source_locks":{
+    "stage36_36_09CY":{"path":"stages/stage36/36-09CY/bt-hyperelliptic-brauer-bt-coordinate-survival-required-place-preflight.json","blob_sha":"781038311a51bf733d51ee62a01d710ce087a491"},
+    "stage36_36_09CX":{"path":"stages/stage36/36-09CX/bt-hyperelliptic-brauer-nonconstancy-receiver-evaluation-preflight.json","blob_sha":"50ef72b661b8b55db2cb637d23f6848a27ff7257"}
+  },
+  "fixed_class":{
+    "p":"2",
+    "curve":"C3_2: z^2=(t^2+4)(t^2+1/4)(t^2+9)(t^2+1/9)",
+    "class":"A=(7,t^2+4)_2",
+    "required_places":[2,5,7],
+    "all_other_places_evaluate_zero":true
+  },
+  "required_place_zero_witnesses":{
+    "v2":{
+      "t":"3",
+      "rhs_exact":"19721",
+      "rhs_is_Q2_square":true,
+      "reason_rhs_square":"19721 is odd and congruent to 1 mod 8",
+      "second_entry":"13",
+      "Hilbert_symbol":"(7,13)_2=+1",
+      "additive_invariant":"0",
+      "nonboundary":true
+    },
+    "v5":{
+      "t":"2",
+      "rhs_exact":"16354/9",
+      "rhs_residue_mod5":1,
+      "z_residue_mod5":1,
+      "hensel_derivative_2z_mod5":2,
+      "Q5_point_exists":true,
+      "second_entry":"8",
+      "Hilbert_symbol":"(7,8)_5=+1 because both entries are 5-adic units",
+      "additive_invariant":"0",
+      "nonboundary":true
+    },
+    "v7":{
+      "t":"2",
+      "Q7_point_exists":true,
+      "source":"36-09CX P2 witness",
+      "Hilbert_symbol":"(7,8)_7=+1",
+      "additive_invariant":"0",
+      "nonboundary":true
+    },
+    "zero_evaluation_point_exists_at_every_required_place":true
+  },
+  "adelic_consequence":{
+    "conditional_statement":"If C3_2(A_Q) is nonempty, then C3_2(A_Q)^A is nonempty.",
+    "proof":"Start with any adelic point. Outside {2,5,7} the A-evaluation is identically zero by CY. Replace the local components at 2,5,7 independently by the explicit zero-evaluation points above. The resulting adelic point has total A-invariant zero.",
+    "zero_in_selected_class_adelic_sum_image_conditional_on_adelic_solubility":true,
+    "selected_class_A_can_be_the_sole_Brauer_Manin_obstruction":false,
+    "does_not_prove_C3_2_adelic_points_exist":true,
+    "does_not_rule_out_local_obstruction_for_p2":true,
+    "does_not_rule_out_obstruction_from_additional_independent_Brauer_classes":true
+  },
+  "local_image_status":{
+    "v7_exact_image":["0","1/2"],
+    "v2_image_contains":["0"],
+    "v5_image_contains":["0"],
+    "v2_full_image_classified":false,
+    "v5_full_image_classified":false,
+    "full_images_not_needed_for_selected_class_no_go":true
+  },
+  "current_credit_boundary":{
+    "selected_class_A_Brauer_Manin_obstruction_disproved_conditional_on_adelic_solubility":true,
+    "Brauer_Manin_obstruction_from_full_Br_group_proved":false,
+    "p2_local_solubility_all_places_proved":false,
+    "fixed_p_2_branch_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false
+  },
+  "route_result":{
+    "route_status":"NO_GO_SELECTED_NONCONSTANT_CLASS_HAS_REQUIRED_PLACE_ZERO_SECTIONS_PIVOT_TO_SECOND_INDEPENDENT_BRAUER_CLASS_OR_LOCAL_OBSTRUCTION",
+    "next_leaf":"36-09DA_FIXED_P2_SECOND_INDEPENDENT_BRAUER_CLASS_EVALUATION_MATRIX_PREFLIGHT",
+    "next_leaf_semantics":"Search within the CW hyperelliptic Brauer family for a second independent nonconstant class on C3_2 and compute the joint evaluation image at required places. Only a joint subgroup whose adelic orthogonality set is empty can yield a Brauer-Manin obstruction; separately, an exact local-solubility failure for p=2 would already exclude the branch."
+  },
+  "scope_firewalls":{
+    "C3_2_adelic_points_exist":false,
+    "all_required_place_local_images_fully_classified":false,
+    "full_Brauer_group_computed":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

@@ -1,0 +1,32 @@
+name: Stage35-EX Goal4AK explicit F_B assembly
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage35-ex/35ex-35/goal4ak-degree31-denominator.txt.gz.b64'
+      - 'stages/stage35-ex/35ex-35/goal4ak-degree31-denominator-transport.json'
+      - 'stages/stage35-ex/35ex-35/goal4ak_explicit_fb.py'
+      - 'stages/stage35-ex/35ex-35/goal4ak-explicit-fb-assembly.json'
+      - 'stages/stage35-ex/verify_stage35_ex_35_goal4ak_denominator_transport.py'
+      - 'stages/stage35-ex/verify_stage35_ex_35_goal4ak_explicit_fb.py'
+      - '.github/workflows/stage35-ex-goal4ak-explicit-fb.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify exact Goal4AK F_B assembly
+        run: |
+          set -euo pipefail
+          python -u -B stages/stage35-ex/verify_stage35_ex_35_goal4ak_explicit_fb.py

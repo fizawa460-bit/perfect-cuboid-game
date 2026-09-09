@@ -1,0 +1,160 @@
+{
+  "schema": "STAGE32EX1_EX1_05AE_H_LINEARIZED_CORRESPONDENCE_CLASS_DESCENT_TO_S0_PREFLIGHT_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05AE_H_LINEARIZED_CORRESPONDENCE_CLASS_DESCENT_TO_S0_PREFLIGHT",
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "scratch_parent_head": "48493f64237f9ba3d2c243794c947bdecf9f925e",
+  "current_main_seen": "538913633330a8414c87931d3c52f93e4aaf5d0f",
+  "freshness_note": "Current main advanced after 05AD through Stage33 only. No Stage32EX1 or retained Stage32 mathematical source lock used in 05AD-05AE drifted. Scratch remains intentionally unre-based before consolidation.",
+  "question": "Does the integral H-equivariant endomorphism assembled in 05AD determine an integral divisor class on S0=(X(8)xX(8))/H_diag with the exact D0 degree/intersection package, or is there a residual integral descent/saturation obstruction invisible over Q?",
+  "source_locks": {
+    "parent_05ad": {
+      "path": "stages/stage32-ex1/scratch/ex1-05ad-global-jx8-h-equivariant-endomorphism-descent-assembly-preflight.json",
+      "blob_sha1": "f360242d2fec69002d8e14135c834060c6f3408f",
+      "exact_use": "For each residue 73,97,235 there is an integral H-equivariant F in End(JX8) with invariant-part trace 1204, nontrivial character traces 18,274,18 and deck-cross traces 1514,1442,930,930."
+    },
+    "beauville_x8_quotient": {
+      "author": "Arnaud Beauville",
+      "title": "Some surfaces with maximal Picard number",
+      "journal": "Journal de l'Ecole polytechnique - Mathematiques 1 (2014), 101-116",
+      "doi": "10.5802/jep.5",
+      "locator": "Section 5, Proposition 8(b)",
+      "exact_use": "For C=X(8), H=Gamma~=(Z/2)^2 acts freely and S0=(C x C)/H_diag satisfies NS(S0) tensor Q = Q^2 direct-sum (End_H(JC) tensor Q). Thus every H-equivariant rational endomorphism component determines a rational Neron-Severi class downstairs; the proposition does not identify the integral lattice or prove integral saturation."
+    },
+    "fpqc_descent_external": {
+      "source": "Stacks Project",
+      "locator": "Proposition 35.5.2, Tag 023T",
+      "exact_use": "A genuine descent datum for an invertible sheaf over the finite etale H-torsor is effective. Therefore the unresolved issue is existence of the integral descent datum / membership in the integral pullback lattice, not effectiveness after such datum is supplied."
+    },
+    "upstairs_05h": {
+      "path": "stages/stage32-ex1/ex1-05h-upstairs-conductor-discriminant-off-cusp-coupling.json",
+      "exact_use": "The retained hypothetical D0 package on S0 has D0^2=3874, K_S0.D0=372, p_a(D0)=2124 and residual-deck intersections 3874,3892,4020,4020."
+    }
+  },
+  "cover_and_lattices": {
+    "C": "X(8), genus 5",
+    "H": "(Z/2)^2 acting freely diagonally",
+    "X": "C x C",
+    "S0": "X/H_diag",
+    "p": "X -> S0 finite etale degree 4",
+    "pullback_lattice": "p^* NS(S0) subset NS(X)^H",
+    "rational_identification": "p^* NS(S0)_Q = NS(X)^H_Q on the correspondence summand by Beauville Proposition 8(b)",
+    "integral_saturation_not_source_locked": true,
+    "transfer_identity": "For alpha in NS(X)^H, p^* p_* alpha = sum_{h in H} h^*alpha = 4 alpha.",
+    "consequence": "Any invariant integral alpha becomes descended after multiplication by 4; exact descent of alpha itself is a finite 2-primary saturation question."
+  },
+  "assembled_upstairs_correspondence_class": {
+    "bidegree": [105,81],
+    "two_d1_d2": 17010,
+    "identity_rosati_cross_trace": 1514,
+    "self_intersection_formula": "alpha_F^2 = 2*d1*d2 - trace_1",
+    "alpha_F_square": 15496,
+    "canonical_intersection_formula": "K_X.alpha_F=(2*g(C)-2)*(d1+d2)",
+    "K_X_dot_alpha_F": 1488,
+    "arithmetic_genus": 8493,
+    "H_invariant_NS_class": true,
+    "reason_H_invariant": "The two fiber degrees are H-invariant and the correspondence summand F commutes with H."
+  },
+  "downstairs_numeric_candidate": {
+    "beta_F": "the unique rational NS(S0) class whose pullback is alpha_F on the fixed bidegree/correspondence coordinates",
+    "beta_F_square": 3874,
+    "K_S0_dot_beta_F": 372,
+    "arithmetic_genus": 2124,
+    "all_match_05h_D0": true,
+    "adjunction_replay": "1+(3874+372)/2=2124"
+  },
+  "deck_intersection_replay": {
+    "character_trace_order": [1204,18,274,18],
+    "residual_deck_cross_traces": [1514,1442,930,930],
+    "formula_if_integrally_descended": "beta_F . g(beta_F) = (2*d1*d2 - trace_g)/4",
+    "downstairs_intersections": [3874,3892,4020,4020],
+    "matches_05h_exactly": true
+  },
+  "normalization_defect_scaling_check": {
+    "D0_normalization_genus": "106+r",
+    "D0_delta": "2018-r",
+    "degree4_etale_pullback_normalization_genus": "4*((106+r)-1)+1 = 421+4r",
+    "upstairs_alpha_arithmetic_genus": 8493,
+    "upstairs_delta": "8493-(421+4r)=8072-4r=4*(2018-r)",
+    "numeric_etale_scaling_exact": true
+  },
+  "integral_descent_boundary": {
+    "rational_divisor_class_downstairs_established": true,
+    "integral_divisor_class_downstairs_established": false,
+    "H_linearized_line_bundle_established": false,
+    "actual_effective_member_established": false,
+    "obvious_intersection_congruences_pass": true,
+    "unknown_finite_group": "cokernel/saturation of p^*:NS(S0)->NS(X)^H at the three alpha_F classes; exponent divides 4 by transfer, but exact order 1/2/4 is not retained",
+    "missing_exact_inputs": [
+      "an integral NS(S0) basis with intersection form and explicit p^* matrix",
+      "or an equivalent H-linearized Picard descent adapter for the correspondence class",
+      "or an explicit divisor-class construction on S0 whose pullback has the 05AD correspondence coordinates"
+    ],
+    "why_beauville_is_not_enough": "Beauville computes NS(S0) only after tensoring with Q for this purpose. Rank equality/rho-maximality does not prove that a specified invariant integral class is primitive in the pullback image."
+  },
+  "statewise_replay": {
+    "Q_values": [210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266],
+    "Q_state_count": 29,
+    "Q602_residues_entering": [73,97,235],
+    "rational_S0_classes_per_Q": 3,
+    "integral_S0_classes_proved_per_Q": 0,
+    "Q602_residues_excluded": 0,
+    "Q_states_excluded": 0,
+    "descent_receiver_uniform_in_EX1_Q": true
+  },
+  "decision": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "new_exact_pattern": "THE_05AD_GLOBAL_ENDOMORPHISMS_GIVE_H_INVARIANT_INTEGRAL_UPSTAIRS_NS_CLASSES_WHOSE_UNIQUE_RATIONAL_DESCENTS_REPRODUCE_THE_ENTIRE_05H_D0_INTERSECTION_AND_ADJUNCTION_PACKAGE;_THE_ONLY_CLASS_LEVEL_GAP_IS_INTEGRAL_2_PRIMARY_SATURATION_OF_THE_DIAGONAL_V4_PULLBACK_LATTICE",
+    "rational_S0_correspondence_class_layer_closed_positive": true,
+    "integral_S0_descent_closed": false,
+    "numeric_descent_obstruction_excludes": false,
+    "Q602_residues_excluded": 0,
+    "Q_states_excluded": 0,
+    "V6_carrier_excluded": false,
+    "new_gate": "COMPUTE_THE_INTEGRAL_SATURATION_OF_pSTAR_NS_S0_INSIDE_NS_X8xX8_H_AT_THE_THREE_ASSEMBLED_CLASSES_OR_BUILD_AN_EQUIVALENT_H_LINEARIZATION_ADAPTER",
+    "exact_blocker": "All rational and numerical data match the retained hypothetical D0 exactly, but the repository lacks the integral quotient Picard/Neron-Severi lattice or an explicit H-linearization proving that alpha_F itself, rather than only 4*alpha_F, is a pullback from S0.",
+    "reopen_condition": "Resolve with a bounded integral lattice computation for S0 or an explicit equivariant line-bundle/divisor construction. No full Q602 shell or heavy workflow is needed."
+  },
+  "candidate_ledger": {
+    "LIVE": ["S0_INTEGRAL_NS_PULLBACK_SATURATION_FOR_THE_THREE_Q602_CLASSES"],
+    "UNTESTED": ["ACTUAL_V6_SECTION_MATERIALIZATION__EX2_OWNED"],
+    "BLOCKED": ["INTEGRAL_S0_CORRESPONDENCE_CLASS_WITHOUT_PULLBACK_SATURATION_DATA","D0_SUPPORT_EXTRACTION_FROM_CURRENT_CORRESPONDENCE_ROSATI_DEGREE_DATA"],
+    "DOMINATED": ["JX8_ENDOMORPHISM_OR_2PRIMARY_GLUE_AS_A_PRUNING_ROUTE","RATIONAL_NS_DESCENT_AS_A_REMAINING_BLOCKER","OBVIOUS_INTERSECTION_DIVISIBILITY_TESTS"],
+    "EQUIVALENT": []
+  },
+  "next_route": {
+    "route_id": "EX1_05AF_S0_INTEGRAL_NS_PULLBACK_SATURATION_PREFLIGHT",
+    "selection_reason": "05AE shows that the rational class and every retained numerical invariant already match D0. The nearest stronger EX1-owned question is the finite integral index of the diagonal-V4 pullback lattice at the three assembled classes."
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "CYCLE_ACTIVE_RECEIVER": "INTEGRAL_2_PRIMARY_SATURATION_OF_THE_S0_NERON_SEVERI_PULLBACK_LATTICE",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 1,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": false,
+    "CYCLE_BLIND_REDISCOVERY": false,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "RATIONAL_DESCENT_CLOSED_AND_INTEGRAL_DESCENT_REDUCED_TO_A_FINITE_2PRIMARY_LATTICE_INDEX",
+    "CYCLE_NEW_VIEW_SOURCE": "BEAUVILLE_PROP8_PLUS_TRANSFER_AND_05AD_EXPLICIT_TRACE_PACKAGE"
+  },
+  "replay": {
+    "verifier": "stages/stage32-ex1/scratch/verify_ex1_05ae_h_linearized_correspondence_class_descent_to_s0.py",
+    "expected": "PASS_EX1_05AE_RATIONAL_DESCENT_NUMERICS_EXACT_INTEGRAL_SATURATION_OPEN"
+  },
+  "firewalls": {
+    "rho_maximality_promoted_to_integral_lattice_saturation": false,
+    "H_invariant_NS_class_promoted_to_H_linearized_line_bundle": false,
+    "four_times_descent_promoted_to_primitive_descent": false,
+    "numeric_D0_match_promoted_to_actual_D0_member": false,
+    "rational_NS_class_promoted_to_integral_divisor": false,
+    "Q_state_exclusion_claimed": false,
+    "Q602_exclusion_claimed": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "schema": "STAGE36_36_09DZ_FIXED_P2_MW_PHI_QUOTIENT_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09DZ",
+  "status": "PASS_MW_RANK1_EXACT_PHI_PSI_PROSELMER_COKERNELS",
+  "base_main_sha": "97aa65b83015ea31d453bffee0cc56c4d9876724",
+  "source_locks": {
+    "stage36_36_09DR": {"path": "stages/stage36/36-09DR/fixed-p2-v4-elliptic-quotient-proselmer-reduction-preflight.json", "blob_sha": "c212f0430fb5b4d04ee0887e303a73fb303657c8"},
+    "stage36_36_09DY": {"path": "stages/stage36/36-09DY/fixed-p2-phi-to-proselmer-defect-preflight.json", "blob_sha": "3adcab8e00fa8a517df28ce71b95925f6e00ada6"},
+    "stage36_36_09DY_verifier": {"path": "stages/stage36/verify_stage36_36_09DY.py", "blob_sha": "39173498249965f010fb40769131bd6f3618e484"},
+    "stage36_36_09DZ_source": {"path": "stages/stage36/36-09DZ/mw-phi-quotient-source-lock.md", "blob_sha": "4ff753f9933f56cd33accaac264ddc7e936d2364"}
+  },
+  "E_tau_quartic": {
+    "equation": "y^2=(x+4)(x+1/4)(x+9)(x+1/9)",
+    "explicit_point": ["-29/11", "875/121"]
+  },
+  "E_tau_Weierstrass": {
+    "equation": "V^2=U(U+1)(U+49)",
+    "forward_map": {"U": "-7(x+4)/(4x+1)", "V": "126*y/(4x+1)^2"},
+    "inverse_map": {"x": "-(U+28)/(4U+7)", "y": "175*V/(2*(4U+7)^2)"},
+    "full_rational_2_torsion": [["0","0"],["-1","0"],["-49","0"]],
+    "mapped_point_P": ["1","10"]
+  },
+  "non_torsion_witness": {
+    "P": ["1","10"],
+    "two_P": ["144/25", "-5772/125"],
+    "eight_P_is_identity": false,
+    "Mazur_full_2_torsion_max_point_order": 8,
+    "P_non_torsion": true,
+    "rank_E_tau_lower_bound": 1
+  },
+  "Mordell_Weil_rank": {
+    "DY_common_rank_upper_bound": 1,
+    "A_rank_lower_bound_from_E_tau": 1,
+    "common_rank_exact": 1,
+    "rank_A": 1,
+    "rank_J": 1
+  },
+  "rational_isogeny_quotients": {
+    "allowed_DY_triples_before_DZ": [[1,5,0],[2,4,0],[2,5,1]],
+    "unique_triple_a_a_prime_rank": [2,5,1],
+    "Phi_MW_quotient_F2_dimension": 2,
+    "Phi_MW_quotient_cardinality": 4,
+    "Psi_MW_quotient_F2_dimension": 5,
+    "Psi_MW_quotient_cardinality": 32
+  },
+  "finite_isogeny_Sha_kernels": {
+    "Phi_Selmer_F2_dimension": 2,
+    "Psi_Selmer_F2_dimension": 5,
+    "Sha_A_Phi_F2_dimension": 0,
+    "Sha_J_Psi_F2_dimension": 0,
+    "Sha_A_Phi_trivial": true,
+    "Sha_J_Psi_trivial": true
+  },
+  "exact_proSelmer_defect": {
+    "Phi_kernel_F2_dimension": 3,
+    "Phi_kernel_exact": "(Z/2Z)^3",
+    "Phi_cokernel_F2_dimension": 2,
+    "Phi_cokernel_cardinality": 4,
+    "Psi_kernel_F2_dimension": 3,
+    "Psi_kernel_exact": "(Z/2Z)^3",
+    "Psi_cokernel_F2_dimension": 5,
+    "Psi_cokernel_cardinality": 32,
+    "Phi_cokernel_exact_dimension_computed": true,
+    "Psi_cokernel_exact_dimension_computed": true,
+    "proSelmer_product_identification_obtained": false
+  },
+  "route_result": {
+    "route_status": "PASS_EXACT_MW_AND_PROSELMER_DEFECT_PIVOT_TO_DEFECT_AWARE_RETAINED_OPEN_INTERSECTION",
+    "next_leaf": "36-09EA_FIXED_P2_DEFECT_AWARE_RETAINED_OPEN_INTERSECTION_PREFLIGHT",
+    "next_leaf_semantics": "Use the exact Phi/Psi pro-Selmer kernel/cokernel defect to formulate the retained-open Abel-Jacobi intersection without replacing T2Sel(J) by the elliptic product."
+  },
+  "scope_firewalls": {
+    "proSelmer_product_identification_obtained": false,
+    "T2Sel_J_computed": false,
+    "elliptic_quotient_T2Sel_computed": false,
+    "retained_open_curve_proSelmer_intersection_computed": false,
+    "global_2primary_Brauer_set_nonempty": false,
+    "global_2primary_Brauer_set_empty": false,
+    "Brauer_Manin_obstruction_obtained": false,
+    "fixed_p_parameter_exclusion_obtained": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

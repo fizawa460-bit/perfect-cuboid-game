@@ -1,0 +1,161 @@
+{
+  "schema": "STAGE32EX1_EX1_05Y_PRYM_ELLIPTIC_ENDOMORPHISM_NORM_CHARACTER_ALIGNMENT_PREFLIGHT_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05Y_PRYM_ELLIPTIC_ENDOMORPHISM_NORM_AND_CHARACTER_LINE_ALIGNMENT_PREFLIGHT",
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "scratch_parent_head": "2719f8b2fd22116f728214ae58c0ef7b8cc45dd2",
+  "current_main_seen": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "question": "Do the three fixed X(8) character-Prym elliptic factors admit the forced degree multiset {137,9,9}, and can the unique degree-137 character be aligned strongly enough with the retained exact-W lines to remove any Q602 residue?",
+  "source_locks": {
+    "parent_05x": {
+      "path": "stages/stage32-ex1/scratch/ex1-05x-character-prym-lift-common-v4-correspondence-preflight.json",
+      "blob_sha1": "1ad7c18a374b1e9b4a060a96528f660abd7a3a46",
+      "exact_use": "The common H=(Z/2)^2 lift has characterwise Rosati traces {1204,274,18,18}; the three nontrivial character factors are elliptic and the forced degree multiset is {137,9,9}."
+    },
+    "beauville_x8": {
+      "author": "Arnaud Beauville",
+      "title": "Some surfaces with maximal Picard number",
+      "journal": "Journal de l'Ecole polytechnique - Mathematiques 1 (2014), 101-116",
+      "doi": "10.5802/jep.5",
+      "locator": "Proposition 8 and proof",
+      "exact_use": "For C=X(8) with u^2=xy, v^2=x^2-y^2, w^2=x^2+y^2, Gamma is the even-sign subgroup on u,v,w. Multiplication by Omega=(xdy-ydx)/(uvw) identifies H0(K_C) with the coordinate span. The Gamma-invariant two-plane is <x Omega,y Omega>, while <u Omega,v Omega,w Omega> is the sum of the three nontrivial one-dimensional Gamma characters. Moreover End_Gamma(JC) tensor Q = M2(Q(sqrt(-2))) x Q(i)^3 and JC is isogenous to E_i^3 x E_sqrt(-2)^2."
+    },
+    "bars_kontogeorgis_xarles": {
+      "authors": ["Francesc Bars", "Aristides Kontogeorgis", "Xavier Xarles"],
+      "title": "Bielliptic and Hyperelliptic modular curves X(N) and the group Aut(X(N))",
+      "locator": "Theorem 13, N=8 discussion and Theorem 21 proof",
+      "exact_use": "X(8) has exactly three bielliptic involutions. Their elliptic quotients are y^2=x^3-x (two cases) and y^2=x^3+x (one case); these become isomorphic over Q(zeta_8), hence over C all have j=1728 and are isomorphic to E_i=C/Z[i]."
+    },
+    "relative_h_named_basis": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-x-relative-h-marked-node-action.json",
+      "blob_sha1": "d1437ae97e5d10d66e2b12ca5a95b2e4d78672cc",
+      "exact_use": "The three named nonidentity deck elements are u=TTprime, v=RT, uv=RTprime and form H=V4."
+    },
+    "deck_cross_repair": {
+      "path": "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json",
+      "blob_sha1": "2ebe262fe76f2ceda371e018c107bcfb7d6f523b",
+      "exact_use": "Retained exact deck intersections are D^2=3874, D.uD=3892, D.vD=4020, D.uvD=4020; the corrected downstairs Rosati trace is 1204."
+    }
+  },
+  "character_prym_identification": {
+    "beauville_model": "C=X(8): u^2=xy, v^2=x^2-y^2, w^2=x^2+y^2",
+    "Gamma": "even sign changes of u,v,w",
+    "single_sign_involutions": ["s_u:u->-u", "s_v:v->-v", "s_w:w->-w"],
+    "fixed_point_counts": {"s_u": 8, "s_v": 8, "s_w": 8},
+    "fixed_point_replay": {
+      "s_u": "u=0 implies xy=0; x=0 gives 4 points and y=0 gives 4 points",
+      "s_v": "v=0 implies x^2=y^2; x=y and x=-y each give 4 points",
+      "s_w": "w=0 implies x^2=-y^2; x=iy and x=-iy each give 4 points"
+    },
+    "riemann_hurwitz": "2*5-2 = 2*(2*g_quotient-2)+8, hence g_quotient=1",
+    "all_three_are_the_three_bielliptic_involutions": true,
+    "Omega": "(xdy-ydx)/(uvw)",
+    "invariant_differential_lines": {"s_u": "<u Omega>", "s_v": "<v Omega>", "s_w": "<w Omega>"},
+    "Gamma_character_lines": ["<u Omega>", "<v Omega>", "<w Omega>"],
+    "pullback_injectivity_reason": "Each double quotient C->E_chi is ramified. If a nontrivial 2-torsion line bundle L on E_chi pulled back trivially, the corresponding etale double cover E_L->E_chi would admit a lift C->E_L of degree one, impossible because g(C)=5 and g(E_L)=1. Thus pullback Pic0(E_chi)->Pic0(C) is injective.",
+    "conclusion": "Each one-dimensional nontrivial Gamma-character abelian factor P_chi is isomorphic to its bielliptic quotient E_chi, not merely rationally isogenous to an unspecified CM elliptic curve."
+  },
+  "exact_endomorphism_rings": {
+    "elliptic_quotient_models": ["y^2=x^3-x", "y^2=x^3-x", "y^2=x^3+x"],
+    "complex_isomorphism_type": "E_i=C/Z[i]",
+    "j_invariant": 1728,
+    "endomorphism_ring_each_nontrivial_character": "Z[i]",
+    "all_three_character_rings_identical": true
+  },
+  "forced_norm_realizability": {
+    "degree_multiset_from_05x": [137, 9, 9],
+    "gaussian_norm": "N(a+bi)=a^2+b^2",
+    "degree_137_witness": "11+4i",
+    "degree_137_replay": "11^2+4^2=137",
+    "degree_9_witness": "3",
+    "degree_9_replay": "3^2=9",
+    "every_assignment_of_137_9_9_to_the_three_character_factors_realizable_at_ring_level": true,
+    "norm_obstruction_excludes": false
+  },
+  "named_character_alignment": {
+    "named_H_basis": ["u", "v"],
+    "cross_rosati_order_e_u_v_uv": [1514, 1442, 930, 930],
+    "fourier_traces": {
+      "trivial": 1204,
+      "chi_u__nontrivial_on_u_trivial_on_v": 18,
+      "chi_v__trivial_on_u_nontrivial_on_v": 274,
+      "chi_uv__nontrivial_on_both": 18
+    },
+    "distinguished_degree_137_named_character": "chi_v",
+    "exact_W_coordinate_line_for_chi_v_source_locked": false,
+    "alignment_needed_for_norm_test": false,
+    "reason": "All three character Pryms have the same endomorphism ring Z[i], so degree 137 is realizable whichever exact-W line is chi_v. A deck-character-to-exact-W-coordinate adapter cannot by itself create a norm exclusion."
+  },
+  "statewise_replay": {
+    "Q_values": [210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266],
+    "Q_states_entering": 29,
+    "Q_states_excluded": 0,
+    "Q_states_leaving": 29,
+    "Q602_residues_per_Q": [73,97,235],
+    "prym_degree_multiset_constant": [137,9,9],
+    "prym_norm_realizable_all_states": true
+  },
+  "decision": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "new_exact_pattern": "THE_THREE_NONTRIVIAL_X8_CHARACTER_PRYMS_ARE_ACTUAL_J1728_GAUSSIAN_CM_ELLIPTIC_FACTORS;_THE_FORCED_DEGREES_137_9_9_ARE_ALL_GAUSSIAN_NORMS",
+    "fixed_prym_endomorphism_ring_source_locked": true,
+    "degree_137_impossible": false,
+    "character_alignment_norm_pruning": false,
+    "Q_states_excluded": 0,
+    "Q602_residues_excluded": 0,
+    "V6_carrier_excluded": false,
+    "new_gate": "INTEGRAL_H_EQUIVARIANT_JACOBIAN_LATTICE_GLUE_BETWEEN_THE_BOLZA_INVARIANT_PART_AND_THREE_GAUSSIAN_CHARACTER_FACTORS",
+    "exact_blocker": "Beauville gives the rational H-equivariant decomposition End_H(JX8) tensor Q = M2(Q(sqrt(-2))) x Q(i)^3, but the current package does not source-lock the integral order/gluing inside this product. Any further coupling of the base Q602 residue with the Gaussian Prym components must come from that integral gluing or from actual simultaneous member data, not from the individual Prym norms.",
+    "reopen_condition": "Reopen the norm route only if an integral polarization/gluing condition changes the allowed Gaussian components or couples the distinguished character to a base residue in a way not visible in the separate norm equations."
+  },
+  "candidate_ledger": {
+    "LIVE": ["INTEGRAL_H_EQUIVARIANT_JACOBIAN_LATTICE_GLUE_CONGRUENCE"],
+    "UNTESTED": ["ACTUAL_V6_SECTION_MATERIALIZATION"],
+    "BLOCKED": [
+      "DISTINGUISHED_PRYM_CHARACTER_TO_EXACT_W_LINE_WITHOUT_DECK_CHARACTER_ADAPTER",
+      "D0_SUPPORT_EXTRACTION_FROM_CURRENT_CORRESPONDENCE_ROSATI_DEGREE_DATA",
+      "SEPARATE_NIELSEN_TUPLE_ENUMERATION_WITHOUT_COMMON_PI1_MARKING"
+    ],
+    "DOMINATED": [
+      "PRYM_ELLIPTIC_ENDOMORPHISM_DEGREE_137_AS_A_NORM_OBSTRUCTION",
+      "FULL_V4_TORSOR_COHOMOLOGY_BEYOND_EXACT_W",
+      "LOW_RAMIFICATION_FORCES_SMALL_OR_IMPRIMITIVE_MONODROMY",
+      "STANDARD_VIRTUAL_OR_EXPECTED_DIMENSION_COUNT"
+    ],
+    "EQUIVALENT": []
+  },
+  "next_route": {
+    "route_id": "EX1_05Z_INTEGRAL_H_EQUIVARIANT_JACOBIAN_GLUE_CONGRUENCE_PREFLIGHT",
+    "selection_reason": "05Y proves that each Prym norm is individually legal in Z[i]. The nearest genuinely stronger non-reconstruction question is whether an integral H-equivariant endomorphism of J(X8) can simultaneously have the retained invariant-part Q602 residue and Gaussian character degrees {137,9,9}, given the finite integral gluing hidden by Beauville's rational isogeny decomposition."
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "CYCLE_ACTIVE_RECEIVER": "INTEGRAL_H_EQUIVARIANT_ENDOMORPHISM_GLUE_OF_JX8_WITH_BASE_Q602_AND_PRYM_DEGREES_137_9_9",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 1,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": false,
+    "CYCLE_BLIND_REDISCOVERY": false,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "INTEGRAL_ORDER_GLUE_INSIDE_M2_QSQRTMINUS2_TIMES_QI_CUBED",
+    "CYCLE_NEW_VIEW_SOURCE": "INTERNAL_DERIVATION_FROM_BEAUVILLE_PROP8_AND_05X"
+  },
+  "replay": {
+    "verifier": "stages/stage32-ex1/scratch/verify_ex1_05y_prym_elliptic_endomorphism_norm_character_alignment.py",
+    "expected": "PASS_EX1_05Y_GAUSSIAN_PRYM_NORMS_REALIZABLE"
+  },
+  "firewalls": {
+    "rational_isogeny_decomposition_promoted_to_integral_product_decomposition": false,
+    "degree_137_promoted_to_impossibility": false,
+    "unlabeled_fourier_multiset_promoted_to_exact_W_coordinate_label": false,
+    "individual_gaussian_norm_realizability_promoted_to_actual_carrier_realizability": false,
+    "Q_state_exclusion_claimed": false,
+    "Q602_exclusion_claimed": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  }
+}

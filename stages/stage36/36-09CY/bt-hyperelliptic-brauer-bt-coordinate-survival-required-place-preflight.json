@@ -1,0 +1,89 @@
+{
+  "schema":"STAGE36_36_09CY_BT_HYPERELLIPTIC_BRAUER_BT_COORDINATE_SURVIVAL_REQUIRED_PLACE_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09CY",
+  "status":"PASS_FIXED_P2_BRAUER_DIRECT_PHYSICAL_RECEIVER_REQUIRED_PLACES_2_5_7_BT_TRANSLATION_NOT_REQUIRED_FOR_EVALUATION",
+  "base_main_sha":"f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "batch_parent":{
+    "pr":1712,
+    "36_09CX_exact_green_head":"434c4816dad351208941921bfa7fec02c4076831",
+    "36_09CX_exact_head_ci":"34198960652/101973104092",
+    "promotion_replay_head":"4b80debeb64880c0192d2ecfa9132c95341672cc",
+    "promotion_replay_ci":"34199227681/101973936096"
+  },
+  "source_locks":{
+    "stage36_36_09CX":{"path":"stages/stage36/36-09CX/bt-hyperelliptic-brauer-nonconstancy-receiver-evaluation-preflight.json","blob_sha":"50ef72b661b8b55db2cb637d23f6848a27ff7257"},
+    "stage36_36_09CW":{"path":"stages/stage36/36-09CW/bt-literal-non-kummer-divisor-cech-construction-preflight.json","blob_sha":"a363c230cb44fec6d235eda0720d4fd624b1a87c"},
+    "stage36_36_09O":{"path":"stages/stage36/36-09O/physical-square-lift-v4-quotient-preflight.json","blob_sha":"6a2678ebedba40e13277100441361039ee47ca28"},
+    "stage36_36_09CU":{"path":"stages/stage36/36-09CU/bt-kummer-monomial-brauer-secondary-preflight.json","blob_sha":"cb92adb9b0025e8cef8554a2c30dc6777b8e2835"},
+    "stage36_36_09BT":{"path":"stages/stage36/36-09BT/general-aw-squareclass-branch-full-cover-local-model-preflight.json","blob_sha":"e58c417ddfa340d96b2ac1fbae9e7da7c5224d78"}
+  },
+  "direct_physical_receiver_binding":{
+    "fixed_p":"2",
+    "rational_model":"C3_2: z^2=(t^2+4)(t^2+1/4)(t^2+9)(t^2+1/9)",
+    "integral_scaled_model":"Z^2=(t^2+4)(4t^2+1)(t^2+9)(9t^2+1), with Z=6z",
+    "Brauer_class":"A=(7,t^2+4)_2",
+    "class_is_defined_on_source_bound_physical_receiver":true,
+    "later_BT_branch_translation_required_to_define_or_evaluate_A":false,
+    "later_BT_branch_translation_still_required_for_exact_CU_family_comparison":true,
+    "A_outside_CU_family_proved":false
+  },
+  "factor_collision_control":{
+    "g0":"t^2+4",
+    "g1":"4t^2+1",
+    "g2":"t^2+9",
+    "g3":"9t^2+1",
+    "identities":["g1-4*g0=-15","g2-g0=5","g3-9*g0=-35"],
+    "odd_primes_where_g0_can_share_a_zero_mod_q_with_another_factor":[3,5,7]
+  },
+  "zero_evaluation_outside_required_places":{
+    "odd_q_not_3_5_7_case_t_negative_valuation":"If v_q(t)<0 then t^2+4=t^2*(1+4/t^2); v_q(4/t^2)>0 and q is odd, so 1+4/t^2 is a local square and the second Hilbert entry is a square.",
+    "odd_q_not_3_5_7_case_t_integral_g0_unit":"If v_q(t)>=0 and q does not divide g0, then both 7 and g0 are q-adic units (q!=7), hence (7,g0)_q=+1.",
+    "odd_q_not_3_5_7_case_g0_vanishes":"If q divides g0, the three collision identities make g1,g2,g3 q-units. Since their product with g0 is the square Z^2, v_q(g0) is even. With 7 a unit and the second entry having even valuation, (7,g0)_q=+1.",
+    "q3":"7 is a square in Q_3 because 7=1 mod 3 and x^2-7 has the simple root x=1 mod 3; therefore A evaluates trivially on every C3_2(Q_3) point.",
+    "real_place":"7>0 and t^2+4>0, so the real Hilbert symbol is +1.",
+    "conclusion":"Every local evaluation outside v in {2,5,7} is zero."
+  },
+  "required_place_inventory_for_this_fixed_class":{
+    "places":[2,5,7],
+    "complete_for_A_on_C3_2":true,
+    "known_nonconstant_place":7,
+    "place7_evaluation_image_contains":["0","1/2"],
+    "place2_evaluation_image_classified":false,
+    "place5_evaluation_image_classified":false,
+    "general_Stage36_required_place_inventory_complete":false
+  },
+  "route_correction":{
+    "BT_coordinate_translation_is_not_a_prerequisite_for_direct_Brauer_Manin_evaluation_on_C3_2":true,
+    "reason":"The CW/CX class is an unramified Brauer class on the audited physical genus-three receiver itself. BT/AW squareclass branches are a later descent decomposition, not the definition domain of A.",
+    "CU_comparison_remains_optional_open_diagnostic":true
+  },
+  "current_credit_boundary":{
+    "required_place_inventory_for_fixed_A_complete":true,
+    "local_evaluation_images_at_all_required_places_complete":false,
+    "adelic_evaluation_sum_classified":false,
+    "Brauer_Manin_obstruction_proved":false,
+    "fixed_p_2_branch_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false
+  },
+  "route_result":{
+    "route_status":"PASS_FIXED_A_REQUIRED_PLACE_INVENTORY_NEXT_LOCAL_IMAGE_CLASSIFICATION",
+    "next_leaf":"36-09CZ_FIXED_P2_BRAUER_LOCAL_IMAGE_ADELIC_SUM_PREFLIGHT",
+    "next_leaf_semantics":"Classify evaluation images of A=(7,t^2+4)_2 on C3_2(Q_2), C3_2(Q_5), and C3_2(Q_7), then compute the possible adelic sums. A Brauer-Manin obstruction exists for this class only if zero is absent from the complete adelic sum image."
+  },
+  "scope_firewalls":{
+    "A_outside_CU_family_proved":false,
+    "general_Stage36_required_place_inventory_complete":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "Poitou_Tate_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "schema":"STAGE36_36_09DF_FIXED_P2_CREUTZ_VIRAY_COMPLEMENT_LOCAL_OBSTRUCTION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09DF",
+  "status":"PASS_FIXED_P2_RETAINED_OPEN_ADELIC_SOLUBLE_PRIVATE_SUBGROUP_BM_SET_NONEMPTY_FULL_BRAUER_COMPLEMENT_ONLY",
+  "base_main_sha":"f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "batch_parent":{
+    "pr":1712,
+    "36_09DE_exact_green_head":"b857167b4652cec6b5d149a3509c465c862b7b0e",
+    "36_09DE_exact_head_ci":"34203824191/101988565446",
+    "promotion_replay_head":"2a09edd4f9263508035d6fbbb7c59da504180913",
+    "promotion_replay_ci":"34203958808/101988985143"
+  },
+  "source_locks":{
+    "stage36_36_09DE":{"path":"stages/stage36/36-09DE/fixed-p2-prime-private-brauer-family-preflight.json","blob_sha":"14e73de6228606ad077303db96f1a032c2955238"},
+    "stage36_36_09DD":{"path":"stages/stage36/36-09DD/fixed-p2-creutz-viray-subgroup-completeness-preflight.json","blob_sha":"81c580ab09f2fc265f033c51e99f3a553d726f92"},
+    "creutz_viray_completeness_source":{"path":"stages/stage36/36-09DD/creutz-viray-explicit-image-completeness-source-lock.md","blob_sha":"632e908d3fcd4d1f3511be99b3993469537e3c07"}
+  },
+  "fixed_curve":{
+    "curve":"C3_2: z^2=(t^2+4)(t^2+1/4)(t^2+9)(t^2+1/9)",
+    "retained_open_excludes":["t=0","t=1","t=-1","t=infinity"]
+  },
+  "explicit_local_points":{
+    "real":{"t":"2","rhs":"16354/9","positive":true,"retained_open":true},
+    "Q2":{"t":"3","rhs":"19721","square_reason":"19721 is an odd 2-adic unit congruent to 1 mod 8","retained_open":true},
+    "Q3":{"t":"2","rhs":"16354/9","valuation":-2,"unit_after_removing_3_square":"16354","unit_residue_mod3":1,"square_reason":"even valuation and square residue unit","retained_open":true},
+    "all_primes_l_gt_3":{"t":"l","rhs_mod_l":1,"hensel_seed_z_mod_l":1,"hensel_derivative_2z_nonzero":true,"retained_open":true,"integral_at_l":true}
+  },
+  "adelic_solubility":{
+    "retained_open_local_point_every_place":true,
+    "C3_2_adelic_points_exist":true,
+    "explicit_adelic_recipe":"Use the displayed components at infinity,2,3; for every prime l>3 take t_l=l and the Hensel root z_l congruent 1 mod l. For all l>3 these are integral points on the natural model away from denominators 2,3.",
+    "local_obstruction_for_fixed_p2":false
+  },
+  "private_subgroup_upgrade":{
+    "source":"36-09DE",
+    "subgroup":"H=<A,B,D,{E_q:q==17 mod 2859545 prime}>",
+    "H_infinite_F2_rank":true,
+    "DE_block_diagonal_correction_available":true,
+    "starting_adelic_point_now_materialized":true,
+    "C3_2_adelic_points_orthogonal_to_H_exist":true,
+    "private_subgroup_Brauer_Manin_obstruction_obtained":false,
+    "reason":"Apply DE's block-diagonal Q7/Q11/private-q corrections to the explicit adelic point. The selected correction points remain retained-open and integral at all but finitely many places."
+  },
+  "creutz_viray_complement_boundary":{
+    "private_subgroup_equals_full_explicit_image":false,
+    "full_Creutz_Viray_explicit_image_computed":false,
+    "full_Brauer_group_computed":false,
+    "unresolved_inputs":["non-rational Q(i) component squareclasses in L_1","other factor-component combinations modulo the diagonal K^* and squares","x-alpha image of Pic^0(C3_2)/2","possible full-Br classes outside the Creutz-Viray explicit image"],
+    "source_reason":"Creutz--Viray exactness at L_1 identifies the explicit image as a quotient by the x-alpha Picard image, but the Stage36 state does not compute that quotient and no unconditional full-Br surjectivity hypothesis is available."
+  },
+  "current_credit_boundary":{
+    "p2_retained_open_adelic_solubility_proved":true,
+    "p2_local_obstruction_excluded":true,
+    "private_infinite_subgroup_BM_set_nonempty":true,
+    "full_Creutz_Viray_explicit_image_computed":false,
+    "full_Brauer_group_computed":false,
+    "Brauer_Manin_obstruction_from_full_Br_group_proved":false,
+    "fixed_p_2_branch_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false
+  },
+  "route_result":{
+    "route_status":"PASS_ADELIC_SOLUBILITY_LOCAL_ROUTE_CLOSED_PRIVATE_SUBGROUP_NO_GO_UNCONDITIONAL_BRAUER_COMPLEMENT_NEXT",
+    "next_leaf":"36-09DG_FIXED_P2_NONRATIONAL_QI_BRAUER_COMPLEMENT_PREFLIGHT",
+    "next_leaf_semantics":"Attack the first explicit-image complement not covered by the rational-prime private subgroup: source-bind non-rational Q(i)-component elements of L_1 and determine whether they yield genuinely new evaluation directions modulo the known subgroup. Do not infer full Brauer completeness."
+  },
+  "scope_firewalls":{
+    "private_subgroup_equals_full_Creutz_Viray_image":false,
+    "full_Creutz_Viray_explicit_image_computed":false,
+    "full_Brauer_group_computed":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

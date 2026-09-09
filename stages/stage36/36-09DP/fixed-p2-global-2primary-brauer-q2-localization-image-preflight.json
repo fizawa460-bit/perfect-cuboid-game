@@ -1,0 +1,113 @@
+{
+  "schema":"STAGE36_36_09DP_FIXED_P2_GLOBAL_2PRIMARY_BRAUER_Q2_LOCALIZATION_IMAGE_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09DP",
+  "status":"PASS_GLOBAL_2PRIMARY_Q2_LOCALIZATION_IMAGE_EQUALS_FULL_LOCAL_2PRIMARY_UNBOUNDED_DYADIC_DEPTH_ADELIC_BM_UNRESOLVED",
+  "base_main_sha":"538913633330a8414c87931d3c52f93e4aaf5d0f",
+  "batch_parent":{
+    "pr":1712,
+    "36_09DO_exact_green_head":"a1a88d5171045547da44279bb1c144f536233e55",
+    "36_09DO_exact_head_ci":"34228677867/102069016868",
+    "36_09DO_promotion_replay_head":"055df2a859d4af5a76d09ecbad371bd39add412f",
+    "36_09DO_promotion_replay_ci":"34228969368/102069989754"
+  },
+  "source_locks":{
+    "stage36_36_09DN_source":{"path":"stages/stage36/36-09DN/full-br2-local-common-neighborhood-source-lock.md","blob_sha":"60984a1f42b999e770219398690e833b54c8eb0f"},
+    "stage36_36_09DO":{"path":"stages/stage36/36-09DO/fixed-p2-2primary-full-brauer-relevance-boundary-preflight.json","blob_sha":"db5368da5162014e8fae767c778d6ddb0c2180e0"},
+    "stage36_36_09DO_source":{"path":"stages/stage36/36-09DO/full-2primary-q2-formal-neighborhood-boundary-source-lock.md","blob_sha":"4529177bbe39401ed93c0395cce66176bf451dc8"},
+    "global_2primary_localization_source":{"path":"stages/stage36/36-09DP/global-q2-2primary-weil-chatelet-localization-source-lock.md","blob_sha":"d9e081ac00c1b0267c970ba1ab2c0932d0a51425"}
+  },
+  "fixed_curve":{
+    "curve":"C3_2: z^2=(t^2+4)(t^2+1/4)(t^2+9)(t^2+1/9)",
+    "genus":3,
+    "reference_point":{"name":"P0","t":0,"z":1,"rational":true,"smooth":true,"retained_open":false},
+    "jacobian":"J=Jac(C3_2)",
+    "jacobian_dimension":3
+  },
+  "brauer_weil_chatelet_identification":{
+    "global_nonconstant_brauer_quotient":"Br(C3_2)/Br(Q) ~= H^1(Q,J)",
+    "local_nonconstant_brauer_quotient":"Br(C3_2 x Q_2)/Br(Q_2) ~= H^1(Q_2,J)",
+    "compatible_with_localization":true,
+    "source_bound_by_36_09DN":true
+  },
+  "creutz_weak_approximation":{
+    "author":"Brendan Creutz",
+    "title":"A Grunwald-Wang type theorem for abelian varieties",
+    "journal":"Acta Arith. 154 (2012), 353-370",
+    "doi":"10.4064/aa154-4-2",
+    "arxiv":"1009.3546v3",
+    "theorem":"Theorem 1.3 (weak approximation)",
+    "statement":"For an abelian variety A/k over a number field and any finite set S of primes, H^1(k,A) -> product_{v in S} H^1(k_v,A) is surjective.",
+    "unconditional_on_Sha_finiteness":true,
+    "fixed_n_torsion_surjectivity_claimed":false
+  },
+  "primary_component_argument":{
+    "global_weil_chatelet_group_is_torsion":true,
+    "localization_respects_primary_decomposition":true,
+    "target_component":"H^1(Q_2,J)(2)",
+    "take_S":"{2}",
+    "full_H1_localization_surjective":true,
+    "take_2primary_component_of_any_global_preimage":true,
+    "global_2primary_localization_surjective":true,
+    "fixed_level_H1_2n_surjectivity_required":false,
+    "fixed_level_H1_2n_surjectivity_claimed":false
+  },
+  "q2_localization_image":{
+    "map":"H^1(Q,J)(2) -> H^1(Q_2,J)(2)",
+    "surjective":true,
+    "global_image_equals_full_local_2primary":true,
+    "bounded_exponent":false,
+    "finite_image":false,
+    "contains_characters_of_order_2n_for_all_n":true,
+    "reason_for_unboundedness":"DO Mattuck subgroup M ~= Z_2^3 plus local Tate/Lichtenbaum duality gives local characters of arbitrarily large 2-power order"
+  },
+  "formal_neighborhood_upgrade":{
+    "DO_local_separating_characters_globalize":true,
+    "punctured_P0_neighborhood_constant_for_all_global_2primary_classes_exists":false,
+    "bounded_global_image_DN_style_common_neighborhood_option_survives":false
+  },
+  "adelic_firewall":{
+    "single_place_surjectivity_implies_global_Brauer_Manin_obstruction":false,
+    "reason":"a global class realizing a chosen Q2 character may have nonzero localizations/evaluations at other places and Brauer-Manin uses the total sum of local invariants",
+    "global_2primary_Brauer_set_nonempty":false,
+    "global_2primary_Brauer_set_empty":false,
+    "fixed_p2_exclusion_obtained":false,
+    "first_missing_obligation":"GLOBAL_2PRIMARY_ADELIC_ANNIHILATOR_UNDER_SUM_LOCAL_TATE_PAIRINGS",
+    "next_interface":"Cassels-Tate/Poitou-Tate exact sequence and the Mordell-Weil closure inside the adelic Jacobian"
+  },
+  "route_result":{
+    "route_status":"PASS_FULL_GLOBAL_Q2_2PRIMARY_LOCALIZATION_SURJECTIVITY_PIVOT_TO_ADELIC_ANNIHILATOR",
+    "next_leaf":"36-09DQ_FIXED_P2_GLOBAL_2PRIMARY_ADELIC_ANNIHILATOR_PREFLIGHT",
+    "next_leaf_semantics":"Identify the annihilator of the global 2-primary Weil-Chatelet localization image under the sum of local Tate pairings, source-bind its relation to the closure/completion of J(Q), and test whether the retained-open curve adelic image can lie in that annihilator."
+  },
+  "current_credit_boundary":{
+    "full_Br2_Brauer_set_nonempty":true,
+    "full_Br2_Brauer_Manin_obstruction_disproved":true,
+    "global_Q2_2primary_localization_image_computed":true,
+    "global_Q2_2primary_localization_image_is_full":true,
+    "global_Q2_2primary_localization_image_unbounded":true,
+    "full_2primary_Brauer_set_nonempty":false,
+    "full_2primary_Brauer_set_empty":false,
+    "full_Brauer_set_nonempty":false,
+    "full_Brauer_set_empty":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_2_branch_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false
+  },
+  "scope_firewalls":{
+    "fixed_level_H1_2n_surjectivity_proved":false,
+    "global_2primary_adelic_annihilator_computed":false,
+    "full_2primary_Brauer_set_nonempty":false,
+    "full_2primary_Brauer_set_empty":false,
+    "full_Brauer_group_computed":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "schema":"STAGE36_36_09DA_FIXED_P2_SECOND_INDEPENDENT_BRAUER_EVALUATION_MATRIX_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09DA",
+  "status":"PASS_SECOND_INDEPENDENT_CLASS_Q7_FULL_F2_2_EVALUATION_PAIR_SUBGROUP_BM_NO_GO_CONDITIONAL_ON_ADELIC_SOLUBILITY",
+  "base_main_sha":"f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "batch_parent":{
+    "pr":1712,
+    "36_09CZ_exact_green_head":"bc0df8c5604dd66d9225afd125c0db847a49493e",
+    "36_09CZ_exact_head_ci":"34200137461/101976800810",
+    "promotion_replay_head":"5626183da7876d44a34c44521ad4398da8eb4207",
+    "promotion_replay_ci":"34200274467/101977231581"
+  },
+  "source_locks":{
+    "stage36_36_09CZ":{"path":"stages/stage36/36-09CZ/fixed-p2-brauer-local-image-adelic-sum-preflight.json","blob_sha":"dc0e80444707e57ce9ddb41fe76682a76e65f760"},
+    "stage36_36_09CW":{"path":"stages/stage36/36-09CW/bt-literal-non-kummer-divisor-cech-construction-preflight.json","blob_sha":"a363c230cb44fec6d235eda0720d4fd624b1a87c"}
+  },
+  "fixed_classes":{
+    "curve":"C3_2: z^2=(t^2+4)(t^2+1/4)(t^2+9)(t^2+1/9)",
+    "A":"(7,t^2+4)_2",
+    "B":"(7,t^2+9)_2",
+    "A_unramified":true,
+    "B_unramified":true,
+    "B_origin":"CW class A_d2 with d=7 and p=2"
+  },
+  "q7_joint_evaluation_witnesses":[
+    {"t":"7","rhs_exact":"66916369/9","t_mod7":0,"rhs_mod7":1,"z_mod7":1,"A_second_mod7":4,"B_second_mod7":2,"A_invariant":"0","B_invariant":"0","nonboundary":true},
+    {"t":"8","rhs_exact":"184026649/9","t_mod7":1,"rhs_mod7":1,"z_mod7":1,"A_second_mod7":5,"B_second_mod7":3,"A_invariant":"1/2","B_invariant":"1/2","nonboundary":true},
+    {"t":"2","rhs_exact":"16354/9","t_mod7":2,"rhs_mod7":1,"z_mod7":1,"A_second_mod7":1,"B_second_mod7":6,"A_invariant":"0","B_invariant":"1/2","nonboundary":true},
+    {"t":"3","rhs_exact":"19721","t_mod7":3,"rhs_mod7":2,"z_mod7":3,"A_second_mod7":6,"B_second_mod7":4,"A_invariant":"1/2","B_invariant":"0","nonboundary":true}
+  ],
+  "joint_image":{
+    "place":7,
+    "evaluation_pairs":[["0","0"],["1/2","1/2"],["0","1/2"],["1/2","0"]],
+    "equals_full_F2_squared":true,
+    "all_points_exist_by_Hensel_in_z":true,
+    "all_witnesses_nonboundary":true
+  },
+  "independence_consequence":{
+    "A_nonconstant_mod_BrQ":true,
+    "B_nonconstant_mod_BrQ":true,
+    "A_B_independent_in_BrC_mod_BrQ":true,
+    "proof":"If a nonzero F2-linear combination of A and B were constant modulo Br(Q), its Q_7 evaluation would be constant. The full four-point evaluation image F2^2 makes every nonzero linear functional take both values, contradiction.",
+    "BT_SECOND_INDEPENDENT_BRAUER_CLASS_FOUND_FOR_FIXED_P2":true
+  },
+  "pair_subgroup_adelic_consequence":{
+    "subgroup":"<A,B> ~= F2^2 modulo Br(Q)",
+    "conditional_statement":"If C3_2(A_Q) is nonempty, then C3_2(A_Q)^{<A,B>} is nonempty.",
+    "proof":"Start with any adelic point. The total invariant pair contributed by all places other than 7 is some element of F2^2. Since the Q_7 joint evaluation image is all F2^2, replace the 7-adic component by a witness with exactly the cancelling pair.",
+    "pair_subgroup_can_supply_Brauer_Manin_obstruction":false,
+    "does_not_compute_full_Brauer_group":true,
+    "does_not_rule_out_a_third_independent_class":true,
+    "does_not_prove_adelic_solubility":true
+  },
+  "current_credit_boundary":{
+    "second_independent_Brauer_class_found":true,
+    "joint_evaluation_matrix_complete_at_q7":true,
+    "pair_subgroup_BM_obstruction_disproved_conditional_on_adelic_solubility":true,
+    "full_Brauer_group_computed":false,
+    "third_independent_class_excluded":false,
+    "Brauer_Manin_obstruction_from_full_Br_group_proved":false,
+    "fixed_p_2_branch_excluded":false,
+    "receiver_emptiness_proved":false
+  },
+  "route_result":{
+    "route_status":"PASS_SECOND_INDEPENDENT_CLASS_BUT_Q7_FULL_PAIR_IMAGE_KILLS_TWO_CLASS_OBSTRUCTION_PIVOT_TO_BRAUER_RANK_COMPLETENESS_OR_THIRD_CLASS",
+    "next_leaf":"36-09DB_FIXED_P2_HYPERELLIPTIC_BRAUER_RANK_THIRD_CLASS_PREFLIGHT",
+    "next_leaf_semantics":"Determine the dimension of the CW/Creutz-Viray algebraic 2-torsion Brauer subgroup on C3_2 modulo constants, or exhibit a third independent class. If A,B already span the relevant subgroup, the fixed-p2 Brauer route is closed as a no-go conditional on adelic solubility; otherwise compute a rank-3 joint evaluation matrix."
+  },
+  "scope_firewalls":{
+    "full_Brauer_group_computed":false,
+    "A_B_span_full_relevant_Brauer_group":false,
+    "third_independent_Brauer_class_absent":false,
+    "C3_2_adelic_points_exist":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

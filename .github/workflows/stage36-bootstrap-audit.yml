@@ -5,9 +5,7 @@ on:
       - 'stages/stage36/**'
       - '.github/workflows/stage36-bootstrap-audit.yml'
       - 'docs/research-os/policies/**'
-      - 'docs/arsenal/cards/workflows/LIT-WF02.md'
-      - 'docs/arsenal/lit-wf02-global-h1-localization-reciprocity-contract.json'
-      - 'docs/arsenal/verify_lit_wf02_global_h1_localization_reciprocity.py'
+      - 'docs/arsenal/**'
       - 'docs/stage36-literature-strengthening-promotion.md'
   workflow_dispatch:
 permissions:
@@ -40,73 +38,49 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Replay immutable 36-09CN exact-green mathematical evidence
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=6b31ca804744c4d8726d3d74861faadee78e0d64
-          git cat-file -e "$H^{commit}"
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CN.py"
-          git worktree remove --force "$tmp"
-      - name: Replay immutable 36-09CO exact-green mathematical evidence
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=b19439a701579d1563a77746cb1e6d57da04460e
-          git cat-file -e "$H^{commit}"
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CO.py"
-          git worktree remove --force "$tmp"
-      - name: Replay immutable 36-09CP exact-green mathematical evidence
-        shell: bash
-        run: |
-          set -euo pipefail
-          H=acb10a76b8adcd07d52dc977e4257790395f535a
-          git cat-file -e "$H^{commit}"
-          tmp="$(mktemp -d)"
-          git worktree add --detach "$tmp" "$H"
-          python3 "$tmp/stages/stage36/verify_stage36_36_09CP.py"
-          git worktree remove --force "$tmp"
-      - name: Assert CP hostile-audit checkpoint firewalls
+      - name: Verify audited DW correction remains valid
+        run: python3 stages/stage36/verify_stage36_36_09DW_pairing_correction.py
+      - name: Verify exact-green 36-09EB representatives
+        run: python3 stages/stage36/verify_stage36_36_09EB.py
+      - name: Verify exact-green 36-09EC factor Selmer and MW closure reduction
+        run: python3 stages/stage36/verify_stage36_36_09EC.py
+      - name: Verify exact-green 36-09ED dyadic MW saturation
+        run: python3 stages/stage36/verify_stage36_36_09ED.py
+      - name: Verify hostile-audited 36-09EE Q2 rho retained-open exclusion
+        run: python3 stages/stage36/verify_stage36_36_09EE.py
+      - name: Assert V242 hostile PASS consumed and EF unlocked
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import json
+          import json, subprocess
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V141_36_09CP_HOSTILE_AUDIT_CHECKPOINT'
-          cp=s['authority_frontier']['36-09CP']
-          assert cp['status']=='PROVISIONAL_EXACT_GREEN_CHECKPOINT'
-          assert cp['certificate_blob_sha']=='3ea852b149986c1ac0b3916005b605b138b21feb'
-          assert cp['verifier_blob_sha']=='6c8eaae4ef67ab8150b7e294fff43c96d41dca26'
-          assert cp['exact_head']=='acb10a76b8adcd07d52dc977e4257790395f535a'
-          assert cp['exact_head_ci']=='34181510945/101921388094'
-          assert cp['EXISTING_PW07_SUPPLIES_BT_DUAL_ADAPTER'] is False
-          assert cp['EXISTING_PW07_SUPPLIES_BT_POITOU_TATE_LOCAL_CONDITIONS'] is False
-          assert cp['FIRST_MISSING_OBLIGATION']=='BT_CARTIER_DUAL_CLASS_AND_LOCAL_CONDITION_ADAPTER'
-          assert cp['LIT_WF02_APPLICABILITY_PASS'] is False
-          cur=s['current']
-          assert cur['unit']=='36-09CP'
-          assert cur['next_exact_leaf']=='36-09CQ_BT_CARTIER_DUAL_LOCAL_CONDITION_ADAPTER_PREFLIGHT'
-          assert cur['hostile_audit_checkpoint_reached'] is True
-          assert cur['36_09CQ_entry_allowed'] is False
-          pg=s['promotion_gates']
-          assert pg['36_09CP_exact_head_ci_passed'] is True
-          assert pg['36_09CQ_unlocked'] is False
-          assert pg['36_09CQ_entry_allowed'] is False
-          assert pg['BT_Cartier_dual_class_adapter_complete'] is False
-          assert pg['BT_Poitou_Tate_local_condition_system_complete'] is False
-          assert pg['LIT_WF02_applicability_pass'] is False
-          assert pg['new_global_obstruction_obtained'] is False
+          r=json.loads(Path('stages/stage36/36-09EE/hostile-audit-pass-receipt.json').read_text())
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V242_36_09EE_HOSTILE_PASS_CONSUMED_EF_UNLOCKED'
+          assert s['status']=='ACTIVE_MAIN_CONTINUATION'
+          assert s['base_main_sha']=='733176600f99e91993d08c16aa98f09c08a1e726'
+          assert r['audit']['review_id']==5149991589
+          assert r['audit']['audited_exact_head']=='6ae4fde45a9665f7a81173e0790006722f9bb1da'
+          assert r['merged_checkpoint']['merge_commit']=='4d7f50af95ffc00340d14ec9830f619273278a81'
+          af=s['authority_frontier']['36-09EE'];ha=s['hostile_audit_checkpoint'];pg=s['promotion_gates'];cur=s['current']
+          assert af['status']=='AUDITED_EXACT_GREEN_PASS_CONSUMED'
+          assert af['external_hostile_review_id']==5149991589
+          assert af['pass_consumption_replay_head']=='e7b0fb5d266652c5fda0c71a5987ef9c97af933e'
+          assert af['pass_consumption_replay_ci']=='34315556514/102350902176'
+          assert ha['result']=='PASS_CONSUMED'
+          assert ha['promotion_pr']==1740
+          assert ha['pass_consumed'] is True
+          assert pg['36_09EE_pass_consumption_ci_passed'] is True
+          assert pg['36_09EE_pass_consumed'] is True
+          assert pg['36_09EF_entry_allowed'] is True
+          assert cur['36_09EF_entry_allowed'] is True
+          assert cur['hostile_audit_checkpoint_reached'] is False
+          assert pg['BT_global_2primary_Brauer_set_empty'] is True
+          assert pg['Brauer_Manin_obstruction_obtained'] is True
+          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09EE/hostile-audit-pass-receipt.json'],text=True).strip()=='91a047fbffd05ecac51236a94e9d7582347051e2'
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
-            assert pg[key] is False
-          claims=s['claims']
-          for key in ['new_theorem_credit','LIT_WF02_applicability_pass','Selmer_membership_obtained','Poitou_Tate_obstruction_obtained','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed','perfect_cuboid_existence_claim','perfect_cuboid_nonexistence_claim']:
-            assert claims[key] is False
-          print('36-09CP exact-green hostile-audit checkpoint verified. CQ is selected but audit-gated; no LIT-WF02/global obstruction/receiver/endpoint credit.')
+            assert pg[key] is False,key
+          print('V242 verified on synchronized current main: hostile PASS 5149991589 is consumed; 36-09EF is unlocked strictly for the physical receiver adapter. Downstream credit remains closed.')
           PY
           git diff --check

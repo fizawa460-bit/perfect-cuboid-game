@@ -1,0 +1,33 @@
+name: Stage35-EX Goal4AJ audited claim sync V73
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage35-ex/MAIN-STATE.json'
+      - 'stages/stage35-ex/snapshots/MAIN-STATE-V72-e98b06455d34.json'
+      - 'stages/stage35-ex/35ex-35/goal4aj-audited-claim-sync.json'
+      - 'stages/stage35-ex/verify_stage35_ex_v73_legacy_replay.py'
+      - 'stages/stage35-ex/verify_stage35_ex_35_goal4aj_audited_claim_sync.py'
+      - '.github/workflows/stage35-ex-goal4aj-audited-claim-sync-v73.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact replay dependency
+        run: python -m pip install --disable-pip-version-check sympy
+      - name: Verify audited Goal4AJ claim synchronization
+        run: |
+          set -euo pipefail
+          python -u -B stages/stage35-ex/verify_stage35_ex_35_goal4aj_audited_claim_sync.py
