@@ -74,6 +74,6 @@ assert c['downstream_impact']['DX_finite_global_Phi_Selmer_four_class_result_ret
 assert c['downstream_impact']['DS_mutual_injection_bridge_revoked'] is True
 assert c['downstream_impact']['36_09DY_entry_must_be_relocked'] is True
 assert c['downstream_impact']['external_reaudit_required_before_new_downstream_promotion'] is True
-assert 'do not rewrite the historical 36-09DS exact-head artifact' in src
+assert 'does not rewrite the historical 36-09DS exact-head artifact' in src
 for k,v in c['scope_firewalls'].items(): assert v is False,(k,v)
 print('36-09DS correction verified: rational split 2-torsion kernels survive the Mordell-Weil 2-adic completions inside pro-Selmer, so Phi_* and Psi_* are not injective. The [2] compositions still force both kernels and cokernels to have exponent dividing 2. Geometric V4/degree-8 and DT-DX finite Phi-descent credit are retained; DY is relocked pending re-audit.')
