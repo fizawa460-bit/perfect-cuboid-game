@@ -1,0 +1,21 @@
+name: Stage32 32-01-178 N250 post-N220 block census
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-01-178/nodes/N250/**'
+      - 'stages/stage32/32-01-178/nodes/N220/**'
+      - '.github/workflows/stage32-01-178-n250-post-n220-block-census.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify N250 exact post-N220 block census
+        run: python stages/stage32/32-01-178/nodes/N250/verify_n250_post_n220_block_census.py
