@@ -15,6 +15,7 @@
     "stages/stage32/32-01-178/nodes/N106/STATE-AUDITED.json@0ab8647b5af453e48b786103eb57b2a495f855fc",
     "stages/stage32/32-01-178/nodes/N220/STATE-AUDITED.json",
     "stages/stage32/32-01-178/nodes/N230/STATE-AUDITED.json",
+    "PR#1753 review 5159411821",
     "PR#1753 review 5160389467"
   ],
   "contract": {
@@ -23,38 +24,60 @@
     "per_stratum_partition": "old_terminal_count = n220_rejected_terminal_count + filtered_terminal_count",
     "rejected_disposition": "N220_REJECTED is discharged by audited N220 predicate plus audited N230 old-rank disposition adapter; rejected terminals receive no Picard leaf execution",
     "survivor_disposition": "every filtered rank in [0,filtered_terminal_count) must be covered exactly once by a COMPLETE execution work unit and replay bijectively to one old canonical rank",
-    "filtered_work_unit_fields": [
-      "contract_rev",
-      "row_id",
-      "d",
-      "e",
-      "old_stratum_terminal_count",
-      "n220_rejected_terminal_count",
-      "filtered_terminal_count",
-      "n220_audit_review_id",
-      "n230_audit_review_id",
-      "n230_implementation_blob_sha",
-      "leaf_contract_rev",
-      "filtered_rank_lo",
-      "filtered_rank_hi"
-    ],
-    "filtered_work_unit_id": "sha256(canonical_json(filtered_work_unit_fields))",
+    "filtered_work_unit_fields": ["contract_rev","row_id","d","e","old_stratum_terminal_count","n220_rejected_terminal_count","filtered_terminal_count","n220_audit_review_id","n230_audit_review_id","n230_implementation_blob_sha","leaf_contract_rev","filtered_rank_lo","filtered_rank_hi"],
     "cover_rule": "sorted COMPLETE filtered intervals are pairwise disjoint, first lo=0, adjacent hi=next lo, final hi=filtered_terminal_count; empty survivor strata require filtered_terminal_count=0 and no survivor work unit",
     "old_domain_release_rule": "only after the exact N220 partition certificate passes and filtered survivor cover is COMPLETE may the stratum be marked fully disposed relative to N104; this is not numerical Picard success unless every survivor leaf itself has an exact registered numerical disposition",
     "unknown_fail_closed": true,
     "resource_wall_fail_closed": true
   },
   "implementation": {
-    "target_path": "stages/stage32/32-01-178/nodes/N240/filtered_survivor_execution_adapter.py",
-    "verifier_target_path": "stages/stage32/32-01-178/nodes/N240/verify_n240_filtered_survivor_execution_adapter.py",
-    "status": "ACTIVE"
+    "path": "stages/stage32/32-01-178/nodes/N240/filtered_survivor_execution_adapter.py",
+    "blob_sha": "5f61d3d3af1908b2f018b1aae1eea2ea7215e9f1",
+    "verifier_path": "stages/stage32/32-01-178/nodes/N240/verify_n240_filtered_survivor_execution_adapter.py",
+    "verifier_blob_sha": "4307ca57f5aa4b11b5f9793b6e505d076808fd13",
+    "workflow_path": ".github/workflows/stage32-01-178-n240-filtered-execution-adapter.yml",
+    "workflow_blob_sha": "2a2cd7d175962c157ea2e71cbe6c96084adef5e5",
+    "n230_implementation_blob_sha": "2c04cceb374971dbf83cb684bd8a17a2ee4b50ed",
+    "materializes_full_population": false,
+    "runs_picard_leaf": false
   },
-  "retained_result": null,
+  "validation": {
+    "status": "PASS_RETAINED_IMPLEMENTATION_REPLAY_PENDING_HOSTILE_AUDIT",
+    "workflow_run_id": 34411628508,
+    "workflow_job_id": 102667126368,
+    "workflow_conclusion": "success",
+    "verdict": "PASS_N240_FILTERED_EXECUTION_COMPLETENESS_ADAPTER_REPLAY",
+    "small_cases": [
+      {"g":1,"d":8,"e":4,"old_terminal_count":"36575","n220_rejected_terminal_count":"931","filtered_terminal_count":"35644","retained_exceptional_prefixes_replayed":268,"planned_filtered_work_units_at_4096":9},
+      {"g":1,"d":8,"e":5,"old_terminal_count":"102912","n220_rejected_terminal_count":"384","filtered_terminal_count":"102528","retained_exceptional_prefixes_replayed":801,"planned_filtered_work_units_at_4096":26}
+    ],
+    "large_nonmaterializing_cases": [
+      {"g":0,"d":100,"e":29,"old_terminal_count":"279698391264","n220_rejected_terminal_count":"279697885536","filtered_terminal_count":"505728"},
+      {"g":0,"d":176,"e":50,"old_terminal_count":"58366737786500","n220_rejected_terminal_count":"58366737724600","filtered_terminal_count":"61900"},
+      {"g":0,"d":176,"e":100,"old_terminal_count":"33358498336566195","n220_rejected_terminal_count":"33281989404189710","filtered_terminal_count":"76508932376485","planned_filtered_work_units_at_1000000000":76509}
+    ],
+    "old_canonical_rank_remains_completeness_authority": true,
+    "filtered_rank_secondary_execution_only": true,
+    "n220_rejections_and_filtered_survivors_partition_old_domain_exactly": true,
+    "small_replay_strategy": "every retained exceptional prefix with x4 block boundaries; full x4 rescan intentionally not duplicated after N230 hostile audit",
+    "complete_execution_validator_tested_with_synthetic_fixtures_only": true,
+    "numerical_picard_leaf_credit": false,
+    "full178_complete": false,
+    "heavy_compute": false
+  },
+  "retained_result": {
+    "status": "AUDIT_REQUIRED",
+    "result": "RETAINED_EXACT_FILTERED_SURVIVOR_EXECUTION_TO_CANONICAL_COMPLETENESS_ADAPTER",
+    "old_canonical_rank_remains_authority": true,
+    "secondary_filtered_rank_only": true,
+    "full178_complete": false
+  },
   "credit_ceiling": "IMPLEMENTATION_AND_REPLAY_ONLY_PENDING_HOSTILE_AUDIT_NO_HEAVY_OR_FULL178_NUMERICAL_CREDIT",
-  "next_action": "IMPLEMENT_RANDOM_ACCESS_FILTERED_WORK_UNITS_AND_EXACT_PARTITION_REPLAY; VERIFY_EXHAUSTIVELY_ON_SMALL_STRATA_AND_NONMATERIALIZING_ON_LARGE_STRATA",
+  "next_action": "HOSTILE_AUDIT_N240_FILTERED_WORK_UNIT_IDENTITY_PARTITION_REPLAY_AND_N104_N106_COMPLETENESS_ADAPTER; DO_NOT START SCALED PICARD EXECUTION BEFORE PASS IS CONSUMED AND A LEAF CONTRACT/RUN-KEY IS SEPARATELY AUTHORIZED",
   "notes": [
     "N240 is an adapter, not a new mathematical pruning claim.",
-    "N240 must never reinterpret the filtered rank as N104 canonical rank.",
+    "N240 never reinterprets filtered rank as N104 canonical rank.",
+    "Synthetic COMPLETE records exercise validator mechanics only and grant no numerical leaf credit.",
     "No heavy compute, FULL178 numerical completion, theorem/receiver/endpoint, existence/nonexistence, or merge credit is authorized."
   ]
 }
