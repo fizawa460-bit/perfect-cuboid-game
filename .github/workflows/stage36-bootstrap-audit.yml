@@ -58,7 +58,12 @@ jobs:
         run: |
           set -euo pipefail
           python3 stages/stage36/verify_stage36_36_09ED.py
-      - name: Assert V238 ED promotion and EE unlock
+      - name: Verify provisional 36-09EE Q2 rho retained-open exclusion
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09EE.py
+      - name: Assert V239 provisional EE and EF relock
         shell: bash
         run: |
           set -euo pipefail
@@ -66,32 +71,33 @@ jobs:
           import json, subprocess
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          ed=json.loads(Path('stages/stage36/36-09ED/fixed-p2-dyadic-rank-one-mw-saturation-preflight.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V238_36_09ED_EXACT_GREEN_EE_UNLOCKED'
-          assert s['status']=='ACTIVE_MAIN_CONTINUATION'
-          af=s['authority_frontier']['36-09ED'];cur=s['current'];pg=s['promotion_gates']
-          assert af['status']=='EXACT_GREEN'
-          assert af['certificate_blob_sha']=='87e4dd2074f4e7264c728d5e999cd321ba81e2e0'
-          assert af['source_blob_sha']=='cc62f75cc4de2b1542db9df4c0b1f7e7976ca3a4'
-          assert af['verifier_blob_sha']=='dc006ea551c198b0d5ac6027843149600f7c904b'
-          assert af['exact_head']=='433415538ef3b9e716392b45ef1e2730ac7de0d8'
-          assert af['exact_head_ci']=='34310122694/102334889624'
-          assert ed['exact_rational_torsion']['rational_torsion_structure']=='Z/4Z x Z/2Z'
-          assert ed['dyadic_saturation']['P_is_2adically_saturated_free_generator'] is True
-          assert ed['dyadic_saturation']['P_claimed_integral_MW_generator'] is False
-          assert ed['A_completion_reduction']['infinite_Z2_directions']==1
-          assert cur['unit']=='36-09ED'
-          assert cur['next_exact_leaf']=='36-09EE_FIXED_P2_FINITE_TORSION_Q2_RETAINED_OPEN_INTERSECTION_PREFLIGHT'
-          assert cur['36_09EE_entry_allowed'] is True
-          assert pg['36_09ED_exact_head_ci_passed'] is True
-          assert pg['36_09ED_promotion_replay_passed'] is True
-          assert pg['36_09EE_entry_allowed'] is True
-          assert pg['BT_E_tau_P_2adic_saturated'] is True
-          assert pg['BT_four_translated_intersections_decided'] is False
-          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09ED/fixed-p2-dyadic-rank-one-mw-saturation-preflight.json'],text=True).strip()=='87e4dd2074f4e7264c728d5e999cd321ba81e2e0'
-          assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09ED.py'],text=True).strip()=='dc006ea551c198b0d5ac6027843149600f7c904b'
-          for key in ['BT_retained_open_curve_proSelmer_intersection_computed','BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
+          ee=json.loads(Path('stages/stage36/36-09EE/fixed-p2-q2-rho-retained-open-exclusion-preflight.json').read_text())
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V239_36_09EE_PROVISIONAL_Q2_RHO_OBSTRUCTION'
+          assert s['status']=='PROVISIONAL_EXACT_PENDING_CI'
+          af=s['authority_frontier']['36-09EE'];cur=s['current'];pg=s['promotion_gates']
+          assert af['status']=='PROVISIONAL_EXACT_PENDING_CI'
+          assert af['certificate_blob_sha']=='683d52e7cba9e2bd683cc06577fb6913532feb77'
+          assert af['source_blob_sha']=='0cc6e97c62fbb0782f19e30d87b19509d8144a8c'
+          assert af['verifier_blob_sha']=='5bd144d3fca1ec08112d05e0639d12df9291c0c1'
+          assert ee['Q2_odd_torsion_exclusion']['E_rho_Q2_odd_torsion_zero'] is True
+          assert ee['Q2_odd_torsion_exclusion']['Q2_to_2adic_completion_injective'] is True
+          assert ee['Q2_intersection_exclusion']['local_Q2_retained_open_MW_completion_intersection_empty'] is True
+          assert ee['Q2_intersection_exclusion']['global_retained_open_proSelmer_intersection_empty'] is True
+          assert ee['brauer_manin_consequence']['full_global_2primary_Brauer_set_on_retained_open_empty'] is True
+          assert ee['brauer_manin_consequence']['two_primary_Brauer_Manin_obstruction_obtained'] is True
+          assert ee['brauer_manin_consequence']['physical_receiver_adapter_not_yet_promoted'] is True
+          assert cur['unit']=='36-09EE'
+          assert cur['36_09EF_entry_allowed'] is False
+          assert cur['hostile_audit_checkpoint_reached'] is True
+          assert pg['36_09EE_exact_head_ci_passed'] is False
+          assert pg['36_09EF_entry_allowed'] is False
+          assert pg['BT_Q2_retained_open_MW_completion_intersection_empty'] is True
+          assert pg['BT_global_2primary_Brauer_set_empty'] is True
+          assert pg['Brauer_Manin_obstruction_obtained'] is True
+          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09EE/fixed-p2-q2-rho-retained-open-exclusion-preflight.json'],text=True).strip()=='683d52e7cba9e2bd683cc06577fb6913532feb77'
+          assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09EE.py'],text=True).strip()=='5bd144d3fca1ec08112d05e0639d12df9291c0c1'
+          for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          print('V238 verified: ED exact-head CI is consumed and EE is unlocked. The sole infinite MW variable is one Z_2 coefficient of P; no retained-open intersection or downstream credit is granted.')
+          print('V239 verified: EE provisionally proves the fixed-p2 retained-open pro-Selmer intersection and full 2-primary Brauer set are empty via the Q2 rho quotient. EF remains locked pending exact-head CI and hostile audit; no physical receiver or endpoint credit.')
           PY
           git diff --check
