@@ -1,0 +1,89 @@
+name: Stage33 C4B2B2G hostile-audit PASS consumption
+
+on:
+  push:
+    paths:
+      - '.github/workflows/stage33-c4b2b2g-hostile-audit-pass-consumption.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stage33-c4b2b2g-hostile-audit-pass-consumption
+  cancel-in-progress: false
+
+jobs:
+  consume:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Verify exact audited receipt ancestry and freshness boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          audited='8edfc08159cca1b95815278317873488075657f1'
+          audit_main='e2da76d90a0994af5038023613c6c4084c4c507e'
+          git merge-base --is-ancestor "$audited" HEAD
+          git merge-base --is-ancestor "$audit_main" "$audited"
+          git fetch origin main
+          current_main="$(git rev-parse origin/main)"
+          test "$current_main" = "$audit_main"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('stages/stage33/33-12/c4b2b2g-hostile-audit-pass-consumption.json').read_text())
+          assert r['pr']==1722
+          assert r['audited_exact_head']=='8edfc08159cca1b95815278317873488075657f1'
+          assert r['hostile_audit_review_id']==5151676010
+          assert r['hostile_audit_verdict']=='PASS'
+          assert r['current_main_at_audit']=='e2da76d90a0994af5038023613c6c4084c4c507e'
+          PY
+
+      - name: Consume C4B2B2G hostile-audit PASS operationally
+        run: python stages/stage33/33-12/consume_c4b2b2g_hostile_audit_pass.py --write
+      - name: Verify C4B2B2G hostile-audit PASS consumption
+        run: python stages/stage33/33-12/consume_c4b2b2g_hostile_audit_pass.py --check
+      - name: Verify Stage33 MAIN state contract
+        run: python stages/stage33/sync_main_state.py --check
+
+      - name: Commit bounded operational state delta
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --check
+          mapfile -t files < <(git diff --name-only | sort)
+          printf '%s\n' "${files[@]}"
+          test "${#files[@]}" -eq 2
+          test "${files[0]}" = 'stages/stage33/MAIN-STATE.json'
+          test "${files[1]}" = 'stages/stage33/sync_main_state.py'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add stages/stage33/MAIN-STATE.json stages/stage33/sync_main_state.py
+          git commit -m '[Stage33] consume C4B2B2G hostile audit PASS'
+
+      - name: Verify clean consumed checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          python stages/stage33/33-12/consume_c4b2b2g_hostile_audit_pass.py --check
+          python stages/stage33/sync_main_state.py --check
+          git diff --check
+          test -z "$(git status --porcelain)"
+          echo "EXACT_LOCAL_HEAD=$(git rev-parse HEAD)"
+
+      - name: Push only from exact triggering remote head
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin "${GITHUB_REF_NAME}"
+          remote_sha="$(git rev-parse "origin/${GITHUB_REF_NAME}")"
+          test "$remote_sha" = "$GITHUB_SHA"
+          git push origin HEAD:"${GITHUB_REF_NAME}"
