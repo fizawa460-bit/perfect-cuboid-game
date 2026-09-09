@@ -1,13 +1,14 @@
-name: Stage32EX5 BC2-02 unknown53 full exceptional exact
+name: Stage32EX5 BC2-03 generic indexed terminal exact
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [synchronize]
     paths:
-      - 'stages/stage32-ex5/breadth-cycle-2/bc2_02_rank0_unknown53_full_exceptional_partition_exact.py'
-      - 'stages/stage32-ex5/breadth-cycle-2/bc2-02-rank0-exceptional-mass2-branched-exact-checkpoint.json'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2_03_generic_indexed_terminal_adaptive_exceptional_partition.py'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2-02-rank0-exact-unsat-checkpoint.json'
       - 'stages/stage32-ex5/breadth-cycle-2/bc2_02_exact_witness_to_node_support.py'
       - 'stages/stage32-ex5/breadth-cycle-2/bc2-01b-runtime-node-coordinate-bridge.json'
+      - 'stages/stage32-ex5/runkeys/bc2-03-generic-terminal-validation.json'
       - 'stages/stage32/residual-32-01-production/full178-manifest.json'
       - 'stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json'
       - 'stages/stage33/33-07/picard_base_rows_retained.py'
@@ -18,11 +19,68 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage32ex5-bc2-02-unknown53-full-exceptional-${{ github.event.pull_request.number }}
+  group: stage32ex5-bc2-03-generic-terminal-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
-  unknown53-full-exceptional-exact:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.auth.outputs.authorized }}
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - name: Validate fresh run-key arm in synchronize commit range
+        id: auth
+        shell: bash
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32-ex5/runkeys/bc2-03-generic-terminal-validation.json'
+          BEFORE='${{ github.event.before }}'
+          HEAD='${{ github.event.pull_request.head.sha }}'
+          authorized=false
+          if [ -n "$BEFORE" ]; then
+            git fetch --no-tags --depth=1 origin "$BEFORE" || true
+            if git cat-file -e "$BEFORE^{commit}" 2>/dev/null \
+              && git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY"; then
+              python - "$KEY" "$BEFORE" <<'PY'
+          import json,subprocess,sys
+          key,before=sys.argv[1:]
+          new=json.load(open(key))
+          if new.get('schema')!='STAGE32EX5_BC2_03_GENERIC_TERMINAL_RUNKEY_V1':
+              raise SystemExit('run-key schema mismatch')
+          if new.get('armed') is not True:
+              raise SystemExit('run-key is not armed')
+          if new.get('terminal_rank') != 1:
+              raise SystemExit('this validation arm must target deterministic terminal_rank=1')
+          if new.get('rank0_checkpoint_canonical_sha256')!='02f50ea59027f340baedbdcb0a712b02b71a316c6cc87ab8e7be905317eb0f8b':
+              raise SystemExit('rank0 checkpoint lock mismatch')
+          old_generation=-1
+          try:
+              old_text=subprocess.check_output(['git','show',f'{before}:{key}'],text=True,stderr=subprocess.DEVNULL)
+              old_generation=int(json.loads(old_text).get('generation',-1))
+          except subprocess.CalledProcessError:
+              pass
+          if int(new.get('generation',-1)) <= old_generation:
+              raise SystemExit('run-key generation did not advance')
+          if int(new.get('max_parent_branches',0)) > 1000 or int(new.get('max_refined_subcases',0)) > 5000:
+              raise SystemExit('run-key exceeds bounded validation resource ceiling')
+          if int(new.get('artifact_retention_days',0)) != 1:
+              raise SystemExit('transient artifact retention must be one day')
+          print('BC2_03_RUNKEY_FRESH_ARM_OK')
+          PY
+              authorized=true
+            fi
+          fi
+          echo "authorized=$authorized" >> "$GITHUB_OUTPUT"
+          echo "BC2_03_HEAVY_AUTHORIZED=$authorized"
+
+  generic-terminal-exact:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
@@ -36,75 +94,73 @@ jobs:
           python-version: '3.10.6'
       - name: Install exact solver dependencies
         run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
-      - name: Run exact full-exceptional refinement of retained unknown53
+      - name: Run generic adaptive exceptional partition on deterministic next terminal
         run: |
-          python stages/stage32-ex5/breadth-cycle-2/bc2_02_rank0_unknown53_full_exceptional_partition_exact.py \
+          python stages/stage32-ex5/breadth-cycle-2/bc2_03_generic_indexed_terminal_adaptive_exceptional_partition.py \
             --manifest stages/stage32/residual-32-01-production/full178-manifest.json \
             --prefix-checkpoint stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json \
             --adapter-preflight stages/stage32-ex5/breadth-cycle-2/bc2-02-full178-target-to-59d-model-adapter-preflight.json \
-            --prior-v1 stages/stage32-ex5/breadth-cycle-2/bc2-02-one-indexed-full178-terminal-picard64-v1-unknown.json \
-            --branched-checkpoint stages/stage32-ex5/breadth-cycle-2/bc2-02-rank0-exceptional-mass2-branched-exact-checkpoint.json \
+            --rank0-checkpoint stages/stage32-ex5/breadth-cycle-2/bc2-02-rank0-exact-unsat-checkpoint.json \
             --retained stages/stage33/33-07/picard_base_rows_retained.py \
             --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
-            --subcase-timeout-ms 1000 \
-            --output "$RUNNER_TEMP/bc2-02-unknown53-full-exceptional.json"
-      - name: Validate exact refinement firewalls
+            --terminal-rank 1 \
+            --parent-timeout-ms 1500 \
+            --refine-timeout-ms 1000 \
+            --max-parent-branches 1000 \
+            --max-refined-subcases 5000 \
+            --output "$RUNNER_TEMP/bc2-03-terminal-rank1.json"
+      - name: Validate generic exact partition and firewalls
         run: |
-          python - "$RUNNER_TEMP/bc2-02-unknown53-full-exceptional.json" <<'PY'
+          python - "$RUNNER_TEMP/bc2-03-terminal-rank1.json" <<'PY'
           import json,sys
-          p=json.load(open(sys.argv[1])); q=p['exact_result']; r=p['result']; x=p['partition']
-          assert p['schema']=='STAGE32EX5_BC2_02_RANK0_UNKNOWN53_FULL_EXCEPTIONAL_PARTITION_EXACT_V1'
+          p=json.load(open(sys.argv[1])); a=p['adaptive_partition']; q=p['exact_result']; r=p['result']
+          assert p['schema']=='STAGE32EX5_BC2_03_GENERIC_INDEXED_TERMINAL_ADAPTIVE_EXCEPTIONAL_PARTITION_V1'
           assert p['indexed_terminal']['row_id']=='g1-d008'
-          assert p['indexed_terminal']['terminal_rank']==0
-          assert x['retained_parent_exact_unsat_count']==157
-          assert x['retained_parent_unknown_count']==53
-          assert x['selected_exceptional_count']==29
-          assert x['unselected_exceptional_count']==19
-          assert x['mass2_unknown_parent_count']==35
-          assert x['mass1_unknown_parent_count']==18
-          assert x['expected_refined_subcase_count']==377
-          assert x['partition_complete_for_all_53_parent_unknown_solution_sets'] is True
-          assert x['new_mathematical_condition_added'] is False
+          assert p['indexed_terminal']['terminal_rank']==1
+          assert p['indexed_terminal']['terminal_pairings']==[0,1,0,0,1,0,0,0,0,0,1]
+          assert p['indexed_terminal']['rank_roundtrip_exact'] is True
+          assert a['residual_exceptional_mass']==2
+          assert a['parent_branch_count']==210
+          assert a['parent_partition_complete'] is True
+          assert a['all_48_exceptional_pairings_fixed_in_each_refined_subcase'] is True
+          assert a['new_mathematical_condition_added'] is False
           assert q['aggregate_result'] in {'SAT','UNSAT','UNKNOWN'}
           if q['aggregate_result']=='UNSAT':
-              assert q['tested_refined_subcase_count']==377
-              assert q['exact_unsat_refined_subcase_count']==377
-              assert q['unknown_refined_subcase_count']==0
-              assert q['rank0_terminal_exact_unsat_authorized'] is True
+              assert q['terminal_exact_unsat_authorized'] is True
+              assert p['refinement_result']['unknown_refined_subcases']==0
           if q['aggregate_result']=='UNKNOWN':
-              assert q['tested_refined_subcase_count']==377
-              assert q['unknown_refined_subcase_count']>0
-              assert q['rank0_terminal_exact_unsat_authorized'] is False
+              assert q['terminal_exact_unsat_authorized'] is False
           if q['aggregate_result']=='SAT':
               assert isinstance(r['witness_r_reduced'],list) and len(r['witness_r_reduced'])==59
               assert isinstance(p['target']['z'],list) and len(p['target']['z'])==5
+          assert p['firewalls']['whole_g1_d008_e4_stratum_closed'] is False
           assert p['firewalls']['FULL178_complete'] is False
           assert p['firewalls']['stage32_main_credit'] is False
           assert p['firewalls']['merge_authorized'] is False
-          print(json.dumps({'aggregate':q['aggregate_result'],'tested':q['tested_refined_subcase_count'],'unsat':q['exact_unsat_refined_subcase_count'],'unknown':q['unknown_refined_subcase_count'],'status_sha':q['subcase_status_stream_sha256'],'canonical':p['canonical_sha256_without_this_field']},sort_keys=True))
+          print(json.dumps({'aggregate':q['aggregate_result'],'parent':p['parent_result'],'refinement':p['refinement_result'],'canonical':p['canonical_sha256_without_this_field']},sort_keys=True))
           PY
       - name: Feed exact SAT completion into node-support consumer
         run: |
           set -euo pipefail
-          STATUS=$(python - "$RUNNER_TEMP/bc2-02-unknown53-full-exceptional.json" <<'PY'
+          STATUS=$(python - "$RUNNER_TEMP/bc2-03-terminal-rank1.json" <<'PY'
           import json,sys
           print(json.load(open(sys.argv[1]))['result']['status'])
           PY
           )
           if [ "$STATUS" = SAT ]; then
             python stages/stage32-ex5/breadth-cycle-2/bc2_02_exact_witness_to_node_support.py \
-              --evidence "$RUNNER_TEMP/bc2-02-unknown53-full-exceptional.json" \
+              --evidence "$RUNNER_TEMP/bc2-03-terminal-rank1.json" \
               --retained stages/stage33/33-07/picard_base_rows_retained.py \
               --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
               --node-bridge stages/stage32-ex5/breadth-cycle-2/bc2-01b-runtime-node-coordinate-bridge.json \
-              --output "$RUNNER_TEMP/bc2-02-unknown53-full-exceptional-support.json"
+              --output "$RUNNER_TEMP/bc2-03-terminal-rank1-support.json"
           else
-            echo "full-exceptional refinement result=$STATUS; node-support consumer not invoked"
+            echo "generic indexed terminal result=$STATUS; node-support consumer not invoked"
           fi
       - name: Upload compact exact evidence
         uses: actions/upload-artifact@v4
         with:
-          name: stage32ex5-bc2-02-unknown53-full-exceptional-exact
-          path: ${{ runner.temp }}/bc2-02-unknown53-full-exceptional*.json
-          retention-days: 7
+          name: stage32ex5-bc2-03-terminal-rank1-exact
+          path: ${{ runner.temp }}/bc2-03-terminal-rank1*.json
+          retention-days: 1
           compression-level: 9
