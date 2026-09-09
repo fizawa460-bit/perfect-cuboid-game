@@ -1,0 +1,46 @@
+name: Stage33 C4B2B2F operational checkpoint repair
+
+on:
+  push:
+    paths:
+      - '.github/workflows/stage33-c4b2b2f-operational-checkpoint-repair.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Repair only operational routing state
+        run: python stages/stage33/33-12/repair_c4b2b2f_operational_checkpoint.py --write
+      - name: Verify C4B2B2F frontier alignment
+        run: python stages/stage33/33-12/repair_c4b2b2f_operational_checkpoint.py --check
+      - name: Verify Stage33 MAIN state contract
+        run: |
+          python stages/stage33/sync_main_state.py --check
+          python stages/stage33/verify_stage33_main.py
+      - name: Enforce bounded semantic delta
+        shell: bash
+        run: |
+          git diff --check
+          mapfile -t files < <(git diff --name-only | sort)
+          printf '%s\n' "${files[@]}"
+          test "${#files[@]}" -eq 2
+          test "${files[0]}" = "stages/stage33/MAIN-STATE.json"
+          test "${files[1]}" = "stages/stage33/sync_main_state.py"
+      - name: Commit operational checkpoint repair
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add stages/stage33/MAIN-STATE.json stages/stage33/sync_main_state.py
+          git commit -m '[Stage33] align C4B2B2F operational hostile-reaudit checkpoint'
+          git push
