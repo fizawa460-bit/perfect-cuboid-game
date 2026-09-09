@@ -1,0 +1,95 @@
+{
+  "schema": "STAGE32EX5_BC2_04_X4_BLOCK_COMPRESSION_PREFLIGHT_CHECKPOINT_V1",
+  "stage": "32EX5",
+  "leaf": "BC2-04",
+  "unit": "BC2_04_X4_INNERMOST_BLOCK_COMPRESSION_PREFLIGHT",
+  "status": "RETAINED_EXACT_X4_BLOCK_COMPRESSION_WITH_52_UNKNOWN_PARENTS",
+  "source_exact_head": "90bf1961e41193be6ddb7a7adf1263ba46ba5772",
+  "source_commit": "d98cfea04e08940f85b0b6572f49e312e00a0cfd",
+  "gated_workflow_commit": "a4b9fa60765196f374ed85e5c319c1d49cf9ec8b",
+  "predecessor": {
+    "rank0_checkpoint": "stages/stage32-ex5/breadth-cycle-2/bc2-02-rank0-exact-unsat-checkpoint.json",
+    "rank0_checkpoint_canonical_sha256": "02f50ea59027f340baedbdcb0a712b02b71a316c6cc87ab8e7be905317eb0f8b",
+    "rank1_checkpoint": "stages/stage32-ex5/breadth-cycle-2/bc2-03-rank1-exact-unsat-checkpoint.json",
+    "rank1_evidence_canonical_sha256": "447e8f99748f72b1ab741ddc1b675be5f59109a972e598b2d624c48d93432432"
+  },
+  "runkey": {
+    "path": "stages/stage32-ex5/runkeys/bc2-04-x4-block-preflight.json",
+    "generation": 1,
+    "fresh_commit_range_authorization_passed": true,
+    "effective_heavy_concurrency": 1,
+    "projected_max_artifact_bytes": 200000,
+    "artifact_retention_days": 1,
+    "heavy_scaleout_authorized": false
+  },
+  "x4_block": {
+    "row_id": "g1-d008",
+    "degree": 8,
+    "e": 4,
+    "exceptional_rank": 0,
+    "terminal_rank_start": 0,
+    "terminal_rank_end": 132,
+    "block_width": 133,
+    "normal_budget": 132,
+    "known_label_49_is_x4": true,
+    "x4_is_only_normal_terminal_variable": true,
+    "x4_is_independent_of_exceptional_terminal_predicate_conditions": true,
+    "all_133_rank_unrank_replays_exact": true,
+    "exceptional_signature_constant_across_block": true,
+    "exact_133_terminal_disjunction_replaced_by_single_bounded_integer_x4": true,
+    "new_mathematical_condition_added": false
+  },
+  "proof_partition": {
+    "residual_exceptional_mass": 2,
+    "selected_exceptional_parent_branch_count": 210,
+    "parent_partition_complete_for_symbolic_x4_block": true,
+    "parent_exact_unsat_count": 158,
+    "parent_unknown_count": 52,
+    "parent_sat_count": 0,
+    "unknown_parent_unselected_mass_counts": {
+      "0": 34,
+      "1": 18
+    },
+    "full_exceptional_refinement_formula": "34 + 18*19 = 376",
+    "required_full_exceptional_refinement_subcases": 376,
+    "whole_rank_0_to_132_block_exact_unsat_authorized": false,
+    "whole_rank_0_to_132_block_sat_completion_found": false
+  },
+  "exact_result": {
+    "aggregate_result": "UNKNOWN",
+    "evidence_canonical_sha256": "5da62963fdaf6e3fec6e52c6c7fca4c269e154c553f62c962ba8bf23dd8d247b"
+  },
+  "workflow": {
+    "run_id": 34357328296,
+    "authorize_job_id": 102485229061,
+    "compute_job_id": 102485294653,
+    "conclusion": "success",
+    "artifact_id": 10106440769,
+    "artifact_zip_sha256": "afaa077099e2d843cfe81bd03672a4d84ffe393715e3b047d347e871e4a21ae9",
+    "artifact_zip_bytes": 2454,
+    "artifact_retention_days": 1
+  },
+  "next_exact_unit": {
+    "id": "BC2_05_SYMBOLIC_X4_UNKNOWN_PARENT_FULL_EXCEPTIONAL_REFINEMENT",
+    "goal": "Refine only the 52 symbolic-x4 UNKNOWN parent branches by the exact residual mass on all 19 unselected exceptional pairings; keep x4 symbolic over 0..132, fix all 48 exceptional pairings in each of the 376 subcases, and grant whole-block UNSAT only if all 376 subcases are exact UNSAT with UNKNOWN=0.",
+    "required_refined_subcases": 376,
+    "heavy_scaleout_authorized": false,
+    "new_parallel_lane_required": false
+  },
+  "scope": {
+    "closed_indexed_terminals_before_bc2_04": [0, 1],
+    "whole_rank_0_to_132_block_closed": false,
+    "whole_g1_d008_e4_stratum_closed": false,
+    "FULL178_complete": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "1be08f0d9bbd1449f33422202d1ba4fd78ed8f501e3a4490721475951595ad74"
+}
