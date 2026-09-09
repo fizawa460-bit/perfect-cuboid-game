@@ -1,186 +1,158 @@
 {
-  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V3_BC2_AUDITED_CHECKPOINT",
+  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V4_FULL178_FINAL_CHAIN_SYNC",
   "role": "ORDINARY_STAGE32EX5_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX5",
   "execution": {
     "main_command": "stage32ex5-mainbatch",
     "audit_command": "stage32ex5-audit",
+    "readme": "stages/stage32-ex5/README.md",
     "startup_contract": "stages/stage32-ex5/MAIN-START-HERE.md",
     "roadmap_contract": "stages/stage32-ex5/stage32-ex5.md",
     "audit_contract": "stages/stage32-ex5/AUDIT-CONTRACT.md",
     "claim_sync_contract": "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md"
   },
   "bootstrap": {
-    "base_main_sha": "e1696bd4f9debc753128e41fb34e368fc77c3fea",
-    "work_branch": "stage32ex5-bc2-btva-node-support-span",
-    "active_work_pr": 1726,
+    "current_main_sha_observed": "e2da76d90a0994af5038023613c6c4084c4c507e",
+    "work_branch": "stage32ex5-mainbatch-bc2-01b",
+    "active_work_pr": 1742,
     "merge_authorized": false
   },
+  "stage32_main_authority": {
+    "authority_pr": 1753,
+    "authority_head_observed": "6327346d336028c910410da9bd430e117ecc024d",
+    "control_mode": "FULL178_AND_FINAL_MILESTONE_CHAIN",
+    "primary_incomplete_id": "32-01",
+    "primary_incomplete_name": "FULL178",
+    "final_chain_units": ["32-01", "32-02", "32-03", "32-04", "32-05"],
+    "V6_is_current_attack_target": false,
+    "O210_is_current_attack_target": false,
+    "Q602_is_current_attack_target": false,
+    "historical_formal_q602_residues": [73, 97, 235],
+    "historical_formal_q602_residues_are_current_survivors": false,
+    "historical_line_role": "FROZEN_AUDITED_FORMAL_PROVENANCE_ONLY",
+    "ex5_auto_promotes_to_main": false
+  },
   "authority": {
-    "stage32ex5_is_independent_operating_lane": true,
-    "stage32_main_authority_unchanged": true,
+    "stage32ex5_is_separate_working_surface": true,
     "inherits_unaudited_candidates_as_theorem": false,
     "state_itself_grants_mathematical_credit": false,
     "promotion_to_stage32_main_requires_explicit_current_target_adapter": true,
-    "promotion_to_stage32_main_requires_hostile_audit": true,
-    "current_bc2_authority": "AUDITED",
-    "current_bc2_claim_id": "S32.EX5.BC2_NODE_SUPPORT_SPAN_CHECKPOINT.V1",
-    "prior_cycle1_audited_authority_preserved": true
+    "promotion_to_stage32_main_requires_hostile_audit_or_current_main_acceptance": true,
+    "prior_cycle1_audited_authority_preserved": true,
+    "prior_early_bc2_audited_authority_preserved": true
+  },
+  "historical_formal_provenance": {
+    "q602_residue_triple": [73, 97, 235],
+    "q602_residue_triple_semantics": "HISTORICAL_FORMAL_PROVENANCE_NOT_CURRENT_SURVIVOR_POPULATION",
+    "v6_o210_q602_current_research_status": "NOT_CURRENT_TARGETS",
+    "old_no_q602_o210_credit_semantics": "HISTORICAL_CREDIT_FIREWALL",
+    "reopen_only_if_stage32_main_explicitly_requires": true
   },
   "prior_audited_authority": {
-    "breadth_cycle": "EX5_BREADTH_CYCLE_1",
-    "claim_id": "S32.EX5.BOUNDED_EXHAUSTION_CANDIDATE.V2",
-    "authority_status": "AUDITED",
-    "terminal_outcome": "FROZEN_BREADTH_PACKAGE_EXHAUSTED_WITHOUT_QUALIFIED_ROUTE",
-    "candidate_pr": 1710,
-    "exact_head": "79c601b636857eaaaa97ad4c22e682e681341bad",
-    "review_id": 5141459384,
-    "scope_firewall": "EX5_BREADTH_CYCLE_1_ONLY",
-    "stage32_main_credit": false
-  },
-  "completion_contract": {
-    "allowed_terminal_outcomes": [
-      "QUALIFIED_INDEPENDENT_STAGE32_ROUTE_ESTABLISHED",
-      "FROZEN_BREADTH_PACKAGE_EXHAUSTED_WITHOUT_QUALIFIED_ROUTE"
-    ],
-    "EX5_route_decision_closure_is_Stage32_full_target_closure": false,
-    "blocked_route_is_stage_exhaustion": false,
-    "bounded_exhaustion_is_global_no_route_theorem": false,
-    "new_breadth_cycle_may_reenter_after_cycle1_audited_closure": true
+    "cycle1": {
+      "breadth_cycle": "EX5_BREADTH_CYCLE_1",
+      "claim_id": "S32.EX5.BOUNDED_EXHAUSTION_CANDIDATE.V2",
+      "authority_status": "AUDITED",
+      "terminal_outcome": "FROZEN_BREADTH_PACKAGE_EXHAUSTED_WITHOUT_QUALIFIED_ROUTE",
+      "candidate_pr": 1710,
+      "exact_head": "79c601b636857eaaaa97ad4c22e682e681341bad",
+      "review_id": 5141459384,
+      "scope_firewall": "EX5_BREADTH_CYCLE_1_ONLY",
+      "stage32_main_credit": false
+    },
+    "early_bc2": {
+      "claim_id": "S32.EX5.BC2_NODE_SUPPORT_SPAN_CHECKPOINT.V1",
+      "authority_status": "AUDITED_HISTORICAL_INFRASTRUCTURE_CHECKPOINT",
+      "candidate_pr": 1726,
+      "exact_head": "280776eb5803f69bcb28b5c1da5e546cc198b5a2",
+      "review_id": 5149663802,
+      "stage32_main_credit": false
+    }
   },
   "current": {
-    "status": "BC2_RETAINED_AUDITED_CHECKPOINT_MERGE_READY",
-    "breadth_cycle": "EX5_BREADTH_CYCLE_2_CANDIDATE",
-    "leaf": "BC2-01A_EXCEPTIONAL_PAIRING_BRIDGE",
-    "route_id": "EX5R-SYMDIFF-NODE-SPAN-001",
-    "route_family": "SYMMETRIC_DIFFERENTIAL_NODE_SUPPORT_SPAN_LANE",
-    "next_route": "BC2-01B_RUNTIME_NODE_COORDINATE_BRIDGE",
-    "objective": "Preserve the hostile-audited BC2 infrastructure checkpoint through BC2-01A, with the runtime exceptional-index to exact projective-node-coordinate bridge as the next unresolved leaf. Merge remains a separate user-authorized action.",
-    "blocker": "MISSING_EXACT_RUNTIME_EXCEPTIONAL_INDEX_TO_PROJECTIVE_NODE_COORDINATE_BRIDGE",
-    "stop_semantics": "AUDITED_CHECKPOINT_READY_FOR_EXACT_HEAD_CI_AND_SEPARATE_MERGE_DECISION"
+    "status": "BC2_10_RETAINED_LOCAL_EXACT_OBSTRUCTION_PROGRESS",
+    "breadth_cycle": "EX5_BREADTH_CYCLE_2",
+    "leaf": "BC2_11_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT",
+    "route_id": "EX5R-FULL178-PICARD64-NODE-INTERFACE-001",
+    "route_family": "FULL178_PICARD64_NODE_SUPPORT_OBSTRUCTION_INTERFACE",
+    "objective": "Extend the exact compressed-terminal to Picard64 obstruction/interface one outer exceptional block at a time while preserving an explicit path to the Stage32 32-01 FULL178 N150 consumption gate.",
+    "blocker": "NEXT_133_RANK_EXCEPTIONAL_BLOCK_AFTER_RANK_398_NOT_YET_EXACTLY_REDERIVED",
+    "next_route": "BC2_11_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT",
+    "stop_semantics": "LOCAL_EXACT_BLOCK_PROGRESS_ONLY_NO_AUTOMATIC_FULL178_OR_MAIN_PROMOTION"
   },
   "current_leaf_working_set": [
-    "stages/stage32-ex5/breadth-cycle-2/bc2-checkpoint-handoff.json",
-    "stages/stage32-ex5/breadth-cycle-2/bc2-00-btva-node-support-span-diagnostic.json",
-    "stages/stage32-ex5/breadth-cycle-2/verify_bc2_00_btva_node_support_span_diagnostic.py",
-    "stages/stage32-ex5/breadth-cycle-2/bc2-00-second-pass-repository-dedup.json",
-    "stages/stage32-ex5/breadth-cycle-2/verify_bc2_00_second_pass_repository_dedup.py",
-    "stages/stage32-ex5/breadth-cycle-2/bc2-01-support-adapter-preflight.json",
-    "stages/stage32-ex5/breadth-cycle-2/verify_bc2_01_support_adapter_preflight.py",
-    "stages/stage32-ex5/breadth-cycle-2/bc2-01a-exceptional-pairing-bridge.json",
-    "stages/stage32-ex5/breadth-cycle-2/verify_bc2_01a_exceptional_pairing_bridge.py",
-    "stages/stage32-ex5/verify_main_state.py",
-    "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md",
-    "stages/stage32/proof/CLAIM-REGISTRY.json",
-    "stages/stage32/proof/LANE-ADAPTERS.json",
-    "stages/stage32/proof/ACTIVE-FRONTIER.json"
+    "stages/stage32-ex5/breadth-cycle-2/bc2-10-outer-rank2-exact-unsat-checkpoint.json",
+    "stages/stage32-ex5/breadth-cycle-2/bc2-09-next-exceptional-terminal-block-preflight-checkpoint.json",
+    "stages/stage32/residual-32-01-production/compressed_terminal_indexer.py",
+    "stages/stage32/residual-32-01-production/compressed_terminal_family.py",
+    "stages/stage32-ex5/verify_main_state.py"
   ],
+  "full178_interface": {
+    "stage32_consumption_node": "stages/stage32/32-01-178/nodes/N150/STATE.json",
+    "main_semantic_key": "s32-01-178:ex5-external-consumption-gate",
+    "input": "FULL178 compressed indexed terminal and exact pairings",
+    "picard_interface": "exact selected64/all140 Picard64 integral completion constraints",
+    "sat_output": "integral Picard64/59D witness plus canonical 48-node support consumer input",
+    "unsat_output": "exact obstruction for the certified terminal or finite symbolic-x4 block",
+    "main_consumed_snapshot_through_rank_observed": 265,
+    "ex5_retained_progress_through_rank": 398,
+    "newer_ex5_progress_auto_promoted_to_main": false,
+    "population_wide_full178_adapter_complete": false,
+    "effectivity_or_actual_curve_existence_proved_by_interface": false
+  },
   "frontier": {
-    "cycle1_audited_bounded_exhaustion_preserved": true,
-    "bc2_materially_new_route_admitted": true,
-    "bc2_00_first_pass_complete": true,
-    "bc2_00_second_pass_dedup_complete": true,
-    "bc2_01_support_adapter_preflight_complete": true,
-    "bc2_01a_exceptional_pairing_bridge_complete": true,
-    "bc2_01b_runtime_node_coordinate_bridge_complete": false,
-    "runtime_calibration_complete": false,
-    "btva_projective_span_replay_ready": false,
-    "nontrivial_receiver_effect_obtained": false,
-    "qualified_independent_route_established": false,
-    "retained_consolidation_claim_sync_required": true,
-    "retained_consolidation_claim_sync_completed": true,
-    "hostile_audit_pass_consumed": true,
-    "authority_transition_sync_completed": true
+    "runtime_exceptional_index_to_projective_node_bridge_complete": true,
+    "picard64_exact_completion_interface_available": true,
+    "closed_local_terminal_blocks": [[0, 132], [133, 265], [266, 398]],
+    "closed_local_terminal_rank_prefix": [0, 398],
+    "whole_g1_d008_e4_stratum_closed": false,
+    "FULL178_complete": false,
+    "stage32_main_primary_incomplete_remains_32_01": true,
+    "population_wide_main_consumable_result_complete": false,
+    "qualified_independent_stage32_route_established": false
   },
-  "bc2_route_contract": {
-    "route_id": "EX5R-SYMDIFF-NODE-SPAN-001",
-    "operative_observable": "labelled singular-node support plus exact ambient projective span rank",
-    "aggregate_exceptional_mass_is_labelled_support": false,
-    "known_conic_calibration_population": 32,
-    "node_count": 48,
-    "current_bridge": "last48 exceptional pairing support in the Stoll runtime ordering",
-    "missing_bridge": "runtime exceptional index 0..47 to exact projective coordinates of the same singular node",
-    "next_promotion_condition": "48/48 bijection plus permutation-invariant exact canonicalization before any FULL178 BTVA span replay"
-  },
-  "receiver_contract": {
-    "frozen_version": "EX5_RECEIVER_TARGET_CONTRACT_V1",
-    "row_count": 185,
-    "status_counts": {
-      "CLOSED": 5,
-      "OPEN": 180,
-      "UNKNOWN": 0,
-      "CONDITIONAL": 0,
-      "OUT_OF_SCOPE": 0
-    },
-    "source_lock_complete": true,
-    "receiver_ledger_complete": true,
-    "receiver_ledger_coverage_certified": true,
-    "V6_O210_Q602_treated_as_definition_of_all_receivers": false
-  },
-  "claim_sync": {
-    "trigger": "AUTHORITY_OR_AUDIT_TRANSITION",
-    "current_audited_claim_id": "S32.EX5.BC2_NODE_SUPPORT_SPAN_CHECKPOINT.V1",
-    "audit_receipt_review_id": 5149663802,
-    "audit_receipt_exact_head": "280776eb5803f69bcb28b5c1da5e546cc198b5a2",
-    "lane_adapter_claim_ref_required": true,
-    "active_frontier_refs": [
-      "S32.FULL178.NUMERICAL_CENSUS.V1",
-      "S32.GOAL.STAGE32_CLOSURE.V1"
-    ],
-    "active_frontier_semantics_changed": false,
-    "reason_active_refs_unchanged": "BC2 remains an EX5 attack on the existing FULL178 numerical-census/Stage32-closure frontier; the hostile-audit PASS upgrades only the retained BC2 checkpoint authority.",
-    "stage32_main_promotion": false
+  "retained_exact_progress": {
+    "bc2_05_rank_0_132_checkpoint_canonical": "cc62959ccf8c2939ff4024dc3a1e4ba59fdea38b7d33fd94817161b732c5284e",
+    "bc2_08_rank_133_265_checkpoint_canonical": "af197e67d3f56a6775f99f49aae59a14bc99bfa8c1b9b1d113749df3f1aa162c",
+    "bc2_10_rank_266_398_checkpoint_path": "stages/stage32-ex5/breadth-cycle-2/bc2-10-outer-rank2-exact-unsat-checkpoint.json",
+    "bc2_10_rank_266_398_checkpoint_canonical": "1abeb2bd5299ed217840d028eb99ed961d98238cdec75b5286b05b7f066a752b",
+    "bc2_10_evidence_canonical": "06e4e0e8fbbe1bb64fc757be58f272fec0e85bea1e3bd7a9f21f8bf0dbda1531",
+    "latest_retained_head_before_semantic_sync": "6bcabf2dd942ad21cff95f8d9a9ce58825f166c8",
+    "exact_evidence_rewritten_by_semantic_sync": false
   },
   "credit": {
-    "level": "BC2_AUDITED_INFRASTRUCTURE_CHECKPOINT_NO_ROUTE_OR_RECEIVER_CREDIT",
-    "prior_cycle1_audited_credit_preserved": true,
-    "current_bc2_mathematical_credit": false,
-    "qualified_independent_stage32_route_established": false,
+    "level": "LOCAL_EXACT_FULL178_INTERFACE_OBSTRUCTION_PROGRESS_NO_PARENT_PROMOTION",
     "stage32_main_credit": false,
-    "Q602_excluded": false,
-    "O210_excluded": false,
+    "FULL178_complete": false,
+    "effectivity_credit": false,
+    "actual_curve_existence_credit": false,
     "receiver_credit": false,
+    "final_milestone_credit": false,
     "theorem_credit": false,
     "endpoint_credit": false,
-    "FULL178_complete": false,
-    "EFF_discharged": false,
-    "MB_discharged": false
+    "perfect_cuboid_credit": false
   },
-  "audit": {
-    "status": "PASS_CONSUMED_BY_AUTHORITY_TRANSITION_SYNC",
-    "candidate_pr": 1726,
-    "exact_head": "280776eb5803f69bcb28b5c1da5e546cc198b5a2",
-    "review_id": 5149663802,
-    "result": "PASS",
-    "prior_failed_exact_head": "a9b9f044b6abcbfe9de7bd334676f854b00d8053",
-    "prior_failed_review_id": 5149535554,
-    "mathematical_blocking_contradiction_found": false,
-    "reaudit_required": false,
-    "pass_auto_merges": false,
-    "pass_auto_promotes_to_stage32_main": false
+  "historical_credit_firewall": {
+    "V6_recomputed_or_reopened": false,
+    "O210_recomputed_or_reopened": false,
+    "Q602_recomputed_or_reopened": false,
+    "historical_q602_residue_triple_promoted_as_current_survivors": false,
+    "historical_audit_credit_mutated": false
   },
   "firewalls": {
-    "bc2_audit_authority_leaked_beyond_checkpoint": false,
-    "bc2_route_preflight_promoted_to_route_qualification": false,
-    "aggregate_mass_treated_as_labelled_support": false,
-    "node_span_inferred_without_exact_coordinates": false,
-    "runtime_calibration_claimed": false,
-    "receiver_row_closed_by_bc2_checkpoint": false,
-    "FULL178_closed": false,
-    "Q602_excluded": false,
-    "O210_excluded": false,
-    "stage32_main_credit": false,
-    "stage32_closed": false,
+    "local_block_unsat_promoted_to_whole_stratum": false,
+    "local_block_unsat_promoted_to_FULL178": false,
+    "sat_witness_promoted_to_effective_curve_existence": false,
+    "ex5_progress_auto_promoted_to_stage32_main": false,
+    "stage32_final_milestone_claimed": false,
     "perfect_cuboid_existence_claim": false,
-    "perfect_cuboid_nonexistence_claim": false
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
   },
-  "route_anti_loop": {
-    "cycle1_audited_fact_available": true,
-    "cycle1_claim_id": "S32.EX5.BOUNDED_EXHAUSTION_CANDIDATE.V2",
-    "do_not_repeat_cycle1_frozen_seven_family_package_without_new_input": true,
-    "materially_new_cycle2_route_family_admitted": true,
-    "cycle2_audited_claim_id": "S32.EX5.BC2_NODE_SUPPORT_SPAN_CHECKPOINT.V1",
-    "stage32_main_mathematical_frontier_changed_by_bc2_checkpoint": false,
-    "explicit_main_promotion_adapter_present": false
+  "next_step": {
+    "id": "BC2_11_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT",
+    "goal": "Rederive the next 133-rank exceptional outer block after rank 398 by exact rank/unrank and terminal-predicate replay before applying any Picard64 solver credit.",
+    "heavy_scaleout_authorized": false,
+    "main_promotion_authorized": false
   }
 }
