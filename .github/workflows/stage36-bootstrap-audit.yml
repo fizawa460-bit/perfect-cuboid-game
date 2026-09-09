@@ -64,9 +64,9 @@ jobs:
           assert s['base_main_sha']=='09cc1687e74ef0372e4f7f1ebd8b0cddacc52dd6'
           af=s['authority_frontier']['36-09EF']; pg=s['promotion_gates']; cur=s['current']
           assert af['status']=='PROVISIONAL_EXACT_GREEN_PENDING_CI'
-          assert af['certificate_blob_sha']=='14422b916552ba88562c2ed773a2c8a1fd2953e9'
+          assert af['certificate_blob_sha']=='7ba7dd6df5d118868e0344d9d568c62c4058efdd'
           assert af['source_blob_sha']=='7b616319f58cb466fa6840446ee71c2078f162e1'
-          assert af['verifier_blob_sha']=='6415cd9ff3cf2f2e5e346fd88a984a9056d5fb39'
+          assert af['verifier_blob_sha']=='7e84d81f29319686aa8b7b025308d23993b57249'
           assert ef['physical_receiver_consequence']['fixed_p2_retained_receiver_sector_empty'] is True
           assert ef['physical_receiver_consequence']['fixed_p_parameter_exclusion_obtained'] is True
           assert ef['physical_receiver_consequence']['candidate_parameter_set_shrunk'] is False
@@ -81,8 +81,8 @@ jobs:
           assert pg['endpoint_closed'] is False
           assert cur['hostile_audit_checkpoint_reached'] is False
           assert cur['36_09EG_entry_allowed'] is False
-          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09EF/fixed-p2-physical-receiver-adapter-preflight.json'],text=True).strip()=='14422b916552ba88562c2ed773a2c8a1fd2953e9'
-          assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09EF.py'],text=True).strip()=='6415cd9ff3cf2f2e5e346fd88a984a9056d5fb39'
+          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09EF/fixed-p2-physical-receiver-adapter-preflight.json'],text=True).strip()=='7ba7dd6df5d118868e0344d9d568c62c4058efdd'
+          assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09EF.py'],text=True).strip()=='7e84d81f29319686aa8b7b025308d23993b57249'
           print('V243 verified: EF adapter mathematics is provisional exact-green, but fixed-p2 exclusion credit remains fail-closed until this exact-head CI is consumed by V244. No candidate-set/full-receiver/endpoint credit.')
           PY
           git diff --check
