@@ -102,7 +102,7 @@ Current execution interpretation:
 
 Historical path collision warning: existing `stages/stage32/32-02/` contains older local Z3/Normaliz production evidence, and existing `stages/stage32/32-03/` is the historical `e4/a32` affine-lattice closure package. Neither directory is the formal current effectivity/multibranch unit described above. Do not overwrite or reinterpret them; materialize new final-chain work under unambiguous namespaced paths.
 
-The retained routing checkpoint is `stages/stage32/mainbatch-final-chain-reentry-20260909.json`.
+The retained routing checkpoint is `stages/stage32/management/mainbatch-final-chain-reentry-20260909.json`.
 
 ## 7. Claim-DAG synchronization
 
