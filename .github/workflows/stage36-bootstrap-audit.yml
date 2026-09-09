@@ -73,7 +73,7 @@ jobs:
           assert af['status']=='PROVISIONAL_EXACT_PENDING_CI'
           assert af['certificate_blob_sha']=='87e4dd2074f4e7264c728d5e999cd321ba81e2e0'
           assert af['source_blob_sha']=='cc62f75cc4de2b1542db9df4c0b1f7e7976ca3a4'
-          assert af['verifier_blob_sha']=='2bd462aaa848a765571bac6ca68e79ea1ac23f7b'
+          assert af['verifier_blob_sha']=='dc006ea551c198b0d5ac6027843149600f7c904b'
           assert ed['exact_rational_torsion']['rational_torsion_structure']=='Z/4Z x Z/2Z'
           assert ed['dyadic_saturation']['P_is_2adically_saturated_free_generator'] is True
           assert ed['dyadic_saturation']['P_claimed_integral_MW_generator'] is False
@@ -86,7 +86,7 @@ jobs:
           assert pg['BT_E_tau_P_2adic_saturated'] is True
           assert pg['BT_four_translated_intersections_decided'] is False
           assert subprocess.check_output(['git','hash-object','stages/stage36/36-09ED/fixed-p2-dyadic-rank-one-mw-saturation-preflight.json'],text=True).strip()=='87e4dd2074f4e7264c728d5e999cd321ba81e2e0'
-          assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09ED.py'],text=True).strip()=='2bd462aaa848a765571bac6ca68e79ea1ac23f7b'
+          assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09ED.py'],text=True).strip()=='dc006ea551c198b0d5ac6027843149600f7c904b'
           for key in ['BT_retained_open_curve_proSelmer_intersection_computed','BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
           print('V237 verified: ED certifies exact E_tau 2-primary torsion and a 2-adically saturated free point P. EE remains locked; no retained-open intersection or downstream credit.')
