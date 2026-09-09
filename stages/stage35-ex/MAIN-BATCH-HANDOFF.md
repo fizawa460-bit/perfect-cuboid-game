@@ -7,6 +7,16 @@ Audited checkpoint receipt:
 - review: `5151846948`
 - audited exact head: `d6f5151c9d95304afe7081c92f40f1d25cc4aa3b`
 
+Retained Goal4BS receipt markers (historical checkpoint state, not the post-BT current route):
+
+```text
+PARKING_AUDIT_COMPLETE=true
+ROUTE_STATUS=PARKED_AUDITED_REOPEN_GATED
+GLOBAL_RATIONAL_REALIZATION_WITH_HEIGHT_CONTROL
+NEW_SOURCE_FIXED_E1_INVARIANT
+QUANTITATIVE_HEIGHT_DISCRIMINANT_ADAPTER
+```
+
 ## Reopen from audited parking
 
 Goal4BS had
