@@ -1,14 +1,67 @@
 {
-  "schema":"research-os-mission-node/v1",
-  "node_id":"N104",
-  "semantic_key":"s32-01-178:completeness-certificate-architecture",
-  "statement":"Design the machine-checkable completeness/replay certificate architecture needed to certify that every one of the 178 open numerical rows is covered by the eventual compressed enumerator, independently of which pruning route wins.",
-  "scope":{"population":"all 178 open numerical unibranch rows","field_or_model":"Stage32 32-01 census/checkpoint manifests","quantifiers":"every required even degree/genus row and every exact symmetry/intersection stratum used by production","required_output":"coverage manifest schema, replay verifier contract, duplicate/orbit accounting invariants, and fail-closed missing-stratum checks"},
-  "source_refs":["stages/stage32/ROADMAP.md","stages/stage32/residual-32-01-production/state.json"],
-  "reuse_check":{"performed":false,"queries":[],"matches":[],"decision":"PENDING"},
-  "attempts":[],
-  "retained_result":null,
-  "credit_ceiling":"VERIFIER_ARCHITECTURE_ONLY_NO_CENSUS_COMPLETENESS_CREDIT",
-  "next_action":"SEARCH_EXISTING_COMPLETENESS_MANIFESTS_AND_DEFINE_MINIMAL_FINAL_CERTIFICATE",
-  "notes":["Do not assume a successful shard implies global row coverage.","Keep certificate independent enough to check whichever compression route becomes load-bearing."]
+  "schema": "research-os-mission-node/v1",
+  "node_id": "N104",
+  "semantic_key": "s32-01-178:completeness-certificate-architecture",
+  "statement": "Design the machine-checkable completeness/replay certificate architecture needed to certify that every one of the 178 open numerical rows is covered by the eventual compressed enumerator, independently of which pruning route wins.",
+  "scope": {
+    "population": "all 178 open numerical unibranch rows",
+    "field_or_model": "Stage32 32-01 census/checkpoint manifests",
+    "quantifiers": "every required even degree/genus row and every exact symmetry/intersection stratum used by production",
+    "required_output": "coverage manifest schema, replay verifier contract, duplicate/orbit accounting invariants, and fail-closed missing-stratum checks"
+  },
+  "source_refs": [
+    "stages/stage32/ROADMAP.md",
+    "stages/stage32/residual-32-01-production/state.json",
+    "stages/stage32/residual-32-01-production/full178-manifest.json",
+    "stages/stage32/residual-32-01-production/full178-production-preflight.json",
+    "stages/stage32/residual-32-01-production/verify_full178_preflight.py",
+    "stages/stage32/residual-32-01-production/run_full178_resumable_work_unit.py",
+    "stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json"
+  ],
+  "reuse_check": {
+    "performed": true,
+    "queries": [
+      "bounded Stage32 residual-32-01-production tree inspection for FULL178 manifest/checkpoint/verifier assets",
+      "FULL178 completeness replay certificate Stage32",
+      "FULL178 manifest checkpoint replay coverage receiver183",
+      "compact_certificate_sha256"
+    ],
+    "matches": [
+      "full178-manifest.json: authoritative 178-row / 64111-stratum domain and canonical SHA-256 contract",
+      "full178-production-preflight.json: disjoint-work-unit, zero-unknown, resource-ceiling, and evidence policy contract",
+      "verify_full178_preflight.py: audited-source reconstruction and canonical JSON hash convention",
+      "run_full178_resumable_work_unit.py: deterministic self-hashed work-unit/cursor/segment-chain evidence with explicit unknown_count",
+      "full178-prefix-indexed-compression-main-checkpoint.json: exact indexed terminal family and canonical order, but numerical Picard leaf checks incomplete"
+    ],
+    "decision": "PARTIAL_REUSE_EXISTING_DOMAIN_HASH_AND_CHECKPOINT_CONTRACTS_NEW_AGGREGATE_COMPLETENESS_REPLAY_LAYER_REQUIRED"
+  },
+  "attempts": [
+    {
+      "route_id": "N104-A1-CANONICAL-RANK-COVERAGE",
+      "kind": "architecture",
+      "result": "PASS_N104_COMPLETENESS_REPLAY_ARCHITECTURE_DEFINED",
+      "artifact": "stages/stage32/32-01-178/nodes/N104/FULL178_COMPLETENESS_REPLAY_CERTIFICATE_ARCHITECTURE.md",
+      "core_contract": "derive exactly 178 rows and 64111 (row_id,e) strata from locked manifest; normalize every producer into disjoint half-open canonical indexed-terminal rank blocks; require exact gap-free union, zero unknown, registered exact dispositions, and deterministic replay hashes",
+      "credit": "ARCHITECTURE_ONLY"
+    }
+  ],
+  "retained_result": {
+    "status": "RETAINED_CHECKPOINT",
+    "result": "PASS_N104_COMPLETENESS_REPLAY_ARCHITECTURE_DEFINED",
+    "artifact": "stages/stage32/32-01-178/nodes/N104/FULL178_COMPLETENESS_REPLAY_CERTIFICATE_ARCHITECTURE.md",
+    "reuse_decision": "PARTIAL_REUSE",
+    "authoritative_outer_domain": "178 residual rows / 64111 exact (row_id,e) coarse strata reconstructed from full178-manifest.json",
+    "route_independent_inner_domain": "half-open canonical indexed-terminal rank intervals [rank_lo,rank_hi) per (row_id,e)",
+    "completion_rule": "all expected strata present exactly once at aggregate level; every canonical terminal rank covered exactly once by a registered exact disposition; no gaps, overlaps, extras, hash/replay mismatch, or unknowns",
+    "critical_firewall": "prefix/indexed-family completion is not numerical-row completion",
+    "current_full178_complete": false
+  },
+  "credit_ceiling": "VERIFIER_ARCHITECTURE_ONLY_NO_CENSUS_COMPLETENESS_CREDIT",
+  "next_action": "RETURN_RETAINED_N104_CHECKPOINT_TO_N190_MAINBATCH_FOR_CROSS_NODE_RECONCILIATION_AND_LATER_VERIFIER_IMPLEMENTATION",
+  "notes": [
+    "Do not assume a successful shard implies global row coverage.",
+    "Keep certificate independent enough to check whichever compression route becomes load-bearing.",
+    "The indexed-compression checkpoint still records numerical_picard_leaf_checks_complete=false; N104 grants no FULL178 numerical completeness credit.",
+    "A producer that cannot map its claimed subset bijectively into the locked canonical indexed-terminal rank domain receives no aggregate completeness credit."
+  ]
 }
