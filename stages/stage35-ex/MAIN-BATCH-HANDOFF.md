@@ -2,6 +2,11 @@
 
 Mathematical authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4BS remains the independently audited intermediate checkpoint (review `5151846948`, audited head `d6f5151c9d95304afe7081c92f40f1d25cc4aa3b`). No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
 
+Audited checkpoint receipt:
+
+- review: `5151846948`
+- audited exact head: `d6f5151c9d95304afe7081c92f40f1d25cc4aa3b`
+
 ## Reopen from audited parking
 
 Goal4BS had
