@@ -66,8 +66,25 @@ The eventual machine artifact should have a schema equivalent to:
     "coarse_strata_count": 64111,
     "expected_strata_canonical_sha256": "..."
   },
-  "producers": [],
-  "strata": [],
+  "producers": [
+    {
+      "producer_id": "...",
+      "producer_contract_sha256": "...",
+      "replay_command_contract": "...",
+      "evidence_root_sha256": "..."
+    }
+  ],
+  "strata": [
+    {
+      "row_id": "g?-d???",
+      "e": 0,
+      "expected_terminal_count": "0",
+      "coverage_blocks": [],
+      "covered_terminal_count": "0",
+      "unknown_count": 0,
+      "stratum_evidence_root_sha256": "..."
+    }
+  ],
   "aggregate": {
     "missing_strata": 0,
     "duplicate_strata": 0,
@@ -113,22 +130,48 @@ The aggregate verifier MUST make duplicate control structural rather than statis
 - any route changing symmetry normalization or terminal-set semantics must provide a separately audited bijection into the locked canonical rank domain before its blocks are creditable;
 - changing enumeration order without changing the represented terminal set is acceptable only after that bijection/contract lock passes.
 
+This prevents both double credit across overlapping shards and silent loss when one route partitions a stratum differently from another.
+
 ## Replay contract
 
-Each credited producer contract MUST expose deterministic replay inputs sufficient to reconstruct its normalized coverage blocks and verdicts. The aggregate verifier MUST check source/module/manifest/indexer hashes, canonical producer hashes, deterministic normalized block reconstruction, equality of evidence-root hashes, and exact reproduction of fail-closed fields including `unknown_count` and numerical-completion status. Timestamp/workflow/job/artifact IDs are provenance only, not mathematical coverage identity.
+Each credited producer contract MUST expose deterministic replay inputs sufficient to reconstruct its normalized coverage blocks and verdicts. The aggregate verifier MUST check:
+
+1. all source/module/manifest/indexer hashes named by the producer;
+2. canonical hash of the producer payload before trusting any coverage block;
+3. deterministic reconstruction of the producer's normalized `(row_id,e,rank_lo,rank_hi,disposition)` list;
+4. equality of the reconstructed evidence-root hash with the retained hash;
+5. exact reproduction of all fail-closed fields, especially `unknown_count`, numerical-completion status, and any exact-prune verdict.
+
+Timestamp, workflow/job/artifact IDs may be retained as provenance but MUST NOT be part of the mathematical coverage identity. Raw evidence need not be retained indefinitely if the compact certificate contains sufficient locked inputs/hashes for deterministic reconstruction under the repository's evidence-retention policy.
 
 ## Fail-closed conditions
 
-The final verifier returns nonzero / non-PASS on any manifest/source/hash mismatch; wrong row or stratum counts; missing/extra/duplicate strata; rank-domain gap/overlap; unregistered disposition; producer evidence/replay mismatch; any `unknown_count > 0`; any use of resource exhaustion as UNSAT; any promotion of prefix/indexed completion to numerical completion; or any producer that cannot map bijectively into the locked canonical rank domain.
+The final verifier returns nonzero / non-PASS on any of:
+
+- manifest/source/hash mismatch;
+- residual row count other than 178;
+- expected coarse-stratum count other than 64,111;
+- missing or extra `(row_id,e)`;
+- duplicate stratum record;
+- missing canonical terminal count;
+- rank-domain gap or overlap;
+- out-of-range rank block;
+- unregistered disposition or producer contract;
+- producer evidence hash mismatch;
+- replay output mismatch;
+- any `unknown_count > 0`;
+- any use of node-ceiling/resource exhaustion as UNSAT;
+- any attempt to promote `row_prefix_stage_complete` or symbolic/indexed prefix completion to numerical-row completion;
+- any producer whose terminal-set semantics cannot be mapped bijectively into the locked canonical rank domain.
 
 ## Implementation seam for MAINBATCH
 
-Later implementation should be two small layers, not a new search engine:
+N104 recommends that later implementation consist of two small layers rather than a new search engine:
 
-1. `build_full178_completeness_certificate.py`: ingest registered producer certificates, normalize into canonical rank blocks, emit aggregate certificate.
-2. `verify_full178_completeness_certificate.py`: independently reconstruct `EXPECTED_STRATA`, recompute terminal counts/domain locks, verify exact block union and replay contracts, fail closed.
+1. `build_full178_completeness_certificate.py`: ingest registered producer certificates, normalize them into canonical rank blocks, and emit the aggregate certificate.
+2. `verify_full178_completeness_certificate.py`: independently reconstruct `EXPECTED_STRATA`, recompute terminal counts/domain locks, verify block union and replay contracts, and fail closed.
 
-Producer-specific adapters stay outside the aggregate verifier and expose only the normalized block contract.
+Producer-specific adapters should live outside the aggregate verifier and expose only the normalized block contract. This keeps the completeness checker stable while N101/N102/N103/N105/N106 or later generations change the winning compression/pruning implementation.
 
 ## Retained result
 
