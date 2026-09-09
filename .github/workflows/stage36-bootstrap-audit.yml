@@ -38,7 +38,7 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Verify exact-green 36-09DW dual-basis pairing correction
+      - name: Verify audited 36-09DW dual-basis pairing correction
         shell: bash
         run: |
           set -euo pipefail
@@ -48,7 +48,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 stages/stage36/verify_stage36_36_09DZ.py
-      - name: Assert V230 hostile re-audit candidate and EB relock
+      - name: Assert V231 hostile PASS consumption remains fail-closed
         shell: bash
         run: |
           set -euo pipefail
@@ -57,34 +57,37 @@ jobs:
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
           c=json.loads(Path('stages/stage36/36-09DW/dual-basis-pairing-correction.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V230_36_09DW_PAIRING_CORRECTION_REAUDIT_CANDIDATE'
-          assert s['status']=='HOSTILE_REAUDIT_REQUIRED'
-          pc=s['post_audit_correction']; cur=s['current']; pg=s['promotion_gates']
-          assert pc['unit']=='36-09DW-CORRECTION'
-          assert pc['status']=='EXACT_GREEN_CORRECTION_PENDING_EXTERNAL_REAUDIT'
-          assert pc['repair_replay_head']=='267dc0caa50725918d2de43b3c4e0a54aaa9ad84'
-          assert pc['repair_replay_ci']=='34303828781/102316243814'
-          assert pc['external_reaudit_passed'] is False
-          assert c['corrected_global_Phi_Selmer']['F2_dimension']==2
-          assert c['corrected_global_Phi_Selmer']['cardinality']==4
-          assert c['direct_rational_witness']['P_plus_excluded_by_historical_Q2_Phi_image'] is True
-          assert cur['unit']=='36-09DW-CORRECTION'
-          assert cur['next_owner']=='HOSTILE_REAUDIT'
-          assert cur['substantive_batch_pr_continues'] is False
-          assert cur['hostile_audit_checkpoint_reached'] is True
+          r=json.loads(Path('stages/stage36/36-09DW/hostile-reaudit-pass-receipt.json').read_text())
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V231_36_09DW_PAIRING_PASS_PROMOTION_REPLAY'
+          assert s['status']=='PROMOTION_REPLAY_PENDING_CI'
+          assert r['schema']=='STAGE36_PR1736_DW_PAIRING_HOSTILE_REAUDIT_PASS_RECEIPT_V1'
+          assert r['external_reaudit']['external_review_id']==5149329866
+          assert r['external_reaudit']['audited_exact_head']=='8bade5065ae9b727668163df284bb0c14886ac47'
+          assert r['external_reaudit']['result']=='PASS'
+          assert r['external_reaudit']['exact_head_ci_run']==34303918912
+          assert r['external_reaudit']['exact_head_ci_job']==102316522476
+          assert r['merged_main_sha']=='fb3118f4a8007595ed7954fb85b0fcfb394c697e'
+          pc=s['post_audit_correction']; cur=s['current']; pg=s['promotion_gates']; hc=s['hostile_audit_checkpoint']
+          assert pc['external_reaudit_passed'] is True
+          assert pc['external_reaudit_review_id']==5149329866
+          assert pc['pass_receipt_blob_sha']=='3420b0b147cc04b5f430fb7b8d7810437a788879'
+          assert pc['promotion_pr']==1737
+          assert pc['promotion_replay_passed'] is False
+          assert hc['result']=='PASS_RECEIVED'
+          assert hc['current_authority_valid_for_corrected_label_dependent_DW_DX_CLAIMS'] is False
+          assert cur['unit']=='36-09DW-CORRECTION-PROMOTION'
           assert cur['36_09EB_entry_allowed'] is False
-          assert pg['36_09DW_pairing_correction_exact_head_ci_passed'] is True
-          assert pg['external_reaudit_after_DW_pairing_correction_passed'] is False
+          assert cur['substantive_batch_pr_continues'] is False
+          assert pg['external_reaudit_after_DW_pairing_correction_passed'] is True
+          assert pg['36_09DW_pairing_pass_promotion_replay_passed'] is False
           assert pg['36_09EB_entry_allowed'] is False
           assert pg['BT_Phi_Selmer_historical_labels_valid'] is False
-          assert pg['BT_Phi_Selmer_corrected_labels_valid_pending_reaudit'] is True
-          assert pg['BT_DZ_numeric_results_retained'] is True
-          assert pg['BT_EA_four_coset_numeric_reduction_retained'] is True
+          assert pg['BT_Phi_Selmer_corrected_labels_authority_valid'] is False
+          assert c['corrected_global_Phi_Selmer']['F2_dimension']==2
+          assert c['corrected_global_Phi_Selmer']['cardinality']==4
+          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09DW/hostile-reaudit-pass-receipt.json'],text=True).strip()=='3420b0b147cc04b5f430fb7b8d7810437a788879'
           for key in ['BT_retained_open_curve_proSelmer_intersection_computed','BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09DW/dual-basis-pairing-correction.json'],text=True).strip()=='5135ad3afac4960b9d48445c6e840c5ce3798bd7'
-          assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09DW_pairing_correction.py'],text=True).strip()=='b63e2b472f832a2a0d310764a50cc3cb28c1f7e9'
-          subprocess.check_call(['git','cat-file','-e','267dc0caa50725918d2de43b3c4e0a54aaa9ad84^{commit}'])
-          print('V230 verified: DW pairing correction is exact-green. Historical Phi local bases/DX labels remain revoked; corrected four labels are pending external hostile re-audit. Numeric DY/DZ/EA results are retained and EB stays relocked.')
+          print('V231 verified: exact-head hostile PASS for PR1736 is source-locked and freshness-synchronized on merged main. Corrected labels remain fail-closed and EB remains locked until this promotion replay is consumed.')
           PY
           git diff --check
