@@ -1,0 +1,119 @@
+{
+  "schema": "STAGE32EX5_B_RESULT_V1",
+  "lane": "stage32ex5-b",
+  "base_scaffold_commit": "a6f9d05bd96161fedbdcd696575ccddf45e4f472",
+  "target": "BC2-01B_RUNTIME_NODE_COORDINATE_BRIDGE",
+  "status": "PASS",
+  "authority": "SCRATCH_ONLY",
+  "exact_inputs": [
+    {
+      "kind": "parent_checkpoint",
+      "repo": "fizawa460-bit/perfect-cuboid-game",
+      "path": "stages/stage32-ex5/breadth-cycle-2/bc2-01a-exceptional-pairing-bridge.json",
+      "blob": "0a4b6b748bd4f4f94ae70e16cf38a0a2174c55d4",
+      "scope": "BC2-01A establishes all140[92..139] as the 48 exceptional pairing coordinates in Stoll runtime order."
+    },
+    {
+      "kind": "stoll_exact_model",
+      "repo": "MichaelStollBayreuth/Verification",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/cuboids.magma",
+      "blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1"
+    },
+    {
+      "kind": "exact_runtime_export",
+      "repo": "fizawa460-bit/perfect-cuboid-game",
+      "branch": "stage32ex5-b",
+      "commit": "034e37f68d01315b11e625f4314cbbdaaa04904f",
+      "workflow_run_id": 34320572381,
+      "job_id": 102366041147,
+      "conclusion": "success"
+    }
+  ],
+  "construction_order_algorithm": [
+    "Construct L=Q(i,s) with i^2=-1 and s^2=2, P^6_L with coordinate order [a1,a2,a3,b1,b2,b3,c], and the four Stoll cuboid equations.",
+    "Set S to the resulting projective surface and evaluate pts := Points(SingularSubscheme(S)); Stoll asserts #pts=48.",
+    "Stoll constructs Cs=C1s cat C2s cat C3s with #Cs=92, then all140 as the 92 curve classes followed by the 48 exceptional divisors represented by pts.",
+    "Therefore runtime exceptional index k in 0..47 is exactly pts[k+1], and its all140 index is 92+k (0-based), equivalently 93+k (1-based).",
+    "MatCP[j,k+1] is the exact incidence predicate pts[k+1] in Cpts[j]; the same pts indexed set is used by Position(pts, transformed_point) for automorphism/Galois permutations.",
+    "For persistence, normalize each pts[k+1] by dividing all seven homogeneous coordinates by the first nonzero coordinate in [a1,a2,a3,b1,b2,b3,c]."
+  ],
+  "claims": [
+    {
+      "id": "B.RUNTIME_INDEX_IDENTITY",
+      "claim": "For every k=0..47, runtime exceptional index k is the exceptional divisor over the singular projective point pts[k+1] from the same Stoll indexed set; its all140 coordinate is 92+k.",
+      "scope": "Exact Stoll runtime semantics at the locked source construction; no BTVA-side label equivalence is inferred."
+    },
+    {
+      "id": "B.INCIDENCE_AND_PERMUTATION_SEMANTICS",
+      "claim": "The kth exceptional coordinate carries node incidence via MatCP[:,k+1], and Stoll's automorphism/Galois permutations recover transformed exceptional indices via Position on the same pts indexed set.",
+      "scope": "Locked Stoll model only."
+    },
+    {
+      "id": "B.RUNTIME_POINT_REALIZATION",
+      "claim": "A minimal exact replay of the locked surface construction produced 48 index-tagged projective nodes, with indices exactly 0..47, seven coordinates each, and 48 distinct first-nonzero-normalized representatives.",
+      "scope": "GitHub Actions run 34320572381 using the official Magma calculator."
+    },
+    {
+      "id": "B.CANONICALIZATION",
+      "claim": "The retained representative is projective-scale invariant: divide by the first nonzero coordinate in the fixed ambient coordinate order, making that coordinate 1.",
+      "scope": "Projective scaling only; this does not quotient automorphism or Galois orbits."
+    }
+  ],
+  "counts": {
+    "runtime_exceptional_indices": 48,
+    "stoll_singular_points": 48,
+    "persisted_rows": 48,
+    "unique_normalized_projective_points": 48,
+    "coordinate_arity": 7,
+    "runtime_index_range_0based": [0, 47],
+    "all140_index_range_0based": [92, 139]
+  },
+  "checks": [
+    {
+      "procedure": "python3 stages/stage32-ex5/parallel/lane-b/run_magma_runtime_points.py",
+      "expected": "success=true, node_records=48, indices_0_through_47=true, unique_normalized_points=true, coordinate_arity_7=true, runtime_error_seen=false"
+    },
+    {
+      "procedure": "Inspect GitHub Actions run 34320572381 / job 102366041147.",
+      "expected": "completed/success with NODE|0 through NODE|47, COUNT|48, UNIQUE|48, completion marker."
+    },
+    {
+      "procedure": "python3 stages/stage32-ex5/parallel/lane-b/verify_stage32ex5_b_result.py",
+      "expected": "STAGE32EX5_B_RESULT_OK"
+    }
+  ],
+  "ambiguities": [
+    {
+      "id": "MAGMA_INDEXED_SET_ORDER_VERSION",
+      "detail": "The locked Stoll source defines the ordering operationally by the indexed set returned by Points(SingularSubscheme(S)); it does not declare an independent lexicographic/geometric ordering or a cuboids-specific Magma version. Do not reconstruct the index by sorting coordinates or assume cross-version implementation order without replay. The persisted index-tagged table fixes the observed replay order for this lane."
+    },
+    {
+      "id": "BTVA_LABEL_EQUIVALENCE_OUTSIDE_B_LANE",
+      "detail": "This lane realizes Stoll runtime indices as exact projective nodes. Matching those nodes to any independently produced BTVA-side labels/conventions remains a mainbatch/A-C-D cross-lane validation task."
+    }
+  ],
+  "blockers": [],
+  "artifacts": [
+    "stages/stage32-ex5/parallel/lane-b/export_stoll_runtime_points.m",
+    "stages/stage32-ex5/parallel/lane-b/run_magma_runtime_points.py",
+    ".github/workflows/stage32ex5-b-runtime-points.yml",
+    "stages/stage32-ex5/parallel/results/stage32ex5-b-runtime-points.json",
+    "stages/stage32-ex5/parallel/results/stage32ex5-b-result.json",
+    "stages/stage32-ex5/parallel/lane-b/verify_stage32ex5_b_result.py"
+  ],
+  "downstream_credit": {
+    "mathematical_credit": false,
+    "receiver_credit": false,
+    "route_qualified": false,
+    "stage32_main_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "FULL178_complete": false,
+    "endpoint_credit": false
+  },
+  "handoff": {
+    "condition_met": true,
+    "summary": "B lane recovered exact runtime exceptional-index semantics and a replayed 48-object projective realization. Mainbatch must independently compare with A/C/D before retained BC2-01B consolidation or any downstream promotion."
+  }
+}
