@@ -1,14 +1,106 @@
 {
-  "schema":"research-os-mission-node/v1",
-  "node_id":"N190",
-  "semantic_key":"s32-01-178:generation1-reconciliation",
-  "statement":"Reconcile the six Generation-1 research obligations, classify equivalent/dominated/blocked routes, select the next load-bearing FULL178 frontier, and create only the necessary next DAG nodes.",
-  "scope":{"population":"results of N101-N106","field_or_model":"Mission DAG orchestration over Stage32 32-01","quantifiers":"all six initial obligations must be resolved before reconciliation starts","required_output":"deduplicated route ledger, selected next frontier, dependency update, and new dispatch only if justified"},
-  "source_refs":["stages/stage32/32-01-178/MISSION.json"],
-  "reuse_check":{"performed":false,"queries":[],"matches":[],"decision":"PENDING"},
-  "attempts":[],
-  "retained_result":null,
-  "credit_ceiling":"ORCHESTRATION_ONLY_NO_FULL178_CREDIT",
-  "next_action":"WAIT_FOR_N101_TO_N106_RESOLUTION",
-  "notes":["Do not open this node early.","Do not treat completion of Generation-1 research as FULL178 census completion."]
+  "schema": "research-os-mission-node/v1",
+  "node_id": "N190",
+  "semantic_key": "s32-01-178:generation1-reconciliation",
+  "statement": "Reconcile the six Generation-1 research obligations, deduplicate equivalent/blocked routes, and select the next load-bearing FULL178 frontier without duplicating active EX5 work.",
+  "scope": {
+    "population": "results of N101-N106",
+    "field_or_model": "Mission DAG orchestration over Stage32 32-01",
+    "quantifiers": "all six initial obligations resolved at their own credit ceilings",
+    "required_output": "deduplicated route ledger, selected next frontier, and explicit no-duplicate routing"
+  },
+  "source_refs": [
+    "stages/stage32/32-01-178/MISSION.json",
+    "stages/stage32/32-01-178/nodes/N101/STATE.json",
+    "stages/stage32/32-01-178/nodes/N102/STATE.json",
+    "stages/stage32/32-01-178/nodes/N103/STATE.json",
+    "stages/stage32/32-01-178/nodes/N104/STATE.json",
+    "stages/stage32/32-01-178/nodes/N105/STATE.json",
+    "stages/stage32/32-01-178/nodes/N106/STATE-AUDITED.json",
+    "stages/stage32/32-01-178/nodes/N150/STATE.json",
+    "PR#1742@e6c7314cae46f73aaca9f4745ec4bae5219c0cce"
+  ],
+  "reuse_check": {
+    "performed": true,
+    "queries": [
+      "Generation-1 retained blockers and reusable interfaces",
+      "current EX5 BC2-02 exact completion producer state",
+      "non-EX5 exact prefix-only/global cut already retained"
+    ],
+    "matches": [
+      "N101: exact quotient-DP redesign retained, but semantic reduction is blocked on a source-locked indexed-terminal -> Picard sufficient-signature adapter",
+      "N102: eight historical hard-tail prefix families are structurally understood and the old DFS-prefix obstruction is dominated by exact indexed reparameterization; numerical leaf compression remains",
+      "N103: exact witness/support handoff contract retained; external producer still required",
+      "N104: 178-row / 64111-stratum completeness architecture retained",
+      "N105: no new actionable global cut in searched assets; two distinct direct-Picard candidates remain UNTESTED until an exact completion system exists",
+      "N106: repaired stratum-local execution architecture received hostile-audit PASS at review 5153922196",
+      "N150: existing external gate already represents the missing EX5 current-target dependency; creating another gate would duplicate semantics"
+    ],
+    "decision": "REUSE_N150_AS_THE_SINGLE_LOAD_BEARING_EXTERNAL_GATE; DO_NOT CREATE_A_DUPLICATE_INTERNAL_TERMINAL_TO_PICARD64_ROUTE"
+  },
+  "attempts": [
+    {
+      "route_id": "N190-R1-GENERATION1-RECONCILIATION",
+      "status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+      "summary": "Generation-1 converges on one missing semantic object: an exact indexed 11-pairing terminal -> integral Picard64 completion/sufficient-signature bridge that preserves downstream numerical leaf semantics. Existing internal compression, global-cut, support, completeness, and execution results all route through or after that object."
+    },
+    {
+      "route_id": "N190-R2-EX5-CURRENT-GATE-CHECK",
+      "status": "BLOCKED",
+      "summary": "PR#1742 is actively implementing the same missing terminal->Picard64 completion boundary and therefore remains the authoritative producer surface. At observed head e6c7314cae46f73aaca9f4745ec4bae5219c0cce it launched exact box-bounded indexed-completion workflows, but no retained/audited current-target producer result had yet been consumed into Stage32 MAIN.",
+      "blocker": "N150 reopen condition is not yet satisfied: active/in-progress EX5 computation is not a retained/audited FULL178-target-compatible producer/result plus explicit MAIN adapter.",
+      "reopen_condition": "PR#1742 or an audited successor retains a FULL178-target-compatible indexed-terminal -> integral Picard64 completion/sufficient-signature producer/result and explicit adapter suitable for Stage32 MAIN consumption.",
+      "evidence_paths": [
+        "PR#1742",
+        "PR#1742 commit e6c7314cae46f73aaca9f4745ec4bae5219c0cce",
+        "stages/stage32/32-01-178/nodes/N150/STATE.json"
+      ]
+    }
+  ],
+  "retained_result": {
+    "status": "DONE_GENERATION1_RECONCILED",
+    "cycle_route_status": "BLOCKED_NEW_PATTERN_ISOLATED",
+    "active_receiver": "indexed 11-pairing terminal -> exact integral Picard64 completion or source-locked sufficient signature -> downstream numerical Picard leaf/lift/effectivity semantics",
+    "selected_frontier_node": "N150",
+    "selected_frontier_status": "BLOCKED_EXTERNAL_DEPENDENCY",
+    "no_new_node_reason": "N150 already exactly represents the missing external-consumption gate; a new node would duplicate the same semantic dependency.",
+    "candidate_ledger": [
+      {
+        "route": "N101 exact multiplicity quotient-DP",
+        "status": "BLOCKED",
+        "reopen": "after exact terminal->Picard sufficient-signature adapter and factorization proof"
+      },
+      {
+        "route": "N105 Picard modular completion cut",
+        "status": "UNTESTED",
+        "reopen": "after exact completion system is source-locked through N150"
+      },
+      {
+        "route": "N105 Picard dual/Farkas-MIP infeasibility cut",
+        "status": "UNTESTED",
+        "reopen": "after exact completion system is source-locked through N150"
+      },
+      {
+        "route": "pure prefix/state quotient without new monotone predicate",
+        "status": "EQUIVALENT_OR_DOMINATED",
+        "reopen": "only with a genuinely new exact pruning predicate"
+      },
+      {
+        "route": "N106 stratum-local resumable execution architecture",
+        "status": "DONE_AUDITED",
+        "reopen": "implementation only after exact leaf contract and heavy run-key authorization"
+      }
+    ],
+    "next_after_n150": "Consume the exact external adapter first; then re-evaluate N101 quotient-DP as the preferred compression route and N105 modular-completion cut as the first distinct direct rejection route before any heavy scale-out.",
+    "full178_complete": false,
+    "heavy_compute_authorized": false,
+    "credit": "ORCHESTRATION_ONLY_NO_FULL178_CREDIT"
+  },
+  "credit_ceiling": "ORCHESTRATION_ONLY_NO_FULL178_CREDIT",
+  "next_action": "ON_EACH_MAINBATCH_REVALIDATE_N150_REOPEN_CONDITION; IF TRUE CONSUME_THE_AUDITED_EX5_ADAPTER_BEFORE_REOPENING_N101_OR_N105; OTHERWISE_DO_NOT_DUPLICATE_EX5",
+  "notes": [
+    "Generation-1 completion is not FULL178 census completion.",
+    "The active block is a semantic adapter boundary, not evidence that FULL178 is impossible.",
+    "No merge, theorem, receiver, endpoint, or Perfect Cuboid existence/nonexistence credit is granted."
+  ]
 }
