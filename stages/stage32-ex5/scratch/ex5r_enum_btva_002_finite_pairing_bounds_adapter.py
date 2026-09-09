@@ -9,6 +9,7 @@ import sys
 from fractions import Fraction
 from pathlib import Path
 
+import sympy
 from sympy import Matrix
 
 BACKEND = Path(__file__).resolve().parents[2] / "stage32" / "residual-32-01-production"
@@ -39,12 +40,17 @@ def load_retained(path: Path, name: str) -> dict:
     return value
 
 
+def exact_fraction(value: object) -> Fraction:
+    q = sympy.Rational(value)
+    return Fraction(int(q.p), int(q.q))
+
+
 def exact_positive_definite(a: Matrix) -> dict:
     """Exact rational LDL^T positivity certificate, with no floating point."""
     if a.rows != a.cols or a != a.T:
         raise ValueError("matrix must be symmetric square")
     n = a.rows
-    aa = [[Fraction(int(a[i, j]), 1) for j in range(n)] for i in range(n)]
+    aa = [[exact_fraction(a[i, j]) for j in range(n)] for i in range(n)]
     ell = [[Fraction(0, 1) for _ in range(n)] for _ in range(n)]
     diag: list[Fraction] = []
     for i in range(n):
@@ -86,8 +92,8 @@ def derive_bounds(marking: dict, bundle: dict, d: int = DEGREE, g: int = GENUS) 
     if [int(v) for v in degree_fn] != list(bridge.degree_functional):
         raise ValueError("degree functional regression")
 
-    # Rational h-perp has rank 63.  Prove its negative Gram positive definite
-    # exactly before applying Cauchy; this avoids importing any signature claim.
+    # Rational h-perp has rank 63. Prove its negative Gram positive definite
+    # exactly before applying Cauchy; this imports no unverified signature claim.
     null = degree_fn.nullspace()
     if len(null) != 63:
         raise ValueError(f"h-perp rank regression: {len(null)}")
