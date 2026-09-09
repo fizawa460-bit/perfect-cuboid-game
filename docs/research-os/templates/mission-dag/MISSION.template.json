@@ -8,7 +8,12 @@
   "operator_commands": {
     "start": "research-start __MISSION__: __TARGET__",
     "cycle": "__MISSION__-mainbatch",
+    "parallel_prefix": "__MISSION__-",
     "audit": "__MISSION__-audit"
+  },
+  "dispatch": {
+    "generation": 0,
+    "assignments": []
   },
   "nodes": [
     {
@@ -33,6 +38,8 @@
     "search_before_create": true,
     "duplicate_semantic_key_forbidden": true,
     "retry_blocked_route_only_after_reopen_condition": true,
+    "parallel_slot_binding_must_be_recorded_before_display": true,
+    "parallel_lane_must_not_self_reassign": true,
     "audit_credit_self_grant_forbidden": true,
     "merge_without_user_authorization_forbidden": true
   }
