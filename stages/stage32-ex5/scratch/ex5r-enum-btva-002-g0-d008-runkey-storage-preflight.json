@@ -1,0 +1,76 @@
+{
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "base_main_sha": "119e24100dd943cadef39df783a7b5de7b3a5704",
+  "canonical_sha256_without_this_field": "c3be5e8e54acfc5a61b3206c4f0c0c1fbf3b0fead4aa3299e7781f6070f60ca7",
+  "credit": {
+    "O210_credit": false,
+    "Q602_credit": false,
+    "breadth_cycle_2_authority": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "stage32_main_credit": false
+  },
+  "firewalls": {
+    "cycle1_audited_terminal_rewritten": false,
+    "full178_completed": false,
+    "g0_d008_closed": false,
+    "heavy_run_performed": false,
+    "main_state_rewritten": false,
+    "merge_authorized": false,
+    "perfect_cuboid_claim": false,
+    "run_key_armed": false
+  },
+  "preflight_result": {
+    "effective_heavy_concurrency": 1,
+    "full178_rerun_authorized": false,
+    "heavy_execution_ready": false,
+    "materializer_source_ready": false,
+    "planned_jobs": 1,
+    "planned_shards": 1,
+    "projected_peak_uploaded_artifact_mb": 1.0,
+    "raw_class_uploads_forbidden": true,
+    "run_key_armed": false,
+    "run_key_generation": 0,
+    "run_key_present": true,
+    "storage_budget_mb": 500,
+    "storage_output_contract_present": true
+  },
+  "route_decision": {
+    "blocker_code": "BTVA_G0_D008_MATERIALIZER_SOURCE_NOT_YET_IMPLEMENTED",
+    "mathematical_failure": false,
+    "next_unit": "BTVA_G0_D008_RANK61_MATERIALIZER_IMPLEMENTATION_PREFLIGHT",
+    "nontrivial_receiver_effect_obtained": false,
+    "predicate_survives": true,
+    "qualified_independent_route_established": false,
+    "reason": "The execution-policy gate has been reduced to a dedicated cold one-row run key and compact storage/output contract. Heavy execution remains impossible until an exact bounded g0-d008 materializer source is implemented, source-locked, and verified; the run key must then be armed in a distinct generation-advancing commit.",
+    "status": "LIVE_RUNKEY_STORAGE_CONTRACT_READY_MATERIALIZER_PENDING"
+  },
+  "route_id": "EX5R-ENUM-BTVA-002",
+  "schema": "STAGE32EX5_EX5R_ENUM_BTVA_002_G0_D008_RUNKEY_STORAGE_PREFLIGHT_V1",
+  "source_locks": [
+    {
+      "blob_sha1": "0733a622c04484ce2a325e2dd2f5480b20cd6452",
+      "path": "stages/stage32-ex5/scratch/ex5r-enum-btva-002-g0-d008-support-reconstruction-preflight.json",
+      "role": "prior execution-gate preflight"
+    },
+    {
+      "blob_sha1": "6a6e4c838cc0a540fce6aa0681523ba7d39dbd6a",
+      "canonical_sha256": "a4aedf220533462612d7252c21a6cd54345d6edf7427abe248a7a3992e6c01c2",
+      "path": "stages/stage32-ex5/scratch/ex5r-enum-btva-002-g0-d008-storage-output-contract.json",
+      "role": "one-row compact storage/output contract"
+    },
+    {
+      "blob_sha1": "1cc7bab7eb3ddae8e05f26faaea1e1fda532b1b6",
+      "canonical_sha256": "18d4caef49b50c89fbfa671dd5ff244c217873f98008c2d6f2e4ed92679e70dc",
+      "path": "stages/stage32-ex5/scratch/runkeys/ex5r-enum-btva-002-g0-d008-rank61.json",
+      "role": "dedicated cold run key"
+    },
+    {
+      "blob_sha1": "1cc36fc087354e04944eb0531fd1a0f1a9ed982b",
+      "path": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
+      "role": "mandatory heavy-workflow authorization/storage policy"
+    }
+  ],
+  "stage": "32EX5",
+  "unit_id": "BTVA_G0_D008_RANK61_MATERIALIZER_RUNKEY_AND_COMPACT_OUTPUT_CONTRACT"
+}
