@@ -2,82 +2,128 @@
   "schema": "research-os-mission-node/v1",
   "node_id": "N240",
   "semantic_key": "s32-01-178:n230-filtered-survivor-execution-completeness-adapter",
-  "statement": "Implement the exact execution/completeness adapter that lets N106 dispatch only N220 survivors by secondary N230 filtered rank while N104 continues to certify the complete pre-N220 canonical old-rank domain.",
+  "statement": "Provide the exact structural adapter that lets N106 address only audited N220 survivors by secondary N230 filtered rank while preserving N104 old-rank authority; production leaf completeness remains fail-closed until a source-locked exact leaf verifier is separately registered and audited.",
   "scope": {
-    "population": "every exact FULL178 (row_id,d,e) stratum after the audited N220 necessary cut",
+    "population": "every exact FULL178 (row_id,d,e) stratum authorized by the locked 178-row / 64111-stratum manifest",
     "field_or_model": "N104 canonical old-rank completeness / N106 stratum-local execution / N230 secondary filtered survivor rank",
-    "quantifiers": "all old canonical terminal ranks are disposed exactly once as audited N220 rejection or processed filtered survivor",
-    "required_output": "source-locked per-stratum partition certificate, random-access filtered work-unit identity, exact-cover verifier, and old-rank replay without materializing rejected or survivor populations"
+    "quantifiers": "structural partition and filtered interval identity for every authorized stratum; no production numerical COMPLETE quantifier is currently released",
+    "required_output": "source-locked manifest-membership certificate, per-stratum N220 partition certificate, random-access filtered work-unit identity, exact structural interval cover, and old-rank replay without materializing rejected or survivor populations"
   },
-  "depends_on": ["N104", "N106", "N220", "N230"],
+  "depends_on": [
+    "N104",
+    "N106",
+    "N220",
+    "N230"
+  ],
   "source_refs": [
+    "stages/stage32/residual-32-01-production/full178-manifest.json@0a46b34e278688240656b4977e9cb7f589e90e06",
     "stages/stage32/32-01-178/nodes/N104/STATE.json@4ac907febfd60a3fb53e57bbb8ede9cf8959e954",
     "stages/stage32/32-01-178/nodes/N106/STATE-AUDITED.json@0ab8647b5af453e48b786103eb57b2a495f855fc",
     "stages/stage32/32-01-178/nodes/N220/STATE-AUDITED.json",
     "stages/stage32/32-01-178/nodes/N230/STATE-AUDITED.json",
-    "PR#1753 review 5159411821",
-    "PR#1753 review 5160389467"
+    "PR#1753 N220 hostile PASS exact head 940fe99a20c1eaa215126acd92e7c390295bb441",
+    "PR#1753 N230 hostile PASS exact head 1206475517ed8caf59e92d0d6daa57eb14ab4a41",
+    "PR#1753 N240 hostile FAIL exact head 6327346d336028c910410da9bd430e117ecc024d"
   ],
+  "hostile_audit_repair": {
+    "failed_exact_head": "6327346d336028c910410da9bd430e117ecc024d",
+    "blocking_defects": [
+      "V1 accepted COMPLETE from count plus syntactically valid 64-hex leaf commitment without verifying a source-locked leaf certificate/verifier result",
+      "V1 carried the canonical FULL178 manifest digest but did not verify exact (row_id,d,e) membership before generating or accepting work units"
+    ],
+    "repair": [
+      "V2 loads the locked full178-manifest.json, verifies its Git blob SHA-1 and canonical SHA-256, reconstructs all 178 rows and exactly 64111 authorized strata, and rejects non-manifest row/e inputs before N230 construction",
+      "V2 binds the manifest blob, canonical hash, and per-stratum manifest-membership certificate digest into partition/work-unit identity",
+      "V2 removes production completeness credit entirely: validate_complete_execution_cover fails closed unconditionally because no source-locked production leaf verifier/certificate format is currently registered",
+      "hostile verifier cases explicitly reject synthetic COMPLETE fixtures, fake 64-hex commitments, wrong leaf-contract binding, wrong manifest binding, and non-manifest strata"
+    ]
+  },
   "contract": {
     "canonical_completeness_coordinate": "old stratum-local CompressedTerminalIndexer(e,d) rank",
     "secondary_execution_coordinate": "N230 filtered survivor rank",
+    "manifest_membership_rule": "load blob 0a46b34e278688240656b4977e9cb7f589e90e06, recompute canonical SHA256 46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23, reconstruct the 178 row IDs and genus-specific authorized e ranges, require exactly 64111 strata, then require exact (row_id,d,e) membership",
     "per_stratum_partition": "old_terminal_count = n220_rejected_terminal_count + filtered_terminal_count",
-    "rejected_disposition": "N220_REJECTED is discharged by audited N220 predicate plus audited N230 old-rank disposition adapter; rejected terminals receive no Picard leaf execution",
-    "survivor_disposition": "every filtered rank in [0,filtered_terminal_count) must be covered exactly once by a COMPLETE execution work unit and replay bijectively to one old canonical rank",
-    "filtered_work_unit_fields": ["contract_rev","row_id","d","e","old_stratum_terminal_count","n220_rejected_terminal_count","filtered_terminal_count","n220_audit_review_id","n230_audit_review_id","n230_implementation_blob_sha","leaf_contract_rev","filtered_rank_lo","filtered_rank_hi"],
-    "cover_rule": "sorted COMPLETE filtered intervals are pairwise disjoint, first lo=0, adjacent hi=next lo, final hi=filtered_terminal_count; empty survivor strata require filtered_terminal_count=0 and no survivor work unit",
-    "old_domain_release_rule": "only after the exact N220 partition certificate passes and filtered survivor cover is COMPLETE may the stratum be marked fully disposed relative to N104; this is not numerical Picard success unless every survivor leaf itself has an exact registered numerical disposition",
+    "rejected_disposition": "N220_REJECTED is discharged only at the audited necessary-pruning scope; rejected terminals receive no Picard leaf execution",
+    "survivor_structural_rule": "filtered ranks in [0,filtered_terminal_count) may be planned as exact adjacent work-unit intervals, each bound to the locked manifest membership and audited N220/N230 source locks",
+    "filtered_work_unit_fields": [
+      "contract_rev",
+      "full178_manifest_blob_sha1",
+      "full178_manifest_sha256",
+      "manifest_membership_sha256",
+      "row_id",
+      "d",
+      "e",
+      "old_stratum_terminal_count",
+      "n220_rejected_terminal_count",
+      "filtered_terminal_count",
+      "n220_audit_review_id",
+      "n230_audit_review_id",
+      "n230_implementation_blob_sha1",
+      "leaf_contract_rev",
+      "filtered_rank_lo",
+      "filtered_rank_hi"
+    ],
+    "structural_cover_rule": "sorted filtered intervals are pairwise disjoint, first lo=0, adjacent hi=next lo, final hi=filtered_terminal_count; this proves planning/identity mechanics only and emits old_domain_fully_disposed_for_n104=false",
+    "production_complete_rule": "UNAVAILABLE_FAIL_CLOSED until a source-locked exact production leaf certificate/verifier contract is added and hostile-audited; count plus digest shape is never sufficient",
+    "old_domain_release_rule": "N240 V2 cannot mark the survivor old-domain disposed for N104 and cannot release FULL178 numerical completeness",
     "unknown_fail_closed": true,
     "resource_wall_fail_closed": true
   },
   "implementation": {
     "path": "stages/stage32/32-01-178/nodes/N240/filtered_survivor_execution_adapter.py",
-    "blob_sha": "5f61d3d3af1908b2f018b1aae1eea2ea7215e9f1",
+    "blob_sha": "cfbc082ba4f4f1d3b8e28c576ff06c06c53714c4",
     "verifier_path": "stages/stage32/32-01-178/nodes/N240/verify_n240_filtered_survivor_execution_adapter.py",
-    "verifier_blob_sha": "4307ca57f5aa4b11b5f9793b6e505d076808fd13",
+    "verifier_blob_sha": "88178f3be88a0ce1f51ddabe19c8920e75289f2d",
     "workflow_path": ".github/workflows/stage32-01-178-n240-filtered-execution-adapter.yml",
     "workflow_blob_sha": "2a2cd7d175962c157ea2e71cbe6c96084adef5e5",
     "n230_implementation_blob_sha": "2c04cceb374971dbf83cb684bd8a17a2ee4b50ed",
+    "full178_manifest_blob_sha": "0a46b34e278688240656b4977e9cb7f589e90e06",
+    "full178_manifest_canonical_sha256": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23",
     "materializes_full_population": false,
-    "runs_picard_leaf": false
+    "runs_picard_leaf": false,
+    "production_leaf_verifier_registered": false
   },
   "validation": {
-    "status": "PASS_RETAINED_IMPLEMENTATION_REPLAY_PENDING_HOSTILE_AUDIT",
-    "workflow_run_id": 34411628508,
-    "workflow_job_id": 102667126368,
-    "workflow_conclusion": "success",
-    "verdict": "PASS_N240_FILTERED_EXECUTION_COMPLETENESS_ADAPTER_REPLAY",
-    "small_cases": [
-      {"g":1,"d":8,"e":4,"old_terminal_count":"36575","n220_rejected_terminal_count":"931","filtered_terminal_count":"35644","retained_exceptional_prefixes_replayed":268,"planned_filtered_work_units_at_4096":9},
-      {"g":1,"d":8,"e":5,"old_terminal_count":"102912","n220_rejected_terminal_count":"384","filtered_terminal_count":"102528","retained_exceptional_prefixes_replayed":801,"planned_filtered_work_units_at_4096":26}
-    ],
-    "large_nonmaterializing_cases": [
-      {"g":0,"d":100,"e":29,"old_terminal_count":"279698391264","n220_rejected_terminal_count":"279697885536","filtered_terminal_count":"505728"},
-      {"g":0,"d":176,"e":50,"old_terminal_count":"58366737786500","n220_rejected_terminal_count":"58366737724600","filtered_terminal_count":"61900"},
-      {"g":0,"d":176,"e":100,"old_terminal_count":"33358498336566195","n220_rejected_terminal_count":"33281989404189710","filtered_terminal_count":"76508932376485","planned_filtered_work_units_at_1000000000":76509}
+    "status": "HOSTILE_FAIL_REPAIRED_REAUDIT_REQUIRED",
+    "local_static_check": "PYTHON_COMPILE_PASS_FOR_V2_IMPLEMENTATION_AND_VERIFIER",
+    "expected_workflow_verdict": "PASS_N240_V2_STRUCTURAL_ADAPTER_HOSTILE_FAIL_REPAIR",
+    "manifest_reconstruction": {
+      "residual_row_count": 178,
+      "coarse_strata_count": 64111,
+      "canonical_sha256": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23"
+    },
+    "required_hostile_cases_in_verifier": [
+      "synthetic COMPLETE fixture rejected",
+      "fake 64-hex leaf commitment rejected",
+      "wrong leaf-contract binding rejected even after work-unit digest recomputation",
+      "wrong manifest-membership binding rejected even after work-unit digest recomputation",
+      "non-manifest row and e below/above authorized range rejected"
     ],
     "old_canonical_rank_remains_completeness_authority": true,
     "filtered_rank_secondary_execution_only": true,
     "n220_rejections_and_filtered_survivors_partition_old_domain_exactly": true,
-    "small_replay_strategy": "every retained exceptional prefix with x4 block boundaries; full x4 rescan intentionally not duplicated after N230 hostile audit",
-    "complete_execution_validator_tested_with_synthetic_fixtures_only": true,
+    "production_complete_validator_registered": false,
+    "n104_old_domain_release_available": false,
     "numerical_picard_leaf_credit": false,
     "full178_complete": false,
     "heavy_compute": false
   },
   "retained_result": {
     "status": "AUDIT_REQUIRED",
-    "result": "RETAINED_EXACT_FILTERED_SURVIVOR_EXECUTION_TO_CANONICAL_COMPLETENESS_ADAPTER",
+    "result": "REPAIRED_STRUCTURAL_FILTERED_INTERVAL_ADAPTER_MECHANICS_ONLY",
     "old_canonical_rank_remains_authority": true,
     "secondary_filtered_rank_only": true,
+    "manifest_membership_verified": true,
+    "production_complete_available": false,
+    "n104_old_domain_release_available": false,
     "full178_complete": false
   },
-  "credit_ceiling": "IMPLEMENTATION_AND_REPLAY_ONLY_PENDING_HOSTILE_AUDIT_NO_HEAVY_OR_FULL178_NUMERICAL_CREDIT",
-  "next_action": "HOSTILE_AUDIT_N240_FILTERED_WORK_UNIT_IDENTITY_PARTITION_REPLAY_AND_N104_N106_COMPLETENESS_ADAPTER; DO_NOT START SCALED PICARD EXECUTION BEFORE PASS IS CONSUMED AND A LEAF CONTRACT/RUN-KEY IS SEPARATELY AUTHORIZED",
+  "credit_ceiling": "STRUCTURAL_FILTERED_INTERVAL_ADAPTER_MECHANICS_ONLY_PENDING_FRESH_HOSTILE_REAUDIT_NO_N104_COMPLETENESS_RELEASE_NO_HEAVY_OR_FULL178_NUMERICAL_CREDIT",
+  "next_action": "RUN/CHECK CHEAP N240 V2 VERIFIER, THEN FRESH HOSTILE REAUDIT OF EXACT V2 REPAIR SCOPE. EVEN AFTER A STRUCTURAL PASS, DO NOT PROMOTE N104 COMPLETENESS UNTIL A SEPARATE SOURCE-LOCKED PRODUCTION LEAF CERTIFICATE/VERIFIER CONTRACT EXISTS AND IS HOSTILE-AUDITED.",
   "notes": [
-    "N240 is an adapter, not a new mathematical pruning claim.",
-    "N240 never reinterprets filtered rank as N104 canonical rank.",
-    "Synthetic COMPLETE records exercise validator mechanics only and grant no numerical leaf credit.",
+    "N240 V2 intentionally narrows credit rather than inventing a numerical leaf verifier.",
+    "The locked manifest itself is now a checked input, not a decorative digest.",
+    "Structural exact-cover mechanics and numerical leaf completeness are explicitly separate.",
     "No heavy compute, FULL178 numerical completion, theorem/receiver/endpoint, existence/nonexistence, or merge credit is authorized."
   ]
 }
