@@ -1,0 +1,134 @@
+{
+  "schema": "STAGE35_EX_GOAL4AW_MARKED_ELLIPTIC_HEIGHT_LOWER_VS_GOAL4M_UPPER_PREFLIGHT_V1",
+  "stage": "35-EX",
+  "unit": "35EX-35_GOAL4AW_MARKED_ELLIPTIC_HEIGHT_LOWER_VS_GOAL4M_UPPER_PREFLIGHT",
+  "status": "PROVISIONAL_EXACT_HEIGHT_LOWER_BOUND_APPLICABLE_BUT_COMPARISON_BLOCKED_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT",
+  "authority": {
+    "state_schema": "STAGE35_EX_PESCH_E1_STATE_V74_GOAL4AK_EXPLICIT_F_B_AUDITED_LOCAL_EVALUATION_RELEASED",
+    "last_audited_unit": "35EX-35_GOAL4AK_SECOND_CLASS_QI_CYCLIC_EXPLICIT_F_B_ASSEMBLY",
+    "hostile_review_id": 5142248509,
+    "merge_sha": "42f20e47babdfdda068a605e3fec489eeace460c"
+  },
+  "stacked_parent": {
+    "unit": "35EX-35_GOAL4AV_CROSS_FACE_MARKED_KUMMER_COMMON_COVER_PREFLIGHT",
+    "exact_head_sha": "47338365100fc73dee2f82cf9a2025230620ae22",
+    "aggregate_run": 34294868746,
+    "aggregate_job": 102290540930,
+    "hostile_audited": false,
+    "route_status": "PASS_EXACT_COMMON_COEFFICIENT_PACKAGE_BLOCKED_AS_ENDPOINT_OBSTRUCTION"
+  },
+  "source_locks": {
+    "goal4aw_source": {
+      "path": "stages/stage35-ex/35ex-35/goal4aw-marked-elliptic-height-lower-vs-goal4m-upper-source-lock.md",
+      "blob_sha1": "5c4ef04e5d064a3d92b5a8b8bbd46b93a1d82145"
+    },
+    "goal4av": {
+      "path": "stages/stage35-ex/35ex-35/goal4av-cross-face-marked-kummer-common-cover.json",
+      "blob_sha1": "13f2e4c386d8cbe4b986171dc5eda9b7e38e9403",
+      "canonical_sha256": "fcae350aa2144919750d26a65045e0dda7b917137ccc196faee19ae819abe3dd"
+    },
+    "goal4l": {
+      "path": "stages/stage35-ex/35ex-35/goal4l-stage14-pythagorean-elliptic-rankjump-receiver.json",
+      "blob_sha1": "0717ca307162d5559a005801848288daa91285fd"
+    },
+    "goal4m": {
+      "path": "stages/stage35-ex/35ex-35/goal4m-stage14-global-triple-population-height-transfer.json",
+      "blob_sha1": "1c7a3e9e23dd8bbc41fc331b8c43e4023f5d3909"
+    },
+    "stage14_s3": {
+      "path": "stages/stage14/14-s3/result.md",
+      "historical_commit": "46e5b7cf383d2455ac9b51c35c2452a662beb532",
+      "blob_sha1": "830f124e3b22e47693eec101f407e7d402b437d9"
+    },
+    "stage14_height_audit": {
+      "path": "stages/stage14/14-s3/literature-height-audit.md",
+      "historical_commit": "46e5b7cf383d2455ac9b51c35c2452a662beb532",
+      "blob_sha1": "0aa666b6ec2e22dc6167c561f9e028db6af5887b"
+    },
+    "goal4at": {
+      "path": "stages/stage35-ex/35ex-35/goal4at-marked-residual-kummer-local-support.json",
+      "blob_sha1": "3e6949c18b044e38632ba840c3cb7b45b7e62302",
+      "canonical_sha256": "50778f7b5d65ffd5744916e26ef2545c2a1cef366cbf52b5bf72da92379b0141"
+    }
+  },
+  "external_source": {
+    "author": "Clayton Petsche",
+    "title": "Small rational points on elliptic curves over number fields",
+    "journal": "New York Journal of Mathematics 12 (2006), 257-268",
+    "arxiv": "math/0508160v2",
+    "theorem": "Theorem 2",
+    "q_specialization": "hhat(P)>=log|Delta_min|/(10^15*sigma^6*log^2(104613*sigma^2)) for non-torsion P in E(Q)",
+    "uniform_sigma_bound_in_theorem": false
+  },
+  "physical_applicability": {
+    "curve": "E_q: Y^2=X*(X-1)*(X+q^2)",
+    "physical_point_non_torsion": true,
+    "goal4m_upper": "hhat(P_q)=O(log B_cut)",
+    "goal4m_explicit_upper_coefficient_locked": false,
+    "q_endpoint_formula": "q=(C_edge^2-B_edge^2)/(2*B_edge*C_edge)",
+    "q_height_upper_from_endpoint_cutoff": true,
+    "q_height_lower_proportional_to_endpoint_cutoff_proved": false
+  },
+  "integral_pythagorean_model": {
+    "reduced_q": "q=r/s with gcd(r,s)=1 and s>0",
+    "pythagorean": "r^2+s^2=t^2",
+    "curve": "y^2=x*(x-s^2)*(x+r^2)",
+    "a2": "r^2-s^2",
+    "a4": "-r^2*s^2",
+    "Delta_raw": "16*r^4*s^4*t^4",
+    "c4": "16*(r^4+r^2*s^2+s^4)",
+    "j": "256*(r^4+r^2*s^2+s^4)^3/(r^4*s^4*t^4)",
+    "odd_prime_minimality": "for odd ell|r*s*t, c4 is an ell-adic unit",
+    "odd_minimal_discriminant_valuation": "v_ell(Delta_min)=4*v_ell(r*s*t)",
+    "odd_conductor_exponent": "ord_ell(N_E)=1",
+    "two_adic_minimal_model_classified": false
+  },
+  "comparison_requirements": {
+    "C1": "explicit hhat(P_q)<=C_up*log(B_cut)+C0",
+    "C2": "explicit log|Delta_min(E_q)|>=c_Delta*log(B_cut)-C_Delta with c_Delta>0",
+    "C3": "explicit uniform sigma(E_q)<=Sigma",
+    "C4": "c_Delta/(10^15*Sigma^6*log^2(104613*Sigma^2))>C_up",
+    "C1_obtained": false,
+    "C2_obtained": false,
+    "C3_obtained": false,
+    "C4_obtained": false
+  },
+  "route_classification": {
+    "goal4as_candidate": "EXPLICIT_CANONICAL_HEIGHT_LOWER_VS_GOAL4M_UPPER_CONSTANTS",
+    "current_status": "BLOCKED_MISSING_UNIFORM_HEIGHT_DISCRIMINANT_SZPIRO_ADAPTERS",
+    "future_family_specific_height_argument_proved_impossible": false
+  },
+  "result": {
+    "physical_nontorsion_applicability_obtained": true,
+    "exact_integral_pythagorean_model_obtained": true,
+    "odd_prime_minimal_discriminant_conductor_adapter_obtained": true,
+    "petsche_explicit_lower_bound_source_locked": true,
+    "explicit_goal4m_upper_coefficient_obtained": false,
+    "discriminant_lower_growth_vs_endpoint_height_obtained": false,
+    "uniform_szpiro_ratio_bound_obtained": false,
+    "strict_lower_vs_upper_coefficient_win_obtained": false,
+    "eventual_endpoint_elimination_obtained": false,
+    "route_status": "PASS_EXACT_LOWER_BOUND_APPLICABILITY_WITH_THREE_MISSING_COMPARISON_ADAPTERS"
+  },
+  "next": {
+    "unit": "35EX-35_GOAL4AX_CROSS_FACE_LATTICE_NORM_TORSOR_COMPATIBILITY_PREFLIGHT",
+    "question": "assemble the three primitive face Pythagorean structures and three space-diagonal couplings into one exact cross-face norm/lattice torsor; test whether its local compatibility is genuinely stronger than endpoint equations, primitivity, marked Kummer product-one, and full Brauer equivalence"
+  },
+  "credit_firewall": {
+    "goal4av_hostile_audited": false,
+    "goal4aw_hostile_audited": false,
+    "explicit_goal4m_upper_coefficient_proved": false,
+    "uniform_discriminant_lower_growth_proved": false,
+    "uniform_szpiro_ratio_bound_proved": false,
+    "lang_szpiro_abc_assumed": false,
+    "canonical_height_contradiction_obtained": false,
+    "eventual_endpoint_elimination_obtained": false,
+    "finite_height_reduction_obtained": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256": "0605861581bac2571889a58bfe2a7ef0f1f1e167372fc434d285187af1988488"
+}
