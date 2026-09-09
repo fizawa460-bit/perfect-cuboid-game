@@ -1,115 +1,124 @@
-# Stage35-EX MAIN batch handoff — Goal4BK fixed-i quartic dual and two-adic ray-class boundary
+# Stage35-EX MAIN batch handoff — Goal4BL fixed-i norm-mod16 ray-class collapse
 
-Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BK are provisional stacked leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
+Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BL are provisional stacked leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
 
 ## Exact-green parent
 
-Goal4BJ is exact-green:
+Goal4BK is exact-green:
 
-- exact head: `ffbb6ee4864490113bfa551fb1e14614c30f5051`
-- aggregate: `34312988913`
-- `verify-stage35-ex-current`: `102344458981`
+- exact head: `9c72ebb551f2d8580a929b07c5dfcf2caa0f236e`
+- aggregate: `34313690442`
+- `verify-stage35-ex-current`: `102346571027`
 - result: `SUCCESS`
 
-Goal4BJ constructed the source-canonical support-cleaned Gaussian carrier
+Goal4BK produced the canonical fixed-unit quartic dual
 
 ```text
-Xi=Xi_a*Xi_b*Xi_c
+chi_i(alpha)=(i/alpha)_4
 ```
 
-with selected-reservoir valuations `+1,-1,0` encoding `sigma=-1,+1,nonsecondary`, and proved that `[Xi]_4` retains the information while `[Xi]_2` does not.
+and left its deeper two-adic/ray-class value on the BJ carrier `Xi` unresolved.
 
-## Goal4BK provisional exact result
+## Goal4BL provisional exact result
 
-The ambient Gaussian field already supplies a canonical order-four dual character. For odd primary Gaussian `alpha`, set
+For odd primary
 
 ```text
-chi_i(alpha)=(i/alpha)_4.
+alpha=A+B*i,
+A odd,
+B even,
+A+B=1 mod 4,
 ```
 
-For `Xi=N/D`, extend multiplicatively by
+one has
 
 ```text
-chi_i(Xi)=chi_i(N)*chi_i(D)^(-1).
+chi_i(alpha)=i^((1-A)/2).
 ```
 
-At a selected prime `pi`, the local contribution is
+A complete primary residue computation gives
 
 ```text
-chi_i(pi)^(v_pi(Xi)).
+N(alpha) == 3-2*A mod 16,
 ```
 
-When `chi_i(pi)` has order four this distinguishes the orientation exponent `+1` from `-1`.
-
-The standard supplementary law for primary `alpha=A+B*i` is
+hence the stronger exact formula
 
 ```text
-(i/alpha)_4=i^((1-A)/2).
+chi_i(alpha)=i^((N(alpha)-1)/4).
 ```
 
-Primary normalization fixes
+Thus the apparent two-adic compensator for the **fixed-i** character is not an independent Gaussian phase: on primary elements this character descends to the rational norm modulo `16`.
+
+For
 
 ```text
-A odd, B even, A+B=1 mod 4,
+Xi=(M_a^-*M_b^-*M_c^-)/(M_a^+*M_b^+*M_c^+),
+R_-=N(M_a^-*M_b^-*M_c^-),
+R_+=N(M_a^+*M_b^+*M_c^+),
 ```
 
-but not `A mod 8`. Thus the fixed-unit character is not constant on the primary class. Ambient primary-prime diagnostics already give
+one gets exactly
 
 ```text
--1+2i  (N=5)  -> chi_i=i,
- 3+2i  (N=13) -> chi_i=-i,
- 1+4i  (N=17) -> chi_i=1.
+chi_i(Xi)=i^((R_- - R_+)/4).
 ```
 
-These examples are not endpoint claims; they certify that primary normalization plus `ell=1 mod4` alone cannot fix the quartic value.
-
-Hence the global odd-prime orientation product
+If
 
 ```text
-product chi_i(pi)^(v_pi(Xi))=chi_i(Xi)
+S_sec=R_-*R_+=product_i gcd(s_i,W/h_i),
 ```
 
-is balanced by a deeper ramified `2`-adic/ray-class factor. Goal4BJ gives only
+then
 
 ```text
-Xi == 1 mod (1+i)^3,
+chi_i(Xi)^2=(2/S_sec).
 ```
 
-which is insufficient to make that factor constant.
-
-Natural complementary source cofactors do not yet repair this. In direction `a`, the exact secondary residue ratio is
+Primewise sensitivity is now exact:
 
 ```text
-C_a^S/C_a^F == sigma_a*x*(a/ell^m)/c mod p_a,
+ell mod16 = 1  -> chi_i(pi)=1   -> sigma blind,
+ell mod16 = 5  -> chi_i(pi)=i   -> sigma sensitive,
+ell mod16 = 9  -> chi_i(pi)=-1  -> sigma blind,
+ell mod16 =13  -> chi_i(pi)=-i  -> sigma sensitive.
 ```
 
-with cyclic analogues. The normalization `a/ell^m` is prime-dependent, and the nonvanishing space cofactor itself depends on `sigma_a`, so no fixed global source second slot is obtained. BH Hensel leading units are likewise prime-local.
+All four `1 mod4` residue classes are compatible with the retained reservoir congruence; exact local diagnostics use
+
+```text
+(ell,iota)=(5,2),(13,5),(17,4),(41,9).
+```
+
+These odd-prime models are CRT-compatible with each primitive two-adic parity branch. They are local diagnostics only, not global endpoint constructions.
+
+Therefore fixed `i` does **not** give a universal orientation obstruction. Its global product is exactly the norm-mod16 evaluation of the already-defined BJ orientation partition, not a second independent reciprocity equation.
 
 Exact route status:
 
 ```text
-canonical fixed-i quartic dual = obtained;
-local orientation sensitivity = yes;
-chi_i(Xi) source-fixed constant = no;
-primary congruence sufficient = no;
-two-adic/ray-class compensator = remains;
-natural cofactor fixed dual = not obtained;
-global quartic contradiction = no;
+lambda^6 ray depth sufficient = yes;
+lambda^5 + norm mod8 sufficient = no;
+fixed-i character descends to norm mod16 = yes;
+chi_i(Xi) exact = yes;
+all sigma bits detected = no;
+new reciprocity equation = no;
 branch pruning = no.
 ```
 
 Artifacts:
 
-- `stages/stage35-ex/35ex-35/goal4bk-fixed-i-quartic-dual-two-adic-ray-class-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4bk-fixed-i-quartic-dual-two-adic-ray-class.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4bk_fixed_i_quartic_dual.py`
+- `stages/stage35-ex/35ex-35/goal4bl-xi-two-adic-ray-class-parity-source-lock.md`
+- `stages/stage35-ex/35ex-35/goal4bl-xi-two-adic-ray-class-parity.json`
+- `stages/stage35-ex/verify_stage35_ex_35_goal4bl_xi_two_adic_ray_class.py`
 
 ## Next exact leaf
 
 ```text
-35EX-35_GOAL4BL_XI_TWO_ADIC_RAY_CLASS_PARITY_PREFLIGHT
+35EX-35_GOAL4BM_RAMIFIED_ONE_PLUS_I_QUARTIC_DUAL_PREFLIGHT
 ```
 
-Compute the source-canonical deeper `2`-adic/ray-class residue of `M_i^-/M_i^+` and `Xi` beyond primary normalization, using the three primitive parity branches and the face/space primary square-root units. Test whether `chi_i(Xi)` is forced. Only then can the fixed-unit quartic reciprocity identity become a nontrivial sigma relation.
+Test the ramified supplementary quartic character with numerator `1+i` (or the equivalent ray-class functional) against the BJ carrier. Unlike fixed `i`, it can depend on the imaginary/ray residue rather than rational norm alone. Determine whether the source controls that value or whether it introduces another free phase.
 
 No merge. No hostile-audit credit. `MAIN-STATE.json` remains V74 / Goal4AK.
