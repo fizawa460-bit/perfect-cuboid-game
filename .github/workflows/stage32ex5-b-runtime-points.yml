@@ -7,6 +7,8 @@ on:
     paths:
       - 'stages/stage32-ex5/parallel/lane-b/export_stoll_runtime_points.m'
       - 'stages/stage32-ex5/parallel/lane-b/run_magma_runtime_points.py'
+      - 'stages/stage32-ex5/parallel/lane-b/verify_stage32ex5_b_result.py'
+      - 'stages/stage32-ex5/parallel/results/stage32ex5-b-*.json'
       - '.github/workflows/stage32ex5-b-runtime-points.yml'
 
 permissions:
@@ -20,3 +22,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Export exact Stoll runtime singular points
         run: python3 stages/stage32-ex5/parallel/lane-b/run_magma_runtime_points.py
+      - name: Verify retained B-lane handoff
+        run: python3 stages/stage32-ex5/parallel/lane-b/verify_stage32ex5_b_result.py
