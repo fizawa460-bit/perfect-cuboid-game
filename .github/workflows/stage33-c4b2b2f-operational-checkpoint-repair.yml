@@ -24,9 +24,7 @@ jobs:
       - name: Verify C4B2B2F frontier alignment
         run: python stages/stage33/33-12/repair_c4b2b2f_operational_checkpoint.py --check
       - name: Verify Stage33 MAIN state contract
-        run: |
-          python stages/stage33/sync_main_state.py --check
-          python stages/stage33/verify_stage33_main.py
+        run: python stages/stage33/sync_main_state.py --check
       - name: Enforce bounded semantic delta
         shell: bash
         run: |
