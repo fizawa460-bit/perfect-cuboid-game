@@ -1,0 +1,164 @@
+{
+  "schema": "STAGE35_EX_GOAL4BR_DERIVED_FOURTH_SQUARE_DEFECT_SQUARECLASS_V1",
+  "stage": "35-EX",
+  "unit": "35EX-35_GOAL4BR_DERIVED_FOURTH_SQUARE_DEFECT_SQUARECLASS_PREFLIGHT",
+  "status": "PROVISIONAL_EXACT_DERIVED_DEFECT_PRIMITIVE_TWO_SQUARE_CLASS_RESERVOIR_SWAP_NO_S34_TRIGGER_NO_PRUNING_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT",
+  "authority": {
+    "state_schema": "STAGE35_EX_PESCH_E1_STATE_V74_GOAL4AK_EXPLICIT_F_B_AUDITED_LOCAL_EVALUATION_RELEASED",
+    "last_audited_unit": "35EX-35_GOAL4AK_SECOND_CLASS_QI_CYCLIC_EXPLICIT_F_B_ASSEMBLY",
+    "hostile_review_id": 5142248509,
+    "merge_sha": "42f20e47babdfdda068a605e3fec489eeace460c"
+  },
+  "stacked_parent": {
+    "unit": "35EX-35_GOAL4BQ_Y_ZERO_BOUNDARY_ESCAPE_CONDUCTOR_DEPTH_PREFLIGHT",
+    "exact_head_sha": "930c649ed32104c3faf1f22074423707ad2c6a40",
+    "aggregate_run": 34322296008,
+    "aggregate_job": 102373228786,
+    "hostile_audited": false,
+    "route_status": "PASS_EXACT_BOUNDARY_DEPTH_D_N_EQUALS_N_BLOCKED_NO_GLOBAL_RATIONAL_REALIZATION_ADAPTER"
+  },
+  "source_locks": {
+    "goal4br_source": {
+      "path": "stages/stage35-ex/35ex-35/goal4br-derived-fourth-square-defect-squareclass-source-lock.md",
+      "blob_sha1": "07eaad7797a9a4f2f21852ea90dce633fac23a07"
+    },
+    "goal4bq": {
+      "path": "stages/stage35-ex/35ex-35/goal4bq-y-zero-boundary-escape-conductor-depth.json",
+      "blob_sha1": "e9917a4b14d14c105a6474c8ebba478af9f76d8f",
+      "canonical_sha256": "6a1642dda5e86c545ae2ae8123e98114b7a339e587f77e6f4a26118a70f88360"
+    },
+    "goal4ay": {
+      "path": "stages/stage35-ex/35ex-35/goal4ay-derived-cuboid-involution-nonlinear-descent.json",
+      "blob_sha1": "2cb4e8fc58690b4a820c02c5e0e52ec0a299333c",
+      "canonical_sha256": "513e4085d1f5309a52580c3f716db0de6e549a07619351e4098e3b159766c41d"
+    },
+    "goal4au": {
+      "path": "stages/stage35-ex/35ex-35/goal4au-three-direction-marked-kummer-gcd-allocation.json",
+      "blob_sha1": "d0dd0597046daf54ad9fcc74991221710a27f12c",
+      "canonical_sha256": "4d23730b7ec3a2d5b1986d270924c2c34a5019cabd5171ddc1552055bf0971b2"
+    },
+    "private_gcd": {
+      "path": "stages/stage35-ex/35ex-35/private-edge-gcd-six-variable-decomposition.json",
+      "blob_sha1": "d0cd03a5ff744d5f6536b6d2784c0e0d543fea48"
+    },
+    "arsenal_s34_w01": {
+      "path": "docs/arsenal/cards/formal/S34-W01.md",
+      "blob_sha1": "01a8e90e34b4aa46edbfa825803d488e5230e9d0"
+    }
+  },
+  "derived_defect": {
+    "edges": [
+      "A_D=x*a*b",
+      "B_D=y*a*c",
+      "C_D=z*b*c"
+    ],
+    "Q_D": "(x*a*b)^2+(y*a*c)^2+(z*b*c)^2",
+    "original_endpoint_forces_Q_D_square": false
+  },
+  "completion": {
+    "P": "r_AB*r_AC*r_BC",
+    "R": "x*y*z*a*b*c",
+    "identity": "P^2+R^2=W^2*Q_D",
+    "G": "gcd(P,R)",
+    "p": "P/G",
+    "r": "R/G",
+    "gcd_p_r": 1,
+    "p_parity": "odd",
+    "r_parity": "even",
+    "squareclass": "[Q_D]=[p^2+r^2]"
+  },
+  "reservoir_factorization": {
+    "h": [
+      "h_a=gcd(a,r_BC)",
+      "h_b=gcd(b,r_AC)",
+      "h_c=gcd(c,r_AB)"
+    ],
+    "j": [
+      "j_x=gcd(x,r_AB)",
+      "j_y=gcd(y,r_AC)",
+      "j_z=gcd(z,r_BC)"
+    ],
+    "face_gcds": [
+      "gcd(r_AB,R)=j_x*h_c",
+      "gcd(r_AC,R)=j_y*h_b",
+      "gcd(r_BC,R)=j_z*h_a"
+    ],
+    "G_factorization": "G=h_a*h_b*h_c*j_x*j_y*j_z",
+    "p_stripped": "(r_AB/(j_x*h_c))*(r_AC/(j_y*h_b))*(r_BC/(j_z*h_a))",
+    "r_stripped": "(x/j_x)*(y/j_y)*(z/j_z)*(a/h_a)*(b/h_b)*(c/h_c)"
+  },
+  "squareclass_support": {
+    "Q_D_squarefree_even_prime_present": false,
+    "Q_D_squarefree_3mod4_prime_present": false,
+    "allowed_squarefree_odd_primes": "ell==1 mod4",
+    "finite_squareclass_family_obtained": false
+  },
+  "conditional_square_receiver": {
+    "extra_hypothesis": "Q_D=S^2",
+    "then": "p^2+r^2=t^2 primitive Pythagorean",
+    "extra_hypothesis_from_original_endpoint": false,
+    "population_narrowing_if_imposed": true
+  },
+  "derived_involution": {
+    "action": "(x,y,z ; a,b,c) -> (a,b,c ; x,y,z)",
+    "reduced_hypotenuse_permutation": [
+      "r'_AB=r_BC",
+      "r'_AC=r_AC",
+      "r'_BC=r_AB"
+    ],
+    "h_prime": [
+      "h'_a=j_x",
+      "h'_b=j_y",
+      "h'_c=j_z"
+    ],
+    "j_prime": [
+      "j'_x=h_a",
+      "j'_y=h_b",
+      "j'_z=h_c"
+    ],
+    "reservoir_swap": "(h_a,h_b,h_c) <-> (j_x,j_y,j_z)",
+    "defect_cycle": [
+      "space_norm(P)=W^2",
+      "space_norm(D(P))=Q_D",
+      "space_norm(D^2(P))=W^2"
+    ],
+    "strict_descent_obtained": false
+  },
+  "arsenal_boundary": {
+    "S34_W01_triggered": false,
+    "reason": "no finite exhaustive squareclass family or bounded shared-prime support theorem; Q_D square is not an original-endpoint requirement"
+  },
+  "result": {
+    "derived_defect_Q_D_explicit": true,
+    "completion_P2_plus_R2_equals_W2_QD": true,
+    "primitive_two_square_class_representative": true,
+    "G_factor_equals_ha_hb_hc_jx_jy_jz": true,
+    "Q_D_squarefree_support_only_odd_1mod4": true,
+    "derived_reservoir_triples_swap_under_involution": true,
+    "original_endpoint_forces_Q_D_square": false,
+    "S34_W01_triggered": false,
+    "finite_squareclass_family_obtained": false,
+    "strict_descent_obtained": false,
+    "new_branch_pruning_obtained": false,
+    "route_status": "PASS_EXACT_DERIVED_DEFECT_TWO_SQUARE_CLASS_AND_RESERVOIR_SWAP_FAIL_CLOSE_NO_REQUIRED_SQUARE_NO_PRUNING"
+  },
+  "next": {
+    "unit": "35EX-35_GOAL4BS_POST_BOUNDARY_DERIVED_BACKUP_PARKING_AUDIT",
+    "question": "with Goal4BQ blocked at rational realization and Goal4BR backup non-obstructive, perform fresh parking/breadth audit and select only a genuinely new source-fixed invariant or exact missing adapter"
+  },
+  "credit_firewall": {
+    "goal4bq_hostile_audited": false,
+    "goal4br_hostile_audited": false,
+    "derived_Q_D_square_required": false,
+    "finite_squareclass_receiver_obtained": false,
+    "S34_W01_applied": false,
+    "strict_descent_proved": false,
+    "branch_exclusion_obtained": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256": "d6793ec7438854df18d3a3335d7a513c2edab7f5fde4bcf7b9af75b98a3e67ea"
+}
