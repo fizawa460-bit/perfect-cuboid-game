@@ -1,0 +1,72 @@
+{
+  "schema": "STAGE32EX5_MAINBATCH_SYNTHESIS_V1",
+  "lane": "stage32ex5-mainbatch",
+  "base_scaffold_commit": "d1515745a768a743836f74381079e52f20fe4902",
+  "target": "BC2-01B_RUNTIME_NODE_COORDINATE_BRIDGE",
+  "status": "PASS_RETAINED_PENDING_HOSTILE_AUDIT",
+  "authority": "MAINBATCH_RETAINED_CHECKPOINT_NOT_DOWNSTREAM_CREDIT",
+  "decision": "BC2-01B_ACCEPTANCE_MATRIX_SATISFIED",
+  "load_bearing_lanes": {
+    "A": {"pr":1743,"head":"2593d86733b3c3a4c276bbbc180c6c52e4a97130","role":"exact source 48-node target/model adapter","status":"PASS_COMPONENT"},
+    "B": {"pr":1744,"head":"1e94d593ab248407a9efc766bdc85d46af6c1bb7","role":"runtime/retained 92-bit incidence fingerprint bridge","status":"PASS"},
+    "D": {"pr":1746,"head":"57f6c92525b0df0d9176440fd35b65dc1c98b900","role":"projective canonicalization hostile check","status":"PASS_COMPONENT"},
+    "H": {"pr":1750,"head":"3548d9dcbb5c6886ea5754ffae654e941639966c","role":"independent fresh-runtime node-set check and persistence-gap detection","status":"POSITIVE_CHECK_PLUS_RESOLVED_BLOCKER"}
+  },
+  "reconciled_lanes": {
+    "C": {"pr":1745,"head":"78e83a416cf91ea61b106ee15688904bdb57449d","reported":"BLOCKED_MISSING_HISTORICAL_92X48_MATCP_OR_EQUIVALENT_FINGERPRINT","resolution":"B exact fingerprint replay supplies the requested equivalent enumeration-invariant runtime-node fingerprint binding."},
+    "E": {"pr":1747,"head":"cbf6b75721b5c7ca4db9e6b8fdd255feee66bf12","reported":"BLOCKED_NO_DOCUMENTED_CANONICAL_POINTS_ORDER","resolution":"Accepted as a warning, not contradicted. The retained bridge uses incidence fingerprints and does not depend on Points(...) order being canonical across runtimes."}
+  },
+  "non_load_bearing_active_lanes": {
+    "F": {"pr":1748,"head":"d8c3b55f55bb5cb6136eb8dc30854aa4edc0f484","status":"INITIALIZED_OR_NO_CHECKPOINT_AT_SYNTHESIS","note":"alternative Picard reverse lookup; not needed to satisfy current acceptance matrix"},
+    "G": {"pr":1749,"head":"4e4512fb06cd9bdee380c2290174c786b57d2d8b","status":"ACTIVE_RESEARCH_NO_RESULT_ARTIFACT_AT_SYNTHESIS","note":"alternative geometric reverse adapter; not promoted or used as evidence"}
+  },
+  "mainbatch_exact_log_validation": {
+    "run_id": 34321118868,
+    "job_id": 102367754014,
+    "head": "1e94d593ab248407a9efc766bdc85d46af6c1bb7",
+    "conclusion": "success",
+    "observed": [
+      "node_records=48",
+      "indices_0_through_47=true",
+      "unique_normalized_points=true",
+      "fingerprint_arity_92=true",
+      "unique_runtime_fingerprints=true",
+      "unique_retained_fingerprints=true",
+      "runtime_to_retained_bijection=true",
+      "runtime_to_retained_identity_permutation=true",
+      "MAP rows 0..47 are all runtime k -> retained k",
+      "BIJECTION|48",
+      "STAGE32EX5_B_RESULT_OK"
+    ],
+    "point_table_sha256": "82f526ee6d10e6c7bf3bf871f70984c3b6043a076b31227b03d45c375b11a69a"
+  },
+  "retained_artifacts": [
+    "stages/stage32-ex5/breadth-cycle-2/bc2-01b-runtime-node-coordinate-bridge.json",
+    "stages/stage32-ex5/breadth-cycle-2/verify_bc2_01b_runtime_node_coordinate_bridge.py",
+    "stages/stage32-ex5/parallel/results/stage32ex5-mainbatch-synthesis.json"
+  ],
+  "acceptance": {
+    "source_target_48": "PASS",
+    "runtime_48_or_order_independent_adapter": "PASS",
+    "exact_bijection_48_48": "PASS",
+    "collision_omission": "PASS_0_0",
+    "reproducible_exact_inputs": "PASS",
+    "canonicalization": "PASS",
+    "hostile_ambiguity": "PASS_NO_UNRESOLVED_SCALE_SIGN_ORBIT_AMBIGUITY",
+    "historical_order_contract_needed": false
+  },
+  "resolved_smallest_blocker": "MISSING_DURABLE_EXACT_RUNTIME_TO_RETAINED_HISTORICAL_EXCEPTIONAL_PERMUTATION_FROM_FINGERPRINT_RUN",
+  "resolution": "Mainbatch fetched the exact successful fingerprint-aware workflow job log and persisted the exact 48-row identity mapping as a retained certificate. Identity is evidence from unique 92-bit fingerprint matching, not an assumption about Magma Points ordering.",
+  "next_boundary": "HOSTILE_AUDIT_OF_RETAINED_BC2_01B_ARTIFACT_AND_VERIFIER",
+  "after_audit_pass_only": "FULL178_BTVA_PROJECTIVE_SPAN_REPLAY_MAY_START",
+  "downstream_credit": {
+    "receiver_credit": false,
+    "stage32_main_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "FULL178_complete": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  }
+}
