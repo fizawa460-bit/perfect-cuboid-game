@@ -9,6 +9,8 @@ on:
       - 'stages/stage32/scratch/verify_q602_o210_forgetful_adapter_preflight_20260909.py'
       - 'stages/stage32/scratch/q602-o210-forgetful-adapter-post1500-origin-addendum-20260909.json'
       - 'stages/stage32/scratch/verify_q602_o210_forgetful_adapter_post1500_origin_20260909.py'
+      - 'stages/stage32/scratch/q602-o210-versioned-claim-bundle-20260909.json'
+      - 'stages/stage32/scratch/verify_q602_o210_versioned_claim_bundle_20260909.py'
       - '.github/workflows/stage32-scratch-q602-o210-forgetful-adapter.yml'
 
 permissions:
@@ -24,5 +26,7 @@ jobs:
         run: python stages/stage32/scratch/verify_q602_o210_forgetful_adapter_preflight_20260909.py
       - name: Verify Q602 Q(T) actual-correspondence origin
         run: python stages/stage32/scratch/verify_q602_o210_forgetful_adapter_post1500_origin_20260909.py
+      - name: Verify immutable adapter V1 and Q602 exclusion V2 claim cores
+        run: python stages/stage32/scratch/verify_q602_o210_versioned_claim_bundle_20260909.py
       - name: Diff hygiene
         run: git diff --check
