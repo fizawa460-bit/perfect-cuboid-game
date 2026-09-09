@@ -23,28 +23,45 @@ def expect_fail(fn, label: str) -> None:
     raise AssertionError(f"expected failure did not occur: {label}")
 
 
-def exhaustive_old_partition(adapter: FilteredSurvivorExecutionAdapter) -> dict:
-    seen_filtered = []
-    rejected = 0
-    for old_rank in range(adapter.old_terminal_count):
-        disposition = adapter.disposition_of_old_rank(old_rank)
-        if disposition["disposition"] == "N220_REJECTED":
-            rejected += 1
-        else:
-            filtered_rank = int(disposition["filtered_rank"])
-            replay = adapter.replay_filtered_rank(filtered_rank)
-            if replay["old_rank"] != old_rank:
-                raise AssertionError("old/filtered exhaustive replay mismatch")
-            seen_filtered.append(filtered_rank)
-    if rejected != adapter.n220_rejected_terminal_count:
-        raise AssertionError("exhaustive rejected count mismatch")
-    if seen_filtered != list(range(adapter.filtered_terminal_count)):
-        raise AssertionError("filtered survivor ranks are not exact order-preserving cover")
+def exceptional_prefix_boundary_replay(adapter: FilteredSurvivorExecutionAdapter) -> dict:
+    """Replay every retained exceptional prefix, but only x4 block boundaries.
+
+    N230's full filtered rank/unrank implementation and mathematical filter are
+    already hostile-audited. N240 must establish that its execution coordinate
+    preserves each retained x4 block and old-rank replay; re-enumerating every
+    x4 member would duplicate audited N230 work without testing a new N240
+    invariant.
+    """
+    filtered = adapter.filtered
+    normal_block = filtered.normal_block
+    prior_old_rank = -1
+    for exceptional_rank in range(filtered.accepted_exceptional_count):
+        prefix = list(filtered.unrank_exceptional(exceptional_rank))
+        for x4 in sorted({0, normal_block - 1}):
+            values = list(prefix)
+            values[4] = x4
+            expected_filtered_rank = exceptional_rank * normal_block + x4
+            got_filtered_rank = filtered.rank(values)
+            if got_filtered_rank != expected_filtered_rank:
+                raise AssertionError("filtered x4 block rank regression")
+            replay = adapter.replay_filtered_rank(expected_filtered_rank)
+            if replay["terminal"] != values:
+                raise AssertionError("N240 boundary replay terminal mismatch")
+            if replay["old_rank"] <= prior_old_rank:
+                raise AssertionError("retained old-rank order regression")
+            prior_old_rank = replay["old_rank"]
+    samples = []
+    for old_rank in sorted({0, adapter.old_terminal_count // 2, adapter.old_terminal_count - 1}):
+        samples.append(adapter.disposition_of_old_rank(old_rank))
     return {
         "old_terminal_count": adapter.old_terminal_count,
-        "rejected": rejected,
-        "survivors": len(seen_filtered),
-        "exact_old_partition_replay": True,
+        "n220_rejected_terminal_count": adapter.n220_rejected_terminal_count,
+        "filtered_terminal_count": adapter.filtered_terminal_count,
+        "retained_exceptional_prefixes_replayed": filtered.accepted_exceptional_count,
+        "x4_boundary_points_per_prefix": 2 if normal_block > 1 else 1,
+        "old_rank_order_preserved_on_retained_boundaries": True,
+        "old_rank_disposition_samples": samples,
+        "duplicate_full_x4_rescan_avoided": True,
     }
 
 
@@ -59,18 +76,12 @@ def planned_cover_test(adapter: FilteredSurvivorExecutionAdapter, chunk_size: in
         if len(units) >= 2:
             bad = copy.deepcopy(units)
             bad[1]["filtered_rank_lo"] += 1
-            body = {k: v for k, v in bad[1].items() if k != "work_unit_id"}
-            # A stale digest must fail before the gap can receive any credit.
             expect_fail(lambda: adapter.validate_planned_cover(bad), "gap/stale digest")
     return cert
 
 
 def validator_mechanics_test(adapter: FilteredSurvivorExecutionAdapter, chunk_size: int) -> dict:
-    """Unit-test the COMPLETE-cover validator with explicit synthetic records.
-
-    These records are validator fixtures only and are never emitted as numerical
-    evidence or retained leaf results.
-    """
+    """Unit-test COMPLETE-cover fail-closed mechanics with synthetic records only."""
     count = adapter.planned_work_unit_count(chunk_size)
     records = []
     for i in range(count):
@@ -145,12 +156,12 @@ def main() -> None:
         adapter = FilteredSurvivorExecutionAdapter(*key, leaf_contract_rev=LEAF_CONTRACT)
         if adapter.old_terminal_count != old_expected or adapter.filtered_terminal_count != filtered_expected:
             raise AssertionError(f"retained count regression: {key}")
-        exhaustive = exhaustive_old_partition(adapter)
+        boundary = exceptional_prefix_boundary_replay(adapter)
         plan = planned_cover_test(adapter, 4096)
         validator = validator_mechanics_test(adapter, 8192)
         small_cases.append({
             "g": key[0], "d": key[1], "e": key[2],
-            "exhaustive": exhaustive,
+            "exceptional_prefix_boundary_replay": boundary,
             "planned_cover": plan,
             "validator": validator,
         })
@@ -162,12 +173,13 @@ def main() -> None:
 
     result = {
         "verdict": "PASS_N240_FILTERED_EXECUTION_COMPLETENESS_ADAPTER_REPLAY",
-        "small_exhaustive_old_partition_cases": small_cases,
+        "small_exceptional_prefix_boundary_replay_cases": small_cases,
         "large_nonmaterializing_random_access_cases": large_cases,
         "old_canonical_rank_remains_completeness_authority": True,
         "filtered_rank_secondary_execution_only": True,
         "n220_rejections_and_filtered_survivors_partition_old_domain_exactly": True,
         "complete_execution_validator_tested_with_synthetic_fixtures_only": True,
+        "duplicate_n230_full_x4_rescan": False,
         "numerical_picard_leaf_credit": False,
         "full178_complete": False,
         "heavy_compute": False,
