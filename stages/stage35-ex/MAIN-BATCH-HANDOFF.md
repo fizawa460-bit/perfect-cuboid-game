@@ -1,105 +1,107 @@
-# Stage35-EX MAIN batch handoff — Goal4AU provisional cross-face marked Kummer coupling
+# Stage35-EX MAIN batch handoff — Goal4AV provisional common coefficient package / non-pruning common-cover verdict
 
-Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4AU are a provisional stacked research surface on PR #1723 and grant no E1, Stage35, endpoint, or Perfect Cuboid credit.
+Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4AV are a provisional stacked research surface on PR #1723 and grant no E1, Stage35, endpoint, or Perfect Cuboid credit.
 
 ## Exact-green parent
 
-Goal4AT verifier repair is green at:
+Goal4AU is green at:
 
-- head: `f499b3e8b4f3e723b1046e2eff0e9f8ac3be24a5`
-- aggregate run: `34291537497`
-- `verify-stage35-ex-current`: `102280319029`
+- head: `2e9972a64cfa31d2116ea70a9728a64cb083b5e3`
+- aggregate run: `34292248229`
+- `verify-stage35-ex-current`: `102282485273`
 - conclusion: `SUCCESS`
 
-Goal4AT reduced the physical marked Kummer class to
+Goal4AU proved the exact source-marked relation
 
 ```text
-d=[(2BC)/G],
-G=gcd(D_AB*D_AC-BC,D_AB*D_AC+BC),
-G|2BC.
+K_A*K_B*K_C=S^2,
+d_A*d_B*d_C=1 in Q*/Q*^2,
 ```
 
-## Goal4AU provisional exact result
-
-Using the primitive pair-gcd decomposition
+with
 
 ```text
-A=x*y*a,
-B=x*z*b,
-C=y*z*c
+K_A=z^2*k_A*b0*c0,
+K_B=y^2*k_B*a0*c0,
+K_C=x^2*k_C*a0*b0,
+S=2*x*y*z*a0*b0*c0.
 ```
 
-and reduced primitive face hypotenuses `r_AB,r_AC,r_BC`, define
+## Goal4AV provisional exact result
+
+The three marked Kummer lines can be extracted into the common coefficient group
 
 ```text
-h_a=gcd(a,r_BC),
-h_b=gcd(b,r_AC),
-h_c=gcd(c,r_AB).
+H^1(Q,mu_2)=Q*/Q*^2,
+chi_A=[K_A], chi_B=[K_B], chi_C=[K_C],
+chi_A+chi_B+chi_C=0.
 ```
 
-For the three cyclic Goal4AT relabelings:
+This gives an exact common coefficient torsor package. If
 
 ```text
-G_A=x*y*epsilon_A*h_b*h_c,
-G_B=x*z*epsilon_B*h_a*h_c,
-G_C=y*z*epsilon_C*h_a*h_b,
+T_A: t_A^2=K_A,
+T_B: t_B^2=K_B,
+T_C: t_C^2=K_C,
 ```
 
-where each `epsilon_i` is `1` or `2`, and the primitive parity dictionary forces **exactly one** `epsilon_i=2`. Therefore `epsilon_A*epsilon_B*epsilon_C=2`.
-
-Put
+then the product has two sign components because
 
 ```text
-a0=a/h_a, b0=b/h_b, c0=c/h_c,
-k_A=2/epsilon_A, k_B=2/epsilon_B, k_C=2/epsilon_C.
+(t_A*t_B*t_C/S)^2=1.
 ```
 
-The canonical positive Goal4AT representatives factor literally as
+On the positive component,
 
 ```text
-K_A=(2BC)/G_A=z^2*k_A*b0*c0,
-K_B=(2AC)/G_B=y^2*k_B*a0*c0,
-K_C=(2AB)/G_C=x^2*k_C*a0*b0,
+t_A*t_B*t_C=S,
+t_C=S/(t_A*t_B),
 ```
 
-with `k_A*k_B*k_C=4`, hence
+so
 
 ```text
-K_A*K_B*K_C=(2*x*y*z*a0*b0*c0)^2.
+Q(sqrt(K_A),sqrt(K_B),sqrt(K_C))
+ = Q(sqrt(K_A),sqrt(K_B))
 ```
 
-Thus the three source-marked residual Kummer squareclasses satisfy the exact cross-face relation
+and the common coefficient extension has degree at most four.
+
+This does **not** produce a common endpoint 2-cover obstruction. A physical marked point may carry a nonzero Kummer class. Requiring a rational point on the biquadratic coefficient torsor would be equivalent to requiring
 
 ```text
-d_A*d_B*d_C=1 in Q*/Q*^2.
+d_A=d_B=d_C=1,
 ```
 
-The associated reservoir map has rows
+which is exactly the unproved conclusion, not an endpoint hypothesis. Formally `(u,v,u*v)` gives arbitrary nontrivial product-one triples, so the relation retains two independent squareclass parameters.
+
+The three cyclic Goal4L elliptic curves / `E_i[2]` modules / local Selmer conditions are not identified, and no inter-curve isogeny or common Selmer complex is source-locked. Hence no Cassels-pairing identity or obstruction is obtained.
+
+Route classification for the concrete Goal4AU product-one mechanism:
 
 ```text
-0 1 1
-1 0 1
-1 1 0
+NEW_COMMON_SELMER_OR_CASSELS_COUPLING
+  -> BLOCKED_NONPRUNING_COEFFICIENT_TORSOR_SHADOW
 ```
 
-and rank two over `F_2`, with diagonal kernel `(1,1,1)`. So this is a new exact source-marked coupling, but it does **not** force any `d_i=1` and gives no branch pruning by itself. It is not yet a common 2-cover, Selmer complex, or Cassels-pairing obstruction.
+This blocks only the current mechanism; a future revival would require a genuinely new source-compatible transport between the three 2-torsion/Selmer structures.
 
 Artifacts:
 
-- `stages/stage35-ex/35ex-35/goal4au-three-direction-marked-kummer-gcd-allocation-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4au-three-direction-marked-kummer-gcd-allocation.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4au_three_direction_marked_kummer.py`
+- `stages/stage35-ex/35ex-35/goal4av-cross-face-marked-kummer-common-cover-source-lock.md`
+- `stages/stage35-ex/35ex-35/goal4av-cross-face-marked-kummer-common-cover.json`
+- `stages/stage35-ex/verify_stage35_ex_35_goal4av_common_cover.py`
 
 ## Freshness
 
-Current `main` observed before the Goal4AU commit is `119e24100dd943cadef39df783a7b5de7b3a5704`. PR #1723 is ahead 37 / behind 7 from merge-base `42f20e47babdfdda068a605e3fec489eeace460c`. The seven main-side commits inspected change Stage32-EX1 / Stage32-EX5 / Stage32 routing and Stage36 material; no Stage35-EX mathematical source drift was observed. No freshness credit is claimed and no sync is performed in this provisional leaf.
+Current `main` observed before Goal4AV is `119e24100dd943cadef39df783a7b5de7b3a5704`. PR #1723 is ahead 38 / behind 7 from merge-base `42f20e47babdfdda068a605e3fec489eeace460c`. The seven main-side commits are Stage32-EX1 / Stage32-EX5 / Stage32 routing and Stage36 changes; no Stage35-EX mathematical source drift was observed. No freshness credit is claimed and no sync is performed in this provisional leaf.
 
 ## Next exact leaf
 
 ```text
-35EX-35_GOAL4AV_CROSS_FACE_MARKED_KUMMER_COMMON_COVER_PREFLIGHT
+35EX-35_GOAL4AW_MARKED_ELLIPTIC_HEIGHT_LOWER_VS_GOAL4M_UPPER_PREFLIGHT
 ```
 
-Test whether `d_A*d_B*d_C=1` lifts to a source-derived common 2-cover / fiber product / Cassels-pairing constraint that excludes the physical marked triple. If the relation remains only a rank-two squareclass shadow, freeze it as non-pruning before switching route.
+Move to the quantitative marked-point route: compare a source-locked explicit canonical-height lower bound on the physical Goal4L non-torsion point with the exact Goal4M `O(log B)` endpoint upper window, including constants and parameter-height adapters. Only a strict asymptotic/constant win may be credited as eventual elimination.
 
 No merge. No hostile-audit credit is added by this handoff.
