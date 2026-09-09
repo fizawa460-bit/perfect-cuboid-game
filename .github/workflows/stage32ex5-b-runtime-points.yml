@@ -20,7 +20,12 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact retained-matrix dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
       - name: Export exact Stoll runtime singular points
-        run: python3 stages/stage32-ex5/parallel/lane-b/run_magma_runtime_points.py
+        run: python stages/stage32-ex5/parallel/lane-b/run_magma_runtime_points.py
       - name: Verify retained B-lane handoff
-        run: python3 stages/stage32-ex5/parallel/lane-b/verify_stage32ex5_b_result.py
+        run: python stages/stage32-ex5/parallel/lane-b/verify_stage32ex5_b_result.py
