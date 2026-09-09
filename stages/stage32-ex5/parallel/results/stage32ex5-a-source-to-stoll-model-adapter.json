@@ -1,0 +1,76 @@
+{
+  "schema": "STAGE32EX5_A_SOURCE_TO_STOLL_MODEL_ADAPTER_V1",
+  "authority": "SCRATCH_ONLY",
+  "purpose": "Pin the exact coordinate/model identification between the BTVA perfect-cuboid surface and the Stoll Verification runtime surface before any attempt to identify runtime point ordering.",
+  "btva_source": {
+    "arxiv": "1912.08908v3",
+    "paper_locator": "p.4, perfect-cuboid complete-intersection display and Theorem 1.2",
+    "ancillary_locator": "https://arxiv.org/src/1912.08908v3/anc/perfectcuboid.out",
+    "coordinate_order": ["x1", "x2", "x3", "y1", "y2", "y3", "z"],
+    "complete_intersection_equations": [
+      "x2^2+x3^2-y1^2",
+      "x3^2+x1^2-y2^2",
+      "x1^2+x2^2-y3^2",
+      "x1^2+x2^2+x3^2-z^2"
+    ],
+    "singular_support_fact": "Over Q(i), ancillary computation sets sing := Support(SingularSubscheme(X)) and asserts #sing eq 48."
+  },
+  "stoll_source": {
+    "repo": "MichaelStollBayreuth/Verification",
+    "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+    "path": "Cuboids/cuboids.magma",
+    "blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+    "coordinate_order": ["a1", "a2", "a3", "b1", "b2", "b3", "c"],
+    "complete_intersection_equations": [
+      "a1^2+a2^2-b3^2",
+      "a2^2+a3^2-b1^2",
+      "a1^2+a3^2-b2^2",
+      "a1^2+a2^2+a3^2-c^2"
+    ],
+    "singular_support_fact": "Runtime code defines pts := Points(SingularSubscheme(S)) and asserts #pts eq 48."
+  },
+  "coordinate_map": {
+    "x1": "a1",
+    "x2": "a2",
+    "x3": "a3",
+    "y1": "b1",
+    "y2": "b2",
+    "y3": "b3",
+    "z": "c"
+  },
+  "equation_correspondence": [
+    {
+      "btva": "x1^2+x2^2-y3^2",
+      "stoll": "a1^2+a2^2-b3^2",
+      "relation": "IDENTICAL_AFTER_COORDINATE_RENAME"
+    },
+    {
+      "btva": "x2^2+x3^2-y1^2",
+      "stoll": "a2^2+a3^2-b1^2",
+      "relation": "IDENTICAL_AFTER_COORDINATE_RENAME"
+    },
+    {
+      "btva": "x1^2+x3^2-y2^2",
+      "stoll": "a1^2+a3^2-b2^2",
+      "relation": "IDENTICAL_AFTER_COORDINATE_RENAME"
+    },
+    {
+      "btva": "x1^2+x2^2+x3^2-z^2",
+      "stoll": "a1^2+a2^2+a3^2-c^2",
+      "relation": "IDENTICAL_AFTER_COORDINATE_RENAME"
+    }
+  ],
+  "conclusion": {
+    "same_projective_model_after_coordinate_rename": true,
+    "lane_a_node_table_transports_to_stoll_projective_coordinate_system": true,
+    "runtime_pts_order_identified": false,
+    "exceptional_index_to_node_label_identified": false,
+    "reason_order_unbridged": "An identity of projective models does not identify the ordering returned by Points(SingularSubscheme(S)) with Lane-A deterministic formula labels."
+  },
+  "firewalls": {
+    "magma_points_iteration_order_treated_as_canonical": false,
+    "bc2_01b_runtime_bridge_complete": false,
+    "full178_span_replay_allowed": false,
+    "stage32_credit": false
+  }
+}
