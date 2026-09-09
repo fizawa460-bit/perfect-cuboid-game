@@ -93,3 +93,5 @@ jobs:
           remote_sha="$(git rev-parse "origin/${GITHUB_REF_NAME}")"
           test "$remote_sha" = "$GITHUB_SHA"
           git push origin HEAD:"${GITHUB_REF_NAME}"
+
+# Re-triggered after hostile-audit FAIL 5154687072: restore H checkpoint, then consume exact H PASS.

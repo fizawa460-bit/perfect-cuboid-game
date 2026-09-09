@@ -35,16 +35,22 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          frontier="$(python - <<'PY'
+          readarray -t checkpoint < <(python - <<'PY'
           import json
           from pathlib import Path
           state=json.loads(Path('stages/stage33/MAIN-STATE.json').read_text())
           print(state.get('work_checkpoint',{}).get('frontier',''))
+          print(state.get('canonical_sha256',''))
           PY
-          )"
+          )
+          frontier="${checkpoint[0]:-}"
+          state_sha="${checkpoint[1]:-}"
+          expected_frontier='V91C1X_R5B3B3C4B2B2F_STAGE33_11E_ACTUAL_DIRECT_PRIME_TRANSPORT_REPLAY'
+          expected_state_sha='f4c442670386b7ac270e95dd36070415ae2b542df313769023e7d86c3534a7b4'
           echo "observed_frontier=$frontier"
-          if [[ "$frontier" == *"C4B2B2G"* ]]; then
-            echo 'C4B2B2F freshness lane is superseded by C4B2B2G; no mutation permitted.'
+          echo "observed_state_sha=$state_sha"
+          if [[ "$frontier" != "$expected_frontier" || "$state_sha" != "$expected_state_sha" ]]; then
+            echo 'C4B2B2F freshness lane is not at its exact live checkpoint; no mutation permitted.'
             echo 'pushed=superseded' >> "$GITHUB_OUTPUT"
             exit 0
           fi
@@ -124,4 +130,4 @@ jobs:
           echo "EXACT_HEAD_SUCCESS=$(git rev-parse HEAD)"
           echo "CURRENT_MAIN_INCLUDED=$main_sha"
 
-# C4B2B2G supersession guard: this workflow becomes read-only once G is the operational frontier.
+# Exact live-checkpoint guard: this lane is write-capable only at the locked C4B2B2F state.
