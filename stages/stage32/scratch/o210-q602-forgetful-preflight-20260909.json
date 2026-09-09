@@ -1,0 +1,76 @@
+{
+  "schema": "STAGE32_MAIN_SCRATCH_O210_TO_Q602_FORGETFUL_PREFLIGHT_V1",
+  "status": "SCRATCH_PREFLIGHT_NO_AUTHORITY_NO_CLAIM_SYNC",
+  "stage": 32,
+  "branch": "stage32-main-scratch-o210-q602-forgetful-preflight-20260909",
+  "base_exact_head": "ceeac85cb70b7765380dd31b210f0b38423fa86c",
+  "base_pr": 1730,
+  "base_remap_audit_status": "HOSTILE_REAUDIT_PENDING_AFTER_VERIFIER_REPAIR",
+  "audited_o210_handoff": {
+    "source_pr": 1714,
+    "claim_id": "S32.O210.EXCLUSION.V3",
+    "claim_core_sha256": "7003e228cbb0273e1ac6352bd9535a5f10ca5964bc6d4072130d20012aaec824",
+    "audit_receipt": {
+      "status": "PASS",
+      "review_id": 5147304889,
+      "exact_head": "040dfb6c7e1dc40573866bb10f62e93419121711"
+    },
+    "synced_source_branch_clean_head": "d7ce5678966c80c04af27f178890bf142451d061",
+    "main_routing_credit_consumed": false
+  },
+  "current_q602_goal": {
+    "claim_id": "S32.Q602.EXCLUSION.V1",
+    "claim_core_sha256": "f19153e76ff2eab160545aaa4cd4cd2a093d2ec4501f82877f66f6e320f62c35",
+    "scope_key": "S32.Q602.ARITHMETIC",
+    "row_id": "g1-d186",
+    "O": 210,
+    "Q": 602,
+    "input_survivors": [73, 97, 235],
+    "target": "all_residues_excluded"
+  },
+  "audited_survivor_input": {
+    "claim_id": "S32.Q602.SURVIVORS_73_97_235.V1",
+    "claim_core_sha256": "cfa846ef6de8e2d8d3ffb6ffe3828fdf8cd55b371afdef88d40fd6e02bd13840",
+    "authority_status": "AUDITED",
+    "surviving_residues": [73, 97, 235]
+  },
+  "typed_forgetful_map": {
+    "domain": "current_Q602_admissible_configuration_population_at_g1_d186_O210_Q602",
+    "codomain": "current_O210_carrier_cover_population_at_g1_d186_V6_qprime4",
+    "map": "forget_Q602_marking_residue_and_correspondence_arithmetic_keep_underlying_carrier_cover",
+    "total_on_domain": true,
+    "source_semantics": [
+      "S32.Q602.EXCLUSION.V1 scope explicitly fixes row g1-d186 and O=210.",
+      "EX3-09 fixed target puts Q=602 and residues [73,97,235] on the same hypothetical integral irreducible genus-1 V6/O210/qprime=4 carrier.",
+      "EX3-09 terminal chain uses the Q602 spectrum as a necessary invariant of that same carrier/correspondence, not as a population filter.",
+      "Audited S32.O210.EXCLUSION.V3 excludes the full underlying O210 carrier/cover population."
+    ]
+  },
+  "logical_consequence": {
+    "o210_population_empty_implies_q602_admissible_population_empty": true,
+    "survivor_arithmetic_receipt_revoked": false,
+    "historical_survivors_remain_valid_conditional_arithmetic_data": true,
+    "residue_specific_exclusion_proof_required_if_population_empty_adapter_is_audited": false,
+    "candidate_new_adapter_claim_id": "S32.ADAPTER.O210_EMPTY_TO_Q602_ADMISSIBLE_EMPTY.V1",
+    "candidate_new_q602_claim_id": "S32.Q602.EXCLUSION.V2",
+    "reason_for_version_bump": "Adding the audited O210 dependency and forgetful-population semantics changes immutable claim-core fields relative to Q602.EXCLUSION.V1."
+  },
+  "promotion_gate": {
+    "pr1730_hostile_reaudit_pass_required_before_main_authority_mutation": true,
+    "o210_v3_must_be_consumed_into_current_main_routing_first": true,
+    "q602_adapter_requires_separate_hostile_audit": true,
+    "claim_sync_trigger": "EX_TO_MAIN_PROMOTION_OR_AUTHORITY_TRANSITION",
+    "scratch_grants_o210_credit": false,
+    "scratch_grants_q602_credit": false,
+    "scratch_changes_active_frontier": false
+  },
+  "firewalls": {
+    "stage32_closed": false,
+    "full178_complete": false,
+    "o212_plus_advance_allowed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "52bc9c8ba3fe2e81dbe2e29992cd4e44cdac6ce886a401eb4ea7ecbea42269a5"
+}
