@@ -1,0 +1,20 @@
+name: Stage32 32-01-178 N240 filtered execution adapter
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-01-178/nodes/N240/**'
+      - '.github/workflows/stage32-01-178-n240-filtered-execution-adapter.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify N240 filtered survivor execution/completeness adapter
+        run: python stages/stage32/32-01-178/nodes/N240/verify_n240_filtered_survivor_execution_adapter.py
