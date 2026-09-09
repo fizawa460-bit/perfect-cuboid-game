@@ -1,103 +1,115 @@
-# Stage35-EX MAIN batch handoff — Goal4BJ support-cleaned global Gaussian quartic orientation carrier
+# Stage35-EX MAIN batch handoff — Goal4BK fixed-i quartic dual and two-adic ray-class boundary
 
-Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BJ are provisional stacked leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
+Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BK are provisional stacked leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
 
 ## Exact-green parent
 
-Goal4BI is exact-green:
+Goal4BJ is exact-green:
 
-- exact head: `933e32403c2f87b65ac3e962647c59e71a35a291`
-- aggregate: `34312324963`
-- `verify-stage35-ex-current`: `102342539462`
+- exact head: `ffbb6ee4864490113bfa551fb1e14614c30f5051`
+- aggregate: `34312988913`
+- `verify-stage35-ex-current`: `102344458981`
 - result: `SUCCESS`
 
-Goal4BI fail-closed ordinary rational Hilbert reciprocity: reservoir primes split in `Q(i)`, so rational squareclasses/norms cannot see the `p_i` versus `bar(p_i)` orientation.
-
-## Goal4BJ provisional exact result
-
-Use the BF squarefree primary reservoir kernels and BG primary space square roots. In direction `a`, define unique primary Gaussian gcds
+Goal4BJ constructed the source-canonical support-cleaned Gaussian carrier
 
 ```text
-M_a^- = gcd(Sigma_a,Psi_a),
-M_a^+ = gcd(Sigma_a,bar(Psi_a)),
-M_a^0 = Sigma_a/(M_a^-*M_a^+).
+Xi=Xi_a*Xi_b*Xi_c
 ```
 
-Because the reduced space triple is primitive, `Psi_a` and `bar(Psi_a)` are coprime. Hence
+with selected-reservoir valuations `+1,-1,0` encoding `sigma=-1,+1,nonsecondary`, and proved that `[Xi]_4` retains the information while `[Xi]_2` does not.
+
+## Goal4BK provisional exact result
+
+The ambient Gaussian field already supplies a canonical order-four dual character. For odd primary Gaussian `alpha`, set
 
 ```text
-Sigma_a=M_a^-*M_a^+*M_a^0
+chi_i(alpha)=(i/alpha)_4.
 ```
 
-is an exact pairwise-coprime partition. Since every factor is a literal divisor of `Sigma_a`, no non-reservoir Gaussian prime enters the package.
-
-For a BF-selected prime `p_{a,ell}`:
+For `Xi=N/D`, extend multiplicatively by
 
 ```text
-p|M_a^-  <=> secondary and sigma_a=-1,
-p|M_a^+  <=> secondary and sigma_a=+1,
-p|M_a^0  <=> no secondary orientation.
+chi_i(Xi)=chi_i(N)*chi_i(D)^(-1).
 ```
 
-Define cyclically
+At a selected prime `pi`, the local contribution is
 
 ```text
-Xi_a=M_a^-/M_a^+,
-Xi_b=M_b^-/M_b^+,
-Xi_c=M_c^-/M_c^+,
-Xi=Xi_a*Xi_b*Xi_c.
+chi_i(pi)^(v_pi(Xi)).
 ```
 
-The supports are disjoint across `a,b,c`. At each selected reservoir prime,
+When `chi_i(pi)` has order four this distinguishes the orientation exponent `+1` from `-1`.
+
+The standard supplementary law for primary `alpha=A+B*i` is
 
 ```text
-v_p(Xi)=+1  for sigma=-1,
-v_p(Xi)=-1  for sigma=+1,
-v_p(Xi)=0   for nonsecondary.
+(i/alpha)_4=i^((1-A)/2).
 ```
 
-Thus all non-reservoir finite support is cleaned exactly, and the single class
+Primary normalization fixes
 
 ```text
-[Xi]_4 in Q(i)^*/Q(i)^{*4}
+A odd, B even, A+B=1 mod 4,
 ```
 
-recovers the orientation because the local exponents are `1,3,0 mod 4`. The quadratic class cannot: `+1` and `-1` are identical modulo `2`. Hence even Gaussian quadratic `K_2`/Hilbert data is too coarse; the surviving datum is genuinely quartic.
-
-Also
+but not `A mod 8`. Thus the fixed-unit character is not constant on the primary class. Ambient primary-prime diagnostics already give
 
 ```text
-J=Xi/bar(Xi),
-N(J)=1,
+-1+2i  (N=5)  -> chi_i=i,
+ 3+2i  (N=13) -> chi_i=-i,
+ 1+4i  (N=17) -> chi_i=1.
 ```
 
-is a global norm-one anti-invariant carrier. This gives no obstruction by itself because `J=Xi/bar(Xi)` is already an explicit Hilbert-90 presentation.
+These examples are not endpoint claims; they certify that primary normalization plus `ell=1 mod4` alone cannot fix the quartic value.
+
+Hence the global odd-prime orientation product
+
+```text
+product chi_i(pi)^(v_pi(Xi))=chi_i(Xi)
+```
+
+is balanced by a deeper ramified `2`-adic/ray-class factor. Goal4BJ gives only
+
+```text
+Xi == 1 mod (1+i)^3,
+```
+
+which is insufficient to make that factor constant.
+
+Natural complementary source cofactors do not yet repair this. In direction `a`, the exact secondary residue ratio is
+
+```text
+C_a^S/C_a^F == sigma_a*x*(a/ell^m)/c mod p_a,
+```
+
+with cyclic analogues. The normalization `a/ell^m` is prime-dependent, and the nonvanishing space cofactor itself depends on `sigma_a`, so no fixed global source second slot is obtained. BH Hensel leading units are likewise prime-local.
 
 Exact route status:
 
 ```text
-support-cleaning adapter = obtained;
-global Gaussian orientation carrier = obtained;
-quartic class recovers sigma = yes;
-quadratic K2/Hilbert recovers sigma = no;
-norm-one carrier itself obstructive = no;
-dual order-four character = not constructed;
-global quartic reciprocity contradiction = no;
+canonical fixed-i quartic dual = obtained;
+local orientation sensitivity = yes;
+chi_i(Xi) source-fixed constant = no;
+primary congruence sufficient = no;
+two-adic/ray-class compensator = remains;
+natural cofactor fixed dual = not obtained;
+global quartic contradiction = no;
 branch pruning = no.
 ```
 
 Artifacts:
 
-- `stages/stage35-ex/35ex-35/goal4bj-global-gaussian-k2-quartic-character-adapter-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4bj-global-gaussian-k2-quartic-character-adapter.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4bj_global_gaussian_orientation_carrier.py`
+- `stages/stage35-ex/35ex-35/goal4bk-fixed-i-quartic-dual-two-adic-ray-class-source-lock.md`
+- `stages/stage35-ex/35ex-35/goal4bk-fixed-i-quartic-dual-two-adic-ray-class.json`
+- `stages/stage35-ex/verify_stage35_ex_35_goal4bk_fixed_i_quartic_dual.py`
 
 ## Next exact leaf
 
 ```text
-35EX-35_GOAL4BK_DUAL_QUARTIC_CHARACTER_COFACTOR_UNIT_PREFLIGHT
+35EX-35_GOAL4BL_XI_TWO_ADIC_RAY_CLASS_PARITY_PREFLIGHT
 ```
 
-Use complementary Gaussian face/space cofactors and the BH leading units to seek one source-derived order-four dual character of `[Xi]_4`. A viable candidate must have controlled local value at every selected reservoir prime and controlled support elsewhere; otherwise fail-close the Gaussian reciprocity branch.
+Compute the source-canonical deeper `2`-adic/ray-class residue of `M_i^-/M_i^+` and `Xi` beyond primary normalization, using the three primitive parity branches and the face/space primary square-root units. Test whether `chi_i(Xi)` is forced. Only then can the fixed-unit quartic reciprocity identity become a nontrivial sigma relation.
 
 No merge. No hostile-audit credit. `MAIN-STATE.json` remains V74 / Goal4AK.
