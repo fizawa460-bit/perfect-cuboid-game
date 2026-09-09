@@ -1,0 +1,82 @@
+{
+  "schema": "STAGE32_32_01_178_N105_REENTRY_CHECKPOINT_V1",
+  "node_id": "N105",
+  "lane": "stage32-01-178-e",
+  "branch": "stage32-01-178-lane-e-g1",
+  "checkpoint": "N105_REENTRY_20260909_02_BC2_PROTOTYPE_GATE",
+  "status": "PARTIAL_PREREQUISITE_MATERIALIZED_BUT_N150_GATE_STILL_CLOSED",
+  "source_locks": {
+    "ex5_pr": 1742,
+    "ex5_pr_head": "b45d51237e78901bc5184d0e90b99359f89a83a8",
+    "ex5_pr_state": "OPEN_DRAFT_UNMERGED",
+    "indexed_completion_script": "stages/stage32-ex5/breadth-cycle-2/bc2_02_one_indexed_full178_terminal_to_picard64_completion.py",
+    "indexed_completion_script_blob": "6b4c3514b5b4cbccd8e66cbffc7f61f8830d1633",
+    "exact_head_workflow_run": 34341848897,
+    "indexed_terminal_job": 102434604064,
+    "n150_path": "stages/stage32/32-01-178/nodes/N150/STATE.json",
+    "n150_blob": "44e6cb3a453977c9d22fe66a6a2a0d20f09cb6d6"
+  },
+  "new_external_fact": {
+    "bridge_code_now_exists": true,
+    "previous_missing_unit_changed": "indexed terminal -> integral Picard64 completion is no longer merely a proposed next unit; an executable bounded prototype now exists on PR#1742",
+    "prototype_target": {
+      "row_id": "g1-d008",
+      "genus": 1,
+      "degree": 8,
+      "e": 4,
+      "terminal_rank": 0,
+      "terminal_count_in_stratum": 36575
+    },
+    "exact_completion_system": {
+      "integer_variables": 64,
+      "all140_pairing_nonnegativity": true,
+      "degree_equality": true,
+      "exceptional_mass_equality": true,
+      "indexed_terminal_pairing_equalities": 11,
+      "imports_21az_fixed_projection_prism": false,
+      "imports_21bk_21bh_21bi_21bj_chain_bands": false
+    },
+    "exact_head_result": {
+      "workflow_conclusion": "SUCCESS",
+      "solver": "Z3_QF_LIA",
+      "solver_timeout_ms": 60000,
+      "solver_result": "UNKNOWN",
+      "artifact_status": "PASS_BOUNDED_PROTOTYPE_UNKNOWN_NO_COMPLETION_CREDIT",
+      "canonical_sha256": "2ad5da4878cdd62400b2c0d6cba7fc9bb772c68ad8d4b46a9a332bc775449936",
+      "projection_z": null,
+      "node_support_consumer_invoked": false
+    }
+  },
+  "audit_gate": {
+    "bc2_02_new_head_hostile_audit_found": false,
+    "latest_pr1742_review_scope": "BC2-01B exact adapter checkpoint only",
+    "n150_status": "BLOCKED",
+    "n150_retained_result": null,
+    "current_target_consumption_authorized": false,
+    "reason": "N150 requires a retained/audited FULL178-target-compatible producer/result plus explicit adapter. The new bounded BC2-02 prototype is executable but returned UNKNOWN and has no hostile-audit retention at the new exact head."
+  },
+  "n105_route_refinement": {
+    "picard_modular_completion": {
+      "status": "UNTESTED_READY_AFTER_AUDIT_GATE",
+      "previous_blocker_refined": "The exact model shape is now concrete on PR#1742; the remaining blocker is audited/retained consumption through N150, not absence of executable completion code.",
+      "first_sound_test_after_gate": "Form the exact equality lattice from degree, exceptional mass, the 11 indexed terminal pairings, and any source-locked integral lattice relations; reduce those equalities modulo small primes. If the equality system has no residue solution, reject exactly the addressed terminal/stratum. Do not naively reduce >=0 inequalities modulo p.",
+      "monotonicity_requirement": "Any residue rejection must be a necessary consequence of the exact integral completion system and must preserve the exact terminal-rank preimage."
+    },
+    "picard_dual_infeasibility": {
+      "status": "UNTESTED_READY_AFTER_AUDIT_GATE",
+      "first_sound_test_after_gate": "If modular equalities are locally soluble, test exact rational LP infeasibility on the same bounded completion system; only then escalate to proof-producing integer infeasibility if the LP relaxation is feasible.",
+      "certificate_scope": "one explicitly keyed terminal/stratum only until a population-preserving lift is proved"
+    }
+  },
+  "decision": "DO_NOT_DUPLICATE_EX5_OR_PROMOTE_UNKNOWN_RESULT",
+  "credit": {
+    "route_discovery": true,
+    "full178": false,
+    "receiver": false,
+    "stage32_main": false,
+    "theorem": false,
+    "endpoint": false
+  },
+  "next_action": "Return this checkpoint to N190/mainbatch. Re-enter N105 only after a hostile-audited/retained BC2-02 completion interface is consumed by N150. Then run the modular equality-lattice obstruction first on one bounded indexed terminal, followed by exact dual infeasibility only if modular local solvability persists.",
+  "merge_authorized": false
+}
