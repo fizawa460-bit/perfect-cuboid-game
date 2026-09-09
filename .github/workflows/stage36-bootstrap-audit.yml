@@ -53,7 +53,12 @@ jobs:
         run: |
           set -euo pipefail
           python3 stages/stage36/verify_stage36_36_09EC.py
-      - name: Assert V236 EC promotion and ED unlock
+      - name: Verify 36-09ED dyadic MW saturation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09ED.py
+      - name: Assert V237 provisional ED and EE relock
         shell: bash
         run: |
           set -euo pipefail
@@ -61,32 +66,29 @@ jobs:
           import json, subprocess
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          ec=json.loads(Path('stages/stage36/36-09EC/fixed-p2-factor-proselmer-mw-closure-preflight.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V236_36_09EC_EXACT_GREEN_ED_UNLOCKED'
-          assert s['status']=='ACTIVE_MAIN_CONTINUATION'
-          af=s['authority_frontier']['36-09EC']; cur=s['current']; pg=s['promotion_gates']
-          assert af['status']=='EXACT_GREEN_PARENT'
-          assert af['certificate_blob_sha']=='f3f4c7e126ba2b81c6fb593d9db513d9c61297a0'
-          assert af['source_blob_sha']=='c3bc3947747ad72a7708cbdce5b109a9286be6d3'
-          assert af['verifier_blob_sha']=='f616817a2d62ba3a70516418263acd6374c67405'
-          assert af['exact_head']=='b4eb0feb76e595f0789e1d3f9e2ff1b6301374d6'
-          assert af['exact_head_ci']=='34308677766/102330585261'
-          assert ec['global_factor_2Selmer']['E_tau']['F2_dimension']==3
-          assert ec['global_factor_2Selmer']['E_sigma']['F2_dimension']==2
-          assert ec['global_factor_2Selmer']['E_rho']['F2_dimension']==2
-          assert ec['factor_Sha']['T2Sha_A_zero'] is True
-          assert ec['proSelmer_to_MW_completion']['T2Sel_J_equals_JQ_completion'] is True
-          assert cur['next_exact_leaf']=='36-09ED_FIXED_P2_DYADIC_RANK_ONE_MW_CLOSURE_INTERSECTION_PREFLIGHT'
-          assert cur['36_09ED_entry_allowed'] is True
-          assert pg['36_09EC_exact_head_ci_passed'] is True
-          assert pg['36_09EC_promotion_replay_passed'] is True
-          assert pg['36_09ED_entry_allowed'] is True
-          assert pg['BT_T2Sel_J_equals_JQ_completion'] is True
+          ed=json.loads(Path('stages/stage36/36-09ED/fixed-p2-dyadic-rank-one-mw-saturation-preflight.json').read_text())
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V237_36_09ED_PROVISIONAL_DYADIC_SATURATION'
+          assert s['status']=='PROVISIONAL_EXACT_PENDING_CI'
+          af=s['authority_frontier']['36-09ED'];cur=s['current'];pg=s['promotion_gates']
+          assert af['status']=='PROVISIONAL_EXACT_PENDING_CI'
+          assert af['certificate_blob_sha']=='87e4dd2074f4e7264c728d5e999cd321ba81e2e0'
+          assert af['source_blob_sha']=='cc62f75cc4de2b1542db9df4c0b1f7e7976ca3a4'
+          assert af['verifier_blob_sha']=='2bd462aaa848a765571bac6ca68e79ea1ac23f7b'
+          assert ed['exact_rational_torsion']['rational_torsion_structure']=='Z/4Z x Z/2Z'
+          assert ed['dyadic_saturation']['P_is_2adically_saturated_free_generator'] is True
+          assert ed['dyadic_saturation']['P_claimed_integral_MW_generator'] is False
+          assert ed['A_completion_reduction']['infinite_Z2_directions']==1
+          assert cur['unit']=='36-09ED'
+          assert cur['next_exact_leaf']=='36-09EE_FIXED_P2_FINITE_TORSION_Q2_RETAINED_OPEN_INTERSECTION_PREFLIGHT'
+          assert cur['36_09EE_entry_allowed'] is False
+          assert pg['36_09ED_exact_head_ci_passed'] is False
+          assert pg['36_09EE_entry_allowed'] is False
+          assert pg['BT_E_tau_P_2adic_saturated'] is True
           assert pg['BT_four_translated_intersections_decided'] is False
-          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09EC/fixed-p2-factor-proselmer-mw-closure-preflight.json'],text=True).strip()=='f3f4c7e126ba2b81c6fb593d9db513d9c61297a0'
-          assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09EC.py'],text=True).strip()=='f616817a2d62ba3a70516418263acd6374c67405'
+          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09ED/fixed-p2-dyadic-rank-one-mw-saturation-preflight.json'],text=True).strip()=='87e4dd2074f4e7264c728d5e999cd321ba81e2e0'
+          assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09ED.py'],text=True).strip()=='2bd462aaa848a765571bac6ca68e79ea1ac23f7b'
           for key in ['BT_retained_open_curve_proSelmer_intersection_computed','BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          print('V236 verified: EC repaired exact-head CI is consumed; T2Sel(J)=J(Q)^hat_2 is exact-green and ED is unlocked only for rank-one dyadic MW-closure intersection. No downstream credit.')
+          print('V237 verified: ED certifies exact E_tau 2-primary torsion and a 2-adically saturated free point P. EE remains locked; no retained-open intersection or downstream credit.')
           PY
           git diff --check
