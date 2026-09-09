@@ -1,14 +1,235 @@
 {
-  "schema":"research-os-mission-node/v1",
-  "node_id":"N106",
-  "semantic_key":"s32-01-178:compressed-production-execution-plan",
-  "statement":"Design the bounded resumable execution/sharding plan for whichever exact compressed FULL178 search representation becomes load-bearing, with explicit storage/runtime gates and no blind scale-out.",
-  "scope":{"population":"future compressed FULL178 work units","field_or_model":"GitHub Actions / local exact production runner and retained certificates","quantifiers":"all dispatched work units under the chosen compressed representation","required_output":"deterministic work-unit key, checkpoint/ingest contract, bounded shard plan, storage preflight, and cheap authorization gate design"},
-  "source_refs":["stages/stage32/residual-32-01-production/state.json","docs/research-os/policies/actions-storage-and-evidence-safety.md"],
-  "reuse_check":{"performed":false,"queries":[],"matches":[],"decision":"PENDING"},
-  "attempts":[],
-  "retained_result":null,
-  "credit_ceiling":"EXECUTION_ARCHITECTURE_ONLY_NO_HEAVY_AUTHORIZATION_OR_FULL178_CREDIT",
-  "next_action":"AUDIT_EXISTING_RESUMABLE_RUNNER_AND_DESIGN_COMPRESSED_WORK_UNIT_CONTRACT",
-  "notes":["Mission startup does not authorize heavy compute.","Reuse proven resumable/checkpoint machinery where semantically compatible instead of rebuilding infrastructure."]
+  "schema": "research-os-mission-node/v1",
+  "node_id": "N106",
+  "semantic_key": "s32-01-178:compressed-production-execution-plan",
+  "statement": "Design the bounded resumable execution/sharding plan for whichever exact compressed FULL178 search representation becomes load-bearing, with explicit storage/runtime gates and no blind scale-out.",
+  "scope": {
+    "population": "future compressed FULL178 work units",
+    "field_or_model": "GitHub Actions / local exact production runner and retained certificates",
+    "quantifiers": "all dispatched work units under the chosen compressed representation",
+    "required_output": "deterministic work-unit key, checkpoint/ingest contract, bounded shard plan, storage preflight, and cheap authorization gate design"
+  },
+  "source_refs": [
+    "stages/stage32/residual-32-01-production/state.json",
+    "docs/research-os/policies/actions-storage-and-evidence-safety.md"
+  ],
+  "reuse_check": {
+    "performed": true,
+    "queries": [
+      "residual state resumable_hardness_avoidance generations 34-38",
+      "residual state prefix_indexed_compression",
+      "actions storage/evidence safety authorization + storage + compaction"
+    ],
+    "matches": [
+      "Existing resumable_prefix_engine.py and run_full178_resumable_work_unit.py are named by the retained production state; real Stage32 resume equivalence is recorded PASS.",
+      "Generation 36-38 retained exact FIFO checkpoint/frontier evidence, but prefix_indexed_compression supersedes the 52-unit Gen38 frontier as the enumeration mechanism.",
+      "Repository policy requires commit-range run-key authorization, 500 MB storage preflight, verify-before-compaction, compact retained certificates, and fail-closed resource stops."
+    ],
+    "decision": "REUSE_RESUME_AND_COMPACTION_INVARIANTS; REKEY_EXECUTION_TO_EXACT_INDEX_RANGES; DO_NOT_REUSE_LEGACY_FIFO_FRONTIER_AS_PRIMARY_SHARD_SPACE"
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "kind": "SOURCE_LOCKED_EXECUTION_ARCHITECTURE_DESIGN",
+      "source_state_schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V70_PREFIX_INDEXED_COMPRESSION",
+      "source_state_blob_sha": "931e80ba892ec0d98f3e7b909ac2dd46660c116c",
+      "policy_blob_sha": "1cc36fc087354e04944eb0531fd1a0f1a9ed982b",
+      "observations": {
+        "full178_terminal_count": "688101306360803751427719294",
+        "full178_terminal_count_digits": 27,
+        "indexed_random_access_unrank": true,
+        "indexed_inverse_rank": true,
+        "terminal_set_semantics_preserved": true,
+        "legacy_dfs_stream_order_preserved": false,
+        "gen38_frontier_as_enumeration": "SUPERSEDED",
+        "numerical_picard_leaf_checks_complete": false,
+        "production_switched": true,
+        "brute_force_scale": "OPERATIONALLY_INFEASIBLE",
+        "theorem_credit": false
+      },
+      "result": "PASS_ARCHITECTURE_DESIGN_NO_HEAVY_RUN"
+    }
+  ],
+  "retained_result": {
+    "status": "PASS_EXECUTION_ARCHITECTURE_READY_FOR_AUDIT_NO_HEAVY_AUTHORIZATION",
+    "representation_lock": {
+      "representation": "PREFIX_DFS_REPARAMETERIZED_EXACT_INDEXED_TERMINAL_FAMILY",
+      "terminal_count": "688101306360803751427719294",
+      "index_domain": "[0,688101306360803751427719294)",
+      "required_properties": [
+        "random_access_unrank",
+        "inverse_rank",
+        "terminal_set_semantics_preserved"
+      ],
+      "forbidden_assumption": "legacy DFS stream order preservation",
+      "source_state_blob_sha": "931e80ba892ec0d98f3e7b909ac2dd46660c116c"
+    },
+    "work_unit_contract": {
+      "primary_partition": "disjoint half-open rank intervals [rank_lo,rank_hi)",
+      "canonical_fields": [
+        "contract_rev",
+        "representation_id",
+        "representation_source_sha256_or_blob_lock",
+        "terminal_count",
+        "leaf_contract_rev",
+        "rank_lo",
+        "rank_hi"
+      ],
+      "work_unit_id": "sha256(canonical_json(canonical_fields))",
+      "partition_invariants": [
+        "0 <= rank_lo < rank_hi <= terminal_count",
+        "sorted accepted intervals are pairwise disjoint",
+        "complete parent coverage requires first rank_lo=0, adjacent previous.rank_hi=next.rank_lo, and final rank_hi=terminal_count",
+        "interval boundaries are immutable within a generation",
+        "a changed representation/source/leaf contract creates a new generation rather than mutating prior work units"
+      ],
+      "shard_sizing": "runtime- and storage-bounded only after representative measurement; no fixed giant shard count is authorized by this plan"
+    },
+    "checkpoint_resume_contract": {
+      "checkpoint_identity": [
+        "work_unit_id",
+        "generation",
+        "attempt",
+        "source locks",
+        "rank_lo",
+        "rank_hi"
+      ],
+      "progress_fields": [
+        "next_rank",
+        "verified_prefix_lo",
+        "verified_prefix_hi",
+        "processed_count",
+        "completed_leaf_count",
+        "unknown_count",
+        "resource_wall_count",
+        "survivor_count_or_commitment",
+        "canonical_evidence_stream_sha256",
+        "raw_output_sha256_if_any",
+        "compact_certificate_sha256"
+      ],
+      "resume_rule": "resume only at next_rank after verifying identical immutable locks and verified prefix [rank_lo,next_rank); never infer progress from runner time or artifact presence",
+      "completion_rule": "COMPLETE only when verified_prefix=[rank_lo,rank_hi), processed_count=rank_hi-rank_lo, unknown_count=0, resource_wall_count=0, and compact certificate validation passes",
+      "failure_rule": "UNKNOWN, source drift, authorization failure, quota/storage wall, malformed checkpoint, rank gap/overlap, or conflicting duplicate remains non-credit and cannot be promoted to COMPLETE",
+      "idempotency": "re-ingesting an identical work_unit_id + certificate digest is a no-op; a different digest for the same completed work_unit_id is a hard conflict"
+    },
+    "run_state_ledger_schema": {
+      "run_fields": [
+        "run_generation",
+        "dedicated_run_key_path",
+        "run_key_revision",
+        "event_before_sha",
+        "event_head_sha",
+        "authorization_pass",
+        "representation_lock",
+        "leaf_contract_rev",
+        "terminal_count",
+        "partition_manifest_sha256",
+        "planned_work_unit_count",
+        "representative_artifact_bytes",
+        "historical_retained_bytes",
+        "final_output_bytes_estimate",
+        "projected_peak_bytes",
+        "effective_heavy_concurrency"
+      ],
+      "work_unit_states": [
+        "PENDING",
+        "RUNNING",
+        "CHECKPOINTED",
+        "COMPLETE",
+        "RETRYABLE_FAILED",
+        "BLOCKED_RESOURCE",
+        "NONCREDIT_INVALID"
+      ],
+      "per_unit_fields": [
+        "work_unit_id",
+        "rank_lo",
+        "rank_hi",
+        "latest_attempt",
+        "state",
+        "checkpoint_digest",
+        "certificate_digest",
+        "unknown_count",
+        "resource_wall_count"
+      ],
+      "aggregate_acceptance": "all planned work_unit_ids accounted for exactly once; accepted intervals form the exact parent cover; no conflicting duplicate; every COMPLETE certificate source-locks to the same generation"
+    },
+    "authorization_gate": {
+      "policy": "fresh commit-range semantic run-key authorization before every heavy dispatch",
+      "synchronize": "require dedicated key path in verified github.event.before..pull_request.head.sha diff and strict generation/revision advance with locked parameters valid",
+      "opened": "cold preferred; if allowed, key must be newly introduced/changed relative to base and semantically armed",
+      "reopened": "cold; requires later synchronize with fresh generation/revision",
+      "fail_closed_on": [
+        "missing/unfetchable before SHA",
+        "unverifiable diff",
+        "cosmetic/non-key change only",
+        "source/artifact/parameter lock mismatch"
+      ]
+    },
+    "storage_and_wave_gate": {
+      "preflight_required": [
+        "planned work-unit count",
+        "largest plausible artifact per work unit",
+        "representative measured artifact size if no comparable prior run",
+        "historical evidence that must coexist",
+        "final output size and retention",
+        "projected peak storage",
+        "cleanup point",
+        "effective heavy concurrency",
+        "authorization method"
+      ],
+      "persistence_pattern": "exact raw local compute -> full local verification -> deterministic compact certificate -> upload compact certificate -> aggregate -> final manifest",
+      "raw_artifact_rule": "if raw persistence is unavoidable, use bounded waves; compact and clean each wave before the next",
+      "wave_size_rule": "derive from measured artifact size and remaining 500 MB headroom; no convenience-based fixed wave size",
+      "transient_retention_guidance_days": 1,
+      "stop_if": [
+        "measured artifact materially exceeds preflight",
+        "projected peak storage approaches/exhausts operating budget",
+        "quota uncertainty makes completion unsafe",
+        "artifact upload fails/rejects",
+        "failed/cancelled run leaves large non-credit intermediates requiring cleanup",
+        "evidence topology requires more simultaneous raw artifacts than planned",
+        "heavy run lacks fresh valid commit-range authorization"
+      ],
+      "operating_budget": "500 MB repository operating budget"
+    },
+    "retry_rules": [
+      "retry a failed work unit only from a validated checkpoint with identical representation/source/leaf locks",
+      "do not change interval boundaries inside a generation to rescue a hard shard; split only by creating an explicit child-partition manifest whose exact union equals the blocked parent and whose parent is no longer independently creditable",
+      "a parameter/source/contract change starts a new generation",
+      "resource-wall results remain operational evidence only and grant no mathematical credit",
+      "before retry, remove unnecessary non-credit artifacts after preserving required compact commitments"
+    ],
+    "implementation_hooks": {
+      "existing_named_engine": "stages/stage32/residual-32-01-production/resumable_prefix_engine.py",
+      "existing_named_runner": "stages/stage32/residual-32-01-production/run_full178_resumable_work_unit.py",
+      "required_adapters_after_leaf_contract_stabilizes": [
+        "rank-range dispatcher using exact unrank/inverse-rank representation",
+        "source-lock validator",
+        "checkpoint writer/validator",
+        "local raw-output verifier",
+        "compact-certificate emitter",
+        "idempotent ledger ingester",
+        "exact-cover final aggregator",
+        "cheap run-key authorization job",
+        "storage-preflight gate"
+      ],
+      "implementation_status": "DESIGN_ONLY; source refs do not authorize implementation-file edits in this node attempt"
+    },
+    "credit_firewall": {
+      "heavy_compute_authorized": false,
+      "full178_numerical_leaf_credit": false,
+      "theorem_credit": false,
+      "receiver_credit": false,
+      "existence_claim": false,
+      "nonexistence_claim": false
+    }
+  },
+  "credit_ceiling": "EXECUTION_ARCHITECTURE_ONLY_NO_HEAVY_AUTHORIZATION_OR_FULL178_CREDIT",
+  "next_action": "AUDIT_N106_CONTRACT; THEN IMPLEMENT_ONLY_AFTER_MAIN_AUTHORIZES_EXACT_LEAF_CONTRACT_AND_RUN_KEY_PATH",
+  "notes": [
+    "Mission startup does not authorize heavy compute.",
+    "Reuse proven resumable/checkpoint invariants where semantically compatible instead of rebuilding infrastructure.",
+    "The exact indexed rank domain, not the superseded Gen38 FIFO frontier, is the primary future sharding coordinate.",
+    "No fixed shard count, heavy concurrency, or run-key path is invented here because those require an authorized implementation and measured preflight."
+  ]
 }
