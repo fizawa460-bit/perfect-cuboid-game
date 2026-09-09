@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
-PROD = ROOT / "stage32" / "residual-32-01-production"
+PROD = ROOT / "stages" / "stage32" / "residual-32-01-production"
 if str(PROD) not in sys.path:
     sys.path.insert(0, str(PROD))
 
