@@ -26,6 +26,30 @@ The audit-gated N220 acceptance predicate is
 
 No production code may use `A` as authoritative pruning before hostile-audit PASS.
 
+## Resolved source lock: exact old canonical order
+
+The concrete source is now locked:
+
+`stages/stage32/residual-32-01-production/compressed_terminal_indexer.py`
+
+Git blob:
+
+`4fb0a8dd34909494bd62646373e42877ed7a3c9e`
+
+Its certificate names the order
+
+`EXCEPTIONAL_UNEQUAL_THEN_EQUAL__NORMAL_X4_INNERMOST`.
+
+More precisely, if `B = normal_budget+1 = 19*d-5*e+1`, then the old indexer implements
+
+`old_rank = exceptional_rank * B + x4`
+
+and
+
+`exceptional_rank, x4 = divmod(old_rank,B)`.
+
+Thus the old canonical order is no longer an unresolved input to this design.
+
 ## Preserve canonical rank; add only a secondary survivor rank
 
 For an old canonical rank `r`, let `x(r)` denote the existing exact terminal unrank result.
@@ -41,7 +65,7 @@ Thus `k` is a **secondary filtered execution rank**. It is never the N104/N106 c
 
 Conversely, for `0 <= k < S`, where
 
-`S = # { r in R_old : A(x(r)) }`, 
+`S = # { r in R_old : A(x(r)) }`,
 
 define filtered unrank as the unique old rank
 
@@ -55,7 +79,33 @@ Required identities are
 - every old rank has exactly one disposition: rejected or survivor;
 - rejected and survivor sets are disjoint and their union is all of `R_old`.
 
-## Why this is required by N104/N106
+## New simplification: preserve every x4 block exactly
+
+N220 depends only on the ten exceptional coordinates and `(g,d,e)`. It does **not** depend on `x4`.
+
+Because `x4` is already the old indexer's innermost coordinate, an exceptional tuple is either accepted for all `B` values of `x4` or rejected for all `B` values.
+
+Let `er` be an old exceptional rank and let
+
+`E(er) = # { prior exceptional ranks q<er accepted by N220 }`.
+
+Then for every accepted old terminal
+
+`old_rank = er*B + x4`
+
+we may define the secondary filtered rank exactly as
+
+`filtered_rank = E(er)*B + x4`.
+
+Filtered unrank is likewise
+
+1. `filtered_exceptional_rank,x4 = divmod(filtered_rank,B)`;
+2. unrank only the accepted exceptional-rank axis;
+3. restore the same `x4` unchanged.
+
+Therefore N220 filtering never needs to reorder, enumerate, or rebuild the normal-coordinate block. Only the exceptional-rank axis requires an accepted-subtree rank/unrank DP.
+
+## Why old rank remains required by N104/N106
 
 N104 requires every canonical terminal rank in every one of the 64,111 exact strata to receive exactly one registered exact disposition, with no gaps, overlaps, extras or unknowns. Renumbering only survivors and discarding the old rank identity would therefore break the completeness authority.
 
@@ -71,26 +121,33 @@ Therefore every N220 production receipt must retain at least
 
 ## Symbolic implementation target
 
-The retained N220 counter already refines exceptional prefixes by exact `(M10,S10)` while preserving the current symmetry/lex/parity grammar. After audit PASS, the implementation target is a prefix-count DP that answers exact accepted-subtree counts under that same grammar.
+The retained N220 counter already refines exceptional prefixes by exact `(M10,S10)` while preserving the current symmetry/lex/parity grammar. After audit PASS, implement accepted-subtree counts in the exact source-locked exceptional order:
+
+`UNEQUAL(x0<x1)` followed by `EQUAL(x0=x1)`.
 
 This supports filtered rank/unrank without materializing the 27-digit family:
 
-1. **rank survivor**: traverse the existing canonical grammar for `x(r)`, summing accepted counts of earlier sibling subtrees;
-2. **unrank survivor**: traverse the grammar, choosing the unique child whose cumulative accepted count contains `k`;
-3. **old-rank replay**: retain/reconstruct the corresponding old canonical rank using the existing grammar/indexer;
-4. **stratum certificate**: prove `rejected_count + survivor_count = old_terminal_count` exactly.
+1. **rank survivor exceptional tuple**: traverse the existing exceptional grammar, summing N220-accepted counts of earlier sibling subtrees;
+2. **unrank survivor exceptional tuple**: traverse the grammar, selecting the unique child whose cumulative accepted count contains the requested accepted exceptional rank;
+3. **append x4 unchanged** using the exact `B`-sized inner block;
+4. **old-rank replay**: reconstruct the old exceptional rank with the existing indexer and then `old_rank=er*B+x4`;
+5. **stratum certificate**: prove `rejected_exceptional_count + accepted_exceptional_count = old_exceptional_count`, hence after multiplication by `B`, `rejected_terminal_count + survivor_terminal_count = old_terminal_count`.
 
-The exact child order of the current production indexer remains a source-lock requirement. This architecture intentionally does not guess or replace that order. Production implementation is blocked until the concrete old-rank grammar/order is located and source-locked, and until N220 itself receives hostile-audit PASS.
+A bounded replay implementation is retained at
+
+`stages/stage32/32-01-178/nodes/N220/verify_n220_filtered_rank_small.py`.
+
+It keeps old rank authority and exhaustively checks the filtered-rank roundtrip on bounded `(g1,d8,e=4)` and `(g1,d8,e=5)` cases. This remains preparation, not N220 hostile-audit credit.
 
 ## Count factorization retained
 
-Because N220 depends on the ten exceptional prefix coordinates and `(g,d,e)` but not on the normal coordinate `x4`, the accepted count in one stratum still factors as
+Because N220 is independent of `x4`, the accepted count in one stratum factors exactly as
 
 `(19*d - 5*e + 1) * C_N220(g,d,e)`,
 
 where `C_N220` is the accepted exceptional-prefix count under the exact retained symmetry/lex/parity grammar and N220 predicate.
 
-This is a counting optimization only. It does not change canonical terminal identity.
+This factorization is now also compatible with the old rank order, not merely with total counting.
 
 ## Audit / credit firewall
 
@@ -105,4 +162,4 @@ This is a counting optimization only. It does not change canonical terminal iden
 
 ## Next exact implementation step after audit PASS
 
-Locate and source-lock the concrete current `CompressedTerminalIndexer(e,d)` canonical child/rank order, then implement an accepted-subtree DP wrapper whose replay verifier checks the four rank identities above and the per-stratum partition equation before any scaled execution is authorized.
+Implement accepted-exceptional-subtree counts by adapting the source-locked `CompressedTerminalIndexer` branch grammar, then hostile-replay the rank identities and per-stratum partition equation before any scaled execution is authorized.
