@@ -1,0 +1,83 @@
+{
+  "schema": "research-os-mission-node/v1",
+  "node_id": "N230",
+  "semantic_key": "s32-01-178:n220-filtered-exceptional-rank-random-access",
+  "statement": "Implement exact random access to the hostile-audited N220 survivor subset while preserving the pre-N220 stratum-local CompressedTerminalIndexer(e,d) rank as the N104/N106 completeness authority.",
+  "scope": {
+    "population": "all canonical indexed terminals in any exact (row_id,d,e) stratum to which the audited N220 predicate is applied",
+    "field_or_model": "Stage32 32-01 compressed terminal grammar / secondary survivor execution rank",
+    "quantifiers": "every survivor/rejection disposition under the audited N220 predicate; old canonical rank remains authoritative",
+    "required_output": "exact filtered rank/unrank, old-rank replay, exact partition accounting, and source-locked verifier"
+  },
+  "source_refs": [
+    "stages/stage32/32-01-178/nodes/N220/STATE-AUDITED.json",
+    "PR#1753 corrected N220 hostile-audit review 5159411821",
+    "stages/stage32/residual-32-01-production/compressed_terminal_indexer.py@4fb0a8dd34909494bd62646373e42877ed7a3c9e",
+    "stages/stage32/32-01-178/nodes/N104/STATE.json",
+    "stages/stage32/32-01-178/nodes/N106/STATE-AUDITED.json"
+  ],
+  "reuse_check": {
+    "performed": true,
+    "queries": [
+      "current CompressedTerminalIndexer canonical order and rank factorization",
+      "N104 old-rank completeness authority",
+      "N106 stratum-local work identity",
+      "N220 x4-independent predicate"
+    ],
+    "matches": [
+      "old indexer canonical order is EXCEPTIONAL_UNEQUAL_THEN_EQUAL__NORMAL_X4_INNERMOST",
+      "old rank factors exactly as exceptional_rank*(normal_budget+1)+x4",
+      "N220 depends only on the ten exceptional prefix coordinates and (g,d,e), not x4",
+      "therefore filtering can be performed exactly on the exceptional-rank axis while preserving each x4 block and every old canonical identity"
+    ],
+    "decision": "IMPLEMENT_SECONDARY_FILTERED_RANK_ONLY; DO_NOT REPLACE OLD_N104_N106_CANONICAL_RANK"
+  },
+  "implementation": {
+    "path": "stages/stage32/32-01-178/nodes/N230/n220_filtered_terminal_indexer.py",
+    "blob_sha": "2c04cceb374971dbf83cb684bd8a17a2ee4b50ed",
+    "verifier_path": "stages/stage32/32-01-178/nodes/N230/verify_n230_filtered_terminal_indexer.py",
+    "verifier_blob_sha": "184d0fee68f7340f1afbbdb6d02cbc334fc2d0a3",
+    "workflow_path": ".github/workflows/stage32-01-178-n230-filtered-indexer.yml",
+    "workflow_blob_sha": "ce2626321595ef79bed6237ec2d4106269a4cb45",
+    "old_indexer_blob_sha": "4fb0a8dd34909494bd62646373e42877ed7a3c9e",
+    "old_index_order": "EXCEPTIONAL_UNEQUAL_THEN_EQUAL__NORMAL_X4_INNERMOST",
+    "materializes_full_terminal_family": false,
+    "materializes_full_exceptional_family": false
+  },
+  "validation": {
+    "status": "PASS_RETAINED_IMPLEMENTATION_REPLAY",
+    "workflow_run_id": 34409257857,
+    "workflow_job_id": 102659576212,
+    "workflow_conclusion": "success",
+    "verdict": "PASS_N230_EXACT_FILTERED_RANDOM_ACCESS_REPLAY",
+    "small_exhaustive_cases": [
+      {"g":1,"d":8,"e":4,"old_exceptional_count":"275","accepted_exceptional_count":"268","old_terminal_count":"36575","filtered_terminal_count":"35644"},
+      {"g":1,"d":8,"e":5,"old_exceptional_count":"804","accepted_exceptional_count":"801","old_terminal_count":"102912","filtered_terminal_count":"102528"},
+      {"g":0,"d":8,"e":8,"old_exceptional_count":"11318","accepted_exceptional_count":"4382","old_terminal_count":"1278934","filtered_terminal_count":"495166"}
+    ],
+    "large_random_access_cases": [
+      {"g":0,"d":100,"e":29,"old_exceptional_count":"159281544","accepted_exceptional_count":"288"},
+      {"g":0,"d":176,"e":50,"old_exceptional_count":"18858396700","accepted_exceptional_count":"20"},
+      {"g":0,"d":176,"e":100,"old_exceptional_count":"11725306972431","accepted_exceptional_count":"26892419113"}
+    ],
+    "old_rank_replay_exact": true,
+    "filtered_rank_unrank_exact_on_tested_scope": true,
+    "x4_block_preserved_exactly": true
+  },
+  "retained_result": {
+    "status": "AUDIT_REQUIRED",
+    "result": "RETAINED_EXACT_N220_FILTERED_RANDOM_ACCESS_IMPLEMENTATION",
+    "old_canonical_rank_remains_authority": true,
+    "secondary_filtered_rank_only": true,
+    "dispositions": ["N220_REJECTED","N220_SURVIVOR(filtered_rank)"],
+    "per_stratum_partition_requirement": "N220_REJECTED + N220_SURVIVOR = old CompressedTerminalIndexer(e,d) domain exactly",
+    "full178_complete": false
+  },
+  "credit_ceiling": "IMPLEMENTATION_AND_REPLAY_ONLY_PENDING_HOSTILE_AUDIT_NO_FULL178_NUMERICAL_OR_THEOREM_CREDIT",
+  "next_action": "HOSTILE_AUDIT_N230_EXACT_FILTERED_RANK_IMPLEMENTATION_AND_OLD_RANK_REPLAY; IF PASS, CONSUME INTO N104/N106 EXECUTION ARCHITECTURE BEFORE ANY SCALED PICARD LEAF EXECUTION",
+  "notes": [
+    "The N220 mathematical predicate is already hostile-audited; N230 audit scope is the filtered random-access implementation and completeness-preserving rank adapter.",
+    "A CI PASS is not itself hostile-audit credit.",
+    "No heavy compute, FULL178 numerical completion, theorem/receiver/endpoint, existence/nonexistence, or merge credit is granted."
+  ]
+}
