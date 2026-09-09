@@ -1,0 +1,188 @@
+{
+  "schema": "STAGE32_MAIN_Q602_FORGETFUL_O210_ADAPTER_SCRATCH_V1",
+  "stage": 32,
+  "lane": "MAIN",
+  "status": "SCRATCH_EXACT_UNAUDITED_TYPED_POPULATION_ADAPTER_CANDIDATE",
+  "base_head": "2ad52c41d166d39d7458b6ab228432ba50ed93ce",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "picard_class": "V6",
+    "O": 210,
+    "qprime": 4,
+    "Q": 602,
+    "surviving_residues": [
+      73,
+      97,
+      235
+    ]
+  },
+  "semantic_inputs": {
+    "target_context_claim_id": "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
+    "target_context_core_sha256": "cb3aa4b36332cda9d960103972e7235d3cf7b1bc41fcefc99f19a050a7ab2f14",
+    "q602_survivor_claim_id": "S32.Q602.SURVIVORS_73_97_235.V1",
+    "q602_survivor_core_sha256": "cfa846ef6de8e2d8d3ffb6ffe3828fdf8cd55b371afdef88d40fd6e02bd13840",
+    "o210_exclusion_claim_id": "S32.O210.EXCLUSION.V3",
+    "o210_exclusion_core_sha256": "7003e228cbb0273e1ac6352bd9535a5f10ca5964bc6d4072130d20012aaec824",
+    "o210_exclusion_audit": {
+      "status": "PASS",
+      "pr": 1714,
+      "review_id": 5147304889,
+      "exact_head": "040dfb6c7e1dc40573866bb10f62e93419121711"
+    }
+  },
+  "forgetful_map": {
+    "domain": "exact current Q602-admissible configurations attached to audited survivor residues [73,97,235]",
+    "codomain": "exact current O210 carrier/cover population at g1-d186/V6/qprime=4",
+    "operation": "forget Q602 residue/marking/arithmetic decoration and retain the underlying O210 carrier/cover object",
+    "changes_row": false,
+    "changes_picard_class": false,
+    "changes_O": false,
+    "changes_qprime": false,
+    "changes_carrier_cover_object": false,
+    "forgets_only": [
+      "Q602 residue label",
+      "retained marked W-line/arithmetic decoration"
+    ],
+    "population_relation": "Q602_ADMISSIBLE_POPULATION_MAPS_INTO_O210_POPULATION",
+    "empty_codomain_implies_empty_domain": true
+  },
+  "source_support": {
+    "active_q602_scope_contains_O210": true,
+    "post1623_fixed_target_is_O210_Q602": true,
+    "o210_v3_treats_q602_orbit_as_obstruction_evidence_not_carrier_population_filter": true,
+    "absolute_residue_selection_required": false
+  },
+  "proposed_adapter_claim": {
+    "claim_id": "S32.ADAPTER.O210_TO_Q602_FORGETFUL.V1",
+    "kind": "adapter_contract",
+    "statement": "For the exact current g1-d186, O=210, Q=602 Stage32 target, every Q602-admissible configuration represented by the audited survivor frontier [73,97,235] forgets only Q602 marking/arithmetic data and maps to an underlying member of the exact O210 carrier/cover population; therefore emptiness of that O210 population is a population-preserving obstruction to every such Q602 configuration.",
+    "scope_key": "S32.ADAPTER.O210_TO_Q602_FORGETFUL",
+    "scope": {
+      "row_id": "g1-d186",
+      "picard_class": "V6",
+      "O": 210,
+      "qprime": 4,
+      "Q": 602,
+      "input_survivors": [
+        73,
+        97,
+        235
+      ],
+      "map": "forget_Q602_marking_and_arithmetic_data_keep_underlying_O210_carrier_cover"
+    },
+    "proves": [
+      "Every configuration in the exact current Q602 survivor population has an underlying object in the exact current O210 carrier/cover population.",
+      "If the exact current O210 carrier/cover population is empty, then the exact current Q602 survivor population is empty."
+    ],
+    "does_not_prove": [
+      "It does not prove O210 exclusion; that must be supplied independently by an audited O210 claim.",
+      "It does not identify or select an absolute Q602 residue or W-line.",
+      "It does not apply to a Q602 population with different row, O, qprime, carrier, field, or marking semantics.",
+      "It does not prove Stage32 closure or any Perfect Cuboid endpoint."
+    ],
+    "requires": [
+      "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
+      "S32.O210.EXCLUSION.V3",
+      "S32.Q602.SURVIVORS_73_97_235.V1"
+    ],
+    "bridges": {
+      "from_scope_key": "S32.O210.COVER",
+      "to_scope_key": "S32.Q602.ARITHMETIC"
+    },
+    "source_locks": [
+      {
+        "path": "stages/stage32-ex3/main-o210-exclusion-v3-candidate.json",
+        "blob_sha1": "43685d8c17bfc8135a5dd3c685314168f1cf3518",
+        "canonical_sha256": "4be8369e6ce56892c81dc3e8b513649daccfbcd078117cb72e5b20b33269a005"
+      },
+      {
+        "path": "stages/stage32/residual-32-01-production/post1623-hperp-v6-hdeck-character-preflight.json",
+        "blob_sha1": "f9bf3da925fc66505900db793f48c507725461d1",
+        "canonical_sha256": "00843ec64f7ecd522614f750c9f84d3a746ce664064d1c4413784cab9d26791c"
+      }
+    ],
+    "replay_verifier": "stages/stage32/scratch/verify_q602_forgetful_o210_adapter_20260909.py",
+    "claim_core_sha256": "53bfa1c6c7eca1852be511b71a7cf04249f5ebf796df65c8b42b5cb572ddb3d9"
+  },
+  "proposed_q602_claim": {
+    "claim_id": "S32.Q602.EXCLUSION.V2",
+    "kind": "mathematical_claim",
+    "statement": "For the exact current g1-d186, O=210, Q=602 Stage32 target, every one of the audited surviving residues [73,97,235] is excluded because any corresponding Q602-admissible configuration forgets to the exact O210 carrier/cover population and that population is empty by audited S32.O210.EXCLUSION.V3.",
+    "scope_key": "S32.Q602.ARITHMETIC",
+    "scope": {
+      "row_id": "g1-d186",
+      "O": 210,
+      "Q": 602,
+      "input_survivors": [
+        73,
+        97,
+        235
+      ],
+      "target": "all_residues_excluded"
+    },
+    "proves": [
+      "Q602 is excluded for the exact current registered target.",
+      "All audited surviving Q602 residues [73,97,235] are disposed without choosing an absolute residue."
+    ],
+    "does_not_prove": [
+      "It does not strengthen or re-prove O210 exclusion.",
+      "It does not claim any Q602 result outside the exact current O210-bound target.",
+      "It does not complete FULL178.",
+      "It does not prove Stage32 closure or any Perfect Cuboid endpoint."
+    ],
+    "requires": [
+      "S32.Q602.SURVIVORS_73_97_235.V1",
+      "S32.O210.EXCLUSION.V3",
+      "S32.ADAPTER.O210_TO_Q602_FORGETFUL.V1"
+    ],
+    "source_locks": [
+      {
+        "path": "stages/stage32-ex3/main-o210-exclusion-v3-candidate.json",
+        "blob_sha1": "43685d8c17bfc8135a5dd3c685314168f1cf3518",
+        "canonical_sha256": "4be8369e6ce56892c81dc3e8b513649daccfbcd078117cb72e5b20b33269a005"
+      },
+      {
+        "path": "stages/stage32/residual-32-01-production/post1623-hperp-v6-hdeck-character-preflight.json",
+        "blob_sha1": "f9bf3da925fc66505900db793f48c507725461d1",
+        "canonical_sha256": "00843ec64f7ecd522614f750c9f84d3a746ce664064d1c4413784cab9d26791c"
+      }
+    ],
+    "replay_verifier": "stages/stage32/scratch/verify_q602_forgetful_o210_adapter_20260909.py",
+    "claim_core_sha256": "dce0347fd3bb25eeec70d266bab91f5a8b2124077b7caad5eb360cb26cbeb67f"
+  },
+  "versioning": {
+    "existing_q602_v1_core_must_not_be_mutated": true,
+    "new_q602_claim_id_required": "S32.Q602.EXCLUSION.V2",
+    "reason": "adding O210 V3 and a cross-scope adapter changes immutable requires/source-lock semantics"
+  },
+  "promotion_gate": {
+    "requires_o210_main_consumption_first": true,
+    "requires_hostile_audit_of_forgetful_adapter": true,
+    "requires_hostile_audit_of_q602_v2": true,
+    "no_active_frontier_or_main_state_mutation_in_scratch": true
+  },
+  "firewalls": {
+    "O210_excluded_in_current_main_routing": false,
+    "Q602_excluded": false,
+    "O212_plus_advance_allowed": false,
+    "FULL178_complete": false,
+    "stage32_closed": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false,
+    "main_state_modified": false,
+    "active_frontier_modified": false
+  },
+  "source_locks": {
+    "o210_v3_artifact": {
+      "path": "stages/stage32-ex3/main-o210-exclusion-v3-candidate.json",
+      "blob_sha1": "43685d8c17bfc8135a5dd3c685314168f1cf3518",
+      "canonical_sha256": "4be8369e6ce56892c81dc3e8b513649daccfbcd078117cb72e5b20b33269a005"
+    },
+    "q602_survivor_artifact": {
+      "path": "stages/stage32/residual-32-01-production/post1623-hperp-v6-hdeck-character-preflight.json",
+      "blob_sha1": "f9bf3da925fc66505900db793f48c507725461d1",
+      "canonical_sha256": "00843ec64f7ecd522614f750c9f84d3a746ce664064d1c4413784cab9d26791c"
+    }
+  },
+  "canonical_sha256_without_this_field": "63d56bba4505271957376fc169ecc473c1c26bf11e285197fa6c2bc2a2514a36"
+}
