@@ -1,0 +1,14 @@
+{
+  "schema":"research-os-mission-node/v1",
+  "node_id":"N150",
+  "semantic_key":"s32-01-178:ex5-external-consumption-gate",
+  "statement":"Consume a current-target EX5 result into 32-01 only after EX5 provides a retained/audited FULL178-target-compatible producer/result plus an explicit adapter to the 32-01 numerical census semantics.",
+  "scope":{"population":"FULL178 numerical unibranch target","field_or_model":"EX5 retained BC2 output -> Stage32 32-01 current target","quantifiers":"only the exact population certified by the future adapter","required_output":"explicit current-target adapter, exact evidence locks, and MAIN-consumption checkpoint"},
+  "source_refs":["PR#1742 Stage32EX5 BC2-02 exact support materialization interface"],
+  "reuse_check":{"performed":true,"queries":["Stage32EX5 BC2-02 current producer","FULL178 target to 59D model adapter"],"matches":["PR#1742 active external producer"],"decision":"EXISTING_ACTIVE_EXTERNAL_WORK_REUSED_DO_NOT_DUPLICATE"},
+  "attempts":[{"route_id":"EX5-EXTERNAL-CONSUME-G1","status":"BLOCKED","blocker":"EX5 BC2-02 has localized the reusable producer kernel but the FULL178 target-to-59D model adapter remains pending; no current-target retained/audited route effect is yet available for 32-01 consumption.","reopen_condition":"PR#1742 or its audited successor retains a FULL178-target-compatible producer/result and explicit adapter suitable for Stage32 MAIN consumption."}],
+  "retained_result":null,
+  "credit_ceiling":"NONE_UNTIL_EXTERNAL_REOPEN_CONDITION",
+  "next_action":"WAIT_FOR_EXTERNAL_REOPEN_CONDITION_DO_NOT_ASSIGN_PARALLEL_LANE",
+  "notes":["This node exists specifically to prevent duplicate EX5 research inside 32-01-178."]
+}
