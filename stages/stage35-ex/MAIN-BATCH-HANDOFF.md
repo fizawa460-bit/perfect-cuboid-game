@@ -17,6 +17,7 @@ Goal4BS hostile audit:
 Consumption artifact:
 
 - `stages/stage35-ex/35ex-35/goal4bs-intermediate-hostile-audit-pass-consumption.json`
+- verifier: `stages/stage35-ex/verify_stage35_ex_35_goal4bs_intermediate_audit_consumption.py`
 
 The previous long-lived-PR freeze is released by consumption of this receipt. This does **not** create a new live mathematical route.
 
@@ -52,6 +53,12 @@ C. QUANTITATIVE_HEIGHT_DISCRIMINANT_ADAPTER
 ```
 
 If none is available, ordinary `stage35exmainbatch` should remain parked rather than manufacture another equivalent leaf.
+
+## Legacy CI cleanup after audit
+
+Hostile review `5151846948` identified the Goal4AE workflow red as stale routing: the semantic Goal4AE verifier passed, while the later `Enforce V68 no-credit boundary` step incorrectly asserted that current `MAIN-STATE` must still be V68.
+
+`.github/workflows/stage35-ex-goal4ae-c5-route-repair.yml` now enforces that historical boundary only when the checked-out schema actually equals V68. On the current V74 schema it prints an explicit historical-boundary SKIP instead of failing. This changes no Goal4AE mathematics or credit.
 
 ## Freshness
 
