@@ -1,0 +1,96 @@
+{
+  "schema": "STAGE32EX5_BC2_03_RANK1_EXACT_UNSAT_CHECKPOINT_V1",
+  "stage": "32EX5",
+  "leaf": "BC2-03",
+  "unit": "BC2_03_GENERIC_INDEXED_TERMINAL_ADAPTIVE_EXCEPTIONAL_PARTITION",
+  "status": "RETAINED_GENERIC_ALGORITHM_VALIDATED_ON_NEXT_DETERMINISTIC_TERMINAL_EXACT_UNSAT",
+  "source_exact_head": "31c4b1f1808dcd415768888a226f62e7213d42d7",
+  "generic_solver_source_commit": "5869ba412bbec9013cccf0c756264cad8e03f92d",
+  "gated_workflow_commit": "23be5c175e85f2f24b627d4efa1e32b960a93fbe",
+  "runkey": {
+    "path": "stages/stage32-ex5/runkeys/bc2-03-generic-terminal-validation.json",
+    "generation": 1,
+    "terminal_rank": 1,
+    "fresh_commit_range_authorization_passed": true,
+    "heavy_scaleout_authorized": false
+  },
+  "predecessor": {
+    "rank0_checkpoint": "stages/stage32-ex5/breadth-cycle-2/bc2-02-rank0-exact-unsat-checkpoint.json",
+    "rank0_checkpoint_canonical_sha256": "02f50ea59027f340baedbdcb0a712b02b71a316c6cc87ab8e7be905317eb0f8b",
+    "rank0_exact_unsat": true
+  },
+  "indexed_terminal": {
+    "row_id": "g1-d008",
+    "degree": 8,
+    "e": 4,
+    "terminal_rank": 1,
+    "terminal_count_in_stratum": 36575,
+    "terminal_pairings": [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+    "rank_roundtrip_exact": true,
+    "difference_from_rank0": "canonical index x4 innermost; only known-label-49 normal pairing changes from 0 to 1",
+    "residual_exceptional_mass": 2
+  },
+  "proof_partition": {
+    "generic_terminal_rank_parameterization_used": true,
+    "selected_exceptional_parent_partition_complete": true,
+    "parent_branch_count": 210,
+    "parent_exact_unsat_count": 159,
+    "parent_unknown_count_before_refinement": 51,
+    "parent_sat_count": 0,
+    "parent_status_stream_sha256": "059ed98c8b0c0269e6e6ace1008fc1fa07bfe2e54f04adcb847c3c9c0a39561a",
+    "unknown_parents_only_refined": true,
+    "all_48_exceptional_pairings_fixed_in_each_refined_subcase": true,
+    "refinement_subcase_count": 393,
+    "refinement_exact_unsat_count": 393,
+    "refinement_unknown_count": 0,
+    "refinement_sat_count": 0,
+    "refined_status_stream_sha256": "e5f98fb79b240ae6bd61f39bff5d6ae351e94724b80198d482bc7456e9cf9196",
+    "new_mathematical_condition_added": false,
+    "conclusion": "NO_INTEGRAL_PICARD64_COMPLETION_FOR_THIS_INDEXED_TERMINAL"
+  },
+  "exact_result": {
+    "rank1_terminal": "UNSAT",
+    "rank1_terminal_exact_unsat_authorized": true,
+    "evidence_canonical_sha256": "447e8f99748f72b1ab741ddc1b675be5f59109a972e598b2d624c48d93432432"
+  },
+  "workflow": {
+    "run_id": 34354767379,
+    "authorize_job_id": 102476531382,
+    "compute_job_id": 102476592713,
+    "conclusion": "success",
+    "artifact_id": 10105379271,
+    "artifact_zip_sha256": "55c571c88c66474d6f37f53fb4f4ac42a4890513dd5f9eecb7879b36972f69b8",
+    "artifact_zip_bytes": 1861,
+    "artifact_retention_days": 1
+  },
+  "algorithm_validation": {
+    "rank0_method_no_longer_hardcoded_to_terminal_rank_0": true,
+    "terminal_fixed_exceptional_mass_computed_from_unranked_terminal": true,
+    "residual_exceptional_mass_computed_adaptively": true,
+    "selected_partition_uses_complete_nonnegative_weak_compositions": true,
+    "refinement_uses_exact_weak_compositions_on_unselected_exceptional_labels": true,
+    "resource_caps_are_execution_gates_not_mathematical_conditions": true,
+    "generic_algorithm_validated_on_next_deterministic_terminal": true
+  },
+  "next_exact_unit": {
+    "id": "BC2_04_X4_INNERMOST_BLOCK_COMPRESSION_PREFLIGHT",
+    "goal": "Exploit the canonical index fact that ranks 0..132 share one exceptional terminal and vary only the normal x4/known-label-49 pairing; determine whether the 133-terminal block admits exact parametric/congruence compression before any multi-terminal scaleout.",
+    "heavy_scaleout_authorized": false,
+    "new_parallel_lane_required": false
+  },
+  "scope": {
+    "closed_indexed_terminals": [0, 1],
+    "whole_rank_0_to_132_block_closed": false,
+    "whole_g1_d008_e4_stratum_closed": false,
+    "FULL178_complete": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}

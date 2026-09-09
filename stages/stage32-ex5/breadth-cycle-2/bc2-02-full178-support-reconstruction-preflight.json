@@ -1,0 +1,68 @@
+{
+  "schema": "STAGE32EX5_BC2_02_FULL178_SUPPORT_RECONSTRUCTION_PREFLIGHT_V1",
+  "authority": "STAGE32EX5_RETAINED_PREFLIGHT",
+  "target": "BC2-02_FULL178_SUPPORT_RECONSTRUCTION",
+  "status": "BLOCKED_RETAINED_INTERFACE_MISSING_EXACT_48_SUPPORT_WITNESS",
+  "summary": "BC2-01B now identifies the 48 historical exceptional slots with exact canonical singular nodes, so a concrete full Picard all140 vector can be converted into an exact node-support vector. The active FULL178 census interface does not retain such an all140 vector, a 48-slot exceptional vector, or the 59-entry reduced Picard witness needed by the exact Picard reconstruction adapter. It retains only compact numerical data and a hash stream containing the two-entry rank-2 witness. Therefore the required FULL178 48-node support/span replay cannot be audited from the current retained census interface.",
+  "exact_inputs": {
+    "bc2_01b_runtime_node_bridge": {
+      "path": "stages/stage32-ex5/breadth-cycle-2/bc2-01b-runtime-node-coordinate-bridge.json",
+      "blob": "2a14a683e8ec38ec993eb711841c466f2be6eb06",
+      "meaning": "historical exceptional slot k=0..47 is bound to one canonical singular node"
+    },
+    "exact_picard_witness_adapter": {
+      "path": "stages/stage32/residual-32-01-production/adapt_stage32_post21bl_picard_witness.py",
+      "blob": "eb825ca4058565157c63e17b38f28ec73cb57214",
+      "required_reduced_witness_rank": 59,
+      "reconstruction": "pairings_from_reduced = y0 + Mred * r",
+      "output_pairing_count": 140
+    },
+    "full178_census_builder": {
+      "path": "stages/stage32/residual-32-01-production/build_stage32_post21bl_full178_node_mass_census.py",
+      "blob": "93f7dc6f1b224f61af3f260d09da55bfb5a3460a",
+      "full_population_row_count": 178,
+      "survivor_stream_fields": ["row_id", "e", "a", "rank2_witness_0", "rank2_witness_1", "penalty"],
+      "retains_full_59_entry_picard_witness": false,
+      "retains_48_exceptional_pairing_vector": false,
+      "retains_48_node_support_bitmap": false
+    }
+  },
+  "established": {
+    "full178_is_178_numerical_rows_not_178_source_curves": true,
+    "exceptional_mass_e_is_not_a_48_bit_support_vector": true,
+    "census_source_explicitly_forbids_strong_support_inference_from_mass": true,
+    "exact_picard_reconstruction_requires_59_entry_reduced_witness": true,
+    "exact_picard_reconstruction_produces_140_pairings": true,
+    "bc2_01b_supplies_exact_exceptional_slot_to_node_identity": true,
+    "current_retained_full178_census_interface_is_insufficient_for_exact_48_support_replay": true
+  },
+  "load_bearing_source_observations": [
+    "The exact Picard adapter pins EXPECTED_ANTI_RANK=59, validates witness_r_reduced has length 59, rebuilds Mred, and evaluates pairings_from_reduced = y0 + Mred*r.",
+    "The FULL178 census validates exactly 178 row ids, but its surviving_witness_stream hashes only row_id,e,a,witness[0],witness[1],penalty.",
+    "The same FULL178 census records semantics strong_48bit_node_support_not_inferred_from_exceptional_mass=true.",
+    "Consequently scalar exceptional mass and the retained two-entry rank-2 witness cannot be silently substituted for the missing exact 48-slot support certificate."
+  ],
+  "scope_boundary": {
+    "claim_is_repository_wide_absence_theorem": false,
+    "claim_is_about_active_retained_full178_census_interface": true,
+    "affine_fiber_support_nonuniqueness_proved_here": false,
+    "note": "This checkpoint does not claim that two feasible full Picard lifts with different supports have been exhibited. It only establishes that the current retained FULL178 evidence does not contain the exact data required to replay support."
+  },
+  "minimal_reentry": [
+    "During a terminal/materialization pass, obtain an exact 59-entry reduced Picard witness for each candidate that is to receive support credit, reconstruct all140, compute the 48 exceptional slots through BC2-01B, and retain a deterministic 48-bit support certificate or digest before aggregation.",
+    "Equivalent alternative: retain a directly verified 48-entry exceptional-pairing/support certificate per candidate without retaining all 59 reduced coordinates.",
+    "Theorem alternative: prove and retain an exact certificate that the 48-slot support is invariant over every admissible full Picard lift compatible with the compact FULL178 survivor data."
+  ],
+  "next_required_unit": "MATERIALIZE_EXACT_FULL178_PICARD_OR_DIRECT_48_SUPPORT_CERTIFICATE",
+  "firewalls": {
+    "full178_projective_span_replay_complete": false,
+    "full178_complete": false,
+    "receiver_credit": false,
+    "stage32_main_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  }
+}

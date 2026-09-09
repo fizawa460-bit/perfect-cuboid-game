@@ -6,32 +6,30 @@ import json
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-BC2 = HERE / "breadth-cycle-2"
 STATE_PATH = HERE / "MAIN-STATE.json"
+BC2_10_PATH = HERE / "breadth-cycle-2" / "bc2-10-outer-rank2-exact-unsat-checkpoint.json"
 RECEIPT_PATH = HERE / "ex5-12-hostile-audit-pass-receipt.json"
 CERT_PATH = HERE / "ex5-11-terminal-route-decision-certificate.json"
-HANDOFF_PATH = BC2 / "bc2-checkpoint-handoff.json"
-PREFLIGHT_PATH = BC2 / "bc2-01-support-adapter-preflight.json"
-PAIRING_PATH = BC2 / "bc2-01a-exceptional-pairing-bridge.json"
 
-CYCLE1_OUTCOME = "FROZEN_BREADTH_PACKAGE_EXHAUSTED_WITHOUT_QUALIFIED_ROUTE"
-CYCLE1_AUDIT_HEAD = "79c601b636857eaaaa97ad4c22e682e681341bad"
-CYCLE1_AUDIT_REVIEW = 5141459384
-CYCLE1_CLAIM_ID = "S32.EX5.BOUNDED_EXHAUSTION_CANDIDATE.V2"
-CYCLE1_CLAIM_CORE = "6e9093c4fc25455a8c08b9cdb80fc73d127d3759c0b1edfab25b259dcec210a3"
-CYCLE1_CERT_CANONICAL = "b0d0a81cf79448703d5e10d9280e6e19ac5f4f32dc31061c9c836d323bcebba7"
-BC2_CLAIM_ID = "S32.EX5.BC2_NODE_SUPPORT_SPAN_CHECKPOINT.V1"
-FAILED_BC2_HEAD = "a9b9f044b6abcbfe9de7bd334676f854b00d8053"
-FAILED_BC2_REVIEW = 5149535554
-PASSED_BC2_HEAD = "280776eb5803f69bcb28b5c1da5e546cc198b5a2"
-PASSED_BC2_REVIEW = 5149663802
-ROUTE_ID = "EX5R-SYMDIFF-NODE-SPAN-001"
-NEXT_LEAF = "BC2-01B_RUNTIME_NODE_COORDINATE_BRIDGE"
+STATE_SCHEMA = "STAGE32EX5_MAIN_COMPACT_STATE_V4_FULL178_FINAL_CHAIN_SYNC"
+MODE = "FULL178_AND_FINAL_MILESTONE_CHAIN"
+CURRENT_LEAF = "BC2_11_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT"
+BC2_10_CANONICAL = "1abeb2bd5299ed217840d028eb99ed961d98238cdec75b5286b05b7f066a752b"
+BC2_10_EVIDENCE = "06e4e0e8fbbe1bb64fc757be58f272fec0e85bea1e3bd7a9f21f8bf0dbda1531"
+CYCLE1_HEAD = "79c601b636857eaaaa97ad4c22e682e681341bad"
+CYCLE1_REVIEW = 5141459384
+CYCLE1_CLAIM = "S32.EX5.BOUNDED_EXHAUSTION_CANDIDATE.V2"
+CYCLE1_CORE = "6e9093c4fc25455a8c08b9cdb80fc73d127d3759c0b1edfab25b259dcec210a3"
+CYCLE1_CERT = "b0d0a81cf79448703d5e10d9280e6e19ac5f4f32dc31061c9c836d323bcebba7"
 
 
 def req(cond: bool, msg: str) -> None:
     if not cond:
         raise SystemExit(f"FAIL: {msg}")
+
+
+def load(path: Path) -> dict:
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def canonical_without_field(obj: dict, field: str) -> str:
@@ -41,166 +39,123 @@ def canonical_without_field(obj: dict, field: str) -> str:
     return hashlib.sha256(raw).hexdigest()
 
 
-def load(path: Path) -> dict:
-    return json.loads(path.read_text(encoding="utf-8"))
+def verify_current_docs() -> None:
+    docs = {
+        "README": (HERE / "README.md").read_text(encoding="utf-8"),
+        "START": (HERE / "MAIN-START-HERE.md").read_text(encoding="utf-8"),
+        "ROADMAP": (HERE / "CURRENT-ROADMAP.md").read_text(encoding="utf-8"),
+        "AUDIT": (HERE / "CURRENT-AUDIT-CONTRACT.md").read_text(encoding="utf-8"),
+    }
+    for name, text in docs.items():
+        req(MODE in text, f"{name} lost current Stage32 mode")
+        req("32-01" in text and "FULL178" in text, f"{name} lost primary FULL178 routing")
+    req("not the current Stage32 survivor population" in docs["README"], "README Q602 provenance wording drift")
+    req("not current attack targets" in docs["ROADMAP"], "current roadmap restored V6/O210/Q602 as targets")
+    req("historical-credit firewall" in docs["AUDIT"], "current audit historical-credit firewall missing")
+    req(CURRENT_LEAF in docs["README"] and CURRENT_LEAF in docs["ROADMAP"], "current next step missing")
+    req("historical Cycle1 source-locked roadmap" in docs["ROADMAP"], "current roadmap does not protect historical roadmap")
+    req("historical Cycle1 source-locked contract" in docs["AUDIT"], "current audit does not protect historical audit contract")
 
 
 def main() -> None:
     state = load(STATE_PATH)
-    receipt = load(RECEIPT_PATH)
-    cert = load(CERT_PATH)
-    handoff = load(HANDOFF_PATH)
-    preflight = load(PREFLIGHT_PATH)
-    pairing = load(PAIRING_PATH)
-
-    req(state["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V3_BC2_AUDITED_CHECKPOINT", "schema drift")
+    req(state["schema"] == STATE_SCHEMA, "state schema drift")
     req(state["stage"] == "32EX5", "wrong stage")
-    req(state["execution"]["main_command"] == "stage32ex5-mainbatch", "main command drift")
-    req(state["execution"]["audit_command"] == "stage32ex5-audit", "audit command drift")
-    req(state["execution"]["claim_sync_contract"] == "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md", "claim-sync contract drift")
+    req(state["execution"]["roadmap_contract"] == "stages/stage32-ex5/CURRENT-ROADMAP.md", "mutable roadmap routing drift")
+    req(state["execution"]["historical_source_locked_roadmap"] == "stages/stage32-ex5/stage32-ex5.md", "historical roadmap routing drift")
+    req(state["execution"]["audit_contract"] == "stages/stage32-ex5/CURRENT-AUDIT-CONTRACT.md", "mutable audit routing drift")
+    req(state["execution"]["historical_source_locked_audit_contract"] == "stages/stage32-ex5/AUDIT-CONTRACT.md", "historical audit routing drift")
 
-    bootstrap = state["bootstrap"]
-    req(bootstrap["active_work_pr"] == 1726, "active PR drift")
-    req(bootstrap["work_branch"] == "stage32ex5-bc2-btva-node-support-span", "work branch drift")
-    req(bootstrap["merge_authorized"] is False, "merge authorization must remain a separate user action")
+    boot = state["bootstrap"]
+    req(boot["current_main_sha_observed"] == "e2da76d90a0994af5038023613c6c4084c4c507e", "observed main drift")
+    req(boot["active_work_pr"] == 1742 and boot["work_branch"] == "stage32ex5-mainbatch-bc2-01b", "active EX5 surface drift")
+    req(boot["merge_authorized"] is False, "merge authorization drift")
 
-    auth = state["authority"]
-    req(auth["current_bc2_authority"] == "AUDITED", "BC2 authority transition not consumed")
-    req(auth["current_bc2_claim_id"] == BC2_CLAIM_ID, "BC2 claim id drift")
-    req(auth["prior_cycle1_audited_authority_preserved"] is True, "Cycle1 authority provenance lost")
-    req(auth["stage32_main_authority_unchanged"] is True, "Stage32 MAIN authority changed")
+    auth = state["stage32_main_authority"]
+    req(auth["authority_pr"] == 1753, "Stage32 MAIN PR drift")
+    req(auth["authority_head_observed"] == "6327346d336028c910410da9bd430e117ecc024d", "Stage32 MAIN observed head drift")
+    req(auth["control_mode"] == MODE, "Stage32 mode regression")
+    req(auth["primary_incomplete_id"] == "32-01" and auth["primary_incomplete_name"] == "FULL178", "primary incomplete regression")
+    for key in ("V6_is_current_attack_target", "O210_is_current_attack_target", "Q602_is_current_attack_target"):
+        req(auth[key] is False, f"historical target reactivated: {key}")
+    req(auth["historical_formal_q602_residues"] == [73,97,235], "historical Q602 triple lost")
+    req(auth["historical_formal_q602_residues_are_current_survivors"] is False, "historical Q602 triple promoted to current survivors")
 
-    prior = state["prior_audited_authority"]
-    req(prior["breadth_cycle"] == "EX5_BREADTH_CYCLE_1", "prior breadth-cycle drift")
-    req(prior["claim_id"] == CYCLE1_CLAIM_ID and prior["authority_status"] == "AUDITED", "prior claim authority drift")
-    req(prior["terminal_outcome"] == CYCLE1_OUTCOME, "prior terminal outcome drift")
-    req(prior["exact_head"] == CYCLE1_AUDIT_HEAD and prior["review_id"] == CYCLE1_AUDIT_REVIEW, "prior audit identity drift")
-    req(prior["scope_firewall"] == "EX5_BREADTH_CYCLE_1_ONLY", "Cycle1 scope widened")
-    req(prior["stage32_main_credit"] is False, "Cycle1 improperly promoted to MAIN")
+    prov = state["historical_formal_provenance"]
+    req(prov["q602_residue_triple"] == [73,97,235], "Q602 provenance drift")
+    req(prov["q602_residue_triple_semantics"] == "HISTORICAL_FORMAL_PROVENANCE_NOT_CURRENT_SURVIVOR_POPULATION", "Q602 semantics drift")
+    req(prov["v6_o210_q602_current_research_status"] == "NOT_CURRENT_TARGETS", "historical line became current")
+    req(prov["old_no_q602_o210_credit_semantics"] == "HISTORICAL_CREDIT_FIREWALL", "historical-credit semantics drift")
 
     current = state["current"]
-    req(current["status"] == "BC2_RETAINED_AUDITED_CHECKPOINT_MERGE_READY", "current status drift")
-    req(current["breadth_cycle"] == "EX5_BREADTH_CYCLE_2_CANDIDATE", "current breadth-cycle drift")
-    req(current["leaf"] == "BC2-01A_EXCEPTIONAL_PAIRING_BRIDGE", "current leaf drift")
-    req(current["route_id"] == ROUTE_ID, "route id drift")
-    req(current["next_route"] == NEXT_LEAF, "next leaf drift")
-    req(current["blocker"] == "MISSING_EXACT_RUNTIME_EXCEPTIONAL_INDEX_TO_PROJECTIVE_NODE_COORDINATE_BRIDGE", "blocker drift")
+    req(current["status"] == "BC2_10_RETAINED_LOCAL_EXACT_OBSTRUCTION_PROGRESS", "current status drift")
+    req(current["leaf"] == CURRENT_LEAF and current["next_route"] == CURRENT_LEAF, "BC2-11 routing drift")
+    req(current["route_family"] == "FULL178_PICARD64_NODE_SUPPORT_OBSTRUCTION_INTERFACE", "current EX5 role drift")
+    req(current["blocker"] == "NEXT_133_RANK_EXCEPTIONAL_BLOCK_AFTER_RANK_398_NOT_YET_EXACTLY_REDERIVED", "current blocker drift")
 
-    required_working = {
-        "stages/stage32-ex5/breadth-cycle-2/bc2-checkpoint-handoff.json",
-        "stages/stage32-ex5/breadth-cycle-2/bc2-01-support-adapter-preflight.json",
-        "stages/stage32-ex5/breadth-cycle-2/bc2-01a-exceptional-pairing-bridge.json",
-        "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md",
-        "stages/stage32/proof/CLAIM-REGISTRY.json",
-        "stages/stage32/proof/LANE-ADAPTERS.json",
-        "stages/stage32/proof/ACTIVE-FRONTIER.json",
-    }
-    req(required_working.issubset(set(state["current_leaf_working_set"])), "BC2/claim-sync working set incomplete")
+    iface = state["full178_interface"]
+    req(iface["stage32_consumption_node"] == "stages/stage32/32-01-178/nodes/N150/STATE.json", "N150 boundary drift")
+    req(iface["main_consumed_snapshot_through_rank_observed"] == 265, "N150 snapshot drift")
+    req(iface["ex5_retained_progress_through_rank"] == 398, "EX5 retained prefix drift")
+    req(iface["newer_ex5_progress_auto_promoted_to_main"] is False, "EX5 auto-promoted to MAIN")
+    req(iface["population_wide_full178_adapter_complete"] is False, "population-wide adapter falsely complete")
+    req(iface["effectivity_or_actual_curve_existence_proved_by_interface"] is False, "interface widened to existence/effectivity")
 
     frontier = state["frontier"]
-    for key in (
-        "cycle1_audited_bounded_exhaustion_preserved",
-        "bc2_materially_new_route_admitted",
-        "bc2_00_first_pass_complete",
-        "bc2_00_second_pass_dedup_complete",
-        "bc2_01_support_adapter_preflight_complete",
-        "bc2_01a_exceptional_pairing_bridge_complete",
-        "retained_consolidation_claim_sync_required",
-        "retained_consolidation_claim_sync_completed",
-        "hostile_audit_pass_consumed",
-        "authority_transition_sync_completed",
-    ):
-        req(frontier[key] is True, f"frontier completion flag lost: {key}")
-    for key in (
-        "bc2_01b_runtime_node_coordinate_bridge_complete",
-        "runtime_calibration_complete",
-        "btva_projective_span_replay_ready",
-        "nontrivial_receiver_effect_obtained",
-        "qualified_independent_route_established",
-    ):
-        req(frontier[key] is False, f"unsafe BC2 frontier promotion: {key}")
+    req(frontier["runtime_exceptional_index_to_projective_node_bridge_complete"] is True, "runtime-node bridge lost")
+    req(frontier["picard64_exact_completion_interface_available"] is True, "Picard64 interface lost")
+    req(frontier["closed_local_terminal_blocks"] == [[0,132],[133,265],[266,398]], "local block list drift")
+    req(frontier["closed_local_terminal_rank_prefix"] == [0,398], "local prefix drift")
+    req(frontier["whole_g1_d008_e4_stratum_closed"] is False, "local prefix promoted to stratum")
+    req(frontier["FULL178_complete"] is False, "local prefix promoted to FULL178")
+    req(frontier["population_wide_main_consumable_result_complete"] is False, "N150 reopen condition falsely satisfied")
 
-    rc = state["receiver_contract"]
-    req(rc["row_count"] == 185, "receiver row-count drift")
-    req(rc["status_counts"] == {"CLOSED": 5, "OPEN": 180, "UNKNOWN": 0, "CONDITIONAL": 0, "OUT_OF_SCOPE": 0}, "receiver status drift")
-    req(rc["V6_O210_Q602_treated_as_definition_of_all_receivers"] is False, "receiver semantics widened")
+    retained = state["retained_exact_progress"]
+    req(retained["bc2_05_rank_0_132_checkpoint_canonical"] == "cc62959ccf8c2939ff4024dc3a1e4ba59fdea38b7d33fd94817161b732c5284e", "BC2-05 provenance drift")
+    req(retained["bc2_08_rank_133_265_checkpoint_canonical"] == "af197e67d3f56a6775f99f49aae59a14bc99bfa8c1b9b1d113749df3f1aa162c", "BC2-08 provenance drift")
+    req(retained["bc2_10_rank_266_398_checkpoint_canonical"] == BC2_10_CANONICAL, "BC2-10 provenance drift")
+    req(retained["bc2_10_evidence_canonical"] == BC2_10_EVIDENCE, "BC2-10 evidence provenance drift")
+    req(retained["exact_evidence_rewritten_by_semantic_sync"] is False, "semantic sync claims evidence rewrite")
 
-    sync = state["claim_sync"]
-    req(sync["trigger"] == "AUTHORITY_OR_AUDIT_TRANSITION", "claim-sync trigger drift")
-    req(sync["current_audited_claim_id"] == BC2_CLAIM_ID, "claim-sync current audited claim drift")
-    req(sync["audit_receipt_review_id"] == PASSED_BC2_REVIEW and sync["audit_receipt_exact_head"] == PASSED_BC2_HEAD, "claim-sync PASS receipt drift")
-    req(sync["active_frontier_refs"] == ["S32.FULL178.NUMERICAL_CENSUS.V1", "S32.GOAL.STAGE32_CLOSURE.V1"], "EX5 active-frontier refs drift")
-    req(sync["active_frontier_semantics_changed"] is False, "BC2 falsely claims new active-frontier semantics")
-    req(sync["stage32_main_promotion"] is False, "claim-sync promoted BC2 to MAIN")
+    bc2 = load(BC2_10_PATH)
+    req(bc2["canonical_sha256_without_this_field"] == BC2_10_CANONICAL, "BC2-10 canonical field drift")
+    req(canonical_without_field(bc2, "canonical_sha256_without_this_field") == BC2_10_CANONICAL, "BC2-10 canonical replay drift")
+    req(bc2["proof_partition"]["terminal_rank_block"] == [266,398], "BC2-10 block drift")
+    req(bc2["exact_result"]["aggregate_result"] == "UNSAT", "BC2-10 result drift")
+    req(bc2["exact_result"]["rank_266_to_398_block_exact_unsat_authorized"] is True, "BC2-10 authority lost")
+    req(bc2["exact_result"]["evidence_canonical_sha256"] == BC2_10_EVIDENCE, "BC2-10 evidence lock drift")
+    req(bc2["next_exact_unit"]["id"] == CURRENT_LEAF, "BC2-10 next-unit drift")
 
-    credit = state["credit"]
-    req(credit["level"] == "BC2_AUDITED_INFRASTRUCTURE_CHECKPOINT_NO_ROUTE_OR_RECEIVER_CREDIT", "BC2 credit ceiling drift")
-    req(credit["prior_cycle1_audited_credit_preserved"] is True, "Cycle1 audited credit provenance lost")
-    for key in (
-        "current_bc2_mathematical_credit",
-        "qualified_independent_stage32_route_established",
-        "stage32_main_credit",
-        "Q602_excluded",
-        "O210_excluded",
-        "receiver_credit",
-        "theorem_credit",
-        "endpoint_credit",
-        "FULL178_complete",
-        "EFF_discharged",
-        "MB_discharged",
-    ):
-        req(credit[key] is False, f"unauthorized BC2 credit: {key}")
-
-    audit = state["audit"]
-    req(audit["status"] == "PASS_CONSUMED_BY_AUTHORITY_TRANSITION_SYNC", "audit consumption status drift")
-    req(audit["candidate_pr"] == 1726, "audit PR drift")
-    req(audit["exact_head"] == PASSED_BC2_HEAD and audit["review_id"] == PASSED_BC2_REVIEW, "PASS audit identity drift")
-    req(audit["result"] == "PASS" and audit["reaudit_required"] is False, "PASS consumption gate drift")
-    req(audit["prior_failed_exact_head"] == FAILED_BC2_HEAD and audit["prior_failed_review_id"] == FAILED_BC2_REVIEW, "prior FAIL provenance lost")
-    req(audit["mathematical_blocking_contradiction_found"] is False, "audit history misclassified as mathematical contradiction")
-    req(audit["pass_auto_merges"] is False and audit["pass_auto_promotes_to_stage32_main"] is False, "audit firewall lost")
-
+    for key, value in state["credit"].items():
+        if key != "level":
+            req(value is False, f"unauthorized current credit: {key}")
+    for key, value in state["historical_credit_firewall"].items():
+        req(value is False, f"historical-credit firewall violated: {key}")
     for key, value in state["firewalls"].items():
-        req(value is False, f"firewall must remain false: {key}")
+        req(value is False, f"current firewall violated: {key}")
+    req(state["next_step"]["id"] == CURRENT_LEAF, "next-step drift")
+    req(state["next_step"]["heavy_scaleout_authorized"] is False, "heavy scaleout silently authorized")
+    req(state["next_step"]["main_promotion_authorized"] is False, "MAIN promotion silently authorized")
+    req(state["next_step"]["blocked_until_intermediate_hostile_audit_pass"] is True, "100-commit audit freeze missing")
+    req(state["intermediate_audit_boundary"]["freeze_after_this_semantic_sync_commit"] is True, "intermediate audit boundary missing")
 
-    # Preserve the exact prior Cycle1 hostile-audit evidence; BC2 authority transition must not rewrite it.
-    req(receipt["schema"] == "STAGE32EX5_EX5_12_HOSTILE_AUDIT_PASS_RECEIPT_V1", "Cycle1 receipt schema drift")
-    req(receipt["candidate_pr"] == 1710 and receipt["candidate_exact_head"] == CYCLE1_AUDIT_HEAD, "Cycle1 receipt target drift")
-    req(receipt["audit_review_id"] == CYCLE1_AUDIT_REVIEW and receipt["audit_result"] == "PASS", "Cycle1 receipt PASS drift")
-    req(receipt["claim_id"] == CYCLE1_CLAIM_ID and receipt["claim_core_sha256"] == CYCLE1_CLAIM_CORE, "Cycle1 claim identity drift")
-    req(cert["terminal_decision"]["selected_outcome"] == CYCLE1_OUTCOME, "Cycle1 terminal artifact outcome drift")
-    req(cert["canonical_sha256_without_this_field"] == CYCLE1_CERT_CANONICAL, "Cycle1 certificate canonical lock drift")
-    req(canonical_without_field(cert, "canonical_sha256_without_this_field") == CYCLE1_CERT_CANONICAL, "Cycle1 certificate canonical replay drift")
+    # Historical Cycle1 evidence remains source-locked and must still replay.
+    receipt = load(RECEIPT_PATH)
+    cert = load(CERT_PATH)
+    req(receipt["candidate_pr"] == 1710 and receipt["candidate_exact_head"] == CYCLE1_HEAD, "Cycle1 receipt target drift")
+    req(receipt["audit_review_id"] == CYCLE1_REVIEW and receipt["audit_result"] == "PASS", "Cycle1 receipt PASS drift")
+    req(receipt["claim_id"] == CYCLE1_CLAIM and receipt["claim_core_sha256"] == CYCLE1_CORE, "Cycle1 claim identity drift")
+    req(cert["canonical_sha256_without_this_field"] == CYCLE1_CERT, "Cycle1 certificate canonical field drift")
+    req(canonical_without_field(cert, "canonical_sha256_without_this_field") == CYCLE1_CERT, "Cycle1 certificate canonical replay drift")
 
-    # The retained handoff is the immutable pre-audit evidence boundary for the same BC2 claim core.
-    req(handoff["schema"] == "STAGE32EX5_BC2_CHECKPOINT_HANDOFF_V2_CLAIM_SYNC_REPAIR", "handoff schema drift")
-    req(handoff["breadth_cycle"] == current["breadth_cycle"] and handoff["route_id"] == ROUTE_ID, "handoff/current route disagreement")
-    req(handoff["current_routing"]["leaf"] == current["leaf"], "handoff/current leaf disagreement")
-    req(handoff["current_routing"]["next_leaf"] == NEXT_LEAF, "handoff next leaf disagreement")
-    req(handoff["current_routing"]["provisional_claim_id"] == BC2_CLAIM_ID, "handoff evidence-boundary claim id drift")
-    req(handoff["cycle1_authority"]["replaced_or_widened_by_bc2"] is False, "Cycle1 authority overwritten by BC2")
-    req(handoff["audit_repair"]["failed_exact_head"] == FAILED_BC2_HEAD and handoff["audit_repair"]["failed_review_id"] == FAILED_BC2_REVIEW, "handoff failed-audit provenance drift")
-    for key, value in handoff["credit"].items():
-        req(value is False, f"handoff unauthorized credit: {key}")
-    for key, value in handoff["firewalls"].items():
-        req(value is False, f"handoff firewall must remain false: {key}")
+    verify_current_docs()
 
-    req(preflight["route_id"] == ROUTE_ID, "BC2-01 route drift")
-    req(preflight["status"] == "PREFLIGHT_CONTRACT_PASS_RUNTIME_CALIBRATION_PENDING", "BC2-01 status drift")
-    req(preflight["firewalls"]["runtime_calibration_claimed"] is False, "runtime calibration falsely claimed")
-    req(preflight["firewalls"]["mass_treated_as_labelled_support"] is False, "aggregate mass mislabeled as support")
-
-    req(pairing["route_id"] == ROUTE_ID, "BC2-01A route drift")
-    req(pairing["status"] == "PAIRING_LAST48_BRIDGE_PASS_NODE_COORDINATE_BRIDGE_PENDING", "BC2-01A status drift")
-    req(pairing["next_leaf"]["id"] == NEXT_LEAF, "BC2-01A next leaf drift")
-    req(pairing["pending"]["persisted_runtime_node_index_to_exact_projective_coordinate_table_found"] is False, "node-coordinate bridge falsely claimed")
-    req(pairing["pending"]["btva_projective_span_replay_ready"] is False, "BTVA replay falsely ready")
-
-    print("PASS: Stage32EX5 BC2 hostile-audit PASS consumed; retained checkpoint authority AUDITED")
-    print(f"current_bc2_claim={BC2_CLAIM_ID}:AUDITED")
-    print(f"audit_review={PASSED_BC2_REVIEW}")
-    print(f"next_leaf={NEXT_LEAF}")
-    print("bc2_route_receiver_credit=NO")
+    print("PASS: Stage32EX5 current semantics synchronized; historical source locks preserved")
+    print(f"stage32_mode={MODE}")
+    print("primary_incomplete=32-01:FULL178")
+    print("historical_q602_residues=[73,97,235]:PROVENANCE_ONLY")
+    print("local_exact_unsat_prefix=0..398")
+    print(f"next_leaf={CURRENT_LEAF}:BLOCKED_PENDING_INTERMEDIATE_AUDIT")
     print("stage32_main_credit=NO")
     print("merge=SEPARATE_USER_ACTION")
 

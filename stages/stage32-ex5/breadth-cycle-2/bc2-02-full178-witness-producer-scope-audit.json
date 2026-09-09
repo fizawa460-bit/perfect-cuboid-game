@@ -1,0 +1,70 @@
+{
+  "schema": "STAGE32EX5_BC2_02_FULL178_WITNESS_PRODUCER_SCOPE_AUDIT_V1",
+  "authority": "STAGE32EX5_RETAINED_PREFLIGHT",
+  "target": "GENERIC_FULL178_INTEGRAL_PICARD_TARGET_TO_EXACT_59D_WITNESS_PRODUCER",
+  "status": "PARTIAL_RETAINED_PRODUCER_KERNEL_REUSABLE_TARGET_ADAPTER_MISSING",
+  "summary": "The legacy 21bl code already contains a reusable exact 59-variable QF_LIA integerization/model-extraction kernel, so BC2-02 does not need a new integer solver from scratch. However, the existing producer is semantically hard-wired to the 21az fixed-projection 3234-triple prism and its downstream 21bk/21bh/21bi/21bj locks. It is not a generic FULL178 producer. The missing unit is a source-locked adapter from an admissible FULL178 integral Picard target to the same exact 59D reduced-coordinate model (or an equivalent direct 48-support certificate), without importing 21az-only restrictions unless separately proved valid for the FULL178 target.",
+  "exact_inputs": {
+    "legacy_59d_solver": {
+      "path": "stages/stage32/residual-32-01-production/certify_stage32_21bl_joint_integer_closure.py",
+      "blob": "acba51c2912e058bc7f3575680d6fa5dd0d97fbc",
+      "rank": 59
+    },
+    "legacy_model_builder": {
+      "path": "stages/stage32/residual-32-01-production/certify_stage32_21bf_r49_per_triple_projection.py",
+      "blob": "a4987089526dbece43fd56c69258dba252684b7f"
+    },
+    "historical_producer_run": {
+      "workflow": ".github/workflows/stage32-21bl-joint-integer-closure.yml",
+      "run_id": 33380510213,
+      "source_head": "b819b128beecdbbd6bb4e773ab98ad7c12e1b2ef",
+      "conclusion": "success",
+      "audited_representative_ordinal": 1617
+    },
+    "fresh_21bl_audit": {
+      "path": "stages/stage32/32-21/32-21bl-joint-integer-witness-audit.json",
+      "blob": "7ce1d5de5918c230085e57058e998885b3637f1e",
+      "scope": "deterministic 56 fixed-projection representative sample only; not FULL178 numerical credit"
+    }
+  },
+  "established": {
+    "legacy_kernel_integerizes_all_59_reduced_coordinates_simultaneously": true,
+    "legacy_kernel_uses_exact_QF_LIA": true,
+    "legacy_kernel_extracts_exact_59d_model_witness_on_sat": true,
+    "legacy_run_shard_enumerates_prism_triples": true,
+    "legacy_expected_triple_count": 3234,
+    "legacy_run_shard_adds_fixed_r50_r55_r27_triple_constraints": true,
+    "legacy_run_shard_adds_21az_chain_specific_coordinate_bands": true,
+    "legacy_output_declares_representative_sample_only": true,
+    "legacy_output_declares_not_full178_numerical_credit": true,
+    "historical_workflow_preflight_used_ordinal_1617": true,
+    "historical_workflow_set_scaleout_authorized_false": true,
+    "historical_solve_job_required_scaleout_authorized_true": true,
+    "legacy_integer_solver_core_is_reusable": true,
+    "legacy_target_model_contract_is_not_generic_full178": true
+  },
+  "minimal_generic_adapter_contract": {
+    "input_identity": "one admissible integral FULL178 Picard target with exact row/candidate provenance",
+    "required_model": "59 reduced variables plus exact integer-coefficient linear assertions defining that target in the retained Picard marking",
+    "forbidden_shortcut": "do not import fixed-projection 21az/21bk/21bh/21bi/21bj bands merely because they make the legacy solver fast",
+    "sat_output": "exact witness_r_reduced[59] with target identity and replayable source locks",
+    "downstream_consumer": "stages/stage32-ex5/breadth-cycle-2/bc2_02_exact_witness_to_node_support.py"
+  },
+  "next_required_unit": "BC2_02_FULL178_TARGET_TO_59D_MODEL_ADAPTER_PREFLIGHT",
+  "execution": {
+    "heavy_compute_launched": false,
+    "new_parallel_lane_created": false,
+    "new_pull_request_created": false
+  },
+  "firewalls": {
+    "full178_support_materialization_complete": false,
+    "full178_complete": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  }
+}

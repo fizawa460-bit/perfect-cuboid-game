@@ -1,0 +1,499 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import math
+from pathlib import Path
+
+import sympy
+from sympy import Matrix
+from z3 import Int, SolverFor, get_version_string, sat, unknown, unsat
+
+import bc2_03_generic_indexed_terminal_adaptive_exceptional_partition as g
+
+SCHEMA = "STAGE32EX5_BC2_07_OUTER_RANK1_SYMBOLIC_X4_PARENT_PREFLIGHT_V1"
+NORMAL_COUNT = 92
+EXCEPTIONAL_COUNT = 48
+BLOCK_EXCEPTIONAL_RANK = 1
+BLOCK_START = 133
+BLOCK_END = 265
+EXPECTED_NORMAL_BUDGET = 132
+EXPECTED_BLOCK_WIDTH = 133
+EXPECTED_LABEL49 = 49
+EXPECTED_SELECTED_EXCEPTIONAL_COUNT = 29
+EXPECTED_UNSELECTED_EXCEPTIONAL_COUNT = 19
+EXPECTED_BC2_06_CANONICAL = "b304b6c050327f617999a7a1181721ecf34aeeec45f108b6bbfed2edccec9746"
+EXPECTED_MANIFEST_CANONICAL = "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23"
+EXPECTED_PREFIX_CANONICAL = "65a5ab43e44ebb33341c250a8fa2c5ece09999203893f9a76ca46fb037df558f"
+EXPECTED_ADAPTER_PREFLIGHT_CANONICAL = "824843776dbf093163a32d8af7dab12dd4e8634789f2d7a2bd0b9ff3a7bde3cf"
+EXPECTED_RETAINED_BUNDLE_CANONICAL = "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c"
+EXPECTED_RETAINED_MARKING_CANONICAL = "e06291dddfc529fca2c0b0fe58dd43151faccd3d7997d9aa5797e1978227bb7c"
+EXPECTED_SELECTED64_INVERSE_DENOMINATOR = 8
+EXPECTED_BASE_TERMINAL = (0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1)
+EXPECTED_EXCEPTIONAL_SIGNATURE = (0, 1, 0, 0, 0, 0, 1, 0, 0, 1)
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--manifest", type=Path, required=True)
+    ap.add_argument("--prefix-checkpoint", type=Path, required=True)
+    ap.add_argument("--adapter-preflight", type=Path, required=True)
+    ap.add_argument("--bc2-06-checkpoint", type=Path, required=True)
+    ap.add_argument("--retained", type=Path, required=True)
+    ap.add_argument("--marking", type=Path, required=True)
+    ap.add_argument("--parent-timeout-ms", type=int, default=1500)
+    ap.add_argument("--output", type=Path, required=True)
+    args = ap.parse_args()
+    if args.parent_timeout_ms <= 0:
+        raise ValueError("parent timeout must be positive")
+
+    v1 = g.v1
+    manifest, manifest_canonical = v1.load_canonical_json(args.manifest)
+    prefix, prefix_canonical = v1.load_canonical_json(args.prefix_checkpoint)
+    preflight, preflight_canonical = v1.load_canonical_json(args.adapter_preflight)
+    bc2_06, bc2_06_canonical = v1.load_canonical_json(args.bc2_06_checkpoint)
+
+    for got, expected, name in (
+        (manifest_canonical, EXPECTED_MANIFEST_CANONICAL, "manifest"),
+        (prefix_canonical, EXPECTED_PREFIX_CANONICAL, "prefix checkpoint"),
+        (preflight_canonical, EXPECTED_ADAPTER_PREFLIGHT_CANONICAL, "adapter preflight"),
+        (bc2_06_canonical, EXPECTED_BC2_06_CANONICAL, "BC2-06 checkpoint"),
+    ):
+        if got != expected:
+            raise ValueError(f"{name} canonical regression")
+
+    replay = bc2_06["exact_replay"]
+    if bc2_06.get("next_exact_unit", {}).get("id") != "BC2_07_OUTER_RANK1_SYMBOLIC_X4_PARENT_PREFLIGHT":
+        raise ValueError("BC2-06 next-unit routing regression")
+    if bc2_06.get("predecessor", {}).get("rank_0_to_132_block_exact_unsat") is not True:
+        raise ValueError("BC2-06 predecessor exact-UNSAT authority regression")
+    if bc2_06.get("firewalls", {}).get("rank_133_to_265_block_picard64_closed") is not False:
+        raise ValueError("BC2-06 next-block credit firewall regression")
+    if replay.get("terminal_rank_start") != BLOCK_START or replay.get("terminal_rank_end") != BLOCK_END:
+        raise ValueError("BC2-06 rank-block regression")
+    if replay.get("outer_exceptional_rank") != BLOCK_EXCEPTIONAL_RANK:
+        raise ValueError("BC2-06 exceptional outer-rank regression")
+    if tuple(replay.get("base_terminal_x4_zero", [])) != EXPECTED_BASE_TERMINAL:
+        raise ValueError("BC2-06 base-terminal regression")
+    if tuple(replay.get("exceptional_signature", [])) != EXPECTED_EXCEPTIONAL_SIGNATURE:
+        raise ValueError("BC2-06 exceptional-signature regression")
+    for key in (
+        "all_133_rank_unrank_replays_exact",
+        "all_133_terminal_predicate_replays_exact",
+        "x4_is_innermost_coordinate_over_block",
+        "exceptional_signature_constant_over_block",
+    ):
+        if replay.get(key) is not True:
+            raise ValueError(f"BC2-06 replay authority regression: {key}")
+
+    rows = v1.parse_manifest_rows(manifest)
+    if len(rows) != 178 or v1.ROW_ID not in rows:
+        raise ValueError("FULL178 manifest row population regression")
+    if prefix["exact_terminal_family"]["assignment_order_known_labels_1based"] != v1.EXPECTED_ASSIGNMENT_ORDER:
+        raise ValueError("terminal assignment-order regression")
+    if v1.EXPECTED_ASSIGNMENT_ORDER[4] != EXPECTED_LABEL49:
+        raise ValueError("x4/known-label-49 position regression")
+
+    indexer = v1.CompressedTerminalIndexer(v1.EXCEPTIONAL_MASS, v1.DEGREE)
+    if indexer.normal_budget != EXPECTED_NORMAL_BUDGET:
+        raise ValueError("normal budget regression")
+    block_width = indexer.normal_budget + 1
+    if block_width != EXPECTED_BLOCK_WIDTH:
+        raise ValueError("x4 block width regression")
+    if BLOCK_EXCEPTIONAL_RANK * block_width != BLOCK_START:
+        raise ValueError("outer-rank/block-start identity regression")
+
+    base_terminal = tuple(int(q) for q in indexer.unrank(BLOCK_START))
+    base_exceptional_signature = base_terminal[:4] + base_terminal[5:]
+    if base_terminal != EXPECTED_BASE_TERMINAL:
+        raise ValueError("outer-rank1 base terminal changed")
+    if base_exceptional_signature != EXPECTED_EXCEPTIONAL_SIGNATURE:
+        raise ValueError("outer-rank1 exceptional signature changed")
+
+    block_terminal_stream = []
+    for x4_value in range(block_width):
+        rank = BLOCK_START + x4_value
+        terminal = tuple(int(q) for q in indexer.unrank(rank))
+        if terminal[4] != x4_value:
+            raise ValueError(f"x4 innermost regression at rank {rank}")
+        if terminal[:4] + terminal[5:] != base_exceptional_signature:
+            raise ValueError(f"exceptional signature changed at rank {rank}")
+        if indexer.rank(terminal) != rank:
+            raise ValueError(f"rank/unrank regression at rank {rank}")
+        block_terminal_stream.append([rank, list(terminal)])
+
+    bundle = v1.load_retained(args.retained, "s32ex5_bc2_07_outer_rank1_picard")
+    marking = v1.load_retained(args.marking, "s32ex5_bc2_07_outer_rank1_marking")
+    if bundle["canonical_sha256"] != EXPECTED_RETAINED_BUNDLE_CANONICAL:
+        raise ValueError("retained bundle source-lock regression")
+    if marking["canonical_sha256"] != EXPECTED_RETAINED_MARKING_CANONICAL:
+        raise ValueError("retained marking source-lock regression")
+
+    data = v1.reconstruct_translation_data(marking, bundle)
+    adapter = data["adapter"]
+    bridge = data["bridge"]
+    P = adapter.pairing_matrix
+    if P.shape != (v1.ALL140_COUNT, v1.PICARD_RANK):
+        raise ValueError("all140 pairing matrix shape regression")
+
+    selected_labels = [int(label) for label in g.INDLIST]
+    if EXPECTED_LABEL49 not in selected_labels:
+        raise ValueError("known-label-49 left selected64 basis")
+    selected_indices = [label - 1 for label in selected_labels]
+    Psel = P.extract(selected_indices, list(range(v1.PICARD_RANK)))
+    if Psel.det() == 0:
+        raise ValueError("selected64 pairing matrix singular")
+    Pinv = Psel.inv()
+    den = g.lcm_denominator(Pinv)
+    if den != EXPECTED_SELECTED64_INVERSE_DENOMINATOR:
+        raise ValueError("selected64 inverse denominator regression")
+    Binv_q = Pinv * den
+    if any(sympy.denom(q) != 1 for q in Binv_q):
+        raise ValueError("selected64 inverse scaling regression")
+    Binv = Matrix([
+        [int(Binv_q[i, j]) for j in range(Binv_q.cols)]
+        for i in range(Binv_q.rows)
+    ])
+    if Psel * Binv != den * Matrix.eye(v1.PICARD_RANK):
+        raise ValueError("selected64 inverse reconstruction regression")
+    Anum_q = P * Binv
+    if any(sympy.denom(q) != 1 for q in Anum_q):
+        raise ValueError("all140 selected-coordinate map became nonintegral")
+    Anum = Matrix([
+        [int(Anum_q[i, j]) for j in range(Anum_q.cols)]
+        for i in range(Anum_q.rows)
+    ])
+
+    terminal_by_label = {
+        int(label): int(value)
+        for label, value in zip(v1.EXPECTED_ASSIGNMENT_ORDER, base_terminal)
+    }
+    if terminal_by_label[EXPECTED_LABEL49] != 0:
+        raise ValueError("base x4 is not zero")
+    selected_exceptional_labels = [label for label in selected_labels if label > NORMAL_COUNT]
+    if len(selected_exceptional_labels) != EXPECTED_SELECTED_EXCEPTIONAL_COUNT:
+        raise ValueError("selected exceptional count regression")
+    terminal_exceptional_labels = sorted(
+        label for label in terminal_by_label if label > NORMAL_COUNT
+    )
+    if any(label not in selected_exceptional_labels for label in terminal_exceptional_labels):
+        raise ValueError("terminal exceptional label left selected64 set")
+
+    fixed_exceptional_mass = sum(
+        terminal_by_label[label] for label in terminal_exceptional_labels
+    )
+    residual_exceptional_mass = v1.EXCEPTIONAL_MASS - fixed_exceptional_mass
+    if fixed_exceptional_mass != 3 or residual_exceptional_mass != 1:
+        raise ValueError("outer-rank1 exceptional mass split regression")
+
+    remaining_selected_exceptional_labels = [
+        label for label in selected_exceptional_labels
+        if label not in terminal_by_label
+    ]
+    selected_pos = {label: selected_labels.index(label) for label in selected_labels}
+    remaining_selected_positions = [
+        selected_pos[label] for label in remaining_selected_exceptional_labels
+    ]
+    if len(remaining_selected_exceptional_labels) != 19:
+        raise ValueError("remaining selected exceptional count regression")
+
+    unselected_exceptional_labels = [
+        label
+        for label in range(NORMAL_COUNT + 1, NORMAL_COUNT + EXCEPTIONAL_COUNT + 1)
+        if label not in selected_exceptional_labels
+    ]
+    if len(unselected_exceptional_labels) != EXPECTED_UNSELECTED_EXCEPTIONAL_COUNT:
+        raise ValueError("unselected exceptional count regression")
+
+    parent_assignments = list(
+        g.at_most_weak_compositions(
+            residual_exceptional_mass,
+            len(remaining_selected_exceptional_labels),
+        )
+    )
+    expected_parent_count = math.comb(
+        residual_exceptional_mass + len(remaining_selected_exceptional_labels),
+        len(remaining_selected_exceptional_labels),
+    )
+    if len(parent_assignments) != expected_parent_count or expected_parent_count != 20:
+        raise ValueError("outer-rank1 selected-exceptional parent partition regression")
+
+    normal_mass = 19 * v1.DEGREE - 5 * v1.EXCEPTIONAL_MASS
+    if normal_mass != EXPECTED_NORMAL_BUDGET:
+        raise ValueError("normal mass regression")
+
+    y = [Int(f"y_{j}") for j in range(v1.PICARD_RANK)]
+    p = [Int(f"p_{i}") for i in range(v1.ALL140_COUNT)]
+    solver = SolverFor("QF_LIA")
+    solver.set(timeout=args.parent_timeout_ms)
+
+    for j, label in enumerate(selected_labels):
+        ub = v1.EXCEPTIONAL_MASS if label > NORMAL_COUNT else normal_mass
+        solver.add(y[j] >= 0, y[j] <= ub)
+        solver.add(p[label - 1] == y[j])
+    for i in range(v1.ALL140_COUNT):
+        ub = normal_mass if i < NORMAL_COUNT else v1.EXCEPTIONAL_MASS
+        solver.add(p[i] >= 0, p[i] <= ub)
+        solver.add(
+            den * p[i]
+            == sum(int(Anum[i, j]) * y[j] for j in range(v1.PICARD_RANK))
+        )
+    for i in range(v1.PICARD_RANK):
+        numerator = sum(
+            int(Binv[i, j]) * y[j] for j in range(v1.PICARD_RANK)
+        )
+        solver.add(numerator % den == 0)
+
+    solver.add(sum(p[:NORMAL_COUNT]) == normal_mass)
+    solver.add(sum(p[NORMAL_COUNT:]) == v1.EXCEPTIONAL_MASS)
+
+    for label, value in terminal_by_label.items():
+        if label == EXPECTED_LABEL49:
+            continue
+        solver.add(p[label - 1] == value)
+
+    x4 = p[EXPECTED_LABEL49 - 1]
+    solver.add(x4 >= 0, x4 <= normal_mass)
+    solver.add(
+        sum(y[pos] for pos in remaining_selected_positions)
+        <= residual_exceptional_mass
+    )
+
+    parent_records = []
+    unknown_parents = []
+    exact_unsat_count = 0
+    sat_record = None
+    sat_model = None
+
+    for parent_id, assignment in enumerate(parent_assignments):
+        solver.push()
+        try:
+            for pos, value in zip(remaining_selected_positions, assignment):
+                solver.add(y[pos] == int(value))
+            result = solver.check()
+            selected_mass = int(sum(assignment))
+            record = [int(parent_id), selected_mass]
+
+            if result == sat:
+                record.append("SAT")
+                sat_model = solver.model()
+                sat_x4 = int(
+                    sat_model.eval(x4, model_completion=True).as_long()
+                )
+                sat_record = {
+                    "parent_branch_id": int(parent_id),
+                    "selected_residual_mass": selected_mass,
+                    "selected_assignment_sparse_labels_1based": g.sparse_labels(
+                        remaining_selected_exceptional_labels, assignment
+                    ),
+                    "x4": sat_x4,
+                    "terminal_rank": BLOCK_START + sat_x4,
+                }
+                parent_records.append(record)
+                break
+
+            if result == unsat:
+                record.append("UNSAT")
+                exact_unsat_count += 1
+            elif result == unknown:
+                record.append("UNKNOWN")
+                unselected_mass = residual_exceptional_mass - selected_mass
+                if unselected_mass < 0:
+                    raise ValueError("negative unselected residual mass")
+                refinement_count = math.comb(
+                    unselected_mass + len(unselected_exceptional_labels) - 1,
+                    len(unselected_exceptional_labels) - 1,
+                )
+                unknown_parents.append({
+                    "parent_branch_id": int(parent_id),
+                    "selected_residual_mass": selected_mass,
+                    "selected_assignment_sparse_labels_1based": g.sparse_labels(
+                        remaining_selected_exceptional_labels, assignment
+                    ),
+                    "unselected_residual_mass": int(unselected_mass),
+                    "exact_full_exceptional_refinement_subcase_count": int(
+                        refinement_count
+                    ),
+                    "reason_unknown": solver.reason_unknown(),
+                })
+            else:
+                raise ValueError(f"unexpected solver result: {result}")
+            parent_records.append(record)
+        finally:
+            solver.pop()
+
+    if sat_record is not None:
+        aggregate = "SAT"
+    elif exact_unsat_count == len(parent_assignments) and not unknown_parents:
+        aggregate = "UNSAT"
+    else:
+        aggregate = "UNKNOWN"
+
+    completion = None
+    witness_r_reduced = None
+    target = {
+        "row_id": v1.ROW_ID,
+        "genus": v1.GENUS,
+        "degree": v1.DEGREE,
+        "e": v1.EXCEPTIONAL_MASS,
+        "terminal_rank_block": [BLOCK_START, BLOCK_END],
+        "outer_exceptional_rank": BLOCK_EXCEPTIONAL_RANK,
+        "x4_range": [0, normal_mass],
+        "base_terminal_x4_zero": list(base_terminal),
+        "exceptional_signature": list(base_exceptional_signature),
+    }
+
+    if aggregate == "SAT":
+        if sat_model is None or sat_record is None:
+            raise ValueError("SAT block missing model")
+        target_extra, witness_r_reduced, completion = g.reconstruct_sat(
+            model=sat_model,
+            y=y,
+            p=p,
+            Binv=Binv,
+            den=den,
+            P=P,
+            normal_mass=normal_mass,
+            bridge=bridge,
+            data=data,
+            bundle=bundle,
+        )
+        target.update(target_extra)
+        target["terminal_rank"] = int(sat_record["terminal_rank"])
+        target["terminal_pairings"] = list(indexer.unrank(target["terminal_rank"]))
+        if target["terminal_pairings"][4] != sat_record["x4"]:
+            raise ValueError("SAT x4/terminal-rank replay regression")
+        if tuple(target["terminal_pairings"][:4] + target["terminal_pairings"][5:]) != base_exceptional_signature:
+            raise ValueError("SAT terminal escaped BC2-06 exceptional signature")
+
+    refinement_total = sum(
+        int(q["exact_full_exceptional_refinement_subcase_count"])
+        for q in unknown_parents
+    )
+    unknown_mass_counts: dict[str, int] = {}
+    for q in unknown_parents:
+        m = str(q["unselected_residual_mass"])
+        unknown_mass_counts[m] = unknown_mass_counts.get(m, 0) + 1
+
+    if aggregate == "SAT":
+        next_id = "BC2_07_SAT_NODE_SUPPORT_CONSUMPTION"
+    elif aggregate == "UNSAT":
+        next_id = "BC2_08_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT"
+    else:
+        next_id = "BC2_08_OUTER_RANK1_UNKNOWN_PARENT_FULL_EXCEPTIONAL_REFINEMENT"
+
+    payload = {
+        "schema": SCHEMA,
+        "stage": "32EX5",
+        "leaf": "BC2-07",
+        "unit": "BC2_07_OUTER_RANK1_SYMBOLIC_X4_PARENT_PREFLIGHT",
+        "status": (
+            "PASS_OUTER_RANK1_SYMBOLIC_X4_HAS_EXACT_PICARD64_COMPLETION"
+            if aggregate == "SAT"
+            else "PASS_OUTER_RANK1_SYMBOLIC_X4_PARENT_EXACT_UNSAT"
+            if aggregate == "UNSAT"
+            else "PASS_OUTER_RANK1_SYMBOLIC_X4_PARENT_REFINEMENT_REQUIRED"
+        ),
+        "source_locks": {
+            "manifest_canonical_sha256": manifest_canonical,
+            "prefix_checkpoint_canonical_sha256": prefix_canonical,
+            "adapter_preflight_canonical_sha256": preflight_canonical,
+            "bc2_06_checkpoint_canonical_sha256": bc2_06_canonical,
+            "bc2_06_replay_stream_sha256": replay["replay_stream_sha256"],
+            "retained_bundle_canonical_sha256": bundle["canonical_sha256"],
+            "retained_marking_canonical_sha256": marking["canonical_sha256"],
+            "selected64_inverse_denominator": den,
+        },
+        "block_semantics": {
+            "exceptional_rank": BLOCK_EXCEPTIONAL_RANK,
+            "rank_start": BLOCK_START,
+            "rank_end": BLOCK_END,
+            "block_width": block_width,
+            "known_label_49_is_x4": True,
+            "x4_range": [0, normal_mass],
+            "x4_kept_symbolic_over_full_block": True,
+            "base_terminal_x4_zero": list(base_terminal),
+            "exceptional_signature": list(base_exceptional_signature),
+            "bc2_06_exact_replay_consumed": True,
+            "block_terminal_stream_sha256": g.csha(block_terminal_stream),
+            "new_mathematical_condition_added": False,
+        },
+        "adaptive_exceptional_partition": {
+            "fixed_exceptional_mass": fixed_exceptional_mass,
+            "residual_exceptional_mass": residual_exceptional_mass,
+            "remaining_selected_exceptional_count": len(
+                remaining_selected_exceptional_labels
+            ),
+            "unselected_exceptional_count": len(unselected_exceptional_labels),
+            "parent_branch_count": len(parent_assignments),
+            "parent_assignment_stream_sha256": g.csha([
+                g.sparse_labels(remaining_selected_exceptional_labels, a)
+                for a in parent_assignments
+            ]),
+            "parent_partition_complete_for_symbolic_x4_block": True,
+        },
+        "parent_result": {
+            "aggregate_result": aggregate,
+            "tested_parent_branches": len(parent_records),
+            "exact_unsat_parent_branches": exact_unsat_count,
+            "unknown_parent_branches": len(unknown_parents),
+            "sat_parent": sat_record,
+            "parent_status_stream_sha256": g.csha(parent_records),
+            "unknown_parent_unselected_mass_counts": unknown_mass_counts,
+            "exact_full_exceptional_refinement_subcase_count_if_needed": refinement_total,
+            "parent_timeout_ms": args.parent_timeout_ms,
+            "z3_version": get_version_string(),
+        },
+        "unknown_parents": unknown_parents,
+        "target": target,
+        "result": {
+            "status": aggregate,
+            "completion": completion,
+            "witness_r_reduced": witness_r_reduced,
+            "rank_133_to_265_block_exact_unsat_authorized": aggregate == "UNSAT",
+            "symbolic_block_sat_completion_found": aggregate == "SAT",
+        },
+        "next_exact_unit": {
+            "id": next_id,
+            "required_refined_subcases": refinement_total,
+            "heavy_scaleout_authorized": False,
+            "new_parallel_lane_required": False,
+        },
+        "firewalls": {
+            "rank_0_to_132_block_exact_unsat_retained": True,
+            "rank_133_to_265_block_picard64_closed": aggregate == "UNSAT",
+            "whole_g1_d008_e4_stratum_closed": False,
+            "FULL178_complete": False,
+            "stage32_main_credit": False,
+            "receiver_credit": False,
+            "Q602_excluded": False,
+            "O210_excluded": False,
+            "theorem_credit": False,
+            "endpoint_credit": False,
+            "perfect_cuboid_existence_claim": False,
+            "perfect_cuboid_nonexistence_claim": False,
+            "merge_authorized": False,
+        },
+    }
+    payload["canonical_sha256_without_this_field"] = g.csha(payload)
+    args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+
+    print(json.dumps({
+        "aggregate_result": aggregate,
+        "block": [BLOCK_START, BLOCK_END],
+        "fixed_exceptional_mass": fixed_exceptional_mass,
+        "residual_exceptional_mass": residual_exceptional_mass,
+        "parent_branches": len(parent_assignments),
+        "tested_parent": len(parent_records),
+        "parent_unsat": exact_unsat_count,
+        "parent_unknown": len(unknown_parents),
+        "unknown_mass_counts": unknown_mass_counts,
+        "refined_subcases_if_needed": refinement_total,
+        "sat_parent": sat_record,
+        "canonical_sha256": payload["canonical_sha256_without_this_field"],
+    }, sort_keys=True))
+
+
+if __name__ == "__main__":
+    main()

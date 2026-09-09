@@ -3,67 +3,80 @@
 Ordinary `stage32ex5-mainbatch` reads, in this order:
 
 1. `AGENTS.md`;
-2. `stages/stage32-ex5/MAIN-START-HERE.md`;
-3. `stages/stage32-ex5/MAIN-STATE.json`;
-4. only the paths listed in `MAIN-STATE.json.current_leaf_working_set`.
+2. `stages/stage32-ex5/README.md`;
+3. `stages/stage32-ex5/MAIN-START-HERE.md`;
+4. `stages/stage32-ex5/MAIN-STATE.json`;
+5. only the paths listed in `MAIN-STATE.json.current_leaf_working_set`.
 
-This file is the fixed ordinary startup contract. Mutable frontier, route-cycle version, current leaf, blockers, audit status, and next route live only in `MAIN-STATE.json`. The final route-decision contract lives in `stages/stage32-ex5/stage32-ex5.md`.
+`README.md` states the current Stage32 meaning of EX5. `MAIN-STATE.json` is the mutable routing/resume projection. The current roadmap/claim-boundary contract is `stages/stage32-ex5/CURRENT-ROADMAP.md`. `stage32-ex5.md` is a historical Cycle1 source-locked roadmap and is not the mutable current roadmap.
 
 Do not preload Stage32 history/controllers, other Stage32EX roadmaps, Research OS, Arsenal, or large retained payloads unless `AGENTS.md`, `MAIN-STATE.json`, or the active leaf explicitly triggers them.
 
+## Current Stage32 authority
+
+The synchronized Stage32 MAIN authority is PR #1753 in control mode `FULL178_AND_FINAL_MILESTONE_CHAIN`. Its primary incomplete requirement is `32-01 FULL178`.
+
+V6, O210, and Q602 are not current EX5 or Stage32 MAIN attack targets. The formal triple `[73,97,235]` is historical Q602 provenance only; it must not be described as the current Stage32 survivor population.
+
+Historical EX5 artifacts that mention V6/O210/Q602 remain immutable evidence at their original scopes. Their old no-credit wording is a historical-credit firewall, not a statement that those objects are the present frontier.
+
+## EX5 current role
+
+Stage32EX5 is a separate working surface that may provide exact interface/obstruction results to the current `32-01 FULL178` chain. The active BC2 interface is:
+
+`compressed FULL178 terminal/pairings -> exact Picard64 completion -> integral Picard/59D witness when SAT -> canonical 48-node support consumption`.
+
+An exact UNSAT terminal/block is a local FULL178 obstruction contribution. A SAT result supplies an exact witness/interface candidate. Neither one automatically grants FULL178 completion, Stage32 MAIN credit, effectivity, actual-curve existence, receiver/final-milestone credit, or endpoint credit.
+
+The intended MAIN-side consumption gate is `stages/stage32/32-01-178/nodes/N150/STATE.json`. EX5 progress is not MAIN credit until a retained/audited current-target-compatible producer/result and explicit adapter are accepted there or by its audited successor.
+
+## Current exact frontier
+
+Retained exact Picard64 UNSAT blocks in local `(g1-d008,e=4)` scope:
+
+- ranks `0..132`;
+- ranks `133..265`;
+- ranks `266..398`.
+
+The whole stratum remains open. Current next unit is `BC2_11_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT`: rederive the next 133-rank block after rank 398 before further Picard64 solver credit.
+
 ## Authority split
 
-`MAIN-STATE.json` is a routing/resume projection, not a proof certificate. Receiver rows, route status, and mathematical effects require exact source locks, retained leaf artifacts, verifiers, and hostile-audit records.
+`MAIN-STATE.json` is a routing/resume projection, not a proof certificate. Mathematical effects require exact source locks, retained leaf artifacts, verifiers, and hostile-audit records.
 
-Stage32 MAIN is read as routing/source context only where the current leaf requires it. Stage32EX5 does not inherit unaudited Stage32 or other-stage candidates as theorem authority.
+Stage32 MAIN remains authoritative for what is currently incomplete and what counts toward the final chain. EX5 cannot promote itself into MAIN by updating its own state.
 
-The EX5 completion state is `EX5_ROUTE_DECISION_CLOSURE`, not Stage32 `FULL_TARGET_CLOSURE`.
+Older Cycle1/early-BC2 audited records remain historical EX5 authority at their declared scopes. New BC2 exact evidence does not rewrite those records.
 
 ## `stage32ex5-mainbatch` execution contract
 
 A batch:
 
-1. identifies exactly one current mathematical/route-qualification unit;
-2. revalidates every load-bearing receiver/source input needed by that unit;
+1. identifies one current mathematical/interface unit;
+2. revalidates every load-bearing source/adapter needed by that unit;
 3. executes one bounded unit;
-4. retains only results with explicit receiver scope, field/model, quantifier, assumptions, and replay path;
-5. updates the leaf artifact/verifier when appropriate, then updates `MAIN-STATE.json` with route status, credit ceiling, blocker/re-entry condition, and next route;
-6. stops at a coherent checkpoint instead of silently widening the frozen breadth package.
+4. retains results with explicit population/model/quantifier/source locks;
+5. updates only current routing/prose after exact evidence is fixed;
+6. stops at a coherent checkpoint instead of silently widening scope.
 
-A failed route is not EX5 exhaustion. Record its stable route identity and blocker, then move to a materially distinct route. Exhaustion is only the bounded outcome defined by the frozen package in the roadmap.
-
-## Receiver/asset discovery discipline
-
-During EX5-00..02, global finite-target/receiver semantics may open only the on-demand authority paths explicitly referenced by current Stage32 state or the active source-lock contract.
-
-During EX5-04, existing weapon lookup must follow:
-
-`docs/research-os/policies/repository-asset-discovery.md`
-`-> docs/arsenal/index.json`
-`-> relevant generated card`.
-
-Do not use repository-wide search misses as proof of absence. Do not recursively enumerate the repository.
-
-## Timeout-safe execution
-
-Use scratch branches for route-family microdiagnostics. Scratch results are non-authoritative. Consolidate retained successful leaves only at coherent checkpoints; freshness synchronization and broad exact-head CI belong at consolidation/audit-ready checkpoints rather than after every diagnostic.
-
-Heavy/artifact-producing workflows require the repository heavy-workflow policy and an explicit authorization gate. This startup file does not authorize heavy compute.
+Heavy/artifact-producing workflows require the repository heavy-workflow policy and a fresh commit-range run-key authorization. This startup file does not authorize heavy compute.
 
 ## Claim-DAG synchronization trigger
 
-Ordinary `stage32ex5-mainbatch` startup remains exactly the four-item startup set above and does not preload Stage32 proof-management files.
+Ordinary startup does not preload Stage32 proof-management files.
 
-When EX5 reaches any `RETAINED_CONSOLIDATION`, `AUTHORITY_OR_AUDIT_TRANSITION`, `EX_TO_MAIN_PROMOTION`, `ACTIVE_FRONTIER_REMAP`, or `FINAL_MILESTONE_TRANSITION`, open `stages/stage32/proof/CLAIM-SYNC-CONTRACT.md` and complete its on-demand synchronization procedure before treating that checkpoint or downstream credit transition as complete.
+When EX5 reaches `RETAINED_CONSOLIDATION`, `AUTHORITY_OR_AUDIT_TRANSITION`, `EX_TO_MAIN_PROMOTION`, `ACTIVE_FRONTIER_REMAP`, or `FINAL_MILESTONE_TRANSITION`, open `stages/stage32/proof/CLAIM-SYNC-CONTRACT.md` and complete its synchronization procedure before treating any downstream credit transition as complete.
 
-Scratch-only diagnostics do not trigger claim-DAG writes. A hostile-audit PASS/FAIL receipt does not silently promote EX5 or MAIN; downstream use waits for claim synchronization.
+A hostile-audit PASS does not silently promote EX5 to MAIN.
 
 ## `stage32ex5-audit` handoff
 
-`stage32ex5-audit` is a separate hostile-audit lane and follows `stages/stage32-ex5/AUDIT-CONTRACT.md`. It audits an exact candidate head independently and does not continue research or repair the branch.
+`stage32ex5-audit` follows `stages/stage32-ex5/CURRENT-AUDIT-CONTRACT.md`. `AUDIT-CONTRACT.md` is the historical Cycle1 source-locked audit contract and is not the mutable current audit contract.
 
-Audit PASS establishes only the audited EX5 route-decision ceiling. It does not merge, does not alter Stage32 MAIN, and does not automatically promote a selected route.
+The current audit attacks an exact candidate head independently and does not continue research or repair the branch. Audit PASS establishes only the explicitly audited EX5 scope; it does not merge and does not automatically advance `32-01 FULL178` or any final milestone.
+
+PR #1742 reaches the long-lived shared-PR checkpoint at the semantic-sync 100th commit. Freeze that exact head and perform the intermediate delta-bounded hostile audit required by `docs/research-os/policies/hostile-audit-and-freshness.md` before appending further substantive retained research.
 
 ## Search, write, and merge discipline
 
-Repository discovery is search-first under `AGENTS.md`. Preserve source/proof locks and current firewalls before writes. Do not merge without explicit user authorization.
+Repository discovery is search-first under `AGENTS.md`. Preserve source/proof locks and current firewalls before writes. Exact evidence/checkpoint artifacts, historical `stage32-ex5.md`, and historical `AUDIT-CONTRACT.md` are not rewritten for terminology synchronization. Do not merge without explicit user authorization.

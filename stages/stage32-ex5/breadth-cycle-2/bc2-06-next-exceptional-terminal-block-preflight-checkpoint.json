@@ -1,0 +1,72 @@
+{
+  "schema": "STAGE32EX5_BC2_06_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT_CHECKPOINT_V1",
+  "stage": "32EX5",
+  "leaf": "BC2-06",
+  "unit": "BC2_06_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT",
+  "status": "RETAINED_NEXT_EXCEPTIONAL_BLOCK_EXACTLY_REDERIVED_NO_SOLVER_CREDIT",
+  "source_exact_head": "071db84013638bbefbd97814e39f1ef35dce83c3",
+  "workflow_commit": "bdb4dca72a92b39cd79af8c45dc70063dd0103ee",
+  "predecessor": {
+    "bc2_05_checkpoint": "stages/stage32-ex5/breadth-cycle-2/bc2-05-symbolic-x4-full-exceptional-refinement-checkpoint.json",
+    "bc2_05_checkpoint_canonical_sha256": "cc62959ccf8c2939ff4024dc3a1e4ba59fdea38b7d33fd94817161b732c5284e",
+    "rank_0_to_132_block_exact_unsat": true
+  },
+  "superseded_attempt": {
+    "run_id": 34408046687,
+    "result": "NON_MATHEMATICAL_IMPLEMENTATION_FAILURE",
+    "reason": "terminal_predicate keyword-only API called positionally",
+    "grants_credit": false
+  },
+  "exact_replay": {
+    "row_id": "g1-d008",
+    "degree": 8,
+    "e": 4,
+    "normal_budget": 132,
+    "terminal_rank_start": 133,
+    "terminal_rank_end": 265,
+    "block_width": 133,
+    "outer_exceptional_rank": 1,
+    "x4_start": 0,
+    "x4_end": 132,
+    "previous_block_exceptional_signature": [0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+    "base_terminal_x4_zero": [0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1],
+    "exceptional_signature": [0, 1, 0, 0, 0, 0, 1, 0, 0, 1],
+    "exceptional_signature_differs_from_previous_block": true,
+    "all_133_rank_unrank_replays_exact": true,
+    "all_133_terminal_predicate_replays_exact": true,
+    "x4_is_innermost_coordinate_over_block": true,
+    "exceptional_signature_constant_over_block": true,
+    "replay_stream_sha256": "087072f9bd47baaa4a9b08e6e400924937402b2268303a2bce9ebf43d9e5b748",
+    "evidence_canonical_sha256": "dc83d00618440431cf45b94f7660646bb540f7dd3c81edb96e8d0a6fdecfb55f"
+  },
+  "execution": {
+    "successful_run_id": 34408146386,
+    "successful_job_id": 102655984883,
+    "conclusion": "success",
+    "solver_invoked": false,
+    "heavy_compute_invoked": false,
+    "artifact_required": false,
+    "new_mathematical_condition_added": false
+  },
+  "next_exact_unit": {
+    "id": "BC2_07_OUTER_RANK1_SYMBOLIC_X4_PARENT_PREFLIGHT",
+    "goal": "Apply the exact symbolic-x4 Picard64 parent formulation only to ranks 133..265 using the rederived outer-rank-1 exceptional signature; do not authorize full-exceptional refinement or scaleout until the parent result is known.",
+    "heavy_scaleout_authorized": false,
+    "new_parallel_lane_required": false
+  },
+  "firewalls": {
+    "rank_133_to_265_block_picard64_closed": false,
+    "whole_g1_d008_e4_stratum_closed": false,
+    "FULL178_complete": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "b304b6c050327f617999a7a1181721ecf34aeeec45f108b6bbfed2edccec9746"
+}

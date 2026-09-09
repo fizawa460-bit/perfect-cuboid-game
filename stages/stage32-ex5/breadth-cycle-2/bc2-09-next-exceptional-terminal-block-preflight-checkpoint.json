@@ -1,0 +1,71 @@
+{
+  "schema": "STAGE32EX5_BC2_09_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT_CHECKPOINT_V1",
+  "stage": "32EX5",
+  "leaf": "BC2-09",
+  "unit": "BC2_09_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT",
+  "status": "RETAINED_NEXT_EXCEPTIONAL_BLOCK_EXACTLY_REDERIVED_NO_SOLVER_CREDIT",
+  "source_exact_head": "141683ec0e3354d75a3c78efadb3dce02b977b97",
+  "source_commit": "5d5951170573e572c1618c4377147728d965986b",
+  "workflow_commit": "141683ec0e3354d75a3c78efadb3dce02b977b97",
+  "predecessor": {
+    "bc2_08_checkpoint": "stages/stage32-ex5/breadth-cycle-2/bc2-08-outer-rank1-exact-unsat-checkpoint.json",
+    "bc2_08_checkpoint_canonical_sha256": "af197e67d3f56a6775f99f49aae59a14bc99bfa8c1b9b1d113749df3f1aa162c",
+    "rank_0_to_132_block_exact_unsat": true,
+    "rank_133_to_265_block_exact_unsat": true
+  },
+  "exact_replay": {
+    "row_id": "g1-d008",
+    "degree": 8,
+    "e": 4,
+    "normal_budget": 132,
+    "terminal_rank_start": 266,
+    "terminal_rank_end": 398,
+    "block_width": 133,
+    "outer_exceptional_rank": 2,
+    "x4_start": 0,
+    "x4_end": 132,
+    "base_terminal_x4_zero": [0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 1],
+    "exceptional_signature": [0, 1, 0, 0, 0, 0, 2, 0, 0, 1],
+    "all_133_rank_unrank_replays_exact": true,
+    "all_133_terminal_predicate_replays_exact": true,
+    "x4_is_innermost_coordinate_over_block": true,
+    "exceptional_signature_constant_over_block": true,
+    "exceptional_signature_differs_from_previous_block": true,
+    "signature_assumed_in_advance": false,
+    "exceptional_mass_split_assumed_in_advance": false,
+    "replay_stream_sha256": "fdd9d16aab19a141267b1995ffc3d4630c6c50c483eead5adc16ee46a44926b7",
+    "evidence_canonical_sha256": "2dd0b87d6d32ba4c4490545d09133c821e43d2738b2a40b500b90d20d99884fe"
+  },
+  "execution": {
+    "run_id": 34412028948,
+    "job_id": 102668411734,
+    "conclusion": "success",
+    "solver_invoked": false,
+    "heavy_compute_invoked": false,
+    "artifact_required": false,
+    "new_mathematical_condition_added": false
+  },
+  "next_exact_unit": {
+    "id": "BC2_10_OUTER_RANK2_SYMBOLIC_X4_PARENT_PREFLIGHT",
+    "goal": "Apply the exact symbolic-x4 Picard64 selected-exceptional parent formulation only to ranks 266..398; derive fixed/residual exceptional mass from the retained outer-rank-2 terminal signature before constructing the parent partition.",
+    "heavy_scaleout_authorized": false,
+    "new_parallel_lane_required": false
+  },
+  "firewalls": {
+    "rank_0_to_132_block_exact_unsat_retained": true,
+    "rank_133_to_265_block_exact_unsat_retained": true,
+    "rank_266_to_398_block_picard64_closed": false,
+    "whole_g1_d008_e4_stratum_closed": false,
+    "FULL178_complete": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "db1cb79d564904192bf5cd6450d54decacf15ef3711d686e573e92f3b8f56cd7"
+}

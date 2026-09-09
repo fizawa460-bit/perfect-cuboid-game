@@ -1,0 +1,120 @@
+{
+  "schema": "STAGE32EX5_MAINBATCH_SYNTHESIS_V2",
+  "lane": "stage32ex5-mainbatch",
+  "base_scaffold_commit": "d1515745a768a743836f74381079e52f20fe4902",
+  "target": "BC2-02_FULL178_SUPPORT_RECONSTRUCTION",
+  "status": "PARTIAL_RETAINED_PRODUCER_KERNEL_LOCALIZED_TARGET_ADAPTER_PENDING",
+  "authority": "MAINBATCH_RETAINED_CHECKPOINT_NOT_DOWNSTREAM_CREDIT",
+  "decision": "BC2-01B remains satisfied and the generic 59D witness consumer remains complete. The legacy 21bl producer has now been decomposed: its exact 59-variable QF_LIA integerization/model-extraction kernel is reusable, but its target model is hard-wired to the 21az fixed-projection 3234-triple prism and chain-specific locks. Therefore a new solver is not required from scratch; the remaining exact unit is a FULL178 integral-target-to-59D-model adapter (or equivalent direct 48-support certificate). No heavy scale-out is authorized by this checkpoint.",
+  "checkpoint_head_before_this_metadata_commit": "850bc95e2e428b9d35b598a3f15d9a6e735d7706",
+  "bc2_01b_checkpoint": {
+    "status": "PASS_RETAINED",
+    "artifact": "stages/stage32-ex5/breadth-cycle-2/bc2-01b-runtime-node-coordinate-bridge.json",
+    "acceptance": {
+      "source_target_48": "PASS",
+      "runtime_48_or_order_independent_adapter": "PASS",
+      "exact_bijection_48_48": "PASS",
+      "collision_omission": "PASS_0_0",
+      "reproducible_exact_inputs": "PASS",
+      "canonicalization": "PASS",
+      "hostile_ambiguity": "PASS_NO_UNRESOLVED_SCALE_SIGN_ORBIT_AMBIGUITY",
+      "historical_order_contract_needed": false
+    }
+  },
+  "bc2_02_representative": {
+    "artifact": "stages/stage32-ex5/breadth-cycle-2/bc2-02-g1-d186-representative-support-reconstruction.json",
+    "row_id": "g1-d186",
+    "ordinal": 1617,
+    "triple": [76, -55, -96],
+    "slice_d_e_a": [186, 266, 592],
+    "support_size": 44,
+    "zero_exceptional_indices_0based": [1, 5, 6, 7],
+    "support_spans_P6": true,
+    "genus1_exclusion_credit": false
+  },
+  "bc2_02_generic_consumer": {
+    "status": "PASS_EXACT_HEAD_REGRESSION",
+    "adapter": "stages/stage32-ex5/breadth-cycle-2/bc2_02_exact_witness_to_node_support.py",
+    "checkpoint": "stages/stage32-ex5/breadth-cycle-2/bc2-02-exact-witness-consumer-checkpoint.json",
+    "input_contract": "exact SAT evidence with target {row_id,e,a,z[5]} and result.witness_r_reduced[59]",
+    "output_chain": "59D reduced witness -> Picard64 -> all140 -> last48 -> BC2-01B canonical nodes -> exact support span",
+    "workflow": ".github/workflows/stage32ex5-bc2-02-exact-support-adapter.yml",
+    "exact_head": "e26cb204408dc39428494897313da06dd6d4327d",
+    "run_id": 34332943900,
+    "job_id": 102405556493,
+    "conclusion": "success",
+    "artifact_id": 10096531925,
+    "artifact_digest": "sha256:a48c48859212e3957c26897d5d657f71bdb69cfc8d0a7f9cddb49bc40b6b407c",
+    "generated_output_canonical_sha256": "c0646fef960a268a8b969b361612feb850ca41989ac0d80dcc2845454d7e0704",
+    "representative_regression": {
+      "witness_sha256": "1a131595c87cf9c5d54ef97dba62261eeb3dda7bb92a5a9fa62c280f46bc4137",
+      "picard_coordinates_sha256": "0fcbe0c9cdf894a95704bcaf55536290fc2daa736387169c891e8262f2c565a7",
+      "all140_pairings_sha256": "1968dba54ebe2082c6ed07203ea9e4118460f60c32c60d46292bc73dc6bdf961",
+      "last48_sha256": "d03e719ce6f2090f1043d13dc1dcf66d228ecd8727f5b9df5a166ebe89058061",
+      "last48_sum": 266,
+      "support_size": 44,
+      "zero_indices_0based": [1, 5, 6, 7],
+      "canonical_node_vector_rank": 7,
+      "projective_span_dimension": 6,
+      "spans_P6": true
+    },
+    "does_not_find_witness": true
+  },
+  "bc2_02_legacy_producer_scope": {
+    "checkpoint": "stages/stage32-ex5/breadth-cycle-2/bc2-02-full178-witness-producer-scope-audit.json",
+    "status": "PARTIAL_RETAINED_PRODUCER_KERNEL_REUSABLE_TARGET_ADAPTER_MISSING",
+    "legacy_solver": "stages/stage32/residual-32-01-production/certify_stage32_21bl_joint_integer_closure.py",
+    "legacy_solver_blob": "acba51c2912e058bc7f3575680d6fa5dd0d97fbc",
+    "legacy_model_builder": "stages/stage32/residual-32-01-production/certify_stage32_21bf_r49_per_triple_projection.py",
+    "legacy_model_builder_blob": "a4987089526dbece43fd56c69258dba252684b7f",
+    "exact_59d_integerization_kernel_reusable": true,
+    "target_model_generic_full178": false,
+    "legacy_expected_triples": 3234,
+    "legacy_scope_fixed_projection_21az_prism": true,
+    "historical_scaleout_authorized": false,
+    "new_solver_from_scratch_required": false,
+    "missing_unit": "FULL178 integral Picard target -> exact 59D reduced-coordinate model adapter"
+  },
+  "full178_materialization_localization": {
+    "node_mass_census_builder": "stages/stage32/residual-32-01-production/build_stage32_post21bl_full178_node_mass_census.py",
+    "postcut_continuous_kkt_survivors": 659697,
+    "continuous_kkt_survivor_is_not_integral_picard_class": true,
+    "retains_59d_witness": false,
+    "retains_labelled_48_support": false,
+    "prefix_indexed_checkpoint": "stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json",
+    "prefix_terminal_family_count": "688101306360803751427719294",
+    "prefix_terminal_family_digits": 27,
+    "numerical_picard_leaf_checks_complete": false,
+    "legacy_exact_59d_solver": "stages/stage32/residual-32-01-production/certify_stage32_21bl_joint_integer_closure.py",
+    "legacy_exact_59d_solver_scope": "representative fixed-projection 3234-triple prism only",
+    "generic_full178_59d_producer_present": false,
+    "generic_59d_support_consumer_present": true
+  },
+  "anti_loop": {
+    "materialize_all_659697_continuous_survivors": false,
+    "materialize_27_digit_prefix_terminal_family": false,
+    "infer_labelled_support_from_scalar_e": false,
+    "treat_21bl_representative_prism_as_full178": false,
+    "reuse_21az_specific_bands_without_full178_adapter_proof": false
+  },
+  "next_boundary": "BC2_02_FULL178_TARGET_TO_59D_MODEL_ADAPTER_PREFLIGHT",
+  "retained_artifacts": [
+    "stages/stage32-ex5/breadth-cycle-2/bc2-01b-runtime-node-coordinate-bridge.json",
+    "stages/stage32-ex5/breadth-cycle-2/bc2-02-full178-support-reconstruction-preflight.json",
+    "stages/stage32-ex5/breadth-cycle-2/bc2-02-g1-d186-representative-support-reconstruction.json",
+    "stages/stage32-ex5/breadth-cycle-2/bc2_02_exact_witness_to_node_support.py",
+    "stages/stage32-ex5/breadth-cycle-2/bc2-02-exact-witness-consumer-checkpoint.json",
+    "stages/stage32-ex5/breadth-cycle-2/bc2-02-full178-witness-producer-scope-audit.json",
+    "stages/stage32-ex5/parallel/results/stage32ex5-mainbatch-synthesis.json"
+  ],
+  "downstream_credit": {
+    "receiver_credit": false,
+    "stage32_main_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "FULL178_complete": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  }
+}
