@@ -1,89 +1,134 @@
-# Stage35-EX MAIN batch handoff — Goal4BD simultaneous three-marked receiver endpoint equivalence
+# Stage35-EX MAIN batch handoff — Goal4BE gcd-reservoir quadratic reciprocity cycle
 
-Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BD are provisional stacked research leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted here.
+Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BE are provisional stacked research leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted here.
 
 ## Exact-green parent
 
-Goal4BC is exact-green:
+Goal4BD is exact-green:
 
-- exact head: `d10024852a7f32605e769edf3c2b57406ea1175e`
-- aggregate: `34303815379`
-- `verify-stage35-ex-current`: `102317031982`
+- exact head: `e2e27c7220a78bee33313e93e35ab69354029517`
+- aggregate: `34304490134`
+- `verify-stage35-ex-current`: `102319407204`
 - result: `SUCCESS`
 
-Goal4BC exhausted the old Goal4AS seven-lens ledger and selected the materially new simultaneous three-marked Goal4L fiber-product receiver.
+Goal4BD materialized the simultaneous three-marked Goal4L rank-jump receiver and proved that, after the exact cross-face relations and primitive common-squareclass collapse, it is endpoint-equivalent rather than a smaller pruning receiver.
 
-## Goal4BD provisional exact result
+## Goal4BE provisional exact result
 
-Use cyclic orientations
-
-```text
-p_A=-B/C, z_A=D_AB/D_AC,
-p_B=-C/A, z_B=D_BC/D_AB,
-p_C=-A/B, z_C=D_AC/D_BC.
-```
-
-Each lies on the Goal4L quartic/elliptic receiver. The common physical endpoint imposes four generically independent cross equations:
+Retain Goal4AU's exact reservoirs
 
 ```text
-p_A*p_B*p_C=-1,
-z_A*z_B*z_C=1,
-z_A^2*p_C^2*(1+p_B^2)=1+p_C^2,
-z_B^2*p_A^2*(1+p_C^2)=1+p_A^2.
+h_a=gcd(a,r_BC),
+h_b=gcd(b,r_AC),
+h_c=gcd(c,r_AB).
 ```
 
-The third cyclic face-ratio equation follows. An exact Jacobian witness from `(A,B,C)=(44,117,240)` gives cross rank 4. The product of the three quartic surfaces has dimension 6, hence the joint receiver has generic dimension 2, equal to the normalized endpoint surface.
-
-After imposing the face-ratio equations, the A quartic simplifies exactly to
+For every odd prime `ell|h_a`, the reduced BC face gives
 
 ```text
-eta_A^2
- = [A*(B^2-C^2)/(B*C*(A^2+C^2))]^2
-   * (A^2+B^2+C^2),
+((x*b)/(y*c))^2=-1 mod ell.
 ```
 
-and cyclic analogues hold. Therefore a rational joint receiver point forces the space-square condition.
-
-The rational `z_i` also force
+The source coprimality dictionary makes all displayed denominator/numerator factors units, so `ell=1 mod4`. Cyclically every odd prime in every `h_i` is `1 mod4`. The reservoirs are pairwise coprime and
 
 ```text
-[A^2+B^2]=[A^2+C^2]=[B^2+C^2]=delta.
+h_a*h_b*h_c | W.
 ```
 
-After primitive integer scaling, `delta` must be trivial:
-
-- an odd prime in the squarefree representative of `delta` divides all three face sums, hence by `2A^2=R_AB+R_AC-R_BC` and cyclic identities divides all three edges, contradicting primitivity;
-- the only remaining nontrivial class is `2`; that would make all three face sums even, force all primitive edges odd, and give `W^2=3 mod 8`, impossible.
-
-Thus `delta=1`. All three face diagonals are rational, and the quartic already recovered the rational space diagonal. Conversely every physical endpoint gives the three marked points and cross equations.
-
-Exact result:
+At a reservoir prime the selected square root of `-1` yields
 
 ```text
-simultaneous three-marked Goal4L joint receiver
-<=> positive rational perfect-cuboid endpoint
+ell|h_a => (2*x*y*b*c/ell)=1,
+ell|h_b => (2*x*z*a*c/ell)=1,
+ell|h_c => (2*y*z*a*b/ell)=1.
 ```
 
-on the retained positive/source open, modulo the already controlled scaling/relabel/sign/exceptional conventions.
+Let `s_a,s_b,s_c` be the positive squarefree representatives of `[h_a],[h_b],[h_c]`, and put
 
-So B1 is **endpoint-equivalent**, not a smaller receiver and not a pruning theorem. `S34-W03` is not triggered because no independently simpler receiver intersection remains.
+```text
+a0=a/h_a,
+b0=b/h_b,
+c0=c/h_c,
+
+L_a=(2*x*y*b0*c0/s_a),
+L_b=(2*x*z*a0*c0/s_b),
+L_c=(2*y*z*a0*b0/s_c).
+```
+
+Then the raw reservoir equations are
+
+```text
+L_a*(s_b/s_a)*(s_c/s_a)=1,
+L_b*(s_a/s_b)*(s_c/s_b)=1,
+L_c*(s_a/s_c)*(s_b/s_c)=1.
+```
+
+All primes of the `s_i` are `1 mod4`, so quadratic reciprocity is symmetric. Multiplying cancels every cross-reservoir symbol and gives the new exact Jacobi cycle
+
+```text
+L_a*L_b*L_c=1.
+```
+
+Equivalently,
+
+```text
+(2*x*y*b0*c0/s_a)
+(2*x*z*a0*c0/s_b)
+(2*y*z*a0*b0/s_c)=1.
+```
+
+This is not the same statement as Goal4AU's `d_A*d_B*d_C=1`: it evaluates three stripped source/Kummer expressions at three different reservoir kernels.
+
+However, with
+
+```text
+u_ab=(s_a/s_b),
+u_ac=(s_a/s_c),
+u_bc=(s_b/s_c),
+```
+
+the symbol system has matrix
+
+```text
+1 1 0
+1 0 1
+0 1 1
+```
+
+over `F_2`, rank `2`, kernel generated by `(1,1,1)`. Thus `(L_aL_bL_c=1)` is the sole consistency condition and one pairwise Jacobi bit remains free.
+
+A local exact flexibility witness at `ell=5` is retained: with `a=0,y=c=z=1 mod5`, both `(x,b)=(1,2)` and `(2,1)` satisfy the reduced face/space congruences and `(2xybc/5)=1`, while `(b/5)` changes sign. This is only a local diagnostic, not a global endpoint construction.
+
+Exact route consequence:
+
+```text
+new quadratic-reciprocity/Jacobi cycle = yes;
+ordinary quadratic reciprocity closes the remaining bit = no;
+branch pruning = no.
+```
 
 Artifacts:
 
-- `stages/stage35-ex/35ex-35/goal4bd-simultaneous-three-marked-rankjump-endpoint-equivalence-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4bd-simultaneous-three-marked-rankjump-endpoint-equivalence.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4bd_three_marked_endpoint_equivalence.py`
+- `stages/stage35-ex/35ex-35/goal4be-gcd-reservoir-quadratic-reciprocity-cycle-source-lock.md`
+- `stages/stage35-ex/35ex-35/goal4be-gcd-reservoir-quadratic-reciprocity-cycle.json`
+- `stages/stage35-ex/verify_stage35_ex_35_goal4be_gcd_reservoir_quadratic_reciprocity.py`
 
 ## Freshness
 
-No freshness credit. Main-side drift observed in this batch is Stage32 / Stage36 only; no Stage35-EX mathematical source drift was found. No rebase/sync is performed for this provisional leaf.
+Current main observed in this batch: `b4357252bf492a0934fe47812ffa2421a342f954`. Relative to the audited Stage35-EX merge base, the 12 main-side commits touch Stage32 / Stage36 and related workflows only; no Stage35-EX mathematical source drift was observed. No freshness credit and no rebase/sync are claimed for this provisional leaf.
 
 ## Next exact leaf
 
 ```text
-35EX-35_GOAL4BE_GCD_RESERVOIR_QUADRATIC_RECIPROCITY_CYCLE_PREFLIGHT
+35EX-35_GOAL4BF_ORIENTED_GAUSSIAN_QUARTIC_RECIPROCITY_RESERVOIR_LIFT_PREFLIGHT
 ```
 
-Test whether AU's exact reservoirs `h_a,h_b,h_c` and the three primitive Pythagorean faces force a non-tautological Jacobi/quadratic-reciprocity cycle beyond the already-known relation `d_A*d_B*d_C=1`.
+Each reservoir prime is split in `Q(i)` and the source supplies a distinguished root
+
+```text
+iota_a(ell)=x*b/(y*c) mod ell
+```
+
+(and cyclic analogues). Use that root to orient the Gaussian prime over `ell` and test whether quartic reciprocity removes the one surviving quadratic-Jacobi bit or merely replaces it by a phase gauge.
 
 No merge. No hostile-audit credit. `MAIN-STATE.json` remains V74 / Goal4AK.
