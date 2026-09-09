@@ -100,7 +100,7 @@ def main() -> None:
             raise ValueError(f"exceptional signature changed inside next block at rank {rank}")
         if indexer.rank(term) != rank:
             raise ValueError(f"rank/unrank replay failed at rank {rank}")
-        if not terminal_predicate(term, EXCEPTIONAL_MASS, DEGREE):
+        if not terminal_predicate(term, e=EXCEPTIONAL_MASS, d=DEGREE):
             raise ValueError(f"unranked terminal failed source terminal_predicate at rank {rank}")
         replay_stream.append([rank, offset, list(term)])
 
