@@ -1,104 +1,85 @@
-# Stage35-EX MAIN batch handoff — Goal4BA finite visible Brauer truncation nonobstruction
+# Stage35-EX MAIN batch handoff — Goal4BB arbitrary finite Brauer subgroup nonobstruction
 
-Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BA are provisional stacked research leaves on PR #1723 and grant no E1, Stage35, endpoint, or Perfect Cuboid credit.
+Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BB are provisional stacked leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted here.
 
 ## Exact-green parent
 
-Goal4AZ is exact-green:
+Goal4BA is exact-green:
 
-- exact head: `932e863eb11749d1fbcd20a607535cbbf2816b47`
-- aggregate: `34301250886`
-- `verify-stage35-ex-current`: `102309735138`
+- exact head: `540721b4046a0849fc6fe162025e6c8d46898850`
+- aggregate: `34301954559`
+- `verify-stage35-ex-current`: `102311776547`
 - result: `SUCCESS`
 
-Goal4AZ derived the exact amplification threshold `rho/kappa>1/2` against Goal4M's `T(B)<<B^(1/2+o(1))` and fail-closed the currently source-locked amplifier mechanisms.
+Goal4BA proved that every finite truncation of the visible three-unit character family together with the known A/B classes is non-obstructing on `A_src^loc`.
 
-## Goal4BA provisional exact result
+## Goal4BB provisional exact result
 
-Goal4BA executes the remaining finite-Brauer-shortcut lens on the exact visible algebraic/unit-character layer.
-
-Retained visible units:
+Goal4BB removes the visible-family restriction. Let
 
 ```text
-u1=p+x,
-u2=q+y,
-u3=w+z.
+F={alpha_1,...,alpha_r} subset Br(U)
 ```
 
-For any finite set of global finite-order characters
+be any fixed finite set, with no algebraicity or explicit-symbol assumption.
+
+Use the rational smooth anchor
 
 ```text
-Chi={chi_1,...,chi_m},
+P*=(272/225,0,353/225,1,272/225,353/225).
 ```
 
-define
+For a common finite bad set containing infinity, 2, primes `<173`, denominator/model primes, and all primes needed to spread out every `alpha_j`, local constancy gives one common neighborhood of `P*` for all classes. Choose nonzero-y local deformations there, imposing at 2
 
 ```text
-F_Chi=<A,B,beta(chi_j,u_i):1<=j<=m,1<=i<=3>.
+v2(y)>4=v2(x)
 ```
 
-Using the 35EX-22 rational boundary anchor
+and at infinity `y>0`.
+
+Outside the bad set, use the 35EX-22 integral smooth `U_PC(Z_ell)` points. Every `alpha_j` extends over the common smooth model after enlarging the finite bad set; evaluation at an integral point lands in
 
 ```text
-P*=(272/225,0,353/225,1,272/225,353/225),
-(u1(P*),u2(P*),u3(P*))=(25/9,1,25/9),
+Br(Z_ell)=Br(F_ell)=0.
 ```
 
-one can construct a restricted-product adele in the source-marked local relaxation `A_src^loc` orthogonal to **every** class of `F_Chi`.
-
-At the finite bad set (including infinity, 2, primes <173, A/B model primes, P* denominator primes, and all ramification primes of the finitely many `chi_j`), take nonzero-y deformations arbitrarily close to `P*` inside one common local-constancy neighborhood for all generators. At 2 impose simultaneously
+Hence every local invariant of the constructed adele equals the corresponding local invariant of the diagonal rational anchor `P*`. Global reciprocity then gives
 
 ```text
-v2(y)>4=v2(x),
+(A_src^loc)^F != empty
 ```
 
-and at infinity choose `y>0`.
+for every finite `F subset Br(U)`. Equivalently every finite subgroup `B0 subset Br(U)` is non-obstructing.
 
-Outside the bad set use the 35EX-22 integral `U_PC(Z_ell)` points. All three visible units are then `ell`-adic units; each `chi_j` is unramified; hence local reciprocity is trivial on the ratio `u_i(Q_ell)/u_i(P*)`. Thus every character-unit evaluation equals its diagonal `P*` evaluation. The same comparison for `A,B` is Goal4AN/Goal4AO's spread-out good-prime argument.
-
-Therefore every generator has exactly the same local invariant vector as its rational evaluation at `P*`; global Brauer reciprocity makes every total sum zero. Hence
-
-```text
-(A_src^loc)^(F_Chi) != empty
-```
-
-for **every finite Chi**.
-
-Exact route consequence:
-
-```text
-every finite visible character truncation + A/B -> non-obstructing;
-full infinite visible character layer -> endpoint-equivalent (Goal4AQ).
-```
-
-Thus AQ's endpoint reconstruction genuinely uses an infinite character intersection and cannot be replaced by a finite visible truncation.
-
-Boundary of claim:
-
-```text
-ARBITRARY_FINITE_BRAUER_SUBGROUP_NONOBSTRUCTING_PROVED=false;
-VISIBLE_UNITS_INTEGRAL_BASIS_OF_FULL_UNIT_LATTICE_PROVED=false;
-TRANSCENDENTAL_BRAUER_GROUP_COMPUTED=false;
-BRAUER_MANIN_OBSTRUCTION=false;
-E1=false.
-```
+This includes arbitrary fixed transcendental classes. It does **not** imply nonemptiness for the full infinite intersection `(A_src^loc)^Br(U)`. Goal4AR's full-Brauer endpoint equivalence remains intact. Therefore any Brauer obstruction capable of closing E1 on this local population must be genuinely infinite; no finite Brauer shortcut remains.
 
 Artifacts:
 
-- `stages/stage35-ex/35ex-35/goal4ba-finite-visible-brauer-truncation-nonobstruction-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4ba-finite-visible-brauer-truncation-nonobstruction.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4ba_finite_visible_brauer_truncation.py`
+- `stages/stage35-ex/35ex-35/goal4bb-arbitrary-finite-brauer-subgroup-nonobstruction-source-lock.md`
+- `stages/stage35-ex/35ex-35/goal4bb-arbitrary-finite-brauer-subgroup-nonobstruction.json`
+- `stages/stage35-ex/verify_stage35_ex_35_goal4bb_arbitrary_finite_brauer_subgroup.py`
 
 ## Freshness
 
-Latest current main observed before this leaf was `97aa65b83015ea31d453bffee0cc56c4d9876724`. The main-side drift was Stage32 / Stage36 only; no Stage35-EX mathematical source drift was observed. No freshness credit is claimed and no rebase/sync is performed.
+Current main observed: `9346a1b0cfdb6f2e8abe93b4aef9987698eeeb47`. Main-side drift since audited merge base is confined to Stage32 / Stage36 files. No Stage35-EX mathematical source drift was observed. PR #1723 currently reports `mergeable=false`; no freshness credit is claimed and no rebase/sync is performed for this provisional leaf.
 
-## Next exact leaf
+## Route consequence
+
+Goal4AS candidate ledger is now exhausted under the currently materialized exact views:
+
+- marked Kummer/common-cover: AT/AU/AV;
+- canonical height: AW;
+- cross-face norm/torsor: AX;
+- nonlinear endpoint descent: AY;
+- super-sqrt amplification: AZ;
+- finite Brauer shortcut: BA/BB.
+
+Next exact leaf:
 
 ```text
-35EX-35_GOAL4BB_VISIBLE_UNIT_LATTICE_INDEX_AND_FINITE_ALGEBRAIC_BRAUER_COMPLETION_PREFLIGHT
+35EX-35_GOAL4BC_POST_GOAL4AS_LEDGER_EXHAUSTION_FRESH_VIEW_AUDIT
 ```
 
-Compute the lattice index of `p+x,q+y,w+z` in the exact rank-three unit lattice `K=O(Ubar)^*/kbar^*`. If they are an integral basis (or have controlled finite index), combine the result with the Picard-lift `Z/2 x Z/2` quotient to determine how far Goal4BA extends to arbitrary finite algebraic Brauer subgroups.
+Perform a fresh blind plus arsenal-deduplicated breadth audit. Do not recycle an exhausted view unless a materially new invariant appears.
 
 No merge. No hostile-audit credit. `MAIN-STATE.json` remains V74 / Goal4AK.
