@@ -1,0 +1,96 @@
+name: Stage32EX5 BC2-02 indexed completion v2
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2_02_one_indexed_full178_terminal_to_picard64_completion_v2.py'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2_02_one_indexed_full178_terminal_to_picard64_completion.py'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2_02_exact_witness_to_node_support.py'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2-02-full178-target-to-59d-model-adapter-preflight.json'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2-01b-runtime-node-coordinate-bridge.json'
+      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
+      - 'stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json'
+      - 'stages/stage32/residual-32-01-production/direct_picard_slice_bridge.py'
+      - '.github/workflows/stage32ex5-bc2-02-indexed-completion-v2.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32ex5-bc2-02-indexed-completion-v2-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  indexed-terminal-v2:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact solver dependencies
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Run mass-bounded exact indexed completion
+        run: |
+          python stages/stage32-ex5/breadth-cycle-2/bc2_02_one_indexed_full178_terminal_to_picard64_completion_v2.py \
+            --manifest stages/stage32/residual-32-01-production/full178-manifest.json \
+            --prefix-checkpoint stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json \
+            --adapter-preflight stages/stage32-ex5/breadth-cycle-2/bc2-02-full178-target-to-59d-model-adapter-preflight.json \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --solver-timeout-ms 120000 \
+            --output "$RUNNER_TEMP/bc2-02-indexed-completion-v2.json"
+      - name: Validate v2 equivalence and result firewall
+        run: |
+          python - "$RUNNER_TEMP/bc2-02-indexed-completion-v2.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          q=p['exact_completion_problem']
+          assert p['schema']=='STAGE32EX5_BC2_02_ONE_INDEXED_FULL178_TERMINAL_TO_PICARD64_COMPLETION_V2'
+          assert p['indexed_terminal']['row_id']=='g1-d008'
+          assert p['indexed_terminal']['e']==4
+          assert p['indexed_terminal']['terminal_rank']==0
+          assert p['indexed_terminal']['rank_unrank_replay_exact'] is True
+          assert p['indexed_terminal']['pairings']==[0,1,0,0,0,0,0,0,0,0,1]
+          assert q['mass_identity_exact_on_picard64'] is True
+          assert q['v2_constraints_semantically_equivalent_to_v1_fixed_d_e_problem'] is True
+          assert q['normal_pairing_upper_bound']==132
+          assert q['exceptional_pairing_upper_bound']==4
+          assert q['21az_fixed_projection_prism_imported'] is False
+          assert q['21bk_21bh_21bi_21bj_chain_bands_imported'] is False
+          assert p['firewalls']['heavy_scaleout_authorized'] is False
+          assert p['firewalls']['FULL178_complete'] is False
+          assert p['result']['status'] in {'SAT','UNSAT','UNKNOWN'}
+          print(json.dumps({'result':p['result']['status'],'canonical':p['canonical_sha256_without_this_field']},sort_keys=True))
+          PY
+      - name: Feed SAT completion into exact node-support consumer
+        run: |
+          set -euo pipefail
+          STATUS=$(python - "$RUNNER_TEMP/bc2-02-indexed-completion-v2.json" <<'PY'
+          import json,sys
+          print(json.load(open(sys.argv[1]))['result']['status'])
+          PY
+          )
+          if [ "$STATUS" = SAT ]; then
+            python stages/stage32-ex5/breadth-cycle-2/bc2_02_exact_witness_to_node_support.py \
+              --evidence "$RUNNER_TEMP/bc2-02-indexed-completion-v2.json" \
+              --retained stages/stage33/33-07/picard_base_rows_retained.py \
+              --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+              --node-bridge stages/stage32-ex5/breadth-cycle-2/bc2-01b-runtime-node-coordinate-bridge.json \
+              --output "$RUNNER_TEMP/bc2-02-indexed-support-v2.json"
+          else
+            echo "indexed completion v2 result=$STATUS; node-support consumer not invoked"
+          fi
+      - name: Upload bounded v2 evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32ex5-bc2-02-indexed-completion-v2
+          path: ${{ runner.temp }}/bc2-02-indexed-*-v2.json
+          retention-days: 7
+          compression-level: 9
