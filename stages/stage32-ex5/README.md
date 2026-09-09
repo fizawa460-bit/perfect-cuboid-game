@@ -60,9 +60,12 @@ Current-facing EX5 documents must not present those objects as the live Stage32 
 
 - startup: `MAIN-START-HERE.md`
 - current routing/state: `MAIN-STATE.json`
-- roadmap and claim boundaries: `stage32-ex5.md`
+- current roadmap and claim boundaries: `CURRENT-ROADMAP.md`
+- historical source-locked Cycle1 roadmap: `stage32-ex5.md`
 - hostile audit: `AUDIT-CONTRACT.md`
 - current state verifier: `verify_main_state.py`
+
+`stage32-ex5.md` is retained because historical Cycle1 evidence source-locks that exact blob. Current terminology changes belong in `README.md`, `CURRENT-ROADMAP.md`, `MAIN-STATE.json`, and the audit/startup contracts instead.
 
 Exact evidence/checkpoint files are proof records, not prose state, and must not be rewritten merely to synchronize terminology.
 
