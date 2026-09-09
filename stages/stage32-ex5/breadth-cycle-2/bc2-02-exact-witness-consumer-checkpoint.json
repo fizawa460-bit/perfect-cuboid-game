@@ -1,0 +1,79 @@
+{
+  "schema": "STAGE32EX5_BC2_02_EXACT_WITNESS_CONSUMER_CHECKPOINT_V1",
+  "stage": "32EX5",
+  "target": "BC2-02_FULL178_SUPPORT_RECONSTRUCTION",
+  "status": "PASS_GENERIC_59D_WITNESS_CONSUMER_REPRESENTATIVE_REGRESSION",
+  "authority": "STAGE32EX5_RETAINED_INFRASTRUCTURE_NO_DOWNSTREAM_CREDIT",
+  "adapter": {
+    "path": "stages/stage32-ex5/breadth-cycle-2/bc2_02_exact_witness_to_node_support.py",
+    "creation_commit": "ed1e4b9ec14304c6d6486950aaaa659b8edc47a6",
+    "input_contract": "exact SAT evidence containing target {row_id,e,a,z[5]} and result.witness_r_reduced[59]",
+    "output_chain": "59D reduced witness -> Picard64 -> all140 exact pairings -> slots 92..139 -> BC2-01B canonical nodes -> exact projective support rank",
+    "does_not_find_witness": true
+  },
+  "exact_head_ci": {
+    "workflow": ".github/workflows/stage32ex5-bc2-02-exact-support-adapter.yml",
+    "head": "e26cb204408dc39428494897313da06dd6d4327d",
+    "run_id": 34332943900,
+    "job_id": 102405556493,
+    "conclusion": "success",
+    "artifact_id": 10096531925,
+    "artifact_digest": "sha256:a48c48859212e3957c26897d5d657f71bdb69cfc8d0a7f9cddb49bc40b6b407c",
+    "generated_output_canonical_sha256": "c0646fef960a268a8b969b361612feb850ca41989ac0d80dcc2845454d7e0704"
+  },
+  "representative_regression": {
+    "source_evidence": "stages/stage32/32-21/32-21bl-joint-integer-witness.json",
+    "source_evidence_canonical_sha256": "ac88fb355252750e6afdc10cbb54abec24babbad57c25090c017f9a55ac93a44",
+    "row_id": "g1-d186",
+    "degree": 186,
+    "genus": 1,
+    "e": 266,
+    "a": 592,
+    "z": [-15, 62, -44, 26, 32],
+    "witness_r_reduced_count": 59,
+    "witness_r_reduced_sha256": "1a131595c87cf9c5d54ef97dba62261eeb3dda7bb92a5a9fa62c280f46bc4137",
+    "picard_coordinates_sha256": "0fcbe0c9cdf894a95704bcaf55536290fc2daa736387169c891e8262f2c565a7",
+    "all140_pairings_sha256": "1968dba54ebe2082c6ed07203ea9e4118460f60c32c60d46292bc73dc6bdf961",
+    "last48": [5,0,1,1,3,0,0,0,5,3,6,6,6,7,10,9,6,8,8,5,4,1,8,10,5,9,7,4,5,12,9,5,3,1,9,4,11,1,16,1,9,12,1,11,1,3,1,14],
+    "last48_sha256": "d03e719ce6f2090f1043d13dc1dcf66d228ecd8727f5b9df5a166ebe89058061",
+    "last48_sum": 266,
+    "zero_indices_0based": [1,5,6,7],
+    "support_count": 44,
+    "canonical_node_vector_rank": 7,
+    "projective_span_dimension": 6,
+    "spans_p6": true,
+    "all_exact_reconstruction_checks": true
+  },
+  "materialization_boundary": {
+    "full178_node_mass_census_builder": "stages/stage32/residual-32-01-production/build_stage32_post21bl_full178_node_mass_census.py",
+    "postcut_continuous_kkt_survivors": 659697,
+    "continuous_survivor_is_not_integral_picard_class": true,
+    "current_census_retains_full_59d_witness": false,
+    "current_census_retains_labelled_48_support": false,
+    "prefix_indexed_checkpoint": "stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json",
+    "prefix_terminal_family_count": "688101306360803751427719294",
+    "prefix_terminal_family_digits": 27,
+    "numerical_picard_leaf_checks_complete": false,
+    "legacy_21bl_solver": "stages/stage32/residual-32-01-production/certify_stage32_21bl_joint_integer_closure.py",
+    "legacy_21bl_solver_scope": "one representative fixed-projection prism of 3234 triples; not a generic FULL178 target producer",
+    "generic_support_consumer_complete": true,
+    "generic_exact_59d_witness_producer_complete": false
+  },
+  "next_required_unit": "GENERIC_FULL178_INTEGRAL_PICARD_TARGET_TO_EXACT_59D_WITNESS_PRODUCER_OR_EQUIVALENT_DIRECT_48_SUPPORT_CERTIFICATE",
+  "anti_loop": {
+    "materialize_all_659697_continuous_survivors": false,
+    "materialize_27_digit_prefix_terminal_family": false,
+    "infer_support_from_exceptional_mass": false,
+    "reuse_21bl_fixed_prism_as_full178_population": false
+  },
+  "firewalls": {
+    "FULL178_complete": false,
+    "receiver_credit": false,
+    "stage32_main_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  }
+}
