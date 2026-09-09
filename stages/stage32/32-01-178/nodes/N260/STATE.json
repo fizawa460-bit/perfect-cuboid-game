@@ -1,0 +1,50 @@
+{
+  "schema": "research-os-mission-node/v1",
+  "node_id": "N260",
+  "semantic_key": "s32-01-178:e48-full-exceptional-rigidity",
+  "statement": "Exploit the audited support lower bound at the four e=K=48 FULL178 strata to prove that all 48 exceptional pairings are forced to 1, leaving exactly one exceptional outer block and only the normal x4 coordinate free at the indexed-terminal level.",
+  "scope": {
+    "population": "exactly four FULL178 strata: (g0,d174,e48), (g0,d176,e48), (g1,d190,e48), (g1,d192,e48)",
+    "field_or_model": "audited N220 exceptional-mass/support semantics and audited N230 filtered random access",
+    "quantifiers": "all 48 nonnegative integral exceptional pairings in each of the four strata",
+    "required_output": "exact arithmetic rigidity proof plus N230 replay showing one survivor exceptional prefix per stratum"
+  },
+  "depends_on": ["N220", "N230", "N250"],
+  "source_refs": [
+    "stages/stage32/32-01-178/nodes/N220/STATE-AUDITED.json",
+    "stages/stage32/32-01-178/nodes/N230/STATE-AUDITED.json",
+    "stages/stage32/32-01-178/nodes/N250/STATE.json",
+    "PR#1753 corrected N220 hostile audit review 5159411821"
+  ],
+  "proof": {
+    "exceptional_slot_count": 48,
+    "exceptional_mass": 48,
+    "required_positive_support": 48,
+    "argument": "support<=48 and audited lower bound support>=48 force support=48; all 48 nonnegative integral coordinates are therefore >=1; their exact total mass is 48, hence every coordinate equals 1",
+    "full_exceptional_vector": "[1]^48",
+    "exceptional_branching_remaining": false
+  },
+  "retained_result": {
+    "status": "IMPLEMENTED_PENDING_CI",
+    "one_block_strata": [
+      {"row_id":"g0-d174","e":48,"K":48,"normal_x4_block":3067},
+      {"row_id":"g0-d176","e":48,"K":48,"normal_x4_block":3105},
+      {"row_id":"g1-d190","e":48,"K":48,"normal_x4_block":3371},
+      {"row_id":"g1-d192","e":48,"K":48,"normal_x4_block":3409}
+    ],
+    "unique_exceptional_prefix_expected": [1,1,1,1,0,1,1,1,1,1,1],
+    "full_48_exceptional_vector_forced_all_ones": true,
+    "only_x4_free_at_indexed_terminal_level": true,
+    "existing_ex5_bc2_03_directly_portable": false,
+    "reason": "EX5 BC2-03 is generic only in terminal rank and source-locks g1-d008/e4 degree/mass constants; a stratum-generic Picard leaf adapter remains required",
+    "picard_unsat_credit": false,
+    "full178_complete": false
+  },
+  "credit_ceiling": "EXACT_FOUR_STRATUM_EXCEPTIONAL_VECTOR_RIGIDITY_ONLY_NO_PICARD_UNSAT_OR_FULL178_CREDIT",
+  "next_action": "RUN_LIGHTWEIGHT_N260_REPLAY; IF PASS, DESIGN A STRATUM-GENERIC PICARD LEAF CONSUMER FOR THESE FOUR ZERO-EXCEPTIONAL-BRANCHING TARGETS WITHOUT REUSING EX5 G1-D008/E4 CONSTANTS AS IF GENERIC",
+  "notes": [
+    "This is not a new global pruning rule; it is an exact boundary rigidity consequence inside four retained strata.",
+    "The four strata are attractive pilot targets because a symbolic-x4 leaf certificate would dispose thousands of terminals with one exceptional outer signature each.",
+    "No heavy compute, theorem/receiver/endpoint, existence/nonexistence, or merge credit is authorized."
+  ]
+}
