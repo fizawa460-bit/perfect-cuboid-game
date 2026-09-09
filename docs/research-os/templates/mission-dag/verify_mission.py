@@ -12,9 +12,12 @@ from __future__ import annotations
 
 import json
 import pathlib
+import re
 import sys
 
 ALLOWED = {"OPEN", "ACTIVE", "BLOCKED", "DONE", "SUPERSEDED", "AUDIT_REQUIRED"}
+DISPATCH_ALLOWED = {"ISSUED", "RETURNED", "CONSUMED", "CANCELLED"}
+SLOT_RE = re.compile(r"^[a-z]$")
 
 
 def die(msg: str) -> None:
@@ -37,6 +40,10 @@ def main() -> None:
         die("unexpected mission schema")
     if not isinstance(mission.get("max_parallel"), int) or mission["max_parallel"] < 1:
         die("max_parallel must be a positive integer")
+
+    mission_id = mission.get("mission_id")
+    if not mission_id:
+        die("missing mission_id")
 
     nodes = mission.get("nodes")
     if not isinstance(nodes, list) or not nodes:
@@ -129,13 +136,64 @@ def main() -> None:
         and all(by_id[d]["status"] == "DONE" for d in node.get("depends_on", []))
     ]
 
+    # Stable parallel dispatch is an explicit binding, not a second frontier.
+    dispatch = mission.get("dispatch", {"generation": 0, "assignments": []})
+    generation = dispatch.get("generation", 0)
+    assignments = dispatch.get("assignments", [])
+    if not isinstance(generation, int) or generation < 0:
+        die("dispatch generation must be a nonnegative integer")
+    if not isinstance(assignments, list):
+        die("dispatch assignments must be a list")
+    if len(assignments) > mission["max_parallel"]:
+        die("dispatch exceeds max_parallel")
+
+    seen_slots, seen_nodes, seen_commands, seen_branches = set(), set(), set(), set()
+    for a in assignments:
+        slot = a.get("slot")
+        nid = a.get("node_id")
+        command = a.get("command")
+        branch = a.get("work_branch")
+        status = a.get("status")
+        if not isinstance(slot, str) or not SLOT_RE.match(slot):
+            die(f"invalid dispatch slot: {slot!r}")
+        if slot in seen_slots:
+            die(f"duplicate dispatch slot: {slot}")
+        if nid not in by_id:
+            die(f"dispatch slot {slot}: unknown node {nid!r}")
+        expected_command = f"{mission_id}-{slot}"
+        if command != expected_command:
+            die(f"dispatch slot {slot}: command must be {expected_command!r}")
+        if not isinstance(branch, str) or not branch:
+            die(f"dispatch slot {slot}: missing work_branch")
+        if status not in DISPATCH_ALLOWED:
+            die(f"dispatch slot {slot}: invalid status {status!r}")
+        if nid in seen_nodes:
+            die(f"node {nid} assigned to multiple dispatch slots")
+        if command in seen_commands:
+            die(f"duplicate dispatch command: {command}")
+        if branch in seen_branches:
+            die(f"duplicate dispatch branch: {branch}")
+        if status == "ISSUED":
+            node_status = by_id[nid]["status"]
+            if node_status not in {"OPEN", "ACTIVE"}:
+                die(f"dispatch slot {slot}: ISSUED node {nid} has status {node_status}")
+            not_done = [d for d in by_id[nid].get("depends_on", []) if by_id[d]["status"] != "DONE"]
+            if not_done:
+                die(f"dispatch slot {slot}: node {nid} is not READY; dependencies {not_done}")
+        seen_slots.add(slot)
+        seen_nodes.add(nid)
+        seen_commands.add(command)
+        seen_branches.add(branch)
+
     print(json.dumps({
         "status": "PASS",
-        "mission_id": mission.get("mission_id"),
+        "mission_id": mission_id,
         "node_count": len(nodes),
         "derived_ready_frontier": frontier,
         "max_parallel": mission["max_parallel"],
         "selected_capacity": min(len(frontier), mission["max_parallel"]),
+        "dispatch_generation": generation,
+        "parallel_commands": [a.get("command") for a in assignments if a.get("status") == "ISSUED"],
         "mathematical_credit": "NONE",
         "audit_credit": "NONE"
     }, indent=2))
