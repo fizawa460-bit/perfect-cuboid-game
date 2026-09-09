@@ -1,128 +1,108 @@
-# Stage35-EX MAIN batch handoff — Goal4AY derived-cuboid involution / nonlinear-descent boundary
+# Stage35-EX MAIN batch handoff — Goal4AZ super-sqrt distinct-class amplification boundary
 
-Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4AY are provisional stacked research leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted here.
+Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4AZ are provisional stacked research leaves on PR #1723 and grant no E1, Stage35, endpoint, or Perfect Cuboid credit.
 
 ## Exact-green parent
 
-Goal4AX is exact-green:
+Goal4AY is exact-green:
 
-- exact head: `0d620e70ff36b5c508fa3c59f6fde995eda25c90`
-- aggregate: `34298150005`
-- `verify-stage35-ex-current`: `102300427187`
+- exact head: `d544357536ed92d7ab56c48d303e45f1073f6c5e`
+- aggregate: `34300718726`
+- `verify-stage35-ex-current`: `102307753849`
 - result: `SUCCESS`
 
-Goal4AX's six Gaussian norm / Hilbert–90 chart is exact but endpoint-equivalent and non-pruning.
-
-## Goal4AY provisional exact result
-
-Goal4AY executes the Goal4AS lens `GENUINE_NONLINEAR_FULL_ENDPOINT_SELF_MAP_DESCENT` against the currently available source-locked candidates.
-
-The strongest classical candidate is the derived-cuboid pair-product construction
+Goal4AY recovered the classical derived-cuboid operator and proved that, after primitive normalization,
 
 ```text
-(A,B,C) -> (AB,AC,BC).
-```
-
-It exactly preserves the three face-square equations. Through the primitive Stage35-EX decomposition
-
-```text
-A=x*y*a,
-B=x*z*b,
-C=y*z*c,
-```
-
-one obtains
-
-```text
-gcd(AB,AC,BC)=x*y*z,
-```
-
-so the primitive derived edges are
-
-```text
-A_D=x*a*b,
-B_D=y*a*c,
-C_D=z*b*c.
-```
-
-Their pair gcds are exactly `a,b,c`, and their residual variables are exactly `x,y,z`. Therefore
-
-```text
-D : (x,y,z ; a,b,c) -> (a,b,c ; x,y,z),
+D:(x,y,z ; a,b,c) -> (a,b,c ; x,y,z),
 D^2=id.
 ```
 
-The reduced face hypotenuses transform as
+It preserves all three face-square equations, does not have proved fourth-square preservation, and cannot be a universal strict descent even under hypothetical full-endpoint preservation because it is an involution.
+
+## Goal4AZ provisional exact result
+
+Goal4AZ executes the Goal4AS lens
 
 ```text
-r_D_AB=r_BC,
-r_D_AC=r_AC,
-r_D_BC=r_AB.
+SUPER_SQRT_DISTINCT_CLASS_AMPLIFICATION_OR_STRONGER_COUNTING.
 ```
 
-So the classical derived construction is an exact nonlinear self-map of the **three-face Euler-brick population**.
-
-The fourth square is a separate gate:
+Goal4M supplies
 
 ```text
-original:  W^2=(x*y*a)^2+(x*z*b)^2+(y*z*c)^2,
-derived:   W_D^2=(x*a*b)^2+(y*a*c)^2+(z*b*c)^2.
+T(B) << B^(1/2+o(1))
 ```
 
-No implication from the original fourth square to the derived fourth square is obtained. In raw variables, the exact completion identity is
+for primitive canonical endpoint classes of space-diagonal height at most `B`.
+
+For an amplifier based at one hypothetical endpoint `P`, write
 
 ```text
-(D_AB*D_AC*D_BC)^2+(A*B*C)^2
-  = W^2*(A^2*B^2+A^2*C^2+B^2*C^2).
+#Amp_P(N) >= c_P*N^rho,
+H(Q) <= C_P*N^kappa  for Q in Amp_P(N),
 ```
 
-Even under the stronger hypothetical assumption that the derived operator preserved the fourth square for every endpoint, its involutivity rules out universal strict descent for **any** height: `H(D(P))<H(P)` and the same inequality at `D(P)` would give `H(P)<H(D(P))`.
+with all output classes pairwise distinct after primitive canonicalization and `H` exactly the Goal4M primitive space-diagonal height.
 
-Thus the classical derived operator is closed as a universal strict-descent candidate without claiming that all nonlinear self-maps are impossible.
-
-Other current candidates:
+Substitution `B=C_P*N^kappa` into the Goal4M epsilon-form gives an asymptotic contradiction exactly when
 
 ```text
-elliptic multiplication -> no full-endpoint reconstruction;
-AX torus symmetries -> chart symmetry / no proved strict compatible endomorphism;
-AU/AV Kummer package -> relation, not a self-map;
-common scalar v2 -> already closed by Goal4I.
+rho/kappa > 1/2.
 ```
 
-A scoped literature check also recovered the classical pair-product construction in Spohn (1974) / Leech (1981). Current arXiv `2602.00239v2` discusses a divisor-propagation descent only as an exploratory gluing mechanism and explicitly does not claim resolution of the perfect-cuboid problem; no full-endpoint map is imported from it.
+The equality case is insufficient. In particular, a linear-size orbit needs `kappa<2`.
 
-Route decision:
+Current exact mechanism audit:
 
 ```text
-GENUINE_NONLINEAR_FULL_ENDPOINT_SELF_MAP_DESCENT
-  -> FAIL_CLOSE_CURRENT_SOURCE_LOCKED_NONLINEAR_DESCENT_CANDIDATES
-  -> exact new fact: primitive derived cuboid = pair-gcd/residual involution
+scaling / edge permutation / source-pair swap -> O(1) canonical classes;
+Goal4AY derived operator -> primitive orbit size <=2;
+AU/AV Kummer package -> finite degree <=4 coefficient package, not endpoint map;
+AX six-norm torus -> endpoint birational reparameterization;
+elliptic multiplication -> infinitely many receiver points, but no arbitrary-multiple full-endpoint reconstruction and no polynomial primitive-space-diagonal height transfer;
+Euler-box quadratic jumps -> three-face Euler-brick scope; source explicitly does not require rational space diagonal;
+Sharipov cuboid-factor elliptic families -> no one-endpoint polynomial perfect-endpoint amplification theorem imported.
 ```
 
-Firewall:
+Thus current status is
 
 ```text
-ALL_POSSIBLE_NONLINEAR_DESCENT_MAPS_PROVED_IMPOSSIBLE=false
-INFINITE_DESCENT_PROVED=false
-E1_PROVED=false
+SUPER_SQRT_DISTINCT_CLASS_AMPLIFICATION_OR_STRONGER_COUNTING
+  -> FAIL_CLOSE_CURRENT_SOURCE_LOCKED_AMPLIFICATION_MECHANISMS_WITH_EXACT_RHO_OVER_KAPPA_GATE.
 ```
+
+This does **not** prove that every future amplifier is impossible. It proves that the current source-locked mechanisms do not meet the exact `rho/kappa>1/2` gate.
 
 Artifacts:
 
-- `stages/stage35-ex/35ex-35/goal4ay-derived-cuboid-involution-nonlinear-descent-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4ay-derived-cuboid-involution-nonlinear-descent.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4ay_derived_cuboid_involution.py`
+- `stages/stage35-ex/35ex-35/goal4az-super-sqrt-distinct-class-amplification-source-lock.md`
+- `stages/stage35-ex/35ex-35/goal4az-super-sqrt-distinct-class-amplification.json`
+- `stages/stage35-ex/verify_stage35_ex_35_goal4az_super_sqrt_amplification.py`
+
+## Literature scope
+
+Scoped external checks used only as route boundaries:
+
+- H. Reddmann, *Boxing the rational box*, MathOverflow: its transformations are explicitly for an Euler box where the space diagonal need not be rational; no full endpoint amplifier imported.
+- R. Sharipov, *A note on rational and elliptic curves associated with the cuboid factor equations*, arXiv:1209.5706: rational/elliptic families are present, but no theorem found converting one hypothetical perfect endpoint into polynomially many distinct perfect endpoints with controlled primitive space-diagonal height.
 
 ## Freshness
 
-No freshness credit is claimed. The main-side drift observed in this batch was confined to Stage32 / Stage36 material and did not change Stage35-EX mathematical sources. No rebase/sync is performed in this provisional leaf.
+Current main observed in this batch:
+
+```text
+97aa65b83015ea31d453bffee0cc56c4d9876724
+```
+
+At Goal4AY, PR #1723 is ahead 43 / behind 10 from merge-base `42f20e47babdfdda068a605e3fec489eeace460c`. The ten main-side commits/files are Stage32-EX1 / Stage32-EX5 / Stage32 routing / Stage36 material; no Stage35-EX mathematical source drift was observed. No freshness credit is claimed and no rebase/sync is performed for this provisional leaf.
 
 ## Next exact leaf
 
 ```text
-35EX-35_GOAL4AZ_SUPER_SQRT_DISTINCT_CLASS_AMPLIFICATION_PREFLIGHT
+35EX-35_GOAL4BA_FINITE_ADDITIONAL_BRAUER_SHORTCUT_EXHAUSTION_PREFLIGHT
 ```
 
-Question: can one hypothetical endpoint force quantitatively many **distinct** endpoint classes or marked receiver points below controlled height, enough to contradict Goal4M's `O(B^(1/2+o(1)))` population ceiling? Symmetry or a finite orbit alone is insufficient; distinctness and height-growth constants must be exact.
+Question: can a single new finite Brauer class, or a finite explicitly generated subgroup of the already exposed algebraic/unit-character layer, force an empty **source-admissible** adelic population without requiring the full endpoint-equivalent Brauer computation?
 
 No merge. No hostile-audit credit. `MAIN-STATE.json` remains V74 / Goal4AK.
