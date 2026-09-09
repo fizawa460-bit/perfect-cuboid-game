@@ -39,7 +39,12 @@ def main() -> None:
         "operator_commands": {
             "start": f"research-start {args.mission_id}: {args.target}",
             "cycle": f"{args.mission_id}-mainbatch",
+            "parallel_prefix": f"{args.mission_id}-",
             "audit": f"{args.mission_id}-audit",
+        },
+        "dispatch": {
+            "generation": 0,
+            "assignments": [],
         },
         "nodes": [{
             "node_id": "N001",
@@ -55,6 +60,8 @@ def main() -> None:
             "search_before_create": True,
             "duplicate_semantic_key_forbidden": True,
             "retry_blocked_route_only_after_reopen_condition": True,
+            "parallel_slot_binding_must_be_recorded_before_display": True,
+            "parallel_lane_must_not_self_reassign": True,
             "audit_credit_self_grant_forbidden": True,
             "merge_without_user_authorization_forbidden": True,
         },
@@ -87,6 +94,7 @@ def main() -> None:
 
     print(f"created {args.mission_id} at {dst}")
     print(f"next operator command: {args.mission_id}-mainbatch")
+    print("parallel lane commands are emitted automatically after mainbatch exposes >=2 independent READY nodes")
 
 
 if __name__ == "__main__":
