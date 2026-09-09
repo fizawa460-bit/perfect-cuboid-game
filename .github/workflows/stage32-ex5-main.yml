@@ -20,30 +20,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10.6'
-      - name: Replay EX5-00 source lock
-        run: python stages/stage32-ex5/verify_ex5_00_source_lock.py
-      - name: Replay EX5-01 receiver ledger
-        run: python stages/stage32-ex5/verify_ex5_01_receiver_ledger.py
-      - name: Replay EX5-02 coverage dependency graph
-        run: python stages/stage32-ex5/verify_ex5_02_coverage_graph.py
-      - name: Replay EX5-03 clean-room route universe
-        run: python stages/stage32-ex5/verify_ex5_03_clean_room_routes.py
-      - name: Replay EX5-04 repository asset dedup
-        run: python stages/stage32-ex5/verify_ex5_04_asset_dedup.py
-      - name: Replay EX5-05 route scorecard
-        run: python stages/stage32-ex5/verify_ex5_05_route_scorecard.py
-      - name: Replay EX5-06 executable route contracts
-        run: python stages/stage32-ex5/verify_ex5_06_executable_route_contracts.py
-      - name: Replay EX5-07 XSTAGE preflight blocker
-        run: python stages/stage32-ex5/verify_ex5_07_xstage_preflight_01.py
-      - name: Replay EX5-07 EFC preflight blocker
-        run: python stages/stage32-ex5/verify_ex5_07_efc_preflight_01.py
-      - name: Replay EX5-07 EHS preflight blocker
-        run: python stages/stage32-ex5/verify_ex5_07_ehs_preflight_01.py
-      - name: Replay EX5-10 bounded breadth exhaustion ledger
-        run: python stages/stage32-ex5/verify_ex5_10_bounded_breadth_exhaustion.py
-      - name: Replay EX5-11 terminal route-decision candidate
-        run: python stages/stage32-ex5/verify_ex5_11_terminal_route_decision.py
+      - name: Replay retained Cycle1 evidence against historical MAIN routing snapshots
+        run: python stages/stage32-ex5/verify_ex5_retained_chain_historical_main_replay.py
       - name: Replay BC2-00 BTVA node-support/span first-pass diagnostic
         run: python stages/stage32-ex5/breadth-cycle-2/verify_bc2_00_btva_node_support_span_diagnostic.py
       - name: Replay BC2-00 second-pass repository dedup
@@ -52,7 +30,7 @@ jobs:
         run: python stages/stage32-ex5/breadth-cycle-2/verify_bc2_01_support_adapter_preflight.py
       - name: Replay BC2-01A exceptional-pairing bridge
         run: python stages/stage32-ex5/breadth-cycle-2/verify_bc2_01a_exceptional_pairing_bridge.py
-      - name: Verify EX5 routing firewalls
+      - name: Verify EX5 live routing firewalls
         run: python stages/stage32-ex5/verify_main_state.py
       - name: Verify Stage32 claim DAG integrity
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity

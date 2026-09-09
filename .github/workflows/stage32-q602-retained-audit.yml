@@ -1,0 +1,65 @@
+name: Stage32 Q602 retained adapter audit
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-q602-retained-audit.yml'
+      - 'stages/stage32/proof/verify_stage32_q602_sync.py'
+      - 'stages/stage32/q602-forgetful-adapter-audit-package-20260909.json'
+      - 'stages/stage32/verify_q602_forgetful_adapter_audit_package_20260909.py'
+      - 'stages/stage32/q602-claim-dag-variance-repair-preflight-20260909.json'
+      - 'stages/stage32/verify_q602_claim_dag_variance_repair_preflight_20260909.py'
+      - 'stages/stage32/full178-dominance-recheck-after-v6-o210-q602-route-20260909.json'
+      - 'stages/stage32/verify_full178_dominance_recheck_after_v6_o210_q602_route_20260909.py'
+      - 'stages/stage32/scratch/q602-o210-*'
+      - 'stages/stage32/proof/ACTIVE-FRONTIER.json'
+      - 'stages/stage32/MAIN-STATE.json'
+      - 'stages/stage32-ex5/MAIN-STATE.json'
+      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json'
+      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-frontier.json'
+      - 'stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json'
+      - 'stages/stage32/residual-32-01-production/post1505-o210-q602-weierstrass-parity-transvection-refinement.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  q602-retained-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact checked-out head
+        if: github.event_name == 'pull_request'
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Checkout exact audited pre-sync evidence separately
+        uses: actions/checkout@v4
+        with:
+          ref: 6487de765b0d35e05d81018aeaff902af9b7d21a
+          path: .stage32-audited-q602
+      - name: Verify live Q602 V3 claim synchronization
+        run: python stages/stage32/proof/verify_stage32_q602_sync.py
+      - name: Replay historical retained Q602 forgetful adapter package
+        working-directory: .stage32-audited-q602
+        run: python stages/stage32/verify_q602_forgetful_adapter_audit_package_20260909.py
+      - name: Replay historical Q602 claim-DAG variance repair preflight
+        working-directory: .stage32-audited-q602
+        run: python stages/stage32/verify_q602_claim_dag_variance_repair_preflight_20260909.py
+      - name: Verify FULL178 is not dominated by narrow V6/O210/Q602 closure
+        run: python stages/stage32/verify_full178_dominance_recheck_after_v6_o210_q602_route_20260909.py
+      - name: Verify active frontier remains fail-closed
+        run: python stages/stage32/proof/verify_stage32_active_frontier.py
+      - name: Assert current FINAL-CHECK is NOT_READY
+        shell: bash
+        run: |
+          set +e
+          output="$(python stages/stage32/proof/verify_stage32_claim_dag.py --final)"
+          code=$?
+          set -e
+          printf '%s\n' "$output"
+          test "$code" -eq 2
+          printf '%s\n' "$output" | python -c 'import json,sys; o=json.load(sys.stdin); assert o["verdict"] == "NOT_READY_STAGE32_FINAL_CHECK"; assert o["final_ready"] is False'
+
