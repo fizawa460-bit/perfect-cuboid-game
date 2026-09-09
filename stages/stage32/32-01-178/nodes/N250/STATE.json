@@ -1,0 +1,54 @@
+{
+  "schema": "research-os-mission-node/v1",
+  "node_id": "N250",
+  "semantic_key": "s32-01-178:post-n220-survivor-exceptional-block-census",
+  "statement": "Compute the exact per-stratum survivor exceptional-block census after the audited N220 cut, so downstream Picard leaf work can be prioritized by actual surviving outer-block count rather than raw terminal count.",
+  "scope": {
+    "population": "all 60491 post-node-mass FULL178 strata",
+    "field_or_model": "audited N220 indexed-prefix population only",
+    "quantifiers": "exact census over every authorized post-node-mass (row_id,d,e) stratum",
+    "required_output": "deterministic per-stratum stream hash, exact aggregate totals, small-block buckets, and minimum-block strata"
+  },
+  "depends_on": ["N220", "N230"],
+  "source_refs": [
+    "stages/stage32/32-01-178/nodes/N220/STATE-AUDITED.json",
+    "stages/stage32/32-01-178/nodes/N220/verify_n220_exact_symbolic_count.py",
+    "stages/stage32/32-01-178/nodes/N220/verify_n220_exact_symbolic_count_fast.py",
+    "stages/stage32/residual-32-01-production/full178-manifest.json",
+    "stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json"
+  ],
+  "retained_result": {
+    "status": "IMPLEMENTED_PENDING_CI",
+    "post_node_mass_strata": 60491,
+    "post_node_mass_terminal_total": "688101306357436883335845534",
+    "post_n220_terminal_total": "346053707902916587089896969",
+    "survivor_exceptional_blocks_sum": "1318904498253281860795425",
+    "per_stratum_stream_sha256": "10380cb8ce2e03827cb563a8ad79b052b6254905317a4955d2be74f0a5a03a60",
+    "small_block_strata": {
+      "le_1": 4,
+      "le_10": 12,
+      "le_100": 36,
+      "le_1000": 230,
+      "le_10000": 581,
+      "le_100000": 1116,
+      "le_1000000": 1680
+    },
+    "minimum_survivor_block_strata": [
+      {"row_id":"g0-d174","e":48,"survivor_exceptional_blocks":1},
+      {"row_id":"g0-d176","e":48,"survivor_exceptional_blocks":1},
+      {"row_id":"g1-d190","e":48,"survivor_exceptional_blocks":1},
+      {"row_id":"g1-d192","e":48,"survivor_exceptional_blocks":1}
+    ],
+    "new_pruning_credit": false,
+    "picard_leaf_credit": false,
+    "full178_complete": false
+  },
+  "credit_ceiling": "EXACT_POST_N220_PRIORITY_CENSUS_ONLY_NO_NEW_PRUNING_OR_PICARD_OR_FULL178_CREDIT",
+  "next_action": "RUN_LIGHTWEIGHT_N250_REPLAY; IF PASS, USE THE CENSUS TO PRIORITIZE LOW-BLOCK STRATA FOR ANY FUTURE SOURCE-LOCKED LEAF CONTRACT WITHOUT DUPLICATING EX5 SOLVER RESEARCH",
+  "notes": [
+    "N250 does not change the N220 survivor set and does not grant a new exclusion.",
+    "An exceptional block is the outer N230 exceptional-prefix coordinate; x4 remains the independent innermost normal block.",
+    "The census is intended to expose strata where an EX5-style block certificate could close a large canonical terminal range with very few outer signatures.",
+    "No heavy compute, theorem/receiver/endpoint, existence/nonexistence, or merge credit is authorized."
+  ]
+}
