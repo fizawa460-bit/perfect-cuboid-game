@@ -42,12 +42,14 @@ One deterministic RREF basis in squareclass-pair notation is
 - `([1],[2])`;
 
 `Sel_2(E_sigma)`:
-- `([-1],[1])`,
+- `([1],[-1])`,
 - `([1],[6])`;
 
 `Sel_2(E_rho)`:
-- `([-1],[1])`,
+- `([1],[-1])`,
 - `([1],[3])`.
+
+The coordinate order is the two factor Kummer coordinates fixed in DW. The first EC exact-head replay exposed and corrected an initial transcription that had placed `[-1]` in the first coordinate for the last two factors. The Selmer subspaces, dimensions `(3,2,2)`, and all Sha consequences are unchanged.
 
 Only the subspaces/dimensions are authoritative; another row basis for the same subspace is equivalent.
 
