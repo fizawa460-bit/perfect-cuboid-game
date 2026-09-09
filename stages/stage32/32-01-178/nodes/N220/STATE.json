@@ -1,0 +1,110 @@
+{
+  "schema": "research-os-mission-node/v1",
+  "node_id": "N220",
+  "semantic_key": "s32-01-178:prefix-exceptional-support-cap-cut",
+  "statement": "Use the ten exceptional pairings already fixed by one exact indexed-terminal prefix to upper-bound the maximum possible support among all 48 exceptional slots, giving a monotone necessary cut strictly stronger than the previously consumed scalar exceptional-mass cut.",
+  "scope": {
+    "population": "the exact FULL178 indexed-terminal family after the already-consumed coarse node-mass cut",
+    "field_or_model": "11-coordinate exact indexed pairing prefix, of which ten coordinates are exceptional and one coordinate x4/label49 is normal",
+    "quantifiers": "every exact indexed terminal addressed by (row_id,d,e,terminal_rank/pairings)",
+    "required_output": "source-locked exact support-cap predicate plus a machine-checkable proof that the predicate is nontrivial on the retained FULL178 population"
+  },
+  "source_refs": [
+    "stages/stage32/residual-32-01-production/compressed_terminal_family.py@90ff82ed312dcc0cb32cf207935945f550e29170",
+    "stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json@eb823cc2f99d74456d5701b4673f848f18ba3151",
+    "stages/stage32/residual-32-01-production/full178-manifest.json@0a46b34e278688240656b4977e9cb7f589e90e06",
+    "stages/stage32/residual-32-01-production/build_stage32_post21bl_full178_node_mass_census.py@93f7dc6f1b224f61af3f260d09da55bfb5a3460a",
+    "stages/stage32/32-01-178/nodes/N220/verify_n220_prefix_exceptional_support_cap.py@b7a157d2d1ec5c4006a6edc4bb5afb5c6ea29cad"
+  ],
+  "reuse_check": {
+    "performed": true,
+    "queries": [
+      "prefix exceptional support cap remaining mass",
+      "indexed terminal known support remaining exceptional slots",
+      "support_count terminal_pairings exceptional_support",
+      "bijective node support required lower bound",
+      "existing node-mass cut e >= ceil((d-16g+16)/4)"
+    ],
+    "matches": [
+      "The retained production census already consumes the coarse necessary cut e >= ceil((d-16g+16)/4), which uses only total exceptional mass e.",
+      "The current exact terminal representation fixes ten exceptional slot values and one normal slot value before Picard64 completion.",
+      "N210 correctly deduplicated a rediscovery of the coarse scalar-e cut, but did not exploit how much of e is already concentrated in the ten labelled exceptional prefix slots."
+    ],
+    "decision": "STRICT_REFINEMENT_NOT_DUPLICATE; NEW_INPUT_IS_PREFIX_DISTRIBUTION_M10_AND_S10_NOT_SCALAR_E_ALONE"
+  },
+  "attempts": [
+    {
+      "route_id": "N220-R1-PREFIX-EXCEPTIONAL-SUPPORT-CAP",
+      "status": "AUDIT_REQUIRED",
+      "summary": "For prefix x define M10=sum of its ten known exceptional values and S10=the number of those ten values that are positive. The remaining 38 exceptional slots have nonnegative integral pairings with total remaining mass e-M10. Hence every completion has full exceptional support at most S10+min(38,e-M10). Combining with the retained necessary support lower bound K=ceil((d-16g+16)/4) yields the exact monotone predicate S10+min(38,e-M10)>=K.",
+      "result": "PASS_EXACT_PREFIX_SUPPORT_CAP_NONTRIVIAL_READY_FOR_HOSTILE_AUDIT",
+      "blocker": "New mathematical pruning credit is not self-granted by MAINBATCH; hostile audit is required before the predicate is integrated as authoritative production pruning or counted toward FULL178 completeness.",
+      "reopen_condition": "An external hostile audit PASS source-locks this exact N220 predicate/proof and its verifier at an exact PR#1753 head."
+    }
+  ],
+  "retained_result": {
+    "status": "PASS_EXACT_PREFIX_SUPPORT_CAP_NONTRIVIAL_READY_FOR_HOSTILE_AUDIT",
+    "definitions": {
+      "exceptional_prefix_positions_0based": [0,1,2,3,5,6,7,8,9,10],
+      "normal_prefix_position_0based": 4,
+      "M10": "sum(x_i for i != 4)",
+      "S10": "count(i != 4 with x_i > 0)",
+      "remaining_exceptional_slot_count": 38,
+      "remaining_exceptional_mass": "e-M10",
+      "required_support_K": "ceil((d-16g+16)/4)"
+    },
+    "exact_cut": {
+      "necessary_form": "S10 + min(38, e-M10) >= ceil((d-16g+16)/4)",
+      "rejection_form": "S10 + min(38, e-M10) < ceil((d-16g+16)/4)",
+      "proof": [
+        "The ten indexed exceptional coordinates already contribute exactly S10 positive exceptional slots and exactly M10 units of exceptional mass.",
+        "Every additional positive exceptional slot among the 38 unassigned exceptional slots consumes at least one unit because all exceptional pairings are nonnegative integers.",
+        "Therefore at most min(38,e-M10) additional exceptional slots can be positive in any completion.",
+        "The retained Stage32 branch requires full exceptional support at least K=ceil((d-16g+16)/4). If the upper bound is below K, no completion can satisfy the required support."
+      ],
+      "strictly_refines_consumed_scalar_mass_cut": true,
+      "does_not_infer_exact_48bit_support": true,
+      "requires_picard64_completion": false,
+      "requires_reynolds_z": false,
+      "duplicates_active_ex5_bc2_02": false
+    },
+    "nontriviality_certificate": {
+      "manifest_canonical_sha256": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23",
+      "prefix_checkpoint_canonical_sha256": "65a5ab43e44ebb33341c250a8fa2c5ece09999203893f9a76ca46fb037df558f",
+      "coarse_strata_before_existing_node_mass_cut": 64111,
+      "coarse_strata_eliminated_by_existing_node_mass_cut": 3620,
+      "post_node_mass_strata": 60491,
+      "post_node_mass_strata_with_at_least_one_explicit_n220_rejection": 60491,
+      "explicit_family": "all-zero exceptional prefix when rejected, plus x2=s or x3=s or x7=s with every other exceptional prefix coordinate zero; x4 remains any legal normal value",
+      "explicit_rejected_exceptional_prefix_configurations": 24876258,
+      "explicit_rejected_exact_terminal_tuple_lower_bound": 26206770933,
+      "lower_bound_is_not_total_n220_pruning_count": true,
+      "reason": "Only three simple one-slot concentration families are counted; many other indexed terminal prefixes can also fail the support-cap predicate."
+    },
+    "supersedes_n210_no_live_prefix_cut_diagnosis": {
+      "value": true,
+      "reason": "N210 tested rediscoveries based on HNF/parity and scalar e. N220 uses new retained information already present in each indexed terminal: the labelled distribution (M10,S10) of exceptional mass across the ten known exceptional slots."
+    },
+    "verifier": "stages/stage32/32-01-178/nodes/N220/verify_n220_prefix_exceptional_support_cap.py"
+  },
+  "credit_ceiling": "AUDIT_READY_EXACT_PREFIX_NECESSARY_CUT_ONLY_NO_FULL178_COMPLETENESS_OR_THEOREM_CREDIT",
+  "next_action": "HOSTILE_AUDIT_N220. On PASS, integrate this predicate into the exact indexed-terminal symbolic/indexed representation without materializing the 27-digit family, then derive an exact symbolic count/rank-unrank adaptation rather than blind terminal enumeration.",
+  "credit_firewall": {
+    "heavy_compute_authorized": false,
+    "full178_complete": false,
+    "numerical_row_complete": false,
+    "exact_48bit_support_inferred": false,
+    "ex5_completion_adapter_duplicated": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "existence_claim": false,
+    "nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "notes": [
+    "This is an independent MAINBATCH research result, not an EX5 consumption.",
+    "The 26,206,770,933 count is a certified lower bound from an explicit subfamily, not the full number of prefixes rejected by N220.",
+    "No production pruning or FULL178 credit should consume N220 until hostile audit passes."
+  ]
+}
