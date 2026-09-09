@@ -1,0 +1,77 @@
+{
+  "schema": "STAGE32_POST1728_V6_NEGATIVE_AUTHORITY_CONSUMPTION_AND_FRONTIER_REMAP_V1",
+  "stage": 32,
+  "snapshot_main_sha": "56ce8213ffe90635aaa499c46639971c952724f1",
+  "trigger": "ACTIVE_FRONTIER_REMAP",
+  "audited_inputs": {
+    "ex1_terminal": {
+      "claim_id": "S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2",
+      "authority_status": "AUDITED",
+      "audit_pr": 1728,
+      "audit_review_id": 5147627146,
+      "audit_exact_head": "e3c4a04d5010e6dca9428722e334890e2614297a",
+      "claim_core_sha256": "84e7a4b6990d7c687eebe341fbea296fad1da2cae4785cb87580a0d84572437a"
+    },
+    "ex1_to_main_adapter": {
+      "claim_id": "S32.ADAPTER.EX1_V6_CARRIER_TO_MAIN_V6_CARRIER.V1",
+      "authority_status": "AUDITED",
+      "audit_pr": 1728,
+      "audit_review_id": 5147810198,
+      "audit_exact_head": "89ba026f05f9fe5344c0f0fb41fe8c2366032877",
+      "claim_core_sha256": "4e0ec501c299fe0a41699eb6cc377ef977ebed27172f0e6f10a25039d835fe06"
+    },
+    "main_v6_negative": {
+      "claim_id": "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2",
+      "authority_status": "AUDITED",
+      "audit_pr": 1728,
+      "audit_review_id": 5147810198,
+      "audit_exact_head": "89ba026f05f9fe5344c0f0fb41fe8c2366032877",
+      "claim_core_sha256": "c7927cd86c321de2956b3843dff4882ddeb29fb3489715d4dd7d1d60eff58cc6"
+    }
+  },
+  "remap": {
+    "resolved_by_audited_v6_nonexistence": [
+      "S32.V6.ACTUAL_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
+      "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1",
+      "S32.V6.SURFACE_NODE_MULTIBRANCH.V2",
+      "S32.V6.SMOOTH_AMBIENT_LOCUS_CURVE_SINGULARITY.V2",
+      "S32.J2.DELTA0INF_ABSOLUTE_W_LINE_MARKING.V1",
+      "S32.V6.MEMBER_LEVEL_Q602_LOCAL_IDENTITY.V2"
+    ],
+    "reason": "The audited MAIN-scope V6 population is empty. Positive-member reconstruction and conditional branch/local-marking obligations are no longer load-bearing for the selected Stage32 closure route.",
+    "remaining_active_frontier": [
+      "S32.O210.EXCLUSION.V1",
+      "S32.Q602.SURVIVORS_73_97_235.V1",
+      "S32.Q602.EXCLUSION.V1",
+      "S32.FULL178.NUMERICAL_CENSUS.V1",
+      "S32.GOAL.STAGE32_CLOSURE.V1"
+    ],
+    "next_exact_route": "BUILD_AND_HOSTILE_AUDIT_V6_EMPTY_TO_O210_AND_Q602_POPULATION_PRESERVING_ADAPTERS_IN_PARALLEL_WITH_FULL178_CENSUS",
+    "ex_lane_decision": {
+      "EX1": "COMPLETED_AUDITED_HANDOFF",
+      "EX2": "DOMINATED_BY_AUDITED_V6_NONEXISTENCE",
+      "EX3": "WAITING_ON_V6_EMPTY_TO_O210_Q602_ADAPTER_DECISION",
+      "EX4": "WAITING_ON_V6_EMPTY_TO_Q602_ADAPTER_DECISION",
+      "EX5": "ACTIVE_FULL178",
+      "EX6": "STOPPED_PENDING_NEW_ENDPOINT_INPUT"
+    }
+  },
+  "credit": {
+    "V6_integral_irreducible_genus1_population_empty": true,
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "FULL178_numerical_census_complete": false,
+    "Stage32_closed": false,
+    "Perfect_Cuboid_existence_claim": false,
+    "Perfect_Cuboid_nonexistence_claim": false
+  },
+  "firewalls": {
+    "does_not_relabel_v6_nonexistence_as_q602_arithmetic": true,
+    "does_not_relabel_v6_nonexistence_as_ex3_monodromy": true,
+    "o210_requires_explicit_typed_adapter_and_audit": true,
+    "q602_requires_explicit_typed_adapter_and_audit": true,
+    "final_check_still_required": true,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "be5fd93e5c8efa0087c10e0773eb0076c28af80a529b1c11b81d80c6c412fffc"
+}

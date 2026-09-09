@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX2_MAIN_COMPACT_STATE_V1_BOOTSTRAP",
+  "schema": "STAGE32EX2_MAIN_COMPACT_STATE_V2_POST1728_DOMINATED",
   "role": "ORDINARY_STAGE32EX2_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX2",
   "execution": {
@@ -9,19 +9,14 @@
     "roadmap_contract": "stages/stage32-ex2/stage32-ex2.md",
     "audit_contract": "stages/stage32-ex2/AUDIT-CONTRACT.md"
   },
-  "bootstrap": {
-    "base_main_sha": "6431ec2a90ed9260d4362d7146a9788cbc21c8d1",
-    "work_branch": "stage32ex2-member-reconstruction-mainline",
-    "active_work_pr": 1701,
-    "merge_authorized": false
-  },
   "authority": {
-    "stage32ex2_is_independent_operating_lane": true,
-    "stage32_main_authority_unchanged": true,
-    "inherits_unaudited_candidates_as_theorem": false,
     "state_itself_grants_mathematical_credit": false,
-    "promotion_to_stage32_main_requires_explicit_current_target_adapter": true,
-    "promotion_to_stage32_main_requires_hostile_audit": true
+    "dominating_claim_id": "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2",
+    "dominating_claim_authority": "AUDITED",
+    "dominating_audit_review_id": 5147810198,
+    "dominating_audit_exact_head": "89ba026f05f9fe5344c0f0fb41fe8c2366032877",
+    "source_pr": 1728,
+    "main_semantic_merge_commit": "56ce8213ffe90635aaa499c46639971c952724f1"
   },
   "fixed_target": {
     "picard_class": "V6",
@@ -30,111 +25,56 @@
     "target_geometric_genus": 1,
     "context_D2": 758,
     "context_K_dot_D": 186,
-    "context_arithmetic_genus": 473,
-    "context_h0_lower_bound": 294,
-    "context_effective_divisor_exists_by_rr": true,
-    "context_known140_decomposition_nonzero_terms": 61,
-    "context_known140_decomposition_total_multiplicity": 155,
-    "context_values_require_EX2_00_source_lock_before_use": true,
-    "arithmetic_member_field_not_asserted": true
+    "context_arithmetic_genus": 473
   },
   "completion_contract": {
-    "mathematical_candidate_state": "AUDIT_READY_FULL_TARGET_CLOSURE",
-    "audited_success_state": "FULL_TARGET_CLOSURE",
-    "full_target_closure_is_decision_state": true,
-    "allowed_terminal_outcomes": [
+    "original_allowed_terminal_outcomes": [
       "GENUINE_V6_GENUS1_MEMBER_ESTABLISHED",
       "NO_INTEGRAL_IRREDUCIBLE_V6_GENUS1_MEMBER_IN_LINEAR_SYSTEM"
     ],
-    "terminal_outcome": null,
-    "positive_terminal_requires_explicit_or_equally_replayable_actual_member": true,
-    "positive_terminal_requires_exact_V6_membership": true,
-    "positive_terminal_requires_integral_irreducible_genus1_verification": true,
-    "negative_terminal_requires_population_wide_linear_system_or_member_exhaustiveness": true,
+    "lane_terminal_outcome_independently_established": false,
+    "dominated_by_external_audited_population_decision": true,
     "finite_search_miss_is_terminal_success": false,
-    "source_gap_diagnosis_is_terminal_success": false,
-    "one_reducible_member_is_terminal_success": false,
-    "one_fixed_component_lemma_is_terminal_success": false,
-    "blocked_route_is_stage_exhaustion": false,
-    "hostile_audit_pass_required_for_audited_success": true
+    "reentry_requires_new_target_not_already_contained_in_audited_v6_negative_population": true
   },
   "current": {
-    "status": "BOOTSTRAP_ROADMAP_READY_UNAUDITED",
-    "leaf": "EX2-00_SOURCE_LOCK_AND_EXACT_TARGET_CONTRACT",
-    "subroute": "LOCK_V6_CLASS_MEMBER_MODELS_AND_SECTION_SOURCE_INTERFACES",
-    "objective": "Freeze exact V6 source/proof inputs and type every model transition needed for member reconstruction before constructing or excluding any actual member.",
-    "next_route_on_success": "EX2-01_LINE_BUNDLE_REALIZATION_AND_SECTION_SOURCE_INVENTORY",
-    "next_route_on_block": "RECORD_TYPED_MISSING_ADAPTER_AND_SELECT_DISTINCT_SECTION_OR_FIXED_MOVING_LANE",
-    "stop_semantics": "LEAF_GATE_ONLY_NOT_STAGE_EXHAUSTION"
+    "status": "DOMINATED_BY_AUDITED_V6_NONEXISTENCE",
+    "leaf": "EX2_POST1728_DOMINATED_HOLD",
+    "objective": "Retain EX2 member-reconstruction work as independent provenance only. The exact genus-1 V6 population is already audited empty in MAIN, so no further EX2 research is load-bearing.",
+    "next_route": "NONE_WITHOUT_EXPLICIT_REENTRY",
+    "stop_semantics": "LANE_DOMINATED_NO_ACTIVE_FRONTIER_ATTACK"
   },
   "current_leaf_working_set": [
-    "stages/stage32-ex2/stage32-ex2.md",
+    "stages/stage32-ex2/MAIN-STATE.json",
     "stages/stage32-ex2/verify_main_state.py",
-    "stages/stage32/MAIN-STATE.json",
-    "stages/stage32/residual-32-01-production/post1648ae-v6-carrier-member-source-gap.json",
-    "stages/stage32/residual-32-01-production/post1648ag-v6-known140-basis-elimination.json",
-    "stages/stage32/32-21/post1473-v6-witness-body-recovered.json"
+    "stages/stage32/proof/CLAIM-REGISTRY.json",
+    "stages/stage32/proof/LANE-ADAPTERS.json"
   ],
   "frontier": {
-    "EX2_00_source_lock_complete": false,
-    "exact_line_bundle_realization_obtained": false,
-    "complete_section_space_basis_obtained": false,
-    "certified_section_subspace_obtained": false,
-    "fixed_part_fully_classified": false,
-    "moving_system_structure_classified": false,
     "explicit_V6_member_materialized": false,
-    "integral_irreducible_V6_member_obtained": false,
     "explicit_V6_genus1_member_verified": false,
-    "population_wide_no_genus1_member_proved": false,
-    "audit_ready_full_target_closure": false,
-    "terminal_outcome": null,
-    "full_target_closure": false
-  },
-  "parallel_lanes": {
-    "enabled_after_EX2_00": true,
-    "lanes": [
-      "SECTION_COORDINATE_LANE",
-      "FIXED_MOVING_LANE",
-      "SYMMETRY_LANE",
-      "KNOWN_CURVE_LANE",
-      "IDEAL_SYZYGY_LANE",
-      "NEGATIVE_LINEAR_SYSTEM_LANE"
-    ],
-    "scratch_results_authoritative": false,
-    "cross_lane_use_requires_explicit_provisional_or_audited_dependency_status": true
+    "EX2_independently_proved_population_wide_no_genus1_member": false,
+    "dominated_by_audited_main_v6_nonexistence": true,
+    "active_research": false,
+    "active_frontier_refs": []
   },
   "credit": {
-    "level": "BOOTSTRAP_NO_MATHEMATICAL_CREDIT",
-    "necessary_condition_only": false,
-    "branch_exclusion": false,
-    "genuine_v6_genus1_member_established": false,
-    "no_integral_irreducible_v6_genus1_member_in_linear_system": false,
+    "level": "NO_INDEPENDENT_EX2_TERMINAL_CREDIT_DOMINATED_BY_AUDITED_MAIN_RESULT",
     "full_target_closure": false,
-    "stage32_main_credit": false,
-    "receiver_credit": false,
-    "theorem_credit": false,
-    "endpoint_credit": false
+    "stage32_main_credit_from_EX2": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_closed": false
   },
   "audit": {
-    "status": "NOT_READY_BOOTSTRAP_ONLY",
-    "candidate_pr": null,
-    "exact_head": null,
-    "review_id": null,
-    "result": null,
+    "EX2_terminal_audit_status": "NOT_PERFORMED",
+    "dominating_main_claim_audit_review_id": 5147810198,
     "pass_auto_merges": false,
     "pass_auto_promotes_to_stage32_main": false
   },
   "firewalls": {
-    "rr_effectivity_promoted_to_explicit_member": false,
-    "h0_lower_bound_promoted_to_section_basis": false,
-    "known140_decomposition_promoted_to_fixed_part": false,
-    "known140_decomposition_promoted_to_complete_linear_system": false,
-    "picard_class_promoted_to_unique_member": false,
-    "candidate_polynomial_promoted_without_class_adapter": false,
-    "finite_search_miss_promoted_to_population_wide_exclusion": false,
-    "reducible_member_promoted_to_positive_terminal": false,
-    "blocked_route_treated_as_stage_exhaustion": false,
-    "stage32_main_credit": false,
+    "domination_misreported_as_independent_EX2_proof": false,
+    "EX2_research_restarted_without_reentry": false,
     "Q602_excluded": false,
     "O210_excluded": false,
     "stage32_closed": false,

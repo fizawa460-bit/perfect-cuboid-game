@@ -1,0 +1,82 @@
+{
+  "schema": "STAGE32EX3_EX3_10_MAIN_O210_PROMOTION_ADAPTER_V3",
+  "status": "RETAINED_PROVISIONAL_EX_TO_MAIN_PROMOTION_ADAPTER_V3_UNAUDITED",
+  "role": "DRIFT_ROBUST_SCOPE_EQUIVALENCE_ADAPTER_NOT_MAIN_AUTHORITY",
+  "binding": {
+    "binding_semantics": "TARGET_CONTEXT_CLAIM_CORE_PLUS_SCOPE_KEY_NO_MUTABLE_FRONTIER_BLOB_LOCK",
+    "stage32_target_context_claim_id": "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
+    "stage32_target_context_core_sha256": "cb3aa4b36332cda9d960103972e7235d3cf7b1bc41fcefc99f19a050a7ab2f14",
+    "from_claim_id": "S32.EX3.O210_COVER_GEOMETRY_EXCLUSION_TERMINAL.V1",
+    "from_claim_core_sha256": "78399b9797723b4134198b2f4b2dc3ed3024897b7ad128d1f0621e1e85cf8102",
+    "from_scope_key": "S32.EX3.O210_COVER",
+    "from_authority_required": "AUDITED",
+    "from_audit_receipt": {
+      "status": "PASS",
+      "pr": 1714,
+      "review_id": 5141988194,
+      "exact_head": "8da8d4cd932c5c9b82dfd0c304638e866c656069"
+    },
+    "to_scope_key": "S32.O210.COVER",
+    "to_active_claim_requirement": "EXACTLY_ONE_CURRENT_ACTIVE_O210_CLAIM_WITH_FIXED_TARGET_SCOPE"
+  },
+  "target_identity": {
+    "row_id": "g1-d186",
+    "picard_class": "V6",
+    "O": 210,
+    "qprime": 4,
+    "Q": 602,
+    "surviving_marked_residues": [73, 97, 235],
+    "main_goal_population": "full O=210 carrier/cover population under exact current Stage32 g1-d186/V6/qprime=4 receiver semantics",
+    "ex3_population": "every hypothetical integral irreducible genus-1 V6 carrier in the exact g1-d186/O=210/qprime=4 cover population",
+    "population_relation": "EQUAL_FOR_BOUND_STAGE32_TARGET_CONTEXT",
+    "q602_orbit_role": "OBSTRUCTION_EVIDENCE_NOT_CARRIER_POPULATION_FILTER",
+    "q602_trace_gauge_invariant": true,
+    "residual_monodromy_case_restriction_used": false,
+    "finite_search_subpopulation_used": false
+  },
+  "freshness_design": {
+    "repository_main_sha_is_semantic_binding": false,
+    "stage32_main_state_blob_is_direct_source_lock": false,
+    "active_frontier_blob_is_direct_source_lock": false,
+    "active_frontier_may_remap_claim_version_if_scope_and_target_context_are_preserved": true,
+    "target_context_claim_core_is_semantic_binding": true,
+    "exact_current_active_o210_scope_is_runtime_verified": true
+  },
+  "adapter_argument": {
+    "stage32_target_context_core_matches": true,
+    "main_target_identifiers_match_ex3": true,
+    "current_active_o210_scope_must_match_fixed_target": true,
+    "main_O210_goal_is_population_wide": true,
+    "audited_ex3_argument_is_population_preserving_for_every_hypothetical_fixed_target_carrier": true,
+    "extra_ex3_Q602_marked_orbit_data_does_not_narrow_carrier_population": true,
+    "therefore_audited_ex3_exclusion_entails_any_current_active_main_O210_claim_with_the_same_scope_if_adapter_is_audited": true
+  },
+  "source_locks": {
+    "ex3_terminal_artifact": {
+      "path": "stages/stage32-ex3/ex3-09-o210-cover-geometry-exclusion-candidate.json",
+      "blob_sha1": "0114531c52730730e9a35ad1c8d8aea21eed03e9",
+      "canonical_sha256": "9244f82daef79306abe99d8a3ccee111c80c4c057f1b5f7df3bafd5500d8ca21"
+    },
+    "ex3_terminal_verifier": {
+      "path": "stages/stage32-ex3/verify_ex3_09_o210_cover_geometry_exclusion_candidate.py",
+      "blob_sha1": "6da6d509567b4b3523429ce865d1e47290b301f9"
+    },
+    "q602_trace_spectrum": {
+      "path": "stages/stage32/residual-32-01-production/post1518-o210-q602-residue73-trace-spectrum.json",
+      "blob_sha1": "9d65d760de99cfb2985956e0c845be3b2b601c87",
+      "canonical_sha256": "4925170377af7c77a97d36e562cdabd58241030f22a9644f1fa2a8ee627002c3"
+    }
+  },
+  "credit_ceiling": {
+    "promotion_adapter_retained": true,
+    "promotion_adapter_audited": false,
+    "main_O210_claim_promoted": false,
+    "stage32_main_O210_excluded": false,
+    "stage32_main_Q602_excluded": false,
+    "stage32_main_credit": false,
+    "O212_plus_advance_allowed": false,
+    "stage32_closed": false,
+    "endpoint_credit": false
+  },
+  "canonical_sha256_without_this_field": "63dc72b89f59709fcce13cbc4e9c777819a419f7b6213a6ccd2c7c5977fce37c"
+}
