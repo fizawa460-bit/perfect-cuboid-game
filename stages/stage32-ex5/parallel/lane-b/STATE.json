@@ -4,8 +4,33 @@
   "parent_program": "stage32ex5-mainbatch",
   "base_checkpoint": "BC2-01A_EXCEPTIONAL_PAIRING_BRIDGE",
   "target_leaf": "BC2-01B_RUNTIME_NODE_COORDINATE_BRIDGE",
-  "status": "ACTIVE_RESEARCH",
+  "status": "HANDOFF_CHECKPOINT_READY",
   "authority": "SCRATCH_NON_AUTHORITATIVE_UNTIL_MAINBATCH_CONSOLIDATION_AND_AUDIT",
   "handoff_condition": "Exact runtime index semantics/provenance and 48-object realization, or a proved blocker sufficient for mainbatch decision",
+  "checkpoint": {
+    "result": "PASS",
+    "result_path": "stages/stage32-ex5/parallel/results/stage32ex5-b-result.json",
+    "runtime_table_path": "stages/stage32-ex5/parallel/results/stage32ex5-b-runtime-points.json",
+    "verifier_path": "stages/stage32-ex5/parallel/lane-b/verify_stage32ex5_b_result.py",
+    "runtime_export": {
+      "source_repo": "MichaelStollBayreuth/Verification",
+      "source_commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "source_path": "Cuboids/cuboids.magma",
+      "workflow_run_id": 34320572381,
+      "job_id": 102366041147,
+      "conclusion": "success"
+    },
+    "counts": {
+      "runtime_exceptional_indices": 48,
+      "projective_nodes": 48,
+      "unique_normalized_projective_nodes": 48,
+      "coordinate_arity": 7
+    },
+    "runtime_index_semantics": "k=0..47 is Stoll pts[k+1], equivalently all140 zero-based index 92+k / one-based label 93+k",
+    "canonicalization": "divide by first nonzero coordinate in [a1,a2,a3,b1,b2,b3,c] so the first nonzero coordinate is 1",
+    "remaining_cross_lane_work": "Mainbatch must compare the exact Stoll runtime table against lanes A/C/D and independently validate before retained BC2-01B consolidation.",
+    "full178_span_replay_authorized": false,
+    "stage32_main_credit": false
+  },
   "merge_authorized": false
 }
