@@ -1,14 +1,81 @@
 {
-  "schema":"research-os-mission-node/v1",
-  "node_id":"N101",
-  "semantic_key":"s32-01-178:indexed-terminal-compression",
-  "statement":"Find an exact compression/pruning redesign that acts directly on the indexed terminal-family representation and materially reduces the 27-digit FULL178 terminal family without changing census semantics.",
-  "scope":{"population":"FULL178 numerical unibranch target only","field_or_model":"Stage32 Picard64 / indexed terminal family","quantifiers":"all admissible terminals in the current 32-01 finite family","required_output":"exact algorithmic reduction, proof/certificate of semantic preservation, and quantified reduction estimate or exact reduced family"},
-  "source_refs":["stages/stage32/residual-32-01-production/state.json","stages/stage32/ROADMAP.md"],
-  "reuse_check":{"performed":false,"queries":[],"matches":[],"decision":"PENDING"},
-  "attempts":[],
-  "retained_result":null,
-  "credit_ceiling":"ALGORITHMIC_REDUCTION_ONLY_NO_FULL178_CREDIT",
-  "next_action":"SEARCH_EXISTING_COMPRESSION_ROUTES_THEN_ATTACK_INDEXED_TERMINAL_FAMILY",
-  "notes":["Do not restore blind prefix DFS or brute-force 27-digit materialization.","If this node becomes too large, instantiate a nested Mission DAG rather than silently widening one lane."]
+  "schema": "research-os-mission-node/v1",
+  "node_id": "N101",
+  "semantic_key": "s32-01-178:indexed-terminal-compression",
+  "statement": "Find an exact compression/pruning redesign that acts directly on the indexed terminal-family representation and materially reduces the 27-digit FULL178 terminal family without changing census semantics.",
+  "scope": {
+    "population": "FULL178 numerical unibranch target only",
+    "field_or_model": "Stage32 Picard64 / indexed terminal family",
+    "quantifiers": "all admissible terminals in the current 32-01 finite family",
+    "required_output": "exact algorithmic reduction, proof/certificate of semantic preservation, and quantified reduction estimate or exact reduced family"
+  },
+  "source_refs": [
+    "stages/stage32/residual-32-01-production/state.json",
+    "stages/stage32/ROADMAP.md",
+    "stages/stage32/residual-32-01-production/compressed_terminal_family.py",
+    "stages/stage32/residual-32-01-production/compressed_terminal_indexer.py",
+    "stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json",
+    "stages/stage32/residual-32-01-production/direct_picard_reynolds_antifixed_coset_penalty.py",
+    "stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_quotient_class_map.py",
+    "stages/stage32/residual-32-01-production/build_stage32_21ad_full178_antifixed_coset_census.py",
+    "stages/stage32/residual-32-01-production/diagnose_stage32_21am_quotient_dp.py",
+    "stages/stage32/32-01-178/nodes/N101/RESULT.md"
+  ],
+  "reuse_check": {
+    "performed": true,
+    "queries": [
+      "indexed terminal compression",
+      "Reynolds anti-fixed coset penalty",
+      "rank2 quotient class map",
+      "residual quotient DP"
+    ],
+    "matches": [
+      "compressed_terminal_indexer.py: exact terminal-set random access/rank-unrank, no semantic leaf reduction",
+      "direct_picard_reynolds_rank2_quotient_class_map.py: exact 16384-element downstream projection image and free-subgroup quotient; representation-only",
+      "build_stage32_21ad_full178_antifixed_coset_census.py: exact downstream (row,e,a) anti-fixed evaluator path with terminal_family_materialization_run=false",
+      "diagnose_stage32_21am_quotient_dp.py: exact residual quotient DP preserving mod2/mod4/mod8 constraints but representative-only and full affine pairing fiber unsolved"
+    ],
+    "decision": "REUSE_DOWNSTREAM_QUOTIENT_MACHINERY_BUT_DO_NOT_CLAIM_TERMINAL_REDUCTION_WITHOUT_ADAPTER"
+  },
+  "attempts": [
+    {
+      "route_id": "N101-A1-INDEXED-CODEC",
+      "status": "DOMINATED_FOR_OBJECTIVE",
+      "result": "Exact rank/unrank removes materialization/streaming pressure but preserves the entire 688101306360803751427719294 terminal cardinality; it is not the requested semantic reduction."
+    },
+    {
+      "route_id": "N101-A2-REYNOLDS-PROJECTION-QUOTIENT",
+      "status": "BLOCKED",
+      "result": "An exact 16384-element downstream projection image exists, but the retained certificate explicitly makes the map representation-only and non-pruning. Existing downstream census code does not materialize or certify the indexed terminal family.",
+      "reopen_condition": "Provide a source-locked indexed-terminal/prefix to complete Picard sufficient-signature adapter and a factorization proof for the final leaf predicate."
+    },
+    {
+      "route_id": "N101-A3-EXACT-QUOTIENT-DP-REDESIGN",
+      "status": "RETAINED_CONDITIONAL_DESIGN",
+      "result": "RESULT.md fixes an exact multiplicity quotient-DP construction and induction proof: merge prefix histories only by a source-locked sufficient signature with exact transition closure; terminal multiplicities must sum to the canonical 27-digit count. The construction is not instantiable until the missing terminal-to-Picard adapter is certified."
+    }
+  ],
+  "retained_result": {
+    "status": "BLOCKED_WITH_EXACT_REDESIGN",
+    "artifact": "stages/stage32/32-01-178/nodes/N101/RESULT.md",
+    "canonical_terminal_count": "688101306360803751427719294",
+    "known_downstream_projection_class_count": 16384,
+    "safe_reduced_terminal_family_count": null,
+    "blocker": "No retained source-locked adapter proves that the complete numerical Picard leaf/lift/effectivity semantics factor through a finite signature computable from the current eleven-coordinate indexed terminal/prefix representation.",
+    "reopen_condition": [
+      "exact indexed terminal/prefix -> Picard sufficient signature construction",
+      "proof every downstream Picard leaf/lift/effectivity predicate factors through that signature",
+      "exact multiplicity conservation replay against 688101306360803751427719294",
+      "certified distinct-signature count materially below the terminal count or exact pruning count"
+    ],
+    "credit": "ALGORITHMIC_INTERFACE_BLOCKER_ONLY_NO_FULL178_CREDIT"
+  },
+  "credit_ceiling": "ALGORITHMIC_REDUCTION_ONLY_NO_FULL178_CREDIT",
+  "next_action": "RETURN_BLOCKER_AND_REDESIGN_TO_STAGE32_01_178_MAINBATCH; DO_NOT RETRY N101-A2 UNTIL REOPEN CONDITION IS TRUE",
+  "notes": [
+    "Do not restore blind prefix DFS or brute-force 27-digit materialization.",
+    "The 16384 projection classes are a downstream state envelope, not a certified reduction of the indexed terminal family.",
+    "No heavy FULL178 production run was used by this lane.",
+    "If reopened and the adapter becomes large, instantiate a nested Mission DAG rather than silently widening this lane."
+  ]
 }

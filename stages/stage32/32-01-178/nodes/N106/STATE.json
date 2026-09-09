@@ -11,21 +11,26 @@
   },
   "source_refs": [
     "stages/stage32/residual-32-01-production/state.json",
-    "docs/research-os/policies/actions-storage-and-evidence-safety.md"
+    "stages/stage32/residual-32-01-production/full178-manifest.json",
+    "stages/stage32/32-01-178/nodes/N104/STATE.json",
+    "docs/research-os/policies/actions-storage-and-evidence-safety.md",
+    "PR#1753 review 5153281341"
   ],
   "reuse_check": {
     "performed": true,
     "queries": [
       "residual state resumable_hardness_avoidance generations 34-38",
       "residual state prefix_indexed_compression",
+      "N104 178 rows 64111 strata canonical rank coverage",
       "actions storage/evidence safety authorization + storage + compaction"
     ],
     "matches": [
       "Existing resumable_prefix_engine.py and run_full178_resumable_work_unit.py are named by the retained production state; real Stage32 resume equivalence is recorded PASS.",
       "Generation 36-38 retained exact FIFO checkpoint/frontier evidence, but prefix_indexed_compression supersedes the 52-unit Gen38 frontier as the enumeration mechanism.",
+      "N104 fixes the authoritative outer domain as 178 rows / 64111 exact (row_id,e) strata and the inner domain as half-open canonical indexed-terminal rank intervals per stratum.",
       "Repository policy requires commit-range run-key authorization, 500 MB storage preflight, verify-before-compaction, compact retained certificates, and fail-closed resource stops."
     ],
-    "decision": "REUSE_RESUME_AND_COMPACTION_INVARIANTS; REKEY_EXECUTION_TO_EXACT_INDEX_RANGES; DO_NOT_REUSE_LEGACY_FIFO_FRONTIER_AS_PRIMARY_SHARD_SPACE"
+    "decision": "REUSE_RESUME_AND_COMPACTION_INVARIANTS; REKEY_EXECUTION_TO_STRATUM_LOCAL_EXACT_INDEX_RANGES; DO_NOT_REUSE_LEGACY_FIFO_FRONTIER_OR_A_SINGLE_GLOBAL_RANK_DOMAIN"
   },
   "attempts": [
     {
@@ -34,28 +39,37 @@
       "source_state_schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V70_PREFIX_INDEXED_COMPRESSION",
       "source_state_blob_sha": "931e80ba892ec0d98f3e7b909ac2dd46660c116c",
       "policy_blob_sha": "1cc36fc087354e04944eb0531fd1a0f1a9ed982b",
-      "observations": {
-        "full178_terminal_count": "688101306360803751427719294",
-        "full178_terminal_count_digits": 27,
-        "indexed_random_access_unrank": true,
-        "indexed_inverse_rank": true,
-        "terminal_set_semantics_preserved": true,
-        "legacy_dfs_stream_order_preserved": false,
-        "gen38_frontier_as_enumeration": "SUPERSEDED",
-        "numerical_picard_leaf_checks_complete": false,
-        "production_switched": true,
-        "brute_force_scale": "OPERATIONALLY_INFEASIBLE",
-        "theorem_credit": false
-      },
-      "result": "PASS_ARCHITECTURE_DESIGN_NO_HEAVY_RUN"
+      "result": "RETAINED_THEN_HOSTILE_AUDIT_FAIL_RANK_DOMAIN_IDENTITY_MISMATCH"
+    },
+    {
+      "attempt": 2,
+      "kind": "HOSTILE_AUDIT",
+      "review_id": 5153281341,
+      "audited_exact_head": "37296485b7227513f397cee2ad9276bf49624ed7",
+      "status": "FAIL",
+      "accepted": [
+        "source locks and resume/storage/authorization firewalls",
+        "commit-range run-key authorization",
+        "500 MB storage preflight",
+        "verify-before-compaction",
+        "UNKNOWN/resource-wall noncredit",
+        "idempotent ingestion"
+      ],
+      "blocker": "CompressedTerminalIndexer(e,d) ranks are local to one exact (d,e) stratum, but the retained N106 contract used one global [0,total_terminal_count) rank domain and work-unit identity omitted row_id/d/e or an equivalent immutable stratum identity."
+    },
+    {
+      "attempt": 3,
+      "kind": "STRATUM_LOCAL_CONTRACT_REPAIR",
+      "status": "RETAINED_REPAIR_READY_FOR_FRESH_HOSTILE_REAUDIT",
+      "result": "Replace the invalid single global rank domain by exact local rank domains for every manifest stratum; bind row_id,d,e and local stratum_terminal_count into every work-unit/checkpoint/ledger identity; aggregate exact cover within each stratum and then require exact coverage of all 64111 manifest strata."
     }
   ],
   "retained_result": {
-    "status": "PASS_EXECUTION_ARCHITECTURE_READY_FOR_AUDIT_NO_HEAVY_AUTHORIZATION",
+    "status": "PASS_REPAIRED_EXECUTION_ARCHITECTURE_READY_FOR_FRESH_HOSTILE_REAUDIT_NO_HEAVY_AUTHORIZATION",
     "representation_lock": {
       "representation": "PREFIX_DFS_REPARAMETERIZED_EXACT_INDEXED_TERMINAL_FAMILY",
-      "terminal_count": "688101306360803751427719294",
-      "index_domain": "[0,688101306360803751427719294)",
+      "global_terminal_count_consistency_only": "688101306360803751427719294",
+      "forbidden_global_rank_domain": "Do not interpret [0,688101306360803751427719294) as a canonical CompressedTerminalIndexer rank domain.",
       "required_properties": [
         "random_access_unrank",
         "inverse_rank",
@@ -64,24 +78,51 @@
       "forbidden_assumption": "legacy DFS stream order preservation",
       "source_state_blob_sha": "931e80ba892ec0d98f3e7b909ac2dd46660c116c"
     },
+    "manifest_and_stratum_lock": {
+      "manifest_path": "stages/stage32/residual-32-01-production/full178-manifest.json",
+      "manifest_schema": "STAGE32_RESIDUAL32_01_FULL178_MANIFEST_V1",
+      "manifest_canonical_sha256_without_this_field": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23",
+      "residual_row_count": 178,
+      "coarse_strata_count": 64111,
+      "canonical_stratum_identity": ["row_id", "d", "e"],
+      "row_id_semantics": "g{genus}-d{degree:03d}",
+      "local_indexer": "CompressedTerminalIndexer(e,d)",
+      "local_rank_domain": "[0,stratum_terminal_count)",
+      "stratum_terminal_count_rule": "must be obtained/replayed from the exact source-locked indexed-terminal representation for the same (d,e); no total-domain offset is inferred"
+    },
+    "n104_reconciliation": {
+      "n104_state_blob_sha": "4ac907febfd60a3fb53e57bbb8ede9cf8959e954",
+      "outer_domain": "exactly the 64111 manifest (row_id,e) strata over 178 residual rows",
+      "inner_domain": "half-open canonical indexed-terminal rank intervals local to each (row_id,e) stratum",
+      "completion_rule": "every expected manifest stratum appears exactly once at aggregate level and its local rank domain is covered exactly once with no gap, overlap, extra, unknown, source-lock mismatch, or conflicting duplicate",
+      "global_consistency_rule": "after all 64111 local strata are exactly covered, sum of all replayed stratum_terminal_count values must equal 688101306360803751427719294; this is a checksum/consistency condition, not a global rank coordinate"
+    },
     "work_unit_contract": {
-      "primary_partition": "disjoint half-open rank intervals [rank_lo,rank_hi)",
+      "primary_partition": "for one canonical stratum (row_id,d,e), disjoint half-open local rank intervals [rank_lo,rank_hi)",
       "canonical_fields": [
         "contract_rev",
         "representation_id",
         "representation_source_sha256_or_blob_lock",
-        "terminal_count",
+        "full178_manifest_sha256",
+        "row_id",
+        "d",
+        "e",
+        "stratum_terminal_count",
         "leaf_contract_rev",
         "rank_lo",
         "rank_hi"
       ],
       "work_unit_id": "sha256(canonical_json(canonical_fields))",
       "partition_invariants": [
-        "0 <= rank_lo < rank_hi <= terminal_count",
-        "sorted accepted intervals are pairwise disjoint",
-        "complete parent coverage requires first rank_lo=0, adjacent previous.rank_hi=next.rank_lo, and final rank_hi=terminal_count",
+        "row_id parses to the same d carried by the work unit",
+        "e is admissible for the exact manifest row",
+        "stratum_terminal_count matches exact replay of CompressedTerminalIndexer(e,d) under the locked representation",
+        "0 <= rank_lo < rank_hi <= stratum_terminal_count",
+        "all intervals combined for a stratum share identical row_id,d,e,stratum_terminal_count and source locks",
+        "sorted accepted intervals inside one stratum are pairwise disjoint",
+        "complete stratum coverage requires first rank_lo=0, adjacent previous.rank_hi=next.rank_lo, and final rank_hi=stratum_terminal_count",
         "interval boundaries are immutable within a generation",
-        "a changed representation/source/leaf contract creates a new generation rather than mutating prior work units"
+        "a changed representation/source/leaf/manifest contract creates a new generation rather than mutating prior work units"
       ],
       "shard_sizing": "runtime- and storage-bounded only after representative measurement; no fixed giant shard count is authorized by this plan"
     },
@@ -91,6 +132,11 @@
         "generation",
         "attempt",
         "source locks",
+        "full178_manifest_sha256",
+        "row_id",
+        "d",
+        "e",
+        "stratum_terminal_count",
         "rank_lo",
         "rank_hi"
       ],
@@ -107,9 +153,9 @@
         "raw_output_sha256_if_any",
         "compact_certificate_sha256"
       ],
-      "resume_rule": "resume only at next_rank after verifying identical immutable locks and verified prefix [rank_lo,next_rank); never infer progress from runner time or artifact presence",
+      "resume_rule": "resume only at next_rank after verifying identical immutable stratum/source locks and verified local prefix [rank_lo,next_rank); never infer progress from runner time or artifact presence",
       "completion_rule": "COMPLETE only when verified_prefix=[rank_lo,rank_hi), processed_count=rank_hi-rank_lo, unknown_count=0, resource_wall_count=0, and compact certificate validation passes",
-      "failure_rule": "UNKNOWN, source drift, authorization failure, quota/storage wall, malformed checkpoint, rank gap/overlap, or conflicting duplicate remains non-credit and cannot be promoted to COMPLETE",
+      "failure_rule": "UNKNOWN, source drift, manifest/stratum identity mismatch, authorization failure, quota/storage wall, malformed checkpoint, local rank gap/overlap, or conflicting duplicate remains non-credit and cannot be promoted to COMPLETE",
       "idempotency": "re-ingesting an identical work_unit_id + certificate digest is a no-op; a different digest for the same completed work_unit_id is a hard conflict"
     },
     "run_state_ledger_schema": {
@@ -122,7 +168,10 @@
         "authorization_pass",
         "representation_lock",
         "leaf_contract_rev",
-        "terminal_count",
+        "full178_manifest_sha256",
+        "expected_row_count",
+        "expected_strata_count",
+        "global_terminal_count_consistency_only",
         "partition_manifest_sha256",
         "planned_work_unit_count",
         "representative_artifact_bytes",
@@ -142,6 +191,10 @@
       ],
       "per_unit_fields": [
         "work_unit_id",
+        "row_id",
+        "d",
+        "e",
+        "stratum_terminal_count",
         "rank_lo",
         "rank_hi",
         "latest_attempt",
@@ -151,7 +204,8 @@
         "unknown_count",
         "resource_wall_count"
       ],
-      "aggregate_acceptance": "all planned work_unit_ids accounted for exactly once; accepted intervals form the exact parent cover; no conflicting duplicate; every COMPLETE certificate source-locks to the same generation"
+      "per_stratum_acceptance": "all planned work_unit_ids for the same canonical stratum are accounted for exactly once; accepted local intervals form [0,stratum_terminal_count); no conflicting duplicate; every COMPLETE certificate source-locks to the same generation/manifest/stratum",
+      "global_aggregate_acceptance": "the accepted stratum set equals the exact 64111-stratum manifest set with no missing or extra stratum; every stratum passes per_stratum_acceptance; every accepted disposition is exact and replayable; the sum of exact stratum_terminal_count values equals the canonical global terminal-count consistency value"
     },
     "authorization_gate": {
       "policy": "fresh commit-range semantic run-key authorization before every heavy dispatch",
@@ -193,9 +247,9 @@
       "operating_budget": "500 MB repository operating budget"
     },
     "retry_rules": [
-      "retry a failed work unit only from a validated checkpoint with identical representation/source/leaf locks",
-      "do not change interval boundaries inside a generation to rescue a hard shard; split only by creating an explicit child-partition manifest whose exact union equals the blocked parent and whose parent is no longer independently creditable",
-      "a parameter/source/contract change starts a new generation",
+      "retry a failed work unit only from a validated checkpoint with identical manifest/stratum/representation/source/leaf locks",
+      "do not change interval boundaries inside a generation to rescue a hard shard; split only by creating an explicit child-partition manifest whose exact local union equals the blocked parent and whose parent is no longer independently creditable",
+      "a parameter/source/contract/manifest change starts a new generation",
       "resource-wall results remain operational evidence only and grant no mathematical credit",
       "before retry, remove unnecessary non-credit artifacts after preserving required compact commitments"
     ],
@@ -203,17 +257,18 @@
       "existing_named_engine": "stages/stage32/residual-32-01-production/resumable_prefix_engine.py",
       "existing_named_runner": "stages/stage32/residual-32-01-production/run_full178_resumable_work_unit.py",
       "required_adapters_after_leaf_contract_stabilizes": [
-        "rank-range dispatcher using exact unrank/inverse-rank representation",
-        "source-lock validator",
+        "manifest-stratum enumerator/source-lock validator",
+        "stratum-local rank-range dispatcher using exact unrank/inverse-rank representation",
         "checkpoint writer/validator",
         "local raw-output verifier",
         "compact-certificate emitter",
         "idempotent ledger ingester",
-        "exact-cover final aggregator",
+        "per-stratum exact-cover aggregator",
+        "64111-stratum global completeness aggregator consistent with N104",
         "cheap run-key authorization job",
         "storage-preflight gate"
       ],
-      "implementation_status": "DESIGN_ONLY; source refs do not authorize implementation-file edits in this node attempt"
+      "implementation_status": "DESIGN_ONLY_REPAIRED_AFTER_HOSTILE_AUDIT_FAIL; implementation/heavy dispatch not authorized"
     },
     "credit_firewall": {
       "heavy_compute_authorized": false,
@@ -225,11 +280,12 @@
     }
   },
   "credit_ceiling": "EXECUTION_ARCHITECTURE_ONLY_NO_HEAVY_AUTHORIZATION_OR_FULL178_CREDIT",
-  "next_action": "AUDIT_N106_CONTRACT; THEN IMPLEMENT_ONLY_AFTER_MAIN_AUTHORIZES_EXACT_LEAF_CONTRACT_AND_RUN_KEY_PATH",
+  "next_action": "FRESH_HOSTILE_REAUDIT_N106_REPAIRED_STRATUM_LOCAL_CONTRACT; KEEP_N106_AUDIT_REQUIRED_AND_DO_NOT_IMPLEMENT_OR_RUN_HEAVY_COMPUTE_BEFORE_PASS_IS_CONSUMED",
   "notes": [
     "Mission startup does not authorize heavy compute.",
-    "Reuse proven resumable/checkpoint invariants where semantically compatible instead of rebuilding infrastructure.",
-    "The exact indexed rank domain, not the superseded Gen38 FIFO frontier, is the primary future sharding coordinate.",
+    "The hostile-audit FAIL at review 5153281341 is retained and not erased by this repair.",
+    "The exact indexed rank coordinate is stratum-local under CompressedTerminalIndexer(e,d); the 27-digit total is only a cross-stratum consistency check.",
+    "N104 completeness architecture is now an explicit load-bearing dependency of this repaired contract.",
     "No fixed shard count, heavy concurrency, or run-key path is invented here because those require an authorized implementation and measured preflight."
   ]
 }
