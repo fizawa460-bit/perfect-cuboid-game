@@ -35,6 +35,19 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          frontier="$(python - <<'PY'
+          import json
+          from pathlib import Path
+          state=json.loads(Path('stages/stage33/MAIN-STATE.json').read_text())
+          print(state.get('work_checkpoint',{}).get('frontier',''))
+          PY
+          )"
+          echo "observed_frontier=$frontier"
+          if [[ "$frontier" == *"C4B2B2G"* ]]; then
+            echo 'C4B2B2F freshness lane is superseded by C4B2B2G; no mutation permitted.'
+            echo 'pushed=superseded' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           git fetch origin main
           main_sha="$(git rev-parse origin/main)"
           head_sha="$(git rev-parse HEAD)"
@@ -111,4 +124,4 @@ jobs:
           echo "EXACT_HEAD_SUCCESS=$(git rev-parse HEAD)"
           echo "CURRENT_MAIN_INCLUDED=$main_sha"
 
-# Final exact-head trigger after C4B2B2F operational lock restoration.
+# C4B2B2G supersession guard: this workflow becomes read-only once G is the operational frontier.
