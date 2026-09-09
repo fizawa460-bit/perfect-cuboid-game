@@ -1,0 +1,109 @@
+{
+  "schema": "STAGE32EX5_A_BTVA_SOURCE_NODE_TARGET_V1",
+  "authority": "SCRATCH_ONLY",
+  "coordinate_order": [
+    "x1",
+    "x2",
+    "x3",
+    "y1",
+    "y2",
+    "y3",
+    "z"
+  ],
+  "field": "Q(i)",
+  "surface_equations": [
+    "y1^2=x2^2+x3^2",
+    "y2^2=x3^2+x1^2",
+    "y3^2=x1^2+x2^2",
+    "z^2=x1^2+x2^2+x3^2"
+  ],
+  "canonicalization": {
+    "projective_rule": "divide by the first nonzero coordinate among (x1,x2,x3), in that order, so that coordinate becomes 1",
+    "global_projective_scaling_identified": true,
+    "independent_coordinate_sign_changes_identified": false,
+    "reason": "independent sign changes are automorphisms producing generally distinct nodes; only common nonzero scalar is projective equivalence"
+  },
+  "families": [
+    {
+      "id": "AXIS_X1",
+      "count": 8,
+      "formula": "[1,0,0,0,a,b,c], a,b,c in {+1,-1}"
+    },
+    {
+      "id": "AXIS_X2",
+      "count": 8,
+      "formula": "[0,1,0,a,0,b,c], a,b,c in {+1,-1}"
+    },
+    {
+      "id": "AXIS_X3",
+      "count": 8,
+      "formula": "[0,0,1,a,b,0,c], a,b,c in {+1,-1}"
+    },
+    {
+      "id": "Y1_Z_ZERO",
+      "count": 8,
+      "formula": "[0,1,s*i,0,a*i,b,0], s,a,b in {+1,-1}"
+    },
+    {
+      "id": "Y2_Z_ZERO",
+      "count": 8,
+      "formula": "[1,0,s*i,a*i,0,b,0], s,a,b in {+1,-1}"
+    },
+    {
+      "id": "Y3_Z_ZERO",
+      "count": 8,
+      "formula": "[1,s*i,0,a*i,b,0,0], s,a,b in {+1,-1}"
+    }
+  ],
+  "count": 48,
+  "nodes": [
+    {"label":"AXIS_X1:a=-1,b=-1,c=-1","family":"AXIS_X1","params":{"a":-1,"b":-1,"c":-1},"coords":["1","0","0","0","-1","-1","-1"]},
+    {"label":"AXIS_X1:a=-1,b=-1,c=1","family":"AXIS_X1","params":{"a":-1,"b":-1,"c":1},"coords":["1","0","0","0","-1","-1","1"]},
+    {"label":"AXIS_X1:a=-1,b=1,c=-1","family":"AXIS_X1","params":{"a":-1,"b":1,"c":-1},"coords":["1","0","0","0","-1","1","-1"]},
+    {"label":"AXIS_X1:a=-1,b=1,c=1","family":"AXIS_X1","params":{"a":-1,"b":1,"c":1},"coords":["1","0","0","0","-1","1","1"]},
+    {"label":"AXIS_X1:a=1,b=-1,c=-1","family":"AXIS_X1","params":{"a":1,"b":-1,"c":-1},"coords":["1","0","0","0","1","-1","-1"]},
+    {"label":"AXIS_X1:a=1,b=-1,c=1","family":"AXIS_X1","params":{"a":1,"b":-1,"c":1},"coords":["1","0","0","0","1","-1","1"]},
+    {"label":"AXIS_X1:a=1,b=1,c=-1","family":"AXIS_X1","params":{"a":1,"b":1,"c":-1},"coords":["1","0","0","0","1","1","-1"]},
+    {"label":"AXIS_X1:a=1,b=1,c=1","family":"AXIS_X1","params":{"a":1,"b":1,"c":1},"coords":["1","0","0","0","1","1","1"]},
+    {"label":"AXIS_X2:a=-1,b=-1,c=-1","family":"AXIS_X2","params":{"a":-1,"b":-1,"c":-1},"coords":["0","1","0","-1","0","-1","-1"]},
+    {"label":"AXIS_X2:a=-1,b=-1,c=1","family":"AXIS_X2","params":{"a":-1,"b":-1,"c":1},"coords":["0","1","0","-1","0","-1","1"]},
+    {"label":"AXIS_X2:a=-1,b=1,c=-1","family":"AXIS_X2","params":{"a":-1,"b":1,"c":-1},"coords":["0","1","0","-1","0","1","-1"]},
+    {"label":"AXIS_X2:a=-1,b=1,c=1","family":"AXIS_X2","params":{"a":-1,"b":1,"c":1},"coords":["0","1","0","-1","0","1","1"]},
+    {"label":"AXIS_X2:a=1,b=-1,c=-1","family":"AXIS_X2","params":{"a":1,"b":-1,"c":-1},"coords":["0","1","0","1","0","-1","-1"]},
+    {"label":"AXIS_X2:a=1,b=-1,c=1","family":"AXIS_X2","params":{"a":1,"b":-1,"c":1},"coords":["0","1","0","1","0","-1","1"]},
+    {"label":"AXIS_X2:a=1,b=1,c=-1","family":"AXIS_X2","params":{"a":1,"b":1,"c":-1},"coords":["0","1","0","1","0","1","-1"]},
+    {"label":"AXIS_X2:a=1,b=1,c=1","family":"AXIS_X2","params":{"a":1,"b":1,"c":1},"coords":["0","1","0","1","0","1","1"]},
+    {"label":"AXIS_X3:a=-1,b=-1,c=-1","family":"AXIS_X3","params":{"a":-1,"b":-1,"c":-1},"coords":["0","0","1","-1","-1","0","-1"]},
+    {"label":"AXIS_X3:a=-1,b=-1,c=1","family":"AXIS_X3","params":{"a":-1,"b":-1,"c":1},"coords":["0","0","1","-1","-1","0","1"]},
+    {"label":"AXIS_X3:a=-1,b=1,c=-1","family":"AXIS_X3","params":{"a":-1,"b":1,"c":-1},"coords":["0","0","1","-1","1","0","-1"]},
+    {"label":"AXIS_X3:a=-1,b=1,c=1","family":"AXIS_X3","params":{"a":-1,"b":1,"c":1},"coords":["0","0","1","-1","1","0","1"]},
+    {"label":"AXIS_X3:a=1,b=-1,c=-1","family":"AXIS_X3","params":{"a":1,"b":-1,"c":-1},"coords":["0","0","1","1","-1","0","-1"]},
+    {"label":"AXIS_X3:a=1,b=-1,c=1","family":"AXIS_X3","params":{"a":1,"b":-1,"c":1},"coords":["0","0","1","1","-1","0","1"]},
+    {"label":"AXIS_X3:a=1,b=1,c=-1","family":"AXIS_X3","params":{"a":1,"b":1,"c":-1},"coords":["0","0","1","1","1","0","-1"]},
+    {"label":"AXIS_X3:a=1,b=1,c=1","family":"AXIS_X3","params":{"a":1,"b":1,"c":1},"coords":["0","0","1","1","1","0","1"]},
+    {"label":"Y1_Z_ZERO:s=-1,a=-1,b=-1","family":"Y1_Z_ZERO","params":{"s":-1,"a":-1,"b":-1},"coords":["0","1","-i","0","-i","-1","0"]},
+    {"label":"Y1_Z_ZERO:s=-1,a=-1,b=1","family":"Y1_Z_ZERO","params":{"s":-1,"a":-1,"b":1},"coords":["0","1","-i","0","-i","1","0"]},
+    {"label":"Y1_Z_ZERO:s=-1,a=1,b=-1","family":"Y1_Z_ZERO","params":{"s":-1,"a":1,"b":-1},"coords":["0","1","-i","0","i","-1","0"]},
+    {"label":"Y1_Z_ZERO:s=-1,a=1,b=1","family":"Y1_Z_ZERO","params":{"s":-1,"a":1,"b":1},"coords":["0","1","-i","0","i","1","0"]},
+    {"label":"Y1_Z_ZERO:s=1,a=-1,b=-1","family":"Y1_Z_ZERO","params":{"s":1,"a":-1,"b":-1},"coords":["0","1","i","0","-i","-1","0"]},
+    {"label":"Y1_Z_ZERO:s=1,a=-1,b=1","family":"Y1_Z_ZERO","params":{"s":1,"a":-1,"b":1},"coords":["0","1","i","0","-i","1","0"]},
+    {"label":"Y1_Z_ZERO:s=1,a=1,b=-1","family":"Y1_Z_ZERO","params":{"s":1,"a":1,"b":-1},"coords":["0","1","i","0","i","-1","0"]},
+    {"label":"Y1_Z_ZERO:s=1,a=1,b=1","family":"Y1_Z_ZERO","params":{"s":1,"a":1,"b":1},"coords":["0","1","i","0","i","1","0"]},
+    {"label":"Y2_Z_ZERO:s=-1,a=-1,b=-1","family":"Y2_Z_ZERO","params":{"s":-1,"a":-1,"b":-1},"coords":["1","0","-i","-i","0","-1","0"]},
+    {"label":"Y2_Z_ZERO:s=-1,a=-1,b=1","family":"Y2_Z_ZERO","params":{"s":-1,"a":-1,"b":1},"coords":["1","0","-i","-i","0","1","0"]},
+    {"label":"Y2_Z_ZERO:s=-1,a=1,b=-1","family":"Y2_Z_ZERO","params":{"s":-1,"a":1,"b":-1},"coords":["1","0","-i","i","0","-1","0"]},
+    {"label":"Y2_Z_ZERO:s=-1,a=1,b=1","family":"Y2_Z_ZERO","params":{"s":-1,"a":1,"b":1},"coords":["1","0","-i","i","0","1","0"]},
+    {"label":"Y2_Z_ZERO:s=1,a=-1,b=-1","family":"Y2_Z_ZERO","params":{"s":1,"a":-1,"b":-1},"coords":["1","0","i","-i","0","-1","0"]},
+    {"label":"Y2_Z_ZERO:s=1,a=-1,b=1","family":"Y2_Z_ZERO","params":{"s":1,"a":-1,"b":1},"coords":["1","0","i","-i","0","1","0"]},
+    {"label":"Y2_Z_ZERO:s=1,a=1,b=-1","family":"Y2_Z_ZERO","params":{"s":1,"a":1,"b":-1},"coords":["1","0","i","i","0","-1","0"]},
+    {"label":"Y2_Z_ZERO:s=1,a=1,b=1","family":"Y2_Z_ZERO","params":{"s":1,"a":1,"b":1},"coords":["1","0","i","i","0","1","0"]},
+    {"label":"Y3_Z_ZERO:s=-1,a=-1,b=-1","family":"Y3_Z_ZERO","params":{"s":-1,"a":-1,"b":-1},"coords":["1","-i","0","-i","-1","0","0"]},
+    {"label":"Y3_Z_ZERO:s=-1,a=-1,b=1","family":"Y3_Z_ZERO","params":{"s":-1,"a":-1,"b":1},"coords":["1","-i","0","-i","1","0","0"]},
+    {"label":"Y3_Z_ZERO:s=-1,a=1,b=-1","family":"Y3_Z_ZERO","params":{"s":-1,"a":1,"b":-1},"coords":["1","-i","0","i","-1","0","0"]},
+    {"label":"Y3_Z_ZERO:s=-1,a=1,b=1","family":"Y3_Z_ZERO","params":{"s":-1,"a":1,"b":1},"coords":["1","-i","0","i","1","0","0"]},
+    {"label":"Y3_Z_ZERO:s=1,a=-1,b=-1","family":"Y3_Z_ZERO","params":{"s":1,"a":-1,"b":-1},"coords":["1","i","0","-i","-1","0","0"]},
+    {"label":"Y3_Z_ZERO:s=1,a=-1,b=1","family":"Y3_Z_ZERO","params":{"s":1,"a":-1,"b":1},"coords":["1","i","0","-i","1","0","0"]},
+    {"label":"Y3_Z_ZERO:s=1,a=1,b=-1","family":"Y3_Z_ZERO","params":{"s":1,"a":1,"b":-1},"coords":["1","i","0","i","-1","0","0"]},
+    {"label":"Y3_Z_ZERO:s=1,a=1,b=1","family":"Y3_Z_ZERO","params":{"s":1,"a":1,"b":1},"coords":["1","i","0","i","1","0","0"]}
+  ]
+}
