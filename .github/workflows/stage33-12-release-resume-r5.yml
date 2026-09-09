@@ -1,0 +1,65 @@
+name: Stage33-12 release and resume existing R5
+
+on:
+  push:
+    paths:
+      - '.github/workflows/stage33-12-release-resume-r5.yml'
+      - 'stages/stage33/33-12/apply_stage33_12_release_resume_r5.py'
+      - 'stages/stage33/33-12/stage33-12-release-resume-r5-decision.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release-resume:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Lock triggering head and current main ancestry
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+          git fetch --no-tags origin main
+          git merge-base --is-ancestor origin/main HEAD
+      - name: Apply Stage33-12 release decision
+        run: python stages/stage33/33-12/apply_stage33_12_release_resume_r5.py --write
+      - name: Verify release checkpoint and MAIN state
+        run: |
+          python stages/stage33/33-12/apply_stage33_12_release_resume_r5.py --check
+          python stages/stage33/sync_main_state.py --check
+          git diff --check
+      - name: Enforce bounded generated delta
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t changed < <(git status --porcelain | sed 's/^...//')
+          printf '%s\n' "${changed[@]}"
+          test "${#changed[@]}" -eq 2
+          printf '%s\n' "${changed[@]}" | sort > /tmp/changed
+          printf '%s\n' stages/stage33/MAIN-STATE.json stages/stage33/sync_main_state.py | sort > /tmp/expected
+          diff -u /tmp/expected /tmp/changed
+      - name: Commit bounded operational release state
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add stages/stage33/MAIN-STATE.json stages/stage33/sync_main_state.py
+          git commit -m '[Stage33] release Stage33-12 and resume existing R5 leaf'
+          remote_head="$(git ls-remote origin "refs/heads/${GITHUB_REF_NAME}" | cut -f1)"
+          test "$remote_head" = "$GITHUB_SHA"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+      - name: Verify clean released checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          python stages/stage33/33-12/apply_stage33_12_release_resume_r5.py --check
+          python stages/stage33/sync_main_state.py --check
+          git diff --check
+          test -z "$(git status --porcelain)"
+          echo "EXACT_LOCAL_HEAD=$(git rev-parse HEAD)"
