@@ -23,11 +23,11 @@
     "full178_complete": false,
     "r29_lg2": "NOT_DISCHARGED",
     "indexed_terminal_family_count": "688101306360803751427719294",
-    "current_primary_wall": "N230_FILTERED_RANDOM_ACCESS_IMPLEMENTATION_HOSTILE_AUDIT; N150_EX5_GATE_REMAINS_BLOCKED",
+    "current_primary_wall": "N240_CONNECT_AUDITED_N230_FILTERED_SURVIVOR_EXECUTION_TO_N104_N106_CANONICAL_COMPLETENESS; N150_EX5_GATE_REMAINS_BLOCKED",
     "bruteforce_scale": "FINITE_BUT_CURRENT_BRUTE_FORCE_SCALE_OPERATIONALLY_INFEASIBLE",
     "n220_audit": "HOSTILE_AUDIT_PASS corrected review 5159411821 at exact head 940fe99a20c1eaa215126acd92e7c390295bb441; exact necessary prefix pruning rejects 342047598454520296245948565 of 688101306357436883335845534 post-node-mass terminals, leaving 346053707902916587089896969",
-    "n230_status": "retained exact filtered exceptional-rank random-access implementation; dedicated lightweight workflow 34409257857 / job 102659576212 PASS with small exhaustive replay and large non-materializing random-access replay; old canonical rank remains authority; hostile audit still required",
-    "ex5_status": "BC2-05 closed ranks 0..132 as one symbolic-x4 block exact UNSAT; BC2-06 rederived ranks 133..265 as the next exceptional block but grants no solver credit there yet; no hostile-audited population-wide MAIN-consumable adapter exists"
+    "n230_audit": "HOSTILE_AUDIT_PASS review 5160389467 at exact head 1206475517ed8caf59e92d0d6daa57eb14ab4a41; exact N220-filtered random access and old-rank replay may be consumed into N104/N106; old canonical rank remains completeness authority; no heavy/FULL178 numerical credit",
+    "ex5_status": "BC2-05 closes ranks 0..132 exact UNSAT and BC2-08 closes ranks 133..265 exact UNSAT in g1-d008/e=4; combined local scope ranks 0..265, but no hostile-audited population-wide MAIN-consumable adapter exists"
   },
   "nodes": [
     {"node_id":"N101","semantic_key":"s32-01-178:indexed-terminal-compression","title":"Exact indexed-terminal Picard leaf compression redesign","depends_on":[],"state_path":"nodes/N101/STATE.json","status":"DONE"},
@@ -40,19 +40,20 @@
     {"node_id":"N190","semantic_key":"s32-01-178:generation1-reconciliation","title":"Generation-1 reconciliation and next frontier selection","depends_on":["N101","N102","N103","N104","N105","N106"],"state_path":"nodes/N190/STATE.json","status":"DONE"},
     {"node_id":"N210","semantic_key":"s32-01-178:post-g1-prefix-only-cut-revalidation","title":"Post-Generation-1 prefix-only exact-cut revalidation","depends_on":["N190"],"state_path":"nodes/N210/STATE.json","status":"DONE"},
     {"node_id":"N220","semantic_key":"s32-01-178:prefix-exceptional-support-cap-cut","title":"Prefix exceptional-support capacity exact cut","depends_on":["N210"],"state_path":"nodes/N220/STATE-AUDITED.json","status":"DONE"},
-    {"node_id":"N230","semantic_key":"s32-01-178:n220-filtered-exceptional-rank-random-access","title":"Audited N220 filtered exceptional-rank random access and replay integration","depends_on":["N220"],"state_path":"nodes/N230/STATE.json","status":"AUDIT_REQUIRED"}
+    {"node_id":"N230","semantic_key":"s32-01-178:n220-filtered-exceptional-rank-random-access","title":"Audited N220 filtered exceptional-rank random access and replay integration","depends_on":["N220"],"state_path":"nodes/N230/STATE-AUDITED.json","status":"DONE"},
+    {"node_id":"N240","semantic_key":"s32-01-178:n230-filtered-survivor-execution-completeness-adapter","title":"Filtered survivor execution to canonical completeness adapter","depends_on":["N104","N106","N220","N230"],"state_path":"nodes/N240/STATE.json","status":"ACTIVE"}
   ],
   "dispatch": {
     "generation": 1,
     "historical_only": true,
     "future_parallel_dispatch_enabled": false,
     "assignments": [
-      {"slot":"a","node_id":"N101","node_title":"Exact indexed-terminal Picard leaf compression redesign","command":"stage32-01-178-a","work_branch":"stage32-01-178-lane-a-g1","status":"RETURNED","return_head":"cf62bd7c70bd250c56505ec95af372f1ce3068fd","return_state_blob_sha":"18338cf234cdbece7698c625cc83467ce0896081","return_kind":"BLOCKED_WITH_EXACT_REDESIGN_NO_FULL178_CREDIT"},
-      {"slot":"b","node_id":"N102","node_title":"Eight hard-tail row structural reduction","command":"stage32-01-178-b","work_branch":"stage32-01-178-lane-b-g1","status":"RETURNED","return_head":"225020867d038fe78badfdb2fc7746d891dd7c22","return_state_blob_sha":"d79763eebc847b903079f73fc5620df0dada2a1e","return_kind":"RETAINED_NONCREDIT_STRUCTURAL_REDUCTION"},
-      {"slot":"c","node_id":"N103","node_title":"Production-side 59D witness and 48-support retention interface","command":"stage32-01-178-c","work_branch":"stage32-01-178-lane-c-g1","status":"RETURNED","return_head":"a25697783bc0dd4e4550845adb623d19e801a35b","return_state_blob_sha":"6bbd208155c0b66d87f3b8adfe84346864dababd","return_kind":"RETAINED_NONCREDIT_INTERFACE_CHECKPOINT"},
-      {"slot":"d","node_id":"N104","node_title":"FULL178 completeness and replay certificate architecture","command":"stage32-01-178-d","work_branch":"stage32-01-178-lane-d-g1","status":"RETURNED","return_head":"7857eec0551f34e4b37c42b4075db1529c447d2b","return_state_blob_sha":"4ac907febfd60a3fb53e57bbb8ede9cf8959e954","return_kind":"RETAINED_NONCREDIT_COMPLETENESS_ARCHITECTURE"},
-      {"slot":"e","node_id":"N105","node_title":"Independent global-cut and reusable-weapon discovery","command":"stage32-01-178-e","work_branch":"stage32-01-178-lane-e-g1","status":"RETURNED","return_head":"e7eff4e02b7d27d1ee08646d3e1591b50d243a60","return_state_blob_sha":"2202b9a4ae03a73233187307bc5cd796aba0e3ef","return_kind":"RETAINED_NONCREDIT_ROUTE_DISCOVERY_CHECKPOINT"},
-      {"slot":"f","node_id":"N106","node_title":"Compressed production execution and sharding design","command":"stage32-01-178-f","work_branch":"stage32-01-178-lane-f-g1","status":"CONSUMED","return_head":"271dd19826c76a22d2a309fd4f74f297d2617f20","return_state_blob_sha":"fef69ecba545993db986b383ac0518c6d173c7a4","return_kind":"AUDIT_PASS_CONSUMED_EXECUTION_ARCHITECTURE_ONLY","prior_audit_review_id":5153281341,"prior_audit_result":"FAIL","audit_review_id":5153922196,"audit_exact_head":"4f75ae49178d797da746b32ea603cf4da2bda8f0","audit_result":"PASS"}
+      {"slot":"a","node_id":"N101","status":"RETURNED"},
+      {"slot":"b","node_id":"N102","status":"RETURNED"},
+      {"slot":"c","node_id":"N103","status":"RETURNED"},
+      {"slot":"d","node_id":"N104","status":"RETURNED"},
+      {"slot":"e","node_id":"N105","status":"RETURNED"},
+      {"slot":"f","node_id":"N106","status":"CONSUMED","audit_review_id":5153922196,"audit_result":"PASS"}
     ]
   },
   "status_vocabulary": ["OPEN","ACTIVE","BLOCKED","DONE","SUPERSEDED","AUDIT_REQUIRED"],

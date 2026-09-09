@@ -1,0 +1,60 @@
+{
+  "schema": "research-os-mission-node/v1",
+  "node_id": "N240",
+  "semantic_key": "s32-01-178:n230-filtered-survivor-execution-completeness-adapter",
+  "statement": "Implement the exact execution/completeness adapter that lets N106 dispatch only N220 survivors by secondary N230 filtered rank while N104 continues to certify the complete pre-N220 canonical old-rank domain.",
+  "scope": {
+    "population": "every exact FULL178 (row_id,d,e) stratum after the audited N220 necessary cut",
+    "field_or_model": "N104 canonical old-rank completeness / N106 stratum-local execution / N230 secondary filtered survivor rank",
+    "quantifiers": "all old canonical terminal ranks are disposed exactly once as audited N220 rejection or processed filtered survivor",
+    "required_output": "source-locked per-stratum partition certificate, random-access filtered work-unit identity, exact-cover verifier, and old-rank replay without materializing rejected or survivor populations"
+  },
+  "depends_on": ["N104", "N106", "N220", "N230"],
+  "source_refs": [
+    "stages/stage32/32-01-178/nodes/N104/STATE.json@4ac907febfd60a3fb53e57bbb8ede9cf8959e954",
+    "stages/stage32/32-01-178/nodes/N106/STATE-AUDITED.json@0ab8647b5af453e48b786103eb57b2a495f855fc",
+    "stages/stage32/32-01-178/nodes/N220/STATE-AUDITED.json",
+    "stages/stage32/32-01-178/nodes/N230/STATE-AUDITED.json",
+    "PR#1753 review 5160389467"
+  ],
+  "contract": {
+    "canonical_completeness_coordinate": "old stratum-local CompressedTerminalIndexer(e,d) rank",
+    "secondary_execution_coordinate": "N230 filtered survivor rank",
+    "per_stratum_partition": "old_terminal_count = n220_rejected_terminal_count + filtered_terminal_count",
+    "rejected_disposition": "N220_REJECTED is discharged by audited N220 predicate plus audited N230 old-rank disposition adapter; rejected terminals receive no Picard leaf execution",
+    "survivor_disposition": "every filtered rank in [0,filtered_terminal_count) must be covered exactly once by a COMPLETE execution work unit and replay bijectively to one old canonical rank",
+    "filtered_work_unit_fields": [
+      "contract_rev",
+      "row_id",
+      "d",
+      "e",
+      "old_stratum_terminal_count",
+      "n220_rejected_terminal_count",
+      "filtered_terminal_count",
+      "n220_audit_review_id",
+      "n230_audit_review_id",
+      "n230_implementation_blob_sha",
+      "leaf_contract_rev",
+      "filtered_rank_lo",
+      "filtered_rank_hi"
+    ],
+    "filtered_work_unit_id": "sha256(canonical_json(filtered_work_unit_fields))",
+    "cover_rule": "sorted COMPLETE filtered intervals are pairwise disjoint, first lo=0, adjacent hi=next lo, final hi=filtered_terminal_count; empty survivor strata require filtered_terminal_count=0 and no survivor work unit",
+    "old_domain_release_rule": "only after the exact N220 partition certificate passes and filtered survivor cover is COMPLETE may the stratum be marked fully disposed relative to N104; this is not numerical Picard success unless every survivor leaf itself has an exact registered numerical disposition",
+    "unknown_fail_closed": true,
+    "resource_wall_fail_closed": true
+  },
+  "implementation": {
+    "target_path": "stages/stage32/32-01-178/nodes/N240/filtered_survivor_execution_adapter.py",
+    "verifier_target_path": "stages/stage32/32-01-178/nodes/N240/verify_n240_filtered_survivor_execution_adapter.py",
+    "status": "ACTIVE"
+  },
+  "retained_result": null,
+  "credit_ceiling": "IMPLEMENTATION_AND_REPLAY_ONLY_PENDING_HOSTILE_AUDIT_NO_HEAVY_OR_FULL178_NUMERICAL_CREDIT",
+  "next_action": "IMPLEMENT_RANDOM_ACCESS_FILTERED_WORK_UNITS_AND_EXACT_PARTITION_REPLAY; VERIFY_EXHAUSTIVELY_ON_SMALL_STRATA_AND_NONMATERIALIZING_ON_LARGE_STRATA",
+  "notes": [
+    "N240 is an adapter, not a new mathematical pruning claim.",
+    "N240 must never reinterpret the filtered rank as N104 canonical rank.",
+    "No heavy compute, FULL178 numerical completion, theorem/receiver/endpoint, existence/nonexistence, or merge credit is authorized."
+  ]
+}
