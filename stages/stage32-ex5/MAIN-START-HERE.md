@@ -8,7 +8,7 @@ Ordinary `stage32ex5-mainbatch` reads, in this order:
 4. `stages/stage32-ex5/MAIN-STATE.json`;
 5. only the paths listed in `MAIN-STATE.json.current_leaf_working_set`.
 
-`README.md` states the current Stage32 meaning of EX5. `MAIN-STATE.json` is the mutable routing/resume projection. The roadmap/claim-boundary contract is `stages/stage32-ex5/stage32-ex5.md`.
+`README.md` states the current Stage32 meaning of EX5. `MAIN-STATE.json` is the mutable routing/resume projection. The current roadmap/claim-boundary contract is `stages/stage32-ex5/CURRENT-ROADMAP.md`. `stage32-ex5.md` is a historical Cycle1 source-locked roadmap and is not the mutable current roadmap.
 
 Do not preload Stage32 history/controllers, other Stage32EX roadmaps, Research OS, Arsenal, or large retained payloads unless `AGENTS.md`, `MAIN-STATE.json`, or the active leaf explicitly triggers them.
 
@@ -77,4 +77,4 @@ Audit PASS establishes only the explicitly audited EX5 scope. It does not merge 
 
 ## Search, write, and merge discipline
 
-Repository discovery is search-first under `AGENTS.md`. Preserve source/proof locks and current firewalls before writes. Exact evidence/checkpoint artifacts are not rewritten for terminology synchronization. Do not merge without explicit user authorization.
+Repository discovery is search-first under `AGENTS.md`. Preserve source/proof locks and current firewalls before writes. Exact evidence/checkpoint artifacts and the historical source-locked `stage32-ex5.md` are not rewritten for terminology synchronization. Do not merge without explicit user authorization.
