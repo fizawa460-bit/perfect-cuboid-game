@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V222_36_09DS_AUDITED_DY_UNLOCKED",
+  "schema": "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V223_36_09DY_PROVISIONAL_EXACT_GREEN",
   "stage": "36",
-  "status": "ACTIVE_MAIN_CONTINUATION",
-  "base_main_sha": "aab9afa37a136f76a5bf8e6eb146145b7bb853c3",
+  "status": "PROVISIONAL_EXACT_GREEN_PENDING_CI",
+  "base_main_sha": "affcc56382dd8d5ac559d5a3b3dd83544738bcef",
   "mission": "Attack K16-C3-CAMPEDELLI-UNIFORM-TORSOR through exact receiver-matched arithmetic; keep receiver/theorem/endpoint credit behind hostile audit.",
   "source_kernel": {
     "kernel": "K16-C3-CAMPEDELLI-UNIFORM-TORSOR",
@@ -12,207 +12,115 @@
     "quotient_degree": 8
   },
   "authority_frontier": {
-    "36-09DW": {
-      "status": "PROVISIONAL_EXACT_GREEN_PARENT",
-      "certificate_blob_sha": "ffa5d8ee9fceed3cfcfc05ce029538557a803ac7",
-      "verifier_blob_sha": "adb18732d6e5efa03e1a240a719aba9c6c25c505",
-      "source_blob_sha": "08c91eed30774fa5c44509bb61f1c3b1386f2266",
-      "exact_head": "70762720e965e97c0442777b00a1794f906821e8",
-      "exact_head_ci": "34266118614/102195801165",
-      "promotion_replay_head": "ac530681e1cc57b7e2b3d12a5e49d875d30e1c41",
-      "promotion_replay_ci": "34266240249/102196213776"
-    },
     "36-09DX": {
       "status": "AUDITED_EXACT_GREEN_PARENT_WITH_DS_CORRECTION",
       "certificate": "stages/stage36/36-09DX/fixed-p2-global-phi-selmer-intersection-preflight.json",
       "certificate_blob_sha": "ee8fda5da9fdd7ea26220740eecb07b2d8a0effe",
       "verifier": "stages/stage36/verify_stage36_36_09DX.py",
       "verifier_blob_sha": "19e6a1863b26eec1354045c813b03fa16a9b012f",
-      "source": "stages/stage36/36-09DX/global-phi-selmer-intersection-source-lock.md",
-      "source_blob_sha": "403c6bf71acbce1e1f83b3ec855dd2a1e5f7ea90",
-      "exact_head": "6232e765ffc2f40599a0125dac8a99f303a63e7e",
-      "exact_head_ci": "34266548689/102197232079",
-      "hostile_reaudit_receipt": "stages/stage36/36-09DS/hostile-reaudit-pass-receipt.json",
-      "hostile_reaudit_receipt_blob_sha": "49b116703f12eaa06ccfdcb51a896c5340fc8625",
+      "PHI_SELMER_F2_DIMENSION": 2,
+      "PHI_SELMER_CARDINALITY": 4,
       "hostile_reaudit_review_id": 5148543440,
       "hostile_reaudit_exact_head": "c88f0edfbd060003df9dbb8131278ae001fcef7e",
       "promotion_replay_head": "dd2d14214cd0309218c14d45ba13e4999ab26856",
-      "promotion_replay_ci": "34297509418/102297208931",
-      "PHI_SELMER_F2_DIMENSION": 2,
-      "PHI_SELMER_CARDINALITY": 4,
-      "PHI_SELMER_BASIS": [
-        ["[-1]", "[-1]", "[1]"],
-        ["[6]", "[3]", "[1]"]
-      ],
-      "NEXT_LEAF": "36-09DY_FIXED_P2_PHI_SELMER_TO_PROSELMER_DEFECT_PREFLIGHT"
+      "promotion_replay_ci": "34297509418/102297208931"
+    },
+    "36-09DY": {
+      "status": "PROVISIONAL_EXACT_GREEN_PENDING_CI",
+      "certificate": "stages/stage36/36-09DY/fixed-p2-phi-to-proselmer-defect-preflight.json",
+      "certificate_blob_sha": "3adcab8e00fa8a517df28ce71b95925f6e00ada6",
+      "source": "stages/stage36/36-09DY/phi-to-proselmer-defect-source-lock.md",
+      "source_blob_sha": "cea6737bcf9dfe242f7c3e3b2475377b2f39e481",
+      "verifier": "stages/stage36/verify_stage36_36_09DY.py",
+      "verifier_blob_sha": "39173498249965f010fb40769131bd6f3618e484",
+      "workflow_blob_sha": "9981f5323aab39c68a957425ee4a7af6ec3ea8e9",
+      "PSI_SELMER_F2_DIMENSION": 5,
+      "PSI_SELMER_CARDINALITY": 32,
+      "PHI_PROSELMER_KERNEL_F2_DIMENSION": 3,
+      "PSI_PROSELMER_KERNEL_F2_DIMENSION": 3,
+      "COMMON_MW_RANK_OPTIONS": [0, 1],
+      "PHI_PROSELMER_COKERNEL_F2_DIMENSION_OPTIONS": [1, 2],
+      "PSI_PROSELMER_COKERNEL_F2_DIMENSION_OPTIONS": [4, 5],
+      "NEXT_LEAF": "36-09DZ_FIXED_P2_MORDELL_WEIL_PHI_QUOTIENT_PREFLIGHT"
     }
   },
   "post_audit_correction": {
     "unit": "36-09DS-CORRECTION",
     "status": "AUDITED_EXACT_GREEN_CORRECTION",
-    "certificate": "stages/stage36/36-09DS/proselmer-torsion-injectivity-correction.json",
     "certificate_blob_sha": "d3318c8291835de8011f6b72fea8ca4479c3107d",
-    "source": "stages/stage36/36-09DS/proselmer-torsion-injectivity-correction-source-lock.md",
     "source_blob_sha": "5d456e35fb82e03f686ad328c103a29b1907534a",
-    "verifier": "stages/stage36/verify_stage36_36_09DS_correction.py",
     "verifier_blob_sha": "6edc91290669854537914010db08161b223103bc",
-    "repair_replay_head": "411339874f902a3133c5debd748fdefe438e3f2f",
-    "repair_replay_ci": "34295849847/102292201899",
-    "final_audited_head": "c88f0edfbd060003df9dbb8131278ae001fcef7e",
-    "final_audited_ci": "34295955163/102292528793",
     "external_reaudit_review_id": 5148543440,
-    "external_reaudit_review_node_id": "PRR_kwDOTr52Y88AAAABMuCJ0A",
-    "hostile_reaudit_receipt": "stages/stage36/36-09DS/hostile-reaudit-pass-receipt.json",
     "hostile_reaudit_receipt_blob_sha": "49b116703f12eaa06ccfdcb51a896c5340fc8625",
     "promotion_replay_head": "dd2d14214cd0309218c14d45ba13e4999ab26856",
     "promotion_replay_ci": "34297509418/102297208931",
-    "revoked_claims": [
-      "T2Sel_2_torsion_free",
-      "Phi_injective",
-      "Psi_injective",
-      "proSelmer_mutual_injections_constructed"
-    ],
-    "retained_claims": [
-      "V4_degree8_isogeny",
-      "PsiPhi_equals_2",
-      "PhiPsi_equals_2",
-      "Phi_kernel_geometric_order_8",
-      "Psi_kernel_geometric_order_8",
-      "Phi_cokernel_killed_by_2",
-      "Psi_cokernel_killed_by_2",
-      "DX_finite_Phi_Selmer_four_classes"
-    ],
-    "corrected_claims": {
-      "Phi_proSelmer_kernel_nonzero": true,
-      "Psi_proSelmer_kernel_nonzero": true,
-      "Phi_proSelmer_injective": false,
-      "Psi_proSelmer_injective": false,
-      "Phi_proSelmer_kernel_killed_by_2": true,
-      "Psi_proSelmer_kernel_killed_by_2": true,
-      "Phi_proSelmer_cokernel_killed_by_2": true,
-      "Psi_proSelmer_cokernel_killed_by_2": true
-    }
+    "revoked_claims": ["T2Sel_2_torsion_free", "Phi_injective", "Psi_injective", "proSelmer_mutual_injections_constructed"]
   },
   "source_locks": {
-    "stage36_36_09DX": {
-      "path": "stages/stage36/36-09DX/fixed-p2-global-phi-selmer-intersection-preflight.json",
-      "blob_sha": "ee8fda5da9fdd7ea26220740eecb07b2d8a0effe"
-    },
-    "stage36_36_09DX_verifier": {
-      "path": "stages/stage36/verify_stage36_36_09DX.py",
-      "blob_sha": "19e6a1863b26eec1354045c813b03fa16a9b012f"
-    },
-    "stage36_36_09DX_source": {
-      "path": "stages/stage36/36-09DX/global-phi-selmer-intersection-source-lock.md",
-      "blob_sha": "403c6bf71acbce1e1f83b3ec855dd2a1e5f7ea90"
-    },
-    "stage36_36_09DX_hostile_reaudit": {
-      "path": "stages/stage36/36-09DX/hostile-reaudit-pass-receipt.json",
-      "blob_sha": "cb803e739f05f7b7e15393da742c9bf5e62d8c36"
-    },
-    "stage36_36_09DS_correction": {
-      "path": "stages/stage36/36-09DS/proselmer-torsion-injectivity-correction.json",
-      "blob_sha": "d3318c8291835de8011f6b72fea8ca4479c3107d"
-    },
-    "stage36_36_09DS_correction_source": {
-      "path": "stages/stage36/36-09DS/proselmer-torsion-injectivity-correction-source-lock.md",
-      "blob_sha": "5d456e35fb82e03f686ad328c103a29b1907534a"
-    },
-    "stage36_36_09DS_correction_verifier": {
-      "path": "stages/stage36/verify_stage36_36_09DS_correction.py",
-      "blob_sha": "6edc91290669854537914010db08161b223103bc"
-    },
-    "stage36_36_09DS_hostile_reaudit": {
-      "path": "stages/stage36/36-09DS/hostile-reaudit-pass-receipt.json",
-      "blob_sha": "49b116703f12eaa06ccfdcb51a896c5340fc8625"
-    }
+    "stage36_36_09DQ_source": {"path": "stages/stage36/36-09DQ/global-2primary-adelic-annihilator-proselmer-source-lock.md", "blob_sha": "71829ec5e0af601605f1f93c5f3a3fec4cae2102"},
+    "stage36_36_09DT": {"path": "stages/stage36/36-09DT/fixed-p2-v4-isogeny-proselmer-defect-preflight.json", "blob_sha": "362326de8d6ecc0b415ecf29c6eb936134e395ce"},
+    "stage36_36_09DV": {"path": "stages/stage36/36-09DV/fixed-p2-phi-selmer-required-places-local-image-preflight.json", "blob_sha": "cc3c071315c92f4cb398e18d650d5cd3652413c8"},
+    "stage36_36_09DW": {"path": "stages/stage36/36-09DW/fixed-p2-phi-selmer-five-place-local-image-preflight.json", "blob_sha": "ffa5d8ee9fceed3cfcfc05ce029538557a803ac7"},
+    "stage36_36_09DX": {"path": "stages/stage36/36-09DX/fixed-p2-global-phi-selmer-intersection-preflight.json", "blob_sha": "ee8fda5da9fdd7ea26220740eecb07b2d8a0effe"},
+    "stage36_36_09DS_correction": {"path": "stages/stage36/36-09DS/proselmer-torsion-injectivity-correction.json", "blob_sha": "d3318c8291835de8011f6b72fea8ca4479c3107d"},
+    "stage36_36_09DY": {"path": "stages/stage36/36-09DY/fixed-p2-phi-to-proselmer-defect-preflight.json", "blob_sha": "3adcab8e00fa8a517df28ce71b95925f6e00ada6"},
+    "stage36_36_09DY_source": {"path": "stages/stage36/36-09DY/phi-to-proselmer-defect-source-lock.md", "blob_sha": "cea6737bcf9dfe242f7c3e3b2475377b2f39e481"},
+    "stage36_36_09DY_verifier": {"path": "stages/stage36/verify_stage36_36_09DY.py", "blob_sha": "39173498249965f010fb40769131bd6f3618e484"}
   },
   "freshness": {
-    "current_main": "aab9afa37a136f76a5bf8e6eb146145b7bb853c3",
+    "current_main": "affcc56382dd8d5ac559d5a3b3dd83544738bcef",
     "stage36_source_drift": false,
     "sync_required_before_audit": false,
-    "sync_main_parent": "aab9afa37a136f76a5bf8e6eb146145b7bb853c3",
-    "drift_classification": "PR1731_AUDITED_STAGE36_CORRECTION_SQUASH_MERGED_NO_INTERVENING_MAIN_DRIFT; PASS_CONSUMED_BY_EXACT_GREEN_PROMOTION_REPLAY"
+    "sync_main_parent": "affcc56382dd8d5ac559d5a3b3dd83544738bcef",
+    "drift_classification": "PR1732_PROMOTION_SQUASH_MERGED; DY_BRANCH_CUT_FROM_EXACT_CURRENT_MAIN_NO_INTERVENING_DRIFT"
   },
   "hostile_audit_checkpoint": {
     "pr": 1731,
-    "prior_fail": {
-      "external_review_id": 5148452742,
-      "review_node_id": "PRR_kwDOTr52Y88AAAABMt8nhg",
-      "audited_exact_head": "bc2b484bb86eaab7b0fe72355abaeb15c00aa50e",
-      "result": "FAIL"
-    },
-    "repair_applied": true,
-    "external_reaudit": {
-      "external_review_id": 5148543440,
-      "review_node_id": "PRR_kwDOTr52Y88AAAABMuCJ0A",
-      "audited_exact_head": "c88f0edfbd060003df9dbb8131278ae001fcef7e",
-      "exact_head_ci_run": 34295955163,
-      "exact_head_ci_job": 102292528793,
-      "result": "PASS"
-    },
-    "result": "PASS",
-    "external_reaudit_required": false,
-    "reaudit_pass_recorded": true,
-    "reaudit_pass_consumed": true,
-    "reaudit_pass_consumption_head": "dd2d14214cd0309218c14d45ba13e4999ab26856",
-    "reaudit_pass_consumption_ci": "34297509418/102297208931",
-    "merged_main_sha": "aab9afa37a136f76a5bf8e6eb146145b7bb853c3",
+    "result": "PASS_CONSUMED",
+    "external_review_id": 5148543440,
+    "audited_exact_head": "c88f0edfbd060003df9dbb8131278ae001fcef7e",
     "promotion_pr": 1732,
+    "promotion_replay_ci": "34297509418/102297208931",
     "current_authority_valid": true,
     "promotion_replay_required": false
   },
-  "cycle_ledger": {
-    "B4_BRAUER_MANIN_FULL_COVER": "GLOBAL_PHI_SELMER_FOUR_CLASS_AUDITED_DS_CORRECTION_CONSUMED_DY_UNLOCKED_FINITE_TO_PROSELMER_DEFECT_NEXT"
-  },
   "current": {
-    "unit": "36-09DS-CORRECTION",
-    "next_exact_leaf": "36-09DY_FIXED_P2_PHI_SELMER_TO_PROSELMER_DEFECT_PREFLIGHT",
-    "next_owner": "MAIN",
-    "result": "PR1731 external hostile re-audit PASS has been source-locked and consumed by separate promotion replay CI 34297509418/102297208931. The corrected DS pro-Selmer authority is now audited exact-green; 36-09DY entry is unlocked for finite-to-pro-Selmer defect comparison only.",
+    "unit": "36-09DY",
+    "next_exact_leaf": "36-09DZ_FIXED_P2_MORDELL_WEIL_PHI_QUOTIENT_PREFLIGHT",
+    "next_owner": "MAIN_PROMOTION_REPLAY",
+    "result": "DY materializes the exact dual Psi-Selmer group of size 32, exact pro-Selmer kernels (Z/2)^3, common MW rank <=1, and reduces the Phi pro-Selmer cokernel to one remaining bit. DZ stays locked until DY exact-head CI is green and consumed by a separate promotion replay.",
     "substantive_batch_pr_continues": true,
     "hostile_audit_checkpoint_reached": false,
-    "36_09DX_entry_allowed": true,
-    "36_09DY_entry_allowed": true
+    "36_09DY_entry_allowed": true,
+    "36_09DZ_entry_allowed": false
   },
   "current_leaf_working_set": [
-    "stages/stage36/36-09DS/hostile-reaudit-pass-receipt.json",
-    "stages/stage36/36-09DS/proselmer-torsion-injectivity-correction.json",
-    "stages/stage36/36-09DS/proselmer-torsion-injectivity-correction-source-lock.md",
-    "stages/stage36/verify_stage36_36_09DS_correction.py",
+    "stages/stage36/36-09DY/fixed-p2-phi-to-proselmer-defect-preflight.json",
+    "stages/stage36/36-09DY/phi-to-proselmer-defect-source-lock.md",
+    "stages/stage36/verify_stage36_36_09DY.py",
     "stages/stage36/36-09DQ/global-2primary-adelic-annihilator-proselmer-source-lock.md",
     "stages/stage36/36-09DT/fixed-p2-v4-isogeny-proselmer-defect-preflight.json",
-    "stages/stage36/36-09DX/fixed-p2-global-phi-selmer-intersection-preflight.json",
-    "stages/stage36/verify_stage36_36_09DX.py"
+    "stages/stage36/36-09DW/fixed-p2-phi-selmer-five-place-local-image-preflight.json",
+    "stages/stage36/36-09DX/fixed-p2-global-phi-selmer-intersection-preflight.json"
   ],
   "promotion_gates": {
-    "36_09DX_exact_head_ci_passed": true,
-    "36_09DX_historical_hostile_reaudit_passed": true,
-    "36_09DX_historical_promotion_replay_passed": true,
-    "36_09DX_current_downstream_authority_reopened": false,
     "36_09DY_entry_allowed": true,
-    "post_audit_DS_injectivity_defect_detected": true,
-    "DS_T2Sel_2_torsion_free_claim_valid": false,
-    "DS_Phi_proSelmer_injective": false,
-    "DS_Psi_proSelmer_injective": false,
-    "DS_proSelmer_mutual_injections_constructed": false,
-    "DS_Phi_kernel_nonzero": true,
-    "DS_Psi_kernel_nonzero": true,
-    "DS_Phi_kernel_killed_by_2": true,
-    "DS_Psi_kernel_killed_by_2": true,
-    "DS_Phi_cokernel_killed_by_2": true,
-    "DS_Psi_cokernel_killed_by_2": true,
-    "DS_correction_certificate_complete": true,
-    "DS_correction_exact_head_ci_passed": true,
-    "external_reaudit_after_DS_correction_passed": true,
-    "DS_correction_hostile_reaudit_receipt_recorded": true,
-    "DS_correction_promotion_replay_passed": true,
+    "36_09DY_certificate_complete": true,
+    "36_09DY_exact_head_ci_passed": false,
+    "36_09DY_promotion_replay_passed": false,
+    "36_09DZ_entry_allowed": false,
     "BT_Phi_five_local_images_computed": true,
     "BT_global_Phi_Selmer_group_computed": true,
     "BT_global_Phi_Selmer_F2_dimension": 2,
     "BT_global_Phi_Selmer_cardinality": 4,
-    "BT_global_Phi_Selmer_third_coordinate_trivial": true,
-    "BT_proSelmer_kernel_dimensions_computed": false,
+    "BT_Psi_Selmer_F2_dimension": 5,
+    "BT_Psi_Selmer_cardinality": 32,
+    "BT_proSelmer_kernel_dimensions_computed": true,
+    "BT_Phi_proSelmer_kernel_F2_dimension": 3,
+    "BT_Psi_proSelmer_kernel_F2_dimension": 3,
+    "BT_common_MW_rank_upper_bound": 1,
+    "BT_Phi_proSelmer_cokernel_exact_dimension_computed": false,
+    "BT_Psi_proSelmer_cokernel_exact_dimension_computed": false,
     "BT_proSelmer_cokernel_size_computed": false,
     "BT_proSelmer_product_identification_obtained": false,
     "BT_T2Sel_computed": false,
@@ -228,17 +136,17 @@
     "endpoint_closed": false
   },
   "anti_loop": [
-    "do not restore DS mutual-injection credit: rational 2-torsion kernels survive in pro-Selmer",
-    "do not identify the finite Phi-Selmer group with a pro-Selmer cokernel without an exact kernel-and-cokernel comparison",
-    "do not infer the pro-Selmer cokernel dimension solely from the four finite Selmer classes",
-    "do not infer BM/fixed-p/receiver/endpoint credit from the finite Selmer computation",
-    "do not infer any 36-09DY result from entry unlock alone; DY requires its own certificate, verifier, exact-head CI, and separate promotion replay before downstream use"
+    "do not restore historical DS mutual injectivity",
+    "do not identify finite Sel^Phi with the pro-Selmer cokernel",
+    "do not choose Phi cokernel dimension 1 or 2 before the MW quotient/divisible-Sha residual is computed",
+    "do not infer a pro-Selmer product identification from the isogeny alone",
+    "do not infer Brauer/fixed-p/receiver/endpoint credit from DY"
   ],
   "claims": {
     "new_theorem_credit": false,
     "BT_global_Phi_Selmer_exact_green": true,
-    "BT_proSelmer_mutual_injections": false,
-    "BT_proSelmer_kernel_dimensions_computed": false,
+    "BT_dual_Psi_Selmer_provisional": true,
+    "BT_proSelmer_exact_kernels_provisional": true,
     "BT_proSelmer_cokernel_size_computed": false,
     "BT_global_2primary_Brauer_set_nonempty": false,
     "BT_global_2primary_Brauer_set_empty": false,
