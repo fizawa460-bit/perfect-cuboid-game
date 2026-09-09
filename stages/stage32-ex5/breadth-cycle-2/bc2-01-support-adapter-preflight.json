@@ -1,0 +1,96 @@
+{
+  "schema": "STAGE32EX5_BC2_01_SUPPORT_ADAPTER_PREFLIGHT_V1",
+  "stage": "32EX5",
+  "breadth_cycle": "EX5_BREADTH_CYCLE_2_CANDIDATE",
+  "leaf": "BC2-01_SUPPORT_ADAPTER_PREFLIGHT",
+  "route_id": "EX5R-SYMDIFF-NODE-SPAN-001",
+  "status": "PREFLIGHT_CONTRACT_PASS_RUNTIME_CALIBRATION_PENDING",
+  "authority": {
+    "hostile_audit_credit": false,
+    "mathematical_credit": false,
+    "receiver_credit": false,
+    "route_qualified": false,
+    "stage32_main_credit": false
+  },
+  "inputs": {
+    "first_pass": {
+      "path": "stages/stage32-ex5/breadth-cycle-2/bc2-00-btva-node-support-span-diagnostic.json",
+      "blob": "554f8626e0ea225ffb7e6a5b6fe40ee41a7448ee",
+      "canonical_sha256": "fd4a566243959a3bbabccfe68ffd1aa52de10ad591f0916819591e35b4d7563d"
+    },
+    "second_pass_dedup": {
+      "path": "stages/stage32-ex5/breadth-cycle-2/bc2-00-second-pass-repository-dedup.json",
+      "blob": "0fa5cee36dea773cbe479afa1f27d8ccb6c3a778",
+      "canonical_sha256": "c3789b3b4ac53fe2162f580989fbca6512007f1b7b19cdeef54ca541a3abfedc"
+    },
+    "stoll_exact_model": {
+      "repo": "MichaelStollBayreuth/Verification",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/cuboids.magma",
+      "blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1"
+    },
+    "btva_theorem": {
+      "arxiv": "1912.08908",
+      "doi": "10.2140/ant.2022.16.1377",
+      "locator": "Theorem 1.2"
+    }
+  },
+  "adapter_contract": {
+    "population": "the 32 known plane conics C1s in Stoll's exact perfect-cuboid model",
+    "node_count": 48,
+    "direct_support": "the exact singular-point incidence set Cpts for the curve, transported to canonical node labels",
+    "picard_support": "the set of canonical node labels k for which the curve has positive intersection with the exceptional divisor over node k",
+    "calibration_pass_condition": "32/32 exact equality direct_support == picard_support after canonical relabelling",
+    "mass_firewall": "total exceptional mass or any aggregate node-mass certificate is never accepted as a substitute for labelled 48-bit support"
+  },
+  "canonical_node_labelling": {
+    "requirement": "independent of Magma set iteration order",
+    "method": [
+      "read each singular point in exact homogeneous coordinates over the exact source field",
+      "choose the first nonzero homogeneous coordinate and normalize it to 1",
+      "expand every normalized coordinate in one fixed exact Q-basis of the source number field recorded by the runtime adapter",
+      "encode the normalized coefficient tuples without floating point or printed-string comparison",
+      "sort the 48 exact keys lexicographically and label them N00..N47",
+      "assert all 48 keys are distinct and that relabelling is permutation invariant"
+    ],
+    "forbidden_shortcuts": [
+      "raw iteration index of pts",
+      "floating-point coordinates",
+      "Sprint/pretty-printed field elements as the authority key unless separately proved canonical",
+      "exceptional-mass-only reconstruction"
+    ]
+  },
+  "span_contract": {
+    "field": "same exact field as the Stoll model",
+    "projective_span_dimension": "rank of the matrix of exact homogeneous node-coordinate rows minus 1",
+    "genus0_nonconic_necessary_predicate": "support_count >= 7 AND full supported-node coordinate rank == 7",
+    "genus1_safe_consequence_predicate": "after separately ruling out the hyperplane-section-component alternative, require existence of six supported nodes whose exact coordinate rank is 6",
+    "genus1_do_not_use": "do not require the full support to have rank exactly 6; that would strengthen Theorem 1.2 without justification"
+  },
+  "runtime_assertions_required": [
+    "the exact singular locus contains 48 nodes",
+    "all canonical node keys are exact and pairwise distinct",
+    "the exceptional divisor list is bijectively matched to the same 48 nodes",
+    "32/32 C1s direct-support and Picard-support bitsets agree",
+    "all support ranks are computed over the exact source field",
+    "permutation of the source pts iteration order leaves canonical bitsets and ranks unchanged"
+  ],
+  "firewalls": {
+    "FULL178_closed": false,
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "known_32_conic_exception_preserved": true,
+    "genus1_hyperplane_component_alternative_preserved": true,
+    "mass_treated_as_labelled_support": false,
+    "runtime_calibration_claimed": false,
+    "effectivity_inferred_from_numerical_survival": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "stage32_main_credit": false
+  },
+  "next_if_runtime_calibration_passes": {
+    "leaf": "BC2-02_FULL178_SUPPORT_RECONSTRUCTION",
+    "action": "reconstruct labelled node support for each FULL178 residual row at the pre-aggregation integration point and apply only theorem-sound necessary predicates",
+    "receiver_exclusion_credit_on_adapter_pass_alone": false
+  },
+  "canonical_sha256_without_this_field": "79f67329add1e3b0e1d3cda1c8a7ac2473dc2871643c763607627958797bf460"
+}

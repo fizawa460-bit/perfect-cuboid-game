@@ -1,0 +1,84 @@
+{
+  "schema": "STAGE32EX5_BC2_CHECKPOINT_HANDOFF_V2_CLAIM_SYNC_REPAIR",
+  "stage": "32EX5",
+  "breadth_cycle": "EX5_BREADTH_CYCLE_2_CANDIDATE",
+  "pr": 1726,
+  "route_id": "EX5R-SYMDIFF-NODE-SPAN-001",
+  "checkpoint_status": "PROVISIONAL_RETAINED_CONSOLIDATION_CLAIM_SYNC_REPAIRED_REAUDIT_REQUIRED",
+  "cycle1_authority": {
+    "status": "AUDITED_BOUNDED_EXHAUSTION_CLOSURE_PRESERVED_AS_PRIOR_AUTHORITY",
+    "claim_id": "S32.EX5.BOUNDED_EXHAUSTION_CANDIDATE.V2",
+    "exact_head": "79c601b636857eaaaa97ad4c22e682e681341bad",
+    "review_id": 5141459384,
+    "scope": "EX5_BREADTH_CYCLE_1_ONLY",
+    "replaced_or_widened_by_bc2": false
+  },
+  "current_routing": {
+    "authoritative_state_file": "stages/stage32-ex5/MAIN-STATE.json",
+    "breadth_cycle": "EX5_BREADTH_CYCLE_2_CANDIDATE",
+    "leaf": "BC2-01A_EXCEPTIONAL_PAIRING_BRIDGE",
+    "next_leaf": "BC2-01B_RUNTIME_NODE_COORDINATE_BRIDGE",
+    "provisional_claim_id": "S32.EX5.BC2_NODE_SUPPORT_SPAN_CHECKPOINT.V1",
+    "stage32_main_promotion": false
+  },
+  "retained_bc2_units": [
+    "BC2-00_BTVA_NODE_SUPPORT_SPAN_DIAGNOSTIC",
+    "BC2-00_SECOND_PASS_REPOSITORY_DEDUP",
+    "BC2-01_SUPPORT_ADAPTER_PREFLIGHT",
+    "BC2-01A_EXCEPTIONAL_PAIRING_BRIDGE"
+  ],
+  "frontier": {
+    "next_leaf": "BC2-01B_RUNTIME_NODE_COORDINATE_BRIDGE",
+    "goal": "recover/export the exact 48 singular-point coordinates in the same runtime ordering as the 48 exceptional classes, then persist a permutation-invariant canonical node mapping",
+    "promotion_condition": "48/48 bijection plus exact permutation-invariant canonicalization before any BTVA span replay on FULL178"
+  },
+  "claim_sync": {
+    "trigger": "RETAINED_CONSOLIDATION+ACTIVE_FRONTIER_REMAP",
+    "base_registry_claim": "S32.EX5.BC2_NODE_SUPPORT_SPAN_CHECKPOINT.V1",
+    "lane_adapter_updated": true,
+    "active_frontier_refs_changed": false,
+    "active_frontier_refs": [
+      "S32.FULL178.NUMERICAL_CENSUS.V1",
+      "S32.GOAL.STAGE32_CLOSURE.V1"
+    ],
+    "reason_refs_unchanged": "the new BC2 route still attacks the existing FULL178/Stage32 closure frontier; the route identity changed but the attacked active claims did not"
+  },
+  "audit_repair": {
+    "failed_exact_head": "a9b9f044b6abcbfe9de7bd334676f854b00d8053",
+    "failed_review_id": 5149535554,
+    "failure": "RETAINED_BC2_ROUTING_AND_CLAIM_SYNC_MISSING",
+    "mathematical_blocking_contradiction_found": false,
+    "reaudit_required": true
+  },
+  "credit": {
+    "route_qualified": false,
+    "receiver_credit": false,
+    "stage32_main_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "FULL178_complete": false,
+    "EFF_discharged": false,
+    "MB_discharged": false,
+    "endpoint_credit": false
+  },
+  "firewalls": {
+    "cycle1_audited_authority_replaced": false,
+    "runtime_node_coordinate_bridge_claimed": false,
+    "aggregate_mass_treated_as_labelled_support": false,
+    "btva_span_replay_claimed_ready": false,
+    "full178_closed": false,
+    "bc2_self_promoted_to_audited": false
+  },
+  "freshness": {
+    "target_main_sha": "e1696bd4f9debc753128e41fb34e368fc77c3fea",
+    "freshness_merge_commit": "ce8e46e350060b832e10b37bdcdac8f6419be8ac",
+    "sync_status_at_pre_repair_checkpoint": "SYNCED",
+    "merge_to_main_performed": false
+  },
+  "post_checkpoint_split_plan": [
+    "runtime-node-coordinate bridge",
+    "FULL178 labelled-support reconstruction",
+    "BTVA support/span predicate replay",
+    "receiver-impact and promotion decision"
+  ]
+}
