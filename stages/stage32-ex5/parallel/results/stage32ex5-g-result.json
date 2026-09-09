@@ -1,0 +1,224 @@
+{
+  "ambiguity_ledger": [
+    {
+      "issue": "projective scale/sign",
+      "resolution": "first-nonzero=1 normalization removes scalar ambiguity; coordinate signs after normalization are retained data"
+    },
+    {
+      "issue": "complex conjugation",
+      "resolution": "i->-i can permute nodes but is not treated as an identification; exact canonical keys remain distinct"
+    },
+    {
+      "issue": "sqrt(2) coefficient",
+      "resolution": "all 48 node coordinates lie in Q(i), so s and i*s coefficients are zero; the four-term basis is still fixed for compatibility"
+    },
+    {
+      "issue": "Magma Points(...) order",
+      "resolution": "not used for identification; only the unordered fact that pts is the full 48-node singular locus is used"
+    },
+    {
+      "issue": "exceptional numeric slots",
+      "resolution": "last48 status is inherited from audited BC2-01A; slot number alone never supplies the node label"
+    },
+    {
+      "issue": "C1 signature collision",
+      "resolution": "exhaustive exact evaluation gives 48 unique signatures, so geometric label loss is zero"
+    },
+    {
+      "issue": "retained/source drift",
+      "resolution": "full runtime replay fails closed unless first32-by-last48 exact pairings are 0/1 weight-4 signatures forming a 48/48 bijection onto the canonical table"
+    }
+  ],
+  "authority": "SCRATCH_NON_AUTHORITATIVE_UNTIL_MAINBATCH_CONSOLIDATION_AND_AUDIT",
+  "canonical_sha256_without_this_field": "0afbb422140bb9fd057415f645e50f16a25e2dc342194a8af0b8ef5448e8ec1e",
+  "divisor_to_center_node_rule": {
+    "geometric_map": "For the blow-up b:S->Sbar and an exceptional divisor E, its center is the unique singular point p=b(E).",
+    "incidence_identity": "C1_j . E_p = 1 iff p lies on C1_j, and 0 otherwise; this is exactly the Stoll MatCP curve/singularity incidence block.",
+    "reverse_rule": "Match sigma(E) to the unique canonical-node signature. The resulting N00..N47 and exact projective coordinate are the blow-up center/node of E.",
+    "runtime_slot_use": "BC2-01A independently establishes all140 indices 92..139 as the 48 exceptional classes. A numeric slot may be used only to fetch E's exact pairings; node identity is assigned by signature matching, never by slot or Points(...) position.",
+    "separation": "The 48 canonical singular points have 48 pairwise distinct 32-bit C1 incidence signatures, each of Hamming weight 4.",
+    "signature": "sigma(E)=((C1_j . E))_{j=1..32} in exact Stoll C1 order"
+  },
+  "firewalls": {
+    "FULL178_span_replay_performed": false,
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "merge_authorized": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "receiver_credit": false,
+    "runtime_calibration_promoted_by_lane": false,
+    "stage32_main_credit": false
+  },
+  "geometric_construction": {
+    "ambient_coordinates": [
+      "a1",
+      "a2",
+      "a3",
+      "b1",
+      "b2",
+      "b3",
+      "c"
+    ],
+    "completeness_reason": "The six rank-three-quadric singular loci produce 6*8=48 pairwise distinct surface points; Stoll-Testa Lemma 3 and the exact Magma assertion #pts eq 48 identify these with the full singular locus.",
+    "families": [
+      {
+        "count": 8,
+        "id": "R1",
+        "template": "[1,0,0,0,e2,e3,ec]",
+        "vanishing_triple": [
+          "a2",
+          "a3",
+          "b1"
+        ]
+      },
+      {
+        "count": 8,
+        "id": "R2",
+        "template": "[0,1,0,e1,0,e3,ec]",
+        "vanishing_triple": [
+          "a1",
+          "a3",
+          "b2"
+        ]
+      },
+      {
+        "count": 8,
+        "id": "R3",
+        "template": "[0,0,1,e1,e2,0,ec]",
+        "vanishing_triple": [
+          "a1",
+          "a2",
+          "b3"
+        ]
+      },
+      {
+        "count": 8,
+        "id": "Q1",
+        "template": "[0,1,ea*i,0,eb*i,e3,0]",
+        "vanishing_triple": [
+          "a1",
+          "b1",
+          "c"
+        ]
+      },
+      {
+        "count": 8,
+        "id": "Q2",
+        "template": "[1,0,ea*i,e1*i,0,e3,0]",
+        "vanishing_triple": [
+          "a2",
+          "b2",
+          "c"
+        ]
+      },
+      {
+        "count": 8,
+        "id": "Q3",
+        "template": "[1,ea*i,0,e1*i,e2,0,0]",
+        "vanishing_triple": [
+          "a3",
+          "b3",
+          "c"
+        ]
+      }
+    ],
+    "node_coordinate_subfield": "Q(i)",
+    "sign_convention": "all e-parameters independently range over {+1,-1}",
+    "source_field": "Q(i,sqrt(2))"
+  },
+  "handoff": {
+    "checkpoint": "GEOMETRIC_EXCEPTIONAL_TO_NODE_ADAPTER_48_OF_48_SEPARATING_SIGNATURE",
+    "mainbatch_action": "Run the full runtime replay against the retained payloads, persist the resulting runtime exceptional offset -> Nxx -> exact coordinate table, compare with lanes A-H, and decide BC2-01B PASS/BLOCKED.",
+    "mainbatch_must_not_infer_from_slot_order": true,
+    "to": "stage32ex5-mainbatch"
+  },
+  "handoff_condition_satisfied": true,
+  "lane": "stage32ex5-g",
+  "magma_order_convention": {
+    "application": "The verifier reproduces the exact C1s row order, including the reversed variable spelling e3,e2,e1 in the fourth C1 block.",
+    "critical_fact": "For repeated range sequences in a Magma sequence constructor, the first range is the innermost loop.",
+    "source": "https://docs.magma-maths.org/SetsSequencesMappings/Sequences/recursion-reduction-iteration.html"
+  },
+  "projective_canonicalization": {
+    "field_basis": [
+      "1",
+      "i",
+      "s",
+      "i*s"
+    ],
+    "floating_point_used": false,
+    "key_rule": "expand the seven normalized coordinates in the fixed Q-basis, flatten the 7x4 coefficient array, lexicographically sort the 48 exact keys, label N00..N47",
+    "printed_field_string_used_as_authority": false,
+    "projective_scale_ambiguity_remaining": false,
+    "scale_rule": "normalize the first nonzero homogeneous coordinate to 1"
+  },
+  "result": {
+    "c1_conic_count": 32,
+    "c1_incidence_weight_every_node": 4,
+    "c1_signature_bijection": true,
+    "canonical_node_count": 48,
+    "canonical_nodes_sha256": "38397b53dd0007e3d1926c0fb0b9d3f011632e6b33d699672ed86280caec8b98",
+    "distinct_c1_signatures": 48,
+    "exceptional_divisor_to_node_rule_exact": true,
+    "geometric_label_loss": false,
+    "runtime_points_iteration_order_required": false
+  },
+  "schema": "STAGE32EX5_G_GEOMETRIC_REVERSE_ADAPTER_RESULT_V1",
+  "source_lock": {
+    "bc2_01_preflight": {
+      "blob": "69984bfd6b3b57e86daa002cbc79acea9d1cc4bf",
+      "path": "stages/stage32-ex5/breadth-cycle-2/bc2-01-support-adapter-preflight.json"
+    },
+    "bc2_01a": {
+      "blob": "0a4b6b748bd4f4f94ae70e16cf38a0a2174c55d4",
+      "path": "stages/stage32-ex5/breadth-cycle-2/bc2-01a-exceptional-pairing-bridge.json"
+    },
+    "hperp_integral_adapter": {
+      "blob": "fb1eb380ca786e42a6b00c5ef454b0e79fdba771",
+      "path": "stages/stage32/residual-32-01-production/hperp_integral_adapter.py"
+    },
+    "lane_g_verifier": {
+      "blob": "b66555c7ed14f06bc2339e39590736c5c94dff9a",
+      "path": "stages/stage32-ex5/parallel/lane-g/verify_stage32ex5_g_geometric_reverse_adapter.py"
+    },
+    "stoll_exact_model": {
+      "blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/cuboids.magma",
+      "repo": "MichaelStollBayreuth/Verification",
+      "symbols": [
+        "eqns",
+        "pts",
+        "C1s",
+        "Cpts",
+        "MatCP",
+        "pairingmat"
+      ]
+    },
+    "stoll_testa_geometry": {
+      "arxiv": "1009.0388",
+      "locator": "Lemma 3; blow-up b:S->Sbar of the 48 A1 singular points"
+    }
+  },
+  "status": "CHECKPOINT_GEOMETRIC_REVERSE_ADAPTER_PASS",
+  "target_leaf": "BC2-01B_RUNTIME_NODE_COORDINATE_BRIDGE",
+  "verification": {
+    "full_runtime_replay": "python stages/stage32-ex5/parallel/lane-g/verify_stage32ex5_g_geometric_reverse_adapter.py --output /tmp/stage32ex5-g-runtime.json",
+    "full_runtime_replay_executed_in_this_lane_environment": false,
+    "full_runtime_replay_reason": "The active tool environment cannot execute the repository denylisted retained payloads through a repo-side runner. The committed verifier therefore performs that step only through the existing compact retained loaders and Hperp adapter, without expanding those payloads into chat context.",
+    "geometry_only_certificate_sha256": "a0e81ea3d15b6e9e4745fcf6b8db3f6a1cfa41010fd81efd749da7ab4ec90280",
+    "geometry_only_checks": {
+      "c1_count": 32,
+      "c1_signature_weight": 4,
+      "distinct_c1_signatures": 48,
+      "distinct_projective_keys": 48,
+      "node_count": 48
+    },
+    "geometry_only_executed_on_exact_verifier_blob": true,
+    "geometry_only_replay": "python stages/stage32-ex5/parallel/lane-g/verify_stage32ex5_g_geometric_reverse_adapter.py --geometry-only --output /tmp/stage32ex5-g-geometry.json",
+    "source_level_runtime_bijection_reason": "Stoll's exact model defines MatCP[j,k] from membership of pts[k] in Cpts[j], appends the 48 exceptional divisors represented by those same singularities, and asserts #pts=48. Since the 32-C1 signature separates the full 48-node set, the reverse adapter is mathematically bijective independently of pts order.",
+    "tested_verifier_file_sha256": "13a20572277b7b7963c8142079c5be479b3f3fc4cbb4572fe5c60110b6c7cdae",
+    "tested_verifier_git_blob_sha1": "b66555c7ed14f06bc2339e39590736c5c94dff9a"
+  }
+}
