@@ -1,0 +1,108 @@
+{
+  "assumptions_ledger": [
+    {
+      "id": "A1",
+      "statement": "The exact Stoll model and BC2-01A source locks are the intended model/runtime semantics for this bridge.",
+      "status": "source_locked"
+    },
+    {
+      "id": "A2",
+      "statement": "The 48 singular nodes are exactly the canonical catalog generated over Q(i) by the six 8-node families.",
+      "status": "exactly_verified_by_lane_verifier"
+    },
+    {
+      "id": "A3",
+      "statement": "A fresh Magma SetPt enumeration has the same k-order as the historical retained runtime.",
+      "status": "rejected_unproved"
+    },
+    {
+      "id": "A4",
+      "statement": "The ordered 92-curve incidence vector is a valid enumeration-invariant identifier if all 48 node fingerprints are pairwise distinct.",
+      "status": "conditional_exact_matching_criterion"
+    }
+  ],
+  "candidate_bridge": {
+    "canonical_node_id_domain": [
+      "N00",
+      "N47"
+    ],
+    "fresh_runtime_index_equality_is_not_accepted": true,
+    "historical_runtime_index_domain": [
+      0,
+      47
+    ],
+    "match_rule": "For each historical k, match its 92-bit historical MatCP column to the independently recomputed 92-bit curve-incidence fingerprint of each canonical exact node. Accept only if all 48 historical fingerprints and all 48 canonical fingerprints are unique and the match is bijective.",
+    "representation": "historical index k must be matched to canonical node Nxx by an enumeration-invariant incidence fingerprint, not by a fresh runtime Position/SetPt ordering",
+    "required_fingerprint": "92-bit incidence vector against the same fixed ordered 92 non-exceptional Stoll curves; equivalently the historical MatCP column for that exceptional index",
+    "resolved_historical_index_count": 0,
+    "unresolved_historical_indices": [
+      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+      12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
+      24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
+      36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47
+    ]
+  },
+  "canonical_sha256_without_this_field": "e20a6f1f0b04dede7528b4fd44765f20010b4dbbd722f1fe3122cae4190f2e79",
+  "collision_missing_report": {
+    "canonical_catalog_missing_nodes": 0,
+    "canonical_catalog_projective_collisions": 0,
+    "historical_index_coordinate_collisions": "not evaluable without historical fingerprints",
+    "historical_index_coordinate_missing_count": 48
+  },
+  "established": {
+    "canonical_exact_node_catalog_path": "stages/stage32-ex5/parallel/lane-c/canonical-node-catalog.json",
+    "canonical_exact_node_catalog_sha256_without_hash_field": "30e90730a1db1c6f5a562a617f67c9da9a990c09431a126d7176c9d614b9fbcc",
+    "canonical_node_count": 48,
+    "canonical_projective_collision_count": 0,
+    "canonicalization": "scale by first nonzero a-coordinate; deterministic family/sign ordering",
+    "fresh_runtime_fact": "Stoll constructs pts := Points(SingularSubscheme(S)); MatCP[j,k] uses pts[k], and exceptional classes use the same pts ordering.",
+    "historical_retained_support_fact": "BC2-01A establishes last48 pairing support as historical Stoll-runtime exceptional indices k=0..47.",
+    "jacobian_rank_3_for_all_catalog_nodes": true,
+    "surface_equations_exact_for_all_catalog_nodes": true
+  },
+  "firewalls": {
+    "claim_or_frontier_authority_edited": false,
+    "ex5_authority_credit": false,
+    "full178_replayed": false,
+    "main_state_edited": false,
+    "merge_authorized": false,
+    "stage32_main_credit": false
+  },
+  "leaf": "BC2-01B_RUNTIME_NODE_COORDINATE_BRIDGE",
+  "promotion_condition": {
+    "full178_span_replay_allowed_now": false,
+    "required": "Recover/export historical 92x48 MatCP columns (or an equivalent source-locked historical curve-node incidence table) and obtain a unique 48/48 fingerprint match to the canonical node catalog."
+  },
+  "repository_and_source_search": {
+    "checked_external_exact_source": "Cuboids/cuboids.magma at 51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+    "checked_historical_adapter": "stages/stage32/residual-32-01-production/adapt_stage32_post21bl_picard_witness.py at 70265586b3f97be21c7621af73f443311f1f3fa3",
+    "checked_terms": [
+      "node_coordinates",
+      "singular_points",
+      "Cpts",
+      "last48",
+      "pairing_rows_sha256",
+      "MatCP"
+    ],
+    "outcome": "Exact MatCP construction is source-locked, but no retained artifact found in this lane investigation that stores the historical 92x48 MatCP columns together with the historical exceptional index ordering."
+  },
+  "schema": "STAGE32EX5_C_BC2_01B_RUNTIME_NODE_COORDINATE_BRIDGE_CHECKPOINT_V1",
+  "scope": "scratch non-authoritative lane result; no Stage32/EX5 authority promotion",
+  "source_lock": {
+    "bc2_01a_path": "stages/stage32-ex5/breadth-cycle-2/bc2-01a-exceptional-pairing-bridge.json",
+    "stage32_checkpoint_commit": "70265586b3f97be21c7621af73f443311f1f3fa3",
+    "stoll_exact_model": {
+      "blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/cuboids.magma",
+      "repo": "MichaelStollBayreuth/Verification"
+    }
+  },
+  "stage": "32EX5",
+  "status": "BLOCKED_HISTORICAL_RUNTIME_INDEX_BINDING",
+  "verifier": {
+    "historical_runtime_index_binding_proved": false,
+    "local_exact_replay_result": "PASS_CANONICAL_48_NODE_CATALOG",
+    "path": "stages/stage32-ex5/parallel/lane-c/verify_canonical_node_catalog.py"
+  }
+}
