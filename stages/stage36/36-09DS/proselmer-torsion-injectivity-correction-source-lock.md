@@ -24,7 +24,7 @@ one has
 
 `M^hat_2 ~= Z_2^r direct_sum T_2`.
 
-Indeed multiplication by `2^n` is an automorphism on `T_odd`, while for all sufficiently large `n` it is zero on no nonzero element of the finite 2-primary group `T_2`. Hence every nonzero rational 2-primary torsion point maps nontrivially to the 2-adic completion. Mordell--Weil finite generation supplies this decomposition for `B(Q)`.
+Indeed multiplication by `2^n` is an automorphism on `T_odd`, while for all sufficiently large `n` one has `2^n T_2 = 0`. Equivalently, no nonzero element of `T_2` lies in the subgroup `2^n M` for sufficiently large `n`, so `T_2` survives unchanged in `M/2^n M` and hence in the inverse-limit 2-adic completion. Therefore every nonzero rational 2-primary torsion point maps nontrivially to the 2-adic completion. Mordell--Weil finite generation supplies this decomposition for `B(Q)`.
 
 ## Stage36 rational 2-torsion kernels
 
