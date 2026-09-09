@@ -1,124 +1,91 @@
-# Stage35-EX MAIN batch handoff — Goal4BL fixed-i norm-mod16 ray-class collapse
+# Stage35-EX MAIN batch handoff — Goal4BM complete primary lambda^7 ray dual boundary
 
-Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BL are provisional stacked leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
+Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BM are provisional stacked leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
 
 ## Exact-green parent
 
-Goal4BK is exact-green:
+Goal4BL is exact-green:
 
-- exact head: `9c72ebb551f2d8580a929b07c5dfcf2caa0f236e`
-- aggregate: `34313690442`
-- `verify-stage35-ex-current`: `102346571027`
+- exact head: `08911659889e93ce242bee3491b6555a5a16b6ab`
+- aggregate: `34315466300`
+- `verify-stage35-ex-current`: `102351543882`
 - result: `SUCCESS`
 
-Goal4BK produced the canonical fixed-unit quartic dual
+Goal4BL proved that the canonical fixed-unit character
 
 ```text
 chi_i(alpha)=(i/alpha)_4
 ```
 
-and left its deeper two-adic/ray-class value on the BJ carrier `Xi` unresolved.
-
-## Goal4BL provisional exact result
-
-For odd primary
-
-```text
-alpha=A+B*i,
-A odd,
-B even,
-A+B=1 mod 4,
-```
-
-one has
-
-```text
-chi_i(alpha)=i^((1-A)/2).
-```
-
-A complete primary residue computation gives
-
-```text
-N(alpha) == 3-2*A mod 16,
-```
-
-hence the stronger exact formula
+descends, on odd primary Gaussian integers, to the rational norm modulo `16`:
 
 ```text
 chi_i(alpha)=i^((N(alpha)-1)/4).
 ```
 
-Thus the apparent two-adic compensator for the **fixed-i** character is not an independent Gaussian phase: on primary elements this character descends to the rational norm modulo `16`.
+Hence it is orientation-sensitive only at reservoir primes `5,13 mod 16`, and blind at `1,9 mod 16`.
 
-For
+## Goal4BM provisional exact result
+
+For odd primary `alpha=A+B*i`, introduce the ramified supplementary character
 
 ```text
-Xi=(M_a^-*M_b^-*M_c^-)/(M_a^+*M_b^+*M_c^+),
-R_-=N(M_a^-*M_b^-*M_c^-),
-R_+=N(M_a^+*M_b^+*M_c^+),
+chi_lambda(alpha)=((1+i)/alpha)_4
+                 =i^((A-B-B^2-1)/4).
 ```
 
-one gets exactly
+It is not determined modulo `lambda^6`, but is determined modulo
 
 ```text
-chi_i(Xi)=i^((R_- - R_+)/4).
+lambda^7=(1+i)^7=8-8*i.
 ```
 
-If
+The pair
 
 ```text
-S_sec=R_-*R_+=product_i gcd(s_i,W/h_i),
+(chi_i(alpha), chi_lambda(alpha))
 ```
 
-then
+gives a bijection from the 16 primary ray classes modulo `lambda^7` to `mu_4^2`. Thus the first complete ramified ray dual has been materialized rather than sampled by one character.
+
+This still does not give a universal orientation obstruction. The locally admissible primary class represented by
 
 ```text
-chi_i(Xi)^2=(2/S_sec).
+5+4*i
 ```
 
-Primewise sensitivity is now exact:
+has ray coordinates
 
 ```text
-ell mod16 = 1  -> chi_i(pi)=1   -> sigma blind,
-ell mod16 = 5  -> chi_i(pi)=i   -> sigma sensitive,
-ell mod16 = 9  -> chi_i(pi)=-1  -> sigma blind,
-ell mod16 =13  -> chi_i(pi)=-i  -> sigma sensitive.
+(e_i,e_lambda)=(2,0)
 ```
 
-All four `1 mod4` residue classes are compatible with the retained reservoir congruence; exact local diagnostics use
+and order `2`. Therefore every character of conductor dividing `lambda^7` takes the same value on exponent `+1` and exponent `-1` at that class. The direction-a reservoir congruence is locally compatible at `ell=41` with both source roots `±9`.
+
+So:
 
 ```text
-(ell,iota)=(5,2),(13,5),(17,4),(41,9).
-```
-
-These odd-prime models are CRT-compatible with each primitive two-adic parity branch. They are local diagnostics only, not global endpoint constructions.
-
-Therefore fixed `i` does **not** give a universal orientation obstruction. Its global product is exactly the norm-mod16 evaluation of the already-defined BJ orientation partition, not a second independent reciprocity equation.
-
-Exact route status:
-
-```text
-lambda^6 ray depth sufficient = yes;
-lambda^5 + norm mod8 sufficient = no;
-fixed-i character descends to norm mod16 = yes;
-chi_i(Xi) exact = yes;
-all sigma bits detected = no;
-new reciprocity equation = no;
+complete primary lambda^7 ray dual = yes;
+ramified character adds non-norm information = yes;
+source-fixed ramified value = no;
+order-two blind class locally compatible = yes;
+all conductor-lambda7 characters detect sigma = no;
+global reciprocity contradiction = no;
 branch pruning = no.
 ```
 
 Artifacts:
 
-- `stages/stage35-ex/35ex-35/goal4bl-xi-two-adic-ray-class-parity-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4bl-xi-two-adic-ray-class-parity.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4bl_xi_two_adic_ray_class.py`
+- `stages/stage35-ex/35ex-35/goal4bm-ramified-one-plus-i-quartic-dual-source-lock.md`
+- `stages/stage35-ex/35ex-35/goal4bm-ramified-one-plus-i-quartic-dual.json`
+- `stages/stage35-ex/verify_stage35_ex_35_goal4bm_ramified_one_plus_i_quartic_dual.py`
 
 ## Next exact leaf
 
 ```text
-35EX-35_GOAL4BM_RAMIFIED_ONE_PLUS_I_QUARTIC_DUAL_PREFLIGHT
+35EX-35_GOAL4BN_COMMON_W_PRIMARY_SPACE_ROOT_RAY_PRODUCT_PREFLIGHT
 ```
 
-Test the ramified supplementary quartic character with numerator `1+i` (or the equivalent ray-class functional) against the BJ carrier. Unlike fixed `i`, it can depend on the imaginary/ray residue rather than rational norm alone. Determine whether the source controls that value or whether it introduces another free phase.
+Use the fact that `Psi_a,Psi_b,Psi_c` arise from the same space diagonal `W`. Test whether their source units and common-`W` relations force `Xi` into a proper subset of the 16 primary `lambda^7` ray classes, especially whether they exclude the locally admissible order-two class. Do not open a deeper ray-character tower before testing this cross-direction source constraint.
 
 No merge. No hostile-audit credit. `MAIN-STATE.json` remains V74 / Goal4AK.

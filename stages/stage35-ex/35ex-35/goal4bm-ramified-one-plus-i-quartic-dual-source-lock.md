@@ -1,0 +1,239 @@
+# Stage35-EX Goal4BM source lock — ramified one-plus-i quartic dual and complete lambda^7 ray coordinates
+
+Scope: continue Goal4BL after exact-head verification. Audited authority remains V74 / Goal4AK. Goal4BM tests the ramified quartic supplementary character with numerator `1+i` against the support-cleaned BJ carrier `Xi`.
+
+The result is again mixed. The ramified character is genuinely new relative to Goal4BL's fixed-`i` norm character: together the two characters separate every primary ray class modulo `(1+i)^7`. But this does not create a reciprocity obstruction. The source does not force the new ray value, and some admissible primary ray classes have order two, so **every** character of conductor dividing `(1+i)^7` is blind to the sign of the BJ orientation exponent there.
+
+## 1. Ramified supplementary quartic character
+
+Put
+
+```text
+lambda=1+i.
+```
+
+For odd primary
+
+```text
+alpha=A+B*i,
+A odd,
+B even,
+A+B == 1 mod 4,
+```
+
+the standard quartic supplementary laws are
+
+```text
+chi_i(alpha)=(i/alpha)_4=i^((1-A)/2),                 (BM-chi-i)
+chi_lambda(alpha)=((1+i)/alpha)_4
+                 =i^((A-B-B^2-1)/4).                 (BM-chi-lambda)
+```
+
+The exponent in `(BM-chi-lambda)` is integral under the primary congruence.
+
+## 2. Exact ramified ray depth
+
+One has
+
+```text
+lambda^6=-8*i,
+lambda^7=8-8*i.                                      (BM-lambda-powers)
+```
+
+Thus congruence modulo `lambda^6` is coordinate congruence modulo `8`, while modulo `lambda^7`, after reducing coordinates modulo `16`, the only additional identification is
+
+```text
+(A,B) ~ (A+8,B+8).                                   (BM-lambda7-equivalence)
+```
+
+The ramified character is **not** determined modulo `lambda^6`. Exact primary witnesses are
+
+```text
+alpha=1,
+beta=-7,
+v_lambda(beta-alpha)=6,
+chi_i(alpha)=chi_i(beta)=1,
+N(alpha)==N(beta)==1 mod 16,
+chi_lambda(alpha)=1,
+chi_lambda(beta)=-1.                                 (BM-lambda6-witness)
+```
+
+By contrast `(BM-chi-lambda)` is invariant under `(BM-lambda7-equivalence)`, so `lambda^7` is sufficient.
+
+## 3. The two supplementary characters give complete primary lambda^7 ray coordinates
+
+Modulo `16`, there are `32` primary coordinate pairs `(A,B)`. Quotienting by `(BM-lambda7-equivalence)` leaves exactly `16` primary ray classes modulo `lambda^7`.
+
+Define exponents
+
+```text
+e_i(A,B)      =(1-A)/2 mod 4,
+e_lambda(A,B) =(A-B-B^2-1)/4 mod 4.                  (BM-exponents)
+```
+
+On representatives
+
+```text
+A in {1,3,5,7},
+B in {0,4,8,12} if A=1 or 5,
+B in {2,6,10,14} if A=3 or 7,
+```
+
+the pair
+
+```text
+(e_i,e_lambda)
+```
+assumes each of the `16` elements of `(Z/4Z)^2` exactly once. Hence
+
+```text
+alpha mod lambda^7
+ <-> (chi_i(alpha),chi_lambda(alpha)) in mu_4^2       (BM-ray-bijection)
+```
+
+is a bijection on the primary ray group.
+
+Therefore Goal4BM does not merely add one more example character: fixed `i` plus ramified `1+i` coordinatize the entire primary ray quotient at conductor `lambda^7`.
+
+## 4. Apply the ramified character to Xi
+
+Write the primary BJ numerator and denominator as
+
+```text
+N_-=M_a^-*M_b^-*M_c^-=U_-+V_-*i,
+N_+=M_a^+*M_b^+*M_c^+=U_++V_+*i.                    (BM-Npm)
+```
+
+Then exactly
+
+```text
+chi_lambda(Xi)
+ = i^( E(U_-,V_-)-E(U_+,V_+) ),
+E(U,V)=(U-V-V^2-1)/4 mod 4.                          (BM-Xi-lambda)
+```
+
+Unlike Goal4BL's fixed-`i` value, this is not determined by the rational norms `R_-,R_+` modulo `16`. It uses the full primary ray coordinates.
+
+## 5. Same rational norm and fixed-i value can have different ramified value
+
+At rational prime `41`, the two primary conjugate Gaussian primes
+
+```text
+pi_+=5+4*i,
+pi_-=5-4*i
+```
+
+have
+
+```text
+N(pi_+)=N(pi_-)=41,
+chi_i(pi_+)=chi_i(pi_-)=-1,
+chi_lambda(pi_+)=1,
+chi_lambda(pi_-)=-1.                                 (BM-41)
+```
+
+The corresponding source roots are
+
+```text
+iota_+=9 mod 41,
+iota_-=-9 mod 41.                                    (BM-41-roots)
+```
+
+Both satisfy the direction-a local reservoir model
+
+```text
+x=y=c=1,
+a=0,
+b=iota,
+r_BC^2=b^2+1 == 0 mod 41,
+(2*b/41)=1.                                          (BM-local-41)
+```
+
+Thus the retained rational reservoir data and the fixed-`i` character do not determine the ramified ray value. These are local diagnostics only, not global endpoint constructions.
+
+At `17` one gets an order-four version:
+
+```text
+1+4*i : chi_i=1, chi_lambda=-i, iota=4,
+1-4*i : chi_i=1, chi_lambda= i, iota=-4.              (BM-17)
+```
+
+So the ramified character genuinely detects information invisible to Goal4BL.
+
+## 6. Yet conductor lambda^7 is still not a universal sigma detector
+
+The ray-bijection `(BM-ray-bijection)` identifies the complete character group at this conductor. Consider the class of
+
+```text
+pi=5+4*i,
+( e_i(pi), e_lambda(pi) )=(2,0).                     (BM-order2-class)
+```
+
+This ray class has order two. Consequently every character generated by `chi_i` and `chi_lambda` takes value `+1` or `-1` on it. Replacing a BJ valuation `+1` by `-1` therefore leaves **every** conductor-`lambda^7` character value unchanged at this prime.
+
+Because the `ell=41` source congruence is locally compatible, no universal orientation theorem can be obtained from the complete primary ray character group of conductor dividing `lambda^7` unless an additional source theorem first excludes this order-two ray class.
+
+This is stronger than saying one chosen character failed: the whole two-character ray dual at the first complete ramified level is exhausted.
+
+## 7. No independent global reciprocity equation yet
+
+For the source-defined carrier `Xi`, both
+
+```text
+chi_i(Xi),
+chi_lambda(Xi)                                       (BM-Xi-pair)
+```
+
+are evaluations of its own primary ray class. The pair determines that ray class exactly, but this is descriptive rather than obstructive. Standard global quartic reciprocity supplies no second source-independent value for `(BM-Xi-pair)`.
+
+The retained face/space equations do not presently force `Xi` into a proper subset of the `16` primary ray classes, nor do they exclude the order-two class `(2,0)` represented above.
+
+Therefore
+
+```text
+ramified character genuinely new = yes;
+complete lambda^7 ray coordinates = yes;
+source-fixed ramified value = no;
+universal sigma detection at conductor <=lambda^7 = no;
+branch pruning = no.                                 (BM-boundary)
+```
+
+## 8. Verdict
+
+Certified provisionally:
+
+```text
+ONE_PLUS_I_SUPPLEMENTARY_CHARACTER_EXACT=true;
+LAMBDA7_SUFFICIENT_FOR_RAMIFIED_CHARACTER=true;
+LAMBDA6_INSUFFICIENT=true;
+PRIMARY_LAMBDA7_RAY_CLASS_COUNT=16;
+CHI_I_CHI_LAMBDA_PAIR_BIJECTIVE_ON_PRIMARY_LAMBDA7_RAY_GROUP=true;
+CHI_LAMBDA_NOT_NORM_ONLY=true;
+LOCAL_41_SAME_NORM_FIXED_I_DIFFERENT_RAMIFIED_VALUE=true;
+ORDER_TWO_RAY_CLASS_LOCALLY_COMPATIBLE=true;
+ALL_CONDUCTOR_LAMBDA7_CHARACTERS_UNIVERSAL_SIGMA_DETECTOR=false;
+GLOBAL_RECIPROCITY_CONTRADICTION=false;
+BRANCH_PRUNING=false.
+```
+
+Not certified:
+
+```text
+universal sigma product;
+exclusion of the order-two ray class;
+any h_i=1;
+any d_i=1;
+E1;
+Stage35 closure;
+Perfect Cuboid existence/nonexistence.
+```
+
+Next exact leaf:
+
+```text
+35EX-35_GOAL4BN_COMMON_W_PRIMARY_SPACE_ROOT_RAY_PRODUCT_PREFLIGHT
+```
+
+Question: use the fact that the three primary space square roots `Psi_a,Psi_b,Psi_c` come from the same space diagonal `W` to test whether their source units force the BJ carrier `Xi` into a proper subset of the 16 primary `lambda^7` ray classes, especially whether the locally admissible order-two class can be excluded. Do not open a deeper-character tower before testing this cross-direction source constraint.
+
+No merge. No hostile-audit credit. MAIN-STATE remains V74 / Goal4AK.
