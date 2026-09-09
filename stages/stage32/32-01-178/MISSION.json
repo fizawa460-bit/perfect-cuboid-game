@@ -1,0 +1,63 @@
+{
+  "schema": "research-os-mission-dag/v1",
+  "mission_id": "stage32-01-178",
+  "target": "Complete the Stage32 32-01 FULL178 numerical Picard census with machine-checkable completeness, without repeating equivalent or previously blocked research routes.",
+  "integration_surface": "PR #1753 / branch stage32-main-final-chain-reentry",
+  "max_parallel": 6,
+  "status": "ACTIVE",
+  "operator_commands": {
+    "start": "research-start stage32-01-178: FULL178をMission-DAG方式で分解し、重複探索を避けながら並行研究を開始",
+    "cycle": "stage32-01-178-mainbatch",
+    "audit": "stage32-01-178-audit"
+  },
+  "source_lock": {
+    "stage32_roadmap": "stages/stage32/ROADMAP.md",
+    "production_state": "stages/stage32/residual-32-01-production/state.json",
+    "research_os_template": "docs/research-os/templates/mission-dag/",
+    "external_ex5_pr": 1742,
+    "external_ex5_rule": "EX5 remains an independent producer; consume only retained/audited outputs through an explicit current-target adapter. Do not duplicate its active BC2-02 target-to-59D adapter work."
+  },
+  "startup_snapshot": {
+    "full178_authorized": true,
+    "full178_complete": false,
+    "r29_lg2": "NOT_DISCHARGED",
+    "indexed_terminal_family_count": "688101306360803751427719294",
+    "current_primary_wall": "DIRECT_NUMERICAL_PICARD_LEAF_COMPRESSION_AFTER_PREFIX_REPARAMETERIZATION",
+    "bruteforce_scale": "FINITE_BUT_CURRENT_BRUTE_FORCE_SCALE_OPERATIONALLY_INFEASIBLE",
+    "ex5_status": "BC2-02 producer kernel localized; FULL178 target-to-59D model adapter remains active externally"
+  },
+  "nodes": [
+    {"node_id":"N101","semantic_key":"s32-01-178:indexed-terminal-compression","title":"Exact indexed-terminal Picard leaf compression redesign","depends_on":[],"state_path":"nodes/N101/STATE.json","status":"OPEN"},
+    {"node_id":"N102","semantic_key":"s32-01-178:hard-tail-eight-row-structure","title":"Eight hard-tail row structural reduction","depends_on":[],"state_path":"nodes/N102/STATE.json","status":"OPEN"},
+    {"node_id":"N103","semantic_key":"s32-01-178:production-witness-support-interface","title":"Production-side 59D witness and 48-support retention interface","depends_on":[],"state_path":"nodes/N103/STATE.json","status":"OPEN"},
+    {"node_id":"N104","semantic_key":"s32-01-178:completeness-certificate-architecture","title":"FULL178 completeness and replay certificate architecture","depends_on":[],"state_path":"nodes/N104/STATE.json","status":"OPEN"},
+    {"node_id":"N105","semantic_key":"s32-01-178:independent-global-cut-discovery","title":"Independent global-cut and reusable-weapon discovery","depends_on":[],"state_path":"nodes/N105/STATE.json","status":"OPEN"},
+    {"node_id":"N106","semantic_key":"s32-01-178:compressed-production-execution-plan","title":"Compressed production execution and sharding design","depends_on":[],"state_path":"nodes/N106/STATE.json","status":"OPEN"},
+    {"node_id":"N150","semantic_key":"s32-01-178:ex5-external-consumption-gate","title":"EX5 external audited-result consumption gate","depends_on":[],"state_path":"nodes/N150/STATE.json","status":"BLOCKED"},
+    {"node_id":"N190","semantic_key":"s32-01-178:generation1-reconciliation","title":"Generation-1 reconciliation and next frontier selection","depends_on":["N101","N102","N103","N104","N105","N106"],"state_path":"nodes/N190/STATE.json","status":"OPEN"}
+  ],
+  "dispatch": {
+    "generation": 1,
+    "assignments": [
+      {"slot":"a","node_id":"N101","node_title":"Exact indexed-terminal Picard leaf compression redesign","command":"stage32-01-178-a","work_branch":"stage32-01-178-lane-a-g1","status":"ISSUED"},
+      {"slot":"b","node_id":"N102","node_title":"Eight hard-tail row structural reduction","command":"stage32-01-178-b","work_branch":"stage32-01-178-lane-b-g1","status":"ISSUED"},
+      {"slot":"c","node_id":"N103","node_title":"Production-side 59D witness and 48-support retention interface","command":"stage32-01-178-c","work_branch":"stage32-01-178-lane-c-g1","status":"ISSUED"},
+      {"slot":"d","node_id":"N104","node_title":"FULL178 completeness and replay certificate architecture","command":"stage32-01-178-d","work_branch":"stage32-01-178-lane-d-g1","status":"ISSUED"},
+      {"slot":"e","node_id":"N105","node_title":"Independent global-cut and reusable-weapon discovery","command":"stage32-01-178-e","work_branch":"stage32-01-178-lane-e-g1","status":"ISSUED"},
+      {"slot":"f","node_id":"N106","node_title":"Compressed production execution and sharding design","command":"stage32-01-178-f","work_branch":"stage32-01-178-lane-f-g1","status":"ISSUED"}
+    ]
+  },
+  "status_vocabulary": ["OPEN","ACTIVE","BLOCKED","DONE","SUPERSEDED","AUDIT_REQUIRED"],
+  "rules": {
+    "frontier_is_derived": true,
+    "search_before_create": true,
+    "duplicate_semantic_key_forbidden": true,
+    "retry_blocked_route_only_after_reopen_condition": true,
+    "parallel_slot_binding_is_stable_per_generation": true,
+    "nested_mission_allowed_when_node_is_too_large": true,
+    "one_pr_per_lane_forbidden_by_default": true,
+    "audit_credit_self_grant_forbidden": true,
+    "merge_without_user_authorization_forbidden": true,
+    "heavy_compute_authorized_by_startup": false
+  }
+}
