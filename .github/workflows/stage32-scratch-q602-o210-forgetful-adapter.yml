@@ -1,0 +1,28 @@
+name: Stage32 scratch Q602 O210 forgetful adapter
+
+on:
+  push:
+    branches:
+      - stage32-main-scratch-q602-o210-forgetful-adapter-20260909
+    paths:
+      - 'stages/stage32/scratch/q602-o210-forgetful-adapter-preflight-20260909.json'
+      - 'stages/stage32/scratch/verify_q602_o210_forgetful_adapter_preflight_20260909.py'
+      - 'stages/stage32/scratch/q602-o210-forgetful-adapter-post1500-origin-addendum-20260909.json'
+      - 'stages/stage32/scratch/verify_q602_o210_forgetful_adapter_post1500_origin_20260909.py'
+      - '.github/workflows/stage32-scratch-q602-o210-forgetful-adapter.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  scratch-preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact scratch head
+        uses: actions/checkout@v4
+      - name: Verify typed Q602 to O210 forgetful adapter preflight
+        run: python stages/stage32/scratch/verify_q602_o210_forgetful_adapter_preflight_20260909.py
+      - name: Verify Q602 Q(T) actual-correspondence origin
+        run: python stages/stage32/scratch/verify_q602_o210_forgetful_adapter_post1500_origin_20260909.py
+      - name: Diff hygiene
+        run: git diff --check
