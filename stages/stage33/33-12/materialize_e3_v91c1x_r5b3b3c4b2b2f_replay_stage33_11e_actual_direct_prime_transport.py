@@ -122,8 +122,8 @@ def build() -> dict:
     retained_ids = set(historical_records) - historical_direct_ids
     if len(retained_ids) != 35:
         raise SystemExit(f"retained non-direct prime count moved: {len(retained_ids)}")
-    if retained_ids & set(actual_meta):
-        raise SystemExit("repaired actual primes collide with retained historical exact primes")
+    overlap_ids = retained_ids & set(actual_meta)
+    actual_only_ids = set(actual_meta) - retained_ids
 
     actual_cc: dict[str, str] = {}
     for pid, gens in ideal_generators.items():
@@ -146,15 +146,23 @@ def build() -> dict:
         retained_cc[pid] = q
         retained_ct[pid] = t
 
+    for pid in overlap_ids:
+        if actual_cc[pid] != retained_cc[pid]:
+            raise SystemExit(f"cross-carrier overlap cc action mismatch: {pid}: actual={actual_cc[pid]} retained={retained_cc[pid]}")
+        if retained_ct[pid] != pid:
+            raise SystemExit(f"cross-carrier overlap ct action mismatch: {pid}")
+
     prime_cc = dict(retained_cc)
-    prime_cc.update(actual_cc)
+    for pid in actual_only_ids:
+        prime_cc[pid] = actual_cc[pid]
     prime_ct = dict(retained_ct)
-    prime_ct.update({pid: pid for pid in actual_meta})
+    prime_ct.update({pid: pid for pid in actual_only_ids})
     new_prime_ids = retained_ids | set(actual_meta)
-    if len(new_prime_ids) != 59 or set(prime_cc) != new_prime_ids or set(prime_ct) != new_prime_ids:
-        raise SystemExit("replayed 59-prime action inventory incomplete")
+    replayed_prime_count = len(new_prime_ids)
+    if set(prime_cc) != new_prime_ids or set(prime_ct) != new_prime_ids:
+        raise SystemExit("replayed prime action inventory incomplete")
     if any(prime_cc[prime_cc[p]] != p for p in prime_cc):
-        raise SystemExit("replayed 59-prime cc action lost involutivity")
+        raise SystemExit("replayed prime cc action lost involutivity")
 
     def replace_vector(vector: dict[str, int]) -> dict[str, int]:
         out: dict[str, int] = {}
@@ -265,9 +273,13 @@ def build() -> dict:
     records = []
     for pid in sorted(retained_ids):
         row = dict(historical_records[pid])
-        row["repair_status"] = "RETAINED_HISTORICAL_EXACT_PRIME_UNCHANGED"
+        if pid in overlap_ids:
+            row["repair_status"] = "RETAINED_HISTORICAL_EXACT_PRIME_ALSO_REPAIRED_DIRECT_COMPONENT"
+            row["repaired_direct_component_provenance"] = actual_meta[pid]
+        else:
+            row["repair_status"] = "RETAINED_HISTORICAL_EXACT_PRIME_UNCHANGED"
         records.append(row)
-    for pid in sorted(actual_meta):
+    for pid in sorted(actual_only_ids):
         records.append(actual_meta[pid])
 
     cert = {
@@ -287,15 +299,19 @@ def build() -> dict:
             "historical_nonprime_direct_support_ids_removed": 9,
             "retained_historical_exact_prime_count": 35,
             "repaired_actual_direct_prime_count": 24,
-            "replayed_prime_inventory_count": 59,
+            "direct_actual_prime_overlap_with_retained_exact_count": len(overlap_ids),
+            "direct_actual_prime_overlap_with_retained_exact_ids": sorted(overlap_ids),
+            "new_actual_direct_prime_ids_not_previously_in_inventory": len(actual_only_ids),
+            "replayed_prime_inventory_count": replayed_prime_count,
             "all_24_actual_direct_prime_ideals_rebuilt_exactly": True,
             "all_24_actual_direct_prime_ids_pairwise_distinct": True,
-            "all_24_disjoint_from_35_retained_prime_ids": True,
+            "cross_carrier_overlap_is_canonical_prime_id_equality": True,
+            "cross_carrier_overlap_cc_ct_actions_agree": True,
             "old_to_actual_prime_replacement": {k: sorted(v) for k, v in sorted(replacement.items())},
             "all_24_actual_direct_primes_consumed_by_generator_packages": True,
         },
         "prime_inventory": {
-            "distinct_prime_ids": 59,
+            "distinct_prime_ids": replayed_prime_count,
             "records": records,
             "carrier_refinements": new_refinements,
             "carrier_refinement_equivariance_checks": carrier_checks,
@@ -305,7 +321,7 @@ def build() -> dict:
             "ct": dict(sorted(prime_ct.items())),
             "cc_involutive": True,
             "ct_identity_on_repaired_Qi_direct_prime_data": True,
-            "actions_total_on_replayed_59_prime_inventory": True,
+            "actions_total_on_replayed_prime_inventory": True,
         },
         "generator_records": generator_rows,
         "summary": {
@@ -317,6 +333,7 @@ def build() -> dict:
             "generator_prime_level_galois_difference": "ZERO_EXACT_ALL_14_AFTER_DIRECT_PRIME_REPAIR",
             "unresolved_prime_transports": 0,
             "historical_stage33_11e_prime_type_debt_repaired": True,
+            "cross_carrier_actual_prime_incidence_reconciled": True,
             "stage33_11e_replay_status": "EXACT_REPLAY_COMPLETE_PENDING_HOSTILE_AUDIT",
             "historical_stage33_11f_26_column_closure_reuse_allowed": False,
         },
