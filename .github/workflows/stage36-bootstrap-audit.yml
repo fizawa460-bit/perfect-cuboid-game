@@ -38,17 +38,17 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Verify exact-green 36-09DY parent
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09DY.py
-      - name: Verify exact-green 36-09DZ MW quotient
+      - name: Verify exact-green 36-09DZ parent
         shell: bash
         run: |
           set -euo pipefail
           python3 stages/stage36/verify_stage36_36_09DZ.py
-      - name: Assert V226 DZ promotion and EA unlock
+      - name: Verify exact-green 36-09EA four-coset reduction
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09EA.py
+      - name: Assert V228 EA promotion and EB unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -56,34 +56,32 @@ jobs:
           import json, subprocess
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          dz=json.loads(Path('stages/stage36/36-09DZ/fixed-p2-mw-phi-quotient-preflight.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V226_36_09DZ_EXACT_GREEN_EA_UNLOCKED'
+          ea=json.loads(Path('stages/stage36/36-09EA/fixed-p2-defect-aware-retained-open-intersection-preflight.json').read_text())
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V228_36_09EA_EXACT_GREEN_EB_UNLOCKED'
           assert s['status']=='ACTIVE_MAIN_CONTINUATION'
-          af=s['authority_frontier']['36-09DZ']; cur=s['current']; pg=s['promotion_gates']
+          af=s['authority_frontier']['36-09EA']; cur=s['current']; pg=s['promotion_gates']
           assert af['status']=='EXACT_GREEN_PARENT'
-          assert af['certificate_blob_sha']=='5fb697e6d450ab46adde1a4a40cde9c415e4cd90'
-          assert af['source_blob_sha']=='4ff753f9933f56cd33accaac264ddc7e936d2364'
-          assert af['verifier_blob_sha']=='c7a8edc23e7d1f3438ec658fd7d23c8b79587dad'
-          assert af['exact_head']=='39318eca6bb0c902c2c459cf3513dd02c2fda648'
-          assert af['exact_head_ci']=='34301812471/102310102509'
-          assert dz['Mordell_Weil_rank']['common_rank_exact']==1
-          assert dz['exact_proSelmer_defect']['Phi_cokernel_F2_dimension']==2
-          assert dz['exact_proSelmer_defect']['Psi_cokernel_F2_dimension']==5
-          assert cur['unit']=='36-09DZ'
-          assert cur['next_exact_leaf']=='36-09EA_FIXED_P2_DEFECT_AWARE_RETAINED_OPEN_INTERSECTION_PREFLIGHT'
-          assert cur['next_owner']=='MAIN'
-          assert cur['36_09EA_entry_allowed'] is True
-          assert pg['36_09DZ_exact_head_ci_passed'] is True
-          assert pg['36_09DZ_promotion_replay_passed'] is True
-          assert pg['36_09EA_entry_allowed'] is True
-          assert pg['BT_common_MW_rank_exact']==1
-          assert pg['BT_Phi_proSelmer_cokernel_F2_dimension']==2
-          assert pg['BT_Psi_proSelmer_cokernel_F2_dimension']==5
-          for key in ['BT_proSelmer_product_identification_obtained','BT_T2Sel_computed','BT_retained_open_curve_proSelmer_intersection_computed','BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
+          assert af['certificate_blob_sha']=='aea5c84bb2721a92759e4143f5199f607a31637d'
+          assert af['source_blob_sha']=='fe3fe4b5a8341159f347b6f8fc3d083aeccdf926'
+          assert af['verifier_blob_sha']=='d5c66971754b2bfc1f9d87648e2a7678f9a7d885'
+          assert af['exact_head']=='3fb6e9ef83374ad7bc41a9c299892ec1ec27389e'
+          assert af['exact_head_ci']=='34302314342/102311646262'
+          assert ea['coset_decomposition']['representative_set_cardinality']==4
+          assert ea['coset_decomposition']['representatives_materialized'] is False
+          assert ea['elliptic_product_side']['T2Sel_J_identified_with_product'] is False
+          assert ea['retained_open_criterion']['exact_four_coset_intersection_reduction'] is True
+          assert cur['unit']=='36-09EA'
+          assert cur['next_exact_leaf']=='36-09EB_FIXED_P2_PHI_COSET_REPRESENTATIVE_PREFLIGHT'
+          assert cur['36_09EB_entry_allowed'] is True
+          assert pg['36_09EA_exact_head_ci_passed'] is True
+          assert pg['36_09EA_promotion_replay_passed'] is True
+          assert pg['36_09EB_entry_allowed'] is True
+          assert pg['BT_four_coset_retained_open_reduction_computed'] is True
+          assert pg['BT_Phi_coset_representatives_materialized'] is False
+          for key in ['BT_retained_open_curve_proSelmer_intersection_computed','BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09DZ/fixed-p2-mw-phi-quotient-preflight.json'],text=True).strip()=='5fb697e6d450ab46adde1a4a40cde9c415e4cd90'
-          assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09DZ.py'],text=True).strip()=='c7a8edc23e7d1f3438ec658fd7d23c8b79587dad'
-          subprocess.check_call(['git','cat-file','-e','39318eca6bb0c902c2c459cf3513dd02c2fda648^{commit}'])
-          print('V226 verified: DZ exact-head CI is consumed. Common MW rank=1, finite isogeny Sha kernels vanish, and exact Phi/Psi pro-Selmer cokernel dimensions are 2/5. EA is unlocked for the defect-aware retained-open intersection only.')
+          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09EA/fixed-p2-defect-aware-retained-open-intersection-preflight.json'],text=True).strip()=='aea5c84bb2721a92759e4143f5199f607a31637d'
+          assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09EA.py'],text=True).strip()=='d5c66971754b2bfc1f9d87648e2a7678f9a7d885'
+          print('V228 verified: EA exact-head CI is consumed. The Jacobian pro-Selmer adelic image is an exact union of four rational translations of the literal elliptic-product image; EB is unlocked only to materialize representatives. All downstream credit remains closed.')
           PY
           git diff --check
