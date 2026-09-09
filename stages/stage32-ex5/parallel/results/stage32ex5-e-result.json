@@ -1,0 +1,226 @@
+{
+  "schema": "STAGE32EX5_E_MAGMA_POINTS_ENUMERATION_SEMANTICS_V1",
+  "lane": "stage32ex5-e",
+  "base_scaffold_commit": "d1515745a768a743836f74381079e52f20fe4902",
+  "target": "BC2-01B_RUNTIME_NODE_COORDINATE_BRIDGE",
+  "status": "BLOCKED",
+  "authority": "SCRATCH_ONLY",
+  "summary": "The Stoll source uses the indexed-set order returned by Points(SingularSubscheme(S)) consistently inside one Magma session, but the documented Points(Sch)->SetIndx contract does not specify how the 48 zero-dimensional points are ordered. The inspected EX5 source locks pin the Stoll source commit/blob but do not pin a Magma executable build or retain the ordered 48-point dump. Therefore numeric exceptional slot k -> pts[k] is an operational same-session convention, not a documented/canonical bridge recoverable from source alone.",
+  "exact_inputs": [
+    {
+      "kind": "repository_instruction",
+      "repo": "fizawa460-bit/perfect-cuboid-game",
+      "ref": "stage32ex5-e",
+      "path": "AGENTS.md",
+      "blob": "f57f28ffc4889a5234986feb1fde2206ac83ed8c"
+    },
+    {
+      "kind": "lane_contract",
+      "repo": "fizawa460-bit/perfect-cuboid-game",
+      "ref": "stage32ex5-e",
+      "path": "stages/stage32-ex5/parallel/stage32ex5-e.md",
+      "blob": "a363da6203d39d9c0e5097c9ab462dc5e14ad67d"
+    },
+    {
+      "kind": "lane_state",
+      "repo": "fizawa460-bit/perfect-cuboid-game",
+      "ref": "stage32ex5-e",
+      "path": "stages/stage32-ex5/parallel/lane-e/STATE.json",
+      "blob": "5919a0ec58ca99477b4db1ba47732da22b7eb492"
+    },
+    {
+      "kind": "main_state",
+      "repo": "fizawa460-bit/perfect-cuboid-game",
+      "ref": "stage32ex5-e",
+      "path": "stages/stage32-ex5/MAIN-STATE.json",
+      "blob": "4bd6018371c14b70828afbd4fd36a0734280638e"
+    },
+    {
+      "kind": "parallel_lane_registry",
+      "repo": "fizawa460-bit/perfect-cuboid-game",
+      "ref": "stage32ex5-e",
+      "path": "stages/stage32-ex5/parallel/BC2-01B-LANES.json",
+      "blob": "3296b666580176f5cfb1635c6b27b03c7dcc5460"
+    },
+    {
+      "kind": "bc2_pairing_bridge",
+      "repo": "fizawa460-bit/perfect-cuboid-game",
+      "ref": "stage32ex5-e",
+      "path": "stages/stage32-ex5/breadth-cycle-2/bc2-01a-exceptional-pairing-bridge.json",
+      "blob": "0a4b6b748bd4f4f94ae70e16cf38a0a2174c55d4"
+    },
+    {
+      "kind": "bc2_resource_provider_lock",
+      "repo": "fizawa460-bit/perfect-cuboid-game",
+      "ref": "stage32ex5-e",
+      "path": "stages/stage32-ex5/breadth-cycle-2/bc2-00-second-pass-repository-dedup.json",
+      "blob": "0fa5cee36dea773cbe479afa1f27d8ccb6c3a778"
+    },
+    {
+      "kind": "external_exact_source",
+      "repo": "MichaelStollBayreuth/Verification",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/cuboids.magma",
+      "blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1"
+    },
+    {
+      "kind": "external_session_log",
+      "repo": "MichaelStollBayreuth/Verification",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/Section5_fibrations.log",
+      "blob": "9cfef75aa58335655d6ae3e78597f5924b6c2433",
+      "note": "Shows loading cuboids.magma and successful downstream computations, but does not print the 48 pts ordering or a Magma version banner."
+    },
+    {
+      "kind": "manual",
+      "locator": "https://docs.magma-maths.org/AlgebraicGeometry/Schemes/schemes-points.html",
+      "entry": "Points(X): Sch -> SetIndx",
+      "manual_observation": "For zero-dimensional X, all X(L) points are found; the entry does not state a point-ordering rule."
+    },
+    {
+      "kind": "manual",
+      "locator": "https://magma.maths.usyd.edu.au/magma/handbook/text/111",
+      "entry": "Iteration over SetIndx",
+      "manual_observation": "Indexed-set iteration follows the order given by the indexing."
+    },
+    {
+      "kind": "manual",
+      "locator": "https://magma.maths.usyd.edu.au/magma/handbook/text/1430",
+      "entry": "projective point normalization",
+      "manual_observation": "Projective points over a field are normalized so that the final nonzero coordinate is 1."
+    },
+    {
+      "kind": "historical_manual_crosscheck",
+      "locator": "https://www.math.uzh.ch/sepp/magma-2.26.5-dm/html/text1378.htm",
+      "entry": "Points(X): Sch -> SetIndx",
+      "manual_observation": "The older 2.26.5 documentation likewise states the indexed-set return type and zero-dimensional completeness without specifying enumeration order."
+    }
+  ],
+  "claims": [
+    {
+      "id": "E1_POINTS_RETURN_TYPE",
+      "claim": "Points(SingularSubscheme(S)) returns a SetIndx whose elements are scheme points; indexing and iteration can therefore be used by position.",
+      "scope": "Magma documented type/aggregate semantics only",
+      "assumptions": [
+        "SingularSubscheme(S) is zero-dimensional over the base field L as used by the Stoll source."
+      ]
+    },
+    {
+      "id": "E2_STOLL_SAME_SESSION_ORDER_IS_LOAD_BEARING",
+      "claim": "The exact Stoll source binds pts once, asserts #pts=48, forms Cpts from membership in those pts, builds MatCP using pts[k], appends exceptional classes after Cs in the same k order, and uses Position(pts, transformed_point) for Aut/Galois permutations. Thus exceptional slot 92+k (0-based all140) and pts[k+1] (1-based Magma) are aligned by construction inside that execution.",
+      "scope": "Exact Stoll source commit 51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "assumptions": [
+        "No mutation/rebinding of pts between these uses; verified from the exact source."
+      ]
+    },
+    {
+      "id": "E3_NO_DOCUMENTED_CANONICAL_POINTS_ORDER",
+      "claim": "The authoritative Points entry examined specifies SetIndx output and completeness for dimension-zero schemes but does not specify the generation/index order. General SetIndx documentation only says iteration follows whatever indexing the object has. Therefore the numeric order returned by Points is not established as a documented geometric/canonical order.",
+      "scope": "Current V2.29 handbook plus archived V2.26.5 Points documentation",
+      "assumptions": [
+        "No undocumented implementation behavior is promoted to contract."
+      ]
+    },
+    {
+      "id": "E4_SAME_BINARY_REPEATABILITY_NOT_ESTABLISHED",
+      "claim": "Repeatability of the 48 ordering across separate runs of the same Magma build is not established by the inspected documentation or retained evidence. It may be empirically testable, but must not be assumed.",
+      "scope": "Lane E reproducibility credit",
+      "assumptions": [
+        "No Magma execution was available in this lane."
+      ]
+    },
+    {
+      "id": "E5_RUNTIME_PIN_INSUFFICIENT_IN_ACTIVE_EVIDENCE",
+      "claim": "The inspected EX5 active evidence pins the Stoll repository commit/blob, but it does not supply a Magma GetVersion() triple/build identifier paired with an ordered 48-point dump. The Stoll Section5 log also omits both. Therefore source pinning alone is insufficient to recover the historical numeric pts order as an auditable bridge.",
+      "scope": "Exact lane/startup/BC2 working set and cited Stoll files; not a repository-wide absence theorem",
+      "assumptions": [
+        "Search misses are not treated as repository-wide absence."
+      ]
+    },
+    {
+      "id": "E6_CANONICAL_BRIDGE_MUST_BE_COORDINATE_BASED",
+      "claim": "Any retained BC2-01B bridge should treat Points(...) position as runtime metadata only and canonicalize exact projective coordinates independently of that position before comparing runs or external node tables.",
+      "scope": "BC2-01B handoff recommendation",
+      "assumptions": [
+        "Canonicalization itself must pass the separate permutation/collision checks assigned to the canonicalization lane."
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "SOURCE_REPLAY_EXACT_CALL_CHAIN",
+      "procedure": [
+        "Checkout MichaelStollBayreuth/Verification at 51233ed5ef2bf228fac9416c66db9adc0ebcaadd.",
+        "Verify Cuboids/cuboids.magma blob SHA is 0422b69847f2afb97cb7b3ed02ebef91279f61b1.",
+        "Confirm pts := Points(SingularSubscheme(S)); assert #pts eq 48.",
+        "Confirm Cpts uses membership over pts, MatCP indexes pts[k], exceptional diagonal uses [1..#pts], and Aut/Galois point permutations call Position(pts,...)."
+      ],
+      "expected": "One same-session indexed-set order feeds every exceptional slot consumer."
+    },
+    {
+      "id": "PINNED_RUNTIME_ORDER_DUMP",
+      "procedure": [
+        "Run an explicitly pinned Magma executable and record x,y,z := GetVersion().",
+        "Load the exact Cuboids/cuboids.magma source.",
+        "Emit k-1 together with Coordinates(pts[k]) for k in [1..#pts].",
+        "Repeat in a fresh process with the identical executable/build and compare the 48 ordered coordinate records byte-for-byte after exact textual normalization.",
+        "Repeat under any second Magma version intended for use; compare ordered sequence and unordered canonical-coordinate set separately."
+      ],
+      "magma_snippet": "x,y,z := GetVersion(); printf \"MAGMA=V%o.%o-%o\\n\", x,y,z; assert #pts eq 48; for k in [1..#pts] do printf \"%o|%o\\n\", k-1, Coordinates(pts[k]); end for;",
+      "expected": "This can establish empirical same-build repeatability and reveal cross-version permutation, but it cannot upgrade the Points order to a documented canonical contract."
+    },
+    {
+      "id": "ORDER_INDEPENDENT_BRIDGE_CHECK",
+      "procedure": [
+        "Normalize every exact projective point by an agreed exact coordinate canonicalization.",
+        "Check the 48 canonical keys are unique.",
+        "Persist runtime_index -> canonical_key and canonical_key -> runtime_index.",
+        "Verify the unordered canonical-key set is identical across repeated runs/versions even if runtime indices permute."
+      ],
+      "expected": "A 48/48 coordinate bridge can survive incidental Points ordering."
+    }
+  ],
+  "ambiguities": [
+    {
+      "id": "A1_POINTS_INTERNAL_ALGORITHM",
+      "detail": "The public Points documentation mentions Groebner-basis work for dimension detection but does not expose the internal zero-dimensional point generation/sorting algorithm."
+    },
+    {
+      "id": "A2_ORIGINAL_RUNTIME",
+      "detail": "The exact Magma version/build used when the cuboids script's currently published outputs were produced is not identified by the inspected Cuboids source or Section5 log."
+    },
+    {
+      "id": "A3_EMPIRICAL_REPEATABILITY",
+      "detail": "Same-build repeated-run stability remains untested in this lane because no Magma runtime execution was available."
+    }
+  ],
+  "blockers": [
+    {
+      "id": "B1_UNSPECIFIED_POINTS_INDEX_ORDER",
+      "smallest_blocker": true,
+      "detail": "No documented contract ties Points(SingularSubscheme(S))[k] to a canonical geometric ordering of the 48 singular points. Numeric k therefore cannot by itself carry cross-runtime bridge credit."
+    },
+    {
+      "id": "B2_NO_PINNED_ORDER_DUMP",
+      "smallest_blocker": false,
+      "detail": "The active evidence does not pair a pinned Magma GetVersion()/build with the retained ordered 48 coordinates. Consequently the historical operational order cannot be reconstructed audibly from source locks alone."
+    }
+  ],
+  "artifacts": [
+    {
+      "kind": "result",
+      "path": "stages/stage32-ex5/parallel/results/stage32ex5-e-result.json"
+    }
+  ],
+  "credit": {
+    "scratch_result_is_authority": false,
+    "route_qualified": false,
+    "receiver_credit": false,
+    "stage32_main_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "FULL178_complete": false,
+    "theorem_credit": false,
+    "endpoint_credit": false
+  }
+}
