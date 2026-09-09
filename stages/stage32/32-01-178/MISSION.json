@@ -3,10 +3,11 @@
   "mission_id": "stage32-01-178",
   "target": "Complete the Stage32 32-01 FULL178 numerical Picard census with machine-checkable completeness, without repeating equivalent or previously blocked research routes.",
   "integration_surface": "PR #1753 / branch stage32-main-final-chain-reentry",
-  "max_parallel": 6,
+  "execution_mode": "SINGLE_RESEARCHER_BREADTH_CYCLE",
+  "max_parallel": 1,
   "status": "ACTIVE",
   "operator_commands": {
-    "start": "research-start stage32-01-178: FULL178をMission-DAG方式で分解し、重複探索を避けながら並行研究を開始",
+    "start": "research-start stage32-01-178: FULL178をMission-DAG方式で分解し、重複探索を避けながら研究を開始",
     "cycle": "stage32-01-178-mainbatch",
     "audit": "stage32-01-178-audit"
   },
@@ -38,6 +39,8 @@
   ],
   "dispatch": {
     "generation": 1,
+    "historical_only": true,
+    "future_parallel_dispatch_enabled": false,
     "assignments": [
       {"slot":"a","node_id":"N101","node_title":"Exact indexed-terminal Picard leaf compression redesign","command":"stage32-01-178-a","work_branch":"stage32-01-178-lane-a-g1","status":"RETURNED","return_head":"cf62bd7c70bd250c56505ec95af372f1ce3068fd","return_state_blob_sha":"18338cf234cdbece7698c625cc83467ce0896081","return_kind":"BLOCKED_WITH_EXACT_REDESIGN_NO_FULL178_CREDIT"},
       {"slot":"b","node_id":"N102","node_title":"Eight hard-tail row structural reduction","command":"stage32-01-178-b","work_branch":"stage32-01-178-lane-b-g1","status":"RETURNED","return_head":"225020867d038fe78badfdb2fc7746d891dd7c22","return_state_blob_sha":"d79763eebc847b903079f73fc5620df0dada2a1e","return_kind":"RETAINED_NONCREDIT_STRUCTURAL_REDUCTION"},
@@ -53,8 +56,10 @@
     "search_before_create": true,
     "duplicate_semantic_key_forbidden": true,
     "retry_blocked_route_only_after_reopen_condition": true,
-    "parallel_slot_binding_is_stable_per_generation": true,
-    "nested_mission_allowed_when_node_is_too_large": true,
+    "single_researcher_owns_breadth_and_route_rotation": true,
+    "future_parallel_dispatch_enabled": false,
+    "returned_generation1_lane_results_are_inputs_not_active_lanes": true,
+    "nested_mission_external_fanout_enabled": false,
     "one_pr_per_lane_forbidden_by_default": true,
     "audit_credit_self_grant_forbidden": true,
     "merge_without_user_authorization_forbidden": true,
