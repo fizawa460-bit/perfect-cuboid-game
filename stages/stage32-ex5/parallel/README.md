@@ -12,16 +12,20 @@ Research topology:
 - `stage32ex5-a`: BTVA/source-side exact node and labeling reconstruction;
 - `stage32ex5-b`: repository/runtime exceptional-index semantics and ordering reconstruction;
 - `stage32ex5-c`: independent end-to-end 48/48 bridge construction attempt;
-- `stage32ex5-d`: permutation-invariant canonicalization and hostile ambiguity/collision analysis.
+- `stage32ex5-d`: permutation-invariant canonicalization and hostile ambiguity/collision analysis;
+- `stage32ex5-e`: exact Magma `Points(SingularSubscheme(S))` enumeration semantics and reproducibility;
+- `stage32ex5-f`: Picard/intersection-signature reverse lookup from runtime slots to nodes;
+- `stage32ex5-g`: geometric exceptional-divisor -> blow-up-center/projective-node reverse adapter;
+- `stage32ex5-h`: retained ordered-runtime artifact archaeology plus independent hostile bridge verification.
 
 Scratch-lane firewall:
 
-- A-D do not edit Stage32/EX5 authority, claim registry, active frontier, or `MAIN-STATE.json`;
-- A-D results are provisional scratch evidence until mainbatch consolidates them;
+- A-H do not edit Stage32/EX5 authority, claim registry, active frontier, or `MAIN-STATE.json`;
+- A-H results are provisional scratch evidence until mainbatch consolidates them;
 - a search miss is not absence;
 - do not repeat the audited Cycle1 frozen seven-family package;
 - do not infer node span from aggregate exceptional mass;
 - do not run FULL178 span replay before BC2-01B acceptance;
 - no Stage32, Q602, O210, receiver, theorem, endpoint, or Perfect Cuboid credit is created here.
 
-All five lanes start from the same scaffold commit so their conclusions can be compared without setup drift.
+B/C continue their existing assignments unchanged. E-H are additive routes introduced after A/D reached their component checkpoints, so no active child lane is repurposed mid-research.
