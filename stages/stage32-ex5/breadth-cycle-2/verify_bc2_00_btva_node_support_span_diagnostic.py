@@ -22,15 +22,12 @@ EXPECTED_LIVE_BLOBS = {
 
 
 def csha(value: object) -> str:
-    return hashlib.sha256(
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
-    ).hexdigest()
+    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
 
 
 def git_blob_sha(path: Path) -> str:
     data = path.read_bytes()
-    hdr = f"blob {len(data)}\0".encode()
-    return hashlib.sha1(hdr + data).hexdigest()
+    return hashlib.sha1(f"blob {len(data)}\0".encode() + data).hexdigest()
 
 
 def main() -> None:
@@ -50,15 +47,8 @@ def main() -> None:
     assert "seven singularities that span P^6" in p["theorem_source"]["necessary_conditions"]["genus0_nonconic"]
     assert "six singularities spanning a hyperplane" in p["theorem_source"]["necessary_conditions"]["genus1_consequence"]
 
-    # BC2-00 is immutable retained evidence. Its source lock intentionally points
-    # to the Cycle1 routing snapshot present when the diagnostic was created.
-    # Later retained-consolidation and audit-authority transitions may advance
-    # live MAIN-STATE, but must not rewrite this historical evidence lock.
-    source_by_path = {
-        item["path"]: item
-        for item in p["source_locks"]
-        if item["repo"] == "fizawa460-bit/perfect-cuboid-game"
-    }
+    # The retained BC2-00 artifact keeps its historical Cycle1 MAIN-STATE source lock.
+    source_by_path = {item["path"]: item for item in p["source_locks"] if item["repo"] == "fizawa460-bit/perfect-cuboid-game"}
     old_state_lock = source_by_path["stages/stage32-ex5/MAIN-STATE.json"]
     assert old_state_lock["blob"] == HISTORICAL_CYCLE1_STATE_BLOB
     assert old_state_lock["commit"] == "70265586b3f97be21c7621af73f443311f1f3fa3"
@@ -66,19 +56,21 @@ def main() -> None:
     for path, expected in EXPECTED_LIVE_BLOBS.items():
         assert git_blob_sha(path) == expected, (path, git_blob_sha(path), expected)
 
+    # Live state has advanced; verify historical BC2 authority is preserved while
+    # current routing now follows the FULL178 final-chain interface.
     state = json.loads(MAIN_STATE.read_text())
-    assert state["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V3_BC2_AUDITED_CHECKPOINT"
-    assert state["prior_audited_authority"]["breadth_cycle"] == "EX5_BREADTH_CYCLE_1"
-    assert state["prior_audited_authority"]["authority_status"] == "AUDITED"
-    assert state["prior_audited_authority"]["scope_firewall"] == "EX5_BREADTH_CYCLE_1_ONLY"
-    assert state["current"]["breadth_cycle"] == "EX5_BREADTH_CYCLE_2_CANDIDATE"
-    assert state["current"]["route_id"] == "EX5R-SYMDIFF-NODE-SPAN-001"
-    assert state["current"]["status"] == "BC2_RETAINED_AUDITED_CHECKPOINT_MERGE_READY"
-    assert state["authority"]["current_bc2_authority"] == "AUDITED"
-    assert state["frontier"]["hostile_audit_pass_consumed"] is True
-    assert state["frontier"]["authority_transition_sync_completed"] is True
-    assert state["route_anti_loop"]["materially_new_cycle2_route_family_admitted"] is True
-    assert state["credit"]["current_bc2_mathematical_credit"] is False
+    assert state["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V4_FULL178_FINAL_CHAIN_SYNC"
+    assert state["stage32_main_authority"]["control_mode"] == "FULL178_AND_FINAL_MILESTONE_CHAIN"
+    assert state["stage32_main_authority"]["primary_incomplete_id"] == "32-01"
+    assert state["stage32_main_authority"]["Q602_is_current_attack_target"] is False
+    assert state["stage32_main_authority"]["historical_formal_q602_residues_are_current_survivors"] is False
+    assert state["prior_audited_authority"]["cycle1"]["breadth_cycle"] == "EX5_BREADTH_CYCLE_1"
+    assert state["prior_audited_authority"]["cycle1"]["authority_status"] == "AUDITED"
+    assert state["prior_audited_authority"]["cycle1"]["scope_firewall"] == "EX5_BREADTH_CYCLE_1_ONLY"
+    assert state["prior_audited_authority"]["early_bc2"]["claim_id"] == "S32.EX5.BC2_NODE_SUPPORT_SPAN_CHECKPOINT.V1"
+    assert state["current"]["breadth_cycle"] == "EX5_BREADTH_CYCLE_2"
+    assert state["current"]["route_family"] == "FULL178_PICARD64_NODE_SUPPORT_OBSTRUCTION_INTERFACE"
+    assert state["frontier"]["runtime_exceptional_index_to_projective_node_bridge_complete"] is True
     assert state["credit"]["stage32_main_credit"] is False
 
     agg_text = AGG.read_text()
@@ -108,7 +100,7 @@ def main() -> None:
     assert p["authority"]["mathematical_credit"] is False
     assert p["firewalls"]["mass_not_labelled_support"] is True
     assert p["firewalls"]["node_count_not_projective_span"] is True
-    assert p["firewalls"]["known_32_conics_exception_preserved"] is True
+    assert p["firewalls"]["known_32_conic_exception_preserved"] is True
     assert p["firewalls"]["genus1_alternative_preserved"] is True
     assert p["firewalls"]["stage32_main_credit"] is False
 
@@ -116,8 +108,8 @@ def main() -> None:
         "verdict": "PASS_BC2_00_BTVA_NODE_SUPPORT_SPAN_FIRST_PASS_DIAGNOSTIC",
         "canonical_sha256": EXPECTED_CANONICAL,
         "historical_cycle1_state_lock_preserved": True,
-        "current_routing_cycle": "EX5_BREADTH_CYCLE_2_CANDIDATE",
-        "current_bc2_authority": "AUDITED",
+        "current_stage32_mode": "FULL178_AND_FINAL_MILESTONE_CHAIN",
+        "current_ex5_route_family": "FULL178_PICARD64_NODE_SUPPORT_OBSTRUCTION_INTERFACE",
         "route_credit": False,
         "mathematical_credit": False,
         "second_pass_dedup_required": True,
