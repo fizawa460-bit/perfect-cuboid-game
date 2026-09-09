@@ -1,0 +1,41 @@
+name: Stage33 C4B2B2G repaired Stage33-11f 26-column closure
+
+on:
+  push:
+    paths:
+      - '.github/workflows/stage33-v91c1x-r5b3b3c4b2b2g-repaired-stage33-11f-26-column-closure.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize repaired 47-prime 26-column closure
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b2b2g_repaired_stage33_11f_26_column_closure.py --write
+      - name: Replay exact producer
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b2b2g_repaired_stage33_11f_26_column_closure.py
+      - name: Enforce artifact-only delta
+        shell: bash
+        run: |
+          git diff --check
+          mapfile -t files < <(git diff --name-only | sort)
+          printf '%s\n' "${files[@]}"
+          test "${#files[@]}" -eq 1
+          test "${files[0]}" = "stages/stage33/33-12/e3-v91c1x-r5b3b3c4b2b2g-repaired-stage33-11f-26-column-closure.json"
+      - name: Commit exact repaired closure certificate
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add stages/stage33/33-12/e3-v91c1x-r5b3b3c4b2b2g-repaired-stage33-11f-26-column-closure.json
+          git commit -m '[Stage33] materialize C4B2B2G repaired Stage33-11f 26-column closure'
+          git push
