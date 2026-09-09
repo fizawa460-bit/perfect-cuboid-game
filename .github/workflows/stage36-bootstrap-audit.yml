@@ -52,12 +52,12 @@ jobs:
         run: |
           set -euo pipefail
           python3 stages/stage36/verify_stage36_36_09DS_correction.py
-      - name: Verify 36-09DY finite-to-proSelmer defect
+      - name: Verify exact-green 36-09DY finite-to-proSelmer defect
         shell: bash
         run: |
           set -euo pipefail
           python3 stages/stage36/verify_stage36_36_09DY.py
-      - name: Assert V223 provisional DY checkpoint and DZ relock
+      - name: Assert V224 DY promotion and DZ unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -66,27 +66,29 @@ jobs:
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
           dy=json.loads(Path('stages/stage36/36-09DY/fixed-p2-phi-to-proselmer-defect-preflight.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V223_36_09DY_PROVISIONAL_EXACT_GREEN'
-          assert s['status']=='PROVISIONAL_EXACT_GREEN_PENDING_CI'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V224_36_09DY_EXACT_GREEN_DZ_UNLOCKED'
+          assert s['status']=='ACTIVE_MAIN_CONTINUATION'
           af=s['authority_frontier']['36-09DY']; cur=s['current']; pg=s['promotion_gates']
-          assert af['status']=='PROVISIONAL_EXACT_GREEN_PENDING_CI'
+          assert af['status']=='EXACT_GREEN_PARENT'
           assert af['certificate_blob_sha']=='3adcab8e00fa8a517df28ce71b95925f6e00ada6'
           assert af['source_blob_sha']=='cea6737bcf9dfe242f7c3e3b2475377b2f39e481'
           assert af['verifier_blob_sha']=='39173498249965f010fb40769131bd6f3618e484'
+          assert af['exact_head']=='2c632d357ccf66121338abfe2db6e570d6e63340'
+          assert af['exact_head_ci']=='34300850330/102307231086'
           assert dy['finite_Psi_Selmer']['F2_dimension']==5
           assert dy['finite_Psi_Selmer']['cardinality']==32
           assert dy['proSelmer_kernels']['Phi_kernel_F2_dimension']==3
           assert dy['proSelmer_kernels']['Psi_kernel_F2_dimension']==3
-          assert dy['Mordell_Weil_quotient_constraints']['common_Mordell_Weil_rank_options']==[0,1]
+          assert dy['Mordell_Weil_quotient_constraints']['common_Mordell_Weil_rank_upper_bound']==1
           assert dy['proSelmer_cokernel_constraints']['Phi_cokernel_F2_dimension_options']==[1,2]
-          assert dy['proSelmer_cokernel_constraints']['Psi_cokernel_F2_dimension_options']==[4,5]
           assert cur['unit']=='36-09DY'
           assert cur['next_exact_leaf']=='36-09DZ_FIXED_P2_MORDELL_WEIL_PHI_QUOTIENT_PREFLIGHT'
-          assert cur['next_owner']=='MAIN_PROMOTION_REPLAY'
-          assert cur['36_09DZ_entry_allowed'] is False
+          assert cur['next_owner']=='MAIN'
+          assert cur['36_09DZ_entry_allowed'] is True
           assert pg['36_09DY_certificate_complete'] is True
-          assert pg['36_09DY_exact_head_ci_passed'] is False
-          assert pg['36_09DZ_entry_allowed'] is False
+          assert pg['36_09DY_exact_head_ci_passed'] is True
+          assert pg['36_09DY_promotion_replay_passed'] is True
+          assert pg['36_09DZ_entry_allowed'] is True
           assert pg['BT_proSelmer_kernel_dimensions_computed'] is True
           assert pg['BT_Phi_proSelmer_kernel_F2_dimension']==3
           assert pg['BT_Psi_proSelmer_kernel_F2_dimension']==3
@@ -100,6 +102,7 @@ jobs:
           assert subprocess.check_output(['git','hash-object','stages/stage36/36-09DY/fixed-p2-phi-to-proselmer-defect-preflight.json'],text=True).strip()=='3adcab8e00fa8a517df28ce71b95925f6e00ada6'
           assert subprocess.check_output(['git','hash-object','stages/stage36/36-09DY/phi-to-proselmer-defect-source-lock.md'],text=True).strip()=='cea6737bcf9dfe242f7c3e3b2475377b2f39e481'
           assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09DY.py'],text=True).strip()=='39173498249965f010fb40769131bd6f3618e484'
-          print('V223 verified: DY independently reconstructs dual Sel^Psi=F2^5, exact pro-Selmer kernels F2^3, rank<=1, and a one-bit Phi cokernel ambiguity. DZ remains locked until this exact head is green and consumed by promotion replay.')
+          subprocess.check_call(['git','cat-file','-e','2c632d357ccf66121338abfe2db6e570d6e63340^{commit}'])
+          print('V224 verified: DY exact-head CI is consumed. Dual Sel^Psi=F2^5, both pro-Selmer kernels=F2^3, rank<=1, and the one-bit Phi cokernel ambiguity are exact-green. DZ is unlocked only for the exact MW quotient computation; downstream credit remains closed.')
           PY
           git diff --check
