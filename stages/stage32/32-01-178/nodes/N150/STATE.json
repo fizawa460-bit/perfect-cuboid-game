@@ -10,63 +10,85 @@
     "required_output": "explicit current-target adapter, exact evidence locks, and MAIN-consumption checkpoint"
   },
   "source_refs": [
-    "PR#1742 Stage32EX5 BC2-02 exact support materialization interface",
-    "PR#1742@467e18ea745f0f43e0265f87a654df80318b385d",
+    "PR#1742 Stage32EX5 BC2 integration surface",
     "PR#1742@1231d8f72c1e88ce60c7d5bbff5f8632cdf7ad4b",
-    "PR#1742:stages/stage32-ex5/breadth-cycle-2/bc2_02_one_indexed_full178_terminal_pairing_coordinate_completion.py",
-    "PR#1742:stages/stage32-ex5/breadth-cycle-2/bc2_02_one_indexed_full178_terminal_milp_candidate_exact_replay.py",
-    "PR#1742 workflow 34349984130"
+    "PR#1742:stages/stage32-ex5/breadth-cycle-2/bc2-02-rank0-exact-unsat-checkpoint.json",
+    "PR#1742:stages/stage32-ex5/breadth-cycle-2/bc2-03-rank1-exact-unsat-checkpoint.json",
+    "PR#1742:stages/stage32-ex5/breadth-cycle-2/bc2-05-symbolic-x4-full-exceptional-refinement-checkpoint.json@b8a77b1cde4c3538120e244a9b1a0f52f6f5f75d",
+    "PR#1742:stages/stage32-ex5/breadth-cycle-2/bc2-06-next-exceptional-terminal-block-preflight-checkpoint.json@3f07a3227053cecd4ec1462819345f87c97694fe"
   ],
   "reuse_check": {
     "performed": true,
     "queries": [
-      "Stage32EX5 BC2-02 current producer",
-      "FULL178 target to 59D/Picard64 adapter",
-      "selected64 pairing-coordinate exact completion",
-      "MILP candidate exact replay"
+      "Stage32EX5 current retained block result",
+      "FULL178 target to Picard64 adapter",
+      "symbolic x4 block compression",
+      "population-wide hostile audit"
     ],
     "matches": [
-      "PR#1742 remains the active external producer",
-      "EX5 has a representative exact pairing-coordinate formulation: selected64 pairing matrix invertible, all140 pairings exact linear forms in selected64 pairings, and integral Picard64 membership enforced by exact divisibility",
-      "head 1231d8f72c1e88ce60c7d5bbff5f8632cdf7ad4b added a bounded numerical MILP candidate search followed by exact replay",
-      "workflow 34349984130 completed SUCCESS but the mathematical result was UNKNOWN_NO_EXACT_CANDIDATE / result UNKNOWN; no exact SAT candidate was produced and numerical infeasible/timeout is explicitly not UNSAT credit",
-      "the current implementation still addresses one representative indexed terminal and BC2-02 has no hostile-audit PASS at a population-wide MAIN-consumable adapter scope"
+      "PR#1742 remains the active external producer and is Draft/OPEN/unmerged.",
+      "BC2-05 retained an exact UNSAT result for terminal ranks 0..132 in g1-d008/e=4 by keeping x4 symbolic and refining only the 52 UNKNOWN parents into 376/376 exact UNSAT subcases.",
+      "BC2-06 exactly rederived the next x4 block ranks 133..265 with a distinct exceptional signature, but invoked no Picard64 solver and grants no solver/mathematical exclusion credit for that block.",
+      "The only hostile-audit PASS visible on PR#1742 remains BC2-01B; BC2-05/06 do not yet provide a hostile-audited population-wide MAIN-consumable adapter/result."
     ],
-    "decision": "EXISTING_ACTIVE_EXTERNAL_WORK_REUSED_DO_NOT_DUPLICATE; MATERIAL_PROGRESS_OBSERVED; REOPEN_CONDITION_NOT_YET_MET"
+    "decision": "EXISTING_ACTIVE_EXTERNAL_WORK_REUSED_DO_NOT_DUPLICATE; MATERIAL_BLOCK_COMPRESSION_PROGRESS_OBSERVED; REOPEN_CONDITION_NOT_YET_MET"
   },
   "attempts": [
     {
       "route_id": "EX5-EXTERNAL-CONSUME-G1",
       "status": "BLOCKED",
-      "blocker": "EX5 BC2-02 localized the reusable producer kernel but had not yet produced a retained/audited FULL178-target-compatible Picard64 completion adapter/result.",
+      "blocker": "EX5 localized the reusable producer kernel but had not yet produced a retained/audited FULL178-target-compatible Picard64 completion adapter/result.",
       "reopen_condition": "PR#1742 or its audited successor retains a FULL178-target-compatible producer/result and explicit adapter suitable for Stage32 MAIN consumption."
     },
     {
       "route_id": "EX5-EXTERNAL-CONSUME-G2-PAIRCOORD-PROGRESS",
       "status": "BLOCKED",
-      "summary": "Observed EX5 head 467e18ea745f0f43e0265f87a654df80318b385d after material progress: the representative completion is reparameterized by actual selected64 pairings; Picard membership is exact divisibility through the inverse selected64 pairing matrix; all140 pairings are exact linear forms; every indexed-terminal label lies in the selected64 coordinate set.",
-      "blocker": "This remained a representative one-terminal implementation/workflow boundary, not a retained/audited FULL178-target-compatible producer/result.",
-      "reopen_condition": "A retained and hostile-audited EX5 checkpoint source-locks the pairing-coordinate completion adapter/result at the population scope Stage32 MAIN intends to consume, with explicit mapping from canonical (row_id,d,e,terminal_rank/pairings) into exact Picard64 completion/sufficient-signature semantics."
+      "summary": "The representative completion was reparameterized by actual selected64 pairings with exact Picard membership/divisibility and exact all140 linear forms.",
+      "blocker": "Representative implementation only; not a retained/audited population-wide producer/result."
     },
     {
       "route_id": "EX5-EXTERNAL-CONSUME-G3-MILP-EXACT-REPLAY",
       "status": "BLOCKED",
-      "summary": "Observed EX5 head 1231d8f72c1e88ce60c7d5bbff5f8632cdf7ad4b and exact-head workflow 34349984130. The candidate stage returned candidate_present=false, candidate_status=UNKNOWN_NO_EXACT_CANDIDATE, scipy_status=2; exact replay therefore returned UNKNOWN and the support consumer was not invoked.",
-      "blocker": "The run is a successful execution of a representative candidate/replay pipeline, not an exact SAT/UNSAT result and not a retained/audited population-wide completion adapter. Numerical candidate failure is explicitly noncredit.",
-      "reopen_condition": "A later EX5 retained checkpoint supplies a source-locked population-compatible completion/sufficient-signature adapter and receives hostile-audit PASS at the exact scope MAIN needs to consume.",
-      "evidence_paths": [
-        "PR#1742@1231d8f72c1e88ce60c7d5bbff5f8632cdf7ad4b",
-        "PR#1742 workflow 34349984130"
-      ]
+      "summary": "The numerical MILP candidate path produced UNKNOWN_NO_EXACT_CANDIDATE and correctly granted no UNSAT credit.",
+      "blocker": "Successful execution did not produce an exact population-wide result."
+    },
+    {
+      "route_id": "EX5-EXTERNAL-CONSUME-G4-RANK0-RANK1-EXACT-UNSAT",
+      "status": "BLOCKED",
+      "summary": "EX5 closed deterministic indexed terminal ranks 0 and 1 individually as exact UNSAT and generalized the adaptive exceptional-partition solver by terminal_rank.",
+      "blocker": "Two exact terminals do not constitute the population scope MAIN requires."
+    },
+    {
+      "route_id": "EX5-EXTERNAL-CONSUME-G5-SYMBOLIC-X4-BLOCK-UNSAT",
+      "status": "BLOCKED",
+      "summary": "BC2-05 retained whole terminal-rank block 0..132 exact UNSAT for g1-d008/e=4. It reused 158 exact-UNSAT parent branches and refined only 52 UNKNOWN parents into exactly 376 full-exceptional subcases, all 376 exact UNSAT with UNKNOWN=0 and SAT=0, while x4 remained symbolic on 0..132.",
+      "evidence": {
+        "source_exact_head": "86eca73a1da82150745827e2b2c0d68181c2e86e",
+        "checkpoint_canonical_sha256": "cc62959ccf8c2939ff4024dc3a1e4ba59fdea38b7d33fd94817161b732c5284e",
+        "evidence_canonical_sha256": "c119d9090b2b32d51812db89ab6e930c67f0c33e093648a426e073b7baf4e9e9",
+        "workflow_run": 34399197470
+      },
+      "blocker": "This closes one 133-terminal x4 block only, not the 36,575-terminal stratum or a hostile-audited population-wide adapter."
+    },
+    {
+      "route_id": "EX5-EXTERNAL-CONSUME-G6-NEXT-EXCEPTIONAL-BLOCK-PREFLIGHT",
+      "status": "BLOCKED",
+      "summary": "BC2-06 source-replayed the next exceptional outer block ranks 133..265, width 133, outer exceptional rank 1, with exact rank/unrank and terminal-predicate replay. No solver was invoked.",
+      "evidence": {
+        "source_exact_head": "071db84013638bbefbd97814e39f1ef35dce83c3",
+        "checkpoint_canonical_sha256": "b304b6c050327f617999a7a1181721ecf34aeeec45f108b6bbfed2edccec9746",
+        "workflow_run": 34408146386
+      },
+      "blocker": "Ranks 133..265 are structurally rederived only and are not Picard64-closed. EX5 is still advancing block-by-block rather than supplying the population-wide hostile-audited interface required by N150."
     }
   ],
   "retained_result": null,
   "credit_ceiling": "NONE_UNTIL_EXTERNAL_REOPEN_CONDITION",
-  "next_action": "REVALIDATE_ONLY_AFTER_MATERIAL_EX5_ADVANCE OR BC2_02 HOSTILE_AUDIT; DO NOT DUPLICATE THE PAIRING-COORDINATE COMPLETION ADAPTER INSIDE 32-01-178",
+  "next_action": "REVALIDATE AFTER MATERIAL EX5 BLOCK-COMPRESSION/GENERAL-OBSTRUCTION ADVANCE OR HOSTILE AUDIT; DO NOT DUPLICATE EX5 PICARD64/x4-block research INSIDE 32-01-178",
   "notes": [
-    "This node exists specifically to prevent duplicate EX5 research inside 32-01-178.",
-    "Successful CI on a representative terminal is not by itself the retained/audited current-target result required for MAIN consumption.",
-    "The only hostile-audit PASS currently visible on PR#1742 is BC2-01B, not the BC2-02 completion adapter.",
-    "No FULL178, theorem, receiver, endpoint, existence/nonexistence, or merge credit is granted."
+    "N150 exists specifically to prevent duplicate EX5 research inside 32-01-178.",
+    "BC2-05 is a meaningful 133x compression/exact block exclusion, but block-by-block continuation can still leave the exceptional-axis combinatorial wall; MAIN must not mistake that for population closure.",
+    "N230 is independent: it consumes the hostile-audited N220 prefix necessary cut and does not duplicate EX5 Picard64 completion work.",
+    "No FULL178, theorem, receiver, endpoint, existence/nonexistence, heavy-run, or merge credit is granted."
   ]
 }
