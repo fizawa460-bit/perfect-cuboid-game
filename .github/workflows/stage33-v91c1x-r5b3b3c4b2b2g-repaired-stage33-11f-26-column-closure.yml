@@ -26,6 +26,7 @@ jobs:
       - name: Enforce artifact-only delta
         shell: bash
         run: |
+          git add -N stages/stage33/33-12/e3-v91c1x-r5b3b3c4b2b2g-repaired-stage33-11f-26-column-closure.json
           git diff --check
           mapfile -t files < <(git diff --name-only | sort)
           printf '%s\n' "${files[@]}"
