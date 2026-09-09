@@ -47,17 +47,17 @@ jobs:
           git worktree add --detach "$tmp" "$H"
           python3 "$tmp/stages/stage36/verify_stage36_36_09DX.py"
           git worktree remove --force "$tmp"
-      - name: Verify repaired DN audit provenance remains non-authoritative
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09DN.py
-      - name: Verify audited DS pro-Selmer torsion correction
+      - name: Verify audited DS correction remains valid
         shell: bash
         run: |
           set -euo pipefail
           python3 stages/stage36/verify_stage36_36_09DS_correction.py
-      - name: Assert V222 consumed PASS and DY unlock
+      - name: Verify 36-09DY finite-to-proSelmer defect
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 stages/stage36/verify_stage36_36_09DY.py
+      - name: Assert V223 provisional DY checkpoint and DZ relock
         shell: bash
         run: |
           set -euo pipefail
@@ -65,64 +65,41 @@ jobs:
           import json, subprocess
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          r=json.loads(Path('stages/stage36/36-09DS/hostile-reaudit-pass-receipt.json').read_text())
-          corr=json.loads(Path('stages/stage36/36-09DS/proselmer-torsion-injectivity-correction.json').read_text())
-          dx=json.loads(Path('stages/stage36/36-09DX/fixed-p2-global-phi-selmer-intersection-preflight.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V222_36_09DS_AUDITED_DY_UNLOCKED'
-          assert s['status']=='ACTIVE_MAIN_CONTINUATION'
-          assert s['base_main_sha']=='aab9afa37a136f76a5bf8e6eb146145b7bb853c3'
-          assert r['schema']=='STAGE36_PR1731_DS_CORRECTION_HOSTILE_REAUDIT_PASS_RECEIPT_V1'
-          assert r['status']=='PASS_EXTERNAL_REAUDIT_CONSUMABLE'
-          er=r['external_reaudit']
-          assert er['external_review_id']==5148543440
-          assert er['review_node_id']=='PRR_kwDOTr52Y88AAAABMuCJ0A'
-          assert er['audited_exact_head']=='c88f0edfbd060003df9dbb8131278ae001fcef7e'
-          assert er['result']=='PASS'
-          assert er['exact_head_ci_run']==34295955163
-          assert er['exact_head_ci_job']==102292528793
-          assert r['merged_main_sha']=='aab9afa37a136f76a5bf8e6eb146145b7bb853c3'
-          pc=s['post_audit_correction']; ha=s['hostile_audit_checkpoint']; cur=s['current']; pg=s['promotion_gates']; af=s['authority_frontier']['36-09DX']
-          assert af['status']=='AUDITED_EXACT_GREEN_PARENT_WITH_DS_CORRECTION'
-          assert af['hostile_reaudit_review_id']==5148543440
-          assert af['promotion_replay_head']=='dd2d14214cd0309218c14d45ba13e4999ab26856'
-          assert af['promotion_replay_ci']=='34297509418/102297208931'
-          assert pc['status']=='AUDITED_EXACT_GREEN_CORRECTION'
-          assert pc['promotion_replay_head']=='dd2d14214cd0309218c14d45ba13e4999ab26856'
-          assert pc['promotion_replay_ci']=='34297509418/102297208931'
-          assert ha['result']=='PASS'
-          assert ha['reaudit_pass_recorded'] is True
-          assert ha['reaudit_pass_consumed'] is True
-          assert ha['reaudit_pass_consumption_head']=='dd2d14214cd0309218c14d45ba13e4999ab26856'
-          assert ha['reaudit_pass_consumption_ci']=='34297509418/102297208931'
-          assert ha['current_authority_valid'] is True
-          assert ha['promotion_replay_required'] is False
-          assert cur['unit']=='36-09DS-CORRECTION'
-          assert cur['next_owner']=='MAIN'
-          assert cur['substantive_batch_pr_continues'] is True
-          assert cur['hostile_audit_checkpoint_reached'] is False
-          assert cur['36_09DY_entry_allowed'] is True
-          assert pg['36_09DX_current_downstream_authority_reopened'] is False
-          assert pg['external_reaudit_after_DS_correction_passed'] is True
-          assert pg['DS_correction_hostile_reaudit_receipt_recorded'] is True
-          assert pg['DS_correction_promotion_replay_passed'] is True
-          assert pg['36_09DY_entry_allowed'] is True
-          assert pg['DS_T2Sel_2_torsion_free_claim_valid'] is False
-          assert pg['DS_Phi_proSelmer_injective'] is False
-          assert pg['DS_Psi_proSelmer_injective'] is False
-          assert pg['DS_Phi_kernel_nonzero'] is True
-          assert pg['DS_Psi_kernel_nonzero'] is True
-          assert corr['corrected_proSelmer_transport']['Phi_injective'] is False
-          assert corr['corrected_proSelmer_transport']['Psi_injective'] is False
-          assert dx['global_Phi_Selmer_group']['F2_dimension']==2
-          assert dx['global_Phi_Selmer_group']['cardinality']==4
-          for key in ['BT_proSelmer_kernel_dimensions_computed','BT_proSelmer_cokernel_size_computed','BT_proSelmer_product_identification_obtained','BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
+          dy=json.loads(Path('stages/stage36/36-09DY/fixed-p2-phi-to-proselmer-defect-preflight.json').read_text())
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V223_36_09DY_PROVISIONAL_EXACT_GREEN'
+          assert s['status']=='PROVISIONAL_EXACT_GREEN_PENDING_CI'
+          af=s['authority_frontier']['36-09DY']; cur=s['current']; pg=s['promotion_gates']
+          assert af['status']=='PROVISIONAL_EXACT_GREEN_PENDING_CI'
+          assert af['certificate_blob_sha']=='3adcab8e00fa8a517df28ce71b95925f6e00ada6'
+          assert af['source_blob_sha']=='cea6737bcf9dfe242f7c3e3b2475377b2f39e481'
+          assert af['verifier_blob_sha']=='39173498249965f010fb40769131bd6f3618e484'
+          assert dy['finite_Psi_Selmer']['F2_dimension']==5
+          assert dy['finite_Psi_Selmer']['cardinality']==32
+          assert dy['proSelmer_kernels']['Phi_kernel_F2_dimension']==3
+          assert dy['proSelmer_kernels']['Psi_kernel_F2_dimension']==3
+          assert dy['Mordell_Weil_quotient_constraints']['common_Mordell_Weil_rank_options']==[0,1]
+          assert dy['proSelmer_cokernel_constraints']['Phi_cokernel_F2_dimension_options']==[1,2]
+          assert dy['proSelmer_cokernel_constraints']['Psi_cokernel_F2_dimension_options']==[4,5]
+          assert cur['unit']=='36-09DY'
+          assert cur['next_exact_leaf']=='36-09DZ_FIXED_P2_MORDELL_WEIL_PHI_QUOTIENT_PREFLIGHT'
+          assert cur['next_owner']=='MAIN_PROMOTION_REPLAY'
+          assert cur['36_09DZ_entry_allowed'] is False
+          assert pg['36_09DY_certificate_complete'] is True
+          assert pg['36_09DY_exact_head_ci_passed'] is False
+          assert pg['36_09DZ_entry_allowed'] is False
+          assert pg['BT_proSelmer_kernel_dimensions_computed'] is True
+          assert pg['BT_Phi_proSelmer_kernel_F2_dimension']==3
+          assert pg['BT_Psi_proSelmer_kernel_F2_dimension']==3
+          assert pg['BT_Psi_Selmer_F2_dimension']==5
+          assert pg['BT_Psi_Selmer_cardinality']==32
+          assert pg['BT_common_MW_rank_upper_bound']==1
+          assert pg['BT_Phi_proSelmer_cokernel_exact_dimension_computed'] is False
+          assert pg['BT_Psi_proSelmer_cokernel_exact_dimension_computed'] is False
+          for key in ['BT_proSelmer_product_identification_obtained','BT_T2Sel_computed','BT_retained_open_curve_proSelmer_intersection_computed','BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09DS/hostile-reaudit-pass-receipt.json'],text=True).strip()=='49b116703f12eaa06ccfdcb51a896c5340fc8625'
-          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09DS/proselmer-torsion-injectivity-correction-source-lock.md'],text=True).strip()=='5d456e35fb82e03f686ad328c103a29b1907534a'
-          assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09DS_correction.py'],text=True).strip()=='6edc91290669854537914010db08161b223103bc'
-          subprocess.check_call(['git','cat-file','-e','c88f0edfbd060003df9dbb8131278ae001fcef7e^{commit}'])
-          subprocess.check_call(['git','cat-file','-e','dd2d14214cd0309218c14d45ba13e4999ab26856^{commit}'])
-          subprocess.check_call(['git','merge-base','--is-ancestor','aab9afa37a136f76a5bf8e6eb146145b7bb853c3','HEAD'])
-          print('V222 verified: PR1731 hostile re-audit PASS is recorded and consumed by exact-green promotion replay. Corrected DS authority is valid; 36-09DY is unlocked only for its own finite-to-pro-Selmer defect leaf. All downstream theorem/receiver/endpoint firewalls remain closed.')
+          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09DY/fixed-p2-phi-to-proselmer-defect-preflight.json'],text=True).strip()=='3adcab8e00fa8a517df28ce71b95925f6e00ada6'
+          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09DY/phi-to-proselmer-defect-source-lock.md'],text=True).strip()=='cea6737bcf9dfe242f7c3e3b2475377b2f39e481'
+          assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09DY.py'],text=True).strip()=='39173498249965f010fb40769131bd6f3618e484'
+          print('V223 verified: DY independently reconstructs dual Sel^Psi=F2^5, exact pro-Selmer kernels F2^3, rank<=1, and a one-bit Phi cokernel ambiguity. DZ remains locked until this exact head is green and consumed by promotion replay.')
           PY
           git diff --check
