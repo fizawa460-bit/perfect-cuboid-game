@@ -1,0 +1,138 @@
+{
+  "schema": "STAGE32EX5_F_PICARD_EXCEPTIONAL_NODE_CANONICAL_V1",
+  "lane": "stage32ex5-f",
+  "target": "BC2-01B_RUNTIME_NODE_COORDINATE_BRIDGE",
+  "status": "PASS_HANDOFF_READY",
+  "authority": "SCRATCH_ONLY_NON_AUTHORITATIVE_UNTIL_MAINBATCH_CONSOLIDATION_AND_AUDIT",
+  "claim": {
+    "id": "F.PICARD_SELECTED26_INTRINSIC_BIJECTION",
+    "statement": "The 48 exceptional all140 rows are matched bijectively to the 48 canonical projective singular nodes by their intersection/incidence signature against 26 retained non-exceptional curve labels; no exceptional-basis coordinate and no Points(...) enumeration order is used by the matching rule.",
+    "scope": "Locked Stoll/BTVA projective model and retained Stage32 Picard/Hperp data only."
+  },
+  "source_lock": {
+    "parent_checkpoint": {
+      "path": "stages/stage32-ex5/breadth-cycle-2/bc2-01a-exceptional-pairing-bridge.json",
+      "blob": "0a4b6b748bd4f4f94ae70e16cf38a0a2174c55d4"
+    },
+    "stoll_exact_model": {
+      "repo": "MichaelStollBayreuth/Verification",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/cuboids.magma",
+      "blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1"
+    },
+    "hperp_integral_adapter": {
+      "path": "stages/stage32/residual-32-01-production/hperp_integral_adapter.py",
+      "blob": "fb1eb380ca786e42a6b00c5ef454b0e79fdba771"
+    },
+    "retained_bundle": {
+      "path": "stages/stage33/33-07/picard_base_rows_retained.py",
+      "canonical_sha256": "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c"
+    },
+    "retained_marking": {
+      "path": "stages/stage33/33-07/stage32_picard_marking_retained.py",
+      "loaded_via_context_safe_repo_side_loader": true
+    },
+    "magma_iteration_semantics": {
+      "source": "Magma Handbook, Recursion, Reduction, and Iteration",
+      "rule": "With multiple ranges, the first range is the innermost loop.",
+      "url": "https://docs.magma-maths.org/SetsSequencesMappings/Sequences/recursion-reduction-iteration.html"
+    }
+  },
+  "derivation": {
+    "runtime_signature": "For runtime exceptional slot k=0..47, take row 92+k of HperpIntegralPairingAdapter.pairing_matrix and restrict to retained-basis columns whose known source curve label is <=92.",
+    "candidate_signature": "For each of the 48 explicit singular-node formulas, evaluate membership in the same selected source curves C1s cat C2s cat C3s from the locked Stoll model; encode membership as 0/1.",
+    "selected_normal_curve_labels_1based": [1,33,12,16,7,90,87,92,51,40,77,44,20,55,19,56,73,79,75,24,26,52,18,11,3,6],
+    "selected_signature_dimension": 26,
+    "exceptional_basis_columns_used": 0,
+    "points_enumeration_order_used_by_matching": false,
+    "matching_rule": "exact equality of the selected 26-bit incidence signatures",
+    "why_order_independent": "Both sides are keyed by source curve labels and signature equality. Candidate-node traversal order and runtime-slot traversal order can be arbitrarily permuted without changing the map. Projective rescaling preserves all homogeneous curve-membership predicates.",
+    "full92_sanity": "All 48 source nodes have 48 distinct 92-bit incidence signatures and each lies on exactly 10 of the 92 known curves."
+  },
+  "counts": {
+    "runtime_exceptional_slots": 48,
+    "canonical_projective_nodes": 48,
+    "selected_normal_curves": 26,
+    "selected_signature_unique_count": 48,
+    "selected_signature_collision_count": 0,
+    "all92_signature_unique_count": 48,
+    "all92_incidence_degree_each": 10,
+    "mapped_distinct_nodes": 48
+  },
+  "collision_ledger": [],
+  "mapping": [
+    {"factor_index_0based":92,"runtime_exceptional_index_0based":0,"all140_label_1based":93,"node_label":"AXIS_X3:a=1,b=1,c=-1","coords":["0","0","1","1","1","0","-1"],"selected_support_curve_labels_1based":[12,51,52,3]},
+    {"factor_index_0based":93,"runtime_exceptional_index_0based":1,"all140_label_1based":94,"node_label":"AXIS_X3:a=1,b=-1,c=-1","coords":["0","0","1","1","-1","0","-1"],"selected_support_curve_labels_1based":[1,16]},
+    {"factor_index_0based":94,"runtime_exceptional_index_0based":2,"all140_label_1based":95,"node_label":"AXIS_X3:a=-1,b=1,c=-1","coords":["0","0","1","-1","1","0","-1"],"selected_support_curve_labels_1based":[7,11]},
+    {"factor_index_0based":95,"runtime_exceptional_index_0based":3,"all140_label_1based":96,"node_label":"AXIS_X3:a=-1,b=-1,c=-1","coords":["0","0","1","-1","-1","0","-1"],"selected_support_curve_labels_1based":[51,52,6]},
+    {"factor_index_0based":96,"runtime_exceptional_index_0based":4,"all140_label_1based":97,"node_label":"AXIS_X3:a=-1,b=-1,c=1","coords":["0","0","1","-1","-1","0","1"],"selected_support_curve_labels_1based":[1,51,44,52,11]},
+    {"factor_index_0based":97,"runtime_exceptional_index_0based":5,"all140_label_1based":98,"node_label":"AXIS_X3:a=-1,b=1,c=1","coords":["0","0","1","-1","1","0","1"],"selected_support_curve_labels_1based":[16,24]},
+    {"factor_index_0based":98,"runtime_exceptional_index_0based":6,"all140_label_1based":99,"node_label":"AXIS_X3:a=1,b=-1,c=1","coords":["0","0","1","1","-1","0","1"],"selected_support_curve_labels_1based":[7,51,52,3,6]},
+    {"factor_index_0based":99,"runtime_exceptional_index_0based":7,"all140_label_1based":100,"node_label":"AXIS_X3:a=1,b=1,c=1","coords":["0","0","1","1","1","0","1"],"selected_support_curve_labels_1based":[12,24]},
+    {"factor_index_0based":100,"runtime_exceptional_index_0based":8,"all140_label_1based":101,"node_label":"AXIS_X2:a=1,b=1,c=-1","coords":["0","1","0","1","0","1","-1"],"selected_support_curve_labels_1based":[33,40,20]},
+    {"factor_index_0based":101,"runtime_exceptional_index_0based":9,"all140_label_1based":102,"node_label":"AXIS_X2:a=1,b=-1,c=-1","coords":["0","1","0","1","0","-1","-1"],"selected_support_curve_labels_1based":[55,19,18,11]},
+    {"factor_index_0based":102,"runtime_exceptional_index_0based":10,"all140_label_1based":103,"node_label":"AXIS_X2:a=-1,b=1,c=-1","coords":["0","1","0","-1","0","1","-1"],"selected_support_curve_labels_1based":[73,3]},
+    {"factor_index_0based":103,"runtime_exceptional_index_0based":11,"all140_label_1based":104,"node_label":"AXIS_X2:a=-1,b=-1,c=-1","coords":["0","1","0","-1","0","-1","-1"],"selected_support_curve_labels_1based":[79,75,6]},
+    {"factor_index_0based":104,"runtime_exceptional_index_0based":12,"all140_label_1based":105,"node_label":"AXIS_X2:a=-1,b=-1,c=1","coords":["0","1","0","-1","0","-1","1"],"selected_support_curve_labels_1based":[33,79,75,11]},
+    {"factor_index_0based":105,"runtime_exceptional_index_0based":13,"all140_label_1based":106,"node_label":"AXIS_X2:a=-1,b=1,c=1","coords":["0","1","0","-1","0","1","1"],"selected_support_curve_labels_1based":[55,3]},
+    {"factor_index_0based":106,"runtime_exceptional_index_0based":14,"all140_label_1based":107,"node_label":"AXIS_X2:a=1,b=-1,c=1","coords":["0","1","0","1","0","-1","1"],"selected_support_curve_labels_1based":[73,18,6]},
+    {"factor_index_0based":107,"runtime_exceptional_index_0based":15,"all140_label_1based":108,"node_label":"AXIS_X2:a=1,b=1,c=1","coords":["0","1","0","1","0","1","1"],"selected_support_curve_labels_1based":[40,20]},
+    {"factor_index_0based":108,"runtime_exceptional_index_0based":16,"all140_label_1based":109,"node_label":"AXIS_X1:a=1,b=1,c=-1","coords":["1","0","0","0","1","1","-1"],"selected_support_curve_labels_1based":[87,92,77,44,26]},
+    {"factor_index_0based":109,"runtime_exceptional_index_0based":17,"all140_label_1based":110,"node_label":"AXIS_X1:a=1,b=-1,c=-1","coords":["1","0","0","0","1","-1","-1"],"selected_support_curve_labels_1based":[90,55]},
+    {"factor_index_0based":110,"runtime_exceptional_index_0based":18,"all140_label_1based":111,"node_label":"AXIS_X1:a=-1,b=1,c=-1","coords":["1","0","0","0","-1","1","-1"],"selected_support_curve_labels_1based":[87,19,11]},
+    {"factor_index_0based":111,"runtime_exceptional_index_0based":19,"all140_label_1based":112,"node_label":"AXIS_X1:a=-1,b=-1,c=-1","coords":["1","0","0","0","-1","-1","-1"],"selected_support_curve_labels_1based":[90,6]},
+    {"factor_index_0based":112,"runtime_exceptional_index_0based":20,"all140_label_1based":113,"node_label":"AXIS_X1:a=-1,b=-1,c=1","coords":["1","0","0","0","-1","-1","1"],"selected_support_curve_labels_1based":[92,19,26]},
+    {"factor_index_0based":113,"runtime_exceptional_index_0based":21,"all140_label_1based":114,"node_label":"AXIS_X1:a=-1,b=1,c=1","coords":["1","0","0","0","-1","1","1"],"selected_support_curve_labels_1based":[90,44,11]},
+    {"factor_index_0based":114,"runtime_exceptional_index_0based":22,"all140_label_1based":115,"node_label":"AXIS_X1:a=1,b=-1,c=1","coords":["1","0","0","0","1","-1","1"],"selected_support_curve_labels_1based":[87,77,6]},
+    {"factor_index_0based":115,"runtime_exceptional_index_0based":23,"all140_label_1based":116,"node_label":"AXIS_X1:a=1,b=1,c=1","coords":["1","0","0","0","1","1","1"],"selected_support_curve_labels_1based":[92,55,44]},
+    {"factor_index_0based":116,"runtime_exceptional_index_0based":24,"all140_label_1based":117,"node_label":"Y1_Z_ZERO:s=1,a=1,b=-1","coords":["0","1","i","0","i","-1","0"],"selected_support_curve_labels_1based":[1,33,12,87,77]},
+    {"factor_index_0based":117,"runtime_exceptional_index_0based":25,"all140_label_1based":118,"node_label":"Y1_Z_ZERO:s=1,a=-1,b=-1","coords":["0","1","i","0","-i","-1","0"],"selected_support_curve_labels_1based":[7,87,19,18]},
+    {"factor_index_0based":118,"runtime_exceptional_index_0based":26,"all140_label_1based":119,"node_label":"Y1_Z_ZERO:s=-1,a=1,b=-1","coords":["0","1","-i","0","i","-1","0"],"selected_support_curve_labels_1based":[1,33,16,90]},
+    {"factor_index_0based":119,"runtime_exceptional_index_0based":27,"all140_label_1based":120,"node_label":"Y1_Z_ZERO:s=-1,a=-1,b=-1","coords":["0","1","-i","0","-i","-1","0"],"selected_support_curve_labels_1based":[7,90,55,18]},
+    {"factor_index_0based":120,"runtime_exceptional_index_0based":28,"all140_label_1based":121,"node_label":"Y1_Z_ZERO:s=-1,a=-1,b=1","coords":["0","1","-i","0","-i","1","0"],"selected_support_curve_labels_1based":[33,12,87,55]},
+    {"factor_index_0based":121,"runtime_exceptional_index_0based":29,"all140_label_1based":122,"node_label":"Y1_Z_ZERO:s=-1,a=1,b=1","coords":["0","1","-i","0","i","1","0"],"selected_support_curve_labels_1based":[16,87,18]},
+    {"factor_index_0based":122,"runtime_exceptional_index_0based":30,"all140_label_1based":123,"node_label":"Y1_Z_ZERO:s=1,a=-1,b=1","coords":["0","1","i","0","-i","1","0"],"selected_support_curve_labels_1based":[12,90]},
+    {"factor_index_0based":123,"runtime_exceptional_index_0based":31,"all140_label_1based":124,"node_label":"Y1_Z_ZERO:s=1,a=1,b=1","coords":["0","1","i","0","i","1","0"],"selected_support_curve_labels_1based":[90]},
+    {"factor_index_0based":124,"runtime_exceptional_index_0based":32,"all140_label_1based":125,"node_label":"Y2_Z_ZERO:s=1,a=1,b=-1","coords":["1","0","i","i","0","-1","0"],"selected_support_curve_labels_1based":[1,77,20,73]},
+    {"factor_index_0based":125,"runtime_exceptional_index_0based":33,"all140_label_1based":126,"node_label":"Y2_Z_ZERO:s=1,a=-1,b=-1","coords":["1","0","i","-i","0","-1","0"],"selected_support_curve_labels_1based":[7,19,79]},
+    {"factor_index_0based":126,"runtime_exceptional_index_0based":34,"all140_label_1based":127,"node_label":"Y2_Z_ZERO:s=-1,a=1,b=-1","coords":["1","0","-i","i","0","-1","0"],"selected_support_curve_labels_1based":[33,16,75]},
+    {"factor_index_0based":127,"runtime_exceptional_index_0based":35,"all140_label_1based":128,"node_label":"Y2_Z_ZERO:s=-1,a=-1,b=-1","coords":["1","0","-i","-i","0","-1","0"],"selected_support_curve_labels_1based":[55,73]},
+    {"factor_index_0based":128,"runtime_exceptional_index_0based":36,"all140_label_1based":129,"node_label":"Y2_Z_ZERO:s=-1,a=-1,b=1","coords":["1","0","-i","-i","0","1","0"],"selected_support_curve_labels_1based":[12,77,55]},
+    {"factor_index_0based":129,"runtime_exceptional_index_0based":37,"all140_label_1based":130,"node_label":"Y2_Z_ZERO:s=-1,a=1,b=1","coords":["1","0","-i","i","0","1","0"],"selected_support_curve_labels_1based":[16,19]},
+    {"factor_index_0based":130,"runtime_exceptional_index_0based":38,"all140_label_1based":131,"node_label":"Y2_Z_ZERO:s=1,a=-1,b=1","coords":["1","0","i","-i","0","1","0"],"selected_support_curve_labels_1based":[20,79]},
+    {"factor_index_0based":131,"runtime_exceptional_index_0based":39,"all140_label_1based":132,"node_label":"Y2_Z_ZERO:s=1,a=1,b=1","coords":["1","0","i","i","0","1","0"],"selected_support_curve_labels_1based":[33,75]},
+    {"factor_index_0based":132,"runtime_exceptional_index_0based":40,"all140_label_1based":133,"node_label":"Y3_Z_ZERO:s=1,a=1,b=-1","coords":["1","i","0","i","-1","0","0"],"selected_support_curve_labels_1based":[1,87,51,20,24]},
+    {"factor_index_0based":133,"runtime_exceptional_index_0based":41,"all140_label_1based":134,"node_label":"Y3_Z_ZERO:s=1,a=-1,b=-1","coords":["1","i","0","-i","-1","0","0"],"selected_support_curve_labels_1based":[7,87,51]},
+    {"factor_index_0based":134,"runtime_exceptional_index_0based":42,"all140_label_1based":135,"node_label":"Y3_Z_ZERO:s=-1,a=1,b=-1","coords":["1","-i","0","i","-1","0","0"],"selected_support_curve_labels_1based":[1,90,52]},
+    {"factor_index_0based":135,"runtime_exceptional_index_0based":43,"all140_label_1based":136,"node_label":"Y3_Z_ZERO:s=-1,a=-1,b=-1","coords":["1","-i","0","-i","-1","0","0"],"selected_support_curve_labels_1based":[7,90,52,26]},
+    {"factor_index_0based":136,"runtime_exceptional_index_0based":44,"all140_label_1based":137,"node_label":"Y3_Z_ZERO:s=-1,a=-1,b=1","coords":["1","-i","0","-i","1","0","0"],"selected_support_curve_labels_1based":[92,52,20]},
+    {"factor_index_0based":137,"runtime_exceptional_index_0based":45,"all140_label_1based":138,"node_label":"Y3_Z_ZERO:s=-1,a=1,b=1","coords":["1","-i","0","i","1","0","0"],"selected_support_curve_labels_1based":[90,18]},
+    {"factor_index_0based":138,"runtime_exceptional_index_0based":46,"all140_label_1based":139,"node_label":"Y3_Z_ZERO:s=1,a=-1,b=1","coords":["1","i","0","-i","1","0","0"],"selected_support_curve_labels_1based":[87,92,44,26,18]},
+    {"factor_index_0based":139,"runtime_exceptional_index_0based":47,"all140_label_1based":140,"node_label":"Y3_Z_ZERO:s=1,a=1,b=1","coords":["1","i","0","i","1","0","0"],"selected_support_curve_labels_1based":[90,44,20,24]}
+  ],
+  "mapping_sha256": "2c3cdbf40a1c896a1ab2bfeded21d89798ef425150ae6ebc3c4d63491aee2fc1",
+  "cross_checks": {
+    "lane_a_source_node_target": {"branch":"stage32ex5-a","path":"stages/stage32-ex5/parallel/results/stage32ex5-a-node-target.json","blob":"059aa082c132ae95d65951455b4ae9c5196517b0","role":"label/coordinate cross-check only; not required to identify a Picard slot"},
+    "lane_b_runtime_points": {"branch":"stage32ex5-b","path":"stages/stage32-ex5/parallel/results/stage32ex5-b-runtime-points.json","blob":"d8194e082d93a9160935654a4502510a753aaf1c","role":"independent runtime-order cross-check only; not an input to the selected26 matching rule"}
+  },
+  "replay": {
+    "command": "python3 stages/stage32-ex5/parallel/lane-f/verify_bc2_01b_exceptional_pairing.py",
+    "verifier": "stages/stage32-ex5/parallel/lane-f/verify_bc2_01b_exceptional_pairing.py",
+    "fail_closed_conditions": ["retained adapter/source hash regression","selected normal-curve label regression","candidate signature collision","non-0/1 exceptional-to-normal pairing","unmatched exceptional signature","non-bijective 48/48 result","change under candidate or slot traversal permutation","projective-scale signature change","mapping artifact mismatch"]
+  },
+  "replay_expectations": {
+    "runtime_slots": 48,
+    "candidate_nodes": 48,
+    "selected_signature_dimension": 26,
+    "selected_signature_unique_count": 48,
+    "all92_signature_unique_count": 48,
+    "all92_incidence_degree_each": 10,
+    "collision_count": 0,
+    "bijection_count": 48,
+    "permutation_invariance_checks": 3,
+    "projective_scale_checks": 144,
+    "mapping_sha256": "2c3cdbf40a1c896a1ab2bfeded21d89798ef425150ae6ebc3c4d63491aee2fc1"
+  },
+  "firewalls": {"FULL178_span_replay_performed":false,"Stage32_main_credit_promoted":false,"Q602_excluded":false,"O210_excluded":false,"perfect_cuboid_claim_made":false,"merge_authorized":false},
+  "handoff": {"checkpoint_reached":true,"result":"48/48 intrinsic Picard/incidence reverse map; selected26 signatures are collision-free and use no exceptional-basis coordinates.","next_owner":"stage32ex5-mainbatch","required_action":"Mainbatch should replay the verifier at this exact lane head and compare against A/B/C/D/G/H before consolidating BC2-01B."}
+}

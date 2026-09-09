@@ -1,0 +1,55 @@
+BC2-01B lane-f verification DAG
+
+LOCKS
+  Stoll source commit 51233ed5ef2bf228fac9416c66db9adc0ebcaadd
+  Cuboids/cuboids.magma blob 0422b69847f2afb97cb7b3ed02ebef91279f61b1
+  Hperp adapter blob fb1eb380ca786e42a6b00c5ef454b0e79fdba771
+  parent BC2-01A blob 0a4b6b748bd4f4f94ae70e16cf38a0a2174c55d4
+
+SOURCE MODEL
+  C1s(32) + C2s(12) + C3s(48) = Cs(92)
+  pts = Support/Points(SingularSubscheme(S)), #pts = 48
+  MatCP[j,k] = 1 iff pts[k] lies on Cs[j]
+  all140 = Cs followed by exceptional divisors over pts
+
+PICARD SIDE
+  HperpIntegralPairingAdapter.from_retained(marking,bundle)
+    -> pairing_matrix shape 140 x 64
+    -> row 92+k = exceptional slot k
+    -> columns are RETAINED_BASIS_KNOWN_LABELS_1BASED
+
+NONCIRCULAR SIGNATURE
+  discard every retained exceptional-basis column
+  keep exactly 26 retained normal-curve columns:
+    [1,33,12,16,7,90,87,92,51,40,77,44,20,55,19,56,73,79,75,24,26,52,18,11,3,6]
+  runtime slot signature = those 26 entries of pairing_matrix[92+k,*]
+
+PROJECTIVE SIDE
+  construct the six explicit 8-node families (48 total) over Q(i)
+  reconstruct Cs labels exactly from locked Stoll equations
+  reproduce Magma multi-range ordering (first range is innermost)
+  candidate signature = incidence in the same 26 source curves
+
+MATCH
+  48 candidate selected26 signatures / 48 unique / 0 collisions
+  exact signature equality gives one node per runtime slot
+  48 slots map to 48 distinct nodes
+  no Points(...) traversal order enters the matching rule
+  no exceptional-basis column enters the matching rule
+
+HOSTILE INVARIANCE
+  reverse candidate order + reverse slot traversal: unchanged
+  rotate candidate order + rotate slot traversal: unchanged
+  multiply each projective node by 2, -3, i: signatures unchanged
+  all92 sanity: every node lies on exactly 10 known curves and all 48 all92 signatures are distinct
+
+REPLAY
+  python3 stages/stage32-ex5/parallel/lane-f/verify_bc2_01b_exceptional_pairing.py
+
+EXPECTED
+  PASS; runtime_slots=48; selected_signature_unique_count=48;
+  collision_count=0; bijection_count=48;
+  mapping_sha256=2c3cdbf40a1c896a1ab2bfeded21d89798ef425150ae6ebc3c4d63491aee2fc1
+
+FIREWALL
+  scratch lane only; no FULL178 replay; no Stage32/Q602/O210/endpoint credit; merge forbidden.
