@@ -1,0 +1,130 @@
+{
+  "anti_loop": {
+    "duplicate_ex5_target_to_59d_adapter": false,
+    "infer_support_from_exceptional_mass_e": false,
+    "infer_z_from_row_id_d_e_or_terminal_rank_without_exact_completion": false,
+    "materialize_27_digit_terminal_family": false,
+    "promote_representative_sat_or_unsat_to_full178": false
+  },
+  "credit_ceiling": "PRODUCTION_INTERFACE_ONLY_NO_BTVA_OR_FULL178_CREDIT",
+  "external_ex5_seam": {
+    "consumer_creation_commit": "ed1e4b9ec14304c6d6486950aaaa659b8edc47a6",
+    "consumer_does_not_find_witness": true,
+    "consumer_input_contract": {
+      "result_required": [
+        "witness_r_reduced"
+      ],
+      "sat_required": true,
+      "target_required": [
+        "row_id",
+        "e",
+        "a",
+        "z"
+      ],
+      "witness_r_reduced_length": 59,
+      "z_length": 5
+    },
+    "consumer_output_chain": "59D reduced witness -> Picard64 -> all140 exact pairings -> slots 92..139 -> BC2-01B canonical nodes -> exact support/span",
+    "consumer_path": "stages/stage32-ex5/breadth-cycle-2/bc2_02_exact_witness_to_node_support.py",
+    "observed_pr_head": "14855e0d4a1d184b015f4735be8be9efbf4ec6e7",
+    "pr": 1742,
+    "producer_status": "FULL178_TARGET_TO_59D_ADAPTER_ACTIVE_EXTERNALLY_NOT_COMPLETE"
+  },
+  "firewalls": {
+    "FULL178_complete": false,
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "endpoint_credit": false,
+    "merge_authorized": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "receiver_credit": false,
+    "stage32_main_credit": false,
+    "theorem_credit": false
+  },
+  "integration_decision": {
+    "activation_condition": "an exact external producer emits the required witness packet for a FULL178 indexed terminal with source locks",
+    "do_not_modify_current_production_solver": true,
+    "on_activation": "retain locator+witness packet, replay EX5 consumer, then retain exact support packet and hashes",
+    "reason": "the exact terminal-index-to-Picard64/projection-z producer is still active externally; implementing it here would duplicate BC2-02",
+    "stage32_change_now": "DEFINE_AND_RETAIN_INTERFACE_ONLY"
+  },
+  "minimal_stage32_handoff": {
+    "handoff_schema": "STAGE32_32_01_178_N103_PRODUCTION_WITNESS_SUPPORT_HANDOFF_V1",
+    "purpose": "retain enough exact producer output and provenance that Stage32 can replay the external EX5 support consumer without inferring support from scalar exceptional mass",
+    "required_exact_witness_packet": {
+      "degree_d": "must equal degree parsed from row_id",
+      "exceptional_mass_e": "must equal production locator e",
+      "producer_evidence_canonical_sha256": "required",
+      "producer_exact_head": "required",
+      "row_id": "must equal production locator row_id",
+      "terminal_pairings": "must equal exact unranked 11-prefix values",
+      "terminal_rank": "must equal production locator terminal_rank",
+      "witness_r_reduced": {
+        "count": 59,
+        "integral": true
+      },
+      "z": {
+        "count": 5,
+        "integral": true
+      }
+    },
+    "required_production_locator": {
+      "degree_d": "parsed exactly from row_id",
+      "exceptional_mass_e": "exact admissible stratum",
+      "row_id": "audited FULL178 residual manifest row",
+      "terminal_pairings": {
+        "count": 11,
+        "semantics": "exact current Stage32 pairing-prefix terminal family in retained known-label order"
+      },
+      "terminal_rank": "0-based rank in CompressedTerminalIndexer(e,d)"
+    },
+    "required_support_packet_after_replay": {
+      "all140_pairing_count": 140,
+      "consumer_output_canonical_sha256": "required",
+      "consumer_status": "PASS_EXACT_WITNESS_TO_NODE_SUPPORT",
+      "exceptional_all140_indices_0based": [
+        92,
+        139
+      ],
+      "exceptional_mass_check": "sum(pairings_last48) == exceptional_mass_e",
+      "node_bridge_canonical_sha256": "required",
+      "pairings_last48_count": 48,
+      "pairings_last48_sha256": "required",
+      "picard_rank": 64,
+      "support_indices_0based": "exactly indices k with pairings_last48[k] > 0",
+      "zero_indices_0based": "exactly indices k with pairings_last48[k] == 0"
+    }
+  },
+  "mission": "stage32-01-178",
+  "node_id": "N103",
+  "observed_boundary": {
+    "current_production_retains_full_59d_witness": false,
+    "current_production_retains_labelled_48_support": false,
+    "indexed_terminal_family_count": "688101306360803751427719294",
+    "inverse_rank": true,
+    "numerical_picard_leaf_checks_complete": false,
+    "production_state_path": "stages/stage32/residual-32-01-production/state.json",
+    "production_state_schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V70_PREFIX_INDEXED_COMPRESSION",
+    "random_access_unrank": true
+  },
+  "schema": "STAGE32_32_01_178_N103_PRODUCTION_WITNESS_SUPPORT_INTERFACE_V1",
+  "stage": 32,
+  "status": "RETAINED_PRODUCTION_INTERFACE_DESIGN",
+  "verifier_shape": {
+    "checks": [
+      "interface schema and fixed dimensions are unchanged",
+      "FULL178 locator carries row_id,d,e,terminal_rank and exactly 11 terminal pairings",
+      "exact witness packet carries z[5] and witness_r_reduced[59] and source locks",
+      "support packet carries exact last48 values, canonical hashes, and source lock",
+      "last48 is the all140 exceptional slice 92..139",
+      "support indices are derived from positive last48 entries and zero indices from zero entries",
+      "sum(last48) equals the exact exceptional mass e",
+      "scalar exceptional mass e is never accepted as a substitute for labelled support"
+    ],
+    "fail_closed_if_external_producer_or_consumer_source_lock_missing": true,
+    "local_contract_verifier": "stages/stage32/32-01-178/nodes/N103/verify_production_witness_support_interface.py",
+    "mathematical_replay_verifier": "external EX5 consumer at external_ex5_seam.consumer_path",
+    "replay_required_before_support_credit": true
+  }
+}
