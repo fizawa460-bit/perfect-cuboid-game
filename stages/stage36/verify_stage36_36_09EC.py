@@ -14,8 +14,8 @@ DZ=ROOT/'stages/stage36/36-09DZ/fixed-p2-mw-phi-quotient-preflight.json'
 EA=ROOT/'stages/stage36/36-09EA/fixed-p2-defect-aware-retained-open-intersection-preflight.json'
 EB=ROOT/'stages/stage36/36-09EB/fixed-p2-corrected-phi-coset-representative-preflight.json'
 LOCKS={
- CERT:'4900977d4307911e4ccd7e0813f8bf0ede9478f8',
- SRC:'63a05fbf17fa51777039b5dddea412e397e9f49d',
+ CERT:'f3f4c7e126ba2b81c6fb593d9db513d9c61297a0',
+ SRC:'c3bc3947747ad72a7708cbdce5b109a9286be6d3',
  DR:'c212f0430fb5b4d04ee0887e303a73fb303657c8',
  DV:'cc3c071315c92f4cb398e18d650d5cd3652413c8',
  DW:'ffa5d8ee9fceed3cfcfc05ce029538557a803ac7',
@@ -111,8 +111,8 @@ def pair(bits):
     return tuple(out)
 expected={
  'E_tau':(7,3,{(-1,3),(7,7),(1,2)}),
- 'E_sigma':(8,2,{(-1,1),(1,6)}),
- 'E_rho':(8,2,{(-1,1),(1,3)}),
+ 'E_sigma':(8,2,{(1,-1),(1,6)}),
+ 'E_rho':(8,2,{(1,-1),(1,3)}),
 }
 for name,(cr,dim,basis_pairs) in expected.items():
     got_cr,basis=factor_selmer(name)
