@@ -1,143 +1,250 @@
-# Stage32EX5 — FULL178 Picard64 / node-support interface research
+# Stage32EX5 — receiver breadth remap / independent route incubator
 
-Status: **ACTIVE AUXILIARY WORKSTREAM FOR `32-01 FULL178`**.
+Status: **ACTIVE GOAL-DIRECTED MAINLINE**. Stage32EX5 is operationally independent from Stage32 MAIN authority until an explicit hostile-audited promotion adapter is accepted.
 
-Stage32EX5 is operationally separate from Stage32 MAIN, but its current purpose is no longer an independent V6/O210/Q602 route search. Current Stage32 MAIN authority is PR #1753 in mode `FULL178_AND_FINAL_MILESTONE_CHAIN`, with `32-01 FULL178` as the primary incomplete requirement.
+## Final target
 
-## Current target and role
+Stage32EX5 is not another O210/Q602 attack and is not itself a Stage32 closure theorem. Its fixed job is to rebuild the Stage29 -> Stage32 receiver picture, search materially distinct attack families, and decide whether the frozen breadth package contains a **qualified independent Stage32 route**.
 
-EX5 develops an exact producer/interface that may be consumed by the current FULL178 final chain:
+The terminal decision has exactly two allowed outcomes:
 
-`FULL178 compressed indexed terminal / pairings`
-`-> exact Picard64 completion constraints`
-`-> integral Picard / 59D witness when SAT`
-`-> canonical 48-node support interface`
-`-> Stage32 MAIN N150 current-target consumption gate`.
+- `QUALIFIED_INDEPENDENT_STAGE32_ROUTE_ESTABLISHED`: at least one route has an exact receiver/population adapter, exact source inputs, explicit proof obligations, and a retained mathematical step that produces a nontrivial effect on the declared receiver population. A route name, literature theorem name, heuristic, sample hit, or speculative adapter is insufficient.
+- `FROZEN_BREADTH_PACKAGE_EXHAUSTED_WITHOUT_QUALIFIED_ROUTE`: every candidate family in the explicitly frozen EX5 breadth package has been classified under the same route-qualification contract, with typed blockers and minimal re-entry data. This is a bounded negative result about that package only, not a claim that no other mathematical route exists.
 
-The same interface yields an exact obstruction when the completion problem is UNSAT for a certified terminal or finite symbolic block.
+A V6-only improvement, Q602 residue pruning, one bounded diagnostic, source-gap diagnosis, route score table, or list of promising ideas is intermediate only.
 
-This is useful FULL178 geometry/interface research, but it is not itself FULL178 completion, effectivity, actual-curve existence, a final milestone, or Stage32 closure.
+`EX5_ROUTE_DECISION_CLOSURE` means completion of this route-selection decision problem. It is **not** `FULL_TARGET_CLOSURE` for Stage32, FULL178, or the Perfect Cuboid problem.
 
-## Current Stage32 authority firewall
+## Route qualification contract
 
-The live Stage32 frontier must be read as follows:
+A route can be called `QUALIFIED` only if all of the following are explicit and replayable:
 
-- active control mode: `FULL178_AND_FINAL_MILESTONE_CHAIN`;
-- primary incomplete: `32-01 FULL178`;
-- V6 / O210 / Q602: frozen audited/formal prerequisite lineage, **not current attack targets**;
-- `[73,97,235]`: historical/formal Q602 provenance, **not the current survivor population**.
+1. **receiver target** — the exact Stage32 receiver subset/population it attacks;
+2. **population adapter** — how that subset is identified from the frozen Stage29/Stage32 authority, including genus/branch/mask/model/field/quantifier semantics used;
+3. **new input** — theorem, exact computation, geometric structure, or imported weapon, with exact source locator and authority status;
+4. **forward implication** — the precise statement `new input -> receiver restriction/exclusion/reduction`;
+5. **reverse-scope firewall** — what the result does *not* say about other receivers, V6, O210/Q602, O212+, FULL178, or Stage32 closure;
+6. **falsifiable execution unit** — a bounded proof/computation that can actually test the route rather than merely describe it;
+7. **retained nontrivial effect** — at least one exact new restriction, exclusion, reduction, or population-preserving bridge on the declared receiver target;
+8. **replay path** — compact artifact/verifier or a source-complete proof note sufficient for hostile audit.
 
-Earlier EX5 artifacts that use the old vocabulary remain retained and auditable at their original scopes. Do not rewrite their canonical evidence merely to modernize wording.
+A route that fails item 7 may remain `PROMISING` or `BLOCKED`, but is not a terminal qualified route.
 
-Any old statement such as `no O210/Q602 credit` is now interpreted as a **historical-credit firewall**: current EX5 work neither reopens nor mutates that frozen line unless Stage32 MAIN explicitly requires it.
+## Dependency roadmap
 
-## Current exact BC2 frontier
+### EX5-00 — source lock and Stage32 target/receiver contract
 
-The retained local target is `(g1-d008,e=4)` in the FULL178 compressed-terminal model.
+Freeze the authority chain needed to talk about Stage32 breadth at all. Start from current `stages/stage32/MAIN-STATE.json`, then use only its on-demand authority references required for global finite-target/receiver semantics. Revalidate, rather than infer from chat history, the Stage29 -> Stage32 population, genus branches, branch/multibranch conventions, field/model assumptions, numerical bounds, effectivity/existence distinctions, and current closure/unknown boundaries.
 
-Exact Picard64 UNSAT blocks retained so far:
+Produce a typed target contract. Every later receiver row must point to this contract rather than carrying its own silently modified population definition.
 
-| BC2 checkpoint | terminal ranks | result |
-| --- | ---: | --- |
-| BC2-05 | `0..132` | exact UNSAT |
-| BC2-08 | `133..265` | exact UNSAT |
-| BC2-10 | `266..398` | exact UNSAT |
+Exit: `EX5_00_SOURCE_LOCK_COMPLETE` with exact source locators and no breadth/route credit yet.
 
-Therefore ranks `0..398` form a retained exact-UNSAT prefix for this local stratum. The complete stratum is still open, and the FULL178 parent remains incomplete.
+### EX5-01 — exact receiver ledger reconstruction
 
-Latest BC2-10 locks:
+Build a finite ledger of every receiver class/subpopulation that Stage32 is currently obliged to handle under the frozen contract. Each row must contain at least:
 
-- checkpoint: `stages/stage32-ex5/breadth-cycle-2/bc2-10-outer-rank2-exact-unsat-checkpoint.json`;
-- checkpoint canonical: `1abeb2bd5299ed217840d028eb99ed961d98238cdec75b5286b05b7f066a752b`;
-- exact evidence canonical: `06e4e0e8fbbe1bb64fc757be58f272fec0e85bea1e3bd7a9f21f8bf0dbda1531`.
+- stable receiver id/name;
+- genus/branch type and any degree/mask/height domain;
+- field/model;
+- numerical-vs-geometric/effectivity status;
+- current status: `CLOSED`, `OPEN`, `UNKNOWN`, `CONDITIONAL`, or `OUT_OF_SCOPE`;
+- exact evidence/source locator for that status;
+- current blocker if not closed;
+- whether V6/O210/Q602 is relevant to that row or merely one representative branch.
 
-## Current roadmap
+Do not infer repository-wide absence from search misses. If the authority chain cannot certify exhaustive receiver coverage, the ledger remains incomplete and EX5 cannot claim bounded package exhaustion.
 
-### BC2-01B — runtime exceptional index to canonical node bridge — RETAINED
+Exit: a replayable receiver ledger with a coverage checksum/count and explicit unresolved rows.
 
-The earlier BC2 infrastructure resolved the runtime exceptional-index / canonical singular-node coordinate bridge. This is retained infrastructure, not the current blocker.
+### EX5-02 — current coverage and dependency graph
 
-### BC2-02..05 — Picard64 completion and first symbolic x4 block — RETAINED
+Map each open/unknown receiver row to the current weapons, adapters, and blockers already known to apply. Separate:
 
-The exact selected64/all140 Picard64 completion model, witness reconstruction path, and symbolic-x4 compression were established. Ranks `0..132` were closed exactly.
+- genuinely closed receiver rows;
+- rows reduced to V6/O210/Q602;
+- rows whose only evidence is numerical/finite/conditional;
+- rows lacking effectivity/member realization;
+- multibranch or out-of-bound rows not covered by the current V6 story;
+- rows whose apparent closure depends on a stale or unaudited source.
 
-### BC2-06..08 — outer exceptional rank 1 — RETAINED
+Construct a bipartite graph `receiver rows <-> active blockers/weapon interfaces`. This graph is the baseline used to reject disguised duplicates of EX1-EX4 or Stage32 MAIN.
 
-The next 133-rank block was structurally rederived and then closed exactly. Ranks `133..265` are exact UNSAT.
+Exit: current breadth topology and blocker multiplicities are explicit.
 
-### BC2-09..10 — outer exceptional rank 2 — RETAINED
+### EX5-03 — clean-room generation of materially distinct route families
 
-The next block was structurally rederived without assuming its signature or mass split. Its terminal signature consumed the full exceptional mass, reducing the selected-exceptional partition to one parent; that parent was exact UNSAT. Ranks `266..398` are exact UNSAT.
+Before consulting Arsenal cards for solutions, generate routes from the mathematical receiver objects themselves. Freeze at least the following route families unless EX5-00 proves one semantically irrelevant:
 
-### BC2-11 — next exceptional terminal block preflight — CURRENT
+1. `EFFECTIVE_CONE_FIXED_COMPONENT_LANE` — effective/nef cone, fixed components, Zariski-type decomposition, base locus, extremal rays;
+2. `EQUGENERIC_HILBERT_SEVERI_LANE` — Hilbert/Severi/equigeneric dimensions, deformation, genus-defect and singularity strata;
+3. `MODULAR_UNIFORMIZATION_LANE` — modular maps, factor degrees, monodromy/automorphic constraints beyond the current O210 branch;
+4. `GALOIS_DESCENT_LANE` — conjugation, field of definition, descent, orbit intersections, rationality obstructions;
+5. `EXACT_ENUMERATION_LANE` — improved exact finite enumeration, branch-and-bound, lattice/ILP/SAT reductions with a population-preserving completeness certificate;
+6. `LOCAL_GLOBAL_SINGULARITY_LANE` — adjunction, conductor/delta, local intersection, normalization and ambient-singularity constraints applied at receiver scale;
+7. `CROSS_STAGE_WEAPON_IMPORT_LANE` — audited weapons from other stages only after an explicit object/field/population adapter.
 
-Rederive the next 133-rank block after rank 398 from `CompressedTerminalIndexer` plus source `terminal_predicate` before granting any new Picard64 solver credit.
+Each candidate must be stated as a concrete implication, not a topic name.
 
-Required output:
+Exit: frozen clean-room candidate set with route identities and duplicate keys.
 
-- exact rank interval;
-- outer exceptional rank;
-- base terminal at `x4=0`;
-- exceptional signature;
-- proof by full 133-entry rank/unrank replay that `x4=0..132` remains innermost and the signature is constant;
-- no solver or FULL178 credit from structural replay alone.
+### EX5-04 — repository asset discovery and deduplication
 
-Only after this replay may the next symbolic-x4 Picard64 parent unit be defined.
+Only after EX5-03, perform existing-asset discovery through the repository-prescribed chain:
 
-## Stage32 MAIN consumption interface
+`docs/research-os/policies/repository-asset-discovery.md`
+`-> docs/arsenal/index.json`
+`-> relevant generated card`
 
-Stage32 MAIN node `stages/stage32/32-01-178/nodes/N150/STATE.json` is the explicit EX5 external-consumption gate.
+For each clean-room candidate classify the nearest existing asset as:
 
-For MAIN consumption, EX5 must eventually provide a retained/audited result whose population semantics match the exact 32-01 FULL178 target plus an explicit adapter from canonical `(row_id,d,e,terminal rank/pairings)` to the Picard64/sufficient-signature semantics that MAIN intends to consume.
+- `NEW_ROUTE`;
+- `EXISTING_BUT_UNUSED_HERE`;
+- `EXISTING_WITH_MISSING_ADAPTER`;
+- `DUPLICATE_OF_MAIN_OR_EX1_EX4`;
+- `DOMINATED_BY_STRONGER_EXISTING_ROUTE`;
+- `NOT_APPLICABLE_TO_FROZEN_POPULATION`.
 
-The current N150 snapshot has consumed/recorded EX5 progress only through ranks `0..265`. EX5 has advanced locally through rank `398`; that newer progress remains EX5-retained and does **not** automatically move the MAIN frontier.
+Do not treat a keyword match or theorem name as applicability. Record the exact semantic mismatch when rejecting an asset.
 
-## Interpretation of outcomes
+Exit: deduplicated route universe and exact asset provenance.
 
-### Exact UNSAT
+### EX5-05 — route typing, proof obligations, and scorecard
 
-An exact terminal/block UNSAT means only that the certified FULL178 indexed input has no integral Picard64 completion under the locked model. It is a valid local obstruction and potential pruning input to a future MAIN adapter.
+For every surviving candidate, fill the same mandatory scorecard:
 
-It does not imply:
+- receiver coverage breadth;
+- object identity;
+- field/model compatibility;
+- quantifier compatibility;
+- existence/effectivity assumptions;
+- reverse adapter length;
+- genuinely new information supplied;
+- proof burden;
+- computational cost/storage risk;
+- dependence on unproved actual-carrier existence;
+- overlap with MAIN/EX1-EX4;
+- expected terminal effect if successful.
 
-- the complete `(g1-d008,e=4)` stratum is empty unless the whole stratum is covered;
-- FULL178 is complete;
-- effectivity or actual-curve nonexistence globally;
-- a receiver/final-milestone theorem;
-- Perfect Cuboid nonexistence.
+Scoring is for prioritization only. It does not create mathematical credit.
 
-### Exact SAT
+Exit: one primary route and at least two materially distinct backups when available. If fewer than three qualify even as executable candidates, state why.
 
-A SAT result must reconstruct the exact Picard64 / 59D witness and feed the canonical 48-node support consumer. It is an interface witness, not by itself an effective curve, a rational point, a FULL178 survivor with all downstream obligations discharged, or a final-milestone proof.
+### EX5-06 — executable route contracts
 
-## Historical breadth-cycle provenance
+For the primary route and each retained backup, write a minimal execution contract:
 
-Cycle1 and early BC2 route-incubator artifacts remain part of EX5 history. In particular, the hostile-audited bounded-exhaustion result for the frozen Cycle1 package and the early BC2 node-support infrastructure checkpoint remain valid at their declared scopes.
+`input -> exact adapter -> bounded unit -> expected observable -> success predicate -> failure predicate -> next route`.
 
-These historical records must not be reinterpreted as the current Stage32 target. Their V6/O210/Q602 language reflects the authority context in which they were created.
+The first unit must be small enough to run without a heavy-workflow authorization unless the route is inherently heavy. Heavy/artifact-producing work is designed only after the repository storage policy and an explicit run key authorize it.
 
-The formal Q602 residues `[73,97,235]` may be cited only with an explicit historical/formal provenance label in current-facing EX5 prose.
+Each route receives a stable identity so repeated rediscovery of the same blocker is detectable.
 
-## Current credit boundaries
+Exit: executable microdiagnostic contracts, not just research prose.
 
-EX5 may retain exact local mathematical credit for its own certified terminal/block statements. It may not self-award any of the following:
+### EX5-07 — primary-route microdiagnostic
 
-- `32-01 FULL178` completion;
-- Stage32 MAIN credit;
-- effectivity or actual-curve existence/nonexistence beyond the exact model statement;
-- receiver credit;
-- FINAL milestone credit;
-- theorem or endpoint credit;
-- Perfect Cuboid existence/nonexistence.
+Execute the smallest exact unit capable of falsifying the primary route. Preserve population semantics exactly. Typical legal outcomes are:
 
-Promotion requires the current-target adapter and the Stage32 MAIN claim/audit process.
+- `ROUTE_DISPROVED_ON_REQUIRED_INTERFACE`;
+- `ROUTE_BLOCKED_BY_NAMED_MISSING_ADAPTER`;
+- `ROUTE_SURVIVES_PREFLIGHT_WITH_EXACT_NEW_PREDICATE`;
+- `ROUTE_OBTAINS_NONTRIVIAL_RECEIVER_EFFECT`.
 
-## Batch semantics
+A sample zero-hit is not impossibility. A finite subpopulation result cannot be widened without a completeness adapter.
 
-`stage32ex5-mainbatch` advances one coherent current interface/obstruction unit, normally one structural block preflight or one bounded exact Picard64 unit. It must not silently broaden from a finite block to a population-wide claim.
+If the primary route fails, move to a materially distinct backup rather than rewriting the same idea under a new name.
 
-Heavy/artifact-producing computation requires the repository run-key/storage policy. Roadmap prose alone never authorizes compute.
+Exit: retained exact evidence and updated route status.
 
-## Merge discipline
+### EX5-08 — proof lift / receiver-scale adapter
 
-EX5 PR #1742 remains Draft/OPEN/unmerged. Merge requires explicit user authorization.
+For a surviving route, lift the microdiagnostic into an exact receiver-scale statement. This is the critical gate between "interesting experiment" and `QUALIFIED` route.
+
+Obtain either:
+
+- an exact exclusion of a declared previously-open receiver subset;
+- an exact new necessary condition that strictly shrinks a declared exhaustive receiver set;
+- an exact population-preserving reduction to a smaller/reclassified decision problem with explicit completeness;
+- an exact bridge that makes an audited external weapon applicable to the same receiver population.
+
+If none can be proved, the route remains intermediate and the next materially distinct route is tried.
+
+Exit: `NONTRIVIAL_RECEIVER_EFFECT_OBTAINED` or a typed blocker.
+
+### EX5-09 — cross-stage/import and independence check
+
+Before qualifying a route, verify that its decisive input is not merely provisional evidence imported from Stage33/35/36 or another EX lane. Any import must carry:
+
+- exact audited source state;
+- object/model/field adapter;
+- population adapter;
+- no circular dependence on the Stage32 conclusion it is supposed to prove.
+
+Also compare the route against MAIN and EX1-EX4. A route may cooperate with them, but if its only effect is the same V6/O210/Q602 predicate already represented there, classify it as a duplicate rather than an independent breadth route.
+
+Exit: independence/provenance certificate.
+
+### EX5-10 — residual breadth-cycle disposal
+
+If no route has qualified, exhaust the **frozen EX5 candidate package**, not "all possible mathematics". For every route family and candidate generated in EX5-03..05, record exactly one terminal package status:
+
+- disproved on its required interface;
+- duplicate/dominated with exact parent route;
+- inapplicable with semantic mismatch;
+- blocked by a named missing datum/theorem/adapter;
+- qualified.
+
+For every blocked route name the minimal re-entry condition. Package exhaustion is valid only if the receiver ledger and candidate universe were explicitly frozen and coverage-checked.
+
+Exit: either at least one qualified route or a complete bounded exhaustion ledger.
+
+### EX5-11 — terminal route-decision certificate
+
+Assemble exactly one terminal outcome.
+
+**Qualified-route certificate**: prove the chosen route satisfies every item in the route qualification contract, including a retained nontrivial receiver effect and replay path. Record precisely which Stage32 receiver rows are affected and which are untouched. This proposes `QUALIFIED_INDEPENDENT_STAGE32_ROUTE_ESTABLISHED`.
+
+**Bounded-exhaustion certificate**: prove the frozen receiver/candidate package was exhaustively processed under EX5-10, record the residual blocker map and minimal new inputs, and explicitly limit the claim to that package. This proposes `FROZEN_BREADTH_PACKAGE_EXHAUSTED_WITHOUT_QUALIFIED_ROUTE`.
+
+Only here may `EX5_ROUTE_DECISION_CLOSURE=true` be proposed. Neither outcome is Stage32 closure.
+
+Exit: `AUDIT_READY_EX5_ROUTE_DECISION_CLOSURE` with one non-null terminal outcome.
+
+### EX5-12 — hostile audit and Stage32 promotion boundary
+
+Run `stage32ex5-audit` on the exact candidate head. A hostile-audit PASS may establish Stage32EX5 authority only for the audited route-decision outcome.
+
+If the positive outcome is audited, actual use in Stage32 MAIN still requires a separate current-target promotion adapter proving that the route's receiver effect matches the current Stage32 population and authority chain. Audit PASS does not merge, does not change Q602/O210/survivors, and does not grant Stage32 closure.
+
+## Parallel execution after EX5-00
+
+The seven route-family lanes may be explored on separate scratch branches after the common source lock. Scratch results are non-authoritative. Cross-lane use must state whether the dependency is provisional or hostile-audited. Only retained successful leaves are consolidated into the EX5 working PR.
+
+A useful default is:
+
+- run EX5-01/02 once to freeze breadth;
+- generate all seven families in EX5-03;
+- deduplicate once in EX5-04;
+- then execute primary + backups in parallel scratch lanes while keeping one shared receiver ledger.
+
+## Batch/stop semantics
+
+`stage32ex5-mainbatch` advances one coherent mathematical or route-qualification unit from the current state. A failed route is `ROUTE_BLOCKED` or `ROUTE_DISPROVED`, not Stage32EX5 exhaustion. Broadening the frozen candidate package uses the repository cycle-exploration policy and creates a new explicit breadth cycle/version rather than silently changing the terminal quantifier.
+
+Heavy compute is never authorized by this roadmap alone.
+
+## Credit and safety firewalls
+
+- V6/O210/Q602 is one current branch, not the definition of the whole Stage32 receiver population.
+- A V6-only result is not Stage32 breadth progress unless its receiver scope is stated exactly.
+- A receiver ledger is not a theorem and does not close its rows by assertion.
+- A route score/ranking is not mathematical credit.
+- A theorem name or Arsenal card is not applicable without object/field/population/quantifier adapters.
+- Sample or bounded finite evidence is not a receiver-wide result without completeness.
+- Numerical class elimination, effectivity, actual curve existence, and rational-point/endpoint credit remain distinct.
+- Importing provisional results from another Stage/EX does not make them authority.
+- `QUALIFIED_INDEPENDENT_STAGE32_ROUTE_ESTABLISHED` means a route with a retained nontrivial receiver effect; it does not mean Stage32 is closed.
+- `FROZEN_BREADTH_PACKAGE_EXHAUSTED_WITHOUT_QUALIFIED_ROUTE` is bounded to the frozen package; it is not a global no-route theorem.
+- Stage32 MAIN, Q602/O210, survivors `[73,97,235]`, O212+, FULL178, receiver/theorem/endpoint credit, and Perfect Cuboid claims are unchanged by EX5 bootstrap or intermediate results.
+- Merge requires explicit user authorization.
