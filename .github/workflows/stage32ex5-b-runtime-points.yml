@@ -1,0 +1,22 @@
+name: Stage32EX5-B runtime point export
+
+on:
+  push:
+    branches:
+      - stage32ex5-b
+    paths:
+      - 'stages/stage32-ex5/parallel/lane-b/export_stoll_runtime_points.m'
+      - 'stages/stage32-ex5/parallel/lane-b/run_magma_runtime_points.py'
+      - '.github/workflows/stage32ex5-b-runtime-points.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  runtime-point-export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Export exact Stoll runtime singular points
+        run: python3 stages/stage32-ex5/parallel/lane-b/run_magma_runtime_points.py
