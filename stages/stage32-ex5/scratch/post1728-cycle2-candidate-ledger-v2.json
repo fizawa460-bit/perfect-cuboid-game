@@ -13,22 +13,23 @@
       "view": "CELLULAR_PULLBACK_SMITH_COKERNEL_GENERALIZATION"
     },
     {
-      "blocker_code": "BTVA_G0_D008_REQUIRES_FRESH_RANK61_CLASS_MATERIALIZATION_RUN_KEY",
+      "blocker_code": "BTVA_G0_D008_MATERIALIZER_SOURCE_NOT_YET_IMPLEMENTED",
       "candidate_id": "EX5R-ENUM-BTVA-002",
-      "evidence": "stages/stage32-ex5/scratch/ex5r-enum-btva-002-g0-d008-support-reconstruction-preflight.json",
-      "next_unit": "BTVA_G0_D008_RANK61_MATERIALIZER_RUNKEY_AND_COMPACT_OUTPUT_CONTRACT",
+      "evidence": "stages/stage32-ex5/scratch/ex5r-enum-btva-002-g0-d008-runkey-storage-preflight.json",
+      "next_unit": "BTVA_G0_D008_RANK61_MATERIALIZER_IMPLEMENTATION_PREFLIGHT",
       "nontrivial_receiver_effect_obtained": false,
-      "status": "LIVE_AT_EXECUTION_GATE",
+      "status": "LIVE_RUNKEY_STORAGE_CONTRACT_READY_MATERIALIZER_PENDING",
       "view": "BTVA_STRONG_EXCEPTIONAL_SUPPORT_NODE_SPAN_PRUNING"
     }
   ],
-  "canonical_sha256_without_this_field": "b52d83335a64f18269cac7f02aa4721abfbb6f054f441378ac42a43ef9eaacda",
+  "canonical_sha256_without_this_field": "436f472a41690fa93574d49b05723c019072407b84c9cdcb2499c8f91b295a2f",
   "credit": {
     "breadth_cycle_2_authority": false,
     "qualified_independent_route_established": false,
     "receiver_credit": false,
     "stage32_main_credit": false
   },
+  "current_main_observed_sha": "119e24100dd943cadef39df783a7b5de7b3a5704",
   "cycle": {
     "active_receiver": "R29-LG2::g0-d008 as first complete non-V6 bounded test; broader candidate targets the 178 residual numerical rows",
     "active_route": "EX5R-ENUM-BTVA-002",
@@ -37,7 +38,7 @@
     "exhaustive_view_audit": true,
     "live_candidates": 1,
     "parking_audit_complete": false,
-    "route_status": "LIVE_AT_NAMED_HEAVY_EXECUTION_GATE",
+    "route_status": "LIVE_AT_MATERIALIZER_IMPLEMENTATION_GATE",
     "split_triggered": false,
     "untested_candidates": 0
   },
@@ -49,7 +50,7 @@
     "perfect_cuboid_claim": false,
     "stage32_closed": false
   },
-  "next_batch": "Do not execute the rank-61 g0-d008 materialization until an explicit one-row run key and compact storage/output contract exist. The next bounded unit is to materialize that run-key/storage contract only; FULL178 rerun remains unauthorized.",
+  "next_batch": "Implement and locally preflight only the exact bounded g0-d008 rank-61 materializer source plus its verifier. Do not arm generation 1 in the same commit; the dedicated cold run key must remain armed=false/generation=0 until implementation/source-lock verification passes. FULL178 rerun remains unauthorized.",
   "schema": "STAGE32EX5_POST1728_CYCLE2_CANDIDATE_LEDGER_V2",
   "stage": "32EX5"
 }
