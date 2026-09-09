@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32EX5_MAINBATCH_SYNTHESIS_V1",
+  "schema": "STAGE32EX5_MAINBATCH_SYNTHESIS_V2",
   "lane": "stage32ex5-mainbatch",
   "base_scaffold_commit": "d1515745a768a743836f74381079e52f20fe4902",
   "target": "BC2-02_FULL178_SUPPORT_RECONSTRUCTION",
-  "status": "PARTIAL_RETAINED_ONE_EXACT_REPRESENTATIVE_FULL178_MATERIALIZATION_PENDING",
+  "status": "PARTIAL_RETAINED_GENERIC_59D_CONSUMER_COMPLETE_WITNESS_PRODUCER_PENDING",
   "authority": "MAINBATCH_RETAINED_CHECKPOINT_NOT_DOWNSTREAM_CREDIT",
-  "decision": "BC2-01B acceptance remains satisfied. BC2-02 now has one exact representative candidate with an end-to-end 59D witness -> all140 pairings -> labelled last48 support -> exact P6 span replay, but the active FULL178 retained census still lacks equivalent exact support data for the full candidate population.",
+  "decision": "BC2-01B remains satisfied. BC2-02 now has a generic exact consumer from any materialized 59D reduced Picard witness to Picard64, all140 pairings, labelled 48-node support and exact projective span. The generic consumer passed exact-head representative regression. The remaining FULL178 blocker is upstream production of exact 59D witnesses or equivalent direct 48-support certificates for admissible integral Picard targets; the 659697 continuous survivors and 27-digit prefix family must not be materialized as substitutes.",
   "bc2_01b_checkpoint": {
     "status": "PASS_RETAINED",
     "artifact": "stages/stage32-ex5/breadth-cycle-2/bc2-01b-runtime-node-coordinate-bridge.json",
@@ -18,71 +18,77 @@
       "canonicalization": "PASS",
       "hostile_ambiguity": "PASS_NO_UNRESOLVED_SCALE_SIGN_ORBIT_AMBIGUITY",
       "historical_order_contract_needed": false
-    },
-    "load_bearing_lanes": {
-      "A": {"pr":1743,"head":"2593d86733b3c3a4c276bbbc180c6c52e4a97130","role":"exact source 48-node target/model adapter","status":"PASS_COMPONENT"},
-      "B": {"pr":1744,"head":"1e94d593ab248407a9efc766bdc85d46af6c1bb7","role":"runtime/retained 92-bit incidence fingerprint bridge","status":"PASS"},
-      "D": {"pr":1746,"head":"57f6c92525b0df0d9176440fd35b65dc1c98b900","role":"projective canonicalization hostile check","status":"PASS_COMPONENT"},
-      "H": {"pr":1750,"head":"3548d9dcbb5c6886ea5754ffae654e941639966c","role":"independent fresh-runtime node-set check and persistence-gap detection","status":"POSITIVE_CHECK_PLUS_RESOLVED_BLOCKER"}
-    },
-    "reconciled_lanes": {
-      "C": {"pr":1745,"head":"78e83a416cf91ea61b106ee15688904bdb57449d","reported":"BLOCKED_MISSING_HISTORICAL_92X48_MATCP_OR_EQUIVALENT_FINGERPRINT","resolution":"B exact fingerprint replay supplies the requested equivalent enumeration-invariant runtime-node fingerprint binding."},
-      "E": {"pr":1747,"head":"cbf6b75721b5c7ca4db9e6b8fdd255feee66bf12","reported":"BLOCKED_NO_DOCUMENTED_CANONICAL_POINTS_ORDER","resolution":"Accepted as a warning, not contradicted. The retained bridge uses incidence fingerprints and does not depend on Points(...) order being canonical across runtimes."}
-    },
-    "mainbatch_exact_log_validation": {
-      "run_id": 34321118868,
-      "job_id": 102367754014,
-      "head": "1e94d593ab248407a9efc766bdc85d46af6c1bb7",
-      "conclusion": "success",
-      "point_table_sha256": "82f526ee6d10e6c7bf3bf871f70984c3b6043a076b31227b03d45c375b11a69a"
     }
   },
-  "bc2_02_progress": {
-    "checkpoint_artifact": "stages/stage32-ex5/breadth-cycle-2/bc2-02-g1-d186-representative-support-reconstruction.json",
-    "verifier": "stages/stage32-ex5/breadth-cycle-2/verify_bc2_02_g1_d186_representative_support_reconstruction.py",
-    "candidate": {
-      "row_id": "g1-d186",
-      "ordinal": 1617,
-      "triple": [76, -55, -96],
-      "slice_d_e_a": [186, 266, 592]
-    },
-    "exact_chain": [
-      "32-21bl fresh audit binds ordinal 1617, row g1-d186 and triple [76,-55,-96]",
-      "retained 32-21bl witness supplies the exact 59-entry reduced Picard witness",
-      "post-21bl Picard adapter reconstructs 140 exact nonnegative integral pairings",
-      "BC2-01A identifies exceptional pairings as all140 slots 92..139",
-      "BC2-01B identifies exceptional index k with one exact canonical singular node",
-      "the resulting last48 vector has mass 266, four zero entries at k={1,5,6,7}, and support size 44",
-      "supported rows k=[0,2,3,4,8,9,16] have exact 7x7 determinant 16, so this support spans P6"
-    ],
-    "exceptional_pairings_last48": [5,0,1,1,3,0,0,0,5,3,6,6,6,7,10,9,6,8,8,5,4,1,8,10,5,9,7,4,5,12,9,5,3,1,9,4,11,1,16,1,9,12,1,11,1,3,1,14],
+  "bc2_02_representative": {
+    "artifact": "stages/stage32-ex5/breadth-cycle-2/bc2-02-g1-d186-representative-support-reconstruction.json",
+    "row_id": "g1-d186",
+    "ordinal": 1617,
+    "triple": [76, -55, -96],
+    "slice_d_e_a": [186, 266, 592],
     "support_size": 44,
-    "zero_exceptional_indices_0based": [1,5,6,7],
-    "span_rank": 7,
-    "span_determinant_witness": 16,
+    "zero_exceptional_indices_0based": [1, 5, 6, 7],
     "support_spans_P6": true,
-    "scope": "ONE_EXACT_FIXED_PROJECTION_REPRESENTATIVE_ONLY",
-    "genus1_exclusion_credit": false,
-    "reason_no_genus1_exclusion": "The BTVA genus-1 hyperplane-section-component alternative remains unresolved; P6 span here is an exact reconstruction checksum, not a rejection."
+    "genus1_exclusion_credit": false
   },
-  "full178_blocker": {
-    "status": "OPEN",
-    "active_retained_census_rows": 178,
-    "full178_rows_are_numerical_rows_not_source_curves": true,
-    "retained_full178_has_59d_witness_per_candidate": false,
-    "retained_full178_has_direct_48_support_per_candidate": false,
-    "scalar_exceptional_mass_is_not_labelled_support": true,
-    "smallest_exact_reentry": "materialize an exact 59-entry reduced Picard witness or a directly verified 48-entry exceptional support certificate for every candidate that is to receive support/span credit, before lossy FULL178 aggregation"
+  "bc2_02_generic_consumer": {
+    "status": "PASS_EXACT_HEAD_REGRESSION",
+    "adapter": "stages/stage32-ex5/breadth-cycle-2/bc2_02_exact_witness_to_node_support.py",
+    "checkpoint": "stages/stage32-ex5/breadth-cycle-2/bc2-02-exact-witness-consumer-checkpoint.json",
+    "input_contract": "exact SAT evidence with target {row_id,e,a,z[5]} and result.witness_r_reduced[59]",
+    "output_chain": "59D reduced witness -> Picard64 -> all140 -> last48 -> BC2-01B canonical nodes -> exact support span",
+    "workflow": ".github/workflows/stage32ex5-bc2-02-exact-support-adapter.yml",
+    "exact_head": "e26cb204408dc39428494897313da06dd6d4327d",
+    "run_id": 34332943900,
+    "job_id": 102405556493,
+    "conclusion": "success",
+    "artifact_id": 10096531925,
+    "artifact_digest": "sha256:a48c48859212e3957c26897d5d657f71bdb69cfc8d0a7f9cddb49bc40b6b407c",
+    "generated_output_canonical_sha256": "c0646fef960a268a8b969b361612feb850ca41989ac0d80dcc2845454d7e0704",
+    "representative_regression": {
+      "witness_sha256": "1a131595c87cf9c5d54ef97dba62261eeb3dda7bb92a5a9fa62c280f46bc4137",
+      "picard_coordinates_sha256": "0fcbe0c9cdf894a95704bcaf55536290fc2daa736387169c891e8262f2c565a7",
+      "all140_pairings_sha256": "1968dba54ebe2082c6ed07203ea9e4118460f60c32c60d46292bc73dc6bdf961",
+      "last48_sha256": "d03e719ce6f2090f1043d13dc1dcf66d228ecd8727f5b9df5a166ebe89058061",
+      "last48_sum": 266,
+      "support_size": 44,
+      "zero_indices_0based": [1, 5, 6, 7],
+      "canonical_node_vector_rank": 7,
+      "projective_span_dimension": 6,
+      "spans_P6": true
+    },
+    "does_not_find_witness": true
   },
+  "full178_materialization_localization": {
+    "node_mass_census_builder": "stages/stage32/residual-32-01-production/build_stage32_post21bl_full178_node_mass_census.py",
+    "postcut_continuous_kkt_survivors": 659697,
+    "continuous_kkt_survivor_is_not_integral_picard_class": true,
+    "retains_59d_witness": false,
+    "retains_labelled_48_support": false,
+    "prefix_indexed_checkpoint": "stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json",
+    "prefix_terminal_family_count": "688101306360803751427719294",
+    "prefix_terminal_family_digits": 27,
+    "numerical_picard_leaf_checks_complete": false,
+    "legacy_exact_59d_solver": "stages/stage32/residual-32-01-production/certify_stage32_21bl_joint_integer_closure.py",
+    "legacy_exact_59d_solver_scope": "representative fixed-projection 3234-triple prism only",
+    "generic_full178_59d_producer_present": false,
+    "generic_59d_support_consumer_present": true
+  },
+  "anti_loop": {
+    "materialize_all_659697_continuous_survivors": false,
+    "materialize_27_digit_prefix_terminal_family": false,
+    "infer_labelled_support_from_scalar_e": false,
+    "treat_21bl_representative_prism_as_full178": false
+  },
+  "next_boundary": "GENERIC_FULL178_INTEGRAL_PICARD_TARGET_TO_EXACT_59D_WITNESS_PRODUCER_OR_EQUIVALENT_DIRECT_48_SUPPORT_CERTIFICATE",
   "retained_artifacts": [
     "stages/stage32-ex5/breadth-cycle-2/bc2-01b-runtime-node-coordinate-bridge.json",
     "stages/stage32-ex5/breadth-cycle-2/bc2-02-full178-support-reconstruction-preflight.json",
     "stages/stage32-ex5/breadth-cycle-2/bc2-02-g1-d186-representative-support-reconstruction.json",
-    "stages/stage32-ex5/breadth-cycle-2/verify_bc2_02_g1_d186_representative_support_reconstruction.py",
+    "stages/stage32-ex5/breadth-cycle-2/bc2_02_exact_witness_to_node_support.py",
+    "stages/stage32-ex5/breadth-cycle-2/bc2-02-exact-witness-consumer-checkpoint.json",
     "stages/stage32-ex5/parallel/results/stage32ex5-mainbatch-synthesis.json"
   ],
-  "verification_note": "Mainbatch independently replayed the exact last48 extraction, mass/support counts and determinant witness from the retained source values. The newly committed verifier is retained for repository replay; this checkpoint does not claim an Actions run for that new verifier.",
-  "next_boundary": "FULL178_EXACT_59D_OR_DIRECT_48_SUPPORT_MATERIALIZATION",
   "downstream_credit": {
     "receiver_credit": false,
     "stage32_main_credit": false,
