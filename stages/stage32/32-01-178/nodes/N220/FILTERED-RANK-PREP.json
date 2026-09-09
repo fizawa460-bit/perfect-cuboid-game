@@ -1,0 +1,54 @@
+{
+  "schema": "stage32-01-178-n220-filtered-rank-prep/v1",
+  "node_id": "N220",
+  "route_id": "N220-R3-AUDIT-GATED-FILTERED-RANK-ARCHITECTURE",
+  "status": "AUDIT_REQUIRED",
+  "purpose": "Prepare exact post-N220 filtered execution rank/unrank while preserving the N104/N106 old canonical stratum-local rank as the completeness authority.",
+  "source_locks": {
+    "n220_state_blob_sha": "15f38f2bc2c0c5c84206505283dd3ed9d6fa5145",
+    "n220_filtered_rank_architecture_path": "stages/stage32/32-01-178/nodes/N220/FILTERED-RANK-ARCHITECTURE.md",
+    "n104_state_contract": "every old canonical terminal rank in every manifest stratum receives exactly one disposition",
+    "n106_state_contract": "work identity remains stratum-local (row_id,d,e) plus the existing local CompressedTerminalIndexer(e,d) rank domain",
+    "manifest_canonical_sha256": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23"
+  },
+  "old_domain": {
+    "identity": "(row_id,d,e,old_canonical_local_rank)",
+    "authority_replaced": false,
+    "dispositions": ["N220_REJECTED", "N220_SURVIVOR"]
+  },
+  "secondary_survivor_rank": {
+    "definition": "F(r)=number of N220-accepted old canonical ranks q with 0<=q<r",
+    "unrank_definition": "U(k)=the unique accepted old rank r with F(r)=k",
+    "is_canonical_authority": false,
+    "required_identities": [
+      "F(U(k))=k",
+      "N220_accept(U(k))=true",
+      "U(F(r))=r for every accepted old rank r",
+      "rejected_count+survivor_count=old_terminal_count in every exact stratum"
+    ]
+  },
+  "symbolic_target": {
+    "method": "accepted-subtree prefix-count DP under the same exact symmetry/lex/parity grammar as the retained indexed terminal family",
+    "materialize_27_digit_family": false,
+    "count_factorization": "(19*d-5*e+1)*C_N220(g,d,e)",
+    "reason": "N220 depends on exceptional prefix coordinates and (g,d,e), not on the independent normal coordinate x4"
+  },
+  "blocking_source_lock": "Locate the concrete current CompressedTerminalIndexer(e,d) child/rank order before implementing filtered rank/unrank; do not guess its canonical order.",
+  "audit_gate": {
+    "n220_hostile_audit_pass_present": false,
+    "production_pruning_authorized": false,
+    "implementation_authorized": false,
+    "heavy_compute_authorized": false
+  },
+  "credit_firewall": {
+    "full178_complete": false,
+    "numerical_row_complete": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "existence_claim": false,
+    "nonexistence_claim": false,
+    "ex5_completion_work_duplicated": false,
+    "merge_authorized": false
+  }
+}
