@@ -38,17 +38,17 @@ jobs:
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi
-      - name: Verify audited 36-09DW dual-basis pairing correction
+      - name: Verify audited DW correction remains valid
         shell: bash
         run: |
           set -euo pipefail
           python3 stages/stage36/verify_stage36_36_09DW_pairing_correction.py
-      - name: Verify retained DZ arithmetic remains numerically valid
+      - name: Verify exact-green 36-09EB representatives
         shell: bash
         run: |
           set -euo pipefail
-          python3 stages/stage36/verify_stage36_36_09DZ.py
-      - name: Assert V232 promotion consumption and EB unlock
+          python3 stages/stage36/verify_stage36_36_09EB.py
+      - name: Assert V234 EB promotion and EC unlock
         shell: bash
         run: |
           set -euo pipefail
@@ -56,34 +56,32 @@ jobs:
           import json, subprocess
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
-          c=json.loads(Path('stages/stage36/36-09DW/dual-basis-pairing-correction.json').read_text())
-          r=json.loads(Path('stages/stage36/36-09DW/hostile-reaudit-pass-receipt.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V232_36_09DW_PAIRING_PASS_CONSUMED_EB_UNLOCKED'
+          eb=json.loads(Path('stages/stage36/36-09EB/fixed-p2-corrected-phi-coset-representative-preflight.json').read_text())
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V234_36_09EB_EXACT_GREEN_EC_UNLOCKED'
           assert s['status']=='ACTIVE_MAIN_CONTINUATION'
-          af=s['authority_frontier']['36-09DW-CORRECTION']; pc=s['post_audit_correction']; hc=s['hostile_audit_checkpoint']; cur=s['current']; pg=s['promotion_gates']
-          assert af['status']=='AUDITED_EXACT_GREEN_CORRECTION'
-          assert af['external_reaudit_review_id']==5149329866
-          assert af['audited_exact_head']=='8bade5065ae9b727668163df284bb0c14886ac47'
-          assert af['promotion_replay_head']=='594fdbdcdba8b1d4ed76a4325d25dadc27da22c3'
-          assert af['promotion_replay_ci']=='34306570884/102324397624'
-          assert pc['external_reaudit_passed'] is True
-          assert pc['promotion_replay_passed'] is True
-          assert pc['pass_receipt_blob_sha']=='3420b0b147cc04b5f430fb7b8d7810437a788879'
-          assert hc['result']=='PASS_CONSUMED'
-          assert hc['current_authority_valid_for_corrected_label_dependent_DW_DX_CLAIMS'] is True
-          assert cur['next_owner']=='MAIN'
-          assert cur['substantive_batch_pr_continues'] is True
-          assert cur['36_09EB_entry_allowed'] is True
-          assert pg['external_reaudit_after_DW_pairing_correction_passed'] is True
-          assert pg['36_09DW_pairing_pass_promotion_replay_passed'] is True
-          assert pg['36_09EB_entry_allowed'] is True
-          assert pg['BT_Phi_Selmer_historical_labels_valid'] is False
-          assert pg['BT_Phi_Selmer_corrected_labels_authority_valid'] is True
-          assert c['corrected_global_Phi_Selmer']['all_classes']==[['[1]','[1]','[1]'],['[1]','[1]','[-1]'],['[1]','[2]','[6]'],['[1]','[2]','[-6]']]
-          assert r['external_reaudit']['result']=='PASS'
-          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09DW/hostile-reaudit-pass-receipt.json'],text=True).strip()=='3420b0b147cc04b5f430fb7b8d7810437a788879'
+          af=s['authority_frontier']['36-09EB']; cur=s['current']; pg=s['promotion_gates']
+          assert af['status']=='EXACT_GREEN_PARENT'
+          assert af['certificate_blob_sha']=='63f03e134273b33fa4a51ce67c867e169996939a'
+          assert af['source_blob_sha']=='e1250f712e2fb08d38a42312055a2ac7666c7a91'
+          assert af['verifier_blob_sha']=='90a8290331355f9a105bb131447040b5ca1cf99a'
+          assert af['exact_head']=='384973a32fb1daf200be6c4223098e223f702bb2'
+          assert af['exact_head_ci']=='34306930887/102325454844'
+          assert eb['jacobian_representatives']['representative_set_cardinality']==4
+          assert eb['quotient_identification']['representatives_exhaust_JQ_mod_PhiAQ'] is True
+          assert eb['local_translation_data']['all_four_EA_translations_materialized'] is True
+          assert cur['unit']=='36-09EB'
+          assert cur['next_exact_leaf']=='36-09EC_FIXED_P2_FOUR_TRANSLATED_RETAINED_OPEN_INTERSECTION_PREFLIGHT'
+          assert cur['36_09EC_entry_allowed'] is True
+          assert pg['36_09EB_exact_head_ci_passed'] is True
+          assert pg['36_09EB_promotion_replay_passed'] is True
+          assert pg['36_09EC_entry_allowed'] is True
+          assert pg['BT_Phi_coset_representatives_materialized'] is True
+          assert pg['BT_Phi_coset_representative_count']==4
+          assert pg['BT_four_translated_intersections_decided'] is False
+          assert subprocess.check_output(['git','hash-object','stages/stage36/36-09EB/fixed-p2-corrected-phi-coset-representative-preflight.json'],text=True).strip()=='63f03e134273b33fa4a51ce67c867e169996939a'
+          assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09EB.py'],text=True).strip()=='90a8290331355f9a105bb131447040b5ca1cf99a'
           for key in ['BT_retained_open_curve_proSelmer_intersection_computed','BT_global_2primary_Brauer_set_nonempty','BT_global_2primary_Brauer_set_empty','Brauer_Manin_obstruction_obtained','fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          print('V232 verified: PR1736 hostile PASS is consumed by V231 exact-green promotion replay; corrected Phi labels are authority-valid, historical labels remain revoked, and EB is unlocked only for explicit rational quotient representatives/local translations.')
+          print('V234 verified: all four corrected rational Phi coset representatives are exact-green and EC is unlocked only to test the four translated retained-open intersections. No downstream credit.')
           PY
           git diff --check
