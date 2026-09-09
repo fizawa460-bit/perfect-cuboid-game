@@ -10,11 +10,11 @@ HERE = Path(__file__).resolve().parent
 STATE = HERE / "MAIN-STATE.json"
 START = HERE / "MAIN-START-HERE.md"
 EXPECTED_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V2_POST1728_V6_NEGATIVE_AUTHORITY_CONSUMED"
-EXPECTED_CANONICAL = "78497768594f8b277c4c448ccce5ea2c5d3e8c2b26688d5fceba4cd31d157917"
+EXPECTED_CANONICAL = "1a7295b3452d4cc7bc4406ee1bcfb655cd28a5d8e75f690fdc8bd93e6d85c6e2"
 EXPECTED_ROUTE = "FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS"
 EXPECTED_WORKING_SET = [
     "stages/stage32/full178-dominance-recheck-after-v6-o210-q602-route-20260909.json",
-    "stages/stage32/mainbatch-final-chain-reentry-20260909.json",
+    "stages/stage32/management/mainbatch-final-chain-reentry-20260909.json",
 ]
 POST_SYNC_AUDIT = {
     "review_id": 5149990935,
@@ -74,7 +74,7 @@ def main() -> None:
     for rel in EXPECTED_WORKING_SET:
         assert (ROOT / rel).is_file(), rel
 
-    checkpoint = json.loads((ROOT / "stages/stage32/mainbatch-final-chain-reentry-20260909.json").read_text())
+    checkpoint = json.loads((ROOT / EXPECTED_WORKING_SET[1]).read_text())
     cp_body = dict(checkpoint)
     cp_digest = cp_body.pop("canonical_sha256_without_this_field")
     assert csha(checkpoint) == cp_digest
@@ -82,6 +82,12 @@ def main() -> None:
     assert checkpoint["final_chain"]["32-01"]["status"] == "ACTIVE_PRIMARY"
     assert checkpoint["final_chain"]["32-02"]["status"] == "FINAL_EXECUTION_WAITS_FOR_COMPLETE_32_01_SURVIVOR_LEDGER"
     assert checkpoint["final_chain"]["32-03"]["status"] == "INDEPENDENT_PARALLEL_WORK_AVAILABLE"
+
+    org = state["organizational_integration"]
+    assert org["former_ex1_ex4_user_facing_view"] == "stages/stage32/integrated-ex/README.md"
+    assert all(v is False for v in org["ordinary_separate_lane_startup"].values())
+    assert org["EX5_remains_separate_active_lane"] is True
+    assert org["integration_changes_mathematical_credit"] is False
 
     fw = state["firewalls"]
     assert fw["V6_genus1_carrier_excluded"] is True
@@ -96,6 +102,9 @@ def main() -> None:
 
     cleanup = state["cleanup_gate"]
     assert cleanup["proof_or_source_locked_assets_may_be_deleted_without_reference_audit"] is False
+    assert cleanup["root_cleanup_phase"] == "PHASE_C_USER_FACING_EX1_EX4_INTEGRATION_AND_LOOSE_ROOT_RELOCATION"
+    assert cleanup["integrated_ex_view"] == "stages/stage32/integrated-ex/README.md"
+    assert cleanup["legacy_numbered_directories_physically_relocated"] is False
 
     startup = START.read_text()
     for fragment in [
@@ -105,9 +114,11 @@ def main() -> None:
     ]:
         assert fragment in startup
 
-    print("PASS Stage32 MAIN startup authority POST1730_Q602_AUDIT_COMPLETE")
+    print("PASS Stage32 MAIN startup authority POST1730_Q602_AUDIT_COMPLETE_PHASE_C")
     print(f"main_state_canonical={EXPECTED_CANONICAL}")
     print("v6_o210_q602_audited_and_consumed=true")
+    print("integrated_ex1_ex4=true")
+    print("ex5_remains_separate_active=true")
     print("remaining=FULL178,effectivity,multibranch,final_synthesis")
 
 

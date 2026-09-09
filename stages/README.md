@@ -33,6 +33,20 @@ stages/stage15/   active Stage15 comparison work
 
 Stage-specific mathematics, scripts, derived reports, and frozen workflows belong under the corresponding stage directory. Repository-wide/shared source data and status documents may remain at top level.
 
+## Stage32 integration rule
+
+`stages/stage32/` is the user-facing Stage32 entry.
+
+Former EX1-EX4 investigations are now organizationally integrated under:
+
+```text
+stages/stage32/integrated-ex/
+```
+
+Their canonical audited evidence remains at `stages/stage32-ex1/` through `stages/stage32-ex4/` only for exact source-lock, replay, and historical compatibility. Those compatibility roots are not ordinary independent startup lanes.
+
+`stages/stage32-ex5/` remains separate and active while its FULL178 route is still under construction. Do not fold EX5 into the integrated view until its current work reaches an appropriate terminal/consolidation boundary.
+
 ## Naming rule
 
 The stage/task context belongs in the **path**, not at the end of every filename. Stage directories always use two decimal digits (`stage02`, ..., `stage09`, `stage10`, ...).
