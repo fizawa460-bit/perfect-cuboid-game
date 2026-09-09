@@ -16,16 +16,18 @@ CERT = HERE / "e3-v91c1x-r5b3b3c4b2b2g-repaired-stage33-11f-26-column-closure.js
 OLD_STATE_SHA = "f4c442670386b7ac270e95dd36070415ae2b542df313769023e7d86c3534a7b4"
 CERT_SHA = "e9b3bad7d1c74d40e0a4114659e4e2bb9c5866f1548a28204e3e2dd11ad2ed32"
 AUTH = "V91C1V_A2_02_ACTUAL_PRIME_KNOWN140_LOCATOR_BOUNDED_RESULT"
-AUDIT_REVIEW = 5150130766
-AUDITED_HEAD = "e4a861a13819e60e9e7d7eece8e5c1d90748b68d"
+CONSTRUCTION_AUDIT_REVIEW = 5150130766
+CONSTRUCTION_AUDITED_HEAD = "e4a861a13819e60e9e7d7eece8e5c1d90748b68d"
+CURRENT_AUDIT_REVIEW = 5150755582
+CURRENT_AUDITED_HEAD = "29f3dab7936b79f3f761af004dbedb10797802f3"
 
 CHECKPOINT = {
     "authority": "OPERATIONAL_ONLY_NOT_PROOF",
     "status": "V91C1X_C4B2B2G_REPAIRED_STAGE33_11F_26_COLUMN_CLOSURE_MAIN_COMPLETE_PENDING_HOSTILE_AUDIT",
     "frontier_certificate_sha256": CERT_SHA,
     "frontier": "V91C1X_R5B3B3C4B2B2G_REPAIRED_STAGE33_11F_26_COLUMN_CLOSURE",
-    "consumed_c4b2b2f_hostile_reaudit_review": AUDIT_REVIEW,
-    "consumed_c4b2b2f_hostile_reaudit_exact_head": AUDITED_HEAD,
+    "consumed_c4b2b2f_hostile_reaudit_review": CURRENT_AUDIT_REVIEW,
+    "consumed_c4b2b2f_hostile_reaudit_exact_head": CURRENT_AUDITED_HEAD,
     "failure_category": "HOSTILE_AUDIT_REQUIRED_BEFORE_REPAIRED_STAGE33_11F_CLOSURE_CREDIT",
     "next_leaf": "V91C1X_R5_REPAIRED_STAGE33_11F_26_COLUMN_CLOSURE_HOSTILE_AUDIT",
     "historical_stage33_11f_26_column_closure_reuse_allowed": False,
@@ -61,8 +63,11 @@ def assert_cert():
     if cert["entry"]["authority"] != AUTH or cert["entry"]["stage33_progress"] != "6/11":
         raise SystemExit("C4B2B2G authority/progress moved")
     locks = cert["source_locks"]
-    if locks["c4b2b2f_hostile_reaudit_review"] != AUDIT_REVIEW or locks["c4b2b2f_hostile_reaudit_exact_head"] != AUDITED_HEAD:
-        raise SystemExit("C4B2B2F hostile re-audit receipt moved")
+    if (
+        locks["c4b2b2f_hostile_reaudit_review"] != CONSTRUCTION_AUDIT_REVIEW
+        or locks["c4b2b2f_hostile_reaudit_exact_head"] != CONSTRUCTION_AUDITED_HEAD
+    ):
+        raise SystemExit("C4B2B2G construction provenance moved")
     summary = cert["summary"]
     if summary["repaired_exact_main_connecting_columns"] != "26/26":
         raise SystemExit("C4B2B2G repaired MAIN closure incomplete")
