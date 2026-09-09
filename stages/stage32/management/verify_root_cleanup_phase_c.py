@@ -112,8 +112,12 @@ def main() -> None:
         "stages/stage32/archive/legacy-root/manifest-phase-c.json",
         "stages/stage32/management/verify_root_cleanup_phase_c.py",
     }
+    preserved_historical_prefixes = (
+        "stages/stage32/archive/",
+        "stages/stage32/proof/historical-routing-blobs/",
+    )
     for rel in tracked_files():
-        if rel in skip or rel.startswith("stages/stage32/archive/"):
+        if rel in skip or rel.startswith(preserved_historical_prefixes):
             continue
         path = ROOT / rel
         try:
@@ -165,6 +169,7 @@ def main() -> None:
     print(f"relocated_loose_root_file_count={len(EXPECTED_RELOCATIONS)}")
     print("integrated_ex1_ex4_view=true")
     print("canonical_audited_ex1_ex4_paths_preserved=true")
+    print("historical_routing_blobs_preserved_immutable=true")
     print("ex5_remains_separate_active=true")
     print("legacy_numbered_paths_relocated=false")
     print("mathematical_credit_changed=false")
