@@ -91,7 +91,7 @@ def assert_inputs():
         raise SystemExit("C4B2B2G certificate lock moved")
     if cert["entry"]["authority"] != AUTH or cert["entry"]["stage33_progress"] != "6/11":
         raise SystemExit("C4B2B2G authority/progress moved")
-    if cert["source_locks"]["stage33_11f_source_lock"]["canonical_sha256"] != SOURCE_LOCK_SHA:
+    if cert["source_locks"]["stage33_11f_source_lock_sha256"] != SOURCE_LOCK_SHA:
         raise SystemExit("Stage33-11f source lock moved")
     summary = cert["summary"]
     if summary["repaired_exact_main_connecting_columns"] != "26/26" or summary["unresolved_connecting_columns"] != 0:
