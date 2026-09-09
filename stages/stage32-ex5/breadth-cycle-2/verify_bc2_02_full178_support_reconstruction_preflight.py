@@ -7,8 +7,8 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 ART = HERE / "bc2-02-full178-support-reconstruction-preflight.json"
-ADAPTER = ROOT / "stage32" / "residual-32-01-production" / "adapt_stage32_post21bl_picard_witness.py"
-CENSUS = ROOT / "stage32" / "residual-32-01-production" / "build_stage32_post21bl_full178_node_mass_census.py"
+ADAPTER = ROOT / "stages" / "stage32" / "residual-32-01-production" / "adapt_stage32_post21bl_picard_witness.py"
+CENSUS = ROOT / "stages" / "stage32" / "residual-32-01-production" / "build_stage32_post21bl_full178_node_mass_census.py"
 BRIDGE = HERE / "bc2-01b-runtime-node-coordinate-bridge.json"
 
 
