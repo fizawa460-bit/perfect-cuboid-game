@@ -1,0 +1,21 @@
+name: Stage32 32-01-178 N260 e48 full exceptional rigidity
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-01-178/nodes/N260/**'
+      - 'stages/stage32/32-01-178/nodes/N230/**'
+      - '.github/workflows/stage32-01-178-n260-e48-rigidity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify N260 e48 full exceptional rigidity
+        run: python stages/stage32/32-01-178/nodes/N260/verify_n260_e48_full_exceptional_rigidity.py
