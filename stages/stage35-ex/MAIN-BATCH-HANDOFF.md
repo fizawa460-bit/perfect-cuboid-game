@@ -1,82 +1,83 @@
-# Stage35-EX MAIN batch handoff — Goal4BP post-Gaussian fresh-route audit
+# Stage35-EX MAIN batch handoff — Goal4BQ y-zero boundary escape depth
 
-Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BP are provisional stacked leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
+Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BQ are provisional stacked leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
 
 ## Exact-green parent
 
-Goal4BO is exact-green:
+Goal4BP is exact-green:
 
-- exact head: `c23d7f9bbcd43b1ebbfa233e7fc1e8c6612d48da`
-- aggregate: `34318593424`
-- `verify-stage35-ex-current`: `102362097586`
+- exact head: `a88fdbad3480f0a6a254a02a001efd179e01528d`
+- aggregate: `34319593575`
+- `verify-stage35-ex-current`: `102364864481`
 - result: `SUCCESS`
 
-Goal4BO proved that `lambda^8` characters can detect the `5+4*i` orientation, but the source does not fix the deeper character value and the ray order grows without bound with conductor. Mechanical deeper-conductor iteration is therefore fail-closed as a standalone route.
+Goal4BP executed a fresh blind+Arsenal-deduplicated route audit after the Gaussian ray tower was fail-closed. It selected the fixed `y=0` boundary escape/conductor-depth route and retained the derived fourth-square defect as a distinct untested backup.
 
-## Goal4BP provisional exact result
+## Goal4BQ provisional exact result
 
-The Cycle Exploration Safety Protocol was executed with blind rediscovery before Arsenal consultation. Proposals that merely evaluate the already-flexible Gaussian carrier `Xi` were excluded from being counted as new routes.
-
-The refreshed ledger is:
+Use the rational boundary anchor
 
 ```text
-LIVE:
-  Y_ZERO_BOUNDARY_ESCAPE_CONDUCTOR_DEPTH
-
-UNTESTED:
-  DERIVED_FOURTH_SQUARE_DEFECT_TWO_CYCLE
-
-BLOCKED:
-  EXPLICIT_HEIGHT_LOWER_VS_UPPER_CONSTANT_COMPLETION
-  SUPER_SQRT_AMPLIFICATION_WITH_CURRENT_MAPS
-  MECHANICAL_DEEPER_GAUSSIAN_RAY_CHARACTER_TOWER
+P*=(272/225,0,353/225,1,272/225,353/225).
 ```
 
-The selected live view comes from the fixed rational boundary anchor
+At the 2-adic place fix `x=272/225`, `p=353/225`, let `m=v2(y)>=6`, and choose the square-root branches reducing to the anchor. Then
 
 ```text
-P*=(272/225,0,353/225,1,272/225,353/225),
+(q-1)(q+1)=y^2,
+v2(q+1)=1,
+v2(q-1)=2m-1,
+v2((q+y)-1)=m.
 ```
 
-which lies on the affine surface but exits `U_PC` exactly through `y=0`. Goal4BB shows every finite Brauer packet has a source-marked adelic population near this anchor, while Goal4AQ shows the full visible character layer is endpoint-equivalent. The finite/full gap is therefore naturally tested as explicit escape depth toward the removed divisor `y=0`.
-
-Arsenal dedup found no formal weapon that already supplies the required
+For every `n>=6`, let
 
 ```text
-finite-character conductor -> boundary depth -> global rational height
+X_n=Hom((Z/2^n Z)^*,Q/Z),
+F_n={beta(chi,q+y): chi in X_n}.
 ```
 
-adapter. `S34-W01` remains relevant only to the distinct derived fourth-square backup after an exact finite squareclass/factor-support theorem is obtained; it is not triggered now.
-
-Cycle exit:
+Characters of `(Z/2^n Z)^*` separate unit classes, so all `F_n` evaluations at 2 match the anchor iff
 
 ```text
-CYCLE_ROUTE_STATUS=PASS_NEW_GATE_FROM_STRONGER_VIEW
-CYCLE_ACTIVE_RECEIVER=SOURCE_MARKED_ADELIC_POPULATION_NEAR_FIXED_Y_ZERO_BOUNDARY_ANCHOR
-CYCLE_LIVE_CANDIDATES=1
-CYCLE_UNTESTED_CANDIDATES=1
-CYCLE_EXHAUSTIVE_VIEW_AUDIT=true
-CYCLE_BLIND_REDISCOVERY=true
-CYCLE_SPLIT_TRIGGERED=false
-CYCLE_PARKING_AUDIT_COMPLETE=false
-CYCLE_NEW_VIEW=Y_ZERO_BOUNDARY_ESCAPE_CONDUCTOR_DEPTH
-CYCLE_NEW_VIEW_SOURCE=BLIND
+q+y == 1 mod 2^n
+iff v2(y)>=n.
 ```
+
+Hence the exact minimum boundary depth is
+
+```text
+D(n)=n.
+```
+
+This is sharp and gives a concrete explanation of how finite Brauer-compatible adelic populations can escape toward the removed divisor `y=0` while the full infinite visible-character layer remains endpoint-equivalent.
+
+Conditionally, if a rational realization `y=a/b` in lowest terms existed with `v2(y)>=n`, then `b` is odd, `2^n|a`, and
+
+```text
+H(y)>=2^n.
+```
+
+But Stage35-EX has no theorem realizing these finite adelic packets by rational endpoints. Therefore no Goal4M/counting contradiction, no compactness closure, and no branch pruning is credited.
 
 Artifacts:
 
-- `stages/stage35-ex/35ex-35/goal4bp-post-gaussian-ray-tower-fresh-route-audit-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4bp-post-gaussian-ray-tower-fresh-route-audit.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4bp_post_gaussian_fresh_route_audit.py`
+- `stages/stage35-ex/35ex-35/goal4bq-y-zero-boundary-escape-conductor-depth-source-lock.md`
+- `stages/stage35-ex/35ex-35/goal4bq-y-zero-boundary-escape-conductor-depth.json`
+- `stages/stage35-ex/verify_stage35_ex_35_goal4bq_y_zero_boundary_escape_conductor_depth.py`
 
 ## Next exact leaf
 
 ```text
-35EX-35_GOAL4BQ_Y_ZERO_BOUNDARY_ESCAPE_CONDUCTOR_DEPTH_PREFLIGHT
+35EX-35_GOAL4BR_DERIVED_FOURTH_SQUARE_DEFECT_SQUARECLASS_PREFLIGHT
 ```
 
-Compute a controlled finite 2-primary visible-character filtration, determine its exact minimum `v2(y)` depth near `P*`, and then distinguish a conditional rational-height lower bound from any actually available global realization theorem.
+Analyze
 
-A Goal4BQ source lock is already present on the branch as provisional scratch/source material, but it grants no Goal4BQ credit until Goal4BP itself is exact-green and a Goal4BQ artifact/verifier is stacked on that exact parent.
+```text
+Q_D=(x*a*b)^2+(y*a*c)^2+(z*b*c)^2
+```
+
+using the Goal4AY completion identity and the primitive six-variable gcd/parity dictionary. First reduce the squareclass to its primitive two-square receiver and determine whether any bounded factor/squareclass family exists before invoking S34-W01.
 
 No merge. No hostile-audit credit. `MAIN-STATE.json` remains V74 / Goal4AK.
