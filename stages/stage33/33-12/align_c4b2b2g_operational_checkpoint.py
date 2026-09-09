@@ -107,6 +107,14 @@ def check():
 def write():
     assert_cert()
     state, claimed = load_locked(STATE)
+    text = SYNC.read_text(encoding="utf-8")
+
+    if state.get("work_checkpoint") == CHECKPOINT:
+        if sync_sha(text) != claimed:
+            raise SystemExit("already-aligned checkpoint has stale sync_main_state STATE_SHA")
+        print(json.dumps({"status": "NOOP_ALREADY_ALIGNED", "main_state_sha": claimed}, sort_keys=True))
+        return
+
     if claimed != OLD_STATE_SHA:
         raise SystemExit(f"unexpected MAIN-STATE starting lock: {claimed}")
     if state["authority_sync"]["frontier_authority"] != AUTH or state["stage33_progress"] != "6/11":
@@ -122,7 +130,6 @@ def write():
     state["canonical_sha256"] = new_sha
     STATE.write_text(json.dumps(state, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8")
 
-    text = SYNC.read_text(encoding="utf-8")
     old_sync_sha = sync_sha(text)
     if old_sync_sha != claimed:
         raise SystemExit(f"sync_main_state old STATE_SHA mismatch: {old_sync_sha} != {claimed}")
