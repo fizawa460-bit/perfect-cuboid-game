@@ -54,6 +54,7 @@ assert ex['authority_status'] == 'AUDITED'
 assert ex['claim_core_sha256'] == a['binding']['from_claim_core_sha256']
 assert ex['audit_receipt'] == a['binding']['from_audit_receipt']
 
+# Runtime target check: do not source-lock the mutable ACTIVE-FRONTIER blob.
 active = json.loads(ACTIVE.read_text())
 o210 = [c for c in active['claims'] if c.get('scope_key') == 'S32.O210.COVER' and c.get('scope') == FIXED_SCOPE]
 assert len(o210) == 1
@@ -73,8 +74,10 @@ if CID in by:
     expected = csha({k:claim[k] for k in CORE_KEYS})
     assert claim['claim_core_sha256'] == expected
     assert claim['authority_status'] in {'PROVISIONAL','AUDITED'}
-    if claim['authority_status'] == 'PROVISIONAL': assert claim['audit_receipt'] is None
-    else: assert claim['audit_receipt']['status'] == 'PASS'
+    if claim['authority_status'] == 'PROVISIONAL':
+        assert claim['audit_receipt'] is None
+    else:
+        assert claim['audit_receipt']['status'] == 'PASS'
 
 fresh = a['freshness_design']
 assert fresh['repository_main_sha_is_semantic_binding'] is False
