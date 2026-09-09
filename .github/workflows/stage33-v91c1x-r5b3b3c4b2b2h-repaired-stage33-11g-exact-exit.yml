@@ -1,0 +1,90 @@
+name: Stage33 C4B2B2H repaired Stage33-11g exact-exit candidate
+
+on:
+  push:
+    branches:
+      - stage33-v91c1x-r5b3b3c4b1e-1757-refinement-unit-preflight
+    paths:
+      - .github/workflows/stage33-v91c1x-r5b3b3c4b2b2h-repaired-stage33-11g-exact-exit.yml
+      - stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b2b2h_repaired_stage33_11g_exact_exit.py
+      - stages/stage33/33-12/align_c4b2b2h_operational_checkpoint.py
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stage33-c4b2b2h-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact triggering head
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Verify current main is included
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main:refs/remotes/origin/main
+          git merge-base --is-ancestor origin/main HEAD
+
+      - name: Materialize repaired Stage33-11g exact-exit candidate
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b2b2h_repaired_stage33_11g_exact_exit.py --write
+
+      - name: Align operational checkpoint
+        run: python stages/stage33/33-12/align_c4b2b2h_operational_checkpoint.py --write
+
+      - name: Replay exact candidate and state contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b2b2h_repaired_stage33_11g_exact_exit.py
+          python stages/stage33/33-12/align_c4b2b2h_operational_checkpoint.py --check
+          python stages/stage33/sync_main_state.py --check
+          git diff --check
+
+      - name: Enforce generated delta
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import subprocess
+          allowed = {
+              'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b2b2h-repaired-stage33-11g-exact-exit.json',
+              'stages/stage33/MAIN-STATE.json',
+              'stages/stage33/sync_main_state.py',
+          }
+          rows = subprocess.check_output(['git', 'status', '--porcelain'], text=True).splitlines()
+          changed = set()
+          for row in rows:
+              path = row[3:]
+              if ' -> ' in path:
+                  path = path.split(' -> ', 1)[1]
+              changed.add(path)
+          if changed != allowed:
+              raise SystemExit(f'unexpected generated delta: {sorted(changed)} != {sorted(allowed)}')
+          print('GENERATED_DELTA=PASS')
+          PY
+
+      - name: Commit exact C4B2B2H checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add \
+            stages/stage33/33-12/e3-v91c1x-r5b3b3c4b2b2h-repaired-stage33-11g-exact-exit.json \
+            stages/stage33/MAIN-STATE.json \
+            stages/stage33/sync_main_state.py
+          git commit -m '[Stage33] materialize C4B2B2H repaired Stage33-11g exact-exit candidate'
+          git push origin HEAD:${GITHUB_REF_NAME}
