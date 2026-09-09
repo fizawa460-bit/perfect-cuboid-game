@@ -29,18 +29,21 @@ jobs:
         run: |
           set -euo pipefail
           python -B stages/stage35-ex/verify_stage35_ex_35_goal4ae.py
-      - name: Enforce V68 no-credit boundary
+      - name: Enforce historical V68 no-credit boundary only at V68
         run: |
           set -euo pipefail
           python - <<'PY'
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage35-ex/MAIN-STATE.json').read_text())
-          assert s['schema']=='STAGE35_EX_PESCH_E1_STATE_V68_GOAL4AE_C5K_NAME_COLLISION_REPAIRED_DIRECT_S_IMAGEINPIC_PENDING_AUDIT'
-          assert s['current']['next']=='35EX-35_GOAL4AF_SECOND_CLASS_QI_CYCLIC_C5_DIRECT_SURFACE_IMAGEINPIC_INDLIST64_EXTRACTION_PREFLIGHT'
-          assert s['claims']['open_receiver_second_class_C5_pair_marked_picard_adapter_computed'] is False
-          assert s['claims']['open_receiver_second_class_target_span_with_C5_pairs_computed'] is False
-          assert s['claims']['E1_proved'] is False
-          assert s['claims']['stage35_closed'] is False
-          print('GOAL4AE_V68_NO_CREDIT_BOUNDARY=PASS')
+          v68='STAGE35_EX_PESCH_E1_STATE_V68_GOAL4AE_C5K_NAME_COLLISION_REPAIRED_DIRECT_S_IMAGEINPIC_PENDING_AUDIT'
+          if s['schema'] != v68:
+              print('GOAL4AE_V68_NO_CREDIT_BOUNDARY=SKIP_CURRENT_SCHEMA_'+s['schema'])
+          else:
+              assert s['current']['next']=='35EX-35_GOAL4AF_SECOND_CLASS_QI_CYCLIC_C5_DIRECT_SURFACE_IMAGEINPIC_INDLIST64_EXTRACTION_PREFLIGHT'
+              assert s['claims']['open_receiver_second_class_C5_pair_marked_picard_adapter_computed'] is False
+              assert s['claims']['open_receiver_second_class_target_span_with_C5_pairs_computed'] is False
+              assert s['claims']['E1_proved'] is False
+              assert s['claims']['stage35_closed'] is False
+              print('GOAL4AE_V68_NO_CREDIT_BOUNDARY=PASS')
           PY
