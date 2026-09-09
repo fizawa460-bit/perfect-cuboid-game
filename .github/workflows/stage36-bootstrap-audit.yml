@@ -59,7 +59,7 @@ jobs:
           r=json.loads(Path('stages/stage36/36-09EE/hostile-audit-pass-receipt.json').read_text())
           assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V242_36_09EE_HOSTILE_PASS_CONSUMED_EF_UNLOCKED'
           assert s['status']=='ACTIVE_MAIN_CONTINUATION'
-          assert s['base_main_sha']=='411ab6943fb0fe6ee7d9093a85281895ae1b0fba'
+          assert s['base_main_sha']=='733176600f99e91993d08c16aa98f09c08a1e726'
           assert r['audit']['review_id']==5149991589
           assert r['audit']['audited_exact_head']=='6ae4fde45a9665f7a81173e0790006722f9bb1da'
           assert r['merged_checkpoint']['merge_commit']=='4d7f50af95ffc00340d14ec9830f619273278a81'
@@ -81,6 +81,6 @@ jobs:
           assert subprocess.check_output(['git','hash-object','stages/stage36/36-09EE/hostile-audit-pass-receipt.json'],text=True).strip()=='91a047fbffd05ecac51236a94e9d7582347051e2'
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          print('V242 verified: hostile PASS 5149991589 is consumed; 36-09EF is unlocked strictly for the physical receiver adapter. Downstream credit remains closed.')
+          print('V242 verified on synchronized current main: hostile PASS 5149991589 is consumed; 36-09EF is unlocked strictly for the physical receiver adapter. Downstream credit remains closed.')
           PY
           git diff --check
