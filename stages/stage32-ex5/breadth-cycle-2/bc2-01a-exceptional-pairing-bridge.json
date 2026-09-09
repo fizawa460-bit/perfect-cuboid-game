@@ -1,0 +1,74 @@
+{
+  "authority": {
+    "hostile_audit_credit": false,
+    "mathematical_credit": false,
+    "receiver_credit": false,
+    "route_qualified": false,
+    "stage32_main_credit": false
+  },
+  "breadth_cycle": "EX5_BREADTH_CYCLE_2_CANDIDATE",
+  "canonical_sha256_without_this_field": "e1535eacc9dcc4fbc10f0295737490e2ca8273796e620e974bfc3ba3da04c351",
+  "established": {
+    "aggregate_mass_not_used": true,
+    "all140_count": 140,
+    "exceptional_count": 48,
+    "exceptional_indices_0based": [92, 139],
+    "known32_calibration_in_same_runtime": "MatCP[j,k] is the exact 0/1 predicate that singular point pts[k] lies on known curve j, so direct node incidence and curve-versus-exceptional support agree by construction in the Stoll runtime ordering.",
+    "normal_indices_0based": [0, 91],
+    "ordering_evidence": [
+      "Stage32 direct Picard diagnostic explicitly stabilizes normal=range(92) and exceptional=range(92,140).",
+      "Stage32 Hperp adapter independently requires all140 diagonal entries 0..91 to equal -4 and 92..139 to equal -2.",
+      "Stoll exact model appends the 48 exceptional classes after the known non-exceptional curve classes and builds curve-exceptional intersections from singular-point incidence."
+    ],
+    "pairing_reconstruction": "Stage32 Picard witness adapter computes pairings = adapter.pairing_matrix * x and requires exactly 140 exact integral pairings.",
+    "runtime_support_under_effective_curve_hypothesis": "for k=0..47, node k is in the exceptional-intersection support exactly when pairings[92+k] > 0"
+  },
+  "firewalls": {
+    "FULL178_closed": false,
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "effectivity_claimed": false,
+    "mass_treated_as_labelled_support": false,
+    "node_span_inferred_without_coordinates": false,
+    "pairing_nonnegativity_treated_as_curve_existence": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "stage32_main_credit": false
+  },
+  "leaf": "BC2-01A_EXCEPTIONAL_PAIRING_BRIDGE",
+  "next_leaf": {
+    "goal": "export or recover in one exact runtime the 48 singular points together with the same exceptional ordering, then canonicalize exact projective coordinates and persist runtime-index-to-canonical-node mapping",
+    "id": "BC2-01B_RUNTIME_NODE_COORDINATE_BRIDGE",
+    "promotion_condition": "48/48 bijection plus permutation-invariant exact canonicalization; only then run BTVA support-span predicates on FULL178 witnesses"
+  },
+  "pending": {
+    "btva_projective_span_replay_ready": false,
+    "persisted_runtime_node_index_to_exact_projective_coordinate_table_found": false,
+    "reason": "the exact 48 exceptional pairing coordinates are available, but no retained exact table presently bridges runtime exceptional index 0..47 to projective coordinates of the corresponding singular point; BTVA span rank must not be inferred from aggregate mass or index labels alone.",
+    "repository_search_terms_checked": ["node_coordinates", "singular_points", "Cpts"]
+  },
+  "route_id": "EX5R-SYMDIFF-NODE-SPAN-001",
+  "schema": "STAGE32EX5_BC2_01A_EXCEPTIONAL_PAIRING_BRIDGE_V1",
+  "source_lock": {
+    "direct_picard_reynolds_lattice_diagnostic": {
+      "blob": "9ba0301aa1bc3afcfebd88588cf863b2f0a4fce8",
+      "path": "stages/stage32/residual-32-01-production/direct_picard_reynolds_lattice_diagnostic.py"
+    },
+    "hperp_integral_adapter": {
+      "blob": "fb1eb380ca786e42a6b00c5ef454b0e79fdba771",
+      "path": "stages/stage32/residual-32-01-production/hperp_integral_adapter.py"
+    },
+    "picard_witness_adapter": {
+      "blob": "eb825ca4058565157c63e17b38f28ec73cb57214",
+      "path": "stages/stage32/residual-32-01-production/adapt_stage32_post21bl_picard_witness.py"
+    },
+    "stage32_commit": "70265586b3f97be21c7621af73f443311f1f3fa3",
+    "stoll_exact_model": {
+      "blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/cuboids.magma",
+      "repo": "MichaelStollBayreuth/Verification"
+    }
+  },
+  "stage": "32EX5",
+  "status": "PAIRING_LAST48_BRIDGE_PASS_NODE_COORDINATE_BRIDGE_PENDING"
+}
