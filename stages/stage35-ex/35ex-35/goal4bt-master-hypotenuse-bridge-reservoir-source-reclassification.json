@@ -1,0 +1,87 @@
+{
+  "schema": "STAGE35_EX_GOAL4BT_MASTER_HYPOTENUSE_BRIDGE_RESERVOIR_SOURCE_RECLASSIFICATION_V1",
+  "unit": "35EX-35_GOAL4BT_MASTER_HYPOTENUSE_BRIDGE_RESERVOIR_SOURCE_RECLASSIFICATION",
+  "stacked_parent": {
+    "administrative_head_sha": "1968566acdde3a1a38bb599d75fba193f5130c08",
+    "audited_checkpoint_head_sha": "d6f5151c9d95304afe7081c92f40f1d25cc4aa3b",
+    "intermediate_hostile_review_id": 5151846948,
+    "mathematical_authority": "V74/Goal4AK",
+    "mathematical_authority_review_id": 5142248509
+  },
+  "reopen_gate": {
+    "gate": "B.NEW_SOURCE_FIXED_E1_INVARIANT",
+    "satisfied": true,
+    "reason": "The bridge reservoir e=gcd(c,H) is source-computable from the Master-Hit alone because H=sqrt(M)/(c*q). Historical 35EX-10 treated e as not source-known."
+  },
+  "source_locks": {
+    "35ex02_canonical_gcd": {"path": "stages/stage35-ex/35ex-02/canonical-gcd-and-2adic-lemma.md", "blob_sha1": "9df24c83ed23e5d13397a2971706a5ac7def9461"},
+    "35ex08_bridge": {"path": "stages/stage35-ex/35ex-08/hypotenuse-bridge-triple.md", "blob_sha1": "15c53ccd5317b6251a70a5f4bf78051a3bb4af1f"},
+    "35ex10_split_prime": {"path": "stages/stage35-ex/35ex-10/split-prime-obstruction.md", "blob_sha1": "a5761a883b3c50bbdad6a357241bba4b61e71c8a"},
+    "35ex11_reciprocity": {"path": "stages/stage35-ex/35ex-11/reciprocity-routing-and-local-route-freeze.md", "blob_sha1": "fc186e1a0b2134840135e67c29adb0e6bd9bf1a9"},
+    "goal4bs_parking": {"path": "stages/stage35-ex/35ex-35/goal4bs-post-boundary-derived-backup-parking-audit-source-lock.md", "blob_sha1": "374a30ad8b69610120ee79ab40a8a517814a091c"}
+  },
+  "source_computation": {
+    "M": "(V1*U2)^2+(U1*V2)^2",
+    "S": "positive integer sqrt(M) supplied by Master-Hit",
+    "h": "c*q=gcd(V1*U2,U1*V2)",
+    "H": "S/(c*q)",
+    "master_reduced_identity": "((V1/q)*(U2/c))^2+((U1/c)*(V2/q))^2=H^2",
+    "e": "gcd(c,H)",
+    "E1_assumption_needed_for_H": false,
+    "E1_assumption_needed_for_e": false
+  },
+  "source_only_bridge_sieve": {
+    "branch_selector": "compare v2(V1) and v2(V2)",
+    "branch_L": "for every odd prime ell|e, Legendre(p*q,ell)=+1 is necessary for E1 failure",
+    "branch_R": "for every odd prime ell|e, Legendre(2*p*q,ell)=+1 is necessary for E1 failure",
+    "kill_L": "exists odd ell|e with Legendre(p*q,ell)=-1",
+    "kill_R": "exists odd ell|e with Legendre(2*p*q,ell)=-1",
+    "third_source_known_reservoir": true,
+    "pairwise_coprime_with_cross_and_T_under_counterexample": true
+  },
+  "nonredundancy_witnesses": {
+    "branch_L": {
+      "tuple": {"a": 13, "b": 2, "m": 32, "n": 13},
+      "euclid1": {"U1": 165, "V1": 52, "W1": 173},
+      "euclid2": {"U2": 855, "V2": 832, "W2": 1193},
+      "master": {"M": 20822490000, "S": 144300, "c": 15, "p": 1, "q": 52, "H": 185, "e": 5, "branch": "L"},
+      "old_channels": {"D": 11, "T": 57, "t": 88, "K": 173, "odd_split_primes_in_t": [], "odd_split_primes_in_T": [], "old_35ex10_split_predicate_fires": false},
+      "new_bridge_channel": {"ell": 5, "character": "Legendre(p*q,ell)", "value": -1, "bridge_predicate_fires": true}
+    },
+    "branch_R": {
+      "tuple": {"a": 33, "b": 32, "m": 22, "n": 17},
+      "euclid1": {"U1": 65, "V1": 2112, "W1": 2113},
+      "euclid2": {"U2": 195, "V2": 748, "W2": 773},
+      "master": {"M": 171976090000, "S": 414700, "c": 65, "p": 1, "q": 44, "H": 145, "e": 5, "branch": "R"},
+      "old_channels": {"D": 1, "T": 3, "j": 17, "K": 101424, "odd_split_primes_in_j": [17], "Legendre_2K_17": 1, "odd_split_primes_in_T": [], "old_35ex10_split_predicate_fires": false},
+      "new_bridge_channel": {"ell": 5, "character": "Legendre(2*p*q,ell)", "value": -1, "bridge_predicate_fires": true}
+    },
+    "consequence": "The corrected bridge channel excludes E1 failure on Master-Hits not excluded by the old cross/T split-prime channels, in both 2-adic branches."
+  },
+  "result": {
+    "master_hypotenuse_H_source_computable": true,
+    "bridge_reservoir_e_source_computable": true,
+    "historical_35ex10_source_classification_corrected": true,
+    "new_source_fixed_E1_invariant_obtained": true,
+    "reopen_gate_B_triggered": true,
+    "source_only_bridge_kill_predicate_proved": true,
+    "predicate_nonvacuous_and_nonredundant_on_regression_witness": true,
+    "universal_E1_proof_obtained": false,
+    "universal_bad_bridge_prime_existence_proved": false,
+    "branch_pruning_for_individual_master_hits": true
+  },
+  "next": {
+    "unit": "35EX-35_GOAL4BU_THREE_SOURCE_RESERVOIR_RECIPROCITY_COUPLING_PREFLIGHT",
+    "question": "Does source-known e, together with the cross reservoir and T, force a global reciprocity relation or universal bad-prime condition beyond the separate primewise predicates?"
+  },
+  "credit_firewall": {
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "hostile_audit_credit": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256": "1eba0637995f9a3aa1e605fd7c42fb4310a51eadfe46cf459e50d81257aeb66e"
+}
