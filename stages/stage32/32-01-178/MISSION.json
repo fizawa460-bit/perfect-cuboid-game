@@ -23,176 +23,45 @@
     "full178_complete": false,
     "r29_lg2": "NOT_DISCHARGED",
     "indexed_terminal_family_count": "688101306360803751427719294",
-    "current_primary_wall": "N240_V2_REPAIRED_STRUCTURAL_ADAPTER_FRESH_HOSTILE_REAUDIT; N104_COMPLETENESS_RELEASE_STILL_BLOCKED_BY_MISSING_SOURCE_LOCKED_PRODUCTION_LEAF_VERIFIER; N150_EX5_GATE_BLOCKED",
+    "current_primary_wall": "N240_V2_FRESH_HOSTILE_REAUDIT; N260_FOUR_STRATUM_E48_RIGIDITY_HOSTILE_AUDIT; N104_COMPLETENESS_RELEASE_STILL_BLOCKED_BY_MISSING_SOURCE_LOCKED_PRODUCTION_LEAF_VERIFIER; N150_EX5_GATE_BLOCKED",
     "bruteforce_scale": "FINITE_BUT_CURRENT_BRUTE_FORCE_SCALE_OPERATIONALLY_INFEASIBLE",
     "n220_audit": "HOSTILE_AUDIT_PASS corrected review 5159411821 at exact head 940fe99a20c1eaa215126acd92e7c390295bb441; exact necessary prefix pruning rejects 342047598454520296245948565 of 688101306357436883335845534 post-node-mass terminals, leaving 346053707902916587089896969",
     "n230_audit": "HOSTILE_AUDIT_PASS review 5160389467 at exact head 1206475517ed8caf59e92d0d6daa57eb14ab4a41; exact N220-filtered random access and old-rank replay consumed into N104/N106; old canonical rank remains completeness authority",
-    "n240_status": "hostile audit FAIL at exact head 6327346d336028c910410da9bd430e117ecc024d on fake-COMPLETE acceptance and unverified manifest membership; repaired V2 at implementation blob cfbc082ba4f4f1d3b8e28c576ff06c06c53714c4 / verifier blob 88178f3be88a0ce1f51ddabe19c8920e75289f2d. Cheap exact-head workflow 34417965947 / job 102686956222 SUCCESS at bbbb126c733772f4327fe67f3f59e83d3ddafa6d. V2 verifies locked manifest membership and makes production COMPLETE/N104 disposal fail closed because no source-locked production leaf verifier is registered. Fresh hostile re-audit required; no numerical Picard/heavy/FULL178 credit.",
-    "ex5_status": "PR #1742 exact head a5e59bab3f7fe5a31e356c5a78edcbd741b093a6 retains local exact UNSAT ranks 0..398 only for (g1-d008,e=4). It is frozen at the 100-commit intermediate hostile-audit boundary before BC2-11; no new hostile audit beyond BC2-01B is present, so no population-wide MAIN/N150 leaf-completion adapter is consumable."
+    "n240_status": "V1 hostile audit FAIL at exact head 6327346d336028c910410da9bd430e117ecc024d on fake-COMPLETE acceptance and unverified manifest membership; repaired V2 implementation blob cfbc082ba4f4f1d3b8e28c576ff06c06c53714c4 / verifier blob 88178f3be88a0ce1f51ddabe19c8920e75289f2d verifies locked manifest membership and makes production COMPLETE/N104 disposal fail closed until a source-locked production leaf verifier is registered. Fresh hostile re-audit required; old V1 FAIL does not adjudicate V2.",
+    "n250_status": "exact post-N220 priority census replay PASS run 34418623202 / job 102688957260: 60491 post-node-mass strata, 4 strata have exactly one survivor exceptional block, 12 have <=10, 36 <=100, 230 <=1000; no new pruning or Picard credit",
+    "n260_status": "retained arithmetic rigidity replay PASS run 34418800331 / job 102689522286: the four one-block strata g0-d174/e48, g0-d176/e48, g1-d190/e48, g1-d192/e48 have K=e=48, forcing all 48 exceptional pairings to 1 and leaving only x4 free at indexed-terminal level; hostile audit required, no Picard UNSAT credit",
+    "ex5_status": "PR #1742 exact head a5e59bab3f7fe5a31e356c5a78edcbd741b093a6 retains local exact UNSAT ranks 0..398 only for (g1-d008,e=4). It is frozen at the 100-commit intermediate hostile-audit boundary before BC2-11; no population-wide MAIN/N150 leaf-completion adapter is consumable."
   },
   "nodes": [
-    {
-      "node_id": "N101",
-      "semantic_key": "s32-01-178:indexed-terminal-compression",
-      "title": "Exact indexed-terminal Picard leaf compression redesign",
-      "depends_on": [],
-      "state_path": "nodes/N101/STATE.json",
-      "status": "DONE"
-    },
-    {
-      "node_id": "N102",
-      "semantic_key": "s32-01-178:hard-tail-eight-row-structure",
-      "title": "Eight hard-tail row structural reduction",
-      "depends_on": [],
-      "state_path": "nodes/N102/STATE.json",
-      "status": "DONE"
-    },
-    {
-      "node_id": "N103",
-      "semantic_key": "s32-01-178:production-witness-support-interface",
-      "title": "Production-side 59D witness and 48-support retention interface",
-      "depends_on": [],
-      "state_path": "nodes/N103/STATE.json",
-      "status": "DONE"
-    },
-    {
-      "node_id": "N104",
-      "semantic_key": "s32-01-178:completeness-certificate-architecture",
-      "title": "FULL178 completeness and replay certificate architecture",
-      "depends_on": [],
-      "state_path": "nodes/N104/STATE.json",
-      "status": "DONE"
-    },
-    {
-      "node_id": "N105",
-      "semantic_key": "s32-01-178:independent-global-cut-discovery",
-      "title": "Independent global-cut and reusable-weapon discovery",
-      "depends_on": [],
-      "state_path": "nodes/N105/STATE.json",
-      "status": "DONE"
-    },
-    {
-      "node_id": "N106",
-      "semantic_key": "s32-01-178:compressed-production-execution-plan",
-      "title": "Compressed production execution and sharding design",
-      "depends_on": [],
-      "state_path": "nodes/N106/STATE-AUDITED.json",
-      "status": "DONE"
-    },
-    {
-      "node_id": "N150",
-      "semantic_key": "s32-01-178:ex5-external-consumption-gate",
-      "title": "EX5 external audited-result consumption gate",
-      "depends_on": [],
-      "state_path": "nodes/N150/STATE.json",
-      "status": "BLOCKED"
-    },
-    {
-      "node_id": "N190",
-      "semantic_key": "s32-01-178:generation1-reconciliation",
-      "title": "Generation-1 reconciliation and next frontier selection",
-      "depends_on": [
-        "N101",
-        "N102",
-        "N103",
-        "N104",
-        "N105",
-        "N106"
-      ],
-      "state_path": "nodes/N190/STATE.json",
-      "status": "DONE"
-    },
-    {
-      "node_id": "N210",
-      "semantic_key": "s32-01-178:post-g1-prefix-only-cut-revalidation",
-      "title": "Post-Generation-1 prefix-only exact-cut revalidation",
-      "depends_on": [
-        "N190"
-      ],
-      "state_path": "nodes/N210/STATE.json",
-      "status": "DONE"
-    },
-    {
-      "node_id": "N220",
-      "semantic_key": "s32-01-178:prefix-exceptional-support-cap-cut",
-      "title": "Prefix exceptional-support capacity exact cut",
-      "depends_on": [
-        "N210"
-      ],
-      "state_path": "nodes/N220/STATE-AUDITED.json",
-      "status": "DONE"
-    },
-    {
-      "node_id": "N230",
-      "semantic_key": "s32-01-178:n220-filtered-exceptional-rank-random-access",
-      "title": "Audited N220 filtered exceptional-rank random access and replay integration",
-      "depends_on": [
-        "N220"
-      ],
-      "state_path": "nodes/N230/STATE-AUDITED.json",
-      "status": "DONE"
-    },
-    {
-      "node_id": "N240",
-      "semantic_key": "s32-01-178:n230-filtered-survivor-execution-completeness-adapter",
-      "title": "Repaired filtered-survivor structural execution adapter; production completeness fail-closed",
-      "depends_on": [
-        "N104",
-        "N106",
-        "N220",
-        "N230"
-      ],
-      "state_path": "nodes/N240/STATE.json",
-      "status": "AUDIT_REQUIRED"
-    }
+    {"node_id":"N101","semantic_key":"s32-01-178:indexed-terminal-compression","title":"Exact indexed-terminal Picard leaf compression redesign","depends_on":[],"state_path":"nodes/N101/STATE.json","status":"DONE"},
+    {"node_id":"N102","semantic_key":"s32-01-178:hard-tail-eight-row-structure","title":"Eight hard-tail row structural reduction","depends_on":[],"state_path":"nodes/N102/STATE.json","status":"DONE"},
+    {"node_id":"N103","semantic_key":"s32-01-178:production-witness-support-interface","title":"Production-side 59D witness and 48-support retention interface","depends_on":[],"state_path":"nodes/N103/STATE.json","status":"DONE"},
+    {"node_id":"N104","semantic_key":"s32-01-178:completeness-certificate-architecture","title":"FULL178 completeness and replay certificate architecture","depends_on":[],"state_path":"nodes/N104/STATE.json","status":"DONE"},
+    {"node_id":"N105","semantic_key":"s32-01-178:independent-global-cut-discovery","title":"Independent global-cut and reusable-weapon discovery","depends_on":[],"state_path":"nodes/N105/STATE.json","status":"DONE"},
+    {"node_id":"N106","semantic_key":"s32-01-178:compressed-production-execution-plan","title":"Compressed production execution and sharding design","depends_on":[],"state_path":"nodes/N106/STATE-AUDITED.json","status":"DONE"},
+    {"node_id":"N150","semantic_key":"s32-01-178:ex5-external-consumption-gate","title":"EX5 external audited-result consumption gate","depends_on":[],"state_path":"nodes/N150/STATE.json","status":"BLOCKED"},
+    {"node_id":"N190","semantic_key":"s32-01-178:generation1-reconciliation","title":"Generation-1 reconciliation and next frontier selection","depends_on":["N101","N102","N103","N104","N105","N106"],"state_path":"nodes/N190/STATE.json","status":"DONE"},
+    {"node_id":"N210","semantic_key":"s32-01-178:post-g1-prefix-only-cut-revalidation","title":"Post-Generation-1 prefix-only exact-cut revalidation","depends_on":["N190"],"state_path":"nodes/N210/STATE.json","status":"DONE"},
+    {"node_id":"N220","semantic_key":"s32-01-178:prefix-exceptional-support-cap-cut","title":"Prefix exceptional-support capacity exact cut","depends_on":["N210"],"state_path":"nodes/N220/STATE-AUDITED.json","status":"DONE"},
+    {"node_id":"N230","semantic_key":"s32-01-178:n220-filtered-exceptional-rank-random-access","title":"Audited N220 filtered exceptional-rank random access and replay integration","depends_on":["N220"],"state_path":"nodes/N230/STATE-AUDITED.json","status":"DONE"},
+    {"node_id":"N240","semantic_key":"s32-01-178:n230-filtered-survivor-execution-completeness-adapter","title":"Repaired filtered-survivor structural execution adapter; production completeness fail-closed","depends_on":["N104","N106","N220","N230"],"state_path":"nodes/N240/STATE.json","status":"AUDIT_REQUIRED"},
+    {"node_id":"N250","semantic_key":"s32-01-178:post-n220-survivor-exceptional-block-census","title":"Exact post-N220 survivor exceptional-block priority census","depends_on":["N220","N230"],"state_path":"nodes/N250/STATE.json","status":"DONE"},
+    {"node_id":"N260","semantic_key":"s32-01-178:e48-full-exceptional-rigidity","title":"Four-stratum e=K=48 full exceptional-vector rigidity","depends_on":["N220","N230","N250"],"state_path":"nodes/N260/STATE.json","status":"AUDIT_REQUIRED"}
   ],
   "dispatch": {
     "generation": 1,
     "historical_only": true,
     "future_parallel_dispatch_enabled": false,
     "assignments": [
-      {
-        "slot": "a",
-        "node_id": "N101",
-        "status": "RETURNED"
-      },
-      {
-        "slot": "b",
-        "node_id": "N102",
-        "status": "RETURNED"
-      },
-      {
-        "slot": "c",
-        "node_id": "N103",
-        "status": "RETURNED"
-      },
-      {
-        "slot": "d",
-        "node_id": "N104",
-        "status": "RETURNED"
-      },
-      {
-        "slot": "e",
-        "node_id": "N105",
-        "status": "RETURNED"
-      },
-      {
-        "slot": "f",
-        "node_id": "N106",
-        "status": "CONSUMED",
-        "audit_review_id": 5153922196,
-        "audit_result": "PASS"
-      }
+      {"slot":"a","node_id":"N101","status":"RETURNED"},
+      {"slot":"b","node_id":"N102","status":"RETURNED"},
+      {"slot":"c","node_id":"N103","status":"RETURNED"},
+      {"slot":"d","node_id":"N104","status":"RETURNED"},
+      {"slot":"e","node_id":"N105","status":"RETURNED"},
+      {"slot":"f","node_id":"N106","status":"CONSUMED","audit_review_id":5153922196,"audit_result":"PASS"}
     ]
   },
-  "status_vocabulary": [
-    "OPEN",
-    "ACTIVE",
-    "BLOCKED",
-    "DONE",
-    "SUPERSEDED",
-    "AUDIT_REQUIRED"
-  ],
+  "status_vocabulary": ["OPEN","ACTIVE","BLOCKED","DONE","SUPERSEDED","AUDIT_REQUIRED"],
   "rules": {
     "frontier_is_derived": true,
     "search_before_create": true,
