@@ -1,0 +1,67 @@
+name: Stage32EX5 BC2-02 unknown53 direct-slice a preflight
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2_02_rank0_unknown53_direct_slice_a_preflight.py'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2-02-rank0-exceptional-mass2-branched-exact-checkpoint.json'
+      - 'stages/stage32/residual-32-01-production/direct_picard_slice_bridge.py'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+      - '.github/workflows/stage32ex5-bc2-02-unknown53-direct-slice-a-preflight.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32ex5-bc2-02-unknown53-a-preflight-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  direct-slice-a-preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Compute exact admissible a strata
+        run: |
+          python stages/stage32-ex5/breadth-cycle-2/bc2_02_rank0_unknown53_direct_slice_a_preflight.py \
+            --checkpoint stages/stage32-ex5/breadth-cycle-2/bc2-02-rank0-exceptional-mass2-branched-exact-checkpoint.json \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --output "$RUNNER_TEMP/bc2-02-unknown53-a-preflight.json"
+      - name: Validate exact partition firewalls
+        run: |
+          python - "$RUNNER_TEMP/bc2-02-unknown53-a-preflight.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1])); s=p['slice']
+          assert p['schema']=='STAGE32EX5_BC2_02_RANK0_UNKNOWN53_DIRECT_SLICE_A_PREFLIGHT_V1'
+          assert p['rank0_unknown_branch_count']==53
+          assert s['degree']==8 and s['exceptional_total']==4 and s['normal_total']==132
+          assert s['target_image_gate_exact'] is True
+          assert s['allowed_a_count']==len(s['allowed_a']) and s['allowed_a_count']>0
+          assert s['unknown53_times_allowed_a_strata']==53*s['allowed_a_count']
+          assert s['partition_complete_for_each_unknown_branch'] is True
+          assert s['new_mathematical_condition_added'] is False
+          assert p['firewalls']['rank0_terminal_closed'] is False
+          assert p['firewalls']['FULL178_complete'] is False
+          assert p['firewalls']['merge_authorized'] is False
+          print(json.dumps({'allowed_a_count':s['allowed_a_count'],'allowed_a':s['allowed_a'],'strata':s['unknown53_times_allowed_a_strata'],'modulus':s['target_image_congruence_modulus'],'image_index':s['target_image_image_index'],'canonical':p['canonical_sha256_without_this_field']},sort_keys=True))
+          PY
+      - name: Upload compact a-preflight evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32ex5-bc2-02-unknown53-direct-slice-a-preflight
+          path: ${{ runner.temp }}/bc2-02-unknown53-a-preflight.json
+          retention-days: 7
+          compression-level: 9
