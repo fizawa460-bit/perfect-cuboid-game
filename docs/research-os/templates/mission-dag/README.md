@@ -6,32 +6,55 @@ This template does not replace Stage-local mathematics, proof authority, hostile
 
 ## Human operator surface
 
-The human operator should need only three commands:
+The human operator should need only three command families:
 
 1. `research-start <mission>: <target>`
    - instantiate this template;
    - set the mission target and optional max parallelism;
-   - decompose only enough to expose a useful initial frontier.
+   - decompose only enough to expose a useful initial frontier;
+   - if parallel work is justified, print the exact short lane commands automatically.
 2. `<mission>-mainbatch`
    - read mission state;
    - compute the current open frontier;
    - run or assign materially distinct ready nodes;
    - freeze blockers and reuse existing results instead of recreating equivalent nodes;
+   - when multiple READY nodes are independent, bind stable lane slots and print commands such as `<mission>-a`, `<mission>-b`, `<mission>-c`;
    - stop at a coherent checkpoint.
 3. `<mission>-audit`
    - perform the repository hostile-audit contract on an exact retained checkpoint;
    - never self-grant audit credit from mainbatch.
 
-The operator does not manually maintain the DAG, candidate ledger, or frontier.
+The operator does not manually maintain the DAG, candidate ledger, frontier, or lane names.
 
 ## Minimal files
 
-- `MISSION.json`: mission target, node registry, dependencies, statuses, and execution limits.
+- `MISSION.json`: mission target, node registry, dependencies, statuses, execution limits, and current stable dispatch bindings.
 - `nodes/<NODE-ID>/STATE.json`: one research node, its semantic identity, attempts, blockers, retained result, and reuse provenance.
 - `MAINBATCH.md`: generic execution contract.
-- `verify_mission.py`: cheap structural verifier.
+- `dispatch_ready.py`: derives the READY frontier, binds independent nodes to stable `a/b/c...` slots, and prints the exact commands.
+- `verify_mission.py`: cheap structural verifier for both DAG and dispatch bindings.
 
-`frontier.json` is intentionally not stored. The frontier is derived from the DAG to avoid state drift.
+`frontier.json` is intentionally not stored. The frontier is derived from the DAG to avoid state drift. `MISSION.json.dispatch` is not a second frontier; it is only a stable snapshot binding already-selected READY nodes to human-facing lane commands so that `-b` cannot silently change meaning after `-a` finishes.
+
+## Parallel startup contract
+
+Parallel commands are produced only when at least two materially distinct READY nodes can run independently. `max_parallel` is a ceiling, not a target.
+
+Before displaying commands, mainbatch/dispatcher records a new dispatch generation and assignments like:
+
+```json
+{
+  "slot": "a",
+  "node_id": "N004",
+  "command": "stage40ex1-a",
+  "work_branch": "stage40ex1-lane-a-g2",
+  "status": "ISSUED"
+}
+```
+
+The human launches the printed commands in separate chats. Each lane resolves its node only from that recorded assignment and must not recompute a different node from the live frontier. If an assignment is missing or stale, the lane returns to `<mission>-mainbatch` for redispatch.
+
+Exploratory child work should normally use branches/scratch, not one PR per node. The long-lived mission/mainbatch surface integrates retained checkpoints.
 
 ## Anti-duplication rule
 
@@ -53,14 +76,8 @@ A node becomes READY only when all dependencies are DONE. DONE means the node's 
 
 A parent may not close merely because one child blocked. Mainbatch may decompose, replace with a stronger equivalent node, or record a genuine unresolved survivor.
 
-## Parallelism
-
-Parallelism is allowed only across READY nodes that do not require each other's immediate output and are materially distinct. `max_parallel` is a resource ceiling, not a target.
-
-Exploratory child work should normally use branches/scratch, not one PR per node. Consolidate retained checkpoints into the mission's long-lived integration surface.
-
 ## Copy contract
 
-Copy this directory into the target research area, rename the mission placeholders, create the initial `MISSION.json`, and create one `STATE.json` per initial node from `NODE.template.json`. The mainbatch agent owns subsequent DAG/frontier maintenance.
+Copy this directory into the target research area, rename the mission placeholders, create the initial `MISSION.json`, and create one `STATE.json` per initial node from `NODE.template.json`. The mainbatch agent owns subsequent DAG/frontier/dispatch maintenance.
 
 The template deliberately keeps the human-facing rules small. Repository-wide safety, credit, audit, evidence, and heavy-compute policies remain on-demand rather than being duplicated here.
