@@ -9,38 +9,105 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: stage33-c4b2b2g-operational-checkpoint-alignment
+  cancel-in-progress: false
+
 jobs:
   align:
     runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
+      - name: Synchronize semantically external current main
+        id: sync
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          main_sha="$(git rev-parse origin/main)"
+          head_sha="$(git rev-parse HEAD)"
+          base_sha="$(git merge-base HEAD origin/main)"
+          echo "observed_main_sha=$main_sha"
+          echo "observed_head_sha=$head_sha"
+          echo "merge_base_sha=$base_sha"
+          echo "main_sha=$main_sha" >> "$GITHUB_OUTPUT"
+          if git merge-base --is-ancestor "$main_sha" HEAD; then
+            echo 'merged=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          mapfile -t drift < <(git diff --name-only "$base_sha..origin/main" | sort)
+          printf 'current-main drift files:\n%s\n' "${drift[*]}"
+          for f in "${drift[@]}"; do
+            case "$f" in
+              AGENTS.md|stages/stage33/*|.github/workflows/stage33-*|docs/research-os/policies/*)
+                echo "blocking Stage33/governance main drift: $f" >&2
+                exit 1
+                ;;
+            esac
+          done
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git merge --no-edit "$main_sha"
+          echo 'merged=true' >> "$GITHUB_OUTPUT"
+
       - name: Align operational routing to C4B2B2G
         run: python stages/stage33/33-12/align_c4b2b2g_operational_checkpoint.py --write
       - name: Verify C4B2B2G checkpoint alignment
         run: python stages/stage33/33-12/align_c4b2b2g_operational_checkpoint.py --check
       - name: Verify Stage33 MAIN state contract
         run: python stages/stage33/sync_main_state.py --check
-      - name: Enforce bounded semantic delta
+
+      - name: Commit bounded Stage33 state delta when needed
         shell: bash
         run: |
+          set -euo pipefail
           git diff --check
           mapfile -t files < <(git diff --name-only | sort)
+          if [ "${#files[@]}" -eq 0 ]; then
+            exit 0
+          fi
           printf '%s\n' "${files[@]}"
           test "${#files[@]}" -eq 2
           test "${files[0]}" = "stages/stage33/MAIN-STATE.json"
           test "${files[1]}" = "stages/stage33/sync_main_state.py"
-      - name: Commit operational C4B2B2G checkpoint
-        shell: bash
-        run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add stages/stage33/MAIN-STATE.json stages/stage33/sync_main_state.py
-          git commit -m '[Stage33] align C4B2B2G repaired 11f hostile-audit checkpoint'
-          git push
+          git commit -m '[Stage33] retain C4B2B2G checkpoint after main sync'
 
-# Receipt trigger: consume C4B2B2F exact-head hostile PASS 5150755582.
+      - name: Verify exact current-main inclusion and clean tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          current_main="$(git rev-parse origin/main)"
+          git merge-base --is-ancestor "$current_main" HEAD
+          python stages/stage33/33-12/align_c4b2b2g_operational_checkpoint.py --check
+          python stages/stage33/sync_main_state.py --check
+          git diff --check
+          test -z "$(git status --porcelain)"
+          echo "EXACT_LOCAL_HEAD=$(git rev-parse HEAD)"
+          echo "CURRENT_MAIN_INCLUDED=$current_main"
+
+      - name: Push only from the exact triggering remote head
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin "${GITHUB_REF_NAME}"
+          remote_sha="$(git rev-parse "origin/${GITHUB_REF_NAME}")"
+          test "$remote_sha" = "$GITHUB_SHA"
+          local_sha="$(git rev-parse HEAD)"
+          if [ "$local_sha" = "$GITHUB_SHA" ]; then
+            echo 'No branch update required.'
+            exit 0
+          fi
+          git push origin HEAD:"${GITHUB_REF_NAME}"
+
+# Freshness trigger: retain C4B2B2G while synchronizing semantically external main drift.
