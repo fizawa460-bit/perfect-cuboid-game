@@ -1,108 +1,118 @@
-# Stage35-EX MAIN batch handoff — Goal4BG Gaussian face/space phase compatibility
+# Stage35-EX MAIN batch handoff — Goal4BH reservoir leading-unit orientation torsor
 
-Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BG are provisional stacked leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
+Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BH are provisional stacked leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
 
 ## Exact-green parent
 
-Goal4BF is exact-green:
+Goal4BG is exact-green:
 
-- exact head: `ab134d4cd9d21efb9f90f89e3215e81caa3561e2`
-- aggregate: `34306382710`
-- `verify-stage35-ex-current`: `102324844711`
+- exact head: `0ad450e20e4ce74a3b69d1f91720bc50ef955de3`
+- aggregate: `34309951404`
+- `verify-stage35-ex-current`: `102335489958`
 - result: `SUCCESS`
 
-Goal4BF source-locks an oriented Gaussian prime above every reservoir prime and lifts Goal4BE to quartic residue phases, but leaves the cross-conjugate gauge `G_ab,G_ac,G_bc` unresolved.
+Goal4BG produced six source-oriented Gaussian square roots, identified `h_a=gcd(A,D_BC)` cyclically, and exposed secondary leading-unit signs `sigma_i(ell)` without closing the BF phase gauge.
 
-## Goal4BG provisional exact result
+## Goal4BH provisional exact result
 
-The three primitive reduced face factors
+For `ell|s_a`, let
 
 ```text
-Phi_AB=y*a+i*z*b,
-Phi_AC=x*a+i*z*c,
-Phi_BC=x*b+i*y*c
+u=x*b,
+v=y*c,
+r=r_BC,
+I_a^2=-1,
+I_a == iota_a mod ell,
+rho=v_ell(r).
 ```
 
-have coprime conjugate factors and square norms. Hence, with unique primary square roots,
+The BF-selected Hensel factor has exact valuation
 
 ```text
-Phi_AB=eps_AB*Theta_AB^2,
-Phi_AC=eps_AC*Theta_AC^2,
-Phi_BC=eps_BC*Theta_BC^2.
+v_ell(u-I_a*v)=2*rho.
 ```
 
-The Goal4BF oriented reservoir kernels are literal divisors of these source roots:
+Hence
 
 ```text
-Sigma_a | bar(Theta_BC),
-Sigma_b | bar(Theta_AC),
-Sigma_c | bar(Theta_AB).
+q_a=(u-I_a*v)/ell^(2*rho) in Z_ell^*,
+(r/ell^rho)^2=q_a*(u+I_a*v).
 ```
 
-The reservoirs also have a second exact meaning:
+Write
 
 ```text
-gcd(A,D_BC)=h_a,
-gcd(B,D_AC)=h_b,
-gcd(C,D_AB)=h_c.
+alpha=v_ell(a),
+m=min(alpha,rho)=v_ell(h_a).
 ```
 
-Thus each `h_i|W` and division produces three primitive space Pythagorean triples and therefore three more canonical Gaussian square roots
+If `alpha!=rho`, the reduced space triple has one unit leg and one `ell`-divisible leg, so
 
 ```text
-D_BC/h_a+i*A/h_a = nu_a*Psi_a^2,
-D_AC/h_b+i*B/h_b = nu_b*Psi_b^2,
-D_AB/h_c+i*C/h_c = nu_c*Psi_c^2.
+ell does not divide W/h_a.
 ```
 
-At a reservoir prime `ell|s_a`, BF sees
+Thus a secondary space orientation requires the exact valuation tie
 
 ```text
-iota_a=x*b/(y*c) mod ell,
-iota_a^2=-1.
+alpha=rho=m.
 ```
 
-After stripping the common gcd `h_a`, the space factor instead sees the leading quotients
+When additionally `ell|W/h_a`, define
 
 ```text
-a'=a/ell^m,
-r'=r_BC/ell^m,
-m=v_ell(h_a).
-```
-
-If their valuations are unequal, there is no secondary space-side root of `-1` at `ell`. If both are units and `ell|W/h_a`, then
-
-```text
-lambda_a=z*r'/(x*y*a'),
+lambda_a=z*(r_BC/ell^m)/(x*y*(a/ell^m)),
 lambda_a^2=-1,
-lambda_a=sigma_a*iota_a,
-sigma_a in {+1,-1}.
+sigma_a=lambda_a/iota_a in {+1,-1}.
 ```
 
-Cyclic analogues hold. Therefore common `W` does not yet fix the BF cross-conjugate gauge; it exposes new valuation-stripped signs `sigma_i(ell)` that are not determined by the retained AU/BE/BF source identities.
+Explicitly
+
+```text
+sigma_a
+ = z*c*(r_BC/ell^m)/(x^2*b*(a/ell^m)) mod ell.
+```
+
+For the reduced space Gaussian factor
+
+```text
+Omega_a=z*(r_BC/ell^m)+i*x*y*(a/ell^m),
+```
+
+one gets the exact orientation interpretation
+
+```text
+sigma_a=-1  <=> BF-selected p_a divides Omega_a,
+sigma_a=+1  <=> conjugate p_a divides Omega_a.
+```
+
+The selected Gaussian valuation is `2*v_ell(W/h_a)`. Cyclic analogues hold for `b,c`.
+
+Therefore the surviving BF/BG phase problem is reduced exactly to primewise `mu_2` face/space orientation bits. Full leading terms determine their squares and valuations but no source-locked cyclic product relation has yet been obtained.
 
 Exact route status:
 
 ```text
-six source-oriented Gaussian square roots = yes;
-reservoir/space-gcd coupling = yes;
-secondary leading-unit phase bits = yes;
-BF gauge closed = no;
+Hensel leading unit = exact;
+secondary orientation requires valuation tie = exact;
+sigma_i explicit = exact;
+sigma_i is Gaussian prime matching bit = exact;
+universal sigma cycle = not obtained;
 branch pruning = no.
 ```
 
 Artifacts:
 
-- `stages/stage35-ex/35ex-35/goal4bg-gaussian-square-root-face-phase-compatibility-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4bg-gaussian-square-root-face-phase-compatibility.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4bg_gaussian_face_space_phase.py`
+- `stages/stage35-ex/35ex-35/goal4bh-reservoir-leading-unit-space-face-sign-cycle-source-lock.md`
+- `stages/stage35-ex/35ex-35/goal4bh-reservoir-leading-unit-space-face-sign-cycle.json`
+- `stages/stage35-ex/verify_stage35_ex_35_goal4bh_face_space_orientation_torsor.py`
 
 ## Next exact leaf
 
 ```text
-35EX-35_GOAL4BH_RESERVOIR_LEADING_UNIT_SPACE_FACE_SIGN_CYCLE_PREFLIGHT
+35EX-35_GOAL4BI_SECONDARY_ORIENTATION_HILBERT_PRODUCT_FORMULA_PREFLIGHT
 ```
 
-Use full `ell`-adic leading terms to classify the `sigma_i(ell)` and test whether they satisfy a cyclic product relation strong enough to close the BE/BF phase freedom.
+Package the `sigma_i(ell)` as local `mu_2` orientation characters and test Hilbert reciprocity/global product formula, including real and 2-adic contributions, for a genuinely new global relation.
 
 No merge. No hostile-audit credit. `MAIN-STATE.json` remains V74 / Goal4AK.
