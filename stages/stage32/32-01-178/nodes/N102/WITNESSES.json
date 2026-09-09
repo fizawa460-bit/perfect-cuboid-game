@@ -1,0 +1,34 @@
+{
+  "schema": "stage32-32-01-178-n102-witnesses/v1",
+  "node": "N102",
+  "result": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+  "source_locks": {
+    "hard_tail_diagnostic": {"path":"stages/stage32/residual-32-01-production/full178-resumable-generation38-256m-hard-tail-diagnostic-main-checkpoint.json","blob_sha":"5c56995adb03f6ffccb269c49ccb947aee8d082d","canonical_sha256":"b5f873869b278f08310b2101ebd242f3639503d9cfc005d9752e5735dd90596e"},
+    "residual_volume": {"path":"stages/stage32/residual-32-01-production/full178-resumable-generation38-residual-volume-main-checkpoint.json","blob_sha":"50846ccc32f9f4e71f5608e4699d5e1da0125da1","canonical_sha256":"b0dbfa0d2be07e36a9cb587268fe0a36e7ef7322ad0240b4fa5875a9e2ce2fea"},
+    "production_state": {"path":"stages/stage32/residual-32-01-production/state.json","blob_sha":"931e80ba892ec0d98f3e7b909ac2dd46660c116c"},
+    "indexed_checkpoint": {"path":"stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json","blob_sha":"eb823cc2f99d74456d5701b4673f848f18ba3151","canonical_sha256":"65a5ab43e44ebb33341c250a8fa2c5ece09999203893f9a76ca46fb037df558f"},
+    "terminal_family": {"path":"stages/stage32/residual-32-01-production/compressed_terminal_family.py","blob_sha":"90ff82ed312dcc0cb32cf207935945f550e29170"}
+  },
+  "historical_hard_tail": {"survivor_count":52,"same_e_after_full_256m":52,"unique_survivor_rows":8,"node_limit_per_input":256000000,"interpretation_is_theorem":false},
+  "rows": [
+    {"row_id":"g0-d008","g":0,"d":8,"current_e_range":[18,22],"e_max":30,"later_e":8},
+    {"row_id":"g0-d010","g":0,"d":10,"current_e_range":[18,23],"e_max":38,"later_e":15},
+    {"row_id":"g0-d012","g":0,"d":12,"current_e_range":[17,22],"e_max":45,"later_e":23},
+    {"row_id":"g0-d014","g":0,"d":14,"current_e_range":[16,22],"e_max":53,"later_e":31},
+    {"row_id":"g0-d016","g":0,"d":16,"current_e_range":[16,23],"e_max":60,"later_e":37},
+    {"row_id":"g0-d018","g":0,"d":18,"current_e_range":[16,21],"e_max":68,"later_e":47},
+    {"row_id":"g0-d020","g":0,"d":20,"current_e_range":[16,21],"e_max":76,"later_e":55},
+    {"row_id":"g0-d022","g":0,"d":22,"current_e_range":[15,21],"e_max":83,"later_e":62}
+  ],
+  "exact_identities": {
+    "row_family":"g=0 and d=8+2k, k=0,...,7",
+    "e_max":"floor(19*d/5)",
+    "later_e_per_row":"e_max-max(current_e_range)",
+    "later_e_total":278,
+    "indexed_predicate":["all xi >= 0","sum(xi for i != 4) <= e","0 <= x4 <= 19*d-5*e","x0 <= x1","if x0==x1 then (x5,x6) <=lex (x8,x9)","x1+x8+x9+x10 == 0 (mod 2)"],
+    "stratum_terminal_count":"(19*d-5*e+1)*exceptional_terminal_count(e)"
+  },
+  "dominance": {"historical_frontier_evidence_revoked":false,"legacy_prefix_enumeration_status":"SUPERSEDED_BY_EXACT_SYMBOLIC_COUNT_PLUS_INDEXED_RANDOM_ACCESS","terminal_set_semantics_preserved":true,"random_access_unrank":true,"inverse_rank":true,"small_family_full_set_bijection_checked":true,"scope":"prefix-family enumeration mechanism only"},
+  "blocker": {"numerical_picard_leaf_checks_complete":false,"next_leaf":"DIRECT_NUMERICAL_PICARD_LEAF_COMPRESSION_AFTER_PREFIX_REPARAMETERIZATION","full178_credit":false},
+  "replay":"python3 stages/stage32/32-01-178/nodes/N102/verify_n102.py"
+}
