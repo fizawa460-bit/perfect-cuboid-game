@@ -1,14 +1,64 @@
 {
-  "schema":"research-os-mission-node/v1",
-  "node_id":"N102",
-  "semantic_key":"s32-01-178:hard-tail-eight-row-structure",
-  "statement":"Analyze the eight row-tail sources that survived the 256M resumable generation to identify exact shared structure, invariants, or row-specific reductions that can eliminate or compress the giant individual strata.",
-  "scope":{"population":"the exact eight FULL178 hard-tail row sources retained by generation38 diagnostics","field_or_model":"Stage32 residual prefix/indexed Picard search state","quantifiers":"all retained hard-tail source rows at the cited checkpoint","required_output":"exact structural classification and at least one replayable reduction/blocker diagnosis per row family"},
-  "source_refs":["stages/stage32/residual-32-01-production/state.json","stages/stage32/residual-32-01-production/full178-resumable-generation38-256m-hard-tail-diagnostic-main-checkpoint.json","stages/stage32/residual-32-01-production/full178-resumable-generation38-residual-volume-main-checkpoint.json"],
-  "reuse_check":{"performed":false,"queries":[],"matches":[],"decision":"PENDING"},
-  "attempts":[],
-  "retained_result":null,
-  "credit_ceiling":"HARD_TAIL_STRUCTURAL_REDUCTION_ONLY_NO_FULL178_CREDIT",
-  "next_action":"RECONSTRUCT_EXACT_EIGHT_ROW_TAIL_IDENTITIES_AND_SEARCH_FOR_COMMON_REDUCTION",
-  "notes":["Do not infer global FULL178 closure from eight-row behavior.","Do not spend another blind 256M wave as the primary research action."]
+  "schema": "research-os-mission-node/v1",
+  "node_id": "N102",
+  "semantic_key": "s32-01-178:hard-tail-eight-row-structure",
+  "statement": "Analyze the eight row-tail sources that survived the 256M resumable generation to identify exact shared structure, invariants, or row-specific reductions that can eliminate or compress the giant individual strata.",
+  "scope": {
+    "population": "the exact eight FULL178 hard-tail source rows retained by generation38 diagnostics",
+    "field_or_model": "Stage32 residual prefix/indexed Picard search state",
+    "quantifiers": "all eight retained hard-tail source rows at the cited checkpoint",
+    "required_output": "exact structural classification and at least one replayable reduction/blocker diagnosis per row family"
+  },
+  "source_refs": [
+    "stages/stage32/residual-32-01-production/state.json",
+    "stages/stage32/residual-32-01-production/full178-resumable-generation38-256m-hard-tail-diagnostic-main-checkpoint.json",
+    "stages/stage32/residual-32-01-production/full178-resumable-generation38-residual-volume-main-checkpoint.json",
+    "stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json",
+    "stages/stage32/residual-32-01-production/compressed_terminal_family.py"
+  ],
+  "reuse_check": {
+    "performed": true,
+    "queries": [
+      "current production successor of generation38 hard-tail prefix DFS",
+      "exact indexed-terminal replacement preserving terminal-set semantics",
+      "exact terminal-family predicate and symbolic stratum count"
+    ],
+    "matches": [
+      {"path":"stages/stage32/residual-32-01-production/state.json","fact":"gen38_52_unit_prefix_frontier_status=SUPERSEDED_AS_PREFIX_FAMILY_ENUMERATION_MECHANISM; historical evidence is not revoked"},
+      {"path":"stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json","fact":"terminal_set_semantics_preserved=true with exact symbolic count, random-access unrank, inverse rank, and small-family full-set bijection"},
+      {"path":"stages/stage32/residual-32-01-production/compressed_terminal_family.py","fact":"exact 11-variable terminal predicate and stratum count (19*d-5*e+1)*C(e)"}
+    ],
+    "decision": "DOMINATED_BY_CURRENT_EXACT_INDEXED_TERMINAL_REPARAMETERIZATION"
+  },
+  "attempts": [
+    {
+      "route_id": "N102-R1-GEN38-HARD-TAIL-TO-INDEXED",
+      "status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+      "result": "The eight historical hard-tail source rows are exactly the consecutive genus-0 even-degree family g0-d008,...,g0-d022. Their later-e tail count is exactly sum_d(floor(19*d/5)-max_current_e(d))=278. The old giant DFS-stratum representation is dominated, as a prefix-family enumeration mechanism, by the current exact indexed terminal representation with preserved terminal-set semantics.",
+      "replay": "python3 stages/stage32/32-01-178/nodes/N102/verify_n102.py",
+      "blocker": "The indexed replacement does not perform the numerical Picard leaf/lift checks; the current source lock explicitly leaves numerical_picard_leaf_checks_complete=false."
+    }
+  ],
+  "retained_result": {
+    "status": "DONE",
+    "cycle_route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "classification": "EXACT_STRUCTURAL_REDUCTION_WITH_PREFIX_OBSTRUCTION_DOMINATED",
+    "row_family": ["g0-d008","g0-d010","g0-d012","g0-d014","g0-d016","g0-d018","g0-d020","g0-d022"],
+    "exact_family_parameterization": "g=0, d=8+2k for k=0,...,7; e_max=floor(19*d/5)",
+    "historical_frontier": {"survivors":52,"unique_rows":8,"same_e_after_full_256m":52},
+    "exact_later_e_strata": 278,
+    "indexed_terminal_predicate": "x_i>=0; sum_{i!=4}x_i<=e; 0<=x4<=19*d-5*e; x0<=x1; if x0=x1 then (x5,x6)<=lex(x8,x9); x1+x8+x9+x10 even",
+    "exact_stratum_count": "(19*d-5*e+1)*C(e), where C(e)=exceptional_terminal_count(e)",
+    "dominance_scope": "prefix-family enumeration only",
+    "remaining_blocker": "DIRECT_NUMERICAL_PICARD_LEAF_COMPRESSION_AFTER_PREFIX_REPARAMETERIZATION",
+    "full178_credit": false
+  },
+  "credit_ceiling": "HARD_TAIL_STRUCTURAL_REDUCTION_ONLY_NO_FULL178_CREDIT",
+  "next_action": "RETURN_RETAINED_N102_CHECKPOINT_TO_STAGE32_01_178_MAINBATCH",
+  "notes": [
+    "Do not infer global FULL178 closure from this dominated prefix-enumeration obstruction.",
+    "Do not rerun blind 256M/512M prefix DFS for these rows; the current state explicitly supersedes that enumeration mechanism.",
+    "Historical generation38 evidence remains valid and is used only to identify the eight-row hard-tail source family.",
+    "The surviving blocker is numerical Picard leaf/lift compression in the exact indexed coordinates, not prefix-family generation."
+  ]
 }
