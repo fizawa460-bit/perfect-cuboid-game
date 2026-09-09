@@ -20,7 +20,9 @@
     "PR#1742@14855e0d4a1d184b015f4735be8be9efbf4ec6e7",
     "PR#1742:stages/stage32-ex5/ex5-03-clean-room-route-universe.json@68de8dc99f8947fb24873ad6c9903cfaa8491f93",
     "PR#1742:stages/stage32-ex5/ex5-04-repository-asset-dedup.json@fe8073cefecb32bbb67000cf712aab52076e1cdb",
-    "PR#1742:stages/stage32-ex5/breadth-cycle-2/bc2-02-full178-target-to-59d-model-adapter-preflight.json@428b3a8a7bbdd9593704b0701fe2d0e5bb972f4e"
+    "PR#1742:stages/stage32-ex5/breadth-cycle-2/bc2-02-full178-target-to-59d-model-adapter-preflight.json@428b3a8a7bbdd9593704b0701fe2d0e5bb972f4e",
+    "stage32-main-final-chain-reentry:stages/stage32/32-01-178/nodes/N150/STATE.json@44e6cb3a453977c9d22fe66a6a2a0d20f09cb6d6",
+    "stage32-main-scratch-full178-direct-picard-compression-20260909@1689ed2bdfa149b5e462ce0182e7a7e7c31ee62c"
   ],
   "reuse_check": {
     "performed": true,
@@ -61,6 +63,27 @@
     ],
     "decision": "DEDUP_COMPLETE_NO_NEW_ACTIONABLE_GLOBAL_CUT_IN_SEARCHED_ASSETS"
   },
+  "reentry_checks": [
+    {
+      "check_id": "N105-REENTRY-20260909-01",
+      "trigger": "operator repeated stage32-01-178-e after first checkpoint",
+      "checked": [
+        "PR#1742 current head and body",
+        "N150 external-consumption gate on stage32-main-final-chain-reentry",
+        "recent branch stage32-main-scratch-full178-direct-picard-compression-20260909",
+        "recent repository commit search for Picard64 completion / indexed terminal"
+      ],
+      "findings": [
+        "PR#1742 remains at exact head 14855e0d4a1d184b015f4735be8be9efbf4ec6e7 and still names BC2_02_ONE_INDEXED_FULL178_TERMINAL_TO_PICARD64_COMPLETION_PROTOTYPE as NEXT.",
+        "N150 remains BLOCKED because no retained/audited FULL178-target-compatible producer/result plus explicit adapter is available for 32-01 consumption.",
+        "The branch named stage32-main-scratch-full178-direct-picard-compression-20260909 does not add the indexed-terminal-to-Picard64 completion bridge; its head commit retains Q602 forgetful-adapter/frontier work and explicitly confirms FULL178 independence from that narrow closure.",
+        "No newer commit matching the missing Picard64-completion/indexed-terminal bridge was located in the bounded current repository search."
+      ],
+      "reopen_condition_satisfied": false,
+      "decision": "KEEP_TWO_DIRECT_PICARD_CANDIDATES_UNTESTED_DO_NOT_DUPLICATE_EX5",
+      "new_mathematical_credit": false
+    }
+  ],
   "attempts": [
     {
       "route_id": "N105-G1-PICARD-MODULAR-COMPLETION",
@@ -142,7 +165,7 @@
     }
   ],
   "retained_result": {
-    "classification": "NO_NEW_GLOBAL_CUT_IN_SEARCHED_ASSETS",
+    "classification": "NO_NEW_GLOBAL_CUT_IN_SEARCHED_ASSETS_REENTRY_CHECKED",
     "cycle_route_status": "BLOCKED_NEW_PATTERN_ISOLATED",
     "candidate_ledger_counts": {
       "LIVE": 0,
@@ -158,6 +181,8 @@
     "exact_findings": [
       "The current FULL178 terminal object is an exact 11-pairing prefix inside (row_id,d,e), not a complete Picard64 target.",
       "The active EX5 BC2-02 preflight localizes the missing source-controlled bridge to indexed terminal -> integral Picard64 completion (or exact eliminated equivalent) -> Reynolds z.",
+      "A second operator-triggered reentry check found PR#1742 and N150 unchanged at that missing bridge; no legal N105 execution has become available.",
+      "The similarly named direct-picard scratch branch is Q602/O210 authority/frontier work and does not satisfy the completion-bridge reopen condition.",
       "Any sound modular-local or dual-infeasibility global cut found in this lane needs that exact completion system first; building it here would violate the N105 anti-duplication rule against active EX5 work.",
       "Pure compression/state quotienting without a new pruning predicate is already covered by S32-PW01 / EX5R-ENUM.",
       "S34-W02 is a real formal global congruence weapon but its Mordell-Weil object hypotheses do not match the current FULL178 terminal receiver."
@@ -165,20 +190,22 @@
     "negative_seed_sets": [
       "blind candidate set: direct Picard finite-quotient obstruction; exact dual/Farkas-MIP stratum infeasibility; finite-state completion quotient",
       "Arsenal bounded matches: S32-PW01 and S34-W02",
-      "EX5 bounded history: EX5R-MOD-001, EX5R-ENUM-001, current BC2-02 completion-boundary preflight"
+      "EX5 bounded history: EX5R-MOD-001, EX5R-ENUM-001, current BC2-02 completion-boundary preflight",
+      "reentry bounded check: PR#1742 head/body; N150 gate; direct-picard-named scratch branch; commit search for missing completion bridge"
     ],
-    "coverage_scope": "Repository-local Stage32 retained state and bounded Arsenal matches relevant to exact enumeration/global congruence, plus PR#1742 frozen Cycle1 dedup and current BC2-02 preflight, plus two literature probes for exact infeasibility-certificate proof species.",
+    "coverage_scope": "Repository-local Stage32 retained state and bounded Arsenal matches relevant to exact enumeration/global congruence, PR#1742 frozen Cycle1 dedup/current BC2-02 preflight, N150 current gate, the direct-picard-named scratch branch, and two literature probes for exact infeasibility-certificate proof species.",
     "not_covered_scope": "No claim that all mathematical global cuts are impossible or that all literature has been exhausted. No heavy computation, no construction of the active EX5 terminal->Picard64 adapter, no effectivity/multibranch receiver audit, and no FULL178 theorem/receiver credit.",
     "obstruction_signatures": [
       "MISSING_TERMINAL_TO_COMPLETE_PICARD64_SOURCE_LOCK",
       "ANTI_DUPLICATION_ACTIVE_EX5_BC2_02",
+      "N150_EXTERNAL_CONSUMPTION_GATE_STILL_BLOCKED",
       "ENUMERATION_ROUTE_REQUIRES_NEW_MONOTONE_PREDICATE",
       "MW_CONGRUENCE_OBJECT_HYPOTHESES_MISMATCH"
     ],
     "credit": "ROUTE_DISCOVERY_ONLY_NO_FULL178_CREDIT"
   },
   "credit_ceiling": "ROUTE_DISCOVERY_ONLY_NO_FULL178_CREDIT",
-  "next_action": "CHECKPOINT_RETURN_TO_N190. Preserve the two UNTESTED direct-Picard certificate candidates. Do not construct the EX5 BC2-02 completion adapter here. If N150 later consumes a retained/audited indexed-terminal -> integral Picard64 completion system, reopen N105-G1-PICARD-MODULAR-COMPLETION first on one bounded exact terminal/stratum, then N105-G1-PICARD-DUAL-INFEASIBILITY if needed.",
+  "next_action": "CHECKPOINT_RETURN_TO_N190. Preserve the two UNTESTED direct-Picard certificate candidates. Do not construct the EX5 BC2-02 completion adapter here. Re-enter only after PR#1742/audited successor and N150 provide a retained/audited indexed-terminal -> integral Picard64 completion system; then test N105-G1-PICARD-MODULAR-COMPLETION on one bounded exact terminal/stratum before N105-G1-PICARD-DUAL-INFEASIBILITY.",
   "notes": [
     "Do not repeat the frozen seven-family EX5 Cycle1 package without new input.",
     "Do not duplicate active EX5 symmetric-differential/node-span or target-to-Picard64/59D adapter work.",
