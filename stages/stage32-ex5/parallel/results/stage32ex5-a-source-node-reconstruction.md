@@ -4,18 +4,18 @@ Scope: source-side reconstruction only for `BC2-01B_RUNTIME_NODE_COORDINATE_BRID
 
 ## Exact source lock
 
-BTVA use the coordinate order `[x1,x2,x3,y1,y2,y3,z]` on the perfect-cuboid surface `X_pc ⊂ P^6`. The paper gives the equivalent complete-intersection presentation
+BTVA use the coordinate order `[x1,x2,x3,y1,y2,y3,z]` on the perfect-cuboid surface `X_pc ⊂ P^6`. The paper gives the complete-intersection presentation
 
 - `y1^2 = x2^2 + x3^2`,
 - `y2^2 = x3^2 + x1^2`,
 - `y3^2 = x1^2 + x2^2`,
 - `z^2  = x1^2 + x2^2 + x3^2`.
 
-Theorem 1.2 states that `X_pc` has the 48 nodal singularities used in the low-genus restrictions. The arXiv v3 ancillary computation `perfectcuboid.out` base-extends to `Q(i)`, constructs the same surface, sets `sing := Support(SingularSubscheme(X));` and asserts `#sing eq 48`.
+The paper states immediately before Theorem 1.2 that `X_pc` has 48 singularities of type `A1`; Theorem 1.2 is the low-genus restriction that uses these singularities. The arXiv v3 ancillary computation `perfectcuboid.out` base-extends to `Q(i)`, constructs the same surface, sets `sing := Support(SingularSubscheme(X));` and asserts `#sing eq 48`.
 
 Pinned locators:
-- arXiv `1912.08908v3`, paper p.4 / Theorem 1.2;
-- `https://arxiv.org/src/1912.08908v3/anc/perfectcuboid.out`, singular-locus computation and symmetry computation.
+- arXiv `1912.08908v3`, paper p.4, perfect-cuboid display and Theorem 1.2;
+- `https://arxiv.org/src/1912.08908v3/anc/perfectcuboid.out`, singular-locus and symmetry computation.
 
 ## Exact reconstruction
 
@@ -30,7 +30,7 @@ Write `i^2=-1`. After projective normalization by the first nonzero member of `(
 
 where every displayed parameter is independently in `{+1,-1}`.
 
-The first three families arise over the three coordinate-axis points of the `(x1:x2:x3)` projection. The last three arise at the tangencies `y_j=z=0`, equivalently `q_j=q_4=0`, with the remaining two square roots giving the independent signs.
+The first three families arise over the three coordinate-axis points of the `(x1:x2:x3)` projection. The last three arise when one face diagonal and the body diagonal vanish, with the remaining square roots giving the independent signs.
 
 The retained verifier checks, exactly over `Q(i)`, that:
 - all 48 rows satisfy the four defining quadrics;
@@ -41,9 +41,30 @@ The retained verifier checks, exactly over `Q(i)`, that:
 
 Because the pinned BTVA computation independently asserts that the singular support has exactly 48 points over `Q(i)`, these 48 distinct singular points exhaust that support.
 
+## Exact BTVA -> Stoll projective-model adapter
+
+The pinned Stoll runtime source `MichaelStollBayreuth/Verification`, commit `51233ed5ef2bf228fac9416c66db9adc0ebcaadd`, `Cuboids/cuboids.magma` defines
+
+`Pr6<a1,a2,a3,b1,b2,b3,c>`
+
+with equations
+
+- `a1^2+a2^2-b3^2`,
+- `a2^2+a3^2-b1^2`,
+- `a1^2+a3^2-b2^2`,
+- `a1^2+a2^2+a3^2-c^2`.
+
+Thus the coordinate rename
+
+`(x1,x2,x3,y1,y2,y3,z) -> (a1,a2,a3,b1,b2,b3,c)`
+
+identifies the BTVA complete-intersection model with the Stoll runtime projective model exactly, equation by equation. Stoll then sets `pts := Points(SingularSubscheme(S)); assert #pts eq 48`.
+
+This closes a possible model/convention ambiguity: the Lane-A 48-node table transports directly into Stoll's projective coordinate system by renaming coordinates. It does **not** close the runtime-order ambiguity. The exact adapter is retained separately in `stage32ex5-a-source-to-stoll-model-adapter.json`.
+
 ## Label / scale / symmetry convention
 
-BTVA do **not** publish a canonical node numbering `0..47`. Their ancillary computation stores the singular support in `sing` and subsequently uses set/orbit operations. Therefore no Magma set iteration order is source authority for a node label.
+The pinned BTVA ancillary computation does not define a canonical node numbering `0..47`; it stores the singular support in `sing` and then forms set/span/orbit objects. Therefore no Magma singular-set iteration order is source authority for a node label.
 
 Lane A introduces deterministic labels only from the six formulas above. These labels are a repository-side adapter, not BTVA terminology.
 
@@ -51,6 +72,6 @@ Projective equivalence identifies multiplication of all seven coordinates by one
 
 ## Remaining BC2-01B gap
 
-Source-side target recovery is complete, but the load-bearing runtime bridge is still absent: there is no established identification from Stoll exceptional index `k=0..47` (Picard slots `92+k`) to one of the canonical tuples retained here. In particular, source `sing` order must not be assumed to equal Stoll `pts` order, and neither order should be treated as canonical without an exact adapter.
+Source-side target recovery and the BTVA-to-Stoll **projective-model** adapter are complete, but the load-bearing runtime bridge is still absent: there is no established identification from Stoll exceptional index `k=0..47` (Picard slots `92+k`) to one of the canonical tuples retained here. In particular, BTVA `sing` order must not be assumed to equal Stoll `pts` order, and neither order should be treated as canonical without an exact adapter.
 
-Thus lane-A status is `PASS` only for `SOURCE_SIDE_48_NODE_TARGET_RECONSTRUCTION`; overall `BC2-01B_RUNTIME_NODE_COORDINATE_BRIDGE` remains unresolved pending the A/B/C/D synthesis.
+Thus Lane-A reaches its handoff checkpoint with `PASS` for `SOURCE_SIDE_48_NODE_TARGET_RECONSTRUCTION` plus `SOURCE_TO_STOLL_PROJECTIVE_MODEL_ADAPTER`. Overall `BC2-01B_RUNTIME_NODE_COORDINATE_BRIDGE` remains unresolved pending the A/B/C/D synthesis.
