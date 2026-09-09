@@ -44,6 +44,8 @@ jobs:
         run: python docs/research-os/policies/verify_hostile_audit_and_freshness.py
       - name: Verify post-1728 V6 authority consumption exact retained state
         run: python stages/stage32/verify_stage32_post1728_v6_negative_authority_consumption.py
+      - name: Replay byte-exact imported EX3 O210 terminal mathematics
+        run: python stages/stage32-ex3/verify_ex3_09_o210_cover_geometry_exclusion_candidate.py
       - name: Verify pre-sync audited O210 V3 MAIN consumption candidate
         run: python stages/stage32/verify_post1730_o210_v3_main_consumption_preflight.py
       - name: Verify base Stage32 claim DAG
