@@ -8,7 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 HERE = Path(__file__).resolve().parent
-STATE_CANON = "78497768594f8b277c4c448ccce5ea2c5d3e8c2b26688d5fceba4cd31d157917"
+STATE_CANON = "1a7295b3452d4cc7bc4406ee1bcfb655cd28a5d8e75f690fdc8bd93e6d85c6e2"
 OBJECT_ID = "S32.ADAPTER.Q602_ADMISSIBLE_TO_O210_POPULATION.V1"
 EMPTY_ID = "S32.ADAPTER.O210_EMPTY_TO_Q602_REALIZATION_EMPTY.V1"
 Q_ID = "S32.Q602.EXCLUSION.V3"
@@ -17,7 +17,7 @@ AUDIT_REPAIR = {"status":"PASS", "pr":1730, "review_id":5149462285, "exact_head"
 AUDIT_POST_SYNC = {"status":"PASS", "pr":1730, "review_id":5149990935, "exact_head":"9b605ed7f44415198a0e261dc46971e5ecd3c80b"}
 MERGE_COMMIT = "733176600f99e91993d08c16aa98f09c08a1e726"
 EXPECTED = {
-    OBJECT_ID: ("ed1ea5441a3b0bb876a3a8b93f272e2a16d693f1b44f0f050c13af1625c1e028", AUDIT_OBJECT),
+    OBJECT_ID: ("ed1ea5441a3b0bb876a3b93f272e2a16d693f1b44f0f050c13af1625c1e028", AUDIT_OBJECT),
     EMPTY_ID: ("4dd78ed5a1917d7c953fee95bb52f1d1429e239ca90d3bf8dae26461e0611de8", AUDIT_REPAIR),
     Q_ID: ("c85a76ac1ed07deec1d65269451452d33b63c3a5221134ee687e282951823067", AUDIT_REPAIR),
 }
@@ -102,7 +102,7 @@ def validate(basev, by_id):
     for cid in ["S32.O210.EXCLUSION.V3", Q_ID]:
         assert all(link["role"] != "ATTACKS" for link in by_id[cid]["lane_links"])
 
-    checkpoint = load("stages/stage32/mainbatch-final-chain-reentry-20260909.json")
+    checkpoint = load("stages/stage32/management/mainbatch-final-chain-reentry-20260909.json")
     cp = dict(checkpoint)
     digest = cp.pop("canonical_sha256_without_this_field")
     assert basev.csha(cp) == digest
