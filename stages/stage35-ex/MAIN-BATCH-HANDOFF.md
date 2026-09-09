@@ -1,136 +1,108 @@
-# Stage35-EX MAIN batch handoff — Goal4BF source-oriented Gaussian quartic lift
+# Stage35-EX MAIN batch handoff — Goal4BG Gaussian face/space phase compatibility
 
-Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BF are provisional stacked research leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted here.
+Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BG are provisional stacked leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
 
 ## Exact-green parent
 
-Goal4BE is exact-green:
+Goal4BF is exact-green:
 
-- exact head: `c44909b47f00091da6229d60304786dc446f6a37`
-- aggregate: `34305612045`
-- `verify-stage35-ex-current`: `102322719891`
+- exact head: `ab134d4cd9d21efb9f90f89e3215e81caa3561e2`
+- aggregate: `34306382710`
+- `verify-stage35-ex-current`: `102324844711`
 - result: `SUCCESS`
 
-Goal4BE proved that every reservoir prime is `1 mod 4` and obtained the new Jacobi cycle
+Goal4BF source-locks an oriented Gaussian prime above every reservoir prime and lifts Goal4BE to quartic residue phases, but leaves the cross-conjugate gauge `G_ab,G_ac,G_bc` unresolved.
+
+## Goal4BG provisional exact result
+
+The three primitive reduced face factors
 
 ```text
-L_a*L_b*L_c=1,
+Phi_AB=y*a+i*z*b,
+Phi_AC=x*a+i*z*c,
+Phi_BC=x*b+i*y*c
 ```
 
-while the pairwise-symbol system remains rank 2 with one free Jacobi bit.
-
-## Goal4BF provisional exact result
-
-For `ell|s_a`, the source-selected root
+have coprime conjugate factors and square norms. Hence, with unique primary square roots,
 
 ```text
-iota_a(ell)=x*b/(y*c) mod ell,
-iota_a(ell)^2=-1
+Phi_AB=eps_AB*Theta_AB^2,
+Phi_AC=eps_AC*Theta_AC^2,
+Phi_BC=eps_BC*Theta_BC^2.
 ```
 
-selects one Gaussian prime ideal
+The Goal4BF oriented reservoir kernels are literal divisors of these source roots:
 
 ```text
-p_{a,ell}=(ell,i-iota_a(ell)).
+Sigma_a | bar(Theta_BC),
+Sigma_b | bar(Theta_AC),
+Sigma_c | bar(Theta_AB).
 ```
 
-It divides `x*b-i*y*c`, while its conjugate does not. Since
+The reservoirs also have a second exact meaning:
 
 ```text
-N(x*b-i*y*c)=r_BC^2,
+gcd(A,D_BC)=h_a,
+gcd(B,D_AC)=h_b,
+gcd(C,D_AB)=h_c.
 ```
 
-the selected valuation is exactly
+Thus each `h_i|W` and division produces three primitive space Pythagorean triples and therefore three more canonical Gaussian square roots
 
 ```text
-v_{p_{a,ell}}(x*b-i*y*c)=2*v_ell(r_BC).
+D_BC/h_a+i*A/h_a = nu_a*Psi_a^2,
+D_AC/h_b+i*B/h_b = nu_b*Psi_b^2,
+D_AB/h_c+i*C/h_c = nu_c*Psi_c^2.
 ```
 
-Choose the unique primary generator `pi_{a,ell} == 1 mod (1+i)^3` and form
+At a reservoir prime `ell|s_a`, BF sees
 
 ```text
-Sigma_a=product_{ell|s_a} pi_{a,ell},
+iota_a=x*b/(y*c) mod ell,
+iota_a^2=-1.
 ```
 
-cyclically. Then
+After stripping the common gcd `h_a`, the space factor instead sees the leading quotients
 
 ```text
-N(Sigma_a)=s_a,
-s_a=Sigma_a*bar(Sigma_a),
+a'=a/ell^m,
+r'=r_BC/ell^m,
+m=v_ell(h_a).
 ```
 
-and likewise for `b,c`. Thus the source canonically chooses an oriented Gaussian half of every squarefree reservoir kernel.
-
-At each selected prime,
+If their valuations are unequal, there is no secondary space-side root of `-1` at `ell`. If both are units and `ell|W/h_a`, then
 
 ```text
-[x*b/(y*c) / pi_{a,ell}]_4=[i/pi_{a,ell}]_4,
+lambda_a=z*r'/(x*y*a'),
+lambda_a^2=-1,
+lambda_a=sigma_a*iota_a,
+sigma_a in {+1,-1}.
 ```
 
-so this is a genuine quartic lift of Goal4BE; squaring recovers its quadratic character.
+Cyclic analogues hold. Therefore common `W` does not yet fix the BF cross-conjugate gauge; it exposes new valuation-stripped signs `sigma_i(ell)` that are not determined by the retained AU/BE/BF source identities.
 
-Standard quartic reciprocity exchanges oriented factors such as
-
-```text
-[Sigma_a/Sigma_b]_4 <-> [Sigma_b/Sigma_a]_4
-```
-
-up to the explicit norm correction. But the rational reservoir is
+Exact route status:
 
 ```text
-s_b=Sigma_b*bar(Sigma_b),
-```
-
-so the canonical quartic lift
-
-```text
-U_ab=[s_b/Sigma_a]_4
-```
-
-contains both oriented and cross-conjugate phases. Define, for example,
-
-```text
-G_ab=[bar(Sigma_b)/Sigma_a]_4.
-```
-
-The current source equations supply no independent relation fixing all such `G_ij`. Hence
-
-```text
-U_ab^2=(s_b/s_a)
-```
-
-recovers the BE bit, but quartic reciprocity alone does not determine the lift or eliminate the remaining Jacobi freedom.
-
-Goal4BE's `ell=5` local witness also preserves the same source root/orientation while interchanging the individual quartic contributions of `x` and `b`, confirming the phase boundary locally.
-
-Exact consequence:
-
-```text
-source-oriented Gaussian lift = yes;
-quartic reciprocity applicable = yes;
-cross-conjugate mu_4 phase gauge remains = yes;
-BE free bit closed = no;
+six source-oriented Gaussian square roots = yes;
+reservoir/space-gcd coupling = yes;
+secondary leading-unit phase bits = yes;
+BF gauge closed = no;
 branch pruning = no.
 ```
 
-This does not reopen Goal4AX's rational norm-torus route; the new datum is integral prime orientation plus quartic phase.
-
 Artifacts:
 
-- `stages/stage35-ex/35ex-35/goal4bf-oriented-gaussian-quartic-reciprocity-reservoir-lift-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4bf-oriented-gaussian-quartic-reciprocity-reservoir-lift.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4bf_oriented_gaussian_quartic_lift.py`
-
-## Freshness
-
-Current main observed: `b4357252bf492a0934fe47812ffa2421a342f954`. Main-side changes since the audited Stage35-EX merge base are Stage32 / Stage36 only; no Stage35-EX mathematical source drift was observed. No freshness credit and no rebase/sync.
+- `stages/stage35-ex/35ex-35/goal4bg-gaussian-square-root-face-phase-compatibility-source-lock.md`
+- `stages/stage35-ex/35ex-35/goal4bg-gaussian-square-root-face-phase-compatibility.json`
+- `stages/stage35-ex/verify_stage35_ex_35_goal4bg_gaussian_face_space_phase.py`
 
 ## Next exact leaf
 
 ```text
-35EX-35_GOAL4BG_GAUSSIAN_SQUARE_ROOT_FACE_PHASE_COMPATIBILITY_PREFLIGHT
+35EX-35_GOAL4BH_RESERVOIR_LEADING_UNIT_SPACE_FACE_SIGN_CYCLE_PREFLIGHT
 ```
 
-Write each primitive Pythagorean face factor as a unit times a Gaussian square, source-lock its unit and conjugation choice, and test whether the three face square roots together with the common space diagonal provide enough cross-phase equations to fix the `G_ij` gauge left by Goal4BF.
+Use full `ell`-adic leading terms to classify the `sigma_i(ell)` and test whether they satisfy a cyclic product relation strong enough to close the BE/BF phase freedom.
 
 No merge. No hostile-audit credit. `MAIN-STATE.json` remains V74 / Goal4AK.
