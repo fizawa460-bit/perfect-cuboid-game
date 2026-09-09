@@ -1,0 +1,101 @@
+{
+  "schema":"STAGE36_36_09DU_FIXED_P2_PHI_SELMER_LOCAL_CONDITION_DEFECT_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09DU",
+  "status":"PASS_EXPLICIT_PHI_DESCENT_CHARACTER_FUNCTIONS_LOCAL_IMAGES_NOT_COMPUTED",
+  "base_main_sha":"70265586b3f97be21c7621af73f443311f1f3fa3",
+  "batch_parent":{
+    "pr":1712,
+    "36_09DT_exact_green_head":"bc240925594794550c4bac7b78d2c8befbaf90c5",
+    "36_09DT_exact_head_ci":"34239568316/102105958771",
+    "36_09DT_promotion_replay_head":"8d4f71a9c415bd321aaf67e73116cb5e59937668",
+    "36_09DT_promotion_replay_ci":"34239817869/102106797949"
+  },
+  "source_locks":{
+    "stage36_36_09DT":{"path":"stages/stage36/36-09DT/fixed-p2-v4-isogeny-proselmer-defect-preflight.json","blob_sha":"362326de8d6ecc0b415ecf29c6eb936134e395ce"},
+    "stage36_36_09DU_source":{"path":"stages/stage36/36-09DU/phi-descent-character-functions-source-lock.md","blob_sha":"c9e9f9309555106ff5c0ed947c3973c0b11b1753"}
+  },
+  "dual_kernel_on_J2":{
+    "definition":"ker(Psi) inside J[2] by simultaneous zero pushforward to E_tau[2], E_sigma[2], E_rho[2]",
+    "kernel_class_count":8,
+    "kernel_classes_canonical":[[],[1,2,3,4],[1,2,5,6],[1,2,7,8],[1,3,5,7],[1,3,6,8],[1,4,5,8],[1,4,6,7]],
+    "basis":{
+      "lambda1":[1,2,3,4],
+      "lambda2":[1,2,5,6],
+      "lambda3":[1,4,5,8]
+    },
+    "basis_independent":true,
+    "agrees_with_DT_split_dual_kernel_order8":true
+  },
+  "rational_descent_functions":{
+    "F1":"(t^2+4)(t^2+1/4)",
+    "F2":"(t^2+4)(t^2+9)",
+    "lambda3_Qi_branch_product":"g=(t-2i)(t+i/2)(t-3i)(t+i/3)=a-i*b",
+    "a":"(t^2-1)^2",
+    "b":"(25/6)*t*(t^2+1)",
+    "curve_identity":"z^2=(a-i*b)(a+i*b)=a^2+b^2",
+    "descent_identity":"(z+g)^2=2(z+a)g",
+    "F3":"2(z+(t^2-1)^2)",
+    "F3_is_Q_rational":true,
+    "F3_same_squareclass_as_lambda3_branch_product":true,
+    "all_three_dual_kernel_characters_have_Q_rational_function_representatives":true
+  },
+  "Phi_connecting_map_coordinates":{
+    "kernel":"K=ker(Phi)=(Z/2Z)^3",
+    "dual_basis":["lambda1","lambda2","lambda3"],
+    "target_global":"H^1(Q,K) ~= (Q*/Q*^2)^3",
+    "target_local":"H^1(Q_v,K) ~= (Q_v*/Q_v*^2)^3",
+    "divisor_evaluation_formula":"For a degree-zero divisor D representing x in J(k), with support disjoint from div(F1 F2 F3), delta_Phi(x)=([F1(D)],[F2(D)],[F3(D)]) after the fixed dual-basis identification.",
+    "coordinate_connecting_map_constructed":true,
+    "well_defined_mod_squares_by_functions_on_curve_descent_protocol":true,
+    "local_image_delta_v_JQv_computed":false
+  },
+  "local_condition_boundary":{
+    "local_condition_definition":"L_v = image(delta_Phi,v : J(Q_v)/Phi A(Q_v) -> H^1(Q_v,K))",
+    "global_Phi_Selmer_definition":"Sel^Phi(A/Q) = {c in H^1(Q,K): loc_v(c) in L_v for every v}",
+    "local_images_computed":false,
+    "required_place_set_certified":false,
+    "global_Phi_Selmer_group_computed":false,
+    "proSelmer_cokernel_size_computed":false
+  },
+  "route_result":{
+    "route_status":"PASS_EXPLICIT_PHI_CONNECTING_COORDINATES_PIVOT_TO_REQUIRED_PLACES_AND_LOCAL_IMAGES",
+    "next_leaf":"36-09DV_FIXED_P2_PHI_SELMER_REQUIRED_PLACES_LOCAL_IMAGE_PREFLIGHT",
+    "next_leaf_semantics":"Determine a certified finite required-place set for the fixed Phi-isogeny and compute the actual local images L_v in the explicit (F1,F2,F3) squareclass coordinates; only then form the global Phi-Selmer group or assign the pro-Selmer defect size."
+  },
+  "current_credit_boundary":{
+    "Phi_connecting_map_coordinate_functions_constructed":true,
+    "Phi_Selmer_local_condition_map_computed":false,
+    "global_Phi_Selmer_group_computed":false,
+    "proSelmer_cokernel_size_computed":false,
+    "proSelmer_product_identification_obtained":false,
+    "T2Sel_J_computed":false,
+    "retained_open_curve_proSelmer_intersection_computed":false,
+    "global_2primary_Brauer_set_nonempty":false,
+    "global_2primary_Brauer_set_empty":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_2_branch_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false
+  },
+  "scope_firewalls":{
+    "required_place_set_certified":false,
+    "Phi_Selmer_local_condition_map_computed":false,
+    "global_Phi_Selmer_group_computed":false,
+    "proSelmer_cokernel_size_computed":false,
+    "proSelmer_product_identification_obtained":false,
+    "T2Sel_J_computed":false,
+    "elliptic_quotient_T2Sel_computed":false,
+    "retained_open_curve_proSelmer_intersection_computed":false,
+    "global_2primary_Brauer_set_nonempty":false,
+    "global_2primary_Brauer_set_empty":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

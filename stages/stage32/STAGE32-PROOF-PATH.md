@@ -100,6 +100,26 @@ Audit transitions are fail-closed and asymmetric: a PASS cannot raise consumable
 
 A future EX lane may perform scratch/provisional research before enrollment, but it cannot promote mathematical credit to MAIN until `LANE-ADAPTERS.json` contains its exact state/startup references and the claim boundary required by its current status. A stopped lane may be enrolled with no active claim only under the explicit stopped-lane gate; re-entry must attach an exact active claim before promotion.
 
+### 4.2 EX1 retained terminal candidate checkpoint
+
+The historical terminal claim `S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V1` is **SUPERSEDED**. Its immutable core remains bound to `stages/stage32-ex1/ex1-05af-retained-terminal-consolidation.json` and `stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation.py`, and its audit metadata records the hostile-audit FAIL at exact head `0ea608585ee1c747ee5737240671279f6f595612` (review `5147121377`). V1 is retained only for provenance and cannot satisfy FINAL-CHECK or downstream audited dependencies.
+
+The repaired retained candidate `S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2` is now **AUDITED** by PR #1728 exact head `e3c4a04d5010e6dca9428722e334890e2614297a`, hostile-audit review `5147627146`. Its immutable core remains unchanged: manifest `stages/stage32-ex1/ex1-05af-retained-terminal-consolidation-v2.json`, wrapper `stages/stage32-ex1/verify_ex1_05af_retained_terminal_consolidation_v2.py`, and load-bearing bridge `stages/stage32-ex1/verify_ex1_05af_cellular_obstruction_bridge.py`. The retained manifest itself remains the exact audited evidence snapshot; authority is advanced only in claim metadata from the external PASS receipt.
+
+V2 consumes the hostile-audited EX1 package through 05H and the retained 05O–05AE chain, then computes the terminal obstruction in the independently certified cellular Smith cokernel. The repaired bridge consumes the certified `Lsat/Lleft` data and checks all `6144` legal assemblies against all four retained JI choices: all `24576` actual cokernel classes are nonzero of order two. The legacy hard-coded `OBS/PIVROWS` coordinates are diagnostic/provenance only and are not the load-bearing cokernel identification.
+
+The re-audit of exact head `beec62400f5f2b49d325083fd9b745c3fd66763f` found no new mathematical defect and left one proof-path synchronization blocker. After that blocker was repaired, hostile re-audit of exact head `e3c4a04d5010e6dca9428722e334890e2614297a` returned **PASS**. Claim synchronization therefore advances V2 from `PROVISIONAL` to `AUDITED` using review `5147627146`; this prose records that external receipt and does not self-award audit credit.
+
+This checkpoint deliberately does **not** rewrite `stages/stage32-ex1/MAIN-STATE.json`: existing immutable audited claims source-lock that blob, and `stages/stage32-ex1/RETAINED-AUDIT-PROJECTION.json` is the fail-closed audit-only routing overlay for exact PR #1728. Ordinary MAIN-state routing therefore remains unchanged. No active-frontier goal is marked closed, no EX→MAIN promotion adapter is fired, no Q602/O210 MAIN exclusion is asserted, and no Stage32 MAIN mathematical credit is granted.
+
+### 4.3 EX1 current-target promotion adapter checkpoint
+
+The EX1 terminal claim `S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2` has hostile-audit PASS at exact head `e3c4a04d5010e6dca9428722e334890e2614297a` (review `5147627146`) and is synchronized as **AUDITED**. The next boundary is not an automatic MAIN promotion: the generic `S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2` explicitly cannot establish a concrete cross-scope equivalence.
+
+`S32.ADAPTER.EX1_V6_CARRIER_TO_MAIN_V6_CARRIER.V1` has hostile-audit PASS at exact head `89ba026f05f9fe5344c0f0fb41fe8c2366032877` (review `5147810198`) and is synchronized as an **AUDITED** concrete adapter from `S32.EX1.V6_CARRIER` to `S32.MAIN.V6_CARRIER`. Its replayable artifact `stages/stage32-ex1/ex1-07-current-main-v6-carrier-promotion-adapter.json` checks the exact current MAIN routing state, the EX1-00 target contract, shared V6 source locks, the audited terminal receipt, and the existing MAIN population-wide nonexistence goal. The bridge is limited to the geometric predicate “integral irreducible V6 member of geometric genus 1 on the minimal desingularization S”; it transfers no Q602/O210 or Stage32-closure semantics.
+
+The corresponding MAIN-scope mathematical claim `S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2` is also synchronized as **AUDITED** by the same promotion-audit receipt. It depends explicitly on the audited EX1 terminal plus this concrete adapter. The promotion package is now consumable audited MAIN-scope authority. The existing active-frontier goal `S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V1` remains in the frontier only until the MAIN-owned `ACTIVE_FRONTIER_REMAP`; EX1 deliberately does not rewrite `MAIN-STATE.json` or the active frontier. That remap is the next `stage32mainbatch` operation. No Q602/O210, absolute-residue, FULL178, Stage32-closure, or Perfect-Cuboid credit follows from this synchronization.
+
 ## 5. FULL178 and closure
 
 `S32.FULL178.NUMERICAL_CENSUS.V1` is deliberately an incomplete goal node. Current retained production state still has `FULL_178_ROW_SWEEP_AUTHORIZED=true`, `FULL_D176_D192_NUMERICAL_ORBIT_CENSUS=false`, and incomplete numerical Picard leaf checks. Authorization/indexability therefore cannot be confused with completed numerical census credit.
@@ -117,7 +137,7 @@ FINAL-CHECK requires more than six independently AUDITED nodes. The final root `
 
 Those final audited proof nodes remain absent until their exact audited artifacts exist. `S32.GOAL.STAGE32_CLOSURE.V1` can never substitute for them; `--final` therefore remains `NOT_READY_STAGE32_FINAL_CHECK`.
 
-## 6. Fail-close regression checks
+## 6. fail-close regression checks
 
 `verify_stage32_claim_dag.py --self-test-fail-closed` executes synthetic regressions for the management invariants most likely to be silently weakened, including disconnected final milestones, FINAL-CHECK contract weakening, unresolved mathematical goal consumption, and adapter bridge immutability/shape.
 

@@ -1,0 +1,102 @@
+{
+  "schema":"STAGE36_36_09CX_BT_HYPERELLIPTIC_BRAUER_NONCONSTANCY_RECEIVER_EVALUATION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09CX",
+  "status":"PASS_FIXED_BRANCH_LOCAL_EVALUATION_VARIATION_NONCONSTANT_BRAUER_CLASS_BM_OBSTRUCTION_OPEN",
+  "base_main_sha":"f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "batch_parent":{
+    "pr":1712,
+    "36_09CW_exact_green_head":"8211470f1739b1ca936cf75079e452510cdf89f7",
+    "36_09CW_exact_head_ci":"34196500765/101965293728",
+    "promotion_replay_head":"9233473d850ab16feb491be5b3d68fb85566a78a",
+    "promotion_replay_ci":"34198678285/101972205853"
+  },
+  "source_locks":{
+    "stage36_36_09CW":{"path":"stages/stage36/36-09CW/bt-literal-non-kummer-divisor-cech-construction-preflight.json","blob_sha":"a363c230cb44fec6d235eda0720d4fd624b1a87c"},
+    "stage36_36_09CW_source":{"path":"stages/stage36/36-09CW/creutz-viray-hyperelliptic-brauer-source-lock.md","blob_sha":"4657040230644aef1dbef427a3a5ab6afe3998aa"},
+    "stage36_36_09O":{"path":"stages/stage36/36-09O/physical-square-lift-v4-quotient-preflight.json","blob_sha":"6a2678ebedba40e13277100441361039ee47ca28"}
+  },
+  "fixed_candidate":{
+    "base_parameter_p":"2",
+    "c_p":"3",
+    "receiver_curve":"C3_2: z^2=(t^2+4)(t^2+1/4)(t^2+9)(t^2+1/9)",
+    "local_place":"Q_7",
+    "Brauer_class":"A=(7,t^2+4)_2",
+    "origin":"CW class A_d0 with d=7 and p=2",
+    "unramified_on_C3_2":true,
+    "retained_top_boundary_exclusions":["t=0","t=1","t=-1","t=infinity"]
+  },
+  "local_receiver_points":{
+    "P2":{
+      "t":"2",
+      "rhs_exact":"16354/9",
+      "factor_residues_mod7":[1,6,6,1],
+      "rhs_residue_mod7":1,
+      "z_residue_mod7":1,
+      "hensel_derivative_2z_mod7":2,
+      "all_factors_nonzero_mod7":true,
+      "Q7_point_exists":true,
+      "nonboundary":true
+    },
+    "P3":{
+      "t":"3",
+      "rhs_exact":"19721",
+      "factor_residues_mod7":[6,4,4,6],
+      "rhs_residue_mod7":2,
+      "z_residue_mod7":3,
+      "hensel_derivative_2z_mod7":6,
+      "all_factors_nonzero_mod7":true,
+      "Q7_point_exists":true,
+      "nonboundary":true
+    },
+    "justification":"At each fixed t the RHS is a 7-adic unit with a nonzero square residue; Hensel lifting in z gives a Q_7 point."
+  },
+  "local_Brauer_evaluation":{
+    "rule":"For a 7-adic unit u, (7,u)_7=(u/7), the Legendre symbol.",
+    "P2_second_entry":"t^2+4=8, residue 1 mod 7",
+    "P2_Hilbert_symbol":1,
+    "P2_additive_invariant":"0",
+    "P3_second_entry":"t^2+4=13, residue 6 mod 7",
+    "P3_Hilbert_symbol":-1,
+    "P3_additive_invariant":"1/2",
+    "evaluation_varies_on_C3_2_Q7":true
+  },
+  "nonconstancy_consequence":{
+    "constant_BrQ_class_has_constant_evaluation_on_fixed_local_curve":true,
+    "A_nonconstant_mod_BrQ":true,
+    "BT_BRAUER_CLASS_NONCONSTANT_MOD_CONSTANTS_PROVED_FOR_FIXED_BRANCH_P2":true,
+    "BT_BRAUER_CLASS_WITH_POINT_DEPENDENT_RECEIVER_EVALUATION_FOUND_FOR_FIXED_BRANCH_P2":true,
+    "scope":"fixed rational branch p=2 and local place 7 only"
+  },
+  "current_credit_boundary":{
+    "uniform_in_p_nonconstancy_proved":false,
+    "exact_translation_to_later_BT_y_five_root_coordinates_complete":false,
+    "proved_outside_CU_five_root_monomial_family":false,
+    "required_place_inventory_for_A_complete":false,
+    "adelic_evaluation_image_classified":false,
+    "Brauer_Manin_obstruction_proved":false,
+    "fixed_p_2_branch_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false
+  },
+  "route_result":{
+    "route_status":"PASS_FIXED_BRANCH_NONCONSTANT_BRAUER_EVALUATION_PIVOT_TO_BT_COORDINATE_AND_ADELIC_SUPPORT",
+    "next_leaf":"36-09CY_BT_HYPERELLIPTIC_BRAUER_BT_COORDINATE_SURVIVAL_REQUIRED_PLACE_PREFLIGHT",
+    "next_leaf_semantics":"Translate the p=2 class A=(7,t^2+4)_2 through the exact current BT receiver coordinates/common open, determine whether it lies outside the CU five-root monomial family, and only then derive the complete local-evaluation/required-place package. Do not infer a Brauer-Manin obstruction from local variation alone."
+  },
+  "scope_firewalls":{
+    "uniform_nonconstant_Brauer_family_obtained":false,
+    "A_outside_CU_family_proved":false,
+    "Stage36_required_place_inventory_complete":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "Poitou_Tate_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "schema":"STAGE36_36_09DB_FIXED_P2_HYPERELLIPTIC_BRAUER_RANK_THIRD_CLASS_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09DB",
+  "status":"PASS_THIRD_INDEPENDENT_UNRAMIFIED_BRAUER_CLASS_FOUND_FIXED_P2_FULL_BRAUER_GROUP_STILL_OPEN",
+  "base_main_sha":"f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "batch_parent":{
+    "pr":1712,
+    "36_09DA_exact_green_head":"114d44b1e5014c6756a40edcd717da385fb2b383",
+    "36_09DA_exact_head_ci":"34201477356/101981018057",
+    "promotion_replay_head":"bee1328e5c12c7bead83818afe6327124a0ffc1c",
+    "promotion_replay_ci":"34201650283/101981578856"
+  },
+  "source_locks":{
+    "stage36_36_09DA":{"path":"stages/stage36/36-09DA/fixed-p2-second-independent-brauer-evaluation-matrix-preflight.json","blob_sha":"8f286f71e828c18e19d65721ca5b3728650f680f"},
+    "stage36_36_09CW":{"path":"stages/stage36/36-09CW/bt-literal-non-kummer-divisor-cech-construction-preflight.json","blob_sha":"a363c230cb44fec6d235eda0720d4fd624b1a87c"}
+  },
+  "fixed_curve_and_classes":{
+    "curve":"C3_2: z^2=(t^2+4)(t^2+1/4)(t^2+9)(t^2+1/9)",
+    "A":"(7,t^2+4)_2",
+    "B":"(7,t^2+9)_2",
+    "D":"(11,t^2+4)_2",
+    "A_B_independent_source":"36-09DA",
+    "D_origin":"CW class A_d0 with d=11 and p=2",
+    "D_unramified":true
+  },
+  "q11_independence_witnesses":[
+    {
+      "t":"4",
+      "rhs_exact":"1178125/9",
+      "rhs_mod11":4,
+      "z_mod11":2,
+      "hensel_derivative_2z_mod11":4,
+      "f0_mod11":9,
+      "f2_mod11":3,
+      "A_invariant":"0",
+      "B_invariant":"0",
+      "D_invariant":"0",
+      "nonboundary":true
+    },
+    {
+      "t":"3",
+      "rhs_exact":"19721",
+      "rhs_mod11":9,
+      "z_mod11":3,
+      "hensel_derivative_2z_mod11":6,
+      "f0_mod11":2,
+      "f2_mod11":7,
+      "A_invariant":"0",
+      "B_invariant":"0",
+      "D_invariant":"1/2",
+      "nonboundary":true
+    }
+  ],
+  "local_symbol_logic":{
+    "A_B_at_q11":"For the two witnesses, 7 and the relevant second entries are 11-adic units, hence the odd-prime Hilbert symbols are +1.",
+    "D_at_q11":"For an 11-adic unit u, (11,u)_11=(u/11). The residues 9 and 2 have Legendre symbols +1 and -1 respectively.",
+    "receiver_points_exist":"Both RHS residues are nonzero squares with nonzero z-derivative, so Hensel lifting in z gives Q_11 points."
+  },
+  "third_independence_consequence":{
+    "D_nonconstant_mod_BrQ":true,
+    "D_not_in_span_A_B_mod_BrQ":true,
+    "proof":"At the two Q_11 receiver points, A and B both evaluate 0 while D evaluates 0 and 1/2. If D differed from an F2-linear combination of A and B by a constant Brauer class, its evaluation difference between these two points would be zero, contradiction.",
+    "A_B_D_independent_in_BrC_mod_BrQ":true,
+    "BT_THIRD_INDEPENDENT_BRAUER_CLASS_FOUND_FOR_FIXED_P2":true,
+    "relevant_constructed_subgroup_rank_lower_bound":3
+  },
+  "current_credit_boundary":{
+    "three_independent_CW_classes_found":true,
+    "constructed_Brauer_subgroup_rank_at_least_3":true,
+    "constructed_Brauer_subgroup_rank_exactly_3":false,
+    "full_Brauer_group_computed":false,
+    "A_B_D_span_full_relevant_Brauer_group":false,
+    "rank3_joint_adelic_evaluation_matrix_complete":false,
+    "Brauer_Manin_obstruction_from_full_Br_group_proved":false,
+    "fixed_p_2_branch_excluded":false,
+    "receiver_emptiness_proved":false
+  },
+  "route_result":{
+    "route_status":"PASS_THIRD_INDEPENDENT_CLASS_PIVOT_TO_RANK3_TWO_PLACE_EVALUATION_MATRIX",
+    "next_leaf":"36-09DC_FIXED_P2_RANK3_BRAUER_TWO_PLACE_EVALUATION_MATRIX_PREFLIGHT",
+    "next_leaf_semantics":"Combine the DA full <A,B> image at Q_7 with the DB D-variation at Q_11, check cross-evaluations, and determine whether the rank-3 subgroup <A,B,D> can always be adelically cancelled. This is still not a full Brauer-group computation."
+  },
+  "scope_firewalls":{
+    "full_Brauer_group_computed":false,
+    "A_B_D_span_full_relevant_Brauer_group":false,
+    "rank3_subgroup_Brauer_Manin_obstruction_obtained":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

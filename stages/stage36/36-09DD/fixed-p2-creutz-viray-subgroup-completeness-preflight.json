@@ -1,0 +1,115 @@
+{
+  "schema":"STAGE36_36_09DD_FIXED_P2_CREUTZ_VIRAY_SUBGROUP_COMPLETENESS_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09DD",
+  "status":"PASS_RANK3_NOT_COMPLETE_FOURTH_INDEPENDENT_CREUTZ_VIRAY_CLASS_FOUND_FULL_BRAUER_GROUP_OPEN",
+  "base_main_sha":"f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "batch_parent":{
+    "pr":1712,
+    "36_09DC_exact_green_head":"3b8e52fb6cd2629a4c7aef5f3a33a8b046faddfa",
+    "36_09DC_exact_head_ci":"34202501921/101984315846",
+    "promotion_replay_head":"04cff03159545c7c7638ea7ece9a962c0572153e",
+    "promotion_replay_ci":"34202823332/101985326362"
+  },
+  "source_locks":{
+    "stage36_36_09DC":{"path":"stages/stage36/36-09DC/fixed-p2-rank3-brauer-two-place-evaluation-matrix-preflight.json","blob_sha":"4865bd16973ddf0fd746bc4219ea68b8277817b3"},
+    "stage36_36_09CW":{"path":"stages/stage36/36-09CW/bt-literal-non-kummer-divisor-cech-construction-preflight.json","blob_sha":"a363c230cb44fec6d235eda0720d4fd624b1a87c"},
+    "stage36_36_09CW_source":{"path":"stages/stage36/36-09CW/creutz-viray-hyperelliptic-brauer-source-lock.md","blob_sha":"4657040230644aef1dbef427a3a5ab6afe3998aa"}
+  },
+  "fixed_curve_and_prior_subgroup":{
+    "curve":"C3_2: z^2=(t^2+4)(t^2+1/4)(t^2+9)(t^2+1/9)",
+    "prior_classes":["A=(7,t^2+4)_2","B=(7,t^2+9)_2","D=(11,t^2+4)_2"],
+    "prior_classes_independent_mod_BrQ":true,
+    "prior_constructed_rank_lower_bound":3,
+    "prior_rank3_subgroup_BM_no_go_conditional_on_adelic_solubility":true
+  },
+  "fourth_candidate":{
+    "name":"E",
+    "class":"E=(17,t^2+4)_2",
+    "origin":"CW class A_d0 with d=17 and p=2",
+    "unramified_on_C3_2":true,
+    "first_entry_prime":17
+  },
+  "q17_independence_witnesses":[
+    {
+      "t":"3",
+      "rhs_exact":"19721",
+      "rhs_mod17":1,
+      "z_mod17":1,
+      "hensel_derivative_2z_mod17":2,
+      "f0_mod17":13,
+      "f2_mod17":1,
+      "A_invariant":"0",
+      "B_invariant":"0",
+      "D_invariant":"0",
+      "E_invariant":"0",
+      "nonboundary":true
+    },
+    {
+      "t":"4",
+      "rhs_exact":"1178125/9",
+      "rhs_mod17":16,
+      "z_mod17":4,
+      "hensel_derivative_2z_mod17":8,
+      "f0_mod17":3,
+      "f2_mod17":8,
+      "A_invariant":"0",
+      "B_invariant":"0",
+      "D_invariant":"0",
+      "E_invariant":"1/2",
+      "nonboundary":true
+    }
+  ],
+  "local_symbol_logic":{
+    "A_B_D_at_q17":"At both witnesses, first entries 7 and 11 and all displayed second entries are 17-adic units, so the odd-prime unit/unit Hilbert symbols are +1.",
+    "E_at_q17":"For a 17-adic unit u, (17,u)_17=(u/17). Residue 13 is a square and residue 3 is a nonsquare modulo 17.",
+    "receiver_points_exist":"Both RHS residues are nonzero squares with nonzero z-derivative, so Hensel lifting in z gives Q_17 receiver points."
+  },
+  "independence_consequence":{
+    "E_nonconstant_mod_BrQ":true,
+    "E_not_in_span_A_B_D_mod_BrQ":true,
+    "proof":"At the two Q_17 receiver points, A,B,D all evaluate 0 while E changes from 0 to 1/2. Hence E cannot differ from any F2-linear combination of A,B,D by a constant Brauer class.",
+    "A_B_D_E_independent_in_BrC_mod_BrQ":true,
+    "BT_FOURTH_INDEPENDENT_BRAUER_CLASS_FOUND_FOR_FIXED_P2":true,
+    "constructed_Brauer_subgroup_rank_lower_bound":4,
+    "rank3_completeness_disproved":true
+  },
+  "creutz_viray_completeness_boundary":{
+    "rank3_explicit_subgroup_exhausts_CW_family":false,
+    "rank3_explicit_subgroup_exhausts_full_Brauer_group":false,
+    "full_Creutz_Viray_explicit_image_computed":false,
+    "full_Brauer_group_computed":false,
+    "source_firewall":"The CW source lock constructs unramified classes but does not provide, by itself, a number-field surjectivity identification of this explicit family with the full Brauer group. DD therefore only records the new independent class and the failure of rank-3 completeness."
+  },
+  "current_credit_boundary":{
+    "four_independent_CW_classes_found":true,
+    "constructed_Brauer_subgroup_rank_at_least_4":true,
+    "constructed_Brauer_subgroup_rank_exactly_4":false,
+    "full_Creutz_Viray_explicit_image_computed":false,
+    "full_Brauer_group_computed":false,
+    "rank4_joint_adelic_evaluation_matrix_complete":false,
+    "Brauer_Manin_obstruction_from_full_Br_group_proved":false,
+    "fixed_p_2_branch_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false
+  },
+  "route_result":{
+    "route_status":"PASS_FOURTH_INDEPENDENT_CLASS_RANK3_COMPLETENESS_FALSE_PIVOT_TO_PRIME_PRIVATE_FAMILY",
+    "next_leaf":"36-09DE_FIXED_P2_PRIME_PRIVATE_BRAUER_FAMILY_PREFLIGHT",
+    "next_leaf_semantics":"Test whether the CW family (q,t^2+4)_2 for suitable fresh odd primes q systematically yields new independent classes witnessed at Q_q while previous classes stay locally constant. Determine a source-bound finite-subgroup cancellation principle before attempting any full explicit-image statement."
+  },
+  "scope_firewalls":{
+    "full_Creutz_Viray_explicit_image_computed":false,
+    "full_Brauer_group_computed":false,
+    "A_B_D_E_span_full_relevant_Brauer_group":false,
+    "rank4_subgroup_Brauer_Manin_obstruction_obtained":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

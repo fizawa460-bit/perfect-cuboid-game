@@ -1,0 +1,121 @@
+{
+  "schema":"STAGE36_36_09CS_BT_FIVE_ROOT_DECK_DUAL_PROJECTION_CONSTRUCTION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09CS",
+  "status":"EXACT_FIVE_ROOT_DECK_TORSOR_AND_POINTWISE_DUAL_PUSHOUT_ADAPTER_CONSTRUCTED",
+  "base_main_sha":"d5545b32e6b3088bca53318998d434f2745b03e9",
+  "batch_parent":{"pr":1712,"36_09CR_corrected_exact_green_head":"1e9cf94bc7ffc6ac78fabf51adac3cdf31d2bd12","36_09CR_corrected_exact_head_ci":"34191981610/101951737243","promotion_replay_ci":"34192082062/101952032086"},
+  "source_locks":{
+    "stage36_36_09CR":{"path":"stages/stage36/36-09CR/bt-geometric-local-condition-adelic-evaluation-source-preflight.json","blob_sha":"f31123ca0ed74db2fab03d033e63e4a9ced2bfeb"},
+    "stage36_36_09CR_verifier":{"path":"stages/stage36/verify_stage36_36_09CR.py","blob_sha":"f5403cf85053ec15d69df18d174d2ca711764bc3"},
+    "stage36_36_09CM":{"path":"stages/stage36/36-09CM/bt-global-kummer-class-localization-adapter-preflight.json","blob_sha":"06c3e6d1fcc2453dc44b84d50896abdc6a1658d7"},
+    "stage36_36_09CQ":{"path":"stages/stage36/36-09CQ/bt-cartier-dual-local-condition-adapter-preflight.json","blob_sha":"c7042cc86ff94cf94db88c8cc65ce5b69441aabe"},
+    "stage36_36_09BT":{"path":"stages/stage36/36-09BT/general-aw-squareclass-branch-full-cover-local-model-preflight.json","blob_sha":"e58c417ddfa340d96b2ac1fbae9e7da7c5224d78"}
+  },
+  "literature_binding":{
+    "kummer_sequence":"Stacks Project, Tag 03PK / Lemma 59.28.1: for n invertible, 0 -> mu_n -> G_m -> G_m -> 0 is exact on the etale site",
+    "torsor_H1_interpretation":"Stacks Project, Tag 040Q / Lemma 59.28.5 and its torsor discussion: H^1(mu_n) classes are represented by the corresponding Kummer torsors; trivial iff a section exists",
+    "use_scope":"Only the standard Kummer/torsor interpretation is imported. The five-root deck action, quotient map, transpose identity and projected formulas below are derived explicitly from the Stage36 equations."
+  },
+  "five_root_cover":{
+    "base_open":"U_BT subset A^1_y where F0*F1*F2*F3*F4 != 0",
+    "L":"lambda^2",
+    "equations":[
+      "w0^2=F0(y)=(A*B)*y",
+      "w1^2=F1(y)=(kappa*A)*(1-y)",
+      "w2^2=F2(y)=(rho*A)*(1+y)",
+      "w3^2=F3(y)=(kappa*B)*(1-L*y)",
+      "w4^2=F4(y)=(rho*B)*(1+L*y)"
+    ],
+    "degree":32,
+    "degree_source":"36-09CM exact_BT_cover_adapter meaning field",
+    "deck_group":"G5=mu_2^5",
+    "deck_action":"(eps0,...,eps4).(y,w0,...,w4)=(y,eps0*w0,...,eps4*w4)",
+    "geometric_fiber_action":"On U_BT every root is nonzero; the 32 sign choices act freely and transitively on the 32 geometric lifts of a base point.",
+    "G5_torsor_on_retained_open":true,
+    "K_BT_is_identified_with_full_degree32_deck_group":false,
+    "why_not":"K_BT=mu_2^3 is the fixed three-coordinate twist module from 36-09CM; the full five-root deck group is mu_2^5. The bridge is the transpose quotient below, not an equality of groups."
+  },
+  "pointwise_five_kummer_class":{
+    "for_place_v":"For y_v in U_BT(Q_v), Delta5_v(y_v)=([F0(y_v)],[F1(y_v)],[F2(y_v)],[F3(y_v)],[F4(y_v)]) in H^1(Q_v,G5).",
+    "source":"pull back the five product Kummer torsors w_i^2=F_i(y) along y_v",
+    "point_dependent":true,
+    "if_y_v_lifts_to_full_cover":"all five F_i(y_v) are squares, hence Delta5_v(y_v)=0",
+    "global_class_for_arbitrary_adelic_tuple":false,
+    "reason":"an adelic tuple may use different y_v at different places; Delta5_v(y_v) is therefore not being asserted to be the localization of one global H^1 class"
+  },
+  "transpose_quotient":{
+    "twist_embedding":"i:F2^3 -> F2^5, i(x0,x1,x2)=(x0,x1,x2,x0+x1,x0+x2)",
+    "cartier_dual_transpose":"i^D:F2^5 -> F2^3, i^D(a0,a1,a2,a3,a4)=(a0+a3+a4,a1+a3,a2+a4)",
+    "group_scheme_map":"p:G5=mu_2^5 -> mu_2^3, p(eps)=(eps0*eps3*eps4,eps1*eps3,eps2*eps4)",
+    "target_identification":"Over Q, use the standard mu_2 <-> constant Z/2 identification to regard the target as K_BT^D=(Z/2)^3 from 36-09CQ.",
+    "surjective":true,
+    "kernel_order":4,
+    "transpose_identity":"<a,i(x)>=<i^D(a),x> over F2 for every a,x",
+    "source_bound_to_five_root_deck_action":true
+  },
+  "geometry_bound_dual_evaluation":{
+    "definition":"Psi_BT,v(y_v)=p_*(Delta5_v(y_v)) in H^1(Q_v,K_BT^D)",
+    "raw_squareclass_coordinates":["[F0*F3*F4]","[F1*F3]","[F2*F4]"],
+    "simplified_squareclass_coordinates":[
+      "[kappa*rho*A*B*y*(1-L*y)*(1+L*y)] = [kappa*rho*A*B*y*(1-L^2*y^2)]",
+      "[A*B*(1-y)*(1-L*y)]",
+      "[A*B*(1+y)*(1+L*y)]"
+    ],
+    "coefficient_reduction":"kappa^2, rho^2 and B^2 are global squares and disappear in Q_v^*/Q_v^{*2}",
+    "point_or_geometry_dependent":true,
+    "generic_function_squareclass_supports":[
+      ["y","1-L*y","1+L*y"],
+      ["1-y","1-L*y"],
+      ["1+y","1+L*y"]
+    ],
+    "nonconstant_at_function_squareclass_level":true,
+    "why_nonconstant":"On the retained parameter open P*M*D0 != 0, L=lambda^2 is nonzero and L!=1 because P^2-M^2=8D0; the displayed linear factors are distinct and occur with odd multiplicity.",
+    "geometry_bound_local_dual_evaluation_adapter_complete":true,
+    "brauer_class_or_brauer_evaluation_constructed":false,
+    "poitou_tate_local_condition_system_constructed":false
+  },
+  "cq_pairing_interface":{
+    "left":"loc_v(Xi_BT)=([A*B],[kappa*A],[rho*A])",
+    "right":"Psi_BT,v(y_v) as above",
+    "local_tate_pairing_is_now_well_typed":true,
+    "pairing_total_is_automatically_global_reciprocity_trivial_for_arbitrary_adelic_yv":false,
+    "reason":"Psi_BT,v(y_v) is point-dependent and need not be the localization of one global dual class when y_v varies with v.",
+    "nonzero_global_obstruction_already_proved":false,
+    "required_place_inventory_for_this_pointwise_pairing_complete":false,
+    "adelic_orthogonality_or_nonorthogonality_proved":false
+  },
+  "construction_boundary":{
+    "BT_five_root_deck_torsor_action_source_bound":true,
+    "BT_pointwise_five_character_or_kummer_class_source_bound":true,
+    "BT_geometry_bound_dual_evaluation_adapter_complete":true,
+    "BT_Poitou_Tate_local_condition_system_complete":false,
+    "Stage36_required_place_inventory_complete_for_pointwise_evaluation":false,
+    "LIT_WF02_applicability_PASS":false,
+    "new_global_obstruction_obtained":false,
+    "first_missing_obligation":"BT_POINTWISE_LOCAL_TATE_PAIRING_REQUIRED_PLACE_AND_ADELIC_ORTHOGONALITY_INTEGRATION"
+  },
+  "route_result":{
+    "route_status":"PASS_GEOMETRY_BOUND_LOCAL_DUAL_EVALUATION_ADAPTER_OBTAINED_OBSTRUCTION_STILL_OPEN",
+    "next_leaf":"36-09CT_BT_POINTWISE_LOCAL_TATE_PAIRING_REQUIRED_PLACE_PREFLIGHT",
+    "next_leaf_semantics":"Substitute Psi_BT,v(y_v) into the CQ local Tate pairing, derive its exact squareclass/Hilbert-symbol formula, determine the finite required-place support including branch-function valuations, and test whether receiver-admissible adelic local points force or permit a nonzero total invariant. Do not call this a Brauer-Manin/Poitou-Tate obstruction before that calculation closes."
+  },
+  "scope_firewalls":{
+    "K_BT_equals_full_five_root_deck_group":false,
+    "geometry_bound_dual_evaluation_is_global_H1_class":false,
+    "geometry_bound_dual_evaluation_is_Brauer_class":false,
+    "Stage36_required_place_inventory_complete":false,
+    "LIT_WF02_applicability_pass":false,
+    "Selmer_membership_obtained":false,
+    "Poitou_Tate_obstruction_obtained":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

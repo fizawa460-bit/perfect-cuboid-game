@@ -1,0 +1,169 @@
+{
+  "schema": "STAGE32EX1_EX1_05X_CHARACTER_PRYM_LIFT_COMMON_V4_CORRESPONDENCE_PREFLIGHT_V1",
+  "stage": "32EX1",
+  "leaf": "EX1-05_RESIDUAL_CONFIGURATION_DISPOSAL_OR_POSITIVE_WITNESS_CLOSURE",
+  "route_id": "EX1_05X_CHARACTER_PRYM_LIFT_OF_COMMON_V4_CORRESPONDENCE_PREFLIGHT",
+  "authority": "SCRATCH_NONAUTHORITATIVE",
+  "scratch_parent_head": "41e0aee61fdcde2c0022d108d5518ee8e155a6c0",
+  "current_main_seen": "f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "question": "Does the common degree-four H=(Z/2)^2 lift retain character/Prym information beyond the base exact-W condition, and can the exact deck-translate intersection data be Fourier-resolved into characterwise Rosati constraints?",
+  "source_locks": {
+    "parent_05w": {
+      "path": "stages/stage32-ex1/scratch/ex1-05w-simultaneous-nielsen-common-v4-torsor-matching-preflight.json",
+      "exact_use": "Full abelian H-torsor cohomology is flexible once the exact-W condition is satisfied; the selected next view is the H-character/Prym decomposition of the common lift."
+    },
+    "ex1_05h_source_note": {
+      "path": "stages/stage32-ex1/ex1-05h-upstairs-conductor-discriminant-source-note.md",
+      "blob_sha1": "47837ed1bc55c120883039c32a1a0b25f26e7aa3",
+      "exact_use": "S0=(X(8)xX(8))/diag(H), q:S0->C2xC2 is finite etale degree four; D0^2=3874 and D0.uD0=3892, D0.vD0=4020, D0.uvD0=4020; normalization D has projections of degrees 105 and 81."
+    },
+    "v4_quotient": {
+      "path": "stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json",
+      "blob_sha1": "00eaebc3c57f6b5e3696c7bcd60eac5a53121f72",
+      "canonical_sha256": "2869208e7509d7b79378264ea1982299b0f1745b1a54c5856cfbba0754567ce5",
+      "exact_use": "Z=X(8) has genus five and Z->C2 is connected finite etale of degree four with free H=(Z/2)^2 action; C2 has genus two."
+    },
+    "relative_v4": {
+      "path": "stages/stage32/residual-32-01-production/post1503-o210-q4-relative-v4-torsor-mod2-coupling-source-note.md",
+      "blob_sha1": "429ea905cb1cb6354058461c3203de51c03e4106",
+      "exact_use": "For an actual carrier the two pullbacks f105^*Z and f81^*Z are isomorphic H-torsors, so their common connected degree-four lift Dtilde carries two H-equivariant maps to Z."
+    },
+    "rosati_source_note": {
+      "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-source-note.md",
+      "blob_sha1": "25e365475b41c917a4bab5acc06bda5e9738b8e7",
+      "exact_use": "For a correspondence of bidegree (d1,d2), the retained self-pairing is 2*d1*d2-C^2=Tr(T^dagger T); bilinear cross-pairing is obtained by polarization."
+    },
+    "rosati_repair": {
+      "path": "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair-source-note.md",
+      "blob_sha1": "b0ea281eae453929c292059a919bc1f68b3080b3",
+      "exact_use": "Downstairs trivial-character Rosati trace is exactly sigma(Gamma)=1204, Q(T)=602. This provides the normalization check for the Fourier split."
+    }
+  },
+  "common_lift": {
+    "Z": "X(8)",
+    "genus_Z": 5,
+    "H": "(Z/2)^2",
+    "base": "C2",
+    "genus_base": 2,
+    "surface_cover": "p:ZxZ -> S0=(ZxZ)/diag(H)",
+    "surface_cover_degree": 4,
+    "curve_upstairs": "Dtilde0=p^*D0",
+    "normalization": "Dtilde",
+    "Dtilde_to_D": "connected finite etale H-cover of degree four",
+    "equivariant_maps": ["f105_tilde:Dtilde->Z", "f81_tilde:Dtilde->Z"],
+    "map_degrees": [105,81],
+    "pair_correspondence_H_diag_invariant": true
+  },
+  "intersection_pullback": {
+    "D0_translate_intersections_on_S0": [3874,3892,4020,4020],
+    "order": ["e","u","v","uv"],
+    "degree_four_etale_scaling": 4,
+    "Dtilde0_translate_intersections_on_ZxZ": [15496,15568,16080,16080],
+    "bidegree_product_twice": 17010
+  },
+  "cross_rosati": {
+    "definition": "sigma_k=2*105*81-Dtilde0.(1,k)Dtilde0",
+    "values_order_e_u_v_uv": [1514,1442,930,930],
+    "operator_interpretation": "If S is the H-equivariant correspondence endomorphism on J(Z), polarization of the retained Rosati self-pairing gives sigma_k=Tr(S^dagger k^* S)=Tr(k^* S^dagger S).",
+    "H_equivariance_reason": "Dtilde0 is invariant under diagonal H, hence S commutes with H."
+  },
+  "character_fourier_split": {
+    "character_group_size": 4,
+    "formula": "tau_chi=(1/4)*sum_{k in H} chi(k)*sigma_k",
+    "trivial_character_trace": 1204,
+    "nontrivial_character_trace_multiset": [274,18,18],
+    "normalization_check": "1204+274+18+18=1514=sigma_e",
+    "downstairs_check": "trivial-character trace 1204 equals the retained downstairs Rosati trace",
+    "labeling_firewall": "The multiset is exact. The current retained package does not identify which of the three nonzero exact-W character lines carries the distinguished value 274 without an additional deck-generator/character-line adapter."
+  },
+  "prym_dimensions": {
+    "H0_K_Z_invariant_dimension": 2,
+    "H0_K_Z_each_nontrivial_character_dimension": 1,
+    "reason": "For a connected etale V4 cover of a genus-two curve, projection-formula character decomposition gives the invariant canonical forms from C2 and one canonical form for each nontrivial two-torsion character; dimensions sum to genus(Z)=5.",
+    "nontrivial_character_abelian_factor_dimension": 1,
+    "factor_type": "elliptic Prym"
+  },
+  "forced_prym_endomorphism_degrees": {
+    "principle": "On an elliptic Prym factor stable under S, the Rosati trace on H1 of S_chi^dagger S_chi is twice the degree of the restricted endomorphism.",
+    "nontrivial_character_degree_multiset": [137,9,9],
+    "degree_integrality_check": true,
+    "degree_9_has_trivial_integer_model": "[3] has degree 9 on every elliptic curve",
+    "degree_137_realizability_source_locked": false,
+    "interpretation": "Any actual carrier forces one distinguished Prym character to support an endomorphism of degree 137, while the other two support degree 9. This is a genuinely stronger invariant than the base exact-W equality, but no exclusion is legal until End(P_chi) for the fixed X(8) Pryms is source-locked."
+  },
+  "statewise_replay": {
+    "Q_values": [210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266],
+    "r_values": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+    "genus_D_formula": "106+r",
+    "genus_Dtilde_formula": "4*(g(D)-1)+1=421+4r",
+    "genus_Dtilde_range": [421,533],
+    "H0_K_Dtilde_invariant_dimension_formula": "106+r",
+    "H0_K_Dtilde_each_nontrivial_character_dimension_formula": "105+r",
+    "character_rosati_trace_multiset_constant": [1204,274,18,18],
+    "Q_states_entering": 29,
+    "Q_states_excluded": 0,
+    "Q_states_leaving": 29,
+    "Q602_residues_per_Q": [73,97,235]
+  },
+  "decision": {
+    "route_status": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "new_exact_pattern": "DECK_TRANSLATE_INTERSECTIONS_FOURIER_SPLIT_THE_LIFTED_ROSATI_TRACE_AS_1204_PLUS_274_PLUS_18_PLUS_18_AND_FORCE_PRYM_ENDOMORPHISM_DEGREES_137_9_9",
+    "character_prym_information_beyond_exact_W_obtained": true,
+    "Q_states_excluded": 0,
+    "Q602_residues_excluded": 0,
+    "V6_carrier_excluded": false,
+    "new_gate": "SOURCE_LOCK_THE_THREE_FIXED_X8_PRYM_ELLIPTIC_ENDOMORPHISM_RINGS_AND_ALIGN_THE_DISTINGUISHED_137_CHARACTER_WITH_THE_THREE_EXACT_W_LINES",
+    "reopen_condition": "Further pruning requires either proving degree 137 is impossible in at least one forced Prym elliptic endomorphism ring, or an exact deck-generator-to-W-line adapter that couples the distinguished character to one or more of the residues 73,97,235."
+  },
+  "candidate_ledger": {
+    "LIVE": ["PRYM_ELLIPTIC_ENDOMORPHISM_NORM_REALIZABILITY_AND_CHARACTER_LINE_ALIGNMENT"],
+    "UNTESTED": ["ACTUAL_V6_SECTION_MATERIALIZATION"],
+    "BLOCKED": [
+      "D0_SUPPORT_EXTRACTION_FROM_CURRENT_CORRESPONDENCE_ROSATI_DEGREE_DATA",
+      "RAMIFICATION_DIFFERENCE_SPIN_PARITY_WITHOUT_COEFFICIENTWISE_ODD_RAMIFICATION_PROFILE",
+      "SEPARATE_NIELSEN_TUPLE_ENUMERATION_WITHOUT_COMMON_PI1_MARKING",
+      "DISTINGUISHED_PRYM_CHARACTER_TO_EXACT_W_LINE_WITHOUT_DECK_CHARACTER_ADAPTER"
+    ],
+    "DOMINATED": [
+      "FULL_V4_TORSOR_COHOMOLOGY_BEYOND_EXACT_W",
+      "LOW_RAMIFICATION_FORCES_SMALL_OR_IMPRIMITIVE_MONODROMY",
+      "STANDARD_VIRTUAL_OR_EXPECTED_DIMENSION_COUNT",
+      "Q602_EFFECTIVITY_OR_INTEGRALITY_AS_A_CLASS_LEVEL_OBSTRUCTION"
+    ],
+    "EQUIVALENT": []
+  },
+  "next_route": {
+    "route_id": "EX1_05Y_PRYM_ELLIPTIC_ENDOMORPHISM_NORM_AND_CHARACTER_LINE_ALIGNMENT_PREFLIGHT",
+    "selection_reason": "05X converts the previously qualitative Prym idea into the exact forced degree multiset {137,9,9}. The closest possible exclusion is now a fixed-X(8) elliptic endomorphism-ring norm test, followed by alignment of the unique large character with the three retained W-lines."
+  },
+  "cycle_exit": {
+    "CYCLE_ROUTE_STATUS": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "CYCLE_ACTIVE_RECEIVER": "FIXED_X8_PRYM_ELLIPTIC_ENDOMORPHISM_DEGREES_137_9_9_WITH_DISTINGUISHED_CHARACTER_ALIGNMENT",
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_UNTESTED_CANDIDATES": 1,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": false,
+    "CYCLE_BLIND_REDISCOVERY": false,
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "H_CHARACTER_FOURIER_DECOMPOSITION_OF_DECK_TRANSLATE_ROSATI_CROSS_TRACES",
+    "CYCLE_NEW_VIEW_SOURCE": "INTERNAL_DERIVATION_FROM_RETAINED_EXACT_DECK_DATA"
+  },
+  "replay": {
+    "verifier": "stages/stage32-ex1/scratch/verify_ex1_05x_character_prym_lift_common_v4_correspondence.py",
+    "expected": "PASS_EX1_05X_CHARACTER_PRYM_FOURIER_SPLIT"
+  },
+  "firewalls": {
+    "character_trace_multiset_promoted_to_character_labeling": false,
+    "degree_137_promoted_to_impossibility_without_End_ring": false,
+    "prym_factor_promoted_to_specific_elliptic_model_without_source": false,
+    "cohomological_character_constraint_promoted_to_actual_V6_realizability": false,
+    "transvection_recharged": false,
+    "Q_state_exclusion_claimed": false,
+    "Q602_exclusion_claimed": false,
+    "stage32_main_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false
+  }
+}

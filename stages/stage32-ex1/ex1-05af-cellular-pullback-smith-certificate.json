@@ -1,0 +1,49 @@
+{
+  "schema": "STAGE32EX1_05AF_CELLULAR_PULLBACK_SMITH_CERTIFICATE_V1",
+  "stage": "32EX1",
+  "authority": "SCRATCH_NONAUTHORITATIVE_CERTIFICATE",
+  "purpose": "Independent integral pullback/Smith certificate for p:X(8)xX(8)->S0.",
+  "source_domain_certificate": {
+    "path": "stages/stage32-ex1/scratch/ex1-05af-cellular-h2-domain-certificate.json",
+    "canonical_sha256": "1d682a8a3921a46470c6f383ae20f3b8bf5068334b3c4aee8e5b92699a9f19fe"
+  },
+  "map": {
+    "cover": "p:X(8)xX(8)->S0=(X(8)xX(8))/H_diag",
+    "degree": 4,
+    "cochain_pullback_rule": "A quotient cell with relative H-label d pulls back to the four product cells with h1+h2=d.",
+    "source_free_basis": "K columns 21..50 from the domain certificate",
+    "target_integral_basis": "Kunneth H2xH0, H1xH1 (100 lexicographic pairs), H0xH2 from factor bases"
+  },
+  "smith": {
+    "invariant_factors": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,4,4],
+    "cokernel": "(Z/2)^3 x (Z/4)^2",
+    "index": 128,
+    "saturation_basis_shape": [102,30],
+    "saturation_left_inverse_shape": [30,102],
+    "proof_primitive": "Lleft*Lsat=I30.",
+    "pullback_in_saturation_coordinates": "diag(1^25,2,2,2,4,4)"
+  },
+  "cochain_equality_witness": {
+    "B_shape": [128,30],
+    "identity": "p^*(Qfree)=UKunneth*Lsat*diag(1^25,2,2,2,4,4)+delta1_up*B"
+  },
+  "matrix_payload": {
+    "codec": "zlib+base85 over compact UTF-8 JSON integer matrices",
+    "uncompressed_sha256": "8cd964bd04858932ee25d945072097e808ae0cc3fa95f64aa01edd96b0d0d66a",
+    "uncompressed_bytes": 21058,
+    "encoded": "c-rk;OOM+i5dJSYgT#!z*{a8$`wvz*RMqaOQV;E|>VGeGY#s&!!^3vmC|c|`p79KP^8kkYxqSWg?f2#L+nZqb4=|K%$9l%E@&=hOK7fqNKj$Kbhp&uxOx&1c#la#Yd`5CDi+!b0iy~^e3I=(O{$AO`AE-*5AoSWJ&f9^kIpmI8RP(T2k{q*%N&P;tl177CKS|FqZIGsW`8XQ<B!g^Yi-;cw1dV)fExebWWl}@_Pmlq)3?)@R@DP)0;sXcXsso}ZBwHO+#!f0du0SVCZi4g%WamaPBXu4uMId&))Yt`1>(^J)o(>&|P!~I$GUO0luIn?QUFSn7c#0W#Jf{mkXbV3M+4$pk6+^DGVbq!>g#dLBK5=sN12mz51QnpD1NNb=slN;PwZNb4ftJboj95x0vHJc6lQHA58ln2a!-K=5UoI2Ku%)oECiMaoPy=BE*XKN$iYH_a;2qm)0MyR~qjCy<u@F4FA+QWWh4_W&%MXme$`GDLe-9VvI^wM{SmKDvKvcm4ml<CzCq|Fre9ug<ED;p{c_N676T!5ZM6Ja`1w_8bf-_i4H97BwM!}~YeU0Vr?6vkvn-qS`qM6G%FS^~><?E044{PTo+YpcQDeTv$I!(tr!{iREPvLIeA+dHAWp=<CY_1KQU~F_E)(CW4VA+_woyBtCENJu3@30-#h8mOyc5HAsH~mP_D4>qoK|f~@g;Qvw=1jm2uXuFvgyUoQfYq?`$a&~y`6nDy8+dF-aGh@YWVU;G_LPn2tKPs!9U;D#KE%qX!y~V3ne>3RGwz|FhRC?oD3OI4U{{8yhVyC|2!_!$n%z_;geDZx0C6MO_0B+{o4jG~Q46AKecCIU1+`i;9yo#<2+rqBH`dSCQ&pzDqp!6Z&iiB^E*~9te-1FIvmz3z{mU?{_KQh3cKP!C=le%|gTY8x$F825aHXL2=-lA_&f4kI9aI)o{ObrIF}eXYbE8XZ;)R#?pemN?dq}CBv^bb$@57}Ja_FpeIV}`P1W_V^z4Z-t4GH<!!5V#n@Z6e7p}rCEGR_4HS_S)51>@As=sM`p1++Up;Uxy*D27m3$0nhv&n5eV)kPoekwl^==%!s<Fr2w`Brojc{{3)yp;uA!^fKxyexUa86>j(hdL6$*U$TurImKWlvNHsN@88$_*Lsg&{!rEY%?K;PG2I)Kfh}IIt9mv|41ywM<ppqpyr9d?3$~63fk>Vf6H*vFRzgraq&}$|S$@6%z?R3qMz2B2LY~83+UsOne>~Og2tUu{!I;w<(_xW%jBc?Z7EQlGvD&U5h7J0088JpVKsg0WXW`CA%!zD+EUau67X*X-WlG@BNgE(JiF-P-TGaEhUrr4=6j6s}tDXT@$$Jw=7@tijp_;J}Em*|6L7l<EwZnwt5B->pnD4!Ox-~wp?A30>e81!aN}ev8kEq3_m3eLq^19TZ=ScJNyI`36V-d8aVkg7Uzjc7SxYz7Ot}5iup!TG$6$Zv;S|D01wQ`UE^<B(=w+JlCL{^Ter*jdNxRj1i`g!~5{zwpmS_%|1fn#)K=8rhkCAanOmp!1nq*VXg-+x{;G8X"
+  },
+  "independence_from_compact_05af": {
+    "uses_OBS": false,
+    "uses_PIVROWS": false,
+    "statement": "The cellular complexes and p^* are reconstructed from the CW/V4 model; the compact five Smith obstruction rows are not inputs."
+  },
+  "derived": {
+    "rank_H2_S0_free": 30,
+    "rank_H2_X8xX8": 102,
+    "rank_pullback": 30,
+    "rank_H2_X8xX8_H_invariants": 30,
+    "cokernel_exponent": 4
+  },
+  "canonical_sha256_without_this_field": "988a360ddeb7e22e0aa1923044b8e473d50f10e9dd82d84565266ed292d98984"
+}

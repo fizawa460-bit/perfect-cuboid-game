@@ -1,0 +1,98 @@
+{
+  "schema":"STAGE36_36_09CR_BT_GEOMETRIC_LOCAL_CONDITION_ADELIC_EVALUATION_SOURCE_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09CR",
+  "status":"FAIL_CLOSED_PROTOCOL_AND_FORMAL_DUAL_PROJECTION_FOUND_BUT_BT_GEOMETRIC_EVALUATION_BRIDGE_MISSING",
+  "base_main_sha":"d5545b32e6b3088bca53318998d434f2745b03e9",
+  "batch_parent":{"pr":1712,"36_09CQ_exact_green_head":"a0d8cb76e43f926342f1a57b2b6aa903d19da63d","36_09CQ_exact_head_ci":"34188612840/101941880607"},
+  "source_locks":{
+    "stage36_36_09CQ":{"path":"stages/stage36/36-09CQ/bt-cartier-dual-local-condition-adapter-preflight.json","blob_sha":"c7042cc86ff94cf94db88c8cc65ce5b69441aabe"},
+    "stage36_36_09CQ_verifier":{"path":"stages/stage36/verify_stage36_36_09CQ.py","blob_sha":"cd7716e99f2c1da83b9bfb0ea39168b43d5752ce"},
+    "stage36_36_09CM":{"path":"stages/stage36/36-09CM/bt-global-kummer-class-localization-adapter-preflight.json","blob_sha":"06c3e6d1fcc2453dc44b84d50896abdc6a1658d7"},
+    "stage36_36_09BT":{"path":"stages/stage36/36-09BT/general-aw-squareclass-branch-full-cover-local-model-preflight.json","blob_sha":"e58c417ddfa340d96b2ac1fbae9e7da7c5224d78"},
+    "repository_asset_discovery":{"path":"docs/research-os/policies/repository-asset-discovery.md","blob_sha":"bf001d4ff4375281a901d52c147c35c28643b8a3"},
+    "S33_PW08":{"path":"docs/arsenal/cards/provisional/S33-PW08.md","blob_sha":"c9e13a917811581578f833ea93619d85f717be6d"},
+    "S33_PW07":{"path":"docs/arsenal/cards/provisional/S33-PW07.md","blob_sha":"7f1337858bc6f9006e101d810dd72e67aef534fd"},
+    "S36_PW04":{"path":"docs/arsenal/cards/provisional/S36-PW04.md","blob_sha":"2f5eb6501d64393e2962aff4bb6d0b25aa104314"},
+    "S36_PW07":{"path":"docs/arsenal/cards/provisional/S36-PW07.md","blob_sha":"9ebeb753826da005471bf677969b535f91ea8018"}
+  },
+  "target_adapter_contract":{
+    "accepted_shape_A":"a source-bound exact sequence/torsor structure whose local connecting map lands in H^1(Q_v,K_BT^D)",
+    "accepted_shape_B":"a source-bound BT local-point or adelic-point evaluation map P_v -> Psi_v in H^1(Q_v,K_BT^D), with exact compatibility to the CQ local Tate pairing",
+    "accepted_shape_C":"an explicit BT Brauer/adelic evaluation representative whose local invariant is proved to equal the CQ pairing against a source-derived local dual class",
+    "must_be_point_or_geometry_dependent":true,
+    "arbitrary_global_dual_squareclasses_are_not_accepted":true,
+    "abstract_module_identification_alone_is_not_accepted":true
+  },
+  "asset_discovery_result":{
+    "exact_missing_object":"BT_GEOMETRIC_CONNECTING_MAP_OR_POINT_DEPENDENT_LOCAL_EVALUATION_ADAPTER",
+    "matching_reusable_method":"S33-PW08 GERSTEN_CONNECTING_LOCALIZATION_ADAPTER protocol",
+    "S33_PW08_concrete_zero_map_reused":false,
+    "S33_PW08_reason":"PW08 explicitly promotes the construction/audit protocol, not the concrete Stage33 value, and requires an exact Gersten/residue complex, actual valuation attachment, purity correction and a locked receiver for the target object.",
+    "S33_PW07_directly_applies":false,
+    "S33_PW07_reason":"Its torsor/Brauer adapter requires one exact common cocycle, intended Jacobian and literal representative/divisor data; those data have not been bound for the BT five-root cover and K_BT^D.",
+    "S36_PW04_directly_applies":false,
+    "S36_PW04_reason":"It supplies the older pointwise H-torsor lift class delta_H; 36-09CM explicitly refuses Xi_BT=delta_H and no source-bound map from that H1 class to H^1(K_BT^D) exists in the current branch.",
+    "S36_PW07_directly_applies":false,
+    "S36_PW07_reason":"It is a local character necessary-condition matrix and explicitly forbids Selmer/global-point credit from local admissibility.",
+    "existing_source_bound_BT_dual_evaluation_adapter_found":false,
+    "repository_search_miss_is_mathematical_nonexistence_claim":false
+  },
+  "bt_geometry_inventory":{
+    "five_root_cover_model_available":true,
+    "degree":32,
+    "base_coordinate":"y=(B/A)*t^2",
+    "L":"lambda^2",
+    "root_functions":["y","1-y","1+y","1-L*y","1+L*y"],
+    "twist_coefficients":["A*B","kappa*A","rho*A","kappa*B","rho*B"],
+    "Xi_coordinates":["x0=[A*B]","x1=[kappa*A]","x2=[rho*A]"],
+    "twist_embedding_F2":"i(x0,x1,x2)=(x0,x1,x2,x0+x1,x0+x2)",
+    "source_bound_degree32_deck_torsor_action_materialized_for_CR":false,
+    "source_bound_identification_K_BT_as_degree32_deck_kernel":false,
+    "source_bound_pointwise_five_character_class_materialized":false,
+    "source_bound_local_point_to_H1_KBT_dual_map_materialized":false
+  },
+  "formal_dual_projection_candidate":{
+    "status":"LINEAR_ALGEBRA_EXACT_NOT_YET_GEOMETRIC_ADAPTER",
+    "derivation":"dualize the displayed F2 embedding i by the standard dot pairing",
+    "input":"a=(a0,a1,a2,a3,a4) in F2^5",
+    "formula":"i^D(a)=(a0+a3+a4,a1+a3,a2+a4) in F2^3",
+    "multiplicative_squareclass_formula":["psi0=a0*a3*a4","psi1=a1*a3","psi2=a2*a4"],
+    "pairing_identity":"dot(a,i(x))=dot(i^D(a),x) for every a in F2^5 and x in F2^3",
+    "pairing_identity_exhaustively_verifiable":true,
+    "deck_character_source_bound":false,
+    "pointwise_local_class_source_bound":false,
+    "may_be_called_BT_dual_evaluation_adapter":false
+  },
+  "construction_boundary":{
+    "new_positive_obstruction":false,
+    "BT_geometry_bound_dual_evaluation_adapter_complete":false,
+    "BT_Poitou_Tate_local_condition_system_complete":false,
+    "LIT_WF02_applicability_PASS":false,
+    "first_missing_obligation":"BT_FIVE_ROOT_DECK_TORSOR_ACTION_AND_POINTWISE_CHARACTER_CLASS_SOURCE_BINDING",
+    "why":"The formal dual projection is exact, but current evidence does not yet bind the degree-32 five-root cover as a deck torsor with an explicit character basis/local point class whose projection defines Psi_v. Without that source binding, the projection cannot be promoted to geometry, Selmer, Poitou-Tate or Brauer-Manin data."
+  },
+  "route_result":{
+    "route_status":"FAIL_CLOSED_AT_BT_FIVE_ROOT_DECK_TORSOR_SOURCE_BINDING_WITH_EXACT_DUAL_PROJECTION_SEED",
+    "next_leaf":"36-09CS_BT_FIVE_ROOT_DECK_DUAL_PROJECTION_CONSTRUCTION_PREFLIGHT",
+    "next_leaf_semantics":"Bind the degree-32 five-root cover deck action and character basis on the retained open; materialize the pointwise five-character/Kummer class; then compose with the exact i^D projection and test whether the resulting local K_BT^D class is genuinely geometry-bound and nonconstant/useful rather than another global reciprocity tautology."
+  },
+  "scope_firewalls":{
+    "formal_projection_is_geometry_adapter":false,
+    "S33_PW08_concrete_map_transferred_to_BT":false,
+    "S36_PW04_delta_H_identified_with_Xi_BT":false,
+    "Stage36_required_place_inventory_complete":false,
+    "LIT_WF02_applicability_pass":false,
+    "Selmer_membership_obtained":false,
+    "Poitou_Tate_obstruction_obtained":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

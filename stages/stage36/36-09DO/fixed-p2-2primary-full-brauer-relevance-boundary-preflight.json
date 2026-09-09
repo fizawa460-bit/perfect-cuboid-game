@@ -1,0 +1,85 @@
+{
+  "schema":"STAGE36_36_09DO_FIXED_P2_2PRIMARY_FULL_BRAUER_RELEVANCE_BOUNDARY_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09DO",
+  "status":"FAIL_CLOSED_LOCAL_FULL_2PRIMARY_COMMON_NEIGHBORHOOD_IMPOSSIBLE_AT_Q2_GLOBAL_LOCALIZATION_IMAGE_UNRESOLVED",
+  "base_main_sha":"e98b06455d34bf2f346d297d9370e82fc2a71970",
+  "batch_parent":{
+    "pr":1712,
+    "36_09DN_exact_green_head":"6d8d65b9215ef9eba148370342922092aa36a084",
+    "36_09DN_exact_head_ci":"34226894499/102063100388",
+    "36_09DN_promotion_replay_head":"56b59e4d43529ecc77b2cd3e0ad30c1a9ea6d038",
+    "36_09DN_promotion_replay_ci":"34227100485/102063780519"
+  },
+  "source_locks":{
+    "stage36_36_09DN":{"path":"stages/stage36/36-09DN/fixed-p2-full-br2-common-neighborhood-preflight.json","blob_sha":"bffce7f0e27a9f92f12657bcca1b71cddce7ccaa"},
+    "stage36_36_09DN_source":{"path":"stages/stage36/36-09DN/full-br2-local-common-neighborhood-source-lock.md","blob_sha":"60984a1f42b999e770219398690e833b54c8eb0f"},
+    "local_2primary_boundary":{"path":"stages/stage36/36-09DO/full-2primary-q2-formal-neighborhood-boundary-source-lock.md","blob_sha":"4529177bbe39401ed93c0395cce66176bf451dc8"}
+  },
+  "fixed_curve":{
+    "curve":"C3_2: z^2=(t^2+4)(t^2+1/4)(t^2+9)(t^2+1/9)",
+    "genus":3,
+    "reference_point":{"name":"P0","t":0,"z":1,"rational":true,"smooth":true,"retained_open":false},
+    "jacobian":"J=Jac(C3_2)",
+    "jacobian_dimension":3
+  },
+  "dyadic_local_structure":{
+    "field":"Q_2",
+    "Mattuck_open_subgroup":"M ~= Z_2^3 after shrinking to a torsion-free open subgroup",
+    "local_duality":"nonconstant local Brauer characters pair with J(Q_2)",
+    "all_2primary_annihilator":"intersection_{n>=1} 2^n J(Q_2)",
+    "all_2primary_annihilator_intersection_M":"{0}",
+    "every_nonzero_x_in_M_detected_by_some_2power_character":true
+  },
+  "formal_neighborhood_result":{
+    "abel_jacobi_map":"P -> [P-P0]",
+    "locally_injective_at_P0":true,
+    "punctured_common_neighborhood_for_all_local_2primary_classes_exists":false,
+    "reason":"every nonzero sufficiently small displacement lies in the torsion-free Z_2^3 Mattuck subgroup and is separated by some finite 2-power local character",
+    "DN_finite_intersection_method_extends_to_full_local_2primary_at_Q2":false
+  },
+  "odd_place_comparison":{
+    "for_odd_p_open_formal_subgroup_is_pro_p":true,
+    "continuous_2primary_characters_kill_open_pro_p_subgroup":true,
+    "local_2primary_nonconstant_image_finite_up_to_finite_component_group":true,
+    "unique_structural_unbounded_exponent_place":"Q_2"
+  },
+  "global_localization_firewall":{
+    "local_separating_class_need_not_globalize":true,
+    "global_2primary_Brauer_set_nonempty":false,
+    "global_2primary_Brauer_set_empty":false,
+    "fixed_p2_exclusion_obtained":false,
+    "first_missing_obligation":"GLOBAL_2PRIMARY_BRAUER_Q2_LOCALIZATION_IMAGE_BOUNDEDNESS_OR_SEPARATION",
+    "needed_map":"loc_2(Br(C3_2)[2^infinity]/Br(Q)[2^infinity]) -> Br(C3_2 x Q_2)[2^infinity]/Br(Q_2)[2^infinity]"
+  },
+  "route_result":{
+    "route_status":"PASS_EXACT_LOCAL_NO_GO_FOR_DN_STYLE_FULL_2PRIMARY_FORMAL_DISK_PIVOT_TO_GLOBAL_Q2_LOCALIZATION_IMAGE",
+    "next_leaf":"36-09DP_FIXED_P2_GLOBAL_2PRIMARY_BRAUER_Q2_LOCALIZATION_IMAGE_PREFLIGHT",
+    "next_leaf_semantics":"Determine whether the global 2-primary Brauer localization image at Q2 has bounded exponent/finite image or contains arbitrarily deep dyadic characters. Only the former can revive a finite common-neighborhood construction; sufficiently deep global characters could instead create a genuine retained-open local restriction."
+  },
+  "current_credit_boundary":{
+    "full_Br2_Brauer_set_nonempty":true,
+    "full_Br2_Brauer_Manin_obstruction_disproved":true,
+    "full_2primary_Brauer_set_nonempty":false,
+    "full_2primary_Brauer_set_empty":false,
+    "full_Brauer_set_nonempty":false,
+    "full_Brauer_set_empty":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_2_branch_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false
+  },
+  "scope_firewalls":{
+    "full_2primary_Brauer_group_computed":false,
+    "global_Q2_localization_image_computed":false,
+    "full_Brauer_group_computed":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

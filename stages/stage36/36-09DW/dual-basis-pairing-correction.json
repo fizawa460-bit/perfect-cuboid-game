@@ -1,0 +1,90 @@
+{
+  "schema":"STAGE36_36_09DW_DUAL_BASIS_PAIRING_CORRECTION_V1",
+  "stage":"36",
+  "unit":"36-09DW-CORRECTION",
+  "status":"CORRECTION_REPLACE_PHI_LOCAL_IMAGE_BASES_AND_DX_LABELS_RETAIN_DIMENSIONS_AND_DOWNSTREAM_NUMERICS",
+  "base_main_sha":"b4357252bf492a0934fe47812ffa2421a342f954",
+  "source_locks":{
+    "stage36_36_09DT":{"path":"stages/stage36/36-09DT/fixed-p2-v4-isogeny-proselmer-defect-preflight.json","blob_sha":"362326de8d6ecc0b415ecf29c6eb936134e395ce"},
+    "stage36_36_09DU":{"path":"stages/stage36/36-09DU/fixed-p2-phi-selmer-local-condition-defect-preflight.json","blob_sha":"d2a8bab0ab63406c7c1ced5d077cc523d5648ba2"},
+    "stage36_36_09DU_source":{"path":"stages/stage36/36-09DU/phi-descent-character-functions-source-lock.md","blob_sha":"c9e9f9309555106ff5c0ed947c3973c0b11b1753"},
+    "stage36_36_09DW_historical":{"path":"stages/stage36/36-09DW/fixed-p2-phi-selmer-five-place-local-image-preflight.json","blob_sha":"ffa5d8ee9fceed3cfcfc05ce029538557a803ac7"},
+    "stage36_36_09DX_historical":{"path":"stages/stage36/36-09DX/fixed-p2-global-phi-selmer-intersection-preflight.json","blob_sha":"ee8fda5da9fdd7ea26220740eecb07b2d8a0effe"},
+    "correction_source":{"path":"stages/stage36/36-09DW/dual-basis-pairing-correction-source-lock.md","blob_sha":"ed5125e7d4d7f4688b50dd4a59467a71d197b533"}
+  },
+  "cartier_pairing":{
+    "K_basis":["k1=(alpha_tau,alpha_sigma,0)","k2=(alpha_tau,0,alpha_rho)","k3=(beta_tau,beta_sigma,beta_rho)"],
+    "KD_basis":["lambda1=[1,2,3,4]","lambda2=[1,2,5,6]","lambda3=[1,4,5,8]"],
+    "matrix_C_rows_k_cols_lambda":[[0,1,1],[0,1,0],[1,0,0]],
+    "matrix_C_inverse":[[0,0,1],[0,1,0],[1,1,0]],
+    "chosen_bases_mutually_dual":false,
+    "historical_coordinatewise_pairing_valid":false,
+    "correct_evaluation_coordinate_pairing":"C^{-1} tensor H_v"
+  },
+  "corrected_local_Phi_images":{
+    "infinity":{"dimension":1,"basis":[[0,0,1]]},
+    "2":{"dimension":4,"basis":[[0,0,0,0,0,1,0,0,0],[0,0,0,1,0,0,1,0,0],[0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,1]]},
+    "3":{"dimension":3,"basis":[[0,0,0,1,0,0],[0,0,0,0,1,0],[0,0,0,0,0,1]]},
+    "5":{"dimension":2,"basis":[[0,0,0,1,0,0],[0,1,0,0,0,1]]},
+    "7":{"dimension":2,"basis":[[0,1,0,1,0,0],[0,0,0,0,0,1]]}
+  },
+  "local_dimensions_retained":[1,4,3,2,2],
+  "direct_rational_witness":{
+    "P0":["0","1"],
+    "P_plus":["1","25/3"],
+    "P_minus":["1","-25/3"],
+    "delta_P_plus":["[1]","[2]","[6]"],
+    "delta_P_minus":["[1]","[2]","[-6]"],
+    "P_plus_excluded_by_historical_Q2_Phi_image":true,
+    "P_plus_in_corrected_all_local_images":true
+  },
+  "corrected_global_Phi_Selmer":{
+    "combined_local_constraint_rank":13,
+    "F2_dimension":2,
+    "cardinality":4,
+    "basis_squareclass_triples":[["[1]","[1]","[-1]"],["[1]","[2]","[6]"]],
+    "all_classes":[["[1]","[1]","[1]"],["[1]","[1]","[-1]"],["[1]","[2]","[6]"],["[1]","[2]","[-6]"]],
+    "third_coordinate_trivial_on_entire_group":false
+  },
+  "revoked_historical_claims":[
+    "DW historical explicit local_Phi_images bases",
+    "DX historical basis_squareclass_triples",
+    "DX historical all_classes labels",
+    "DX third_coordinate_trivial_on_entire_group=true",
+    "DW coordinatewise Hilbert pairing in the chosen DU/DW bases"
+  ],
+  "retained_claims":{
+    "Psi_local_images_direct_computation":true,
+    "Phi_local_image_dimensions":true,
+    "Phi_Selmer_F2_dimension_2":true,
+    "Phi_Selmer_cardinality_4":true,
+    "Psi_Selmer_F2_dimension_5":true,
+    "Psi_Selmer_cardinality_32":true,
+    "global_Selmer_ratio_1_over_8":true,
+    "DY_exact_proSelmer_kernel_dimensions":true,
+    "DZ_common_MW_rank_1":true,
+    "DZ_MW_quotient_dimensions_2_and_5":true,
+    "DZ_finite_isogeny_Sha_kernels_trivial":true,
+    "DZ_exact_proSelmer_defect_dimensions":true,
+    "EA_four_coset_count_and_abstract_reduction":true
+  },
+  "authority_reopen":{
+    "external_hostile_reaudit_required":true,
+    "36_09EB_entry_allowed":false,
+    "downstream_label_dependent_credit_reopened":true,
+    "numerical_downstream_results_retained_pending_reaudit":true
+  },
+  "scope_firewalls":{
+    "retained_open_curve_proSelmer_intersection_computed":false,
+    "global_2primary_Brauer_set_nonempty":false,
+    "global_2primary_Brauer_set_empty":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

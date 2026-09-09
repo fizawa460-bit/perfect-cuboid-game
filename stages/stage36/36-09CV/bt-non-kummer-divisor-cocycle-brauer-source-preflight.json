@@ -1,0 +1,97 @@
+{
+  "schema":"STAGE36_36_09CV_BT_NON_KUMMER_DIVISOR_COCYCLE_BRAUER_SOURCE_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09CV",
+  "status":"FAIL_CLOSED_RETAINED_NON_KUMMER_CANDIDATES_SELF_TRIVIAL_OR_UPSTREAM_INCOMPLETE_LITERAL_BT_DIVISOR_COCYCLE_MISSING",
+  "base_main_sha":"d5545b32e6b3088bca53318998d434f2745b03e9",
+  "batch_parent":{
+    "pr":1712,
+    "36_09CU_exact_green_head":"b741a0459eee46cb3f0404c0d13befb819c793d0",
+    "36_09CU_exact_head_ci":"34195137169/101961098375",
+    "promotion_replay_head":"7c37a117cc69239ea6e06cb36aa8f19badb44d05",
+    "promotion_replay_ci":"34195275892/101961512776"
+  },
+  "source_locks":{
+    "stage36_36_09CU":{"path":"stages/stage36/36-09CU/bt-kummer-monomial-brauer-secondary-preflight.json","blob_sha":"cb92adb9b0025e8cef8554a2c30dc6777b8e2835"},
+    "stage36_36_04_H_torsor":{"path":"stages/stage36/36-04/h-torsor-lift-class.json","blob_sha":"a06e201a9b554da71c5e75d8f8541e7284f8d020"},
+    "S36_PW04":{"path":"docs/arsenal/cards/provisional/S36-PW04.md","blob_sha":"2f5eb6501d64393e2962aff4bb6d0b25aa104314"},
+    "stage36_36_09B":{"path":"stages/stage36/36-09B/receiver-restricted-branch-intersection-preflight.json","blob_sha":"da9143e587506522ed966d380d9980ff1875db0d"},
+    "stage36_36_09A_CAMP4":{"path":"stages/stage36/36-09A/camp4-brauer-compatibility-preflight.json","blob_sha":"66f31c03e5a978783a60b036322538f173a2f411"},
+    "stage36_36_09O_physical_top":{"path":"stages/stage36/36-09O/physical-square-lift-v4-quotient-preflight.json","blob_sha":"6a2678ebedba40e13277100441361039ee47ca28"},
+    "stage36_36_09AA_same_x":{"path":"stages/stage36/36-09AA/receiver-coupled-same-x-twist-intersection-preflight.json","blob_sha":"be447726a97158849c67ed6d57d6d3c35d6ba20f"},
+    "stage36_36_09AC_normalized_top":{"path":"stages/stage36/36-09AC/same-x-separate-squareclass-double-cover-preflight.json","blob_sha":"3e95cc443bb9de9e0d2b14d6d9c32ea7c1953021"},
+    "S33_PW07":{"path":"docs/arsenal/cards/provisional/S33-PW07.md","blob_sha":"7f1337858bc6f9006e101d810dd72e67aef534fd"}
+  },
+  "current_route_binding":{
+    "physical_receiver_target":"q_H(U) inside U_H for one audited Campedelli quotient representative",
+    "36_09B_exact_condition":"P lies in q_H(U(Q)) iff K(P) holds, where K(P) is the three 36-04 dual-character square conditions",
+    "36_09O_receiver":"the later top genus-three model is an audited physical square-lift receiver with an exact receiver condition and reconstruction",
+    "36_09AA_receiver":"same-x plus/minus twist condition is exactly equivalent to the retained receiver condition on its open",
+    "36_09AC_receiver":"the normalized genus-three V4 cover is birational to the audited physical top receiver, not a larger rankjump locus",
+    "current_BT_lane_is_downstream_physical_receiver_model":true,
+    "claim_scope":"This binds the object lineage only; it does not identify Xi_BT with the older H-torsor class delta_H."
+  },
+  "retained_candidate_S36_PW04":{
+    "class":"delta_H(P) in H^1(Q,H), represented chartwise by three exact squareclasses [G_cj(beta_H(P))]",
+    "is_non_kummer_relative_to_CU_five_root_monomial_family":true,
+    "is_Brauer_or_H2_class":false,
+    "card_explicitly_forbids_marked_Brauer_H2_binding":true,
+    "lift_criterion":"q_H^{-1}(P)(Q) nonempty iff delta_H(P)=1 iff all three G_cj are rational squares",
+    "36_09B_physical_receiver_criterion":"P in q_H(U(Q)) iff the same three square conditions K(P) hold",
+    "consequence_on_rational_physical_receiver":"delta_H(P)=1 for every P in q_H(U(Q))",
+    "local_base_change_semantics":"For a Q_v-point that is supplied together with an actual point of the degree-8 H-cover above it, the same square-root equations make all three local squareclasses trivial. This is the defining torsor-lift mechanism, not a new Brauer evaluation.",
+    "can_be_nontrivial_receiver_locus_secondary_evaluation":false,
+    "reason":"On the physical lifted receiver it is the obstruction to the very H-lift already present; it self-trivializes, exactly as the later five-root Kummer lift class does in CT."
+  },
+  "retained_candidate_CAMP4":{
+    "relationship":"R29-CAMP4 / K16-C2-BRAUER-EXPLICIT-CHAIN is a sibling asset provider only",
+    "36_09A_status":"BLOCKED_UPSTREAM_BR2A_BR2B_INCOMPLETE_PENDING_HOSTILE_AUDIT",
+    "explicit_endpoint_2primary_Brauer_class_available":false,
+    "explicit_local_evaluation_table_available":false,
+    "Camp4_to_Camp2_pullback_identity_proved":false,
+    "Camp4_to_Camp2_local_evaluation_compatibility_proved":false,
+    "Camp4_to_Camp2_incompatibility_proved":false,
+    "can_supply_current_BT_Brauer_evaluation":false,
+    "reason":"There is no source-locked endpoint class/evaluation packet to transport, and the sibling-to-CAMP2 pull-push compatibility was never proved."
+  },
+  "retained_candidate_S33_PW07":{
+    "role":"TORSOR_BRAUER_INTEGRAL_KERNEL_ADAPTER",
+    "protocol_reusable":true,
+    "concrete_Stage33_representative_reusable_on_BT":false,
+    "required_literal_inputs":["exact common cocycle","semilinear descent using that cocycle","intended Jacobian","literal transition function/divisor/Cartier data"],
+    "those_BT_specific_inputs_materialized":false
+  },
+  "source_boundary":{
+    "CU_five_root_Kummer_monomial_family_already_no_go":true,
+    "older_H_torsor_lift_class_is_self_trivial_on_physical_receiver":true,
+    "CAMP4_explicit_Brauer_packet_available_for_transport":false,
+    "existing_source_bound_BT_nontrivial_Brauer_or_secondary_class_found":false,
+    "repository_search_miss_is_mathematical_nonexistence_claim":false,
+    "first_missing_obligation":"BT_LITERAL_NON_KUMMER_DIVISOR_CECH_COMMON_COCYCLE_OR_SECONDARY_EXTENSION_CONSTRUCTION",
+    "required_new_feature":"a class defined on actual physical receiver points whose restriction is neither the obstruction to a lift those points already possess nor a symbol generated only by the five root functions, together with literal divisor/Cech/common-cocycle provenance and local evaluation semantics"
+  },
+  "route_result":{
+    "route_status":"FAIL_CLOSED_RETAINED_NON_KUMMER_ASSETS_DO_NOT_SUPPLY_RECEIVER_EVALUATION_NEW_LITERAL_BRAUER_SOURCE_REQUIRED",
+    "next_leaf":"36-09CW_BT_LITERAL_NON_KUMMER_DIVISOR_CECH_CONSTRUCTION_PREFLIGHT",
+    "next_leaf_semantics":"Attempt a literal BT/physical-receiver Brauer or secondary class construction outside the five-root monomial subgroup and outside the self-trivial H-lift obstruction. Start from the exact genus-three/quotient geometry; require divisor/Cech/common-cocycle data before local evaluation or obstruction credit."
+  },
+  "scope_firewalls":{
+    "Xi_BT_identified_with_delta_H":false,
+    "delta_H_is_Brauer_class":false,
+    "all_non_Kummer_classes_on_receiver_trivial":false,
+    "all_Brauer_classes_on_receiver_trivial":false,
+    "CAMP4_to_CAMP2_compatibility_proved":false,
+    "S33_PW07_concrete_representative_transferred":false,
+    "Selmer_membership_obtained":false,
+    "Poitou_Tate_obstruction_obtained":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_existence_claim":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "schema":"STAGE36_36_09DC_FIXED_P2_RANK3_BRAUER_TWO_PLACE_EVALUATION_MATRIX_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09DC",
+  "status":"EXACT_RANK3_CONSTRUCTED_SUBGROUP_TWO_PLACE_FULL_CONTROL_BM_NO_GO_CONDITIONAL_ON_ADELIC_SOLUBILITY",
+  "base_main_sha":"f2a89e613cdf91191a0aada9e90c9fc93373a6c6",
+  "batch_parent":{
+    "pr":1712,
+    "36_09DB_exact_green_head":"83d1f209f85ef747963f05a7b177c783b76142bd",
+    "36_09DB_exact_head_ci":"34202180603/101983301546",
+    "promotion_replay_head":"ded318a863f6e0515c2d9961dc6495a1af63d7bd",
+    "promotion_replay_ci":"34202292960/101983647924"
+  },
+  "source_locks":{
+    "stage36_36_09DA":{"path":"stages/stage36/36-09DA/fixed-p2-second-independent-brauer-evaluation-matrix-preflight.json","blob_sha":"8f286f71e828c18e19d65721ca5b3728650f680f"},
+    "stage36_36_09DB":{"path":"stages/stage36/36-09DB/fixed-p2-hyperelliptic-brauer-rank-third-class-preflight.json","blob_sha":"fbdf20fd4c4f4f338d31a55a2a1dd0786ca968c8"}
+  },
+  "fixed_classes":{
+    "curve":"C3_2: z^2=(t^2+4)(t^2+1/4)(t^2+9)(t^2+1/9)",
+    "A":"(7,t^2+4)_2",
+    "B":"(7,t^2+9)_2",
+    "D":"(11,t^2+4)_2",
+    "independent_mod_BrQ":true,
+    "constructed_subgroup":"G=<A,B,D> ~= F2^3 modulo Br(Q)"
+  },
+  "q7_control":{
+    "source":"36-09DA",
+    "A_B_evaluation_image":"full F2^2",
+    "witness_t_values":[7,8,2,3],
+    "f0_residues_mod7":[4,5,1,6],
+    "D_first_entry_11_is_7_adic_unit":true,
+    "D_second_entry_f0_is_7_adic_unit_on_all_four_witnesses":true,
+    "D_invariant_on_all_four_witnesses":"0",
+    "available_triples":[["0","0","0"],["1/2","1/2","0"],["0","1/2","0"],["1/2","0","0"]],
+    "meaning":"Q7 independently controls the A,B coordinates while leaving D zero."
+  },
+  "q11_control":{
+    "source":"36-09DB",
+    "witness_t_values":[4,3],
+    "A_invariant_on_both":"0",
+    "B_invariant_on_both":"0",
+    "D_invariants":["0","1/2"],
+    "available_triples":[["0","0","0"],["0","0","1/2"]],
+    "meaning":"Q11 independently controls the D coordinate while leaving A,B zero."
+  },
+  "two_place_joint_control":{
+    "control_map":"C3_2(Q_7) witness set x C3_2(Q_11) witness set -> F2^3 by sum of (A,B,D) local invariants",
+    "image":"full F2^3",
+    "image_cardinality":8,
+    "reason":"Cartesian product of the full A/B plane at Q7 with the full D line at Q11; cross coordinates vanish on the selected witness sets.",
+    "rank3_joint_adelic_evaluation_matrix_complete":true
+  },
+  "adelic_consequence":{
+    "conditional_statement":"If C3_2(A_Q) is nonempty, then C3_2(A_Q)^G is nonempty for G=<A,B,D>.",
+    "proof":"Start with any adelic point and compute the total invariant triple from all places except 7 and 11. Choose a Q7 witness to cancel the A,B coordinates without changing D, then choose a Q11 witness to cancel D without changing A,B. Replacing those two local components gives an adelic point orthogonal to all of G.",
+    "rank3_constructed_subgroup_can_supply_Brauer_Manin_obstruction":false,
+    "does_not_prove_adelic_solubility":true,
+    "does_not_compute_full_Brauer_group":true,
+    "does_not_rule_out_fourth_or_other_independent_class":true
+  },
+  "current_credit_boundary":{
+    "rank3_joint_adelic_evaluation_matrix_complete":true,
+    "rank3_constructed_subgroup_BM_obstruction_disproved_conditional_on_adelic_solubility":true,
+    "full_Brauer_group_computed":false,
+    "A_B_D_span_full_relevant_Brauer_group":false,
+    "Brauer_Manin_obstruction_from_full_Br_group_proved":false,
+    "fixed_p_2_branch_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false
+  },
+  "route_result":{
+    "route_status":"NO_GO_RANK3_CONSTRUCTED_SUBGROUP_FULL_TWO_PLACE_CONTROL_PIVOT_TO_CREUTZ_VIRAY_SUBGROUP_COMPLETENESS_OR_FOURTH_CLASS",
+    "next_leaf":"36-09DD_FIXED_P2_CREUTZ_VIRAY_SUBGROUP_COMPLETENESS_PREFLIGHT",
+    "next_leaf_semantics":"Use the Creutz--Viray Theorem 1.2 complex Pic(C)/2 -> L_c -> (Br(C)/Br_0(C))[2] and the explicit branch algebra L=Q(i)^4 to determine whether the constructed rank-3 subgroup exhausts the relevant explicit image, or locate a fourth independent class. Do not identify the explicit image with the full Brauer group without the required exactness/surjectivity hypothesis."
+  },
+  "scope_firewalls":{
+    "full_Brauer_group_computed":false,
+    "A_B_D_span_full_relevant_Brauer_group":false,
+    "fourth_independent_Brauer_class_absent":false,
+    "C3_2_adelic_points_exist":false,
+    "Brauer_Manin_obstruction_obtained":false,
+    "fixed_p_parameter_exclusion_obtained":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
