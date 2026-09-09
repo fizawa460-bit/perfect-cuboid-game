@@ -81,11 +81,11 @@ b6 = 0
 b8 = -a4**2
 c4 = sp.factor(b2**2 - 24*b4)
 Delta = sp.factor(-b2**2*b8 - 8*b4**3 - 27*b6**2 + 9*b2*b4*b6)
-assert c4 == 16*(r**4+r**2*s**2+s**4)
+assert sp.expand(c4 - 16*(r**4+r**2*s**2+s**4)) == 0
 assert Delta == 16*r**4*s**4*(r**2+s**2)**2
 assert sp.factor(Delta.subs(r**2+s**2, t**2) - 16*r**4*s**4*t**4) == 0
 j = sp.factor(c4**3 / (16*r**4*s**4*t**4))
-assert j == 256*(r**4+r**2*s**2+s**4)**3/(r**4*s**4*t**4)
+assert sp.factor(j - 256*(r**4+r**2*s**2+s**4)**3/(r**4*s**4*t**4)) == 0
 
 # Odd-prime c4-unit residue identities used for minimality/multiplicative reduction.
 R2, S2 = sp.symbols("R2 S2")
